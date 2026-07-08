@@ -37,7 +37,7 @@
   /* ── 헤더 ── */
   header{display:flex;align-items:baseline;gap:14px;margin:26px 2px 6px}
   header h1{font-family:var(--serif);font-size:29px;font-weight:600;margin:0;
-    letter-spacing:-.01em;line-height:1}
+    letter-spacing:-.01em;line-height:1.15;word-break:keep-all}
   header .badge{font-size:11px;color:var(--dim);border:1px solid var(--line2);
     padding:4px 11px;border-radius:20px;background:var(--paper);letter-spacing:.02em}
   .mood-row{margin:-8px 2px 18px}
@@ -70,8 +70,18 @@
   .controls button:active{transform:translateY(1px)}
   .controls button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
 
-  /* ── 종목 칩 ── */
-  .chips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
+  /* ── 종목 칩: 업종 폴더 ── */
+  .chips{margin:0 0 16px}
+  .sector{margin:0 0 8px;border:1px solid var(--line);border-radius:14px;background:var(--paper2);
+    box-shadow:var(--shadow-sm);overflow:hidden}
+  .sector-head{display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;cursor:pointer;
+    background:none;border:none;font:inherit;text-align:left;color:var(--ink);
+    font-weight:700;font-size:13px;letter-spacing:.01em}
+  .sector-head .cnt{color:var(--dim);font-weight:400;font-size:12px}
+  .sector-head .arrow{margin-left:auto;color:var(--dim);font-size:11px;transition:transform .2s}
+  .sector.open .sector-head .arrow{transform:rotate(90deg)}
+  .sector-body{display:none;flex-wrap:wrap;gap:7px;padding:2px 12px 12px}
+  .sector.open .sector-body{display:flex}
   .chip{font-size:12px;color:var(--dim);background:var(--paper);border:1px solid var(--line);
     padding:6px 12px;border-radius:20px;cursor:pointer;display:flex;gap:7px;align-items:center;
     box-shadow:var(--shadow-sm);transition:border-color .2s,transform .12s}
@@ -79,6 +89,23 @@
   .chip b{color:var(--ink);font-family:var(--mono);font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
   .chip .up{color:var(--green);font-family:var(--mono);font-size:11px}
   .chip .down{color:var(--red);font-family:var(--mono);font-size:11px}
+
+  /* ── 모바일 ── */
+  @media(max-width:600px){
+    .wrap{padding:18px 12px 56px}
+    header{flex-wrap:wrap;row-gap:7px;margin-top:18px}
+    header h1{font-size:22px}
+    .tagline{font-size:12px}
+    .modes{display:flex;width:100%}
+    .modebtn{flex:1;font-size:12px;padding:8px 2px;word-break:keep-all}
+    .controls input{min-width:0;font-size:14px;padding:11px 13px}
+    .controls button{font-size:14px;padding:11px 16px}
+    .sector.open .sector-body{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .chip{font-size:11px;padding:7px 10px;flex-direction:column;align-items:flex-start;gap:2px;
+      white-space:nowrap;overflow:hidden}
+    .chip .cval{display:flex;gap:5px;align-items:baseline}
+    .chip b{font-size:12px}
+  }
 
   /* ── 시세 카드 ── */
   .quote{background:var(--paper);border:1px solid var(--line);
@@ -496,7 +523,7 @@ const STOCKS={};
   if(typeof TICKERS!=='undefined' && Array.isArray(TICKERS)) src=TICKERS;
   else if(typeof LIVE_DATA!=='undefined' && LIVE_DATA.stocks)
     src=Object.entries(LIVE_DATA.stocks).map(([code,d])=>({code,name:d.name}));
-  src.forEach(t=>{ STOCKS[t.code]={name:t.name, price:null}; });
+  src.forEach(t=>{ STOCKS[t.code]={name:t.name, sector:t.sector||'기타', price:null}; });
 })();
 // 2) 실시간 값 병합
 if(typeof LIVE_DATA!=='undefined' && LIVE_DATA.stocks){
@@ -1948,15 +1975,43 @@ document.getElementById('ticker').addEventListener('change',()=>{
   showQuote(resolveStock(document.getElementById('ticker').value));
 });
 
-// 종목 칩: 이름 + 현재 주가 + 등락률
-Object.values(STOCKS).forEach(d=>{
-  const el=document.createElement('span'); el.className='chip';
-  el.innerHTML=`${d.name} <b>${d.price.toLocaleString()}</b> `+
-    `<span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${d.rate.toFixed(2)}%</span>`;
-  el.onclick=()=>{document.getElementById('ticker').value=d.name;
-    showQuote(resolveStock(d.name)); analyze();};
-  document.getElementById('chips').appendChild(el);
-});
+// 종목 칩: 업종 폴더(누르면 열림) 안에 이름 + 현재 주가 + 등락률
+(function(){
+  const wrap=document.getElementById('chips');
+  const groups=[], byName={};
+  // tickers.js 배열 순서 그대로 폴더·종목을 배치한다 (STOCKS 객체는 코드 숫자순으로 섞임)
+  const ordered=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS))
+    ? TICKERS.map(t=>STOCKS[t.code]).filter(Boolean)
+    : Object.values(STOCKS);
+  ordered.forEach(d=>{
+    const s=d.sector||'기타';
+    if(!byName[s]){ byName[s]={name:s,items:[]}; groups.push(byName[s]); }
+    byName[s].items.push(d);
+  });
+  // 기본 선택 종목(제주반도체)이 든 폴더는 처음부터 열어둔다
+  const defSector=(Object.values(STOCKS).find(d=>d.name==='제주반도체')||groups[0].items[0]||{}).sector;
+  groups.forEach(g=>{
+    const open=g.name===defSector;
+    const sec=document.createElement('div'); sec.className='sector'+(open?' open':'');
+    const head=document.createElement('button'); head.className='sector-head';
+    head.innerHTML=`<span class="fold">${open?'📂':'📁'}</span> ${g.name} `+
+      `<span class="cnt">${g.items.length}종목</span><span class="arrow">▸</span>`;
+    head.onclick=()=>{
+      sec.classList.toggle('open');
+      head.querySelector('.fold').textContent=sec.classList.contains('open')?'📂':'📁';
+    };
+    const body=document.createElement('div'); body.className='sector-body';
+    g.items.forEach(d=>{
+      const el=document.createElement('span'); el.className='chip';
+      el.innerHTML=`<span class="cname">${d.name}</span><span class="cval"><b>${d.price.toLocaleString()}</b> `+
+        `<span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${d.rate.toFixed(2)}%</span></span>`;
+      el.onclick=()=>{document.getElementById('ticker').value=d.name;
+        showQuote(resolveStock(d.name)); analyze();};
+      body.appendChild(el);
+    });
+    sec.appendChild(head); sec.appendChild(body); wrap.appendChild(sec);
+  });
+})();
 // 시세 테이프
 (function(){
   const html=Object.values(STOCKS).map(d=>{
