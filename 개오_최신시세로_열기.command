@@ -4,4 +4,5 @@
 cd "$(dirname "$0")"
 echo "최신 시세 받아오는 중..."
 python3 update_prices.py
+./push_if_changed.sh
 open index.html

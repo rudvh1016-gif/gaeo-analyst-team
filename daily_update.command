@@ -9,5 +9,8 @@ echo "===== $(date '+%F %T') 시세 갱신 시작 =====" >> "$LOG"
 # 시세 갱신 (네이버 정규장 현재가/종가 · 로그인 불필요 · 토큰 0)
 python3 update_prices.py >> "$LOG" 2>&1
 
+# 시세가 바뀌었으면 GitHub에 업로드 → 공개 사이트 자동 갱신
+./push_if_changed.sh >> "$LOG" 2>&1
+
 echo "===== $(date '+%F %T') 완료 (분석은 수동 전용) =====" >> "$LOG"
 echo "" >> "$LOG"
