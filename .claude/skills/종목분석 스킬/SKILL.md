@@ -1,0 +1,101 @@
+---
+name: 종목분석 스킬
+description: 개오 애널리스트팀(~/ai-analyst-team) 주식 분석 갱신. tickers.js의 종목을 팀 5인 관점(기술·재무·뉴스·수급·종합)으로 분석해 analysis.js를 다시 쓰고 history.js에 기록한다. "종목 분석해줘 / analysis.js 갱신 / 개오 팀 재분석 / ○○종목만 분석 / 시세 반영해서 다시 분석" 요청 시 사용.
+---
+
+# 개오 애널리스트팀 — 종목 분석 갱신
+
+너는 "개오 애널리스트팀"의 총괄이다. `~/ai-analyst-team` 폴더에서 작업한다(모든 경로는 이 폴더 기준).
+이 작업은 데이터 수집+정형화가 대부분이라 **Sonnet 실행에 적합**하다.
+
+## ⛔ 철칙 — 기준가(base) 무결성 (가장 중요)
+
+> 2026-07-08 실제 사고: 예전 분석 텍스트에 적힌 가격을 base로 옮겼다가
+> 실제 시세와 8% 어긋나 트랙레코드를 삭제해야 했다. 반복 금지.
+
+1. **`base`는 반드시 0단계에서 실행한 `update_prices.py`의 출력(= data.js의 `price`)에서 가져온다.**
+2. **어떤 경우에도 base를 다음에서 가져오지 않는다**: 이전 analysis.js의 findings/report 텍스트, 웹 뉴스 기사 속 가격, 기억/추정치, TARO 차트데이터의 임의 행.
+3. `updated`는 **지금 실행 시각**(HH:MM까지), `baseAt`은 **data.js의 date 라벨에서 파생**:
+   - 라벨이 "… 장중"이면 → `"YYYY-MM-DD HH:MM"` (수집 시각)
+   - 라벨이 "… 종가"이면 → `"YYYY-MM-DD 종가"` (전일 종가 라벨이면 전일 날짜)
+4. **history.js를 직접 쓰거나 수정하지 않는다.** 오직 `archive_analysis.py`가 기록한다.
+5. 마지막 검증(4단계)에서 **base ≡ data.js price 일치**를 실제로 확인하고, 불일치가 있으면 고친 뒤 끝낸다.
+
+## 0단계 — 준비
+
+1. `tickers.js`를 읽어 대상 종목(TICKERS 배열 code·name)을 확보 — **종목 목록의 유일한 기준.**
+2. `python3 update_prices.py` 실행 → data.js 최신화. **출력의 종목별 현재가를 기록해둔다(이게 base).**
+   - 일부 종목 실패 시: 그 종목은 data.js에 남은 이전 값(stale)으로 base를 잡되 findings에 "시세 수집 실패" 명시.
+   - 전부 실패 시: 사용자에게 알리고 중단(추정 가격으로 진행 금지).
+3. **부분 재분석 모드**: 사용자가 "○○종목만"이라 하면 그 종목 블록만 새로 쓰고 나머지 블록은 그대로 둔다.
+   그 종목의 `updated`/`base`/`baseAt`만 갱신, 전역 `date`는 최근 갱신일로.
+
+## 1단계 — 종목별 5인 분석
+
+`CODE`는 종목코드로 치환. curl에는 반드시 `-H "User-Agent: Mozilla/5.0"` (네이버는 UA/Referer 없으면 차단).
+토큰 절약: 지표 계산은 **python3 스크립트 하나**로 전 종목 일괄 처리 권장(종목마다 반복 출력 금지).
+
+- **TARO(기술)** — 일봉 3개월:
+  `curl -s -H "User-Agent: Mozilla/5.0" "https://api.finance.naver.com/siseJson.naver?symbol=CODE&requestType=1&startTime=YYYYMMDD&endTime=YYYYMMDD&timeframe=day"`
+  지표 규격(일관성 유지): MA20/MA60=종가 단순평균, RSI(14)=Wilder 평활, MACD=EMA12−EMA26·시그널 EMA9. 거래량은 20일 평균 대비 배율.
+- **DIANA(재무)**:
+  `curl -s -H "User-Agent: Mozilla/5.0" "https://m.stock.naver.com/api/stock/CODE/integration"`
+  PER/PBR/EPS/BPS/배당(totalInfos), ROE=EPS/BPS×100. 컨센서스(추정 EPS·목표주가·투자의견)가 있으면 활용.
+- **NOVA(뉴스심리)**: WebSearch로 최근 뉴스·촉매·시장 분위기. **다가오는 일정(실적발표일·상장·배당락·신제품·컨퍼런스)을 날짜와 함께 수집 → `events`에 기록.** 뉴스 기사 속 가격 숫자는 참고만 하고 base로 쓰지 않는다.
+- **FLOW(수급)**:
+  `curl -s -H "User-Agent: Mozilla/5.0" "https://finance.naver.com/item/frgn.naver?code=CODE&page=1"`
+  HTML 표를 python 정규식으로 파싱(날짜·종가·기관/외국인 순매매·보유율). 최근 5~10거래일 누적과 보유율 추이를 본다.
+- **CHIEF(총괄)**: 4인 종합 75% + 수급(FLOW) 25%. `call`: total≥63 BUY / 47~62 HOLD / 47미만 SELL.
+
+출력 규격:
+- 각 분석가: `score`(0~100 정수), `stance`("bull"/"bear"/"neu"), `findings`(구체 수치 포함 한국어 **정확히 4개**).
+  - stance는 리더보드 채점에 쓰인다. 근거가 있으면 bull/bear로 명확히 — neu 남발 금지(채점 제외됨).
+- CHIEF: `call`, `total`(정수), `confidence`(정수), `reason`(2~3문장), `target`, `report`(4~5문장).
+  - `target`에는 가능하면 **"목표주가 N원" 형식의 숫자**를 포함(컨센서스 등) — 화면이 이 패턴을 파싱해 "목표가까지 거리"를 표시한다. 지지/저항 레벨도 함께.
+
+## 2단계 — analysis.js 완전히 덮어쓰기 (Write 도구)
+
+```
+const LIVE_ANALYSIS = {
+ "date": "YYYY-MM-DD",
+ "CODE": {
+  "updated": "YYYY-MM-DD HH:MM",          // 지금 실행 시각
+  "base": 정수,                            // ⛔ 반드시 data.js의 price와 동일
+  "baseAt": "YYYY-MM-DD HH:MM | YYYY-MM-DD 종가",
+  "events": [{"date":"YYYY-MM-DD","title":"일정"}],   // 날짜 미정이면 date 생략. 없으면 [].
+  "taro":  {"score":정수,"stance":"..","findings":["..","..","..",".."]},
+  "diana": {"score":정수,"stance":"..","findings":[".."x4]},
+  "nova":  {"score":정수,"stance":"..","findings":[".."x4]},
+  "flow":  {"score":정수,"stance":"..","findings":[".."x4]},
+  "chief": {"call":"..","total":정수,"confidence":정수,"reason":"..","target":"..","report":".."}
+ }
+ // ... TICKERS의 모든 종목
+};
+```
+
+- 반드시 **유효한 JavaScript**(문자열 안 큰따옴표는 escape 또는 작은따옴표 회피).
+- 파일 상단 주석에 갱신 시각·데이터 기준을 남긴다.
+- **위 필드명·구조를 바꾸거나 빼지 않는다** — index.html이 전부 참조한다(base/baseAt=신선도, stance=리더보드, events=캘린더, target=목표가 거리).
+
+## 3단계 — 히스토리 기록
+
+`python3 archive_analysis.py` 실행 → 오늘 판단(CHIEF + 4인 stance/score)을 history.js에 누적.
+**"updated"의 분 단위 시각까지 다르면 하루에 여러 번 재분석해도 각각 별도 기록으로 쌓인다**
+(정확히 같은 시각으로 재실행할 때만 그 기록을 덮어씀). **직접 history.js를 편집하지 말 것.**
+
+> ⚠️ 2026-07-08 사고: 예전 버전은 "같은 날짜"로만 구분해 하루 2번 재분석 시 오전 기록이
+> 통째로 사라졌다(장중 급변일에 치명적). archive_analysis.py를 고쳐 재발하지 않지만,
+> **`updated`에 반드시 HH:MM까지 정확히 채워야** 이 보호가 작동한다(0단계 규칙과 연결).
+
+## 4단계 — 검증 (필수, 생략 금지)
+
+python3로 실제 확인:
+1. analysis.js 주석 제거 후 JSON 파싱 성공?
+2. TICKERS의 **모든 종목 포함**? 각 분석가 findings 4개씩?
+3. **종목별 base == data.js의 price** 전부 일치? ← 오늘 사고 재발 방지 핵심
+4. archive 실행 후 history.js 파싱 성공?
+불일치 발견 시 고치고 재검증한 뒤에만 완료를 선언한다.
+
+## 완료 보고
+
+"analysis.js 갱신 완료 (N종목)" + 종목별 한 줄 요약(call/total/confidence/base) + 수집 실패 항목(있으면).
