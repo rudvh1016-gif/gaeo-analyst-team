@@ -496,6 +496,25 @@
   .ab-save{background:var(--sky);color:#fff}
   .ab-reset{background:rgba(255,255,255,.12);color:#DCE8F4}
   .adminbar .ab-hint{font-size:10.5px;color:#7FA8C9;margin-top:9px;line-height:1.5}
+
+  /* ── 코스피/코스닥 + 시장 분석 ── */
+  .market{background:var(--paper);border-radius:14px;padding:15px 18px;margin:0 0 14px;
+    box-shadow:var(--shadow-sm)}
+  .mk-strip{display:flex;gap:8px 24px;flex-wrap:wrap;font-size:14px;align-items:baseline}
+  .mk-idx b{color:var(--navy);font-weight:800;font-size:13px;margin-right:6px}
+  .mk-idx{font-variant-numeric:tabular-nums;font-weight:700;font-size:15px}
+  .mk-idx .mk-rate{font-size:12.5px;margin-left:5px}
+  .mk-an{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+  .mk-antitle{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
+  .mk-asof{font-size:11px;color:var(--faint);font-weight:600;margin-left:6px}
+  .mk-text{margin:0;font-size:13px;line-height:1.7;color:#334155}
+  .mk-points{margin:8px 0 0;padding-left:17px;font-size:12.5px;color:#475569;line-height:1.65}
+  .mk-points li{margin-bottom:3px}
+  @media(max-width:600px){
+    .market{padding:13px 14px}
+    .mk-strip{gap:6px 18px}
+    .mk-idx{font-size:14px}
+  }
 </style>
 </head>
 <body>
@@ -510,6 +529,7 @@
     </div>
     <span class="badge" id="hbadge">홈오피스</span>
   </header>
+  <div class="market" id="marketBox" style="display:none"></div>
   <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
   <div class="datawarn" id="datawarn" style="display:none"></div>
   <div class="kpis" id="kpis"></div>
@@ -1075,6 +1095,29 @@ function showDayPopup(ds, evs){
 }
 const priceAsOf=()=>String(SNAP_DATE).replace(' 수집','');
 document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DATE;
+
+/* ── 코스피/코스닥 지수 + 시장 분석 (data.js indices · analysis.js market) ── */
+(function renderMarket(){
+  const box=document.getElementById('marketBox'); if(!box) return;
+  const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
+  const mk=LIVE_AN&&LIVE_AN.market;
+  if(!idx&&!mk) return;
+  const f=n=>n==null?'—':n.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const seg=(label,d)=>{
+    if(!d||d.value==null) return '';
+    const col=d.rate>0?'var(--green)':(d.rate<0?'var(--red)':'var(--dim)');
+    return `<span class="mk-idx"><b>${label}</b>${f(d.value)}`+
+      `<span class="mk-rate" style="color:${col}">${d.rate>0?'▲ +':'▼ '}${Math.abs(d.rate).toFixed(2)}%</span></span>`;
+  };
+  let html='<div class="mk-strip">'+seg('코스피',idx&&idx.KOSPI)+seg('코스닥',idx&&idx.KOSDAQ)+'</div>';
+  if(mk){
+    html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
+      (mk.text?`<p class="mk-text">${esc(mk.text)}</p>`:'')+
+      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
+      `</div>`;
+  }
+  box.innerHTML=html; box.style.display='block';
+})();
 
 /* ============================================================
    시장 무드 — 오늘 7종목 시세 종합 → 캐릭터/조명/대사에 반영
@@ -2307,16 +2350,27 @@ showQuote(resolveStock('제주반도체'));
     EDITS().forEach(el=>{ el.contentEditable='false'; el.classList.remove('admin-on'); });
   }
 
-  // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin
+  // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호 필요
+  const PW='JUVDJThCJUEwJUVCJTlEJUJDMTIzIQ==';   // 인코딩된 관리자 비밀번호
+  function unlock(){
+    if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
+    const v=prompt('관리자 비밀번호를 입력하세요');
+    if(v===null) return false;
+    let ok=false;
+    try{ ok=btoa(encodeURIComponent(v))===PW; }catch(e){}
+    if(ok){ sessionStorage.setItem('gaeo_admin_ok','1'); return true; }
+    alert('비밀번호가 틀렸어요.');
+    return false;
+  }
   let taps=0, tapTimer=null;
   const title=document.getElementById('siteTitle');
   if(title) title.addEventListener('click',()=>{
     taps++;
     if(tapTimer) clearTimeout(tapTimer);
     tapTimer=setTimeout(()=>{ taps=0; },3000);
-    if(taps>=5){ taps=0; on(); }
+    if(taps>=5){ taps=0; if(unlock()) on(); }
   });
-  if(location.hash==='#admin') on();
+  if(location.hash==='#admin' && unlock()) on();
 })();
 </script>
 </body>

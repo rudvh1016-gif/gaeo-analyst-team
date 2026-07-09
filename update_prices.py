@@ -90,6 +90,23 @@ def load_old_stocks(path):
         print(f'[경고] 기존 data.js 파싱 실패(무시): {e}')
         return {}
 
+def fetch_indices():
+    """코스피/코스닥 지수 현재값 수집. 실패한 지수는 생략(화면에서 미표시)."""
+    out = {}
+    for idx in ('KOSPI', 'KOSDAQ'):
+        try:
+            d = get(f'https://m.stock.naver.com/api/index/{idx}/basic',
+                    'https://m.stock.naver.com')
+            out[idx] = {
+                'value': num(d.get('closePrice')),
+                'change': num(d.get('compareToPreviousClosePrice')),
+                'rate': num(d.get('fluctuationsRatio')),
+            }
+            print(f"[OK] {idx} {d.get('closePrice')} ({d.get('fluctuationsRatio')}%)")
+        except Exception as e:
+            print(f'[경고] {idx} 지수 수집 실패(생략): {e}')
+    return out
+
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     trim_log(here)                      # 로그 로테이션(맨 먼저)
@@ -155,9 +172,10 @@ def main():
     if stale_names:
         date_label += f' · ⚠️ {len(stale_names)}종목 지연'
 
+    indices = fetch_indices()
     js = (f'// 자동 생성: update_prices.py · {date_label}\n'
           'const LIVE_DATA = '
-          + json.dumps({'date': date_label, 'stocks': out}, ensure_ascii=False, indent=1)
+          + json.dumps({'date': date_label, 'indices': indices, 'stocks': out}, ensure_ascii=False, indent=1)
           + ';\n')
     with open(path, 'w', encoding='utf-8') as f:
         f.write(js)
