@@ -1109,7 +1109,9 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
     return `<span class="mk-idx"><b>${label}</b>${f(d.value)}`+
       `<span class="mk-rate" style="color:${col}">${d.rate>0?'▲ +':'▼ '}${Math.abs(d.rate).toFixed(2)}%</span></span>`;
   };
-  let html='<div class="mk-strip">'+seg('코스피',idx&&idx.KOSPI)+seg('코스닥',idx&&idx.KOSDAQ)+'</div>';
+  const segs=seg('코스피',idx&&idx.KOSPI)+seg('코스닥',idx&&idx.KOSDAQ);
+  if(!segs&&!mk) return;
+  let html=segs?'<div class="mk-strip">'+segs+'</div>':'';
   if(mk){
     html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
       (mk.text?`<p class="mk-text">${esc(mk.text)}</p>`:'')+
@@ -1120,7 +1122,7 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
 })();
 
 /* ============================================================
-   시장 무드 — 오늘 7종목 시세 종합 → 캐릭터/조명/대사에 반영
+   시장 무드 — 오늘 추적 종목 시세 종합 → 캐릭터/조명/대사에 반영
    ============================================================ */
 function computeMood(){
   const st=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.stocks)?LIVE_DATA.stocks:null;
@@ -1565,7 +1567,7 @@ function drawHouse(t){
   ctx.fillStyle='#22c55e'; ctx.font='12px "SF Mono",monospace';
   ctx.fillText((night>0.5?'🌙':'☀️')+' KOSPI  '+new Date().toLocaleTimeString('ko-KR'),14,22);
   ctx.fillStyle='#7c8db3'; ctx.font='11px sans-serif';
-  ctx.fillText('개오 애널리스트팀 · HOME OFFICE',14,40);
+  ctx.fillText('Gaeo · HOME OFFICE',14,40);
 
   // 바닥
   for(let y=HOUSE.y0;y<HW;y+=13)for(let x=HOUSE.x0;x<VW;x+=52)
@@ -1996,7 +1998,7 @@ function decide(a){
   const conf=Math.max(45,Math.round(92-spread));
   const lead=tech>=fund&&tech>=news?'기술적 지표':fund>=news?'재무 펀더멘털':'뉴스·심리';
   return{call,color,total,conf,live:false,target:'',report:'',
-    text:`개오 애널리스트팀 4인의 의견을 종합했습니다. ${lead}가 판단을 주도했으며 팀 간 편차는 ${spread}점입니다. `+
+    text:`Gaeo 팀 4인의 의견을 종합했습니다. ${lead}가 판단을 주도했으며 팀 간 편차는 ${spread}점입니다. `+
       (spread>35?'시각차가 커 신중한 접근을 권합니다.':'팀의 시각이 대체로 일치합니다.')+' (mock 분석 · 투자 권유가 아닙니다.)'};
 }
 

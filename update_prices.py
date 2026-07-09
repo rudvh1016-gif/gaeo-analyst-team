@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""개오 애널리스트팀 — 시세 자동갱신 스크립트
-네이버 금융 API에서 7개 종목의 현재가/PER/PBR/ROE 등을 받아 data.js로 저장한다.
+"""개오(Gaeo) 애널리스트팀 — 시세 자동갱신 스크립트
+네이버 금융 API에서 대상 종목(tickers.js)의 현재가/PER/PBR/ROE와
+코스피/코스닥 지수를 받아 data.js로 저장한다.
 index.html이 data.js를 읽어 화면의 모든 시세를 갱신한다.
 실행: python3 update_prices.py  (또는 '시세갱신.command' 더블클릭)
 
