@@ -13,5 +13,6 @@ const TICKERS = [
  {"code":"009150","name":"삼성전기","sector":"전자부품"},
  {"code":"009155","name":"삼성전기우","sector":"전자부품"},
  {"code":"011070","name":"LG이노텍","sector":"전자부품"},
- {"code":"267260","name":"HD현대일렉트릭","sector":"전력설비"}
+ {"code":"267260","name":"HD현대일렉트릭","sector":"전력설비"},
+ {"code":"005380","name":"현대차","sector":"자동차"}
 ];
