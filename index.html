@@ -25,6 +25,14 @@
   .wrap{max-width:1020px;margin:0 auto;padding:26px 22px 80px;}
   ::selection{background:rgba(14,165,233,.18)}
 
+  /* ── 최상단 바(조회수) ── */
+  .topbar{display:flex;justify-content:flex-end;margin:0 0 8px}
+  .views{font-size:11.5px;color:var(--dim);background:var(--paper);border-radius:99px;
+    padding:5px 12px;box-shadow:var(--shadow-sm);letter-spacing:.01em;
+    opacity:0;transition:opacity .4s}
+  .views.on{opacity:1}
+  .views b{color:var(--navy);font-weight:800;font-variant-numeric:tabular-nums}
+
   /* ── 시세 티커 ── */
   .tape{overflow:hidden;white-space:nowrap;
     background:linear-gradient(180deg,var(--navy-deep),#062440);border-radius:12px;
@@ -111,8 +119,8 @@
     .tagline{font-size:11.5px}
     .kpis{grid-template-columns:1fr 1fr;gap:10px}
     .kpi{padding:13px 15px}.kpi .v{font-size:19px}
-    .modes{display:flex;width:100%}
-    .modebtn{flex:1;font-size:12px;padding:8px 2px;word-break:keep-all}
+    .modes{display:flex;width:100%;flex-wrap:wrap}
+    .modebtn{flex:1 1 30%;font-size:12px;padding:8px 2px;word-break:keep-all}
     .controls input{min-width:0;font-size:14px;padding:11px 13px}
     .controls button{font-size:14px;padding:11px 16px}
     .sector.open .sector-body{display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -475,6 +483,25 @@
     .cal-ev{font-size:9px;padding:1px 3px}
   }
 
+  /* ── 커뮤니티 ── */
+  .communityView{display:none}
+  .communityView.on{display:block}
+  .cm-notice{background:var(--sky-soft);border-radius:14px;padding:14px 18px;margin:0 0 14px;
+    font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.6;box-shadow:var(--shadow-sm)}
+  .cm-post{background:var(--paper);border-radius:14px;padding:16px 18px;margin:0 0 12px;
+    box-shadow:var(--shadow-sm)}
+  .cm-post.pin{border-left:4px solid var(--sky)}
+  .cm-head{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
+  .cm-name{font-weight:800;font-size:13.5px;color:var(--navy)}
+  .cm-date{font-size:11.5px;color:var(--faint)}
+  .cm-pin{font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+    border-radius:99px;padding:2px 8px}
+  .cm-text{font-size:13.5px;line-height:1.7;color:#334155;white-space:pre-wrap;word-break:break-word}
+  .cm-empty{color:var(--faint);font-size:13px;text-align:center;padding:26px 0}
+  .cm-sec{font-size:13px;font-weight:800;color:var(--navy);margin:22px 0 10px}
+  .cm-guest{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
+  .cm-guest .cm-hint{font-size:12px;color:var(--dim);line-height:1.6;margin:0 0 10px}
+
   /* ── 관리자 편집 모드 ── */
   [data-edit].admin-on{outline:2px dashed var(--sky);outline-offset:3px;border-radius:6px;
     cursor:text;min-height:1em}
@@ -496,6 +523,25 @@
   .ab-save{background:var(--sky);color:#fff}
   .ab-reset{background:rgba(255,255,255,.12);color:#DCE8F4}
   .adminbar .ab-hint{font-size:10.5px;color:#7FA8C9;margin-top:9px;line-height:1.5}
+  /* 관리자 v2 */
+  .adminbar2{max-height:72vh;overflow-y:auto}
+  .ab-tabs{display:flex;gap:5px;margin:0 0 12px;flex-wrap:wrap}
+  .ab-tab{border:none;border-radius:8px;padding:7px 10px;font:inherit;font-size:11.5px;font-weight:700;
+    cursor:pointer;background:rgba(255,255,255,.10);color:#B8D4EA}
+  .ab-tab.on{background:var(--sky);color:#fff}
+  .ab-in{flex:1;border:none;border-radius:8px;padding:8px 10px;font:inherit;font-size:12.5px;
+    background:rgba(255,255,255,.92);color:#0F172A;min-width:0}
+  .ab-ta{width:100%;min-height:64px;border:none;border-radius:8px;padding:9px 10px;font:inherit;
+    font-size:12.5px;background:rgba(255,255,255,.92);color:#0F172A;resize:vertical;margin:2px 0 8px}
+  .adminbar input[type=color]{width:44px;height:30px;border:none;border-radius:7px;padding:0;
+    background:none;cursor:pointer}
+  .ab-mini{border:none;border-radius:7px;padding:5px 9px;font-size:12px;cursor:pointer;
+    background:rgba(255,255,255,.14);color:#DCE8F4;flex-shrink:0}
+  .ab-list{margin:10px 0 4px;display:flex;flex-direction:column;gap:6px;max-height:150px;overflow-y:auto}
+  .ab-item{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);
+    border-radius:8px;padding:7px 9px;font-size:11.5px}
+  .ab-item-t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ab-status{font-size:11.5px;margin-top:8px;color:#A7E3B8;line-height:1.5;word-break:break-all}
 
   /* ── 코스피/코스닥 + 시장 분석 ── */
   .market{background:var(--paper);border-radius:14px;padding:15px 18px;margin:0 0 14px;
@@ -520,6 +566,8 @@
 <body>
 <div class="wrap">
 
+  <div class="topbar"><span class="views" id="viewsBadge" title="사이트 총 방문 횟수">👁 조회 <b>—</b></span></div>
+
   <div class="tape"><span class="run" id="tape"></span></div>
 
   <header>
@@ -540,6 +588,7 @@
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
     <button class="modebtn" id="mode-calendar">📅 캘린더</button>
+    <button class="modebtn" id="mode-community">💬 커뮤니티</button>
   </div>
 
   <div class="controls">
@@ -597,6 +646,7 @@
   <div class="portfolio" id="portfolio"></div>
   <div class="leaderboard" id="leaderboard"></div>
   <div class="calendarView" id="calendarView"></div>
+  <div class="communityView" id="communityView"></div>
 
   <div class="foot" data-edit="foot">
     <b>Gaeo</b> — 팀원들이 집 안을 돌아다니며 인사하고 커피도 마시다가, 「분석 시작」을 누르면 각자 자리로 가서 분석합니다.
@@ -608,6 +658,8 @@
 
 <script src="tickers.js"></script>
 <script src="data.js"></script>
+<script src="site_config.js"></script>
+<script src="community.js"></script>
 <script src="analysis.js"></script>
 <script src="history.js"></script>
 <script src="price_history.js"></script>
@@ -2200,14 +2252,15 @@ showQuote(resolveStock('제주반도체'));
   selA.value='080220'; selB.value='005930';
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'compare' | 'portfolio' | 'leaderboard' | 'calendar'
+  function setMode(mode){ // 'single' | 'compare' | 'portfolio' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
-          leaderboard=mode==='leaderboard', calendar=mode==='calendar';
+          leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
+    document.getElementById('mode-community').classList.toggle('on',community);
     document.querySelector('.controls').style.display=single?'':'none';
     document.getElementById('chips').style.display=single?'':'none';
     document.getElementById('quote').style.display=single?'':'none';
@@ -2217,16 +2270,19 @@ showQuote(resolveStock('제주반도체'));
     document.getElementById('portfolio').classList.toggle('on',portfolio);
     document.getElementById('leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
+    document.getElementById('communityView').classList.toggle('on',community);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
+    if(community && window.renderCommunity) window.renderCommunity();
   }
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
   document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
+  document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
 
   function radarTwo(sA,sB){
     const cx=120,cy=120,R=86, ang=[-90,0,90,180].map(d=>d*Math.PI/180);
@@ -2288,58 +2344,294 @@ showQuote(resolveStock('제주반도체'));
 })();
 
 /* ============================================================
-   관리자 편집 모드 — 제목을 5번 연속 터치(3초 안에)하면 켜짐
-   · data-edit 붙은 문구(제목·소개글·하단 안내)를 직접 수정
-   · 행간/글자 크기 슬라이더
-   · 저장하면 이 브라우저(localStorage)에 기억되어 새로고침해도 유지
+   조회수 카운터 — 무료 카운터 API. 같은 브라우저 세션에서는 1회만 집계.
+   서비스 응답이 없으면 배지를 조용히 숨긴다(사이트 동작에 영향 없음).
    ============================================================ */
 (function(){
-  const KEY='gaeo_admin_overrides';
+  const el=document.getElementById('viewsBadge'); if(!el) return;
+  const NS='rudvh1016-gif-gaeo', KEY='site-visits';
+  const counted=sessionStorage.getItem('gaeo_view_counted')==='1';
+  const url='https://api.counterapi.dev/v1/'+NS+'/'+KEY+(counted?'':'/up');
+  fetch(url).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(d=>{
+    const n=(d && (d.count!=null?d.count:d.value));
+    if(n==null) throw 0;
+    sessionStorage.setItem('gaeo_view_counted','1');
+    el.querySelector('b').textContent=Number(n).toLocaleString();
+    el.classList.add('on');
+  }).catch(()=>{ el.style.display='none'; });
+})();
+
+/* ============================================================
+   커뮤니티 — community.js(모두에게 보임)의 공지·게시글을 렌더링.
+   방문자 자유 글쓰기는 GitHub 댓글(utterances)로 처리:
+   github.com/apps/utterances 를 저장소에 설치하면 활성화된다.
+   ============================================================ */
+(function(){
+  function effective(){
+    try{
+      const o=JSON.parse(localStorage.getItem('gaeo_admin_overrides'))||{};
+      if(o.community) return o.community;                    // 관리자 미리보기
+    }catch(e){}
+    return (typeof COMMUNITY!=='undefined'?COMMUNITY:{notice:'',posts:[]});
+  }
+  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  window.renderCommunity=function(){
+    const box=document.getElementById('communityView'); if(!box) return;
+    const cm=effective();
+    const posts=(cm.posts||[]).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0) || (b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    let h='';
+    if(cm.notice) h+=`<div class="cm-notice">📢 ${esc(cm.notice)}</div>`;
+    h+=`<div class="cm-sec">📌 게시판</div>`;
+    h+=posts.length
+      ? posts.map(p=>`<div class="cm-post${p.pin?' pin':''}">
+          <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span><span class="cm-date">${esc(p.date)||''}</span>${p.pin?'<span class="cm-pin">고정</span>':''}</div>
+          <div class="cm-text">${esc(p.text)}</div></div>`).join('')
+      : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
+    h+=`<div class="cm-sec">✍️ 방문자 자유게시판</div>
+        <div class="cm-guest"><p class="cm-hint">GitHub 계정으로 로그인하면 누구나 글(댓글)을 남길 수 있어요.
+        글이 안 써진다면 사이트 주인이 아직 utterances 앱을 설치하기 전이에요.</p><div id="cmGuest"></div></div>`;
+    box.innerHTML=h;
+    const g=document.getElementById('cmGuest');
+    if(g && !g.dataset.loaded){
+      g.dataset.loaded='1';
+      const s=document.createElement('script');
+      s.src='https://utteranc.es/client.js'; s.async=true; s.crossOrigin='anonymous';
+      s.setAttribute('repo','rudvh1016-gif/gaeo-analyst-team');
+      s.setAttribute('issue-term','gaeo-community');
+      s.setAttribute('label','커뮤니티');
+      s.setAttribute('theme','github-light');
+      g.appendChild(s);
+    }
+  };
+})();
+
+/* ============================================================
+   관리자 편집 모드 v2 — 제목을 5번 연속 터치(3초 안에) 또는 #admin
+   · [문구]   파란 점선 박스 직접 수정 + 행간/글자 크기
+   · [디자인] 테마 프리셋 + 포인트/배경 색상
+   · [커뮤니티] 공지·게시글 작성/고정/삭제
+   · [발행]   GitHub 토큰으로 site_config.js·community.js를 직접 커밋
+              → 1~2분 뒤 모든 방문자에게 반영. 토큰이 없으면 "Claude 요청문 복사".
+   미리보기(저장)는 이 브라우저에만, 발행은 모두에게 적용된다.
+   ============================================================ */
+(function(){
+  const KEY='gaeo_admin_overrides', TKEY='gaeo_gh_token';
+  const REPO='rudvh1016-gif/gaeo-analyst-team', BRANCH='main';
   const EDITS=()=>Array.from(document.querySelectorAll('[data-edit]'));
 
-  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  /* ---- 테마 프리셋 ---- */
+  const PRESETS={
+    navy:  {label:'딥네이비·하늘 (기본)', vars:{}},
+    forest:{label:'포레스트 그린', vars:{'--navy':'#14532D','--navy-deep':'#0B3B1F','--navy-soft':'#ECFDF3','--sky':'#10B981','--sky-soft':'#D1FAE5','--sky-line':'#A7F3D0'}},
+    violet:{label:'바이올렛', vars:{'--navy':'#4C1D95','--navy-deep':'#3B0764','--navy-soft':'#F5F3FF','--sky':'#8B5CF6','--sky-soft':'#EDE9FE','--sky-line':'#DDD6FE'}},
+    rose:  {label:'로즈', vars:{'--navy':'#9F1239','--navy-deep':'#881337','--navy-soft':'#FFF1F2','--sky':'#F43F5E','--sky-soft':'#FFE4E6','--sky-line':'#FECDD3'}}
+  };
+  const DVARS=['--navy','--navy-deep','--navy-soft','--sky','--sky-soft','--sky-line','--bg'];
+  function applyDesign(d){
+    d=d||{};
+    const root=document.documentElement;
+    DVARS.forEach(v=>root.style.removeProperty(v));
+    const p=PRESETS[d.preset||'navy'];
+    if(p) Object.entries(p.vars).forEach(([k,v])=>root.style.setProperty(k,v));
+    if(d.accent)  root.style.setProperty('--sky',d.accent);
+    if(d.accent2) root.style.setProperty('--navy',d.accent2);
+    if(d.bg)      root.style.setProperty('--bg',d.bg);
+    document.body.style.lineHeight=d.lh||'';
+    document.documentElement.style.fontSize=d.fs?d.fs+'%':'';
+  }
+
+  function load(){
+    let o={}; try{ o=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){}
+    if(o.lh||o.fs){ o.design=Object.assign({lh:o.lh,fs:o.fs},o.design||{}); delete o.lh; delete o.fs; } // 구버전 이관
+    o.design=o.design||{}; return o;
+  }
   function save(o){ localStorage.setItem(KEY, JSON.stringify(o)); }
 
-  // 저장된 수정사항을 페이지에 적용
-  function apply(){
-    const o=load();
-    if(o.texts) EDITS().forEach(el=>{ const k=el.dataset.edit; if(o.texts[k]!=null) el.innerHTML=o.texts[k]; });
-    if(o.lh) document.body.style.lineHeight=o.lh;
-    if(o.fs) document.documentElement.style.fontSize=o.fs+'%';
+  /* ---- 페이지 로드 시 적용: ① 발행본(SITE_CONFIG, 모두) ② 로컬 미리보기(관리자) ---- */
+  const SC=(typeof SITE_CONFIG!=='undefined')?SITE_CONFIG:{texts:{},design:{}};
+  function applyAll(){
+    const local=load();
+    const texts=Object.assign({},SC.texts||{},local.texts||{});
+    EDITS().forEach(el=>{ const k=el.dataset.edit; if(texts[k]!=null) el.innerHTML=texts[k]; });
+    applyDesign(Object.assign({},SC.design||{},local.design||{}));
   }
-  apply();
+  applyAll();
 
-  // 패널 생성
+  /* ---- 커뮤니티 상태 ---- */
+  function cmState(){
+    const o=load();
+    if(!o.community){
+      const base=(typeof COMMUNITY!=='undefined')?COMMUNITY:{notice:'',posts:[]};
+      o.community=JSON.parse(JSON.stringify(base));
+    }
+    return o;
+  }
+
+  /* ---- 발행: GitHub Contents API로 두 파일을 main에 커밋 ---- */
+  function fileConfig(o){
+    const d=Object.assign({},SC.design||{},o.design||{});
+    const texts={}; EDITS().forEach(el=>texts[el.dataset.edit]=el.innerHTML);
+    const cfg={updated:new Date().toISOString().slice(0,16).replace('T',' '),
+      texts, design:{preset:d.preset||'navy',accent:d.accent||null,accent2:d.accent2||null,bg:d.bg||null,lh:d.lh||null,fs:d.fs||null}};
+    return '// 개오 애널리스트팀 — 사이트 전역 설정 (모든 방문자에게 적용)\n'
+      +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
+      +'const SITE_CONFIG = '+JSON.stringify(cfg,null,1)+';\n';
+  }
+  function fileCommunity(o){
+    const cm=(o.community)||((typeof COMMUNITY!=='undefined')?COMMUNITY:{notice:'',posts:[]});
+    return '// 개오 애널리스트팀 — 커뮤니티 게시글 (모든 방문자에게 보임)\n'
+      +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
+      +'const COMMUNITY = '+JSON.stringify({notice:cm.notice||'',posts:cm.posts||[]},null,1)+';\n';
+  }
+  async function ghPut(path, content, token){
+    const api='https://api.github.com/repos/'+REPO+'/contents/'+path;
+    const head={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'};
+    let sha=null;
+    const g=await fetch(api+'?ref='+BRANCH,{headers:head});
+    if(g.ok) sha=(await g.json()).sha;
+    const body={message:'관리자 발행: '+path+' 갱신',branch:BRANCH,
+      content:btoa(unescape(encodeURIComponent(content)))};
+    if(sha) body.sha=sha;
+    const p=await fetch(api,{method:'PUT',headers:head,body:JSON.stringify(body)});
+    if(!p.ok){ const t=await p.text(); throw new Error('GitHub '+p.status+' — '+t.slice(0,120)); }
+  }
+
+  /* ---- 패널 ---- */
   let bar=null;
+  function h(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
   function buildBar(){
     if(bar) return bar;
-    bar=document.createElement('div'); bar.className='adminbar';
-    const o=load();
-    bar.innerHTML=`
-      <div class="ab-title">🔧 관리자 편집 모드 <button class="ab-x" title="닫기">✕</button></div>
-      <div class="ab-row"><label>행간</label><input type="range" id="abLh" min="1.3" max="2.1" step="0.05" value="${o.lh||1.5}"><span class="ab-val" id="abLhV">${o.lh||1.5}</span></div>
-      <div class="ab-row"><label>글자</label><input type="range" id="abFs" min="88" max="118" step="2" value="${o.fs||100}"><span class="ab-val" id="abFsV">${o.fs||100}%</span></div>
+    bar=document.createElement('div'); bar.className='adminbar adminbar2';
+    document.body.appendChild(bar); renderBar('text');
+    return bar;
+  }
+  function renderBar(tab){
+    const o=cmState(); const d=Object.assign({},SC.design||{},o.design||{});
+    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['community','💬 커뮤니티'],['publish','🌍 발행']];
+    let body='';
+    if(tab==='text'){
+      body=`<div class="ab-hint" style="margin-top:0">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 고칠 수 있어요.</div>
+      <div class="ab-row"><label>행간</label><input type="range" id="abLh" min="1.3" max="2.1" step="0.05" value="${d.lh||1.5}"><span class="ab-val" id="abLhV">${d.lh||1.5}</span></div>
+      <div class="ab-row"><label>글자</label><input type="range" id="abFs" min="88" max="118" step="2" value="${d.fs||100}"><span class="ab-val" id="abFsV">${(d.fs||100)}%</span></div>`;
+    }else if(tab==='design'){
+      body=`<div class="ab-row"><label>테마</label><select id="abPreset" class="ab-in">${
+        Object.entries(PRESETS).map(([k,p])=>`<option value="${k}"${(d.preset||'navy')===k?' selected':''}>${p.label}</option>`).join('')}</select></div>
+      <div class="ab-row"><label>포인트색</label><input type="color" id="abAccent" value="${d.accent||'#0EA5E9'}"><button class="ab-mini" id="abAccentX">↺</button></div>
+      <div class="ab-row"><label>제목색</label><input type="color" id="abAccent2" value="${d.accent2||'#0B4171'}"><button class="ab-mini" id="abAccent2X">↺</button></div>
+      <div class="ab-row"><label>배경색</label><input type="color" id="abBg" value="${d.bg||'#F8FAFC'}"><button class="ab-mini" id="abBgX">↺</button></div>
+      <div class="ab-hint">고르는 즉시 화면에 미리보기 돼요. 💾 저장=이 브라우저 · 🌍 발행=모두에게.</div>`;
+    }else if(tab==='community'){
+      const posts=(o.community.posts||[]);
+      body=`<div class="ab-row"><label>공지</label><input type="text" id="abNotice" class="ab-in" placeholder="상단 공지 (비우면 숨김)" value="${h(o.community.notice||'')}"></div>
+      <div class="ab-row"><label>새 글</label><input type="text" id="abPName" class="ab-in" style="max-width:110px" placeholder="작성자" value="개오"></div>
+      <textarea id="abPText" class="ab-ta" placeholder="게시글 내용을 쓰고 [글 추가]를 누르세요"></textarea>
+      <div class="ab-btns"><button class="ab-save" id="abPAdd">➕ 글 추가</button></div>
+      <div class="ab-list">${posts.length?posts.map(p=>
+        `<div class="ab-item"><span class="ab-item-t">${p.pin?'📌 ':''}${h(p.name)} · ${h((p.text||'').slice(0,22))}${(p.text||'').length>22?'…':''}</span>
+         <button class="ab-mini" data-pin="${p.id}" title="고정 토글">📌</button>
+         <button class="ab-mini" data-del="${p.id}" title="삭제">🗑</button></div>`).join(''):'<div class="ab-hint">게시글이 없어요.</div>'}</div>
+      <div class="ab-hint">방문자 자유게시판(GitHub 댓글)을 열려면 <b>github.com/apps/utterances</b> 에서 앱을 이 저장소에 설치하세요(1회).</div>`;
+    }else{
+      const tk=localStorage.getItem(TKEY)||'';
+      body=`<div class="ab-row"><label>토큰</label><input type="password" id="abToken" class="ab-in" placeholder="GitHub 토큰 (ghp_… / github_pat_…)" value="${h(tk)}"></div>
       <div class="ab-btns">
-        <button class="ab-save">💾 저장</button>
-        <button class="ab-reset">↺ 원래대로</button>
+        <button class="ab-save" id="abPub">🌍 모두에게 발행</button>
+        <button class="ab-reset" id="abCopy">📋 Claude 요청문 복사</button>
       </div>
-      <div class="ab-hint">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 글을 고칠 수 있어요.
-      저장하면 <b>이 브라우저에서만</b> 유지됩니다 — 모두에게 반영하려면 Claude에게 "지금 수정한 문구로 파일 고쳐줘"라고 요청하세요.</div>`;
-    document.body.appendChild(bar);
-    const lh=bar.querySelector('#abLh'), fs=bar.querySelector('#abFs');
-    lh.oninput=()=>{ document.body.style.lineHeight=lh.value; bar.querySelector('#abLhV').textContent=lh.value; };
-    fs.oninput=()=>{ document.documentElement.style.fontSize=fs.value+'%'; bar.querySelector('#abFsV').textContent=fs.value+'%'; };
-    bar.querySelector('.ab-save').onclick=()=>{
+      <div class="ab-status" id="abStatus"></div>
+      <div class="ab-hint">발행 = 문구·디자인·커뮤니티를 GitHub에 직접 저장 → 1~2분 뒤 모든 방문자에게 반영.<br>
+      토큰 만들기: github.com → Settings → Developer settings → <b>Fine-grained tokens</b> → 이 저장소만 선택 → Contents <b>Read and write</b> 권한. 토큰은 이 브라우저에만 저장돼요.<br>
+      토큰이 없으면 [Claude 요청문 복사] 내용을 Claude Code에 붙여넣어 반영을 부탁하세요.</div>`;
+    }
+    bar.innerHTML=`
+      <div class="ab-title">🔧 관리자 모드 <button class="ab-x" title="닫기">✕</button></div>
+      <div class="ab-tabs">${tabs.map(([k,l])=>`<button class="ab-tab${k===tab?' on':''}" data-tab="${k}">${l}</button>`).join('')}</div>
+      ${body}
+      <div class="ab-btns">
+        <button class="ab-save" id="abSave">💾 저장(이 브라우저)</button>
+        <button class="ab-reset" id="abReset">↺ 원래대로</button>
+      </div>`;
+    bar.querySelectorAll('.ab-tab').forEach(b=>b.onclick=()=>renderBar(b.dataset.tab));
+    bar.querySelector('.ab-x').onclick=off;
+
+    /* 공통: 저장/리셋 */
+    bar.querySelector('#abSave').onclick=()=>{
+      const o2=cmState();
       const texts={}; EDITS().forEach(el=>texts[el.dataset.edit]=el.innerHTML);
-      save({texts, lh:+lh.value, fs:+fs.value});
-      bar.querySelector('.ab-save').textContent='✅ 저장됨';
-      setTimeout(()=>{ if(bar) bar.querySelector('.ab-save').textContent='💾 저장'; },1500);
+      o2.texts=texts;
+      if(tab==='community'){
+        const n=bar.querySelector('#abNotice'); if(n) o2.community.notice=n.value;
+      }
+      save(o2);
+      const btn=bar.querySelector('#abSave'); btn.textContent='✅ 저장됨';
+      setTimeout(()=>{ if(bar&&bar.querySelector('#abSave')) bar.querySelector('#abSave').textContent='💾 저장(이 브라우저)'; },1500);
+      if(window.renderCommunity && document.getElementById('communityView').classList.contains('on')) renderCommunity();
     };
-    bar.querySelector('.ab-reset').onclick=()=>{
-      if(!confirm('저장한 수정사항을 모두 지우고 원래대로 되돌릴까요?')) return;
+    bar.querySelector('#abReset').onclick=()=>{
+      if(!confirm('이 브라우저에 저장한 수정사항(문구·디자인·커뮤니티 초안)을 모두 지울까요?\n(발행된 내용은 지워지지 않아요)')) return;
       localStorage.removeItem(KEY); location.reload();
     };
-    bar.querySelector('.ab-x').onclick=off;
+
+    /* 탭별 동작 */
+    if(tab==='text'){
+      const lh=bar.querySelector('#abLh'), fs=bar.querySelector('#abFs');
+      lh.oninput=()=>{ const o2=cmState(); o2.design.lh=+lh.value; save(o2); document.body.style.lineHeight=lh.value; bar.querySelector('#abLhV').textContent=lh.value; };
+      fs.oninput=()=>{ const o2=cmState(); o2.design.fs=+fs.value; save(o2); document.documentElement.style.fontSize=fs.value+'%'; bar.querySelector('#abFsV').textContent=fs.value+'%'; };
+    }else if(tab==='design'){
+      const upd=(k,v)=>{ const o2=cmState(); if(v==null) delete o2.design[k]; else o2.design[k]=v; save(o2); applyDesign(Object.assign({},SC.design||{},o2.design)); };
+      bar.querySelector('#abPreset').onchange=e=>upd('preset',e.target.value);
+      bar.querySelector('#abAccent').oninput=e=>upd('accent',e.target.value);
+      bar.querySelector('#abAccent2').oninput=e=>upd('accent2',e.target.value);
+      bar.querySelector('#abBg').oninput=e=>upd('bg',e.target.value);
+      bar.querySelector('#abAccentX').onclick=()=>{upd('accent',null);renderBar('design');};
+      bar.querySelector('#abAccent2X').onclick=()=>{upd('accent2',null);renderBar('design');};
+      bar.querySelector('#abBgX').onclick=()=>{upd('bg',null);renderBar('design');};
+    }else if(tab==='community'){
+      bar.querySelector('#abPAdd').onclick=()=>{
+        const name=bar.querySelector('#abPName').value.trim()||'개오';
+        const text=bar.querySelector('#abPText').value.trim();
+        if(!text){ alert('내용을 입력하세요.'); return; }
+        const o2=cmState();
+        o2.community.notice=bar.querySelector('#abNotice').value;
+        const id=Math.max(0,...(o2.community.posts||[]).map(p=>p.id||0))+1;
+        o2.community.posts.unshift({id,pin:false,name,date:new Date().toISOString().slice(0,10),text});
+        save(o2); renderBar('community');
+        if(window.renderCommunity) renderCommunity();
+      };
+      bar.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+        if(!confirm('이 글을 삭제할까요?')) return;
+        const o2=cmState(); o2.community.posts=o2.community.posts.filter(p=>String(p.id)!==b.dataset.del);
+        save(o2); renderBar('community'); if(window.renderCommunity) renderCommunity();
+      });
+      bar.querySelectorAll('[data-pin]').forEach(b=>b.onclick=()=>{
+        const o2=cmState(); const p=o2.community.posts.find(p=>String(p.id)===b.dataset.pin);
+        if(p){ p.pin=!p.pin; save(o2); renderBar('community'); if(window.renderCommunity) renderCommunity(); }
+      });
+    }else{ /* publish */
+      const st=bar.querySelector('#abStatus');
+      bar.querySelector('#abToken').onchange=e=>localStorage.setItem(TKEY,e.target.value.trim());
+      bar.querySelector('#abPub').onclick=async()=>{
+        const token=(bar.querySelector('#abToken').value||'').trim();
+        if(!token){ st.textContent='⚠️ 토큰을 먼저 입력하세요 (없으면 아래 복사 버튼을 쓰세요).'; return; }
+        localStorage.setItem(TKEY,token);
+        if(!confirm('문구·디자인·커뮤니티를 지금 모든 방문자에게 발행할까요?')) return;
+        const o2=cmState();
+        st.textContent='⏳ 발행 중…';
+        try{
+          await ghPut('site_config.js', fileConfig(o2), token);
+          await ghPut('community.js', fileCommunity(o2), token);
+          st.textContent='✅ 발행 완료! 1~2분 뒤 사이트에 반영돼요.';
+        }catch(e){ st.textContent='❌ 실패: '+e.message+' (토큰 권한: 이 저장소 Contents Read/write 필요)'; }
+      };
+      bar.querySelector('#abCopy').onclick=()=>{
+        const o2=cmState();
+        const payload='아래 내용으로 개오 사이트의 site_config.js와 community.js를 갱신하고 main에 반영해줘.\n\n'
+          +'--- site_config.js ---\n'+fileConfig(o2)+'\n--- community.js ---\n'+fileCommunity(o2);
+        (navigator.clipboard?navigator.clipboard.writeText(payload):Promise.reject()).then(
+          ()=>{ st.textContent='📋 복사됨! Claude Code에 붙여넣으세요.'; },
+          ()=>{ prompt('아래 내용을 복사하세요', payload); });
+      };
+    }
     return bar;
   }
 
