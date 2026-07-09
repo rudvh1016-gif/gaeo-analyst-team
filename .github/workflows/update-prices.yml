@@ -6,7 +6,7 @@
 # 실행 방법:
 #   · 수동: GitHub → Actions → 이 워크플로우 → Run workflow
 #   · 마커: .analyst-refresh 파일 내용을 바꿔 push (원격 세션에서 쓰는 방법)
-#   · 자동: 평일 장중 30분 간격 (KST 09:30~15:30)
+#   · 자동: 평일 장중 10분 간격 (KST 09:00~15:40, 마감 후 종가 확정분 포함)
 name: update-prices
 
 on:
@@ -16,8 +16,10 @@ on:
       - ".analyst-refresh"
       - ".github/workflows/update-prices.yml"
   schedule:
-    # KST = UTC+9. 평일 00:30~06:30 UTC = 09:30~15:30 KST, 30분 간격
-    - cron: "0,30 0-6 * * 1-5"
+    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격
+    - cron: "*/10 0-5 * * 1-5"
+    # 06:00~06:40 UTC = 15:00~15:40 KST (15:30 마감 직후 종가 확정분까지)
+    - cron: "0,10,20,30,40 6 * * 1-5"
 
 permissions:
   contents: write
@@ -49,12 +51,15 @@ jobs:
       - name: 분석용 원천 데이터 (analysis_data.json)
         run: python3 collect_analyst_data.py
 
+      - name: 지표 사전계산 (indicators.json)
+        run: python3 compute_indicators.py
+
       - name: 결과 커밋 & 푸시
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add
-          for f in data.js price_history.js analysis_data.json update.log; do
+          for f in data.js price_history.js analysis_data.json indicators.json update.log; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then
