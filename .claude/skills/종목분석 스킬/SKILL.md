@@ -27,8 +27,18 @@ description: 개오 애널리스트팀(~/ai-analyst-team) 주식 분석 갱신. 
 2. `python3 update_prices.py` 실행 → data.js 최신화. **출력의 종목별 현재가를 기록해둔다(이게 base).**
    - 일부 종목 실패 시: 그 종목은 data.js에 남은 이전 값(stale)으로 base를 잡되 findings에 "시세 수집 실패" 명시.
    - 전부 실패 시: 사용자에게 알리고 중단(추정 가격으로 진행 금지).
+   - ★ **네트워크 제한 세션(모바일/웹 원격)에서 네이버 접속이 403으로 막히면**: GitHub Actions
+     `update-prices` 워크플로우가 심부름꾼 역할을 한다. `.analyst-refresh` 파일 내용을 바꿔
+     커밋·푸시하면 러너가 수집을 실행해 data.js/analysis_data.json/indicators.json을 커밋하니
+     1~2분 뒤 pull해서 쓴다(평일 장중엔 10분 간격 자동 실행되므로 pull만 해도 최신일 수 있음).
+     이때 base는 그 data.js의 price 그대로(철칙 동일).
 3. **부분 재분석 모드**: 사용자가 "○○종목만"이라 하면 그 종목 블록만 새로 쓰고 나머지 블록은 그대로 둔다.
    그 종목의 `updated`/`base`/`baseAt`만 갱신, 전역 `date`는 최근 갱신일로.
+4. **토큰 절약 — indicators.json 우선**: 저장소의 `indicators.json`(Actions가 사전계산)에
+   MA20/MA60·RSI·MACD·거래량배율·3개월 밴드·최근5일 종가(tech)와 외인/기관 6일 누적·보유율
+   추이(flow), 컨센서스 목표가·선행PER(targetMean/fwdPer)이 이미 들어있다.
+   `generatedAt`이 data.js와 같은 수집분이면 **원천 데이터를 다시 읽거나 재계산하지 말고
+   이 요약표를 그대로 써라**(TARO/DIANA/FLOW findings의 수치 출처로 충분). 오래됐으면 0단계 2번으로 갱신.
 
 ## 1단계 — 종목별 5인 분석
 

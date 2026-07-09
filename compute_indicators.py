@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""개오 애널리스트팀 — 지표 사전계산 (GitHub Actions용)
+collect_analyst_data.py가 저장한 analysis_data.json(일봉·재무·수급 원천)과
+update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 바로 쓰는
+요약 지표를 indicators.json 한 파일로 압축 저장한다.
+
+목적: Claude 세션이 원천 데이터(수천 줄)를 읽고 계산하는 대신 이 요약표만
+읽으면 되므로 토큰이 크게 절약된다. 계산 규격은 종목분석 스킬과 동일:
+  MA20/MA60=종가 단순평균 · RSI(14)=Wilder 평활 · MACD=EMA12−EMA26(시그널 EMA9)
+  거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
+실행: python3 compute_indicators.py  →  indicators.json
+"""
+import json, re, os, datetime
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_js_object(path, varname):
+    txt = re.sub(r"^\s*//.*$", "", open(path, encoding="utf-8").read(), flags=re.M)
+    m = re.search(r"const\s+" + varname + r"\s*=\s*(\{.*\})\s*;", txt, re.S)
+    return json.loads(m.group(1))
+
+
+def num(x):
+    if x is None:
+        return None
+    try:
+        return float(str(x).replace(",", "").replace("%", "").replace("+", "")
+                     .replace("원", "").replace("배", ""))
+    except ValueError:
+        return None
+
+
+def ema_series(vals, n):
+    k = 2 / (n + 1)
+    out = [vals[0]]
+    for v in vals[1:]:
+        out.append(v * k + out[-1] * (1 - k))
+    return out
+
+
+def indicators_for(daily):
+    closes = [r["close"] for r in daily]
+    vols = [r["volume"] for r in daily]
+    cur = closes[-1]
+    ma20 = sum(closes[-20:]) / min(20, len(closes))
+    ma60 = sum(closes[-60:]) / min(60, len(closes))
+    gains, losses = [], []
+    for i in range(1, len(closes)):
+        ch = closes[i] - closes[i - 1]
+        gains.append(max(ch, 0)); losses.append(max(-ch, 0))
+    ag = sum(gains[:14]) / 14; al = sum(losses[:14]) / 14
+    for i in range(14, len(gains)):
+        ag = (ag * 13 + gains[i]) / 14; al = (al * 13 + losses[i]) / 14
+    rsi = 100 - 100 / (1 + ag / al) if al else 100.0
+    e12, e26 = ema_series(closes, 12), ema_series(closes, 26)
+    macd = [a - b for a, b in zip(e12, e26)]
+    sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
+    vol_ratio = vols[-1] / (sum(vols[-21:-1]) / 20) if len(vols) > 20 else None
+    return {
+        "close": cur,
+        "ma20": round(ma20), "ma20Gap": round((cur / ma20 - 1) * 100, 1),
+        "ma60": round(ma60), "ma60Gap": round((cur / ma60 - 1) * 100, 1),
+        "rsi14": round(rsi, 1),
+        "macd": round(macd[-1]), "macdSignal": round(sig),
+        "volRatio": round(vol_ratio, 2) if vol_ratio else None,
+        "low3m": min(closes), "high3m": max(closes),
+        "last5": [{"d": r["date"][5:], "c": r["close"]} for r in daily[-5:]],
+    }
+
+
+def flow_summary(deal_trends, days=6):
+    dt = deal_trends[:days]
+    if not dt:
+        return None
+    frgn = sum(num(r.get("foreignerPureBuyQuant")) or 0 for r in dt)
+    org = sum(num(r.get("organPureBuyQuant")) or 0 for r in dt)
+    today = dt[0]
+    return {
+        "days": len(dt),
+        "frgnSum": int(frgn), "orgSum": int(org),
+        "holdNow": num(dt[0].get("foreignerHoldRatio")),
+        "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
+        "todayFrgn": int(num(today.get("foreignerPureBuyQuant")) or 0),
+        "todayOrg": int(num(today.get("organPureBuyQuant")) or 0),
+        "todayIndi": int(num(today.get("individualPureBuyQuant")) or 0),
+    }
+
+
+def main():
+    raw = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
+    live = load_js_object(os.path.join(HERE, "data.js"), "LIVE_DATA")
+    out = {
+        "generatedAt": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "priceLabel": live.get("date"),
+        "indices": live.get("indices"),
+        "stocks": {},
+    }
+    for code, s in raw["stocks"].items():
+        d = live["stocks"].get(code, {})
+        entry = {"name": s["name"], "price": d.get("price"), "rate": d.get("rate"),
+                 "stale": d.get("stale", False),
+                 "per": d.get("per"), "pbr": d.get("pbr"), "roe": d.get("roe"),
+                 "eps": d.get("eps"), "div": d.get("div"), "w52": d.get("w52"),
+                 "cap": d.get("cap")}
+        info = (s.get("info") or {})
+        ti = info.get("totalInfos") or {}
+        entry["cnsEps"] = num(ti.get("cnsEps"))
+        cons = info.get("consensus") or {}
+        entry["targetMean"] = num(cons.get("priceTargetMean"))
+        entry["recommMean"] = num(cons.get("recommMean"))
+        if entry["targetMean"] and entry["price"]:
+            entry["targetGap"] = round((entry["targetMean"] / entry["price"] - 1) * 100, 1)
+        if entry["cnsEps"] and entry["price"]:
+            entry["fwdPer"] = round(entry["price"] / entry["cnsEps"], 1)
+        entry["tech"] = indicators_for(s["daily"]) if s.get("daily") else None
+        entry["flow"] = flow_summary(info.get("dealTrends") or [])
+        out["stocks"][code] = entry
+    path = os.path.join(HERE, "indicators.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
+    print(f"indicators.json 저장 완료 ({out['generatedAt']}) — {len(out['stocks'])}종목")
+
+
+if __name__ == "__main__":
+    main()
