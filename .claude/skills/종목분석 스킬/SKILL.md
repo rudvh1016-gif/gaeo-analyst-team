@@ -58,6 +58,13 @@ description: 개오 애널리스트팀(~/ai-analyst-team) 주식 분석 갱신. 
 ```
 const LIVE_ANALYSIS = {
  "date": "YYYY-MM-DD",
+ "market": {                                // ★ 시장(코스피/코스닥) 분석 — 화면 상단 📊 박스에 표시
+  "updated": "YYYY-MM-DD HH:MM",
+  "kospi": {"value": 실수, "rate": 실수},     // data.js의 indices 값과 동일하게
+  "kosdaq": {"value": 실수, "rate": 실수},
+  "text": "현 시장 국면 요약 2~3문장 (조정/반등 배경, 핵심 매크로 변수)",
+  "points": ["코스피 현황 한 줄", "코스닥 현황 한 줄", "핵심 변수/일정", "반등 조건"]
+ },
  "CODE": {
   "updated": "YYYY-MM-DD HH:MM",          // 지금 실행 시각
   "base": 정수,                            // ⛔ 반드시 data.js의 price와 동일
@@ -73,6 +80,8 @@ const LIVE_ANALYSIS = {
 };
 ```
 
+- `market`의 kospi/kosdaq 값은 **update_prices.py가 쓴 data.js의 indices에서 그대로** 가져온다(기준가 무결성 철칙과 동일).
+  market은 chief가 없으므로 archive_analysis.py가 history에 기록하지 않는다(의도된 동작).
 - 반드시 **유효한 JavaScript**(문자열 안 큰따옴표는 escape 또는 작은따옴표 회피).
 - 파일 상단 주석에 갱신 시각·데이터 기준을 남긴다.
 - **위 필드명·구조를 바꾸거나 빼지 않는다** — index.html이 전부 참조한다(base/baseAt=신선도, stance=리더보드, events=캘린더, target=목표가 거리).
