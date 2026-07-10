@@ -375,6 +375,15 @@
     background:linear-gradient(180deg,var(--sky),var(--navy))}
   .verdict.on{display:block}
   .verdict .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  /* 초등학생도 이해하는 설명 — 말풍선 */
+  .veasy{position:relative;background:var(--sky-soft);border:1.5px solid var(--sky-line);
+    border-radius:16px;padding:14px 17px;margin:0 0 20px;font-size:13.5px;line-height:1.8;color:#1E3A5F}
+  .veasy::after{content:"";position:absolute;left:34px;bottom:-9px;width:16px;height:16px;
+    background:var(--sky-soft);border-right:1.5px solid var(--sky-line);border-bottom:1.5px solid var(--sky-line);
+    transform:rotate(45deg) skew(8deg,8deg)}
+  .veasy .ve-t{font-weight:800;font-size:13.5px;color:var(--navy);margin-bottom:6px}
+  .veasy b{color:var(--navy)}
+  .veasy .ve-warn{display:block;margin-top:6px;font-size:11px;color:var(--faint)}
   .verdict .call{font-size:34px;font-weight:800;letter-spacing:.01em;color:var(--navy)}
   .verdict .conf{color:var(--dim);font-size:13px}
   .verdict p{margin:14px 0 0;color:#334155;font-size:14.5px;line-height:1.75}
@@ -693,6 +702,7 @@
   <div class="viz" id="viz"></div>
 
   <div class="verdict" id="verdict">
+    <div class="veasy" id="veasy" style="display:none"></div>
     <div class="top">
       <span class="dot" id="vdot"></span>
       <span class="call" id="vcall"></span>
@@ -2256,6 +2266,32 @@ function analyze(){
       if(++done===4) runChief();
     });
   });
+  // 분석 점수 → 초등학생 눈높이 말풍선 문장 (종목 비교 탭의 easyExplain과 같은 원리)
+  function easySingleHTML(stock,d,v){
+    const AX=[
+      {id:'taro', name:'주가 흐름(차트)',   hi:'최근 주가가 오르려는 힘이 좋아요',           mid:'주가 흐름은 보통이에요',      lo:'주가가 아직 아래로 처져 있어요'},
+      {id:'diana',name:'돈 버는 실력(실적)',hi:'회사가 돈을 잘 벌고, 지금 값도 싼 편이에요',  mid:'돈 버는 실력은 무난한 편이에요', lo:'버는 돈에 비해 주가가 비싸거나 확인이 더 필요해요'},
+      {id:'nova', name:'뉴스와 분위기',     hi:'좋은 소식이 많고 분위기가 밝아요',            mid:'뉴스 분위기는 그저 그래요',    lo:'걱정되는 소식이 있거나 관심을 덜 받고 있어요'},
+      {id:'flow', name:'큰손들의 매매',     hi:'외국인·기관 같은 큰손들이 사 모으고 있어요',   mid:'큰손들은 지켜보는 중이에요',   lo:'큰손들이 팔고 있어요'}
+    ];
+    const phrase=(x,s)=>s>=55?x.hi:(s<=45?x.lo:x.mid);
+    const best=AX.reduce((p,x)=>d[x.id].score>d[p.id].score?x:p);
+    const worst=AX.reduce((p,x)=>d[x.id].score<d[p.id].score?x:p);
+    const callKid=c=>c==='BUY'?'사볼 만해요':(c==='SELL'?'지금은 조심하는 게 좋아요':'가지고 있다면 기다려 볼 만해요');
+    const confKid=c=>c>=60?'꽤 자신 있는 판단이에요':(c>=45?'반반 정도의 조심스러운 판단이에요':'아직 자신이 크지 않은 조심스러운 판단이에요');
+    const tg=(String(v.target||'').match(/\+([\d.]+)%\s*상승여력/)||[])[1];
+    const today=(typeof stock.rate==='number')?
+      (stock.rate>0?`오늘 주가는 <b>+${stock.rate.toFixed(2)}%</b> 올랐어요. `:
+       stock.rate<0?`오늘 주가는 <b>${stock.rate.toFixed(2)}%</b> 내렸어요. `:
+       '오늘 주가는 제자리예요. '):'';
+    return `<div class="ve-t">🧒 초등학생도 이해하는 설명</div>`+
+      `${today}다섯 분석가의 점수를 합치면 100점 만점에 <b>${v.total}점</b> → <b>${callKid(v.call)}</b> (${v.call}).<br>`+
+      `👍 제일 좋은 점은 「<b>${best.name}</b>」(${d[best.id].score}점) — ${phrase(best,d[best.id].score)}.<br>`+
+      `🤔 아쉬운 점은 「<b>${worst.name}</b>」(${d[worst.id].score}점) — ${phrase(worst,d[worst.id].score)}.`+
+      `${tg?`<br>🎯 전문가들이 적어낸 목표 가격까지 아직 <b>+${tg}%</b> 올라갈 여유가 있어요.`:''}`+
+      `<br>🔍 이 판단의 자신감은 <b>${v.conf}%</b> — ${confKid(v.conf)}.`+
+      `<span class="ve-warn">※ 공부용 쉬운 설명이에요. 진짜 투자는 신중하게!</span>`;
+  }
   function runChief(){
     const a=AGENTS.find(x=>x.id==='chief');
     sendToWork(a,2800,()=>{
@@ -2274,6 +2310,9 @@ function analyze(){
         '<span>🔎 분석 기준 <b>'+(aof||'실시간 mock')+'</b></span>'+
         (fresh?'<span>'+fresh+'</span>':'');
       document.getElementById('vtext').textContent=v.text;
+      // 🧒 초등학생도 이해하는 설명 말풍선 (분석 점수를 쉬운 문장으로 자동 변환 — AI 비용 없음)
+      const ve=document.getElementById('veasy');
+      ve.innerHTML=easySingleHTML(stock,data,v); ve.style.display='block';
       const vt=document.getElementById('vtarget'), vr=document.getElementById('vreport');
       if(v.target){vt.style.display='block'; vt.innerHTML='🎯 <b>'+v.target+'</b>';}
       else vt.style.display='none';
