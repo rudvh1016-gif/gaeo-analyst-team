@@ -384,6 +384,11 @@
   .veasy .ve-t{font-weight:800;font-size:13.5px;color:var(--navy);margin-bottom:6px}
   .veasy b{color:var(--navy)}
   .veasy .ve-warn{display:block;margin-top:6px;font-size:11px;color:var(--faint)}
+  /* 운영자(관리자) 한마디 — 단일분석·종목비교에 표시되는 관리자 메모 */
+  .anote{background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;
+    padding:12px 16px;margin:0 0 18px;font-size:13px;line-height:1.7;color:#78350F}
+  .anote b{color:#92400E}
+  .anote .an-t{font-weight:800;font-size:12.5px;margin-bottom:4px;color:#B45309}
   .verdict .call{font-size:34px;font-weight:800;letter-spacing:.01em;color:var(--navy)}
   .verdict .conf{color:var(--dim);font-size:13px}
   .verdict p{margin:14px 0 0;color:#334155;font-size:14.5px;line-height:1.75}
@@ -717,6 +722,7 @@
 
   <div class="verdict" id="verdict">
     <div class="veasy" id="veasy" style="display:none"></div>
+    <div class="anote" id="vnote" style="display:none"></div>
     <div class="top">
       <span class="dot" id="vdot"></span>
       <span class="call" id="vcall"></span>
@@ -2327,6 +2333,12 @@ function analyze(){
       // 🧒 초등학생도 이해하는 설명 말풍선 (분석 점수를 쉬운 문장으로 자동 변환 — AI 비용 없음)
       const ve=document.getElementById('veasy');
       ve.innerHTML=easySingleHTML(stock,data,v); ve.style.display='block';
+      // 👑 운영자 한마디 (관리자 모드에서 종목별로 작성)
+      window.GAEO_CUR_CODE=stock.code;
+      const vn=document.getElementById('vnote');
+      const note=(window.gaeoNote&&gaeoNote(stock.code))||'';
+      if(note){ vn.innerHTML='<div class="an-t">👑 운영자 한마디</div>'+escNote(note); vn.style.display='block'; }
+      else vn.style.display='none';
       const vt=document.getElementById('vtarget'), vr=document.getElementById('vreport');
       if(v.target){vt.style.display='block'; vt.innerHTML='🎯 <b>'+v.target+'</b>';}
       else vt.style.display='none';
@@ -2488,10 +2500,17 @@ showQuote(resolveStock('제주반도체'));
         row('수급',sA[3],sB[3])+row('종합',vA.total,vB.total)+row('신뢰도',vA.conf,vB.conf)+
       `</div>`+
       `<div class="cmp-sum">${winner?`종합 점수 우위: <b>${winner}</b> (${Math.max(vA.total,vB.total)} vs ${Math.min(vA.total,vB.total)}) · 참고용이며 투자 권유가 아닙니다.`:'두 종목 종합 점수가 동일합니다 · 참고용이며 투자 권유가 아닙니다.'}</div>`+
-      easyExplain(A,B,vA,vB,sA,sB,ca,cb);
+      easyExplain(A,B,vA,vB,sA,sB,ca,cb)+
+      noteBlock(A,ca)+noteBlock(B,cb);
     el.classList.add('on');
     el.scrollIntoView({behavior:'smooth',block:'nearest'});
     SFX.ding();
+  };
+
+  /* 👑 운영자 한마디 — 관리자 모드 종목메모가 있으면 비교 결과에도 표시 */
+  const noteBlock=(S,code)=>{
+    const n=(window.gaeoNote&&gaeoNote(code))||'';
+    return n?`<div class="anote" style="margin:14px 0 0"><div class="an-t">👑 운영자 한마디 — ${S.name}</div>${escNote(n)}</div>`:'';
   };
 
   /* ── 쉬운 말 비교 설명 — analysis.js의 점수·목표주가를 초등학생 눈높이 문장으로 변환 ──
@@ -2600,6 +2619,9 @@ window.askPass=function(title){
   });
 };
 
+/* 공용 텍스트 이스케이프 (운영자 메모 등 표시용) */
+window.escNote=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
+
 /* 한글 입력 보정 — 일부 모바일 브라우저는 마스킹 입력칸에서 한글이 조합되지 못하고
    자모(ㅅㅣㄴㄹㅏ…)로 쪼개져 들어간다. 음절을 자모로 전부 분해한 뒤 다시 조합해
    "ㅅㅣㄴㄹㅏ123!" / "시ㄴ라123!" / NFD 분해형 등을 모두 "신라123!"으로 정규화한다. */
@@ -2671,46 +2693,66 @@ window.hangulFix=function(str){
     t=t.trim(); if(typeof hangulFix==='function') t=hangulFix(t);
     return hash('gaeo|'+t);
   };
-  let GBURL=null;
-  async function gbUrl(){
-    if(GBURL!==null) return GBURL;
+  /* 게시판 저장소: kvdb.io (글 1개 = 키 1개, post:<id>)
+     · 이전 jsonblob은 브라우저 교차접속(CORS) 미지원 + 24시간 만료라 교체됨
+     · 심부름꾼(GitHub Actions)이 버킷을 자동 개설하고 10분마다 백업한다 */
+  let GBBASE=null;
+  async function gbBase(){
+    if(GBBASE!==null) return GBBASE;
     try{
       const r=await fetch('guestbook_id.json?t='+Date.now(),{cache:'no-store'});
-      GBURL=r.ok?(((await r.json())||{}).url||''):'';
-    }catch(e){ GBURL=''; }
-    return GBURL;
+      let u=r.ok?(((await r.json())||{}).url||''):'';
+      if(u.indexOf('jsonblob')>=0) u='';        // 구버전 저장소 무시(교체 대기)
+      GBBASE=u.replace(/\/+$/,'');
+    }catch(e){ GBBASE=''; }
+    return GBBASE;
   }
-  async function gbLoad(){
-    const u=await gbUrl(); if(!u) return null;
+  async function gbList(){
+    const b=await gbBase(); if(!b) return null;
     try{
-      const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw 0;
-      const d=await r.json();
-      return {posts:(d&&Array.isArray(d.posts))?d.posts:[]};
+      const r=await fetch(b+'/?values=true&format=json',{cache:'no-store'});
+      if(r.status===404) return [];             // 빈 버킷
+      if(!r.ok) throw 0;
+      const arr=await r.json(); const posts=[];
+      (Array.isArray(arr)?arr:[]).forEach(pair=>{
+        const k=String(pair[0]||'');
+        if(k.slice(0,5)==='post:'){
+          try{ const p=JSON.parse(pair[1]); p.id=k.slice(5); posts.push(p); }catch(e){}
+        }
+      });
+      return posts;
     }catch(e){ return null; }
   }
-  async function gbSave(d){
-    const u=await gbUrl(); if(!u) throw new Error('no-url');
-    const r=await fetch(u,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+  async function gbPut(id,post){
+    const b=await gbBase(); if(!b) throw new Error('no-base');
+    const r=await fetch(b+'/post:'+id,{method:'PUT',body:JSON.stringify(post)});
     if(!r.ok) throw new Error('put-fail');
+  }
+  async function gbDel(id){
+    const b=await gbBase(); if(!b) throw new Error('no-base');
+    const r=await fetch(b+'/post:'+id,{method:'DELETE'});
+    if(!r.ok) throw new Error('del-fail');
   }
   const now=()=>{ const d=new Date(),p=n=>String(n).padStart(2,'0');
     return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+  const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
   async function gbRefresh(){
     const list=document.getElementById('gbList'); if(!list) return;
-    const u=await gbUrl();
-    if(!u){ list.innerHTML='<div class="cm-empty">게시판 개설 준비 중이에요 — 잠시 후(최대 10분) 다시 열어주세요.</div>'; return; }
-    const d=await gbLoad();
-    if(!d){ list.innerHTML='<div class="cm-empty">게시판 서버에 연결하지 못했어요 — 새로고침 후 다시 시도해주세요.</div>'; return; }
-    const posts=d.posts.slice().sort((a,b)=>(b.id||0)-(a.id||0));
+    const b=await gbBase();
+    if(!b){ list.innerHTML='<div class="cm-empty">게시판 개설 준비 중이에요 — 잠시 후(최대 10분) 다시 열어주세요.</div>'; return; }
+    const posts=await gbList();
+    if(posts===null){ list.innerHTML='<div class="cm-empty">게시판 서버에 연결하지 못했어요 — 새로고침 후 다시 시도해주세요.</div>'; return; }
+    posts.sort((a,b2)=>(b2.ts||0)-(a.ts||0));
     list.innerHTML=posts.length?posts.map(p=>`
       <div class="cm-post">
         <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span>
           <span class="cm-date">${esc(p.date||'')}${p.edited?' · 수정됨':''}</span>
-          <span class="gb-actions"><button data-gbe="${p.id}">✏️ 수정</button><button data-gbd="${p.id}">🗑 삭제</button></span></div>
-        <div class="cm-text" id="gbt-${p.id}">${esc(p.text)}</div>
+          <span class="gb-actions"><button data-gbe="${esc(p.id)}">✏️ 수정</button><button data-gbd="${esc(p.id)}">🗑 삭제</button></span></div>
+        <div class="cm-text" id="gbt-${esc(p.id)}">${esc(p.text)}</div>
       </div>`).join(''):'<div class="cm-empty">아직 글이 없어요 — 첫 글을 남겨보세요!</div>';
 
+    const byId=id=>posts.find(x=>String(x.id)===String(id));
     // 본인 확인: 비밀번호(마스킹 모달) 또는 관리자
     async function verify(post){
       if(isAdmin()) return true;
@@ -2719,18 +2761,15 @@ window.hangulFix=function(str){
       if(pwh(v)!==post.pw){ alert('비밀번호가 달라요.'); return false; }
       return true;
     }
-    list.querySelectorAll('[data-gbd]').forEach(b=>b.onclick=async()=>{
-      const cur=await gbLoad(); if(!cur) return alert('연결 실패 — 다시 시도해주세요.');
-      const p=cur.posts.find(x=>String(x.id)===b.dataset.gbd); if(!p) return gbRefresh();
+    list.querySelectorAll('[data-gbd]').forEach(btn=>btn.onclick=async()=>{
+      const p=byId(btn.dataset.gbd); if(!p) return gbRefresh();
       if(!await verify(p)) return;
       if(!confirm('이 글을 삭제할까요?')) return;
-      cur.posts=cur.posts.filter(x=>String(x.id)!==b.dataset.gbd);
-      try{ await gbSave(cur); }catch(e){ return alert('삭제 실패 — 다시 시도해주세요.'); }
+      try{ await gbDel(p.id); }catch(e){ return alert('삭제 실패 — 다시 시도해주세요.'); }
       gbRefresh();
     });
-    list.querySelectorAll('[data-gbe]').forEach(b=>b.onclick=async()=>{
-      const cur=await gbLoad(); if(!cur) return alert('연결 실패 — 다시 시도해주세요.');
-      const p=cur.posts.find(x=>String(x.id)===b.dataset.gbe); if(!p) return gbRefresh();
+    list.querySelectorAll('[data-gbe]').forEach(btn=>btn.onclick=async()=>{
+      const p=byId(btn.dataset.gbe); if(!p) return gbRefresh();
       if(!await verify(p)) return;
       const box=document.getElementById('gbt-'+p.id); if(!box) return;
       box.innerHTML=`<textarea class="gb-editbox" maxlength="500">${esc(p.text)}</textarea>
@@ -2740,10 +2779,8 @@ window.hangulFix=function(str){
       document.getElementById('gbeS-'+p.id).onclick=async()=>{
         const t=box.querySelector('textarea').value.trim();
         if(!t) return alert('내용을 입력하세요.');
-        const fresh=await gbLoad(); if(!fresh) return alert('연결 실패 — 다시 시도해주세요.');
-        const fp=fresh.posts.find(x=>String(x.id)===String(p.id)); if(!fp) return gbRefresh();
-        fp.text=t.slice(0,500); fp.edited=true;
-        try{ await gbSave(fresh); }catch(e){ return alert('저장 실패 — 다시 시도해주세요.'); }
+        const upd={name:p.name,date:p.date,ts:p.ts,text:t.slice(0,500),pw:p.pw,edited:true};
+        try{ await gbPut(p.id,upd); }catch(e){ return alert('저장 실패 — 다시 시도해주세요.'); }
         gbRefresh();
       };
     });
@@ -2784,11 +2821,8 @@ window.hangulFix=function(str){
       if(!pw){ st.textContent='⚠️ 비밀번호를 정해주세요 (수정·삭제할 때 써요).'; return; }
       if(!text){ st.textContent='⚠️ 내용을 입력해주세요.'; return; }
       st.textContent='⏳ 올리는 중…';
-      const cur=await gbLoad();
-      if(!cur){ st.textContent='❌ 게시판 서버 연결 실패 — 잠시 후 다시 시도해주세요.'; return; }
-      cur.posts.push({id:Date.now(),name:name.slice(0,20),date:now(),text:text.slice(0,500),pw:pwh(pw)});
-      if(cur.posts.length>200) cur.posts=cur.posts.slice(-200);   // 최신 200개 유지
-      try{ await gbSave(cur); }catch(e){ st.textContent='❌ 올리기 실패 — 잠시 후 다시 시도해주세요.'; return; }
+      const post={name:name.slice(0,20),date:now(),ts:Date.now(),text:text.slice(0,500),pw:pwh(pw)};
+      try{ await gbPut(newId(),post); }catch(e){ st.textContent='❌ 올리기 실패 — 잠시 후 다시 시도해주세요.'; return; }
       document.getElementById('gbText').value='';
       st.textContent='✅ 올렸어요!';
       gbRefresh();
@@ -2835,9 +2869,16 @@ window.hangulFix=function(str){
   function load(){
     let o={}; try{ o=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){}
     if(o.lh||o.fs){ o.design=Object.assign({lh:o.lh,fs:o.fs},o.design||{}); delete o.lh; delete o.fs; } // 구버전 이관
-    o.design=o.design||{}; return o;
+    o.design=o.design||{}; o.notes=o.notes||{}; return o;
   }
   function save(o){ localStorage.setItem(KEY, JSON.stringify(o)); }
+
+  /* 👑 종목메모 — 발행본(SITE_CONFIG.notes) 위에 로컬 초안을 덮어 최종값 반환 */
+  window.gaeoNote=function(code){
+    const merged=Object.assign({},SC.notes||{},load().notes||{});
+    const v=merged[code];
+    return (v&&String(v).trim())?String(v).trim():'';
+  };
 
   /* ---- 페이지 로드 시 적용: ① 발행본(SITE_CONFIG, 모두) ② 로컬 미리보기(관리자) ---- */
   const SC=(typeof SITE_CONFIG!=='undefined')?SITE_CONFIG:{texts:{},design:{}};
@@ -2863,8 +2904,11 @@ window.hangulFix=function(str){
   function fileConfig(o){
     const d=Object.assign({},SC.design||{},o.design||{});
     const texts={}; EDITS().forEach(el=>texts[el.dataset.edit]=el.innerHTML);
+    const notes={}; const mergedNotes=Object.assign({},SC.notes||{},o.notes||{});
+    Object.keys(mergedNotes).forEach(k=>{ const t=String(mergedNotes[k]||'').trim(); if(t) notes[k]=t; });
     const cfg={updated:new Date().toISOString().slice(0,16).replace('T',' '),
-      texts, design:{preset:d.preset||'navy',accent:d.accent||null,accent2:d.accent2||null,bg:d.bg||null,lh:d.lh||null,fs:d.fs||null}};
+      texts, notes,
+      design:{preset:d.preset||'navy',accent:d.accent||null,accent2:d.accent2||null,bg:d.bg||null,lh:d.lh||null,fs:d.fs||null}};
     return '// 개오 애널리스트팀 — 사이트 전역 설정 (모든 방문자에게 적용)\n'
       +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
       +'const SITE_CONFIG = '+JSON.stringify(cfg,null,1)+';\n';
@@ -2899,7 +2943,7 @@ window.hangulFix=function(str){
   }
   function renderBar(tab){
     const o=cmState(); const d=Object.assign({},SC.design||{},o.design||{});
-    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['community','💬 커뮤니티'],['publish','🌍 발행']];
+    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['notes','👑 종목메모'],['community','💬 커뮤니티'],['publish','🌍 발행']];
     let body='';
     if(tab==='text'){
       body=`<div class="ab-hint" style="margin-top:0">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 고칠 수 있어요.</div>
@@ -2912,6 +2956,22 @@ window.hangulFix=function(str){
       <div class="ab-row"><label>제목색</label><input type="color" id="abAccent2" value="${d.accent2||'#0B4171'}"><button class="ab-mini" id="abAccent2X">↺</button></div>
       <div class="ab-row"><label>배경색</label><input type="color" id="abBg" value="${d.bg||'#F8FAFC'}"><button class="ab-mini" id="abBgX">↺</button></div>
       <div class="ab-hint">고르는 즉시 화면에 미리보기 돼요. 💾 저장=이 브라우저 · 🌍 발행=모두에게.</div>`;
+    }else if(tab==='notes'){
+      const T=(typeof TICKERS!=='undefined')?TICKERS:[];
+      const notes=Object.assign({},SC.notes||{},o.notes||{});
+      const withNote=T.filter(t=>notes[t.code]&&String(notes[t.code]).trim());
+      body=`<div class="ab-row"><label>종목</label><select id="abNCode" class="ab-in">${
+        T.map(t=>`<option value="${t.code}">${t.name}${(notes[t.code]&&String(notes[t.code]).trim())?' ✍️':''}</option>`).join('')}</select></div>
+      <textarea id="abNText" class="ab-ta" placeholder="이 종목에 대한 운영자 한마디 — 단일 분석 결과와 종목 비교에 노란 카드로 표시돼요"></textarea>
+      <div class="ab-btns">
+        <button class="ab-save" id="abNSave">✍️ 메모 저장</button>
+        <button class="ab-reset" id="abNDel">🗑 메모 삭제</button>
+      </div>
+      <div class="ab-list">${withNote.length?withNote.map(t=>
+        `<div class="ab-item"><span class="ab-item-t">👑 ${t.name} · ${h(String(notes[t.code]).slice(0,20))}${String(notes[t.code]).length>20?'…':''}</span></div>`).join('')
+        :'<div class="ab-hint">작성된 메모가 없어요.</div>'}</div>
+      <div class="ab-hint">메모는 <b>단일 분석</b>의 판정 카드 위와 <b>종목 비교</b> 결과 아래에 "👑 운영자 한마디"로 표시돼요.
+      💾 저장=이 브라우저 미리보기 · <b>🌍 발행해야 모두에게</b> 보여요.</div>`;
     }else if(tab==='community'){
       const posts=(o.community.posts||[]);
       body=`<div class="ab-row"><label>공지</label><input type="text" id="abNotice" class="ab-in" placeholder="상단 공지 (비우면 숨김)" value="${h(o.community.notice||'')}"></div>
@@ -2979,6 +3039,26 @@ window.hangulFix=function(str){
       bar.querySelector('#abAccentX').onclick=()=>{upd('accent',null);renderBar('design');};
       bar.querySelector('#abAccent2X').onclick=()=>{upd('accent2',null);renderBar('design');};
       bar.querySelector('#abBgX').onclick=()=>{upd('bg',null);renderBar('design');};
+    }else if(tab==='notes'){
+      const sel=bar.querySelector('#abNCode'), ta=bar.querySelector('#abNText');
+      const fill=()=>{ const merged=Object.assign({},SC.notes||{},cmState().notes||{}); ta.value=merged[sel.value]||''; };
+      fill(); sel.onchange=fill;
+      const refreshLive=code=>{           // 지금 화면에 그 종목이 떠 있으면 즉시 반영
+        const vn=document.getElementById('vnote');
+        if(vn&&window.GAEO_CUR_CODE===code){
+          const n=gaeoNote(code);
+          if(n){ vn.innerHTML='<div class="an-t">👑 운영자 한마디</div>'+escNote(n); vn.style.display='block'; }
+          else vn.style.display='none';
+        }
+      };
+      bar.querySelector('#abNSave').onclick=()=>{
+        const o2=cmState(); o2.notes=o2.notes||{}; o2.notes[sel.value]=ta.value.trim();
+        save(o2); refreshLive(sel.value); renderBar('notes');
+      };
+      bar.querySelector('#abNDel').onclick=()=>{
+        const o2=cmState(); o2.notes=o2.notes||{}; o2.notes[sel.value]='';
+        save(o2); refreshLive(sel.value); renderBar('notes');
+      };
     }else if(tab==='community'){
       bar.querySelector('#abPAdd').onclick=()=>{
         const name=bar.querySelector('#abPName').value.trim()||'개오';
