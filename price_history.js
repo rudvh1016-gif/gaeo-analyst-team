@@ -69,7 +69,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 88300
+     "close": 89100
     }
    ],
    "start": "2026-07-08",
@@ -144,7 +144,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 290250
+     "close": 285000
     }
    ],
    "start": "2026-07-08",
@@ -219,7 +219,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 2219000
+     "close": 2180000
     }
    ],
    "start": "2026-07-08",
@@ -294,7 +294,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 1395000
+     "close": 1409000
     }
    ],
    "start": "2026-07-08",
@@ -369,7 +369,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 1621000
+     "close": 1584000
     }
    ],
    "start": "2026-07-08",
@@ -444,7 +444,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 571000
+     "close": 565000
     }
    ],
    "start": "2026-07-08",
@@ -519,7 +519,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 741000
+     "close": 742000
     }
    ],
    "start": "2026-07-08",
@@ -594,7 +594,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 850000
+     "close": 851000
     }
    ],
    "start": "2026-07-08",
@@ -669,7 +669,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 463500
+     "close": 457500
     }
    ],
    "start": "2026-07-08",
@@ -740,7 +740,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 202000
+     "close": 202500
     }
    ],
    "start": "2026-07-09",
@@ -811,7 +811,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 222500
+     "close": 222000
     }
    ],
    "start": "2026-07-09",
@@ -882,7 +882,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 104200
+     "close": 103800
     }
    ],
    "start": "2026-07-09",
@@ -953,7 +953,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 88900
+     "close": 88700
     }
    ],
    "start": "2026-07-09",
