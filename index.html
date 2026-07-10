@@ -425,6 +425,16 @@
   .vhistory td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
   .vhistory tr:last-child td{border-bottom:none}
   .vhistory tr.latest td{background:rgba(14,165,233,.06)}
+  .vhistory .hdate br{display:none}                 /* 데스크톱: 일시 한 줄 */
+  @media(max-width:600px){                          /* 모바일: 6개 열이 모두 보이게 압축 */
+    .vhistory .hdate br{display:inline}             /* 날짜/시각 두 줄로 접기 */
+    .vhistory .hdate{line-height:1.35}
+    .vhistory table{font-size:11px}
+    .vhistory th{font-size:10px;padding-right:4px}
+    .vhistory td{padding:8px 6px 8px 0}
+    .hverdict{font-size:9.5px;padding:2px 6px}
+    .hcall{font-size:10.5px}
+  }
   .hcall{font-weight:800;font-size:12px}
   .hcall.BUY{color:var(--green)} .hcall.SELL{color:var(--red)} .hcall.HOLD{color:var(--amber)}
   .hverdict{font-size:11px;font-weight:800;border-radius:99px;padding:3px 9px;white-space:nowrap}
@@ -543,9 +553,13 @@
   .pwm-box{background:var(--paper);border-radius:16px;padding:20px;box-shadow:var(--shadow);
     width:100%;max-width:320px}
   .pwm-t{font-size:14px;font-weight:800;color:var(--navy);margin:0 0 12px}
-  .pwm-box input{width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;
-    padding:12px 14px;font:inherit;font-size:16px;letter-spacing:.2em;outline:none}
+  .pwm-inrow{display:flex;gap:8px;align-items:center}
+  .pwm-box input{flex:1;width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;
+    padding:12px 14px;font:inherit;font-size:16px;letter-spacing:.2em;outline:none;min-width:0}
   .pwm-box input:focus{border-color:var(--sky)}
+  .pwm-eye{flex-shrink:0;border:1px solid var(--line2);background:var(--bg);border-radius:10px;
+    width:44px;height:44px;font-size:17px;cursor:pointer}
+  .pwm-eye:active{background:var(--sky-soft)}
   .pwm-btns{display:flex;gap:8px;margin-top:12px}
   .pwm-btns button{flex:1;border:none;border-radius:10px;padding:11px;font:inherit;
     font-weight:700;font-size:13.5px;cursor:pointer}
@@ -891,7 +905,7 @@ function renderHistory(code, curPrice){
       else{ const s=scoreCall(r.call,p); vHtml=`<span class="hverdict hv-${s} tip-r" data-tip="${VERDICT_TIP[s]}">${VERDICT_LABEL[s]}</span>`; }
     }
     html+=`<tr class="${isLatest?'latest':''}">`+
-      `<td class="num">${r.date}</td>`+
+      `<td class="num hdate">${String(r.date).replace(' ','<br>')}</td>`+
       `<td><span class="hcall ${r.call}">${r.call}</span></td>`+
       `<td class="num">${r.confidence}%</td>`+
       `<td class="num">${r.base?won(r.base):'—'}</td>`+
@@ -2552,22 +2566,27 @@ showQuote(resolveStock('제주반도체'));
 /* ============================================================
    비밀번호 입력 모달 — prompt() 대신 ●●● 마스킹 입력.
    관리자 진입과 방문자 글 수정·삭제에 공용으로 쓴다.
+   · 👁 버튼: 마스킹을 잠시 풀어 입력값을 눈으로 확인 (모바일 오타 자가진단)
    ============================================================ */
 window.askPass=function(title){
   return new Promise(res=>{
     const ov=document.createElement('div'); ov.className='pwm';
     ov.innerHTML=`<div class="pwm-box"><p class="pwm-t">${title}</p>
-      <input type="password" autocomplete="off" placeholder="비밀번호">
+      <div class="pwm-inrow"><input type="password" autocomplete="off" placeholder="비밀번호">
+      <button class="pwm-eye" type="button" title="입력값 보기/가리기">👁</button></div>
       <div class="pwm-btns"><button class="pwm-no">취소</button><button class="pwm-ok">확인</button></div></div>`;
     document.body.appendChild(ov);
     const inp=ov.querySelector('input');
-    // 맥 사파리/크롬은 type=password에서 한글 입력기(IME)를 차단한다 —
+    // 맥/iOS 사파리는 type=password에서 한글 입력기(IME)를 차단한다 —
     // 지원 브라우저에선 text + CSS 마스킹(●●●)으로 바꿔 한글 타이핑을 허용.
-    try{
-      if(window.CSS&&CSS.supports&&CSS.supports('-webkit-text-security','disc')){
-        inp.type='text'; inp.style.webkitTextSecurity='disc';
-      }
-    }catch(e){}
+    let masked=true;
+    const canCssMask=(()=>{ try{ return window.CSS&&CSS.supports&&CSS.supports('-webkit-text-security','disc'); }catch(e){ return false; } })();
+    function applyMask(){
+      if(canCssMask){ inp.type='text'; inp.style.webkitTextSecurity=masked?'disc':'none'; }
+      else inp.type=masked?'password':'text';
+    }
+    applyMask();
+    ov.querySelector('.pwm-eye').onclick=()=>{ masked=!masked; applyMask(); inp.focus(); };
     const done=v=>{ ov.remove(); res(v); };
     ov.querySelector('.pwm-ok').onclick=()=>done(inp.value);
     ov.querySelector('.pwm-no').onclick=()=>done(null);
@@ -2579,6 +2598,44 @@ window.askPass=function(title){
     };
     setTimeout(()=>inp.focus(),50);
   });
+};
+
+/* 한글 입력 보정 — 일부 모바일 브라우저는 마스킹 입력칸에서 한글이 조합되지 못하고
+   자모(ㅅㅣㄴㄹㅏ…)로 쪼개져 들어간다. 음절을 자모로 전부 분해한 뒤 다시 조합해
+   "ㅅㅣㄴㄹㅏ123!" / "시ㄴ라123!" / NFD 분해형 등을 모두 "신라123!"으로 정규화한다. */
+window.hangulFix=function(str){
+  const L=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  const V=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+  const T=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  let s=String(str||''); try{ s=s.normalize('NFC'); }catch(e){}
+  const out=[];
+  for(const ch of s){                       // 1) 완성 음절을 자모 스트림으로 분해
+    const c=ch.charCodeAt(0);
+    if(c>=0xAC00&&c<=0xD7A3){
+      const i=c-0xAC00;
+      out.push(L[Math.floor(i/588)], V[Math.floor((i%588)/28)]);
+      const t=i%28; if(t) out.push(T[t]);
+    } else out.push(ch);
+  }
+  const res=[];
+  for(let i=0;i<out.length;i++){            // 2) 그리디 재조합 (L+V+T, 단 T 다음이 모음이면 다음 음절의 초성)
+    const li=L.indexOf(out[i]);
+    if(li>=0&&i+1<out.length){
+      const vi=V.indexOf(out[i+1]);
+      if(vi>=0){
+        let ti=0;
+        if(i+2<out.length){
+          const t2=T.indexOf(out[i+2]);
+          const nextIsV=i+3<out.length&&V.indexOf(out[i+3])>=0;
+          if(t2>0&&!nextIsV){ ti=t2; i++; }
+        }
+        res.push(String.fromCharCode(0xAC00+li*588+vi*28+ti));
+        i++; continue;
+      }
+    }
+    res.push(out[i]);
+  }
+  return res.join('');
 };
 
 /* ============================================================
@@ -2609,7 +2666,11 @@ window.askPass=function(title){
     h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
     return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
   };
-  const pwh=p=>hash('gaeo|'+p);
+  const pwh=p=>{                               // 모바일 자모 분리·분해형 입력까지 동일 해시로 흡수
+    let t=String(p||''); try{ t=t.normalize('NFC'); }catch(e){}
+    t=t.trim(); if(typeof hangulFix==='function') t=hangulFix(t);
+    return hash('gaeo|'+t);
+  };
   let GBURL=null;
   async function gbUrl(){
     if(GBURL!==null) return GBURL;
@@ -2983,12 +3044,13 @@ window.askPass=function(title){
     if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
     const v=await askPass('관리자 비밀번호를 입력하세요');
     if(v===null) return false;
-    let ok=false;
-    // 모바일 입력 보정: 앞뒤 공백 제거 + 한글 분해형(NFD, iOS) → 완성형(NFC) 정규화
-    const t=String(v).normalize?String(v).normalize('NFC').trim():String(v).trim();
-    try{ const e=btoa(encodeURIComponent(t)); ok=(e===PW||e===PW2); }catch(e){}
+    // 모바일 입력 보정 후보군: 공백 제거·NFC 정규화 → 자모 재조합(hangulFix) → 소문자(자동 대문자화 대응)
+    const base=String(v).normalize?String(v).normalize('NFC').trim():String(v).trim();
+    const fixed=(typeof hangulFix==='function')?hangulFix(base):base;
+    const cands=[base, fixed, base.toLowerCase(), fixed.toLowerCase()];
+    const ok=cands.some(t=>{ try{ const e=btoa(encodeURIComponent(t)); return e===PW||e===PW2; }catch(err){ return false; } });
     if(ok){ sessionStorage.setItem('gaeo_admin_ok','1'); return true; }
-    alert('비밀번호가 틀렸어요.');
+    alert('비밀번호가 틀렸어요. 👁 버튼으로 입력값을 확인해보세요.');
     return false;
   }
   let taps=0, tapTimer=null;
