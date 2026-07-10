@@ -1,30 +1,21 @@
 {
- "fetchedAt": "2026-07-09 23:29",
+ "fetchedAt": "2026-07-10 10:26",
  "indices": {
   "KOSPI": {
-   "value": 7291.91,
-   "change": 45.12,
-   "rate": 0.62
+   "value": 7568.45,
+   "change": 276.54,
+   "rate": 3.79
   },
   "KOSDAQ": {
-   "value": 794.0,
-   "change": 9.0,
-   "rate": 1.15
+   "value": 833.59,
+   "change": 39.59,
+   "rate": 4.99
   }
  },
  "stocks": {
   "080220": {
    "name": "제주반도체",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 40950,
-     "high": 41000,
-     "low": 37200,
-     "close": 37900,
-     "volume": 1045693,
-     "frgnRate": 0.0
-    },
     {
      "date": "2026-04-08",
      "open": 41050,
@@ -589,27 +580,36 @@
      "high": 82800,
      "low": 75600,
      "close": 77700,
-     "volume": 1661742,
-     "frgnRate": 4.02
+     "volume": 1678890,
+     "frgnRate": 3.78
+    },
+    {
+     "date": "2026-07-10",
+     "open": 81500,
+     "high": 89500,
+     "low": 78600,
+     "close": 88300,
+     "volume": 930049,
+     "frgnRate": 3.78
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "75,400",
-     "openPrice": "77,100",
-     "highPrice": "82,800",
-     "lowPrice": "75,600",
-     "accumulatedTradingVolume": "1,661,742",
-     "accumulatedTradingValue": "1,314억",
-     "marketValue": "2조 6,762억",
-     "foreignRate": "4.02%",
+     "lastClosePrice": "77,700",
+     "openPrice": "81,500",
+     "highPrice": "89,500",
+     "lowPrice": "78,600",
+     "accumulatedTradingVolume": "930,049",
+     "accumulatedTradingValue": "776억",
+     "marketValue": "3조 413억",
+     "foreignRate": "3.78%",
      "highPriceOf52Weeks": "138,000",
      "lowPriceOf52Weeks": "13,380",
-     "per": "23.63배",
+     "per": "26.86배",
      "eps": "3,288원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "8.58배",
+     "pbr": "9.75배",
      "bps": "9,059원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -619,7 +619,7 @@
       "itemCode": "080220",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "-35,940",
-      "foreignerHoldRatio": "3.92%",
+      "foreignerHoldRatio": "3.78%",
       "organPureBuyQuant": "+97,776",
       "individualPureBuyQuant": "-69,122",
       "closePrice": "77,700",
@@ -629,7 +629,7 @@
        "text": "상승",
        "name": "RISING"
       },
-      "accumulatedTradingVolume": "1,661,742"
+      "accumulatedTradingVolume": "1,678,890"
      },
      {
       "itemCode": "080220",
@@ -702,15 +702,6 @@
   "005930": {
    "name": "삼성전자",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 202000,
-     "high": 202500,
-     "low": 192400,
-     "close": 196500,
-     "volume": 30848053,
-     "frgnRate": 48.4
-    },
     {
      "date": "2026-04-08",
      "open": 214000,
@@ -1275,34 +1266,43 @@
      "high": 291500,
      "low": 267500,
      "close": 278000,
-     "volume": 28796159,
-     "frgnRate": 46.55
+     "volume": 29703616,
+     "frgnRate": 46.57
+    },
+    {
+     "date": "2026-07-10",
+     "open": 291000,
+     "high": 291000,
+     "low": 282000,
+     "close": 290250,
+     "volume": 7561688,
+     "frgnRate": 46.57
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "277,500",
-     "openPrice": "279,500",
-     "highPrice": "291,500",
-     "lowPrice": "267,500",
-     "accumulatedTradingVolume": "52,862,438",
-     "accumulatedTradingValue": "14조 8,356억",
-     "marketValue": "1,625조 2,655억",
-     "foreignRate": "46.55%",
+     "lastClosePrice": "278,000",
+     "openPrice": "285,000",
+     "highPrice": "292,000",
+     "lowPrice": "282,000",
+     "accumulatedTradingVolume": "14,297,799",
+     "accumulatedTradingValue": "4조 1,066억",
+     "marketValue": "1,696조 8,824억",
+     "foreignRate": "46.57%",
      "highPriceOf52Weeks": "380,000",
-     "lowPriceOf52Weeks": "60,400",
-     "per": "22.47배",
+     "lowPriceOf52Weeks": "61,100",
+     "per": "23.46배",
      "eps": "12,372원",
-     "cnsPer": "5.96배",
+     "cnsPer": "6.22배",
      "cnsEps": "46,664원",
-     "pbr": "3.87배",
+     "pbr": "4.04배",
      "bps": "71,907원",
-     "dividendYieldRatio": "0.60%",
+     "dividendYieldRatio": "0.58%",
      "dividend": "1,668원"
     },
     "consensus": {
      "itemCode": "005930",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.04",
      "priceTargetMean": "513,958"
     },
@@ -1311,7 +1311,7 @@
       "itemCode": "005930",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+845,552",
-      "foreignerHoldRatio": "46.56%",
+      "foreignerHoldRatio": "46.57%",
       "organPureBuyQuant": "+1,107,761",
       "individualPureBuyQuant": "-1,739,937",
       "closePrice": "278,000",
@@ -1321,7 +1321,7 @@
        "text": "상승",
        "name": "RISING"
       },
-      "accumulatedTradingVolume": "28,796,159"
+      "accumulatedTradingVolume": "29,703,616"
      },
      {
       "itemCode": "005930",
@@ -1394,15 +1394,6 @@
   "000660": {
    "name": "SK하이닉스",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 917000,
-     "high": 933000,
-     "low": 888000,
-     "close": 916000,
-     "volume": 3619929,
-     "frgnRate": 52.71
-    },
     {
      "date": "2026-04-08",
      "open": 1007000,
@@ -1967,34 +1958,43 @@
      "high": 2270000,
      "low": 2091000,
      "close": 2186000,
-     "volume": 5615826,
-     "frgnRate": 50.05
+     "volume": 6261504,
+     "frgnRate": 50.01
+    },
+    {
+     "date": "2026-07-10",
+     "open": 2296000,
+     "high": 2305000,
+     "low": 2166000,
+     "close": 2219000,
+     "volume": 1984343,
+     "frgnRate": 50.01
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "2,076,000",
-     "openPrice": "2,160,000",
-     "highPrice": "2,270,000",
-     "lowPrice": "2,091,000",
-     "accumulatedTradingVolume": "10,091,533",
-     "accumulatedTradingValue": "22조 1,428억",
-     "marketValue": "1,557조 9,674억",
-     "foreignRate": "50.05%",
+     "lastClosePrice": "2,186,000",
+     "openPrice": "2,274,000",
+     "highPrice": "2,337,000",
+     "lowPrice": "2,166,000",
+     "accumulatedTradingVolume": "3,606,267",
+     "accumulatedTradingValue": "8조 710억",
+     "marketValue": "1,581조 4,865억",
+     "foreignRate": "50.01%",
      "highPriceOf52Weeks": "3,002,000",
      "lowPriceOf52Weeks": "244,000",
-     "per": "21.12배",
+     "per": "21.44배",
      "eps": "103,521원",
-     "cnsPer": "6.90배",
-     "cnsEps": "316,656원",
-     "pbr": "9.19배",
+     "cnsPer": "6.96배",
+     "cnsEps": "318,735원",
+     "pbr": "9.33배",
      "bps": "237,789원",
      "dividendYieldRatio": "0.14%",
      "dividend": "3,000원"
     },
     "consensus": {
      "itemCode": "000660",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
      "priceTargetMean": "3,547,917"
     },
@@ -2003,7 +2003,7 @@
       "itemCode": "000660",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "-209,485",
-      "foreignerHoldRatio": "50.02%",
+      "foreignerHoldRatio": "50.01%",
       "organPureBuyQuant": "+404,365",
       "individualPureBuyQuant": "-179,724",
       "closePrice": "2,186,000",
@@ -2013,7 +2013,7 @@
        "text": "상승",
        "name": "RISING"
       },
-      "accumulatedTradingVolume": "5,615,826"
+      "accumulatedTradingVolume": "6,261,504"
      },
      {
       "itemCode": "000660",
@@ -2086,15 +2086,6 @@
   "402340": {
    "name": "SK스퀘어",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 497500,
-     "high": 515000,
-     "low": 488500,
-     "close": 499000,
-     "volume": 334107,
-     "frgnRate": 49.75
-    },
     {
      "date": "2026-04-08",
      "open": 558000,
@@ -2659,34 +2650,43 @@
      "high": 1385000,
      "low": 1258000,
      "close": 1327000,
-     "volume": 924212,
-     "frgnRate": 45.4
+     "volume": 935212,
+     "frgnRate": 45.49
+    },
+    {
+     "date": "2026-07-10",
+     "open": 1437000,
+     "high": 1438000,
+     "low": 1351000,
+     "close": 1395000,
+     "volume": 297900,
+     "frgnRate": 45.49
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "1,270,000",
-     "openPrice": "1,230,000",
-     "highPrice": "1,385,000",
-     "lowPrice": "1,230,000",
-     "accumulatedTradingVolume": "1,354,266",
-     "accumulatedTradingValue": "1조 7,933억",
-     "marketValue": "175조 1,088억",
-     "foreignRate": "45.40%",
+     "lastClosePrice": "1,327,000",
+     "openPrice": "1,419,000",
+     "highPrice": "1,455,000",
+     "lowPrice": "1,351,000",
+     "accumulatedTradingVolume": "474,512",
+     "accumulatedTradingValue": "6,643억",
+     "marketValue": "184조 819억",
+     "foreignRate": "45.49%",
      "highPriceOf52Weeks": "2,338,000",
      "lowPriceOf52Weeks": "130,900",
-     "per": "11.27배",
+     "per": "11.85배",
      "eps": "117,759원",
-     "cnsPer": "4.52배",
+     "cnsPer": "4.75배",
      "cnsEps": "293,498원",
-     "pbr": "4.85배",
+     "pbr": "5.10배",
      "bps": "273,614원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
     },
     "consensus": {
      "itemCode": "402340",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
      "priceTargetMean": "1,810,000"
     },
@@ -2695,7 +2695,7 @@
       "itemCode": "402340",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+110,135",
-      "foreignerHoldRatio": "45.48%",
+      "foreignerHoldRatio": "45.49%",
       "organPureBuyQuant": "-55,186",
       "individualPureBuyQuant": "-56,258",
       "closePrice": "1,327,000",
@@ -2705,7 +2705,7 @@
        "text": "상승",
        "name": "RISING"
       },
-      "accumulatedTradingVolume": "924,212"
+      "accumulatedTradingVolume": "935,212"
      },
      {
       "itemCode": "402340",
@@ -2778,15 +2778,6 @@
   "009150": {
    "name": "삼성전기",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 475000,
-     "high": 476500,
-     "low": 450000,
-     "close": 457000,
-     "volume": 505864,
-     "frgnRate": 38.95
-    },
     {
      "date": "2026-04-08",
      "open": 490000,
@@ -3351,43 +3342,52 @@
      "high": 1586000,
      "low": 1418000,
      "close": 1493000,
-     "volume": 977276,
-     "frgnRate": 39.73
+     "volume": 981955,
+     "frgnRate": 39.89
+    },
+    {
+     "date": "2026-07-10",
+     "open": 1599000,
+     "high": 1634000,
+     "low": 1531000,
+     "close": 1621000,
+     "volume": 332461,
+     "frgnRate": 39.89
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "1,479,000",
-     "openPrice": "1,440,000",
-     "highPrice": "1,586,000",
-     "lowPrice": "1,418,000",
-     "accumulatedTradingVolume": "1,595,638",
-     "accumulatedTradingValue": "2조 3,981억",
-     "marketValue": "111조 5,177억",
-     "foreignRate": "39.73%",
+     "lastClosePrice": "1,493,000",
+     "openPrice": "1,533,000",
+     "highPrice": "1,634,000",
+     "lowPrice": "1,531,000",
+     "accumulatedTradingVolume": "600,857",
+     "accumulatedTradingValue": "9,530억",
+     "marketValue": "121조 785억",
+     "foreignRate": "39.89%",
      "highPriceOf52Weeks": "2,417,000",
      "lowPriceOf52Weeks": "132,500",
-     "per": "141.02배",
+     "per": "153.11배",
      "eps": "10,587원",
-     "cnsPer": "86.59배",
-     "cnsEps": "17,242원",
-     "pbr": "11.49배",
+     "cnsPer": "93.98배",
+     "cnsEps": "17,249원",
+     "pbr": "12.48배",
      "bps": "129,912원",
-     "dividendYieldRatio": "0.16%",
+     "dividendYieldRatio": "0.15%",
      "dividend": "2,350원"
     },
     "consensus": {
      "itemCode": "009150",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
-     "priceTargetMean": "2,453,500"
+     "priceTargetMean": "2,470,000"
     },
     "dealTrends": [
      {
       "itemCode": "009150",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+128,689",
-      "foreignerHoldRatio": "39.90%",
+      "foreignerHoldRatio": "39.89%",
       "organPureBuyQuant": "-99,466",
       "individualPureBuyQuant": "-26,898",
       "closePrice": "1,493,000",
@@ -3397,7 +3397,7 @@
        "text": "상승",
        "name": "RISING"
       },
-      "accumulatedTradingVolume": "977,276"
+      "accumulatedTradingVolume": "981,955"
      },
      {
       "itemCode": "009150",
@@ -3470,15 +3470,6 @@
   "009155": {
    "name": "삼성전기우",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 179600,
-     "high": 179800,
-     "low": 170600,
-     "close": 173800,
-     "volume": 13223,
-     "frgnRate": 25.38
-    },
     {
      "date": "2026-04-08",
      "open": 180200,
@@ -4043,43 +4034,52 @@
      "high": 563000,
      "low": 502000,
      "close": 536000,
-     "volume": 58347,
-     "frgnRate": 26.26
+     "volume": 58735,
+     "frgnRate": 26.39
+    },
+    {
+     "date": "2026-07-10",
+     "open": 572000,
+     "high": 578000,
+     "low": 541000,
+     "close": 571000,
+     "volume": 19556,
+     "frgnRate": 26.39
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "539,000",
-     "openPrice": "545,000",
-     "highPrice": "563,000",
-     "lowPrice": "502,000",
-     "accumulatedTradingVolume": "58,347",
-     "accumulatedTradingValue": "313억",
-     "marketValue": "1조 5,581억",
-     "foreignRate": "26.26%",
+     "lastClosePrice": "536,000",
+     "openPrice": "572,000",
+     "highPrice": "578,000",
+     "lowPrice": "541,000",
+     "accumulatedTradingVolume": "19,556",
+     "accumulatedTradingValue": "110억",
+     "marketValue": "1조 6,599억",
+     "foreignRate": "26.39%",
      "highPriceOf52Weeks": "1,008,000",
      "lowPriceOf52Weeks": "61,500",
-     "per": "50.63배",
+     "per": "53.93배",
      "eps": "10,587원",
-     "cnsPer": "31.09배",
-     "cnsEps": "17,242원",
-     "pbr": "4.13배",
+     "cnsPer": "33.10배",
+     "cnsEps": "17,249원",
+     "pbr": "4.40배",
      "bps": "129,912원",
-     "dividendYieldRatio": "0.45%",
+     "dividendYieldRatio": "0.42%",
      "dividend": "2,400원"
     },
     "consensus": {
      "itemCode": "009155",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
-     "priceTargetMean": "2,453,500"
+     "priceTargetMean": "2,470,000"
     },
     "dealTrends": [
      {
       "itemCode": "009155",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+3,699",
-      "foreignerHoldRatio": "26.39%",
+      "foreignerHoldRatio": "26.40%",
       "organPureBuyQuant": "+1,658",
       "individualPureBuyQuant": "-5,819",
       "closePrice": "536,000",
@@ -4089,7 +4089,7 @@
        "text": "하락",
        "name": "FALLING"
       },
-      "accumulatedTradingVolume": "58,347"
+      "accumulatedTradingVolume": "58,735"
      },
      {
       "itemCode": "009155",
@@ -4162,15 +4162,6 @@
   "011070": {
    "name": "LG이노텍",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 342000,
-     "high": 345500,
-     "low": 320000,
-     "close": 325500,
-     "volume": 199722,
-     "frgnRate": 31.99
-    },
     {
      "date": "2026-04-08",
      "open": 348500,
@@ -4736,25 +4727,34 @@
      "low": 702000,
      "close": 741000,
      "volume": 397540,
-     "frgnRate": 25.24
+     "frgnRate": 25.79
+    },
+    {
+     "date": "2026-07-10",
+     "open": 753000,
+     "high": 768000,
+     "low": 723000,
+     "close": 741000,
+     "volume": 117118,
+     "frgnRate": 25.79
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "763,000",
-     "openPrice": "730,000",
-     "highPrice": "792,000",
-     "lowPrice": "702,000",
-     "accumulatedTradingVolume": "552,062",
-     "accumulatedTradingValue": "4,106억",
+     "lastClosePrice": "741,000",
+     "openPrice": "765,000",
+     "highPrice": "769,000",
+     "lowPrice": "723,000",
+     "accumulatedTradingVolume": "193,174",
+     "accumulatedTradingValue": "1,434억",
      "marketValue": "17조 5,373억",
-     "foreignRate": "25.24%",
+     "foreignRate": "25.79%",
      "highPriceOf52Weeks": "1,814,000",
      "lowPriceOf52Weeks": "148,500",
      "per": "36.17배",
      "eps": "20,484원",
-     "cnsPer": "20.42배",
-     "cnsEps": "36,293원",
+     "cnsPer": "20.23배",
+     "cnsEps": "36,622원",
      "pbr": "2.88배",
      "bps": "256,962원",
      "dividendYieldRatio": "0.25%",
@@ -4762,16 +4762,16 @@
     },
     "consensus": {
      "itemCode": "011070",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
-     "priceTargetMean": "1,225,150"
+     "priceTargetMean": "1,219,190"
     },
     "dealTrends": [
      {
       "itemCode": "011070",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+125,249",
-      "foreignerHoldRatio": "25.77%",
+      "foreignerHoldRatio": "25.79%",
       "organPureBuyQuant": "-72,879",
       "individualPureBuyQuant": "-47,588",
       "closePrice": "741,000",
@@ -4854,15 +4854,6 @@
   "267260": {
    "name": "HD현대일렉트릭",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 907000,
-     "high": 915000,
-     "low": 883000,
-     "close": 891000,
-     "volume": 58022,
-     "frgnRate": 36.79
-    },
     {
      "date": "2026-04-08",
      "open": 962000,
@@ -5428,33 +5419,42 @@
      "low": 780000,
      "close": 815000,
      "volume": 252571,
-     "frgnRate": 34.33
+     "frgnRate": 34.35
+    },
+    {
+     "date": "2026-07-10",
+     "open": 841000,
+     "high": 856000,
+     "low": 833000,
+     "close": 850000,
+     "volume": 31569,
+     "frgnRate": 34.35
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "814,000",
-     "openPrice": "783,000",
-     "highPrice": "840,000",
-     "lowPrice": "780,000",
-     "accumulatedTradingVolume": "325,925",
-     "accumulatedTradingValue": "2,655억",
-     "marketValue": "29조 3,784억",
-     "foreignRate": "34.33%",
+     "lastClosePrice": "815,000",
+     "openPrice": "826,000",
+     "highPrice": "856,000",
+     "lowPrice": "826,000",
+     "accumulatedTradingVolume": "51,479",
+     "accumulatedTradingValue": "435억",
+     "marketValue": "30조 6,401억",
+     "foreignRate": "34.35%",
      "highPriceOf52Weeks": "1,449,000",
      "lowPriceOf52Weeks": "433,500",
-     "per": "37.35배",
+     "per": "38.95배",
      "eps": "21,822원",
-     "cnsPer": "30.16배",
+     "cnsPer": "31.46배",
      "cnsEps": "27,022원",
-     "pbr": "14.11배",
+     "pbr": "14.71배",
      "bps": "57,779원",
-     "dividendYieldRatio": "0.87%",
+     "dividendYieldRatio": "0.84%",
      "dividend": "7,100원"
     },
     "consensus": {
      "itemCode": "267260",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "4.00",
      "priceTargetMean": "1,487,692"
     },
@@ -5463,7 +5463,7 @@
       "itemCode": "267260",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+6,026",
-      "foreignerHoldRatio": "34.34%",
+      "foreignerHoldRatio": "34.35%",
       "organPureBuyQuant": "-1,673",
       "individualPureBuyQuant": "-4,110",
       "closePrice": "815,000",
@@ -5546,15 +5546,6 @@
   "005380": {
    "name": "현대차",
    "daily": [
-    {
-     "date": "2026-04-07",
-     "open": 477000,
-     "high": 481500,
-     "low": 465500,
-     "close": 473000,
-     "volume": 704114,
-     "frgnRate": 27.79
-    },
     {
      "date": "2026-04-08",
      "open": 500000,
@@ -6120,33 +6111,42 @@
      "low": 433500,
      "close": 445500,
      "volume": 1131600,
-     "frgnRate": 24.9
+     "frgnRate": 24.92
+    },
+    {
+     "date": "2026-07-10",
+     "open": 448000,
+     "high": 465500,
+     "low": 447500,
+     "close": 463500,
+     "volume": 283600,
+     "frgnRate": 24.92
     }
    ],
    "info": {
     "totalInfos": {
-     "lastClosePrice": "462,500",
-     "openPrice": "446,000",
-     "highPrice": "463,500",
-     "lowPrice": "433,500",
-     "accumulatedTradingVolume": "1,863,953",
-     "accumulatedTradingValue": "8,326억",
-     "marketValue": "91조 2,196억",
-     "foreignRate": "24.90%",
+     "lastClosePrice": "445,500",
+     "openPrice": "450,000",
+     "highPrice": "465,500",
+     "lowPrice": "447,000",
+     "accumulatedTradingVolume": "535,622",
+     "accumulatedTradingValue": "2,450억",
+     "marketValue": "94조 9,052억",
+     "foreignRate": "24.92%",
      "highPriceOf52Weeks": "787,000",
      "lowPriceOf52Weeks": "204,000",
-     "per": "13.73배",
+     "per": "14.29배",
      "eps": "32,437원",
-     "cnsPer": "11.38배",
-     "cnsEps": "39,145원",
-     "pbr": "0.98배",
+     "cnsPer": "11.82배",
+     "cnsEps": "39,226원",
+     "pbr": "1.02배",
      "bps": "456,242원",
-     "dividendYieldRatio": "2.25%",
+     "dividendYieldRatio": "2.16%",
      "dividend": "10,000원"
     },
     "consensus": {
      "itemCode": "005380",
-     "createDate": "2026-07-08",
+     "createDate": "2026-07-09",
      "recommMean": "3.96",
      "priceTargetMean": "812,800"
     },
@@ -6155,7 +6155,7 @@
       "itemCode": "005380",
       "bizdate": "20260709",
       "foreignerPureBuyQuant": "+6,753",
-      "foreignerHoldRatio": "24.90%",
+      "foreignerHoldRatio": "24.92%",
       "organPureBuyQuant": "+67,202",
       "individualPureBuyQuant": "-67,448",
       "closePrice": "445,500",
