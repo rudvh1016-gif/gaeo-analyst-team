@@ -1,0 +1,21 @@
+# 임시 점검용 — 외부 의존 서비스(조회수 카운터·게시판 저장소) 상태/CORS 실측 후 삭제 예정
+name: healthcheck
+on:
+  push:
+    paths: [".github/workflows/healthcheck.yml"]
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: external services check
+        run: |
+          O="Origin: https://rudvh1016-gif.github.io"
+          echo "===== 1) counterapi.dev (조회수) ====="
+          curl -sD - -o /tmp/c -H "$O" "https://api.counterapi.dev/v1/rudvh1016-gif-gaeo/site-visits" | tr -d '\r' | grep -iE "^HTTP|access-control|content-type" || true
+          echo "-- body:"; head -c 200 /tmp/c; echo
+          echo "===== 2) kvdb 게시판 왕복 (쓰기→목록→삭제) ====="
+          B="https://kvdb.io/KaeHHrQpPJzMyyCaKCdD2b"
+          curl -sD - -o /dev/null -X PUT "$B/post:selftest" -H "$O" -d '{"name":"셀프테스트","date":"2026-07-10 17:30","ts":1,"text":"헬스체크","pw":"x"}' | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+          curl -s "$B/?values=true&format=json" | head -c 300; echo
+          curl -sD - -o /dev/null -X DELETE "$B/post:selftest" -H "$O" | tr -d '\r' | grep -iE "^HTTP" || true
+          echo "-- 삭제 후 목록:"; curl -s "$B/?values=true&format=json" | head -c 200; echo
