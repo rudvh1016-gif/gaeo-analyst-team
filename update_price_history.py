@@ -52,15 +52,22 @@ def fetch_daily_closes(code, start, end):
     return out
 
 def add_to_pages(pages, new_entries):
-    """new_entries(날짜 오름차순)를 페이지에 병합. 이미 있는 날짜는 건너뛴다."""
-    existing = {d["date"] for p in pages for d in p["days"]}
+    """new_entries(날짜 오름차순)를 페이지에 병합.
+    이미 있는 날짜는 종가를 최신 값으로 갱신한다 — 장중(10분 주기) 실행이 기록한
+    중간 가격이 마감 후 실행에서 진짜 종가로 확정되도록 (과거엔 그날 첫 실행의
+    장중가가 종가로 영구 고정되는 버그가 있었다)."""
+    existing = {}
+    for p in pages:
+        for d in p["days"]:
+            existing[d["date"]] = d
     for e in new_entries:
         if e["date"] in existing:
+            existing[e["date"]]["close"] = e["close"]   # 같은 날짜 → 값 갱신
             continue
         if not pages or len(pages[-1]["days"]) >= PAGE_SIZE:
             pages.append({"page": len(pages) + 1, "days": []})
         pages[-1]["days"].append(e)
-        existing.add(e["date"])
+        existing[e["date"]] = pages[-1]["days"][-1]
     for p in pages:
         if p["days"]:
             p["start"] = p["days"][0]["date"]

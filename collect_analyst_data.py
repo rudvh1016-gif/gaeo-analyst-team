@@ -10,7 +10,7 @@
   · daily   — 최근 3개월 일봉 [날짜, 시가, 고가, 저가, 종가, 거래량, 외국인소진율]
   · info    — m.stock 통합 API의 totalInfos(PER/PBR/EPS/BPS/배당/52주 등)
   · consensus — 통합 API의 컨센서스(목표주가/투자의견) 있으면
-  · flow    — frgn 페이지 파싱: 최근 거래일별 기관/외국인 순매매·보유율
+  · dealTrends — 통합 API의 최근 거래일별 외인/기관/개인 순매매·보유율(수급, FLOW용)
 실행: python3 collect_analyst_data.py  →  analysis_data.json
 """
 import json, re, os, sys, time, datetime, urllib.request
@@ -74,28 +74,8 @@ def fetch_integration(code):
     return out
 
 
-def fetch_flow(code, pages=2):
-    """frgn.naver 표 파싱 → [{date, close, inst, frgn, holdQty, holdRate}] 최신순."""
-    rows = []
-    for p in range(1, pages + 1):
-        html = get(f"https://finance.naver.com/item/frgn.naver?code={code}&page={p}", as_json=False)
-        for tr in re.finditer(r"<tr[^>]*onmouseover[^>]*>(.*?)</tr>", html, re.S):
-            tds = re.findall(r"<td[^>]*>(.*?)</td>", tr.group(1), re.S)
-            txt = [re.sub(r"<[^>]+>", "", t).strip().replace(",", "").replace("&nbsp;", "") for t in tds]
-            if len(txt) < 9 or not re.match(r"^\d{4}\.\d{2}\.\d{2}$", txt[0]):
-                continue
-            try:
-                rows.append({
-                    "date": txt[0].replace(".", "-"),
-                    "close": int(txt[1]),
-                    "inst": int(txt[5].replace("+", "")),
-                    "frgn": int(txt[6].replace("+", "")),
-                    "holdQty": int(txt[7]),
-                    "holdRate": float(txt[8].replace("%", "")),
-                })
-            except (ValueError, IndexError):
-                continue
-    return rows
+# (구) fetch_flow: frgn.naver HTML 파싱은 네이버 마크업 변경으로 항상 0건이라 제거.
+# 수급 데이터는 fetch_integration의 dealTrendInfos(최근 거래일별 외인/기관/개인 순매매·보유율)가 담당한다.
 
 
 def fetch_indices():
@@ -120,7 +100,7 @@ def main():
     fail = []
     for code, name in codes.items():
         entry = {"name": name}
-        for key, fn in (("daily", fetch_daily), ("info", fetch_integration), ("flow", fetch_flow)):
+        for key, fn in (("daily", fetch_daily), ("info", fetch_integration)):
             try:
                 entry[key] = fn(code)
             except Exception as e:
@@ -129,11 +109,12 @@ def main():
                 fail.append(f"{name}:{key}")
         data["stocks"][code] = entry
         d = entry.get("daily") or []
-        print(f"[OK] {name}({code}) 일봉 {len(d)}건, 수급 {len(entry.get('flow') or [])}건")
+        dt = (entry.get("info") or {}).get("dealTrends") or []
+        print(f"[OK] {name}({code}) 일봉 {len(d)}건, 수급(dealTrends) {len(dt)}건")
     with open(os.path.join(HERE, "analysis_data.json"), "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
     print(f"\nanalysis_data.json 저장 완료 ({data['fetchedAt']})" + (f" · 실패: {fail}" if fail else ""))
-    sys.exit(1 if len(fail) >= len(codes) * 3 else 0)
+    sys.exit(1 if len(fail) >= len(codes) * 2 else 0)
 
 
 if __name__ == "__main__":
