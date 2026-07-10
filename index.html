@@ -606,6 +606,10 @@
   .mk-day-sum{font-size:11.5px;color:var(--dim)}
   .mk-day-head .mk-arrow{transition:transform .2s}
   .mk-day.open .mk-day-head .mk-arrow{transform:rotate(90deg)}
+  .mk-click{margin-left:auto;display:flex;align-items:center;gap:4px;flex-shrink:0;
+    font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+    border-radius:99px;padding:3px 10px}
+  .mk-click .mk-arrow{margin-left:0;color:var(--sky)}
   .mk-day-body{display:none;padding:11px 14px;background:var(--paper)}
   .mk-day.open .mk-day-body{display:block}
   @media(max-width:600px){
@@ -1244,7 +1248,7 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
           <button class="mk-day-head" data-mkd="${day}">
             <b>${esc(day)}</b>
             <span class="mk-day-sum">코스피 ${rateTag(m.kospi)} · 코스닥 ${rateTag(m.kosdaq)}</span>
-            <span class="mk-arrow">▸</span></button>
+            <span class="mk-click">클릭 <span class="mk-arrow">▸</span></span></button>
           <div class="mk-day-body">`+
             (m.text?`<p class="mk-text">${esc(m.text)}</p>`:'')+
             (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
@@ -2464,7 +2468,11 @@ window.askPass=function(title){
     ov.querySelector('.pwm-ok').onclick=()=>done(inp.value);
     ov.querySelector('.pwm-no').onclick=()=>done(null);
     ov.onclick=e=>{ if(e.target===ov) done(null); };
-    inp.onkeydown=e=>{ if(e.key==='Enter') done(inp.value); if(e.key==='Escape') done(null); };
+    inp.onkeydown=e=>{
+      if(e.isComposing||e.keyCode===229) return;          // 한글 조합 중 엔터는 무시(미완성 입력 방지)
+      if(e.key==='Enter') done(inp.value);
+      if(e.key==='Escape') done(null);
+    };
     setTimeout(()=>inp.focus(),50);
   });
 };
@@ -2865,13 +2873,15 @@ window.askPass=function(title){
   }
 
   // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호(●●● 마스킹) 필요
-  const PW='JUVDJThCJUEwJUVCJTlEJUJDMTIzIQ==';   // 인코딩된 관리자 비밀번호
+  const PW='JUVDJThCJUEwJUVCJTlEJUJDMTIzIQ==';   // 인코딩된 관리자 비밀번호 (신라123!)
   async function unlock(){
     if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
     const v=await askPass('관리자 비밀번호를 입력하세요');
     if(v===null) return false;
     let ok=false;
-    try{ ok=btoa(encodeURIComponent(v))===PW; }catch(e){}
+    // 모바일 입력 보정: 앞뒤 공백 제거 + 한글 분해형(NFD, iOS) → 완성형(NFC) 정규화
+    const t=String(v).normalize?String(v).normalize('NFC').trim():String(v).trim();
+    try{ ok=btoa(encodeURIComponent(t))===PW; }catch(e){}
     if(ok){ sessionStorage.setItem('gaeo_admin_ok','1'); return true; }
     alert('비밀번호가 틀렸어요.');
     return false;
