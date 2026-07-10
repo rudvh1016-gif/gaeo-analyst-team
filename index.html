@@ -2766,7 +2766,9 @@ window.hangulFix=function(str){
       if(!await verify(p)) return;
       if(!confirm('이 글을 삭제할까요?')) return;
       try{ await gbDel(p.id); }catch(e){ return alert('삭제 실패 — 다시 시도해주세요.'); }
-      gbRefresh();
+      // 저장소 반영이 1~3초 지연되므로: 화면에서 먼저 지우고(낙관적), 새로고침은 늦춰서
+      const card=btn.closest('.cm-post'); if(card) card.remove();
+      setTimeout(gbRefresh, 2500);
     });
     list.querySelectorAll('[data-gbe]').forEach(btn=>btn.onclick=async()=>{
       const p=byId(btn.dataset.gbe); if(!p) return gbRefresh();
@@ -2781,7 +2783,9 @@ window.hangulFix=function(str){
         if(!t) return alert('내용을 입력하세요.');
         const upd={name:p.name,date:p.date,ts:p.ts,text:t.slice(0,500),pw:p.pw,edited:true};
         try{ await gbPut(p.id,upd); }catch(e){ return alert('저장 실패 — 다시 시도해주세요.'); }
-        gbRefresh();
+        // 화면에 먼저 반영(낙관적), 저장소 새로고침은 반영 지연 후
+        box.innerHTML=esc(upd.text);
+        setTimeout(gbRefresh, 2500);
       };
     });
   }
@@ -2824,9 +2828,24 @@ window.hangulFix=function(str){
       const post={name:name.slice(0,20),date:now(),ts:Date.now(),text:text.slice(0,500),pw:pwh(pw)};
       try{ await gbPut(newId(),post); }catch(e){ st.textContent='❌ 올리기 실패 — 잠시 후 다시 시도해주세요.'; return; }
       document.getElementById('gbText').value='';
-      st.textContent='✅ 올렸어요!';
-      gbRefresh();
+      st.textContent='✅ 올렸어요! (목록에 잠시 후 나타나요)';
+      // 저장소 반영 지연을 감안해 조금 늦게 새로고침 (그 사이 화면에 즉시 추가)
+      const listEl=document.getElementById('gbList');
+      if(listEl){
+        const empty=listEl.querySelector('.cm-empty'); if(empty) empty.remove();
+        listEl.insertAdjacentHTML('afterbegin',`<div class="cm-post">
+          <div class="cm-head"><span class="cm-name">${esc(post.name)}</span><span class="cm-date">${esc(post.date)}</span></div>
+          <div class="cm-text">${esc(post.text)}</div></div>`);
+      }
+      setTimeout(gbRefresh, 2500);
     };
+    // 비밀번호 칸: 맥/iOS의 한글 입력기 차단을 피하기 위해 text + CSS 마스킹(●●●)으로 전환
+    try{
+      const pwIn=document.getElementById('gbPw');
+      if(pwIn && window.CSS && CSS.supports && CSS.supports('-webkit-text-security','disc')){
+        pwIn.type='text'; pwIn.style.webkitTextSecurity='disc';
+      }
+    }catch(e){}
     gbRefresh();
   };
 })();

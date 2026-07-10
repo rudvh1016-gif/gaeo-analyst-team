@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-07-10 20:25",
+ "fetchedAt": "2026-07-10 21:11",
  "indices": {
   "KOSPI": {
    "value": 7475.94,
@@ -696,8 +696,7 @@
       "accumulatedTradingVolume": "1,335,206"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "005930": {
    "name": "삼성전자",
@@ -1388,8 +1387,7 @@
       "accumulatedTradingVolume": "23,872,879"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "000660": {
    "name": "SK하이닉스",
@@ -2080,8 +2078,7 @@
       "accumulatedTradingVolume": "4,235,360"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "402340": {
    "name": "SK스퀘어",
@@ -2772,8 +2769,7 @@
       "accumulatedTradingVolume": "864,911"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "009150": {
    "name": "삼성전기",
@@ -3464,8 +3460,7 @@
       "accumulatedTradingVolume": "820,561"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "009155": {
    "name": "삼성전기우",
@@ -4156,8 +4151,7 @@
       "accumulatedTradingVolume": "49,116"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "011070": {
    "name": "LG이노텍",
@@ -4848,8 +4842,7 @@
       "accumulatedTradingVolume": "201,927"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "267260": {
    "name": "HD현대일렉트릭",
@@ -5540,8 +5533,7 @@
       "accumulatedTradingVolume": "120,900"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "010120": {
    "name": "LS일렉트릭",
@@ -6234,8 +6226,7 @@
       "accumulatedTradingVolume": "784,904"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "005380": {
    "name": "현대차",
@@ -6926,8 +6917,7 @@
       "accumulatedTradingVolume": "793,947"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "042700": {
    "name": "한미반도체",
@@ -7618,8 +7608,7 @@
       "accumulatedTradingVolume": "621,690"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "007660": {
    "name": "이수페타시스",
@@ -8310,8 +8299,7 @@
       "accumulatedTradingVolume": "925,407"
      }
     ]
-   },
-   "flow": []
+   }
   },
   "017670": {
    "name": "SK텔레콤",
@@ -9002,8 +8990,7 @@
       "accumulatedTradingVolume": "816,843"
      }
     ]
-   },
-   "flow": []
+   }
   }
  }
 }
