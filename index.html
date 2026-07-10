@@ -501,6 +501,39 @@
   .cm-sec{font-size:13px;font-weight:800;color:var(--navy);margin:22px 0 10px}
   .cm-guest{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
   .cm-guest .cm-hint{font-size:12px;color:var(--dim);line-height:1.6;margin:0 0 10px}
+  .cm-form{display:flex;gap:8px;margin:0 0 8px;flex-wrap:wrap}
+  .cm-form input{flex:1;min-width:130px;border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;font:inherit;font-size:13px;background:var(--bg);outline:none}
+  .cm-form input:focus{border-color:var(--sky)}
+  .cm-guest textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;font:inherit;font-size:13px;background:var(--bg);resize:vertical;
+    box-sizing:border-box;outline:none}
+  .cm-guest textarea:focus{border-color:var(--sky)}
+  .gb-btn{margin-top:8px;border:none;border-radius:10px;padding:11px 22px;font:inherit;
+    font-weight:700;font-size:13.5px;color:#fff;cursor:pointer;
+    background:linear-gradient(180deg,#125388,var(--navy))}
+  .gb-status{font-size:12px;color:var(--dim);margin-top:7px;min-height:1em}
+  .gb-actions{margin-left:auto;display:flex;gap:4px;flex-shrink:0}
+  .gb-actions button{border:none;background:var(--bg);border-radius:7px;padding:4px 8px;
+    font-size:11px;cursor:pointer;color:var(--dim);font-family:inherit}
+  .gb-actions button:hover{color:var(--ink);background:var(--sky-soft)}
+  .gb-editbox{width:100%;min-height:60px;border:1px solid var(--sky);border-radius:10px;
+    padding:9px 11px;font:inherit;font-size:13px;box-sizing:border-box;resize:vertical}
+
+  /* ── 비밀번호 입력 모달 (●●● 마스킹) ── */
+  .pwm{position:fixed;inset:0;z-index:200;background:rgba(8,47,82,.45);
+    display:flex;align-items:center;justify-content:center;padding:20px}
+  .pwm-box{background:var(--paper);border-radius:16px;padding:20px;box-shadow:var(--shadow);
+    width:100%;max-width:320px}
+  .pwm-t{font-size:14px;font-weight:800;color:var(--navy);margin:0 0 12px}
+  .pwm-box input{width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;
+    padding:12px 14px;font:inherit;font-size:16px;letter-spacing:.2em;outline:none}
+  .pwm-box input:focus{border-color:var(--sky)}
+  .pwm-btns{display:flex;gap:8px;margin-top:12px}
+  .pwm-btns button{flex:1;border:none;border-radius:10px;padding:11px;font:inherit;
+    font-weight:700;font-size:13.5px;cursor:pointer}
+  .pwm-ok{background:var(--navy);color:#fff}
+  .pwm-no{background:var(--paper2);color:var(--dim)}
 
   /* ── 관리자 편집 모드 ── */
   [data-edit].admin-on{outline:2px dashed var(--sky);outline-offset:3px;border-radius:6px;
@@ -2362,9 +2395,33 @@ showQuote(resolveStock('제주반도체'));
 })();
 
 /* ============================================================
-   커뮤니티 — community.js(모두에게 보임)의 공지·게시글을 렌더링.
-   방문자 자유 글쓰기는 GitHub 댓글(utterances)로 처리:
-   github.com/apps/utterances 를 저장소에 설치하면 활성화된다.
+   비밀번호 입력 모달 — prompt() 대신 ●●● 마스킹 입력.
+   관리자 진입과 방문자 글 수정·삭제에 공용으로 쓴다.
+   ============================================================ */
+window.askPass=function(title){
+  return new Promise(res=>{
+    const ov=document.createElement('div'); ov.className='pwm';
+    ov.innerHTML=`<div class="pwm-box"><p class="pwm-t">${title}</p>
+      <input type="password" autocomplete="off" placeholder="비밀번호">
+      <div class="pwm-btns"><button class="pwm-no">취소</button><button class="pwm-ok">확인</button></div></div>`;
+    document.body.appendChild(ov);
+    const inp=ov.querySelector('input');
+    const done=v=>{ ov.remove(); res(v); };
+    ov.querySelector('.pwm-ok').onclick=()=>done(inp.value);
+    ov.querySelector('.pwm-no').onclick=()=>done(null);
+    ov.onclick=e=>{ if(e.target===ov) done(null); };
+    inp.onkeydown=e=>{ if(e.key==='Enter') done(inp.value); if(e.key==='Escape') done(null); };
+    setTimeout(()=>inp.focus(),50);
+  });
+};
+
+/* ============================================================
+   커뮤니티 — community.js(관리자 게시판) + 방문자 자유게시판.
+   방문자 게시판: 깃허브 계정 없이 이름+비밀번호로 글 작성.
+   · 글은 무료 JSON 저장소(jsonblob)에 실시간 저장 — 주소는 심부름꾼
+     (GitHub Actions)이 guestbook_id.json에 자동 개설·기록한다.
+   · 비밀번호는 해시로만 저장, 본인 글 수정·삭제에 사용.
+   · 심부름꾼이 10분마다 guestbook_backup.json으로 백업한다.
    ============================================================ */
 (function(){
   function effective(){
@@ -2375,6 +2432,96 @@ showQuote(resolveStock('제주반도체'));
     return (typeof COMMUNITY!=='undefined'?COMMUNITY:{notice:'',posts:[]});
   }
   const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const isAdmin=()=>sessionStorage.getItem('gaeo_admin_ok')==='1';
+
+  /* ---- 방문자 게시판 저장소 ---- */
+  const hash=s=>{ // cyrb53 — 게시판용 경량 해시
+    let h1=0xdeadbeef^7, h2=0x41c6ce57^7;
+    for(let i=0;i<s.length;i++){ const ch=s.charCodeAt(i);
+      h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
+    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+    return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
+  };
+  const pwh=p=>hash('gaeo|'+p);
+  let GBURL=null;
+  async function gbUrl(){
+    if(GBURL!==null) return GBURL;
+    try{
+      const r=await fetch('guestbook_id.json?t='+Date.now(),{cache:'no-store'});
+      GBURL=r.ok?(((await r.json())||{}).url||''):'';
+    }catch(e){ GBURL=''; }
+    return GBURL;
+  }
+  async function gbLoad(){
+    const u=await gbUrl(); if(!u) return null;
+    try{
+      const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw 0;
+      const d=await r.json();
+      return {posts:(d&&Array.isArray(d.posts))?d.posts:[]};
+    }catch(e){ return null; }
+  }
+  async function gbSave(d){
+    const u=await gbUrl(); if(!u) throw new Error('no-url');
+    const r=await fetch(u,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    if(!r.ok) throw new Error('put-fail');
+  }
+  const now=()=>{ const d=new Date(),p=n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+
+  async function gbRefresh(){
+    const list=document.getElementById('gbList'); if(!list) return;
+    const u=await gbUrl();
+    if(!u){ list.innerHTML='<div class="cm-empty">게시판 개설 준비 중이에요 — 잠시 후(최대 10분) 다시 열어주세요.</div>'; return; }
+    const d=await gbLoad();
+    if(!d){ list.innerHTML='<div class="cm-empty">게시판 서버에 연결하지 못했어요 — 새로고침 후 다시 시도해주세요.</div>'; return; }
+    const posts=d.posts.slice().sort((a,b)=>(b.id||0)-(a.id||0));
+    list.innerHTML=posts.length?posts.map(p=>`
+      <div class="cm-post">
+        <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span>
+          <span class="cm-date">${esc(p.date||'')}${p.edited?' · 수정됨':''}</span>
+          <span class="gb-actions"><button data-gbe="${p.id}">✏️ 수정</button><button data-gbd="${p.id}">🗑 삭제</button></span></div>
+        <div class="cm-text" id="gbt-${p.id}">${esc(p.text)}</div>
+      </div>`).join(''):'<div class="cm-empty">아직 글이 없어요 — 첫 글을 남겨보세요!</div>';
+
+    // 본인 확인: 비밀번호(마스킹 모달) 또는 관리자
+    async function verify(post){
+      if(isAdmin()) return true;
+      const v=await askPass('글 비밀번호를 입력하세요');
+      if(v===null) return false;
+      if(pwh(v)!==post.pw){ alert('비밀번호가 달라요.'); return false; }
+      return true;
+    }
+    list.querySelectorAll('[data-gbd]').forEach(b=>b.onclick=async()=>{
+      const cur=await gbLoad(); if(!cur) return alert('연결 실패 — 다시 시도해주세요.');
+      const p=cur.posts.find(x=>String(x.id)===b.dataset.gbd); if(!p) return gbRefresh();
+      if(!await verify(p)) return;
+      if(!confirm('이 글을 삭제할까요?')) return;
+      cur.posts=cur.posts.filter(x=>String(x.id)!==b.dataset.gbd);
+      try{ await gbSave(cur); }catch(e){ return alert('삭제 실패 — 다시 시도해주세요.'); }
+      gbRefresh();
+    });
+    list.querySelectorAll('[data-gbe]').forEach(b=>b.onclick=async()=>{
+      const cur=await gbLoad(); if(!cur) return alert('연결 실패 — 다시 시도해주세요.');
+      const p=cur.posts.find(x=>String(x.id)===b.dataset.gbe); if(!p) return gbRefresh();
+      if(!await verify(p)) return;
+      const box=document.getElementById('gbt-'+p.id); if(!box) return;
+      box.innerHTML=`<textarea class="gb-editbox" maxlength="500">${esc(p.text)}</textarea>
+        <div style="margin-top:6px"><button class="gb-btn" style="margin-top:0;padding:8px 16px;font-size:12.5px" id="gbeS-${p.id}">저장</button>
+        <button class="gb-btn" style="margin-top:0;padding:8px 16px;font-size:12.5px;background:var(--paper2);color:var(--dim)" id="gbeC-${p.id}">취소</button></div>`;
+      document.getElementById('gbeC-'+p.id).onclick=()=>gbRefresh();
+      document.getElementById('gbeS-'+p.id).onclick=async()=>{
+        const t=box.querySelector('textarea').value.trim();
+        if(!t) return alert('내용을 입력하세요.');
+        const fresh=await gbLoad(); if(!fresh) return alert('연결 실패 — 다시 시도해주세요.');
+        const fp=fresh.posts.find(x=>String(x.id)===String(p.id)); if(!fp) return gbRefresh();
+        fp.text=t.slice(0,500); fp.edited=true;
+        try{ await gbSave(fresh); }catch(e){ return alert('저장 실패 — 다시 시도해주세요.'); }
+        gbRefresh();
+      };
+    });
+  }
+
   window.renderCommunity=function(){
     const box=document.getElementById('communityView'); if(!box) return;
     const cm=effective();
@@ -2388,20 +2535,38 @@ showQuote(resolveStock('제주반도체'));
           <div class="cm-text">${esc(p.text)}</div></div>`).join('')
       : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
     h+=`<div class="cm-sec">✍️ 방문자 자유게시판</div>
-        <div class="cm-guest"><p class="cm-hint">GitHub 계정으로 로그인하면 누구나 글(댓글)을 남길 수 있어요.
-        글이 안 써진다면 사이트 주인이 아직 utterances 앱을 설치하기 전이에요.</p><div id="cmGuest"></div></div>`;
+      <div class="cm-guest">
+        <p class="cm-hint">깃허브 계정 없이 누구나 글을 남길 수 있어요. 비밀번호는 나중에 내 글을 <b>수정·삭제</b>할 때 필요해요.</p>
+        <div class="cm-form">
+          <input id="gbName" maxlength="20" placeholder="이름">
+          <input id="gbPw" type="password" maxlength="30" autocomplete="off" placeholder="비밀번호 (수정·삭제용)">
+        </div>
+        <textarea id="gbText" maxlength="500" placeholder="내용을 적어주세요 (500자까지)"></textarea>
+        <button class="gb-btn" id="gbAdd">✍️ 글 남기기</button>
+        <div class="gb-status" id="gbStatus"></div>
+        <div id="gbList" style="margin-top:14px"><div class="cm-empty">불러오는 중…</div></div>
+      </div>`;
     box.innerHTML=h;
-    const g=document.getElementById('cmGuest');
-    if(g && !g.dataset.loaded){
-      g.dataset.loaded='1';
-      const s=document.createElement('script');
-      s.src='https://utteranc.es/client.js'; s.async=true; s.crossOrigin='anonymous';
-      s.setAttribute('repo','rudvh1016-gif/gaeo-analyst-team');
-      s.setAttribute('issue-term','gaeo-community');
-      s.setAttribute('label','커뮤니티');
-      s.setAttribute('theme','github-light');
-      g.appendChild(s);
-    }
+
+    const st=document.getElementById('gbStatus');
+    document.getElementById('gbAdd').onclick=async()=>{
+      const name=document.getElementById('gbName').value.trim();
+      const pw=document.getElementById('gbPw').value;
+      const text=document.getElementById('gbText').value.trim();
+      if(!name){ st.textContent='⚠️ 이름을 입력해주세요.'; return; }
+      if(!pw){ st.textContent='⚠️ 비밀번호를 정해주세요 (수정·삭제할 때 써요).'; return; }
+      if(!text){ st.textContent='⚠️ 내용을 입력해주세요.'; return; }
+      st.textContent='⏳ 올리는 중…';
+      const cur=await gbLoad();
+      if(!cur){ st.textContent='❌ 게시판 서버 연결 실패 — 잠시 후 다시 시도해주세요.'; return; }
+      cur.posts.push({id:Date.now(),name:name.slice(0,20),date:now(),text:text.slice(0,500),pw:pwh(pw)});
+      if(cur.posts.length>200) cur.posts=cur.posts.slice(-200);   // 최신 200개 유지
+      try{ await gbSave(cur); }catch(e){ st.textContent='❌ 올리기 실패 — 잠시 후 다시 시도해주세요.'; return; }
+      document.getElementById('gbText').value='';
+      st.textContent='✅ 올렸어요!';
+      gbRefresh();
+    };
+    gbRefresh();
   };
 })();
 
@@ -2530,7 +2695,8 @@ showQuote(resolveStock('제주반도체'));
         `<div class="ab-item"><span class="ab-item-t">${p.pin?'📌 ':''}${h(p.name)} · ${h((p.text||'').slice(0,22))}${(p.text||'').length>22?'…':''}</span>
          <button class="ab-mini" data-pin="${p.id}" title="고정 토글">📌</button>
          <button class="ab-mini" data-del="${p.id}" title="삭제">🗑</button></div>`).join(''):'<div class="ab-hint">게시글이 없어요.</div>'}</div>
-      <div class="ab-hint">방문자 자유게시판(GitHub 댓글)을 열려면 <b>github.com/apps/utterances</b> 에서 앱을 이 저장소에 설치하세요(1회).</div>`;
+      <div class="ab-hint">여기 글은 <b>발행</b>해야 모두에게 보여요. 방문자 자유게시판 글은 실시간 공개되고,
+      관리자 상태에선 커뮤니티 화면에서 비밀번호 없이 🗑 삭제할 수 있어요 (10분마다 자동 백업).</div>`;
     }else{
       const tk=localStorage.getItem(TKEY)||'';
       body=`<div class="ab-row"><label>토큰</label><input type="password" id="abToken" class="ab-in" placeholder="GitHub 토큰 (ghp_… / github_pat_…)" value="${h(tk)}"></div>
@@ -2644,11 +2810,11 @@ showQuote(resolveStock('제주반도체'));
     EDITS().forEach(el=>{ el.contentEditable='false'; el.classList.remove('admin-on'); });
   }
 
-  // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호 필요
+  // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호(●●● 마스킹) 필요
   const PW='JUVDJThCJUEwJUVCJTlEJUJDMTIzIQ==';   // 인코딩된 관리자 비밀번호
-  function unlock(){
+  async function unlock(){
     if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
-    const v=prompt('관리자 비밀번호를 입력하세요');
+    const v=await askPass('관리자 비밀번호를 입력하세요');
     if(v===null) return false;
     let ok=false;
     try{ ok=btoa(encodeURIComponent(v))===PW; }catch(e){}
@@ -2662,9 +2828,9 @@ showQuote(resolveStock('제주반도체'));
     taps++;
     if(tapTimer) clearTimeout(tapTimer);
     tapTimer=setTimeout(()=>{ taps=0; },3000);
-    if(taps>=5){ taps=0; if(unlock()) on(); }
+    if(taps>=5){ taps=0; unlock().then(ok=>{ if(ok) on(); }); }
   });
-  if(location.hash==='#admin' && unlock()) on();
+  if(location.hash==='#admin') unlock().then(ok=>{ if(ok) on(); });
 })();
 </script>
 </body>
