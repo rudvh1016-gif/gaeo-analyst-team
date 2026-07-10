@@ -8,9 +8,9 @@ const LIVE_DATA = {
    "rate": 3.49
   },
   "KOSDAQ": {
-   "value": 835.62,
-   "change": 41.62,
-   "rate": 5.24
+   "value": 833.65,
+   "change": 39.65,
+   "rate": 4.99
   }
  },
  "stocks": {
@@ -55,14 +55,14 @@ const LIVE_DATA = {
   },
   "402340": {
    "name": "SK스퀘어",
-   "price": 1386000,
-   "rate": 4.45,
-   "per": 11.77,
-   "pbr": 5.07,
+   "price": 1383000,
+   "rate": 4.22,
+   "per": 11.74,
+   "pbr": 5.05,
    "roe": 43.0,
    "eps": 117759.0,
    "div": null,
-   "cap": "183조",
+   "cap": "182조",
    "w52": "130,900 ~ 2,338,000",
    "stale": false
   },
@@ -100,7 +100,7 @@ const LIVE_DATA = {
    "pbr": 2.86,
    "roe": 8.0,
    "eps": 20484.0,
-   "div": 0.25,
+   "div": 0.26,
    "cap": "17조",
    "w52": "148,500 ~ 1,814,000",
    "stale": false
@@ -113,7 +113,7 @@ const LIVE_DATA = {
    "pbr": 14.66,
    "roe": 37.8,
    "eps": 21822.0,
-   "div": 0.83,
+   "div": 0.84,
    "cap": "31조",
    "w52": "433,500 ~ 1,449,000",
    "stale": false
