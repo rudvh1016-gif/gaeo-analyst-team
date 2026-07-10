@@ -144,7 +144,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 291000
+     "close": 290250
     }
    ],
    "start": "2026-07-08",
@@ -219,7 +219,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 2220500
+     "close": 2219000
     }
    ],
    "start": "2026-07-08",
@@ -294,7 +294,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 1398000
+     "close": 1395000
     }
    ],
    "start": "2026-07-08",
@@ -444,7 +444,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-10",
-     "close": 570000
+     "close": 571000
     }
    ],
    "start": "2026-07-08",
