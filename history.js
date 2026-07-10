@@ -1093,5 +1093,113 @@ const LIVE_HISTORY = {
     "score": 56
    }
   }
+ ],
+ "042700": [
+  {
+   "date": "2026-07-10 11:14",
+   "call": "HOLD",
+   "total": 50,
+   "confidence": 40,
+   "base": 222500,
+   "baseAt": "2026-07-10 11:12",
+   "target": "컨센서스 목표주가 380,000원까지 +70.8% 상승여력. 지지 199,200원(7/8 저점) / 저항 262,600원대(MA20)·303,800원대(MA60).",
+   "taro": {
+    "stance": "bear",
+    "score": 35
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 45
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 58
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 60
+   }
+  }
+ ],
+ "010120": [
+  {
+   "date": "2026-07-10 11:14",
+   "call": "HOLD",
+   "total": 55,
+   "confidence": 48,
+   "base": 202000,
+   "baseAt": "2026-07-10 11:12",
+   "target": "컨센서스 목표주가 268,846원까지 +33.1% 상승여력. 지지 183,500원(7/8 저점) / 저항 229,300원대(MA20)·241,300원대(MA60).",
+   "taro": {
+    "stance": "bear",
+    "score": 36
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 64
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 70
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 48
+   }
+  }
+ ],
+ "007660": [
+  {
+   "date": "2026-07-10 11:14",
+   "call": "HOLD",
+   "total": 58,
+   "confidence": 50,
+   "base": 104200,
+   "baseAt": "2026-07-10 11:12",
+   "target": "컨센서스 목표주가 179,615원까지 +72.4% 상승여력. 지지 87,800원(7/8 저점) / 저항 111,200원대(MA20)·126,100원대(MA60).",
+   "taro": {
+    "stance": "neu",
+    "score": 48
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 76
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 68
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 40
+   }
+  }
+ ],
+ "017670": [
+  {
+   "date": "2026-07-10 11:14",
+   "call": "HOLD",
+   "total": 62,
+   "confidence": 58,
+   "base": 88900,
+   "baseAt": "2026-07-10 11:12",
+   "target": "컨센서스 목표주가 116,667원까지 +31.2% 상승여력. 지지 84,000원(7/8 저점) / 저항 91,200원대(MA20)·97,700원대(MA60).",
+   "taro": {
+    "stance": "neu",
+    "score": 48
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 72
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 66
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 62
+   }
+  }
  ]
 };
