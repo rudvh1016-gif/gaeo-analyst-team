@@ -827,13 +827,31 @@ function scoreCall(call, retPct){
   if(call==='SELL') return retPct<-1?'hit':(retPct>1?'miss':'mid');
   return Math.abs(retPct)<=5?'hit':'mid';
 }
+/* ── 채점 기준: 판단 후 5거래일 뒤 종가 ──
+   모든 판단을 같은 잣대(일주일 성적표)로 공평하게 비교하기 위해,
+   기록된 일별 종가(PRICE_HISTORY)에서 판단일 다음 5번째 거래일의 종가를 찾는다.
+   아직 5거래일이 지나지 않은 판단은 '평가중'. */
+const EVAL_DAYS=5;
+function evalClose(code, entryDateStr){
+  const pages=(typeof PRICE_HISTORY!=='undefined'&&PRICE_HISTORY[code])||[];
+  if(!pages.length) return null;
+  const d0=String(entryDateStr).slice(0,10);
+  const after=pages.flatMap(p=>p.days).filter(d=>d.date>d0);   // 판단일 다음 거래일부터
+  return after.length>=EVAL_DAYS ? {close:after[EVAL_DAYS-1].close, date:after[EVAL_DAYS-1].date} : null;
+}
+// 판단 기록의 확정 수익률(5거래일 뒤 종가 기준). 미확정이면 null.
+function evalRet(code, entry){
+  if(!entry||!entry.base) return null;
+  const ev=evalClose(code, entry.date);
+  return ev ? {pct:(ev.close-entry.base)/entry.base*100, date:ev.date} : null;
+}
 const VERDICT_LABEL={hit:'적중 ✅', miss:'빗나감 ✕', mid:'중립'};
-// 채점 뜻 설명(커서 올리면 뜸). 기준가 대비 '이후 수익률'로 판정.
+// 채점 뜻 설명(커서 올리면 뜸). 판단 후 5거래일 뒤 종가 대비 수익률로 판정.
 const VERDICT_TIP={
-  hit:'적중 — 팀 판단대로 주가가 움직였어요. (SELL 뒤 하락 / BUY 뒤 상승 / HOLD가 ±5% 이내). 기준가 대비 이후 수익률로 판정.',
+  hit:'적중 — 팀 판단대로 주가가 움직였어요. (SELL 뒤 하락 / BUY 뒤 상승 / HOLD가 ±5% 이내). 판단 후 5거래일 뒤 종가로 판정.',
   miss:'빗나감 — 판단과 반대로 움직였어요. (SELL 뒤 상승 / BUY 뒤 하락).',
   mid:'중립 — 방향을 판정하기 애매한 변동이에요(±1% 이내 등). 적중·빗나감 집계에서 제외돼요.',
-  now:'평가중 — 가장 최근 판단이라 아직 결과를 매기기 일러요. 시간이 지나 주가가 움직이면 채점됩니다.',
+  now:'평가중 — 판단 후 5거래일이 아직 지나지 않았어요. 5거래일 뒤 종가가 기록되면 그 값으로 채점됩니다.',
   rec:'채점 불가 — 기준가 정보가 없어 판정할 수 없는 기록이에요.'
 };
 // 신뢰도 추이 스파크라인 (점 색 = 그날의 콜)
@@ -904,11 +922,18 @@ function renderHistory(code, curPrice){
   rows.forEach((r,i)=>{
     const isLatest=(i===rows.length-1);
     let ret='—', vHtml=`<span class="hverdict hv-now tip-r" data-tip="${VERDICT_TIP.rec}">기록</span>`;
-    if(r.base&&curPrice){
-      const p=(curPrice-r.base)/r.base*100, col=p>0?'var(--green)':(p<0?'var(--red)':'var(--ink)');
-      ret=`<span style="color:${col}">${p>0?'+':''}${p.toFixed(1)}%</span>`;
-      if(isLatest) vHtml=`<span class="hverdict hv-now tip-r" data-tip="${VERDICT_TIP.now}">평가중</span>`;
-      else{ const s=scoreCall(r.call,p); vHtml=`<span class="hverdict hv-${s} tip-r" data-tip="${VERDICT_TIP[s]}">${VERDICT_LABEL[s]}</span>`; }
+    if(r.base){
+      const ev=evalRet(code, r);                       // 판단 후 5거래일 뒤 종가 기준(확정)
+      if(ev){
+        const col=ev.pct>0?'var(--green)':(ev.pct<0?'var(--red)':'var(--ink)');
+        ret=`<span style="color:${col}" class="tip-r" data-tip="5거래일 뒤(${ev.date}) 종가 기준 확정 수익률">${ev.pct>0?'+':''}${ev.pct.toFixed(1)}%</span>`;
+        const s=scoreCall(r.call,ev.pct);
+        vHtml=`<span class="hverdict hv-${s} tip-r" data-tip="${VERDICT_TIP[s]}">${VERDICT_LABEL[s]}</span>`;
+      } else if(curPrice){                             // 미확정: 현재까지 흐름만 참고 표시
+        const p=(curPrice-r.base)/r.base*100, col=p>0?'var(--green)':(p<0?'var(--red)':'var(--ink)');
+        ret=`<span style="color:${col}" class="tip-r" data-tip="아직 확정 전 — 현재가 기준 진행 중 수익률">${p>0?'+':''}${p.toFixed(1)}%<span style="color:var(--faint);font-size:10px"> 진행중</span></span>`;
+        vHtml=`<span class="hverdict hv-now tip-r" data-tip="${VERDICT_TIP.now}">평가중</span>`;
+      }
     }
     html+=`<tr class="${isLatest?'latest':''}">`+
       `<td class="num hdate">${String(r.date).replace(' ','<br>')}</td>`+
@@ -1054,17 +1079,17 @@ function scoreStance(stance, ret){
   return null;
 }
 function computeLeaderboard(){
-  const acc={}; LB_IDS.forEach(id=>acc[id]={hits:0,misses:0,neus:0});
+  const acc={}; LB_IDS.forEach(id=>acc[id]={hits:0,misses:0,neus:0,pending:0});
   if(LIVE_HIST){
     for(const code in LIVE_HIST){
-      const price=(STOCKS[code]&&STOCKS[code].price)||0;
       LIVE_HIST[code].forEach(e=>{
-        if(!e.base||!price) return;
-        const ret=(price-e.base)/e.base*100;
+        if(!e.base) return;
+        const ev=evalRet(code, e);                 // 판단 후 5거래일 뒤 종가 기준
         LB_IDS.forEach(id=>{
           const a=e[id]; if(!a||!a.stance) return;
           if(a.stance==='neu'){ acc[id].neus++; return; }
-          const s=scoreStance(a.stance, ret);
+          if(!ev){ acc[id].pending++; return; }    // 아직 5거래일 안 지남 → 평가중
+          const s=scoreStance(a.stance, ev.pct);
           if(s==='hit') acc[id].hits++; else if(s==='miss') acc[id].misses++;
           // 'mid'(움직임 미미) = 평가 보류
         });
@@ -1073,8 +1098,8 @@ function computeLeaderboard(){
   }
   return LB_IDS.map(id=>{
     const A=(typeof AGENTS!=='undefined'&&AGENTS.find(x=>x.id===id))||{name:id,role:'',color:'#999'};
-    const {hits,misses,neus}=acc[id], n=hits+misses;
-    return {id,name:A.name,role:A.role,color:A.color,hits,misses,neus,n,
+    const {hits,misses,neus,pending}=acc[id], n=hits+misses;
+    return {id,name:A.name,role:A.role,color:A.color,hits,misses,neus,pending,n,
             acc:n>0?Math.round(hits/n*100):null};
   });
 }
@@ -1100,14 +1125,14 @@ function renderLeaderboard(){
         <div class="lb-role">${r.role}</div>
         <div class="lb-bar"><i style="width:${r.acc===null?0:r.acc}%"></i></div>
       </div>
-      <div class="lb-stat">${accHtml}<div class="lb-rec">${r.acc===null?'표본 부족':`적중 ${r.hits} · 빗나감 ${r.misses}`}${r.neus?` · 중립 ${r.neus}`:''}</div></div>
+      <div class="lb-stat">${accHtml}<div class="lb-rec">${r.acc===null?'표본 부족':`적중 ${r.hits} · 빗나감 ${r.misses}`}${r.neus?` · 중립 ${r.neus}`:''}${r.pending?` · ⏳평가중 ${r.pending}`:''}</div></div>
     </div>`;
   });
   el.innerHTML=`<div class="lb-head"><h3>🏆 애널리스트 리더보드</h3></div>
-    <div class="lb-sub">각 분석가의 강세/약세 판단이 이후 주가와 맞았는지로 적중률을 집계합니다 (중립·미미한 변동 제외).</div>
+    <div class="lb-sub">각 분석가의 강세/약세 판단을 <b>판단 후 5거래일 뒤 종가</b>로 채점해 적중률을 집계합니다 — 모든 판단이 같은 잣대(일주일 성적표)로 공평하게 비교돼요 (중립·미미한 변동 제외).</div>
     ${cards}
-    ${totalScored===0?'<div class="lb-empty">아직 평가된 예측이 없어요. 재분석이 며칠 쌓이고 주가가 ±1% 넘게 움직이면 여기 적중률이 채워집니다. 지금은 "누가 잘 맞추나"를 기록하기 시작한 단계예요.</div>':''}
-    <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 변동 ±1% 이내 예측은 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.</div>`;
+    ${totalScored===0?'<div class="lb-empty">아직 확정 채점된 예측이 없어요. 각 판단은 5거래일(약 일주일)이 지나야 그 시점 종가로 채점돼요 — 곧 하나씩 채워집니다!</div>':''}
+    <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 판단 후 5거래일 뒤 종가 기준, 변동 ±1% 이내는 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.</div>`;
 }
 
 /* ============================================================
@@ -1171,15 +1196,16 @@ function renderCalendar(){
   // 성적표
   const ents=monthChiefEntries(y,m);
   const days=new Set(ents.map(e=>String(e.date).slice(0,10)));
-  let hit=0,miss=0;
-  ents.forEach(e=>{ const p=P(e.code); if(!e.base||!p) return; const r=(p-e.base)/e.base*100, s=scoreCall(e.call,r); if(s==='hit')hit++; else if(s==='miss')miss++; });
+  // 채점은 전부 '판단 후 5거래일 뒤 종가' 기준 (evalRet) — 미확정 판단은 집계 제외
+  let hit=0,miss=0,pending=0;
+  ents.forEach(e=>{ if(!e.base) return; const ev=evalRet(e.code,e); if(!ev){pending++;return;} const s=scoreCall(e.call,ev.pct); if(s==='hit')hit++; else if(s==='miss')miss++; });
   const acc=(hit+miss)>0?Math.round(hit/(hit+miss)*100):null;
   let best=null,worst=null;
-  ents.forEach(e=>{ const p=P(e.code); if(!e.base||!p||e.call==='HOLD') return; const r=(p-e.base)/e.base*100, vind=e.call==='BUY'?r:-r;
+  ents.forEach(e=>{ if(!e.base||e.call==='HOLD') return; const ev=evalRet(e.code,e); if(!ev) return; const r=ev.pct, vind=e.call==='BUY'?r:-r;
     if(!best||vind>best.vind) best={name:e.name,call:e.call,r,vind};
     if(!worst||vind<worst.vind) worst={name:e.name,call:e.call,r,vind}; });
   const lb={}; LB_IDS.forEach(id=>lb[id]={h:0,mi:0});
-  ents.forEach(e=>{ const p=P(e.code); if(!e.base||!p) return; const r=(p-e.base)/e.base*100;
+  ents.forEach(e=>{ if(!e.base) return; const ev=evalRet(e.code,e); if(!ev) return; const r=ev.pct;
     LB_IDS.forEach(id=>{ const a=e[id]; if(!a||!a.stance||a.stance==='neu') return; const s=scoreStance(a.stance,r); if(s==='hit')lb[id].h++; else if(s==='miss')lb[id].mi++; }); });
   let mvp=null;
   LB_IDS.forEach(id=>{ const n=lb[id].h+lb[id].mi; if(n<3) return; const a=Math.round(lb[id].h/n*100); const A=(typeof AGENTS!=='undefined')&&AGENTS.find(x=>x.id===id); if(!mvp||a>mvp.acc) mvp={name:A?A.name:id,acc:a}; });
@@ -1188,8 +1214,8 @@ function renderCalendar(){
   const pPl=pVal-pCost, pPct=pCost>0?pPl/pCost*100:0;
   const fmtCall=x=>x?`${x.name} ${x.call} → ${x.r>0?'+':''}${x.r.toFixed(1)}% ${x.vind>0?'✅':'✕'}`:'—';
   const report=`<div class="cal-report"><h3>📋 ${mLabel} 성적표</h3><div class="cal-rgrid">
-    <span>분석한 날 <b>${days.size}</b>일 · 기록 <b>${ents.length}</b>건</span>
-    <span>팀 적중률 <b>${acc===null?'—':acc+'%'}</b></span>
+    <span>분석한 날 <b>${days.size}</b>일 · 기록 <b>${ents.length}</b>건${pending?` (⏳평가중 ${pending})`:''}</span>
+    <span>팀 적중률 <b>${acc===null?'—':acc+'%'}</b> <span style="font-size:10px;color:var(--faint)">5거래일 뒤 종가 기준</span></span>
     <span>👑 MVP <b>${mvp?`${mvp.name} ${mvp.acc}%`:'표본 부족'}</b></span>
     <span>최고 콜 <b>${fmtCall(best)}</b></span>
     <span>아쉬운 콜 <b>${(worst&&worst!==best)?fmtCall(worst):'—'}</b></span>
@@ -2932,6 +2958,22 @@ window.hangulFix=function(str){
       +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
       +'const SITE_CONFIG = '+JSON.stringify(cfg,null,1)+';\n';
   }
+  function fileTickers(list){
+    return '// 개오 애널리스트팀 — 대상 종목 단일 소스(Single Source of Truth)\n'
+      +'// 관리자 모드 [📊 종목관리]에서 발행하면 이 파일이 갱신된다.\n'
+      +'// 새 종목의 시세는 다음 자동 수집(평일 장중 10분 간격)부터, 팀 분석은 재분석 요청 시 생성된다.\n'
+      +'// (배열 부분은 유효한 JSON — 파이썬 스크립트도 그대로 파싱하므로 키는 큰따옴표 유지)\n'
+      +'const TICKERS = [\n'
+      + list.map(t=>` {"code":"${t.code}","name":"${t.name}","sector":"${(t.sector||'기타').replace(/"/g,'')}"}`).join(',\n')
+      +'\n];\n';
+  }
+  function tickersChanged(o){
+    const draft=o.tickersDraft;
+    if(!draft||typeof TICKERS==='undefined') return null;
+    const cur=JSON.stringify(TICKERS.map(t=>({code:t.code,name:t.name,sector:t.sector})));
+    const drf=JSON.stringify(draft.map(t=>({code:t.code,name:t.name,sector:t.sector})));
+    return cur!==drf?draft:null;
+  }
   function fileCommunity(o){
     const cm=(o.community)||((typeof COMMUNITY!=='undefined')?COMMUNITY:{notice:'',posts:[]});
     return '// 개오 애널리스트팀 — 커뮤니티 게시글 (모든 방문자에게 보임)\n'
@@ -2962,7 +3004,7 @@ window.hangulFix=function(str){
   }
   function renderBar(tab){
     const o=cmState(); const d=Object.assign({},SC.design||{},o.design||{});
-    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['notes','👑 종목메모'],['community','💬 커뮤니티'],['publish','🌍 발행']];
+    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['notes','👑 종목메모'],['stocks','📊 종목관리'],['community','💬 커뮤니티'],['publish','🌍 발행']];
     let body='';
     if(tab==='text'){
       body=`<div class="ab-hint" style="margin-top:0">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 고칠 수 있어요.</div>
@@ -2991,6 +3033,17 @@ window.hangulFix=function(str){
         :'<div class="ab-hint">작성된 메모가 없어요.</div>'}</div>
       <div class="ab-hint">메모는 <b>단일 분석</b>의 판정 카드 위와 <b>종목 비교</b> 결과 아래에 "👑 운영자 한마디"로 표시돼요.
       💾 저장=이 브라우저 미리보기 · <b>🌍 발행해야 모두에게</b> 보여요.</div>`;
+    }else if(tab==='stocks'){
+      const draft=o.tickersDraft||((typeof TICKERS!=='undefined')?TICKERS.map(t=>({...t})):[]);
+      body=`<div class="ab-row"><label>검색</label><input id="abTFind" class="ab-in" list="krxDL" placeholder="회사 이름으로 검색 (예: 카카오)"><datalist id="krxDL"></datalist></div>
+      <div class="ab-row"><label>업종폴더</label><input id="abTSec" class="ab-in" placeholder="예: 반도체 / IT (새 이름이면 폴더 자동 생성)" value="기타"></div>
+      <div class="ab-btns"><button class="ab-save" id="abTAdd">➕ 목록에 추가</button></div>
+      <div class="ab-list">${draft.map(t=>
+        `<div class="ab-item"><span class="ab-item-t">${h(t.name)} <span style="opacity:.6">${h(t.code)} · ${h(t.sector||'기타')}</span></span>
+         <button class="ab-mini" data-tdel="${h(t.code)}" title="목록에서 제거">🗑</button></div>`).join('')}</div>
+      <div class="ab-hint" id="abTHint">이름을 몇 글자만 쳐도 자동완성이 떠요(코드는 몰라도 됨).
+      <b>🌍 발행해야</b> 실제 종목 목록(tickers.js)이 바뀌고, 시세는 다음 자동 수집(평일 장중 10분 내)부터 채워져요.
+      새 종목의 팀 분석은 발행 후 Claude에게 "재분석해줘"라고 요청하면 생겨요.</div>`;
     }else if(tab==='community'){
       const posts=(o.community.posts||[]);
       body=`<div class="ab-row"><label>공지</label><input type="text" id="abNotice" class="ab-in" placeholder="상단 공지 (비우면 숨김)" value="${h(o.community.notice||'')}"></div>
@@ -3011,8 +3064,10 @@ window.hangulFix=function(str){
         <button class="ab-reset" id="abCopy">📋 Claude 요청문 복사</button>
       </div>
       <div class="ab-status" id="abStatus"></div>
-      <div class="ab-hint">발행 = 문구·디자인·커뮤니티를 GitHub에 직접 저장 → 1~2분 뒤 모든 방문자에게 반영.<br>
-      토큰 만들기: github.com → Settings → Developer settings → <b>Fine-grained tokens</b> → 이 저장소만 선택 → Contents <b>Read and write</b> 권한. 토큰은 이 브라우저에만 저장돼요.<br>
+      <div class="ab-hint">발행 = 문구·디자인·종목메모·종목목록·커뮤니티를 GitHub에 직접 저장 → 1~2분 뒤 모든 방문자에게 반영.<br>
+      ⚠️ <b>이 토큰은 지금 쓰는 브라우저에 저장돼요 — PC방·회사 공용 컴퓨터에서는 절대 입력하지 마세요.</b>
+      (공용 기기에서 입력하면 다음 사용자가 내 사이트를 고칠 수 있어요. 내 폰/내 컴퓨터에서만!)<br>
+      토큰 만들기: github.com → Settings → Developer settings → <b>Fine-grained tokens</b> → 이 저장소만 선택 → Contents <b>Read and write</b> 권한.<br>
       토큰이 없으면 [Claude 요청문 복사] 내용을 Claude Code에 붙여넣어 반영을 부탁하세요.</div>`;
     }
     bar.innerHTML=`
@@ -3078,6 +3133,43 @@ window.hangulFix=function(str){
         const o2=cmState(); o2.notes=o2.notes||{}; o2.notes[sel.value]='';
         save(o2); refreshLive(sel.value); renderBar('notes');
       };
+    }else if(tab==='stocks'){
+      // 상장사 목록(krx_list.json) 지연 로드 → 이름 자동완성
+      if(!window.KRX_LIST){
+        fetch('krx_list.json?t='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+          window.KRX_LIST=(d&&d.items)||[];
+          if(!window.KRX_LIST.length){ const hEl=bar.querySelector('#abTHint'); if(hEl) hEl.innerHTML='⏳ 상장사 목록 준비 중 — 심부름꾼이 곧 만들어요(최대 10분). 그동안은 6자리 종목코드로 추가할 수 있어요.'; }
+        }).catch(()=>{ window.KRX_LIST=[]; });
+      }
+      const find=bar.querySelector('#abTFind'), dl=bar.querySelector('#krxDL');
+      find.oninput=()=>{
+        const q=find.value.trim(); if(!dl||!window.KRX_LIST||q.length<1) return;
+        const hits=window.KRX_LIST.filter(x=>x.n.indexOf(q)>=0).slice(0,12);
+        dl.innerHTML=hits.map(x=>`<option value="${h(x.n)} (${x.c})">${x.m}</option>`).join('');
+      };
+      bar.querySelector('#abTAdd').onclick=()=>{
+        const q=find.value.trim(); if(!q) return alert('회사 이름을 입력하세요.');
+        let code=null, name=null;
+        const m=q.match(/\((\d{6})\)\s*$/);
+        if(m){ code=m[1]; name=q.replace(/\s*\(\d{6}\)\s*$/,'').trim(); }
+        else if(/^\d{6}$/.test(q)){ code=q; const k=(window.KRX_LIST||[]).find(x=>x.c===q); name=k?k.n:q; }
+        else{ const k=(window.KRX_LIST||[]).find(x=>x.n===q)||(window.KRX_LIST||[]).find(x=>x.n.indexOf(q)>=0);
+              if(k){ code=k.c; name=k.n; } }
+        if(!code) return alert('종목을 찾지 못했어요 — 자동완성에서 골라주세요.');
+        const o2=cmState();
+        o2.tickersDraft=o2.tickersDraft||((typeof TICKERS!=='undefined')?TICKERS.map(t=>({...t})):[]);
+        if(o2.tickersDraft.some(t=>t.code===code)) return alert('이미 목록에 있어요.');
+        o2.tickersDraft.push({code, name, sector:(bar.querySelector('#abTSec').value.trim()||'기타')});
+        save(o2); renderBar('stocks');
+      };
+      bar.querySelectorAll('[data-tdel]').forEach(b=>b.onclick=()=>{
+        const o2=cmState();
+        o2.tickersDraft=o2.tickersDraft||((typeof TICKERS!=='undefined')?TICKERS.map(t=>({...t})):[]);
+        const t=o2.tickersDraft.find(x=>x.code===b.dataset.tdel);
+        if(!confirm(`${t?t.name:b.dataset.tdel} 종목을 목록에서 뺄까요?\n(발행해야 실제 반영, 과거 기록은 지워지지 않아요)`)) return;
+        o2.tickersDraft=o2.tickersDraft.filter(x=>x.code!==b.dataset.tdel);
+        save(o2); renderBar('stocks');
+      });
     }else if(tab==='community'){
       bar.querySelector('#abPAdd').onclick=()=>{
         const name=bar.querySelector('#abPName').value.trim()||'개오';
@@ -3106,19 +3198,23 @@ window.hangulFix=function(str){
         const token=(bar.querySelector('#abToken').value||'').trim();
         if(!token){ st.textContent='⚠️ 토큰을 먼저 입력하세요 (없으면 아래 복사 버튼을 쓰세요).'; return; }
         localStorage.setItem(TKEY,token);
-        if(!confirm('문구·디자인·커뮤니티를 지금 모든 방문자에게 발행할까요?')) return;
+        if(!confirm('문구·디자인·종목메모·종목목록·커뮤니티를 지금 모든 방문자에게 발행할까요?')) return;
         const o2=cmState();
         st.textContent='⏳ 발행 중…';
         try{
           await ghPut('site_config.js', fileConfig(o2), token);
           await ghPut('community.js', fileCommunity(o2), token);
-          st.textContent='✅ 발행 완료! 1~2분 뒤 사이트에 반영돼요.';
+          const tk=tickersChanged(o2);
+          if(tk) await ghPut('tickers.js', fileTickers(tk), token);
+          st.textContent='✅ 발행 완료! 1~2분 뒤 사이트에 반영돼요.'+(tk?' (새 종목 시세는 다음 자동 수집부터)':'');
         }catch(e){ st.textContent='❌ 실패: '+e.message+' (토큰 권한: 이 저장소 Contents Read/write 필요)'; }
       };
       bar.querySelector('#abCopy').onclick=()=>{
         const o2=cmState();
-        const payload='아래 내용으로 개오 사이트의 site_config.js와 community.js를 갱신하고 main에 반영해줘.\n\n'
-          +'--- site_config.js ---\n'+fileConfig(o2)+'\n--- community.js ---\n'+fileCommunity(o2);
+        const tk=tickersChanged(o2);
+        const payload='아래 내용으로 개오 사이트의 site_config.js와 community.js'+(tk?'와 tickers.js':'')+'를 갱신하고 main에 반영해줘.\n\n'
+          +'--- site_config.js ---\n'+fileConfig(o2)+'\n--- community.js ---\n'+fileCommunity(o2)
+          +(tk?'\n--- tickers.js ---\n'+fileTickers(tk):'');
         (navigator.clipboard?navigator.clipboard.writeText(payload):Promise.reject()).then(
           ()=>{ st.textContent='📋 복사됨! Claude Code에 붙여넣으세요.'; },
           ()=>{ prompt('아래 내용을 복사하세요', payload); });
