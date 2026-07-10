@@ -5,6 +5,7 @@
 const SITE_CONFIG = {
  "updated": "",
  "texts": {},
+ "notes": {},
  "design": {
   "preset": "navy",
   "accent": null,

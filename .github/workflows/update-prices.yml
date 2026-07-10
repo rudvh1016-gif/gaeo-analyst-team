@@ -54,26 +54,31 @@ jobs:
       - name: 지표 사전계산 (indicators.json)
         run: python3 compute_indicators.py
 
-      - name: 방문자 게시판 개설·백업 (guestbook)
+      - name: 방문자 게시판 개설·백업 (guestbook · kvdb.io)
         continue-on-error: true
         run: |
-          # 최초 1회: 무료 JSON 저장소(jsonblob)에 게시판 개설 → 주소를 guestbook_id.json에 기록
+          # 구버전(jsonblob)은 브라우저 CORS 미지원 + 24시간 만료라 kvdb.io로 교체
+          if [ -f guestbook_id.json ] && grep -q jsonblob guestbook_id.json; then
+            rm -f guestbook_id.json guestbook_backup.json
+            echo "구버전(jsonblob) 저장소 폐기 — kvdb로 재개설"
+          fi
+          # 최초 1회: kvdb.io 버킷 개설 → 주소를 guestbook_id.json에 기록
           if [ ! -f guestbook_id.json ]; then
-            loc=$(curl -s -D - -o /dev/null -X POST -H "Content-Type: application/json" \
-                  -d '{"posts":[]}' https://jsonblob.com/api/jsonBlob | tr -d '\r' | awk 'tolower($1)=="location:"{print $2}')
-            if [ -n "$loc" ]; then
-              case "$loc" in http*) url="$loc";; *) url="https://jsonblob.com$loc";; esac
-              printf '{"url":"%s"}\n' "$url" > guestbook_id.json
-              echo "게시판 저장소 개설: $url"
+            BK=$(curl -s -X POST https://kvdb.io -d 'email=gaeo-guestbook@example.com')
+            if echo "$BK" | grep -qE '^[A-Za-z0-9]{10,40}$'; then
+              printf '{"url":"https://kvdb.io/%s"}\n' "$BK" > guestbook_id.json
+              echo "게시판 저장소(kvdb) 개설: $BK"
             else
-              echo "게시판 저장소 개설 실패 — 다음 실행에서 재시도"
+              echo "게시판 저장소 개설 실패($BK) — 다음 실행에서 재시도"
             fi
           fi
-          # 매 실행: 게시판 내용을 저장소로 백업 (읽기 접근이 만료 방지도 겸함)
+          # 매 실행: 게시판 전체를 백업 (주기적 접근이 버킷 만료 방지도 겸함)
           if [ -f guestbook_id.json ]; then
-            url=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])")
-            curl -s "$url" -o guestbook_backup.json || true
-            python3 -c "import json;json.load(open('guestbook_backup.json'))" 2>/dev/null || rm -f guestbook_backup.json
+            base=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])")
+            curl -s "$base/?values=true&format=json" -o /tmp/gb.json || true
+            if python3 -c "import json;d=json.load(open('/tmp/gb.json'));assert isinstance(d,list)" 2>/dev/null; then
+              cp /tmp/gb.json guestbook_backup.json
+            fi
           fi
 
       - name: 결과 커밋 & 푸시
