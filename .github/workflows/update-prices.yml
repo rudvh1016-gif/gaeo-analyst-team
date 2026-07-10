@@ -54,12 +54,34 @@ jobs:
       - name: 지표 사전계산 (indicators.json)
         run: python3 compute_indicators.py
 
+      - name: 방문자 게시판 개설·백업 (guestbook)
+        continue-on-error: true
+        run: |
+          # 최초 1회: 무료 JSON 저장소(jsonblob)에 게시판 개설 → 주소를 guestbook_id.json에 기록
+          if [ ! -f guestbook_id.json ]; then
+            loc=$(curl -s -D - -o /dev/null -X POST -H "Content-Type: application/json" \
+                  -d '{"posts":[]}' https://jsonblob.com/api/jsonBlob | tr -d '\r' | awk 'tolower($1)=="location:"{print $2}')
+            if [ -n "$loc" ]; then
+              case "$loc" in http*) url="$loc";; *) url="https://jsonblob.com$loc";; esac
+              printf '{"url":"%s"}\n' "$url" > guestbook_id.json
+              echo "게시판 저장소 개설: $url"
+            else
+              echo "게시판 저장소 개설 실패 — 다음 실행에서 재시도"
+            fi
+          fi
+          # 매 실행: 게시판 내용을 저장소로 백업 (읽기 접근이 만료 방지도 겸함)
+          if [ -f guestbook_id.json ]; then
+            url=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])")
+            curl -s "$url" -o guestbook_backup.json || true
+            python3 -c "import json;json.load(open('guestbook_backup.json'))" 2>/dev/null || rm -f guestbook_backup.json
+          fi
+
       - name: 결과 커밋 & 푸시
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add
-          for f in data.js price_history.js analysis_data.json indicators.json update.log; do
+          for f in data.js price_history.js analysis_data.json indicators.json guestbook_id.json guestbook_backup.json update.log; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then
