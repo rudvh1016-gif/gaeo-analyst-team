@@ -589,10 +589,30 @@
   .mk-text{margin:0;font-size:13px;line-height:1.7;color:#334155}
   .mk-points{margin:8px 0 0;padding-left:17px;font-size:12.5px;color:#475569;line-height:1.65}
   .mk-points li{margin-bottom:3px}
+  /* 날짜별 지난 시장 분석 목차 */
+  .mk-hist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+  .mk-hist-toggle{display:flex;align-items:center;gap:7px;width:100%;background:none;border:none;
+    font:inherit;font-size:12.5px;font-weight:800;color:var(--navy);cursor:pointer;padding:4px 0}
+  .mk-cnt{font-size:11px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+    border-radius:99px;padding:1px 8px}
+  .mk-hist .mk-arrow{margin-left:auto;color:var(--faint);font-size:11px;transition:transform .2s}
+  .mk-hist.open>.mk-hist-toggle .mk-arrow{transform:rotate(180deg)}
+  .mk-hist-body{display:none;margin-top:8px}
+  .mk-hist.open .mk-hist-body{display:block}
+  .mk-day{border:1px solid var(--line);border-radius:11px;margin-bottom:7px;overflow:hidden}
+  .mk-day-head{display:flex;align-items:center;gap:10px;width:100%;padding:10px 13px;cursor:pointer;
+    background:var(--bg);border:none;font:inherit;font-size:12.5px;text-align:left;color:var(--ink)}
+  .mk-day-head b{color:var(--navy);font-variant-numeric:tabular-nums}
+  .mk-day-sum{font-size:11.5px;color:var(--dim)}
+  .mk-day-head .mk-arrow{transition:transform .2s}
+  .mk-day.open .mk-day-head .mk-arrow{transform:rotate(90deg)}
+  .mk-day-body{display:none;padding:11px 14px;background:var(--paper)}
+  .mk-day.open .mk-day-body{display:block}
   @media(max-width:600px){
     .market{padding:13px 14px}
     .mk-strip{gap:6px 18px}
     .mk-idx{font-size:14px}
+    .mk-day-sum{font-size:10.5px}
   }
 </style>
 </head>
@@ -696,6 +716,7 @@
 <script src="analysis.js"></script>
 <script src="history.js"></script>
 <script src="price_history.js"></script>
+<script src="market_history.js"></script>
 <script>
 /* ============================================================
    개오 애널리스트팀 — 홈오피스 v4
@@ -1203,7 +1224,40 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
       (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
       `</div>`;
   }
+
+  // 📚 날짜별 지난 시장 분석 목차 (market_history.js)
+  const MH=(typeof MARKET_HISTORY!=='undefined'&&MARKET_HISTORY)||{};
+  const days=Object.keys(MH).sort().reverse();
+  if(days.length){
+    const rateTag=d=>{
+      const r=d&&typeof d.rate==='number'?d.rate:null;
+      if(r==null) return '';
+      const col=r>0?'var(--green)':(r<0?'var(--red)':'var(--dim)');
+      return `<span style="color:${col};font-weight:700">${r>0?'+':''}${r.toFixed(2)}%</span>`;
+    };
+    html+=`<div class="mk-hist">
+      <button class="mk-hist-toggle" id="mkHistBtn">📚 지난 시장 분석 <span class="mk-cnt">${days.length}일</span><span class="mk-arrow">▾</span></button>
+      <div class="mk-hist-body" id="mkHistBody">`+
+      days.map(day=>{
+        const m=MH[day];
+        return `<div class="mk-day" id="mkday-${day}">
+          <button class="mk-day-head" data-mkd="${day}">
+            <b>${esc(day)}</b>
+            <span class="mk-day-sum">코스피 ${rateTag(m.kospi)} · 코스닥 ${rateTag(m.kosdaq)}</span>
+            <span class="mk-arrow">▸</span></button>
+          <div class="mk-day-body">`+
+            (m.text?`<p class="mk-text">${esc(m.text)}</p>`:'')+
+            (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
+          `</div></div>`;
+      }).join('')+`</div></div>`;
+  }
+
   box.innerHTML=html; box.style.display='block';
+
+  const hb=document.getElementById('mkHistBtn');
+  if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
+  box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
+    document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
 })();
 
 /* ============================================================

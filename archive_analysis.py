@@ -73,5 +73,25 @@ def main():
         f.write(out)
     print(f"history.js 갱신 완료 — 신규 {added}건 · 갱신 {updated}건 (종목 {len(hist)})")
 
+    # ── 시장(코스피/코스닥) 분석도 날짜별로 누적 → market_history.js ──
+    # 같은 날짜에 여러 번 분석하면 최신 것으로 갱신된다(하루 1칸, 날짜별 목차용).
+    mk = an.get("market")
+    if isinstance(mk, dict) and (mk.get("text") or mk.get("points")):
+        mh = load_js_object(os.path.join(HERE, "market_history.js"), "MARKET_HISTORY") or {}
+        day = str(mk.get("updated", ""))[:10] or global_date
+        mh[day] = {
+            "updated": mk.get("updated", ""),
+            "kospi": mk.get("kospi"), "kosdaq": mk.get("kosdaq"),
+            "text": mk.get("text", ""), "points": mk.get("points", []),
+        }
+        mout = ("// 개오 애널리스트팀 — 날짜별 시장(코스피/코스닥) 분석 기록\n"
+                "// archive_analysis.py가 재분석 때마다 그날의 market 블록을 여기에 누적한다(같은 날짜는 최신으로 갱신).\n"
+                "// 화면의 \"📚 지난 시장 분석\" 목차가 이 파일을 읽는다.\n"
+                "const MARKET_HISTORY = "
+                + json.dumps(mh, ensure_ascii=False, indent=1) + ";\n")
+        with open(os.path.join(HERE, "market_history.js"), "w", encoding="utf-8") as f:
+            f.write(mout)
+        print(f"market_history.js 갱신 완료 — {day} 기록 ({len(mh)}일 누적)")
+
 if __name__ == "__main__":
     main()

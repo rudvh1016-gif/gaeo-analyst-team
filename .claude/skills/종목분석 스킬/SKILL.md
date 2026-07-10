@@ -91,7 +91,8 @@ const LIVE_ANALYSIS = {
 ```
 
 - `market`의 kospi/kosdaq 값은 **update_prices.py가 쓴 data.js의 indices에서 그대로** 가져온다(기준가 무결성 철칙과 동일).
-  market은 chief가 없으므로 archive_analysis.py가 history에 기록하지 않는다(의도된 동작).
+  market은 history.js에는 안 들어가지만, archive_analysis.py가 **market_history.js에 날짜별로 누적**한다
+  (같은 날짜 재분석은 최신으로 갱신 — 화면의 "📚 지난 시장 분석" 날짜별 목차가 이 파일을 읽는다).
 - 반드시 **유효한 JavaScript**(문자열 안 큰따옴표는 escape 또는 작은따옴표 회피).
 - 파일 상단 주석에 갱신 시각·데이터 기준을 남긴다.
 - **위 필드명·구조를 바꾸거나 빼지 않는다** — index.html이 전부 참조한다(base/baseAt=신선도, stance=리더보드, events=캘린더, target=목표가 거리).
