@@ -14,5 +14,9 @@ const TICKERS = [
  {"code":"009155","name":"삼성전기우","sector":"전자부품"},
  {"code":"011070","name":"LG이노텍","sector":"전자부품"},
  {"code":"267260","name":"HD현대일렉트릭","sector":"전력설비"},
- {"code":"005380","name":"현대차","sector":"자동차"}
+ {"code":"010120","name":"LS일렉트릭","sector":"전력설비"},
+ {"code":"005380","name":"현대차","sector":"자동차"},
+ {"code":"042700","name":"한미반도체","sector":"반도체"},
+ {"code":"007660","name":"이수페타시스","sector":"PCB"},
+ {"code":"017670","name":"SK텔레콤","sector":"통신"}
 ];
