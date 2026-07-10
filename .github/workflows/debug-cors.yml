@@ -1,4 +1,4 @@
-# 임시 진단용 — 게시판 저장소(jsonblob)의 브라우저 접근(CORS) 가능 여부 확인 후 삭제 예정
+# 임시 진단용 v2 — 게시판 대체 저장소 후보들의 CORS/익명쓰기 지원 확인 후 삭제 예정
 name: debug-cors
 on:
   push:
@@ -7,16 +7,27 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - name: CORS headers check
+      - name: candidates check
         run: |
-          url="https://jsonblob.com/api/jsonBlob/019f49a2-fea3-78c7-b042-606b4ead8708"
-          echo "===== 1) GET + Origin (브라우저 읽기 시뮬레이션) ====="
-          curl -sD - -o /tmp/body -H "Origin: https://rudvh1016-gif.github.io" -H "Accept: application/json" "$url" | tr -d '\r'
-          echo "----- body -----"; head -c 300 /tmp/body; echo
-          echo "===== 2) OPTIONS preflight (브라우저 쓰기 사전요청) ====="
-          curl -sD - -o /dev/null -X OPTIONS \
-            -H "Origin: https://rudvh1016-gif.github.io" \
-            -H "Access-Control-Request-Method: PUT" \
-            -H "Access-Control-Request-Headers: content-type" "$url" | tr -d '\r'
-          echo "===== 3) GET without Accept ====="
-          curl -sD - -o /dev/null "$url" | tr -d '\r' | head -20
+          O="Origin: https://rudvh1016-gif.github.io"
+          echo "########## A) textdb.online ##########"
+          curl -sD - -o /tmp/a -X POST "https://textdb.online/update/" -H "$O" \
+            --data-urlencode "key=gaeo_cors_test_7f3k" --data-urlencode 'value={"posts":[1]}' | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+          echo "-- write body:"; cat /tmp/a; echo
+          curl -sD - -o /tmp/a2 -H "$O" "https://textdb.online/gaeo_cors_test_7f3k" | tr -d '\r' | grep -iE "^HTTP|access-control|content-type" || true
+          echo "-- read body:"; cat /tmp/a2; echo
+          echo "########## B) kvdb.io (버킷 생성+읽기/쓰기) ##########"
+          BK=$(curl -s -X POST https://kvdb.io -d 'email=test@example.com' || echo FAIL)
+          echo "bucket: $BK"
+          if [ "$BK" != "FAIL" ] && [ -n "$BK" ]; then
+            curl -sD - -o /dev/null -X PUT "https://kvdb.io/$BK/guestbook" -H "$O" -d '{"posts":[2]}' | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+            curl -sD - -o /tmp/b -H "$O" "https://kvdb.io/$BK/guestbook" | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+            echo "-- read body:"; cat /tmp/b; echo
+            echo "-- CORS preflight(PUT):"
+            curl -sD - -o /dev/null -X OPTIONS "https://kvdb.io/$BK/guestbook" -H "$O" \
+              -H "Access-Control-Request-Method: PUT" -H "Access-Control-Request-Headers: content-type" | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+          fi
+          echo "########## C) npoint.io (익명 bin 생성) ##########"
+          curl -sD - -o /tmp/c -X POST "https://api.npoint.io/bins" -H "Content-Type: application/json" -H "$O" \
+            -d '{"contents":"{\"posts\":[]}"}' | tr -d '\r' | grep -iE "^HTTP|access-control" || true
+          echo "-- body:"; head -c 300 /tmp/c; echo
