@@ -101,6 +101,31 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 55
    }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 53,
+   "confidence": 42,
+   "base": 88300,
+   "baseAt": "2026-07-10 10:26",
+   "target": "저항 100,700원대(MA20) / 지지 83,900원대(MA60)·77,700원(7/9 종가). 컨센서스 부재로 목표주가는 기술적 저항선을 참고.",
+   "taro": {
+    "stance": "neu",
+    "score": 50
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 44
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 62
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 54
+   }
   }
  ],
  "005930": [
@@ -202,6 +227,31 @@ const LIVE_HISTORY = {
    "flow": {
     "stance": "bear",
     "score": 38
+   }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 58,
+   "confidence": 52,
+   "base": 291000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 513,958원까지 +76.6% 상승여력. 지지 277,500원(7/8 저점) / 저항 290,000원대(MA60)·325,000원대(MA20).",
+   "taro": {
+    "stance": "neu",
+    "score": 50
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 78
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 60
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 42
    }
   }
  ],
@@ -305,6 +355,31 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 42
    }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 62,
+   "confidence": 58,
+   "base": 2219000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 3,547,917원까지 +59.9% 상승여력. 지지 2,076,000원(7/8 저점)·1,984,000원대(MA60) / 저항 2,489,000원대(MA20).",
+   "taro": {
+    "stance": "bull",
+    "score": 58
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 75
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 72
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 44
+   }
   }
  ],
  "402340": [
@@ -406,6 +481,31 @@ const LIVE_HISTORY = {
    "flow": {
     "stance": "bull",
     "score": 55
+   }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 61,
+   "confidence": 55,
+   "base": 1395000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 1,810,000원까지 +29.7% 상승여력. 지지 1,270,000원(7/8 저점)·1,228,000원대(MA60) / 저항 1,613,000원대(MA20).",
+   "taro": {
+    "stance": "bull",
+    "score": 58
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 66
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 64
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 54
    }
   }
  ],
@@ -509,6 +609,31 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 55
    }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 52,
+   "confidence": 42,
+   "base": 1621000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 2,470,000원까지 +52.4% 상승여력. 지지 1,479,000원(7/8 저점)·1,439,000원대(MA60) / 저항 1,957,000원대(MA20).",
+   "taro": {
+    "stance": "neu",
+    "score": 50
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 48
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 58
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 52
+   }
   }
  ],
  "009155": [
@@ -610,6 +735,31 @@ const LIVE_HISTORY = {
    "flow": {
     "stance": "bull",
     "score": 54
+   }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 49,
+   "confidence": 40,
+   "base": 571000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "지지 522,000원대(MA60) / 저항 708,000원대(MA20). 목표주가는 보통주 컨센서스 참고치로 직접 비교에 유의.",
+   "taro": {
+    "stance": "neu",
+    "score": 46
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 50
+   },
+   "nova": {
+    "stance": "neu",
+    "score": 48
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 55
    }
   }
  ],
@@ -713,6 +863,31 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 56
    }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "SELL",
+   "total": 46,
+   "confidence": 40,
+   "base": 741000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 1,219,190원까지 +64.5% 상승여력. 지지 741,000원(오늘 종가권) / 저항 852,000원대(MA60)·985,000원대(MA20).",
+   "taro": {
+    "stance": "bear",
+    "score": 28
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 60
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 40
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 55
+   }
   }
  ],
  "267260": [
@@ -815,6 +990,31 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45
    }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 48,
+   "confidence": 40,
+   "base": 850000,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 1,487,692원까지 +75.0% 상승여력. 지지 814,000원(3개월 저점) / 저항 985,000원대(MA20)·1,089,000원대(MA60).",
+   "taro": {
+    "stance": "bear",
+    "score": 34
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 62
+   },
+   "nova": {
+    "stance": "neu",
+    "score": 52
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 48
+   }
   }
  ],
  "005380": [
@@ -866,6 +1066,31 @@ const LIVE_HISTORY = {
    "flow": {
     "stance": "bull",
     "score": 58
+   }
+  },
+  {
+   "date": "2026-07-10 10:44",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 42,
+   "base": 463500,
+   "baseAt": "2026-07-10 10:26",
+   "target": "컨센서스 목표주가 812,800원까지 +75.4% 상승여력. 지지 445,500원(7/9 신저가) / 저항 533,000원대(MA20)·584,000원대(MA60).",
+   "taro": {
+    "stance": "bear",
+    "score": 32
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 62
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 38
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 56
    }
   }
  ]
