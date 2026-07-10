@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-07-10 17:21",
- "priceLabel": "2026-07-10 종가 (17:20 수집)",
+ "generatedAt": "2026-07-10 20:25",
+ "priceLabel": "2026-07-10 종가 (20:24 수집)",
  "indices": {
   "KOSPI": {
    "value": 7475.94,
@@ -66,13 +66,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 913196,
-    "orgSum": -143712,
-    "holdNow": 3.78,
-    "holdBefore": 1.08,
-    "todayFrgn": -35940,
-    "todayOrg": 97776,
-    "todayIndi": -69122
+    "frgnSum": 675245,
+    "orgSum": 231391,
+    "holdNow": 3.03,
+    "holdBefore": 1.39,
+    "todayFrgn": -260057,
+    "todayOrg": 382951,
+    "todayIndi": -120818
    }
   },
   "005930": {
@@ -129,13 +129,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": -11698768,
-    "orgSum": 4610457,
-    "holdNow": 46.57,
-    "holdBefore": 46.72,
-    "todayFrgn": 845552,
-    "todayOrg": 1107761,
-    "todayIndi": -1739937
+    "frgnSum": -9707208,
+    "orgSum": 2554553,
+    "holdNow": 46.58,
+    "holdBefore": 46.69,
+    "todayFrgn": 625985,
+    "todayOrg": 2313745,
+    "todayIndi": -2851466
    }
   },
   "000660": {
@@ -192,13 +192,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": -1436255,
-    "orgSum": 582654,
-    "holdNow": 50.01,
+    "frgnSum": -1459721,
+    "orgSum": -285029,
+    "holdNow": 49.9,
     "holdBefore": 50.17,
-    "todayFrgn": -209485,
-    "todayOrg": 404365,
-    "todayIndi": -179724
+    "todayFrgn": -768843,
+    "todayOrg": 204193,
+    "todayIndi": 550090
    }
   },
   "402340": {
@@ -255,13 +255,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 67641,
-    "orgSum": -135637,
-    "holdNow": 45.49,
-    "holdBefore": 45.34,
-    "todayFrgn": 110135,
-    "todayOrg": -55186,
-    "todayIndi": -56258
+    "frgnSum": 219867,
+    "orgSum": -212528,
+    "holdNow": 45.55,
+    "holdBefore": 45.3,
+    "todayFrgn": 76324,
+    "todayOrg": -49707,
+    "todayIndi": -26130
    }
   },
   "009150": {
@@ -318,13 +318,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 266241,
-    "orgSum": -439768,
-    "holdNow": 39.89,
-    "holdBefore": 39.59,
-    "todayFrgn": 128689,
-    "todayOrg": -99466,
-    "todayIndi": -26898
+    "frgnSum": 292399,
+    "orgSum": -496491,
+    "holdNow": 40.02,
+    "holdBefore": 39.42,
+    "todayFrgn": 93871,
+    "todayOrg": -107789,
+    "todayIndi": 10819
    }
   },
   "009155": {
@@ -381,13 +381,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 76777,
-    "orgSum": -6879,
-    "holdNow": 26.4,
-    "holdBefore": 23.56,
-    "todayFrgn": 3699,
-    "todayOrg": 1658,
-    "todayIndi": -5819
+    "frgnSum": 63983,
+    "orgSum": -1025,
+    "holdNow": 26.49,
+    "holdBefore": 24.77,
+    "todayFrgn": 3026,
+    "todayOrg": -1239,
+    "todayIndi": -1810
    }
   },
   "011070": {
@@ -444,13 +444,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 463768,
-    "orgSum": -309845,
-    "holdNow": 25.79,
-    "holdBefore": 23.84,
-    "todayFrgn": 125249,
-    "todayOrg": -72879,
-    "todayIndi": -47588
+    "frgnSum": 464481,
+    "orgSum": -413431,
+    "holdNow": 26.07,
+    "holdBefore": 23.88,
+    "todayFrgn": 66172,
+    "todayOrg": -146002,
+    "todayIndi": 78202
    }
   },
   "267260": {
@@ -507,13 +507,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": -50350,
-    "orgSum": 16156,
-    "holdNow": 34.35,
-    "holdBefore": 34.36,
-    "todayFrgn": 6026,
-    "todayOrg": -1673,
-    "todayIndi": -4110
+    "frgnSum": 4992,
+    "orgSum": 7387,
+    "holdNow": 34.39,
+    "holdBefore": 34.35,
+    "todayFrgn": 14572,
+    "todayOrg": 604,
+    "todayIndi": -14901
    }
   },
   "010120": {
@@ -570,13 +570,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": -78520,
-    "orgSum": -376662,
-    "holdNow": 17.98,
-    "holdBefore": 17.65,
-    "todayFrgn": 45048,
-    "todayOrg": 119882,
-    "todayIndi": -166237
+    "frgnSum": 212808,
+    "orgSum": -277732,
+    "holdNow": 17.99,
+    "holdBefore": 17.63,
+    "todayFrgn": 11547,
+    "todayOrg": 74764,
+    "todayIndi": -87740
    }
   },
   "005380": {
@@ -633,13 +633,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 121359,
-    "orgSum": 221711,
-    "holdNow": 24.92,
-    "holdBefore": 24.92,
-    "todayFrgn": 6753,
-    "todayOrg": 67202,
-    "todayIndi": -67448
+    "frgnSum": 181391,
+    "orgSum": 141671,
+    "holdNow": 24.98,
+    "holdBefore": 24.87,
+    "todayFrgn": 136289,
+    "todayOrg": -27686,
+    "todayIndi": -106584
    }
   },
   "042700": {
@@ -695,13 +695,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 489077,
-    "orgSum": -56225,
-    "holdNow": 8.02,
-    "holdBefore": 7.58,
-    "todayFrgn": 109963,
-    "todayOrg": 133196,
-    "todayIndi": -238478
+    "frgnSum": 363300,
+    "orgSum": -58452,
+    "holdNow": 7.99,
+    "holdBefore": 7.47,
+    "todayFrgn": -26725,
+    "todayOrg": 8861,
+    "todayIndi": 17413
    }
   },
   "007660": {
@@ -758,13 +758,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": -700547,
-    "orgSum": -34937,
-    "holdNow": 19.35,
-    "holdBefore": 19.39,
-    "todayFrgn": -75812,
-    "todayOrg": 178757,
-    "todayIndi": -102957
+    "frgnSum": -498488,
+    "orgSum": 771867,
+    "holdNow": 18.9,
+    "holdBefore": 19.15,
+    "todayFrgn": -333579,
+    "todayOrg": 787926,
+    "todayIndi": -454342
    }
   },
   "017670": {
@@ -821,13 +821,13 @@
    },
    "flow": {
     "days": 5,
-    "frgnSum": 1014430,
-    "orgSum": -337852,
-    "holdNow": 38.31,
-    "holdBefore": 37.87,
-    "todayFrgn": 440386,
-    "todayOrg": -251588,
-    "todayIndi": -188159
+    "frgnSum": 858682,
+    "orgSum": -206423,
+    "holdNow": 38.37,
+    "holdBefore": 37.9,
+    "todayFrgn": 110075,
+    "todayOrg": -13312,
+    "todayIndi": -96873
    }
   }
  }
