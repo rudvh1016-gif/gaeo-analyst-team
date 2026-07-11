@@ -2,7 +2,17 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" id="viewportMeta" content="width=device-width, initial-scale=1.0" />
+<script>
+  // 모바일에서 "PC 버전으로 보기"를 저장해둔 경우, 그리기 전에 미리 뷰포트를 넓혀서
+  // 모바일 레이아웃이 잠깐 보였다가 데스크톱으로 바뀌는 깜빡임을 막는다.
+  try{
+    if(localStorage.getItem('gaeo_pcview')==='1'){
+      document.getElementById('viewportMeta').setAttribute('content','width=1400');
+      document.documentElement.classList.add('force-desktop');
+    }
+  }catch(e){}
+</script>
 <title>Gaeo · 홈오피스</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -707,6 +717,16 @@
   .tv-cross{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
     border-bottom:none!important}
   .tv-cross-up{background:#ECFDF5;color:#059669} .tv-cross-down{background:#FEF2F2;color:#DC2626}
+
+  /* ── 모바일: PC 버전 강제보기 토글 (물리적으로 작은 화면에서만 JS가 노출) ── */
+  .pc-toggle{position:fixed;right:16px;bottom:16px;z-index:500;
+    background:var(--navy-deep);color:#fff;border:none;border-radius:99px;
+    padding:11px 16px;font-size:12.5px;font-weight:700;letter-spacing:.01em;
+    box-shadow:0 8px 24px -6px rgba(0,0,0,.45);cursor:pointer;font-family:inherit;
+    display:flex;align-items:center;gap:6px;transition:transform .15s,filter .15s}
+  .pc-toggle:hover{filter:brightness(1.15)}
+  .pc-toggle:active{transform:scale(.96)}
+  html.force-desktop .pc-toggle{background:var(--sky)}
 
   /* ── 마이크로 인터랙션 폴리시 ── */
   html{scroll-behavior:smooth}
@@ -3664,6 +3684,35 @@ window.hangulFix=function(str){
     if(taps>=5){ taps=0; unlock().then(ok=>{ if(ok) on(); }); }
   });
   if(location.hash==='#admin') unlock().then(ok=>{ if(ok) on(); });
+})();
+
+// ---------- PC 버전 강제보기 토글 (물리적으로 작은 화면: 휴대폰·태블릿) ----------
+// 우리 데스크톱 레이아웃은 CSS min-width 기준이라, 모바일 브라우저의 "데스크톱 사이트
+// 요청" 기능만으로는 폭이 부족해 안 켜질 수 있다. 그래서 뷰포트 meta를 직접 늘려
+// 강제로 데스크톱 그리드를 띄우는 자체 토글을 둔다. screen.width/height는 뷰포트를
+// 넓혀도 안 변하는 실제 물리 화면 크기라, 이 버튼을 노출할지 여부를 판단하는 데 쓴다.
+(function(){
+  const KEY='gaeo_pcview';
+  const isSmallDevice=Math.min(window.screen.width||9999, window.screen.height||9999)<820;
+  if(!isSmallDevice) return;
+  const metaVp=document.getElementById('viewportMeta');
+  const btn=document.createElement('button');
+  btn.className='pc-toggle'; btn.type='button';
+  function apply(on){
+    if(on){
+      metaVp.setAttribute('content','width=1400');
+      document.documentElement.classList.add('force-desktop');
+      btn.innerHTML='📱 모바일 버전으로';
+    } else {
+      metaVp.setAttribute('content','width=device-width, initial-scale=1.0');
+      document.documentElement.classList.remove('force-desktop');
+      btn.innerHTML='🖥️ PC 버전으로 보기';
+    }
+    try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){}
+  }
+  document.body.appendChild(btn);
+  apply(document.documentElement.classList.contains('force-desktop'));
+  btn.onclick=()=>{ apply(!document.documentElement.classList.contains('force-desktop')); SFX.click(); };
 })();
 </script>
 </body>
