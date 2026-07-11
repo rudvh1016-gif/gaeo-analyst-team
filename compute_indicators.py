@@ -122,6 +122,18 @@ def main():
         json.dump(out, f, ensure_ascii=False, indent=1)
     print(f"indicators.json 저장 완료 ({out['generatedAt']}) — {len(out['stocks'])}종목")
 
+    # 브라우저용 축약본(indicators.js) — TARO 미니 차트(가격·MA·RSI·MACD)가 index.html에서 직접 읽는다.
+    # analysis.js 텍스트를 파싱하지 않고 이 구조화된 숫자를 그대로 그린다.
+    js_stocks = {
+        code: {"name": e["name"], "price": e["price"], "rate": e["rate"], "tech": e["tech"]}
+        for code, e in out["stocks"].items() if e.get("tech")
+    }
+    js_path = os.path.join(HERE, "indicators.js")
+    with open(js_path, "w", encoding="utf-8") as f:
+        f.write("// 자동 생성: compute_indicators.py · 브라우저용 기술지표 축약본 (TARO 미니 차트)\n")
+        f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks}, ensure_ascii=False)};\n")
+    print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목)")
+
 
 if __name__ == "__main__":
     main()
