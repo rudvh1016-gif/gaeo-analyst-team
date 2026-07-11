@@ -441,6 +441,17 @@
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
   .live{font-size:9px;font-weight:800;color:#fff;background:#10B981;letter-spacing:.06em;
     border-radius:4px;padding:2px 5px;vertical-align:2px;margin-left:6px}
+  /* 분석 티어 배지: 🧠 정밀분석(Claude) vs 🤖 자동분석(심부름꾼) */
+  .tier-badge{font-size:10px;font-weight:800;border-radius:5px;padding:2px 7px;margin-left:8px;
+    vertical-align:2px;white-space:nowrap;cursor:help}
+  .tier-deep{color:#fff;background:linear-gradient(180deg,#7C3AED,#6D28D9)}
+  .tier-auto{color:#92400E;background:#FEF3C7;border:1px solid #FCD34D}
+  /* 자동분석 안내 배너 (종합 판단 위) */
+  .autonote{margin:0 0 14px;padding:11px 15px;background:#FFFBEB;border:1.5px solid #FDE68A;
+    border-radius:12px;font-size:12.5px;color:#78350F;line-height:1.7}
+  .autonote b{color:#B45309}
+  /* 칩(사이드바 종목)의 자동분석 표식 */
+  .chip .auto-dot{font-size:9px;margin-left:3px;opacity:.75}
   .stale{font-size:10px;font-weight:800;color:#fff;background:#F59E0B;letter-spacing:.02em;
     border-radius:4px;padding:2px 6px;margin-left:4px;white-space:nowrap}
   .baseat{color:var(--dim);font-weight:600;font-size:.92em}
@@ -958,6 +969,7 @@
 
   <div class="verdict" id="verdict">
     <div class="veasy" id="veasy" style="display:none"></div>
+    <div class="autonote" id="vauto" style="display:none"></div>
     <div class="anote" id="vnote" style="display:none"></div>
     <div class="top">
       <span class="dot" id="vdot"></span>
@@ -998,6 +1010,7 @@
 <script src="site_config.js"></script>
 <script src="community.js"></script>
 <script src="analysis.js"></script>
+<script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
 <script src="price_history.js"></script>
 <script src="indicators.js"></script>
@@ -1026,17 +1039,30 @@ if(typeof LIVE_DATA!=='undefined' && LIVE_DATA.stocks){
   for(const c in LIVE_DATA.stocks) STOCKS[c]=Object.assign(STOCKS[c]||{name:LIVE_DATA.stocks[c].name}, LIVE_DATA.stocks[c]);
 }
 const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
+// auto_analysis.js가 전역에 const LIVE_AUTO를 선언한다(없으면 script onerror가 window.LIVE_AUTO=null).
+// 여기서 같은 이름으로 재선언하면 충돌(SyntaxError)하므로 다른 이름(AUTO_AN)으로 참조만 잡는다.
+const AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:((typeof window!=='undefined'&&window.LIVE_AUTO)||null);
+// 종목별 분석 티어: 'deep'=Claude 정밀분석(analysis.js) / 'auto'=심부름꾼 자동분석(auto_analysis.js) / null=없음(mock)
+function analysisTier(code){
+  if(LIVE_AN && LIVE_AN[code]) return 'deep';
+  if(AUTO_AN && AUTO_AN.stocks && AUTO_AN.stocks[code]) return 'auto';
+  return null;
+}
+// 정밀분석 우선, 없으면 자동분석 블록을 반환(둘 다 같은 스키마: taro/diana/nova/flow/chief/base/updated)
+function analysisEntry(code){
+  if(LIVE_AN && LIVE_AN[code]) return LIVE_AN[code];
+  if(AUTO_AN && AUTO_AN.stocks && AUTO_AN.stocks[code]) return AUTO_AN.stocks[code];
+  return null;
+}
 // 종목별 "분석 기준 시각": 저장 분석이 있으면 그 종목 updated(없으면 전역 date), 없으면 null(=mock)
 function analysisAsOf(code){
-  if(!LIVE_AN) return null;
-  const L=LIVE_AN[code];
+  const L=analysisEntry(code);
   if(!L) return null;
-  return L.updated || LIVE_AN.date || null;
+  return L.updated || (LIVE_AN&&LIVE_AN.date) || (AUTO_AN&&AUTO_AN.priceLabel) || null;
 }
 // 분석 기준가(base) 조회 — 저장 분석에 base가 있을 때만
 function analysisBase(code){
-  if(!LIVE_AN) return null;
-  const L=LIVE_AN[code];
+  const L=analysisEntry(code);
   return (L && typeof L.base==='number') ? L.base : null;
 }
 // 기준가의 시점 라벨(baseAt) — 예: "2026-07-06 종가"
@@ -1174,6 +1200,8 @@ function sparklineSVG(rows){
 /* ---- 최근 종가 페이지 (price_history.js · PRICE_HISTORY, 5거래일=1페이지) ---- */
 const LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
 const PH_PAGE={};        // code -> 현재 보고 있는 페이지 번호(1-indexed)
+const HIST_PAGE={};      // code -> 판단 히스토리 페이지(10건=1페이지, 최신 페이지가 기본)
+const HIST_PAGE_SIZE=10; // 정밀분석 과거기록: 10개씩 묶어 페이지로 (과거 계속 누적)
 let CUR_HIST_CODE=null;  // vhistory에 지금 표시 중인 종목(페이지 이동 버튼이 참조)
 function priceBlockHTML(code){
   const pages=(LIVE_PH&&LIVE_PH[code])||[];
@@ -1204,11 +1232,23 @@ function priceBlockHTML(code){
   </div>`;
 }
 document.getElementById('vhistory').addEventListener('click', e=>{
-  const btn=e.target.closest('.vph-btn'); if(!btn||!CUR_HIST_CODE) return;
-  const pages=(LIVE_PH&&LIVE_PH[CUR_HIST_CODE])||[]; if(!pages.length) return;
-  const dir=+btn.dataset.dir, cur=PH_PAGE[CUR_HIST_CODE]||pages.length;
-  PH_PAGE[CUR_HIST_CODE]=Math.min(pages.length, Math.max(1, cur+dir));
-  renderHistory(CUR_HIST_CODE, (STOCKS[CUR_HIST_CODE]||{}).price);
+  if(!CUR_HIST_CODE) return;
+  const phBtn=e.target.closest('.vph-btn');
+  if(phBtn){
+    const pages=(LIVE_PH&&LIVE_PH[CUR_HIST_CODE])||[]; if(!pages.length) return;
+    const dir=+phBtn.dataset.dir, cur=PH_PAGE[CUR_HIST_CODE]||pages.length;
+    PH_PAGE[CUR_HIST_CODE]=Math.min(pages.length, Math.max(1, cur+dir));
+    renderHistory(CUR_HIST_CODE, (STOCKS[CUR_HIST_CODE]||{}).price);
+    return;
+  }
+  const hhBtn=e.target.closest('.hh-btn');
+  if(hhBtn){
+    const total=((LIVE_HIST&&LIVE_HIST[CUR_HIST_CODE])||[]).length;
+    const pageCount=Math.max(1, Math.ceil(total/HIST_PAGE_SIZE));
+    const dir=+hhBtn.dataset.hdir, cur=HIST_PAGE[CUR_HIST_CODE]||pageCount;
+    HIST_PAGE[CUR_HIST_CODE]=Math.min(pageCount, Math.max(1, cur+dir));
+    renderHistory(CUR_HIST_CODE, (STOCKS[CUR_HIST_CODE]||{}).price);
+  }
 });
 function renderHistory(code, curPrice){
   const el=document.getElementById('vhistory');
@@ -1217,13 +1257,25 @@ function renderHistory(code, curPrice){
   const priceHtml=priceBlockHTML(code);
   if(!rows.length){ el.innerHTML=priceHtml; return; }
   const single=rows.length<2;
-  let html=priceHtml+`<h4>📈 팀 판단 히스토리 · 총 ${rows.length}회</h4>`+
+  // 과거기록 10개=1페이지 (계속 누적) — 기본은 최신 페이지. 그래프는 전체 추이를 보여준다.
+  const total=rows.length, pageCount=Math.max(1, Math.ceil(total/HIST_PAGE_SIZE));
+  if(!HIST_PAGE[code]||HIST_PAGE[code]>pageCount||HIST_PAGE[code]<1) HIST_PAGE[code]=pageCount;
+  const hp=HIST_PAGE[code], startIdx=(hp-1)*HIST_PAGE_SIZE, endIdx=Math.min(total,startIdx+HIST_PAGE_SIZE);
+  const pageRows=rows.slice(startIdx,endIdx);
+  const pager=pageCount>1
+    ? `<div class="vph-nav" style="display:inline-flex;margin-left:8px;vertical-align:middle">
+         <button class="vph-btn hh-btn" data-hdir="-1" ${hp<=1?'disabled':''} title="이전(과거)">‹</button>
+         <span style="font-size:11px;color:var(--dim);align-self:center;padding:0 4px">${hp}/${pageCount}p</span>
+         <button class="vph-btn hh-btn" data-hdir="1" ${hp>=pageCount?'disabled':''} title="다음(최신)">›</button>
+       </div>` : '';
+  let html=priceHtml+`<h4 style="display:flex;align-items:center;flex-wrap:wrap">📈 팀 판단 히스토리 · 총 ${total}회${pager}</h4>`+
     `<div class="hsub">${single
       ?'재분석이 쌓이면 신뢰도·콜 변화가 그래프로, 지난 판단이 적중 채점으로 표시됩니다. (지금은 첫 기록)'
-      :'점 색 = 그날의 콜(🟢BUY · 🟡HOLD · 🔴SELL) · 세로축 = 신뢰도'}</div>`
+      :`점 색 = 그날의 콜(🟢BUY · 🟡HOLD · 🔴SELL) · 세로축 = 신뢰도${pageCount>1?` · 표는 10건씩(${startIdx+1}~${endIdx}번째)`:''}`}</div>`
     + sparklineSVG(rows)
     + '<table><thead><tr><th>일시</th><th>콜</th><th>신뢰도</th><th>기준가</th><th>이후 수익률</th><th>채점</th></tr></thead><tbody>';
-  rows.forEach((r,i)=>{
+  pageRows.forEach((r,pi)=>{
+    const i=startIdx+pi;
     const isLatest=(i===rows.length-1);
     let ret='—', vHtml=`<span class="hverdict hv-now tip-r" data-tip="${VERDICT_TIP.rec}">기록</span>`;
     if(r.base){
@@ -2610,9 +2662,10 @@ reset(); requestAnimationFrame(loop);
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function rng(seed){let x=seed||1;return()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return((x>>>0)/4294967296);};}
 function runAnalysis(stock){
-  if(LIVE_AN && LIVE_AN[stock.code]){
-    const L=LIVE_AN[stock.code];
+  const L=analysisEntry(stock.code);
+  if(L && L.taro && L.chief){
     return {taro:L.taro, diana:L.diana, nova:L.nova, flow:L.flow, chief:L.chief, _live:true,
+      _tier:analysisTier(stock.code),
       _raw:{tech:L.taro.score, fund:L.diana.score, news:L.nova.score}};
   }
   const r=rng(hash(stock.code));
@@ -2647,7 +2700,7 @@ function runAnalysis(stock){
 function decide(a){
   if(a._live && a.chief){
     const c=a.chief;
-    return {call:c.call, total:c.total, conf:c.confidence, live:true,
+    return {call:c.call, total:c.total, conf:c.confidence, live:true, tier:a._tier||'deep',
       color:c.call==='BUY'?'#059669':c.call==='SELL'?'#DC2626':'#D97706',
       text:c.reason, target:c.target||'', report:c.report||''};
   }
@@ -2853,11 +2906,14 @@ function analyze(){
       const v=decide(data);
       document.getElementById('vdot').style.background=v.color;
       const call=document.getElementById('vcall'); call.textContent=v.call; call.style.color=v.color;
+      const tierBadge=v.tier==='auto'
+        ? '<span class="tier-badge tier-auto" title="자동분석 — 심부름꾼(GitHub Actions)이 수집된 지표를 규칙으로 해석한 결과예요. 개별 뉴스는 미반영. Claude 토큰 0.">🤖 자동분석</span>'
+        : (v.tier==='deep'?'<span class="tier-badge tier-deep" title="정밀분석 — Claude 5인 애널리스트가 뉴스·공시까지 직접 분석한 결과예요.">🧠 정밀분석</span>':'');
       document.getElementById('vconf').innerHTML=
         `${stock.name}${stock.price?'('+stock.code+')':''}`+
         (stock.price?` · 현재가 ${won(stock.price)} (${SNAP_DATE})`:'')+
         ` · 종합 ${v.total} · 신뢰도 ${v.conf}%`+
-        (v.live?'<span class="live">LIVE</span>':' · mock');
+        (v.live?'<span class="live">LIVE</span>':' · mock')+tierBadge;
       const aof=analysisAsOf(stock.code);
       const fresh=freshnessHTML(stock.code, stock.price).replace(/^　·　/,'');
       document.getElementById('vasof').innerHTML=
@@ -2868,6 +2924,14 @@ function analyze(){
       // 🧒 초등학생도 이해하는 설명 말풍선 (분석 점수를 쉬운 문장으로 자동 변환 — AI 비용 없음)
       const ve=document.getElementById('veasy');
       ve.innerHTML=easySingleHTML(stock,data,v); ve.style.display='block';
+      // 🤖 자동분석 안내 배너 (자동 티어일 때만)
+      const va=document.getElementById('vauto');
+      if(v.tier==='auto'){
+        va.innerHTML='🤖 <b>자동분석</b> — 이 종목은 심부름꾼(무료 서버)이 <b>수집된 지표(차트·재무·수급)를 규칙으로 해석</b>한 결과예요. '
+          +'개별 뉴스·공시는 아직 반영되지 않았어요(NOVA는 가격 흐름으로 추정). '
+          +'더 깊은 분석이 필요하면 <b>정밀분석(🧠 Claude 5인)</b>으로 전환할 수 있어요.';
+        va.style.display='block';
+      } else va.style.display='none';
       // 👑 운영자 한마디 (관리자 모드에서 종목별로 작성)
       window.GAEO_CUR_CODE=stock.code;
       const vn=document.getElementById('vnote');
@@ -2938,8 +3002,13 @@ document.getElementById('ticker').addEventListener('change',()=>{
       const el=document.createElement('span'); el.className='chip';
       const closes=flatCloses(d.code).map(x=>x.c);
       const spark=closes.length>=2?priceSparkSVG(closes,52,20):'';
-      el.innerHTML=`<span class="cname">${d.name}</span>${spark}<span class="cval"><b>${d.price.toLocaleString()}</b> `+
-        `<span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${d.rate.toFixed(2)}%</span></span>`;
+      const autoMark=(analysisTier(d.code)==='auto')?'<span class="auto-dot" title="자동분석 종목">🤖</span>':'';
+      // 새로 추가돼 아직 시세가 수집 전인 종목은 가격 대신 '시세 대기'로 (null 안전)
+      const hasP=(typeof d.price==='number');
+      const valHtml=hasP
+        ? `<b>${d.price.toLocaleString()}</b> <span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${(d.rate||0).toFixed(2)}%</span>`
+        : `<span class="pf-mut" style="font-size:11px">시세 대기</span>`;
+      el.innerHTML=`<span class="cname">${d.name}${autoMark}</span>${spark}<span class="cval">${valHtml}</span>`;
       el.onclick=()=>{document.getElementById('ticker').value=d.name;
         showQuote(resolveStock(d.name)); analyze();};
       body.appendChild(el);
@@ -2949,9 +3018,9 @@ document.getElementById('ticker').addEventListener('change',()=>{
 })();
 // 시세 테이프
 (function(){
-  const html=Object.values(STOCKS).map(d=>{
+  const html=Object.values(STOCKS).filter(d=>typeof d.price==='number').map(d=>{
     const up=d.rate>0;
-    return `${d.name}${d.stale?' ⚠️':''} ${d.price.toLocaleString()} <span class="${up?'up':'down'}">${up?'+':''}${d.rate.toFixed(2)}%</span>`;
+    return `${d.name}${d.stale?' ⚠️':''} ${d.price.toLocaleString()} <span class="${up?'up':'down'}">${up?'+':''}${(d.rate||0).toFixed(2)}%</span>`;
   }).join('   ·   ')+`   ·   <span style="color:#8ba0c8">${SNAP_DATE}</span>`;
   document.getElementById('tape').innerHTML=html+'   ·   '+html;
 })();
@@ -3095,13 +3164,15 @@ showQuote(resolveStock('제주반도체'));
     const winner=vA.total>vB.total?A.name:vB.total>vA.total?B.name:null;
     // ⚡ 분석가 의견이 크게 갈린 종목엔 배지로 경고 (평균 점수 뒤에 숨은 시각차)
     const clashB=d=>{const c=clashInfo(d);return c?`<span class="clash-badge" title="「${c.hi.label}」 ${c.hi.v}점 vs 「${c.lo.label}」 ${c.lo.v}점 — 분석가 점수가 ${c.spread}점 차이. 해석이 크게 갈리는 종목이라 더 신중히!">⚡의견갈림</span>`:'';};
+    // 🤖/🧠 분석 티어 표식
+    const tierB=code=>{const t=analysisTier(code);return t==='auto'?'<span class="tier-badge tier-auto">🤖 자동</span>':(t==='deep'?'<span class="tier-badge tier-deep">🧠 정밀</span>':'');};
     el.innerHTML=
       `<div class="cmp-top">`+
-        `<div class="cmp-side a"><span class="cmp-nm" style="color:${COL_A}">${A.name}</span>`+
+        `<div class="cmp-side a"><span class="cmp-nm" style="color:${COL_A}">${A.name}${tierB(ca)}</span>`+
           `<span class="cmp-pr">${won(A.price)} ${rateHTML(A)}</span>`+
           `<span>${badge(vA)}${clashB(dA)} <span style="font-size:12px;color:var(--dim)">종합 ${vA.total} · 신뢰도 ${vA.conf}%</span></span></div>`+
         `<div class="cmp-vs">VS</div>`+
-        `<div class="cmp-side b"><span class="cmp-nm" style="color:${COL_B}">${B.name}</span>`+
+        `<div class="cmp-side b"><span class="cmp-nm" style="color:${COL_B}">${B.name}${tierB(cb)}</span>`+
           `<span class="cmp-pr">${won(B.price)} ${rateHTML(B)}</span>`+
           `<span><span style="font-size:12px;color:var(--dim)">종합 ${vB.total} · 신뢰도 ${vB.conf}%</span> ${badge(vB)}${clashB(dB)}</span></div>`+
       `</div>`+
