@@ -135,18 +135,31 @@
 
   /* ── 종목 칩: 업종 폴더 ── */
   .chips{margin:0 0 16px}
-  .sector{margin:0 0 10px;border:none;border-radius:14px;background:var(--paper);
+  .sector{margin:0 0 6px;border:none;border-radius:12px;background:var(--paper);
     box-shadow:var(--shadow-sm);overflow:hidden}
-  .sector-head{display:flex;align-items:center;gap:9px;width:100%;padding:13px 18px;cursor:pointer;
+  .sector-head{display:flex;align-items:center;gap:7px;width:100%;padding:9px 13px;cursor:pointer;
     background:none;border:none;font:inherit;text-align:left;color:var(--navy);
-    font-weight:700;font-size:13.5px;letter-spacing:.01em;transition:background .15s}
+    font-weight:700;font-size:12.5px;letter-spacing:.01em;transition:background .15s;white-space:nowrap}
   .sector-head:hover{background:var(--navy-soft)}
-  .sector-head .cnt{color:var(--sky);font-weight:600;font-size:11.5px;background:var(--sky-soft);
-    border-radius:99px;padding:2px 9px}
-  .sector-head .arrow{margin-left:auto;color:var(--faint);font-size:11px;transition:transform .2s}
+  .sector-head .cnt{color:var(--sky);font-weight:600;font-size:10.5px;background:var(--sky-soft);
+    border-radius:99px;padding:1px 7px;flex-shrink:0}
+  .sector-head .arrow{margin-left:auto;color:var(--faint);font-size:10px;transition:transform .2s}
   .sector.open .sector-head .arrow{transform:rotate(90deg)}
-  .sector-body{display:none;flex-wrap:wrap;gap:8px;padding:2px 16px 16px}
+  .sector-body{display:none;flex-wrap:wrap;gap:6px;padding:2px 12px 12px}
   .sector.open .sector-body{display:flex}
+  /* 모바일·태블릿(<1180px): 업종 폴더를 2열 그리드로 압축, 연 폴더만 전체 폭으로 펼침 */
+  @media(max-width:1179px){
+    .chips{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .sector{margin:0}
+    .sector.open{grid-column:1/-1}
+    .sector-head{padding:10px 11px;font-size:12px;gap:5px}
+    .sector-head .fold{font-size:11px}
+    .sector.open .sector-body{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px 11px}
+    .sector-body .chip{justify-content:space-between;padding:7px 10px;font-size:11.5px;min-width:0}
+    .sector-body .chip .chip-spark{display:none}
+    .sector-body .chip .cname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .sector-body .chip b{font-size:12px}
+  }
   .chip{font-size:12.5px;color:var(--dim);background:var(--bg);border:1px solid transparent;
     padding:8px 14px;border-radius:12px;cursor:pointer;display:flex;gap:8px;align-items:center;
     transition:border-color .2s,background .2s,transform .12s}
@@ -270,10 +283,12 @@
   .modebtn:not(.on):hover{color:var(--navy)}
   .modebtn.on{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(11,65,113,.25)}
   .cmp-controls{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
-  .cmp-controls select{flex:1;min-width:150px;background:var(--paper);border:1px solid transparent;
+  .cmp-controls .ac-wrap{flex:1;min-width:150px}
+  .cmp-controls input{width:100%;background:var(--paper);border:1px solid transparent;
     color:var(--ink);border-radius:12px;padding:12px 14px;font:inherit;font-size:15px;
-    box-shadow:var(--shadow-sm);cursor:pointer}
-  .cmp-controls select:focus{outline:none;border-color:var(--sky)}
+    box-shadow:var(--shadow-sm);outline:none;transition:border-color .2s}
+  .cmp-controls input::placeholder{color:var(--faint)}
+  .cmp-controls input:focus{border-color:var(--sky)}
   .cmp-controls .vs{font-weight:800;color:var(--sky);font-size:14px}
   .cmp-controls button{background:linear-gradient(180deg,#125388,var(--navy));border:none;
     color:#fff;font-weight:700;padding:12px 24px;border-radius:12px;cursor:pointer;font-size:15px;font-family:inherit;
@@ -602,6 +617,38 @@
   /* ── 커뮤니티 ── */
   .communityView{display:none}
   .communityView.on{display:block}
+  /* ── 📖 가이드북(초보 안내서) ── */
+  .guideView{display:none;margin-top:18px}
+  .guideView.on{display:block}
+  .gb-hero{background:linear-gradient(135deg,var(--navy),#155a8a);color:#fff;border-radius:16px;
+    padding:26px 28px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .gb-hero h2{margin:0 0 8px;font-size:20px;letter-spacing:-.01em}
+  .gb-hero p{margin:0;font-size:13.5px;line-height:1.8;opacity:.92}
+  .gb-agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:14px}
+  .gb-agent{background:rgba(255,255,255,.10);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.6}
+  .gb-agent b{display:block;font-size:12.5px}
+  details.gb-sec{background:var(--paper);border-radius:14px;box-shadow:var(--shadow-sm);
+    margin-bottom:10px;overflow:hidden}
+  details.gb-sec summary{cursor:pointer;padding:15px 18px;font-weight:800;font-size:14.5px;color:var(--navy);
+    list-style:none;display:flex;align-items:center;gap:9px;user-select:none}
+  details.gb-sec summary::-webkit-details-marker{display:none}
+  details.gb-sec summary::after{content:'▸';margin-left:auto;color:var(--faint);font-size:12px;transition:transform .2s}
+  details.gb-sec[open] summary::after{transform:rotate(90deg)}
+  details.gb-sec .gb-body{padding:2px 20px 18px;font-size:13.5px;line-height:1.85;color:#334155}
+  .gb-body b{color:var(--navy)}
+  .gb-step{display:flex;gap:11px;margin-bottom:12px;align-items:flex-start}
+  .gb-step:last-child{margin-bottom:0}
+  .gb-no{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--sky);color:#fff;
+    font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .gb-sign{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .gb-sign:last-child{border-bottom:none}
+  .gb-sign .sg{flex-shrink:0;min-width:74px;text-align:center;font-weight:800;font-size:11.5px;
+    border-radius:8px;padding:4px 8px;margin-top:2px}
+  .gb-dict dt{font-weight:800;color:var(--navy);margin-top:12px;font-size:13.5px}
+  .gb-dict dt:first-child{margin-top:0}
+  .gb-dict dd{margin:2px 0 0;color:#475569;font-size:13px;line-height:1.75}
+  .gb-warn{margin-top:4px;background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:12px;
+    padding:13px 16px;font-size:12.5px;color:#78350F;line-height:1.7}
   .cm-notice{background:var(--sky-soft);border-radius:14px;padding:14px 18px;margin:0 0 14px;
     font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.6;box-shadow:var(--shadow-sm)}
   .cm-post{background:var(--paper);border-radius:14px;padding:16px 18px;margin:0 0 12px;
@@ -874,7 +921,7 @@
     .controls input{min-width:0;width:100%}
     .controls button{width:100%}
     .cmp-controls{flex-direction:column;align-items:stretch;gap:8px;margin-bottom:12px}
-    .cmp-controls select{min-width:0;width:100%}
+    .cmp-controls .ac-wrap{min-width:0;width:100%}
     .cmp-controls .vs{text-align:center}
     .cmp-controls button{width:100%}
     .chips{margin-bottom:0}
@@ -951,6 +998,7 @@
   <aside class="rail">
   <div class="modes">
     <button class="modebtn on" id="mode-single">단일 분석</button>
+    <button class="modebtn" id="mode-guide">📖 가이드북</button>
     <button class="modebtn" id="mode-compare">종목 비교</button>
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
@@ -966,9 +1014,9 @@
     <button id="run">분석 시작 ▶</button>
   </div>
   <div class="cmp-controls" id="cmpControls" style="display:none">
-    <select id="cmpA"></select>
+    <div class="ac-wrap"><input id="cmpA" autocomplete="off" placeholder="종목 A — 한글로 검색" /><div class="acbox" id="acboxA"></div></div>
     <span class="vs">VS</span>
-    <select id="cmpB"></select>
+    <div class="ac-wrap"><input id="cmpB" autocomplete="off" placeholder="종목 B — 한글로 검색" /><div class="acbox" id="acboxB"></div></div>
     <button id="cmpRun">비교 ▶</button>
   </div>
   <div class="chips" id="chips"></div>
@@ -1026,6 +1074,7 @@
   <div class="leaderboard" id="leaderboard"></div>
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
+  <div class="guideView" id="guideView"></div>
   </main>
 
   <aside class="rail-r" id="railR" aria-label="일정·최근 판단"></aside>
@@ -3053,10 +3102,11 @@ function analyze(){
 document.getElementById('run').onclick=analyze;
 
 /* ── 한글 검색 자동완성 (이름·업종·사업내용으로 매칭) ──
-   종목이 119개로 많아져 직접 찾기 번거로우므로, 입력할 때마다 후보를 띄운다. */
-(function(){
-  const inp=document.getElementById('ticker'), box=document.getElementById('acbox');
+   종목이 119개로 많아 직접 찾기 번거로우므로, 입력할 때마다 후보를 띄운다.
+   단일분석 검색창과 종목비교의 A/B 검색창이 모두 이 함수를 공유한다. */
+function makeAutocomplete(inp, box, opts){
   if(!inp||!box) return;
+  opts=opts||{};
   // 검색 대상: tickers 순서대로(칩과 동일), 이름·코드·업종·사업소개를 키워드로
   const ALL=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)?TICKERS:Object.keys(STOCKS).map(c=>({code:c})))
     .map(t=>{const s=STOCKS[t.code]||{}; return {
@@ -3096,15 +3146,15 @@ document.getElementById('run').onclick=analyze;
   function choose(x){
     if(!x) return;
     inp.value=x.name; box.classList.remove('on'); sel=-1;
-    showQuote(resolveStock(x.name)); analyze();
+    if(opts.onPick) opts.onPick(x);
   }
   inp.addEventListener('input',()=>search(inp.value));
   inp.addEventListener('focus',()=>{ if(inp.value.trim()&&cur.length) box.classList.add('on'); });
   inp.addEventListener('keydown',e=>{
-    if(!box.classList.contains('on')||!cur.length){ if(e.key==='Enter') analyze(); return; }
+    if(!box.classList.contains('on')||!cur.length){ if(e.key==='Enter'&&opts.onEnter) opts.onEnter(); return; }
     if(e.key==='ArrowDown'){ e.preventDefault(); sel=(sel+1)%cur.length; render(cur,inp.value.trim()); }
     else if(e.key==='ArrowUp'){ e.preventDefault(); sel=(sel-1+cur.length)%cur.length; render(cur,inp.value.trim()); }
-    else if(e.key==='Enter'){ e.preventDefault(); if(sel>=0) choose(cur[sel]); else { box.classList.remove('on'); analyze(); } }
+    else if(e.key==='Enter'){ e.preventDefault(); if(sel>=0) choose(cur[sel]); else { box.classList.remove('on'); if(opts.onEnter) opts.onEnter(); } }
     else if(e.key==='Escape'){ box.classList.remove('on'); }
   });
   box.addEventListener('mousedown',e=>{   // mousedown: blur보다 먼저 처리
@@ -3112,8 +3162,106 @@ document.getElementById('run').onclick=analyze;
     e.preventDefault();
     choose(ALL.find(x=>x.code===it.dataset.code)||{name:it.dataset.name});
   });
-  document.addEventListener('click',e=>{ if(!e.target.closest('.ac-wrap')) box.classList.remove('on'); });
-})();
+  document.addEventListener('click',e=>{ if(!inp.parentElement.contains(e.target)) box.classList.remove('on'); });
+}
+makeAutocomplete(document.getElementById('ticker'), document.getElementById('acbox'), {
+  onPick:x=>{ showQuote(resolveStock(x.name)); analyze(); },
+  onEnter:()=>analyze()
+});
+
+/* ── 📖 가이드북: 주식 초보·어린이도 이 사이트를 바로 쓸 수 있게 하는 안내서 ──
+   내용은 전부 여기 하드코딩(정적) — 열 때 1회만 그린다. */
+let GUIDE_DONE=false;
+function renderGuide(){
+  if(GUIDE_DONE) return;
+  GUIDE_DONE=true;
+  const el=document.getElementById('guideView'); if(!el) return;
+  const nStocks=(typeof TICKERS!=='undefined'&&TICKERS.length)||0;
+  // 왕초보 기초 단어(화면 용어사전 GLOSSARY와 별도의 더 쉬운 말들)
+  const BASIC={
+    '주식':'회사를 아주 잘게 나눈 조각이에요. 한 조각(1주)을 사면 그 회사의 아주 작은 주인이 되는 거예요.',
+    '종목':'주식시장에서 사고팔 수 있는 회사 하나하나를 부르는 말이에요. "삼성전자"도 하나의 종목이에요.',
+    '코스피 / 코스닥':'우리나라 주식시장 두 곳의 이름이에요. 코스피엔 크고 오래된 회사가, 코스닥엔 성장 중인 회사가 많아요.',
+    '주가':'주식 한 조각의 가격이에요. 사려는 사람이 많으면 오르고, 팔려는 사람이 많으면 내려요.',
+    '종가':'그날 장이 끝났을 때(오후 3시 30분)의 마지막 가격이에요. "오늘 얼마로 마쳤나"예요.',
+    '등락률(%)':'어제보다 얼마나 오르내렸는지를 %로 나타낸 거예요. 빨간색·▲는 오름, 파란색·▼는 내림이에요.',
+    '매수 / 매도':'매수 = 사는 것, 매도 = 파는 것이에요.',
+    '배당':'회사가 번 돈의 일부를 주인(주주)들에게 나눠주는 용돈 같은 거예요.',
+    '외국인 / 기관':'주식시장의 큰손들이에요. 외국의 큰 투자회사(외국인), 우리나라의 은행·연금 같은 곳(기관)이 사고파는 방향은 중요한 힌트가 돼요.',
+    '수급':'"누가 사고 누가 파는가"를 뜻하는 말이에요. 큰손들이 사 모으면 수급이 좋다고 해요.',
+    '실적':'회사가 장사를 얼마나 잘했는지 성적표예요. 매출(판 돈)과 영업이익(남긴 돈)으로 봐요.',
+    '목표주가':'증권사 전문가들이 "이 주식은 이 정도까지 갈 수 있다"고 적어낸 예상 가격이에요. 맞는다는 보장은 없어요!'
+  };
+  const dict=o=>Object.entries(o).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  const sign=(bg,fg,label,desc)=>`<div class="gb-sign"><span class="sg" style="background:${bg};color:${fg}">${label}</span><span>${desc}</span></div>`;
+  el.innerHTML=`
+  <div class="gb-hero">
+    <h2>📖 개오 애널리스트팀 사용 설명서</h2>
+    <p>이 사이트는 AI 분석가 <b>다섯 명</b>이 한국 주식 <b>${nStocks}개</b>를 매일 살펴보고,
+    "지금 사도 될까? 기다릴까? 조심할까?"를 <b>점수와 쉬운 말</b>로 알려주는 곳이에요.
+    주식을 하나도 몰라도 괜찮아요 — 아래 순서대로 따라오면 돼요!</p>
+    <div class="gb-agents">
+      <div class="gb-agent"><b>📈 TARO (기술)</b>주가 차트의 흐름을 봐요 — "요즘 오르는 힘이 센가?"</div>
+      <div class="gb-agent"><b>💰 DIANA (재무)</b>회사가 돈을 잘 버는지, 주가가 싼지 비싼지 계산해요</div>
+      <div class="gb-agent"><b>📰 NOVA (뉴스)</b>좋은 소식·나쁜 소식을 찾아 분위기를 읽어요</div>
+      <div class="gb-agent"><b>🌊 FLOW (수급)</b>외국인·기관 같은 큰손들이 사는지 파는지 추적해요</div>
+      <div class="gb-agent"><b>👑 CHIEF (총괄)</b>네 명의 의견을 모아 최종 판단을 내려요</div>
+    </div>
+  </div>
+
+  <details class="gb-sec" open>
+    <summary>🚀 3분 사용법 — 처음이라면 이 순서로!</summary>
+    <div class="gb-body">
+      <div class="gb-step"><span class="gb-no">1</span><span><b>궁금한 회사를 검색해요.</b> 맨 위 검색창에 한글로 "삼성"처럼 일부만 쳐도 후보가 떠요. 회사 이름이 생각 안 나면 "반도체", "게임"처럼 <b>하는 일</b>로 검색해도 돼요.</span></div>
+      <div class="gb-step"><span class="gb-no">2</span><span><b>[분석 시작 ▶]을 눌러요.</b> 다섯 분석가가 일하러 가는 모습이 보이고, 잠시 뒤 결과가 나와요.</span></div>
+      <div class="gb-step"><span class="gb-no">3</span><span><b>🧒 파란 말풍선부터 읽어요.</b> 분석 결과 맨 위 "초등학생도 이해하는 설명"이 오늘의 핵심을 제일 쉽게 알려줘요.</span></div>
+      <div class="gb-step"><span class="gb-no">4</span><span><b>더 궁금하면 아래로 내려요.</b> 분석가 4명의 카드 → 팀 종합 점수 → <b>BUY/HOLD/SELL 최종 판단</b> → 🧭 가격 나침반(목표가·지지선) 순서로 자세해져요.</span></div>
+      <div class="gb-step"><span class="gb-no">5</span><span><b>점선 밑줄 단어는 눌러보세요.</b> <span style="border-bottom:1.5px dotted var(--sky);color:var(--navy);font-weight:700">PER</span>처럼 밑줄 있는 낱말을 누르면 쉬운 뜻풀이가 떠요.</span></div>
+    </div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>🚦 화면 기호 읽는 법 — 이게 다 무슨 뜻이에요?</summary>
+    <div class="gb-body">
+      ${sign('#059669','#fff','BUY','"사볼 만해요" — 팀이 보기에 좋아질 가능성이 커요.')}
+      ${sign('#D97706','#fff','HOLD','"기다려요" — 좋지도 나쁘지도 않아요. 가진 사람은 지켜보고, 없는 사람은 서두르지 않아도 돼요.')}
+      ${sign('#DC2626','#fff','SELL','"조심해요" — 내려갈 걱정이 커요. 비중을 줄이는 걸 생각해봐요.')}
+      ${sign('var(--sky-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','신뢰도 %','팀이 이 판단에 얼마나 자신 있는지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
+      ${sign('#6D28D9','#fff','🧠 정밀분석','Claude(똑똑한 AI)가 뉴스와 공시까지 직접 읽고 쓴 깊은 분석이에요.')}
+      ${sign('#FEF3C7','#92400E','🤖 자동분석','컴퓨터가 차트·재무·수급 숫자만 보고 규칙대로 계산한 분석이에요. 뉴스는 반영 안 돼 있어요.')}
+      ${sign('#EA580C','#fff','⚡의견갈림','분석가들끼리 점수가 크게 엇갈렸다는 경고예요. 이런 종목은 평균 점수만 믿지 말고 한 번 더 생각!')}
+      ${sign('var(--sky-soft)','var(--navy)','🧭 가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
+      ${sign('var(--sky-soft)','var(--navy)','⏳평가중','판단이 맞았는지는 <b>5거래일(약 일주일) 뒤 종가</b>로 채점해요. 아직 5일이 안 지난 판단이 "평가중"이에요.')}
+    </div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>🧭 탭마다 뭐가 있어요?</summary>
+    <div class="gb-body">
+      <b>단일 분석</b> — 한 종목을 골라 5명이 꼼꼼히 봐요. 이 사이트의 메인이에요.<br>
+      <b>종목 비교</b> — 두 종목을 나란히 놓고 "누가 더 나은가"를 그림으로 비교해요. 쉬운 말 정리도 있어요.<br>
+      <b>💼 포트폴리오</b> — 내가 가진 주식과 산 가격을 적어두면, 팀 판단과 함께 손익을 계산해줘요. (내 폰에만 저장돼요)<br>
+      <b>🏆 리더보드</b> — 분석가 다섯 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점해요.<br>
+      <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
+      <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
+    </div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>📚 왕초보 단어장 — 이것만 알면 절반은 끝!</summary>
+    <div class="gb-body"><dl class="gb-dict">${dict(BASIC)}</dl></div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>🔬 분석 단어장 — 조금 더 어려운 말들 (화면에서 점선 단어를 눌러도 나와요)</summary>
+    <div class="gb-body"><dl class="gb-dict">${dict(GLOSSARY)}</dl></div>
+  </details>
+
+  <div class="gb-warn">⚠️ <b>꼭 기억하세요!</b> 이 사이트는 <b>공부와 참고용</b>이에요.
+  AI 분석가도 틀릴 수 있어요(리더보드에서 확인해보세요!). 진짜 투자는 어른과 상의하고,
+  잃어도 괜찮은 돈으로, 스스로 공부한 뒤에 결정하는 거예요. 여기 나온 어떤 내용도 "사라/팔아라"는 권유가 아니에요.</div>`;
+}
 
 // 종목 칩: 업종 폴더(누르면 열림) 안에 이름 + 현재 주가 + 등락률
 (function(){
@@ -3128,19 +3276,23 @@ document.getElementById('run').onclick=analyze;
     if(!byName[s]){ byName[s]={name:s,items:[]}; groups.push(byName[s]); }
     byName[s].items.push(d);
   });
-  // 기본 선택 종목(제주반도체)이 든 폴더는 처음부터 열어둔다.
-  // 데스크톱(사이드바 모드)에서는 폴더 전체를 열어 종목 내비게이션으로 쓴다.
+  // 종목이 119개라 폴더는 기본 접힘(숨김) — 기본 선택 종목(제주반도체) 폴더만 열어둔다.
+  // 아코디언: 하나를 열면 다른 폴더는 자동으로 닫혀 목록이 길어지지 않는다.
   const defSector=(Object.values(STOCKS).find(d=>d.name==='제주반도체')||groups[0].items[0]||{}).sector;
-  const deskWide=window.matchMedia('(min-width:1180px)').matches;
   groups.forEach(g=>{
-    const open=deskWide||g.name===defSector;
+    const open=g.name===defSector;
     const sec=document.createElement('div'); sec.className='sector'+(open?' open':'');
     const head=document.createElement('button'); head.className='sector-head';
     head.innerHTML=`<span class="fold">${open?'📂':'📁'}</span> ${g.name} `+
-      `<span class="cnt">${g.items.length}종목</span><span class="arrow">▸</span>`;
+      `<span class="cnt">${g.items.length}</span><span class="arrow">▸</span>`;
     head.onclick=()=>{
-      sec.classList.toggle('open');
-      head.querySelector('.fold').textContent=sec.classList.contains('open')?'📂':'📁';
+      const willOpen=!sec.classList.contains('open');
+      wrap.querySelectorAll('.sector.open').forEach(s=>{
+        if(s!==sec){ s.classList.remove('open'); const f=s.querySelector('.fold'); if(f) f.textContent='📁'; }
+      });
+      sec.classList.toggle('open', willOpen);
+      head.querySelector('.fold').textContent=willOpen?'📂':'📁';
+      if(willOpen) sec.scrollIntoView({behavior:'smooth',block:'nearest'});
     };
     const body=document.createElement('div'); body.className='sector-body';
     g.items.forEach(d=>{
@@ -3233,23 +3385,30 @@ showQuote(resolveStock('제주반도체'));
 
 // ---------- 종목 비교 모드 ----------
 (function(){
+  // 종목비교 A/B — 한글 검색 자동완성 입력(단일분석 검색과 같은 엔진 공유)
   const selA=document.getElementById('cmpA'), selB=document.getElementById('cmpB');
-  Object.entries(STOCKS).forEach(([code,d])=>{
-    selA.insertAdjacentHTML('beforeend',`<option value="${code}">${d.name}</option>`);
-    selB.insertAdjacentHTML('beforeend',`<option value="${code}">${d.name}</option>`);
-  });
-  selA.value='080220'; selB.value='005930';
+  selA.value='제주반도체'; selB.value='삼성전자';
+  const cmpPicked=()=>{   // 양쪽 다 실제 종목이면 바로 비교 실행
+    const a=resolveStock(selA.value), b=resolveStock(selB.value);
+    if(a.price&&b.price) runCompare();
+  };
+  makeAutocomplete(selA, document.getElementById('acboxA'), {onPick:cmpPicked, onEnter:()=>runCompare()});
+  makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'compare' | 'portfolio' | 'leaderboard' | 'calendar' | 'community'
+  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
-          leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community';
+          leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
+          guide=mode==='guide';
     document.getElementById('mode-single').classList.toggle('on',single);
+    document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
+    document.getElementById('guideView').classList.toggle('on',guide);
+    if(guide) renderGuide();
     document.querySelector('.controls').style.display=single?'':'none';
     document.getElementById('chips').style.display=single?'':'none';
     document.getElementById('quote').style.display=single?'':'none';
@@ -3267,6 +3426,7 @@ showQuote(resolveStock('제주반도체'));
     if(community && window.renderCommunity) window.renderCommunity();
   }
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
+  document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
   document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
@@ -3301,9 +3461,11 @@ showQuote(resolveStock('제주반도체'));
   const rateHTML=st=>`<span class="qrate ${st.rate>0?'up':'down'}" style="font-size:13px">${st.rate>0?'▲ +':'▼ '}${st.rate.toFixed(2)}%</span>`;
 
   window.runCompare=function(){
-    const ca=selA.value, cb=selB.value, el=document.getElementById('compare');
+    const el=document.getElementById('compare');
+    const A=resolveStock(selA.value), B=resolveStock(selB.value);
+    if(!A.price||!B.price){ el.innerHTML=`<div class="cmp-sum">검색창에서 종목을 골라주세요 — 한글 이름 일부만 쳐도 후보가 떠요.</div>`; el.classList.add('on'); return; }
+    const ca=A.code, cb=B.code;
     if(ca===cb){ el.innerHTML=`<div class="cmp-sum">서로 다른 두 종목을 골라주세요.</div>`; el.classList.add('on'); return; }
-    const A=resolveStock(ca), B=resolveStock(cb);
     const dA=runAnalysis(A), dB=runAnalysis(B), vA=decide(dA), vB=decide(dB);
     const sA=VIZ_AXES.map(x=>dA[x.id].score), sB=VIZ_AXES.map(x=>dB[x.id].score);
     const winner=vA.total>vB.total?A.name:vB.total>vA.total?B.name:null;
