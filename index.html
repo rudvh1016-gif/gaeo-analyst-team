@@ -795,9 +795,31 @@
   .mk-an{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
   .mk-antitle{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
   .mk-asof{font-size:11px;color:var(--faint);font-weight:600;margin-left:6px}
-  .mk-text{margin:0;font-size:13px;line-height:1.7;color:#334155}
+  .mk-text{margin:0 0 8px;font-size:13px;line-height:1.75;color:#334155}
+  .mk-text:last-of-type{margin-bottom:0}
   .mk-points{margin:8px 0 0;padding-left:17px;font-size:12.5px;color:#475569;line-height:1.65}
   .mk-points li{margin-bottom:3px}
+  /* 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 */
+  .mk-tally{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+  .mk-tally-head{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:8px}
+  .mk-tally-head .mk-asof{font-weight:600}
+  .mk-tally-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .tly{font-size:13px;font-weight:800;border-radius:10px;padding:6px 13px;font-variant-numeric:tabular-nums}
+  .tly.buy{color:#065F46;background:#D1FAE5}
+  .tly.hold{color:#92400E;background:#FEF3C7}
+  .tly.sell{color:#991B1B;background:#FEE2E2}
+  .mk-buylist{margin-top:2px}
+  .mk-buylist summary{cursor:pointer;font-size:12px;font-weight:700;color:var(--green);
+    list-style:none;display:inline-flex;align-items:center;gap:5px;padding:5px 0;user-select:none}
+  .mk-buylist summary::-webkit-details-marker{display:none}
+  .mk-buylist summary::after{content:'▸';color:var(--faint);font-size:10px;transition:transform .2s}
+  .mk-buylist[open] summary::after{transform:rotate(90deg)}
+  .mk-buychips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .mk-buychip{font-size:11px;color:#065F46;background:var(--paper);border:1px solid #A7F3D0;
+    border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:background .15s}
+  .mk-buychip:hover{background:#D1FAE5}
+  .mk-buychip .bc-code{color:var(--faint);font-size:9.5px;margin-left:3px}
+  .mk-buynote{font-size:10.5px;color:var(--faint);margin-top:6px;line-height:1.5}
   /* 날짜별 지난 시장 분석 목차 */
   .mk-hist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
   .mk-hist-toggle{display:flex;align-items:center;gap:7px;width:100%;background:none;border:none;
@@ -1853,6 +1875,29 @@ const priceAsOf=()=>String(SNAP_DATE).replace(' 수집','');
 document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DATE;
 
 /* ── 코스피/코스닥 지수 + 시장 분석 (data.js indices · analysis.js market) ── */
+// 긴 시장 분석 문장을 문단으로 쪼갠다 — 문장 끝(.?!)+공백마다 <p>로 분리해 가독성↑
+// (lookbehind는 iOS<16.4에서 스크립트 전체가 죽으므로 사용하지 않음)
+function mkParas(text){
+  if(!text) return '';
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const sents=String(text).replace(/([.!?])\s+/g,'$1\n').split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!sents.length) return `<p class="mk-text">${esc(text)}</p>`;
+  return sents.map(s=>`<p class="mk-text">${esc(s)}</p>`).join('');
+}
+// 오늘 분석 종합 집계: 정밀+자동 전체 종목의 CHIEF 콜을 세고 BUY 목록을 모은다
+function analysisTally(){
+  const counts={BUY:0,HOLD:0,SELL:0}, buy=[], seen=new Set();
+  const add=(code,e)=>{
+    if(seen.has(code)||!e||!e.chief||!e.chief.call) return;
+    const c=e.chief.call; if(counts[c]==null) return;
+    seen.add(code); counts[c]++;
+    if(c==='BUY') buy.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0});
+  };
+  if(LIVE_AN) for(const code in LIVE_AN){ if(/^\d{6}$/.test(code)) add(code, LIVE_AN[code]); }
+  if(AUTO_AN&&AUTO_AN.stocks) for(const code in AUTO_AN.stocks) add(code, AUTO_AN.stocks[code]);
+  buy.sort((a,b)=>b.total-a.total);   // 점수 높은 순
+  return {counts, buy, total:counts.BUY+counts.HOLD+counts.SELL};
+}
 (function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
@@ -1870,8 +1915,26 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
   let html=segs?'<div class="mk-strip">'+segs+'</div>':'';
   if(mk){
     html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
-      (mk.text?`<p class="mk-text">${esc(mk.text)}</p>`:'')+
+      mkParas(mk.text)+
       (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
+      `</div>`;
+  }
+  // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
+  const tal=analysisTally();
+  if(tal.total>0){
+    const day=(AUTO_AN&&AUTO_AN.generatedAt||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
+    const chips=tal.buy.map(b=>`<span class="mk-buychip" data-nm="${esc(b.name)}">${esc(b.name)}<span class="bc-code">${b.code}</span></span>`).join('');
+    html+=`<div class="mk-tally">
+      <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(day)} · 총 ${tal.total}종목</span></div>
+      <div class="mk-tally-row">
+        <span class="tly buy">🟢 BUY ${tal.counts.BUY}</span>
+        <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
+        <span class="tly sell">🔴 SELL ${tal.counts.SELL}</span>
+      </div>`+
+      (tal.buy.length?`<details class="mk-buylist"><summary>🟢 BUY 판단 종목 ${tal.buy.length}개 펼쳐보기</summary>
+        <div class="mk-buychips">${chips}</div>
+        <div class="mk-buynote">※ 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.</div>
+      </details>`:'')+
       `</div>`;
   }
 
@@ -1896,7 +1959,7 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
             <span class="mk-day-sum">코스피 ${rateTag(m.kospi)} · 코스닥 ${rateTag(m.kosdaq)}</span>
             <span class="mk-click">클릭 <span class="mk-arrow">▸</span></span></button>
           <div class="mk-day-body">`+
-            (m.text?`<p class="mk-text">${esc(m.text)}</p>`:'')+
+            mkParas(m.text)+
             (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
           `</div></div>`;
       }).join('')+`</div></div>`;
@@ -1908,6 +1971,13 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
   if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
+  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석
+  box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>{
+    const inp=document.getElementById('ticker'); if(!inp) return;
+    const mb=document.getElementById('mode-single'); if(mb) mb.click();
+    inp.value=c.dataset.nm; showQuote(resolveStock(c.dataset.nm)); analyze();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 })();
 
 /* ============================================================
