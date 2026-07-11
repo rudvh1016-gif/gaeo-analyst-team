@@ -86,6 +86,39 @@
 
   /* ── 컨트롤 ── */
   .controls{display:flex;gap:10px;margin:0 0 14px;flex-wrap:wrap}
+  .ac-wrap{flex:1;min-width:200px;position:relative}
+  .ac-wrap input{width:100%}
+  /* 한글 검색 자동완성 드롭다운 */
+  .acbox{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:120;
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 12px 30px -8px rgba(11,65,113,.28);overflow:hidden;display:none;
+    max-height:min(60vh,420px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .acbox.on{display:block}
+  .ac-item{display:flex;align-items:center;gap:9px;padding:10px 13px;cursor:pointer;
+    border-bottom:1px solid var(--line);font-size:13.5px}
+  .ac-item:last-child{border-bottom:none}
+  .ac-item.sel,.ac-item:hover{background:var(--sky-soft)}
+  .ac-nm{font-weight:800;color:var(--ink);white-space:nowrap}
+  .ac-sec{font-size:11px;font-weight:700;color:var(--navy);background:var(--paper2);
+    border-radius:99px;padding:2px 8px;white-space:nowrap}
+  .ac-bio{color:var(--dim);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+  .ac-pr{font-size:11.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .ac-empty{padding:14px 13px;color:var(--faint);font-size:12.5px;text-align:center}
+  .ac-mark{color:var(--sky);font-weight:800}
+  /* 종목 사업 한 줄 소개(시세 카드 최상단) */
+  .qbio{margin:2px 0 10px;padding:8px 13px;background:var(--sky-soft);border-radius:10px;
+    font-size:13px;color:#1E3A5F;line-height:1.55;display:flex;align-items:flex-start;gap:7px}
+  .qbio .qbio-ic{flex-shrink:0}
+  .qbio b{color:var(--navy)}
+  /* 시세 카드 종가 미니차트(구체화) */
+  .qchart{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .qchart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .qchart-t{font-size:12.5px;font-weight:800;color:var(--navy)}
+  .qchart-sub{font-size:11px;color:var(--dim)}
+  .qchart-sub b{color:var(--ink);font-weight:700}
+  .qchart svg{display:block;width:100%;height:150px}
+  .qchart-cap{margin-top:8px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  .qchart-cap b{color:var(--ink);font-weight:700}
   .controls input{flex:1;min-width:200px;background:var(--paper);border:1px solid transparent;
     color:var(--ink);border-radius:12px;padding:13px 16px;font-size:15px;outline:none;font-family:inherit;
     box-shadow:var(--shadow-sm);transition:border-color .2s,box-shadow .2s}
@@ -926,7 +959,10 @@
   </div>
 
   <div class="controls">
-    <input id="ticker" placeholder="종목명 또는 코드 (예: 제주반도체, 005930)" value="제주반도체" />
+    <div class="ac-wrap">
+      <input id="ticker" autocomplete="off" placeholder="한글로 검색 (예: 삼성, 카카오, 반도체…)" value="제주반도체" />
+      <div class="acbox" id="acbox" role="listbox"></div>
+    </div>
     <button id="run">분석 시작 ▶</button>
   </div>
   <div class="cmp-controls" id="cmpControls" style="display:none">
@@ -946,12 +982,10 @@
       <span class="qrate" id="qrate"></span>
       <span class="qcode" id="qcode"></span>
     </div>
+    <div class="qbio" id="qbio" style="display:none"></div>
     <div class="qdate" id="qdate"></div>
     <div class="qmetrics" id="qmetrics"></div>
-    <div class="quote-spark-wrap" id="qsparkWrap" style="display:none">
-      <div id="qspark"></div>
-      <div class="qsp-range" id="qsparkRange"></div>
-    </div>
+    <div class="qchart" id="qchartWrap" style="display:none"></div>
   </div>
 
   <div class="stage">
@@ -1006,6 +1040,7 @@
 </div>
 
 <script src="tickers.js"></script>
+<script src="stock_bios.js" onerror="window.STOCK_BIO=window.STOCK_BIO||null"></script>
 <script src="data.js"></script>
 <script src="site_config.js"></script>
 <script src="community.js"></script>
@@ -1776,14 +1811,24 @@ function resolveStock(input){
   for(const [code,d] of Object.entries(STOCKS)) if(d.name===s) return {code, ...d};
   return {code:s, name:s, price:null};
 }
+function bioOf(code, sector){
+  const b=(typeof STOCK_BIO!=='undefined'&&STOCK_BIO&&STOCK_BIO[code])||(window.STOCK_BIO&&window.STOCK_BIO[code]);
+  return b || (sector?`${sector} 업종 종목`:'');
+}
 function showQuote(st){
   document.getElementById('qname').textContent=st.name;
   document.getElementById('qcode').textContent=st.price?st.code:'';
   const qp=document.getElementById('qprice'), qr=document.getElementById('qrate');
   const qd=document.getElementById('qdate'), qm=document.getElementById('qmetrics');
+  // 🏢 무슨 일을 하는 회사인지 한 줄 소개 (시세 카드 최상단)
+  const qb=document.getElementById('qbio');
+  const bio=bioOf(st.code, st.sector);
+  if(bio){ qb.innerHTML=`<span class="qbio-ic">🏢</span><span><b>${st.name}</b> — ${bio}</span>`; qb.style.display='flex'; }
+  else qb.style.display='none';
   if(!st.price){
     qp.textContent=''; qr.textContent=''; qm.innerHTML='';
     qd.textContent='시세 데이터 없음 — 목록의 종목만 실제 시세를 제공합니다.';
+    document.getElementById('qchartWrap').style.display='none';
     return;
   }
   qp.textContent=won(st.price);
@@ -1799,15 +1844,56 @@ function showQuote(st){
            ['시가총액',st.cap],['52주',st.w52]];
   qm.innerHTML=M.map(([k,v])=>`<span class="qm">${term(k)}<b>${v}</b></span>`).join('');
 
-  const sw=document.getElementById('qsparkWrap');
-  const closes=(typeof flatCloses==='function')?flatCloses(st.code).map(x=>x.c):[];
-  if(closes.length>=2){
-    document.getElementById('qspark').innerHTML=priceSparkSVG(closes,520,52).replace('chip-spark','quote-spark');
-    const lo=Math.min(...closes), hi=Math.max(...closes);
-    document.getElementById('qsparkRange').innerHTML=`최근 ${closes.length}거래일<br>`+
-      `<b>${lo.toLocaleString()}</b> ~ <b>${hi.toLocaleString()}</b>원`;
-    sw.style.display='flex';
-  } else { sw.style.display='none'; }
+  const cw=document.getElementById('qchartWrap');
+  const days=(typeof flatCloses==='function')?flatCloses(st.code):[];
+  const chart=quoteChartHTML(days);
+  if(chart){ cw.innerHTML=chart; cw.style.display='block'; }
+  else cw.style.display='none';
+}
+/* ── 시세 카드 종가 미니차트(구체화): 날짜축·가격축·격자·기간 등락 설명 ──
+   flatCloses(날짜순 종가)로 실제 라인차트를 그린다. 기존의 '설명 없는 빨간 줄'을 대체. */
+function quoteChartHTML(days){
+  if(!days || days.length<2) return '';
+  const closes=days.map(d=>d.c);
+  const n=closes.length, lo=Math.min(...closes), hi=Math.max(...closes), span=(hi-lo)||1;
+  const first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
+  const up=last>=first, col=up?'#059669':'#DC2626', fill=up?'rgba(5,150,105,.10)':'rgba(220,38,38,.10)';
+  const W=520,H=150, padL=54,padR=12,padT=12,padB=26;    // 축 여백
+  const iw=W-padL-padR, ih=H-padT-padB;
+  const px=i=>padL+iw*(n>1?i/(n-1):0.5), py=v=>padT+ih*(1-(v-lo)/span);
+  const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
+  const area=`M${px(0).toFixed(1)} ${py(closes[0]).toFixed(1)} `+
+    closes.slice(1).map((c,i)=>'L'+px(i+1).toFixed(1)+' '+py(c).toFixed(1)).join(' ')+
+    ` L${px(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${px(0).toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
+  // 가격축(왼쪽) 격자 3줄: 고가·중간·저가
+  const won0=v=>Math.round(v).toLocaleString();
+  const yTicks=[hi,(hi+lo)/2,lo];
+  let grid='',ylab='';
+  yTicks.forEach(v=>{const y=py(v).toFixed(1);
+    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e6ddca" stroke-width="1" stroke-dasharray="3 3"/>`;
+    ylab+=`<text x="${padL-7}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9a917f">${won0(v)}</text>`;});
+  // 날짜축(아래) — 시작·끝 (여유 있으면 중간)
+  const fmtD=s=>String(s).slice(5).replace('-','/');
+  let xlab='';
+  const idxs=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
+  [...new Set(idxs)].forEach(i=>{const anchor=i===0?'start':(i===n-1?'end':'middle');
+    xlab+=`<text x="${px(i).toFixed(1)}" y="${H-8}" text-anchor="${anchor}" font-size="10" fill="#9a917f">${fmtD(days[i].date)}</text>`;});
+  // 마지막 점 강조 + 값 라벨
+  const lx=px(n-1).toFixed(1), ly=py(last).toFixed(1);
+  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="최근 종가 추이">`+
+    grid+
+    `<path d="${area}" fill="${fill}" stroke="none"/>`+
+    `<path d="${line}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`+
+    `<circle cx="${lx}" cy="${ly}" r="3.2" fill="${col}" stroke="#fff" stroke-width="1.3"/>`+
+    ylab+xlab+`</svg>`;
+  const period=`${fmtD(days[0].date)} ~ ${fmtD(days[n-1].date)}`;
+  return `<div class="qchart-head">`+
+      `<span class="qchart-t">📉 최근 종가 추이</span>`+
+      `<span class="qchart-sub">${n}거래일 · <b>${period}</b></span>`+
+    `</div>`+svg+
+    `<div class="qchart-cap">이 기간 <b>${won0(lo)}원</b> ~ <b>${won0(hi)}원</b>에서 움직였고, `+
+      `처음(${won0(first)}원) 대비 지금은 <b style="color:${col}">${chg>0?'+':''}${chg.toFixed(1)}%</b>예요. `+
+      `<span style="color:var(--faint)">가로축=날짜, 세로축=종가(원). 실제 장 마감 가격을 이은 선이에요.</span></div>`;
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
 const GLOSSARY={
@@ -2965,10 +3051,69 @@ function analyze(){
   }
 }
 document.getElementById('run').onclick=analyze;
-document.getElementById('ticker').addEventListener('keydown',e=>{if(e.key==='Enter')analyze();});
-document.getElementById('ticker').addEventListener('change',()=>{
-  showQuote(resolveStock(document.getElementById('ticker').value));
-});
+
+/* ── 한글 검색 자동완성 (이름·업종·사업내용으로 매칭) ──
+   종목이 119개로 많아져 직접 찾기 번거로우므로, 입력할 때마다 후보를 띄운다. */
+(function(){
+  const inp=document.getElementById('ticker'), box=document.getElementById('acbox');
+  if(!inp||!box) return;
+  // 검색 대상: tickers 순서대로(칩과 동일), 이름·코드·업종·사업소개를 키워드로
+  const ALL=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)?TICKERS:Object.keys(STOCKS).map(c=>({code:c})))
+    .map(t=>{const s=STOCKS[t.code]||{}; return {
+      code:t.code, name:s.name||t.name||t.code, sector:s.sector||t.sector||'',
+      price:s.price, rate:s.rate, bio:bioOf(t.code, s.sector||t.sector||'')};})
+    .filter(x=>x.name);
+  let sel=-1, cur=[];
+  const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const hl=(text,q)=>{ if(!q) return esc(text); const i=text.toLowerCase().indexOf(q.toLowerCase());
+    return i<0?esc(text):esc(text.slice(0,i))+'<span class="ac-mark">'+esc(text.slice(i,i+q.length))+'</span>'+esc(text.slice(i+q.length)); };
+  function render(list,q){
+    if(!list.length){ box.innerHTML='<div class="ac-empty">일치하는 종목이 없어요. 이름 일부만 입력해보세요.</div>'; box.classList.add('on'); return; }
+    box.innerHTML=list.map((x,i)=>{
+      const pr=(typeof x.price==='number')?`<span class="ac-pr">${x.price.toLocaleString()} <span class="${x.rate>0?'up':'down'}">${x.rate>0?'+':''}${(x.rate||0).toFixed(1)}%</span></span>`:`<span class="ac-pr">시세 대기</span>`;
+      return `<div class="ac-item${i===sel?' sel':''}" role="option" data-code="${x.code}" data-name="${esc(x.name)}">`+
+        `<span class="ac-nm">${hl(x.name,q)}</span>`+
+        (x.sector?`<span class="ac-sec">${esc(x.sector)}</span>`:'')+
+        `<span class="ac-bio">${esc(x.bio||'')}</span>${pr}</div>`;
+    }).join('');
+    box.classList.add('on');
+  }
+  function search(q){
+    q=(q||'').trim();
+    if(!q){ box.classList.remove('on'); cur=[]; return; }
+    const ql=q.toLowerCase();
+    // 우선순위: 이름 시작 > 이름 포함 > 업종/사업 포함
+    const starts=[],incl=[],other=[];
+    ALL.forEach(x=>{
+      const nm=x.name.toLowerCase();
+      if(nm.startsWith(ql)) starts.push(x);
+      else if(nm.includes(ql)||x.code.includes(q)) incl.push(x);
+      else if((x.sector&&x.sector.toLowerCase().includes(ql))||(x.bio&&x.bio.toLowerCase().includes(ql))) other.push(x);
+    });
+    cur=[...starts,...incl,...other].slice(0,14);
+    sel=-1; render(cur,q);
+  }
+  function choose(x){
+    if(!x) return;
+    inp.value=x.name; box.classList.remove('on'); sel=-1;
+    showQuote(resolveStock(x.name)); analyze();
+  }
+  inp.addEventListener('input',()=>search(inp.value));
+  inp.addEventListener('focus',()=>{ if(inp.value.trim()&&cur.length) box.classList.add('on'); });
+  inp.addEventListener('keydown',e=>{
+    if(!box.classList.contains('on')||!cur.length){ if(e.key==='Enter') analyze(); return; }
+    if(e.key==='ArrowDown'){ e.preventDefault(); sel=(sel+1)%cur.length; render(cur,inp.value.trim()); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); sel=(sel-1+cur.length)%cur.length; render(cur,inp.value.trim()); }
+    else if(e.key==='Enter'){ e.preventDefault(); if(sel>=0) choose(cur[sel]); else { box.classList.remove('on'); analyze(); } }
+    else if(e.key==='Escape'){ box.classList.remove('on'); }
+  });
+  box.addEventListener('mousedown',e=>{   // mousedown: blur보다 먼저 처리
+    const it=e.target.closest('.ac-item'); if(!it) return;
+    e.preventDefault();
+    choose(ALL.find(x=>x.code===it.dataset.code)||{name:it.dataset.name});
+  });
+  document.addEventListener('click',e=>{ if(!e.target.closest('.ac-wrap')) box.classList.remove('on'); });
+})();
 
 // 종목 칩: 업종 폴더(누르면 열림) 안에 이름 + 현재 주가 + 등락률
 (function(){
