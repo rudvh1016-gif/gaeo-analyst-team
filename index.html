@@ -238,6 +238,11 @@
     font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--navy)}
   .card ul{margin:12px 0 0;padding-left:16px;font-size:12.5px;color:#475569;line-height:1.65}
   .card ul li{margin-bottom:4px}
+  /* ── 한국어 줄바꿈: 어절(띄어쓰기) 단위로만 줄이 넘어가게 — "급등에/따라"식 어절 중간 끊김 방지 ── */
+  .card ul li,.verdict p,.veasy,.vreport,.vtarget,.vlevels,.vclash,.autonote,.anote,
+  .dna-comp,.nova-src,.cmp-easy,.cmp-sum,.cmp-asof,.cmp-lbl,.gb-body,.gb-hero p,.gb-agent,
+  .qbio,.qchart-cap,.hsub,.mk-text,.mk-points li,.mk-antitle,.pf-note,.pf-guide,.pf-advice,
+  .pf-adv-note,.gloss-pop,.an-t,.ve-t,.ce-t{word-break:keep-all;overflow-wrap:break-word}
   .stance{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-left:auto}
   .stance.bull{background:#ECFDF5;color:var(--green)}
   .stance.bear{background:#FEF2F2;color:var(--red)}
@@ -307,25 +312,62 @@
     padding:16px 18px;margin-bottom:18px;font-size:13px;color:var(--dim)}
   .pf-sumrow{display:flex;flex-wrap:wrap;gap:8px 28px}
   .pf-sumrow b{color:var(--ink);font-weight:700;font-size:14px}
-  .pf-tablewrap{overflow-x:auto}
-  .pf-table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
-  .pf-table th{text-align:left;font-weight:600;color:var(--dim);font-size:11.5px;
-    padding:10px 12px 10px 0;border-bottom:1px solid var(--line);white-space:nowrap}
-  .pf-table td{padding:13px 12px 13px 0;border-bottom:1px solid var(--line);vertical-align:middle}
-  .pf-table tr:hover td{background:var(--navy-soft)}
-  .pf-table td.num{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
-  .pf-table tr:last-child td{border-bottom:none}
-  .pf-nm{font-weight:700} .pf-code{color:var(--faint);font-size:11px;margin-left:6px}
-  .pf-in{width:88px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
-    padding:8px 10px;font:inherit;font-size:13px;text-align:right}
-  .pf-in:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(14,165,233,.13)}
-  .pf-msg{font-size:11.5px;color:var(--navy);font-weight:700;margin-left:6px;white-space:nowrap}
-  .pf-tgt{font-size:11px;color:var(--dim);margin-top:3px;white-space:nowrap}
-  .pf-memo{width:120px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
-    padding:8px 10px;font:inherit;font-size:12px}
-  .pf-memo:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(14,165,233,.13)}
   .pf-mut{color:var(--dim);font-size:11.5px}
   .pf-note{margin-top:16px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  /* 상단 가이드라인 배너 */
+  .pf-guide{background:linear-gradient(135deg,var(--navy),#155a8a);color:#fff;border-radius:14px;
+    padding:16px 18px;margin-bottom:16px;font-size:12.5px;line-height:1.85}
+  .pf-guide b{color:#fff}
+  .pf-guide .pg-t{font-weight:800;font-size:14px;margin-bottom:7px;display:block}
+  .pf-guide ol{margin:0;padding-left:20px}
+  .pf-guide li{margin-bottom:3px}
+  /* 종목 추가 검색 */
+  .pf-add{margin-bottom:16px}
+  .pf-add .ac-wrap{position:relative}
+  .pf-add input{width:100%;background:var(--paper);border:1.5px solid var(--sky-line);
+    color:var(--ink);border-radius:12px;padding:12px 15px;font:inherit;font-size:14.5px;outline:none;
+    box-shadow:var(--shadow-sm)}
+  .pf-add input:focus{border-color:var(--sky)}
+  .pf-add-hint{font-size:11.5px;color:var(--dim);margin-top:6px}
+  /* 보유 종목 카드 */
+  .pf-empty{text-align:center;color:var(--dim);font-size:13px;padding:26px 16px;line-height:1.8;
+    background:var(--bg);border-radius:13px}
+  .pf-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:15px 16px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+  .pf-card-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px}
+  .pf-card-nm{font-weight:800;font-size:15px}
+  .pf-card-code{color:var(--faint);font-size:11px;font-weight:600}
+  .pf-card-cur{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums;font-size:14px}
+  .pf-card-cur .r{font-size:11.5px;font-weight:700;margin-left:4px}
+  .pf-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:16px;
+    padding:2px 4px;line-height:1;border-radius:6px}
+  .pf-del:hover{color:var(--red);background:var(--navy-soft)}
+  .pf-inrow{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:11px}
+  .pf-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px}
+  .pf-field label{font-size:11px;font-weight:700;color:var(--dim)}
+  .pf-in{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+    padding:9px 11px;font:inherit;font-size:14px;text-align:right}
+  .pf-in:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(14,165,233,.13)}
+  .pf-pl{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--dim);
+    padding:9px 0 2px;border-top:1px dashed var(--line)}
+  .pf-pl b{font-variant-numeric:tabular-nums}
+  /* 구체 제안(지지·저항·손절·익절) */
+  .pf-advice{margin-top:11px;background:var(--paper2);border-radius:11px;padding:12px 14px}
+  .pf-adv-t{font-weight:800;font-size:12.5px;color:var(--navy);margin-bottom:8px}
+  .pf-lv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px}
+  .pf-lv-item{background:var(--paper);border-radius:9px;padding:8px 11px;font-size:12px;line-height:1.5}
+  .pf-lv-item .k{font-weight:800;font-size:11.5px;display:block;margin-bottom:1px}
+  .pf-lv-item .v{font-weight:800;font-variant-numeric:tabular-nums;font-size:13.5px}
+  .pf-lv-item .d{font-size:10.5px;color:var(--faint)}
+  .pf-lv-sup .k{color:#0369A1}.pf-lv-res .k{color:#B45309}
+  .pf-lv-take .k{color:var(--green)}.pf-lv-stop .k{color:var(--red)}
+  .pf-adv-note{font-size:12px;color:#334155;line-height:1.7;background:var(--sky-soft);
+    border-radius:9px;padding:9px 12px}
+  .pf-adv-note b{color:var(--navy)}
+  .pf-memo{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+    padding:8px 11px;font:inherit;font-size:12.5px;margin-top:10px}
+  .pf-memo:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(14,165,233,.13)}
+  @media(max-width:600px){ .pf-lv{grid-template-columns:1fr 1fr} }
   /* ---- 애널리스트 리더보드 ---- */
   .leaderboard{display:none;margin-top:18px;background:var(--paper);border:none;
     border-radius:16px;padding:28px 30px;box-shadow:var(--shadow)}
@@ -1422,68 +1464,161 @@ function targetHTML(code, price){
   return `<div class="pf-tgt">🎯 목표 ${won(t)} <span style="color:${col}">(${d>0?'+':''}${d.toFixed(1)}%)</span></div>`;
 }
 
-function renderPortfolio(){
-  const el=document.getElementById('portfolio'); if(!el) return;
-  const pf=loadPortfolio();
-  let rows='';
-  Object.entries(STOCKS).forEach(([code,d])=>{
-    const h=pf[code]||{};
-    rows+=`<tr>
-      <td class="pf-nm">${d.name}<span class="pf-code">${code}</span></td>
-      <td><input class="pf-in" data-code="${code}" data-f="qty" type="number" min="0" step="1" placeholder="0" value="${h.qty??''}"></td>
-      <td><input class="pf-in" data-code="${code}" data-f="avg" type="number" min="0" step="1" placeholder="평단" value="${h.avg??''}"></td>
-      <td class="num" id="pf-cur-${code}">${d.price?won(d.price):'—'}</td>
-      <td class="num" id="pf-val-${code}">—</td>
-      <td class="num" id="pf-pl-${code}">—</td>
-      <td id="pf-call-${code}">—</td>
-      <td><input class="pf-memo" data-code="${code}" placeholder="메모" maxlength="120" value="${(h.memo||'').replace(/"/g,'&quot;')}"></td>
-    </tr>`;
-  });
-  el.innerHTML=`
-    <div class="pf-head"><h3>💼 내 포트폴리오</h3><span class="pf-profile">프로필 <b>${PF_PROFILE}</b></span></div>
-    <div class="pf-sum" id="pfSum"></div>
-    <div class="pf-tablewrap"><table class="pf-table">
-      <thead><tr><th>종목</th><th>보유수량</th><th>평단(매입가)</th><th>현재가</th><th>평가금액</th><th>평가손익</th><th>팀 판단 · 해석</th><th>메모</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>
-    <div class="pf-note">숫자·메모를 입력하면 이 브라우저에 프로필 「${PF_PROFILE}」로 자동 저장됩니다. · 목표가는 팀 리포트에서 자동 추출(없으면 생략) · 분석 의견이며 투자 권유가 아닙니다.</div>`;
-  updatePortfolioCalc();
+// ── 포트폴리오 가격 레벨(지지·저항·손절·익절) — INDICATORS(MA·3개월밴드)로 자동 계산 ──
+function pfLevels(code, price){
+  const t=(LIVE_IND[code]||{}).tech; if(!t||!price) return null;
+  const mas=[t.ma20,t.ma60].filter(x=>typeof x==='number');
+  const below=mas.filter(x=>x<price*0.997).sort((a,b)=>b-a);   // 현재가 바로 아래 이동평균
+  const above=mas.filter(x=>x>price*1.003).sort((a,b)=>a-b);   // 현재가 바로 위 이동평균
+  const supRaw=below.length?below[0]:(typeof t.low3m==='number'?t.low3m:null);
+  const resRaw=above.length?above[0]:(typeof t.high3m==='number'?t.high3m:null);
+  const support=supRaw?Math.round(supRaw):null, resistance=resRaw?Math.round(resRaw):null;
+  return {support, resistance,
+    stop: support?Math.round(support*0.97):null,   // 지지선 3% 아래 = 손절 참고
+    take: resistance};                             // 저항선 도달 = 1차 익절 참고
+}
+function pfAdviceHTML(code, price){
+  const L=pfLevels(code, price);
+  if(!L||(!L.support&&!L.resistance))
+    return '<div class="pf-adv-note">이 종목은 아직 차트 지표가 부족해 지지·저항선을 계산하지 못했어요. 시세가 더 쌓이면 표시됩니다.</div>';
+  const pct=v=>{const p=(v-price)/price*100; return (p>0?'+':'')+p.toFixed(1)+'%';};
+  const item=(cls,k,v,d)=> v?`<div class="pf-lv-item ${cls}"><span class="k">${k}</span><span class="v">${won(v)}</span> <span class="d">(${pct(v)}) · ${d}</span></div>`:'';
+  return `<div class="pf-adv-t">📋 이 종목 제안 <span style="font-weight:600;color:var(--dim)">(지금 ${won(price)} 기준)</span></div>`+
+    `<div class="pf-lv">`+
+      item('pf-lv-res','🧱 저항선(위쪽 벽)',L.resistance,'자주 막히는 곳')+
+      item('pf-lv-sup','🛟 지지선(아래 쿠션)',L.support,'잘 버티는 곳')+
+      item('pf-lv-take','🎯 익절가(이익 실현)',L.take,'닿으면 일부 팔기')+
+      item('pf-lv-stop','🛑 손절가(손해 방지)',L.stop,'깨지면 정리')+
+    `</div>`+
+    `<div class="pf-adv-note" id="pf-note-${code}"></div>`;
+}
+function pfGuideText(code, price, avg, qty){
+  const hasData=qty>0&&avg>0, plPct=(hasData&&price)?(price-avg)/avg*100:0;
+  const e=analysisEntry(code), call=e&&e.chief?e.chief.call:null;
+  const tier=analysisTier(code)==='auto'?'🤖 자동분석':'🧠 정밀분석';
+  const team = call==='BUY'?'개오팀은 이 종목을 <b>좋게(BUY)</b> 봐요. '
+             : call==='SELL'?'개오팀은 이 종목을 <b>조심(SELL)</b>하라고 봐요. '
+             : call==='HOLD'?'개오팀은 <b>지켜보라(HOLD)</b>고 봐요. ' : '';
+  let me='';
+  if(hasData){
+    if(plPct>0) me = call==='SELL'
+      ? '지금 <b>이익 중</b>이에요 — 욕심내지 말고 익절가 근처에서 일부 파는 것도 좋은 선택이에요.'
+      : '지금 <b>이익 중</b>! 익절가를 미리 정해두면 마음이 편해요.';
+    else me = call==='BUY'
+      ? '지금은 <b>마이너스</b>지만 팀은 아직 긍정적이에요. 손절가를 지키면서 기다려보세요.'
+      : '지금 <b>마이너스</b>예요. 손절가 밑으로 내려가면 더 큰 손해 전에 정리하는 걸 생각해요.';
+  } else {
+    me='<b>수량과 평단(내가 산 평균가격)</b>을 넣으면, 내 손익에 딱 맞춘 손절·익절 라인을 알려드려요.';
+  }
+  // 평단 기준 실전 손절/익절 라인 — 차트 지지선이 멀 때도 바로 쓸 수 있는 내 기준선
+  let mine='';
+  if(hasData){
+    const stopA=Math.round(avg*0.92), takeA=Math.round(avg*1.15);
+    mine=`<br>📐 <b>내 평단 ${won(avg)} 기준</b> — 손절 참고 <b>${won(stopA)}</b>(-8%), 1차 익절 참고 <b>${won(takeA)}</b>(+15%). 이 선을 미리 정해두면 마음이 흔들리지 않아요.`;
+  }
+  return `${team}${me}${mine} <span style="color:var(--faint)">(${tier} 기준 · 참고용, 투자 권유 아님)</span>`;
 }
 
-function updatePortfolioCalc(){
+let PF_SHELL=false;
+function renderPortfolio(){
+  const el=document.getElementById('portfolio'); if(!el) return;
+  if(!PF_SHELL){
+    el.innerHTML=`
+      <div class="pf-head"><h3>💼 내 포트폴리오</h3><span class="pf-profile">프로필 <b>${PF_PROFILE}</b></span></div>
+      <div class="pf-guide">
+        <span class="pg-t">📋 시작 전 가이드라인 — 이것만 지켜도 절반은 성공!</span>
+        <ol>
+          <li>한 종목에 <b>몰빵 금지</b> — 여러 종목·업종으로 나눠 담아요(분산).</li>
+          <li>사기 전에 <b>손절가</b>(얼마 내리면 팔지)를 미리 정해요.</li>
+          <li>오를 때도 <b>익절가</b>(얼마에서 일부 팔지)를 정해두면 마음이 편해요.</li>
+          <li>뉴스·감정으로 <b>급하게 사고팔지</b> 않아요.</li>
+          <li><b>잃어도 괜찮은 돈</b>으로, 공부하면서 천천히 해요.</li>
+        </ol>
+      </div>
+      <div class="pf-add">
+        <div class="ac-wrap"><input id="pfAdd" autocomplete="off" placeholder="🔎 담고 싶은 종목을 한글로 검색해 추가 (예: 삼성전자, 반도체)"><div class="acbox" id="acboxPf"></div></div>
+        <div class="pf-add-hint">이름·업종으로 검색해서 <b>내가 가진 종목만</b> 추가하세요. 추가 후 수량·평단을 넣으면 손익과 맞춤 제안이 나와요.</div>
+      </div>
+      <div class="pf-sum" id="pfSum"></div>
+      <div id="pfList"></div>
+      <div class="pf-note">입력값은 이 브라우저에 프로필 「${PF_PROFILE}」로 자동 저장돼요(내 폰에만). · 지지·저항선은 차트 지표(이동평균·3개월 밴드)로 자동 계산 · 분석 의견이며 투자 권유가 아닙니다.</div>`;
+    makeAutocomplete(document.getElementById('pfAdd'), document.getElementById('acboxPf'), {
+      onPick:x=>{
+        const pf=loadPortfolio(); pf[x.code]=pf[x.code]||{}; pf[x.code].added=true; savePortfolio(pf);
+        document.getElementById('pfAdd').value=''; renderPfHoldings();
+        setTimeout(()=>{const c=document.getElementById('pf-card-'+x.code); if(c) c.scrollIntoView({behavior:'smooth',block:'center'});},60);
+      }
+    });
+    PF_SHELL=true;
+  }
+  renderPfHoldings();
+}
+
+function renderPfHoldings(){
+  const list=document.getElementById('pfList'), sum=document.getElementById('pfSum'); if(!list) return;
+  const pf=loadPortfolio();
+  const codes=Object.keys(pf).filter(c=>STOCKS[c]);
+  if(!codes.length){
+    list.innerHTML=`<div class="pf-empty">아직 담은 종목이 없어요.<br>위 검색창에서 <b>내가 가진 종목</b>을 추가해보세요! 🔎</div>`;
+    if(sum) sum.style.display='none';
+    return;
+  }
+  if(sum) sum.style.display='';
+  list.innerHTML=codes.map(code=>{
+    const d=STOCKS[code], h=pf[code]||{};
+    const cur=d.price?won(d.price):'—';
+    const rate=(typeof d.rate==='number')?`<span class="r ${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${d.rate.toFixed(2)}%</span>`:'';
+    return `<div class="pf-card" id="pf-card-${code}">
+      <div class="pf-card-top">
+        <span class="pf-card-nm">${d.name}</span><span class="pf-card-code">${code}</span>
+        <span class="pf-card-cur">${cur} ${rate}</span>
+        <button class="pf-del" data-del="${code}" title="포트폴리오에서 빼기">✕</button>
+      </div>
+      <div class="pf-inrow">
+        <div class="pf-field"><label>보유 수량(주)</label><input class="pf-in" data-code="${code}" data-f="qty" type="number" inputmode="numeric" min="0" step="1" placeholder="0" value="${h.qty??''}"></div>
+        <div class="pf-field"><label>평단 = 내가 산 평균가격(원)</label><input class="pf-in" data-code="${code}" data-f="avg" type="number" inputmode="numeric" min="0" step="1" placeholder="예: 70000" value="${h.avg??''}"></div>
+      </div>
+      <div class="pf-pl" id="pf-pl-${code}"></div>
+      <div class="pf-advice">${pfAdviceHTML(code, d.price)}</div>
+      <input class="pf-memo" data-code="${code}" placeholder="메모(선택) — 예: 배당 목적, 분할매수 중" maxlength="120" value="${(h.memo||'').replace(/"/g,'&quot;')}">
+    </div>`;
+  }).join('');
+  recalcPf();
+}
+
+function recalcPf(){
   const pf=loadPortfolio();
   let totCost=0, totVal=0, held=0, todayGain=0, annDiv=0;
-  Object.entries(STOCKS).forEach(([code,d])=>{
-    const h=pf[code]||{}, qty=+h.qty||0, avg=+h.avg||0, price=d.price||0;
-    const valEl=document.getElementById('pf-val-'+code),
-          plEl =document.getElementById('pf-pl-'+code),
-          callEl=document.getElementById('pf-call-'+code);
-    if(!valEl) return;
-    if(qty>0 && price){
-      const val=qty*price, cost=qty*avg, pl=val-cost, plPct=avg>0?(price-avg)/avg*100:0;
-      totVal+=val; totCost+=cost; held++;
-      if(typeof d.rate==='number'){ const prev=price/(1+d.rate/100); todayGain+=qty*(price-prev); }
+  Object.keys(pf).filter(c=>STOCKS[c]).forEach(code=>{
+    const d=STOCKS[code], h=pf[code]||{}, qty=+h.qty||0, avg=+h.avg||0, price=d.price||0;
+    const plEl=document.getElementById('pf-pl-'+code), noteEl=document.getElementById('pf-note-'+code);
+    const plPct=(avg>0&&price)?(price-avg)/avg*100:0;
+    if(plEl){
+      if(qty>0&&price){
+        const val=qty*price, pl=val-qty*avg, col=pl>0?'var(--green)':(pl<0?'var(--red)':'var(--ink)');
+        plEl.innerHTML=`<span>평가금액 <b>${won(val)}</b></span>`+
+          (avg>0?`<span>평가손익 <b style="color:${col}">${pl>0?'+':''}${won(pl)} (${pl>0?'+':''}${plPct.toFixed(1)}%)</b></span>`
+                :`<span class="pf-mut">평단을 넣으면 손익이 계산돼요</span>`);
+      } else plEl.innerHTML=`<span class="pf-mut">수량을 넣으면 평가금액·손익이 나와요</span>`;
+    }
+    if(noteEl) noteEl.innerHTML='💡 '+pfGuideText(code, price, avg, qty);
+    if(qty>0&&price){
+      totVal+=qty*price; totCost+=qty*avg; held++;
+      if(typeof d.rate==='number'){const prev=price/(1+d.rate/100); todayGain+=qty*(price-prev);}
       if(typeof d.div==='number') annDiv+=qty*price*d.div/100;
-      valEl.textContent=won(val);
-      if(avg>0){
-        const col=pl>0?'var(--green)':(pl<0?'var(--red)':'var(--ink)');
-        plEl.innerHTML=`<span style="color:${col}">${pl>0?'+':''}${won(pl)}<br>${pl>0?'+':''}${plPct.toFixed(1)}%</span>`;
-      } else plEl.innerHTML='<span class="pf-mut">평단 입력</span>';
-      callEl.innerHTML=interpretCall(code, plPct, avg>0)+targetHTML(code, price);
-    } else { valEl.textContent='—'; plEl.textContent='—'; callEl.textContent='—'; }
+    }
   });
   const sum=document.getElementById('pfSum'); if(!sum) return;
-  if(held===0){ sum.innerHTML='보유 종목의 수량과 평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시됩니다.'; return; }
+  if(held===0){ sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.'; return; }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
   const col=v=>v>0?'var(--green)':(v<0?'var(--red)':'var(--ink)');
   const mood = plPct>5?'🤑':plPct>0?'🙂':plPct<-5?'😱':'😟';
-  const tCol=col(todayGain);
   sum.innerHTML=`<div class="pf-sumrow">
     <span>${mood} 보유 <b>${held}</b>종목</span>
     <span>매입 <b>${won(totCost)}</b></span>
     <span>평가 <b>${won(totVal)}</b></span>
     <span>평가손익 <b style="color:${col(pl)}">${pl>0?'+':''}${won(pl)} (${pl>0?'+':''}${plPct.toFixed(1)}%)</b></span>
-    <span>오늘 <b style="color:${tCol}">${todayGain>0?'+':''}${won(Math.round(todayGain))}</b></span>
+    <span>오늘 <b style="color:${col(todayGain)}">${todayGain>0?'+':''}${won(Math.round(todayGain))}</b></span>
     <span>연 예상 배당 <b>${won(Math.round(annDiv))}</b></span>
   </div>`;
 }
@@ -1500,9 +1635,16 @@ document.getElementById('portfolio').addEventListener('input',e=>{
   } else {
     if(memo.value==='') delete pf[code].memo; else pf[code].memo=memo.value.slice(0,120);
   }
-  if(pf[code].qty===undefined && pf[code].avg===undefined && pf[code].memo===undefined) delete pf[code];
+  // 검색으로 담은 종목(added)은 값이 비어도 카드 유지 — ✕로만 뺀다
+  if(!pf[code].added && pf[code].qty===undefined && pf[code].avg===undefined && pf[code].memo===undefined) delete pf[code];
   savePortfolio(pf);
-  if(num) updatePortfolioCalc();   // 메모는 숫자에 영향 없어 재계산 생략(입력 포커스 보존)
+  if(num) recalcPf();   // 메모는 숫자에 영향 없어 재계산 생략(입력 포커스 보존)
+});
+// 종목 빼기(✕)
+document.getElementById('portfolio').addEventListener('click',e=>{
+  const del=e.target.closest('.pf-del'); if(!del) return;
+  const code=del.dataset.del, pf=loadPortfolio(); delete pf[code]; savePortfolio(pf);
+  renderPfHoldings();
 });
 
 /* ============================================================
