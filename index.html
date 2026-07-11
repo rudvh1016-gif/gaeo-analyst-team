@@ -657,6 +657,57 @@
     .mk-day-sum{font-size:10.5px}
   }
 
+  /* ── 종목 칩 스파크라인(최근 종가 미니 라인) ── */
+  .chip .cval{position:relative}
+  .chip-spark{display:block;width:52px;height:20px;flex-shrink:0}
+  @media(max-width:600px){.chip-spark{width:40px;height:16px}}
+  /* ── 시세 카드(quote) 스파크라인 ── */
+  .quote-spark-wrap{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+    display:flex;align-items:center;gap:14px}
+  .quote-spark{flex:1;min-width:0;height:52px;display:block}
+  .qsp-range{flex-shrink:0;font-size:11px;color:var(--dim);text-align:right;line-height:1.5}
+  .qsp-range b{color:var(--ink);font-weight:700}
+
+  /* ── 용어 클릭 설명(글로서리) ── */
+  .gterm{cursor:pointer;border-bottom:1.5px dotted var(--sky);color:var(--navy);font-weight:700}
+  .gterm:hover{color:var(--sky)}
+  .gloss-pop{position:fixed;z-index:300;width:272px;max-width:calc(100vw - 24px);
+    background:var(--paper);color:var(--ink);border-radius:14px;padding:15px 17px 14px;
+    box-shadow:0 12px 34px -8px rgba(0,0,0,.28),0 2px 10px rgba(0,0,0,.08);
+    font-size:13px;line-height:1.62;opacity:0;transform:translateY(6px) scale(.98);
+    pointer-events:none;transition:opacity .16s,transform .16s}
+  .gloss-pop.on{opacity:1;transform:none;pointer-events:auto}
+  .gp-term{font-weight:800;color:var(--navy);font-size:13.5px;margin:0 22px 6px 0;
+    display:flex;align-items:center;gap:6px}
+  .gp-term::before{content:"💡";font-size:13px}
+  .gp-def{color:#334155;word-break:keep-all}
+  .gp-x{position:absolute;top:10px;right:10px;border:none;background:var(--bg);color:var(--dim);
+    width:22px;height:22px;border-radius:50%;font-size:12px;cursor:pointer;line-height:1}
+  .gp-x:hover{background:var(--paper2);color:var(--ink)}
+
+  /* ── TARO 미니 차트 패널(가격+MA · 3개월 위치 · RSI · MACD) ── */
+  .taro-viz-holder{margin:2px 0 14px}
+  .taro-viz{padding:13px 13px 11px;background:var(--bg);border-radius:12px}
+  .tv-chart{width:100%;height:52px;display:block}
+  .tv-legend{display:flex;gap:12px;margin-top:5px;flex-wrap:wrap}
+  .tv-lg{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--dim);font-weight:600}
+  .tv-lg i{width:9px;height:3px;border-radius:2px;display:inline-block}
+  .tv-row{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px}
+  .tv-lbl{flex-shrink:0;color:var(--dim)}
+  .tv-track{flex:1;height:6px;background:var(--paper2);border-radius:99px;position:relative}
+  .tv-track.tv-rsi::before{content:"";position:absolute;left:30%;right:30%;top:-2px;bottom:-2px;
+    background:rgba(5,150,105,.14);border-radius:99px}
+  .tv-mark,.tv-pos{position:absolute;top:50%;width:9px;height:9px;border-radius:50%;
+    transform:translate(-50%,-50%);box-shadow:0 0 0 2px var(--bg);transition:left .6s cubic-bezier(.22,1,.36,1)}
+  .tv-pos{background:var(--navy)}
+  .tv-val{width:38px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;flex-shrink:0}
+  .tv-bars{flex:1;display:flex;flex-direction:column;gap:3px}
+  .tv-bar{height:5px;border-radius:0 99px 99px 0;transition:width .6s cubic-bezier(.22,1,.36,1)}
+  .tv-bar-m{background:#1fb6c9} .tv-bar-s{background:#94A3B8}
+  .tv-cross{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
+    border-bottom:none!important}
+  .tv-cross-up{background:#ECFDF5;color:#059669} .tv-cross-down{background:#FEF2F2;color:#DC2626}
+
   /* ── 마이크로 인터랙션 폴리시 ── */
   html{scroll-behavior:smooth}
   :focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:6px}
@@ -835,6 +886,10 @@
     </div>
     <div class="qdate" id="qdate"></div>
     <div class="qmetrics" id="qmetrics"></div>
+    <div class="quote-spark-wrap" id="qsparkWrap" style="display:none">
+      <div id="qspark"></div>
+      <div class="qsp-range" id="qsparkRange"></div>
+    </div>
   </div>
 
   <div class="stage">
@@ -892,6 +947,7 @@
 <script src="analysis.js"></script>
 <script src="history.js"></script>
 <script src="price_history.js"></script>
+<script src="indicators.js"></script>
 <script src="market_history.js"></script>
 <script>
 /* ============================================================
@@ -1576,8 +1632,18 @@ function showQuote(st){
            ['EPS',st.eps?won(st.eps):'—'],['배당수익률',st.div?st.div+'%':'—'],
            ['시가총액',st.cap],['52주',st.w52]];
   qm.innerHTML=M.map(([k,v])=>`<span class="qm">${term(k)}<b>${v}</b></span>`).join('');
+
+  const sw=document.getElementById('qsparkWrap');
+  const closes=(typeof flatCloses==='function')?flatCloses(st.code).map(x=>x.c):[];
+  if(closes.length>=2){
+    document.getElementById('qspark').innerHTML=priceSparkSVG(closes,520,52).replace('chip-spark','quote-spark');
+    const lo=Math.min(...closes), hi=Math.max(...closes);
+    document.getElementById('qsparkRange').innerHTML=`최근 ${closes.length}거래일<br>`+
+      `<b>${lo.toLocaleString()}</b> ~ <b>${hi.toLocaleString()}</b>원`;
+    sw.style.display='flex';
+  } else { sw.style.display='none'; }
 }
-/* 용어 설명 툴팁 — 커서를 올리면 뜻이 뜬다 */
+/* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
 const GLOSSARY={
   'PER':'주가수익비율. 주가 ÷ 주당순이익(EPS). 낮을수록 이익 대비 주가가 싼 편(업종마다 기준 다름).',
   'PBR':'주가순자산비율. 주가 ÷ 주당순자산(BPS). 1배면 장부가치와 같음. 낮을수록 자산 대비 저평가.',
@@ -1587,16 +1653,142 @@ const GLOSSARY={
   '배당수익률':'현재 주가 대비 1년 배당금의 비율. 예금 이자처럼 주가의 몇 %를 배당으로 받는지.',
   '시가총액':'회사 전체의 시장 가치. 주가 × 총 주식 수. 회사 규모를 나타냄.',
   '52주':'최근 1년(52주)의 최저가 ~ 최고가. 현재 주가가 그 범위 어디쯤인지 가늠하는 지표.',
-  'RSI':'상대강도지수(0~100). 70 이상 과매수·30 이하 과매도로 보는 단기 과열/침체 지표.',
-  'MACD':'단기·장기 이동평균의 차이로 추세 전환을 보는 지표. 시그널선 위로 올라서면 골든크로스(강세 신호).',
-  'MA20':'최근 20일 종가의 평균선(단기 추세). 주가가 위면 단기 강세, 아래면 약세.',
-  'MA60':'최근 60일 종가의 평균선(중기 추세).',
+  'RSI':'최근에 "사려는 힘"과 "팔려는 힘" 중 어느 쪽이 더 센지를 0~100 숫자 하나로 나타낸 거예요. 70을 넘으면 "너무 많이 올라서 곧 쉬어갈 수도 있다"(과매수), 30 밑으로 내려가면 "너무 많이 떨어져서 곧 반등할 수도 있다"(과매도)는 신호로 봐요.',
+  'MACD':'"최근 흐름"(짧은 기간 평균)과 "그보다 조금 더 오래된 흐름"(긴 기간 평균)의 차이를 계산한 값이에요. 이 값이 자기 자신을 한 번 더 평균 낸 기준선(시그널선)을 뚫고 올라가면 오름세로 바뀔 수 있다는 신호(골든크로스), 뚫고 내려가면 내림세로 바뀔 수 있다는 신호(데드크로스)로 봐요.',
+  '시그널선':'MACD 값을 다시 한번 부드럽게 평균 낸 기준선이에요. MACD가 이 선 위에 있으면 "요즘 힘이 세지는 중", 아래에 있으면 "요즘 힘이 약해지는 중"이라고 봐요.',
+  'MA20':'최근 20일 동안의 주가를 평균 내서 이어 그린 선이에요("이동평균선"이라고 불러요). 지금 주가가 이 선보다 위에 있으면 "요즘 며칠간 기세가 좋다", 아래에 있으면 "요즘 며칠간 힘이 없다"고 봐요.',
+  'MA60':'최근 60일(약 3달) 동안의 주가를 평균 내서 이어 그린 선이에요. MA20보다 더 긴 기간을 보기 때문에, 짧은 흔들림 말고 "큰 흐름이 오름세인지 내림세인지"를 볼 때 써요.',
+  '골든크로스':'짧은 기간 추세선(예: MA20)이 긴 기간 추세선(예: MA60)을 아래에서 위로 뚫고 올라가는 순간이에요. "이제부터 오를 수도 있다"는 긍정적인 신호로 해석해요. MACD가 시그널선을 뚫고 올라갈 때도 같은 이름으로 불러요.',
+  '데드크로스':'골든크로스랑 정반대예요. 짧은 기간 추세선이 긴 기간 추세선을 위에서 아래로 뚫고 내려가는 순간이에요. "이제부터 내릴 수도 있다"는 조심 신호로 해석해요.',
   'HBM':'고대역폭메모리. AI 반도체에 쓰이는 고성능 D램으로, 최근 반도체주 핵심 테마.',
   'NAV':'순자산가치. 지주회사가 보유한 자산의 총 가치. 주가가 NAV보다 낮으면 "할인"됐다고 함.'
 };
 function term(label){
   const g=GLOSSARY[label];
-  return g ? `<span class="term" tabindex="0" data-tip="${g.replace(/"/g,'&quot;')}">${label}</span>` : label;
+  return g ? `<span class="term gterm" tabindex="0" data-term="${label}">${label}</span>` : label;
+}
+// findings 문장 속에 섞여 나오는 용어(예: "RSI(14) 47.0", "MACD가 시그널선을")를 자동으로 찾아
+// 클릭 가능한 용어 칩으로 바꾼다. 영숫자 용어는 앞뒤가 다른 영숫자와 안 붙어있을 때만 매치.
+const GLOSS_KEYS=Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length);
+const GLOSS_RE=new RegExp(GLOSS_KEYS.map(k=>{
+  const esc=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return /^[A-Za-z0-9]+$/.test(k) ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc;
+}).join('|'),'g');
+function wrapGloss(text){
+  if(!text) return text;
+  return String(text).replace(GLOSS_RE, m=>term(m));
+}
+// 클릭(또는 Enter/Space)하면 용어 뜻을 큰 팝업으로 보여준다 — 모바일에서도 hover 없이 동작
+(function(){
+  let pop=null, openFor=null;
+  function ensurePop(){
+    if(pop) return pop;
+    pop=document.createElement('div'); pop.className='gloss-pop';
+    pop.innerHTML=`<button class="gp-x" aria-label="닫기">✕</button><div class="gp-term"></div><div class="gp-def"></div>`;
+    document.body.appendChild(pop);
+    pop.querySelector('.gp-x').onclick=close;
+    return pop;
+  }
+  function close(){ if(pop){ pop.classList.remove('on'); } openFor=null; }
+  function open(el){
+    const label=el.dataset.term, def=GLOSSARY[label]; if(!def) return;
+    const p=ensurePop();
+    if(openFor===el && p.classList.contains('on')){ close(); return; }
+    openFor=el;
+    p.querySelector('.gp-term').textContent=label;
+    p.querySelector('.gp-def').textContent=def;
+    p.classList.add('on');
+    const r=el.getBoundingClientRect(), pw=272, margin=10;
+    let left=Math.min(Math.max(margin,r.left), window.innerWidth-pw-margin);
+    let top=r.bottom+8;
+    if(top+140>window.innerHeight) top=Math.max(margin, r.top-8-140);
+    p.style.left=left+'px'; p.style.top=top+'px';
+  }
+  document.addEventListener('click', e=>{
+    const t=e.target.closest('.gterm');
+    if(t){ open(t); return; }
+    if(!e.target.closest('.gloss-pop')) close();
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){ close(); return; }
+    if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('gterm')){
+      e.preventDefault(); open(e.target);
+    }
+  });
+  window.addEventListener('scroll', close, true);
+  window.addEventListener('resize', close);
+})();
+
+// ---------- 스파크라인(미니 라인차트) 공통 헬퍼 ----------
+const LIVE_IND=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks:{};
+function flatCloses(code){
+  const pages=(LIVE_PH&&LIVE_PH[code])||[];
+  const days=pages.flatMap(p=>p.days).map(d=>({date:d.date,c:d.close}));
+  if(days.length>=2) return days;
+  const t=(LIVE_IND[code]||{}).tech;
+  return (t&&t.last5)?t.last5.map(x=>({date:x.d,c:x.c})):[];
+}
+// 종목 칩·시세 카드용 작은 가격 스파크라인 (등락에 따라 색만 다름)
+function priceSparkSVG(closes,w,h){
+  const n=closes.length; if(n<2) return '';
+  const lo=Math.min(...closes), hi=Math.max(...closes), span=(hi-lo)||1;
+  const px=i=>2+(w-4)*(i/(n-1)), py=v=>h-2-(h-4)*((v-lo)/span);
+  const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
+  const up=closes[n-1]>=closes[0], col=up?'#059669':'#DC2626';
+  const lx=px(n-1).toFixed(1), ly=py(closes[n-1]).toFixed(1);
+  return `<svg class="chip-spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">`+
+    `<path d="${line}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>`+
+    `<circle cx="${lx}" cy="${ly}" r="2" fill="${col}"/></svg>`;
+}
+
+// ---------- TARO 미니 차트: 가격+MA20/MA60 · 3개월 위치 · RSI 게이지 · MACD 비교 ----------
+function taroChartHTML(code){
+  const ind=LIVE_IND[code]; const t=ind&&ind.tech; if(!t) return '';
+  const days=flatCloses(code); if(days.length<2) return '';
+  const closes=days.map(d=>d.c);
+  const W=260,H=52;
+  const vals=[...closes,t.ma20,t.ma60].filter(v=>typeof v==='number'&&!isNaN(v));
+  const lo=Math.min(...vals), hi=Math.max(...vals), span=(hi-lo)||1;
+  const px=i=>4+(W-8)*(i/(closes.length-1)), py=v=>H-4-(H-8)*((v-lo)/span);
+  const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
+  const maLine=(v,col)=>typeof v==='number'
+    ?`<line x1="4" y1="${py(v).toFixed(1)}" x2="${(W-4).toFixed(1)}" y2="${py(v).toFixed(1)}" stroke="${col}" stroke-width="1" stroke-dasharray="3 2.5"/>`:'';
+  const lx=px(closes.length-1).toFixed(1), ly=py(closes[closes.length-1]).toFixed(1);
+  const svg=`<svg class="tv-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`+
+    maLine(t.ma60,'#8b6fe0')+maLine(t.ma20,'#e0842f')+
+    `<path d="${line}" fill="none" stroke="#1fb6c9" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>`+
+    `<circle cx="${lx}" cy="${ly}" r="2.4" fill="#1fb6c9" stroke="#fff" stroke-width="1"/></svg>`;
+  const legend=`<div class="tv-legend">`+
+    `<span class="tv-lg"><i style="background:#1fb6c9"></i>가격(${days[0].date}~)</span>`+
+    (typeof t.ma20==='number'?`<span class="tv-lg"><i style="background:#e0842f"></i>${term('MA20')}</span>`:'')+
+    (typeof t.ma60==='number'?`<span class="tv-lg"><i style="background:#8b6fe0"></i>${term('MA60')}</span>`:'')+
+    `</div>`;
+  let posRow='';
+  if(typeof t.low3m==='number'&&typeof t.high3m==='number'&&t.high3m>t.low3m){
+    const pct=Math.max(0,Math.min(100,(t.close-t.low3m)/(t.high3m-t.low3m)*100));
+    posRow=`<div class="tv-row"><span class="tv-lbl">3개월</span>`+
+      `<div class="tv-track"><div class="tv-pos" style="left:${pct.toFixed(1)}%"></div></div>`+
+      `<span class="tv-val">${pct.toFixed(0)}%</span></div>`;
+  }
+  let rsiRow='';
+  if(typeof t.rsi14==='number'){
+    const r=t.rsi14, rc=r>=70?'#DC2626':r<=30?'#0EA5E9':'#059669';
+    rsiRow=`<div class="tv-row"><span class="tv-lbl">${term('RSI')}</span>`+
+      `<div class="tv-track tv-rsi"><div class="tv-mark" style="left:${Math.max(0,Math.min(100,r))}%;background:${rc}"></div></div>`+
+      `<span class="tv-val" style="color:${rc}">${r.toFixed(1)}</span></div>`;
+  }
+  let macdRow='';
+  if(typeof t.macd==='number'&&typeof t.macdSignal==='number'){
+    const mx=Math.max(Math.abs(t.macd),Math.abs(t.macdSignal))||1;
+    const mw=Math.min(100,Math.abs(t.macd)/mx*100), sw=Math.min(100,Math.abs(t.macdSignal)/mx*100);
+    const up=t.macd>t.macdSignal, crossTerm=up?'골든크로스':'데드크로스';
+    macdRow=`<div class="tv-row"><span class="tv-lbl">${term('MACD')}</span>`+
+      `<div class="tv-bars"><div class="tv-bar tv-bar-m" style="width:${mw.toFixed(0)}%"></div>`+
+      `<div class="tv-bar tv-bar-s" style="width:${sw.toFixed(0)}%"></div></div>`+
+      `<span class="tv-cross ${up?'tv-cross-up':'tv-cross-down'} gterm" tabindex="0" data-term="${crossTerm}">`+
+      `${up?'🟢':'🔴'} ${crossTerm}</span></div>`;
+  }
+  return `<div class="taro-viz">${svg}${legend}${posRow}${rsiRow}${macdRow}</div>`;
 }
 
 // ---------- 효과음 (WebAudio 합성 — 파일 불필요) ----------
@@ -2373,13 +2565,19 @@ function countUp(el,target,dur){
     if(p<1) requestAnimationFrame(step);
   })(t0);
 }
-function fillCard(a,res){
+function fillCard(a,res,code){
   document.getElementById('card-'+a.id).classList.add('on');
   countUp(document.getElementById('sc-'+a.id),res.score,750);
   const st=document.getElementById('st-'+a.id);
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
-  document.getElementById('fx-'+a.id).innerHTML=res.findings.map(f=>`<li>${f}</li>`).join('');
+  const fx=document.getElementById('fx-'+a.id);
+  fx.innerHTML=res.findings.map(f=>`<li>${wrapGloss(f)}</li>`).join('');
+  if(a.id==='taro'){
+    const viz=taroChartHTML(code);
+    if(viz){ const holder=document.createElement('div'); holder.className='taro-viz-holder';
+      holder.innerHTML=viz; fx.before(holder); }
+  }
   const bar=document.getElementById('bar-'+a.id);
   if(bar){ bar.style.background=a.color; requestAnimationFrame(()=>{bar.style.width=Math.max(2,res.score)+'%';}); }
   SFX.ding();
@@ -2454,7 +2652,7 @@ function analyze(){
   ['taro','diana','nova','flow'].forEach(id=>{
     const a=AGENTS.find(x=>x.id===id);
     sendToWork(a,3200+Math.random()*2200,()=>{
-      fillCard(a,data[a.id]);
+      fillCard(a,data[a.id],stock.code);
       if(++done===4){ cardsEl.classList.remove('busy'); runChief(); }
     });
   });
@@ -2536,8 +2734,8 @@ document.getElementById('ticker').addEventListener('change',()=>{
   const groups=[], byName={};
   // tickers.js 배열 순서 그대로 폴더·종목을 배치한다 (STOCKS 객체는 코드 숫자순으로 섞임)
   const ordered=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS))
-    ? TICKERS.map(t=>STOCKS[t.code]).filter(Boolean)
-    : Object.values(STOCKS);
+    ? TICKERS.map(t=>STOCKS[t.code]&&{code:t.code,...STOCKS[t.code]}).filter(Boolean)
+    : Object.entries(STOCKS).map(([code,d])=>({code,...d}));
   ordered.forEach(d=>{
     const s=d.sector||'기타';
     if(!byName[s]){ byName[s]={name:s,items:[]}; groups.push(byName[s]); }
@@ -2560,7 +2758,9 @@ document.getElementById('ticker').addEventListener('change',()=>{
     const body=document.createElement('div'); body.className='sector-body';
     g.items.forEach(d=>{
       const el=document.createElement('span'); el.className='chip';
-      el.innerHTML=`<span class="cname">${d.name}</span><span class="cval"><b>${d.price.toLocaleString()}</b> `+
+      const closes=flatCloses(d.code).map(x=>x.c);
+      const spark=closes.length>=2?priceSparkSVG(closes,52,20):'';
+      el.innerHTML=`<span class="cname">${d.name}</span>${spark}<span class="cval"><b>${d.price.toLocaleString()}</b> `+
         `<span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${d.rate.toFixed(2)}%</span></span>`;
       el.onclick=()=>{document.getElementById('ticker').value=d.name;
         showQuote(resolveStock(d.name)); analyze();};
