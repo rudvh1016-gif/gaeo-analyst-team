@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gaeo · 홈오피스</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root{
     --navy:#0B4171; --navy-deep:#082F52; --navy-soft:#EAF2F9;
@@ -655,6 +657,58 @@
     .mk-day-sum{font-size:10.5px}
   }
 
+  /* ── 마이크로 인터랙션 폴리시 ── */
+  html{scroll-behavior:smooth}
+  :focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:6px}
+  .card{transition:opacity .45s,transform .45s,box-shadow .25s}
+  .card.on:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .kpi{transition:transform .2s,box-shadow .2s}
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .modebtn:active,.chip:active{transform:scale(.97)}
+  /* 점수·게이지 막대에 은은한 광택 그라디언트(색은 JS 인라인 그대로) */
+  .scorebar-fill,.lfill,.gfill{position:relative}
+  .scorebar-fill::after,.lfill::after,.gfill::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(255,255,255,0) 45%,rgba(255,255,255,.30));
+    border-radius:inherit;pointer-events:none}
+
+  /* ── 뷰 전환 애니메이션 ──
+     display:none → 표시 로 바뀌는 순간 요소 박스가 새로 생겨 애니메이션이 재생된다.
+     모드 전환(단일/비교/포트폴리오/리더보드/캘린더/커뮤니티)마다 부드럽게 떠오른다. */
+  @keyframes viewIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .quote,#cards,.chips,.cmp-controls,
+  .compare.on,.portfolio.on,.leaderboard.on,.calendarView.on,.communityView.on,
+  .viz.on,.verdict.on{animation:viewIn .4s cubic-bezier(.22,1,.36,1) both}
+
+  /* ── 분석 중 스켈레톤(시머) ──
+     analyze()가 #cards에 .busy를 붙이는 동안, 아직 결과가 안 나온 카드(.on 아님)는
+     본문 자리에 반짝이는 뼈대 막대를 보여준다. */
+  @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  @keyframes skIndet{0%{left:-38%}100%{left:104%}}
+  @keyframes skBlink{0%,100%{opacity:1}50%{opacity:.45}}
+  .card ul li.ph{display:none}
+  .cards.busy .card:not(.on) ul{padding-left:0;margin-top:16px}
+  .cards.busy .card:not(.on) ul li{display:block;color:transparent;user-select:none;
+    position:relative;height:11px;margin:10px 0;border-radius:6px;overflow:hidden;
+    background:var(--paper2)}
+  .cards.busy .card:not(.on) ul li::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+    animation:shimmer 1.25s infinite}
+  .cards.busy .card:not(.on) ul li.ph{display:block}
+  .cards.busy .card:not(.on) ul li:nth-child(2){width:82%}
+  .cards.busy .card:not(.on) ul li:nth-child(3){width:58%}
+  .cards.busy .card:not(.on) .scorebar{position:relative;overflow:hidden}
+  .cards.busy .card:not(.on) .scorebar::after{content:"";position:absolute;top:0;bottom:0;
+    width:35%;border-radius:99px;background:var(--sky-line);animation:skIndet 1.15s ease-in-out infinite}
+  .cards.busy .card:not(.on) .stance{animation:skBlink 1.3s ease-in-out infinite}
+  .cards.busy .card:not(.on) .score{color:var(--faint)!important}
+
+  /* 접근성: 모션 최소화 설정 존중 */
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;
+      transition-duration:.001s!important}
+    .tape .run{animation:none;padding-left:0}
+  }
+
   /* ── 데스크톱 와이드(≥1180px): 사이드바(모드·검색·종목폴더) + 메인 대시보드 ──
      모바일·태블릿(<1180px)은 기존 세로 플로우 그대로. .layout/.rail/.main은
      좁은 화면에서 평범한 블록이라 아무 영향이 없다. */
@@ -695,6 +749,36 @@
   @media(min-width:1500px){
     .radar{width:280px;height:280px}
     .kpi .v{font-size:26px}
+  }
+
+  /* ── 초와이드(≥1600px): 우측 레일 — 다가오는 일정 + 최근 팀 판단 상시 노출 ── */
+  .rail-r{display:none}
+  @media(min-width:1600px){
+    .layout{grid-template-columns:324px minmax(0,1fr) 300px}
+    .rail-r{display:flex;flex-direction:column;gap:16px;position:sticky;top:16px;
+      max-height:calc(100vh - 32px);overflow-y:auto;overscroll-behavior:contain;
+      scrollbar-width:thin;padding:2px 2px 14px}
+    .rr-panel{background:var(--paper);border-radius:14px;padding:16px 17px;box-shadow:var(--shadow-sm)}
+    .rr-title{font-size:13px;font-weight:800;color:var(--navy);margin:0 0 11px;
+      display:flex;align-items:center;gap:6px}
+    .rr-title .rr-cnt{font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+      border-radius:99px;padding:1px 8px;margin-left:auto}
+    .rr-item{display:flex;align-items:flex-start;gap:9px;padding:8px 8px;border-radius:10px;
+      cursor:pointer;transition:background .15s}
+    .rr-item:hover{background:var(--navy-soft)}
+    .rr-date{flex-shrink:0;width:44px;text-align:center;font-size:10.5px;font-weight:700;
+      color:var(--navy);background:var(--bg);border-radius:8px;padding:5px 0;line-height:1.3;
+      font-variant-numeric:tabular-nums}
+    .rr-date .dd{display:block;font-size:14px;letter-spacing:-.02em}
+    .rr-date.today{background:var(--sky-soft);color:var(--sky)}
+    .rr-body{min-width:0}
+    .rr-name{font-size:12px;font-weight:700;color:var(--ink);line-height:1.35}
+    .rr-sub{font-size:11px;color:var(--dim);line-height:1.45;margin-top:1px;word-break:keep-all}
+    .rr-empty{font-size:12px;color:var(--faint);padding:6px 8px}
+    .rr-call{flex-shrink:0;font-size:10px;font-weight:800;color:#fff;border-radius:7px;
+      padding:3px 8px;margin-top:1px;letter-spacing:.02em}
+    .rr-total{font-size:10.5px;color:var(--faint);font-weight:600;margin-left:5px;
+      font-variant-numeric:tabular-nums;white-space:nowrap;display:inline-block}
   }
 </style>
 </head>
@@ -789,6 +873,8 @@
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
   </main>
+
+  <aside class="rail-r" id="railR" aria-label="일정·최근 판단"></aside>
   </div><!-- /.layout -->
 
   <div class="foot" data-edit="foot">
@@ -2272,13 +2358,24 @@ function makeCards(isLive){
          <div class="role">${a.role} · ${a.room}</div>
          <div class="scorewrap"><span class="score" id="sc-${a.id}" style="color:${a.color}">—</span><span class="score-max">/100</span></div>
          <div class="scorebar"><div class="scorebar-fill" id="bar-${a.id}"></div></div>
-         <ul id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li></ul>
+         <ul id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li><li class="ph" aria-hidden="true"></li><li class="ph" aria-hidden="true"></li></ul>
        </div>`);
   });
 }
+// 숫자 카운트업(0 → 목표값, ease-out) — 모션 최소화 설정이면 즉시 표시
+function countUp(el,target,dur){
+  if(!el) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent=target; return; }
+  const t0=performance.now(), ease=x=>1-Math.pow(1-x,3);
+  (function step(now){
+    const p=Math.min(1,(now-t0)/(dur||700));
+    el.textContent=Math.round(target*ease(p));
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
 function fillCard(a,res){
   document.getElementById('card-'+a.id).classList.add('on');
-  document.getElementById('sc-'+a.id).textContent=res.score;
+  countUp(document.getElementById('sc-'+a.id),res.score,750);
   const st=document.getElementById('st-'+a.id);
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
@@ -2351,13 +2448,14 @@ function analyze(){
   document.getElementById('viz').classList.remove('on');
   const data=runAnalysis(stock);
   makeCards(!!data._live);
+  cardsEl.classList.add('busy');            // 스켈레톤(시머) 표시 시작
 
   let done=0;
   ['taro','diana','nova','flow'].forEach(id=>{
     const a=AGENTS.find(x=>x.id===id);
     sendToWork(a,3200+Math.random()*2200,()=>{
       fillCard(a,data[a.id]);
-      if(++done===4) runChief();
+      if(++done===4){ cardsEl.classList.remove('busy'); runChief(); }
     });
   });
   // 분석 점수 → 초등학생 눈높이 말풍선 문장 (종목 비교 탭의 easyExplain과 같은 원리)
@@ -2481,6 +2579,65 @@ document.getElementById('ticker').addEventListener('change',()=>{
 })();
 makeCards(false);
 showQuote(resolveStock('제주반도체'));
+
+// ---------- 우측 레일(≥1600px): 다가오는 일정 + 최근 팀 판단 ----------
+(function(){
+  const rail=document.getElementById('railR'); if(!rail) return;
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const nameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
+  const goStock=name=>{const inp=document.getElementById('ticker');inp.value=name;
+    showQuote(resolveStock(name)); analyze();};
+  const today=new Date(); today.setHours(0,0,0,0);
+  const DOW=['일','월','화','수','목','금','토'];
+
+  // ① 다가오는 일정 — analysis.js 각 종목 events에서 오늘 이후만 모아 날짜순
+  let evs=[];
+  if(LIVE_AN) for(const code in LIVE_AN){
+    const blk=LIVE_AN[code];
+    if(code==='date'||code==='market'||!blk||!Array.isArray(blk.events)) continue;
+    blk.events.forEach(e=>{
+      if(!e||!e.date) return;
+      const m=String(e.date).match(/(\d{4})-(\d{2})-(\d{2})/); if(!m) return;
+      const d=new Date(+m[1],+m[2]-1,+m[3]);
+      if(d>=today) evs.push({d,code,title:e.title||''});
+    });
+  }
+  evs.sort((a,b)=>a.d-b.d); evs=evs.slice(0,8);
+  const evHTML=evs.length?evs.map(e=>{
+    const isToday=e.d.getTime()===today.getTime();
+    return `<div class="rr-item" data-go="${esc(nameOf(e.code))}">`+
+      `<span class="rr-date${isToday?' today':''}">${e.d.getMonth()+1}/${e.d.getDate()}`+
+      `<span class="dd">${DOW[e.d.getDay()]}</span></span>`+
+      `<span class="rr-body"><span class="rr-name">${esc(nameOf(e.code))}</span>`+
+      `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
+  }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
+
+  // ② 최근 팀 판단 — history.js 전 종목을 시간 역순으로
+  let recs=[];
+  if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
+    (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
+      total:h.total,conf:h.confidence}));
+  }
+  recs.sort((a,b)=>b.date.localeCompare(a.date)); recs=recs.slice(0,8);
+  const callCol=c=>c==='BUY'?'#059669':c==='SELL'?'#DC2626':'#D97706';
+  const rcHTML=recs.length?recs.map(r=>{
+    const dm=r.date.match(/\d{4}-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
+    const dlab=dm?`${+dm[1]}/${+dm[2]}`:'—', tlab=dm&&dm[3]?dm[3]:'';
+    return `<div class="rr-item" data-go="${esc(nameOf(r.code))}">`+
+      `<span class="rr-date">${dlab}<span class="dd" style="font-size:9.5px">${tlab}</span></span>`+
+      `<span class="rr-body"><span class="rr-name">${esc(nameOf(r.code))}`+
+      `<span class="rr-total">종합 ${r.total??'—'}</span></span>`+
+      `<span class="rr-sub">신뢰도 ${r.conf??'—'}%</span></span>`+
+      `<span class="rr-call" style="background:${callCol(r.call)}">${esc(r.call)}</span></div>`;
+  }).join(''):'<div class="rr-empty">기록이 아직 없습니다.</div>';
+
+  rail.innerHTML=
+    `<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
+      `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`+
+    `<div class="rr-panel"><div class="rr-title">🕐 최근 팀 판단`+
+      `<span class="rr-cnt">${recs.length}</span></div>${rcHTML}</div>`;
+  rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
+})();
 
 // ---------- 종목 비교 모드 ----------
 (function(){
