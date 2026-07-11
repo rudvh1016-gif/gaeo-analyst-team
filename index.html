@@ -540,8 +540,8 @@
   .autonote{margin:0 0 14px;padding:11px 15px;background:#FFFBEB;border:1.5px solid #FDE68A;
     border-radius:12px;font-size:12.5px;color:#78350F;line-height:1.7}
   .autonote b{color:#B45309}
-  /* 칩(사이드바 종목)의 자동분석 표식 */
-  .chip .auto-dot{font-size:9px;margin-left:3px;opacity:.75}
+  /* 칩(사이드바 종목)의 자동분석 표식 — 가장 작게 */
+  .chip .auto-dot{font-size:7px;margin-left:2px;opacity:.65;vertical-align:1px}
   .stale{font-size:10px;font-weight:800;color:#fff;background:#F59E0B;letter-spacing:.02em;
     border-radius:4px;padding:2px 6px;margin-left:4px;white-space:nowrap}
   .baseat{color:var(--dim);font-weight:600;font-size:.92em}
@@ -1072,7 +1072,7 @@
 
   <div class="controls">
     <div class="ac-wrap">
-      <input id="ticker" autocomplete="off" placeholder="한글로 검색 (예: 삼성, 카카오, 반도체…)" value="제주반도체" />
+      <input id="ticker" autocomplete="off" placeholder="한글로 검색 (예: 삼성, 카카오, 반도체…)" />
       <div class="acbox" id="acbox" role="listbox"></div>
     </div>
     <button id="run">분석 시작 ▶</button>
@@ -1971,12 +1971,14 @@ function analysisTally(){
   if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
-  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석
+  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석, 분석 결과로 스크롤
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>{
     const inp=document.getElementById('ticker'); if(!inp) return;
     const mb=document.getElementById('mode-single'); if(mb) mb.click();
     inp.value=c.dataset.nm; showQuote(resolveStock(c.dataset.nm)); analyze();
-    window.scrollTo({top:0,behavior:'smooth'});
+    // 맨 위가 아니라 분석 카드로 이동 (분석은 비동기라 잠시 뒤 스크롤)
+    setTimeout(()=>{ const el=document.getElementById('cards')||document.getElementById('quote');
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }, 120);
   });
 })();
 
@@ -3488,11 +3490,9 @@ function renderGuide(){
     if(!byName[s]){ byName[s]={name:s,items:[]}; groups.push(byName[s]); }
     byName[s].items.push(d);
   });
-  // 종목이 119개라 폴더는 기본 접힘(숨김) — 기본 선택 종목(제주반도체) 폴더만 열어둔다.
-  // 아코디언: 하나를 열면 다른 폴더는 자동으로 닫혀 목록이 길어지지 않는다.
-  const defSector=(Object.values(STOCKS).find(d=>d.name==='제주반도체')||groups[0].items[0]||{}).sector;
+  // 폴더는 처음엔 전부 접힘(첫 화면을 비운다). 아코디언: 하나를 열면 나머지는 자동으로 닫힌다.
   groups.forEach(g=>{
-    const open=g.name===defSector;
+    const open=false;
     const sec=document.createElement('div'); sec.className='sector'+(open?' open':'');
     const head=document.createElement('button'); head.className='sector-head';
     head.innerHTML=`<span class="fold">${open?'📂':'📁'}</span> ${g.name} `+
@@ -3534,7 +3534,12 @@ function renderGuide(){
   document.getElementById('tape').innerHTML=html+'   ·   '+html;
 })();
 makeCards(false);
-showQuote(resolveStock('제주반도체'));
+// 첫 화면은 빈 상태 — 아무 종목도 자동으로 뜨지 않게, 검색을 유도한다.
+(function(){
+  const qn=document.getElementById('qname'); if(qn) qn.textContent='';
+  const qd=document.getElementById('qdate');
+  if(qd) qd.innerHTML='<span class="qd-seg" style="color:var(--dim)">🔎 위 검색창에서 종목을 골라 «분석 시작 ▶»을 눌러보세요</span>';
+})();
 
 // ---------- 우측 레일(≥1600px): 다가오는 일정 + 최근 팀 판단 ----------
 (function(){
