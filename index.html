@@ -1692,14 +1692,21 @@ function term(label){
 }
 // findings 문장 속에 섞여 나오는 용어(예: "RSI(14) 47.0", "MACD가 시그널선을")를 자동으로 찾아
 // 클릭 가능한 용어 칩으로 바꾼다. 영숫자 용어는 앞뒤가 다른 영숫자와 안 붙어있을 때만 매치.
+// ⚠️ lookbehind (?<!...)는 iOS 16.4 미만 Safari에서 미지원 — 그 줄 하나가 던지는 에러로
+//    스크립트 블록 전체가 죽는다. 앞 경계는 캡처그룹 (^|[^A-Za-z0-9])로 대체(전 브라우저 안전).
 const GLOSS_KEYS=Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length);
-const GLOSS_RE=new RegExp(GLOSS_KEYS.map(k=>{
-  const esc=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return /^[A-Za-z0-9]+$/.test(k) ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc;
-}).join('|'),'g');
+const reEsc=k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const GLOSS_ALNUM=GLOSS_KEYS.filter(k=>/^[A-Za-z0-9]/.test(k));   // PER·RSI·MA20·52주 등
+const GLOSS_KR=GLOSS_KEYS.filter(k=>!/^[A-Za-z0-9]/.test(k));     // 골든크로스·시그널선 등
+const GLOSS_RE_KR=GLOSS_KR.length?new RegExp(GLOSS_KR.map(reEsc).join('|'),'g'):null;
+const GLOSS_RE_AL=GLOSS_ALNUM.length
+  ?new RegExp('(^|[^A-Za-z0-9])('+GLOSS_ALNUM.map(reEsc).join('|')+')(?![A-Za-z0-9])','g'):null;
 function wrapGloss(text){
   if(!text) return text;
-  return String(text).replace(GLOSS_RE, m=>term(m));
+  let s=String(text);
+  if(GLOSS_RE_KR) s=s.replace(GLOSS_RE_KR, m=>term(m));            // 한글 용어 먼저
+  if(GLOSS_RE_AL) s=s.replace(GLOSS_RE_AL,(m,pre,w)=>pre+term(w)); // 영숫자 용어(경계 보존)
+  return s;
 }
 // 클릭(또는 Enter/Space)하면 용어 뜻을 큰 팝업으로 보여준다 — 모바일에서도 hover 없이 동작
 (function(){
@@ -1746,7 +1753,10 @@ function wrapGloss(text){
 const LIVE_IND=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks:{};
 function flatCloses(code){
   const pages=(LIVE_PH&&LIVE_PH[code])||[];
-  const days=pages.flatMap(p=>p.days).map(d=>({date:d.date,c:d.close}));
+  // ⚠️ PRICE_HISTORY의 페이지 배열은 시간순이 아닐 수 있다(중간에 과거 페이지가 끼어있음).
+  //    그대로 이으면 차트 선이 왜곡되므로 반드시 날짜로 정렬한다.
+  const days=pages.flatMap(p=>p.days).map(d=>({date:d.date,c:d.close}))
+    .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
   if(days.length>=2) return days;
   const t=(LIVE_IND[code]||{}).tech;
   return (t&&t.last5)?t.last5.map(x=>({date:x.d,c:x.c})):[];
