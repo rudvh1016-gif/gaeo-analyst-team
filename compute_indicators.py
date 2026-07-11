@@ -57,7 +57,8 @@ def indicators_for(daily):
     e12, e26 = ema_series(closes, 12), ema_series(closes, 26)
     macd = [a - b for a, b in zip(e12, e26)]
     sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
-    vol_ratio = vols[-1] / (sum(vols[-21:-1]) / 20) if len(vols) > 20 else None
+    vol_avg = sum(vols[-21:-1]) / 20 if len(vols) > 20 else 0
+    vol_ratio = vols[-1] / vol_avg if vol_avg else None   # 거래정지/저유동 종목은 0 평균 → None
     return {
         "close": cur,
         "ma20": round(ma20), "ma20Gap": round((cur / ma20 - 1) * 100, 1),
@@ -97,26 +98,35 @@ def main():
         "indices": live.get("indices"),
         "stocks": {},
     }
+    skipped = []
     for code, s in raw["stocks"].items():
-        d = live["stocks"].get(code, {})
-        entry = {"name": s["name"], "price": d.get("price"), "rate": d.get("rate"),
-                 "stale": d.get("stale", False),
-                 "per": d.get("per"), "pbr": d.get("pbr"), "roe": d.get("roe"),
-                 "eps": d.get("eps"), "div": d.get("div"), "w52": d.get("w52"),
-                 "cap": d.get("cap")}
-        info = (s.get("info") or {})
-        ti = info.get("totalInfos") or {}
-        entry["cnsEps"] = num(ti.get("cnsEps"))
-        cons = info.get("consensus") or {}
-        entry["targetMean"] = num(cons.get("priceTargetMean"))
-        entry["recommMean"] = num(cons.get("recommMean"))
-        if entry["targetMean"] and entry["price"]:
-            entry["targetGap"] = round((entry["targetMean"] / entry["price"] - 1) * 100, 1)
-        if entry["cnsEps"] and entry["price"]:
-            entry["fwdPer"] = round(entry["price"] / entry["cnsEps"], 1)
-        entry["tech"] = indicators_for(s["daily"]) if s.get("daily") else None
-        entry["flow"] = flow_summary(info.get("dealTrends") or [])
-        out["stocks"][code] = entry
+        # 종목 하나가 이상 데이터로 에러를 던져도 전체(500종목)가 죽지 않게 개별 보호
+        try:
+            d = live["stocks"].get(code, {})
+            entry = {"name": s.get("name", code), "price": d.get("price"), "rate": d.get("rate"),
+                     "stale": d.get("stale", False),
+                     "per": d.get("per"), "pbr": d.get("pbr"), "roe": d.get("roe"),
+                     "eps": d.get("eps"), "div": d.get("div"), "w52": d.get("w52"),
+                     "cap": d.get("cap")}
+            info = (s.get("info") or {})
+            ti = info.get("totalInfos") or {}
+            entry["cnsEps"] = num(ti.get("cnsEps"))
+            cons = info.get("consensus") or {}
+            entry["targetMean"] = num(cons.get("priceTargetMean"))
+            entry["recommMean"] = num(cons.get("recommMean"))
+            if entry["targetMean"] and entry["price"]:
+                entry["targetGap"] = round((entry["targetMean"] / entry["price"] - 1) * 100, 1)
+            if entry["cnsEps"] and entry["price"]:
+                entry["fwdPer"] = round(entry["price"] / entry["cnsEps"], 1)
+            daily = s.get("daily") or []
+            entry["tech"] = indicators_for(daily) if len(daily) >= 2 else None
+            entry["flow"] = flow_summary(info.get("dealTrends") or [])
+            out["stocks"][code] = entry
+        except Exception as e:
+            skipped.append(f"{code}({e})")
+            continue
+    if skipped:
+        print(f"[경고] 지표 계산 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
     path = os.path.join(HERE, "indicators.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

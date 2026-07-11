@@ -220,26 +220,33 @@ def main():
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     out = {"generatedAt": now, "priceLabel": price_label, "stocks": {}}
     n_auto = 0
+    skipped = []
     for code, e in ind.get("stocks", {}).items():
         if code in deep_codes:
             continue                      # 정밀분석(Claude)이 있으면 그대로 둔다
         t = e.get("tech")
         if not t or not e.get("price"):
             continue                      # 지표가 없으면 자동분석 생략
-        taro = taro_eval(t)
-        diana = diana_eval(e)
-        nova = nova_eval(e, t)
-        flow = flow_eval(e.get("flow"))
-        chief = chief_eval(e, taro, diana, nova, flow)
-        out["stocks"][code] = {
-            "tier": "auto",
-            "updated": now,
-            "base": e["price"],
-            "baseAt": price_label,
-            "events": [],
-            "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
-        }
-        n_auto += 1
+        try:                              # 종목 하나가 죽어도 전체(500종목)는 이어서 생성
+            taro = taro_eval(t)
+            diana = diana_eval(e)
+            nova = nova_eval(e, t)
+            flow = flow_eval(e.get("flow"))
+            chief = chief_eval(e, taro, diana, nova, flow)
+            out["stocks"][code] = {
+                "tier": "auto",
+                "updated": now,
+                "base": e["price"],
+                "baseAt": price_label,
+                "events": [],
+                "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
+            }
+            n_auto += 1
+        except Exception as ex:
+            skipped.append(f"{code}({ex})")
+            continue
+    if skipped:
+        print(f"[경고] 자동분석 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
 
     body = json.dumps(out, ensure_ascii=False, indent=1)
     js = ("// 자동 생성: analyze_auto.py · 심부름꾼(러너) 규칙 기반 자동분석 (Claude 토큰 0)\n"
