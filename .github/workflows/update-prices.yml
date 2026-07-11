@@ -54,6 +54,9 @@ jobs:
       - name: 지표 사전계산 (indicators.json)
         run: python3 compute_indicators.py
 
+      - name: 자동분석 생성 (auto_analysis.js · Claude 토큰 0)
+        run: python3 analyze_auto.py
+
       - name: 방문자 게시판 개설·백업 (guestbook · kvdb.io)
         continue-on-error: true
         run: |
@@ -94,7 +97,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add
-          for f in data.js price_history.js analysis_data.json indicators.json indicators.js guestbook_id.json guestbook_backup.json krx_list.json update.log; do
+          for f in data.js price_history.js analysis_data.json indicators.json indicators.js auto_analysis.js guestbook_id.json guestbook_backup.json krx_list.json update.log; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then

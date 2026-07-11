@@ -18,5 +18,10 @@ const TICKERS = [
  {"code":"005380","name":"현대차","sector":"자동차"},
  {"code":"042700","name":"한미반도체","sector":"반도체"},
  {"code":"007660","name":"이수페타시스","sector":"PCB"},
- {"code":"017670","name":"SK텔레콤","sector":"통신"}
+ {"code":"017670","name":"SK텔레콤","sector":"통신"},
+ {"code":"035420","name":"NAVER","sector":"인터넷"},
+ {"code":"035720","name":"카카오","sector":"인터넷"},
+ {"code":"000270","name":"기아","sector":"자동차"},
+ {"code":"105560","name":"KB금융","sector":"금융"},
+ {"code":"247540","name":"에코프로비엠","sector":"2차전지"}
 ];

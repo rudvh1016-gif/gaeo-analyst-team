@@ -17,7 +17,8 @@ AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW
 | index.html | 화면 전부(CSS+JS 인라인, ~3500줄) | Claude가 직접 편집 |
 | tickers.js | 종목 목록 단일 소스(13종목) | 사람/Claude |
 | data.js | 현재가·PER 등 시세 스냅샷 | update_prices.py (자동) |
-| analysis.js | 5인 분석 결과(LIVE_ANALYSIS) | Claude가 재분석 시 Write |
+| analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, Claude 직접) | Claude가 재분석 시 Write |
+| auto_analysis.js | 5인 **자동분석**(LIVE_AUTO, 규칙 기반) | analyze_auto.py (자동) |
 | history.js | CHIEF 판단 누적 | **archive_analysis.py만** — 직접 편집 금지 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |

@@ -100,6 +100,12 @@ const LIVE_ANALYSIS = {
 - 파일 상단 주석에 갱신 시각·데이터 기준을 남긴다.
 - **위 필드명·구조를 바꾸거나 빼지 않는다** — index.html이 전부 참조한다(base/baseAt=신선도, stance=리더보드, events=캘린더, target=목표가 거리).
 
+> 🧠 정밀분석 vs 🤖 자동분석: analysis.js(LIVE_ANALYSIS)에 있는 종목은 "정밀분석"으로 표시되고,
+> 없는 종목은 심부름꾼이 `analyze_auto.py`로 만든 auto_analysis.js(LIVE_AUTO)의 "자동분석"이 대신 뜬다.
+> **정밀분석이 자동분석을 항상 덮는다(우선)**. 즉 특정 종목을 정밀분석하려면 analysis.js에 그 종목을 넣기만 하면
+> 되고, 자동분석 목록에서 자동으로 빠진다(analyze_auto.py가 정밀분석 종목을 건너뜀). tickers.js 전체를 매번
+> 정밀분석할 필요 없음 — **핵심 종목만 정밀분석, 나머지는 자동분석에 맡겨 토큰을 아낀다.**
+
 ## 3단계 — 히스토리 기록
 
 `python3 archive_analysis.py` 실행 → 오늘 판단(CHIEF + 4인 stance/score)을 history.js에 누적.
