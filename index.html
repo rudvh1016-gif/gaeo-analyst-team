@@ -906,6 +906,12 @@
   .tv-bars{flex:1;display:flex;flex-direction:column;gap:3px}
   .tv-bar{height:5px;border-radius:0 99px 99px 0;transition:width .6s cubic-bezier(.22,1,.36,1)}
   .tv-bar-m{background:#1fb6c9} .tv-bar-s{background:#94A3B8}
+  /* MACD 히스토그램: 가운데 선 기준 오른쪽 초록=골든, 왼쪽 빨강=데드 */
+  .tv-hist{flex:1;height:13px;background:var(--paper2);border-radius:7px;position:relative;overflow:hidden}
+  .tv-hist::before{content:"";position:absolute;left:50%;top:1px;bottom:1px;width:1.5px;background:#cbd5e1;transform:translateX(-50%)}
+  .tv-hbar{position:absolute;top:2.5px;bottom:2.5px;border-radius:4px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+  .tv-hbar-up{left:50%;background:#059669}
+  .tv-hbar-dn{right:50%;background:#DC2626}
   .tv-cross{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
     border-bottom:none!important}
   .tv-cross-up{background:#ECFDF5;color:#059669} .tv-cross-down{background:#FEF2F2;color:#DC2626}
@@ -1981,14 +1987,22 @@ function analysisTally(){
   if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
-  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석 → 끝나면 시세 카드로 이동
-  box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>{
+  // BUY 종목 칩 클릭 → 단일분석 모드 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
+  const jumpToStock=name=>{
     const inp=document.getElementById('ticker'); if(!inp) return;
     const mb=document.getElementById('mode-single'); if(mb) mb.click();
-    // 종합판단 완료 시 viz 대신 시세 카드로 이동하도록 플래그만 세우고 분석 실행(스크롤은 runChief가 처리)
-    window.__gaeoNoAutoScroll=true;
-    inp.value=c.dataset.nm; showQuote(resolveStock(c.dataset.nm)); analyze();
-  });
+    inp.value=name;
+    showQuote(resolveStock(name));         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
+    window.__gaeoNoAutoScroll=true;        // 이후 종합판단 viz 자동스크롤 억제(시세 카드 유지)
+    // 누르는 즉시 시세 카드로 이동 — html{scroll-behavior:smooth} 때문에 잠깐 즉시이동으로
+    const scrollNow=()=>{ const el=document.getElementById('quote'); if(!el) return;
+      const de=document.documentElement, prev=de.style.scrollBehavior; de.style.scrollBehavior='auto';
+      window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 8));
+      de.style.scrollBehavior=prev; };
+    scrollNow(); requestAnimationFrame(scrollNow);   // 레이아웃 정착 후 한 번 더(모드전환 반영)
+    analyze();
+  };
+  box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>jumpToStock(c.dataset.nm));
 })();
 
 /* ============================================================
@@ -2316,17 +2330,20 @@ function taroChartHTML(code){
   }
   let macdRow='';
   if(typeof t.macd==='number'&&typeof t.macdSignal==='number'){
-    const mx=Math.max(Math.abs(t.macd),Math.abs(t.macdSignal))||1;
-    const mw=Math.min(100,Math.abs(t.macd)/mx*100), sw=Math.min(100,Math.abs(t.macdSignal)/mx*100);
-    const up=t.macd>t.macdSignal, crossTerm=up?'골든크로스':'데드크로스';
+    // 히스토그램: MACD와 시그널의 '차이'를 가운데 선 기준으로 그린다.
+    //   차이 ≥ 0 → 오른쪽 초록(골든), 차이 < 0 → 왼쪽 빨강(데드). 배지와 항상 일치.
+    const diff=t.macd-t.macdSignal, up=diff>=0, crossTerm=up?'골든크로스':'데드크로스';
+    const denom=Math.max(Math.abs(t.macd),Math.abs(t.macdSignal),Math.abs(diff))||1;
+    const w=Math.max(3,Math.min(48,Math.abs(diff)/denom*48));   // 중앙~한쪽 끝(최대 48%)
+    const bar=up?`<div class="tv-hbar tv-hbar-up" style="width:${w.toFixed(0)}%"></div>`
+                :`<div class="tv-hbar tv-hbar-dn" style="width:${w.toFixed(0)}%"></div>`;
     macdRow=`<div class="tv-row"><span class="tv-lbl">${term('MACD')}</span>`+
-      `<div class="tv-bars"><div class="tv-bar tv-bar-m" style="width:${mw.toFixed(0)}%"></div>`+
-      `<div class="tv-bar tv-bar-s" style="width:${sw.toFixed(0)}%"></div></div>`+
+      `<div class="tv-hist">${bar}</div>`+
       `<span class="tv-cross ${up?'tv-cross-up':'tv-cross-down'} gterm" tabindex="0" data-term="${crossTerm}">`+
       `${up?'🟢':'🔴'} ${crossTerm}</span></div>`+
-      `<div class="tv-note"><i style="background:#1fb6c9"></i>파랑 = MACD선(요즘 추세의 힘) · `+
-      `<i style="background:#94A3B8"></i>회색 = 시그널선(MACD의 평균, 기준선) — `+
-      `MACD가 기준선 위면 🟢골든크로스(오를 신호), 아래면 🔴데드크로스(조심 신호). 막대 길이는 두 값의 크기 비교예요.</div>`;
+      `<div class="tv-note">가운데 선을 기준으로 막대가 <b style="color:#059669">오른쪽(초록)</b>이면 🟢<b>골든크로스</b>=<b>오를 힘이 세지는 신호</b>, `+
+      `<b style="color:#DC2626">왼쪽(빨강)</b>이면 🔴<b>데드크로스</b>=<b>힘이 빠지는 신호</b>예요. 막대가 길수록 그 신호가 더 강해요. `+
+      `<span style="color:var(--faint)">('요즘 주가의 힘'과 '그 평균'의 차이를 나타내요)</span></div>`;
   }
   return `<div class="taro-viz">${svg}${legend}${posRow}${rsiRow}${macdRow}</div>`;
 }
