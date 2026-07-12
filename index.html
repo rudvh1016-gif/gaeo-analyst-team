@@ -287,6 +287,11 @@
     font-weight:600;padding:9px 18px;border-radius:10px;cursor:pointer;transition:color .2s,background .2s}
   .modebtn:not(.on):hover{color:var(--navy)}
   .modebtn.on{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(11,65,113,.25)}
+  /* 📖 가이드북 강조 — 하늘색 작은 별표 */
+  .modebtn-guide{color:var(--sky);font-weight:800}
+  .modebtn-guide.on{background:var(--sky);color:#fff}
+  .gb-star{color:var(--sky);font-size:9px;vertical-align:2px;margin:0 3px}
+  .modebtn-guide.on .gb-star{color:#fff}
   .cmp-controls{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
   .cmp-controls .ac-wrap{flex:1;min-width:150px}
   .cmp-controls input{width:100%;background:var(--paper);border:1px solid transparent;
@@ -816,9 +821,13 @@
   .mk-buylist[open] summary::after{transform:rotate(90deg)}
   .mk-buychips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
   .mk-buychip{font-size:11px;color:#065F46;background:var(--paper);border:1px solid #A7F3D0;
-    border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:background .15s}
+    border-radius:99px;padding:3px 9px 3px 4px;cursor:pointer;white-space:nowrap;transition:background .15s;
+    display:inline-flex;align-items:center;gap:5px}
   .mk-buychip:hover{background:#D1FAE5}
-  .mk-buychip .bc-code{color:var(--faint);font-size:9.5px;margin-left:3px}
+  .mk-buychip .bc-rank{font-size:10px;font-weight:800;color:#fff;background:#10B981;border-radius:99px;
+    min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
+  .mk-buychip.top3 .bc-rank{background:#059669}
+  .mk-buychip .bc-score{color:var(--faint);font-size:9.5px;font-weight:700}
   .mk-buynote{font-size:10.5px;color:var(--faint);margin-top:6px;line-height:1.5}
   /* 날짜별 지난 시장 분석 목차 */
   .mk-hist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
@@ -1061,8 +1070,8 @@
   <div class="layout">
   <aside class="rail">
   <div class="modes">
+    <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span>📖 가이드북<span class="gb-star">✦</span></button>
     <button class="modebtn on" id="mode-single">단일 분석</button>
-    <button class="modebtn" id="mode-guide">📖 가이드북</button>
     <button class="modebtn" id="mode-compare">종목 비교</button>
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
@@ -1923,7 +1932,8 @@ function analysisTally(){
   const tal=analysisTally();
   if(tal.total>0){
     const day=(AUTO_AN&&AUTO_AN.generatedAt||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
-    const chips=tal.buy.map(b=>`<span class="mk-buychip" data-nm="${esc(b.name)}">${esc(b.name)}<span class="bc-code">${b.code}</span></span>`).join('');
+    // 종합점수 높은 순(analysisTally에서 정렬됨) — 순위 번호 + 점수 함께 표시
+    const chips=tal.buy.map((b,i)=>`<span class="mk-buychip${i<3?' top3':''}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}<span class="bc-score">${b.total}점</span></span>`).join('');
     html+=`<div class="mk-tally">
       <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(day)} · 총 ${tal.total}종목</span></div>
       <div class="mk-tally-row">
@@ -1931,9 +1941,9 @@ function analysisTally(){
         <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
         <span class="tly sell">🔴 SELL ${tal.counts.SELL}</span>
       </div>`+
-      (tal.buy.length?`<details class="mk-buylist"><summary>🟢 BUY 판단 종목 ${tal.buy.length}개 펼쳐보기</summary>
+      (tal.buy.length?`<details class="mk-buylist"><summary>🟢 BUY 종목 ${tal.buy.length}개 · 종합점수 높은 순 펼쳐보기</summary>
         <div class="mk-buychips">${chips}</div>
-        <div class="mk-buynote">※ 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.</div>
+        <div class="mk-buynote">※ 앞의 번호는 종합점수 순위예요. 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.</div>
       </details>`:'')+
       `</div>`;
   }
@@ -1971,14 +1981,13 @@ function analysisTally(){
   if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
-  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석, 분석 결과로 스크롤
+  // BUY 종목 칩 클릭 → 단일분석 모드로 전환 후 그 종목 분석 → 끝나면 시세 카드로 이동
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>{
     const inp=document.getElementById('ticker'); if(!inp) return;
     const mb=document.getElementById('mode-single'); if(mb) mb.click();
+    // 종합판단 완료 시 viz 대신 시세 카드로 이동하도록 플래그만 세우고 분석 실행(스크롤은 runChief가 처리)
+    window.__gaeoNoAutoScroll=true;
     inp.value=c.dataset.nm; showQuote(resolveStock(c.dataset.nm)); analyze();
-    // 맨 위가 아니라 분석 카드로 이동 (분석은 비동기라 잠시 뒤 스크롤)
-    setTimeout(()=>{ const el=document.getElementById('cards')||document.getElementById('quote');
-      if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }, 120);
   });
 })();
 
@@ -3306,7 +3315,19 @@ function analyze(){
       if(v.report){vr.style.display='block'; vr.textContent=v.report;}
       else vr.style.display='none';
       renderViz(data); renderGauges(v); renderHistory(stock.code, stock.price);
-      vEl.classList.add('on'); document.getElementById('viz').scrollIntoView({behavior:'smooth',block:'nearest'});
+      vEl.classList.add('on');
+      if(window.__gaeoNoAutoScroll){
+        // BUY 칩에서 넘어온 경우: viz 대신 시세 카드(종목명·현재가·지표·차트)로 이동.
+        // html{scroll-behavior:smooth}가 걸려있어 즉시이동을 위해 잠깐 끈다.
+        window.__gaeoNoAutoScroll=false;
+        const q=document.getElementById('quote');
+        if(q){ const de=document.documentElement, prev=de.style.scrollBehavior;
+          de.style.scrollBehavior='auto';
+          window.scrollTo(0, Math.max(0, window.scrollY + q.getBoundingClientRect().top - 8));
+          de.style.scrollBehavior=prev; }
+      } else {
+        document.getElementById('viz').scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
       SFX[v.call.toLowerCase()]();
       hideAnalyzing();
       document.getElementById('run').disabled=false; running=false;
