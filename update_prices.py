@@ -108,6 +108,38 @@ def fetch_indices():
             print(f'[경고] {idx} 지수 수집 실패(생략): {e}')
     return out
 
+def fetch_fx():
+    """원/달러 환율(USD/KRW) 수집. 네이버 엔드포인트 여러 개를 시도하고 실패하면 None(화면 미표시).
+    지수와 함께 10분마다 갱신된다."""
+    # 1) 모바일 basic — 지수(basic)와 동일 구조(closePrice/fluctuationsRatio)일 가능성
+    for url in (
+        'https://api.stock.naver.com/marketindex/exchange/FX_USDKRW/basic',
+        'https://m.stock.naver.com/api/marketindex/exchange/FX_USDKRW/basic',
+    ):
+        try:
+            d = get(url, 'https://m.stock.naver.com')
+            v = num(d.get('closePrice'))
+            if v:
+                print(f"[OK] 환율(USD/KRW) {d.get('closePrice')} ({d.get('fluctuationsRatio')}%)")
+                return {'value': v, 'change': num(d.get('compareToPreviousClosePrice')),
+                        'rate': num(d.get('fluctuationsRatio'))}
+        except Exception as e:
+            print(f'[경고] 환율 basic 실패({url}): {e}')
+    # 2) 폴링 API 폴백
+    try:
+        d = get('https://polling.finance.naver.com/api/realtime/marketindex/exchange/FX_USDKRW',
+                'https://finance.naver.com')
+        da = d['result']['areas'][0]['datas'][0]
+        nv = float(da.get('nv'))
+        v = nv / 100 if nv > 10000 else nv    # nv가 ×100로 오는 경우(예: 152250) 보정
+        if v:
+            print(f'[OK] 환율(폴링) {v} ({da.get("cr")}%)')
+            return {'value': round(v, 2), 'change': None, 'rate': num(da.get('cr'))}
+    except Exception as e:
+        print(f'[경고] 환율 폴링 실패: {e}')
+    return None
+
+
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     trim_log(here)                      # 로그 로테이션(맨 먼저)
@@ -174,9 +206,13 @@ def main():
         date_label += f' · ⚠️ {len(stale_names)}종목 지연'
 
     indices = fetch_indices()
+    fx = fetch_fx()
+    data = {'date': date_label, 'indices': indices, 'stocks': out}
+    if fx:
+        data['fx'] = fx
     js = (f'// 자동 생성: update_prices.py · {date_label}\n'
           'const LIVE_DATA = '
-          + json.dumps({'date': date_label, 'indices': indices, 'stocks': out}, ensure_ascii=False, indent=1)
+          + json.dumps(data, ensure_ascii=False, indent=1)
           + ';\n')
     with open(path, 'w', encoding='utf-8') as f:
         f.write(js)
