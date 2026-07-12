@@ -288,9 +288,9 @@
   .modebtn:not(.on):hover{color:var(--navy)}
   .modebtn.on{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(11,65,113,.25)}
   /* 📖 가이드북 강조 — 하늘색 작은 별표 */
-  .modebtn-guide{color:var(--sky);font-weight:800}
+  .modebtn-guide{color:var(--sky);font-weight:800;white-space:nowrap}
   .modebtn-guide.on{background:var(--sky);color:#fff}
-  .gb-star{color:var(--sky);font-size:9px;vertical-align:2px;margin:0 3px}
+  .gb-star{color:var(--sky);font-size:14px;vertical-align:-1px;margin-right:4px}
   .modebtn-guide.on .gb-star{color:#fff}
   .cmp-controls{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
   .cmp-controls .ac-wrap{flex:1;min-width:150px}
@@ -1076,7 +1076,7 @@
   <div class="layout">
   <aside class="rail">
   <div class="modes">
-    <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span>📖 가이드북<span class="gb-star">✦</span></button>
+    <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span>📖 가이드북</button>
     <button class="modebtn on" id="mode-single">단일 분석</button>
     <button class="modebtn" id="mode-compare">종목 비교</button>
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
