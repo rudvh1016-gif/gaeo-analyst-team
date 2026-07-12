@@ -131,24 +131,25 @@ def fetch_fx():
     # 1) 환율 리스트 페이지(가장 단순) — 매매기준율(sale)만 있으면 값은 확보
     try:
         html = get_html('https://finance.naver.com/marketindex/exchangeList.naver')
-        m = re.search(r'미국\s*USD</a>.*?<td[^>]*class="sale"[^>]*>\s*([\d,\.]+)', html, re.S)
+        # 구조: 미국 USD ... </a></td>  <td class="sale">1,503.40</td>  (사이에 공백/탭 다수)
+        m = re.search(r'미국\s*USD.*?class="sale"[^>]*>\s*([\d,\.]+)', html, re.S)
         if m:
             v = num(m.group(1))
             if v:
-                # 변동은 메인 페이지에서 보강 시도(없어도 값은 표시)
+                # 변동(%)은 메인 환율 페이지에서 보강 시도(없어도 값은 표시)
                 fx = {'value': v, 'change': None, 'rate': None}
                 try:
                     main = get_html('https://finance.naver.com/marketindex/')
-                    mm = re.search(r'미국\s*USD.*?head_info\s+point_(up|dn|dn02|up02).*?class="value">\s*([\d,\.]+).*?class="change">\s*([\d,\.]+)', main, re.S)
+                    mm = re.search(r'미국\s*USD.*?point_(up|dn)\d*.*?class="value">\s*([\d,\.]+).*?class="change">\s*([\d,\.]+)', main, re.S)
                     if mm:
                         direction, val, chg = mm.group(1), num(mm.group(2)), num(mm.group(3))
-                        signed = chg if direction.startswith('up') else -chg
+                        signed = chg if direction == 'up' else -chg
                         prev = (val or v) - signed
                         fx = {'value': val or v, 'change': signed,
                               'rate': round(signed / prev * 100, 2) if prev else None}
                 except Exception as e:
                     print(f'[경고] 환율 변동 보강 실패(값은 정상): {e}')
-                print(f"[OK] 환율(USD/KRW) {fx['value']} (변동 {fx['change']})")
+                print(f"[OK] 환율(USD/KRW) {fx['value']} (변동 {fx['change']}, {fx['rate']}%)")
                 return fx
     except Exception as e:
         print(f'[경고] 환율 수집 실패: {e}')
