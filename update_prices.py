@@ -108,35 +108,51 @@ def fetch_indices():
             print(f'[경고] {idx} 지수 수집 실패(생략): {e}')
     return out
 
-def fetch_fx():
-    """원/달러 환율(USD/KRW) 수집. 네이버 엔드포인트 여러 개를 시도하고 실패하면 None(화면 미표시).
-    지수와 함께 10분마다 갱신된다."""
-    # 1) 모바일 basic — 지수(basic)와 동일 구조(closePrice/fluctuationsRatio)일 가능성
-    for url in (
-        'https://api.stock.naver.com/marketindex/exchange/FX_USDKRW/basic',
-        'https://m.stock.naver.com/api/marketindex/exchange/FX_USDKRW/basic',
-    ):
+def get_html(url, referer='https://finance.naver.com', enc='euc-kr', tries=3):
+    """HTML(텍스트) 페이지를 받아 문자열로 반환. 네이버 금융 웹은 EUC-KR 인코딩."""
+    last = None
+    for i in range(tries):
         try:
-            d = get(url, 'https://m.stock.naver.com')
-            v = num(d.get('closePrice'))
-            if v:
-                print(f"[OK] 환율(USD/KRW) {d.get('closePrice')} ({d.get('fluctuationsRatio')}%)")
-                return {'value': v, 'change': num(d.get('compareToPreviousClosePrice')),
-                        'rate': num(d.get('fluctuationsRatio'))}
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+                'Referer': referer})
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return r.read().decode(enc, 'replace')
         except Exception as e:
-            print(f'[경고] 환율 basic 실패({url}): {e}')
-    # 2) 폴링 API 폴백
+            last = e
+            if i < tries - 1:
+                time.sleep(0.6 * (i + 1))
+    raise last
+
+
+def fetch_fx():
+    """원/달러 환율(USD/KRW) 수집 — 네이버 금융 환율 페이지 HTML을 파싱.
+    지수와 함께 10분마다 갱신된다. 실패 시 None(화면 미표시)."""
+    # 1) 환율 리스트 페이지(가장 단순) — 매매기준율(sale)만 있으면 값은 확보
     try:
-        d = get('https://polling.finance.naver.com/api/realtime/marketindex/exchange/FX_USDKRW',
-                'https://finance.naver.com')
-        da = d['result']['areas'][0]['datas'][0]
-        nv = float(da.get('nv'))
-        v = nv / 100 if nv > 10000 else nv    # nv가 ×100로 오는 경우(예: 152250) 보정
-        if v:
-            print(f'[OK] 환율(폴링) {v} ({da.get("cr")}%)')
-            return {'value': round(v, 2), 'change': None, 'rate': num(da.get('cr'))}
+        html = get_html('https://finance.naver.com/marketindex/exchangeList.naver')
+        # 구조: 미국 USD ... </a></td>  <td class="sale">1,503.40</td>  (사이에 공백/탭 다수)
+        m = re.search(r'미국\s*USD.*?class="sale"[^>]*>\s*([\d,\.]+)', html, re.S)
+        if m:
+            v = num(m.group(1))
+            if v:
+                # 변동(%)은 메인 환율 페이지에서 보강 시도(없어도 값은 표시)
+                fx = {'value': v, 'change': None, 'rate': None}
+                try:
+                    main = get_html('https://finance.naver.com/marketindex/')
+                    mm = re.search(r'미국\s*USD.*?point_(up|dn)\d*.*?class="value">\s*([\d,\.]+).*?class="change">\s*([\d,\.]+)', main, re.S)
+                    if mm:
+                        direction, val, chg = mm.group(1), num(mm.group(2)), num(mm.group(3))
+                        signed = chg if direction == 'up' else -chg
+                        prev = (val or v) - signed
+                        fx = {'value': val or v, 'change': signed,
+                              'rate': round(signed / prev * 100, 2) if prev else None}
+                except Exception as e:
+                    print(f'[경고] 환율 변동 보강 실패(값은 정상): {e}')
+                print(f"[OK] 환율(USD/KRW) {fx['value']} (변동 {fx['change']}, {fx['rate']}%)")
+                return fx
     except Exception as e:
-        print(f'[경고] 환율 폴링 실패: {e}')
+        print(f'[경고] 환율 수집 실패: {e}')
     return None
 
 
