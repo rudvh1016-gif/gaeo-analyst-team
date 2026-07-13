@@ -1,15 +1,13 @@
-# 개오 애널리스트팀 — 시세·환율 자동 수집(가벼운·빠른 워크플로우)
-# 목적: 원격 Claude Code 세션(모바일/웹)에서도 정확한 네이버 금융 시세를 쓰도록,
-#       네트워크 제한이 없는 GitHub 러너에서 update_prices.py 만 실행해
-#       data.js(현재가·등락·PER/PBR·환율)를 커밋한다.
-# 왜 분리했나: 예전엔 무거운 분석 스크립트(원천데이터·지표·자동분석)까지 한 워크플로우에
-#       몰아넣어 한 바퀴가 20분+ 걸렸다 → "10분마다"가 물리적으로 불가능했다.
-#       무거운 부분은 update-analysis.yml(30분 간격)로 떼어냈고, 이 워크플로우는
-#       시세만 빠르게(수집 병렬화로 ~1~2분) 돌려 10분 간격을 실제로 성립시킨다.
-# 실행 방법:
-#   · 수동: GitHub → Actions → 이 워크플로우 → Run workflow
-#   · 마커: .analyst-refresh 파일 내용을 바꿔 push (원격 세션에서 쓰는 방법)
-#   · 자동: 평일 장중 10분 간격 (KST 09:00~15:40, 마감 후 종가 확정분 포함)
+# 개오 애널리스트팀 — 시세·환율 자동 수집 (자가 반복/loop 방식)
+# 왜 loop인가:
+#   GitHub 무료 스케줄(cron)은 이 저장소에서 사실상 거의 안 켜진다(실측: 전체 기간
+#   schedule 이벤트 단 2회). "10분마다"를 cron에 맡기면 며칠씩 멈춘다.
+#   → 한 번 시작되면 그 실행 안에서 스스로 10분마다 반복해 장 마감(KST 15:42)까지
+#     시세를 갱신한다. 수집은 병렬화돼 한 사이클이 ~1분이라 여유롭다.
+# 시작 방법(아무거나 하나면 하루 종일 돔):
+#   · 수동: GitHub → Actions → update-prices → Run workflow
+#   · 마커: .analyst-refresh 를 바꿔 push
+#   · 스케줄: 개장 직후 자주 시도(누락 대비) + 낮 동안 재기동 안전망(best-effort)
 name: update-prices
 
 on:
@@ -19,23 +17,23 @@ on:
       - ".analyst-refresh"
       - ".github/workflows/update-prices.yml"
   schedule:
-    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격.
-    # 정각(:00)은 GitHub Actions 스케줄 부하가 몰려 실행이 자주 누락되므로
-    # 일부러 :02 오프셋으로 예약한다(공식 문서 권고).
-    - cron: "2-52/10 0-5 * * 1-5"
-    # 06:02~06:42 UTC = 15:02~15:42 KST (15:30 마감 직후 종가 확정분까지)
-    - cron: "2,12,22,32,42 6 * * 1-5"
+    # 개장(09:00 KST=00:00 UTC) 직후 3분 간격으로 여러 번 시도 → 하루 한 번은 루프 기동
+    - cron: "0-33/3 0 * * 1-5"
+    # 낮 동안(10~15시 KST) 재기동 안전망: 루프가 죽었으면 다시 띄운다
+    - cron: "5,35 1-5 * * 1-5"
 
 permissions:
   contents: write
 
 concurrency:
+  # 새 기동이 들어오면 낡은 루프를 취소하고 최신 하나만 유지(중복 루프 방지)
   group: update-prices-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 350        # GitHub 잡 최대 6시간 안쪽 안전 상한
     env:
       TZ: Asia/Seoul
     steps:
@@ -47,27 +45,31 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 시세·환율 수집 (data.js)
-        run: python3 update_prices.py
-
-      - name: 결과 커밋 & 푸시
-        if: always()
+      - name: 시세·환율 반복 수집 (장중 10분 간격, 마감까지)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # data.js만 커밋(시세 전용). gitignore/누락 파일 add 실패가 bash -e로
-          # job을 죽이지 않도록 '|| true'로 감싼다.
-          [ -f data.js ] && { git add data.js || true; }
-          if git diff --cached --quiet; then
-            echo "변경 없음 — 커밋 생략"
-          else
-            git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
-            # 다른 실행/병합과 경쟁해 push가 거부되면 업데이트가 조용히 유실되므로
-            # rebase 후 재시도(최대 3회)한다.
-            for i in 1 2 3; do
-              git push && break
-              echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
-              git pull --rebase origin "${{ github.ref_name }}"
-              sleep 3
-            done
-          fi
+          # 오늘 KST 15:42까지 반복(마감 15:30 + 종가 확정 여유). 이미 지났으면 1회만.
+          end=$(date -d "15:42" +%s)
+          while :; do
+            python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
+            [ -f data.js ] && { git add data.js || true; }
+            if git diff --cached --quiet; then
+              echo "변경 없음 — 커밋 생략"
+            else
+              git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
+              for i in 1 2 3; do
+                git push && break
+                echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+                git pull --rebase origin "${{ github.ref_name }}"
+                sleep 3
+              done
+            fi
+            now=$(date +%s)
+            if [ "$now" -ge "$end" ]; then
+              echo "장 마감(15:42 KST) 도달 — 루프 종료"
+              break
+            fi
+            echo "다음 갱신까지 10분 대기…"
+            sleep 600
+          done
