@@ -100,24 +100,16 @@ jobs:
             python3 fetch_krx_list.py
           fi
 
-      # 실행 하트비트 — 스케줄이 실제로 도는지 커밋 이력만으로 확인하기 위한 로그.
-      # 시세 변동이 없어도 이 줄 때문에 매 실행이 커밋되므로, 장중 10분 간격 실행
-      # 여부를 git log로 바로 검증할 수 있다. (진단 후 불필요하면 이 스텝 제거)
-      - name: 실행 로그 (heartbeat)
-        if: always()
-        run: |
-          echo "$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %Z') | event=${{ github.event_name }} | ref=${{ github.ref_name }} | run=${{ github.run_id }}" >> update.log
-          # 로그 무한 증가 방지: 최근 1000줄만 유지
-          tail -n 1000 update.log > update.log.tmp && mv update.log.tmp update.log
-
       - name: 결과 커밋 & 푸시
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add
-          for f in data.js price_history.js analysis_data.json indicators.json indicators.js auto_analysis.js guestbook_id.json guestbook_backup.json krx_list.json update.log; do
-            [ -f "$f" ] && git add "$f"
+          # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add.
+          # gitignore에 걸린 파일(update.log 등) add 실패가 bash -e로 job 전체를
+          #죽이지 않도록 각 add를 '|| true'로 감싼다.
+          for f in data.js price_history.js analysis_data.json indicators.json indicators.js auto_analysis.js guestbook_id.json guestbook_backup.json krx_list.json; do
+            [ -f "$f" ] && { git add "$f" || true; }
           done
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
