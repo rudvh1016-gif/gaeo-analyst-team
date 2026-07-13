@@ -164,16 +164,18 @@ def main():
     old = load_old_stocks(path)
     out, fresh, stale_names = {}, 0, []
 
-    for code, name in codes.items():
+    def fetch_one(code, name):
+        """한 종목의 현재가+상세지표 수집.
+        반환: (code, row_or_None, is_fresh, stale_name_or_None)"""
         try:
             s = get(f'https://api.finance.naver.com/service/itemSummary.naver?itemcode={code}')
         except Exception as e:
             print(f'[실패] {name}({code}) 시세: {e}')
             if code in old:                       # 이전 값 유지 + 지연 표시
                 row = dict(old[code]); row['stale'] = True
-                out[code] = row; stale_names.append(name)
                 print(f'   → 이전 값 유지(지연 표시): {row.get("price")}')
-            continue
+                return (code, row, False, name)
+            return (code, None, False, None)
         info = {}
         try:
             integ = get(f'https://m.stock.naver.com/api/stock/{code}/integration',
@@ -188,7 +190,7 @@ def main():
             w52 = f"{info['lowPriceOf52Weeks']} ~ {info['highPriceOf52Weeks']}"
         # 상세지표가 실패했으면 이전 값으로 보완(현재가/등락은 신선)
         prev = old.get(code, {})
-        out[code] = {
+        row = {
             'name': name, 'price': s['now'], 'rate': s['rate'],
             'per': s.get('per') if s.get('per') is not None else prev.get('per'),
             'pbr': s.get('pbr') if s.get('pbr') is not None else prev.get('pbr'),
@@ -198,8 +200,27 @@ def main():
             'cap': cap_str(s['marketSum']), 'w52': w52 or prev.get('w52') or '—',
             'stale': False,
         }
-        fresh += 1
         print(f"[OK] {name}({code}) {s['now']:,}원 {s['rate']:+.2f}%")
+        return (code, row, True, None)
+
+    # 종목 수집은 네트워크 I/O 대기가 대부분이라 순차 처리하면 119종목 × 2요청 =
+    # ~11분이 걸린다. 스레드로 동시 수집해 ~1~2분으로 단축(10분 스케줄이 실제로
+    # 성립하도록). 네이버 부하를 감안해 동시 8개로 제한한다.
+    from concurrent.futures import ThreadPoolExecutor
+    results = {}
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        for code, row, is_fresh, stale_name in ex.map(
+                lambda kv: fetch_one(*kv), list(codes.items())):
+            results[code] = row
+            if is_fresh:
+                fresh += 1
+            if stale_name:
+                stale_names.append(stale_name)
+
+    # tickers.js 원래 순서를 보존해 data.js diff를 안정적으로 유지
+    for code, name in codes.items():
+        if results.get(code) is not None:
+            out[code] = results[code]
 
     if fresh == 0:
         print('신규 수집 0건 — data.js를 갱신하지 않습니다(기존 값·시각 보존).')
