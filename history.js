@@ -176,6 +176,31 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50
    }
+  },
+  {
+   "date": "2026-07-13 15:46",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 46,
+   "base": 77300,
+   "baseAt": "2026-07-13 종가",
+   "target": "소형주로 컨센서스 부재. 지지 6.5만(3개월 중단)·저항 8.9만(전일 종가). 외인·기관 매수+저거래 조정으로 낙폭과대, 시장 안정 시 반등 기대.",
+   "taro": {
+    "stance": "bear",
+    "score": 38
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 52
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 41
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 55
+   }
   }
  ],
  "005930": [
@@ -353,6 +378,31 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52
    }
+  },
+  {
+   "date": "2026-07-13 15:46",
+   "call": "HOLD",
+   "total": 49,
+   "confidence": 58,
+   "base": 254500,
+   "baseAt": "2026-07-13 종가",
+   "target": "컨센서스 목표주가 51.4만원. 지지 20만(3개월 저점)·저항 29만(60일선). 낙폭과대+기관 저가매수로 분할매수 관점.",
+   "taro": {
+    "stance": "bear",
+    "score": 33
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 73
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 40
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 48
+   }
   }
  ],
  "000660": [
@@ -529,6 +579,31 @@ const LIVE_HISTORY = {
    "flow": {
     "stance": "bear",
     "score": 40
+   }
+  },
+  {
+   "date": "2026-07-13 15:46",
+   "call": "HOLD",
+   "total": 48,
+   "confidence": 55,
+   "base": 1845000,
+   "baseAt": "2026-07-13 종가",
+   "target": "컨센서스 목표주가 354만원(현 184.5만 대비 +92%). 단기 지지 165만(3개월 저점권)·저항 200만(60일선), 손절 170만 이탈 시.",
+   "taro": {
+    "stance": "bear",
+    "score": 34
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 76
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 37
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 32
    }
   }
  ],
@@ -882,6 +957,31 @@ const LIVE_HISTORY = {
    },
    "flow": {
     "stance": "neu",
+    "score": 52
+   }
+  },
+  {
+   "date": "2026-07-13 15:46",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 42,
+   "base": 1289000,
+   "baseAt": "2026-07-13 종가",
+   "target": "컨센서스 목표주가 247만원. 지지 115만·저항 145만(60일선), 밸류 부담으로 반등 시 분할 축소 관점. 손절 118만 이탈 시.",
+   "taro": {
+    "stance": "bear",
+    "score": 32
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 55
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 38
+   },
+   "flow": {
+    "stance": "bull",
     "score": 52
    }
   }
