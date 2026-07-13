@@ -38,12 +38,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 분석데이터 반복 수집 (장중 30분 간격, 마감까지)
+      - name: 분석데이터 반복 수집 (500종목 · 30분 주기, 마감까지)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           end=$(date -d "15:45" +%s)
+          # 사이클 주기(시작-시작). 500종목 한 바퀴 실측 ~12분 → 30분이면 겹침 없이 여유.
+          # 느린 날 한 바퀴가 30분을 넘기면 최소 휴식만 두고 곧바로 다음 사이클(잘림 없음).
+          period=1800
           while :; do
+            cstart=$(date +%s)
             # 각 스크립트는 실패해도 나머지·커밋을 막지 않도록 || true
             python3 update_price_history.py || echo "price_history 실패"
             python3 collect_analyst_data.py || echo "analysis_data 실패"
@@ -82,6 +86,10 @@ jobs:
               echo "장 마감(15:45 KST) 도달 — 루프 종료"
               break
             fi
-            echo "다음 분석까지 30분 대기…"
-            sleep 1800
+            # 주기 기반 대기: 이번 사이클 소요만큼 빼서 시작-시작 간격을 30분으로 유지.
+            elapsed=$((now - cstart))
+            wait=$((period - elapsed))
+            [ "$wait" -lt 60 ] && wait=60   # 과부하 방지 최소 휴식
+            echo "이번 사이클 ${elapsed}s 소요 — 다음 사이클까지 ${wait}s 대기"
+            sleep "$wait"
           done
