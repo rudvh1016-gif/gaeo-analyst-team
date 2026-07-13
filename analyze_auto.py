@@ -8,7 +8,8 @@
 자동분석 티어에서는 '개별 뉴스 미반영 + 모멘텀 기반' 축약본으로 대체한다.
 
 → 이렇게 하면 종목을 수백 개로 늘려도 자동분석분은 토큰이 전혀 들지 않는다.
-   Claude가 직접 쓴 정밀분석(analysis.js)이 있는 종목은 건드리지 않는다(정밀분석 우선).
+   정밀분석(analysis.js) 보유 종목도 포함해 모든 종목을 생성한다. 화면 표시 우선순위는
+   index.html이 정한다(정밀분석이 신선하면 정밀 우선, 오래되면 이 자동분석 표시).
 
 입력 : indicators.json (compute_indicators.py 산출) · analysis.js (정밀분석 목록 확인)
 출력 : auto_analysis.js  →  const LIVE_AUTO = { "CODE": {tier:"auto", taro/diana/nova/flow/chief}, ... }
@@ -222,8 +223,9 @@ def main():
     n_auto = 0
     skipped = []
     for code, e in ind.get("stocks", {}).items():
-        if code in deep_codes:
-            continue                      # 정밀분석(Claude)이 있으면 그대로 둔다
+        # 정밀분석(analysis.js) 보유 종목도 자동분석을 생성한다. index.html이
+        # "정밀분석이 신선할 때만 우선, 오래되면 자동분석 표시"로 고르므로, 모든
+        # 종목에 최신 자동분석이 항상 준비돼 있어야 한다.
         t = e.get("tech")
         if not t or not e.get("price"):
             continue                      # 지표가 없으면 자동분석 생략
@@ -250,11 +252,12 @@ def main():
 
     body = json.dumps(out, ensure_ascii=False, indent=1)
     js = ("// 자동 생성: analyze_auto.py · 심부름꾼(러너) 규칙 기반 자동분석 (Claude 토큰 0)\n"
-          "// 정밀분석(analysis.js)이 없는 종목만 채운다. index.html은 정밀분석 우선, 없으면 이 파일을 쓴다.\n"
+          "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"
+          "// 정밀을 우선하고, 오래되면(기준가 대비 시세가 벌어지면) 이 자동분석을 표시한다.\n"
           "const LIVE_AUTO = " + body + ";\n")
     with open(os.path.join(HERE, "auto_analysis.js"), "w", encoding="utf-8") as f:
         f.write(js)
-    print(f"auto_analysis.js 저장 완료 — 자동분석 {n_auto}종목 (정밀분석 {len(deep_codes)}종목 제외)")
+    print(f"auto_analysis.js 저장 완료 — 자동분석 {n_auto}종목 (정밀분석 보유 {len(deep_codes)}종목 포함)")
 
 
 if __name__ == "__main__":

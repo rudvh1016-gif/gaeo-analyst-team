@@ -1205,16 +1205,30 @@ const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
 // auto_analysis.js가 전역에 const LIVE_AUTO를 선언한다(없으면 script onerror가 window.LIVE_AUTO=null).
 // 여기서 같은 이름으로 재선언하면 충돌(SyntaxError)하므로 다른 이름(AUTO_AN)으로 참조만 잡는다.
 const AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:((typeof window!=='undefined'&&window.LIVE_AUTO)||null);
+// 정밀분석 '신선도' 판정: 기준가(base) 대비 현재가가 ±STALE_PCT 미만이면 아직 신선(true).
+//  · 정밀분석은 이제 사용자가 직접 요청하는 종목만 종가에 생성 → 시세가 벌어지면 오래됨.
+//  · 오래되면 화면은 항상 최신인 자동분석으로 자동 전환한다(정밀분석은 직접 재요청 전까지 대기).
+//  · base/현재가를 못 구하면 판단 불가이므로 안전하게 정밀분석 유지(true).
+function precisionFresh(code){
+  const P = LIVE_AN && LIVE_AN[code];
+  if(!P) return false;
+  const base = (typeof P.base==='number') ? P.base : null;
+  const cur = (typeof STOCKS!=='undefined' && STOCKS[code] && typeof STOCKS[code].price==='number') ? STOCKS[code].price : null;
+  if(base==null || cur==null) return true;
+  return Math.abs((cur-base)/base*100) < STALE_PCT;
+}
 // 종목별 분석 티어: 'deep'=Claude 정밀분석(analysis.js) / 'auto'=심부름꾼 자동분석(auto_analysis.js) / null=없음(mock)
 function analysisTier(code){
-  if(LIVE_AN && LIVE_AN[code]) return 'deep';
+  if(LIVE_AN && LIVE_AN[code] && precisionFresh(code)) return 'deep';
   if(AUTO_AN && AUTO_AN.stocks && AUTO_AN.stocks[code]) return 'auto';
+  if(LIVE_AN && LIVE_AN[code]) return 'deep';   // 자동분석이 아직 없으면 오래된 정밀이라도 표시
   return null;
 }
-// 정밀분석 우선, 없으면 자동분석 블록을 반환(둘 다 같은 스키마: taro/diana/nova/flow/chief/base/updated)
+// 신선한 정밀분석 우선, 오래됐거나 없으면 자동분석 블록을 반환(둘 다 같은 스키마: taro/diana/nova/flow/chief/base/updated)
 function analysisEntry(code){
-  if(LIVE_AN && LIVE_AN[code]) return LIVE_AN[code];
+  if(LIVE_AN && LIVE_AN[code] && precisionFresh(code)) return LIVE_AN[code];
   if(AUTO_AN && AUTO_AN.stocks && AUTO_AN.stocks[code]) return AUTO_AN.stocks[code];
+  if(LIVE_AN && LIVE_AN[code]) return LIVE_AN[code];
   return null;
 }
 // 종목별 "분석 기준 시각": 저장 분석이 있으면 그 종목 updated(없으면 전역 date), 없으면 null(=mock)
@@ -1228,10 +1242,11 @@ function analysisBase(code){
   const L=analysisEntry(code);
   return (L && typeof L.base==='number') ? L.base : null;
 }
-// 기준가의 시점 라벨(baseAt) — 예: "2026-07-06 종가"
+// 기준가의 시점 라벨(baseAt) — 예: "2026-07-06 종가". 정밀분석을 실제로 표시할 때만 쓴다
+// (오래돼 자동분석으로 넘어갔으면 그 정밀 baseAt를 붙이면 안 되므로 null).
 function analysisBaseAt(code){
   const L=LIVE_AN && LIVE_AN[code];
-  return (L && L.baseAt) ? L.baseAt : null;
+  return (L && L.baseAt && precisionFresh(code)) ? L.baseAt : null;
 }
 // 분석 신선도: 기준가 대비 현재가 변동. base가 없으면 null(=구버전 분석)
 const STALE_PCT=3; // ±3% 이상 벌어지면 재분석 권장
