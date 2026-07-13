@@ -16,10 +16,12 @@ on:
       - ".analyst-refresh"
       - ".github/workflows/update-prices.yml"
   schedule:
-    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격
-    - cron: "*/10 0-5 * * 1-5"
-    # 06:00~06:40 UTC = 15:00~15:40 KST (15:30 마감 직후 종가 확정분까지)
-    - cron: "0,10,20,30,40 6 * * 1-5"
+    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격.
+    # 정각(:00)은 GitHub Actions 스케줄 부하가 몰려 실행이 자주 누락되므로
+    # 일부러 :02 오프셋으로 예약한다(공식 문서 권고).
+    - cron: "2-52/10 0-5 * * 1-5"
+    # 06:02~06:42 UTC = 15:02~15:42 KST (15:30 마감 직후 종가 확정분까지)
+    - cron: "2,12,22,32,42 6 * * 1-5"
 
 permissions:
   contents: write
@@ -45,16 +47,22 @@ jobs:
       - name: 시세 수집 (data.js)
         run: python3 update_prices.py
 
+      # 아래 4개(부가 데이터)는 하나가 실패해도 최우선인 data.js 커밋을 막지 않도록
+      # continue-on-error. (예: 장중 네이버 부하로 한 스크립트가 죽어도 시세는 반영)
       - name: 일별 종가 기록 (price_history.js)
+        continue-on-error: true
         run: python3 update_price_history.py
 
       - name: 분석용 원천 데이터 (analysis_data.json)
+        continue-on-error: true
         run: python3 collect_analyst_data.py
 
       - name: 지표 사전계산 (indicators.json)
+        continue-on-error: true
         run: python3 compute_indicators.py
 
       - name: 자동분석 생성 (auto_analysis.js · Claude 토큰 0)
+        continue-on-error: true
         run: python3 analyze_auto.py
 
       - name: 방문자 게시판 개설·백업 (guestbook · kvdb.io)
@@ -92,7 +100,18 @@ jobs:
             python3 fetch_krx_list.py
           fi
 
+      # 실행 하트비트 — 스케줄이 실제로 도는지 커밋 이력만으로 확인하기 위한 로그.
+      # 시세 변동이 없어도 이 줄 때문에 매 실행이 커밋되므로, 장중 10분 간격 실행
+      # 여부를 git log로 바로 검증할 수 있다. (진단 후 불필요하면 이 스텝 제거)
+      - name: 실행 로그 (heartbeat)
+        if: always()
+        run: |
+          echo "$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %Z') | event=${{ github.event_name }} | ref=${{ github.ref_name }} | run=${{ github.run_id }}" >> update.log
+          # 로그 무한 증가 방지: 최근 1000줄만 유지
+          tail -n 1000 update.log > update.log.tmp && mv update.log.tmp update.log
+
       - name: 결과 커밋 & 푸시
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -104,5 +123,12 @@ jobs:
             echo "변경 없음 — 커밋 생략"
           else
             git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
-            git push
+            # 다른 실행/병합과 경쟁해 push가 거부되면 업데이트가 조용히 유실되므로
+            # rebase 후 재시도(최대 3회)한다.
+            for i in 1 2 3; do
+              git push && break
+              echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+              git pull --rebase origin "${{ github.ref_name }}"
+              sleep 3
+            done
           fi
