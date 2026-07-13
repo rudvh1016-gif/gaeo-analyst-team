@@ -1,8 +1,11 @@
-# 개오 애널리스트팀 — 시세·분석데이터 자동 수집 워크플로우
-# 목적: 네트워크가 제한된 원격 Claude Code 세션(모바일/웹)에서도 정확한
-#       네이버 금융 시세를 쓸 수 있도록, 네트워크 제한이 없는 GitHub 러너에서
-#       update_prices.py / update_price_history.py / collect_analyst_data.py 를
-#       실행해 결과(data.js, price_history.js, analysis_data.json)를 커밋한다.
+# 개오 애널리스트팀 — 시세·환율 자동 수집(가벼운·빠른 워크플로우)
+# 목적: 원격 Claude Code 세션(모바일/웹)에서도 정확한 네이버 금융 시세를 쓰도록,
+#       네트워크 제한이 없는 GitHub 러너에서 update_prices.py 만 실행해
+#       data.js(현재가·등락·PER/PBR·환율)를 커밋한다.
+# 왜 분리했나: 예전엔 무거운 분석 스크립트(원천데이터·지표·자동분석)까지 한 워크플로우에
+#       몰아넣어 한 바퀴가 20분+ 걸렸다 → "10분마다"가 물리적으로 불가능했다.
+#       무거운 부분은 update-analysis.yml(30분 간격)로 떼어냈고, 이 워크플로우는
+#       시세만 빠르게(수집 병렬화로 ~1~2분) 돌려 10분 간격을 실제로 성립시킨다.
 # 실행 방법:
 #   · 수동: GitHub → Actions → 이 워크플로우 → Run workflow
 #   · 마커: .analyst-refresh 파일 내용을 바꿔 push (원격 세션에서 쓰는 방법)
@@ -16,10 +19,12 @@ on:
       - ".analyst-refresh"
       - ".github/workflows/update-prices.yml"
   schedule:
-    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격
-    - cron: "*/10 0-5 * * 1-5"
-    # 06:00~06:40 UTC = 15:00~15:40 KST (15:30 마감 직후 종가 확정분까지)
-    - cron: "0,10,20,30,40 6 * * 1-5"
+    # KST = UTC+9. 평일 00:00~05:50 UTC = 09:00~14:50 KST, 10분 간격.
+    # 정각(:00)은 GitHub Actions 스케줄 부하가 몰려 실행이 자주 누락되므로
+    # 일부러 :02 오프셋으로 예약한다(공식 문서 권고).
+    - cron: "2-52/10 0-5 * * 1-5"
+    # 06:02~06:42 UTC = 15:02~15:42 KST (15:30 마감 직후 종가 확정분까지)
+    - cron: "2,12,22,32,42 6 * * 1-5"
 
 permissions:
   contents: write
@@ -42,67 +47,27 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 시세 수집 (data.js)
+      - name: 시세·환율 수집 (data.js)
         run: python3 update_prices.py
 
-      - name: 일별 종가 기록 (price_history.js)
-        run: python3 update_price_history.py
-
-      - name: 분석용 원천 데이터 (analysis_data.json)
-        run: python3 collect_analyst_data.py
-
-      - name: 지표 사전계산 (indicators.json)
-        run: python3 compute_indicators.py
-
-      - name: 자동분석 생성 (auto_analysis.js · Claude 토큰 0)
-        run: python3 analyze_auto.py
-
-      - name: 방문자 게시판 개설·백업 (guestbook · kvdb.io)
-        continue-on-error: true
-        run: |
-          # 구버전(jsonblob)은 브라우저 CORS 미지원 + 24시간 만료라 kvdb.io로 교체
-          if [ -f guestbook_id.json ] && grep -q jsonblob guestbook_id.json; then
-            rm -f guestbook_id.json guestbook_backup.json
-            echo "구버전(jsonblob) 저장소 폐기 — kvdb로 재개설"
-          fi
-          # 최초 1회: kvdb.io 버킷 개설 → 주소를 guestbook_id.json에 기록
-          if [ ! -f guestbook_id.json ]; then
-            BK=$(curl -s -X POST https://kvdb.io -d 'email=gaeo-guestbook@example.com')
-            if echo "$BK" | grep -qE '^[A-Za-z0-9]{10,40}$'; then
-              printf '{"url":"https://kvdb.io/%s"}\n' "$BK" > guestbook_id.json
-              echo "게시판 저장소(kvdb) 개설: $BK"
-            else
-              echo "게시판 저장소 개설 실패($BK) — 다음 실행에서 재시도"
-            fi
-          fi
-          # 매 실행: 게시판 전체를 백업 (주기적 접근이 버킷 만료 방지도 겸함)
-          if [ -f guestbook_id.json ]; then
-            base=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])")
-            curl -s "$base/?values=true&format=json" -o /tmp/gb.json || true
-            if python3 -c "import json;d=json.load(open('/tmp/gb.json'));assert isinstance(d,list)" 2>/dev/null; then
-              cp /tmp/gb.json guestbook_backup.json
-            fi
-          fi
-
-      - name: 상장사 목록 갱신 (krx_list.json · 주 1회)
-        continue-on-error: true
-        run: |
-          # 관리자 모드 '이름으로 종목 추가' 자동완성용 — 없거나 7일 넘게 오래되면 갱신
-          if [ ! -f krx_list.json ] || [ -n "$(find krx_list.json -mtime +7 2>/dev/null)" ]; then
-            python3 fetch_krx_list.py
-          fi
-
       - name: 결과 커밋 & 푸시
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # 존재하지 않는 파일이 섞이면 git add 전체가 무효화되므로 개별 add
-          for f in data.js price_history.js analysis_data.json indicators.json indicators.js auto_analysis.js guestbook_id.json guestbook_backup.json krx_list.json update.log; do
-            [ -f "$f" ] && git add "$f"
-          done
+          # data.js만 커밋(시세 전용). gitignore/누락 파일 add 실패가 bash -e로
+          # job을 죽이지 않도록 '|| true'로 감싼다.
+          [ -f data.js ] && { git add data.js || true; }
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
           else
             git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
-            git push
+            # 다른 실행/병합과 경쟁해 push가 거부되면 업데이트가 조용히 유실되므로
+            # rebase 후 재시도(최대 3회)한다.
+            for i in 1 2 3; do
+              git push && break
+              echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+              git pull --rebase origin "${{ github.ref_name }}"
+              sleep 3
+            done
           fi
