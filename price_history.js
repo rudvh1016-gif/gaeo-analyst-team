@@ -152,7 +152,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 257500
+=======
+     "close": 257750
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-08",
@@ -468,7 +472,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 480000
+=======
+     "close": 479500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-08",
@@ -930,7 +938,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 101600
+=======
+     "close": 101700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-09",
@@ -1076,7 +1088,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 187500
+=======
+     "close": 187700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1289,7 +1305,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 186300
+=======
+     "close": 186200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1431,7 +1451,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 328500
+=======
+     "close": 329000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1502,7 +1526,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 323500
+=======
+     "close": 324000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1573,7 +1601,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 1388000
+=======
+     "close": 1390000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1644,7 +1676,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 360000
+=======
+     "close": 361000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1786,7 +1822,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 108400
+=======
+     "close": 108300
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -1999,7 +2039,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 589000
+=======
+     "close": 590000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2070,7 +2114,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 486500
+=======
+     "close": 487000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2141,7 +2189,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 174400
+=======
+     "close": 174600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2212,7 +2264,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 132100
+=======
+     "close": 132200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2283,7 +2339,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 443000
+     "close": 443500
     }
    ],
    "start": "2026-07-10",
@@ -2354,7 +2410,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 186300
+     "close": 186600
     }
    ],
    "start": "2026-07-10",
@@ -2425,7 +2481,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 634000
+=======
+     "close": 636000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2496,7 +2556,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 2673000
+=======
+     "close": 2674000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2567,7 +2631,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 79200
+=======
+     "close": 79500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2922,7 +2990,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 31100
+=======
+     "close": 31150
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -2993,7 +3065,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 1247000
+=======
+     "close": 1250000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3064,7 +3140,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 1026000
+=======
+     "close": 1025000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3206,7 +3286,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 169500
+=======
+     "close": 169800
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3348,7 +3432,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 261500
+=======
+     "close": 261000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3419,7 +3507,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 19590
+=======
+     "close": 19570
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3490,7 +3582,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 174000
+=======
+     "close": 174100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3561,7 +3657,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 109400
+=======
+     "close": 109600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3632,7 +3732,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 21000
+=======
+     "close": 20950
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3703,7 +3807,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 733000
+=======
+     "close": 736000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3774,7 +3882,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 197100
+=======
+     "close": 197200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -3845,7 +3957,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 191100
+     "close": 191800
     }
    ],
    "start": "2026-07-10",
@@ -3916,7 +4028,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 99600
+=======
+     "close": 99700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4058,7 +4174,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 187400
+=======
+     "close": 187600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4200,7 +4320,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 380500
+=======
+     "close": 380000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4342,7 +4466,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 66300
+=======
+     "close": 66400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4413,7 +4541,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 441000
+=======
+     "close": 441500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4484,7 +4616,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 101200
+=======
+     "close": 101400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4697,7 +4833,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 23050
+=======
+     "close": 23100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4768,7 +4908,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 305000
+=======
+     "close": 304500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -4839,7 +4983,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 159000
+=======
+     "close": 159300
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7253,7 +7401,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 189000
+=======
+     "close": 189200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7395,7 +7547,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 153700
+=======
+     "close": 153800
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7537,7 +7693,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 148900
+=======
+     "close": 149300
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7608,7 +7768,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 39225
+=======
+     "close": 39150
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7679,7 +7843,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 253500
+=======
+     "close": 254500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7821,7 +7989,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 38750
+=======
+     "close": 38850
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7892,7 +8064,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 232000
+=======
+     "close": 233000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -7963,7 +8139,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 126500
+=======
+     "close": 126400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8034,7 +8214,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 38750
+=======
+     "close": 38550
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8105,7 +8289,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 311000
+=======
+     "close": 312500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8176,7 +8364,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 45100
+=======
+     "close": 45200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8247,7 +8439,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 35150
+=======
+     "close": 35100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8389,7 +8585,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 93800
+=======
+     "close": 93900
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8460,7 +8660,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 109000
+=======
+     "close": 108900
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8531,7 +8735,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 69500
+=======
+     "close": 69400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8602,7 +8810,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 150400
+=======
+     "close": 150700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8744,7 +8956,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 16040
+     "close": 16030
     }
    ],
    "start": "2026-07-10",
@@ -8815,7 +9027,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 68400
+=======
+     "close": 68500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -8886,7 +9102,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 91500
+=======
+     "close": 91600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9028,7 +9248,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 28450
+=======
+     "close": 28500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9099,7 +9323,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 170000
+=======
+     "close": 170300
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9170,7 +9398,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 47850
+=======
+     "close": 47950
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9312,7 +9544,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 32000
+=======
+     "close": 32050
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9454,7 +9690,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 133300
+=======
+     "close": 133200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9667,7 +9907,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 39400
+=======
+     "close": 39500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9738,7 +9982,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 381000
+=======
+     "close": 381500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9809,7 +10057,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 27650
+=======
+     "close": 27700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9880,7 +10132,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 70600
+=======
+     "close": 70800
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -9951,7 +10207,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 88200
+=======
+     "close": 88300
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10022,7 +10282,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 154900
+=======
+     "close": 154400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10093,7 +10357,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 247500
+=======
+     "close": 248500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10164,7 +10432,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 141700
+=======
+     "close": 142000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10306,7 +10578,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 4365
+=======
+     "close": 4370
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10448,7 +10724,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 433000
+=======
+     "close": 434500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10519,7 +10799,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 46050
+=======
+     "close": 46100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10590,7 +10874,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 84000
+=======
+     "close": 84200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10661,7 +10949,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 3450
+=======
+     "close": 3455
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -10874,7 +11166,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 157000
+=======
+     "close": 157100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -11087,7 +11383,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 38550
+=======
+     "close": 38450
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -11229,7 +11529,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 14650
+=======
+     "close": 14670
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -11300,7 +11604,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 45500
+=======
+     "close": 45450
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -11655,7 +11963,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 55200
+     "close": 55400
     }
    ],
    "start": "2026-07-10",
@@ -11726,7 +12034,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 80000
+     "close": 79800
     }
    ],
    "start": "2026-07-10",
@@ -11797,7 +12105,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 117300
+=======
+     "close": 117200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -12010,7 +12322,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 18080
+=======
+     "close": 18100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -12223,7 +12539,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 259000
+=======
+     "close": 258500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -12294,7 +12614,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 29450
+=======
+     "close": 29400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16199,7 +16523,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 119500
+=======
+     "close": 119600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16270,7 +16598,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 37500
+=======
+     "close": 37600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16341,7 +16673,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 42500
+=======
+     "close": 42600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16483,7 +16819,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 38900
+=======
+     "close": 38950
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16625,7 +16965,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 121700
+=======
+     "close": 121900
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16696,7 +17040,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 24450
+=======
+     "close": 24500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16767,7 +17115,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 310000
+=======
+     "close": 309500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -16909,7 +17261,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 270500
+=======
+     "close": 271000
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17122,7 +17478,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 7680
+=======
+     "close": 7710
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17193,7 +17553,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 34250
+=======
+     "close": 34150
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17264,7 +17628,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 14640
+=======
+     "close": 14650
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17335,7 +17703,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 17850
+=======
+     "close": 17870
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17406,7 +17778,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 12560
+=======
+     "close": 12570
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17761,7 +18137,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 34000
+=======
+     "close": 34050
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17903,7 +18283,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 25600
+=======
+     "close": 25650
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -17974,7 +18358,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 14920
+=======
+     "close": 14940
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -18187,7 +18575,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 58600
+=======
+     "close": 58700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -18258,7 +18650,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 17160
+=======
+     "close": 17170
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -18329,7 +18725,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 106500
+=======
+     "close": 106200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -18613,7 +19013,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 101500
+=======
+     "close": 101700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -18684,7 +19088,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 62800
+=======
+     "close": 63100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -19039,7 +19447,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 13440
+=======
+     "close": 13460
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -19181,7 +19593,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 34650
+=======
+     "close": 34600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -19394,7 +19810,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 91800
+=======
+     "close": 92200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24364,7 +24784,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 14250
+=======
+     "close": 14260
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24435,7 +24859,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 56700
+=======
+     "close": 56800
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24506,7 +24934,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 12130
+=======
+     "close": 12200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24577,7 +25009,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 103500
+=======
+     "close": 103200
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24719,7 +25155,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 4260
+=======
+     "close": 4270
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -24932,7 +25372,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 8360
+=======
+     "close": 8380
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25145,7 +25589,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 1787
+=======
+     "close": 1781
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25216,7 +25664,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 112300
+=======
+     "close": 112500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25358,7 +25810,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 9260
+=======
+     "close": 9280
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25429,7 +25885,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 3945
+=======
+     "close": 3940
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25855,7 +26315,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 6110
+=======
+     "close": 6130
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -25997,7 +26461,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 7720
+=======
+     "close": 7710
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -26068,7 +26536,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
-     "close": 3960
+     "close": 3950
     }
    ],
    "start": "2026-07-10",
@@ -26139,7 +26607,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 9840
+=======
+     "close": 9850
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -26210,7 +26682,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 44000
+=======
+     "close": 44500
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31109,7 +31585,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 15710
+=======
+     "close": 15700
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31180,7 +31660,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 74600
+=======
+     "close": 74900
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31251,7 +31735,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 19440
+=======
+     "close": 19450
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31464,7 +31952,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 29050
+=======
+     "close": 29100
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31677,7 +32169,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 52900
+=======
+     "close": 52400
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31748,7 +32244,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 31500
+=======
+     "close": 31600
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31819,7 +32319,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 12360
+=======
+     "close": 12430
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -31961,7 +32465,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 6960
+=======
+     "close": 6950
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -32032,7 +32540,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 66400
+=======
+     "close": 66900
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
@@ -32103,7 +32615,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-13",
+<<<<<<< HEAD
      "close": 17900
+=======
+     "close": 17970
+>>>>>>> origin/claude/latest-analyst-file-data-a7e4y1
     }
    ],
    "start": "2026-07-10",
