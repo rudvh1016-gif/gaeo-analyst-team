@@ -664,6 +664,47 @@
   /* ── 커뮤니티 ── */
   .communityView{display:none}
   .communityView.on{display:block}
+  /* ── 📰 뉴스분석 ── */
+  .newsView{display:none;margin-top:18px}
+  .newsView.on{display:block}
+  .nw-hero{background:linear-gradient(135deg,var(--navy),#155a8a);color:#fff;border-radius:16px;
+    padding:22px 24px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .nw-hero h2{margin:0 0 6px;font-size:18px;letter-spacing:-.01em}
+  .nw-hero p{margin:0;font-size:12.5px;line-height:1.75;opacity:.92}
+  .nw-item{background:var(--paper);border-radius:14px;box-shadow:var(--shadow-sm);
+    margin-bottom:10px;overflow:hidden}
+  .nw-head{cursor:pointer;padding:15px 18px;user-select:none}
+  .nw-head:hover{background:var(--sky-soft)}
+  .nw-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .nw-date{font-size:11.5px;color:var(--faint);font-weight:600}
+  .nw-tag{font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+    border-radius:99px;padding:2px 9px}
+  .nw-title{font-weight:800;font-size:15px;color:var(--navy);line-height:1.5;
+    display:flex;align-items:baseline;gap:8px}
+  .nw-title .nw-arrow{margin-left:auto;color:var(--faint);font-size:12px;flex-shrink:0;
+    transition:transform .2s}
+  .nw-item.open .nw-title .nw-arrow{transform:rotate(90deg)}
+  .nw-sum{margin-top:6px;font-size:12.5px;color:var(--dim);line-height:1.7}
+  .nw-body{display:none;padding:4px 20px 20px;border-top:1px dashed var(--line);
+    font-size:13.5px;line-height:1.9;color:#334155}
+  .nw-item.open .nw-body{display:block}
+  .nw-body h4{margin:20px 0 8px;font-size:14px;color:var(--navy);letter-spacing:-.01em;
+    padding-left:10px;border-left:3px solid var(--sky)}
+  .nw-body p{margin:0 0 12px}
+  .nw-body ul{margin:0 0 12px;padding-left:20px}
+  .nw-body li{margin-bottom:5px}
+  .nw-body b{color:var(--navy)}
+  .nw-src{margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);
+    font-size:11.5px;color:var(--faint);line-height:1.8}
+  .nw-src a{color:var(--sky);text-decoration:none;word-break:break-all}
+  .nw-disc{margin-top:10px;font-size:11px;color:var(--faint)}
+  .nw-pager{display:flex;gap:6px;justify-content:center;align-items:center;margin:16px 0 4px;flex-wrap:wrap}
+  .nw-pg{border:1px solid var(--line);background:var(--paper);color:var(--dim);border-radius:10px;
+    padding:7px 13px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+  .nw-pg:hover{border-color:var(--sky);color:var(--navy)}
+  .nw-pg.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .nw-pg:disabled{opacity:.4;cursor:default}
+  .nw-empty{color:var(--faint);font-size:13px;text-align:center;padding:30px 0}
   /* ── 📖 가이드북(초보 안내서) ── */
   .guideView{display:none;margin-top:18px}
   .guideView.on{display:block}
@@ -948,7 +989,7 @@
      모드 전환(단일/비교/포트폴리오/리더보드/캘린더/커뮤니티)마다 부드럽게 떠오른다. */
   @keyframes viewIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   .quote,#cards,.chips,.cmp-controls,
-  .compare.on,.portfolio.on,.leaderboard.on,.calendarView.on,.communityView.on,
+  .compare.on,.portfolio.on,.leaderboard.on,.calendarView.on,.communityView.on,.newsView.on,
   .viz.on,.verdict.on{animation:viewIn .4s cubic-bezier(.22,1,.36,1) both}
 
   /* ── 분석 중 스켈레톤(시머) ──
@@ -1080,6 +1121,7 @@
     <button class="modebtn on" id="mode-single">단일 분석</button>
     <button class="modebtn" id="mode-compare">⚖️ 종목 비교</button>
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
+    <button class="modebtn" id="mode-news">📰 뉴스분석</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
     <button class="modebtn" id="mode-calendar">📅 캘린더</button>
     <button class="modebtn" id="mode-community">💬 커뮤니티</button>
@@ -1153,6 +1195,7 @@
   <div class="leaderboard" id="leaderboard"></div>
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
+  <div class="newsView" id="newsView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -1172,6 +1215,7 @@
 <script src="data.js"></script>
 <script src="site_config.js"></script>
 <script src="community.js"></script>
+<script src="news_analysis.js" onerror="window.NEWS_ANALYSIS=window.NEWS_ANALYSIS||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
@@ -1928,6 +1972,22 @@ function analysisTally(){
   buy.sort((a,b)=>b.total-a.total);   // 점수 높은 순
   return {counts, buy, total:counts.BUY+counts.HOLD+counts.SELL};
 }
+// 종목 이동 공통: 어디서든(사이드바 칩·BUY 칩·우측 레일) 종목을 누르면
+// 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
+function jumpToStock(name){
+  const inp=document.getElementById('ticker'); if(!inp) return;
+  const mb=document.getElementById('mode-single'); if(mb) mb.click();
+  inp.value=name;
+  showQuote(resolveStock(name));         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
+  window.__gaeoNoAutoScroll=true;        // 이후 종합판단 viz 자동스크롤 억제(시세 카드 유지)
+  // 누르는 즉시 시세 카드로 이동 — html{scroll-behavior:smooth} 때문에 잠깐 즉시이동으로
+  const scrollNow=()=>{ const el=document.getElementById('quote'); if(!el) return;
+    const de=document.documentElement, prev=de.style.scrollBehavior; de.style.scrollBehavior='auto';
+    window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 8));
+    de.style.scrollBehavior=prev; };
+  scrollNow(); requestAnimationFrame(scrollNow);   // 레이아웃 정착 후 한 번 더(모드전환 반영)
+  analyze();
+}
 (function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
@@ -2010,21 +2070,6 @@ function analysisTally(){
   if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
-  // BUY 종목 칩 클릭 → 단일분석 모드 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
-  const jumpToStock=name=>{
-    const inp=document.getElementById('ticker'); if(!inp) return;
-    const mb=document.getElementById('mode-single'); if(mb) mb.click();
-    inp.value=name;
-    showQuote(resolveStock(name));         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
-    window.__gaeoNoAutoScroll=true;        // 이후 종합판단 viz 자동스크롤 억제(시세 카드 유지)
-    // 누르는 즉시 시세 카드로 이동 — html{scroll-behavior:smooth} 때문에 잠깐 즉시이동으로
-    const scrollNow=()=>{ const el=document.getElementById('quote'); if(!el) return;
-      const de=document.documentElement, prev=de.style.scrollBehavior; de.style.scrollBehavior='auto';
-      window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 8));
-      de.style.scrollBehavior=prev; };
-    scrollNow(); requestAnimationFrame(scrollNow);   // 레이아웃 정착 후 한 번 더(모드전환 반영)
-    analyze();
-  };
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>jumpToStock(c.dataset.nm));
 })();
 
@@ -3517,6 +3562,7 @@ function renderGuide(){
       <b>단일 분석</b> — 한 종목을 골라 5명이 꼼꼼히 봐요. 이 사이트의 메인이에요.<br>
       <b>종목 비교</b> — 두 종목을 나란히 놓고 "누가 더 나은가"를 그림으로 비교해요. 쉬운 말 정리도 있어요.<br>
       <b>💼 포트폴리오</b> — 내가 가진 주식과 산 가격을 적어두면, 팀 판단과 함께 손익을 계산해줘요. (내 폰에만 저장돼요)<br>
+      <b>📰 뉴스분석</b> — 시장을 움직인 큰 뉴스를 골라 초보자 눈높이로 풀어쓴 심층 보고서예요. 계속 쌓이고 10건마다 한 페이지예요.<br>
       <b>🏆 리더보드</b> — 분석가 다섯 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점해요.<br>
       <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
       <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
@@ -3579,8 +3625,7 @@ function renderGuide(){
         ? `<b>${d.price.toLocaleString()}</b> <span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${(d.rate||0).toFixed(2)}%</span>`
         : `<span class="pf-mut" style="font-size:11px">시세 대기</span>`;
       el.innerHTML=`<span class="cname">${d.name}${autoMark}</span>${spark}<span class="cval">${valHtml}</span>`;
-      el.onclick=()=>{document.getElementById('ticker').value=d.name;
-        showQuote(resolveStock(d.name)); analyze();};
+      el.onclick=()=>jumpToStock(d.name);  // 누르면 시세 카드로 바로 이동 + 분석 시작
       body.appendChild(el);
     });
     sec.appendChild(head); sec.appendChild(body); wrap.appendChild(sec);
@@ -3607,8 +3652,7 @@ makeCards(false);
   const rail=document.getElementById('railR'); if(!rail) return;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const nameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
-  const goStock=name=>{const inp=document.getElementById('ticker');inp.value=name;
-    showQuote(resolveStock(name)); analyze();};
+  const goStock=name=>jumpToStock(name);
   const today=new Date(); today.setHours(0,0,0,0);
   const DOW=['일','월','화','수','목','금','토'];
 
@@ -3661,6 +3705,78 @@ makeCards(false);
   rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
 })();
 
+// ---------- 📰 뉴스분석 모드 ----------
+// news_analysis.js(NEWS_ANALYSIS 배열)에 보고서를 계속 쌓는다. 10건 = 1페이지.
+(function(){
+  const PAGE_SIZE=10;
+  let page=1;
+  const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const inline=s=>escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  // 본문 미니 마크다운: "## 제목" = 소제목, "- " = 목록, 빈 줄 = 문단 구분, **굵게**
+  function nwBodyHTML(md){
+    const lines=String(md||'').split('\n');
+    let html='', para=[], list=null;
+    const flushP=()=>{ if(para.length){ html+='<p>'+para.map(inline).join('<br>')+'</p>'; para=[]; } };
+    const flushL=()=>{ if(list){ html+='<ul>'+list.map(x=>'<li>'+inline(x)+'</li>').join('')+'</ul>'; list=null; } };
+    lines.forEach(ln=>{
+      const t=ln.trim();
+      if(!t){ flushP(); flushL(); return; }
+      if(t.indexOf('## ')===0){ flushP(); flushL(); html+='<h4>'+inline(t.slice(3))+'</h4>'; return; }
+      if(t.indexOf('- ')===0){ flushP(); if(!list) list=[]; list.push(t.slice(2)); return; }
+      flushL(); para.push(t);
+    });
+    flushP(); flushL();
+    return html;
+  }
+  window.renderNews=function(){
+    const box=document.getElementById('newsView'); if(!box) return;
+    const all=(typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS))?NEWS_ANALYSIS.slice():[];
+    // 최신 날짜(같으면 id 큰 것)가 앞으로
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
+    if(page>pages) page=pages; if(page<1) page=1;
+    const slice=all.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
+    let h=`<div class="nw-hero"><h2>📰 뉴스분석</h2>
+      <p>시장을 움직인 기사·이슈를 NOVA와 개오팀이 초보자 눈높이로 풀어드려요.
+      제목을 누르면 전체 보고서가 펼쳐집니다. 보고서는 계속 쌓이고, 10건마다 한 페이지예요.</p></div>`;
+    h+=slice.length
+      ? slice.map(a=>`<div class="nw-item" id="nw-${a.id}">
+          <div class="nw-head" data-nw="${a.id}">
+            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
+            <div class="nw-title">${escN(a.title||'')} <span class="nw-arrow">▸</span></div>
+            ${a.summary?`<div class="nw-sum">${escN(a.summary)}</div>`:''}
+          </div>
+          <div class="nw-body">${nwBodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 기사<br>`+
+              a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
+            <div class="nw-disc">※ 개오팀의 분석 의견이며 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있어요.</div>
+          </div>
+        </div>`).join('')
+      : `<div class="nw-item"><div class="nw-empty">아직 등록된 뉴스분석이 없어요.</div></div>`;
+    if(pages>1){
+      h+=`<div class="nw-pager">
+        <button class="nw-pg" data-pg="${page-1}" ${page<=1?'disabled':''}>‹ 이전</button>`+
+        Array.from({length:pages},(_,i)=>`<button class="nw-pg${i+1===page?' on':''}" data-pg="${i+1}">${i+1}</button>`).join('')+
+        `<button class="nw-pg" data-pg="${page+1}" ${page>=pages?'disabled':''}>다음 ›</button></div>`;
+    }
+    box.innerHTML=h;
+    // 제목 클릭 → 본문 펼침/접힘
+    box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
+      const item=document.getElementById('nw-'+el.dataset.nw);
+      if(item) item.classList.toggle('open');
+    });
+    // 페이지 이동
+    box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
+      const p=parseInt(b.dataset.pg,10);
+      if(!p||p===page||b.disabled) return;
+      page=p; renderNews();
+      box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    // 최신 1건은 처음부터 펼쳐서 보여준다
+    if(page===1&&slice.length){ const first=document.getElementById('nw-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+})();
+
 // ---------- 종목 비교 모드 ----------
 (function(){
   // 종목비교 A/B — 한글 검색 자동완성 입력(단일분석 검색과 같은 엔진 공유)
@@ -3674,14 +3790,15 @@ makeCards(false);
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'leaderboard' | 'calendar' | 'community'
+  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
-          guide=mode==='guide';
+          guide=mode==='guide', news=mode==='news';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
+    document.getElementById('mode-news').classList.toggle('on',news);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -3697,8 +3814,10 @@ makeCards(false);
     document.getElementById('leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
+    document.getElementById('newsView').classList.toggle('on',news);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
+    if(news && window.renderNews) window.renderNews();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -3707,6 +3826,7 @@ makeCards(false);
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
   document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
+  document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
