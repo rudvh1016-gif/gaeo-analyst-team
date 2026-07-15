@@ -45,12 +45,28 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 시세·환율 반복 수집 (장중 10분 간격, 마감까지)
+      - name: 시세·환율 반복 수집 (장중 10분 간격, 개장 대기 + 마감까지)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # 오늘 KST 15:42까지 반복(마감 15:30 + 종가 확정 여유). 이미 지났으면 1회만.
-          end=$(date -d "15:42" +%s)
+          # 개장(09:00)·마감+종가확정(15:42) KST 기준.
+          open=$(date -d "08:58" +%s)
+          close=$(date -d "15:42" +%s)
+          now=$(date +%s)
+          # GitHub cron은 예약보다 수 시간 늦게 켜지는 일이 잦다. 그래서 개장 전에
+          # 깨어났으면 개장까지 대기(최대 3시간)했다가 장중부터 돈다.
+          if [ "$now" -lt "$open" ]; then
+            wait=$((open - now))
+            if [ "$wait" -le 10800 ]; then
+              echo "개장 전 기동 — ${wait}s 대기 후 장중 수집 시작"
+              sleep "$wait"
+            fi
+          fi
+          # GitHub 잡은 최대 6시간이라 09:00~15:42(6h42m)를 한 잡으로 못 채운다.
+          # 시작+330분과 마감(15:42) 중 이른 시각까지만 돌고 종료(나머지는 정오
+          # 재기동 또는 재기동 cron이 이어받는다 → 마감까지 갭 없이 커버).
+          hard=$(( $(date +%s) + 330*60 ))
+          limit=$close; [ "$hard" -lt "$limit" ] && limit=$hard
           while :; do
             python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
             [ -f data.js ] && { git add data.js || true; }
@@ -66,8 +82,8 @@ jobs:
               done
             fi
             now=$(date +%s)
-            if [ "$now" -ge "$end" ]; then
-              echo "장 마감(15:42 KST) 도달 — 루프 종료"
+            if [ "$now" -ge "$limit" ]; then
+              echo "마감/6시간 상한 도달 — 루프 종료"
               break
             fi
             echo "다음 갱신까지 10분 대기…"
