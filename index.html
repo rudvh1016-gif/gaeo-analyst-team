@@ -1122,6 +1122,7 @@
     <button class="modebtn" id="mode-compare">⚖️ 종목 비교</button>
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
     <button class="modebtn" id="mode-news">📰 뉴스분석</button>
+    <button class="modebtn" id="mode-study">📚 종목공부</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
     <button class="modebtn" id="mode-calendar">📅 캘린더</button>
     <button class="modebtn" id="mode-community">💬 커뮤니티</button>
@@ -1196,6 +1197,7 @@
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
   <div class="newsView" id="newsView"></div>
+  <div class="newsView" id="studyView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -1216,6 +1218,7 @@
 <script src="site_config.js"></script>
 <script src="community.js"></script>
 <script src="news_analysis.js" onerror="window.NEWS_ANALYSIS=window.NEWS_ANALYSIS||null"></script>
+<script src="stock_study.js" onerror="window.STOCK_STUDY=window.STOCK_STUDY||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
@@ -3777,6 +3780,73 @@ makeCards(false);
   };
 })();
 
+// ---------- 📚 종목공부 모드 ----------
+// stock_study.js(STOCK_STUDY 배열)에 종목 공부자료를 쌓는다. 뉴스분석과 같은 형식·페이지네이션(10건=1페이지).
+(function(){
+  const PAGE_SIZE=10;
+  let page=1;
+  const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const inline=s=>escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  function bodyHTML(md){
+    const lines=String(md||'').split('\n');
+    let html='', para=[], list=null;
+    const flushP=()=>{ if(para.length){ html+='<p>'+para.map(inline).join('<br>')+'</p>'; para=[]; } };
+    const flushL=()=>{ if(list){ html+='<ul>'+list.map(x=>'<li>'+inline(x)+'</li>').join('')+'</ul>'; list=null; } };
+    lines.forEach(ln=>{
+      const t=ln.trim();
+      if(!t){ flushP(); flushL(); return; }
+      if(t.indexOf('## ')===0){ flushP(); flushL(); html+='<h4>'+inline(t.slice(3))+'</h4>'; return; }
+      if(t.indexOf('- ')===0){ flushP(); if(!list) list=[]; list.push(t.slice(2)); return; }
+      flushL(); para.push(t);
+    });
+    flushP(); flushL();
+    return html;
+  }
+  window.renderStudy=function(){
+    const box=document.getElementById('studyView'); if(!box) return;
+    const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
+    if(page>pages) page=pages; if(page<1) page=1;
+    const slice=all.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
+    let h=`<div class="nw-hero"><h2>📚 종목공부</h2>
+      <p>"이 회사가 뭐 하는 곳인지"를 초보자 눈높이로 풀어드려요. 어떤 회사인지·뭘로 돈 버는지·
+      과거와 미래·호재와 악재까지 한 번에. 제목을 누르면 전체 내용이 펼쳐지고, 10종목마다 한 페이지예요.</p></div>`;
+    h+=slice.length
+      ? slice.map(a=>`<div class="nw-item" id="st-${a.id}">
+          <div class="nw-head" data-st="${a.id}">
+            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
+            <div class="nw-title">📚 ${escN(a.name||'')}${a.code?` <span style="color:var(--faint);font-weight:600">(${escN(a.code)})</span>`:''} <span class="nw-arrow">▸</span></div>
+            ${a.summary?`<div class="nw-sum">${escN(a.summary)}</div>`:''}
+          </div>
+          <div class="nw-body">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+              a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
+            <div class="nw-disc">※ 회사 이해를 돕기 위한 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
+          </div>
+        </div>`).join('')
+      : `<div class="nw-item"><div class="nw-empty">아직 등록된 종목공부가 없어요.</div></div>`;
+    if(pages>1){
+      h+=`<div class="nw-pager">
+        <button class="nw-pg" data-pg="${page-1}" ${page<=1?'disabled':''}>‹ 이전</button>`+
+        Array.from({length:pages},(_,i)=>`<button class="nw-pg${i+1===page?' on':''}" data-pg="${i+1}">${i+1}</button>`).join('')+
+        `<button class="nw-pg" data-pg="${page+1}" ${page>=pages?'disabled':''}>다음 ›</button></div>`;
+    }
+    box.innerHTML=h;
+    box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
+      const item=document.getElementById('st-'+el.dataset.st);
+      if(item) item.classList.toggle('open');
+    });
+    box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
+      const p=parseInt(b.dataset.pg,10);
+      if(!p||p===page||b.disabled) return;
+      page=p; renderStudy();
+      box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    if(page===1&&slice.length){ const first=document.getElementById('st-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+})();
+
 // ---------- 종목 비교 모드 ----------
 (function(){
   // 종목비교 A/B — 한글 검색 자동완성 입력(단일분석 검색과 같은 엔진 공유)
@@ -3790,15 +3860,16 @@ makeCards(false);
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'leaderboard' | 'calendar' | 'community'
+  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
-          guide=mode==='guide', news=mode==='news';
+          guide=mode==='guide', news=mode==='news', study=mode==='study';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
     document.getElementById('mode-news').classList.toggle('on',news);
+    document.getElementById('mode-study').classList.toggle('on',study);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -3815,9 +3886,11 @@ makeCards(false);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
     document.getElementById('newsView').classList.toggle('on',news);
+    document.getElementById('studyView').classList.toggle('on',study);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
+    if(study && window.renderStudy) window.renderStudy();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -3827,6 +3900,7 @@ makeCards(false);
   document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
   document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
   document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
+  document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
