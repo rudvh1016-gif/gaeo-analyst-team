@@ -435,6 +435,7 @@ const TICKERS = [
  {"code": "074600", "name": "원익QnC", "sector": "반도체"},
  {"code": "056190", "name": "SFA", "sector": "반도체"},
  {"code": "388720", "name": "유일로보틱스", "sector": "로봇"},
+ {"code": "381620", "name": "제닉스로보틱스", "sector": "로봇"},
  {"code": "065350", "name": "신성델타테크", "sector": "2차전지"},
  {"code": "328130", "name": "루닛", "sector": "바이오·제약"},
  {"code": "122870", "name": "와이지엔터테인먼트", "sector": "게임·엔터"},

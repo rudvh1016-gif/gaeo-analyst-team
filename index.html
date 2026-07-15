@@ -1844,12 +1844,16 @@ const CAL={y:0,m:0};
 })();
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function collectEvents(){
+  // 종목별 일정(analysis.js LIVE_ANALYSIS[code].events)뿐 아니라, 특정 종목에 속하지
+  // 않는 매크로 일정(CPI 발표 등)도 market.events에 넣어두면 같이 모은다.
+  // market 이벤트는 개별 e.name(예: "🇺🇸 미국 CPI")을 그대로 쓰고, 종목 이벤트는 티커명을 쓴다.
   const out=[];
   if(LIVE_AN) for(const code in LIVE_AN){
     if(code==='date') continue;
     const evs=LIVE_AN[code]&&LIVE_AN[code].events; if(!Array.isArray(evs)) continue;
-    const name=(STOCKS[code]&&STOCKS[code].name)||code;
-    evs.forEach(e=>out.push({date:e.date||null, title:e.title||'', name}));
+    const isMarket=code==='market';
+    const fallbackName=isMarket?'전체':((STOCKS[code]&&STOCKS[code].name)||code);
+    evs.forEach(e=>out.push({date:e.date||null, title:e.title||'', name:e.name||fallbackName}));
   }
   return out;
 }
@@ -3685,25 +3689,28 @@ makeCards(false);
   const today=new Date(); today.setHours(0,0,0,0);
   const DOW=['일','월','화','수','목','금','토'];
 
-  // ① 다가오는 일정 — analysis.js 각 종목 events에서 오늘 이후만 모아 날짜순
+  // ① 다가오는 일정 — analysis.js 각 종목 events + market.events(CPI 등 매크로 일정)에서
+  //    오늘 이후만 모아 날짜순. market 이벤트는 특정 종목이 아니므로 code=null, 자체 name 사용.
   let evs=[];
   if(LIVE_AN) for(const code in LIVE_AN){
     const blk=LIVE_AN[code];
-    if(code==='date'||code==='market'||!blk||!Array.isArray(blk.events)) continue;
+    if(code==='date'||!blk||!Array.isArray(blk.events)) continue;
+    const isMarket=code==='market';
     blk.events.forEach(e=>{
       if(!e||!e.date) return;
       const m=String(e.date).match(/(\d{4})-(\d{2})-(\d{2})/); if(!m) return;
       const d=new Date(+m[1],+m[2]-1,+m[3]);
-      if(d>=today) evs.push({d,code,title:e.title||''});
+      if(d>=today) evs.push({d,code:isMarket?null:code,name:isMarket?(e.name||'전체'):nameOf(code),title:e.title||''});
     });
   }
   evs.sort((a,b)=>a.d-b.d); evs=evs.slice(0,8);
   const evHTML=evs.length?evs.map(e=>{
     const isToday=e.d.getTime()===today.getTime();
-    return `<div class="rr-item" data-go="${esc(nameOf(e.code))}">`+
+    const goAttr=e.code?` data-go="${esc(e.name)}"`:'';
+    return `<div class="rr-item"${goAttr}>`+
       `<span class="rr-date${isToday?' today':''}">${e.d.getMonth()+1}/${e.d.getDate()}`+
       `<span class="dd">${DOW[e.d.getDay()]}</span></span>`+
-      `<span class="rr-body"><span class="rr-name">${esc(nameOf(e.code))}</span>`+
+      `<span class="rr-body"><span class="rr-name">${esc(e.name)}</span>`+
       `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
   }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
 
