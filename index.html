@@ -2123,13 +2123,24 @@ function moodLine(){
   const sectors=new Set(Object.values(STOCKS).map(d=>d.sector||'기타')).size;
   const sign=MOOD.avg>0?'+':'';
   const avgCls=MOOD.avg<-0.4?'bad':MOOD.avg>0.4?'ok':'navy';
-  let recs=0;
-  if(typeof LIVE_HISTORY!=='undefined') for(const c in LIVE_HISTORY) recs+=(LIVE_HISTORY[c]||[]).length;
+  // 팀 적중률(전체 기간): CHIEF 판단을 "판단 후 5거래일 뒤 종가"로 채점(리더보드·캘린더와 동일 잣대).
+  // 아직 5거래일이 안 지난 판단(평가중)은 집계 제외.
+  let hit=0, miss=0;
+  if(LIVE_HIST) for(const code in LIVE_HIST) LIVE_HIST[code].forEach(e=>{
+    if(!e.base) return;
+    const ev=evalRet(code, e);
+    if(!ev) return;
+    const s=scoreCall(e.call, ev.pct);
+    if(s==='hit') hit++; else if(s==='miss') miss++;
+  });
+  const graded=hit+miss;
+  const acc=graded>0?Math.round(hit/graded*100):null;
+  const accCls=acc===null?'navy':(acc>=60?'ok':(acc<45?'bad':'navy'));
   el.innerHTML=
     `<div class="kpi"><div class="k">추적 종목</div><div class="v navy">${n}</div><div class="s">${sectors}개 업종 폴더</div></div>`+
     `<div class="kpi"><div class="k">오늘 평균 등락</div><div class="v ${avgCls}">${sign}${MOOD.avg.toFixed(1)}%</div><div class="s">시장 ${MOOD.label}</div></div>`+
     `<div class="kpi"><div class="k">상승 / 하락</div><div class="v navy">${MOOD.ups} / ${MOOD.downs}</div><div class="s">${n}종목 기준</div></div>`+
-    `<div class="kpi"><div class="k">팀 판단 기록</div><div class="v navy">${recs}건</div><div class="s">누적 히스토리</div></div>`;
+    `<div class="kpi"><div class="k">팀 적중률</div><div class="v ${accCls}">${acc===null?'—':acc+'%'}</div><div class="s">${graded>0?`5거래일 뒤 종가 · ${graded}건`:'평가 데이터 쌓는 중'}</div></div>`;
 })();
 
 /* ---------- 데이터 신선도 가드 (6순위 A-4) ---------- */
