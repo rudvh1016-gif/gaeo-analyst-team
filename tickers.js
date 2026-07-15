@@ -159,7 +159,6 @@ const TICKERS = [
  {"code": "051900", "name": "LG생활건강", "sector": "화장품·미용"},
  {"code": "069960", "name": "현대백화점", "sector": "유통·소비재"},
  {"code": "004020", "name": "현대제철", "sector": "철강·금속"},
- {"code": "012510", "name": "더존비즈온", "sector": "인터넷·IT"},
  {"code": "001450", "name": "현대해상", "sector": "보험"},
  {"code": "103590", "name": "일진전기", "sector": "전력·에너지"},
  {"code": "035250", "name": "강원랜드", "sector": "여행레저"},
