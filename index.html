@@ -3634,13 +3634,28 @@ function renderGuide(){
     sec.appendChild(head); sec.appendChild(body); wrap.appendChild(sec);
   });
 })();
-// 시세 테이프
+// 시세 테이프 — 대형 우량주(시가총액 상위) 위주로, 사람이 읽을 수 있는 속도로 흐르게
 (function(){
-  const html=Object.values(STOCKS).filter(d=>typeof d.price==='number').map(d=>{
+  const capNum=s=>{ const m=String(s||'').match(/[\d,.]+/); return m?parseFloat(m[0].replace(/,/g,'')):0; }; // "1,634조"→1634
+  const TAPE_N=40; // 시가총액 상위 40종목만 노출(500종목 전부 흘리면 너무 빨라 못 읽음)
+  const picks=Object.values(STOCKS)
+    .filter(d=>typeof d.price==='number')
+    .sort((a,b)=>capNum(b.cap)-capNum(a.cap))
+    .slice(0,TAPE_N);
+  const html=picks.map(d=>{
     const up=d.rate>0;
     return `${d.name}${d.stale?' ⚠️':''} ${d.price.toLocaleString()} <span class="${up?'up':'down'}">${up?'+':''}${(d.rate||0).toFixed(2)}%</span>`;
   }).join('   ·   ')+`   ·   <span style="color:#8ba0c8">${SNAP_DATE}</span>`;
-  document.getElementById('tape').innerHTML=html+'   ·   '+html;
+  const tapeEl=document.getElementById('tape');
+  tapeEl.innerHTML=html+'   ·   '+html;
+  // 종목 수와 무관하게 항상 같은 '읽기 속도'(초당 픽셀)로 흐르도록 duration을 내용 폭에 맞춰 계산.
+  // (고정 30초로 두면 종목이 많을수록 개별 문구가 빨리 지나가 못 읽는 문제가 있었음)
+  requestAnimationFrame(()=>{
+    const halfWidth=tapeEl.scrollWidth/2; // innerHTML이 html+html로 두 벌이라 절반이 한 바퀴 길이
+    const PX_PER_SEC=45; // 낮을수록 느림(읽기 편함)
+    const dur=Math.max(20, halfWidth/PX_PER_SEC);
+    tapeEl.style.animationDuration=dur.toFixed(1)+'s';
+  });
 })();
 makeCards(false);
 // 첫 화면은 빈 상태 — 아무 종목도 자동으로 뜨지 않게, 검색을 유도한다.
