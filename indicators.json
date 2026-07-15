@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-07-16 00:11",
- "priceLabel": "2026-07-15 종가 (18:21 수집)",
+ "generatedAt": "2026-07-16 00:27",
+ "priceLabel": "2026-07-16 장전 (전일 종가 · 00:00 수집)",
  "indices": {
   "KOSPI": {
    "value": 7284.41,
@@ -26759,16 +26759,16 @@
   },
   "381620": {
    "name": "제닉스로보틱스",
-   "price": null,
-   "rate": null,
+   "price": 5380,
+   "rate": 8.14,
    "stale": false,
-   "per": null,
-   "pbr": null,
-   "roe": null,
-   "eps": null,
+   "per": -7.55,
+   "pbr": 1.51,
+   "roe": -20.0,
+   "eps": -713.0,
    "div": null,
-   "w52": null,
-   "cap": null,
+   "w52": "4,655 ~ 19,940",
+   "cap": "0.1조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
