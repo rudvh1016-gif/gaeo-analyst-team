@@ -4086,8 +4086,8 @@ window.askPass=function(title){
 window.escNote=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
 
 /* 한글 입력 보정 — 일부 모바일 브라우저는 마스킹 입력칸에서 한글이 조합되지 못하고
-   자모(ㅅㅣㄴㄹㅏ…)로 쪼개져 들어간다. 음절을 자모로 전부 분해한 뒤 다시 조합해
-   "ㅅㅣㄴㄹㅏ123!" / "시ㄴ라123!" / NFD 분해형 등을 모두 "신라123!"으로 정규화한다. */
+   자모(ㄱㅏㅁㅈㅏ…)로 쪼개져 들어간다. 음절을 자모로 전부 분해한 뒤 다시 조합해
+   자모가 쪼개진 입력이나 NFD 분해형을 원래 음절(예: "감자")로 정규화한다. */
 window.hangulFix=function(str){
   const L=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
   const V=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
@@ -4670,17 +4670,23 @@ window.hangulFix=function(str){
   }
 
   // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호(●●● 마스킹) 필요
-  const PW='JUVDJThCJUEwJUVCJTlEJUJDMTIzIQ==';   // 인코딩된 관리자 비밀번호 (신라123!)
-  const PW2='dGxzZmsxMjMh';                       // 한글 IME가 막혀 영문 자판 그대로 입력된 변형도 인정
+  // 되돌릴 수 없는 해시(cyrb53 변형)만 저장 — 코드에 평문이 남지 않는다.
+  const PWHASH='z5zr3dzet8';
+  const pwHash=p=>{
+    let h1=0xdeadbeef^7, h2=0x41c6ce57^7;
+    const s='gaeo-admin|'+p;
+    for(let i=0;i<s.length;i++){ const ch=s.charCodeAt(i);
+      h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
+    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+    return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
+  };
   async function unlock(){
     if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
     const v=await askPass('관리자 비밀번호를 입력하세요');
     if(v===null) return false;
-    // 모바일 입력 보정 후보군: 공백 제거·NFC 정규화 → 자모 재조합(hangulFix) → 소문자(자동 대문자화 대응)
     const base=String(v).normalize?String(v).normalize('NFC').trim():String(v).trim();
-    const fixed=(typeof hangulFix==='function')?hangulFix(base):base;
-    const cands=[base, fixed, base.toLowerCase(), fixed.toLowerCase()];
-    const ok=cands.some(t=>{ try{ const e=btoa(encodeURIComponent(t)); return e===PW||e===PW2; }catch(err){ return false; } });
+    const ok=pwHash(base)===PWHASH;
     if(ok){ sessionStorage.setItem('gaeo_admin_ok','1'); return true; }
     alert('비밀번호가 틀렸어요. 👁 버튼으로 입력값을 확인해보세요.');
     return false;
