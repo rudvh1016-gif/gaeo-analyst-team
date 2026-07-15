@@ -21,7 +21,7 @@ AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW
 | data.js | 현재가·PER 등 시세 스냅샷 | update_prices.py (자동) |
 | analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, Claude 직접) | Claude가 재분석 시 Write |
 | auto_analysis.js | 5인 **자동분석**(LIVE_AUTO, 규칙 기반) | analyze_auto.py (자동) |
-| news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude가 보고서 등록 시 직접 수정 |
+| news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude — **절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 필독** |
 | history.js | CHIEF 판단 누적 | **archive_analysis.py만** — 직접 편집 금지 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
