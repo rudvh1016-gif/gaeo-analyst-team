@@ -42,7 +42,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 개장 대기(cron 지연 대비) + 6시간 잡 제한 안전 상한 — update-prices와 동일.
+          open=$(date -d "08:58" +%s)
           end=$(date -d "15:45" +%s)
+          now=$(date +%s)
+          if [ "$now" -lt "$open" ]; then
+            wait=$((open - now))
+            if [ "$wait" -le 10800 ]; then
+              echo "개장 전 기동 — ${wait}s 대기 후 시작"; sleep "$wait"
+            fi
+          fi
+          hard=$(( $(date +%s) + 330*60 ))
+          [ "$hard" -lt "$end" ] && end=$hard
           # 사이클 주기(시작-시작). 500종목 한 바퀴 실측 ~12분 → 30분이면 겹침 없이 여유.
           # 느린 날 한 바퀴가 30분을 넘기면 최소 휴식만 두고 곧바로 다음 사이클(잘림 없음).
           period=1800
