@@ -71,6 +71,64 @@ def indicators_for(daily):
     }
 
 
+def risk_for(daily, live):
+    """🛡️ RISK 카드용 위험 지표 — 일봉(3개월)과 52주 범위로 계산(토큰 0, 규칙 기반).
+    vol20  : 최근 20거래일 일간 등락률 표준편차(%) — '하루에 평균 얼마나 출렁이는가'
+    mdd3m  : 3개월 창 최대낙폭(%) — 고점 대비 가장 깊게 빠졌던 폭(음수)
+    pos52w : 52주 가격 범위 내 현재가 위치(0=1년 최저, 100=1년 최고)
+    grade  : low(안정)/mid(보통)/high(위험) — 변동성·낙폭 임계값 기반"""
+    closes = [d.get("close") for d in (daily or []) if d.get("close")]
+    if len(closes) < 6:
+        return None
+    rets = [(closes[i] / closes[i-1] - 1) * 100 for i in range(1, len(closes)) if closes[i-1]]
+    tail = rets[-20:] if len(rets) >= 20 else rets
+    mean = sum(tail) / len(tail)
+    vol20 = round((sum((r - mean) ** 2 for r in tail) / len(tail)) ** 0.5, 2)
+    peak, mdd = closes[0], 0.0
+    for c in closes:
+        if c > peak:
+            peak = c
+        dd = (c / peak - 1) * 100
+        if dd < mdd:
+            mdd = dd
+    mdd = round(mdd, 1)
+    pos52 = None
+    try:
+        lo, hi = [float(x.replace(",", "").strip()) for x in str((live or {}).get("w52") or "").split("~")]
+        if hi > lo:
+            pos52 = max(0, min(100, round((closes[-1] - lo) / (hi - lo) * 100)))
+    except Exception:
+        pass
+    # grade는 전 종목 수집이 끝난 뒤 main()에서 "시장 전체 대비 상대 위치"로 매긴다.
+    # (절대 임계값만 쓰면 이번 주처럼 시장 전체가 요동칠 때 전 종목이 '위험'으로 쏠려 변별력이 사라진다)
+    return {"vol20": vol20, "mdd3m": mdd, "pos52w": pos52}
+
+
+def assign_risk_grades(stocks):
+    """전 종목 vol20 분포의 25/75 백분위로 상대 등급(low/mid/high)을 매긴다.
+    절대 오버라이드: vol20 >= 6%는 시장이 아무리 험해도 high,
+    vol20 < 0.1%는 거래정지·데이터 이상 가능성이 커서 low로 두지 않고 mid."""
+    vols = sorted(e["risk"]["vol20"] for e in stocks.values() if e.get("risk"))
+    if not vols:
+        return
+    p25 = vols[int(len(vols) * 0.25)]
+    p75 = vols[int(len(vols) * 0.75)]
+    for e in stocks.values():
+        r = e.get("risk")
+        if not r:
+            continue
+        v, mdd = r["vol20"], r["mdd3m"]
+        if v >= 6 or (v >= p75 and mdd <= -30):
+            g = "high"
+        elif v >= p75:
+            g = "high"
+        elif v <= p25 and mdd >= -25 and v >= 0.1:
+            g = "low"
+        else:
+            g = "mid"
+        r["grade"] = g
+
+
 def flow_summary(deal_trends, days=6):
     dt = deal_trends[:days]
     if not dt:
@@ -121,12 +179,14 @@ def main():
             daily = s.get("daily") or []
             entry["tech"] = indicators_for(daily) if len(daily) >= 2 else None
             entry["flow"] = flow_summary(info.get("dealTrends") or [])
+            entry["risk"] = risk_for(daily, d)   # 🛡️ RISK 카드용(브라우저가 직접 읽음)
             out["stocks"][code] = entry
         except Exception as e:
             skipped.append(f"{code}({e})")
             continue
     if skipped:
         print(f"[경고] 지표 계산 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
+    assign_risk_grades(out["stocks"])   # 🛡️ 전 종목 분포 기준 상대 위험등급
     path = os.path.join(HERE, "indicators.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
@@ -135,7 +195,8 @@ def main():
     # 브라우저용 축약본(indicators.js) — TARO 미니 차트(가격·MA·RSI·MACD)가 index.html에서 직접 읽는다.
     # analysis.js 텍스트를 파싱하지 않고 이 구조화된 숫자를 그대로 그린다.
     js_stocks = {
-        code: {"name": e["name"], "price": e["price"], "rate": e["rate"], "tech": e["tech"]}
+        code: {"name": e["name"], "price": e["price"], "rate": e["rate"], "tech": e["tech"],
+               "risk": e.get("risk")}
         for code, e in out["stocks"].items() if e.get("tech")
     }
     js_path = os.path.join(HERE, "indicators.js")

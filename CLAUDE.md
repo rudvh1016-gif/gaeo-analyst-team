@@ -1,7 +1,9 @@
 # 개오(Gaeo) 애널리스트팀 — 프로젝트 가이드
 
 AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW 수급 · CHIEF 총괄)이
-한국 주식을 분석하는 단일 페이지 대시보드. 순수 정적 사이트(빌드 없음).
+한국 주식을 분석하는 단일 페이지 대시보드. 6번째 카드 🛡️ RISK(리스크 관리)는 규칙 기반
+정보 전용(토큰 0) — compute_indicators.py가 계산한 risk(vol20·mdd3m·pos52w·grade)를
+index.html renderRiskCard()가 그대로 그리며, CHIEF 종합·적중률 기록에는 개입하지 않는다. 순수 정적 사이트(빌드 없음).
 종목은 tickers.js 단일 소스(현재 119종목). 소수 핵심은 🧠 정밀분석(Claude), 나머지는
 🤖 자동분석(analyze_auto.py·러너·토큰 0) — 정밀분석이 자동분석을 항상 우선한다.
 

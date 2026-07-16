@@ -2275,6 +2275,8 @@ function quoteChartHTML(days){
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
 const GLOSSARY={
+  '변동폭':'주가가 하루 동안 오르내리는 폭. 클수록 수익도 손실도 빨리 커져서, 초보자에겐 작은 쪽이 다루기 쉬워요.',
+  '최대낙폭':'일정 기간 안에서 고점 대비 가장 깊게 빠졌던 하락 폭(MDD). "이 종목을 들고 있으면 이만큼 빠지는 일도 겪을 수 있다"는 마음의 준비 지표예요.',
   'PER':'주가수익비율. 주가 ÷ 주당순이익(EPS). 낮을수록 이익 대비 주가가 싼 편(업종마다 기준 다름).',
   'PBR':'주가순자산비율. 주가 ÷ 주당순자산(BPS). 1배면 장부가치와 같음. 낮을수록 자산 대비 저평가.',
   'ROE':'자기자본이익률. 순이익 ÷ 자기자본. 회사가 가진 돈으로 얼마나 잘 버는지. 높을수록 수익성 좋음.',
@@ -3256,6 +3258,43 @@ function fillCard(a,res,code){
   SFX.ding();
 }
 
+/* ---------- 🛡️ RISK 리스크 관리자 카드 (6번째 팀원 · 정보 전용) ----------
+   compute_indicators.py가 일봉으로 미리 계산한 risk(vol20·mdd3m·pos52w·grade)를
+   그대로 읽어 규칙 기반 문장으로 보여준다(토큰 0). CHIEF 종합점수·적중률 기록에는
+   개입하지 않는 "정보 카드" — 판단이 아니라 '얼마나 험한 길인지'를 알려주는 역할. */
+const RISK_COLOR='#a16207';
+function renderRiskCard(code){
+  const old=document.getElementById('card-risk'); if(old) old.remove();
+  const r=(LIVE_IND[code]||{}).risk; if(!r) return;
+  const gradeKr=r.grade==='low'?'안정':(r.grade==='high'?'위험':'보통');
+  const gradeCls=r.grade==='low'?'bull':(r.grade==='high'?'bear':'neu');
+  // 안정 점수(높을수록 차분한 종목): 변동성·최대낙폭이 클수록 깎인다
+  const score=Math.round(Math.max(5, Math.min(95, 100 - r.vol20*10 - Math.max(0,-r.mdd3m)*0.6)));
+  const volDesc=r.vol20>=4?'하루에도 급등락이 오가는 큰 폭이에요':(r.vol20<=1.8?'큰 종목치고 차분한 편이에요':'적당히 출렁이는 보통 수준이에요');
+  const swingNum=r.vol20*2, swing=swingNum.toFixed(1);
+  // 이틀치 출렁임이 ±12%를 넘는 극단 변동성이면 "정상 범위" 표현 대신 관망 경고를 준다
+  const guide=swingNum<=12
+    ?`참고 가이드: 이 변동성이면 매수가 아래 -${swing}%(이틀치 출렁임)까지는 정상 범위로 볼 수 있어요 — 그보다 깊게 빠지면 처음 세운 계획을 점검해 보세요`
+    :`참고 가이드: 지금은 이틀치 출렁임만 ±${swing}%에 달하는 이례적으로 험한 구간이에요 — 일반적인 손절선(-5~-10%)이 하루 만에 닿을 수 있으니, 초보자라면 변동성이 가라앉은 뒤 접근하는 것도 전략이에요`;
+  const findings=[
+    `하루 변동폭: 최근 한 달간 하루 평균 ±${r.vol20}% 출렁였어요 — ${volDesc}`,
+    `최대낙폭: 최근 3개월 안에서 고점 대비 최대 ${r.mdd3m}%까지 빠진 적이 있어요 — 이만큼의 하락은 이 종목에선 '있을 수 있는 일'이라는 뜻이에요`,
+    (r.pos52w!=null?`52주 가격 위치: 1년 범위에서 지금은 ${r.pos52w}% 지점이에요 (0%=1년 최저가, 100%=1년 최고가)`:'52주 가격 위치: 데이터가 부족해 계산하지 못했어요'),
+    guide,
+  ];
+  cardsEl.insertAdjacentHTML('beforeend',
+    `<div class="card on" id="card-risk">
+       <h3><span style="color:${RISK_COLOR}">●</span> RISK<span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
+       <div class="role">리스크 관리 · 규칙 기반 정보(판단 미개입)</div>
+       <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
+       <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
+       <ul id="fx-risk">${findings.map(f=>`<li>${wrapGloss(f)}</li>`).join('')}</ul>
+     </div>`);
+  countUp(document.getElementById('sc-risk'),score,750);
+  const bar=document.getElementById('bar-risk');
+  if(bar){ bar.style.background=RISK_COLOR; requestAnimationFrame(()=>{bar.style.width=Math.max(2,score)+'%';}); }
+}
+
 // ---------- 종합 시각화: 레이더 + 게이지 ----------
 const VIZ_AXES=[
   {id:'taro', label:'기술',      color:'#1fb6c9'},
@@ -3337,7 +3376,7 @@ function analyze(){
     const a=AGENTS.find(x=>x.id===id);
     sendToWork(a,3200+Math.random()*2200,()=>{
       fillCard(a,data[a.id],stock.code);
-      if(++done===4){ cardsEl.classList.remove('busy'); runChief(); }
+      if(++done===4){ cardsEl.classList.remove('busy'); renderRiskCard(stock.code); runChief(); }
     });
   });
   // 분석 점수 → 초등학생 눈높이 말풍선 문장 (종목 비교 탭의 easyExplain과 같은 원리)
