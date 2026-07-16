@@ -52,27 +52,27 @@ def fetch_daily_closes(code, start, end):
     return out
 
 def add_to_pages(pages, new_entries):
-    """new_entries(날짜 오름차순)를 페이지에 병합.
+    """new_entries를 병합한 뒤 전체를 날짜순으로 재구성해 5일 단위 페이지로 다시 자른다.
     이미 있는 날짜는 종가를 최신 값으로 갱신한다 — 장중(10분 주기) 실행이 기록한
     중간 가격이 마감 후 실행에서 진짜 종가로 확정되도록 (과거엔 그날 첫 실행의
-    장중가가 종가로 영구 고정되는 버그가 있었다)."""
-    existing = {}
+    장중가가 종가로 영구 고정되는 버그가 있었다).
+    ⚠️ 재구성 이유: 예전 방식(새 날짜를 마지막 페이지 뒤에 append)은 신규 종목의
+    과거 데이터를 뒤늦게 받아오면(백필) 과거 날짜가 최신 날짜 뒤에 붙어 페이지
+    순서·전일비 계산이 꼬였다(실제 8종목 발생). 매번 정렬 재구성하면 항상 시간순이
+    보장되고, 이미 꼬인 기존 데이터도 다음 실행 때 자동 복구된다."""
+    closes = {}
     for p in pages:
         for d in p["days"]:
-            existing[d["date"]] = d
+            closes[d["date"]] = d["close"]
     for e in new_entries:
-        if e["date"] in existing:
-            existing[e["date"]]["close"] = e["close"]   # 같은 날짜 → 값 갱신
-            continue
-        if not pages or len(pages[-1]["days"]) >= PAGE_SIZE:
-            pages.append({"page": len(pages) + 1, "days": []})
-        pages[-1]["days"].append(e)
-        existing[e["date"]] = pages[-1]["days"][-1]
-    for p in pages:
-        if p["days"]:
-            p["start"] = p["days"][0]["date"]
-            p["end"] = p["days"][-1]["date"]
-    return pages
+        closes[e["date"]] = e["close"]   # 같은 날짜 → 값 갱신
+    days = [{"date": k, "close": closes[k]} for k in sorted(closes)]
+    rebuilt = []
+    for i in range(0, len(days), PAGE_SIZE):
+        chunk = days[i:i + PAGE_SIZE]
+        rebuilt.append({"page": len(rebuilt) + 1, "days": chunk,
+                        "start": chunk[0]["date"], "end": chunk[-1]["date"]})
+    return rebuilt
 
 def main():
     codes = load_tickers()

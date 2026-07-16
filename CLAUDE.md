@@ -57,8 +57,9 @@ AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW
 
 1. **정규식 lookbehind `(?<!)` 금지** — iOS 16.4 미만 Safari에서 그 줄 하나로 스크립트 블록 전체가 죽는다.
    앞 경계는 `(^|[^A-Za-z0-9])` 캡처그룹으로 대체할 것. (`??`·`?.`는 기존 코드가 이미 사용 — ES2020 기준선 OK)
-2. **PRICE_HISTORY 페이지는 시간순이 아니다** — flatMap 후 반드시 날짜로 정렬(flatCloses 참조).
-   priceBlockHTML(전일비 계산)은 이 문제를 아직 감안하지 않은 기존 코드.
+2. **PRICE_HISTORY 페이지는 시간순이 아닐 수 있다** — flatMap 후 반드시 날짜로 정렬(flatCloses 참조).
+   (2026-07-16 해결: update_price_history.py가 매 실행마다 날짜순 재구성하도록 수정 + priceBlockHTML도
+   정렬 재구성 후 렌더링. 새로 데이터를 읽는 코드를 쓸 땐 여전히 정렬을 습관화할 것.)
 3. index.html의 JS는 `document.getElementById` 위주라 HTML 래핑(aside/main 추가)에 안전하지만,
    `.wrap` 직계 자식 순서에 기대는 CSS(`.layout` 그리드)가 있으니 마크업 이동 시 확인.
 4. 시각 변경 후엔 Playwright(chromium: `/opt/pw-browsers/chromium`)로
