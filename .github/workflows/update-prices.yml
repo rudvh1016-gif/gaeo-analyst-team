@@ -1,13 +1,14 @@
-# 개오 애널리스트팀 — 시세·환율 자동 수집 (자가 반복/loop 방식)
-# 왜 loop인가:
-#   GitHub 무료 스케줄(cron)은 이 저장소에서 사실상 거의 안 켜진다(실측: 전체 기간
-#   schedule 이벤트 단 2회). "10분마다"를 cron에 맡기면 며칠씩 멈춘다.
-#   → 한 번 시작되면 그 실행 안에서 스스로 10분마다 반복해 장 마감(KST 15:42)까지
-#     시세를 갱신한다. 수집은 병렬화돼 한 사이클이 ~1분이라 여유롭다.
-# 시작 방법(아무거나 하나면 하루 종일 돔):
-#   · 수동: GitHub → Actions → update-prices → Run workflow
-#   · 마커: .analyst-refresh 를 바꿔 push
-#   · 스케줄: 개장 직후 자주 시도(누락 대비) + 낮 동안 재기동 안전망(best-effort)
+# 개오 애널리스트팀 — 시세·환율 자동 수집 (자가 반복 + 자기 재기동 체인)
+# 왜 이런 구조인가:
+#   ① GitHub 무료 cron은 이 저장소에서 사실상 거의 안 켜진다(실측: 예약 대비 수 시간 지연·누락).
+#   ② 그래서 한 번 시작되면 실행 안에서 스스로 10분마다 반복해 장 마감(KST 15:42)까지 돈다.
+#   ③ 그리고 실행이 끝날 때 workflow_dispatch API로 "자기 자신"을 다시 큐잉한다(체인).
+#      장외·주말엔 320분 단위로 잠들며 체인만 이어가다가 개장 시각에 자동으로 수집을 재개
+#      → 아침 kickoff이 cron·외부 예약 없이도 보장된다. (GITHUB_TOKEN의 workflow_dispatch는
+#      재귀 금지 예외라서 체인이 허용된다. 체인은 main에서만 잇는다.)
+#   ④ 장중 매 사이클마다 짝꿍(update-analysis)이 죽어 있으면 살려준다(상호 감시).
+#   ⑤ 그 밖의 안전망: push 마커(.analyst-refresh)·cron(best-effort)·클로드 Routine(장중 매시).
+# concurrency(cancel-in-progress)가 있어 어떤 경로로 여러 번 켜져도 최신 1개만 돈다.
 name: update-prices
 
 on:
@@ -17,13 +18,13 @@ on:
       - ".analyst-refresh"
       - ".github/workflows/update-prices.yml"
   schedule:
-    # 개장(09:00 KST=00:00 UTC) 직후 3분 간격으로 여러 번 시도 → 하루 한 번은 루프 기동
+    # 개장(09:00 KST=00:00 UTC) 직후 3분 간격으로 여러 번 시도 + 낮 동안 재기동 안전망(best-effort)
     - cron: "0-33/3 0 * * 1-5"
-    # 낮 동안(10~15시 KST) 재기동 안전망: 루프가 죽었으면 다시 띄운다
     - cron: "5,35 1-5 * * 1-5"
 
 permissions:
   contents: write
+  actions: write   # 자기 재기동 체인 + 짝꿍 워크플로우 소생용 workflow_dispatch
 
 concurrency:
   # 새 기동이 들어오면 낡은 루프를 취소하고 최신 하나만 유지(중복 루프 방지)
@@ -36,6 +37,9 @@ jobs:
     timeout-minutes: 350        # GitHub 잡 최대 6시간 안쪽 안전 상한
     env:
       TZ: Asia/Seoul
+      GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
+      GH_AUTH: "Authorization: Bearer ${{ github.token }}"
+      IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,26 +49,54 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 시세·환율 반복 수집 (장중 10분 간격, 개장 대기 + 마감까지)
+      - name: 시세·환율 반복 수집 (장중 10분 간격 · 종료 시 자기 재기동)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # 개장(09:00)·마감+종가확정(15:42) KST 기준.
-          open=$(date -d "08:58" +%s)
-          close=$(date -d "15:42" +%s)
-          now=$(date +%s)
-          # GitHub cron은 예약보다 수 시간 늦게 켜지는 일이 잦다. 그래서 개장 전에
-          # 깨어났으면 개장까지 대기(최대 3시간)했다가 장중부터 돈다.
-          if [ "$now" -lt "$open" ]; then
-            wait=$((open - now))
-            if [ "$wait" -le 10800 ]; then
-              echo "개장 전 기동 — ${wait}s 대기 후 장중 수집 시작"
-              sleep "$wait"
-            fi
+
+          # ---------- 공용 함수 ----------
+          dispatch() {  # $1=워크플로우 파일명 — main 브랜치로 workflow_dispatch (3회 재시도)
+            for i in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+                -H "$GH_AUTH" -H "Accept: application/vnd.github+json" \
+                "$GH_API/$1/dispatches" -d '{"ref":"main"}')
+              [ "$code" = "204" ] && { echo "dispatch $1 → OK"; return 0; }
+              echo "dispatch $1 실패(HTTP $code) — 재시도 $i/3"; sleep 5
+            done
+            return 1
+          }
+          alive() {  # $1=워크플로우 파일명 — main에 queued/in_progress 실행이 있으면 0
+            for st in in_progress queued; do
+              n=$(curl -s -H "$GH_AUTH" \
+                "$GH_API/$1/runs?branch=main&status=$st&per_page=1" \
+                | python3 -c "import json,sys;print(json.load(sys.stdin).get('total_count',0))" 2>/dev/null || echo 0)
+              [ "${n:-0}" -gt 0 ] && return 0
+            done
+            return 1
+          }
+          chain() {  # 자기 재기동(체인) — main에서만. 실패해도 cron·Routine 안전망이 남는다.
+            [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
+            dispatch update-prices.yml || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"
+          }
+
+          # ---------- 시간대 판정 ----------
+          now=$(date +%s); dow=$(date +%u)
+          open=$(date -d "08:58" +%s); close=$(date -d "15:42" +%s)
+          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+            echo "장중 기동 — 바로 수집 시작"
+          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+            echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
+            sleep $((open - now))
+          else
+            # 장외(저녁·새벽·주말): 수집 없이 320분 잠들었다가 자기 재기동만 하고 종료.
+            # 이 체인이 밤새/주말 내내 이어지다가 개장 시각 도달 시 위 분기로 수집이 시작된다.
+            echo "장외 체인 대기 — 320분 후 자기 재기동"
+            sleep $((320*60))
+            chain
+            exit 0
           fi
-          # GitHub 잡은 최대 6시간이라 09:00~15:42(6h42m)를 한 잡으로 못 채운다.
-          # 시작+330분과 마감(15:42) 중 이른 시각까지만 돌고 종료(나머지는 정오
-          # 재기동 또는 재기동 cron이 이어받는다 → 마감까지 갭 없이 커버).
+
+          # ---------- 장중 수집 루프 ----------
           hard=$(( $(date +%s) + 330*60 ))
           limit=$close; [ "$hard" -lt "$limit" ] && limit=$hard
           while :; do
@@ -81,11 +113,17 @@ jobs:
                 sleep 3
               done
             fi
+            # 상호 감시: 짝꿍 분석 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
+            if [ -n "$IS_MAIN" ] && ! alive update-analysis.yml; then
+              echo "update-analysis 미가동 감지 — 소생 dispatch"
+              dispatch update-analysis.yml || true
+            fi
             now=$(date +%s)
             if [ "$now" -ge "$limit" ]; then
-              echo "마감/6시간 상한 도달 — 루프 종료"
+              echo "마감/6시간 상한 도달 — 루프 종료 후 체인 재기동"
               break
             fi
             echo "다음 갱신까지 10분 대기…"
             sleep 600
           done
+          chain

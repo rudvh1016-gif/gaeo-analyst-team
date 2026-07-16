@@ -1,6 +1,7 @@
-# 개오 애널리스트팀 — 분석용 데이터 자동 수집 (자가 반복/loop 방식)
-# 시세(update-prices)와 동일하게, GitHub 스케줄이 거의 안 켜지는 문제를 피하려고
-# 한 번 시작되면 그 실행 안에서 스스로 30분마다 반복해 장 마감(KST 15:45)까지 돈다.
+# 개오 애널리스트팀 — 분석용 데이터 자동 수집 (자가 반복 + 자기 재기동 체인)
+# 구조는 update-prices.yml과 동일한 설계(그쪽 주석 참조):
+#   자가 반복(30분 주기, 마감 15:45까지) + 종료 시 자기 재기동 체인(장외엔 320분 잠들며 유지)
+#   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
 # 생성물: price_history.js · analysis_data.json · indicators.json · indicators.js ·
 #         auto_analysis.js · guestbook_backup.json · krx_list.json
 name: update-analysis
@@ -18,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # 자기 재기동 체인 + 짝꿍 워크플로우 소생용 workflow_dispatch
 
 concurrency:
   group: update-analysis-${{ github.ref }}
@@ -29,6 +31,9 @@ jobs:
     timeout-minutes: 350
     env:
       TZ: Asia/Seoul
+      GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
+      GH_AUTH: "Authorization: Bearer ${{ github.token }}"
+      IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,24 +43,55 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 분석데이터 반복 수집 (500종목 · 30분 주기, 마감까지)
+      - name: 분석데이터 반복 수집 (500종목 · 30분 주기 · 종료 시 자기 재기동)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # 개장 대기(cron 지연 대비) + 6시간 잡 제한 안전 상한 — update-prices와 동일.
-          open=$(date -d "08:58" +%s)
-          end=$(date -d "15:45" +%s)
-          now=$(date +%s)
-          if [ "$now" -lt "$open" ]; then
-            wait=$((open - now))
-            if [ "$wait" -le 10800 ]; then
-              echo "개장 전 기동 — ${wait}s 대기 후 시작"; sleep "$wait"
-            fi
+
+          # ---------- 공용 함수 (update-prices.yml과 동일) ----------
+          dispatch() {
+            for i in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+                -H "$GH_AUTH" -H "Accept: application/vnd.github+json" \
+                "$GH_API/$1/dispatches" -d '{"ref":"main"}')
+              [ "$code" = "204" ] && { echo "dispatch $1 → OK"; return 0; }
+              echo "dispatch $1 실패(HTTP $code) — 재시도 $i/3"; sleep 5
+            done
+            return 1
+          }
+          alive() {
+            for st in in_progress queued; do
+              n=$(curl -s -H "$GH_AUTH" \
+                "$GH_API/$1/runs?branch=main&status=$st&per_page=1" \
+                | python3 -c "import json,sys;print(json.load(sys.stdin).get('total_count',0))" 2>/dev/null || echo 0)
+              [ "${n:-0}" -gt 0 ] && return 0
+            done
+            return 1
+          }
+          chain() {
+            [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
+            dispatch update-analysis.yml || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"
+          }
+
+          # ---------- 시간대 판정 ----------
+          now=$(date +%s); dow=$(date +%u)
+          open=$(date -d "08:58" +%s); close=$(date -d "15:45" +%s)
+          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+            echo "장중 기동 — 바로 수집 시작"
+          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+            echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
+            sleep $((open - now))
+          else
+            echo "장외 체인 대기 — 320분 후 자기 재기동"
+            sleep $((320*60))
+            chain
+            exit 0
           fi
+
+          # ---------- 장중 수집 루프 ----------
           hard=$(( $(date +%s) + 330*60 ))
-          [ "$hard" -lt "$end" ] && end=$hard
+          end=$close; [ "$hard" -lt "$end" ] && end=$hard
           # 사이클 주기(시작-시작). 500종목 한 바퀴 실측 ~12분 → 30분이면 겹침 없이 여유.
-          # 느린 날 한 바퀴가 30분을 넘기면 최소 휴식만 두고 곧바로 다음 사이클(잘림 없음).
           period=1800
           while :; do
             cstart=$(date +%s)
@@ -92,9 +128,14 @@ jobs:
                 sleep 3
               done
             fi
+            # 상호 감시: 짝꿍 시세 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
+            if [ -n "$IS_MAIN" ] && ! alive update-prices.yml; then
+              echo "update-prices 미가동 감지 — 소생 dispatch"
+              dispatch update-prices.yml || true
+            fi
             now=$(date +%s)
             if [ "$now" -ge "$end" ]; then
-              echo "장 마감(15:45 KST) 도달 — 루프 종료"
+              echo "장 마감(15:45 KST)/상한 도달 — 루프 종료 후 체인 재기동"
               break
             fi
             # 주기 기반 대기: 이번 사이클 소요만큼 빼서 시작-시작 간격을 30분으로 유지.
@@ -104,3 +145,4 @@ jobs:
             echo "이번 사이클 ${elapsed}s 소요 — 다음 사이클까지 ${wait}s 대기"
             sleep "$wait"
           done
+          chain
