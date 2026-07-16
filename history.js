@@ -1515,6 +1515,31 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50
    }
+  },
+  {
+   "date": "2026-07-16 14:52",
+   "call": "HOLD",
+   "total": 48,
+   "confidence": 52,
+   "base": 783000,
+   "baseAt": "2026-07-16 14:48",
+   "target": "목표주가 122만~145만원(대신·유안타, 4~5월 리포트 기준 — 최근 급락 이후 미조정). 지지 783,000원(오늘 3개월 신저가) 하회 시 70만원대 초반 시야 / 저항 908,700원대(MA20)·1,070,367원대(MA60).",
+   "taro": {
+    "stance": "bear",
+    "score": 32
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 60
+   },
+   "nova": {
+    "stance": "neu",
+    "score": 50
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 48
+   }
   }
  ],
  "005380": [
