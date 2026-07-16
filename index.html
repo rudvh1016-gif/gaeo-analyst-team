@@ -1123,6 +1123,7 @@
     <button class="modebtn" id="mode-portfolio">💼 포트폴리오</button>
     <button class="modebtn" id="mode-news">📰 뉴스분석</button>
     <button class="modebtn" id="mode-study">📚 종목공부</button>
+    <button class="modebtn" id="mode-lesson">🎓 주식공부</button>
     <button class="modebtn" id="mode-leaderboard">🏆 리더보드</button>
     <button class="modebtn" id="mode-calendar">📅 캘린더</button>
     <button class="modebtn" id="mode-community">💬 커뮤니티</button>
@@ -1198,6 +1199,7 @@
   <div class="communityView" id="communityView"></div>
   <div class="newsView" id="newsView"></div>
   <div class="newsView" id="studyView"></div>
+  <div class="newsView" id="lessonView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -1219,6 +1221,7 @@
 <script src="community.js"></script>
 <script src="news_analysis.js" onerror="window.NEWS_ANALYSIS=window.NEWS_ANALYSIS||null"></script>
 <script src="stock_study.js" onerror="window.STOCK_STUDY=window.STOCK_STUDY||null"></script>
+<script src="stock_lessons.js" onerror="window.STOCK_LESSONS=window.STOCK_LESSONS||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
@@ -3628,6 +3631,8 @@ function renderGuide(){
       <b>종목 비교</b> — 두 종목을 나란히 놓고 "누가 더 나은가"를 그림으로 비교해요. 쉬운 말 정리도 있어요.<br>
       <b>💼 포트폴리오</b> — 내가 가진 주식과 산 가격을 적어두면, 팀 판단과 함께 손익을 계산해줘요. (내 폰에만 저장돼요)<br>
       <b>📰 뉴스분석</b> — 시장을 움직인 큰 뉴스를 골라 초보자 눈높이로 풀어쓴 심층 보고서예요. 계속 쌓이고 10건마다 한 페이지예요.<br>
+      <b>📚 종목공부</b> — "이 회사가 뭐 하는 곳인지"를 한 종목씩 쉽게 풀어쓴 회사 소개예요.<br>
+      <b>🎓 주식공부</b> — 차트 보는 법, 캔들 읽는 법처럼 어떤 종목에나 통하는 <b>투자 기초 지식</b>을 배우는 공부 노트예요.<br>
       <b>🏆 리더보드</b> — 분석가 다섯 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점해요.<br>
       <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
       <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
@@ -3925,6 +3930,55 @@ makeCards(false);
     });
     if(page===1&&slice.length){ const first=document.getElementById('st-'+slice[0].id); if(first) first.classList.add('open'); }
   };
+
+  // ---------- 🎓 주식공부 모드 ----------
+  // stock_lessons.js(STOCK_LESSONS 배열)에 "투자 기초 지식" 글을 쌓는다(차트 보는 법 등).
+  // 종목공부(회사 소개)와 형식은 같고 주제만 다르다 — bodyHTML 등 헬퍼를 그대로 공유.
+  let lsPage=1;
+  window.renderLesson=function(){
+    const box=document.getElementById('lessonView'); if(!box) return;
+    const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
+    if(lsPage>pages) lsPage=pages; if(lsPage<1) lsPage=1;
+    const slice=all.slice((lsPage-1)*PAGE_SIZE, lsPage*PAGE_SIZE);
+    let h=`<div class="nw-hero"><h2>🎓 주식공부</h2>
+      <p>차트 보는 법, 캔들 읽는 법 같은 <b>투자 기초 지식</b>을 초보자 눈높이로 하나씩 배워요.
+      특정 회사 이야기(📚 종목공부)와 달리, 여기는 어떤 종목에나 통하는 공부 노트예요.
+      제목을 누르면 전체 내용이 펼쳐지고, 10개마다 한 페이지예요.</p></div>`;
+    h+=slice.length
+      ? slice.map(a=>`<div class="nw-item" id="ls-${a.id}">
+          <div class="nw-head" data-ls="${a.id}">
+            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
+            <div class="nw-title">🎓 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
+            ${a.summary?`<div class="nw-sum">${escN(a.summary)}</div>`:''}
+          </div>
+          <div class="nw-body">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+              a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
+            <div class="nw-disc">※ 투자 기초를 익히는 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
+          </div>
+        </div>`).join('')
+      : `<div class="nw-item"><div class="nw-empty">아직 등록된 주식공부가 없어요.</div></div>`;
+    if(pages>1){
+      h+=`<div class="nw-pager">
+        <button class="nw-pg" data-pg="${lsPage-1}" ${lsPage<=1?'disabled':''}>‹ 이전</button>`+
+        Array.from({length:pages},(_,i)=>`<button class="nw-pg${i+1===lsPage?' on':''}" data-pg="${i+1}">${i+1}</button>`).join('')+
+        `<button class="nw-pg" data-pg="${lsPage+1}" ${lsPage>=pages?'disabled':''}>다음 ›</button></div>`;
+    }
+    box.innerHTML=h;
+    box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
+      const item=document.getElementById('ls-'+el.dataset.ls);
+      if(item) item.classList.toggle('open');
+    });
+    box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
+      const p=parseInt(b.dataset.pg,10);
+      if(!p||p===lsPage||b.disabled) return;
+      lsPage=p; window.renderLesson();
+      box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    if(lsPage===1&&slice.length){ const first=document.getElementById('ls-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
 })();
 
 // ---------- 종목 비교 모드 ----------
@@ -3940,16 +3994,17 @@ makeCards(false);
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'leaderboard' | 'calendar' | 'community'
+  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
-          guide=mode==='guide', news=mode==='news', study=mode==='study';
+          guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
     document.getElementById('mode-news').classList.toggle('on',news);
     document.getElementById('mode-study').classList.toggle('on',study);
+    document.getElementById('mode-lesson').classList.toggle('on',lesson);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -3967,10 +4022,12 @@ makeCards(false);
     document.getElementById('communityView').classList.toggle('on',community);
     document.getElementById('newsView').classList.toggle('on',news);
     document.getElementById('studyView').classList.toggle('on',study);
+    document.getElementById('lessonView').classList.toggle('on',lesson);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
+    if(lesson && window.renderLesson) window.renderLesson();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -3981,6 +4038,7 @@ makeCards(false);
   document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
   document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
   document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
+  document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
