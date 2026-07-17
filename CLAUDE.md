@@ -28,7 +28,7 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, Claude 직접) | Claude가 재분석 시 Write |
 | auto_analysis.js | 5인 **자동분석**(LIVE_AUTO, 규칙 기반) | analyze_auto.py (자동) |
 | news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude — **절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 필독** |
-| history.js | CHIEF 판단 누적 | **archive_analysis.py만** — 직접 편집 금지 |
+| history.js | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, tier:"auto" 표식·정밀 우선·HIST_CAP=80) | **archive_analysis.py만** — 직접 편집 금지. 러너가 `--auto`로 매 사이클 호출 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
 | analysis_data.json | 분석용 원천 데이터(일봉·수급·컨센서스) | collect_analyst_data.py |
