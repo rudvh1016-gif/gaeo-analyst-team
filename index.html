@@ -239,7 +239,7 @@
   .card ul{margin:12px 0 0;padding-left:16px;font-size:12.5px;color:#475569;line-height:1.65}
   .card ul li{margin-bottom:4px}
   /* ── 한국어 줄바꿈: 어절(띄어쓰기) 단위로만 줄이 넘어가게 — "급등에/따라"식 어절 중간 끊김 방지 ── */
-  .card ul li,.verdict p,.veasy,.vreport,.vtarget,.vlevels,.vclash,.autonote,.anote,
+  .card ul li,.verdict p,.veasy,.vreport,.vtarget,.vlevels,.vclash,.vmacro,.autonote,.anote,
   .dna-comp,.nova-src,.cmp-easy,.cmp-sum,.cmp-asof,.cmp-lbl,.gb-body,.gb-hero p,.gb-agent,
   .qbio,.qchart-cap,.hsub,.mk-text,.mk-points li,.mk-antitle,.pf-note,.pf-guide,.pf-advice,
   .pf-adv-note,.gloss-pop,.an-t,.ve-t,.ce-t{word-break:keep-all;overflow-wrap:break-word}
@@ -518,6 +518,10 @@
   .vclash b{color:#C2410C}
   .clash-badge{font-size:10px;font-weight:800;color:#fff;background:#EA580C;border-radius:4px;
     padding:2px 6px;margin-left:6px;vertical-align:2px;white-space:nowrap;cursor:help}
+  /* 🌐 MACRO 시장국면 — 변동성 확대 구간에서 확신도를 낮춰 보여줄 때(판단 자체는 불변) */
+  .vmacro{margin:12px 0 0;padding:11px 15px;background:#EFF6FF;border:1.5px solid #BFDBFE;
+    border-radius:12px;font-size:12.5px;color:#1E3A8A;line-height:1.7}
+  .vmacro b{color:#1D4ED8}
   /* 🎯 애널리스트 개인 통산 적중률 배지 (카드 헤더) */
   .accb{font-size:10px;font-weight:800;color:#7C5A0B;background:#FEF3C7;border:1px solid #FDE68A;
     border-radius:99px;padding:2px 8px;margin-left:6px;white-space:nowrap;cursor:help;flex-shrink:0}
@@ -1187,6 +1191,7 @@
     </div>
     <div class="gauges" id="gauges"></div>
     <div id="vclash" class="vclash" style="display:none"></div>
+    <div id="vmacro" class="vmacro" style="display:none"></div>
     <div class="vasof" id="vasof"></div>
     <p id="vtext"></p>
     <div id="vtarget" class="vtarget"></div>
@@ -2008,6 +2013,31 @@ function jumpToStock(name){
   scrollNow(); requestAnimationFrame(scrollNow);   // 레이아웃 정착 후 한 번 더(모드전환 반영)
   analyze();
 }
+/* ---------- 🌐 MACRO 시장국면 판독 (토큰 0 · 규칙 기반 · CHIEF 확신도 보정) ----------
+   최근 코스피 일별 등락률의 표준편차로 "변동성 확대/보통/안정" 국면을 판정한다.
+   시장 전체가 급등락하는 주간(예: 이번 주 월-8.95%→화+0.73%→수+6.24%→목-6.37%)엔
+   개별 종목 판단의 신뢰도도 함께 흔들리기 쉬운데, 그 사실을 감추지 않고 확신도(conf)에
+   정직하게 반영해 과신을 줄인다. ⚠️ BUY/HOLD/SELL 판단 자체는 절대 바꾸지 않는다 —
+   오직 화면에 보여주는 "확신도 숫자"만 보정한다(history.js 채점 기록에는 영향 없음,
+   archive_analysis.py는 analysis.js 원본 confidence를 그대로 기록한다).
+   renderMarket()·decide() 둘 다 이 값을 즉시 참조하므로 두 함수보다 앞서 선언한다. */
+const MACRO_REGIME=(function(){
+  const MH=(typeof MARKET_HISTORY!=='undefined'&&MARKET_HISTORY)||{};
+  const days=Object.keys(MH).sort();
+  const rates=days.map(d=>MH[d]&&MH[d].kospi&&MH[d].kospi.rate).filter(x=>typeof x==='number');
+  const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices&&LIVE_DATA.indices.KOSPI)||null;
+  const todayKey=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.date)?String(LIVE_DATA.date).slice(0,10):'';
+  if(idx&&typeof idx.rate==='number'&&todayKey&&days[days.length-1]!==todayKey) rates.push(idx.rate); // 아직 히스토리에 안 쌓인 오늘자도 반영
+  const recent=rates.slice(-10);
+  if(recent.length<3) return {ready:false, damp:1};
+  const mean=recent.reduce((s,x)=>s+x,0)/recent.length;
+  const vol=Math.sqrt(recent.reduce((s,x)=>s+(x-mean)*(x-mean),0)/recent.length);
+  let label,damp;
+  if(vol>=4){ label='변동성 확대'; damp=0.82; }
+  else if(vol<=1.2){ label='안정'; damp=1; }
+  else { label='보통'; damp=0.94; }
+  return {ready:true, vol:Math.round(vol*10)/10, n:recent.length, label, damp};
+})();
 (function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
@@ -2031,6 +2061,13 @@ function jumpToStock(name){
   const segs=seg('코스피',idx&&idx.KOSPI)+seg('코스닥',idx&&idx.KOSDAQ)+fxSeg;
   if(!segs&&!mk) return;
   let html=segs?'<div class="mk-strip">'+segs+'</div>':'';
+  // 🌐 시장국면 배지 — 개별 종목을 분석하지 않아도 지금 시장이 얼마나 출렁이는 국면인지 바로 보여준다
+  if(MACRO_REGIME.ready){
+    const tone=MACRO_REGIME.label==='변동성 확대'?'#DC2626':(MACRO_REGIME.label==='안정'?'#059669':'#D97706');
+    html+=`<div class="mk-macro" style="margin:8px 0 2px;font-size:12.5px;color:${tone};font-weight:700">`+
+      `🌐 시장국면 「${MACRO_REGIME.label}」 <span style="font-weight:500;color:var(--faint)">최근 ${MACRO_REGIME.n}거래일 코스피 표준편차 ${MACRO_REGIME.vol}%p — `+
+      (MACRO_REGIME.damp<1?'개별 종목 분석의 확신도를 자동으로 낮춰 보여드려요':'평소와 비슷한 변동성이에요')+`</span></div>`;
+  }
   if(mk){
     html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
       mkParas(mk.text)+
@@ -3173,10 +3210,19 @@ function runAnalysis(stock){
     _raw:{tech,fund,news}
   };
 }
+function macroAdjustConf(conf){
+  if(!MACRO_REGIME.ready || MACRO_REGIME.damp>=1 || typeof conf!=='number') return {conf, damped:false};
+  const adj=Math.max(20, Math.round(conf*MACRO_REGIME.damp));
+  if(adj>=conf) return {conf, damped:false};
+  return {conf:adj, raw:conf, damped:true,
+    note:`🌐 <b>시장국면 「${MACRO_REGIME.label}」</b> — 최근 ${MACRO_REGIME.n}거래일 코스피 등락률의 흔들림(표준편차 ${MACRO_REGIME.vol}%p)이 커서, 원래 확신도 ${conf}%를 <b>${adj}%</b>로 낮춰 표시했어요. `+
+      `BUY/HOLD/SELL 판단 자체는 그대로예요 — 다만 요즘같이 시장 전체가 출렁이는 장에서는 확신도를 에누리해서 보는 게 안전해요.`};
+}
 function decide(a){
   if(a._live && a.chief){
     const c=a.chief;
-    return {call:c.call, total:c.total, conf:c.confidence, live:true, tier:a._tier||'deep',
+    const adj=macroAdjustConf(c.confidence);
+    return {call:c.call, total:c.total, conf:adj.conf, macroNote:adj.note, live:true, tier:a._tier||'deep',
       color:c.call==='BUY'?'#059669':c.call==='SELL'?'#DC2626':'#D97706',
       text:c.reason, target:c.target||'', report:c.report||''};
   }
@@ -3467,6 +3513,9 @@ function analyze(){
           `주가가 어느 쪽으로든 크게 움직일 수 있어요 — 평균 점수만 믿지 말고 한 번 더 신중하게!`;
         vc.style.display='block';
       } else vc.style.display='none';
+      // 🌐 시장국면 배지 — 변동성 확대 구간에서만 노출(확신도를 낮춰 표시한 이유 설명)
+      const vm=document.getElementById('vmacro');
+      if(v.macroNote){ vm.innerHTML=v.macroNote; vm.style.display='block'; } else vm.style.display='none';
       if(v.report){vr.style.display='block'; vr.textContent=v.report;}
       else vr.style.display='none';
       renderViz(data); renderGauges(v); renderHistory(stock.code, stock.price);
@@ -3623,6 +3672,7 @@ function renderGuide(){
       ${sign('#FEF3C7','#92400E','🤖 자동분석','컴퓨터가 차트·재무·수급 숫자만 보고 규칙대로 계산한 분석이에요. 뉴스는 반영 안 돼 있어요.')}
       ${sign('#EA580C','#fff','⚡의견갈림','분석가들끼리 점수가 크게 엇갈렸다는 경고예요. 이런 종목은 평균 점수만 믿지 말고 한 번 더 생각!')}
       ${sign('#a16207','#fff','🛡️ RISK 등급','이 종목이 얼마나 험하게 움직이는지예요. 안정(초록)·보통·위험(빨강) — 전체 500종목과 비교한 상대 등급이라, 위험이면 "수익도 손실도 빨리 커지는 종목"이라는 뜻이에요. 사라/팔아라 판단에는 개입하지 않아요.')}
+      ${sign('var(--sky-soft)','var(--navy)','🌐 시장국면','요즘 코스피가 얼마나 출렁이는지를 보고 "변동성 확대" 국면이면 팀의 확신도(%) 숫자를 자동으로 낮춰 보여줘요. BUY/HOLD/SELL 판단은 그대로고, 딱 "확신도"만 에누리하는 거예요 — 시장이 심하게 흔들릴 때 팀도 100% 확신하지 않는다는 걸 정직하게 보여주는 장치예요.')}
       ${sign('var(--sky-soft)','var(--navy)','🧭 가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
       ${sign('var(--sky-soft)','var(--navy)','⏳평가중','판단이 맞았는지는 <b>5거래일(약 일주일) 뒤 종가</b>로 채점해요. 아직 5일이 안 지난 판단이 "평가중"이에요.')}
     </div>
