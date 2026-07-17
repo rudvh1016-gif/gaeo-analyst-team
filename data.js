@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-07-17 09:44 장중
+// 자동 생성: update_prices.py · 2026-07-17 09:55 장중
 const LIVE_DATA = {
- "date": "2026-07-17 09:44 장중",
+ "date": "2026-07-17 09:55 장중",
  "indices": {
   "KOSPI": {
    "value": 6820.6,
