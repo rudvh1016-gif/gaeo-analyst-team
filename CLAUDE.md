@@ -5,7 +5,7 @@ AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW
 정보 전용(토큰 0) — compute_indicators.py가 계산한 risk(vol20·mdd3m·pos52w·grade)를
 index.html renderRiskCard()가 그대로 그리며, CHIEF 종합·적중률 기록에는 개입하지 않는다. 순수 정적 사이트(빌드 없음).
 종목은 tickers.js 단일 소스(현재 119종목). 소수 핵심은 🧠 정밀분석(Claude), 나머지는
-🤖 자동분석(analyze_auto.py·러너·토큰 0) — 정밀분석이 자동분석을 항상 우선한다.
+🤖 자동분석(analyze_auto.py·러너·토큰 0). 표시 우선순위: 정밀분석이 **당일(자동분석 생성일과 같은 날) 재분석됐고 시세도 ±3% 이내**일 때만 정밀 우선, 그 외엔 매일 갱신되는 자동분석을 표시(precisionFresh: 시간+가격 두 조건). 즉 정밀은 그날 직접 재분석한 날만 뜨고 이후엔 500종목 모두 자동분석.
 🌐 MACRO 시장국면 판독(토큰 0, 카드가 아닌 로직 레이어)도 있다 — index.html의 `MACRO_REGIME`
 (market_history.js 최근 10거래일 코스피 rate 표준편차)이 "변동성 확대"면 `decide()`가
 CHIEF 확신도(conf) 표시만 낮춘다(BUY/HOLD/SELL 판단·history.js 채점 기록은 불변).

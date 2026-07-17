@@ -1266,13 +1266,21 @@ const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
 // auto_analysis.js가 전역에 const LIVE_AUTO를 선언한다(없으면 script onerror가 window.LIVE_AUTO=null).
 // 여기서 같은 이름으로 재선언하면 충돌(SyntaxError)하므로 다른 이름(AUTO_AN)으로 참조만 잡는다.
 const AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:((typeof window!=='undefined'&&window.LIVE_AUTO)||null);
-// 정밀분석 '신선도' 판정: 기준가(base) 대비 현재가가 ±STALE_PCT 미만이면 아직 신선(true).
-//  · 정밀분석은 이제 사용자가 직접 요청하는 종목만 종가에 생성 → 시세가 벌어지면 오래됨.
-//  · 오래되면 화면은 항상 최신인 자동분석으로 자동 전환한다(정밀분석은 직접 재요청 전까지 대기).
-//  · base/현재가를 못 구하면 판단 불가이므로 안전하게 정밀분석 유지(true).
+// 정밀분석 '신선도' 판정: 아래 두 조건을 "모두" 만족할 때만 정밀분석을 우선 표시(true).
+//   ① 시간: 정밀분석이 자동분석(매일 전 종목 갱신)보다 오래되지 않았을 것.
+//      · 자동분석은 매일 새로 생성되므로, 하루라도 지난 정밀분석의 텍스트(뉴스·공시)는 낡았다.
+//        그래서 정밀 updated 날짜가 자동분석 생성 날짜보다 이르면 → 최신 자동분석을 우선한다.
+//        (효과: 정밀분석은 '그날 직접 재분석한 당일'만 우선, 이후엔 500종목 모두 자동분석 표시)
+//   ② 가격: 기준가(base) 대비 현재가가 ±STALE_PCT 미만일 것(시세가 벌어지면 자동 우선).
+//  · base/현재가를 못 구하면 판단 불가이므로 시간 조건만으로 처리.
 function precisionFresh(code){
   const P = LIVE_AN && LIVE_AN[code];
   if(!P) return false;
+  // ① 시간 신선도 — 정밀이 자동보다 하루 이상 오래되면 자동 우선
+  const pDay = String(P.updated||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
+  const aDay = (AUTO_AN && String(AUTO_AN.priceLabel||AUTO_AN.generatedAt||'').slice(0,10)) || '';
+  if(pDay && aDay && pDay < aDay) return false;
+  // ② 가격 신선도
   const base = (typeof P.base==='number') ? P.base : null;
   const cur = (typeof STOCKS!=='undefined' && STOCKS[code] && typeof STOCKS[code].price==='number') ? STOCKS[code].price : null;
   if(base==null || cur==null) return true;
