@@ -747,6 +747,8 @@
   .gb-dict dd{margin:2px 0 0;color:#475569;font-size:13px;line-height:1.75}
   .gb-warn{margin-top:4px;background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:12px;
     padding:13px 16px;font-size:12.5px;color:#78350F;line-height:1.7}
+  .gb-tip{margin-top:10px;background:var(--sky-soft);border:1.5px solid var(--sky);border-radius:12px;
+    padding:12px 15px;font-size:12.5px;color:var(--navy);line-height:1.7}
   .cm-notice{background:var(--sky-soft);border-radius:14px;padding:14px 18px;margin:0 0 14px;
     font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.6;box-shadow:var(--shadow-sm)}
   .cm-post{background:var(--paper);border-radius:14px;padding:16px 18px;margin:0 0 12px;
@@ -3687,6 +3689,12 @@ function renderGuide(){
       ${sign('var(--sky-soft)','var(--navy)','🌐 시장국면','요즘 코스피가 얼마나 출렁이는지를 보고 "변동성 확대" 국면이면 팀의 확신도(%) 숫자를 자동으로 낮춰 보여줘요. BUY/HOLD/SELL 판단은 그대로고, 딱 "확신도"만 에누리하는 거예요 — 시장이 심하게 흔들릴 때 팀도 100% 확신하지 않는다는 걸 정직하게 보여주는 장치예요.')}
       ${sign('var(--sky-soft)','var(--navy)','🧭 가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
       ${sign('var(--sky-soft)','var(--navy)','⏳평가중','판단이 맞았는지는 <b>5거래일(약 일주일) 뒤 종가</b>로 채점해요. 아직 5일이 안 지난 판단이 "평가중"이에요.')}
+      ${sign('#059669','#fff','📈 초록 꺾은선','왼쪽 종목 목록과 시세 카드에 있는 작은 그래프예요. <b>표시된 기간(최근 며칠)의 첫날보다 지금 주가가 높으면</b> 초록색이에요 = "그동안 올랐다".')}
+      ${sign('#DC2626','#fff','📉 빨강 꺾은선','같은 그래프가 빨간색이면 <b>그 기간 첫날보다 지금이 낮다</b> = "그동안 내렸다"는 뜻이에요.')}
+      <div class="gb-tip">💡 <b>헷갈리기 쉬운 점!</b> 이 꺾은선의 <b>색</b>은 <b>최근 며칠간의 흐름</b>을 보여주고,
+      이름 옆에 붙은 빨강·파랑 <b>%</b> 숫자는 <b>어제 대비 오늘 하루</b> 변화예요. 둘은 기간이 달라요.
+      그래서 "오늘 등락률은 파란색(하락)인데 꺾은선은 초록색"인 경우가 생겨요 — <b>오늘은 조금 빠졌어도, 최근 며칠 전체로 보면 아직 올라 있다</b>는 뜻이에요.
+      (참고: 한국 증시는 오르면 빨강·내리면 파랑이지만, 이 <b>작은 꺾은선만은</b> 세계 공통 방식대로 오르면 초록·내리면 빨강으로 그려요.)</div>
     </div>
   </details>
 
@@ -3832,13 +3840,24 @@ makeCards(false);
       `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
   }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
 
-  // ② 최근 팀 판단 — history.js 전 종목을 시간 역순으로
+  // ② 최근 팀 판단 — history.js에서 "초대형 우량주"만 골라 시간 역순으로.
+  //    500종목 전부를 섞으면 낯선 중소형주가 앞자리를 채워 한눈에 신뢰가 안 간다.
+  //    그래서 코스피 시가총액 상위권(삼성전자·하이닉스·금융지주·2차전지 대장 등)만 노출한다.
+  const MEGA_CAP=new Set([
+    '005930','000660','373220','207940','005380','000270','068270','105560','055550',
+    '005490','035420','012330','006400','051910','035720','028260','086790','032830',
+    '138040','329180','012450','066570','009150','033780','316140','011200','003670',
+    '086280','000810','034020','402340','017670','042660','009540','015760','010130',
+    '010140','024110','018260','003550','030200','259960','323410','307950','247540']);
   let recs=[];
   if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
+    if(!MEGA_CAP.has(code)) continue;               // 초대형 우량주만
     (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
       total:h.total,conf:h.confidence}));
   }
-  recs.sort((a,b)=>b.date.localeCompare(a.date)); recs=recs.slice(0,8);
+  // 같은 종목이 여러 날 쌓이므로 종목당 최신 1건만 남겨 다양한 우량주가 보이게 한다.
+  recs.sort((a,b)=>b.date.localeCompare(a.date));
+  const seen=new Set(); recs=recs.filter(r=>seen.has(r.code)?false:(seen.add(r.code),true)).slice(0,8);
   const callCol=c=>c==='BUY'?'#059669':c==='SELL'?'#DC2626':'#D97706';
   const rcHTML=recs.length?recs.map(r=>{
     const dm=r.date.match(/\d{4}-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
