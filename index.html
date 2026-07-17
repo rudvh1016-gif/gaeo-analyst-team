@@ -589,6 +589,8 @@
     .vhistory td{padding:8px 6px 8px 0}
     .hverdict{font-size:9.5px;padding:2px 6px}
     .hcall{font-size:10.5px}
+  .hrecon{display:inline-block;margin-left:5px;font-size:9px;font-weight:700;color:#8a6d3b;
+    background:#fdf6e3;border:1px solid #eadfc0;border-radius:4px;padding:1px 4px;vertical-align:1px;cursor:help}
   }
   .hcall{font-weight:800;font-size:12px}
   .hcall.BUY{color:var(--green)} .hcall.SELL{color:var(--red)} .hcall.HOLD{color:var(--amber)}
@@ -1535,7 +1537,9 @@ function renderHistory(code, curPrice){
       }
     }
     html+=`<tr class="${isLatest?'latest':''}">`+
-      `<td class="num hdate">${String(r.date).replace(' ','<br>')}</td>`+
+      `<td class="num hdate">${String(r.date).replace(' ','<br>')}`+
+        (r.recon?`<span class="hrecon tip-r" data-tip="재구성 — 과거 가격 데이터로 그날 판단을 되살린 백테스트예요. 기술·가격심리는 그날 값으로 정확히 계산했지만, 재무·수급은 저장된 과거값이 없어 현재값으로 근사했어요. 실시간 판단이 아니라 참고용 소급 기록이에요.">재구성</span>`:'')+
+        `</td>`+
       `<td><span class="hcall ${r.call}">${r.call}</span></td>`+
       `<td class="num">${r.confidence}%</td>`+
       `<td class="num">${r.base?won(r.base):'—'}</td>`+
@@ -1828,7 +1832,7 @@ function renderLeaderboard(){
     </div>`;
   });
   el.innerHTML=`<div class="lb-head"><h3>🏆 애널리스트 리더보드</h3></div>
-    <div class="lb-sub">각 분석가의 강세/약세 판단을 <b>판단 후 5거래일 뒤 종가</b>로 채점해 적중률을 집계합니다 — 모든 판단이 같은 잣대(일주일 성적표)로 공평하게 비교돼요 (중립·미미한 변동 제외).</div>
+    <div class="lb-sub">각 분석가의 강세/약세 판단을 <b>판단 후 5거래일 뒤 종가</b>로 채점해 적중률을 집계합니다 — 모든 판단이 같은 잣대(일주일 성적표)로 공평하게 비교돼요 (중립·미미한 변동 제외). <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
     ${cards}
     ${totalScored===0?'<div class="lb-empty">아직 확정 채점된 예측이 없어요. 각 판단은 5거래일(약 일주일)이 지나야 그 시점 종가로 채점돼요 — 곧 하나씩 채워집니다!</div>':''}
     <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 판단 후 5거래일 뒤 종가 기준, 변동 ±1% 이내는 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.</div>`;
