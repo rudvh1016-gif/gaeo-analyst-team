@@ -32,6 +32,7 @@
     --t2:#3A3A3C; --t3:#515154;
     --gold:var(--sky); --gold-deep:var(--navy);
     --green:#059669; --red:#DC2626; --amber:#C77700;
+    --krup:#E5121F; --krdn:#1257D6;   /* 본문 등락 색: 상승 빨강 · 하락 파랑(한국식) */
     --sans:'Pretendard Variable',Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     --serif:var(--sans);
     --mono:var(--sans);
@@ -46,6 +47,7 @@
     --bg:#000000; --paper:#1C1C1E; --paper2:#2C2C2E; --ink:#F5F5F7;
     --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#6E6E76;
     --green:#30D158; --red:#FF6B66; --amber:#FFCF3F;
+    --krup:#FF5A54; --krdn:#5AA0FF;   /* 다크: 상승 빨강 · 하락 파랑(가독 위해 밝게) */
     --t2:#E8E8ED; --t3:#C7C7CC;
     --shadow:0 2px 8px rgba(0,0,0,.45),0 12px 32px rgba(0,0,0,.5);
     --shadow-sm:0 1px 4px rgba(0,0,0,.45);
@@ -914,6 +916,9 @@
   .mk-an{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
   .mk-antitle{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
   .mk-asof{font-size:11px;color:var(--faint);font-weight:600;margin-left:6px}
+  /* 본문 등락 수치 색(SIGNUM) — 상승 빨강·하락 파랑 */
+  .sgn-u{color:var(--krup);font-weight:600}
+  .sgn-d{color:var(--krdn);font-weight:600}
   .mk-text{margin:0 0 8px;font-size:13px;line-height:1.75;color:var(--t2)}
   .mk-text:last-of-type{margin-bottom:0}
   .mk-points{margin:8px 0 0;padding-left:17px;font-size:12.5px;color:var(--t3);line-height:1.65}
@@ -1942,6 +1947,16 @@ const CAL={y:0,m:0};
   CAL.y=d.getFullYear(); CAL.m=d.getMonth();
 })();
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// 📈 본문 숫자 한국식 색칠 — 이미 이스케이프된 HTML에서 "부호 붙은 등락 수치"만 골라
+//   상승(+)은 빨강(.sgn-u)·하락(−)은 파랑(.sgn-d)으로 감싼다. (한국 증시 관행)
+//   · %·%p·포인트·원 단위에 부호가 붙은 경우만 매치 → 날짜(2026-07-16)·가격(25만 5,000원)엔 안 걸린다.
+//   · 태그·속성 안에는 「부호+숫자+단위」 패턴이 없어 HTML을 깨지 않는다.
+function SIGNUM(html){
+  if(html==null) return html;
+  return String(html).replace(
+    /([+\-−])(\d[\d,]*(?:\.\d+)?)(\s?)(%p|%|포인트|원)/g,
+    (m,sg,num,sp,unit)=>'<span class="'+(sg==='+'?'sgn-u':'sgn-d')+'">'+sg+num+sp+unit+'</span>');
+}
 function collectEvents(){
   // 종목별 일정(analysis.js LIVE_ANALYSIS[code].events)뿐 아니라, 특정 종목에 속하지
   // 않는 매크로 일정(CPI 발표 등)도 market.events에 넣어두면 같이 모은다.
@@ -2061,8 +2076,8 @@ function mkParas(text){
   if(!text) return '';
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const sents=String(text).replace(/([.!?])\s+/g,'$1\n').split('\n').map(s=>s.trim()).filter(Boolean);
-  if(!sents.length) return `<p class="mk-text">${esc(text)}</p>`;
-  return sents.map(s=>`<p class="mk-text">${esc(s)}</p>`).join('');
+  if(!sents.length) return `<p class="mk-text">${SIGNUM(esc(text))}</p>`;
+  return sents.map(s=>`<p class="mk-text">${SIGNUM(esc(s))}</p>`).join('');
 }
 // 오늘 분석 종합 집계: 정밀+자동 전체 종목의 CHIEF 콜을 세고 BUY 목록을 모은다
 function analysisTally(){
@@ -2152,7 +2167,7 @@ const MACRO_REGIME=(function(){
   if(mk){
     html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
       mkParas(mk.text)+
-      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
+      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'')+
       `</div>`;
   }
   // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
@@ -2197,7 +2212,7 @@ const MACRO_REGIME=(function(){
             <span class="mk-click">클릭 <span class="mk-arrow">▸</span></span></button>
           <div class="mk-day-body">`+
             mkParas(m.text)+
-            (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${esc(p)}</li>`).join('')+'</ul>':'')+
+            (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'')+
           `</div></div>`;
       }).join('')+`</div></div>`;
   }
@@ -3369,7 +3384,7 @@ function fillCard(a,res,code){
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
   const fx=document.getElementById('fx-'+a.id);
-  fx.innerHTML=res.findings.map(f=>`<li>${wrapGloss(f)}</li>`).join('');
+  fx.innerHTML=res.findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('');
   if(a.id==='taro'){
     const viz=taroChartHTML(code);
     if(viz){ const holder=document.createElement('div'); holder.className='taro-viz-holder';
@@ -3422,7 +3437,7 @@ function renderRiskCard(code){
        <div class="role">리스크 관리 · 규칙 기반 정보(판단 미개입)</div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
-       <ul id="fx-risk">${findings.map(f=>`<li>${wrapGloss(f)}</li>`).join('')}</ul>
+       <ul id="fx-risk">${findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('')}</ul>
      </div>`);
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
@@ -3560,7 +3575,7 @@ function analyze(){
         (stock.price?'<span>🕒 시세 기준 <b>'+priceAsOf()+'</b></span>':'')+
         '<span>🔎 분석 기준 <b>'+(aof||'실시간 mock')+'</b></span>'+
         (fresh?'<span>'+fresh+'</span>':'');
-      document.getElementById('vtext').textContent=v.text;
+      document.getElementById('vtext').innerHTML=SIGNUM(esc(v.text));
       // 🧒 초등학생도 이해하는 설명 말풍선 (분석 점수를 쉬운 문장으로 자동 변환 — AI 비용 없음)
       const ve=document.getElementById('veasy');
       ve.innerHTML=easySingleHTML(stock,data,v); ve.style.display='block';
@@ -3597,7 +3612,7 @@ function analyze(){
       // 🌐 시장국면 배지 — 변동성 확대 구간에서만 노출(확신도를 낮춰 표시한 이유 설명)
       const vm=document.getElementById('vmacro');
       if(v.macroNote){ vm.innerHTML=v.macroNote; vm.style.display='block'; } else vm.style.display='none';
-      if(v.report){vr.style.display='block'; vr.textContent=v.report;}
+      if(v.report){vr.style.display='block'; vr.innerHTML=SIGNUM(esc(v.report));}
       else vr.style.display='none';
       renderViz(data); renderGauges(v); renderHistory(stock.code, stock.price);
       vEl.classList.add('on');
@@ -3967,7 +3982,7 @@ makeCards(false);
   const PAGE_SIZE=10;
   let page=1;
   const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const inline=s=>escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  const inline=s=>SIGNUM(escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>'));
   // 본문 미니 마크다운: "## 제목" = 소제목, "- " = 목록, 빈 줄 = 문단 구분, **굵게**
   function nwBodyHTML(md){
     const lines=String(md||'').split('\n');
@@ -4039,7 +4054,7 @@ makeCards(false);
   const PAGE_SIZE=10;
   let page=1;
   const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const inline=s=>escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  const inline=s=>SIGNUM(escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>'));
   /* ---- 🎓 주식공부 본문 도해(SVG) ----
      body 안에 "[[img:키|캡션]]" 한 줄을 쓰면 아래 레지스트리의 SVG가 그 자리에 그려진다.
      외부 이미지 없이 인라인 SVG라 오프라인·캐시·경로 문제에서 자유롭다. */
