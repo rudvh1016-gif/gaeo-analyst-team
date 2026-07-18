@@ -15,66 +15,55 @@
   // 사이트 테마(다크 터미널이 기본). 첫 페인트 전에 클래스를 붙여 번쩍임(FOUC)을 막는다.
   // localStorage 'gaeo_theme' = 'dark' | 'light'  (☀️/🌙 캔버스 낮밤 버튼과는 별개)
   try{
-    if((localStorage.getItem('gaeo_theme')||'dark')==='dark')
+    if(localStorage.getItem('gaeo_theme')==='dark')
       document.documentElement.classList.add('gdark');
-  }catch(e){ document.documentElement.classList.add('gdark'); }
+  }catch(e){}
 </script>
 <title>Gaeo · 홈오피스</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root{
-    --navy:#0B4171; --navy-deep:#082F52; --navy-soft:#EAF2F9;
-    --sky:#0EA5E9; --sky-soft:#E0F2FE; --sky-line:#BAE6FD;
-    --bg:#F8FAFC; --paper:#FFFFFF; --paper2:#F1F5F9; --ink:#0F172A;
-    --line:#E2E8F0; --line2:#CBD5E1; --dim:#64748B; --faint:#94A3B8;
-    --t2:#334155; --t3:#475569;
+    /* 🍎 애플 감성 라이트(기본): 거의 흑백 + 애플 블루 단일 액센트, 부드러운 확산 그림자 */
+    --navy:#1D1D1F; --navy-deep:#1D1D1F; --navy-soft:#F5F5F7;
+    --sky:#0071E3; --sky-soft:#F0F6FF; --sky-line:#C9DFF8;
+    --bg:#F5F5F7; --paper:#FFFFFF; --paper2:#F5F5F7; --ink:#1D1D1F;
+    --line:#E8E8ED; --line2:#D2D2D7; --dim:#6E6E73; --faint:#86868B;
+    --t2:#3A3A3C; --t3:#515154;
     --gold:var(--sky); --gold-deep:var(--navy);
-    --green:#059669; --red:#DC2626; --amber:#D97706;
+    --green:#059669; --red:#DC2626; --amber:#C77700;
     --sans:'Pretendard Variable',Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     --serif:var(--sans);
     --mono:var(--sans);
-    --shadow:0 1px 3px 0 rgba(0,0,0,.05),0 10px 30px -14px rgba(11,65,113,.10);
-    --shadow-sm:0 1px 3px 0 rgba(0,0,0,.05);
-    --num:'JetBrains Mono','SF Mono',ui-monospace,'Roboto Mono','Segoe UI Mono',Consolas,monospace;
+    --shadow:0 2px 8px rgba(0,0,0,.04),0 12px 32px rgba(0,0,0,.06);
+    --shadow-sm:0 1px 4px rgba(0,0,0,.05);
+    --num:var(--sans);
   }
-  /* ══ 🖥️ 다크 터미널 테마 (기본) — html.gdark 가 변수 세트를 통째로 교체 ══
-     · 카드 그림자 대신 1px 헤어라인(그림자 변수에 인셋 링을 심음) — 터미널 질감의 핵심
-     · --navy는 "글자용 액센트"로 밝게 뒤집고, --navy를 배경으로 쓰던 요소는 아래에서 개별 재지정 */
+  /* ══ 🍎 애플 다크(토글) — html.gdark 가 변수 세트를 통째로 교체 (iOS 다크 팔레트) ══ */
   html.gdark{
-    --navy:#A8D4FF; --navy-deep:#0A2A44; --navy-soft:#152B42;
-    --sky:#4CC5FA; --sky-soft:#12304C; --sky-line:#25567E;
-    --bg:#0B0F15; --paper:#131A25; --paper2:#1C2534; --ink:#F3F7FB;
-    --line:#26303F; --line2:#364354; --dim:#AEBACA; --faint:#7C8A9C;
-    --green:#3EE0A5; --red:#FB8C8C; --amber:#FCC940;
-    --t2:#E2E8F0; --t3:#CBD5E2;
-    --shadow:0 0 0 1px #1E2836,0 14px 34px -18px rgba(0,0,0,.65);
-    --shadow-sm:0 0 0 1px #1E2836;
+    --navy:#F5F5F7; --navy-deep:#1C1C1E; --navy-soft:#2C2C2E;
+    --sky:#0A84FF; --sky-soft:#15263C; --sky-line:#2A4A70;
+    --bg:#000000; --paper:#1C1C1E; --paper2:#2C2C2E; --ink:#F5F5F7;
+    --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#6E6E76;
+    --green:#30D158; --red:#FF6B66; --amber:#FFCF3F;
+    --t2:#E8E8ED; --t3:#C7C7CC;
+    --shadow:0 2px 8px rgba(0,0,0,.45),0 12px 32px rgba(0,0,0,.5);
+    --shadow-sm:0 1px 4px rgba(0,0,0,.45);
   }
-  html.gdark body{
-    background:#0B0F15;
-    /* 아주 옅은 터미널 그리드 — 배경에만, 콘텐츠 위엔 안 얹힘 */
-    background-image:linear-gradient(rgba(143,198,245,.022) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(143,198,245,.022) 1px,transparent 1px);
-    background-size:34px 34px;
-  }
-  /* --navy를 '배경'으로 쓰던 요소들 — 다크에선 깊은 청색으로 고정(밝아진 --navy 오염 방지) */
-  html.gdark .controls button,html.gdark .cmp-controls button{
-    background:linear-gradient(180deg,#0F4C80,#0A3560);box-shadow:0 0 0 1px #1E5E93,0 4px 16px -6px rgba(56,189,248,.35)}
-  html.gdark .modebtn.on{background:#0F2740;color:#9ED1FF;box-shadow:inset 0 0 0 1px #1E5E93}
-  html.gdark .pf-guide,html.gdark .nw-hero,html.gdark .gb-hero{
-    background:linear-gradient(135deg,#0E3A62,#155a8a)}
+  html.gdark body{background:#000}
+  /* --navy를 '배경'으로 쓰던 요소들 — 다크에선 중립 회색/블루로 개별 재지정 */
+  html.gdark .controls button,html.gdark .cmp-controls button{background:#0A84FF;box-shadow:none}
+  html.gdark .modes{background:#2C2C2E}
+  html.gdark .modebtn.on{background:#48484A;color:#F5F5F7;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+  html.gdark .pf-guide,html.gdark .nw-hero,html.gdark .gb-hero{background:#2C2C2E}
   html.gdark .lb-mvp-tag,html.gdark .pwm-ok,html.gdark .tv-pos,html.gdark .nw-pg.on{
-    background:#0F4C80;border-color:#1E5E93}
-  html.gdark .nw-pg.on{color:#CFE8FF}
+    background:#48484A;border-color:#48484A}
+  html.gdark .nw-pg.on{color:#F5F5F7}
   /* 파스텔 알약(라이트 전용 hex) → 다크용 저채도 틴트로 */
   html.gdark .stance.bull{background:rgba(52,211,153,.13);color:var(--green)}
   html.gdark .stance.bear{background:rgba(248,113,113,.13);color:var(--red)}
   html.gdark .tier-auto{background:rgba(251,191,36,.14);color:#FCD34D;border-color:rgba(251,191,36,.35)}
   html.gdark .gb-warn{background:#211B0E;border-color:#4A3A14;color:#F5D98B}
-  /* 판정 배지 네온 — BUY/HOLD/SELL이 어둠 속에서 발광 */
-  html.gdark #vcall.buy,html.gdark .rr-call{text-shadow:none}
-  html.gdark #vcall{box-shadow:0 0 18px -4px currentColor}
   /* 라이트 전용 파스텔(시장 무드·집계 알약·BUY 칩) → 다크 저채도 틴트 */
   html.gdark .mood-crash,html.gdark .mood-down{background:rgba(248,113,113,.12);color:#FCA5A5}
   html.gdark .mood-up,html.gdark .mood-surge{background:rgba(52,211,153,.12);color:#6EE7B7}
@@ -87,11 +76,10 @@
   html.gdark .veasy{color:#E4EEF9}
   html.gdark .anote{background:#211B0E;border-color:#4A3A14;color:#EBD9A8}
   html.gdark .anote b{color:#FCD34D} html.gdark .anote .an-t{color:#FBBF24}
-  /* 시세 티커·헤더 워드마크 */
-  html.gdark .tape{box-shadow:0 0 0 1px #1E2836;background:linear-gradient(180deg,#0A2A44,#081F33)}
+  /* 시세 티커(양 테마 공통 카드형) · 숫자는 본문 서체 + 탭ular 정렬 */
+  html.gdark .tape{background:#1C1C1E}
   .tape,.qprice,.card .score,.kpi b,.rr-total{font-family:var(--num);letter-spacing:-.01em}
-  html.gdark h1#siteTitle{letter-spacing:.14em;text-transform:uppercase;
-    background:linear-gradient(90deg,#E7EDF4,#8FC6F5);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h1#siteTitle{letter-spacing:-.02em}
   /* 테마 토글(우상단) */
   .theme-toggle{border:none;background:var(--paper);color:var(--dim);cursor:pointer;
     border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;box-shadow:var(--shadow-sm);
@@ -103,7 +91,7 @@
     -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
     background:var(--bg);line-height:1.5;word-break:keep-all}
   .wrap{max-width:1020px;margin:0 auto;padding:26px 22px 80px;}
-  ::selection{background:rgba(14,165,233,.18)}
+  ::selection{background:rgba(0,113,227,.16)}
 
   /* ── 최상단 바(조회수) ── */
   .topbar{display:flex;justify-content:flex-end;margin:0 0 8px}
@@ -115,11 +103,11 @@
 
   /* ── 시세 티커 ── */
   .tape{overflow:hidden;white-space:nowrap;
-    background:linear-gradient(180deg,var(--navy-deep),#062440);border-radius:12px;
+    background:var(--paper);border-radius:14px;
     padding:10px 0;font-size:12.5px;letter-spacing:.02em;
-    color:#DCE8F4;box-shadow:var(--shadow-sm)}
+    color:var(--t2);box-shadow:var(--shadow-sm)}
   .tape .run{display:inline-block;padding-left:100%;animation:scroll 30s linear infinite}
-  .tape .up{color:#6EE7B7} .tape .down{color:#FCA5A5}
+  .tape .up{color:var(--green)} .tape .down{color:var(--red)}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
   /* ── 헤더 ── */
@@ -193,7 +181,7 @@
   .controls input::placeholder{color:var(--faint)}
   .controls input:focus{border-color:var(--sky);
     box-shadow:0 0 0 3px rgba(14,165,233,.14),var(--shadow-sm)}
-  .controls button{background:linear-gradient(180deg,#125388,var(--navy));border:none;
+  .controls button{background:var(--sky);border:none;border-radius:980px;
     color:#fff;font-weight:700;padding:13px 26px;border-radius:12px;cursor:pointer;font-size:15px;font-family:inherit;
     letter-spacing:.01em;box-shadow:0 2px 10px -2px rgba(11,65,113,.35);
     transition:transform .12s,filter .2s}
@@ -300,7 +288,7 @@
 
   /* ── 애널리스트 카드 ── */
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
-  .card{background:var(--paper);border:none;border-radius:14px;padding:20px 20px 22px;
+  .card{background:var(--paper);border:none;border-radius:18px;padding:20px 20px 22px;
     box-shadow:var(--shadow-sm);opacity:.4;transition:opacity .45s,transform .45s;transform:translateY(10px)}
   .card.on{opacity:1;transform:none}
   .card h3{margin:0 0 3px;font-size:15px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:7px 6px}
@@ -352,19 +340,19 @@
   .gauge .gnum{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--navy)}
 
   /* ── 모드 토글 + 종목 비교 ── */
-  .modes{display:inline-flex;background:var(--paper2);border:none;
+  .modes{display:inline-flex;background:#E9E9EE;border:none;
     border-radius:13px;padding:4px;gap:3px;margin:0 0 16px}
   .mi{width:14px;height:14px;vertical-align:-2px;margin-right:6px;
     fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
   .modebtn{border:none;background:transparent;color:var(--dim);font:inherit;font-size:13.5px;
     font-weight:600;padding:9px 18px;border-radius:10px;cursor:pointer;transition:color .2s,background .2s}
   .modebtn:not(.on):hover{color:var(--navy)}
-  .modebtn.on{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(11,65,113,.25)}
+  .modebtn.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
   /* 📖 가이드북 강조 — 하늘색 작은 별표 */
   .modebtn-guide{color:var(--sky);font-weight:800;white-space:nowrap}
-  .modebtn-guide.on{background:var(--sky);color:#fff}
+  .modebtn-guide.on{background:var(--paper);color:var(--sky)}
   .gb-star{color:var(--sky);font-size:14px;vertical-align:-1px;margin-right:4px}
-  .modebtn-guide.on .gb-star{color:#fff}
+  .modebtn-guide.on .gb-star{color:var(--sky)}
   .cmp-controls{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
   .cmp-controls .ac-wrap{flex:1;min-width:150px}
   .cmp-controls input{width:100%;background:var(--paper);border:1px solid transparent;
@@ -373,7 +361,7 @@
   .cmp-controls input::placeholder{color:var(--faint)}
   .cmp-controls input:focus{border-color:var(--sky)}
   .cmp-controls .vs{font-weight:800;color:var(--sky);font-size:14px}
-  .cmp-controls button{background:linear-gradient(180deg,#125388,var(--navy));border:none;
+  .cmp-controls button{background:var(--sky);border:none;border-radius:980px;
     color:#fff;font-weight:700;padding:12px 24px;border-radius:12px;cursor:pointer;font-size:15px;font-family:inherit;
     box-shadow:0 2px 10px -2px rgba(11,65,113,.35)}
   .compare{display:none;margin-top:18px;background:var(--paper);border:none;
@@ -917,7 +905,7 @@
   .ab-status{font-size:11.5px;margin-top:8px;color:#A7E3B8;line-height:1.5;word-break:break-all}
 
   /* ── 코스피/코스닥 + 시장 분석 ── */
-  .market{background:var(--paper);border-radius:14px;padding:15px 18px;margin:0 0 14px;
+  .market{background:var(--paper);border-radius:18px;padding:15px 18px;margin:0 0 14px;
     box-shadow:var(--shadow-sm)}
   .mk-strip{display:flex;gap:8px 24px;flex-wrap:wrap;font-size:14px;align-items:baseline}
   .mk-idx b{color:var(--navy);font-weight:800;font-size:13px;margin-right:6px}
