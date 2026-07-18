@@ -1,12 +1,23 @@
 ---
 name: 종목분석 스킬
-description: 개오 애널리스트팀(~/ai-analyst-team) 주식 분석 갱신. tickers.js의 종목을 팀 5인 관점(기술·재무·뉴스·수급·종합)으로 분석해 analysis.js를 다시 쓰고 history.js에 기록한다. "종목 분석해줘 / analysis.js 갱신 / 개오 팀 재분석 / ○○종목만 분석 / 시세 반영해서 다시 분석" 요청 시 사용.
+description: 개오 애널리스트팀(저장소 루트) 주식 정밀분석 갱신. 정밀분석 대상 종목(analysis.js의 13개 안팎)을 팀 5인 관점(기술·재무·뉴스·수급·종합)으로 분석해 analysis.js를 다시 쓰고 history.js에 기록한다. "종목 분석해줘 / analysis.js 갱신 / 개오 팀 재분석 / ○○종목만 분석 / 시세 반영해서 다시 분석" 요청 시 사용.
 ---
 
 # 개오 애널리스트팀 — 종목 분석 갱신
 
-너는 "개오 애널리스트팀"의 총괄이다. `~/ai-analyst-team` 폴더에서 작업한다(모든 경로는 이 폴더 기준).
+너는 "개오 애널리스트팀"의 총괄이다. **저장소 루트에서 작업한다**(원격 세션은 보통
+`/home/user/gaeo-analyst-team` — `git rev-parse --show-toplevel`로 확인. 모든 경로는 이 폴더 기준).
 이 작업은 데이터 수집+정형화가 대부분이라 **Sonnet 실행에 적합**하다.
+
+## 🎯 범위 먼저 정하기 — 전 종목 정밀분석 금지
+
+- tickers.js는 **500종목**이지만 정밀분석(analysis.js) 대상은 **현재 analysis.js에 이미 있는 종목(13개 안팎)뿐**이다.
+  "전부 분석해줘"라는 요청도 **정밀분석은 기존 목록 유지**가 기본 — 500종목 정밀분석을 시도하면 토큰이 폭발한다.
+  나머지 487종목은 러너의 자동분석(auto_analysis.js)이 30분마다 알아서 갱신한다.
+- 새 종목을 정밀분석 목록에 **추가**하는 것은 사용자가 종목명을 콕 집어 요청했을 때만.
+- 화면 표시 규칙(precisionFresh): 정밀분석은 **재분석한 그날 + 시세 ±3% 이내**일 때만 화면에 우선 표시되고,
+  다음 날부터는 자동분석이 대신 뜬다. 즉 "오늘 재분석 → 오늘 하루 정밀 표시"가 정상 동작이다
+  (다음 날 자동분석으로 바뀌는 건 버그가 아니다 — 사용자 문의 시 이렇게 설명).
 
 ## ⛔ 철칙 — 기준가(base) 무결성 (가장 중요)
 
@@ -118,11 +129,31 @@ const LIVE_ANALYSIS = {
 
 ## 4단계 — 검증 (필수, 생략 금지)
 
-python3로 실제 확인:
-1. analysis.js 주석 제거 후 JSON 파싱 성공?
-2. TICKERS의 **모든 종목 포함**? 각 분석가 findings 4개씩?
-3. **종목별 base == data.js의 price** 전부 일치? ← 오늘 사고 재발 방지 핵심
-4. archive 실행 후 history.js 파싱 성공?
+아래 스니펫을 **그대로 실행**해서 확인한다(눈 검증 금지 — 실제 실행 결과로만 판정):
+
+```bash
+node -e "
+const fs=require('fs');
+const AN=new Function(fs.readFileSync('analysis.js','utf8')+';return LIVE_ANALYSIS;')();
+const DT=new Function(fs.readFileSync('data.js','utf8')+';return LIVE_DATA;')();
+let bad=0;
+for(const [code,b] of Object.entries(AN)){
+  if(code==='date'||code==='market') continue;
+  const p=DT.stocks[code]&&DT.stocks[code].price;
+  if(b.base!==p){ console.log('base 불일치',code,b.base,'!=',p); bad++; }
+  for(const a of ['taro','diana','nova','flow'])
+    if(!b[a]||!Array.isArray(b[a].findings)||b[a].findings.length!==4){ console.log('findings 이상',code,a); bad++; }
+  if(!/\d{2}:\d{2}/.test(b.updated||'')){ console.log('updated에 HH:MM 없음',code); bad++; }
+}
+console.log(bad? '❌ '+bad+'건 수정 필요':'✅ base·findings·updated 전부 정상 ('+(Object.keys(AN).length-2)+'종목)');
+"
+```
+
+1. 위 스니펫 ✅ (base ≡ data.js price / findings 4개 / updated HH:MM) — **하나라도 ❌면 고치고 재실행.**
+2. `python3 archive_analysis.py` 실행 후 history.js가 `node -e "new Function(...+';return LIVE_HISTORY;')()"`로 파싱 성공?
+3. (화면 확인까지 요청받았으면) Playwright: chromium 실행파일 `/opt/pw-browsers/chromium`,
+   `NODE_PATH=/opt/node22/lib/node_modules`로 `require('playwright')`. 로컬 서버는
+   `(python3 -m http.server <새 포트> &>/dev/null &)` 서브셸 백그라운드 + **매번 새 포트**(재사용하면 죽은 서버에 붙는 사고 잦음).
 불일치 발견 시 고치고 재검증한 뒤에만 완료를 선언한다.
 
 ## 완료 보고

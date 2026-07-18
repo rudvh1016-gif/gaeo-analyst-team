@@ -1,6 +1,6 @@
 # 개오 애널리스트팀 — 분석용 데이터 자동 수집 (자가 반복 + 자기 재기동 체인)
 # 구조는 update-prices.yml과 동일한 설계(그쪽 주석 참조):
-#   자가 반복(30분 주기, 마감 15:45까지) + 종료 시 자기 재기동 체인(장외엔 320분 잠들며 유지)
+#   자가 반복(30분 주기, 16:05 KST까지 — 종가·마감 수급 확정분 포함) + 종료 시 자기 재기동 체인(장외엔 320분 잠들며 유지)
 #   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
 # 생성물: price_history.js · analysis_data.json · indicators.json · indicators.js ·
 #         auto_analysis.js · guestbook_backup.json · krx_list.json
@@ -14,8 +14,9 @@ on:
       - ".github/workflows/update-analysis.yml"
   schedule:
     # 개장 직후 기동 시도(누락 대비) + 낮 동안 재기동 안전망(best-effort)
+    # 1-6 UTC = 10~15시 KST 매시 :08/:38 — 수집 창(~16:05 KST) 끝까지 커버
     - cron: "1-31/3 0 * * 1-5"
-    - cron: "8,38 1-5 * * 1-5"
+    - cron: "8,38 1-6 * * 1-5"
 
 permissions:
   contents: write
@@ -75,7 +76,7 @@ jobs:
 
           # ---------- 시간대 판정 ----------
           now=$(date +%s); dow=$(date +%u)
-          open=$(date -d "08:58" +%s); close=$(date -d "15:45" +%s)
+          open=$(date -d "08:58" +%s); close=$(date -d "16:05" +%s)
           if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
             echo "장중 기동 — 바로 수집 시작"
           elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
@@ -139,7 +140,7 @@ jobs:
             fi
             now=$(date +%s)
             if [ "$now" -ge "$end" ]; then
-              echo "장 마감(15:45 KST)/상한 도달 — 루프 종료 후 체인 재기동"
+              echo "수집 창 종료(16:05 KST)/상한 도달 — 루프 종료 후 체인 재기동"
               break
             fi
             # 주기 기반 대기: 이번 사이클 소요만큼 빼서 시작-시작 간격을 30분으로 유지.

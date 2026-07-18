@@ -4,8 +4,8 @@ AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW
 한국 주식을 분석하는 단일 페이지 대시보드. 6번째 카드 🛡️ RISK(리스크 관리)는 규칙 기반
 정보 전용(토큰 0) — compute_indicators.py가 계산한 risk(vol20·mdd3m·pos52w·grade)를
 index.html renderRiskCard()가 그대로 그리며, CHIEF 종합·적중률 기록에는 개입하지 않는다. 순수 정적 사이트(빌드 없음).
-종목은 tickers.js 단일 소스(현재 119종목). 소수 핵심은 🧠 정밀분석(Claude), 나머지는
-🤖 자동분석(analyze_auto.py·러너·토큰 0). 표시 우선순위: 정밀분석이 **당일(자동분석 생성일과 같은 날) 재분석됐고 시세도 ±3% 이내**일 때만 정밀 우선, 그 외엔 매일 갱신되는 자동분석을 표시(precisionFresh: 시간+가격 두 조건). 즉 정밀은 그날 직접 재분석한 날만 뜨고 이후엔 500종목 모두 자동분석.
+종목은 tickers.js 단일 소스(**현재 500종목**). 소수 핵심(현재 13종목, analysis.js에 있는 종목)은
+🧠 정밀분석(Claude), 나머지는 🤖 자동분석(analyze_auto.py·러너·토큰 0). 표시 우선순위: 정밀분석이 **당일(자동분석 생성일과 같은 날) 재분석됐고 시세도 ±3% 이내**일 때만 정밀 우선, 그 외엔 매일 갱신되는 자동분석을 표시(precisionFresh: 시간+가격 두 조건). 즉 정밀은 그날 직접 재분석한 날만 뜨고 이후엔 500종목 모두 자동분석.
 🌐 MACRO 시장국면 판독(토큰 0, 카드가 아닌 로직 레이어)도 있다 — index.html의 `MACRO_REGIME`
 (market_history.js 최근 10거래일 코스피 rate 표준편차)이 "변동성 확대"면 `decide()`가
 CHIEF 확신도(conf) 표시만 낮춘다(BUY/HOLD/SELL 판단·history.js 채점 기록은 불변).
@@ -22,12 +22,14 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 
 | 파일 | 역할 | 수정 주체 |
 |---|---|---|
-| index.html | 화면 전부(CSS+JS 인라인, ~3500줄) | Claude가 직접 편집 |
-| tickers.js | 종목 목록 단일 소스(13종목) | 사람/Claude |
+| index.html | 화면 전부(CSS+JS 인라인, ~5000줄) | Claude가 직접 편집 |
+| tickers.js | 종목 목록 단일 소스(500종목, code·name·sector) | 사람/Claude |
 | data.js | 현재가·PER 등 시세 스냅샷 | update_prices.py (자동) |
-| analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, Claude 직접) | Claude가 재분석 시 Write |
+| analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, 13종목+date/market 키, Claude 직접) | Claude가 재분석 시 Write — **절차는 `.claude/skills/종목분석 스킬/SKILL.md` 필독** |
 | auto_analysis.js | 5인 **자동분석**(LIVE_AUTO, 규칙 기반) | analyze_auto.py (자동) |
 | news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude — **절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 필독** |
+| stock_study.js | 📚 종목공부(STOCK_STUDY, 회사별 소개 프로필) | Claude |
+| stock_lessons.js | 🎓 주식공부(STOCK_LESSONS, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | Claude |
 | history.js | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, tier:"auto" 표식·정밀 우선·HIST_CAP=80) | **archive_analysis.py만** — 직접 편집 금지. 러너가 `--auto`로 매 사이클 호출 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
@@ -35,17 +37,24 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | indicators.json | 사전계산 지표(분석 시 토큰 절약용) | compute_indicators.py |
 | indicators.js | ↑의 브라우저 축약본(TARO 미니차트가 읽음) | compute_indicators.py |
 
-## 데이터 파이프라인 (GitHub Actions `update-prices`)
+## 데이터 파이프라인 (GitHub Actions 러너 2개)
 
-- 이 원격 세션에서는 네이버 금융이 403으로 막힌다. **`.analyst-refresh` 파일 내용을 바꿔 커밋·푸시**하면
-  Actions 러너가 수집을 대신 실행해 data.js/price_history.js/analysis_data.json/indicators.json/indicators.js를
-  커밋한다(1~2분 뒤 pull). 평일 장중엔 10분 간격 자동 실행.
+- **update-prices.yml** — 평일 09:00~16:00 KST, **10분마다** data.js(시세·지수·환율) 커밋.
+- **update-analysis.yml** — 같은 시간대, **30분마다** price_history.js·analysis_data.json·indicators.json/js·
+  auto_analysis.js 갱신 + `archive_analysis.py --auto`로 500종목 판단을 history.js에 하루 1건씩 누적.
+- 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조(GitHub cron이 이 저장소에서 불안정해서).
+  안전망 5중: ①자가 루프 ②체인 재기동 ③push 마커(.analyst-refresh) ④cron(best-effort) ⑤클로드 Routine
+  "gaeo 장중 매시 kickoff 안전망"(평일 매시, data.js 커밋이 25분 이상 끊기면 마커 push로 소생).
+- 이 원격 세션에서는 네이버 금융이 403으로 막힌다. 수동 수집이 필요하면 **`.analyst-refresh` 내용을 바꿔
+  커밋·푸시**(러너가 대신 수집, 1~2분 뒤 pull). SessionStart 훅(`check_pipeline.py`)이 세션 시작 때
+  파이프라인 신선도를 자동 점검해 경고를 띄운다.
 - 재분석 절차는 `.claude/skills/종목분석 스킬/SKILL.md` 참조. **base ≡ data.js price 무결성이 최우선 철칙.**
 
 ## index.html 구조 (2026-07-11 대개편 반영)
 
 - 반응형 3단계: **모바일(<1180px, 세로 플로우)** → **데스크톱(≥1180px, `.layout` 그리드: 사이드바 324px + 본문)**
-  → **초와이드(≥1600px, 우측 레일 `#railR` 추가: 다가오는 일정 + 최근 팀 판단)**.
+  → **초와이드(≥1600px, 우측 레일 `#railR` 추가: 다가오는 일정 + 최근 팀 판단 —
+  최근 팀 판단은 `MEGA_CAP` 화이트리스트(코스피 초대형 우량주 45종목)만, 종목당 최신 1건).
 - 사이드바(`.rail`): 모드 토글(2열)·검색·업종 폴더. 폴더는 24개(통합 업종)라 **전부 기본 접힘**(첫 화면 빈 상태) + 아코디언(하나 열면 나머지 닫힘),
   <1180px에선 폴더 2열 그리드·열린 폴더만 전체 폭(칩도 2열 압축). 검색 자동완성(makeAutocomplete)은
   단일분석·종목비교 A/B가 공유. 📖 가이드북 탭(renderGuide)은 초보용 사용법+단어장.
