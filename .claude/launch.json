@@ -4,7 +4,7 @@
     {
       "name": "analyst-home",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8734", "--directory", "/Users/kyho/ai-analyst-team"],
+      "runtimeArgs": ["-m", "http.server", "8734", "--directory", "."],
       "port": 8734
     }
   ]
