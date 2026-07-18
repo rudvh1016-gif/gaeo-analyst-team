@@ -1088,11 +1088,14 @@
   .cards.busy .card:not(.on) .stance{animation:skBlink 1.3s ease-in-out infinite}
   .cards.busy .card:not(.on) .score{color:var(--faint)!important}
 
-  /* 접근성: 모션 최소화 설정 존중 */
+  /* 접근성: 모션 최소화 설정 존중 (장식용 애니메이션만 끔) */
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;
       transition-duration:.001s!important}
-    .tape .run{animation:none;padding-left:0}
+    /* 시세 테이프는 장식이 아니라 정보 전달용 — 멈추면 뒷종목을 영영 볼 수 없어
+       (iOS '동작 줄이기' 켠 사용자에게 "티커가 고장났다"로 보인 실사례)
+       끄는 대신 평소의 절반쯤 속도로 '천천히' 흐르게만 완화한다. */
+    .tape .run{animation:scroll 150s linear infinite!important}
   }
 
   /* ── 데스크톱 와이드(≥1180px): 사이드바(모드·검색·종목폴더) + 메인 대시보드 ──
@@ -4675,6 +4678,12 @@ window.hangulFix=function(str){
     }catch(e){}
     gbRefresh();
   };
+  // 🔄 자동 새로고침 — 커뮤니티 탭이 열려 있는 동안 30초마다 다른 방문자의 새 글을 끌어온다.
+  //    (모든 방문자가 같은 kvdb 버킷을 읽으므로, 누가 올리든 새로고침 없이도 곧 보인다)
+  const gbVisible=()=>{ const v=document.getElementById('communityView');
+    return v && v.style.display!=='none' && v.offsetParent!==null && !document.hidden; };
+  setInterval(()=>{ if(gbVisible()) gbRefresh(); }, 30000);
+  document.addEventListener('visibilitychange',()=>{ if(gbVisible()) gbRefresh(); });
 })();
 
 /* ============================================================
