@@ -1323,6 +1323,14 @@
 // ---------- 시세: 종목 목록은 tickers.js(단일 소스), 값은 data.js에서 채운다 ----------
 let SNAP_DATE='시세 없음';
 const STOCKS={};
+// 코스피 초대형 우량주(시총 상위권) 화이트리스트 — 시세 티커·우측 레일 "최근 팀 판단"이 공유해서 쓴다.
+// 500종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어지고(레일) 너무 빨리 흘러 못 읽는다(티커).
+const MEGA_CAP=new Set([
+  '005930','000660','373220','207940','005380','000270','068270','105560','055550',
+  '005490','035420','012330','006400','051910','035720','028260','086790','032830',
+  '138040','329180','012450','066570','009150','033780','316140','011200','003670',
+  '086280','000810','034020','402340','017670','042660','009540','015760','010130',
+  '010140','024110','018260','003550','030200','259960','323410','307950','247540']);
 // 1) 종목 골격: tickers.js → 없으면 data.js의 종목에서 유추(이중 안전망)
 (function(){
   let src=[];
@@ -3855,14 +3863,13 @@ function renderGuide(){
     sec.appendChild(head); sec.appendChild(body); wrap.appendChild(sec);
   });
 })();
-// 시세 테이프 — 대형 우량주(시가총액 상위) 위주로, 사람이 읽을 수 있는 속도로 흐르게
+// 시세 테이프 — 코스피 초대형 우량주(MEGA_CAP)만, 정상 속도로 흐르게
 (function(){
   const capNum=s=>{ const m=String(s||'').match(/[\d,.]+/); return m?parseFloat(m[0].replace(/,/g,'')):0; }; // "1,634조"→1634
-  const TAPE_N=40; // 시가총액 상위 40종목만 노출(500종목 전부 흘리면 너무 빨라 못 읽음)
-  const picks=Object.values(STOCKS)
-    .filter(d=>typeof d.price==='number')
-    .sort((a,b)=>capNum(b.cap)-capNum(a.cap))
-    .slice(0,TAPE_N);
+  const picks=Object.entries(STOCKS)
+    .filter(([code,d])=>MEGA_CAP.has(code) && typeof d.price==='number')
+    .map(([,d])=>d)
+    .sort((a,b)=>capNum(b.cap)-capNum(a.cap));
   const html=picks.map(d=>{
     const up=d.rate>0;
     return `${d.name}${d.stale?' ⚠️':''} ${d.price.toLocaleString()} <span class="${up?'up':'down'}">${up?'+':''}${(d.rate||0).toFixed(2)}%</span>`;
@@ -3870,11 +3877,10 @@ function renderGuide(){
   const tapeEl=document.getElementById('tape');
   tapeEl.innerHTML=html+'   ·   '+html;
   // 종목 수와 무관하게 항상 같은 '읽기 속도'(초당 픽셀)로 흐르도록 duration을 내용 폭에 맞춰 계산.
-  // (고정 30초로 두면 종목이 많을수록 개별 문구가 빨리 지나가 못 읽는 문제가 있었음)
   requestAnimationFrame(()=>{
     const halfWidth=tapeEl.scrollWidth/2; // innerHTML이 html+html로 두 벌이라 절반이 한 바퀴 길이
-    const PX_PER_SEC=45; // 낮을수록 느림(읽기 편함)
-    const dur=Math.max(20, halfWidth/PX_PER_SEC);
+    const PX_PER_SEC=90; // 종목을 45개(500)→45종목(MEGA_CAP)로 줄인 만큼 체감 속도를 정상으로 올림
+    const dur=Math.max(14, halfWidth/PX_PER_SEC);
     tapeEl.style.animationDuration=dur.toFixed(1)+'s';
   });
 })();
@@ -3938,15 +3944,8 @@ makeCards(false);
       `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
   }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
 
-  // ② 최근 팀 판단 — history.js에서 "초대형 우량주"만 골라 시간 역순으로.
+  // ② 최근 팀 판단 — history.js에서 "초대형 우량주"만 골라 시간 역순으로(전역 MEGA_CAP 공유).
   //    500종목 전부를 섞으면 낯선 중소형주가 앞자리를 채워 한눈에 신뢰가 안 간다.
-  //    그래서 코스피 시가총액 상위권(삼성전자·하이닉스·금융지주·2차전지 대장 등)만 노출한다.
-  const MEGA_CAP=new Set([
-    '005930','000660','373220','207940','005380','000270','068270','105560','055550',
-    '005490','035420','012330','006400','051910','035720','028260','086790','032830',
-    '138040','329180','012450','066570','009150','033780','316140','011200','003670',
-    '086280','000810','034020','402340','017670','042660','009540','015760','010130',
-    '010140','024110','018260','003550','030200','259960','323410','307950','247540']);
   let recs=[];
   if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
     if(!MEGA_CAP.has(code)) continue;               // 초대형 우량주만
