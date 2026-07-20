@@ -96,7 +96,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 77100
+     "close": 78300
     }
    ],
    "start": "2026-07-15",
@@ -198,7 +198,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 243000
+     "close": 247250
     }
    ],
    "start": "2026-07-15",
@@ -300,7 +300,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 1774000
+     "close": 1804000
     }
    ],
    "start": "2026-07-15",
@@ -402,7 +402,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 1183000
+     "close": 1207000
     }
    ],
    "start": "2026-07-15",
@@ -504,7 +504,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 1259000
+     "close": 1292000
     }
    ],
    "start": "2026-07-15",
@@ -606,7 +606,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 446000
+     "close": 453500
     }
    ],
    "start": "2026-07-15",
@@ -708,7 +708,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 603000
+     "close": 613000
     }
    ],
    "start": "2026-07-15",
@@ -810,7 +810,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 748000
+     "close": 759000
     }
    ],
    "start": "2026-07-15",
@@ -912,7 +912,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 396500
+     "close": 400500
     }
    ],
    "start": "2026-07-15",
@@ -1010,7 +1010,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 180100
+     "close": 183300
     }
    ],
    "start": "2026-07-16",
@@ -1108,7 +1108,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 218500
+     "close": 224000
     }
    ],
    "start": "2026-07-16",
@@ -1206,7 +1206,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 85000
+     "close": 86300
     }
    ],
    "start": "2026-07-16",
@@ -1304,7 +1304,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 84200
+     "close": 85500
     }
    ],
    "start": "2026-07-16",
@@ -1398,7 +1398,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 185800
+     "close": 187200
     }
    ],
    "start": "2026-07-20",
@@ -1492,7 +1492,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34800
+     "close": 35000
     }
    ],
    "start": "2026-07-20",
@@ -1586,7 +1586,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 138600
+     "close": 139900
     }
    ],
    "start": "2026-07-20",
@@ -1680,7 +1680,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 166600
+     "close": 168000
     }
    ],
    "start": "2026-07-20",
@@ -1774,7 +1774,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 105100
+     "close": 106400
     }
    ],
    "start": "2026-07-20",
@@ -1868,7 +1868,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 321500
+     "close": 323000
     }
    ],
    "start": "2026-07-20",
@@ -1962,7 +1962,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 297500
+     "close": 304000
     }
    ],
    "start": "2026-07-20",
@@ -2056,7 +2056,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1345000
+     "close": 1359000
     }
    ],
    "start": "2026-07-20",
@@ -2150,7 +2150,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 316500
+     "close": 320500
     }
    ],
    "start": "2026-07-20",
@@ -2244,7 +2244,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 449500
+     "close": 454000
     }
    ],
    "start": "2026-07-20",
@@ -2338,7 +2338,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 100900
+     "close": 101500
     }
    ],
    "start": "2026-07-20",
@@ -2432,7 +2432,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 64100
+     "close": 65000
     }
    ],
    "start": "2026-07-20",
@@ -2526,7 +2526,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 881000
+     "close": 882000
     }
    ],
    "start": "2026-07-20",
@@ -2620,7 +2620,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 577000
+     "close": 590000
     }
    ],
    "start": "2026-07-20",
@@ -2714,7 +2714,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 469500
+     "close": 475500
     }
    ],
    "start": "2026-07-20",
@@ -2808,7 +2808,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 172100
+     "close": 173300
     }
    ],
    "start": "2026-07-20",
@@ -2902,7 +2902,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 130800
+     "close": 132400
     }
    ],
    "start": "2026-07-20",
@@ -2996,7 +2996,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 404000
+     "close": 409500
     }
    ],
    "start": "2026-07-20",
@@ -3090,7 +3090,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 169200
+     "close": 170500
     }
    ],
    "start": "2026-07-20",
@@ -3184,7 +3184,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 603000
+     "close": 614000
     }
    ],
    "start": "2026-07-20",
@@ -3278,7 +3278,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 2516000
+     "close": 2571500
     }
    ],
    "start": "2026-07-20",
@@ -3372,7 +3372,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 83600
+     "close": 84500
     }
    ],
    "start": "2026-07-20",
@@ -3466,7 +3466,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 301000
+     "close": 303500
     }
    ],
    "start": "2026-07-20",
@@ -3560,7 +3560,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 339000
+     "close": 343500
     }
    ],
    "start": "2026-07-20",
@@ -3654,7 +3654,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 37150
+     "close": 37550
     }
    ],
    "start": "2026-07-20",
@@ -3748,7 +3748,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32900
+     "close": 33050
     }
    ],
    "start": "2026-07-20",
@@ -3842,7 +3842,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 30350
+     "close": 30700
     }
    ],
    "start": "2026-07-20",
@@ -3936,7 +3936,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1110000
+     "close": 1129000
     }
    ],
    "start": "2026-07-20",
@@ -4030,7 +4030,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 950000
+     "close": 959000
     }
    ],
    "start": "2026-07-20",
@@ -4124,7 +4124,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 21100
+     "close": 21300
     }
    ],
    "start": "2026-07-20",
@@ -4218,7 +4218,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 147300
+     "close": 148100
     }
    ],
    "start": "2026-07-20",
@@ -4312,7 +4312,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 111400
+     "close": 113300
     }
    ],
    "start": "2026-07-20",
@@ -4406,7 +4406,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 254750
+     "close": 257500
     }
    ],
    "start": "2026-07-20",
@@ -4500,7 +4500,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20000
+     "close": 20200
     }
    ],
    "start": "2026-07-20",
@@ -4594,7 +4594,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 178000
+     "close": 179900
     }
    ],
    "start": "2026-07-20",
@@ -4688,7 +4688,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 119500
+     "close": 118900
     }
    ],
    "start": "2026-07-20",
@@ -4782,7 +4782,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20900
+     "close": 21050
     }
    ],
    "start": "2026-07-20",
@@ -4876,7 +4876,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 694000
+     "close": 703000
     }
    ],
    "start": "2026-07-20",
@@ -4970,7 +4970,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 193800
+     "close": 197000
     }
    ],
    "start": "2026-07-20",
@@ -5064,7 +5064,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 185100
+     "close": 186900
     }
    ],
    "start": "2026-07-20",
@@ -5158,7 +5158,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 94900
+     "close": 95700
     }
    ],
    "start": "2026-07-20",
@@ -5252,7 +5252,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 147400
+     "close": 147500
     }
    ],
    "start": "2026-07-20",
@@ -5346,7 +5346,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 187700
+     "close": 190200
     }
    ],
    "start": "2026-07-20",
@@ -5440,7 +5440,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 142750
+     "close": 146600
     }
    ],
    "start": "2026-07-20",
@@ -5534,7 +5534,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 365500
+     "close": 370000
     }
    ],
    "start": "2026-07-20",
@@ -5628,7 +5628,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 53000
+     "close": 53300
     }
    ],
    "start": "2026-07-20",
@@ -5722,7 +5722,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 60900
+     "close": 61700
     }
    ],
    "start": "2026-07-20",
@@ -5816,7 +5816,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 366000
+     "close": 370500
     }
    ],
    "start": "2026-07-20",
@@ -5910,7 +5910,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 91200
+     "close": 91700
     }
    ],
    "start": "2026-07-20",
@@ -6004,7 +6004,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29350
+     "close": 29850
     }
    ],
    "start": "2026-07-20",
@@ -6098,7 +6098,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 225000
+     "close": 226000
     }
    ],
    "start": "2026-07-20",
@@ -6192,7 +6192,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 22350
+     "close": 22450
     }
    ],
    "start": "2026-07-20",
@@ -6286,7 +6286,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 263000
+     "close": 267000
     }
    ],
    "start": "2026-07-20",
@@ -6380,7 +6380,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 158000
+     "close": 161000
     }
    ],
    "start": "2026-07-20",
@@ -6474,7 +6474,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 101700
+     "close": 103100
     }
    ],
    "start": "2026-07-20",
@@ -6568,7 +6568,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25150
+     "close": 25300
     }
    ],
    "start": "2026-07-20",
@@ -6662,7 +6662,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 202500
+     "close": 203000
     }
    ],
    "start": "2026-07-20",
@@ -6756,7 +6756,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 105900
+     "close": 107600
     }
    ],
    "start": "2026-07-20",
@@ -6850,7 +6850,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 68400
+     "close": 69800
     }
    ],
    "start": "2026-07-20",
@@ -6944,7 +6944,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 195600
+     "close": 199700
     }
    ],
    "start": "2026-07-20",
@@ -7038,7 +7038,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 302500
+     "close": 308000
     }
    ],
    "start": "2026-07-20",
@@ -7132,7 +7132,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 50600
+     "close": 50900
     }
    ],
    "start": "2026-07-20",
@@ -7226,7 +7226,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39300
+     "close": 39700
     }
    ],
    "start": "2026-07-20",
@@ -7320,7 +7320,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1050000
+     "close": 1064000
     }
    ],
    "start": "2026-07-20",
@@ -7414,7 +7414,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 84100
+     "close": 84900
     }
    ],
    "start": "2026-07-20",
@@ -7508,7 +7508,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 117200
+     "close": 117800
     }
    ],
    "start": "2026-07-20",
@@ -7602,7 +7602,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 77500
+     "close": 78100
     }
    ],
    "start": "2026-07-20",
@@ -7696,7 +7696,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 92700
+     "close": 93200
     }
    ],
    "start": "2026-07-20",
@@ -7790,7 +7790,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14350
+     "close": 14530
     }
    ],
    "start": "2026-07-20",
@@ -7884,7 +7884,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 60100
+     "close": 61100
     }
    ],
    "start": "2026-07-20",
@@ -7978,7 +7978,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 117000
+     "close": 121000
     }
    ],
    "start": "2026-07-20",
@@ -8072,7 +8072,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 528000
+     "close": 534000
     }
    ],
    "start": "2026-07-20",
@@ -8166,7 +8166,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 272000
+     "close": 275000
     }
    ],
    "start": "2026-07-20",
@@ -8260,7 +8260,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 74000
+     "close": 74700
     }
    ],
    "start": "2026-07-20",
@@ -8354,7 +8354,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 170000
+     "close": 172800
     }
    ],
    "start": "2026-07-20",
@@ -8448,7 +8448,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 373500
+     "close": 378500
     }
    ],
    "start": "2026-07-20",
@@ -8542,7 +8542,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 116100
+     "close": 117900
     }
    ],
    "start": "2026-07-20",
@@ -8636,7 +8636,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 69500
+     "close": 70300
     }
    ],
    "start": "2026-07-20",
@@ -8730,7 +8730,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 169300
+     "close": 172500
     }
    ],
    "start": "2026-07-20",
@@ -8824,7 +8824,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 30650
+     "close": 30700
     }
    ],
    "start": "2026-07-20",
@@ -9012,7 +9012,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 301000
+     "close": 307000
     }
    ],
    "start": "2026-07-20",
@@ -9106,7 +9106,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 99300
+     "close": 100400
     }
    ],
    "start": "2026-07-20",
@@ -9200,7 +9200,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 70300
+     "close": 70800
     }
    ],
    "start": "2026-07-20",
@@ -9294,7 +9294,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 96500
+     "close": 97500
     }
    ],
    "start": "2026-07-20",
@@ -9388,7 +9388,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 132900
+     "close": 134000
     }
    ],
    "start": "2026-07-20",
@@ -9482,7 +9482,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39050
+     "close": 39700
     }
    ],
    "start": "2026-07-20",
@@ -9576,7 +9576,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 165900
+     "close": 169800
     }
    ],
    "start": "2026-07-20",
@@ -9670,7 +9670,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 327000
+     "close": 326000
     }
    ],
    "start": "2026-07-20",
@@ -9764,7 +9764,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 136800
+     "close": 137900
     }
    ],
    "start": "2026-07-20",
@@ -9858,7 +9858,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 43500
+     "close": 43675
     }
    ],
    "start": "2026-07-20",
@@ -9952,7 +9952,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 135000
+     "close": 135400
     }
    ],
    "start": "2026-07-20",
@@ -10046,7 +10046,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36250
+     "close": 36650
     }
    ],
    "start": "2026-07-20",
@@ -10140,7 +10140,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 252500
+     "close": 257500
     }
    ],
    "start": "2026-07-20",
@@ -10234,7 +10234,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 231500
+     "close": 233500
     }
    ],
    "start": "2026-07-20",
@@ -10328,7 +10328,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36475
+     "close": 37350
     }
    ],
    "start": "2026-07-20",
@@ -10422,7 +10422,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 209500
+     "close": 213500
     }
    ],
    "start": "2026-07-20",
@@ -10516,7 +10516,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 114900
+     "close": 114800
     }
    ],
    "start": "2026-07-20",
@@ -10610,7 +10610,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34350
+     "close": 34400
     }
    ],
    "start": "2026-07-20",
@@ -10704,7 +10704,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 277500
+     "close": 281000
     }
    ],
    "start": "2026-07-20",
@@ -10798,7 +10798,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 41900
+     "close": 43000
     }
    ],
    "start": "2026-07-20",
@@ -10892,7 +10892,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 33050
+     "close": 33150
     }
    ],
    "start": "2026-07-20",
@@ -10986,7 +10986,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24900
+     "close": 25350
     }
    ],
    "start": "2026-07-20",
@@ -11080,7 +11080,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 80700
+     "close": 82200
     }
    ],
    "start": "2026-07-20",
@@ -11174,7 +11174,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 108300
+     "close": 110400
     }
    ],
    "start": "2026-07-20",
@@ -11268,7 +11268,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 62400
+     "close": 63100
     }
    ],
    "start": "2026-07-20",
@@ -11362,7 +11362,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 137100
+     "close": 138700
     }
    ],
    "start": "2026-07-20",
@@ -11456,7 +11456,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 211000
+     "close": 214500
     }
    ],
    "start": "2026-07-20",
@@ -11550,7 +11550,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14480
+     "close": 14670
     }
    ],
    "start": "2026-07-20",
@@ -11644,7 +11644,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 61200
+     "close": 61900
     }
    ],
    "start": "2026-07-20",
@@ -11738,7 +11738,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 87000
+     "close": 87900
     }
    ],
    "start": "2026-07-20",
@@ -11832,7 +11832,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 119900
+     "close": 122400
     }
    ],
    "start": "2026-07-20",
@@ -11926,7 +11926,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25500
+     "close": 25950
     }
    ],
    "start": "2026-07-20",
@@ -12020,7 +12020,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 160100
+     "close": 162200
     }
    ],
    "start": "2026-07-20",
@@ -12114,7 +12114,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 47100
+     "close": 47500
     }
    ],
    "start": "2026-07-20",
@@ -12208,7 +12208,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9880
+     "close": 9940
     }
    ],
    "start": "2026-07-20",
@@ -12302,7 +12302,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26900
+     "close": 27250
     }
    ],
    "start": "2026-07-20",
@@ -12396,7 +12396,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 68700
+     "close": 69300
     }
    ],
    "start": "2026-07-20",
@@ -12490,7 +12490,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 125500
+     "close": 126700
     }
    ],
    "start": "2026-07-20",
@@ -12584,7 +12584,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 212500
+     "close": 212000
     }
    ],
    "start": "2026-07-20",
@@ -12678,7 +12678,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 102500
+     "close": 103300
     }
    ],
    "start": "2026-07-20",
@@ -12772,7 +12772,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39500
+     "close": 40050
     }
    ],
    "start": "2026-07-20",
@@ -12866,7 +12866,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 370500
+     "close": 374500
     }
    ],
    "start": "2026-07-20",
@@ -12960,7 +12960,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26100
+     "close": 26500
     }
    ],
    "start": "2026-07-20",
@@ -13054,7 +13054,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 61500
+     "close": 62400
     }
    ],
    "start": "2026-07-20",
@@ -13148,7 +13148,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 78800
+     "close": 79900
     }
    ],
    "start": "2026-07-20",
@@ -13242,7 +13242,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 128100
+     "close": 128300
     }
    ],
    "start": "2026-07-20",
@@ -13336,7 +13336,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 176100
+     "close": 175600
     }
    ],
    "start": "2026-07-20",
@@ -13430,7 +13430,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 128500
+     "close": 129900
     }
    ],
    "start": "2026-07-20",
@@ -13524,7 +13524,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 84100
+     "close": 85300
     }
    ],
    "start": "2026-07-20",
@@ -13618,7 +13618,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4295
+     "close": 4350
     }
    ],
    "start": "2026-07-20",
@@ -13712,7 +13712,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 86700
+     "close": 87600
     }
    ],
    "start": "2026-07-20",
@@ -13806,7 +13806,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 389500
+     "close": 394500
     }
    ],
    "start": "2026-07-20",
@@ -13900,7 +13900,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 42700
+     "close": 43350
     }
    ],
    "start": "2026-07-20",
@@ -13994,7 +13994,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 85400
+     "close": 85700
     }
    ],
    "start": "2026-07-20",
@@ -14088,7 +14088,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 3380
+     "close": 3410
     }
    ],
    "start": "2026-07-20",
@@ -14182,7 +14182,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 197400
+     "close": 201500
     }
    ],
    "start": "2026-07-20",
@@ -14276,7 +14276,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 248500
+     "close": 248000
     }
    ],
    "start": "2026-07-20",
@@ -14370,7 +14370,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 140200
+     "close": 139400
     }
    ],
    "start": "2026-07-20",
@@ -14464,7 +14464,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25350
+     "close": 25550
     }
    ],
    "start": "2026-07-20",
@@ -14633,7 +14633,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36600
+     "close": 36850
     }
    ],
    "start": "2026-07-20",
@@ -14727,7 +14727,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 57400
+     "close": 58200
     }
    ],
    "start": "2026-07-20",
@@ -14821,7 +14821,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14210
+     "close": 14330
     }
    ],
    "start": "2026-07-20",
@@ -14915,7 +14915,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38350
+     "close": 38400
     }
    ],
    "start": "2026-07-20",
@@ -15009,7 +15009,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 35000
+     "close": 35150
     }
    ],
    "start": "2026-07-20",
@@ -15103,7 +15103,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17570
+     "close": 17710
     }
    ],
    "start": "2026-07-20",
@@ -15197,7 +15197,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31650
+     "close": 31950
     }
    ],
    "start": "2026-07-20",
@@ -15291,7 +15291,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 41250
+     "close": 41650
     }
    ],
    "start": "2026-07-20",
@@ -15385,7 +15385,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 49500
+     "close": 50200
     }
    ],
    "start": "2026-07-20",
@@ -15573,7 +15573,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 117100
+     "close": 118300
     }
    ],
    "start": "2026-07-20",
@@ -15667,7 +15667,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34000
+     "close": 34300
     }
    ],
    "start": "2026-07-20",
@@ -15761,7 +15761,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 183500
+     "close": 184900
     }
    ],
    "start": "2026-07-20",
@@ -15855,7 +15855,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17830
+     "close": 17900
     }
    ],
    "start": "2026-07-20",
@@ -15949,7 +15949,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4975
+     "close": 5020
     }
    ],
    "start": "2026-07-20",
@@ -16043,7 +16043,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 71100
+     "close": 71300
     }
    ],
    "start": "2026-07-20",
@@ -16137,7 +16137,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 243500
+     "close": 254500
     }
    ],
    "start": "2026-07-20",
@@ -16231,7 +16231,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25950
+     "close": 26300
     }
    ],
    "start": "2026-07-20",
@@ -16325,7 +16325,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 66400
+     "close": 67000
     }
    ],
    "start": "2026-07-20",
@@ -16419,7 +16419,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 33700
+     "close": 34200
     }
    ],
    "start": "2026-07-20",
@@ -16513,7 +16513,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 57300
+     "close": 57400
     }
    ],
    "start": "2026-07-20",
@@ -16607,7 +16607,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 140900
+     "close": 143000
     }
    ],
    "start": "2026-07-20",
@@ -16701,7 +16701,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 51200
+     "close": 51600
     }
    ],
    "start": "2026-07-20",
@@ -16795,7 +16795,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24900
+     "close": 25100
     }
    ],
    "start": "2026-07-20",
@@ -16889,7 +16889,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 139500
+     "close": 141500
     }
    ],
    "start": "2026-07-20",
@@ -16983,7 +16983,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 100000
+     "close": 100200
     }
    ],
    "start": "2026-07-20",
@@ -17077,7 +17077,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 15790
+     "close": 15830
     }
    ],
    "start": "2026-07-20",
@@ -17171,7 +17171,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 211500
+     "close": 215000
     }
    ],
    "start": "2026-07-20",
@@ -17265,7 +17265,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 186800
+     "close": 188500
     }
    ],
    "start": "2026-07-20",
@@ -17359,7 +17359,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 57700
+     "close": 58200
     }
    ],
    "start": "2026-07-20",
@@ -17453,7 +17453,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13370
+     "close": 13470
     }
    ],
    "start": "2026-07-20",
@@ -17547,7 +17547,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24400
+     "close": 24650
     }
    ],
    "start": "2026-07-20",
@@ -17641,7 +17641,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 47700
+     "close": 47950
     }
    ],
    "start": "2026-07-20",
@@ -17735,7 +17735,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 22300
+     "close": 22500
     }
    ],
    "start": "2026-07-20",
@@ -17829,7 +17829,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 42150
+     "close": 42450
     }
    ],
    "start": "2026-07-20",
@@ -17923,7 +17923,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 44650
+     "close": 44850
     }
    ],
    "start": "2026-07-20",
@@ -18017,7 +18017,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32550
+     "close": 32900
     }
    ],
    "start": "2026-07-20",
@@ -18111,7 +18111,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 76500
+     "close": 76400
     }
    ],
    "start": "2026-07-20",
@@ -18205,7 +18205,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 5925
+     "close": 6130
     }
    ],
    "start": "2026-07-20",
@@ -18299,7 +18299,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6110
+     "close": 6200
     }
    ],
    "start": "2026-07-20",
@@ -18393,7 +18393,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11980
+     "close": 11870
     }
    ],
    "start": "2026-07-20",
@@ -18487,7 +18487,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26000
+     "close": 26350
     }
    ],
    "start": "2026-07-20",
@@ -18581,7 +18581,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 347000
+     "close": 349000
     }
    ],
    "start": "2026-07-20",
@@ -18675,7 +18675,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18600
+     "close": 18710
     }
    ],
    "start": "2026-07-20",
@@ -18769,7 +18769,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 122400
+     "close": 123300
     }
    ],
    "start": "2026-07-20",
@@ -18863,7 +18863,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38600
+     "close": 39050
     }
    ],
    "start": "2026-07-20",
@@ -18957,7 +18957,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 53100
+     "close": 53700
     }
    ],
    "start": "2026-07-20",
@@ -19051,7 +19051,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 42650
+     "close": 43150
     }
    ],
    "start": "2026-07-20",
@@ -19145,7 +19145,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31650
+     "close": 31750
     }
    ],
    "start": "2026-07-20",
@@ -19239,7 +19239,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 221500
+     "close": 223500
     }
    ],
    "start": "2026-07-20",
@@ -19333,7 +19333,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 44900
+     "close": 45400
     }
    ],
    "start": "2026-07-20",
@@ -19427,7 +19427,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 174600
+     "close": 175900
     }
    ],
    "start": "2026-07-20",
@@ -19521,7 +19521,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 93000
+     "close": 95700
     }
    ],
    "start": "2026-07-20",
@@ -19615,7 +19615,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 54100
+     "close": 54900
     }
    ],
    "start": "2026-07-20",
@@ -19709,7 +19709,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29900
+     "close": 30150
     }
    ],
    "start": "2026-07-20",
@@ -19991,7 +19991,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 59700
+     "close": 60500
     }
    ],
    "start": "2026-07-20",
@@ -20085,7 +20085,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 65400
+     "close": 67200
     }
    ],
    "start": "2026-07-20",
@@ -20179,7 +20179,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7410
+     "close": 7480
     }
    ],
    "start": "2026-07-20",
@@ -20273,7 +20273,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 71500
+     "close": 72000
     }
    ],
    "start": "2026-07-20",
@@ -20367,7 +20367,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 55100
+     "close": 55500
     }
    ],
    "start": "2026-07-20",
@@ -20461,7 +20461,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39050
+     "close": 39600
     }
    ],
    "start": "2026-07-20",
@@ -20555,7 +20555,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 51500
+     "close": 52500
     }
    ],
    "start": "2026-07-20",
@@ -20743,7 +20743,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34900
+     "close": 35000
     }
    ],
    "start": "2026-07-20",
@@ -20837,7 +20837,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14340
+     "close": 14520
     }
    ],
    "start": "2026-07-20",
@@ -20931,7 +20931,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 118800
+     "close": 120000
     }
    ],
    "start": "2026-07-20",
@@ -21025,7 +21025,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32750
+     "close": 33150
     }
    ],
    "start": "2026-07-20",
@@ -21119,7 +21119,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6850
+     "close": 6870
     }
    ],
    "start": "2026-07-20",
@@ -21213,7 +21213,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 10320
+     "close": 10430
     }
    ],
    "start": "2026-07-20",
@@ -21307,7 +21307,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 55800
+     "close": 56700
     }
    ],
    "start": "2026-07-20",
@@ -21401,7 +21401,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 119200
+     "close": 120300
     }
    ],
    "start": "2026-07-20",
@@ -21495,7 +21495,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36700
+     "close": 37150
     }
    ],
    "start": "2026-07-20",
@@ -21589,7 +21589,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 40750
+     "close": 41250
     }
    ],
    "start": "2026-07-20",
@@ -21683,7 +21683,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25000
+     "close": 25350
     }
    ],
    "start": "2026-07-20",
@@ -21777,7 +21777,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36250
+     "close": 36600
     }
    ],
    "start": "2026-07-20",
@@ -21871,7 +21871,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 60000
+     "close": 60100
     }
    ],
    "start": "2026-07-20",
@@ -21965,7 +21965,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 115500
+     "close": 116300
     }
    ],
    "start": "2026-07-20",
@@ -22059,7 +22059,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 21850
+     "close": 22100
     }
    ],
    "start": "2026-07-20",
@@ -22153,7 +22153,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 306500
+     "close": 309500
     }
    ],
    "start": "2026-07-20",
@@ -22247,7 +22247,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 35250
+     "close": 35900
     }
    ],
    "start": "2026-07-20",
@@ -22341,7 +22341,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 292000
+     "close": 302000
     }
    ],
    "start": "2026-07-20",
@@ -22435,7 +22435,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13730
+     "close": 13780
     }
    ],
    "start": "2026-07-20",
@@ -22529,7 +22529,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19970
+     "close": 20150
     }
    ],
    "start": "2026-07-20",
@@ -22623,7 +22623,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7540
+     "close": 7550
     }
    ],
    "start": "2026-07-20",
@@ -22717,7 +22717,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36150
+     "close": 36200
     }
    ],
    "start": "2026-07-20",
@@ -22811,7 +22811,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11080
+     "close": 11030
     }
    ],
    "start": "2026-07-20",
@@ -22905,7 +22905,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18900
+     "close": 19110
     }
    ],
    "start": "2026-07-20",
@@ -22999,7 +22999,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9740
+     "close": 9770
     }
    ],
    "start": "2026-07-20",
@@ -23093,7 +23093,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 45000
+     "close": 45550
     }
    ],
    "start": "2026-07-20",
@@ -23187,7 +23187,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 80600
+     "close": 81900
     }
    ],
    "start": "2026-07-20",
@@ -23281,7 +23281,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31250
+     "close": 31850
     }
    ],
    "start": "2026-07-20",
@@ -23375,7 +23375,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9350
+     "close": 9450
     }
    ],
    "start": "2026-07-20",
@@ -23469,7 +23469,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32250
+     "close": 32500
     }
    ],
    "start": "2026-07-20",
@@ -23563,7 +23563,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13970
+     "close": 14080
     }
    ],
    "start": "2026-07-20",
@@ -23657,7 +23657,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 22950
+     "close": 23300
     }
    ],
    "start": "2026-07-20",
@@ -23751,7 +23751,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14730
+     "close": 14820
     }
    ],
    "start": "2026-07-20",
@@ -23928,7 +23928,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4240
+     "close": 4295
     }
    ],
    "start": "2026-07-20",
@@ -24022,7 +24022,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 53200
+     "close": 53700
     }
    ],
    "start": "2026-07-20",
@@ -24116,7 +24116,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16090
+     "close": 16200
     }
    ],
    "start": "2026-07-20",
@@ -24210,7 +24210,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 98800
+     "close": 101100
     }
    ],
    "start": "2026-07-20",
@@ -24304,7 +24304,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 65900
+     "close": 66500
     }
    ],
    "start": "2026-07-20",
@@ -24398,7 +24398,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 44650
+     "close": 45000
     }
    ],
    "start": "2026-07-20",
@@ -24492,7 +24492,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 824000
+     "close": 838000
     }
    ],
    "start": "2026-07-20",
@@ -24586,7 +24586,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 96900
+     "close": 97200
     }
    ],
    "start": "2026-07-20",
@@ -24680,7 +24680,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 62500
+     "close": 63200
     }
    ],
    "start": "2026-07-20",
@@ -24774,7 +24774,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 51400
+     "close": 51500
     }
    ],
    "start": "2026-07-20",
@@ -24868,7 +24868,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25650
+     "close": 25550
     }
    ],
    "start": "2026-07-20",
@@ -24962,7 +24962,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4325
+     "close": 4400
     }
    ],
    "start": "2026-07-20",
@@ -25056,7 +25056,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11080
+     "close": 11200
     }
    ],
    "start": "2026-07-20",
@@ -25150,7 +25150,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 12940
+     "close": 13060
     }
    ],
    "start": "2026-07-20",
@@ -25244,7 +25244,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38850
+     "close": 39000
     }
    ],
    "start": "2026-07-20",
@@ -25338,7 +25338,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 35350
+     "close": 35800
     }
    ],
    "start": "2026-07-20",
@@ -25432,7 +25432,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14060
+     "close": 14120
     }
    ],
    "start": "2026-07-20",
@@ -25526,7 +25526,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 52900
+     "close": 53300
     }
    ],
    "start": "2026-07-20",
@@ -25620,7 +25620,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 86200
+     "close": 87200
     }
    ],
    "start": "2026-07-20",
@@ -25714,7 +25714,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 63900
+     "close": 64100
     }
    ],
    "start": "2026-07-20",
@@ -25808,7 +25808,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6220
+     "close": 6250
     }
    ],
    "start": "2026-07-20",
@@ -25902,7 +25902,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18660
+     "close": 18690
     }
    ],
    "start": "2026-07-20",
@@ -25996,7 +25996,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 53600
+     "close": 54100
     }
    ],
    "start": "2026-07-20",
@@ -26090,7 +26090,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4435
+     "close": 4475
     }
    ],
    "start": "2026-07-20",
@@ -26184,7 +26184,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8130
+     "close": 8150
     }
    ],
    "start": "2026-07-20",
@@ -26278,7 +26278,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 10520
+     "close": 10680
     }
    ],
    "start": "2026-07-20",
@@ -26372,7 +26372,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13700
+     "close": 13820
     }
    ],
    "start": "2026-07-20",
@@ -26466,7 +26466,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 5630
+     "close": 5680
     }
    ],
    "start": "2026-07-20",
@@ -26560,7 +26560,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38000
+     "close": 38400
     }
    ],
    "start": "2026-07-20",
@@ -26654,7 +26654,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24850
+     "close": 25100
     }
    ],
    "start": "2026-07-20",
@@ -26748,7 +26748,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 97600
+     "close": 98000
     }
    ],
    "start": "2026-07-20",
@@ -26842,7 +26842,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6650
+     "close": 6730
     }
    ],
    "start": "2026-07-20",
@@ -26936,7 +26936,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 12350
+     "close": 12430
     }
    ],
    "start": "2026-07-20",
@@ -27030,7 +27030,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34150
+     "close": 34400
     }
    ],
    "start": "2026-07-20",
@@ -27124,7 +27124,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 21800
+     "close": 22050
     }
    ],
    "start": "2026-07-20",
@@ -27218,7 +27218,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 61400
+     "close": 61800
     }
    ],
    "start": "2026-07-20",
@@ -27312,7 +27312,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 143900
+     "close": 145400
     }
    ],
    "start": "2026-07-20",
@@ -27406,7 +27406,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 2300
+     "close": 2375
     }
    ],
    "start": "2026-07-20",
@@ -27500,7 +27500,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 37450
+     "close": 37850
     }
    ],
    "start": "2026-07-20",
@@ -27594,7 +27594,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16460
+     "close": 16680
     }
    ],
    "start": "2026-07-20",
@@ -27688,7 +27688,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 508000
+     "close": 511000
     }
    ],
    "start": "2026-07-20",
@@ -27782,7 +27782,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9310
+     "close": 9370
     }
    ],
    "start": "2026-07-20",
@@ -27970,7 +27970,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 41000
+     "close": 41100
     }
    ],
    "start": "2026-07-20",
@@ -28064,7 +28064,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 15310
+     "close": 15410
     }
    ],
    "start": "2026-07-20",
@@ -28158,7 +28158,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 37500
+     "close": 37750
     }
    ],
    "start": "2026-07-20",
@@ -28252,7 +28252,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 10220
+     "close": 10350
     }
    ],
    "start": "2026-07-20",
@@ -28346,7 +28346,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19670
+     "close": 19870
     }
    ],
    "start": "2026-07-20",
@@ -28440,7 +28440,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1814
+     "close": 1827
     }
    ],
    "start": "2026-07-20",
@@ -28534,7 +28534,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17990
+     "close": 18070
     }
    ],
    "start": "2026-07-20",
@@ -28722,7 +28722,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 64600
+     "close": 65000
     }
    ],
    "start": "2026-07-20",
@@ -28816,7 +28816,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18400
+     "close": 18300
     }
    ],
    "start": "2026-07-20",
@@ -28910,7 +28910,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17170
+     "close": 17260
     }
    ],
    "start": "2026-07-20",
@@ -29004,7 +29004,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14170
+     "close": 14160
     }
    ],
    "start": "2026-07-20",
@@ -29098,7 +29098,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 23300
+     "close": 23600
     }
    ],
    "start": "2026-07-20",
@@ -29192,7 +29192,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7510
+     "close": 7540
     }
    ],
    "start": "2026-07-20",
@@ -29286,7 +29286,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 2740
+     "close": 2745
     }
    ],
    "start": "2026-07-20",
@@ -29380,7 +29380,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 52100
+     "close": 52400
     }
    ],
    "start": "2026-07-20",
@@ -29474,7 +29474,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19000
+     "close": 19090
     }
    ],
    "start": "2026-07-20",
@@ -29568,7 +29568,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 23400
+     "close": 23650
     }
    ],
    "start": "2026-07-20",
@@ -29662,7 +29662,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 87000
+     "close": 88000
     }
    ],
    "start": "2026-07-20",
@@ -29756,7 +29756,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 121900
+     "close": 123000
     }
    ],
    "start": "2026-07-20",
@@ -29850,7 +29850,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 2135
+     "close": 2155
     }
    ],
    "start": "2026-07-20",
@@ -29944,7 +29944,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32350
+     "close": 32950
     }
    ],
    "start": "2026-07-20",
@@ -30038,7 +30038,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31950
+     "close": 32250
     }
    ],
    "start": "2026-07-20",
@@ -30132,7 +30132,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17300
+     "close": 17440
     }
    ],
    "start": "2026-07-20",
@@ -30226,7 +30226,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 78500
+     "close": 78700
     }
    ],
    "start": "2026-07-20",
@@ -30320,7 +30320,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6880
+     "close": 6910
     }
    ],
    "start": "2026-07-20",
@@ -30414,7 +30414,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 23600
+     "close": 23800
     }
    ],
    "start": "2026-07-20",
@@ -30508,7 +30508,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16860
+     "close": 16950
     }
    ],
    "start": "2026-07-20",
@@ -30602,7 +30602,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 5060
+     "close": 5070
     }
    ],
    "start": "2026-07-20",
@@ -30696,7 +30696,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29850
+     "close": 30250
     }
    ],
    "start": "2026-07-20",
@@ -30790,7 +30790,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7750
+     "close": 7840
     }
    ],
    "start": "2026-07-20",
@@ -30884,7 +30884,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 113500
+     "close": 114300
     }
    ],
    "start": "2026-07-20",
@@ -30978,7 +30978,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1565
+     "close": 1564
     }
    ],
    "start": "2026-07-20",
@@ -31072,7 +31072,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29550
+     "close": 29650
     }
    ],
    "start": "2026-07-20",
@@ -31166,7 +31166,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 115700
+     "close": 115900
     }
    ],
    "start": "2026-07-20",
@@ -31260,7 +31260,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 32950
+     "close": 33050
     }
    ],
    "start": "2026-07-20",
@@ -31354,7 +31354,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13570
+     "close": 13710
     }
    ],
    "start": "2026-07-20",
@@ -31448,7 +31448,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20700
+     "close": 20850
     }
    ],
    "start": "2026-07-20",
@@ -31542,7 +31542,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 22650
+     "close": 22750
     }
    ],
    "start": "2026-07-20",
@@ -31636,7 +31636,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4540
+     "close": 4545
     }
    ],
    "start": "2026-07-20",
@@ -31730,7 +31730,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20900
+     "close": 20950
     }
    ],
    "start": "2026-07-20",
@@ -31824,7 +31824,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16630
+     "close": 16660
     }
    ],
    "start": "2026-07-20",
@@ -31918,7 +31918,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 43950
+     "close": 43900
     }
    ],
    "start": "2026-07-20",
@@ -32012,7 +32012,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9330
+     "close": 9390
     }
    ],
    "start": "2026-07-20",
@@ -32106,7 +32106,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8590
+     "close": 8640
     }
    ],
    "start": "2026-07-20",
@@ -32200,7 +32200,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13730
+     "close": 13950
     }
    ],
    "start": "2026-07-20",
@@ -32294,7 +32294,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 55900
+     "close": 55700
     }
    ],
    "start": "2026-07-20",
@@ -32388,7 +32388,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11390
+     "close": 11360
     }
    ],
    "start": "2026-07-20",
@@ -32482,7 +32482,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 96800
+     "close": 97400
     }
    ],
    "start": "2026-07-20",
@@ -32576,7 +32576,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 60800
+     "close": 61200
     }
    ],
    "start": "2026-07-20",
@@ -32670,7 +32670,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4085
+     "close": 4125
     }
    ],
    "start": "2026-07-20",
@@ -32764,7 +32764,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 12330
+     "close": 12490
     }
    ],
    "start": "2026-07-20",
@@ -32858,7 +32858,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7760
+     "close": 7790
     }
    ],
    "start": "2026-07-20",
@@ -32952,7 +32952,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8280
+     "close": 8370
     }
    ],
    "start": "2026-07-20",
@@ -33046,7 +33046,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 88500
+     "close": 88400
     }
    ],
    "start": "2026-07-20",
@@ -33234,7 +33234,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1823
+     "close": 1796
     }
    ],
    "start": "2026-07-20",
@@ -33328,7 +33328,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 111300
+     "close": 112200
     }
    ],
    "start": "2026-07-20",
@@ -33422,7 +33422,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 40750
+     "close": 40900
     }
    ],
    "start": "2026-07-20",
@@ -33516,7 +33516,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8840
+     "close": 8910
     }
    ],
    "start": "2026-07-20",
@@ -33610,7 +33610,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 3780
+     "close": 3810
     }
    ],
    "start": "2026-07-20",
@@ -33704,7 +33704,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 1889
+     "close": 1899
     }
    ],
    "start": "2026-07-20",
@@ -33798,7 +33798,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9040
+     "close": 9080
     }
    ],
    "start": "2026-07-20",
@@ -33892,7 +33892,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14000
+     "close": 14080
     }
    ],
    "start": "2026-07-20",
@@ -33986,7 +33986,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9530
+     "close": 9600
     }
    ],
    "start": "2026-07-20",
@@ -34080,7 +34080,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6720
+     "close": 6770
     }
    ],
    "start": "2026-07-20",
@@ -34174,7 +34174,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 5380
+     "close": 5500
     }
    ],
    "start": "2026-07-20",
@@ -34268,7 +34268,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8820
+     "close": 8940
     }
    ],
    "start": "2026-07-20",
@@ -34362,7 +34362,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7380
+     "close": 7410
     }
    ],
    "start": "2026-07-20",
@@ -34456,7 +34456,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 3930
+     "close": 3940
     }
    ],
    "start": "2026-07-20",
@@ -34550,7 +34550,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9060
+     "close": 9080
     }
    ],
    "start": "2026-07-20",
@@ -34644,7 +34644,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38950
+     "close": 40100
     }
    ],
    "start": "2026-07-20",
@@ -34738,7 +34738,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9790
+     "close": 9890
     }
    ],
    "start": "2026-07-20",
@@ -34926,7 +34926,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 63100
+     "close": 64450
     }
    ],
    "start": "2026-07-20",
@@ -35020,7 +35020,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 72200
+     "close": 73900
     }
    ],
    "start": "2026-07-20",
@@ -35114,7 +35114,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 58400
+     "close": 59200
     }
    ],
    "start": "2026-07-20",
@@ -35208,7 +35208,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 182400
+     "close": 186200
     }
    ],
    "start": "2026-07-20",
@@ -35302,7 +35302,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 121500
+     "close": 125000
     }
    ],
    "start": "2026-07-20",
@@ -35396,7 +35396,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18460
+     "close": 18850
     }
    ],
    "start": "2026-07-20",
@@ -35490,7 +35490,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 90400
+     "close": 92700
     }
    ],
    "start": "2026-07-20",
@@ -35584,7 +35584,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 115200
+     "close": 115600
     }
    ],
    "start": "2026-07-20",
@@ -35678,7 +35678,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 143500
+     "close": 146200
     }
    ],
    "start": "2026-07-20",
@@ -35772,7 +35772,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9350
+     "close": 9560
     }
    ],
    "start": "2026-07-20",
@@ -35866,7 +35866,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9070
+     "close": 9200
     }
    ],
    "start": "2026-07-20",
@@ -35960,7 +35960,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 251500
+     "close": 254500
     }
    ],
    "start": "2026-07-20",
@@ -36054,7 +36054,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38550
+     "close": 38850
     }
    ],
    "start": "2026-07-20",
@@ -36148,7 +36148,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 44850
+     "close": 45050
     }
    ],
    "start": "2026-07-20",
@@ -36242,7 +36242,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 67800
+     "close": 68200
     }
    ],
    "start": "2026-07-20",
@@ -36336,7 +36336,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 51700
+     "close": 51900
     }
    ],
    "start": "2026-07-20",
@@ -36430,7 +36430,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 67000
+     "close": 68000
     }
    ],
    "start": "2026-07-20",
@@ -36524,7 +36524,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 61500
+     "close": 63100
     }
    ],
    "start": "2026-07-20",
@@ -36618,7 +36618,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 48900
+     "close": 50300
     }
    ],
    "start": "2026-07-20",
@@ -36712,7 +36712,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 22250
+     "close": 22600
     }
    ],
    "start": "2026-07-20",
@@ -36806,7 +36806,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16330
+     "close": 16720
     }
    ],
    "start": "2026-07-20",
@@ -36900,7 +36900,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26100
+     "close": 26800
     }
    ],
    "start": "2026-07-20",
@@ -36994,7 +36994,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26750
+     "close": 27100
     }
    ],
    "start": "2026-07-20",
@@ -37088,7 +37088,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 40250
+     "close": 40850
     }
    ],
    "start": "2026-07-20",
@@ -37182,7 +37182,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 15570
+     "close": 15850
     }
    ],
    "start": "2026-07-20",
@@ -37276,7 +37276,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26300
+     "close": 26600
     }
    ],
    "start": "2026-07-20",
@@ -37370,7 +37370,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 42450
+     "close": 42750
     }
    ],
    "start": "2026-07-20",
@@ -37464,7 +37464,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 28850
+     "close": 29100
     }
    ],
    "start": "2026-07-20",
@@ -37558,7 +37558,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31350
+     "close": 32100
     }
    ],
    "start": "2026-07-20",
@@ -37652,7 +37652,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 72100
+     "close": 72900
     }
    ],
    "start": "2026-07-20",
@@ -37746,7 +37746,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 31950
+     "close": 32800
     }
    ],
    "start": "2026-07-20",
@@ -37840,7 +37840,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 30900
+     "close": 30850
     }
    ],
    "start": "2026-07-20",
@@ -37934,7 +37934,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 10190
+     "close": 10390
     }
    ],
    "start": "2026-07-20",
@@ -38028,7 +38028,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9400
+     "close": 9500
     }
    ],
    "start": "2026-07-20",
@@ -38122,7 +38122,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 37250
+     "close": 37850
     }
    ],
    "start": "2026-07-20",
@@ -38216,7 +38216,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17470
+     "close": 17820
     }
    ],
    "start": "2026-07-20",
@@ -38310,7 +38310,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 53400
+     "close": 54700
     }
    ],
    "start": "2026-07-20",
@@ -38404,7 +38404,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 26600
+     "close": 26850
     }
    ],
    "start": "2026-07-20",
@@ -38498,7 +38498,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 41900
+     "close": 42750
     }
    ],
    "start": "2026-07-20",
@@ -38592,7 +38592,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36000
+     "close": 36200
     }
    ],
    "start": "2026-07-20",
@@ -38686,7 +38686,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14470
+     "close": 14640
     }
    ],
    "start": "2026-07-20",
@@ -38780,7 +38780,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39200
+     "close": 40100
     }
    ],
    "start": "2026-07-20",
@@ -38874,7 +38874,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 73700
+     "close": 74900
     }
    ],
    "start": "2026-07-20",
@@ -38968,7 +38968,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8700
+     "close": 8800
     }
    ],
    "start": "2026-07-20",
@@ -39062,7 +39062,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 42700
+     "close": 43500
     }
    ],
    "start": "2026-07-20",
@@ -39156,7 +39156,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7530
+     "close": 7620
     }
    ],
    "start": "2026-07-20",
@@ -39250,7 +39250,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7170
+     "close": 7230
     }
    ],
    "start": "2026-07-20",
@@ -39344,7 +39344,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 77100
+     "close": 77500
     }
    ],
    "start": "2026-07-20",
@@ -39438,7 +39438,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13270
+     "close": 13340
     }
    ],
    "start": "2026-07-20",
@@ -39532,7 +39532,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9490
+     "close": 9690
     }
    ],
    "start": "2026-07-20",
@@ -39626,7 +39626,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 5530
+     "close": 5640
     }
    ],
    "start": "2026-07-20",
@@ -39720,7 +39720,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6000
+     "close": 6110
     }
    ],
    "start": "2026-07-20",
@@ -39814,7 +39814,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18260
+     "close": 18430
     }
    ],
    "start": "2026-07-20",
@@ -39908,7 +39908,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 10820
+     "close": 10960
     }
    ],
    "start": "2026-07-20",
@@ -40002,7 +40002,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11220
+     "close": 11400
     }
    ],
    "start": "2026-07-20",
@@ -40096,7 +40096,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20950
+     "close": 21350
     }
    ],
    "start": "2026-07-20",
@@ -40190,7 +40190,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 87100
+     "close": 89300
     }
    ],
    "start": "2026-07-20",
@@ -40284,7 +40284,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 27350
+     "close": 27850
     }
    ],
    "start": "2026-07-20",
@@ -40378,7 +40378,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19830
+     "close": 19970
     }
    ],
    "start": "2026-07-20",
@@ -40472,7 +40472,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 58500
+     "close": 58300
     }
    ],
    "start": "2026-07-20",
@@ -40566,7 +40566,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25650
+     "close": 25900
     }
    ],
    "start": "2026-07-20",
@@ -40660,7 +40660,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9360
+     "close": 9500
     }
    ],
    "start": "2026-07-20",
@@ -40754,7 +40754,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38550
+     "close": 38950
     }
    ],
    "start": "2026-07-20",
@@ -40848,7 +40848,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 57900
+     "close": 58700
     }
    ],
    "start": "2026-07-20",
@@ -40942,7 +40942,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 27950
+     "close": 28400
     }
    ],
    "start": "2026-07-20",
@@ -41036,7 +41036,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29250
+     "close": 29600
     }
    ],
    "start": "2026-07-20",
@@ -41130,7 +41130,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13870
+     "close": 14140
     }
    ],
    "start": "2026-07-20",
@@ -41224,7 +41224,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 33550
+     "close": 33950
     }
    ],
    "start": "2026-07-20",
@@ -41318,7 +41318,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17120
+     "close": 17350
     }
    ],
    "start": "2026-07-20",
@@ -41412,7 +41412,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36000
+     "close": 37000
     }
    ],
    "start": "2026-07-20",
@@ -41506,7 +41506,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29350
+     "close": 29750
     }
    ],
    "start": "2026-07-20",
@@ -41600,7 +41600,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25400
+     "close": 25900
     }
    ],
    "start": "2026-07-20",
@@ -41694,7 +41694,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 17490
+     "close": 17680
     }
    ],
    "start": "2026-07-20",
@@ -41788,7 +41788,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 40450
+     "close": 40900
     }
    ],
    "start": "2026-07-20",
@@ -41976,7 +41976,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 28850
+     "close": 29200
     }
    ],
    "start": "2026-07-20",
@@ -42070,7 +42070,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14970
+     "close": 15470
     }
    ],
    "start": "2026-07-20",
@@ -42164,7 +42164,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24300
+     "close": 24550
     }
    ],
    "start": "2026-07-20",
@@ -42258,7 +42258,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6150
+     "close": 6220
     }
    ],
    "start": "2026-07-20",
@@ -42352,7 +42352,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 56400
+     "close": 57500
     }
    ],
    "start": "2026-07-20",
@@ -42446,7 +42446,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 16200
+     "close": 16400
     }
    ],
    "start": "2026-07-20",
@@ -42540,7 +42540,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9410
+     "close": 9460
     }
    ],
    "start": "2026-07-20",
@@ -42634,7 +42634,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 21800
+     "close": 22200
     }
    ],
    "start": "2026-07-20",
@@ -42728,7 +42728,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25550
+     "close": 26000
     }
    ],
    "start": "2026-07-20",
@@ -42822,7 +42822,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 43300
+     "close": 44400
     }
    ],
    "start": "2026-07-20",
@@ -42916,7 +42916,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19890
+     "close": 20100
     }
    ],
    "start": "2026-07-20",
@@ -43010,7 +43010,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 28750
+     "close": 29250
     }
    ],
    "start": "2026-07-20",
@@ -43104,7 +43104,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39400
+     "close": 40150
     }
    ],
    "start": "2026-07-20",
@@ -43198,7 +43198,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8840
+     "close": 8970
     }
    ],
    "start": "2026-07-20",
@@ -43292,7 +43292,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 130500
+     "close": 132200
     }
    ],
    "start": "2026-07-20",
@@ -43386,7 +43386,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 15620
+     "close": 15700
     }
    ],
    "start": "2026-07-20",
@@ -43480,7 +43480,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 23800
+     "close": 24100
     }
    ],
    "start": "2026-07-20",
@@ -43574,7 +43574,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6880
+     "close": 6990
     }
    ],
    "start": "2026-07-20",
@@ -43668,7 +43668,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 52200
+     "close": 52500
     }
    ],
    "start": "2026-07-20",
@@ -43762,7 +43762,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20700
+     "close": 20900
     }
    ],
    "start": "2026-07-20",
@@ -43856,7 +43856,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38550
+     "close": 39250
     }
    ],
    "start": "2026-07-20",
@@ -43950,7 +43950,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 62700
+     "close": 64100
     }
    ],
    "start": "2026-07-20",
@@ -44044,7 +44044,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8160
+     "close": 8270
     }
    ],
    "start": "2026-07-20",
@@ -44138,7 +44138,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 34000
+     "close": 34200
     }
    ],
    "start": "2026-07-20",
@@ -44232,7 +44232,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 24350
+     "close": 25050
     }
    ],
    "start": "2026-07-20",
@@ -44326,7 +44326,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 25100
+     "close": 25450
     }
    ],
    "start": "2026-07-20",
@@ -44420,7 +44420,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 8470
+     "close": 8600
     }
    ],
    "start": "2026-07-20",
@@ -44514,7 +44514,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 56500
+     "close": 56300
     }
    ],
    "start": "2026-07-20",
@@ -44608,7 +44608,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 36550
+     "close": 37150
     }
    ],
    "start": "2026-07-20",
@@ -44702,7 +44702,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14100
+     "close": 14340
     }
    ],
    "start": "2026-07-20",
@@ -44796,7 +44796,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 38950
+     "close": 39200
     }
    ],
    "start": "2026-07-20",
@@ -44890,7 +44890,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 40700
+     "close": 41300
     }
    ],
    "start": "2026-07-20",
@@ -44984,7 +44984,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 45500
+     "close": 45800
     }
    ],
    "start": "2026-07-20",
@@ -45078,7 +45078,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7030
+     "close": 7110
     }
    ],
    "start": "2026-07-20",
@@ -45172,7 +45172,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 50000
+     "close": 51200
     }
    ],
    "start": "2026-07-20",
@@ -45266,7 +45266,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 14180
+     "close": 14470
     }
    ],
    "start": "2026-07-20",
@@ -45360,7 +45360,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 23250
+     "close": 23450
     }
    ],
    "start": "2026-07-20",
@@ -45454,7 +45454,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29800
+     "close": 30050
     }
    ],
    "start": "2026-07-20",
@@ -45548,7 +45548,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 28850
+     "close": 29350
     }
    ],
    "start": "2026-07-20",
@@ -45642,7 +45642,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 39050
+     "close": 39200
     }
    ],
    "start": "2026-07-20",
@@ -45736,7 +45736,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 29450
+     "close": 29700
     }
    ],
    "start": "2026-07-20",
@@ -45830,7 +45830,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 6960
+     "close": 7050
     }
    ],
    "start": "2026-07-20",
@@ -45924,7 +45924,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 19310
+     "close": 19420
     }
    ],
    "start": "2026-07-20",
@@ -46018,7 +46018,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 51600
+     "close": 52400
     }
    ],
    "start": "2026-07-20",
@@ -46112,7 +46112,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 13060
+     "close": 13110
     }
    ],
    "start": "2026-07-20",
@@ -46206,7 +46206,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 68600
+     "close": 69500
     }
    ],
    "start": "2026-07-20",
@@ -46300,7 +46300,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 7060
+     "close": 7090
     }
    ],
    "start": "2026-07-20",
@@ -46394,7 +46394,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 21200
+     "close": 21450
     }
    ],
    "start": "2026-07-20",
@@ -46488,7 +46488,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 9660
+     "close": 9780
     }
    ],
    "start": "2026-07-20",
@@ -46582,7 +46582,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11600
+     "close": 11790
     }
    ],
    "start": "2026-07-20",
@@ -46676,7 +46676,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 55600
+     "close": 56200
     }
    ],
    "start": "2026-07-20",
@@ -46770,7 +46770,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 4995
+     "close": 5060
     }
    ],
    "start": "2026-07-20",
@@ -46864,7 +46864,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 11360
+     "close": 11560
     }
    ],
    "start": "2026-07-20",
@@ -46958,7 +46958,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 18270
+     "close": 18560
     }
    ],
    "start": "2026-07-20",
@@ -47052,7 +47052,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-07-20",
-     "close": 20050
+     "close": 20400
     }
    ],
    "start": "2026-07-20",
@@ -47131,7 +47131,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-07-20",
-     "close": 5170
+     "close": 5210
     }
    ],
    "start": "2026-07-14",
