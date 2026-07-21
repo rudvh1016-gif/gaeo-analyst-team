@@ -1330,6 +1330,7 @@
 <script src="price_history.js"></script>
 <script src="indicators.js"></script>
 <script src="market_history.js"></script>
+<script src="dow_stats.js" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
 <script>
 /* ============================================================
    개오 애널리스트팀 — 홈오피스 v4
@@ -2318,45 +2319,66 @@ function moodLine(){
     `<div class="kpi"><div class="k">팀 적중률</div><div class="v ${accCls}">${acc===null?'—':acc+'%'}</div><div class="s">${graded>0?`5거래일 뒤 종가 · ${graded}건`:'평가 데이터 쌓는 중'}</div></div>`;
 })();
 
-/* ---------- 요일별 평균 등락률 (2026, 클라이언트 계산 · 매일 자동 갱신) ----------
-   PRICE_HISTORY(추적 종목 일별 종가)에서 하루 등락률을 종목 평균 낸 뒤 요일별로 다시 평균.
-   러너가 새 날짜를 붙일 때마다 표본이 늘어 자동으로 정확해진다. 값이 없으면 패널을 숨긴다. */
+/* ---------- 요일별 평균 등락률 (2026) ----------
+   1순위: dow_stats.js(DOW_STATS) — compute_dow_stats.py가 analysis_data.json 일봉(수개월치)에서
+          사전계산. 러너가 매 사이클 재생성하므로 표본이 길고 매일 갱신된다.
+   폴백: DOW_STATS가 없으면 브라우저가 PRICE_HISTORY(최근 종가)로 직접 계산.
+   두 경로 모두 방법론 동일: per-date=종목 등가중 평균 → per-dow=날짜 평균. */
 (function(){
   const el=document.getElementById('dowbar'); if(!el) return;
-  if(typeof PRICE_HISTORY==='undefined'){ return; }
-  // 날짜별로 "그날 각 종목의 전일대비 등락률" 배열을 모은다
-  const perDate={};
-  for(const code in PRICE_HISTORY){
-    let days=[];
-    for(const pg of PRICE_HISTORY[code]) for(const d of pg.days)
-      if(d && d.date && typeof d.close==='number') days.push({date:d.date, close:d.close});
-    days.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0); // ⚠️ 페이지가 시간순 아닐 수 있어 정렬 필수
-    for(let i=1;i<days.length;i++){
-      const p=days[i-1].close, c=days[i].close;
-      if(p>0) (perDate[days[i].date]=perDate[days[i].date]||[]).push((c/p-1)*100);
-    }
-  }
-  // 초기 희소 날짜(소수 종목만 데이터 있는 날)가 평균을 흔들지 않게, 충분한 폭(breadth)이 있는 날만 사용
-  const allDates=Object.keys(perDate);
-  if(!allDates.length){ return; }
-  const maxN=allDates.reduce((m,d)=>Math.max(m,perDate[d].length),0);
-  const minN=Math.max(30, Math.round(maxN*0.3));
-  const dates=allDates.filter(d=>perDate[d].length>=minN).sort();
-  if(dates.length<3){ return; } // 표본이 너무 적으면 숨김
   const names=['일','월','화','수','목','금','토'];
-  const byDow={};
-  for(const d of dates){
-    const avg=perDate[d].reduce((s,x)=>s+x,0)/perDate[d].length;
-    const dow=new Date(d+'T00:00:00Z').getUTCDay(); // UTC로 요일 판정(시간대 밀림 방지)
-    (byDow[dow]=byDow[dow]||[]).push(avg);
+  let rows=[], from, to, days, uni, maxAbs=0.1;
+
+  const DS=(typeof DOW_STATS!=='undefined')?DOW_STATS:null;
+  if(DS && DS.dow){
+    // 사전계산본 사용
+    for(let dow=1;dow<=5;dow++){
+      const o=DS.dow[String(dow)]||{};
+      const avg=(o.avg===null||o.avg===undefined)?null:o.avg;
+      if(avg!==null) maxAbs=Math.max(maxAbs, Math.abs(avg));
+      rows.push({dow, avg, n:o.n||0});
+    }
+    from=(DS.from||'').slice(5).replace('-','/');
+    to=(DS.to||'').slice(5).replace('-','/');
+    days=DS.days||0;
+    uni=(DS.universe>400)?'500':String(DS.universe||'');
+    if(!days){ return; }
+  } else {
+    // 폴백: PRICE_HISTORY 클라이언트 계산
+    if(typeof PRICE_HISTORY==='undefined'){ return; }
+    const perDate={};
+    for(const code in PRICE_HISTORY){
+      let dd=[];
+      for(const pg of PRICE_HISTORY[code]) for(const d of pg.days)
+        if(d && d.date && typeof d.close==='number') dd.push({date:d.date, close:d.close});
+      dd.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0); // ⚠️ 페이지가 시간순 아닐 수 있어 정렬 필수
+      for(let i=1;i<dd.length;i++){
+        const p=dd[i-1].close, c=dd[i].close;
+        if(p>0) (perDate[dd[i].date]=perDate[dd[i].date]||[]).push((c/p-1)*100);
+      }
+    }
+    const allDates=Object.keys(perDate);
+    if(!allDates.length){ return; }
+    const maxN=allDates.reduce((m,d)=>Math.max(m,perDate[d].length),0);
+    const minN=Math.max(30, Math.round(maxN*0.3));
+    const dts=allDates.filter(d=>perDate[d].length>=minN).sort();
+    if(dts.length<3){ return; }
+    const byDow={};
+    for(const d of dts){
+      const avg=perDate[d].reduce((s,x)=>s+x,0)/perDate[d].length;
+      const dow=new Date(d+'T00:00:00Z').getUTCDay();
+      (byDow[dow]=byDow[dow]||[]).push(avg);
+    }
+    for(let dow=1;dow<=5;dow++){
+      const arr=byDow[dow]||[];
+      const avg=arr.length?arr.reduce((s,x)=>s+x,0)/arr.length:null;
+      if(avg!==null) maxAbs=Math.max(maxAbs, Math.abs(avg));
+      rows.push({dow, avg, n:arr.length});
+    }
+    from=dts[0].slice(5).replace('-','/'); to=dts[dts.length-1].slice(5).replace('-','/');
+    days=dts.length; uni=(maxN>400)?'500':String(maxN);
   }
-  const rows=[]; let maxAbs=0.1;
-  for(let dow=1;dow<=5;dow++){
-    const arr=byDow[dow]||[];
-    const avg=arr.length?arr.reduce((s,x)=>s+x,0)/arr.length:null;
-    if(avg!==null) maxAbs=Math.max(maxAbs, Math.abs(avg));
-    rows.push({dow, avg, n:arr.length});
-  }
+
   const H=26; // 막대 최대 높이(0선 기준 위/아래 각각)
   const cells=rows.map(r=>{
     if(r.avg===null)
@@ -2374,11 +2396,9 @@ function moodLine(){
       `<div class="dow-val" style="color:${col}">${up?'+':''}${r.avg.toFixed(2)}%</div>`+
       `<div class="dow-meta">표본 ${r.n}일</div></div>`;
   }).join('');
-  const from=dates[0].slice(5).replace('-','/'), to=dates[dates.length-1].slice(5).replace('-','/');
-  const uni=maxN>400?'500':String(maxN);
   el.innerHTML=
     `<div class="dow-h"><b>📅 요일별 평균 등락률</b>`+
-    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${dates.length}거래일)</span></div>`+
+    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></div>`+
     `<div class="dow-grid">${cells}</div>`+
     `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`;
   el.style.display='';
