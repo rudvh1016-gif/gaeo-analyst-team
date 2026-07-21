@@ -1231,6 +1231,7 @@
     <button class="modebtn" id="mode-news"><svg class="mi" viewBox="0 0 24 24"><path d="M4 4h13v16H6a2 2 0 0 1-2-2zM17 8h3v10a2 2 0 0 1-2 2h-1"/><path d="M7.5 8h6M7.5 12h6M7.5 16h4"/></svg>뉴스분석</button>
     <button class="modebtn" id="mode-study"><svg class="mi" viewBox="0 0 24 24"><path d="M5 3h13a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 3v18M12 8h4"/></svg>종목공부</button>
     <button class="modebtn" id="mode-lesson"><svg class="mi" viewBox="0 0 24 24"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c0 1.2 2.5 2.6 5.5 2.6s5.5-1.4 5.5-2.6v-4.5M21 10v5"/></svg>주식공부</button>
+    <button class="modebtn" id="mode-estate"><svg class="mi" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5h4v5h5v-9.5"/></svg>부동산공부</button>
     <button class="modebtn" id="mode-leaderboard"><svg class="mi" viewBox="0 0 24 24"><path d="M7.5 4h9v3.8A4.5 4.5 0 0 1 12 12a4.5 4.5 0 0 1-4.5-4.2zM7.5 5.5H4.2a3.4 3.4 0 0 0 3.4 3.9M16.5 5.5h3.3a3.4 3.4 0 0 1-3.4 3.9"/><path d="M12 12v4M8.5 20h7M10 20l.6-4h2.8l.6 4"/></svg>리더보드</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
@@ -1308,6 +1309,7 @@
   <div class="newsView" id="newsView"></div>
   <div class="newsView" id="studyView"></div>
   <div class="newsView" id="lessonView"></div>
+  <div class="newsView" id="estateView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -1330,6 +1332,7 @@
 <script src="news_analysis.js" onerror="window.NEWS_ANALYSIS=window.NEWS_ANALYSIS||null"></script>
 <script src="stock_study.js" onerror="window.STOCK_STUDY=window.STOCK_STUDY||null"></script>
 <script src="stock_lessons.js" onerror="window.STOCK_LESSONS=window.STOCK_LESSONS||null"></script>
+<script src="estate_lessons.js" onerror="window.ESTATE_LESSONS=window.ESTATE_LESSONS||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
@@ -3945,6 +3948,7 @@ function renderGuide(){
       <b>📰 뉴스분석</b> — 시장을 움직인 큰 뉴스를 골라 초보자 눈높이로 풀어쓴 심층 보고서예요. 계속 쌓이고 10건마다 한 페이지예요.<br>
       <b>📚 종목공부</b> — "이 회사가 뭐 하는 곳인지"를 한 종목씩 쉽게 풀어쓴 회사 소개예요.<br>
       <b>🎓 주식공부</b> — 차트 보는 법, 캔들 읽는 법처럼 어떤 종목에나 통하는 <b>투자 기초 지식</b>을 배우는 공부 노트예요.<br>
+      <b>🏠 부동산공부</b> — 근저당·대출규제·청약처럼 <b>내 집 마련에 꼭 필요한 부동산 기초</b>를 초보 눈높이로 쉽게 풀어요.<br>
       <b>🏆 리더보드</b> — 분석가 넷 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점하고, 이 성적이 곧 CHIEF 합산 가중치(잘 맞힌 만큼 발언권↑)로 이어져요.<br>
       <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
       <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
@@ -4312,6 +4316,46 @@ makeCards(false);
       +tx(240,178,'갚아야 할 돈은 10,500원인데, 세상에 있는 돈은 딱 10,000원',undefined,12.5,INK,1)
       +tx(240,200,'이자 500원에 해당하는 돈은 애초에 어디에도 없어요',undefined,12.5,RED,1)
       +tx(240,222,'→ 그래서 새 대출이 계속 생겨야만 예전 이자를 갚을 수 있어요',undefined,11.5,'#8a95a0'));
+    // ⑪ 근저당·채권최고액 — 실제 대출 1억 vs 등기부에 적히는 120%(채권최고액)
+    A['geunjeodang']=svg(480,250,
+      ln(60,200,420,200)
+      +'<rect x="90" y="90" width="90" height="110" fill="'+BLUE+'" rx="4"/>'
+      +tx(135,78,'실제 대출 1억원',undefined,12.5,BLUE,1)
+      +tx(135,220,'내가 진짜 빌린 돈',undefined,12,INK,1)
+      +tx(135,238,'= 1억원',undefined,11.5,'#8a95a0')
+      +'<rect x="300" y="90" width="90" height="110" fill="'+BLUE+'" rx="4"/>'
+      +'<rect x="300" y="68" width="90" height="22" fill="'+RED+'" rx="3"/>'
+      +tx(345,58,'+20% 여유분',undefined,11.5,RED,1)
+      +tx(345,220,'등기부에 적히는 채권최고액',undefined,11.5,INK,1)
+      +tx(345,238,'= 1억 2,000만원 (120%)',undefined,11.5,RED,1)
+      +tx(240,150,'→',undefined,22,'#8a95a0'));
+    // ⑫ 대출한도 축소 — 규제 전 vs 6억 한도+스트레스 DSR
+    A['loan-shrink']=svg(480,260,
+      ln(60,210,420,210)
+      +'<rect x="95" y="50" width="90" height="160" fill="'+GRAY+'" rx="4"/>'
+      +tx(140,38,'규제 전',undefined,12.5,INK,1)
+      +tx(140,230,'예: 8~9억까지도',undefined,11.5,'#8a95a0')
+      +tx(140,248,'가능했음',undefined,11.5,'#8a95a0')
+      +'<rect x="295" y="130" width="90" height="80" fill="'+BLUE+'" rx="4"/>'
+      +'<line x1="285" y1="130" x2="395" y2="130" stroke="'+RED+'" stroke-width="2" stroke-dasharray="5 3"/>'
+      +tx(390,124,'6억 천장','end',11.5,RED,1)
+      +tx(340,38,'규제 후 (2026.7)',undefined,12.5,INK,1)
+      +tx(340,230,'6억 한도 + 스트레스',undefined,11.5,'#8a95a0')
+      +tx(340,248,'DSR로 더 축소',undefined,11.5,'#8a95a0')
+      +tx(240,150,'↓',undefined,22,RED));
+    // ⑬ 부동산 초보 5단계 로드맵
+    A['estate-roadmap']=svg(520,150,
+      (function(){
+        const steps=['① 용어·기초','② 시장흐름','③ 임장(현장)','④ 등기부확인','⑤ 자금계획'];
+        let s='';
+        steps.forEach((t,i)=>{
+          const x=30+i*98;
+          s+='<rect x="'+x+'" y="50" width="84" height="50" fill="'+(i===0?BLUE:'#eef2f7')+'" stroke="'+BLUE+'" stroke-width="1.5" rx="8"/>';
+          s+=tx(x+42,80,t,undefined,10.5,(i===0?'#fff':INK),1);
+          if(i<steps.length-1) s+=tx(x+90,80,'›',undefined,18,'#8a95a0');
+        });
+        return s+tx(260,128,'차근차근 순서대로 밟으면 초보도 길을 잃지 않아요',undefined,12,'#8a95a0');
+      })());
     // ⑤ 갭(창) — 전일 고가와 오늘 저가 사이의 빈 공간
     A['candle-gap']=svg(440,240,
       cd(140,86,150,96,166,RED,34)
@@ -4435,6 +4479,54 @@ makeCards(false);
     });
     if(lsPage===1&&slice.length){ const first=document.getElementById('ls-'+slice[0].id); if(first) first.classList.add('open'); }
   };
+
+  // ---------- 🏠 부동산공부 모드 ----------
+  // estate_lessons.js(ESTATE_LESSONS)에 "부동산 기초 지식" 글을 쌓는다. 주식공부와 형식·헬퍼 동일.
+  let esPage=1;
+  window.renderEstate=function(){
+    const box=document.getElementById('estateView'); if(!box) return;
+    const all=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
+    if(esPage>pages) esPage=pages; if(esPage<1) esPage=1;
+    const slice=all.slice((esPage-1)*PAGE_SIZE, esPage*PAGE_SIZE);
+    let h=`<div class="nw-hero"><h2>🏠 부동산공부</h2>
+      <p>내 집 마련·전월세·대출·청약처럼 <b>살면서 꼭 마주치는 부동산 기초</b>를 초보 눈높이로 하나씩 배워요.
+      어려운 용어는 쉬운 말로 풀고, 지금 규제 상황도 함께 정리해요.
+      제목을 누르면 전체 내용이 펼쳐지고, 10개마다 한 페이지예요.</p></div>`;
+    h+=slice.length
+      ? slice.map(a=>`<div class="nw-item" id="es-${a.id}">
+          <div class="nw-head" data-es="${a.id}">
+            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
+            <div class="nw-title">🏠 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
+            ${a.summary?`<div class="nw-sum">${escN(a.summary)}</div>`:''}
+          </div>
+          <div class="nw-body">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+              a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
+            <div class="nw-disc">※ 부동산 기초를 익히는 공부 자료예요. 투자·매매 권유가 아니며, 판단과 책임은 본인에게 있어요.</div>
+          </div>
+        </div>`).join('')
+      : `<div class="nw-item"><div class="nw-empty">아직 등록된 부동산공부가 없어요.</div></div>`;
+    if(pages>1){
+      h+=`<div class="nw-pager">
+        <button class="nw-pg" data-pg="${esPage-1}" ${esPage<=1?'disabled':''}>‹ 이전</button>`+
+        Array.from({length:pages},(_,i)=>`<button class="nw-pg${i+1===esPage?' on':''}" data-pg="${i+1}">${i+1}</button>`).join('')+
+        `<button class="nw-pg" data-pg="${esPage+1}" ${esPage>=pages?'disabled':''}>다음 ›</button></div>`;
+    }
+    box.innerHTML=h;
+    box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
+      const item=document.getElementById('es-'+el.dataset.es);
+      if(item) item.classList.toggle('open');
+    });
+    box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
+      const p=parseInt(b.dataset.pg,10);
+      if(!p||p===esPage||b.disabled) return;
+      esPage=p; window.renderEstate();
+      box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    if(esPage===1&&slice.length){ const first=document.getElementById('es-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
 })();
 
 // ---------- 종목 비교 모드 ----------
@@ -4453,7 +4545,8 @@ makeCards(false);
   function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
-          guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson';
+          guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
+          estate=mode==='estate';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
@@ -4461,6 +4554,7 @@ makeCards(false);
     document.getElementById('mode-news').classList.toggle('on',news);
     document.getElementById('mode-study').classList.toggle('on',study);
     document.getElementById('mode-lesson').classList.toggle('on',lesson);
+    document.getElementById('mode-estate').classList.toggle('on',estate);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -4479,11 +4573,13 @@ makeCards(false);
     document.getElementById('newsView').classList.toggle('on',news);
     document.getElementById('studyView').classList.toggle('on',study);
     document.getElementById('lessonView').classList.toggle('on',lesson);
+    document.getElementById('estateView').classList.toggle('on',estate);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
     if(lesson && window.renderLesson) window.renderLesson();
+    if(estate && window.renderEstate) window.renderEstate();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -4495,6 +4591,7 @@ makeCards(false);
   document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
   document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
   document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
+  document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
