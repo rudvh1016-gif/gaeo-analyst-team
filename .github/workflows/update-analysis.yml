@@ -2,6 +2,8 @@
 # 구조는 update-prices.yml과 동일한 설계(그쪽 주석 참조):
 #   자가 반복(30분 주기, 16:05 KST까지 — 종가·마감 수급 확정분 포함) + 종료 시 자기 재기동 체인(장외엔 320분 잠들며 유지)
 #   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
+# 2026-07-21: concurrency를 cancel-in-progress:false로 변경(트리거 겹침이 도는 루프를 죽여
+#   체인이 끊기는 사고 방지 — update-prices.yml 주석에 상세 원인 설명).
 # 생성물: price_history.js · analysis_data.json · indicators.json · indicators.js ·
 #         auto_analysis.js · guestbook_backup.json · krx_list.json
 name: update-analysis
@@ -24,7 +26,7 @@ permissions:
 
 concurrency:
   group: update-analysis-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   analyze:
