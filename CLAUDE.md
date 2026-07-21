@@ -35,6 +35,7 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude — **절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 필독** |
 | stock_study.js | 📚 종목공부(STOCK_STUDY, 회사별 소개 프로필) | Claude |
 | stock_lessons.js | 🎓 주식공부(STOCK_LESSONS, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | Claude |
+| estate_lessons.js | 🏠 부동산공부(ESTATE_LESSONS, 근저당·대출규제·청약 등 부동산 기초, 주식공부와 형식·헬퍼 동일) | Claude |
 | history.js | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, tier:"auto" 표식·정밀 우선·HIST_CAP=80) | **archive_analysis.py만** — 직접 편집 금지. 러너가 `--auto`로 매 사이클 호출 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
