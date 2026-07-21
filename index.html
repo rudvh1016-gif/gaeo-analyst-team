@@ -464,6 +464,9 @@
   .lb-rank{font-size:19px;font-weight:800;color:var(--navy);text-align:center}
   .lb-who{display:flex;flex-direction:column;gap:3px}
   .lb-nm{font-weight:800;font-size:14px} .lb-nm .lb-dot{margin-right:7px}
+  .lb-weight{display:inline-block;margin-left:8px;font-size:10.5px;font-weight:700;color:var(--navy);
+    background:var(--navy-soft);border-radius:99px;padding:2px 8px;vertical-align:1px;cursor:help}
+  html.gdark .lb-weight{background:rgba(255,255,255,.09)}
   .lb-role{font-size:11px;color:var(--dim)}
   .lb-bar{height:7px;background:#E5EBF2;border-radius:99px;overflow:hidden;margin-top:6px;width:min(220px,42vw)}
   .lb-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--navy))}
@@ -1334,6 +1337,7 @@
 <script src="indicators.js"></script>
 <script src="market_history.js"></script>
 <script src="dow_stats.js" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
+<script src="team_weights.js" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
 <script>
 /* ============================================================
    개오 애널리스트팀 — 홈오피스 v4
@@ -1929,16 +1933,22 @@ function renderLeaderboard(){
   });
   const totalScored=rows.reduce((s,r)=>s+r.n,0);
   const mvpEligible=rows[0]&&rows[0].acc!==null&&rows[0].n>=LB_MIN;
+  // 🧠 자가 학습 가중치(team_weights.js) — 러너가 채점 기록으로 계산한 CHIEF 합산 발언권
+  const TW=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)?TEAM_WEIGHTS:null;
+  const twW=TW?TW.global.weights:null;
   let cards='';
   rows.forEach((r,i)=>{
     const isMvp=mvpEligible&&i===0;
     const accHtml=r.acc===null
       ? '<span class="lb-acc" style="color:var(--dim)">—</span>'
       : `<span class="lb-acc" style="color:${r.acc>=60?'var(--green)':(r.acc<45?'var(--red)':'var(--amber)')}">${r.acc}%</span>`;
+    const wHtml=(twW&&twW[r.id]!=null)
+      ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 주는 발언권 — 최근 적중률에 비례해 자동 조정돼요">🧠 발언권 ${(twW[r.id]*100).toFixed(0)}%</span>`
+      : '';
     cards+=`<div class="lb-card ${isMvp?'mvp':''}">
       <div class="lb-rank">${i+1}</div>
       <div class="lb-who">
-        <div class="lb-nm"><span class="lb-dot" style="color:${r.color}">●</span>${r.name}${isMvp?'<span class="lb-mvp-tag">👑 이달의 MVP</span>':''}</div>
+        <div class="lb-nm"><span class="lb-dot" style="color:${r.color}">●</span>${r.name}${isMvp?'<span class="lb-mvp-tag">👑 이달의 MVP</span>':''}${wHtml}</div>
         <div class="lb-role">${r.role}</div>
         <div class="lb-bar"><i style="width:${r.acc===null?0:r.acc}%"></i></div>
       </div>
@@ -1946,10 +1956,12 @@ function renderLeaderboard(){
     </div>`;
   });
   el.innerHTML=`<div class="lb-head"><h3>🏆 애널리스트 리더보드</h3></div>
-    <div class="lb-sub">각 분석가의 강세/약세 판단을 <b>판단 후 5거래일 뒤 종가</b>로 채점해 적중률을 집계합니다 — 모든 판단이 같은 잣대(일주일 성적표)로 공평하게 비교돼요 (중립·미미한 변동 제외). <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
+    <div class="lb-sub">각 분석가의 강세/약세 판단을 <b>판단 후 5거래일 뒤 종가</b>로 채점해 적중률을 집계합니다 — 모든 판단이 같은 잣대(일주일 성적표)로 공평하게 비교돼요 (중립·미미한 변동 제외).
+    ${TW?`<b>이 성적은 그대로 CHIEF의 합산 가중치(🧠 발언권)가 됩니다</b> — 잘 맞힌 분석가의 말을 더 크게 듣는 자가 학습 구조예요(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 오버라이드 ${Object.keys(TW.sectors||{}).length}개, 매 사이클 자동 재계산).`:''}
+    <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
     ${cards}
     ${totalScored===0?'<div class="lb-empty">아직 확정 채점된 예측이 없어요. 각 판단은 5거래일(약 일주일)이 지나야 그 시점 종가로 채점돼요 — 곧 하나씩 채워집니다!</div>':''}
-    <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 판단 후 5거래일 뒤 종가 기준, 변동 ±1% 이내는 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.</div>`;
+    <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 판단 후 5거래일 뒤 종가 기준, 변동 ±1% 이내는 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.${twW?' 🧠 발언권 = 적중률 비례 CHIEF 합산 가중치(표본 30건 미만은 중립 처리).':''}</div>`;
 }
 
 /* ============================================================
@@ -2737,10 +2749,11 @@ const AGENTS = [
     hair:'#1f2a3d', shirt:'#22d3ee', pants:'#33415e', long:false, color:'#22d3ee',
     acc:[[2,3,'#0e1418'],[2,4,'#0b2830'],[2,5,'#22d3ee'],[9,3,'#0e1418'],[9,4,'#0b2830'],[9,5,'#22d3ee'],[3,1,'#0e1418'],[8,1,'#0e1418']], // 헤드셋
     bubbles:['차트 불러오는 중...','이동평균선 계산 중...','RSI 확인 중...','MACD 교차 분석 중...'] },
-  { id:'nova',  name:'NOVA',  role:'뉴스·심리 분석가', room:'부엌',
+  { id:'nova',  name:'QUANT', role:'확률·통계 분석가', room:'부엌',
+    // 내부 id는 'nova' 유지 — history.js 기록·리더보드 채점과의 호환성 때문(2026-07-21 QUANT로 역할 교체).
     hair:'#151515', shirt:'#fb923c', pants:'#4a3220', long:false, color:'#fb923c',
     acc:[[10,2,'#151515'],[10,3,'#151515'],[10,4,'#151515'],[10,5,'#151515'],[11,3,'#151515'],[11,4,'#151515']], // 포니테일
-    bubbles:['뉴스 수집 중...','소셜 감성 분석 중...','시장 분위기 측정 중...','공포·탐욕 확인 중...'] },
+    bubbles:['과거 패턴 검색 중...','승률 계산 중...','표본 세는 중...','확률 검증 중...'] },
   { id:'diana', name:'DIANA', role:'재무·기본적 분석가', room:'서재',
     hair:'#7c4a21', shirt:'#a78bfa', pants:'#40305e', long:true, color:'#a78bfa', glasses:true,
     acc:[[3,4,'#241a38'],[4,4,'#241a38'],[5,4,'#241a38'],[6,4,'#241a38'],[7,4,'#241a38'],[8,4,'#241a38']], // 안경
@@ -2889,7 +2902,7 @@ const WORK={ taro:{x:252,y:168}, nova:{x:594,y:168},
              diana:{x:205,y:438}, chief:{x:672,y:438}, flow:{x:130,y:172} };
 const ROOM_LABEL=[
   {t:'거실 · TARO',  x:56, y:HW-26, c:'#22d3ee'},
-  {t:'부엌 · NOVA',  x:498,y:HW-26, c:'#fb923c'},
+  {t:'부엌 · QUANT', x:498,y:HW-26, c:'#fb923c'},
   {t:'서재 · DIANA', x:96, y:480,   c:'#a78bfa'},
   {t:'침실 · CHIEF', x:566,y:480,   c:'#fbbf24'},
 ];
@@ -3413,9 +3426,9 @@ function runAnalysis(stock){
       `PER ${pct(8,25)}배 · ${fund>55?'저평가':'고평가'} (mock)`,
       `영업이익률 ${pct(5,20)}% (mock)`,`매출 ${fund>50?'성장':'둔화'} 추세 (mock)`]},
     nova:{score:news,stance:stance(news),findings:[
-      `뉴스 감성 ${news>55?'긍정':'부정'} ${Math.round(50+r()*45)}% (mock)`,
-      `주요 이슈: ${news>55?'실적 기대감 확산':'차익실현 매물 경계'} (mock)`,
-      `시장 분위기 ${news>55?'우호적':'경계'} (mock)`]},
+      `비슷한 상태의 과거 승률 ${Math.round(30+r()*40)}% (mock)`,
+      `표본 ${Math.round(50+r()*400)}건 · 평균 ${news>55?'+':'-'}${pct(0.5,3)}% (mock)`,
+      `과거 통계 ${news>55?'우호적':'경계'} 구간 (mock)`]},
     flow:(function(){const fl=Math.round(30+r()*60);return {score:fl,stance:stance(fl),findings:[
       `외국인 최근 10일 ${fl>55?'순매수':'순매도'} 우위 (mock)`,
       `기관 수급 ${fl>50?'매수':'매도'} 우세 (mock)`,
@@ -3565,7 +3578,7 @@ function renderRiskCard(code){
 const VIZ_AXES=[
   {id:'taro', label:'기술',      color:'#1fb6c9'},
   {id:'diana',label:'재무',      color:'#8b6fe0'},
-  {id:'nova', label:'뉴스·심리', color:'#e0842f'},
+  {id:'nova', label:'확률·통계', color:'#e0842f'},
   {id:'flow', label:'수급',      color:'#1f9d64'},
 ];
 /* ⚡ 의견 갈림 감지: 4인 점수의 최대-최소 차가 CLASH_MIN 이상이면
@@ -3650,7 +3663,7 @@ function analyze(){
     const AX=[
       {id:'taro', name:'주가 흐름(차트)',   hi:'최근 주가가 오르려는 힘이 좋아요',           mid:'주가 흐름은 보통이에요',      lo:'주가가 아직 아래로 처져 있어요'},
       {id:'diana',name:'돈 버는 실력(실적)',hi:'회사가 돈을 잘 벌고, 지금 값도 싼 편이에요',  mid:'돈 버는 실력은 무난한 편이에요', lo:'버는 돈에 비해 주가가 비싸거나 확인이 더 필요해요'},
-      {id:'nova', name:'뉴스와 분위기',     hi:'좋은 소식이 많고 분위기가 밝아요',            mid:'뉴스 분위기는 그저 그래요',    lo:'걱정되는 소식이 있거나 관심을 덜 받고 있어요'},
+      {id:'nova', name:'과거 통계(승률)',   hi:'비슷한 상황에서 과거에 오른 적이 많았어요',    mid:'과거 통계로는 반반이에요',     lo:'비슷한 상황에서 과거에 내린 적이 많았어요'},
       {id:'flow', name:'큰손들의 매매',     hi:'외국인·기관 같은 큰손들이 사 모으고 있어요',   mid:'큰손들은 지켜보는 중이에요',   lo:'큰손들이 팔고 있어요'}
     ];
     const phrase=(x,s)=>s>=55?x.hi:(s<=45?x.lo:x.mid);
@@ -3700,8 +3713,8 @@ function analyze(){
       const va=document.getElementById('vauto');
       if(v.tier==='auto'){
         va.innerHTML='🤖 <b>자동분석</b> — 이 종목은 심부름꾼(무료 서버)이 <b>수집된 지표(차트·재무·수급)를 규칙으로 해석</b>한 결과예요. '
-          +'개별 뉴스·공시는 아직 반영되지 않았어요(NOVA는 가격 흐름으로 추정). '
-          +'더 깊은 분석이 필요하면 <b>정밀분석(🧠 Claude 5인)</b>으로 전환할 수 있어요.';
+          +'QUANT는 지금과 비슷한 상태였던 과거 사례의 <b>실측 승률</b>을 계산하고, CHIEF는 분석가별 <b>실제 적중률에 비례한 가중치</b>로 합산해요. '
+          +'개별 뉴스·공시는 반영되지 않아요 — 더 깊은 분석이 필요하면 <b>정밀분석(🧠 Claude 5인)</b>으로 전환할 수 있어요.';
         va.style.display='block';
       } else va.style.display='none';
       // 👑 운영자 한마디 (관리자 모드에서 종목별로 작성)
@@ -3855,7 +3868,7 @@ function renderGuide(){
     <div class="gb-agents">
       <div class="gb-agent"><b>📈 TARO (기술)</b>주가 차트의 흐름을 봐요 — "요즘 오르는 힘이 센가?"</div>
       <div class="gb-agent"><b>💰 DIANA (재무)</b>회사가 돈을 잘 버는지, 주가가 싼지 비싼지 계산해요</div>
-      <div class="gb-agent"><b>📰 NOVA (뉴스)</b>좋은 소식·나쁜 소식을 찾아 분위기를 읽어요</div>
+      <div class="gb-agent"><b>📊 QUANT (확률)</b>지금과 비슷했던 과거 사례들이 실제로 올랐는지 세어 승률을 알려줘요</div>
       <div class="gb-agent"><b>🌊 FLOW (수급)</b>외국인·기관 같은 큰손들이 사는지 파는지 추적해요</div>
       <div class="gb-agent"><b>🛡️ RISK (위험)</b>이 종목이 얼마나 험하게 출렁이는지 재요 — "험한 길인가, 평탄한 길인가?" (판단엔 개입 안 하는 정보 담당)</div>
       <div class="gb-agent"><b>👑 CHIEF (총괄)</b>분석가 네 명의 의견을 모아 최종 판단을 내려요</div>
@@ -3868,7 +3881,7 @@ function renderGuide(){
       <div class="gb-step"><span class="gb-no">1</span><span><b>궁금한 회사를 검색해요.</b> 맨 위 검색창에 한글로 "삼성"처럼 일부만 쳐도 후보가 떠요. 회사 이름이 생각 안 나면 "반도체", "게임"처럼 <b>하는 일</b>로 검색해도 돼요.</span></div>
       <div class="gb-step"><span class="gb-no">2</span><span><b>[분석 시작 ▶]을 눌러요.</b> 다섯 분석가가 일하러 가는 모습이 보이고, 잠시 뒤 결과가 나와요.</span></div>
       <div class="gb-step"><span class="gb-no">3</span><span><b>🧒 파란 말풍선부터 읽어요.</b> 분석 결과 맨 위 "초등학생도 이해하는 설명"이 오늘의 핵심을 제일 쉽게 알려줘요.</span></div>
-      <div class="gb-step"><span class="gb-no">4</span><span><b>더 궁금하면 아래로 내려요.</b> 분석가 카드 5장(기술·재무·뉴스·수급 + 🛡️리스크) → 팀 종합 점수 → <b>BUY/HOLD/SELL 최종 판단</b> → 🧭 가격 나침반(목표가·지지선) 순서로 자세해져요.</span></div>
+      <div class="gb-step"><span class="gb-no">4</span><span><b>더 궁금하면 아래로 내려요.</b> 분석가 카드 5장(기술·재무·확률·수급 + 🛡️리스크) → 팀 종합 점수 → <b>BUY/HOLD/SELL 최종 판단</b> → 🧭 가격 나침반(목표가·지지선) 순서로 자세해져요.</span></div>
       <div class="gb-step"><span class="gb-no">5</span><span><b>점선 밑줄 단어는 눌러보세요.</b> <span style="border-bottom:1.5px dotted var(--sky);color:var(--navy);font-weight:700">PER</span>처럼 밑줄 있는 낱말을 누르면 쉬운 뜻풀이가 떠요.</span></div>
     </div>
   </details>
@@ -3898,6 +3911,32 @@ function renderGuide(){
   </details>
 
   <details class="gb-sec">
+    <summary>📊 QUANT와 자가 학습 — 팀이 스스로 똑똑해지는 법 (2026-07-21 도입)</summary>
+    <div class="gb-body">
+      <b>📊 QUANT(확률·통계 분석가)는 뭘 하나요?</b><br>
+      "지금 이 종목이 RSI 42에 20일선 아래, 최근 5일 횡보" 같은 <b>현재 상태</b>를 보고,
+      개오가 매일 모아온 500종목 일봉 기록에서 <b>과거에 이것과 비슷한 상태였던 사례</b>를 전부 찾아요.
+      그리고 그 사례들이 <b>5거래일 뒤 실제로 올랐는지 내렸는지를 세서 승률</b>로 알려줘요.
+      예: "비슷한 상태 1,469건 중 450건이 올랐다 → 승률 31%". 누군가의 감이 아니라
+      <b>실제로 일어났던 일의 빈도</b>라서 정직하고, 카드에 표본 수까지 같이 적어줘요.<br><br>
+      <b>예전 NOVA(뉴스·심리)는 어디 갔나요?</b><br>
+      자동분석의 NOVA는 사실 뉴스를 못 읽고 가격 흐름으로 분위기를 "추정"만 했어요.
+      그래서 2026-07-21부터 그 자리를 <b>실측 통계를 내는 QUANT</b>로 바꿨어요.
+      진짜 뉴스를 읽는 분석은 🧠 정밀분석과 📰 뉴스분석 탭에서 계속 볼 수 있어요.<br><br>
+      <b>🧠 자가 학습 가중치는 뭔가요?</b><br>
+      CHIEF는 네 분석가(기술·재무·확률·수급)의 점수를 합쳐 최종 판단을 내리는데,
+      예전엔 네 명을 거의 똑같이 믿었어요. 이제는 <b>지금까지 쌓인 채점 기록(판단 후 5거래일 뒤
+      종가로 맞았는지 확인한 9,000건 이상)</b>을 보고, <b>실제로 잘 맞혀온 분석가의 말에 더 큰
+      가중치</b>를 줘요. 업종별로도 따로 배워요 — 반도체에서 잘 맞는 분석가와 금융에서 잘 맞는
+      분석가가 다를 수 있으니까요. 가중치는 매 분석 사이클마다 자동으로 다시 계산되고,
+      🏆 리더보드에서 지금 누가 몇 %의 가중치를 받는지 볼 수 있어요.<br><br>
+      <div class="gb-tip">💡 즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
+      잘 맞히면 발언권이 커지고, 자꾸 틀리면 발언권이 줄어요. 다만 모든 통계가 그렇듯
+      과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div>
+    </div>
+  </details>
+
+  <details class="gb-sec">
     <summary>🧭 탭마다 뭐가 있어요?</summary>
     <div class="gb-body">
       <b>단일 분석</b> — 한 종목을 골라 5명이 꼼꼼히 봐요. 이 사이트의 메인이에요.<br>
@@ -3906,7 +3945,7 @@ function renderGuide(){
       <b>📰 뉴스분석</b> — 시장을 움직인 큰 뉴스를 골라 초보자 눈높이로 풀어쓴 심층 보고서예요. 계속 쌓이고 10건마다 한 페이지예요.<br>
       <b>📚 종목공부</b> — "이 회사가 뭐 하는 곳인지"를 한 종목씩 쉽게 풀어쓴 회사 소개예요.<br>
       <b>🎓 주식공부</b> — 차트 보는 법, 캔들 읽는 법처럼 어떤 종목에나 통하는 <b>투자 기초 지식</b>을 배우는 공부 노트예요.<br>
-      <b>🏆 리더보드</b> — 분석가 다섯 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점해요.<br>
+      <b>🏆 리더보드</b> — 분석가 넷 중 누가 제일 잘 맞히는지 적중률 순위예요. 5거래일 뒤 종가로 공평하게 채점하고, 이 성적이 곧 CHIEF 합산 가중치(잘 맞힌 만큼 발언권↑)로 이어져요.<br>
       <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
       <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
     </div>
@@ -4116,7 +4155,7 @@ makeCards(false);
     if(page>pages) page=pages; if(page<1) page=1;
     const slice=all.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
     let h=`<div class="nw-hero"><h2>📰 뉴스분석</h2>
-      <p>시장을 움직인 기사·이슈를 NOVA와 개오팀이 초보자 눈높이로 풀어드려요.
+      <p>시장을 움직인 기사·이슈를 개오팀이 초보자 눈높이로 풀어드려요.
       제목을 누르면 전체 보고서가 펼쳐집니다. 보고서는 계속 쌓이고, 10건마다 한 페이지예요.</p></div>`;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="nw-${a.id}">

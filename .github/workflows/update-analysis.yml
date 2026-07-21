@@ -103,6 +103,8 @@ jobs:
             python3 collect_analyst_data.py || echo "analysis_data 실패"
             python3 compute_indicators.py    || echo "indicators 실패"
             python3 compute_dow_stats.py     || echo "dow_stats 실패"
+            # 🧠 자가 학습 가중치(채점 기록 → 분석가별 발언권) — analyze_auto가 읽으므로 먼저 실행
+            python3 compute_team_weights.py  || echo "team_weights 실패"
             python3 analyze_auto.py          || echo "auto_analysis 실패"
             # 🤖 자동분석 500종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
             #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
@@ -122,7 +124,7 @@ jobs:
             if [ ! -f krx_list.json ] || [ -n "$(find krx_list.json -mtime +7 2>/dev/null)" ]; then
               python3 fetch_krx_list.py || echo "krx_list 실패"
             fi
-            for f in price_history.js analysis_data.json indicators.json indicators.js dow_stats.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json; do
+            for f in price_history.js analysis_data.json indicators.json indicators.js dow_stats.js team_weights.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             if git diff --cached --quiet; then

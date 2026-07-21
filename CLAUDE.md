@@ -1,7 +1,12 @@
 # 개오(Gaeo) 애널리스트팀 — 프로젝트 가이드
 
-AI 애널리스트 5인(TARO 기술 · DIANA 재무 · NOVA 뉴스심리 · FLOW 수급 · CHIEF 총괄)이
-한국 주식을 분석하는 단일 페이지 대시보드. 6번째 카드 🛡️ RISK(리스크 관리)는 규칙 기반
+AI 애널리스트 5인(TARO 기술 · DIANA 재무 · QUANT 확률통계 · FLOW 수급 · CHIEF 총괄)이
+한국 주식을 분석하는 단일 페이지 대시보드. **QUANT는 2026-07-21에 NOVA(뉴스심리)를 교체**한
+확률·통계 분석가 — 내부 id·데이터 키는 호환성 위해 `nova` 유지(analyze_auto.py quant_eval이
+"지금과 비슷한 상태(RSI구간×20일선×5일추세)의 과거 사례 5거래일 뒤 실측 승률"을 analysis_data.json
+일봉에서 계산, 토큰 0). CHIEF 합산은 **자가 학습 가중치**(compute_team_weights.py →
+team_weights.js: history.js 채점 기록으로 분석가별 적중률→발언권, 업종 오버라이드 포함)를 쓴다.
+정밀분석(analysis.js)의 nova 블록만 여전히 진짜 뉴스 분석. 6번째 카드 🛡️ RISK(리스크 관리)는 규칙 기반
 정보 전용(토큰 0) — compute_indicators.py가 계산한 risk(vol20·mdd3m·pos52w·grade)를
 index.html renderRiskCard()가 그대로 그리며, CHIEF 종합·적중률 기록에는 개입하지 않는다. 순수 정적 사이트(빌드 없음).
 종목은 tickers.js 단일 소스(**현재 500종목**). 소수 핵심(현재 13종목, analysis.js에 있는 종목)은
@@ -36,6 +41,8 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | analysis_data.json | 분석용 원천 데이터(일봉·수급·컨센서스) | collect_analyst_data.py |
 | indicators.json | 사전계산 지표(분석 시 토큰 절약용) | compute_indicators.py |
 | indicators.js | ↑의 브라우저 축약본(TARO 미니차트가 읽음) | compute_indicators.py |
+| dow_stats.js | 요일별 평균 등락률 사전계산(상단 📅 패널) | compute_dow_stats.py (자동) |
+| team_weights.js | 자가 학습 CHIEF 가중치(분석가별 적중률→발언권, 업종 오버라이드) | compute_team_weights.py (자동) |
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개)
 

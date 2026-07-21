@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 """개오 애널리스트팀 — 자동분석 엔진 (GitHub Actions용 · Claude 토큰 0)
 
-핵심 아이디어: 5인 애널리스트 중 TARO(기술)·DIANA(재무)·FLOW(수급)·CHIEF(종합)는
-"이미 수집·계산된 숫자를 규칙에 따라 해석"하는 일이라 사람(Claude)의 판단 없이
-심부름꾼(무료 러너)이 그대로 만들 수 있다. NOVA(뉴스)만 진짜 웹검색·판단이 필요하나,
-자동분석 티어에서는 '개별 뉴스 미반영 + 모멘텀 기반' 축약본으로 대체한다.
+핵심 아이디어: 5인 애널리스트 모두 "이미 수집·계산된 숫자를 규칙·통계로 해석"하는
+일이라 사람(Claude)의 판단 없이 심부름꾼(무료 러너)이 그대로 만들 수 있다.
+- TARO(기술)·DIANA(재무)·FLOW(수급): 지표 규칙 기반 해석
+- QUANT(확률·통계, 내부 id 'nova' 유지): "지금과 비슷한 상태였던 과거 사례가
+  5거래일 뒤 실제로 올랐는가"를 500종목 누적 일봉에서 세어 실측 승률로 점수화
+  (2026-07-21 교체 — 예전 NOVA 뉴스·심리 카드는 정밀분석 티어에만 남는다)
+- CHIEF(종합): team_weights.js의 자가 학습 가중치(분석가별 실제 적중률 비례)로 합산
 
 → 이렇게 하면 종목을 수백 개로 늘려도 자동분석분은 토큰이 전혀 들지 않는다.
    정밀분석(analysis.js) 보유 종목도 포함해 모든 종목을 생성한다. 화면 표시 우선순위는
@@ -156,38 +159,134 @@ def flow_eval(fl):
     return {"score": score, "stance": stance_of(score), "findings": f[:4]}
 
 
-# ── NOVA(뉴스·심리): 자동 티어 — 개별 뉴스 미반영, 모멘텀 기반 축약 ──────────
-def nova_eval(e, t):
-    s = 50.0
-    rate = e.get("rate")
-    if rate is not None:
-        s += max(-8, min(8, rate * 1.2))
-    if t:
-        lo, hi, close = t.get("low3m"), t.get("high3m"), t.get("close")
-        if lo is not None and hi is not None and hi > lo and close is not None:
-            pos = (close - lo) / (hi - lo)             # 3개월 밴드 내 위치(0~1)
-            s += (pos - 0.5) * 16
-        last5 = t.get("last5") or []
-        if len(last5) >= 2 and last5[0]["c"]:
-            trend = (last5[-1]["c"] - last5[0]["c"]) / last5[0]["c"] * 100
-            s += max(-6, min(6, trend * 0.5))
-    score = clamp(s, 20, 80)                            # 뉴스 없는 자동판단이라 극단값 자제
-    band = ""
-    if t and t.get("low3m") and t.get("high3m"):
-        band = f"3개월 밴드({won(t['low3m'])}~{won(t['high3m'])}) 내 {'상단' if score >= 55 else ('중단' if score >= 45 else '하단')}권"
+# ── QUANT(확률·통계, 내부 id는 호환성 위해 'nova' 유지): 경험적 승률 ─────────
+#    "지금 이 종목과 비슷한 상태(RSI 구간 × 20일선 위/아래 × 최근 5일 추세)였던
+#     과거 사례들이 5거래일 뒤 실제로 올랐는가"를 500종목 누적 일봉에서 세어,
+#     실측 승률을 점수로 쓴다. 모형·감정 추정이 아니라 관찰된 빈도라서 정직하다.
+
+def _rsi_zone(rsi):
+    if rsi < 30: return 0, "과매도"
+    if rsi < 45: return 1, "약세"
+    if rsi < 55: return 2, "중립"
+    if rsi < 70: return 3, "강세"
+    return 4, "과열"
+
+
+def _trend5_zone(pct):
+    if pct < -2: return 0, "하락"
+    if pct > 2:  return 1, "상승"
+    return 2, "횡보"
+
+
+def build_quant_stats(analysis_data):
+    """전 종목 일봉에서 (상태 버킷 → 5거래일 뒤 상승 확률) 통계표 생성.
+    반환: {key: {"n":표본수, "w":상승횟수, "sum":수익률합}}  (넓은 키일수록 표본이 큼)
+    키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)"""
+    stats = {}
+
+    def bump(key, win, ret):
+        b = stats.setdefault(key, {"n": 0, "w": 0, "sum": 0.0})
+        b["n"] += 1; b["w"] += win; b["sum"] += ret
+
+    for code, s in (analysis_data.get("stocks") or {}).items():
+        d = s.get("daily")
+        if not isinstance(d, list) or len(d) < 26:
+            continue
+        rows = sorted((r for r in d if r.get("date") and isinstance(r.get("close"), (int, float))),
+                      key=lambda r: r["date"])
+        closes = [r["close"] for r in rows]
+        n = len(closes)
+        # 워밍업 20일(RSI/MA20) 확보 + 결과 확인용 5일 남기기
+        for i in range(20, n - 5):
+            past = closes[: i + 1]
+            gains, losses = [], []
+            for j in range(max(1, i - 14), i + 1):
+                ch = closes[j] - closes[j - 1]
+                gains.append(max(ch, 0)); losses.append(max(-ch, 0))
+            al = sum(losses) / len(losses) if losses else 0
+            ag = sum(gains) / len(gains) if gains else 0
+            rsi = 100 - 100 / (1 + ag / al) if al else 100.0
+            ma20 = sum(past[-20:]) / 20
+            if not closes[i - 5]:
+                continue
+            tr5 = (closes[i] - closes[i - 5]) / closes[i - 5] * 100
+            z, _ = _rsi_zone(rsi)
+            m = 1 if closes[i] >= ma20 else 0
+            t, _ = _trend5_zone(tr5)
+            if not closes[i]:
+                continue
+            ret = (closes[i + 5] - closes[i]) / closes[i] * 100
+            win = 1 if ret > 0 else 0
+            bump(f"z{z}m{m}t{t}", win, ret)
+            bump(f"z{z}m{m}", win, ret)
+            bump(f"z{z}", win, ret)
+            bump("all", win, ret)
+    return stats
+
+
+def quant_eval(e, t, qstats):
+    rsi = t.get("rsi14")
+    g20 = t.get("ma20Gap")
+    last5 = t.get("last5") or []
+    tr5 = None
+    if len(last5) >= 2 and last5[0].get("c"):
+        tr5 = (last5[-1]["c"] - last5[0]["c"]) / last5[0]["c"] * 100
+    if rsi is None or g20 is None or tr5 is None or not qstats:
+        return {"score": 50, "stance": "neu", "findings": [
+            "📊 QUANT — 과거 통계 조회에 필요한 지표가 아직 부족합니다",
+            "다음 자동 수집에서 RSI·이동평균·최근 추세가 채워지면 승률이 계산됩니다",
+            "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"]}
+    z, zname = _rsi_zone(rsi)
+    m = 1 if g20 >= 0 else 0
+    tz, tname = _trend5_zone(tr5)
+    # 표본 30건 이상인 가장 구체적 버킷 선택(부족하면 넓은 버킷으로 폴백)
+    tried = [f"z{z}m{m}t{tz}", f"z{z}m{m}", f"z{z}", "all"]
+    scope = ["동일 상태", "RSI·이평 동일", "RSI 구간 동일", "시장 전체"]
+    b, used = None, ""
+    for key, sc in zip(tried, scope):
+        cand = qstats.get(key)
+        if cand and cand["n"] >= 30:
+            b, used = cand, sc
+            break
+    if b is None:
+        b, used = qstats.get("all", {"n": 0, "w": 0, "sum": 0.0}), "시장 전체"
+    if not b["n"]:
+        return {"score": 50, "stance": "neu", "findings": [
+            "📊 QUANT — 아직 통계 표본이 없습니다", "데이터가 쌓이면 승률이 계산됩니다",
+            "현재는 중립(50점) 처리", "—"]}
+    wr = b["w"] / b["n"] * 100
+    avg = b["sum"] / b["n"]
+    score = clamp(wr, 20, 80)   # 승률을 점수로 직결 — 극단값만 완충
     f = [
-        "🤖 자동분석 — 개별 뉴스·공시는 미반영, 가격 모멘텀만으로 심리를 추정합니다",
-        f"전일 대비 {rate:+.2f}% · 최근 흐름 {'우호적' if score >= 55 else ('중립' if score >= 45 else '경계')}" if rate is not None else "등락 데이터 대기",
-        band or "가격 위치 데이터 대기",
-        "정밀 뉴스 분석이 필요하면 정밀분석(Claude)으로 전환하세요",
+        "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
+        f"현재 상태: RSI {rsi:.0f}({zname}) · 20일선 {'위' if m else '아래'} · 최근 5일 {tname}({tr5:+.1f}%)",
+        f"비슷한 상태({used}) {b['n']}건 중 {b['w']}건이 5거래일 뒤 상승 — 경험적 승률 {wr:.0f}% · 평균 {avg:+.1f}%",
+        "과거 빈도 통계일 뿐 미래를 보장하지 않아요 · 데이터가 쌓일수록 표본이 늘어 정확해집니다",
     ]
     return {"score": score, "stance": stance_of(score), "findings": f[:4]}
 
 
-# ── CHIEF(종합): 4인 중 TARO·DIANA·NOVA 평균 75% + FLOW 25% ─────────────────
-def chief_eval(e, taro, diana, nova, flow):
-    base3 = (taro["score"] + diana["score"] + nova["score"]) / 3
-    total = clamp(base3 * 0.75 + flow["score"] * 0.25)
+# ── CHIEF(종합): 자가 학습 가중치(team_weights.js) 기반 합산 ─────────────────
+#    compute_team_weights.py가 "판단 후 5거래일 뒤 종가" 채점 기록으로 계산한
+#    분석가별 적중률 비례 가중치를 쓴다. 파일이 없으면 균등(25%씩)으로 동작.
+
+EQUAL_W = {"taro": 0.25, "diana": 0.25, "nova": 0.25, "flow": 0.25}
+
+
+def load_team_weights():
+    tw = load_js_object(os.path.join(HERE, "team_weights.js"), "TEAM_WEIGHTS")
+    if not tw or not isinstance(tw.get("global"), dict):
+        return {"global": EQUAL_W, "sectors": {}, "learned": False}
+    return {"global": tw["global"].get("weights", EQUAL_W),
+            "sectors": {k: v.get("weights", {}) for k, v in (tw.get("sectors") or {}).items()},
+            "learned": True}
+
+
+def chief_eval(e, taro, diana, nova, flow, weights=EQUAL_W, learned=False):
+    w = {k: weights.get(k, 0.25) for k in ("taro", "diana", "nova", "flow")}
+    tot_w = sum(w.values()) or 1.0
+    total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
+                   + nova["score"] * w["nova"] + flow["score"] * w["flow"]) / tot_w)
     call = "BUY" if total >= 63 else ("HOLD" if total >= 47 else "SELL")
     scores = [taro["score"], diana["score"], nova["score"], flow["score"]]
     spread = max(scores) - min(scores)
@@ -196,19 +295,31 @@ def chief_eval(e, taro, diana, nova, flow):
     tgt = (f"증권사 평균 목표주가 {won(e.get('targetMean'))} (현재가 대비 {tgap:+.1f}% 상승여력)"
            if tgap is not None else "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고")
     label = {"BUY": "매수 우위", "HOLD": "중립", "SELL": "비중 축소"}[call]
+    wtxt = f"기술 {w['taro']*100:.0f}%·재무 {w['diana']*100:.0f}%·퀀트 {w['nova']*100:.0f}%·수급 {w['flow']*100:.0f}%"
     reason = (f"자동분석 종합 {total}점({label}). 기술 {taro['score']}·재무 {diana['score']}·"
-              f"뉴스(자동) {nova['score']}·수급 {flow['score']} 점을 규칙 기반으로 합산했습니다. "
+              f"퀀트(확률) {nova['score']}·수급 {flow['score']} 점을 "
+              + (f"자가 학습 가중치({wtxt} — 최근 적중률 기반 자동 조정)로 합산했습니다. " if learned
+                 else "균등 가중치로 합산했습니다. ")
               + ("분석축 간 편차가 커 신중한 접근이 필요합니다." if spread >= 30 else "분석축 간 시각이 대체로 일치합니다."))
     report = (f"이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. "
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
-              f"개별 뉴스·공시는 반영되지 않았으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. "
+              f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
+              f"개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. "
               f"종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
             "reason": reason, "target": tgt, "report": report}
 
 
+def load_sectors():
+    try:
+        t = re.sub(r"^\s*//.*$", "", open(os.path.join(HERE, "tickers.js"), encoding="utf-8").read(), flags=re.M)
+        arr = json.loads(re.search(r"const\s+TICKERS\s*=\s*(\[.*?\])\s*;", t, re.S).group(1))
+        return {d["code"]: d.get("sector") or "기타" for d in arr}
+    except Exception:
+        return {}
+
+
 def main():
-    ind = load_js_object(os.path.join(HERE, "indicators.json"), None) if False else None
     # indicators.json은 순수 JSON
     ipath = os.path.join(HERE, "indicators.json")
     if not os.path.exists(ipath):
@@ -216,6 +327,19 @@ def main():
     ind = json.load(open(ipath, encoding="utf-8"))
     deep = load_js_object(os.path.join(HERE, "analysis.js"), "LIVE_ANALYSIS") or {}
     deep_codes = {c for c in deep if re.match(r"^\d{6}$", str(c))}
+
+    # QUANT 통계표(전 종목 일봉 → 상태별 5거래일 뒤 승률) + 자가 학습 가중치 + 업종 맵
+    try:
+        adata = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
+    except Exception:
+        adata = {}
+    qstats = build_quant_stats(adata)
+    tw = load_team_weights()
+    sectors = load_sectors()
+    if qstats.get("all"):
+        a = qstats["all"]
+        print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · 버킷 {len(qstats)}개")
+    print(f"CHIEF 가중치 — {'자가 학습(team_weights.js)' if tw['learned'] else '균등(파일 없음)'} · 업종 오버라이드 {len(tw['sectors'])}개")
 
     price_label = ind.get("priceLabel", "")
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -232,9 +356,10 @@ def main():
         try:                              # 종목 하나가 죽어도 전체(500종목)는 이어서 생성
             taro = taro_eval(t)
             diana = diana_eval(e)
-            nova = nova_eval(e, t)
+            nova = quant_eval(e, t, qstats)   # QUANT (내부 키는 'nova' 유지 — 호환성)
             flow = flow_eval(e.get("flow"))
-            chief = chief_eval(e, taro, diana, nova, flow)
+            wsec = tw["sectors"].get(sectors.get(code, ""), None) or tw["global"]
+            chief = chief_eval(e, taro, diana, nova, flow, weights=wsec, learned=tw["learned"])
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
