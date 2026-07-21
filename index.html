@@ -4122,6 +4122,19 @@ makeCards(false);
       +tx(340,80,'선물 급변 5분간: 잠금 🔒',undefined,12,RED,1)
       +tx(230,120,'→','start',22,'#8a95a0')
       +tx(230,168,'사이드카 발동',undefined,13,INK,1));
+    // ⑧ 시가총액 가중 — 큰 회사가 지수에 더 큰 영향을 주는 이유
+    A['cap-weight']=svg(480,280,
+      tx(105,26,'회사 A · 시가총액 60조',undefined,12,INK,1)
+      +tx(325,26,'회사 C · 시가총액 10조',undefined,12,INK,1)
+      +ln(40,230,440,230)
+      +'<rect x="70" y="70" width="70" height="160" fill="'+BLUE+'" rx="3"/>'
+      +'<rect x="70" y="54" width="70" height="16" fill="'+RED+'" rx="3"/>'
+      +tx(105,248,'+10% 올랐다',undefined,12.5,RED,1)
+      +tx(105,266,'→ 6조 늘어남',undefined,11.5,'#8a95a0')
+      +'<rect x="290" y="203" width="70" height="27" fill="'+BLUE+'" rx="3"/>'
+      +'<rect x="290" y="200" width="70" height="3" fill="'+RED+'" rx="1"/>'
+      +tx(325,248,'+10% 올랐다',undefined,12.5,RED,1)
+      +tx(325,266,'→ 1조 늘어남',undefined,11.5,'#8a95a0'));
     // ⑤ 갭(창) — 전일 고가와 오늘 저가 사이의 빈 공간
     A['candle-gap']=svg(440,240,
       cd(140,86,150,96,166,RED,34)
