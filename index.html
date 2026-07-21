@@ -4356,6 +4356,28 @@ makeCards(false);
         });
         return s+tx(260,128,'차근차근 순서대로 밟으면 초보도 길을 잃지 않아요',undefined,12,'#8a95a0');
       })());
+    // ⑭ 서브프라임·CDO 포장 — 성한 대출+썩은 대출을 섞어 'AAA 안전상품'으로 포장해 판매(리먼)
+    A['cdo-repackage']=svg(520,230,
+      tx(80,30,'여러 주택담보대출',undefined,12,INK,1)
+      +'<rect x="30" y="45" width="100" height="26" fill="'+BLUE+'" rx="3"/>'+tx(80,63,'우량 대출',undefined,11,'#fff',1)
+      +'<rect x="30" y="76" width="100" height="26" fill="'+BLUE+'" rx="3"/>'+tx(80,94,'우량 대출',undefined,11,'#fff',1)
+      +'<rect x="30" y="107" width="100" height="26" fill="'+RED+'" rx="3"/>'+tx(80,125,'서브프라임',undefined,11,'#fff',1)
+      +'<rect x="30" y="138" width="100" height="26" fill="'+RED+'" rx="3"/>'+tx(80,156,'서브프라임',undefined,11,'#fff',1)
+      +tx(160,110,'→',undefined,22,'#8a95a0')
+      +'<rect x="195" y="55" width="130" height="105" fill="#eef2f7" stroke="'+INK+'" stroke-width="1.5" rx="6"/>'
+      +tx(260,50,'한 상자에 섞어 포장',undefined,11.5,INK,1)
+      +'<rect x="212" y="72" width="46" height="34" fill="'+BLUE+'" rx="3"/>'
+      +'<rect x="264" y="72" width="46" height="34" fill="'+BLUE+'" rx="3"/>'
+      +'<rect x="212" y="112" width="46" height="34" fill="'+RED+'" rx="3"/>'
+      +'<rect x="264" y="112" width="46" height="34" fill="'+BLUE+'" rx="3"/>'
+      +tx(260,178,'"안전한 AAA 상품"',undefined,12,RED,1)
+      +tx(355,110,'→',undefined,22,'#8a95a0')
+      +'<rect x="390" y="80" width="110" height="55" fill="'+BLUE+'" rx="6"/>'
+      +tx(445,103,'전 세계 투자자',undefined,11.5,'#fff',1)
+      +tx(445,120,'에게 판매',undefined,11.5,'#fff',1)
+      +tx(445,160,'집값 꺾이자',undefined,11.5,INK,1)
+      +tx(445,178,'상자째 부실 💥',undefined,11.5,RED,1)
+      +tx(260,212,'어느 상자에 썩은 대출이 얼마나 든 지 몰라 → 모두 겁에 질려 금융 도미노',undefined,11.5,'#8a95a0'));
     // ⑤ 갭(창) — 전일 고가와 오늘 저가 사이의 빈 공간
     A['candle-gap']=svg(440,240,
       cd(140,86,150,96,166,RED,34)
