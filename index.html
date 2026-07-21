@@ -4283,6 +4283,35 @@ makeCards(false);
       +'<rect x="290" y="200" width="70" height="3" fill="'+RED+'" rx="1"/>'
       +tx(325,248,'+10% 올랐다',undefined,12.5,RED,1)
       +tx(325,266,'→ 1조 늘어남',undefined,11.5,'#8a95a0'));
+    // ⑨ 신용창조 — 예금 100원이 은행을 돌면서 대출로 계속 다시 태어나는 모습(자본주의 EP1)
+    A['credit-creation']=svg(520,260,
+      tx(260,26,'예금 100원이 은행 세 곳을 돌면 …',undefined,13,INK,1)
+      +'<rect x="20" y="50" width="130" height="46" fill="'+BLUE+'" rx="4"/>'+tx(85,78,'예금 100원',undefined,13,'#fff',1)
+      +tx(85,112,'은행A',undefined,12,INK,1)
+      +'<rect x="30" y="122" width="45" height="22" fill="'+GRAY+'" rx="3"/>'+tx(52,137,'10원 보관',undefined,10,INK)
+      +'<rect x="95" y="122" width="45" height="22" fill="'+RED+'" rx="3"/>'+tx(117,137,'90원 대출',undefined,10,'#fff',1)
+      +tx(178,142,'→',undefined,20,'#8a95a0')
+      +'<rect x="200" y="50" width="120" height="42" fill="'+BLUE+'" rx="4"/>'+tx(260,76,'예금 90원',undefined,12.5,'#fff',1)
+      +tx(260,112,'은행B',undefined,12,INK,1)
+      +'<rect x="207" y="122" width="42" height="22" fill="'+GRAY+'" rx="3"/>'+tx(228,137,'9원 보관',undefined,10,INK)
+      +'<rect x="268" y="122" width="42" height="22" fill="'+RED+'" rx="3"/>'+tx(289,137,'81원 대출',undefined,9.5,'#fff',1)
+      +tx(345,142,'→',undefined,20,'#8a95a0')
+      +'<rect x="365" y="50" width="120" height="38" fill="'+BLUE+'" rx="4"/>'+tx(425,74,'예금 81원',undefined,12,'#fff',1)
+      +tx(425,112,'은행C…',undefined,12,INK,1)
+      +tx(260,190,'원래 100원이 은행을 돌 때마다 「대출」이라는 새 돈이 자꾸 태어나요',undefined,12.5,INK,1)
+      +tx(260,210,'(끝까지 반복하면 이론상 최대 1,000원 가까이 불어날 수 있어요)',undefined,11.5,'#8a95a0')
+      +tx(260,236,'→ 이렇게 대출로 만들어지는 돈을 "신용통화"라고 불러요',undefined,12,'#8a95a0'));
+    // ⑩ 이자의 함정 — 세상에 없는 돈, 500원은 어디에도 없다(자본주의 EP1 섬 실험)
+    A['debt-interest-gap']=svg(480,240,
+      tx(240,26,'중앙은행이 10,000원을 발행해서 빌려줬다면?',undefined,13,INK,1)
+      +'<rect x="120" y="50" width="240" height="40" fill="'+BLUE+'" rx="4"/>'+tx(240,75,'세상에 존재하는 돈 10,000원',undefined,13,'#fff',1)
+      +'<rect x="120" y="110" width="240" height="40" fill="'+BLUE+'" rx="4"/>'
+      +'<rect x="360" y="110" width="14" height="40" fill="'+RED+'" rx="2"/>'
+      +tx(230,135,'갚아야 할 원금 10,000원',undefined,12.5,'#fff',1)
+      +tx(390,135,'+이자 500원','start',12.5,RED,1)
+      +tx(240,178,'갚아야 할 돈은 10,500원인데, 세상에 있는 돈은 딱 10,000원',undefined,12.5,INK,1)
+      +tx(240,200,'이자 500원에 해당하는 돈은 애초에 어디에도 없어요',undefined,12.5,RED,1)
+      +tx(240,222,'→ 그래서 새 대출이 계속 생겨야만 예전 이자를 갚을 수 있어요',undefined,11.5,'#8a95a0'));
     // ⑤ 갭(창) — 전일 고가와 오늘 저가 사이의 빈 공간
     A['candle-gap']=svg(440,240,
       cd(140,86,150,96,166,RED,34)
