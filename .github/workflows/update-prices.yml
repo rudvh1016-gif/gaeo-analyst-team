@@ -8,7 +8,12 @@
 #      재귀 금지 예외라서 체인이 허용된다. 체인은 main에서만 잇는다.)
 #   ④ 장중 매 사이클마다 짝꿍(update-analysis)이 죽어 있으면 살려준다(상호 감시).
 #   ⑤ 그 밖의 안전망: push 마커(.analyst-refresh)·cron(best-effort)·클로드 Routine(장중 매시).
-# concurrency(cancel-in-progress)가 있어 어떤 경로로 여러 번 켜져도 최신 1개만 돈다.
+# 2026-07-21 사고 원인 + 영구 수정: cancel-in-progress:true였을 때, 장중에 cron·push마커·
+# Routine 등 여러 트리거가 겹치면 "새 실행이 돌던 실행을 죽이고" 시작하는데, 그 죽는 실행은
+# 자기 chain() 재기동 줄에 못 도달한 채 끊긴다. 그 죽인 새 실행마저 곧이어 또 다른 트리거에
+# 죽으면(트리거가 여러 개라 실제로 발생) 체인이 통째로 사라진다 — 그날 오후 내내 갱신이
+# 멈췄던 진짜 원인. 그래서 cancel-in-progress를 false로 바꿔 "이미 도는 게 있으면 새 트리거는
+# 끼어들지 않고 뒤에서 대기만" 하도록 고쳤다 — 서로 죽고 죽이는 경합 자체가 사라진다.
 name: update-prices
 
 on:
@@ -28,9 +33,12 @@ permissions:
   actions: write   # 자기 재기동 체인 + 짝꿍 워크플로우 소생용 workflow_dispatch
 
 concurrency:
-  # 새 기동이 들어오면 낡은 루프를 취소하고 최신 하나만 유지(중복 루프 방지)
+  # false = 이미 도는 루프는 죽이지 않고 새 트리거는 뒤에서 대기(큐)만 한다.
+  # (예전엔 true라서 트리거가 겹치면 도는 루프를 죽였고, 그 죽은 실행이 재기동 체인을
+  #  못 걸어 통째로 멈추는 사고가 있었다 — 2026-07-21. 대기 중인 트리거는 현재 루프가
+  #  끝나면 이어서 한 번 더 돌아 결과적으로 체인이 끊기지 않는다.)
   group: update-prices-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   collect:
