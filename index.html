@@ -4099,6 +4099,29 @@ makeCards(false);
       +tx(250,224,'하락 장악형',undefined,13,INK,1)+tx(250,242,'양봉을 통째로 삼킨 음봉',undefined,11.5,'#8a95a0')
       +cd(398,60,72,106,116,BLUE,20)+cd(426,88,98,132,142,BLUE,20)+cd(454,114,124,158,168,BLUE,20)
       +tx(426,224,'흑삼병',undefined,13,INK,1)+tx(426,242,'3일 연속 무거운 음봉',undefined,11.5,'#8a95a0'));
+    // ⑥ 미수 매매 — 현금 매매 vs 증거금률 40% 미수 매매(내 돈+외상) 막대 비교
+    A['margin-buy']=svg(480,262,
+      ln(50,210,380,210)
+      +'<rect x="70" y="130" width="70" height="80" fill="'+BLUE+'" rx="3"/>'
+      +tx(105,118,'내 돈 100만원',undefined,12,BLUE,1)
+      +tx(105,228,'현금 매매',undefined,13,INK,1)
+      +tx(105,246,'= 100만원어치 매수',undefined,11.5,'#8a95a0')
+      +'<rect x="250" y="130" width="70" height="80" fill="'+BLUE+'" rx="3"/>'
+      +'<rect x="250" y="10" width="70" height="120" fill="'+RED+'" rx="3"/>'
+      +tx(325,72,'외상(미수) 150만원','start',12,RED,1)
+      +tx(325,174,'내 돈 100만원','start',12,BLUE,1)
+      +tx(285,228,'미수 매매',undefined,13,INK,1)
+      +tx(285,246,'= 250만원어치 매수',undefined,11.5,'#8a95a0'));
+    // ⑦ 사이드카 — 선물이 급변하면 프로그램 매매만 5분간 잠그는 모습
+    A['sidecar-lock']=svg(460,190,
+      ln(40,150,420,150)
+      +tx(120,40,'프로그램 매매','start',13,INK,1)
+      +'<rect x="40" y="60" width="160" height="30" fill="'+GRAY+'" rx="6"/>'
+      +tx(120,80,'평소: 자유롭게 주문',undefined,12,INK)
+      +'<rect x="260" y="60" width="160" height="30" fill="'+RED+'22" stroke="'+RED+'" stroke-width="1.5" rx="6"/>'
+      +tx(340,80,'선물 급변 5분간: 잠금 🔒',undefined,12,RED,1)
+      +tx(230,120,'→','start',22,'#8a95a0')
+      +tx(230,168,'사이드카 발동',undefined,13,INK,1));
     // ⑤ 갭(창) — 전일 고가와 오늘 저가 사이의 빈 공간
     A['candle-gap']=svg(440,240,
       cd(140,86,150,96,166,RED,34)
