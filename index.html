@@ -74,6 +74,9 @@
   html.gdark .tly.sell{background:rgba(248,113,113,.14);color:#FCA5A5}
   html.gdark .mk-buychip{color:#6EE7B7;border-color:rgba(52,211,153,.35)}
   html.gdark .mk-buychip:hover{background:rgba(52,211,153,.14)}
+  html.gdark .mk-buychip.rel{color:#FCD34D;border-color:rgba(251,191,36,.35)}
+  html.gdark .mk-buychip.rel:hover{background:rgba(251,191,36,.14)}
+  html.gdark .mk-buychip .bc-rel{color:#FCD34D;background:rgba(251,191,36,.16)}
   /* 🧒 설명 말풍선·운영자 메모 — 라이트 전용 잉크색 텍스트 보정 */
   html.gdark .veasy{color:#E4EEF9}
   html.gdark .anote{background:#211B0E;border-color:#4A3A14;color:#EBD9A8}
@@ -969,6 +972,13 @@
     min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
   .mk-buychip.top3 .bc-rank{background:#059669}
   .mk-buychip .bc-score{color:var(--faint);font-size:9.5px;font-weight:700}
+  /* 상대 상위(HOLD지만 매수 우위) 칩 — 앰버 톤으로 BUY와 구분 */
+  .mk-buychip.rel{color:#92400E;border-color:#FDE68A}
+  .mk-buychip.rel:hover{background:#FEF3C7}
+  .mk-buychip.rel .bc-rank{background:#D97706}
+  .mk-buychip.rel.top3 .bc-rank{background:#B45309}
+  .mk-buychip .bc-rel{font-size:8.5px;font-weight:800;color:#92400E;background:#FEF3C7;
+    border-radius:5px;padding:1px 4px;margin-left:1px}
   .mk-buynote{font-size:10.5px;color:var(--faint);margin-top:6px;line-height:1.5}
   /* 날짜별 지난 시장 분석 목차 */
   .mk-hist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
@@ -2128,17 +2138,18 @@ function mkParas(text){
 }
 // 오늘 분석 종합 집계: 정밀+자동 전체 종목의 CHIEF 콜을 세고 BUY 목록을 모은다
 function analysisTally(){
-  const counts={BUY:0,HOLD:0,SELL:0}, buy=[], seen=new Set();
+  const counts={BUY:0,HOLD:0,SELL:0}, ranked=[], seen=new Set();
   const add=(code,e)=>{
     if(seen.has(code)||!e||!e.chief||!e.chief.call) return;
     const c=e.chief.call; if(counts[c]==null) return;
     seen.add(code); counts[c]++;
-    if(c==='BUY') buy.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0});
+    ranked.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0, call:c});
   };
   if(LIVE_AN) for(const code in LIVE_AN){ if(/^\d{6}$/.test(code)) add(code, LIVE_AN[code]); }
   if(AUTO_AN&&AUTO_AN.stocks) for(const code in AUTO_AN.stocks) add(code, AUTO_AN.stocks[code]);
-  buy.sort((a,b)=>b.total-a.total);   // 점수 높은 순
-  return {counts, buy, total:counts.BUY+counts.HOLD+counts.SELL};
+  ranked.sort((a,b)=>b.total-a.total);   // 종합점수 높은 순(BUY·HOLD·SELL 전부)
+  const buy=ranked.filter(x=>x.call==='BUY');
+  return {counts, buy, ranked, total:counts.BUY+counts.HOLD+counts.SELL};
 }
 // 종목 이동 공통: 어디서든(사이드바 칩·BUY 칩·우측 레일) 종목을 누르면
 // 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
@@ -2221,8 +2232,22 @@ const MACRO_REGIME=(function(){
   const tal=analysisTally();
   if(tal.total>0){
     const day=(AUTO_AN&&AUTO_AN.generatedAt||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
-    // 종합점수 높은 순(analysisTally에서 정렬됨) — 순위 번호 + 점수 함께 표시
-    const chips=tal.buy.map((b,i)=>`<span class="mk-buychip${i<3?' top3':''}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}<span class="bc-score">${b.total}점</span></span>`).join('');
+    // BUY가 적을 땐(<15) 종합점수 상위 30위(🟡HOLD 포함)까지 '상대 상위'로 펼쳐 보여준다.
+    // BUY(절대 63점↑)가 시장 국면 탓에 텅 비어도, 사용자는 늘 '오늘 가장 매수 우위' 30종목을 볼 수 있다.
+    const FEW=15, TOPN=30;
+    const scarce=tal.counts.BUY<FEW;
+    const list=scarce?tal.ranked.slice(0,TOPN):tal.buy;
+    const chips=list.map((b,i)=>{
+      const isBuy=b.call==='BUY';
+      const tag=isBuy?'':'<span class="bc-rel">매수우위</span>';
+      return `<span class="mk-buychip${i<3?' top3':''}${isBuy?'':' rel'}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}${tag}<span class="bc-score">${b.total}점</span></span>`;
+    }).join('');
+    const summary=scarce
+      ? `🟢 BUY ${tal.counts.BUY}개뿐 — 종합점수 상위 ${list.length}위(🟡HOLD 포함)까지 펼쳐보기`
+      : `🟢 BUY 종목 ${tal.buy.length}개 · 종합점수 높은 순 펼쳐보기`;
+    const note=scarce
+      ? '※ BUY(63점 이상)가 적은 장이라 <b>종합점수가 높은 순서</b>로 상위 30위까지 보여줘요. 🟡 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.'
+      : '※ 앞의 번호는 종합점수 순위예요. 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
     html+=`<div class="mk-tally">
       <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(day)} · 총 ${tal.total}종목</span></div>
       <div class="mk-tally-row">
@@ -2230,9 +2255,9 @@ const MACRO_REGIME=(function(){
         <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
         <span class="tly sell">🔴 SELL ${tal.counts.SELL}</span>
       </div>`+
-      (tal.buy.length?`<details class="mk-buylist"><summary>🟢 BUY 종목 ${tal.buy.length}개 · 종합점수 높은 순 펼쳐보기</summary>
+      (list.length?`<details class="mk-buylist"${scarce?' open':''}><summary>${summary}</summary>
         <div class="mk-buychips">${chips}</div>
-        <div class="mk-buynote">※ 앞의 번호는 종합점수 순위예요. 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.</div>
+        <div class="mk-buynote">${note}</div>
       </details>`:'')+
       `</div>`;
   }
