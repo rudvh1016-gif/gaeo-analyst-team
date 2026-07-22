@@ -4329,20 +4329,40 @@ makeCards(false);
       +tx(345,220,'등기부에 적히는 채권최고액',undefined,11.5,INK,1)
       +tx(345,238,'= 1억 2,000만원 (120%)',undefined,11.5,RED,1)
       +tx(240,150,'→',undefined,22,'#8a95a0'));
+    // ⑪-2 셀러 파이낸싱 — 매도인이 잔금 못 받은 돈을 그 집에 근저당으로 담보(이재명 대통령 사례)
+    A['seller-mortgage']=svg(500,240,
+      tx(90,26,'매도인(파는 사람)',undefined,12,INK,1)
+      +'<rect x="30" y="42" width="120" height="60" fill="'+BLUE+'" rx="4"/>'
+      +tx(90,78,'"잔금 아직 못 받았어요"',undefined,11,'#fff',1)
+      +tx(90,124,'집 소유권 먼저 이전',undefined,11.5,INK,1)
+      +tx(250,60,'━━━━━━━▶',undefined,16,'#8a95a0')
+      +tx(410,26,'매수인(사는 사람)',undefined,12,INK,1)
+      +'<rect x="350" y="42" width="120" height="60" fill="'+BLUE+'" rx="4"/>'
+      +tx(410,68,'10월에 잔금',undefined,11,'#fff',1)
+      +tx(410,86,'들어올 예정',undefined,11,'#fff',1)
+      +'<rect x="150" y="150" width="220" height="60" fill="'+RED+'" rx="6"/>'
+      +tx(260,174,'그 집에 근저당권 설정',undefined,12.5,'#fff',1)
+      +tx(260,196,'채권최고액 17.7억 — "못 받은 돈 담보"',undefined,11.5,'#fff',1)
+      +tx(260,228,'잔금 들어오면 갚고 → 근저당 말소',undefined,11.5,'#8a95a0'));
     // ⑫ 대출한도 축소 — 규제 전 vs 6억 한도+스트레스 DSR
-    A['loan-shrink']=svg(480,260,
-      ln(60,210,420,210)
-      +'<rect x="95" y="50" width="90" height="160" fill="'+GRAY+'" rx="4"/>'
-      +tx(140,38,'규제 전',undefined,12.5,INK,1)
-      +tx(140,230,'예: 8~9억까지도',undefined,11.5,'#8a95a0')
-      +tx(140,248,'가능했음',undefined,11.5,'#8a95a0')
-      +'<rect x="295" y="130" width="90" height="80" fill="'+BLUE+'" rx="4"/>'
-      +'<line x1="285" y1="130" x2="395" y2="130" stroke="'+RED+'" stroke-width="2" stroke-dasharray="5 3"/>'
-      +tx(390,124,'6억 천장','end',11.5,RED,1)
-      +tx(340,38,'규제 후 (2026.7)',undefined,12.5,INK,1)
-      +tx(340,230,'6억 한도 + 스트레스',undefined,11.5,'#8a95a0')
-      +tx(340,248,'DSR로 더 축소',undefined,11.5,'#8a95a0')
-      +tx(240,150,'↓',undefined,22,RED));
+    A['loan-shrink']=svg(480,270,
+      ln(50,220,430,220)
+      +'<rect x="60" y="55" width="85" height="165" fill="'+GRAY+'" rx="4"/>'
+      +tx(102,42,'규제 전',undefined,12,INK,1)
+      +tx(102,240,'예: 8~9억도',undefined,11,'#8a95a0')
+      +tx(102,257,'가능했음',undefined,11,'#8a95a0')
+      +'<rect x="195" y="135" width="85" height="85" fill="'+BLUE+'" rx="4"/>'
+      +'<line x1="185" y1="135" x2="285" y2="135" stroke="'+RED+'" stroke-width="2" stroke-dasharray="5 3"/>'
+      +tx(280,129,'6억 천장','end',11,RED,1)
+      +tx(237,42,'6·27 대책',undefined,12,INK,1)
+      +tx(237,240,'수도권 주담대',undefined,11,'#8a95a0')
+      +tx(237,257,'6억 한도',undefined,11,'#8a95a0')
+      +'<rect x="330" y="175" width="85" height="45" fill="'+RED+'" rx="4"/>'
+      +'<line x1="320" y1="175" x2="420" y2="175" stroke="'+RED+'" stroke-width="2" stroke-dasharray="5 3"/>'
+      +tx(415,169,'3억','end',11,RED,1)
+      +tx(372,42,'KB 등 은행 자체',undefined,11.5,INK,1)
+      +tx(372,240,'+스트레스 DSR',undefined,11,'#8a95a0')
+      +tx(372,257,'로 더 축소',undefined,11,'#8a95a0'));
     // ⑬ 부동산 초보 5단계 로드맵
     A['estate-roadmap']=svg(520,150,
       (function(){
