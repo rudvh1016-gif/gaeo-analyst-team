@@ -19,7 +19,20 @@
       document.documentElement.classList.add('gdark');
   }catch(e){}
 </script>
-<title>Gaeo · 홈오피스</title>
+<title>Gaeo · AI 애널리스트 5인의 주식 종목 리서치</title>
+<meta name="description" content="TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)·CHIEF(총괄) — AI 애널리스트 5인이 500개 한국 주식 종목을 매일 분석해 BUY/HOLD/SELL로 알려드려요. 초보자도 이해하기 쉬운 설명, 투자 권유 아닌 참고용 정보." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Gaeo · AI 애널리스트 5인의 주식 종목 리서치" />
+<meta property="og:description" content="TARO·DIANA·QUANT·FLOW·CHIEF — AI 5인이 500개 한국 주식을 매일 분석해 BUY/HOLD/SELL로 알려드려요. 초보자도 이해하기 쉬운 설명." />
+<meta property="og:image" content="https://rudvh1016-gif.github.io/gaeo-analyst-team/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://rudvh1016-gif.github.io/gaeo-analyst-team/" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Gaeo · AI 애널리스트 5인의 주식 종목 리서치" />
+<meta name="twitter:description" content="TARO·DIANA·QUANT·FLOW·CHIEF — AI 5인이 500개 한국 주식을 매일 분석해 BUY/HOLD/SELL로 알려드려요." />
+<meta name="twitter:image" content="https://rudvh1016-gif.github.io/gaeo-analyst-team/og-image.png" />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -1079,6 +1092,15 @@
   .pc-toggle:hover{filter:brightness(1.15)}
   .pc-toggle:active{transform:scale(.96)}
   html.force-desktop .pc-toggle{background:var(--sky)}
+
+  /* ── 공유 버튼 (모든 화면 공통, 좌측 하단 원형 · pc-toggle과 자리 겹치지 않게) ── */
+  .share-fab{position:fixed;left:12px;bottom:12px;z-index:500;
+    width:44px;height:44px;border-radius:50%;border:none;
+    background:var(--sky);color:#fff;font-size:19px;cursor:pointer;
+    box-shadow:0 5px 16px -4px rgba(0,0,0,.4);transition:transform .15s,filter .15s;
+    display:flex;align-items:center;justify-content:center}
+  .share-fab:hover{filter:brightness(1.1)}
+  .share-fab:active{transform:scale(.92)}
 
   /* ── 마이크로 인터랙션 폴리시 ── */
   html{scroll-behavior:smooth}
@@ -4212,7 +4234,8 @@ makeCards(false);
     // 제목 클릭 → 본문 펼침/접힘
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('nw-'+el.dataset.nw);
-      if(item) item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open');
+        history.replaceState(null,'', open?('?m=news&id='+el.dataset.nw):location.pathname); }
     });
     // 페이지 이동
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
@@ -4223,6 +4246,17 @@ makeCards(false);
     });
     // 최신 1건은 처음부터 펼쳐서 보여준다
     if(page===1&&slice.length){ const first=document.getElementById('nw-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+  // 딥링크(?m=news&id=N) — 해당 글이 있는 페이지로 이동해 펼치고 스크롤
+  window.openNewsId=function(id){
+    const all=(typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS))?NEWS_ANALYSIS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const idx=all.findIndex(a=>String(a.id)===String(id));
+    if(idx<0) return;
+    page=Math.floor(idx/PAGE_SIZE)+1;
+    window.renderNews();
+    const el=document.getElementById('nw-'+id);
+    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
 })();
 
@@ -4489,7 +4523,8 @@ makeCards(false);
     box.innerHTML=h;
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('st-'+el.dataset.st);
-      if(item) item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open');
+        history.replaceState(null,'', open?('?m=study&id='+el.dataset.st):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
       const p=parseInt(b.dataset.pg,10);
@@ -4498,6 +4533,14 @@ makeCards(false);
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
     if(page===1&&slice.length){ const first=document.getElementById('st-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+  window.openStudyId=function(id){
+    const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
+    page=Math.floor(idx/PAGE_SIZE)+1; window.renderStudy();
+    const el=document.getElementById('st-'+id);
+    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
 
   // ---------- 🎓 주식공부 모드 ----------
@@ -4538,7 +4581,8 @@ makeCards(false);
     box.innerHTML=h;
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('ls-'+el.dataset.ls);
-      if(item) item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open');
+        history.replaceState(null,'', open?('?m=lesson&id='+el.dataset.ls):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
       const p=parseInt(b.dataset.pg,10);
@@ -4547,6 +4591,14 @@ makeCards(false);
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
     if(lsPage===1&&slice.length){ const first=document.getElementById('ls-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+  window.openLessonId=function(id){
+    const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
+    lsPage=Math.floor(idx/PAGE_SIZE)+1; window.renderLesson();
+    const el=document.getElementById('ls-'+id);
+    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
 
   // ---------- 🏠 부동산공부 모드 ----------
@@ -4586,7 +4638,8 @@ makeCards(false);
     box.innerHTML=h;
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('es-'+el.dataset.es);
-      if(item) item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open');
+        history.replaceState(null,'', open?('?m=estate&id='+el.dataset.es):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
       const p=parseInt(b.dataset.pg,10);
@@ -4595,6 +4648,14 @@ makeCards(false);
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
     if(esPage===1&&slice.length){ const first=document.getElementById('es-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+  window.openEstateId=function(id){
+    const all=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
+    esPage=Math.floor(idx/PAGE_SIZE)+1; window.renderEstate();
+    const el=document.getElementById('es-'+id);
+    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
 })();
 
@@ -4653,6 +4714,7 @@ makeCards(false);
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
   }
+  window.setMode=setMode;   // 딥링크 라우터(?m=...)가 페이지 로드 시 호출
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
@@ -5495,6 +5557,42 @@ window.hangulFix=function(str){
   document.body.appendChild(btn);
   apply(document.documentElement.classList.contains('force-desktop'));
   btn.onclick=()=>{ apply(!document.documentElement.classList.contains('force-desktop')); SFX.click(); };
+})();
+
+// ---------- 🔗 딥링크 라우터 (?m=news&id=7 등으로 특정 글·종목에 바로 접속) ----------
+// 공유(카톡 등)로 받은 링크를 열었을 때, 앱을 그 화면까지 자동으로 이동시켜준다.
+// 주소 자체는 항상 index.html 하나(SPA)라 검색엔진 카드는 사이트 공통 1개를 쓰지만,
+// 클릭해서 들어온 사람은 정확히 그 글·종목으로 바로 이동한다.
+(function(){
+  const qp=new URLSearchParams(location.search);
+  const m=qp.get('m');
+  if(!m) return;
+  const id=qp.get('id'), code=qp.get('code');
+  setTimeout(()=>{
+    if(typeof window.setMode!=='function') return;
+    if(m==='news'&&id){ window.setMode('news'); window.openNewsId&&window.openNewsId(id); }
+    else if(m==='study'&&id){ window.setMode('study'); window.openStudyId&&window.openStudyId(id); }
+    else if(m==='lesson'&&id){ window.setMode('lesson'); window.openLessonId&&window.openLessonId(id); }
+    else if(m==='estate'&&id){ window.setMode('estate'); window.openEstateId&&window.openEstateId(id); }
+    else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
+  }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
+})();
+
+// ---------- 📤 공유 버튼 (카카오톡 포함 스마트폰 공유창 · 로그인/앱키 불필요) ----------
+(function(){
+  const btn=document.createElement('button');
+  btn.className='share-fab'; btn.type='button'; btn.title='이 화면 공유하기';
+  btn.innerHTML='📤';
+  document.body.appendChild(btn);
+  btn.onclick=async()=>{
+    const data={title:'Gaeo · 개오 애널리스트팀', text:'AI 애널리스트 5인의 주식 종목 리서치', url:location.href};
+    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+    else{
+      try{ await navigator.clipboard.writeText(location.href);
+        btn.textContent='✅'; setTimeout(()=>btn.innerHTML='📤',1400);
+      }catch(e){ alert('공유하기가 지원되지 않는 브라우저예요. 주소창의 링크를 직접 복사해주세요.'); }
+    }
+  };
 })();
 </script>
 </body>
