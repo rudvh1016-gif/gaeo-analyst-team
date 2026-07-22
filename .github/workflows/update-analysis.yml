@@ -134,7 +134,18 @@ jobs:
               for i in 1 2 3; do
                 git push && break
                 echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
-                git pull --rebase origin "${{ github.ref_name }}"
+                git fetch origin "${{ github.ref_name }}"
+                # ⚠️ 2026-07-22 사고: git pull --rebase가 auto_analysis.js 등 생성 파일에서
+                # 충돌하면(겹치는 사이클 사이의 타이밍 차) 리베이스가 멈춰 스크립트가 그대로
+                # 실패했고, 실패 지점이 루프 안이라 이번 실행의 chain() 재기동 줄까지 못 가서
+                # 체인 전체가 죽었다(575분 무갱신 사고). 이 파일들은 전부 "방금 만든 게 항상
+                # 최신"인 자동 생성물이므로, 리베이스 대신 merge -X ours로 충돌을 사람 개입
+                # 없이 항상 우리(방금 생성분) 쪽으로 자동 해결한다.
+                git merge -X ours --no-edit "origin/${{ github.ref_name }}" || {
+                  echo "[경고] merge -X ours도 실패 — 이번 사이클 push는 포기하고 계속 진행(다음 사이클에 재시도)"
+                  git merge --abort 2>/dev/null || true
+                  break
+                }
                 sleep 3
               done
             fi
