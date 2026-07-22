@@ -4480,6 +4480,32 @@ makeCards(false);
       +tx(365,80,'갭(창)','start',13,RED,1)
       +tx(140,196,'어제 — 여기까지 오르고 마감',undefined,12,'#8a95a0')+tx(280,120,'오늘 — 훌쩍 띄워서 시작',undefined,12,'#8a95a0')
       +tx(220,222,'밤사이 큰 뉴스가 만든 빈 공간 — 메우느냐 마느냐가 힘의 시험대',undefined,12,INK));
+    // ⑮ 집 매매 4단계 흐름 — 계약금→중도금→잔금→등기
+    A['trade-flow']=svg(520,150,
+      (function(){
+        const steps=[['계약금','10%'],['중도금','40%내외'],['잔금','나머지'],['등기','60일 이내']];
+        let s='';
+        steps.forEach((t,i)=>{
+          const x=30+i*118;
+          s+='<rect x="'+x+'" y="45" width="100" height="60" fill="'+(i===2?BLUE:'#eef2f7')+'" stroke="'+BLUE+'" stroke-width="1.5" rx="8"/>';
+          s+=tx(x+50,72,t[0],undefined,13,(i===2?'#fff':INK),1);
+          s+=tx(x+50,92,t[1],undefined,10.5,(i===2?'#fff':'#8a95a0'));
+          if(i<steps.length-1) s+=tx(x+109,80,'›',undefined,18,'#8a95a0');
+        });
+        return s+tx(260,128,'계약 체결 → 잔금·등기까지 보통 1~2개월',undefined,12,'#8a95a0');
+      })());
+    // ⑯ 경매 말소기준권리 컷오프라인 — 등기부 권리들을 위에서 아래로, 기준선 아래는 소멸
+    A['auction-cutoff']=svg(480,260,
+      tx(240,26,'등기부에 쌓인 권리들(위=오래된 순)',undefined,12,INK,1)
+      +'<rect x="120" y="40" width="240" height="30" fill="#eef2f7" stroke="'+INK+'" stroke-width="1" rx="4"/>'+tx(240,60,'1순위 근저당권 (2020년)',undefined,11.5,INK)
+      +'<rect x="120" y="74" width="240" height="30" fill="#eef2f7" stroke="'+INK+'" stroke-width="1" rx="4"/>'+tx(240,94,'2순위 가압류 (2022년)',undefined,11.5,INK)
+      +'<line x1="90" y1="112" x2="390" y2="112" stroke="'+RED+'" stroke-width="2.5" stroke-dasharray="6 4"/>'
+      +tx(400,116,'← 말소기준권리 선','start',11.5,RED,1)
+      +'<rect x="120" y="122" width="240" height="30" fill="'+BLUE+'" opacity=".15" stroke="'+BLUE+'" stroke-width="1" rx="4"/>'+tx(240,142,'3순위 전입신고 세입자 (2023년)',undefined,11.5,INK)
+      +'<rect x="120" y="156" width="240" height="30" fill="'+BLUE+'" opacity=".15" stroke="'+BLUE+'" stroke-width="1" rx="4"/>'+tx(240,176,'4순위 경매개시결정 (2026년)',undefined,11.5,INK)
+      +tx(240,206,'기준선 위(오래된 권리) → 낙찰과 함께 전부 소멸',undefined,11.5,'#8a95a0')
+      +tx(240,224,'기준선 아래(대항력 있는 세입자 등) → 낙찰자가 떠안을 수 있음',undefined,11.5,'#8a95a0')
+      +tx(240,246,'그래서 입찰 전 "말소기준권리가 몇 번째인지" 확인이 핵심이에요',undefined,11.5,RED,1));
     return A;
   })();
   function bodyHTML(md){
