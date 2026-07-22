@@ -42,8 +42,8 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 445,
-     "acc": 54.8
+     "n": 446,
+     "acc": 54.5
     },
     "diana": {
      "n": 291,
@@ -97,7 +97,7 @@ const TEAM_WEIGHTS = {
    "acc": {
     "taro": {
      "n": 176,
-     "acc": 58.0
+     "acc": 57.4
     },
     "diana": {
      "n": 171,
@@ -108,8 +108,8 @@ const TEAM_WEIGHTS = {
      "acc": 54.5
     },
     "flow": {
-     "n": 27,
-     "acc": 85.2
+     "n": 28,
+     "acc": 82.1
     }
    },
    "graded": 508
@@ -158,8 +158,8 @@ const TEAM_WEIGHTS = {
      "acc": 44.9
     },
     "nova": {
-     "n": 116,
-     "acc": 60.3
+     "n": 117,
+     "acc": 59.8
     },
     "flow": {
      "n": 16,
@@ -185,8 +185,8 @@ const TEAM_WEIGHTS = {
      "acc": 39.1
     },
     "nova": {
-     "n": 124,
-     "acc": 51.6
+     "n": 126,
+     "acc": 50.0
     },
     "flow": {
      "n": 80,
@@ -351,8 +351,8 @@ const TEAM_WEIGHTS = {
      "acc": 62.9
     },
     "flow": {
-     "n": 40,
-     "acc": 82.5
+     "n": 39,
+     "acc": 82.1
     }
    },
    "graded": 794
