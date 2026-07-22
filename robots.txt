@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rudvh1016-gif.github.io/gaeo-analyst-team/sitemap.xml
+Sitemap: https://gaeoteam.com/sitemap.xml

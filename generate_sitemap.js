@@ -9,7 +9,7 @@ function ids(file, varname) {
   } catch (e) { return []; }
 }
 
-const BASE = 'https://rudvh1016-gif.github.io/gaeo-analyst-team/';
+const BASE = 'https://gaeoteam.com/';
 const today = new Date().toISOString().slice(0, 10);
 const urls = [{ loc: BASE, prio: '1.0' }];
 const add = (m, list, prio) => list.forEach(id => urls.push({ loc: BASE + '?m=' + m + '&id=' + id, prio }));
