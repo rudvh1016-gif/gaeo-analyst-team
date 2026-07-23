@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://gaeoteam.com/sitemap.xml
+
+#DaumWebMasterTool:02d4f3c60a9d0eb9a109fda50288d278a24980e353d00231ab51251e64b1a8b3:VIegKZyO3wCgIgV8lIIfGA==
