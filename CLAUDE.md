@@ -46,10 +46,12 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | team_weights.js | 자가 학습 CHIEF 가중치(분석가별 적중률→발언권, 업종 오버라이드) | compute_team_weights.py (자동) |
 | generate_sitemap.js | sitemap.xml 재생성(뉴스분석·종목공부·주식공부·부동산공부 URL 수집) | Claude가 콘텐츠 추가 시 직접 실행 |
 | generate_snapshots.js | `/snap/{news,study,lesson,estate}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) | Claude가 콘텐츠 추가 시 직접 실행 |
+| indexnow_submit.js · `<32자hex>.txt`(IndexNow 키 파일) | sitemap.xml의 URL을 빙·네이버에 즉시 제출(크롤러 방문 기다리지 않고 몇 분~몇 시간 내 색인). 구글은 IndexNow 미지원이라 대상 아님 | 원격 세션은 `api.indexnow.org` 아웃바운드가 막혀 있어 직접 실행해도 실패할 수 있음 — update-analysis.yml 러너가 `.indexnow_hash`로 sitemap.xml 변경을 감지해 매 사이클 자동 제출(사람 개입 불필요) |
 
 ⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js 중 **어느 파일이든 글을 추가/수정할 때마다**
 `node generate_sitemap.js`와 `node generate_snapshots.js`를 **반드시 함께 실행**한다(둘 다 안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다).
 스냅샷은 자바스크립트를 실행하지 않는 AI 브라우징 도구(챗GPT·제미나이 등)向 노출(AEO/GEO) 목적 — 2026-07-23 도입.
+sitemap.xml만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다 — 별도로 신경 쓸 필요 없음.
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개)
 
