@@ -11,6 +11,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://gaeoteam.com/snap/news/11.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gaeoteam.com/snap/news/10.html</loc>
     <lastmod>2026-07-23</lastmod>
     <priority>0.7</priority>
@@ -121,6 +126,26 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://gaeoteam.com/snap/lesson/15.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/lesson/14.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/lesson/13.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/lesson/12.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://gaeoteam.com/snap/lesson/11.html</loc>
     <lastmod>2026-07-23</lastmod>
     <priority>0.6</priority>
@@ -172,6 +197,16 @@
   </url>
   <url>
     <loc>https://gaeoteam.com/snap/lesson/1.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/estate/5.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/estate/4.html</loc>
     <lastmod>2026-07-23</lastmod>
     <priority>0.6</priority>
   </url>
