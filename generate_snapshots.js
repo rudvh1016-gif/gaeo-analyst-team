@@ -104,10 +104,12 @@ li{margin-bottom:6px;font-size:15px}
   <div class="top"><a href="${BASE}">← ${esc(SITE_NAME)} 홈</a></div>
   <div class="card">
     ${tag ? '<span class="tag">' + esc(tag) + '</span>' : ''}
-    <h1>${esc(title)}</h1>
-    <div class="meta">📅 ${esc(date)}</div>
+    <h1 class="daum-wm-title">${esc(title)}</h1>
+    <div class="meta daum-wm-datetime">📅 ${esc(date)}</div>
     <div class="summary">${esc(desc)}</div>
+    <div class="daum-wm-content">
     ${bodyHtml}
+    </div>
     <a class="cta" href="${esc(backHref)}">📊 인터랙티브 화면에서 이 글 보기 →</a>
     ${sourcesHtml || ''}
     <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</div>
