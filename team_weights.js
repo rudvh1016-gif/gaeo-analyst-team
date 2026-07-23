@@ -3,34 +3,34 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-07-23 11:09",
+ "generatedAt": "2026-07-23 11:39",
  "evalDays": 5,
  "global": {
   "weights": {
-   "taro": 0.2885,
-   "diana": 0.1787,
+   "taro": 0.289,
+   "diana": 0.1779,
    "nova": 0.2815,
-   "flow": 0.2514
+   "flow": 0.2517
   },
   "acc": {
    "taro": {
-    "n": 4134,
-    "acc": 63.6
+    "n": 4139,
+    "acc": 63.8
    },
    "diana": {
-    "n": 3732,
-    "acc": 39.4
+    "n": 3735,
+    "acc": 39.3
    },
    "nova": {
     "n": 2797,
     "acc": 62.1
    },
    "flow": {
-    "n": 732,
+    "n": 733,
     "acc": 55.5
    }
   },
-  "graded": 11395
+  "graded": 11404
  },
  "sectors": {
   "반도체": {
@@ -62,19 +62,19 @@ const TEAM_WEIGHTS = {
   },
   "전자·부품": {
    "weights": {
-    "taro": 0.3081,
-    "diana": 0.1496,
-    "nova": 0.2753,
-    "flow": 0.267
+    "taro": 0.3084,
+    "diana": 0.1488,
+    "nova": 0.2756,
+    "flow": 0.2673
    },
    "acc": {
     "taro": {
-     "n": 240,
-     "acc": 77.9
+     "n": 242,
+     "acc": 78.1
     },
     "diana": {
-     "n": 151,
-     "acc": 36.4
+     "n": 152,
+     "acc": 36.2
     },
     "nova": {
      "n": 182,
@@ -85,50 +85,50 @@ const TEAM_WEIGHTS = {
      "acc": 65.0
     }
    },
-   "graded": 653
+   "graded": 656
   },
   "전력·에너지": {
    "weights": {
-    "taro": 0.2534,
-    "diana": 0.1929,
-    "nova": 0.2392,
-    "flow": 0.3145
+    "taro": 0.2551,
+    "diana": 0.1903,
+    "nova": 0.2405,
+    "flow": 0.314
    },
    "acc": {
     "taro": {
      "n": 192,
-     "acc": 60.4
+     "acc": 60.9
     },
     "diana": {
      "n": 187,
-     "acc": 46.0
+     "acc": 45.5
     },
     "nova": {
-     "n": 142,
-     "acc": 57.0
+     "n": 141,
+     "acc": 57.4
     },
     "flow": {
      "n": 32,
      "acc": 87.5
     }
    },
-   "graded": 553
+   "graded": 552
   },
   "자동차·부품": {
    "weights": {
-    "taro": 0.3359,
-    "diana": 0.1467,
+    "taro": 0.3378,
+    "diana": 0.1449,
     "nova": 0.3223,
-    "flow": 0.1951
+    "flow": 0.195
    },
    "acc": {
     "taro": {
-     "n": 176,
-     "acc": 70.5
+     "n": 175,
+     "acc": 70.9
     },
     "diana": {
-     "n": 182,
-     "acc": 30.8
+     "n": 181,
+     "acc": 30.4
     },
     "nova": {
      "n": 108,
@@ -139,14 +139,14 @@ const TEAM_WEIGHTS = {
      "acc": 40.9
     }
    },
-   "graded": 510
+   "graded": 508
   },
   "인터넷·IT": {
    "weights": {
-    "taro": 0.2576,
-    "diana": 0.2271,
-    "nova": 0.2842,
-    "flow": 0.2311
+    "taro": 0.2583,
+    "diana": 0.225,
+    "nova": 0.2849,
+    "flow": 0.2317
    },
    "acc": {
     "taro": {
@@ -155,7 +155,7 @@ const TEAM_WEIGHTS = {
     },
     "diana": {
      "n": 173,
-     "acc": 49.1
+     "acc": 48.6
     },
     "nova": {
      "n": 122,
@@ -224,19 +224,19 @@ const TEAM_WEIGHTS = {
   },
   "보험": {
    "weights": {
-    "taro": 0.2626,
-    "diana": 0.253,
-    "nova": 0.2451,
-    "flow": 0.2393
+    "taro": 0.2621,
+    "diana": 0.2486,
+    "nova": 0.2476,
+    "flow": 0.2417
    },
    "acc": {
     "taro": {
-     "n": 82,
-     "acc": 54.9
+     "n": 83,
+     "acc": 54.2
     },
     "diana": {
      "n": 70,
-     "acc": 52.9
+     "acc": 51.4
     },
     "nova": {
      "n": 41,
@@ -247,23 +247,23 @@ const TEAM_WEIGHTS = {
      "acc": 57.9
     }
    },
-   "graded": 212
+   "graded": 213
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2848,
-    "diana": 0.2205,
-    "nova": 0.3009,
-    "flow": 0.1938
+    "taro": 0.2859,
+    "diana": 0.2199,
+    "nova": 0.3007,
+    "flow": 0.1936
    },
    "acc": {
     "taro": {
-     "n": 524,
-     "acc": 68.3
+     "n": 523,
+     "acc": 68.6
     },
     "diana": {
-     "n": 467,
-     "acc": 52.9
+     "n": 466,
+     "acc": 52.8
     },
     "nova": {
      "n": 374,
@@ -274,50 +274,50 @@ const TEAM_WEIGHTS = {
      "acc": 46.5
     }
    },
-   "graded": 1436
+   "graded": 1434
   },
   "지주·상사": {
    "weights": {
-    "taro": 0.2962,
-    "diana": 0.1919,
+    "taro": 0.2958,
+    "diana": 0.1922,
     "nova": 0.2808,
-    "flow": 0.2311
+    "flow": 0.2312
    },
    "acc": {
     "taro": {
-     "n": 245,
-     "acc": 64.1
+     "n": 247,
+     "acc": 64.0
     },
     "diana": {
-     "n": 265,
-     "acc": 41.5
+     "n": 267,
+     "acc": 41.6
     },
     "nova": {
      "n": 163,
      "acc": 60.7
     },
     "flow": {
-     "n": 21,
-     "acc": 42.9
+     "n": 22,
+     "acc": 45.5
     }
    },
-   "graded": 694
+   "graded": 699
   },
   "조선": {
    "weights": {
-    "taro": 0.3262,
-    "diana": 0.1442,
-    "nova": 0.2893,
-    "flow": 0.2403
+    "taro": 0.3277,
+    "diana": 0.1439,
+    "nova": 0.2886,
+    "flow": 0.2398
    },
    "acc": {
     "taro": {
-     "n": 140,
-     "acc": 67.9
+     "n": 139,
+     "acc": 68.3
     },
     "diana": {
-     "n": 140,
-     "acc": 25.7
+     "n": 139,
+     "acc": 25.2
     },
     "nova": {
      "n": 103,
@@ -328,7 +328,7 @@ const TEAM_WEIGHTS = {
      "acc": 63.6
     }
    },
-   "graded": 394
+   "graded": 392
   },
   "철강·금속": {
    "weights": {
@@ -359,19 +359,19 @@ const TEAM_WEIGHTS = {
   },
   "화학·소재": {
    "weights": {
-    "taro": 0.2807,
-    "diana": 0.1667,
-    "nova": 0.2588,
-    "flow": 0.2939
+    "taro": 0.282,
+    "diana": 0.166,
+    "nova": 0.2585,
+    "flow": 0.2936
    },
    "acc": {
     "taro": {
-     "n": 303,
-     "acc": 71.6
+     "n": 304,
+     "acc": 72.0
     },
     "diana": {
-     "n": 308,
-     "acc": 42.5
+     "n": 309,
+     "acc": 42.4
     },
     "nova": {
      "n": 209,
@@ -382,7 +382,7 @@ const TEAM_WEIGHTS = {
      "acc": 84.1
     }
    },
-   "graded": 864
+   "graded": 866
   },
   "유통·소비재": {
    "weights": {
@@ -413,19 +413,19 @@ const TEAM_WEIGHTS = {
   },
   "화장품·미용": {
    "weights": {
-    "taro": 0.2367,
-    "diana": 0.2071,
-    "nova": 0.2575,
-    "flow": 0.2987
+    "taro": 0.2357,
+    "diana": 0.2054,
+    "nova": 0.2588,
+    "flow": 0.3002
    },
    "acc": {
     "taro": {
-     "n": 106,
-     "acc": 39.6
+     "n": 107,
+     "acc": 39.3
     },
     "diana": {
-     "n": 75,
-     "acc": 34.7
+     "n": 76,
+     "acc": 34.2
     },
     "nova": {
      "n": 58,
@@ -436,14 +436,14 @@ const TEAM_WEIGHTS = {
      "acc": null
     }
    },
-   "graded": 239
+   "graded": 241
   },
   "건설·건자재": {
    "weights": {
-    "taro": 0.3385,
-    "diana": 0.1483,
-    "nova": 0.3485,
-    "flow": 0.1647
+    "taro": 0.34,
+    "diana": 0.1489,
+    "nova": 0.3456,
+    "flow": 0.1655
    },
    "acc": {
     "taro": {
@@ -451,19 +451,19 @@ const TEAM_WEIGHTS = {
      "acc": 68.5
     },
     "diana": {
-     "n": 110,
-     "acc": 20.0
+     "n": 111,
+     "acc": 20.7
     },
     "nova": {
-     "n": 78,
-     "acc": 70.5
+     "n": 79,
+     "acc": 69.6
     },
     "flow": {
      "n": 42,
      "acc": 33.3
     }
    },
-   "graded": 357
+   "graded": 359
   },
   "게임·엔터": {
    "weights": {
