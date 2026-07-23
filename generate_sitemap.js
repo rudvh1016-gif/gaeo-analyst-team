@@ -11,12 +11,14 @@ function ids(file, varname) {
 
 const BASE = 'https://gaeoteam.com/';
 const today = new Date().toISOString().slice(0, 10);
-const urls = [{ loc: BASE, prio: '1.0' }];
-const add = (m, list, prio) => list.forEach(id => urls.push({ loc: BASE + '?m=' + m + '&id=' + id, prio }));
-add('news', ids('news_analysis.js', 'NEWS_ANALYSIS'), '0.7');
-add('study', ids('stock_study.js', 'STOCK_STUDY'), '0.6');
-add('lesson', ids('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
-add('estate', ids('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
+const urls = [{ loc: BASE, prio: '1.0' }, { loc: BASE + 'snap/index.html', prio: '0.5' }];
+// 크롤러(특히 자바스크립트를 실행하지 않는 봇)向으로는 정적 스냅샷(/snap/...)을 sitemap에 올린다.
+// 스냅샷 페이지의 <link rel="canonical">이 아래 인터랙티브 URL(?m=...)을 가리켜 검색 순위 신호를 그쪽으로 모아준다.
+const add = (m, folder, list, prio) => list.forEach(id => urls.push({ loc: BASE + 'snap/' + folder + '/' + id + '.html', prio }));
+add('news', 'news', ids('news_analysis.js', 'NEWS_ANALYSIS'), '0.7');
+add('study', 'study', ids('stock_study.js', 'STOCK_STUDY'), '0.6');
+add('lesson', 'lesson', ids('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
+add('estate', 'estate', ids('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
 
 const body = urls.map(u =>
   '  <url>\n    <loc>' + u.loc.replace(/&/g, '&amp;') + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <priority>' + u.prio + '</priority>\n  </url>'
