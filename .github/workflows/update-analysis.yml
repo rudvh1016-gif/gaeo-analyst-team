@@ -149,6 +149,22 @@ jobs:
                 sleep 3
               done
             fi
+            # 📡 IndexNow — sitemap.xml이 바뀌었을 때만(Claude가 새 글을 발행했을 때) 빙·네이버에 즉시 알림.
+            # 이 러너는 인터넷 접근이 자유로워(원격 세션과 달리 api.indexnow.org 차단 없음) 실제 제출이 된다.
+            if [ -f sitemap.xml ] && [ -f indexnow_submit.js ]; then
+              newhash=$(sha256sum sitemap.xml | cut -d' ' -f1)
+              oldhash=$(cat .indexnow_hash 2>/dev/null || echo "")
+              if [ "$newhash" != "$oldhash" ]; then
+                echo "sitemap.xml 변경 감지 — IndexNow 제출"
+                node indexnow_submit.js || echo "IndexNow 제출 실패(무시하고 계속)"
+                echo "$newhash" > .indexnow_hash
+                git add .indexnow_hash
+                if ! git diff --cached --quiet; then
+                  git commit -m "IndexNow 제출 기록 갱신 [skip ci]" || true
+                  git push || true
+                fi
+              fi
+            fi
             # 상호 감시: 짝꿍 시세 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
             if [ -n "$IS_MAIN" ] && ! alive update-prices.yml; then
               echo "update-prices 미가동 감지 — 소생 dispatch"
