@@ -87,13 +87,19 @@ const LIVE_ANALYSIS = {
   "kospi": {"value": 실수, "rate": 실수},     // data.js의 indices 값과 동일하게
   "kosdaq": {"value": 실수, "rate": 실수},
   "text": "현 시장 국면 요약 2~3문장 (조정/반등 배경, 핵심 매크로 변수)",
-  "points": ["코스피 현황 한 줄", "코스닥 현황 한 줄", "핵심 변수/일정", "반등 조건"]
+  "points": ["코스피 현황 한 줄", "코스닥 현황 한 줄", "핵심 변수/일정", "반등 조건"],
+  "events": [{"date":"YYYY-MM-DD","name":"🇺🇸 미국 CPI 등","title":"일정"}]  // 특정 종목에 속하지 않는 매크로 일정(CPI·FOMC 등). 없으면 [].
  },
  "CODE": {
   "updated": "YYYY-MM-DD HH:MM",          // 지금 실행 시각
   "base": 정수,                            // ⛔ 반드시 data.js의 price와 동일
   "baseAt": "YYYY-MM-DD HH:MM | YYYY-MM-DD 종가",
   "events": [{"date":"YYYY-MM-DD","title":"일정"}],   // 날짜 미정이면 date 생략. 없으면 [].
+  // ⚠️ 2026-07-23 사고: "전체 재분석" 때 매번 새로 조사하지 않고 관성적으로 events:[]를
+  // 써버려서 실적발표일 등 이미 조사돼 있던 일정이 통째로 사라지고 캘린더가 텅 비었다.
+  // 전체 재작성 시에도 market.events·각 종목 events는 (a) 기존 analysis.js에 남아있던
+  // 미래 일정을 그대로 이어받거나 (b) WebSearch로 다시 확인해 최신화하되, 절대
+  // "귀찮으니 일단 []"로 비우지 말 것 — 지나간 일정만 정리하고 다가올 일정은 유지/보강한다.
   "taro":  {"score":정수,"stance":"..","findings":["..","..","..",".."]},
   "diana": {"score":정수,"stance":"..","findings":[".."x4]},
   "nova":  {"score":정수,"stance":"..","findings":[".."x4]},

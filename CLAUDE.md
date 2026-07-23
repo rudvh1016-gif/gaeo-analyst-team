@@ -51,6 +51,8 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 ⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js 중 **어느 파일이든 글을 추가/수정할 때마다**
 `node generate_sitemap.js`와 `node generate_snapshots.js`를 **반드시 함께 실행**한다(둘 다 안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다).
 스냅샷은 자바스크립트를 실행하지 않는 AI 브라우징 도구(챗GPT·제미나이 등)向 노출(AEO/GEO) 목적 — 2026-07-23 도입.
+**이 두 스크립트 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버 즉시 알림) + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다**
+(sitemap.xml은 4개 검색엔진 모두가 이미 알고 있는 주소이고, snap/ 페이지엔 daum-wm-title/datetime/content 클래스와 Article JSON-LD도 포함돼 있음) — 이 두 줄 실행을 절대 빠뜨리지 않는 것이 곧 전체 SEO/AEO/GEO 파이프라인을 지키는 것이다.
 sitemap.xml만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다 — 별도로 신경 쓸 필요 없음.
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개)
