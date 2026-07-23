@@ -44,6 +44,12 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | indicators.js | ↑의 브라우저 축약본(TARO 미니차트가 읽음) | compute_indicators.py |
 | dow_stats.js | 요일별 평균 등락률 사전계산(상단 📅 패널) | compute_dow_stats.py (자동) |
 | team_weights.js | 자가 학습 CHIEF 가중치(분석가별 적중률→발언권, 업종 오버라이드) | compute_team_weights.py (자동) |
+| generate_sitemap.js | sitemap.xml 재생성(뉴스분석·종목공부·주식공부·부동산공부 URL 수집) | Claude가 콘텐츠 추가 시 직접 실행 |
+| generate_snapshots.js | `/snap/{news,study,lesson,estate}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) | Claude가 콘텐츠 추가 시 직접 실행 |
+
+⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js 중 **어느 파일이든 글을 추가/수정할 때마다**
+`node generate_sitemap.js`와 `node generate_snapshots.js`를 **반드시 함께 실행**한다(둘 다 안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다).
+스냅샷은 자바스크립트를 실행하지 않는 AI 브라우징 도구(챗GPT·제미나이 등)向 노출(AEO/GEO) 목적 — 2026-07-23 도입.
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개)
 

@@ -74,7 +74,10 @@ UI가 자동 처리하니 신경 쓸 것 없다. 필드 규격(index.html이 전
 ## 3단계 — 검증 (등록만 하고 끝내지 말 것)
 
 1. **문법 검사**: `node -e "const v=new Function(require('fs').readFileSync('news_analysis.js','utf8')+';return NEWS_ANALYSIS;')(); console.log(v.length, v[0].body.length)"` — 에러 없고 body 4,000자 이상 확인.
-2. **화면 검증**(원격 세션 기준 실측 환경):
+2. **sitemap·정적 스냅샷 재생성(⭐ 빠뜨리면 검색엔진·AI가 새 글을 못 찾거나 못 읽는다)**:
+   `node generate_sitemap.js` 그리고 `node generate_snapshots.js`를 **반드시 둘 다** 실행한다.
+   snap/news/&lt;id&gt;.html이 새로 생겼는지 확인(자바스크립트 없이도 읽히는 정적 사본 — AI 브라우징 도구向, 2026-07-23 도입).
+3. **화면 검증**(원격 세션 기준 실측 환경):
    - 로컬 서버: `(python3 -m http.server <새 포트> &>/dev/null &)` 서브셸 백그라운드로 띄우고 curl로 200 확인.
      **포트는 매번 새로**(재사용하면 죽은 서버에 붙는 사고 잦음).
    - Playwright는 전역 설치본 사용: `NODE_PATH=/opt/node22/lib/node_modules node 스크립트.js`,
