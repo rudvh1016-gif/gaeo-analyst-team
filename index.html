@@ -2266,22 +2266,17 @@ const MACRO_REGIME=(function(){
   const tal=analysisTally();
   if(tal.total>0){
     const day=(AUTO_AN&&AUTO_AN.generatedAt||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
-    // BUY가 적을 땐(<15) 종합점수 상위 30위(🟡HOLD 포함)까지 '상대 상위'로 펼쳐 보여준다.
-    // BUY(절대 63점↑)가 시장 국면 탓에 텅 비어도, 사용자는 늘 '오늘 가장 매수 우위' 30종목을 볼 수 있다.
-    const FEW=15, TOPN=30;
-    const scarce=tal.counts.BUY<FEW;
-    const list=scarce?tal.ranked.slice(0,TOPN):tal.buy;
+    // 항상 종합점수 상위 30위(🟡HOLD 포함)까지 '상대 상위'로 펼쳐 보여준다 — BUY가 30개를
+    // 넘으면 자연히 BUY만 30개가 뽑히고, BUY가 적으면 점수 높은 HOLD가 채워져 늘 30개를 채운다.
+    const TOPN=30;
+    const list=tal.ranked.slice(0,TOPN);
     const chips=list.map((b,i)=>{
       const isBuy=b.call==='BUY';
       const tag=isBuy?'':'<span class="bc-rel">매수우위</span>';
       return `<span class="mk-buychip${i<3?' top3':''}${isBuy?'':' rel'}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}${tag}<span class="bc-score">${b.total}점</span></span>`;
     }).join('');
-    const summary=scarce
-      ? `🟢 BUY ${tal.counts.BUY}개뿐 — 종합점수 상위 ${list.length}위(🟡HOLD 포함)까지 펼쳐보기`
-      : `🟢 BUY 종목 ${tal.buy.length}개 · 종합점수 높은 순 펼쳐보기`;
-    const note=scarce
-      ? '※ BUY(63점 이상)가 적은 장이라 <b>종합점수가 높은 순서</b>로 상위 30위까지 보여줘요. 🟡 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.'
-      : '※ 앞의 번호는 종합점수 순위예요. 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
+    const summary=`🧭 종합점수 상위 ${list.length}위 펼쳐보기 (BUY ${tal.counts.BUY}개 포함)`;
+    const note='※ 앞의 번호는 종합점수 순위예요. 상위 30위까지 BUY·HOLD를 함께 보여드려요 — 🟡 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
     html+=`<div class="mk-tally">
       <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(day)} · 총 ${tal.total}종목</span></div>
       <div class="mk-tally-row">
@@ -2289,7 +2284,7 @@ const MACRO_REGIME=(function(){
         <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
         <span class="tly sell">🔴 SELL ${tal.counts.SELL}</span>
       </div>`+
-      (list.length?`<details class="mk-buylist"${scarce?' open':''}><summary>${summary}</summary>
+      (list.length?`<details class="mk-buylist" open><summary>${summary}</summary>
         <div class="mk-buychips">${chips}</div>
         <div class="mk-buynote">${note}</div>
       </details>`:'')+
