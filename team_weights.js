@@ -3,26 +3,26 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-07-24 15:39",
+ "generatedAt": "2026-07-24 16:09",
  "evalDays": 5,
  "global": {
   "weights": {
-   "taro": 0.2793,
-   "diana": 0.1907,
-   "nova": 0.2791,
+   "taro": 0.2792,
+   "diana": 0.1908,
+   "nova": 0.279,
    "flow": 0.251
   },
   "acc": {
    "taro": {
-    "n": 4843,
+    "n": 4841,
     "acc": 62.0
    },
    "diana": {
-    "n": 4373,
+    "n": 4371,
     "acc": 42.4
    },
    "nova": {
-    "n": 3391,
+    "n": 3389,
     "acc": 62.0
    },
    "flow": {
@@ -30,7 +30,7 @@ const TEAM_WEIGHTS = {
     "acc": 55.7
    }
   },
-  "graded": 13477
+  "graded": 13471
  },
  "sectors": {
   "반도체": {
