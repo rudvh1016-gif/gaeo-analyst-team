@@ -48,6 +48,18 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | generate_snapshots.js | `/snap/{news,study,lesson,estate}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) + `/snap/stock/<code>.html` 500종목 개별 정밀/자동분석 랜딩페이지("OO 전망/주가" 검색 유입용, 2026-07-24 도입) | 콘텐츠(뉴스·공부)는 Claude가 추가 시 직접 실행 · 종목 스냅샷은 update-analysis.yml 러너가 매 사이클 자동 재생성(토큰 0) |
 | indexnow_submit.js · `<32자hex>.txt`(IndexNow 키 파일) | sitemap.xml의 URL을 빙·네이버에 즉시 제출(크롤러 방문 기다리지 않고 몇 분~몇 시간 내 색인). 구글은 IndexNow 미지원이라 대상 아님 | 원격 세션은 `api.indexnow.org` 아웃바운드가 막혀 있어 직접 실행해도 실패할 수 있음 — update-analysis.yml 러너가 `.indexnow_hash`로 sitemap.xml 변경을 감지해 매 사이클 자동 제출(사람 개입 불필요) |
 
+⭐ **카테고리(cat 필드) 철칙(2026-07-24 도입)**: 네 파일 모두 각 글에 `cat` 필드가 있고, index.html이 모드 진입 시
+이 값으로 "대>중>소" 중카테고리 선택 화면(카드 그리드)을 그린다. **새 글을 추가할 때 반드시 기존 중카테고리 중
+하나와 정확히 일치하는 키를 `cat`에 넣는다** — 안 넣거나 새 값을 지어내면 그 글이 어떤 카테고리 카드에도
+잡히지 않아 "전체 글 보기"로만 찾을 수 있게 된다(사실상 묻힌다). 현재 중카테고리 키(index.html의
+NEWS_CATS/STUDY_CATS/LESSON_CATS/ESTATE_CATS 참조):
+- 뉴스분석: `market`(코스피·코스닥 시황) · `earnings`(기업 실적발표) · `global`(글로벌 이슈·매크로) · `crypto`(코인·신기술) · `domestic`(국내 기업 이슈)
+- 종목공부: `kr`(국내기업) · `global`(해외기업)
+- 주식공부: `chart`(차트·기술적분석) · `capitalism`(EBS 다큐 자본주의) · `crisis`(경제위기의 역사) · `tax`(세금·절세계좌) · `product`(투자상품) · `macro`(시장을 움직이는 손) · `industry`(산업·기업분석)
+- 부동산공부: `buy`(내집마련기초) · `rent`(전월세·임대차보호) · `loan`(대출·금융) · `auction`(경매·공매시리즈) · `strategy`(투자전략)
+어느 카테고리에도 안 맞는 완전히 새로운 주제라면, 새 cat 키를 쓰기 전에 index.html의 해당 CATS 배열에도
+카드를 함께 추가한다(그래야 그 카테고리가 실제로 화면에 나타난다).
+
 ⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js 중 **어느 파일이든 글을 추가/수정할 때마다**
 `node generate_sitemap.js`와 `node generate_snapshots.js`를 **반드시 함께 실행**한다(둘 다 안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다).
 스냅샷은 자바스크립트를 실행하지 않는 AI 브라우징 도구(챗GPT·제미나이 등)向 노출(AEO/GEO) 목적 — 2026-07-23 도입.
