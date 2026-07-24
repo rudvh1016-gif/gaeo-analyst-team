@@ -11,7 +11,8 @@ function ids(file, varname) {
 
 const BASE = 'https://gaeoteam.com/';
 const today = new Date().toISOString().slice(0, 10);
-const urls = [{ loc: BASE, prio: '1.0' }, { loc: BASE + 'snap/index.html', prio: '0.5' }];
+const urls = [{ loc: BASE, prio: '1.0' }, { loc: BASE + 'snap/index.html', prio: '0.5' },
+  { loc: BASE + 'about.html', prio: '0.4' }, { loc: BASE + 'contact.html', prio: '0.3' }, { loc: BASE + 'privacy.html', prio: '0.3' }];
 // 크롤러(특히 자바스크립트를 실행하지 않는 봇)向으로는 정적 스냅샷(/snap/...)을 sitemap에 올린다.
 // 스냅샷 페이지의 <link rel="canonical">이 아래 인터랙티브 URL(?m=...)을 가리켜 검색 순위 신호를 그쪽으로 모아준다.
 const add = (m, folder, list, prio) => list.forEach(id => urls.push({ loc: BASE + 'snap/' + folder + '/' + id + '.html', prio }));

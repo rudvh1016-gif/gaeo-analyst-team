@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>소개 — Gaeo</title>
+<meta name="description" content="Gaeo(개오 애널리스트팀) 소개 — AI 애널리스트 5인이 한국 주식 500종목을 매일 분석해주는 사이트입니다." />
+<style>
+  :root{
+    --navy:#1D1D1F; --sky:#0071E3; --sky-soft:#F0F6FF; --sky-line:#C9DFF8;
+    --bg:#F5F5F7; --paper:#FFFFFF; --ink:#1D1D1F; --t2:#3A3A3C; --t3:#515154; --line:#E5E5E7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --navy:#F5F5F7; --sky:#0A84FF; --sky-soft:#15263C; --sky-line:#2A4A70;
+      --bg:#000000; --paper:#1C1C1E; --ink:#F5F5F7; --t2:#E8E8ED; --t3:#C7C7CC; --line:#38383A; }
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+    line-height:1.7;}
+  .wrap{max-width:760px;margin:0 auto;padding:48px 20px 100px;}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--sky);text-decoration:none;
+    font-weight:700;font-size:14px;margin-bottom:24px;}
+  h1{font-size:26px;font-weight:800;margin:0 0 6px;}
+  .updated{color:var(--t3);font-size:13px;margin-bottom:32px;}
+  .card{background:var(--paper);border-radius:20px;padding:32px;
+    box-shadow:0 4px 24px rgba(0,0,0,.06);}
+  h2{font-size:17px;font-weight:800;margin:32px 0 10px;color:var(--ink);}
+  h2:first-child{margin-top:0;}
+  p{color:var(--t2);font-size:14.5px;margin:0 0 10px;}
+  ul{margin:0 0 10px;padding-left:20px;color:var(--t2);font-size:14.5px;}
+  li{margin-bottom:6px;}
+  .note{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:12px;
+    padding:14px 16px;font-size:13.5px;color:var(--t2);margin:14px 0;}
+  a{color:var(--sky);}
+  .team{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 6px;}
+  @media(max-width:520px){.team{grid-template-columns:1fr;}}
+  .tcard{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:12px;padding:12px 14px;}
+  .tcard b{display:block;font-size:14px;color:var(--ink);margin-bottom:2px;}
+  .tcard span{font-size:12.5px;color:var(--t3);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Gaeo로 돌아가기</a>
+  <h1>소개</h1>
+  <div class="updated">개오(Gaeo) 애널리스트팀이란?</div>
+
+  <div class="card">
+    <h2>1. Gaeo는 무엇을 하는 사이트인가요?</h2>
+    <p>Gaeo는 AI 애널리스트 5인이 한국 주식 <b>500개 종목</b>을 매일 분석해 BUY(매수)·HOLD(보유)·SELL(매도) 의견을 알려드리는 사이트예요. 증권사 리포트처럼 어려운 용어 대신, 처음 주식을 접하는 분도 이해할 수 있도록 쉬운 말로 풀어서 설명하는 걸 목표로 만들었습니다.</p>
+
+    <h2>2. AI 애널리스트 5인 소개</h2>
+    <div class="team">
+      <div class="tcard"><b>🔧 TARO</b><span>기술적 분석 — 차트·이동평균·RSI·MACD</span></div>
+      <div class="tcard"><b>💰 DIANA</b><span>재무 분석 — 실적·밸류에이션·재무제표</span></div>
+      <div class="tcard"><b>📊 QUANT</b><span>확률·통계 분석 — 과거 유사 국면의 실측 승률</span></div>
+      <div class="tcard"><b>🌊 FLOW</b><span>수급 분석 — 외국인·기관·개인 매매 동향</span></div>
+      <div class="tcard"><b>🧭 CHIEF</b><span>총괄 — 4인의 의견을 종합해 최종 판단</span></div>
+    </div>
+
+    <h2>3. 어떻게 분석하나요?</h2>
+    <p>소수 핵심 종목은 심층 정밀분석을 직접 수행하고, 나머지 500종목 전체는 매일 자동 갱신되는 규칙 기반 분석(자동분석)으로 커버해요. 어느 쪽이든 화면에 분석 기준 시점을 함께 표시해, 언제 기준으로 나온 판단인지 항상 확인할 수 있도록 하고 있어요.</p>
+    <p>이 밖에도 시장 전체의 흐름을 짚는 <b>시장 분석</b>, 종목별 리스크를 알려주는 <b>리스크 관리</b> 카드, 매일 발행되는 <b>뉴스분석</b> 보고서, 초보자를 위한 <b>종목공부·주식공부·부동산공부</b> 콘텐츠도 함께 제공하고 있어요.</p>
+
+    <h2>4. 투자 권유가 아닙니다</h2>
+    <div class="note">
+      Gaeo가 제공하는 모든 분석·의견·점수는 AI 및 자동화된 규칙을 바탕으로 한 <b>참고용 정보</b>이며, 특정 종목의 매수·매도를 권유하는 것이 아닙니다. 투자 판단과 그 결과에 대한 책임은 전적으로 이용자 본인에게 있습니다.
+    </div>
+
+    <h2>5. 만든 사람</h2>
+    <p>Gaeo는 개인이 취미로 만들고 운영하는 사이트예요. 별도로 사업자 등록을 하지 않은 개인 프로젝트이며, 광고 수익은 서버·운영 비용 충당 목적으로만 사용됩니다.</p>
+
+    <h2>6. 문의</h2>
+    <p>사이트 이용 중 궁금한 점이나 오류를 발견하셨다면 <a href="contact.html">문의하기</a> 페이지를 통해 연락해 주세요.</p>
+  </div>
+</div>
+</body>
+</html>
