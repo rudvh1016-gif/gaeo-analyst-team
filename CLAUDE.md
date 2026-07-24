@@ -45,7 +45,7 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | dow_stats.js | 요일별 평균 등락률 사전계산(상단 📅 패널) | compute_dow_stats.py (자동) |
 | team_weights.js | 자가 학습 CHIEF 가중치(분석가별 적중률→발언권, 업종 오버라이드) | compute_team_weights.py (자동) |
 | generate_sitemap.js | sitemap.xml 재생성(뉴스분석·종목공부·주식공부·부동산공부 URL 수집) | Claude가 콘텐츠 추가 시 직접 실행 |
-| generate_snapshots.js | `/snap/{news,study,lesson,estate}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) | Claude가 콘텐츠 추가 시 직접 실행 |
+| generate_snapshots.js | `/snap/{news,study,lesson,estate}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) + `/snap/stock/<code>.html` 500종목 개별 정밀/자동분석 랜딩페이지("OO 전망/주가" 검색 유입용, 2026-07-24 도입) | 콘텐츠(뉴스·공부)는 Claude가 추가 시 직접 실행 · 종목 스냅샷은 update-analysis.yml 러너가 매 사이클 자동 재생성(토큰 0) |
 | indexnow_submit.js · `<32자hex>.txt`(IndexNow 키 파일) | sitemap.xml의 URL을 빙·네이버에 즉시 제출(크롤러 방문 기다리지 않고 몇 분~몇 시간 내 색인). 구글은 IndexNow 미지원이라 대상 아님 | 원격 세션은 `api.indexnow.org` 아웃바운드가 막혀 있어 직접 실행해도 실패할 수 있음 — update-analysis.yml 러너가 `.indexnow_hash`로 sitemap.xml 변경을 감지해 매 사이클 자동 제출(사람 개입 불필요) |
 
 ⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js 중 **어느 파일이든 글을 추가/수정할 때마다**

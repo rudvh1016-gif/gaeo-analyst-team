@@ -19,6 +19,11 @@ add('news', 'news', ids('news_analysis.js', 'NEWS_ANALYSIS'), '0.7');
 add('study', 'study', ids('stock_study.js', 'STOCK_STUDY'), '0.6');
 add('lesson', 'lesson', ids('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
 add('estate', 'estate', ids('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
+// 500종목 개별 정밀/자동분석 스냅샷 — "OO 전망/주가" 검색 유입용 랜딩페이지(snap/stock/<code>.html)
+try {
+  const TICKERS = new Function(fs.readFileSync('tickers.js', 'utf8') + ';return TICKERS;')();
+  TICKERS.forEach(t => urls.push({ loc: BASE + 'snap/stock/' + t.code + '.html', prio: '0.5' }));
+} catch (e) {}
 
 const body = urls.map(u =>
   '  <url>\n    <loc>' + u.loc.replace(/&/g, '&amp;') + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <priority>' + u.prio + '</priority>\n  </url>'

@@ -130,7 +130,7 @@ function sourcesToHtml(sources) {
   return '<div class="sources">📎 출처<ul>' + items + '</ul></div>';
 }
 
-const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate'];
+const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/stock'];
 for (const d of outDirs) fs.mkdirSync(path.join(HERE, d), { recursive: true });
 
 const index = [];
@@ -159,6 +159,77 @@ build(load('news_analysis.js', 'NEWS_ANALYSIS'), 'news', 'news', 'title', '📰 
 build(load('stock_study.js', 'STOCK_STUDY'), 'study', 'study', 'name', '📚 종목공부');
 build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '🎓 주식공부');
 build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '🏠 부동산공부');
+
+// ── 💰 500종목 정밀/자동분석 스냅샷 — "OO 전망/주가" 검색 유입을 노리는 개별 종목 랜딩페이지 ──
+// 뉴스·공부 콘텐츠와 달리 매일 시세·분석이 바뀌므로, 러너(update-analysis.yml)가 매 사이클
+// generate_snapshots.js를 다시 실행해 자동 갱신한다(토큰 0 — 이미 계산된 데이터를 템플릿에 채울 뿐).
+function stockFindingsHtml(block) {
+  if (!block) return '';
+  const names = { taro: '📈 TARO(기술)', diana: '💰 DIANA(재무)', nova: '🔮 QUANT(확률·통계)', flow: '🌊 FLOW(수급)' };
+  let html = '';
+  for (const k of ['taro', 'diana', 'nova', 'flow']) {
+    const a = block[k];
+    if (!a || !Array.isArray(a.findings) || !a.findings.length) continue;
+    html += '<h2>' + esc(names[k]) + ' — ' + esc(a.score != null ? a.score + '점' : '') + '</h2>\n';
+    html += '<ul>' + a.findings.map(f => '<li>' + esc(f) + '</li>').join('') + '</ul>\n';
+  }
+  return html;
+}
+
+function buildStocks() {
+  const TICKERS = load('tickers.js', 'TICKERS');
+  const DATA = load('data.js', 'LIVE_DATA') || {};
+  const AN = load('analysis.js', 'LIVE_ANALYSIS') || {};
+  const AUTO = load('auto_analysis.js', 'LIVE_AUTO') || {};
+  const stocksData = DATA.stocks || {};
+  const autoStocks = AUTO.stocks || {};
+  let n = 0;
+  for (const t of TICKERS) {
+    const code = t.code, name = t.name;
+    const isPrecision = AN[code] && typeof AN[code] === 'object';
+    const block = isPrecision ? AN[code] : autoStocks[code];
+    if (!block || !block.chief) continue;
+    const sd = stocksData[code] || {};
+    const chief = block.chief;
+    const tierLabel = isPrecision ? '🧠 정밀분석' : '🤖 자동분석';
+    const callKr = { BUY: '매수', HOLD: '보유', SELL: '매도' }[chief.call] || chief.call || '—';
+    const priceDate = (DATA.date || '').slice(0, 10) || new Date().toISOString().slice(0, 10);
+    const analysisDate = (block.updated || block.baseAt || AUTO.generatedAt || '').slice(0, 10) || priceDate;
+    const date = priceDate; // JSON-LD·메타에는 더 최신인 시세 기준일을 쓴다
+    const title = `${name}(${code}) 주가 전망 — 오늘 개오팀 판단 ${callKr}(${chief.call || '—'})`;
+    const priceLine = sd.price ? `현재가 ${sd.price.toLocaleString('ko-KR')}원 (${sd.rate > 0 ? '+' : ''}${sd.rate}%)` : '';
+    const desc = `${name}(${code}) ${priceLine} — ${tierLabel} 종합판단 ${chief.call || '—'}(${chief.total ?? '—'}점, 확신도 ${chief.confidence ?? '—'}%). ${(chief.reason || '').slice(0, 80)}`;
+    let bodyHtml = '';
+    bodyHtml += '<p>' + esc(`${tierLabel} · ${t.sector || ''} 업종`) + '</p>\n';
+    bodyHtml += '<p>' + esc(`🕒 시세 기준 ${priceDate}${analysisDate !== priceDate ? ' · 🔎 분석 기준 ' + analysisDate : ''}`) + '</p>\n';
+    if (priceLine) bodyHtml += '<p><strong>' + esc(priceLine) + '</strong></p>\n';
+    const metrics = [];
+    if (sd.per) metrics.push('PER ' + sd.per + '배');
+    if (sd.pbr) metrics.push('PBR ' + sd.pbr + '배');
+    if (sd.roe) metrics.push('ROE ' + sd.roe + '%');
+    if (sd.cap) metrics.push('시가총액 ' + sd.cap);
+    if (metrics.length) bodyHtml += '<p>' + esc(metrics.join(' · ')) + '</p>\n';
+    bodyHtml += '<h2>🧭 개오팀 종합 판단</h2>\n';
+    bodyHtml += '<p><strong>' + esc(`${chief.call || '—'} (종합 ${chief.total ?? '—'}점 · 확신도 ${chief.confidence ?? '—'}%)`) + '</strong></p>\n';
+    if (chief.reason) bodyHtml += '<p>' + esc(chief.reason) + '</p>\n';
+    if (chief.target) bodyHtml += '<p>🎯 ' + esc(chief.target) + '</p>\n';
+    if (chief.report) bodyHtml += '<p>' + esc(chief.report) + '</p>\n';
+    bodyHtml += stockFindingsHtml(block);
+    const url = `${BASE}?m=single&code=${code}`;
+    const html = page({
+      url, title, desc, date,
+      articleType: 'Article',
+      bodyHtml,
+      backHref: url,
+      sourcesHtml: '',
+      tag: `${tierLabel} · ${name}`,
+    });
+    fs.writeFileSync(path.join(HERE, `snap/stock/${code}.html`), html);
+    n++;
+  }
+  console.log(`종목 스냅샷 생성 완료 — ${n}건 (snap/stock/*.html)`);
+}
+buildStocks();
 
 index.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 const listHtml = index.map(x =>
