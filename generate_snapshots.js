@@ -75,6 +75,8 @@ function page({ url, title, desc, date, articleType, bodyHtml, backHref, sources
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
+     crossorigin="anonymous"></script>
 <style>
 :root{--bg:#F5F5F7;--ink:#1D1D1F;--t2:#6E6E73;--sky:#0071E3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#000;--ink:#F5F5F7;--t2:#98989D;--sky:#0A84FF;--card:#1C1C1E}}
@@ -244,6 +246,8 @@ const indexPage = `<!doctype html>
 <title>전체 글 목록 — ${esc(SITE_NAME)}</title>
 <meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
 <link rel="canonical" href="${BASE}">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
+     crossorigin="anonymous"></script>
 <style>
 body{margin:0;background:#F5F5F7;color:#1D1D1F;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.8}
 @media (prefers-color-scheme:dark){body{background:#000;color:#F5F5F7}}
