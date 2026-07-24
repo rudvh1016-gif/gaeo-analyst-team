@@ -830,6 +830,23 @@
   .nw-pg.on{background:var(--navy);border-color:var(--navy);color:#fff}
   .nw-pg:disabled{opacity:.4;cursor:default}
   .nw-empty{color:var(--faint);font-size:13px;text-align:center;padding:30px 0}
+  /* 🗂 뉴스분석·종목공부·주식공부·부동산공부 공통 — 중카테고리 선택 화면 */
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:6px}
+  .cat-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 14px;
+    cursor:pointer;text-align:center;transition:border-color .15s,transform .15s;box-shadow:var(--shadow-sm)}
+  .cat-card:hover{border-color:var(--sky);transform:translateY(-2px)}
+  .cat-emoji{font-size:26px;margin-bottom:8px}
+  .cat-label{font-weight:800;font-size:13.5px;color:var(--navy);line-height:1.4;margin-bottom:4px}
+  .cat-desc{font-size:11px;color:var(--faint);line-height:1.5;margin-bottom:8px}
+  .cat-count{font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-soft);
+    display:inline-block;border-radius:99px;padding:2px 9px}
+  .cat-allbtn{display:block;text-align:center;margin-top:4px;padding:12px;border-radius:12px;
+    border:1px dashed var(--line);color:var(--dim);font-size:12.5px;font-weight:700;cursor:pointer;background:none}
+  .cat-allbtn:hover{border-color:var(--sky);color:var(--navy)}
+  .cat-back{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+    color:var(--sky);cursor:pointer;margin-bottom:10px;background:none;border:none;padding:0;font-family:inherit}
+  .cat-back:hover{text-decoration:underline}
+  .cat-current{font-size:12.5px;color:var(--faint);margin-bottom:10px}
   /* ── 📖 가이드북(초보 안내서) ── */
   .guideView{display:none;margin-top:18px}
   .guideView.on{display:block}
@@ -4233,11 +4250,64 @@ makeCards(false);
   rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
 })();
 
+// ---------- 🗂 뉴스분석·종목공부·주식공부·부동산공부 공통 — 중카테고리(대>중>소) ----------
+// 대카테고리 = 모드 탭(뉴스분석/종목공부/주식공부/부동산공부) 자체, 중카테고리 = 아래 CATS,
+// 소카테고리 = 실제 등록된 글 하나하나. 각 글의 data.js "cat" 필드로 어느 중카테고리인지 판정한다.
+const NEWS_CATS=[
+ {key:'market',emoji:'📉',label:'코스피·코스닥 시황 정리',desc:'그날그날의 지수 등락과 배경을 정리해요.'},
+ {key:'earnings',emoji:'📑',label:'기업 실적발표 정리',desc:'국내외 주요 기업의 분기 실적을 쉽게 풀어요.'},
+ {key:'global',emoji:'🌐',label:'글로벌 이슈·매크로',desc:'금리·물가·유가 같은 큰 흐름을 다뤄요.'},
+ {key:'crypto',emoji:'🪙',label:'코인·신기술',desc:'비트코인부터 AI·양자컴퓨터까지.'},
+ {key:'domestic',emoji:'🏢',label:'국내 기업 이슈',desc:'상장·신사업 같은 개별 기업 소식.'},
+];
+const STUDY_CATS=[
+ {key:'kr',emoji:'🇰🇷',label:'국내기업',desc:'국내 상장기업 프로필.'},
+ {key:'global',emoji:'🌍',label:'해외기업',desc:'해외 유명 기업 프로필.'},
+];
+const LESSON_CATS=[
+ {key:'chart',emoji:'📊',label:'차트·기술적 분석 기초',desc:'캔들·이동평균선·지수처럼 그래프 읽는 법.'},
+ {key:'capitalism',emoji:'📺',label:'EBS 다큐 자본주의 완전정리',desc:'자본주의 EP1~3 연재를 한자리에.'},
+ {key:'crisis',emoji:'📜',label:'경제위기의 역사',desc:'IMF·리먼·코로나 쇼크까지.'},
+ {key:'tax',emoji:'💰',label:'세금·절세 계좌',desc:'ISA·IRP·종합소득세 등 세금 아끼는 법.'},
+ {key:'product',emoji:'📈',label:'투자상품 알아보기',desc:'배당주·리츠·채권 등 투자수단 이해.'},
+ {key:'macro',emoji:'🏛',label:'시장을 움직이는 손',desc:'국민연금·밸류업·환율 같은 큰 변수.'},
+ {key:'industry',emoji:'🧬',label:'산업·기업 분석',desc:'임상시험·반도체 사이클 등 업종 지식.'},
+];
+const ESTATE_CATS=[
+ {key:'buy',emoji:'🏠',label:'내 집 마련 기초',desc:'매매·청약 등 처음 집 살 때 알아야 할 것.'},
+ {key:'rent',emoji:'📜',label:'전월세·임대차 보호',desc:'전세사기 예방, 임대차 3법.'},
+ {key:'loan',emoji:'🏦',label:'대출·금융',desc:'근저당·LTV·DTI·DSR·상환방식.'},
+ {key:'auction',emoji:'🔨',label:'경매·공매 시리즈',desc:'부동산 경매 기초부터 실전까지.'},
+ {key:'strategy',emoji:'💡',label:'투자 전략',desc:'재건축·갭투자 등 투자 접근법.'},
+];
+// 중카테고리 선택 화면(그리드) HTML — cats: 위 CATS 배열, list: 해당 모드의 전체 글 배열
+function catPickerHTML(cats, list){
+  const counts={};
+  list.forEach(x=>{ const c=x.cat||'etc'; counts[c]=(counts[c]||0)+1; });
+  const cards=cats.map(c=>
+    `<div class="cat-card" data-cat="${c.key}">
+       <div class="cat-emoji">${c.emoji}</div>
+       <div class="cat-label">${c.label}</div>
+       <div class="cat-desc">${c.desc}</div>
+       <div class="cat-count">${counts[c.key]||0}개 글</div>
+     </div>`).join('');
+  return `<div class="cat-grid">${cards}</div>
+    <button type="button" class="cat-allbtn" data-cat="__all__">📋 전체 글 한 번에 보기 (${list.length}건) →</button>`;
+}
+// 글 목록 화면 상단의 "← 카테고리 목록" 되돌아가기 버튼 + 현재 위치 표시
+function catBackHTML(cats, sel){
+  const c=cats.find(x=>x.key===sel);
+  const label=sel==='__all__'?'전체 글':(c?c.emoji+' '+c.label:sel);
+  return `<button type="button" class="cat-back">← 카테고리 목록으로</button>
+    <div class="cat-current">${label} 보는 중</div>`;
+}
+
 // ---------- 📰 뉴스분석 모드 ----------
 // news_analysis.js(NEWS_ANALYSIS 배열)에 보고서를 계속 쌓는다. 10건 = 1페이지.
 (function(){
   const PAGE_SIZE=10;
   let page=1;
+  let newsCatSel=null; // null=카테고리 선택 화면, '__all__'=전체, 그 외=해당 cat만
   const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const inline=s=>SIGNUM(escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>'));
   // 본문 미니 마크다운: "## 제목" = 소제목, "- " = 목록, 빈 줄 = 문단 구분, **굵게**
@@ -4261,12 +4331,22 @@ makeCards(false);
     const all=(typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS))?NEWS_ANALYSIS.slice():[];
     // 최신 날짜(같으면 id 큰 것)가 앞으로
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
-    if(page>pages) page=pages; if(page<1) page=1;
-    const slice=all.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
-    let h=`<div class="nw-hero"><h2>📰 뉴스분석</h2>
+    const hero=`<div class="nw-hero"><h2>📰 뉴스분석</h2>
       <p>시장을 움직인 기사·이슈를 개오팀이 초보자 눈높이로 풀어드려요.
-      제목을 누르면 전체 보고서가 펼쳐집니다. 보고서는 계속 쌓이고, 10건마다 한 페이지예요.</p></div>`;
+      카테고리를 먼저 골라보세요. 제목을 누르면 전체 보고서가 펼쳐집니다.</p></div>`;
+    if(!newsCatSel){
+      box.innerHTML=hero+catPickerHTML(NEWS_CATS, all);
+      box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
+        newsCatSel=el.dataset.cat; page=1; window.renderNews();
+        box.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    const filtered=newsCatSel==='__all__'?all:all.filter(x=>x.cat===newsCatSel);
+    const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
+    if(page>pages) page=pages; if(page<1) page=1;
+    const slice=filtered.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
+    let h=hero+catBackHTML(NEWS_CATS, newsCatSel);
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="nw-${a.id}">
           <div class="nw-head" data-nw="${a.id}">
@@ -4288,6 +4368,8 @@ makeCards(false);
         `<button class="nw-pg" data-pg="${page+1}" ${page>=pages?'disabled':''}>다음 ›</button></div>`;
     }
     box.innerHTML=h;
+    const backBtn=box.querySelector('.cat-back');
+    if(backBtn) backBtn.onclick=()=>{ newsCatSel=null; page=1; window.renderNews(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
     // 제목 클릭 → 본문 펼침/접힘
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('nw-'+el.dataset.nw);
@@ -4304,13 +4386,16 @@ makeCards(false);
     // 최신 1건은 처음부터 펼쳐서 보여준다
     if(page===1&&slice.length){ const first=document.getElementById('nw-'+slice[0].id); if(first) first.classList.add('open'); }
   };
-  // 딥링크(?m=news&id=N) — 해당 글이 있는 페이지로 이동해 펼치고 스크롤
+  // 딥링크(?m=news&id=N) — 카테고리 화면을 건너뛰고 해당 글의 카테고리·페이지로 바로 이동해 펼치고 스크롤
   window.openNewsId=function(id){
     const all=(typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS))?NEWS_ANALYSIS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const idx=all.findIndex(a=>String(a.id)===String(id));
-    if(idx<0) return;
-    page=Math.floor(idx/PAGE_SIZE)+1;
+    const target=all.find(a=>String(a.id)===String(id));
+    if(!target) return;
+    newsCatSel=target.cat||'__all__';
+    const filtered=all.filter(x=>x.cat===newsCatSel);
+    const idx=filtered.findIndex(a=>String(a.id)===String(id));
+    page=idx<0?1:Math.floor(idx/PAGE_SIZE)+1;
     window.renderNews();
     const el=document.getElementById('nw-'+id);
     if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
@@ -4322,6 +4407,7 @@ makeCards(false);
 (function(){
   const PAGE_SIZE=10;
   let page=1;
+  let stCatSel=null, lsCatSel=null, esCatSel=null; // null=카테고리 선택 화면
   const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const inline=s=>SIGNUM(escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>'));
   /* ---- 🎓 주식공부 본문 도해(SVG) ----
@@ -4577,12 +4663,22 @@ makeCards(false);
     const box=document.getElementById('studyView'); if(!box) return;
     const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
+    const hero=`<div class="nw-hero"><h2>📚 종목공부</h2>
+      <p>"이 회사가 뭐 하는 곳인지"를 초보자 눈높이로 풀어드려요. 카테고리를 먼저 골라보세요.
+      제목을 누르면 전체 내용이 펼쳐져요.</p></div>`;
+    if(!stCatSel){
+      box.innerHTML=hero+catPickerHTML(STUDY_CATS, all);
+      box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
+        stCatSel=el.dataset.cat; page=1; window.renderStudy();
+        box.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    const filtered=stCatSel==='__all__'?all:all.filter(x=>x.cat===stCatSel);
+    const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(page>pages) page=pages; if(page<1) page=1;
-    const slice=all.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
-    let h=`<div class="nw-hero"><h2>📚 종목공부</h2>
-      <p>"이 회사가 뭐 하는 곳인지"를 초보자 눈높이로 풀어드려요. 어떤 회사인지·뭘로 돈 버는지·
-      과거와 미래·호재와 악재까지 한 번에. 제목을 누르면 전체 내용이 펼쳐지고, 10종목마다 한 페이지예요.</p></div>`;
+    const slice=filtered.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
+    let h=hero+catBackHTML(STUDY_CATS, stCatSel);
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="st-${a.id}">
           <div class="nw-head" data-st="${a.id}">
@@ -4604,6 +4700,8 @@ makeCards(false);
         `<button class="nw-pg" data-pg="${page+1}" ${page>=pages?'disabled':''}>다음 ›</button></div>`;
     }
     box.innerHTML=h;
+    const stBack=box.querySelector('.cat-back');
+    if(stBack) stBack.onclick=()=>{ stCatSel=null; page=1; window.renderStudy(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('st-'+el.dataset.st);
       if(item){ const open=item.classList.toggle('open');
@@ -4620,8 +4718,11 @@ makeCards(false);
   window.openStudyId=function(id){
     const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
-    page=Math.floor(idx/PAGE_SIZE)+1; window.renderStudy();
+    const target=all.find(a=>String(a.id)===String(id)); if(!target) return;
+    stCatSel=target.cat||'__all__';
+    const filtered=all.filter(x=>x.cat===stCatSel);
+    const idx=filtered.findIndex(a=>String(a.id)===String(id));
+    page=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderStudy();
     const el=document.getElementById('st-'+id);
     if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
@@ -4634,13 +4735,22 @@ makeCards(false);
     const box=document.getElementById('lessonView'); if(!box) return;
     const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
-    if(lsPage>pages) lsPage=pages; if(lsPage<1) lsPage=1;
-    const slice=all.slice((lsPage-1)*PAGE_SIZE, lsPage*PAGE_SIZE);
-    let h=`<div class="nw-hero"><h2>🎓 주식공부</h2>
+    const hero=`<div class="nw-hero"><h2>🎓 주식공부</h2>
       <p>차트 보는 법, 캔들 읽는 법 같은 <b>투자 기초 지식</b>을 초보자 눈높이로 하나씩 배워요.
-      특정 회사 이야기(📚 종목공부)와 달리, 여기는 어떤 종목에나 통하는 공부 노트예요.
-      제목을 누르면 전체 내용이 펼쳐지고, 10개마다 한 페이지예요.</p></div>`;
+      카테고리를 먼저 골라보세요. 제목을 누르면 전체 내용이 펼쳐져요.</p></div>`;
+    if(!lsCatSel){
+      box.innerHTML=hero+catPickerHTML(LESSON_CATS, all);
+      box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
+        lsCatSel=el.dataset.cat; lsPage=1; window.renderLesson();
+        box.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    const filtered=lsCatSel==='__all__'?all:all.filter(x=>x.cat===lsCatSel);
+    const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
+    if(lsPage>pages) lsPage=pages; if(lsPage<1) lsPage=1;
+    const slice=filtered.slice((lsPage-1)*PAGE_SIZE, lsPage*PAGE_SIZE);
+    let h=hero+catBackHTML(LESSON_CATS, lsCatSel);
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="ls-${a.id}">
           <div class="nw-head" data-ls="${a.id}">
@@ -4662,6 +4772,8 @@ makeCards(false);
         `<button class="nw-pg" data-pg="${lsPage+1}" ${lsPage>=pages?'disabled':''}>다음 ›</button></div>`;
     }
     box.innerHTML=h;
+    const lsBack=box.querySelector('.cat-back');
+    if(lsBack) lsBack.onclick=()=>{ lsCatSel=null; lsPage=1; window.renderLesson(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('ls-'+el.dataset.ls);
       if(item){ const open=item.classList.toggle('open');
@@ -4678,26 +4790,47 @@ makeCards(false);
   window.openLessonId=function(id){
     const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
-    lsPage=Math.floor(idx/PAGE_SIZE)+1; window.renderLesson();
+    const target=all.find(a=>String(a.id)===String(id)); if(!target) return;
+    lsCatSel=target.cat||'__all__';
+    const filtered=all.filter(x=>x.cat===lsCatSel);
+    const idx=filtered.findIndex(a=>String(a.id)===String(id));
+    lsPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderLesson();
     const el=document.getElementById('ls-'+id);
     if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };
 
   // ---------- 🏠 부동산공부 모드 ----------
   // estate_lessons.js(ESTATE_LESSONS)에 "부동산 기초 지식" 글을 쌓는다. 주식공부와 형식·헬퍼 동일.
+  // ⚠️ 일부 옛 글(id 6~12)이 name/tag 대신 title/tags 필드로 등록돼 제목이 안 보이던 문제를
+  //   여기서 한 번 정규화해 고친다(데이터 파일은 그대로 두고 화면에서만 보정).
+  (function normalizeEstate(){
+    const arr=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS:[];
+    arr.forEach(a=>{
+      if(!a.name && a.title) a.name=a.title;
+      if(!a.tag && Array.isArray(a.tags)) a.tag=a.tags.join(' · ');
+    });
+  })();
   let esPage=1;
   window.renderEstate=function(){
     const box=document.getElementById('estateView'); if(!box) return;
     const all=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const pages=Math.max(1, Math.ceil(all.length/PAGE_SIZE));
-    if(esPage>pages) esPage=pages; if(esPage<1) esPage=1;
-    const slice=all.slice((esPage-1)*PAGE_SIZE, esPage*PAGE_SIZE);
-    let h=`<div class="nw-hero"><h2>🏠 부동산공부</h2>
+    const hero=`<div class="nw-hero"><h2>🏠 부동산공부</h2>
       <p>내 집 마련·전월세·대출·청약처럼 <b>살면서 꼭 마주치는 부동산 기초</b>를 초보 눈높이로 하나씩 배워요.
-      어려운 용어는 쉬운 말로 풀고, 지금 규제 상황도 함께 정리해요.
-      제목을 누르면 전체 내용이 펼쳐지고, 10개마다 한 페이지예요.</p></div>`;
+      카테고리를 먼저 골라보세요. 제목을 누르면 전체 내용이 펼쳐져요.</p></div>`;
+    if(!esCatSel){
+      box.innerHTML=hero+catPickerHTML(ESTATE_CATS, all);
+      box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
+        esCatSel=el.dataset.cat; esPage=1; window.renderEstate();
+        box.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    const filtered=esCatSel==='__all__'?all:all.filter(x=>x.cat===esCatSel);
+    const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
+    if(esPage>pages) esPage=pages; if(esPage<1) esPage=1;
+    const slice=filtered.slice((esPage-1)*PAGE_SIZE, esPage*PAGE_SIZE);
+    let h=hero+catBackHTML(ESTATE_CATS, esCatSel);
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="es-${a.id}">
           <div class="nw-head" data-es="${a.id}">
@@ -4719,6 +4852,8 @@ makeCards(false);
         `<button class="nw-pg" data-pg="${esPage+1}" ${esPage>=pages?'disabled':''}>다음 ›</button></div>`;
     }
     box.innerHTML=h;
+    const esBack=box.querySelector('.cat-back');
+    if(esBack) esBack.onclick=()=>{ esCatSel=null; esPage=1; window.renderEstate(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('es-'+el.dataset.es);
       if(item){ const open=item.classList.toggle('open');
@@ -4735,8 +4870,11 @@ makeCards(false);
   window.openEstateId=function(id){
     const all=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const idx=all.findIndex(a=>String(a.id)===String(id)); if(idx<0) return;
-    esPage=Math.floor(idx/PAGE_SIZE)+1; window.renderEstate();
+    const target=all.find(a=>String(a.id)===String(id)); if(!target) return;
+    esCatSel=target.cat||'__all__';
+    const filtered=all.filter(x=>x.cat===esCatSel);
+    const idx=filtered.findIndex(a=>String(a.id)===String(id));
+    esPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderEstate();
     const el=document.getElementById('es-'+id);
     if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   };

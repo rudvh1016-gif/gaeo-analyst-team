@@ -2,6 +2,7 @@
 // 새 종목은 배열 "맨 앞"에 추가한다(최신이 위로). 화면에서는 10건 = 1페이지.
 // body 형식: "## 제목"=소제목 · "- "=목록 · 빈 줄=문단 구분 · **굵게** 지원.
 // 목적: 초보자가 "이 회사가 뭐 하는 곳인지"를 뉴스분석처럼 쉽고 구체적으로 이해하도록.
+// cat: 중카테고리 키(kr/global) — index.html의 STUDY_CATS 참조
 const STOCK_STUDY = [
  {
   "id": 12,
@@ -36,7 +37,8 @@ const STOCK_STUDY = [
     "name": "비즈니스포스트 — DS투자 \"SK이터닉스 사업규모 확장해 2026년 성장궤도, 목표주가 상향\"",
     "url": "https://www.businesspost.co.kr/BP?command=article_view&num=396546"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 11,
@@ -67,7 +69,8 @@ const STOCK_STUDY = [
     "name": "국민일보 — 애플 시총 1조 달러 달성의 역사(잡스·쿡)",
     "url": "https://www.kmib.co.kr/article/view.asp?arcid=0012574505"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 10,
@@ -110,7 +113,8 @@ const STOCK_STUDY = [
     "name": "현대차그룹, 보스턴다이내믹스 지분 100% 확보...피지컬 AI 상용화 가속 (서울경제)",
     "url": "https://www.sedaily.com/article/20068511"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 9,
@@ -145,7 +149,8 @@ const STOCK_STUDY = [
     "name": "삼성 이재용, '美 억만장자 여름캠프'에 파운드리 사업부장 대동 (파이낸셜뉴스)",
     "url": "https://www.fnnews.com/news/202607081616335634"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 8,
@@ -184,7 +189,8 @@ const STOCK_STUDY = [
     "name": "SK하이닉스 목표가 230만원…2분기 전망 (리드경제)",
     "url": "https://www.leadeconomy.co.kr/news/articleView.html?idxno=7372"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 7,
@@ -219,7 +225,8 @@ const STOCK_STUDY = [
     "name": "호텔신라 - 위키백과 (연혁·사업부문)",
     "url": "https://ko.wikipedia.org/wiki/%ED%98%B8%ED%85%94%EC%8B%A0%EB%9D%BC"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 6,
@@ -250,7 +257,8 @@ const STOCK_STUDY = [
     "name": "Palantir Stock Crash: PLTR Recovery Explained — AI Valuation Analysis (IndMoney)",
     "url": "https://www.indmoney.com/blog/us-stocks/palantir-stock-crash-pltr-recovery-explained-ai-valuation-analysis"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 5,
@@ -281,7 +289,8 @@ const STOCK_STUDY = [
     "name": "Nvidia Stock Falls Despite Beat-and-Raise Q4 Earnings (CNBC)",
     "url": "https://www.cnbc.com/2026/02/26/nvidia-nvda-stock-price-q4-earnings.html"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 4,
@@ -312,7 +321,8 @@ const STOCK_STUDY = [
     "name": "SanDisk (SNDK) Stock Price Target — Goldman Sachs, NAND Supply (TheStreet)",
     "url": "https://www.thestreet.com/investing/stocks/sndk-sandisk-stock-price-target-goldman-sachs-july-2026-nand-supply"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 3,
@@ -343,7 +353,8 @@ const STOCK_STUDY = [
     "name": "HD현대일렉, 1730억 규모 초고압 변압기 공급 계약 (네이트뉴스)",
     "url": "https://news.nate.com/view/20260507n24070"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 2,
@@ -378,7 +389,8 @@ const STOCK_STUDY = [
     "name": "금호건설 투자경고종목 지정 이후 매매거래정지 (다음)",
     "url": "https://v.daum.net/v/20260707201802031?f=p"
    }
-  ]
+  ],
+  "cat": "kr"
  },
  {
   "id": 1,
@@ -401,6 +413,7 @@ const STOCK_STUDY = [
     "name": "AI 기대감 타고 최고가…기관 러브콜 (네이트뉴스)",
     "url": "https://news.nate.com/view/20260129n06422"
    }
-  ]
+  ],
+  "cat": "kr"
  }
 ];
