@@ -299,6 +299,8 @@
     background:linear-gradient(180deg,var(--sky),transparent)}
   .qtop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   .qname{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .qcaprank{font-size:11.5px;font-weight:700;color:var(--sky);
+    padding:3px 9px;border-radius:99px;background:var(--sky-soft)}
   .qcode{font-size:12px;color:var(--faint);margin-left:auto;
     padding:3px 9px;border-radius:7px;background:var(--bg)}
   .qprice{font-size:38px;font-weight:800;
@@ -1306,6 +1308,7 @@
   <div class="quote" id="quote">
     <div class="qtop">
       <span class="qname" id="qname">—</span>
+      <span class="qcaprank" id="qcaprank" style="display:none"></span>
       <span class="qprice" id="qprice"></span>
       <span class="qrate" id="qrate"></span>
       <span class="qcode" id="qcode"></span>
@@ -1424,6 +1427,22 @@ if(typeof LIVE_DATA!=='undefined' && LIVE_DATA.stocks){
   SNAP_DATE=LIVE_DATA.date;
   for(const c in LIVE_DATA.stocks) STOCKS[c]=Object.assign(STOCKS[c]||{name:LIVE_DATA.stocks[c].name}, LIVE_DATA.stocks[c]);
 }
+// 💰 시가총액 순위 — data.js의 "cap" 문자열("1,520조"·"1.4조")을 숫자로 파싱해 전 종목 내림차순 순위를 매긴다.
+// 전부 로컬 계산(토큰 0) — AI 재분석 없이 시세 갱신 때마다 자동으로 다시 계산된다.
+function parseCap(capStr){
+  if(!capStr) return null;
+  const m=String(capStr).replace(/,/g,'').match(/^([\d.]+)조$/);
+  return m?parseFloat(m[1]):null;
+}
+const CAP_RANK={}; // code -> 시총 순위(1부터)
+const CAP_TOP10=(function(){
+  const arr=Object.entries(STOCKS)
+    .map(([code,s])=>({code,name:s.name,capNum:parseCap(s.cap),capStr:s.cap}))
+    .filter(x=>x.capNum!=null)
+    .sort((a,b)=>b.capNum-a.capNum);
+  arr.forEach((x,i)=>{ CAP_RANK[x.code]=i+1; });
+  return arr.slice(0,10);
+})();
 const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
 // auto_analysis.js가 전역에 const LIVE_AUTO를 선언한다(없으면 script onerror가 window.LIVE_AUTO=null).
 // 여기서 같은 이름으로 재선언하면 충돌(SyntaxError)하므로 다른 이름(AUTO_AN)으로 참조만 잡는다.
@@ -2270,6 +2289,16 @@ const MACRO_REGIME=(function(){
       (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'')+
       `</div>`;
   }
+  // 💰 시가총액 상위 10위 — data.js cap을 로컬 파싱해 계산(토큰 0), 시장 분석 바로 밑에 노출
+  if(CAP_TOP10.length){
+    const capChips=CAP_TOP10.map((s,i)=>
+      `<span class="mk-buychip${i<3?' top3':''}" data-nm="${esc(s.name)}"><span class="bc-rank">${i+1}</span>${esc(s.name)}<span class="bc-score">${esc(s.capStr)}</span></span>`
+    ).join('');
+    html+=`<div class="mk-tally">
+      <div class="mk-tally-head">💰 시가총액 상위 10위</div>
+      <div class="mk-buychips">${capChips}</div>
+    </div>`;
+  }
   // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
   const tal=analysisTally();
   if(tal.total>0){
@@ -2530,6 +2559,12 @@ function bioOf(code, sector){
 function showQuote(st){
   document.getElementById('qname').textContent=st.name;
   document.getElementById('qcode').textContent=st.price?st.code:'';
+  const qcr=document.getElementById('qcaprank');
+  if(qcr){
+    const rank=CAP_RANK[st.code];
+    if(rank){ qcr.textContent='시총 '+rank+'위'; qcr.style.display='inline-block'; }
+    else{ qcr.textContent=''; qcr.style.display='none'; }
+  }
   const qp=document.getElementById('qprice'), qr=document.getElementById('qrate');
   const qd=document.getElementById('qdate'), qm=document.getElementById('qmetrics');
   // 🏢 무슨 일을 하는 회사인지 한 줄 소개 (시세 카드 최상단)
