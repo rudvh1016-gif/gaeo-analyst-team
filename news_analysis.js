@@ -1,4 +1,5 @@
 // 개오 애널리스트팀 — 뉴스분석 보고서 (NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지)
+// cat: 중카테고리 키(market/earnings/global/crypto/domestic) — index.html의 NEWS_CATS 참조
 const NEWS_ANALYSIS = [
  {
   "id": 13,
@@ -28,7 +29,8 @@ const NEWS_ANALYSIS = [
     "name": "비즈니스코리아 — [개장 시황] 코스피, 외인·기관 팔자에 7,000선 아래로 후퇴… 원-달러 환율 1,475원대 진입",
     "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=273536"
    }
-  ]
+  ],
+  "cat": "market"
  },
  {
   "id": 12,
@@ -62,7 +64,8 @@ const NEWS_ANALYSIS = [
     "name": "이포커스 — 미국 정부, 인텔 지분 9.9% 인수 확정…\"반도체 국유화\" 논란과 파장",
     "url": "https://www.e-focus.co.kr/news/articleView.html?idxno=3001849"
    }
-  ]
+  ],
+  "cat": "earnings"
  },
  {
   "id": 11,
@@ -100,7 +103,8 @@ const NEWS_ANALYSIS = [
     "name": "국민일보 — '호르무즈 해협 봉쇄' 장기화 땐… 유가 최대 120달러까지 뛸 수도",
     "url": "https://www.kmib.co.kr/article/view_amp.asp?arcid=1772612390"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 10,
@@ -138,7 +142,8 @@ const NEWS_ANALYSIS = [
     "name": "파이낸셜뉴스 — \"현대차, 2분기 실적 기대치 밑돌 것\" 목표가 120만→90만…KB증권",
     "url": "https://www.fnnews.com/news/202607210922458085"
    }
-  ]
+  ],
+  "cat": "earnings"
  },
  {
   "id": 9,
@@ -172,7 +177,8 @@ const NEWS_ANALYSIS = [
     "name": "The Motley Fool — Alphabet Reports Q2 Results: The Number That Decides the Stock Isn't Revenue or Earnings, It's Capex",
     "url": "https://www.fool.com/investing/2026/07/22/alphabet-reports-q2-results-after-the-bell-today-t/"
    }
-  ]
+  ],
+  "cat": "earnings"
  },
  {
   "id": 8,
@@ -202,7 +208,8 @@ const NEWS_ANALYSIS = [
     "name": "뉴스스페이스 — 삼성전자, 레인보우로보틱스 최대주주 됐다",
     "url": "https://www.newsspace.kr/news/article.html?no=5027"
    }
-  ]
+  ],
+  "cat": "domestic"
  },
  {
   "id": 7,
@@ -240,7 +247,8 @@ const NEWS_ANALYSIS = [
     "name": "SK hynix Newsroom — 2026년 시장 전망, HBM이 이끄는 메모리 슈퍼사이클",
     "url": "https://news.skhynix.co.kr/2026-market-outlook/"
    }
-  ]
+  ],
+  "cat": "crypto"
  },
  {
   "id": 6,
@@ -278,7 +286,8 @@ const NEWS_ANALYSIS = [
     "name": "SK텔레콤 뉴스룸 — 퀀텀코리아서 차세대 양자암호 기술 대거 공개",
     "url": "https://news.sktelecom.com/227357"
    }
-  ]
+  ],
+  "cat": "crypto"
  },
  {
   "id": 5,
@@ -324,7 +333,8 @@ const NEWS_ANALYSIS = [
     "name": "네이트뉴스 — 사토시 나카모토와 비트코인 제네시스 블록",
     "url": "https://news.nate.com/view/20260630n23475"
    }
-  ]
+  ],
+  "cat": "crypto"
  },
  {
   "id": 4,
@@ -358,7 +368,8 @@ const NEWS_ANALYSIS = [
     "name": "파이낸셜뉴스 — 금리인상 첫날부터 멍들었다... 코스피·코스닥 동반 사이드카",
     "url": "https://www.fnnews.com/news/202607161807163010"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 3,
@@ -392,7 +403,8 @@ const NEWS_ANALYSIS = [
     "name": "YTN — [Y녹취록]코스피 '롤러코스터' 장세...전문가가 말한 개인 투자자 대응법은?",
     "url": "https://www.ytn.co.kr/_ln/0134_202607140845504642"
    }
-  ]
+  ],
+  "cat": "global"
  },
  {
   "id": 2,
@@ -426,7 +438,8 @@ const NEWS_ANALYSIS = [
     "name": "Bloomberg — Samsung, SK Hynix and Leveraged ETFs Drive 70% of Korea Trading",
     "url": "https://www.bloomberg.com/news/articles/2026-07-08/samsung-sk-hynix-and-leveraged-etfs-drive-70-of-korea-trading"
    }
-  ]
+  ],
+  "cat": "domestic"
  },
  {
   "id": 1,
@@ -459,6 +472,7 @@ const NEWS_ANALYSIS = [
     "name": "헤럴드경제 — 「韓 주식보다 2.9% 높게 평가」…SK하이닉스 ADR 공모가",
     "url": "https://biz.heraldcorp.com/article/10804688"
    }
-  ]
+  ],
+  "cat": "domestic"
  }
 ];
