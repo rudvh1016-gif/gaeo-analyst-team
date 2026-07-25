@@ -7,6 +7,7 @@
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
+<script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -250,6 +251,12 @@
   .controls button:hover{filter:brightness(1.08)}
   .controls button:active{transform:translateY(1px)}
   .controls button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
+
+  /* ── 사이드바 광고 슬롯 ── */
+  .ad-slot{margin:0 0 16px;padding:10px;border-radius:12px;background:var(--paper);
+    box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px}
+  .ad-label{font-size:10.5px;color:var(--faint);letter-spacing:.03em;align-self:flex-start}
+  .ad-slot .kakao_ad_area{max-width:100%}
 
   /* ── 종목 칩: 업종 폴더 ── */
   .chips{margin:0 0 16px}
@@ -1405,6 +1412,14 @@
     <div class="ac-wrap"><input id="cmpB" autocomplete="off" placeholder="종목 B — 한글로 검색" /><div class="acbox" id="acboxB"></div></div>
     <button id="cmpRun">비교 ▶</button>
   </div>
+  <div class="ad-slot">
+    <span class="ad-label">광고</span>
+    <ins class="kakao_ad_area" style="display:none;"
+    data-ad-unit="DAN-RpP1QyRYBWQivtu9"
+    data-ad-width="300"
+    data-ad-height="250"></ins>
+  </div>
+
   <div class="chips" id="chips"></div>
   </aside>
 
