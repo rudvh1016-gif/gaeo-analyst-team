@@ -132,7 +132,7 @@ function sourcesToHtml(sources) {
   return '<div class="sources">📎 출처<ul>' + items + '</ul></div>';
 }
 
-const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/stock'];
+const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/calc', 'snap/stock'];
 for (const d of outDirs) fs.mkdirSync(path.join(HERE, d), { recursive: true });
 
 const index = [];
@@ -161,6 +161,7 @@ build(load('news_analysis.js', 'NEWS_ANALYSIS'), 'news', 'news', 'title', '📰 
 build(load('stock_study.js', 'STOCK_STUDY'), 'study', 'study', 'name', '📚 종목공부');
 build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '🎓 주식공부');
 build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '🏠 부동산공부');
+build(load('calculators.js', 'CALCULATORS'), 'calc', 'calc', 'name', '🧮 계산기');
 
 // ── 💰 500종목 정밀/자동분석 스냅샷 — "OO 전망/주가" 검색 유입을 노리는 개별 종목 랜딩페이지 ──
 // 뉴스·공부 콘텐츠와 달리 매일 시세·분석이 바뀌므로, 러너(update-analysis.yml)가 매 사이클
