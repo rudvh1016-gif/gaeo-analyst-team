@@ -22,6 +22,7 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 - 작업 브랜치에 push만 하면 사이트에 **안 보인다**. 반드시 PR을 만들어 **main까지 병합**해야 반영된다.
   (2026-07-11 실제 사고: 브랜치에만 쌓아둬서 사용자가 "아무것도 안 보인다"고 문의)
 - 병합 시 data.js/analysis_data.json/indicators.json 충돌이 나면 **더 최신 수집 시각 쪽(보통 ours)** 을 택한다.
+- ⭐ **PR이 "merge conflicts"라고 뜨는데 방금 origin/main과 트리가 동일했다면** — squash 병합은 매번 새 커밋 해시를 만들어서, 로컬 브랜치가 그 squash 커밋을 실제 조상으로 갖지 않아 git이 훨씬 이전 커밋을 공통 조상으로 잡고 충돌을 낸다(내용은 같은데 계보만 다른 경우). **force-push로 "해결"하지 말 것**(auto-mode가 차단하기도 하고, 남의 작업을 지울 위험). 대신: `git fetch origin main` → `git merge origin/main`(로컬에서 시도) → 충돌 파일은 실제로 뭐가 다른지 확인 후 `git checkout --ours <file>`(내 쪽이 최신이 맞을 때만) → 커밋 → 평범한 `git push`(강제 아님). 이러면 히스토리를 보존한 채 정상적인 fast-forward가 가능한 상태가 된다.
 
 ## 파일 맵
 
@@ -36,7 +37,7 @@ verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 
 | stock_study.js | 📚 종목공부(STOCK_STUDY, 회사별 소개 프로필) | Claude |
 | stock_lessons.js | 🎓 주식공부(STOCK_LESSONS, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | Claude |
 | estate_lessons.js | 🏠 부동산공부(ESTATE_LESSONS, 근저당·대출규제·청약 등 부동산 기초, 주식공부와 형식·헬퍼 동일) | Claude |
-| calculators.js | 🧮 계산기(CALCULATORS, 평단가·해외주식 양도세·복리 등 — 다른 4개 콘텐츠와 달리 body는 SEO용 설명 글이고, 실제 계산은 index.html의 calcWidgetHTML/wireCalcWidget이 calcType별로 그리는 인터랙티브 폼이 담당. 2026-07-25 도입) | Claude |
+| calculators.js | 🧮 계산기(CALCULATORS, 7종 — 평단가·목표매도가/해외주식 양도세/복리/대출 원리금상환/부동산 잔금/배당소득세/DSR·LTV. 다른 4개 콘텐츠와 달리 body는 SEO용 설명 글이고, 실제 계산은 index.html의 calcWidgetHTML/wireCalcWidget이 calcType별로 그리는 인터랙티브 폼이 담당. 2026-07-25 도입, 카테고리 카드엔 "N개 글" 배지를 안 붙임(catPickerHTML의 noCount 옵션)) | Claude |
 | history.js | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, tier:"auto" 표식·정밀 우선·HIST_CAP=80) | **archive_analysis.py만** — 직접 편집 금지. 러너가 `--auto`로 매 사이클 호출 |
 | market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
 | price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
