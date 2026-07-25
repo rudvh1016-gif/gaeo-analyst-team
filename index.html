@@ -5433,9 +5433,11 @@ window.renderScreener=function(){
       }).join('')
     : `<div class="scr-empty">조건에 맞는 종목이 없어요. 필터를 바꿔보세요.</div>`;
 
+  const scrAsOf = (AUTO_AN && (AUTO_AN.priceLabel || AUTO_AN.generatedAt)) || SNAP_DATE || '';
   el.innerHTML=`<div class="nw-hero"><h2>🔍 종목 스크리너</h2>
     <p>업종·개오팀 판단으로 걸러내고, 원하는 기준으로 정렬해서 조건에 맞는 종목을 찾아보세요.
-    종목을 누르면 바로 상세 분석으로 이동해요.</p></div>
+    종목을 누르면 바로 상세 분석으로 이동해요.</p>
+    ${scrAsOf?`<p style="color:var(--red);font-weight:700;margin-top:6px">⏱ 기준일시: ${esc(scrAsOf)}</p>`:''}</div>
     <div class="scr-controls">
       <select id="scrSector">${sectorOpts}</select>
       <select id="scrCall">${callOpts}</select>
