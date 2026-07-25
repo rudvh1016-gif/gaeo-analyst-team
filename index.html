@@ -157,7 +157,13 @@
     background:linear-gradient(135deg,var(--navy) 55%,var(--sky));color:#fff;
     font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center}
   .ht{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .ht-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   header h1{font-size:18px;font-weight:800;margin:0;letter-spacing:-.02em;line-height:1.25;word-break:keep-all}
+  .pwa-btn{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;
+    color:var(--sky);background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:99px;
+    padding:4px 11px 4px 9px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:filter .15s}
+  .pwa-btn:hover{filter:brightness(0.97)}
+  .pwa-btn:active{transform:translateY(1px)}
   header .badge{font-size:12px;color:var(--dim);margin-left:auto;
     padding:7px 14px;border-radius:99px;background:var(--bg);letter-spacing:.01em;text-align:right}
   .tagline{color:var(--dim);font-size:12.5px;margin:0;font-style:normal;letter-spacing:0}
@@ -902,6 +908,8 @@
   .cm-post{background:var(--paper);border-radius:14px;padding:16px 18px;margin:0 0 12px;
     box-shadow:var(--shadow-sm)}
   .cm-post.pin{border-left:4px solid var(--sky)}
+  .cm-post.flash{animation:cmFlash 1.6s ease}
+  @keyframes cmFlash{0%,100%{box-shadow:var(--shadow-sm)}25%{box-shadow:0 0 0 3px var(--sky-line),var(--shadow-sm)}}
   .cm-head{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
   .cm-name{font-weight:800;font-size:13.5px;color:var(--navy)}
   .cm-date{font-size:11.5px;color:var(--faint)}
@@ -1301,7 +1309,10 @@
 
   <header>
     <div class="ht">
-      <h1 id="siteTitle" data-edit="title">Gaeo</h1>
+      <div class="ht-row">
+        <h1 id="siteTitle" data-edit="title">Gaeo</h1>
+        <button type="button" class="pwa-btn" id="pwaAddBtn">📲 휴대폰 위젯 추가하기</button>
+      </div>
       <p class="tagline" data-edit="tagline">집에서 함께 일하는 AI 애널리스트 5인의 종목 리서치</p>
     </div>
     <span class="badge" id="hbadge">홈오피스</span>
@@ -5038,6 +5049,19 @@ function wireSearchInput(box, id, onChange){
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
 
+  // 헤더의 "휴대폰 위젯 추가하기" 버튼 — 커뮤니티 탭의 PWA 설치 안내 고정 게시글(id 2)로 바로 이동
+  window.openCommunityPost=function(postId){
+    setMode('community');
+    if(window.renderCommunity) window.renderCommunity();
+    setTimeout(()=>{
+      const el=document.getElementById('cm-post-'+postId);
+      if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); el.classList.add('flash');
+        setTimeout(()=>el.classList.remove('flash'),1700); }
+    },80);
+  };
+  const pwaBtn=document.getElementById('pwaAddBtn');
+  if(pwaBtn) pwaBtn.onclick=()=>{ window.openCommunityPost(2); SFX.click(); };
+
   function radarTwo(sA,sB){
     const cx=120,cy=120,R=86, ang=[-90,0,90,180].map(d=>d*Math.PI/180);
     const pt=(f,i)=>[(cx+R*f*Math.cos(ang[i])).toFixed(1),(cy+R*f*Math.sin(ang[i])).toFixed(1)];
@@ -5394,7 +5418,7 @@ window.hangulFix=function(str){
     if(cm.notice) h+=`<div class="cm-notice">📢 ${esc(cm.notice)}</div>`;
     h+=`<div class="cm-sec">📌 게시판</div>`;
     h+=posts.length
-      ? posts.map(p=>`<div class="cm-post${p.pin?' pin':''}">
+      ? posts.map(p=>`<div class="cm-post${p.pin?' pin':''}" id="cm-post-${esc(p.id)}">
           <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span><span class="cm-date">${esc(p.date)||''}</span>${p.pin?'<span class="cm-pin">고정</span>':''}</div>
           <div class="cm-text">${esc(p.text)}</div></div>`).join('')
       : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
