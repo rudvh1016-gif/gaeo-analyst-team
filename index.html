@@ -1311,7 +1311,7 @@
     <div class="ht">
       <div class="ht-row">
         <h1 id="siteTitle" data-edit="title">Gaeo</h1>
-        <button type="button" class="pwa-btn" id="pwaAddBtn">📲 휴대폰 위젯 추가하기</button>
+        <button type="button" class="pwa-btn" id="pwaAddBtn">📲 앱처럼 설치하기</button>
       </div>
       <p class="tagline" data-edit="tagline">집에서 함께 일하는 AI 애널리스트 5인의 종목 리서치</p>
     </div>
@@ -5049,7 +5049,7 @@ function wireSearchInput(box, id, onChange){
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
 
-  // 헤더의 "휴대폰 위젯 추가하기" 버튼 — 커뮤니티 탭의 PWA 설치 안내 고정 게시글(id 2)로 바로 이동
+  // 헤더의 "앱처럼 설치하기" 버튼 — 커뮤니티 탭의 PWA 설치 안내 고정 게시글(id 2)로 바로 이동
   window.openCommunityPost=function(postId){
     setMode('community');
     if(window.renderCommunity) window.renderCommunity();
