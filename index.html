@@ -567,6 +567,38 @@
   .cal-issue{font-size:12.5px;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--line)}
   .cal-issue:last-child{border-bottom:none} .cal-issue .ci-date{color:var(--sky);font-weight:700;margin-right:8px}
   .cal-issue .ci-stock{color:var(--dim);font-size:11px;margin-left:6px}
+  /* 💰 배당 캘린더 섹션(캘린더 모드 하단) */
+  .cal-div{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+  .cal-div h4{font-size:13px;font-weight:800;margin:0 0 6px}
+  .cal-div-note{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:10px;
+    background:var(--sky-soft);border-radius:10px;padding:10px 12px}
+  .cal-div-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .cal-div-row:last-child{border-bottom:none}
+  .cal-div-rank{flex:0 0 20px;font-weight:800;color:var(--faint);font-size:11px}
+  .cal-div-nm{flex:1;font-weight:700;color:var(--ink);cursor:pointer}
+  .cal-div-nm:hover{color:var(--sky)}
+  .cal-div-yld{font-weight:800;color:var(--sky);font-variant-numeric:tabular-nums}
+  /* 🔍 종목 스크리너 */
+  .scr-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;background:var(--paper);
+    border-radius:14px;padding:14px;box-shadow:var(--shadow-sm)}
+  .scr-controls select{flex:1;min-width:110px;background:var(--bg);border:1px solid var(--line);
+    border-radius:10px;padding:9px 10px;font-size:12.5px;color:var(--ink);font-family:inherit;outline:none}
+  .scr-controls select:focus{border-color:var(--sky)}
+  .scr-count{font-size:11.5px;color:var(--faint);margin-bottom:10px}
+  .scr-list{background:var(--paper);border-radius:14px;box-shadow:var(--shadow-sm);overflow:hidden}
+  .scr-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);
+    cursor:pointer;transition:background .12s}
+  .scr-row:last-child{border-bottom:none}
+  .scr-row:hover{background:var(--sky-soft)}
+  .scr-rank{flex:0 0 22px;font-size:11px;font-weight:800;color:var(--faint)}
+  .scr-main{flex:1;min-width:0}
+  .scr-nm{font-size:13.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scr-sub{font-size:11px;color:var(--faint);margin-top:2px}
+  .scr-nums{flex:0 0 auto;text-align:right;font-size:11.5px;color:var(--t2);line-height:1.5;font-variant-numeric:tabular-nums}
+  .scr-call{flex:0 0 auto;font-size:11px;font-weight:800;border-radius:8px;padding:4px 9px;text-align:center;min-width:44px}
+  .scr-call.buy{color:#065F46;background:#D1FAE5} .scr-call.hold{color:#92400E;background:#FEF3C7}
+  .scr-call.sell{color:#991B1B;background:#FEE2E2}
+  .scr-empty{padding:30px 16px;text-align:center;color:var(--faint);font-size:13px}
   .cmp-top{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:6px}
   .cmp-side{display:flex;flex-direction:column;gap:5px}
   .cmp-side.b{text-align:right;align-items:flex-end}
@@ -1354,6 +1386,7 @@
     <button class="modebtn" id="mode-lesson"><svg class="mi" viewBox="0 0 24 24"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c0 1.2 2.5 2.6 5.5 2.6s5.5-1.4 5.5-2.6v-4.5M21 10v5"/></svg>주식공부</button>
     <button class="modebtn" id="mode-estate"><svg class="mi" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5h4v5h5v-9.5"/></svg>부동산공부</button>
     <button class="modebtn" id="mode-calc"><svg class="mi" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2.2"/><path d="M7 6.5h10M7 11h2.2M11.9 11h2.2M16.8 11h2.2M7 14.5h2.2M11.9 14.5h2.2M16.8 14.5h2.2M7 18h2.2M11.9 18h2.2M16.8 18h2.2"/></svg>계산기</button>
+    <button class="modebtn" id="mode-screener"><svg class="mi" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21M7 10.5h7"/></svg>스크리너</button>
     <button class="modebtn" id="mode-leaderboard"><svg class="mi" viewBox="0 0 24 24"><path d="M7.5 4h9v3.8A4.5 4.5 0 0 1 12 12a4.5 4.5 0 0 1-4.5-4.2zM7.5 5.5H4.2a3.4 3.4 0 0 0 3.4 3.9M16.5 5.5h3.3a3.4 3.4 0 0 1-3.4 3.9"/><path d="M12 12v4M8.5 20h7M10 20l.6-4h2.8l.6 4"/></svg>리더보드</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
@@ -1434,6 +1467,7 @@
   <div class="newsView" id="lessonView"></div>
   <div class="newsView" id="estateView"></div>
   <div class="newsView" id="calcView"></div>
+  <div class="newsView" id="screenerView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -2229,14 +2263,27 @@ function renderCalendar(){
   const undated=collectEvents().filter(e=>!e.date);
   const issues=undated.length?`<div class="cal-issues"><h4>📌 주요 이슈 (날짜 미정)</h4>`+
     undated.map(e=>`<div class="cal-issue"><span class="ci-stock">${esc(e.name)}</span> ${esc(e.title)}</div>`).join('')+`</div>`:'';
+  // 💰 배당 캘린더 — 개별 종목의 정확한 배당락일 데이터는 없어서(과장·오류 방지),
+  // ①국내 상장사 배당 시기에 대한 일반 사실 안내 + ②data.js의 실측 배당수익률(div) 상위 종목만 정직하게 보여준다.
+  const divRanked=Object.entries(STOCKS)
+    .map(([code,s])=>({code,name:s.name,div:s.div}))
+    .filter(x=>x.div!=null&&x.div>0)
+    .sort((a,b)=>b.div-a.div)
+    .slice(0,10);
+  const divSection=`<div class="cal-div"><h4>💰 배당 캘린더</h4>
+    <div class="cal-div-note">국내 상장사 대다수는 <b>12월 결산배당</b>이라 배당락일이 보통 12월 마지막 개장일 근처예요(회사마다 공시로 확정). 정확한 배당락일·배당금은 각 회사 공시를 꼭 확인하세요 — 아래는 종목별 정확한 날짜 대신, 현재 시세 기준 <b>실측 배당수익률 상위 종목</b>이에요.</div>
+    ${divRanked.length?divRanked.map((x,i)=>`<div class="cal-div-row"><span class="cal-div-rank">${i+1}</span><span class="cal-div-nm" data-nm="${esc(x.name)}">${esc(x.name)}</span><span class="cal-div-yld">${x.div}%</span></div>`).join('')
+      :'<div class="cal-div-row"><span class="cal-div-nm" style="color:var(--faint)">배당수익률 데이터가 아직 없어요.</span></div>'}
+  </div>`;
   el.innerHTML=report+
     `<div class="cal-nav"><button id="calPrev">‹</button><span class="cal-title">${mLabel}</span><button id="calNext">›</button></div>`+
     `<div class="cal-grid">${grid}</div>`+
     `<div class="cal-legend"><span><i style="background:rgba(31,122,77,.5)"></i>BUY 우세</span><span><i style="background:rgba(176,125,26,.5)"></i>혼조</span><span><i style="background:rgba(192,57,43,.5)"></i>SELL 우세</span><span><i style="background:var(--gold)"></i>종목 일정</span></div>`+
-    issues;
+    issues+divSection;
   document.getElementById('calPrev').onclick=()=>{ if(--CAL.m<0){CAL.m=11;CAL.y--;} renderCalendar(); };
   document.getElementById('calNext').onclick=()=>{ if(++CAL.m>11){CAL.m=0;CAL.y++;} renderCalendar(); };
   el.querySelectorAll('.cal-cell.has-ev').forEach(c=>{ c.onclick=()=>showDayPopup(c.dataset.ds, evByDay[c.dataset.ds]||[]); });
+  el.querySelectorAll('.cal-div-nm[data-nm]').forEach(c=>{ c.onclick=()=>jumpToStock(c.dataset.nm); });
 }
 /* 날짜 터치 → 그날 일정 전체를 팝업으로 (모바일에서 잘린 일정 확인용) */
 function showDayPopup(ds, evs){
@@ -4339,7 +4386,9 @@ const CALC_CATS=[
  {key:'finance',emoji:'🏦',label:'재테크 계산기',desc:'복리 등 자산 불리기 계산기.'},
 ];
 // 중카테고리 선택 화면(그리드) HTML — cats: 위 CATS 배열, list: 해당 모드의 전체 글 배열
-function catPickerHTML(cats, list){
+function catPickerHTML(cats, list, opts){
+  const showCount=!(opts&&opts.noCount);
+  const allLabel=(opts&&opts.allLabel)||'📋 전체 글 한 번에 보기';
   const counts={};
   list.forEach(x=>{ const c=x.cat||'etc'; counts[c]=(counts[c]||0)+1; });
   const cards=cats.map(c=>
@@ -4347,10 +4396,10 @@ function catPickerHTML(cats, list){
        <div class="cat-emoji">${c.emoji}</div>
        <div class="cat-label">${c.label}</div>
        <div class="cat-desc">${c.desc}</div>
-       <div class="cat-count">${counts[c.key]||0}개 글</div>
+       ${showCount?`<div class="cat-count">${counts[c.key]||0}개 글</div>`:''}
      </div>`).join('');
   return `<div class="cat-grid">${cards}</div>
-    <button type="button" class="cat-allbtn" data-cat="__all__">📋 전체 글 한 번에 보기 (${list.length}건) →</button>`;
+    <button type="button" class="cat-allbtn" data-cat="__all__">${allLabel} (${list.length}건) →</button>`;
 }
 // 글 목록 화면 상단의 "← 카테고리 목록" 되돌아가기 버튼 + 현재 위치 표시
 function catBackHTML(cats, sel){
@@ -5046,8 +5095,10 @@ function wireSearchInput(box, id, onChange){
         <div class="calc-row"><label>기존 평단가</label><input type="number" id="${p('p1')}" placeholder="50000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>추가매수 수량</label><input type="number" id="${p('q2')}" placeholder="10" min="0"><span class="calc-unit">주</span></div>
         <div class="calc-row"><label>추가매수 단가</label><input type="number" id="${p('p2')}" placeholder="40000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>목표 수익률</label><input type="number" id="${p('target')}" placeholder="10" min="-100" max="1000" step="0.1"><span class="calc-unit">%</span></div>
         <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
         <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">목표 수익률에 0을 넣으면 손익분기점(본전) 가격을 알 수 있어요</div>
       </div>`;
     }
     if(item.calcType==='capitalgainstax'){
@@ -5071,6 +5122,50 @@ function wireSearchInput(box, id, onChange){
         <div class="calc-result" id="${p('result')}" style="display:none"></div>
       </div>`;
     }
+    if(item.calcType==='loanpayment'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 대출 원리금상환 계산기</div>
+        <div class="calc-row"><label>대출원금</label><input type="number" id="${p('principal')}" placeholder="300000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>연이자율</label><input type="number" id="${p('rate')}" placeholder="4.5" min="0" max="30" step="0.01"><span class="calc-unit">%</span></div>
+        <div class="calc-row"><label>대출기간</label><input type="number" id="${p('years')}" placeholder="30" min="1" max="50"><span class="calc-unit">년</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">원리금균등상환 방식 기준 · 중도상환수수료·인지세 등 부대비용은 포함하지 않아요</div>
+      </div>`;
+    }
+    if(item.calcType==='balancepayment'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 부동산 잔금 계산기</div>
+        <div class="calc-row"><label>매매가</label><input type="number" id="${p('price')}" placeholder="500000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>계약금</label><input type="number" id="${p('down')}" placeholder="50000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>중도금</label><input type="number" id="${p('interim')}" placeholder="0" min="0"><span class="calc-unit">원</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+      </div>`;
+    }
+    if(item.calcType==='dividendtax'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 배당소득세 계산기</div>
+        <div class="calc-row"><label>세전 배당금</label><input type="number" id="${p('div')}" placeholder="1000000" min="0"><span class="calc-unit">원</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">국내주식 기본 원천징수세율 15.4%(소득세14%+지방소득세1.4%) 적용 · 금융소득 연 2,000만원 초과 시 종합과세 대상일 수 있어요</div>
+      </div>`;
+    }
+    if(item.calcType==='dsrltv'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 DSR·LTV 계산기</div>
+        <div class="calc-row"><label>주택가격</label><input type="number" id="${p('house')}" placeholder="1000000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>대출희망금액</label><input type="number" id="${p('loan')}" placeholder="600000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>연이자율</label><input type="number" id="${p('rate')}" placeholder="4.5" min="0" max="30" step="0.01"><span class="calc-unit">%</span></div>
+        <div class="calc-row"><label>대출기간</label><input type="number" id="${p('years')}" placeholder="30" min="1" max="50"><span class="calc-unit">년</span></div>
+        <div class="calc-row"><label>연소득</label><input type="number" id="${p('income')}" placeholder="60000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>기타 대출 연상환액</label><input type="number" id="${p('other')}" placeholder="0" min="0"><span class="calc-unit">원</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">대략적인 참고용 계산이에요 · 실제 한도는 규제지역·스트레스 DSR·은행별 기준에 따라 달라져요</div>
+      </div>`;
+    }
     return '';
   }
   // 계산기별 이벤트 연결 + 실제 계산 로직
@@ -5079,13 +5174,15 @@ function wireSearchInput(box, id, onChange){
     const btn=p('btn'); if(!btn) return;
     if(item.calcType==='avgprice'){
       btn.onclick=()=>{
-        const q1=n0(p('q1').value), pr1=n0(p('p1').value), q2=n0(p('q2').value), pr2=n0(p('p2').value);
+        const q1=n0(p('q1').value), pr1=n0(p('p1').value), q2=n0(p('q2').value), pr2=n0(p('p2').value), target=n0(p('target').value);
         const totalQty=q1+q2, totalCost=q1*pr1+q2*pr2;
         const res=p('result'); res.style.display='block';
         if(totalQty<=0){ res.innerHTML='<div class="cr-sub">보유수량과 추가매수 수량을 입력해주세요.</div>'; return; }
         const newAvg=totalCost/totalQty;
+        const targetPrice=newAvg*(1+target/100);
         res.innerHTML=`<div class="cr-main">새 평단가 ${fmtWon(newAvg)}</div>
-          <div class="cr-sub">총 보유수량 ${totalQty.toLocaleString('ko-KR')}주 · 총 매입금액 ${fmtWon(totalCost)}</div>`;
+          <div class="cr-sub">총 보유수량 ${totalQty.toLocaleString('ko-KR')}주 · 총 매입금액 ${fmtWon(totalCost)}<br>
+          목표 수익률 ${target}% 달성 매도가 ${fmtWon(targetPrice)}</div>`;
       };
     }
     if(item.calcType==='capitalgainstax'){
@@ -5115,6 +5212,58 @@ function wireSearchInput(box, id, onChange){
           <div class="cr-sub">총 납입원금 ${fmtWon(totalPaid)} · 예상 수익 ${profit>=0?'+':''}${fmtWon(profit)}</div>`;
       };
     }
+    if(item.calcType==='loanpayment'){
+      btn.onclick=()=>{
+        const principal=n0(p('principal').value), rate=n0(p('rate').value), years=n0(p('years').value);
+        const res=p('result'); res.style.display='block';
+        if(principal<=0||years<=0){ res.innerHTML='<div class="cr-sub">대출원금과 대출기간을 입력해주세요.</div>'; return; }
+        const monthlyRate=rate/100/12, months=years*12;
+        const monthlyPayment=Math.abs(monthlyRate)>1e-9
+          ? principal*monthlyRate*Math.pow(1+monthlyRate,months)/(Math.pow(1+monthlyRate,months)-1)
+          : principal/months;
+        const totalPayment=monthlyPayment*months;
+        const totalInterest=totalPayment-principal;
+        res.innerHTML=`<div class="cr-main">매달 ${fmtWon(monthlyPayment)}</div>
+          <div class="cr-sub">총 상환액 ${fmtWon(totalPayment)} · 총 이자 ${fmtWon(totalInterest)}</div>`;
+      };
+    }
+    if(item.calcType==='balancepayment'){
+      btn.onclick=()=>{
+        const price=n0(p('price').value), down=n0(p('down').value), interim=n0(p('interim').value);
+        const res=p('result'); res.style.display='block';
+        if(price<=0){ res.innerHTML='<div class="cr-sub">매매가를 입력해주세요.</div>'; return; }
+        const balance=Math.max(0, price-down-interim);
+        const pct=price>0?(balance/price*100):0;
+        res.innerHTML=`<div class="cr-main">잔금 ${fmtWon(balance)}</div>
+          <div class="cr-sub">매매가 대비 ${pct.toFixed(1)}% · 계약금+중도금 ${fmtWon(down+interim)}</div>`;
+      };
+    }
+    if(item.calcType==='dividendtax'){
+      btn.onclick=()=>{
+        const div=n0(p('div').value);
+        const tax=div*0.154;
+        const res=p('result'); res.style.display='block';
+        res.innerHTML=`<div class="cr-main">세후 실수령 ${fmtWon(div-tax)}</div>
+          <div class="cr-sub">세전 배당금 ${fmtWon(div)} − 원천징수세액 ${fmtWon(tax)}(15.4%)</div>`;
+      };
+    }
+    if(item.calcType==='dsrltv'){
+      btn.onclick=()=>{
+        const house=n0(p('house').value), loan=n0(p('loan').value), rate=n0(p('rate').value),
+              years=n0(p('years').value), income=n0(p('income').value), other=n0(p('other').value);
+        const res=p('result'); res.style.display='block';
+        if(house<=0||income<=0||years<=0){ res.innerHTML='<div class="cr-sub">주택가격·연소득·대출기간을 입력해주세요.</div>'; return; }
+        const ltv=loan/house*100;
+        const monthlyRate=rate/100/12, months=years*12;
+        const monthlyPayment=Math.abs(monthlyRate)>1e-9
+          ? loan*monthlyRate*Math.pow(1+monthlyRate,months)/(Math.pow(1+monthlyRate,months)-1)
+          : loan/months;
+        const annualPayment=monthlyPayment*12;
+        const dsr=(annualPayment+other)/income*100;
+        res.innerHTML=`<div class="cr-main">LTV ${ltv.toFixed(1)}% · DSR ${dsr.toFixed(1)}%</div>
+          <div class="cr-sub">이 대출 월 예상 상환액 ${fmtWon(monthlyPayment)} · 연 원리금(기타 대출 포함) ${fmtWon(annualPayment+other)}</div>`;
+      };
+    }
   }
 
   window.renderCalc=function(){
@@ -5127,7 +5276,7 @@ function wireSearchInput(box, id, onChange){
       ${searchBoxHTML('calcSearchInput', calcSearchQ, escN)}</div>`;
     const q=calcSearchQ.trim().toLowerCase();
     if(!q && !calcCatSel){
-      box.innerHTML=hero+catPickerHTML(CALC_CATS, all);
+      box.innerHTML=hero+catPickerHTML(CALC_CATS, all, {noCount:true, allLabel:'🧮 전체 계산기 한 번에 보기'});
       wireSearchInput(box, 'calcSearchInput', v=>{ calcSearchQ=v; calcPage=1; window.renderCalc(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         calcCatSel=el.dataset.cat; calcPage=1; window.renderCalc();
@@ -5200,6 +5349,87 @@ function wireSearchInput(box, id, onChange){
   };
 })();
 
+// ---------- 🔍 종목 스크리너 ----------
+// 500종목 중 조건(업종·개오팀 판단)에 맞는 종목을 골라 정렬해서 보여준다.
+// analysisTally()가 이미 만들어둔 정밀+자동분석 통합 판단(ranked)과 STOCKS(시세·PER·PBR·배당 등)를 그대로 재사용 — 별도 데이터 수집 없이 토큰 0.
+let SCR={sector:'__all__', call:'__all__', sort:'score_desc'};
+window.renderScreener=function(){
+  const el=document.getElementById('screenerView'); if(!el) return;
+  const tally=analysisTally();
+  const rankMap={}; tally.ranked.forEach(r=>{ rankMap[r.code]=r; });
+  let rows=Object.keys(STOCKS).map(code=>{
+    const s=STOCKS[code]; const r=rankMap[code];
+    if(!r) return null; // 개오팀 판단이 아직 없는 종목은 스크리너에서 제외
+    return {code, name:s.name, sector:s.sector||'기타', price:s.price, rate:s.rate,
+      per:s.per, pbr:s.pbr, roe:s.roe, div:s.div, cap:s.cap, call:r.call, total:r.total};
+  }).filter(Boolean);
+
+  const sectorList=[]; const seenSec=new Set();
+  (typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)?TICKERS:[]).forEach(t=>{
+    const s=t.sector||'기타'; if(!seenSec.has(s)){ seenSec.add(s); sectorList.push(s); }
+  });
+
+  if(SCR.sector!=='__all__') rows=rows.filter(x=>x.sector===SCR.sector);
+  if(SCR.call!=='__all__') rows=rows.filter(x=>x.call===SCR.call);
+
+  const sorters={
+    score_desc:(a,b)=>b.total-a.total,
+    per_asc:(a,b)=>(a.per==null?1e9:a.per)-(b.per==null?1e9:b.per),
+    pbr_asc:(a,b)=>(a.pbr==null?1e9:a.pbr)-(b.pbr==null?1e9:b.pbr),
+    div_desc:(a,b)=>(b.div==null?-1:b.div)-(a.div==null?-1:a.div),
+    cap_desc:(a,b)=>(parseCap(b.cap)==null?-1:parseCap(b.cap))-(parseCap(a.cap)==null?-1:parseCap(a.cap)),
+    rate_desc:(a,b)=>(b.rate==null?-1e9:b.rate)-(a.rate==null?-1e9:a.rate),
+    rate_asc:(a,b)=>(a.rate==null?1e9:a.rate)-(b.rate==null?1e9:b.rate),
+  };
+  rows.sort(sorters[SCR.sort]||sorters.score_desc);
+
+  const LIMIT=50;
+  const shown=rows.slice(0, LIMIT);
+  const callKr={BUY:'매수',HOLD:'보유',SELL:'매도'};
+
+  const sectorOpts=`<option value="__all__">전체 업종</option>`+
+    sectorList.map(s=>`<option value="${esc(s)}"${SCR.sector===s?' selected':''}>${esc(s)}</option>`).join('');
+  const callOpts=['__all__','BUY','HOLD','SELL'].map(c=>
+    `<option value="${c}"${SCR.call===c?' selected':''}>${c==='__all__'?'전체 판단':callKr[c]}</option>`).join('');
+  const sortOpts=[
+    ['score_desc','개오팀 종합점수 높은순'],['per_asc','PER 낮은순'],['pbr_asc','PBR 낮은순'],
+    ['div_desc','배당수익률 높은순'],['cap_desc','시가총액 큰순'],['rate_desc','오늘 등락률 높은순'],['rate_asc','오늘 등락률 낮은순'],
+  ].map(([k,label])=>`<option value="${k}"${SCR.sort===k?' selected':''}>${label}</option>`).join('');
+
+  const rowsHtml=shown.length
+    ? shown.map((x,i)=>{
+        const rate=x.rate==null?'—':`${x.rate>0?'+':''}${x.rate}%`;
+        const rateColor=x.rate>0?'var(--red)':(x.rate<0?'var(--sky)':'var(--dim)');
+        return `<div class="scr-row" data-nm="${esc(x.name)}">
+          <div class="scr-rank">${i+1}</div>
+          <div class="scr-main">
+            <div class="scr-nm">${esc(x.name)}</div>
+            <div class="scr-sub">${esc(x.sector)} · PER ${x.per??'—'} · PBR ${x.pbr??'—'} · 배당 ${x.div!=null?x.div+'%':'—'}</div>
+          </div>
+          <div class="scr-nums">${x.price?x.price.toLocaleString('ko-KR')+'원':'—'}<br><span style="color:${rateColor}">${rate}</span></div>
+          <div class="scr-call ${x.call==='BUY'?'buy':x.call==='SELL'?'sell':'hold'}">${callKr[x.call]||x.call}<br>${x.total}점</div>
+        </div>`;
+      }).join('')
+    : `<div class="scr-empty">조건에 맞는 종목이 없어요. 필터를 바꿔보세요.</div>`;
+
+  el.innerHTML=`<div class="nw-hero"><h2>🔍 종목 스크리너</h2>
+    <p>업종·개오팀 판단으로 걸러내고, 원하는 기준으로 정렬해서 조건에 맞는 종목을 찾아보세요.
+    종목을 누르면 바로 상세 분석으로 이동해요.</p></div>
+    <div class="scr-controls">
+      <select id="scrSector">${sectorOpts}</select>
+      <select id="scrCall">${callOpts}</select>
+      <select id="scrSort">${sortOpts}</select>
+    </div>
+    <div class="scr-count">조건에 맞는 종목 ${rows.length.toLocaleString('ko-KR')}개 중 상위 ${shown.length}개 표시</div>
+    <div class="scr-list">${rowsHtml}</div>
+    <div class="nw-disc" style="margin-top:12px">※ 개오팀 판단은 대부분 🤖 자동분석(규칙 기반) 기준이며, 투자 권유가 아니에요. PER·PBR·배당수익률은 최근 갱신된 시세 기준값이에요.</div>`;
+
+  document.getElementById('scrSector').onchange=e=>{ SCR.sector=e.target.value; window.renderScreener(); };
+  document.getElementById('scrCall').onchange=e=>{ SCR.call=e.target.value; window.renderScreener(); };
+  document.getElementById('scrSort').onchange=e=>{ SCR.sort=e.target.value; window.renderScreener(); };
+  el.querySelectorAll('.scr-row').forEach(r=>r.onclick=()=>jumpToStock(r.dataset.nm));
+};
+
 // ---------- 종목 비교 모드 ----------
 (function(){
   // 종목비교 A/B — 한글 검색 자동완성 입력(단일분석 검색과 같은 엔진 공유)
@@ -5217,7 +5447,7 @@ function wireSearchInput(box, id, onChange){
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
-          estate=mode==='estate', calc=mode==='calc';
+          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
@@ -5227,6 +5457,7 @@ function wireSearchInput(box, id, onChange){
     document.getElementById('mode-lesson').classList.toggle('on',lesson);
     document.getElementById('mode-estate').classList.toggle('on',estate);
     document.getElementById('mode-calc').classList.toggle('on',calc);
+    document.getElementById('mode-screener').classList.toggle('on',screener);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -5247,6 +5478,7 @@ function wireSearchInput(box, id, onChange){
     document.getElementById('lessonView').classList.toggle('on',lesson);
     document.getElementById('estateView').classList.toggle('on',estate);
     document.getElementById('calcView').classList.toggle('on',calc);
+    document.getElementById('screenerView').classList.toggle('on',screener);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
@@ -5254,6 +5486,7 @@ function wireSearchInput(box, id, onChange){
     if(lesson && window.renderLesson) window.renderLesson();
     if(estate && window.renderEstate) window.renderEstate();
     if(calc && window.renderCalc) window.renderCalc();
+    if(screener && window.renderScreener) window.renderScreener();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -5268,6 +5501,7 @@ function wireSearchInput(box, id, onChange){
   document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
   document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
+  document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
