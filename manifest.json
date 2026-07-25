@@ -1,7 +1,7 @@
 {
-  "name": "Gaeo · AI 애널리스트 5인의 주식 종목 리서치",
+  "name": "Gaeo · 한국주식 500종목 자동분석 + AI 애널리스트 5인 정밀분석",
   "short_name": "Gaeo",
-  "description": "TARO·DIANA·QUANT·FLOW·CHIEF — AI 5인이 500개 한국 주식을 매일 분석해 BUY/HOLD/SELL로 알려드려요.",
+  "description": "TARO·DIANA·QUANT·FLOW·CHIEF — 500개 한국 주식을 매일 자동 갱신하고, 핵심 종목은 AI 애널리스트 5인이 직접 딥다이브 정밀분석해요.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
