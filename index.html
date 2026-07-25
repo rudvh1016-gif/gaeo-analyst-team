@@ -841,6 +841,25 @@
     font-size:11.5px;color:var(--faint);line-height:1.8}
   .nw-src a{color:var(--sky);text-decoration:none;word-break:break-all}
   .nw-disc{margin-top:10px;font-size:11px;color:var(--faint)}
+  /* 🧮 계산기 위젯 */
+  .calc-wrap{margin:18px 0 4px;padding:18px;background:var(--sky-soft);border-radius:14px}
+  .calc-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:12px}
+  .calc-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .calc-row label{flex:0 0 130px;font-size:12.5px;color:var(--t2);font-weight:600}
+  .calc-row input{flex:1;min-width:120px;background:var(--paper);border:1px solid var(--line);
+    border-radius:10px;padding:9px 12px;font-size:14px;color:var(--ink);outline:none;font-family:inherit;
+    font-variant-numeric:tabular-nums}
+  .calc-row input:focus{border-color:var(--sky)}
+  .calc-unit{font-size:12px;color:var(--faint);flex:0 0 auto}
+  .calc-btn{display:block;width:100%;margin-top:6px;background:var(--sky);color:#fff;border:none;
+    border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+  .calc-btn:hover{filter:brightness(1.05)}
+  .calc-result{margin-top:14px;padding:14px 16px;background:var(--paper);border-radius:12px;
+    border:1px solid var(--sky-line)}
+  .calc-result .cr-main{font-size:19px;font-weight:800;color:var(--sky);margin-bottom:4px;
+    font-variant-numeric:tabular-nums}
+  .calc-result .cr-sub{font-size:12px;color:var(--t3);line-height:1.7}
+  .calc-note{margin-top:10px;font-size:11px;color:var(--faint);line-height:1.6}
   /* 🎓 주식공부 본문 도해(SVG) */
   .ls-fig{margin:16px auto;text-align:center;max-width:520px}
   .ls-fig svg{width:100%;height:auto;background:#fbfaf6;border:1px solid var(--line);border-radius:12px}
@@ -1334,6 +1353,7 @@
     <button class="modebtn" id="mode-study"><svg class="mi" viewBox="0 0 24 24"><path d="M5 3h13a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 3v18M12 8h4"/></svg>종목공부</button>
     <button class="modebtn" id="mode-lesson"><svg class="mi" viewBox="0 0 24 24"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c0 1.2 2.5 2.6 5.5 2.6s5.5-1.4 5.5-2.6v-4.5M21 10v5"/></svg>주식공부</button>
     <button class="modebtn" id="mode-estate"><svg class="mi" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5h4v5h5v-9.5"/></svg>부동산공부</button>
+    <button class="modebtn" id="mode-calc"><svg class="mi" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2.2"/><path d="M7 6.5h10M7 11h2.2M11.9 11h2.2M16.8 11h2.2M7 14.5h2.2M11.9 14.5h2.2M16.8 14.5h2.2M7 18h2.2M11.9 18h2.2M16.8 18h2.2"/></svg>계산기</button>
     <button class="modebtn" id="mode-leaderboard"><svg class="mi" viewBox="0 0 24 24"><path d="M7.5 4h9v3.8A4.5 4.5 0 0 1 12 12a4.5 4.5 0 0 1-4.5-4.2zM7.5 5.5H4.2a3.4 3.4 0 0 0 3.4 3.9M16.5 5.5h3.3a3.4 3.4 0 0 1-3.4 3.9"/><path d="M12 12v4M8.5 20h7M10 20l.6-4h2.8l.6 4"/></svg>리더보드</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
@@ -1413,6 +1433,7 @@
   <div class="newsView" id="studyView"></div>
   <div class="newsView" id="lessonView"></div>
   <div class="newsView" id="estateView"></div>
+  <div class="newsView" id="calcView"></div>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -1441,6 +1462,7 @@
 <script src="stock_study.js" onerror="window.STOCK_STUDY=window.STOCK_STUDY||null"></script>
 <script src="stock_lessons.js" onerror="window.STOCK_LESSONS=window.STOCK_LESSONS||null"></script>
 <script src="estate_lessons.js" onerror="window.ESTATE_LESSONS=window.ESTATE_LESSONS||null"></script>
+<script src="calculators.js" onerror="window.CALCULATORS=window.CALCULATORS||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="history.js"></script>
@@ -4311,6 +4333,11 @@ const ESTATE_CATS=[
  {key:'auction',emoji:'🔨',label:'경매·공매 시리즈',desc:'부동산 경매 기초부터 실전까지.'},
  {key:'strategy',emoji:'💡',label:'투자 전략',desc:'재건축·갭투자 등 투자 접근법.'},
 ];
+const CALC_CATS=[
+ {key:'stock',emoji:'📈',label:'주식 계산기',desc:'평단가 등 매매에 바로 쓰는 계산기.'},
+ {key:'tax',emoji:'💸',label:'세금 계산기',desc:'양도소득세 등 투자 관련 세금 계산.'},
+ {key:'finance',emoji:'🏦',label:'재테크 계산기',desc:'복리 등 자산 불리기 계산기.'},
+];
 // 중카테고리 선택 화면(그리드) HTML — cats: 위 CATS 배열, list: 해당 모드의 전체 글 배열
 function catPickerHTML(cats, list){
   const counts={};
@@ -4981,6 +5008,198 @@ function wireSearchInput(box, id, onChange){
   };
 })();
 
+// ---------- 🧮 계산기 모드 ----------
+// calculators.js(CALCULATORS 배열)에 계산기를 쌓는다. 뉴스분석 등과 같은 카테고리·검색 UI를 공유하되,
+// 본문 대신 실제 동작하는 계산기 위젯(calcWidgetHTML/wireCalcWidget)을 그린다.
+(function(){
+  const PAGE_SIZE=10;
+  let calcPage=1;
+  let calcCatSel=null;
+  let calcSearchQ='';
+  const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const inline=s=>SIGNUM(escN(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>'));
+  function bodyHTML(md){
+    const lines=String(md||'').split('\n');
+    let html='', para=[], list=null;
+    const flushP=()=>{ if(para.length){ html+='<p>'+para.map(inline).join('<br>')+'</p>'; para=[]; } };
+    const flushL=()=>{ if(list){ html+='<ul>'+list.map(x=>'<li>'+inline(x)+'</li>').join('')+'</ul>'; list=null; } };
+    lines.forEach(ln=>{
+      const t=ln.trim();
+      if(!t){ flushP(); flushL(); return; }
+      if(t.indexOf('## ')===0){ flushP(); flushL(); html+='<h4>'+inline(t.slice(3))+'</h4>'; return; }
+      if(t.indexOf('- ')===0){ flushP(); if(!list) list=[]; list.push(t.slice(2)); return; }
+      flushL(); para.push(t);
+    });
+    flushP(); flushL();
+    return html;
+  }
+  const n0=v=>{ const x=parseFloat(v); return isFinite(x)?x:0; };
+  const fmtWon=v=>Math.round(v).toLocaleString('ko-KR')+'원';
+
+  // 계산기별 입력 폼 HTML — id는 CALCULATORS 항목의 id를 접두로 써서 여러 계산기가 동시에 있어도 겹치지 않게 함
+  function calcWidgetHTML(item){
+    const p=k=>`c${item.id}-${k}`;
+    if(item.calcType==='avgprice'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 평단가 계산기</div>
+        <div class="calc-row"><label>기존 보유수량</label><input type="number" id="${p('q1')}" placeholder="10" min="0"><span class="calc-unit">주</span></div>
+        <div class="calc-row"><label>기존 평단가</label><input type="number" id="${p('p1')}" placeholder="50000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>추가매수 수량</label><input type="number" id="${p('q2')}" placeholder="10" min="0"><span class="calc-unit">주</span></div>
+        <div class="calc-row"><label>추가매수 단가</label><input type="number" id="${p('p2')}" placeholder="40000" min="0"><span class="calc-unit">원</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+      </div>`;
+    }
+    if(item.calcType==='capitalgainstax'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 해외주식 양도소득세 계산기</div>
+        <div class="calc-row"><label>총 매도금액</label><input type="number" id="${p('sell')}" placeholder="15000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>총 매수금액</label><input type="number" id="${p('buy')}" placeholder="10000000" min="0"><span class="calc-unit">원</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">연 기본공제 250만원, 세율 22%(지방소득세 포함) 적용 · 국내 상장주식(대주주 제외)은 대부분 비과세예요</div>
+      </div>`;
+    }
+    if(item.calcType==='compound'){
+      return `<div class="calc-wrap">
+        <div class="calc-title">🧮 복리 계산기</div>
+        <div class="calc-row"><label>원금</label><input type="number" id="${p('principal')}" placeholder="5000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>매월 추가납입</label><input type="number" id="${p('monthly')}" placeholder="300000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>연 수익률</label><input type="number" id="${p('rate')}" placeholder="7" min="-50" max="100" step="0.1"><span class="calc-unit">%</span></div>
+        <div class="calc-row"><label>투자 기간</label><input type="number" id="${p('years')}" placeholder="10" min="1" max="80"><span class="calc-unit">년</span></div>
+        <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
+        <div class="calc-result" id="${p('result')}" style="display:none"></div>
+      </div>`;
+    }
+    return '';
+  }
+  // 계산기별 이벤트 연결 + 실제 계산 로직
+  function wireCalcWidget(item){
+    const p=k=>document.getElementById(`c${item.id}-${k}`);
+    const btn=p('btn'); if(!btn) return;
+    if(item.calcType==='avgprice'){
+      btn.onclick=()=>{
+        const q1=n0(p('q1').value), pr1=n0(p('p1').value), q2=n0(p('q2').value), pr2=n0(p('p2').value);
+        const totalQty=q1+q2, totalCost=q1*pr1+q2*pr2;
+        const res=p('result'); res.style.display='block';
+        if(totalQty<=0){ res.innerHTML='<div class="cr-sub">보유수량과 추가매수 수량을 입력해주세요.</div>'; return; }
+        const newAvg=totalCost/totalQty;
+        res.innerHTML=`<div class="cr-main">새 평단가 ${fmtWon(newAvg)}</div>
+          <div class="cr-sub">총 보유수량 ${totalQty.toLocaleString('ko-KR')}주 · 총 매입금액 ${fmtWon(totalCost)}</div>`;
+      };
+    }
+    if(item.calcType==='capitalgainstax'){
+      btn.onclick=()=>{
+        const sell=n0(p('sell').value), buy=n0(p('buy').value);
+        const gain=Math.max(0, sell-buy);
+        const taxBase=Math.max(0, gain-2500000);
+        const tax=taxBase*0.22;
+        const res=p('result'); res.style.display='block';
+        res.innerHTML=`<div class="cr-main">예상 세액 ${fmtWon(tax)}</div>
+          <div class="cr-sub">양도차익 ${fmtWon(gain)} − 기본공제 250만원 = 과세표준 ${fmtWon(taxBase)} × 22%</div>`;
+      };
+    }
+    if(item.calcType==='compound'){
+      btn.onclick=()=>{
+        const principal=n0(p('principal').value), monthly=n0(p('monthly').value),
+              rate=n0(p('rate').value), years=n0(p('years').value);
+        const res=p('result'); res.style.display='block';
+        if(years<=0){ res.innerHTML='<div class="cr-sub">투자 기간을 입력해주세요.</div>'; return; }
+        const monthlyRate=rate/100/12, months=years*12;
+        const fvPrincipal=principal*Math.pow(1+monthlyRate, months);
+        const fvContrib=Math.abs(monthlyRate)>1e-9 ? monthly*((Math.pow(1+monthlyRate,months)-1)/monthlyRate) : monthly*months;
+        const total=fvPrincipal+fvContrib;
+        const totalPaid=principal+monthly*months;
+        const profit=total-totalPaid;
+        res.innerHTML=`<div class="cr-main">${years}년 뒤 ${fmtWon(total)}</div>
+          <div class="cr-sub">총 납입원금 ${fmtWon(totalPaid)} · 예상 수익 ${profit>=0?'+':''}${fmtWon(profit)}</div>`;
+      };
+    }
+  }
+
+  window.renderCalc=function(){
+    const box=document.getElementById('calcView'); if(!box) return;
+    const all=(typeof CALCULATORS!=='undefined'&&Array.isArray(CALCULATORS))?CALCULATORS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const hero=`<div class="nw-hero"><h2>🧮 계산기</h2>
+      <p>주식 투자할 때 자주 필요한 계산을 바로 해볼 수 있어요. 카테고리를 먼저 골라보세요.
+      제목을 누르면 계산기가 펼쳐져요.</p>
+      ${searchBoxHTML('calcSearchInput', calcSearchQ, escN)}</div>`;
+    const q=calcSearchQ.trim().toLowerCase();
+    if(!q && !calcCatSel){
+      box.innerHTML=hero+catPickerHTML(CALC_CATS, all);
+      wireSearchInput(box, 'calcSearchInput', v=>{ calcSearchQ=v; calcPage=1; window.renderCalc(); });
+      box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
+        calcCatSel=el.dataset.cat; calcPage=1; window.renderCalc();
+        box.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    const searching=q.length>0;
+    const filtered=searching
+      ? all.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q))
+      : (calcCatSel==='__all__'?all:all.filter(x=>x.cat===calcCatSel));
+    const backHtml=searching
+      ? `<button type="button" class="cat-back" id="calcSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(calcSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      : catBackHTML(CALC_CATS, calcCatSel);
+    const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
+    if(calcPage>pages) calcPage=pages; if(calcPage<1) calcPage=1;
+    const slice=filtered.slice((calcPage-1)*PAGE_SIZE, calcPage*PAGE_SIZE);
+    let h=hero+backHtml;
+    h+=slice.length
+      ? slice.map(a=>`<div class="nw-item" id="calc-${a.id}">
+          <div class="nw-head" data-calc="${a.id}">
+            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
+            <div class="nw-title">🧮 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
+          </div>
+          <div class="nw-body">${bodyHTML(a.body)}${calcWidgetHTML(a)}
+            <div class="nw-disc">※ 참고용 계산 도구예요. 투자·세무 판단과 책임은 본인에게 있으며, 정확한 세액은 전문가와 함께 확인하세요.</div>
+          </div>
+        </div>`).join('')
+      : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 계산기가 없어요.'}</div></div>`;
+    if(pages>1){
+      h+=`<div class="nw-pager">
+        <button class="nw-pg" data-pg="${calcPage-1}" ${calcPage<=1?'disabled':''}>‹ 이전</button>`+
+        Array.from({length:pages},(_,i)=>`<button class="nw-pg${i+1===calcPage?' on':''}" data-pg="${i+1}">${i+1}</button>`).join('')+
+        `<button class="nw-pg" data-pg="${calcPage+1}" ${calcPage>=pages?'disabled':''}>다음 ›</button></div>`;
+    }
+    box.innerHTML=h;
+    wireSearchInput(box, 'calcSearchInput', v=>{ calcSearchQ=v; calcPage=1; window.renderCalc(); });
+    if(searching){
+      const clearBtn=box.querySelector('#calcSearchClear');
+      if(clearBtn) clearBtn.onclick=()=>{ calcSearchQ=''; calcPage=1; window.renderCalc(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+    } else {
+      const backBtn=box.querySelector('.cat-back');
+      if(backBtn) backBtn.onclick=()=>{ calcCatSel=null; calcPage=1; window.renderCalc(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+    }
+    box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
+      const item=document.getElementById('calc-'+el.dataset.calc);
+      if(item){ const open=item.classList.toggle('open');
+        history.replaceState(null,'', open?('?m=calc&id='+el.dataset.calc):location.pathname); }
+    });
+    box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
+      const pg=parseInt(b.dataset.pg,10);
+      if(!pg||pg===calcPage||b.disabled) return;
+      calcPage=pg; window.renderCalc();
+      box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    // 위젯 이벤트는 실제로 화면에 그려진 항목에 대해서만 연결
+    slice.forEach(a=>wireCalcWidget(a));
+    if(!searching&&calcPage===1&&slice.length){ const first=document.getElementById('calc-'+slice[0].id); if(first) first.classList.add('open'); }
+  };
+  window.openCalcId=function(id){
+    const all=(typeof CALCULATORS!=='undefined'&&Array.isArray(CALCULATORS))?CALCULATORS.slice():[];
+    all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
+    const target=all.find(a=>String(a.id)===String(id)); if(!target) return;
+    calcCatSel=target.cat||'__all__';
+    const filtered=all.filter(x=>x.cat===calcCatSel);
+    const idx=filtered.findIndex(a=>String(a.id)===String(id));
+    calcPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderCalc();
+    const el=document.getElementById('calc-'+id);
+    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+  };
+})();
+
 // ---------- 종목 비교 모드 ----------
 (function(){
   // 종목비교 A/B — 한글 검색 자동완성 입력(단일분석 검색과 같은 엔진 공유)
@@ -4998,7 +5217,7 @@ function wireSearchInput(box, id, onChange){
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
-          estate=mode==='estate';
+          estate=mode==='estate', calc=mode==='calc';
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
@@ -5007,6 +5226,7 @@ function wireSearchInput(box, id, onChange){
     document.getElementById('mode-study').classList.toggle('on',study);
     document.getElementById('mode-lesson').classList.toggle('on',lesson);
     document.getElementById('mode-estate').classList.toggle('on',estate);
+    document.getElementById('mode-calc').classList.toggle('on',calc);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -5026,12 +5246,14 @@ function wireSearchInput(box, id, onChange){
     document.getElementById('studyView').classList.toggle('on',study);
     document.getElementById('lessonView').classList.toggle('on',lesson);
     document.getElementById('estateView').classList.toggle('on',estate);
+    document.getElementById('calcView').classList.toggle('on',calc);
     if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
     if(lesson && window.renderLesson) window.renderLesson();
     if(estate && window.renderEstate) window.renderEstate();
+    if(calc && window.renderCalc) window.renderCalc();
     if(leaderboard) renderLeaderboard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -5045,6 +5267,7 @@ function wireSearchInput(box, id, onChange){
   document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
   document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
   document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
+  document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
@@ -5909,6 +6132,7 @@ window.hangulFix=function(str){
     else if(m==='study'&&id){ window.setMode('study'); window.openStudyId&&window.openStudyId(id); }
     else if(m==='lesson'&&id){ window.setMode('lesson'); window.openLessonId&&window.openLessonId(id); }
     else if(m==='estate'&&id){ window.setMode('estate'); window.openEstateId&&window.openEstateId(id); }
+    else if(m==='calc'&&id){ window.setMode('calc'); window.openCalcId&&window.openCalcId(id); }
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
