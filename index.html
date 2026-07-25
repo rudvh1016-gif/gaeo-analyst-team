@@ -2407,10 +2407,12 @@ const MACRO_REGIME=(function(){
       (MACRO_REGIME.damp<1?'개별 종목 분석의 확신도를 자동으로 낮춰 보여드려요':'평소와 비슷한 변동성이에요')+`</span></div>`;
   }
   if(mk){
-    html+=`<div class="mk-an"><div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`+
-      mkParas(mk.text)+
-      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'')+
-      `</div>`;
+    const mkBody=mkParas(mk.text)+
+      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'');
+    const mkTitle=`<div class="mk-antitle">📊 시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`;
+    html+=isMobileBox
+      ? `<div class="mk-an">${mkTitle}<details class="mk-buylist"><summary>시장 분석 펼쳐보기</summary>${mkBody}</details></div>`
+      : `<div class="mk-an">${mkTitle}${mkBody}</div>`;
   }
   // 💰 시가총액 상위 10위 — data.js cap을 로컬 파싱해 계산(토큰 0), 시장 분석 바로 밑에 노출
   if(CAP_TOP10.length){
@@ -5900,7 +5902,7 @@ window.hangulFix=function(str){
       : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
     h+=`<div class="cm-sec">✍️ 방문자 자유게시판</div>
       <div class="cm-guest">
-        <p class="cm-hint">깃허브 계정 없이 누구나 글을 남길 수 있어요. 비밀번호는 나중에 내 글을 <b>수정·삭제</b>할 때 필요해요.</p>
+        <p class="cm-hint">누구나 글을 남길 수 있어요. 비밀번호는 나중에 내 글을 <b>수정·삭제</b>할 때 필요해요.</p>
         <div class="cm-form">
           <input id="gbName" maxlength="20" placeholder="이름">
           <input id="gbPw" type="password" maxlength="30" autocomplete="off" placeholder="비밀번호 (수정·삭제용)">
