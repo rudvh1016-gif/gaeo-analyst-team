@@ -5130,17 +5130,21 @@ function wireSearchInput(box, id, onChange){
         <div class="calc-row"><label>대출기간</label><input type="number" id="${p('years')}" placeholder="30" min="1" max="50"><span class="calc-unit">년</span></div>
         <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
         <div class="calc-result" id="${p('result')}" style="display:none"></div>
-        <div class="calc-note">원리금균등상환 방식 기준 · 중도상환수수료·인지세 등 부대비용은 포함하지 않아요</div>
+        <div class="calc-note">원리금균등상환 방식 기준 · 중도상환수수료·인지세 등 부대비용은 포함하지 않아요 · 부동산 매매 잔금용 대출이면 잔금 계산까지 되는 부동산 잔금·대출 계산기가 더 편해요</div>
       </div>`;
     }
     if(item.calcType==='balancepayment'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 부동산 잔금 계산기</div>
+        <div class="calc-title">🧮 부동산 잔금·대출 계산기</div>
         <div class="calc-row"><label>매매가</label><input type="number" id="${p('price')}" placeholder="500000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>계약금</label><input type="number" id="${p('down')}" placeholder="50000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>중도금</label><input type="number" id="${p('interim')}" placeholder="0" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>대출희망금액</label><input type="number" id="${p('loan')}" placeholder="300000000" min="0"><span class="calc-unit">원</span></div>
+        <div class="calc-row"><label>연이자율</label><input type="number" id="${p('rate')}" placeholder="4.5" min="0" max="30" step="0.01"><span class="calc-unit">%</span></div>
+        <div class="calc-row"><label>대출기간</label><input type="number" id="${p('years')}" placeholder="30" min="1" max="50"><span class="calc-unit">년</span></div>
         <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
         <div class="calc-result" id="${p('result')}" style="display:none"></div>
+        <div class="calc-note">잔금(매매가−계약금−중도금) 중 대출희망금액만큼을 원리금균등상환으로 계산해요 · 대출 한도 자체가 궁금하면 DSR·LTV 계산기를 함께 확인해보세요</div>
       </div>`;
     }
     if(item.calcType==='dividendtax'){
@@ -5229,13 +5233,28 @@ function wireSearchInput(box, id, onChange){
     }
     if(item.calcType==='balancepayment'){
       btn.onclick=()=>{
-        const price=n0(p('price').value), down=n0(p('down').value), interim=n0(p('interim').value);
+        const price=n0(p('price').value), down=n0(p('down').value), interim=n0(p('interim').value),
+              loan=n0(p('loan').value), rate=n0(p('rate').value), years=n0(p('years').value);
         const res=p('result'); res.style.display='block';
         if(price<=0){ res.innerHTML='<div class="cr-sub">매매가를 입력해주세요.</div>'; return; }
         const balance=Math.max(0, price-down-interim);
         const pct=price>0?(balance/price*100):0;
+        const equity=Math.max(0, balance-loan);
+        let loanHtml='';
+        if(loan>0){
+          if(years<=0){
+            loanHtml=`<br><span style="color:var(--red)">대출기간을 입력하면 월 상환액도 계산해드려요.</span>`;
+          } else {
+            const monthlyRate=rate/100/12, months=years*12;
+            const monthlyPayment=Math.abs(monthlyRate)>1e-9
+              ? loan*monthlyRate*Math.pow(1+monthlyRate,months)/(Math.pow(1+monthlyRate,months)-1)
+              : loan/months;
+            const totalInterest=monthlyPayment*months-loan;
+            loanHtml=`<br>대출 ${fmtWon(loan)} → 매달 ${fmtWon(monthlyPayment)}(총 이자 ${fmtWon(totalInterest)})<br>자기자본으로 준비할 금액 ${fmtWon(equity)}`;
+          }
+        }
         res.innerHTML=`<div class="cr-main">잔금 ${fmtWon(balance)}</div>
-          <div class="cr-sub">매매가 대비 ${pct.toFixed(1)}% · 계약금+중도금 ${fmtWon(down+interim)}</div>`;
+          <div class="cr-sub">매매가 대비 ${pct.toFixed(1)}% · 계약금+중도금 ${fmtWon(down+interim)}${loanHtml}</div>`;
       };
     }
     if(item.calcType==='dividendtax'){
