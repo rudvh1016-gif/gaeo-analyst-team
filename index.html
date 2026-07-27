@@ -5350,6 +5350,16 @@ makeCards(false);
     (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
       total:h.total,conf:h.confidence}));
   }
+  // history.js는 첫 화면 용량을 줄이기 위해 필요할 때만 받는다.
+  // 아직 안 받은 첫 화면에서는 이미 로드된 최신 자동판단으로 같은 카드를 채운다.
+  if(!recs.length&&AUTO_AN&&AUTO_AN.stocks){
+    MEGA_CAP.forEach(code=>{
+      const a=AUTO_AN.stocks[code], chief=a&&a.chief;
+      if(!chief) return;
+      recs.push({code,date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',
+        total:chief.total,conf:chief.confidence});
+    });
+  }
   // 같은 종목이 여러 날 쌓이므로 종목당 최신 1건만 남겨 다양한 우량주가 보이게 한다.
   recs.sort((a,b)=>b.date.localeCompare(a.date));
   const seen=new Set(); recs=recs.filter(r=>seen.has(r.code)?false:(seen.add(r.code),true)).slice(0,8);
