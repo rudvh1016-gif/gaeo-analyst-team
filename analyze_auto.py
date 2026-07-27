@@ -330,6 +330,43 @@ def load_sectors():
         return {}
 
 
+def build_market_insight(out, indicators):
+    """홈 화면의 30분 보강 브리핑을 auto_analysis.js 안에 함께 넣는다."""
+    calls = {"BUY": 0, "HOLD": 0, "SELL": 0}
+    axes = {"taro": [], "diana": [], "nova": [], "flow": []}
+    ranked = []
+    names = {code: row.get("name", code) for code, row in indicators.get("stocks", {}).items()}
+    for code, item in out.get("stocks", {}).items():
+        chief = item.get("chief") or {}
+        call = chief.get("call")
+        if call in calls:
+            calls[call] += 1
+        total = chief.get("total")
+        if isinstance(total, (int, float)):
+            ranked.append({"name": names.get(code, code), "total": total})
+        for axis in axes:
+            score = (item.get(axis) or {}).get("score")
+            if isinstance(score, (int, float)):
+                axes[axis].append(float(score))
+    ranked.sort(key=lambda row: row["total"], reverse=True)
+    labels = {"taro": "기술", "diana": "재무", "nova": "확률", "flow": "수급"}
+    averages = {axis: round(sum(values) / len(values), 1) if values else 0 for axis, values in axes.items()}
+    ordered = sorted(averages, key=averages.get, reverse=True)
+    total = sum(calls.values())
+    leaders = "·".join(row["name"] for row in ranked[:3]) if ranked else "집계 중"
+    return {
+        "generatedAt": out.get("generatedAt", ""),
+        "sourceAsOf": out.get("priceLabel", ""),
+        "calls": calls,
+        "axisAverages": averages,
+        "lines": [
+            f"자동 판단 {total}종목은 BUY {calls['BUY']} · HOLD {calls['HOLD']} · SELL {calls['SELL']}이에요.",
+            f"전체 평균은 {labels[ordered[0]]} 점수가 상대적으로 높고 {labels[ordered[-1]]} 점수가 낮아요.",
+            f"종합점수 상위는 {leaders}예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요.",
+        ],
+    }
+
+
 def main():
     # indicators.json은 순수 JSON
     ipath = os.path.join(HERE, "indicators.json")
@@ -386,6 +423,7 @@ def main():
     if skipped:
         print(f"[경고] 자동분석 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
 
+    out["marketInsight"] = build_market_insight(out, ind)
     body = json.dumps(out, ensure_ascii=False, indent=1)
     js = ("// 자동 생성: analyze_auto.py · 심부름꾼(러너) 규칙 기반 자동분석 (Claude 토큰 0)\n"
           "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"

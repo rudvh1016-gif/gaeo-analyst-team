@@ -15,9 +15,9 @@
 ```
 브라우저(index.html)
    ├─ tickers.js       500종목 마스터 목록(단일 소스)
-   ├─ data.js          시세 스냅샷 ← update_prices.py (10분마다)
+   ├─ data.js          시세 스냅샷 + 홈 숫자 브리핑 ← update_prices.py (10분마다)
    ├─ analysis.js      정밀분석 14종목 ← Claude가 직접 Write (비정기)
-   ├─ auto_analysis.js 자동분석 500종목 ← analyze_auto.py (30분마다)
+   ├─ auto_analysis.js 자동분석 500종목 + 홈 보강 브리핑 ← analyze_auto.py (30분마다)
    ├─ indicators.json/js, analysis_data.json  ← 지표·원천 데이터 계산 파이프라인
    ├─ history.js       CHIEF 판단 누적 기록 ← archive_analysis.py만 (직접 편집 금지)
    ├─ team_weights.js  적중률 기반 CHIEF 가중치 ← compute_team_weights.py
@@ -77,9 +77,9 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 
 두 워크플로가 있다 (`.github/workflows/`):
 
-- **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율) 갱신·커밋.
+- **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 갱신·커밋.
 - **update-analysis.yml** — 같은 시간대 30분마다 `price_history.js` · `analysis_data.json` ·
-  `indicators.json/js` · `auto_analysis.js`를 갱신하고, `archive_analysis.py --auto`로 500종목
+  `indicators.json/js` · `auto_analysis.js`(홈 보강 브리핑 포함)를 갱신하고, `archive_analysis.py --auto`로 500종목
   판단을 `history.js`에 하루 1건씩 누적한다.
 
 두 워크플로 모두 **GitHub의 기본 cron이 이 저장소에서 불안정하다는 걸 겪은 뒤** 만들어진

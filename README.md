@@ -20,7 +20,7 @@
 |---|---|
 | `index.html` | 메인 화면 (더블클릭 실행) |
 | `tickers.js` | **대상 종목 단일 소스** — 종목 추가/삭제는 여기만 고친다. `update_prices.py`와 `index.html`이 함께 읽음 |
-| `data.js` | 시세 스냅샷(종목 + 코스피/코스닥 지수 `indices`) — `update_prices.py`가 자동 생성 |
+| `data.js` | 시세 스냅샷(종목 + 코스피/코스닥 지수 `indices`)과 홈 숫자 브리핑 — `update_prices.py`가 자동 생성 |
 | `analysis.js` | AI 분석 결과 (5인 + 목표가 + 상세 리포트) — LIVE 배지. 종목별 `base`(판단 당시 주가)·`baseAt`(그 주가 시점)·`updated`(분석 시각) 포함. `market` 키에 코스피/코스닥 시장 분석(화면 상단 📊 박스) |
 | `history.js` | 판단 히스토리 — `archive_analysis.py`가 재분석마다 누적. 화면의 신뢰도 추이·적중 채점에 사용 |
 | `archive_analysis.py` | 현재 `analysis.js`의 CHIEF 판단을 `history.js`에 기록으로 쌓음(정확히 같은 시각 재실행만 덮어씀, 하루 여러 번은 각각 보존) |
@@ -34,7 +34,8 @@
 
 ## 🔄 자동 갱신 (cron 등록 완료)
 
-- **시세**: 평일 장중 **20분마다** 자동 갱신 (로그인 불필요)
+- **시세 + 홈 숫자 브리핑**: 평일 장중 **10분마다** 자동 갱신 (로그인 불필요)
+- **홈 보강 브리핑**: 평일 장중 **30분마다** 자동 갱신
 - **AI 분석 + 시세**: 평일 **15:50 장마감 후** `daily_update.command` 자동 실행
 - 실행 로그: `update.log`
 

@@ -1360,6 +1360,12 @@
   .brief-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--t2)}
   .brief-line b{flex:0 0 18px;height:18px;border-radius:6px;background:var(--navy-soft);color:var(--navy);
     display:grid;place-items:center;font-size:10px}
+  .brief-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--faint)}
+  .brief-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 14%,transparent)}
+  .brief-extra{margin-top:9px;padding:9px 10px;border-radius:10px;background:var(--navy-soft);color:var(--t2)}
+  .brief-extra-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;font-weight:800;color:var(--navy)}
+  .brief-extra p{margin:0;font-size:10.5px;line-height:1.5}
+  .brief-extra p+p{margin-top:3px}
   .home-watch{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
   .home-watch-label{display:block;font-size:10px;font-weight:800;color:var(--dim);margin-bottom:6px}
   .home-watch-list{display:flex;gap:6px;flex-wrap:wrap}
@@ -1418,6 +1424,8 @@
       <span class="start-kicker" id="briefKicker">매일 아침</span>
       <h2 id="briefTitle">오늘 아침 브리핑</h2>
       <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
+      <div class="brief-meta" id="briefMeta"></div>
+      <div class="brief-extra" id="briefExtra" style="display:none"></div>
     </article>
     <article class="start-step">
       <span class="start-kicker">처음이라면</span>
@@ -2470,45 +2478,135 @@ document.getElementById('watchToggle').onclick=()=>{
 };
 renderHomeWatchlist();
 
-/* ── 첫 화면: 시세만으로 만드는 오늘 시장 3줄 요약(원인 추정 없음) ── */
-(function renderHomeBrief(){
-  const brief=document.getElementById('homeBrief');
-  const live=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
-  if(!brief||!live) return;
-  const parts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',weekday:'short',hour:'2-digit',
-    minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
-  const part=type=>(parts.find(x=>x.type===type)||{}).value||'';
-  const weekday=part('weekday'), minutes=(+part('hour')||0)*60+(+part('minute')||0);
-  const kicker=document.getElementById('briefKicker'), title=document.getElementById('briefTitle');
-  if(weekday==='토'||weekday==='일'){
-    kicker.textContent='주말 복습'; title.textContent='다음 장을 위한 브리핑';
-  }else if(minutes<540){
-    kicker.textContent='장 시작 전'; title.textContent='오늘 아침 브리핑';
-  }else if(minutes<=930){
-    kicker.textContent='장중 업데이트'; title.textContent='오늘 시장 브리핑';
-  }else{
-    kicker.textContent='장 마감 뒤'; title.textContent='오늘 마감 브리핑';
+/* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
+(function(){
+  const brief=document.getElementById('homeBrief'), extra=document.getElementById('briefExtra');
+  if(!brief) return;
+  const initialLive=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
+  const initialAuto=(typeof AUTO_AN!=='undefined'&&AUTO_AN)||null;
+  const state={brief:null,insight:null};
+
+  function summaryFromLive(live){
+    if(!live) return null;
+    const stocks=live.stocks||{}, rows=Object.values(stocks).filter(x=>typeof x.rate==='number');
+    const up=rows.filter(x=>x.rate>0).length, down=rows.filter(x=>x.rate<0).length;
+    const flat=rows.length-up-down, idx=live.indices||{};
+    const rate=x=>x&&typeof x.rate==='number'?(x.rate>0?'+':'')+x.rate.toFixed(2)+'%':'—';
+    const groups={};
+    Object.entries(STOCKS).forEach(([code,s])=>{
+      const r=stocks[code]&&stocks[code].rate;
+      if(typeof r!=='number') return;
+      const key=s.sector||'기타'; (groups[key]||(groups[key]=[])).push(r);
+    });
+    const sectors=Object.entries(groups).filter(x=>x[1].length>=3)
+      .map(x=>({name:x[0],rate:x[1].reduce((a,b)=>a+b,0)/x[1].length})).sort((a,b)=>b.rate-a.rate);
+    const strong=sectors[0], weak=sectors[sectors.length-1];
+    return {
+      sourceAsOf:live.date||'',
+      lines:[
+        `코스피 ${rate(idx.KOSPI)}, 코스닥 ${rate(idx.KOSDAQ)}로 움직이고 있어요.`,
+        `${rows.length}종목 중 상승 ${up}개 · 하락 ${down}개 · 보합 ${flat}개예요.`,
+        strong&&weak
+          ? `강한 업종은 ${strong.name}(${strong.rate>=0?'+':''}${strong.rate.toFixed(2)}%), 약한 업종은 ${weak.name}(${weak.rate>=0?'+':''}${weak.rate.toFixed(2)}%)이에요.`
+          : '업종 흐름을 집계하고 있어요.'
+      ]
+    };
   }
-  const stocks=live.stocks||{};
-  const rows=Object.values(stocks).filter(x=>typeof x.rate==='number');
-  const up=rows.filter(x=>x.rate>0).length, down=rows.filter(x=>x.rate<0).length;
-  const flat=rows.length-up-down, idx=live.indices||{};
-  const rate=x=>x&&typeof x.rate==='number'?(x.rate>0?'+':'')+x.rate.toFixed(2)+'%':'—';
-  const groups={};
-  Object.entries(STOCKS).forEach(([code,s])=>{
-    const r=stocks[code]&&stocks[code].rate;
-    if(typeof r!=='number') return;
-    const key=s.sector||'기타'; (groups[key]||(groups[key]=[])).push(r);
-  });
-  const sectors=Object.entries(groups).filter(x=>x[1].length>=3)
-    .map(x=>({name:x[0],avg:x[1].reduce((a,b)=>a+b,0)/x[1].length})).sort((a,b)=>b.avg-a.avg);
-  const lead=sectors.length?`강한 업종은 ${sectors[0].name}, 약한 업종은 ${sectors[sectors.length-1].name}이에요.`:'업종 흐름을 집계하고 있어요.';
-  const lines=[
-    `코스피 ${rate(idx.KOSPI)}, 코스닥 ${rate(idx.KOSDAQ)}로 움직이고 있어요.`,
-    `500종목 중 상승 ${up}개 · 하락 ${down}개 · 보합 ${flat}개예요.`,
-    lead+' 숫자로 본 흐름이며, 이유는 뉴스분석에서 확인하세요.'
-  ];
-  brief.innerHTML=lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('');
+  function insightFromAuto(auto){
+    if(!auto||!auto.stocks) return null;
+    const counts={BUY:0,HOLD:0,SELL:0}, ranked=[];
+    Object.entries(auto.stocks).forEach(([code,item])=>{
+      const chief=item&&item.chief; if(!chief) return;
+      if(counts[chief.call]!=null) counts[chief.call]++;
+      if(typeof chief.total==='number') ranked.push({name:(STOCKS[code]||{}).name||code,total:chief.total});
+    });
+    ranked.sort((a,b)=>b.total-a.total);
+    return {
+      generatedAt:auto.generatedAt||'',
+      lines:[
+        `자동 판단 ${counts.BUY+counts.HOLD+counts.SELL}종목은 BUY ${counts.BUY} · HOLD ${counts.HOLD} · SELL ${counts.SELL}이에요.`,
+        ranked.length?`종합점수 상위는 ${ranked.slice(0,3).map(x=>x.name).join('·')}예요. 개별 뉴스·공시는 뉴스분석에서 확인해 주세요.`:'자동 판단을 정리하고 있어요.'
+      ]
+    };
+  }
+  function stamp(value){
+    const m=String(value||'').match(/(\d{4})-(\d{2})-(\d{2}).*?(\d{2}):(\d{2})/);
+    return m?{date:`${m[1]}-${m[2]}-${m[3]}`,short:`${m[2]}/${m[3]} ${m[4]}:${m[5]}`,time:`${m[4]}:${m[5]}`}:
+      {date:'',short:String(value||'기준시각 확인 중'),time:''};
+  }
+  function kstParts(now){
+    const parts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',
+      day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(now||new Date());
+    const part=type=>(parts.find(x=>x.type===type)||{}).value||'';
+    return {date:`${part('year')}-${part('month')}-${part('day')}`,weekday:part('weekday'),
+      time:`${part('hour')}:${part('minute')}`,minutes:(+part('hour')||0)*60+(+part('minute')||0)};
+  }
+  function renderClock(now){
+    const clock=kstParts(now), source=stamp(state.brief&&state.brief.sourceAsOf);
+    const weekend=clock.weekday==='토'||clock.weekday==='일';
+    let title='오늘 아침 브리핑';
+    if(weekend) title='최근 거래일 브리핑';
+    else if(clock.minutes>=540&&clock.minutes<930) title='오늘 장중 브리핑';
+    else if(clock.minutes>=930) title=(source.date===clock.date)?'오늘 마감 브리핑':'오늘 마감 확인 중';
+    document.getElementById('briefKicker').textContent=clock.time+' 현재';
+    document.getElementById('briefTitle').textContent=title;
+    const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
+    document.getElementById('briefMeta').innerHTML=
+      '<span class="brief-live-dot"></span><span>시세 '+esc(source.short)+' 기준</span>'+
+      (waiting?'<span>· 새 시세 확인 중</span>':'')+
+      '<span>· 숫자 10분 · 보강 30분</span>';
+  }
+  function render(){
+    const lines=(state.brief&&state.brief.lines)||[];
+    brief.innerHTML=lines.length
+      ?lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('')
+      :'<p>오늘 시세를 정리하고 있어요.</p>';
+    const insightLines=(state.insight&&state.insight.lines)||[];
+    if(insightLines.length){
+      const at=stamp(state.insight.generatedAt).time||'확인 중';
+      extra.innerHTML=`<div class="brief-extra-head">＋ 30분 보강 · ${esc(at)} 기준</div>`+
+        insightLines.slice(0,3).map(x=>`<p>${esc(x)}</p>`).join('');
+      extra.style.display='block';
+    }else extra.style.display='none';
+    renderClock();
+  }
+  function parseGenerated(text,name){
+    const marker='const '+name+' =', start=text.indexOf(marker);
+    if(start<0) throw new Error(name+' 시작점을 찾지 못했습니다.');
+    const from=text.indexOf('{',start+marker.length), to=text.lastIndexOf('};');
+    if(from<0||to<from) throw new Error(name+' 형식을 읽지 못했습니다.');
+    return JSON.parse(text.slice(from,to+1));
+  }
+  async function refreshBrief(){
+    try{
+      const res=await fetch('data.js',{cache:'no-cache'});
+      if(res.ok){
+        const live=parseGenerated(await res.text(),'LIVE_DATA');
+        state.brief=live.marketBrief||summaryFromLive(live);
+      }
+      render();
+    }catch(e){ renderClock(); }
+  }
+  async function refreshInsight(){
+    try{
+      const res=await fetch('auto_analysis.js',{cache:'no-cache'});
+      if(res.ok){
+        const auto=parseGenerated(await res.text(),'LIVE_AUTO');
+        state.insight=auto.marketInsight||insightFromAuto(auto);
+      }
+      render();
+    }catch(e){}
+  }
+  async function refresh(){ await Promise.all([refreshBrief(),refreshInsight()]); }
+  state.brief=(initialLive&&initialLive.marketBrief)||summaryFromLive(initialLive);
+  state.insight=(initialAuto&&initialAuto.marketInsight)||insightFromAuto(initialAuto);
+  render();
+  setInterval(refreshBrief,5*60*1000);
+  setInterval(refreshInsight,30*60*1000);
+  setInterval(()=>renderClock(),60*1000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
+  window.GaeoBrief={refresh,renderClock};
+
   document.getElementById('startSearch').onclick=()=>{
     const ticker=document.getElementById('ticker');
     // 모바일 키보드는 클릭 순간에 포커스를 줘야 안정적으로 열리므로 지연하지 않는다.

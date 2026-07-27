@@ -37,6 +37,47 @@ def load_tickers(here):
         print(f'[경고] tickers.js 로드 실패 — 내장 목록 사용: {e}')
         return FALLBACK_CODES
 
+def build_market_brief(data, here):
+    """홈 화면의 10분 숫자 브리핑을 data.js 안에 함께 넣는다."""
+    try:
+        text = re.sub(r'^\s*//.*$', '', open(os.path.join(here, 'tickers.js'), encoding='utf-8').read(), flags=re.M)
+        rows = json.loads(re.search(r'const\s+TICKERS\s*=\s*(\[.*?\])\s*;', text, re.S).group(1))
+        sectors = {row['code']: row.get('sector') or '기타' for row in rows}
+    except Exception:
+        sectors = {}
+    stocks = data.get('stocks', {})
+    rated = [row for row in stocks.values() if isinstance(row.get('rate'), (int, float))]
+    up = sum(row['rate'] > 0 for row in rated)
+    down = sum(row['rate'] < 0 for row in rated)
+    flat = len(rated) - up - down
+    groups = {}
+    for code, row in stocks.items():
+        rate = row.get('rate')
+        if isinstance(rate, (int, float)):
+            groups.setdefault(sectors.get(code, '기타'), []).append(float(rate))
+    sector_rows = sorted(
+        ({'name': name, 'rate': round(sum(values) / len(values), 2), 'count': len(values)}
+         for name, values in groups.items() if len(values) >= 3),
+        key=lambda row: row['rate'], reverse=True)
+    strong = sector_rows[0] if sector_rows else None
+    weak = sector_rows[-1] if sector_rows else None
+    rate_text = lambda value: f'{value:+.2f}%' if isinstance(value, (int, float)) else '—'
+    indices = data.get('indices', {})
+    sector_line = (f"강한 업종은 {strong['name']}({rate_text(strong['rate'])}), "
+                   f"약한 업종은 {weak['name']}({rate_text(weak['rate'])})이에요."
+                   if strong and weak else '업종 흐름을 집계하고 있어요.')
+    return {
+        'sourceAsOf': data.get('date', ''),
+        'breadth': {'total': len(rated), 'up': up, 'down': down, 'flat': flat},
+        'sectors': {'strong': strong, 'weak': weak},
+        'lines': [
+            f"코스피 {rate_text(indices.get('KOSPI', {}).get('rate'))}, "
+            f"코스닥 {rate_text(indices.get('KOSDAQ', {}).get('rate'))}로 움직이고 있어요.",
+            f"{len(rated)}종목 중 상승 {up}개 · 하락 {down}개 · 보합 {flat}개예요.",
+            sector_line,
+        ],
+    }
+
 def trim_log(here, keep=300):
     """update.log를 최근 keep줄로 유지(무한 증가 방지). 실패해도 본 작업엔 영향 없음."""
     p = os.path.join(here, 'update.log')
@@ -247,6 +288,7 @@ def main():
     data = {'date': date_label, 'indices': indices, 'stocks': out}
     if fx:
         data['fx'] = fx
+    data['marketBrief'] = build_market_brief(data, here)
     js = (f'// 자동 생성: update_prices.py · {date_label}\n'
           'const LIVE_DATA = '
           + json.dumps(data, ensure_ascii=False, indent=1)
