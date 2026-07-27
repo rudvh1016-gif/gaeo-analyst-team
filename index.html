@@ -1506,7 +1506,7 @@
     <div id="vlevels" class="vlevels" style="display:none"></div>
     <p id="vreport" class="vreport"></p>
     <div id="vhistory" class="vhistory"></div>
-    <div class="vdisclaimer">Claude 서브에이전트 실제 분석 · 분석 의견이며 투자 권유가 아닙니다.</div>
+    <div class="vdisclaimer">분석 기준 시각을 확인해 주세요 · 참고용 정보이며 투자 권유가 아닙니다.</div>
   </div>
 
   <div class="compare" id="compare"></div>
@@ -1529,8 +1529,8 @@
   <div class="foot" data-edit="foot">
     <b>Gaeo</b> — 팀원들이 집 안을 돌아다니며 인사하고 커피도 마시다가, 「분석 시작」을 누르면 각자 자리로 가서 분석합니다.
     우측 상단 버튼으로 <b>낮/밤 전환(☀️/🌙)</b>과 <b>효과음(🔊)</b>을 조절할 수 있어요.<br>
-    시세·지표는 <code>시세갱신.command</code> 더블클릭(또는 <code>python3 update_prices.py</code>)으로 언제든 최신화됩니다.
-    <span class="live">LIVE</span> 표시가 붙은 분석은 Claude 서브에이전트가 수행한 실제 분석입니다 (<code>analysis.js</code>).
+    시세·지표는 평일 장중 자동으로 갱신되며, 공휴일·장 마감 뒤에는 마지막 거래일 값이 표시될 수 있어요.
+    각 분석의 기준 시각과 데이터 상태를 함께 표시하니 투자 판단 전에 꼭 확인해 주세요.
   </div>
   <div style="text-align:center;padding:14px 0 28px;font-size:12.5px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
     <a href="about.html" style="color:var(--dim);font-weight:600">소개</a>
@@ -2746,7 +2746,7 @@ function snapshotStaleDays(){
   const staleDays=snapshotStaleDays();
   if(staleDays>0){
     const d=String(SNAP_DATE).match(/\d{4}-\d{2}-\d{2}/);
-    msgs.push(`⚠️ 시세가 최신이 아닐 수 있습니다 — 마지막 갱신 <b>${d?d[0]:SNAP_DATE}</b> (약 ${staleDays}일 전). 시세갱신.command를 실행해 주세요. <span style="font-weight:600">(공휴일이면 정상일 수 있어요)</span>`);
+    msgs.push(`⚠️ 마지막 갱신은 <b>${d?d[0]:SNAP_DATE}</b>입니다 (약 ${staleDays}일 전). 공휴일·장 마감 뒤에는 마지막 거래일 값이 표시될 수 있으니 기준 시각을 확인해 주세요.`);
   }
   const staleStocks=Object.values(STOCKS).filter(s=>s.stale).map(s=>s.name);
   if(staleStocks.length){
@@ -4002,8 +4002,8 @@ function analyze(){
       document.getElementById('vdot').style.background=v.color;
       const call=document.getElementById('vcall'); call.textContent=v.call; call.style.color=v.color;
       const tierBadge=v.tier==='auto'
-        ? '<span class="tier-badge tier-auto" title="자동분석 — 심부름꾼(GitHub Actions)이 수집된 지표를 규칙으로 해석한 결과예요. 개별 뉴스는 미반영. Claude 토큰 0.">🤖 자동분석</span>'
-        : (v.tier==='deep'?'<span class="tier-badge tier-deep" title="정밀분석 — Claude 5인 애널리스트가 뉴스·공시까지 직접 분석한 결과예요.">🧠 정밀분석</span>':'');
+        ? '<span class="tier-badge tier-auto" title="자동분석 — 수집된 가격·재무·수급 지표를 정해진 규칙으로 해석한 결과예요. 개별 뉴스는 반영하지 않아요.">🤖 자동분석</span>'
+        : (v.tier==='deep'?'<span class="tier-badge tier-deep" title="정밀분석 — 가격·재무·수급과 함께 뉴스·공시까지 살펴본 결과예요.">🧠 정밀분석</span>':'');
       document.getElementById('vconf').innerHTML=
         `${stock.name}${stock.price?'('+stock.code+')':''}`+
         (stock.price?` · 현재가 ${won(stock.price)} (${SNAP_DATE})`:'')+
@@ -4013,7 +4013,7 @@ function analyze(){
       const fresh=freshnessHTML(stock.code, stock.price).replace(/^　·　/,'');
       document.getElementById('vasof').innerHTML=
         (stock.price?'<span>🕒 시세 기준 <b>'+priceAsOf()+'</b></span>':'')+
-        '<span>🔎 분석 기준 <b>'+(aof||'실시간 mock')+'</b></span>'+
+        '<span>🔎 분석 기준 <b>'+(aof||'현재 제공 데이터')+'</b></span>'+
         (fresh?'<span>'+fresh+'</span>':'');
       document.getElementById('vtext').innerHTML=SIGNUM(esc(v.text));
       // 🧒 초등학생도 이해하는 설명 말풍선 (분석 점수를 쉬운 문장으로 자동 변환 — AI 비용 없음)
@@ -4024,14 +4024,14 @@ function analyze(){
       if(v.tier==='auto'){
         va.innerHTML='🤖 <b>자동분석</b> — 이 종목은 심부름꾼(무료 서버)이 <b>수집된 지표(차트·재무·수급)를 규칙으로 해석</b>한 결과예요. '
           +'QUANT는 지금과 비슷한 상태였던 과거 사례의 <b>실측 승률</b>을 계산하고, CHIEF는 분석가별 <b>실제 적중률에 비례한 가중치</b>로 합산해요. '
-          +'개별 뉴스·공시는 반영되지 않아요 — 더 깊은 분석이 필요하면 <b>정밀분석(🧠 Claude 5인)</b>으로 전환할 수 있어요.';
+          +'개별 뉴스·공시는 반영되지 않아요. 뉴스·공시까지 살펴본 종목은 <b>정밀분석</b>으로 구분해 표시해요.';
         va.style.display='block';
       } else va.style.display='none';
       // 👑 운영자 한마디 (관리자 모드에서 종목별로 작성)
       window.GAEO_CUR_CODE=stock.code;
       const vn=document.getElementById('vnote');
       const note=(window.gaeoNote&&gaeoNote(stock.code))||'';
-      if(note){ vn.innerHTML='<div class="an-t">👑 운영자 한마디</div>'+escNote(note); vn.style.display='block'; }
+      if(note){ vn.innerHTML='<div class="an-t">📝 추가 메모</div>'+escNote(note); vn.style.display='block'; }
       else vn.style.display='none';
       const vt=document.getElementById('vtarget'), vr=document.getElementById('vreport');
       if(v.target){vt.style.display='block'; vt.innerHTML='🎯 <b>'+v.target+'</b>';}
@@ -4204,7 +4204,7 @@ function renderGuide(){
       ${sign('#DC2626','#fff','SELL','"조심해요" — 내려갈 걱정이 커요. 비중을 줄이는 걸 생각해봐요.')}
       ${sign('var(--sky-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
       ${sign('var(--sky-soft)','var(--navy)','신뢰도 %','팀이 이 판단에 얼마나 자신 있는지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
-      ${sign('#6D28D9','#fff','🧠 정밀분석','Claude(똑똑한 AI)가 뉴스와 공시까지 직접 읽고 쓴 깊은 분석이에요.')}
+      ${sign('#6D28D9','#fff','🧠 정밀분석','가격·재무·수급과 함께 뉴스와 공시까지 살펴본 분석이에요.')}
       ${sign('#FEF3C7','#92400E','🤖 자동분석','컴퓨터가 차트·재무·수급 숫자만 보고 규칙대로 계산한 분석이에요. 뉴스는 반영 안 돼 있어요.')}
       ${sign('#EA580C','#fff','⚡의견갈림','분석가들끼리 점수가 크게 엇갈렸다는 경고예요. 이런 종목은 평균 점수만 믿지 말고 한 번 더 생각!')}
       ${sign('#a16207','#fff','🛡️ RISK 등급','이 종목이 얼마나 험하게 움직이는지예요. 안정(초록)·보통·위험(빨강) — 전체 500종목과 비교한 상대 등급이라, 위험이면 "수익도 손실도 빨리 커지는 종목"이라는 뜻이에요. 사라/팔아라 판단에는 개입하지 않아요.')}
@@ -5694,7 +5694,7 @@ window.renderScreener=function(){
   /* 👑 운영자 한마디 — 관리자 모드 종목메모가 있으면 비교 결과에도 표시 */
   const noteBlock=(S,code)=>{
     const n=(window.gaeoNote&&gaeoNote(code))||'';
-    return n?`<div class="anote" style="margin:14px 0 0"><div class="an-t">👑 운영자 한마디 — ${S.name}</div>${escNote(n)}</div>`:'';
+    return n?`<div class="anote" style="margin:14px 0 0"><div class="an-t">📝 추가 메모 — ${S.name}</div>${escNote(n)}</div>`:'';
   };
 
   /* ── 쉬운 말 비교 설명 — analysis.js의 점수·목표주가를 초등학생 눈높이 문장으로 변환 ──
@@ -6187,7 +6187,7 @@ window.hangulFix=function(str){
       const withNote=T.filter(t=>notes[t.code]&&String(notes[t.code]).trim());
       body=`<div class="ab-row"><label>종목</label><select id="abNCode" class="ab-in">${
         T.map(t=>`<option value="${t.code}">${t.name}${(notes[t.code]&&String(notes[t.code]).trim())?' ✍️':''}</option>`).join('')}</select></div>
-      <textarea id="abNText" class="ab-ta" placeholder="이 종목에 대한 운영자 한마디 — 단일 분석 결과와 종목 비교에 노란 카드로 표시돼요"></textarea>
+      <textarea id="abNText" class="ab-ta" placeholder="이 종목에 대한 추가 메모 — 단일 분석 결과와 종목 비교에 노란 카드로 표시돼요"></textarea>
       <div class="ab-btns">
         <button class="ab-save" id="abNSave">✍️ 메모 저장</button>
         <button class="ab-reset" id="abNDel">🗑 메모 삭제</button>
@@ -6195,7 +6195,7 @@ window.hangulFix=function(str){
       <div class="ab-list">${withNote.length?withNote.map(t=>
         `<div class="ab-item"><span class="ab-item-t">👑 ${t.name} · ${h(String(notes[t.code]).slice(0,20))}${String(notes[t.code]).length>20?'…':''}</span></div>`).join('')
         :'<div class="ab-hint">작성된 메모가 없어요.</div>'}</div>
-      <div class="ab-hint">메모는 <b>단일 분석</b>의 판정 카드 위와 <b>종목 비교</b> 결과 아래에 "👑 운영자 한마디"로 표시돼요.
+      <div class="ab-hint">메모는 <b>단일 분석</b>의 판정 카드 위와 <b>종목 비교</b> 결과 아래에 "📝 추가 메모"로 표시돼요.
       💾 저장=이 브라우저 미리보기 · <b>🌍 발행해야 모두에게</b> 보여요.</div>`;
     }else if(tab==='stocks'){
       const draft=o.tickersDraft||((typeof TICKERS!=='undefined')?TICKERS.map(t=>({...t})):[]);
@@ -6285,7 +6285,7 @@ window.hangulFix=function(str){
         const vn=document.getElementById('vnote');
         if(vn&&window.GAEO_CUR_CODE===code){
           const n=gaeoNote(code);
-          if(n){ vn.innerHTML='<div class="an-t">👑 운영자 한마디</div>'+escNote(n); vn.style.display='block'; }
+          if(n){ vn.innerHTML='<div class="an-t">📝 추가 메모</div>'+escNote(n); vn.style.display='block'; }
           else vn.style.display='none';
         }
       };
