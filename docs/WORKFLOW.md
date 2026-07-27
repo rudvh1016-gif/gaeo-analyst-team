@@ -55,7 +55,8 @@ git push                         # 강제 아님, 평범한 push
    카테고리 표 참고). 완전히 새로운 주제라 기존 키가 안 맞으면, index.html의 해당
    `*_CATS` 배열에도 카드를 함께 추가해야 그 카테고리가 화면에 나타난다.
 4. **`node generate_sitemap.js`와 `node generate_snapshots.js`를 반드시 함께 실행한다.**
-   둘 중 하나라도 빠뜨리면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다.
+   둘 중 하나라도 빠뜨리면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽으며,
+   첫 화면의 최신 글 5개 목록(`snap/latest_posts.js`)도 갱신되지 않는다.
 5. 필요하면 Playwright로 화면에서 실제로 보이는지 확인한다(아래 3번 참고).
 6. 커밋 → PR → main 병합.
 

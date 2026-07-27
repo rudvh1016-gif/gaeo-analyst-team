@@ -1376,6 +1376,9 @@
   .brief-extra-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;font-weight:800;color:var(--navy)}
   .brief-extra p{margin:0;font-size:10.5px;line-height:1.5}
   .brief-extra p+p{margin-top:3px}
+  .brief-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+  .brief-link{border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--sky);border-radius:8px;
+    padding:6px 9px;font:inherit;font-size:10.5px;font-weight:800;cursor:pointer}
   .home-watch{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
   .home-watch-label{display:block;font-size:10px;font-weight:800;color:var(--dim);margin-bottom:6px}
   .home-watch-list{display:flex;gap:6px;flex-wrap:wrap}
@@ -1383,10 +1386,31 @@
   .home-watch-chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;
     padding:5px 8px;font-size:10.5px;font-weight:700;cursor:pointer;display:inline-flex;gap:5px;align-items:center}
   .home-watch-chip .up{color:var(--krup)} .home-watch-chip .down{color:var(--krdn)}
+  .home-watch-change{margin-top:8px;padding:8px 9px;border-radius:9px;background:var(--navy-soft);
+    color:var(--t2);font-size:10.5px;line-height:1.5}
+  .home-watch-change strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
+  .home-watch-change button{border:0;background:transparent;color:var(--sky);font:inherit;font-weight:800;
+    padding:1px 0;cursor:pointer;text-align:left}
+  .latest-home{margin:0 0 12px;padding:11px 12px;background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow)}
+  .latest-home-head{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
+  .latest-home-head h2{margin:0;font-size:13px;color:var(--ink)}
+  .latest-home-head span{font-size:9.5px;color:var(--faint)}
+  .latest-home-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  .latest-post{border:0;border-left:2px solid var(--sky-line);background:transparent;color:var(--ink);
+    padding:2px 8px;text-align:left;font:inherit;cursor:pointer;min-width:0}
+  .latest-post:hover,.latest-post:focus-visible{background:var(--sky-soft);outline:none;border-left-color:var(--sky)}
+  .latest-post-meta{display:flex;gap:5px;align-items:center;font-size:9px;color:var(--faint);margin-bottom:3px}
+  .latest-post-meta b{color:var(--sky)}
+  .latest-post-title{font-size:10.5px;font-weight:750;line-height:1.4;display:-webkit-box;
+    -webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
   .watch-toggle{border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--sky);
     border-radius:99px;padding:5px 9px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
   .watch-toggle.on{background:var(--sky);color:#fff;border-color:var(--sky)}
   @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
+  @media(max-width:900px){.latest-home-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;padding-bottom:2px}.latest-home-list::-webkit-scrollbar{display:none}
+    .latest-post{flex:0 0 min(72vw,250px);scroll-snap-align:start}}
   @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}
     .start-step{padding:13px 14px}.start-board .start-step:nth-child(1){order:1}.start-step-summary{order:2}
     .start-board .start-step:nth-child(3){order:3}}
@@ -1419,6 +1443,13 @@
     </div>
     <span class="badge" id="hbadge">홈오피스</span>
   </header>
+  <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
+    <div class="latest-home-head">
+      <h2 id="latestHomeTitle">방금 올라온 글</h2>
+      <span>최신 5개</span>
+    </div>
+    <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
+  </section>
   <section class="start-board" aria-label="처음 이용 안내">
     <article class="start-step">
       <span class="start-kicker">먼저</span>
@@ -1438,6 +1469,7 @@
       <div class="home-watch">
         <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
         <div class="home-watch-list" id="homeWatchlist"></div>
+        <div class="home-watch-change" id="homeWatchChange" style="display:none" aria-live="polite"></div>
       </div>
     </article>
     <article class="start-step start-step-summary">
@@ -1446,6 +1478,10 @@
       <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
       <div class="brief-meta" id="briefMeta"></div>
       <div class="brief-extra" id="briefExtra" style="display:none"></div>
+      <div class="brief-actions" id="briefActions">
+        <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
+        <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
+      </div>
     </article>
     <article class="start-step">
       <span class="start-kicker">처음이라면</span>
@@ -1587,6 +1623,7 @@
 <script src="data.js"></script>
 <script src="site_config.js"></script>
 <script src="community.js"></script>
+<script src="snap/latest_posts.js" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="indicators.js"></script>
@@ -2449,6 +2486,7 @@ document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DAT
 
 /* ── 관심종목: 로그인 없이 이 브라우저에만 가볍게 저장 ── */
 const WATCHLIST_KEY='gaeo_watchlist_v1';
+const WATCH_SNAPSHOT_KEY='gaeo_watch_snapshot_v1';
 function loadWatchlist(){
   try{
     const saved=JSON.parse(localStorage.getItem(WATCHLIST_KEY));
@@ -2468,6 +2506,50 @@ function updateWatchToggle(code){
   btn.setAttribute('aria-pressed',on?'true':'false');
   btn.style.display='inline-flex';
 }
+function currentWatchSnapshot(codes){
+  const stocks={};
+  codes.forEach(code=>{
+    const s=STOCKS[code], entry=analysisEntry(code), chief=entry&&entry.chief;
+    stocks[code]={
+      name:s.name,
+      price:typeof s.price==='number'?s.price:null,
+      rate:typeof s.rate==='number'?s.rate:null,
+      call:chief&&chief.call||null
+    };
+  });
+  return {date:String(SNAP_DATE||'').slice(0,10),stocks};
+}
+function renderWatchChange(codes){
+  const box=document.getElementById('homeWatchChange');
+  if(!box||!codes.length){ if(box) box.style.display='none'; return; }
+  const current=currentWatchSnapshot(codes);
+  let saved=null;
+  try{ saved=JSON.parse(localStorage.getItem(WATCH_SNAPSHOT_KEY)); }catch(e){}
+  let baseline={};
+  if(saved&&saved.date===current.date&&saved.baseline) baseline=saved.baseline;
+  else if(saved&&saved.current) baseline=saved.current;
+  codes.forEach(code=>{ if(!baseline[code]) baseline[code]=current.stocks[code]; });
+  const up=codes.filter(code=>(current.stocks[code].rate||0)>0).length;
+  const down=codes.filter(code=>(current.stocks[code].rate||0)<0).length;
+  const changed=codes.filter(code=>baseline[code]&&baseline[code].call&&current.stocks[code].call&&
+    baseline[code].call!==current.stocks[code].call);
+  const movement=`${codes.length}개 중 ${up}개 상승${down?' · '+down+'개 하락':''}`;
+  const nowParts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const nowPart=type=>(nowParts.find(x=>x.type===type)||{}).value||'';
+  const today=`${nowPart('year')}-${nowPart('month')}-${nowPart('day')}`;
+  const period=current.date===today?'오늘 변화':'최근 거래일 변화';
+  const detail=changed.length
+    ?changed.slice(0,2).map(code=>`<button type="button" data-watch-change="${code}">${esc(current.stocks[code].name)} 자동판단 ${esc(baseline[code].call)} → ${esc(current.stocks[code].call)}</button>`).join('<br>')
+    :'자동판단은 이전 저장 때와 같아요.';
+  box.innerHTML=`<strong>${period} · ${movement}</strong>${detail}`;
+  box.style.display='block';
+  box.querySelectorAll('[data-watch-change]').forEach(btn=>btn.onclick=()=>{
+    const s=STOCKS[btn.dataset.watchChange]; if(s) jumpToStock(s.name);
+  });
+  try{
+    localStorage.setItem(WATCH_SNAPSHOT_KEY,JSON.stringify({date:current.date,baseline,current:current.stocks}));
+  }catch(e){}
+}
 function renderHomeWatchlist(){
   const box=document.getElementById('homeWatchlist'), label=document.getElementById('homeWatchLabel');
   if(!box) return;
@@ -2475,6 +2557,7 @@ function renderHomeWatchlist(){
   if(label) label.textContent=`★ 관심종목${codes.length?' '+codes.length+'개':''}`;
   if(!codes.length){
     box.innerHTML='<span class="home-watch-empty">종목을 검색한 뒤 ☆ 버튼으로 저장해 보세요.</span>';
+    renderWatchChange(codes);
     return;
   }
   box.innerHTML=codes.map(code=>{
@@ -2482,6 +2565,7 @@ function renderHomeWatchlist(){
     return `<button class="home-watch-chip" type="button" data-watch-code="${code}">`+
       `<span>${esc(s.name)}</span><span class="${rate>0?'up':(rate<0?'down':'')}">${rate>0?'+':''}${rate.toFixed(2)}%</span></button>`;
   }).join('');
+  renderWatchChange(codes);
 }
 document.getElementById('homeWatchlist').addEventListener('click',e=>{
   const chip=e.target.closest('[data-watch-code]'); if(!chip) return;
@@ -2498,13 +2582,35 @@ document.getElementById('watchToggle').onclick=()=>{
 };
 renderHomeWatchlist();
 
+/* ── 첫 화면 최신 글 5개: 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다. ── */
+(function(){
+  const box=document.getElementById('latestHomeList');
+  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))?LATEST_POSTS:[];
+  if(!box) return;
+  if(!posts.length){ box.innerHTML='<span class="home-watch-empty">최신 글 목록을 준비하고 있어요.</span>'; return; }
+  box.innerHTML=posts.slice(0,5).map(post=>`<button class="latest-post" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
+    <span class="latest-post-meta"><b>${esc(post.label)}</b><span>${esc(post.date)}</span></span>
+    <span class="latest-post-title">${esc(post.title)}</span>
+  </button>`).join('');
+  box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
+    const mode=btn.dataset.postMode, id=btn.dataset.postId;
+    btn.disabled=true;
+    try{
+      await GaeoFeatures.load(mode);
+      setMode(mode);
+      const opener={news:'openNewsId',study:'openStudyId',lesson:'openLessonId',estate:'openEstateId'}[mode];
+      if(opener&&typeof window[opener]==='function') window[opener](id);
+    }finally{ btn.disabled=false; }
+  });
+})();
+
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
 (function(){
   const brief=document.getElementById('homeBrief'), extra=document.getElementById('briefExtra');
   if(!brief) return;
   const initialLive=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
   const initialAuto=(typeof AUTO_AN!=='undefined'&&AUTO_AN)||null;
-  const state={brief:null,insight:null};
+  const state={brief:null,insight:null,strongSector:null};
 
   function summaryFromLive(live){
     if(!live) return null;
@@ -2523,6 +2629,7 @@ renderHomeWatchlist();
     const strong=sectors[0], weak=sectors[sectors.length-1];
     return {
       sourceAsOf:live.date||'',
+      strongSector:strong&&strong.name||null,
       lines:[
         `코스피 ${rate(idx.KOSPI)}, 코스닥 ${rate(idx.KOSDAQ)}로 움직이고 있어요.`,
         `${rows.length}종목 중 상승 ${up}개 · 하락 ${down}개 · 보합 ${flat}개예요.`,
@@ -2564,12 +2671,8 @@ renderHomeWatchlist();
   function renderClock(now){
     const clock=kstParts(now), source=stamp(state.brief&&state.brief.sourceAsOf);
     const weekend=clock.weekday==='토'||clock.weekday==='일';
-    let title='오늘 아침 브리핑';
-    if(weekend) title='최근 거래일 브리핑';
-    else if(clock.minutes>=540&&clock.minutes<930) title='오늘 장중 브리핑';
-    else if(clock.minutes>=930) title=(source.date===clock.date)?'오늘 마감 브리핑':'오늘 마감 확인 중';
-    document.getElementById('briefKicker').textContent=clock.time+' 현재';
-    document.getElementById('briefTitle').textContent=title;
+    document.getElementById('briefKicker').textContent=clock.date+' '+clock.time+' 현재';
+    document.getElementById('briefTitle').textContent='현재 기준 브리핑';
     const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
     document.getElementById('briefMeta').innerHTML=
       '<span class="brief-live-dot"></span><span>시세 '+esc(source.short)+' 기준</span>'+
@@ -2583,11 +2686,19 @@ renderHomeWatchlist();
       :'<p>오늘 시세를 정리하고 있어요.</p>';
     const insightLines=(state.insight&&state.insight.lines)||[];
     if(insightLines.length){
-      const at=stamp(state.insight.generatedAt).time||'확인 중';
-      extra.innerHTML=`<div class="brief-extra-head">＋ 30분 보강 · ${esc(at)} 기준</div>`+
+      const at=stamp(state.insight.generatedAt);
+      const atLabel=at.date&&at.time?`${at.date} ${at.time}`:(at.short||'확인 중');
+      extra.innerHTML=`<div class="brief-extra-head">＋ 30분 보강 · ${esc(atLabel)} 기준</div>`+
         insightLines.slice(0,3).map(x=>`<p>${esc(x)}</p>`).join('');
       extra.style.display='block';
     }else extra.style.display='none';
+    const sectorBtn=document.getElementById('briefSectorBtn');
+    const strong=state.strongSector||(state.brief&&state.brief.strongSector);
+    if(strong){
+      sectorBtn.dataset.sector=strong;
+      sectorBtn.textContent=`${strong} 종목 보기`;
+      sectorBtn.style.display='';
+    }else sectorBtn.style.display='none';
     renderClock();
   }
   function parseGenerated(text,name){
@@ -2603,6 +2714,7 @@ renderHomeWatchlist();
       if(res.ok){
         const live=parseGenerated(await res.text(),'LIVE_DATA');
         state.brief=live.marketBrief||summaryFromLive(live);
+        state.strongSector=(summaryFromLive(live)||{}).strongSector||null;
       }
       render();
     }catch(e){ renderClock(); }
@@ -2619,6 +2731,7 @@ renderHomeWatchlist();
   }
   async function refresh(){ await Promise.all([refreshBrief(),refreshInsight()]); }
   state.brief=(initialLive&&initialLive.marketBrief)||summaryFromLive(initialLive);
+  state.strongSector=(summaryFromLive(initialLive)||{}).strongSector||null;
   state.insight=(initialAuto&&initialAuto.marketInsight)||insightFromAuto(initialAuto);
   render();
   setInterval(refreshBrief,5*60*1000);
@@ -2626,6 +2739,18 @@ renderHomeWatchlist();
   setInterval(()=>renderClock(),60*1000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
   window.GaeoBrief={refresh,renderClock};
+  document.getElementById('briefSectorBtn').onclick=()=>{
+    const sector=document.getElementById('briefSectorBtn').dataset.sector;
+    if(!sector) return;
+    SCR.sector=sector; SCR.call='__all__'; SCR.sort='rate_desc';
+    setMode('screener');
+    document.getElementById('screenerView').scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  document.getElementById('briefNewsBtn').onclick=async()=>{
+    await GaeoFeatures.load('news');
+    setMode('news');
+    if(window.openNewsCategory) window.openNewsCategory('market');
+  };
 
   document.getElementById('startSearch').onclick=()=>{
     const panel=document.getElementById('homeSearchPanel');
@@ -4893,6 +5018,14 @@ function wireSearchInput(box, id, onChange){
     window.renderNews();
     const el=document.getElementById('nw-'+id);
     if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+  };
+  window.openNewsCategory=function(cat){
+    newsSearchQ='';
+    newsCatSel=cat||'market';
+    page=1;
+    window.renderNews();
+    const box=document.getElementById('newsView');
+    if(box) setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),60);
   };
 })();
 

@@ -23,6 +23,7 @@
    ├─ team_weights.js  적중률 기반 CHIEF 가중치 ← compute_team_weights.py
    ├─ news_analysis.js / stock_study.js / stock_lessons.js / estate_lessons.js / calculators.js
    │                    콘텐츠 5종 ← 사람/Claude가 직접 Write
+   ├─ snap/latest_posts.js  첫 화면 최신 글 5개 목록 ← generate_snapshots.js
    ├─ community.js     방문자 공개 게시판 ← 관리자 모드 "모두에게 발행"이 갱신
    └─ site_config.js   사이트 전역 문구/테마 설정 ← 관리자 모드가 갱신
 ```
@@ -114,7 +115,8 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 
 콘텐츠를 추가/수정하면 **반드시** `node generate_sitemap.js`와 `node generate_snapshots.js`를
 함께 실행해야 한다. 이 두 스크립트가 네이버·구글·빙·다음 4개 검색엔진 sitemap 갱신,
-IndexNow 제출(러너가 자동 처리), AI 크롤러용 정적 스냅샷(`/snap/...`) 생성을 전부 커버한다.
+IndexNow 제출(러너가 자동 처리), AI 크롤러용 정적 스냅샷(`/snap/...`), 첫 화면의
+`snap/latest_posts.js` 최신 글 5개 목록 생성을 전부 커버한다.
 
 ## 커뮤니티 게시판 (community.js)
 

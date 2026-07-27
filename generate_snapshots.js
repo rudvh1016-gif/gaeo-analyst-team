@@ -153,7 +153,7 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       tag: item.tag,
     });
     fs.writeFileSync(path.join(HERE, `snap/${folder}/${item.id}.html`), html);
-    index.push({ href: `snap/${folder}/${item.id}.html`, title, date: item.date, cat: tagPrefix });
+    index.push({ href: `snap/${folder}/${item.id}.html`, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
   }
 }
 
@@ -235,6 +235,16 @@ function buildStocks() {
 buildStocks();
 
 index.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+const latestLabels = { news: '뉴스분석', study: '종목공부', lesson: '주식공부', estate: '부동산공부' };
+const latestPosts = index
+  .filter(x => latestLabels[x.mode])
+  .slice(0, 5)
+  .map(x => ({ id: x.id, mode: x.mode, label: latestLabels[x.mode], date: x.date, title: x.title }));
+fs.writeFileSync(
+  path.join(HERE, 'snap/latest_posts.js'),
+  '// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록\nconst LATEST_POSTS = ' +
+    JSON.stringify(latestPosts, null, 1) + ';\n'
+);
 const listHtml = index.map(x =>
   `<li><span class="cat">${esc(x.cat)}</span> <a href="${esc(x.href)}">${esc(x.title)}</a> <span class="d">${esc(x.date)}</span></li>`
 ).join('\n');
