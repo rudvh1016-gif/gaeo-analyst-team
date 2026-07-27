@@ -1360,6 +1360,16 @@
   .brief-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--t2)}
   .brief-line b{flex:0 0 18px;height:18px;border-radius:6px;background:var(--navy-soft);color:var(--navy);
     display:grid;place-items:center;font-size:10px}
+  .home-watch{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  .home-watch-label{display:block;font-size:10px;font-weight:800;color:var(--dim);margin-bottom:6px}
+  .home-watch-list{display:flex;gap:6px;flex-wrap:wrap}
+  .home-watch-empty{font-size:10.5px;color:var(--faint);line-height:1.4}
+  .home-watch-chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;
+    padding:5px 8px;font-size:10.5px;font-weight:700;cursor:pointer;display:inline-flex;gap:5px;align-items:center}
+  .home-watch-chip .up{color:var(--krup)} .home-watch-chip .down{color:var(--krdn)}
+  .watch-toggle{border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--sky);
+    border-radius:99px;padding:5px 9px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .watch-toggle.on{background:var(--sky);color:#fff;border-color:var(--sky)}
   @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
   @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}
     .start-step{padding:13px 14px}.start-board .start-step:nth-child(1){order:1}.start-step-summary{order:2}
@@ -1399,10 +1409,14 @@
       <h2>내 종목 찾기</h2>
       <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
       <button class="start-action" id="startSearch" type="button">종목 검색하기</button>
+      <div class="home-watch">
+        <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
+        <div class="home-watch-list" id="homeWatchlist"></div>
+      </div>
     </article>
     <article class="start-step start-step-summary">
-      <span class="start-kicker">지금</span>
-      <h2>오늘 시장 3줄 요약</h2>
+      <span class="start-kicker" id="briefKicker">매일 아침</span>
+      <h2 id="briefTitle">오늘 아침 브리핑</h2>
       <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
     </article>
     <article class="start-step">
@@ -1468,6 +1482,7 @@
       <span class="qprice" id="qprice"></span>
       <span class="qrate" id="qrate"></span>
       <span class="qcode" id="qcode"></span>
+      <button class="watch-toggle" id="watchToggle" type="button" style="display:none">☆ 관심종목</button>
     </div>
     <div class="qbio" id="qbio" style="display:none"></div>
     <div class="qdate" id="qdate"></div>
@@ -2404,11 +2419,76 @@ function showDayPopup(ds, evs){
 const priceAsOf=()=>String(SNAP_DATE).replace(' 수집','');
 document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DATE;
 
+/* ── 관심종목: 로그인 없이 이 브라우저에만 가볍게 저장 ── */
+const WATCHLIST_KEY='gaeo_watchlist_v1';
+function loadWatchlist(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(WATCHLIST_KEY));
+    return Array.isArray(saved)?saved.filter(code=>STOCKS[code]).slice(0,8):[];
+  }catch(e){ return []; }
+}
+function saveWatchlist(codes){
+  try{ localStorage.setItem(WATCHLIST_KEY,JSON.stringify(codes.slice(0,8))); }catch(e){}
+}
+function updateWatchToggle(code){
+  const btn=document.getElementById('watchToggle'); if(!btn) return;
+  if(!code||!STOCKS[code]){ btn.style.display='none'; btn.dataset.code=''; return; }
+  const on=loadWatchlist().includes(code);
+  btn.dataset.code=code;
+  btn.classList.toggle('on',on);
+  btn.textContent=on?'★ 관심종목 저장됨':'☆ 관심종목';
+  btn.setAttribute('aria-pressed',on?'true':'false');
+  btn.style.display='inline-flex';
+}
+function renderHomeWatchlist(){
+  const box=document.getElementById('homeWatchlist'), label=document.getElementById('homeWatchLabel');
+  if(!box) return;
+  const codes=loadWatchlist();
+  if(label) label.textContent=`★ 관심종목${codes.length?' '+codes.length+'개':''}`;
+  if(!codes.length){
+    box.innerHTML='<span class="home-watch-empty">종목을 검색한 뒤 ☆ 버튼으로 저장해 보세요.</span>';
+    return;
+  }
+  box.innerHTML=codes.map(code=>{
+    const s=STOCKS[code], rate=typeof s.rate==='number'?s.rate:0;
+    return `<button class="home-watch-chip" type="button" data-watch-code="${code}">`+
+      `<span>${esc(s.name)}</span><span class="${rate>0?'up':(rate<0?'down':'')}">${rate>0?'+':''}${rate.toFixed(2)}%</span></button>`;
+  }).join('');
+}
+document.getElementById('homeWatchlist').addEventListener('click',e=>{
+  const chip=e.target.closest('[data-watch-code]'); if(!chip) return;
+  const s=STOCKS[chip.dataset.watchCode]; if(s) jumpToStock(s.name);
+});
+document.getElementById('watchToggle').onclick=()=>{
+  const btn=document.getElementById('watchToggle'), code=btn.dataset.code; if(!STOCKS[code]) return;
+  let codes=loadWatchlist();
+  if(codes.includes(code)) codes=codes.filter(x=>x!==code);
+  else codes=[code,...codes].slice(0,8);
+  saveWatchlist(codes);
+  updateWatchToggle(code);
+  renderHomeWatchlist();
+};
+renderHomeWatchlist();
+
 /* ── 첫 화면: 시세만으로 만드는 오늘 시장 3줄 요약(원인 추정 없음) ── */
 (function renderHomeBrief(){
   const brief=document.getElementById('homeBrief');
   const live=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
   if(!brief||!live) return;
+  const parts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',weekday:'short',hour:'2-digit',
+    minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const part=type=>(parts.find(x=>x.type===type)||{}).value||'';
+  const weekday=part('weekday'), minutes=(+part('hour')||0)*60+(+part('minute')||0);
+  const kicker=document.getElementById('briefKicker'), title=document.getElementById('briefTitle');
+  if(weekday==='토'||weekday==='일'){
+    kicker.textContent='주말 복습'; title.textContent='다음 장을 위한 브리핑';
+  }else if(minutes<540){
+    kicker.textContent='장 시작 전'; title.textContent='오늘 아침 브리핑';
+  }else if(minutes<=930){
+    kicker.textContent='장중 업데이트'; title.textContent='오늘 시장 브리핑';
+  }else{
+    kicker.textContent='장 마감 뒤'; title.textContent='오늘 마감 브리핑';
+  }
   const stocks=live.stocks||{};
   const rows=Object.values(stocks).filter(x=>typeof x.rate==='number');
   const up=rows.filter(x=>x.rate>0).length, down=rows.filter(x=>x.rate<0).length;
@@ -2812,6 +2892,7 @@ function bioOf(code, sector){
 function showQuote(st){
   document.getElementById('qname').textContent=st.name;
   document.getElementById('qcode').textContent=st.price?st.code:'';
+  updateWatchToggle(st.price?st.code:null);
   const qcr=document.getElementById('qcaprank');
   if(qcr){
     const rank=CAP_RANK[st.code];
