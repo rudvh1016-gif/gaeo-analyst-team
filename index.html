@@ -1544,19 +1544,44 @@
 <script src="data.js"></script>
 <script src="site_config.js"></script>
 <script src="community.js"></script>
-<script src="news_analysis.js" onerror="window.NEWS_ANALYSIS=window.NEWS_ANALYSIS||null"></script>
-<script src="stock_study.js" onerror="window.STOCK_STUDY=window.STOCK_STUDY||null"></script>
-<script src="stock_lessons.js" onerror="window.STOCK_LESSONS=window.STOCK_LESSONS||null"></script>
-<script src="estate_lessons.js" onerror="window.ESTATE_LESSONS=window.ESTATE_LESSONS||null"></script>
-<script src="calculators.js" onerror="window.CALCULATORS=window.CALCULATORS||null"></script>
 <script src="analysis.js"></script>
 <script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
-<script src="history.js"></script>
-<script src="price_history.js"></script>
 <script src="indicators.js"></script>
 <script src="market_history.js"></script>
 <script src="dow_stats.js" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
 <script src="team_weights.js" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
+<script>
+/* 첫 화면에 필요 없는 큰 자료는 사용자가 해당 메뉴를 열 때만 내려받는다. */
+window.GaeoFeatures=(()=>{
+  const files={
+    news:['news_analysis.js'],
+    study:['stock_study.js'],
+    lesson:['stock_lessons.js'],
+    estate:['estate_lessons.js'],
+    calc:['calculators.js'],
+    history:['history.js','price_history.js']
+  };
+  const jobs={};
+  const loadFile=src=>new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src=src;
+    script.onload=resolve;
+    script.onerror=()=>reject(new Error(src+' 자료를 불러오지 못했습니다.'));
+    document.head.appendChild(script);
+  });
+  return {
+    ready:key=>!!jobs[key]&&jobs[key].status==='fulfilled',
+    load(key){
+      if(jobs[key]) return jobs[key];
+      const job=Promise.all((files[key]||[]).map(loadFile));
+      job.status='pending';
+      job.then(()=>{job.status='fulfilled';},()=>{delete jobs[key];});
+      jobs[key]=job;
+      return job;
+    }
+  };
+})();
+</script>
 <script>
 /* ============================================================
    개오 애널리스트팀 — 홈오피스 v4
@@ -1739,7 +1764,7 @@ function sectorCompHTML(code){
 /* ============================================================
    판단 히스토리 & 트랙레코드 (history.js · LIVE_HISTORY)
    ============================================================ */
-const LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
+let LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
 // 콜 vs 이후 수익률로 적중 판정. BUY=오르면 적중 / SELL=내리면 적중 / HOLD=±5% 이내면 적중
 function scoreCall(call, retPct){
   if(call==='BUY')  return retPct>1?'hit':(retPct<-1?'miss':'mid');
@@ -1787,7 +1812,7 @@ function sparklineSVG(rows){
     `${grid}<path d="${line}" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linejoin="round"/>${dots}</svg>`;
 }
 /* ---- 최근 종가 페이지 (price_history.js · PRICE_HISTORY, 5거래일=1페이지) ---- */
-const LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
+let LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
 const PH_PAGE={};        // code -> 현재 보고 있는 페이지 번호(1-indexed)
 const HIST_PAGE={};      // code -> 판단 히스토리 페이지(10건=1페이지, 최신 페이지가 기본)
 const HIST_PAGE_SIZE=10; // 정밀분석 과거기록: 10개씩 묶어 페이지로 (과거 계속 누적)
@@ -1825,6 +1850,20 @@ function priceBlockHTML(code){
 }
 document.getElementById('vhistory').addEventListener('click', e=>{
   if(!CUR_HIST_CODE) return;
+  const loadBtn=e.target.closest('.history-load-btn');
+  if(loadBtn){
+    loadBtn.disabled=true;
+    loadBtn.textContent='과거 기록 불러오는 중…';
+    GaeoFeatures.load('history').then(()=>{
+      LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
+      LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
+      renderHistory(CUR_HIST_CODE,(STOCKS[CUR_HIST_CODE]||{}).price);
+    }).catch(()=>{
+      loadBtn.disabled=false;
+      loadBtn.textContent='다시 불러오기';
+    });
+    return;
+  }
   // ⚠️ hh-btn(팀 판단 히스토리 페이저)은 vph-btn 클래스도 함께 갖고 있어(재사용 스타일),
   //    반드시 더 구체적인 .hh-btn을 먼저 검사해야 한다 — 순서를 바꾸면 이 버튼이 항상
   //    아래 '최근 종가' 페이저로 오분류되어 팀 판단 히스토리 페이지가 절대 안 넘어간다.
@@ -1851,6 +1890,10 @@ document.getElementById('vhistory').addEventListener('click', e=>{
 function renderHistory(code, curPrice){
   const el=document.getElementById('vhistory');
   CUR_HIST_CODE=code;
+  if(!GaeoFeatures.ready('history')){
+    el.innerHTML='<div class="vph-empty">과거 가격·판단 기록은 필요할 때만 불러와 데이터 사용량을 아껴요.<br><button class="start-action secondary history-load-btn" type="button" style="margin-top:10px">과거 기록 보기</button></div>';
+    return;
+  }
   const rows=(LIVE_HIST&&LIVE_HIST[code])?LIVE_HIST[code].slice():[];
   const priceHtml=priceBlockHTML(code);
   if(!rows.length){ el.innerHTML=priceHtml; return; }
@@ -5551,6 +5594,27 @@ window.renderScreener=function(){
   const COL_A='#2a78d6', COL_B='#e0842f';
 
   function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
+    const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
+      leaderboard:'history',calendar:'history'}[mode];
+    if(feature&&!GaeoFeatures.ready(feature)){
+      const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
+        calc:'calcView',leaderboard:'leaderboard',calendar:'calendarView'}[mode];
+      const view=document.getElementById(viewId);
+      if(view){
+        view.classList.add('on');
+        view.innerHTML='<div class="nw-empty">자료를 불러오는 중이에요…</div>';
+      }
+      GaeoFeatures.load(feature).then(()=>{
+        if(feature==='history'){
+          LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
+          LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
+        }
+        setMode(mode);
+      }).catch(()=>{
+        if(view) view.innerHTML='<div class="nw-empty">자료를 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.</div>';
+      });
+      return;
+    }
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
