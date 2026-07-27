@@ -1356,6 +1356,16 @@
   .start-action{width:100%;margin-top:10px;border:0;border-radius:10px;padding:9px 11px;background:var(--sky);
     color:#fff;font-weight:800;cursor:pointer}
   .start-action.secondary{background:var(--sky-soft);color:var(--sky);border:1px solid color-mix(in srgb,var(--sky) 20%,transparent)}
+  .home-search-panel{display:none;margin-top:9px}
+  .home-search-panel.on{display:block}
+  .home-search-row{display:flex;gap:7px;align-items:flex-start}
+  .home-search-row .ac-wrap{min-width:0}
+  .home-search-row input{width:100%;min-width:0;border:1.5px solid var(--sky-line);border-radius:10px;
+    background:var(--paper);color:var(--ink);padding:10px 11px;font:inherit;font-size:13px;outline:none}
+  .home-search-row input:focus{border-color:var(--sky);box-shadow:0 0 0 3px color-mix(in srgb,var(--sky) 12%,transparent)}
+  .home-search-go{flex:0 0 auto;border:0;border-radius:10px;background:var(--navy);color:#fff;
+    padding:10px 12px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .home-search-help{margin:6px 2px 0!important;font-size:10.5px!important;color:var(--faint)!important}
   .brief-lines{display:grid;gap:5px;margin-top:7px}
   .brief-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--t2)}
   .brief-line b{flex:0 0 18px;height:18px;border-radius:6px;background:var(--navy-soft);color:var(--navy);
@@ -1414,7 +1424,17 @@
       <span class="start-kicker">먼저</span>
       <h2>내 종목 찾기</h2>
       <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
-      <button class="start-action" id="startSearch" type="button">종목 검색하기</button>
+      <button class="start-action" id="startSearch" type="button" aria-expanded="false" aria-controls="homeSearchPanel">종목 검색하기</button>
+      <div class="home-search-panel" id="homeSearchPanel" hidden>
+        <div class="home-search-row">
+          <div class="ac-wrap">
+            <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
+            <div class="acbox" id="homeAcbox" role="listbox"></div>
+          </div>
+          <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
+        </div>
+        <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
+      </div>
       <div class="home-watch">
         <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
         <div class="home-watch-list" id="homeWatchlist"></div>
@@ -2608,13 +2628,13 @@ renderHomeWatchlist();
   window.GaeoBrief={refresh,renderClock};
 
   document.getElementById('startSearch').onclick=()=>{
-    const ticker=document.getElementById('ticker');
-    // 모바일 키보드는 클릭 순간에 포커스를 줘야 안정적으로 열리므로 지연하지 않는다.
+    const panel=document.getElementById('homeSearchPanel');
+    const ticker=document.getElementById('homeTicker');
+    panel.hidden=false;
+    panel.classList.add('on');
+    document.getElementById('startSearch').setAttribute('aria-expanded','true');
+    // 멀리 떨어진 본문으로 스크롤하지 않고, 누른 자리에서 즉시 검색할 수 있게 한다.
     try{ ticker.focus({preventScroll:true}); }catch(e){ ticker.focus(); }
-    const move=()=>ticker.scrollIntoView({behavior:'smooth',block:'center'});
-    move();
-    // 키보드가 나타나 화면 높이가 바뀐 뒤에도 검색창을 다시 화면 가운데 맞춘다.
-    setTimeout(move,300);
   };
   document.getElementById('startGuide').onclick=()=>{
     document.getElementById('mode-guide').click();
@@ -4377,6 +4397,26 @@ makeAutocomplete(document.getElementById('ticker'), document.getElementById('acb
   onPick:x=>{ showQuote(resolveStock(x.name)); analyze(); },
   onEnter:()=>analyze()
 });
+const homeTicker=document.getElementById('homeTicker');
+const homeSearchHelp=document.getElementById('homeSearchHelp');
+function runHomeSearch(){
+  const stock=resolveStock(homeTicker.value);
+  if(!stock.price){
+    homeSearchHelp.textContent='검색 결과에서 회사 이름을 선택해 주세요.';
+    homeTicker.focus();
+    return;
+  }
+  homeSearchHelp.textContent=`${stock.name} 분석으로 이동합니다.`;
+  requestAnimationFrame(()=>jumpToStock(stock.name));
+}
+makeAutocomplete(homeTicker, document.getElementById('homeAcbox'), {
+  onPick:x=>{
+    homeSearchHelp.textContent=`${x.name} 분석으로 이동합니다.`;
+    requestAnimationFrame(()=>jumpToStock(x.name));
+  },
+  onEnter:runHomeSearch
+});
+document.getElementById('homeRun').onclick=runHomeSearch;
 
 /* ── 📖 가이드북: 주식 초보·어린이도 이 사이트를 바로 쓸 수 있게 하는 안내서 ──
    내용은 전부 여기 하드코딩(정적) — 열 때 1회만 그린다. */
