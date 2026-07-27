@@ -1,7 +1,7 @@
 {
-  "name": "Gaeo · 한국주식 500종목 매일 자동분석",
+  "name": "Gaeo · 한국 주식 초보자의 매일 3분 리서치",
   "short_name": "Gaeo",
-  "description": "TARO·DIANA·QUANT·FLOW·CHIEF — AI 애널리스트 5인의 분석 로직으로 500개 한국 주식을 매일 자동 갱신해 BUY/HOLD/SELL로 알려드려요.",
+  "description": "오늘 시장 3줄 요약부터 관심 종목 분석까지, 한국 주식을 매일 3분 안에 쉽게 살펴보세요.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
