@@ -1346,6 +1346,24 @@
     .rr-total{font-size:10.5px;color:var(--faint);font-weight:600;margin-left:5px;
       font-variant-numeric:tabular-nums;white-space:nowrap;display:inline-block}
   }
+  /* 첫 방문 동선: 종목 검색 → 오늘 요약 → 3분 가이드 */
+  .start-board{display:grid;grid-template-columns:1.05fr 1.65fr .9fr;gap:10px;margin:0 0 14px}
+  .start-step{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 16px;
+    box-shadow:var(--shadow);min-width:0}
+  .start-kicker{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--sky);margin-bottom:5px}
+  .start-step h2{font-size:15px;line-height:1.3;margin:0 0 5px;color:var(--ink)}
+  .start-step p{font-size:11.5px;line-height:1.55;color:var(--t2);margin:0}
+  .start-action{width:100%;margin-top:10px;border:0;border-radius:10px;padding:9px 11px;background:var(--sky);
+    color:#fff;font-weight:800;cursor:pointer}
+  .start-action.secondary{background:var(--sky-soft);color:var(--sky);border:1px solid color-mix(in srgb,var(--sky) 20%,transparent)}
+  .brief-lines{display:grid;gap:5px;margin-top:7px}
+  .brief-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--t2)}
+  .brief-line b{flex:0 0 18px;height:18px;border-radius:6px;background:var(--navy-soft);color:var(--navy);
+    display:grid;place-items:center;font-size:10px}
+  @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
+  @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}
+    .start-step{padding:13px 14px}.start-board .start-step:nth-child(1){order:1}.start-step-summary{order:2}
+    .start-board .start-step:nth-child(3){order:3}}
 </style>
 </head>
 <body>
@@ -1375,6 +1393,25 @@
     </div>
     <span class="badge" id="hbadge">홈오피스</span>
   </header>
+  <section class="start-board" aria-label="처음 이용 안내">
+    <article class="start-step">
+      <span class="start-kicker">먼저</span>
+      <h2>내 종목 찾기</h2>
+      <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
+      <button class="start-action" id="startSearch" type="button">종목 검색하기</button>
+    </article>
+    <article class="start-step start-step-summary">
+      <span class="start-kicker">지금</span>
+      <h2>오늘 시장 3줄 요약</h2>
+      <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
+    </article>
+    <article class="start-step">
+      <span class="start-kicker">처음이라면</span>
+      <h2>3분 가이드</h2>
+      <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
+      <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
+    </article>
+  </section>
   <div class="market" id="marketBox" style="display:none"></div>
   <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
   <div class="datawarn" id="datawarn" style="display:none"></div>
@@ -2323,6 +2360,38 @@ function showDayPopup(ds, evs){
 }
 const priceAsOf=()=>String(SNAP_DATE).replace(' 수집','');
 document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DATE;
+
+/* ── 첫 화면: 시세만으로 만드는 오늘 시장 3줄 요약(원인 추정 없음) ── */
+(function renderHomeBrief(){
+  const brief=document.getElementById('homeBrief');
+  const live=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
+  if(!brief||!live) return;
+  const stocks=live.stocks||{};
+  const rows=Object.values(stocks).filter(x=>typeof x.rate==='number');
+  const up=rows.filter(x=>x.rate>0).length, down=rows.filter(x=>x.rate<0).length;
+  const flat=rows.length-up-down, idx=live.indices||{};
+  const rate=x=>x&&typeof x.rate==='number'?(x.rate>0?'+':'')+x.rate.toFixed(2)+'%':'—';
+  const groups={};
+  Object.entries(STOCKS).forEach(([code,s])=>{
+    const r=stocks[code]&&stocks[code].rate;
+    if(typeof r!=='number') return;
+    const key=s.sector||'기타'; (groups[key]||(groups[key]=[])).push(r);
+  });
+  const sectors=Object.entries(groups).filter(x=>x[1].length>=3)
+    .map(x=>({name:x[0],avg:x[1].reduce((a,b)=>a+b,0)/x[1].length})).sort((a,b)=>b.avg-a.avg);
+  const lead=sectors.length?`강한 업종은 ${sectors[0].name}, 약한 업종은 ${sectors[sectors.length-1].name}이에요.`:'업종 흐름을 집계하고 있어요.';
+  const lines=[
+    `코스피 ${rate(idx.KOSPI)}, 코스닥 ${rate(idx.KOSDAQ)}로 움직이고 있어요.`,
+    `500종목 중 상승 ${up}개 · 하락 ${down}개 · 보합 ${flat}개예요.`,
+    lead+' 숫자로 본 흐름이며, 이유는 뉴스분석에서 확인하세요.'
+  ];
+  brief.innerHTML=lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('');
+  document.getElementById('startSearch').onclick=()=>{
+    document.getElementById('ticker').scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>document.getElementById('ticker').focus(),350);
+  };
+  document.getElementById('startGuide').onclick=()=>document.getElementById('mode-guide').click();
+})();
 
 /* ── 코스피/코스닥 지수 + 시장 분석 (data.js indices · analysis.js market) ── */
 // 긴 시장 분석 문장을 문단으로 쪼갠다 — 문장 끝(.?!)+공백마다 <p>로 분리해 가독성↑
