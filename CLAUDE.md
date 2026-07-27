@@ -1,129 +1,31 @@
-# 개오(Gaeo) 애널리스트팀 — 프로젝트 가이드
+# 개오(Gaeo) 애널리스트팀 — Claude Code 전용 가이드
 
-AI 애널리스트 5인(TARO 기술 · DIANA 재무 · QUANT 확률통계 · FLOW 수급 · CHIEF 총괄)이
-한국 주식을 분석하는 단일 페이지 대시보드. **QUANT는 2026-07-21에 NOVA(뉴스심리)를 교체**한
-확률·통계 분석가 — 내부 id·데이터 키는 호환성 위해 `nova` 유지(analyze_auto.py quant_eval이
-"지금과 비슷한 상태(RSI구간×20일선×5일추세)의 과거 사례 5거래일 뒤 실측 승률"을 analysis_data.json
-일봉에서 계산, 토큰 0). CHIEF 합산은 **자가 학습 가중치**(compute_team_weights.py →
-team_weights.js: history.js 채점 기록으로 분석가별 적중률→발언권, 업종 오버라이드 포함)를 쓴다.
-정밀분석(analysis.js)의 nova 블록만 여전히 진짜 뉴스 분석. 6번째 카드 🛡️ RISK(리스크 관리)는 규칙 기반
-정보 전용(토큰 0) — compute_indicators.py가 계산한 risk(vol20·mdd3m·pos52w·grade)를
-index.html renderRiskCard()가 그대로 그리며, CHIEF 종합·적중률 기록에는 개입하지 않는다. 순수 정적 사이트(빌드 없음).
-종목은 tickers.js 단일 소스(**현재 500종목**). 소수 핵심(현재 13종목, analysis.js에 있는 종목)은
-🧠 정밀분석(Claude), 나머지는 🤖 자동분석(analyze_auto.py·러너·토큰 0). 표시 우선순위: 정밀분석이 **당일(자동분석 생성일과 같은 날) 재분석됐고 시세도 ±3% 이내**일 때만 정밀 우선, 그 외엔 매일 갱신되는 자동분석을 표시(precisionFresh: 시간+가격 두 조건). 즉 정밀은 그날 직접 재분석한 날만 뜨고 이후엔 500종목 모두 자동분석.
-🌐 MACRO 시장국면 판독(토큰 0, 카드가 아닌 로직 레이어)도 있다 — index.html의 `MACRO_REGIME`
-(market_history.js 최근 10거래일 코스피 rate 표준편차)이 "변동성 확대"면 `decide()`가
-CHIEF 확신도(conf) 표시만 낮춘다(BUY/HOLD/SELL 판단·history.js 채점 기록은 불변).
-verdict 영역에 `#vmacro` 배지로, 시장 박스 상단에 전역 배지로 노출.
+> ⭐ **먼저 저장소 최상위의 `AGENTS.md`를 읽으세요.** 프로젝트가 무엇인지, 파일맵, 배포 규칙, 카테고리 철칙,
+> 콘텐츠 발행 철칙, 데이터 파이프라인, index.html 구조, 코딩 시 주의사항 등 **Claude Code와 Codex가 공통으로
+> 지켜야 할 작업 규칙은 전부 그 문서에 있습니다.** 이 파일(CLAUDE.md)에는 Claude Code 세션에서만 해당하는
+> 보충 내용만 남겨뒀습니다. **두 문서 내용이 다르면 공통 작업 규칙은 AGENTS.md를 따르세요.**
 
-## ⭐ 배포 — 가장 중요
+프로젝트 개요·구조·현재 상태 문서는 `docs/PROJECT_OVERVIEW.md` · `docs/ARCHITECTURE.md` · `docs/WORKFLOW.md` · `docs/CURRENT_STATUS.md`에도 정리돼 있습니다.
 
-- **실사용 화면은 GitHub Pages(`rudvh1016-gif.github.io/gaeo-analyst-team`)이고 `main` 브랜치 기준.**
-- 작업 브랜치에 push만 하면 사이트에 **안 보인다**. 반드시 PR을 만들어 **main까지 병합**해야 반영된다.
-  (2026-07-11 실제 사고: 브랜치에만 쌓아둬서 사용자가 "아무것도 안 보인다"고 문의)
-- 병합 시 data.js/analysis_data.json/indicators.json 충돌이 나면 **더 최신 수집 시각 쪽(보통 ours)** 을 택한다.
-- ⭐ **PR이 "merge conflicts"라고 뜨는데 방금 origin/main과 트리가 동일했다면** — squash 병합은 매번 새 커밋 해시를 만들어서, 로컬 브랜치가 그 squash 커밋을 실제 조상으로 갖지 않아 git이 훨씬 이전 커밋을 공통 조상으로 잡고 충돌을 낸다(내용은 같은데 계보만 다른 경우). **force-push로 "해결"하지 말 것**(auto-mode가 차단하기도 하고, 남의 작업을 지울 위험). 대신: `git fetch origin main` → `git merge origin/main`(로컬에서 시도) → 충돌 파일은 실제로 뭐가 다른지 확인 후 `git checkout --ours <file>`(내 쪽이 최신이 맞을 때만) → 커밋 → 평범한 `git push`(강제 아님). 이러면 히스토리를 보존한 채 정상적인 fast-forward가 가능한 상태가 된다.
+## Claude Code 스킬(Skill) — 정해진 절차가 있는 반복 작업
 
-## 파일 맵
+이 저장소에는 Claude Code의 Skill 기능으로 호출하는 절차 문서 2개가 있습니다(`.claude/skills/` 아래). Codex 등 다른 에이전트가 같은 작업을 할 때도 이 문서들을 **일반 텍스트 절차서로 그대로 읽고 따르면** 동일한 결과를 낼 수 있습니다 — Skill 호출이라는 메커니즘 자체만 Claude Code 전용입니다.
 
-| 파일 | 역할 | 수정 주체 |
-|---|---|---|
-| index.html | 화면 전부(CSS+JS 인라인, ~5000줄) | Claude가 직접 편집 |
-| tickers.js | 종목 목록 단일 소스(500종목, code·name·sector) | 사람/Claude |
-| data.js | 현재가·PER 등 시세 스냅샷 | update_prices.py (자동) |
-| analysis.js | 5인 **정밀분석**(LIVE_ANALYSIS, 13종목+date/market 키, Claude 직접) | Claude가 재분석 시 Write — **절차는 `.claude/skills/종목분석 스킬/SKILL.md` 필독** |
-| auto_analysis.js | 5인 **자동분석**(LIVE_AUTO, 규칙 기반) | analyze_auto.py (자동) |
-| news_analysis.js | 📰 뉴스분석 보고서 누적(NEWS_ANALYSIS, 최신이 배열 앞, 10건=1페이지) | Claude — **절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 필독** |
-| stock_study.js | 📚 종목공부(STOCK_STUDY, 회사별 소개 프로필) | Claude |
-| stock_lessons.js | 🎓 주식공부(STOCK_LESSONS, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | Claude |
-| estate_lessons.js | 🏠 부동산공부(ESTATE_LESSONS, 근저당·대출규제·청약 등 부동산 기초, 주식공부와 형식·헬퍼 동일) | Claude |
-| calculators.js | 🧮 계산기(CALCULATORS, 7종 — 평단가·목표매도가/해외주식 양도세/복리/대출 원리금상환/부동산 잔금/배당소득세/DSR·LTV. 다른 4개 콘텐츠와 달리 body는 SEO용 설명 글이고, 실제 계산은 index.html의 calcWidgetHTML/wireCalcWidget이 calcType별로 그리는 인터랙티브 폼이 담당. 2026-07-25 도입, 카테고리 카드엔 "N개 글" 배지를 안 붙임(catPickerHTML의 noCount 옵션)) | Claude |
-| history.js | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, tier:"auto" 표식·정밀 우선·HIST_CAP=80) | **archive_analysis.py만** — 직접 편집 금지. 러너가 `--auto`로 매 사이클 호출 |
-| market_history.js | 날짜별 시장분석 누적 | archive_analysis.py |
-| price_history.js | 일별 종가(5거래일=1페이지) | update_price_history.py |
-| analysis_data.json | 분석용 원천 데이터(일봉·수급·컨센서스) | collect_analyst_data.py |
-| indicators.json | 사전계산 지표(분석 시 토큰 절약용) | compute_indicators.py |
-| indicators.js | ↑의 브라우저 축약본(TARO 미니차트가 읽음) | compute_indicators.py |
-| dow_stats.js | 요일별 평균 등락률 사전계산(상단 📅 패널) | compute_dow_stats.py (자동) |
-| team_weights.js | 자가 학습 CHIEF 가중치(분석가별 적중률→발언권, 업종 오버라이드) | compute_team_weights.py (자동) |
-| generate_sitemap.js | sitemap.xml 재생성(뉴스분석·종목공부·주식공부·부동산공부 URL 수집) | Claude가 콘텐츠 추가 시 직접 실행 |
-| generate_snapshots.js | `/snap/{news,study,lesson,estate,calc}/{id}.html` 정적 스냅샷 생성(자바스크립트 없이도 읽히는 사본, AI/비JS 크롤러向) + `/snap/stock/<code>.html` 500종목 개별 정밀/자동분석 랜딩페이지("OO 전망/주가" 검색 유입용, 2026-07-24 도입) | 콘텐츠(뉴스·공부·계산기)는 Claude가 추가 시 직접 실행 · 종목 스냅샷은 update-analysis.yml 러너가 매 사이클 자동 재생성(토큰 0) |
-| indexnow_submit.js · `<32자hex>.txt`(IndexNow 키 파일) | sitemap.xml의 URL을 빙·네이버에 즉시 제출(크롤러 방문 기다리지 않고 몇 분~몇 시간 내 색인). 구글은 IndexNow 미지원이라 대상 아님 | 원격 세션은 `api.indexnow.org` 아웃바운드가 막혀 있어 직접 실행해도 실패할 수 있음 — update-analysis.yml 러너가 `.indexnow_hash`로 sitemap.xml 변경을 감지해 매 사이클 자동 제출(사람 개입 불필요) |
+- **`.claude/skills/종목분석 스킬/SKILL.md`** — 정밀분석 대상 종목(`analysis.js`, 현재 14개 안팎)을 팀 5인 관점(기술·재무·뉴스·수급·종합)으로 재분석해 `analysis.js`를 다시 쓰고 `history.js`에 기록하는 절차. "정밀분석 해줘 / analysis.js 갱신해줘 / 개오 팀 재분석해줘"처럼 **명시적인 재분석 요청에만** 쓴다. base(기준가) ≡ data.js 시세 무결성이 최우선 철칙.
+- **`.claude/skills/뉴스분석 스킬/SKILL.md`** — 시장을 움직인 기사·이슈를 조사해 초보자 눈높이 심층 보고서를 `news_analysis.js`에 추가하는 절차(조사→집필→등록→검증→배포). 품질 기준(분량 4,500~6,000자, 구체성 체크, 교차 확인된 수치만 사용 등)이 상세히 적혀 있다.
 
-⭐ **카테고리(cat 필드) 철칙(2026-07-24 도입, 2026-07-25 계산기 추가)**: 다섯 파일 모두 각 글에 `cat` 필드가 있고, index.html이 모드 진입 시
-이 값으로 "대>중>소" 중카테고리 선택 화면(카드 그리드)을 그린다. **새 글을 추가할 때 반드시 기존 중카테고리 중
-하나와 정확히 일치하는 키를 `cat`에 넣는다** — 안 넣거나 새 값을 지어내면 그 글이 어떤 카테고리 카드에도
-잡히지 않아 "전체 글 보기"로만 찾을 수 있게 된다(사실상 묻힌다). 현재 중카테고리 키(index.html의
-NEWS_CATS/STUDY_CATS/LESSON_CATS/ESTATE_CATS/CALC_CATS 참조):
-- 뉴스분석: `market`(코스피·코스닥 시황) · `earnings`(기업 실적발표) · `global`(글로벌 이슈·매크로) · `crypto`(코인·신기술) · `domestic`(국내 기업 이슈)
-- 종목공부: `kr`(국내기업) · `global`(해외기업)
-- 주식공부: `chart`(차트·기술적분석) · `capitalism`(EBS 다큐 자본주의) · `crisis`(경제위기의 역사) · `tax`(세금·절세계좌) · `product`(투자상품) · `macro`(시장을 움직이는 손) · `industry`(산업·기업분석)
-- 부동산공부: `buy`(내집마련기초) · `rent`(전월세·임대차보호) · `loan`(대출·금융) · `auction`(경매·공매시리즈) · `strategy`(투자전략)
-- 계산기: `stock`(주식 계산기) · `tax`(세금 계산기) · `finance`(재테크 계산기)
-어느 카테고리에도 안 맞는 완전히 새로운 주제라면, 새 cat 키를 쓰기 전에 index.html의 해당 CATS 배열에도
-카드를 함께 추가한다(그래야 그 카테고리가 실제로 화면에 나타난다). 계산기를 새로 추가할 때는 `cat` 외에
-`calcType`도 index.html의 calcWidgetHTML/wireCalcWidget에 해당 타입의 실제 계산 로직을 함께 추가해야
-위젯이 동작한다(데이터만 추가하면 설명 글만 뜨고 계산기는 비어있게 된다).
+## 서브에이전트 (`.claude/agents/*.md`)
 
-⭐ **콘텐츠 발행 철칙**: news_analysis.js·stock_study.js·stock_lessons.js·estate_lessons.js·calculators.js 중 **어느 파일이든 글을 추가/수정할 때마다**
-`node generate_sitemap.js`와 `node generate_snapshots.js`를 **반드시 함께 실행**한다(둘 다 안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다).
-스냅샷은 자바스크립트를 실행하지 않는 AI 브라우징 도구(챗GPT·제미나이 등)向 노출(AEO/GEO) 목적 — 2026-07-23 도입.
-**이 두 스크립트 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버 즉시 알림) + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다**
-(sitemap.xml은 4개 검색엔진 모두가 이미 알고 있는 주소이고, snap/ 페이지엔 daum-wm-title/datetime/content 클래스와 Article JSON-LD도 포함돼 있음) — 이 두 줄 실행을 절대 빠뜨리지 않는 것이 곧 전체 SEO/AEO/GEO 파이프라인을 지키는 것이다.
-sitemap.xml만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다 — 별도로 신경 쓸 필요 없음.
+정밀분석에 쓰이는 5개 역할별 서브에이전트 정의: `chief-pm`(총괄 PM) · `diana-fundamental`(재무) · `flow-supply`(수급) · `nova-sentiment`(뉴스·심리) · `taro-technical`(기술적 분석). 종목분석 스킬 절차 안에서 병렬로 호출된다. 이 구조는 Claude Code의 서브에이전트 기능에 의존하므로, Codex가 같은 작업을 할 땐 이 5개 관점을 순차적으로(또는 자기 방식대로) 직접 수행하면 된다.
 
-## 데이터 파이프라인 (GitHub Actions 러너 2개)
+## 이 원격 세션 환경의 특이사항
 
-- **update-prices.yml** — 평일 09:00~16:00 KST, **10분마다** data.js(시세·지수·환율) 커밋.
-- **update-analysis.yml** — 같은 시간대, **30분마다** price_history.js·analysis_data.json·indicators.json/js·
-  auto_analysis.js 갱신 + `archive_analysis.py --auto`로 500종목 판단을 history.js에 하루 1건씩 누적.
-- 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조(GitHub cron이 이 저장소에서 불안정해서).
-  안전망 5중: ①자가 루프 ②체인 재기동 ③push 마커(.analyst-refresh) ④cron(best-effort) ⑤클로드 Routine
-  "gaeo 장중 매시 kickoff 안전망"(평일 매시, data.js 커밋이 25분 이상 끊기면 마커 push로 소생).
-- 이 원격 세션에서는 네이버 금융이 403으로 막힌다. 수동 수집이 필요하면 **`.analyst-refresh` 내용을 바꿔
-  커밋·푸시**(러너가 대신 수집, 1~2분 뒤 pull). SessionStart 훅(`check_pipeline.py`)이 세션 시작 때
-  파이프라인 신선도를 자동 점검해 경고를 띄운다.
-- 재분석 절차는 `.claude/skills/종목분석 스킬/SKILL.md` 참조. **base ≡ data.js price 무결성이 최우선 철칙.**
+- **네이버 금융이 이 원격 세션에서는 403으로 막힌다.** 수동 시세 수집이 필요하면 `.analyst-refresh` 내용을 바꿔 `main`에 커밋·푸시해서 GitHub Actions 러너가 대신 수집하게 한다(1~2분 뒤 pull). 이건 이 특정 원격 실행 환경의 네트워크 제약이라, Codex가 다른 환경(예: 사용자 로컬 PC)에서 실행되면 이 문제가 아예 없을 수 있다.
+- Playwright 시각 검증은 전역 설치된 Chromium(`/opt/pw-browsers/chromium`)을 쓴다. `NODE_PATH=/opt/node22/lib/node_modules node 스크립트.js`로 실행.
+- SessionStart 훅(`.claude/settings.json` → `check_pipeline.py`)이 세션 시작 때마다 데이터 파이프라인 신선도를 자동 점검해 경고를 띄운다. 이건 Claude Code 훅 메커니즘 전용 설정이다.
+- 클로드 Routine("gaeo 장중 매시 kickoff 안전망")이 평일 매시 data.js 커밋이 25분 이상 끊기면 마커 push로 러너를 소생시키는 안전망 중 하나로 등록돼 있다(Claude Code의 예약 실행 기능, `AGENTS.md`의 데이터 파이프라인 안전망 5중 중 ⑤).
 
-## index.html 구조 (2026-07-11 대개편 반영)
+## 이 세션에서 자주 하는 작업 패턴
 
-- 반응형 3단계: **모바일(<1180px, 세로 플로우)** → **데스크톱(≥1180px, `.layout` 그리드: 사이드바 324px + 본문)**
-  → **초와이드(≥1600px, 우측 레일 `#railR` 추가: 다가오는 일정 + 최근 팀 판단 —
-  최근 팀 판단은 `MEGA_CAP` 화이트리스트(코스피 초대형 우량주 45종목)만, 종목당 최신 1건).
-- 사이드바(`.rail`): 모드 토글(2열)·검색·업종 폴더. 폴더는 24개(통합 업종)라 **전부 기본 접힘**(첫 화면 빈 상태) + 아코디언(하나 열면 나머지 닫힘),
-  <1180px에선 폴더 2열 그리드·열린 폴더만 전체 폭(칩도 2열 압축). 검색 자동완성(makeAutocomplete)은
-  단일분석·종목비교 A/B가 공유. 📖 가이드북 탭(renderGuide)은 초보용 사용법+단어장.
-- 모드 전환은 `setMode()`가 display 토글 — 요소가 다시 나타날 때 `viewIn` 애니메이션 재생.
-- 분석 중 스켈레톤: `analyze()`가 `#cards`에 `.busy` 부여 → 4인 완료 시 제거.
-- 스파크라인: `flatCloses(code)`(price_history 평탄화) + `priceSparkSVG()` — 칩·시세카드에서 사용.
-- TARO 미니차트: `taroChartHTML(code)` — indicators.js(INDICATORS)에서 가격/MA/RSI/MACD를 읽어
-  fillCard('taro')가 findings 위에 삽입. MACD 캡션(`.tv-note`)에 파랑/회색 의미 설명.
-- 용어 설명: `GLOSSARY`(초등학생 눈높이 문구) + `wrapGloss()`가 findings 속 용어를 `.gterm`으로 감싸고,
-  클릭하면 `.gloss-pop` 팝업. `term()`은 시세카드 지표 라벨용.
-- PC 버전 토글: 물리 화면 최소변 <820px에서만 우측 하단 노출. viewport meta를 width=1400으로 강제,
-  localStorage `gaeo_pcview` 기억, head 인라인 스크립트가 첫 페인트 전 적용.
-
-## ⚠️ 코딩 시 주의 (실제 겪은 함정)
-
-1. **정규식 lookbehind `(?<!)` 금지** — iOS 16.4 미만 Safari에서 그 줄 하나로 스크립트 블록 전체가 죽는다.
-   앞 경계는 `(^|[^A-Za-z0-9])` 캡처그룹으로 대체할 것. (`??`·`?.`는 기존 코드가 이미 사용 — ES2020 기준선 OK)
-2. **PRICE_HISTORY 페이지는 시간순이 아닐 수 있다** — flatMap 후 반드시 날짜로 정렬(flatCloses 참조).
-   (2026-07-16 해결: update_price_history.py가 매 실행마다 날짜순 재구성하도록 수정 + priceBlockHTML도
-   정렬 재구성 후 렌더링. 새로 데이터를 읽는 코드를 쓸 땐 여전히 정렬을 습관화할 것.)
-3. index.html의 JS는 `document.getElementById` 위주라 HTML 래핑(aside/main 추가)에 안전하지만,
-   `.wrap` 직계 자식 순서에 기대는 CSS(`.layout` 그리드)가 있으니 마크업 이동 시 확인.
-4. 시각 변경 후엔 Playwright(chromium: `/opt/pw-browsers/chromium`)로
-   데스크톱(1680)·초와이드(1920)·모바일(390, iPhone 13 프로필) 스크린샷 + pageerror 확인이 관례.
-5. base/updated 등 analysis.js 필드 규격은 index.html이 전부 파싱한다 — 구조 변경 금지(스킬 문서 참조).
-6. **테마 시스템(2026-07-18 🍎 애플 감성 확정)**: 기본은 **라이트**(#F5F5F7 캔버스·흰 카드·#1D1D1F 잉크·
-   애플 블루 #0071E3 단일 액센트·확산 그림자·알약 버튼·세그먼트 모드탭). `html.gdark` = **애플 다크**(순검정
-   배경·#1C1C1E 카드·#0A84FF 블루) — head 인라인 스크립트가 첫 페인트 전 적용(localStorage `gaeo_theme`,
-   기본 light), `:root` 변수 세트를 통째로 교체. **본문 텍스트 색은 반드시 변수(--ink/--t2/--t3/--dim)로** —
-   하드코딩 slate hex는 다크에서 안 보인다. --navy(다크에선 흰색 액센트)를 배경으로 쓰는 요소를 새로 만들면
-   `html.gdark` 개별 오버라이드를 함께 추가할 것. 파스텔 알약도 동일(rgba 저채도 틴트 오버라이드).
-   우상단 `#siteTheme` 버튼이 토글(☀️/🌙 캔버스 버튼과 별개). `--num`은 현재 본문 서체와 동일(모노 아님).
-7. **본문 등락 색(한국식·2026-07-18)**: `SIGNUM(html)` 전역 헬퍼가 이스케이프된 HTML에서 「부호+숫자+단위
-   (%·%p·포인트·원)」만 골라 **상승(+)=빨강(.sgn-u/--krup)·하락(−)=파랑(.sgn-d/--krdn)** 으로 감싼다.
-   시장분석(mkParas·mk-points)·뉴스/공부 본문(inline)·CHIEF reason·report·분석가 findings 렌더에 이미
-   적용돼 있어 **새 텍스트도 자동 반영**된다. 날짜(2026-07-16)·가격(25만 5,000원)엔 부호가 없어 안 걸린다.
-   ※ 상단 지수 스트립(mk-strip)·시세 티커·칩 스파크라인은 ▲▼ 화살표로 방향을 주는 별도 체계라 건드리지 않음.
+- 종목/뉴스/공부 콘텐츠를 대량으로 추가할 때는 병렬 서브에이전트(Agent 도구)로 나눠서 각자 독립적으로 리서치·집필하게 하고, 결과를 스크래치패드에 모아 한 번에 조립·검증·배포하는 방식이 토큰·시간 면에서 효율적이었다.
+- 마케팅 문구(title/meta/og 태그, 태그라인 등)를 고칠 땐 `og-image.png`처럼 텍스트가 이미지 픽셀로 박제된 파일이 있는지 확인할 것 — 텍스트만 고치고 이미지를 안 바꾸면 링크 미리보기가 예전 문구로 계속 뜬다.
