@@ -48,7 +48,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0071E3">
+<meta name="theme-color" content="#103D37">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1502,6 +1502,267 @@
     .viz{padding:28px 20px;gap:24px}
     .viz .vtitle{font-size:20px}
   }
+
+  /* ═══════════════════════════════════════════════════════════════
+     Gaeo Master Design v1 — Home Dashboard + Global Navigation
+     기능과 데이터는 유지하고 탐색 구조와 시각 체계만 재설계한다.
+     ═══════════════════════════════════════════════════════════════ */
+  :root{
+    --gaeo-950:#092521;--gaeo-900:#103D37;--gaeo-700:#176B60;--gaeo-600:#1B8173;
+    --gaeo-100:#DCEEEA;--gaeo-50:#F0F8F6;--gaeo-canvas:#F4F7F6;
+    --gaeo-ink:#15201E;--gaeo-muted:#64716E;--gaeo-border:#E2E9E7;
+    --gaeo-radius-lg:30px;--gaeo-radius-md:22px;--gaeo-nav-h:72px;
+  }
+  html.gdark{
+    --gaeo-950:#082823;--gaeo-900:#0F4D45;--gaeo-700:#65C5B5;--gaeo-600:#65C5B5;
+    --gaeo-100:#183C36;--gaeo-50:#102B27;--gaeo-canvas:#090E0D;
+    --gaeo-ink:#F1F7F5;--gaeo-muted:#9AA9A5;--gaeo-border:#293B37;
+  }
+  body{background:var(--gaeo-canvas)}
+  button,input{font-family:inherit}
+  button:focus-visible,input:focus-visible,a:focus-visible{
+    outline:3px solid color-mix(in srgb,var(--gaeo-600) 28%,transparent);outline-offset:3px}
+  .global-nav{position:fixed;z-index:1000;top:0;left:0;right:0;height:var(--gaeo-nav-h);
+    background:color-mix(in srgb,var(--paper) 92%,transparent);border-bottom:1px solid var(--gaeo-border);
+    backdrop-filter:saturate(150%) blur(18px);-webkit-backdrop-filter:saturate(150%) blur(18px)}
+  .global-nav-inner,.global-panel-inner{width:calc(100% - 64px);max-width:1840px;margin:0 auto}
+  .global-nav-inner{height:100%;display:flex;align-items:center;gap:34px}
+  .global-brand{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--gaeo-ink);
+    padding:0;cursor:pointer;flex:0 0 auto}
+  .global-brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;
+    color:#fff;background:var(--gaeo-900);font-size:16px;font-weight:900;letter-spacing:-.05em}
+  .global-brand-word{font-size:19px;font-weight:850;letter-spacing:-.04em}
+  .global-primary{display:flex;align-items:center;gap:2px;min-width:0}
+  .global-link{height:40px;border:0;border-radius:12px;padding:0 13px;background:transparent;
+    color:var(--gaeo-muted);font-size:13px;font-weight:720;white-space:nowrap;cursor:pointer}
+  .global-link:hover{background:var(--gaeo-50);color:var(--gaeo-900)}
+  .global-link.on{color:var(--gaeo-700);background:var(--gaeo-50)}
+  .global-utilities{display:flex;align-items:center;gap:4px;margin-left:auto}
+  .global-icon-btn,.global-menu-btn{height:40px;border:0;border-radius:12px;background:transparent;
+    color:var(--gaeo-muted);display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    padding:0 11px;font-size:12px;font-weight:720;cursor:pointer;white-space:nowrap}
+  .global-icon-btn:hover,.global-menu-btn:hover,.global-icon-btn[aria-expanded="true"],
+  .global-menu-btn[aria-expanded="true"]{background:var(--gaeo-50);color:var(--gaeo-900)}
+  .global-icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round}
+  .global-icon-btn.profile svg{width:19px;height:19px}
+  .global-menu-lines{width:17px;height:12px;position:relative;border-top:1.8px solid currentColor;
+    border-bottom:1.8px solid currentColor}
+  .global-menu-lines::after{content:"";position:absolute;left:0;right:0;top:4px;border-top:1.8px solid currentColor}
+  .global-panel{position:absolute;top:calc(100% + 1px);left:0;right:0;background:var(--paper);
+    border-bottom:1px solid var(--gaeo-border);box-shadow:0 20px 50px rgba(9,37,33,.10)}
+  .global-panel[hidden]{display:none!important}
+  .global-panel-inner{padding:22px 0 26px}
+  .nav-panel-label{display:block;margin-bottom:6px;color:var(--gaeo-600);font-size:10px;
+    line-height:1.2;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+  .nav-search-inner{display:grid;grid-template-columns:auto minmax(280px,720px) auto;
+    align-items:center;justify-content:center;gap:18px}
+  .nav-search-inner .ac-wrap{width:min(54vw,720px)}
+  .nav-search-inner input{width:100%;height:48px;border:1px solid var(--gaeo-border);border-radius:15px;
+    background:var(--gaeo-canvas);color:var(--gaeo-ink);padding:0 17px;font-size:14px;outline:none}
+  .nav-search-inner input:focus{border-color:var(--gaeo-600);background:var(--paper)}
+  .nav-search-go,.nav-profile-action{height:46px;border:0;border-radius:14px;background:var(--gaeo-900);
+    color:#fff;padding:0 20px;font-size:13px;font-weight:800;cursor:pointer}
+  .nav-profile-panel .global-panel-inner{display:flex;align-items:center;justify-content:flex-end;gap:24px}
+  .nav-profile-inner>div:first-child{margin-right:auto}
+  .nav-profile-inner strong{display:block;color:var(--gaeo-ink);font-size:13px}
+  .nav-profile-inner .topbar{margin:0}
+  .nav-profile-inner .theme-toggle,.nav-profile-inner .views{height:40px;border:1px solid var(--gaeo-border);
+    background:var(--gaeo-canvas);box-shadow:none}
+  .nav-workspace-inner{max-height:min(78vh,760px);overflow-y:auto}
+  .nav-workspace-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .nav-workspace-head strong{font-size:15px;color:var(--gaeo-ink)}
+  .nav-close{border:1px solid var(--gaeo-border);background:var(--paper);color:var(--gaeo-muted);
+    border-radius:11px;padding:8px 12px;font-size:12px;font-weight:750;cursor:pointer}
+  .nav-workspace .rail{position:static!important;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+    gap:20px;max-height:none!important;overflow:visible!important;padding:0!important}
+  .nav-workspace .modes{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    grid-column:1/-1;gap:8px;padding:0;margin:0;background:transparent}
+  .nav-workspace .modebtn{min-height:52px;border:1px solid var(--gaeo-border);border-radius:15px;
+    background:var(--gaeo-canvas);color:var(--gaeo-muted);box-shadow:none;padding:9px 10px;
+    font-size:12px;font-weight:750;text-align:left}
+  .nav-workspace .modebtn:hover,.nav-workspace .modebtn.on{background:var(--gaeo-50);
+    border-color:var(--gaeo-100);color:var(--gaeo-700);box-shadow:none}
+  .nav-workspace .modebtn .mi{width:16px;height:16px}
+  .nav-workspace .controls,.nav-workspace .cmp-controls{margin:0;padding:20px;border:1px solid var(--gaeo-border);
+    border-radius:18px;background:var(--gaeo-canvas)}
+  .nav-workspace .chips{grid-column:1/-1;display:flex;gap:8px;overflow-x:auto;margin:0;padding:2px 0 10px;
+    scrollbar-width:thin}
+  .nav-workspace .chips>*{flex:0 0 auto}
+  .nav-workspace .ad-slot{margin:0;min-height:92px;border:1px solid var(--gaeo-border);border-radius:18px}
+
+  .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + 22px) 0 96px}
+  .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
+    box-shadow:none;padding:9px 0;color:var(--gaeo-muted)}
+  .home-dashboard{margin-top:24px}
+  .home-lead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.75fr);gap:24px}
+  .home-dashboard,.home-lead,.home-lead>*{min-width:0}
+  .home-dashboard header{position:relative;isolation:isolate;overflow:hidden;min-height:320px;margin:0;
+    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:54px 58px;
+    align-items:flex-end;background:var(--paper);box-shadow:none}
+  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:58px;top:48px;
+    color:var(--gaeo-600);font-size:10px;font-weight:850;letter-spacing:.16em}
+  .home-dashboard header::after{content:"";position:absolute;z-index:-1;right:-8%;top:-45%;width:48%;aspect-ratio:1;
+    border-radius:50%;background:radial-gradient(circle at center,color-mix(in srgb,var(--gaeo-600) 13%,transparent),transparent 68%)}
+  .home-dashboard header .ht{gap:10px}
+  .home-dashboard header h1{font-size:clamp(54px,5vw,78px);font-weight:850;line-height:.95;
+    letter-spacing:-.065em;color:var(--gaeo-ink)}
+  .home-dashboard .tagline{font-size:20px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
+  .home-dashboard header .badge{position:absolute;right:34px;top:32px;margin:0;padding:7px 11px;
+    background:var(--gaeo-50);color:var(--gaeo-700);font-size:10px;font-weight:800}
+  .home-dashboard .pwa-btn{border:0;border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-700);
+    padding:7px 11px;box-shadow:none}
+  .home-dashboard .latest-home{margin:0;padding:30px 30px 24px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none}
+  .home-dashboard .latest-home-head{align-items:center;justify-content:space-between;margin-bottom:18px}
+  .home-dashboard .latest-home-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
+  .home-dashboard .latest-home-head span{font-size:10px;padding:5px 8px;border-radius:8px;
+    color:var(--gaeo-600);background:var(--gaeo-50)}
+  .home-dashboard .latest-home-list{display:grid;grid-template-columns:1fr;gap:0}
+  .home-dashboard .latest-post{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;
+    min-height:43px;border:0;border-top:1px solid var(--gaeo-border);padding:9px 2px;background:transparent}
+  .home-dashboard .latest-post:first-child{border-top:0}
+  .home-dashboard .latest-post:hover,.home-dashboard .latest-post:focus-visible{
+    padding-left:8px;border-left:0;background:var(--gaeo-50)}
+  .home-dashboard .latest-post-meta{grid-column:2;grid-row:1;margin:0;font-size:9px}
+  .home-dashboard .latest-post-meta b{color:var(--gaeo-600)}
+  .home-dashboard .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
+    white-space:nowrap;text-overflow:ellipsis;display:block}
+
+  .home-dashboard .start-board{grid-template-columns:minmax(0,1.05fr) minmax(0,1.5fr) minmax(250px,.8fr);
+    gap:24px;margin:24px 0}
+  .home-dashboard .start-step{min-height:270px;padding:32px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper);box-shadow:none}
+  .home-dashboard .start-kicker{margin-bottom:12px;color:var(--gaeo-600);font-size:10px;letter-spacing:.13em}
+  .home-dashboard .start-step h2{margin-bottom:10px;font-size:24px;font-weight:820;letter-spacing:-.04em}
+  .home-dashboard .start-step p{font-size:14px;line-height:1.65;color:var(--gaeo-muted)}
+  .home-dashboard .start-action{margin-top:24px;min-height:48px;border-radius:14px;
+    background:var(--gaeo-900);font-size:14px}
+  .home-dashboard .start-action.secondary{background:var(--gaeo-50);border:1px solid var(--gaeo-100);
+    color:var(--gaeo-700)}
+  .home-dashboard .start-step-summary{position:relative;background:var(--gaeo-950);border-color:var(--gaeo-950);
+    color:#fff}
+  .home-dashboard .start-step-summary::after{content:"";position:absolute;right:28px;top:28px;
+    width:9px;height:9px;border-radius:50%;background:#67D4C0;box-shadow:0 0 0 8px rgba(103,212,192,.10)}
+  .home-dashboard .start-step-summary .start-kicker{color:#78D7C6}
+  .home-dashboard .start-step-summary h2{color:#fff}
+  .home-dashboard .brief-lines{gap:9px;margin-top:16px}
+  .home-dashboard .brief-line{font-size:13px;line-height:1.55;color:rgba(255,255,255,.82)}
+  .home-dashboard .brief-line b{background:rgba(255,255,255,.09);color:#fff}
+  .home-dashboard .brief-meta{margin-top:16px;color:rgba(255,255,255,.55)}
+  .home-dashboard .brief-extra{background:rgba(255,255,255,.07);color:rgba(255,255,255,.78)}
+  .home-dashboard .brief-extra-head{color:#fff}
+  .home-dashboard .brief-link{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.09);
+    color:#A5E8DC;padding:8px 11px;border-radius:10px}
+  .home-dashboard .home-watch{margin-top:22px;padding-top:16px}
+  .home-dashboard .home-watch-label{font-size:11px}
+  .home-dashboard .home-watch-chip{padding:7px 10px;background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
+  .home-dashboard .home-search-row input{min-height:46px;border-color:var(--gaeo-border);
+    border-radius:13px;background:var(--gaeo-canvas)}
+  .home-dashboard .home-search-row input:focus{border-color:var(--gaeo-600);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--gaeo-600) 12%,transparent)}
+  .home-dashboard .home-search-go{min-height:46px;border-radius:13px;background:var(--gaeo-900)}
+  .home-dashboard .market,.home-dashboard .mood,.home-dashboard .kpi,.home-dashboard .dowbar{
+    border:1px solid var(--gaeo-border);background:var(--paper);box-shadow:none}
+  .home-dashboard .market{margin-bottom:24px;padding:30px 32px;border-radius:var(--gaeo-radius-md)}
+  .home-dashboard .mood-row{margin-bottom:24px}
+  .home-dashboard .mood{padding:16px 20px;border-radius:16px}
+  .home-dashboard .kpis{gap:16px;margin-bottom:24px}
+  .home-dashboard .kpi{padding:24px;border-radius:18px}
+  .home-dashboard .kpi .k{margin-bottom:10px;font-size:11px;letter-spacing:.02em}
+  .home-dashboard .kpi .v{font-size:28px}
+  .home-dashboard .dowbar{margin-bottom:24px;padding:24px 26px;border-radius:var(--gaeo-radius-md)}
+  .home-dashboard .rail-r{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
+    position:static;min-width:0;width:100%;max-height:none;overflow:visible;padding:0;margin:0 0 28px}
+  .home-dashboard .rr-panel{border:1px solid var(--gaeo-border);border-radius:18px;background:var(--paper);
+    box-shadow:none;padding:22px}
+
+  .layout{display:block!important}
+  .layout>.rail{display:none}
+  .main{width:min(100%,1180px);margin:0 auto}
+  body[data-mode]:not([data-mode="single"]) .home-dashboard{display:none}
+  body[data-mode]:not([data-mode="single"]) .tape{display:none}
+  body[data-mode]:not([data-mode="single"]) .wrap{padding-top:calc(var(--gaeo-nav-h) + 32px)}
+
+  @media(max-width:1280px){
+    .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 48px)}
+    .global-primary{gap:0}
+    .global-link{padding:0 9px}
+    .global-icon-btn span{display:none}
+    .home-lead{grid-template-columns:minmax(0,1.35fr) minmax(340px,.8fr)}
+  }
+  @media(max-width:1179px){
+    :root{--gaeo-nav-h:64px}
+    .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 28px)}
+    .global-nav-inner{gap:14px}
+    .global-primary{display:none}
+    .global-brand-word{font-size:18px}
+    .global-icon-btn,.global-menu-btn{width:40px;padding:0}
+    .global-menu-btn>span:last-child{display:none}
+    .global-panel-inner{padding:18px 0 22px}
+    .nav-search-inner{grid-template-columns:1fr auto}
+    .nav-search-inner>.nav-panel-label{grid-column:1/-1}
+    .nav-search-inner .ac-wrap{width:auto;min-width:0}
+    .nav-profile-panel .global-panel-inner{align-items:flex-start;flex-wrap:wrap;gap:12px}
+    .nav-profile-inner>div:first-child{width:100%}
+    .nav-workspace{max-height:calc(100vh - var(--gaeo-nav-h));overflow-y:auto}
+    .nav-workspace-inner{max-height:none}
+    .nav-workspace .rail{grid-template-columns:1fr}
+    .nav-workspace .modes{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+    .nav-workspace .chips{grid-column:auto}
+    .wrap{padding-top:calc(var(--gaeo-nav-h) + 16px)}
+    .home-lead{grid-template-columns:1fr}
+    .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(220px,1fr));
+      overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+    .home-dashboard .latest-post{display:block;min-height:82px;padding:12px;border:1px solid var(--gaeo-border);
+      border-radius:14px;scroll-snap-align:start}
+    .home-dashboard .latest-post-meta{margin-bottom:7px}
+    .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
+    .home-dashboard .start-board{grid-template-columns:1fr 1fr}
+    .home-dashboard .start-step-summary{grid-column:1/-1;grid-row:1}
+    .home-dashboard .rail-r{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:700px){
+    .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 24px)}
+    .global-brand-mark{width:32px;height:32px;border-radius:10px}
+    .global-brand-word{font-size:17px}
+    .global-utilities{gap:0}
+    .nav-search-inner{gap:10px}
+    .nav-search-inner input{height:46px;font-size:13px}
+    .nav-search-go{height:44px;padding:0 14px}
+    .nav-workspace .modes{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    .nav-workspace .rail{gap:14px}
+    .nav-workspace .controls,.nav-workspace .cmp-controls{padding:14px}
+    .wrap{padding-bottom:64px}
+    .tape{border-radius:11px;font-size:11px}
+    .home-dashboard{margin-top:16px}
+    .home-lead{gap:14px}
+    .home-dashboard header{min-height:250px;border-radius:24px;padding:34px 26px}
+    .home-dashboard header::before{left:26px;top:30px;font-size:8px}
+    .home-dashboard header h1{font-size:52px}
+    .home-dashboard .tagline{font-size:16px}
+    .home-dashboard header .badge{display:none}
+    .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
+    .home-dashboard .latest-home-head h2{font-size:18px}
+    .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(210px,1fr))}
+    .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
+    .home-dashboard .start-step-summary{grid-column:auto;grid-row:auto}
+    .home-dashboard .start-step{min-height:0;padding:26px 22px;border-radius:20px}
+    .home-dashboard .start-step h2{font-size:21px}
+    .home-dashboard .start-step p{font-size:13px}
+    .home-dashboard .start-action{margin-top:20px}
+    .home-dashboard .market{padding:24px 20px;border-radius:20px}
+    .home-dashboard .kpis{grid-template-columns:1fr 1fr;gap:10px}
+    .home-dashboard .kpi{padding:18px 16px}
+    .home-dashboard .kpi .v{font-size:23px}
+    .home-dashboard .dowbar{padding:20px 16px;border-radius:20px}
+    .home-dashboard .rail-r{display:flex!important;max-width:100%;overflow-x:auto;gap:10px;scroll-snap-type:x mandatory}
+    .home-dashboard .rr-panel{flex:0 0 86%;scroll-snap-align:start}
+    .main{width:100%}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .global-nav *,.home-dashboard *{scroll-behavior:auto!important}
+  }
 </style>
 </head>
 <body>
@@ -1512,77 +1773,139 @@
     <a href="/snap/index.html">전체 글 목록(정적 페이지)</a>에서 확인해주세요.</p>
   </div>
 </noscript>
-<div class="wrap">
-
-  <div class="topbar" style="gap:8px">
-    <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-    <span class="views" id="viewsBadge" title="사이트 총 방문 횟수">👁 조회 <b>—</b></span>
+<nav class="global-nav" id="globalNav" aria-label="Gaeo 주요 메뉴">
+  <div class="global-nav-inner">
+    <button class="global-brand" id="globalHome" type="button" aria-label="Gaeo 홈으로 이동">
+      <span class="global-brand-mark">G</span>
+      <span class="global-brand-word">Gaeo</span>
+    </button>
+    <div class="global-primary" aria-label="주요 서비스">
+      <button class="global-link on" type="button" data-nav-home>홈</button>
+      <button class="global-link" id="navMarket" type="button">시장</button>
+      <button class="global-link" type="button" data-nav-mode="single">AI 분석</button>
+      <button class="global-link" type="button" data-nav-mode="news">뉴스</button>
+      <button class="global-link" type="button" data-nav-mode="lesson">공부</button>
+      <button class="global-link" type="button" data-nav-mode="calc">투자 도구</button>
+      <button class="global-link" type="button" data-nav-mode="leaderboard">리서치</button>
+    </div>
+    <div class="global-utilities">
+      <button class="global-icon-btn" id="navSearchToggle" type="button" aria-expanded="false" aria-controls="navSearchPanel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21"/></svg>
+        <span>검색</span>
+      </button>
+      <button class="global-icon-btn profile" id="navProfileToggle" type="button" aria-expanded="false" aria-controls="navProfilePanel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg>
+        <span>프로필</span>
+      </button>
+      <button class="global-menu-btn" id="navMenuToggle" type="button" aria-expanded="false" aria-controls="navWorkspace">
+        <span class="global-menu-lines" aria-hidden="true"></span>
+        <span>전체 메뉴</span>
+      </button>
+    </div>
   </div>
+  <div class="global-panel nav-search-panel" id="navSearchPanel" hidden>
+    <div class="global-panel-inner nav-search-inner">
+      <span class="nav-panel-label">종목 바로 찾기</span>
+      <div class="ac-wrap">
+        <input id="navTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름, 종목 코드, 업종을 검색해 보세요">
+        <div class="acbox" id="navAcbox" role="listbox"></div>
+      </div>
+      <button class="nav-search-go" id="navSearchRun" type="button">분석 보기</button>
+    </div>
+  </div>
+  <div class="global-panel nav-profile-panel" id="navProfilePanel" hidden>
+    <div class="global-panel-inner nav-profile-inner">
+      <div>
+        <span class="nav-panel-label">나의 이용 환경</span>
+        <strong>관심종목과 화면 설정을 이 기기에 저장해요.</strong>
+      </div>
+      <div class="topbar" style="gap:8px">
+        <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
+        <span class="views" id="viewsBadge" title="사이트 총 방문 횟수">👁 조회 <b>—</b></span>
+      </div>
+      <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
+    </div>
+  </div>
+  <div class="global-panel nav-workspace" id="navWorkspace" hidden>
+    <div class="global-panel-inner nav-workspace-inner">
+      <div class="nav-workspace-head">
+        <div><span class="nav-panel-label">전체 메뉴</span><strong>원하는 리서치 도구로 바로 이동하세요.</strong></div>
+        <button class="nav-close" id="navWorkspaceClose" type="button" aria-label="전체 메뉴 닫기">닫기</button>
+      </div>
+      <div id="navWorkspaceBody"></div>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
 
   <div class="tape"><span class="run" id="tape"></span></div>
 
-  <header>
-    <div class="ht">
-      <div class="ht-row">
-        <h1 id="siteTitle" data-edit="title">Gaeo</h1>
-        <button type="button" class="pwa-btn" id="pwaAddBtn">📲 앱처럼 설치하기</button>
-      </div>
-      <p class="tagline" data-edit="tagline">한국 주식 초보자의 매일 3분 리서치</p>
-    </div>
-    <span class="badge" id="hbadge">홈오피스</span>
-  </header>
-  <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
-    <div class="latest-home-head">
-      <h2 id="latestHomeTitle">방금 올라온 글</h2>
-      <span>최신 5개</span>
-    </div>
-    <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
-  </section>
-  <section class="start-board" aria-label="처음 이용 안내">
-    <article class="start-step">
-      <span class="start-kicker">먼저</span>
-      <h2>내 종목 찾기</h2>
-      <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
-      <button class="start-action" id="startSearch" type="button" aria-expanded="false" aria-controls="homeSearchPanel">종목 검색하기</button>
-      <div class="home-search-panel" id="homeSearchPanel" hidden>
-        <div class="home-search-row">
-          <div class="ac-wrap">
-            <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
-            <div class="acbox" id="homeAcbox" role="listbox"></div>
+  <section class="home-dashboard" id="homeDashboard" aria-label="Gaeo 홈 대시보드">
+    <div class="home-lead">
+      <header>
+        <div class="ht">
+          <div class="ht-row">
+            <h1 id="siteTitle" data-edit="title">Gaeo</h1>
+            <button type="button" class="pwa-btn" id="pwaAddBtn">📲 앱처럼 설치하기</button>
           </div>
-          <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
+          <p class="tagline" data-edit="tagline">한국 주식 초보자의 매일 3분 리서치</p>
         </div>
-        <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
-      </div>
-      <div class="home-watch">
-        <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
-        <div class="home-watch-list" id="homeWatchlist"></div>
-        <div class="home-watch-change" id="homeWatchChange" style="display:none" aria-live="polite"></div>
-      </div>
-    </article>
-    <article class="start-step start-step-summary">
-      <span class="start-kicker" id="briefKicker">매일 아침</span>
-      <h2 id="briefTitle">오늘 아침 브리핑</h2>
-      <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
-      <div class="brief-meta" id="briefMeta"></div>
-      <div class="brief-extra" id="briefExtra" style="display:none"></div>
-      <div class="brief-actions" id="briefActions">
-        <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
-        <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
-      </div>
-    </article>
-    <article class="start-step">
-      <span class="start-kicker">처음이라면</span>
-      <h2>3분 가이드</h2>
-      <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
-      <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
-    </article>
+        <span class="badge" id="hbadge">홈오피스</span>
+      </header>
+      <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
+        <div class="latest-home-head">
+          <h2 id="latestHomeTitle">방금 올라온 글</h2>
+          <span>최신 5개</span>
+        </div>
+        <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
+      </section>
+    </div>
+    <section class="start-board" aria-label="처음 이용 안내">
+      <article class="start-step">
+        <span class="start-kicker">먼저</span>
+        <h2>내 종목 찾기</h2>
+        <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
+        <button class="start-action" id="startSearch" type="button" aria-expanded="false" aria-controls="homeSearchPanel">종목 검색하기</button>
+        <div class="home-search-panel" id="homeSearchPanel" hidden>
+          <div class="home-search-row">
+            <div class="ac-wrap">
+              <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
+              <div class="acbox" id="homeAcbox" role="listbox"></div>
+            </div>
+            <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
+          </div>
+          <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
+        </div>
+        <div class="home-watch">
+          <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
+          <div class="home-watch-list" id="homeWatchlist"></div>
+          <div class="home-watch-change" id="homeWatchChange" style="display:none" aria-live="polite"></div>
+        </div>
+      </article>
+      <article class="start-step start-step-summary">
+        <span class="start-kicker" id="briefKicker">매일 아침</span>
+        <h2 id="briefTitle">오늘 아침 브리핑</h2>
+        <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
+        <div class="brief-meta" id="briefMeta"></div>
+        <div class="brief-extra" id="briefExtra" style="display:none"></div>
+        <div class="brief-actions" id="briefActions">
+          <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
+          <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
+        </div>
+      </article>
+      <article class="start-step">
+        <span class="start-kicker">처음이라면</span>
+        <h2>3분 가이드</h2>
+        <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
+        <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
+      </article>
+    </section>
+    <div class="market" id="marketBox" style="display:none"></div>
+    <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
+    <div class="datawarn" id="datawarn" style="display:none"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="dowbar" id="dowbar" style="display:none"></div>
   </section>
-  <div class="market" id="marketBox" style="display:none"></div>
-  <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
-  <div class="datawarn" id="datawarn" style="display:none"></div>
-  <div class="kpis" id="kpis"></div>
-  <div class="dowbar" id="dowbar" style="display:none"></div>
 
   <div class="layout">
   <aside class="rail">
@@ -7015,6 +7338,126 @@ window.hangulFix=function(str){
       }catch(e){ alert('공유하기가 지원되지 않는 브라우저예요. 주소창의 링크를 직접 복사해주세요.'); }
     }
   };
+})();
+
+// ---------- Gaeo 상단 글로벌 네비게이션 ----------
+// 기존 사이드바 DOM을 그대로 상단 패널로 옮겨 id·이벤트·데이터 연결을 모두 보존한다.
+(function(){
+  const nav=document.getElementById('globalNav');
+  const workspace=document.getElementById('navWorkspace');
+  const workspaceBody=document.getElementById('navWorkspaceBody');
+  const searchPanel=document.getElementById('navSearchPanel');
+  const profilePanel=document.getElementById('navProfilePanel');
+  const menuToggle=document.getElementById('navMenuToggle');
+  const searchToggle=document.getElementById('navSearchToggle');
+  const profileToggle=document.getElementById('navProfileToggle');
+  const rail=document.querySelector('.layout>.rail');
+  const railR=document.getElementById('railR');
+  const home=document.getElementById('homeDashboard');
+  if(rail&&workspaceBody) workspaceBody.appendChild(rail);
+  if(railR&&home) home.appendChild(railR);
+
+  const panels=[
+    {panel:workspace,button:menuToggle},
+    {panel:searchPanel,button:searchToggle},
+    {panel:profilePanel,button:profileToggle}
+  ];
+  function closePanels(except){
+    panels.forEach(x=>{
+      if(x.panel===except) return;
+      x.panel.hidden=true;
+      x.button.setAttribute('aria-expanded','false');
+    });
+    if(!except) document.body.classList.remove('nav-open');
+  }
+  function togglePanel(panel,button){
+    const willOpen=panel.hidden;
+    closePanels(panel);
+    panel.hidden=!willOpen;
+    button.setAttribute('aria-expanded',willOpen?'true':'false');
+    document.body.classList.toggle('nav-open',willOpen);
+    if(willOpen&&panel===searchPanel){
+      const input=document.getElementById('navTicker');
+      setTimeout(()=>input&&input.focus(),30);
+    }
+  }
+  menuToggle.onclick=()=>togglePanel(workspace,menuToggle);
+  searchToggle.onclick=()=>togglePanel(searchPanel,searchToggle);
+  profileToggle.onclick=()=>togglePanel(profilePanel,profileToggle);
+  document.getElementById('navWorkspaceClose').onclick=()=>closePanels();
+  document.addEventListener('keydown',e=>{if(e.key==='Escape') closePanels();});
+  document.addEventListener('click',e=>{if(!nav.contains(e.target)) closePanels();});
+  workspaceBody.addEventListener('click',e=>{
+    if(e.target.closest('.modebtn')) setTimeout(closePanels,40);
+  });
+
+  function goHome(target){
+    if(typeof window.setMode==='function') window.setMode('single');
+    closePanels();
+    const element=target||document.getElementById('homeDashboard');
+    setTimeout(()=>element&&element.scrollIntoView({behavior:'smooth',block:'start'}),40);
+  }
+  document.getElementById('globalHome').onclick=()=>goHome();
+  document.querySelector('[data-nav-home]').onclick=()=>goHome();
+  document.getElementById('navMarket').onclick=()=>{
+    if(typeof window.setMode==='function') window.setMode('single');
+    closePanels();
+    setTimeout(()=>{
+      const market=document.getElementById('marketBox');
+      if(market) market.scrollIntoView({behavior:'smooth',block:'center'});
+    },40);
+  };
+  document.querySelectorAll('[data-nav-mode]').forEach(button=>{
+    button.onclick=()=>{
+      const mode=button.dataset.navMode;
+      if(typeof window.setMode==='function') window.setMode(mode);
+      closePanels();
+      setTimeout(()=>{
+        const target={single:'homeDashboard',news:'newsView',lesson:'lessonView',calc:'calcView',
+          leaderboard:'leaderboard'}[mode];
+        const element=document.getElementById(target);
+        if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
+      },60);
+    };
+  });
+
+  const navTicker=document.getElementById('navTicker');
+  function runNavSearch(){
+    const stock=resolveStock(navTicker.value);
+    if(!stock.price){
+      navTicker.setAttribute('aria-invalid','true');
+      navTicker.focus();
+      return;
+    }
+    navTicker.removeAttribute('aria-invalid');
+    closePanels();
+    jumpToStock(stock.name);
+  }
+  makeAutocomplete(navTicker,document.getElementById('navAcbox'),{
+    onPick:x=>{closePanels();requestAnimationFrame(()=>jumpToStock(x.name));},
+    onEnter:runNavSearch
+  });
+  document.getElementById('navSearchRun').onclick=runNavSearch;
+  document.getElementById('navInstall').onclick=()=>{
+    closePanels();
+    const install=document.getElementById('pwaAddBtn');
+    if(install) install.click();
+  };
+
+  function syncMode(){
+    const active=document.querySelector('.modebtn.on');
+    const mode=active?active.id.replace('mode-',''):'single';
+    document.body.dataset.mode=mode;
+    document.querySelectorAll('.global-link').forEach(link=>link.classList.remove('on'));
+    const navMode=document.querySelector(`.global-link[data-nav-mode="${mode}"]`);
+    const homeLink=document.querySelector('.global-link[data-nav-home]');
+    (navMode||homeLink).classList.add('on');
+  }
+  const modes=document.querySelector('.modes');
+  if(modes){
+    new MutationObserver(syncMode).observe(modes,{subtree:true,attributes:true,attributeFilter:['class']});
+  }
+  syncMode();
 })();
 </script>
 </body>

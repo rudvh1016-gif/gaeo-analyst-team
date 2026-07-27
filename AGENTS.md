@@ -85,10 +85,13 @@ AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수�
 
 자세한 동작 원리는 `docs/ARCHITECTURE.md`와 `docs/WORKFLOW.md` 참고.
 
-## index.html 구조 (2026-07-11 대개편 반영)
+## index.html 구조 (2026-07-28 Home Master Design 반영)
 
-- 반응형 3단계: 모바일(<1180px, 세로 플로우) → 데스크톱(≥1180px, `.layout` 그리드: 사이드바 324px + 본문) → 초와이드(≥1600px, 우측 레일 `#railR` 추가: 다가오는 일정 + 최근 팀 판단 — `MEGA_CAP` 화이트리스트(코스피 초대형 우량주 45종목)만, 종목당 최신 1건).
-- 사이드바(`.rail`): 모드 토글(2열)·검색·업종 폴더(24개, 전부 기본 접힘 + 아코디언). 검색 자동완성(`makeAutocomplete`)은 단일분석·종목비교 A/B가 공유. 📖 가이드북 탭(`renderGuide`)은 초보용 사용법+단어장.
+- 상단 고정 글로벌 네비게이션(`.global-nav`): 로고·주요 메뉴·종목 검색·프로필·전체 메뉴 구조. 모바일에서는 주요 메뉴를 접고 아이콘과 전체 메뉴 버튼으로 전환한다.
+- 기존 사이드바 DOM(`.rail`)은 삭제하거나 복제하지 않고 `#navWorkspace` 안으로 이동한다. 따라서 모드 토글·검색·업종 폴더(24개)·광고의 기존 id와 이벤트는 그대로 유지된다.
+- Home Dashboard(`.home-dashboard`)는 Emerald 계열의 독립 디자인 시스템을 쓰며, PC는 화면 좌우 32px 이상 여백을 둔 최대 1840px 와이드 레이아웃, 모바일은 1열 플로우다.
+- 우측 레일 `#railR`의 다가오는 일정·최근 팀 판단은 Home Dashboard 하단의 반응형 정보 카드로 이동한다(`MEGA_CAP` 화이트리스트 기준은 그대로).
+- 검색 자동완성(`makeAutocomplete`)은 상단 검색·홈 검색·단일분석·종목비교 A/B가 공유한다. 📖 가이드북 탭(`renderGuide`)은 초보용 사용법+단어장이다.
 - 모드 전환은 `setMode()`가 display 토글 — 요소가 다시 나타날 때 `viewIn` 애니메이션 재생.
 - 스파크라인: `flatCloses(code)`(price_history 평탄화) + `priceSparkSVG()`.
 - TARO 미니차트: `taroChartHTML(code)` — `indicators.js`(`INDICATORS`)에서 가격/MA/RSI/MACD를 읽어 `fillCard('taro')`가 삽입.
