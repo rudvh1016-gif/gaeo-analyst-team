@@ -1,6 +1,13 @@
 // generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록
 const LATEST_POSTS = [
  {
+  "id": 18,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-28",
+  "title": "창신메모리 상장 첫날 중국 A주 시총 1위 — 삼성전자·SK하이닉스에는 어떤 의미일까"
+ },
+ {
   "id": 17,
   "mode": "news",
   "label": "뉴스분석",
@@ -27,12 +34,5 @@ const LATEST_POSTS = [
   "label": "뉴스분석",
   "date": "2026-07-25",
   "title": "SK하이닉스 2분기 실적발표 D-4, 최태원 회장 9,440억 재산분할 판결까지 — SK그룹에 무슨 일이 벌어지고 있나"
- },
- {
-  "id": 33,
-  "mode": "study",
-  "label": "종목공부",
-  "date": "2026-07-25",
-  "title": "JP모간체이스"
  }
 ];

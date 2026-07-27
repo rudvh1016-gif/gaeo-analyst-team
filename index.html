@@ -48,7 +48,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#A0C4D8">
+<meta name="theme-color" content="#88CDE7">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -60,7 +60,7 @@
   :root{
     /* 🍎 애플 감성 라이트(기본): 거의 흑백 + 애플 블루 단일 액센트, 부드러운 확산 그림자 */
     --navy:#1D1D1F; --navy-deep:#1D1D1F; --navy-soft:#F5F5F7;
-    --sky:#5B8EAA; --sky-soft:#EEF5F8; --sky-line:#C9DCE6;
+    --sky:#3E94B5; --sky-soft:#EFF9FC; --sky-line:#BFE4F2;
     --bg:#F5F5F7; --paper:#FFFFFF; --paper2:#F5F5F7; --ink:#1D1D1F;
     --line:#E8E8ED; --line2:#D2D2D7; --dim:#6E6E73; --faint:#86868B;
     --t2:#3A3A3C; --t3:#515154;
@@ -77,7 +77,7 @@
   /* ══ 🍎 애플 다크(토글) — html.gdark 가 변수 세트를 통째로 교체 (iOS 다크 팔레트) ══ */
   html.gdark{
     --navy:#F5F5F7; --navy-deep:#1C1C1E; --navy-soft:#2C2C2E;
-    --sky:#8AB8CF; --sky-soft:#142C36; --sky-line:#345563;
+    --sky:#88CDE7; --sky-soft:#102C38; --sky-line:#376476;
     --bg:#000000; --paper:#1C1C1E; --paper2:#2C2C2E; --ink:#F5F5F7;
     --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#6E6E76;
     --green:#65B89F; --red:#F07A82; --amber:#E0AE65;
@@ -230,14 +230,27 @@
   .qbio .qbio-ic{flex-shrink:0}
   .qbio b{color:var(--navy)}
   /* 시세 카드 종가 미니차트(구체화) */
-  .qchart{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-  .qchart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-  .qchart-t{font-size:12.5px;font-weight:800;color:var(--navy)}
-  .qchart-sub{font-size:11px;color:var(--dim)}
-  .qchart-sub b{color:var(--ink);font-weight:700}
-  .qchart svg{display:block;width:100%;height:150px}
-  .qchart-cap{margin-top:8px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  .qchart{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .qchart-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .qchart-t{font-size:13px;font-weight:820;color:var(--ink)}
+  .qchart-sub{font-size:11px;color:var(--dim);padding:5px 9px;border-radius:999px;background:var(--sky-soft)}
+  .qchart-sub b{color:var(--navy);font-weight:750}
+  .qchart-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+  .qchart-stat{padding:9px 11px;border:1px solid var(--sky-line);border-radius:12px;background:var(--sky-soft)}
+  .qchart-stat span{display:block;font-size:10px;color:var(--dim);margin-bottom:3px}
+  .qchart-stat b{display:block;font-size:13px;color:var(--ink);font-weight:780;font-variant-numeric:tabular-nums}
+  .qchart-plot{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+  .qchart svg{display:block;width:100%;height:170px}
+  .qchart-cap{display:flex;align-items:flex-start;gap:7px;margin-top:9px;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .qchart-cap::before{content:"";width:7px;height:7px;margin-top:5px;border-radius:50%;background:var(--sky);flex:0 0 auto}
   .qchart-cap b{color:var(--ink);font-weight:700}
+  @media(max-width:700px){
+    .qchart{margin-top:12px;padding-top:12px}
+    .qchart-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+    .qchart-stat{padding:8px 9px}
+    .qchart svg{height:138px}
+    .qchart-cap{font-size:10.5px}
+  }
   .controls input{flex:1;min-width:200px;background:var(--paper);border:1px solid transparent;
     color:var(--ink);border-radius:12px;padding:13px 16px;font-size:15px;outline:none;font-family:inherit;
     box-shadow:var(--shadow-sm);transition:border-color .2s,box-shadow .2s}
@@ -1521,14 +1534,14 @@
      기능과 데이터는 유지하고 탐색 구조와 시각 체계만 재설계한다.
      ═══════════════════════════════════════════════════════════════ */
   :root{
-    --gaeo-core:#A0C4D8;--gaeo-950:#173746;--gaeo-900:#315D72;--gaeo-700:#4F839E;--gaeo-600:#6F9FB8;
-    --gaeo-100:#D7E7EF;--gaeo-50:#EEF5F8;--gaeo-canvas:#F5F7F8;
-    --gaeo-ink:#162127;--gaeo-muted:#66757D;--gaeo-border:#DFE7EB;
+    --gaeo-core:#88CDE7;--gaeo-950:#163B4B;--gaeo-900:#245C73;--gaeo-700:#347F9D;--gaeo-600:#59A9C8;
+    --gaeo-100:#D5EEF7;--gaeo-50:#EFF9FC;--gaeo-canvas:#F5FAFC;
+    --gaeo-ink:#13242C;--gaeo-muted:#627781;--gaeo-border:#DCEAF0;
     --gaeo-radius-lg:30px;--gaeo-radius-md:22px;--gaeo-nav-h:72px;
   }
   html.gdark{
-    --gaeo-core:#A0C4D8;--gaeo-950:#122E3B;--gaeo-900:#214C60;--gaeo-700:#9EC7DB;--gaeo-600:#8AB8CF;
-    --gaeo-100:#244754;--gaeo-50:#142C36;--gaeo-canvas:#090E10;
+    --gaeo-core:#88CDE7;--gaeo-950:#163B4B;--gaeo-900:#245C73;--gaeo-700:#9EDCF1;--gaeo-600:#88CDE7;
+    --gaeo-100:#214958;--gaeo-50:#102C38;--gaeo-canvas:#081116;
     --gaeo-ink:#F1F6F8;--gaeo-muted:#9BAAB1;--gaeo-border:#2B3D45;
   }
   body{background:var(--gaeo-canvas)}
@@ -1612,15 +1625,15 @@
   .home-dashboard{margin-top:24px}
   .home-lead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.75fr);gap:24px}
   .home-dashboard,.home-lead,.home-lead>*{min-width:0}
-  .home-dashboard header{position:relative;isolation:isolate;overflow:hidden;min-height:320px;margin:0;
-    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:54px 58px;
-    align-items:flex-end;background:var(--paper);box-shadow:none}
-  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:58px;top:48px;
+  .home-dashboard header{position:relative;isolation:isolate;overflow:hidden;min-height:270px;margin:0;
+    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:44px 50px;
+    align-self:start;align-items:flex-end;background:var(--paper);box-shadow:none}
+  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:50px;top:40px;
     color:var(--gaeo-600);font-size:10px;font-weight:850;letter-spacing:.16em}
   .home-dashboard header::after{content:"";position:absolute;z-index:-1;right:-8%;top:-45%;width:48%;aspect-ratio:1;
     border-radius:50%;background:radial-gradient(circle at center,color-mix(in srgb,var(--gaeo-600) 13%,transparent),transparent 68%)}
   .home-dashboard header .ht{gap:10px}
-  .home-dashboard header h1{font-size:clamp(54px,5vw,78px);font-weight:850;line-height:.95;
+  .home-dashboard header h1{font-size:clamp(48px,4.3vw,68px);font-weight:850;line-height:.95;
     letter-spacing:-.065em;color:var(--gaeo-ink)}
   .home-dashboard .tagline{font-size:20px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
   .home-dashboard header .badge{position:absolute;right:34px;top:32px;margin:0;padding:7px 11px;
@@ -1817,10 +1830,10 @@
     .tape{border-radius:11px;font-size:11px}
     .home-dashboard{margin-top:16px}
     .home-lead{gap:14px}
-    .home-dashboard header{min-height:250px;border-radius:24px;padding:34px 26px}
-    .home-dashboard header::before{left:26px;top:30px;font-size:8px}
-    .home-dashboard header h1{font-size:52px}
-    .home-dashboard .tagline{font-size:16px}
+    .home-dashboard header{min-height:174px;border-radius:22px;padding:56px 22px 24px}
+    .home-dashboard header::before{left:22px;top:22px;font-size:7.5px}
+    .home-dashboard header h1{font-size:42px}
+    .home-dashboard .tagline{font-size:14px}
     .home-dashboard header .badge{display:none}
     .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
     .home-dashboard .latest-home-head h2{font-size:18px}
@@ -3701,43 +3714,47 @@ function quoteChartHTML(days){
   const closes=days.map(d=>d.c);
   const n=closes.length, lo=Math.min(...closes), hi=Math.max(...closes), span=(hi-lo)||1;
   const first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
-  const up=last>=first, col=up?'#2F8B73':'#D5535D', fill=up?'rgba(47,139,115,.10)':'rgba(213,83,93,.10)';
-  const W=520,H=150, padL=54,padR=12,padT=12,padB=26;    // 축 여백
+  const up=last>=first, col=up?'#25866F':'#C64C5A';
+  const W=560,H=170, padL=58,padR=18,padT=18,padB=30;
   const iw=W-padL-padR, ih=H-padT-padB;
   const px=i=>padL+iw*(n>1?i/(n-1):0.5), py=v=>padT+ih*(1-(v-lo)/span);
   const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
   const area=`M${px(0).toFixed(1)} ${py(closes[0]).toFixed(1)} `+
     closes.slice(1).map((c,i)=>'L'+px(i+1).toFixed(1)+' '+py(c).toFixed(1)).join(' ')+
     ` L${px(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${px(0).toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
-  // 가격축(왼쪽) 격자 3줄: 고가·중간·저가
   const won0=v=>Math.round(v).toLocaleString();
   const yTicks=[hi,(hi+lo)/2,lo];
   let grid='',ylab='';
   yTicks.forEach(v=>{const y=py(v).toFixed(1);
-    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e6ddca" stroke-width="1" stroke-dasharray="3 3"/>`;
-    ylab+=`<text x="${padL-7}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9a917f">${won0(v)}</text>`;});
-  // 날짜축(아래) — 시작·끝 (여유 있으면 중간)
+    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--sky-line)" stroke-width="1"/>`;
+    ylab+=`<text x="${padL-8}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--dim)">${won0(v)}</text>`;});
   const fmtD=s=>String(s).slice(5).replace('-','/');
   let xlab='';
   const idxs=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
   [...new Set(idxs)].forEach(i=>{const anchor=i===0?'start':(i===n-1?'end':'middle');
-    xlab+=`<text x="${px(i).toFixed(1)}" y="${H-8}" text-anchor="${anchor}" font-size="10" fill="#9a917f">${fmtD(days[i].date)}</text>`;});
-  // 마지막 점 강조 + 값 라벨
+    xlab+=`<text x="${px(i).toFixed(1)}" y="${H-9}" text-anchor="${anchor}" font-size="10" fill="var(--dim)">${fmtD(days[i].date)}</text>`;});
   const lx=px(n-1).toFixed(1), ly=py(last).toFixed(1);
-  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="최근 종가 추이">`+
+  const dots=closes.map((c,i)=>`<circle cx="${px(i).toFixed(1)}" cy="${py(c).toFixed(1)}" r="${i===n-1?4:3}" fill="${col}" stroke="var(--paper)" stroke-width="2"><title>${days[i].date} 종가 ${won0(c)}원</title></circle>`).join('');
+  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="날짜별 종가 변화 그래프">`+
+    `<defs><linearGradient id="qchartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity=".22"/><stop offset="100%" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs>`+
     grid+
-    `<path d="${area}" fill="${fill}" stroke="none"/>`+
-    `<path d="${line}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`+
-    `<circle cx="${lx}" cy="${ly}" r="3.2" fill="${col}" stroke="#fff" stroke-width="1.3"/>`+
+    `<path d="${area}" fill="url(#qchartFill)" stroke="none"/>`+
+    `<line x1="${lx}" y1="${padT}" x2="${lx}" y2="${padT+ih}" stroke="${col}" stroke-opacity=".3" stroke-width="1" stroke-dasharray="3 3"/>`+
+    `<path d="${line}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`+
+    dots+
     ylab+xlab+`</svg>`;
   const period=`${fmtD(days[0].date)} ~ ${fmtD(days[n-1].date)}`;
   return `<div class="qchart-head">`+
-      `<span class="qchart-t">📉 최근 종가 추이</span>`+
+      `<span class="qchart-t">최근 종가 흐름</span>`+
       `<span class="qchart-sub">${n}거래일 · <b>${period}</b></span>`+
-    `</div>`+svg+
-    `<div class="qchart-cap">이 기간 <b>${won0(lo)}원</b> ~ <b>${won0(hi)}원</b>에서 움직였고, `+
-      `처음(${won0(first)}원) 대비 지금은 <b style="color:${col}">${chg>0?'+':''}${chg.toFixed(1)}%</b>예요. `+
-      `<span style="color:var(--faint)">가로축=날짜, 세로축=종가(원). 실제 장 마감 가격을 이은 선이에요.</span></div>`;
+    `</div>`+
+    `<div class="qchart-stats">`+
+      `<div class="qchart-stat"><span>처음</span><b>${won0(first)}원</b></div>`+
+      `<div class="qchart-stat"><span>기간 최고</span><b>${won0(hi)}원</b></div>`+
+      `<div class="qchart-stat"><span>기간 최저</span><b>${won0(lo)}원</b></div>`+
+      `<div class="qchart-stat"><span>현재 변화</span><b style="color:${col}">${chg>0?'+':''}${chg.toFixed(1)}%</b></div>`+
+    `</div><div class="qchart-plot">${svg}</div>`+
+    `<div class="qchart-cap">왼쪽 첫날부터 오른쪽 최근 거래일까지의 흐름이에요. 점 하나가 하루의 장 마감 가격이고, 세로선은 가장 최근 값이에요.</div>`;
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
 const GLOSSARY={
@@ -4796,11 +4813,11 @@ function radarSVG(scores){
   let rings=''; [.25,.5,.75,1].forEach(f=>{rings+=`<polygon points="${ring(f)}" fill="none" stroke="#DCE3EA" stroke-width="1"/>`;});
   let axes=''; ang.forEach((_,i)=>{const[x,y]=pt(1,i);axes+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#DCE3EA" stroke-width="1"/>`;});
   const dpts=VIZ_AXES.map((a,i)=>pt(Math.max(.04,scores[i]/100),i).join(',')).join(' ');
-  let dots=''; VIZ_AXES.forEach((a,i)=>{const[x,y]=pt(Math.max(.04,scores[i]/100),i);dots+=`<circle cx="${x}" cy="${y}" r="4.2" fill="#5B8EAA" stroke="#fff" stroke-width="1.3"/>`;});
+  let dots=''; VIZ_AXES.forEach((a,i)=>{const[x,y]=pt(Math.max(.04,scores[i]/100),i);dots+=`<circle cx="${x}" cy="${y}" r="4.2" fill="#3E94B5" stroke="#fff" stroke-width="1.3"/>`;});
   const lbl=[[cx,cy-R-9,'middle'],[cx+R+5,cy+4,'start'],[cx,cy+R+18,'middle'],[cx-R-5,cy+4,'end']];
   let labels=''; VIZ_AXES.forEach((a,i)=>{labels+=`<text x="${lbl[i][0]}" y="${lbl[i][1]}" text-anchor="${lbl[i][2]}" font-size="11.5" font-weight="600" fill="#6B7684">${a.label}</text>`;});
   return `<svg class="radar" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">${rings}${axes}`+
-    `<polygon points="${dpts}" fill="rgba(160,196,216,.24)" stroke="#5B8EAA" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+    `<polygon points="${dpts}" fill="rgba(136,205,231,.30)" stroke="#3E94B5" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
 }
 function renderViz(data){
   const scores=VIZ_AXES.map(a=>data[a.id].score);
@@ -7416,8 +7433,11 @@ window.hangulFix=function(str){
   const m=qp.get('m');
   if(!m) return;
   const id=qp.get('id'), code=qp.get('code');
-  setTimeout(()=>{
+  setTimeout(async()=>{
     if(typeof window.setMode!=='function') return;
+    try{
+      if(['news','study','lesson','estate','calc'].includes(m)) await GaeoFeatures.load(m);
+    }catch(e){}
     if(m==='news'&&id){ window.setMode('news'); window.openNewsId&&window.openNewsId(id); }
     else if(m==='study'&&id){ window.setMode('study'); window.openStudyId&&window.openStudyId(id); }
     else if(m==='lesson'&&id){ window.setMode('lesson'); window.openLessonId&&window.openLessonId(id); }
