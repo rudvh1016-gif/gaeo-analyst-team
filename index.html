@@ -2510,10 +2510,22 @@ renderHomeWatchlist();
   ];
   brief.innerHTML=lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('');
   document.getElementById('startSearch').onclick=()=>{
-    document.getElementById('ticker').scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(()=>document.getElementById('ticker').focus(),350);
+    const ticker=document.getElementById('ticker');
+    // 모바일 키보드는 클릭 순간에 포커스를 줘야 안정적으로 열리므로 지연하지 않는다.
+    try{ ticker.focus({preventScroll:true}); }catch(e){ ticker.focus(); }
+    const move=()=>ticker.scrollIntoView({behavior:'smooth',block:'center'});
+    move();
+    // 키보드가 나타나 화면 높이가 바뀐 뒤에도 검색창을 다시 화면 가운데 맞춘다.
+    setTimeout(move,300);
   };
-  document.getElementById('startGuide').onclick=()=>document.getElementById('mode-guide').click();
+  document.getElementById('startGuide').onclick=()=>{
+    document.getElementById('mode-guide').click();
+    const guide=document.getElementById('guideView');
+    const move=()=>guide.scrollIntoView({behavior:'smooth',block:'start'});
+    requestAnimationFrame(move);
+    // 가이드 렌더링으로 높이가 바뀐 뒤 한 번 더 위치를 맞춘다.
+    setTimeout(move,300);
+  };
 })();
 
 /* ── 코스피/코스닥 지수 + 시장 분석 (data.js indices · analysis.js market) ── */
