@@ -35,6 +35,7 @@
    ├─ news_analysis.js / stock_study.js / stock_lessons.js / estate_lessons.js / calculators.js
    │                    콘텐츠 5종 ← 사람/Claude가 직접 Write
    ├─ snap/latest_posts.js  첫 화면 최신 글 5개 목록 ← generate_snapshots.js
+   ├─ snap/home_brief.js    첫 화면 500종목 BUY/HOLD/SELL·상위 30종목 경량 집계 ← generate_snapshots.js
    ├─ community.js     방문자 공개 게시판 ← 관리자 모드 "모두에게 발행"이 갱신
    └─ site_config.js   사이트 전역 문구/테마 설정 ← 관리자 모드가 갱신
 ```

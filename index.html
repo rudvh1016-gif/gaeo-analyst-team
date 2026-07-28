@@ -3333,14 +3333,17 @@ renderHomeWatchlist();
       if(res.ok){
         const home=parseGenerated(await res.text(),'HOME_BRIEF');
         state.insight=home.marketInsight||null;
+        window.GaeoHomeInsight=state.insight;
       }
       render();
+      if(window.GaeoRenderMarket) window.GaeoRenderMarket();
     }catch(e){}
   }
   async function refresh(){ await Promise.all([refreshBrief(),refreshInsight()]); }
   state.brief=(initialLive&&initialLive.marketBrief)||summaryFromLive(initialLive);
   state.strongSector=(summaryFromLive(initialLive)||{}).strongSector||null;
   state.insight=(initialAuto&&initialAuto.marketInsight)||null;
+  window.GaeoHomeInsight=state.insight;
   render();
   setInterval(refreshBrief,5*60*1000);
   setInterval(refreshInsight,30*60*1000);
@@ -3394,7 +3397,8 @@ function mkParas(text){
   if(!sents.length) return `<p class="mk-text">${SIGNUM(esc(text))}</p>`;
   return sents.map(s=>`<p class="mk-text">${SIGNUM(esc(s))}</p>`).join('');
 }
-// 오늘 분석 종합 집계: 정밀+자동 전체 종목의 CHIEF 콜을 세고 BUY 목록을 모은다
+// 오늘 분석 종합 집계: 첫 화면에서는 경량 스냅샷의 최신 500종목 집계를 쓰고,
+// 자동분석 전체 파일을 내려받은 뒤에는 신선한 정밀분석만 우선해 다시 계산한다.
 function analysisTally(){
   const counts={BUY:0,HOLD:0,SELL:0}, ranked=[], seen=new Set();
   const add=(code,e)=>{
@@ -3403,11 +3407,29 @@ function analysisTally(){
     seen.add(code); counts[c]++;
     ranked.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0, call:c});
   };
-  if(LIVE_AN) for(const code in LIVE_AN){ if(/^\d{6}$/.test(code)) add(code, LIVE_AN[code]); }
-  if(AUTO_AN&&AUTO_AN.stocks) for(const code in AUTO_AN.stocks) add(code, AUTO_AN.stocks[code]);
+  if(AUTO_AN&&AUTO_AN.stocks){
+    for(const code in AUTO_AN.stocks) add(code,analysisEntry(code)||AUTO_AN.stocks[code]);
+    if(LIVE_AN) for(const code in LIVE_AN){
+      if(/^\d{6}$/.test(code)&&precisionFresh(code)) add(code,LIVE_AN[code]);
+    }
+  }else{
+    const snap=(window.GaeoHomeInsight)||
+      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF&&HOME_BRIEF.marketInsight)||null);
+    if(snap&&snap.calls){
+      for(const call of Object.keys(counts)) counts[call]=Number(snap.calls[call])||0;
+      const snapRanked=Array.isArray(snap.ranked)?snap.ranked.filter(x=>
+        x&&x.code&&x.call&&typeof x.total==='number').map(x=>({
+          code:x.code,name:x.name||(STOCKS[x.code]||{}).name||x.code,total:x.total,call:x.call
+        })):[];
+      return {counts,buy:snapRanked.filter(x=>x.call==='BUY'),ranked:snapRanked,
+        total:counts.BUY+counts.HOLD+counts.SELL,asOf:snap.sourceAsOf||snap.generatedAt||''};
+    }
+    if(LIVE_AN) for(const code in LIVE_AN){ if(/^\d{6}$/.test(code)) add(code,LIVE_AN[code]); }
+  }
   ranked.sort((a,b)=>b.total-a.total);   // 종합점수 높은 순(BUY·HOLD·SELL 전부)
   const buy=ranked.filter(x=>x.call==='BUY');
-  return {counts, buy, ranked, total:counts.BUY+counts.HOLD+counts.SELL};
+  return {counts,buy,ranked,total:counts.BUY+counts.HOLD+counts.SELL,
+    asOf:(AUTO_AN&&(AUTO_AN.priceLabel||AUTO_AN.generatedAt))||(LIVE_AN&&LIVE_AN.date)||''};
 }
 // 종목 이동 공통: 어디서든(사이드바 칩·BUY 칩·우측 레일) 종목을 누르면
 // 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
@@ -3450,7 +3472,7 @@ const MACRO_REGIME=(function(){
   else { label='보통'; damp=0.94; }
   return {ready:true, vol:Math.round(vol*10)/10, n:recent.length, label, damp};
 })();
-(function renderMarket(){
+function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const isMobileBox=window.innerWidth<1180;
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
@@ -3503,11 +3525,11 @@ const MACRO_REGIME=(function(){
   // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
   const tal=analysisTally();
   if(tal.total>0){
-    const day=(AUTO_AN&&AUTO_AN.generatedAt||(LIVE_AN&&LIVE_AN.date)||'').slice(0,10);
+    const asOf=String(tal.asOf||'');
     // 항상 종합점수 상위 30위(🟡HOLD 포함)까지 '상대 상위'로 펼쳐 보여준다 — BUY가 30개를
     // 넘으면 자연히 BUY만 30개가 뽑히고, BUY가 적으면 점수 높은 HOLD가 채워져 늘 30개를 채운다.
     const TOPN=30;
-    const list=tal.ranked.slice(0,TOPN);
+    const list=tal.ranked.filter(b=>b.call==='BUY'||b.call==='HOLD').slice(0,TOPN);
     const chips=list.map((b,i)=>{
       const isBuy=b.call==='BUY';
       const tag=isBuy?'':'<span class="bc-rel">매수우위</span>';
@@ -3516,7 +3538,7 @@ const MACRO_REGIME=(function(){
     const summary=`🧭 종합점수 상위 ${list.length}위 펼쳐보기 (BUY ${tal.counts.BUY}개 포함)`;
     const note='※ 앞의 번호는 종합점수 순위예요. 상위 30위까지 BUY·HOLD를 함께 보여드려요 — 🟡 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
     html+=`<div class="mk-tally">
-      <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(day)} · 총 ${tal.total}종목</span></div>
+      <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(asOf)} · 총 ${tal.total}종목</span></div>
       <div class="mk-tally-row">
         <span class="tly buy">🟢 BUY ${tal.counts.BUY}</span>
         <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
@@ -3563,7 +3585,9 @@ const MACRO_REGIME=(function(){
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>jumpToStock(c.dataset.nm));
-})();
+}
+window.GaeoRenderMarket=renderMarket;
+renderMarket();
 
 /* ============================================================
    시장 무드 — 오늘 추적 종목 시세 종합 → 캐릭터/조명/대사에 반영

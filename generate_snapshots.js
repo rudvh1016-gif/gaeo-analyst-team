@@ -206,14 +206,34 @@ function buildStocks() {
   const DATA = load('data.js', 'LIVE_DATA') || {};
   const AN = load('analysis.js', 'LIVE_ANALYSIS') || {};
   const AUTO = load('auto_analysis.js', 'LIVE_AUTO') || {};
+  const autoStocks = AUTO.stocks || {};
+  const tickerNames = Object.fromEntries(TICKERS.map(t => [t.code, t.name]));
+  const calls = { BUY: 0, HOLD: 0, SELL: 0 };
+  const ranked = [];
+  for (const [code, item] of Object.entries(autoStocks)) {
+    const chief = item && item.chief;
+    if (!chief || calls[chief.call] == null) continue;
+    calls[chief.call]++;
+    if (chief.call !== 'SELL' && typeof chief.total === 'number') {
+      ranked.push({ code, name: tickerNames[code] || code, total: chief.total, call: chief.call });
+    }
+  }
+  ranked.sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, 'ko'));
+  const sourceInsight = AUTO.marketInsight || {};
+  const marketInsight = {
+    ...sourceInsight,
+    generatedAt: sourceInsight.generatedAt || AUTO.generatedAt || '',
+    sourceAsOf: sourceInsight.sourceAsOf || AUTO.priceLabel || '',
+    calls: Object.values(calls).some(Boolean) ? calls : (sourceInsight.calls || calls),
+    ranked: ranked.slice(0, 30)
+  };
   fs.writeFileSync(
     path.join(HERE, 'snap/home_brief.js'),
     '// 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성\nconst HOME_BRIEF = ' +
-      JSON.stringify({ generatedAt: AUTO.generatedAt || '', marketInsight: AUTO.marketInsight || null }, null, 1) +
+      JSON.stringify({ generatedAt: AUTO.generatedAt || '', marketInsight }, null, 1) +
       ';\n'
   );
   const stocksData = DATA.stocks || {};
-  const autoStocks = AUTO.stocks || {};
   let n = 0;
   for (const t of TICKERS) {
     const code = t.code, name = t.name;
