@@ -24,6 +24,9 @@
 
 ## 최근 완료된 주요 작업 (2026-07 하순)
 
+- PWA 설치·기본 오프라인에 이어 웹 푸시 알림 화면과 OneSignal 연결 코드, 평일 오전
+  8:50 아침 브리핑 발송 워크플로, 설치·알림 공지 설명서를 추가. 외부 발송은 OneSignal
+  App ID와 GitHub Actions Secret 등록 후 활성화된다.
 - Home Dashboard를 Gaeo Master Design으로 리디자인 — Emerald 브랜드 시스템, 상단 고정
   글로벌 네비게이션, PC 와이드 레이아웃, 모바일 전체 메뉴를 적용. 기존 사이드바 기능은
   상단 전체 메뉴 패널로 이동해 API·데이터·기능을 그대로 유지.

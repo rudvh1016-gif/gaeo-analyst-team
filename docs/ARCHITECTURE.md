@@ -87,12 +87,16 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 
 ## 데이터 파이프라인 (GitHub Actions)
 
-두 워크플로가 있다 (`.github/workflows/`):
+자동 데이터 갱신 워크플로 2개와 아침 알림 워크플로 1개가 있다 (`.github/workflows/`):
 
 - **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 갱신·커밋.
 - **update-analysis.yml** — 같은 시간대 30분마다 `price_history.js` · `analysis_data.json` ·
   `indicators.json/js` · `auto_analysis.js`(홈 보강 브리핑 포함)를 갱신하고, `archive_analysis.py --auto`로 500종목
   판단을 `history.js`에 하루 1건씩 누적한다.
+- **send-morning-brief.yml** — 평일 오전 8:50 KST에 `snap/home_brief.js`를 읽어 알림을
+  신청한 기기에 OneSignal 웹 푸시를 발송한다. 공개 App ID는 `push_config.js`, 발송 권한인
+  API Key는 GitHub Actions Secret에만 둔다. `ONESIGNAL_APP_ID`와
+  `ONESIGNAL_REST_API_KEY`가 없으면 발송 단계는 안전하게 생략된다.
 
 두 워크플로 모두 **GitHub의 기본 cron이 이 저장소에서 불안정하다는 걸 겪은 뒤** 만들어진
 "자가 반복 루프 + 종료 시 자기 재기동(workflow_dispatch 재호출) 체인" 구조다. 안전망이
