@@ -18,9 +18,64 @@
 출력 : auto_analysis.js  →  const LIVE_AUTO = { "CODE": {tier:"auto", taro/diana/nova/flow/chief}, ... }
 실행 : python3 analyze_auto.py   (워크플로우에서 compute_indicators.py 다음에 실행)
 """
-import json, re, os, datetime
+import json, re, os, datetime, time, tempfile, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def schedule_safety_handoff():
+    """장시간 러너가 강제 종료되기 전에 다음 분석 작업을 미리 예약한다.
+
+    GitHub Actions의 update-analysis 작업은 한 번 시작하면 장중에 30분 주기로
+    반복한다. 500종목 처리가 길어진 날에는 작업 제한시간 직전에 마지막 회차가
+    겹쳐, YAML의 정상적인 chain()까지 도달하지 못할 수 있다. 같은 러너에서
+    4시간 30분이 지나면 다음 실행을 한 번만 미리 큐에 넣어 이 공백을 막는다.
+    """
+    if os.environ.get("GITHUB_ACTIONS") != "true" or os.environ.get("IS_MAIN") != "1":
+        return
+    run_id = os.environ.get("GITHUB_RUN_ID", "")
+    api = os.environ.get("GH_API", "")
+    auth = os.environ.get("GH_AUTH", "")
+    if not run_id or not api or ":" not in auth:
+        return
+
+    marker_dir = tempfile.gettempdir()
+    start_path = os.path.join(marker_dir, f"gaeo-analysis-{run_id}.start")
+    done_path = os.path.join(marker_dir, f"gaeo-analysis-{run_id}.handoff")
+    now = int(time.time())
+    if not os.path.exists(start_path):
+        with open(start_path, "w", encoding="ascii") as f:
+            f.write(str(now))
+        return
+    if os.path.exists(done_path):
+        return
+    try:
+        started = int(open(start_path, encoding="ascii").read().strip())
+    except (OSError, ValueError):
+        started = now
+    if now - started < 270 * 60:
+        return
+
+    header_name, header_value = auth.split(":", 1)
+    req = urllib.request.Request(
+        f"{api}/update-analysis.yml/dispatches",
+        data=b'{"ref":"main"}',
+        method="POST",
+        headers={
+            header_name.strip(): header_value.strip(),
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "gaeo-analysis-handoff",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as response:
+            if response.status != 204:
+                raise RuntimeError(f"HTTP {response.status}")
+        with open(done_path, "w", encoding="ascii") as f:
+            f.write(str(now))
+        print("자동분석 안전 인계 예약 완료 — 현재 작업 종료 뒤 다음 러너가 이어받습니다")
+    except Exception as exc:
+        print(f"[경고] 자동분석 안전 인계 예약 실패 — 다음 회차에 재시도합니다: {exc}")
 
 
 def load_js_object(path, varname):
@@ -368,6 +423,9 @@ def build_market_insight(out, indicators):
 
 
 def main():
+    # 첫 회차에 시작 시각을 기록하고, 이후 회차부터 장시간 실행 여부를 확인한다.
+    schedule_safety_handoff()
+
     # indicators.json은 순수 JSON
     ipath = os.path.join(HERE, "indicators.json")
     if not os.path.exists(ipath):
@@ -432,6 +490,7 @@ def main():
     with open(os.path.join(HERE, "auto_analysis.js"), "w", encoding="utf-8") as f:
         f.write(js)
     print(f"auto_analysis.js 저장 완료 — 자동분석 {n_auto}종목 (정밀분석 보유 {len(deep_codes)}종목 포함)")
+    schedule_safety_handoff()
 
 
 if __name__ == "__main__":
