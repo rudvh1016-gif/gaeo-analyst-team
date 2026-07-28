@@ -45,7 +45,7 @@ function bodyToHtml(raw) {
   return html;
 }
 
-function page({ url, title, desc, date, articleType, bodyHtml, backHref, sourcesHtml, tag }) {
+function page({ url, title, desc, date, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml }) {
   const ld = {
     "@context": "https://schema.org",
     "@type": articleType || "Article",
@@ -55,6 +55,7 @@ function page({ url, title, desc, date, articleType, bodyHtml, backHref, sources
     "description": desc,
     "inLanguage": "ko-KR",
     "isPartOf": { "@type": "WebSite", "name": SITE_NAME, "url": BASE },
+    "author": { "@type": "Organization", "name": "Gaeo 리서치팀", "url": BASE + "about.html" },
     "publisher": { "@type": "Organization", "name": SITE_NAME, "url": BASE },
     "mainEntityOfPage": url
   };
@@ -78,8 +79,8 @@ function page({ url, title, desc, date, articleType, bodyHtml, backHref, sources
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
-:root{--bg:#F5F5F7;--ink:#1D1D1F;--t2:#6E6E73;--sky:#0071E3;--card:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#000;--ink:#F5F5F7;--t2:#98989D;--sky:#0A84FF;--card:#1C1C1E}}
+:root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
@@ -96,6 +97,11 @@ p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
 ul{margin:0 0 12px;padding-left:20px}
 li{margin-bottom:6px;font-size:15px}
 .cta{display:inline-block;margin-top:22px;background:var(--sky);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:99px}
+.trust{margin-top:22px;padding:14px 16px;border-radius:13px;background:var(--soft);font-size:12.5px;color:var(--t2)}
+.trust strong{display:block;color:var(--ink);margin-bottom:3px}
+.related{margin-top:24px;padding-top:18px;border-top:1px solid rgba(128,128,128,.2)}
+.related h2{margin:0 0 8px}
+.related a{display:block;padding:7px 0;color:var(--sky);font-size:13.5px;text-decoration:none}
 .sources{margin-top:26px;font-size:12.5px;color:var(--t2)}
 .sources a{color:var(--t2)}
 .disc{margin-top:20px;font-size:12px;color:var(--t2)}
@@ -113,6 +119,8 @@ li{margin-bottom:6px;font-size:15px}
     ${bodyHtml}
     </div>
     <a class="cta" href="${esc(backHref)}">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
+    ${relatedHtml || ''}
     ${sourcesHtml || ''}
     <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</div>
   </div>
@@ -130,6 +138,13 @@ function sourcesToHtml(sources) {
     return '<li>' + esc(nm) + '</li>';
   }).join('');
   return '<div class="sources">📎 출처<ul>' + items + '</ul></div>';
+}
+
+function relatedToHtml(items) {
+  if (!Array.isArray(items) || !items.length) return '';
+  return '<div class="related"><h2>이어서 볼 자료</h2>' +
+    items.slice(0, 3).map(x => '<a href="' + esc(x.url) + '">' + esc(x.title) + '</a>').join('') +
+    '</div>';
 }
 
 const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/calc', 'snap/stock'];
@@ -151,6 +166,13 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       backHref: url,
       sourcesHtml: sourcesToHtml(item.sources),
       tag: item.tag,
+      relatedHtml: relatedToHtml([
+        ...list.filter(x => x.id !== item.id && item.cat && x.cat === item.cat),
+        ...list.filter(x => x.id !== item.id && (!item.cat || x.cat !== item.cat))
+      ].slice(0, 3).map(x => ({
+        url: `${BASE}?m=${kind}&id=${x.id}`,
+        title: x[titleKey] || x.title || x.name
+      }))),
     });
     fs.writeFileSync(path.join(HERE, `snap/${folder}/${item.id}.html`), html);
     index.push({ href: `snap/${folder}/${item.id}.html`, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
@@ -184,6 +206,12 @@ function buildStocks() {
   const DATA = load('data.js', 'LIVE_DATA') || {};
   const AN = load('analysis.js', 'LIVE_ANALYSIS') || {};
   const AUTO = load('auto_analysis.js', 'LIVE_AUTO') || {};
+  fs.writeFileSync(
+    path.join(HERE, 'snap/home_brief.js'),
+    '// 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성\nconst HOME_BRIEF = ' +
+      JSON.stringify({ generatedAt: AUTO.generatedAt || '', marketInsight: AUTO.marketInsight || null }, null, 1) +
+      ';\n'
+  );
   const stocksData = DATA.stocks || {};
   const autoStocks = AUTO.stocks || {};
   let n = 0;
@@ -226,6 +254,11 @@ function buildStocks() {
       backHref: url,
       sourcesHtml: '',
       tag: `${tierLabel} · ${name}`,
+      relatedHtml: relatedToHtml([
+        ...TICKERS.filter(x => x.code !== code && x.sector === t.sector).slice(0, 2)
+          .map(x => ({ url: `${BASE}?m=single&code=${x.code}`, title: `${x.name} 주가와 오늘 판단 보기` })),
+        { url: `${BASE}?m=news`, title: `${t.sector || '시장'} 관련 최신 뉴스 보기` }
+      ]),
     });
     fs.writeFileSync(path.join(HERE, `snap/stock/${code}.html`), html);
     n++;

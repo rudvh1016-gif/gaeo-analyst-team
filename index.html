@@ -14,6 +14,9 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-D6PYQ4TXY4');
+  window.gaeoTrack=function(name,params){
+    try{ if(typeof gtag==='function') gtag('event',name,params||{}); }catch(e){}
+  };
 </script>
 <script>
   // 모바일에서 "PC 버전으로 보기"를 저장해둔 경우, 그리기 전에 미리 뷰포트를 넓혀서
@@ -1556,7 +1559,8 @@
   .global-brand{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--gaeo-ink);
     padding:0;cursor:pointer;flex:0 0 auto}
   .global-brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;
-    color:#fff;background:var(--gaeo-900);font-size:16px;font-weight:900;letter-spacing:-.05em}
+    color:#245C73;background:#CCE9F3;border:1px solid #B8DCE8;
+    font-size:16px;font-weight:900;letter-spacing:-.05em}
   .global-brand-word{font-size:19px;font-weight:850;letter-spacing:-.04em}
   .global-primary{display:flex;align-items:center;gap:2px;min-width:0}
   .global-link{height:40px;border:0;border-radius:12px;padding:0 13px;background:transparent;
@@ -1622,26 +1626,26 @@
   .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + 22px) 0 96px}
   .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
     box-shadow:none;padding:9px 0;color:var(--gaeo-muted)}
-  .home-dashboard{margin-top:24px}
-  .home-lead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.75fr);gap:24px}
+  .home-dashboard{margin-top:18px}
+  .home-lead{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(360px,.75fr);gap:16px}
   .home-dashboard,.home-lead,.home-lead>*{min-width:0}
-  .home-dashboard header{position:relative;overflow:hidden;min-height:218px;margin:0;
-    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:38px 42px;
+  .home-dashboard header{position:relative;overflow:hidden;min-height:184px;margin:0;
+    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:32px 36px;
     align-self:start;align-items:flex-end;background:var(--paper);box-shadow:none}
-  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:42px;top:32px;
+  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:36px;top:26px;
     color:var(--gaeo-600);font-size:10px;font-weight:850;letter-spacing:.16em}
   .home-dashboard header::after{content:none}
   .home-dashboard header .ht{gap:10px}
   .home-dashboard header h1{font-size:clamp(44px,3.7vw,58px);font-weight:850;line-height:.95;
     letter-spacing:-.065em;color:var(--gaeo-ink)}
   .home-dashboard .tagline{font-size:17px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
-  .home-dashboard header .badge{position:absolute;right:34px;top:32px;margin:0;padding:7px 11px;
+  .home-dashboard header .badge{position:absolute;right:30px;top:26px;margin:0;padding:7px 11px;
     background:var(--gaeo-50);color:var(--gaeo-700);font-size:10px;font-weight:800}
   .home-dashboard .pwa-btn{border:0;border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-700);
     padding:7px 11px;box-shadow:none}
-  .home-dashboard .latest-home{margin:0;padding:30px 30px 24px;border:1px solid var(--gaeo-border);
+  .home-dashboard .latest-home{margin:0;padding:24px 26px 18px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none}
-  .home-dashboard .latest-home-head{align-items:center;justify-content:space-between;margin-bottom:18px}
+  .home-dashboard .latest-home-head{align-items:center;justify-content:space-between;margin-bottom:10px}
   .home-dashboard .latest-home-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
   .home-dashboard .latest-home-head span{font-size:10px;padding:5px 8px;border-radius:8px;
     color:var(--gaeo-600);background:var(--gaeo-50)}
@@ -1656,14 +1660,14 @@
   .home-dashboard .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
     white-space:nowrap;text-overflow:ellipsis;display:block}
 
-  .home-dashboard .start-board{grid-template-columns:minmax(0,1.05fr) minmax(0,1.5fr) minmax(250px,.8fr);
-    gap:24px;margin:24px 0}
-  .home-dashboard .start-step{min-height:270px;padding:32px;border:1px solid var(--gaeo-border);
+  .home-dashboard .start-board{grid-template-columns:minmax(280px,.95fr) minmax(520px,1.45fr) minmax(250px,.72fr);
+    align-items:start;gap:16px;margin:16px 0}
+  .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-md);background:var(--paper);box-shadow:none}
-  .home-dashboard .start-kicker{margin-bottom:12px;color:var(--gaeo-600);font-size:10px;letter-spacing:.13em}
-  .home-dashboard .start-step h2{margin-bottom:10px;font-size:24px;font-weight:820;letter-spacing:-.04em}
-  .home-dashboard .start-step p{font-size:14px;line-height:1.65;color:var(--gaeo-muted)}
-  .home-dashboard .start-action{margin-top:24px;min-height:48px;border-radius:14px;
+  .home-dashboard .start-kicker{margin-bottom:8px;color:var(--gaeo-600);font-size:10px;letter-spacing:.13em}
+  .home-dashboard .start-step h2{margin-bottom:7px;font-size:22px;font-weight:820;letter-spacing:-.04em}
+  .home-dashboard .start-step p{font-size:13px;line-height:1.55;color:var(--gaeo-muted)}
+  .home-dashboard .start-action{margin-top:16px;min-height:44px;border-radius:13px;
     background:var(--gaeo-900);font-size:14px}
   .home-dashboard .start-action.secondary{background:var(--gaeo-50);border:1px solid var(--gaeo-100);
     color:var(--gaeo-700)}
@@ -1687,7 +1691,7 @@
   .home-dashboard .brief-count-row strong{color:#173E4D;font-weight:820;font-variant-numeric:tabular-nums}
   .home-dashboard .brief-link{border-color:rgba(72,139,164,.28);background:rgba(255,255,255,.60);
     color:#245C73;padding:8px 11px;border-radius:10px}
-  .home-dashboard .home-watch{margin-top:22px;padding-top:16px}
+  .home-dashboard .home-watch{margin-top:14px;padding-top:12px}
   .home-dashboard .home-watch-label{font-size:11px}
   .home-dashboard .home-watch-chip{padding:7px 10px;background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
   .home-dashboard .home-search-row input{min-height:46px;border-color:var(--gaeo-border);
@@ -1707,6 +1711,18 @@
   .home-dashboard .dowbar{margin-bottom:24px;padding:24px 26px;border-radius:var(--gaeo-radius-md)}
   .home-dashboard .rail-r{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
     position:static;min-width:0;width:100%;max-height:none;overflow:visible;padding:0;margin:0 0 28px}
+  .trust-strip{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,2fr) auto;
+    align-items:center;gap:20px;margin:0 0 16px;padding:18px 22px;border:1px solid var(--gaeo-border);
+    border-radius:18px;background:var(--paper)}
+  .trust-strip h2{margin:0 0 3px;font-size:15px;letter-spacing:-.03em}
+  .trust-strip p{margin:0;color:var(--gaeo-muted);font-size:11.5px;line-height:1.5}
+  .trust-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .trust-point{padding:10px 12px;border-radius:12px;background:var(--gaeo-canvas)}
+  .trust-point b{display:block;margin-bottom:2px;color:var(--gaeo-ink);font-size:11px}
+  .trust-point span{display:block;color:var(--gaeo-muted);font-size:10px;line-height:1.4}
+  .trust-links{display:flex;gap:7px;white-space:nowrap}
+  .trust-links a{padding:8px 10px;border:1px solid var(--gaeo-border);border-radius:10px;
+    color:var(--gaeo-700);font-size:10.5px;font-weight:760;text-decoration:none}
   .home-dashboard .rr-panel{border:1px solid var(--gaeo-border);border-radius:18px;background:var(--paper);
     box-shadow:none;padding:22px}
   .home-dashboard .rr-title{display:flex;align-items:center;gap:7px;margin:0 0 14px;color:var(--gaeo-ink);
@@ -1804,6 +1820,7 @@
     .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
     .home-dashboard .start-board{grid-template-columns:1fr 1fr}
     .home-dashboard .start-step-summary{grid-column:1/-1;grid-row:1}
+    .trust-strip{grid-template-columns:1fr}
     .home-dashboard .rail-r{grid-template-columns:1fr 1fr}
     body[data-mode="single"] .analysis-browser{grid-template-columns:1fr;gap:22px}
     .analysis-browser-head{max-width:620px}
@@ -1847,14 +1864,18 @@
     .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(210px,1fr))}
     .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
     .home-dashboard .start-step-summary{grid-column:auto;grid-row:auto}
-    .home-dashboard .start-step{min-height:0;padding:26px 22px;border-radius:20px}
-    .home-dashboard .start-step h2{font-size:21px}
-    .home-dashboard .start-step p{font-size:13px}
+    .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
+    .home-dashboard .start-step h2{font-size:20px}
+    .home-dashboard .start-step p{font-size:12.5px}
     .home-dashboard .brief-extra{padding:13px 12px}
     .home-dashboard .brief-extra p{font-size:11.5px;line-height:1.62}
     .home-dashboard .brief-count-row{gap:6px;font-size:10.5px}
     .home-dashboard .brief-count-row>span:first-child{font-size:10px}
-    .home-dashboard .start-action{margin-top:20px}
+    .home-dashboard .start-action{margin-top:13px;min-height:42px}
+    .home-dashboard .home-watch{margin-top:12px;padding-top:10px}
+    .trust-strip{padding:18px;gap:13px}
+    .trust-points{grid-template-columns:1fr;gap:7px}
+    .trust-links{overflow-x:auto}
     .home-dashboard .market{padding:24px 20px;border-radius:20px}
     .home-dashboard .kpis{grid-template-columns:1fr 1fr;gap:10px}
     .home-dashboard .kpi{padding:18px 16px}
@@ -2005,6 +2026,22 @@
         <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
       </article>
     </section>
+    <section class="trust-strip" aria-labelledby="trustTitle">
+      <div>
+        <h2 id="trustTitle">판단보다 먼저, 기준을 공개해요</h2>
+        <p>숫자의 시점과 자동분석의 한계를 함께 확인할 수 있어요.</p>
+      </div>
+      <div class="trust-points">
+        <div class="trust-point"><b>기준 시각 표시</b><span>시세와 분석이 언제 만들어졌는지 따로 적어요.</span></div>
+        <div class="trust-point"><b>분석 방식 구분</b><span>규칙 기반 자동분석과 정밀분석을 섞어 말하지 않아요.</span></div>
+        <div class="trust-point"><b>투자 권유 아님</b><span>판단 근거를 공부용 참고자료로 제공해요.</span></div>
+      </div>
+      <div class="trust-links">
+        <a href="about.html">서비스 소개</a>
+        <a href="?m=guide" data-trust-guide>분석 기준</a>
+        <a href="privacy.html">개인정보</a>
+      </div>
+    </section>
     <div class="market" id="marketBox" style="display:none"></div>
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
@@ -2154,8 +2191,8 @@
 <script src="site_config.js"></script>
 <script src="community.js"></script>
 <script src="snap/latest_posts.js" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
+<script src="snap/home_brief.js" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
 <script src="analysis.js"></script>
-<script src="auto_analysis.js" onerror="window.LIVE_AUTO=window.LIVE_AUTO||null"></script>
 <script src="indicators.js"></script>
 <script src="market_history.js"></script>
 <script src="dow_stats.js" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
@@ -2169,7 +2206,8 @@ window.GaeoFeatures=(()=>{
     lesson:['stock_lessons.js'],
     estate:['estate_lessons.js'],
     calc:['calculators.js'],
-    history:['history.js','price_history.js']
+    history:['history.js','price_history.js'],
+    auto:['auto_analysis.js']
   };
   const jobs={};
   const loadFile=src=>new Promise((resolve,reject)=>{
@@ -2185,7 +2223,10 @@ window.GaeoFeatures=(()=>{
       if(jobs[key]) return jobs[key];
       const job=Promise.all((files[key]||[]).map(loadFile));
       job.status='pending';
-      job.then(()=>{job.status='fulfilled';},()=>{delete jobs[key];});
+      job.then(()=>{
+        job.status='fulfilled';
+        if(key==='auto'&&typeof window.GaeoUseAuto==='function') window.GaeoUseAuto();
+      },()=>{delete jobs[key];});
       jobs[key]=job;
       return job;
     }
@@ -2240,9 +2281,16 @@ const CAP_TOP10=(function(){
   return arr.slice(0,10);
 })();
 const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
-// auto_analysis.js가 전역에 const LIVE_AUTO를 선언한다(없으면 script onerror가 window.LIVE_AUTO=null).
-// 여기서 같은 이름으로 재선언하면 충돌(SyntaxError)하므로 다른 이름(AUTO_AN)으로 참조만 잡는다.
-const AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:((typeof window!=='undefined'&&window.LIVE_AUTO)||null);
+// 전체 500종목 자동분석은 첫 화면에서 받지 않고, 실제 분석 기능을 누를 때만 내려받는다.
+let AUTO_AN=null;
+window.GaeoUseAuto=()=>{
+  AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:
+    ((typeof window!=='undefined'&&window.LIVE_AUTO)||null);
+  return AUTO_AN;
+};
+window.ensureAutoAnalysis=()=>AUTO_AN
+  ?Promise.resolve(AUTO_AN)
+  :GaeoFeatures.load('auto').then(()=>window.GaeoUseAuto());
 // 정밀분석 '신선도' 판정: 아래 두 조건을 "모두" 만족할 때만 정밀분석을 우선 표시(true).
 //   ① 시간: 정밀분석이 자동분석(매일 전 종목 갱신)보다 오래되지 않았을 것.
 //      · 자동분석은 매일 새로 생성되므로, 하루라도 지난 정밀분석의 텍스트(뉴스·공시)는 낡았다.
@@ -3104,9 +3152,13 @@ document.getElementById('homeWatchlist').addEventListener('click',e=>{
 document.getElementById('watchToggle').onclick=()=>{
   const btn=document.getElementById('watchToggle'), code=btn.dataset.code; if(!STOCKS[code]) return;
   let codes=loadWatchlist();
-  if(codes.includes(code)) codes=codes.filter(x=>x!==code);
+  const wasOn=codes.includes(code);
+  if(wasOn) codes=codes.filter(x=>x!==code);
   else codes=[code,...codes].slice(0,8);
   saveWatchlist(codes);
+  gaeoTrack(wasOn?'remove_from_wishlist':'add_to_wishlist',{
+    item_id:code,item_name:STOCKS[code].name,items:[{item_id:code,item_name:STOCKS[code].name}]
+  });
   updateWatchToggle(code);
   renderHomeWatchlist();
 };
@@ -3124,6 +3176,7 @@ renderHomeWatchlist();
   </button>`).join('');
   box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
     const mode=btn.dataset.postMode, id=btn.dataset.postId;
+    gaeoTrack('select_content',{content_type:mode,item_id:id});
     btn.disabled=true;
     try{
       await GaeoFeatures.load(mode);
@@ -3139,7 +3192,7 @@ renderHomeWatchlist();
   const brief=document.getElementById('homeBrief'), extra=document.getElementById('briefExtra');
   if(!brief) return;
   const initialLive=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
-  const initialAuto=(typeof AUTO_AN!=='undefined'&&AUTO_AN)||null;
+  const initialAuto=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF)||null;
   const state={brief:null,insight:null,strongSector:null};
 
   function summaryFromLive(live){
@@ -3266,10 +3319,10 @@ renderHomeWatchlist();
   }
   async function refreshInsight(){
     try{
-      const res=await fetch('auto_analysis.js',{cache:'no-cache'});
+      const res=await fetch('snap/home_brief.js',{cache:'no-cache'});
       if(res.ok){
-        const auto=parseGenerated(await res.text(),'LIVE_AUTO');
-        state.insight=auto.marketInsight||insightFromAuto(auto);
+        const home=parseGenerated(await res.text(),'HOME_BRIEF');
+        state.insight=home.marketInsight||null;
       }
       render();
     }catch(e){}
@@ -3277,21 +3330,24 @@ renderHomeWatchlist();
   async function refresh(){ await Promise.all([refreshBrief(),refreshInsight()]); }
   state.brief=(initialLive&&initialLive.marketBrief)||summaryFromLive(initialLive);
   state.strongSector=(summaryFromLive(initialLive)||{}).strongSector||null;
-  state.insight=(initialAuto&&initialAuto.marketInsight)||insightFromAuto(initialAuto);
+  state.insight=(initialAuto&&initialAuto.marketInsight)||null;
   render();
   setInterval(refreshBrief,5*60*1000);
   setInterval(refreshInsight,30*60*1000);
   setInterval(()=>renderClock(),60*1000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
   window.GaeoBrief={refresh,renderClock};
-  document.getElementById('briefSectorBtn').onclick=()=>{
+  document.getElementById('briefSectorBtn').onclick=async()=>{
     const sector=document.getElementById('briefSectorBtn').dataset.sector;
     if(!sector) return;
+    gaeoTrack('select_content',{content_type:'sector',item_id:sector});
+    try{ await window.ensureAutoAnalysis(); }catch(e){}
     SCR.sector=sector; SCR.call='__all__'; SCR.sort='rate_desc';
     setMode('screener');
     document.getElementById('screenerView').scrollIntoView({behavior:'smooth',block:'start'});
   };
   document.getElementById('briefNewsBtn').onclick=async()=>{
+    gaeoTrack('select_content',{content_type:'news_category',item_id:'market'});
     await GaeoFeatures.load('news');
     setMode('news');
     if(window.openNewsCategory) window.openNewsCategory('market');
@@ -3302,11 +3358,13 @@ renderHomeWatchlist();
     const ticker=document.getElementById('homeTicker');
     panel.hidden=false;
     panel.classList.add('on');
+    gaeoTrack('search_open',{search_location:'home'});
     document.getElementById('startSearch').setAttribute('aria-expanded','true');
     // 멀리 떨어진 본문으로 스크롤하지 않고, 누른 자리에서 즉시 검색할 수 있게 한다.
     try{ ticker.focus({preventScroll:true}); }catch(e){ ticker.focus(); }
   };
   document.getElementById('startGuide').onclick=()=>{
+    gaeoTrack('tutorial_begin',{tutorial_name:'3분 가이드'});
     document.getElementById('mode-guide').click();
     const guide=document.getElementById('guideView');
     const move=()=>guide.scrollIntoView({behavior:'smooth',block:'start'});
@@ -4876,12 +4934,15 @@ function sendToWork(a,dur,onDone){
   st.emote=null; st.pendingAct=null;
   st.path=findPath(st.x,st.y,w.x,w.y)||[{x:w.x,y:w.y}];
 }
-function analyze(){
+async function analyze(){
   if(running)return; running=true;
   SFX.click();
   showAnalyzing();
   const stock=resolveStock(document.getElementById('ticker').value);
   showQuote(stock);
+  gaeoTrack('search',{search_term:stock.name||document.getElementById('ticker').value,search_location:'analysis'});
+  gaeoTrack('analysis_start',{stock_code:stock.code||'',stock_name:stock.name||''});
+  try{ await window.ensureAutoAnalysis(); }catch(e){}
   document.getElementById('run').disabled=true; vEl.classList.remove('on');
   document.getElementById('viz').classList.remove('on');
   const data=runAnalysis(stock);
@@ -6510,7 +6571,7 @@ window.renderScreener=function(){
 
   function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
-      leaderboard:'history',calendar:'history'}[mode];
+      leaderboard:'history',calendar:'history',screener:'auto'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
       const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
         calc:'calcView',leaderboard:'leaderboard',calendar:'calendarView'}[mode];
@@ -6580,8 +6641,8 @@ window.renderScreener=function(){
   window.setMode=setMode;   // 딥링크 라우터(?m=...)가 페이지 로드 시 호출
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
-  document.getElementById('mode-compare').onclick=()=>{setMode('compare'); SFX.click(); runCompare();};
-  document.getElementById('mode-portfolio').onclick=()=>{setMode('portfolio'); SFX.click();};
+  document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare();});};
+  document.getElementById('mode-portfolio').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('portfolio'); SFX.click();});};
   document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
   document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
   document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
@@ -6603,7 +6664,32 @@ window.renderScreener=function(){
     },80);
   };
   const pwaBtn=document.getElementById('pwaAddBtn');
-  if(pwaBtn) pwaBtn.onclick=()=>{ window.openCommunityPost(2); SFX.click(); };
+  let installPrompt=null;
+  window.addEventListener('beforeinstallprompt',event=>{
+    event.preventDefault();
+    installPrompt=event;
+    if(pwaBtn) pwaBtn.textContent='앱으로 설치하기';
+  });
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+  window.addEventListener('appinstalled',()=>{
+    installPrompt=null;
+    gaeoTrack('app_install',{method:'pwa'});
+    if(pwaBtn) pwaBtn.textContent='설치 완료';
+  });
+  if(pwaBtn) pwaBtn.onclick=async()=>{
+    SFX.click();
+    if(installPrompt){
+      installPrompt.prompt();
+      const choice=await installPrompt.userChoice;
+      gaeoTrack('install_prompt_result',{outcome:choice.outcome});
+      installPrompt=null;
+      return;
+    }
+    gaeoTrack('select_content',{content_type:'install_guide',item_id:'pwa'});
+    window.openCommunityPost(2);
+  };
 
   function radarTwo(sA,sB){
     const cx=120,cy=120,R=86, ang=[-90,0,90,180].map(d=>d*Math.PI/180);
@@ -7468,9 +7554,10 @@ window.hangulFix=function(str){
   document.body.appendChild(btn);
   btn.onclick=async()=>{
     const data={title:'Gaeo · 한국 주식 초보자의 매일 3분 리서치', text:'오늘 시장 3줄 요약부터 관심 종목 분석까지, 매일 3분 안에 쉽게 살펴보세요.', url:location.href};
-    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+    if(navigator.share){ try{ await navigator.share(data); gaeoTrack('share',{method:'native',content_type:'page',item_id:location.pathname+location.search}); }catch(e){} }
     else{
       try{ await navigator.clipboard.writeText(location.href);
+        gaeoTrack('share',{method:'clipboard',content_type:'page',item_id:location.pathname+location.search});
         btn.textContent='✅'; setTimeout(()=>btn.innerHTML='📤',1400);
       }catch(e){ alert('공유하기가 지원되지 않는 브라우저예요. 주소창의 링크를 직접 복사해주세요.'); }
     }
