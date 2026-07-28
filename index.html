@@ -3364,7 +3364,7 @@ renderHomeWatchlist();
     try{ ticker.focus({preventScroll:true}); }catch(e){ ticker.focus(); }
   };
   document.getElementById('startGuide').onclick=()=>{
-    gaeoTrack('tutorial_begin',{tutorial_name:'3분 가이드'});
+    beginGuideTutorial('home_dashboard');
     document.getElementById('mode-guide').click();
     const guide=document.getElementById('guideView');
     const move=()=>guide.scrollIntoView({behavior:'smooth',block:'start'});
@@ -5298,7 +5298,41 @@ function renderGuide(){
 
   <div class="gb-warn">⚠️ <b>꼭 기억하세요!</b> 이 사이트는 <b>공부와 참고용</b>이에요.
   AI 분석가도 틀릴 수 있어요(리더보드에서 확인해보세요!). 진짜 투자는 어른과 상의하고,
-  잃어도 괜찮은 돈으로, 스스로 공부한 뒤에 결정하는 거예요. 여기 나온 어떤 내용도 "사라/팔아라"는 권유가 아니에요.</div>`;
+  잃어도 괜찮은 돈으로, 스스로 공부한 뒤에 결정하는 거예요. 여기 나온 어떤 내용도 "사라/팔아라"는 권유가 아니에요.</div>
+  <div id="guideCompleteMarker" aria-hidden="true" style="height:1px"></div>`;
+  watchGuideCompletion();
+}
+
+/* 가이드 이용 흐름 측정: 진입(tutorial_begin)과 맨 아래 도달(tutorial_complete)을 분리한다.
+   같은 가이드 화면 안에서는 중복 전송하지 않고, 나갔다가 다시 들어오면 새 이용 흐름으로 본다. */
+const GUIDE_TUTORIAL={active:false,startedAt:0,source:'navigation',observer:null};
+function beginGuideTutorial(source){
+  if(GUIDE_TUTORIAL.active) return;
+  GUIDE_TUTORIAL.active=true;
+  GUIDE_TUTORIAL.startedAt=Date.now();
+  GUIDE_TUTORIAL.source=source||'navigation';
+  gaeoTrack('tutorial_begin',{
+    tutorial_name:'3분 가이드',
+    tutorial_source:GUIDE_TUTORIAL.source
+  });
+}
+function watchGuideCompletion(){
+  const marker=document.getElementById('guideCompleteMarker');
+  if(!marker||GUIDE_TUTORIAL.observer||typeof IntersectionObserver==='undefined') return;
+  GUIDE_TUTORIAL.observer=new IntersectionObserver(entries=>{
+    if(!GUIDE_TUTORIAL.active||!entries.some(entry=>entry.isIntersecting)) return;
+    const seconds=Math.max(1,Math.round((Date.now()-GUIDE_TUTORIAL.startedAt)/1000));
+    gaeoTrack('tutorial_complete',{
+      tutorial_name:'3분 가이드',
+      tutorial_source:GUIDE_TUTORIAL.source,
+      engagement_time_sec:seconds
+    });
+    GUIDE_TUTORIAL.active=false;
+  },{threshold:.8});
+  GUIDE_TUTORIAL.observer.observe(marker);
+}
+function endGuideTutorial(){
+  GUIDE_TUTORIAL.active=false;
 }
 
 // 종목 칩: 업종 폴더(누르면 열림) 안에 이름 + 현재 주가 + 등락률
@@ -6609,7 +6643,12 @@ window.renderScreener=function(){
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
     document.getElementById('guideView').classList.toggle('on',guide);
-    if(guide) renderGuide();
+    window.GaeoCurrentMode=mode;
+    if(guide){
+      renderGuide();
+      beginGuideTutorial('navigation');
+      watchGuideCompletion();
+    }else endGuideTutorial();
     document.querySelector('.controls').style.display=single?'':'none';
     document.getElementById('chips').style.display=single?'':'none';
     document.getElementById('quote').style.display=single?'':'none';
@@ -7543,21 +7582,46 @@ window.hangulFix=function(str){
     else if(m==='estate'&&id){ window.setMode('estate'); window.openEstateId&&window.openEstateId(id); }
     else if(m==='calc'&&id){ window.setMode('calc'); window.openCalcId&&window.openCalcId(id); }
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
+    else if(m==='guide'){ window.setMode('guide'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
 // ---------- 📤 공유 버튼 (카카오톡 포함 스마트폰 공유창 · 로그인/앱키 불필요) ----------
 (function(){
+  function shareContext(){
+    const qp=new URLSearchParams(location.search);
+    const mode=qp.get('m')||window.GaeoCurrentMode||'home';
+    const id=qp.get('id'), code=qp.get('code');
+    const articleModes=['news','study','lesson','estate','calc'];
+    if(articleModes.includes(mode)&&id){
+      return {content_type:mode+'_article',item_id:id,content_group:'article'};
+    }
+    if(mode==='guide'){
+      return {content_type:'tutorial',item_id:'3-minute-guide',content_group:'guide'};
+    }
+    if(mode==='single'&&code){
+      return {content_type:'stock_analysis',item_id:code,content_group:'analysis'};
+    }
+    const date=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+    return {content_type:'market_briefing',item_id:'market-briefing-'+date,content_group:'briefing'};
+  }
+  function trackShare(method){
+    const context=shareContext();
+    const params={method,...context};
+    gaeoTrack('share',params);
+    if(context.content_group==='briefing') gaeoTrack('briefing_share',params);
+    else if(context.content_group==='article') gaeoTrack('article_share',params);
+  }
   const btn=document.createElement('button');
   btn.className='share-fab'; btn.type='button'; btn.title='이 화면 공유하기';
   btn.innerHTML='📤';
   document.body.appendChild(btn);
   btn.onclick=async()=>{
     const data={title:'Gaeo · 한국 주식 초보자의 매일 3분 리서치', text:'오늘 시장 3줄 요약부터 관심 종목 분석까지, 매일 3분 안에 쉽게 살펴보세요.', url:location.href};
-    if(navigator.share){ try{ await navigator.share(data); gaeoTrack('share',{method:'native',content_type:'page',item_id:location.pathname+location.search}); }catch(e){} }
+    if(navigator.share){ try{ await navigator.share(data); trackShare('native'); }catch(e){} }
     else{
       try{ await navigator.clipboard.writeText(location.href);
-        gaeoTrack('share',{method:'clipboard',content_type:'page',item_id:location.pathname+location.search});
+        trackShare('clipboard');
         btn.textContent='✅'; setTimeout(()=>btn.innerHTML='📤',1400);
       }catch(e){ alert('공유하기가 지원되지 않는 브라우저예요. 주소창의 링크를 직접 복사해주세요.'); }
     }
