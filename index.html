@@ -1777,6 +1777,7 @@
     .global-icon-btn,.global-menu-btn{width:40px;padding:0}
     .global-menu-btn>span:last-child{display:none}
     .global-panel-inner{padding:18px 0 22px}
+    #rrRecentCalls{display:none}
     .nav-search-inner{grid-template-columns:1fr auto}
     .nav-search-inner>.nav-panel-label{grid-column:1/-1}
     .nav-search-inner .ac-wrap{width:auto;min-width:0}
@@ -5378,7 +5379,7 @@ makeCards(false);
   rail.innerHTML=
     `<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
       `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`+
-    `<div class="rr-panel"><div class="rr-title">🕐 최근 팀 판단`+
+    `<div class="rr-panel" id="rrRecentCalls"><div class="rr-title">🕐 최근 팀 판단`+
       `<span class="rr-cnt">${recs.length}</span></div>${rcHTML}</div>`;
   rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
 })();
