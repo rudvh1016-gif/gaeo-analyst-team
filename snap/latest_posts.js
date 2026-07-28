@@ -25,19 +25,19 @@ const LATEST_POSTS = [
   "featured": false
  },
  {
-  "id": 19,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-27",
-  "title": "엔비디아 순환출자 논란 — 마이클 버리는 왜 숏을 쳤고, 삼성전자·SK하이닉스엔 무슨 의미일까",
+  "id": 49,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-07-28",
+  "title": "퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지",
   "featured": false
  },
  {
-  "id": 17,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-27",
-  "title": "2026년 7월27일 종가 코스피·코스닥 분석 — 이란 완화 기대와 SK-엔비디아 빅딜이 갈라놓은 업종별 희비",
+  "id": 48,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-07-28",
+  "title": "사회초년생 월급 관리 — 통장 쪼개기보다 먼저 할 일",
   "featured": false
  }
 ];
