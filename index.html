@@ -1691,10 +1691,12 @@
     background:rgba(255,255,255,.55);color:#334E5A}
   .home-dashboard .brief-extra-head{color:#1D5368}
   .home-dashboard .brief-extra-head.is-delayed{color:#8A5728}
-  .home-dashboard .brief-count-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,max-content);
-    align-items:center;gap:6px 10px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
+  .home-dashboard .brief-count-row{display:flex;align-items:center;justify-content:flex-start;
+    flex-wrap:wrap;gap:6px 12px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
   .home-dashboard .brief-count-row>span:first-child{color:#526F7B;font-weight:720}
   .home-dashboard .brief-count-row strong{color:#173E4D;font-weight:820;font-variant-numeric:tabular-nums}
+  .home-dashboard .latest-post-pin{display:inline-block;margin-right:5px;color:#E5484D;
+    font-size:12px;line-height:1;vertical-align:1px}
   .home-dashboard .brief-link{border-color:rgba(72,139,164,.28);background:rgba(255,255,255,.60);
     color:#245C73;padding:8px 11px;border-radius:10px}
   .home-dashboard .home-watch{margin-top:14px;padding-top:12px}
@@ -3205,9 +3207,9 @@ renderHomeWatchlist();
   const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))?LATEST_POSTS:[];
   if(!box) return;
   if(!posts.length){ box.innerHTML='<span class="home-watch-empty">최신 글 목록을 준비하고 있어요.</span>'; return; }
-  box.innerHTML=posts.slice(0,5).map(post=>`<button class="latest-post" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
+  box.innerHTML=posts.slice(0,5).map(post=>`<button class="latest-post${post.featured?' is-featured':''}" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
     <span class="latest-post-meta"><b>${esc(post.label)}</b><span>${esc(post.date)}</span></span>
-    <span class="latest-post-title">${esc(post.title)}</span>
+    <span class="latest-post-title">${post.featured?'<span class="latest-post-pin" aria-label="고정 글">★</span>':''}${esc(post.title)}</span>
   </button>`).join('');
   box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
     const mode=btn.dataset.postMode, id=btn.dataset.postId;

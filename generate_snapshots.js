@@ -269,10 +269,26 @@ buildStocks();
 
 index.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 const latestLabels = { news: '뉴스분석', study: '종목공부', lesson: '주식공부', estate: '부동산공부' };
-const latestPosts = index
-  .filter(x => latestLabels[x.mode])
+// 시장 급변기에 꼭 먼저 읽었으면 하는 글은 새 글이 생겨도 첫 번째에 유지한다.
+// 고정을 해제할 때는 아래 값만 null로 바꾸면 된다.
+const featuredLatestKey = { mode: 'lesson', id: 35 };
+const latestPool = index.filter(x => latestLabels[x.mode]);
+const featuredLatest = latestPool.find(x =>
+  x.mode === featuredLatestKey.mode && Number(x.id) === featuredLatestKey.id
+);
+const orderedLatest = featuredLatest
+  ? [featuredLatest, ...latestPool.filter(x => x !== featuredLatest)]
+  : latestPool;
+const latestPosts = orderedLatest
   .slice(0, 5)
-  .map(x => ({ id: x.id, mode: x.mode, label: latestLabels[x.mode], date: x.date, title: x.title }));
+  .map(x => ({
+    id: x.id,
+    mode: x.mode,
+    label: latestLabels[x.mode],
+    date: x.date,
+    title: x.title,
+    featured: Boolean(featuredLatest && x === featuredLatest)
+  }));
 fs.writeFileSync(
   path.join(HERE, 'snap/latest_posts.js'),
   '// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록\nconst LATEST_POSTS = ' +
