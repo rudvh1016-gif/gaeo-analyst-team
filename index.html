@@ -3169,7 +3169,8 @@ renderHomeWatchlist();
 /* ── 첫 화면 최신 글 5개: 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다. ── */
 (function(){
   const box=document.getElementById('latestHomeList');
-  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))?LATEST_POSTS:[];
+  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
+    ?LATEST_POSTS.slice().sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)):[];
   if(!box) return;
   if(!posts.length){ box.innerHTML='<span class="home-watch-empty">최신 글 목록을 준비하고 있어요.</span>'; return; }
   box.innerHTML=posts.slice(0,5).map(post=>`<button class="latest-post${post.featured?' is-featured':''}" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
@@ -3187,6 +3188,10 @@ renderHomeWatchlist();
       if(opener&&typeof window[opener]==='function') window[opener](id);
     }finally{ btn.disabled=false; }
   });
+  // 모바일은 가로 카드 목록이라 뒤로가기로 복원될 때 이전 스크롤 위치가 남을 수 있다.
+  // 고정 글이 언제나 첫 화면에 보이도록 초기 위치를 첫 카드로 되돌린다.
+  box.scrollLeft=0;
+  window.addEventListener('pageshow',()=>{ box.scrollLeft=0; });
 })();
 
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */

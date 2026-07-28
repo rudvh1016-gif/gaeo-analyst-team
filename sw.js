@@ -1,4 +1,4 @@
-const CACHE = 'gaeo-shell-v1';
+const CACHE = 'gaeo-shell-v2';
 const SHELL = [
   './',
   './index.html',
@@ -44,7 +44,8 @@ self.addEventListener('fetch', event => {
   }
 
   const changesOften = /(?:data|analysis|indicators|history|team_weights|dow_stats)\.(?:js|json)$/.test(url.pathname)
-    || url.pathname.endsWith('/snap/home_brief.js');
+    || url.pathname.endsWith('/snap/home_brief.js')
+    || url.pathname.endsWith('/snap/latest_posts.js');
 
   if (changesOften) {
     event.respondWith(
