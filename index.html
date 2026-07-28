@@ -1794,6 +1794,7 @@
       overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
     .home-dashboard .latest-post{display:block;min-height:82px;padding:12px;border:1px solid var(--gaeo-border);
       border-radius:14px;scroll-snap-align:start}
+    .home-dashboard .latest-post:first-child{border-top:1px solid var(--gaeo-border)}
     .home-dashboard .latest-post-meta{margin-bottom:7px}
     .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
     .home-dashboard .start-board{grid-template-columns:1fr 1fr}
@@ -5275,13 +5276,8 @@ function renderGuide(){
   }).join('   ·   ')+`   ·   <span style="color:#8ba0c8">${SNAP_DATE}</span>`;
   const tapeEl=document.getElementById('tape');
   tapeEl.innerHTML=html+'   ·   '+html;
-  // 종목 수와 무관하게 항상 같은 '읽기 속도'(초당 픽셀)로 흐르도록 duration을 내용 폭에 맞춰 계산.
-  requestAnimationFrame(()=>{
-    const halfWidth=tapeEl.scrollWidth/2; // innerHTML이 html+html로 두 벌이라 절반이 한 바퀴 길이
-    const PX_PER_SEC=90; // 종목을 45개(500)→45종목(MEGA_CAP)로 줄인 만큼 체감 속도를 정상으로 올림
-    const dur=Math.max(14, halfWidth/PX_PER_SEC);
-    tapeEl.style.animationDuration=dur.toFixed(1)+'s';
-  });
+  // 종목 수가 500→45(MEGA_CAP)로 줄면서 내용 폭 기준 동적 duration 계산이 실제 체감 속도를
+  // 오히려 느리게 만들었다(2026-07-28 확인, 76.8s). 원래의 고정 CSS 속도(.tape .run 30s)로 되돌린다.
 })();
 makeCards(false);
 // 첫 화면은 빈 상태 — 아무 종목도 자동으로 뜨지 않게, 검색을 유도한다.
