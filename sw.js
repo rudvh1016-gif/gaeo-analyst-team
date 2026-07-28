@@ -1,4 +1,4 @@
-const CACHE = 'gaeo-shell-v2';
+const CACHE = 'gaeo-shell-v3';
 const SHELL = [
   './',
   './index.html',
@@ -30,38 +30,42 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== location.origin) return;
 
+  const freshRequest = new Request(request, { cache: 'no-store' });
+
   if (request.mode === 'navigate' || url.pathname.endsWith('/index.html')) {
     event.respondWith(
-      fetch(request)
+      fetch(freshRequest)
         .then(response => {
+          if (!response.ok) throw new Error(`navigation ${response.status}`);
           const copy = response.clone();
           caches.open(CACHE).then(cache => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match(request).then(cached => cached || caches.match('./index.html')))
+        .catch(() => caches.match(request, { ignoreSearch: true }).then(cached => cached || caches.match('./index.html')))
     );
     return;
   }
 
-  const changesOften = /(?:data|analysis|indicators|history|team_weights|dow_stats)\.(?:js|json)$/.test(url.pathname)
-    || url.pathname.endsWith('/snap/home_brief.js')
-    || url.pathname.endsWith('/snap/latest_posts.js');
+  // HTML·데이터·기능 스크립트는 온라인일 때 항상 서버 원본을 먼저 확인한다.
+  // 네트워크가 끊긴 경우에만 마지막 정상본을 사용해, 오래된 화면이 계속 남는 일을 막는다.
+  const changesOften = /\.(?:html|js|json)$/.test(url.pathname);
 
   if (changesOften) {
     event.respondWith(
-      fetch(request)
+      fetch(freshRequest)
         .then(response => {
+          if (!response.ok) throw new Error(`asset ${response.status}`);
           const copy = response.clone();
           caches.open(CACHE).then(cache => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match(request))
+        .catch(() => caches.match(request, { ignoreSearch: true }))
     );
     return;
   }
 
   event.respondWith(
-    caches.match(request).then(cached => cached || fetch(request).then(response => {
+    caches.match(request, { ignoreSearch: true }).then(cached => cached || fetch(request).then(response => {
       if (response.ok) {
         const copy = response.clone();
         caches.open(CACHE).then(cache => cache.put(request, copy));

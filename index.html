@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" id="viewportMeta" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
@@ -2148,10 +2151,10 @@
     <div class="vdisclaimer">분석 기준 시각을 확인해 주세요 · 참고용 정보이며 투자 권유가 아닙니다.</div>
   </div>
 
-  <div class="analysis-section-head">
-    <span>왜 이런 판단일까요?</span>
-    <h2>분석가별 근거</h2>
-    <p>기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.</p>
+  <div class="analysis-section-head" id="modeSectionHead">
+    <span id="modeSectionEyebrow">왜 이런 판단일까요?</span>
+    <h2 id="modeSectionTitle">분석가별 근거</h2>
+    <p id="modeSectionDesc">기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.</p>
   </div>
   <div class="cards" id="cards"></div>
 
@@ -2187,18 +2190,18 @@
   </div>
 </div>
 
-<script src="tickers.js"></script>
-<script src="stock_bios.js" onerror="window.STOCK_BIO=window.STOCK_BIO||null"></script>
-<script src="data.js"></script>
-<script src="site_config.js"></script>
-<script src="community.js"></script>
-<script src="snap/latest_posts.js" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
-<script src="snap/home_brief.js" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
-<script src="analysis.js"></script>
-<script src="indicators.js"></script>
-<script src="market_history.js"></script>
-<script src="dow_stats.js" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
-<script src="team_weights.js" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
+<script src="tickers.js?v=20260728-cache3"></script>
+<script src="stock_bios.js?v=20260728-cache3" onerror="window.STOCK_BIO=window.STOCK_BIO||null"></script>
+<script src="data.js?v=20260728-cache3"></script>
+<script src="site_config.js?v=20260728-cache3"></script>
+<script src="community.js?v=20260728-cache3"></script>
+<script src="snap/latest_posts.js?v=20260728-cache3" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
+<script src="snap/home_brief.js?v=20260728-cache3" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
+<script src="analysis.js?v=20260728-cache3"></script>
+<script src="indicators.js?v=20260728-cache3"></script>
+<script src="market_history.js?v=20260728-cache3"></script>
+<script src="dow_stats.js?v=20260728-cache3" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
+<script src="team_weights.js?v=20260728-cache3" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
 <script>
 /* 첫 화면에 필요 없는 큰 자료는 사용자가 해당 메뉴를 열 때만 내려받는다. */
 window.GaeoFeatures=(()=>{
@@ -2214,7 +2217,7 @@ window.GaeoFeatures=(()=>{
   const jobs={};
   const loadFile=src=>new Promise((resolve,reject)=>{
     const script=document.createElement('script');
-    script.src=src;
+    script.src=src+(src.includes('?')?'&':'?')+'v=20260728-cache3';
     script.onload=resolve;
     script.onerror=()=>reject(new Error(src+' 자료를 불러오지 못했습니다.'));
     document.head.appendChild(script);
@@ -6658,6 +6661,25 @@ window.renderScreener=function(){
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener';
+    const sectionCopy={
+      single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
+      guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
+      compare:['나란히 보면 더 잘 보여요','종목 비교','두 종목의 가격·지표·분석 결과를 같은 기준으로 비교해 보세요.'],
+      portfolio:['내 종목을 한곳에서','포트폴리오','보유 종목을 모아 전체 흐름과 종목별 분석을 한 화면에서 확인해 보세요.'],
+      news:['오늘 시장을 쉽게','뉴스 분석','주요 시장 소식의 배경과 투자자가 확인할 점을 초보자 눈높이로 정리했어요.'],
+      study:['돈 생활에 꼭 필요한 내용','ETF·연금·절세 공부','ETF 선택, 연금계좌, 세금처럼 오래 찾아보는 주제를 실생활 기준으로 정리했어요.'],
+      lesson:['기초부터 차근차근','주식 공부','처음 투자할 때 자주 막히는 개념을 사례와 함께 쉽게 익혀보세요.'],
+      estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
+      calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
+      screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 500개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
+      leaderboard:['분석 결과를 기록으로','팀 성적표','분석팀의 예측 결과와 적중률을 누적 기록으로 투명하게 확인해 보세요.'],
+      calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
+      community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.']
+    };
+    const copy=sectionCopy[mode]||sectionCopy.single;
+    document.getElementById('modeSectionEyebrow').textContent=copy[0];
+    document.getElementById('modeSectionTitle').textContent=copy[1];
+    document.getElementById('modeSectionDesc').textContent=copy[2];
     document.getElementById('mode-single').classList.toggle('on',single);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
@@ -6739,7 +6761,12 @@ window.renderScreener=function(){
     if(pwaBtn) pwaBtn.textContent='앱으로 설치하기';
   });
   if('serviceWorker' in navigator){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    window.addEventListener('load',async()=>{
+      try{
+        const registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+        await registration.update();
+      }catch(e){}
+    });
   }
   window.addEventListener('appinstalled',()=>{
     installPrompt=null;
