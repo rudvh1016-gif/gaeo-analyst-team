@@ -1625,17 +1625,16 @@
   .home-dashboard{margin-top:24px}
   .home-lead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.75fr);gap:24px}
   .home-dashboard,.home-lead,.home-lead>*{min-width:0}
-  .home-dashboard header{position:relative;isolation:isolate;overflow:hidden;min-height:270px;margin:0;
-    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:44px 50px;
+  .home-dashboard header{position:relative;overflow:hidden;min-height:218px;margin:0;
+    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:38px 42px;
     align-self:start;align-items:flex-end;background:var(--paper);box-shadow:none}
-  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:50px;top:40px;
+  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:42px;top:32px;
     color:var(--gaeo-600);font-size:10px;font-weight:850;letter-spacing:.16em}
-  .home-dashboard header::after{content:"";position:absolute;z-index:-1;right:-8%;top:-45%;width:48%;aspect-ratio:1;
-    border-radius:50%;background:radial-gradient(circle at center,color-mix(in srgb,var(--gaeo-600) 13%,transparent),transparent 68%)}
+  .home-dashboard header::after{content:none}
   .home-dashboard header .ht{gap:10px}
-  .home-dashboard header h1{font-size:clamp(48px,4.3vw,68px);font-weight:850;line-height:.95;
+  .home-dashboard header h1{font-size:clamp(44px,3.7vw,58px);font-weight:850;line-height:.95;
     letter-spacing:-.065em;color:var(--gaeo-ink)}
-  .home-dashboard .tagline{font-size:20px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
+  .home-dashboard .tagline{font-size:17px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
   .home-dashboard header .badge{position:absolute;right:34px;top:32px;margin:0;padding:7px 11px;
     background:var(--gaeo-50);color:var(--gaeo-700);font-size:10px;font-weight:800}
   .home-dashboard .pwa-btn{border:0;border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-700);
@@ -1668,20 +1667,26 @@
     background:var(--gaeo-900);font-size:14px}
   .home-dashboard .start-action.secondary{background:var(--gaeo-50);border:1px solid var(--gaeo-100);
     color:var(--gaeo-700)}
-  .home-dashboard .start-step-summary{position:relative;background:var(--gaeo-950);border-color:var(--gaeo-950);
-    color:#fff}
-  .home-dashboard .start-step-summary::after{content:"";position:absolute;right:28px;top:28px;
-    width:9px;height:9px;border-radius:50%;background:#67D4C0;box-shadow:0 0 0 8px rgba(103,212,192,.10)}
-  .home-dashboard .start-step-summary .start-kicker{color:#78D7C6}
-  .home-dashboard .start-step-summary h2{color:#fff}
+  .home-dashboard .start-step-summary{position:relative;background:#CCE9F3;border-color:#B8DCE8;
+    color:#13242C}
+  .home-dashboard .start-step-summary::after{content:none}
+  .home-dashboard .start-step-summary .start-kicker{color:#286B83}
+  .home-dashboard .start-step-summary h2{color:#13242C}
   .home-dashboard .brief-lines{gap:9px;margin-top:16px}
-  .home-dashboard .brief-line{font-size:13px;line-height:1.55;color:rgba(255,255,255,.82)}
-  .home-dashboard .brief-line b{background:rgba(255,255,255,.09);color:#fff}
-  .home-dashboard .brief-meta{margin-top:16px;color:rgba(255,255,255,.55)}
-  .home-dashboard .brief-extra{background:rgba(255,255,255,.07);color:rgba(255,255,255,.78)}
-  .home-dashboard .brief-extra-head{color:#fff}
-  .home-dashboard .brief-link{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.09);
-    color:#A5E8DC;padding:8px 11px;border-radius:10px}
+  .home-dashboard .brief-line{font-size:13px;line-height:1.55;color:#263C46}
+  .home-dashboard .brief-line b{background:rgba(255,255,255,.58);color:#245C73}
+  .home-dashboard .brief-meta{margin-top:16px;color:#526F7B}
+  .home-dashboard .brief-live-dot{background:#347F9D;box-shadow:none}
+  .home-dashboard .brief-extra{border:1px solid rgba(72,139,164,.20);
+    background:rgba(255,255,255,.55);color:#334E5A}
+  .home-dashboard .brief-extra-head{color:#1D5368}
+  .home-dashboard .brief-extra-head.is-delayed{color:#8A5728}
+  .home-dashboard .brief-count-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,max-content);
+    align-items:center;gap:6px 10px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
+  .home-dashboard .brief-count-row>span:first-child{color:#526F7B;font-weight:720}
+  .home-dashboard .brief-count-row strong{color:#173E4D;font-weight:820;font-variant-numeric:tabular-nums}
+  .home-dashboard .brief-link{border-color:rgba(72,139,164,.28);background:rgba(255,255,255,.60);
+    color:#245C73;padding:8px 11px;border-radius:10px}
   .home-dashboard .home-watch{margin-top:22px;padding-top:16px}
   .home-dashboard .home-watch-label{font-size:11px}
   .home-dashboard .home-watch-chip{padding:7px 10px;background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
@@ -1832,10 +1837,10 @@
     .tape{border-radius:11px;font-size:11px}
     .home-dashboard{margin-top:16px}
     .home-lead{gap:14px}
-    .home-dashboard header{min-height:174px;border-radius:22px;padding:56px 22px 24px}
-    .home-dashboard header::before{left:22px;top:22px;font-size:7.5px}
-    .home-dashboard header h1{font-size:42px}
-    .home-dashboard .tagline{font-size:14px}
+    .home-dashboard header{min-height:140px;border-radius:20px;padding:46px 20px 18px}
+    .home-dashboard header::before{left:20px;top:18px;font-size:7px}
+    .home-dashboard header h1{font-size:38px}
+    .home-dashboard .tagline{font-size:13px}
     .home-dashboard header .badge{display:none}
     .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
     .home-dashboard .latest-home-head h2{font-size:18px}
@@ -1845,6 +1850,10 @@
     .home-dashboard .start-step{min-height:0;padding:26px 22px;border-radius:20px}
     .home-dashboard .start-step h2{font-size:21px}
     .home-dashboard .start-step p{font-size:13px}
+    .home-dashboard .brief-extra{padding:13px 12px}
+    .home-dashboard .brief-extra p{font-size:11.5px;line-height:1.62}
+    .home-dashboard .brief-count-row{gap:6px;font-size:10.5px}
+    .home-dashboard .brief-count-row>span:first-child{font-size:10px}
     .home-dashboard .start-action{margin-top:20px}
     .home-dashboard .market{padding:24px 20px;border-radius:20px}
     .home-dashboard .kpis{grid-template-columns:1fr 1fr;gap:10px}
@@ -1935,8 +1944,6 @@
   </div>
 </nav>
 <div class="wrap">
-
-  <div class="tape"><span class="run" id="tape"></span></div>
 
   <section class="home-dashboard" id="homeDashboard" aria-label="Gaeo 홈 대시보드">
     <div class="home-lead">
@@ -2195,8 +2202,8 @@ window.GaeoFeatures=(()=>{
 // ---------- 시세: 종목 목록은 tickers.js(단일 소스), 값은 data.js에서 채운다 ----------
 let SNAP_DATE='시세 없음';
 const STOCKS={};
-// 코스피 초대형 우량주(시총 상위권) 화이트리스트 — 시세 티커·우측 레일 "최근 팀 판단"이 공유해서 쓴다.
-// 500종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어지고(레일) 너무 빨리 흘러 못 읽는다(티커).
+// 코스피 초대형 우량주(시총 상위권) 화이트리스트 — 우측 레일 "최근 팀 판단"에서 쓴다.
+// 500종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어져 대표 종목만 추린다.
 const MEGA_CAP=new Set([
   '005930','000660','373220','207940','005380','000270','068270','105560','055550',
   '005490','035420','012330','006400','051910','035720','028260','086790','032830',
@@ -3173,6 +3180,7 @@ renderHomeWatchlist();
     ranked.sort((a,b)=>b.total-a.total);
     return {
       generatedAt:auto.generatedAt||'',
+      calls:counts,
       lines:[
         `자동 판단 ${counts.BUY+counts.HOLD+counts.SELL}종목은 BUY ${counts.BUY} · HOLD ${counts.HOLD} · SELL ${counts.SELL}이에요.`,
         ranked.length?`종합점수 상위는 ${ranked.slice(0,3).map(x=>x.name).join('·')}예요. 개별 뉴스·공시는 뉴스분석에서 확인해 주세요.`:'자동 판단을 정리하고 있어요.'
@@ -3194,13 +3202,18 @@ renderHomeWatchlist();
   function renderClock(now){
     const clock=kstParts(now), source=stamp(state.brief&&state.brief.sourceAsOf);
     const weekend=clock.weekday==='토'||clock.weekday==='일';
+    const insightAt=stamp(state.insight&&state.insight.generatedAt);
+    const insightTime=insightAt.date&&insightAt.time
+      ?new Date(`${insightAt.date}T${insightAt.time}:00+09:00`).getTime():0;
+    const delayed=!weekend&&insightAt.date===clock.date&&insightTime&&
+      ((now||new Date()).getTime()-insightTime)>45*60*1000;
     document.getElementById('briefKicker').textContent=clock.date+' '+clock.time+' 현재';
     document.getElementById('briefTitle').textContent='현재 기준 브리핑';
     const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
     document.getElementById('briefMeta').innerHTML=
       '<span class="brief-live-dot"></span><span>시세 '+esc(source.short)+' 기준</span>'+
       (waiting?'<span>· 새 시세 확인 중</span>':'')+
-      '<span>· 숫자 10분 · 보강 30분</span>';
+      (delayed?'<span>· 자동 보강 지연 중</span>':'<span>· 숫자 10분 · 보강 최대 30분</span>');
   }
   function render(){
     const lines=(state.brief&&state.brief.lines)||[];
@@ -3211,8 +3224,17 @@ renderHomeWatchlist();
     if(insightLines.length){
       const at=stamp(state.insight.generatedAt);
       const atLabel=at.date&&at.time?`${at.date} ${at.time}`:(at.short||'확인 중');
-      extra.innerHTML=`<div class="brief-extra-head">＋ 30분 보강 · ${esc(atLabel)} 기준</div>`+
-        insightLines.slice(0,3).map(x=>`<p>${esc(x)}</p>`).join('');
+      const clock=kstParts(new Date());
+      const insightTime=at.date&&at.time?new Date(`${at.date}T${at.time}:00+09:00`).getTime():0;
+      const delayed=at.date===clock.date&&insightTime&&(Date.now()-insightTime)>45*60*1000;
+      const calls=state.insight.calls;
+      const countTotal=calls?(Number(calls.BUY||0)+Number(calls.HOLD||0)+Number(calls.SELL||0)):0;
+      const countRow=calls
+        ?`<div class="brief-count-row"><span>${countTotal}종목 자동판단</span><strong>BUY ${calls.BUY||0}</strong><strong>HOLD ${calls.HOLD||0}</strong><strong>SELL ${calls.SELL||0}</strong></div>`
+        :'';
+      const bodyLines=insightLines.slice(calls?1:0,3);
+      extra.innerHTML=`<div class="brief-extra-head${delayed?' is-delayed':''}">${delayed?'자동 보강 지연':'자동 보강'} · ${esc(atLabel)} ${delayed?'마지막 생성':'기준'}</div>`+
+        countRow+bodyLines.map(x=>`<p>${esc(x)}</p>`).join('');
       extra.style.display='block';
     }else extra.style.display='none';
     const sectorBtn=document.getElementById('briefSectorBtn');
@@ -5262,22 +5284,6 @@ function renderGuide(){
     });
     sec.appendChild(head); sec.appendChild(body); wrap.appendChild(sec);
   });
-})();
-// 시세 테이프 — 코스피 초대형 우량주(MEGA_CAP)만, 정상 속도로 흐르게
-(function(){
-  const capNum=s=>{ const m=String(s||'').match(/[\d,.]+/); return m?parseFloat(m[0].replace(/,/g,'')):0; }; // "1,634조"→1634
-  const picks=Object.entries(STOCKS)
-    .filter(([code,d])=>MEGA_CAP.has(code) && typeof d.price==='number')
-    .map(([,d])=>d)
-    .sort((a,b)=>capNum(b.cap)-capNum(a.cap));
-  const html=picks.map(d=>{
-    const up=d.rate>0;
-    return `${d.name}${d.stale?' ⚠️':''} ${d.price.toLocaleString()} <span class="${up?'up':'down'}">${up?'+':''}${(d.rate||0).toFixed(2)}%</span>`;
-  }).join('   ·   ')+`   ·   <span style="color:#8ba0c8">${SNAP_DATE}</span>`;
-  const tapeEl=document.getElementById('tape');
-  tapeEl.innerHTML=html+'   ·   '+html;
-  // 종목 수가 500→45(MEGA_CAP)로 줄면서 내용 폭 기준 동적 duration 계산이 실제 체감 속도를
-  // 오히려 느리게 만들었다(2026-07-28 확인, 76.8s). 원래의 고정 CSS 속도(.tape .run 30s)로 되돌린다.
 })();
 makeCards(false);
 // 첫 화면은 빈 상태 — 아무 종목도 자동으로 뜨지 않게, 검색을 유도한다.
