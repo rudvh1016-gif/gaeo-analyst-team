@@ -3614,6 +3614,14 @@ function moodLine(){
     const s=scoreCall(e.call, ev.pct);
     if(s==='hit') hit++; else if(s==='miss') miss++;
   });
+  // 첫 화면에서는 용량이 큰 history.js/price_history.js를 지연 로드한다.
+  // 그때도 적중률이 빈칸이 되지 않도록, 이미 로드된 team_weights.js의 사전 집계값을 사용한다.
+  const teamSummary=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)
+    ?TEAM_WEIGHTS.global.team:null;
+  if(hit+miss===0&&teamSummary&&teamSummary.n>0){
+    hit=Number(teamSummary.hit)||0;
+    miss=Number(teamSummary.miss)||0;
+  }
   const graded=hit+miss;
   const acc=graded>0?Math.round(hit/graded*100):null;
   const accCls=acc===null?'navy':(acc>=60?'ok':(acc<45?'bad':'navy'));
