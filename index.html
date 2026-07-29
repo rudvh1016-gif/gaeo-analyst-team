@@ -2172,6 +2172,7 @@
     .home-dashboard .kpi .v{font-size:23px}
     .home-dashboard .dowbar{padding:20px 16px;border-radius:20px}
     .home-dashboard .rail-r{display:grid!important;grid-template-columns:1fr;max-width:100%;overflow:visible;gap:12px}
+    .home-dashboard #rrRecentCalls{display:none}
     .home-dashboard .rr-panel{width:auto;padding:18px 16px}
     .home-dashboard .rr-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px;padding:9px 6px}
     .home-dashboard .rr-name{font-size:12px}
@@ -5815,7 +5816,7 @@ makeCards(false);
   paint();
 })();
 
-// ---------- 우측 레일(≥1600px): 다가오는 일정 + 최근 팀 판단 ----------
+// ---------- 홈 정보 카드: 다가오는 일정 + 최근 팀 판단 ----------
 (function(){
   const rail=document.getElementById('railR'); if(!rail) return;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -5849,45 +5850,58 @@ makeCards(false);
       `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
   }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
 
-  // ② 최근 팀 판단 — history.js에서 "초대형 우량주"만 골라 시간 역순으로(전역 MEGA_CAP 공유).
-  //    500종목 전부를 섞으면 낯선 중소형주가 앞자리를 채워 한눈에 신뢰가 안 간다.
-  let recs=[];
-  if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
-    if(!MEGA_CAP.has(code)) continue;               // 초대형 우량주만
-    (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
-      total:h.total,conf:h.confidence}));
-  }
-  // history.js는 첫 화면 용량을 줄이기 위해 필요할 때만 받는다.
-  // 아직 안 받은 첫 화면에서는 이미 로드된 최신 자동판단으로 같은 카드를 채운다.
-  if(!recs.length&&AUTO_AN&&AUTO_AN.stocks){
-    MEGA_CAP.forEach(code=>{
-      const a=AUTO_AN.stocks[code], chief=a&&a.chief;
-      if(!chief) return;
-      recs.push({code,date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',
-        total:chief.total,conf:chief.confidence});
-    });
-  }
-  // 같은 종목이 여러 날 쌓이므로 종목당 최신 1건만 남겨 다양한 우량주가 보이게 한다.
-  recs.sort((a,b)=>b.date.localeCompare(a.date));
-  const seen=new Set(); recs=recs.filter(r=>seen.has(r.code)?false:(seen.add(r.code),true)).slice(0,8);
   const callCol=c=>c==='BUY'?'#2F8B73':c==='SELL'?'#D5535D':'#B97A2F';
-  const rcHTML=recs.length?recs.map(r=>{
-    const dm=r.date.match(/\d{4}-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
-    const dlab=dm?`${+dm[1]}/${+dm[2]}`:'—', tlab=dm&&dm[3]?dm[3]:'';
-    return `<div class="rr-item" data-go="${esc(nameOf(r.code))}">`+
-      `<span class="rr-date">${dlab}<span class="dd" style="font-size:9.5px">${tlab}</span></span>`+
-      `<span class="rr-body"><span class="rr-name">${esc(nameOf(r.code))}`+
-      `<span class="rr-total">종합 ${r.total??'—'}</span></span>`+
-      `<span class="rr-sub">신뢰도 ${r.conf??'—'}%</span></span>`+
-      `<span class="rr-call" style="background:${callCol(r.call)}">${esc(r.call)}</span></div>`;
-  }).join(''):'<div class="rr-empty">기록이 아직 없습니다.</div>';
-
-  rail.innerHTML=
-    `<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
-      `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`+
-    `<div class="rr-panel" id="rrRecentCalls"><div class="rr-title">🕐 최근 팀 판단`+
-      `<span class="rr-cnt">${recs.length}</span></div>${rcHTML}</div>`;
-  rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
+  function recentCalls(){
+    // history.js에서 "초대형 우량주"만 골라 시간 역순으로(전역 MEGA_CAP 공유).
+    // history.js를 아직 받지 않은 첫 화면에서는 최신 자동판단으로 같은 카드를 채운다.
+    let recs=[];
+    if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
+      if(!MEGA_CAP.has(code)) continue;
+      (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
+        total:h.total,conf:h.confidence}));
+    }
+    if(!recs.length&&AUTO_AN&&AUTO_AN.stocks){
+      MEGA_CAP.forEach(code=>{
+        const a=AUTO_AN.stocks[code], chief=a&&a.chief;
+        if(!chief) return;
+        recs.push({code,date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',
+          total:chief.total,conf:chief.confidence});
+      });
+    }
+    // 같은 종목이 여러 날 쌓이므로 종목당 최신 1건만 남겨 다양한 우량주가 보이게 한다.
+    recs.sort((a,b)=>b.date.localeCompare(a.date));
+    const seen=new Set();
+    return recs.filter(r=>seen.has(r.code)?false:(seen.add(r.code),true)).slice(0,8);
+  }
+  function render(){
+    const recs=recentCalls();
+    const rcHTML=recs.length?recs.map(r=>{
+      const dm=r.date.match(/\d{4}-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
+      const dlab=dm?`${+dm[1]}/${+dm[2]}`:'—', tlab=dm&&dm[3]?dm[3]:'';
+      return `<div class="rr-item" data-go="${esc(nameOf(r.code))}">`+
+        `<span class="rr-date">${dlab}<span class="dd" style="font-size:9.5px">${tlab}</span></span>`+
+        `<span class="rr-body"><span class="rr-name">${esc(nameOf(r.code))}`+
+        `<span class="rr-total">종합 ${r.total??'—'}</span></span>`+
+        `<span class="rr-sub">신뢰도 ${r.conf??'—'}%</span></span>`+
+        `<span class="rr-call" style="background:${callCol(r.call)}">${esc(r.call)}</span></div>`;
+    }).join(''):'<div class="rr-empty">판단 데이터를 불러오고 있어요.</div>';
+    rail.innerHTML=
+      `<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
+        `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`+
+      `<div class="rr-panel" id="rrRecentCalls"><div class="rr-title">🕐 최근 팀 판단`+
+        `<span class="rr-cnt">${recs.length}</span></div>${rcHTML}</div>`;
+    rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
+  }
+  const desktop=window.matchMedia('(min-width:701px)');
+  function loadDesktopRecent(){
+    if(!desktop.matches) return;
+    if(AUTO_AN){ render(); return; }
+    window.ensureAutoAnalysis().then(render).catch(render);
+  }
+  render();
+  loadDesktopRecent();
+  if(desktop.addEventListener) desktop.addEventListener('change',loadDesktopRecent);
+  else desktop.addListener(loadDesktopRecent);
 })();
 
 // ---------- 🗂 뉴스분석·종목공부·주식공부·부동산공부 공통 — 중카테고리(대>중>소) ----------
