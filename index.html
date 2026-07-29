@@ -431,7 +431,10 @@
   .ad-slot .ad-status{font-size:12px;color:var(--faint);line-height:1.4}
   .ad-slot.ad-ready .ad-status,.ad-slot.ad-failed{display:none}
   .ad-slot-content{width:100%;max-width:748px;min-height:116px;margin:14px auto 0;overflow:hidden}
-  @media(max-width:767px){.ad-slot-content{display:none}}
+  .ad-slot-content[data-ad-variant="mobile"]{width:320px;max-width:none;min-height:82px;
+    margin:18px 0 0 50%;padding:8px 0;transform:translateX(-50%);
+    box-shadow:none;border-top:1px solid var(--line);border-radius:0}
+  .ad-slot-content[data-ad-variant="mobile"] .ad-label{padding-left:2px}
 
   /* ── 종목 칩: 업종 폴더 ── */
   .chips{margin:0 0 16px}
@@ -5967,6 +5970,10 @@ function wireSearchInput(box, id, onChange){
 // 않도록 페이지 전체에서 하나만 만들어 현재 펼친 글로 옮겨 쓴다.
 window.GaeoContentAd=(function(){
   let slot=null;
+  const UNITS={
+    desktop:{id:'DAN-wS5JabZyWT5KgaAD',width:728,height:90},
+    mobile:{id:'DAN-Jw8j3h5xP3U7FHXH',width:320,height:50}
+  };
   function depot(){
     let el=document.getElementById('gaeoContentAdDepot');
     if(!el){
@@ -5979,13 +5986,16 @@ window.GaeoContentAd=(function(){
   }
   function create(){
     if(slot) return slot;
+    const kind=window.innerWidth<768?'mobile':'desktop';
+    const unit=UNITS[kind];
     slot=document.createElement('div');
     slot.id='gaeoContentAd';
     slot.className='ad-slot ad-slot-content';
+    slot.dataset.adVariant=kind;
     slot.innerHTML='<span class="ad-label">광고</span>'+
       '<span class="ad-status">광고를 불러오는 중이에요.</span>'+
       '<ins class="kakao_ad_area" style="display:none;" '+
-      'data-ad-unit="DAN-wS5JabZyWT5KgaAD" data-ad-width="728" data-ad-height="90" '+
+      `data-ad-unit="${unit.id}" data-ad-width="${unit.width}" data-ad-height="${unit.height}" `+
       'data-ad-preload="Y" data-ad-onload="gaeoAdLoaded" data-ad-onfail="gaeoAdFailed"></ins>';
     return slot;
   }
@@ -5993,7 +6003,7 @@ window.GaeoContentAd=(function(){
     if(slot) depot().appendChild(slot);
   }
   function mount(item){
-    if(!item||window.innerWidth<768){ park(); return; }
+    if(!item){ park(); return; }
     const body=item.classList&&item.classList.contains('nw-body')?item:item.querySelector('.nw-body');
     if(!body) return;
     const el=create();
