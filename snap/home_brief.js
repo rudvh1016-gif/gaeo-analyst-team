@@ -1,12 +1,12 @@
 // 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성
 const HOME_BRIEF = {
- "generatedAt": "2026-07-29 15:55",
+ "generatedAt": "2026-07-29 16:25",
  "marketInsight": {
-  "generatedAt": "2026-07-29 15:55",
-  "sourceAsOf": "2026-07-29 15:24 장중",
+  "generatedAt": "2026-07-29 16:25",
+  "sourceAsOf": "2026-07-29 종가 (15:47 수집)",
   "calls": {
-   "BUY": 21,
-   "HOLD": 321,
+   "BUY": 22,
+   "HOLD": 320,
    "SELL": 158
   },
   "axisAverages": {
@@ -16,7 +16,7 @@ const HOME_BRIEF = {
    "flow": 49.9
   },
   "lines": [
-   "자동 판단 500종목은 BUY 21 · HOLD 321 · SELL 158이에요.",
+   "자동 판단 500종목은 BUY 22 · HOLD 320 · SELL 158이에요.",
    "전체 평균은 재무 점수가 상대적으로 높고 기술 점수가 낮아요.",
    "종합점수 상위는 롯데렌탈·영원무역·현대그린푸드예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요."
   ],
@@ -136,6 +136,12 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
+    "code": "005830",
+    "name": "DB손해보험",
+    "total": 63,
+    "call": "BUY"
+   },
+   {
     "code": "078930",
     "name": "GS",
     "total": 63,
@@ -156,12 +162,6 @@ const HOME_BRIEF = {
    {
     "code": "015760",
     "name": "한국전력",
-    "total": 62,
-    "call": "HOLD"
-   },
-   {
-    "code": "005830",
-    "name": "DB손해보험",
     "total": 62,
     "call": "HOLD"
    },
