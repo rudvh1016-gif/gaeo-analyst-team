@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 23,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-29",
+  "title": "2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나",
+  "featured": false
+ },
+ {
   "id": 22,
   "mode": "news",
   "label": "뉴스분석",
@@ -30,14 +38,6 @@ const LATEST_POSTS = [
   "label": "종목공부",
   "date": "2026-07-29",
   "title": "한화에어로스페이스",
-  "featured": false
- },
- {
-  "id": 35,
-  "mode": "study",
-  "label": "종목공부",
-  "date": "2026-07-29",
-  "title": "아모레퍼시픽",
   "featured": false
  }
 ];
