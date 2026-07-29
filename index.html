@@ -2449,6 +2449,126 @@
   @media(prefers-reduced-motion:reduce){
     .global-nav *,.home-dashboard *{scroll-behavior:auto!important}
   }
+
+  /* ═══════════════════════════════════════════════════════════════
+     📡 GAEO 레이더 — 500종목에서 "직전 거래일 대비 새로 생긴 기술적 변화"만 탐지
+     · 기존 홈 대시보드(연한 하늘색) 토큰만 재사용. 새 색·글로우·3D 효과 없음.
+     · 색만으로 의미를 전달하지 않도록 아이콘(▲▼◆)·라벨 텍스트를 항상 함께 쓴다.
+     ═══════════════════════════════════════════════════════════════ */
+  .gaeo-radar{margin:0 0 16px;padding:24px 26px 20px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper);min-width:0}
+  .gr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .gr-title{display:flex;align-items:center;gap:8px;margin:0;font-size:20px;font-weight:820;
+    letter-spacing:-.035em;color:var(--gaeo-ink)}
+  .gr-title .gr-kicker{display:inline-block;padding:4px 8px;border-radius:8px;background:var(--gaeo-50);
+    color:var(--gaeo-700);font-size:10px;font-weight:800;letter-spacing:.04em}
+  .gr-asof{display:flex;flex-direction:column;align-items:flex-end;gap:3px;
+    font-size:10.5px;line-height:1.5;color:var(--gaeo-muted);text-align:right}
+  .gr-asof b{color:var(--gaeo-700);font-weight:750}
+  .gr-status{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:7px;
+    border:1px solid var(--gaeo-border);background:var(--gaeo-canvas);font-size:10px;font-weight:750}
+  .gr-status.is-confirmed{color:var(--gaeo-700)}
+  .gr-status.is-provisional{color:#8A5728;border-color:#E7D4B4;background:#FCF6EC}
+  html.gdark .gr-status.is-provisional{color:#E2B77A;border-color:#4A3B26;background:#241C11}
+  .gr-lead{margin:14px 0 0;font-size:13px;line-height:1.6;color:var(--gaeo-muted);word-break:keep-all}
+  .gr-count{display:block;margin-top:4px;font-size:30px;font-weight:850;letter-spacing:-.04em;
+    color:var(--gaeo-ink);font-variant-numeric:tabular-nums}
+  .gr-count small{margin-left:4px;font-size:14px;font-weight:700;color:var(--gaeo-muted)}
+  .gr-watch{margin-top:14px;padding:13px 15px;border:1px solid var(--gaeo-100);border-radius:14px;
+    background:var(--gaeo-50)}
+  .gr-watch-t{display:block;margin-bottom:8px;font-size:11px;font-weight:800;color:var(--gaeo-700)}
+  .gr-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .gr-chip{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:7px 13px;
+    border:1px solid var(--gaeo-border);border-radius:12px;background:var(--gaeo-canvas);
+    color:var(--gaeo-ink);font-size:12.5px;font-weight:720;cursor:pointer;transition:background .16s,border-color .16s}
+  .gr-chip:hover{background:var(--gaeo-50);border-color:var(--gaeo-100)}
+  .gr-chip[aria-pressed="true"]{background:var(--gaeo-100);border-color:var(--gaeo-600);color:var(--gaeo-950)}
+  html.gdark .gr-chip[aria-pressed="true"]{color:var(--gaeo-ink)}
+  .gr-chip .gr-ico{font-size:10px;color:var(--gaeo-muted)}
+  .gr-chip b{font-variant-numeric:tabular-nums;font-weight:820}
+  .gr-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0 18px;
+    margin-top:14px;border-top:1px solid var(--gaeo-border)}
+  .gr-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;
+    min-width:0;padding:11px 8px;border:0;border-bottom:1px solid var(--gaeo-border);border-radius:10px;
+    background:transparent;color:var(--gaeo-ink);text-align:left;cursor:pointer;font:inherit}
+  .gr-row>span{min-width:0}
+  .gr-watch .gr-row:last-child{border-bottom:0}
+  .gr-row:hover,.gr-row:focus-visible{background:var(--gaeo-50)}
+  .gr-row-name{font-size:13.5px;font-weight:760;letter-spacing:-.02em;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gr-row-name .gr-more{margin-left:6px;padding:2px 6px;border-radius:6px;background:var(--gaeo-50);
+    color:var(--gaeo-700);font-size:10px;font-weight:750}
+  .gr-row-sig{margin-top:3px;font-size:11.5px;font-weight:700;color:var(--gaeo-700);
+    display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .gr-row-sig .gr-ico{font-size:10px}
+  .gr-row-val{margin-top:2px;font-size:11px;color:var(--gaeo-muted);font-variant-numeric:tabular-nums;
+    overflow:hidden;text-overflow:ellipsis}
+  .gr-row-go{font-size:11px;font-weight:720;color:var(--gaeo-muted);white-space:nowrap}
+  .gr-more-btn{display:block;width:100%;margin-top:10px;min-height:40px;border:1px solid var(--gaeo-border);
+    border-radius:12px;background:var(--gaeo-canvas);color:var(--gaeo-700);font-size:12px;font-weight:750;cursor:pointer}
+  .gr-more-btn:hover{background:var(--gaeo-50)}
+  .gr-empty{margin-top:14px;padding:16px;border:1px dashed var(--gaeo-border);border-radius:14px;
+    background:var(--gaeo-canvas);font-size:12.5px;line-height:1.65;color:var(--gaeo-muted);word-break:keep-all}
+  .gr-note{margin-top:14px;padding-top:12px;border-top:1px solid var(--gaeo-border);
+    font-size:10.5px;line-height:1.6;color:var(--gaeo-muted);word-break:keep-all}
+
+  /* ── 종목 상세: 레이더 포착 변화 카드 ── */
+  .radar-detail{display:none;margin-top:18px;padding:24px 26px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper);min-width:0}
+  .radar-detail.on{display:block}
+  .rd-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .rd-head h3{margin:0;font-size:17px;font-weight:820;letter-spacing:-.03em;color:var(--gaeo-ink)}
+  .rd-head .rd-asof{font-size:10.5px;color:var(--gaeo-muted);text-align:right;line-height:1.5}
+  .rd-sigs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .rd-sig{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--gaeo-100);
+    border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-950);font-size:12px;font-weight:750}
+  html.gdark .rd-sig{color:var(--gaeo-ink)}
+  .rd-desc{margin-top:14px;padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:14px;
+    background:var(--gaeo-canvas);font-size:12.5px;line-height:1.75;color:var(--gaeo-ink);word-break:keep-all}
+  .rd-desc b{color:var(--gaeo-900)}
+  html.gdark .rd-desc b{color:var(--gaeo-700)}
+  .rd-desc .rd-caution{display:block;margin-top:8px;font-size:11.5px;color:var(--gaeo-muted)}
+  .rd-chart{margin-top:18px}
+  .rd-chart h4{margin:0 0 4px;font-size:13px;font-weight:790;color:var(--gaeo-ink)}
+  .rd-chart .rd-hint{margin:0 0 8px;font-size:11px;line-height:1.55;color:var(--gaeo-muted);word-break:keep-all}
+  .rd-svg-wrap{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  .rd-svg{display:block;width:100%;min-width:280px;height:auto}
+  .rd-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:7px;font-size:10.5px;color:var(--gaeo-muted)}
+  .rd-legend span{display:inline-flex;align-items:center;gap:5px}
+  .rd-legend i{width:14px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block}
+  .rd-legend i.dash{border-top-style:dashed}
+  .rd-legend i.box{height:9px;border:0;border-radius:2px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .rd-table-wrap{margin-top:18px;overflow-x:auto}
+  .rd-table{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
+  .rd-table th,.rd-table td{padding:9px 10px;border-bottom:1px solid var(--gaeo-border);text-align:right;
+    font-variant-numeric:tabular-nums;color:var(--gaeo-ink);white-space:nowrap}
+  .rd-table th{font-size:10.5px;font-weight:750;color:var(--gaeo-muted);background:var(--gaeo-canvas)}
+  .rd-table th:first-child,.rd-table td:first-child{text-align:left;font-weight:720}
+  .rd-table td:last-child{color:var(--gaeo-700);font-weight:720;white-space:normal}
+  .rd-toggle{margin-top:16px;min-height:40px;padding:0 14px;border:1px solid var(--gaeo-border);
+    border-radius:12px;background:var(--gaeo-canvas);color:var(--gaeo-700);font-size:12px;font-weight:750;cursor:pointer}
+  .rd-toggle:hover{background:var(--gaeo-50)}
+  .rd-extra{display:none;margin-top:12px}
+  .rd-extra.on{display:block}
+  .rd-note{margin-top:16px;padding-top:12px;border-top:1px solid var(--gaeo-border);
+    font-size:10.5px;line-height:1.6;color:var(--gaeo-muted);word-break:keep-all}
+  @media(max-width:620px){
+    .gaeo-radar{padding:20px 16px 16px;border-radius:18px}
+    .gr-head{flex-direction:column;align-items:flex-start}
+    .gr-asof{align-items:flex-start;text-align:left}
+    .gr-count{font-size:26px}
+    .gr-chips{gap:6px}
+    .gr-chip{font-size:11.5px;padding:6px 10px}
+    .radar-detail{padding:18px 15px;border-radius:18px}
+    .rd-head .rd-asof{text-align:left}
+    .rd-table{min-width:360px;font-size:11.5px}
+    .rd-table th,.rd-table td{padding:8px 7px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .gr-chip,.gr-row{transition:none!important}
+  }
 </style>
 </head>
 <body>
@@ -2696,6 +2816,18 @@
       </div>
       <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
     </section>
+    <!-- 📡 GAEO 레이더 — 500종목을 규칙으로 훑어 '새로 생긴 기술적 변화'만 골라낸다.
+         5인 분석가(TARO·DIANA·QUANT·FLOW·CHIEF)를 대체하거나 6번째 분석가를 더하는 것이
+         아니라, 분석가들이 들여다볼 종목을 기계가 먼저 찾아주는 보조 탐지기다. -->
+    <section class="gaeo-radar" id="gaeoRadar" aria-labelledby="gaeoRadarTitle" hidden>
+      <div class="gr-head">
+        <h2 class="gr-title" id="gaeoRadarTitle">📡 GAEO 레이더 <span class="gr-kicker">규칙 기반 자동 탐지</span></h2>
+        <div class="gr-asof" id="gaeoRadarAsof"></div>
+      </div>
+      <div id="gaeoRadarBody" aria-live="polite">
+        <p class="gr-lead">레이더 결과를 불러오고 있어요.</p>
+      </div>
+    </section>
     <div class="ad-slot ad-slot-home">
       <span class="ad-label">광고</span>
       <span class="ad-status">광고를 불러오는 중이에요.</span>
@@ -2813,6 +2945,9 @@
 
   <div class="viz" id="viz"></div>
 
+  <!-- 📡 레이더가 이 종목에서 포착한 변화(기존 종목 분석 화면 안에 카드로 덧붙인다) -->
+  <div class="radar-detail" id="radarDetail"></div>
+
   <div class="compare" id="compare"></div>
   <div class="portfolio" id="portfolio"></div>
   <div class="leaderboard" id="leaderboard"></div>
@@ -2852,6 +2987,7 @@
 <script src="snap/home_brief.js?v=20260728-cache3" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
 <script src="analysis.js?v=20260728-cache3"></script>
 <script src="indicators.js?v=20260728-cache3"></script>
+<script src="radar.js?v=20260728-cache3" onerror="window.GAEO_RADAR=window.GAEO_RADAR||null"></script>
 <script src="market_history.js?v=20260728-cache3"></script>
 <script src="dow_stats.js?v=20260728-cache3" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
 <script src="team_weights.js?v=20260728-cache3" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
@@ -2865,7 +3001,9 @@ window.GaeoFeatures=(()=>{
     estate:['estate_lessons.js'],
     calc:['calculators.js'],
     history:['history.js','price_history.js'],
-    auto:['auto_analysis.js']
+    auto:['auto_analysis.js'],
+    // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
+    radar:['radar_series.js']
   };
   const jobs={};
   const loadFile=src=>new Promise((resolve,reject)=>{
@@ -3822,6 +3960,8 @@ document.getElementById('watchToggle').onclick=()=>{
   updateWatchToggle(code);
   renderHomeWatchlist();
   if(window.renderGaeoHomeSignals) window.renderGaeoHomeSignals();
+  // 📡 레이더의 "관심종목 변화" 블록도 즉시 다시 그린다
+  if(window.renderGaeoRadar) try{ window.renderGaeoRadar(); }catch(e){}
 };
 renderHomeWatchlist();
 
@@ -4758,6 +4898,390 @@ function taroChartHTML(code){
   }
   return `<div class="taro-viz">${svg}${legend}${posRow}${rsiRow}${macdRow}</div>`;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   📡 GAEO 레이더 — 500종목에서 "직전 거래일 대비 새로 생긴 변화"만 보여준다.
+   · 데이터: radar.js(compute_radar.py 생성) — 홈 요약용 이벤트 목록
+             radar_series.js — 신호 종목의 최근 60거래일(상세를 열 때만 지연 로딩)
+   · 이 기능은 BUY/HOLD/SELL 판단을 새로 만들지 않는다. TARO·DIANA·QUANT·FLOW·
+     CHIEF 5인 분석 체계는 그대로이고, 레이더는 "볼 만한 종목을 먼저 찾아주는"
+     규칙 기반 탐지기일 뿐이다.
+   ═══════════════════════════════════════════════════════════════════ */
+const RADAR=(typeof GAEO_RADAR!=='undefined'&&GAEO_RADAR&&GAEO_RADAR.events)?GAEO_RADAR:null;
+const RADAR_FALLBACK_DEF={label:'기술적 변화',icon:'·',severity:'mid',metric:'',group:'extra',
+  description:'지표에 변화가 포착됐어요.',caution:'참고용 정보예요.'};
+function radarDef(type){ return (RADAR&&RADAR.defs&&RADAR.defs[type])||RADAR_FALLBACK_DEF; }
+function radarEventsOf(code){
+  if(!RADAR) return [];
+  return RADAR.events.filter(e=>e.code===code);
+}
+// 숫자 표기: 금액·큰 수는 천단위 구분 정수, RSI·거래량배수는 소수 한 자리로 통일한다
+// (「RSI 32 → 29.7」처럼 자릿수가 들쭉날쭉하면 값을 비교하기 어렵다).
+function radarNum(v,unit,metric){
+  if(typeof v!=='number'||!isFinite(v)) return '—';
+  if(metric==='RSI'||unit==='배') return v.toFixed(1)+(unit||'');
+  if(Math.abs(v)>=1000||unit==='원') return Math.round(v).toLocaleString('ko-KR')+(unit||'');
+  return String(Math.round(v*100)/100)+(unit||'');
+}
+function radarValueText(ev){
+  const d=radarDef(ev.type);
+  return `${d.metric?d.metric+' ':''}${radarNum(ev.previousValue,ev.unit,d.metric)} → ${radarNum(ev.currentValue,ev.unit,d.metric)}`;
+}
+function radarDateText(dateStr){
+  const m=String(dateStr||'').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m?`${Number(m[2])}월 ${Number(m[3])}일`:String(dateStr||'');
+}
+function radarStatusText(){
+  if(!RADAR) return '';
+  return RADAR.status==='provisional'?'장중 잠정 신호':'종가 확정 신호';
+}
+// 레이더 데이터가 며칠이나 지났는지 (오래되면 화면에서 정직하게 알린다)
+function radarAgeDays(){
+  if(!RADAR||!RADAR.generatedAt) return null;
+  const t=Date.parse(String(RADAR.generatedAt).replace(' ','T')+':00');
+  if(isNaN(t)) return null;
+  return Math.floor((Date.now()-t)/86400000);
+}
+
+/* ── 홈 화면 레이더 카드 ── */
+let RADAR_FILTER=null, RADAR_SHOWN=8;
+function radarChipHTML(type,count,pressed){
+  const d=radarDef(type);
+  return `<button class="gr-chip" type="button" data-radar-type="${esc(type)}" aria-pressed="${pressed?'true':'false'}"`+
+    ` aria-label="${esc(d.label)} ${count}건 종목 목록 보기">`+
+    `<span class="gr-ico" aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)} <b>${count}</b></button>`;
+}
+function radarRowsHTML(events){
+  // 같은 종목이 여러 번 나오지 않게 종목당 1행(대표 신호 + "외 N건")으로 묶는다.
+  const seen={}, rows=[];
+  events.forEach(e=>{
+    if(seen[e.code]){ seen[e.code].extra++; return; }
+    seen[e.code]={ev:e,extra:0};
+    rows.push(seen[e.code]);
+  });
+  // 같은 종목에서 이번 필터 밖의 신호도 몇 건인지 함께 세어 준다
+  rows.forEach(r=>{ r.total=radarEventsOf(r.ev.code).length; });
+  return rows;
+}
+function radarRowHTML(row){
+  const e=row.ev, d=radarDef(e.type), more=row.total-1;
+  return `<button class="gr-row" type="button" data-radar-code="${esc(e.code)}" data-radar-name="${esc(e.name)}"`+
+    ` aria-label="${esc(e.name)} ${esc(d.label)} 분석 보기">`+
+    `<span><span class="gr-row-name">${esc(e.name)}`+
+      (more>0?`<span class="gr-more">외 ${more}건</span>`:'')+`</span>`+
+      `<span class="gr-row-sig"><span class="gr-ico" aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)}</span>`+
+      `<span class="gr-row-val">${esc(radarValueText(e))} · ${esc(radarDateText(e.date))} 기준</span></span>`+
+    `<span class="gr-row-go" aria-hidden="true">분석 보기 ›</span></button>`;
+}
+function renderGaeoRadar(){
+  const box=document.getElementById('gaeoRadar'), body=document.getElementById('gaeoRadarBody'),
+        asof=document.getElementById('gaeoRadarAsof');
+  if(!box||!body) return;
+  box.hidden=false;
+  // ① 데이터 파일 자체를 못 읽은 경우 — 오류 상태
+  if(!RADAR){
+    if(asof) asof.innerHTML='';
+    body.innerHTML='<div class="gr-empty">레이더 자료를 불러오지 못했어요. 잠시 뒤 새로고침하면 다시 표시돼요.'+
+      '<br>그 사이에도 종목 검색과 5인 분석은 평소처럼 이용할 수 있어요.</div>';
+    return;
+  }
+  const st=RADAR.status==='provisional'?'is-provisional':'is-confirmed';
+  if(asof){
+    asof.innerHTML=`<span>시세 기준 <b>${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}</b></span>`+
+      `<span>레이더 생성 <b>${esc(RADAR.generatedAt||'-')}</b></span>`+
+      `<span class="gr-status ${st}">${RADAR.status==='provisional'?'⏳':'✓'} ${esc(radarStatusText())}</span>`;
+  }
+  const age=radarAgeDays();
+  let html='';
+  if(age!==null&&age>=3){
+    html+=`<div class="gr-empty">레이더 자료가 <b>${age}일</b> 전 기준이에요. 휴장일이거나 자동 갱신이 늦어지는 중일 수 있어요.</div>`;
+  }
+  html+=`<p class="gr-lead">오늘 <b>${RADAR.universe}</b>종목을 훑어 새롭게 포착한 기술적 변화`+
+    `<span class="gr-count">${RADAR.total}<small>건 · ${RADAR.stockCount}종목</small></span></p>`;
+
+  // ② 관심종목에서 발견된 변화는 전체보다 먼저
+  const watch=(typeof loadWatchlist==='function')?loadWatchlist():[];
+  const watchEvents=RADAR.events.filter(e=>watch.indexOf(e.code)>=0);
+  if(watchEvents.length){
+    const wrows=radarRowsHTML(watchEvents);
+    html+=`<div class="gr-watch"><span class="gr-watch-t">★ 관심종목 변화 ${watchEvents.length}건</span>`+
+      wrows.slice(0,4).map(radarRowHTML).join('')+`</div>`;
+  }
+
+  // ③ 분류 카드 — main 신호는 개별 칩, MACD·이동평균 교차는 "기타 변화"로 묶는다
+  if(RADAR.total===0){
+    html+='<div class="gr-empty">현재 기준 새롭게 경계를 통과한 종목이 없어요.<br>'+
+      '기존 과매도·과매수 상태 종목은 종목 분석 화면에서 확인할 수 있어요.</div>';
+  }else{
+    const chips=(RADAR.mainOrder||[]).filter(t=>RADAR.counts[t]>0)
+      .map(t=>radarChipHTML(t,RADAR.counts[t],RADAR_FILTER===t));
+    if(RADAR.extraTotal>0){
+      chips.push(`<button class="gr-chip" type="button" data-radar-type="__extra" aria-pressed="${RADAR_FILTER==='__extra'?'true':'false'}"`+
+        ` aria-label="기타 변화 ${RADAR.extraTotal}건 종목 목록 보기">`+
+        `<span class="gr-ico" aria-hidden="true">◇</span>기타 변화 <b>${RADAR.extraTotal}</b></button>`);
+    }
+    html+=`<div class="gr-chips" role="group" aria-label="신호 분류 선택">${chips.join('')}</div>`;
+    if(!RADAR_FILTER){
+      html+='<p class="gr-note">분류를 누르면 해당 변화가 나온 종목 목록을 볼 수 있어요. '+
+        '「기타 변화」에는 MACD·이동평균 교차가 들어 있어요.</p>';
+    }else{
+      const extras=RADAR.extraOrder||[];
+      const list=RADAR.events.filter(e=>RADAR_FILTER==='__extra'?extras.indexOf(e.type)>=0:e.type===RADAR_FILTER);
+      const rows=radarRowsHTML(list);
+      const shown=rows.slice(0,RADAR_SHOWN);
+      html+=`<div class="gr-list">${shown.map(radarRowHTML).join('')}</div>`;
+      if(rows.length>shown.length){
+        html+=`<button class="gr-more-btn" type="button" id="grMore">${rows.length-shown.length}종목 더 보기</button>`;
+      }
+    }
+  }
+  html+=`<p class="gr-note">${esc(RADAR.disclaimer||'')} `+
+    `RSI·볼린저밴드·거래량·MACD·이동평균의 <b>기준선 통과</b>만 기계적으로 찾아낸 결과이며, `+
+    `TARO·DIANA·QUANT·FLOW·CHIEF 5인의 분석 판단과는 별개예요.</p>`;
+  body.innerHTML=html;
+
+  body.querySelectorAll('[data-radar-type]').forEach(btn=>{
+    btn.onclick=()=>{
+      const t=btn.getAttribute('data-radar-type');
+      RADAR_FILTER=(RADAR_FILTER===t)?null:t;
+      RADAR_SHOWN=8;
+      renderGaeoRadar();
+      if(RADAR_FILTER){ const l=document.querySelector('#gaeoRadarBody .gr-list'); if(l) l.scrollIntoView({block:'nearest'}); }
+    };
+  });
+  const more=document.getElementById('grMore');
+  if(more) more.onclick=()=>{ RADAR_SHOWN+=20; renderGaeoRadar(); };
+  body.querySelectorAll('[data-radar-code]').forEach(btn=>{
+    btn.onclick=()=>{ jumpToStock(btn.getAttribute('data-radar-name')||btn.getAttribute('data-radar-code')); };
+  });
+}
+
+/* ── 상세 화면: 레이더 포착 변화(차트 + 어제/오늘 비교표) ── */
+const RD_COL={close:'#347F9D',band:'#9AB6C2',mid:'#C08A4A',rsi:'#5B8EAA',vol:'#8FB8CA',
+              avg:'#C08A4A',mark:'#D5535D',macd:'#347F9D',sig:'#C08A4A',ma60:'#8b6fe0'};
+function rdPath(vals,px,py){
+  let d='',pen=false;
+  vals.forEach((v,i)=>{
+    if(typeof v!=='number'||!isFinite(v)){ pen=false; return; }
+    d+=(pen?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1)+' '; pen=true;
+  });
+  return d.trim();
+}
+function rdScale(vals){
+  const nums=vals.filter(v=>typeof v==='number'&&isFinite(v));
+  if(!nums.length) return null;
+  let lo=Math.min(...nums), hi=Math.max(...nums);
+  if(hi===lo){ hi=lo+1; lo=lo-1; }
+  const pad=(hi-lo)*0.08;
+  return {lo:lo-pad,hi:hi+pad};
+}
+// 신호가 난 날짜의 x위치 (series.d는 'MM-DD')
+function rdMarkIdx(series,events){
+  const set={};
+  events.forEach(e=>{ const k=String(e.date||'').slice(5); const i=series.d.indexOf(k); if(i>=0) set[i]=1; });
+  return Object.keys(set).map(Number);
+}
+function rdXTicks(series,px,H){
+  const n=series.d.length, step=Math.max(1,Math.floor(n/4));
+  let out='';
+  for(let i=0;i<n;i+=step){
+    out+=`<text x="${px(i).toFixed(1)}" y="${H-3}" font-size="9" fill="#8FA0A9" text-anchor="middle">${esc(series.d[i])}</text>`;
+  }
+  return out;
+}
+function rdPriceChart(series,events){
+  const W=640,H=210,L=6,Rt=52,T=8,B=18, n=series.d.length;
+  const sc=rdScale([].concat(series.c,series.bu,series.bl));
+  if(!sc||n<2) return '';
+  const px=i=>L+(W-L-Rt)*(n>1?i/(n-1):0), py=v=>T+(H-T-B)*(1-(v-sc.lo)/(sc.hi-sc.lo));
+  // 밴드 사이 영역(상단→하단 되짚기)
+  let area='',fwd=[],bak=[];
+  for(let i=0;i<n;i++){ if(typeof series.bu[i]==='number'&&typeof series.bl[i]==='number'){
+    fwd.push(px(i).toFixed(1)+' '+py(series.bu[i]).toFixed(1));
+    bak.unshift(px(i).toFixed(1)+' '+py(series.bl[i]).toFixed(1)); } }
+  if(fwd.length>1) area=`<path d="M${fwd.join(' L')} L${bak.join(' L')} Z" fill="rgba(136,205,231,.16)" stroke="none"/>`;
+  // 신호일 표시 — 마지막 근처면 라벨을 왼쪽으로 붙여 현재가 숫자와 겹치지 않게 한다
+  const marks=rdMarkIdx(series,events).map(i=>{
+    const anchor=(i>=n-3)?'end':'middle', dx=(i>=n-3)?-3:0;
+    return `<line x1="${px(i).toFixed(1)}" y1="${T}" x2="${px(i).toFixed(1)}" y2="${H-B}" stroke="${RD_COL.mark}" stroke-width="1.2" stroke-dasharray="3 3"/>`+
+      `<text x="${(px(i)+dx).toFixed(1)}" y="${T+9}" font-size="9" fill="${RD_COL.mark}" text-anchor="${anchor}">신호</text>`;
+  }).join('');
+  const last=series.c[n-1];
+  const lastTxt=(typeof last==='number')?
+    `<circle cx="${px(n-1).toFixed(1)}" cy="${py(last).toFixed(1)}" r="3.2" fill="${RD_COL.close}" stroke="#fff" stroke-width="1.2"/>`+
+    `<text x="${(px(n-1)+6).toFixed(1)}" y="${(py(last)+3).toFixed(1)}" font-size="10" font-weight="700" fill="${RD_COL.close}">${Math.round(last).toLocaleString('ko-KR')}</text>`:'';
+  return `<svg class="rd-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="최근 ${n}거래일 종가와 볼린저밴드 차트">`+
+    area+
+    `<path d="${rdPath(series.bu,px,py)}" fill="none" stroke="${RD_COL.band}" stroke-width="1.1" stroke-dasharray="4 3"/>`+
+    `<path d="${rdPath(series.bm,px,py)}" fill="none" stroke="${RD_COL.mid}" stroke-width="1.1" stroke-dasharray="2 3"/>`+
+    `<path d="${rdPath(series.bl,px,py)}" fill="none" stroke="${RD_COL.band}" stroke-width="1.1" stroke-dasharray="4 3"/>`+
+    marks+
+    `<path d="${rdPath(series.c,px,py)}" fill="none" stroke="${RD_COL.close}" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>`+
+    lastTxt+rdXTicks(series,px,H)+`</svg>`;
+}
+function rdRsiChart(series,events){
+  const W=640,H=132,L=6,Rt=64,T=8,B=18, n=series.d.length;   // Rt: 오른쪽 기준선 라벨 자리
+  if(n<2) return '';
+  const px=i=>L+(W-L-Rt)*(n>1?i/(n-1):0), py=v=>T+(H-T-B)*(1-Math.max(0,Math.min(100,v))/100);
+  const zone=(a,b,fill)=>`<rect x="${L}" y="${py(b).toFixed(1)}" width="${(W-L-Rt).toFixed(1)}" height="${(py(a)-py(b)).toFixed(1)}" fill="${fill}"/>`;
+  const line=(v,col,txt)=>`<line x1="${L}" y1="${py(v).toFixed(1)}" x2="${(W-Rt).toFixed(1)}" y2="${py(v).toFixed(1)}" stroke="${col}" stroke-width="1" stroke-dasharray="4 3"/>`+
+    `<text x="${(W-Rt+3).toFixed(1)}" y="${(py(v)+3).toFixed(1)}" font-size="9" fill="${col}">${txt}</text>`;
+  const marks=rdMarkIdx(series,events).map(i=>
+    `<line x1="${px(i).toFixed(1)}" y1="${T}" x2="${px(i).toFixed(1)}" y2="${H-B}" stroke="${RD_COL.mark}" stroke-width="1.2" stroke-dasharray="3 3"/>`).join('');
+  return `<svg class="rd-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="최근 ${n}거래일 RSI 차트, 30 과매도선과 70 과매수선 표시">`+
+    zone(70,100,'rgba(213,83,93,.10)')+zone(0,30,'rgba(91,142,170,.12)')+
+    line(70,'#B4666C','70 과매수')+line(30,'#5B8EAA','30 과매도')+marks+
+    `<path d="${rdPath(series.r,px,py)}" fill="none" stroke="${RD_COL.rsi}" stroke-width="1.8" stroke-linejoin="round"/>`+
+    rdXTicks(series,px,H)+`</svg>`;
+}
+function rdVolChart(series,events){
+  const W=640,H=132,L=6,Rt=26,T=10,B=18, n=series.d.length;
+  if(n<2) return '';
+  const sc=rdScale([].concat(series.v,series.va)); if(!sc) return '';
+  const top=Math.max(sc.hi,1);
+  const px=i=>L+(W-L-Rt)*(n>1?i/(n-1):0), py=v=>T+(H-T-B)*(1-v/top);
+  const bw=Math.max(1.6,(W-L-Rt)/n*0.62);
+  const spikeIdx={}; rdMarkIdx(series,events).forEach(i=>{spikeIdx[i]=1;});
+  let bars='';
+  for(let i=0;i<n;i++){
+    const v=series.v[i]; if(typeof v!=='number'||!isFinite(v)) continue;
+    const y=py(v), h=Math.max(0.8,(H-B)-y);
+    const isSpike=(typeof series.va[i]==='number'&&series.va[i]>0&&v/series.va[i]>=2);
+    bars+=`<rect x="${(px(i)-bw/2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}"`+
+      ` fill="${isSpike?RD_COL.mark:RD_COL.vol}" ${isSpike?'stroke="#A63A43" stroke-width="0.6"':''}/>`;
+    if(isSpike&&spikeIdx[i]) bars+=`<text x="${px(i).toFixed(1)}" y="${Math.max(9,y-3).toFixed(1)}" font-size="9" fill="${RD_COL.mark}" text-anchor="middle">급증</text>`;
+  }
+  return `<svg class="rd-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="최근 ${n}거래일 거래량 막대와 20일 평균 거래량 차트">`+
+    bars+`<path d="${rdPath(series.va,px,py)}" fill="none" stroke="${RD_COL.avg}" stroke-width="1.4" stroke-dasharray="4 3"/>`+
+    rdXTicks(series,px,H)+`</svg>`;
+}
+// MA60은 60거래일 평균이라 60일 창에서는 끝부분 며칠만 계산된다.
+// 선이 몇 픽셀만 나오면 오히려 오해를 부르므로, 충분히 그려질 때만 표시한다.
+function rdHasMa(series){
+  return (series.m60||[]).filter(v=>typeof v==='number'&&isFinite(v)).length>=15;
+}
+function rdExtraChart(series){
+  const W=640,H=132,L=6,Rt=26,T=10,B=18, n=series.d.length;
+  if(n<2) return '';
+  const sc=rdScale([].concat(series.macd,series.sig)); if(!sc) return '';
+  const px=i=>L+(W-L-Rt)*(n>1?i/(n-1):0), py=v=>T+(H-T-B)*(1-(v-sc.lo)/(sc.hi-sc.lo));
+  const zero=(sc.lo<0&&sc.hi>0)?`<line x1="${L}" y1="${py(0).toFixed(1)}" x2="${(W-Rt).toFixed(1)}" y2="${py(0).toFixed(1)}" stroke="#C9D6DC" stroke-width="1"/>`:'';
+  const sc2=rdHasMa(series)?rdScale([].concat(series.bm,series.m60)):null;
+  let ma='';
+  if(sc2){
+    const py2=v=>T+(H-T-B)*(1-(v-sc2.lo)/(sc2.hi-sc2.lo));
+    ma=`<path d="${rdPath(series.bm,px,py2)}" fill="none" stroke="${RD_COL.mid}" stroke-width="1.3"/>`+
+       `<path d="${rdPath(series.m60,px,py2)}" fill="none" stroke="${RD_COL.ma60}" stroke-width="1.3"/>`;
+  }
+  return `<svg class="rd-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="MACD와 시그널선, MA20과 MA60 보조 차트">`+
+    zero+ma+
+    `<path d="${rdPath(series.macd,px,py)}" fill="none" stroke="${RD_COL.macd}" stroke-width="1.7"/>`+
+    `<path d="${rdPath(series.sig,px,py)}" fill="none" stroke="${RD_COL.sig}" stroke-width="1.4" stroke-dasharray="4 3"/>`+
+    rdXTicks(series,px,H)+`</svg>`;
+}
+function rdLegend(items){
+  return `<div class="rd-legend">${items.map(x=>
+    `<span><i class="${x.cls||''}" style="${x.cls==='box'?'background:':'border-top-color:'}${x.color}"></i>${esc(x.label)}</span>`).join('')}</div>`;
+}
+// 어제 → 오늘 비교표 (숫자를 한꺼번에 쏟아내지 않도록 4줄로 제한)
+function rdCompareTable(series,events){
+  const n=series.d.length; if(n<2) return '';
+  const i=n-1,j=n-2, rows=[];
+  const has=t=>events.some(e=>e.type===t);
+  const num=v=>(typeof v==='number'&&isFinite(v))?v:null;
+  const money=v=>v===null?'—':Math.round(v).toLocaleString('ko-KR')+'원';
+  const r0=num(series.r[j]), r1=num(series.r[i]);
+  if(r0!==null&&r1!==null){
+    let ch='변화 없음';
+    if(has('rsi_oversold_entry')) ch='과매도 진입';
+    else if(has('rsi_oversold_exit')) ch='과매도 탈출';
+    else if(has('rsi_overbought_entry')) ch='과매수 진입';
+    else if(has('rsi_overbought_exit')) ch='과매수 탈출';
+    else ch=(r1>r0?'상승':(r1<r0?'하락':'변화 없음'));
+    rows.push(['RSI',r0.toFixed(1),r1.toFixed(1),ch]);
+  }
+  const c0=num(series.c[j]), c1=num(series.c[i]);
+  if(c0!==null&&c1!==null&&c0!==0){
+    const pct=(c1/c0-1)*100;
+    rows.push(['종가',money(c0),money(c1),(pct>=0?'+':'')+pct.toFixed(1)+'%']);
+  }
+  const l0=num(series.bl[j]), l1=num(series.bl[i]);
+  if(l0!==null&&l1!==null&&c1!==null){
+    rows.push(['밴드 하단',money(l0),money(l1),c1<l1?'종가가 하단 아래':'종가가 밴드 안']);
+  }
+  const v0=num(series.v[j]), v1=num(series.v[i]), a0=num(series.va[j]), a1=num(series.va[i]);
+  if(v1!==null&&a1!==null&&a1>0){
+    const rat0=(v0!==null&&a0)?(v0/a0):null;
+    rows.push(['거래량 배수',(rat0!==null?rat0.toFixed(1)+'배':'—'),(v1/a1).toFixed(1)+'배',
+      (v1/a1>=2?'거래량 급증':'평소 수준')]);
+  }
+  if(!rows.length) return '';
+  return `<div class="rd-table-wrap"><table class="rd-table"><caption class="sr-only">어제와 오늘 지표 비교</caption>`+
+    `<thead><tr><th scope="col">항목</th><th scope="col">이전</th><th scope="col">현재</th><th scope="col">변화</th></tr></thead>`+
+    `<tbody>${rows.map(r=>`<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('')}</tbody>`+
+    `</table></div>`;
+}
+function renderRadarDetail(code){
+  const el=document.getElementById('radarDetail'); if(!el) return;
+  const events=radarEventsOf(code);
+  if(!RADAR||!events.length){ el.classList.remove('on'); el.innerHTML=''; return; }
+  const st=RADAR.status==='provisional'?'is-provisional':'is-confirmed';
+  const sigs=events.map(e=>{const d=radarDef(e.type);
+    return `<span class="rd-sig"><span aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)} `+
+      `<span style="font-weight:650;color:var(--gaeo-muted)">${esc(radarValueText(e))}</span></span>`;}).join('');
+  const head=`<div class="rd-head"><h3>📡 레이더 포착 변화 ${events.length}건</h3>`+
+    `<span class="rd-asof">시세 기준 ${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}<br>`+
+    `레이더 생성 ${esc(RADAR.generatedAt||'-')} · <span class="gr-status ${st}">${esc(radarStatusText())}</span></span></div>`+
+    `<div class="rd-sigs">${sigs}</div>`;
+  const rep=events[0], repDef=radarDef(rep.type);
+  const desc=`<div class="rd-desc">${esc(repDef.description)}`+
+    (events.length>1?` 같은 날 <b>${esc(radarDef(events[1].type).label)}</b> 변화도 함께 나왔어요.`:'')+
+    `<span class="rd-caution">· ${esc(repDef.caution)} 추가 흐름을 함께 확인할 필요가 있어요.</span></div>`;
+  const note='<p class="rd-note">'+esc(RADAR.disclaimer||'')+'</p>';
+  el.innerHTML=head+desc+'<p class="rd-hint" style="margin-top:16px;font-size:11px;color:var(--gaeo-muted)">차트를 불러오는 중이에요…</p>'+note;
+  el.classList.add('on');
+  GaeoFeatures.load('radar').then(()=>{
+    const S=(typeof GAEO_RADAR_SERIES!=='undefined'&&GAEO_RADAR_SERIES)?GAEO_RADAR_SERIES[code]:null;
+    if(!S||!S.d||S.d.length<2){
+      el.innerHTML=head+desc+'<p class="rd-note">이 종목은 차트를 그릴 만큼 데이터가 쌓이지 않았어요.</p>'+note;
+      return;
+    }
+    const charts=
+      `<div class="rd-chart"><h4>최근 ${S.d.length}거래일 가격과 볼린저밴드</h4>`+
+      `<p class="rd-hint">볼린저밴드는 20일 평균선 위아래로 표준편차 2배만큼 그린 '평소 움직이는 범위'예요.</p>`+
+      `<div class="rd-svg-wrap">${rdPriceChart(S,events)}</div>`+
+      rdLegend([{label:'종가',color:RD_COL.close},{label:'밴드 상·하단',color:RD_COL.band,cls:'dash'},
+                {label:'중심선(20일 평균)',color:RD_COL.mid,cls:'dash'},{label:'신호 발생일',color:RD_COL.mark,cls:'dash'}])+`</div>`+
+      `<div class="rd-chart"><h4>RSI (14일)</h4>`+
+      `<p class="rd-hint">30 아래는 과매도, 70 위는 과매수 구간이에요. 그 사이는 중립이에요.</p>`+
+      `<div class="rd-svg-wrap">${rdRsiChart(S,events)}</div>`+
+      rdLegend([{label:'RSI',color:RD_COL.rsi},{label:'30 과매도선',color:'#5B8EAA',cls:'dash'},
+                {label:'70 과매수선',color:'#B4666C',cls:'dash'}])+`</div>`+
+      `<div class="rd-chart"><h4>거래량</h4>`+
+      `<p class="rd-hint">점선은 최근 20거래일 평균 거래량이에요. 평균의 2배를 넘은 날은 '급증'으로 표시했어요.</p>`+
+      `<div class="rd-svg-wrap">${rdVolChart(S,events)}</div>`+
+      rdLegend([{label:'일별 거래량',color:RD_COL.vol,cls:'box'},{label:'20일 평균',color:RD_COL.avg,cls:'dash'},
+                {label:'평균의 2배 이상',color:RD_COL.mark,cls:'box'}])+`</div>`;
+    const extra=`<button class="rd-toggle" type="button" id="rdExtraBtn" aria-expanded="false" aria-controls="rdExtra">MACD·이동평균 차트 보기</button>`+
+      `<div class="rd-extra" id="rdExtra"><div class="rd-chart"><h4>MACD${rdHasMa(S)?' · 이동평균':''}</h4>`+
+      `<p class="rd-hint">MACD가 시그널선을 위로 지나면 골든크로스, 아래로 지나면 데드크로스예요.`+
+      (rdHasMa(S)?'':' (MA60은 60거래일 평균이라 이 기간에는 표시할 만큼 계산되지 않았어요.)')+`</p>`+
+      `<div class="rd-svg-wrap">${rdExtraChart(S)}</div>`+
+      rdLegend([{label:'MACD',color:RD_COL.macd},{label:'시그널',color:RD_COL.sig,cls:'dash'}]
+        .concat(rdHasMa(S)?[{label:'MA20',color:RD_COL.mid},{label:'MA60',color:RD_COL.ma60}]:[]))+`</div></div>`;
+    el.innerHTML=head+desc+charts+rdCompareTable(S,events)+extra+note;
+    const btn=document.getElementById('rdExtraBtn'), box=document.getElementById('rdExtra');
+    if(btn&&box) btn.onclick=()=>{
+      const on=box.classList.toggle('on');
+      btn.setAttribute('aria-expanded',on?'true':'false');
+      btn.textContent=on?'MACD·이동평균 차트 접기':'MACD·이동평균 차트 보기';
+    };
+  }).catch(()=>{
+    el.innerHTML=head+desc+'<p class="rd-note">차트 자료를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.</p>'+note;
+  });
+}
+window.renderGaeoRadar=renderGaeoRadar;
+try{ renderGaeoRadar(); }catch(e){ console.warn('radar render', e); }
 
 // ---------- 효과음 (WebAudio 합성 — 파일 불필요) ----------
 let AC=null, soundOn=true;
@@ -5697,6 +6221,7 @@ async function analyze(){
   try{ await window.ensureAutoAnalysis(); }catch(e){}
   document.getElementById('run').disabled=true; vEl.classList.remove('on');
   document.getElementById('viz').classList.remove('on');
+  { const rd=document.getElementById('radarDetail'); if(rd){ rd.classList.remove('on'); rd.innerHTML=''; } }
   const data=runAnalysis(stock);
   makeCards(!!data._live);
   cardsEl.classList.add('busy');            // 스켈레톤(시머) 표시 시작
@@ -5809,6 +6334,8 @@ async function analyze(){
       if(v.report){vr.style.display='block'; vr.innerHTML=analysisParagraphHTML(v.report);}
       else vr.style.display='none';
       renderViz(data); renderGauges(v); renderHistory(stock.code, stock.price);
+      // 📡 레이더가 이 종목에서 잡아낸 변화가 있으면 기존 분석 화면 아래에 카드로 덧붙인다
+      try{ renderRadarDetail(stock.code); }catch(e){ console.warn('radar detail', e); }
       vEl.classList.add('on');
       if(window.__gaeoNoAutoScroll){
         // BUY 칩에서 넘어온 경우: viz 대신 시세 카드(종목명·현재가·지표·차트)로 이동.
@@ -7861,7 +8388,8 @@ window.renderScreener=function(){
     document.getElementById('estateView').classList.toggle('on',estate);
     document.getElementById('calcView').classList.toggle('on',calc);
     document.getElementById('screenerView').classList.toggle('on',screener);
-    if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on'); }
+    if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on');
+      const rd=document.getElementById('radarDetail'); if(rd) rd.classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
