@@ -11,6 +11,106 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <script>
+  // 정적 사이트용 익명 활동 집계. 사람을 식별하지 않고 브라우저 세션 단위의
+  // 방문·콘텐츠 이용 신호만 CounterAPI에 숫자로 저장한다.
+  window.GaeoMetrics=(function(){
+    const API='https://api.counterapi.dev/v1/rudvh1016-gif-gaeo/';
+    const TOTAL_KEY='site-visits';
+    const PREVIEW_HOST=!location.hostname||location.hostname==='localhost'||location.hostname==='127.0.0.1';
+    const cache=new Map();
+    const pad=n=>String(n).padStart(2,'0');
+    const dayKey=(offset=0)=>{
+      const d=new Date(Date.now()+9*60*60*1000+offset*86400000);
+      return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}`;
+    };
+    const counterValue=d=>{
+      const v=d&&(d.count!=null?d.count:d.value);
+      return Number.isFinite(Number(v))?Number(v):0;
+    };
+    async function request(name,increment=false){
+      if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
+      const url=API+encodeURIComponent(name)+(increment?'/up':'');
+      const r=await fetch(url,{cache:'no-store'});
+      if(r.status===404) return 0;
+      if(!r.ok) throw new Error('counter '+r.status);
+      const value=counterValue(await r.json());
+      cache.set(name,{value,at:Date.now()});
+      return value;
+    }
+    async function read(name){
+      const hit=cache.get(name);
+      if(hit&&Date.now()-hit.at<30000) return hit.value;
+      return request(name,false);
+    }
+    const dailyName=(name,offset=0)=>`d-${dayKey(offset)}-${name}`;
+    async function event(name,options){
+      options=options||{};
+      const once=options.onceKey&&`gaeo_metric_${dayKey()}_${options.onceKey}`;
+      if(once&&sessionStorage.getItem(once)==='1') return read(dailyName(name));
+      try{
+        const value=await request(dailyName(name),true);
+        if(once) sessionStorage.setItem(once,'1');
+        return value;
+      }catch(e){ return null; }
+    }
+    async function startVisit(){
+      const totalDone=sessionStorage.getItem('gaeo_view_counted')==='1';
+      const dailyFlag=`gaeo_daily_counted_${dayKey()}`;
+      const dailyDone=sessionStorage.getItem(dailyFlag)==='1';
+      const totalPromise=request(TOTAL_KEY,!totalDone).then(v=>{
+        sessionStorage.setItem('gaeo_view_counted','1'); return v;
+      });
+      const todayPromise=request(dailyName('visits'),!dailyDone).then(v=>{
+        sessionStorage.setItem(dailyFlag,'1'); return v;
+      });
+      let newDevicePromise=read(dailyName('new-device'));
+      if(!localStorage.getItem('gaeo_first_seen')){
+        newDevicePromise=request(dailyName('new-device'),true).then(v=>{
+          localStorage.setItem('gaeo_first_seen',new Date().toISOString()); return v;
+        });
+      }
+      const values=await Promise.all([totalPromise,todayPromise,newDevicePromise]);
+      return {total:values[0],today:values[1],newDevices:values[2]};
+    }
+    async function series(name,days=7){
+      const offsets=Array.from({length:days},(_,i)=>i-(days-1));
+      const values=await Promise.all(offsets.map(o=>read(dailyName(name,o)).catch(()=>0)));
+      return offsets.map((offset,i)=>({day:dayKey(offset),value:values[i]}));
+    }
+    async function contentCounts(posts){
+      return Promise.all((posts||[]).map(async post=>({
+        post,
+        count:await read(`content-${post.mode}-${post.id}`).catch(()=>0)
+      })));
+    }
+    function contentView(mode,id,element){
+      const once=`content-${mode}-${id}`;
+      const flag=`gaeo_content_open_${mode}_${id}`;
+      if(sessionStorage.getItem(flag)==='1') return;
+      sessionStorage.setItem(flag,'1');
+      event('content-open',{onceKey:once});
+      request(`content-${mode}-${id}`,true).catch(()=>{});
+      setTimeout(()=>{
+        if(document.visibilityState!=='visible'||!element||!element.isConnected) return;
+        if(element.classList&&!element.classList.contains('open')) return;
+        event('content-engaged',{onceKey:once});
+      },30000);
+    }
+    async function adminSnapshot(){
+      const metricNames=['new-device','search','content-open','content-engaged',
+        'calculator-run','ad-loaded','ad-failed','ad-visible'];
+      const result=await Promise.all([
+        read(TOTAL_KEY).catch(()=>0),
+        series('visits',7),
+        ...metricNames.map(name=>read(dailyName(name)).catch(()=>0))
+      ]);
+      const today={visits:result[1][result[1].length-1]?.value||0};
+      metricNames.forEach((name,i)=>{ today[name]=result[i+2]||0; });
+      return {total:result[0],series:result[1],today};
+    }
+    return {dayKey,dailyName,read,event,startVisit,series,contentCounts,contentView,adminSnapshot};
+  })();
+
   // AdFit 콜백은 SDK가 DOMContentLoaded 직후 호출할 수 있어 SDK보다 먼저 선언한다.
   window.gaeoAdLoaded=function(el){
     const slot=el&&el.closest?el.closest('.ad-slot'):null;
@@ -18,6 +118,20 @@
     if(slot._gaeoAdTimer) clearTimeout(slot._gaeoAdTimer);
     slot.classList.remove('ad-pending','ad-failed');
     slot.classList.add('ad-ready');
+    if(!slot._gaeoMetricLoaded){
+      slot._gaeoMetricLoaded=true;
+      window.GaeoMetrics.event('ad-loaded').catch(()=>{});
+    }
+    if(!slot._gaeoVisibilityObserver&&'IntersectionObserver' in window){
+      slot._gaeoVisibilityObserver=new IntersectionObserver(entries=>{
+        if(entries.some(x=>x.isIntersecting&&x.intersectionRatio>=0.5)&&!slot._gaeoMetricVisible){
+          slot._gaeoMetricVisible=true;
+          window.GaeoMetrics.event('ad-visible').catch(()=>{});
+          slot._gaeoVisibilityObserver.disconnect();
+        }
+      },{threshold:[.5]});
+      slot._gaeoVisibilityObserver.observe(slot);
+    }
   };
   window.gaeoAdFailed=function(el){
     const slot=el&&el.closest?el.closest('.ad-slot'):null;
@@ -25,6 +139,10 @@
     if(slot._gaeoAdTimer) clearTimeout(slot._gaeoAdTimer);
     slot.classList.remove('ad-pending','ad-ready');
     slot.classList.add('ad-failed');
+    if(!slot._gaeoMetricFailed){
+      slot._gaeoMetricFailed=true;
+      window.GaeoMetrics.event('ad-failed').catch(()=>{});
+    }
   };
   window.gaeoWatchAd=function(el){
     const slot=el&&el.closest?el.closest('.ad-slot'):null;
@@ -51,6 +169,7 @@
   gtag('config', 'G-D6PYQ4TXY4');
   window.gaeoTrack=function(name,params){
     try{ if(typeof gtag==='function') gtag('event',name,params||{}); }catch(e){}
+    if(name==='search'&&window.GaeoMetrics) window.GaeoMetrics.event('search').catch(()=>{});
   };
 </script>
 <script>
@@ -1112,6 +1231,34 @@
     border-radius:8px;padding:7px 9px;font-size:11.5px}
   .ab-item-t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .ab-status{font-size:11.5px;margin-top:8px;color:#A7E3B8;line-height:1.5;word-break:break-all}
+  .ab-ops-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .ab-ops-head strong{display:block;font-size:13px;color:#F4FAFF}
+  .ab-ops-head span{display:block;margin-top:2px;font-size:9.5px;color:#7FA8C9}
+  .ab-ops-refresh{border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;
+    background:rgba(255,255,255,.08);color:#DCE8F4;font:inherit;font-size:10.5px;font-weight:750;cursor:pointer}
+  .ab-ops-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0 10px}
+  .ab-ops-card{min-width:0;padding:9px 8px;border-radius:10px;background:rgba(255,255,255,.08)}
+  .ab-ops-card span{display:block;margin-bottom:3px;color:#91B8D4;font-size:9px;white-space:nowrap}
+  .ab-ops-card strong{display:block;overflow:hidden;color:#F4FAFF;font-family:var(--num);
+    font-size:17px;line-height:1.1;text-overflow:ellipsis;white-space:nowrap}
+  .ab-ops-card small{display:block;margin-top:3px;color:#7FA8C9;font-size:8.5px}
+  .ab-ops-chart{display:grid;grid-template-columns:repeat(7,1fr);align-items:end;gap:5px;height:54px;
+    padding:7px 5px 0;border-radius:10px;background:rgba(255,255,255,.055)}
+  .ab-ops-day{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%}
+  .ab-ops-bar{display:block;width:100%;max-width:24px;min-height:3px;border-radius:4px 4px 1px 1px;
+    background:#5DB9DB}
+  .ab-ops-day em{font-style:normal;color:#7FA8C9;font-size:8px}
+  .ab-funnel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0}
+  .ab-funnel-item{padding:8px;border:1px solid rgba(255,255,255,.09);border-radius:9px}
+  .ab-funnel-item span{display:block;color:#91B8D4;font-size:8.8px}
+  .ab-funnel-item b{display:block;margin-top:3px;color:#EAF7FF;font-size:13px}
+  .ab-ops-links{display:flex;gap:6px;margin-top:9px}
+  .ab-ops-links a{flex:1;padding:8px;border-radius:8px;background:rgba(255,255,255,.10);
+    color:#DCE8F4;font-size:10.5px;font-weight:760;text-align:center;text-decoration:none}
+  @media(max-width:520px){
+    .ab-ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .ab-funnel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
 
   /* ── 코스피/코스닥 + 시장 분석 ── */
   .market{background:var(--paper);border-radius:18px;padding:15px 18px;margin:0 0 14px;
@@ -1699,6 +1846,70 @@
   .home-dashboard .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
     white-space:nowrap;text-overflow:ellipsis;display:block}
 
+  /* 오늘의 Gaeo — 방문 흐름을 시장 전광판처럼 보여주는 공개 활동판 */
+  .activity-board{position:relative;overflow:hidden;display:grid;
+    grid-template-columns:minmax(0,1.16fr) minmax(360px,.84fr);gap:24px;margin:16px 0;
+    padding:26px 28px;border:1px solid #B9E2F1;border-radius:var(--gaeo-radius-md);
+    background:#E5F5FB;color:#153C4B}
+  .activity-board::after{content:"";position:absolute;right:-72px;top:-105px;width:270px;height:270px;
+    border:38px solid rgba(255,255,255,.34);border-radius:50%;pointer-events:none}
+  .activity-main,.activity-popular{position:relative;z-index:1;min-width:0}
+  .activity-head{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+  .activity-head h2{margin:0;color:#153C4B;font-size:18px;font-weight:840;letter-spacing:-.035em}
+  .activity-live{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:99px;
+    background:rgba(255,255,255,.58);color:#33738B;font-size:9.5px;font-weight:800}
+  .activity-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#2F87A8;
+    box-shadow:0 0 0 4px rgba(47,135,168,.13)}
+  .activity-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 18px;
+    align-items:end}
+  .activity-metric{min-width:0}
+  .activity-metric span{display:block;margin-bottom:4px;color:#598394;font-size:10px;font-weight:760}
+  .activity-metric strong{display:block;color:#153C4B;font-family:var(--num);font-size:clamp(22px,2.2vw,34px);
+    font-weight:850;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+  .activity-metric strong small{margin-left:2px;font-family:var(--sans);font-size:10px;font-weight:750;
+    letter-spacing:0;color:#598394}
+  .activity-trend{font-size:clamp(18px,1.8vw,26px)!important}
+  .activity-trend.up{color:#C2414B}.activity-trend.down{color:#2563A5}
+  .activity-chart{display:grid;grid-template-columns:repeat(7,1fr);align-items:end;gap:6px;
+    height:60px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(56,128,155,.17)}
+  .activity-day{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+  .activity-bar{display:block;width:min(100%,26px);min-height:4px;border-radius:5px 5px 2px 2px;
+    background:#7FC6DF;transition:height .45s ease}
+  .activity-day:last-child .activity-bar{background:#2F87A8}
+  .activity-day em{font-style:normal;color:#668B99;font-size:8.5px;font-variant-numeric:tabular-nums}
+  .activity-foot{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;color:#557D8D;
+    font-size:10px;font-weight:700}
+  .activity-foot b{color:#215D74}
+  .activity-popular{padding-left:24px;border-left:1px solid rgba(56,128,155,.18)}
+  .activity-popular-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
+    margin-bottom:10px}
+  .activity-popular-head h3{margin:0;color:#153C4B;font-size:14px;font-weight:830}
+  .activity-popular-head span{color:#668B99;font-size:9px}
+  .activity-popular-list{display:flex;flex-direction:column;gap:5px}
+  .activity-popular-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;
+    gap:8px;width:100%;min-height:38px;padding:6px 8px;border:0;border-radius:10px;
+    background:transparent;color:#153C4B;text-align:left;font-family:inherit;cursor:pointer}
+  .activity-popular-item:hover,.activity-popular-item:focus-visible{background:rgba(255,255,255,.62);outline:none}
+  .activity-rank{display:flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:8px;
+    background:rgba(255,255,255,.68);color:#2F7894;font-family:var(--num);font-size:10px;font-weight:850}
+  .activity-popular-title{overflow:hidden;color:#204654;font-size:11.5px;font-weight:740;
+    text-overflow:ellipsis;white-space:nowrap}
+  .activity-popular-count{color:#668B99;font-family:var(--num);font-size:9px;font-weight:750}
+  .activity-empty{padding:14px 8px;color:#668B99;font-size:11px;line-height:1.55}
+  html.gdark .activity-board{border-color:#244D5D;background:#0D2833;color:#DDF4FC}
+  html.gdark .activity-board::after{border-color:rgba(109,191,221,.08)}
+  html.gdark .activity-head h2,html.gdark .activity-metric strong,
+  html.gdark .activity-popular-head h3,html.gdark .activity-popular-item{color:#DDF4FC}
+  html.gdark .activity-live{background:rgba(255,255,255,.08);color:#8FD4EE}
+  html.gdark .activity-metric span,html.gdark .activity-metric strong small,
+  html.gdark .activity-foot,html.gdark .activity-popular-head span,
+  html.gdark .activity-popular-count,html.gdark .activity-empty{color:#82ADBD}
+  html.gdark .activity-foot b,html.gdark .activity-popular-title{color:#C3E7F4}
+  html.gdark .activity-popular{border-left-color:rgba(143,212,238,.15)}
+  html.gdark .activity-rank{background:rgba(255,255,255,.08);color:#8FD4EE}
+  html.gdark .activity-popular-item:hover,html.gdark .activity-popular-item:focus-visible{
+    background:rgba(255,255,255,.06)}
+
   .home-dashboard .start-board{grid-template-columns:minmax(280px,.95fr) minmax(520px,1.45fr) minmax(250px,.72fr);
     align-items:start;gap:16px;margin:16px 0}
   .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
@@ -1860,6 +2071,8 @@
     .home-dashboard .latest-post:first-child{border-top:1px solid var(--gaeo-border)}
     .home-dashboard .latest-post-meta{margin-bottom:7px}
     .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
+    .activity-board{grid-template-columns:1fr}
+    .activity-popular{padding:18px 0 0;border-left:0;border-top:1px solid rgba(56,128,155,.18)}
     .home-dashboard .start-board{grid-template-columns:1fr 1fr}
     .home-dashboard .start-step-summary{grid-column:1/-1;grid-row:1}
     .trust-strip{grid-template-columns:1fr}
@@ -1904,6 +2117,18 @@
     .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
     .home-dashboard .latest-home-head h2{font-size:18px}
     .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(210px,1fr))}
+    .activity-board{gap:18px;margin:14px 0;padding:22px 18px;border-radius:20px}
+    .activity-head{margin-bottom:16px}
+    .activity-head h2{font-size:17px}
+    .activity-metrics{grid-template-columns:1fr 1fr;gap:16px 12px}
+    .activity-metric:last-child{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;
+      align-items:center;gap:8px}
+    .activity-metric:last-child span{margin:0}
+    .activity-metric strong{font-size:29px}
+    .activity-chart{height:56px;margin-top:13px}
+    .activity-foot{line-height:1.55}
+    .activity-popular{padding-top:16px}
+    .activity-popular-item{padding-left:2px;padding-right:2px}
     .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
     .home-dashboard .start-step-summary{grid-column:auto;grid-row:auto}
     .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
@@ -1932,6 +2157,7 @@
   }
   @media(prefers-reduced-motion:reduce){
     .global-nav *,.home-dashboard *{scroll-behavior:auto!important}
+    .activity-bar{transition:none}
   }
 </style>
 </head>
@@ -1991,7 +2217,7 @@
       </div>
       <div class="topbar" style="gap:8px">
         <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-        <span class="views" id="viewsBadge" title="사이트 총 방문 횟수">👁 조회 <b>—</b></span>
+        <span class="views" id="viewsBadge" title="브라우저 세션 기준 방문 횟수">오늘 <b id="profileToday">—</b> · 누적 <b id="profileTotal">—</b></span>
       </div>
       <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
     </div>
@@ -2028,6 +2254,43 @@
         <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
       </section>
     </div>
+    <section class="activity-board" id="activityBoard" aria-labelledby="activityTitle">
+      <div class="activity-main">
+        <div class="activity-head">
+          <h2 id="activityTitle">오늘의 Gaeo</h2>
+          <span class="activity-live">방문 흐름</span>
+        </div>
+        <div class="activity-metrics" aria-live="polite">
+          <div class="activity-metric">
+            <span>오늘 방문</span>
+            <strong id="activityToday">—<small>회</small></strong>
+          </div>
+          <div class="activity-metric">
+            <span>누적 방문</span>
+            <strong id="activityTotal">—<small>회</small></strong>
+          </div>
+          <div class="activity-metric">
+            <span>지난주보다</span>
+            <strong class="activity-trend" id="activityTrend">집계 중</strong>
+          </div>
+        </div>
+        <div class="activity-chart" id="activityChart" aria-label="최근 7일 방문 흐름"></div>
+        <div class="activity-foot">
+          <span>투자 가이드 <b id="activityGuides">—</b>개</span>
+          <span>계산기 <b id="activityCalcs">—</b>개</span>
+          <span>최근 데이터 <b id="activityUpdated">확인 중</b></span>
+        </div>
+      </div>
+      <div class="activity-popular">
+        <div class="activity-popular-head">
+          <h3>지금 많이 보는 글</h3>
+          <span>최근 콘텐츠 기준</span>
+        </div>
+        <div class="activity-popular-list" id="activityPopular" aria-live="polite">
+          <div class="activity-empty">인기 글 순위를 모으고 있어요.</div>
+        </div>
+      </div>
+    </section>
     <section class="start-board" aria-label="처음 이용 안내">
       <article class="start-step">
         <span class="start-kicker">먼저</span>
@@ -2235,7 +2498,7 @@
 <script src="data.js?v=20260728-cache3"></script>
 <script src="site_config.js?v=20260728-cache3"></script>
 <script src="community.js?v=20260728-cache3"></script>
-<script src="snap/latest_posts.js?v=20260728-cache3" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
+<script src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
 <script src="snap/home_brief.js?v=20260728-cache3" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
 <script src="analysis.js?v=20260728-cache3"></script>
 <script src="indicators.js?v=20260728-cache3"></script>
@@ -3220,16 +3483,19 @@ renderHomeWatchlist();
     <span class="latest-post-meta"><b>${esc(post.label)}</b><span>${esc(post.date)}</span></span>
     <span class="latest-post-title">${post.featured?'<span class="latest-post-pin" aria-label="고정 글">★</span>':''}${esc(post.title)}</span>
   </button>`).join('');
-  box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
-    const mode=btn.dataset.postMode, id=btn.dataset.postId;
+  window.openGaeoPost=async function(mode,id,button){
     gaeoTrack('select_content',{content_type:mode,item_id:id});
-    btn.disabled=true;
+    if(button) button.disabled=true;
     try{
       await GaeoFeatures.load(mode);
       setMode(mode);
-      const opener={news:'openNewsId',study:'openStudyId',lesson:'openLessonId',estate:'openEstateId'}[mode];
+      const opener={news:'openNewsId',study:'openStudyId',lesson:'openLessonId',
+        estate:'openEstateId',calc:'openCalcId'}[mode];
       if(opener&&typeof window[opener]==='function') window[opener](id);
-    }finally{ btn.disabled=false; }
+    }finally{ if(button) button.disabled=false; }
+  };
+  box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
+    await window.openGaeoPost(btn.dataset.postMode,btn.dataset.postId,btn);
   });
   // 모바일은 가로 카드 목록이라 뒤로가기로 복원될 때 이전 스크롤 위치가 남을 수 있다.
   // 고정 글이 언제나 첫 화면에 보이도록 초기 위치를 첫 카드로 되돌린다.
@@ -5773,7 +6039,7 @@ window.GaeoContentAd=(function(){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('nw-'+el.dataset.nw);
       if(item){ const open=item.classList.toggle('open');
-        if(open) window.GaeoContentAd.mount(item);
+        if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('news',el.dataset.nw,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=news&id='+el.dataset.nw):location.pathname); }
     });
@@ -5805,6 +6071,7 @@ window.GaeoContentAd=(function(){
     if(el){
       el.classList.add('open');
       window.GaeoContentAd.mount(el);
+      window.GaeoMetrics.contentView('news',id,el);
       setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
     }
   };
@@ -6139,7 +6406,7 @@ window.GaeoContentAd=(function(){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('st-'+el.dataset.st);
       if(item){ const open=item.classList.toggle('open');
-        if(open) window.GaeoContentAd.mount(item);
+        if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('study',el.dataset.st,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=study&id='+el.dataset.st):location.pathname); }
     });
@@ -6166,6 +6433,7 @@ window.GaeoContentAd=(function(){
     if(el){
       el.classList.add('open');
       window.GaeoContentAd.mount(el);
+      window.GaeoMetrics.contentView('study',id,el);
       setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
     }
   };
@@ -6235,7 +6503,7 @@ window.GaeoContentAd=(function(){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('ls-'+el.dataset.ls);
       if(item){ const open=item.classList.toggle('open');
-        if(open) window.GaeoContentAd.mount(item);
+        if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('lesson',el.dataset.ls,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=lesson&id='+el.dataset.ls):location.pathname); }
     });
@@ -6262,6 +6530,7 @@ window.GaeoContentAd=(function(){
     if(el){
       el.classList.add('open');
       window.GaeoContentAd.mount(el);
+      window.GaeoMetrics.contentView('lesson',id,el);
       setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
     }
   };
@@ -6338,6 +6607,7 @@ window.GaeoContentAd=(function(){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('es-'+el.dataset.es);
       if(item){ const open=item.classList.toggle('open');
+        if(open) window.GaeoMetrics.contentView('estate',el.dataset.es,item);
         history.replaceState(null,'', open?('?m=estate&id='+el.dataset.es):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
@@ -6357,7 +6627,11 @@ window.GaeoContentAd=(function(){
     const idx=filtered.findIndex(a=>String(a.id)===String(id));
     esPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderEstate();
     const el=document.getElementById('es-'+id);
-    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+    if(el){
+      el.classList.add('open');
+      window.GaeoMetrics.contentView('estate',id,el);
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
   };
 })();
 
@@ -6742,6 +7016,14 @@ window.GaeoContentAd=(function(){
     if(item.calcType==='youthasset') btn.onclick=()=>{const own=n0(p('monthly').value),support=n0(p('support').value),annual=n0(p('rate').value),m=own+support,r=Math.pow(1+annual/100,1/12)-1,n=n0(p('months').value),res=p('result');res.style.display='block';if(n<=0||annual<0){res.innerHTML='<div class="cr-sub">가입 기간과 0 이상의 금리를 입력해주세요.</div>';return;}const total=Math.abs(r)>1e-9?m*(Math.pow(1+r,n)-1)/r:m*n,principal=m*n,benefit=support*n+(total-principal);res.innerHTML=`<div class="cr-main">예상 만기 ${fmtWon(total)}</div><div class="cr-sub">본인 납입 ${fmtWon(own*n)} · 지원금 가정 ${fmtWon(support*n)}<br>예상 이자 ${fmtWon(total-principal)} · 지원금+이자 혜택 ${fmtWon(benefit)}<br><span style="color:var(--t3)">매월 말 본인 납입과 지원금이 함께 적립된다는 단순 가정이에요.</span></div>`;};
     if(item.calcType==='rentvsjeonse') btn.onclick=()=>{const j=n0(p('jeonse').value),l=n0(p('loan').value),lr=n0(p('loanRate').value)/1200,d=n0(p('deposit').value),rent=n0(p('rent').value),o=n0(p('opp').value)/1200,jMgmt=n0(p('jMgmt').value),rMgmt=n0(p('rMgmt').value),jCost=n0(p('jCost').value),rCost=n0(p('rCost').value),n=n0(p('months').value),res=p('result');res.style.display='block';if(n<=0||l>j){res.innerHTML='<div class="cr-sub">계약 기간을 확인하고, 전세 대출금은 전세 보증금 이하로 입력해주세요.</div>';return;}const jc=(l*lr+Math.max(0,j-l)*o+jMgmt)*n+jCost,rc=(rent+d*o+rMgmt)*n+rCost,diff=jc-rc,breakRent=(jc-rCost-(d*o+rMgmt)*n)/n,breakText=breakRent>=0?`두 비용이 같아지는 월세 약 ${fmtWon(breakRent)}`:'현재 가정에서는 0원 이상의 손익분기 월세가 없어요';res.innerHTML=`<div class="cr-main">${diff<=0?'전세':'월세'}가 ${fmtWon(Math.abs(diff))} 낮음</div><div class="cr-sub">${n}개월 전세 비용 ${fmtWon(jc)} · 월세 비용 ${fmtWon(rc)}<br>월 환산 전세 ${fmtWon(jc/n)} · 월세 ${fmtWon(rc/n)}<br>${breakText}</div>`;};
     if(item.calcType==='severance') btn.onclick=()=>{const w=n0(p('wage').value),d=n0(p('days').value),wd=n0(p('workdays').value),hours=n0(p('weeklyHours').value),extra=n0(p('extra').value),cash=n0(p('cash').value),e=n0(p('expense').value),res=p('result');res.style.display='block';if(!w||!d||!wd||!e){res.innerHTML='<div class="cr-sub">모든 필수 항목을 입력해주세요.</div>';return;}const avg=w/d,eligible=wd>=365&&hours>=15,sev=eligible?avg*30*wd/365:0,available=cash+sev+extra,months=available/e,warning=!eligible?'<br><span style="color:var(--red)">근속 1년 또는 주 평균 15시간 기준을 충족하지 않아 법정 퇴직금 추정을 0원으로 표시했어요. 실제 적용은 공식 상담으로 확인하세요.</span>':'';res.innerHTML=`<div class="cr-main">세전 퇴직금 추정 ${fmtWon(sev)}</div><div class="cr-sub">1일 평균임금 ${fmtWon(avg)} · 추가 정산 ${fmtWon(extra)}<br>보유 현금 포함 사용 가능액 ${fmtWon(available)} · 약 ${months.toFixed(1)}개월${warning}</div>`;};
+    if(btn.onclick){
+      const calculate=btn.onclick;
+      btn.onclick=e=>{
+        calculate.call(btn,e);
+        window.GaeoMetrics.event('calculator-run').catch(()=>{});
+        gaeoTrack('calculator_run',{calculator_id:String(item.id),calculator_type:item.calcType||''});
+      };
+    }
   }
 
   window.renderCalc=function(){
@@ -6805,6 +7087,7 @@ window.GaeoContentAd=(function(){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('calc-'+el.dataset.calc);
       if(item){ const open=item.classList.toggle('open');
+        if(open) window.GaeoMetrics.contentView('calc',el.dataset.calc,item);
         history.replaceState(null,'', open?('?m=calc&id='+el.dataset.calc):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
@@ -6827,7 +7110,11 @@ window.GaeoContentAd=(function(){
     const idx=filtered.findIndex(a=>String(a.id)===String(id));
     calcPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderCalc();
     const el=document.getElementById('calc-'+id);
-    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+    if(el){
+      el.classList.add('open');
+      window.GaeoMetrics.contentView('calc',id,el);
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
   };
 })();
 
@@ -7201,21 +7488,87 @@ window.renderScreener=function(){
 })();
 
 /* ============================================================
-   조회수 카운터 — 무료 카운터 API. 같은 브라우저 세션에서는 1회만 집계.
-   서비스 응답이 없으면 배지를 조용히 숨긴다(사이트 동작에 영향 없음).
+   오늘의 Gaeo 활동판
+   · 방문은 사람 수가 아니라 같은 브라우저 세션에서 하루 1회 집계한 '방문 횟수'
+   · 최근 글 5개의 누적 열람을 비교해 공개 인기 순위를 만든다.
+   · 외부 집계가 잠시 멈춰도 콘텐츠 수·갱신 시각은 그대로 보여준다.
    ============================================================ */
 (function(){
-  const el=document.getElementById('viewsBadge'); if(!el) return;
-  const NS='rudvh1016-gif-gaeo', KEY='site-visits';
-  const counted=sessionStorage.getItem('gaeo_view_counted')==='1';
-  const url='https://api.counterapi.dev/v1/'+NS+'/'+KEY+(counted?'':'/up');
-  fetch(url).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(d=>{
-    const n=(d && (d.count!=null?d.count:d.value));
-    if(n==null) throw 0;
-    sessionStorage.setItem('gaeo_view_counted','1');
-    el.querySelector('b').textContent=Number(n).toLocaleString();
-    el.classList.add('on');
-  }).catch(()=>{ el.style.display='none'; });
+  const board=document.getElementById('activityBoard');
+  const profile=document.getElementById('viewsBadge');
+  if(!board||!window.GaeoMetrics) return;
+  const nfmt=n=>Number(n||0).toLocaleString('ko-KR');
+  const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+  const contentStats=(typeof CONTENT_STATS!=='undefined'&&CONTENT_STATS)||{};
+  const guideCount=['news','study','lesson','estate'].reduce((sum,k)=>sum+Number(contentStats[k]||0),0);
+  document.getElementById('activityGuides').textContent=nfmt(guideCount);
+  document.getElementById('activityCalcs').textContent=nfmt(contentStats.calc||0);
+  const updated=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA&&(LIVE_DATA.date||
+    (LIVE_DATA.marketBrief&&LIVE_DATA.marketBrief.sourceAsOf)))||'갱신 시각 확인 중';
+  document.getElementById('activityUpdated').textContent=String(updated);
+
+  function renderChart(rows){
+    const chart=document.getElementById('activityChart');
+    const max=Math.max(1,...rows.map(x=>x.value));
+    chart.innerHTML=rows.map(x=>{
+      const h=Math.max(7,Math.round(x.value/max*42));
+      const label=`${Number(x.day.slice(4,6))}/${Number(x.day.slice(6,8))}`;
+      return `<span class="activity-day" title="${safe(label)} · ${nfmt(x.value)}회">
+        <i class="activity-bar" style="height:${h}px"></i><em>${safe(label)}</em></span>`;
+    }).join('');
+  }
+  function renderPopular(rows){
+    const box=document.getElementById('activityPopular');
+    const ranked=rows.slice().sort((a,b)=>b.count-a.count||
+      String(b.post.date||'').localeCompare(String(a.post.date||''))).slice(0,3);
+    if(!ranked.length){
+      box.innerHTML='<div class="activity-empty">인기 글 순위를 모으고 있어요.</div>'; return;
+    }
+    box.innerHTML=ranked.map((row,i)=>`<button class="activity-popular-item" type="button"
+      data-mode="${safe(row.post.mode)}" data-id="${safe(row.post.id)}">
+      <span class="activity-rank">${i+1}</span>
+      <span class="activity-popular-title">${safe(row.post.title)}</span>
+      <span class="activity-popular-count">${row.count?nfmt(row.count)+'회':'새 글'}</span>
+    </button>`).join('');
+    box.querySelectorAll('.activity-popular-item').forEach(btn=>btn.onclick=()=>{
+      if(window.openGaeoPost) window.openGaeoPost(btn.dataset.mode,btn.dataset.id,btn);
+    });
+  }
+
+  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
+    ?LATEST_POSTS.slice(0,5):[];
+  window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
+    posts.map(post=>({post,count:0}))
+  ));
+  Promise.all([window.GaeoMetrics.startVisit(),window.GaeoMetrics.series('visits',14)])
+    .then(([visit,rows])=>{
+      document.getElementById('activityToday').innerHTML=`${nfmt(visit.today)}<small>회</small>`;
+      document.getElementById('activityTotal').innerHTML=`${nfmt(visit.total)}<small>회</small>`;
+      const current=rows.slice(-7).reduce((sum,x)=>sum+x.value,0);
+      const previous=rows.slice(0,7).reduce((sum,x)=>sum+x.value,0);
+      const trend=document.getElementById('activityTrend');
+      if(previous>0){
+        const rate=(current-previous)/previous*100;
+        trend.textContent=`${rate>=0?'+':''}${rate.toFixed(0)}%`;
+        trend.classList.add(rate>=0?'up':'down');
+      }else{
+        trend.textContent='새 집계 시작';
+      }
+      renderChart(rows.slice(-7));
+      if(profile){
+        document.getElementById('profileToday').textContent=nfmt(visit.today);
+        document.getElementById('profileTotal').textContent=nfmt(visit.total);
+        profile.classList.add('on');
+      }
+    }).catch(()=>{
+      document.getElementById('activityToday').innerHTML='—<small>회</small>';
+      document.getElementById('activityTotal').innerHTML='—<small>회</small>';
+      document.getElementById('activityTrend').textContent='잠시 후 갱신';
+      renderChart(Array.from({length:7},(_,i)=>({day:window.GaeoMetrics.dayKey(i-6),value:0})));
+      if(profile) profile.style.display='none';
+    });
 })();
 
 /* ============================================================
@@ -7612,6 +7965,50 @@ window.hangulFix=function(str){
   /* ---- 패널 ---- */
   let bar=null;
   function h(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  const pct=(part,total)=>total?`${Math.round(part/total*100)}%`:'—';
+  async function hydrateOps(){
+    const host=bar&&bar.querySelector('#abOpsBody'); if(!host) return;
+    host.innerHTML='<div class="ab-hint" style="margin:14px 0">오늘 운영 신호를 불러오고 있어요.</div>';
+    try{
+      const snap=await window.GaeoMetrics.adminSnapshot();
+      if(!bar||!bar.querySelector('#abOpsBody')) return;
+      const t=snap.today;
+      const returning=Math.max(0,t.visits-t['new-device']);
+      const max=Math.max(1,...snap.series.map(x=>x.value));
+      const chart=snap.series.map(x=>`<span class="ab-ops-day" title="${h(x.day)} · ${x.value}회">
+        <i class="ab-ops-bar" style="height:${Math.max(4,Math.round(x.value/max*34))}px"></i>
+        <em>${Number(x.day.slice(6,8))}일</em></span>`).join('');
+      host.innerHTML=`
+        <div class="ab-ops-grid">
+          <div class="ab-ops-card"><span>오늘 방문</span><strong>${t.visits.toLocaleString()}</strong><small>세션 기준</small></div>
+          <div class="ab-ops-card"><span>누적 방문</span><strong>${snap.total.toLocaleString()}</strong><small>전체 기간</small></div>
+          <div class="ab-ops-card"><span>재방문 추정</span><strong>${pct(returning,t.visits)}</strong><small>${returning}회 추정</small></div>
+          <div class="ab-ops-card"><span>30초 읽기율</span><strong>${pct(t['content-engaged'],t['content-open'])}</strong><small>${t['content-engaged']}/${t['content-open']}건</small></div>
+        </div>
+        <div class="ab-ops-chart" aria-label="최근 7일 방문 흐름">${chart}</div>
+        <div class="ab-funnel">
+          <div class="ab-funnel-item"><span>종목 검색</span><b>${t.search.toLocaleString()}회</b></div>
+          <div class="ab-funnel-item"><span>글·계산기 열람</span><b>${t['content-open'].toLocaleString()}회</b></div>
+          <div class="ab-funnel-item"><span>계산기 실행</span><b>${t['calculator-run'].toLocaleString()}회</b></div>
+          <div class="ab-funnel-item"><span>광고 로드</span><b>${t['ad-loaded'].toLocaleString()}회</b></div>
+          <div class="ab-funnel-item"><span>광고 50% 노출</span><b>${t['ad-visible'].toLocaleString()}회</b></div>
+          <div class="ab-funnel-item"><span>광고 실패</span><b>${t['ad-failed'].toLocaleString()}회</b></div>
+        </div>
+        <div class="ab-ops-grid">
+          <div class="ab-ops-card"><span>광고 표시 성공</span><strong>${pct(t['ad-loaded'],t['ad-loaded']+t['ad-failed'])}</strong><small>로드/(로드+실패)</small></div>
+          <div class="ab-ops-card"><span>광고 화면 도달</span><strong>${pct(t['ad-visible'],t['ad-loaded'])}</strong><small>50% 이상 보임</small></div>
+        </div>
+        <div class="ab-ops-links">
+          <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener">Google Analytics 상세</a>
+          <a href="https://adfit.kakao.com/" target="_blank" rel="noopener">Kakao AdFit 수익</a>
+        </div>
+        <div class="ab-hint">방문·재방문은 사람을 식별하지 않는 브라우저 기준 참고값이에요.
+        검색어·유입경로·정확한 사용자 수는 Google Analytics에서, 실제 광고 수익은 AdFit에서 확인하세요.
+        새 집계는 배포 후부터 쌓이므로 첫 주에는 재방문 추정치가 낮을 수 있어요.</div>`;
+    }catch(e){
+      host.innerHTML='<div class="ab-hint" style="margin:14px 0">운영 통계를 잠시 불러오지 못했어요. 사이트 이용에는 영향이 없어요.</div>';
+    }
+  }
   function buildBar(){
     if(bar) return bar;
     bar=document.createElement('div'); bar.className='adminbar adminbar2';
@@ -7620,7 +8017,7 @@ window.hangulFix=function(str){
   }
   function renderBar(tab){
     const o=cmState(); const d=Object.assign({},SC.design||{},o.design||{});
-    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['notes','👑 종목메모'],['stocks','📊 종목관리'],['community','💬 커뮤니티'],['publish','🌍 발행']];
+    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['ops','📈 운영·광고'],['notes','👑 종목메모'],['stocks','📊 종목관리'],['community','💬 커뮤니티'],['publish','🌍 발행']];
     let body='';
     if(tab==='text'){
       body=`<div class="ab-hint" style="margin-top:0">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 고칠 수 있어요.</div>
@@ -7633,6 +8030,11 @@ window.hangulFix=function(str){
       <div class="ab-row"><label>제목색</label><input type="color" id="abAccent2" value="${d.accent2||'#0B4171'}"><button class="ab-mini" id="abAccent2X">↺</button></div>
       <div class="ab-row"><label>배경색</label><input type="color" id="abBg" value="${d.bg||'#F8FAFC'}"><button class="ab-mini" id="abBgX">↺</button></div>
       <div class="ab-hint">고르는 즉시 화면에 미리보기 돼요. 💾 저장=이 브라우저 · 🌍 발행=모두에게.</div>`;
+    }else if(tab==='ops'){
+      body=`<div class="ab-ops-head"><div><strong>오늘의 운영·광고 신호</strong>
+        <span>방문 → 이용 → 광고 도달 흐름</span></div>
+        <button class="ab-ops-refresh" id="abOpsRefresh" type="button">새로고침</button></div>
+        <div id="abOpsBody"></div>`;
     }else if(tab==='notes'){
       const T=(typeof TICKERS!=='undefined')?TICKERS:[];
       const notes=Object.assign({},SC.notes||{},o.notes||{});
@@ -7690,15 +8092,16 @@ window.hangulFix=function(str){
       <div class="ab-title">🔧 관리자 모드 <button class="ab-x" title="닫기">✕</button></div>
       <div class="ab-tabs">${tabs.map(([k,l])=>`<button class="ab-tab${k===tab?' on':''}" data-tab="${k}">${l}</button>`).join('')}</div>
       ${body}
-      <div class="ab-btns">
+      ${tab==='ops'?'':`<div class="ab-btns">
         <button class="ab-save" id="abSave">💾 저장(이 브라우저)</button>
         <button class="ab-reset" id="abReset">↺ 원래대로</button>
-      </div>`;
+      </div>`}`;
     bar.querySelectorAll('.ab-tab').forEach(b=>b.onclick=()=>renderBar(b.dataset.tab));
     bar.querySelector('.ab-x').onclick=off;
 
     /* 공통: 저장/리셋 */
-    bar.querySelector('#abSave').onclick=()=>{
+    const saveBtn=bar.querySelector('#abSave');
+    if(saveBtn) saveBtn.onclick=()=>{
       const o2=cmState();
       const texts={}; EDITS().forEach(el=>texts[el.dataset.edit]=el.innerHTML);
       o2.texts=texts;
@@ -7710,7 +8113,8 @@ window.hangulFix=function(str){
       setTimeout(()=>{ if(bar&&bar.querySelector('#abSave')) bar.querySelector('#abSave').textContent='💾 저장(이 브라우저)'; },1500);
       if(window.renderCommunity && document.getElementById('communityView').classList.contains('on')) renderCommunity();
     };
-    bar.querySelector('#abReset').onclick=()=>{
+    const resetBtn=bar.querySelector('#abReset');
+    if(resetBtn) resetBtn.onclick=()=>{
       if(!confirm('이 브라우저에 저장한 수정사항(문구·디자인·커뮤니티 초안)을 모두 지울까요?\n(발행된 내용은 지워지지 않아요)')) return;
       localStorage.removeItem(KEY); location.reload();
     };
@@ -7729,6 +8133,9 @@ window.hangulFix=function(str){
       bar.querySelector('#abAccentX').onclick=()=>{upd('accent',null);renderBar('design');};
       bar.querySelector('#abAccent2X').onclick=()=>{upd('accent2',null);renderBar('design');};
       bar.querySelector('#abBgX').onclick=()=>{upd('bg',null);renderBar('design');};
+    }else if(tab==='ops'){
+      bar.querySelector('#abOpsRefresh').onclick=hydrateOps;
+      hydrateOps();
     }else if(tab==='notes'){
       const sel=bar.querySelector('#abNCode'), ta=bar.querySelector('#abNText');
       const fill=()=>{ const merged=Object.assign({},SC.notes||{},cmState().notes||{}); ta.value=merged[sel.value]||''; };

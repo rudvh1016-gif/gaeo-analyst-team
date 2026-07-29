@@ -1,4 +1,4 @@
-// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록
+// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록과 콘텐츠 수
 const LATEST_POSTS = [
  {
   "id": 35,
@@ -41,3 +41,10 @@ const LATEST_POSTS = [
   "featured": false
  }
 ];
+const CONTENT_STATS = {
+ "news": 23,
+ "study": 35,
+ "lesson": 52,
+ "estate": 15,
+ "calc": 14
+};
