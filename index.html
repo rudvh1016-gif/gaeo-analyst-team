@@ -16,6 +16,10 @@
   window.GaeoMetrics=(function(){
     const API='https://api.counterapi.dev/v1/rudvh1016-gif-gaeo/';
     const TOTAL_KEY='site-visits';
+    const VISIT_CACHE_KEY='gaeo_visit_snapshot_v1';
+    // 2026-07-29 CounterAPI에서 직접 확인한 누적값. 외부 집계가 늦어도 이 숫자 아래로 사라지지 않는다.
+    const VERIFIED_TOTAL_FLOOR=939;
+    const REQUEST_TIMEOUT=6000;
     const PREVIEW_HOST=!location.hostname||location.hostname==='localhost'||location.hostname==='127.0.0.1';
     const cache=new Map();
     const pad=n=>String(n).padStart(2,'0');
@@ -27,15 +31,37 @@
       const v=d&&(d.count!=null?d.count:d.value);
       return Number.isFinite(Number(v))?Number(v):0;
     };
+    function visitSnapshot(){
+      let saved={};
+      try{ saved=JSON.parse(localStorage.getItem(VISIT_CACHE_KEY)||'{}')||{}; }catch(e){}
+      const sameDay=saved.day===dayKey();
+      return {
+        total:Math.max(VERIFIED_TOTAL_FLOOR,Number(saved.total)||0),
+        today:sameDay?Math.max(1,Number(saved.today)||0):1,
+        exactTotal:false,
+        exactToday:false
+      };
+    }
+    function saveVisitSnapshot(visit){
+      try{ localStorage.setItem(VISIT_CACHE_KEY,JSON.stringify({
+        day:dayKey(),total:visit.total,today:visit.today,at:new Date().toISOString()
+      })); }catch(e){}
+    }
     async function request(name,increment=false){
       if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
       const url=API+encodeURIComponent(name)+(increment?'/up':'');
-      const r=await fetch(url,{cache:'no-store'});
-      if(r.status===404) return 0;
-      if(!r.ok) throw new Error('counter '+r.status);
-      const value=counterValue(await r.json());
-      cache.set(name,{value,at:Date.now()});
-      return value;
+      const controller='AbortController' in window?new AbortController():null;
+      const timer=controller?setTimeout(()=>controller.abort(),REQUEST_TIMEOUT):null;
+      try{
+        const r=await fetch(url,{cache:'no-store',signal:controller&&controller.signal});
+        if(r.status===404) return 0;
+        if(!r.ok) throw new Error('counter '+r.status);
+        const value=counterValue(await r.json());
+        cache.set(name,{value,at:Date.now()});
+        return value;
+      }finally{
+        if(timer) clearTimeout(timer);
+      }
     }
     async function read(name){
       const hit=cache.get(name);
@@ -53,24 +79,44 @@
         return value;
       }catch(e){ return null; }
     }
-    async function startVisit(){
+    async function startVisit(onUpdate){
       const totalDone=sessionStorage.getItem('gaeo_view_counted')==='1';
       const dailyFlag=`gaeo_daily_counted_${dayKey()}`;
       const dailyDone=sessionStorage.getItem(dailyFlag)==='1';
-      const totalPromise=request(TOTAL_KEY,!totalDone).then(v=>{
-        sessionStorage.setItem('gaeo_view_counted','1'); return v;
+      const fallback=visitSnapshot();
+      if(!totalDone) sessionStorage.setItem('gaeo_view_counted','1');
+      if(!dailyDone) sessionStorage.setItem(dailyFlag,'1');
+      const settle=async(promise,value)=>{
+        try{ return {value:await promise,exact:true}; }
+        catch(e){ return {value,exact:false}; }
+      };
+      const notify=patch=>{ if(typeof onUpdate==='function') onUpdate(patch); };
+      const totalPromise=settle(request(TOTAL_KEY,!totalDone),fallback.total).then(result=>{
+        notify({total:Math.max(VERIFIED_TOTAL_FLOOR,result.value),exactTotal:result.exact});
+        return result;
       });
-      const todayPromise=request(dailyName('visits'),!dailyDone).then(v=>{
-        sessionStorage.setItem(dailyFlag,'1'); return v;
+      const todayPromise=settle(request(dailyName('visits'),!dailyDone),fallback.today).then(result=>{
+        notify({today:Math.max(1,result.value),exactToday:result.exact&&result.value>0});
+        return result;
       });
       let newDevicePromise=read(dailyName('new-device'));
-      if(!localStorage.getItem('gaeo_first_seen')){
-        newDevicePromise=request(dailyName('new-device'),true).then(v=>{
-          localStorage.setItem('gaeo_first_seen',new Date().toISOString()); return v;
-        });
+      let firstSeen=false;
+      try{ firstSeen=!!localStorage.getItem('gaeo_first_seen'); }catch(e){}
+      if(!firstSeen){
+        try{ localStorage.setItem('gaeo_first_seen',new Date().toISOString()); }catch(e){}
+        newDevicePromise=request(dailyName('new-device'),true);
       }
-      const values=await Promise.all([totalPromise,todayPromise,newDevicePromise]);
-      return {total:values[0],today:values[1],newDevices:values[2]};
+      const newDeviceResult=settle(newDevicePromise,0);
+      const values=await Promise.all([totalPromise,todayPromise,newDeviceResult]);
+      const visit={
+        total:Math.max(VERIFIED_TOTAL_FLOOR,values[0].value),
+        today:Math.max(1,values[1].value),
+        newDevices:values[2].value,
+        exactTotal:values[0].exact,
+        exactToday:values[1].exact&&values[1].value>0
+      };
+      saveVisitSnapshot(visit);
+      return visit;
     }
     async function series(name,days=7){
       const offsets=Array.from({length:days},(_,i)=>i-(days-1));
@@ -108,7 +154,7 @@
       metricNames.forEach((name,i)=>{ today[name]=result[i+2]||0; });
       return {total:result[0],series:result[1],today};
     }
-    return {dayKey,dailyName,read,event,startVisit,series,contentCounts,contentView,adminSnapshot};
+    return {dayKey,dailyName,read,event,startVisit,visitSnapshot,series,contentCounts,contentView,adminSnapshot};
   })();
 
   // AdFit 콜백은 SDK가 DOMContentLoaded 직후 호출할 수 있어 SDK보다 먼저 선언한다.
@@ -295,8 +341,9 @@
   .topbar{display:flex;justify-content:flex-end;margin:0 0 8px}
   .views{font-size:11.5px;color:var(--dim);background:var(--paper);border-radius:99px;
     padding:5px 12px;box-shadow:var(--shadow-sm);letter-spacing:.01em;
-    opacity:0;transition:opacity .4s}
+    opacity:1;transition:opacity .4s}
   .views.on{opacity:1}
+  .views-eye{margin-right:4px;font-size:12px;line-height:1}
   .views b{color:var(--navy);font-weight:800;font-variant-numeric:tabular-nums}
 
   /* ── 시세 티커 ── */
@@ -1935,7 +1982,7 @@
   .home-dashboard .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
     white-space:nowrap;text-overflow:ellipsis;display:block}
 
-  /* 오늘의 Gaeo — 방문 흐름을 시장 전광판처럼 보여주는 공개 활동판 */
+  /* 오늘의 Gaeo — 공개 방문 숫자와 초보자용 이용 동선을 함께 보여주는 활동판 */
   .activity-board{position:relative;overflow:hidden;display:grid;
     grid-template-columns:minmax(0,1.16fr) minmax(360px,.84fr);gap:24px;margin:16px 0;
     padding:26px 28px;border:1px solid #B9E2F1;border-radius:var(--gaeo-radius-md);
@@ -1957,18 +2004,28 @@
     font-weight:850;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
   .activity-metric strong small{margin-left:2px;font-family:var(--sans);font-size:10px;font-weight:750;
     letter-spacing:0;color:#598394}
-  .activity-trend{font-size:clamp(18px,1.8vw,26px)!important}
-  .activity-trend.up{color:#C2414B}.activity-trend.down{color:#2563A5}
-  .activity-chart{display:grid;grid-template-columns:repeat(7,1fr);align-items:end;gap:6px;
-    height:60px;margin-top:16px;padding-top:8px;border-top:1px solid rgba(56,128,155,.17)}
-  .activity-day{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
-  .activity-bar{display:block;width:min(100%,26px);min-height:4px;border-radius:5px 5px 2px 2px;
-    background:#7FC6DF;transition:height .45s ease}
-  .activity-day:last-child .activity-bar{background:#2F87A8}
-  .activity-day em{font-style:normal;color:#668B99;font-size:8.5px;font-variant-numeric:tabular-nums}
+  .activity-coverage{font-size:clamp(18px,1.8vw,26px)!important}
+  .activity-path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:16px;
+    padding-top:10px;border-top:1px solid rgba(56,128,155,.17)}
+  .activity-path-item{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;
+    gap:8px;min-width:0;padding:9px 12px;border:0;border-right:1px solid rgba(56,128,155,.15);
+    background:transparent;color:#153C4B;text-align:left;font:inherit;cursor:pointer}
+  .activity-path-item:first-child{padding-left:0}
+  .activity-path-item:last-child{padding-right:0;border-right:0}
+  .activity-path-item:hover,.activity-path-item:focus-visible{background:rgba(255,255,255,.5);
+    border-radius:10px;outline:2px solid transparent}
+  .activity-path-no{display:flex;align-items:center;justify-content:center;width:23px;height:23px;
+    border-radius:50%;background:#2F87A8;color:#fff;font-family:var(--num);font-size:9px;font-weight:850}
+  .activity-path-copy{display:block;min-width:0}
+  .activity-path-copy b{display:block;color:#204654;font-size:10.5px;font-weight:820}
+  .activity-path-copy small{display:block;overflow:hidden;margin-top:2px;color:#668B99;font-size:8.5px;
+    line-height:1.35;text-overflow:ellipsis;white-space:nowrap}
+  .activity-path-go{color:#2F7894;font-size:9px;font-style:normal;font-weight:800;white-space:nowrap}
   .activity-foot{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;color:#557D8D;
     font-size:10px;font-weight:700}
   .activity-foot b{color:#215D74}
+  .activity-count-note{width:100%;font-size:9px;font-weight:620}
+  .activity-count-note[hidden]{display:none}
   .activity-popular{padding-left:24px;border-left:1px solid rgba(56,128,155,.18)}
   .activity-popular-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
     margin-bottom:10px}
@@ -1993,6 +2050,11 @@
   html.gdark .activity-metric span,html.gdark .activity-metric strong small,
   html.gdark .activity-foot,html.gdark .activity-popular-head span,
   html.gdark .activity-popular-count,html.gdark .activity-empty{color:#82ADBD}
+  html.gdark .activity-path{border-top-color:rgba(143,212,238,.15)}
+  html.gdark .activity-path-item{color:#DDF4FC;border-right-color:rgba(143,212,238,.13)}
+  html.gdark .activity-path-copy b{color:#C3E7F4}
+  html.gdark .activity-path-copy small,html.gdark .activity-path-go{color:#82ADBD}
+  html.gdark .activity-path-item:hover,html.gdark .activity-path-item:focus-visible{background:rgba(255,255,255,.06)}
   html.gdark .activity-foot b,html.gdark .activity-popular-title{color:#C3E7F4}
   html.gdark .activity-popular{border-left-color:rgba(143,212,238,.15)}
   html.gdark .activity-rank{background:rgba(255,255,255,.08);color:#8FD4EE}
@@ -2324,7 +2386,12 @@
       align-items:center;gap:8px}
     .activity-metric:last-child span{margin:0}
     .activity-metric strong{font-size:29px}
-    .activity-chart{height:56px;margin-top:13px}
+    .activity-path{grid-template-columns:1fr;margin-top:13px;padding-top:8px}
+    .activity-path-item,.activity-path-item:first-child,.activity-path-item:last-child{
+      padding:10px 0;border-right:0;border-bottom:1px solid rgba(56,128,155,.13)}
+    .activity-path-item:last-child{border-bottom:0}
+    html.gdark .activity-path-item{border-bottom-color:rgba(143,212,238,.12)}
+    .activity-path-copy small{white-space:normal}
     .activity-foot{line-height:1.55}
     .activity-popular{padding-top:16px}
     .activity-popular-item{padding-left:2px;padding-right:2px}
@@ -2372,7 +2439,6 @@
   }
   @media(prefers-reduced-motion:reduce){
     .global-nav *,.home-dashboard *{scroll-behavior:auto!important}
-    .activity-bar{transition:none}
   }
 </style>
 </head>
@@ -2432,7 +2498,7 @@
       </div>
       <div class="topbar" style="gap:8px">
         <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-        <span class="views" id="viewsBadge" title="브라우저 세션 기준 방문 횟수">오늘 <b id="profileToday">—</b> · 누적 <b id="profileTotal">—</b></span>
+        <span class="views" id="viewsBadge" title="사이트 누적 방문 횟수"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b></span>
       </div>
       <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
     </div>
@@ -2541,27 +2607,44 @@
       <div class="activity-main">
         <div class="activity-head">
           <h2 id="activityTitle">오늘의 Gaeo</h2>
-          <span class="activity-live">방문 흐름</span>
+          <span class="activity-live">방문·콘텐츠 현황</span>
         </div>
         <div class="activity-metrics" aria-live="polite">
           <div class="activity-metric">
             <span>오늘 방문</span>
-            <strong id="activityToday">—<small>회</small></strong>
+            <strong id="activityToday">1+<small>회</small></strong>
           </div>
           <div class="activity-metric">
             <span>누적 방문</span>
-            <strong id="activityTotal">—<small>회</small></strong>
+            <strong id="activityTotal">939+<small>회</small></strong>
           </div>
           <div class="activity-metric">
-            <span>지난주보다</span>
-            <strong class="activity-trend" id="activityTrend">집계 중</strong>
+            <span>분석 범위</span>
+            <strong class="activity-coverage" id="activityCoverage">500<small>종목</small></strong>
           </div>
         </div>
-        <div class="activity-chart" id="activityChart" aria-label="최근 7일 방문 흐름"></div>
+        <div class="activity-path" aria-label="Gaeo 추천 이용 순서">
+          <button class="activity-path-item" id="activityBrief" type="button">
+            <span class="activity-path-no">1</span>
+            <span class="activity-path-copy"><b>오늘 시장부터</b><small>코스피·코스닥·환율과 핵심 이슈</small></span>
+            <em class="activity-path-go">보기 →</em>
+          </button>
+          <button class="activity-path-item" id="activityStock" type="button">
+            <span class="activity-path-no">2</span>
+            <span class="activity-path-copy"><b>내 종목 확인</b><small>회사명 검색 후 판단 변화와 근거 확인</small></span>
+            <em class="activity-path-go">검색 →</em>
+          </button>
+          <button class="activity-path-item" id="activityCalc" type="button">
+            <span class="activity-path-no">3</span>
+            <span class="activity-path-copy"><b>금액 직접 계산</b><small>세금·수수료·배당까지 실제 금액 확인</small></span>
+            <em class="activity-path-go">계산 →</em>
+          </button>
+        </div>
         <div class="activity-foot">
           <span>투자 가이드 <b id="activityGuides">—</b>개</span>
           <span>계산기 <b id="activityCalcs">—</b>개</span>
           <span>최근 데이터 <b id="activityUpdated">확인 중</b></span>
+          <span class="activity-count-note" id="activityCountNote">+ 표시는 집계 연결 중 확인된 최소 횟수예요.</span>
         </div>
       </div>
       <div class="activity-popular">
@@ -7977,21 +8060,31 @@ window.renderScreener=function(){
   }[c]));
   const contentStats=(typeof CONTENT_STATS!=='undefined'&&CONTENT_STATS)||{};
   const guideCount=['news','study','lesson','estate'].reduce((sum,k)=>sum+Number(contentStats[k]||0),0);
+  const stockCount=(typeof STOCKS!=='undefined'&&STOCKS)?Object.keys(STOCKS).length:500;
   document.getElementById('activityGuides').textContent=nfmt(guideCount);
   document.getElementById('activityCalcs').textContent=nfmt(contentStats.calc||0);
+  document.getElementById('activityCoverage').innerHTML=`${nfmt(stockCount)}<small>종목</small>`;
   const updated=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA&&(LIVE_DATA.date||
     (LIVE_DATA.marketBrief&&LIVE_DATA.marketBrief.sourceAsOf)))||'갱신 시각 확인 중';
   document.getElementById('activityUpdated').textContent=String(updated);
 
-  function renderChart(rows){
-    const chart=document.getElementById('activityChart');
-    const max=Math.max(1,...rows.map(x=>x.value));
-    chart.innerHTML=rows.map(x=>{
-      const h=Math.max(7,Math.round(x.value/max*42));
-      const label=`${Number(x.day.slice(4,6))}/${Number(x.day.slice(6,8))}`;
-      return `<span class="activity-day" title="${safe(label)} · ${nfmt(x.value)}회">
-        <i class="activity-bar" style="height:${h}px"></i><em>${safe(label)}</em></span>`;
-    }).join('');
+  function renderVisit(visit){
+    const todayExact=visit.exactToday===true, totalExact=visit.exactTotal===true;
+    const todayText=nfmt(visit.today)+(todayExact?'':'+');
+    const totalText=nfmt(visit.total)+(totalExact?'':'+');
+    const todayEl=document.getElementById('activityToday');
+    const totalEl=document.getElementById('activityTotal');
+    todayEl.innerHTML=`${todayText}<small>회</small>`;
+    totalEl.innerHTML=`${totalText}<small>회</small>`;
+    todayEl.title=todayExact?'오늘 방문 실시간 집계':'오늘 확인된 최소 방문 횟수';
+    totalEl.title=totalExact?'누적 방문 실시간 집계':'마지막으로 확인된 최소 누적 방문 횟수';
+    document.getElementById('activityCountNote').hidden=todayExact&&totalExact;
+    if(profile){
+      document.getElementById('profileTotal').textContent=totalText;
+      profile.title=totalExact?'사이트 누적 방문 횟수':'마지막으로 확인된 최소 누적 방문 횟수';
+      profile.style.removeProperty('display');
+      profile.classList.add('on');
+    }
   }
   function renderPopular(rows){
     const box=document.getElementById('activityPopular');
@@ -8013,36 +8106,38 @@ window.renderScreener=function(){
 
   const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
     ?LATEST_POSTS.slice(0,5):[];
+  renderPopular(posts.map(post=>({post,count:0})));
   window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
     posts.map(post=>({post,count:0}))
   ));
-  Promise.all([window.GaeoMetrics.startVisit(),window.GaeoMetrics.series('visits',14)])
-    .then(([visit,rows])=>{
-      document.getElementById('activityToday').innerHTML=`${nfmt(visit.today)}<small>회</small>`;
-      document.getElementById('activityTotal').innerHTML=`${nfmt(visit.total)}<small>회</small>`;
-      const current=rows.slice(-7).reduce((sum,x)=>sum+x.value,0);
-      const previous=rows.slice(0,7).reduce((sum,x)=>sum+x.value,0);
-      const trend=document.getElementById('activityTrend');
-      if(previous>0){
-        const rate=(current-previous)/previous*100;
-        trend.textContent=`${rate>=0?'+':''}${rate.toFixed(0)}%`;
-        trend.classList.add(rate>=0?'up':'down');
-      }else{
-        trend.textContent='새 집계 시작';
-      }
-      renderChart(rows.slice(-7));
-      if(profile){
-        document.getElementById('profileToday').textContent=nfmt(visit.today);
-        document.getElementById('profileTotal').textContent=nfmt(visit.total);
-        profile.classList.add('on');
-      }
-    }).catch(()=>{
-      document.getElementById('activityToday').innerHTML='—<small>회</small>';
-      document.getElementById('activityTotal').innerHTML='—<small>회</small>';
-      document.getElementById('activityTrend').textContent='잠시 후 갱신';
-      renderChart(Array.from({length:7},(_,i)=>({day:window.GaeoMetrics.dayKey(i-6),value:0})));
-      if(profile) profile.style.display='none';
-    });
+  let currentVisit=window.GaeoMetrics.visitSnapshot();
+  renderVisit(currentVisit);
+  window.GaeoMetrics.startVisit(patch=>{
+    currentVisit={...currentVisit,...patch};
+    renderVisit(currentVisit);
+  }).then(visit=>{
+    currentVisit=visit;
+    renderVisit(currentVisit);
+  }).catch(()=>{});
+
+  const briefBtn=document.getElementById('activityBrief');
+  if(briefBtn) briefBtn.onclick=()=>{
+    gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'market-brief'});
+    document.querySelector('.start-step-summary')?.scrollIntoView({behavior:'smooth',block:'center'});
+  };
+  const stockBtn=document.getElementById('activityStock');
+  if(stockBtn) stockBtn.onclick=()=>{
+    const ticker=document.getElementById('homeTicker');
+    gaeoTrack('search_open',{search_location:'activity-board'});
+    ticker?.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>ticker?.focus(),320);
+  };
+  const calcBtn=document.getElementById('activityCalc');
+  if(calcBtn) calcBtn.onclick=()=>{
+    gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'calculator'});
+    if(window.setMode) window.setMode('calc');
+    setTimeout(()=>document.getElementById('calcView')?.scrollIntoView({behavior:'smooth',block:'start'}),180);
+  };
 })();
 
 /* ============================================================
