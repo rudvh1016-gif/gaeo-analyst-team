@@ -1929,17 +1929,21 @@
   .home-dashboard header::before{content:"";position:absolute;right:-92px;bottom:-156px;width:320px;height:320px;
     border:46px solid var(--gaeo-50);border-radius:50%;opacity:.72;pointer-events:none}
   .home-dashboard header::after{content:none}
-  .home-hero-top{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .home-hero-top{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:20px;flex:0 0 auto}
   .hero-brand{color:var(--gaeo-900);font-size:15px;font-weight:860;letter-spacing:-.035em;cursor:pointer}
   .hero-note{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:99px;
-    background:var(--gaeo-50);color:var(--gaeo-700);font-size:9.5px;font-weight:800}
+    background:var(--gaeo-50);color:var(--gaeo-700);font-size:9.5px;font-weight:800;
+    white-space:nowrap;flex:0 0 auto}
   .hero-note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gaeo-600)}
   .hero-title{position:relative;z-index:1;margin:0;color:var(--gaeo-ink);
-    font-size:clamp(38px,3.25vw,54px);font-weight:850;line-height:1.06;letter-spacing:-.065em}
+    font-size:clamp(38px,3.25vw,54px);font-weight:850;line-height:1.12;
+    letter-spacing:-.035em;word-spacing:.04em}
   .hero-title>span,.hero-title>em{display:block;white-space:nowrap}
   .hero-title em{color:var(--gaeo-700);font-style:normal}
   .home-dashboard .tagline{position:relative;z-index:1;max-width:650px;margin:14px 0 0;
-    font-size:15px;line-height:1.65;font-weight:560;color:var(--gaeo-muted);letter-spacing:-.02em}
+    font-size:14px;line-height:1.58;font-weight:560;color:var(--gaeo-muted);letter-spacing:-.012em}
+  .home-dashboard .tagline-line{display:block;white-space:nowrap}
+  .home-dashboard .tagline-line+.tagline-line{margin-top:8px}
   .hero-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
   .hero-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;
     border:1px solid var(--gaeo-border);border-radius:12px;background:var(--paper);color:var(--gaeo-900);
@@ -2367,8 +2371,10 @@
     .home-dashboard header{min-height:0;border-radius:20px;padding:23px 20px 24px}
     .home-dashboard header::before{right:-100px;bottom:-170px}
     .home-hero-top{margin-bottom:16px}
-    .hero-title{font-size:36px;line-height:1.08}
-    .home-dashboard .tagline{font-size:13px}
+    .hero-title{font-size:36px;line-height:1.14;letter-spacing:-.025em}
+    .home-dashboard .tagline{font-size:12.5px}
+    .home-dashboard .tagline-line{white-space:normal}
+    .home-dashboard .tagline-line+.tagline-line{margin-top:7px}
     .hero-actions{margin-top:18px}
     .hero-action{flex:1 1 145px}
     .hero-search-card{padding:21px 18px;border-radius:20px}
@@ -2524,7 +2530,7 @@
           <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
         </div>
         <h1 class="hero-title"><span>내 종목에</span><span>달라진 것만,</span><em>하루 3분</em></h1>
-        <p class="tagline" data-edit="tagline">5가지 관점으로 오늘 판단을 살펴보고, 어제와 달라진 이유를 쉬운 말로 확인하세요.</p>
+        <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
         <div class="hero-actions">
           <button class="hero-action primary" id="heroSearchBtn" type="button">내 종목 검색하기</button>
           <button class="hero-action" id="heroChangesBtn" type="button">오늘의 변화 보기</button>
