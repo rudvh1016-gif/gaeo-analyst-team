@@ -45,19 +45,20 @@ function bodyToHtml(raw) {
   return html;
 }
 
-function page({ url, title, desc, date, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml }) {
+function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml }) {
+  const modified = updated || date;
   const ld = {
     "@context": "https://schema.org",
     "@type": articleType || "Article",
     "headline": title,
     "datePublished": date,
-    "dateModified": date,
+    "dateModified": modified,
     "description": desc,
     "inLanguage": "ko-KR",
     "isPartOf": { "@type": "WebSite", "name": SITE_NAME, "url": BASE },
     "author": { "@type": "Organization", "name": "Gaeo 리서치팀", "url": BASE + "about.html" },
     "publisher": { "@type": "Organization", "name": SITE_NAME, "url": BASE },
-    "mainEntityOfPage": url
+    "mainEntityOfPage": canonicalUrl
   };
   return `<!doctype html>
 <html lang="ko">
@@ -66,12 +67,12 @@ function page({ url, title, desc, date, articleType, bodyHtml, backHref, sources
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(SITE_NAME)}</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${esc(url)}">
+<link rel="canonical" href="${esc(canonicalUrl)}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${BASE}og-image.png">
-<meta property="og:url" content="${esc(url)}">
+<meta property="og:url" content="${esc(canonicalUrl)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
@@ -113,12 +114,12 @@ li{margin-bottom:6px;font-size:15px}
   <div class="card">
     ${tag ? '<span class="tag">' + esc(tag) + '</span>' : ''}
     <h1 class="daum-wm-title">${esc(title)}</h1>
-    <div class="meta daum-wm-datetime">📅 ${esc(date)}</div>
+    <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 ${esc(date)} · 수정 ${esc(modified)}</div>
     <div class="summary">${esc(desc)}</div>
     <div class="daum-wm-content">
     ${bodyHtml}
     </div>
-    <a class="cta" href="${esc(backHref)}">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="${esc(backHref)}" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     ${relatedHtml || ''}
     ${sourcesHtml || ''}
@@ -155,22 +156,24 @@ const index = [];
 function build(list, kind, folder, titleKey, tagPrefix) {
   for (const item of list) {
     const title = item[titleKey] || item.title || item.name;
-    const url = `${BASE}?m=${kind}&id=${item.id}`;
+    const canonicalUrl = `${BASE}snap/${folder}/${item.id}.html`;
+    const interactiveUrl = `${BASE}?m=${kind}&id=${item.id}`;
     const html = page({
-      url,
+      canonicalUrl,
       title,
       desc: item.summary || '',
       date: item.date,
+      updated: item.updated || item.date,
       articleType: 'Article',
       bodyHtml: bodyToHtml(item.body),
-      backHref: url,
+      backHref: interactiveUrl,
       sourcesHtml: sourcesToHtml(item.sources),
       tag: item.tag,
       relatedHtml: relatedToHtml([
         ...list.filter(x => x.id !== item.id && item.cat && x.cat === item.cat),
         ...list.filter(x => x.id !== item.id && (!item.cat || x.cat !== item.cat))
       ].slice(0, 3).map(x => ({
-        url: `${BASE}?m=${kind}&id=${x.id}`,
+        url: `${BASE}snap/${folder}/${x.id}.html`,
         title: x[titleKey] || x.title || x.name
       }))),
     });
@@ -266,18 +269,19 @@ function buildStocks() {
     if (chief.target) bodyHtml += '<p>🎯 ' + esc(chief.target) + '</p>\n';
     if (chief.report) bodyHtml += '<p>' + esc(chief.report) + '</p>\n';
     bodyHtml += stockFindingsHtml(block);
-    const url = `${BASE}?m=single&code=${code}`;
+    const canonicalUrl = `${BASE}snap/stock/${code}.html`;
+    const interactiveUrl = `${BASE}?m=single&code=${code}`;
     const html = page({
-      url, title, desc, date,
+      canonicalUrl, title, desc, date, updated: analysisDate,
       articleType: 'Article',
       bodyHtml,
-      backHref: url,
+      backHref: interactiveUrl,
       sourcesHtml: '',
       tag: `${tierLabel} · ${name}`,
       relatedHtml: relatedToHtml([
         ...TICKERS.filter(x => x.code !== code && x.sector === t.sector).slice(0, 2)
-          .map(x => ({ url: `${BASE}?m=single&code=${x.code}`, title: `${x.name} 주가와 오늘 판단 보기` })),
-        { url: `${BASE}?m=news`, title: `${t.sector || '시장'} 관련 최신 뉴스 보기` }
+          .map(x => ({ url: `${BASE}snap/stock/${x.code}.html`, title: `${x.name} 주가와 오늘 판단 보기` })),
+        { url: `${BASE}snap/index.html`, title: `${t.sector || '시장'} 관련 최신 뉴스 보기` }
       ]),
     });
     fs.writeFileSync(path.join(HERE, `snap/stock/${code}.html`), html);
@@ -325,7 +329,7 @@ const indexPage = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>전체 글 목록 — ${esc(SITE_NAME)}</title>
 <meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
-<link rel="canonical" href="${BASE}">
+<link rel="canonical" href="${BASE}snap/index.html">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
