@@ -1,10 +1,12 @@
-const CACHE = 'gaeo-shell-v3';
+const CACHE = 'gaeo-shell-v4';
 const SHELL = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
+  './app-icon-180.png',
+  './app-icon-192.png',
+  './app-icon-512.png',
+  './app-icon-1024.png',
   './tickers.js',
   './stock_bios.js',
   './site_config.js',
