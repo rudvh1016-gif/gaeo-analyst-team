@@ -1097,8 +1097,8 @@
   .mk-tally{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
   .mk-tally-head{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:8px}
   .mk-tally-head .mk-asof{font-weight:600}
-  .mk-tally-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-  .tly{font-size:13px;font-weight:800;border-radius:10px;padding:6px 13px;font-variant-numeric:tabular-nums}
+  .mk-tally-row{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:8px}
+  .tly{flex:0 0 auto;font-size:12.5px;font-weight:800;border-radius:10px;padding:6px 8px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .tly.buy{color:#065F46;background:#D1FAE5}
   .tly.hold{color:#92400E;background:#FEF3C7}
   .tly.sell{color:#991B1B;background:#FEE2E2}
@@ -1393,7 +1393,7 @@
   .brief-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 14%,transparent)}
   .brief-extra{margin-top:9px;padding:9px 10px;border-radius:10px;background:var(--navy-soft);color:var(--t2)}
   .brief-extra-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;font-weight:800;color:var(--navy)}
-  .brief-extra p{margin:0;font-size:10.5px;line-height:1.5}
+  .brief-extra p{margin:0;font-size:10.5px;line-height:1.5;word-break:keep-all;overflow-wrap:break-word}
   .brief-extra p+p{margin-top:3px}
   .brief-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
   .brief-link{border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--sky);border-radius:8px;
@@ -1688,6 +1688,7 @@
     background:rgba(255,255,255,.55);color:#334E5A}
   .home-dashboard .brief-extra-head{color:#1D5368}
   .home-dashboard .brief-extra-head.is-delayed{color:#8A5728}
+  .home-dashboard .brief-extra p{color:#334E5A;word-break:keep-all;overflow-wrap:break-word}
   .home-dashboard .brief-count-row{display:flex;align-items:center;justify-content:flex-start;
     flex-wrap:wrap;gap:6px 12px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
   .home-dashboard .brief-count-row>span:first-child{color:#526F7B;font-weight:720}
