@@ -1,24 +1,24 @@
 // 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성
 const HOME_BRIEF = {
- "generatedAt": "2026-07-29 09:41",
+ "generatedAt": "2026-07-29 10:11",
  "marketInsight": {
-  "generatedAt": "2026-07-29 09:41",
-  "sourceAsOf": "2026-07-29 09:10 장중",
+  "generatedAt": "2026-07-29 10:11",
+  "sourceAsOf": "2026-07-29 09:33 장중",
   "calls": {
-   "BUY": 28,
-   "HOLD": 327,
+   "BUY": 27,
+   "HOLD": 328,
    "SELL": 145
   },
   "axisAverages": {
-   "taro": 37.4,
-   "diana": 63.5,
-   "nova": 56.9,
+   "taro": 38.5,
+   "diana": 63.8,
+   "nova": 55.9,
    "flow": 49.9
   },
   "lines": [
-   "자동 판단 500종목은 BUY 28 · HOLD 327 · SELL 145이에요.",
+   "자동 판단 500종목은 BUY 27 · HOLD 328 · SELL 145이에요.",
    "전체 평균은 재무 점수가 상대적으로 높고 기술 점수가 낮아요.",
-   "종합점수 상위는 GS·IPARK현대산업개발·DB손해보험예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요."
+   "종합점수 상위는 GS·팬오션·HMM예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요."
   ],
   "ranked": [
    {
@@ -28,9 +28,9 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "294870",
-    "name": "IPARK현대산업개발",
-    "total": 72,
+    "code": "028670",
+    "name": "팬오션",
+    "total": 74,
     "call": "BUY"
    },
    {
@@ -46,9 +46,9 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "006040",
-    "name": "동원산업",
-    "total": 70,
+    "code": "011200",
+    "name": "HMM",
+    "total": 71,
     "call": "BUY"
    },
    {
@@ -58,56 +58,32 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "001450",
-    "name": "현대해상",
-    "total": 70,
-    "call": "BUY"
-   },
-   {
-    "code": "111770",
-    "name": "영원무역",
-    "total": 69,
-    "call": "BUY"
-   },
-   {
-    "code": "214320",
-    "name": "이노션",
-    "total": 69,
-    "call": "BUY"
-   },
-   {
     "code": "003690",
     "name": "코리안리",
     "total": 69,
     "call": "BUY"
    },
    {
-    "code": "192400",
-    "name": "쿠쿠홀딩스",
-    "total": 67,
+    "code": "036460",
+    "name": "한국가스공사",
+    "total": 69,
     "call": "BUY"
    },
    {
-    "code": "028670",
-    "name": "팬오션",
-    "total": 67,
+    "code": "088350",
+    "name": "한화생명",
+    "total": 68,
     "call": "BUY"
    },
    {
-    "code": "086280",
-    "name": "현대글로비스",
-    "total": 67,
-    "call": "BUY"
-   },
-   {
-    "code": "079160",
-    "name": "CJ CGV",
+    "code": "006040",
+    "name": "동원산업",
     "total": 66,
     "call": "BUY"
    },
    {
-    "code": "011200",
-    "name": "HMM",
+    "code": "000370",
+    "name": "한화손해보험",
     "total": 66,
     "call": "BUY"
    },
@@ -118,14 +94,20 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
+    "code": "257720",
+    "name": "실리콘투",
+    "total": 65,
+    "call": "BUY"
+   },
+   {
     "code": "316140",
     "name": "우리금융지주",
     "total": 65,
     "call": "BUY"
    },
    {
-    "code": "088350",
-    "name": "한화생명",
+    "code": "001450",
+    "name": "현대해상",
     "total": 65,
     "call": "BUY"
    },
@@ -136,14 +118,32 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
+    "code": "005880",
+    "name": "대한해운",
+    "total": 64,
+    "call": "BUY"
+   },
+   {
+    "code": "015760",
+    "name": "한국전력",
+    "total": 64,
+    "call": "BUY"
+   },
+   {
     "code": "003300",
     "name": "한일홀딩스",
     "total": 64,
     "call": "BUY"
    },
    {
-    "code": "000370",
-    "name": "한화손해보험",
+    "code": "086280",
+    "name": "현대글로비스",
+    "total": 64,
+    "call": "BUY"
+   },
+   {
+    "code": "009540",
+    "name": "HD한국조선해양",
     "total": 64,
     "call": "BUY"
    },
@@ -154,20 +154,8 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "067160",
-    "name": "SOOP",
-    "total": 64,
-    "call": "BUY"
-   },
-   {
     "code": "009450",
     "name": "경동나비엔",
-    "total": 63,
-    "call": "BUY"
-   },
-   {
-    "code": "005880",
-    "name": "대한해운",
     "total": 63,
     "call": "BUY"
    },
@@ -178,26 +166,38 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "093320",
-    "name": "케이아이엔엑스",
+    "code": "111770",
+    "name": "영원무역",
     "total": 63,
     "call": "BUY"
    },
    {
-    "code": "015760",
-    "name": "한국전력",
+    "code": "009410",
+    "name": "태영건설",
     "total": 63,
     "call": "BUY"
    },
    {
-    "code": "251270",
-    "name": "넷마블",
+    "code": "001120",
+    "name": "LX인터내셔널",
+    "total": 63,
+    "call": "BUY"
+   },
+   {
+    "code": "192080",
+    "name": "더블유게임즈",
     "total": 62,
     "call": "HOLD"
    },
    {
-    "code": "004370",
-    "name": "농심",
+    "code": "000640",
+    "name": "동아쏘시오홀딩스",
+    "total": 62,
+    "call": "HOLD"
+   },
+   {
+    "code": "280360",
+    "name": "롯데웰푸드",
     "total": 62,
     "call": "HOLD"
    }
