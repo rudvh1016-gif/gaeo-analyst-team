@@ -1,36 +1,30 @@
 // 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성
 const HOME_BRIEF = {
- "generatedAt": "2026-07-29 14:11",
+ "generatedAt": "2026-07-29 14:25",
  "marketInsight": {
-  "generatedAt": "2026-07-29 14:11",
-  "sourceAsOf": "2026-07-29 13:35 장중",
+  "generatedAt": "2026-07-29 14:25",
+  "sourceAsOf": "2026-07-29 14:09 장중",
   "calls": {
-   "BUY": 18,
-   "HOLD": 328,
-   "SELL": 154
+   "BUY": 19,
+   "HOLD": 318,
+   "SELL": 163
   },
   "axisAverages": {
-   "taro": 30.8,
-   "diana": 65,
+   "taro": 31,
+   "diana": 64.5,
    "nova": 59.9,
    "flow": 49.9
   },
   "lines": [
-   "자동 판단 500종목은 BUY 18 · HOLD 328 · SELL 154이에요.",
+   "자동 판단 500종목은 BUY 19 · HOLD 318 · SELL 163이에요.",
    "전체 평균은 재무 점수가 상대적으로 높고 기술 점수가 낮아요.",
-   "종합점수 상위는 영원무역·팬오션·현대그린푸드예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요."
+   "종합점수 상위는 영원무역·현대그린푸드·현대해상예요. 개별 뉴스·공시는 뉴스분석에서 따로 확인해 주세요."
   ],
   "ranked": [
    {
     "code": "111770",
     "name": "영원무역",
-    "total": 69,
-    "call": "BUY"
-   },
-   {
-    "code": "028670",
-    "name": "팬오션",
-    "total": 69,
+    "total": 68,
     "call": "BUY"
    },
    {
@@ -52,20 +46,8 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "005830",
-    "name": "DB손해보험",
-    "total": 67,
-    "call": "BUY"
-   },
-   {
-    "code": "268280",
-    "name": "미원에스씨",
-    "total": 66,
-    "call": "BUY"
-   },
-   {
-    "code": "079160",
-    "name": "CJ CGV",
+    "code": "028670",
+    "name": "팬오션",
     "total": 66,
     "call": "BUY"
    },
@@ -76,8 +58,8 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "009240",
-    "name": "한샘",
+    "code": "079160",
+    "name": "CJ CGV",
     "total": 65,
     "call": "BUY"
    },
@@ -88,8 +70,20 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
+    "code": "009240",
+    "name": "한샘",
+    "total": 64,
+    "call": "BUY"
+   },
+   {
     "code": "030200",
     "name": "KT",
+    "total": 64,
+    "call": "BUY"
+   },
+   {
+    "code": "034310",
+    "name": "NICE",
     "total": 64,
     "call": "BUY"
    },
@@ -100,14 +94,20 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
-    "code": "004370",
-    "name": "농심",
-    "total": 63,
+    "code": "067160",
+    "name": "SOOP",
+    "total": 64,
     "call": "BUY"
    },
    {
     "code": "069620",
     "name": "대웅제약",
+    "total": 63,
+    "call": "BUY"
+   },
+   {
+    "code": "280360",
+    "name": "롯데웰푸드",
     "total": 63,
     "call": "BUY"
    },
@@ -130,8 +130,20 @@ const HOME_BRIEF = {
     "call": "BUY"
    },
    {
+    "code": "175330",
+    "name": "JB금융지주",
+    "total": 63,
+    "call": "BUY"
+   },
+   {
     "code": "073240",
     "name": "금호타이어",
+    "total": 62,
+    "call": "HOLD"
+   },
+   {
+    "code": "004370",
+    "name": "농심",
     "total": 62,
     "call": "HOLD"
    },
@@ -142,26 +154,26 @@ const HOME_BRIEF = {
     "call": "HOLD"
    },
    {
-    "code": "032640",
-    "name": "LG유플러스",
+    "code": "029780",
+    "name": "삼성카드",
     "total": 62,
-    "call": "HOLD"
-   },
-   {
-    "code": "003690",
-    "name": "코리안리",
-    "total": 61,
     "call": "HOLD"
    },
    {
     "code": "192400",
     "name": "쿠쿠홀딩스",
-    "total": 61,
+    "total": 62,
     "call": "HOLD"
    },
    {
-    "code": "251970",
-    "name": "펌텍코리아",
+    "code": "005830",
+    "name": "DB손해보험",
+    "total": 62,
+    "call": "HOLD"
+   },
+   {
+    "code": "000640",
+    "name": "동아쏘시오홀딩스",
     "total": 61,
     "call": "HOLD"
    },
@@ -172,8 +184,8 @@ const HOME_BRIEF = {
     "call": "HOLD"
    },
    {
-    "code": "067160",
-    "name": "SOOP",
+    "code": "032640",
+    "name": "LG유플러스",
     "total": 61,
     "call": "HOLD"
    },
@@ -186,18 +198,6 @@ const HOME_BRIEF = {
    {
     "code": "251270",
     "name": "넷마블",
-    "total": 60,
-    "call": "HOLD"
-   },
-   {
-    "code": "483650",
-    "name": "달바글로벌",
-    "total": 60,
-    "call": "HOLD"
-   },
-   {
-    "code": "089860",
-    "name": "롯데렌탈",
     "total": 60,
     "call": "HOLD"
    }
