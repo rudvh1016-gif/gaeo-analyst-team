@@ -1857,8 +1857,8 @@
   .global-brand{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--gaeo-ink);
     padding:0;cursor:pointer;flex:0 0 auto}
   .global-brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;
-    color:#245C73;background:#CCE9F3;border:1px solid #B8DCE8;
-    font-size:16px;font-weight:900;letter-spacing:-.05em}
+    overflow:hidden;background:#FFF;border:1px solid #E2E8EB}
+  .global-brand-mark img{display:block;width:100%;height:100%;object-fit:cover}
   .global-brand-word{font-size:19px;font-weight:850;letter-spacing:-.04em}
   .global-primary{display:flex;align-items:center;gap:2px;min-width:0}
   .global-link{height:40px;border:0;border-radius:12px;padding:0 13px;background:transparent;
@@ -2462,7 +2462,7 @@
 <nav class="global-nav" id="globalNav" aria-label="Gaeo 주요 메뉴">
   <div class="global-nav-inner">
     <button class="global-brand" id="globalHome" type="button" aria-label="Gaeo 홈으로 이동">
-      <span class="global-brand-mark">G</span>
+      <span class="global-brand-mark" aria-hidden="true"><img src="app-icon-192.png" alt="" width="192" height="192"></span>
       <span class="global-brand-word">Gaeo</span>
     </button>
     <div class="global-primary" aria-label="주요 서비스">
