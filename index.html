@@ -276,6 +276,7 @@
     box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px}
   .ad-label{font-size:10.5px;color:var(--faint);letter-spacing:.03em;align-self:flex-start}
   .ad-slot .kakao_ad_area{max-width:100%}
+  .ad-slot-home{max-width:320px;margin:0 auto 20px}
 
   /* ── 종목 칩: 업종 폴더 ── */
   .chips{margin:0 0 16px}
@@ -1624,7 +1625,6 @@
   .nav-workspace .chips{grid-column:1/-1;display:flex;gap:8px;overflow-x:auto;margin:0;padding:2px 0 10px;
     scrollbar-width:thin}
   .nav-workspace .chips>*{flex:0 0 auto}
-  .nav-workspace .ad-slot{margin:0;min-height:92px;border:1px solid var(--gaeo-border);border-radius:18px}
 
   .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + 22px) 0 96px}
   .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
@@ -2032,6 +2032,13 @@
         <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
       </article>
     </section>
+    <div class="ad-slot ad-slot-home">
+      <span class="ad-label">광고</span>
+      <ins class="kakao_ad_area" style="display:none;"
+      data-ad-unit="DAN-RpP1QyRYBWQivtu9"
+      data-ad-width="300"
+      data-ad-height="250"></ins>
+    </div>
     <section class="trust-strip" aria-labelledby="trustTitle">
       <div>
         <h2 id="trustTitle">판단보다 먼저, 기준을 공개해요</h2>
@@ -2085,13 +2092,6 @@
     <span class="vs">VS</span>
     <div class="ac-wrap"><input id="cmpB" autocomplete="off" placeholder="종목 B — 한글로 검색" /><div class="acbox" id="acboxB"></div></div>
     <button id="cmpRun">비교 ▶</button>
-  </div>
-  <div class="ad-slot">
-    <span class="ad-label">광고</span>
-    <ins class="kakao_ad_area" style="display:none;"
-    data-ad-unit="DAN-RpP1QyRYBWQivtu9"
-    data-ad-width="300"
-    data-ad-height="250"></ins>
   </div>
 
   <div class="chips" id="chips"></div>
