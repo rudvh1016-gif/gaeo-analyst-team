@@ -188,19 +188,19 @@
       document.documentElement.classList.add('gdark');
   }catch(e){}
 </script>
-<title>Gaeo · 한국 주식 초보자의 매일 3분 리서치</title>
-<meta name="description" content="한국 주식 초보자를 위한 매일 3분 리서치. 500종목의 시세·재무·수급·확률 지표를 쉬운 말로 요약하고 분석 기준 시각을 함께 보여드려요. 참고용 정보이며 투자 권유가 아닙니다." />
+<title>Gaeo · 내 종목에 달라진 것만, 하루 3분</title>
+<meta name="description" content="한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 쉬운 말로 확인하세요. 시세·재무·수급·확률 지표와 데이터 기준 시각을 함께 보여드립니다." />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Gaeo · 한국 주식 초보자의 매일 3분 리서치" />
-<meta property="og:description" content="오늘 시장 3줄 요약부터 관심 종목 분석까지, 한국 주식을 매일 3분 안에 쉽게 살펴보세요." />
+<meta property="og:title" content="Gaeo · 내 종목에 달라진 것만, 하루 3분" />
+<meta property="og:description" content="추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 쉽게 확인하세요." />
 <meta property="og:image" content="https://gaeoteam.com/og-image-v2.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://gaeoteam.com/" />
 <meta property="og:locale" content="ko_KR" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Gaeo · 한국 주식 초보자의 매일 3분 리서치" />
-<meta name="twitter:description" content="오늘 시장 3줄 요약부터 관심 종목 분석까지, 한국 주식을 매일 3분 안에 쉽게 살펴보세요." />
+<meta name="twitter:title" content="Gaeo · 내 종목에 달라진 것만, 하루 3분" />
+<meta name="twitter:description" content="추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 쉽게 확인하세요." />
 <meta name="twitter:image" content="https://gaeoteam.com/og-image-v2.png" />
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icon-192.png">
@@ -210,7 +210,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Gaeo">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Gaeo · 한국 주식 초보자의 매일 3분 리서치","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 초보자를 위해 오늘 시장과 관심 종목을 쉬운 말로 요약하는 매일 3분 리서치입니다.","publisher":{"@type":"Organization","name":"Gaeo","url":"https://gaeoteam.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Gaeo · 내 종목에 달라진 것만, 하루 3분","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","publisher":{"@type":"Organization","name":"Gaeo","url":"https://gaeoteam.com/"}}</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -1828,23 +1828,50 @@
   .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
     box-shadow:none;padding:9px 0;color:var(--gaeo-muted)}
   .home-dashboard{margin-top:18px}
-  .home-lead{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(360px,.75fr);gap:16px}
+  .home-lead{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(390px,.65fr);gap:16px}
   .home-dashboard,.home-lead,.home-lead>*{min-width:0}
   .home-dashboard header{position:relative;overflow:hidden;min-height:184px;margin:0;
-    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:32px 36px;
-    align-self:start;align-items:flex-end;background:var(--paper);box-shadow:none}
-  .home-dashboard header::before{content:"KOREA EQUITY INTELLIGENCE";position:absolute;left:36px;top:26px;
-    color:var(--gaeo-600);font-size:10px;font-weight:850;letter-spacing:.16em}
+    border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:30px 36px 32px;
+    align-self:stretch;background:var(--paper);box-shadow:none}
+  .home-dashboard header::before{content:"";position:absolute;right:-92px;bottom:-156px;width:320px;height:320px;
+    border:46px solid var(--gaeo-50);border-radius:50%;opacity:.72;pointer-events:none}
   .home-dashboard header::after{content:none}
-  .home-dashboard header .ht{gap:10px}
-  .home-dashboard header h1{font-size:clamp(44px,3.7vw,58px);font-weight:850;line-height:.95;
-    letter-spacing:-.065em;color:var(--gaeo-ink)}
-  .home-dashboard .tagline{font-size:17px;line-height:1.5;font-weight:580;color:var(--gaeo-muted);letter-spacing:-.025em}
-  .home-dashboard header .badge{position:absolute;right:30px;top:26px;margin:0;padding:7px 11px;
-    background:var(--gaeo-50);color:var(--gaeo-700);font-size:10px;font-weight:800}
+  .home-hero-top{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .hero-brand{color:var(--gaeo-900);font-size:15px;font-weight:860;letter-spacing:-.035em;cursor:pointer}
+  .hero-note{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:99px;
+    background:var(--gaeo-50);color:var(--gaeo-700);font-size:9.5px;font-weight:800}
+  .hero-note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gaeo-600)}
+  .hero-title{position:relative;z-index:1;margin:0;color:var(--gaeo-ink);
+    font-size:clamp(38px,3.25vw,54px);font-weight:850;line-height:1.06;letter-spacing:-.065em}
+  .hero-title em{color:var(--gaeo-700);font-style:normal}
+  .home-dashboard .tagline{position:relative;z-index:1;max-width:650px;margin:14px 0 0;
+    font-size:15px;line-height:1.65;font-weight:560;color:var(--gaeo-muted);letter-spacing:-.02em}
+  .hero-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .hero-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;
+    border:1px solid var(--gaeo-border);border-radius:12px;background:var(--paper);color:var(--gaeo-900);
+    font:inherit;font-size:12px;font-weight:790;text-decoration:none;cursor:pointer}
+  .hero-action.primary{border-color:var(--gaeo-900);background:var(--gaeo-900);color:#fff}
+  .hero-action:hover,.hero-action:focus-visible{transform:translateY(-1px);outline:2px solid transparent;
+    box-shadow:0 6px 18px rgba(31,90,111,.12)}
+  html.gdark .hero-action.primary{border-color:#8FD4EE;background:#8FD4EE;color:#0B2732}
+  .home-dashboard header .badge{display:none}
   .home-dashboard .pwa-btn{border:0;border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-700);
     padding:7px 11px;box-shadow:none}
-  .home-dashboard .latest-home{margin:0;padding:24px 26px 18px;border:1px solid var(--gaeo-border);
+  .hero-search-card{display:flex;flex-direction:column;min-height:100%;padding:28px 26px;
+    border:1px solid #B8DCE8;border-radius:var(--gaeo-radius-lg);background:#DDF2F9;color:#153C4B}
+  .hero-search-card .start-kicker{color:#2F7894}
+  .hero-search-card h2{margin:0;color:#153C4B;font-size:23px;font-weight:840;letter-spacing:-.045em}
+  .hero-search-card>p{margin:8px 0 0;color:#4F7381;font-size:12.5px;line-height:1.6}
+  .hero-search-card .home-search-panel{display:block!important;margin-top:18px}
+  .hero-search-card .home-search-row input{background:rgba(255,255,255,.76)}
+  .hero-search-card .home-watch{margin-top:auto;padding-top:16px;border-color:rgba(47,120,148,.16)}
+  .hero-search-card .home-watch-label{color:#416E7E}
+  .hero-search-card .home-watch-empty{color:#648996}
+  html.gdark .hero-search-card{border-color:#244D5D;background:#0D2833;color:#DDF4FC}
+  html.gdark .hero-search-card h2{color:#DDF4FC}
+  html.gdark .hero-search-card>p,html.gdark .hero-search-card .home-watch-empty{color:#82ADBD}
+  html.gdark .hero-search-card .home-search-row input{background:rgba(255,255,255,.06)}
+  .home-dashboard .latest-home{margin:0 0 16px;padding:24px 26px 18px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none}
   .home-dashboard .latest-home-head{align-items:center;justify-content:space-between;margin-bottom:10px}
   .home-dashboard .latest-home-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
@@ -1925,8 +1952,66 @@
   html.gdark .activity-popular-item:hover,html.gdark .activity-popular-item:focus-visible{
     background:rgba(255,255,255,.06)}
 
-  .home-dashboard .start-board{grid-template-columns:minmax(280px,.95fr) minmax(520px,1.45fr) minmax(250px,.72fr);
-    align-items:start;gap:16px;margin:16px 0}
+  /* Gaeo의 대표 장면: 오늘 달라진 판단을 영수증처럼 한눈에 보여주는 변화 보드 */
+  .change-board{display:grid;grid-template-columns:minmax(240px,.52fr) minmax(0,1.48fr);gap:26px;
+    margin:16px 0;padding:26px 28px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper)}
+  .change-intro{display:flex;flex-direction:column;justify-content:space-between;padding-right:24px;
+    border-right:1px solid var(--gaeo-border)}
+  .change-kicker{display:block;margin-bottom:8px;color:var(--gaeo-600);font-size:9.5px;
+    font-weight:850;letter-spacing:.13em}
+  .change-intro h2{margin:0;color:var(--gaeo-ink);font-size:24px;font-weight:850;line-height:1.25;
+    letter-spacing:-.045em}
+  .change-intro p{margin:10px 0 18px;color:var(--gaeo-muted);font-size:12.5px;line-height:1.65}
+  .change-summary{display:flex;align-items:baseline;gap:7px}
+  .change-summary strong{color:var(--gaeo-700);font-size:32px;font-weight:860;letter-spacing:-.055em}
+  .change-summary span{color:var(--gaeo-muted);font-size:10.5px;font-weight:720}
+  .change-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-content:stretch}
+  .change-item{position:relative;display:flex;flex-direction:column;min-width:0;min-height:138px;
+    padding:16px 16px 14px;border:1px solid var(--gaeo-border);border-radius:15px;
+    background:var(--gaeo-canvas);text-align:left;font:inherit;cursor:pointer}
+  .change-item::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;
+    border-radius:0 3px 3px 0;background:var(--gaeo-600)}
+  .change-item[data-tone="up"]::before{background:var(--krup)}
+  .change-item[data-tone="down"]::before{background:var(--krdn)}
+  .change-item:hover,.change-item:focus-visible{border-color:var(--gaeo-100);background:var(--gaeo-50);
+    outline:2px solid transparent;transform:translateY(-1px)}
+  .change-name{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--gaeo-ink);
+    font-size:12.5px;font-weight:820}
+  .change-time{color:var(--gaeo-muted);font-size:8.5px;font-weight:650;white-space:nowrap}
+  .change-call{display:flex;align-items:center;gap:6px;margin-top:12px;color:var(--gaeo-muted);
+    font-size:10px;font-weight:750}
+  .change-call b{color:var(--gaeo-ink);font-size:13px}
+  .change-arrow{color:var(--gaeo-600)}
+  .change-reason{margin-top:8px;color:var(--gaeo-muted);font-size:10.5px;line-height:1.48}
+  .change-votes{margin-top:auto;padding-top:9px;color:var(--gaeo-700);font-size:9px;font-weight:760}
+  .change-empty{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    min-height:122px;padding:20px;border:1px dashed var(--gaeo-border);border-radius:15px;color:var(--gaeo-muted)}
+  .change-empty strong{display:block;margin-bottom:4px;color:var(--gaeo-ink);font-size:13px}
+  .change-empty button{flex:0 0 auto;border:0;border-radius:11px;padding:10px 13px;background:var(--gaeo-900);
+    color:#fff;font:inherit;font-size:11px;font-weight:780;cursor:pointer}
+
+  .decision-board{margin:16px 0;padding:24px 28px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper)}
+  .decision-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:13px}
+  .decision-head h2{margin:0;color:var(--gaeo-ink);font-size:19px;font-weight:850;letter-spacing:-.04em}
+  .decision-head p{margin:4px 0 0;color:var(--gaeo-muted);font-size:10.5px}
+  .decision-head span{color:var(--gaeo-600);font-size:9.5px;font-weight:780}
+  .decision-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--gaeo-border)}
+  .decision-item{min-width:0;padding:15px 14px;border:0;border-right:1px solid var(--gaeo-border);
+    background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}
+  .decision-item:last-child{border-right:0}
+  .decision-item:hover,.decision-item:focus-visible{background:var(--gaeo-50);outline:2px solid transparent}
+  .decision-stock{display:block;overflow:hidden;color:var(--gaeo-ink);font-size:11.5px;font-weight:820;
+    text-overflow:ellipsis;white-space:nowrap}
+  .decision-move{display:flex;align-items:center;gap:5px;margin-top:8px;color:var(--gaeo-muted);font-size:9px}
+  .decision-move b{color:var(--gaeo-ink);font-size:11px}
+  .decision-delta{display:block;margin-top:8px;color:var(--gaeo-700);font-size:9.5px;font-weight:750;
+    line-height:1.45}
+  .decision-asof{display:block;margin-top:6px;color:var(--gaeo-muted);font-size:8.5px}
+
+  .home-dashboard .start-board{grid-template-columns:minmax(0,1.55fr) minmax(260px,.45fr);
+    align-items:stretch;gap:16px;margin:16px 0}
   .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-md);background:var(--paper);box-shadow:none}
   .home-dashboard .start-kicker{margin-bottom:8px;color:var(--gaeo-600);font-size:10px;letter-spacing:.13em}
@@ -1982,14 +2067,14 @@
   .home-dashboard .kpi .k{margin-bottom:10px;font-size:11px;letter-spacing:.02em}
   .home-dashboard .kpi .v{font-size:28px}
   .home-dashboard .dowbar{margin-bottom:24px;padding:24px 26px;border-radius:var(--gaeo-radius-md)}
-  .home-dashboard .rail-r{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
-    position:static;min-width:0;width:100%;max-height:none;overflow:visible;padding:0;margin:0 0 28px}
+  .home-dashboard .rail-r{display:grid!important;grid-template-columns:1fr;gap:16px;
+    position:static;min-width:0;width:100%;max-height:none;overflow:visible;padding:0;margin:16px 0}
   .trust-strip{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,2fr) auto;
     align-items:center;gap:20px;margin:0 0 16px;padding:18px 22px;border:1px solid var(--gaeo-border);
     border-radius:18px;background:var(--paper)}
   .trust-strip h2{margin:0 0 3px;font-size:15px;letter-spacing:-.03em}
   .trust-strip p{margin:0;color:var(--gaeo-muted);font-size:11.5px;line-height:1.5}
-  .trust-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .trust-points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
   .trust-point{padding:10px 12px;border-radius:12px;background:var(--gaeo-canvas)}
   .trust-point b{display:block;margin-bottom:2px;color:var(--gaeo-ink);font-size:11px}
   .trust-point span{display:block;color:var(--gaeo-muted);font-size:10px;line-height:1.4}
@@ -1998,6 +2083,9 @@
     color:var(--gaeo-700);font-size:10.5px;font-weight:760;text-decoration:none}
   .home-dashboard .rr-panel{border:1px solid var(--gaeo-border);border-radius:18px;background:var(--paper);
     box-shadow:none;padding:22px}
+  .home-dashboard .rail-r .rr-panel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .home-dashboard .rail-r .rr-title,.home-dashboard .rail-r .rr-empty{grid-column:1/-1}
+  .home-dashboard .rail-r .rr-item{background:var(--gaeo-canvas)}
   .home-dashboard .rr-title{display:flex;align-items:center;gap:7px;margin:0 0 14px;color:var(--gaeo-ink);
     font-size:13px;font-weight:820;letter-spacing:-.015em}
   .home-dashboard .rr-title .rr-cnt{margin-left:auto;padding:2px 8px;border-radius:99px;
@@ -2071,7 +2159,6 @@
     .global-icon-btn,.global-menu-btn{width:40px;padding:0}
     .global-menu-btn>span:last-child{display:none}
     .global-panel-inner{padding:18px 0 22px}
-    #rrRecentCalls{display:none}
     .nav-search-inner{grid-template-columns:1fr auto}
     .nav-search-inner>.nav-panel-label{grid-column:1/-1}
     .nav-search-inner .ac-wrap{width:auto;min-width:0}
@@ -2084,6 +2171,7 @@
     .nav-workspace .chips{grid-column:auto}
     .wrap{padding-top:calc(var(--gaeo-nav-h) + 16px)}
     .home-lead{grid-template-columns:1fr}
+    .hero-search-card{min-height:0}
     .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(220px,1fr));
       overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
     .home-dashboard .latest-post{display:block;min-height:82px;padding:12px;border:1px solid var(--gaeo-border);
@@ -2093,10 +2181,16 @@
     .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
     .activity-board{grid-template-columns:1fr}
     .activity-popular{padding:18px 0 0;border-left:0;border-top:1px solid rgba(56,128,155,.18)}
+    .change-board{grid-template-columns:1fr;gap:18px}
+    .change-intro{padding:0 0 17px;border-right:0;border-bottom:1px solid var(--gaeo-border)}
+    .change-intro p{max-width:680px;margin-bottom:12px}
+    .decision-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+    .decision-list::-webkit-scrollbar{display:none}
+    .decision-item{flex:0 0 210px;scroll-snap-align:start}
     .home-dashboard .start-board{grid-template-columns:1fr 1fr}
-    .home-dashboard .start-step-summary{grid-column:1/-1;grid-row:1}
     .trust-strip{grid-template-columns:1fr}
-    .home-dashboard .rail-r{grid-template-columns:1fr 1fr}
+    .home-dashboard .rail-r{grid-template-columns:1fr}
+    .home-dashboard .rail-r .rr-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
     body[data-mode="single"] .analysis-browser{grid-template-columns:1fr;gap:22px}
     .analysis-browser-head{max-width:620px}
     .analysis-browser .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2129,11 +2223,17 @@
     .tape{border-radius:11px;font-size:11px}
     .home-dashboard{margin-top:16px}
     .home-lead{gap:14px}
-    .home-dashboard header{min-height:140px;border-radius:20px;padding:46px 20px 18px}
-    .home-dashboard header::before{left:20px;top:18px;font-size:7px}
-    .home-dashboard header h1{font-size:38px}
+    .home-dashboard header{min-height:0;border-radius:20px;padding:23px 20px 24px}
+    .home-dashboard header::before{right:-100px;bottom:-170px}
+    .home-hero-top{margin-bottom:16px}
+    .hero-title{font-size:36px;line-height:1.08}
     .home-dashboard .tagline{font-size:13px}
-    .home-dashboard header .badge{display:none}
+    .hero-actions{margin-top:18px}
+    .hero-action{flex:1 1 145px}
+    .hero-search-card{padding:21px 18px;border-radius:20px}
+    .hero-search-card h2{font-size:20px}
+    .hero-search-card .home-search-panel{margin-top:14px}
+    .hero-search-card .home-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto}
     .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
     .home-dashboard .latest-home-head h2{font-size:18px}
     .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(210px,1fr))}
@@ -2149,8 +2249,20 @@
     .activity-foot{line-height:1.55}
     .activity-popular{padding-top:16px}
     .activity-popular-item{padding-left:2px;padding-right:2px}
+    .change-board{gap:15px;margin:14px 0;padding:21px 18px;border-radius:20px}
+    .change-intro h2{font-size:21px}
+    .change-intro p{font-size:12px}
+    .change-summary strong{font-size:28px}
+    .change-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+    .change-list::-webkit-scrollbar{display:none}
+    .change-item{flex:0 0 248px;min-height:136px;scroll-snap-align:start}
+    .change-empty{flex:0 0 100%;min-height:112px}
+    .decision-board{margin:14px 0;padding:20px 18px;border-radius:20px}
+    .decision-head{align-items:flex-start}
+    .decision-head h2{font-size:18px}
+    .decision-head span{padding-top:3px}
+    .decision-item{flex-basis:190px;padding:14px 12px}
     .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
-    .home-dashboard .start-step-summary{grid-column:auto;grid-row:auto}
     .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
     .home-dashboard .start-step h2{font-size:20px}
     .home-dashboard .start-step p{font-size:12.5px}
@@ -2172,8 +2284,8 @@
     .home-dashboard .kpi .v{font-size:23px}
     .home-dashboard .dowbar{padding:20px 16px;border-radius:20px}
     .home-dashboard .rail-r{display:grid!important;grid-template-columns:1fr;max-width:100%;overflow:visible;gap:12px}
-    .home-dashboard #rrRecentCalls{display:none}
     .home-dashboard .rr-panel{width:auto;padding:18px 16px}
+    .home-dashboard .rail-r .rr-panel{grid-template-columns:1fr}
     .home-dashboard .rr-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px;padding:9px 6px}
     .home-dashboard .rr-name{font-size:12px}
     .home-dashboard .rr-sub{font-size:11px;line-height:1.5}
@@ -2261,23 +2373,91 @@
   <section class="home-dashboard" id="homeDashboard" aria-label="Gaeo 홈 대시보드">
     <div class="home-lead">
       <header>
-        <div class="ht">
-          <div class="ht-row">
-            <h1 id="siteTitle" data-edit="title">Gaeo</h1>
-            <button type="button" class="pwa-btn" id="pwaAddBtn">📲 앱처럼 설치하기</button>
-          </div>
-          <p class="tagline" data-edit="tagline">한국 주식 초보자의 매일 3분 리서치</p>
+        <div class="home-hero-top">
+          <span class="hero-brand" id="siteTitle" data-edit="title">Gaeo</span>
+          <span class="hero-note">판단 변화 기록</span>
+          <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
         </div>
-        <span class="badge" id="hbadge">홈오피스</span>
+        <h1 class="hero-title">내 종목에 달라진 것만,<br><em>하루 3분</em></h1>
+        <p class="tagline" data-edit="tagline">5가지 관점으로 오늘 판단을 살펴보고, 어제와 달라진 이유를 쉬운 말로 확인하세요.</p>
+        <div class="hero-actions">
+          <button class="hero-action primary" id="heroSearchBtn" type="button">내 종목 검색하기</button>
+          <button class="hero-action" id="heroChangesBtn" type="button">오늘의 변화 보기</button>
+        </div>
+        <span class="badge" id="hbadge">시세 확인 중</span>
       </header>
-      <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
-        <div class="latest-home-head">
-          <h2 id="latestHomeTitle">방금 올라온 글</h2>
-          <span>최신 5개</span>
+      <article class="hero-search-card">
+        <span class="start-kicker">먼저</span>
+        <h2>내 종목 찾기</h2>
+        <p>회사 이름만 입력하면 오늘 판단과 데이터 기준 시각을 바로 볼 수 있어요.</p>
+        <div class="home-search-panel" id="homeSearchPanel">
+          <div class="home-search-row">
+            <div class="ac-wrap">
+              <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
+              <div class="acbox" id="homeAcbox" role="listbox"></div>
+            </div>
+            <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
+          </div>
+          <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
         </div>
-        <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
-      </section>
+        <div class="home-watch">
+          <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
+          <div class="home-watch-list" id="homeWatchlist"></div>
+          <div class="home-watch-change" id="homeWatchChange" style="display:none" aria-live="polite"></div>
+        </div>
+      </article>
     </div>
+
+    <section class="change-board" id="homeChanges" aria-labelledby="homeChangesTitle">
+      <div class="change-intro">
+        <div>
+          <span class="change-kicker">TODAY'S CHANGE</span>
+          <h2 id="homeChangesTitle">오늘 내 종목에서<br>달라진 것</h2>
+          <p id="homeChangesDesc">관심종목을 저장하면 내 종목의 판단 변화부터 보여드려요.</p>
+        </div>
+        <div class="change-summary"><strong id="homeChangeCount">—</strong><span id="homeChangeUnit">개 변화 확인 중</span></div>
+      </div>
+      <div class="change-list" id="homeChangeList" aria-live="polite">
+        <div class="change-empty"><div><strong>오늘 변화를 정리하고 있어요.</strong>최근 판단 기록을 확인하는 중입니다.</div></div>
+      </div>
+    </section>
+
+    <section class="decision-board" id="homeRecentCalls" aria-labelledby="homeRecentTitle">
+      <div class="decision-head">
+        <div>
+          <h2 id="homeRecentTitle">최근 5인 판단 변화</h2>
+          <p>새 점수만 보여주지 않고, 이전 판단과 무엇이 달라졌는지 함께 기록합니다.</p>
+        </div>
+        <span>최근 자동분석 기록 기준</span>
+      </div>
+      <div class="decision-list" id="homeRecentList" aria-live="polite">
+        <div class="rr-empty">최근 판단을 불러오고 있어요.</div>
+      </div>
+    </section>
+
+    <section class="start-board" aria-label="오늘 브리핑과 이용 안내">
+      <article class="start-step start-step-summary">
+        <span class="start-kicker" id="briefKicker">매일 아침</span>
+        <h2 id="briefTitle">오늘 아침 브리핑</h2>
+        <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
+          코스피·코스닥·환율을 불러오는 중이에요.
+        </div>
+        <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
+        <div class="brief-meta" id="briefMeta"></div>
+        <div class="brief-extra" id="briefExtra" style="display:none"></div>
+        <div class="brief-actions" id="briefActions">
+          <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
+          <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
+        </div>
+      </article>
+      <article class="start-step">
+        <span class="start-kicker">처음이라면</span>
+        <h2>3분 가이드</h2>
+        <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
+        <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
+      </article>
+    </section>
+
     <section class="activity-board" id="activityBoard" aria-labelledby="activityTitle">
       <div class="activity-main">
         <div class="activity-head">
@@ -2315,67 +2495,16 @@
         </div>
       </div>
     </section>
-    <section class="start-board" aria-label="처음 이용 안내">
-      <article class="start-step">
-        <span class="start-kicker">먼저</span>
-        <h2>내 종목 찾기</h2>
-        <p>회사 이름만 입력하면 다섯 관점의 오늘 판단을 바로 볼 수 있어요.</p>
-        <button class="start-action" id="startSearch" type="button" aria-expanded="false" aria-controls="homeSearchPanel">종목 검색하기</button>
-        <div class="home-search-panel" id="homeSearchPanel" hidden>
-          <div class="home-search-row">
-            <div class="ac-wrap">
-              <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
-              <div class="acbox" id="homeAcbox" role="listbox"></div>
-            </div>
-            <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
-          </div>
-          <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
-        </div>
-        <div class="home-watch">
-          <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
-          <div class="home-watch-list" id="homeWatchlist"></div>
-          <div class="home-watch-change" id="homeWatchChange" style="display:none" aria-live="polite"></div>
-        </div>
-      </article>
-      <article class="start-step start-step-summary">
-        <span class="start-kicker" id="briefKicker">매일 아침</span>
-        <h2 id="briefTitle">오늘 아침 브리핑</h2>
-        <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
-          코스피·코스닥·환율을 불러오는 중이에요.
-        </div>
-        <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
-        <div class="brief-meta" id="briefMeta"></div>
-        <div class="brief-extra" id="briefExtra" style="display:none"></div>
-        <div class="brief-actions" id="briefActions">
-          <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
-          <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
-        </div>
-      </article>
-      <article class="start-step">
-        <span class="start-kicker">처음이라면</span>
-        <h2>3분 가이드</h2>
-        <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
-        <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
-      </article>
-    </section>
-    <div class="ad-slot ad-slot-home">
-      <span class="ad-label">광고</span>
-      <span class="ad-status">광고를 불러오는 중이에요.</span>
-      <ins class="kakao_ad_area" style="display:none;"
-      data-ad-unit="DAN-RpP1QyRYBWQivtu9"
-      data-ad-width="300"
-      data-ad-height="250"
-      data-ad-onload="gaeoAdLoaded"
-      data-ad-onfail="gaeoAdFailed"></ins>
-    </div>
+
     <section class="trust-strip" aria-labelledby="trustTitle">
       <div>
         <h2 id="trustTitle">판단보다 먼저, 기준을 공개해요</h2>
         <p>숫자의 시점과 자동분석의 한계를 함께 확인할 수 있어요.</p>
       </div>
       <div class="trust-points">
-        <div class="trust-point"><b>기준 시각 표시</b><span>시세와 분석이 언제 만들어졌는지 따로 적어요.</span></div>
-        <div class="trust-point"><b>분석 방식 구분</b><span>규칙 기반 자동분석과 정밀분석을 섞어 말하지 않아요.</span></div>
+        <div class="trust-point"><b>최근 데이터</b><span id="trustDataAsOf">기준 시각을 확인하고 있어요.</span></div>
+        <div class="trust-point"><b>분석 방식 구분</b><span>500종목은 규칙 기반 자동분석으로 표시해요.</span></div>
+        <div class="trust-point"><b>자료 부족 표시</b><span>없는 숫자를 억지로 채우지 않고 그대로 알려드려요.</span></div>
         <div class="trust-point"><b>투자 권유 아님</b><span>판단 근거를 공부용 참고자료로 제공해요.</span></div>
       </div>
       <div class="trust-links">
@@ -2389,6 +2518,23 @@
     <div class="datawarn" id="datawarn" style="display:none"></div>
     <div class="kpis" id="kpis"></div>
     <div class="dowbar" id="dowbar" style="display:none"></div>
+    <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
+      <div class="latest-home-head">
+        <h2 id="latestHomeTitle">방금 올라온 글</h2>
+        <span>최신 5개</span>
+      </div>
+      <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
+    </section>
+    <div class="ad-slot ad-slot-home">
+      <span class="ad-label">광고</span>
+      <span class="ad-status">광고를 불러오는 중이에요.</span>
+      <ins class="kakao_ad_area" style="display:none;"
+      data-ad-unit="DAN-RpP1QyRYBWQivtu9"
+      data-ad-width="300"
+      data-ad-height="250"
+      data-ad-onload="gaeoAdLoaded"
+      data-ad-onfail="gaeoAdFailed"></ins>
+    </div>
   </section>
 
   <div class="layout">
@@ -3396,6 +3542,8 @@ function showDayPopup(ds, evs){
 }
 const priceAsOf=()=>String(SNAP_DATE).replace(' 수집','');
 document.getElementById('hbadge').textContent='홈오피스 · 시세 '+SNAP_DATE;
+const trustDataAsOf=document.getElementById('trustDataAsOf');
+if(trustDataAsOf) trustDataAsOf.textContent=priceAsOf()+' 기준 · 장중 10~30분 간격 갱신';
 
 /* ── 관심종목: 로그인 없이 이 브라우저에만 가볍게 저장 ── */
 const WATCHLIST_KEY='gaeo_watchlist_v1';
@@ -3496,6 +3644,7 @@ document.getElementById('watchToggle').onclick=()=>{
   });
   updateWatchToggle(code);
   renderHomeWatchlist();
+  if(window.renderGaeoHomeSignals) window.renderGaeoHomeSignals();
 };
 renderHomeWatchlist();
 
@@ -3734,15 +3883,17 @@ renderHomeWatchlist();
     if(window.openNewsCategory) window.openNewsCategory('market');
   };
 
-  document.getElementById('startSearch').onclick=()=>{
-    const panel=document.getElementById('homeSearchPanel');
+  const heroSearchBtn=document.getElementById('heroSearchBtn');
+  if(heroSearchBtn) heroSearchBtn.onclick=()=>{
     const ticker=document.getElementById('homeTicker');
-    panel.hidden=false;
-    panel.classList.add('on');
     gaeoTrack('search_open',{search_location:'home'});
-    document.getElementById('startSearch').setAttribute('aria-expanded','true');
-    // 멀리 떨어진 본문으로 스크롤하지 않고, 누른 자리에서 즉시 검색할 수 있게 한다.
-    try{ ticker.focus({preventScroll:true}); }catch(e){ ticker.focus(); }
+    ticker.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>ticker.focus(),320);
+  };
+  const heroChangesBtn=document.getElementById('heroChangesBtn');
+  if(heroChangesBtn) heroChangesBtn.onclick=()=>{
+    gaeoTrack('select_content',{content_type:'home_section',item_id:'today-changes'});
+    document.getElementById('homeChanges').scrollIntoView({behavior:'smooth',block:'start'});
   };
   document.getElementById('startGuide').onclick=()=>{
     beginGuideTutorial('home_dashboard');
@@ -5816,17 +5967,109 @@ makeCards(false);
   paint();
 })();
 
-// ---------- 홈 정보 카드: 다가오는 일정 + 최근 팀 판단 ----------
+// ---------- 홈 핵심 신호: 오늘 달라진 것 · 최근 판단 변화 · 다가오는 일정 ----------
 (function(){
-  const rail=document.getElementById('railR'); if(!rail) return;
+  const rail=document.getElementById('railR');
+  const recentBox=document.getElementById('homeRecentList');
+  const changeBox=document.getElementById('homeChangeList');
+  if(!rail||!recentBox||!changeBox) return;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const nameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
   const goStock=name=>jumpToStock(name);
+  const analystLabels={taro:'기술',diana:'재무',nova:'확률',flow:'수급'};
+  const analystKeys=Object.keys(analystLabels);
   const today=new Date(); today.setHours(0,0,0,0);
   const DOW=['일','월','화','수','목','금','토'];
 
-  // ① 다가오는 일정 — analysis.js 각 종목 events + market.events(CPI 등 매크로 일정)에서
-  //    오늘 이후만 모아 날짜순. market 이벤트는 특정 종목이 아니므로 code=null, 자체 name 사용.
+  // 기존 history.js를 읽기만 한다. 자동 생성 파일은 수정하지 않는다.
+  function historyRows(code){
+    const rows=(typeof LIVE_HISTORY!=='undefined'&&Array.isArray(LIVE_HISTORY[code]))
+      ?LIVE_HISTORY[code].slice():[];
+    if(rows.length) return rows.sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+    const lite=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals&&HOME_BRIEF.signals[code])||null;
+    if(!lite) return [];
+    const makeRow=(date,call,total,scores,stances)=>{
+      const row={date:date||'',call:call||'HOLD',total};
+      analystKeys.forEach((key,index)=>{
+        row[key]={score:scores&&scores[index],stance:stances&&stances[index]};
+      });
+      return row;
+    };
+    const compact=[];
+    if(lite.pc) compact.push(makeRow(lite.pd,lite.pc,lite.pt,lite.pa,lite.ps));
+    compact.push(makeRow(lite.d,lite.c,lite.t,lite.a,lite.s));
+    return compact;
+  }
+  function autoRow(code){
+    const a=AUTO_AN&&AUTO_AN.stocks&&AUTO_AN.stocks[code], chief=a&&a.chief;
+    if(!a||!chief) return null;
+    return {date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',total:chief.total,
+      confidence:chief.confidence,taro:a.taro,diana:a.diana,nova:a.nova,flow:a.flow,tier:'auto'};
+  }
+  function signalFor(code){
+    const rows=historyRows(code);
+    let latest=rows[rows.length-1]||autoRow(code);
+    let previous=rows.length>1?rows[rows.length-2]:null;
+    const live=autoRow(code);
+    if(live&&(!latest||String(live.date||'')>String(latest.date||''))){
+      previous=latest; latest=live;
+    }
+    return latest?{code,latest,previous}:null;
+  }
+  const scoreOf=(row,key)=>Number(row&&row[key]&&row[key].score);
+  function strongestDelta(signal){
+    if(!signal.previous) return null;
+    const rows=analystKeys.map(key=>{
+      const now=scoreOf(signal.latest,key), before=scoreOf(signal.previous,key);
+      return {key,delta:Number.isFinite(now)&&Number.isFinite(before)?now-before:0};
+    }).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta));
+    return rows[0]&&rows[0].delta?rows[0]:null;
+  }
+  function reasonOf(signal){
+    const d=strongestDelta(signal);
+    if(!signal.previous) return '비교할 이전 기록이 아직 없어요.';
+    if(d) return `${analystLabels[d.key]} 점수 ${Math.abs(d.delta)}점 ${d.delta>0?'상승':'하락'}`;
+    const total=Number(signal.latest.total)-Number(signal.previous.total);
+    if(total) return `종합 점수 ${Math.abs(total)}점 ${total>0?'상승':'하락'}`;
+    return '주요 판단은 이전 기록과 같아요.';
+  }
+  function votesOf(row){
+    let bull=0,bear=0;
+    analystKeys.forEach(key=>{
+      const item=row&&row[key], stance=item&&item.stance;
+      if(stance==='bull'||Number(item&&item.score)>=60) bull++;
+      else if(stance==='bear'||Number(item&&item.score)<40) bear++;
+    });
+    return {bull,bear,neutral:4-bull-bear};
+  }
+  function dateLabel(value){
+    const m=String(value||'').match(/\d{4}-(\d{2})-(\d{2})(?:[ T](\d{2}:\d{2}))?/);
+    return m?`${+m[1]}/${+m[2]}${m[3]?' '+m[3]:''}`:'최근 기록';
+  }
+  function callChanged(signal){
+    return !!(signal.previous&&signal.previous.call&&signal.latest.call&&
+      signal.previous.call!==signal.latest.call);
+  }
+  function totalDelta(signal){
+    if(!signal.previous) return 0;
+    const d=Number(signal.latest.total)-Number(signal.previous.total);
+    return Number.isFinite(d)?d:0;
+  }
+  function meaningful(signal){
+    const d=strongestDelta(signal);
+    return callChanged(signal)||Math.abs(totalDelta(signal))>=4||Math.abs(d&&d.delta||0)>=8;
+  }
+  function toneOf(signal){
+    const d=totalDelta(signal);
+    return d>0?'up':d<0?'down':'flat';
+  }
+  function bindStockClicks(root){
+    root.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{
+      goStock(el.dataset.go); if(typeof SFX!=='undefined') SFX.click();
+    });
+  }
+
+  // 다가오는 일정 — 기존 이벤트 데이터와 클릭 동작을 보존한다.
   let evs=[];
   if(LIVE_AN) for(const code in LIVE_AN){
     const blk=LIVE_AN[code];
@@ -5840,68 +6083,117 @@ makeCards(false);
     });
   }
   evs.sort((a,b)=>a.d-b.d); evs=evs.slice(0,8);
-  const evHTML=evs.length?evs.map(e=>{
-    const isToday=e.d.getTime()===today.getTime();
-    const goAttr=e.code?` data-go="${esc(e.name)}"`:'';
-    return `<div class="rr-item"${goAttr}>`+
-      `<span class="rr-date${isToday?' today':''}">${e.d.getMonth()+1}/${e.d.getDate()}`+
-      `<span class="dd">${DOW[e.d.getDay()]}</span></span>`+
-      `<span class="rr-body"><span class="rr-name">${esc(e.name)}</span>`+
-      `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
-  }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
+  function renderEvents(){
+    const evHTML=evs.length?evs.map(e=>{
+      const isToday=e.d.getTime()===today.getTime();
+      const goAttr=e.code?` data-go="${esc(e.name)}"`:'';
+      return `<div class="rr-item"${goAttr}>`+
+        `<span class="rr-date${isToday?' today':''}">${e.d.getMonth()+1}/${e.d.getDate()}`+
+        `<span class="dd">${DOW[e.d.getDay()]}</span></span>`+
+        `<span class="rr-body"><span class="rr-name">${esc(e.name)}</span>`+
+        `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
+    }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
+    rail.innerHTML=`<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
+      `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`;
+    bindStockClicks(rail);
+  }
 
-  const callCol=c=>c==='BUY'?'#2F8B73':c==='SELL'?'#D5535D':'#B97A2F';
-  function recentCalls(){
-    // history.js에서 "초대형 우량주"만 골라 시간 역순으로(전역 MEGA_CAP 공유).
-    // history.js를 아직 받지 않은 첫 화면에서는 최신 자동판단으로 같은 카드를 채운다.
-    let recs=[];
-    if(typeof LIVE_HISTORY!=='undefined') for(const code in LIVE_HISTORY){
-      if(!MEGA_CAP.has(code)) continue;
-      (LIVE_HISTORY[code]||[]).forEach(h=>recs.push({code,date:h.date||'',call:h.call||'HOLD',
-        total:h.total,conf:h.confidence}));
+  function representativeSignals(){
+    const signals=[];
+    MEGA_CAP.forEach(code=>{ const s=signalFor(code); if(s) signals.push(s); });
+    return signals.sort((a,b)=>String(b.latest.date||'').localeCompare(String(a.latest.date||''))||
+      Math.abs(totalDelta(b))-Math.abs(totalDelta(a))).slice(0,5);
+  }
+  function renderRecent(){
+    const signals=representativeSignals();
+    recentBox.innerHTML=signals.length?signals.map(signal=>{
+      const latest=signal.latest, previous=signal.previous;
+      const before=previous&&previous.call||'첫 기록';
+      const delta=totalDelta(signal);
+      return `<button class="decision-item" type="button" data-go="${esc(nameOf(signal.code))}">`+
+        `<span class="decision-stock">${esc(nameOf(signal.code))}</span>`+
+        `<span class="decision-move"><b>${esc(before)}</b><span>→</span><b>${esc(latest.call||'HOLD')}</b></span>`+
+        `<span class="decision-delta">${esc(reasonOf(signal))}${delta?` · 종합 ${delta>0?'+':''}${delta}`:''}</span>`+
+        `<span class="decision-asof">${esc(dateLabel(latest.date))} 기준</span></button>`;
+    }).join(''):'<div class="rr-empty">최근 판단 데이터를 불러오고 있어요.</div>';
+    bindStockClicks(recentBox);
+  }
+
+  function marketChanges(exclude){
+    const signals=[];
+    const source=(typeof LIVE_HISTORY!=='undefined'&&LIVE_HISTORY)||
+      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals)||{});
+    for(const code in source){
+      if(exclude&&exclude.has(code)) continue;
+      const signal=signalFor(code);
+      if(signal&&meaningful(signal)) signals.push(signal);
     }
-    if(!recs.length&&AUTO_AN&&AUTO_AN.stocks){
-      MEGA_CAP.forEach(code=>{
-        const a=AUTO_AN.stocks[code], chief=a&&a.chief;
-        if(!chief) return;
-        recs.push({code,date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',
-          total:chief.total,conf:chief.confidence});
-      });
+    return signals.sort((a,b)=>(callChanged(b)?1:0)-(callChanged(a)?1:0)||
+      Math.abs(totalDelta(b))-Math.abs(totalDelta(a))||
+      String(b.latest.date||'').localeCompare(String(a.latest.date||'')));
+  }
+  function changeCard(signal){
+    const latest=signal.latest, previous=signal.previous, votes=votesOf(latest);
+    const before=previous&&previous.call||'첫 기록';
+    const after=latest.call||'HOLD';
+    return `<button class="change-item" type="button" data-tone="${toneOf(signal)}" data-go="${esc(nameOf(signal.code))}">`+
+      `<span class="change-name">${esc(nameOf(signal.code))}<span class="change-time">${esc(dateLabel(latest.date))}</span></span>`+
+      `<span class="change-call"><b>${esc(before)}</b><span class="change-arrow">→</span><b>${esc(after)}</b></span>`+
+      `<span class="change-reason">${esc(reasonOf(signal))}</span>`+
+      `<span class="change-votes">긍정 ${votes.bull} · 보수 ${votes.bear} · 중립 ${votes.neutral}</span></button>`;
+  }
+  function renderChanges(){
+    const watchCodes=typeof loadWatchlist==='function'?loadWatchlist():[];
+    const watchSet=new Set(watchCodes);
+    const watchSignals=watchCodes.map(signalFor).filter(Boolean);
+    const changed=watchSignals.filter(meaningful);
+    let shown=changed;
+    const desc=document.getElementById('homeChangesDesc');
+    const count=document.getElementById('homeChangeCount');
+    const unit=document.getElementById('homeChangeUnit');
+    if(watchCodes.length){
+      count.textContent=changed.length;
+      unit.textContent='개 관심종목 변화';
+      if(changed.length){
+        desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 중요한 변화부터 보여드려요.`;
+      }else{
+        shown=marketChanges(watchSet).slice(0,3);
+        if(!shown.length) shown=representativeSignals().filter(x=>!watchSet.has(x.code)).slice(0,3);
+        desc.textContent='관심종목 판단은 유지 중이에요. 대신 시장에서 변화가 큰 종목을 보여드려요.';
+      }
+    }else{
+      shown=marketChanges().slice(0,3);
+      if(!shown.length) shown=representativeSignals().slice(0,3);
+      count.textContent=shown.length;
+      unit.textContent=shown.some(meaningful)?'개 시장 변화':'개 최근 기록';
+      desc.textContent='관심종목을 저장하면 다음 방문부터 내 종목 변화가 먼저 보여요.';
     }
-    // 같은 종목이 여러 날 쌓이므로 종목당 최신 1건만 남겨 다양한 우량주가 보이게 한다.
-    recs.sort((a,b)=>b.date.localeCompare(a.date));
-    const seen=new Set();
-    return recs.filter(r=>seen.has(r.code)?false:(seen.add(r.code),true)).slice(0,8);
+    shown=shown.slice(0,3);
+    if(shown.length){
+      changeBox.innerHTML=shown.map(changeCard).join('');
+      bindStockClicks(changeBox);
+    }else{
+      changeBox.innerHTML=`<div class="change-empty"><div><strong>오늘은 큰 판단 변화가 없어요.</strong>`+
+        `종목을 저장해두면 다음 변화부터 이곳에서 바로 알려드려요.</div>`+
+        `<button type="button" id="emptyChangeSearch">종목 찾기</button></div>`;
+      const btn=document.getElementById('emptyChangeSearch');
+      if(btn) btn.onclick=()=>{
+        const input=document.getElementById('homeTicker');
+        input.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>input.focus(),320);
+      };
+    }
   }
-  function render(){
-    const recs=recentCalls();
-    const rcHTML=recs.length?recs.map(r=>{
-      const dm=r.date.match(/\d{4}-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
-      const dlab=dm?`${+dm[1]}/${+dm[2]}`:'—', tlab=dm&&dm[3]?dm[3]:'';
-      return `<div class="rr-item" data-go="${esc(nameOf(r.code))}">`+
-        `<span class="rr-date">${dlab}<span class="dd" style="font-size:9.5px">${tlab}</span></span>`+
-        `<span class="rr-body"><span class="rr-name">${esc(nameOf(r.code))}`+
-        `<span class="rr-total">종합 ${r.total??'—'}</span></span>`+
-        `<span class="rr-sub">신뢰도 ${r.conf??'—'}%</span></span>`+
-        `<span class="rr-call" style="background:${callCol(r.call)}">${esc(r.call)}</span></div>`;
-    }).join(''):'<div class="rr-empty">판단 데이터를 불러오고 있어요.</div>';
-    rail.innerHTML=
-      `<div class="rr-panel"><div class="rr-title">📅 다가오는 일정`+
-        `<span class="rr-cnt">${evs.length}</span></div>${evHTML}</div>`+
-      `<div class="rr-panel" id="rrRecentCalls"><div class="rr-title">🕐 최근 팀 판단`+
-        `<span class="rr-cnt">${recs.length}</span></div>${rcHTML}</div>`;
-    rail.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{goStock(el.dataset.go); SFX.click();});
+  function renderAll(){
+    renderEvents();
+    renderRecent();
+    renderChanges();
   }
-  const desktop=window.matchMedia('(min-width:701px)');
-  function loadDesktopRecent(){
-    if(!desktop.matches) return;
-    if(AUTO_AN){ render(); return; }
-    window.ensureAutoAnalysis().then(render).catch(render);
+  window.renderGaeoHomeSignals=renderAll;
+  renderAll();
+  if(!AUTO_AN&&window.ensureAutoAnalysis){
+    window.ensureAutoAnalysis().then(renderAll).catch(()=>{});
   }
-  render();
-  loadDesktopRecent();
-  if(desktop.addEventListener) desktop.addEventListener('change',loadDesktopRecent);
-  else desktop.addListener(loadDesktopRecent);
 })();
 
 // ---------- 🗂 뉴스분석·종목공부·주식공부·부동산공부 공통 — 중카테고리(대>중>소) ----------
@@ -8454,7 +8746,7 @@ window.hangulFix=function(str){
   btn.innerHTML='📤';
   document.body.appendChild(btn);
   btn.onclick=async()=>{
-    const data={title:'Gaeo · 한국 주식 초보자의 매일 3분 리서치', text:'오늘 시장 3줄 요약부터 관심 종목 분석까지, 매일 3분 안에 쉽게 살펴보세요.', url:location.href};
+    const data={title:'Gaeo · 내 종목에 달라진 것만, 하루 3분', text:'추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 확인해보세요.', url:location.href};
     if(navigator.share){ try{ await navigator.share(data); trackShare('native'); }catch(e){} }
     else{
       try{ await navigator.clipboard.writeText(location.href);
@@ -8489,7 +8781,10 @@ window.hangulFix=function(str){
     });
   }
   if(rail&&workspaceBody) workspaceBody.appendChild(rail);
-  if(railR&&home) home.appendChild(railR);
+  if(railR&&home){
+    const trust=home.querySelector('.trust-strip');
+    home.insertBefore(railR,trust||null);
+  }
 
   const panels=[
     {panel:workspace,button:menuToggle},

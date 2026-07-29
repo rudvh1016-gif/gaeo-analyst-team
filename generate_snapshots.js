@@ -211,6 +211,7 @@ function buildStocks() {
   const DATA = load('data.js', 'LIVE_DATA') || {};
   const AN = load('analysis.js', 'LIVE_ANALYSIS') || {};
   const AUTO = load('auto_analysis.js', 'LIVE_AUTO') || {};
+  const HISTORY = load('history.js', 'LIVE_HISTORY') || {};
   const autoStocks = AUTO.stocks || {};
   const tickerNames = Object.fromEntries(TICKERS.map(t => [t.code, t.name]));
   const calls = { BUY: 0, HOLD: 0, SELL: 0 };
@@ -232,10 +233,44 @@ function buildStocks() {
     calls: Object.values(calls).some(Boolean) ? calls : (sourceInsight.calls || calls),
     ranked: ranked.slice(0, 30)
   };
+  // 홈에서 5.5MB history.js를 내려받지 않고도 "어제 → 오늘" 변화를 보여주기 위한
+  // 500종목 경량 판단 스냅샷. 키를 짧게 유지해 첫 화면 전송량을 줄인다.
+  // d/c/t=최신 날짜·판단·종합점수, pd/pc/pt=직전 기록, a/pa=분석가 점수, s/ps=성향.
+  const axisKeys = ['taro', 'diana', 'nova', 'flow'];
+  const compactAxes = (row, field) => axisKeys.map(key => {
+    const value = row && row[key] && row[key][field];
+    return value == null ? null : value;
+  });
+  const signals = {};
+  for (const [code, item] of Object.entries(autoStocks)) {
+    const chief = item && item.chief;
+    if (!chief) continue;
+    const rows = Array.isArray(HISTORY[code])
+      ? HISTORY[code].slice().sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')))
+      : [];
+    let previous = rows[rows.length - 1] || null;
+    const currentDay = String(item.updated || AUTO.generatedAt || '').slice(0, 10);
+    if (previous && String(previous.date || '').slice(0, 10) === currentDay &&
+        previous.call === chief.call && Number(previous.total) === Number(chief.total)) {
+      previous = rows[rows.length - 2] || null;
+    }
+    signals[code] = {
+      d: item.updated || AUTO.generatedAt || '',
+      c: chief.call || 'HOLD',
+      t: chief.total,
+      pd: previous && previous.date || '',
+      pc: previous && previous.call || null,
+      pt: previous && previous.total,
+      a: compactAxes(item, 'score'),
+      pa: compactAxes(previous, 'score'),
+      s: compactAxes(item, 'stance'),
+      ps: compactAxes(previous, 'stance')
+    };
+  }
   fs.writeFileSync(
     path.join(HERE, 'snap/home_brief.js'),
     '// 첫 화면 전용 경량 브리핑 · generate_snapshots.js 자동 생성\nconst HOME_BRIEF = ' +
-      JSON.stringify({ generatedAt: AUTO.generatedAt || '', marketInsight }, null, 1) +
+      JSON.stringify({ generatedAt: AUTO.generatedAt || '', marketInsight, signals }) +
       ';\n'
   );
   const stocksData = DATA.stocks || {};

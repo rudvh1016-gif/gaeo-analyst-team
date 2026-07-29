@@ -4,7 +4,7 @@
 네이버 금융 API에서 대상 종목(tickers.js)의 현재가/PER/PBR/ROE와
 코스피/코스닥 지수를 받아 data.js로 저장한다.
 index.html이 data.js를 읽어 화면의 모든 시세를 갱신한다.
-실행: python3 update_prices.py  (또는 '시세갱신.command' 더블클릭)
+운영 환경에서는 GitHub Actions가 주기적으로 실행한다.
 
 견고성(6순위 A):
   · 요청 실패 시 백오프 재시도(기본 3회)

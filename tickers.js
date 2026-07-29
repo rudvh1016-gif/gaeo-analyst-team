@@ -1,8 +1,8 @@
 // 개오 애널리스트팀 — 대상 종목 단일 소스(Single Source of Truth)
 // ★ 종목을 추가/삭제하려면 "이 파일만" 고치면 된다:
 //    1) 아래 TICKERS 배열 수정 (sector = 화면 폴더 구분, 새 업종명을 쓰면 폴더가 자동 생성됨)
-//    2) 시세갱신.command 실행 → data.js 갱신
-//    3) 재분석(Claude Code에게 요청) → analysis.js / history.js 갱신
+//    2) 관리자 화면에서 발행 → 다음 GitHub Actions 수집부터 data.js 갱신
+//    3) 상세 분석이 필요하면 별도 재분석 절차에 따라 analysis.js 갱신
 // update_prices.py(파이썬)와 index.html(브라우저)이 모두 이 목록을 읽는다.
 // (배열 부분은 유효한 JSON이라 파이썬도 그대로 파싱한다 — 키를 큰따옴표로 유지할 것)
 const TICKERS = [
