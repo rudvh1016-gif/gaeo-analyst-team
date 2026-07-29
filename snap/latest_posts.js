@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 22,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-29",
+  "title": "새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유",
+  "featured": false
+ },
+ {
   "id": 21,
   "mode": "news",
   "label": "뉴스분석",
@@ -17,27 +25,19 @@ const LATEST_POSTS = [
   "featured": false
  },
  {
-  "id": 20,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-28",
-  "title": "2026년 7월28일 종가 코스피·코스닥 분석 — 서킷브레이커까지 부른 반도체 대폭락, 무슨 일이 있었나",
+  "id": 34,
+  "mode": "study",
+  "label": "종목공부",
+  "date": "2026-07-29",
+  "title": "한화에어로스페이스",
   "featured": false
  },
  {
-  "id": 18,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-28",
-  "title": "창신메모리 상장 첫날 중국 A주 시총 1위 — 삼성전자·SK하이닉스에는 어떤 의미일까",
-  "featured": false
- },
- {
-  "id": 49,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-07-28",
-  "title": "퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지",
+  "id": 35,
+  "mode": "study",
+  "label": "종목공부",
+  "date": "2026-07-29",
+  "title": "아모레퍼시픽",
   "featured": false
  }
 ];
