@@ -53,6 +53,15 @@ def score_stance(stance, ret):
     return None
 
 
+def score_call(call, ret):
+    """index.html scoreCall과 동일한 CHIEF 팀 판단 채점 규칙."""
+    if call == "BUY":
+        return "hit" if ret > 1 else ("miss" if ret < -1 else "mid")
+    if call == "SELL":
+        return "hit" if ret < -1 else ("miss" if ret > 1 else "mid")
+    return "hit" if abs(ret) <= 5 else "mid"
+
+
 def main():
     hist = load_js_object(os.path.join(HERE, "history.js"), "LIVE_HISTORY")
     if not hist:
@@ -88,6 +97,8 @@ def main():
         return {a: {"hit": 0, "miss": 0} for a in ANALYSTS}
     g = zero()
     sec = {}
+    team_hit = 0
+    team_miss = 0
     for code, lst in hist.items():
         if not re.match(r"^\d{6}$", str(code)) or not isinstance(lst, list):
             continue
@@ -100,6 +111,11 @@ def main():
             ret = eval_ret(code, day, base)
             if ret is None:
                 continue
+            team_score = score_call(e.get("call"), ret)
+            if team_score == "hit":
+                team_hit += 1
+            elif team_score == "miss":
+                team_miss += 1
             for a in ANALYSTS:
                 ana = e.get(a)
                 if not isinstance(ana, dict):
@@ -137,7 +153,18 @@ def main():
     payload = {
         "generatedAt": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "evalDays": EVAL_DAYS,
-        "global": {"weights": gw, "acc": gstat, "graded": graded_total},
+        "global": {
+            "weights": gw,
+            "acc": gstat,
+            "graded": graded_total,
+            "team": {
+                "hit": team_hit,
+                "miss": team_miss,
+                "n": team_hit + team_miss,
+                "acc": round(team_hit / (team_hit + team_miss) * 100, 1)
+                if team_hit + team_miss else None,
+            },
+        },
         "sectors": sectors_out,
     }
     body = json.dumps(payload, ensure_ascii=False, indent=1)
@@ -151,7 +178,7 @@ def main():
         f.write(header + "const TEAM_WEIGHTS = " + body + ";\n")
 
     wtxt = " · ".join(f"{a} {gw[a]*100:.0f}%(적중률 {gstat[a]['acc']}%·n{gstat[a]['n']})" for a in ANALYSTS)
-    print(f"team_weights.js 저장 — 채점 {graded_total}건 · 전역 가중치: {wtxt} · 업종 오버라이드 {len(sectors_out)}개")
+    print(f"team_weights.js 저장 - 채점 {graded_total}건 · 전역 가중치: {wtxt} · 업종 오버라이드 {len(sectors_out)}개")
     return 0
 
 

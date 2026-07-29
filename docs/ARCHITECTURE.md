@@ -35,6 +35,7 @@
    ├─ news_analysis.js / stock_study.js / stock_lessons.js / estate_lessons.js / calculators.js
    │                    콘텐츠 5종 ← 사람/Claude가 직접 Write
    ├─ snap/latest_posts.js  첫 화면 최신 글 5개 목록 ← generate_snapshots.js
+   ├─ snap/home_brief.js    첫 화면 500종목 BUY/HOLD/SELL·상위 30종목 경량 집계 ← generate_snapshots.js
    ├─ community.js     방문자 공개 게시판 ← 관리자 모드 "모두에게 발행"이 갱신
    └─ site_config.js   사이트 전역 문구/테마 설정 ← 관리자 모드가 갱신
 ```
@@ -87,13 +88,12 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 
 ## 데이터 파이프라인 (GitHub Actions)
 
-두 워크플로가 있다 (`.github/workflows/`):
+자동 데이터 갱신 워크플로 2개가 있다 (`.github/workflows/`):
 
 - **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 갱신·커밋.
 - **update-analysis.yml** — 같은 시간대 30분마다 `price_history.js` · `analysis_data.json` ·
   `indicators.json/js` · `auto_analysis.js`(홈 보강 브리핑 포함)를 갱신하고, `archive_analysis.py --auto`로 500종목
   판단을 `history.js`에 하루 1건씩 누적한다.
-
 두 워크플로 모두 **GitHub의 기본 cron이 이 저장소에서 불안정하다는 걸 겪은 뒤** 만들어진
 "자가 반복 루프 + 종료 시 자기 재기동(workflow_dispatch 재호출) 체인" 구조다. 안전망이
 5중으로 겹쳐 있다: ① 워크플로 자체의 자가 루프 ② 체인 재기동 ③ `.analyst-refresh` 파일을
@@ -103,6 +103,20 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 **트리거는 `workflow_dispatch` / 특정 경로 `push` / `schedule`뿐이며, 외부 Pull Request로는
 절대 실행되지 않는다** — 즉 다른 사람이 PR을 올린다고 이 워크플로가 자동으로 도는 구조가
 아니다(보안 관점에서 확인된 사실).
+
+## 방문자 캐시와 최신 데이터 우선 원칙
+
+`sw.js`는 설치형 웹앱(PWA)의 오프라인 사용을 위한 마지막 정상본을 보관한다. 다만
+`index.html`과 모든 `.js`/`.json` 파일은 온라인일 때 **항상 GitHub Pages의 최신 원본을 먼저
+요청**하고, 네트워크가 끊겼을 때만 저장본으로 대체한다. 서버 요청에는 브라우저 HTTP 캐시를
+우회하는 `no-store`를 적용한다. 첫 배포 때 예전 서비스 워커가 잡고 있던 파일도 즉시 교체할
+수 있도록 핵심 스크립트와 지연 로딩 스크립트에는 배포 리비전 쿼리를 붙이고, 서비스 워커는
+`updateViaCache: 'none'`으로 등록한다.
+
+따라서 PC를 다시 켜거나 홈 화면 아이콘으로 실행해도 온라인이라면 Ctrl+F5 없이 최신
+`data.js`·`auto_analysis.js`·`community.js`가 우선 표시되어야 한다. 캐시 정책을 바꿀 때는
+`sw.js`의 `CACHE` 이름과 `index.html`의 스크립트 리비전을 함께 올리고, 오래된 응답을 Cache
+Storage에 일부러 넣은 뒤 일반 새로고침으로 최신 데이터가 복구되는지 브라우저 테스트한다.
 
 ## 보조 스크립트
 
