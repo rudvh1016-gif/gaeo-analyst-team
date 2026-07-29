@@ -2114,14 +2114,30 @@
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none;
     scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
   .verdict,.quote,.viz{scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
-  body[data-mode="single"] .analysis-browser{display:grid;grid-template-columns:minmax(220px,.48fr) minmax(0,1.52fr);
-    gap:34px;align-items:start}
-  .analysis-browser-head{padding-top:3px}
+  body[data-mode="single"] .analysis-browser{display:grid;grid-template-columns:1fr;
+    gap:24px;align-items:start}
+  .analysis-browser-head{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(360px,1.2fr);
+    gap:0 32px;padding-top:3px}
+  .analysis-browser-head>span,.analysis-browser-head>h2,.analysis-browser-head>p{grid-column:1}
   .analysis-browser-head>span{display:block;margin-bottom:10px;color:var(--gaeo-600);font-size:10px;
     font-weight:850;letter-spacing:.13em;text-transform:uppercase}
   .analysis-browser-head h2{margin:0;color:var(--gaeo-ink);font-size:24px;line-height:1.25;
     font-weight:840;letter-spacing:-.045em}
   .analysis-browser-head p{margin:12px 0 0;color:var(--gaeo-muted);font-size:13px;line-height:1.65}
+  .spark-legend{display:grid;grid-column:2;grid-row:1 / 4;align-self:start;gap:7px;
+    margin-top:0;padding:13px 14px;border:1px solid var(--gaeo-border);
+    border-radius:13px;background:var(--gaeo-canvas)}
+  .spark-legend-title{color:var(--gaeo-ink);font-size:11.5px;font-weight:800}
+  .spark-legend-item{display:flex;align-items:center;gap:7px;color:var(--gaeo-muted);
+    font-size:11px;line-height:1.45}
+  .spark-legend-item b{color:var(--gaeo-ink);font-weight:800;white-space:nowrap}
+  .spark-legend-line{position:relative;flex:0 0 27px;height:10px}
+  .spark-legend-line::before{content:"";position:absolute;left:0;right:3px;top:5px;border-top:2px solid}
+  .spark-legend-line::after{content:"";position:absolute;right:0;top:3px;width:5px;height:5px;
+    border-radius:50%;background:currentColor}
+  .spark-legend-line.up{color:#2F8B73}
+  .spark-legend-line.down{color:#D5535D}
+  .spark-legend-note{margin-top:2px;color:var(--gaeo-muted);font-size:10px;line-height:1.5}
   .analysis-browser-tools{display:grid;grid-template-columns:1fr;gap:16px;min-width:0}
   .analysis-browser .controls,.analysis-browser .cmp-controls{margin:0;padding:0;background:transparent}
   .analysis-browser .controls input,.analysis-browser .cmp-controls input{height:50px;border:1px solid var(--gaeo-border);
@@ -2138,7 +2154,16 @@
   .analysis-browser .sector-head .cnt{color:var(--gaeo-700);background:var(--gaeo-50)}
   .analysis-browser .sector.open .sector-body{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
     gap:7px;padding:2px 12px 13px}
-  .analysis-browser .chip{min-width:0;padding:9px 11px;border:1px solid transparent;background:var(--gaeo-canvas)}
+  .analysis-browser .chip{display:grid;grid-template-columns:minmax(0,1fr) 90px;
+    grid-template-areas:"name name" "spark value";align-items:center;gap:6px 8px;
+    min-width:0;max-width:100%;overflow:hidden;padding:10px 11px;
+    border:1px solid transparent;background:var(--gaeo-canvas)}
+  .analysis-browser .chip .cname{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;grid-area:name}
+  .analysis-browser .chip .chip-spark{grid-area:spark;min-width:0;max-width:100%}
+  .analysis-browser .chip .cval{display:flex;flex-direction:column;align-items:flex-end;
+    justify-content:center;justify-self:end;grid-area:value;gap:0;width:90px;min-width:0;
+    line-height:1.25;white-space:nowrap;text-align:right}
   .analysis-browser .chip:hover{background:var(--gaeo-50);border-color:var(--gaeo-100)}
   body[data-mode]:not([data-mode="single"]) .home-dashboard{display:none}
   body[data-mode]:not([data-mode="single"]) .tape{display:none}
@@ -2193,9 +2218,12 @@
     .home-dashboard .rail-r{grid-template-columns:1fr}
     .home-dashboard .rail-r .rr-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
     body[data-mode="single"] .analysis-browser{grid-template-columns:1fr;gap:22px}
-    .analysis-browser-head{max-width:620px}
+    .analysis-browser-head{max-width:none}
     .analysis-browser .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
     .analysis-browser .sector.open .sector-body{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .analysis-browser .chip{grid-template-columns:minmax(0,1fr) 78px;
+      grid-template-areas:"name name" "value value"}
+    .analysis-browser .chip .cval{width:78px}
   }
   @media(max-width:700px){
     .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 24px)}
@@ -2210,6 +2238,8 @@
     .nav-workspace .controls,.nav-workspace .cmp-controls{padding:14px}
     .analysis-browser{margin-bottom:16px;padding:24px 18px;border-radius:22px}
     body[data-mode="single"] .analysis-browser{gap:18px}
+    .analysis-browser-head{display:block}
+    .spark-legend{margin-top:18px}
     .analysis-browser-head h2{font-size:21px}
     .analysis-browser-head p{font-size:12.5px}
     .analysis-browser .controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px}
@@ -2219,7 +2249,9 @@
     .analysis-browser .sector.open{grid-column:1/-1}
     .analysis-browser .sector.open .sector-body{grid-template-columns:repeat(2,minmax(0,1fr));padding:0 9px 10px}
     .analysis-browser .sector-head{font-size:11.5px;padding:9px 10px}
-    .analysis-browser .chip{padding:8px 9px;font-size:11px}
+    .analysis-browser .chip{grid-template-columns:minmax(0,1fr) 68px;
+      grid-template-areas:"name name" "value value";gap:5px 6px;padding:8px 9px;font-size:11px}
+    .analysis-browser .chip .cval{width:68px}
     .wrap{padding-bottom:64px}
     .tape{border-radius:11px;font-size:11px}
     .home-dashboard{margin-top:16px}
@@ -2579,6 +2611,12 @@
       <span>AI 종목 분석</span>
       <h2 id="analysisBrowserTitle">종목을 찾아 분석해 보세요</h2>
       <p>회사 이름으로 검색하거나, 아래 업종에서 원하는 종목을 골라보세요.</p>
+      <div class="spark-legend" role="note" aria-label="종목 미니차트 선 색상 설명">
+        <strong class="spark-legend-title">미니차트 선 색상</strong>
+        <span class="spark-legend-item"><i class="spark-legend-line up" aria-hidden="true"></i><b>초록선</b> 최근 종가가 상승한 흐름</span>
+        <span class="spark-legend-item"><i class="spark-legend-line down" aria-hidden="true"></i><b>빨간선</b> 최근 종가가 하락한 흐름</span>
+        <small class="spark-legend-note">매수·매도 신호가 아니라 최근 가격 방향을 보여줘요.</small>
+      </div>
     </div>
     <div class="analysis-browser-tools" id="analysisBrowserTools"></div>
   </section>
@@ -5936,6 +5974,7 @@ function endGuideTutorial(){
         ? `<b>${d.price.toLocaleString()}</b> <span class="${d.rate>0?'up':'down'}">${d.rate>0?'+':''}${(d.rate||0).toFixed(2)}%</span>`
         : `<span class="pf-mut" style="font-size:11px">시세 대기</span>`;
       el.innerHTML=`<span class="cname">${d.name}${autoMark}</span>${spark}<span class="cval">${valHtml}</span>`;
+      el.title=d.name;
       el.onclick=()=>jumpToStock(d.name);  // 누르면 시세 카드로 바로 이동 + 분석 시작
       body.appendChild(el);
     });
