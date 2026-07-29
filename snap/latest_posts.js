@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 26,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-30",
+  "title": "마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까",
+  "featured": false
+ },
+ {
   "id": 25,
   "mode": "news",
   "label": "뉴스분석",
@@ -31,18 +39,10 @@ const LATEST_POSTS = [
   "date": "2026-07-29",
   "title": "2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나",
   "featured": false
- },
- {
-  "id": 22,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-29",
-  "title": "새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 25,
+ "news": 26,
  "study": 35,
  "lesson": 52,
  "estate": 15,
