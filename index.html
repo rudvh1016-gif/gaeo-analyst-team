@@ -1573,6 +1573,18 @@
   .brief-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--t2)}
   .brief-line b{flex:0 0 18px;height:18px;border-radius:6px;background:var(--navy-soft);color:var(--navy);
     display:grid;place-items:center;font-size:10px}
+  .brief-market{display:flex;align-items:center;gap:7px 10px;flex-wrap:wrap;margin-top:11px;padding:8px 0;
+    border-top:1px solid color-mix(in srgb,var(--sky-line) 70%,transparent);
+    border-bottom:1px solid color-mix(in srgb,var(--sky-line) 70%,transparent);
+    color:var(--dim);font-size:9.5px;line-height:1.35;font-variant-numeric:tabular-nums}
+  .brief-market-item{display:inline-flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .brief-market-item>span{font-weight:750;color:var(--t3)}
+  .brief-market-item strong{font-size:10.5px;color:var(--ink)}
+  .brief-market-item em{font-style:normal;font-weight:800}
+  .brief-market-item em.up{color:var(--krup)}
+  .brief-market-item em.down{color:var(--krdn)}
+  .brief-market-asof{margin-left:auto;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:var(--faint)}
+  .brief-market-asof::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--sky)}
   .brief-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--faint)}
   .brief-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 14%,transparent)}
   .brief-extra{margin-top:9px;padding:9px 10px;border-radius:10px;background:var(--navy-soft);color:var(--t2)}
@@ -1926,6 +1938,11 @@
   .home-dashboard .start-step-summary::after{content:none}
   .home-dashboard .start-step-summary .start-kicker{color:#286B83}
   .home-dashboard .start-step-summary h2{color:#13242C}
+  .home-dashboard .brief-market{margin-top:13px;border-color:rgba(72,139,164,.22);color:#526F7B}
+  .home-dashboard .brief-market-item>span{color:#526F7B}
+  .home-dashboard .brief-market-item strong{color:#173E4D}
+  .home-dashboard .brief-market-asof{color:#67808B}
+  .home-dashboard .brief-market-asof::before{background:#347F9D}
   .home-dashboard .brief-lines{gap:9px;margin-top:16px}
   .home-dashboard .brief-line{font-size:13px;line-height:1.55;color:#263C46}
   .home-dashboard .brief-line b{background:rgba(255,255,255,.58);color:#245C73}
@@ -2134,6 +2151,9 @@
     .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
     .home-dashboard .start-step h2{font-size:20px}
     .home-dashboard .start-step p{font-size:12.5px}
+    .home-dashboard .brief-market{gap:7px 12px;padding:9px 0;font-size:9px}
+    .home-dashboard .brief-market-item strong{font-size:10px}
+    .home-dashboard .brief-market-asof{width:100%;margin-left:0}
     .home-dashboard .brief-extra{padding:13px 12px}
     .home-dashboard .brief-extra p{font-size:11.5px;line-height:1.62}
     .home-dashboard .brief-count-row{gap:6px;font-size:10.5px}
@@ -2316,6 +2336,9 @@
       <article class="start-step start-step-summary">
         <span class="start-kicker" id="briefKicker">매일 아침</span>
         <h2 id="briefTitle">오늘 아침 브리핑</h2>
+        <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
+          코스피·코스닥·환율을 불러오는 중이에요.
+        </div>
         <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
         <div class="brief-meta" id="briefMeta"></div>
         <div class="brief-extra" id="briefExtra" style="display:none"></div>
@@ -3509,7 +3532,7 @@ renderHomeWatchlist();
   if(!brief) return;
   const initialLive=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA)||null;
   const initialAuto=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF)||null;
-  const state={brief:null,insight:null,strongSector:null};
+  const state={brief:null,insight:null,strongSector:null,market:null};
 
   function summaryFromLive(live){
     if(!live) return null;
@@ -3536,6 +3559,14 @@ renderHomeWatchlist();
           ? `강한 업종은 ${strong.name}(${strong.rate>=0?'+':''}${strong.rate.toFixed(2)}%), 약한 업종은 ${weak.name}(${weak.rate>=0?'+':''}${weak.rate.toFixed(2)}%)이에요.`
           : '업종 흐름을 집계하고 있어요.'
       ]
+    };
+  }
+  function marketFromLive(live){
+    if(!live) return null;
+    return {
+      indices:live.indices||{},
+      fx:live.fx||null,
+      sourceAsOf:(live.marketBrief&&live.marketBrief.sourceAsOf)||live.date||''
     };
   }
   function insightFromAuto(auto){
@@ -3584,11 +3615,36 @@ renderHomeWatchlist();
       (waiting?'<span>· 새 시세 확인 중</span>':'')+
       (delayed?'<span>· 자동 보강 지연 중</span>':'<span>· 숫자 10분 · 보강 최대 30분</span>');
   }
+  function renderMarketTape(){
+    const box=document.getElementById('briefMarket'), market=state.market;
+    if(!box) return;
+    if(!market){
+      box.textContent='코스피·코스닥·환율을 불러오는 중이에요.';
+      return;
+    }
+    const value=(n,suffix)=>typeof n==='number'
+      ?n.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2})+(suffix||''):'—';
+    const item=(label,data,suffix)=>{
+      if(!data) return `<span class="brief-market-item"><span>${label}</span><strong>—</strong></span>`;
+      const rate=typeof data.rate==='number'?data.rate:null;
+      const movement=rate==null?'':`<em class="${rate>0?'up':rate<0?'down':''}">`+
+        `${rate>0?'▲ +':rate<0?'▼ ':'• '}${Math.abs(rate).toFixed(2)}%</em>`;
+      return `<span class="brief-market-item"><span>${label}</span>`+
+        `<strong>${value(data.value,suffix)}</strong>${movement}</span>`;
+    };
+    const asof=stamp(market.sourceAsOf);
+    const asofLabel=asof.date&&asof.time?`${asof.date.slice(5)} ${asof.time} 반영`:
+      `${asof.short||'기준 시각 확인 중'} 반영`;
+    box.innerHTML=item('코스피',market.indices.KOSPI)+
+      item('코스닥',market.indices.KOSDAQ)+item('원/달러',market.fx,'원')+
+      `<span class="brief-market-asof">${esc(asofLabel)}</span>`;
+  }
   function render(){
     const lines=(state.brief&&state.brief.lines)||[];
     brief.innerHTML=lines.length
       ?lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('')
       :'<p>오늘 시세를 정리하고 있어요.</p>';
+    renderMarketTape();
     const insightLines=(state.insight&&state.insight.lines)||[];
     if(insightLines.length){
       const at=stamp(state.insight.generatedAt);
@@ -3628,6 +3684,7 @@ renderHomeWatchlist();
       if(res.ok){
         const live=parseGenerated(await res.text(),'LIVE_DATA');
         state.brief=live.marketBrief||summaryFromLive(live);
+        state.market=marketFromLive(live);
         state.strongSector=(summaryFromLive(live)||{}).strongSector||null;
       }
       render();
@@ -3647,6 +3704,7 @@ renderHomeWatchlist();
   }
   async function refresh(){ await Promise.all([refreshBrief(),refreshInsight()]); }
   state.brief=(initialLive&&initialLive.marketBrief)||summaryFromLive(initialLive);
+  state.market=marketFromLive(initialLive);
   state.strongSector=(summaryFromLive(initialLive)||{}).strongSector||null;
   state.insight=(initialAuto&&initialAuto.marketInsight)||null;
   window.GaeoHomeInsight=state.insight;
