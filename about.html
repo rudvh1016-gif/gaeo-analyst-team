@@ -3,79 +3,1046 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소개 — Gaeo</title>
-<meta name="description" content="Gaeo 소개 — 한국 주식 초보자가 오늘 시장과 관심 종목을 매일 3분 안에 쉽게 살펴보는 리서치 사이트입니다." />
+<meta name="theme-color" content="#090909" />
+<title>브랜드 소개 — GAEO</title>
+<meta name="description" content="GAEO는 경제와 시장을 더 많이 이해하고, 스스로 더 나은 결정을 내릴 수 있도록 돕는 한국 주식 리서치 서비스입니다." />
+<link rel="canonical" href="https://gaeoteam.com/about.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="브랜드 소개 — GAEO" />
+<meta property="og:description" content="더 많이 이해하고, 더 나은 결정을 하기 위해." />
+<meta property="og:url" content="https://gaeoteam.com/about.html" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
   :root{
-    --navy:#1D1D1F; --sky:#0071E3; --sky-soft:#F0F6FF; --sky-line:#C9DFF8;
-    --bg:#F5F5F7; --paper:#FFFFFF; --ink:#1D1D1F; --t2:#3A3A3C; --t3:#515154; --line:#E5E5E7;
+    --background:#090909;
+    --surface:#141414;
+    --surface-subtle:#101010;
+    --border:#242424;
+    --border-strong:#303030;
+    --text:#F5F5F5;
+    --text-secondary:#A1A1AA;
+    --text-muted:#71717A;
+    --accent:#3B82F6;
+    --accent-soft:rgba(59,130,246,.10);
+    --hover:rgba(255,255,255,.04);
+    --radius:20px;
+    --radius-small:14px;
   }
-  @media (prefers-color-scheme: dark){
-    :root{ --navy:#F5F5F7; --sky:#0A84FF; --sky-soft:#15263C; --sky-line:#2A4A70;
-      --bg:#000000; --paper:#1C1C1E; --ink:#F5F5F7; --t2:#E8E8ED; --t3:#C7C7CC; --line:#38383A; }
-  }
+
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
-    line-height:1.7;}
-  .wrap{max-width:760px;margin:0 auto;padding:48px 20px 100px;}
-  .back{display:inline-flex;align-items:center;gap:6px;color:var(--sky);text-decoration:none;
-    font-weight:700;font-size:14px;margin-bottom:24px;}
-  h1{font-size:26px;font-weight:800;margin:0 0 6px;}
-  .updated{color:var(--t3);font-size:13px;margin-bottom:32px;}
-  .card{background:var(--paper);border-radius:20px;padding:32px;
-    box-shadow:0 4px 24px rgba(0,0,0,.06);}
-  h2{font-size:17px;font-weight:800;margin:32px 0 10px;color:var(--ink);}
-  h2:first-child{margin-top:0;}
-  p{color:var(--t2);font-size:14.5px;margin:0 0 10px;}
-  ul{margin:0 0 10px;padding-left:20px;color:var(--t2);font-size:14.5px;}
-  li{margin-bottom:6px;}
-  .note{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:12px;
-    padding:14px 16px;font-size:13.5px;color:var(--t2);margin:14px 0;}
-  a{color:var(--sky);}
-  .team{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 6px;}
-  @media(max-width:520px){.team{grid-template-columns:1fr;}}
-  .tcard{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:12px;padding:12px 14px;}
-  .tcard b{display:block;font-size:14px;color:var(--ink);margin-bottom:2px;}
-  .tcard span{font-size:12.5px;color:var(--t3);}
+
+  html{
+    background:var(--background);
+    color-scheme:dark;
+    scroll-behavior:smooth;
+  }
+
+  body{
+    margin:0;
+    min-width:320px;
+    background:var(--background);
+    color:var(--text);
+    font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,
+      "Segoe UI","Malgun Gothic",sans-serif;
+    font-size:16px;
+    font-weight:400;
+    letter-spacing:-.02em;
+    line-height:1.7;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+
+  a{color:inherit;}
+  svg{display:block;}
+
+  .skip-link{
+    position:fixed;
+    z-index:100;
+    top:12px;
+    left:12px;
+    padding:10px 14px;
+    border-radius:10px;
+    background:var(--text);
+    color:var(--background);
+    font-size:13px;
+    font-weight:700;
+    text-decoration:none;
+    transform:translateY(-150%);
+    transition:transform 150ms ease-out;
+  }
+
+  .skip-link:focus{transform:translateY(0);}
+
+  .page-shell{
+    width:min(100%,1448px);
+    margin:0 auto;
+    padding:0 64px 96px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:88px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text-secondary);
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:color 150ms ease-out;
+  }
+
+  .back-link svg{width:18px;height:18px;}
+  .back-link:hover{color:var(--text);}
+
+  .top-label{
+    color:var(--text-muted);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.18em;
+  }
+
+  .brand-layout{
+    display:grid;
+    grid-template-columns:minmax(0,65fr) minmax(360px,35fr);
+    gap:48px;
+    max-width:1320px;
+    margin:0 auto;
+    padding-top:64px;
+    align-items:start;
+  }
+
+  .about-heading{
+    margin:0 0 32px;
+  }
+
+  .eyebrow,
+  .section-label{
+    display:block;
+    margin:0 0 12px;
+    color:var(--accent);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.14em;
+    line-height:1.4;
+  }
+
+  h1,h2,h3,p{margin-top:0;}
+
+  h1{
+    margin-bottom:10px;
+    font-size:clamp(40px,5vw,64px);
+    font-weight:700;
+    letter-spacing:-.045em;
+    line-height:1.08;
+  }
+
+  .heading-copy{
+    margin:0;
+    color:var(--text-secondary);
+    font-size:18px;
+    font-weight:500;
+  }
+
+  .about-stack{
+    display:grid;
+    gap:20px;
+  }
+
+  .about-card{
+    position:relative;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:34px;
+    transition:transform 180ms ease-out, border-color 180ms ease-out, background 180ms ease-out;
+  }
+
+  .about-card h2{
+    margin-bottom:14px;
+    color:var(--text);
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:-.035em;
+    line-height:1.35;
+  }
+
+  .about-card h3{
+    margin-bottom:4px;
+    color:var(--text);
+    font-size:15px;
+    font-weight:600;
+    line-height:1.5;
+  }
+
+  .about-card p{
+    margin-bottom:12px;
+    color:var(--text-secondary);
+    font-size:15px;
+  }
+
+  .about-card p:last-child{margin-bottom:0;}
+
+  .brand-intro{
+    padding:42px 40px;
+  }
+
+  .brand-intro .statement{
+    max-width:670px;
+    margin:0 0 24px;
+    color:var(--text);
+    font-size:clamp(25px,3vw,36px);
+    font-weight:600;
+    letter-spacing:-.04em;
+    line-height:1.42;
+  }
+
+  .brand-intro .statement span{color:var(--text-secondary);}
+
+  .brand-principle{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px solid var(--border);
+    color:var(--text-secondary);
+    font-size:14px;
+  }
+
+  .principle-mark{
+    flex:0 0 auto;
+    width:8px;
+    height:8px;
+    margin-top:8px;
+    border-radius:50%;
+    background:var(--accent);
+  }
+
+  .service-copy{
+    max-width:700px;
+  }
+
+  .fact-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:26px;
+  }
+
+  .fact-item{
+    min-height:110px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-small);
+    background:var(--surface-subtle);
+    padding:18px;
+  }
+
+  .fact-item strong{
+    display:block;
+    margin-bottom:6px;
+    color:var(--text);
+    font-size:21px;
+    font-weight:700;
+    line-height:1.25;
+  }
+
+  .fact-item span{
+    display:block;
+    color:var(--text-muted);
+    font-size:12px;
+    line-height:1.55;
+  }
+
+  .analyst-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+    margin-top:22px;
+  }
+
+  .analyst-card{
+    display:flex;
+    gap:14px;
+    min-height:120px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-small);
+    background:var(--surface-subtle);
+    padding:18px;
+  }
+
+  .analyst-card.chief{
+    grid-column:1 / -1;
+    min-height:auto;
+  }
+
+  .line-icon{
+    display:grid;
+    place-items:center;
+    flex:0 0 auto;
+    width:36px;
+    height:36px;
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    color:var(--text-secondary);
+  }
+
+  .line-icon svg{
+    width:18px;
+    height:18px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .analyst-name{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin-bottom:4px;
+  }
+
+  .analyst-name strong{
+    color:var(--text);
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+
+  .analyst-name span{
+    color:var(--text-muted);
+    font-size:11px;
+    font-weight:500;
+  }
+
+  .analyst-card p{
+    margin:0;
+    color:var(--text-secondary);
+    font-size:13px;
+    line-height:1.6;
+  }
+
+  .analysis-note{
+    margin:20px 0 0;
+    padding:14px 16px;
+    border-left:2px solid var(--accent);
+    background:var(--accent-soft);
+    color:#C8D9F8;
+    font-size:13px;
+    line-height:1.65;
+  }
+
+  .process-list{
+    display:grid;
+    gap:0;
+    margin-top:24px;
+    border-top:1px solid var(--border);
+  }
+
+  .process-item{
+    display:grid;
+    grid-template-columns:42px 1fr;
+    gap:14px;
+    padding:20px 0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .process-number{
+    color:var(--text-muted);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.08em;
+  }
+
+  .process-item h3{margin-top:-2px;}
+  .process-item p{margin:3px 0 0;font-size:13px;}
+
+  .disclaimer-card{
+    border-color:rgba(59,130,246,.36);
+    background:#101824;
+  }
+
+  .disclaimer-card .section-label{color:#75A7F8;}
+
+  .disclaimer-card p{
+    color:#C4CBD7;
+  }
+
+  .closing-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+  }
+
+  .closing-grid .about-card{height:100%;}
+
+  .contact-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+    color:#73A7F8;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+  }
+
+  .contact-link svg{
+    width:16px;
+    height:16px;
+    transition:transform 150ms ease-out;
+  }
+
+  .contact-link:hover svg{transform:translateX(3px);}
+
+  .identity-column{
+    position:sticky;
+    top:32px;
+  }
+
+  .identity-panel{
+    padding:28px 0 8px 16px;
+  }
+
+  .identity-section{
+    padding:32px 0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .identity-section:first-child{padding-top:0;}
+  .identity-section:last-child{border-bottom:0;}
+
+  .brand-symbol-wrap{
+    display:grid;
+    place-items:center;
+    min-height:178px;
+  }
+
+  .brand-symbol{
+    width:118px;
+    height:118px;
+    color:var(--text);
+  }
+
+  .tagline{
+    margin:2px 0 0;
+    color:var(--text);
+    font-size:clamp(28px,2.6vw,38px);
+    font-weight:500;
+    letter-spacing:-.045em;
+    line-height:1.2;
+  }
+
+  .manifesto{
+    display:grid;
+    gap:0;
+    color:var(--text);
+    font-size:clamp(26px,2.4vw,35px);
+    font-weight:500;
+    letter-spacing:-.045em;
+    line-height:1.34;
+  }
+
+  .wordmark{
+    margin:0 0 26px;
+    color:var(--text);
+    font-size:20px;
+    font-weight:500;
+    letter-spacing:.38em;
+    line-height:1;
+  }
+
+  .name-list{
+    display:grid;
+    gap:22px;
+  }
+
+  .name-item{
+    display:grid;
+    grid-template-columns:104px 1fr;
+    gap:18px;
+    align-items:start;
+  }
+
+  .name-item dt{
+    color:var(--text);
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  .name-item dd{margin:0;}
+
+  .name-item strong{
+    display:block;
+    margin-bottom:3px;
+    color:var(--text-secondary);
+    font-size:13px;
+    font-weight:600;
+  }
+
+  .name-item span{
+    display:block;
+    color:var(--text-muted);
+    font-size:12px;
+    line-height:1.55;
+  }
+
+  .identity-title{
+    margin:0 0 22px;
+    color:var(--text);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  .values-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .value-item{
+    min-height:182px;
+    padding:0 18px 24px 0;
+  }
+
+  .value-item:nth-child(even){
+    padding-right:0;
+    padding-left:18px;
+    border-left:1px solid var(--border);
+  }
+
+  .value-item:nth-child(n+3){
+    padding-top:24px;
+    padding-bottom:0;
+    border-top:1px solid var(--border);
+  }
+
+  .value-icon{
+    display:block;
+    width:26px;
+    height:26px;
+    margin-bottom:15px;
+    color:var(--text);
+  }
+
+  .value-icon svg{
+    width:100%;
+    height:100%;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.55;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .value-item h3{
+    margin:0 0 7px;
+    color:var(--text);
+    font-size:14px;
+    font-weight:600;
+    line-height:1.45;
+  }
+
+  .value-item p{
+    margin:0;
+    color:var(--text-muted);
+    font-size:11.5px;
+    line-height:1.65;
+  }
+
+  .app-icons{
+    display:flex;
+    gap:14px;
+  }
+
+  .app-icon-item{
+    flex:1 1 0;
+    min-width:0;
+  }
+
+  .app-icon{
+    display:grid;
+    place-items:center;
+    aspect-ratio:1;
+    border:1px solid var(--border-strong);
+    border-radius:24px;
+    overflow:hidden;
+  }
+
+  .app-icon svg{width:70%;height:70%;}
+  .app-icon.black{background:#050505;color:#F7F7F7;}
+  .app-icon.white{background:#F5F5F5;color:#090909;}
+  .app-icon.gray{background:#B7B7B7;color:#090909;}
+
+  .app-icon-label{
+    display:block;
+    margin-top:9px;
+    color:var(--text-muted);
+    font-size:10px;
+    font-weight:500;
+    text-align:center;
+  }
+
+  .identity-caption{
+    margin:20px 0 0;
+    color:var(--text-muted);
+    font-size:12px;
+    line-height:1.65;
+  }
+
+  .page-footer{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    max-width:1320px;
+    margin:64px auto 0;
+    padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--text-muted);
+    font-size:11px;
+  }
+
+  .reveal{
+    animation:fade-up 150ms ease-out both;
+  }
+
+  .reveal:nth-child(2){animation-delay:20ms;}
+  .reveal:nth-child(3){animation-delay:35ms;}
+
+  @keyframes fade-up{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  @media (hover:hover){
+    .about-card:hover{
+      border-color:var(--border-strong);
+      background:color-mix(in srgb,var(--surface),white 4%);
+      transform:translateY(-2px) scale(1.01);
+    }
+
+    .disclaimer-card:hover{
+      border-color:rgba(59,130,246,.48);
+      background:#121C2A;
+    }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:4px;
+    border-radius:6px;
+  }
+
+  @media (max-width:1080px){
+    .page-shell{padding-right:40px;padding-left:40px;}
+    .brand-layout{
+      grid-template-columns:1fr;
+      gap:40px;
+    }
+    .identity-column{position:static;}
+    .identity-panel{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:0 40px;
+      padding:8px 0 0;
+    }
+    .identity-section:nth-child(odd){padding-right:24px;}
+    .identity-section:nth-child(even){
+      padding-left:24px;
+      border-left:1px solid var(--border);
+    }
+    .identity-section:nth-last-child(-n+2){border-bottom:0;}
+  }
+
+  @media (max-width:720px){
+    .page-shell{padding:0 22px 64px;}
+    .topbar{min-height:72px;}
+    .brand-layout{gap:26px;padding-top:42px;}
+    h1{font-size:42px;}
+    .heading-copy{font-size:16px;}
+    .about-heading{margin-bottom:24px;}
+    .about-stack{gap:14px;}
+    .about-card,
+    .brand-intro{padding:26px 22px;}
+    .brand-intro .statement{font-size:25px;}
+    .fact-list,
+    .analyst-grid,
+    .closing-grid{grid-template-columns:1fr;}
+    .analyst-card.chief{grid-column:auto;}
+    .fact-item{min-height:auto;}
+    .identity-panel{display:block;padding:0;}
+    .identity-section,
+    .identity-section:nth-child(odd),
+    .identity-section:nth-child(even){
+      padding:30px 0;
+      border-left:0;
+      border-bottom:1px solid var(--border);
+    }
+    .identity-section:last-child{border-bottom:0;}
+    .brand-symbol-wrap{min-height:150px;}
+    .name-item{grid-template-columns:92px 1fr;}
+    .page-footer{margin-top:40px;}
+    .page-footer span:last-child{display:none;}
+  }
+
+  @media (max-width:420px){
+    .top-label{display:none;}
+    .values-grid{grid-template-columns:1fr;}
+    .value-item,
+    .value-item:nth-child(even),
+    .value-item:nth-child(n+3){
+      min-height:auto;
+      padding:20px 0;
+      border-top:1px solid var(--border);
+      border-left:0;
+    }
+    .value-item:first-child{padding-top:0;border-top:0;}
+    .value-item:last-child{padding-bottom:0;}
+    .app-icons{gap:10px;}
+    .app-icon{border-radius:20px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="./">← Gaeo로 돌아가기</a>
-  <h1>소개</h1>
-  <div class="updated">내 종목에 달라진 것만, 하루 3분</div>
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <symbol id="gaeo-symbol" viewBox="0 0 128 128">
+      <circle cx="67.2" cy="31" r="9.5" fill="currentColor"></circle>
+      <path d="M14 72h100c-3.2 16.8-22 26-50 26S17.2 88.8 14 72Z" fill="currentColor"></path>
+    </symbol>
+  </defs>
+</svg>
 
-  <div class="card">
-    <h2>1. Gaeo는 무엇을 하는 사이트인가요?</h2>
-    <p>Gaeo는 <b>내 종목에 달라진 것만 하루 3분 안에 확인하는 한국 주식 리서치</b>예요. 오늘 시장을 세 줄로 먼저 보고, 궁금한 회사를 검색해 시세·재무·수급·확률 지표와 이전 판단에서 달라진 이유를 쉬운 말로 살펴볼 수 있어요. 500개 종목을 다루지만, 처음 주식을 접하는 분도 핵심부터 차근차근 읽을 수 있도록 만들었습니다.</p>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
 
-    <h2>2. AI 애널리스트 5인 소개</h2>
-    <div class="team">
-      <div class="tcard"><b>🔧 TARO</b><span>기술적 분석 — 차트·이동평균·RSI·MACD</span></div>
-      <div class="tcard"><b>💰 DIANA</b><span>재무 분석 — 실적·밸류에이션·재무제표</span></div>
-      <div class="tcard"><b>📊 QUANT</b><span>확률·통계 분석 — 과거 유사 국면의 실측 승률</span></div>
-      <div class="tcard"><b>🌊 FLOW</b><span>수급 분석 — 외국인·기관·개인 매매 동향</span></div>
-      <div class="tcard"><b>🧭 CHIEF</b><span>총괄 — 4인의 의견을 종합해 최종 판단</span></div>
-    </div>
+<div class="page-shell">
+  <header class="topbar">
+    <a class="back-link" href="./" aria-label="GAEO 홈으로 돌아가기">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+      <span>GAEO로 돌아가기</span>
+    </a>
+    <span class="top-label">ABOUT BRAND</span>
+  </header>
 
-    <h2>3. 어떻게 분석하나요?</h2>
-    <p>500종목 전체는 매일 자동 갱신되는 규칙 기반 분석(자동분석)으로 기본 커버하고, 일부 종목은 필요할 때 비정기적으로 심층 정밀분석을 직접 수행해요. 어느 쪽이든 화면에 분석 기준 시점을 함께 표시해, 언제 기준으로 나온 판단인지 항상 확인할 수 있도록 하고 있어요.</p>
-    <p>이 밖에도 시장 전체의 흐름을 짚는 <b>시장 분석</b>, 종목별 리스크를 알려주는 <b>리스크 관리</b> 카드, 매일 발행되는 <b>뉴스분석</b> 보고서, 초보자를 위한 <b>종목공부·주식공부·부동산공부</b> 콘텐츠도 함께 제공하고 있어요.</p>
+  <main id="main-content" class="brand-layout">
+    <section class="about-column" aria-labelledby="about-title">
+      <header class="about-heading reveal">
+        <span class="eyebrow">ABOUT GAEO</span>
+        <h1 id="about-title">브랜드 소개</h1>
+        <p class="heading-copy">더 많이 이해하고, 더 나은 결정을 하기 위해</p>
+      </header>
 
-    <h2>4. 투자 권유가 아닙니다</h2>
-    <div class="note">
-      Gaeo가 제공하는 모든 분석·의견·점수는 AI 및 자동화된 규칙을 바탕으로 한 <b>참고용 정보</b>이며, 특정 종목의 매수·매도를 권유하는 것이 아닙니다. 투자 판단과 그 결과에 대한 책임은 전적으로 이용자 본인에게 있습니다.
-    </div>
+      <div class="about-stack">
+        <article class="about-card brand-intro reveal">
+          <span class="section-label">BRAND PRINCIPLE</span>
+          <p class="statement">
+            돈을 버는 답을 대신 주기보다,<br />
+            <span>경제를 이해하고 스스로 판단하는 사람을 돕습니다.</span>
+          </p>
+          <div class="brand-principle">
+            <span class="principle-mark" aria-hidden="true"></span>
+            <span>추천보다 이유를, 예측보다 기록을 중요하게 생각합니다. 이해가 쌓이면 판단이 달라지고, 더 나은 선택은 그다음에 따라온다고 믿습니다.</span>
+          </div>
+        </article>
 
-    <h2>5. 만든 사람</h2>
-    <p>Gaeo는 개인이 취미로 만들고 운영하는 사이트예요. 별도로 사업자 등록을 하지 않은 개인 프로젝트이며, 광고 수익은 서버·운영 비용 충당 목적으로만 사용됩니다.</p>
+        <article class="about-card reveal">
+          <span class="section-label">WHAT WE DO</span>
+          <h2>GAEO는 무엇을 하는 서비스인가</h2>
+          <div class="service-copy">
+            <p>GAEO는 한국 주식 초보자가 오늘 시장과 관심 종목의 변화를 하루 3분 안에 이해하도록 돕는 리서치 서비스입니다.</p>
+            <p>시장을 먼저 짧게 살펴보고, 궁금한 회사를 검색하면 시세·재무·수급·확률 통계를 한 화면에서 확인할 수 있습니다. 어려운 용어는 쉬운 말로 풀고, 판단이 달라졌다면 무엇이 바뀌었는지 함께 보여줍니다.</p>
+          </div>
+          <div class="fact-list" aria-label="서비스 핵심 특징">
+            <div class="fact-item">
+              <strong>500종목</strong>
+              <span>코스피·코스닥 주요 종목을 매일 같은 기준으로 살핍니다.</span>
+            </div>
+            <div class="fact-item">
+              <strong>5가지 관점</strong>
+              <span>기술·재무·확률·수급을 보고 마지막에 하나의 판단으로 정리합니다.</span>
+            </div>
+            <div class="fact-item">
+              <strong>기준시점 표시</strong>
+              <span>언제의 데이터로 나온 결과인지 화면에서 확인할 수 있습니다.</span>
+            </div>
+          </div>
+        </article>
 
-    <h2>6. 문의</h2>
-    <p>사이트 이용 중 궁금한 점이나 오류를 발견하셨다면 <a href="contact.html">문의하기</a> 페이지를 통해 연락해 주세요.</p>
-  </div>
+        <article class="about-card reveal">
+          <span class="section-label">AI ANALYST TEAM</span>
+          <h2>다섯 명의 애널리스트, 서로 다른 시선</h2>
+          <p>한 사람의 확신에 기대지 않도록 역할을 나눴습니다. 각 캐릭터는 자신이 맡은 데이터만 먼저 보고, CHIEF가 네 관점을 종합합니다.</p>
+
+          <div class="analyst-grid">
+            <div class="analyst-card">
+              <span class="line-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5-5L7.4 3.6l3 3 2.3-2.3a4 4 0 0 0 2 2Z"></path><path d="m5 21 7-7"></path><path d="m3 12 9 9"></path><path d="m12 3 9 9"></path></svg>
+              </span>
+              <div>
+                <div class="analyst-name"><strong>TARO</strong><span>TECHNICAL</span></div>
+                <h3>기술적 분석</h3>
+                <p>차트·이동평균·RSI·MACD로 가격의 현재 위치와 흐름을 봅니다.</p>
+              </div>
+            </div>
+
+            <div class="analyst-card">
+              <span class="line-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 6v12"></path></svg>
+              </span>
+              <div>
+                <div class="analyst-name"><strong>DIANA</strong><span>FUNDAMENTAL</span></div>
+                <h3>재무 분석</h3>
+                <p>실적·밸류에이션·재무제표로 기업의 숫자와 체력을 확인합니다.</p>
+              </div>
+            </div>
+
+            <div class="analyst-card">
+              <span class="line-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 19V9"></path><path d="M10 19V5"></path><path d="M16 19v-7"></path><path d="M22 19V3"></path><path d="M2 19h20"></path></svg>
+              </span>
+              <div>
+                <div class="analyst-name"><strong>QUANT</strong><span>PROBABILITY</span></div>
+                <h3>확률·통계 분석</h3>
+                <p>지금과 비슷했던 과거 국면이 이후 어떻게 움직였는지 실측합니다.</p>
+              </div>
+            </div>
+
+            <div class="analyst-card">
+              <span class="line-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"></path><path d="M3 6c2-4 4-4 6 0s4 4 6 0 4-4 6 0"></path><path d="M3 18c2-4 4-4 6 0s4 4 6 0 4-4 6 0"></path></svg>
+              </span>
+              <div>
+                <div class="analyst-name"><strong>FLOW</strong><span>SUPPLY</span></div>
+                <h3>수급 분석</h3>
+                <p>외국인·기관·개인의 매매 동향으로 시장 참여자의 움직임을 봅니다.</p>
+              </div>
+            </div>
+
+            <div class="analyst-card chief">
+              <span class="line-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.42 1.42"></path><path d="m17.65 17.65 1.42 1.42"></path><path d="M2 12h2"></path><path d="M20 12h2"></path></svg>
+              </span>
+              <div>
+                <div class="analyst-name"><strong>CHIEF</strong><span>DECISION</span></div>
+                <h3>종합 판단</h3>
+                <p>네 사람의 의견과 과거 적중 기록에 따른 가중치를 함께 보고 최종 판단과 이유를 정리합니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="analysis-note">
+            ‘AI 애널리스트’는 복잡한 관점을 쉽게 구분하기 위한 캐릭터입니다. 500종목의 매일 분석은 AI API가 아닌 RSI·MACD·재무·수급 지표를 활용한 규칙 기반 자동분석으로 갱신됩니다.
+          </div>
+        </article>
+
+        <article class="about-card reveal">
+          <span class="section-label">HOW IT WORKS</span>
+          <h2>어떻게 분석하는가</h2>
+          <p>결론만 보여주면 왜 그런 판단이 나왔는지 확인하기 어렵습니다. GAEO는 데이터에서 판단까지의 순서를 화면에 남깁니다.</p>
+
+          <div class="process-list">
+            <div class="process-item">
+              <span class="process-number">01</span>
+              <div>
+                <h3>같은 기준으로 데이터를 모읍니다</h3>
+                <p>가격, 이동평균, 재무, 수급 등 종목별 데이터를 정해진 형식으로 정리합니다.</p>
+              </div>
+            </div>
+            <div class="process-item">
+              <span class="process-number">02</span>
+              <div>
+                <h3>네 관점이 따로 판단합니다</h3>
+                <p>TARO·DIANA·QUANT·FLOW가 자신에게 필요한 신호를 규칙에 따라 해석합니다.</p>
+              </div>
+            </div>
+            <div class="process-item">
+              <span class="process-number">03</span>
+              <div>
+                <h3>CHIEF가 이유와 함께 종합합니다</h3>
+                <p>한 신호가 아니라 여러 관점과 최근 적중 기록을 함께 보고 BUY·HOLD·SELL로 정리합니다.</p>
+              </div>
+            </div>
+            <div class="process-item">
+              <span class="process-number">04</span>
+              <div>
+                <h3>기준시점과 이전 판단을 남깁니다</h3>
+                <p>언제의 데이터인지, 지난 판단과 무엇이 달라졌는지 이용자가 다시 확인할 수 있게 합니다.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="about-card disclaimer-card reveal">
+          <span class="section-label">IMPORTANT</span>
+          <h2>투자 권유가 아닙니다</h2>
+          <p>GAEO의 분석·의견·점수는 자동화된 규칙과 공개된 데이터를 바탕으로 정리한 참고용 정보입니다. 특정 종목의 매수·매도를 권유하거나 수익을 보장하지 않습니다.</p>
+          <p>숫자와 판단에는 오류나 지연이 있을 수 있습니다. 실제 투자 전에는 공시와 증권사 자료 등 공식 정보를 다시 확인해 주세요. 투자 판단과 결과에 대한 책임은 이용자 본인에게 있습니다.</p>
+        </article>
+
+        <div class="closing-grid">
+          <article class="about-card reveal">
+            <span class="section-label">MAKER</span>
+            <h2>만든 사람</h2>
+            <p>GAEO는 한 개인이 배우고 기록하는 과정에서 시작해 직접 만들고 운영하는 프로젝트입니다.</p>
+            <p>별도 사업자 등록을 하지 않았으며, 광고 수익은 사이트 운영 비용을 충당하는 데 사용합니다.</p>
+          </article>
+
+          <article class="about-card reveal">
+            <span class="section-label">CONTACT</span>
+            <h2>문의</h2>
+            <p>내용이 어렵거나, 데이터가 이상하거나, 더 나아질 아이디어가 있다면 알려주세요. 실제 이용자의 질문을 다음 개선의 출발점으로 삼습니다.</p>
+            <a class="contact-link" href="contact.html">
+              <span>문의하기</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path>
+              </svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <aside class="identity-column reveal" aria-label="GAEO 브랜드 아이덴티티">
+      <div class="identity-panel">
+        <section class="identity-section">
+          <div class="brand-symbol-wrap">
+            <svg class="brand-symbol" role="img" aria-label="작은 원과 얇고 긴 반원으로 이루어진 GAEO 심볼">
+              <use href="#gaeo-symbol"></use>
+            </svg>
+          </div>
+          <p class="tagline" lang="en">Understand More</p>
+        </section>
+
+        <section class="identity-section">
+          <div class="manifesto" lang="en">
+            <span>Make Sense</span>
+            <span>Make Better Decisions</span>
+          </div>
+        </section>
+
+        <section class="identity-section">
+          <p class="wordmark" lang="en">GAEO</p>
+          <dl class="name-list">
+            <div class="name-item">
+              <dt lang="en">Gain</dt>
+              <dd>
+                <strong>인식을 넓히다</strong>
+                <span>몰랐던 것을 하나씩 알아갑니다.</span>
+              </dd>
+            </div>
+            <div class="name-item">
+              <dt lang="en">Awareness</dt>
+              <dd>
+                <strong>시장을 이해하는 눈을 기르다</strong>
+                <span>숫자와 사건이 연결되는 흐름을 봅니다.</span>
+              </dd>
+            </div>
+            <div class="name-item">
+              <dt lang="en">Earn</dt>
+              <dd>
+                <strong>기회를 만들다</strong>
+                <span>배운 것을 판단의 기준으로 바꿉니다.</span>
+              </dd>
+            </div>
+            <div class="name-item">
+              <dt lang="en">Opportunity</dt>
+              <dd>
+                <strong>이해를 바탕으로 기회를 발견하다</strong>
+                <span>서두르지 않고 스스로 선택합니다.</span>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="identity-section">
+          <h2 class="identity-title" lang="en">Core Values</h2>
+          <div class="values-grid">
+            <article class="value-item">
+              <span class="value-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>
+              </span>
+              <h3>더 많이 이해하다</h3>
+              <p>경제와 시장, 기업과 산업을 깊이 있게 학습하고 분석합니다.</p>
+            </article>
+            <article class="value-item">
+              <span class="value-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+              </span>
+              <h3>본질을 꿰뚫다</h3>
+              <p>복잡한 정보를 정리하여 핵심을 파악하고 인사이트를 제공합니다.</p>
+            </article>
+            <article class="value-item">
+              <span class="value-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              </span>
+              <h3>더 나은 결정을 하다</h3>
+              <p>이해를 바탕으로 스스로 판단하고 더 나은 선택을 할 수 있도록 돕습니다.</p>
+            </article>
+            <article class="value-item">
+              <span class="value-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="M7 16v-3"></path><path d="M11 16V8"></path><path d="M15 16v-5"></path><path d="M19 16V5"></path></svg>
+              </span>
+              <h3>기회를 자산으로 만들다</h3>
+              <p>작은 이해를 꾸준히 쌓아 지속 가능한 자산으로 연결합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="identity-section">
+          <h2 class="identity-title">앱 아이콘</h2>
+          <div class="app-icons" aria-label="GAEO 앱 아이콘 세 가지 버전">
+            <div class="app-icon-item">
+              <div class="app-icon black">
+                <svg aria-hidden="true"><use href="#gaeo-symbol"></use></svg>
+              </div>
+              <span class="app-icon-label">Black</span>
+            </div>
+            <div class="app-icon-item">
+              <div class="app-icon white">
+                <svg aria-hidden="true"><use href="#gaeo-symbol"></use></svg>
+              </div>
+              <span class="app-icon-label">White</span>
+            </div>
+            <div class="app-icon-item">
+              <div class="app-icon gray">
+                <svg aria-hidden="true"><use href="#gaeo-symbol"></use></svg>
+              </div>
+              <span class="app-icon-label">Gray</span>
+            </div>
+          </div>
+          <p class="identity-caption">같은 심볼과 같은 비율을 유지해, 어떤 화면에서도 한눈에 GAEO임을 알아볼 수 있도록 설계했습니다.</p>
+        </section>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="page-footer">
+    <span>© GAEO. 개인이 운영하는 리서치 프로젝트</span>
+    <span>Understand More · Make Better Decisions</span>
+  </footer>
 </div>
 </body>
 </html>
