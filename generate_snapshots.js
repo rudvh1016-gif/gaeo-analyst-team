@@ -75,8 +75,8 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1536">
-<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <meta property="og:url" content="${esc(canonicalUrl)}">
 <meta name="twitter:card" content="summary_large_image">
@@ -383,8 +383,8 @@ const indexPage = `<!doctype html>
 <meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1536">
-<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <meta property="og:url" content="${BASE}snap/index.html">
 <meta name="twitter:card" content="summary_large_image">

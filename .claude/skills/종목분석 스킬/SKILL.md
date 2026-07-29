@@ -76,6 +76,8 @@ description: 개오 애널리스트팀(저장소 루트) 주식 정밀분석 갱
   HTML 표를 python 정규식으로 파싱(날짜·종가·기관/외국인 순매매·보유율). 최근 5~10거래일 누적과 보유율 추이를 본다.
 - **CHIEF(총괄)**: 4인 종합 75% + 수급(FLOW) 25%. `call`: total≥63 BUY / 47~62 HOLD / 47미만 SELL.
 
+⭐ **em dash(—) 절대 금지**: findings·reason·report·target 등 사용자가 읽는 모든 문장에 em dash를 쓰지 않는다. AI가 쓴 티가 나서 독자가 피로해한다는 사용자 지정 고정 규칙(AGENTS.md 참조). 쉼표·마침표·콜론(:)·괄호로 자연스럽게 풀어 쓸 것.
+
 출력 규격:
 - 각 분석가: `score`(0~100 정수), `stance`("bull"/"bear"/"neu"), `findings`(구체 수치 포함 한국어 **정확히 4개**).
   - stance는 리더보드 채점에 쓰인다. 근거가 있으면 bull/bear로 명확히 — neu 남발 금지(채점 제외됨).
