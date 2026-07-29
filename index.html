@@ -558,11 +558,10 @@
     .sector-head .fold{font-size:11px}
     .sector.open .sector-body{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px 11px}
     .sector-body .chip{justify-content:space-between;padding:7px 10px;font-size:11.5px;min-width:0}
-    .sector-body .chip .chip-spark{display:none}
     .sector-body .chip .cname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .sector-body .chip b{font-size:12px}
   }
-  .chip{font-size:12.5px;color:var(--dim);background:var(--bg);border:1px solid transparent;
+  .chip{font-size:12.5px;color:var(--ink);background:var(--bg);border:1px solid transparent;
     padding:8px 14px;border-radius:12px;cursor:pointer;display:flex;gap:8px;align-items:center;
     transition:border-color .2s,background .2s,transform .12s}
   .chip:hover{color:var(--ink);background:var(--navy-soft);border-color:var(--sky-line);transform:translateY(-1px)}
@@ -1670,7 +1669,7 @@
     .rr-total{font-size:10.5px;color:var(--faint);font-weight:600;margin-left:5px;
       font-variant-numeric:tabular-nums;white-space:nowrap;display:inline-block}
   }
-  /* 첫 방문 동선: 종목 검색 → 오늘 요약 → 3분 가이드 */
+  /* 첫 방문 동선: 종목 검색 → 오늘 요약(가이드북 진입은 히어로의 ☆ 가이드북 보기 버튼으로 이동) */
   .start-board{display:grid;grid-template-columns:1.05fr 1.65fr .9fr;gap:10px;margin:0 0 14px}
   .start-step{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 16px;
     box-shadow:var(--shadow);min-width:0}
@@ -1966,7 +1965,7 @@
   .hero-title>span,.hero-title>em{display:block;white-space:nowrap}
   .hero-title em{color:var(--gaeo-700);font-style:normal}
   .home-dashboard .tagline{position:relative;z-index:1;max-width:650px;margin:14px 0 0;
-    font-size:14px;line-height:1.58;font-weight:560;color:var(--gaeo-muted);letter-spacing:-.012em}
+    font-size:14px;line-height:1.58;font-weight:560;color:var(--gaeo-ink);letter-spacing:-.012em}
   .home-dashboard .tagline-line{display:block;white-space:nowrap}
   .home-dashboard .tagline-line+.tagline-line{margin-top:8px}
   .hero-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
@@ -2100,7 +2099,7 @@
     font-weight:850;letter-spacing:.13em}
   .change-intro h2{margin:0;color:var(--gaeo-ink);font-size:24px;font-weight:850;line-height:1.25;
     letter-spacing:-.045em;white-space:nowrap}
-  .change-intro p{margin:10px 0 18px;color:var(--gaeo-muted);font-size:12.5px;line-height:1.65}
+  .change-intro p{margin:10px 0 18px;color:var(--gaeo-ink);font-size:12.5px;line-height:1.65}
   .change-summary{display:flex;align-items:baseline;gap:7px}
   .change-summary strong{color:var(--gaeo-700);font-size:32px;font-weight:860;letter-spacing:-.055em}
   .change-summary span{color:var(--gaeo-muted);font-size:10.5px;font-weight:720}
@@ -2121,7 +2120,7 @@
     font-size:10px;font-weight:750}
   .change-call b{color:var(--gaeo-ink);font-size:13px}
   .change-arrow{color:var(--gaeo-600)}
-  .change-reason{margin-top:8px;color:var(--gaeo-muted);font-size:10.5px;line-height:1.48}
+  .change-reason{margin-top:8px;color:var(--gaeo-ink);font-size:10.5px;line-height:1.48}
   .change-votes{margin-top:auto;padding-top:9px;color:var(--gaeo-700);font-size:9px;font-weight:760}
   .change-empty{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:14px;
     min-height:122px;padding:20px;border:1px dashed var(--gaeo-border);border-radius:15px;color:var(--gaeo-muted)}
@@ -2133,7 +2132,7 @@
     border-radius:var(--gaeo-radius-md);background:var(--paper)}
   .decision-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:13px}
   .decision-head h2{margin:0;color:var(--gaeo-ink);font-size:19px;font-weight:850;letter-spacing:-.04em}
-  .decision-head p{margin:4px 0 0;color:var(--gaeo-muted);font-size:10.5px}
+  .decision-head p{margin:4px 0 0;color:var(--gaeo-ink);font-size:10.5px}
   .decision-head span{color:var(--gaeo-600);font-size:9.5px;font-weight:780}
   .decision-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--gaeo-border)}
   .decision-item{min-width:0;padding:15px 14px;border:0;border-right:1px solid var(--gaeo-border);
@@ -2148,13 +2147,13 @@
     line-height:1.45}
   .decision-asof{display:block;margin-top:6px;color:var(--gaeo-muted);font-size:8.5px}
 
-  .home-dashboard .start-board{grid-template-columns:minmax(0,1.55fr) minmax(260px,.45fr);
+  .home-dashboard .start-board{grid-template-columns:1fr;
     align-items:stretch;gap:16px;margin:16px 0}
   .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-md);background:var(--paper);box-shadow:none}
   .home-dashboard .start-kicker{margin-bottom:8px;color:var(--gaeo-600);font-size:10px;letter-spacing:.13em}
   .home-dashboard .start-step h2{margin-bottom:7px;font-size:22px;font-weight:820;letter-spacing:-.04em}
-  .home-dashboard .start-step p{font-size:13px;line-height:1.55;color:var(--gaeo-muted)}
+  .home-dashboard .start-step p{font-size:13px;line-height:1.55;color:var(--gaeo-ink)}
   .home-dashboard .start-action{margin-top:16px;min-height:44px;border-radius:13px;
     background:#88CDE7;color:#13242C;font-size:14px}
   .home-dashboard .start-action.secondary{background:var(--gaeo-50);border:1px solid var(--gaeo-100);
@@ -2211,11 +2210,11 @@
     align-items:center;gap:20px;margin:0 0 16px;padding:18px 22px;border:1px solid var(--gaeo-border);
     border-radius:18px;background:var(--paper)}
   .trust-strip h2{margin:0 0 3px;font-size:15px;letter-spacing:-.03em}
-  .trust-strip p{margin:0;color:var(--gaeo-muted);font-size:11.5px;line-height:1.5}
+  .trust-strip p{margin:0;color:var(--gaeo-ink);font-size:11.5px;line-height:1.5}
   .trust-points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
   .trust-point{padding:10px 12px;border-radius:12px;background:var(--gaeo-canvas)}
   .trust-point b{display:block;margin-bottom:2px;color:var(--gaeo-ink);font-size:11px}
-  .trust-point span{display:block;color:var(--gaeo-muted);font-size:10px;line-height:1.4}
+  .trust-point span{display:block;color:var(--gaeo-ink);font-size:10px;line-height:1.4}
   .trust-links{display:flex;gap:7px;white-space:nowrap}
   .trust-links a{padding:8px 10px;border:1px solid var(--gaeo-border);border-radius:10px;
     color:var(--gaeo-700);font-size:10.5px;font-weight:760;text-decoration:none}
@@ -2260,7 +2259,7 @@
     font-weight:850;letter-spacing:.13em;text-transform:uppercase}
   .analysis-browser-head h2{margin:0;color:var(--gaeo-ink);font-size:24px;line-height:1.25;
     font-weight:840;letter-spacing:-.045em}
-  .analysis-browser-head p{margin:12px 0 0;color:var(--gaeo-muted);font-size:13px;line-height:1.65}
+  .analysis-browser-head p{margin:12px 0 0;color:var(--gaeo-ink);font-size:13px;line-height:1.65}
   .spark-legend{display:grid;grid-column:2;grid-row:1 / 4;align-self:start;gap:7px;
     margin-top:0;padding:13px 14px;border:1px solid var(--gaeo-border);
     border-radius:13px;background:var(--gaeo-canvas)}
@@ -2350,7 +2349,6 @@
     .decision-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
     .decision-list::-webkit-scrollbar{display:none}
     .decision-item{flex:0 0 210px;scroll-snap-align:start}
-    .home-dashboard .start-board{grid-template-columns:1fr 1fr}
     .trust-strip{grid-template-columns:1fr}
     .home-dashboard .rail-r{grid-template-columns:1fr}
     .home-dashboard .rail-r .rr-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -2359,7 +2357,7 @@
     .analysis-browser .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
     .analysis-browser .sector.open .sector-body{grid-template-columns:repeat(3,minmax(0,1fr))}
     .analysis-browser .chip{grid-template-columns:minmax(0,1fr) 78px;
-      grid-template-areas:"name name" "value value"}
+      grid-template-areas:"name name" "spark value"}
     .analysis-browser .chip .cval{width:78px}
   }
   @media(max-width:700px){
@@ -2387,7 +2385,7 @@
     .analysis-browser .sector.open .sector-body{grid-template-columns:repeat(2,minmax(0,1fr));padding:0 9px 10px}
     .analysis-browser .sector-head{font-size:11.5px;padding:9px 10px}
     .analysis-browser .chip{grid-template-columns:minmax(0,1fr) 68px;
-      grid-template-areas:"name name" "value value";gap:5px 6px;padding:8px 9px;font-size:11px}
+      grid-template-areas:"name name" "spark value";gap:5px 6px;padding:8px 9px;font-size:11px}
     .analysis-browser .chip .cval{width:68px}
     .wrap{padding-bottom:64px}
     .tape{border-radius:11px;font-size:11px}
@@ -2492,7 +2490,7 @@
   .gr-status.is-confirmed{color:var(--gaeo-700)}
   .gr-status.is-provisional{color:#8A5728;border-color:#E7D4B4;background:#FCF6EC}
   html.gdark .gr-status.is-provisional{color:#E2B77A;border-color:#4A3B26;background:#241C11}
-  .gr-lead{margin:14px 0 0;font-size:13px;line-height:1.6;color:var(--gaeo-muted);word-break:keep-all}
+  .gr-lead{margin:14px 0 0;font-size:13px;line-height:1.6;color:var(--gaeo-ink);word-break:keep-all}
   .gr-count{display:block;margin-top:4px;font-size:30px;font-weight:850;letter-spacing:-.04em;
     color:var(--gaeo-ink);font-variant-numeric:tabular-nums}
   .gr-count small{margin-left:4px;font-size:14px;font-weight:700;color:var(--gaeo-muted)}
@@ -2679,7 +2677,7 @@
         <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
         <div class="hero-actions">
           <button class="hero-action primary" id="heroSearchBtn" type="button">내 종목 검색하기</button>
-          <button class="hero-action" id="heroChangesBtn" type="button">오늘의 변화 보기</button>
+          <button class="hero-action" id="heroChangesBtn" type="button">☆ 가이드북 보기</button>
         </div>
         <span class="badge" id="hbadge">시세 확인 중</span>
       </header>
@@ -2746,12 +2744,6 @@
           <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
           <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
         </div>
-      </article>
-      <article class="start-step">
-        <span class="start-kicker">처음이라면</span>
-        <h2>3분 가이드</h2>
-        <p>BUY·HOLD·SELL과 어려운 투자 용어를 쉽게 설명해드려요.</p>
-        <button class="start-action secondary" id="startGuide" type="button">사용법 보기</button>
       </article>
     </section>
 
@@ -4269,12 +4261,11 @@ renderHomeWatchlist();
     ticker.scrollIntoView({behavior:'smooth',block:'center'});
     setTimeout(()=>ticker.focus(),320);
   };
+  // "3분 가이드" 카드를 없애면서, 그 카드의 가이드북 진입 버튼(구 #startGuide) 역할을
+  // 히어로의 두 번째 버튼(구 "오늘의 변화 보기")이 그대로 이어받는다.
   const heroChangesBtn=document.getElementById('heroChangesBtn');
   if(heroChangesBtn) heroChangesBtn.onclick=()=>{
-    gaeoTrack('select_content',{content_type:'home_section',item_id:'today-changes'});
-    document.getElementById('homeChanges').scrollIntoView({behavior:'smooth',block:'start'});
-  };
-  document.getElementById('startGuide').onclick=()=>{
+    gaeoTrack('select_content',{content_type:'home_section',item_id:'guide'});
     beginGuideTutorial('home_dashboard');
     document.getElementById('mode-guide').click();
     const guide=document.getElementById('guideView');
