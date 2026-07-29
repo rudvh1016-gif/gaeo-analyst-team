@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 21,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-29",
+  "title": "SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지",
+  "featured": false
+ },
+ {
   "id": 20,
   "mode": "news",
   "label": "뉴스분석",
@@ -30,14 +38,6 @@ const LATEST_POSTS = [
   "label": "주식공부",
   "date": "2026-07-28",
   "title": "퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지",
-  "featured": false
- },
- {
-  "id": 48,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-07-28",
-  "title": "사회초년생 월급 관리 — 통장 쪼개기보다 먼저 할 일",
   "featured": false
  }
 ];
