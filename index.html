@@ -1843,6 +1843,7 @@
   .hero-note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gaeo-600)}
   .hero-title{position:relative;z-index:1;margin:0;color:var(--gaeo-ink);
     font-size:clamp(38px,3.25vw,54px);font-weight:850;line-height:1.06;letter-spacing:-.065em}
+  .hero-title>span,.hero-title>em{display:block;white-space:nowrap}
   .hero-title em{color:var(--gaeo-700);font-style:normal}
   .home-dashboard .tagline{position:relative;z-index:1;max-width:650px;margin:14px 0 0;
     font-size:15px;line-height:1.65;font-weight:560;color:var(--gaeo-muted);letter-spacing:-.02em}
@@ -1961,7 +1962,7 @@
   .change-kicker{display:block;margin-bottom:8px;color:var(--gaeo-600);font-size:9.5px;
     font-weight:850;letter-spacing:.13em}
   .change-intro h2{margin:0;color:var(--gaeo-ink);font-size:24px;font-weight:850;line-height:1.25;
-    letter-spacing:-.045em}
+    letter-spacing:-.045em;white-space:nowrap}
   .change-intro p{margin:10px 0 18px;color:var(--gaeo-muted);font-size:12.5px;line-height:1.65}
   .change-summary{display:flex;align-items:baseline;gap:7px}
   .change-summary strong{color:var(--gaeo-700);font-size:32px;font-weight:860;letter-spacing:-.055em}
@@ -2378,7 +2379,7 @@
           <span class="hero-note">판단 변화 기록</span>
           <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
         </div>
-        <h1 class="hero-title">내 종목에 달라진 것만,<br><em>하루 3분</em></h1>
+        <h1 class="hero-title"><span>내 종목에</span><span>달라진 것만,</span><em>하루 3분</em></h1>
         <p class="tagline" data-edit="tagline">5가지 관점으로 오늘 판단을 살펴보고, 어제와 달라진 이유를 쉬운 말로 확인하세요.</p>
         <div class="hero-actions">
           <button class="hero-action primary" id="heroSearchBtn" type="button">내 종목 검색하기</button>
@@ -2412,7 +2413,7 @@
       <div class="change-intro">
         <div>
           <span class="change-kicker">TODAY'S CHANGE</span>
-          <h2 id="homeChangesTitle">오늘 내 종목에서<br>달라진 것</h2>
+          <h2 id="homeChangesTitle">오늘 내 종목에서 달라진 것</h2>
           <p id="homeChangesDesc">관심종목을 저장하면 내 종목의 판단 변화부터 보여드려요.</p>
         </div>
         <div class="change-summary"><strong id="homeChangeCount">—</strong><span id="homeChangeUnit">개 변화 확인 중</span></div>
