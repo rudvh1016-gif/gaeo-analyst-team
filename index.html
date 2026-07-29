@@ -5664,6 +5664,13 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 기사<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 개오팀의 분석 의견이며 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있어요.</div>
+            <div class="ad-slot" style="margin-top:14px">
+             <span class="ad-label">광고</span>
+             <ins class="kakao_ad_area" style="display:none;"
+             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
+             data-ad-width="728"
+             data-ad-height="90"></ins>
+            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 뉴스분석이 없어요.'}</div></div>`;
@@ -6019,6 +6026,13 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 회사 이해를 돕기 위한 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
+            <div class="ad-slot" style="margin-top:14px">
+             <span class="ad-label">광고</span>
+             <ins class="kakao_ad_area" style="display:none;"
+             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
+             data-ad-width="728"
+             data-ad-height="90"></ins>
+            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 종목공부가 없어요.'}</div></div>`;
@@ -6105,6 +6119,13 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 투자 기초를 익히는 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
+            <div class="ad-slot" style="margin-top:14px">
+             <span class="ad-label">광고</span>
+             <ins class="kakao_ad_area" style="display:none;"
+             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
+             data-ad-width="728"
+             data-ad-height="90"></ins>
+            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 주식공부가 없어요.'}</div></div>`;
@@ -6692,7 +6713,7 @@ window.renderScreener=function(){
       compare:['나란히 보면 더 잘 보여요','종목 비교','두 종목의 가격·지표·분석 결과를 같은 기준으로 비교해 보세요.'],
       portfolio:['내 종목을 한곳에서','포트폴리오','보유 종목을 모아 전체 흐름과 종목별 분석을 한 화면에서 확인해 보세요.'],
       news:['오늘 시장을 쉽게','뉴스 분석','주요 시장 소식의 배경과 투자자가 확인할 점을 초보자 눈높이로 정리했어요.'],
-      study:['돈 생활에 꼭 필요한 내용','ETF·연금·절세 공부','ETF 선택, 연금계좌, 세금처럼 오래 찾아보는 주제를 실생활 기준으로 정리했어요.'],
+      study:['회사 하나씩 제대로 알아보기','종목 공부','국내외 대표 기업이 어떤 사업으로 돈을 버는지, 최근 이슈와 함께 초보자 눈높이로 정리했어요.'],
       lesson:['기초부터 차근차근','주식 공부','처음 투자할 때 자주 막히는 개념을 사례와 함께 쉽게 익혀보세요.'],
       estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
