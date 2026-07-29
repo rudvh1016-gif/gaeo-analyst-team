@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 24,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-29",
+  "title": "코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유",
+  "featured": false
+ },
+ {
   "id": 23,
   "mode": "news",
   "label": "뉴스분석",
@@ -31,18 +39,10 @@ const LATEST_POSTS = [
   "date": "2026-07-29",
   "title": "SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지",
   "featured": false
- },
- {
-  "id": 34,
-  "mode": "study",
-  "label": "종목공부",
-  "date": "2026-07-29",
-  "title": "한화에어로스페이스",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 23,
+ "news": 24,
  "study": 35,
  "lesson": 52,
  "estate": 15,
