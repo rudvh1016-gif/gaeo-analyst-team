@@ -387,26 +387,72 @@
   .qbio .qbio-ic{flex-shrink:0}
   .qbio b{color:var(--navy)}
   /* 시세 카드 종가 미니차트(구체화) */
-  .qchart{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
-  .qchart-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-  .qchart-t{font-size:13px;font-weight:820;color:var(--ink)}
-  .qchart-sub{font-size:11px;color:var(--dim);padding:5px 9px;border-radius:999px;background:var(--sky-soft)}
-  .qchart-sub b{color:var(--navy);font-weight:750}
-  .qchart-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
-  .qchart-stat{padding:9px 11px;border:1px solid var(--sky-line);border-radius:12px;background:var(--sky-soft)}
-  .qchart-stat span{display:block;font-size:10px;color:var(--dim);margin-bottom:3px}
-  .qchart-stat b{display:block;font-size:13px;color:var(--ink);font-weight:780;font-variant-numeric:tabular-nums}
-  .qchart-plot{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
-  .qchart svg{display:block;width:100%;height:170px}
-  .qchart-cap{display:flex;align-items:flex-start;gap:7px;margin-top:9px;font-size:11.5px;color:var(--dim);line-height:1.55}
-  .qchart-cap::before{content:"";width:7px;height:7px;margin-top:5px;border-radius:50%;background:var(--sky);flex:0 0 auto}
+  .qchart{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+  .qchart-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+  .qchart-heading{display:flex;align-items:center;gap:9px;min-width:0}
+  .qchart-eyebrow{font-size:9px;line-height:1;font-weight:850;letter-spacing:.13em;color:var(--sky);white-space:nowrap}
+  .qchart-t{font-size:14px;font-weight:820;color:var(--ink);letter-spacing:-.025em}
+  .qchart-sub{font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .qchart-sub b{color:var(--ink);font-weight:720}
+  .qchart-summary{--trend:#C64C5A;display:grid;
+    grid-template-columns:minmax(102px,auto) minmax(190px,1fr) minmax(102px,auto);
+    align-items:center;gap:20px;margin-bottom:12px;padding:13px 16px;border:1px solid var(--line);
+    border-radius:14px;background:var(--paper)}
+  .qchart-summary[data-trend="up"]{--trend:#25866F}
+  .qchart-price{min-width:0}
+  .qchart-price:last-child{text-align:right}
+  .qchart-price small{display:block;margin-bottom:2px;font-size:9.5px;color:var(--dim)}
+  .qchart-price b{display:block;font-size:16px;font-weight:810;color:var(--ink);
+    letter-spacing:-.025em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .qchart-price.is-current b{color:var(--trend)}
+  .qchart-route{position:relative;min-width:0;padding-top:17px;text-align:center;color:var(--trend)}
+  .qchart-route::before{content:"";position:absolute;left:0;right:0;top:8px;height:2px;border-radius:99px;
+    background:var(--trend);opacity:.42}
+  .qchart-route::after{content:"";position:absolute;right:0;top:4px;width:8px;height:8px;
+    border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
+  .qchart-route strong{display:inline;font-size:12px;font-weight:820;color:var(--trend);font-variant-numeric:tabular-nums}
+  .qchart-route span{font-size:10.5px;color:var(--dim)}
+  .qchart-plot{--trend:#C64C5A;position:relative;overflow:hidden;
+    border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+  .qchart-plot[data-trend="up"]{--trend:#25866F}
+  .qchart-canvas{position:relative;aspect-ratio:3.35/1;min-height:164px}
+  .qchart svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+  .qchart-point{position:absolute;width:8px;height:8px;border:2px solid var(--paper);
+    border-radius:50%;background:var(--trend);transform:translate(-50%,-50%);box-sizing:border-box}
+  .qchart-point.is-first{width:10px;height:10px}
+  .qchart-point.is-current{width:12px;height:12px}
+  .qchart-point.is-current::after{content:"";position:absolute;inset:-6px;border:1px solid var(--trend);
+    border-radius:50%;opacity:.28}
+  .qchart-last{position:absolute;z-index:2;max-width:92px;padding:5px 9px;border-radius:999px;
+    background:var(--trend);color:#fff;font-size:10px;font-weight:820;line-height:1;
+    letter-spacing:-.015em;font-variant-numeric:tabular-nums;white-space:nowrap;
+    transform:translate(calc(-100% - 12px),-50%)}
+  .qchart-axis{display:flex;justify-content:space-between;align-items:center;padding:0 17px 10px;
+    font-size:9px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .qchart-foot{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+    flex-wrap:wrap;margin-top:9px}
+  .qchart-extremes{display:flex;align-items:center;gap:5px 14px;flex-wrap:wrap;font-size:10.5px;color:var(--dim)}
+  .qchart-extremes b{margin-left:3px;color:var(--ink);font-weight:720;font-variant-numeric:tabular-nums}
+  .qchart-cap{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:var(--dim);line-height:1.5}
+  .qchart-cap::before{content:"";width:8px;height:2px;margin-top:7px;border-radius:99px;background:var(--trend,#C64C5A);flex:0 0 auto}
   .qchart-cap b{color:var(--ink);font-weight:700}
   @media(max-width:700px){
     .qchart{margin-top:12px;padding-top:12px}
-    .qchart-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-    .qchart-stat{padding:8px 9px}
-    .qchart svg{height:138px}
-    .qchart-cap{font-size:10.5px}
+    .qchart-head{align-items:flex-start;margin-bottom:10px}
+    .qchart-heading{gap:7px}
+    .qchart-eyebrow{font-size:8px}
+    .qchart-t{font-size:13px}
+    .qchart-summary{grid-template-columns:1fr 1fr;gap:9px 14px;padding:11px 12px}
+    .qchart-price:last-child{text-align:right}
+    .qchart-price b{font-size:14px}
+    .qchart-route{grid-column:1/-1;grid-row:2;padding-top:15px}
+    .qchart-route::before{top:7px}
+    .qchart-canvas{aspect-ratio:2.05/1;min-height:152px}
+    .qchart-last{max-width:82px;padding:5px 8px;font-size:9px}
+    .qchart-axis{padding:0 13px 9px}
+    .qchart-foot{gap:7px;margin-top:8px}
+    .qchart-extremes{gap:4px 10px;font-size:9.5px}
+    .qchart-cap{font-size:9.5px}
   }
   .controls input{flex:1;min-width:200px;background:var(--paper);border:1px solid transparent;
     color:var(--ink);border-radius:12px;padding:13px 16px;font-size:15px;outline:none;font-family:inherit;
@@ -4394,49 +4440,63 @@ function showQuote(st){
 function quoteChartHTML(days){
   if(!days || days.length<2) return '';
   const closes=days.map(d=>d.c);
-  const n=closes.length, lo=Math.min(...closes), hi=Math.max(...closes), span=(hi-lo)||1;
+  const n=closes.length, lo=Math.min(...closes), hi=Math.max(...closes);
   const first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
-  const up=last>=first, col=up?'#25866F':'#C64C5A';
-  const W=560,H=170, padL=58,padR=18,padT=18,padB=30;
+  const flat=Math.abs(chg)<0.05, up=last>=first;
+  const trend=flat?'flat':(up?'up':'down');
+  const col=flat?'#607584':(up?'#25866F':'#C64C5A');
+  const W=760,H=230, padL=18,padR=18,padT=24,padB=18;
   const iw=W-padL-padR, ih=H-padT-padB;
-  const px=i=>padL+iw*(n>1?i/(n-1):0.5), py=v=>padT+ih*(1-(v-lo)/span);
+  const rawSpan=(hi-lo)||Math.max(Math.abs(first)*.02,1);
+  const domainLo=lo-rawSpan*.14, domainHi=hi+rawSpan*.14, domainSpan=domainHi-domainLo;
+  const px=i=>padL+iw*(n>1?i/(n-1):0.5), py=v=>padT+ih*(1-(v-domainLo)/domainSpan);
   const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
   const area=`M${px(0).toFixed(1)} ${py(closes[0]).toFixed(1)} `+
     closes.slice(1).map((c,i)=>'L'+px(i+1).toFixed(1)+' '+py(c).toFixed(1)).join(' ')+
     ` L${px(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${px(0).toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
   const won0=v=>Math.round(v).toLocaleString();
-  const yTicks=[hi,(hi+lo)/2,lo];
-  let grid='',ylab='';
-  yTicks.forEach(v=>{const y=py(v).toFixed(1);
-    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--sky-line)" stroke-width="1"/>`;
-    ylab+=`<text x="${padL-8}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--dim)">${won0(v)}</text>`;});
+  let grid='';
+  [.25,.5,.75].forEach(r=>{const y=(padT+ih*r).toFixed(1);
+    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;});
+  if(n<=7) closes.forEach((_,i)=>{const x=px(i).toFixed(1);
+    grid+=`<line x1="${x}" y1="${padT}" x2="${x}" y2="${padT+ih}" stroke="var(--line)" stroke-width=".75" stroke-opacity=".45" vector-effect="non-scaling-stroke"/>`;});
   const fmtD=s=>String(s).slice(5).replace('-','/');
-  let xlab='';
   const idxs=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
-  [...new Set(idxs)].forEach(i=>{const anchor=i===0?'start':(i===n-1?'end':'middle');
-    xlab+=`<text x="${px(i).toFixed(1)}" y="${H-9}" text-anchor="${anchor}" font-size="10" fill="var(--dim)">${fmtD(days[i].date)}</text>`;});
-  const lx=px(n-1).toFixed(1), ly=py(last).toFixed(1);
-  const dots=closes.map((c,i)=>`<circle cx="${px(i).toFixed(1)}" cy="${py(c).toFixed(1)}" r="${i===n-1?4:3}" fill="${col}" stroke="var(--paper)" stroke-width="2"><title>${days[i].date} 종가 ${won0(c)}원</title></circle>`).join('');
-  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="날짜별 종가 변화 그래프">`+
-    `<defs><linearGradient id="qchartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity=".22"/><stop offset="100%" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs>`+
+  const lx=px(n-1).toFixed(1);
+  const pointHTML=closes.map((c,i)=>{
+    const left=(px(i)/W*100).toFixed(2), top=(py(c)/H*100).toFixed(2);
+    const cls=i===0?' is-first':(i===n-1?' is-current':'');
+    return `<i class="qchart-point${cls}" style="left:${left}%;top:${top}%" title="${days[i].date} 종가 ${won0(c)}원" aria-hidden="true"></i>`;
+  }).join('');
+  const lastLeft=(px(n-1)/W*100).toFixed(2), lastTop=(py(last)/H*100).toFixed(2);
+  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${n}거래일 종가가 ${won0(first)}원에서 ${won0(last)}원으로 ${Math.abs(chg).toFixed(1)}퍼센트 ${flat?'변화 없이 유지':(up?'상승':'하락')}한 그래프">`+
     grid+
-    `<path d="${area}" fill="url(#qchartFill)" stroke="none"/>`+
-    `<line x1="${lx}" y1="${padT}" x2="${lx}" y2="${padT+ih}" stroke="${col}" stroke-opacity=".3" stroke-width="1" stroke-dasharray="3 3"/>`+
-    `<path d="${line}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`+
-    dots+
-    ylab+xlab+`</svg>`;
+    `<path d="${area}" fill="${col}" fill-opacity=".065" stroke="none"/>`+
+    `<line x1="${lx}" y1="${padT}" x2="${lx}" y2="${padT+ih}" stroke="${col}" stroke-opacity=".18" stroke-width="1" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>`+
+    `<path class="qchart-line" d="${line}" fill="none" stroke="${col}" stroke-width="3.25" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+
+    `</svg>`;
   const period=`${fmtD(days[0].date)} ~ ${fmtD(days[n-1].date)}`;
+  const delta=Math.abs(last-first), direction=flat?'보합':(up?'상승':'하락');
+  const action=flat?'같아요':(up?'올랐어요':'내렸어요');
+  const arrow=flat?'→':(up?'↗':'↘');
+  const axisHTML=[...new Set(idxs)].map(i=>`<span>${fmtD(days[i].date)}</span>`).join('');
   return `<div class="qchart-head">`+
-      `<span class="qchart-t">최근 종가 흐름</span>`+
+      `<div class="qchart-heading"><span class="qchart-eyebrow">PRICE TREND</span><span class="qchart-t">최근 종가 흐름</span></div>`+
       `<span class="qchart-sub">${n}거래일 · <b>${period}</b></span>`+
     `</div>`+
-    `<div class="qchart-stats">`+
-      `<div class="qchart-stat"><span>처음</span><b>${won0(first)}원</b></div>`+
-      `<div class="qchart-stat"><span>기간 최고</span><b>${won0(hi)}원</b></div>`+
-      `<div class="qchart-stat"><span>기간 최저</span><b>${won0(lo)}원</b></div>`+
-      `<div class="qchart-stat"><span>현재 변화</span><b style="color:${col}">${chg>0?'+':''}${chg.toFixed(1)}%</b></div>`+
-    `</div><div class="qchart-plot">${svg}</div>`+
-    `<div class="qchart-cap">왼쪽 첫날부터 오른쪽 최근 거래일까지의 흐름이에요. 점 하나가 하루의 장 마감 가격이고, 세로선은 가장 최근 값이에요.</div>`;
+    `<div class="qchart-summary" data-trend="${trend}" style="--trend:${col}">`+
+      `<div class="qchart-price"><small>시작 종가</small><b>${won0(first)}원</b></div>`+
+      `<div class="qchart-route"><strong>${arrow} ${Math.abs(chg).toFixed(1)}% ${direction}</strong><span> · ${n}거래일 동안 ${won0(delta)}원 ${action}</span></div>`+
+      `<div class="qchart-price is-current"><small>현재 종가</small><b>${won0(last)}원</b></div>`+
+    `</div>`+
+    `<div class="qchart-plot" data-trend="${trend}" style="--trend:${col}">`+
+      `<div class="qchart-canvas">${svg}${pointHTML}<span class="qchart-last" style="left:${lastLeft}%;top:${lastTop}%">${won0(last)}원</span></div>`+
+      `<div class="qchart-axis">${axisHTML}</div>`+
+    `</div>`+
+    `<div class="qchart-foot">`+
+      `<div class="qchart-extremes"><span>기간 최고 <b>${won0(hi)}원</b></span><span>기간 최저 <b>${won0(lo)}원</b></span></div>`+
+      `<div class="qchart-cap" style="--trend:${col}">선 색은 기간 방향, 점 하나는 하루 종가, 큰 테두리 점은 가장 최근 거래일입니다.</div>`+
+    `</div>`;
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
 const GLOSSARY={
