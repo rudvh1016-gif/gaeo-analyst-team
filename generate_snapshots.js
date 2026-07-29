@@ -315,10 +315,15 @@ const latestPosts = orderedLatest
     title: x.title,
     featured: Boolean(featuredLatest && x === featuredLatest)
   }));
+const contentStats = index.reduce((stats, item) => {
+  stats[item.mode] = (stats[item.mode] || 0) + 1;
+  return stats;
+}, { news: 0, study: 0, lesson: 0, estate: 0, calc: 0 });
 fs.writeFileSync(
   path.join(HERE, 'snap/latest_posts.js'),
-  '// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록\nconst LATEST_POSTS = ' +
-    JSON.stringify(latestPosts, null, 1) + ';\n'
+  '// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록과 콘텐츠 수\nconst LATEST_POSTS = ' +
+    JSON.stringify(latestPosts, null, 1) + ';\nconst CONTENT_STATS = ' +
+    JSON.stringify(contentStats, null, 1) + ';\n'
 );
 const listHtml = index.map(x =>
   `<li><span class="cat">${esc(x.cat)}</span> <a href="${esc(x.href)}">${esc(x.title)}</a> <span class="d">${esc(x.date)}</span></li>`
