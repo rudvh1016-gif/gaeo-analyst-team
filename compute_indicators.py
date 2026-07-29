@@ -12,8 +12,14 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
+from zoneinfo import ZoneInfo
+
+# 볼린저밴드는 📡 GAEO 레이더와 계산 규격이 반드시 같아야 하므로 공용 모듈을 그대로 쓴다
+# (중복 구현하면 화면의 밴드와 레이더 신호가 미묘하게 어긋난다).
+from radar_signals import bollinger, BB_PERIOD, BB_STDDEV
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+KST = ZoneInfo("Asia/Seoul")   # 한국 시장 데이터 — 실행 환경 TZ와 무관하게 KST로 기록
 
 
 def load_js_object(path, varname):
@@ -59,7 +65,7 @@ def indicators_for(daily):
     sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
     vol_avg = sum(vols[-21:-1]) / 20 if len(vols) > 20 else 0
     vol_ratio = vols[-1] / vol_avg if vol_avg else None   # 거래정지/저유동 종목은 0 평균 → None
-    return {
+    out = {
         "close": cur,
         "ma20": round(ma20), "ma20Gap": round((cur / ma20 - 1) * 100, 1),
         "ma60": round(ma60), "ma60Gap": round((cur / ma60 - 1) * 100, 1),
@@ -69,6 +75,17 @@ def indicators_for(daily):
         "low3m": min(closes), "high3m": max(closes),
         "last5": [{"d": r["date"][5:], "c": r["close"]} for r in daily[-5:]],
     }
+    # 📊 볼린저밴드(20일 SMA ± 표준편차 2배) — 레이더 신호와 종목 상세 차트가 같이 쓴다.
+    if len(closes) >= BB_PERIOD:
+        bb = bollinger(closes, BB_PERIOD, BB_STDDEV)
+        u, m, l = bb["upper"][-1], bb["mid"][-1], bb["lower"][-1]
+        if u is not None and l is not None and m:
+            out["bb"] = {
+                "upper": round(u), "mid": round(m), "lower": round(l),
+                "pctB": round(bb["pctb"][-1], 3) if bb["pctb"][-1] is not None else None,
+                "width": round(bb["width"][-1], 1) if bb["width"][-1] is not None else None,
+            }
+    return out
 
 
 def risk_for(daily, live):
@@ -151,7 +168,7 @@ def main():
     raw = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
     live = load_js_object(os.path.join(HERE, "data.js"), "LIVE_DATA")
     out = {
-        "generatedAt": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "generatedAt": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
         "priceLabel": live.get("date"),
         "indices": live.get("indices"),
         "stocks": {},
