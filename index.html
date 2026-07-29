@@ -10,6 +10,38 @@
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
+<script>
+  // AdFit 콜백은 SDK가 DOMContentLoaded 직후 호출할 수 있어 SDK보다 먼저 선언한다.
+  window.gaeoAdLoaded=function(el){
+    const slot=el&&el.closest?el.closest('.ad-slot'):null;
+    if(!slot) return;
+    if(slot._gaeoAdTimer) clearTimeout(slot._gaeoAdTimer);
+    slot.classList.remove('ad-pending','ad-failed');
+    slot.classList.add('ad-ready');
+  };
+  window.gaeoAdFailed=function(el){
+    const slot=el&&el.closest?el.closest('.ad-slot'):null;
+    if(!slot) return;
+    if(slot._gaeoAdTimer) clearTimeout(slot._gaeoAdTimer);
+    slot.classList.remove('ad-pending','ad-ready');
+    slot.classList.add('ad-failed');
+  };
+  window.gaeoWatchAd=function(el){
+    const slot=el&&el.closest?el.closest('.ad-slot'):null;
+    if(!slot||slot.classList.contains('ad-ready')) return;
+    slot.classList.remove('ad-failed');
+    slot.classList.add('ad-pending');
+    if(slot._gaeoAdTimer) clearTimeout(slot._gaeoAdTimer);
+    // 광고 차단 등으로 SDK 콜백 자체가 오지 않아도 빈 흰 상자를 남기지 않는다.
+    slot._gaeoAdTimer=setTimeout(function(){
+      if(!slot.classList.contains('ad-ready')) window.gaeoAdFailed(el);
+    },10000);
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    const homeAd=document.querySelector('.ad-slot-home .kakao_ad_area');
+    if(homeAd) window.gaeoWatchAd(homeAd);
+  });
+</script>
 <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4"></script>
 <script>
@@ -277,6 +309,10 @@
   .ad-label{font-size:10.5px;color:var(--faint);letter-spacing:.03em;align-self:flex-start}
   .ad-slot .kakao_ad_area{max-width:100%}
   .ad-slot-home{max-width:320px;margin:0 auto 20px}
+  .ad-slot .ad-status{font-size:12px;color:var(--faint);line-height:1.4}
+  .ad-slot.ad-ready .ad-status,.ad-slot.ad-failed{display:none}
+  .ad-slot-content{width:100%;max-width:748px;min-height:116px;margin:14px auto 0;overflow:hidden}
+  @media(max-width:767px){.ad-slot-content{display:none}}
 
   /* ── 종목 칩: 업종 폴더 ── */
   .chips{margin:0 0 16px}
@@ -2034,10 +2070,13 @@
     </section>
     <div class="ad-slot ad-slot-home">
       <span class="ad-label">광고</span>
+      <span class="ad-status">광고를 불러오는 중이에요.</span>
       <ins class="kakao_ad_area" style="display:none;"
       data-ad-unit="DAN-RpP1QyRYBWQivtu9"
       data-ad-width="300"
-      data-ad-height="250"></ins>
+      data-ad-height="250"
+      data-ad-onload="gaeoAdLoaded"
+      data-ad-onfail="gaeoAdFailed"></ins>
     </div>
     <section class="trust-strip" aria-labelledby="trustTitle">
       <div>
@@ -5599,6 +5638,51 @@ function wireSearchInput(box, id, onChange){
   };
 }
 
+// 본문 광고는 SPA가 글 HTML을 동적으로 만든 뒤 생긴다. AdFit의 일반 초기 스캔에는 잡히지
+// 않으므로 data-ad-preload로 동적 슬롯임을 알리고, 같은 광고 단위를 글 10개에 복제하지
+// 않도록 페이지 전체에서 하나만 만들어 현재 펼친 글로 옮겨 쓴다.
+window.GaeoContentAd=(function(){
+  let slot=null;
+  function depot(){
+    let el=document.getElementById('gaeoContentAdDepot');
+    if(!el){
+      el=document.createElement('div');
+      el.id='gaeoContentAdDepot';
+      el.hidden=true;
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+  function create(){
+    if(slot) return slot;
+    slot=document.createElement('div');
+    slot.id='gaeoContentAd';
+    slot.className='ad-slot ad-slot-content';
+    slot.innerHTML='<span class="ad-label">광고</span>'+
+      '<span class="ad-status">광고를 불러오는 중이에요.</span>'+
+      '<ins class="kakao_ad_area" style="display:none;" '+
+      'data-ad-unit="DAN-wS5JabZyWT5KgaAD" data-ad-width="728" data-ad-height="90" '+
+      'data-ad-preload="Y" data-ad-onload="gaeoAdLoaded" data-ad-onfail="gaeoAdFailed"></ins>';
+    return slot;
+  }
+  function park(){
+    if(slot) depot().appendChild(slot);
+  }
+  function mount(item){
+    if(!item||window.innerWidth<768){ park(); return; }
+    const body=item.classList&&item.classList.contains('nw-body')?item:item.querySelector('.nw-body');
+    if(!body) return;
+    const el=create();
+    if(el.classList.contains('ad-failed')){ park(); return; }
+    body.appendChild(el);
+    window.gaeoWatchAd(el.querySelector('.kakao_ad_area'));
+  }
+  function isInside(item){
+    return !!(slot&&item&&item.contains(slot));
+  }
+  return {mount,park,isInside};
+})();
+
 // ---------- 📰 뉴스분석 모드 ----------
 // news_analysis.js(NEWS_ANALYSIS 배열)에 보고서를 계속 쌓는다. 10건 = 1페이지.
 (function(){
@@ -5626,6 +5710,7 @@ function wireSearchInput(box, id, onChange){
   }
   window.renderNews=function(){
     const box=document.getElementById('newsView'); if(!box) return;
+    window.GaeoContentAd.park();
     const all=(typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS))?NEWS_ANALYSIS.slice():[];
     // 최신 날짜(같으면 id 큰 것)가 앞으로
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
@@ -5664,13 +5749,6 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 기사<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 개오팀의 분석 의견이며 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있어요.</div>
-            <div class="ad-slot" style="margin-top:14px">
-             <span class="ad-label">광고</span>
-             <ins class="kakao_ad_area" style="display:none;"
-             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
-             data-ad-width="728"
-             data-ad-height="90"></ins>
-            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 뉴스분석이 없어요.'}</div></div>`;
@@ -5693,6 +5771,8 @@ function wireSearchInput(box, id, onChange){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('nw-'+el.dataset.nw);
       if(item){ const open=item.classList.toggle('open');
+        if(open) window.GaeoContentAd.mount(item);
+        else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=news&id='+el.dataset.nw):location.pathname); }
     });
     // 페이지 이동
@@ -5703,7 +5783,10 @@ function wireSearchInput(box, id, onChange){
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
     // 최신 1건은 처음부터 펼쳐서 보여준다(검색 중엔 자동으로 펼치지 않음)
-    if(!searching&&page===1&&slice.length){ const first=document.getElementById('nw-'+slice[0].id); if(first) first.classList.add('open'); }
+    if(!searching&&page===1&&slice.length){
+      const first=document.getElementById('nw-'+slice[0].id);
+      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+    }
   };
   // 딥링크(?m=news&id=N) — 카테고리 화면을 건너뛰고 해당 글의 카테고리·페이지로 바로 이동해 펼치고 스크롤
   window.openNewsId=function(id){
@@ -5717,7 +5800,11 @@ function wireSearchInput(box, id, onChange){
     page=idx<0?1:Math.floor(idx/PAGE_SIZE)+1;
     window.renderNews();
     const el=document.getElementById('nw-'+id);
-    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+    if(el){
+      el.classList.add('open');
+      window.GaeoContentAd.mount(el);
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
   };
   window.openNewsCategory=function(cat){
     newsSearchQ='';
@@ -5989,6 +6076,7 @@ function wireSearchInput(box, id, onChange){
   }
   window.renderStudy=function(){
     const box=document.getElementById('studyView'); if(!box) return;
+    window.GaeoContentAd.park();
     const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
     const hero=`<div class="nw-hero"><h2>📚 종목공부</h2>
@@ -6026,13 +6114,6 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 회사 이해를 돕기 위한 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
-            <div class="ad-slot" style="margin-top:14px">
-             <span class="ad-label">광고</span>
-             <ins class="kakao_ad_area" style="display:none;"
-             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
-             data-ad-width="728"
-             data-ad-height="90"></ins>
-            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 종목공부가 없어요.'}</div></div>`;
@@ -6054,6 +6135,8 @@ function wireSearchInput(box, id, onChange){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('st-'+el.dataset.st);
       if(item){ const open=item.classList.toggle('open');
+        if(open) window.GaeoContentAd.mount(item);
+        else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=study&id='+el.dataset.st):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
@@ -6062,7 +6145,10 @@ function wireSearchInput(box, id, onChange){
       page=p; renderStudy();
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
-    if(!searching&&page===1&&slice.length){ const first=document.getElementById('st-'+slice[0].id); if(first) first.classList.add('open'); }
+    if(!searching&&page===1&&slice.length){
+      const first=document.getElementById('st-'+slice[0].id);
+      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+    }
   };
   window.openStudyId=function(id){
     const all=(typeof STOCK_STUDY!=='undefined'&&Array.isArray(STOCK_STUDY))?STOCK_STUDY.slice():[];
@@ -6073,7 +6159,11 @@ function wireSearchInput(box, id, onChange){
     const idx=filtered.findIndex(a=>String(a.id)===String(id));
     page=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderStudy();
     const el=document.getElementById('st-'+id);
-    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+    if(el){
+      el.classList.add('open');
+      window.GaeoContentAd.mount(el);
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
   };
 
   // ---------- 🎓 주식공부 모드 ----------
@@ -6082,6 +6172,7 @@ function wireSearchInput(box, id, onChange){
   let lsPage=1;
   window.renderLesson=function(){
     const box=document.getElementById('lessonView'); if(!box) return;
+    window.GaeoContentAd.park();
     const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
     const hero=`<div class="nw-hero"><h2>🎓 주식공부</h2>
@@ -6119,13 +6210,6 @@ function wireSearchInput(box, id, onChange){
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 투자 기초를 익히는 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
-            <div class="ad-slot" style="margin-top:14px">
-             <span class="ad-label">광고</span>
-             <ins class="kakao_ad_area" style="display:none;"
-             data-ad-unit="DAN-wS5JabZyWT5KgaAD"
-             data-ad-width="728"
-             data-ad-height="90"></ins>
-            </div>
           </div>
         </div>`).join('')
       : `<div class="nw-item"><div class="nw-empty">${searching?'검색 결과가 없어요.':'아직 등록된 주식공부가 없어요.'}</div></div>`;
@@ -6147,6 +6231,8 @@ function wireSearchInput(box, id, onChange){
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('ls-'+el.dataset.ls);
       if(item){ const open=item.classList.toggle('open');
+        if(open) window.GaeoContentAd.mount(item);
+        else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=lesson&id='+el.dataset.ls):location.pathname); }
     });
     box.querySelectorAll('.nw-pg').forEach(b=>b.onclick=()=>{
@@ -6155,7 +6241,10 @@ function wireSearchInput(box, id, onChange){
       lsPage=p; window.renderLesson();
       box.scrollIntoView({behavior:'smooth',block:'start'});
     });
-    if(!searching&&lsPage===1&&slice.length){ const first=document.getElementById('ls-'+slice[0].id); if(first) first.classList.add('open'); }
+    if(!searching&&lsPage===1&&slice.length){
+      const first=document.getElementById('ls-'+slice[0].id);
+      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+    }
   };
   window.openLessonId=function(id){
     const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
@@ -6166,7 +6255,11 @@ function wireSearchInput(box, id, onChange){
     const idx=filtered.findIndex(a=>String(a.id)===String(id));
     lsPage=idx<0?1:Math.floor(idx/PAGE_SIZE)+1; window.renderLesson();
     const el=document.getElementById('ls-'+id);
-    if(el){ el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
+    if(el){
+      el.classList.add('open');
+      window.GaeoContentAd.mount(el);
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
   };
 
   // ---------- 🏠 부동산공부 모드 ----------
