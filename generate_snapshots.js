@@ -1,7 +1,7 @@
 // 정적 스냅샷 생성기 — 자바스크립트를 실행하지 않는 크롤러/AI 도구도 글 내용을
 // 바로 읽을 수 있도록, 각 글의 "읽기 전용 정적 HTML 사본"을 /snap/ 아래에 만든다.
-// 실제 인터랙티브 화면(index.html?m=...)이 정답(canonical)이고, 이 스냅샷은
-// 검색엔진·AI 크롤러向 보조 사본이다 — 화면에 보이는 내용과 100% 동일해야 한다(클로킹 금지).
+// 각 스냅샷의 정적 주소 자체가 검색 대표 주소(canonical)이며, 인터랙티브 화면으로
+// 이동하는 버튼을 함께 제공한다. 두 화면의 본문은 100% 동일해야 한다(클로킹 금지).
 // 새 글을 등록할 때마다 `node generate_snapshots.js`로 다시 실행한다(generate_sitemap.js와 세트).
 const fs = require('fs');
 const path = require('path');
@@ -21,13 +21,15 @@ function esc(s) {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// 본문 미니 마크다운(## / - / **굵게** / [[img:..]]) → 읽기용 평범한 HTML로 변환
+// 본문 미니 마크다운(## / - / **굵게** / [링크](URL) / [[img:..]]) → 읽기용 평범한 HTML로 변환
 function bodyToHtml(raw) {
   const lines = String(raw || '').split('\n');
   let html = '', para = [], list = [];
   const flushPara = () => { if (para.length) { html += '<p>' + para.join('<br>') + '</p>\n'; para = []; } };
   const flushList = () => { if (list.length) { html += '<ul>' + list.map(li => '<li>' + li + '</li>').join('') + '</ul>\n'; list = []; } };
-  const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  const inline = (t) => esc(t)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   for (const raw0 of lines) {
     const line = raw0.trim();
     if (!line) { flushList(); flushPara(); continue; }
