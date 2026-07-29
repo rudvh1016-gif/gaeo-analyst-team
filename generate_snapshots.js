@@ -73,11 +73,17 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${BASE}og-image.png">
+<meta property="og:image" content="${BASE}og-understand-more.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <meta property="og:url" content="${esc(canonicalUrl)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${BASE}og-understand-more.png">
+<meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
@@ -372,6 +378,18 @@ const indexPage = `<!doctype html>
 <title>전체 글 목록 — ${esc(SITE_NAME)}</title>
 <meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
 <link rel="canonical" href="${BASE}snap/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="전체 글 목록 — ${esc(SITE_NAME)}">
+<meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta property="og:image" content="${BASE}og-understand-more.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta property="og:url" content="${BASE}snap/index.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${BASE}og-understand-more.png">
+<meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
