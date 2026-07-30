@@ -53,6 +53,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
     "@context": "https://schema.org",
     "@type": articleType || "Article",
     "headline": title,
+    "image": BASE + "og-understand-more.png",
     "datePublished": date,
     "dateModified": modified,
     "description": desc,
@@ -67,7 +68,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)} — ${esc(SITE_NAME)}</title>
+<title>${esc(title)} · ${esc(SITE_NAME)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(canonicalUrl)}">
 <meta property="og:type" content="article">
@@ -143,7 +144,7 @@ function sourcesToHtml(sources) {
   if (!Array.isArray(sources) || !sources.length) return '';
   const items = sources.map(s => {
     if (s.url) return '<li><a href="' + esc(s.url) + '" rel="nofollow">' + esc(s.name || s.t || s.url) + '</a></li>';
-    const nm = s.t ? (s.t + (s.p ? ' — ' + s.p : '') + (s.d ? ' (' + s.d + ')' : '')) : (s.name || '');
+    const nm = s.t ? (s.t + (s.p ? ', ' + s.p : '') + (s.d ? ' (' + s.d + ')' : '')) : (s.name || '');
     return '<li>' + esc(nm) + '</li>';
   }).join('');
   return '<div class="sources">📎 출처<ul>' + items + '</ul></div>';
@@ -206,7 +207,7 @@ function stockFindingsHtml(block) {
   for (const k of ['taro', 'diana', 'nova', 'flow']) {
     const a = block[k];
     if (!a || !Array.isArray(a.findings) || !a.findings.length) continue;
-    html += '<h2>' + esc(names[k]) + ' — ' + esc(a.score != null ? a.score + '점' : '') + '</h2>\n';
+    html += '<h2>' + esc(names[k]) + (a.score != null ? ' (' + a.score + '점)' : '') + '</h2>\n';
     html += '<ul>' + a.findings.map(f => '<li>' + esc(f) + '</li>').join('') + '</ul>\n';
   }
   return html;
@@ -293,9 +294,9 @@ function buildStocks() {
     const priceDate = (DATA.date || '').slice(0, 10) || new Date().toISOString().slice(0, 10);
     const analysisDate = (block.updated || block.baseAt || AUTO.generatedAt || '').slice(0, 10) || priceDate;
     const date = priceDate; // JSON-LD·메타에는 더 최신인 시세 기준일을 쓴다
-    const title = `${name}(${code}) 주가 전망 — 오늘 개오팀 판단 ${callKr}(${chief.call || '—'})`;
+    const title = `${name}(${code}) 주가 전망: 오늘 개오팀 판단 ${callKr}(${chief.call || '—'})`;
     const priceLine = sd.price ? `현재가 ${sd.price.toLocaleString('ko-KR')}원 (${sd.rate > 0 ? '+' : ''}${sd.rate}%)` : '';
-    const desc = `${name}(${code}) ${priceLine} — ${tierLabel} 종합판단 ${chief.call || '—'}(${chief.total ?? '—'}점, 확신도 ${chief.confidence ?? '—'}%). ${(chief.reason || '').slice(0, 80)}`;
+    const desc = `${name}(${code}) ${priceLine}. ${tierLabel} 종합판단 ${chief.call || '—'}(${chief.total ?? '—'}점, 확신도 ${chief.confidence ?? '—'}%). ${(chief.reason || '').slice(0, 80)}`;
     let bodyHtml = '';
     bodyHtml += '<p>' + esc(`${tierLabel} · ${t.sector || ''} 업종`) + '</p>\n';
     bodyHtml += '<p>' + esc(`🕒 시세 기준 ${priceDate}${analysisDate !== priceDate ? ' · 🔎 분석 기준 ' + analysisDate : ''}`) + '</p>\n';
@@ -377,11 +378,11 @@ const indexPage = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>전체 글 목록 — ${esc(SITE_NAME)}</title>
+<title>전체 글 목록 · ${esc(SITE_NAME)}</title>
 <meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
 <link rel="canonical" href="${BASE}snap/index.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="전체 글 목록 — ${esc(SITE_NAME)}">
+<meta property="og:title" content="전체 글 목록 · ${esc(SITE_NAME)}">
 <meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
