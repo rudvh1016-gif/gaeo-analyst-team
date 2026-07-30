@@ -487,6 +487,17 @@
   .qchart-cap{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:var(--dim);line-height:1.5}
   .qchart-cap::before{content:"";width:8px;height:2px;margin-top:7px;border-radius:99px;background:var(--trend,#C64C5A);flex:0 0 auto}
   .qchart-cap b{color:var(--ink);font-weight:700}
+  /* 시세 카드 "최근 종가 흐름" 바로 아래 — 그 종목의 최근 5인 판단 변화 */
+  .qjudge{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+  .qjudge-body{--trend:#607584;display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:8px 14px;padding:13px 16px;border:1px solid var(--line);
+    border-radius:14px;background:var(--paper)}
+  .qjudge-body[data-tone="up"]{--trend:#25866F}
+  .qjudge-body[data-tone="down"]{--trend:#C64C5A}
+  .qjudge-move{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .qjudge-move b{font-size:14px;font-weight:820;color:var(--ink)}
+  .qjudge-arrow{color:var(--trend);font-size:12px}
+  .qjudge-reason{font-size:11px;font-weight:700;color:var(--trend)}
   @media(max-width:700px){
     .qchart{margin-top:12px;padding-top:12px}
     .qchart-head{align-items:flex-start;margin-bottom:10px}
@@ -504,6 +515,11 @@
     .qchart-foot{gap:7px;margin-top:8px}
     .qchart-extremes{gap:4px 10px;font-size:9.5px}
     .qchart-cap{font-size:9.5px}
+    .qjudge{margin-top:12px;padding-top:12px}
+    .qjudge-body{padding:11px 12px;gap:6px 10px}
+    .qjudge-move{font-size:10px}
+    .qjudge-move b{font-size:13px}
+    .qjudge-reason{font-size:10px}
   }
   .controls input{flex:1;min-width:200px;background:var(--paper);border:1px solid transparent;
     color:var(--ink);border-radius:12px;padding:13px 16px;font-size:15px;outline:none;font-family:inherit;
@@ -2183,25 +2199,6 @@
   .change-empty button{flex:0 0 auto;border:0;border-radius:11px;padding:10px 13px;background:var(--gaeo-900);
     color:#fff;font:inherit;font-size:11px;font-weight:780;cursor:pointer}
 
-  .decision-board{margin:16px 0;padding:24px 28px;border:1px solid var(--gaeo-border);
-    border-radius:var(--gaeo-radius-md);background:var(--paper)}
-  .decision-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:13px}
-  .decision-head h2{margin:0;color:var(--gaeo-ink);font-size:19px;font-weight:850;letter-spacing:-.04em}
-  .decision-head p{margin:4px 0 0;color:var(--gaeo-ink);font-size:10.5px}
-  .decision-head span{color:var(--gaeo-600);font-size:9.5px;font-weight:780}
-  .decision-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--gaeo-border)}
-  .decision-item{min-width:0;padding:15px 14px;border:0;border-right:1px solid var(--gaeo-border);
-    background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}
-  .decision-item:last-child{border-right:0}
-  .decision-item:hover,.decision-item:focus-visible{background:var(--gaeo-50);outline:2px solid transparent}
-  .decision-stock{display:block;overflow:hidden;color:var(--gaeo-ink);font-size:11.5px;font-weight:820;
-    text-overflow:ellipsis;white-space:nowrap}
-  .decision-move{display:flex;align-items:center;gap:5px;margin-top:8px;color:var(--gaeo-muted);font-size:9px}
-  .decision-move b{color:var(--gaeo-ink);font-size:11px}
-  .decision-delta{display:block;margin-top:8px;color:var(--gaeo-700);font-size:9.5px;font-weight:750;
-    line-height:1.45}
-  .decision-asof{display:block;margin-top:6px;color:var(--gaeo-muted);font-size:8.5px}
-
   .home-dashboard .start-board{grid-template-columns:1fr;
     align-items:stretch;gap:16px;margin:16px 0}
   .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
@@ -2399,9 +2396,6 @@
     .change-board{grid-template-columns:1fr;gap:18px}
     .change-intro{padding:0 0 17px;border-right:0;border-bottom:1px solid var(--gaeo-border)}
     .change-intro p{max-width:680px;margin-bottom:12px}
-    .decision-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-    .decision-list::-webkit-scrollbar{display:none}
-    .decision-item{flex:0 0 210px;scroll-snap-align:start}
     .trust-strip{grid-template-columns:1fr}
     .home-dashboard .rail-r{grid-template-columns:1fr}
     .home-dashboard .rail-r .rr-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -2483,11 +2477,6 @@
     .change-list::-webkit-scrollbar{display:none}
     .change-item{flex:0 0 248px;min-height:136px;scroll-snap-align:start}
     .change-empty{flex:0 0 100%;min-height:112px}
-    .decision-board{margin:14px 0;padding:20px 18px;border-radius:20px}
-    .decision-head{align-items:flex-start}
-    .decision-head h2{font-size:18px}
-    .decision-head span{padding-top:3px}
-    .decision-item{flex-basis:190px;padding:14px 12px}
     .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
     .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
     .home-dashboard .start-step h2{font-size:20px}
@@ -2768,19 +2757,6 @@
       </div>
     </section>
 
-    <section class="decision-board" id="homeRecentCalls" aria-labelledby="homeRecentTitle">
-      <div class="decision-head">
-        <div>
-          <h2 id="homeRecentTitle">최근 5인 판단 변화</h2>
-          <p>새 점수만 보여주지 않고, 이전 판단과 무엇이 달라졌는지 함께 기록합니다.</p>
-        </div>
-        <span>최근 자동분석 기록 기준</span>
-      </div>
-      <div class="decision-list" id="homeRecentList" aria-live="polite">
-        <div class="rr-empty">최근 판단을 불러오고 있어요.</div>
-      </div>
-    </section>
-
     <section class="start-board" aria-label="오늘 브리핑과 이용 안내">
       <article class="start-step start-step-summary">
         <span class="start-kicker" id="briefKicker">매일 아침</span>
@@ -2964,6 +2940,7 @@
     <div class="qdate" id="qdate"></div>
     <div class="qmetrics" id="qmetrics"></div>
     <div class="qchart" id="qchartWrap" style="display:none"></div>
+    <div class="qjudge" id="qjudgeWrap" style="display:none"></div>
   </div>
 
   <div class="stage">
@@ -4917,6 +4894,8 @@ function showQuote(st){
     qp.textContent=''; qr.textContent=''; qm.innerHTML='';
     qd.textContent='시세 데이터 없음 — 목록의 종목만 실제 시세를 제공합니다.';
     document.getElementById('qchartWrap').style.display='none';
+    const qjEmpty=document.getElementById('qjudgeWrap');
+    if(qjEmpty){ qjEmpty.style.display='none'; qjEmpty.innerHTML=''; }
     return;
   }
   qp.textContent=won(st.price);
@@ -4937,6 +4916,7 @@ function showQuote(st){
   const chart=quoteChartHTML(days);
   if(chart){ cw.innerHTML=chart; cw.style.display='block'; }
   else cw.style.display='none';
+  if(typeof window.renderStockJudge==='function') window.renderStockJudge(st.code);
 }
 /* ── 시세 카드 종가 미니차트(구체화): 날짜축·가격축·격자·기간 등락 설명 ──
    flatCloses(날짜순 종가)로 실제 라인차트를 그린다. 기존의 '설명 없는 빨간 줄'을 대체. */
@@ -6990,21 +6970,13 @@ makeCards(false);
   paint();
 })();
 
-// 모바일에서는 "최근 5인 판단 변화"를 홈 화면 단독 섹션으로 두면 정보량이 너무 많아
-// 보여서, 종목 분석 영역(#quote) 맨 위로 옮겨 그 종목을 볼 때만 눈에 띄게 한다.
-// PC(1180px 이상)는 기존 홈 화면 위치 그대로 유지.
-(function(){
-  const box=document.getElementById('homeRecentCalls');
-  const quote=document.getElementById('quote');
-  if(box&&quote&&window.innerWidth<=1179) quote.parentNode.insertBefore(box, quote);
-})();
-
-// ---------- 홈 핵심 신호: 오늘 달라진 것 · 최근 판단 변화 ----------
+// ---------- 홈 핵심 신호: 오늘 달라진 것 · 종목별 5인 판단 변화 ----------
+// "최근 5인 판단 변화"는 더 이상 홈 화면 단독 섹션으로 두지 않고, 각 종목 검색 후
+// 뜨는 시세 카드에서 "최근 종가 흐름" 바로 아래(#qjudgeWrap, showQuote() 참고)에 노출한다.
 // (다가오는 일정은 캘린더 모드로 이동했다 — upcomingEvents()/upcomingScheduleHTML() 참고)
 (function(){
-  const recentBox=document.getElementById('homeRecentList');
   const changeBox=document.getElementById('homeChangeList');
-  if(!recentBox||!changeBox) return;
+  if(!changeBox) return;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const nameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
   const goStock=name=>jumpToStock(name);
@@ -7105,20 +7077,32 @@ makeCards(false);
     return signals.sort((a,b)=>String(b.latest.date||'').localeCompare(String(a.latest.date||''))||
       Math.abs(totalDelta(b))-Math.abs(totalDelta(a))).slice(0,5);
   }
-  function renderRecent(){
-    const signals=representativeSignals();
-    recentBox.innerHTML=signals.length?signals.map(signal=>{
-      const latest=signal.latest, previous=signal.previous;
-      const before=previous&&previous.call||'첫 기록';
-      const delta=totalDelta(signal);
-      return `<button class="decision-item" type="button" data-go="${esc(nameOf(signal.code))}">`+
-        `<span class="decision-stock">${esc(nameOf(signal.code))}</span>`+
-        `<span class="decision-move"><b>${esc(before)}</b><span>→</span><b>${esc(latest.call||'HOLD')}</b></span>`+
-        `<span class="decision-delta">${esc(reasonOf(signal))}${delta?` · 종합 ${delta>0?'+':''}${delta}`:''}</span>`+
-        `<span class="decision-asof">${esc(dateLabel(latest.date))} 기준</span></button>`;
-    }).join(''):'<div class="rr-empty">최근 판단 데이터를 불러오고 있어요.</div>';
-    bindStockClicks(recentBox);
+  // 종목 시세 카드(#quote)의 "최근 종가 흐름" 바로 아래 넣는 "그 종목의 5인 판단 변화" 카드.
+  // 새 점수만 보여주지 않고, 이전 판단과 무엇이 달라졌는지 함께 보여준다.
+  function judgeCardHTML(signal){
+    const latest=signal.latest, previous=signal.previous;
+    const before=previous&&previous.call, after=latest.call||'HOLD';
+    const delta=totalDelta(signal);
+    const moveHTML=before?`<b>${esc(before)}</b><span class="qjudge-arrow">→</span><b>${esc(after)}</b>`:`<b>${esc(after)}</b>`;
+    const reason=before?reasonOf(signal):'개오팀 5인이 처음 분석한 판단이에요.';
+    return `<div class="qchart-head">`+
+        `<div class="qchart-heading"><span class="qchart-eyebrow">TEAM CALL</span><span class="qchart-t">최근 5인 판단 변화</span></div>`+
+        `<span class="qchart-sub">${esc(dateLabel(latest.date))} 기준</span>`+
+      `</div>`+
+      `<div class="qjudge-body" data-tone="${toneOf(signal)}">`+
+        `<span class="qjudge-move">${moveHTML}</span>`+
+        `<span class="qjudge-reason">${esc(reason)}${delta?` · 종합 ${delta>0?'+':''}${delta}`:''}</span>`+
+      `</div>`;
   }
+  function renderStockJudge(code){
+    const wrap=document.getElementById('qjudgeWrap');
+    if(!wrap) return;
+    const signal=code&&signalFor(code);
+    if(!signal){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+    wrap.innerHTML=judgeCardHTML(signal);
+    wrap.style.display='block';
+  }
+  window.renderStockJudge=renderStockJudge;
 
   function marketChanges(exclude){
     const signals=[];
@@ -7186,8 +7170,9 @@ makeCards(false);
     }
   }
   function renderAll(){
-    renderRecent();
     renderChanges();
+    const qcode=document.getElementById('qcode');
+    if(qcode&&qcode.textContent) renderStockJudge(qcode.textContent);
   }
   window.renderGaeoHomeSignals=renderAll;
   renderAll();
