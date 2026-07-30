@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 30,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-30",
+  "title": "코스피, 삼성전자 깜짝 실적에 장중 6% 급등했다가 결국 하락 마감한 이유",
+  "featured": false
+ },
+ {
   "id": 29,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-29",
   "title": "2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나",
   "featured": false
- },
- {
-  "id": 22,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-29",
-  "title": "새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 29,
+ "news": 30,
  "study": 35,
  "lesson": 53,
  "estate": 15,
