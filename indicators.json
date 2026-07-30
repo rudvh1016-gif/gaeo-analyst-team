@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-07-30 15:53",
- "priceLabel": "2026-07-30 15:23 장중",
+ "generatedAt": "2026-07-30 15:59",
+ "priceLabel": "2026-07-30 15:28 장중",
  "indices": {
   "KOSPI": {
    "value": 5576.62,
@@ -342,7 +342,7 @@
     "rsi14": 29.3,
     "macd": -181666,
     "macdSignal": -131364,
-    "volRatio": 1.44,
+    "volRatio": 1.45,
     "low3m": 827000,
     "high3m": 2270000,
     "last5": [
