@@ -4367,24 +4367,12 @@ function renderMarket(){
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
   const mk=LIVE_AN&&LIVE_AN.market;
   if(!idx&&!mk) return;
-  const f=n=>n==null?'—':n.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const seg=(label,d)=>{
-    if(!d||d.value==null) return '';
-    const col=d.rate>0?'var(--green)':(d.rate<0?'var(--red)':'var(--dim)');
-    return `<span class="mk-idx"><b>${label}</b>${f(d.value)}`+
-      `<span class="mk-rate" style="color:${col}">${d.rate>0?'▲ +':'▼ '}${Math.abs(d.rate).toFixed(2)}%</span></span>`;
-  };
-  // 💵 원/달러 환율 — 지수와 함께 최상단 표시(러너가 10분마다 갱신)
-  const fx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.fx)||null;
-  let fxSeg='';
-  if(fx&&typeof fx.value==='number'){
-    const col=fx.rate>0?'var(--green)':(fx.rate<0?'var(--red)':'var(--dim)');
-    const r=(typeof fx.rate==='number')?`<span class="mk-rate" style="color:${col}">${fx.rate>0?'▲ +':fx.rate<0?'▼ ':''}${Math.abs(fx.rate).toFixed(2)}%</span>`:'';
-    fxSeg=`<span class="mk-idx mk-fx"><b>💵 원/달러</b>${fx.value.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2})}원${r}</span>`;
-  }
-  const segs=seg('코스피',idx&&idx.KOSPI)+seg('코스닥',idx&&idx.KOSDAQ)+fxSeg;
-  if(!segs&&!mk) return;
-  let html=segs?'<div class="mk-strip">'+segs+'</div>':'';
+  // 코스피·코스닥·원/달러 수치는 "현재 기준 브리핑" 카드에서만 보여준다.
+  // (이 박스는 페이지 최초 로드 시점 LIVE_DATA 기준이라 브리핑 카드의 실시간 폴링 값과
+  //  갱신 주기가 달라 숫자가 어긋나 보일 수 있어 중복 표시를 없앴다)
+  const hasIdx=!!(idx&&(idx.KOSPI||idx.KOSDAQ));
+  if(!hasIdx&&!mk) return;
+  let html='';
   // 🌐 시장국면 배지 — 개별 종목을 분석하지 않아도 지금 시장이 얼마나 출렁이는 국면인지 바로 보여준다
   if(MACRO_REGIME.ready){
     const tone=MACRO_REGIME.label==='변동성 확대'?'#D5535D':(MACRO_REGIME.label==='안정'?'#2F8B73':'#B97A2F');
