@@ -335,9 +335,9 @@
    "caution": "밴드를 벗어난 상태가 며칠 이어질 수 있어요. 한 번의 이탈로 방향을 단정할 수 없어요."
   },
   {
-   "id": "240810-bb-lower-break-20260730",
-   "code": "240810",
-   "name": "원익IPS",
+   "id": "071840-bb-lower-break-20260730",
+   "code": "071840",
+   "name": "롯데하이마트",
    "type": "bb_lower_break",
    "label": "밴드 하단 이탈",
    "group": "main",
@@ -377,9 +377,9 @@
    "caution": "밴드를 벗어난 상태가 며칠 이어질 수 있어요. 한 번의 이탈로 방향을 단정할 수 없어요."
   },
   {
-   "id": "002350-rsi-oversold-entry-20260730",
-   "code": "002350",
-   "name": "넥센타이어",
+   "id": "005420-rsi-oversold-entry-20260730",
+   "code": "005420",
+   "name": "코스모화학",
    "type": "rsi_oversold_entry",
    "label": "과매도 진입",
    "group": "main",
@@ -429,7 +429,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 30.1,
-   "currentValue": 29.9,
+   "currentValue": 29.8,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 09:44",
@@ -608,16 +608,16 @@
    "caution": "과매도 진입이 곧바로 반등을 뜻하지는 않아요. 추가 하락 가능성도 함께 봐야 해요."
   },
   {
-   "id": "141080-rsi-oversold-entry-20260730",
-   "code": "141080",
-   "name": "리가켐바이오",
+   "id": "214150-rsi-oversold-entry-20260730",
+   "code": "214150",
+   "name": "클래시스",
    "type": "rsi_oversold_entry",
    "label": "과매도 진입",
    "group": "main",
    "icon": "▼",
    "metric": "RSI",
    "unit": "",
-   "previousValue": 30.6,
+   "previousValue": 34.4,
    "currentValue": 29.9,
    "threshold": 30.0,
    "date": "2026-07-30",
@@ -1332,8 +1332,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 22000,
-   "currentValue": 22550,
-   "threshold": 22099,
+   "currentValue": 22050,
+   "threshold": 21987,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 09:44",
    "priceBaseAt": "2026-07-30 09:10 장중",
@@ -2697,8 +2697,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 26800,
-   "currentValue": 27250,
-   "threshold": 26372,
+   "currentValue": 26900,
+   "threshold": 26293,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 09:44",
    "priceBaseAt": "2026-07-30 09:10 장중",
@@ -2981,9 +2981,9 @@
    "caution": "밴드 안으로 돌아온 것일 뿐, 하락이 끝났다는 의미는 아니에요."
   },
   {
-   "id": "178920-bb-lower-recover-20260730",
-   "code": "178920",
-   "name": "PI첨단소재",
+   "id": "170920-bb-lower-recover-20260730",
+   "code": "170920",
+   "name": "엘티씨",
    "type": "bb_lower_recover",
    "label": "밴드 하단 재진입",
    "group": "main",
@@ -3275,18 +3275,18 @@
    "caution": "밴드 안으로 돌아온 것일 뿐, 하락이 끝났다는 의미는 아니에요."
   },
   {
-   "id": "375500-bb-lower-recover-20260730",
-   "code": "375500",
-   "name": "DL이앤씨",
+   "id": "402340-bb-lower-recover-20260730",
+   "code": "402340",
+   "name": "SK스퀘어",
    "type": "bb_lower_recover",
    "label": "밴드 하단 재진입",
    "group": "main",
    "icon": "▲",
    "metric": "종가",
    "unit": "원",
-   "previousValue": 52400,
-   "currentValue": 54000,
-   "threshold": 53840,
+   "previousValue": 850000,
+   "currentValue": 835000,
+   "threshold": 829525,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 09:44",
    "priceBaseAt": "2026-07-30 09:10 장중",
@@ -4230,7 +4230,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 21,
-   "currentValue": -201,
+   "currentValue": -245,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 09:44",
@@ -4627,10 +4627,9 @@
    "rep": "043260-bb-lower-break-20260730",
    "repType": "bb_lower_break",
    "repLabel": "밴드 하단 이탈",
-   "others": 1,
+   "others": 0,
    "types": [
-    "bb_lower_break",
-    "rsi_oversold_entry"
+    "bb_lower_break"
    ]
   },
   {
@@ -4680,9 +4679,9 @@
    ]
   },
   {
-   "code": "240810",
-   "name": "원익IPS",
-   "rep": "240810-bb-lower-break-20260730",
+   "code": "071840",
+   "name": "롯데하이마트",
+   "rep": "071840-bb-lower-break-20260730",
    "repType": "bb_lower_break",
    "repLabel": "밴드 하단 이탈",
    "others": 0,
@@ -4702,9 +4701,9 @@
    ]
   },
   {
-   "code": "002350",
-   "name": "넥센타이어",
-   "rep": "002350-rsi-oversold-entry-20260730",
+   "code": "005420",
+   "name": "코스모화학",
+   "rep": "005420-rsi-oversold-entry-20260730",
    "repType": "rsi_oversold_entry",
    "repLabel": "과매도 진입",
    "others": 1,
@@ -4731,10 +4730,21 @@
    "rep": "011790-rsi-oversold-entry-20260730",
    "repType": "rsi_oversold_entry",
    "repLabel": "과매도 진입",
+   "others": 0,
+   "types": [
+    "rsi_oversold_entry"
+   ]
+  },
+  {
+   "code": "019170",
+   "name": "신풍제약",
+   "rep": "019170-rsi-oversold-entry-20260730",
+   "repType": "rsi_oversold_entry",
+   "repLabel": "과매도 진입",
    "others": 1,
    "types": [
     "rsi_oversold_entry",
-    "bb_lower_recover"
+    "macd_dead_cross"
    ]
   },
   {
@@ -5169,6 +5179,17 @@
    ]
   },
   {
+   "code": "000660",
+   "name": "SK하이닉스",
+   "rep": "000660-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "001060",
    "name": "JW중외제약",
    "rep": "001060-bb-lower-recover-20260730",
@@ -5216,17 +5237,6 @@
    "code": "002240",
    "name": "고려제강",
    "rep": "002240-bb-lower-recover-20260730",
-   "repType": "bb_lower_recover",
-   "repLabel": "밴드 하단 재진입",
-   "others": 0,
-   "types": [
-    "bb_lower_recover"
-   ]
-  },
-  {
-   "code": "002380",
-   "name": "KCC",
-   "rep": "002380-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
    "others": 0,
@@ -5680,6 +5690,28 @@
    ]
   },
   {
+   "code": "034730",
+   "name": "SK",
+   "rep": "034730-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
+   "code": "039030",
+   "name": "이오테크닉스",
+   "rep": "039030-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "039490",
    "name": "키움증권",
    "rep": "039490-bb-lower-recover-20260730",
@@ -5834,17 +5866,6 @@
    ]
   },
   {
-   "code": "079550",
-   "name": "LIG디펜스앤에어로스페이스",
-   "rep": "079550-bb-lower-recover-20260730",
-   "repType": "bb_lower_recover",
-   "repLabel": "밴드 하단 재진입",
-   "others": 0,
-   "types": [
-    "bb_lower_recover"
-   ]
-  },
-  {
    "code": "079900",
    "name": "전진건설로봇",
    "rep": "079900-bb-lower-recover-20260730",
@@ -5969,6 +5990,17 @@
    ]
   },
   {
+   "code": "128940",
+   "name": "한미약품",
+   "rep": "128940-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "140860",
    "name": "파크시스템스",
    "rep": "140860-bb-lower-recover-20260730",
@@ -5991,14 +6023,15 @@
    ]
   },
   {
-   "code": "178920",
-   "name": "PI첨단소재",
-   "rep": "178920-bb-lower-recover-20260730",
+   "code": "170920",
+   "name": "엘티씨",
+   "rep": "170920-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
-   "others": 0,
+   "others": 1,
    "types": [
-    "bb_lower_recover"
+    "bb_lower_recover",
+    "ma_dead_cross"
    ]
   },
   {
@@ -6032,6 +6065,18 @@
    "others": 0,
    "types": [
     "bb_lower_recover"
+   ]
+  },
+  {
+   "code": "222080",
+   "name": "SFA넥셀",
+   "rep": "222080-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 1,
+   "types": [
+    "bb_lower_recover",
+    "macd_dead_cross"
    ]
   },
   {
@@ -6107,6 +6152,18 @@
    "rep": "317450-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
+   "others": 1,
+   "types": [
+    "bb_lower_recover",
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "319660",
+   "name": "피에스케이",
+   "rep": "319660-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
    "others": 0,
    "types": [
     "bb_lower_recover"
@@ -6151,10 +6208,9 @@
    "rep": "375500-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
-   "others": 1,
+   "others": 0,
    "types": [
-    "bb_lower_recover",
-    "macd_dead_cross"
+    "bb_lower_recover"
    ]
   },
   {
@@ -6236,9 +6292,53 @@
    ]
   },
   {
+   "code": "009450",
+   "name": "경동나비엔",
+   "rep": "009450-macd-dead-cross-20260730",
+   "repType": "macd_dead_cross",
+   "repLabel": "MACD 데드크로스",
+   "others": 0,
+   "types": [
+    "macd_dead_cross"
+   ]
+  },
+  {
    "code": "009900",
    "name": "명신산업",
    "rep": "009900-macd-dead-cross-20260730",
+   "repType": "macd_dead_cross",
+   "repLabel": "MACD 데드크로스",
+   "others": 0,
+   "types": [
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "010140",
+   "name": "삼성중공업",
+   "rep": "010140-macd-dead-cross-20260730",
+   "repType": "macd_dead_cross",
+   "repLabel": "MACD 데드크로스",
+   "others": 0,
+   "types": [
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "010780",
+   "name": "아이에스동서",
+   "rep": "010780-macd-dead-cross-20260730",
+   "repType": "macd_dead_cross",
+   "repLabel": "MACD 데드크로스",
+   "others": 0,
+   "types": [
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "011210",
+   "name": "현대위아",
+   "rep": "011210-macd-dead-cross-20260730",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 0,
@@ -6566,6 +6666,17 @@
    ]
   },
   {
+   "code": "031980",
+   "name": "피에스케이홀딩스",
+   "rep": "031980-ma-dead-cross-20260730",
+   "repType": "ma_dead_cross",
+   "repLabel": "MA20·60 데드크로스",
+   "others": 0,
+   "types": [
+    "ma_dead_cross"
+   ]
+  },
+  {
    "code": "045100",
    "name": "한양이엔지",
    "rep": "045100-ma-dead-cross-20260730",
@@ -6577,9 +6688,9 @@
    ]
   },
   {
-   "code": "170920",
-   "name": "엘티씨",
-   "rep": "170920-ma-dead-cross-20260730",
+   "code": "383220",
+   "name": "F&F",
+   "rep": "383220-ma-dead-cross-20260730",
    "repType": "ma_dead_cross",
    "repLabel": "MA20·60 데드크로스",
    "others": 0,
