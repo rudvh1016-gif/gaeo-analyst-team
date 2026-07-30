@@ -9,6 +9,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 27,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-30",
+  "title": "삼성전자 2분기 확정실적, 영업이익 89.4조로 3분기 연속 역대 최대",
+  "featured": false
+ },
+ {
   "id": 26,
   "mode": "news",
   "label": "뉴스분석",
@@ -31,18 +39,10 @@ const LATEST_POSTS = [
   "date": "2026-07-29",
   "title": "코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유",
   "featured": false
- },
- {
-  "id": 23,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-29",
-  "title": "2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 26,
+ "news": 27,
  "study": 35,
  "lesson": 52,
  "estate": 15,
