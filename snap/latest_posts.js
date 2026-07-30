@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 32,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-30",
+  "title": "SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까",
+  "featured": false
+ },
+ {
   "id": 31,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법",
   "featured": false
- },
- {
-  "id": 57,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-07-30",
-  "title": "금 투자 완전정복, KRX 금시장부터 골드바·금 ETF까지 세금 비교",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 31,
+ "news": 32,
  "study": 35,
  "lesson": 58,
  "estate": 16,
