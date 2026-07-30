@@ -500,30 +500,30 @@ const TEAM_WEIGHTS = {
   },
   "화장품·미용": {
    "weights": {
-    "taro": 0.259,
-    "diana": 0.2317,
-    "nova": 0.2276,
-    "flow": 0.2817
+    "taro": 0.2569,
+    "diana": 0.2313,
+    "nova": 0.2306,
+    "flow": 0.2812
    },
    "acc": {
     "taro": {
-     "n": 161,
-     "acc": 46.0
+     "n": 162,
+     "acc": 45.7
     },
     "diana": {
      "n": 124,
      "acc": 41.1
     },
     "nova": {
-     "n": 99,
-     "acc": 40.4
+     "n": 100,
+     "acc": 41.0
     },
     "flow": {
      "n": 0,
      "acc": null
     }
    },
-   "graded": 384
+   "graded": 386
   },
   "건설·건자재": {
    "weights": {
