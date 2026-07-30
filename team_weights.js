@@ -3,38 +3,38 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-07-30 14:29",
+ "generatedAt": "2026-07-30 14:23",
  "evalDays": 5,
  "global": {
   "weights": {
-   "taro": 0.2813,
-   "diana": 0.1963,
+   "taro": 0.2814,
+   "diana": 0.1964,
    "nova": 0.2677,
    "flow": 0.2546
   },
   "acc": {
    "taro": {
-    "n": 6352,
+    "n": 6355,
     "acc": 61.4
    },
    "diana": {
-    "n": 5773,
+    "n": 5774,
     "acc": 42.8
    },
    "nova": {
-    "n": 4991,
+    "n": 4994,
     "acc": 58.4
    },
    "flow": {
-    "n": 1107,
-    "acc": 55.6
+    "n": 1109,
+    "acc": 55.5
    }
   },
-  "graded": 18223,
+  "graded": 18232,
   "team": {
    "hit": 4962,
-   "miss": 1265,
-   "n": 6227,
+   "miss": 1266,
+   "n": 6228,
    "acc": 79.7
   }
  },
@@ -284,30 +284,30 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2758,
-    "diana": 0.2288,
-    "nova": 0.2619,
-    "flow": 0.2335
+    "taro": 0.2753,
+    "diana": 0.2285,
+    "nova": 0.2615,
+    "flow": 0.2346
    },
    "acc": {
     "taro": {
-     "n": 809,
-     "acc": 65.6
+     "n": 810,
+     "acc": 65.7
     },
     "diana": {
-     "n": 698,
-     "acc": 54.4
+     "n": 699,
+     "acc": 54.5
     },
     "nova": {
-     "n": 653,
-     "acc": 62.3
+     "n": 654,
+     "acc": 62.4
     },
     "flow": {
-     "n": 108,
-     "acc": 55.6
+     "n": 109,
+     "acc": 56.0
     }
    },
-   "graded": 2268
+   "graded": 2272
   },
   "지주·상사": {
    "weights": {
@@ -339,8 +339,8 @@ const TEAM_WEIGHTS = {
   "조선": {
    "weights": {
     "taro": 0.2761,
-    "diana": 0.1978,
-    "nova": 0.266,
+    "diana": 0.1963,
+    "nova": 0.2674,
     "flow": 0.2602
    },
    "acc": {
@@ -349,19 +349,19 @@ const TEAM_WEIGHTS = {
      "acc": 53.1
     },
     "diana": {
-     "n": 221,
-     "acc": 38.0
+     "n": 220,
+     "acc": 37.7
     },
     "nova": {
-     "n": 180,
-     "acc": 51.1
+     "n": 179,
+     "acc": 51.4
     },
     "flow": {
      "n": 23,
      "acc": 52.2
     }
    },
-   "graded": 637
+   "graded": 635
   },
   "방산": {
    "weights": {
@@ -419,57 +419,57 @@ const TEAM_WEIGHTS = {
   },
   "화학·소재": {
    "weights": {
-    "taro": 0.2715,
-    "diana": 0.1774,
-    "nova": 0.2477,
-    "flow": 0.3034
+    "taro": 0.2721,
+    "diana": 0.178,
+    "nova": 0.2468,
+    "flow": 0.3031
    },
    "acc": {
     "taro": {
      "n": 459,
-     "acc": 67.1
+     "acc": 67.3
     },
     "diana": {
      "n": 479,
-     "acc": 43.8
+     "acc": 44.1
     },
     "nova": {
-     "n": 374,
-     "acc": 61.2
+     "n": 375,
+     "acc": 61.1
     },
     "flow": {
      "n": 62,
      "acc": 79.0
     }
    },
-   "graded": 1374
+   "graded": 1375
   },
   "물류·운송": {
    "weights": {
-    "taro": 0.272,
-    "diana": 0.2746,
-    "nova": 0.1978,
-    "flow": 0.2556
+    "taro": 0.2698,
+    "diana": 0.2725,
+    "nova": 0.2061,
+    "flow": 0.2516
    },
    "acc": {
     "taro": {
-     "n": 86,
-     "acc": 51.2
+     "n": 87,
+     "acc": 50.6
     },
     "diana": {
-     "n": 91,
-     "acc": 51.6
+     "n": 92,
+     "acc": 51.1
     },
     "nova": {
-     "n": 43,
-     "acc": 37.2
+     "n": 44,
+     "acc": 38.6
     },
     "flow": {
-     "n": 52,
-     "acc": 48.1
+     "n": 53,
+     "acc": 47.2
     }
    },
-   "graded": 272
+   "graded": 276
   },
   "유통·소비재": {
    "weights": {
@@ -500,30 +500,30 @@ const TEAM_WEIGHTS = {
   },
   "화장품·미용": {
    "weights": {
-    "taro": 0.259,
-    "diana": 0.2317,
-    "nova": 0.2276,
-    "flow": 0.2817
+    "taro": 0.2609,
+    "diana": 0.2318,
+    "nova": 0.2254,
+    "flow": 0.2818
    },
    "acc": {
     "taro": {
-     "n": 161,
-     "acc": 46.0
+     "n": 162,
+     "acc": 46.3
     },
     "diana": {
      "n": 124,
      "acc": 41.1
     },
     "nova": {
-     "n": 99,
-     "acc": 40.4
+     "n": 100,
+     "acc": 40.0
     },
     "flow": {
      "n": 0,
      "acc": null
     }
    },
-   "graded": 384
+   "graded": 386
   },
   "건설·건자재": {
    "weights": {
