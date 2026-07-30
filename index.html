@@ -802,6 +802,48 @@
   .lb-mvp-tag{font-size:10px;font-weight:800;color:#fff;background:var(--navy);border-radius:5px;padding:2px 7px;margin-left:7px;vertical-align:2px}
   .lb-empty{font-size:13px;color:var(--dim);line-height:1.7;padding:8px 2px}
   .lb-note{margin-top:14px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  /* ---- 개오 성적표(주간 채점 + 분석가 열전) ---- */
+  .sc-block{background:var(--paper);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow);margin-bottom:18px}
+  .sc-block h3{margin:0 0 6px;font-size:17px;font-weight:820}
+  .sc-block .sc-sub{font-size:11.5px;color:var(--dim);line-height:1.65;margin:0 0 18px}
+  .sc-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+  .sc-stat{background:var(--bg);border-radius:12px;padding:14px 12px;text-align:center}
+  .sc-stat b{display:block;font-size:21px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+  .sc-stat span{font-size:10.5px;color:var(--dim)}
+  .sc-calls-head{font-size:12.5px;font-weight:800;margin:18px 0 9px;color:var(--dim)}
+  .sc-call-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .sc-call-card{background:var(--bg);border-radius:12px;padding:13px 14px;border-left:3px solid var(--line)}
+  .sc-call-card.best{border-left-color:var(--green)}
+  .sc-call-card.worst{border-left-color:var(--red)}
+  .sc-call-nm{font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px}
+  .sc-call-badge{font-size:10px;font-weight:800;border-radius:6px;padding:1px 6px}
+  .sc-call-badge.buy{background:rgba(47,139,115,.14);color:var(--green)}
+  .sc-call-badge.sell{background:rgba(213,83,93,.14);color:var(--red)}
+  .sc-call-badge.hold{background:rgba(185,122,47,.14);color:var(--amber)}
+  .sc-call-meta{font-size:10.5px;color:var(--faint);margin:4px 0 7px}
+  .sc-call-ret{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+  .sc-call-reason{font-size:11.5px;color:var(--dim);line-height:1.55;margin-top:5px}
+  .sc-empty{font-size:12.5px;color:var(--dim);line-height:1.7;padding:6px 2px}
+  .sc-bars{display:flex;flex-direction:column;gap:10px;margin:14px 0 18px}
+  .sc-bar-row{display:grid;grid-template-columns:120px 1fr 70px;align-items:center;gap:10px}
+  .sc-bar-nm{font-size:12px;font-weight:700}
+  .sc-bar-nm small{display:block;font-size:10px;font-weight:500;color:var(--faint)}
+  .sc-bar-track{height:9px;background:#E5EBF2;border-radius:99px;overflow:hidden}
+  .sc-bar-track i{display:block;height:100%;border-radius:99px}
+  .sc-bar-acc{text-align:right;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+  .sc-team-note{background:var(--navy-soft);border-radius:12px;padding:13px 15px;font-size:12px;line-height:1.6;margin:6px 0 18px}
+  html.gdark .sc-team-note{background:rgba(255,255,255,.06)}
+  .sc-explain{font-size:12.5px;line-height:1.75;color:var(--ink);margin:0 0 14px}
+  .sc-chip-head{font-size:12.5px;font-weight:800;margin:14px 0 9px;color:var(--dim)}
+  .sc-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .sc-chip{font-size:11.5px;font-weight:700;background:var(--bg);border-radius:99px;padding:6px 12px}
+  .sc-chip b{color:var(--navy)}
+  .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
+  @media(max-width:900px){
+    .sc-stat-row{grid-template-columns:repeat(2,1fr)}
+    .sc-call-grid{grid-template-columns:1fr}
+    .sc-bar-row{grid-template-columns:88px 1fr 56px}
+  }
   /* ---- 분석중 오버레이 ---- */
   .stage{position:relative}
   .analyzing{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -2861,6 +2903,7 @@
     <button class="modebtn" id="mode-calc"><svg class="mi" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2.2"/><path d="M7 6.5h10M7 11h2.2M11.9 11h2.2M16.8 11h2.2M7 14.5h2.2M11.9 14.5h2.2M16.8 14.5h2.2M7 18h2.2M11.9 18h2.2M16.8 18h2.2"/></svg>계산기</button>
     <button class="modebtn" id="mode-screener"><svg class="mi" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21M7 10.5h7"/></svg>스크리너</button>
     <button class="modebtn" id="mode-leaderboard"><svg class="mi" viewBox="0 0 24 24"><path d="M7.5 4h9v3.8A4.5 4.5 0 0 1 12 12a4.5 4.5 0 0 1-4.5-4.2zM7.5 5.5H4.2a3.4 3.4 0 0 0 3.4 3.9M16.5 5.5h3.3a3.4 3.4 0 0 1-3.4 3.9"/><path d="M12 12v4M8.5 20h7M10 20l.6-4h2.8l.6 4"/></svg>리더보드</button>
+    <button class="modebtn" id="mode-scorecard"><svg class="mi" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="m8.5 13.5 2 2 4-4.5"/></svg>성적표</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
   </div>
@@ -2959,6 +3002,9 @@
   <div class="compare" id="compare"></div>
   <div class="portfolio" id="portfolio"></div>
   <div class="leaderboard" id="leaderboard"></div>
+  <!-- 🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전. history.js·price_history.js·team_weights.js
+       실측 데이터만으로 렌더링한다(AI 토큰 0원, 서버 재계산 때마다 자동 갱신). -->
+  <div class="newsView" id="scorecardView"></div>
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
   <div class="newsView" id="newsView"></div>
@@ -3710,6 +3756,137 @@ function renderLeaderboard(){
     ${cards}
     ${totalScored===0?'<div class="lb-empty">아직 확정 채점된 예측이 없어요. 각 판단은 5거래일(약 일주일)이 지나야 그 시점 종가로 채점돼요 — 곧 하나씩 채워집니다!</div>':''}
     <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 판단 후 5거래일 뒤 종가 기준, 변동 ±1% 이내는 평가 보류. 👑 MVP는 표본 ${LB_MIN}개 이상부터.${twW?' 🧠 발언권 = 적중률 비례 CHIEF 합산 가중치(표본 30건 미만은 중립 처리).':''}</div>`;
+}
+
+/* ============================================================
+   🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전
+   history.js·price_history.js(판단 채점) + team_weights.js(분석가별 실측 적중률)만으로
+   렌더링한다. 새 글을 쓰지 않고 저장된 stance·적중률을 그대로 요약해 보여준다
+   (AI 토큰 0원, 서버가 매 사이클 다시 계산할 때마다 이 화면도 자동으로 갱신됨).
+   ============================================================ */
+const SC_NAME={taro:'TARO',diana:'DIANA',nova:'QUANT',flow:'FLOW'};
+const SC_ROLE={taro:'기술적 분석가',diana:'재무·기본적 분석가',nova:'확률·통계 분석가',flow:'수급 분석가'};
+const SC_COLOR={taro:'#22d3ee',diana:'#a78bfa',nova:'#fb923c',flow:'#34d399'};
+// 판단 당시 4인의 stance를 그대로 요약해 "왜 이 방향이었는지" 한 줄로 보여준다 — 새로 해석을 붙이지 않고
+// 이미 기록된 사실(누가 강세/약세였는지, 결과가 어느 쪽이었는지)만 문장으로 옮긴다.
+function scWhy(r){
+  const ids=['taro','diana','nova','flow'];
+  const bulls=ids.filter(id=>r[id]&&r[id].stance==='bull').map(id=>SC_NAME[id]);
+  const bears=ids.filter(id=>r[id]&&r[id].stance==='bear').map(id=>SC_NAME[id]);
+  const dir=r.ret>0?'상승':(r.ret<0?'하락':'보합');
+  if(bulls.length&&bears.length) return `${bulls.join('·')}는 강세, ${bears.join('·')}는 약세로 의견이 갈렸는데 실제로는 ${dir}했어요.`;
+  if(bulls.length===ids.length) return `4인 전원 강세 의견이었고 실제로 ${dir}했어요.`;
+  if(bears.length===ids.length) return `4인 전원 약세 의견이었고 실제로 ${dir}했어요.`;
+  if(bulls.length) return `${bulls.join('·')}만 강세 의견이었고 실제로 ${dir}했어요.`;
+  if(bears.length) return `${bears.join('·')}만 약세 의견이었고 실제로 ${dir}했어요.`;
+  return `의견 대부분 중립이었는데 실제로 ${dir}했어요.`;
+}
+function scCallCard(r,kind){
+  const col=r.ret>0?'var(--green)':(r.ret<0?'var(--red)':'var(--dim)');
+  const badgeCls=r.call==='BUY'?'buy':(r.call==='SELL'?'sell':'hold');
+  return `<div class="sc-call-card ${kind}">
+    <div class="sc-call-nm"><span class="sc-call-badge ${badgeCls}">${esc(r.call)}</span>${esc(r.name)}</div>
+    <div class="sc-call-meta">${esc(r.date)} 판단 · ${esc(r.gradeDate)} 채점</div>
+    <div class="sc-call-ret" style="color:${col}">${r.ret>0?'+':''}${r.ret.toFixed(1)}%</div>
+    <div class="sc-call-reason">${esc(scWhy(r))}</div>
+  </div>`;
+}
+// 이번 주 = 5거래일 채점 창이 막 닫힌(채점일이 최근 7일 이내인) 판단들.
+function computeWeeklyScorecard(){
+  const rows=[];
+  if(LIVE_HIST) for(const code in LIVE_HIST){
+    LIVE_HIST[code].forEach(e=>{
+      if(!e.base||!e.call) return;
+      const ev=evalRet(code,e); if(!ev) return;
+      rows.push({code, name:(STOCKS[code]&&STOCKS[code].name)||code, date:String(e.date).slice(0,10),
+        call:e.call, ret:ev.pct, gradeDate:ev.date, taro:e.taro, diana:e.diana, nova:e.nova, flow:e.flow});
+    });
+  }
+  const weekAgo=new Date(Date.now()-7*24*3600*1000).toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+  const weekRows=rows.filter(r=>r.gradeDate>=weekAgo);
+  const scored=weekRows.map(r=>Object.assign({verdict:scoreCall(r.call,r.ret)}, r));
+  const hits=scored.filter(r=>r.verdict==='hit'), misses=scored.filter(r=>r.verdict==='miss');
+  // 같은 종목이 매일 판단·채점되다 보니 하루이틀 차이 판단이 겹쳐 상위권에 몰릴 수 있다 —
+  // 종목당 가장 큰 폭 1건만 남겨 서로 다른 종목 3개를 보여준다(그래야 "성적표" 다양성이 산다).
+  const dedupTop=(list)=>{
+    const byCode=new Map();
+    list.forEach(r=>{ const prev=byCode.get(r.code); if(!prev||Math.abs(r.ret)>Math.abs(prev.ret)) byCode.set(r.code,r); });
+    return [...byCode.values()].sort((a,b)=>Math.abs(b.ret)-Math.abs(a.ret)).slice(0,3);
+  };
+  const best=dedupTop(hits);
+  const worst=dedupTop(misses);
+  return {total:scored.length, hitN:hits.length, missN:misses.length,
+    acc:(hits.length+misses.length)?Math.round(hits.length/(hits.length+misses.length)*100):null, best, worst};
+}
+function renderScorecard(){
+  const el=document.getElementById('scorecardView'); if(!el) return;
+  const wk=computeWeeklyScorecard();
+
+  const statRow=`<div class="sc-stat-row">
+    <div class="sc-stat"><b>${wk.total}</b><span>이번 주 채점 완료</span></div>
+    <div class="sc-stat"><b style="color:var(--green)">${wk.hitN}</b><span>적중</span></div>
+    <div class="sc-stat"><b style="color:var(--red)">${wk.missN}</b><span>빗나감</span></div>
+    <div class="sc-stat"><b>${wk.acc===null?'—':wk.acc+'%'}</b><span>주간 적중률</span></div>
+  </div>`;
+  const bestHtml=wk.best.length
+    ? `<div class="sc-calls-head">🎯 이번 주 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
+  const worstHtml=wk.worst.length
+    ? `<div class="sc-calls-head">🙈 이번 주 가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
+  const weeklyBody=wk.total===0
+    ? `<div class="sc-empty">이번 주(최근 7일) 안에 채점이 막 끝난 판단이 아직 없어요. 판단은 5거래일이 지나야 채점되니 조금만 기다려 주세요.</div>`
+    : `${bestHtml}${worstHtml}`;
+
+  // ── 분석가 열전: team_weights.js의 실측 적중률만 사용, 매 사이클 자동 갱신 ──
+  let deepDive='';
+  const TW=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)?TEAM_WEIGHTS:null;
+  if(TW){
+    const acc=TW.global.acc, ids=['taro','diana','nova','flow'];
+    const ranked=ids.map(id=>Object.assign({id},acc[id])).sort((a,b)=>(b.acc||0)-(a.acc||0));
+    const bars=ranked.map(r=>`<div class="sc-bar-row">
+        <div class="sc-bar-nm">${SC_NAME[r.id]}<small>${SC_ROLE[r.id]}</small></div>
+        <div class="sc-bar-track"><i style="width:${r.acc||0}%;background:${SC_COLOR[r.id]}"></i></div>
+        <div class="sc-bar-acc">${r.acc==null?'—':r.acc+'%'}</div>
+      </div>`).join('');
+    const bestA=ranked[0], worstA=ranked[ranked.length-1];
+    const team=TW.global.team;
+    const teamNote=(team&&team.acc!=null)
+      ? `<div class="sc-team-note">🤝 개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}도 ${bestA.acc}%인데, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 한 명의 관점만 따르는 것보다 서로 다른 관점을 종합할 때 더 정확해진다는 뜻이에요.</div>`
+      : '';
+    // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
+    const sectorBest={};
+    if(TW.sectors){
+      ids.forEach(id=>{
+        let top=null;
+        for(const sname in TW.sectors){
+          const a=TW.sectors[sname].acc&&TW.sectors[sname].acc[id];
+          if(!a||a.n<100) continue;
+          if(!top||a.acc>top.acc) top={sector:sname, acc:a.acc};
+        }
+        if(top) sectorBest[id]=top;
+      });
+    }
+    const chips=ids.filter(id=>sectorBest[id]).map(id=>
+      `<span class="sc-chip"><b>${SC_NAME[id]}</b>는 ${esc(sectorBest[id].sector)} 업종에서 ${sectorBest[id].acc}%로 가장 잘 맞혀요</span>`
+    ).join('');
+
+    deepDive=`<div class="sc-block">
+      <h3>🔬 분석가 열전: 왜 어떤 분석가는 더 잘 맞을까</h3>
+      <p class="sc-sub">판단 후 5거래일 뒤 종가로 채점한 실측 적중률이에요(표본 ${(TW.global.graded||0).toLocaleString()}건, ${esc(TW.generatedAt||'')} 기준 자동 계산 · 이 순위는 매주 다시 매겨져요).</p>
+      <div class="sc-bars">${bars}</div>
+      <p class="sc-explain">${SC_NAME[worstA.id]}(${SC_ROLE[worstA.id]})의 적중률이 가장 낮다고 실력이 없는 게 아니에요. 재무·기본적 분석은 원래 몇 분기, 몇 년 단위로 맞았는지 확인하는 도구인데, 이 채점은 <b>단 5거래일</b> 뒤 주가로만 판정해요. 반대로 기술적 지표나 수급은 며칠 단위 흐름을 보려고 만든 도구라 이 짧은 잣대에 더 유리해요. 지금 순위는 "누가 더 뛰어난가"가 아니라 "이 채점 기간에 어떤 관점이 더 잘 맞았는가"로 읽어야 정확해요.</p>
+      ${teamNote}
+      ${chips?`<div class="sc-chip-head">📍 업종별로는 승자가 달라요 (표본 100건 이상만 집계)</div><div class="sc-chips">${chips}</div>`:''}
+      <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
+    </div>`;
+  }
+
+  el.innerHTML=`<div class="sc-block">
+    <h3>🧾 이번 주 개오 성적표</h3>
+    <p class="sc-sub">지난 5거래일이 막 지나 채점이 끝난 판단들을 모았어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
+    ${statRow}
+    ${weeklyBody}
+  </div>
+  ${deepDive}`;
 }
 
 /* ============================================================
@@ -8362,10 +8539,10 @@ window.renderScreener=function(){
 
   function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
-      leaderboard:'history',calendar:'history',screener:'auto'}[mode];
+      leaderboard:'history',calendar:'history',screener:'auto',scorecard:'history'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
       const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
-        calc:'calcView',leaderboard:'leaderboard',calendar:'calendarView'}[mode];
+        calc:'calcView',leaderboard:'leaderboard',calendar:'calendarView',scorecard:'scorecardView'}[mode];
       const view=document.getElementById(viewId);
       if(view){
         view.classList.add('on');
@@ -8386,7 +8563,7 @@ window.renderScreener=function(){
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener',
-          latest=mode==='latest';
+          latest=mode==='latest', scorecard=mode==='scorecard';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
@@ -8400,6 +8577,7 @@ window.renderScreener=function(){
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
       screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 500개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
       leaderboard:['분석 결과를 기록으로','팀 성적표','분석팀의 예측 결과와 적중률을 누적 기록으로 투명하게 확인해 보세요.'],
+      scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
       community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.']
     };
@@ -8419,6 +8597,7 @@ window.renderScreener=function(){
     document.getElementById('mode-calc').classList.toggle('on',calc);
     document.getElementById('mode-screener').classList.toggle('on',screener);
     document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
+    document.getElementById('mode-scorecard').classList.toggle('on',scorecard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
     document.getElementById('guideView').classList.toggle('on',guide);
@@ -8436,6 +8615,7 @@ window.renderScreener=function(){
     if(!compare) document.getElementById('compare').classList.remove('on');
     document.getElementById('portfolio').classList.toggle('on',portfolio);
     document.getElementById('leaderboard').classList.toggle('on',leaderboard);
+    document.getElementById('scorecardView').classList.toggle('on',scorecard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
     document.getElementById('latestPanel').classList.toggle('on',latest);
@@ -8455,6 +8635,7 @@ window.renderScreener=function(){
     if(calc && window.renderCalc) window.renderCalc();
     if(screener && window.renderScreener) window.renderScreener();
     if(leaderboard) renderLeaderboard();
+    if(scorecard) renderScorecard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
   }
@@ -8471,6 +8652,7 @@ window.renderScreener=function(){
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
+  document.getElementById('mode-scorecard').onclick=()=>{setMode('scorecard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
 
@@ -9503,6 +9685,7 @@ window.hangulFix=function(str){
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
+    else if(m==='scorecard'){ window.setMode('scorecard'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
