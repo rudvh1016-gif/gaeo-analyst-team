@@ -1710,8 +1710,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 29000,
-   "currentValue": 31750,
-   "threshold": 30090,
+   "currentValue": 31600,
+   "threshold": 30066,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
    "priceBaseAt": "2026-07-30 11:19 장중",
@@ -2172,8 +2172,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 59600,
-   "currentValue": 62600,
-   "threshold": 60277,
+   "currentValue": 62800,
+   "threshold": 60290,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
    "priceBaseAt": "2026-07-30 11:19 장중",
@@ -2508,8 +2508,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 33450,
-   "currentValue": 35300,
-   "threshold": 33454,
+   "currentValue": 35350,
+   "threshold": 33460,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
    "priceBaseAt": "2026-07-30 11:19 장중",
@@ -3033,8 +3033,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 19550,
-   "currentValue": 20900,
-   "threshold": 20157,
+   "currentValue": 21050,
+   "threshold": 20190,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
    "priceBaseAt": "2026-07-30 11:19 장중",
@@ -3579,8 +3579,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 25900,
-   "currentValue": 27050,
-   "threshold": 26479,
+   "currentValue": 27150,
+   "threshold": 26500,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
    "priceBaseAt": "2026-07-30 11:19 장중",
@@ -3957,7 +3957,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -133,
-   "currentValue": 23,
+   "currentValue": 33,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
@@ -4272,7 +4272,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 31,
-   "currentValue": -6,
+   "currentValue": -3,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
@@ -4566,7 +4566,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 77,
-   "currentValue": -245,
+   "currentValue": -213,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 11:53",
@@ -5900,6 +5900,17 @@
    ]
   },
   {
+   "code": "005290",
+   "name": "동진쎄미켐",
+   "rep": "005290-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "005380",
    "name": "현대차",
    "rep": "005380-bb-lower-recover-20260730",
@@ -6784,6 +6795,17 @@
    "types": [
     "bb_lower_recover",
     "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "281820",
+   "name": "케이씨텍",
+   "rep": "281820-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
    ]
   },
   {
