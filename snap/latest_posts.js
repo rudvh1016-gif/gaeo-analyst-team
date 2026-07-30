@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 29,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-30",
+  "title": "삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까",
+  "featured": false
+ },
+ {
   "id": 28,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-29",
   "title": "새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유",
   "featured": false
- },
- {
-  "id": 21,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-29",
-  "title": "SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 28,
+ "news": 29,
  "study": 35,
  "lesson": 53,
  "estate": 15,
