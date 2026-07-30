@@ -32,9 +32,9 @@ const TEAM_WEIGHTS = {
   },
   "graded": 18229,
   "team": {
-   "hit": 4961,
+   "hit": 4962,
    "miss": 1266,
-   "n": 6227,
+   "n": 6228,
    "acc": 79.7
   }
  },
@@ -149,30 +149,30 @@ const TEAM_WEIGHTS = {
   },
   "통신": {
    "weights": {
-    "taro": 0.2634,
-    "diana": 0.1981,
-    "nova": 0.2536,
-    "flow": 0.2849
+    "taro": 0.2623,
+    "diana": 0.1954,
+    "nova": 0.2569,
+    "flow": 0.2854
    },
    "acc": {
     "taro": {
-     "n": 117,
-     "acc": 59.8
+     "n": 116,
+     "acc": 59.5
     },
     "diana": {
-     "n": 80,
-     "acc": 45.0
+     "n": 79,
+     "acc": 44.3
     },
     "nova": {
-     "n": 92,
-     "acc": 57.6
+     "n": 91,
+     "acc": 58.2
     },
     "flow": {
      "n": 34,
      "acc": 64.7
     }
    },
-   "graded": 323
+   "graded": 320
   },
   "인터넷·IT": {
    "weights": {

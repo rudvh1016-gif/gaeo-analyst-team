@@ -24,7 +24,7 @@
   "ma_golden_cross": 4,
   "ma_dead_cross": 6
  },
- "extraTotal": 62,
+ "extraTotal": 64,
  "mainOrder": [
   "rsi_oversold_entry",
   "rsi_oversold_exit",
@@ -1563,8 +1563,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 41150,
-   "currentValue": 42050,
-   "threshold": 40961,
+   "currentValue": 41400,
+   "threshold": 40821,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -1773,8 +1773,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 92200,
-   "currentValue": 95800,
-   "threshold": 92762,
+   "currentValue": 95900,
+   "threshold": 92777,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -1815,8 +1815,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 2625,
-   "currentValue": 2650,
-   "threshold": 2613,
+   "currentValue": 2640,
+   "threshold": 2611,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -2445,8 +2445,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 3785,
-   "currentValue": 3825,
-   "threshold": 3789,
+   "currentValue": 3820,
+   "threshold": 3788,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -2655,8 +2655,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 52000,
-   "currentValue": 52900,
-   "threshold": 51947,
+   "currentValue": 52800,
+   "threshold": 51932,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -3285,8 +3285,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 40100,
-   "currentValue": 41400,
-   "threshold": 40056,
+   "currentValue": 41450,
+   "threshold": 40062,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
    "priceBaseAt": "2026-07-30 13:27 장중",
@@ -3516,7 +3516,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 149,
-   "currentValue": -77,
+   "currentValue": -118,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -3558,7 +3558,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 70,
-   "currentValue": -172,
+   "currentValue": -169,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -3579,7 +3579,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 6,
-   "currentValue": -2,
+   "currentValue": -3,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -3663,7 +3663,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 78,
-   "currentValue": -94,
+   "currentValue": -99,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -3684,7 +3684,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 12,
-   "currentValue": -8,
+   "currentValue": -9,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -4356,7 +4356,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 142,
-   "currentValue": -758,
+   "currentValue": -688,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -4377,7 +4377,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 6,
-   "currentValue": 0,
+   "currentValue": -1,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -4398,7 +4398,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 14,
-   "currentValue": -1,
+   "currentValue": 0,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -4440,7 +4440,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 145,
-   "currentValue": -61,
+   "currentValue": -67,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 13:59",
@@ -4896,6 +4896,17 @@
    ]
   },
   {
+   "code": "178320",
+   "name": "서진시스템",
+   "rep": "178320-bb-lower-break-20260730",
+   "repType": "bb_lower_break",
+   "repLabel": "밴드 하단 이탈",
+   "others": 0,
+   "types": [
+    "bb_lower_break"
+   ]
+  },
+  {
    "code": "240810",
    "name": "원익IPS",
    "rep": "240810-bb-lower-break-20260730",
@@ -4917,6 +4928,30 @@
     "bb_lower_break",
     "rsi_oversold_entry",
     "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "267270",
+   "name": "HD건설기계",
+   "rep": "267270-bb-lower-break-20260730",
+   "repType": "bb_lower_break",
+   "repLabel": "밴드 하단 이탈",
+   "others": 1,
+   "types": [
+    "bb_lower_break",
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "417200",
+   "name": "LS머트리얼즈",
+   "rep": "417200-bb-lower-break-20260730",
+   "repType": "bb_lower_break",
+   "repLabel": "밴드 하단 이탈",
+   "others": 1,
+   "types": [
+    "bb_lower_break",
+    "rsi_oversold_entry"
    ]
   },
   {
@@ -5367,17 +5402,6 @@
    "code": "068270",
    "name": "셀트리온",
    "rep": "068270-bb-upper-break-20260730",
-   "repType": "bb_upper_break",
-   "repLabel": "밴드 상단 돌파",
-   "others": 0,
-   "types": [
-    "bb_upper_break"
-   ]
-  },
-  {
-   "code": "111770",
-   "name": "영원무역",
-   "rep": "111770-bb-upper-break-20260730",
    "repType": "bb_upper_break",
    "repLabel": "밴드 상단 돌파",
    "others": 0,
@@ -6218,6 +6242,17 @@
    ]
   },
   {
+   "code": "204270",
+   "name": "제이앤티씨",
+   "rep": "204270-bb-lower-recover-20260730",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "204320",
    "name": "HL만도",
    "rep": "204320-bb-lower-recover-20260730",
@@ -6234,9 +6269,10 @@
    "rep": "213420-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
-   "others": 0,
+   "others": 1,
    "types": [
-    "bb_lower_recover"
+    "bb_lower_recover",
+    "macd_dead_cross"
    ]
   },
   {
