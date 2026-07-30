@@ -347,7 +347,7 @@ const orderedLatest = featuredLatest
   ? [featuredLatest, ...latestPool.filter(x => x !== featuredLatest)]
   : latestPool;
 const latestPosts = orderedLatest
-  .slice(0, 5)
+  .slice(0, 10)
   .map(x => ({
     id: x.id,
     mode: x.mode,
@@ -362,7 +362,9 @@ const contentStats = index.reduce((stats, item) => {
 }, { news: 0, study: 0, lesson: 0, estate: 0, calc: 0 });
 fs.writeFileSync(
   path.join(HERE, 'snap/latest_posts.js'),
-  '// generate_snapshots.js가 자동 생성하는 첫 화면 최신 글 5개 목록과 콘텐츠 수\nconst LATEST_POSTS = ' +
+  '// generate_snapshots.js가 자동 생성하는 최신 글 10개 목록과 콘텐츠 수\n' +
+    '// (히어로의 "최근 뉴스, 공부 자료 확인하기" 패널이 10개를 세로로 펼쳐 쓰고,\n' +
+    '//  "지금 많이 보는 글"은 이 중 앞 5개만 골라 쓴다)\nconst LATEST_POSTS = ' +
     JSON.stringify(latestPosts, null, 1) + ';\nconst CONTENT_STATS = ' +
     JSON.stringify(contentStats, null, 1) + ';\n'
 );

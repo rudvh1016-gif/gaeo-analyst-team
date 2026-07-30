@@ -3,26 +3,26 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-07-30 11:23",
+ "generatedAt": "2026-07-30 11:29",
  "evalDays": 5,
  "global": {
   "weights": {
-   "taro": 0.2818,
+   "taro": 0.2817,
    "diana": 0.1969,
    "nova": 0.267,
    "flow": 0.2544
   },
   "acc": {
    "taro": {
-    "n": 6351,
+    "n": 6352,
     "acc": 61.5
    },
    "diana": {
-    "n": 5771,
+    "n": 5772,
     "acc": 43.0
    },
    "nova": {
-    "n": 4990,
+    "n": 4991,
     "acc": 58.3
    },
    "flow": {
@@ -30,11 +30,11 @@ const TEAM_WEIGHTS = {
     "acc": 55.5
    }
   },
-  "graded": 18220,
+  "graded": 18223,
   "team": {
-   "hit": 4969,
+   "hit": 4973,
    "miss": 1265,
-   "n": 6234,
+   "n": 6238,
    "acc": 79.7
   }
  },
@@ -554,30 +554,30 @@ const TEAM_WEIGHTS = {
   },
   "게임·엔터": {
    "weights": {
-    "taro": 0.2491,
-    "diana": 0.1809,
-    "nova": 0.2929,
-    "flow": 0.2772
+    "taro": 0.2472,
+    "diana": 0.1821,
+    "nova": 0.2941,
+    "flow": 0.2767
    },
    "acc": {
     "taro": {
-     "n": 187,
-     "acc": 44.9
+     "n": 188,
+     "acc": 44.7
     },
     "diana": {
-     "n": 233,
-     "acc": 32.6
+     "n": 234,
+     "acc": 32.9
     },
     "nova": {
-     "n": 142,
-     "acc": 52.8
+     "n": 143,
+     "acc": 53.1
     },
     "flow": {
      "n": 0,
      "acc": null
     }
    },
-   "graded": 562
+   "graded": 565
   },
   "로봇": {
    "weights": {

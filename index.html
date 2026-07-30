@@ -1726,12 +1726,20 @@
   .home-watch-change strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
   .home-watch-change button{border:0;background:transparent;color:var(--sky);font:inherit;font-weight:800;
     padding:1px 0;cursor:pointer;text-align:left}
-  .latest-home{margin:0 0 12px;padding:11px 12px;background:var(--paper);border:1px solid var(--line);
-    border-radius:14px;box-shadow:var(--shadow)}
-  .latest-home-head{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
-  .latest-home-head h2{margin:0;font-size:13px;color:var(--ink)}
-  .latest-home-head span{font-size:9.5px;color:var(--faint)}
-  .latest-home-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  /* 📰 최근 글 패널 — 히어로의 "최근 뉴스, 공부 자료 확인하기" 버튼으로만 열리는 세로 목록.
+     첫 화면을 가볍게 유지하려고 기본은 숨김이고, 버튼을 누를 때만 펼쳐 10개를 보여준다. */
+  .latest-panel[hidden]{display:none}
+  .latest-panel{margin:0 0 16px;padding:11px 12px;background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow);scroll-margin-top:calc(var(--gaeo-nav-h) + 14px)}
+  .latest-panel-head{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
+  .latest-panel-head h2{margin:0;font-size:13px;color:var(--ink)}
+  .latest-panel-head span{font-size:9.5px;color:var(--faint)}
+  .latest-panel-close{margin-left:auto;border:1px solid var(--line);background:transparent;
+    color:var(--dim);border-radius:99px;padding:4px 11px;font:inherit;font-size:11px;font-weight:700;
+    cursor:pointer;white-space:nowrap}
+  .latest-panel-close:hover,.latest-panel-close:focus-visible{background:var(--sky-soft);
+    border-color:var(--sky-line);color:var(--sky);outline:none}
+  .latest-panel-list{display:grid;grid-template-columns:1fr;gap:0}
   .latest-post{border:0;border-left:2px solid var(--sky-line);background:transparent;color:var(--ink);
     padding:2px 8px;text-align:left;font:inherit;cursor:pointer;min-width:0}
   .latest-post:hover,.latest-post:focus-visible{background:var(--sky-soft);outline:none;border-left-color:var(--sky)}
@@ -1743,9 +1751,6 @@
     border-radius:99px;padding:5px 9px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
   .watch-toggle.on{background:var(--sky);color:#fff;border-color:var(--sky)}
   @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
-  @media(max-width:900px){.latest-home-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    scrollbar-width:none;padding-bottom:2px}.latest-home-list::-webkit-scrollbar{display:none}
-    .latest-post{flex:0 0 min(72vw,250px);scroll-snap-align:start}}
   @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}
     .start-step{padding:13px 14px}.start-board .start-step:nth-child(1){order:1}.start-step-summary{order:2}
     .start-board .start-step:nth-child(3){order:3}}
@@ -1993,21 +1998,20 @@
   html.gdark .hero-search-card h2{color:#DDF4FC}
   html.gdark .hero-search-card>p,html.gdark .hero-search-card .home-watch-empty{color:#82ADBD}
   html.gdark .hero-search-card .home-search-row input{background:rgba(255,255,255,.06)}
-  .home-dashboard .latest-home{margin:0 0 16px;padding:24px 26px 18px;border:1px solid var(--gaeo-border);
+  .latest-panel{padding:24px 26px 18px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none}
-  .home-dashboard .latest-home-head{align-items:center;justify-content:space-between;margin-bottom:10px}
-  .home-dashboard .latest-home-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
-  .home-dashboard .latest-home-head span{font-size:10px;padding:5px 8px;border-radius:8px;
+  .latest-panel-head{align-items:center;margin-bottom:10px}
+  .latest-panel-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
+  .latest-panel-head span{font-size:10px;padding:5px 8px;border-radius:8px;
     color:var(--gaeo-600);background:var(--gaeo-50)}
-  .home-dashboard .latest-home-list{display:grid;grid-template-columns:1fr;gap:0}
-  .home-dashboard .latest-post{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;
+  .latest-panel .latest-post{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;
     min-height:43px;border:0;border-top:1px solid var(--gaeo-border);padding:9px 2px;background:transparent}
-  .home-dashboard .latest-post:first-child{border-top:0}
-  .home-dashboard .latest-post:hover,.home-dashboard .latest-post:focus-visible{
+  .latest-panel .latest-post:first-child{border-top:0}
+  .latest-panel .latest-post:hover,.latest-panel .latest-post:focus-visible{
     padding-left:8px;border-left:0;background:var(--gaeo-50)}
-  .home-dashboard .latest-post-meta{grid-column:2;grid-row:1;margin:0;font-size:9px}
-  .home-dashboard .latest-post-meta b{color:var(--gaeo-600)}
-  .home-dashboard .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
+  .latest-panel .latest-post-meta{grid-column:2;grid-row:1;margin:0;font-size:9px}
+  .latest-panel .latest-post-meta b{color:var(--gaeo-600)}
+  .latest-panel .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
     white-space:nowrap;text-overflow:ellipsis;display:block}
 
   /* 오늘의 Gaeo — 공개 방문 숫자와 초보자용 이용 동선을 함께 보여주는 활동판 */
@@ -2182,7 +2186,7 @@
     flex-wrap:wrap;gap:6px 12px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
   .home-dashboard .brief-count-row>span:first-child{color:#526F7B;font-weight:720}
   .home-dashboard .brief-count-row strong{color:#173E4D;font-weight:820;font-variant-numeric:tabular-nums}
-  .home-dashboard .latest-post-pin{display:inline-block;margin-right:5px;color:#E5484D;
+  .latest-panel .latest-post-pin{display:inline-block;margin-right:5px;color:#E5484D;
     font-size:12px;line-height:1;vertical-align:1px}
   .home-dashboard .brief-link{border-color:rgba(72,139,164,.28);background:rgba(255,255,255,.60);
     color:#245C73;padding:8px 11px;border-radius:10px}
@@ -2334,13 +2338,11 @@
     .wrap{padding-top:calc(var(--gaeo-nav-h) + 16px)}
     .home-lead{grid-template-columns:1fr}
     .hero-search-card{min-height:0}
-    .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(220px,1fr));
-      overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-    .home-dashboard .latest-post{display:block;min-height:82px;padding:12px;border:1px solid var(--gaeo-border);
-      border-radius:14px;scroll-snap-align:start}
-    .home-dashboard .latest-post:first-child{border-top:1px solid var(--gaeo-border)}
-    .home-dashboard .latest-post-meta{margin-bottom:7px}
-    .home-dashboard .latest-post-title{white-space:normal;display:-webkit-box}
+    /* 좁은 화면에서도 세로 목록을 유지하고, 제목만 두 줄까지 접어 보여준다 */
+    .latest-panel .latest-post{display:block;padding:11px 2px}
+    .latest-panel .latest-post-meta{margin-bottom:5px}
+    .latest-panel .latest-post-title{font-size:13px;white-space:normal;display:-webkit-box;
+      -webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
     .activity-board{grid-template-columns:1fr}
     .activity-popular{padding:18px 0 0;border-left:0;border-top:1px solid rgba(56,128,155,.18)}
     .change-board{grid-template-columns:1fr;gap:18px}
@@ -2404,9 +2406,8 @@
     .hero-search-card h2{font-size:20px}
     .hero-search-card .home-search-panel{margin-top:14px}
     .hero-search-card .home-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto}
-    .home-dashboard .latest-home{padding:24px 20px 20px;border-radius:24px}
-    .home-dashboard .latest-home-head h2{font-size:18px}
-    .home-dashboard .latest-home-list{grid-template-columns:repeat(5,minmax(210px,1fr))}
+    .latest-panel{padding:22px 18px 18px;border-radius:24px}
+    .latest-panel-head h2{font-size:18px}
     .activity-board{gap:18px;margin:14px 0;padding:22px 18px;border-radius:20px}
     .activity-head{margin-bottom:16px}
     .activity-head h2{font-size:17px}
@@ -2676,7 +2677,7 @@
         <h1 class="hero-title"><span>달라진 것만</span><em>하루 3분</em></h1>
         <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
         <div class="hero-actions">
-          <button class="hero-action primary" id="heroSearchBtn" type="button">내 종목 검색하기</button>
+          <button class="hero-action primary" id="heroLatestBtn" type="button">최근 뉴스, 공부 자료 확인하기</button>
           <button class="hero-action" id="heroChangesBtn" type="button">☆ 가이드북 보기</button>
         </div>
         <span class="badge" id="hbadge">시세 확인 중</span>
@@ -2802,14 +2803,6 @@
       </div>
     </section>
 
-    <section class="latest-home" id="latestHome" aria-labelledby="latestHomeTitle">
-      <div class="latest-home-head">
-        <h2 id="latestHomeTitle">방금 올라온 글</h2>
-        <span>최신 5개</span>
-      </div>
-      <div class="latest-home-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
-    </section>
-
     <section class="trust-strip" aria-labelledby="trustTitle">
       <div>
         <h2 id="trustTitle">판단보다 먼저, 기준을 공개해요</h2>
@@ -2854,6 +2847,17 @@
       data-ad-onload="gaeoAdLoaded"
       data-ad-onfail="gaeoAdFailed"></ins>
     </div>
+  </section>
+
+  <!-- 📰 최근 글 패널 — 첫 화면을 가볍게 두려고 기본은 숨겨두고,
+       히어로의 "최근 뉴스, 공부 자료 확인하기" 버튼을 누를 때만 10개를 세로로 펼친다. -->
+  <section class="latest-panel" id="latestPanel" aria-labelledby="latestPanelTitle" hidden>
+    <div class="latest-panel-head">
+      <h2 id="latestPanelTitle">최근 뉴스·공부 자료</h2>
+      <span>최신 10개</span>
+      <button class="latest-panel-close" id="latestPanelClose" type="button">접기</button>
+    </div>
+    <div class="latest-panel-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
   </section>
 
   <div class="layout">
@@ -4019,21 +4023,18 @@ document.getElementById('watchToggle').onclick=()=>{
 };
 renderHomeWatchlist();
 
-/* ── 첫 화면 최신 글 5개: 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다. ── */
+/* ── 최근 글 패널: 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다.
+      첫 화면에는 띄우지 않고(정보량 절제), 히어로 버튼을 눌렀을 때만 10개를 세로로 펼친다. ── */
 (function(){
   const box=document.getElementById('latestHomeList');
-  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
-    ?LATEST_POSTS.slice().sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)):[];
-  if(!box) return;
-  if(!posts.length){ box.innerHTML='<span class="home-watch-empty">최신 글 목록을 준비하고 있어요.</span>'; return; }
-  box.innerHTML=posts.slice(0,5).map(post=>`<button class="latest-post${post.featured?' is-featured':''}" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
-    <span class="latest-post-meta"><b>${esc(post.label)}</b><span>${esc(post.date)}</span></span>
-    <span class="latest-post-title">${post.featured?'<span class="latest-post-pin" aria-label="고정 글">★</span>':''}${esc(post.title)}</span>
-  </button>`).join('');
+  const panel=document.getElementById('latestPanel');
+  // 이 패널이 비어 있어도 "지금 많이 보는 글" 등 다른 목록이 글을 열 수 있어야 하므로
+  // openGaeoPost는 목록 렌더링 성공 여부와 무관하게 항상 먼저 정의한다.
   window.openGaeoPost=async function(mode,id,button){
     gaeoTrack('select_content',{content_type:mode,item_id:id});
     if(button) button.disabled=true;
     try{
+      if(panel) panel.hidden=true;   // 글을 열면 목록 패널은 접는다
       await GaeoFeatures.load(mode);
       setMode(mode);
       const opener={news:'openNewsId',study:'openStudyId',lesson:'openLessonId',
@@ -4041,13 +4042,33 @@ renderHomeWatchlist();
       if(opener&&typeof window[opener]==='function') window[opener](id);
     }finally{ if(button) button.disabled=false; }
   };
+  const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
+    ?LATEST_POSTS.slice().sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)):[];
+  if(!box) return;
+  if(!posts.length){ box.innerHTML='<span class="home-watch-empty">최신 글 목록을 준비하고 있어요.</span>'; return; }
+  box.innerHTML=posts.slice(0,10).map(post=>`<button class="latest-post${post.featured?' is-featured':''}" type="button" data-post-mode="${esc(post.mode)}" data-post-id="${esc(post.id)}">
+    <span class="latest-post-meta"><b>${esc(post.label)}</b><span>${esc(post.date)}</span></span>
+    <span class="latest-post-title">${post.featured?'<span class="latest-post-pin" aria-label="고정 글">★</span>':''}${esc(post.title)}</span>
+  </button>`).join('');
   box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
     await window.openGaeoPost(btn.dataset.postMode,btn.dataset.postId,btn);
   });
-  // 모바일은 가로 카드 목록이라 뒤로가기로 복원될 때 이전 스크롤 위치가 남을 수 있다.
-  // 고정 글이 언제나 첫 화면에 보이도록 초기 위치를 첫 카드로 되돌린다.
-  box.scrollLeft=0;
-  window.addEventListener('pageshow',()=>{ box.scrollLeft=0; });
+  // 히어로 버튼이 부르는 열기 동작 — 펼친 뒤 패널 위치로 부드럽게 이동한다.
+  window.openGaeoLatestPanel=function(){
+    if(!panel) return;
+    panel.hidden=false;
+    const move=()=>panel.scrollIntoView({behavior:'smooth',block:'start'});
+    requestAnimationFrame(move);
+    setTimeout(move,300);   // 펼치면서 높이가 바뀐 뒤 한 번 더 위치를 맞춘다
+  };
+  const closeBtn=document.getElementById('latestPanelClose');
+  if(closeBtn) closeBtn.onclick=()=>{
+    panel.hidden=true;
+    const hero=document.getElementById('heroLatestBtn');
+    if(hero){ hero.scrollIntoView({behavior:'smooth',block:'center'}); hero.focus({preventScroll:true}); }
+  };
+  // 뒤로가기로 화면이 복원될 때는 첫 화면을 다시 가볍게 — 패널은 접힌 상태로 되돌린다.
+  window.addEventListener('pageshow',()=>{ if(panel) panel.hidden=true; });
 })();
 
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
@@ -4254,12 +4275,12 @@ renderHomeWatchlist();
     if(window.openNewsCategory) window.openNewsCategory('market');
   };
 
-  const heroSearchBtn=document.getElementById('heroSearchBtn');
-  if(heroSearchBtn) heroSearchBtn.onclick=()=>{
-    const ticker=document.getElementById('homeTicker');
-    gaeoTrack('search_open',{search_location:'home'});
-    ticker.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(()=>ticker.focus(),320);
+  // 히어로 첫 버튼: 최근 뉴스·공부 자료 10개를 세로로 펼친 패널로 이동한다.
+  // (종목 검색은 바로 아래 "내 종목 찾기" 카드가 이미 맡고 있어 중복을 덜었다)
+  const heroLatestBtn=document.getElementById('heroLatestBtn');
+  if(heroLatestBtn) heroLatestBtn.onclick=()=>{
+    gaeoTrack('select_content',{content_type:'home_section',item_id:'latest_posts'});
+    if(window.openGaeoLatestPanel) window.openGaeoLatestPanel();
   };
   // "3분 가이드" 카드를 없애면서, 그 카드의 가이드북 진입 버튼(구 #startGuide) 역할을
   // 히어로의 두 번째 버튼(구 "오늘의 변화 보기")이 그대로 이어받는다.
