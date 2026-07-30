@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법 · Gaeo · 개오 애널리스트팀</title>
+<meta name="description" content="종목분석 글마다 나오는 &quot;RSI 과매도&quot;, &quot;MACD 골든크로스&quot; 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.">
+<link rel="canonical" href="https://gaeoteam.com/snap/lesson/58.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법">
+<meta property="og:description" content="종목분석 글마다 나오는 &quot;RSI 과매도&quot;, &quot;MACD 골든크로스&quot; 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.">
+<meta property="og:image" content="https://gaeoteam.com/og-understand-more.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="800">
+<meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta property="og:url" content="https://gaeoteam.com/snap/lesson/58.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법">
+<meta name="twitter:description" content="종목분석 글마다 나오는 &quot;RSI 과매도&quot;, &quot;MACD 골든크로스&quot; 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.">
+<meta name="twitter:image" content="https://gaeoteam.com/og-understand-more.png">
+<meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법","image":"https://gaeoteam.com/og-understand-more.png","datePublished":"2026-07-30","dateModified":"2026-07-30","description":"종목분석 글마다 나오는 \"RSI 과매도\", \"MACD 골든크로스\" 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.","inLanguage":"ko-KR","isPartOf":{"@type":"WebSite","name":"Gaeo · 개오 애널리스트팀","url":"https://gaeoteam.com/"},"author":{"@type":"Organization","name":"Gaeo 리서치팀","url":"https://gaeoteam.com/about.html"},"publisher":{"@type":"Organization","name":"Gaeo · 개오 애널리스트팀","url":"https://gaeoteam.com/"},"mainEntityOfPage":"https://gaeoteam.com/snap/lesson/58.html"}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
+     crossorigin="anonymous"></script>
+<style>
+:root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
+.top{font-size:13px;margin-bottom:18px}
+.top a{color:var(--sky);text-decoration:none;font-weight:600}
+.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+h1{font-size:22px;margin:0 0 8px;line-height:1.4}
+.meta{color:var(--t2);font-size:13px;margin-bottom:18px}
+.tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+h2{font-size:17px;margin:22px 0 8px}
+p{margin:0 0 12px;font-size:15px}
+p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
+ul{margin:0 0 12px;padding-left:20px}
+li{margin-bottom:6px;font-size:15px}
+.cta{display:inline-block;margin-top:22px;background:var(--sky);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:99px}
+.trust{margin-top:22px;padding:14px 16px;border-radius:13px;background:var(--soft);font-size:12.5px;color:var(--t2)}
+.trust strong{display:block;color:var(--ink);margin-bottom:3px}
+.related{margin-top:24px;padding-top:18px;border-top:1px solid rgba(128,128,128,.2)}
+.related h2{margin:0 0 8px}
+.related a{display:block;padding:7px 0;color:var(--sky);font-size:13.5px;text-decoration:none}
+.sources{margin-top:26px;font-size:12.5px;color:var(--t2)}
+.sources a{color:var(--t2)}
+.disc{margin-top:20px;font-size:12px;color:var(--t2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a href="https://gaeoteam.com/">← Gaeo · 개오 애널리스트팀 홈</a></div>
+  <div class="card">
+    <span class="tag">RSI · MACD · 볼린저밴드</span>
+    <h1 class="daum-wm-title">RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법</h1>
+    <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-30 · 수정 2026-07-30</div>
+    <div class="summary">종목분석 글마다 나오는 &quot;RSI 과매도&quot;, &quot;MACD 골든크로스&quot; 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.</div>
+    <div class="daum-wm-content">
+    <h2>딱 3줄 요약</h2>
+<ul><li><strong>RSI</strong>는 최근 상승한 힘과 하락한 힘의 비율을 0~100 사이 숫자로 보여주는 지표예요. 흔히 70 이상이면 과매수, 30 이하면 과매도라고 하지만, 이 기준은 업종과 변동성에 따라 달라질 수 있어요.</li><li><strong>MACD</strong>는 짧은 이동평균과 긴 이동평균의 힘겨루기를 보여주는 지표예요. MACD선이 시그널선을 아래에서 위로 뚫으면 골든크로스(매수 참고), 위에서 아래로 뚫으면 데드크로스(매도 참고)라고 불러요.</li><li><strong>볼린저밴드</strong>는 주가의 변동성을 이동평균 위아래로 그린 두 개의 울타리예요. 밴드가 좁아지면(스퀴즈) 곧 큰 움직임이 나올 수 있다는 신호지만, 방향까지 알려주지는 않아요. 셋 다 과거 데이터로 계산되는 <strong>후행지표</strong>라 100% 믿으면 안 돼요.</li></ul>
+<h2>왜 이 세 가지부터 알아야 할까요</h2>
+<p>이 사이트는 매일 500개 종목을 자동으로 분석하는데, &quot;RSI 27.1로 과매도 구간에 들어와 있어요&quot;, &quot;MACD도 하락 모멘텀을 가리키고 있어요&quot; 같은 문장이 거의 매일 등장해요. 그런데 정작 RSI·MACD·볼린저밴드가 정확히 어떻게 계산되고 무슨 뜻인지 설명하는 글이 없었어요. 이 세 지표는 기술적 분석에서 가장 널리 쓰이는 보조지표이자, 앞으로 이 사이트의 TARO(기술 분석) 카드를 이해하는 데 필요한 기본 언어이기도 해요. 하나씩 차근차근 뜯어볼게요.</p>
+<h2>RSI(상대강도지수): 최근 오른 힘과 내린 힘의 비율</h2>
+<p>RSI(Relative Strength Index)는 보통 최근 14거래일을 기준으로 계산해요. 계산 순서는 이래요.</p>
+<p>1. 최근 14일 동안 전날보다 오른 날의 상승폭만 모아 평균을 내요(하락한 날은 0으로 계산).<br>2. 같은 14일 동안 내린 날의 하락폭만 모아 평균을 내요(오른 날은 0으로 계산).<br>3. RS(상대강도) = 평균 상승폭 ÷ 평균 하락폭<br>4. RSI = 100 - (100 ÷ (1 + RS))</p>
+<p>가상의 종목 '가나전자'로 예를 들어볼게요. 최근 14일 동안 오른 날의 평균 상승폭이 250원, 내린 날의 평균 하락폭이 50원이라면 RS는 250÷50=5예요. 이걸 공식에 넣으면 RSI = 100 - (100÷6) = 약 83.3이 나와요. 70을 훌쩍 넘는 값이라 &quot;최근 상승한 힘이 하락한 힘보다 훨씬 강했다&quot;, 즉 단기 과열 구간이라고 해석해요. 반대로 평균 상승폭이 30원, 평균 하락폭이 90원이라면 RS는 0.33, RSI는 약 25로 계산돼서 과매도권으로 분류돼요.</p>
+<p><strong>70/30 기준의 함정</strong>: 이 숫자는 절대 법칙이 아니에요. 변동성이 큰 성장주나 테마주는 RSI가 40~80 사이에서 왔다 갔다 하는 게 정상 범위일 수 있고, 반대로 변동성이 작은 대형 우량주는 RSI 60만 넘어도 이례적인 과열로 볼 수 있어요. 그래서 절대값 하나만 보기보다, 그 종목이 평소 어느 범위에서 움직였는지를 함께 확인하는 게 안전해요.</p>
+<p><strong>강한 추세장에서의 함정</strong>: 실적이 폭발적으로 늘어나는 반도체 종목이 몇 주째 상한가 근처를 오간다면, RSI는 80~90대에 붙박여서 몇 주 동안 내려오지 않을 수도 있어요. &quot;RSI 80이니 곧 떨어지겠지&quot;라고 생각하고 미리 공매도하거나 매도했다가, 주가가 그 뒤로도 20~30% 더 오르는 경우가 실제로 자주 나와요. RSI 과매수는 &quot;지금 힘이 세다&quot;는 뜻이지 &quot;곧 꺾인다&quot;는 예언이 아니에요.</p>
+<h2>MACD: 짧은 평균과 긴 평균의 힘겨루기</h2>
+<p>MACD(이동평균수렴확산지수)는 12일 지수이동평균(EMA)에서 26일 지수이동평균을 뺀 값이에요.</p>
+<ul><li><strong>MACD선</strong> = 12일 EMA - 26일 EMA</li><li><strong>시그널선</strong> = MACD선의 9일 지수이동평균</li><li><strong>히스토그램</strong> = MACD선 - 시그널선 (막대 그래프로 표시)</li></ul>
+<p>다시 '가나전자'로 예를 들면, 12일 EMA가 52,300원이고 26일 EMA가 51,800원이라면 MACD선은 500원이에요. 이때 시그널선(MACD선의 9일 평균)이 300원이라면 MACD선이 시그널선보다 200원 위에 있는 상태예요. 만약 며칠 전까지 MACD선이 시그널선보다 아래에 있다가 이 시점에 처음 위로 올라섰다면, 이걸 <strong>골든크로스</strong>라고 불러요. 12일 평균이 26일 평균을 따라잡으며 위로 올라선다는 뜻이라, 단기 추세가 상승 쪽으로 힘을 받고 있다고 해석해요. 반대로 MACD선이 시그널선을 위에서 아래로 뚫고 내려가면 <strong>데드크로스</strong>로, 하락 전환 참고 신호예요.</p>
+<p><strong>후행성이라는 근본적 함정</strong>: MACD는 이동평균 두 개의 차이를 다시 이동평균 낸 값이라, 평균을 두 번 겹쳐 쓰는 셈이에요. 그래서 신호가 뜨는 시점은 실제 추세 전환보다 항상 며칠 늦어요. 예를 들어 주가가 바닥을 찍고 반등을 시작한 지 열흘쯤 지나야 골든크로스가 뜨는 경우가 흔해요. 그 열흘 동안 이미 주가는 5~10% 올라 있을 수 있고, 골든크로스를 보고 뒤늦게 들어가면 상승분의 상당 부분을 놓친 뒤일 수 있어요. 또한 횡보장에서는 MACD선과 시그널선이 서로 살짝살짝 교차하는 <strong>가짜 크로스</strong>가 반복되기도 해서, 크로스 하나만 보고 매매 결정을 내리는 건 위험해요.</p>
+<h2>볼린저밴드: 변동성으로 그린 두 개의 울타리</h2>
+<p>볼린저밴드는 이동평균선 위아래에 표준편차만큼 떨어진 선을 그어서 만든 밴드예요. 표준적인 설정은 이래요.</p>
+<ul><li><strong>중심선</strong> = 20일 이동평균</li><li><strong>상단밴드</strong> = 중심선 + (20일 표준편차 × 2)</li><li><strong>하단밴드</strong> = 중심선 - (20일 표준편차 × 2)</li></ul>
+<p>'가나전자'의 20일 이동평균이 48,000원이고 20일 표준편차가 1,200원이라면, 상단밴드는 48,000+2,400=50,400원, 하단밴드는 48,000-2,400=45,600원이 돼요. 통계적으로 주가는 이 두 밴드 안에서 움직이는 비중이 높은 편이라, 주가가 상단밴드(50,400원)에 닿으면 단기적으로 많이 올랐다는 뜻으로, 하단밴드(45,600원)에 닿으면 단기적으로 많이 빠졌다는 뜻으로 참고해요.</p>
+<p><strong>밴드 터치의 함정, 밴드워킹</strong>: 상단밴드를 터치했다고 무조건 &quot;곧 하락&quot;으로 읽으면 안 돼요. 강한 상승 추세에서는 주가가 상단밴드에 딱 붙은 채로 여러 날을 계속 올라가는 경우가 있는데, 이걸 <strong>밴드워킹</strong>이라고 해요. 이럴 땐 밴드 자체도 이동평균을 따라 함께 위로 벌어지기 때문에, 상단 터치 한 번만 보고 매도했다가 그 뒤 추가 상승을 놓치는 경우가 많아요.</p>
+<p><strong>밴드폭 축소(스퀴즈)</strong>: 상단밴드와 하단밴드 사이의 폭이 4,800원(50,400-45,600)이던 종목이 어느 순간 1,600원까지 좁아졌다면, 이는 최근 변동성이 눈에 띄게 줄었다는 뜻이에요. 이런 스퀴즈 구간 뒤에는 통상 거래량을 동반한 큰 방향성 움직임이 나오는 경우가 많아요. 다만 볼린저밴드 스퀴즈는 &quot;곧 크게 움직인다&quot;는 신호일 뿐, <strong>위로 갈지 아래로 갈지는 알려주지 않아요.</strong> 스퀴즈만 보고 방향을 예단해서 미리 베팅하는 건 위험하고, 실제로 밴드를 뚫고 나가는 방향과 그때의 거래량을 함께 확인한 뒤 움직이는 게 안전해요.</p>
+<h2>세 지표를 같이 볼 때 잊지 말아야 할 것</h2>
+<p>RSI·MACD·볼린저밴드는 모두 <strong>과거 가격으로 계산되는 후행지표</strong>라는 공통점이 있어요. 미래를 예측하는 수정구슬이 아니라, &quot;지금까지의 흐름이 이랬다&quot;는 사실을 요약해서 보여주는 거울에 가까워요. 그래서 이 세 지표만 보고 매매를 결정하기보다, 실적·재무 같은 회사의 본질적인 가치, 수급(기관·외국인 매매 동향), 뉴스와 이슈까지 함께 놓고 종합적으로 판단하는 게 안전해요. 이 사이트가 기술(TARO)·재무(DIANA)·뉴스(NOVA)·수급(FLOW) 네 명의 분석가를 따로 두고 있는 것도, 어느 한 지표에 치우쳐 판단하지 않기 위해서예요.</p>
+<h2>초보자를 위한 체크리스트</h2>
+<ul><li><strong>RSI 70/30은 참고선일 뿐</strong>, 종목의 평소 변동폭과 업종 특성을 함께 확인하기.</li><li><strong>강한 추세장에서는 RSI 과매수/과매도가 오래 유지될 수 있다</strong>는 점 기억하기. 숫자 하나로 역배팅하지 않기.</li><li><strong>MACD 크로스는 항상 한 박자 늦게 뜬다</strong>는 점을 감안하고, 거래량과 함께 확인하기.</li><li><strong>볼린저밴드 상단 터치가 곧 하락은 아니다.</strong> 밴드워킹 가능성을 열어두기.</li><li><strong>밴드 스퀴즈는 방향이 아니라 변동성 확대의 예고</strong>일 뿐, 뚫는 방향과 거래량을 보고 움직이기.</li><li>세 지표 모두 <strong>후행지표</strong>라는 사실을 기억하고, 재무·뉴스·수급과 함께 종합적으로 판단하기.</li><li>한 줄 결론: <strong>RSI·MACD·볼린저밴드는 '지금까지 힘의 흐름'을 숫자와 선으로 정리해 보여주는 도구일 뿐, 내일을 맞히는 마법 지팡이가 아니에요. 숫자 하나에 기대지 말고, 다른 근거들과 함께 겹쳐 볼 때 비로소 쓸모가 생겨요.</strong></li></ul>
+
+    </div>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=58" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
+    <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/53.html">급등락 반복장에서 살아남기: 전조증상 파악하고 매수·매도 타이밍 잡는 법</a><a href="https://gaeoteam.com/snap/lesson/27.html">코스피200·KRX300이 뭐길래 — 지수 시리즈 2부</a><a href="https://gaeoteam.com/snap/lesson/6.html">코스피 6500·코스닥 750은 대체 무슨 단위예요? — 지수 완전정복</a></div>
+    <div class="sources">📎 출처<ul><li><a href="https://www.investopedia.com/terms/r/rsi.asp" rel="nofollow">Investopedia: Relative Strength Index (RSI)</a></li><li><a href="https://www.investopedia.com/terms/m/macd.asp" rel="nofollow">Investopedia: Moving Average Convergence Divergence (MACD)</a></li><li><a href="https://www.investopedia.com/terms/b/bollingerbands.asp" rel="nofollow">Investopedia: Bollinger Bands</a></li></ul></div>
+    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</div>
+  </div>
+</div>
+</body>
+</html>

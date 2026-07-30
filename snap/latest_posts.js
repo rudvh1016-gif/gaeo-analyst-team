@@ -67,26 +67,26 @@ const LATEST_POSTS = [
   "featured": false
  },
  {
-  "id": 53,
+  "id": 58,
   "mode": "lesson",
   "label": "주식공부",
   "date": "2026-07-30",
-  "title": "급등락 반복장에서 살아남기: 전조증상 파악하고 매수·매도 타이밍 잡는 법",
+  "title": "RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법",
   "featured": false
  },
  {
-  "id": 24,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-29",
-  "title": "코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유",
+  "id": 57,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-07-30",
+  "title": "금 투자 완전정복, KRX 금시장부터 골드바·금 ETF까지 세금 비교",
   "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 31,
  "study": 35,
- "lesson": 53,
- "estate": 15,
+ "lesson": 58,
+ "estate": 16,
  "calc": 14
 };
