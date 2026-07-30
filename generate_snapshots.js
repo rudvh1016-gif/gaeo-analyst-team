@@ -76,7 +76,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:height" content="800">
 <meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <meta property="og:url" content="${esc(canonicalUrl)}">
 <meta name="twitter:card" content="summary_large_image">
@@ -384,7 +384,7 @@ const indexPage = `<!doctype html>
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:height" content="800">
 <meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <meta property="og:url" content="${BASE}snap/index.html">
 <meta name="twitter:card" content="summary_large_image">
