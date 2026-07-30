@@ -6990,6 +6990,15 @@ makeCards(false);
   paint();
 })();
 
+// 모바일에서는 "최근 5인 판단 변화"를 홈 화면 단독 섹션으로 두면 정보량이 너무 많아
+// 보여서, 종목 분석 영역(#quote) 맨 위로 옮겨 그 종목을 볼 때만 눈에 띄게 한다.
+// PC(1180px 이상)는 기존 홈 화면 위치 그대로 유지.
+(function(){
+  const box=document.getElementById('homeRecentCalls');
+  const quote=document.getElementById('quote');
+  if(box&&quote&&window.innerWidth<=1179) quote.parentNode.insertBefore(box, quote);
+})();
+
 // ---------- 홈 핵심 신호: 오늘 달라진 것 · 최근 판단 변화 ----------
 // (다가오는 일정은 캘린더 모드로 이동했다 — upcomingEvents()/upcomingScheduleHTML() 참고)
 (function(){
