@@ -806,6 +806,14 @@
   .sc-block{background:var(--paper);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow);margin-bottom:18px}
   .sc-block h3{margin:0 0 6px;font-size:17px;font-weight:820}
   .sc-block .sc-sub{font-size:11.5px;color:var(--dim);line-height:1.65;margin:0 0 18px}
+  .sc-week-nav{display:flex;align-items:center;gap:10px;margin:0 0 16px;padding:9px 12px;
+    background:var(--bg);border-radius:10px}
+  .sc-week-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;
+    padding:6px 12px;font:inherit;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .sc-week-btn:disabled{opacity:.38;cursor:not-allowed}
+  .sc-week-btn:not(:disabled):hover{background:var(--sky-soft);border-color:var(--sky-line)}
+  .sc-week-label{flex:1;text-align:center;font-size:12px;font-weight:700;color:var(--dim)}
+  .sc-week-label b{color:var(--navy)}
   .sc-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
   .sc-stat{background:var(--bg);border-radius:12px;padding:14px 12px;text-align:center}
   .sc-stat b{display:block;font-size:21px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
@@ -843,6 +851,8 @@
     .sc-stat-row{grid-template-columns:repeat(2,1fr)}
     .sc-call-grid{grid-template-columns:1fr}
     .sc-bar-row{grid-template-columns:88px 1fr 56px}
+    .sc-week-nav{flex-wrap:wrap;justify-content:center}
+    .sc-week-label{flex:0 0 100%;order:-1;margin-bottom:2px}
   }
   /* ---- 분석중 오버레이 ---- */
   .stage{position:relative}
@@ -3792,7 +3802,10 @@ function scCallCard(r,kind){
   </div>`;
 }
 // 이번 주 = 5거래일 채점 창이 막 닫힌(채점일이 최근 7일 이내인) 판단들.
-function computeWeeklyScorecard(){
+// 채점 기록 자체가 history.js·price_history.js에 계속 쌓이는 로그라, 주 단위로 끊어
+// 넘겨보면 그 자체로 "매주 자동 기록되는 성적표 아카이브"가 된다(별도 저장소 불필요).
+let SC_WEEK_OFFSET=0;   // 0=이번 주, 1=한 주 전, 2=두 주 전 …
+function scAllGradedRows(){
   const rows=[];
   if(LIVE_HIST) for(const code in LIVE_HIST){
     LIVE_HIST[code].forEach(e=>{
@@ -3802,8 +3815,19 @@ function computeWeeklyScorecard(){
         call:e.call, ret:ev.pct, gradeDate:ev.date, taro:e.taro, diana:e.diana, nova:e.nova, flow:e.flow});
     });
   }
-  const weekAgo=new Date(Date.now()-7*24*3600*1000).toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
-  const weekRows=rows.filter(r=>r.gradeDate>=weekAgo);
+  return rows;
+}
+// offset주 전의 "채점일 기준 7일 구간" — 0이면 오늘까지 최근 7일, 1이면 그 이전 7일 …
+function scWeekRange(offset){
+  const end=new Date(Date.now()-offset*7*24*3600*1000);
+  const start=new Date(end.getTime()-6*24*3600*1000);
+  const fmt=d=>d.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+  return {start:fmt(start), end:fmt(end)};
+}
+function computeWeeklyScorecard(offset){
+  const allRows=scAllGradedRows();
+  const {start,end}=scWeekRange(offset);
+  const weekRows=allRows.filter(r=>r.gradeDate>=start&&r.gradeDate<=end);
   const scored=weekRows.map(r=>Object.assign({verdict:scoreCall(r.call,r.ret)}, r));
   const hits=scored.filter(r=>r.verdict==='hit'), misses=scored.filter(r=>r.verdict==='miss');
   // 같은 종목이 매일 판단·채점되다 보니 하루이틀 차이 판단이 겹쳐 상위권에 몰릴 수 있다 —
@@ -3815,25 +3839,34 @@ function computeWeeklyScorecard(){
   };
   const best=dedupTop(hits);
   const worst=dedupTop(misses);
+  // 더 과거로 넘길 수 있는지 — 이번 주간 시작일보다 이전 채점 기록이 남아있는지로 판정
+  const hasOlder=allRows.some(r=>r.gradeDate<start);
   return {total:scored.length, hitN:hits.length, missN:misses.length,
-    acc:(hits.length+misses.length)?Math.round(hits.length/(hits.length+misses.length)*100):null, best, worst};
+    acc:(hits.length+misses.length)?Math.round(hits.length/(hits.length+misses.length)*100):null,
+    best, worst, rangeStart:start, rangeEnd:end, hasOlder};
 }
 function renderScorecard(){
   const el=document.getElementById('scorecardView'); if(!el) return;
-  const wk=computeWeeklyScorecard();
+  const wk=computeWeeklyScorecard(SC_WEEK_OFFSET);
+  const weekTitle=SC_WEEK_OFFSET===0?'이번 주':`${SC_WEEK_OFFSET}주 전`;
 
+  const weekNav=`<div class="sc-week-nav">
+    <button class="sc-week-btn" data-sc-dir="1" ${wk.hasOlder?'':'disabled'} type="button" title="더 이전 주 보기">‹ 이전 주</button>
+    <span class="sc-week-label"><b>${weekTitle}</b> · ${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)} 채점 기준</span>
+    <button class="sc-week-btn" data-sc-dir="-1" ${SC_WEEK_OFFSET>0?'':'disabled'} type="button" title="더 최근 주 보기">다음 주 ›</button>
+  </div>`;
   const statRow=`<div class="sc-stat-row">
-    <div class="sc-stat"><b>${wk.total}</b><span>이번 주 채점 완료</span></div>
+    <div class="sc-stat"><b>${wk.total}</b><span>채점 완료</span></div>
     <div class="sc-stat"><b style="color:var(--green)">${wk.hitN}</b><span>적중</span></div>
     <div class="sc-stat"><b style="color:var(--red)">${wk.missN}</b><span>빗나감</span></div>
     <div class="sc-stat"><b>${wk.acc===null?'—':wk.acc+'%'}</b><span>주간 적중률</span></div>
   </div>`;
   const bestHtml=wk.best.length
-    ? `<div class="sc-calls-head">🎯 이번 주 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
+    ? `<div class="sc-calls-head">🎯 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
   const worstHtml=wk.worst.length
-    ? `<div class="sc-calls-head">🙈 이번 주 가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
+    ? `<div class="sc-calls-head">🙈 가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
   const weeklyBody=wk.total===0
-    ? `<div class="sc-empty">이번 주(최근 7일) 안에 채점이 막 끝난 판단이 아직 없어요. 판단은 5거래일이 지나야 채점되니 조금만 기다려 주세요.</div>`
+    ? `<div class="sc-empty">이 주간(${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)}) 안에 채점이 끝난 판단이 없어요. 판단은 5거래일이 지나야 채점되니, 최근 주라면 조금만 기다려 주세요.</div>`
     : `${bestHtml}${worstHtml}`;
 
   // ── 분석가 열전: team_weights.js의 실측 적중률만 사용, 매 사이클 자동 갱신 ──
@@ -3881,13 +3914,21 @@ function renderScorecard(){
   }
 
   el.innerHTML=`<div class="sc-block">
-    <h3>🧾 이번 주 개오 성적표</h3>
-    <p class="sc-sub">지난 5거래일이 막 지나 채점이 끝난 판단들을 모았어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
+    <h3>🧾 개오 성적표</h3>
+    <p class="sc-sub">판단 후 5거래일 뒤 종가로 채점이 끝난 주간 결과예요. 채점 기록이 쌓인 만큼 계속 과거 주로 넘겨볼 수 있어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
+    ${weekNav}
     ${statRow}
     ${weeklyBody}
   </div>
   ${deepDive}`;
 }
+// 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
+// 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
+document.getElementById('scorecardView').addEventListener('click', e=>{
+  const btn=e.target.closest('.sc-week-btn'); if(!btn||btn.disabled) return;
+  SC_WEEK_OFFSET=Math.max(0, SC_WEEK_OFFSET+(+btn.dataset.scDir));
+  renderScorecard();
+});
 
 /* ============================================================
    "분석 중" 귀여운 로딩 표시
@@ -8652,7 +8693,7 @@ window.renderScreener=function(){
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
   document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
-  document.getElementById('mode-scorecard').onclick=()=>{setMode('scorecard'); SFX.click();};
+  document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
 
@@ -9685,7 +9726,7 @@ window.hangulFix=function(str){
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
-    else if(m==='scorecard'){ window.setMode('scorecard'); }
+    else if(m==='scorecard'){ SC_WEEK_OFFSET=0; window.setMode('scorecard'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
