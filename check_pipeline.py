@@ -22,7 +22,19 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 
 
 def read_stamp(path, pattern):
-    """파일에서 'YYYY-MM-DD HH:MM' 패턴을 찾아 KST datetime으로 반환(없으면 None)."""
+    """파일에서 타임스탬프 라벨을 찾아 KST datetime으로 반환(없으면 None).
+
+    ⚠️ update_prices.py의 data.js "date" 라벨은 수집 시점에 따라 네 가지 형태로 나온다:
+        · 장중(09:00~15:30) : "2026-07-30 14:30 장중"
+        · 종가(15:30 이후)  : "2026-07-30 종가 (16:10 수집)"
+        · 장전(09:00 이전)  : "2026-07-30 장전 (전일 종가 · 08:30 수집)"
+        · 주말             : "2026-07-30 종가 (주말 · 최근 종가 08:05 수집)"
+    예전엔 'YYYY-MM-DD HH:MM'이 붙어 있는 '장중' 형태만 매칭해서, 나머지 세 형태에선
+    파싱이 실패해 pa=None이 됐다. in_window 분기가 `pa is None`도 경고로 취급하기 때문에
+    매 거래일 15:30~16:00(종가 라벨 구간) 30분 동안 파이프라인이 정상인데도 "끊겼을 수
+    있음" 거짓 경고가 떴다. 그래서 이제 "앞쪽 날짜 + 라벨 안 첫 HH:MM"을 따로 뽑아
+    네 형태를 모두 동일하게 해석한다(네 형태 모두 첫 HH:MM이 실제 수집 시각이다).
+    """
     try:
         head = open(os.path.join(HERE, path), encoding="utf-8").read(4000)
     except OSError:
@@ -30,8 +42,14 @@ def read_stamp(path, pattern):
     m = re.search(pattern, head)
     if not m:
         return None
+    label = m.group(1)
+    d = re.search(r"(\d{4}-\d{2}-\d{2})", label)
+    t = re.search(r"(\d{2}:\d{2})", label)
+    if not (d and t):
+        return None
     try:
-        return datetime.datetime.strptime(m.group(1), "%Y-%m-%d %H:%M").replace(tzinfo=KST)
+        return datetime.datetime.strptime(d.group(1) + " " + t.group(1),
+                                         "%Y-%m-%d %H:%M").replace(tzinfo=KST)
     except ValueError:
         return None
 
@@ -40,9 +58,10 @@ def main():
     now = datetime.datetime.now(KST)
     in_window = now.weekday() < 5 and ("09:10" <= now.strftime("%H:%M") < "16:00")
 
-    # data.js: "date" 라벨(예: 2026-07-18 14:30 장중) / auto_analysis.js: generatedAt
-    price_at = read_stamp("data.js", r'"date"\s*:\s*"(\d{4}-\d{2}-\d{2} \d{2}:\d{2})')
-    auto_at = read_stamp("auto_analysis.js", r'"generatedAt"\s*:\s*"(\d{4}-\d{2}-\d{2} \d{2}:\d{2})')
+    # 라벨 값 전체를 잡아 read_stamp가 "날짜 + 첫 HH:MM"으로 해석하게 한다.
+    # (data.js "date"는 장중/종가/장전/주말 네 형태가 있어 뒤쪽 모양이 제각각이다 — read_stamp 주석 참조)
+    price_at = read_stamp("data.js", r'"date"\s*:\s*"([^"]{10,60})"')
+    auto_at = read_stamp("auto_analysis.js", r'"generatedAt"\s*:\s*"([^"]{10,60})"')
 
     def age_min(ts):
         return None if ts is None else int((now - ts).total_seconds() // 60)
@@ -51,10 +70,20 @@ def main():
     msgs = []
     if in_window:
         # 여유 임계: 시세 10분 주기→25분, 자동분석 30분 주기→70분
-        if pa is None or pa > 25:
-            msgs.append(f"시세(data.js)가 {pa if pa is not None else '?'}분 전 — 10분 주기가 끊겼을 수 있음")
-        if aa is None or aa > 70:
-            msgs.append(f"자동분석(auto_analysis.js)이 {aa if aa is not None else '?'}분 전 — 30분 주기가 끊겼을 수 있음")
+        # 파싱 실패(None)는 "갱신이 끊겼다"와 원인이 다르므로 문구를 구분한다 —
+        # 예전엔 둘을 같은 메시지로 묶어, 라벨 형식만 바뀐 종가 구간에도 "주기가 끊겼을 수
+        # 있음"이라는 잘못된 진단이 나갔다.
+        if pa is None:
+            msgs.append("시세(data.js) 타임스탬프를 해석하지 못했습니다 — data.js의 date 라벨 형식 확인 필요")
+        elif pa > 25:
+            msgs.append(f"시세(data.js)가 {pa}분 전 — 10분 주기가 끊겼을 수 있음")
+        if aa is None:
+            msgs.append("자동분석(auto_analysis.js) 타임스탬프를 해석하지 못했습니다 — generatedAt 형식 확인 필요")
+        elif aa > 70:
+            msgs.append(f"자동분석(auto_analysis.js)이 {aa}분 전 — 30분 주기가 끊겼을 수 있음")
+
+    def ago(v):
+        return f"{v}분 전" if v is not None else "해석 실패"
 
     if msgs:
         print("⚠️ [개오 파이프라인 점검] 평일 수집 창(09:10~16:00 KST)인데 갱신이 오래됐습니다:")
@@ -64,9 +93,8 @@ def main():
               "`git show origin/main:data.js | head -5`로 재확인 → ② 그래도 오래됐으면 "
               "`.analyst-refresh` 내용을 바꿔 main에 커밋·푸시(러너 소생, CLAUDE.md 파이프라인 절 참조)")
     else:
-        label = f"시세 {pa}분 전 · 자동분석 {aa}분 전" if pa is not None else "타임스탬프 파싱 실패(무시 가능)"
         state = "수집 창 내 정상" if in_window else "장외 시간(점검 생략)"
-        print(f"[개오 파이프라인 점검] {state} — {label}")
+        print(f"[개오 파이프라인 점검] {state} — 시세 {ago(pa)} · 자동분석 {ago(aa)}")
     sys.exit(0)
 
 
