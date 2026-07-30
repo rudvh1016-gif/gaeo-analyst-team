@@ -1726,13 +1726,12 @@
   .home-watch-change strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
   .home-watch-change button{border:0;background:transparent;color:var(--sky);font:inherit;font-weight:800;
     padding:1px 0;cursor:pointer;text-align:left}
-  /* 📰 최근 글 패널 — 히어로의 "최근 뉴스, 공부 자료 확인하기" 버튼으로만 열리는 세로 목록.
-     첫 화면을 가볍게 유지하려고 기본은 숨김이고, 버튼을 누를 때만 펼쳐 10개를 보여준다. */
-  .latest-panel[hidden]{display:none}
-  .latest-panel{margin:0 0 16px;padding:11px 12px;background:var(--paper);border:1px solid var(--line);
-    border-radius:14px;box-shadow:var(--shadow);scroll-margin-top:calc(var(--gaeo-nav-h) + 14px)}
+  /* 📰 최근 글 화면 — 뉴스분석·종목공부처럼 독립된 하나의 모드(latest)로 뜨는 세로 목록.
+     첫 화면에 정보를 얹지 않으려고 별도 화면으로 분리했고, 열리면 홈 대시보드는 감춰진다. */
+  .latest-panel{display:none;margin:18px 0 0;padding:11px 12px;background:var(--paper);
+    border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  .latest-panel.on{display:block}
   .latest-panel-head{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
-  .latest-panel-head h2{margin:0;font-size:13px;color:var(--ink)}
   .latest-panel-head span{font-size:9.5px;color:var(--faint)}
   .latest-panel-close{margin-left:auto;border:1px solid var(--line);background:transparent;
     color:var(--dim);border-radius:99px;padding:4px 11px;font:inherit;font-size:11px;font-weight:700;
@@ -2001,7 +2000,6 @@
   .latest-panel{padding:24px 26px 18px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none}
   .latest-panel-head{align-items:center;margin-bottom:10px}
-  .latest-panel-head h2{font-size:20px;font-weight:820;letter-spacing:-.035em}
   .latest-panel-head span{font-size:10px;padding:5px 8px;border-radius:8px;
     color:var(--gaeo-600);background:var(--gaeo-50)}
   .latest-panel .latest-post{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;
@@ -2407,7 +2405,6 @@
     .hero-search-card .home-search-panel{margin-top:14px}
     .hero-search-card .home-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto}
     .latest-panel{padding:22px 18px 18px;border-radius:24px}
-    .latest-panel-head h2{font-size:18px}
     .activity-board{gap:18px;margin:14px 0;padding:22px 18px;border-radius:20px}
     .activity-head{margin-bottom:16px}
     .activity-head h2{font-size:17px}
@@ -2849,17 +2846,6 @@
     </div>
   </section>
 
-  <!-- 📰 최근 글 패널 — 첫 화면을 가볍게 두려고 기본은 숨겨두고,
-       히어로의 "최근 뉴스, 공부 자료 확인하기" 버튼을 누를 때만 10개를 세로로 펼친다. -->
-  <section class="latest-panel" id="latestPanel" aria-labelledby="latestPanelTitle" hidden>
-    <div class="latest-panel-head">
-      <h2 id="latestPanelTitle">최근 뉴스·공부 자료</h2>
-      <span>최신 10개</span>
-      <button class="latest-panel-close" id="latestPanelClose" type="button">접기</button>
-    </div>
-    <div class="latest-panel-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
-  </section>
-
   <div class="layout">
   <aside class="rail">
   <div class="modes">
@@ -2867,6 +2853,7 @@
     <button class="modebtn on" id="mode-single"><svg class="mi" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>단일 분석</button>
     <button class="modebtn" id="mode-compare"><svg class="mi" viewBox="0 0 24 24"><path d="M12 3v18M8 21h8M12 6H5L2.5 12a3.4 3.4 0 0 0 5 0zM12 6h7l2.5 6a3.4 3.4 0 0 1-5 0z"/></svg>종목 비교</button>
     <button class="modebtn" id="mode-portfolio"><svg class="mi" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M9 7.5V6a3 3 0 0 1 3-3 3 3 0 0 1 3 3v1.5M3 13h18"/></svg>포트폴리오</button>
+    <button class="modebtn" id="mode-latest"><svg class="mi" viewBox="0 0 24 24"><path d="M12 7.5a4.5 4.5 0 0 1 4.5-4.5h4v14a2 2 0 0 0-2 2h-6.5zM12 7.5A4.5 4.5 0 0 0 7.5 3h-4v14a2 2 0 0 1 2 2H12z"/><path d="M12 19v2"/></svg>최근 글</button>
     <button class="modebtn" id="mode-news"><svg class="mi" viewBox="0 0 24 24"><path d="M4 4h13v16H6a2 2 0 0 1-2-2zM17 8h3v10a2 2 0 0 1-2 2h-1"/><path d="M7.5 8h6M7.5 12h6M7.5 16h4"/></svg>뉴스분석</button>
     <button class="modebtn" id="mode-study"><svg class="mi" viewBox="0 0 24 24"><path d="M5 3h13a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 3v18M12 8h4"/></svg>종목공부</button>
     <button class="modebtn" id="mode-lesson"><svg class="mi" viewBox="0 0 24 24"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c0 1.2 2.5 2.6 5.5 2.6s5.5-1.4 5.5-2.6v-4.5M21 10v5"/></svg>주식공부</button>
@@ -2980,6 +2967,15 @@
   <div class="newsView" id="estateView"></div>
   <div class="newsView" id="calcView"></div>
   <div class="newsView" id="screenerView"></div>
+  <!-- 📰 최근 글 화면 — 첫 화면에 정보를 얹지 않으려고 독립 모드(latest)로 분리했다.
+       히어로의 "최근 뉴스, 공부 자료 확인하기" 버튼과 좌측 "최근 글" 탭으로 들어온다. -->
+  <section class="latest-panel" id="latestPanel" aria-label="최근 뉴스·공부 자료 목록">
+    <div class="latest-panel-head">
+      <span>최신 10개</span>
+      <button class="latest-panel-close" id="latestPanelClose" type="button">홈으로</button>
+    </div>
+    <div class="latest-panel-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
+  </section>
   <div class="guideView" id="guideView"></div>
   </main>
 
@@ -4023,24 +4019,29 @@ document.getElementById('watchToggle').onclick=()=>{
 };
 renderHomeWatchlist();
 
-/* ── 최근 글 패널: 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다.
-      첫 화면에는 띄우지 않고(정보량 절제), 히어로 버튼을 눌렀을 때만 10개를 세로로 펼친다. ── */
+/* ── 최근 글 화면(latest 모드): 본문 대신 작은 목록만 먼저 받아 모바일 데이터 사용량을 줄인다.
+      첫 화면에는 얹지 않고 별도 화면으로 분리해, 홈은 가볍게 유지한다. ── */
 (function(){
   const box=document.getElementById('latestHomeList');
-  const panel=document.getElementById('latestPanel');
-  // 이 패널이 비어 있어도 "지금 많이 보는 글" 등 다른 목록이 글을 열 수 있어야 하므로
+  // 이 목록이 비어 있어도 "지금 많이 보는 글" 등 다른 목록이 글을 열 수 있어야 하므로
   // openGaeoPost는 목록 렌더링 성공 여부와 무관하게 항상 먼저 정의한다.
   window.openGaeoPost=async function(mode,id,button){
     gaeoTrack('select_content',{content_type:mode,item_id:id});
     if(button) button.disabled=true;
     try{
-      if(panel) panel.hidden=true;   // 글을 열면 목록 패널은 접는다
       await GaeoFeatures.load(mode);
-      setMode(mode);
+      setMode(mode);   // 모드가 바뀌면 최근 글 화면은 setMode가 알아서 닫는다
       const opener={news:'openNewsId',study:'openStudyId',lesson:'openLessonId',
         estate:'openEstateId',calc:'openCalcId'}[mode];
       if(opener&&typeof window[opener]==='function') window[opener](id);
     }finally{ if(button) button.disabled=false; }
+  };
+  // 히어로 버튼·좌측 탭이 함께 쓰는 진입점 — 별도 화면으로 전환한 뒤 맨 위에서 보여준다.
+  window.openGaeoLatestPanel=function(){
+    setMode('latest');
+    const move=()=>window.scrollTo({top:0,behavior:'smooth'});
+    requestAnimationFrame(move);
+    setTimeout(move,300);   // 홈 대시보드가 사라지며 높이가 바뀐 뒤 한 번 더 맞춘다
   };
   const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
     ?LATEST_POSTS.slice().sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)):[];
@@ -4053,22 +4054,11 @@ renderHomeWatchlist();
   box.querySelectorAll('.latest-post').forEach(btn=>btn.onclick=async()=>{
     await window.openGaeoPost(btn.dataset.postMode,btn.dataset.postId,btn);
   });
-  // 히어로 버튼이 부르는 열기 동작 — 펼친 뒤 패널 위치로 부드럽게 이동한다.
-  window.openGaeoLatestPanel=function(){
-    if(!panel) return;
-    panel.hidden=false;
-    const move=()=>panel.scrollIntoView({behavior:'smooth',block:'start'});
-    requestAnimationFrame(move);
-    setTimeout(move,300);   // 펼치면서 높이가 바뀐 뒤 한 번 더 위치를 맞춘다
+  const homeBtn=document.getElementById('latestPanelClose');
+  if(homeBtn) homeBtn.onclick=()=>{
+    setMode('single');
+    window.scrollTo({top:0,behavior:'smooth'});
   };
-  const closeBtn=document.getElementById('latestPanelClose');
-  if(closeBtn) closeBtn.onclick=()=>{
-    panel.hidden=true;
-    const hero=document.getElementById('heroLatestBtn');
-    if(hero){ hero.scrollIntoView({behavior:'smooth',block:'center'}); hero.focus({preventScroll:true}); }
-  };
-  // 뒤로가기로 화면이 복원될 때는 첫 화면을 다시 가볍게 — 패널은 접힌 상태로 되돌린다.
-  window.addEventListener('pageshow',()=>{ if(panel) panel.hidden=true; });
 })();
 
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
@@ -8395,12 +8385,14 @@ window.renderScreener=function(){
     const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
-          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener';
+          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener',
+          latest=mode==='latest';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
       compare:['나란히 보면 더 잘 보여요','종목 비교','두 종목의 가격·지표·분석 결과를 같은 기준으로 비교해 보세요.'],
       portfolio:['내 종목을 한곳에서','포트폴리오','보유 종목을 모아 전체 흐름과 종목별 분석을 한 화면에서 확인해 보세요.'],
+      latest:['새로 올라온 것만 모아서','최근 뉴스·공부 자료','뉴스분석·종목공부·주식공부·부동산공부에 가장 최근 올라온 글 10개를 한곳에 모았어요.'],
       news:['오늘 시장을 쉽게','뉴스 분석','주요 시장 소식의 배경과 투자자가 확인할 점을 초보자 눈높이로 정리했어요.'],
       study:['회사 하나씩 제대로 알아보기','종목 공부','국내외 대표 기업이 어떤 사업으로 돈을 버는지, 최근 이슈와 함께 초보자 눈높이로 정리했어요.'],
       lesson:['기초부터 차근차근','주식 공부','처음 투자할 때 자주 막히는 개념을 사례와 함께 쉽게 익혀보세요.'],
@@ -8419,6 +8411,7 @@ window.renderScreener=function(){
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
+    document.getElementById('mode-latest').classList.toggle('on',latest);
     document.getElementById('mode-news').classList.toggle('on',news);
     document.getElementById('mode-study').classList.toggle('on',study);
     document.getElementById('mode-lesson').classList.toggle('on',lesson);
@@ -8445,6 +8438,7 @@ window.renderScreener=function(){
     document.getElementById('leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
+    document.getElementById('latestPanel').classList.toggle('on',latest);
     document.getElementById('newsView').classList.toggle('on',news);
     document.getElementById('studyView').classList.toggle('on',study);
     document.getElementById('lessonView').classList.toggle('on',lesson);
@@ -8469,6 +8463,7 @@ window.renderScreener=function(){
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare();});};
   document.getElementById('mode-portfolio').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('portfolio'); SFX.click();});};
+  document.getElementById('mode-latest').onclick=()=>{setMode('latest'); SFX.click();};
   document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
   document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
   document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
@@ -9507,6 +9502,7 @@ window.hangulFix=function(str){
     else if(m==='calc'&&id){ window.setMode('calc'); window.openCalcId&&window.openCalcId(id); }
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
     else if(m==='guide'){ window.setMode('guide'); }
+    else if(m==='latest'){ window.setMode('latest'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
