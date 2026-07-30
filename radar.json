@@ -702,7 +702,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 32.7,
-   "currentValue": 29.5,
+   "currentValue": 29.6,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -723,7 +723,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 30.1,
-   "currentValue": 29.4,
+   "currentValue": 29.6,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -744,7 +744,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 30.0,
-   "currentValue": 27.6,
+   "currentValue": 28.1,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -912,7 +912,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 30.3,
-   "currentValue": 28.9,
+   "currentValue": 29.0,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -933,7 +933,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 30.8,
-   "currentValue": 29.3,
+   "currentValue": 29.5,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -1185,7 +1185,7 @@
    "metric": "RSI",
    "unit": "",
    "previousValue": 31.2,
-   "currentValue": 29.3,
+   "currentValue": 29.5,
    "threshold": 30.0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -2298,8 +2298,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 353500,
-   "currentValue": 348500,
-   "threshold": 342375,
+   "currentValue": 351000,
+   "threshold": 342959,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
    "priceBaseAt": "2026-07-30 14:22 장중",
@@ -2697,8 +2697,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 3160,
-   "currentValue": 3255,
-   "threshold": 3178,
+   "currentValue": 3275,
+   "threshold": 3182,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
    "priceBaseAt": "2026-07-30 14:22 장중",
@@ -3180,8 +3180,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 67400,
-   "currentValue": 70600,
-   "threshold": 68490,
+   "currentValue": 71200,
+   "threshold": 68615,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
    "priceBaseAt": "2026-07-30 14:22 장중",
@@ -3548,6 +3548,69 @@
    "caution": "밴드 안으로 돌아온 것일 뿐, 하락이 끝났다는 의미는 아니에요."
   },
   {
+   "id": "499790-bb-lower-recover-20260730",
+   "code": "499790",
+   "name": "GS피앤엘",
+   "type": "bb_lower_recover",
+   "label": "밴드 하단 재진입",
+   "group": "main",
+   "icon": "▲",
+   "metric": "종가",
+   "unit": "원",
+   "previousValue": 34800,
+   "currentValue": 34500,
+   "threshold": 34309,
+   "date": "2026-07-30",
+   "detectedAt": "2026-07-30 14:53",
+   "priceBaseAt": "2026-07-30 14:16 장중",
+   "status": "provisional",
+   "severity": "mid",
+   "description": "종가가 볼린저밴드 하단 위로 다시 올라오며 평소 범위 안으로 돌아왔어요.",
+   "caution": "밴드 안으로 돌아온 것일 뿐, 하락이 끝났다는 의미는 아니에요."
+  },
+  {
+   "id": "003550-macd-golden-cross-20260730",
+   "code": "003550",
+   "name": "LG",
+   "type": "macd_golden_cross",
+   "label": "MACD 골든크로스",
+   "group": "extra",
+   "icon": "▲",
+   "metric": "MACD−시그널",
+   "unit": "",
+   "previousValue": -162,
+   "currentValue": 11,
+   "threshold": 0,
+   "date": "2026-07-30",
+   "detectedAt": "2026-07-30 14:53",
+   "priceBaseAt": "2026-07-30 14:16 장중",
+   "status": "provisional",
+   "severity": "mid",
+   "description": "MACD가 시그널선을 위로 통과하며 최근 가격의 힘이 세지는 쪽으로 바뀌었어요.",
+   "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요."
+  },
+  {
+   "id": "005830-macd-golden-cross-20260730",
+   "code": "005830",
+   "name": "DB손해보험",
+   "type": "macd_golden_cross",
+   "label": "MACD 골든크로스",
+   "group": "extra",
+   "icon": "▲",
+   "metric": "MACD−시그널",
+   "unit": "",
+   "previousValue": -33,
+   "currentValue": 11,
+   "threshold": 0,
+   "date": "2026-07-30",
+   "detectedAt": "2026-07-30 14:53",
+   "priceBaseAt": "2026-07-30 14:16 장중",
+   "status": "provisional",
+   "severity": "mid",
+   "description": "MACD가 시그널선을 위로 통과하며 최근 가격의 힘이 세지는 쪽으로 바뀌었어요.",
+   "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요."
+  },
+  {
    "id": "007340-macd-golden-cross-20260730",
    "code": "007340",
    "name": "DN오토모티브",
@@ -3726,7 +3789,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 70,
-   "currentValue": -176,
+   "currentValue": -163,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -3873,7 +3936,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 78,
-   "currentValue": -89,
+   "currentValue": -85,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -3999,7 +4062,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 52,
-   "currentValue": -525,
+   "currentValue": -499,
    "threshold": 0,
    "date": "2026-07-30",
    "detectedAt": "2026-07-30 14:59",
@@ -4724,16 +4787,16 @@
    "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요."
   },
   {
-   "id": "452260-macd-dead-cross-20260730",
-   "code": "452260",
-   "name": "한화갤러리아",
+   "id": "453340-macd-dead-cross-20260730",
+   "code": "453340",
+   "name": "현대그린푸드",
    "type": "macd_dead_cross",
    "label": "MACD 데드크로스",
    "group": "extra",
    "icon": "▼",
    "metric": "MACD−시그널",
    "unit": "",
-   "previousValue": 6,
+   "previousValue": 14,
    "currentValue": 0,
    "threshold": 0,
    "date": "2026-07-30",
@@ -5262,7 +5325,7 @@
    "rep": "257720-bb-lower-break-20260730",
    "repType": "bb_lower_break",
    "repLabel": "밴드 하단 이탈",
-   "others": 1,
+   "others": 2,
    "types": [
     "bb_lower_break",
     "macd_dead_cross"
@@ -5368,18 +5431,6 @@
    "others": 0,
    "types": [
     "rsi_oversold_entry"
-   ]
-  },
-  {
-   "code": "034020",
-   "name": "두산에너빌리티",
-   "rep": "034020-rsi-oversold-entry-20260730",
-   "repType": "rsi_oversold_entry",
-   "repLabel": "과매도 진입",
-   "others": 1,
-   "types": [
-    "rsi_oversold_entry",
-    "macd_dead_cross"
    ]
   },
   {
@@ -5631,6 +5682,17 @@
    ]
   },
   {
+   "code": "034220",
+   "name": "LG디스플레이",
+   "rep": "034220-rsi-oversold-exit-20260730",
+   "repType": "rsi_oversold_exit",
+   "repLabel": "과매도 탈출",
+   "others": 0,
+   "types": [
+    "rsi_oversold_exit"
+   ]
+  },
+  {
    "code": "101490",
    "name": "에스앤에스텍",
    "rep": "101490-rsi-oversold-exit-20260730",
@@ -5758,6 +5820,17 @@
    "types": [
     "volume_spike",
     "bb_lower_recover"
+   ]
+  },
+  {
+   "code": "032190",
+   "name": "다우데이타",
+   "rep": "032190-volume-spike-20260730",
+   "repType": "volume_spike",
+   "repLabel": "거래량 급증",
+   "others": 0,
+   "types": [
+    "volume_spike"
    ]
   },
   {
@@ -5995,9 +6068,10 @@
    "rep": "003550-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
-   "others": 0,
+   "others": 1,
    "types": [
-    "bb_lower_recover"
+    "bb_lower_recover",
+    "macd_golden_cross"
    ]
   },
   {
@@ -6324,9 +6398,9 @@
    ]
   },
   {
-   "code": "042700",
-   "name": "한미반도체",
-   "rep": "042700-bb-lower-recover-20260730",
+   "code": "039030",
+   "name": "이오테크닉스",
+   "rep": "039030-bb-lower-recover-20260730",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
    "others": 0,
@@ -7063,9 +7137,9 @@
    ]
   },
   {
-   "code": "452260",
-   "name": "한화갤러리아",
-   "rep": "452260-macd-dead-cross-20260730",
+   "code": "453340",
+   "name": "현대그린푸드",
+   "rep": "453340-macd-dead-cross-20260730",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 0,
