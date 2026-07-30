@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-07-30 종가 (15:34 수집)
+// 자동 생성: update_prices.py · 2026-07-30 종가 (15:45 수집)
 const LIVE_DATA = {
- "date": "2026-07-30 종가 (15:34 수집)",
+ "date": "2026-07-30 종가 (15:45 수집)",
  "indices": {
   "KOSPI": {
    "value": 5593.56,
@@ -269,7 +269,7 @@ const LIVE_DATA = {
    "pbr": 0.58,
    "roe": 3.2,
    "eps": 14356.0,
-   "div": 2.05,
+   "div": 2.01,
    "cap": "53조",
    "w52": "116,300 ~ 518,000",
    "stale": false
@@ -360,7 +360,7 @@ const LIVE_DATA = {
    "pbr": 0.87,
    "roe": 6.7,
    "eps": 35981.0,
-   "div": 1.72,
+   "div": 1.71,
    "cap": "34조",
    "w52": "176,900 ~ 920,000",
    "stale": false
@@ -425,7 +425,7 @@ const LIVE_DATA = {
    "pbr": 1.04,
    "roe": 3.8,
    "eps": 5420.0,
-   "div": 0.92,
+   "div": 0.91,
    "cap": "24조",
    "w52": "71,900 ~ 467,500",
    "stale": false
@@ -438,7 +438,7 @@ const LIVE_DATA = {
    "pbr": 1.09,
    "roe": 7.3,
    "eps": 41543.0,
-   "div": 3.22,
+   "div": 3.16,
    "cap": "28조",
    "w52": "358,000 ~ 757,000",
    "stale": false
@@ -516,7 +516,7 @@ const LIVE_DATA = {
    "pbr": 0.42,
    "roe": 17.3,
    "eps": 13567.0,
-   "div": 4.72,
+   "div": 4.67,
    "cap": "21조",
    "w52": "31,550 ~ 69,900",
    "stale": false
@@ -841,7 +841,7 @@ const LIVE_DATA = {
    "pbr": 1.55,
    "roe": 11.1,
    "eps": 18485.0,
-   "div": 0.88,
+   "div": 0.87,
    "cap": "12조",
    "w52": "173,000 ~ 344,000",
    "stale": false
@@ -1582,7 +1582,7 @@ const LIVE_DATA = {
    "pbr": 0.83,
    "roe": 18.4,
    "eps": 40219.0,
-   "div": 4.84,
+   "div": 4.78,
    "cap": "10조",
    "w52": "108,200 ~ 304,000",
    "stale": false
@@ -6516,12 +6516,12 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1437.7,
-  "change": -8.3,
-  "rate": -0.57
+  "value": 1436.8,
+  "change": -9.2,
+  "rate": -0.64
  },
  "marketBrief": {
-  "sourceAsOf": "2026-07-30 종가 (15:34 수집)",
+  "sourceAsOf": "2026-07-30 종가 (15:45 수집)",
   "breadth": {
    "total": 500,
    "up": 260,
