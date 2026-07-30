@@ -3,26 +3,26 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-07-30 13:29",
+ "generatedAt": "2026-07-30 13:23",
  "evalDays": 5,
  "global": {
   "weights": {
-   "taro": 0.2814,
+   "taro": 0.2813,
    "diana": 0.1961,
-   "nova": 0.268,
+   "nova": 0.2681,
    "flow": 0.2545
   },
   "acc": {
    "taro": {
-    "n": 6356,
+    "n": 6355,
     "acc": 61.4
    },
    "diana": {
-    "n": 5773,
+    "n": 5776,
     "acc": 42.8
    },
    "nova": {
-    "n": 4991,
+    "n": 4994,
     "acc": 58.5
    },
    "flow": {
@@ -30,11 +30,11 @@ const TEAM_WEIGHTS = {
     "acc": 55.5
    }
   },
-  "graded": 18228,
+  "graded": 18233,
   "team": {
-   "hit": 4961,
+   "hit": 4962,
    "miss": 1266,
-   "n": 6227,
+   "n": 6228,
    "acc": 79.7
   }
  },
@@ -149,30 +149,30 @@ const TEAM_WEIGHTS = {
   },
   "통신": {
    "weights": {
-    "taro": 0.2634,
-    "diana": 0.1981,
-    "nova": 0.2536,
-    "flow": 0.2849
+    "taro": 0.2623,
+    "diana": 0.1954,
+    "nova": 0.2569,
+    "flow": 0.2854
    },
    "acc": {
     "taro": {
-     "n": 117,
-     "acc": 59.8
+     "n": 116,
+     "acc": 59.5
     },
     "diana": {
-     "n": 80,
-     "acc": 45.0
+     "n": 79,
+     "acc": 44.3
     },
     "nova": {
-     "n": 92,
-     "acc": 57.6
+     "n": 91,
+     "acc": 58.2
     },
     "flow": {
      "n": 34,
      "acc": 64.7
     }
    },
-   "graded": 323
+   "graded": 320
   },
   "인터넷·IT": {
    "weights": {
@@ -284,10 +284,10 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2758,
-    "diana": 0.2277,
+    "taro": 0.2757,
+    "diana": 0.2279,
     "nova": 0.2632,
-    "flow": 0.2333
+    "flow": 0.2332
    },
    "acc": {
     "taro": {
@@ -295,11 +295,11 @@ const TEAM_WEIGHTS = {
      "acc": 65.7
     },
     "diana": {
-     "n": 697,
-     "acc": 54.2
+     "n": 700,
+     "acc": 54.3
     },
     "nova": {
-     "n": 651,
+     "n": 654,
      "acc": 62.7
     },
     "flow": {
@@ -307,7 +307,7 @@ const TEAM_WEIGHTS = {
      "acc": 55.6
     }
    },
-   "graded": 2266
+   "graded": 2272
   },
   "지주·상사": {
    "weights": {
@@ -339,8 +339,8 @@ const TEAM_WEIGHTS = {
   "조선": {
    "weights": {
     "taro": 0.2761,
-    "diana": 0.1963,
-    "nova": 0.2674,
+    "diana": 0.1978,
+    "nova": 0.266,
     "flow": 0.2602
    },
    "acc": {
@@ -349,19 +349,19 @@ const TEAM_WEIGHTS = {
      "acc": 53.1
     },
     "diana": {
-     "n": 220,
-     "acc": 37.7
+     "n": 221,
+     "acc": 38.0
     },
     "nova": {
-     "n": 179,
-     "acc": 51.4
+     "n": 180,
+     "acc": 51.1
     },
     "flow": {
      "n": 23,
      "acc": 52.2
     }
    },
-   "graded": 635
+   "graded": 637
   },
   "방산": {
    "weights": {
