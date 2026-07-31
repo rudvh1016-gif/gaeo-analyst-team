@@ -24,6 +24,7 @@
 - Playwright 시각 검증은 전역 설치된 Chromium(`/opt/pw-browsers/chromium`)을 쓴다. `NODE_PATH=/opt/node22/lib/node_modules node 스크립트.js`로 실행.
 - SessionStart 훅(`.claude/settings.json` → `check_pipeline.py`)이 세션 시작 때마다 데이터 파이프라인 신선도를 자동 점검해 경고를 띄운다. 이건 Claude Code 훅 메커니즘 전용 설정이다.
 - 클로드 Routine("gaeo 장중 매시 kickoff 안전망")이 평일 매시 data.js 커밋이 25분 이상 끊기면 마커 push로 러너를 소생시키는 안전망 중 하나로 등록돼 있다(Claude Code의 예약 실행 기능, `AGENTS.md`의 데이터 파이프라인 안전망 5중 중 ⑤).
+- ⭐ **16시(KST) 이후·주말·공휴일에는 시세 갱신이 원래 안 도는 게 정상이다(2026-07-31 사용자 지정).** `update-prices.yml`·`update-analysis.yml` 둘 다 애초에 "평일 09:00~16:00 KST"에만 도는 워크플로우고, 시장 자체가 그 시간에만 열리니 그 밖의 시간엔 데이터가 "오래돼 보이는" 게 당연한 정상 상태다. `check_pipeline.py` 훅이 장외 시간엔 점검을 생략하는 것도, 매일 시장분석 Routine이 주말·공휴일엔 조용히 종료하는 것도 이미 이 전제로 설계돼 있다. 그러니 이 시간대에 "며칠 전 갱신됨" 같은 경고나 자동 발행 스킵을 보면 그건 파이프라인 고장이 아니라 정상 작동이니, 알람으로 착각해 러너를 깨우거나 놀랄 필요 없다.
 
 ## 이 세션에서 자주 하는 작업 패턴
 
