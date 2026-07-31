@@ -88,6 +88,17 @@ UI가 자동 처리하니 신경 쓸 것 없다. 필드 규격(index.html이 전
 > (등락폭이 작은 날은 `" — 오늘은 왜 조용했나"`처럼 사실대로 이어 붙이면 된다.)
 > tag는 이 경우 `"시황 · 코스피 · 코스닥"`으로 고정.
 
+> ⭐ 2026-07-31 사용자 요청 — **시황(코스피·코스닥 종가) 기사를 쓸 때는 `news_analysis.js` 등록만으로 끝내지 말고,
+> 홈 화면 "📊 시장 분석" 위젯인 `analysis.js`의 `market` 블록(`updated`/`kospi`/`kosdaq`/`text`/`points`)도
+> 반드시 같은 날짜·같은 근거로 함께 갱신한다.** 이 블록은 별도 정밀분석 세션(archive_analysis.py 실행)이
+> 있어야만 자동 갱신되기 때문에, 뉴스분석 기사만 쓰고 넘어가면 홈 위젯이 그날 데이터로 안 바뀐 채
+> 며칠씩 뒤처지는 사고가 반복됐다(2026-07-30, 2026-07-31 두 차례 실제 발생). 절차:
+> 1. `market.kospi.value/rate`·`market.kosdaq.value/rate`를 `data.js`의 `LIVE_DATA.indices`와 **정확히 일치**시킨다.
+> 2. `market.text`·`market.points`는 방금 쓴 뉴스분석 기사와 같은 사실관계로 다시 쓰되(그대로 복붙 말고 위젯용 분량으로 요약), `market.events`(향후 일정)는 지나지 않았으면 그대로 둔다.
+> 3. **14개 정밀분석 종목 블록·최상단 `date` 필드는 절대 건드리지 않는다** — `git diff analysis.js`가 market 블록 1군데(1 hunk)만 바뀌었는지 반드시 확인.
+> 4. `python3 archive_analysis.py`를 실행해 `market_history.js`에 오늘 기록을 추가한다(기존 항목은 변하지 않아야 함, `git diff market_history.js`로 순수 추가만 있는지 확인).
+> 5. 배포(4단계) 때 `news_analysis.js`와 `analysis.js`·`market_history.js`를 같은 커밋·PR에 함께 묶는다.
+
 ## 3단계 — 검증 (등록만 하고 끝내지 말 것)
 
 1. **문법 검사**: `node -e "const v=new Function(require('fs').readFileSync('news_analysis.js','utf8')+';return NEWS_ANALYSIS;')(); console.log(v.length, v[0].body.length)"` — 에러 없고 body 4,000자 이상 확인.
