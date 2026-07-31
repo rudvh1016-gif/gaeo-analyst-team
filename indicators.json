@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-07-31 15:55",
- "priceLabel": "2026-07-31 종가 (15:53 수집)",
+ "generatedAt": "2026-07-31 16:06",
+ "priceLabel": "2026-07-31 종가 (16:04 수집)",
  "indices": {
   "KOSPI": {
    "value": 6595.45,
@@ -3381,7 +3381,7 @@
     "rsi14": 61.9,
     "macd": 3383,
     "macdSignal": 2738,
-    "volRatio": 1.11,
+    "volRatio": 1.12,
     "low3m": 100600,
     "high3m": 125600,
     "last5": [
@@ -14205,7 +14205,7 @@
     "rsi14": 46.0,
     "macd": -3049,
     "macdSignal": -3108,
-    "volRatio": 0.99,
+    "volRatio": 1.01,
     "low3m": 39100,
     "high3m": 76900,
     "last5": [
@@ -21891,7 +21891,7 @@
     "rsi14": 41.7,
     "macd": -12,
     "macdSignal": 42,
-    "volRatio": 0.72,
+    "volRatio": 0.73,
     "low3m": 1674,
     "high3m": 2650,
     "last5": [
