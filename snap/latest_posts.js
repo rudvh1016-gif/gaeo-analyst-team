@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 35,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-31",
+  "title": "2026년 7월31일 종가, 코스피 하루 만에 17.91% 폭등한 이유와 7월 총정리",
+  "featured": false
+ },
+ {
   "id": 34,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "삼성전자 2분기 확정실적, 영업이익 89.4조로 3분기 연속 역대 최대",
   "featured": false
- },
- {
-  "id": 26,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 34,
+ "news": 35,
  "study": 35,
  "lesson": 58,
  "estate": 16,
