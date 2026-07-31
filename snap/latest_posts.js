@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 33,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-31",
+  "title": "애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유",
+  "featured": false
+ },
+ {
   "id": 32,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "새벽 3시 FOMC, 금리는 그대로인데 말투가 매파적이었던 이유",
   "featured": false
- },
- {
-  "id": 58,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-07-30",
-  "title": "RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 32,
+ "news": 33,
  "study": 35,
  "lesson": 58,
  "estate": 16,
