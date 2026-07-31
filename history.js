@@ -1492,7 +1492,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 501,042원 (현재가 대비 +90.9% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -5272,7 +5272,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 59
+    "score": 69
    },
    "nova": {
     "stance": "bull",
@@ -12047,7 +12047,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "nova": {
     "stance": "bull",
@@ -13267,7 +13267,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 547,318원 (현재가 대비 +66.9% 상승여력)",
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "neu",
@@ -13879,11 +13879,11 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 416,808원 (현재가 대비 +33.8% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 29
    },
    "diana": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "nova": {
     "stance": "bull",
@@ -16327,7 +16327,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 137,000원 (현재가 대비 +36.0% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -20003,7 +20003,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "nova": {
     "stance": "bull",
@@ -21226,8 +21226,8 @@ const LIVE_HISTORY = {
     "score": 19
    },
    "diana": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 58
    },
    "nova": {
     "stance": "bull",
@@ -24287,7 +24287,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 81
+    "score": 86
    },
    "nova": {
     "stance": "bull",
@@ -42035,7 +42035,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 60
+    "score": 66
    },
    "nova": {
     "stance": "bull",
@@ -42647,7 +42647,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 83
+    "score": 82
    },
    "nova": {
     "stance": "bull",
@@ -45707,7 +45707,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "nova": {
     "stance": "bull",
@@ -49368,7 +49368,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "BUY",
-   "total": 73,
+   "total": 74,
    "confidence": 58,
    "base": 89000,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -49379,7 +49379,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "nova": {
     "stance": "bull",
@@ -49980,7 +49980,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 59,
+   "total": 60,
    "confidence": 41,
    "base": 130000,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -49991,7 +49991,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 50
+    "score": 56
    },
    "nova": {
     "stance": "bear",
@@ -51215,7 +51215,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 85
+    "score": 79
    },
    "nova": {
     "stance": "bull",
@@ -57946,8 +57946,8 @@ const LIVE_HISTORY = {
     "score": 17
    },
    "diana": {
-    "stance": "neu",
-    "score": 56
+    "stance": "bull",
+    "score": 58
    },
    "nova": {
     "stance": "bull",
@@ -59772,7 +59772,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "SELL",
-   "total": 43,
+   "total": 44,
    "confidence": 44,
    "base": 296000,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -59783,7 +59783,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 49
+    "score": 55
    },
    "nova": {
     "stance": "bull",
@@ -62220,7 +62220,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "SELL",
-   "total": 36,
+   "total": 37,
    "confidence": 52,
    "base": 112300,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -62230,8 +62230,8 @@ const LIVE_HISTORY = {
     "score": 14
    },
    "diana": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 44
    },
    "nova": {
     "stance": "bear",
@@ -68340,7 +68340,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 40,
    "base": 29700,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -68351,7 +68351,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 70
+    "score": 76
    },
    "nova": {
     "stance": "bull",
@@ -68963,7 +68963,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 59
+    "score": 65
    },
    "nova": {
     "stance": "bull",
@@ -72624,7 +72624,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "SELL",
-   "total": 42,
+   "total": 44,
    "confidence": 65,
    "base": 27250,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -72634,8 +72634,8 @@ const LIVE_HISTORY = {
     "score": 55
    },
    "diana": {
-    "stance": "bear",
-    "score": 41
+    "stance": "neu",
+    "score": 47
    },
    "nova": {
     "stance": "bear",
@@ -89771,7 +89771,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "nova": {
     "stance": "bear",
@@ -92219,7 +92219,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 88
+    "score": 87
    },
    "nova": {
     "stance": "bear",
@@ -95891,7 +95891,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "nova": {
     "stance": "bear",
@@ -103836,7 +103836,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 57,
+   "total": 56,
    "confidence": 40,
    "base": 16950,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -103847,7 +103847,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "nova": {
     "stance": "bull",
@@ -104459,7 +104459,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "nova": {
     "stance": "bear",
@@ -106907,7 +106907,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "nova": {
     "stance": "bull",
@@ -115475,7 +115475,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "nova": {
     "stance": "bull",
@@ -119147,7 +119147,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "nova": {
     "stance": "bear",
@@ -120972,7 +120972,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 56,
+   "total": 55,
    "confidence": 62,
    "base": 24750,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -120983,7 +120983,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 64
    },
    "nova": {
     "stance": "bull",
@@ -125267,7 +125267,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "nova": {
     "stance": "bear",
@@ -127103,7 +127103,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 72
+    "score": 74
    },
    "nova": {
     "stance": "bull",
@@ -130775,7 +130775,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 82
+    "score": 88
    },
    "nova": {
     "stance": "bear",
@@ -131999,7 +131999,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 68
+    "score": 70
    },
    "nova": {
     "stance": "bull",
@@ -134436,7 +134436,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 40,
    "base": 48050,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -134447,7 +134447,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 76
+    "score": 82
    },
    "nova": {
     "stance": "bull",
@@ -136283,7 +136283,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 69
    },
    "nova": {
     "stance": "bull",
@@ -142442,7 +142442,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "SELL",
-   "total": 43,
+   "total": 44,
    "confidence": 44,
    "base": 32450,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -142453,7 +142453,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 50
+    "score": 54
    },
    "nova": {
     "stance": "bull",
@@ -145513,7 +145513,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 76
    },
    "nova": {
     "stance": "bear",
@@ -178353,7 +178353,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 58
+    "score": 64
    },
    "nova": {
     "stance": "bear",
@@ -188145,7 +188145,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "nova": {
     "stance": "bull",
@@ -199773,7 +199773,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 85
+    "score": 86
    },
    "nova": {
     "stance": "bear",
@@ -204057,7 +204057,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 80
+    "score": 82
    },
    "nova": {
     "stance": "bear",
@@ -217521,7 +217521,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "nova": {
     "stance": "bear",
@@ -234656,8 +234656,8 @@ const LIVE_HISTORY = {
     "score": 40
    },
    "diana": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 44
    },
    "nova": {
     "stance": "bull",
@@ -238328,8 +238328,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "diana": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 46
    },
    "nova": {
     "stance": "bear",
@@ -249957,7 +249957,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 69
    },
    "nova": {
     "stance": "bull",
@@ -251782,7 +251782,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "SELL",
-   "total": 44,
+   "total": 46,
    "confidence": 66,
    "base": 37450,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -251793,7 +251793,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 44
+    "score": 50
    },
    "nova": {
     "stance": "bear",
@@ -256077,7 +256077,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 58
+    "score": 64
    },
    "nova": {
     "stance": "bull",
@@ -256689,7 +256689,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 70
+    "score": 82
    },
    "nova": {
     "stance": "bull",
@@ -257300,8 +257300,8 @@ const LIVE_HISTORY = {
     "score": 31
    },
    "diana": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 63
    },
    "nova": {
     "stance": "bull",
@@ -260961,8 +260961,8 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-07-31",
-   "call": "SELL",
-   "total": 46,
+   "call": "HOLD",
+   "total": 48,
    "confidence": 63,
    "base": 10840,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -260973,7 +260973,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 37
+    "score": 43
    },
    "nova": {
     "stance": "bull",
@@ -276273,7 +276273,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 32
+    "score": 38
    },
    "nova": {
     "stance": "bull",
@@ -284830,7 +284830,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-07-31",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 64,
    "base": 6640,
    "baseAt": "2026-07-31 종가 (16:04 수집)",
@@ -284840,8 +284840,8 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "diana": {
-    "stance": "neu",
-    "score": 52
+    "stance": "bull",
+    "score": 58
    },
    "nova": {
     "stance": "bull",
@@ -286677,7 +286677,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 81
    },
    "nova": {
     "stance": "bear",
@@ -287289,7 +287289,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 63
+    "score": 69
    },
    "nova": {
     "stance": "bull",
@@ -298305,7 +298305,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 64
+    "score": 65
    },
    "nova": {
     "stance": "bull",

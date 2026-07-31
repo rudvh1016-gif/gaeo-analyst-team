@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 34,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-07-31",
+  "title": "호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유",
+  "featured": false
+ },
+ {
   "id": 33,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까",
   "featured": false
- },
- {
-  "id": 25,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "새벽 3시 FOMC, 금리는 그대로인데 말투가 매파적이었던 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 33,
+ "news": 34,
  "study": 35,
  "lesson": 58,
  "estate": 16,

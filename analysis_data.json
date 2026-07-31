@@ -2,14 +2,14 @@
  "fetchedAt": "2026-07-31 15:58",
  "indices": {
   "KOSPI": {
-   "value": 6595.45,
-   "change": 1001.89,
-   "rate": 17.91
+   "value": 6615.6,
+   "change": 1022.04,
+   "rate": 18.27
   },
   "KOSDAQ": {
-   "value": 719.76,
-   "change": 74.98,
-   "rate": 11.63
+   "value": 720.54,
+   "change": 75.76,
+   "rate": 11.75
   }
  },
  "stocks": {
@@ -1272,13 +1272,13 @@
      "foreignRate": "46.53%",
      "highPriceOf52Weeks": "380,000",
      "lowPriceOf52Weeks": "67,500",
-     "per": "21.22배",
+     "per": "21.42배",
      "eps": "12,372원",
-     "cnsPer": "5.63배",
+     "cnsPer": "5.68배",
      "cnsEps": "46,635원",
-     "pbr": "3.65배",
+     "pbr": "3.69배",
      "bps": "71,907원",
-     "dividendYieldRatio": "0.64%",
+     "dividendYieldRatio": "0.63%",
      "dividend": "1,668원"
     },
     "consensus": {
@@ -2620,7 +2620,7 @@
      "high": 1038000,
      "low": 944000,
      "close": 1038000,
-     "volume": 1033476,
+     "volume": 1023521,
      "frgnRate": 45.88
     }
    ],
@@ -4682,11 +4682,11 @@
      "foreignRate": "28.05%",
      "highPriceOf52Weeks": "1,814,000",
      "lowPriceOf52Weeks": "150,000",
-     "per": "25.09배",
+     "per": "24.90배",
      "eps": "20,484원",
-     "cnsPer": "13.17배",
+     "cnsPer": "13.07배",
      "cnsEps": "39,030원",
-     "pbr": "2.00배",
+     "pbr": "1.98배",
      "bps": "256,962원",
      "dividendYieldRatio": "0.37%",
      "dividend": "1,880원"
@@ -5347,8 +5347,8 @@
      "open": 670000,
      "high": 698000,
      "low": 635000,
-     "close": 684000,
-     "volume": 252144,
+     "close": 681000,
+     "volume": 226924,
      "frgnRate": 34.42
     }
    ],
@@ -5364,11 +5364,11 @@
      "foreignRate": "34.42%",
      "highPriceOf52Weeks": "1,449,000",
      "lowPriceOf52Weeks": "433,500",
-     "per": "31.34배",
+     "per": "31.21배",
      "eps": "21,822원",
-     "cnsPer": "25.69배",
+     "cnsPer": "25.58배",
      "cnsEps": "26,620원",
-     "pbr": "11.84배",
+     "pbr": "11.79배",
      "bps": "57,779원",
      "dividendYieldRatio": "1.04%",
      "dividend": "7,100원"
@@ -8094,11 +8094,11 @@
      "foreignRate": "17.63%",
      "highPriceOf52Weeks": "165,000",
      "lowPriceOf52Weeks": "53,600",
-     "per": "31.41배",
+     "per": "31.37배",
      "eps": "2,372원",
-     "cnsPer": "20.69배",
+     "cnsPer": "20.67배",
      "cnsEps": "3,600원",
-     "pbr": "6.87배",
+     "pbr": "6.86배",
      "bps": "10,848원",
      "dividendYieldRatio": "0.31%",
      "dividend": "230원"
@@ -8776,11 +8776,11 @@
      "foreignRate": "73.65%",
      "highPriceOf52Weeks": "140,300",
      "lowPriceOf52Weeks": "51,400",
-     "per": "47.71배",
+     "per": "47.66배",
      "eps": "1,706원",
-     "cnsPer": "13.90배",
+     "cnsPer": "13.88배",
      "cnsEps": "5,858원",
-     "pbr": "1.31배",
+     "pbr": "1.30배",
      "bps": "62,371원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -9458,9 +9458,9 @@
      "foreignRate": "34.88%",
      "highPriceOf52Weeks": "308,500",
      "lowPriceOf52Weeks": "181,100",
-     "per": "18.05배",
+     "per": "18.08배",
      "eps": "11,521원",
-     "cnsPer": "17.34배",
+     "cnsPer": "17.37배",
      "cnsEps": "11,992원",
      "pbr": "1.06배",
      "bps": "196,985원",
@@ -10140,11 +10140,11 @@
      "foreignRate": "28.83%",
      "highPriceOf52Weeks": "69,700",
      "lowPriceOf52Weeks": "32,250",
-     "per": "33.66배",
+     "per": "33.71배",
      "eps": "1,111원",
-     "cnsPer": "24.04배",
+     "cnsPer": "24.07배",
      "cnsEps": "1,556원",
-     "pbr": "1.43배",
+     "pbr": "1.44배",
      "bps": "26,079원",
      "dividendYieldRatio": "0.20%",
      "dividend": "75원"
@@ -10805,8 +10805,8 @@
      "open": 126100,
      "high": 132300,
      "low": 123700,
-     "close": 131900,
-     "volume": 1427024,
+     "close": 131800,
+     "volume": 1232479,
      "frgnRate": 38.97
     }
    ],
@@ -12172,7 +12172,7 @@
      "high": 105200,
      "low": 98000,
      "close": 103500,
-     "volume": 497654,
+     "volume": 468753,
      "frgnRate": 15.04
     }
    ],
@@ -12853,8 +12853,8 @@
      "open": 328500,
      "high": 332500,
      "low": 309000,
-     "close": 328000,
-     "volume": 491853,
+     "close": 330000,
+     "volume": 462610,
      "frgnRate": 5.57
     }
    ],
@@ -12872,9 +12872,9 @@
      "lowPriceOf52Weeks": "290,500",
      "per": "N/A",
      "eps": "-6,851원",
-     "cnsPer": "-204.62배",
+     "cnsPer": "-205.86배",
      "cnsEps": "-1,603원",
-     "pbr": "3.46배",
+     "pbr": "3.48배",
      "bps": "94,721원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -13535,8 +13535,8 @@
      "open": 296500,
      "high": 315500,
      "low": 290000,
-     "close": 311500,
-     "volume": 561661,
+     "close": 310000,
+     "volume": 505362,
      "frgnRate": 23.4
     }
    ],
@@ -14236,11 +14236,11 @@
      "highPriceOf52WeeksAdjusted": "1,987,000",
      "lowPriceOf52Weeks": "1,228,000",
      "lowPriceOf52WeeksAdjusted": "982,000",
-     "per": "48.25배",
+     "per": "48.12배",
      "eps": "30,779원",
-     "cnsPer": "36.54배",
+     "cnsPer": "36.44배",
      "cnsEps": "40,641원",
-     "pbr": "8.67배",
+     "pbr": "8.64배",
      "bps": "171,343원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -14918,9 +14918,9 @@
      "foreignRate": "30.76%",
      "highPriceOf52Weeks": "566,000",
      "lowPriceOf52Weeks": "151,000",
-     "per": "23.57배",
+     "per": "23.39배",
      "eps": "14,912원",
-     "cnsPer": "21.49배",
+     "cnsPer": "21.32배",
      "cnsEps": "16,357원",
      "pbr": "0.92배",
      "bps": "380,638원",
@@ -16964,11 +16964,11 @@
      "foreignRate": "24.10%",
      "highPriceOf52Weeks": "139,200",
      "lowPriceOf52Weeks": "51,100",
-     "per": "278.42배",
+     "per": "279.67배",
      "eps": "241원",
-     "cnsPer": "136.11배",
+     "cnsPer": "136.71배",
      "cnsEps": "493원",
-     "pbr": "5.35배",
+     "pbr": "5.37배",
      "bps": "12,542원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -17630,7 +17630,7 @@
      "high": 943000,
      "low": 866000,
      "close": 917000,
-     "volume": 259060,
+     "volume": 259055,
      "frgnRate": 45.19
     }
    ],
@@ -17646,11 +17646,11 @@
      "foreignRate": "45.19%",
      "highPriceOf52Weeks": "1,713,000",
      "lowPriceOf52Weeks": "783,000",
-     "per": "28.80배",
+     "per": "28.99배",
      "eps": "31,839원",
-     "cnsPer": "21.74배",
+     "cnsPer": "21.89배",
      "cnsEps": "42,173원",
-     "pbr": "4.74배",
+     "pbr": "4.77배",
      "bps": "193,563원",
      "dividendYieldRatio": "0.76%",
      "dividend": "7,000원"
@@ -18328,13 +18328,13 @@
      "foreignRate": "29.78%",
      "highPriceOf52Weeks": "920,000",
      "lowPriceOf52Weeks": "176,900",
-     "per": "15.48배",
+     "per": "15.51배",
      "eps": "35,981원",
-     "cnsPer": "4.44배",
+     "cnsPer": "4.45배",
      "cnsEps": "125,347원",
      "pbr": "1.04배",
      "bps": "536,978원",
-     "dividendYieldRatio": "1.44%",
+     "dividendYieldRatio": "1.43%",
      "dividend": "8,000원"
     },
     "consensus": {
@@ -18994,7 +18994,7 @@
      "high": 487000,
      "low": 451000,
      "close": 476000,
-     "volume": 354581,
+     "volume": 354559,
      "frgnRate": 37.29
     }
    ],
@@ -19694,9 +19694,9 @@
      "highPriceOf52WeeksAdjusted": "258,500",
      "lowPriceOf52Weeks": "158,500",
      "lowPriceOf52WeeksAdjusted": "145,200",
-     "per": "35.73배",
+     "per": "35.74배",
      "eps": "5,226원",
-     "cnsPer": "27.92배",
+     "cnsPer": "27.94배",
      "cnsEps": "6,686원",
      "pbr": "2.43배",
      "bps": "76,797원",
@@ -23088,7 +23088,7 @@
      "high": 2462000,
      "low": 2125000,
      "close": 2417000,
-     "volume": 103972,
+     "volume": 103971,
      "frgnRate": 26.9
     }
    ],
@@ -24452,7 +24452,7 @@
      "high": 317500,
      "low": 301000,
      "close": 312500,
-     "volume": 428776,
+     "volume": 428561,
      "frgnRate": 32.47
     }
    ],
@@ -25816,7 +25816,7 @@
      "high": 34850,
      "low": 31725,
      "close": 34550,
-     "volume": 3037574,
+     "volume": 3034939,
      "frgnRate": 10.53
     }
    ],
@@ -26500,7 +26500,7 @@
      "high": 35150,
      "low": 33700,
      "close": 34800,
-     "volume": 1777947,
+     "volume": 1777211,
      "frgnRate": 21.08
     }
    ],
@@ -27864,7 +27864,7 @@
      "high": 1170000,
      "low": 1062000,
      "close": 1170000,
-     "volume": 134767,
+     "volume": 134627,
      "frgnRate": 20.82
     }
    ],
@@ -28546,7 +28546,7 @@
      "high": 1020000,
      "low": 950000,
      "close": 999000,
-     "volume": 25517,
+     "volume": 25513,
      "frgnRate": 28.1
     }
    ],
@@ -29910,7 +29910,7 @@
      "high": 133700,
      "low": 120100,
      "close": 133700,
-     "volume": 871568,
+     "volume": 871567,
      "frgnRate": 38.76
     }
    ],
@@ -31274,7 +31274,7 @@
      "high": 262500,
      "low": 241000,
      "close": 258000,
-     "volume": 307583,
+     "volume": 307579,
      "frgnRate": 37.6
     }
    ],
@@ -37412,7 +37412,7 @@
      "high": 130600,
      "low": 120000,
      "close": 127300,
-     "volume": 468753,
+     "volume": 468748,
      "frgnRate": 79.8
     }
    ],
@@ -40140,7 +40140,7 @@
      "high": 53300,
      "low": 51400,
      "close": 51900,
-     "volume": 489587,
+     "volume": 488147,
      "frgnRate": 49.0
     }
    ],
@@ -40822,7 +40822,7 @@
      "high": 62500,
      "low": 55800,
      "close": 62500,
-     "volume": 837168,
+     "volume": 837068,
      "frgnRate": 10.16
     }
    ],
@@ -42868,7 +42868,7 @@
      "high": 28550,
      "low": 27500,
      "close": 28500,
-     "volume": 1030776,
+     "volume": 1030775,
      "frgnRate": 13.16
     }
    ],
@@ -44232,7 +44232,7 @@
      "high": 22150,
      "low": 21600,
      "close": 22100,
-     "volume": 970532,
+     "volume": 970521,
      "frgnRate": 17.77
     }
    ],
@@ -47642,7 +47642,7 @@
      "high": 172200,
      "low": 164600,
      "close": 168800,
-     "volume": 487267,
+     "volume": 487264,
      "frgnRate": 18.79
     }
    ],
@@ -49682,7 +49682,7 @@
      "high": 187700,
      "low": 179100,
      "close": 184000,
-     "volume": 171393,
+     "volume": 171363,
      "frgnRate": 29.9
     }
    ],
@@ -50364,7 +50364,7 @@
      "high": 297000,
      "low": 273000,
      "close": 293500,
-     "volume": 126320,
+     "volume": 126318,
      "frgnRate": 28.26
     }
    ],
@@ -51046,7 +51046,7 @@
      "high": 52700,
      "low": 49900,
      "close": 52200,
-     "volume": 671132,
+     "volume": 671082,
      "frgnRate": 7.94
     }
    ],
@@ -53092,7 +53092,7 @@
      "high": 89900,
      "low": 69500,
      "close": 89000,
-     "volume": 871058,
+     "volume": 871008,
      "frgnRate": 20.2
     }
    ],
@@ -53774,7 +53774,7 @@
      "high": 131000,
      "low": 121400,
      "close": 130000,
-     "volume": 662974,
+     "volume": 662968,
      "frgnRate": 25.38
     }
    ],
@@ -56502,7 +56502,7 @@
      "high": 60100,
      "low": 57900,
      "close": 59800,
-     "volume": 156309,
+     "volume": 156209,
      "frgnRate": 39.03
     }
    ],
@@ -57866,7 +57866,7 @@
      "high": 444500,
      "low": 409000,
      "close": 423000,
-     "volume": 141168,
+     "volume": 141161,
      "frgnRate": 28.0
     }
    ],
@@ -58548,7 +58548,7 @@
      "high": 313500,
      "low": 283000,
      "close": 308500,
-     "volume": 350320,
+     "volume": 350319,
      "frgnRate": 14.61
     }
    ],
@@ -63992,7 +63992,7 @@
      "high": 153000,
      "low": 132100,
      "close": 149600,
-     "volume": 312855,
+     "volume": 312841,
      "frgnRate": 5.29
     }
    ],
@@ -66714,7 +66714,7 @@
      "high": 89700,
      "low": 79500,
      "close": 87500,
-     "volume": 322189,
+     "volume": 322134,
      "frgnRate": 12.44
     }
    ],
@@ -67396,7 +67396,7 @@
      "high": 114800,
      "low": 99000,
      "close": 112300,
-     "volume": 335510,
+     "volume": 335282,
      "frgnRate": 36.65
     }
    ],
@@ -70124,7 +70124,7 @@
      "high": 130600,
      "low": 118800,
      "close": 129600,
-     "volume": 180201,
+     "volume": 180057,
      "frgnRate": 31.54
     }
    ],
@@ -70806,7 +70806,7 @@
      "high": 41700,
      "low": 38050,
      "close": 41150,
-     "volume": 191744,
+     "volume": 191602,
      "frgnRate": 70.95
     }
    ],
@@ -72846,7 +72846,7 @@
      "high": 186600,
      "low": 177000,
      "close": 186600,
-     "volume": 85905,
+     "volume": 84713,
      "frgnRate": 12.5
     }
    ],
@@ -75574,7 +75574,7 @@
      "high": 90000,
      "low": 84400,
      "close": 88500,
-     "volume": 214779,
+     "volume": 214778,
      "frgnRate": 12.23
     }
    ],
@@ -76256,7 +76256,7 @@
      "high": 34350,
      "low": 32550,
      "close": 33950,
-     "volume": 575787,
+     "volume": 575785,
      "frgnRate": 7.39
     }
    ],
@@ -76938,7 +76938,7 @@
      "high": 261500,
      "low": 243000,
      "close": 252500,
-     "volume": 44478,
+     "volume": 44472,
      "frgnRate": 30.17
     }
    ],
@@ -77620,7 +77620,7 @@
      "high": 40100,
      "low": 36300,
      "close": 39150,
-     "volume": 714598,
+     "volume": 714562,
      "frgnRate": 14.25
     }
    ],
@@ -78296,7 +78296,7 @@
      "high": 33700,
      "low": 32350,
      "close": 33200,
-     "volume": 247299,
+     "volume": 247259,
      "frgnRate": 8.01
     }
    ],
@@ -79660,7 +79660,7 @@
      "high": 65800,
      "low": 57900,
      "close": 64100,
-     "volume": 518039,
+     "volume": 517614,
      "frgnRate": 15.5
     }
    ],
@@ -81018,7 +81018,7 @@
      "high": 53700,
      "low": 49350,
      "close": 51900,
-     "volume": 500236,
+     "volume": 500206,
      "frgnRate": 22.55
     }
    ],
@@ -81694,7 +81694,7 @@
      "high": 139300,
      "low": 129000,
      "close": 137700,
-     "volume": 415736,
+     "volume": 415734,
      "frgnRate": 9.94
     }
    ],
@@ -82376,7 +82376,7 @@
      "high": 208500,
      "low": 190500,
      "close": 206500,
-     "volume": 277001,
+     "volume": 276709,
      "frgnRate": 35.54
     }
    ],
@@ -91926,7 +91926,7 @@
      "high": 42800,
      "low": 41050,
      "close": 42600,
-     "volume": 186816,
+     "volume": 186813,
      "frgnRate": 28.73
     }
    ],
@@ -93290,7 +93290,7 @@
      "high": 27350,
      "low": 25900,
      "close": 26450,
-     "volume": 390142,
+     "volume": 390132,
      "frgnRate": 34.44
     }
    ],
@@ -95338,7 +95338,7 @@
      "high": 118500,
      "low": 112700,
      "close": 117300,
-     "volume": 138389,
+     "volume": 138382,
      "frgnRate": 13.81
     }
    ],
@@ -96020,7 +96020,7 @@
      "high": 137300,
      "low": 119000,
      "close": 134200,
-     "volume": 436905,
+     "volume": 436883,
      "frgnRate": 1.54
     }
    ],
@@ -97380,7 +97380,7 @@
      "high": 73500,
      "low": 68600,
      "close": 73300,
-     "volume": 296711,
+     "volume": 296697,
      "frgnRate": 21.81
     }
    ],
@@ -98744,7 +98744,7 @@
      "high": 89000,
      "low": 83100,
      "close": 89000,
-     "volume": 258312,
+     "volume": 258289,
      "frgnRate": 15.26
     }
    ],
@@ -102154,7 +102154,7 @@
      "high": 194100,
      "low": 172500,
      "close": 190300,
-     "volume": 329660,
+     "volume": 329657,
      "frgnRate": 15.64
     }
    ],
@@ -102836,7 +102836,7 @@
      "high": 287500,
      "low": 271000,
      "close": 287000,
-     "volume": 152275,
+     "volume": 152272,
      "frgnRate": 30.84
     }
    ],
@@ -103518,7 +103518,7 @@
      "high": 123000,
      "low": 114400,
      "close": 118800,
-     "volume": 132674,
+     "volume": 132673,
      "frgnRate": 27.12
     }
    ],
@@ -106246,7 +106246,7 @@
      "high": 14760,
      "low": 14370,
      "close": 14700,
-     "volume": 507126,
+     "volume": 507120,
      "frgnRate": 9.2
     }
    ],
@@ -110332,7 +110332,7 @@
      "high": 43700,
      "low": 40050,
      "close": 43400,
-     "volume": 224666,
+     "volume": 224532,
      "frgnRate": 3.08
     }
    ],
@@ -111696,7 +111696,7 @@
      "high": 116000,
      "low": 111000,
      "close": 114400,
-     "volume": 92720,
+     "volume": 92711,
      "frgnRate": 27.14
     }
    ],
@@ -111706,7 +111706,7 @@
      "openPrice": "116,500",
      "highPrice": "117,800",
      "lowPrice": "111,000",
-     "accumulatedTradingVolume": "111,995",
+     "accumulatedTradingVolume": "111,564",
      "accumulatedTradingValue": "126억",
      "marketValue": "2조 8,780억",
      "foreignRate": "27.14%",
@@ -115788,7 +115788,7 @@
      "high": 209500,
      "low": 199300,
      "close": 208000,
-     "volume": 40286,
+     "volume": 40285,
      "frgnRate": 41.98
     }
    ],
@@ -119874,7 +119874,7 @@
      "high": 53600,
      "low": 50700,
      "close": 52900,
-     "volume": 59615,
+     "volume": 59606,
      "frgnRate": 16.42
     }
    ],
@@ -121908,7 +121908,7 @@
      "high": 95800,
      "low": 86900,
      "close": 95200,
-     "volume": 278439,
+     "volume": 278338,
      "frgnRate": 39.86
     }
    ],
@@ -126004,8 +126004,8 @@
      "openPrice": "25,600",
      "highPrice": "25,650",
      "lowPrice": "24,250",
-     "accumulatedTradingVolume": "127,463",
-     "accumulatedTradingValue": "31.4억",
+     "accumulatedTradingVolume": "126,970",
+     "accumulatedTradingValue": "31.3억",
      "marketValue": "2조 3,686억",
      "foreignRate": "9.12%",
      "highPriceOf52Weeks": "37,900",
@@ -127352,7 +127352,7 @@
      "high": 22800,
      "low": 22250,
      "close": 22600,
-     "volume": 120177,
+     "volume": 120176,
      "frgnRate": 10.09
     }
    ],
@@ -128716,7 +128716,7 @@
      "high": 42500,
      "low": 38000,
      "close": 42000,
-     "volume": 561094,
+     "volume": 561093,
      "frgnRate": 23.17
     }
    ],
@@ -134848,7 +134848,7 @@
      "high": 126900,
      "low": 118600,
      "close": 125000,
-     "volume": 127636,
+     "volume": 127626,
      "frgnRate": 37.9
     }
    ],
@@ -138940,7 +138940,7 @@
      "high": 46800,
      "low": 42000,
      "close": 43550,
-     "volume": 462976,
+     "volume": 462721,
      "frgnRate": 20.39
     }
    ],
@@ -140304,7 +140304,7 @@
      "high": 70700,
      "low": 64500,
      "close": 69800,
-     "volume": 333167,
+     "volume": 333154,
      "frgnRate": 11.66
     }
    ],
@@ -141662,7 +141662,7 @@
      "high": 27500,
      "low": 25350,
      "close": 27350,
-     "volume": 168526,
+     "volume": 168508,
      "frgnRate": 9.2
     }
    ],
@@ -144384,7 +144384,7 @@
      "high": 48025,
      "low": 43150,
      "close": 46450,
-     "volume": 544933,
+     "volume": 543453,
      "frgnRate": 7.74
     }
    ],
@@ -154596,7 +154596,7 @@
      "high": 37800,
      "low": 35650,
      "close": 37400,
-     "volume": 164913,
+     "volume": 164912,
      "frgnRate": 27.14
     }
    ],
@@ -155278,7 +155278,7 @@
      "high": 40850,
      "low": 36650,
      "close": 40350,
-     "volume": 143109,
+     "volume": 143103,
      "frgnRate": 7.07
     }
    ],
@@ -160046,7 +160046,7 @@
      "high": 37700,
      "low": 34400,
      "close": 37100,
-     "volume": 108463,
+     "volume": 108266,
      "frgnRate": 12.79
     }
    ],
@@ -162774,7 +162774,7 @@
      "high": 8390,
      "low": 8010,
      "close": 8330,
-     "volume": 121733,
+     "volume": 121669,
      "frgnRate": 49.52
     }
    ],
@@ -162784,7 +162784,7 @@
      "openPrice": "8,270",
      "highPrice": "8,390",
      "lowPrice": "8,010",
-     "accumulatedTradingVolume": "121,733",
+     "accumulatedTradingVolume": "121,669",
      "accumulatedTradingValue": "10억",
      "marketValue": "1조 3,000억",
      "foreignRate": "49.52%",
@@ -170266,7 +170266,7 @@
     "totalInfos": {
      "lastClosePrice": "20,250",
      "openPrice": "21,700",
-     "highPrice": "23,100",
+     "highPrice": "23,050",
      "lowPrice": "20,900",
      "accumulatedTradingVolume": "495,802",
      "accumulatedTradingValue": "110억",
@@ -175702,7 +175702,7 @@
      "high": 43500,
      "low": 41300,
      "close": 42950,
-     "volume": 96764,
+     "volume": 96763,
      "frgnRate": 21.83
     }
    ],
@@ -176394,8 +176394,8 @@
      "openPrice": "861,000",
      "highPrice": "877,000",
      "lowPrice": "834,000",
-     "accumulatedTradingVolume": "3,381",
-     "accumulatedTradingValue": "28.7억",
+     "accumulatedTradingVolume": "3,371",
+     "accumulatedTradingValue": "28.6억",
      "marketValue": "9,542억",
      "foreignRate": "3.32%",
      "highPriceOf52Weeks": "1,699,000",
@@ -179110,8 +179110,8 @@
      "openPrice": "26,050",
      "highPrice": "26,650",
      "lowPrice": "25,050",
-     "accumulatedTradingVolume": "17,214",
-     "accumulatedTradingValue": "4.49억",
+     "accumulatedTradingVolume": "17,148",
+     "accumulatedTradingValue": "4.47억",
      "marketValue": "9,353억",
      "foreignRate": "10.88%",
      "highPriceOf52Weeks": "35,900",
@@ -179782,7 +179782,7 @@
      "high": 4385,
      "low": 4080,
      "close": 4380,
-     "volume": 425139,
+     "volume": 425097,
      "frgnRate": 68.72
     }
    ],
@@ -179792,7 +179792,7 @@
      "openPrice": "4,105",
      "highPrice": "4,385",
      "lowPrice": "4,080",
-     "accumulatedTradingVolume": "425,139",
+     "accumulatedTradingVolume": "425,097",
      "accumulatedTradingValue": "18억",
      "marketValue": "8,439억",
      "foreignRate": "68.72%",
@@ -182498,7 +182498,7 @@
      "high": 39450,
      "low": 37950,
      "close": 38900,
-     "volume": 60702,
+     "volume": 60701,
      "frgnRate": 13.39
     }
    ],
@@ -183180,7 +183180,7 @@
      "high": 14500,
      "low": 13930,
      "close": 14110,
-     "volume": 83907,
+     "volume": 83716,
      "frgnRate": 32.89
     }
    ],
@@ -184544,7 +184544,7 @@
      "high": 69100,
      "low": 64600,
      "close": 68900,
-     "volume": 73714,
+     "volume": 73713,
      "frgnRate": 11.25
     }
    ],
@@ -186584,7 +186584,7 @@
      "high": 19140,
      "low": 18760,
      "close": 19030,
-     "volume": 93291,
+     "volume": 93275,
      "frgnRate": 20.83
     }
    ],
@@ -187276,8 +187276,8 @@
      "openPrice": "49,600",
      "highPrice": "51,600",
      "lowPrice": "47,400",
-     "accumulatedTradingVolume": "35,267",
-     "accumulatedTradingValue": "17.9억",
+     "accumulatedTradingVolume": "35,243",
+     "accumulatedTradingValue": "17.8억",
      "marketValue": "7,138억",
      "foreignRate": "24.04%",
      "highPriceOf52Weeks": "77,700",
@@ -195444,8 +195444,8 @@
      "openPrice": "22,400",
      "highPrice": "22,450",
      "lowPrice": "21,650",
-     "accumulatedTradingVolume": "38,200",
-     "accumulatedTradingValue": "8.4억",
+     "accumulatedTradingVolume": "38,192",
+     "accumulatedTradingValue": "8.39억",
      "marketValue": "6,550억",
      "foreignRate": "13.70%",
      "highPriceOf52Weeks": "26,450",
@@ -196792,7 +196792,7 @@
      "high": 162000,
      "low": 149100,
      "close": 160800,
-     "volume": 16954,
+     "volume": 16950,
      "frgnRate": 8.89
     }
    ],
@@ -198832,7 +198832,7 @@
      "high": 15100,
      "low": 13840,
      "close": 15070,
-     "volume": 515423,
+     "volume": 515413,
      "frgnRate": 18.92
     }
    ],
@@ -202906,7 +202906,7 @@
      "high": 41400,
      "low": 35950,
      "close": 40750,
-     "volume": 160345,
+     "volume": 160344,
      "frgnRate": 4.3
     }
    ],
@@ -204270,7 +204270,7 @@
      "high": 20600,
      "low": 17900,
      "close": 20150,
-     "volume": 652430,
+     "volume": 652077,
      "frgnRate": 14.84
     }
    ],
@@ -207002,8 +207002,8 @@
      "openPrice": "67,300",
      "highPrice": "68,100",
      "lowPrice": "66,500",
-     "accumulatedTradingVolume": "26,072",
-     "accumulatedTradingValue": "17.6억",
+     "accumulatedTradingVolume": "25,842",
+     "accumulatedTradingValue": "17.4억",
      "marketValue": "6,275억",
      "foreignRate": "17.22%",
      "highPriceOf52Weeks": "87,900",
@@ -207678,8 +207678,8 @@
      "openPrice": "18,340",
      "highPrice": "18,990",
      "lowPrice": "17,900",
-     "accumulatedTradingVolume": "44,069",
-     "accumulatedTradingValue": "7.98억",
+     "accumulatedTradingVolume": "43,585",
+     "accumulatedTradingValue": "7.9억",
      "marketValue": "5,871억",
      "foreignRate": "16.08%",
      "highPriceOf52Weeks": "19,780",
@@ -211072,7 +211072,7 @@
      "high": 2840,
      "low": 2680,
      "close": 2840,
-     "volume": 600691,
+     "volume": 600651,
      "frgnRate": 18.53
     }
    ],
@@ -211082,7 +211082,7 @@
      "openPrice": "2,690",
      "highPrice": "2,840",
      "lowPrice": "2,680",
-     "accumulatedTradingVolume": "600,691",
+     "accumulatedTradingVolume": "600,651",
      "accumulatedTradingValue": "16.6억",
      "marketValue": "5,747억",
      "foreignRate": "18.53%",
@@ -211758,8 +211758,8 @@
      "openPrice": "50,200",
      "highPrice": "52,300",
      "lowPrice": "48,900",
-     "accumulatedTradingVolume": "6,369",
-     "accumulatedTradingValue": "3.22억",
+     "accumulatedTradingVolume": "6,345",
+     "accumulatedTradingValue": "3.21억",
      "marketValue": "5,372억",
      "foreignRate": "1.12%",
      "highPriceOf52Weeks": "111,000",
@@ -213786,7 +213786,7 @@
      "openPrice": "85,600",
      "highPrice": "89,800",
      "lowPrice": "83,900",
-     "accumulatedTradingVolume": "11,670",
+     "accumulatedTradingVolume": "11,669",
      "accumulatedTradingValue": "9.98억",
      "marketValue": "6,030억",
      "foreignRate": "6.87%",
@@ -214468,7 +214468,7 @@
      "openPrice": "126,700",
      "highPrice": "127,900",
      "lowPrice": "120,300",
-     "accumulatedTradingVolume": "8,586",
+     "accumulatedTradingVolume": "8,566",
      "accumulatedTradingValue": "10.6억",
      "marketValue": "5,544억",
      "foreignRate": "2.99%",
@@ -217862,7 +217862,7 @@
      "openPrice": "88,500",
      "highPrice": "88,500",
      "lowPrice": "84,800",
-     "accumulatedTradingVolume": "15,684",
+     "accumulatedTradingVolume": "15,682",
      "accumulatedTradingValue": "13.6억",
      "marketValue": "5,938억",
      "foreignRate": "16.24%",
@@ -218536,7 +218536,7 @@
      "high": 6470,
      "low": 5900,
      "close": 6430,
-     "volume": 151568,
+     "volume": 151481,
      "frgnRate": 2.96
     }
    ],
@@ -219900,7 +219900,7 @@
      "high": 18100,
      "low": 17250,
      "close": 17850,
-     "volume": 27305,
+     "volume": 27295,
      "frgnRate": 3.85
     }
    ],
@@ -220576,7 +220576,7 @@
      "high": 5470,
      "low": 5300,
      "close": 5440,
-     "volume": 366928,
+     "volume": 366019,
      "frgnRate": 5.72
     }
    ],
@@ -220586,7 +220586,7 @@
      "openPrice": "5,380",
      "highPrice": "5,470",
      "lowPrice": "5,300",
-     "accumulatedTradingVolume": "366,928",
+     "accumulatedTradingVolume": "366,019",
      "accumulatedTradingValue": "19.7억",
      "marketValue": "5,440억",
      "foreignRate": "5.72%",
@@ -221258,7 +221258,7 @@
      "high": 30350,
      "low": 27700,
      "close": 30300,
-     "volume": 63519,
+     "volume": 63516,
      "frgnRate": 1.18
     }
    ],
@@ -223968,7 +223968,7 @@
      "high": 30650,
      "low": 30000,
      "close": 30650,
-     "volume": 43650,
+     "volume": 43649,
      "frgnRate": 12.06
     }
    ],
@@ -225332,7 +225332,7 @@
      "high": 36450,
      "low": 33400,
      "close": 35850,
-     "volume": 66856,
+     "volume": 66846,
      "frgnRate": 12.46
     }
    ],
@@ -227388,8 +227388,8 @@
      "openPrice": "24,050",
      "highPrice": "24,050",
      "lowPrice": "23,150",
-     "accumulatedTradingVolume": "23,508",
-     "accumulatedTradingValue": "5.56억",
+     "accumulatedTradingVolume": "23,468",
+     "accumulatedTradingValue": "5.55억",
      "marketValue": "4,910억",
      "foreignRate": "4.71%",
      "highPriceOf52Weeks": "41,953",
@@ -228062,7 +228062,7 @@
      "high": 4600,
      "low": 4370,
      "close": 4555,
-     "volume": 87001,
+     "volume": 86999,
      "frgnRate": 0.61
     }
    ],
@@ -228072,7 +228072,7 @@
      "openPrice": "4,435",
      "highPrice": "4,600",
      "lowPrice": "4,370",
-     "accumulatedTradingVolume": "87,001",
+     "accumulatedTradingVolume": "86,999",
      "accumulatedTradingValue": "3.86억",
      "marketValue": "4,641억",
      "foreignRate": "0.61%",
@@ -228748,7 +228748,7 @@
      "openPrice": "21,800",
      "highPrice": "21,850",
      "lowPrice": "20,850",
-     "accumulatedTradingVolume": "19,857",
+     "accumulatedTradingVolume": "19,856",
      "accumulatedTradingValue": "4.21억",
      "marketValue": "4,824억",
      "foreignRate": "9.48%",
@@ -230774,7 +230774,7 @@
     "totalInfos": {
      "lastClosePrice": "9,110",
      "openPrice": "9,190",
-     "highPrice": "9,440",
+     "highPrice": "9,430",
      "lowPrice": "8,820",
      "accumulatedTradingVolume": "111,580",
      "accumulatedTradingValue": "10.3억",
@@ -232118,7 +232118,7 @@
      "high": 14000,
      "low": 12320,
      "close": 13810,
-     "volume": 210304,
+     "volume": 207841,
      "frgnRate": 15.27
     }
    ],
@@ -236880,8 +236880,8 @@
      "openPrice": "7,540",
      "highPrice": "7,590",
      "lowPrice": "7,190",
-     "accumulatedTradingVolume": "125,555",
-     "accumulatedTradingValue": "9.31억",
+     "accumulatedTradingVolume": "125,488",
+     "accumulatedTradingValue": "9.3억",
      "marketValue": "3,926억",
      "foreignRate": "6.30%",
      "highPriceOf52Weeks": "15,900",
@@ -238914,8 +238914,8 @@
      "openPrice": "62,600",
      "highPrice": "64,100",
      "lowPrice": "62,100",
-     "accumulatedTradingVolume": "11,161",
-     "accumulatedTradingValue": "6.99억",
+     "accumulatedTradingVolume": "11,038",
+     "accumulatedTradingValue": "6.91억",
      "marketValue": "4,189억",
      "foreignRate": "0.73%",
      "highPriceOf52Weeks": "86,100",
@@ -242290,7 +242290,7 @@
      "high": 4000,
      "low": 3765,
      "close": 3990,
-     "volume": 421349,
+     "volume": 421318,
      "frgnRate": 7.61
     }
    ],
@@ -242300,7 +242300,7 @@
      "openPrice": "3,815",
      "highPrice": "4,000",
      "lowPrice": "3,765",
-     "accumulatedTradingVolume": "421,349",
+     "accumulatedTradingVolume": "421,318",
      "accumulatedTradingValue": "16.3억",
      "marketValue": "3,937억",
      "foreignRate": "7.61%",
@@ -245678,7 +245678,7 @@
      "high": 6570,
      "low": 6070,
      "close": 6510,
-     "volume": 160706,
+     "volume": 160535,
      "frgnRate": 6.23
     }
    ],
@@ -248394,7 +248394,7 @@
      "high": 4000,
      "low": 3860,
      "close": 4000,
-     "volume": 127283,
+     "volume": 127282,
      "frgnRate": 5.51
     }
    ],
@@ -248404,7 +248404,7 @@
      "openPrice": "3,890",
      "highPrice": "4,000",
      "lowPrice": "3,860",
-     "accumulatedTradingVolume": "127,283",
+     "accumulatedTradingVolume": "127,282",
      "accumulatedTradingValue": "4.98억",
      "marketValue": "3,829억",
      "foreignRate": "5.51%",
@@ -249076,7 +249076,7 @@
      "high": 8880,
      "low": 8300,
      "close": 8800,
-     "volume": 262511,
+     "volume": 262420,
      "frgnRate": 0.93
     }
    ],
@@ -249086,7 +249086,7 @@
      "openPrice": "8,300",
      "highPrice": "8,880",
      "lowPrice": "8,300",
-     "accumulatedTradingVolume": "262,511",
+     "accumulatedTradingVolume": "262,420",
      "accumulatedTradingValue": "22.6억",
      "marketValue": "3,326억",
      "foreignRate": "0.93%",
@@ -254506,7 +254506,7 @@
      "high": 99800,
      "low": 88800,
      "close": 97800,
-     "volume": 336089,
+     "volume": 335828,
      "frgnRate": 7.34
     }
    ],
@@ -255864,7 +255864,7 @@
      "high": 65700,
      "low": 60500,
      "close": 65500,
-     "volume": 1151210,
+     "volume": 1151197,
      "frgnRate": 14.35
     }
    ],
@@ -256546,7 +256546,7 @@
      "high": 98400,
      "low": 89500,
      "close": 94800,
-     "volume": 273246,
+     "volume": 273227,
      "frgnRate": 8.15
     }
    ],
@@ -257222,7 +257222,7 @@
      "high": 108100,
      "low": 94100,
      "close": 103500,
-     "volume": 273351,
+     "volume": 273104,
      "frgnRate": 7.02
     }
    ],
@@ -260616,7 +260616,7 @@
      "high": 43550,
      "low": 42100,
      "close": 43200,
-     "volume": 232797,
+     "volume": 232796,
      "frgnRate": 18.69
     }
    ],
@@ -263340,7 +263340,7 @@
      "high": 97900,
      "low": 77400,
      "close": 94600,
-     "volume": 2097222,
+     "volume": 2096945,
      "frgnRate": 4.08
     }
    ],
@@ -266738,7 +266738,7 @@
      "high": 27350,
      "low": 25400,
      "close": 26900,
-     "volume": 259907,
+     "volume": 259904,
      "frgnRate": 18.32
     }
    ],
@@ -267420,7 +267420,7 @@
      "high": 40900,
      "low": 36900,
      "close": 40300,
-     "volume": 242284,
+     "volume": 242144,
      "frgnRate": 13.54
     }
    ],
@@ -269462,7 +269462,7 @@
      "high": 42800,
      "low": 37700,
      "close": 42700,
-     "volume": 337256,
+     "volume": 336987,
      "frgnRate": 28.0
     }
    ],
@@ -276260,7 +276260,7 @@
      "high": 53700,
      "low": 48600,
      "close": 52600,
-     "volume": 186123,
+     "volume": 185877,
      "frgnRate": 21.8
     }
    ],
@@ -276942,7 +276942,7 @@
      "high": 39150,
      "low": 33200,
      "close": 37650,
-     "volume": 729821,
+     "volume": 729733,
      "frgnRate": 1.56
     }
    ],
@@ -277618,7 +277618,7 @@
      "high": 45700,
      "low": 39000,
      "close": 44600,
-     "volume": 122891,
+     "volume": 122886,
      "frgnRate": 7.04
     }
    ],
@@ -278294,7 +278294,7 @@
      "high": 38250,
      "low": 31400,
      "close": 37450,
-     "volume": 234913,
+     "volume": 234531,
      "frgnRate": 5.01
     }
    ],
@@ -278304,8 +278304,8 @@
      "openPrice": "32,100",
      "highPrice": "38,250",
      "lowPrice": "31,400",
-     "accumulatedTradingVolume": "234,913",
-     "accumulatedTradingValue": "82.1억",
+     "accumulatedTradingVolume": "234,531",
+     "accumulatedTradingValue": "81.9억",
      "marketValue": "9,458억",
      "foreignRate": "5.01%",
      "highPriceOf52Weeks": "95,900",
@@ -278976,7 +278976,7 @@
      "high": 13350,
      "low": 11850,
      "close": 13250,
-     "volume": 279704,
+     "volume": 278347,
      "frgnRate": 2.56
     }
    ],
@@ -278986,8 +278986,8 @@
      "openPrice": "11,850",
      "highPrice": "13,350",
      "lowPrice": "11,850",
-     "accumulatedTradingVolume": "279,704",
-     "accumulatedTradingValue": "35.3억",
+     "accumulatedTradingVolume": "278,347",
+     "accumulatedTradingValue": "35.1억",
      "marketValue": "7,665억",
      "foreignRate": "2.56%",
      "highPriceOf52Weeks": "30,100",
@@ -279658,7 +279658,7 @@
      "high": 41200,
      "low": 37850,
      "close": 40850,
-     "volume": 383112,
+     "volume": 382650,
      "frgnRate": 13.52
     }
    ],
@@ -280334,7 +280334,7 @@
      "high": 65900,
      "low": 59500,
      "close": 64300,
-     "volume": 70081,
+     "volume": 70035,
      "frgnRate": 11.26
     }
    ],
@@ -281016,7 +281016,7 @@
      "high": 8630,
      "low": 8160,
      "close": 8450,
-     "volume": 295347,
+     "volume": 295240,
      "frgnRate": 8.51
     }
    ],
@@ -281692,7 +281692,7 @@
      "high": 42950,
      "low": 39700,
      "close": 42850,
-     "volume": 259142,
+     "volume": 258855,
      "frgnRate": 22.56
     }
    ],
@@ -282368,7 +282368,7 @@
      "high": 8070,
      "low": 7510,
      "close": 7970,
-     "volume": 356774,
+     "volume": 356714,
      "frgnRate": 4.8
     }
    ],
@@ -282378,7 +282378,7 @@
      "openPrice": "7,570",
      "highPrice": "8,070",
      "lowPrice": "7,510",
-     "accumulatedTradingVolume": "356,774",
+     "accumulatedTradingVolume": "356,714",
      "accumulatedTradingValue": "28.1억",
      "marketValue": "8,508억",
      "foreignRate": "4.80%",
@@ -283050,7 +283050,7 @@
      "high": 7050,
      "low": 6450,
      "close": 7010,
-     "volume": 836718,
+     "volume": 836480,
      "frgnRate": 4.66
     }
    ],
@@ -283060,7 +283060,7 @@
      "openPrice": "6,450",
      "highPrice": "7,050",
      "lowPrice": "6,450",
-     "accumulatedTradingVolume": "836,718",
+     "accumulatedTradingVolume": "836,480",
      "accumulatedTradingValue": "56.9억",
      "marketValue": "7,565억",
      "foreignRate": "4.66%",
@@ -284408,7 +284408,7 @@
      "high": 12690,
      "low": 11000,
      "close": 12500,
-     "volume": 505820,
+     "volume": 505704,
      "frgnRate": 8.16
     }
    ],
@@ -284418,7 +284418,7 @@
      "openPrice": "11,000",
      "highPrice": "12,690",
      "lowPrice": "11,000",
-     "accumulatedTradingVolume": "505,820",
+     "accumulatedTradingVolume": "505,704",
      "accumulatedTradingValue": "60.2억",
      "marketValue": "6,640억",
      "foreignRate": "8.16%",
@@ -287124,7 +287124,7 @@
      "high": 17680,
      "low": 17210,
      "close": 17500,
-     "volume": 233437,
+     "volume": 233428,
      "frgnRate": 14.57
     }
    ],
@@ -290516,7 +290516,7 @@
      "high": 25500,
      "low": 23000,
      "close": 24700,
-     "volume": 373391,
+     "volume": 373340,
      "frgnRate": 11.77
     }
    ],
@@ -291198,7 +291198,7 @@
      "high": 20300,
      "low": 18820,
      "close": 20000,
-     "volume": 137487,
+     "volume": 136914,
      "frgnRate": 12.28
     }
    ],
@@ -291880,7 +291880,7 @@
      "high": 63500,
      "low": 57900,
      "close": 62300,
-     "volume": 46231,
+     "volume": 46078,
      "frgnRate": 14.82
     }
    ],
@@ -292556,7 +292556,7 @@
      "high": 5650,
      "low": 4950,
      "close": 5500,
-     "volume": 161018,
+     "volume": 160918,
      "frgnRate": 0.84
     }
    ],
@@ -292566,7 +292566,7 @@
      "openPrice": "4,950",
      "highPrice": "5,650",
      "lowPrice": "4,950",
-     "accumulatedTradingVolume": "161,018",
+     "accumulatedTradingVolume": "160,918",
      "accumulatedTradingValue": "8.56억",
      "marketValue": "721억",
      "foreignRate": "0.84%",
@@ -293232,7 +293232,7 @@
      "high": 29550,
      "low": 26700,
      "close": 29000,
-     "volume": 271710,
+     "volume": 271635,
      "frgnRate": 4.07
     }
    ],
@@ -296626,7 +296626,7 @@
      "high": 30450,
      "low": 27750,
      "close": 30000,
-     "volume": 179737,
+     "volume": 179583,
      "frgnRate": 11.77
     }
    ],
@@ -297990,7 +297990,7 @@
      "high": 26700,
      "low": 23150,
      "close": 26400,
-     "volume": 433929,
+     "volume": 433796,
      "frgnRate": 10.51
     }
    ],
@@ -300708,7 +300708,7 @@
      "high": 24600,
      "low": 21750,
      "close": 24000,
-     "volume": 232660,
+     "volume": 232560,
      "frgnRate": 1.03
     }
    ],
@@ -301384,7 +301384,7 @@
      "high": 18770,
      "low": 17410,
      "close": 18770,
-     "volume": 109594,
+     "volume": 108842,
      "frgnRate": 13.35
     }
    ],
@@ -302736,7 +302736,7 @@
      "high": 48100,
      "low": 45550,
      "close": 46200,
-     "volume": 91248,
+     "volume": 91029,
      "frgnRate": 33.49
     }
    ],
@@ -303418,7 +303418,7 @@
      "high": 31650,
      "low": 30200,
      "close": 31350,
-     "volume": 51049,
+     "volume": 51047,
      "frgnRate": 11.95
     }
    ],
@@ -306134,7 +306134,7 @@
      "high": 62400,
      "low": 54200,
      "close": 61400,
-     "volume": 207473,
+     "volume": 207415,
      "frgnRate": 2.44
     }
    ],
@@ -312244,7 +312244,7 @@
      "high": 8590,
      "low": 7900,
      "close": 8470,
-     "volume": 844162,
+     "volume": 843161,
      "frgnRate": 19.13
     }
    ],
@@ -312254,8 +312254,8 @@
      "openPrice": "7,940",
      "highPrice": "8,590",
      "lowPrice": "7,900",
-     "accumulatedTradingVolume": "844,162",
-     "accumulatedTradingValue": "69.9억",
+     "accumulatedTradingVolume": "843,161",
+     "accumulatedTradingValue": "69.8억",
      "marketValue": "5,146억",
      "foreignRate": "19.13%",
      "highPriceOf52Weeks": "20,900",
@@ -314966,7 +314966,7 @@
      "high": 6720,
      "low": 6080,
      "close": 6640,
-     "volume": 770138,
+     "volume": 769755,
      "frgnRate": 10.99
     }
    ],
@@ -314976,8 +314976,8 @@
      "openPrice": "6,200",
      "highPrice": "6,720",
      "lowPrice": "6,080",
-     "accumulatedTradingVolume": "770,138",
-     "accumulatedTradingValue": "49.7억",
+     "accumulatedTradingVolume": "769,755",
+     "accumulatedTradingValue": "49.6억",
      "marketValue": "5,165억",
      "foreignRate": "10.99%",
      "highPriceOf52Weeks": "19,880",
@@ -319034,7 +319034,7 @@
      "high": 32900,
      "low": 31150,
      "close": 32550,
-     "volume": 96681,
+     "volume": 96617,
      "frgnRate": 6.43
     }
    ],
@@ -319044,7 +319044,7 @@
      "openPrice": "31,150",
      "highPrice": "32,900",
      "lowPrice": "31,150",
-     "accumulatedTradingVolume": "96,681",
+     "accumulatedTradingVolume": "96,617",
      "accumulatedTradingValue": "31.1억",
      "marketValue": "5,312억",
      "foreignRate": "6.43%",
@@ -319710,7 +319710,7 @@
      "high": 27450,
      "low": 24950,
      "close": 27450,
-     "volume": 254518,
+     "volume": 254409,
      "frgnRate": 4.43
     }
    ],
@@ -322420,7 +322420,7 @@
      "high": 28250,
      "low": 25700,
      "close": 27600,
-     "volume": 427882,
+     "volume": 427849,
      "frgnRate": 8.22
     }
    ],
@@ -322430,7 +322430,7 @@
      "openPrice": "25,700",
      "highPrice": "28,250",
      "lowPrice": "25,700",
-     "accumulatedTradingVolume": "427,882",
+     "accumulatedTradingVolume": "427,849",
      "accumulatedTradingValue": "117억",
      "marketValue": "3,576억",
      "foreignRate": "8.22%",
@@ -323102,7 +323102,7 @@
      "high": 14950,
      "low": 12870,
      "close": 14650,
-     "volume": 384869,
+     "volume": 384849,
      "frgnRate": 22.95
     }
    ],
@@ -323778,7 +323778,7 @@
      "high": 35950,
      "low": 31550,
      "close": 35000,
-     "volume": 79872,
+     "volume": 79848,
      "frgnRate": 7.23
     }
    ],
@@ -324468,7 +324468,7 @@
     "totalInfos": {
      "lastClosePrice": "35,600",
      "openPrice": "36,500",
-     "highPrice": "43,000",
+     "highPrice": "42,950",
      "lowPrice": "36,500",
      "accumulatedTradingVolume": "108,384",
      "accumulatedTradingValue": "42.4억",
@@ -327858,7 +327858,7 @@
      "high": 20900,
      "low": 18470,
      "close": 19700,
-     "volume": 409648,
+     "volume": 409617,
      "frgnRate": 0.16
     }
    ],
@@ -328540,7 +328540,7 @@
      "high": 14290,
      "low": 13590,
      "close": 14290,
-     "volume": 218676,
+     "volume": 218661,
      "frgnRate": 5.44
     }
    ],
@@ -329892,7 +329892,7 @@
      "high": 46800,
      "low": 44000,
      "close": 46100,
-     "volume": 80784,
+     "volume": 80770,
      "frgnRate": 13.37
     }
    ],
@@ -331252,7 +331252,7 @@
      "high": 7230,
      "low": 6620,
      "close": 7190,
-     "volume": 231612,
+     "volume": 231422,
      "frgnRate": 6.52
     }
    ],
@@ -331262,8 +331262,8 @@
      "openPrice": "6,720",
      "highPrice": "7,230",
      "lowPrice": "6,620",
-     "accumulatedTradingVolume": "231,612",
-     "accumulatedTradingValue": "16.2억",
+     "accumulatedTradingVolume": "231,422",
+     "accumulatedTradingValue": "16.1억",
      "marketValue": "4,888억",
      "foreignRate": "6.52%",
      "highPriceOf52Weeks": "22,500",
@@ -332610,7 +332610,7 @@
      "high": 34550,
      "low": 31300,
      "close": 34550,
-     "volume": 304162,
+     "volume": 302996,
      "frgnRate": 6.32
     }
    ],
@@ -332620,7 +332620,7 @@
      "openPrice": "33,000",
      "highPrice": "34,550",
      "lowPrice": "31,300",
-     "accumulatedTradingVolume": "304,162",
+     "accumulatedTradingVolume": "302,996",
      "accumulatedTradingValue": "102억",
      "marketValue": "3,650억",
      "foreignRate": "6.32%",
@@ -334658,7 +334658,7 @@
      "high": 7520,
      "low": 6820,
      "close": 7410,
-     "volume": 495046,
+     "volume": 495036,
      "frgnRate": 8.09
     }
    ],
@@ -335903,7 +335903,7 @@
      "openPrice": "9,490",
      "highPrice": "10,170",
      "lowPrice": "9,280",
-     "accumulatedTradingVolume": "138,045",
+     "accumulatedTradingVolume": "137,609",
      "accumulatedTradingValue": "13.7억",
      "marketValue": "4,921억",
      "foreignRate": "1.85%",
@@ -336569,7 +336569,7 @@
      "high": 12330,
      "low": 11510,
      "close": 12170,
-     "volume": 321506,
+     "volume": 321505,
      "frgnRate": 11.29
     }
    ],
@@ -336579,7 +336579,7 @@
      "openPrice": "11,510",
      "highPrice": "12,330",
      "lowPrice": "11,510",
-     "accumulatedTradingVolume": "321,506",
+     "accumulatedTradingVolume": "321,505",
      "accumulatedTradingValue": "38.5억",
      "marketValue": "4,888억",
      "foreignRate": "11.29%",
@@ -337251,7 +337251,7 @@
      "high": 57300,
      "low": 49700,
      "close": 56500,
-     "volume": 164572,
+     "volume": 164524,
      "frgnRate": 13.84
     }
    ],
@@ -337935,7 +337935,7 @@
      "high": 4865,
      "low": 4540,
      "close": 4865,
-     "volume": 669057,
+     "volume": 669056,
      "frgnRate": 3.34
     }
    ],
@@ -337945,7 +337945,7 @@
      "openPrice": "4,550",
      "highPrice": "4,865",
      "lowPrice": "4,540",
-     "accumulatedTradingVolume": "669,057",
+     "accumulatedTradingVolume": "669,056",
      "accumulatedTradingValue": "31.6억",
      "marketValue": "4,344억",
      "foreignRate": "3.34%",
@@ -339975,7 +339975,7 @@
      "high": 17700,
      "low": 15540,
      "close": 17430,
-     "volume": 243573,
+     "volume": 243572,
      "frgnRate": 3.24
     }
    ],
