@@ -118,7 +118,7 @@ jobs:
             timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
               || echo "[경고] fetch 실패 — 로컬 data.js 기준으로 진행"
             git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null || true
-            python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
+            timeout 600 python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
             [ -f data.js ] && { git add data.js || true; }
             if git diff --cached --quiet; then
               echo "변경 없음 — 커밋 생략"
