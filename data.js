@@ -1738,7 +1738,7 @@ const LIVE_DATA = {
    "pbr": 1.25,
    "roe": 11.7,
    "eps": 21244.0,
-   "div": 0.5,
+   "div": 0.51,
    "cap": "4.9조",
    "w52": "176,100 ~ 343,500",
    "stale": false
@@ -6094,7 +6094,7 @@ const LIVE_DATA = {
    "roe": -33.7,
    "eps": -1265.0,
    "div": null,
-   "cap": "0.6조",
+   "cap": "0.5조",
    "w52": "7,800 ~ 15,530",
    "stale": false
   },
@@ -6392,7 +6392,7 @@ const LIVE_DATA = {
    "pbr": 1.31,
    "roe": 4.9,
    "eps": 2660.0,
-   "div": 1.7,
+   "div": 1.71,
    "cap": "0.5조",
    "w52": "66,000 ~ 152,000",
    "stale": false
