@@ -109,7 +109,7 @@ jobs:
             # → 매 사이클 시작마다 원격에서 "입력" 파일을 명시적으로 다시 받아온다.
             #   생성물(indicators/auto_analysis/…)은 건드리지 않으므로 아래 커밋·push 로직에 영향 없음.
             #   fetch/checkout이 실패해도 루프가 죽으면 안 되므로 전부 실패 무시로 감싼다.
-            git fetch origin "${{ github.ref_name }}" --quiet \
+            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
               || echo "[경고] fetch 실패 — 이번 사이클은 로컬 입력 파일로 진행"
             # data.js = 짝꿍 update-prices가 쓰는 시세, analysis.js = Claude가 쓰는 정밀분석.
             # 둘 다 이 잡은 읽기만 하므로 항상 원격 최신본으로 덮는 게 옳다.
@@ -126,7 +126,7 @@ jobs:
             # 실측: 09:29 기동 → 09:22판 data.js로 라벨 → 09:46 발행 = 화면엔 24분 전 시각.
             # → 라벨을 찍기 "직전"에 시세만 한 번 더 최신화한다. 기준가(base)도 같이 최신이 된다.
             #   (시세는 10분 주기로 갱신되므로 이 시점 재수신이 가장 가까운 값이다.)
-            git fetch origin "${{ github.ref_name }}" --quiet \
+            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
               && git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null \
               || echo "[경고] 라벨 직전 시세 재동기화 실패 — 사이클 시작분으로 진행"
             python3 compute_indicators.py    || echo "indicators 실패"
@@ -163,6 +163,14 @@ jobs:
             if [ ! -f krx_list.json ] || [ -n "$(find krx_list.json -mtime +7 2>/dev/null)" ]; then
               python3 fetch_krx_list.py || echo "krx_list 실패"
             fi
+            # 🔒 입력 파일 원상복구 — 커밋 직전에 반드시. (2026-07-31 3차: 안정성)
+            # 위에서 data.js·analysis.js를 origin 최신본으로 checkout 했는데, git checkout은
+            # 그 파일을 "인덱스에 stage"까지 한다. 그대로 두면 아래 add 목록에 없는데도 커밋에
+            # 딸려 들어가고, push가 거부됐을 때 재시도 경로의 merge -X ours가 "우리 것"을 우선해
+            # 이 잡이 들고 있던 (그 사이 update-prices가 갱신한 것보다) 낡은 data.js로 최신 시세를
+            # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
+            # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
+            git checkout HEAD -- data.js analysis.js 2>/dev/null || true
             for f in price_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
@@ -174,7 +182,7 @@ jobs:
               for i in 1 2 3; do
                 git push && break
                 echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
-                git fetch origin "${{ github.ref_name }}"
+                timeout 120 git fetch origin "${{ github.ref_name }}"
                 # ⚠️ 2026-07-22 사고: git pull --rebase가 auto_analysis.js 등 생성 파일에서
                 # 충돌하면(겹치는 사이클 사이의 타이밍 차) 리베이스가 멈춰 스크립트가 그대로
                 # 실패했고, 실패 지점이 루프 안이라 이번 실행의 chain() 재기동 줄까지 못 가서
