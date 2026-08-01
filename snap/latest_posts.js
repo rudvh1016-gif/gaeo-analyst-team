@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 60,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-01",
+  "title": "공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리",
+  "featured": false
+ },
+ {
   "id": 59,
   "mode": "lesson",
   "label": "주식공부",
@@ -73,20 +81,12 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까",
   "featured": false
- },
- {
-  "id": 28,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "역대급 실적 행진에도 왜 코스피·코스닥은 계속 흔들릴까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 35,
  "study": 35,
- "lesson": 59,
+ "lesson": 60,
  "estate": 16,
  "calc": 14
 };
