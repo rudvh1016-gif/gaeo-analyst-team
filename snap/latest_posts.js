@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 59,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-01",
+  "title": "IPO(기업공개)가 뭐길래: 오픈AI·앤트로픽은 상장하려 하고, SK하이닉스는 왜 미국에도 상장했을까",
+  "featured": false
+ },
+ {
   "id": 35,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,20 +81,12 @@ const LATEST_POSTS = [
   "date": "2026-07-30",
   "title": "역대급 실적 행진에도 왜 코스피·코스닥은 계속 흔들릴까",
   "featured": false
- },
- {
-  "id": 27,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "삼성전자 2분기 확정실적, 영업이익 89.4조로 3분기 연속 역대 최대",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 35,
  "study": 35,
- "lesson": 58,
+ "lesson": 59,
  "estate": 16,
  "calc": 14
 };
