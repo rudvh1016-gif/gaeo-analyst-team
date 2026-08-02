@@ -30,6 +30,7 @@ AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수�
 
 - **실사용 화면은 GitHub Pages(`rudvh1016-gif.github.io/gaeo-analyst-team`, 커스텀 도메인 gaeoteam.com)이고 `main` 브랜치 기준이다.**
 - 작업 브랜치에 push만 하면 사이트에 **반영되지 않는다.** 반드시 PR을 만들어 **main까지 병합**해야 한다.
+- ⭐ **PR 생성·main 병합은 매번 확인받지 않고 자동으로 진행한다(2026-08-01 사용자 지정, 고정 승인).** 사용자가 "커밋해줘/올려줘/반영해줘/업로드해줘"라고만 말해도 그건 이미 "커밋→푸시→PR→main 병합"까지 전부 끝내달라는 뜻이다. "PR을 열까요?"처럼 다시 물어보지 말 것 — 이 저장소는 개인 프로젝트이고 병합 전 리뷰가 필요한 팀 저장소가 아니다. (단, `main --force` 같은 진짜 파괴적인 작업은 별개로 여전히 확인받는다.)
 - 병합 시 `data.js`/`analysis_data.json`/`indicators.json`/`auto_analysis.js`/`history.js`/`price_history.js`/`sitemap.xml` 등 자동 생성 파일에서 충돌이 나면 **더 최신 수집 시각 쪽**을 택한다(보통 GitHub Actions 러너가 가장 최근에 커밋한 쪽).
 - **PR이 "merge conflicts"라고 뜨는데 방금 origin/main과 트리가 동일했다면**: squash 병합은 매번 새 커밋 해시를 만들어서, 로컬 브랜치가 그 squash 커밋을 실제 조상으로 갖지 않아 git이 훨씬 이전 커밋을 공통 조상으로 잡고 충돌을 낸다(내용은 같은데 계보만 다른 경우). **force-push로 "해결"하지 말 것**(다른 사람/러너의 작업을 지울 위험). 대신:
   1. `git fetch origin main`

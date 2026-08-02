@@ -11,6 +11,38 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 63,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-02",
+  "title": "기준금리와 주가의 관계: 금통위·FOMC 읽는 법",
+  "featured": false
+ },
+ {
+  "id": 62,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-02",
+  "title": "레버리지·인버스 ETF, 지수가 원위치해도 내 계좌는 왜 마이너스일까",
+  "featured": false
+ },
+ {
+  "id": 61,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-02",
+  "title": "일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편",
+  "featured": false
+ },
+ {
+  "id": 17,
+  "mode": "estate",
+  "label": "부동산공부",
+  "date": "2026-08-02",
+  "title": "생애최초 대출 완전정복",
+  "featured": false
+ },
+ {
   "id": 60,
   "mode": "lesson",
   "label": "주식공부",
@@ -49,44 +81,12 @@ const LATEST_POSTS = [
   "date": "2026-07-31",
   "title": "애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유",
   "featured": false
- },
- {
-  "id": 32,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까",
-  "featured": false
- },
- {
-  "id": 31,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까",
-  "featured": false
- },
- {
-  "id": 30,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "코스피, 삼성전자 깜짝 실적에 장중 6% 급등했다가 결국 하락 마감한 이유",
-  "featured": false
- },
- {
-  "id": 29,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-30",
-  "title": "삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 35,
  "study": 35,
- "lesson": 60,
- "estate": 16,
+ "lesson": 63,
+ "estate": 17,
  "calc": 14
 };
