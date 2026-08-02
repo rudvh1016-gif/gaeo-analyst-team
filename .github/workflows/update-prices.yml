@@ -1,0 +1,157 @@
+# 개오 애널리스트팀 — 시세·환율 자동 수집 (자가 반복 + 자기 재기동 체인)
+# 왜 이런 구조인가:
+#   ① GitHub 무료 cron은 이 저장소에서 사실상 거의 안 켜진다(실측: 예약 대비 수 시간 지연·누락).
+#   ② 그래서 한 번 시작되면 실행 안에서 스스로 10분마다 반복해 16:00 KST까지 돈다(종가 확정분 포함).
+#   ③ 그리고 실행이 끝날 때 workflow_dispatch API로 "자기 자신"을 다시 큐잉한다(체인).
+#      장외·주말엔 320분 단위로 잠들며 체인만 이어가다가 개장 시각에 자동으로 수집을 재개
+#      → 아침 kickoff이 cron·외부 예약 없이도 보장된다. (GITHUB_TOKEN의 workflow_dispatch는
+#      재귀 금지 예외라서 체인이 허용된다. 체인은 main에서만 잇는다.)
+#   ④ 장중 매 사이클마다 짝꿍(update-analysis)이 죽어 있으면 살려준다(상호 감시).
+#   ⑤ 그 밖의 안전망: push 마커(.analyst-refresh)·cron(best-effort)·클로드 Routine(장중 매시).
+# 2026-07-21 사고 원인 + 영구 수정: cancel-in-progress:true였을 때, 장중에 cron·push마커·
+# Routine 등 여러 트리거가 겹치면 "새 실행이 돌던 실행을 죽이고" 시작하는데, 그 죽는 실행은
+# 자기 chain() 재기동 줄에 못 도달한 채 끊긴다. 그 죽인 새 실행마저 곧이어 또 다른 트리거에
+# 죽으면(트리거가 여러 개라 실제로 발생) 체인이 통째로 사라진다 — 그날 오후 내내 갱신이
+# 멈췄던 진짜 원인. 그래서 cancel-in-progress를 false로 바꿔 "이미 도는 게 있으면 새 트리거는
+# 끼어들지 않고 뒤에서 대기만" 하도록 고쳤다 — 서로 죽고 죽이는 경합 자체가 사라진다.
+name: update-prices
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".analyst-refresh"
+      - ".github/workflows/update-prices.yml"
+  schedule:
+    # 개장(09:00 KST=00:00 UTC) 직후 3분 간격으로 여러 번 시도 + 낮 동안 재기동 안전망(best-effort)
+    # 1-6 UTC = 10~15시 KST 매시 :05/:35 — 수집 창(~16:00 KST) 끝까지 커버
+    - cron: "0-33/3 0 * * 1-5"
+    - cron: "5,35 1-6 * * 1-5"
+
+permissions:
+  contents: write
+  actions: write   # 자기 재기동 체인 + 짝꿍 워크플로우 소생용 workflow_dispatch
+
+concurrency:
+  # false = 이미 도는 루프는 죽이지 않고 새 트리거는 뒤에서 대기(큐)만 한다.
+  # (예전엔 true라서 트리거가 겹치면 도는 루프를 죽였고, 그 죽은 실행이 재기동 체인을
+  #  못 걸어 통째로 멈추는 사고가 있었다 — 2026-07-21. 대기 중인 트리거는 현재 루프가
+  #  끝나면 이어서 한 번 더 돌아 결과적으로 체인이 끊기지 않는다.)
+  group: update-prices-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350        # GitHub 잡 최대 6시간 안쪽 안전 상한
+    env:
+      TZ: Asia/Seoul
+      GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
+      GH_AUTH: "Authorization: Bearer ${{ github.token }}"
+      IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 시세·환율 반복 수집 (장중 10분 간격 · 종료 시 자기 재기동)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # ---------- 공용 함수 ----------
+          dispatch() {  # $1=워크플로우 파일명 — main 브랜치로 workflow_dispatch (3회 재시도)
+            for i in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+                -H "$GH_AUTH" -H "Accept: application/vnd.github+json" \
+                "$GH_API/$1/dispatches" -d '{"ref":"main"}')
+              [ "$code" = "204" ] && { echo "dispatch $1 → OK"; return 0; }
+              echo "dispatch $1 실패(HTTP $code) — 재시도 $i/3"; sleep 5
+            done
+            return 1
+          }
+          alive() {  # $1=워크플로우 파일명 — main에 queued/in_progress 실행이 있으면 0
+            for st in in_progress queued; do
+              n=$(curl -s -H "$GH_AUTH" \
+                "$GH_API/$1/runs?branch=main&status=$st&per_page=1" \
+                | python3 -c "import json,sys;print(json.load(sys.stdin).get('total_count',0))" 2>/dev/null || echo 0)
+              [ "${n:-0}" -gt 0 ] && return 0
+            done
+            return 1
+          }
+          chain() {  # 자기 재기동(체인) — main에서만. 실패해도 cron·Routine 안전망이 남는다.
+            [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
+            dispatch update-prices.yml || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"
+          }
+
+          # ---------- 시간대 판정 ----------
+          # 수집 창: 08:58~16:00 KST. 장은 15:30에 닫히지만 종가 확정·시간외 반영분까지
+          # 담기 위해 16:00까지 10분 주기를 유지한다(사용자 요구: 평일 9~16시 10분마다).
+          now=$(date +%s); dow=$(date +%u)
+          open=$(date -d "08:58" +%s); close=$(date -d "16:00" +%s)
+          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+            echo "장중 기동 — 바로 수집 시작"
+          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+            echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
+            sleep $((open - now))
+          else
+            # 장외(저녁·새벽·주말): 수집 없이 320분 잠들었다가 자기 재기동만 하고 종료.
+            # 이 체인이 밤새/주말 내내 이어지다가 개장 시각 도달 시 위 분기로 수집이 시작된다.
+            echo "장외 체인 대기 — 320분 후 자기 재기동"
+            sleep $((320*60))
+            chain
+            exit 0
+          fi
+
+          # ---------- 장중 수집 루프 ----------
+          hard=$(( $(date +%s) + 330*60 ))
+          limit=$close; [ "$hard" -lt "$limit" ] && limit=$hard
+          while :; do
+            # 같은 계열의 문제(2026-07-31 수정): 이 잡도 checkout 한 번 + 최대 330분 대기 구조라
+            # 로컬 data.js가 낡을 수 있다. update_prices.py는 "수집 실패한 종목의 이전 값"을 기존
+            # data.js에서 가져와 보존하므로(파일 상단 주석 참조), 낡은 로컬본을 쓰면 실패 종목이
+            # 며칠 전 가격으로 되살아날 수 있다. 매 사이클 원격 최신본을 먼저 받아온다.
+            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
+              || echo "[경고] fetch 실패 — 로컬 data.js 기준으로 진행"
+            git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null || true
+            timeout 600 python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
+            [ -f data.js ] && { git add data.js || true; }
+            if git diff --cached --quiet; then
+              echo "변경 없음 — 커밋 생략"
+            else
+              git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
+              for i in 1 2 3; do
+                git push && break
+                echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+                timeout 120 git fetch origin "${{ github.ref_name }}"
+                # ⚠️ 2026-07-22 사고(update-analysis.yml에서 실측): git pull --rebase가 생성
+                # 파일 충돌로 멈추면 스크립트가 실패하고, 실패 지점이 루프 안이라 chain()
+                # 재기동 줄까지 못 가 체인이 죽는다. data.js는 "방금 수집한 게 항상 최신"인
+                # 자동 생성물이므로, 리베이스 대신 merge -X ours로 충돌을 사람 개입 없이
+                # 항상 우리(방금 수집분) 쪽으로 자동 해결한다.
+                git merge -X ours --no-edit "origin/${{ github.ref_name }}" || {
+                  echo "[경고] merge -X ours도 실패 — 이번 사이클 push는 포기하고 계속 진행(다음 사이클에 재시도)"
+                  git merge --abort 2>/dev/null || true
+                  break
+                }
+                sleep 3
+              done
+            fi
+            # 상호 감시: 짝꿍 분석 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
+            if [ -n "$IS_MAIN" ] && ! alive update-analysis.yml; then
+              echo "update-analysis 미가동 감지 — 소생 dispatch"
+              dispatch update-analysis.yml || true
+            fi
+            now=$(date +%s)
+            if [ "$now" -ge "$limit" ]; then
+              echo "마감/6시간 상한 도달 — 루프 종료 후 체인 재기동"
+              break
+            fi
+            echo "다음 갱신까지 10분 대기…"
+            sleep 600
+          done
+          chain

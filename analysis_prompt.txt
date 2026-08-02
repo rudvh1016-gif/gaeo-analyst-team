@@ -1,0 +1,13 @@
+※ 이 파일은 더 이상 분석 지시의 원본이 아니다.
+
+분석 절차의 단일 원본(Single Source of Truth):
+  ".claude/skills/종목분석 스킬/SKILL.md"
+
+재분석을 실행하려면 그 SKILL.md의 지시를 그대로 따르라.
+(Claude Code에서는 이 폴더에서 "종목분석 스킬"로 호출)
+
+핵심 철칙 요약 — 상세는 SKILL.md:
+1. base(기준가)는 반드시 update_prices.py 실행 출력(data.js의 price)에서만 가져온다.
+   이전 분석 텍스트·뉴스 기사·추정치의 가격 숫자 사용 금지. (2026-07-08 사고 재발 방지)
+2. history.js는 직접 수정 금지 — archive_analysis.py만 기록한다.
+3. 완료 전 base == data.js price 전 종목 일치 검증 필수.

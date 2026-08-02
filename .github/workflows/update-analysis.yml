@@ -1,0 +1,233 @@
+# 개오 애널리스트팀 — 분석용 데이터 자동 수집 (자가 반복 + 자기 재기동 체인)
+# 구조는 update-prices.yml과 동일한 설계(그쪽 주석 참조):
+#   자가 반복(30분 주기, 16:05 KST까지 — 종가·마감 수급 확정분 포함) + 종료 시 자기 재기동 체인(장외엔 320분 잠들며 유지)
+#   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
+# 2026-07-21: concurrency를 cancel-in-progress:false로 변경(트리거 겹침이 도는 루프를 죽여
+#   체인이 끊기는 사고 방지 — update-prices.yml 주석에 상세 원인 설명).
+# 생성물: price_history.js · analysis_data.json · indicators.json · indicators.js ·
+#         auto_analysis.js · guestbook_backup.json · krx_list.json
+name: update-analysis
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".analyst-refresh"
+      - ".github/workflows/update-analysis.yml"
+  schedule:
+    # 개장 직후 기동 시도(누락 대비) + 낮 동안 재기동 안전망(best-effort)
+    # 1-6 UTC = 10~15시 KST 매시 :08/:38 — 수집 창(~16:05 KST) 끝까지 커버
+    - cron: "1-31/3 0 * * 1-5"
+    - cron: "8,38 1-6 * * 1-5"
+
+permissions:
+  contents: write
+  actions: write   # 자기 재기동 체인 + 짝꿍 워크플로우 소생용 workflow_dispatch
+
+concurrency:
+  group: update-analysis-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      TZ: Asia/Seoul
+      GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
+      GH_AUTH: "Authorization: Bearer ${{ github.token }}"
+      IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 분석데이터 반복 수집 (500종목 · 30분 주기 · 종료 시 자기 재기동)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # ---------- 공용 함수 (update-prices.yml과 동일) ----------
+          dispatch() {
+            for i in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+                -H "$GH_AUTH" -H "Accept: application/vnd.github+json" \
+                "$GH_API/$1/dispatches" -d '{"ref":"main"}')
+              [ "$code" = "204" ] && { echo "dispatch $1 → OK"; return 0; }
+              echo "dispatch $1 실패(HTTP $code) — 재시도 $i/3"; sleep 5
+            done
+            return 1
+          }
+          alive() {
+            for st in in_progress queued; do
+              n=$(curl -s -H "$GH_AUTH" \
+                "$GH_API/$1/runs?branch=main&status=$st&per_page=1" \
+                | python3 -c "import json,sys;print(json.load(sys.stdin).get('total_count',0))" 2>/dev/null || echo 0)
+              [ "${n:-0}" -gt 0 ] && return 0
+            done
+            return 1
+          }
+          chain() {
+            [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
+            dispatch update-analysis.yml || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"
+          }
+
+          # ---------- 시간대 판정 ----------
+          now=$(date +%s); dow=$(date +%u)
+          open=$(date -d "08:58" +%s); close=$(date -d "16:05" +%s)
+          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+            echo "장중 기동 — 바로 수집 시작"
+          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+            echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
+            sleep $((open - now))
+          else
+            echo "장외 체인 대기 — 320분 후 자기 재기동"
+            sleep $((320*60))
+            chain
+            exit 0
+          fi
+
+          # ---------- 장중 수집 루프 ----------
+          hard=$(( $(date +%s) + 330*60 ))
+          end=$close; [ "$hard" -lt "$end" ] && end=$hard
+          # 사이클 주기(시작-시작). 500종목 한 바퀴 실측 ~12분 → 30분이면 겹침 없이 여유.
+          period=1800
+          while :; do
+            cstart=$(date +%s)
+            # ⚠️ 2026-07-31 사고 원인 + 영구 수정: 이 잡은 시작할 때 checkout을 "딱 한 번"만 하고,
+            # 위 "개장 전 기동" 분기에서 최대 330분을 잔 뒤 30분 주기로 루프를 돈다. 그래서 루프
+            # 안에서 읽는 data.js가 checkout 시점(= 전날 밤 체인이 떴던 시각)에 얼어붙어 있었다.
+            # 결과: 09:10에 시세(data.js)는 정상 갱신됐는데, 09:12에 돈 이 잡은 전날 data.js를
+            # 읽어 indicators.json·auto_analysis.js를 "2026-07-30 종가 (16:10 수집)"로 생성 →
+            # 화면의 '오늘의 개오팀 종합 판단'만 아침 내내 전날 날짜로 보였다(사용자 신고 증상).
+            # 지금까지 간헐적으로 나아 보였던 건, push가 거부될 때만 아래 재시도 경로에서 fetch+merge가
+            # 우연히 data.js를 딸려왔기 때문 — 즉 운에 맡겨져 있었다.
+            # → 매 사이클 시작마다 원격에서 "입력" 파일을 명시적으로 다시 받아온다.
+            #   생성물(indicators/auto_analysis/…)은 건드리지 않으므로 아래 커밋·push 로직에 영향 없음.
+            #   fetch/checkout이 실패해도 루프가 죽으면 안 되므로 전부 실패 무시로 감싼다.
+            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
+              || echo "[경고] fetch 실패 — 이번 사이클은 로컬 입력 파일로 진행"
+            # data.js = 짝꿍 update-prices가 쓰는 시세, analysis.js = Claude가 쓰는 정밀분석.
+            # 둘 다 이 잡은 읽기만 하므로 항상 원격 최신본으로 덮는 게 옳다.
+            for inp in data.js analysis.js; do
+              git checkout "origin/${{ github.ref_name }}" -- "$inp" 2>/dev/null || true
+            done
+            # 각 스크립트는 실패해도 나머지·커밋을 막지 않도록 || true
+            timeout 900 python3 update_price_history.py || echo "price_history 실패"
+            timeout 1500 python3 collect_analyst_data.py || echo "analysis_data 실패"
+            # ⏱️ 2026-07-31 2차 수정 — 화면 라벨이 30~40분 늦게 보이던 문제.
+            # priceLabel(화면의 "오늘의 개오팀 종합 판단 <시각>")을 찍는 건 아래 compute_indicators.py인데,
+            # 바로 위 collect_analyst_data.py(500종목)가 십수 분 걸린다. 그래서 사이클 시작에 받아둔
+            # data.js로 라벨을 찍으면, 발행 시점엔 이미 20분 이상 낡은 시각이 화면에 나간다.
+            # 실측: 09:29 기동 → 09:22판 data.js로 라벨 → 09:46 발행 = 화면엔 24분 전 시각.
+            # → 라벨을 찍기 "직전"에 시세만 한 번 더 최신화한다. 기준가(base)도 같이 최신이 된다.
+            #   (시세는 10분 주기로 갱신되므로 이 시점 재수신이 가장 가까운 값이다.)
+            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
+              && git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null \
+              || echo "[경고] 라벨 직전 시세 재동기화 실패 — 사이클 시작분으로 진행"
+            python3 compute_indicators.py    || echo "indicators 실패"
+            # 📡 GAEO 레이더 — 직전 거래일 대비 새로 경계를 통과한 종목 탐지(규칙 기반, 토큰 0).
+            #   indicators 다음에 두는 이유: 같은 analysis_data.json을 읽고 볼린저밴드 규격을
+            #   compute_indicators.py와 공유(radar_signals.py)하기 때문.
+            #   다른 단계와 똑같이 `|| echo`로 감싸 레이더 한 단계가 실패해도 나머지 생성물·커밋을 막지 않는다
+            #   (실패는 로그에 남고, 이전 radar.js가 그대로 유지된다 — 잘못 덮어쓰지 않는다).
+            python3 compute_radar.py         || echo "radar 실패"
+            python3 compute_dow_stats.py     || echo "dow_stats 실패"
+            # 🧠 자가 학습 가중치(채점 기록 → 분석가별 발언권) — analyze_auto가 읽으므로 먼저 실행
+            python3 compute_team_weights.py  || echo "team_weights 실패"
+            timeout 900 python3 analyze_auto.py || echo "auto_analysis 실패"
+            # 🤖 자동분석 500종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
+            #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
+            #   이게 있어야 모든 종목이 적중률 채점 대상이 되어 트랙레코드가 쌓인다.
+            ARCHIVE_AUTO=1 python3 archive_analysis.py --auto || echo "history 아카이브 실패"
+            # 💰 500종목 개별 정밀/자동분석 스냅샷 + sitemap 자동 갱신 — "OO 전망/주가" 검색 유입을
+            #   노리는 개별 종목 랜딩페이지(snap/stock/<code>.html)를 매 사이클 최신 시세·판단으로
+            #   다시 만든다. 순수 템플릿 채우기라 토큰 비용 없음(generate_snapshots.js/generate_sitemap.js).
+            timeout 900 node generate_snapshots.js || echo "snapshots 생성 실패"
+            timeout 600 node generate_sitemap.js || echo "sitemap 생성 실패"
+            # 게시판 백업(있을 때만)
+            if [ -f guestbook_id.json ]; then
+              base=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])" 2>/dev/null || true)
+              if [ -n "$base" ]; then
+                curl -s --max-time 60 "$base/?values=true&format=json" -o /tmp/gb.json || true
+                if python3 -c "import json;d=json.load(open('/tmp/gb.json'));assert isinstance(d,list)" 2>/dev/null; then
+                  cp /tmp/gb.json guestbook_backup.json
+                fi
+              fi
+            fi
+            # 상장사 목록: 없거나 7일 넘게 오래되면 갱신
+            if [ ! -f krx_list.json ] || [ -n "$(find krx_list.json -mtime +7 2>/dev/null)" ]; then
+              timeout 600 python3 fetch_krx_list.py || echo "krx_list 실패"
+            fi
+            # 🔒 입력 파일 원상복구 — 커밋 직전에 반드시. (2026-07-31 3차: 안정성)
+            # 위에서 data.js·analysis.js를 origin 최신본으로 checkout 했는데, git checkout은
+            # 그 파일을 "인덱스에 stage"까지 한다. 그대로 두면 아래 add 목록에 없는데도 커밋에
+            # 딸려 들어가고, push가 거부됐을 때 재시도 경로의 merge -X ours가 "우리 것"을 우선해
+            # 이 잡이 들고 있던 (그 사이 update-prices가 갱신한 것보다) 낡은 data.js로 최신 시세를
+            # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
+            # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
+            git checkout HEAD -- data.js analysis.js 2>/dev/null || true
+            for f in price_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+              [ -f "$f" ] && { git add "$f" || true; }
+            done
+            [ -d snap ] && git add snap
+            if git diff --cached --quiet; then
+              echo "변경 없음 — 커밋 생략"
+            else
+              git commit -m "자동 분석데이터 갱신 (GitHub Actions) [skip ci]"
+              for i in 1 2 3; do
+                git push && break
+                echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+                timeout 120 git fetch origin "${{ github.ref_name }}"
+                # ⚠️ 2026-07-22 사고: git pull --rebase가 auto_analysis.js 등 생성 파일에서
+                # 충돌하면(겹치는 사이클 사이의 타이밍 차) 리베이스가 멈춰 스크립트가 그대로
+                # 실패했고, 실패 지점이 루프 안이라 이번 실행의 chain() 재기동 줄까지 못 가서
+                # 체인 전체가 죽었다(575분 무갱신 사고). 이 파일들은 전부 "방금 만든 게 항상
+                # 최신"인 자동 생성물이므로, 리베이스 대신 merge -X ours로 충돌을 사람 개입
+                # 없이 항상 우리(방금 생성분) 쪽으로 자동 해결한다.
+                git merge -X ours --no-edit "origin/${{ github.ref_name }}" || {
+                  echo "[경고] merge -X ours도 실패 — 이번 사이클 push는 포기하고 계속 진행(다음 사이클에 재시도)"
+                  git merge --abort 2>/dev/null || true
+                  break
+                }
+                sleep 3
+              done
+            fi
+            # 📡 IndexNow — sitemap.xml이 바뀌었을 때만(Claude가 새 글을 발행했을 때) 빙·네이버에 즉시 알림.
+            # 이 러너는 인터넷 접근이 자유로워(원격 세션과 달리 api.indexnow.org 차단 없음) 실제 제출이 된다.
+            if [ -f sitemap.xml ] && [ -f indexnow_submit.js ]; then
+              newhash=$(sha256sum sitemap.xml | cut -d' ' -f1)
+              oldhash=$(cat .indexnow_hash 2>/dev/null || echo "")
+              if [ "$newhash" != "$oldhash" ]; then
+                echo "sitemap.xml 변경 감지 — IndexNow 제출"
+                node indexnow_submit.js || echo "IndexNow 제출 실패(무시하고 계속)"
+                echo "$newhash" > .indexnow_hash
+                git add .indexnow_hash
+                if ! git diff --cached --quiet; then
+                  git commit -m "IndexNow 제출 기록 갱신 [skip ci]" || true
+                  git push || true
+                fi
+              fi
+            fi
+            # 상호 감시: 짝꿍 시세 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
+            if [ -n "$IS_MAIN" ] && ! alive update-prices.yml; then
+              echo "update-prices 미가동 감지 — 소생 dispatch"
+              dispatch update-prices.yml || true
+            fi
+            now=$(date +%s)
+            if [ "$now" -ge "$end" ]; then
+              echo "수집 창 종료(16:05 KST)/상한 도달 — 루프 종료 후 체인 재기동"
+              break
+            fi
+            # 주기 기반 대기: 이번 사이클 소요만큼 빼서 시작-시작 간격을 30분으로 유지.
+            elapsed=$((now - cstart))
+            wait=$((period - elapsed))
+            [ "$wait" -lt 60 ] && wait=60   # 과부하 방지 최소 휴식
+            echo "이번 사이클 ${elapsed}s 소요 — 다음 사이클까지 ${wait}s 대기"
+            sleep "$wait"
+          done
+          chain
