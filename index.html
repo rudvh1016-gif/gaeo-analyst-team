@@ -1069,6 +1069,8 @@
   /* 🎯 애널리스트 개인 통산 적중률 배지 (카드 헤더) */
   .accb{font-size:10px;font-weight:800;color:#7C5A0B;background:#FEF3C7;border:1px solid #FDE68A;
     border-radius:99px;padding:2px 8px;margin-left:6px;white-space:nowrap;cursor:help;flex-shrink:0}
+  .eval-rule{font-size:10px;font-weight:700;color:#6D5A96;background:#F3F0FF;border:1px solid #DDD6FE;
+    border-radius:99px;padding:2px 8px;white-space:normal;line-height:1.35;max-width:100%;cursor:help;flex-shrink:0}
   /* 🏷️ DIANA 업종 내 상대비교 */
   .dna-comp{margin:0 0 10px;padding:10px 13px;background:var(--paper2);border-radius:10px;
     font-size:12px;color:var(--t3);line-height:1.75}
@@ -3073,7 +3075,7 @@
 
       <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
         <div class="verdict" id="verdict">
-          <div class="analysis-eyebrow">개오팀 종합 판단</div>
+          <div class="analysis-eyebrow">개오팀 종합 판단 <span class="eval-rule" title="CHIEF는 네 분석가의 기본비중에 실제 적중률, 표본 보정, 업종별 성적을 반영해 발언권을 조절한 뒤 RISK 감점을 적용해 최종 판단합니다.">4인 보정 가중합 · RISK 감점 후 최종</span></div>
           <div class="top">
             <span class="dot" id="vdot"></span>
             <span class="call" id="vcall"></span>
@@ -6571,10 +6573,30 @@ function setAnalystTab(key){
 })();
 function makeCards(isLive){
   cardsEl.innerHTML='';
+  const evalRules={
+    taro:{
+      text:'5거래일 · ±1% 초과 채점 · 기본 30%',
+      title:'TARO는 기술적 흐름과 매매 타이밍을 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 30%입니다.',
+    },
+    diana:{
+      text:'20거래일 · ±3% 초과 채점 · 기본 12%',
+      title:'DIANA는 단기 타이밍이 아니라 기업의 중장기 재무·가치를 보므로 판단 후 20거래일 수익률로 채점합니다. ±3% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 12%입니다.',
+    },
+    nova:{
+      text:'5거래일 · ±1% 초과 채점 · 기본 28%',
+      title:'QUANT는 과거의 비슷한 확률·통계 사례를 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 28%입니다.',
+    },
+    flow:{
+      text:'5거래일 · ±1% 초과 채점 · 기본 30%',
+      title:'FLOW는 외국인·기관 등 수급의 단기 지속성을 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 30%입니다.',
+    },
+  };
   ['taro','diana','nova','flow'].map(id=>AGENTS.find(a=>a.id===id)).forEach(a=>{
+    const rule=evalRules[a.id];
+    const evalRule=`<span class="eval-rule" title="${rule.title}">${rule.text}</span>`;
     cardsEl.insertAdjacentHTML('beforeend',
       `<div class="card" id="card-${a.id}">
-         <h3><span style="color:${a.color}">●</span> ${a.name}${isLive?'<span class="live">LIVE</span>':''}<span class="accb" id="acc-${a.id}" style="display:none"></span>
+         <h3><span style="color:${a.color}">●</span> ${a.name}${isLive?'<span class="live">LIVE</span>':''}${evalRule}<span class="accb" id="acc-${a.id}" style="display:none"></span>
            <span class="stance neu" id="st-${a.id}">대기</span></h3>
          <div class="role">${a.role} · ${a.room}</div>
          <div class="scorewrap"><span class="score" id="sc-${a.id}" style="color:${a.color}">—</span><span class="score-max">/100</span></div>
@@ -6583,13 +6605,14 @@ function makeCards(isLive){
        </div>`);
   });
   setAnalystTab(window.GaeoAnalystTab||'taro');
-  // 🎯 개인 통산 적중률 배지 — 전 종목 판단을 5거래일 채점한 리더보드 성적을 카드 헤더에도 표시
+  // 🎯 개인 통산 적중률 배지 — 역할별 기간으로 채점한 리더보드 성적을 카드 헤더에도 표시
   try{
     computeLeaderboard().forEach(r=>{
       const el=document.getElementById('acc-'+r.id);
       if(!el||r.acc===null) return;
+      const rule=LB_RULES[r.id]||{days:5,deadband:1};
       el.textContent=`🎯 통산 적중 ${r.acc}%`;
-      el.title=`${r.name}의 통산 적중률 ${r.acc}% — 지금까지 모든 종목에서 낸 강세/약세 판단 ${r.n}개를 "판단 후 5거래일 뒤 종가"로 채점한 성적이에요.`
+      el.title=`${r.name}의 통산 적중률 ${r.acc}% — 지금까지 모든 종목에서 낸 강세/약세 판단 ${r.n}개를 "판단 후 ${rule.days}거래일 뒤 종가"와 ±${rule.deadband}% 기준으로 채점한 성적이에요.`
         +(r.pending?` (⏳평가중 ${r.pending}건은 별도)`:'');
       el.style.display='';
     });
@@ -6663,7 +6686,7 @@ function renderRiskCard(code,data){
   ];
   cardsEl.insertAdjacentHTML('beforeend',
     `<div class="card on" id="card-risk">
-       <h3><span style="color:${RISK_COLOR}">●</span> RISK<span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
+       <h3><span style="color:${RISK_COLOR}">●</span> RISK<span class="eval-rule" title="RISK는 매수·매도 의견을 내거나 저위험 종목에 가점을 주지 않습니다. 중위험은 신뢰도만 낮추고, 고위험은 종합점수를 최대 7점과 신뢰도를 10%p 낮춥니다.">가점 없음 · 고위험 최대 -7점</span><span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
        <div class="role">리스크 관리 · 종합점수 단방향 안전장치</div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
@@ -7018,12 +7041,12 @@ function renderGuide(){
     "지금 사도 될까? 기다릴까? 조심할까?"를 <b>점수와 쉬운 말</b>로 알려주는 곳이에요.
     주식을 하나도 몰라도 괜찮아요 — 아래 순서대로 따라오면 돼요!</p>
     <div class="gb-agents">
-      <div class="gb-agent"><b>📈 TARO (기술)</b>주가 차트의 흐름을 봐요 — "요즘 오르는 힘이 센가?"</div>
-      <div class="gb-agent"><b>💰 DIANA (재무)</b>회사가 돈을 잘 버는지, 주가가 싼지 비싼지 계산해요</div>
-      <div class="gb-agent"><b>📊 QUANT (확률)</b>지금과 비슷했던 과거 사례들이 실제로 올랐는지 세어 승률을 알려줘요</div>
-      <div class="gb-agent"><b>🌊 FLOW (수급)</b>외국인·기관 같은 큰손들이 사는지 파는지 추적해요</div>
+      <div class="gb-agent"><b>📈 TARO (기술)</b>이동평균선·RSI·MACD·거래량으로 지금의 추세와 힘을 봐요</div>
+      <div class="gb-agent"><b>💰 DIANA (재무)</b>PER·PBR·ROE·EPS와 목표주가로 기업가치와 가격 부담을 봐요</div>
+      <div class="gb-agent"><b>📊 QUANT (확률)</b>현재와 비슷했던 과거 사례의 5거래일 실제 승률을 계산해요</div>
+      <div class="gb-agent"><b>🌊 FLOW (수급)</b>외국인·기관 순매매, 보유율, 매수 지속성과 가격·수급 괴리를 추적해요</div>
       <div class="gb-agent"><b>🛡️ RISK (위험)</b>이 종목이 얼마나 험하게 출렁이는지 재요. 위험할 때만 종합점수와 신뢰도를 낮추는 안전장치예요.</div>
-      <div class="gb-agent"><b>👑 CHIEF (총괄)</b>분석가 네 명의 의견을 모아 최종 판단을 내려요</div>
+      <div class="gb-agent"><b>👑 CHIEF (총괄)</b>네 분석가의 역할별 기본비중과 보정 적중률을 합치고 RISK 감점을 적용해요</div>
     </div>
   </div>
 
@@ -7035,6 +7058,56 @@ function renderGuide(){
       <div class="gb-step"><span class="gb-no">3</span><span><b>🧒 파란 말풍선부터 읽어요.</b> 분석 결과 맨 위 "초등학생도 이해하는 설명"이 오늘의 핵심을 제일 쉽게 알려줘요.</span></div>
       <div class="gb-step"><span class="gb-no">4</span><span><b>더 궁금하면 아래로 내려요.</b> 분석가 카드 5장(기술·재무·확률·수급 + 🛡️리스크) → 팀 종합 점수 → <b>BUY/HOLD/SELL 최종 판단</b> → 🧭 가격 나침반(목표가·지지선) 순서로 자세해져요.</span></div>
       <div class="gb-step"><span class="gb-no">5</span><span><b>점선 밑줄 단어는 눌러보세요.</b> <span style="border-bottom:1.5px dotted var(--sky);color:var(--navy);font-weight:700">PER</span>처럼 밑줄 있는 낱말을 누르면 쉬운 뜻풀이가 떠요.</span></div>
+    </div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>🧑‍💼 여섯 역할은 무엇을 보고 어떻게 판단하나요?</summary>
+    <div class="gb-body">
+      <p><b>📈 TARO · 기술적 분석가</b><br>
+      종가가 <b>20일·60일 이동평균선</b> 위인지, <b>RSI(14)</b>가 과열·중립·과매도 중 어디인지,
+      <b>MACD와 시그널선</b>의 방향, 최근 20일 평균 대비 <b>거래량 강도</b>를 봅니다.
+      회사의 장기 가치보다 지금 주가의 추세와 타이밍을 판단하며, 강세·약세 의견은
+      <b>5거래일 뒤 수익률이 ±1%를 넘었는지</b>로 평가합니다. 역할 기본비중은 <b>30%</b>입니다.</p>
+
+      <p><b>💰 DIANA · 재무·기본적 분석가</b><br>
+      이익 대비 가격인 <b>PER</b>, 자산 대비 가격인 <b>PBR</b>, 자기자본 수익성인 <b>ROE</b>,
+      주당이익인 <b>EPS</b>, 컨센서스 EPS로 계산한 <b>선행 PER</b>, 증권사 평균 목표주가와
+      현재가의 차이, 같은 업종 안에서의 밸류에이션 순위를 봅니다. 단기 차트 타이밍보다
+      기업의 중장기 가치와 가격 부담을 보는 역할이라 <b>20거래일 뒤 수익률</b>로 따로 평가합니다.
+      수익률이 <b>±3% 이내면 애매한 움직임으로 평가를 보류</b>하고, 그 범위를 넘어 의견 방향과
+      일치했는지를 적중·오답으로 기록합니다. CHIEF 역할 기본비중은 <b>12%</b>로 제한하고,
+      여기에 작은 표본을 50% 쪽으로 완화한 <b>실제 장기 보정 적중률</b>을 곱해 최종 발언권을 계산합니다.</p>
+
+      <p><b>📊 QUANT · 확률·통계 분석가</b><br>
+      RSI, 이동평균선 위치, 최근 가격 흐름처럼 현재와 비슷한 상태를 과거 500종목 기록에서 찾아
+      <b>5거래일 뒤 실제로 오른 비율, 평균 수익률, 표본 수</b>를 계산합니다. 감이나 뉴스 해석이 아니라
+      유사 사례의 실제 빈도를 점수로 사용하며, 의견 평가는 <b>5거래일·±1%</b> 기준입니다.
+      역할 기본비중은 <b>28%</b>입니다.</p>
+
+      <p><b>🌊 FLOW · 수급 분석가</b><br>
+      최근 거래일의 <b>외국인·기관 순매수와 순매도</b>, 외국인 보유율 변화, 매수 지속일,
+      외국인·기관 동반 매수·매도, 최근 수급의 가속도를 봅니다. 가격은 내리는데 큰손이 사는
+      <b>매집형 괴리</b>, 가격은 오르는데 큰손이 파는 <b>분배형 괴리</b>도 함께 표시합니다.
+      의견 평가는 <b>5거래일·±1%</b> 기준이며 역할 기본비중은 <b>30%</b>입니다.</p>
+
+      <p><b>🛡️ RISK · 위험 관리자</b><br>
+      최근 20일 변동성, 3개월 최대 낙폭과 가격 범위를 이용해 저위험·중위험·고위험으로 구분합니다.
+      RISK는 다섯 번째 매수·매도 의견이 아닙니다. <b>저위험이라고 점수를 올리지 않고</b>, 중위험이면
+      신뢰도만 낮추며, 고위험이면 방향 원점수에서 <b>최대 7점</b>과 신뢰도 <b>10%p</b>를 낮추는
+      단방향 안전장치입니다.</p>
+
+      <p><b>👑 CHIEF · 종합 의사결정</b><br>
+      TARO·DIANA·QUANT·FLOW의 점수를 단순 평균하지 않습니다. 역할 기본비중
+      <b>30%·12%·28%·30%</b>에 각 분석가의 표본 보정 적중률을 반영하고, 업종 표본이 충분하면
+      업종별 성적도 전역 성적과 섞어 발언권을 조절합니다. 그 합산점수에 RISK 감점을 적용해
+      최종 BUY·HOLD·SELL과 신뢰도를 냅니다. 작은 표본의 우연한 고득점이 바로 큰 발언권이 되지
+      않도록 베이지안 보정을 사용하며, 역할별 현재 발언권은 리더보드에서 확인할 수 있습니다.</p>
+
+      <div class="gb-tip">💡 <b>기간이 다른 이유</b>: TARO·QUANT·FLOW는 단기 흐름을 보는 역할이라 약 1주인
+      5거래일 뒤를 확인합니다. DIANA의 재무·가치 판단은 가격에 반영되는 데 시간이 더 필요하므로
+      약 한 달인 20거래일 뒤를 확인합니다. 서로 다른 역할을 같은 5일 잣대로 평가하면 DIANA가 구조적으로
+      불리해지기 때문에 평가 기간과 보류 범위를 분리했습니다.</div>
     </div>
   </details>
 
@@ -7052,7 +7125,7 @@ function renderGuide(){
       ${sign('#a16207','#fff','🛡️ RISK 등급','이 종목이 얼마나 험하게 움직이는지예요. 안정은 점수를 올리지 않고, 위험할 때만 방향 원점수에서 최대 7점과 신뢰도를 낮춰 성급한 판단을 막아요.')}
       ${sign('var(--sky-soft)','var(--navy)','🌐 시장국면','요즘 코스피가 얼마나 출렁이는지를 보고 "변동성 확대" 국면이면 팀의 확신도(%) 숫자를 자동으로 낮춰 보여줘요. BUY/HOLD/SELL 판단은 그대로고, 딱 "확신도"만 에누리하는 거예요 — 시장이 심하게 흔들릴 때 팀도 100% 확신하지 않는다는 걸 정직하게 보여주는 장치예요.')}
       ${sign('var(--sky-soft)','var(--navy)','🧭 가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
-      ${sign('var(--sky-soft)','var(--navy)','⏳평가중','판단이 맞았는지는 <b>5거래일(약 일주일) 뒤 종가</b>로 채점해요. 아직 5일이 안 지난 판단이 "평가중"이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','⏳평가중','TARO·QUANT·FLOW와 팀 판단은 <b>5거래일 뒤</b>, 장기 재무를 보는 DIANA는 <b>20거래일 뒤</b> 종가로 채점해요. 각 역할의 기간이 아직 지나지 않은 판단이에요.')}
       ${sign('#059669','#fff','📈 초록 꺾은선','왼쪽 종목 목록과 시세 카드에 있는 작은 그래프예요. <b>표시된 기간(최근 며칠)의 첫날보다 지금 주가가 높으면</b> 초록색이에요 = "그동안 올랐다".')}
       ${sign('#D5535D','#fff','📉 빨강 꺾은선','같은 그래프가 빨간색이면 <b>그 기간 첫날보다 지금이 낮다</b> = "그동안 내렸다"는 뜻이에요.')}
       <div class="gb-tip">💡 <b>헷갈리기 쉬운 점!</b> 이 꺾은선의 <b>색</b>은 <b>최근 며칠간의 흐름</b>을 보여주고,
@@ -7087,6 +7160,70 @@ function renderGuide(){
       <div class="gb-tip">💡 즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
       잘 맞히면 발언권이 커지고, 자꾸 틀리면 발언권이 줄어요. 다만 모든 통계가 그렇듯
       과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div>
+    </div>
+  </details>
+
+  <details class="gb-sec">
+    <summary>🧪 종합판단 v3 연구실: 왜 새 정확도 장치를 시험하나요?</summary>
+    <div class="gb-body">
+      <b>먼저, 왜 이 작업을 시작했나요?</b><br>
+      예전 방식은 네 분석가의 점수를 적중률에 따라 가중 평균하는 데 집중했습니다. 이것도 단순 평균보다 낫지만,
+      아직 몇 가지 빈틈이 있습니다. 예를 들어 어떤 분석가의 70점이 실제로는 55% 정도만 맞을 수 있고,
+      두 분석가가 같은 이유로 함께 틀리면 두 표를 받은 것처럼 과대평가될 수 있습니다. 시장 전체가 급락하는 날의
+      약세와 혼자 약해지는 종목의 약세도 같은 뜻이 아닙니다. 새 연구의 목표는 <b>억지로 더 많은 BUY·SELL을 만드는 것</b>이 아니라,
+      모를 때는 모른다고 말하고 서로 다른 증거만 제대로 합쳐 <b>과한 확신과 반복되는 오판을 줄이는 것</b>입니다.<br><br>
+
+      <ol style="margin:8px 0 10px 20px;padding:0;line-height:1.8">
+        <li><b>분석가 점수를 실제 확률로 교정</b><br>
+        시험에서 70점을 받았다고 합격 확률이 바로 70%인 것은 아닙니다. 분석가도 마찬가지라서, 과거에 TARO 70점이
+        나온 종목들이 실제로 얼마나 올랐는지 점수 구간별로 다시 계산합니다. 표본이 적으면 50% 쪽으로 완화하고,
+        높은 점수가 낮은 점수보다 더 낮은 확률이 되는 이상한 구간도 정리합니다.<br>
+        <b>얻고 싶은 장점:</b> 겉보기 점수가 아니라 실제 경험에 가까운 상승확률을 보여주고, 서로 점수 성격이 다른 분석가를
+        같은 확률 눈금에서 비교할 수 있습니다.</li>
+
+        <li><b>확신이 낮으면 HOLD로 보내는 보류 시스템</b><br>
+        의사가 검사 결과가 애매할 때 무조건 병명을 고르지 않고 추가 관찰을 권하는 것과 같습니다. 교정된 상승확률이
+        BUY나 SELL을 말할 만큼 충분히 한쪽으로 기울지 않으면 HOLD로 보냅니다.<br>
+        <b>얻고 싶은 장점:</b> 약한 신호로 성급하게 방향을 정하는 횟수를 줄입니다. 대신 BUY·SELL 개수는 줄 수 있지만,
+        남은 적극 판단의 품질을 높이는 것이 목적입니다.</li>
+
+        <li><b>분석가 간 오답 중복을 반영한 가중치</b><br>
+        두 사람이 서로 독립적으로 같은 답을 냈다면 든든하지만, 같은 자료를 보고 늘 함께 틀린다면 사실상 한 표를
+        두 번 센 것과 비슷합니다. 과거 오답이 함께 발생한 정도를 계산해 중복되는 발언권을 조금 줄입니다.<br>
+        <b>얻고 싶은 장점:</b> 단순히 찬성표가 많은지가 아니라 기술·재무·통계·수급처럼 <b>서로 다른 이유가 같은 결론을 지지하는지</b>를
+        더 중요하게 볼 수 있습니다.</li>
+
+        <li><b>상대강도와 수급 품질 추가</b><br>
+        코스피가 5% 오를 때 1% 오른 종목과, 코스피가 5% 내릴 때 1% 오른 종목은 같은 1% 상승이 아닙니다.
+        그래서 시장 전체와 같은 업종에 비해 더 강한지 비교합니다. 수급도 하루 순매수 숫자 하나만 보지 않고,
+        외국인·기관의 매수 지속일, 동반 매수, 수급 가속도와 가격·수급의 엇갈림을 함께 봅니다.<br>
+        <b>얻고 싶은 장점:</b> 시장 덕분에 같이 오른 종목과 혼자 힘이 센 종목을 구분하고, 일회성 큰 매수와 꾸준한 매집을
+        구별하는 데 도움을 줍니다.</li>
+
+        <li><b>시장국면별 가중치 조절</b><br>
+        맑은 날 운전을 잘하는 사람과 폭우 속 운전을 잘하는 사람이 다를 수 있습니다. 시장도 상승·하락·횡보와
+        저변동·고변동 국면으로 나눠, 각 환경에서 실제로 더 잘 맞았던 분석가의 발언권을 조금 조절합니다.
+        다만 표본이 적은 국면은 전체 성적과 섞어 우연한 고득점을 억제합니다.<br>
+        <b>얻고 싶은 장점:</b> 어느 시장에서나 똑같은 공식을 고집하지 않고, 지금 환경에 더 맞는 관점을 활용할 수 있습니다.</li>
+
+        <li><b>AUDIT 오판 감사 로봇</b><br>
+        비행기의 블랙박스처럼 판단이 틀린 뒤에 기록을 다시 살펴봅니다. 경계점수에서 성급하게 방향을 골랐는지,
+        분석가 의견이 크게 갈렸는지, 세 명 이상이 같은 방향으로 함께 틀렸는지, 고변동장에서 오판이 몰렸는지를 자동 집계합니다.<br>
+        <b>얻고 싶은 장점:</b> 단순히 적중률 한 숫자만 보는 대신 <b>어떤 조건에서 왜 자주 틀리는지</b> 찾아 다음 후보 공식을
+        고칠 근거를 얻습니다.</li>
+
+        <li><b>후보 공식을 그림자로 평가한 뒤 승격</b><br>
+        새 골키퍼를 중요한 경기에 바로 투입하지 않고 연습경기에서 충분히 확인하는 방식입니다. v3 후보는 매일 기존 공식 옆에서
+        BUY·HOLD·SELL과 상승확률을 따로 계산해 기록하지만, 검증 중에는 화면의 실제 종합판단을 바꾸지 않습니다.
+        실제로 저장된 그림자 판정이 최소 40거래일·500건, BUY와 SELL 각각 50건, 3개 이상 시장국면을 채우고,
+        기존 공식보다 적극 판단 정밀도가 1.5%p 이상 좋아지며 확률오차와 판단 편중 기준까지 모두 통과해야 승격됩니다.<br>
+        <b>얻고 싶은 장점:</b> 과거 자료에만 우연히 잘 맞는 공식을 실전에 올리는 일을 막고, 실제 미래 데이터에서도
+        개선이 확인된 변경만 안전하게 적용합니다.</li>
+      </ol>
+
+      <div class="gb-tip">💡 <b>지금 꼭 알아둘 점</b>: v3는 현재 <b>그림자 평가 단계</b>입니다.
+      기준을 모두 통과하기 전에는 기존 BUY·HOLD·SELL을 바꾸지 않습니다. 이 장치들이 수익을 보장하는 것은 아니지만,
+      확률을 더 정직하게 말하고, 애매한 판단을 줄이고, 같은 실수를 반복하지 않도록 만드는 것이 목표입니다.</div>
     </div>
   </details>
 
