@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Mon, 03 Aug 2026 06:17:02 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 03 Aug 2026 06:53:55 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유</title>
+    <link>https://gaeoteam.com/snap/news/36.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/36.html</guid>
+    <category>뉴스분석</category>
+    <description>8월 첫 거래일 코스피는 5.12% 내렸지만 코스닥은 2.44% 오르며 지수가 정반대로 갈렸어요. 500종목 기준으로는 오른 종목이 더 많았던, 삼성전자·SK하이닉스 두 종목이 지수를 끌어내린 하루였어요.</description>
+    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>포트폴리오 만드는 법: 초보자 자산배분 실전 가이드</title>
     <link>https://gaeoteam.com/snap/lesson/71.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/48.html</guid>
     <category>주식공부</category>
     <description>고정비와 생활비를 구분하고 비상금을 만드는, 처음 월급 관리의 기본을 정리합니다.</description>
-    <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>청년 주거지원 찾는 순서 — 전세·월세·청약을 한 번에 점검</title>
-    <link>https://gaeoteam.com/snap/lesson/47.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/47.html</guid>
-    <category>주식공부</category>
-    <description>청년 주거지원은 제도 이름보다 계약 시점·소득·지역을 기준으로 찾는 것이 빠릅니다.</description>
     <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
