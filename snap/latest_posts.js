@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 36,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-03",
+  "title": "2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유",
+  "featured": false
+ },
+ {
   "id": 71,
   "mode": "lesson",
   "label": "주식공부",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "미국주식 사는 법: 계좌 개설부터 첫 매수까지",
   "featured": false
- },
- {
-  "id": 19,
-  "mode": "estate",
-  "label": "부동산공부",
-  "date": "2026-08-03",
-  "title": "부동산 양도소득세 완전정복: 계산부터 신고까지",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 35,
+ "news": 36,
  "study": 35,
  "lesson": 71,
  "estate": 19,
