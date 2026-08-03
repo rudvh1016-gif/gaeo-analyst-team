@@ -12,6 +12,7 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
+import statistics
 from zoneinfo import ZoneInfo
 
 # 볼린저밴드는 📡 GAEO 레이더와 계산 규격이 반드시 같아야 하므로 공용 모듈을 그대로 쓴다
@@ -36,6 +37,15 @@ def num(x):
                      .replace("원", "").replace("배", ""))
     except ValueError:
         return None
+
+
+def load_sectors():
+    try:
+        text = re.sub(r"^\s*//.*$", "", open(os.path.join(HERE, "tickers.js"), encoding="utf-8").read(), flags=re.M)
+        rows = json.loads(re.search(r"const\s+TICKERS\s*=\s*(\[.*?\])\s*;", text, re.S).group(1))
+        return {row["code"]: row.get("sector") or "기타" for row in rows}
+    except Exception:
+        return {}
 
 
 def ema_series(vals, n):
@@ -146,13 +156,46 @@ def assign_risk_grades(stocks):
         r["grade"] = g
 
 
-def flow_summary(deal_trends, days=6):
+def flow_summary(deal_trends, daily=None, days=6):
     dt = deal_trends[:days]
     if not dt:
         return None
     frgn = sum(num(r.get("foreignerPureBuyQuant")) or 0 for r in dt)
     org = sum(num(r.get("organPureBuyQuant")) or 0 for r in dt)
     today = dt[0]
+    fr_rows = [int(num(row.get("foreignerPureBuyQuant")) or 0) for row in dt]
+    org_rows = [int(num(row.get("organPureBuyQuant")) or 0) for row in dt]
+    recent = sum(fr_rows[:2]) + sum(org_rows[:2])
+    older_rows = fr_rows[2:] + org_rows[2:]
+    older_daily = sum(older_rows) / max(1, len(dt) - 2) if older_rows else 0
+    recent_daily = recent / min(2, len(dt))
+    acceleration = recent_daily - older_daily
+    joint_buy = sum(1 for f, o in zip(fr_rows, org_rows) if f > 0 and o > 0)
+    joint_sell = sum(1 for f, o in zip(fr_rows, org_rows) if f < 0 and o < 0)
+    foreign_buy_days = sum(1 for value in fr_rows if value > 0)
+    organ_buy_days = sum(1 for value in org_rows if value > 0)
+    daily = daily or []
+    last_volume = float((daily[-1] if daily else {}).get("volume") or 0)
+    flow_ratio = (frgn + org) / (last_volume * len(dt)) * 100 if last_volume and dt else None
+    price_ret5 = None
+    if len(daily) >= 6 and daily[-6].get("close"):
+        price_ret5 = (daily[-1]["close"] / daily[-6]["close"] - 1) * 100
+    divergence = "neutral"
+    if price_ret5 is not None:
+        if price_ret5 < -1 and frgn + org > 0: divergence = "accumulation"
+        elif price_ret5 > 1 and frgn + org < 0: divergence = "distribution"
+        elif price_ret5 > 1 and frgn + org > 0: divergence = "confirmation_up"
+        elif price_ret5 < -1 and frgn + org < 0: divergence = "confirmation_down"
+    quality = 0.0
+    quality += (foreign_buy_days / len(dt) - .5) * 18
+    quality += (organ_buy_days / len(dt) - .5) * 14
+    quality += (joint_buy - joint_sell) / len(dt) * 16
+    if flow_ratio is not None: quality += max(-20, min(20, flow_ratio * 2.5))
+    if acceleration:
+        scale = max(1, abs(frgn + org) / max(1, len(dt)))
+        quality += max(-12, min(12, acceleration / scale * 4))
+    quality += {"accumulation": 8, "distribution": -8, "confirmation_up": 5,
+                "confirmation_down": -5}.get(divergence, 0)
     return {
         "days": len(dt),
         "frgnSum": int(frgn), "orgSum": int(org),
@@ -161,12 +204,19 @@ def flow_summary(deal_trends, days=6):
         "todayFrgn": int(num(today.get("foreignerPureBuyQuant")) or 0),
         "todayOrg": int(num(today.get("organPureBuyQuant")) or 0),
         "todayIndi": int(num(today.get("individualPureBuyQuant")) or 0),
+        "foreignBuyDays": foreign_buy_days, "organBuyDays": organ_buy_days,
+        "jointBuyDays": joint_buy, "jointSellDays": joint_sell,
+        "acceleration": round(acceleration),
+        "flowRatioPct": round(flow_ratio, 3) if flow_ratio is not None else None,
+        "priceRet5": round(price_ret5, 2) if price_ret5 is not None else None,
+        "divergence": divergence, "qualityScore": round(max(-50, min(50, quality)), 1),
     }
 
 
 def main():
     raw = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
     live = load_js_object(os.path.join(HERE, "data.js"), "LIVE_DATA")
+    sectors = load_sectors()
     out = {
         "generatedAt": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
         "priceLabel": live.get("date"),
@@ -195,8 +245,11 @@ def main():
                 entry["fwdPer"] = round(entry["price"] / entry["cnsEps"], 1)
             daily = s.get("daily") or []
             entry["tech"] = indicators_for(daily) if len(daily) >= 2 else None
-            entry["flow"] = flow_summary(info.get("dealTrends") or [])
+            entry["flow"] = flow_summary(info.get("dealTrends") or [], daily)
             entry["risk"] = risk_for(daily, d)   # 🛡️ RISK 카드용(브라우저가 직접 읽음)
+            entry["sector"] = sectors.get(code, "기타")
+            if len(daily) >= 6 and daily[-6].get("close"):
+                entry["_ret5"] = round((daily[-1]["close"] / daily[-6]["close"] - 1) * 100, 2)
             out["stocks"][code] = entry
         except Exception as e:
             skipped.append(f"{code}({e})")
@@ -204,6 +257,31 @@ def main():
     if skipped:
         print(f"[경고] 지표 계산 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
     assign_risk_grades(out["stocks"])   # 🛡️ 전 종목 분포 기준 상대 위험등급
+    # 📐 같은 날짜의 시장·업종 대비 상대강도. 외부 API 없이 수집된 500종목 단면만 사용한다.
+    market_returns = [entry["_ret5"] for entry in out["stocks"].values() if entry.get("_ret5") is not None]
+    market_median = statistics.median(market_returns) if market_returns else 0.0
+    sector_returns = {}
+    for entry in out["stocks"].values():
+        if entry.get("_ret5") is not None:
+            sector_returns.setdefault(entry.get("sector", "기타"), []).append(entry["_ret5"])
+    sector_medians = {sector: statistics.median(values) for sector, values in sector_returns.items() if values}
+    for entry in out["stocks"].values():
+        ret5 = entry.pop("_ret5", None)
+        if ret5 is None:
+            continue
+        sector = entry.get("sector", "기타")
+        values = sorted(sector_returns.get(sector) or [ret5])
+        rank = sum(value <= ret5 for value in values) / len(values) * 100
+        entry["relative"] = {"ret5": ret5, "marketMedian5": round(market_median, 2),
+                             "vsMarket": round(ret5 - market_median, 2),
+                             "sectorMedian5": round(sector_medians.get(sector, market_median), 2),
+                             "vsSector": round(ret5 - sector_medians.get(sector, market_median), 2),
+                             "sectorPercentile": round(rank)}
+    median_vol = statistics.median([entry["risk"]["vol20"] for entry in out["stocks"].values() if entry.get("risk")])
+    trend = "up" if market_median > 1 else ("down" if market_median < -1 else "side")
+    out["marketRegime"] = {"key": f"{trend}_{'high' if median_vol >= 3 else 'low'}",
+                           "trend": trend, "vol": "high" if median_vol >= 3 else "low",
+                           "medianRet5": round(market_median, 2), "medianVol20": round(median_vol, 2)}
     path = os.path.join(HERE, "indicators.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

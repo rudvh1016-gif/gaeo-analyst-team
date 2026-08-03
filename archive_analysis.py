@@ -43,6 +43,10 @@ def _entry_from(a, when):
         ana = a.get(k)
         if isinstance(ana, dict) and ana.get("stance"):
             entry[k] = {"stance": ana.get("stance"), "score": ana.get("score")}
+    shadow = a.get("shadowChief")
+    if isinstance(shadow, dict) and shadow.get("call"):
+        entry["shadow"] = {key: shadow.get(key) for key in (
+            "call", "total", "confidence", "probabilityUp", "modelVersion", "regime")}
     return entry
 
 
@@ -74,7 +78,10 @@ def archive_auto(hist):
         if same_day_idx is not None:
             if lst[same_day_idx].get("tier") == "auto":
                 lst[same_day_idx] = entry; a_upd += 1     # 자동 기록만 최신 스냅샷으로 갱신
-            # 정밀 기록이 있으면 그대로 둔다(정밀 우선)
+            elif entry.get("shadow"):
+                # 정밀 판단 본문은 그대로 보존하되, 같은 날 자동 파이프라인의
+                # 그림자 판정만 병합해 500종목 전진검증 표본에서 빠지지 않게 한다.
+                lst[same_day_idx]["shadow"] = entry["shadow"]; a_upd += 1
             continue
         lst.append(entry); a_add += 1
     print(f"자동분석 아카이브 — 신규 {a_add}건 · 갱신 {a_upd}건 (대상 {len(stocks)}종목)")

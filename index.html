@@ -3180,6 +3180,7 @@
 <script src="market_history.js?v=20260731-cache4"></script>
 <script src="dow_stats.js?v=20260731-cache4" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
 <script src="team_weights.js?v=20260731-cache4" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
+<script src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></script>
 <script>
 /* 첫 화면에 필요 없는 큰 자료는 사용자가 해당 메뉴를 열 때만 내려받는다. */
 window.GaeoFeatures=(()=>{
@@ -4033,6 +4034,30 @@ function renderScorecard(){
       <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
     </div>`;
   }
+  let modelDive='';
+  const MI=(typeof MODEL_INTELLIGENCE!=='undefined'&&MODEL_INTELLIGENCE)?MODEL_INTELLIGENCE:null;
+  if(MI){
+    const sh=MI.shadow||{}, forward=MI.prospective||{}, audit=MI.audit||{}, promotion=MI.promotion||{};
+    const patterns=(audit.patterns||[]).filter(row=>row.count>0).slice(0,4).map(row=>
+      `<span class="sc-chip"><b>${esc(row.label)}</b> ${Number(row.count).toLocaleString()}건</span>`).join('');
+    const reasons=(promotion.reasons||[]).map(reason=>`<li>${esc(reason)}</li>`).join('');
+    const status=promotion.qualified?'승격 기준 통과':'그림자 평가 중';
+    modelDive=`<div class="sc-block">
+      <h3>🧪 종합판단 v3: ${status}</h3>
+      <p class="sc-sub">점수 확률교정, 분석가 오답 중복 보정, 시장국면 가중치, 상대강도, 수급 품질과 강화된 HOLD 기준을 기존 공식과 나란히 검증합니다. 실제 일별 그림자 판정이 기준을 통과하기 전에는 BUY·HOLD·SELL을 바꾸지 않습니다.</p>
+      <div class="sc-stat-row">
+        <div class="sc-stat"><b>${forward.n||0}</b><span>실제 그림자 표본</span></div>
+        <div class="sc-stat"><b>${forward.candidateActionPrecision==null?'없음':forward.candidateActionPrecision+'%'}</b><span>그림자 BUY·SELL 정밀도</span></div>
+        <div class="sc-stat"><b>${forward.candidateCoverage==null?'없음':forward.candidateCoverage+'%'}</b><span>그림자 판단 비율</span></div>
+        <div class="sc-stat"><b>${forward.brier==null?'없음':forward.brier}</b><span>그림자 확률오차</span></div>
+      </div>
+      <div class="sc-foot-note">참고용 과거 홀드아웃 ${Number(sh.n||0).toLocaleString()}건도 별도로 검사하지만, 승격 여부는 실제 자동분석이 매일 저장한 그림자 판정만으로 결정합니다.</div>
+      ${patterns?`<div class="sc-chip-head">🔎 AUDIT가 많이 찾은 오판 조건</div><div class="sc-chips">${patterns}</div>`:''}
+      ${reasons?`<div class="sc-explain"><b>아직 승격하지 않는 이유</b><ul>${reasons}</ul></div>`:
+        '<div class="sc-team-note">검증 기준을 모두 통과해 다음 자동분석부터 v3 공식이 실전 판단으로 승격됩니다.</div>'}
+      <div class="sc-foot-note">확률오차는 Brier 점수로 낮을수록 좋습니다. 과거 자료는 시간순 앞 70%로 학습하고 뒤 30%에서 검사하며, 실전 승격에는 최소 40거래일과 500건의 전진검증을 요구합니다.</div>
+    </div>`;
+  }
 
   el.innerHTML=`<div class="sc-block">
     <h3>🧾 개오 성적표</h3>
@@ -4041,7 +4066,8 @@ function renderScorecard(){
     ${statRow}
     ${weeklyBody}
   </div>
-  ${deepDive}`;
+  ${deepDive}
+  ${modelDive}`;
 }
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
