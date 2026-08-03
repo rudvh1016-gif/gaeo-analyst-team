@@ -2199,6 +2199,61 @@
   .change-empty button{flex:0 0 auto;border:0;border-radius:11px;padding:10px 13px;background:var(--gaeo-900);
     color:#fff;font:inherit;font-size:11px;font-weight:780;cursor:pointer}
 
+  /* 관심종목 변화는 홈에서 분리해 전체 메뉴의 독립 화면으로 제공한다. */
+  .watchView{display:none;min-width:0}
+  .watchView.on{display:block}
+  .watch-view-head{margin:0 0 18px;padding:28px 30px;border:1px solid var(--gaeo-border);
+    border-radius:var(--gaeo-radius-md);background:var(--paper)}
+  .watch-view-head>span{display:block;margin-bottom:8px;color:var(--gaeo-600);font-size:9.5px;
+    font-weight:850;letter-spacing:.13em}
+  .watch-view-head h2{margin:0;color:var(--gaeo-ink);font-size:28px;font-weight:850;
+    line-height:1.2;letter-spacing:-.045em}
+  .watch-view-head p{margin:9px 0 0;color:var(--gaeo-muted);font-size:12.5px;line-height:1.6}
+  .watchView .change-board{margin:0}
+
+  /* 종목분석 상세는 토스증권처럼 항목을 고른 뒤 하나씩 읽는 탭 구조로 정리한다. */
+  .analysis-details[hidden]{display:none!important}
+  .analysis-details{margin-top:18px;min-width:0}
+  .analysis-tabs-wrap{position:sticky;z-index:20;top:calc(var(--gaeo-nav-h) + 10px);
+    display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px;
+    padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:16px;
+    background:color-mix(in srgb,var(--paper) 94%,transparent);box-shadow:0 8px 24px rgba(18,55,69,.06);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .analysis-tabs-copy{min-width:190px}
+  .analysis-tabs-copy span{display:block;margin-bottom:3px;color:var(--gaeo-600);font-size:9px;
+    font-weight:830;letter-spacing:.08em}
+  .analysis-tabs-copy strong{display:block;color:var(--gaeo-ink);font-size:12.5px;font-weight:800}
+  .analysis-tabs{display:flex;align-items:center;gap:5px;min-width:0;padding:4px;border-radius:13px;
+    background:var(--gaeo-canvas)}
+  .analysis-tab{min-height:38px;padding:0 15px;border:0;border-radius:10px;background:transparent;
+    color:var(--gaeo-muted);font:inherit;font-size:11.5px;font-weight:780;white-space:nowrap;cursor:pointer}
+  .analysis-tab:hover{color:var(--gaeo-900);background:var(--paper)}
+  .analysis-tab.on{color:#fff;background:var(--gaeo-900);box-shadow:0 3px 9px rgba(24,68,84,.14)}
+  html.gdark .analysis-tab.on{color:#0B2732;background:#8FD4EE}
+  .analysis-tab-panel[hidden]{display:none!important}
+  .analysis-tab-panel{min-width:0;animation:analysisPanelIn .2s ease-out}
+  .analysis-tab-panel>.qchart,.analysis-tab-panel>.qjudge{margin-top:0}
+  .analysis-tab-panel>.qjudge{margin-top:14px}
+  .analysis-tab-panel .analysis-section-head{margin-top:0}
+  .analysis-tab-panel .cards{margin-top:16px}
+  .analysis-tab-panel .verdict,.analysis-tab-panel .radar-detail{margin-top:0}
+  .analyst-tabs{display:flex;align-items:center;gap:7px;margin-top:16px;padding-bottom:2px;overflow-x:auto;
+    scrollbar-width:thin}
+  .analyst-tab{flex:0 0 auto;min-height:36px;padding:0 14px;border:1px solid var(--gaeo-border);
+    border-radius:11px;background:var(--paper);color:var(--gaeo-muted);font:inherit;font-size:11px;
+    font-weight:760;white-space:nowrap;cursor:pointer}
+  .analyst-tab:hover{border-color:var(--gaeo-100);color:var(--gaeo-900);background:var(--gaeo-50)}
+  .analyst-tab.on{border-color:var(--gaeo-100);color:var(--gaeo-700);background:var(--gaeo-50)}
+  .cards.analyst-filtered{display:block}
+  .cards.analyst-filtered .card{display:none}
+  .cards.analyst-filtered .card.analyst-selected{display:block;width:100%;opacity:1;transform:none}
+  .analysis-tab-panel .cards[hidden],.analysis-tab-panel .viz[hidden]{display:none!important}
+  .analysis-tab-empty{padding:34px 24px;border:1px dashed var(--gaeo-border);border-radius:18px;
+    background:var(--paper);color:var(--gaeo-muted);font-size:12.5px;line-height:1.65;text-align:center}
+  #analysisPanelRadar:has(.radar-detail.on) .analysis-tab-empty{display:none}
+  .stage.analysis-finished{display:none}
+  @keyframes analysisPanelIn{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+
   .home-dashboard .start-board{grid-template-columns:1fr;
     align-items:stretch;gap:16px;margin:16px 0}
   .home-dashboard .start-step{min-height:0;padding:24px 26px;border:1px solid var(--gaeo-border);
@@ -2477,6 +2532,24 @@
     .change-list::-webkit-scrollbar{display:none}
     .change-item{flex:0 0 248px;min-height:136px;scroll-snap-align:start}
     .change-empty{flex:0 0 100%;min-height:112px}
+    .watch-view-head{margin-bottom:14px;padding:22px 18px;border-radius:20px}
+    .watch-view-head h2{font-size:23px}
+    .watchView .change-board{margin:0}
+    .analysis-details{margin-top:14px}
+    .analysis-tabs-wrap{top:calc(var(--gaeo-nav-h) + 7px);display:block;padding:12px 10px 10px;
+      border-radius:15px;overflow:hidden}
+    .analysis-tabs-copy{padding:0 4px 9px}
+    .analysis-tabs-copy span{display:none}
+    .analysis-tabs-copy strong{font-size:11.5px}
+    .analysis-tabs{overflow-x:auto;justify-content:flex-start;padding:3px;scrollbar-width:none;
+      scroll-snap-type:x proximity}
+    .analysis-tabs::-webkit-scrollbar{display:none}
+    .analysis-tab{flex:0 0 auto;min-height:37px;padding:0 13px;scroll-snap-align:start;font-size:11px}
+    .analysis-tab-panel .cards{grid-template-columns:1fr}
+    .analyst-tabs{margin-top:13px;gap:6px;scrollbar-width:none;scroll-snap-type:x proximity}
+    .analyst-tabs::-webkit-scrollbar{display:none}
+    .analyst-tab{min-height:35px;padding:0 12px;scroll-snap-align:start;font-size:10.5px}
+    .analysis-tab-empty{padding:28px 18px}
     .home-dashboard .start-board{grid-template-columns:1fr;gap:14px;margin:14px 0}
     .home-dashboard .start-step{min-height:0;padding:20px 18px;border-radius:18px}
     .home-dashboard .start-step h2{font-size:20px}
@@ -2743,20 +2816,6 @@
       </article>
     </div>
 
-    <section class="change-board" id="homeChanges" aria-labelledby="homeChangesTitle">
-      <div class="change-intro">
-        <div>
-          <span class="change-kicker">TODAY'S CHANGE</span>
-          <h2 id="homeChangesTitle">오늘 내 종목에서 달라진 것</h2>
-          <p id="homeChangesDesc">관심종목을 저장하면 내 종목의 판단 변화부터 보여드려요.</p>
-        </div>
-        <div class="change-summary"><strong id="homeChangeCount">—</strong><span id="homeChangeUnit">개 변화 확인 중</span></div>
-      </div>
-      <div class="change-list" id="homeChangeList" aria-live="polite">
-        <div class="change-empty"><div><strong>오늘 변화를 정리하고 있어요.</strong>최근 판단 기록을 확인하는 중입니다.</div></div>
-      </div>
-    </section>
-
     <section class="start-board" aria-label="오늘 브리핑과 이용 안내">
       <article class="start-step start-step-summary">
         <span class="start-kicker" id="briefKicker">매일 아침</span>
@@ -2880,6 +2939,7 @@
   <div class="modes">
     <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span><svg class="mi" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2zM22 4h-7a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"/></svg>가이드북</button>
     <button class="modebtn on" id="mode-single"><svg class="mi" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>단일 분석</button>
+    <button class="modebtn" id="mode-watch"><svg class="mi" viewBox="0 0 24 24"><path d="M12 3.5 14.6 8l5.1 1.1-3.5 3.8.5 5.2-4.7-2.2-4.7 2.2.5-5.2-3.5-3.8L9.4 8z"/><path d="M4 21h16"/></svg>내 종목 관리</button>
     <button class="modebtn" id="mode-compare"><svg class="mi" viewBox="0 0 24 24"><path d="M12 3v18M8 21h8M12 6H5L2.5 12a3.4 3.4 0 0 0 5 0zM12 6h7l2.5 6a3.4 3.4 0 0 1-5 0z"/></svg>종목 비교</button>
     <button class="modebtn" id="mode-portfolio"><svg class="mi" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M9 7.5V6a3 3 0 0 1 3-3 3 3 0 0 1 3 3v1.5M3 13h18"/></svg>포트폴리오</button>
     <button class="modebtn" id="mode-latest"><svg class="mi" viewBox="0 0 24 24"><path d="M12 7.5a4.5 4.5 0 0 1 4.5-4.5h4v14a2 2 0 0 0-2 2h-6.5zM12 7.5A4.5 4.5 0 0 0 7.5 3h-4v14a2 2 0 0 1 2 2H12z"/><path d="M12 19v2"/></svg>최근 글</button>
@@ -2939,56 +2999,106 @@
     <div class="qbio" id="qbio" style="display:none"></div>
     <div class="qdate" id="qdate"></div>
     <div class="qmetrics" id="qmetrics"></div>
-    <div class="qchart" id="qchartWrap" style="display:none"></div>
-    <div class="qjudge" id="qjudgeWrap" style="display:none"></div>
   </div>
 
-  <div class="stage">
-    <div class="mat"><canvas id="scene" width="960" height="520"></canvas></div>
-    <div class="stagebtns">
-      <button id="dayBtn" title="낮/밤 전환">☀️</button>
-      <button id="sndBtn" title="효과음 켜기/끄기">🔊</button>
+  <section class="analysis-details" id="analysisDetails" aria-label="종목분석 상세 항목" hidden>
+    <div class="analysis-tabs-wrap">
+      <div class="analysis-tabs-copy">
+        <span>보고 싶은 항목만</span>
+        <strong>종목분석을 나눠서 확인하세요</strong>
+      </div>
+      <div class="analysis-tabs" id="analysisTabs" role="tablist" aria-label="종목분석 항목 선택">
+        <button class="analysis-tab on" id="analysisTabOverview" type="button" role="tab" aria-selected="true" aria-controls="analysisPanelOverview" data-analysis-tab="overview">가격 흐름</button>
+        <button class="analysis-tab" id="analysisTabAgents" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelAgents" data-analysis-tab="agents">분석가별 근거</button>
+        <button class="analysis-tab" id="analysisTabVerdict" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelVerdict" data-analysis-tab="verdict">종합 판단</button>
+        <button class="analysis-tab" id="analysisTabRadar" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelRadar" data-analysis-tab="radar">레이더 변화</button>
+      </div>
     </div>
-    <div class="analyzing" id="analyzing"><span class="az-face" id="azFace">(｡•̀ᴗ-)✧</span><span>분석 중<span class="az-dots"></span></span></div>
-  </div>
+    <div class="analysis-panels">
+      <section class="analysis-tab-panel on" id="analysisPanelOverview" role="tabpanel" aria-labelledby="analysisTabOverview" data-analysis-panel="overview">
+        <div class="qchart" id="qchartWrap" style="display:none"></div>
+        <div class="qjudge" id="qjudgeWrap" style="display:none"></div>
+        <div class="stage" id="analysisStage">
+          <div class="mat"><canvas id="scene" width="960" height="520"></canvas></div>
+          <div class="stagebtns">
+            <button id="dayBtn" title="낮/밤 전환">☀️</button>
+            <button id="sndBtn" title="효과음 켜기/끄기">🔊</button>
+          </div>
+          <div class="analyzing" id="analyzing"><span class="az-face" id="azFace">(｡•̀ᴗ-)✧</span><span>분석 중<span class="az-dots"></span></span></div>
+        </div>
+      </section>
 
-  <div class="verdict" id="verdict">
-    <div class="analysis-eyebrow">개오팀 종합 판단</div>
-    <div class="top">
-      <span class="dot" id="vdot"></span>
-      <span class="call" id="vcall"></span>
-      <span class="conf" id="vconf"></span>
+      <section class="analysis-tab-panel" id="analysisPanelAgents" role="tabpanel" aria-labelledby="analysisTabAgents" data-analysis-panel="agents" hidden>
+        <div class="analysis-section-head" id="modeSectionHead">
+          <span id="modeSectionEyebrow">왜 이런 판단일까요?</span>
+          <h2 id="modeSectionTitle">분석가별 근거</h2>
+          <p id="modeSectionDesc">기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.</p>
+        </div>
+        <div class="analyst-tabs" id="analystTabs" role="tablist" aria-label="분석가 선택">
+          <button class="analyst-tab" id="analystTabTeam" type="button" role="tab" aria-selected="false" data-analyst-tab="team">팀 비교</button>
+          <button class="analyst-tab on" id="analystTabTaro" type="button" role="tab" aria-selected="true" data-analyst-tab="taro">기술</button>
+          <button class="analyst-tab" id="analystTabDiana" type="button" role="tab" aria-selected="false" data-analyst-tab="diana">재무</button>
+          <button class="analyst-tab" id="analystTabNova" type="button" role="tab" aria-selected="false" data-analyst-tab="nova">확률통계</button>
+          <button class="analyst-tab" id="analystTabFlow" type="button" role="tab" aria-selected="false" data-analyst-tab="flow">수급</button>
+          <button class="analyst-tab" id="analystTabRisk" type="button" role="tab" aria-selected="false" data-analyst-tab="risk">리스크</button>
+        </div>
+        <div class="cards" id="cards"></div>
+        <div class="viz" id="viz"></div>
+      </section>
+
+      <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
+        <div class="verdict" id="verdict">
+          <div class="analysis-eyebrow">개오팀 종합 판단</div>
+          <div class="top">
+            <span class="dot" id="vdot"></span>
+            <span class="call" id="vcall"></span>
+            <span class="conf" id="vconf"></span>
+          </div>
+          <div class="gauges" id="gauges"></div>
+          <p id="vtext"></p>
+          <div class="vasof" id="vasof"></div>
+          <div class="veasy" id="veasy" style="display:none"></div>
+          <div class="autonote" id="vauto" style="display:none"></div>
+          <div class="anote" id="vnote" style="display:none"></div>
+          <div id="vclash" class="vclash" style="display:none"></div>
+          <div id="vmacro" class="vmacro" style="display:none"></div>
+          <div id="vtarget" class="vtarget"></div>
+          <div id="vlevels" class="vlevels" style="display:none"></div>
+          <p id="vreport" class="vreport"></p>
+          <div id="vhistory" class="vhistory"></div>
+          <div class="vdisclaimer">분석 기준 시각을 확인해 주세요 · 참고용 정보이며 투자 권유가 아닙니다.</div>
+        </div>
+      </section>
+
+      <section class="analysis-tab-panel" id="analysisPanelRadar" role="tabpanel" aria-labelledby="analysisTabRadar" data-analysis-panel="radar" hidden>
+        <div class="radar-detail" id="radarDetail"></div>
+        <div class="analysis-tab-empty">최근 레이더에서 새롭게 포착된 변화가 없어요. 판단 근거는 다른 탭에서 그대로 확인할 수 있어요.</div>
+      </section>
     </div>
-    <div class="gauges" id="gauges"></div>
-    <p id="vtext"></p>
-    <div class="vasof" id="vasof"></div>
-    <div class="veasy" id="veasy" style="display:none"></div>
-    <div class="autonote" id="vauto" style="display:none"></div>
-    <div class="anote" id="vnote" style="display:none"></div>
-    <div id="vclash" class="vclash" style="display:none"></div>
-    <div id="vmacro" class="vmacro" style="display:none"></div>
-    <div id="vtarget" class="vtarget"></div>
-    <div id="vlevels" class="vlevels" style="display:none"></div>
-    <p id="vreport" class="vreport"></p>
-    <div id="vhistory" class="vhistory"></div>
-    <div class="vdisclaimer">분석 기준 시각을 확인해 주세요 · 참고용 정보이며 투자 권유가 아닙니다.</div>
-  </div>
-
-  <!-- 📡 레이더가 이 종목에서 포착한 변화 — 종합 판단 바로 아래, 「분석가별 근거」보다 위에 둔다.
-       (무슨 변화가 있었는지 먼저 보고 → 그 변화를 5인이 어떻게 해석했는지 이어서 읽는 순서) -->
-  <div class="radar-detail" id="radarDetail"></div>
-
-  <div class="analysis-section-head" id="modeSectionHead">
-    <span id="modeSectionEyebrow">왜 이런 판단일까요?</span>
-    <h2 id="modeSectionTitle">분석가별 근거</h2>
-    <p id="modeSectionDesc">기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.</p>
-  </div>
-  <div class="cards" id="cards"></div>
-
-  <div class="viz" id="viz"></div>
+  </section>
 
   <div class="compare" id="compare"></div>
   <div class="portfolio" id="portfolio"></div>
+  <section class="watchView" id="watchView" aria-labelledby="watchViewTitle">
+    <div class="watch-view-head">
+      <span>MY WATCHLIST</span>
+      <h2 id="watchViewTitle">내 종목 관리</h2>
+      <p>저장한 관심종목에서 오늘 달라진 판단과 점수를 한곳에서 확인하세요.</p>
+    </div>
+    <section class="change-board" id="homeChanges" aria-labelledby="homeChangesTitle">
+      <div class="change-intro">
+        <div>
+          <span class="change-kicker">TODAY'S CHANGE</span>
+          <h2 id="homeChangesTitle">오늘 내 종목에서 달라진 것</h2>
+          <p id="homeChangesDesc">관심종목을 저장하면 내 종목의 판단 변화부터 보여드려요.</p>
+        </div>
+        <div class="change-summary"><strong id="homeChangeCount">—</strong><span id="homeChangeUnit">개 변화 확인 중</span></div>
+      </div>
+      <div class="change-list" id="homeChangeList" aria-live="polite">
+        <div class="change-empty"><div><strong>오늘 변화를 정리하고 있어요.</strong>최근 판단 기록을 확인하는 중입니다.</div></div>
+      </div>
+    </section>
+  </section>
   <div class="leaderboard" id="leaderboard"></div>
   <!-- 🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전. history.js·price_history.js·team_weights.js
        실측 데이터만으로 렌더링한다(AI 토큰 0원, 서버 재계산 때마다 자동 갱신). -->
@@ -6294,6 +6404,84 @@ function decide(a){
    ============================================================ */
 const cardsEl=document.getElementById('cards'), vEl=document.getElementById('verdict');
 let running=false;
+window.GaeoAnalysisReady=false;
+function setAnalysisTab(tab,options){
+  const tabs=[...document.querySelectorAll('[data-analysis-tab]')];
+  const panels=[...document.querySelectorAll('[data-analysis-panel]')];
+  if(!tabs.some(button=>button.dataset.analysisTab===tab)) tab='overview';
+  tabs.forEach(button=>{
+    const active=button.dataset.analysisTab===tab;
+    button.classList.toggle('on',active);
+    button.setAttribute('aria-selected',active?'true':'false');
+    button.tabIndex=active?0:-1;
+  });
+  panels.forEach(panel=>{
+    const active=panel.dataset.analysisPanel===tab;
+    panel.hidden=!active;
+    panel.classList.toggle('on',active);
+  });
+  window.GaeoAnalysisTab=tab;
+  const activePanel=document.querySelector(`[data-analysis-panel="${tab}"]`);
+  if(options&&options.scroll&&activePanel){
+    activePanel.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+(function wireAnalysisTabs(){
+  const tablist=document.getElementById('analysisTabs'); if(!tablist) return;
+  tablist.addEventListener('click',event=>{
+    const button=event.target.closest('[data-analysis-tab]'); if(!button) return;
+    setAnalysisTab(button.dataset.analysisTab,{scroll:false});
+    SFX.click();
+  });
+  tablist.addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    const tabs=[...tablist.querySelectorAll('[data-analysis-tab]')];
+    const current=Math.max(0,tabs.indexOf(document.activeElement));
+    let next=event.key==='Home'?0:event.key==='End'?tabs.length-1:
+      (current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+    event.preventDefault();
+    tabs[next].focus();
+    setAnalysisTab(tabs[next].dataset.analysisTab,{scroll:false});
+  });
+  setAnalysisTab('overview');
+})();
+function setAnalystTab(key){
+  const allowed=['team','taro','diana','nova','flow','risk'];
+  if(!allowed.includes(key)) key='taro';
+  document.querySelectorAll('[data-analyst-tab]').forEach(button=>{
+    const active=button.dataset.analystTab===key;
+    button.classList.toggle('on',active);
+    button.setAttribute('aria-selected',active?'true':'false');
+    button.tabIndex=active?0:-1;
+  });
+  cardsEl.classList.add('analyst-filtered');
+  cardsEl.hidden=key==='team';
+  cardsEl.querySelectorAll('.card').forEach(card=>{
+    card.classList.toggle('analyst-selected',card.id===`card-${key}`);
+  });
+  const viz=document.getElementById('viz');
+  if(viz) viz.hidden=key!=='team';
+  window.GaeoAnalystTab=key;
+}
+(function wireAnalystTabs(){
+  const tablist=document.getElementById('analystTabs'); if(!tablist) return;
+  tablist.addEventListener('click',event=>{
+    const button=event.target.closest('[data-analyst-tab]'); if(!button) return;
+    setAnalystTab(button.dataset.analystTab);
+    SFX.click();
+  });
+  tablist.addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    const tabs=[...tablist.querySelectorAll('[data-analyst-tab]')];
+    const current=Math.max(0,tabs.indexOf(document.activeElement));
+    const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:
+      (current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+    event.preventDefault();
+    tabs[next].focus();
+    setAnalystTab(tabs[next].dataset.analystTab);
+  });
+  setAnalystTab('taro');
+})();
 function makeCards(isLive){
   cardsEl.innerHTML='';
   ['taro','diana','nova','flow'].map(id=>AGENTS.find(a=>a.id===id)).forEach(a=>{
@@ -6307,6 +6495,7 @@ function makeCards(isLive){
          <ul id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li><li class="ph" aria-hidden="true"></li><li class="ph" aria-hidden="true"></li></ul>
        </div>`);
   });
+  setAnalystTab(window.GaeoAnalystTab||'taro');
   // 🎯 개인 통산 적중률 배지 — 전 종목 판단을 5거래일 채점한 리더보드 성적을 카드 헤더에도 표시
   try{
     computeLeaderboard().forEach(r=>{
@@ -6395,6 +6584,7 @@ function renderRiskCard(code){
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
   if(bar){ bar.style.background=RISK_COLOR; requestAnimationFrame(()=>{bar.style.width=Math.max(2,score)+'%';}); }
+  setAnalystTab(window.GaeoAnalystTab||'taro');
 }
 
 // ---------- 종합 시각화: 레이더 + 게이지 ----------
@@ -6442,6 +6632,7 @@ function renderViz(data){
     `<div class="vsub">4개 분석축 점수를 한눈에 — 넓을수록 우호적입니다</div>`+
     radarSVG(scores)+`<div class="radar-legend">${legend}</div>`;
   el.classList.add('on');
+  setAnalystTab(window.GaeoAnalystTab||'taro');
   requestAnimationFrame(()=>el.querySelectorAll('.lfill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 function renderGauges(v){
@@ -6467,6 +6658,10 @@ async function analyze(){
   showAnalyzing();
   const stock=resolveStock(document.getElementById('ticker').value);
   showQuote(stock);
+  window.GaeoAnalysisReady=true;
+  document.getElementById('analysisDetails').hidden=false;
+  document.getElementById('analysisStage').classList.remove('analysis-finished');
+  setAnalysisTab('overview');
   gaeoTrack('search',{search_term:stock.name||document.getElementById('ticker').value,search_location:'analysis'});
   gaeoTrack('analysis_start',{stock_code:stock.code||'',stock_name:stock.name||''});
   try{ await window.ensureAutoAnalysis(); }catch(e){}
@@ -6588,6 +6783,7 @@ async function analyze(){
       // 📡 레이더가 이 종목에서 잡아낸 변화가 있으면 기존 분석 화면 아래에 카드로 덧붙인다
       try{ renderRadarDetail(stock.code); }catch(e){ console.warn('radar detail', e); }
       vEl.classList.add('on');
+      document.getElementById('analysisStage').classList.add('analysis-finished');
       if(window.__gaeoNoAutoScroll){
         // BUY 칩에서 넘어온 경우: viz 대신 시세 카드(종목명·현재가·지표·차트)로 이동.
         // html{scroll-behavior:smooth}가 걸려있어 즉시이동을 위해 잠깐 끈다.
@@ -6598,7 +6794,8 @@ async function analyze(){
           window.scrollTo(0, Math.max(0, window.scrollY + q.getBoundingClientRect().top - 8));
           de.style.scrollBehavior=prev; }
       } else {
-        document.getElementById('verdict').scrollIntoView({behavior:'smooth',block:'start'});
+        setAnalysisTab('verdict');
+        document.getElementById('analysisDetails').scrollIntoView({behavior:'smooth',block:'start'});
       }
       SFX[v.call.toLowerCase()]();
       hideAnalyzing();
@@ -8573,7 +8770,7 @@ window.renderScreener=function(){
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
+  function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
       leaderboard:'history',calendar:'history',screener:'auto',scorecard:'history'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
@@ -8595,13 +8792,14 @@ window.renderScreener=function(){
       });
       return;
     }
-    const single=mode==='single', compare=mode==='compare', portfolio=mode==='portfolio',
+    const single=mode==='single', watch=mode==='watch', compare=mode==='compare', portfolio=mode==='portfolio',
           leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener',
           latest=mode==='latest', scorecard=mode==='scorecard';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
+      watch:['내 종목에서 달라진 것만','내 종목 관리','저장한 관심종목의 오늘 판단 변화와 점수를 한곳에서 확인하세요.'],
       guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
       compare:['나란히 보면 더 잘 보여요','종목 비교','두 종목의 가격·지표·분석 결과를 같은 기준으로 비교해 보세요.'],
       portfolio:['내 종목을 한곳에서','포트폴리오','보유 종목을 모아 전체 흐름과 종목별 분석을 한 화면에서 확인해 보세요.'],
@@ -8622,6 +8820,7 @@ window.renderScreener=function(){
     document.getElementById('modeSectionTitle').textContent=copy[1];
     document.getElementById('modeSectionDesc').textContent=copy[2];
     document.getElementById('mode-single').classList.toggle('on',single);
+    document.getElementById('mode-watch').classList.toggle('on',watch);
     document.getElementById('mode-guide').classList.toggle('on',guide);
     document.getElementById('mode-compare').classList.toggle('on',compare);
     document.getElementById('mode-portfolio').classList.toggle('on',portfolio);
@@ -8647,9 +8846,11 @@ window.renderScreener=function(){
     document.getElementById('chips').style.display=single?'':'none';
     document.getElementById('quote').style.display=single?'':'none';
     document.getElementById('cards').style.display=single?'':'none';
+    document.getElementById('analysisDetails').hidden=!(single&&window.GaeoAnalysisReady);
     document.getElementById('cmpControls').style.display=compare?'flex':'none';
     if(!compare) document.getElementById('compare').classList.remove('on');
     document.getElementById('portfolio').classList.toggle('on',portfolio);
+    document.getElementById('watchView').classList.toggle('on',watch);
     document.getElementById('leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('scorecardView').classList.toggle('on',scorecard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
@@ -8661,8 +8862,6 @@ window.renderScreener=function(){
     document.getElementById('estateView').classList.toggle('on',estate);
     document.getElementById('calcView').classList.toggle('on',calc);
     document.getElementById('screenerView').classList.toggle('on',screener);
-    if(!single){ document.getElementById('viz').classList.remove('on'); document.getElementById('verdict').classList.remove('on');
-      const rd=document.getElementById('radarDetail'); if(rd) rd.classList.remove('on'); }
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
@@ -8677,6 +8876,7 @@ window.renderScreener=function(){
   }
   window.setMode=setMode;   // 딥링크 라우터(?m=...)가 페이지 로드 시 호출
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
+  document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click();};
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
   document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare();});};
   document.getElementById('mode-portfolio').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('portfolio'); SFX.click();});};
@@ -9719,6 +9919,7 @@ window.hangulFix=function(str){
     else if(m==='estate'&&id){ window.setMode('estate'); window.openEstateId&&window.openEstateId(id); }
     else if(m==='calc'&&id){ window.setMode('calc'); window.openCalcId&&window.openCalcId(id); }
     else if(m==='single'&&code){ const s=STOCKS[code]; if(s&&s.name) jumpToStock(s.name); }
+    else if(m==='watch'){ window.setMode('watch'); }
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
     else if(m==='scorecard'){ SC_WEEK_OFFSET=0; window.setMode('scorecard'); }
@@ -9847,7 +10048,7 @@ window.hangulFix=function(str){
       if(typeof window.setMode==='function') window.setMode(mode);
       closePanels();
       setTimeout(()=>{
-        const target={single:'analysisBrowser',news:'newsView',lesson:'lessonView',calc:'calcView',
+        const target={single:'analysisBrowser',watch:'watchView',news:'newsView',lesson:'lessonView',calc:'calcView',
           leaderboard:'leaderboard',calendar:'calendarView'}[mode];
         const element=document.getElementById(target);
         if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
