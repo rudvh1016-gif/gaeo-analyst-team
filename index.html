@@ -237,6 +237,9 @@
 <title>Gaeo · 내 종목에 달라진 것만, 하루 3분</title>
 <meta name="description" content="한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 쉬운 말로 확인하세요. 시세·재무·수급·확률 지표와 데이터 기준 시각을 함께 보여드립니다." />
 <link rel="canonical" href="https://gaeoteam.com/" />
+<!-- 네이버 서치어드바이저에 제출하는 RSS. 새 글이 올라오면 네이버 검색로봇이 사이트를 훑으러
+     오기 전에도 먼저 알아채 검색 반영이 빨라진다. generate_rss.js가 자동 생성한다. -->
+<link rel="alternate" type="application/rss+xml" title="Gaeo · 개오 애널리스트팀 최신 글" href="https://gaeoteam.com/rss.xml" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Gaeo · 내 종목에 달라진 것만, 하루 3분" />
 <meta property="og:description" content="추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 쉽게 확인하세요." />
@@ -3133,6 +3136,10 @@
   </div>
   <div style="text-align:center;padding:14px 0 28px;font-size:12.5px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
     <a href="about.html" style="color:var(--dim);font-weight:600">소개</a>
+    <!-- 전체 글 목록(/snap/index.html)은 174편 전체로 이어지는 유일한 정적 허브다.
+         이 링크가 noscript 안에만 있으면 자바스크립트를 실행하는 검색봇에는 보이지 않아
+         글들이 sitemap으로만 발견되는 고아 페이지가 된다. 반드시 일반 링크로 노출할 것. -->
+    <a href="snap/index.html" style="color:var(--dim);font-weight:600">전체 글 목록</a>
     <a href="contact.html" style="color:var(--dim);font-weight:600">문의하기</a>
     <a href="privacy.html" style="color:var(--dim);font-weight:600">개인정보처리방침</a>
   </div>
