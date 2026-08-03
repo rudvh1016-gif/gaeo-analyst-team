@@ -11,82 +11,82 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
-  "id": 63,
+  "id": 71,
   "mode": "lesson",
   "label": "주식공부",
-  "date": "2026-08-02",
-  "title": "기준금리와 주가의 관계: 금통위·FOMC 읽는 법",
+  "date": "2026-08-03",
+  "title": "포트폴리오 만드는 법: 초보자 자산배분 실전 가이드",
   "featured": false
  },
  {
-  "id": 62,
+  "id": 70,
   "mode": "lesson",
   "label": "주식공부",
-  "date": "2026-08-02",
-  "title": "레버리지·인버스 ETF, 지수가 원위치해도 내 계좌는 왜 마이너스일까",
+  "date": "2026-08-03",
+  "title": "상장폐지 완전정복: 거래정지부터 정리매매까지",
   "featured": false
  },
  {
-  "id": 61,
+  "id": 69,
   "mode": "lesson",
   "label": "주식공부",
-  "date": "2026-08-02",
-  "title": "일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편",
+  "date": "2026-08-03",
+  "title": "국내주식 세금: 매매·배당·대주주 과세 한 번에 정리",
   "featured": false
  },
  {
-  "id": 17,
+  "id": 68,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-03",
+  "title": "DART 공시 보는 법: 10분 기업 점검 순서",
+  "featured": false
+ },
+ {
+  "id": 67,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-03",
+  "title": "재무제표 보는 법: 손익·재무상태·현금흐름 연결하기",
+  "featured": false
+ },
+ {
+  "id": 66,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-03",
+  "title": "S&P500 vs 나스닥100: 초보자를 위한 완전 비교",
+  "featured": false
+ },
+ {
+  "id": 65,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-03",
+  "title": "주식 주문 넣는 법: 시장가·지정가부터 체결까지",
+  "featured": false
+ },
+ {
+  "id": 64,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-03",
+  "title": "미국주식 사는 법: 계좌 개설부터 첫 매수까지",
+  "featured": false
+ },
+ {
+  "id": 19,
   "mode": "estate",
   "label": "부동산공부",
-  "date": "2026-08-02",
-  "title": "생애최초 대출 완전정복",
-  "featured": false
- },
- {
-  "id": 60,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-01",
-  "title": "공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리",
-  "featured": false
- },
- {
-  "id": 59,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-01",
-  "title": "IPO(기업공개)가 뭐길래: 오픈AI·앤트로픽은 상장하려 하고, SK하이닉스는 왜 미국에도 상장했을까",
-  "featured": false
- },
- {
-  "id": 35,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-31",
-  "title": "2026년 7월31일 종가, 코스피 하루 만에 17.91% 폭등한 이유와 7월 총정리",
-  "featured": false
- },
- {
-  "id": 34,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-31",
-  "title": "호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유",
-  "featured": false
- },
- {
-  "id": 33,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-07-31",
-  "title": "애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유",
+  "date": "2026-08-03",
+  "title": "부동산 양도소득세 완전정복: 계산부터 신고까지",
   "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 35,
  "study": 35,
- "lesson": 63,
- "estate": 17,
+ "lesson": 71,
+ "estate": 19,
  "calc": 14
 };
