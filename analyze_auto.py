@@ -200,6 +200,7 @@ def flow_eval(fl):
     s += max(-10, min(10, (1 if org > 0 else -1) * min(10, abs(org) / 50000)))
     if hn is not None and hb is not None:
         s += max(-6, min(6, (hn - hb) * 3))
+    quality = fl.get("qualityScore")
     score = clamp(s)
     n = fl.get("days", 0)
     f = [
@@ -210,7 +211,14 @@ def flow_eval(fl):
     tf, to, ti = fl.get("todayFrgn", 0), fl.get("todayOrg", 0), fl.get("todayIndi", 0)
     f.append(f"직전 거래일 외국인 {tf:+,}주 · 기관 {to:+,}주 · 개인 {ti:+,}주")
     combo = (fr > 0) + (org > 0)
-    f.append("외국인·기관 동반 매수 우위" if combo == 2 else ("외국인·기관 매수/매도 엇갈림" if combo == 1 else "외국인·기관 동반 매도 우위"))
+    combo_text = "외국인·기관 동반 매수 우위" if combo == 2 else ("외국인·기관 매수/매도 엇갈림" if combo == 1 else "외국인·기관 동반 매도 우위")
+    if quality is not None:
+        labels = {"accumulation": "가격은 약하지만 큰손 매수는 이어지는 매집형 괴리",
+                  "distribution": "가격은 오르지만 큰손은 파는 분배형 괴리",
+                  "confirmation_up": "가격 상승과 큰손 매수가 함께 가는 상승 확인",
+                  "confirmation_down": "가격 하락과 큰손 매도가 함께 가는 하락 확인"}
+        combo_text += f" · 수급 품질 {quality:+.0f}점 · {labels.get(fl.get('divergence'), '가격·수급 방향 중립')}"
+    f.append(combo_text)
     return {"score": score, "stance": stance_of(score), "findings": f[:4]}
 
 
@@ -348,6 +356,62 @@ def load_team_weights():
             "learned": True}
 
 
+def load_model_intelligence():
+    model = load_js_object(os.path.join(HERE, "model_intelligence.js"), "MODEL_INTELLIGENCE")
+    return model if isinstance(model, dict) else {}
+
+
+def _score_bin(score):
+    return str(min(90, max(0, int(float(50 if score is None else score)) // 10 * 10)))
+
+
+def _calibrated_probability(model, analyst, score):
+    bucket = (((model.get("calibration") or {}).get(analyst) or {}).get(_score_bin(score)) or {})
+    if bucket.get("n", 0) < 20:
+        return max(.05, min(.95, .5 + (float(50 if score is None else score) - 50) / 250))
+    return max(.05, min(.95, float(bucket.get("pUp", .5))))
+
+
+def candidate_chief_eval(e, taro, diana, nova, flow, weights, model):
+    """v3 그림자 후보. 승격 기준을 통과하기 전에는 화면 판단을 바꾸지 않는다."""
+    regime = (e.get("marketRegime") or {}).get("key") or (model.get("currentRegime") or {}).get("key")
+    regime_weights = (((model.get("regimes") or {}).get(regime) or {}).get("weights") or weights)
+    redundancy = model.get("redundancyFactor") or {}
+    scores = {"taro": taro["score"], "diana": diana["score"], "nova": nova["score"], "flow": flow["score"]}
+    adjusted = {a: float(regime_weights.get(a, BASE_W[a])) * float(redundancy.get(a, 1)) for a in scores}
+    total_weight = sum(adjusted.values()) or 1
+    probability = sum(_calibrated_probability(model, a, scores[a]) * adjusted[a] for a in scores) / total_weight
+    relative = e.get("relative") or {}
+    relative_adjust = max(-.04, min(.04, (float(relative.get("vsSector") or 0) * .003 +
+                                         float(relative.get("vsMarket") or 0) * .002)))
+    flow_quality = float((e.get("flow") or {}).get("qualityScore") or 0)
+    flow_adjust = max(-.03, min(.03, flow_quality * .0006))
+    probability = max(.05, min(.95, probability + relative_adjust + flow_adjust))
+    raw_total = round(probability * 100)
+    risk = risk_overlay(e.get("risk"))
+    total = clamp(raw_total - risk["penalty"])
+    buy_cut = float((model.get("holdPolicy") or {}).get("buyProbability", .62)) * 100
+    sell_cut = float((model.get("holdPolicy") or {}).get("sellProbability", .38)) * 100
+    call = "BUY" if total >= buy_cut else ("SELL" if total <= sell_cut else "HOLD")
+    spread = max(scores.values()) - min(scores.values())
+    confidence = clamp(round(35 + abs(probability - .5) * 120 - spread * .25 - risk["confidencePenalty"]), 25, 90)
+    status = (model.get("promotion") or {}).get("status", "shadow")
+    status_text = ("승격 기준을 통과해 실전 판정에 적용됩니다." if status == "qualified" else
+                   "그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.")
+    reason = (f"확률교정 v3 후보는 5일 상승확률을 {probability*100:.1f}%로 계산했습니다. "
+              f"시장·업종 상대강도 {relative_adjust*100:+.1f}%p, 수급 품질 {flow_adjust*100:+.1f}%p, "
+              f"RISK {risk['penalty']}점 감점을 반영했습니다. "
+              f"{status_text}")
+    return {"call": call, "total": total, "rawTotal": raw_total, "confidence": confidence,
+            "probabilityUp": round(probability * 100, 1), "riskPenalty": risk["penalty"],
+            "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
+            "relativeAdjustPp": round(relative_adjust * 100, 1),
+            "flowQualityAdjustPp": round(flow_adjust * 100, 1), "regime": regime,
+            "modelVersion": model.get("version", "calibrated-ensemble-v3"), "reason": reason,
+            "target": ("확률교정 v3 실전 모델" if status == "qualified" else
+                       "확률교정 후보 모델 · 그림자 평가 중"), "report": reason}
+
+
 def risk_overlay(risk):
     """RISK는 상승표가 아니라 손실 확대 가능성만 낮추는 단방향 안전장치다."""
     if not isinstance(risk, dict):
@@ -464,6 +528,7 @@ def main():
         adata = {}
     qstats = build_quant_stats(adata)
     tw = load_team_weights()
+    model = load_model_intelligence()
     sectors = load_sectors()
     if qstats.get("all"):
         a = qstats["all"]
@@ -488,7 +553,16 @@ def main():
             nova = quant_eval(e, t, qstats)   # QUANT (내부 키는 'nova' 유지 — 호환성)
             flow = flow_eval(e.get("flow"))
             wsec = tw["sectors"].get(sectors.get(code, ""), None) or tw["global"]
-            chief = chief_eval(e, taro, diana, nova, flow, weights=wsec, learned=tw["learned"])
+            baseline_chief = chief_eval(e, taro, diana, nova, flow, weights=wsec, learned=tw["learned"])
+            candidate_context = dict(e)
+            candidate_context["marketRegime"] = ind.get("marketRegime") or {}
+            shadow_chief = candidate_chief_eval(candidate_context, taro, diana, nova, flow, wsec, model) if model else None
+            promoted = bool((model.get("promotion") or {}).get("qualified")) and shadow_chief is not None
+            chief = shadow_chief if promoted else baseline_chief
+            if promoted:
+                chief["promoted"] = True
+                chief["baselineCall"] = baseline_chief.get("call")
+                chief["baselineTotal"] = baseline_chief.get("total")
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
@@ -496,6 +570,7 @@ def main():
                 "baseAt": price_label,
                 "events": [],
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
+                "shadowChief": shadow_chief,
             }
             n_auto += 1
         except Exception as ex:
