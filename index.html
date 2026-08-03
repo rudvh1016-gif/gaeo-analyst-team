@@ -3025,7 +3025,7 @@
           <div class="mat"><canvas id="scene" width="960" height="520"></canvas></div>
           <div class="stagebtns">
             <button id="dayBtn" title="낮/밤 전환">☀️</button>
-            <button id="sndBtn" title="효과음 켜기/끄기">🔊</button>
+            <button id="sndBtn" title="효과음 켜기/끄기">🔇</button>
           </div>
           <div class="analyzing" id="analyzing"><span class="az-face" id="azFace">(｡•̀ᴗ-)✧</span><span>분석 중<span class="az-dots"></span></span></div>
         </div>
@@ -5652,7 +5652,7 @@ window.renderGaeoRadar=renderGaeoRadar;
 try{ renderGaeoRadar(); }catch(e){ console.warn('radar render', e); }
 
 // ---------- 효과음 (WebAudio 합성 — 파일 불필요) ----------
-let AC=null, soundOn=true;
+let AC=null, soundOn=false;
 function tone(f0,f1,dur,type,vol,delay=0){
   if(!soundOn) return;
   try{
