@@ -187,7 +187,9 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       }))),
     });
     fs.writeFileSync(path.join(HERE, `snap/${folder}/${item.id}.html`), html);
-    index.push({ href: `snap/${folder}/${item.id}.html`, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
+    // href는 snap/index.html(= /snap/ 하위)에서 쓰이므로 반드시 절대 URL이어야 한다.
+    // 상대경로('snap/news/1.html')로 두면 /snap/snap/news/1.html 로 잘못 풀려 전 링크가 404가 된다.
+    index.push({ href: canonicalUrl, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
   }
 }
 
