@@ -3,7 +3,7 @@
 // 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와
 // index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-03 15:44",
+ "generatedAt": "2026-08-03 16:14",
  "evalDays": 5,
  "global": {
   "weights": {
