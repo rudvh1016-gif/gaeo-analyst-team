@@ -149,6 +149,8 @@ jobs:
             #   다시 만든다. 순수 템플릿 채우기라 토큰 비용 없음(generate_snapshots.js/generate_sitemap.js).
             timeout 900 node generate_snapshots.js || echo "snapshots 생성 실패"
             timeout 600 node generate_sitemap.js || echo "sitemap 생성 실패"
+            # 📡 네이버 서치어드바이저에 제출한 RSS도 함께 갱신 — 새 글을 네이버가 빨리 잡아가게 한다.
+            timeout 300 node generate_rss.js || echo "rss 생성 실패"
             # 게시판 백업(있을 때만)
             if [ -f guestbook_id.json ]; then
               base=$(python3 -c "import json;print(json.load(open('guestbook_id.json'))['url'])" 2>/dev/null || true)

@@ -9,6 +9,10 @@ const path = require('path');
 const HERE = __dirname;
 const BASE = 'https://gaeoteam.com/';
 const SITE_NAME = 'Gaeo · 개오 애널리스트팀';
+// <title> 뒤에 붙이는 짧은 브랜드 꼬리표. 검색결과 제목은 대략 60자를 넘으면 뒷부분이 잘리는데,
+// 전체 사이트명(19자)을 다 붙이면 글 제목 자체가 멀쩡해도 브랜드 때문에 잘려나갔다.
+// 글 제목은 그대로 두고 꼬리표만 줄여 34건 → 11건으로 해결한다(og:title에는 원래 안 붙는다).
+const TITLE_SUFFIX = 'Gaeo';
 
 function load(file, varname) {
   try {
@@ -19,6 +23,23 @@ function load(file, varname) {
 function esc(s) {
   return String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// 검색결과 설명문(meta description)용으로만 요약을 줄인다.
+// 화면에 보이는 요약(.summary)은 원문 그대로 쓰므로 글 내용은 전혀 바뀌지 않는다.
+// 구글은 대략 155자 부근에서 설명을 자르는데, 그냥 두면 문장 한가운데서 "..."로 끊겨
+// 무슨 말인지 알 수 없게 된다. 그래서 문장부호 → 어절 순으로 자연스러운 지점을 찾아 끊는다.
+const META_DESC_MAX = 155;
+function metaDesc(s) {
+  const t = String(s == null ? '' : s).replace(/\s+/g, ' ').trim();
+  if (t.length <= META_DESC_MAX) return t;
+  const head = t.slice(0, META_DESC_MAX);
+  // ① 문장이 끝나는 자리(。. ! ?)가 뒤쪽에 있으면 거기서 깔끔하게 끊는다
+  const sentence = Math.max(head.lastIndexOf('. '), head.lastIndexOf('! '), head.lastIndexOf('? '), head.lastIndexOf('요. '), head.lastIndexOf('다. '));
+  if (sentence > META_DESC_MAX * 0.6) return head.slice(0, sentence + 1).trim();
+  // ② 없으면 마지막 띄어쓰기에서 끊고 말줄임표를 붙인다(단어 중간에서 안 끊기게)
+  const space = head.lastIndexOf(' ');
+  return (space > META_DESC_MAX * 0.5 ? head.slice(0, space) : head).trim() + '…';
 }
 
 // 본문 미니 마크다운(## / - / **굵게** / [링크](URL) / [[img:..]]) → 읽기용 평범한 HTML로 변환
@@ -49,6 +70,8 @@ function bodyToHtml(raw) {
 
 function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml, noindex }) {
   const modified = updated || date;
+  // 검색엔진에 보내는 설명은 잘리지 않게 줄이고, 화면에 보이는 요약(.summary)은 원문 그대로 쓴다.
+  const sdesc = metaDesc(desc);
   const ld = {
     "@context": "https://schema.org",
     "@type": articleType || "Article",
@@ -56,7 +79,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
     "image": BASE + "og-understand-more.png",
     "datePublished": date,
     "dateModified": modified,
-    "description": desc,
+    "description": sdesc,
     "inLanguage": "ko-KR",
     "isPartOf": { "@type": "WebSite", "name": SITE_NAME, "url": BASE },
     "author": { "@type": "Organization", "name": "Gaeo 리서치팀", "url": BASE + "about.html" },
@@ -68,12 +91,12 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)} · ${esc(SITE_NAME)}</title>
-<meta name="description" content="${esc(desc)}">
+<title>${esc(title)} · ${esc(TITLE_SUFFIX)}</title>
+<meta name="description" content="${esc(sdesc)}">
 ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="canonical" href="${esc(canonicalUrl)}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc)}">
+<meta property="og:description" content="${esc(sdesc)}">
 <meta property="og:image" content="${BASE}og-understand-more.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -82,7 +105,7 @@ ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="ca
 <meta property="og:url" content="${esc(canonicalUrl)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:description" content="${esc(sdesc)}">
 <meta name="twitter:image" content="${BASE}og-understand-more.png">
 <meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
@@ -187,7 +210,9 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       }))),
     });
     fs.writeFileSync(path.join(HERE, `snap/${folder}/${item.id}.html`), html);
-    index.push({ href: `snap/${folder}/${item.id}.html`, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
+    // href는 snap/index.html(= /snap/ 하위)에서 쓰이므로 반드시 절대 URL이어야 한다.
+    // 상대경로('snap/news/1.html')로 두면 /snap/snap/news/1.html 로 잘못 풀려 전 링크가 404가 된다.
+    index.push({ href: canonicalUrl, title, date: item.date, cat: tagPrefix, mode: kind, id: item.id });
   }
 }
 
