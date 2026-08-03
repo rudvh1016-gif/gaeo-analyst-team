@@ -336,43 +336,66 @@ def quant_eval(e, t, qstats):
 #    compute_team_weights.py가 "판단 후 5거래일 뒤 종가" 채점 기록으로 계산한
 #    분석가별 적중률 비례 가중치를 쓴다. 파일이 없으면 균등(25%씩)으로 동작.
 
-EQUAL_W = {"taro": 0.25, "diana": 0.25, "nova": 0.25, "flow": 0.25}
+BASE_W = {"taro": 0.30, "diana": 0.12, "nova": 0.28, "flow": 0.30}
 
 
 def load_team_weights():
     tw = load_js_object(os.path.join(HERE, "team_weights.js"), "TEAM_WEIGHTS")
     if not tw or not isinstance(tw.get("global"), dict):
-        return {"global": EQUAL_W, "sectors": {}, "learned": False}
-    return {"global": tw["global"].get("weights", EQUAL_W),
+        return {"global": BASE_W, "sectors": {}, "learned": False}
+    return {"global": tw["global"].get("weights", BASE_W),
             "sectors": {k: v.get("weights", {}) for k, v in (tw.get("sectors") or {}).items()},
             "learned": True}
 
 
-def chief_eval(e, taro, diana, nova, flow, weights=EQUAL_W, learned=False):
-    w = {k: weights.get(k, 0.25) for k in ("taro", "diana", "nova", "flow")}
+def risk_overlay(risk):
+    """RISK는 상승표가 아니라 손실 확대 가능성만 낮추는 단방향 안전장치다."""
+    if not isinstance(risk, dict):
+        return {"score": None, "grade": "unknown", "penalty": 0, "confidencePenalty": 0}
+    vol = float(risk.get("vol20") or 0)
+    drawdown = float(risk.get("mdd3m") or 0)
+    score = clamp(round(100 - vol * 10 - max(0, -drawdown) * 0.6), 5, 95)
+    grade = risk.get("grade") if risk.get("grade") in ("low", "mid", "high") else (
+        "high" if score < 35 else ("mid" if score < 55 else "low"))
+    penalty = clamp(round(max(0, 45 - score) * 0.15) + 1, 1, 7) if grade == "high" else 0
+    confidence_penalty = 10 if grade == "high" else (3 if grade == "mid" else 0)
+    return {"score": score, "grade": grade, "penalty": penalty,
+            "confidencePenalty": confidence_penalty}
+
+
+def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False):
+    w = {k: weights.get(k, BASE_W[k]) for k in ("taro", "diana", "nova", "flow")}
     tot_w = sum(w.values()) or 1.0
-    total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
-                   + nova["score"] * w["nova"] + flow["score"] * w["flow"]) / tot_w)
+    raw_total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
+                       + nova["score"] * w["nova"] + flow["score"] * w["flow"]) / tot_w)
+    risk = risk_overlay(e.get("risk"))
+    total = clamp(raw_total - risk["penalty"])
     call = "BUY" if total >= 63 else ("HOLD" if total >= 47 else "SELL")
     scores = [taro["score"], diana["score"], nova["score"], flow["score"]]
     spread = max(scores) - min(scores)
-    conf = clamp(max(40, 88 - spread), 30, 90)
+    conf = clamp(max(40, 88 - spread) - risk["confidencePenalty"], 30, 90)
     tgap = e.get("targetGap")
     tgt = (f"증권사 평균 목표주가 {won(e.get('targetMean'))} (현재가 대비 {tgap:+.1f}% 상승여력)"
            if tgap is not None else "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고")
     label = {"BUY": "매수 우위", "HOLD": "중립", "SELL": "비중 축소"}[call]
     wtxt = f"기술 {w['taro']*100:.0f}%·재무 {w['diana']*100:.0f}%·퀀트 {w['nova']*100:.0f}%·수급 {w['flow']*100:.0f}%"
+    risk_text = (f" RISK 안정도 {risk['score']}점으로 원점수 {raw_total}점에서 "
+                 f"{risk['penalty']}점을 감점했습니다." if risk["score"] is not None
+                 else " RISK 데이터가 없어 감점 없이 계산했습니다.")
     reason = (f"자동분석 종합 {total}점({label}). 기술 {taro['score']}·재무 {diana['score']}·"
               f"퀀트(확률) {nova['score']}·수급 {flow['score']} 점을 "
               + (f"자가 학습 가중치({wtxt} — 최근 적중률 기반 자동 조정)로 합산했습니다. " if learned
                  else "균등 가중치로 합산했습니다. ")
-              + ("분석축 간 편차가 커 신중한 접근이 필요합니다." if spread >= 30 else "분석축 간 시각이 대체로 일치합니다."))
+              + risk_text
+              + (" 분석축 간 편차가 커 신중한 접근이 필요합니다." if spread >= 30 else " 분석축 간 시각이 대체로 일치합니다."))
     report = (f"이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. "
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. "
-              f"종합 {total}점 · {call} · 신뢰도 {conf}%.")
+              f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
+            "rawTotal": raw_total, "riskPenalty": risk["penalty"],
+            "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
             "reason": reason, "target": tgt, "report": report}
 
 

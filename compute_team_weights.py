@@ -1,30 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""개오 애널리스트팀 — 자가 학습 가중치 (Claude 토큰 0)
+"""개오 애널리스트팀 — 기간 정합 자가 학습 가중치 (Claude 토큰 0)
 
-history.js에 쌓인 판단 기록(종목별·분석가별 stance)을 "판단 후 5거래일 뒤 종가"로
-채점해, 어떤 분석가(TARO/DIANA/QUANT/FLOW)가 실제로 잘 맞았는지 적중률을 집계하고
-그 성적에 비례한 CHIEF 합산 가중치를 계산한다 → team_weights.js
+각 분석가가 실제로 보는 시간축에 맞춰 채점하고, 작은 표본의 우연을 50% 쪽으로
+축소한 뒤 CHIEF 합산 가중치를 계산한다 → team_weights.js
 
-- 채점 잣대는 index.html 리더보드(scoreStance)와 동일:
-    bull → 5거래일 뒤 +1% 초과면 적중, -1% 미만이면 빗나감 (±1% 이내 보류)
-    bear → 반대 방향. neu(중립)는 집계 제외.
-- 가중치: 적중률을 [30,75]로 클립한 값에 비례 배분(표본 30건 미만인 분석가는
-  중립값 50으로 처리 — 성적이 검증되기 전엔 벌점도 가점도 주지 않는다).
-- 업종별 오버라이드: 그 업종에서 채점 표본이 200건 이상 쌓이면 업종 전용 가중치를
-  함께 저장한다(반도체에서 잘 맞는 분석가와 바이오에서 잘 맞는 분석가는 다를 수 있다).
+- TARO·QUANT·FLOW는 5거래일/±1%, DIANA는 20거래일/±3%로 채점한다.
+- 가중치는 역할 사전비중에 베이지안 보정 적중률을 곱한다. DIANA는 단기 방향표가
+  아니라 장기 품질 필터이므로 기본 발언권을 12%로 제한한다.
+- 업종 가중치는 표본 200건부터 쓰되 전역값과 부드럽게 섞어 과적합을 줄인다.
 - analyze_auto.py(CHIEF 합산)와 index.html(리더보드 가중치 표시)이 이 파일을 읽는다.
 
 실행: python3 compute_team_weights.py  →  team_weights.js
 (워크플로우에서 analyze_auto.py보다 먼저 실행)
 """
-import json, re, os, datetime
+import json, re, os, datetime, math
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ANALYSTS = ["taro", "diana", "nova", "flow"]   # nova = QUANT (내부 id는 호환성 위해 유지)
-MIN_N_ANALYST = 30      # 분석가별 최소 표본 — 미달이면 중립(50) 취급
 MIN_N_SECTOR = 200      # 업종 오버라이드 최소 표본
-EVAL_DAYS = 5           # 판단 후 5거래일 뒤 종가로 채점 (index.html과 동일)
+BAYES_PRIOR_N = 120     # 작은 표본을 50% 쪽으로 축소하는 가상 표본
+SECTOR_SHRINK_N = 800   # 업종값과 전역값을 섞는 강도
+SKILL_SENSITIVITY = 3.0
+RULES = {
+    "taro":  {"days": 5,  "deadband": 1.0, "prior": 0.30},
+    "diana": {"days": 20, "deadband": 3.0, "prior": 0.12},
+    "nova":  {"days": 5,  "deadband": 1.0, "prior": 0.28},
+    "flow":  {"days": 5,  "deadband": 1.0, "prior": 0.30},
+}
 
 
 def load_js_object(path, varname):
@@ -44,12 +47,12 @@ def load_sectors():
         return {}
 
 
-def score_stance(stance, ret):
-    """index.html scoreStance와 동일한 채점 규칙."""
+def score_stance(stance, ret, deadband=1.0):
+    """분석가별 시간축에 대응하는 방향 채점 규칙."""
     if stance == "bull":
-        return "hit" if ret > 1 else ("miss" if ret < -1 else "mid")
+        return "hit" if ret > deadband else ("miss" if ret < -deadband else "mid")
     if stance == "bear":
-        return "hit" if ret < -1 else ("miss" if ret > 1 else "mid")
+        return "hit" if ret < -deadband else ("miss" if ret > deadband else "mid")
     return None
 
 
@@ -82,15 +85,15 @@ def main():
                           key=lambda r: r["date"])
             closes[code] = rows
 
-    def eval_ret(code, day, base):
-        """판단일(day) 이후 EVAL_DAYS번째 거래일 종가 대비 수익률 — index.html evalRet와 동일 규칙."""
+    def eval_ret(code, day, base, days):
+        """판단일 이후 지정한 거래일 종가 대비 수익률."""
         rows = closes.get(code)
         if not rows or not base:
             return None
         after = [r for r in rows if r["date"] > day]
-        if len(after) < EVAL_DAYS:
+        if len(after) < days:
             return None
-        return (after[EVAL_DAYS - 1]["close"] - base) / base * 100.0
+        return (after[days - 1]["close"] - base) / base * 100.0
 
     # 집계: 전체 + 업종별
     def zero():
@@ -108,10 +111,8 @@ def main():
             day = str(e.get("date", ""))[:10]
             if not base or not day:
                 continue
-            ret = eval_ret(code, day, base)
-            if ret is None:
-                continue
-            team_score = score_call(e.get("call"), ret)
+            team_ret = eval_ret(code, day, base, 5)
+            team_score = score_call(e.get("call"), team_ret) if team_ret is not None else None
             if team_score == "hit":
                 team_hit += 1
             elif team_score == "miss":
@@ -120,7 +121,11 @@ def main():
                 ana = e.get(a)
                 if not isinstance(ana, dict):
                     continue
-                s = score_stance(ana.get("stance"), ret)
+                rule = RULES[a]
+                ret = eval_ret(code, day, base, rule["days"])
+                if ret is None:
+                    continue
+                s = score_stance(ana.get("stance"), ret, rule["deadband"])
                 if s == "hit":
                     g[a]["hit"] += 1
                     sec.setdefault(sname, zero())[a]["hit"] += 1
@@ -129,14 +134,21 @@ def main():
                     sec.setdefault(sname, zero())[a]["miss"] += 1
 
     def weights_from(acc_tbl):
-        """적중률 → 가중치. 표본 미달 분석가는 중립 50 취급, [30,75] 클립 후 비례 배분."""
+        """역할 사전비중 × 베이지안 보정 적중률로 안정적인 가중치를 계산."""
         raw = {}
         stat = {}
         for a in ANALYSTS:
             n = acc_tbl[a]["hit"] + acc_tbl[a]["miss"]
             acc = (acc_tbl[a]["hit"] / n * 100) if n else None
-            stat[a] = {"n": n, "acc": round(acc, 1) if acc is not None else None}
-            raw[a] = 50.0 if (n < MIN_N_ANALYST or acc is None) else max(30.0, min(75.0, acc))
+            adjusted = (acc_tbl[a]["hit"] + BAYES_PRIOR_N * 0.5) / (n + BAYES_PRIOR_N)
+            stat[a] = {
+                "n": n,
+                "acc": round(acc, 1) if acc is not None else None,
+                "adjustedAcc": round(adjusted * 100, 1),
+                "days": RULES[a]["days"],
+                "deadband": RULES[a]["deadband"],
+            }
+            raw[a] = RULES[a]["prior"] * math.exp(SKILL_SENSITIVITY * (adjusted - 0.5))
         tot = sum(raw.values())
         return {a: round(raw[a] / tot, 4) for a in ANALYSTS}, stat
 
@@ -147,12 +159,20 @@ def main():
     for sname, tbl in sec.items():
         n_sec = sum(tbl[a]["hit"] + tbl[a]["miss"] for a in ANALYSTS)
         if n_sec >= MIN_N_SECTOR:
-            sw, sstat = weights_from(tbl)
-            sectors_out[sname] = {"weights": sw, "acc": sstat, "graded": n_sec}
+            local_w, sstat = weights_from(tbl)
+            blend = min(0.75, n_sec / (n_sec + SECTOR_SHRINK_N))
+            sw = {a: round(gw[a] * (1 - blend) + local_w[a] * blend, 4) for a in ANALYSTS}
+            norm = sum(sw.values()) or 1
+            sw = {a: round(sw[a] / norm, 4) for a in ANALYSTS}
+            sectors_out[sname] = {"weights": sw, "acc": sstat, "graded": n_sec,
+                                  "globalBlend": round(1 - blend, 3)}
 
     payload = {
         "generatedAt": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "evalDays": EVAL_DAYS,
+        "evalDays": 5,
+        "horizons": {a: {"days": RULES[a]["days"], "deadband": RULES[a]["deadband"]}
+                     for a in ANALYSTS},
+        "method": "role-prior-bayesian-shrinkage-v2",
         "global": {
             "weights": gw,
             "acc": gstat,
@@ -170,14 +190,14 @@ def main():
     body = json.dumps(payload, ensure_ascii=False, indent=1)
     header = (
         "// 자동 생성: compute_team_weights.py · 자가 학습 CHIEF 가중치\n"
-        "// history.js 채점 기록(판단 후 5거래일 뒤 종가)으로 분석가별 적중률을 집계해,\n"
-        "// 잘 맞는 분석가에게 더 큰 합산 가중치를 준다. analyze_auto.py(CHIEF)와\n"
-        "// index.html(리더보드 가중치 표시)이 읽는다. 없으면 균등(25%씩) 가중치로 동작.\n"
+        "// 분석가 역할에 맞는 기간(TARO·QUANT·FLOW 5일, DIANA 20일)으로 채점하고,\n"
+        "// 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.\n"
+        "// analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.\n"
     )
     with open(os.path.join(HERE, "team_weights.js"), "w", encoding="utf-8") as f:
         f.write(header + "const TEAM_WEIGHTS = " + body + ";\n")
 
-    wtxt = " · ".join(f"{a} {gw[a]*100:.0f}%(적중률 {gstat[a]['acc']}%·n{gstat[a]['n']})" for a in ANALYSTS)
+    wtxt = " · ".join(f"{a} {gw[a]*100:.0f}%(보정 {gstat[a]['adjustedAcc']}%·n{gstat[a]['n']})" for a in ANALYSTS)
     print(f"team_weights.js 저장 - 채점 {graded_total}건 · 전역 가중치: {wtxt} · 업종 오버라이드 {len(sectors_out)}개")
     return 0
 
