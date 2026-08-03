@@ -47,7 +47,7 @@ function bodyToHtml(raw) {
   return html;
 }
 
-function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml }) {
+function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml, noindex }) {
   const modified = updated || date;
   const ld = {
     "@context": "https://schema.org",
@@ -70,7 +70,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} · ${esc(SITE_NAME)}</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${esc(canonicalUrl)}">
+${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="canonical" href="${esc(canonicalUrl)}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
@@ -327,6 +327,10 @@ function buildStocks() {
           .map(x => ({ url: `${BASE}snap/stock/${x.code}.html`, title: `${x.name} 주가와 오늘 판단 보기` })),
         { url: `${BASE}snap/index.html`, title: `${t.sector || '시장'} 관련 최신 뉴스 보기` }
       ]),
+      // 500종목 자동/정밀 스냅샷은 룰엔진이 숫자만 바꿔 찍어내는 템플릿 페이지라
+      // 구글 애드센스가 "가치가 별로 없는 콘텐츠(자동 생성)"로 판단할 위험이 커서 색인 제외한다.
+      // 뉴스분석·주식공부·부동산공부·종목공부·계산기처럼 사람이 직접 쓴 글만 색인되게 유지.
+      noindex: true,
     });
     fs.writeFileSync(path.join(HERE, `snap/stock/${code}.html`), html);
     n++;
