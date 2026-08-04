@@ -5,7 +5,7 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Tue, 04 Aug 2026 04:13:49 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 04 Aug 2026 04:28:27 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
   <item>
     <title>한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나</title>
@@ -13,6 +13,14 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/37.html</guid>
     <category>뉴스분석</category>
     <description>정부가 반도체·2차전지·태양광 등 6대 전략산업에서 국내 생산량만큼 세금을 깎아주는 &apos;국내생산세액공제&apos;를 내년부터 10년간 시행하기로 했어요. 미국 IRA를 본뜬 제도라 &apos;한국판 IRA&apos;로 불려요.</description>
+    <pubDate>Tue, 04 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나</title>
+    <link>https://gaeoteam.com/snap/lesson/72.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/72.html</guid>
+    <category>주식공부</category>
+    <description>정부가 국내 주식·펀드에 투자하면 이자·배당소득을 전액 비과세해주는 &apos;생산적금융 ISA&apos;를 새로 만들기로 했어요. 34세 이하는 소득공제까지 더 받고, 기존 ISA는 가입기간이 3년에서 5년으로 늘어나요.</description>
     <pubDate>Tue, 04 Aug 2026 00:00:00 GMT</pubDate>
   </item>
   <item>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/18.html</guid>
     <category>뉴스분석</category>
     <description>중국 DRAM 업체 창신메모리(CXMT)가 상하이 커촹반 상장 첫날 공모가보다 465.82% 오른 49위안에 마감하며 중국 본토 A주 시가총액 1위에 올랐어요. 다만 시가총액 1위가 기술·매출 1위를 뜻하는 것은 아니며, 삼성전자와 SK하이닉스에는 당장 HBM보다 DDR5·LPDDR 같은 범용 메모리 가격 경쟁이 더 중요한 관찰 대상이에요.</description>
-    <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지</title>
-    <link>https://gaeoteam.com/snap/lesson/49.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/49.html</guid>
-    <category>주식공부</category>
-    <description>퇴사를 결정하기 전 마지막 급여, 퇴직금, 보험과 생활비를 순서대로 점검하는 안내입니다.</description>
     <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
