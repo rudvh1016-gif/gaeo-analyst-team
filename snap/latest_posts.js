@@ -19,6 +19,14 @@ const LATEST_POSTS = [
   "featured": false
  },
  {
+  "id": 72,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-04",
+  "title": "생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나",
+  "featured": false
+ },
+ {
   "id": 36,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,20 +81,12 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "S&P500 vs 나스닥100: 초보자를 위한 완전 비교",
   "featured": false
- },
- {
-  "id": 65,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "주식 주문 넣는 법: 시장가·지정가부터 체결까지",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 37,
  "study": 35,
- "lesson": 71,
+ "lesson": 72,
  "estate": 19,
  "calc": 14
 };
