@@ -1628,6 +1628,10 @@
   .tv-rsi-chart{width:100%;height:66px;display:block}
   .tv-macd-chart{width:100%;height:66px;display:block}
   .tv-note{margin-top:6px;font-size:9.5px;line-height:1.5;color:var(--faint);word-break:keep-all}
+  .tv-macd-help{display:grid;gap:3px;margin-top:8px;padding:9px 10px;border-radius:10px;
+    background:var(--bg);color:var(--dim);font-size:9px;line-height:1.55;word-break:keep-all}
+  .tv-macd-help strong{color:var(--ink);font-size:9.5px}
+  .tv-macd-help b{color:var(--t2);font-weight:800;font-variant-numeric:tabular-nums}
   .tv-regime{display:inline-flex;align-items:center;padding:3px 7px;border-radius:99px;font-size:9px;font-weight:800}
   .tv-regime-up{background:#ECFDF5;color:#2F8B73}.tv-regime-down{background:#FEF2F2;color:#D5535D}
   .tv-regime-neutral{background:var(--paper2);color:var(--dim)}
@@ -1695,6 +1699,7 @@
   .cards.busy .card:not(.on) ul li::after{content:"";position:absolute;inset:0;
     background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
     animation:shimmer 1.25s infinite}
+  .cards.busy .card:not(.on) ul li::before{display:none}
   .cards.busy .card:not(.on) ul li.ph{display:block}
   .cards.busy .card:not(.on) ul li:nth-child(2){width:82%}
   .cards.busy .card:not(.on) ul li:nth-child(3){width:58%}
@@ -1892,6 +1897,16 @@
   .card ul{margin:22px 0 0;padding:0;font-size:14px;line-height:1.75;color:var(--t2)}
   .card ul li{list-style:none;margin:0;padding:13px 0;border-top:1px solid var(--line)}
   .card ul li:last-child{padding-bottom:0}
+  /* 분석가 공통 근거 목록: 문장보다 중요도 기호를 먼저 읽도록 작고 촘촘하게 정리 */
+  .cards .card .analyst-findings{margin-top:18px;font-size:12.75px;line-height:1.58;color:var(--t2)}
+  .cards .card .analyst-findings li{display:grid;grid-template-columns:15px minmax(0,1fr);gap:6px;
+    align-items:start;padding:10px 0;margin:0}
+  .cards .card .analyst-findings li::before{content:"·";color:var(--dim);font-size:17px;font-weight:900;
+    line-height:1.05;text-align:center}
+  .cards .card .analyst-findings li.finding-key::before{content:"★";color:#C48122;font-size:11px;line-height:1.75}
+  .cards .card .analyst-findings li.finding-warn::before{content:"!";width:14px;height:14px;margin-top:2px;
+    border-radius:50%;background:#FEF2F2;color:var(--red);font-size:9px;line-height:14px}
+  .finding-copy{min-width:0;word-break:keep-all;overflow-wrap:break-word}
   .cards.busy .card:not(.on) ul li{padding:0;border:0}
   .taro-viz-holder{margin:22px 0 2px}
   .dna-comp{background:var(--bg);border-radius:16px;padding:18px}
@@ -1951,6 +1966,8 @@
     .card{border-radius:22px;padding:24px 22px 26px}
     .card .role{margin-bottom:20px}
     .card ul{font-size:13.5px}
+    .cards .card .analyst-findings{margin-top:15px;font-size:12px;line-height:1.55}
+    .cards .card .analyst-findings li{grid-template-columns:14px minmax(0,1fr);gap:5px;padding:9px 0}
     .verdict{margin-top:24px;border-radius:24px;padding:26px 18px}
     .verdict .top{align-items:flex-start}
     .verdict .call{font-size:38px}
@@ -5357,11 +5374,12 @@ function taroChartHTML(code){
   const mPath=arr=>arr.map((v,i)=>(i?'L':'M')+mx(i).toFixed(1)+' '+my(v).toFixed(1)).join(' ');
   const bars=hist.map((v,i)=>{const yy=barY(v),bw=Math.max(2,(mW-2*mPad)/m.length-2);return `<rect x="${(mx(i)-bw/2).toFixed(1)}" y="${Math.min(mZero,yy).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,Math.abs(yy-mZero)).toFixed(1)}" rx="1" fill="${v>=0?'#2F8B73':'#D5535D'}" opacity=".55"/>`}).join('');
   const diff=officialMacd-officialSignal,cross=diff>=0?'상승 모멘텀':'하락 모멘텀',fmtM=v=>Math.round(v).toLocaleString('ko-KR');
+  const signedDiff=`${diff>=0?'+':'-'}${fmtM(Math.abs(diff))}`;
   const mLastX=mx(m.length-1).toFixed(1);
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="63" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="63" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 시그널선보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 시그널선보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-macd-help"><strong>숫자 읽는 법</strong><span><b>MACD ${fmtM(officialMacd)}</b>: 12일 지수이동평균에서 26일 지수이동평균을 뺀 값이에요. <b>시그널 ${fmtM(officialSignal)}</b>: MACD의 9일 평균선이에요.</span><span>두 값의 차이 <b>${signedDiff}</b>: 히스토그램이에요. 지금은 MACD가 시그널보다 ${diff>=0?'높아 단기 상승 힘이 우세':'낮아 단기 하락 힘이 우세'}해요. 숫자 크기 자체보다 <b>두 선의 위아래와 간격 변화</b>를 확인하세요.</span></div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}</div>`;
 }
 
@@ -6747,7 +6765,7 @@ function makeCards(isLive){
          <div class="role">${a.role} · ${a.room}</div>
          <div class="scorewrap"><span class="score" id="sc-${a.id}" style="color:${a.color}">—</span><span class="score-max">/100</span></div>
          <div class="scorebar"><div class="scorebar-fill" id="bar-${a.id}"></div></div>
-         <ul id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li><li class="ph" aria-hidden="true"></li><li class="ph" aria-hidden="true"></li></ul>
+         <ul class="analyst-findings" id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li><li class="ph" aria-hidden="true"></li><li class="ph" aria-hidden="true"></li></ul>
        </div>`);
   });
   setAnalystTab(window.GaeoAnalystTab||'taro');
@@ -6775,6 +6793,20 @@ function countUp(el,target,dur){
     if(p<1) requestAnimationFrame(step);
   })(t0);
 }
+function findingClass(text,index,roleId){
+  const plain=String(text||'').replace(/<[^>]*>/g,' ');
+  const warns=/위험|급등락|급락|최대낙폭|데드크로스|과매수|하락|하회|약세|고평가|순매도|둔화|부족|부재|엇갈림|억제|낮춰|손절/.test(plain);
+  if(warns) return 'finding-warn';
+  const keys=/골든크로스|상승|강세|저평가|순매수|동반 매수|승률|적중|목표주가|여력|종합 반영/.test(plain);
+  if(index===0||keys||(roleId==='risk'&&index===3)) return 'finding-key';
+  return '';
+}
+function findingsHTML(items,roleId){
+  return (items||[]).map((finding,index)=>{
+    const cls=findingClass(finding,index,roleId);
+    return `<li${cls?` class="${cls}"`:''}><span class="finding-copy">${SIGNUM(wrapGloss(finding))}</span></li>`;
+  }).join('');
+}
 function fillCard(a,res,code){
   document.getElementById('card-'+a.id).classList.add('on');
   countUp(document.getElementById('sc-'+a.id),res.score,750);
@@ -6782,7 +6814,7 @@ function fillCard(a,res,code){
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
   const fx=document.getElementById('fx-'+a.id);
-  fx.innerHTML=res.findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('');
+  fx.innerHTML=findingsHTML(res.findings,a.id);
   if(a.id==='taro'){
     const viz=taroChartHTML(code);
     if(viz){ const holder=document.createElement('div'); holder.className='taro-viz-holder';
@@ -6836,7 +6868,7 @@ function renderRiskCard(code,data){
        <div class="role">리스크 관리 · 종합점수 단방향 안전장치</div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
-       <ul id="fx-risk">${findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('')}</ul>
+       <ul class="analyst-findings" id="fx-risk">${findingsHTML(findings,'risk')}</ul>
      </div>`);
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
