@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 37,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-04",
+  "title": "한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나",
+  "featured": false
+ },
+ {
   "id": 36,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "주식 주문 넣는 법: 시장가·지정가부터 체결까지",
   "featured": false
- },
- {
-  "id": 64,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "미국주식 사는 법: 계좌 개설부터 첫 매수까지",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 36,
+ "news": 37,
  "study": 35,
  "lesson": 71,
  "estate": 19,
