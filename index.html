@@ -1069,8 +1069,28 @@
   /* 🎯 애널리스트 개인 통산 적중률 배지 (카드 헤더) */
   .accb{font-size:10px;font-weight:800;color:#7C5A0B;background:#FEF3C7;border:1px solid #FDE68A;
     border-radius:99px;padding:2px 8px;margin-left:6px;white-space:nowrap;cursor:help;flex-shrink:0}
-  .eval-rule{font-size:10px;font-weight:700;color:#6D5A96;background:#F3F0FF;border:1px solid #DDD6FE;
-    border-radius:99px;padding:2px 8px;white-space:normal;line-height:1.35;max-width:100%;cursor:help;flex-shrink:0}
+  .eval-rule{appearance:none;font-family:inherit;font-size:10px;font-weight:700;color:#6D5A96;background:#F3F0FF;border:1px solid #DDD6FE;
+    border-radius:99px;padding:2px 8px;white-space:normal;line-height:1.35;max-width:100%;cursor:help;flex-shrink:0;text-align:left}
+  .eval-rule::after{content:"ⓘ";margin-left:4px;font-size:9px;opacity:.75}
+  .eval-rule:hover,.eval-rule:focus-visible,.eval-rule[aria-expanded="true"]{color:#4C347D;background:#EDE9FE;border-color:#A78BFA;outline:none}
+  html.gdark .eval-rule{color:#D8CBFF;background:#2B2340;border-color:#5B4A82}
+  html.gdark .eval-rule:hover,html.gdark .eval-rule:focus-visible,html.gdark .eval-rule[aria-expanded="true"]{color:#F1ECFF;background:#3B2F57;border-color:#9A82D1}
+  .eval-pop{position:fixed;z-index:340;width:340px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);overflow:auto;
+    background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:17px 18px 15px;
+    box-shadow:0 16px 42px -10px rgba(0,0,0,.32),0 3px 12px rgba(0,0,0,.10);
+    font-size:12.5px;line-height:1.68;opacity:0;transform:translateY(6px) scale(.98);pointer-events:none;
+    transition:opacity .16s,transform .16s;word-break:keep-all;overflow-wrap:anywhere}
+  .eval-pop.on{opacity:1;transform:none;pointer-events:auto}
+  .eval-pop-title{font-size:14px;font-weight:850;color:var(--navy);margin:0 28px 9px 0}
+  .eval-pop-body p{margin:8px 0;color:var(--t2)}
+  .eval-pop-body b{color:var(--ink)}
+  .eval-pop-close{position:absolute;top:10px;right:10px;border:none;background:var(--bg);color:var(--dim);
+    width:25px;height:25px;border-radius:50%;font-size:12px;cursor:pointer;line-height:1}
+  .eval-pop-close:hover,.eval-pop-close:focus-visible{background:var(--paper2);color:var(--ink);outline:2px solid var(--sky)}
+  html.gdark .eval-pop{background:#2C2C2E;color:#F5F5F7;border-color:#5A5A5E;
+    box-shadow:0 18px 48px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.04)}
+  html.gdark .eval-pop-title,html.gdark .eval-pop-body b{color:#FFFFFF;-webkit-text-fill-color:#FFFFFF}
+  html.gdark .eval-pop-body p{color:#E8E8ED;-webkit-text-fill-color:#E8E8ED}
   /* 🏷️ DIANA 업종 내 상대비교 */
   .dna-comp{margin:0 0 10px;padding:10px 13px;background:var(--paper2);border-radius:10px;
     font-size:12px;color:var(--t3);line-height:1.75}
@@ -3075,7 +3095,7 @@
 
       <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
         <div class="verdict" id="verdict">
-          <div class="analysis-eyebrow">개오팀 종합 판단 <span class="eval-rule" title="CHIEF는 네 분석가의 기본비중에 실제 적중률, 표본 보정, 업종별 성적을 반영해 발언권을 조절한 뒤 RISK 감점을 적용해 최종 판단합니다.">4인 보정 가중합 · RISK 감점 후 최종</span></div>
+          <div class="analysis-eyebrow">개오팀 종합 판단 <button type="button" class="eval-rule" data-eval-rule="chief" aria-haspopup="dialog" aria-expanded="false">4인 보정 가중합 · RISK 감점 후 최종</button></div>
           <div class="top">
             <span class="dot" id="vdot"></span>
             <span class="call" id="vcall"></span>
@@ -6588,29 +6608,138 @@ function setAnalystTab(key){
   });
   setAnalystTab('taro');
 })();
+const EVAL_RULE_DETAILS=Object.freeze({
+  taro:{
+    title:'TARO 평가 기준',
+    body:'<p><b>5거래일</b>: 판단한 날의 다음 거래일부터 세어 약 일주일 뒤 종가로 결과를 확인합니다.</p><p><b>±1% 초과 채점</b>: 강세 의견 뒤 +1%를 넘게 오르면 적중, -1%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -1% 이상 +1% 이하는 애매한 움직임이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 30%</b>: CHIEF가 네 분석가 의견을 합칠 때 TARO에 먼저 배정하는 시작 비중입니다. 상승확률이나 신뢰도 30%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 변동</b>: 기본값은 30%지만 실제 합산 비중은 적중률, 표본 수, 업종별 성적과 다른 분석가와의 오답 중복을 반영해 성적 재계산 때마다 높아지거나 낮아질 수 있습니다.</p>',
+  },
+  diana:{
+    title:'DIANA 평가 기준',
+    body:'<p><b>20거래일</b>: 판단한 날의 다음 거래일부터 세어 약 한 달 뒤 종가로 결과를 확인합니다. 재무와 기업가치는 단기 차트보다 가격에 반영되는 시간이 길어서 별도 기간을 씁니다.</p><p><b>±3% 초과 채점</b>: 강세 의견 뒤 +3%를 넘게 오르면 적중, -3%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -3% 이상 +3% 이하는 방향이 분명하지 않은 구간이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 12%</b>: CHIEF가 네 분석가 의견을 합칠 때 DIANA에 먼저 배정하는 시작 비중입니다. DIANA가 맞을 확률이나 신뢰도가 12%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 계속 변동</b>: 설계상 출발점인 12% 자체는 정책을 바꿀 때만 달라지지만, 화면의 실제 합산 비중은 20거래일 장기 적중률, 표본 수 보정, 업종별 성적과 오답 중복을 반영해 성적 재계산 때마다 12%보다 높아지거나 낮아질 수 있습니다.</p>',
+  },
+  nova:{
+    title:'QUANT 평가 기준',
+    body:'<p><b>5거래일</b>: 현재와 비슷했던 과거 사례가 약 일주일 뒤 어떻게 움직였는지 확인해 평가합니다.</p><p><b>±1% 초과 채점</b>: 의견 방향으로 1%를 넘게 움직이면 적중, 반대로 1%를 넘게 움직이면 오답입니다. -1% 이상 +1% 이하는 평가에서 제외합니다.</p><p><b>기본 28%</b>: CHIEF 합산의 시작 비중이며 확률 28%라는 뜻은 아닙니다. 실제 발언권은 적중률, 표본 수, 업종별 성적과 오답 중복에 따라 성적 재계산 때마다 달라질 수 있습니다.</p>',
+  },
+  flow:{
+    title:'FLOW 평가 기준',
+    body:'<p><b>5거래일</b>: 외국인과 기관 수급이 단기에 이어졌는지 약 일주일 뒤 종가로 확인합니다.</p><p><b>±1% 초과 채점</b>: 의견 방향으로 1%를 넘게 움직이면 적중, 반대로 1%를 넘게 움직이면 오답입니다. -1% 이상 +1% 이하는 평가에서 제외합니다.</p><p><b>기본 30%</b>: CHIEF 합산의 시작 비중이며 확률 30%라는 뜻은 아닙니다. 실제 발언권은 적중률, 표본 수, 업종별 성적과 오답 중복에 따라 성적 재계산 때마다 달라질 수 있습니다.</p>',
+  },
+  risk:{
+    title:'RISK 적용 기준',
+    body:'<p><b>가점 없음</b>: 저위험 종목이라고 종합점수를 올리지는 않습니다.</p><p><b>중위험</b>: 방향 점수는 유지하고 신뢰도만 낮춥니다.</p><p><b>고위험 최대 -7점</b>: 변동성과 최대 낙폭이 큰 종목은 종합점수를 최대 7점, 신뢰도를 10%p 낮춥니다. RISK는 매수나 매도 의견을 내는 분석가가 아니라 과한 확신을 막는 안전장치입니다.</p>',
+  },
+  chief:{
+    title:'CHIEF 최종 합산 기준',
+    body:'<p><b>4인 보정 가중합</b>: TARO, DIANA, QUANT, FLOW의 점수를 단순 평균하지 않고 역할별 기본비중에서 시작해 실제 적중률, 표본 수, 업종별 성적과 오답 중복을 반영한 현재 발언권으로 합칩니다.</p><p><b>RISK 감점 후 최종</b>: 합산한 방향 원점수에 RISK의 단방향 감점과 신뢰도 조정을 적용해 최종 BUY, HOLD, SELL을 결정합니다.</p>',
+  },
+});
+function evalRuleBadge(key,text){
+  return `<button type="button" class="eval-rule" data-eval-rule="${key}" aria-haspopup="dialog" aria-expanded="false">${text}</button>`;
+}
+(function wireEvalRuleHelp(){
+  let pop=null,openFor=null,pinned=false,closeTimer=0;
+  function ensurePop(){
+    if(pop) return pop;
+    pop=document.createElement('div');
+    pop.className='eval-pop';
+    pop.setAttribute('role','dialog');
+    pop.setAttribute('aria-modal','false');
+    pop.setAttribute('aria-label','채점 기준 상세 설명');
+    pop.innerHTML='<button type="button" class="eval-pop-close" aria-label="설명 닫기">✕</button><div class="eval-pop-title"></div><div class="eval-pop-body"></div>';
+    document.body.appendChild(pop);
+    pop.querySelector('.eval-pop-close').addEventListener('click',close);
+    pop.addEventListener('mouseenter',()=>clearTimeout(closeTimer));
+    pop.addEventListener('mouseleave',()=>{ if(!pinned) scheduleClose(); });
+    return pop;
+  }
+  function position(el){
+    const p=ensurePop(),r=el.getBoundingClientRect(),box=p.getBoundingClientRect(),margin=10;
+    const left=Math.min(Math.max(margin,r.left),Math.max(margin,window.innerWidth-box.width-margin));
+    let top=r.bottom+8;
+    if(top+box.height>window.innerHeight-margin) top=Math.max(margin,r.top-box.height-8);
+    p.style.left=left+'px';
+    p.style.top=top+'px';
+  }
+  function close(){
+    clearTimeout(closeTimer);
+    if(openFor) openFor.setAttribute('aria-expanded','false');
+    if(pop) pop.classList.remove('on');
+    openFor=null;
+    pinned=false;
+  }
+  function scheduleClose(){
+    clearTimeout(closeTimer);
+    closeTimer=setTimeout(()=>{ if(!pinned) close(); },100);
+  }
+  function open(el,pin){
+    const detail=EVAL_RULE_DETAILS[el.dataset.evalRule];
+    if(!detail) return;
+    clearTimeout(closeTimer);
+    if(openFor&&openFor!==el) openFor.setAttribute('aria-expanded','false');
+    openFor=el;
+    pinned=Boolean(pin);
+    const p=ensurePop();
+    p.querySelector('.eval-pop-title').textContent=detail.title;
+    p.querySelector('.eval-pop-body').innerHTML=detail.body;
+    el.setAttribute('aria-expanded','true');
+    p.classList.add('on');
+    position(el);
+  }
+  document.addEventListener('mouseover',event=>{
+    const el=event.target.closest&&event.target.closest('.eval-rule');
+    if(el&&!pinned) open(el,false);
+  });
+  document.addEventListener('mouseout',event=>{
+    const el=event.target.closest&&event.target.closest('.eval-rule');
+    if(el&&!pinned){
+      const next=event.relatedTarget;
+      if(!(next&&next.closest&&next.closest('.eval-pop'))) scheduleClose();
+    }
+  });
+  document.addEventListener('focusin',event=>{
+    const el=event.target.closest&&event.target.closest('.eval-rule');
+    if(el&&!pinned) open(el,false);
+  });
+  document.addEventListener('focusout',event=>{
+    if(event.target.closest&&event.target.closest('.eval-rule')&&!pinned){
+      const next=event.relatedTarget;
+      if(!(next&&next.closest&&next.closest('.eval-pop'))) scheduleClose();
+    }
+  });
+  document.addEventListener('click',event=>{
+    const el=event.target.closest&&event.target.closest('.eval-rule');
+    if(el){
+      event.preventDefault();
+      if(openFor===el&&pop&&pop.classList.contains('on')&&pinned) close();
+      else open(el,true);
+      return;
+    }
+    if(!(event.target.closest&&event.target.closest('.eval-pop'))) close();
+  });
+  document.addEventListener('keydown',event=>{ if(event.key==='Escape') close(); });
+  window.addEventListener('scroll',close,true);
+  window.addEventListener('resize',close);
+})();
 function makeCards(isLive){
   cardsEl.innerHTML='';
   const evalRules={
     taro:{
       text:'5거래일 · ±1% 초과 채점 · 기본 30%',
-      title:'TARO는 기술적 흐름과 매매 타이밍을 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 30%입니다.',
     },
     diana:{
       text:'20거래일 · ±3% 초과 채점 · 기본 12%',
-      title:'DIANA는 단기 타이밍이 아니라 기업의 중장기 재무·가치를 보므로 판단 후 20거래일 수익률로 채점합니다. ±3% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 12%입니다.',
     },
     nova:{
       text:'5거래일 · ±1% 초과 채점 · 기본 28%',
-      title:'QUANT는 과거의 비슷한 확률·통계 사례를 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 28%입니다.',
     },
     flow:{
       text:'5거래일 · ±1% 초과 채점 · 기본 30%',
-      title:'FLOW는 외국인·기관 등 수급의 단기 지속성을 보므로 판단 후 5거래일 수익률로 채점합니다. ±1% 이내 움직임은 평가를 보류하고, CHIEF 역할 기본비중은 30%입니다.',
     },
   };
   ['taro','diana','nova','flow'].map(id=>AGENTS.find(a=>a.id===id)).forEach(a=>{
     const rule=evalRules[a.id];
-    const evalRule=`<span class="eval-rule" title="${rule.title}">${rule.text}</span>`;
+    const evalRule=evalRuleBadge(a.id,rule.text);
     cardsEl.insertAdjacentHTML('beforeend',
       `<div class="card" id="card-${a.id}">
          <h3><span style="color:${a.color}">●</span> ${a.name}${isLive?'<span class="live">LIVE</span>':''}${evalRule}<span class="accb" id="acc-${a.id}" style="display:none"></span>
@@ -6703,7 +6832,7 @@ function renderRiskCard(code,data){
   ];
   cardsEl.insertAdjacentHTML('beforeend',
     `<div class="card on" id="card-risk">
-       <h3><span style="color:${RISK_COLOR}">●</span> RISK<span class="eval-rule" title="RISK는 매수·매도 의견을 내거나 저위험 종목에 가점을 주지 않습니다. 중위험은 신뢰도만 낮추고, 고위험은 종합점수를 최대 7점과 신뢰도를 10%p 낮춥니다.">가점 없음 · 고위험 최대 -7점</span><span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
+       <h3><span style="color:${RISK_COLOR}">●</span> RISK${evalRuleBadge('risk','가점 없음 · 고위험 최대 -7점')}<span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
        <div class="role">리스크 관리 · 종합점수 단방향 안전장치</div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
