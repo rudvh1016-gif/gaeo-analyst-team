@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-04 14:19",
+ "generatedAt": "2026-08-04 14:49",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -89,83 +89,83 @@ const MODEL_INTELLIGENCE = {
   "diana": {
    "40": {
     "n": 304,
-    "up": 36,
-    "raw": 0.1184,
-    "uncalibratedPUp": 0.1272,
-    "base": 0.2159,
-    "pUp": 0.1424
+    "up": 37,
+    "raw": 0.1217,
+    "uncalibratedPUp": 0.1304,
+    "base": 0.2189,
+    "pUp": 0.1445
    },
    "70": {
     "n": 320,
-    "up": 74,
-    "raw": 0.2313,
-    "uncalibratedPUp": 0.2299,
-    "base": 0.2159,
-    "pUp": 0.2299
+    "up": 75,
+    "raw": 0.2344,
+    "uncalibratedPUp": 0.2331,
+    "base": 0.2189,
+    "pUp": 0.2331
    },
    "50": {
     "n": 400,
-    "up": 71,
-    "raw": 0.1775,
-    "uncalibratedPUp": 0.1802,
-    "base": 0.2159,
-    "pUp": 0.1802
+    "up": 73,
+    "raw": 0.1825,
+    "uncalibratedPUp": 0.185,
+    "base": 0.2189,
+    "pUp": 0.185
    },
    "80": {
     "n": 360,
-    "up": 134,
-    "raw": 0.3722,
-    "uncalibratedPUp": 0.3602,
-    "base": 0.2159,
-    "pUp": 0.3319
+    "up": 135,
+    "raw": 0.375,
+    "uncalibratedPUp": 0.363,
+    "base": 0.2189,
+    "pUp": 0.3343
    },
    "30": {
     "n": 216,
     "up": 27,
     "raw": 0.125,
-    "uncalibratedPUp": 0.1361,
-    "base": 0.2159,
-    "pUp": 0.1424
+    "uncalibratedPUp": 0.1365,
+    "base": 0.2189,
+    "pUp": 0.1445
    },
    "90": {
     "n": 80,
     "up": 19,
     "raw": 0.2375,
-    "uncalibratedPUp": 0.2316,
-    "base": 0.2159,
-    "pUp": 0.3319
+    "uncalibratedPUp": 0.2324,
+    "base": 0.2189,
+    "pUp": 0.3343
    },
    "60": {
     "n": 316,
-    "up": 70,
-    "raw": 0.2215,
-    "uncalibratedPUp": 0.221,
-    "base": 0.2159,
-    "pUp": 0.221
+    "up": 71,
+    "raw": 0.2247,
+    "uncalibratedPUp": 0.2242,
+    "base": 0.2189,
+    "pUp": 0.2242
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.2159,
-    "base": 0.2159,
-    "pUp": 0.1424
+    "uncalibratedPUp": 0.2189,
+    "base": 0.2189,
+    "pUp": 0.1445
    },
    "10": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.2159,
-    "base": 0.2159,
-    "pUp": 0.1424
+    "uncalibratedPUp": 0.2189,
+    "base": 0.2189,
+    "pUp": 0.1445
    },
    "20": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.2159,
-    "base": 0.2159,
-    "pUp": 0.1424
+    "uncalibratedPUp": 0.2189,
+    "base": 0.2189,
+    "pUp": 0.1445
    }
   },
   "nova": {
@@ -335,8 +335,8 @@ const MODEL_INTELLIGENCE = {
  },
  "errorCorrelation": {
   "taro:diana": {
-   "n": 948,
-   "errorCorr": -0.069
+   "n": 950,
+   "errorCorr": -0.07
   },
   "taro:nova": {
    "n": 2750,
@@ -347,12 +347,12 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": 0.173
   },
   "diana:nova": {
-   "n": 573,
-   "errorCorr": -0.032
+   "n": 577,
+   "errorCorr": -0.035
   },
   "diana:flow": {
-   "n": 151,
-   "errorCorr": 0.183
+   "n": 152,
+   "errorCorr": 0.189
   },
   "nova:flow": {
    "n": 489,
@@ -361,19 +361,19 @@ const MODEL_INTELLIGENCE = {
  },
  "redundancyFactor": {
   "taro": 0.9539,
-  "diana": 0.998,
+  "diana": 0.9977,
   "nova": 0.9553,
-  "flow": 0.9967
+  "flow": 0.9963
  },
  "regimes": {
   "up_low": {
    "n": 1922,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3539,
-    "diana": 0.0558,
-    "nova": 0.3095,
-    "flow": 0.2807
+    "taro": 0.353,
+    "diana": 0.0559,
+    "nova": 0.311,
+    "flow": 0.2801
    },
    "acc": {
     "taro": {
@@ -398,10 +398,10 @@ const MODEL_INTELLIGENCE = {
    "n": 1555,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3449,
-    "diana": 0.0591,
-    "nova": 0.3138,
-    "flow": 0.2821
+    "taro": 0.344,
+    "diana": 0.0592,
+    "nova": 0.3154,
+    "flow": 0.2814
    },
    "acc": {
     "taro": {
@@ -423,13 +423,13 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_low": {
-   "n": 3254,
+   "n": 3257,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3464,
+    "taro": 0.3454,
     "diana": 0.0594,
-    "nova": 0.3292,
-    "flow": 0.265
+    "nova": 0.3308,
+    "flow": 0.2644
    },
    "acc": {
     "taro": {
@@ -437,8 +437,8 @@ const MODEL_INTELLIGENCE = {
      "adjustedAcc": 61.4
     },
     "diana": {
-     "n": 288,
-     "adjustedAcc": 40.8
+     "n": 291,
+     "adjustedAcc": 40.7
     },
     "nova": {
      "n": 1203,
@@ -454,10 +454,10 @@ const MODEL_INTELLIGENCE = {
    "n": 2139,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3458,
-    "diana": 0.0674,
-    "nova": 0.3161,
-    "flow": 0.2707
+    "taro": 0.3448,
+    "diana": 0.0675,
+    "nova": 0.3176,
+    "flow": 0.27
    },
    "acc": {
     "taro": {
@@ -482,10 +482,10 @@ const MODEL_INTELLIGENCE = {
    "n": 718,
    "blend": 0.473,
    "weights": {
-    "taro": 0.3313,
+    "taro": 0.3304,
     "diana": 0.0677,
-    "nova": 0.3221,
-    "flow": 0.2789
+    "nova": 0.3236,
+    "flow": 0.2782
    },
    "acc": {
     "taro": {
@@ -508,11 +508,11 @@ const MODEL_INTELLIGENCE = {
   }
  },
  "currentRegime": {
-  "key": "up_low",
+  "key": "up_high",
   "trend": "up",
-  "vol": "low",
-  "median5": 5.02,
-  "medianAbs1": 2.8
+  "vol": "high",
+  "median5": 5.85,
+  "medianAbs1": 3.44
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -520,44 +520,44 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 1500,
-  "errors": 604,
+  "errors": 612,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 526
+    "count": 534
    },
    {
     "label": "분석가 의견충돌",
-    "count": 457
+    "count": 462
    },
    {
     "label": "고변동성 국면",
-    "count": 434
+    "count": 442
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 55
+    "count": 54
    }
   ],
   "analystErrors": {
-   "taro": 369,
+   "taro": 376,
    "diana": 0,
    "nova": 176,
-   "flow": 69
+   "flow": 68
   },
   "regimeErrors": {
-   "down_high": 289,
+   "down_high": 297,
    "up_low": 170,
    "side_high": 145
   }
  },
  "shadow": {
   "n": 1500,
-  "baselineActionN": 523,
-  "baselineActionPrecision": 62.3,
-  "candidateActionN": 1322,
-  "candidateActionPrecision": 60.9,
-  "candidateCoverage": 88.1,
+  "baselineActionN": 518,
+  "baselineActionPrecision": 62.0,
+  "candidateActionN": 1324,
+  "candidateActionPrecision": 60.1,
+  "candidateCoverage": 88.3,
   "candidateCalls": {
    "BUY": 0,
    "HOLD": 2,
@@ -565,9 +565,9 @@ const MODEL_INTELLIGENCE = {
   },
   "testDays": 3,
   "testRegimes": 3,
-  "candidateAllCallAccuracy": 53.7,
-  "brier": 0.2482,
-  "rawBrier": 0.2419
+  "candidateAllCallAccuracy": 53.1,
+  "brier": 0.2529,
+  "rawBrier": 0.2416
  },
  "prospective": {
   "n": 0,
