@@ -5317,14 +5317,31 @@ function taroChartHTML(code){
     `<line x1="${rX(r)}" y1="8" x2="${rX(r)}" y2="46" stroke="${rc}" stroke-width="2"/><circle cx="${rX(r)}" cy="15" r="4" fill="${rc}" stroke="var(--paper)" stroke-width="2"/>`+
     `<text x="8" y="60" fill="var(--faint)" font-size="9">과매도 30</text><text x="${rW/2}" y="60" text-anchor="middle" fill="var(--faint)" font-size="9">중립</text><text x="${rW-8}" y="60" text-anchor="end" fill="var(--faint)" font-size="9">70 과매수</text></svg>`;
 
-  const mStart=Math.max(0,macd.length-32),m=macd.slice(mStart),s=signal.slice(mStart),hist=m.map((v,i)=>v-s[i]);
-  const mW=360,mH=66,mPad=7,mZero=35,mMax=Math.max(...m.map(Math.abs),...s.map(Math.abs),...hist.map(Math.abs),1),mx=i=>mPad+(mW-2*mPad)*i/Math.max(1,m.length-1),my=v=>mZero-v/mMax*25;
+  const mStart=Math.max(0,macd.length-32);
+  let m=macd.slice(mStart),s=signal.slice(mStart);
+  // ⚠️ 여기서 다시 계산한 MACD/시그널은 클라이언트가 가진 최근 구간 종가만으로 구한 근사값이라,
+  // 서버가 전체 시세 이력으로 미리 구해둔 공식값(t.macd·t.macdSignal)과 최신 지점에서 어긋날 수 있다.
+  // 어긋난 채로 그리면 "그래프는 시그널선이 위인데 문구는 골든크로스"처럼 그래프와 문구가 모순돼
+  // 보이므로, 최신 지점을 공식값에 맞춰 상수만큼 평행이동시켜 그래프·배지·문구가 항상 같은 결론을
+  // 가리키게 한다(과거 구간의 흐름 모양 자체는 그대로 유지된다).
+  const officialMacd=Number.isFinite(t.macd)?t.macd:m[m.length-1];
+  const officialSignal=Number.isFinite(t.macdSignal)?t.macdSignal:s[s.length-1];
+  m=m.map(v=>v+(officialMacd-m[m.length-1])); s=s.map(v=>v+(officialSignal-s[s.length-1]));
+  const hist=m.map((v,i)=>v-s[i]);
+  const mW=360,mH=66,mPad=7,mZero=35,mx=i=>mPad+(mW-2*mPad)*i/Math.max(1,m.length-1);
+  // 선(MACD·시그널)과 막대(히스토그램=둘의 차이)를 같은 축에 그리면, 종목 주가가 커서 MACD 절대값이
+  // 클 때 정작 중요한 "차이"인 히스토그램이 눈에 안 보일 만큼 납작해진다. 그래서 기준선(0)은 공유하되
+  // 막대는 히스토그램 자체의 값 범위로 따로 스케일을 잡아 — 절대값이 아무리 커도 — 항상 눈에 보이게 한다.
+  const lineMax=Math.max(...m.map(Math.abs),...s.map(Math.abs),1), my=v=>mZero-v/lineMax*25;
+  const histMax=Math.max(...hist.map(Math.abs),1), barY=v=>mZero-v/histMax*22;
   const mPath=arr=>arr.map((v,i)=>(i?'L':'M')+mx(i).toFixed(1)+' '+my(v).toFixed(1)).join(' ');
-  const bars=hist.map((v,i)=>{const yy=my(v),bw=Math.max(2,(mW-2*mPad)/m.length-2);return `<rect x="${(mx(i)-bw/2).toFixed(1)}" y="${Math.min(mZero,yy).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,Math.abs(yy-mZero)).toFixed(1)}" rx="1" fill="${v>=0?'#2F8B73':'#D5535D'}" opacity=".42"/>`}).join('');
-  const diff=Number.isFinite(t.macd)&&Number.isFinite(t.macdSignal)?t.macd-t.macdSignal:hist[hist.length-1],cross=diff>=0?'상승 모멘텀':'하락 모멘텀';
-  const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD와 시그널 추세"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/><text x="${mPad}" y="63" fill="var(--faint)" font-size="9">히스토그램</text><text x="${mW-mPad}" y="63" text-anchor="end" fill="var(--faint)" font-size="9">MACD · Signal</text></svg>`;
+  const bars=hist.map((v,i)=>{const yy=barY(v),bw=Math.max(2,(mW-2*mPad)/m.length-2);return `<rect x="${(mx(i)-bw/2).toFixed(1)}" y="${Math.min(mZero,yy).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,Math.abs(yy-mZero)).toFixed(1)}" rx="1" fill="${v>=0?'#2F8B73':'#D5535D'}" opacity=".55"/>`}).join('');
+  const diff=officialMacd-officialSignal,cross=diff>=0?'상승 모멘텀':'하락 모멘텀',fmtM=v=>Math.round(v).toLocaleString('ko-KR');
+  const mLastX=mx(m.length-1).toFixed(1);
+  const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
+  const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세 — 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="63" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="63" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록선이 시그널선보다 ${diff>=0?'위에 있어 상승 힘이 우세합니다.':'아래에 있어 하락 힘이 우세합니다.'}</div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 시그널선보다 ${diff>=0?`위에 있어 ${term('골든크로스')} — 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} — 하락 힘이 우세합니다.`}</div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}</div>`;
 }
 
