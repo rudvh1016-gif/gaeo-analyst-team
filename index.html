@@ -8129,6 +8129,35 @@ window.GaeoContentAd=(function(){
       +tx(240,206,'기준선 위(오래된 권리) → 낙찰과 함께 전부 소멸',undefined,11.5,'#8a95a0')
       +tx(240,224,'기준선 아래(대항력 있는 세입자 등) → 낙찰자가 떠안을 수 있음',undefined,11.5,'#8a95a0')
       +tx(240,246,'그래서 입찰 전 "말소기준권리가 몇 번째인지" 확인이 핵심이에요',undefined,11.5,RED,1));
+    // ⑯ ISA 제도 정비(2026 세제개편, 조특법 §91의18) — 현행 vs 개정안 표
+    A['isa-reform-table']=(function(){
+      const L=10,C1=124,C2=316,W1=C2-C1-6,W2=520-C2-10,RH=[36,58,74,52,50];
+      let y=10,s='';
+      // 헤더
+      s+='<rect x="'+L+'" y="'+y+'" width="500" height="'+RH[0]+'" fill="'+BLUE+'" rx="6"/>';
+      s+=tx(C1+W1/2,y+23,'현행',undefined,13,'#fff',1)+tx(C2+W2/2,y+23,'개정안',undefined,13,'#fff',1);
+      y+=RH[0]+4;
+      const rows=[
+        ['계약기간','최소 3년,\n이후 제한 없이 연장','최초 3년,\n총 5년까지 연장',true],
+        ['연 납입한도','2천만원×(1+가입경과연수)\n− 누적납입액 (최대 4년)','매년 2천만원\n(계산식 단순화)',true],
+        ['총 납입한도','1억원','1억원 (동일)',false],
+        ['적용기한','규정 없음',"'29.12.31까지\n가입분",true],
+      ];
+      rows.forEach((r,i)=>{
+        const h=RH[i+1], mid=y+h/2, changed=r[3];
+        s+='<rect x="'+L+'" y="'+y+'" width="500" height="'+h+'" fill="'+(i%2?'#f4f6f8':'#fff')+'" stroke="'+GRAY+'" stroke-width="1"/>';
+        if(changed) s+='<rect x="'+C2+'" y="'+y+'" width="'+W2+'" height="'+h+'" fill="'+BLUE+'12"/>';
+        s+=tx(L+8,mid+4,r[0],'start',12,INK,1);
+        const put=(cx,txt)=>{
+          const parts=String(txt).split('\n');
+          if(parts.length===1) s+=tx(cx,mid+4,parts[0],undefined,11.5,INK);
+          else s+=tx(cx,mid-4,parts[0],undefined,11.5,INK)+tx(cx,mid+13,parts[1],undefined,11.5,INK);
+        };
+        put(C1+W1/2,r[1]); put(C2+W2/2,r[2]);
+        y+=h;
+      });
+      return svg(520,y+8,s);
+    })();
     return A;
   })();
   function bodyHTML(md){
