@@ -158,7 +158,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 73400
+     "close": 75700
     }
    ],
    "start": "2026-07-30",
@@ -322,7 +322,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 246500
+     "close": 248500
     }
    ],
    "start": "2026-07-30",
@@ -486,7 +486,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1666000
+     "close": 1690000
     }
    ],
    "start": "2026-07-30",
@@ -650,7 +650,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1121000
+     "close": 1131000
     }
    ],
    "start": "2026-07-30",
@@ -814,7 +814,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1316000
+     "close": 1342000
     }
    ],
    "start": "2026-07-30",
@@ -978,7 +978,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 466500
+     "close": 475500
     }
    ],
    "start": "2026-07-30",
@@ -1142,7 +1142,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 596000
+     "close": 603000
     }
    ],
    "start": "2026-07-30",
@@ -1306,7 +1306,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 762000
+     "close": 769000
     }
    ],
    "start": "2026-07-30",
@@ -1470,7 +1470,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 405000
+     "close": 406000
     }
    ],
    "start": "2026-07-30",
@@ -1630,7 +1630,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 208500
+     "close": 212500
     }
    ],
    "start": "2026-07-31",
@@ -1790,7 +1790,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 208500
+     "close": 209000
     }
    ],
    "start": "2026-07-31",
@@ -1950,7 +1950,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 83500
+     "close": 84300
     }
    ],
    "start": "2026-07-31",
@@ -2110,7 +2110,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 95700
+     "close": 93200
     }
    ],
    "start": "2026-07-31",
@@ -2266,7 +2266,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 230000
+     "close": 230500
     }
    ],
    "start": "2026-08-03",
@@ -2422,7 +2422,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 38300
+     "close": 38150
     }
    ],
    "start": "2026-08-03",
@@ -2578,7 +2578,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 133000
+     "close": 133300
     }
    ],
    "start": "2026-08-03",
@@ -2734,7 +2734,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 171200
+     "close": 171000
     }
    ],
    "start": "2026-08-03",
@@ -2890,7 +2890,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 102300
+     "close": 101400
     }
    ],
    "start": "2026-08-03",
@@ -3046,7 +3046,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 335500
+     "close": 332000
     }
    ],
    "start": "2026-08-03",
@@ -3202,7 +3202,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 283000
+     "close": 286500
     }
    ],
    "start": "2026-08-03",
@@ -3514,7 +3514,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 341000
+     "close": 346500
     }
    ],
    "start": "2026-08-03",
@@ -3670,7 +3670,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 508000
+     "close": 507000
     }
    ],
    "start": "2026-08-03",
@@ -3826,7 +3826,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 103900
+     "close": 103500
     }
    ],
    "start": "2026-08-03",
@@ -3982,7 +3982,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 76300
+     "close": 77100
     }
    ],
    "start": "2026-08-03",
@@ -4138,7 +4138,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1006000
+     "close": 1008000
     }
    ],
    "start": "2026-08-03",
@@ -4294,7 +4294,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 558000
+     "close": 564000
     }
    ],
    "start": "2026-08-03",
@@ -4606,7 +4606,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 191100
+     "close": 190800
     }
    ],
    "start": "2026-08-03",
@@ -4762,7 +4762,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 129100
+     "close": 128200
     }
    ],
    "start": "2026-08-03",
@@ -5074,7 +5074,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 178000
+     "close": 180000
     }
    ],
    "start": "2026-08-03",
@@ -5230,7 +5230,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 634000
+     "close": 632000
     }
    ],
    "start": "2026-08-03",
@@ -5386,7 +5386,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 2937500
+     "close": 2991500
     }
    ],
    "start": "2026-08-03",
@@ -5542,7 +5542,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 90800
+     "close": 91600
     }
    ],
    "start": "2026-08-03",
@@ -5698,7 +5698,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 319000
+     "close": 317000
     }
    ],
    "start": "2026-08-03",
@@ -5854,7 +5854,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 395500
+     "close": 396500
     }
    ],
    "start": "2026-08-03",
@@ -6010,7 +6010,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 34800
+     "close": 35000
     }
    ],
    "start": "2026-08-03",
@@ -6166,7 +6166,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35900
+     "close": 35750
     }
    ],
    "start": "2026-08-03",
@@ -6322,7 +6322,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 33650
+     "close": 33450
     }
    ],
    "start": "2026-08-03",
@@ -6478,7 +6478,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1256000
+     "close": 1266000
     }
    ],
    "start": "2026-08-03",
@@ -6634,7 +6634,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1093000
+     "close": 1109000
     }
    ],
    "start": "2026-08-03",
@@ -6790,7 +6790,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22050
+     "close": 22250
     }
    ],
    "start": "2026-08-03",
@@ -6946,7 +6946,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 146000
+     "close": 145800
     }
    ],
    "start": "2026-08-03",
@@ -7102,7 +7102,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 121600
+     "close": 120600
     }
    ],
    "start": "2026-08-03",
@@ -7258,7 +7258,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 259000
+     "close": 256500
     }
    ],
    "start": "2026-08-03",
@@ -7414,7 +7414,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21000
+     "close": 20950
     }
    ],
    "start": "2026-08-03",
@@ -7570,7 +7570,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 175900
+     "close": 176100
     }
    ],
    "start": "2026-08-03",
@@ -7726,7 +7726,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 108800
+     "close": 108500
     }
    ],
    "start": "2026-08-03",
@@ -8038,7 +8038,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 800000
+     "close": 795000
     }
    ],
    "start": "2026-08-03",
@@ -8194,7 +8194,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 214500
+     "close": 218000
     }
    ],
    "start": "2026-08-03",
@@ -8350,7 +8350,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 226500
+     "close": 229500
     }
    ],
    "start": "2026-08-03",
@@ -8506,7 +8506,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 105450
+     "close": 105900
     }
    ],
    "start": "2026-08-03",
@@ -8662,7 +8662,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 123000
+     "close": 122600
     }
    ],
    "start": "2026-08-03",
@@ -8818,7 +8818,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 205500
+     "close": 204500
     }
    ],
    "start": "2026-08-03",
@@ -8974,7 +8974,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 144600
+     "close": 144200
     }
    ],
    "start": "2026-08-03",
@@ -9130,7 +9130,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 373500
+     "close": 359500
     }
    ],
    "start": "2026-08-03",
@@ -9286,7 +9286,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 52700
+     "close": 53000
     }
    ],
    "start": "2026-08-03",
@@ -9442,7 +9442,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 72400
+     "close": 72200
     }
    ],
    "start": "2026-08-03",
@@ -9598,7 +9598,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 407000
+     "close": 419500
     }
    ],
    "start": "2026-08-03",
@@ -9754,7 +9754,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 110000
+     "close": 109900
     }
    ],
    "start": "2026-08-03",
@@ -9910,7 +9910,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27950
+     "close": 28000
     }
    ],
    "start": "2026-08-03",
@@ -10066,7 +10066,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 234500
+     "close": 230500
     }
    ],
    "start": "2026-08-03",
@@ -10222,7 +10222,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21725
+     "close": 21500
     }
    ],
    "start": "2026-08-03",
@@ -10378,7 +10378,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 330500
+     "close": 329000
     }
    ],
    "start": "2026-08-03",
@@ -10534,7 +10534,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 157400
+     "close": 155200
     }
    ],
    "start": "2026-08-03",
@@ -10690,7 +10690,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 97300
+     "close": 97600
     }
    ],
    "start": "2026-08-03",
@@ -10846,7 +10846,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27150
+     "close": 27025
     }
    ],
    "start": "2026-08-03",
@@ -11002,7 +11002,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 181700
+     "close": 180500
     }
    ],
    "start": "2026-08-03",
@@ -11158,7 +11158,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 125800
+     "close": 124200
     }
    ],
    "start": "2026-08-03",
@@ -11314,7 +11314,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 68600
+     "close": 68800
     }
    ],
    "start": "2026-08-03",
@@ -11470,7 +11470,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 195700
+     "close": 192700
     }
    ],
    "start": "2026-08-03",
@@ -11626,7 +11626,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 294000
+     "close": 293500
     }
    ],
    "start": "2026-08-03",
@@ -11782,7 +11782,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 54300
+     "close": 53900
     }
    ],
    "start": "2026-08-03",
@@ -11938,7 +11938,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 49000
+     "close": 48900
     }
    ],
    "start": "2026-08-03",
@@ -12094,7 +12094,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1237000
+     "close": 1207000
     }
    ],
    "start": "2026-08-03",
@@ -12250,7 +12250,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 95800
+     "close": 95700
     }
    ],
    "start": "2026-08-03",
@@ -12406,7 +12406,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 132900
+     "close": 132100
     }
    ],
    "start": "2026-08-03",
@@ -12562,7 +12562,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 83400
+     "close": 82700
     }
    ],
    "start": "2026-08-03",
@@ -12718,7 +12718,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 94200
+     "close": 93200
     }
    ],
    "start": "2026-08-03",
@@ -12874,7 +12874,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 15100
+     "close": 15040
     }
    ],
    "start": "2026-08-03",
@@ -13030,7 +13030,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 65000
+     "close": 64900
     }
    ],
    "start": "2026-08-03",
@@ -13186,7 +13186,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 105300
+     "close": 107000
     }
    ],
    "start": "2026-08-03",
@@ -13342,7 +13342,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 429000
+     "close": 433000
     }
    ],
    "start": "2026-08-03",
@@ -13498,7 +13498,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 275500
+     "close": 278000
     }
    ],
    "start": "2026-08-03",
@@ -13654,7 +13654,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 83200
+     "close": 82200
     }
    ],
    "start": "2026-08-03",
@@ -13810,7 +13810,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 141000
+     "close": 141800
     }
    ],
    "start": "2026-08-03",
@@ -13966,7 +13966,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 470500
+     "close": 479000
     }
    ],
    "start": "2026-08-03",
@@ -14122,7 +14122,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 98200
+     "close": 98300
     }
    ],
    "start": "2026-08-03",
@@ -14278,7 +14278,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 66600
+     "close": 66200
     }
    ],
    "start": "2026-08-03",
@@ -14434,7 +14434,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 127300
+     "close": 127700
     }
    ],
    "start": "2026-08-03",
@@ -14590,7 +14590,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35250
+     "close": 35500
     }
    ],
    "start": "2026-08-03",
@@ -14746,7 +14746,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 170800
+     "close": 167900
     }
    ],
    "start": "2026-08-03",
@@ -14902,7 +14902,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 330000
+     "close": 329500
     }
    ],
    "start": "2026-08-03",
@@ -15058,7 +15058,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 99800
+     "close": 101500
     }
    ],
    "start": "2026-08-03",
@@ -15214,7 +15214,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 81500
+     "close": 80700
     }
    ],
    "start": "2026-08-03",
@@ -15370,7 +15370,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 111300
+     "close": 110300
     }
    ],
    "start": "2026-08-03",
@@ -15526,7 +15526,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 125400
+     "close": 124200
     }
    ],
    "start": "2026-08-03",
@@ -15838,7 +15838,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 137400
+     "close": 137600
     }
    ],
    "start": "2026-08-03",
@@ -15994,7 +15994,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 380500
+     "close": 378000
     }
    ],
    "start": "2026-08-03",
@@ -16150,7 +16150,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 142000
+     "close": 141200
     }
    ],
    "start": "2026-08-03",
@@ -16306,7 +16306,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 45550
+     "close": 45100
     }
    ],
    "start": "2026-08-03",
@@ -16462,7 +16462,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 143800
+     "close": 149400
     }
    ],
    "start": "2026-08-03",
@@ -16618,7 +16618,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37900
+     "close": 37350
     }
    ],
    "start": "2026-08-03",
@@ -16774,7 +16774,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 203000
+     "close": 201500
     }
    ],
    "start": "2026-08-03",
@@ -16930,7 +16930,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 261000
+     "close": 260000
     }
    ],
    "start": "2026-08-03",
@@ -17086,7 +17086,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31950
+     "close": 31850
     }
    ],
    "start": "2026-08-03",
@@ -17242,7 +17242,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 187700
+     "close": 184800
     }
    ],
    "start": "2026-08-03",
@@ -17398,7 +17398,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 101800
+     "close": 100900
     }
    ],
    "start": "2026-08-03",
@@ -17554,7 +17554,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37450
+     "close": 36750
     }
    ],
    "start": "2026-08-03",
@@ -17710,7 +17710,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 284000
+     "close": 286500
     }
    ],
    "start": "2026-08-03",
@@ -17866,7 +17866,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42000
+     "close": 41900
     }
    ],
    "start": "2026-08-03",
@@ -18022,7 +18022,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35300
+     "close": 35000
     }
    ],
    "start": "2026-08-03",
@@ -18178,7 +18178,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 30800
+     "close": 31000
     }
    ],
    "start": "2026-08-03",
@@ -18334,7 +18334,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 69800
+     "close": 69400
     }
    ],
    "start": "2026-08-03",
@@ -18490,7 +18490,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 172400
+     "close": 173100
     }
    ],
    "start": "2026-08-03",
@@ -18646,7 +18646,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 58800
+     "close": 57800
     }
    ],
    "start": "2026-08-03",
@@ -18802,7 +18802,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 146000
+     "close": 145700
     }
    ],
    "start": "2026-08-03",
@@ -18958,7 +18958,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 210000
+     "close": 209000
     }
    ],
    "start": "2026-08-03",
@@ -19114,7 +19114,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16140
+     "close": 16170
     }
    ],
    "start": "2026-08-03",
@@ -19270,7 +19270,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 72200
+     "close": 73200
     }
    ],
    "start": "2026-08-03",
@@ -19582,7 +19582,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 137600
+     "close": 142300
     }
    ],
    "start": "2026-08-03",
@@ -19738,7 +19738,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 28050
+     "close": 28200
     }
    ],
    "start": "2026-08-03",
@@ -19894,7 +19894,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 165100
+     "close": 166700
     }
    ],
    "start": "2026-08-03",
@@ -20050,7 +20050,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 46750
+     "close": 46600
     }
    ],
    "start": "2026-08-03",
@@ -20206,7 +20206,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9820
+     "close": 9815
     }
    ],
    "start": "2026-08-03",
@@ -20362,7 +20362,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 30950
+     "close": 31050
     }
    ],
    "start": "2026-08-03",
@@ -20518,7 +20518,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 76300
+     "close": 75500
     }
    ],
    "start": "2026-08-03",
@@ -20674,7 +20674,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 130800
+     "close": 131100
     }
    ],
    "start": "2026-08-03",
@@ -20986,7 +20986,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 90500
+     "close": 90300
     }
    ],
    "start": "2026-08-03",
@@ -21142,7 +21142,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42750
+     "close": 41950
     }
    ],
    "start": "2026-08-03",
@@ -21298,7 +21298,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 386000
+     "close": 385500
     }
    ],
    "start": "2026-08-03",
@@ -21454,7 +21454,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27500
+     "close": 27350
     }
    ],
    "start": "2026-08-03",
@@ -21610,7 +21610,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 71400
+     "close": 72500
     }
    ],
    "start": "2026-08-03",
@@ -21766,7 +21766,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 80800
+     "close": 81400
     }
    ],
    "start": "2026-08-03",
@@ -21922,7 +21922,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 113100
+     "close": 114500
     }
    ],
    "start": "2026-08-03",
@@ -22078,7 +22078,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 154600
+     "close": 157900
     }
    ],
    "start": "2026-08-03",
@@ -22234,7 +22234,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 135900
+     "close": 138300
     }
    ],
    "start": "2026-08-03",
@@ -22390,7 +22390,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 80300
+     "close": 80200
     }
    ],
    "start": "2026-08-03",
@@ -22546,7 +22546,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4355
+     "close": 4335
     }
    ],
    "start": "2026-08-03",
@@ -22702,7 +22702,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 101900
+     "close": 102100
     }
    ],
    "start": "2026-08-03",
@@ -22858,7 +22858,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 413500
+     "close": 435000
     }
    ],
    "start": "2026-08-03",
@@ -23014,7 +23014,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 44950
+     "close": 45800
     }
    ],
    "start": "2026-08-03",
@@ -23170,7 +23170,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 87500
+     "close": 88500
     }
    ],
    "start": "2026-08-03",
@@ -23326,7 +23326,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 3500
+     "close": 3495
     }
    ],
    "start": "2026-08-03",
@@ -23482,7 +23482,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 244000
+     "close": 249500
     }
    ],
    "start": "2026-08-03",
@@ -23638,7 +23638,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 301500
+     "close": 297000
     }
    ],
    "start": "2026-08-03",
@@ -23794,7 +23794,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 115100
+     "close": 111300
     }
    ],
    "start": "2026-08-03",
@@ -23950,7 +23950,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27500
+     "close": 27950
     }
    ],
    "start": "2026-08-03",
@@ -24181,7 +24181,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 36700
+     "close": 36750
     }
    ],
    "start": "2026-08-03",
@@ -24337,7 +24337,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 60600
+     "close": 60800
     }
    ],
    "start": "2026-08-03",
@@ -24493,7 +24493,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14410
+     "close": 14260
     }
    ],
    "start": "2026-08-03",
@@ -24649,7 +24649,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 29700
+     "close": 35150
     }
    ],
    "start": "2026-08-03",
@@ -24805,7 +24805,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 38650
+     "close": 38450
     }
    ],
    "start": "2026-08-03",
@@ -24961,7 +24961,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 20800
+     "close": 20900
     }
    ],
    "start": "2026-08-03",
@@ -25117,7 +25117,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 34275
+     "close": 34150
     }
    ],
    "start": "2026-08-03",
@@ -25273,7 +25273,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42850
+     "close": 42600
     }
    ],
    "start": "2026-08-03",
@@ -25429,7 +25429,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 53700
+     "close": 53500
     }
    ],
    "start": "2026-08-03",
@@ -25585,7 +25585,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 64500
+     "close": 65700
     }
    ],
    "start": "2026-08-03",
@@ -25741,7 +25741,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 117700
+     "close": 118800
     }
    ],
    "start": "2026-08-03",
@@ -26053,7 +26053,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 197900
+     "close": 199200
     }
    ],
    "start": "2026-08-03",
@@ -26209,7 +26209,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17340
+     "close": 17230
     }
    ],
    "start": "2026-08-03",
@@ -26365,7 +26365,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5850
+     "close": 5860
     }
    ],
    "start": "2026-08-03",
@@ -26521,7 +26521,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 73400
+     "close": 73700
     }
    ],
    "start": "2026-08-03",
@@ -26677,7 +26677,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 225000
+     "close": 226500
     }
    ],
    "start": "2026-08-03",
@@ -26833,7 +26833,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31450
+     "close": 31650
     }
    ],
    "start": "2026-08-03",
@@ -26989,7 +26989,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 71700
+     "close": 71300
     }
    ],
    "start": "2026-08-03",
@@ -27145,7 +27145,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 33950
+     "close": 34100
     }
    ],
    "start": "2026-08-03",
@@ -27301,7 +27301,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 57800
+     "close": 58050
     }
    ],
    "start": "2026-08-03",
@@ -27457,7 +27457,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 162000
+     "close": 163400
     }
    ],
    "start": "2026-08-03",
@@ -27613,7 +27613,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 55900
+     "close": 56000
     }
    ],
    "start": "2026-08-03",
@@ -27925,7 +27925,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 147300
+     "close": 148100
     }
    ],
    "start": "2026-08-03",
@@ -28081,7 +28081,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 102500
+     "close": 102300
     }
    ],
    "start": "2026-08-03",
@@ -28237,7 +28237,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16680
+     "close": 16850
     }
    ],
    "start": "2026-08-03",
@@ -28393,7 +28393,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 237000
+     "close": 233000
     }
    ],
    "start": "2026-08-03",
@@ -28549,7 +28549,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 195100
+     "close": 192800
     }
    ],
    "start": "2026-08-03",
@@ -28705,7 +28705,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 69600
+     "close": 70500
     }
    ],
    "start": "2026-08-03",
@@ -28861,7 +28861,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13840
+     "close": 13910
     }
    ],
    "start": "2026-08-03",
@@ -29017,7 +29017,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 25650
+     "close": 25550
     }
    ],
    "start": "2026-08-03",
@@ -29329,7 +29329,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22700
+     "close": 22800
     }
    ],
    "start": "2026-08-03",
@@ -29485,7 +29485,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 50300
+     "close": 50600
     }
    ],
    "start": "2026-08-03",
@@ -29641,7 +29641,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 49450
+     "close": 48900
     }
    ],
    "start": "2026-08-03",
@@ -29797,7 +29797,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40400
+     "close": 40150
     }
    ],
    "start": "2026-08-03",
@@ -30109,7 +30109,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7480
+     "close": 7410
     }
    ],
    "start": "2026-08-03",
@@ -30421,7 +30421,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 12180
+     "close": 12050
     }
    ],
    "start": "2026-08-03",
@@ -30733,7 +30733,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 378000
+     "close": 376500
     }
    ],
    "start": "2026-08-03",
@@ -30889,7 +30889,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 18760
+     "close": 18690
     }
    ],
    "start": "2026-08-03",
@@ -31045,7 +31045,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 123600
+     "close": 123500
     }
    ],
    "start": "2026-08-03",
@@ -31201,7 +31201,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 45700
+     "close": 46050
     }
    ],
    "start": "2026-08-03",
@@ -31357,7 +31357,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 58800
+     "close": 59600
     }
    ],
    "start": "2026-08-03",
@@ -31513,7 +31513,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 46800
+     "close": 46650
     }
    ],
    "start": "2026-08-03",
@@ -31669,7 +31669,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 32500
+     "close": 32150
     }
    ],
    "start": "2026-08-03",
@@ -31981,7 +31981,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42150
+     "close": 41950
     }
    ],
    "start": "2026-08-03",
@@ -32137,7 +32137,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 198100
+     "close": 196900
     }
    ],
    "start": "2026-08-03",
@@ -32293,7 +32293,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 73100
+     "close": 73400
     }
    ],
    "start": "2026-08-03",
@@ -32449,7 +32449,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 59800
+     "close": 60300
     }
    ],
    "start": "2026-08-03",
@@ -32605,7 +32605,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31350
+     "close": 31250
     }
    ],
    "start": "2026-08-03",
@@ -32761,7 +32761,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26250
+     "close": 26000
     }
    ],
    "start": "2026-08-03",
@@ -32917,7 +32917,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 51400
+     "close": 50500
     }
    ],
    "start": "2026-08-03",
@@ -33073,7 +33073,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 80800
+     "close": 81200
     }
    ],
    "start": "2026-08-03",
@@ -33229,7 +33229,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 55000
+     "close": 56300
     }
    ],
    "start": "2026-08-03",
@@ -33385,7 +33385,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7910
+     "close": 7940
     }
    ],
    "start": "2026-08-03",
@@ -33541,7 +33541,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 76600
+     "close": 78000
     }
    ],
    "start": "2026-08-03",
@@ -33697,7 +33697,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 62400
+     "close": 62500
     }
    ],
    "start": "2026-08-03",
@@ -33853,7 +33853,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40900
+     "close": 41125
     }
    ],
    "start": "2026-08-03",
@@ -34009,7 +34009,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 53800
+     "close": 53900
     }
    ],
    "start": "2026-08-03",
@@ -34165,7 +34165,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26100
+     "close": 26050
     }
    ],
    "start": "2026-08-03",
@@ -34321,7 +34321,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 39100
+     "close": 39000
     }
    ],
    "start": "2026-08-03",
@@ -34477,7 +34477,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17340
+     "close": 17160
     }
    ],
    "start": "2026-08-03",
@@ -34633,7 +34633,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 125500
+     "close": 125700
     }
    ],
    "start": "2026-08-03",
@@ -34789,7 +34789,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 36400
+     "close": 36100
     }
    ],
    "start": "2026-08-03",
@@ -34945,7 +34945,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7220
+     "close": 7240
     }
    ],
    "start": "2026-08-03",
@@ -35101,7 +35101,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10050
+     "close": 10300
     }
    ],
    "start": "2026-08-03",
@@ -35257,7 +35257,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 57700
+     "close": 56900
     }
    ],
    "start": "2026-08-03",
@@ -35413,7 +35413,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 123400
+     "close": 122300
     }
    ],
    "start": "2026-08-03",
@@ -35569,7 +35569,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37150
+     "close": 37550
     }
    ],
    "start": "2026-08-03",
@@ -35881,7 +35881,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26600
+     "close": 26450
     }
    ],
    "start": "2026-08-03",
@@ -36037,7 +36037,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35900
+     "close": 36100
     }
    ],
    "start": "2026-08-03",
@@ -36193,7 +36193,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 60500
+     "close": 60700
     }
    ],
    "start": "2026-08-03",
@@ -36349,7 +36349,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 132100
+     "close": 134100
     }
    ],
    "start": "2026-08-03",
@@ -36661,7 +36661,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 323500
+     "close": 324500
     }
    ],
    "start": "2026-08-03",
@@ -36817,7 +36817,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 45000
+     "close": 43050
     }
    ],
    "start": "2026-08-03",
@@ -36973,7 +36973,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 330000
+     "close": 329000
     }
    ],
    "start": "2026-08-03",
@@ -37129,7 +37129,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14170
+     "close": 14080
     }
    ],
    "start": "2026-08-03",
@@ -37285,7 +37285,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21600
+     "close": 22100
     }
    ],
    "start": "2026-08-03",
@@ -37441,7 +37441,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8390
+     "close": 8320
     }
    ],
    "start": "2026-08-03",
@@ -37597,7 +37597,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 39000
+     "close": 38850
     }
    ],
    "start": "2026-08-03",
@@ -37753,7 +37753,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 12410
+     "close": 12270
     }
    ],
    "start": "2026-08-03",
@@ -37909,7 +37909,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21900
+     "close": 21850
     }
    ],
    "start": "2026-08-03",
@@ -38065,7 +38065,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10000
+     "close": 9810
     }
    ],
    "start": "2026-08-03",
@@ -38221,7 +38221,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 46750
+     "close": 46900
     }
    ],
    "start": "2026-08-03",
@@ -38377,7 +38377,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 80000
+     "close": 80700
     }
    ],
    "start": "2026-08-03",
@@ -38533,7 +38533,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40200
+     "close": 41100
     }
    ],
    "start": "2026-08-03",
@@ -38689,7 +38689,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9840
+     "close": 9760
     }
    ],
    "start": "2026-08-03",
@@ -38845,7 +38845,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31250
+     "close": 31100
     }
    ],
    "start": "2026-08-03",
@@ -39001,7 +39001,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14340
+     "close": 14240
     }
    ],
    "start": "2026-08-03",
@@ -39157,7 +39157,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27350
+     "close": 27750
     }
    ],
    "start": "2026-08-03",
@@ -39313,7 +39313,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 15110
+     "close": 15080
     }
    ],
    "start": "2026-08-03",
@@ -39552,7 +39552,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4465
+     "close": 4420
     }
    ],
    "start": "2026-08-03",
@@ -39708,7 +39708,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 52600
+     "close": 52300
     }
    ],
    "start": "2026-08-03",
@@ -39864,7 +39864,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17240
+     "close": 17170
     }
    ],
    "start": "2026-08-03",
@@ -40020,7 +40020,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 103600
+     "close": 102600
     }
    ],
    "start": "2026-08-03",
@@ -40176,7 +40176,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 67900
+     "close": 68000
     }
    ],
    "start": "2026-08-03",
@@ -40332,7 +40332,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 51400
+     "close": 51600
     }
    ],
    "start": "2026-08-03",
@@ -40488,7 +40488,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 887000
+     "close": 904000
     }
    ],
    "start": "2026-08-03",
@@ -40644,7 +40644,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 101600
+     "close": 100500
     }
    ],
    "start": "2026-08-03",
@@ -40800,7 +40800,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 69300
+     "close": 68700
     }
    ],
    "start": "2026-08-03",
@@ -40956,7 +40956,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 54400
+     "close": 54300
     }
    ],
    "start": "2026-08-03",
@@ -41112,7 +41112,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26300
+     "close": 26150
     }
    ],
    "start": "2026-08-03",
@@ -41268,7 +41268,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4615
+     "close": 4585
     }
    ],
    "start": "2026-08-03",
@@ -41424,7 +41424,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 15780
+     "close": 15680
     }
    ],
    "start": "2026-08-03",
@@ -41580,7 +41580,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13870
+     "close": 13890
     }
    ],
    "start": "2026-08-03",
@@ -41892,7 +41892,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 39150
+     "close": 39000
     }
    ],
    "start": "2026-08-03",
@@ -42048,7 +42048,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14310
+     "close": 14400
     }
    ],
    "start": "2026-08-03",
@@ -42204,7 +42204,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 48500
+     "close": 48300
     }
    ],
    "start": "2026-08-03",
@@ -42360,7 +42360,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 76800
+     "close": 77400
     }
    ],
    "start": "2026-08-03",
@@ -42516,7 +42516,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 63700
+     "close": 64000
     }
    ],
    "start": "2026-08-03",
@@ -42828,7 +42828,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19050
+     "close": 19120
     }
    ],
    "start": "2026-08-03",
@@ -42984,7 +42984,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 53100
+     "close": 53200
     }
    ],
    "start": "2026-08-03",
@@ -43140,7 +43140,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5180
+     "close": 5110
     }
    ],
    "start": "2026-08-03",
@@ -43296,7 +43296,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8550
+     "close": 8660
     }
    ],
    "start": "2026-08-03",
@@ -43452,7 +43452,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 11360
+     "close": 11330
     }
    ],
    "start": "2026-08-03",
@@ -43608,7 +43608,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14790
+     "close": 14710
     }
    ],
    "start": "2026-08-03",
@@ -43764,7 +43764,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5910
+     "close": 5890
     }
    ],
    "start": "2026-08-03",
@@ -43920,7 +43920,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 41750
+     "close": 42250
     }
    ],
    "start": "2026-08-03",
@@ -44076,7 +44076,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27250
+     "close": 27300
     }
    ],
    "start": "2026-08-03",
@@ -44232,7 +44232,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 89200
+     "close": 90200
     }
    ],
    "start": "2026-08-03",
@@ -44388,7 +44388,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 6460
+     "close": 6400
     }
    ],
    "start": "2026-08-03",
@@ -44544,7 +44544,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 11000
+     "close": 11070
     }
    ],
    "start": "2026-08-03",
@@ -44700,7 +44700,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 36400
+     "close": 36900
     }
    ],
    "start": "2026-08-03",
@@ -44856,7 +44856,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22100
+     "close": 21850
     }
    ],
    "start": "2026-08-03",
@@ -45012,7 +45012,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 63100
+     "close": 63200
     }
    ],
    "start": "2026-08-03",
@@ -45168,7 +45168,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 175000
+     "close": 174700
     }
    ],
    "start": "2026-08-03",
@@ -45324,7 +45324,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1945
+     "close": 1949
     }
    ],
    "start": "2026-08-03",
@@ -45480,7 +45480,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35500
+     "close": 35550
     }
    ],
    "start": "2026-08-03",
@@ -45636,7 +45636,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14570
+     "close": 14740
     }
    ],
    "start": "2026-08-03",
@@ -45792,7 +45792,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 498500
+     "close": 496000
     }
    ],
    "start": "2026-08-03",
@@ -45948,7 +45948,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9390
+     "close": 9340
     }
    ],
    "start": "2026-08-03",
@@ -46260,7 +46260,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 43550
+     "close": 43450
     }
    ],
    "start": "2026-08-03",
@@ -46416,7 +46416,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 15280
+     "close": 15310
     }
    ],
    "start": "2026-08-03",
@@ -46572,7 +46572,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 51600
+     "close": 50900
     }
    ],
    "start": "2026-08-03",
@@ -46728,7 +46728,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9920
+     "close": 9870
     }
    ],
    "start": "2026-08-03",
@@ -46884,7 +46884,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 23650
+     "close": 23800
     }
    ],
    "start": "2026-08-03",
@@ -47040,7 +47040,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 2000
+     "close": 1996
     }
    ],
    "start": "2026-08-03",
@@ -47196,7 +47196,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19280
+     "close": 19340
     }
    ],
    "start": "2026-08-03",
@@ -47508,7 +47508,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 68100
+     "close": 67900
     }
    ],
    "start": "2026-08-03",
@@ -47664,7 +47664,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 18890
+     "close": 18910
     }
    ],
    "start": "2026-08-03",
@@ -47820,7 +47820,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17920
+     "close": 17780
     }
    ],
    "start": "2026-08-03",
@@ -47976,7 +47976,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14240
+     "close": 14170
     }
    ],
    "start": "2026-08-03",
@@ -48132,7 +48132,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27650
+     "close": 27000
     }
    ],
    "start": "2026-08-03",
@@ -48288,7 +48288,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7730
+     "close": 7780
     }
    ],
    "start": "2026-08-03",
@@ -48444,7 +48444,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 2925
+     "close": 2915
     }
    ],
    "start": "2026-08-03",
@@ -48600,7 +48600,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 55300
+     "close": 55700
     }
    ],
    "start": "2026-08-03",
@@ -48912,7 +48912,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 24650
+     "close": 24450
     }
    ],
    "start": "2026-08-03",
@@ -49068,7 +49068,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 84500
+     "close": 83800
     }
    ],
    "start": "2026-08-03",
@@ -49224,7 +49224,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 121000
+     "close": 119400
     }
    ],
    "start": "2026-08-03",
@@ -49380,7 +49380,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 2240
+     "close": 2230
     }
    ],
    "start": "2026-08-03",
@@ -49536,7 +49536,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26050
+     "close": 26200
     }
    ],
    "start": "2026-08-03",
@@ -49692,7 +49692,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 38700
+     "close": 39150
     }
    ],
    "start": "2026-08-03",
@@ -49848,7 +49848,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 18670
+     "close": 18730
     }
    ],
    "start": "2026-08-03",
@@ -50160,7 +50160,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7030
+     "close": 7010
     }
    ],
    "start": "2026-08-03",
@@ -50316,7 +50316,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 28000
+     "close": 28250
     }
    ],
    "start": "2026-08-03",
@@ -50472,7 +50472,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17750
+     "close": 17610
     }
    ],
    "start": "2026-08-03",
@@ -50628,7 +50628,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5660
+     "close": 5650
     }
    ],
    "start": "2026-08-03",
@@ -50784,7 +50784,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 34250
+     "close": 34900
     }
    ],
    "start": "2026-08-03",
@@ -50940,7 +50940,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7890
+     "close": 7850
     }
    ],
    "start": "2026-08-03",
@@ -51096,7 +51096,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 114200
+     "close": 113500
     }
    ],
    "start": "2026-08-03",
@@ -51252,7 +51252,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1635
+     "close": 1633
     }
    ],
    "start": "2026-08-03",
@@ -51408,7 +51408,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31700
+     "close": 31650
     }
    ],
    "start": "2026-08-03",
@@ -51564,7 +51564,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 121600
+     "close": 121000
     }
    ],
    "start": "2026-08-03",
@@ -51720,7 +51720,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37050
+     "close": 36750
     }
    ],
    "start": "2026-08-03",
@@ -51876,7 +51876,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14950
+     "close": 14920
     }
    ],
    "start": "2026-08-03",
@@ -52032,7 +52032,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16430
+     "close": 16380
     }
    ],
    "start": "2026-08-03",
@@ -52188,7 +52188,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 24800
+     "close": 24250
     }
    ],
    "start": "2026-08-03",
@@ -52344,7 +52344,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4630
+     "close": 4560
     }
    ],
    "start": "2026-08-03",
@@ -52500,7 +52500,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21450
+     "close": 21400
     }
    ],
    "start": "2026-08-03",
@@ -52656,7 +52656,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17150
+     "close": 17240
     }
    ],
    "start": "2026-08-03",
@@ -52812,7 +52812,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 44950
+     "close": 45000
     }
    ],
    "start": "2026-08-03",
@@ -52968,7 +52968,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10040
+     "close": 10050
     }
    ],
    "start": "2026-08-03",
@@ -53124,7 +53124,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8790
+     "close": 8820
     }
    ],
    "start": "2026-08-03",
@@ -53280,7 +53280,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14930
+     "close": 15070
     }
    ],
    "start": "2026-08-03",
@@ -53436,7 +53436,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 58500
+     "close": 58200
     }
    ],
    "start": "2026-08-03",
@@ -53592,7 +53592,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10990
+     "close": 10980
     }
    ],
    "start": "2026-08-03",
@@ -53748,7 +53748,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 108400
+     "close": 107500
     }
    ],
    "start": "2026-08-03",
@@ -53904,7 +53904,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 61600
+     "close": 61200
     }
    ],
    "start": "2026-08-03",
@@ -54060,7 +54060,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4340
+     "close": 4325
     }
    ],
    "start": "2026-08-03",
@@ -54216,7 +54216,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 12750
+     "close": 12710
     }
    ],
    "start": "2026-08-03",
@@ -54372,7 +54372,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8230
+     "close": 8130
     }
    ],
    "start": "2026-08-03",
@@ -54528,7 +54528,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9810
+     "close": 9870
     }
    ],
    "start": "2026-08-03",
@@ -54684,7 +54684,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 88400
+     "close": 87900
     }
    ],
    "start": "2026-08-03",
@@ -54840,7 +54840,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 62100
+     "close": 62300
     }
    ],
    "start": "2026-08-03",
@@ -54996,7 +54996,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 1684
+     "close": 1674
     }
    ],
    "start": "2026-08-03",
@@ -55152,7 +55152,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 118800
+     "close": 118400
     }
    ],
    "start": "2026-08-03",
@@ -55308,7 +55308,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40850
+     "close": 40950
     }
    ],
    "start": "2026-08-03",
@@ -55464,7 +55464,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9170
+     "close": 9140
     }
    ],
    "start": "2026-08-03",
@@ -55620,7 +55620,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 4325
+     "close": 4290
     }
    ],
    "start": "2026-08-03",
@@ -55776,7 +55776,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 2045
+     "close": 2040
     }
    ],
    "start": "2026-08-03",
@@ -55932,7 +55932,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9850
+     "close": 9830
     }
    ],
    "start": "2026-08-03",
@@ -56088,7 +56088,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14135
+     "close": 14080
     }
    ],
    "start": "2026-08-03",
@@ -56244,7 +56244,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10570
+     "close": 10490
     }
    ],
    "start": "2026-08-03",
@@ -56400,7 +56400,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7030
+     "close": 7000
     }
    ],
    "start": "2026-08-03",
@@ -56556,7 +56556,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7330
+     "close": 7250
     }
    ],
    "start": "2026-08-03",
@@ -56712,7 +56712,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9820
+     "close": 9730
     }
    ],
    "start": "2026-08-03",
@@ -56868,7 +56868,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7580
+     "close": 7560
     }
    ],
    "start": "2026-08-03",
@@ -57024,7 +57024,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 3955
+     "close": 3990
     }
    ],
    "start": "2026-08-03",
@@ -57180,7 +57180,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9120
+     "close": 9110
     }
    ],
    "start": "2026-08-03",
@@ -57336,7 +57336,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 39750
+     "close": 39700
     }
    ],
    "start": "2026-08-03",
@@ -57492,7 +57492,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10690
+     "close": 10750
     }
    ],
    "start": "2026-08-03",
@@ -57648,7 +57648,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17170
+     "close": 20000
     }
    ],
    "start": "2026-08-03",
@@ -57804,7 +57804,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 52700
+     "close": 53800
     }
    ],
    "start": "2026-08-03",
@@ -57960,7 +57960,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 66000
+     "close": 65900
     }
    ],
    "start": "2026-08-03",
@@ -58116,7 +58116,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 63600
+     "close": 63200
     }
    ],
    "start": "2026-08-03",
@@ -58272,7 +58272,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 235500
+     "close": 240000
     }
    ],
    "start": "2026-08-03",
@@ -58428,7 +58428,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 106900
+     "close": 104900
     }
    ],
    "start": "2026-08-03",
@@ -58584,7 +58584,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 24400
+     "close": 24550
     }
    ],
    "start": "2026-08-03",
@@ -58740,7 +58740,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 69000
+     "close": 69200
     }
    ],
    "start": "2026-08-03",
@@ -58896,7 +58896,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 122800
+     "close": 121900
     }
    ],
    "start": "2026-08-03",
@@ -59052,7 +59052,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 116700
+     "close": 117100
     }
    ],
    "start": "2026-08-03",
@@ -59208,7 +59208,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 12460
+     "close": 12320
     }
    ],
    "start": "2026-08-03",
@@ -59364,7 +59364,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 11780
+     "close": 11750
     }
    ],
    "start": "2026-08-03",
@@ -59520,7 +59520,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 253500
+     "close": 251000
     }
    ],
    "start": "2026-08-03",
@@ -59676,7 +59676,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42600
+     "close": 42200
     }
    ],
    "start": "2026-08-03",
@@ -59832,7 +59832,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 46500
+     "close": 46200
     }
    ],
    "start": "2026-08-03",
@@ -59988,7 +59988,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 75600
+     "close": 74300
     }
    ],
    "start": "2026-08-03",
@@ -60144,7 +60144,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 56300
+     "close": 57000
     }
    ],
    "start": "2026-08-03",
@@ -60456,7 +60456,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 106100
+     "close": 107600
     }
    ],
    "start": "2026-08-03",
@@ -60612,7 +60612,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 48700
+     "close": 48150
     }
    ],
    "start": "2026-08-03",
@@ -60768,7 +60768,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22000
+     "close": 22200
     }
    ],
    "start": "2026-08-03",
@@ -60924,7 +60924,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19400
+     "close": 19090
     }
    ],
    "start": "2026-08-03",
@@ -61080,7 +61080,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31450
+     "close": 31550
     }
    ],
    "start": "2026-08-03",
@@ -61236,7 +61236,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 28100
+     "close": 28150
     }
    ],
    "start": "2026-08-03",
@@ -61392,7 +61392,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 51900
+     "close": 50500
     }
    ],
    "start": "2026-08-03",
@@ -61548,7 +61548,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 20700
+     "close": 20500
     }
    ],
    "start": "2026-08-03",
@@ -61860,7 +61860,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 53600
+     "close": 52900
     }
    ],
    "start": "2026-08-03",
@@ -62016,7 +62016,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27500
+     "close": 27700
     }
    ],
    "start": "2026-08-03",
@@ -62172,7 +62172,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35900
+     "close": 35650
     }
    ],
    "start": "2026-08-03",
@@ -62328,7 +62328,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 85400
+     "close": 85300
     }
    ],
    "start": "2026-08-03",
@@ -62484,7 +62484,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42400
+     "close": 43050
     }
    ],
    "start": "2026-08-03",
@@ -62640,7 +62640,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 34550
+     "close": 33950
     }
    ],
    "start": "2026-08-03",
@@ -62796,7 +62796,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9570
+     "close": 9750
     }
    ],
    "start": "2026-08-03",
@@ -62952,7 +62952,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 11010
+     "close": 10810
     }
    ],
    "start": "2026-08-03",
@@ -63108,7 +63108,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40550
+     "close": 40600
     }
    ],
    "start": "2026-08-03",
@@ -63264,7 +63264,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19390
+     "close": 19340
     }
    ],
    "start": "2026-08-03",
@@ -63420,7 +63420,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 56200
+     "close": 55900
     }
    ],
    "start": "2026-08-03",
@@ -63576,7 +63576,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37100
+     "close": 37950
     }
    ],
    "start": "2026-08-03",
@@ -63732,7 +63732,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 59100
+     "close": 59500
     }
    ],
    "start": "2026-08-03",
@@ -63888,7 +63888,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 46050
+     "close": 47050
     }
    ],
    "start": "2026-08-03",
@@ -64044,7 +64044,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 15390
+     "close": 15260
     }
    ],
    "start": "2026-08-03",
@@ -64200,7 +64200,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 44000
+     "close": 44250
     }
    ],
    "start": "2026-08-03",
@@ -64356,7 +64356,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 74000
+     "close": 74200
     }
    ],
    "start": "2026-08-03",
@@ -64512,7 +64512,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9260
+     "close": 9130
     }
    ],
    "start": "2026-08-03",
@@ -64668,7 +64668,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 47600
+     "close": 47350
     }
    ],
    "start": "2026-08-03",
@@ -64824,7 +64824,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8000
+     "close": 7860
     }
    ],
    "start": "2026-08-03",
@@ -64980,7 +64980,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7960
+     "close": 7930
     }
    ],
    "start": "2026-08-03",
@@ -65136,7 +65136,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 87400
+     "close": 86400
     }
    ],
    "start": "2026-08-03",
@@ -65292,7 +65292,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 14800
+     "close": 14660
     }
    ],
    "start": "2026-08-03",
@@ -65448,7 +65448,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9560
+     "close": 9570
     }
    ],
    "start": "2026-08-03",
@@ -65604,7 +65604,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5260
+     "close": 5280
     }
    ],
    "start": "2026-08-03",
@@ -65760,7 +65760,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7600
+     "close": 7525
     }
    ],
    "start": "2026-08-03",
@@ -65916,7 +65916,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 18410
+     "close": 18310
     }
    ],
    "start": "2026-08-03",
@@ -66072,7 +66072,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 12090
+     "close": 11900
     }
    ],
    "start": "2026-08-03",
@@ -66384,7 +66384,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19290
+     "close": 18840
     }
    ],
    "start": "2026-08-03",
@@ -66540,7 +66540,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 77700
+     "close": 79100
     }
    ],
    "start": "2026-08-03",
@@ -66696,7 +66696,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 28250
+     "close": 28050
     }
    ],
    "start": "2026-08-03",
@@ -66852,7 +66852,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21650
+     "close": 21500
     }
    ],
    "start": "2026-08-03",
@@ -67008,7 +67008,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 71800
+     "close": 72200
     }
    ],
    "start": "2026-08-03",
@@ -67164,7 +67164,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 32200
+     "close": 31800
     }
    ],
    "start": "2026-08-03",
@@ -67320,7 +67320,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10900
+     "close": 10770
     }
    ],
    "start": "2026-08-03",
@@ -67476,7 +67476,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 40450
+     "close": 40350
     }
    ],
    "start": "2026-08-03",
@@ -67632,7 +67632,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 70900
+     "close": 70000
     }
    ],
    "start": "2026-08-03",
@@ -67788,7 +67788,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31600
+     "close": 31150
     }
    ],
    "start": "2026-08-03",
@@ -67944,7 +67944,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 31700
+     "close": 31750
     }
    ],
    "start": "2026-08-03",
@@ -68100,7 +68100,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17500
+     "close": 17190
     }
    ],
    "start": "2026-08-03",
@@ -68256,7 +68256,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 27900
+     "close": 28100
     }
    ],
    "start": "2026-08-03",
@@ -68412,7 +68412,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17500
+     "close": 17600
     }
    ],
    "start": "2026-08-03",
@@ -68568,7 +68568,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42650
+     "close": 42300
     }
    ],
    "start": "2026-08-03",
@@ -68724,7 +68724,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 34250
+     "close": 34150
     }
    ],
    "start": "2026-08-03",
@@ -69036,7 +69036,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 19570
+     "close": 19310
     }
    ],
    "start": "2026-08-03",
@@ -69192,7 +69192,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 47250
+     "close": 47400
     }
    ],
    "start": "2026-08-03",
@@ -69348,7 +69348,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 56200
+     "close": 56100
     }
    ],
    "start": "2026-08-03",
@@ -69504,7 +69504,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 32650
+     "close": 32200
     }
    ],
    "start": "2026-08-03",
@@ -69660,7 +69660,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13340
+     "close": 13400
     }
    ],
    "start": "2026-08-03",
@@ -69972,7 +69972,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 6710
+     "close": 6820
     }
    ],
    "start": "2026-08-03",
@@ -70128,7 +70128,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 73500
+     "close": 73600
     }
    ],
    "start": "2026-08-03",
@@ -70284,7 +70284,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21500
+     "close": 21900
     }
    ],
    "start": "2026-08-03",
@@ -70440,7 +70440,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10650
+     "close": 10470
     }
    ],
    "start": "2026-08-03",
@@ -70752,7 +70752,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22600
+     "close": 22900
     }
    ],
    "start": "2026-08-03",
@@ -70908,7 +70908,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 48100
+     "close": 48200
     }
    ],
    "start": "2026-08-03",
@@ -71064,7 +71064,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 22350
+     "close": 22100
     }
    ],
    "start": "2026-08-03",
@@ -71220,7 +71220,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 32150
+     "close": 32450
     }
    ],
    "start": "2026-08-03",
@@ -71376,7 +71376,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 42300
+     "close": 41850
     }
    ],
    "start": "2026-08-03",
@@ -71532,7 +71532,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10250
+     "close": 10110
     }
    ],
    "start": "2026-08-03",
@@ -71688,7 +71688,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 136200
+     "close": 139000
     }
    ],
    "start": "2026-08-03",
@@ -71844,7 +71844,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16070
+     "close": 15770
     }
    ],
    "start": "2026-08-03",
@@ -72000,7 +72000,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 26350
+     "close": 26600
     }
    ],
    "start": "2026-08-03",
@@ -72156,7 +72156,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7530
+     "close": 7460
     }
    ],
    "start": "2026-08-03",
@@ -72312,7 +72312,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 56500
+     "close": 56700
     }
    ],
    "start": "2026-08-03",
@@ -72468,7 +72468,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 23350
+     "close": 23500
     }
    ],
    "start": "2026-08-03",
@@ -72624,7 +72624,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 45750
+     "close": 46550
     }
    ],
    "start": "2026-08-03",
@@ -72780,7 +72780,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 64200
+     "close": 64700
     }
    ],
    "start": "2026-08-03",
@@ -72936,7 +72936,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9130
+     "close": 8950
     }
    ],
    "start": "2026-08-03",
@@ -73092,7 +73092,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 35250
+     "close": 35300
     }
    ],
    "start": "2026-08-03",
@@ -73248,7 +73248,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 29050
+     "close": 28800
     }
    ],
    "start": "2026-08-03",
@@ -73560,7 +73560,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 9320
+     "close": 9440
     }
    ],
    "start": "2026-08-03",
@@ -73716,7 +73716,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 36350
+     "close": 36200
     }
    ],
    "start": "2026-08-03",
@@ -73872,7 +73872,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 29250
+     "close": 30100
     }
    ],
    "start": "2026-08-03",
@@ -74028,7 +74028,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16100
+     "close": 16210
     }
    ],
    "start": "2026-08-03",
@@ -74184,7 +74184,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 43800
+     "close": 43300
     }
    ],
    "start": "2026-08-03",
@@ -74340,7 +74340,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 44300
+     "close": 44100
     }
    ],
    "start": "2026-08-03",
@@ -74496,7 +74496,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 43400
+     "close": 42650
     }
    ],
    "start": "2026-08-03",
@@ -74652,7 +74652,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7550
+     "close": 7610
     }
    ],
    "start": "2026-08-03",
@@ -74808,7 +74808,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 67300
+     "close": 65900
     }
    ],
    "start": "2026-08-03",
@@ -74964,7 +74964,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 17300
+     "close": 17440
     }
    ],
    "start": "2026-08-03",
@@ -75120,7 +75120,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21250
+     "close": 21750
     }
    ],
    "start": "2026-08-03",
@@ -75276,7 +75276,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16070
+     "close": 17030
     }
    ],
    "start": "2026-08-03",
@@ -75432,7 +75432,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 30200
+     "close": 30100
     }
    ],
    "start": "2026-08-03",
@@ -75588,7 +75588,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 47250
+     "close": 46850
     }
    ],
    "start": "2026-08-03",
@@ -75744,7 +75744,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 37000
+     "close": 37250
     }
    ],
    "start": "2026-08-03",
@@ -75900,7 +75900,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 8475
+     "close": 8360
     }
    ],
    "start": "2026-08-03",
@@ -76056,7 +76056,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 20300
+     "close": 20200
     }
    ],
    "start": "2026-08-03",
@@ -76212,7 +76212,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 39100
+     "close": 38500
     }
    ],
    "start": "2026-08-03",
@@ -76368,7 +76368,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13040
+     "close": 13070
     }
    ],
    "start": "2026-08-03",
@@ -76524,7 +76524,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 77700
+     "close": 77100
     }
    ],
    "start": "2026-08-03",
@@ -76680,7 +76680,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 7920
+     "close": 8040
     }
    ],
    "start": "2026-08-03",
@@ -76836,7 +76836,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 29750
+     "close": 29800
     }
    ],
    "start": "2026-08-03",
@@ -76992,7 +76992,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 10240
+     "close": 10250
     }
    ],
    "start": "2026-08-03",
@@ -77148,7 +77148,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13340
+     "close": 13260
     }
    ],
    "start": "2026-08-03",
@@ -77304,7 +77304,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 67500
+     "close": 71100
     }
    ],
    "start": "2026-08-03",
@@ -77460,7 +77460,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 5220
+     "close": 5180
     }
    ],
    "start": "2026-08-03",
@@ -77616,7 +77616,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 13470
+     "close": 13530
     }
    ],
    "start": "2026-08-03",
@@ -77772,7 +77772,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 16810
+     "close": 16710
     }
    ],
    "start": "2026-08-03",
@@ -77928,7 +77928,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 21250
+     "close": 21350
     }
    ],
    "start": "2026-08-03",
@@ -78076,7 +78076,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-05",
-     "close": 6300
+     "close": 6420
     }
    ],
    "start": "2026-08-05",
@@ -78197,7 +78197,7 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-05",
-     "close": 6370
+     "close": 6290
     }
    ],
    "start": "2026-08-05",
