@@ -52,9 +52,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # ---------- 공용 함수 (update-prices.yml과 동일) ----------
+          # ⏱️ 2026-08-04: 아래 curl 두 곳에 시간 제한이 없어, GitHub API가 응답을 안 주면
+          # 이 잡이 몇 시간이고 그냥 멈춰 있었다(체인이 안 끊기고 hang만 남는 조용한 사고 유형).
+          # timeout으로 감싸면 실패해도 그냥 "이번 시도 실패"로 처리되고 루프는 계속 돈다.
           dispatch() {
             for i in 1 2 3; do
-              code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+              code=$(timeout 20 curl -s -o /dev/null -w '%{http_code}' -X POST \
                 -H "$GH_AUTH" -H "Accept: application/vnd.github+json" \
                 "$GH_API/$1/dispatches" -d '{"ref":"main"}')
               [ "$code" = "204" ] && { echo "dispatch $1 → OK"; return 0; }
@@ -64,7 +67,7 @@ jobs:
           }
           alive() {
             for st in in_progress queued; do
-              n=$(curl -s -H "$GH_AUTH" \
+              n=$(timeout 20 curl -s -H "$GH_AUTH" \
                 "$GH_API/$1/runs?branch=main&status=$st&per_page=1" \
                 | python3 -c "import json,sys;print(json.load(sys.stdin).get('total_count',0))" 2>/dev/null || echo 0)
               [ "${n:-0}" -gt 0 ] && return 0
@@ -186,8 +189,8 @@ jobs:
             else
               git commit -m "자동 분석데이터 갱신 (GitHub Actions) [skip ci]"
               for i in 1 2 3; do
-                git push && break
-                echo "push 거부 — 원격 반영 후 재시도 ($i/3)"
+                timeout 60 git push && break
+                echo "push 거부/지연 — 원격 반영 후 재시도 ($i/3)"
                 timeout 120 git fetch origin "${{ github.ref_name }}"
                 # ⚠️ 2026-07-22 사고: git pull --rebase가 auto_analysis.js 등 생성 파일에서
                 # 충돌하면(겹치는 사이클 사이의 타이밍 차) 리베이스가 멈춰 스크립트가 그대로
@@ -210,12 +213,12 @@ jobs:
               oldhash=$(cat .indexnow_hash 2>/dev/null || echo "")
               if [ "$newhash" != "$oldhash" ]; then
                 echo "sitemap.xml 변경 감지 — IndexNow 제출"
-                node indexnow_submit.js || echo "IndexNow 제출 실패(무시하고 계속)"
+                timeout 60 node indexnow_submit.js || echo "IndexNow 제출 실패(무시하고 계속)"
                 echo "$newhash" > .indexnow_hash
                 git add .indexnow_hash
                 if ! git diff --cached --quiet; then
                   git commit -m "IndexNow 제출 기록 갱신 [skip ci]" || true
-                  git push || true
+                  timeout 60 git push || true
                 fi
               fi
             fi
