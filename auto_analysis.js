@@ -480,7 +480,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 43,
+    "score": 42,
     "stance": "bear",
     "findings": [
      "종가 601,000원이 MA20(612,450원) 대비 -1.9% — 단기 하단 흐름",
@@ -542,7 +542,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 4.0,
+    "relativeAdjustPp": 3.9,
     "flowQualityAdjustPp": 0.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -690,21 +690,21 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 31,
-    "rawTotal": 38,
-    "confidence": 29,
-    "probabilityUp": 38.1,
+    "total": 30,
+    "rawTotal": 37,
+    "confidence": 31,
+    "probabilityUp": 37.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 3.6,
+    "relativeAdjustPp": 2.8,
     "flowQualityAdjustPp": 2.6,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 38.1%로 계산했습니다. 시장·업종 상대강도 +3.6%p, 수급 품질 +2.6%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 37.3%로 계산했습니다. 시장·업종 상대강도 +2.8%p, 수급 품질 +2.6%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 38.1%로 계산했습니다. 시장·업종 상대강도 +3.6%p, 수급 품질 +2.6%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 37.3%로 계산했습니다. 시장·업종 상대강도 +2.8%p, 수급 품질 +2.6%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "005380": {
@@ -714,8 +714,8 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 44,
-    "stance": "neu",
+    "score": 43,
+    "stance": "bear",
     "findings": [
      "종가 405,500원이 MA20(409,625원) 대비 -1.0% — 단기 하단 흐름",
      "MA60(544,300원) 대비 -25.5% — 장기 추세선 하회",
@@ -768,21 +768,21 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 34,
-    "rawTotal": 34,
+    "total": 33,
+    "rawTotal": 33,
     "confidence": 36,
-    "probabilityUp": 33.6,
+    "probabilityUp": 33.5,
     "riskPenalty": 0,
     "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 0.9,
+    "relativeAdjustPp": 0.8,
     "flowQualityAdjustPp": 1.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 33.6%로 계산했습니다. 시장·업종 상대강도 +0.9%p, 수급 품질 +1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 33.5%로 계산했습니다. 시장·업종 상대강도 +0.8%p, 수급 품질 +1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 33.6%로 계산했습니다. 시장·업종 상대강도 +0.9%p, 수급 품질 +1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 33.5%로 계산했습니다. 시장·업종 상대강도 +0.8%p, 수급 품질 +1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "042700": {
@@ -792,7 +792,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 50,
+    "score": 49,
     "stance": "neu",
     "findings": [
      "종가 207,750원이 MA20(209,282원) 대비 -0.7% — 단기 하단 흐름",
@@ -849,18 +849,18 @@ const LIVE_AUTO = {
     "total": 28,
     "rawTotal": 35,
     "confidence": 36,
-    "probabilityUp": 34.9,
+    "probabilityUp": 34.6,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 0.7,
+    "relativeAdjustPp": 0.4,
     "flowQualityAdjustPp": 1.5,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 34.9%로 계산했습니다. 시장·업종 상대강도 +0.7%p, 수급 품질 +1.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 34.6%로 계산했습니다. 시장·업종 상대강도 +0.4%p, 수급 품질 +1.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 34.9%로 계산했습니다. 시장·업종 상대강도 +0.7%p, 수급 품질 +1.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 34.6%로 계산했습니다. 시장·업종 상대강도 +0.4%p, 수급 품질 +1.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "007660": {
@@ -1029,8 +1029,8 @@ const LIVE_AUTO = {
     "score": 87,
     "stance": "bull",
     "findings": [
-     "종가 229,500원이 MA20(201,260원) 대비 +14.0% — 단기 상단 흐름",
-     "MA60(213,425원) 대비 +7.5% — 장기 추세선 상회",
+     "종가 229,000원이 MA20(201,235원) 대비 +13.8% — 단기 상단 흐름",
+     "MA60(213,417원) 대비 +7.3% — 장기 추세선 상회",
      "RSI(14) 60 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.49배 — 거래 강도 한산"
     ]
@@ -1050,7 +1050,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 60(강세) · 20일선 위 · 최근 5일 상승(+17.9%)",
+     "현재 상태: RSI 60(강세) · 20일선 위 · 최근 5일 상승(+17.6%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -1494,7 +1494,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 20,
+    "score": 19,
     "stance": "bear",
     "findings": [
      "종가 286,500원이 MA20(309,925원) 대비 -7.6% — 단기 하단 흐름",
@@ -1504,7 +1504,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 69,
+    "score": 70,
     "stance": "bull",
     "findings": [
      "PER 20.03배 · PBR 0.64배 — 이익·자산 대비 저평가 매력",
@@ -1537,9 +1537,9 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 26,
     "confidence": 30,
-    "rawTotal": 33,
-    "riskPenalty": 7,
-    "riskScore": 8,
+    "rawTotal": 32,
+    "riskPenalty": 6,
+    "riskScore": 9,
     "riskGrade": "high",
     "riskApplied": true,
     "reason": "자동분석 종합 26점(비중 축소). 기술 20·재무 69·퀀트(확률) 20·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 8점으로 원점수 33점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -1548,12 +1548,12 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 19,
+    "total": 20,
     "rawTotal": 26,
     "confidence": 41,
-    "probabilityUp": 26.4,
-    "riskPenalty": 7,
-    "riskScore": 8,
+    "probabilityUp": 25.9,
+    "riskPenalty": 6,
+    "riskScore": 9,
     "riskGrade": "high",
     "riskApplied": true,
     "relativeAdjustPp": -0.5,
@@ -1650,7 +1650,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 51,
+    "score": 50,
     "stance": "neu",
     "findings": [
      "종가 345,000원이 MA20(344,100원) 대비 +0.3% — 단기 상단 흐름",
@@ -2094,8 +2094,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 24,
-    "rawTotal": 31,
+    "total": 23,
+    "rawTotal": 30,
     "confidence": 38,
     "probabilityUp": 30.9,
     "riskPenalty": 7,
@@ -2121,8 +2121,8 @@ const LIVE_AUTO = {
     "score": 60,
     "stance": "bull",
     "findings": [
-     "종가 504,000원이 MA20(479,300원) 대비 +5.2% — 단기 상단 흐름",
-     "MA60(558,642원) 대비 -9.8% — 장기 추세선 하회",
+     "종가 503,000원이 MA20(479,250원) 대비 +5.0% — 단기 상단 흐름",
+     "MA60(558,625원) 대비 -10.0% — 장기 추세선 하회",
      "RSI(14) 52 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.31배 — 거래 강도 한산"
     ]
@@ -2163,7 +2163,7 @@ const LIVE_AUTO = {
     "confidence": 37,
     "rawTotal": 48,
     "riskPenalty": 0,
-    "riskScore": 32,
+    "riskScore": 33,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 48점(중립). 기술 60·재무 82·퀀트(확률) 26·수급 52 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 32점으로 원점수 48점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -2177,7 +2177,7 @@ const LIVE_AUTO = {
     "confidence": 38,
     "probabilityUp": 33.2,
     "riskPenalty": 0,
-    "riskScore": 32,
+    "riskScore": 33,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 0.2,
@@ -2643,7 +2643,7 @@ const LIVE_AUTO = {
     "total": 29,
     "rawTotal": 36,
     "confidence": 31,
-    "probabilityUp": 36.5,
+    "probabilityUp": 36.4,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -2652,9 +2652,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 36.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 36.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "042660": {
@@ -2989,7 +2989,7 @@ const LIVE_AUTO = {
     "score": 95,
     "stance": "bull",
     "findings": [
-     "PER 2.66배 · PBR 0.46배 — 이익·자산 대비 저평가 매력",
+     "PER 2.65배 · PBR 0.46배 — 이익·자산 대비 저평가 매력",
      "ROE 17.3% · EPS 13,567원",
      "컨센서스 EPS 기준 선행 PER 4.0배 — 실적 반영 시 저평가",
      "증권사 평균 목표주가 55,133원 · 현재가 대비 +52.7% 여력"
@@ -3444,7 +3444,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 78,
+    "score": 79,
     "stance": "bull",
     "findings": [
      "종가 121,500원이 MA20(117,920원) 대비 +3.0% — 단기 상단 흐름",
@@ -3613,10 +3613,10 @@ const LIVE_AUTO = {
     "score": 72,
     "stance": "bull",
     "findings": [
-     "PER 13.9배 · PBR 0.72배 — 이익·자산 대비 저평가 매력",
+     "PER 13.93배 · PBR 0.72배 — 이익·자산 대비 저평가 매력",
      "ROE 5.2% · EPS 1,529원",
-     "컨센서스 EPS 기준 선행 PER 11.8배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 23,100원 · 현재가 대비 +8.7% 여력"
+     "컨센서스 EPS 기준 선행 PER 11.9배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 23,100원 · 현재가 대비 +8.5% 여력"
     ]
    },
    "nova": {
@@ -4031,9 +4031,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 48,
+    "total": 49,
     "confidence": 37,
-    "rawTotal": 48,
+    "rawTotal": 49,
     "riskPenalty": 0,
     "riskScore": 29,
     "riskGrade": "mid",
@@ -4200,8 +4200,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 33,
-    "rawTotal": 33,
+    "total": 34,
+    "rawTotal": 34,
     "confidence": 41,
     "probabilityUp": 33.4,
     "riskPenalty": 0,
@@ -4224,7 +4224,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 38,
+    "score": 39,
     "stance": "bear",
     "findings": [
      "종가 123,900원이 MA20(135,275원) 대비 -8.4% — 단기 하단 흐름",
@@ -4266,7 +4266,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 52,
-    "confidence": 52,
+    "confidence": 53,
     "rawTotal": 52,
     "riskPenalty": 0,
     "riskScore": 41,
@@ -4848,7 +4848,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 35,
+    "score": 34,
     "stance": "bear",
     "findings": [
      "종가 28,300원이 MA20(29,172원) 대비 -3.0% — 단기 하단 흐름",
@@ -5238,7 +5238,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 40,
+    "score": 39,
     "stance": "bear",
     "findings": [
      "종가 97,000원이 MA20(101,820원) 대비 -4.7% — 단기 하단 흐름",
@@ -5394,7 +5394,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 19,
+    "score": 18,
     "stance": "bear",
     "findings": [
      "종가 182,000원이 MA20(198,960원) 대비 -8.5% — 단기 하단 흐름",
@@ -5436,7 +5436,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 30,
-    "confidence": 56,
+    "confidence": 55,
     "rawTotal": 30,
     "riskPenalty": 0,
     "riskScore": 26,
@@ -5517,7 +5517,7 @@ const LIVE_AUTO = {
     "confidence": 37,
     "rawTotal": 54,
     "riskPenalty": 0,
-    "riskScore": 32,
+    "riskScore": 33,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 54점(중립). 기술 87·재무 40·퀀트(확률) 31·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 32점으로 원점수 54점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -5531,7 +5531,7 @@ const LIVE_AUTO = {
     "confidence": 39,
     "probabilityUp": 32.2,
     "riskPenalty": 0,
-    "riskScore": 32,
+    "riskScore": 33,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 0.1,
@@ -5550,11 +5550,11 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 46,
+    "score": 45,
     "stance": "neu",
     "findings": [
-     "종가 69,600원이 MA20(69,915원) 대비 -0.5% — 단기 하단 흐름",
-     "MA60(66,967원) 대비 +3.9% — 장기 추세선 상회",
+     "종가 69,300원이 MA20(69,900원) 대비 -0.9% — 단기 하단 흐름",
+     "MA60(66,962원) 대비 +3.5% — 장기 추세선 상회",
      "RSI(14) 52 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.31배 — 거래 강도 한산"
     ]
@@ -5574,7 +5574,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 52(중립) · 20일선 아래 · 최근 5일 상승(+6.9%)",
+     "현재 상태: RSI 52(중립) · 20일선 아래 · 최근 5일 상승(+6.5%)",
      "과거에 이런 상태(동일 상태)였던 적이 534건 있었는데, 그중 165건이 5거래일 뒤 올랐어요 → 경험적 승률 31% (시장 평균 40%보다 -9%p 낮아 상대적 부진)",
      "그 534건의 5거래일 뒤 등락률 평균은 -3.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -5985,7 +5985,7 @@ const LIVE_AUTO = {
     "confidence": 57,
     "rawTotal": 63,
     "riskPenalty": 0,
-    "riskScore": 48,
+    "riskScore": 47,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 63점(매수 우위). 기술 79·재무 64·퀀트(확률) 59·수급 51 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 48점으로 원점수 63점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
@@ -5999,7 +5999,7 @@ const LIVE_AUTO = {
     "confidence": 50,
     "probabilityUp": 29.1,
     "riskPenalty": 0,
-    "riskScore": 48,
+    "riskScore": 47,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -3.1,
@@ -6106,7 +6106,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 56,
+    "score": 57,
     "stance": "neu",
     "findings": [
      "PER 39.14배 · PBR 1.67배 — 밸류 중립 수준",
@@ -6194,7 +6194,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
+    "score": 26,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -6330,7 +6330,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 72,
+    "score": 64,
     "stance": "bull",
     "findings": [
      "종가 15,150원이 MA20(14,722원) 대비 +2.9% — 단기 상단 흐름",
@@ -6350,8 +6350,8 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 59,
-    "stance": "bull",
+    "score": 30,
+    "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 55(강세) · 20일선 위 · 최근 5일 횡보(-1.4%)",
@@ -6370,10 +6370,10 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "BUY",
-    "total": 63,
-    "confidence": 65,
-    "rawTotal": 63,
+    "call": "HOLD",
+    "total": 52,
+    "confidence": 40,
+    "rawTotal": 52,
     "riskPenalty": 0,
     "riskScore": 68,
     "riskGrade": "low",
@@ -6386,7 +6386,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 27,
     "rawTotal": 27,
-    "confidence": 57,
+    "confidence": 50,
     "probabilityUp": 27.2,
     "riskPenalty": 0,
     "riskScore": 68,
@@ -6462,8 +6462,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 33,
-    "rawTotal": 33,
+    "total": 32,
+    "rawTotal": 32,
     "confidence": 39,
     "probabilityUp": 32.5,
     "riskPenalty": 0,
@@ -7488,9 +7488,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "298380": {
@@ -7500,7 +7500,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 62,
+    "score": 61,
     "stance": "bull",
     "findings": [
      "종가 80,800원이 MA20(73,615원) 대비 +9.8% — 단기 상단 흐름",
@@ -7542,7 +7542,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 40,
-    "confidence": 42,
+    "confidence": 43,
     "rawTotal": 47,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -7644,9 +7644,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.8%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.8%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "084370": {
@@ -7656,7 +7656,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 49,
+    "score": 47,
     "stance": "neu",
     "findings": [
      "종가 124,100원이 MA20(126,385원) 대비 -1.8% — 단기 하단 흐름",
@@ -7666,13 +7666,13 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 38,
+    "score": 39,
     "stance": "bear",
     "findings": [
-     "PER 50.26배 · PBR 5.87배 — 밸류 부담 존재",
+     "PER 49.53배 · PBR 5.78배 — 밸류 부담 존재",
      "ROE 11.7% · EPS 2,473원",
-     "컨센서스 EPS 기준 선행 PER 30.6배 — 실적 성장 확인 필요",
-     "증권사 평균 목표주가 156,667원 · 현재가 대비 +26.0% 여력"
+     "컨센서스 EPS 기준 선행 PER 30.2배 — 실적 성장 확인 필요",
+     "증권사 평균 목표주가 156,667원 · 현재가 대비 +27.9% 여력"
     ]
    },
    "nova": {
@@ -8124,7 +8124,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 57,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "종가 142,300원이 MA20(134,480원) 대비 +5.8% — 단기 상단 흐름",
@@ -8137,7 +8137,7 @@ const LIVE_AUTO = {
     "score": 32,
     "stance": "bear",
     "findings": [
-     "PER -51.69배 · PBR 28.38배 — 밸류 부담 존재",
+     "PER -51.04배 · PBR 28.02배 — 밸류 부담 존재",
      "ROE -54.9% · EPS -2,751원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 97,500 ~ 375,500 참고 · 목표주가 컨센 미제공"
@@ -8165,14 +8165,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 36,
-    "confidence": 47,
-    "rawTotal": 43,
+    "total": 35,
+    "confidence": 49,
+    "rawTotal": 42,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 36점(비중 축소). 기술 57·재무 32·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 43점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 35점(비중 축소). 기술 55·재무 32·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 42점에서 7점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 142,300원이 MA20(134,480원) 대비 +5.8% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 26,464주 · 기관 순매수 8,618주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 43점에서 리스크 7점을 반영해 종합 36점 · SELL · 신뢰도 47%."
    },
@@ -8180,7 +8180,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 28,
     "rawTotal": 35,
-    "confidence": 35,
+    "confidence": 36,
     "probabilityUp": 35.2,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -8477,9 +8477,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 32,
+    "total": 26,
     "confidence": 30,
-    "rawTotal": 39,
+    "rawTotal": 33,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -8592,7 +8592,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 20,
+    "score": 19,
     "stance": "bear",
     "findings": [
      "종가 101,500원이 MA20(109,930원) 대비 -7.7% — 단기 하단 흐름",
@@ -8634,7 +8634,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 32,
-    "confidence": 51,
+    "confidence": 50,
     "rawTotal": 32,
     "riskPenalty": 0,
     "riskScore": 19,
@@ -8846,7 +8846,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 26,
+    "score": 34,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -8867,9 +8867,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 39,
-    "confidence": 47,
-    "rawTotal": 46,
+    "total": 41,
+    "confidence": 55,
+    "rawTotal": 48,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -8882,19 +8882,19 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 25,
     "rawTotal": 32,
-    "confidence": 39,
-    "probabilityUp": 32.0,
+    "confidence": 41,
+    "probabilityUp": 32.2,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.3,
+    "relativeAdjustPp": -0.1,
     "flowQualityAdjustPp": 1.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 32.0%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 32.2%로 계산했습니다. 시장·업종 상대강도 -0.1%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 32.0%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 32.2%로 계산했습니다. 시장·업종 상대강도 -0.1%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "263750": {
@@ -8904,7 +8904,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 57,
+    "score": 56,
     "stance": "neu",
     "findings": [
      "종가 35,350원이 MA20(34,292원) 대비 +3.1% — 단기 상단 흐름",
@@ -9039,7 +9039,7 @@ const LIVE_AUTO = {
     "total": 31,
     "rawTotal": 38,
     "confidence": 27,
-    "probabilityUp": 38.4,
+    "probabilityUp": 38.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -9048,9 +9048,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 38.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 38.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 38.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 38.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "131970": {
@@ -9491,9 +9491,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 45,
+    "total": 44,
     "confidence": 30,
-    "rawTotal": 52,
+    "rawTotal": 51,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -9569,9 +9569,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 49,
+    "total": 50,
     "confidence": 44,
-    "rawTotal": 49,
+    "rawTotal": 50,
     "riskPenalty": 0,
     "riskScore": 13,
     "riskGrade": "mid",
@@ -9654,7 +9654,7 @@ const LIVE_AUTO = {
     "riskScore": 38,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 47점(중립). 기술 39·재무 76·퀀트(확률) 45·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 38점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 47점(중립). 기술 39·재무 76·퀀트(확률) 45·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 34%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 38점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "증권사 평균 목표주가 161,091원 (현재가 대비 +92.2% 상승여력)",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 83,800원이 MA20(89,090원) 대비 -5.9% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 8,701주 · 기관 순매도 15,075주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1646건 있었는데, 그중 610건이 5거래일 뒤 올랐어요 → 경험적 승률 37% (시장 평균 40%보다 -3%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 47점에서 리스크 0점을 반영해 종합 47점 · HOLD · 신뢰도 48%."
    },
@@ -9762,7 +9762,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 56,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "종가 28,000원이 MA20(26,808원) 대비 +4.4% — 단기 상단 흐름",
@@ -9775,10 +9775,10 @@ const LIVE_AUTO = {
     "score": 47,
     "stance": "neu",
     "findings": [
-     "PER 106.87배 · PBR 3.29배 — 밸류 중립 수준",
+     "PER 105.53배 · PBR 3.24배 — 밸류 중립 수준",
      "ROE 3.1% · EPS 262원",
-     "컨센서스 EPS 기준 선행 PER 59.3배 — 실적 성장 확인 필요",
-     "증권사 평균 목표주가 42,643원 · 현재가 대비 +52.3% 여력"
+     "컨센서스 EPS 기준 선행 PER 58.6배 — 실적 성장 확인 필요",
+     "증권사 평균 목표주가 42,643원 · 현재가 대비 +54.2% 여력"
     ]
    },
    "nova": {
@@ -9804,7 +9804,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 38,
-    "confidence": 48,
+    "confidence": 49,
     "rawTotal": 45,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -10074,7 +10074,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 65,
+    "score": 67,
     "stance": "bull",
     "findings": [
      "종가 30,650원이 MA20(27,878원) 대비 +9.9% — 단기 상단 흐름",
@@ -10115,9 +10115,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 44,
-    "confidence": 39,
-    "rawTotal": 51,
+    "total": 45,
+    "confidence": 37,
+    "rawTotal": 52,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -10308,7 +10308,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 236,500원이 MA20(231,075원) 대비 +2.3% — 단기 상단 흐름",
@@ -10321,10 +10321,10 @@ const LIVE_AUTO = {
     "score": 81,
     "stance": "bull",
     "findings": [
-     "PER 11.16배 · PBR 1.3배 — 이익·자산 대비 저평가 매력",
+     "PER 11.09배 · PBR 1.3배 — 이익·자산 대비 저평가 매력",
      "ROE 11.7% · EPS 21,244원",
-     "컨센서스 EPS 기준 선행 PER 11.0배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 367,500원 · 현재가 대비 +55.1% 여력"
+     "컨센서스 EPS 기준 선행 PER 10.9배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 367,500원 · 현재가 대비 +56.1% 여력"
     ]
    },
    "nova": {
@@ -10349,9 +10349,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 48,
+    "total": 47,
     "confidence": 37,
-    "rawTotal": 48,
+    "rawTotal": 47,
     "riskPenalty": 0,
     "riskScore": 50,
     "riskGrade": "mid",
@@ -10386,7 +10386,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 35,
+    "score": 34,
     "stance": "bear",
     "findings": [
      "종가 91,100원이 MA20(99,870원) 대비 -8.8% — 단기 하단 흐름",
@@ -10427,9 +10427,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 32,
+    "total": 31,
     "confidence": 30,
-    "rawTotal": 39,
+    "rawTotal": 38,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -10776,7 +10776,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 51,
+    "score": 52,
     "stance": "neu",
     "findings": [
      "종가 81,200원이 MA20(80,850원) 대비 +0.4% — 단기 상단 흐름",
@@ -10789,7 +10789,7 @@ const LIVE_AUTO = {
     "score": 48,
     "stance": "neu",
     "findings": [
-     "PER -4.32배 · PBR 3.31배 — 밸류 중립 수준",
+     "PER -4.33배 · PBR 3.32배 — 밸류 중립 수준",
      "ROE -76.6% · EPS -18,777원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "증권사 평균 목표주가 112,000원 · 현재가 대비 +38.1% 여력"
@@ -11722,7 +11722,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 47,
+    "score": 46,
     "stance": "neu",
     "findings": [
      "PER -45.86배 · PBR 0.9배 — 밸류 중립 수준",
@@ -11992,7 +11992,7 @@ const LIVE_AUTO = {
     "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 58,
-    "riskGrade": "low",
+    "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 55점(중립). 기술 42·재무 82·퀀트(확률) 64·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 58점으로 원점수 55점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "증권사 평균 목표주가 43,429원 (현재가 대비 +17.4% 상승여력)",
@@ -12002,11 +12002,11 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 26,
     "rawTotal": 26,
-    "confidence": 53,
+    "confidence": 50,
     "probabilityUp": 26.4,
     "riskPenalty": 0,
     "riskScore": 58,
-    "riskGrade": "low",
+    "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -4.0,
     "flowQualityAdjustPp": -0.6,
@@ -12115,10 +12115,10 @@ const LIVE_AUTO = {
     "score": 81,
     "stance": "bull",
     "findings": [
-     "PER 10.97배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
+     "PER 10.96배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
      "ROE 6.9% · EPS 1,324원",
      "컨센서스 EPS 기준 선행 PER 9.6배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 20,667원 · 현재가 대비 +42.3% 여력"
+     "증권사 평균 목표주가 20,667원 · 현재가 대비 +42.4% 여력"
     ]
    },
    "nova": {
@@ -12151,7 +12151,7 @@ const LIVE_AUTO = {
     "riskGrade": "low",
     "riskApplied": true,
     "reason": "자동분석 종합 51점(중립). 기술 59·재무 81·퀀트(확률) 30·수급 58 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 32%·수급 28% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 81점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
-    "target": "증권사 평균 목표주가 20,667원 (현재가 대비 +42.3% 상승여력)",
+    "target": "증권사 평균 목표주가 20,667원 (현재가 대비 +42.4% 상승여력)",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 14,510원이 MA20(14,476원) 대비 +0.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 371,653주 · 기관 순매도 16,130주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 336건 있었는데, 그중 97건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 51점에서 리스크 0점을 반영해 종합 51점 · HOLD · 신뢰도 40%."
    },
    "shadowChief": {
@@ -12336,7 +12336,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 62,
+    "score": 61,
     "stance": "bull",
     "findings": [
      "종가 20,900원이 MA20(18,990원) 대비 +10.1% — 단기 상단 흐름",
@@ -12378,7 +12378,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 46,
-    "confidence": 49,
+    "confidence": 50,
     "rawTotal": 46,
     "riskPenalty": 0,
     "riskScore": 15,
@@ -12546,21 +12546,21 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 28,
-    "rawTotal": 28,
+    "total": 29,
+    "rawTotal": 29,
     "confidence": 49,
-    "probabilityUp": 28.4,
+    "probabilityUp": 28.5,
     "riskPenalty": 0,
     "riskScore": 71,
     "riskGrade": "low",
     "riskApplied": true,
-    "relativeAdjustPp": -2.7,
+    "relativeAdjustPp": -2.6,
     "flowQualityAdjustPp": 0.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 28.4%로 계산했습니다. 시장·업종 상대강도 -2.7%p, 수급 품질 +0.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 28.5%로 계산했습니다. 시장·업종 상대강도 -2.6%p, 수급 품질 +0.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 28.4%로 계산했습니다. 시장·업종 상대강도 -2.7%p, 수급 품질 +0.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 28.5%로 계산했습니다. 시장·업종 상대강도 -2.6%p, 수급 품질 +0.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "009420": {
@@ -12705,7 +12705,7 @@ const LIVE_AUTO = {
     "total": 24,
     "rawTotal": 24,
     "confidence": 44,
-    "probabilityUp": 23.6,
+    "probabilityUp": 23.5,
     "riskPenalty": 0,
     "riskScore": 27,
     "riskGrade": "mid",
@@ -12714,9 +12714,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 23.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 23.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "011780": {
@@ -12970,7 +12970,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 85,
+    "score": 86,
     "stance": "bull",
     "findings": [
      "PER 6.42배 · PBR 0.45배 — 이익·자산 대비 저평가 매력",
@@ -13017,7 +13017,7 @@ const LIVE_AUTO = {
     "total": 33,
     "rawTotal": 33,
     "confidence": 42,
-    "probabilityUp": 33.4,
+    "probabilityUp": 33.3,
     "riskPenalty": 0,
     "riskScore": 57,
     "riskGrade": "low",
@@ -13197,8 +13197,8 @@ const LIVE_AUTO = {
     "score": 50,
     "stance": "neu",
     "findings": [
-     "종가 224,500원이 MA20(226,840원) 대비 -1.0% — 단기 하단 흐름",
-     "MA60(263,488원) 대비 -14.8% — 장기 추세선 하회",
+     "종가 223,750원이 MA20(226,802원) 대비 -1.3% — 단기 하단 흐름",
+     "MA60(263,476원) 대비 -15.1% — 장기 추세선 하회",
      "RSI(14) 47 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.22배 — 거래 강도 한산"
     ]
@@ -13218,7 +13218,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 상승(+17.7%)",
+     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 상승(+17.3%)",
      "과거에 이런 상태(동일 상태)였던 적이 534건 있었는데, 그중 165건이 5거래일 뒤 올랐어요 → 경험적 승률 31% (시장 평균 40%보다 -9%p 낮아 상대적 부진)",
      "그 534건의 5거래일 뒤 등락률 평균은 -3.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -13239,7 +13239,7 @@ const LIVE_AUTO = {
     "confidence": 54,
     "rawTotal": 47,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 47점(중립). 기술 50·재무 65·퀀트(확률) 34·수급 53 점을 자가 학습 가중치(기술 30%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 22점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -13253,7 +13253,7 @@ const LIVE_AUTO = {
     "confidence": 42,
     "probabilityUp": 35.5,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 2.7,
@@ -13428,11 +13428,11 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 45,
+    "score": 44,
     "stance": "neu",
     "findings": [
-     "종가 34,100원이 MA20(34,228원) 대비 -0.4% — 단기 하단 흐름",
-     "MA60(48,588원) 대비 -29.8% — 장기 추세선 하회",
+     "종가 34,050원이 MA20(34,225원) 대비 -0.5% — 단기 하단 흐름",
+     "MA60(48,587원) 대비 -29.9% — 장기 추세선 하회",
      "RSI(14) 42 약세권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.55배 — 거래 강도 한산"
     ]
@@ -13469,14 +13469,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 39,
+    "total": 38,
     "confidence": 50,
-    "rawTotal": 39,
+    "rawTotal": 38,
     "riskPenalty": 0,
     "riskScore": 5,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 39점(비중 축소). 기술 45·재무 40·퀀트(확률) 20·수급 55 점을 자가 학습 가중치(기술 34%·재무 8%·퀀트 34%·수급 24% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 39점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 38점(비중 축소). 기술 44·재무 40·퀀트(확률) 20·수급 55 점을 자가 학습 가중치(기술 34%·재무 8%·퀀트 34%·수급 24% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 38점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 34,100원이 MA20(34,228원) 대비 -0.4% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 202,539주 · 기관 순매도 5,645주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1523건 있었는데, 그중 311건이 5거래일 뒤 올랐어요 → 경험적 승률 20% (시장 평균 40%보다 -20%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 39점에서 리스크 0점을 반영해 종합 39점 · SELL · 신뢰도 50%."
    },
@@ -13509,8 +13509,8 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "종가 58,400원이 MA20(58,920원) 대비 -0.9% — 단기 하단 흐름",
-     "MA60(70,888원) 대비 -17.6% — 장기 추세선 하회",
+     "종가 58,300원이 MA20(58,915원) 대비 -1.0% — 단기 하단 흐름",
+     "MA60(70,887원) 대비 -17.8% — 장기 추세선 하회",
      "RSI(14) 43 약세권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.31배 — 거래 강도 한산"
     ]
@@ -13743,8 +13743,8 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "종가 25,350원이 MA20(25,592원) 대비 -0.9% — 단기 하단 흐름",
-     "MA60(25,022원) 대비 +1.3% — 장기 추세선 상회",
+     "종가 25,300원이 MA20(25,590원) 대비 -1.1% — 단기 하단 흐름",
+     "MA60(25,021원) 대비 +1.1% — 장기 추세선 상회",
      "RSI(14) 49 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.20배 — 거래 강도 한산"
     ]
@@ -13958,13 +13958,13 @@ const LIVE_AUTO = {
     "riskScore": 42,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -2.9,
+    "relativeAdjustPp": -3.1,
     "flowQualityAdjustPp": 1.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 29.1%로 계산했습니다. 시장·업종 상대강도 -2.9%p, 수급 품질 +1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 29.0%로 계산했습니다. 시장·업종 상대강도 -3.1%p, 수급 품질 +1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 29.1%로 계산했습니다. 시장·업종 상대강도 -2.9%p, 수급 품질 +1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 29.0%로 계산했습니다. 시장·업종 상대강도 -3.1%p, 수급 품질 +1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "085620": {
@@ -14196,9 +14196,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 28.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.9%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 28.7%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.9%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 28.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.9%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 28.7%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.9%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "375500": {
@@ -14221,7 +14221,7 @@ const LIVE_AUTO = {
     "score": 88,
     "stance": "bull",
     "findings": [
-     "PER 5.96배 · PBR 0.54배 — 이익·자산 대비 저평가 매력",
+     "PER 5.94배 · PBR 0.54배 — 이익·자산 대비 저평가 매력",
      "ROE 9.1% · EPS 11,652원",
      "컨센서스 EPS 기준 선행 PER 6.0배 — 실적 반영 시 저평가",
      "증권사 평균 목표주가 93,421원 · 현재가 대비 +34.6% 여력"
@@ -14296,7 +14296,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 77,
+    "score": 78,
     "stance": "bull",
     "findings": [
      "PER 6.14배 · PBR 0.65배 — 이익·자산 대비 저평가 매력",
@@ -14388,7 +14388,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 상승(+4.0%)",
+     "현재 상태: RSI 58(강세) · 20일선 위 · 최근 5일 상승(+4.2%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -14412,14 +14412,14 @@ const LIVE_AUTO = {
     "riskScore": 67,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 53점(중립). 기술 75·재무 70·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 67점으로 원점수 53점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 53점(중립). 기술 75·재무 70·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 34%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 67점으로 원점수 53점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 25,850원이 MA20(25,018원) 대비 +3.3% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 16,865주 · 기관 순매수 28,504주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 53점에서 리스크 0점을 반영해 종합 53점 · HOLD · 신뢰도 41%."
+    "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 25,900원이 MA20(25,020원) 대비 +3.5% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 16,865주 · 기관 순매수 28,504주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 53점에서 리스크 0점을 반영해 종합 53점 · HOLD · 신뢰도 41%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 28,
-    "rawTotal": 28,
+    "total": 29,
+    "rawTotal": 29,
     "confidence": 47,
     "probabilityUp": 28.2,
     "riskPenalty": 0,
@@ -14462,8 +14462,8 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 64,
-    "stance": "bull",
+    "score": 55,
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 50(중립) · 20일선 아래 · 최근 5일 하락(-2.2%)",
@@ -14478,7 +14478,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매수 20,057주 · 기관 순매도 78,244주",
      "외국인 보유율 40.36% → 40.32% (하락)",
      "직전 거래일 외국인 +27,628주 · 기관 -16,133주 · 개인 -14,042주",
-     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -34점 · 가격·수급 방향 중립"
+     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -42점 · 가격은 오르지만 큰손은 파는 분배형 괴리"
     ]
    },
    "chief": {
@@ -14498,19 +14498,19 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 24,
     "rawTotal": 24,
-    "confidence": 55,
-    "probabilityUp": 24.0,
+    "confidence": 56,
+    "probabilityUp": 23.6,
     "riskPenalty": 0,
     "riskScore": 47,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -4.0,
-    "flowQualityAdjustPp": -2.0,
+    "flowQualityAdjustPp": -2.5,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 24.0%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 24.0%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "004990": {
@@ -14577,18 +14577,18 @@ const LIVE_AUTO = {
     "total": 24,
     "rawTotal": 24,
     "confidence": 56,
-    "probabilityUp": 23.6,
+    "probabilityUp": 23.7,
     "riskPenalty": 0,
     "riskScore": 60,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -4.0,
+    "relativeAdjustPp": -3.9,
     "flowQualityAdjustPp": -2.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 23.7%로 계산했습니다. 시장·업종 상대강도 -3.9%p, 수급 품질 -2.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 23.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 23.7%로 계산했습니다. 시장·업종 상대강도 -3.9%p, 수급 품질 -2.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "204320": {
@@ -14835,8 +14835,8 @@ const LIVE_AUTO = {
     "score": 56,
     "stance": "neu",
     "findings": [
-     "종가 80,300원이 MA20(80,115원) 대비 +0.2% — 단기 상단 흐름",
-     "MA60(86,653원) 대비 -7.3% — 장기 추세선 하회",
+     "종가 80,200원이 MA20(80,110원) 대비 +0.1% — 단기 상단 흐름",
+     "MA60(86,652원) 대비 -7.4% — 장기 추세선 하회",
      "RSI(14) 47 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.37배 — 거래 강도 한산"
     ]
@@ -15316,7 +15316,7 @@ const LIVE_AUTO = {
      "PER 10.44배 · PBR 1.25배 — 이익·자산 대비 저평가 매력",
      "ROE 12.0% · EPS 1,803원",
      "컨센서스 EPS 기준 선행 PER 9.7배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 25,136원 · 현재가 대비 +33.6% 여력"
+     "증권사 평균 목표주가 25,136원 · 현재가 대비 +33.7% 여력"
     ]
    },
    "nova": {
@@ -15459,8 +15459,8 @@ const LIVE_AUTO = {
     "score": 90,
     "stance": "bull",
     "findings": [
-     "종가 45,700원이 MA20(38,702원) 대비 +18.1% — 단기 상단 흐름",
-     "MA60(41,042원) 대비 +11.4% — 장기 추세선 상회",
+     "종가 45,750원이 MA20(38,705원) 대비 +18.2% — 단기 상단 흐름",
+     "MA60(41,042원) 대비 +11.5% — 장기 추세선 상회",
      "RSI(14) 64 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.42배 — 거래 강도 한산"
     ]
@@ -15480,7 +15480,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 64(강세) · 20일선 위 · 최근 5일 상승(+18.1%)",
+     "현재 상태: RSI 64(강세) · 20일선 위 · 최근 5일 상승(+18.2%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -15513,7 +15513,7 @@ const LIVE_AUTO = {
     "total": 32,
     "rawTotal": 32,
     "confidence": 39,
-    "probabilityUp": 31.9,
+    "probabilityUp": 32.0,
     "riskPenalty": 0,
     "riskScore": 25,
     "riskGrade": "mid",
@@ -15522,9 +15522,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 31.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 32.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 31.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 32.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "071970": {
@@ -15625,10 +15625,10 @@ const LIVE_AUTO = {
     "score": 75,
     "stance": "bull",
     "findings": [
-     "PER 14.9배 · PBR 1.62배 — 이익·자산 대비 저평가 매력",
+     "PER 14.83배 · PBR 1.61배 — 이익·자산 대비 저평가 매력",
      "ROE 10.9% · EPS 3,165원",
-     "컨센서스 EPS 기준 선행 PER 13.5배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 69,091원 · 현재가 대비 +46.5% 여력"
+     "컨센서스 EPS 기준 선행 PER 13.4배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 69,091원 · 현재가 대비 +47.2% 여력"
     ]
    },
    "nova": {
@@ -15668,7 +15668,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 28,
     "rawTotal": 28,
-    "confidence": 47,
+    "confidence": 46,
     "probabilityUp": 27.7,
     "riskPenalty": 0,
     "riskScore": 49,
@@ -15924,7 +15924,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 88,
+    "score": 87,
     "stance": "bull",
     "findings": [
      "종가 198,900원이 MA20(181,410원) 대비 +9.6% — 단기 상단 흐름",
@@ -16022,7 +16022,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 34,
+    "score": 20,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -16511,9 +16511,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 31,
+    "total": 30,
     "confidence": 33,
-    "rawTotal": 38,
+    "rawTotal": 37,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -16626,7 +16626,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 63,
+    "score": 64,
     "stance": "bull",
     "findings": [
      "종가 76,900원이 MA20(73,600원) 대비 +4.5% — 단기 상단 흐름",
@@ -16683,7 +16683,7 @@ const LIVE_AUTO = {
     "total": 32,
     "rawTotal": 32,
     "confidence": 39,
-    "probabilityUp": 31.6,
+    "probabilityUp": 31.5,
     "riskPenalty": 0,
     "riskScore": 56,
     "riskGrade": "mid",
@@ -17229,7 +17229,7 @@ const LIVE_AUTO = {
     "total": 28,
     "rawTotal": 28,
     "confidence": 43,
-    "probabilityUp": 27.6,
+    "probabilityUp": 27.5,
     "riskPenalty": 0,
     "riskScore": 45,
     "riskGrade": "mid",
@@ -17238,9 +17238,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -0.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 27.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -0.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 27.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -0.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 27.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -0.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 27.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -0.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "006040": {
@@ -17373,7 +17373,7 @@ const LIVE_AUTO = {
     "confidence": 48,
     "rawTotal": 47,
     "riskPenalty": 0,
-    "riskScore": 64,
+    "riskScore": 65,
     "riskGrade": "low",
     "riskApplied": true,
     "reason": "자동분석 종합 47점(중립). 기술 66·재무 38·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 30%·재무 9%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 64점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -17387,7 +17387,7 @@ const LIVE_AUTO = {
     "confidence": 47,
     "probabilityUp": 31.5,
     "riskPenalty": 0,
-    "riskScore": 64,
+    "riskScore": 65,
     "riskGrade": "low",
     "riskApplied": true,
     "relativeAdjustPp": -1.3,
@@ -17607,7 +17607,7 @@ const LIVE_AUTO = {
     "confidence": 51,
     "rawTotal": 48,
     "riskPenalty": 0,
-    "riskScore": 58,
+    "riskScore": 59,
     "riskGrade": "low",
     "riskApplied": true,
     "reason": "자동분석 종합 48점(중립). 기술 63·재무 60·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 58점으로 원점수 48점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -17621,7 +17621,7 @@ const LIVE_AUTO = {
     "confidence": 50,
     "probabilityUp": 30.0,
     "riskPenalty": 0,
-    "riskScore": 58,
+    "riskScore": 59,
     "riskGrade": "low",
     "riskApplied": true,
     "relativeAdjustPp": -2.6,
@@ -18474,8 +18474,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 30,
-    "rawTotal": 30,
+    "total": 31,
+    "rawTotal": 31,
     "confidence": 48,
     "probabilityUp": 30.0,
     "riskPenalty": 0,
@@ -18576,7 +18576,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 82,
+    "score": 81,
     "stance": "bull",
     "findings": [
      "종가 8,410원이 MA20(7,872원) 대비 +6.8% — 단기 상단 흐름",
@@ -18596,13 +18596,13 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
-    "stance": "bear",
+    "score": 59,
+    "stance": "bull",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 64(강세) · 20일선 위 · 최근 5일 상승(+2.3%)",
-     "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
-     "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
+     "현재 상태: RSI 63(강세) · 20일선 위 · 최근 5일 횡보(+1.5%)",
+     "과거에 이런 상태(동일 상태)였던 적이 439건 있었는데, 그중 198건이 5거래일 뒤 올랐어요 → 경험적 승률 45% (시장 평균 40%보다 +5%p 높아 상대적 양호)",
+     "그 439건의 5거래일 뒤 등락률 평균은 -0.9%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
    },
    "flow": {
@@ -18654,7 +18654,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 68,
+    "score": 67,
     "stance": "bull",
     "findings": [
      "종가 39,250원이 MA20(36,980원) 대비 +6.1% — 단기 상단 흐름",
@@ -18667,10 +18667,10 @@ const LIVE_AUTO = {
     "score": 77,
     "stance": "bull",
     "findings": [
-     "PER 11.05배 · PBR 0.91배 — 이익·자산 대비 저평가 매력",
+     "PER 11.0배 · PBR 0.91배 — 이익·자산 대비 저평가 매력",
      "ROE 8.3% · EPS 3,553원",
-     "컨센서스 EPS 기준 선행 PER 9.3배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 45,500원 · 현재가 대비 +15.9% 여력"
+     "컨센서스 EPS 기준 선행 PER 9.2배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 45,500원 · 현재가 대비 +16.4% 여력"
     ]
    },
    "nova": {
@@ -18695,9 +18695,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 52,
+    "total": 51,
     "confidence": 42,
-    "rawTotal": 52,
+    "rawTotal": 51,
     "riskPenalty": 0,
     "riskScore": 60,
     "riskGrade": "low",
@@ -18732,7 +18732,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 45,
+    "score": 46,
     "stance": "neu",
     "findings": [
      "종가 12,370원이 MA20(12,328원) 대비 +0.3% — 단기 상단 흐름",
@@ -18756,7 +18756,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 43(약세) · 20일선 위 · 최근 5일 상승(+9.6%)",
+     "현재 상태: RSI 44(약세) · 20일선 위 · 최근 5일 상승(+10.0%)",
      "과거에 이런 상태(동일 상태)였던 적이 345건 있었는데, 그중 62건이 5거래일 뒤 올랐어요 → 경험적 승률 18% (시장 평균 40%보다 -22%p 낮아 상대적 부진)",
      "그 345건의 5거래일 뒤 등락률 평균은 -7.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -19044,7 +19044,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 41,
+    "score": 40,
     "stance": "bear",
     "findings": [
      "종가 80,700원이 MA20(83,805원) 대비 -3.7% — 단기 하단 흐름",
@@ -19092,7 +19092,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 30점(비중 축소). 기술 41·재무 40·퀀트(확률) 20·수급 50 점을 자가 학습 가중치(기술 33%·재무 8%·퀀트 31%·수급 28% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 37점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 30점(비중 축소). 기술 40·재무 40·퀀트(확률) 20·수급 50 점을 자가 학습 가중치(기술 33%·재무 8%·퀀트 31%·수급 28% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 37점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 80,700원이 MA20(83,805원) 대비 -3.7% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 50,024주 · 기관 순매수 170,523주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1523건 있었는데, 그중 311건이 5거래일 뒤 올랐어요 → 경험적 승률 20% (시장 평균 40%보다 -20%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 37점에서 리스크 7점을 반영해 종합 30점 · SELL · 신뢰도 48%."
    },
@@ -19200,7 +19200,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 9,850원이 MA20(9,514원) 대비 +3.5% — 단기 상단 흐름",
@@ -19668,7 +19668,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 56,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "종가 4,470원이 MA20(4,296원) 대비 +4.1% — 단기 상단 흐름",
@@ -20058,7 +20058,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 82,
+    "score": 80,
     "stance": "bull",
     "findings": [
      "종가 51,400원이 MA20(46,128원) 대비 +11.4% — 단기 상단 흐름",
@@ -20099,11 +20099,11 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 54,
+    "total": 53,
     "confidence": 37,
-    "rawTotal": 54,
+    "rawTotal": 53,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 21,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 54점(중립). 기술 82·재무 58·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 22점으로 원점수 54점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -20117,7 +20117,7 @@ const LIVE_AUTO = {
     "confidence": 36,
     "probabilityUp": 36.3,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 21,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 4.0,
@@ -20227,10 +20227,10 @@ const LIVE_AUTO = {
     "score": 76,
     "stance": "bull",
     "findings": [
-     "PER 15.93배 · PBR 0.67배 — 이익·자산 대비 저평가 매력",
+     "PER 15.91배 · PBR 0.67배 — 이익·자산 대비 저평가 매력",
      "ROE 4.2% · EPS 6,423원",
-     "컨센서스 EPS 기준 선행 PER 10.0배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 155,909원 · 현재가 대비 +52.4% 여력"
+     "컨센서스 EPS 기준 선행 PER 9.9배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 155,909원 · 현재가 대비 +52.6% 여력"
     ]
    },
    "nova": {
@@ -20316,7 +20316,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 61(강세) · 20일선 위 · 최근 5일 상승(+12.1%)",
+     "현재 상태: RSI 60(강세) · 20일선 위 · 최근 5일 상승(+11.9%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -20373,8 +20373,8 @@ const LIVE_AUTO = {
     "score": 80,
     "stance": "bull",
     "findings": [
-     "종가 54,200원이 MA20(51,442원) 대비 +5.4% — 단기 상단 흐름",
-     "MA60(49,812원) 대비 +8.8% — 장기 추세선 상회",
+     "종가 54,300원이 MA20(51,448원) 대비 +5.5% — 단기 상단 흐름",
+     "MA60(49,813원) 대비 +9.0% — 장기 추세선 상회",
      "RSI(14) 57 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.16배 — 거래 강도 한산"
     ]
@@ -20394,7 +20394,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 상승(+16.6%)",
+     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 상승(+16.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -20427,7 +20427,7 @@ const LIVE_AUTO = {
     "total": 27,
     "rawTotal": 27,
     "confidence": 47,
-    "probabilityUp": 27.2,
+    "probabilityUp": 27.4,
     "riskPenalty": 0,
     "riskScore": 26,
     "riskGrade": "mid",
@@ -20448,7 +20448,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 73,
+    "score": 74,
     "stance": "bull",
     "findings": [
      "종가 26,400원이 MA20(25,790원) 대비 +2.4% — 단기 상단 흐름",
@@ -20461,10 +20461,10 @@ const LIVE_AUTO = {
     "score": 81,
     "stance": "bull",
     "findings": [
-     "PER 6.19배 · PBR 0.62배 — 이익·자산 대비 저평가 매력",
+     "PER 6.24배 · PBR 0.63배 — 이익·자산 대비 저평가 매력",
      "ROE 10.0% · EPS 4,264원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 35,000원 · 현재가 대비 +32.6% 여력"
+     "증권사 평균 목표주가 35,000원 · 현재가 대비 +31.6% 여력"
     ]
    },
    "nova": {
@@ -20851,10 +20851,10 @@ const LIVE_AUTO = {
     "score": 53,
     "stance": "neu",
     "findings": [
-     "PER 23.62배 · PBR 1.63배 — 밸류 중립 수준",
+     "PER 23.59배 · PBR 1.62배 — 밸류 중립 수준",
      "ROE 6.9% · EPS 1,670원",
-     "컨센서스 EPS 기준 선행 PER 36.2배 — 실적 성장 확인 필요",
-     "증권사 평균 목표주가 45,429원 · 현재가 대비 +15.2% 여력"
+     "컨센서스 EPS 기준 선행 PER 36.1배 — 실적 성장 확인 필요",
+     "증권사 평균 목표주가 45,429원 · 현재가 대비 +15.3% 여력"
     ]
    },
    "nova": {
@@ -21475,10 +21475,10 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER -5.91배 · PBR 2.21배 — 밸류 중립 수준",
+     "PER -5.93배 · PBR 2.21배 — 밸류 중립 수준",
      "ROE -37.3% · EPS -883원",
      "컨센서스 추정 EPS 반영 시 밸류 재계산 필요",
-     "증권사 평균 목표주가 6,875원 · 현재가 대비 +31.7% 여력"
+     "증권사 평균 목표주가 6,875원 · 현재가 대비 +31.2% 여력"
     ]
    },
    "nova": {
@@ -21618,8 +21618,8 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 58,
-    "stance": "bull",
+    "score": 56,
+    "stance": "neu",
     "findings": [
      "종가 11,370원이 MA20(10,740원) 대비 +5.9% — 단기 상단 흐름",
      "MA60(13,236원) 대비 -14.1% — 장기 추세선 하회",
@@ -21659,9 +21659,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 43,
+    "total": 42,
     "confidence": 40,
-    "rawTotal": 50,
+    "rawTotal": 49,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -21774,11 +21774,11 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 61,
+    "score": 60,
     "stance": "bull",
     "findings": [
-     "종가 5,890원이 MA20(5,744원) 대비 +2.6% — 단기 상단 흐름",
-     "MA60(6,181원) 대비 -4.7% — 장기 추세선 하회",
+     "종가 5,870원이 MA20(5,742원) 대비 +2.2% — 단기 상단 흐름",
+     "MA60(6,180원) 대비 -5.0% — 장기 추세선 하회",
      "RSI(14) 51 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.28배 — 거래 강도 한산"
     ]
@@ -21787,10 +21787,10 @@ const LIVE_AUTO = {
     "score": 83,
     "stance": "bull",
     "findings": [
-     "PER 3.38배 · PBR 0.32배 — 이익·자산 대비 저평가 매력",
+     "PER 3.36배 · PBR 0.32배 — 이익·자산 대비 저평가 매력",
      "ROE 9.4% · EPS 1,747원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 8,300원 · 현재가 대비 +40.7% 여력"
+     "증권사 평균 목표주가 8,300원 · 현재가 대비 +41.4% 여력"
     ]
    },
    "nova": {
@@ -22102,7 +22102,7 @@ const LIVE_AUTO = {
      "PER 3.9배 · PBR 0.31배 — 이익·자산 대비 저평가 매력",
      "ROE 8.0% · EPS 1,661원",
      "컨센서스 EPS 기준 선행 PER 5.1배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 9,385원 · 현재가 대비 +45.1% 여력"
+     "증권사 평균 목표주가 9,385원 · 현재가 대비 +44.8% 여력"
     ]
    },
    "nova": {
@@ -22418,7 +22418,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 20,
+    "score": 34,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -22438,10 +22438,10 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "SELL",
-    "total": 41,
+    "call": "HOLD",
+    "total": 48,
     "confidence": 37,
-    "rawTotal": 41,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 51,
     "riskGrade": "mid",
@@ -22476,7 +22476,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 79,
+    "score": 78,
     "stance": "bull",
     "findings": [
      "종가 175,000원이 MA20(152,080원) 대비 +15.1% — 단기 상단 흐름",
@@ -22517,11 +22517,11 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 54,
-    "confidence": 37,
-    "rawTotal": 54,
+    "total": 53,
+    "confidence": 38,
+    "rawTotal": 53,
     "riskPenalty": 0,
-    "riskScore": 31,
+    "riskScore": 32,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 54점(중립). 기술 79·재무 63·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 30%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 31점으로 원점수 54점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -22535,10 +22535,10 @@ const LIVE_AUTO = {
     "confidence": 36,
     "probabilityUp": 36.8,
     "riskPenalty": 0,
-    "riskScore": 31,
+    "riskScore": 32,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 4.0,
+    "relativeAdjustPp": 3.3,
     "flowQualityAdjustPp": 2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -22645,10 +22645,10 @@ const LIVE_AUTO = {
     "score": 75,
     "stance": "bull",
     "findings": [
-     "PER 11.96배 · PBR 0.52배 — 이익·자산 대비 저평가 매력",
+     "PER 11.9배 · PBR 0.52배 — 이익·자산 대비 저평가 매력",
      "ROE 4.4% · EPS 2,982원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 51,500원 · 현재가 대비 +44.5% 여력"
+     "증권사 평균 목표주가 51,500원 · 현재가 대비 +45.1% 여력"
     ]
    },
    "nova": {
@@ -22694,7 +22694,7 @@ const LIVE_AUTO = {
     "riskScore": 13,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -3.6,
+    "relativeAdjustPp": -3.3,
     "flowQualityAdjustPp": -0.6,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -23162,13 +23162,13 @@ const LIVE_AUTO = {
     "riskScore": 64,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -4.0,
+    "relativeAdjustPp": -3.9,
     "flowQualityAdjustPp": -2.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 24.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 24.7%로 계산했습니다. 시장·업종 상대강도 -3.9%p, 수급 품질 -2.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 24.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 24.7%로 계산했습니다. 시장·업종 상대강도 -3.9%p, 수급 품질 -2.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "005090": {
@@ -23334,7 +23334,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 77,
+    "score": 69,
     "stance": "bull",
     "findings": [
      "종가 23,575원이 MA20(20,429원) 대비 +15.4% — 단기 상단 흐름",
@@ -23354,7 +23354,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
+    "score": 26,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -23374,10 +23374,10 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "HOLD",
-    "total": 47,
-    "confidence": 32,
-    "rawTotal": 54,
+    "call": "SELL",
+    "total": 43,
+    "confidence": 35,
+    "rawTotal": 50,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -23390,7 +23390,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 29,
     "rawTotal": 36,
-    "confidence": 30,
+    "confidence": 31,
     "probabilityUp": 36.3,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -23747,6 +23747,26 @@ const LIVE_AUTO = {
     "score": 31,
     "stance": "bear",
     "findings": [
+     "종가 18,810원이 MA20(18,306원) 대비 +2.8% — 단기 상단 흐름",
+     "MA60(17,660원) 대비 +6.5% — 장기 추세선 상회",
+     "RSI(14) 61 상승 모멘텀권 · MACD가 시그널을 하회(데드크로스)",
+     "거래량은 20일 평균의 0.84배 — 거래 강도 보통"
+    ]
+   },
+   "diana": {
+    "score": 87,
+    "stance": "bull",
+    "findings": [
+     "PER 6.34배 · PBR 0.81배 — 이익·자산 대비 저평가 매력",
+     "ROE 12.8% · EPS 2,966원",
+     "컨센서스 EPS 기준 선행 PER 5.4배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 25,000원 · 현재가 대비 +32.9% 여력"
+    ]
+   },
+   "nova": {
+    "score": 31,
+    "stance": "bear",
+    "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 62(강세) · 20일선 위 · 최근 5일 상승(+3.3%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
@@ -23971,10 +23991,10 @@ const LIVE_AUTO = {
     "score": 86,
     "stance": "bull",
     "findings": [
-     "PER 7.67배 · PBR 1.16배 — 이익·자산 대비 저평가 매력",
+     "PER 7.63배 · PBR 1.15배 — 이익·자산 대비 저평가 매력",
      "ROE 15.1% · EPS 3,603원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 62,000원 · 현재가 대비 +124.2% 여력"
+     "증권사 평균 목표주가 62,000원 · 현재가 대비 +125.5% 여력"
     ]
    },
    "nova": {
@@ -24393,7 +24413,7 @@ const LIVE_AUTO = {
     "confidence": 37,
     "rawTotal": 48,
     "riskPenalty": 0,
-    "riskScore": 50,
+    "riskScore": 51,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 48점(중립). 기술 61·재무 74·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 50점으로 원점수 48점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -24407,7 +24427,7 @@ const LIVE_AUTO = {
     "confidence": 43,
     "probabilityUp": 31.1,
     "riskPenalty": 0,
-    "riskScore": 50,
+    "riskScore": 51,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -1.3,
@@ -24426,7 +24446,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 40,
+    "score": 41,
     "stance": "bear",
     "findings": [
      "종가 84,800원이 MA20(86,370원) 대비 -1.8% — 단기 하단 흐름",
@@ -24468,7 +24488,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 52,
-    "confidence": 43,
+    "confidence": 44,
     "rawTotal": 52,
     "riskPenalty": 0,
     "riskScore": 54,
@@ -24816,7 +24836,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 55,
+    "score": 54,
     "stance": "neu",
     "findings": [
      "종가 18,690원이 MA20(18,078원) 대비 +3.4% — 단기 상단 흐름",
@@ -24878,7 +24898,7 @@ const LIVE_AUTO = {
     "riskScore": 20,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -0.2,
+    "relativeAdjustPp": -0.4,
     "flowQualityAdjustPp": 2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -24907,15 +24927,15 @@ const LIVE_AUTO = {
     "score": 91,
     "stance": "bull",
     "findings": [
-     "PER 6.29배 · PBR 0.51배 — 이익·자산 대비 저평가 매력",
+     "PER 6.28배 · PBR 0.5배 — 이익·자산 대비 저평가 매력",
      "ROE 8.0% · EPS 13,918원",
      "컨센서스 EPS 기준 선행 PER 8.1배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 145,000원 · 현재가 대비 +65.5% 여력"
+     "증권사 평균 목표주가 145,000원 · 현재가 대비 +65.9% 여력"
     ]
    },
    "nova": {
-    "score": 59,
-    "stance": "bull",
+    "score": 31,
+    "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 횡보(+1.9%)",
@@ -24934,12 +24954,12 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "BUY",
-    "total": 65,
-    "confidence": 48,
-    "rawTotal": 65,
+    "call": "HOLD",
+    "total": 56,
+    "confidence": 40,
+    "rawTotal": 56,
     "riskPenalty": 0,
-    "riskScore": 61,
+    "riskScore": 62,
     "riskGrade": "low",
     "riskApplied": true,
     "reason": "자동분석 종합 65점(매수 우위). 기술 75·재무 91·퀀트(확률) 59·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 61점으로 원점수 65점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -24953,7 +24973,7 @@ const LIVE_AUTO = {
     "confidence": 49,
     "probabilityUp": 29.9,
     "riskPenalty": 0,
-    "riskScore": 61,
+    "riskScore": 62,
     "riskGrade": "low",
     "riskApplied": true,
     "relativeAdjustPp": -4.0,
@@ -25091,9 +25111,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 43,
+    "total": 42,
     "confidence": 30,
-    "rawTotal": 50,
+    "rawTotal": 49,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -25176,7 +25196,7 @@ const LIVE_AUTO = {
     "riskScore": 65,
     "riskGrade": "low",
     "riskApplied": true,
-    "reason": "자동분석 종합 61점(중립). 기술 75·재무 58·퀀트(확률) 59·수급 50 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 65점으로 원점수 61점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
+    "reason": "자동분석 종합 61점(중립). 기술 75·재무 58·퀀트(확률) 59·수급 50 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 34%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 65점으로 원점수 61점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 17,760원이 MA20(17,216원) 대비 +3.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 5,126주 · 기관 순매수 16,906주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 439건 있었는데, 그중 198건이 5거래일 뒤 올랐어요 → 경험적 승률 45% (시장 평균 40%보다 +5%p 높아 상대적 양호). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 61점에서 리스크 0점을 반영해 종합 61점 · HOLD · 신뢰도 63%."
    },
@@ -25206,7 +25226,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 77,
+    "score": 79,
     "stance": "bull",
     "findings": [
      "종가 5,660원이 MA20(5,210원) 대비 +8.6% — 단기 상단 흐름",
@@ -25251,7 +25271,7 @@ const LIVE_AUTO = {
     "confidence": 37,
     "rawTotal": 58,
     "riskPenalty": 0,
-    "riskScore": 57,
+    "riskScore": 56,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 58점(중립). 기술 77·재무 84·퀀트(확률) 31·수급 59 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 32%·수급 28% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 57점으로 원점수 58점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -25265,10 +25285,10 @@ const LIVE_AUTO = {
     "confidence": 39,
     "probabilityUp": 33.1,
     "riskPenalty": 0,
-    "riskScore": 57,
+    "riskScore": 56,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -0.4,
+    "relativeAdjustPp": -0.0,
     "flowQualityAdjustPp": 1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -25362,7 +25382,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 56,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "종가 7,930원이 MA20(7,776원) 대비 +2.0% — 단기 상단 흐름",
@@ -25871,9 +25891,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 49,
+    "total": 48,
     "confidence": 37,
-    "rawTotal": 49,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 23,
     "riskGrade": "mid",
@@ -25887,7 +25907,7 @@ const LIVE_AUTO = {
     "total": 37,
     "rawTotal": 37,
     "confidence": 35,
-    "probabilityUp": 36.9,
+    "probabilityUp": 37.0,
     "riskPenalty": 0,
     "riskScore": 23,
     "riskGrade": "mid",
@@ -25896,9 +25916,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 37.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 37.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "020000": {
@@ -26454,7 +26474,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 53,
+    "score": 52,
     "stance": "neu",
     "findings": [
      "종가 8,850원이 MA20(8,704원) 대비 +1.7% — 단기 상단 흐름",
@@ -26495,14 +26515,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 45,
+    "total": 44,
     "confidence": 55,
-    "rawTotal": 45,
+    "rawTotal": 44,
     "riskPenalty": 0,
     "riskScore": 26,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 45점(비중 축소). 기술 53·재무 46·퀀트(확률) 26·수급 56 점을 자가 학습 가중치(기술 30%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 26점으로 원점수 45점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 44점(비중 축소). 기술 52·재무 46·퀀트(확률) 26·수급 56 점을 자가 학습 가중치(기술 30%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 26점으로 원점수 44점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 8,850원이 MA20(8,704원) 대비 +1.7% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 245,999주 · 기관 순매수 1,782주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 45점에서 리스크 0점을 반영해 종합 45점 · SELL · 신뢰도 55%."
    },
@@ -26516,7 +26536,7 @@ const LIVE_AUTO = {
     "riskScore": 26,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 1.7,
+    "relativeAdjustPp": 1.5,
     "flowQualityAdjustPp": 2.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -26586,21 +26606,21 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 27,
-    "rawTotal": 34,
-    "confidence": 36,
-    "probabilityUp": 33.8,
+    "total": 26,
+    "rawTotal": 33,
+    "confidence": 37,
+    "probabilityUp": 33.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 2.1,
+    "relativeAdjustPp": 1.5,
     "flowQualityAdjustPp": 1.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 33.8%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 33.3%로 계산했습니다. 시장·업종 상대강도 +1.5%p, 수급 품질 +1.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 33.8%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 33.3%로 계산했습니다. 시장·업종 상대강도 +1.5%p, 수급 품질 +1.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "000070": {
@@ -26610,7 +26630,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 74,
+    "score": 73,
     "stance": "bull",
     "findings": [
      "종가 58,400원이 MA20(56,600원) 대비 +3.2% — 단기 상단 흐름",
@@ -26651,14 +26671,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
-    "confidence": 45,
-    "rawTotal": 51,
+    "total": 50,
+    "confidence": 46,
+    "rawTotal": 50,
     "riskPenalty": 0,
     "riskScore": 64,
     "riskGrade": "low",
     "riskApplied": true,
-    "reason": "자동분석 종합 51점(중립). 기술 74·재무 46·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 31%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 64점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 50점(중립). 기술 73·재무 46·퀀트(확률) 31·수급 50 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 31%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 64점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 58,400원이 MA20(56,600원) 대비 +3.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 11,002주 · 기관 순매수 13,249주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 51점에서 리스크 0점을 반영해 종합 51점 · HOLD · 신뢰도 45%."
    },
@@ -26688,7 +26708,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 41,
+    "score": 40,
     "stance": "bear",
     "findings": [
      "종가 10,970원이 MA20(11,382원) 대비 -3.6% — 단기 하단 흐름",
@@ -26844,7 +26864,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 57,
+    "score": 56,
     "stance": "neu",
     "findings": [
      "종가 61,600원이 MA20(61,065원) 대비 +0.9% — 단기 상단 흐름",
@@ -26857,10 +26877,10 @@ const LIVE_AUTO = {
     "score": 87,
     "stance": "bull",
     "findings": [
-     "PER 6.14배 · PBR 0.35배 — 이익·자산 대비 저평가 매력",
+     "PER 6.12배 · PBR 0.35배 — 이익·자산 대비 저평가 매력",
      "ROE 5.7% · EPS 10,022원",
      "컨센서스 EPS 기준 선행 PER 4.4배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 88,833원 · 현재가 대비 +44.4% 여력"
+     "증권사 평균 목표주가 88,833원 · 현재가 대비 +44.9% 여력"
     ]
    },
    "nova": {
@@ -27081,8 +27101,8 @@ const LIVE_AUTO = {
     "score": 62,
     "stance": "bull",
     "findings": [
-     "종가 8,230원이 MA20(7,808원) 대비 +5.4% — 단기 상단 흐름",
-     "MA60(8,894원) 대비 -7.5% — 장기 추세선 하회",
+     "종가 8,220원이 MA20(7,808원) 대비 +5.3% — 단기 상단 흐름",
+     "MA60(8,894원) 대비 -7.6% — 장기 추세선 하회",
      "RSI(14) 54 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.24배 — 거래 강도 한산"
     ]
@@ -27135,7 +27155,7 @@ const LIVE_AUTO = {
     "total": 32,
     "rawTotal": 32,
     "confidence": 45,
-    "probabilityUp": 31.9,
+    "probabilityUp": 32.0,
     "riskPenalty": 0,
     "riskScore": 51,
     "riskGrade": "mid",
@@ -27312,7 +27332,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 36,
+    "score": 43,
     "stance": "bear",
     "findings": [
      "종가 62,200원이 MA20(63,180원) 대비 -1.6% — 단기 하단 흐름",
@@ -27325,14 +27345,14 @@ const LIVE_AUTO = {
     "score": 52,
     "stance": "neu",
     "findings": [
-     "PER 35.04배 · PBR 0.38배 — 밸류 중립 수준",
+     "PER 35.1배 · PBR 0.38배 — 밸류 중립 수준",
      "ROE 1.1% · EPS 1,775원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 57,500 ~ 86,100 참고 · 목표주가 컨센 미제공"
     ]
    },
    "nova": {
-    "score": 45,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -27352,24 +27372,24 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "SELL",
-    "total": 44,
-    "confidence": 72,
-    "rawTotal": 44,
+    "call": "HOLD",
+    "total": 49,
+    "confidence": 76,
+    "rawTotal": 49,
     "riskPenalty": 0,
     "riskScore": 84,
     "riskGrade": "low",
     "riskApplied": true,
-    "reason": "자동분석 종합 44점(비중 축소). 기술 36·재무 52·퀀트(확률) 45·수급 49 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 84점으로 원점수 44점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
+    "reason": "자동분석 종합 49점(중립). 기술 43·재무 52·퀀트(확률) 55·수급 49 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 32%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 84점으로 원점수 49점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 62,200원이 MA20(63,180원) 대비 -1.6% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 6,488주 · 기관 순매도 4,205주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1646건 있었는데, 그중 610건이 5거래일 뒤 올랐어요 → 경험적 승률 37% (시장 평균 40%보다 -3%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 44점에서 리스크 0점을 반영해 종합 44점 · SELL · 신뢰도 72%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 22,
-    "rawTotal": 22,
+    "total": 23,
+    "rawTotal": 23,
     "confidence": 64,
-    "probabilityUp": 22.1,
+    "probabilityUp": 23.2,
     "riskPenalty": 0,
     "riskScore": 84,
     "riskGrade": "low",
@@ -27378,9 +27398,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.5,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 22.1%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 23.2%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 22.1%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 23.2%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.5%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "003280": {
@@ -27390,7 +27410,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 31,
+    "score": 32,
     "stance": "bear",
     "findings": [
      "종가 1,676원이 MA20(1,734원) 대비 -3.3% — 단기 하단 흐름",
@@ -27432,20 +27452,20 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 46,
-    "confidence": 47,
+    "confidence": 48,
     "rawTotal": 46,
     "riskPenalty": 0,
     "riskScore": 25,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 46점(비중 축소). 기술 31·재무 63·퀀트(확률) 34·수급 69 점을 자가 학습 가중치(기술 30%·재무 9%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 25점으로 원점수 46점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 46점(비중 축소). 기술 32·재무 63·퀀트(확률) 34·수급 69 점을 자가 학습 가중치(기술 30%·재무 9%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 25점으로 원점수 46점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 1,676원이 MA20(1,734원) 대비 -3.3% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 2,460,355주 · 기관 순매도 23,824주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 534건 있었는데, 그중 165건이 5거래일 뒤 올랐어요 → 경험적 승률 31% (시장 평균 40%보다 -9%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 46점에서 리스크 0점을 반영해 종합 46점 · SELL · 신뢰도 47%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 31,
-    "rawTotal": 31,
+    "total": 32,
+    "rawTotal": 32,
     "confidence": 45,
     "probabilityUp": 31.3,
     "riskPenalty": 0,
@@ -27936,7 +27956,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 58,
+    "score": 59,
     "stance": "bull",
     "findings": [
      "종가 14,170원이 MA20(14,113원) 대비 +0.4% — 단기 상단 흐름",
@@ -27977,14 +27997,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 47,
+    "total": 48,
     "confidence": 45,
-    "rawTotal": 47,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 66,
     "riskGrade": "low",
     "riskApplied": true,
-    "reason": "자동분석 종합 47점(중립). 기술 58·재무 73·퀀트(확률) 30·수급 50 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 66점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 48점(중립). 기술 59·재무 73·퀀트(확률) 30·수급 50 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 35%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 66점으로 원점수 48점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 14,170원이 MA20(14,113원) 대비 +0.4% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 1,924주 · 기관 순매도 2,963주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 336건 있었는데, 그중 97건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 47점에서 리스크 0점을 반영해 종합 47점 · HOLD · 신뢰도 45%."
    },
@@ -28059,7 +28079,7 @@ const LIVE_AUTO = {
     "confidence": 48,
     "rawTotal": 46,
     "riskPenalty": 0,
-    "riskScore": 42,
+    "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 46점(비중 축소). 기술 63·재무 50·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 42점으로 원점수 46점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -28073,7 +28093,7 @@ const LIVE_AUTO = {
     "confidence": 48,
     "probabilityUp": 28.7,
     "riskPenalty": 0,
-    "riskScore": 42,
+    "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -2.7,
@@ -28248,7 +28268,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 60,
+    "score": 59,
     "stance": "bull",
     "findings": [
      "종가 9,860원이 MA20(9,146원) 대비 +7.8% — 단기 상단 흐름",
@@ -28290,7 +28310,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 46,
-    "confidence": 51,
+    "confidence": 52,
     "rawTotal": 46,
     "riskPenalty": 0,
     "riskScore": 12,
@@ -28304,7 +28324,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 37,
     "rawTotal": 37,
-    "confidence": 39,
+    "confidence": 40,
     "probabilityUp": 36.8,
     "riskPenalty": 0,
     "riskScore": 12,
@@ -28773,7 +28793,7 @@ const LIVE_AUTO = {
     "total": 28,
     "rawTotal": 35,
     "confidence": 30,
-    "probabilityUp": 35.1,
+    "probabilityUp": 35.0,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -28782,9 +28802,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 0.5,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "347850": {
@@ -29016,9 +29036,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.9%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "108490": {
@@ -29126,7 +29146,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 34,
+    "score": 20,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -29162,19 +29182,19 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 25,
     "rawTotal": 32,
-    "confidence": 34,
-    "probabilityUp": 32.3,
+    "confidence": 33,
+    "probabilityUp": 31.9,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 2.4,
+    "relativeAdjustPp": 2.0,
     "flowQualityAdjustPp": 1.1,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 32.3%로 계산했습니다. 시장·업종 상대강도 +2.4%p, 수급 품질 +1.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 31.9%로 계산했습니다. 시장·업종 상대강도 +2.0%p, 수급 품질 +1.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 32.3%로 계산했습니다. 시장·업종 상대강도 +2.4%p, 수급 품질 +1.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 31.9%로 계산했습니다. 시장·업종 상대강도 +2.0%p, 수급 품질 +1.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "319400": {
@@ -29241,7 +29261,7 @@ const LIVE_AUTO = {
     "total": 23,
     "rawTotal": 30,
     "confidence": 40,
-    "probabilityUp": 29.5,
+    "probabilityUp": 29.4,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -29250,9 +29270,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 29.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 29.5%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 +1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "089970": {
@@ -29406,9 +29426,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 36.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 36.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "420770": {
@@ -29662,7 +29682,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 42,
+    "score": 43,
     "stance": "bear",
     "findings": [
      "PER 72.64배 · PBR 7.76배 — 밸류 부담 존재",
@@ -29775,7 +29795,7 @@ const LIVE_AUTO = {
     "confidence": 42,
     "rawTotal": 51,
     "riskPenalty": 0,
-    "riskScore": 58,
+    "riskScore": 59,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 51점(중립). 기술 74·재무 43·퀀트(확률) 31·수급 52 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 58점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -29789,7 +29809,7 @@ const LIVE_AUTO = {
     "confidence": 45,
     "probabilityUp": 30.1,
     "riskPenalty": 0,
-    "riskScore": 58,
+    "riskScore": 59,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -1.9,
@@ -29849,9 +29869,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 46,
+    "total": 45,
     "confidence": 37,
-    "rawTotal": 46,
+    "rawTotal": 45,
     "riskPenalty": 0,
     "riskScore": 47,
     "riskGrade": "mid",
@@ -29886,7 +29906,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 67,
+    "score": 65,
     "stance": "bull",
     "findings": [
      "종가 75,900원이 MA20(71,555원) 대비 +6.1% — 단기 상단 흐름",
@@ -29927,9 +29947,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 49,
+    "total": 48,
     "confidence": 37,
-    "rawTotal": 49,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 41,
     "riskGrade": "mid",
@@ -30276,7 +30296,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 22,
+    "score": 21,
     "stance": "bear",
     "findings": [
      "종가 22,100원이 MA20(23,652원) 대비 -6.6% — 단기 하단 흐름",
@@ -30317,14 +30337,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 39,
-    "confidence": 34,
-    "rawTotal": 46,
+    "total": 38,
+    "confidence": 33,
+    "rawTotal": 45,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 39점(비중 축소). 기술 22·재무 32·퀀트(확률) 66·수급 54 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 46점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 38점(비중 축소). 기술 21·재무 32·퀀트(확률) 66·수급 54 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 45점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 22,100원이 MA20(23,652원) 대비 -6.6% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 59,482주 · 기관 순매수 206,113주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 5380건 있었는데, 그중 2621건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (시장 평균 40%보다 +9%p 높아 상대적 양호). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 46점에서 리스크 7점을 반영해 종합 39점 · SELL · 신뢰도 34%."
    },
@@ -30332,7 +30352,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 21,
     "rawTotal": 28,
-    "confidence": 41,
+    "confidence": 40,
     "probabilityUp": 27.9,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -30432,7 +30452,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 85,
+    "score": 86,
     "stance": "bull",
     "findings": [
      "종가 31,400원이 MA20(27,560원) 대비 +13.9% — 단기 상단 흐름",
@@ -30456,7 +30476,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 상승(+33.1%)",
+     "현재 상태: RSI 58(강세) · 20일선 위 · 최근 5일 상승(+33.9%)",
      "과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진)",
      "그 1315건의 5거래일 뒤 등락률 평균은 -4.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -30744,8 +30764,8 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 58,
-    "stance": "bull",
+    "score": 56,
+    "stance": "neu",
     "findings": [
      "종가 31,200원이 MA20(29,280원) 대비 +6.6% — 단기 상단 흐름",
      "MA60(41,651원) 대비 -25.1% — 장기 추세선 하회",
@@ -30785,9 +30805,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 40,
+    "total": 39,
     "confidence": 34,
-    "rawTotal": 47,
+    "rawTotal": 46,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -31113,7 +31133,7 @@ const LIVE_AUTO = {
     "total": 25,
     "rawTotal": 32,
     "confidence": 37,
-    "probabilityUp": 31.6,
+    "probabilityUp": 31.5,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -31122,9 +31142,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 31.6%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 31.6%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "323280": {
@@ -31232,7 +31252,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
+    "score": 26,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -31758,7 +31778,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 83,
+    "score": 81,
     "stance": "bull",
     "findings": [
      "종가 58,900원이 MA20(46,230원) 대비 +27.4% — 단기 상단 흐름",
@@ -31806,15 +31826,15 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 45점(비중 축소). 기술 83·재무 32·퀀트(확률) 31·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 52점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 45점(비중 축소). 기술 81·재무 32·퀀트(확률) 31·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 52점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 58,900원이 MA20(46,230원) 대비 +27.4% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 101,404주 · 기관 순매수 158,836주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 52점에서 리스크 7점을 반영해 종합 45점 · SELL · 신뢰도 30%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 29,
-    "rawTotal": 36,
-    "confidence": 29,
+    "total": 28,
+    "rawTotal": 35,
+    "confidence": 30,
     "probabilityUp": 35.5,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -31836,7 +31856,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 85,
+    "score": 84,
     "stance": "bull",
     "findings": [
      "종가 46,450원이 MA20(37,762원) 대비 +23.0% — 단기 상단 흐름",
@@ -31849,10 +31869,10 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "PER -47.59배 · PBR 6.62배 — 밸류 중립 수준",
+     "PER -47.23배 · PBR 6.57배 — 밸류 중립 수준",
      "ROE -13.9% · EPS -975원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 120,000원 · 현재가 대비 +158.6% 여력"
+     "증권사 평균 목표주가 120,000원 · 현재가 대비 +160.6% 여력"
     ]
    },
    "nova": {
@@ -32168,7 +32188,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 26,
+    "score": 20,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -32314,7 +32334,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 52,
+    "score": 53,
     "stance": "neu",
     "findings": [
      "PER -6.43배 · PBR 0.63배 — 밸류 중립 수준",
@@ -32349,7 +32369,7 @@ const LIVE_AUTO = {
     "confidence": 54,
     "rawTotal": 46,
     "riskPenalty": 0,
-    "riskScore": 41,
+    "riskScore": 40,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 46점(비중 축소). 기술 57·재무 52·퀀트(확률) 26·수급 57 점을 자가 학습 가중치(기술 29%·재무 8%·퀀트 33%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 41점으로 원점수 46점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -32363,7 +32383,7 @@ const LIVE_AUTO = {
     "confidence": 46,
     "probabilityUp": 31.8,
     "riskPenalty": 0,
-    "riskScore": 41,
+    "riskScore": 40,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -1.1,
@@ -32382,7 +32402,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 7,950원이 MA20(7,424원) 대비 +7.1% — 단기 상단 흐름",
@@ -32430,14 +32450,14 @@ const LIVE_AUTO = {
     "riskScore": 9,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 47점(중립). 기술 59·재무 54·퀀트(확률) 26·수급 59 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 34%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 9점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 47점(중립). 기술 58·재무 54·퀀트(확률) 26·수급 59 점을 자가 학습 가중치(기술 31%·재무 8%·퀀트 34%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 9점으로 원점수 47점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 7,950원이 MA20(7,424원) 대비 +7.1% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 311,150주 · 기관 순매수 123,936주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 47점에서 리스크 0점을 반영해 종합 47점 · HOLD · 신뢰도 52%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 35,
-    "rawTotal": 35,
+    "total": 34,
+    "rawTotal": 34,
     "confidence": 42,
     "probabilityUp": 34.5,
     "riskPenalty": 0,
@@ -32460,7 +32480,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 85,
+    "score": 84,
     "stance": "bull",
     "findings": [
      "종가 87,800원이 MA20(82,485원) 대비 +6.4% — 단기 상단 흐름",
@@ -32514,8 +32534,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 31,
-    "rawTotal": 31,
+    "total": 30,
+    "rawTotal": 30,
     "confidence": 42,
     "probabilityUp": 30.7,
     "riskPenalty": 0,
@@ -32579,9 +32599,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 36,
+    "total": 35,
     "confidence": 42,
-    "rawTotal": 43,
+    "rawTotal": 42,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -32616,7 +32636,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 47,
+    "score": 46,
     "stance": "neu",
     "findings": [
      "종가 9,500원이 MA20(9,362원) 대비 +1.5% — 단기 상단 흐름",
@@ -32640,7 +32660,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 45(약세) · 20일선 위 · 최근 5일 상승(+33.1%)",
+     "현재 상태: RSI 44(약세) · 20일선 위 · 최근 5일 상승(+31.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 345건 있었는데, 그중 62건이 5거래일 뒤 올랐어요 → 경험적 승률 18% (시장 평균 40%보다 -22%p 낮아 상대적 부진)",
      "그 345건의 5거래일 뒤 등락률 평균은 -7.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ]
@@ -32657,9 +32677,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 37,
+    "total": 36,
     "confidence": 41,
-    "rawTotal": 44,
+    "rawTotal": 43,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -32694,7 +32714,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 54,
+    "score": 53,
     "stance": "neu",
     "findings": [
      "종가 5,260원이 MA20(5,118원) 대비 +2.8% — 단기 상단 흐름",
@@ -32829,7 +32849,7 @@ const LIVE_AUTO = {
     "total": 30,
     "rawTotal": 37,
     "confidence": 29,
-    "probabilityUp": 37.0,
+    "probabilityUp": 36.8,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -33063,7 +33083,7 @@ const LIVE_AUTO = {
     "total": 28,
     "rawTotal": 35,
     "confidence": 35,
-    "probabilityUp": 34.7,
+    "probabilityUp": 34.6,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -33125,9 +33145,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 35,
+    "total": 34,
     "confidence": 55,
-    "rawTotal": 42,
+    "rawTotal": 41,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -33203,9 +33223,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 38,
+    "total": 37,
     "confidence": 62,
-    "rawTotal": 45,
+    "rawTotal": 44,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -33243,8 +33263,8 @@ const LIVE_AUTO = {
     "score": 56,
     "stance": "neu",
     "findings": [
-     "종가 28,150원이 MA20(27,078원) 대비 +4.0% — 단기 상단 흐름",
-     "MA60(32,597원) 대비 -13.6% — 장기 추세선 하회",
+     "종가 28,100원이 MA20(27,075원) 대비 +3.8% — 단기 상단 흐름",
+     "MA60(32,596원) 대비 -13.8% — 장기 추세선 하회",
      "RSI(14) 50 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.29배 — 거래 강도 한산"
     ]
@@ -33318,7 +33338,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 21,600원이 MA20(20,518원) 대비 +5.3% — 단기 상단 흐름",
@@ -33363,7 +33383,7 @@ const LIVE_AUTO = {
     "confidence": 41,
     "rawTotal": 48,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 48점(중립). 기술 59·재무 70·퀀트(확률) 26·수급 50 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 22점으로 원점수 48점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -33377,7 +33397,7 @@ const LIVE_AUTO = {
     "confidence": 45,
     "probabilityUp": 29.6,
     "riskPenalty": 0,
-    "riskScore": 22,
+    "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -2.0,
@@ -33630,7 +33650,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 64,
+    "score": 62,
     "stance": "bull",
     "findings": [
      "종가 10,930원이 MA20(9,790원) 대비 +11.7% — 단기 상단 흐름",
@@ -33672,13 +33692,13 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 45,
-    "confidence": 47,
+    "confidence": 49,
     "rawTotal": 45,
     "riskPenalty": 0,
     "riskScore": 12,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 45점(비중 축소). 기술 64·재무 32·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 12점으로 원점수 45점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 45점(비중 축소). 기술 62·재무 32·퀀트(확률) 26·수급 51 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 12점으로 원점수 45점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 10,930원이 MA20(9,790원) 대비 +11.7% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 191,566주 · 기관 순매수 275,638주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 45점에서 리스크 0점을 반영해 종합 45점 · SELL · 신뢰도 47%."
    },
@@ -33708,7 +33728,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 40,600원이 MA20(39,822원) 대비 +2.0% — 단기 상단 흐름",
@@ -33721,10 +33741,10 @@ const LIVE_AUTO = {
     "score": 66,
     "stance": "bull",
     "findings": [
-     "PER 20.76배 · PBR 1.47배 — 이익·자산 대비 저평가 매력",
+     "PER 20.61배 · PBR 1.46배 — 이익·자산 대비 저평가 매력",
      "ROE 7.1% · EPS 1,953원",
-     "컨센서스 EPS 기준 선행 PER 14.4배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 64,316원 · 현재가 대비 +58.6% 여력"
+     "컨센서스 EPS 기준 선행 PER 14.3배 — 실적 반영 시 저평가",
+     "증권사 평균 목표주가 64,316원 · 현재가 대비 +59.8% 여력"
     ]
    },
    "nova": {
@@ -33786,7 +33806,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 65,
+    "score": 64,
     "stance": "bull",
     "findings": [
      "종가 70,800원이 MA20(62,348원) 대비 +13.6% — 단기 상단 흐름",
@@ -34155,7 +34175,7 @@ const LIVE_AUTO = {
     "total": 23,
     "rawTotal": 30,
     "confidence": 37,
-    "probabilityUp": 29.8,
+    "probabilityUp": 29.9,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -34164,9 +34184,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -3.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 29.8%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -3.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 29.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -3.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 29.8%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -3.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 29.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -3.0%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "490470": {
@@ -34295,34 +34315,34 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 37,
-    "confidence": 42,
+    "total": 44,
+    "confidence": 49,
     "rawTotal": 44,
-    "riskPenalty": 7,
+    "riskPenalty": 0,
     "riskScore": 5,
-    "riskGrade": "high",
+    "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 37점(비중 축소). 기술 62·재무 32·퀀트(확률) 26·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 44점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 44점(비중 축소). 기술 62·재무 32·퀀트(확률) 26·수급 49 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 32%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 44점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 42,900원이 MA20(38,965원) 대비 +10.1% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 26,706주 · 기관 순매수 53,223주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 44점에서 리스크 7점을 반영해 종합 37점 · SELL · 신뢰도 42%."
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 29,
+    "total": 36,
     "rawTotal": 36,
-    "confidence": 33,
+    "confidence": 40,
     "probabilityUp": 35.7,
-    "riskPenalty": 7,
+    "riskPenalty": 0,
     "riskScore": 5,
-    "riskGrade": "high",
+    "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 4.0,
     "flowQualityAdjustPp": 2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.7%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "036830": {
@@ -34332,7 +34352,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 61,
+    "score": 60,
     "stance": "bull",
     "findings": [
      "종가 34,300원이 MA20(31,550원) 대비 +8.7% — 단기 상단 흐름",
@@ -34488,7 +34508,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 79,
+    "score": 77,
     "stance": "bull",
     "findings": [
      "종가 19,640원이 MA20(18,151원) 대비 +8.2% — 단기 상단 흐름",
@@ -34529,14 +34549,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 56,
-    "confidence": 37,
-    "rawTotal": 56,
+    "total": 55,
+    "confidence": 38,
+    "rawTotal": 55,
     "riskPenalty": 0,
-    "riskScore": 37,
+    "riskScore": 38,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 56점(중립). 기술 79·재무 78·퀀트(확률) 31·수급 53 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 37점으로 원점수 56점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 55점(중립). 기술 77·재무 78·퀀트(확률) 31·수급 53 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 38점으로 원점수 55점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 19,640원이 MA20(18,151원) 대비 +8.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 49,807주 · 기관 순매수 37,860주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 56점에서 리스크 0점을 반영해 종합 56점 · HOLD · 신뢰도 37%."
    },
@@ -34547,7 +34567,7 @@ const LIVE_AUTO = {
     "confidence": 40,
     "probabilityUp": 33.0,
     "riskPenalty": 0,
-    "riskScore": 37,
+    "riskScore": 38,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 1.0,
@@ -34607,9 +34627,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 42,
+    "total": 41,
     "confidence": 40,
-    "rawTotal": 49,
+    "rawTotal": 48,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -34654,7 +34674,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 61,
+    "score": 62,
     "stance": "bull",
     "findings": [
      "PER 18.79배 · PBR 2.26배 — 이익·자산 대비 저평가 매력",
@@ -34866,9 +34886,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 0.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "014620": {
@@ -35091,7 +35111,7 @@ const LIVE_AUTO = {
     "total": 29,
     "rawTotal": 36,
     "confidence": 32,
-    "probabilityUp": 36.4,
+    "probabilityUp": 36.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -35100,9 +35120,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "115180": {
@@ -35169,7 +35189,7 @@ const LIVE_AUTO = {
     "total": 24,
     "rawTotal": 31,
     "confidence": 36,
-    "probabilityUp": 31.0,
+    "probabilityUp": 30.9,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -35178,9 +35198,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 31.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 30.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 31.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 30.9%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -2.4%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "006730": {
@@ -35210,7 +35230,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
+    "score": 26,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -35231,9 +35251,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 55,
+    "total": 50,
     "confidence": 37,
-    "rawTotal": 55,
+    "rawTotal": 50,
     "riskPenalty": 0,
     "riskScore": 41,
     "riskGrade": "mid",
@@ -35268,7 +35288,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 65,
+    "score": 64,
     "stance": "bull",
     "findings": [
      "종가 27,650원이 MA20(24,395원) 대비 +13.3% — 단기 상단 흐름",
@@ -35310,13 +35330,13 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 40,
-    "confidence": 39,
+    "confidence": 40,
     "rawTotal": 47,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 40점(비중 축소). 기술 65·재무 32·퀀트(확률) 26·수급 57 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 33%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 47점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 40점(비중 축소). 기술 64·재무 32·퀀트(확률) 26·수급 57 점을 자가 학습 가중치(기술 31%·재무 9%·퀀트 33%·수급 27% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 47점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 27,650원이 MA20(24,395원) 대비 +13.3% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 111,621주 · 기관 순매수 110,403주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 47점에서 리스크 7점을 반영해 종합 40점 · SELL · 신뢰도 39%."
    },
@@ -35658,7 +35678,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 56,
+    "score": 55,
     "stance": "neu",
     "findings": [
      "종가 41,850원이 MA20(40,395원) 대비 +3.6% — 단기 상단 흐름",
@@ -35714,19 +35734,19 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 35,
     "rawTotal": 35,
-    "confidence": 36,
-    "probabilityUp": 34.9,
+    "confidence": 37,
+    "probabilityUp": 34.5,
     "riskPenalty": 0,
     "riskScore": 20,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 1.7,
+    "relativeAdjustPp": 1.3,
     "flowQualityAdjustPp": 1.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 34.9%로 계산했습니다. 시장·업종 상대강도 +1.7%p, 수급 품질 +1.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 34.5%로 계산했습니다. 시장·업종 상대강도 +1.3%p, 수급 품질 +1.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 34.9%로 계산했습니다. 시장·업종 상대강도 +1.7%p, 수급 품질 +1.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 34.5%로 계산했습니다. 시장·업종 상대강도 +1.3%p, 수급 품질 +1.4%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "050890": {
@@ -35814,7 +35834,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 50,
+    "score": 49,
     "stance": "neu",
     "findings": [
      "종가 133,300원이 MA20(134,000원) 대비 -0.5% — 단기 하단 흐름",
@@ -35862,7 +35882,7 @@ const LIVE_AUTO = {
     "riskScore": 41,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 51점(중립). 기술 50·재무 47·퀀트(확률) 55·수급 50 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 41점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
+    "reason": "자동분석 종합 51점(중립). 기술 49·재무 47·퀀트(확률) 55·수급 50 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 41점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 133,300원이 MA20(134,000원) 대비 -0.5% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 3,712주 · 기관 순매수 1,362주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 652건 있었는데, 그중 279건이 5거래일 뒤 올랐어요 → 경험적 승률 43% (시장 평균 40%보다 +3%p 높아 상대적 양호). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 51점에서 리스크 0점을 반영해 종합 51점 · HOLD · 신뢰도 77%."
    },
@@ -35871,7 +35891,7 @@ const LIVE_AUTO = {
     "total": 25,
     "rawTotal": 25,
     "confidence": 60,
-    "probabilityUp": 24.9,
+    "probabilityUp": 24.8,
     "riskPenalty": 0,
     "riskScore": 41,
     "riskGrade": "mid",
@@ -35880,9 +35900,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -1.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 24.9%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 24.8%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 24.9%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 24.8%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.0%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "112040": {
@@ -35970,7 +35990,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 26,250원이 MA20(24,550원) 대비 +6.9% — 단기 상단 흐름",
@@ -36011,9 +36031,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 39,
-    "confidence": 45,
-    "rawTotal": 46,
+    "total": 38,
+    "confidence": 46,
+    "rawTotal": 45,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -36048,7 +36068,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 59,
+    "score": 58,
     "stance": "bull",
     "findings": [
      "종가 7,580원이 MA20(7,063원) 대비 +7.3% — 단기 상단 흐름",
@@ -36096,7 +36116,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "mid",
     "riskApplied": true,
-    "reason": "자동분석 종합 50점(중립). 기술 59·재무 48·퀀트(확률) 26·수급 61 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 50점(중립). 기술 58·재무 48·퀀트(확률) 26·수급 61 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 7,580원이 MA20(7,063원) 대비 +7.3% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 246,335주 · 기관 순매수 236,390주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 50%."
    },
@@ -36110,7 +36130,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 2.4,
+    "relativeAdjustPp": 2.5,
     "flowQualityAdjustPp": 2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -36126,7 +36146,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 74,
+    "score": 73,
     "stance": "bull",
     "findings": [
      "종가 56,700원이 MA20(53,905원) 대비 +5.2% — 단기 상단 흐름",
@@ -36168,13 +36188,13 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 52,
-    "confidence": 45,
+    "confidence": 46,
     "rawTotal": 52,
     "riskPenalty": 0,
     "riskScore": 68,
     "riskGrade": "low",
     "riskApplied": true,
-    "reason": "자동분석 종합 52점(중립). 기술 74·재무 63·퀀트(확률) 31·수급 51 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 68점으로 원점수 52점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 52점(중립). 기술 73·재무 63·퀀트(확률) 31·수급 51 점을 자가 학습 가중치(기술 29%·재무 10%·퀀트 32%·수급 29% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 68점으로 원점수 52점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 56,700원이 MA20(53,905원) 대비 +5.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 4,045주 · 기관 순매수 21,794주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1315건 있었는데, 그중 385건이 5거래일 뒤 올랐어요 → 경험적 승률 29% (시장 평균 40%보다 -11%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 52점에서 리스크 0점을 반영해 종합 52점 · HOLD · 신뢰도 45%."
    },
@@ -36182,8 +36202,8 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 30,
     "rawTotal": 30,
-    "confidence": 48,
-    "probabilityUp": 30.4,
+    "confidence": 49,
+    "probabilityUp": 30.0,
     "riskPenalty": 0,
     "riskScore": 68,
     "riskGrade": "low",
@@ -36204,8 +36224,8 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 57,
-    "stance": "neu",
+    "score": 58,
+    "stance": "bull",
     "findings": [
      "종가 23,450원이 MA20(22,155원) 대비 +5.8% — 단기 상단 흐름",
      "MA60(27,743원) 대비 -15.5% — 장기 추세선 하회",
@@ -36414,8 +36434,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 28,
-    "rawTotal": 35,
+    "total": 29,
+    "rawTotal": 36,
     "confidence": 33,
     "probabilityUp": 35.5,
     "riskPenalty": 7,
@@ -36519,8 +36539,8 @@ const LIVE_AUTO = {
     "score": 59,
     "stance": "bull",
     "findings": [
-     "종가 35,200원이 MA20(33,742원) 대비 +4.3% — 단기 상단 흐름",
-     "MA60(38,747원) 대비 -9.2% — 장기 추세선 하회",
+     "종가 35,100원이 MA20(33,738원) 대비 +4.0% — 단기 상단 흐름",
+     "MA60(38,745원) 대비 -9.4% — 장기 추세선 하회",
      "RSI(14) 52 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.81배 — 거래 강도 보통"
     ]
@@ -36529,7 +36549,7 @@ const LIVE_AUTO = {
     "score": 78,
     "stance": "bull",
     "findings": [
-     "PER 2.95배 · PBR 0.83배 — 이익·자산 대비 저평가 매력",
+     "PER 2.94배 · PBR 0.83배 — 이익·자산 대비 저평가 매력",
      "ROE 28.0% · EPS 11,908원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 10,900 ~ 64,500 참고 · 목표주가 컨센 미제공"
@@ -37197,18 +37217,18 @@ const LIVE_AUTO = {
     "total": 27,
     "rawTotal": 34,
     "confidence": 36,
-    "probabilityUp": 34.3,
+    "probabilityUp": 34.2,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 2.1,
+    "relativeAdjustPp": 1.9,
     "flowQualityAdjustPp": 1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 34.3%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 34.2%로 계산했습니다. 시장·업종 상대강도 +1.9%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 34.3%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 34.2%로 계산했습니다. 시장·업종 상대강도 +1.9%p, 수급 품질 +1.7%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "067160": {
@@ -37218,7 +37238,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 23,
+    "score": 22,
     "stance": "bear",
     "findings": [
      "종가 43,350원이 MA20(46,795원) 대비 -7.4% — 단기 하단 흐름",
@@ -37358,13 +37378,13 @@ const LIVE_AUTO = {
     "riskScore": 45,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -1.2,
+    "relativeAdjustPp": -1.0,
     "flowQualityAdjustPp": 1.1,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 29.9%로 계산했습니다. 시장·업종 상대강도 -1.2%p, 수급 품질 +1.1%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 30.1%로 계산했습니다. 시장·업종 상대강도 -1.0%p, 수급 품질 +1.1%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 29.9%로 계산했습니다. 시장·업종 상대강도 -1.2%p, 수급 품질 +1.1%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 30.1%로 계산했습니다. 시장·업종 상대강도 -1.0%p, 수급 품질 +1.1%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "171090": {
@@ -37374,7 +37394,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 81,
+    "score": 80,
     "stance": "bull",
     "findings": [
      "종가 67,100원이 MA20(55,780원) 대비 +20.3% — 단기 상단 흐름",
@@ -37415,9 +37435,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
+    "total": 50,
     "confidence": 30,
-    "rawTotal": 58,
+    "rawTotal": 57,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -37509,7 +37529,7 @@ const LIVE_AUTO = {
     "total": 28,
     "rawTotal": 35,
     "confidence": 33,
-    "probabilityUp": 35.4,
+    "probabilityUp": 35.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -37518,9 +37538,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 1.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "089890": {
@@ -37584,8 +37604,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 26,
-    "rawTotal": 33,
+    "total": 27,
+    "rawTotal": 34,
     "confidence": 35,
     "probabilityUp": 33.3,
     "riskPenalty": 7,
@@ -37686,7 +37706,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 42,
+    "score": 41,
     "stance": "bear",
     "findings": [
      "종가 30,300원이 MA20(30,298원) 대비 +0.0% — 단기 상단 흐름",
@@ -37699,7 +37719,7 @@ const LIVE_AUTO = {
     "score": 73,
     "stance": "bull",
     "findings": [
-     "PER 9.27배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
+     "PER 9.28배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
      "ROE 8.2% · EPS 3,259원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 17,840 ~ 39,400 참고 · 목표주가 컨센 미제공"
@@ -37752,9 +37772,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -2.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 23.2%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.7%p, RISK 4점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 23.3%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.7%p, RISK 4점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 23.2%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.7%p, RISK 4점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 23.3%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -2.7%p, RISK 4점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "251970": {
@@ -37784,8 +37804,8 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 31,
-    "stance": "bear",
+    "score": 59,
+    "stance": "bull",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 58(강세) · 20일선 위 · 최근 5일 상승(+2.0%)",
@@ -37804,10 +37824,10 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "HOLD",
-    "total": 57,
-    "confidence": 37,
-    "rawTotal": 57,
+    "call": "BUY",
+    "total": 65,
+    "confidence": 50,
+    "rawTotal": 65,
     "riskPenalty": 0,
     "riskScore": 37,
     "riskGrade": "mid",
@@ -37820,7 +37840,7 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 28,
     "rawTotal": 28,
-    "confidence": 45,
+    "confidence": 50,
     "probabilityUp": 28.0,
     "riskPenalty": 0,
     "riskScore": 37,
@@ -38018,7 +38038,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 26,
+    "score": 34,
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
@@ -38154,7 +38174,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 66,
+    "score": 65,
     "stance": "bull",
     "findings": [
      "종가 13,050원이 MA20(11,406원) 대비 +14.4% — 단기 상단 흐름",
@@ -38196,7 +38216,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "SELL",
     "total": 42,
-    "confidence": 38,
+    "confidence": 39,
     "rawTotal": 49,
     "riskPenalty": 7,
     "riskScore": 5,
@@ -38445,7 +38465,7 @@ const LIVE_AUTO = {
     "total": 26,
     "rawTotal": 33,
     "confidence": 30,
-    "probabilityUp": 33.4,
+    "probabilityUp": 33.3,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -38454,9 +38474,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -0.5,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 33.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 33.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 33.4%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 33.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -0.5%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "211050": {
@@ -38466,7 +38486,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 67,
+    "score": 65,
     "stance": "bull",
     "findings": [
      "종가 10,250원이 MA20(9,941원) 대비 +3.1% — 단기 상단 흐름",
@@ -38511,7 +38531,7 @@ const LIVE_AUTO = {
     "confidence": 41,
     "rawTotal": 49,
     "riskPenalty": 0,
-    "riskScore": 57,
+    "riskScore": 56,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 49점(중립). 기술 67·재무 70·퀀트(확률) 26·수급 52 점을 자가 학습 가중치(기술 32%·재무 8%·퀀트 34%·수급 26% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 57점으로 원점수 49점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
@@ -38525,10 +38545,10 @@ const LIVE_AUTO = {
     "confidence": 45,
     "probabilityUp": 30.4,
     "riskPenalty": 0,
-    "riskScore": 57,
+    "riskScore": 56,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -2.1,
+    "relativeAdjustPp": -2.8,
     "flowQualityAdjustPp": 1.6,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -38544,7 +38564,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 64,
+    "score": 63,
     "stance": "bull",
     "findings": [
      "종가 13,290원이 MA20(12,308원) 대비 +8.0% — 단기 상단 흐름",
@@ -38557,10 +38577,10 @@ const LIVE_AUTO = {
     "score": 86,
     "stance": "bull",
     "findings": [
-     "PER 10.32배 · PBR 1.66배 — 이익·자산 대비 저평가 매력",
+     "PER 10.3배 · PBR 1.65배 — 이익·자산 대비 저평가 매력",
      "ROE 16.1% · EPS 1,284원",
      "컨센서스 EPS 기준 선행 PER 9.3배 — 실적 반영 시 저평가",
-     "증권사 평균 목표주가 19,500원 · 현재가 대비 +47.2% 여력"
+     "증권사 평균 목표주가 19,500원 · 현재가 대비 +47.5% 여력"
     ]
    },
    "nova": {
@@ -38713,10 +38733,10 @@ const LIVE_AUTO = {
     "score": 76,
     "stance": "bull",
     "findings": [
-     "PER 13.92배 · PBR 2.85배 — 이익·자산 대비 저평가 매력",
+     "PER 13.81배 · PBR 2.83배 — 이익·자산 대비 저평가 매력",
      "ROE 20.5% · EPS 375원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "증권사 평균 목표주가 12,000원 · 현재가 대비 +129.9% 여력"
+     "증권사 평균 목표주가 12,000원 · 현재가 대비 +131.7% 여력"
     ]
    },
    "nova": {
@@ -38834,8 +38854,8 @@ const LIVE_AUTO = {
     "call": "SELL",
     "total": 29,
     "rawTotal": 36,
-    "confidence": 32,
-    "probabilityUp": 36.3,
+    "confidence": 33,
+    "probabilityUp": 36.2,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -38844,9 +38864,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 36.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.3%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 36.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "033640": {
@@ -38856,7 +38876,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 39,
+    "score": 38,
     "stance": "bear",
     "findings": [
      "종가 16,760원이 MA20(17,754원) 대비 -5.6% — 단기 하단 흐름",
@@ -38934,7 +38954,7 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-05 10:58 장중",
    "events": [],
    "taro": {
-    "score": 61,
+    "score": 60,
     "stance": "bull",
     "findings": [
      "종가 21,400원이 MA20(19,620원) 대비 +9.1% — 단기 상단 흐름",
@@ -38975,14 +38995,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 40,
-    "confidence": 43,
-    "rawTotal": 47,
+    "total": 39,
+    "confidence": 44,
+    "rawTotal": 46,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "reason": "자동분석 종합 40점(비중 축소). 기술 61·재무 46·퀀트(확률) 26·수급 56 점을 자가 학습 가중치(기술 34%·재무 8%·퀀트 34%·수급 24% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 47점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
+    "reason": "자동분석 종합 39점(비중 축소). 기술 60·재무 46·퀀트(확률) 26·수급 56 점을 자가 학습 가중치(기술 34%·재무 8%·퀀트 34%·수급 24% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 5점으로 원점수 46점에서 7점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
     "report": "이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. 기술적으로는 종가 21,400원이 MA20(19,620원) 대비 +9.1% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 143,309주 · 기관 순매수 104,420주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 1337건 있었는데, 그중 356건이 5거래일 뒤 올랐어요 → 경험적 승률 27% (시장 평균 40%보다 -13%p 낮아 상대적 부진). 개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. 방향 원점수 47점에서 리스크 7점을 반영해 종합 40점 · SELL · 신뢰도 43%."
    },

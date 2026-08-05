@@ -423,7 +423,7 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_low": {
-   "n": 3515,
+   "n": 3513,
    "blend": 0.6,
    "weights": {
     "taro": 0.3218,
@@ -536,7 +536,7 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 85
+    "count": 84
    }
   ],
   "analystErrors": {

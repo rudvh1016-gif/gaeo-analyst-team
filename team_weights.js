@@ -326,9 +326,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 107,
-     "acc": 18.7,
-     "adjustedAcc": 35.2,
+     "n": 108,
+     "acc": 18.5,
+     "adjustedAcc": 35.1,
      "days": 20,
      "deadband": 3.0
     },
@@ -347,7 +347,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1040,
+   "graded": 1041,
    "globalBlend": 0.435
   },
   "2차전지": {
@@ -493,9 +493,9 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 389,
-     "acc": 64.0,
-     "adjustedAcc": 60.7,
+     "n": 390,
+     "acc": 63.8,
+     "adjustedAcc": 60.6,
      "days": 5,
      "deadband": 1.0
     },
