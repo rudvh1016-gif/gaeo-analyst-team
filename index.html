@@ -1628,6 +1628,7 @@
   .tv-rsi-chart{width:100%;height:66px;display:block}
   .tv-macd-chart{width:100%;height:66px;display:block}
   .tv-note{margin-top:6px;font-size:9.5px;line-height:1.5;color:var(--faint);word-break:keep-all}
+  .tv-note-sub{margin-top:4px;opacity:.82}
   .tv-regime{display:inline-flex;align-items:center;padding:3px 7px;border-radius:99px;font-size:9px;font-weight:800}
   .tv-regime-up{background:#ECFDF5;color:#2F8B73}.tv-regime-down{background:#FEF2F2;color:#D5535D}
   .tv-regime-neutral{background:var(--paper2);color:var(--dim)}
@@ -1889,10 +1890,18 @@
   .card .scorebar{height:5px;margin-top:14px;background:var(--bg)}
   .card .scorebar-fill{background:var(--sky)!important}
   .card .scorebar-fill::after,.viz .lfill::after,.verdict .gfill::after{display:none}
-  .card ul{margin:22px 0 0;padding:0;font-size:14px;line-height:1.75;color:var(--t2)}
-  .card ul li{list-style:none;margin:0;padding:13px 0;border-top:1px solid var(--line)}
+  /* ⭐ 2026-08-05: 여기 글자가 14px+줄간격 1.75+칸당 13px 여백이라 짧은 문장도 2~3줄로
+     넘쳐 카드가 세로로 길게 늘어졌었다("종가 130,400원이 MA20(122,815원) 대비..." 같은
+     문장이 줄바꿈). 12.5px·1.58로 줄이고 칸 여백도 줄여 한 화면에 더 많은 근거가 보이게 함. */
+  .card ul{margin:20px 0 0;padding:0;font-size:12.5px;line-height:1.58;color:var(--t2)}
+  .card ul li{list-style:none;display:flex;gap:7px;align-items:flex-start;margin:0;padding:9px 0;border-top:1px solid var(--line)}
   .card ul li:last-child{padding-bottom:0}
   .cards.busy .card:not(.on) ul li{padding:0;border:0}
+  /* 근거 문장 앞에 붙는 중요도 표시: ★핵심 신호 · !주의 신호 · ·일반 정보 */
+  .fmk{flex:0 0 14px;text-align:center;font-weight:800;font-size:12px;line-height:1.6}
+  .fmk-key{color:var(--amber)}
+  .fmk-warn{color:var(--red)}
+  .fmk-dot{color:var(--faint)}
   .taro-viz-holder{margin:22px 0 2px}
   .dna-comp{background:var(--bg);border-radius:16px;padding:18px}
   .dna-comp{margin:22px 0 2px;font-size:13px;line-height:1.8}
@@ -1950,7 +1959,7 @@
     .cards .card:last-child:nth-child(odd){grid-column:auto}
     .card{border-radius:22px;padding:24px 22px 26px}
     .card .role{margin-bottom:20px}
-    .card ul{font-size:13.5px}
+    .card ul{font-size:12px}
     .verdict{margin-top:24px;border-radius:24px;padding:26px 18px}
     .verdict .top{align-items:flex-start}
     .verdict .call{font-size:38px}
@@ -5219,6 +5228,21 @@ function wrapGloss(text){
   if(GLOSS_RE_AL) s=s.replace(GLOSS_RE_AL,(m,pre,w)=>pre+term(w)); // 영숫자 용어(경계 보존)
   return s;
 }
+// ⭐ 2026-08-05: 근거 문장이 다 똑같은 글머리라 어떤 게 중요한 신호인지 한눈에 안 들어온다는
+// 피드백 → 문장 속 키워드로 대충 분류해 앞에 표시만 붙인다(완벽한 판정이 아니라 "훑어볼 때
+// 눈에 먼저 들어오는" 용도). ! 경고성 신호가 최우선, 그다음 ★ 뚜렷한 강한 신호, 나머지는 · 일반 정보.
+const FMK_WARN=/위험|주의|손실|하락\s?전환|데드크로스|과매수|과열|약세\s?전환|우려|불안|악화|경계|부담|이례적/;
+const FMK_KEY=/골든크로스|신고가|사상\s?최고|급등|급락|강세\s?전환|상향\s?돌파|가장\s?크게|핵심/;
+function findingMark(text){
+  const s=String(text||'');
+  if(FMK_WARN.test(s)) return {sym:'!',cls:'fmk-warn'};
+  if(FMK_KEY.test(s)) return {sym:'★',cls:'fmk-key'};
+  return {sym:'·',cls:'fmk-dot'};
+}
+function findingLi(f){
+  const mk=findingMark(f);
+  return `<li><span class="fmk ${mk.cls}" aria-hidden="true">${mk.sym}</span><span>${SIGNUM(wrapGloss(f))}</span></li>`;
+}
 // 클릭(또는 Enter/Space)하면 용어 뜻을 큰 팝업으로 보여준다 — 모바일에서도 hover 없이 동작
 (function(){
   let pop=null, openFor=null;
@@ -5361,7 +5385,7 @@ function taroChartHTML(code){
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="63" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="63" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 시그널선보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 시그널선보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub">💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}은 주가(원)가 아니라 "12일 평균과 26일 평균의 차이"를 나타내는 지표 숫자예요. 종목마다 크기가 달라서 숫자 자체보다 두 선 중 어느 게 위에 있는지가 중요해요.</div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}</div>`;
 }
 
@@ -6782,7 +6806,7 @@ function fillCard(a,res,code){
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
   const fx=document.getElementById('fx-'+a.id);
-  fx.innerHTML=res.findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('');
+  fx.innerHTML=res.findings.map(findingLi).join('');
   if(a.id==='taro'){
     const viz=taroChartHTML(code);
     if(viz){ const holder=document.createElement('div'); holder.className='taro-viz-holder';
@@ -6836,7 +6860,7 @@ function renderRiskCard(code,data){
        <div class="role">리스크 관리 · 종합점수 단방향 안전장치</div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
-       <ul id="fx-risk">${findings.map(f=>`<li>${SIGNUM(wrapGloss(f))}</li>`).join('')}</ul>
+       <ul id="fx-risk">${findings.map(findingLi).join('')}</ul>
      </div>`);
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
