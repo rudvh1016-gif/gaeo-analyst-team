@@ -10066,7 +10066,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-05",
-     "close": 235500
+     "close": 236000
     }
    ],
    "start": "2026-08-03",

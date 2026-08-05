@@ -107,7 +107,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2241,
+   "graded": 2240,
    "globalBlend": 0.263
   },
   "전자·부품": {
