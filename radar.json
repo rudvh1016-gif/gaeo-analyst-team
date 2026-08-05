@@ -492,8 +492,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 42850,
-   "currentValue": 45800,
-   "threshold": 44330,
+   "currentValue": 45850,
+   "threshold": 44345,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 12:12",
    "priceBaseAt": "2026-08-05 12:06 장중",
@@ -807,7 +807,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -32,
-   "currentValue": 42,
+   "currentValue": 48,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 12:12",
@@ -1920,7 +1920,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -631,
-   "currentValue": 289,
+   "currentValue": 277,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 12:12",
@@ -2529,17 +2529,6 @@
    "types": [
     "volume_spike",
     "macd_golden_cross"
-   ]
-  },
-  {
-   "code": "003550",
-   "name": "LG",
-   "rep": "003550-bb-upper-break-20260805",
-   "repType": "bb_upper_break",
-   "repLabel": "밴드 상단 돌파",
-   "others": 0,
-   "types": [
-    "bb_upper_break"
    ]
   },
   {
@@ -3250,17 +3239,6 @@
    "code": "388210",
    "name": "씨엠티엑스",
    "rep": "388210-macd-golden-cross-20260805",
-   "repType": "macd_golden_cross",
-   "repLabel": "MACD 골든크로스",
-   "others": 0,
-   "types": [
-    "macd_golden_cross"
-   ]
-  },
-  {
-   "code": "402340",
-   "name": "SK스퀘어",
-   "rep": "402340-macd-golden-cross-20260805",
    "repType": "macd_golden_cross",
    "repLabel": "MACD 골든크로스",
    "others": 0,
