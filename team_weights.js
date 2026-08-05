@@ -246,9 +246,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 22,
-     "acc": 45.5,
-     "adjustedAcc": 49.3,
+     "n": 21,
+     "acc": 42.9,
+     "adjustedAcc": 48.9,
      "days": 20,
      "deadband": 3.0
     },
@@ -267,7 +267,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 337,
+   "graded": 336,
    "globalBlend": 0.704
   },
   "인터넷·IT": {
@@ -467,7 +467,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2176,
+   "graded": 2175,
    "globalBlend": 0.269
   },
   "지주·상사": {
@@ -646,9 +646,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 127,
-     "acc": 38.6,
-     "adjustedAcc": 44.1,
+     "n": 128,
+     "acc": 38.3,
+     "adjustedAcc": 44.0,
      "days": 20,
      "deadband": 3.0
     },
@@ -667,7 +667,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1276,
+   "graded": 1277,
    "globalBlend": 0.385
   },
   "물류·운송": {
