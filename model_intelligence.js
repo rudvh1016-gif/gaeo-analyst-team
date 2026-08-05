@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-05 11:12",
+ "generatedAt": "2026-08-05 12:09",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -101,7 +101,7 @@ const MODEL_INTELLIGENCE = {
     "raw": 0.255,
     "uncalibratedPUp": 0.2548,
     "base": 0.2517,
-    "pUp": 0.2548
+    "pUp": 0.2551
    },
    "50": {
     "n": 500,
@@ -113,11 +113,11 @@ const MODEL_INTELLIGENCE = {
    },
    "80": {
     "n": 450,
-    "up": 183,
-    "raw": 0.4067,
-    "uncalibratedPUp": 0.397,
+    "up": 181,
+    "raw": 0.4022,
+    "uncalibratedPUp": 0.3928,
     "base": 0.2517,
-    "pUp": 0.3674
+    "pUp": 0.3641
    },
    "30": {
     "n": 270,
@@ -133,15 +133,15 @@ const MODEL_INTELLIGENCE = {
     "raw": 0.26,
     "uncalibratedPUp": 0.2581,
     "base": 0.2517,
-    "pUp": 0.3674
+    "pUp": 0.3641
    },
    "60": {
     "n": 395,
-    "up": 99,
-    "raw": 0.2506,
-    "uncalibratedPUp": 0.2507,
+    "up": 101,
+    "raw": 0.2557,
+    "uncalibratedPUp": 0.2554,
     "base": 0.2517,
-    "pUp": 0.2507
+    "pUp": 0.2551
    },
    "0": {
     "n": 0,
@@ -335,8 +335,8 @@ const MODEL_INTELLIGENCE = {
  },
  "errorCorrelation": {
   "taro:diana": {
-   "n": 1171,
-   "errorCorr": -0.054
+   "n": 1168,
+   "errorCorr": -0.057
   },
   "taro:nova": {
    "n": 2750,
@@ -348,11 +348,11 @@ const MODEL_INTELLIGENCE = {
   },
   "diana:nova": {
    "n": 748,
-   "errorCorr": -0.034
+   "errorCorr": -0.039
   },
   "diana:flow": {
-   "n": 190,
-   "errorCorr": 0.14
+   "n": 192,
+   "errorCorr": 0.128
   },
   "nova:flow": {
    "n": 489,
@@ -370,10 +370,10 @@ const MODEL_INTELLIGENCE = {
    "n": 1922,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3299,
-    "diana": 0.0575,
+    "taro": 0.3297,
+    "diana": 0.0574,
     "nova": 0.3302,
-    "flow": 0.2824
+    "flow": 0.2827
    },
    "acc": {
     "taro": {
@@ -398,10 +398,10 @@ const MODEL_INTELLIGENCE = {
    "n": 1555,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3215,
-    "diana": 0.0608,
+    "taro": 0.3213,
+    "diana": 0.0607,
     "nova": 0.3343,
-    "flow": 0.2834
+    "flow": 0.2837
    },
    "acc": {
     "taro": {
@@ -426,10 +426,10 @@ const MODEL_INTELLIGENCE = {
    "n": 3514,
    "blend": 0.6,
    "weights": {
-    "taro": 0.322,
-    "diana": 0.0618,
-    "nova": 0.3502,
-    "flow": 0.266
+    "taro": 0.3218,
+    "diana": 0.0616,
+    "nova": 0.3503,
+    "flow": 0.2663
    },
    "acc": {
     "taro": {
@@ -438,7 +438,7 @@ const MODEL_INTELLIGENCE = {
     },
     "diana": {
      "n": 548,
-     "adjustedAcc": 42.1
+     "adjustedAcc": 41.9
     },
     "nova": {
      "n": 1203,
@@ -454,10 +454,10 @@ const MODEL_INTELLIGENCE = {
    "n": 2139,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3219,
+    "taro": 0.3217,
     "diana": 0.0693,
     "nova": 0.3368,
-    "flow": 0.272
+    "flow": 0.2723
    },
    "acc": {
     "taro": {
@@ -482,10 +482,10 @@ const MODEL_INTELLIGENCE = {
    "n": 718,
    "blend": 0.473,
    "weights": {
-    "taro": 0.3081,
-    "diana": 0.0694,
+    "taro": 0.3079,
+    "diana": 0.0693,
     "nova": 0.3431,
-    "flow": 0.2794
+    "flow": 0.2797
    },
    "acc": {
     "taro": {
@@ -511,8 +511,8 @@ const MODEL_INTELLIGENCE = {
   "key": "up_low",
   "trend": "up",
   "vol": "low",
-  "median5": 15.41,
-  "medianAbs1": 2.43
+  "median5": 15.15,
+  "medianAbs1": 2.42
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -532,17 +532,17 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "분석가 의견충돌",
-    "count": 812
+    "count": 811
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 85
+    "count": 84
    }
   ],
   "analystErrors": {
    "taro": 739,
    "diana": 0,
-   "nova": 231,
+   "nova": 230,
    "flow": 104
   },
   "regimeErrors": {
@@ -555,9 +555,9 @@ const MODEL_INTELLIGENCE = {
   "n": 2000,
   "baselineActionN": 715,
   "baselineActionPrecision": 48.3,
-  "candidateActionN": 1815,
+  "candidateActionN": 1819,
   "candidateActionPrecision": 44.7,
-  "candidateCoverage": 90.8,
+  "candidateCoverage": 91.0,
   "candidateCalls": {
    "BUY": 0,
    "HOLD": 2,
@@ -567,7 +567,7 @@ const MODEL_INTELLIGENCE = {
   "testRegimes": 3,
   "candidateAllCallAccuracy": 40.6,
   "brier": 0.3083,
-  "rawBrier": 0.2488
+  "rawBrier": 0.2486
  },
  "prospective": {
   "n": 0,
