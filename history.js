@@ -18568,7 +18568,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "SELL",
-   "total": 45,
+   "total": 44,
    "confidence": 40,
    "base": 104700,
    "baseAt": "2026-08-05 11:11 장중",
@@ -18579,7 +18579,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 87
+    "score": 81
    },
    "nova": {
     "stance": "bear",
@@ -29183,7 +29183,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 31,
     "confidence": 38,
-    "probabilityUp": 30.9,
+    "probabilityUp": 31.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -32695,7 +32695,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 284,000원 (현재가 대비 +92.7% 상승여력)",
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -33419,7 +33419,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 29,
     "confidence": 53,
-    "probabilityUp": 29.0,
+    "probabilityUp": 29.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -37637,7 +37637,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 1,131,765원 (현재가 대비 +40.1% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 83
    },
    "diana": {
     "stance": "neu",
@@ -39042,14 +39042,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 55,
+   "total": 54,
    "confidence": 37,
    "base": 228500,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "증권사 평균 목표주가 258,692원 (현재가 대비 +13.2% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "diana": {
     "stance": "neu",
@@ -43303,7 +43303,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 27,
     "confidence": 51,
-    "probabilityUp": 27.0,
+    "probabilityUp": 27.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -51757,7 +51757,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "bear",
@@ -52467,7 +52467,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "nova": {
     "stance": "bear",
@@ -57423,7 +57423,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 34,
     "confidence": 44,
-    "probabilityUp": 34.1,
+    "probabilityUp": 33.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -58817,7 +58817,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 132,500원 (현재가 대비 +40.2% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 73
+    "score": 74
    },
    "diana": {
     "stance": "bull",
@@ -72941,7 +72941,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 43
+    "score": 42
    },
    "nova": {
     "stance": "bear",
@@ -73643,7 +73643,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 494,000원 (현재가 대비 +29.7% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -74367,7 +74367,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 26,
     "confidence": 38,
-    "probabilityUp": 33.5,
+    "probabilityUp": 33.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -80696,7 +80696,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 52,
+   "total": 53,
    "confidence": 37,
    "base": 37350,
    "baseAt": "2026-08-05 11:11 장중",
@@ -82115,7 +82115,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "neu",
@@ -85663,7 +85663,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 23,
     "confidence": 41,
-    "probabilityUp": 29.7,
+    "probabilityUp": 29.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -99769,7 +99769,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 47
+    "score": 48
    },
    "nova": {
     "stance": "bear",
@@ -101891,7 +101891,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 20
+    "score": 26
    },
    "flow": {
     "stance": "neu",
@@ -101900,8 +101900,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 30,
-    "confidence": 46,
-    "probabilityUp": 29.5,
+    "confidence": 47,
+    "probabilityUp": 29.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -103288,7 +103288,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 51,
+   "total": 49,
    "confidence": 37,
    "base": 4375,
    "baseAt": "2026-08-05 11:11 장중",
@@ -103303,7 +103303,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 34
+    "score": 26
    },
    "flow": {
     "stance": "neu",
@@ -111785,7 +111785,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 47,
-    "probabilityUp": 29.6,
+    "probabilityUp": 29.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -115301,7 +115301,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 78
+    "score": 77
    },
    "nova": {
     "stance": "bear",
@@ -131553,7 +131553,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 47,
-    "probabilityUp": 30.2,
+    "probabilityUp": 30.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -133653,7 +133653,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 36,500원 (현재가 대비 +59.4% 상승여력)",
    "taro": {
     "stance": "neu",
-    "score": 57
+    "score": 56
    },
    "diana": {
     "stance": "neu",
@@ -137893,7 +137893,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 64
    },
    "nova": {
     "stance": "bear",
@@ -144243,7 +144243,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 44,556원 (현재가 대비 +36.7% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -149907,7 +149907,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 30,
+    "total": 31,
     "confidence": 39,
     "probabilityUp": 30.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -152027,7 +152027,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 37,
     "confidence": 38,
-    "probabilityUp": 36.6,
+    "probabilityUp": 36.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -153439,7 +153439,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 40,
-    "probabilityUp": 35.2,
+    "probabilityUp": 35.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -156969,7 +156969,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 37,
     "confidence": 38,
-    "probabilityUp": 36.7,
+    "probabilityUp": 36.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -160535,7 +160535,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 32
+    "score": 31
    },
    "nova": {
     "stance": "bear",
@@ -165491,7 +165491,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 27,
     "confidence": 35,
-    "probabilityUp": 33.5,
+    "probabilityUp": 33.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -167591,7 +167591,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 53,778원 (현재가 대비 +21.4% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 92
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -171845,7 +171845,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 34,
     "confidence": 40,
-    "probabilityUp": 34.1,
+    "probabilityUp": 33.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -180721,7 +180721,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 30,
-    "probabilityUp": 37.4,
+    "probabilityUp": 37.5,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -188487,7 +188487,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 29,
     "confidence": 27,
-    "probabilityUp": 35.9,
+    "probabilityUp": 36.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -192698,14 +192698,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "SELL",
-   "total": 39,
+   "total": 40,
    "confidence": 41,
    "base": 77000,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "증권사 평균 목표주가 149,333원 (현재가 대비 +93.9% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 41
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -196959,7 +196959,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 33,
     "confidence": 41,
-    "probabilityUp": 32.5,
+    "probabilityUp": 32.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -198353,7 +198353,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 27,600원 (현재가 대비 +85.9% 상승여력)",
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "neu",
@@ -202588,8 +202588,8 @@ const LIVE_HISTORY = {
    "baseAt": "2026-08-05 11:11 장중",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -202597,7 +202597,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 20
+    "score": 34
    },
    "flow": {
     "stance": "neu",
@@ -204707,7 +204707,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +75.2% 상승여력)",
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -216021,7 +216021,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 54,
-    "probabilityUp": 30.1,
+    "probabilityUp": 30.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -216702,14 +216702,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 40,
    "base": 18880,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "증권사 평균 목표주가 25,000원 (현재가 대비 +32.4% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -219526,14 +219526,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 37,
    "base": 7770,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "증권사 평균 목표주가 12,500원 (현재가 대비 +60.9% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -220962,8 +220962,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 34,
-    "confidence": 43,
-    "probabilityUp": 33.9,
+    "confidence": 42,
+    "probabilityUp": 34.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -223769,7 +223769,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bear",
-    "score": 41
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -230847,7 +230847,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 36,
     "confidence": 38,
-    "probabilityUp": 35.7,
+    "probabilityUp": 35.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -232258,7 +232258,7 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 28,
-    "confidence": 55,
+    "confidence": 54,
     "probabilityUp": 27.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -233646,14 +233646,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 37,
    "base": 31800,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "증권사 평균 목표주가 48,400원 (현재가 대비 +52.2% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -259087,7 +259087,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 31,
     "confidence": 40,
-    "probabilityUp": 31.5,
+    "probabilityUp": 31.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -278131,7 +278131,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 44,500원 (현재가 대비 +58.6% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -282367,7 +282367,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 79
    },
    "diana": {
     "stance": "bear",
@@ -285199,7 +285199,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 20
+    "score": 34
    },
    "flow": {
     "stance": "neu",
@@ -287327,7 +287327,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 32,
     "confidence": 29,
-    "probabilityUp": 38.9,
+    "probabilityUp": 39.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -291545,7 +291545,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -293663,7 +293663,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -297209,7 +297209,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 30,
+    "total": 29,
     "confidence": 32,
     "probabilityUp": 36.6,
     "modelVersion": "calibrated-ensemble-v3",
@@ -304261,7 +304261,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 26
+    "score": 31
    },
    "flow": {
     "stance": "neu",
@@ -307801,7 +307801,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 26,
     "confidence": 36,
-    "probabilityUp": 32.5,
+    "probabilityUp": 32.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -311330,7 +311330,7 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 29,
-    "confidence": 34,
+    "confidence": 35,
     "probabilityUp": 36.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -316255,7 +316255,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 57,289원 (현재가 대비 +75.5% 상승여력)",
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -316271,7 +316271,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 33,
+    "total": 34,
     "confidence": 38,
     "probabilityUp": 33.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -321903,7 +321903,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 49,000원 (현재가 대비 +116.8% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "neu",
@@ -321919,7 +321919,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 21,
+    "total": 22,
     "confidence": 43,
     "probabilityUp": 28.2,
     "modelVersion": "calibrated-ensemble-v3",
@@ -331074,14 +331074,14 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-05",
    "call": "SELL",
-   "total": 39,
+   "total": 40,
    "confidence": 41,
    "base": 63900,
    "baseAt": "2026-08-05 11:11 장중",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -335317,7 +335317,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 14
    },
    "diana": {
     "stance": "bear",
@@ -339553,7 +339553,7 @@ const LIVE_HISTORY = {
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 64
    },
    "diana": {
     "stance": "bear",
@@ -339570,8 +339570,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 30,
-    "confidence": 46,
-    "probabilityUp": 30.1,
+    "confidence": 47,
+    "probabilityUp": 29.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -343091,7 +343091,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 34
+    "score": 26
    },
    "flow": {
     "stance": "neu",
@@ -346613,7 +346613,7 @@ const LIVE_HISTORY = {
    "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +56.2% 상승여력)",
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 22
    },
    "diana": {
     "stance": "neu",
@@ -350867,7 +350867,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 38,
     "confidence": 31,
-    "probabilityUp": 38.1,
+    "probabilityUp": 38.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
