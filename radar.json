@@ -534,8 +534,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 37900,
-   "currentValue": 38500,
-   "threshold": 38433,
+   "currentValue": 38550,
+   "threshold": 38446,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:42",
    "priceBaseAt": "2026-08-05 11:33 장중",
@@ -2461,6 +2461,17 @@
    "code": "017800",
    "name": "현대엘리베이터",
    "rep": "017800-bb-upper-break-20260805",
+   "repType": "bb_upper_break",
+   "repLabel": "밴드 상단 돌파",
+   "others": 0,
+   "types": [
+    "bb_upper_break"
+   ]
+  },
+  {
+   "code": "032190",
+   "name": "다우데이타",
+   "rep": "032190-bb-upper-break-20260805",
    "repType": "bb_upper_break",
    "repLabel": "밴드 상단 돌파",
    "others": 0,
