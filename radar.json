@@ -22,7 +22,7 @@
   "macd_golden_cross": 58,
   "macd_dead_cross": 3,
   "ma_golden_cross": 3,
-  "ma_dead_cross": 3
+  "ma_dead_cross": 2
  },
  "extraTotal": 67,
  "mainOrder": [
@@ -618,8 +618,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 29900,
-   "currentValue": 30650,
-   "threshold": 30550,
+   "currentValue": 30600,
+   "threshold": 30538,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:39",
    "priceBaseAt": "2026-08-05 11:32 장중",
@@ -681,8 +681,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 66000,
-   "currentValue": 69500,
-   "threshold": 68601,
+   "currentValue": 69700,
+   "threshold": 68656,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:39",
    "priceBaseAt": "2026-08-05 11:32 장중",
@@ -1290,7 +1290,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -108,
-   "currentValue": 213,
+   "currentValue": 206,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:39",
@@ -1500,7 +1500,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -29,
-   "currentValue": 165,
+   "currentValue": 168,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:39",
@@ -1731,7 +1731,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -301,
-   "currentValue": 56,
+   "currentValue": 50,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:39",
@@ -3272,17 +3272,6 @@
    ]
   },
   {
-   "code": "024110",
-   "name": "기업은행",
-   "rep": "024110-ma-dead-cross-20260805",
-   "repType": "ma_dead_cross",
-   "repLabel": "MA20·60 데드크로스",
-   "others": 0,
-   "types": [
-    "ma_dead_cross"
-   ]
-  },
-  {
    "code": "131290",
    "name": "티에스이",
    "rep": "131290-ma-dead-cross-20260805",
@@ -3330,6 +3319,28 @@
    "code": "058610",
    "name": "에스피지",
    "rep": "058610-bb-upper-recover-20260805",
+   "repType": "bb_upper_recover",
+   "repLabel": "밴드 상단 재진입",
+   "others": 0,
+   "types": [
+    "bb_upper_recover"
+   ]
+  },
+  {
+   "code": "065350",
+   "name": "신성델타테크",
+   "rep": "065350-bb-upper-recover-20260805",
+   "repType": "bb_upper_recover",
+   "repLabel": "밴드 상단 재진입",
+   "others": 0,
+   "types": [
+    "bb_upper_recover"
+   ]
+  },
+  {
+   "code": "058650",
+   "name": "세아홀딩스",
+   "rep": "058650-bb-upper-recover-20260805",
    "repType": "bb_upper_recover",
    "repLabel": "밴드 상단 재진입",
    "others": 0,

@@ -112,7 +112,7 @@ const TEAM_WEIGHTS = {
   },
   "전자·부품": {
    "weights": {
-    "taro": 0.3334,
+    "taro": 0.3335,
     "diana": 0.0758,
     "nova": 0.3069,
     "flow": 0.2839
@@ -719,23 +719,23 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 339,
-     "acc": 54.0,
-     "adjustedAcc": 52.9,
+     "n": 338,
+     "acc": 54.1,
+     "adjustedAcc": 53.1,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
-     "n": 72,
-     "acc": 27.8,
-     "adjustedAcc": 41.7,
+     "n": 71,
+     "acc": 28.2,
+     "adjustedAcc": 41.9,
      "days": 20,
      "deadband": 3.0
     },
     "nova": {
-     "n": 259,
-     "acc": 56.8,
-     "adjustedAcc": 54.6,
+     "n": 258,
+     "acc": 56.6,
+     "adjustedAcc": 54.5,
      "days": 5,
      "deadband": 1.0
     },
@@ -747,8 +747,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 687,
-   "globalBlend": 0.538
+   "graded": 684,
+   "globalBlend": 0.539
   },
   "화장품·미용": {
    "weights": {
