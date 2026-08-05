@@ -313,16 +313,12 @@
   /* 라이트 전용 파스텔(시장 무드·집계 알약·BUY 칩) → 다크 저채도 틴트 */
   html.gdark .mood-crash,html.gdark .mood-down{background:rgba(248,113,113,.12);color:#FCA5A5}
   html.gdark .mood-up,html.gdark .mood-surge{background:rgba(52,211,153,.12);color:#6EE7B7}
-  html.gdark .tly.buy{background:rgba(52,211,153,.14);color:#6EE7B7}
-  html.gdark .tly.hold{background:rgba(251,191,36,.14);color:#FCD34D}
-  html.gdark .tly.sell{background:rgba(248,113,113,.14);color:#FCA5A5}
-  html.gdark .mk-buychip{color:#6EE7B7;border-color:rgba(52,211,153,.35)}
-  html.gdark .mk-buychip:hover{background:rgba(52,211,153,.14)}
-  html.gdark .mk-buychip.rel{color:#FCD34D;border-color:rgba(251,191,36,.35)}
-  html.gdark .mk-buychip.rel:hover{background:rgba(251,191,36,.14)}
-  html.gdark .mk-buychip .bc-rel{color:#FCD34D;background:rgba(251,191,36,.16)}
-  html.gdark .mk-buychip.cap{color:#F9A8D4;border-color:rgba(244,114,182,.35)}
-  html.gdark .mk-buychip.cap:hover{background:rgba(244,114,182,.14)}
+  /* 순위 칩·시그널 배지는 v2.0에서 --color-* 토큰만 쓰므로 다크 전용 색 재지정이 필요 없다.
+     (예전의 초록/앰버/핑크 3색 분리 오버라이드는 무지개 금지 규칙에 따라 제거됨) */
+  html.gdark .mk-buychip{color:#C9CED6}
+  html.gdark .mk-buychip .bc-rank{background:#4A515B}
+  html.gdark .mk-buychip.rank2 .bc-rank,html.gdark .mk-buychip.rank3 .bc-rank{background:#5F6772}
+  html.gdark .mk-buychip.rank1 .bc-rank{background:var(--color-accent);color:#08201B}
   /* 🧒 설명 말풍선·운영자 메모 — 라이트 전용 잉크색 텍스트 보정 */
   html.gdark .veasy{color:#E4EEF9}
   html.gdark .anote{background:#211B0E;border-color:#4A3A14;color:#EBD9A8}
@@ -1509,39 +1505,67 @@
   .mk-tally{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
   .mk-tally-head{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:8px}
   .mk-tally-head .mk-asof{font-weight:600}
-  .mk-tally-row{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:8px}
-  .tly{flex:0 0 auto;font-size:12.5px;font-weight:800;border-radius:10px;padding:6px 8px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .tly.buy{color:#065F46;background:#D1FAE5}
-  .tly.hold{color:#92400E;background:#FEF3C7}
-  .tly.sell{color:#991B1B;background:#FEE2E2}
+  /* ── SignalBadge — BUY/HOLD/SELL은 지오메트리를 완전히 동일하게 두고
+     의미색은 저채도로만. 색에만 의존하지 않도록 글자(BUY/HOLD/SELL)와 점을 항상 함께 쓴다. ── */
+  .mk-tally-row{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:10px}
+  .tly{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+    height:34px;padding:0 13px;border-radius:var(--radius-pill);border:1px solid transparent;
+    font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tly::before{content:'';width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+  .tly b{font-weight:800}
+  .tly.buy{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
+  .tly.buy::before{background:var(--color-positive)}
+  .tly.hold{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
+  .tly.hold::before{background:var(--color-warning)}
+  .tly.sell{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
+  .tly.sell::before{background:var(--color-negative)}
+  html.gdark .tly.buy{color:#7FD9BC} html.gdark .tly.hold{color:#E0C088} html.gdark .tly.sell{color:#F0A6A6}
   .mk-buylist{margin-top:2px}
   .mk-buylist summary{cursor:pointer;font-size:12px;font-weight:700;color:var(--green);
     list-style:none;display:inline-flex;align-items:center;gap:5px;padding:5px 0;user-select:none}
   .mk-buylist summary::-webkit-details-marker{display:none}
   .mk-buylist summary::after{content:'▸';color:var(--faint);font-size:10px;transition:transform .2s}
   .mk-buylist[open] summary::after{transform:rotate(90deg)}
-  .mk-buychips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-  .mk-buychip{font-size:11px;color:#065F46;background:var(--paper);border:1px solid #A7F3D0;
-    border-radius:99px;padding:3px 9px 3px 4px;cursor:pointer;white-space:nowrap;transition:background .15s;
-    display:inline-flex;align-items:center;gap:5px}
-  .mk-buychip:hover{background:#D1FAE5}
-  .mk-buychip .bc-rank{font-size:10px;font-weight:800;color:#fff;background:#10B981;border-radius:99px;
-    min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
-  .mk-buychip.top3 .bc-rank{background:#059669}
-  .mk-buychip .bc-score{color:var(--faint);font-size:9.5px;font-weight:700}
-  /* 상대 상위(HOLD지만 매수 우위) 칩 — 앰버 톤으로 BUY와 구분 */
-  .mk-buychip.rel{color:#92400E;border-color:#FDE68A}
-  .mk-buychip.rel:hover{background:#FEF3C7}
-  .mk-buychip.rel .bc-rank{background:#D97706}
-  .mk-buychip.rel.top3 .bc-rank{background:#B45309}
-  .mk-buychip .bc-rel{font-size:8.5px;font-weight:800;color:#92400E;background:#FEF3C7;
-    border-radius:5px;padding:1px 4px;margin-left:1px}
-  .mk-buynote{font-size:10.5px;color:var(--faint);margin-top:6px;line-height:1.5}
-  /* 💰 시가총액 상위 칩 — 바로 아래 BUY(초록) 목록과 구분되도록 핑크 톤 */
-  .mk-buychip.cap{color:#9D174D;border-color:#FBCFE8}
-  .mk-buychip.cap:hover{background:#FCE7F3}
-  .mk-buychip.cap .bc-rank{background:#DB2777}
-  .mk-buychip.cap.top3 .bc-rank{background:#9D174D}
+  /* ── RankingChip — 모든 순위 칩이 쓰는 단일 컴포넌트.
+     순위마다 다른 색을 주지 않는다(무지개 금지). 위계는 색이 아니라
+     「순위 원 · 테두리 세기 · 글자 굵기」로만 표현한다. ── */
+  .mk-buychips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .mk-buychip{font-size:12.5px;font-weight:500;color:#3F444C;
+    background:var(--color-surface);border:1px solid var(--color-border);
+    border-radius:var(--radius-pill);height:34px;padding:0 12px 0 5px;
+    cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+    transition:transform var(--motion-fast) var(--ease-standard),
+               background var(--motion-fast) var(--ease-standard),
+               border-color var(--motion-fast) var(--ease-standard)}
+  .mk-buychip:hover{background:var(--color-surface-soft);border-color:var(--color-border-strong);
+    transform:translateY(-2px)}
+  .mk-buychip:active{transform:scale(.98)}
+  .mk-buychip .bc-rank{font-size:11px;font-weight:700;color:#fff;background:#3F444C;
+    border-radius:var(--radius-pill);min-width:22px;height:22px;font-variant-numeric:tabular-nums;
+    display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+  /* 1위만 GAEO 액센트, 2·3위는 중성 진회색 — 등수별 색 분리 금지 */
+  .mk-buychip.rank1 .bc-rank{background:var(--color-accent)}
+  .mk-buychip.rank2 .bc-rank,.mk-buychip.rank3 .bc-rank{background:#5A616B}
+  .mk-buychip.rank1,.mk-buychip.rank2,.mk-buychip.rank3{border-color:var(--color-border-strong)}
+  .mk-buychip .bc-score{color:var(--color-text-tertiary);font-size:11px;font-weight:600;
+    font-variant-numeric:tabular-nums}
+  /* StatusBadge(매수우위 등) — 주황 스티커 대신 절제된 아웃라인 라벨 */
+  .mk-buychip .bc-rel{font-size:10px;font-weight:600;color:var(--color-text-secondary);
+    background:var(--color-bg-subtle);border:1px solid var(--color-border);
+    border-radius:var(--radius-xs);padding:1px 5px;margin-left:1px}
+  .mk-buynote{font-size:10.5px;color:var(--color-text-tertiary);margin-top:8px;line-height:1.5}
+  /* 칩 밀도 — 초기 노출 개수를 넘는 칩은 접어두고 버튼으로 펼친다 */
+  .mk-buychip.bc-more{display:none}
+  .mk-buychips.bc-open .mk-buychip.bc-more{display:inline-flex}
+  .bc-expand{margin-top:9px;height:34px;padding:0 14px;border-radius:var(--radius-pill);
+    border:1px solid var(--color-border);background:var(--color-surface);
+    color:var(--color-text-secondary);font:inherit;font-size:12px;font-weight:600;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:background var(--motion-fast) var(--ease-standard),
+               border-color var(--motion-fast) var(--ease-standard)}
+  .bc-expand:hover{background:var(--color-surface-soft);border-color:var(--color-border-strong)}
+  .bc-expand::after{content:'▾';font-size:10px;color:var(--color-text-tertiary)}
+  .bc-expand[aria-expanded="true"]::after{content:'▴'}
   /* 날짜별 지난 시장 분석 목차 */
   .mk-hist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
   .mk-hist-toggle{display:flex;align-items:center;gap:7px;width:100%;background:none;border:none;
@@ -1988,16 +2012,68 @@
      Gaeo Master Design v1 — Home Dashboard + Global Navigation
      기능과 데이터는 유지하고 탐색 구조와 시각 체계만 재설계한다.
      ═══════════════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════════════
+     GAEO DESIGN SYSTEM v2.0 — 기준 토큰(단일 출처)
+     하늘색 캔버스·하늘색 패널을 전부 걷어내고 「흰 종이 + 무채색 + 딥그린 단일 액센트」로 통일한다.
+     기존 --gaeo-* 토큰은 지우지 않고 이 기준 토큰을 가리키도록 재정의한다
+     (수백 군데 사용처를 건드리지 않고 색만 갈아끼우기 위한 의도적 선택).
+     ═══════════════════════════════════════════════════════════════ */
   :root{
-    --gaeo-core:#88CDE7;--gaeo-950:#163B4B;--gaeo-900:#245C73;--gaeo-700:#347F9D;--gaeo-600:#59A9C8;
-    --gaeo-100:#D5EEF7;--gaeo-50:#EFF9FC;--gaeo-canvas:#F5FAFC;
-    --gaeo-ink:#13242C;--gaeo-muted:#627781;--gaeo-border:#DCEAF0;
-    --gaeo-radius-lg:30px;--gaeo-radius-md:22px;--gaeo-nav-h:72px;
+    /* 캔버스·표면 */
+    --color-bg:#FFFFFF; --color-bg-soft:#F8F8F6; --color-bg-subtle:#F3F3F0;
+    --color-surface:#FFFFFF; --color-surface-soft:#FAFAF8;
+    /* 글자 */
+    --color-text-primary:#111318; --color-text-secondary:#626872; --color-text-tertiary:#9297A0;
+    /* 선 */
+    --color-border:#E8E9EC; --color-border-strong:#D9DCE1;
+    /* GAEO 액센트(딥그린) — 넓은 면적에 쓰지 않고 강조에만 쓴다 */
+    --color-accent:#155C4D; --color-accent-hover:#10483D; --color-accent-soft:#EAF3F0;
+    /* 금융 의미색 — 장식용 금지, 실제 상태일 때만 */
+    --color-positive:#14815C; --color-positive-soft:#EAF6F1; --color-positive-line:#D5EBE2;
+    --color-negative:#D84A4A; --color-negative-soft:#FCEEEE; --color-negative-line:#F2D9D9;
+    --color-warning:#9A793B;  --color-warning-soft:#F7F4EC;  --color-warning-line:#ECE4D2;
+    --color-neutral:#727983;
+    /* 모서리 */
+    --radius-xs:8px; --radius-sm:12px; --radius-md:18px; --radius-lg:24px; --radius-xl:32px;
+    --radius-pill:9999px;
+    /* 그림자 — 플라스틱 덩어리가 아니라 '떠 있는 종이'처럼 */
+    --shadow-xs:0 1px 2px rgba(15,18,24,.03);
+    --shadow-1:0 8px 24px rgba(15,18,24,.05);
+    --shadow-2:0 18px 48px rgba(15,18,24,.07);
+    --shadow-3:0 30px 80px rgba(15,18,24,.10);
+    /* 모션 */
+    --motion-instant:100ms; --motion-fast:160ms; --motion-control:240ms;
+    --motion-card:360ms; --motion-reveal:700ms;
+    --ease-standard:cubic-bezier(.2,.8,.2,1);
+    --ease-enter:cubic-bezier(.16,1,.3,1);
+    --ease-reveal:cubic-bezier(.215,.61,.355,1);
+
+    /* ── 기존 --gaeo-* 재정의(하늘색 → 무채색·딥그린) ── */
+    --gaeo-core:var(--color-accent);
+    --gaeo-950:#0B2E27;--gaeo-900:var(--color-accent-hover);--gaeo-700:var(--color-accent);--gaeo-600:#1E7A66;
+    --gaeo-100:#D7E5E0;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
+    --gaeo-ink:var(--color-text-primary);--gaeo-muted:var(--color-text-secondary);--gaeo-border:var(--color-border);
+    --gaeo-radius-lg:var(--radius-xl);--gaeo-radius-md:var(--radius-lg);--gaeo-nav-h:72px;
   }
   html.gdark{
-    --gaeo-core:#88CDE7;--gaeo-950:#163B4B;--gaeo-900:#245C73;--gaeo-700:#9EDCF1;--gaeo-600:#88CDE7;
-    --gaeo-100:#214958;--gaeo-50:#102C38;--gaeo-canvas:#081116;
-    --gaeo-ink:#F1F6F8;--gaeo-muted:#9BAAB1;--gaeo-border:#2B3D45;
+    --color-bg:#0B0C0E; --color-bg-soft:#131417; --color-bg-subtle:#191B1F;
+    --color-surface:#131417; --color-surface-soft:#191B1F;
+    --color-text-primary:#F2F3F5; --color-text-secondary:#A0A6B0; --color-text-tertiary:#767C86;
+    --color-border:#2A2D33; --color-border-strong:#3A3E45;
+    --color-accent:#5FBFA6; --color-accent-hover:#7FD0BA; --color-accent-soft:#12251F;
+    --color-positive:#4FB894; --color-positive-soft:#10241D; --color-positive-line:#1E3D33;
+    --color-negative:#E88B8B; --color-negative-soft:#2A1717; --color-negative-line:#4A2A2A;
+    --color-warning:#D0AC6D; --color-warning-soft:#241F14; --color-warning-line:#413720;
+    --color-neutral:#8A9099;
+    --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+    --shadow-1:0 8px 24px rgba(0,0,0,.45);
+    --shadow-2:0 18px 48px rgba(0,0,0,.5);
+    --shadow-3:0 30px 80px rgba(0,0,0,.55);
+    /* 다크에서 --gaeo-900은 '흰 글씨를 얹는 버튼 배경'이라 액센트보다 어둡게 잡는다 */
+    --gaeo-core:var(--color-accent);
+    --gaeo-950:#0A1F1A;--gaeo-900:#1B6E5B;--gaeo-700:var(--color-accent);--gaeo-600:#4FB894;
+    --gaeo-100:#24413A;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
+    --gaeo-ink:var(--color-text-primary);--gaeo-muted:var(--color-text-secondary);--gaeo-border:var(--color-border);
   }
   body{background:var(--gaeo-canvas)}
   button,input{font-family:inherit}
@@ -4797,6 +4873,14 @@ const MACRO_REGIME=(function(){
   else { label='보통'; damp=0.94; }
   return {ready:true, vol:Math.round(vol*10)/10, n:recent.length, label, damp};
 })();
+/* RankingChip 헬퍼 — 순위별로 색을 나누지 않고 1·2·3위만 위계 클래스를 붙인다. */
+function rankCls(i){ return i===0?' rank1':i===1?' rank2':i===2?' rank3':''; }
+/* 접힌 칩을 펼치는 버튼. 초기 노출 개수(shown) 이상일 때만 렌더한다. */
+function expandBtn(total,shown,targetId){
+  if(total<=shown) return '';
+  return `<button type="button" class="bc-expand" data-bc-target="${targetId}"
+    aria-expanded="false" aria-controls="${targetId}">전체 ${total}위 보기</button>`;
+}
 function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const isMobileBox=window.innerWidth<1180;
@@ -4826,12 +4910,14 @@ function renderMarket(){
   }
   // 💰 시가총액 상위 10위 — data.js cap을 로컬 파싱해 계산(토큰 0), 시장 분석 바로 밑에 노출
   if(CAP_TOP10.length){
+    const capShown=isMobileBox?5:15;   // 밀집 완화: 모바일 5개·데스크톱 15개 먼저, 나머지는 펼치기
     const capChips=CAP_TOP10.map((s,i)=>
-      `<span class="mk-buychip cap${i<3?' top3':''}" data-nm="${esc(s.name)}"><span class="bc-rank">${i+1}</span>${esc(s.name)}<span class="bc-score">${esc(s.capStr)}</span></span>`
+      `<span class="mk-buychip${rankCls(i)}${i>=capShown?' bc-more':''}" data-nm="${esc(s.name)}"><span class="bc-rank">${i+1}</span>${esc(s.name)}<span class="bc-score">${esc(s.capStr)}</span></span>`
     ).join('');
     html+=`<div class="mk-tally">
-      <details class="mk-buylist"${isMobileBox?'':' open'}><summary>💰 시가총액 상위 10위 펼쳐보기</summary>
-        <div class="mk-buychips">${capChips}</div>
+      <details class="mk-buylist"${isMobileBox?'':' open'}><summary>시가총액 상위 10위 펼쳐보기</summary>
+        <div class="mk-buychips" id="capChips">${capChips}</div>
+        ${expandBtn(CAP_TOP10.length,capShown,'capChips')}
       </details>
     </div>`;
   }
@@ -4843,22 +4929,24 @@ function renderMarket(){
     // 넘으면 자연히 BUY만 30개가 뽑히고, BUY가 적으면 점수 높은 HOLD가 채워져 늘 30개를 채운다.
     const TOPN=30;
     const list=tal.ranked.filter(b=>b.call==='BUY'||b.call==='HOLD').slice(0,TOPN);
+    const shown=isMobileBox?5:15;   // 밀집 완화: 30칩 벽 대신 먼저 5·15개만
     const chips=list.map((b,i)=>{
       const isBuy=b.call==='BUY';
       const tag=isBuy?'':'<span class="bc-rel">매수우위</span>';
-      return `<span class="mk-buychip${i<3?' top3':''}${isBuy?'':' rel'}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}${tag}<span class="bc-score">${b.total}점</span></span>`;
+      return `<span class="mk-buychip${rankCls(i)}${i>=shown?' bc-more':''}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}${tag}<span class="bc-score">${b.total}점</span></span>`;
     }).join('');
-    const summary=`🧭 종합점수 상위 ${list.length}위 펼쳐보기 (BUY ${tal.counts.BUY}개 포함)`;
-    const note='※ 앞의 번호는 종합점수 순위예요. 상위 30위까지 BUY·HOLD를 함께 보여드려요 — 🟡 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 🤖 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
+    const summary=`종합점수 상위 ${list.length}위 펼쳐보기 (BUY ${tal.counts.BUY}개 포함)`;
+    const note='※ 앞의 번호는 종합점수 순위예요. 상위 30위까지 BUY·HOLD를 함께 보여드려요. 「매수우위」 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
     html+=`<div class="mk-tally">
-      <div class="mk-tally-head">🧭 오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(asOf)} · 총 ${tal.total}종목</span></div>
+      <div class="mk-tally-head">오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(asOf)} · 총 ${tal.total}종목</span></div>
       <div class="mk-tally-row">
-        <span class="tly buy">🟢 BUY ${tal.counts.BUY}</span>
-        <span class="tly hold">🟡 HOLD ${tal.counts.HOLD}</span>
-        <span class="tly sell">🔴 SELL ${tal.counts.SELL}</span>
+        <span class="tly buy">BUY <b>${tal.counts.BUY}</b></span>
+        <span class="tly hold">HOLD <b>${tal.counts.HOLD}</b></span>
+        <span class="tly sell">SELL <b>${tal.counts.SELL}</b></span>
       </div>`+
       (list.length?`<details class="mk-buylist"${isMobileBox?'':' open'}><summary>${summary}</summary>
-        <div class="mk-buychips">${chips}</div>
+        <div class="mk-buychips" id="tallyChips">${chips}</div>
+        ${expandBtn(list.length,shown,'tallyChips')}
         <div class="mk-buynote">${note}</div>
       </details>`:'')+
       `</div>`;
@@ -4898,6 +4986,12 @@ function renderMarket(){
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>jumpToStock(c.dataset.nm));
+  box.querySelectorAll('.bc-expand').forEach(btn=>btn.onclick=()=>{
+    const wrap=document.getElementById(btn.dataset.bcTarget); if(!wrap) return;
+    const open=wrap.classList.toggle('bc-open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+    btn.firstChild.textContent=open?'접기':`전체 ${wrap.querySelectorAll('.mk-buychip').length}위 보기`;
+  });
 }
 window.GaeoRenderMarket=renderMarket;
 renderMarket();
@@ -7318,9 +7412,9 @@ function renderGuide(){
   <details class="gb-sec">
     <summary>🚦 화면 기호 읽는 법 — 이게 다 무슨 뜻이에요?</summary>
     <div class="gb-body">
-      ${sign('#059669','#fff','BUY','"사볼 만해요" — 팀이 보기에 좋아질 가능성이 커요.')}
-      ${sign('#D97706','#fff','HOLD','"기다려요" — 좋지도 나쁘지도 않아요. 가진 사람은 지켜보고, 없는 사람은 서두르지 않아도 돼요.')}
-      ${sign('#D5535D','#fff','SELL','"조심해요" — 내려갈 걱정이 커요. 비중을 줄이는 걸 생각해봐요.')}
+      ${sign('var(--color-positive-soft)','#126B4D','BUY','"사볼 만해요" — 팀이 보기에 좋아질 가능성이 커요.')}
+      ${sign('var(--color-warning-soft)','#755B2E','HOLD','"기다려요" — 좋지도 나쁘지도 않아요. 가진 사람은 지켜보고, 없는 사람은 서두르지 않아도 돼요.')}
+      ${sign('var(--color-negative-soft)','#B63D3D','SELL','"조심해요" — 내려갈 걱정이 커요. 비중을 줄이는 걸 생각해봐요.')}
       ${sign('var(--sky-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
       ${sign('var(--sky-soft)','var(--navy)','신뢰도 %','팀이 이 판단에 얼마나 자신 있는지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
       ${sign('#6D28D9','#fff','🧠 정밀분석','가격·재무·수급과 함께 뉴스와 공시까지 살펴본 분석이에요.')}
