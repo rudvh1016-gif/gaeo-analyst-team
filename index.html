@@ -344,14 +344,18 @@
   .wrap{max-width:1020px;margin:0 auto;padding:26px 22px 80px;}
   ::selection{background:rgba(160,196,216,.32)}
 
-  /* ── 최상단 바(조회수) ── */
+  /* ── 최상단 바(조회수) — 누르면 「오늘의 Gaeo」 모달이 열리는 버튼 ── */
   .topbar{display:flex;justify-content:flex-end;margin:0 0 8px}
   .views{font-size:11.5px;color:var(--dim);background:var(--paper);border-radius:99px;
     padding:5px 12px;box-shadow:var(--shadow-sm);letter-spacing:.01em;
-    opacity:1;transition:opacity .4s}
+    opacity:1;transition:opacity .4s,background .15s;
+    border:none;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center}
   .views.on{opacity:1}
+  .views:hover{background:var(--gaeo-canvas,#eef3f6)}
   .views-eye{margin-right:4px;font-size:12px;line-height:1}
   .views b{color:var(--navy);font-weight:800;font-variant-numeric:tabular-nums}
+  .views-go{margin-left:5px;color:var(--dim);font-weight:800;transition:transform .15s}
+  .views:hover .views-go{transform:translateX(2px)}
 
   /* ── 시세 티커 ── */
   .tape{overflow:hidden;white-space:nowrap;
@@ -2052,6 +2056,7 @@
   .nav-profile-inner .theme-toggle,.nav-profile-inner .views{height:46px;border:1px solid var(--gaeo-border);
     background:var(--gaeo-canvas);box-shadow:none}
   .nav-profile-inner .views{display:inline-flex;align-items:center;justify-content:center;padding:0 16px}
+  .nav-profile-inner .views:hover{background:var(--gaeo-border)}
   .nav-profile-inner .nav-profile-action{height:46px}
   .nav-workspace-inner{max-height:min(78vh,760px);overflow-y:auto}
   .nav-workspace-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
@@ -2141,14 +2146,23 @@
   .latest-panel .latest-post-title{grid-column:1;grid-row:1;font-size:12px;font-weight:720;
     white-space:nowrap;text-overflow:ellipsis;display:block}
 
-  /* 오늘의 Gaeo — 공개 방문 숫자와 초보자용 이용 동선을 함께 보여주는 활동판 */
-  .activity-board{position:relative;overflow:hidden;display:grid;
-    grid-template-columns:minmax(0,1.16fr) minmax(360px,.84fr);gap:24px;margin:16px 0;
+  /* 오늘의 Gaeo — 공개 방문 숫자와 초보자용 이용 동선을 함께 보여주는 활동판.
+     메인화면엔 항상 숨겨두고, 「나의 이용 환경」의 조회 버튼을 눌렀을 때만 모달로 띄운다. */
+  .activity-board{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:401;
+    overflow:hidden auto;display:grid;width:calc(100% - 32px);max-width:900px;max-height:86vh;
+    grid-template-columns:minmax(0,1.16fr) minmax(360px,.84fr);gap:24px;margin:0;
     padding:26px 28px;border:1px solid #B9E2F1;border-radius:var(--gaeo-radius-md);
-    background:#E5F5FB;color:#153C4B}
+    background:#E5F5FB;color:#153C4B;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .activity-board[hidden]{display:none!important}
   .activity-board::after{content:"";position:absolute;right:-72px;top:-105px;width:270px;height:270px;
     border:38px solid rgba(255,255,255,.34);border-radius:50%;pointer-events:none}
   .activity-main,.activity-popular{position:relative;z-index:1;min-width:0}
+  .activity-close{position:absolute;top:14px;right:14px;z-index:2;border:none;background:rgba(255,255,255,.6);
+    color:#153C4B;width:30px;height:30px;min-width:30px;border-radius:50%;font-size:14px;line-height:1;
+    cursor:pointer}
+  .activity-close:hover{background:#fff}
+  html.gdark .activity-close{background:rgba(255,255,255,.08);color:#DDF4FC}
+  html.gdark .activity-close:hover{background:rgba(255,255,255,.16)}
   .activity-head{display:flex;align-items:center;gap:9px;margin-bottom:18px}
   .activity-head h2{margin:0;color:#153C4B;font-size:18px;font-weight:840;letter-spacing:-.035em}
   .activity-live{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:99px;
@@ -2576,7 +2590,7 @@
     .hero-search-card .home-search-panel{margin-top:14px}
     .hero-search-card .home-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto}
     .latest-panel{padding:22px 18px 18px;border-radius:24px}
-    .activity-board{gap:18px;margin:14px 0;padding:22px 18px;border-radius:20px}
+    .activity-board{gap:18px;width:calc(100% - 24px);padding:22px 18px;border-radius:20px}
     .activity-head{margin-bottom:16px}
     .activity-head h2{font-size:17px}
     .activity-metrics{grid-template-columns:1fr 1fr;gap:16px 12px}
@@ -2830,7 +2844,7 @@
       <div class="nav-profile-row">
         <button class="theme-toggle" id="trustInfoToggle" type="button" title="판단보다 먼저, 기준을 공개해요">📐<span>기준</span></button>
         <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-        <span class="views" id="viewsBadge" title="사이트 누적 방문 횟수"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b></span>
+        <button class="views" id="viewsBadge" type="button" title="탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b><span class="views-go" aria-hidden="true">›</span></button>
         <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
       </div>
     </div>
@@ -2845,7 +2859,7 @@
     </div>
   </div>
 </nav>
-<div class="trust-backdrop" id="trustBackdrop" hidden></div>
+<div class="trust-backdrop" id="gaeoBackdrop" hidden></div>
 <section class="trust-strip" id="trustStrip" aria-labelledby="trustTitle" hidden>
   <button class="trust-close" id="trustClose" type="button" aria-label="닫기">✕</button>
   <div>
@@ -2862,6 +2876,61 @@
     <a href="about.html">서비스 소개</a>
     <a href="?m=guide" data-trust-guide>분석 기준</a>
     <a href="privacy.html">개인정보</a>
+  </div>
+</section>
+<section class="activity-board" id="activityBoard" aria-labelledby="activityTitle" hidden>
+  <button class="activity-close" id="activityClose" type="button" aria-label="닫기">✕</button>
+  <div class="activity-main">
+    <div class="activity-head">
+      <h2 id="activityTitle">오늘의 Gaeo</h2>
+      <span class="activity-live">방문·콘텐츠 현황</span>
+    </div>
+    <div class="activity-metrics" aria-live="polite">
+      <div class="activity-metric">
+        <span>오늘 방문</span>
+        <strong id="activityToday">1+<small>회</small></strong>
+      </div>
+      <div class="activity-metric">
+        <span>누적 방문</span>
+        <strong id="activityTotal">939+<small>회</small></strong>
+      </div>
+      <div class="activity-metric">
+        <span>분석 범위</span>
+        <strong class="activity-coverage" id="activityCoverage">500<small>종목</small></strong>
+      </div>
+    </div>
+    <div class="activity-path" aria-label="Gaeo 추천 이용 순서">
+      <button class="activity-path-item" id="activityBrief" type="button">
+        <span class="activity-path-no">1</span>
+        <span class="activity-path-copy"><b>오늘 시장부터</b><small>코스피·코스닥·환율과 핵심 이슈</small></span>
+        <em class="activity-path-go">보기 →</em>
+      </button>
+      <button class="activity-path-item" id="activityStock" type="button">
+        <span class="activity-path-no">2</span>
+        <span class="activity-path-copy"><b>내 종목 확인</b><small>회사명 검색 후 판단 변화와 근거 확인</small></span>
+        <em class="activity-path-go">검색 →</em>
+      </button>
+      <button class="activity-path-item" id="activityCalc" type="button">
+        <span class="activity-path-no">3</span>
+        <span class="activity-path-copy"><b>금액 직접 계산</b><small>세금·수수료·배당까지 실제 금액 확인</small></span>
+        <em class="activity-path-go">계산 →</em>
+      </button>
+    </div>
+    <div class="activity-foot">
+      <span>투자 가이드 <b id="activityGuides">—</b>개</span>
+      <span>계산기 <b id="activityCalcs">—</b>개</span>
+      <span>최근 데이터 <b id="activityUpdated">확인 중</b></span>
+      <span class="activity-count-note" id="activityCountNote">+ 표시는 집계 연결 중 확인된 최소 횟수예요.</span>
+    </div>
+  </div>
+  <div class="activity-popular">
+    <div class="activity-popular-head">
+      <h3>지금 많이 보는 글</h3>
+      <span>최근 콘텐츠 기준</span>
+    </div>
+    <div class="activity-popular-list" id="activityPopular" aria-live="polite">
+      <div class="activity-empty">인기 글 순위를 모으고 있어요.</div>
+    </div>
   </div>
 </section>
 <div class="wrap">
@@ -2919,61 +2988,6 @@
           <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
         </div>
       </article>
-    </section>
-
-    <section class="activity-board" id="activityBoard" aria-labelledby="activityTitle">
-      <div class="activity-main">
-        <div class="activity-head">
-          <h2 id="activityTitle">오늘의 Gaeo</h2>
-          <span class="activity-live">방문·콘텐츠 현황</span>
-        </div>
-        <div class="activity-metrics" aria-live="polite">
-          <div class="activity-metric">
-            <span>오늘 방문</span>
-            <strong id="activityToday">1+<small>회</small></strong>
-          </div>
-          <div class="activity-metric">
-            <span>누적 방문</span>
-            <strong id="activityTotal">939+<small>회</small></strong>
-          </div>
-          <div class="activity-metric">
-            <span>분석 범위</span>
-            <strong class="activity-coverage" id="activityCoverage">500<small>종목</small></strong>
-          </div>
-        </div>
-        <div class="activity-path" aria-label="Gaeo 추천 이용 순서">
-          <button class="activity-path-item" id="activityBrief" type="button">
-            <span class="activity-path-no">1</span>
-            <span class="activity-path-copy"><b>오늘 시장부터</b><small>코스피·코스닥·환율과 핵심 이슈</small></span>
-            <em class="activity-path-go">보기 →</em>
-          </button>
-          <button class="activity-path-item" id="activityStock" type="button">
-            <span class="activity-path-no">2</span>
-            <span class="activity-path-copy"><b>내 종목 확인</b><small>회사명 검색 후 판단 변화와 근거 확인</small></span>
-            <em class="activity-path-go">검색 →</em>
-          </button>
-          <button class="activity-path-item" id="activityCalc" type="button">
-            <span class="activity-path-no">3</span>
-            <span class="activity-path-copy"><b>금액 직접 계산</b><small>세금·수수료·배당까지 실제 금액 확인</small></span>
-            <em class="activity-path-go">계산 →</em>
-          </button>
-        </div>
-        <div class="activity-foot">
-          <span>투자 가이드 <b id="activityGuides">—</b>개</span>
-          <span>계산기 <b id="activityCalcs">—</b>개</span>
-          <span>최근 데이터 <b id="activityUpdated">확인 중</b></span>
-          <span class="activity-count-note" id="activityCountNote">+ 표시는 집계 연결 중 확인된 최소 횟수예요.</span>
-        </div>
-      </div>
-      <div class="activity-popular">
-        <div class="activity-popular-head">
-          <h3>지금 많이 보는 글</h3>
-          <span>최근 콘텐츠 기준</span>
-        </div>
-        <div class="activity-popular-list" id="activityPopular" aria-live="polite">
-          <div class="activity-empty">인기 글 순위를 모으고 있어요.</div>
-        </div>
-      </div>
     </section>
 
     <div class="market" id="marketBox" style="display:none"></div>
@@ -9567,7 +9581,8 @@ window.renderScreener=function(){
     document.getElementById('activityCountNote').hidden=todayExact&&totalExact;
     if(profile){
       document.getElementById('profileTotal').textContent=totalText;
-      profile.title=totalExact?'사이트 누적 방문 횟수':'마지막으로 확인된 최소 누적 방문 횟수';
+      profile.title='탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요 ('+
+        (totalExact?'누적 방문 '+totalText+'회':'최소 누적 방문 '+totalText+'회')+')';
       profile.style.removeProperty('display');
       profile.classList.add('on');
     }
@@ -10499,17 +10514,34 @@ window.hangulFix=function(str){
     if(e.target.closest('.modebtn')) setTimeout(closePanels,40);
   });
 
-  // 📐 기준 — 「판단보다 먼저, 기준을 공개해요」는 메인화면엔 항상 숨겨두고, 이 버튼을 눌렀을 때만 모달로 띄운다.
-  const trustToggle=document.getElementById('trustInfoToggle');
-  const trustStrip=document.getElementById('trustStrip');
-  const trustBackdrop=document.getElementById('trustBackdrop');
-  if(trustToggle&&trustStrip&&trustBackdrop){
-    const openTrust=()=>{ closePanels(); trustStrip.hidden=false; trustBackdrop.hidden=false; };
-    const closeTrust=()=>{ trustStrip.hidden=true; trustBackdrop.hidden=true; };
-    trustToggle.onclick=openTrust;
-    document.getElementById('trustClose').onclick=closeTrust;
-    trustBackdrop.onclick=closeTrust;
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeTrust(); });
+  // 📐 기준 · 👁 조회 — 「판단보다 먼저, 기준을 공개해요」·「오늘의 Gaeo」는 메인화면엔 항상 숨겨두고,
+  // 각 버튼을 눌렀을 때만 모달로 띄운다. 배경(backdrop) 하나를 두 모달이 함께 쓴다.
+  const gaeoBackdrop=document.getElementById('gaeoBackdrop');
+  const infoModals=[
+    {toggle:document.getElementById('trustInfoToggle'),panel:document.getElementById('trustStrip'),
+      close:document.getElementById('trustClose')},
+    {toggle:document.getElementById('viewsBadge'),panel:document.getElementById('activityBoard'),
+      close:document.getElementById('activityClose')}
+  ];
+  function closeInfoModals(){
+    infoModals.forEach(m=>{ if(m.panel) m.panel.hidden=true; });
+    if(gaeoBackdrop) gaeoBackdrop.hidden=true;
+  }
+  infoModals.forEach(m=>{
+    if(!m.toggle||!m.panel) return;
+    m.toggle.onclick=()=>{ closePanels(); closeInfoModals(); m.panel.hidden=false; if(gaeoBackdrop) gaeoBackdrop.hidden=false; };
+    if(m.close) m.close.onclick=closeInfoModals;
+  });
+  if(gaeoBackdrop) gaeoBackdrop.onclick=closeInfoModals;
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeInfoModals(); });
+  // 「오늘 시장부터/내 종목 확인/금액 직접 계산」이나 인기 글을 누르면, 이동을 보여주기 위해 모달부터 닫는다.
+  const activityBoardEl=document.getElementById('activityBoard');
+  if(activityBoardEl){
+    activityBoardEl.addEventListener('click',e=>{
+      if(e.target.closest('.activity-path-item')||e.target.closest('.activity-popular-item')){
+        setTimeout(closeInfoModals,60);
+      }
+    });
   }
 
   function goHome(target){
