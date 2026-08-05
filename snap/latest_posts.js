@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 38,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-04",
+  "title": "2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날",
+  "featured": false
+ },
+ {
   "id": 37,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "재무제표 보는 법: 손익·재무상태·현금흐름 연결하기",
   "featured": false
- },
- {
-  "id": 66,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "S&P500 vs 나스닥100: 초보자를 위한 완전 비교",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 37,
+ "news": 38,
  "study": 35,
  "lesson": 72,
  "estate": 19,
