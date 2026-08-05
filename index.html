@@ -3054,16 +3054,18 @@
                 <stop offset="100%" stop-color="#DBDEE3"/>
               </radialGradient>
               <linearGradient id="orbShellA" x1="14%" y1="0%" x2="82%" y2="100%">
-                <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".96"/>
-                <stop offset="100%" stop-color="#E6E9ED" stop-opacity=".72"/>
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="58%" stop-color="#F2F4F6"/>
+                <stop offset="100%" stop-color="#D5DAE0"/>
               </linearGradient>
               <linearGradient id="orbShellB" x1="8%" y1="10%" x2="92%" y2="94%">
-                <stop offset="0%" stop-color="#FDFDFE" stop-opacity=".92"/>
-                <stop offset="100%" stop-color="#D8DCE2" stop-opacity=".8"/>
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="55%" stop-color="#EDEFF3"/>
+                <stop offset="100%" stop-color="#C7CDD5"/>
               </linearGradient>
               <linearGradient id="orbShellC" x1="20%" y1="0%" x2="70%" y2="100%">
-                <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".85"/>
-                <stop offset="100%" stop-color="#EDEFF2" stop-opacity=".45"/>
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#E2E6EB"/>
               </linearGradient>
               <linearGradient id="orbRim" x1="20%" y1="0%" x2="80%" y2="100%">
                 <stop offset="0%" stop-color="#FFFFFF"/>
@@ -3074,6 +3076,10 @@
               <filter id="orbSoft" x="-40%" y="-40%" width="180%" height="180%">
                 <feGaussianBlur stdDeviation="9"/>
               </filter>
+              <!-- 층 경계용 — 넓게 번지지 않게 좁은 블러를 따로 둔다 -->
+              <filter id="orbEdge" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="4"/>
+              </filter>
               <filter id="orbCast" x="-60%" y="-60%" width="220%" height="220%">
                 <feGaussianBlur stdDeviation="14"/>
               </filter>
@@ -3083,19 +3089,19 @@
               <circle cx="170" cy="164" r="132" fill="url(#orbBody)"/>
               <!-- 겹쳐 쌓인 층. 각 층의 앞모서리에 그림자+하이라이트를 같이 둬서 두께가 보이게 한다 -->
               <g transform="rotate(-16 150 104)">
-                <ellipse cx="150" cy="110" rx="168" ry="72" fill="#C9CDD4" opacity=".5" filter="url(#orbSoft)"/>
+                <ellipse cx="150" cy="112" rx="168" ry="72" fill="#A9B0BA" opacity=".72" filter="url(#orbEdge)"/>
                 <ellipse cx="150" cy="104" rx="168" ry="72" fill="url(#orbShellC)"/>
-                <ellipse cx="150" cy="104" rx="168" ry="72" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity=".9"/>
+                <ellipse cx="150" cy="104" rx="168" ry="72" fill="none" stroke="#FFFFFF" stroke-width="2.2"/>
               </g>
               <g transform="rotate(-13 176 236)">
-                <ellipse cx="176" cy="243" rx="198" ry="99" fill="#B9BEC6" opacity=".55" filter="url(#orbSoft)"/>
+                <ellipse cx="176" cy="246" rx="198" ry="99" fill="#98A0AC" opacity=".8" filter="url(#orbEdge)"/>
                 <ellipse cx="176" cy="236" rx="198" ry="99" fill="url(#orbShellA)"/>
-                <ellipse cx="176" cy="236" rx="198" ry="99" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                <ellipse cx="176" cy="236" rx="198" ry="99" fill="none" stroke="#FFFFFF" stroke-width="2.4"/>
               </g>
               <g transform="rotate(-13 182 296)">
-                <ellipse cx="182" cy="302" rx="198" ry="93" fill="#AEB4BD" opacity=".5" filter="url(#orbSoft)"/>
+                <ellipse cx="182" cy="306" rx="198" ry="93" fill="#8F97A4" opacity=".75" filter="url(#orbEdge)"/>
                 <ellipse cx="182" cy="296" rx="198" ry="93" fill="url(#orbShellB)"/>
-                <ellipse cx="182" cy="296" rx="198" ry="93" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity=".95"/>
+                <ellipse cx="182" cy="296" rx="198" ry="93" fill="none" stroke="#FFFFFF" stroke-width="2.2"/>
               </g>
               <ellipse cx="112" cy="82" rx="60" ry="32" transform="rotate(-24 112 82)" fill="#FFFFFF" opacity=".6" filter="url(#orbSoft)"/>
             </g>
