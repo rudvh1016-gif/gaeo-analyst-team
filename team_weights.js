@@ -86,9 +86,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 139,
-     "acc": 37.4,
-     "adjustedAcc": 43.2,
+     "n": 138,
+     "acc": 37.7,
+     "adjustedAcc": 43.4,
      "days": 20,
      "deadband": 3.0
     },
@@ -107,7 +107,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2241,
+   "graded": 2240,
    "globalBlend": 0.263
   },
   "전자·부품": {
@@ -766,9 +766,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 35,
-     "acc": 45.7,
-     "adjustedAcc": 49.0,
+     "n": 34,
+     "acc": 47.1,
+     "adjustedAcc": 49.4,
      "days": 20,
      "deadband": 3.0
     },
@@ -787,7 +787,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 389,
+   "graded": 388,
    "globalBlend": 0.673
   },
   "건설·건자재": {

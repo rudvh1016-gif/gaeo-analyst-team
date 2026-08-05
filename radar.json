@@ -555,8 +555,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 37900,
-   "currentValue": 38500,
-   "threshold": 38433,
+   "currentValue": 38550,
+   "threshold": 38446,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:12",
    "priceBaseAt": "2026-08-05 11:11 장중",
@@ -1332,7 +1332,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -592,
-   "currentValue": 923,
+   "currentValue": 942,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:12",
@@ -1395,7 +1395,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -28,
-   "currentValue": 50,
+   "currentValue": 53,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:12",
@@ -1542,7 +1542,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": -3,
-   "currentValue": 95,
+   "currentValue": 101,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:12",
@@ -2004,7 +2004,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 52,
-   "currentValue": -15,
+   "currentValue": -3,
    "threshold": 0,
    "date": "2026-08-05",
    "detectedAt": "2026-08-05 11:12",
@@ -2577,6 +2577,17 @@
    "code": "017800",
    "name": "현대엘리베이터",
    "rep": "017800-bb-upper-break-20260805",
+   "repType": "bb_upper_break",
+   "repLabel": "밴드 상단 돌파",
+   "others": 0,
+   "types": [
+    "bb_upper_break"
+   ]
+  },
+  {
+   "code": "032190",
+   "name": "다우데이타",
+   "rep": "032190-bb-upper-break-20260805",
    "repType": "bb_upper_break",
    "repLabel": "밴드 상단 돌파",
    "others": 0,
@@ -3465,9 +3476,9 @@
    ]
   },
   {
-   "code": "052020",
-   "name": "에스티큐브",
-   "rep": "052020-bb-upper-recover-20260805",
+   "code": "058610",
+   "name": "에스피지",
+   "rep": "058610-bb-upper-recover-20260805",
    "repType": "bb_upper_recover",
    "repLabel": "밴드 상단 재진입",
    "others": 0,
@@ -3476,9 +3487,20 @@
    ]
   },
   {
-   "code": "058610",
-   "name": "에스피지",
-   "rep": "058610-bb-upper-recover-20260805",
+   "code": "058650",
+   "name": "세아홀딩스",
+   "rep": "058650-bb-upper-recover-20260805",
+   "repType": "bb_upper_recover",
+   "repLabel": "밴드 상단 재진입",
+   "others": 0,
+   "types": [
+    "bb_upper_recover"
+   ]
+  },
+  {
+   "code": "065350",
+   "name": "신성델타테크",
+   "rep": "065350-bb-upper-recover-20260805",
    "repType": "bb_upper_recover",
    "repLabel": "밴드 상단 재진입",
    "others": 0,
