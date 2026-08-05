@@ -318,7 +318,7 @@
   html.gdark .mk-buychip{color:#C9CED6}
   html.gdark .mk-buychip .bc-rank{background:#4A515B}
   html.gdark .mk-buychip.rank2 .bc-rank,html.gdark .mk-buychip.rank3 .bc-rank{background:#5F6772}
-  html.gdark .mk-buychip.rank1 .bc-rank{background:var(--color-accent);color:#08201B}
+  html.gdark .mk-buychip.rank1 .bc-rank{background:var(--color-accent);color:#111318}
   /* 🧒 설명 말풍선·운영자 메모 — 라이트 전용 잉크색 텍스트 보정 */
   html.gdark .veasy{color:#E4EEF9}
   html.gdark .anote{background:#211B0E;border-color:#4A3A14;color:#EBD9A8}
@@ -2026,8 +2026,9 @@
     --color-text-primary:#111318; --color-text-secondary:#626872; --color-text-tertiary:#9297A0;
     /* 선 */
     --color-border:#E8E9EC; --color-border-strong:#D9DCE1;
-    /* GAEO 액센트(딥그린) — 넓은 면적에 쓰지 않고 강조에만 쓴다 */
-    --color-accent:#155C4D; --color-accent-hover:#10483D; --color-accent-soft:#EAF3F0;
+    /* GAEO 액센트(잉크 블랙) — 넓은 면적에 쓰지 않고 강조에만 쓴다.
+       (2026-08-06 사용자 지정: 딥그린 대신 검정. 참고 시안의 검정 CTA와 일치) */
+    --color-accent:#111318; --color-accent-hover:#000000; --color-accent-soft:#F3F3F0;
     /* 금융 의미색 — 장식용 금지, 실제 상태일 때만 */
     --color-positive:#14815C; --color-positive-soft:#EAF6F1; --color-positive-line:#D5EBE2;
     --color-negative:#D84A4A; --color-negative-soft:#FCEEEE; --color-negative-line:#F2D9D9;
@@ -2050,8 +2051,8 @@
 
     /* ── 기존 --gaeo-* 재정의(하늘색 → 무채색·딥그린) ── */
     --gaeo-core:var(--color-accent);
-    --gaeo-950:#0B2E27;--gaeo-900:var(--color-accent-hover);--gaeo-700:var(--color-accent);--gaeo-600:#1E7A66;
-    --gaeo-100:#D7E5E0;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
+    --gaeo-950:#000000;--gaeo-900:var(--color-accent);--gaeo-700:var(--color-accent);--gaeo-600:#3F444C;
+    --gaeo-100:#E3E4E2;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
     --gaeo-ink:var(--color-text-primary);--gaeo-muted:var(--color-text-secondary);--gaeo-border:var(--color-border);
     --gaeo-radius-lg:var(--radius-xl);--gaeo-radius-md:var(--radius-lg);--gaeo-nav-h:72px;
   }
@@ -2060,7 +2061,7 @@
     --color-surface:#131417; --color-surface-soft:#191B1F;
     --color-text-primary:#F2F3F5; --color-text-secondary:#A0A6B0; --color-text-tertiary:#767C86;
     --color-border:#2A2D33; --color-border-strong:#3A3E45;
-    --color-accent:#5FBFA6; --color-accent-hover:#7FD0BA; --color-accent-soft:#12251F;
+    --color-accent:#F2F3F5; --color-accent-hover:#FFFFFF; --color-accent-soft:#22252B;
     --color-positive:#4FB894; --color-positive-soft:#10241D; --color-positive-line:#1E3D33;
     --color-negative:#E88B8B; --color-negative-soft:#2A1717; --color-negative-line:#4A2A2A;
     --color-warning:#D0AC6D; --color-warning-soft:#241F14; --color-warning-line:#413720;
@@ -2069,10 +2070,10 @@
     --shadow-1:0 8px 24px rgba(0,0,0,.45);
     --shadow-2:0 18px 48px rgba(0,0,0,.5);
     --shadow-3:0 30px 80px rgba(0,0,0,.55);
-    /* 다크에서 --gaeo-900은 '흰 글씨를 얹는 버튼 배경'이라 액센트보다 어둡게 잡는다 */
+    /* 다크에서 --gaeo-900은 '흰 글씨를 얹는 버튼 배경'이라 액센트(밝은 잉크)와 분리해 어둡게 잡는다 */
     --gaeo-core:var(--color-accent);
-    --gaeo-950:#0A1F1A;--gaeo-900:#1B6E5B;--gaeo-700:var(--color-accent);--gaeo-600:#4FB894;
-    --gaeo-100:#24413A;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
+    --gaeo-950:#000000;--gaeo-900:#2E3238;--gaeo-700:var(--color-accent);--gaeo-600:#C9CED6;
+    --gaeo-100:#343841;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
     --gaeo-ink:var(--color-text-primary);--gaeo-muted:var(--color-text-secondary);--gaeo-border:var(--color-border);
   }
   body{background:var(--gaeo-canvas)}
@@ -2093,14 +2094,14 @@
   .global-primary{display:flex;align-items:center;gap:2px;min-width:0}
   .global-link{height:40px;border:0;border-radius:12px;padding:0 13px;background:transparent;
     color:var(--gaeo-muted);font-size:13px;font-weight:720;white-space:nowrap;cursor:pointer}
-  .global-link:hover{background:var(--gaeo-50);color:var(--gaeo-900)}
+  .global-link:hover{background:var(--gaeo-50);color:var(--color-text-primary)}
   .global-link.on{color:var(--gaeo-700);background:var(--gaeo-50)}
   .global-utilities{display:flex;align-items:center;gap:4px;margin-left:auto}
   .global-icon-btn,.global-menu-btn{height:40px;border:0;border-radius:12px;background:transparent;
     color:var(--gaeo-muted);display:inline-flex;align-items:center;justify-content:center;gap:7px;
     padding:0 11px;font-size:12px;font-weight:720;cursor:pointer;white-space:nowrap}
   .global-icon-btn:hover,.global-menu-btn:hover,.global-icon-btn[aria-expanded="true"],
-  .global-menu-btn[aria-expanded="true"]{background:var(--gaeo-50);color:var(--gaeo-900)}
+  .global-menu-btn[aria-expanded="true"]{background:var(--gaeo-50);color:var(--color-text-primary)}
   .global-icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;
     stroke-linecap:round;stroke-linejoin:round}
   .global-icon-btn.profile svg{width:19px;height:19px}
@@ -2162,13 +2163,32 @@
   .home-lead{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(390px,.65fr);gap:16px}
   .home-dashboard,.home-lead,.home-lead>*{min-width:0}
   .home-dashboard header{position:relative;overflow:hidden;min-height:184px;margin:0;
+    display:flex;align-items:center;gap:clamp(16px,3vw,44px);
     border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-lg);padding:30px 36px 32px;
     align-self:stretch;background:var(--paper);box-shadow:none}
-  .home-dashboard header::before{content:"";position:absolute;right:-92px;bottom:-156px;width:320px;height:320px;
-    border:46px solid var(--gaeo-50);border-radius:50%;opacity:.72;pointer-events:none}
+  /* v2.0: 예전 장식용 원호(::before)는 히어로 오브제(.hero-orb)로 대체 */
+  .home-dashboard header::before{content:none}
   .home-dashboard header::after{content:none}
+  .hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;
+    min-width:0;flex:1 1 auto}
+  /* 히어로 오브제 — 겹겹의 흰 구 */
+  .hero-orb{position:relative;z-index:0;flex:0 0 auto;width:clamp(190px,22vw,300px);
+    align-self:center;pointer-events:none;
+    will-change:transform;transition:transform var(--motion-card) var(--ease-standard)}
+  .hero-orb svg{display:block;width:100%;height:auto;overflow:visible}
+  .hero-orb .orb-cast{fill:rgba(17,19,24,.13)}
+  html.gdark .hero-orb .orb-cast{fill:rgba(0,0,0,.5)}
+  /* 다크에서는 순백 구가 너무 튀므로 밝기를 낮춰 배경에 앉힌다 */
+  html.gdark .hero-orb svg{filter:brightness(.34) contrast(1.06)}
+  /* 스스로 아주 천천히 떠 있는 움직임(포인터 추적과 별개, transform은 JS가 합성) */
+  @keyframes orbFloat{0%,100%{transform:translateY(-7px)}50%{transform:translateY(7px)}}
+  .hero-orb>svg{animation:orbFloat 8.5s ease-in-out infinite}
+  @media(prefers-reduced-motion:reduce){
+    .hero-orb>svg{animation:none}
+    .hero-orb{transition:none}
+  }
   .home-hero-top{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:20px;flex:0 0 auto}
-  .hero-brand{color:var(--gaeo-900);font-size:15px;font-weight:860;letter-spacing:-.035em;cursor:pointer}
+  .hero-brand{color:var(--color-text-primary);font-size:15px;font-weight:860;letter-spacing:-.035em;cursor:pointer}
   .hero-note{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:99px;
     background:var(--gaeo-50);color:var(--gaeo-700);font-size:9.5px;font-weight:800;
     white-space:nowrap;flex:0 0 auto}
@@ -2184,7 +2204,7 @@
   .home-dashboard .tagline-line+.tagline-line{margin-top:8px}
   .hero-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
   .hero-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;
-    border:1px solid var(--gaeo-border);border-radius:12px;background:var(--paper);color:var(--gaeo-900);
+    border:1px solid var(--gaeo-border);border-radius:12px;background:var(--paper);color:var(--color-text-primary);
     font:inherit;font-size:12px;font-weight:790;text-decoration:none;cursor:pointer}
   .hero-action.primary{border-color:var(--gaeo-900);background:var(--gaeo-900);color:#fff}
   .hero-action:hover,.hero-action:focus-visible{transform:translateY(-1px);outline:2px solid transparent;
@@ -2368,7 +2388,7 @@
     background:var(--gaeo-canvas)}
   .analysis-tab{min-height:38px;padding:0 15px;border:0;border-radius:10px;background:transparent;
     color:var(--gaeo-muted);font:inherit;font-size:11.5px;font-weight:780;white-space:nowrap;cursor:pointer}
-  .analysis-tab:hover{color:var(--gaeo-900);background:var(--paper)}
+  .analysis-tab:hover{color:var(--color-text-primary);background:var(--paper)}
   .analysis-tab.on{color:#fff;background:var(--gaeo-900);box-shadow:0 3px 9px rgba(24,68,84,.14)}
   html.gdark .analysis-tab.on{color:#0B2732;background:#8FD4EE}
   .analysis-tab-panel[hidden]{display:none!important}
@@ -2383,7 +2403,7 @@
   .analyst-tab{flex:0 0 auto;min-height:36px;padding:0 14px;border:1px solid var(--gaeo-border);
     border-radius:11px;background:var(--paper);color:var(--gaeo-muted);font:inherit;font-size:11px;
     font-weight:760;white-space:nowrap;cursor:pointer}
-  .analyst-tab:hover{border-color:var(--gaeo-100);color:var(--gaeo-900);background:var(--gaeo-50)}
+  .analyst-tab:hover{border-color:var(--gaeo-100);color:var(--color-text-primary);background:var(--gaeo-50)}
   .analyst-tab.on{border-color:var(--gaeo-100);color:var(--gaeo-700);background:var(--gaeo-50)}
   .cards.analyst-filtered{display:block}
   .cards.analyst-filtered .card{display:none}
@@ -2489,7 +2509,7 @@
     gap:10px;padding:10px 8px;border-radius:12px;cursor:pointer}
   .home-dashboard .rr-item:hover{background:var(--gaeo-50)}
   .home-dashboard .rr-date{display:block;width:46px;padding:6px 0;border-radius:9px;background:var(--gaeo-canvas);
-    color:var(--gaeo-900);font-size:10.5px;font-weight:750;line-height:1.25;text-align:center;
+    color:var(--color-text-primary);font-size:10.5px;font-weight:750;line-height:1.25;text-align:center;
     font-variant-numeric:tabular-nums}
   .home-dashboard .rr-date .dd{display:block;margin-top:2px;font-size:13px}
   .home-dashboard .rr-date.today{background:var(--gaeo-50);color:var(--gaeo-700)}
@@ -2543,7 +2563,7 @@
   .analysis-browser .chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0}
   .analysis-browser .sector{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;box-shadow:none}
   .analysis-browser .sector.open{grid-column:1/-1}
-  .analysis-browser .sector-head{min-height:43px;padding:10px 12px;color:var(--gaeo-900)}
+  .analysis-browser .sector-head{min-height:43px;padding:10px 12px;color:var(--color-text-primary)}
   .analysis-browser .sector-head:hover{background:var(--gaeo-50)}
   .analysis-browser .sector-head .cnt{color:var(--gaeo-700);background:var(--gaeo-50)}
   .analysis-browser .sector.open .sector-body{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
@@ -2644,7 +2664,10 @@
     .tape{border-radius:11px;font-size:11px}
     .home-dashboard{margin-top:16px}
     .home-lead{gap:14px}
-    .home-dashboard header{min-height:0;border-radius:20px;padding:23px 20px 24px}
+    .home-dashboard header{min-height:0;border-radius:20px;padding:23px 20px 24px;
+      flex-direction:column;align-items:stretch;gap:6px}
+    /* 모바일: 오브제를 글 아래로 내리고 크기를 줄인다(§25 단일 컬럼 규칙) */
+    .hero-orb{align-self:center;width:min(56vw,220px);margin-top:4px}
     .home-dashboard header::before{right:-100px;bottom:-170px}
     .home-hero-top{margin-bottom:16px}
     .hero-title{font-size:36px;line-height:1.14;letter-spacing:-.025em}
@@ -2808,7 +2831,7 @@
   html.gdark .rd-sig{color:var(--gaeo-ink)}
   .rd-desc{margin-top:14px;padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:14px;
     background:var(--gaeo-canvas);font-size:12.5px;line-height:1.75;color:var(--gaeo-ink);word-break:keep-all}
-  .rd-desc b{color:var(--gaeo-900)}
+  .rd-desc b{color:var(--color-text-primary)}
   html.gdark .rd-desc b{color:var(--gaeo-700)}
   .rd-desc .rd-caution{display:block;margin-top:8px;font-size:11.5px;color:var(--gaeo-muted)}
   .rd-chart{margin-top:18px}
@@ -3006,18 +3029,79 @@
   <section class="home-dashboard" id="homeDashboard" aria-label="Gaeo 홈 대시보드">
     <div class="home-lead">
       <header>
-        <div class="home-hero-top">
-          <span class="hero-brand" id="siteTitle" data-edit="title">Gaeo</span>
-          <span class="hero-note">판단 변화 기록</span>
-          <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
+        <div class="hero-copy">
+          <div class="home-hero-top">
+            <span class="hero-brand" id="siteTitle" data-edit="title">Gaeo</span>
+            <span class="hero-note">판단 변화 기록</span>
+            <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
+          </div>
+          <h1 class="hero-title"><span>달라진 것만</span><em>하루 3분</em></h1>
+          <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
+          <div class="hero-actions">
+            <button class="hero-action primary" id="heroLatestBtn" type="button">최근 뉴스, 공부 자료 확인하기</button>
+            <button class="hero-action" id="heroChangesBtn" type="button">☆ 가이드북 보기</button>
+          </div>
+          <span class="badge" id="hbadge">시세 확인 중</span>
         </div>
-        <h1 class="hero-title"><span>달라진 것만</span><em>하루 3분</em></h1>
-        <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
-        <div class="hero-actions">
-          <button class="hero-action primary" id="heroLatestBtn" type="button">최근 뉴스, 공부 자료 확인하기</button>
-          <button class="hero-action" id="heroChangesBtn" type="button">☆ 가이드북 보기</button>
+        <!-- 히어로 오브제 — 「정보의 층·여러 관점」을 뜻하는 겹겹의 흰 구.
+             외부 이미지·라이브러리 없이 인라인 SVG로만 그린다. -->
+        <div class="hero-orb" id="heroOrb" aria-hidden="true">
+          <svg viewBox="0 0 340 340" role="img">
+            <defs>
+              <radialGradient id="orbBody" cx="32%" cy="24%" r="82%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="46%" stop-color="#F4F5F6"/>
+                <stop offset="100%" stop-color="#DBDEE3"/>
+              </radialGradient>
+              <linearGradient id="orbShellA" x1="14%" y1="0%" x2="82%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".96"/>
+                <stop offset="100%" stop-color="#E6E9ED" stop-opacity=".72"/>
+              </linearGradient>
+              <linearGradient id="orbShellB" x1="8%" y1="10%" x2="92%" y2="94%">
+                <stop offset="0%" stop-color="#FDFDFE" stop-opacity=".92"/>
+                <stop offset="100%" stop-color="#D8DCE2" stop-opacity=".8"/>
+              </linearGradient>
+              <linearGradient id="orbShellC" x1="20%" y1="0%" x2="70%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".85"/>
+                <stop offset="100%" stop-color="#EDEFF2" stop-opacity=".45"/>
+              </linearGradient>
+              <linearGradient id="orbRim" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="60%" stop-color="#D4D8DE" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#C6CBD2" stop-opacity=".25"/>
+              </linearGradient>
+              <clipPath id="orbClip"><circle cx="170" cy="164" r="132"/></clipPath>
+              <filter id="orbSoft" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="9"/>
+              </filter>
+              <filter id="orbCast" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="14"/>
+              </filter>
+            </defs>
+            <ellipse class="orb-cast" cx="170" cy="312" rx="106" ry="15" filter="url(#orbCast)"/>
+            <g clip-path="url(#orbClip)">
+              <circle cx="170" cy="164" r="132" fill="url(#orbBody)"/>
+              <!-- 겹쳐 쌓인 층. 각 층의 앞모서리에 그림자+하이라이트를 같이 둬서 두께가 보이게 한다 -->
+              <g transform="rotate(-16 150 104)">
+                <ellipse cx="150" cy="110" rx="168" ry="72" fill="#C9CDD4" opacity=".5" filter="url(#orbSoft)"/>
+                <ellipse cx="150" cy="104" rx="168" ry="72" fill="url(#orbShellC)"/>
+                <ellipse cx="150" cy="104" rx="168" ry="72" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity=".9"/>
+              </g>
+              <g transform="rotate(-13 176 236)">
+                <ellipse cx="176" cy="243" rx="198" ry="99" fill="#B9BEC6" opacity=".55" filter="url(#orbSoft)"/>
+                <ellipse cx="176" cy="236" rx="198" ry="99" fill="url(#orbShellA)"/>
+                <ellipse cx="176" cy="236" rx="198" ry="99" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+              </g>
+              <g transform="rotate(-13 182 296)">
+                <ellipse cx="182" cy="302" rx="198" ry="93" fill="#AEB4BD" opacity=".5" filter="url(#orbSoft)"/>
+                <ellipse cx="182" cy="296" rx="198" ry="93" fill="url(#orbShellB)"/>
+                <ellipse cx="182" cy="296" rx="198" ry="93" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity=".95"/>
+              </g>
+              <ellipse cx="112" cy="82" rx="60" ry="32" transform="rotate(-24 112 82)" fill="#FFFFFF" opacity=".6" filter="url(#orbSoft)"/>
+            </g>
+            <circle cx="170" cy="164" r="132" fill="none" stroke="url(#orbRim)" stroke-width="1.4"/>
+          </svg>
         </div>
-        <span class="badge" id="hbadge">시세 확인 중</span>
       </header>
       <article class="hero-search-card">
         <span class="start-kicker">먼저</span>
@@ -7688,6 +7772,33 @@ makeCards(false);
   const qn=document.getElementById('qname'); if(qn) qn.textContent='';
   const qd=document.getElementById('qdate');
   if(qd) qd.innerHTML='<span class="qd-seg" style="color:var(--dim)">🔎 위 검색창에서 종목을 골라 «분석 시작 ▶»을 눌러보세요</span>';
+})();
+
+/* ---------- 히어로 오브제 포인터 추적 ----------
+   프롬프트 §26 기준: 오브제에만 적용하고 글자·버튼·검색·금융 수치는 절대 움직이지 않는다.
+   이동폭은 ±10px/±8px, 회전은 ±3deg/±2deg를 넘기지 않고, 0.06 계수로 부드럽게 따라간다.
+   터치 기기와 prefers-reduced-motion에서는 완전히 끈다. */
+(function(){
+  const orb=document.getElementById('heroOrb'); if(!orb) return;
+  const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const coarse=window.matchMedia('(pointer:coarse)').matches;
+  if(reduce||coarse) return;
+  let tx=0,ty=0,cx=0,cy=0,raf=0,alive=false;
+  function onMove(e){
+    tx=e.clientX/window.innerWidth-0.5;
+    ty=e.clientY/window.innerHeight-0.5;
+    if(!alive){ alive=true; raf=requestAnimationFrame(tick); }
+  }
+  function tick(){
+    cx+=(tx-cx)*0.06; cy+=(ty-cy)*0.06;
+    orb.style.transform=
+      `translate3d(${(cx*20).toFixed(2)}px,${(cy*16).toFixed(2)}px,0) `+
+      `rotateY(${(cx*6).toFixed(2)}deg) rotateX(${(-cy*4).toFixed(2)}deg)`;
+    if(Math.abs(tx-cx)<0.0006&&Math.abs(ty-cy)<0.0006){ alive=false; return; }
+    raf=requestAnimationFrame(tick);
+  }
+  window.addEventListener('mousemove',onMove,{passive:true});
+  window.addEventListener('pagehide',()=>{ cancelAnimationFrame(raf); },{once:true});
 })();
 
 // ---------- 사이트 테마 토글(다크 터미널 ↔ 라이트) ----------
