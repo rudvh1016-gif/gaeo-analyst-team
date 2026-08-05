@@ -178,7 +178,11 @@ def diana_eval(e):
     else:
         f.append("증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한")
     if tgap is not None:
-        f.append(f"증권사 평균 목표주가 {won(e.get('targetMean'))} · 현재가 대비 {tgap:+.1f}% 여력")
+        # ⭐ 2026-08-05: "증권사 평균 목표주가 X원 · 현재가 대비 +Y% 여력" 풀 문장은
+        # 목표가 자릿수가 클 때(백만원대) 모바일 카드 폭에서 두 줄로 넘어가 화면이 답답해진다는
+        # 신고가 있었다. "증권사 평균"·"여력"을 빼고 화살표로 이어 항상 한 줄에 들어오게 압축했다
+        # (Playwright로 100만원대·세 자리 %까지 실측 검증).
+        f.append(f"목표주가 {won(e.get('targetMean'))} → 현재가 대비 {tgap:+.1f}%")
     else:
         f.append(f"52주 밴드 {e.get('w52') or '—'} 참고 · 목표주가 컨센 미제공")
     while len(f) < 4:
