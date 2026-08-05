@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 39,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-05",
+  "title": "2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞",
+  "featured": false
+ },
+ {
   "id": 38,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "DART 공시 보는 법: 10분 기업 점검 순서",
   "featured": false
- },
- {
-  "id": 67,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "재무제표 보는 법: 손익·재무상태·현금흐름 연결하기",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 38,
+ "news": 39,
  "study": 35,
  "lesson": 72,
  "estate": 19,
