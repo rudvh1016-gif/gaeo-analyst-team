@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Thu, 06 Aug 2026 03:47:15 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 06 Aug 2026 10:22:58 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날</title>
+    <link>https://gaeoteam.com/snap/news/41.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/41.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 오늘 반도체 대형주 급락에 -4.58% 밀리며 매도 사이드카까지 발동됐어요. 하지만 코스닥은 오히려 오르고 500종목 중 절반 넘게 상승 마감해, 지수 낙폭만큼 시장 전체가 나쁜 하루는 아니었어요. 왜 이런 일이 벌어졌는지 숫자로 짚어봐요.</description>
+    <pubDate>Thu, 06 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?</title>
     <link>https://gaeoteam.com/snap/news/40.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/50.html</guid>
     <category>주식공부</category>
     <description>2026년 코스피 서킷브레이커가 벌써 8번째 발동됐어요. 제도 도입 후 25년간 6번뿐이던 발동 횟수를 한 해 만에 훌쩍 넘어선 이유와, 이 제도가 투자자를 어떻게 지켜주는지 살펴봐요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>수수료·세금 포함 주식 손익분기 계산기</title>
-    <link>https://gaeoteam.com/snap/calc/14.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/calc/14.html</guid>
-    <category>계산기</category>
-    <description>매수가·수량과 실제 증권사 수수료율, 매도세율을 넣으면 모든 비용을 회수하는 이론가격과 KRX 호가단위로 올림한 주문가격, 예상 매도가의 세후 손익까지 계산해요.</description>
     <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
