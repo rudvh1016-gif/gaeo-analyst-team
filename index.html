@@ -1704,15 +1704,21 @@
   html.gdark .ma-badge.above{color:#7FD9BC} html.gdark .ma-badge.below{color:#F0A6A6} html.gdark .ma-badge.near{color:#E0C088}
   .ma-card-val{font-size:12.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:4px}
   .ma-card-val small{font-size:9.5px;font-weight:700;color:var(--faint);margin-left:4px}
-  .ma-card-line{font-size:10px;line-height:1.5;color:var(--dim);word-break:keep-all}
-  .ma-card-line+.ma-card-line{margin-top:3px}
+  .ma-card-line{font-size:10px;line-height:1.6;color:var(--dim);word-break:keep-all}
+  .ma-card-line+.ma-card-line{margin-top:6px}
   .ma-card-line b{color:var(--ink);font-weight:800}
+  .ma-card-tag{display:inline-block;font-size:8.5px;font-weight:800;color:var(--navy);
+    background:var(--paper2,var(--bg));border-radius:4px;padding:1px 5px;margin-right:5px;vertical-align:1px;white-space:nowrap}
   .ma-card-need{font-size:9.5px;color:var(--color-text-tertiary);line-height:1.45;word-break:keep-all}
   .ma-combo{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--paper2,var(--bg))}
   .ma-combo-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--navy);margin-bottom:7px}
-  .ma-combo ul{margin:0;padding-left:15px;font-size:11.5px;line-height:1.7;color:var(--ink)}
-  .ma-combo li{margin-bottom:4px;word-break:keep-all}
+  .ma-combo ul{margin:0;padding:0;list-style:none;font-size:11.5px;line-height:1.7;color:var(--ink)}
+  .ma-combo li{position:relative;margin-bottom:7px;padding-left:16px;word-break:keep-all}
+  .ma-combo li:last-child{margin-bottom:0}
   .ma-combo li b{font-weight:800}
+  .ma-combo li.ma-combo-dot::before{content:'·';position:absolute;left:2px;top:0;font-weight:900;color:var(--faint)}
+  .ma-combo li.ma-combo-star{padding-left:19px;font-weight:600}
+  .ma-combo li.ma-combo-star::before{content:'★';position:absolute;left:0;top:.1em;font-size:10px;color:var(--gold,#c9932e)}
   .ma-combo-mut{color:var(--faint);font-size:10.5px}
   .ma-risk-row{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
   .ma-risk-chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid transparent}
@@ -1767,6 +1773,11 @@
   .ohlc-legend-item i{width:10px;height:2.5px;border-radius:2px;background:var(--lc);display:inline-block}
   .ohlc-legend-item.on{color:var(--ink);border-color:var(--lc)}
   .ohlc-legend-item:not(.on){opacity:.5}
+  .ohlc-legend-item.disabled{opacity:.35;cursor:not-allowed;color:var(--faint)}
+  .ohlc-legend-item.disabled i{background:var(--faint)!important}
+  .ohlc-short-note{font-size:10.5px;line-height:1.55;color:var(--color-text-tertiary);
+    background:var(--gaeo-canvas,var(--bg));border:1px dashed var(--color-border);border-radius:8px;
+    padding:7px 10px;margin-bottom:9px;word-break:keep-all}
   .ohlc-svg-holder{position:relative}
   .ohlc-svg{width:100%;height:auto;display:block;overflow:visible}
   .ohlc-hit{position:absolute;inset:0;cursor:crosshair}
@@ -5689,6 +5700,11 @@ function maWindow(period,t){
   const known=Number.isFinite(rawDays)&&rawDays>0;
   return {known, effDays:known?rawDays:period, full:known?!!t['ma'+period+'Full']:true};
 }
+// 정식/약식에 맞는 이름표(예: "60일선" 또는 데이터가 54일치뿐이면 "54일선")
+function maDisplayName(period,t){
+  const w=maWindow(period,t);
+  return w.full?MA_META[period].label:`${w.effDays}일선`;
+}
 function maCardHTML(period,t,unit){
   unit=unit===undefined?'원':unit;
   const meta=MA_META[period];
@@ -5714,18 +5730,19 @@ function maCardHTML(period,t,unit){
   const srText=(MA_SR_TEXT[period]||{})[status]||'';
   const slopeLabel=maSlopeLabel(slope);
   const disp=disparityInterpret(period,gap);
+  // ⭐ 가독성 개선(2026-08-06): 줄마다 무슨 얘기인지 짧은 태그를 붙여 훑어 읽기 쉽게 한다.
   const lines=[];
-  if(!full) lines.push(`<div class="ma-card-line">아직 ${period}거래일이 안 차서 ${effDays}거래일로 계산했어요. ${period-effDays}거래일 더 쌓이면 정식 ${meta.label}이 돼요.</div>`);
-  if(posText) lines.push(`<div class="ma-card-line">${posText}</div>`);
-  if(srText) lines.push(`<div class="ma-card-line">${srText}</div>`);
-  if(slopeLabel) lines.push(`<div class="ma-card-line">기울기 <b>${slopeLabel}</b> — 선 자체가 ${slopeLabel==='상승'?'올라가는':(slopeLabel==='하락'?'내려가는':'거의 평행한')} 중이에요.</div>`);
-  if(disp) lines.push(`<div class="ma-card-line">${disp.text}</div>`);
+  if(!full) lines.push(['안내',`아직 ${period}거래일이 안 차서 ${effDays}거래일로 계산했어요. ${period-effDays}거래일 더 쌓이면 정식 ${meta.label}이 돼요.`]);
+  if(posText) lines.push(['위치',posText]);
+  if(srText) lines.push(['지지/저항',srText]);
+  if(slopeLabel) lines.push(['기울기',`<b>${slopeLabel}</b> — 선 자체가 ${slopeLabel==='상승'?'올라가는':(slopeLabel==='하락'?'내려가는':'거의 평행한')} 중이에요.`]);
+  if(disp) lines.push(['이격도',disp.text]);
   return `<div class="ma-card${full?'':' is-provisional'}"><div class="ma-card-head">`+
     `<div><span class="ma-card-name">${displayName}${full?'':' <span class=\"ma-provisional-tag\">약식</span>'}</span>`+
     `<span class="ma-card-mean">${full?meta.mean:meta.mean+' · 정식 '+period+'일 채우는 중'}</span></div>`+
     `<span class="ma-badge ${status}">${statusLabel}</span></div>`+
     `<div class="ma-card-val">${Math.round(ma).toLocaleString('ko-KR')}${unit}<small>${Number.isFinite(gap)?(gap>=0?'+':'')+gap.toFixed(1)+'%':''}</small></div>`+
-    lines.join('')+
+    lines.map(([tag,text])=>`<div class="ma-card-line"><b class="ma-card-tag">${tag}</b>${text}</div>`).join('')+
     `</div>`;
 }
 /* 🧭 TARO 조합 해석 — 선을 하나씩 읽는 카드와 달리, 5개 선을 "함께" 읽어
@@ -5816,17 +5833,19 @@ function maComboHTML(t,unit){
   if(upper) sr.push(`위로는 <b>${nameOf(upper)} ${won(t['ma'+upper])}</b>(+${((t['ma'+upper]/price-1)*100).toFixed(1)}%)이 가장 가까운 저항 후보`);
   if(sr.length) lines.push(sr.join('이고, ')+'예요. 절대적인 선은 아니지만 많은 투자자가 함께 보는 자리라 반응이 나오기 쉬워요.');
 
-  // ⑥ 한 줄 결론
+  // ⑥ 한 줄 결론 — ★ 표시로 다른 줄과 구분해 결론부터 눈에 띄게 한다
   const score=above.length-below.length;
   const concl=score>=2?'종합하면 <b>여러 기간의 흐름이 위쪽으로 정렬</b>된 편이에요. 다만 이격이 벌어질수록 추격 부담은 커진다는 점을 같이 보세요.'
     :score<=-2?'종합하면 <b>여러 기간의 흐름이 아래쪽으로 눌린</b> 상태예요. 반등을 보더라도 가까운 이동평균선을 회복하고 지키는지부터 확인하는 편이 안전해요.'
     :'종합하면 <b>방향이 아직 한쪽으로 정리되지 않은</b> 구간이에요. 어느 선을 확실히 넘거나 잃는지가 다음 방향의 힌트가 될 수 있어요.';
+  const conclIdx=lines.length;
   lines.push(concl);
 
   const missing=periods.filter(p=>!Number.isFinite(t['ma'+p]));
   if(missing.length) lines.push(`<span class="ma-combo-mut">${missing.map(p=>MA_META[p].label).join('·')}은 아직 거래일이 모자라 이번 해석에서 빠졌어요.</span>`);
 
-  return `<div class="ma-combo"><div class="ma-combo-head">🧭 TARO 조합 해석</div><ul>${lines.map(l=>`<li>${l}</li>`).join('')}</ul></div>`;
+  // ⭐ 가독성 개선(2026-08-06): 각 줄 앞에 · 각주를, 결론 줄엔 ★ 각주를 달아 훑어 읽기 쉽게 한다.
+  return `<div class="ma-combo"><div class="ma-combo-head">🧭 TARO 조합 해석</div><ul>${lines.map((l,i)=>`<li class="${i===conclIdx?'ma-combo-star':'ma-combo-dot'}">${l}</li>`).join('')}</ul></div>`;
 }
 function maRiskChipsHTML(t){
   const chips=[];
@@ -5880,6 +5899,36 @@ function indexStateBadge(t){
   if(s5==='below') return {label:'단기 약세',tone:'bad'};
   return {label:'방향 탐색',tone:'neutral'};
 }
+// ⭐ 2026-08-06: "5일선 돌파, 20일선까지 얼마 남았다" 식의 진행률 한 줄 평가.
+// 종목별 하드코딩 없이 t(tech)의 ma{P}/ma{P}Gap만으로 계산하는 순수 함수.
+const MA_MILESTONE_TEXT={
+  5:'단기 탄력을 확인하는 첫 관문이에요',
+  20:'20일선을 넘으면 단기 안정권에 들어섰다고 볼 수 있어요',
+  60:'60일선을 넘으면 중기 추세가 살아났다고 볼 수 있어요',
+  120:'120일선을 넘으면 장기 흐름이 개선됐다고 볼 수 있어요',
+  200:'200일선을 넘으면 구조적인 장기 안정권에 진입했다고 볼 수 있어요',
+};
+function indexProgressLine(name,t){
+  if(!t||!Number.isFinite(t.close)) return '';
+  const label=IDX_META[name].label;
+  const rows=[5,20,60,120,200].filter(p=>Number.isFinite(t['ma'+p]))
+    .map(p=>({p,ma:t['ma'+p],st:maStatus(t.close,t['ma'+p])})).filter(r=>r.st);
+  if(!rows.length) return '';
+  const above=rows.filter(r=>r.st==='above');
+  const next=rows.find(r=>r.st!=='above');
+  // ⚠️ 이 문자열은 idx-panel-teaser에서 esc()로 이스케이프된 뒤 그대로 텍스트로 찍힌다
+  // (요약행은 사용자가 펼치기 전에도 보이는 자리라 안전하게 순수 텍스트로만 구성한다).
+  if(!next){
+    const top=rows[rows.length-1];
+    return `현재 ${label}${josaEunNeun(label)} 계산 가능한 이동평균선을 모두 돌파한 상태예요. ${maDisplayName(top.p,t)} 위에서 흐름을 지키는지가 다음 관전 포인트예요.`;
+  }
+  const gapPct=(next.ma/t.close-1)*100;
+  const gapTxt=next.st==='near'?'거의 다 왔어요':`약 ${Math.abs(gapPct).toFixed(1)}% 남았어요`;
+  const brokenNames=[...new Set(above.map(r=>maDisplayName(r.p,t)))].join('·');
+  const brokenPart=brokenNames?`${brokenNames} 돌파하며 `:'';
+  const milestone=MA_MILESTONE_TEXT[next.p]||`${maDisplayName(next.p,t)}을 넘으면 흐름이 한 단계 개선됐다고 볼 수 있어요`;
+  return `현재 ${brokenPart}${maDisplayName(next.p,t)} 돌파까지 ${gapTxt} — ${milestone}.`;
+}
 function indexSummaryBullets(name,t){
   if(!t) return [];
   const label=IDX_META[name].label, lines=[];
@@ -5902,7 +5951,7 @@ function indexPanelRowHTML(name){
   const rate=live?live.rate:null;
   const change=live?live.change:null;
   const badge=indexStateBadge(t);
-  const teaser=t?(indexSummaryBullets(name,t)[0]||'이동평균 해석을 준비하고 있어요.')
+  const teaser=t?(indexProgressLine(name,t)||indexSummaryBullets(name,t)[0]||'이동평균 해석을 준비하고 있어요.')
     :`${meta.label} 일별 기록을 모으는 중이에요. 매일 자동으로 하루치씩 쌓이면 이동평균과 차트가 여기에 나타나요.`;
   return `<details class="idx-panel" data-idx="${name}">`+
     `<summary class="idx-panel-summary">`+
@@ -6011,10 +6060,23 @@ function ohlcChartHTML(uid,days){
   }).join('');
   const tickIdx=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
   const ticks=[...new Set(tickIdx)].map((i,k)=>`<text x="${x(i).toFixed(1)}" y="${(volY0+volH+11).toFixed(1)}" text-anchor="${k===0?'start':(i===n-1?'end':'middle')}" fill="var(--faint)" font-size="9">${(days[i].date||'').slice(5)}</text>`).join('');
-  const legend=[5,20,60,120,200].map(p=>
-    `<button type="button" class="ohlc-legend-item on" data-ma="${p}" style="--lc:${MA_LINE_COLOR[p]}"><i></i>${p}일</button>`).join('');
+  // ⭐ 2026-08-06: 지수 일별 기록이 아직 짧으면(예: 12거래일) 20·60·120·200일선은
+  // smaSeries가 계산 자체를 못 해 선이 안 그려진다 — 이건 정상 동작이지만, 범례 칩이
+  // 눌러지는 것처럼 그대로 보이면 "고장났나?" 오해를 산다. 그려진 선이 없는 기간은
+  // 칩을 비활성화하고, 부족한 기간을 안내 문구로 알려준다.
+  const availMA=[5,20,60,120,200].filter(p=>maLines[p].some(Number.isFinite));
+  const unavailMA=[5,20,60,120,200].filter(p=>!availMA.includes(p));
+  const legend=[5,20,60,120,200].map(p=>{
+    const has=availMA.includes(p);
+    return has
+      ? `<button type="button" class="ohlc-legend-item on" data-ma="${p}" style="--lc:${MA_LINE_COLOR[p]}"><i></i>${p}일</button>`
+      : `<button type="button" class="ohlc-legend-item disabled" data-ma="${p}" disabled title="아직 ${p}거래일이 안 쌓여서 못 그려요(현재 ${n}거래일)"><i></i>${p}일</button>`;
+  }).join('');
+  const shortNote=unavailMA.length
+    ? `<div class="ohlc-short-note">📏 현재 ${n}거래일치만 쌓여서 ${unavailMA.map(p=>p+'일선').join('·')}은 아직 못 그려요. 매일 하루치씩 쌓이면 순서대로(짧은 선부터) 나타나요.</div>` : '';
   return `<div class="ohlc-wrap" id="ohlc-${uid}">`+
     `<div class="ohlc-legend"><button type="button" class="ohlc-legend-item on" data-ma="price" style="--lc:var(--ink)"><i></i>종가/캔들</button>${legend}</div>`+
+    shortNote+
     `<div class="ohlc-svg-holder">`+
       `<svg class="ohlc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="최근 ${n}거래일 캔들차트와 이동평균선">`+
         `${grid}<g class="ohlc-candles">${candles}</g>${maPaths}${volBars}${ticks}`+
