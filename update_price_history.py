@@ -34,7 +34,11 @@ def load_tickers():
         return {}
 
 def fetch_daily_closes(code, start, end):
-    """네이버 siseJson으로 일봉 종가를 [{date,close}] 리스트로 반환(오래된 순)."""
+    """네이버 siseJson으로 일봉 시가·고가·저가·종가·거래량을 [{date,open,high,low,close,volume}]
+    리스트로 반환(오래된 순). ⭐ 2026-08-06: 캔들차트(4단계)를 위해 종가뿐 아니라 OHLV를 다
+    저장하도록 확장 — 필드명은 하위호환을 위해 'close'를 유지하고 open/high/low/volume을
+    추가한다(기존에 종가만 쌓인 옛날 페이지는 이 필드들이 없을 수 있고, 화면은 그런 날을
+    "캔들 없이 종가 선"으로 대체 표시한다 — 절대 없는 값을 지어내지 않는다)."""
     url = (f"https://api.finance.naver.com/siseJson.naver?symbol={code}"
            f"&requestType=1&startTime={start}&endTime={end}&timeframe=day")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -43,12 +47,18 @@ def fetch_daily_closes(code, start, end):
     # 이 엔드포인트는 JSON이 아니라 파이썬 리스트 리터럴 형태(헤더가 작은따옴표)로 응답한다.
     rows = ast.literal_eval(raw.strip())
     out = []
-    for row in rows[1:]:  # 첫 행은 헤더
+    for row in rows[1:]:  # 첫 행은 헤더: [날짜,시가,고가,저가,종가,거래량]
         if not row or not row[0]:
             continue
         d = str(row[0])
         date_str = f"{d[0:4]}-{d[4:6]}-{d[6:8]}"
-        out.append({"date": date_str, "close": row[4]})
+        entry = {"date": date_str, "close": row[4]}
+        try:
+            entry["open"], entry["high"], entry["low"] = row[1], row[2], row[3]
+            entry["volume"] = row[5]
+        except (IndexError, TypeError):
+            pass   # OHLV가 없어도 close는 있으니 그대로 저장(구버전 응답 대비 방어)
+        out.append(entry)
     return out
 
 def add_to_pages(pages, new_entries):
@@ -60,13 +70,13 @@ def add_to_pages(pages, new_entries):
     과거 데이터를 뒤늦게 받아오면(백필) 과거 날짜가 최신 날짜 뒤에 붙어 페이지
     순서·전일비 계산이 꼬였다(실제 8종목 발생). 매번 정렬 재구성하면 항상 시간순이
     보장되고, 이미 꼬인 기존 데이터도 다음 실행 때 자동 복구된다."""
-    closes = {}
+    rows = {}
     for p in pages:
         for d in p["days"]:
-            closes[d["date"]] = d["close"]
+            rows[d["date"]] = d
     for e in new_entries:
-        closes[e["date"]] = e["close"]   # 같은 날짜 → 값 갱신
-    days = [{"date": k, "close": closes[k]} for k in sorted(closes)]
+        rows[e["date"]] = e   # 같은 날짜 → 통째로 갱신(장중가였던 값이 마감 후 확정치로 바뀜)
+    days = [rows[k] for k in sorted(rows)]
     rebuilt = []
     for i in range(0, len(days), PAGE_SIZE):
         chunk = days[i:i + PAGE_SIZE]
@@ -105,8 +115,9 @@ def main():
         added_total += added
         print(f"[OK] {name}({code}) — 신규 {added}일 (총 {after}일 / {len(pages)}페이지)")
 
-    out = ("// 자동 생성: update_price_history.py · 종목별 일별 종가 (5거래일 = 1페이지)\n"
+    out = ("// 자동 생성: update_price_history.py · 종목별 일별 시가/고가/저가/종가/거래량 (5거래일 = 1페이지)\n"
            "// 페이지가 5일 차면 잠기고 다음 페이지가 새로 열린다. 삭제·롤링 없음.\n"
+           "// ⭐ 2026-08-06부터 OHLV 저장(그 전 날짜는 close만 있을 수 있음 — 캔들차트가 자동 구분해 표시).\n"
            "const PRICE_HISTORY = " + json.dumps(store, ensure_ascii=False, indent=1) + ";\n")
     with open(path, "w", encoding="utf-8") as f:
         f.write(out)
