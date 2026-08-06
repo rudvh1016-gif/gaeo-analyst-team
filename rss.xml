@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 05 Aug 2026 09:46:42 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 06 Aug 2026 03:44:21 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?</title>
+    <link>https://gaeoteam.com/snap/news/40.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/40.html</guid>
+    <category>뉴스분석</category>
+    <description>SK하이닉스가 국내 대체거래소 넥스트레이드(NXT) 프리마켓에서 단 11주 거래로 또 하한가를 기록했어요. 지난달 28일에도 같은 방식의 왜곡이 벌어져 해외 가상자산 파생상품 시장에서 826억원 규모 강제청산이 터졌는데, 그 반복되는 구조적 문제를 짚어봐요.</description>
+    <pubDate>Thu, 06 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞</title>
     <link>https://gaeoteam.com/snap/news/39.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/calc/14.html</guid>
     <category>계산기</category>
     <description>매수가·수량과 실제 증권사 수수료율, 매도세율을 넣으면 모든 비용을 회수하는 이론가격과 KRX 호가단위로 올림한 주문가격, 예상 매도가의 세후 손익까지 계산해요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>공모주 균등·비례 배정 및 증거금 계산기</title>
-    <link>https://gaeoteam.com/snap/calc/13.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/calc/13.html</guid>
-    <category>계산기</category>
-    <description>공모가·청약주수와 증권사별 균등·비례 물량, 청약계좌 수, 총 유효 청약주수를 넣어 필요한 증거금과 균등 확정 몫·추첨확률, 비례 기대배정, 예상 환불금을 한 번에 계산해요.</description>
     <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
