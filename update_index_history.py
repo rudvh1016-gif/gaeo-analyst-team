@@ -36,21 +36,42 @@ def fetch_daily_ohlcv(symbol, start, end):
     """지수 일봉을 [{date,open,high,low,close,volume}]로 반환(오래된 순).
 
     ⭐ 2026-08-06 실측 확인: 종목용 siseJson에 symbol=KOSPI/KOSDAQ을 그대로 넣는 방식이
-    실제 러너에서 정상 동작했다(첫 수집 12거래일, OHLCV 모두 포함). 그래서 이 검증된
-    경로를 1순위로 두고, 혹시 이 엔드포인트가 막히는 날을 대비해 m.stock 지수 API를
-    2순위 폴백으로 둔다. 둘 중 하나만 살아 있어도 수집이 되고, 둘 다 죽으면 예외를
-    올려 main()이 그 지수만 건너뛴다(다른 지수·나머지 파이프라인은 계속 진행)."""
+    실제 러너에서 정상 동작했다(첫 수집 12거래일, OHLCV 모두 포함).
+    ⚠️ 2026-08-06 밤 추가 확인(버그): 그런데 14개월 백필(start를 훨씬 과거로) 요청을 다시
+    보내도 siseJson이 지수 심볼(symbol=KOSPI/KOSDAQ)에 대해서는 매번 "최근 ~12거래일"만
+    돌려주고 startTime을 사실상 무시한다 — 종목 코드로는 10개월치가 정상적으로 오는 것과
+    대조적이다(collect_analyst_data.py 참고). 그래서 "첫 소스가 비어있지 않으면 그걸로 끝"
+    방식이면 m.stock 폴백을 아예 시도조차 안 하게 되고, 결과적으로 계속 12일에 머문다.
+    지금은 두 소스를 모두 시도해 날짜 기준으로 합집합 병합한다 — 한쪽이 더 넓은 범위를
+    돌려주면(둘 중 하나라도 진짜 과거까지 열려 있다면) 그만큼 이득을 보고, 둘 다 최근
+    구간만 준다면 예전과 동일하게 동작한다(손해 없음). 둘 다 완전히 실패하면 예외를 올려
+    main()이 그 지수만 건너뛴다(다른 지수·나머지 파이프라인은 계속 진행)."""
+    merged = {}
+    sources_used = []
     errors = []
     for fetch in (_fetch_via_sisejson, _fetch_via_mstock):
         try:
             rows = fetch(symbol, start, end)
-            if rows:
-                print(f"    · {symbol}: {fetch.__name__}로 {len(rows)}건 수집")
-                return rows
-            errors.append(f"{fetch.__name__}=0건")
         except Exception as e:
             errors.append(f"{fetch.__name__}={type(e).__name__}: {e}")
-    raise RuntimeError("모든 수집 경로 실패 — " + " | ".join(errors))
+            continue
+        if not rows:
+            errors.append(f"{fetch.__name__}=0건")
+            continue
+        sources_used.append(f"{fetch.__name__} {len(rows)}건")
+        for r in rows:
+            d = r.get("date")
+            if not d:
+                continue
+            # 두 소스가 같은 날짜를 다르게 주면, OHLCV 필드가 더 많이 채워진 쪽을 남긴다.
+            if d not in merged or len(r) > len(merged[d]):
+                merged[d] = r
+    if not merged:
+        raise RuntimeError("모든 수집 경로 실패 — " + " | ".join(errors))
+    out = sorted(merged.values(), key=lambda e: e["date"])
+    print(f"    · {symbol}: {' + '.join(sources_used)} → 고유 거래일 병합 {len(out)}건"
+          + (f" (일부 실패: {errors})" if errors else ""))
+    return out
 
 
 def _num(x):
@@ -65,10 +86,20 @@ def _num(x):
 
 def _fetch_via_mstock(symbol, start, end):
     """m.stock 지수 일별시세 API. collect_analyst_data.py가 쓰는 /api/index/{symbol}/basic의
-    형제 엔드포인트로, 최신 거래일부터 역순 페이지로 내려온다."""
-    out, page = [], 1
+    형제 엔드포인트로, 최신 거래일부터 역순 페이지로 내려온다.
+
+    ⭐ 2026-08-06 밤: 요청 범위가 넓은(14개월 백필) 경우엔 예전 6페이지(≈15일) 상한으로는
+    애초에 도달할 수 없으니, 요청 범위가 넓을 때만 상한을 30페이지(최대 300건)로 늘린다.
+    평소 짧은 창(최근 15일 증분 수집)은 그대로 6페이지만 써서 매 사이클 부담을 안 늘린다."""
     start_d, end_d = str(start), str(end)
-    while page <= 6:   # 5거래일×6페이지면 넉넉히 최근 15일 범위를 덮는다
+    try:
+        span_days = (datetime.datetime.strptime(end_d, "%Y%m%d").date()
+                     - datetime.datetime.strptime(start_d, "%Y%m%d").date()).days
+    except ValueError:
+        span_days = 0
+    max_page = 30 if span_days > 40 else 6
+    out, page = [], 1
+    while page <= max_page:
         url = f"https://m.stock.naver.com/api/index/{symbol}/price?pageSize=10&page={page}"
         req = urllib.request.Request(url, headers={
             "User-Agent": "Mozilla/5.0", "Referer": "https://m.stock.naver.com"})
