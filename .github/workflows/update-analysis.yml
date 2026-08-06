@@ -4,7 +4,7 @@
 #   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
 # 2026-07-21: concurrency를 cancel-in-progress:false로 변경(트리거 겹침이 도는 루프를 죽여
 #   체인이 끊기는 사고 방지 — update-prices.yml 주석에 상세 원인 설명).
-# 생성물: price_history.js · analysis_data.json · indicators.json · indicators.js ·
+# 생성물: price_history.js · index_history.js · analysis_data.json · indicators.json · indicators.js ·
 #         auto_analysis.js · guestbook_backup.json · krx_list.json
 name: update-analysis
 
@@ -121,6 +121,8 @@ jobs:
             done
             # 각 스크립트는 실패해도 나머지·커밋을 막지 않도록 || true
             timeout 900 python3 update_price_history.py || echo "price_history 실패"
+            # 📈 코스피·코스닥 일별 이력(TARO 3단계, 2026-08-06 신설) — 종목 2개뿐이라 가볍다.
+            timeout 300 python3 update_index_history.py || echo "index_history 실패"
             timeout 1500 python3 collect_analyst_data.py || echo "analysis_data 실패"
             # ⏱️ 2026-07-31 2차 수정 — 화면 라벨이 30~40분 늦게 보이던 문제.
             # priceLabel(화면의 "오늘의 개오팀 종합 판단 <시각>")을 찍는 건 아래 compute_indicators.py인데,
@@ -180,7 +182,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
