@@ -1,7 +1,7 @@
 // 자동 생성: compute_dow_stats.py · 요일별 평균 등락률 사전계산(analysis_data.json 일봉 기반)
 // 상단 '요일별 평균 등락률' 패널이 이 파일을 읽는다. 없으면 index.html이 PRICE_HISTORY로 폴백 계산.
 const DOW_STATS = {
- "generatedAt": "2026-08-06 09:01",
+ "generatedAt": "2026-08-06 09:31",
  "from": "2026-05-07",
  "to": "2026-08-06",
  "days": 63,
@@ -24,9 +24,9 @@ const DOW_STATS = {
    "up": 5
   },
   "4": {
-   "avg": 0.274,
+   "avg": 0.2074,
    "n": 14,
-   "up": 6
+   "up": 5
   },
   "5": {
    "avg": 0.3463,
@@ -409,7 +409,7 @@ const DOW_STATS = {
   },
   {
    "date": "2026-08-06",
-   "avg": 0.3534,
+   "avg": -0.5784,
    "dow": 4,
    "n": 500
   }
