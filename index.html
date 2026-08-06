@@ -5802,8 +5802,9 @@ function maComboHTML(t,unit){
   if(slopes.length){
     const ups=[...new Set(slopes.filter(x=>x[1]==='상승').map(x=>nameOf(x[0])))];
     const downs=[...new Set(slopes.filter(x=>x[1]==='하락').map(x=>nameOf(x[0])))];
-    if(ups.length&&!downs.length) lines.push(`기울기를 보면 ${ups.join('·')}이 <b>모두 상승 방향</b>이라, 가격이 잠시 흔들려도 추세 자체는 위를 향하고 있어요.`);
-    else if(downs.length&&!ups.length) lines.push(`기울기를 보면 ${downs.join('·')}이 <b>모두 하락 방향</b>이에요. 반등이 나와도 추세가 돌아섰다고 보려면 선들이 다시 고개를 드는지 확인이 필요해요.`);
+    const many=arr=>arr.length>1?'모두 ':'';   // 선이 하나뿐인데 "모두"라고 쓰면 어색하다
+    if(ups.length&&!downs.length) lines.push(`기울기를 보면 ${ups.join('·')}이 <b>${many(ups)}상승 방향</b>이라, 가격이 잠시 흔들려도 추세 자체는 위를 향하고 있어요.`);
+    else if(downs.length&&!ups.length) lines.push(`기울기를 보면 ${downs.join('·')}이 <b>${many(downs)}하락 방향</b>이에요. 반등이 나와도 추세가 돌아섰다고 보려면 선들이 다시 고개를 드는지 확인이 필요해요.`);
     else if(ups.length&&downs.length) lines.push(`${ups.join('·')}은 오르고 ${downs.join('·')}은 내려가는 <b>엇갈린 기울기</b>예요. 짧은 흐름과 긴 흐름의 방향이 달라 변동성이 커질 수 있어요.`);
   }
 
