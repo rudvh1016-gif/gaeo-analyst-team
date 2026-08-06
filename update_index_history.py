@@ -33,7 +33,79 @@ def load_js_object(path, varname):
 
 
 def fetch_daily_ohlcv(symbol, start, end):
-    """update_price_history.py의 fetch_daily_closes와 동일한 방식으로 지수 심볼을 조회한다."""
+    """지수 일봉을 [{date,open,high,low,close,volume}]로 반환(오래된 순).
+
+    ⭐ 2026-08-06 실측 확인: 종목용 siseJson에 symbol=KOSPI/KOSDAQ을 그대로 넣는 방식이
+    실제 러너에서 정상 동작했다(첫 수집 12거래일, OHLCV 모두 포함). 그래서 이 검증된
+    경로를 1순위로 두고, 혹시 이 엔드포인트가 막히는 날을 대비해 m.stock 지수 API를
+    2순위 폴백으로 둔다. 둘 중 하나만 살아 있어도 수집이 되고, 둘 다 죽으면 예외를
+    올려 main()이 그 지수만 건너뛴다(다른 지수·나머지 파이프라인은 계속 진행)."""
+    errors = []
+    for fetch in (_fetch_via_sisejson, _fetch_via_mstock):
+        try:
+            rows = fetch(symbol, start, end)
+            if rows:
+                print(f"    · {symbol}: {fetch.__name__}로 {len(rows)}건 수집")
+                return rows
+            errors.append(f"{fetch.__name__}=0건")
+        except Exception as e:
+            errors.append(f"{fetch.__name__}={type(e).__name__}: {e}")
+    raise RuntimeError("모든 수집 경로 실패 — " + " | ".join(errors))
+
+
+def _num(x):
+    """'6,274.68' 같은 문자열을 숫자로. 실패하면 None."""
+    if x is None:
+        return None
+    try:
+        return float(str(x).replace(",", "").strip())
+    except (ValueError, AttributeError):
+        return None
+
+
+def _fetch_via_mstock(symbol, start, end):
+    """m.stock 지수 일별시세 API. collect_analyst_data.py가 쓰는 /api/index/{symbol}/basic의
+    형제 엔드포인트로, 최신 거래일부터 역순 페이지로 내려온다."""
+    out, page = [], 1
+    start_d, end_d = str(start), str(end)
+    while page <= 6:   # 5거래일×6페이지면 넉넉히 최근 15일 범위를 덮는다
+        url = f"https://m.stock.naver.com/api/index/{symbol}/price?pageSize=10&page={page}"
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0", "Referer": "https://m.stock.naver.com"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            rows = json.loads(r.read().decode("utf-8", "replace"))
+        if not isinstance(rows, list) or not rows:
+            break
+        stop = False
+        for row in rows:
+            date_raw = str(row.get("localTradedAt") or "")[:10]
+            if not re.match(r"^\d{4}-\d{2}-\d{2}$", date_raw):
+                continue
+            compact = date_raw.replace("-", "")
+            if compact < start_d:      # 요청 범위보다 과거로 넘어가면 그만 받는다
+                stop = True
+                continue
+            if compact > end_d:
+                continue
+            close = _num(row.get("closePrice"))
+            if close is None:
+                continue
+            entry = {"date": date_raw, "close": close}
+            for key, field in (("open", "openPrice"), ("high", "highPrice"),
+                               ("low", "lowPrice"), ("volume", "accumulatedTradingVolume")):
+                val = _num(row.get(field))
+                if val is not None:
+                    entry[key] = val
+            out.append(entry)
+        if stop:
+            break
+        page += 1
+    out.sort(key=lambda e: e["date"])
+    return out
+
+
+def _fetch_via_sisejson(symbol, start, end):
+    """종목과 같은 siseJson 엔드포인트(폴백). 지수 심볼을 받아주면 이쪽으로도 수집된다."""
     url = (f"https://api.finance.naver.com/siseJson.naver?symbol={symbol}"
            f"&requestType=1&startTime={start}&endTime={end}&timeframe=day")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -45,8 +117,9 @@ def fetch_daily_ohlcv(symbol, start, end):
         if not row or not row[0]:
             continue
         d = str(row[0])
-        date_str = f"{d[0:4]}-{d[4:6]}-{d[6:8]}"
-        entry = {"date": date_str, "close": row[4]}
+        if not re.match(r"^\d{8}$", d):
+            continue
+        entry = {"date": f"{d[0:4]}-{d[4:6]}-{d[6:8]}", "close": row[4]}
         try:
             entry["open"], entry["high"], entry["low"] = row[1], row[2], row[3]
             entry["volume"] = row[5]
@@ -73,13 +146,17 @@ def add_to_pages(pages, new_entries):
     return rebuilt
 
 
+# 이력이 이 일수보다 짧으면 "아직 백필이 안 된 상태"로 보고 넓은 창으로 한 번에 받아온다.
+BACKFILL_THRESHOLD_DAYS = 210      # MA200까지 정식으로 뜨려면 200거래일이 필요
+BACKFILL_MONTHS = 14               # 한국 증시 연 ~245거래일 기준, 14개월이면 200거래일을 넉넉히 덮는다
+
+
 def main():
-    if len(sys.argv) >= 3:
-        start, end = sys.argv[1], sys.argv[2]
-    else:
-        today = datetime.date.today()
-        start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
-        end = today.strftime("%Y%m%d")
+    manual = len(sys.argv) >= 3
+    today = datetime.date.today()
+    end = sys.argv[2] if manual else today.strftime("%Y%m%d")
+    default_start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
+    backfill_start = (today - datetime.timedelta(days=BACKFILL_MONTHS * 31)).strftime("%Y%m%d")
 
     path = os.path.join(HERE, "index_history.js")
     store = load_js_object(path, "INDEX_HISTORY") or {}
@@ -87,6 +164,17 @@ def main():
     added_total = 0
     failed = []
     for name, symbol in INDEX_SYMBOLS.items():
+        have = sum(len(p["days"]) for p in store.get(name, []))
+        # ⭐ 첫 수집 직후엔 15일 창이라 12거래일뿐이라, 이대로 두면 MA200이 정식이 되기까지
+        # 1년 가까이 걸린다. 쌓인 게 적을 때만 넓은 창으로 한 번 백필하고, 이미 충분히
+        # 쌓였으면 평소대로 짧은 창만 받아 매 사이클 부담을 최소화한다.
+        if manual:
+            start = sys.argv[1]
+        elif have < BACKFILL_THRESHOLD_DAYS:
+            start = backfill_start
+            print(f"  {name}: 보유 {have}거래일 < {BACKFILL_THRESHOLD_DAYS} → {BACKFILL_MONTHS}개월 백필 시도")
+        else:
+            start = default_start
         try:
             entries = fetch_daily_ohlcv(symbol, start, end)
         except Exception as e:

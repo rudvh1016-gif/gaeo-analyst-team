@@ -512,7 +512,7 @@ const MODEL_INTELLIGENCE = {
    }
   ],
   "analystErrors": {
-   "taro": 1018,
+   "taro": 1019,
    "diana": 0,
    "nova": 213,
    "flow": 119
