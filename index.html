@@ -1504,6 +1504,12 @@
   .mk-text:last-of-type{margin-bottom:0}
   .mk-points{margin:8px 0 0;padding-left:17px;font-size:12.5px;color:var(--t3);line-height:1.65}
   .mk-points li{margin-bottom:3px}
+  /* 🌐 시장국면 배지 — "현재 기준 브리핑"과 같은 서체 계열, 훨씬 작은 크기(라벨 텍스트) */
+  .mk-macro{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;margin:0 0 10px;
+    font-size:11px;font-weight:700;color:var(--color-text-primary);line-height:1.55}
+  .mk-macro-dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;
+    background:var(--color-text-tertiary);transform:translateY(-1px)}
+  .mk-macro-sub{font-weight:500;color:var(--color-text-secondary);font-size:10.5px}
   /* 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 */
   .mk-tally{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
   .mk-tally-head{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:8px}
@@ -1532,30 +1538,30 @@
   /* ── RankingChip — 모든 순위 칩이 쓰는 단일 컴포넌트.
      순위마다 다른 색을 주지 않는다(무지개 금지). 위계는 색이 아니라
      「순위 원 · 테두리 세기 · 글자 굵기」로만 표현한다. ── */
-  .mk-buychips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .mk-buychip{font-size:12.5px;font-weight:500;color:#3F444C;
+  .mk-buychips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .mk-buychip{font-size:11px;font-weight:500;color:#3F444C;
     background:var(--color-surface);border:1px solid var(--color-border);
-    border-radius:var(--radius-pill);height:34px;padding:0 12px 0 5px;
-    cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+    border-radius:var(--radius-pill);height:26px;padding:0 8px 0 3px;
+    cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;
     transition:transform var(--motion-fast) var(--ease-standard),
                background var(--motion-fast) var(--ease-standard),
                border-color var(--motion-fast) var(--ease-standard)}
   .mk-buychip:hover{background:var(--color-surface-soft);border-color:var(--color-border-strong);
     transform:translateY(-2px)}
   .mk-buychip:active{transform:scale(.98)}
-  .mk-buychip .bc-rank{font-size:11px;font-weight:700;color:#fff;background:#3F444C;
-    border-radius:var(--radius-pill);min-width:22px;height:22px;font-variant-numeric:tabular-nums;
-    display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+  .mk-buychip .bc-rank{font-size:9px;font-weight:700;color:#fff;background:#3F444C;
+    border-radius:var(--radius-pill);min-width:16px;height:16px;font-variant-numeric:tabular-nums;
+    display:inline-flex;align-items:center;justify-content:center;padding:0 3px}
   /* 1위만 GAEO 액센트, 2·3위는 중성 진회색 — 등수별 색 분리 금지 */
   .mk-buychip.rank1 .bc-rank{background:var(--color-accent)}
   .mk-buychip.rank2 .bc-rank,.mk-buychip.rank3 .bc-rank{background:#5A616B}
   .mk-buychip.rank1,.mk-buychip.rank2,.mk-buychip.rank3{border-color:var(--color-border-strong)}
-  .mk-buychip .bc-score{color:var(--color-text-tertiary);font-size:11px;font-weight:600;
+  .mk-buychip .bc-score{color:var(--color-text-tertiary);font-size:9.5px;font-weight:600;
     font-variant-numeric:tabular-nums}
   /* StatusBadge(매수우위 등) — 주황 스티커 대신 절제된 아웃라인 라벨 */
-  .mk-buychip .bc-rel{font-size:10px;font-weight:600;color:var(--color-text-secondary);
+  .mk-buychip .bc-rel{font-size:8.5px;font-weight:600;color:var(--color-text-secondary);
     background:var(--color-bg-subtle);border:1px solid var(--color-border);
-    border-radius:var(--radius-xs);padding:1px 5px;margin-left:1px}
+    border-radius:var(--radius-xs);padding:1px 4px;margin-left:0}
   .mk-buynote{font-size:10.5px;color:var(--color-text-tertiary);margin-top:8px;line-height:1.5}
   /* 칩 밀도 — 초기 노출 개수를 넘는 칩은 접어두고 버튼으로 펼친다 */
   .mk-buychip.bc-more{display:none}
