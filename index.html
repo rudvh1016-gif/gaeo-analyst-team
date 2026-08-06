@@ -1686,8 +1686,12 @@
   .ma-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
   .ma-card{border:1px solid var(--line);border-radius:12px;padding:12px 13px;min-width:0;background:var(--paper)}
   .ma-card.is-insufficient{background:var(--gaeo-canvas,var(--bg))}
+  .ma-card.is-provisional{border-style:dashed}
   .ma-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
   .ma-card-name{font-size:12.5px;font-weight:800;color:var(--ink)}
+  .ma-provisional-tag{font-size:8.5px;font-weight:800;color:var(--color-text-tertiary);
+    background:var(--color-bg-subtle);border:1px solid var(--color-border);border-radius:5px;
+    padding:1px 4px;margin-left:4px;vertical-align:1px}
   .ma-card-mean{font-size:9.5px;color:var(--faint);display:block;margin-top:1px;font-weight:600}
   .ma-badge{flex:0 0 auto;font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;
     border:1px solid transparent;white-space:nowrap}
@@ -1718,6 +1722,59 @@
     .ma-card{padding:10px 11px}.ma-card-val{font-size:13px}
   }
   @media(max-width:460px){ .ma-cards{grid-template-columns:1fr} }
+
+  /* ── 코스피·코스닥 펼치기 패널 + 캔들차트(TARO 3·4단계, 2026-08-06) ── */
+  .idx-panels{margin-bottom:24px;border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-md);
+    background:var(--paper);overflow:hidden}
+  .idx-panels-head{padding:14px 18px 4px;font-size:11.5px;font-weight:800;color:var(--navy)}
+  .idx-panels-sub{font-weight:600;color:var(--faint);margin-left:6px}
+  .idx-panel{border-top:1px solid var(--line)}
+  .idx-panel-summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;
+    padding:13px 18px;user-select:none}
+  .idx-panel-summary::-webkit-details-marker{display:none}
+  .idx-panel-name{font-size:13px;font-weight:800;color:var(--ink);flex:0 0 auto}
+  .idx-panel-val{font-size:13px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;
+    display:flex;align-items:baseline;gap:6px;flex:1 1 auto;min-width:0}
+  .idx-panel-val em{font-style:normal;font-size:11px;font-weight:700;color:var(--dim)}
+  .idx-panel-val em.up{color:var(--krup)} .idx-panel-val em.down{color:var(--krdn)}
+  .idx-badge{flex:0 0 auto;font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;
+    border:1px solid var(--color-border);background:var(--color-bg-subtle);color:var(--color-text-secondary)}
+  .idx-badge.tone-good{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
+  .idx-badge.tone-bad{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
+  .idx-badge.tone-warn{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
+  html.gdark .idx-badge.tone-good{color:#7FD9BC} html.gdark .idx-badge.tone-bad{color:#F0A6A6} html.gdark .idx-badge.tone-warn{color:#E0C088}
+  .idx-panel-arrow{flex:0 0 auto;color:var(--faint);font-size:11px;transition:transform var(--motion-control,.2s) var(--ease-standard,ease)}
+  .idx-panel[open] .idx-panel-arrow{transform:rotate(180deg)}
+  .idx-panel-teaser{padding:0 18px 12px;font-size:11.5px;color:var(--dim);line-height:1.55;word-break:keep-all}
+  .idx-panel-body{padding:0 18px 18px;border-top:1px solid var(--line)}
+  .idx-loading{padding:16px 0;font-size:11.5px;color:var(--faint);text-align:center}
+  .idx-chart-slot{margin-top:14px}
+  .ohlc-wrap{width:100%}
+  .ohlc-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .ohlc-legend-item{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;
+    padding:4px 9px;border-radius:99px;border:1px solid var(--line);background:var(--paper);
+    color:var(--faint);cursor:pointer;transition:background .15s,color .15s,opacity .15s}
+  .ohlc-legend-item i{width:10px;height:2.5px;border-radius:2px;background:var(--lc);display:inline-block}
+  .ohlc-legend-item.on{color:var(--ink);border-color:var(--lc)}
+  .ohlc-legend-item:not(.on){opacity:.5}
+  .ohlc-svg-holder{position:relative}
+  .ohlc-svg{width:100%;height:auto;display:block;overflow:visible}
+  .ohlc-hit{position:absolute;inset:0;cursor:crosshair}
+  .ohlc-tooltip{position:absolute;top:6px;z-index:5;background:var(--paper);border:1px solid var(--line);
+    border-radius:10px;padding:8px 11px;font-size:10.5px;line-height:1.7;color:var(--dim);
+    box-shadow:0 6px 18px -6px rgba(0,0,0,.18);pointer-events:none;white-space:nowrap}
+  .ohlc-tooltip b{display:block;font-size:10.5px;color:var(--ink);margin-bottom:3px}
+  .ohlc-tooltip span{display:block}
+  .ohlc-tooltip em{font-style:normal;font-weight:800}
+  .ohlc-tooltip em.up{color:var(--krup)} .ohlc-tooltip em.down{color:var(--krdn)}
+  @media(max-width:700px){
+    .idx-panel-summary{padding:11px 14px;gap:7px;flex-wrap:wrap}
+    .idx-panel-name{font-size:12px}.idx-panel-val{font-size:12px}
+    .idx-badge{font-size:9px;padding:2px 7px}
+    .idx-panel-teaser{padding:0 14px 10px;font-size:11px}
+    .idx-panel-body{padding:0 14px 14px}
+    .ohlc-tooltip{font-size:9.5px;padding:6px 9px}
+  }
 
   /* ── 모바일: PC 버전 강제보기 토글 (물리적으로 작은 화면에서만 JS가 노출) ── */
   .pc-toggle{position:fixed;right:12px;bottom:12px;z-index:500;
@@ -3184,6 +3241,11 @@
       </article>
     </section>
 
+    <!-- 📈 코스피·코스닥 펼치기 패널(TARO 이동평균 시스템 3단계, 2026-08-06) — 접힌 요약행은
+         이미 로드된 indicators.js(indicesTech)만으로 즉시 그리고, 실제 캔들차트는 펼칠 때만
+         index_history.js를 지연 로드한다(성능 원칙 — 무거운 자료를 먼저 안 내려받는다). -->
+    <section class="idx-panels" id="idxPanels" aria-label="코스피·코스닥 지수 상세"></section>
+
     <div class="market" id="marketBox" style="display:none"></div>
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
@@ -3447,7 +3509,9 @@ window.GaeoFeatures=(()=>{
     history:['history.js','price_history.js'],
     auto:['auto_analysis.js'],
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
-    radar:['radar_series.js']
+    radar:['radar_series.js'],
+    // 📈 코스피·코스닥 지수 일별 이력(TARO 3단계) — 홈 화면 펼치기 패널을 열 때만 받는다.
+    indexHist:['index_history.js']
   };
   const jobs={};
   const loadFile=src=>new Promise((resolve,reject)=>{
@@ -5608,14 +5672,19 @@ function disparityInterpret(period,gap){
 function maCardHTML(period,t){
   const meta=MA_META[period];
   const ma=t['ma'+period], gap=t['ma'+period+'Gap'], slope=t['ma'+period+'Slope'];
+  const effDays=t['ma'+period+'Days'], full=!!t['ma'+period+'Full'];
   const price=t.close;
   if(!Number.isFinite(ma)){
+    // 2일치도 안 되는 극단적 예외(신규상장 첫날 등)만 이 분기로 온다.
     const need=period, have=t.daysAvail||0;
     return `<div class="ma-card is-insufficient"><div class="ma-card-head">`+
       `<div><span class="ma-card-name">${meta.label}</span><span class="ma-card-mean">${meta.mean}</span></div>`+
       `<span class="ma-badge insufficient">데이터 부족</span></div>`+
       `<div class="ma-card-need">${MA_INSUFF_TEXT[period]} (현재 ${have}거래일 확보 · ${need}거래일 필요)</div></div>`;
   }
+  // ⭐ period일치가 다 안 쌓였으면(!full) "60일선" 대신 실제 일수를 그대로 이름표에 쓴다
+  // (예: "54일선"). 예전 버그처럼 부족한 평균에 정식 기간 이름을 붙이지 않는다.
+  const displayName=full?meta.label:`${effDays}일선`;
   const status=maStatus(price,ma);
   const statusLabel={above:'위',below:'아래',near:'근처'}[status]||'-';
   const posText=(MA_POSITION_TEXT[period]||{})[status]||'';
@@ -5623,14 +5692,16 @@ function maCardHTML(period,t){
   const slopeLabel=maSlopeLabel(slope);
   const disp=disparityInterpret(period,gap);
   const lines=[];
+  if(!full) lines.push(`<div class="ma-card-line">아직 ${period}거래일이 다 안 쌓여 확보된 ${effDays}거래일로 대신 계산했어요. ${period-effDays}거래일 더 쌓이면 정식 ${meta.label}으로 바뀌어요.</div>`);
   if(posText) lines.push(`<div class="ma-card-line">${posText}</div>`);
   if(srText) lines.push(`<div class="ma-card-line">${srText}</div>`);
   lines.push(slopeLabel
     ?`<div class="ma-card-line">기울기 <b>${slopeLabel}</b> — 최근 5거래일 대비 이동평균 자체가 ${slopeLabel==='상승'?'올라가는':(slopeLabel==='하락'?'내려가는':'거의 평행한')} 중이에요.</div>`
     :`<div class="ma-card-line">기울기: 데이터가 조금 더 쌓이면 표시할 수 있어요.</div>`);
   if(disp) lines.push(`<div class="ma-card-line">${disp.text}</div>`);
-  return `<div class="ma-card"><div class="ma-card-head">`+
-    `<div><span class="ma-card-name">${meta.label}</span><span class="ma-card-mean">${meta.mean}</span></div>`+
+  return `<div class="ma-card${full?'':' is-provisional'}"><div class="ma-card-head">`+
+    `<div><span class="ma-card-name">${displayName}${full?'':' <span class=\"ma-provisional-tag\">약식</span>'}</span>`+
+    `<span class="ma-card-mean">${full?meta.mean:meta.mean+' · 정식 '+period+'일 채우는 중'}</span></div>`+
     `<span class="ma-badge ${status}">${statusLabel}</span></div>`+
     `<div class="ma-card-val">${Math.round(ma).toLocaleString('ko-KR')}원<small>${Number.isFinite(gap)?(gap>=0?'+':'')+gap.toFixed(1)+'%':''}</small></div>`+
     lines.join('')+
@@ -5669,7 +5740,9 @@ function maRiskChipsHTML(t){
   else if(Number.isFinite(t.ma60Gap)&&t.ma60Gap>=20) chips.push(['warn','60일선 이격 확대']);
   if(maStatus(t.close,t.ma20)==='below') chips.push(['warn','20일선 이탈']);
   if(maSlopeLabel(t.ma120Slope)==='하락') chips.push(['warn','120일선 하락 전환']);
-  if(maStatus(t.close,t.ma200)==='below') chips.push(['warn','200일선 하회']);
+  // ⚠️ 200일선이 아직 약식(정식 200거래일 미달)이면 "200일선 하회"라는 무게감 있는 표현을
+  // 붙이지 않는다 — 확보된 며칠짜리 평균 아래에 있는 건 흔한 일이라 과장된 경고가 된다.
+  if(t.ma200Full&&maStatus(t.close,t.ma200)==='below') chips.push(['warn','200일선 하회']);
   if(!chips.length) return '';
   return `<div class="ma-risk-row">${chips.map(([tone,label])=>`<span class="ma-risk-chip ${tone}">${label}</span>`).join('')}</div>`;
 }
@@ -5678,12 +5751,222 @@ function taroMAExplainHTML(t){
   const cards=[5,20,60,120,200].map(p=>maCardHTML(p,t)).join('');
   const combo=maComboHTML(t);
   const risk=maRiskChipsHTML(t);
-  const missing=[120,200].filter(p=>!Number.isFinite(t['ma'+p]));
-  const note=missing.length?`<div class="ma-insufficient-note">📏 ${missing.map(p=>MA_META[p].label).join('·')}은 계산에 필요한 거래일(각 120일·200일)이 아직 안 쌓여 데이터 부족으로 표시했어요(현재 ${t.daysAvail||0}거래일 확보). 실제 값 대신 추정치를 보여드리지 않는 게 원칙이에요.</div>`:'';
+  const provisional=[120,200].filter(p=>Number.isFinite(t['ma'+p])&&!t['ma'+p+'Full']);
+  const note=provisional.length?`<div class="ma-insufficient-note">📏 ${provisional.map(p=>MA_META[p].label).join('·')}은 아직 정식 기간이 다 안 쌓여 확보된 ${t.daysAvail||0}거래일만으로 대신 계산한 「약식」 값이에요. 실제보다 부풀리거나 줄이지 않고, 확보된 만큼만 정직하게 평균 낸 숫자예요 — 기간이 다 채워지면 자동으로 정식 값으로 바뀌어요.</div>`:'';
   return `<div class="ma-explain"><div class="ma-explain-head">📐 이동평균선으로 보는 추세</div>`+
     `<div class="ma-explain-sub">5·20·60·120·200일 이동평균으로 지금 가격이 단기·중기·장기 흐름의 어디쯤 있는지 살펴봐요.</div>`+
     `<div class="ma-cards">${cards}</div>${combo}${risk}${note}</div>`;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   📈 코스피·코스닥 캔들차트 + 펼치기 패널 (TARO 이동평균 시스템 3·4단계, 2026-08-06)
+   · 데이터: indicators.js의 INDICATORS.indicesTech(요약 지표, 즉시 로드) +
+             index_history.js의 INDEX_HISTORY(일별 OHLCV, 펼칠 때만 지연 로드)
+   · MA5/20/60/120/200 카드·조합해석·위험칩은 taroMAExplainHTML을 그대로 재사용한다
+     (종목이든 지수든 tech 오브젝트 모양이 같아서 가능 — 로직 중복 없음).
+   ═══════════════════════════════════════════════════════════════════ */
+const IDX_META={KOSPI:{label:'코스피',emoji:'🇰🇷'},KOSDAQ:{label:'코스닥',emoji:'📊'}};
+// 한글 조사(은/는) 자동 선택 — 코스피(모음 받침 없음)=는, 코스닥(ㄱ받침)=은 처럼 종성 유무로 갈린다.
+function josaEunNeun(word){
+  const c=String(word).charCodeAt(String(word).length-1);
+  if(c<0xAC00||c>0xD7A3) return '는';
+  return (c-0xAC00)%28!==0?'은':'는';
+}
+const MA_LINE_COLOR={5:'#3AACA0',20:'#E58A32',60:'#8367DB',120:'#B97A93',200:'#5A616B'};
+function idxWon(v){ return Number.isFinite(v)?v.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'; }
+/* 지수 상태 배지 — 위치·기울기·이격을 종합해 한 단어로 압축 */
+function indexStateBadge(t){
+  if(!t) return {label:'데이터 확인 중',tone:'neutral'};
+  const s60=maStatus(t.close,t.ma60), slope60=maSlopeLabel(t.ma60Slope);
+  if(Number.isFinite(t.ma60Gap)&&t.ma60Gap>=15) return {label:'과열 주의',tone:'warn'};
+  if(s60==='above'&&slope60==='상승') return {label:'중기 추세 양호',tone:'good'};
+  if(s60==='below'&&slope60==='하락') return {label:'중기 조정',tone:'bad'};
+  const s5=maStatus(t.close,t.ma5);
+  if(s5==='above') return {label:'단기 강세',tone:'good'};
+  if(s5==='below') return {label:'단기 약세',tone:'bad'};
+  return {label:'방향 탐색',tone:'neutral'};
+}
+function indexSummaryBullets(name,t){
+  if(!t) return [];
+  const label=IDX_META[name].label, lines=[];
+  const s5=maStatus(t.close,t.ma5), s20=maStatus(t.close,t.ma20), s60=maStatus(t.close,t.ma60);
+  if(s5) lines.push(`현재 ${label}${josaEunNeun(label)} 5일선 ${({above:'위에 있어 단기 탄력이 살아 있어요',below:'아래로 내려와 단기 탄력이 약해졌어요',near:'근처에서 방향을 탐색 중이에요'})[s5]}.`);
+  if(s20) lines.push(`20일선 ${s20==='above'?'위에 있어 최근 한 달 흐름은 안정적인 편이에요':(s20==='below'?'아래에 있어 최근 한 달 평균 매수 심리는 위축될 수 있어요':'근처예요')}.`);
+  const slope60=maSlopeLabel(t.ma60Slope);
+  if(slope60) lines.push(`60일선이 ${slope60==='상승'?'상승 중이라 중기 추세가 유지되는 편이에요':(slope60==='하락'?'하락으로 꺾이며 중기 추세 둔화가 나타나고 있어요':'거의 평행하게 움직이고 있어요')}.`);
+  else if(s60) lines.push(`${t.ma60Full?'60일선':t.ma60Days+'일선(약식)'} ${s60==='above'?'위에 있어요':(s60==='below'?'아래에 있어요':'근처예요')}.`);
+  const s200=maStatus(t.close,t.ma200);
+  if(s200&&t.ma200Full) lines.push(`200일선 ${s200==='above'?'위에 있어 구조적 장기 추세는 아직 완전히 훼손되지 않았어요':'아래에 있어 장기 추세 회복이 아직 확인되지 않았어요'}.`);
+  return lines.slice(0,4);
+}
+/* 접힌 요약행 — indicesTech만으로 즉시 렌더(네트워크 추가 요청 없음) */
+function indexPanelRowHTML(name){
+  const t=(typeof INDICATORS!=='undefined'&&INDICATORS.indicesTech)?INDICATORS.indicesTech[name]:null;
+  const live=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)?LIVE_DATA.indices[name]:null;
+  const meta=IDX_META[name];
+  const value=live?live.value:(t&&t.close);
+  const rate=live?live.rate:null;
+  const change=live?live.change:null;
+  const badge=indexStateBadge(t);
+  const teaser=t?indexSummaryBullets(name,t)[0]:'데이터를 확인하고 있어요.';
+  return `<details class="idx-panel" data-idx="${name}">`+
+    `<summary class="idx-panel-summary">`+
+      `<span class="idx-panel-name">${meta.emoji} ${meta.label}</span>`+
+      `<span class="idx-panel-val">${idxWon(value)}${Number.isFinite(change)?`<em class="${change>0?'up':change<0?'down':''}">${change>0?'▲':change<0?'▼':'•'} ${Math.abs(change).toFixed(2)} (${rate>0?'+':''}${Number.isFinite(rate)?rate.toFixed(2):'-'}%)</em>`:''}</span>`+
+      `<span class="idx-badge tone-${badge.tone}">${badge.label}</span>`+
+      `<span class="idx-panel-arrow">▾</span>`+
+    `</summary>`+
+    `<div class="idx-panel-teaser">${esc(teaser)}</div>`+
+    `<div class="idx-panel-body" data-idx-body="${name}"><p class="idx-loading">펼치면 상세 차트를 불러와요…</p></div>`+
+  `</details>`;
+}
+function renderIndexPanels(){
+  const box=document.getElementById('idxPanels'); if(!box) return;
+  box.innerHTML=`<div class="idx-panels-head">📈 코스피·코스닥 상세 <span class="idx-panels-sub">눌러서 이동평균·차트를 펼쳐보세요</span></div>`+
+    indexPanelRowHTML('KOSPI')+indexPanelRowHTML('KOSDAQ');
+}
+/* 펼쳤을 때: index_history.js를 지연 로드한 뒤 MA해석+차트를 채운다(1회만) */
+document.getElementById('idxPanels').addEventListener('toggle',e=>{
+  const det=e.target.closest('.idx-panel'); if(!det||!det.open) return;
+  const name=det.dataset.idx, body=det.querySelector('[data-idx-body]');
+  if(!body||body.dataset.loaded) return;
+  body.dataset.loaded='1';
+  const t=(typeof INDICATORS!=='undefined'&&INDICATORS.indicesTech)?INDICATORS.indicesTech[name]:null;
+  const explain=taroMAExplainHTML(t);
+  body.innerHTML=`<div class="idx-chart-slot" id="idxChart-${name}"><p class="idx-loading">차트를 불러오는 중…</p></div>${explain}`;
+  GaeoFeatures.load('indexHist').then(()=>{
+    const hist=(typeof INDEX_HISTORY!=='undefined')?INDEX_HISTORY[name]:null;
+    const days=flattenIndexHistory(hist);
+    const slot=document.getElementById('idxChart-'+name);
+    if(!slot) return;
+    if(days.length<2){ slot.innerHTML='<p class="idx-loading">아직 차트로 그릴 만큼 기록이 쌓이지 않았어요.</p>'; return; }
+    slot.innerHTML=ohlcChartHTML('idx-'+name,days);
+    wireOhlcChart('idx-'+name,days);
+  }).catch(()=>{
+    const slot=document.getElementById('idxChart-'+name);
+    if(slot) slot.innerHTML='<p class="idx-loading">차트를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';
+  });
+},true);
+function flattenIndexHistory(pages){
+  if(!pages) return [];
+  const rows={};
+  pages.forEach(p=>(p.days||[]).forEach(d=>{ if(d&&d.date) rows[d.date]=d; }));
+  return Object.keys(rows).sort().map(k=>rows[k]);
+}
+function smaSeries(vals,period){
+  return vals.map((_,i)=>{
+    if(i<period-1) return null;
+    let sum=0; for(let k=i-period+1;k<=i;k++) sum+=vals[k];
+    return sum/period;
+  });
+}
+/* ---- 캔들+거래량+MA오버레이+범례토글+툴팁 차트 (외부 라이브러리 없이 인라인 SVG) ---- */
+function ohlcChartHTML(uid,days){
+  const n=days.length;
+  const closes=days.map(d=>Number.isFinite(d.close)?d.close:null);
+  const hasOHLC=days.map(d=>Number.isFinite(d.open)&&Number.isFinite(d.high)&&Number.isFinite(d.low));
+  const closesForMA=closes.map(c=>Number.isFinite(c)?c:closes.find(Boolean)||0);
+  const maLines={}; [5,20,60,120,200].forEach(p=>{ maLines[p]=smaSeries(closesForMA,p); });
+  const vols=days.map(d=>Number.isFinite(d.volume)?d.volume:0);
+  const W=760,H=300,padL=8,padR=54,padT=12,padB=16;
+  const volH=54, chartH=H-volH-padT-padB-10;
+  const highs=days.map((d,i)=>Number.isFinite(d.high)?d.high:closes[i]);
+  const lows=days.map((d,i)=>Number.isFinite(d.low)?d.low:closes[i]);
+  const allVals=[...highs,...lows,...Object.values(maLines).flat()].filter(Number.isFinite);
+  let lo=Math.min(...allVals),hi=Math.max(...allVals); const pad=(hi-lo||1)*.06; lo-=pad; hi+=pad;
+  const plotW=W-padL-padR;
+  const x=i=>padL+plotW*(n>1?i/(n-1):0.5);
+  const y=v=>padT+chartH*(1-(v-lo)/(hi-lo||1));
+  const cw=Math.max(1.4,Math.min(9,plotW/n*0.62));
+  const up='var(--krup)',down='var(--krdn)';
+  let candles='';
+  days.forEach((d,i)=>{
+    const cx=x(i), c=closes[i]; if(!Number.isFinite(c)) return;
+    const isUp=i>0&&Number.isFinite(closes[i-1])?c>=closes[i-1]:true;
+    const col=isUp?up:down;
+    if(hasOHLC[i]){
+      const yo=y(d.open),yh=y(d.high),yl=y(d.low),yc=y(c);
+      candles+=`<line x1="${cx.toFixed(1)}" y1="${yh.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${yl.toFixed(1)}" stroke="${col}" stroke-width="1" data-idx="${i}"/>`+
+        `<rect x="${(cx-cw/2).toFixed(1)}" y="${Math.min(yo,yc).toFixed(1)}" width="${cw.toFixed(1)}" height="${Math.max(1,Math.abs(yc-yo)).toFixed(1)}" fill="${col}" data-idx="${i}"/>`;
+    }else{
+      // OHLC가 없는 옛 기록(종가만 있음)은 캔들 대신 얇은 점으로 표시(없는 값을 지어내지 않음)
+      candles+=`<circle cx="${cx.toFixed(1)}" cy="${y(c).toFixed(1)}" r="1.6" fill="${col}" opacity=".7" data-idx="${i}"/>`;
+    }
+  });
+  const maPaths=[5,20,60,120,200].map(p=>{
+    const arr=maLines[p]; let path='',open=false;
+    arr.forEach((v,i)=>{ if(!Number.isFinite(v)){open=false;return;} path+=(open?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)+' '; open=true; });
+    return `<path class="ohlc-ma" data-ma="${p}" d="${path.trim()}" fill="none" stroke="${MA_LINE_COLOR[p]}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  }).join('');
+  const volMax=Math.max(...vols,1);
+  const volY0=padT+chartH+10;
+  const volBars=days.map((d,i)=>{
+    const vh=vols[i]/volMax*volH, cx=x(i);
+    const c=closes[i], isUp=i>0&&Number.isFinite(closes[i-1])?c>=closes[i-1]:true;
+    return `<rect x="${(cx-cw/2).toFixed(1)}" y="${(volY0+volH-vh).toFixed(1)}" width="${cw.toFixed(1)}" height="${vh.toFixed(1)}" fill="${isUp?up:down}" opacity=".38"/>`;
+  }).join('');
+  const grid=[0,.25,.5,.75,1].map(r=>{const yy=padT+chartH*r,val=hi-(hi-lo)*r;
+    return `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`+
+      `<text x="${W-padR+6}" y="${(yy+3).toFixed(1)}" fill="var(--faint)" font-size="9">${idxWon(val)}</text>`;
+  }).join('');
+  const tickIdx=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
+  const ticks=[...new Set(tickIdx)].map((i,k)=>`<text x="${x(i).toFixed(1)}" y="${(volY0+volH+11).toFixed(1)}" text-anchor="${k===0?'start':(i===n-1?'end':'middle')}" fill="var(--faint)" font-size="9">${(days[i].date||'').slice(5)}</text>`).join('');
+  const legend=[5,20,60,120,200].map(p=>
+    `<button type="button" class="ohlc-legend-item on" data-ma="${p}" style="--lc:${MA_LINE_COLOR[p]}"><i></i>${p}일</button>`).join('');
+  return `<div class="ohlc-wrap" id="ohlc-${uid}">`+
+    `<div class="ohlc-legend"><button type="button" class="ohlc-legend-item on" data-ma="price" style="--lc:var(--ink)"><i></i>종가/캔들</button>${legend}</div>`+
+    `<div class="ohlc-svg-holder">`+
+      `<svg class="ohlc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="최근 ${n}거래일 캔들차트와 이동평균선">`+
+        `${grid}<g class="ohlc-candles">${candles}</g>${maPaths}${volBars}${ticks}`+
+        `<line class="ohlc-crosshair" x1="0" y1="${padT}" x2="0" y2="${volY0+volH}" stroke="var(--dim)" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`+
+      `</svg>`+
+      `<div class="ohlc-tooltip" hidden></div>`+
+      `<div class="ohlc-hit" data-uid="${uid}"></div>`+
+    `</div>`+
+  `</div>`;
+}
+function wireOhlcChart(uid,days){
+  const wrap=document.getElementById('ohlc-'+uid); if(!wrap) return;
+  const svg=wrap.querySelector('.ohlc-svg'), hit=wrap.querySelector('.ohlc-hit'), tip=wrap.querySelector('.ohlc-tooltip');
+  const cross=wrap.querySelector('.ohlc-crosshair');
+  const n=days.length, W=760, padL=8, padR=54;
+  const closes=days.map(d=>d.close);
+  const move=clientX=>{
+    const rect=hit.getBoundingClientRect();
+    const ratio=Math.max(0,Math.min(1,(clientX-rect.left)/rect.width));
+    const svgX=padL+(W-padL-padR)*ratio;
+    const i=Math.max(0,Math.min(n-1,Math.round((svgX-padL)/(W-padL-padR)*(n-1))));
+    const d=days[i]; if(!d) return;
+    const xPct=((padL+(W-padL-padR)*(n>1?i/(n-1):0.5))/W*100).toFixed(2);
+    cross.setAttribute('x1',(padL+(W-padL-padR)*(n>1?i/(n-1):0.5)).toFixed(1));
+    cross.setAttribute('x2',(padL+(W-padL-padR)*(n>1?i/(n-1):0.5)).toFixed(1));
+    cross.setAttribute('opacity','.7');
+    const prev=days[i-1];
+    const chg=prev&&Number.isFinite(prev.close)?((d.close-prev.close)/prev.close*100):null;
+    tip.hidden=false;
+    tip.style.left=xPct+'%';
+    tip.style.left=Math.min(78,Math.max(2,parseFloat(xPct)))+'%';
+    tip.innerHTML=`<b>${esc(d.date||'')}</b>`+
+      (Number.isFinite(d.open)?`<span>시가 ${idxWon(d.open)}</span>`:'')+
+      (Number.isFinite(d.high)?`<span>고가 ${idxWon(d.high)}</span>`:'')+
+      (Number.isFinite(d.low)?`<span>저가 ${idxWon(d.low)}</span>`:'')+
+      `<span>종가 ${idxWon(d.close)}${chg!==null?` <em class="${chg>0?'up':chg<0?'down':''}">${chg>0?'+':''}${chg.toFixed(2)}%</em>`:''}</span>`+
+      (Number.isFinite(d.volume)?`<span>거래량 ${Math.round(d.volume).toLocaleString('ko-KR')}</span>`:'');
+  };
+  hit.addEventListener('pointermove',e=>move(e.clientX));
+  hit.addEventListener('pointerleave',()=>{ tip.hidden=true; cross.setAttribute('opacity','0'); });
+  hit.addEventListener('touchmove',e=>{ if(e.touches[0]) move(e.touches[0].clientX); },{passive:true});
+  wrap.querySelectorAll('.ohlc-legend-item').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      btn.classList.toggle('on');
+      const ma=btn.dataset.ma;
+      const on=btn.classList.contains('on');
+      if(ma==='price'){ svg.querySelector('.ohlc-candles').style.display=on?'':'none'; }
+      else{ const p=svg.querySelector(`.ohlc-ma[data-ma="${ma}"]`); if(p) p.style.display=on?'':'none'; }
+    });
+  });
+}
+renderIndexPanels();
 
 // ---------- TARO 기술적 분석 터미널: 실제 종가로 가격·MA·밴드·RSI·MACD를 계산 ----------
 function taroChartHTML(code){
