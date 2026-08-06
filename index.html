@@ -1683,33 +1683,37 @@
   .ma-explain{border-top:1px solid var(--line);padding:16px 18px 18px}
   .ma-explain-head{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:3px}
   .ma-explain-sub{font-size:11.5px;color:var(--dim);line-height:1.55;margin-bottom:13px}
-  .ma-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
-  .ma-card{border:1px solid var(--line);border-radius:12px;padding:12px 13px;min-width:0;background:var(--paper)}
+  /* ⭐ 5·20·60·120·200 다섯 장이 한 줄에 딱 떨어지게 고정 5열(2026-08-06 사용자 지정).
+     예전 auto-fill이라 4장+1장으로 줄이 갈렸다. 화면이 좁아지면 3열→2열→1열로 단계적으로 접는다. */
+  .ma-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .ma-card{border:1px solid var(--line);border-radius:11px;padding:10px 10px;min-width:0;background:var(--paper)}
   .ma-card.is-insufficient{background:var(--gaeo-canvas,var(--bg))}
   .ma-card.is-provisional{border-style:dashed}
-  .ma-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-  .ma-card-name{font-size:12.5px;font-weight:800;color:var(--ink)}
-  .ma-provisional-tag{font-size:8.5px;font-weight:800;color:var(--color-text-tertiary);
-    background:var(--color-bg-subtle);border:1px solid var(--color-border);border-radius:5px;
-    padding:1px 4px;margin-left:4px;vertical-align:1px}
-  .ma-card-mean{font-size:9.5px;color:var(--faint);display:block;margin-top:1px;font-weight:600}
-  .ma-badge{flex:0 0 auto;font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;
+  .ma-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:5px}
+  .ma-card-name{font-size:11.5px;font-weight:800;color:var(--ink);line-height:1.3}
+  .ma-provisional-tag{font-size:8px;font-weight:800;color:var(--color-text-tertiary);
+    background:var(--color-bg-subtle);border:1px solid var(--color-border);border-radius:4px;
+    padding:0 3px;margin-left:3px;vertical-align:1px}
+  .ma-card-mean{font-size:8.5px;color:var(--faint);display:block;margin-top:2px;font-weight:600;line-height:1.4}
+  .ma-badge{flex:0 0 auto;font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;
     border:1px solid transparent;white-space:nowrap}
   .ma-badge.above{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
   .ma-badge.below{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
   .ma-badge.near{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
   .ma-badge.insufficient{background:var(--color-bg-subtle);border:1px solid var(--color-border);color:var(--color-text-tertiary)}
   html.gdark .ma-badge.above{color:#7FD9BC} html.gdark .ma-badge.below{color:#F0A6A6} html.gdark .ma-badge.near{color:#E0C088}
-  .ma-card-val{font-size:14.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:5px}
-  .ma-card-val small{font-size:10px;font-weight:700;color:var(--faint);margin-left:5px}
-  .ma-card-line{font-size:11px;line-height:1.55;color:var(--dim);word-break:keep-all}
-  .ma-card-line+.ma-card-line{margin-top:4px}
+  .ma-card-val{font-size:12.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:4px}
+  .ma-card-val small{font-size:9.5px;font-weight:700;color:var(--faint);margin-left:4px}
+  .ma-card-line{font-size:10px;line-height:1.5;color:var(--dim);word-break:keep-all}
+  .ma-card-line+.ma-card-line{margin-top:3px}
   .ma-card-line b{color:var(--ink);font-weight:800}
-  .ma-card-need{font-size:10.5px;color:var(--color-text-tertiary);line-height:1.5;word-break:keep-all}
-  .ma-combo{margin-top:13px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--paper2,var(--bg))}
+  .ma-card-need{font-size:9.5px;color:var(--color-text-tertiary);line-height:1.45;word-break:keep-all}
+  .ma-combo{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--paper2,var(--bg))}
   .ma-combo-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--navy);margin-bottom:7px}
-  .ma-combo ul{margin:0;padding-left:16px;font-size:12px;line-height:1.65;color:var(--ink)}
-  .ma-combo li{margin-bottom:2px}
+  .ma-combo ul{margin:0;padding-left:15px;font-size:11.5px;line-height:1.7;color:var(--ink)}
+  .ma-combo li{margin-bottom:4px;word-break:keep-all}
+  .ma-combo li b{font-weight:800}
+  .ma-combo-mut{color:var(--faint);font-size:10.5px}
   .ma-risk-row{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
   .ma-risk-chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid transparent}
   .ma-risk-chip.warn{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
@@ -1717,11 +1721,13 @@
   html.gdark .ma-risk-chip.warn{color:#E0C088} html.gdark .ma-risk-chip.bad{color:#F0A6A6}
   .ma-insufficient-note{margin-top:11px;font-size:10.5px;color:var(--color-text-tertiary);line-height:1.55;
     padding:9px 12px;border:1px dashed var(--color-border);border-radius:10px;word-break:keep-all}
+  @media(max-width:1080px){ .ma-cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
   @media(max-width:700px){
-    .ma-explain{padding:14px 13px 15px}.ma-cards{grid-template-columns:1fr 1fr;gap:8px}
-    .ma-card{padding:10px 11px}.ma-card-val{font-size:13px}
+    .ma-explain{padding:14px 13px 15px}
+    .ma-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .ma-card{padding:9px 10px}.ma-combo ul{font-size:11px}
   }
-  @media(max-width:460px){ .ma-cards{grid-template-columns:1fr} }
+  @media(max-width:430px){ .ma-cards{grid-template-columns:1fr} }
 
   /* ── 코스피·코스닥 펼치기 패널 + 캔들차트(TARO 3·4단계, 2026-08-06) ── */
   .idx-panels{margin-bottom:24px;border:1px solid var(--gaeo-border);border-radius:var(--gaeo-radius-md);
@@ -1748,6 +1754,10 @@
   .idx-panel-teaser{padding:0 18px 12px;font-size:11.5px;color:var(--dim);line-height:1.55;word-break:keep-all}
   .idx-panel-body{padding:0 18px 18px;border-top:1px solid var(--line)}
   .idx-loading{padding:16px 0;font-size:11.5px;color:var(--faint);text-align:center}
+  .idx-pending{margin-top:14px;padding:16px 16px;border:1px dashed var(--color-border);border-radius:12px;
+    display:flex;flex-direction:column;gap:6px;background:var(--gaeo-canvas,var(--bg))}
+  .idx-pending b{font-size:12px;font-weight:800;color:var(--ink)}
+  .idx-pending span{font-size:10.5px;line-height:1.6;color:var(--color-text-tertiary);word-break:keep-all}
   .idx-chart-slot{margin-top:14px}
   .ohlc-wrap{width:100%}
   .ohlc-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
@@ -5669,18 +5679,31 @@ function disparityInterpret(period,gap){
   if(gap>=-15) return {tone:null,text:`60일선 대비 ${gap.toFixed(1)}%로 중기 평균 아래에 있어요.`};
   return {tone:'warn',text:`60일선 대비 ${gap.toFixed(1)}%로 중기 평균에서 크게 밀려나 있어요. 추세 약화 또는 저점 매수 검토 구간으로 볼 수 있어요.`};
 }
-function maCardHTML(period,t){
+/* 이동평균 창(window) 정보를 안전하게 읽는다.
+   ⚠️ 2026-08-06 실제 버그: 러너가 아직 새 compute_indicators.py로 돌지 않아 배포된
+   indicators.js에 ma{P}Days·ma{P}Full 필드가 없던 동안, !full로 판정돼 화면에
+   "undefined일선"이 그대로 찍혔다. 창 정보를 모르면(구형 데이터) 정식으로 간주해
+   원래 이름(예: 20일선)을 쓰고, 새 데이터가 오면 그때부터 실제 일수를 반영한다. */
+function maWindow(period,t){
+  const rawDays=t['ma'+period+'Days'];
+  const known=Number.isFinite(rawDays)&&rawDays>0;
+  return {known, effDays:known?rawDays:period, full:known?!!t['ma'+period+'Full']:true};
+}
+function maCardHTML(period,t,unit){
+  unit=unit===undefined?'원':unit;
   const meta=MA_META[period];
   const ma=t['ma'+period], gap=t['ma'+period+'Gap'], slope=t['ma'+period+'Slope'];
-  const effDays=t['ma'+period+'Days'], full=!!t['ma'+period+'Full'];
+  const {effDays,full}=maWindow(period,t);
   const price=t.close;
   if(!Number.isFinite(ma)){
-    // 2일치도 안 되는 극단적 예외(신규상장 첫날 등)만 이 분기로 온다.
-    const need=period, have=t.daysAvail||0;
+    // 2일치도 안 되는 극단적 예외(신규상장 첫날 등) + 구형 데이터에 그 선이 아예 없는 경우.
+    const have=Number.isFinite(t.daysAvail)?t.daysAvail:null;
+    const detail=have!==null?` (현재 ${have}거래일 확보 · ${period}거래일 필요)`
+                            :` (${period}거래일이 모이면 표시돼요)`;
     return `<div class="ma-card is-insufficient"><div class="ma-card-head">`+
       `<div><span class="ma-card-name">${meta.label}</span><span class="ma-card-mean">${meta.mean}</span></div>`+
       `<span class="ma-badge insufficient">데이터 부족</span></div>`+
-      `<div class="ma-card-need">${MA_INSUFF_TEXT[period]} (현재 ${have}거래일 확보 · ${need}거래일 필요)</div></div>`;
+      `<div class="ma-card-need">${MA_INSUFF_TEXT[period]}${detail}</div></div>`;
   }
   // ⭐ period일치가 다 안 쌓였으면(!full) "60일선" 대신 실제 일수를 그대로 이름표에 쓴다
   // (예: "54일선"). 예전 버그처럼 부족한 평균에 정식 기간 이름을 붙이지 않는다.
@@ -5692,46 +5715,117 @@ function maCardHTML(period,t){
   const slopeLabel=maSlopeLabel(slope);
   const disp=disparityInterpret(period,gap);
   const lines=[];
-  if(!full) lines.push(`<div class="ma-card-line">아직 ${period}거래일이 다 안 쌓여 확보된 ${effDays}거래일로 대신 계산했어요. ${period-effDays}거래일 더 쌓이면 정식 ${meta.label}으로 바뀌어요.</div>`);
+  if(!full) lines.push(`<div class="ma-card-line">아직 ${period}거래일이 안 차서 ${effDays}거래일로 계산했어요. ${period-effDays}거래일 더 쌓이면 정식 ${meta.label}이 돼요.</div>`);
   if(posText) lines.push(`<div class="ma-card-line">${posText}</div>`);
   if(srText) lines.push(`<div class="ma-card-line">${srText}</div>`);
-  lines.push(slopeLabel
-    ?`<div class="ma-card-line">기울기 <b>${slopeLabel}</b> — 최근 5거래일 대비 이동평균 자체가 ${slopeLabel==='상승'?'올라가는':(slopeLabel==='하락'?'내려가는':'거의 평행한')} 중이에요.</div>`
-    :`<div class="ma-card-line">기울기: 데이터가 조금 더 쌓이면 표시할 수 있어요.</div>`);
+  if(slopeLabel) lines.push(`<div class="ma-card-line">기울기 <b>${slopeLabel}</b> — 선 자체가 ${slopeLabel==='상승'?'올라가는':(slopeLabel==='하락'?'내려가는':'거의 평행한')} 중이에요.</div>`);
   if(disp) lines.push(`<div class="ma-card-line">${disp.text}</div>`);
   return `<div class="ma-card${full?'':' is-provisional'}"><div class="ma-card-head">`+
     `<div><span class="ma-card-name">${displayName}${full?'':' <span class=\"ma-provisional-tag\">약식</span>'}</span>`+
     `<span class="ma-card-mean">${full?meta.mean:meta.mean+' · 정식 '+period+'일 채우는 중'}</span></div>`+
     `<span class="ma-badge ${status}">${statusLabel}</span></div>`+
-    `<div class="ma-card-val">${Math.round(ma).toLocaleString('ko-KR')}원<small>${Number.isFinite(gap)?(gap>=0?'+':'')+gap.toFixed(1)+'%':''}</small></div>`+
+    `<div class="ma-card-val">${Math.round(ma).toLocaleString('ko-KR')}${unit}<small>${Number.isFinite(gap)?(gap>=0?'+':'')+gap.toFixed(1)+'%':''}</small></div>`+
     lines.join('')+
     `</div>`;
 }
-function maComboHTML(t){
-  const s5=maStatus(t.close,t.ma5), s20=maStatus(t.close,t.ma20), s60=maStatus(t.close,t.ma60);
+/* 🧭 TARO 조합 해석 — 선을 하나씩 읽는 카드와 달리, 5개 선을 "함께" 읽어
+   ① 정렬 상태(몇 개 위/아래) ② 단기·중기 조합 ③ 이격/과열 ④ 기울기 종합
+   ⑤ 바로 위/아래 실제 가격대(저항·지지 후보) ⑥ 한 줄 결론까지 구체적으로 만든다.
+   숫자와 가격을 반드시 함께 넣어 "그래서 얼마인데?"에 답한다. */
+function maComboHTML(t,unit){
+  unit=unit===undefined?'원':unit;
+  const won=v=>Math.round(v).toLocaleString('ko-KR')+unit;
+  const price=t.close;
+  const periods=[5,20,60,120,200];
+  const avail=periods.filter(p=>Number.isFinite(t['ma'+p]));
+  if(!avail.length) return '';
+  const nameOf=p=>{const w=maWindow(p,t);return w.full?MA_META[p].label:`${w.effDays}일선`;};
+  // 120·200일선이 둘 다 약식이면 이름이 "90일선"으로 같아져 "90일선·90일선"처럼 중복돼 보인다.
+  // 목록에 쓸 때만 같은 이름을 하나로 합친다(카드 쪽은 부제로 이미 구분된다).
+  const joinNames=ps=>[...new Set(ps.map(nameOf))].join('·');
+  const st=p=>maStatus(price,t['ma'+p]);
+  const above=avail.filter(p=>st(p)==='above'), below=avail.filter(p=>st(p)==='below');
   const lines=[];
-  if(s5&&s20){
-    if(s5==='above'&&s20==='above') lines.push('단기와 월간 흐름이 모두 양호해요.');
-    else if(s5==='above'&&s20==='below') lines.push('단기 반등은 있지만 월간 추세 회복은 아직 더 확인이 필요해요.');
-    else if(s5==='below'&&s20==='above') lines.push('단기 조정이 나타났지만 월간 흐름은 아직 유지되고 있어요.');
-    else if(s5==='below'&&s20==='below') lines.push('단기와 월간 흐름이 모두 약해요.');
+
+  // ① 전체 정렬 — 몇 개 선 위/아래/근처인지 한눈에
+  // ⚠️ 'near'(±1% 이내)는 위도 아래도 아니다. 예전엔 near를 아래로 뭉뚱그려
+  // "모두 위" 바로 다음 줄에 "모두 밑돌아"가 나오는 모순이 있었다.
+  const nAbove=above.length, nBelow=below.length, nNear=avail.length-nAbove-nBelow;
+  if(nAbove===avail.length) lines.push(`현재가 <b>${won(price)}</b> 기준으로 계산된 ${avail.length}개 이동평균선을 <b>모두 위</b>로 올라서 있어요. 여러 기간의 평균 매수단가보다 높은 자리라 전반적인 흐름은 우위에 있는 편이에요.`);
+  else if(nBelow===avail.length) lines.push(`현재가 <b>${won(price)}</b> 기준으로 계산된 ${avail.length}개 이동평균선 <b>전부 아래</b>에 있어요. 단기부터 장기까지 평균 매수단가를 밑돌고 있어 매물 부담이 여러 겹으로 쌓인 상태예요.`);
+  else{
+    const parts=[];
+    if(nAbove) parts.push(`${joinNames(above)} <b>위</b>`);
+    if(nBelow) parts.push(`${joinNames(below)} <b>아래</b>`);
+    if(nNear) parts.push(`${joinNames(avail.filter(p=>st(p)==='near'))}과는 <b>거의 같은 자리</b>`);
+    lines.push(`현재가 <b>${won(price)}</b> 기준으로 ${parts.join(', ')}에 있어요. 기간마다 평가가 갈리는 전환 구간이에요.`);
   }
-  if(s20&&s60){
-    if(s20==='below'&&s60==='below') lines.push('단기와 중기 흐름이 모두 약해요.');
-    else if(s20==='above'&&s60==='below') lines.push('단기 반등은 있으나 중기 추세 회복은 아직 부족할 수 있어요.');
-    else if(s20==='below'&&s60==='above') lines.push('중기 추세는 유지되고 있지만 최근 한 달은 다소 조정받는 모습이에요.');
-    else if(s20==='above'&&s60==='above') lines.push('단기와 중기 흐름이 함께 양호한 편이에요.');
-  }else if(!Number.isFinite(t.ma60)){
-    lines.push('60일선은 아직 데이터가 부족해 중기 이상 판단은 조금 더 지켜볼 필요가 있어요.');
+
+  // ② 단기(5·20) vs 중기(60) 조합 — 가장 실전적으로 자주 쓰는 조합
+  const s5=st(5), s20=st(20), s60=st(60);
+  const pairText=(a,b,map)=>(a&&b)?map[a+'_'+b]:null;
+  const t5_20=pairText(s5,s20,{
+    above_above:'최근 1주(5일선)와 1개월(20일선) 평균을 함께 웃돌아 <b>단기 흐름이 안정적</b>이에요. 조정이 와도 20일선 부근이 1차 지지 역할을 해줄 수 있어요.',
+    above_below:'5일선은 넘었지만 20일선은 아직 못 넘었어요. <b>단기 반등은 시작됐지만 월간 추세 회복은 미확인</b> 단계라, 20일선을 되찾고 유지하는지가 다음 확인 포인트예요.',
+    above_near:'5일선 위로 올라섰고 20일선과는 거의 붙어 있어요. <b>월간 평균을 되찾기 직전</b>의 자리라 여기서 방향이 갈릴 수 있어요.',
+    below_above:'20일선 위는 지키고 있지만 5일선 아래로 밀렸어요. <b>월간 추세 안에서의 단기 눌림</b>으로 볼 수 있는 자리예요.',
+    below_below:'5일선·20일선을 모두 밑돌아 <b>단기 탄력이 약해진</b> 상태예요. 반등하더라도 두 선이 차례로 저항이 될 수 있어요.',
+    below_near:'5일선 아래로 밀렸고 20일선과는 거의 붙어 있어요. <b>월간 평균을 지키느냐가 관건</b>인 자리예요.',
+    near_above:'5일선과는 거의 같은 자리이고 20일선 위는 지키고 있어요. <b>단기 숨 고르기</b> 구간으로 볼 수 있어요.',
+    near_below:'5일선과는 붙어 있지만 20일선은 아직 아래예요. <b>단기 바닥 다지기</b> 단계일 수 있어요.',
+    near_near:'5일선·20일선 모두와 거의 같은 자리예요. <b>방향을 정하기 전 응축</b> 구간이에요.',
+  });
+  if(t5_20) lines.push(t5_20);
+  const t20_60=pairText(s20,s60,{
+    above_above:'단기(20일)와 중기(60일) 추세가 <b>함께 살아있어</b> 방향이 한쪽으로 정렬된 편이에요.',
+    above_below:'20일선은 넘었지만 60일선은 아래예요. <b>단기 반등 대비 중기 추세 회복은 아직 부족</b>할 수 있어요.',
+    above_near:'20일선 위에서 60일선에 바짝 다가섰어요. <b>중기 추세 복귀를 시험하는</b> 자리예요.',
+    below_above:'중기(60일) 추세는 유지 중인데 최근 한 달만 밀렸어요. <b>중기 상승 흐름 속 조정</b>일 가능성이 있어요.',
+    below_below:'20일선·60일선을 모두 밑돌아 <b>단기와 중기가 함께 약한</b> 구간이에요.',
+    below_near:'20일선은 밑돌지만 60일선과는 거의 같은 자리예요. <b>중기 평균선이 마지막 버팀목</b>이 되는 자리예요.',
+    near_above:'20일선과 붙어 있고 60일선 위는 지키고 있어요. <b>중기 흐름은 유효한 눌림</b>으로 볼 수 있어요.',
+    near_below:'20일선과는 붙어 있지만 60일선은 아직 아래예요. <b>중기 회복까지는 갈 길이 남은</b> 상태예요.',
+    near_near:'20일선·60일선 모두와 거의 같은 자리라 <b>중기 방향이 팽팽하게 맞선</b> 구간이에요.',
+  });
+  if(t20_60) lines.push(t20_60);
+
+  // ③ 60일 이격 — 평균회귀 관점(숫자 포함)
+  if(Number.isFinite(t.ma60Gap)){
+    const g=t.ma60Gap;
+    if(g>=30) lines.push(`60일선 대비 <b>+${g.toFixed(1)}%</b>로 중기 평균에서 크게 벌어져 있어요. 평균회귀·차익실현 압력이 커지는 구간이라 <b>신규 추격매수는 특히 신중</b>할 필요가 있어요.`);
+    else if(g>=20) lines.push(`60일선 대비 <b>+${g.toFixed(1)}%</b>로 다소 과열된 편이에요. 추격보다는 눌림을 기다리는 편이 부담이 적을 수 있어요.`);
+    else if(g<=-20) lines.push(`60일선 대비 <b>${g.toFixed(1)}%</b>로 중기 평균에서 크게 밀려나 있어요. 추세 약화 신호일 수도, 과매도 되돌림 후보일 수도 있어 <b>거래량과 함께</b> 봐야 해요.`);
   }
-  if(Number.isFinite(t.ma60Gap)&&t.ma60Gap>=20&&maSlopeLabel(t.ma60Slope)==='하락'){
-    lines.push('추세 과열 이후 조정 위험이 커진 상태일 수 있어요.');
+
+  // ④ 기울기 종합 — 선 자체가 어디로 가고 있나
+  const slopes=periods.map(p=>[p,maSlopeLabel(t['ma'+p+'Slope'])]).filter(x=>x[1]);
+  if(slopes.length){
+    const ups=[...new Set(slopes.filter(x=>x[1]==='상승').map(x=>nameOf(x[0])))];
+    const downs=[...new Set(slopes.filter(x=>x[1]==='하락').map(x=>nameOf(x[0])))];
+    const many=arr=>arr.length>1?'모두 ':'';   // 선이 하나뿐인데 "모두"라고 쓰면 어색하다
+    if(ups.length&&!downs.length) lines.push(`기울기를 보면 ${ups.join('·')}이 <b>${many(ups)}상승 방향</b>이라, 가격이 잠시 흔들려도 추세 자체는 위를 향하고 있어요.`);
+    else if(downs.length&&!ups.length) lines.push(`기울기를 보면 ${downs.join('·')}이 <b>${many(downs)}하락 방향</b>이에요. 반등이 나와도 추세가 돌아섰다고 보려면 선들이 다시 고개를 드는지 확인이 필요해요.`);
+    else if(ups.length&&downs.length) lines.push(`${ups.join('·')}은 오르고 ${downs.join('·')}은 내려가는 <b>엇갈린 기울기</b>예요. 짧은 흐름과 긴 흐름의 방향이 달라 변동성이 커질 수 있어요.`);
   }
-  const s120Slope=maSlopeLabel(t.ma120Slope), s200Slope=maSlopeLabel(t.ma200Slope);
-  if(s120Slope==='하락'&&(s200Slope==='하락'||s200Slope==='횡보')){
-    lines.push('장기 추세가 약화되는 구간일 수 있어요.');
-  }
-  if(!lines.length) return '';
+
+  // ⑤ 바로 위/아래 선 = 저항·지지 후보를 실제 가격으로
+  const upper=avail.filter(p=>t['ma'+p]>price).sort((a,b)=>t['ma'+a]-t['ma'+b])[0];
+  const lower=avail.filter(p=>t['ma'+p]<price).sort((a,b)=>t['ma'+b]-t['ma'+a])[0];
+  const sr=[];
+  if(lower) sr.push(`아래로는 <b>${nameOf(lower)} ${won(t['ma'+lower])}</b>(현재가 대비 ${((t['ma'+lower]/price-1)*100).toFixed(1)}%)이 가장 가까운 지지 후보`);
+  if(upper) sr.push(`위로는 <b>${nameOf(upper)} ${won(t['ma'+upper])}</b>(+${((t['ma'+upper]/price-1)*100).toFixed(1)}%)이 가장 가까운 저항 후보`);
+  if(sr.length) lines.push(sr.join('이고, ')+'예요. 절대적인 선은 아니지만 많은 투자자가 함께 보는 자리라 반응이 나오기 쉬워요.');
+
+  // ⑥ 한 줄 결론
+  const score=above.length-below.length;
+  const concl=score>=2?'종합하면 <b>여러 기간의 흐름이 위쪽으로 정렬</b>된 편이에요. 다만 이격이 벌어질수록 추격 부담은 커진다는 점을 같이 보세요.'
+    :score<=-2?'종합하면 <b>여러 기간의 흐름이 아래쪽으로 눌린</b> 상태예요. 반등을 보더라도 가까운 이동평균선을 회복하고 지키는지부터 확인하는 편이 안전해요.'
+    :'종합하면 <b>방향이 아직 한쪽으로 정리되지 않은</b> 구간이에요. 어느 선을 확실히 넘거나 잃는지가 다음 방향의 힌트가 될 수 있어요.';
+  lines.push(concl);
+
+  const missing=periods.filter(p=>!Number.isFinite(t['ma'+p]));
+  if(missing.length) lines.push(`<span class="ma-combo-mut">${missing.map(p=>MA_META[p].label).join('·')}은 아직 거래일이 모자라 이번 해석에서 빠졌어요.</span>`);
+
   return `<div class="ma-combo"><div class="ma-combo-head">🧭 TARO 조합 해석</div><ul>${lines.map(l=>`<li>${l}</li>`).join('')}</ul></div>`;
 }
 function maRiskChipsHTML(t){
@@ -5746,10 +5840,10 @@ function maRiskChipsHTML(t){
   if(!chips.length) return '';
   return `<div class="ma-risk-row">${chips.map(([tone,label])=>`<span class="ma-risk-chip ${tone}">${label}</span>`).join('')}</div>`;
 }
-function taroMAExplainHTML(t){
+function taroMAExplainHTML(t,unit){
   if(!t) return '';
-  const cards=[5,20,60,120,200].map(p=>maCardHTML(p,t)).join('');
-  const combo=maComboHTML(t);
+  const cards=[5,20,60,120,200].map(p=>maCardHTML(p,t,unit)).join('');
+  const combo=maComboHTML(t,unit);
   const risk=maRiskChipsHTML(t);
   const provisional=[120,200].filter(p=>Number.isFinite(t['ma'+p])&&!t['ma'+p+'Full']);
   const note=provisional.length?`<div class="ma-insufficient-note">📏 ${provisional.map(p=>MA_META[p].label).join('·')}은 아직 정식 기간이 다 안 쌓여 확보된 ${t.daysAvail||0}거래일만으로 대신 계산한 「약식」 값이에요. 실제보다 부풀리거나 줄이지 않고, 확보된 만큼만 정직하게 평균 낸 숫자예요 — 기간이 다 채워지면 자동으로 정식 값으로 바뀌어요.</div>`:'';
@@ -5776,7 +5870,7 @@ const MA_LINE_COLOR={5:'#3AACA0',20:'#E58A32',60:'#8367DB',120:'#B97A93',200:'#5
 function idxWon(v){ return Number.isFinite(v)?v.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'; }
 /* 지수 상태 배지 — 위치·기울기·이격을 종합해 한 단어로 압축 */
 function indexStateBadge(t){
-  if(!t) return {label:'데이터 확인 중',tone:'neutral'};
+  if(!t) return {label:'기록 쌓는 중',tone:'neutral'};
   const s60=maStatus(t.close,t.ma60), slope60=maSlopeLabel(t.ma60Slope);
   if(Number.isFinite(t.ma60Gap)&&t.ma60Gap>=15) return {label:'과열 주의',tone:'warn'};
   if(s60==='above'&&slope60==='상승') return {label:'중기 추세 양호',tone:'good'};
@@ -5808,7 +5902,8 @@ function indexPanelRowHTML(name){
   const rate=live?live.rate:null;
   const change=live?live.change:null;
   const badge=indexStateBadge(t);
-  const teaser=t?indexSummaryBullets(name,t)[0]:'데이터를 확인하고 있어요.';
+  const teaser=t?(indexSummaryBullets(name,t)[0]||'이동평균 해석을 준비하고 있어요.')
+    :`${meta.label} 일별 기록을 모으는 중이에요. 매일 자동으로 하루치씩 쌓이면 이동평균과 차트가 여기에 나타나요.`;
   return `<details class="idx-panel" data-idx="${name}">`+
     `<summary class="idx-panel-summary">`+
       `<span class="idx-panel-name">${meta.emoji} ${meta.label}</span>`+
@@ -5832,20 +5927,25 @@ document.getElementById('idxPanels').addEventListener('toggle',e=>{
   if(!body||body.dataset.loaded) return;
   body.dataset.loaded='1';
   const t=(typeof INDICATORS!=='undefined'&&INDICATORS.indicesTech)?INDICATORS.indicesTech[name]:null;
-  const explain=taroMAExplainHTML(t);
+  const explain=t?taroMAExplainHTML(t,'p'):'';   // 지수는 '원'이 아니라 포인트(p)
   body.innerHTML=`<div class="idx-chart-slot" id="idxChart-${name}"><p class="idx-loading">차트를 불러오는 중…</p></div>${explain}`;
+  // 지수 일별 기록(index_history.js)은 2026-08-06 신설이라, 수집 러너가 한 바퀴 돌기
+  // 전까지는 파일 자체가 없다. 그때 "불러오지 못했어요"라는 오류 문구를 띄우면 고장난
+  // 것처럼 보이므로, 실제 상태(첫 수집 대기 중)를 그대로 설명한다.
+  const pending=(msg)=>{
+    const slot=document.getElementById('idxChart-'+name); if(!slot) return;
+    slot.innerHTML=`<div class="idx-pending"><b>${IDX_META[name].label} 일별 기록을 모으는 중이에요</b>`+
+      `<span>${msg}</span>`+
+      `<span>지수 차트는 매일 장중 자동 수집으로 하루치씩 쌓여요. 기록이 2거래일 이상 모이면 이 자리에 캔들차트와 이동평균선이 자동으로 나타나요.</span></div>`;
+  };
   GaeoFeatures.load('indexHist').then(()=>{
     const hist=(typeof INDEX_HISTORY!=='undefined')?INDEX_HISTORY[name]:null;
     const days=flattenIndexHistory(hist);
-    const slot=document.getElementById('idxChart-'+name);
-    if(!slot) return;
-    if(days.length<2){ slot.innerHTML='<p class="idx-loading">아직 차트로 그릴 만큼 기록이 쌓이지 않았어요.</p>'; return; }
+    if(days.length<2){ pending('아직 그릴 수 있을 만큼 거래일이 쌓이지 않았어요.'); return; }
+    const slot=document.getElementById('idxChart-'+name); if(!slot) return;
     slot.innerHTML=ohlcChartHTML('idx-'+name,days);
     wireOhlcChart('idx-'+name,days);
-  }).catch(()=>{
-    const slot=document.getElementById('idxChart-'+name);
-    if(slot) slot.innerHTML='<p class="idx-loading">차트를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';
-  });
+  }).catch(()=>pending('첫 수집이 아직 끝나지 않았어요.'));
 },true);
 function flattenIndexHistory(pages){
   if(!pages) return [];
