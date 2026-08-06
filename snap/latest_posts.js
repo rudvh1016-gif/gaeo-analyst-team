@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 41,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-06",
+  "title": "2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날",
+  "featured": false
+ },
+ {
   "id": 40,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "상장폐지 완전정복: 거래정지부터 정리매매까지",
   "featured": false
- },
- {
-  "id": 69,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "국내주식 세금: 매매·배당·대주주 과세 한 번에 정리",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 40,
+ "news": 41,
  "study": 35,
  "lesson": 72,
  "estate": 19,
