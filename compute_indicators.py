@@ -7,12 +7,13 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 
 목적: Claude 세션이 원천 데이터(수천 줄)를 읽고 계산하는 대신 이 요약표만
 읽으면 되므로 토큰이 크게 절약된다. 계산 규격은 종목분석 스킬과 동일:
-  MA5/20/60/120/200=종가 단순평균(부족하면 계산하지 않고 None) · RSI(14)=Wilder 평활
-  MACD=EMA12−EMA26(시그널 EMA9) · 거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
-  ⭐ TARO 이동평균 시스템(2026-08-06): analysis_data.json의 daily가 약 3개월(≈60일치)
-  창이라 MA120/MA200은 현재 항상 None(데이터 부족)이다 — collect_analyst_data.py의
-  fetch_daily months 파라미터를 늘리기 전까진 정상 동작이다. None을 섣불리 다른 값으로
-  채우지 말 것(화면에 "데이터 부족"으로 정직하게 보여주는 게 이 시스템의 핵심 원칙).
+  MA5/20/60/120/200=종가 단순평균 · RSI(14)=Wilder 평활 · MACD=EMA12−EMA26(시그널 EMA9)
+  거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
+  ⭐ TARO 이동평균 시스템(2026-08-06): 각 MA는 period일치가 없으면 "데이터 부족"으로 숨기지
+  않고, 있는 만큼(eff일)만 평균 내 ma{P}Days(실제 일수)·ma{P}Full(정식 여부)와 함께 돌려준다.
+  화면은 정식이 아니면 "60일선" 대신 "54일선"처럼 실제 일수를 이름표로 그대로 쓴다(예전
+  버그는 54일 평균에 "60일선"이라는 가짜 이름을 붙였다 — 지금은 진짜 이름을 쓰는 게 다르다).
+  기울기(Slope)는 정식(Full)일 때만 계산한다(들쭉날쭉한 임시 구간의 기울기는 의미가 약함).
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
@@ -69,11 +70,7 @@ def indicators_for(daily):
     cur = closes[-1]
     n = len(closes)
 
-    def sma(period):
-        # ⚠️ 예전엔 len(closes)가 짧아도 min(period, len(closes))로 있는 만큼만 평균 내
-        # "MA60"이라 이름 붙였다 — 20일치밖에 없는데 60일선이라고 속이는 셈이라 금지.
-        # 데이터가 부족하면 계산하지 않고 None(=데이터 부족)을 그대로 돌려준다.
-        return sum(closes[-period:]) / period if n >= period else None
+    MA_MIN_DAYS = 2   # 최소 이 정도는 있어야 "평균"이라 부를 수 있다(1일이면 평균이 아니라 그냥 종가)
 
     def sma_asof(period, back):
         """`period`일 평균을 최신 봉에서 `back`거래일 전 시점 기준으로 계산(기울기용)."""
@@ -81,19 +78,28 @@ def indicators_for(daily):
         return sum(closes[end - period:end]) / period if end >= period else None
 
     def ma_block(period):
-        ma = sma(period)
-        if ma is None:
-            return None, None, None
+        # ⭐ 2026-08-06: period일치가 없다고 "데이터 부족"으로 숨기지 않는다. 대신 있는 만큼
+        # (eff일)만 평균 내고, 며칠짜리 평균인지(effDays)와 "정식(60일 다 채움)"인지(full)를
+        # 함께 돌려준다 — 화면은 이 eff로 "54일선"처럼 실제 일수를 그대로 이름표에 쓴다.
+        # (예전 버그와의 차이: 예전엔 54일 평균에 "60일선"이라는 가짜 이름을 붙였다.
+        #  지금은 진짜 이름(54일선)을 붙이고, 60일 다 채워야만 "60일선"이라 부른다.)
+        eff = min(period, n)
+        if eff < MA_MIN_DAYS:
+            return None, None, None, eff, False
+        ma = sum(closes[-eff:]) / eff
         gap = round((cur / ma - 1) * 100, 1)
-        prev = sma_asof(period, MA_SLOPE_LOOKBACK)
-        slope = round((ma / prev - 1) * 100, 2) if prev else None
-        return round(ma), gap, slope
+        full = eff >= period
+        slope = None
+        if full:   # 기울기는 정식 구간이 다 찼을 때만 계산(들쭉날쭉한 임시 구간의 기울기는 의미가 약해서)
+            prev = sma_asof(period, MA_SLOPE_LOOKBACK)
+            slope = round((ma / prev - 1) * 100, 2) if prev else None
+        return round(ma), gap, slope, eff, full
 
-    ma5, ma5Gap, ma5Slope = ma_block(5)
-    ma20, ma20Gap, ma20Slope = ma_block(20)
-    ma60, ma60Gap, ma60Slope = ma_block(60)
-    ma120, ma120Gap, ma120Slope = ma_block(120)
-    ma200, ma200Gap, ma200Slope = ma_block(200)
+    ma5, ma5Gap, ma5Slope, ma5Days, ma5Full = ma_block(5)
+    ma20, ma20Gap, ma20Slope, ma20Days, ma20Full = ma_block(20)
+    ma60, ma60Gap, ma60Slope, ma60Days, ma60Full = ma_block(60)
+    ma120, ma120Gap, ma120Slope, ma120Days, ma120Full = ma_block(120)
+    ma200, ma200Gap, ma200Slope, ma200Days, ma200Full = ma_block(200)
     gains, losses = [], []
     for i in range(1, len(closes)):
         ch = closes[i] - closes[i - 1]
@@ -110,15 +116,17 @@ def indicators_for(daily):
     out = {
         "close": cur,
         "daysAvail": n,   # TARO 이동평균 카드가 "며칠 더 필요해요" 문구를 만드는 데 씀
-        "ma5": ma5, "ma5Gap": ma5Gap, "ma5Slope": ma5Slope,
-        "ma20": ma20, "ma20Gap": ma20Gap, "ma20Slope": ma20Slope,
-        "ma60": ma60, "ma60Gap": ma60Gap, "ma60Slope": ma60Slope,
-        "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope,
-        "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope,
+        "ma5": ma5, "ma5Gap": ma5Gap, "ma5Slope": ma5Slope, "ma5Days": ma5Days, "ma5Full": ma5Full,
+        "ma20": ma20, "ma20Gap": ma20Gap, "ma20Slope": ma20Slope, "ma20Days": ma20Days, "ma20Full": ma20Full,
+        "ma60": ma60, "ma60Gap": ma60Gap, "ma60Slope": ma60Slope, "ma60Days": ma60Days, "ma60Full": ma60Full,
+        "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope, "ma120Days": ma120Days, "ma120Full": ma120Full,
+        "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope, "ma200Days": ma200Days, "ma200Full": ma200Full,
         "rsi14": round(rsi, 1),
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
-        "low3m": min(closes), "high3m": max(closes),
+        # ⚠️ daily가 이제 ~10개월치라, min/max(closes) 전체를 쓰면 "3개월 최저/최고"라는
+        # 화면 문구(가격 나침반 등)와 실제 계산 기간이 어긋난다. 최근 약 63거래일(~3개월)만 잘라 쓴다.
+        "low3m": min(closes[-63:]), "high3m": max(closes[-63:]),
         "last5": [{"d": r["date"][5:], "c": r["close"]} for r in daily[-5:]],
     }
     # 📊 볼린저밴드(20일 SMA ± 표준편차 2배) — 레이더 신호와 종목 상세 차트가 같이 쓴다.
@@ -147,8 +155,10 @@ def risk_for(daily, live):
     tail = rets[-20:] if len(rets) >= 20 else rets
     mean = sum(tail) / len(tail)
     vol20 = round((sum((r - mean) ** 2 for r in tail) / len(tail)) ** 0.5, 2)
-    peak, mdd = closes[0], 0.0
-    for c in closes:
+    # ⚠️ daily가 ~10개월치라 mdd3m 이름에 맞게 최근 약 63거래일(~3개월)만 잘라 쓴다.
+    closes3m = closes[-63:]
+    peak, mdd = closes3m[0], 0.0
+    for c in closes3m:
         if c > peak:
             peak = c
         dd = (c / peak - 1) * 100
@@ -249,6 +259,28 @@ def flow_summary(deal_trends, daily=None, days=6):
     }
 
 
+def load_index_history():
+    """index_history.js(update_index_history.py 생성, TARO 3단계)를 안전하게 읽는다.
+    러너가 아직 한 번도 안 돌았거나 실패했을 수 있어 파일이 없어도 죽지 않는다."""
+    path = os.path.join(HERE, "index_history.js")
+    if not os.path.exists(path):
+        return {}
+    try:
+        return load_js_object(path, "INDEX_HISTORY") or {}
+    except Exception as e:
+        print(f"[경고] index_history.js 로드 실패: {e}")
+        return {}
+
+
+def flatten_index_daily(pages):
+    rows = {}
+    for p in pages or []:
+        for d in p.get("days", []):
+            if d.get("date"):
+                rows[d["date"]] = d
+    return [rows[k] for k in sorted(rows)]
+
+
 def main():
     raw = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
     live = load_js_object(os.path.join(HERE, "data.js"), "LIVE_DATA")
@@ -259,6 +291,16 @@ def main():
         "indices": live.get("indices"),
         "stocks": {},
     }
+    # 📈 코스피·코스닥 이동평균(TARO 3단계) — 종목과 똑같은 indicators_for() 엔진을 그대로 재사용한다.
+    out["indicesTech"] = {}
+    idx_hist = load_index_history()
+    for idx_name in ("KOSPI", "KOSDAQ"):
+        daily_idx = flatten_index_daily(idx_hist.get(idx_name))
+        if len(daily_idx) >= 2:
+            try:
+                out["indicesTech"][idx_name] = indicators_for(daily_idx)
+            except Exception as e:
+                print(f"[경고] {idx_name} 지수 지표 계산 실패: {e}")
     skipped = []
     for code, s in raw["stocks"].items():
         # 종목 하나가 이상 데이터로 에러를 던져도 전체(500종목)가 죽지 않게 개별 보호
@@ -333,8 +375,8 @@ def main():
     js_path = os.path.join(HERE, "indicators.js")
     with open(js_path, "w", encoding="utf-8") as f:
         f.write("// 자동 생성: compute_indicators.py · 브라우저용 기술지표 축약본 (TARO 미니 차트)\n")
-        f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks}, ensure_ascii=False)};\n")
-    print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목)")
+        f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks, 'indicesTech': out['indicesTech']}, ensure_ascii=False)};\n")
+    print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목, 지수 {len(out['indicesTech'])}개)")
 
 
 if __name__ == "__main__":
