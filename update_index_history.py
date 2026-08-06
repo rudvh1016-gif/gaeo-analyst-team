@@ -35,15 +35,13 @@ def load_js_object(path, varname):
 def fetch_daily_ohlcv(symbol, start, end):
     """지수 일봉을 [{date,open,high,low,close,volume}]로 반환(오래된 순).
 
-    ⚠️ 2026-08-06 1차 배포 실패 대응: 종목용 siseJson에 symbol=KOSPI를 그대로 넣는
-    방식만 썼다가 index_history.js가 아예 생성되지 않았다(러너 로그상 이 단계만 실패).
-    지수는 종목과 엔드포인트가 다를 가능성이 커서, 이미 이 저장소에서 정상 동작이
-    확인된 m.stock 지수 API(collect_analyst_data.py의 fetch_indices가 쓰는 것과 같은
-    계열)를 1순위로 두고, 기존 siseJson을 2순위 폴백으로 남기는 체인으로 바꾼다.
-    둘 중 하나만 살아 있어도 수집이 되고, 둘 다 죽으면 예외를 올려 main()이 그 지수만
-    건너뛴다."""
+    ⭐ 2026-08-06 실측 확인: 종목용 siseJson에 symbol=KOSPI/KOSDAQ을 그대로 넣는 방식이
+    실제 러너에서 정상 동작했다(첫 수집 12거래일, OHLCV 모두 포함). 그래서 이 검증된
+    경로를 1순위로 두고, 혹시 이 엔드포인트가 막히는 날을 대비해 m.stock 지수 API를
+    2순위 폴백으로 둔다. 둘 중 하나만 살아 있어도 수집이 되고, 둘 다 죽으면 예외를
+    올려 main()이 그 지수만 건너뛴다(다른 지수·나머지 파이프라인은 계속 진행)."""
     errors = []
-    for fetch in (_fetch_via_mstock, _fetch_via_sisejson):
+    for fetch in (_fetch_via_sisejson, _fetch_via_mstock):
         try:
             rows = fetch(symbol, start, end)
             if rows:
@@ -148,13 +146,17 @@ def add_to_pages(pages, new_entries):
     return rebuilt
 
 
+# 이력이 이 일수보다 짧으면 "아직 백필이 안 된 상태"로 보고 넓은 창으로 한 번에 받아온다.
+BACKFILL_THRESHOLD_DAYS = 210      # MA200까지 정식으로 뜨려면 200거래일이 필요
+BACKFILL_MONTHS = 14               # 한국 증시 연 ~245거래일 기준, 14개월이면 200거래일을 넉넉히 덮는다
+
+
 def main():
-    if len(sys.argv) >= 3:
-        start, end = sys.argv[1], sys.argv[2]
-    else:
-        today = datetime.date.today()
-        start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
-        end = today.strftime("%Y%m%d")
+    manual = len(sys.argv) >= 3
+    today = datetime.date.today()
+    end = sys.argv[2] if manual else today.strftime("%Y%m%d")
+    default_start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
+    backfill_start = (today - datetime.timedelta(days=BACKFILL_MONTHS * 31)).strftime("%Y%m%d")
 
     path = os.path.join(HERE, "index_history.js")
     store = load_js_object(path, "INDEX_HISTORY") or {}
@@ -162,6 +164,17 @@ def main():
     added_total = 0
     failed = []
     for name, symbol in INDEX_SYMBOLS.items():
+        have = sum(len(p["days"]) for p in store.get(name, []))
+        # ⭐ 첫 수집 직후엔 15일 창이라 12거래일뿐이라, 이대로 두면 MA200이 정식이 되기까지
+        # 1년 가까이 걸린다. 쌓인 게 적을 때만 넓은 창으로 한 번 백필하고, 이미 충분히
+        # 쌓였으면 평소대로 짧은 창만 받아 매 사이클 부담을 최소화한다.
+        if manual:
+            start = sys.argv[1]
+        elif have < BACKFILL_THRESHOLD_DAYS:
+            start = backfill_start
+            print(f"  {name}: 보유 {have}거래일 < {BACKFILL_THRESHOLD_DAYS} → {BACKFILL_MONTHS}개월 백필 시도")
+        else:
+            start = default_start
         try:
             entries = fetch_daily_ohlcv(symbol, start, end)
         except Exception as e:
