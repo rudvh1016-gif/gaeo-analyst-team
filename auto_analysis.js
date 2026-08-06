@@ -415,10 +415,10 @@ const LIVE_AUTO = {
     "score": 55,
     "stance": "neu",
     "findings": [
-     "PER 40.99배 · PBR 3.34배 — 밸류 중립 수준",
+     "PER 41.04배 · PBR 3.34배 — 밸류 중립 수준",
      "ROE 8.1% · EPS 10,587원",
      "컨센서스 EPS 기준 선행 PER 22.0배 — 실적 성장 확인 필요",
-     "목표주가 2,350,500원 → 현재가 대비 +441.6%"
+     "목표주가 2,350,500원 → 현재가 대비 +441.0%"
     ]
    },
    "nova": {
@@ -649,10 +649,10 @@ const LIVE_AUTO = {
     "score": 49,
     "stance": "neu",
     "findings": [
-     "PER 90.08배 · PBR 14.56배 — 밸류 중립 수준",
+     "PER 90.3배 · PBR 14.6배 — 밸류 중립 수준",
      "ROE 16.2% · EPS 2,248원",
-     "컨센서스 EPS 기준 선행 PER 56.1배 — 실적 성장 확인 필요",
-     "목표주가 300,000원 → 현재가 대비 +48.1%"
+     "컨센서스 EPS 기준 선행 PER 56.3배 — 실적 성장 확인 필요",
+     "목표주가 300,000원 → 현재가 대비 +47.8%"
     ]
    },
    "nova": {
@@ -776,13 +776,13 @@ const LIVE_AUTO = {
     "riskScore": 23,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -0.2,
+    "relativeAdjustPp": -0.3,
     "flowQualityAdjustPp": 0.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 33.6%로 계산했습니다. 시장·업종 상대강도 -0.2%p, 수급 품질 +0.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 33.5%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +0.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 33.6%로 계산했습니다. 시장·업종 상대강도 -0.2%p, 수급 품질 +0.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 33.5%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +0.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "042700": {
@@ -805,10 +805,10 @@ const LIVE_AUTO = {
     "score": 54,
     "stance": "neu",
     "findings": [
-     "PER 107.39배 · PBR 29.91배 — 밸류 중립 수준",
+     "PER 108.19배 · PBR 30.13배 — 밸류 중립 수준",
      "ROE 27.8% · EPS 1,867원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 380,000원 → 현재가 대비 +89.5%"
+     "목표주가 380,000원 → 현재가 대비 +88.1%"
     ]
    },
    "nova": {
@@ -1088,7 +1088,7 @@ const LIVE_AUTO = {
     "riskScore": 29,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 0.3,
+    "relativeAdjustPp": 0.2,
     "flowQualityAdjustPp": 2.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -1317,7 +1317,7 @@ const LIVE_AUTO = {
     "total": 30,
     "rawTotal": 30,
     "confidence": 52,
-    "probabilityUp": 29.5,
+    "probabilityUp": 29.6,
     "riskPenalty": 0,
     "riskScore": 61,
     "riskGrade": "low",
@@ -1551,7 +1551,7 @@ const LIVE_AUTO = {
     "total": 22,
     "rawTotal": 28,
     "confidence": 43,
-    "probabilityUp": 28.2,
+    "probabilityUp": 28.1,
     "riskPenalty": 6,
     "riskScore": 9,
     "riskGrade": "high",
@@ -3428,7 +3428,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.6,
+    "relativeAdjustPp": -0.7,
     "flowQualityAdjustPp": 2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -4081,10 +4081,10 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER 28.09배 · PBR 1.81배 — 밸류 중립 수준",
+     "PER 28.21배 · PBR 1.82배 — 밸류 중립 수준",
      "ROE 6.5% · EPS 8,277원",
-     "컨센서스 EPS 기준 선행 PER 25.4배 — 실적 성장 확인 필요",
-     "목표주가 258,692원 → 현재가 대비 +11.3%"
+     "컨센서스 EPS 기준 선행 PER 25.6배 — 실적 성장 확인 필요",
+     "목표주가 258,692원 → 현재가 대비 +10.8%"
     ]
    },
    "nova": {
@@ -4442,7 +4442,7 @@ const LIVE_AUTO = {
     "riskScore": 17,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 1.8,
+    "relativeAdjustPp": 1.7,
     "flowQualityAdjustPp": -2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -4546,7 +4546,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 89,
+    "score": 90,
     "stance": "bull",
     "findings": [
      "PER 8.74배 · PBR 0.71배 — 이익·자산 대비 저평가 매력",
@@ -4702,7 +4702,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 42,
+    "score": 41,
     "stance": "bear",
     "findings": [
      "PER 63.25배 · PBR 6.28배 — 밸류 부담 존재",
@@ -5095,10 +5095,10 @@ const LIVE_AUTO = {
     "score": 60,
     "stance": "bull",
     "findings": [
-     "PER 30.8배 · PBR 1.78배 — 이익·자산 대비 저평가 매력",
+     "PER 30.84배 · PBR 1.78배 — 이익·자산 대비 저평가 매력",
      "ROE 5.8% · EPS 10,667원",
-     "컨센서스 EPS 기준 선행 PER 16.5배 — 실적 성장 확인 필요",
-     "목표주가 585,667원 → 현재가 대비 +78.3%"
+     "컨센서스 EPS 기준 선행 PER 16.6배 — 실적 성장 확인 필요",
+     "목표주가 585,667원 → 현재가 대비 +78.0%"
     ]
    },
    "nova": {
@@ -5292,8 +5292,8 @@ const LIVE_AUTO = {
    },
    "shadowChief": {
     "call": "SELL",
-    "total": 26,
-    "rawTotal": 26,
+    "total": 25,
+    "rawTotal": 25,
     "confidence": 49,
     "probabilityUp": 25.5,
     "riskPenalty": 0,
@@ -6262,7 +6262,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 77,
+    "score": 78,
     "stance": "bull",
     "findings": [
      "PER 10.5배 · PBR 1.84배 — 이익·자산 대비 저평가 매력",
@@ -6655,10 +6655,10 @@ const LIVE_AUTO = {
     "score": 47,
     "stance": "neu",
     "findings": [
-     "PER 157.97배 · PBR 40.84배 — 밸류 중립 수준",
+     "PER 159.04배 · PBR 41.11배 — 밸류 중립 수준",
      "ROE 25.9% · EPS 1,858원",
-     "컨센서스 EPS 기준 선행 PER 76.3배 — 실적 성장 확인 필요",
-     "목표주가 413,581원 → 현재가 대비 +40.9%"
+     "컨센서스 EPS 기준 선행 PER 76.8배 — 실적 성장 확인 필요",
+     "목표주가 413,581원 → 현재가 대비 +40.0%"
     ]
    },
    "nova": {
@@ -6889,10 +6889,10 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER 7648.44배 · PBR 71.45배 — 밸류 중립 수준",
+     "PER 7625.0배 · PBR 71.23배 — 밸류 중립 수준",
      "ROE 0.9% · EPS 64원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 915,000원 → 현재가 대비 +86.9%"
+     "목표주가 915,000원 → 현재가 대비 +87.5%"
     ]
    },
    "nova": {
@@ -7094,7 +7094,7 @@ const LIVE_AUTO = {
     "riskScore": 8,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.9,
+    "relativeAdjustPp": -0.8,
     "flowQualityAdjustPp": -1.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -7250,7 +7250,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.7,
+    "relativeAdjustPp": -0.8,
     "flowQualityAdjustPp": 2.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -7488,9 +7488,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": 0.1,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.0%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 +0.1%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "298380": {
@@ -7796,7 +7796,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 1.2,
+    "relativeAdjustPp": 1.3,
     "flowQualityAdjustPp": -1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -8215,10 +8215,10 @@ const LIVE_AUTO = {
     "score": 50,
     "stance": "neu",
     "findings": [
-     "PER -16.36배 · PBR 2.55배 — 밸류 중립 수준",
+     "PER -16.41배 · PBR 2.56배 — 밸류 중립 수준",
      "ROE -15.6% · EPS -2,170원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 72,250원 → 현재가 대비 +103.5%"
+     "목표주가 72,250원 → 현재가 대비 +102.9%"
     ]
    },
    "nova": {
@@ -8368,7 +8368,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 62,
+    "score": 61,
     "stance": "bull",
     "findings": [
      "PER 22.79배 · PBR 3.0배 — 이익·자산 대비 저평가 매력",
@@ -8420,13 +8420,13 @@ const LIVE_AUTO = {
     "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 2.7,
+    "relativeAdjustPp": 2.6,
     "flowQualityAdjustPp": 1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 36.7%로 계산했습니다. 시장·업종 상대강도 +2.7%p, 수급 품질 +1.7%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 36.7%로 계산했습니다. 시장·업종 상대강도 +2.6%p, 수급 품질 +1.7%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 36.7%로 계산했습니다. 시장·업종 상대강도 +2.7%p, 수급 품질 +1.7%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 36.7%로 계산했습니다. 시장·업종 상대강도 +2.6%p, 수급 품질 +1.7%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "067310": {
@@ -8449,10 +8449,10 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 19.97배 · PBR 4.36배 — 이익·자산 대비 저평가 매력",
+     "PER 20.04배 · PBR 4.37배 — 이익·자산 대비 저평가 매력",
      "ROE 21.8% · EPS 1,547원",
      "컨센서스 EPS 기준 선행 PER 12.7배 — 실적 반영 시 저평가",
-     "목표주가 62,000원 → 현재가 대비 +100.6%"
+     "목표주가 62,000원 → 현재가 대비 +100.0%"
     ]
    },
    "nova": {
@@ -8732,13 +8732,13 @@ const LIVE_AUTO = {
     "riskScore": 37,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 2.6,
+    "relativeAdjustPp": 2.5,
     "flowQualityAdjustPp": 0.6,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +2.6%p, 수급 품질 +0.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +2.5%p, 수급 품질 +0.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +2.6%p, 수급 품질 +0.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.5%로 계산했습니다. 시장·업종 상대강도 +2.5%p, 수급 품질 +0.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "357780": {
@@ -8949,7 +8949,7 @@ const LIVE_AUTO = {
     "confidence": 62,
     "rawTotal": 53,
     "riskPenalty": 0,
-    "riskScore": 42,
+    "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 53점(중립). 기술 57·재무 71·퀀트(확률) 48·수급 50 점을 자가 학습 가중치(기술 28%·재무 8%·퀀트 35%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 42점으로 원점수 53점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
@@ -8963,7 +8963,7 @@ const LIVE_AUTO = {
     "confidence": 47,
     "probabilityUp": 33.1,
     "riskPenalty": 0,
-    "riskScore": 42,
+    "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -0.2,
@@ -10448,13 +10448,13 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 0.7,
+    "relativeAdjustPp": 0.8,
     "flowQualityAdjustPp": -2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 +0.7%p, 수급 품질 -2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 +0.8%p, 수급 품질 -2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 +0.7%p, 수급 품질 -2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 29.4%로 계산했습니다. 시장·업종 상대강도 +0.8%p, 수급 품질 -2.2%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "377300": {
@@ -11023,10 +11023,10 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 34.44배 · PBR 0.92배 — 이익·자산 대비 저평가 매력",
+     "PER 34.35배 · PBR 0.91배 — 이익·자산 대비 저평가 매력",
      "ROE 2.7% · EPS 4,236원",
      "컨센서스 EPS 기준 선행 PER 13.4배 — 실적 반영 시 저평가",
-     "목표주가 239,727원 → 현재가 대비 +64.3%"
+     "목표주가 239,727원 → 현재가 대비 +64.8%"
     ]
    },
    "nova": {
@@ -11725,10 +11725,10 @@ const LIVE_AUTO = {
     "score": 45,
     "stance": "neu",
     "findings": [
-     "PER -49.69배 · PBR 0.98배 — 밸류 중립 수준",
+     "PER -49.54배 · PBR 0.97배 — 밸류 중립 수준",
      "ROE -2.0% · EPS -6,520원",
-     "컨센서스 EPS 기준 선행 PER 23.9배 — 실적 성장 확인 필요",
-     "목표주가 311,692원 → 현재가 대비 -3.8%"
+     "컨센서스 EPS 기준 선행 PER 23.8배 — 실적 성장 확인 필요",
+     "목표주가 311,692원 → 현재가 대비 -3.5%"
     ]
    },
    "nova": {
@@ -12349,7 +12349,7 @@ const LIVE_AUTO = {
     "score": 34,
     "stance": "bear",
     "findings": [
-     "PER 90.75배 · PBR 5.61배 — 밸류 부담 존재",
+     "PER 90.97배 · PBR 5.63배 — 밸류 부담 존재",
      "ROE 6.2% · EPS 227원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 16,510 ~ 45,600 참고 · 목표주가 컨센 미제공"
@@ -13909,10 +13909,10 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 16.07배 · PBR 2.69배 — 이익·자산 대비 저평가 매력",
+     "PER 16.01배 · PBR 2.68배 — 이익·자산 대비 저평가 매력",
      "ROE 16.8% · EPS 6,651원",
-     "컨센서스 EPS 기준 선행 PER 14.5배 — 실적 반영 시 저평가",
-     "목표주가 133,400원 → 현재가 대비 +24.8%"
+     "컨센서스 EPS 기준 선행 PER 14.4배 — 실적 반영 시 저평가",
+     "목표주가 133,400원 → 현재가 대비 +25.3%"
     ]
    },
    "nova": {
@@ -14377,7 +14377,7 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 7.03배 · PBR 0.5배 — 이익·자산 대비 저평가 매력",
+     "PER 7.07배 · PBR 0.51배 — 이익·자산 대비 저평가 매력",
      "ROE 7.2% · EPS 3,755원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 21,000 ~ 37,900 참고 · 목표주가 컨센 미제공"
@@ -14689,10 +14689,10 @@ const LIVE_AUTO = {
     "score": 52,
     "stance": "neu",
     "findings": [
-     "PER 71.22배 · PBR 2.79배 — 밸류 중립 수준",
+     "PER 70.85배 · PBR 2.78배 — 밸류 중립 수준",
      "ROE 3.9% · EPS 674원",
-     "컨센서스 EPS 기준 선행 PER 12.7배 — 실적 반영 시 저평가",
-     "목표주가 96,000원 → 현재가 대비 +100.0%"
+     "컨센서스 EPS 기준 선행 PER 12.6배 — 실적 반영 시 저평가",
+     "목표주가 96,000원 → 현재가 대비 +101.0%"
     ]
    },
    "nova": {
@@ -14816,7 +14816,7 @@ const LIVE_AUTO = {
     "riskScore": 49,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 3.5,
+    "relativeAdjustPp": 3.4,
     "flowQualityAdjustPp": 2.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -15279,7 +15279,7 @@ const LIVE_AUTO = {
     "total": 31,
     "rawTotal": 31,
     "confidence": 51,
-    "probabilityUp": 30.8,
+    "probabilityUp": 30.9,
     "riskPenalty": 0,
     "riskScore": 71,
     "riskGrade": "low",
@@ -15388,13 +15388,13 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 82,
+    "score": 81,
     "stance": "bull",
     "findings": [
-     "PER 10.93배 · PBR 1.82배 — 이익·자산 대비 저평가 매력",
+     "PER 10.94배 · PBR 1.82배 — 이익·자산 대비 저평가 매력",
      "ROE 16.6% · EPS 12,219원",
      "컨센서스 EPS 기준 선행 PER 10.2배 — 실적 반영 시 저평가",
-     "목표주가 173,733원 → 현재가 대비 +30.1%"
+     "목표주가 173,733원 → 현재가 대비 +29.9%"
     ]
    },
    "nova": {
@@ -15522,9 +15522,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -1.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 34.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 34.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 34.2%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 34.1%로 계산했습니다. 시장·업종 상대강도 +4.0%p, 수급 품질 -1.3%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "071970": {
@@ -15703,10 +15703,10 @@ const LIVE_AUTO = {
     "score": 77,
     "stance": "bull",
     "findings": [
-     "PER 10.06배 · PBR 1.99배 — 이익·자산 대비 저평가 매력",
+     "PER 10.07배 · PBR 1.99배 — 이익·자산 대비 저평가 매력",
      "ROE 19.8% · EPS 3,262원",
-     "컨센서스 EPS 기준 선행 PER 14.7배 — 실적 반영 시 저평가",
-     "목표주가 44,556원 → 현재가 대비 +35.8%"
+     "컨센서스 EPS 기준 선행 PER 14.8배 — 실적 반영 시 저평가",
+     "목표주가 44,556원 → 현재가 대비 +35.6%"
     ]
    },
    "nova": {
@@ -15809,9 +15809,9 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 52,
+    "total": 53,
     "confidence": 37,
-    "rawTotal": 52,
+    "rawTotal": 53,
     "riskPenalty": 0,
     "riskScore": 28,
     "riskGrade": "mid",
@@ -15986,13 +15986,13 @@ const LIVE_AUTO = {
     "riskScore": 45,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -2.6,
+    "relativeAdjustPp": -2.7,
     "flowQualityAdjustPp": 1.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 -2.6%p, 수급 품질 +1.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 -2.7%p, 수급 품질 +1.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 -2.6%p, 수급 품질 +1.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 31.5%로 계산했습니다. 시장·업종 상대강도 -2.7%p, 수급 품질 +1.8%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "281820": {
@@ -16125,7 +16125,7 @@ const LIVE_AUTO = {
     "confidence": 56,
     "rawTotal": 51,
     "riskPenalty": 0,
-    "riskScore": 8,
+    "riskScore": 9,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 51점(중립). 기술 61·재무 32·퀀트(확률) 48·수급 51 점을 자가 학습 가중치(기술 29%·재무 8%·퀀트 34%·수급 30% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 8점으로 원점수 51점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
@@ -16139,7 +16139,7 @@ const LIVE_AUTO = {
     "confidence": 41,
     "probabilityUp": 36.2,
     "riskPenalty": 0,
-    "riskScore": 8,
+    "riskScore": 9,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": 4.0,
@@ -16561,10 +16561,10 @@ const LIVE_AUTO = {
     "score": 66,
     "stance": "bull",
     "findings": [
-     "PER 17.73배 · PBR 0.73배 — 이익·자산 대비 저평가 매력",
+     "PER 17.75배 · PBR 0.73배 — 이익·자산 대비 저평가 매력",
      "ROE 4.1% · EPS 436원",
      "컨센서스 EPS 기준 선행 PER 18.0배 — 실적 성장 확인 필요",
-     "목표주가 10,125원 → 현재가 대비 +31.0%"
+     "목표주가 10,125원 → 현재가 대비 +30.8%"
     ]
    },
    "nova": {
@@ -16795,10 +16795,10 @@ const LIVE_AUTO = {
     "score": 60,
     "stance": "bull",
     "findings": [
-     "PER -103.81배 · PBR 1.45배 — 이익·자산 대비 저평가 매력",
+     "PER -103.93배 · PBR 1.45배 — 이익·자산 대비 저평가 매력",
      "ROE -1.4% · EPS -407원",
      "컨센서스 EPS 기준 선행 PER 9.8배 — 실적 반영 시 저평가",
-     "목표주가 77,889원 → 현재가 대비 +84.4%"
+     "목표주가 77,889원 → 현재가 대비 +84.1%"
     ]
    },
    "nova": {
@@ -16951,7 +16951,7 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 12.52배 · PBR 0.65배 — 이익·자산 대비 저평가 매력",
+     "PER 12.59배 · PBR 0.65배 — 이익·자산 대비 저평가 매력",
      "ROE 5.2% · EPS 2,149원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 18,360 ~ 31,150 참고 · 목표주가 컨센 미제공"
@@ -17266,7 +17266,7 @@ const LIVE_AUTO = {
      "PER 3.84배 · PBR 0.44배 — 이익·자산 대비 저평가 매력",
      "ROE 11.6% · EPS 9,628원",
      "컨센서스 EPS 기준 선행 PER 4.8배 — 실적 반영 시 저평가",
-     "목표주가 52,000원 → 현재가 대비 +40.5%"
+     "목표주가 52,000원 → 현재가 대비 +40.7%"
     ]
    },
    "nova": {
@@ -17341,7 +17341,7 @@ const LIVE_AUTO = {
     "score": 38,
     "stance": "bear",
     "findings": [
-     "PER -2.33배 · PBR 3.07배 — 밸류 부담 존재",
+     "PER -2.33배 · PBR 3.06배 — 밸류 부담 존재",
      "ROE -131.3% · EPS -3,165원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 6,500 ~ 9,690 참고 · 목표주가 컨센 미제공"
@@ -18248,7 +18248,7 @@ const LIVE_AUTO = {
     "riskScore": 66,
     "riskGrade": "low",
     "riskApplied": true,
-    "relativeAdjustPp": -2.7,
+    "relativeAdjustPp": -2.8,
     "flowQualityAdjustPp": 0.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -18511,10 +18511,10 @@ const LIVE_AUTO = {
     "score": 85,
     "stance": "bull",
     "findings": [
-     "PER 4.53배 · PBR 0.38배 — 이익·자산 대비 저평가 매력",
+     "PER 4.55배 · PBR 0.38배 — 이익·자산 대비 저평가 매력",
      "ROE 8.3% · EPS 5,009원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 35,000원 → 현재가 대비 +54.2%"
+     "목표주가 35,000원 → 현재가 대비 +53.5%"
     ]
    },
    "nova": {
@@ -19057,7 +19057,7 @@ const LIVE_AUTO = {
     "score": 40,
     "stance": "bear",
     "findings": [
-     "PER 57.67배 · PBR 2.83배 — 밸류 부담 존재",
+     "PER 57.75배 · PBR 2.83배 — 밸류 부담 존재",
      "ROE 4.9% · EPS 1,316원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 24,950 ~ 196,800 참고 · 목표주가 컨센 미제공"
@@ -19730,7 +19730,7 @@ const LIVE_AUTO = {
     "riskScore": 14,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 3.9,
+    "relativeAdjustPp": 4.0,
     "flowQualityAdjustPp": 2.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -21072,8 +21072,8 @@ const LIVE_AUTO = {
    "baseAt": "2026-08-06 종가 (15:55 수집)",
    "events": [],
    "taro": {
-    "score": 42,
-    "stance": "bear",
+    "score": 48,
+    "stance": "neu",
     "findings": [
      "종가 76,800원이 MA20(79,095원) 대비 -2.9% — 단기 하단 흐름",
      "MA60(98,578원) 대비 -22.1% — 장기 추세선 하회",
@@ -21319,10 +21319,10 @@ const LIVE_AUTO = {
     "score": 86,
     "stance": "bull",
     "findings": [
-     "PER 6.82배 · PBR 0.72배 — 이익·자산 대비 저평가 매력",
+     "PER 6.8배 · PBR 0.72배 — 이익·자산 대비 저평가 매력",
      "ROE 10.5% · EPS 2,881원",
      "컨센서스 EPS 기준 선행 PER 6.9배 — 실적 반영 시 저평가",
-     "목표주가 25,222원 → 현재가 대비 +28.4%"
+     "목표주가 25,222원 → 현재가 대비 +28.7%"
     ]
    },
    "nova": {
@@ -22645,10 +22645,10 @@ const LIVE_AUTO = {
     "score": 75,
     "stance": "bull",
     "findings": [
-     "PER 11.85배 · PBR 0.52배 — 이익·자산 대비 저평가 매력",
+     "PER 11.84배 · PBR 0.52배 — 이익·자산 대비 저평가 매력",
      "ROE 4.4% · EPS 2,982원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 51,500원 → 현재가 대비 +45.7%"
+     "목표주가 51,500원 → 현재가 대비 +45.9%"
     ]
    },
    "nova": {
@@ -22923,7 +22923,7 @@ const LIVE_AUTO = {
     "total": 27,
     "rawTotal": 27,
     "confidence": 50,
-    "probabilityUp": 27.0,
+    "probabilityUp": 26.8,
     "riskPenalty": 0,
     "riskScore": 55,
     "riskGrade": "mid",
@@ -23035,7 +23035,7 @@ const LIVE_AUTO = {
     "score": 73,
     "stance": "bull",
     "findings": [
-     "PER 6.85배 · PBR 0.83배 — 이익·자산 대비 저평가 매력",
+     "PER 6.82배 · PBR 0.83배 — 이익·자산 대비 저평가 매력",
      "ROE 12.1% · EPS 6,594원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 39,100 ~ 134,500 참고 · 목표주가 컨센 미제공"
@@ -23269,10 +23269,10 @@ const LIVE_AUTO = {
     "score": 68,
     "stance": "bull",
     "findings": [
-     "PER 4.9배 · PBR 1.47배 — 이익·자산 대비 저평가 매력",
+     "PER 4.91배 · PBR 1.47배 — 이익·자산 대비 저평가 매력",
      "ROE 30.0% · EPS 1,973원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 5,650원 → 현재가 대비 -41.5%"
+     "목표주가 5,650원 → 현재가 대비 -41.6%"
     ]
    },
    "nova": {
@@ -23313,7 +23313,7 @@ const LIVE_AUTO = {
     "total": 19,
     "rawTotal": 26,
     "confidence": 44,
-    "probabilityUp": 25.7,
+    "probabilityUp": 25.6,
     "riskPenalty": 7,
     "riskScore": 5,
     "riskGrade": "high",
@@ -23322,9 +23322,9 @@ const LIVE_AUTO = {
     "flowQualityAdjustPp": -1.8,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 25.7%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 25.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 25.7%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 25.6%로 계산했습니다. 시장·업종 상대강도 -4.0%p, 수급 품질 -1.8%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "003160": {
@@ -24176,7 +24176,7 @@ const LIVE_AUTO = {
     "riskScore": 39,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -2.4,
+    "relativeAdjustPp": -2.2,
     "flowQualityAdjustPp": 2.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -24439,10 +24439,10 @@ const LIVE_AUTO = {
     "score": 82,
     "stance": "bull",
     "findings": [
-     "PER 5.16배 · PBR 0.24배 — 이익·자산 대비 저평가 매력",
+     "PER 5.19배 · PBR 0.24배 — 이익·자산 대비 저평가 매력",
      "ROE 4.6% · EPS 16,440원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 145,000원 → 현재가 대비 +71.0%"
+     "목표주가 145,000원 → 현재가 대비 +70.0%"
     ]
    },
    "nova": {
@@ -25216,13 +25216,13 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 85,
+    "score": 84,
     "stance": "bull",
     "findings": [
-     "PER 4.23배 · PBR 0.26배 — 이익·자산 대비 저평가 매력",
+     "PER 4.24배 · PBR 0.27배 — 이익·자산 대비 저평가 매력",
      "ROE 6.3% · EPS 1,337원",
      "컨센서스 EPS 기준 선행 PER 3.2배 — 실적 반영 시 저평가",
-     "목표주가 7,600원 → 현재가 대비 +34.3%"
+     "목표주가 7,600원 → 현재가 대비 +34.0%"
     ]
    },
    "nova": {
@@ -25424,7 +25424,7 @@ const LIVE_AUTO = {
     "riskScore": 35,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 0.8,
+    "relativeAdjustPp": 1.0,
     "flowQualityAdjustPp": 1.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -25531,7 +25531,7 @@ const LIVE_AUTO = {
     "score": 78,
     "stance": "bull",
     "findings": [
-     "PER 4.75배 · PBR 0.8배 — 이익·자산 대비 저평가 매력",
+     "PER 4.73배 · PBR 0.8배 — 이익·자산 대비 저평가 매력",
      "ROE 16.9% · EPS 347원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 1,510 ~ 2,275 참고 · 목표주가 컨센 미제공"
@@ -25609,10 +25609,10 @@ const LIVE_AUTO = {
     "score": 82,
     "stance": "bull",
     "findings": [
-     "PER 11.55배 · PBR 3.4배 — 이익·자산 대비 저평가 매력",
+     "PER 11.53배 · PBR 3.39배 — 이익·자산 대비 저평가 매력",
      "ROE 29.4% · EPS 2,754원",
      "컨센서스 EPS 기준 선행 PER 9.1배 — 실적 반영 시 저평가",
-     "목표주가 48,400원 → 현재가 대비 +52.2%"
+     "목표주가 48,400원 → 현재가 대비 +52.4%"
     ]
    },
    "nova": {
@@ -25999,10 +25999,10 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER -90.49배 · PBR 0.97배 — 이익·자산 대비 저평가 매력",
+     "PER -91.04배 · PBR 0.97배 — 이익·자산 대비 저평가 매력",
      "ROE -1.1% · EPS -268원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 40,000원 → 현재가 대비 +64.9%"
+     "목표주가 40,000원 → 현재가 대비 +63.9%"
     ]
    },
    "nova": {
@@ -26077,7 +26077,7 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER -9.66배 · PBR 0.31배 — 밸류 중립 수준",
+     "PER -9.59배 · PBR 0.31배 — 밸류 중립 수준",
      "ROE -3.2% · EPS -492원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 4,050 ~ 6,320 참고 · 목표주가 컨센 미제공"
@@ -26282,7 +26282,7 @@ const LIVE_AUTO = {
     "riskScore": 56,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -3.9,
+    "relativeAdjustPp": -3.8,
     "flowQualityAdjustPp": -1.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -26545,7 +26545,7 @@ const LIVE_AUTO = {
     "score": 52,
     "stance": "neu",
     "findings": [
-     "PER 25.21배 · PBR 0.79배 — 밸류 중립 수준",
+     "PER 25.18배 · PBR 0.79배 — 밸류 중립 수준",
      "ROE 3.1% · EPS 585원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 7,700 ~ 24,650 참고 · 목표주가 컨센 미제공"
@@ -26811,7 +26811,7 @@ const LIVE_AUTO = {
     "confidence": 69,
     "rawTotal": 54,
     "riskPenalty": 0,
-    "riskScore": 27,
+    "riskScore": 28,
     "riskGrade": "mid",
     "riskApplied": true,
     "reason": "자동분석 종합 54점(중립). 기술 61·재무 64·퀀트(확률) 48·수급 51 점을 자가 학습 가중치(기술 29%·재무 9%·퀀트 34%·수급 28% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 27점으로 원점수 54점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
@@ -26825,7 +26825,7 @@ const LIVE_AUTO = {
     "confidence": 54,
     "probabilityUp": 28.6,
     "riskPenalty": 0,
-    "riskScore": 27,
+    "riskScore": 28,
     "riskGrade": "mid",
     "riskApplied": true,
     "relativeAdjustPp": -2.6,
@@ -27325,7 +27325,7 @@ const LIVE_AUTO = {
     "score": 52,
     "stance": "neu",
     "findings": [
-     "PER 35.49배 · PBR 0.38배 — 밸류 중립 수준",
+     "PER 34.99배 · PBR 0.38배 — 밸류 중립 수준",
      "ROE 1.1% · EPS 1,775원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 57,500 ~ 86,100 참고 · 목표주가 컨센 미제공"
@@ -27478,13 +27478,13 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 78,
+    "score": 79,
     "stance": "bull",
     "findings": [
-     "PER 3.9배 · PBR 0.23배 — 이익·자산 대비 저평가 매력",
+     "PER 3.89배 · PBR 0.23배 — 이익·자산 대비 저평가 매력",
      "ROE 5.9% · EPS 30,693원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 160,000원 → 현재가 대비 +33.6%"
+     "목표주가 160,000원 → 현재가 대비 +34.1%"
     ]
    },
    "nova": {
@@ -28339,10 +28339,10 @@ const LIVE_AUTO = {
     "score": 92,
     "stance": "bull",
     "findings": [
-     "PER 8.0배 · PBR 1.7배 — 이익·자산 대비 저평가 매력",
+     "PER 7.99배 · PBR 1.7배 — 이익·자산 대비 저평가 매력",
      "ROE 21.2% · EPS 960원",
      "컨센서스 EPS 기준 선행 PER 7.4배 — 실적 반영 시 저평가",
-     "목표주가 16,000원 → 현재가 대비 +108.3%"
+     "목표주가 16,000원 → 현재가 대비 +108.6%"
     ]
    },
    "nova": {
@@ -28963,7 +28963,7 @@ const LIVE_AUTO = {
     "score": 37,
     "stance": "bear",
     "findings": [
-     "PER 153.56배 · PBR 15.22배 — 밸류 부담 존재",
+     "PER 151.95배 · PBR 15.06배 — 밸류 부담 존재",
      "ROE 9.9% · EPS 435원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 44,400 ~ 153,800 참고 · 목표주가 컨센 미제공"
@@ -29041,10 +29041,10 @@ const LIVE_AUTO = {
     "score": 39,
     "stance": "bear",
     "findings": [
-     "PER -525.9배 · PBR 9.59배 — 밸류 부담 존재",
+     "PER -529.28배 · PBR 9.65배 — 밸류 부담 존재",
      "ROE -1.8% · EPS -444원",
-     "컨센서스 EPS 기준 선행 PER 572.3배 — 실적 성장 확인 필요",
-     "목표주가 398,000원 → 현재가 대비 +70.4%"
+     "컨센서스 EPS 기준 선행 PER 576.0배 — 실적 성장 확인 필요",
+     "목표주가 398,000원 → 현재가 대비 +69.4%"
     ]
    },
    "nova": {
@@ -29948,7 +29948,7 @@ const LIVE_AUTO = {
     "riskScore": 42,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 0.3,
+    "relativeAdjustPp": 0.4,
     "flowQualityAdjustPp": -2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -30133,10 +30133,10 @@ const LIVE_AUTO = {
     "score": 39,
     "stance": "bear",
     "findings": [
-     "PER 253.86배 · PBR 9.01배 — 밸류 부담 존재",
+     "PER 254.8배 · PBR 9.04배 — 밸류 부담 존재",
      "ROE 3.5% · EPS 427원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 130,000원 → 현재가 대비 +19.9%"
+     "목표주가 130,000원 → 현재가 대비 +19.5%"
     ]
    },
    "nova": {
@@ -30367,10 +30367,10 @@ const LIVE_AUTO = {
     "score": 82,
     "stance": "bull",
     "findings": [
-     "PER 2.98배 · PBR 2.12배 — 이익·자산 대비 저평가 매력",
+     "PER 2.99배 · PBR 2.13배 — 이익·자산 대비 저평가 매력",
      "ROE 71.2% · EPS 5,841원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 85,000원 → 현재가 대비 +388.5%"
+     "목표주가 85,000원 → 현재가 대비 +387.1%"
     ]
    },
    "nova": {
@@ -30991,7 +30991,7 @@ const LIVE_AUTO = {
     "score": 32,
     "stance": "bear",
     "findings": [
-     "PER -76.38배 · PBR 15.48배 — 밸류 부담 존재",
+     "PER -76.0배 · PBR 15.4배 — 밸류 부담 존재",
      "ROE -20.3% · EPS -525원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 13,860 ~ 49,900 참고 · 목표주가 컨센 미제공"
@@ -31069,10 +31069,10 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER 134.2배 · PBR 5.21배 — 밸류 중립 수준",
+     "PER 134.51배 · PBR 5.23배 — 밸류 중립 수준",
      "ROE 3.9% · EPS 652원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 191,500원 → 현재가 대비 +118.9%"
+     "목표주가 191,500원 → 현재가 대비 +118.4%"
     ]
    },
    "nova": {
@@ -31274,7 +31274,7 @@ const LIVE_AUTO = {
     "riskScore": 26,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 2.7,
+    "relativeAdjustPp": 2.9,
     "flowQualityAdjustPp": 2.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -31303,7 +31303,7 @@ const LIVE_AUTO = {
     "score": 74,
     "stance": "bull",
     "findings": [
-     "PER 3.29배 · PBR 1.36배 — 이익·자산 대비 저평가 매력",
+     "PER 3.28배 · PBR 1.35배 — 이익·자산 대비 저평가 매력",
      "ROE 41.3% · EPS 3,059원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 2,860 ~ 19,950 참고 · 목표주가 컨센 미제공"
@@ -31381,7 +31381,7 @@ const LIVE_AUTO = {
     "score": 82,
     "stance": "bull",
     "findings": [
-     "PER 4.67배 · PBR 0.32배 — 이익·자산 대비 저평가 매력",
+     "PER 4.69배 · PBR 0.32배 — 이익·자산 대비 저평가 매력",
      "ROE 6.8% · EPS 2,291원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "목표주가 16,500원 → 현재가 대비 +54.1%"
@@ -31508,13 +31508,13 @@ const LIVE_AUTO = {
     "riskScore": 46,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -0.4,
+    "relativeAdjustPp": -0.3,
     "flowQualityAdjustPp": 2.6,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 34.6%로 계산했습니다. 시장·업종 상대강도 -0.4%p, 수급 품질 +2.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 34.7%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +2.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 34.6%로 계산했습니다. 시장·업종 상대강도 -0.4%p, 수급 품질 +2.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 34.7%로 계산했습니다. 시장·업종 상대강도 -0.3%p, 수급 품질 +2.6%p, RISK 0점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "347700": {
@@ -31537,10 +31537,10 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 22.81배 · PBR 9.3배 — 이익·자산 대비 저평가 매력",
+     "PER 22.75배 · PBR 9.28배 — 이익·자산 대비 저평가 매력",
      "ROE 40.8% · EPS 879원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 50,000원 → 현재가 대비 +149.4%"
+     "목표주가 50,000원 → 현재가 대비 +150.0%"
     ]
    },
    "nova": {
@@ -32005,7 +32005,7 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER 15.01배 · PBR 2.76배 — 이익·자산 대비 저평가 매력",
+     "PER 15.02배 · PBR 2.77배 — 이익·자산 대비 저평가 매력",
      "ROE 18.4% · EPS 2,809원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 31,900 ~ 109,600 참고 · 목표주가 컨센 미제공"
@@ -32470,13 +32470,13 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 64,
+    "score": 63,
     "stance": "bull",
     "findings": [
-     "PER 18.59배 · PBR 4.03배 — 이익·자산 대비 저평가 매력",
+     "PER 18.78배 · PBR 4.07배 — 이익·자산 대비 저평가 매력",
      "ROE 21.7% · EPS 5,159원",
-     "컨센서스 EPS 기준 선행 PER 14.9배 — 실적 반영 시 저평가",
-     "목표주가 117,500원 → 현재가 대비 +22.5%"
+     "컨센서스 EPS 기준 선행 PER 15.0배 — 실적 성장 확인 필요",
+     "목표주가 117,500원 → 현재가 대비 +21.3%"
     ]
    },
    "nova": {
@@ -32707,10 +32707,10 @@ const LIVE_AUTO = {
     "score": 54,
     "stance": "neu",
     "findings": [
-     "PER -70.14배 · PBR 1.74배 — 밸류 중립 수준",
+     "PER -70.41배 · PBR 1.75배 — 밸류 중립 수준",
      "ROE -2.5% · EPS -73원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 10,000원 → 현재가 대비 +95.3%"
+     "목표주가 10,000원 → 현재가 대비 +94.6%"
     ]
    },
    "nova": {
@@ -32834,7 +32834,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 1.0,
+    "relativeAdjustPp": 1.1,
     "flowQualityAdjustPp": 2.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -32941,7 +32941,7 @@ const LIVE_AUTO = {
     "score": 40,
     "stance": "bear",
     "findings": [
-     "PER 1327.78배 · PBR 4.41배 — 밸류 부담 존재",
+     "PER 1333.33배 · PBR 4.42배 — 밸류 부담 존재",
      "ROE 0.3% · EPS 9원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 8,700 ~ 32,725 참고 · 목표주가 컨센 미제공"
@@ -33094,10 +33094,10 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 57,
-    "stance": "neu",
+    "score": 63,
+    "stance": "bull",
     "findings": [
-     "PER 15.06배 · PBR 1.53배 — 밸류 중립 수준",
+     "PER 14.99배 · PBR 1.52배 — 이익·자산 대비 저평가 매력",
      "ROE 10.1% · EPS 1,260원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 4,900 ~ 28,500 참고 · 목표주가 컨센 미제공"
@@ -33409,7 +33409,7 @@ const LIVE_AUTO = {
     "score": 32,
     "stance": "bear",
     "findings": [
-     "PER -25.63배 · PBR 9.04배 — 밸류 부담 존재",
+     "PER -25.85배 · PBR 9.11배 — 밸류 부담 존재",
      "ROE -35.3% · EPS -2,797원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 53,800 ~ 155,000 참고 · 목표주가 컨센 미제공"
@@ -33487,7 +33487,7 @@ const LIVE_AUTO = {
     "score": 42,
     "stance": "bear",
     "findings": [
-     "PER -8.88배 · PBR 1.78배 — 밸류 부담 존재",
+     "PER -8.91배 · PBR 1.78배 — 밸류 부담 존재",
      "ROE -20.0% · EPS -713원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 4,560 ~ 19,940 참고 · 목표주가 컨센 미제공"
@@ -33692,7 +33692,7 @@ const LIVE_AUTO = {
     "riskScore": 14,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 3.5,
+    "relativeAdjustPp": 3.7,
     "flowQualityAdjustPp": -2.0,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -33799,10 +33799,10 @@ const LIVE_AUTO = {
     "score": 65,
     "stance": "bull",
     "findings": [
-     "PER 23.11배 · PBR 2.76배 — 이익·자산 대비 저평가 매력",
+     "PER 23.14배 · PBR 2.76배 — 이익·자산 대비 저평가 매력",
      "ROE 11.9% · EPS 3,267원",
      "컨센서스 EPS 기준 선행 PER 19.9배 — 실적 성장 확인 필요",
-     "목표주가 148,333원 → 현재가 대비 +96.5%"
+     "목표주가 148,333원 → 현재가 대비 +96.2%"
     ]
    },
    "nova": {
@@ -33955,10 +33955,10 @@ const LIVE_AUTO = {
     "score": 81,
     "stance": "bull",
     "findings": [
-     "PER 13.82배 · PBR 1.78배 — 이익·자산 대비 저평가 매력",
+     "PER 13.76배 · PBR 1.78배 — 이익·자산 대비 저평가 매력",
      "ROE 12.9% · EPS 2,460원",
-     "컨센서스 EPS 기준 선행 PER 10.9배 — 실적 반영 시 저평가",
-     "목표주가 64,143원 → 현재가 대비 +88.7%"
+     "컨센서스 EPS 기준 선행 PER 10.8배 — 실적 반영 시 저평가",
+     "목표주가 64,143원 → 현재가 대비 +89.5%"
     ]
    },
    "nova": {
@@ -34082,7 +34082,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 3.8,
+    "relativeAdjustPp": 3.9,
     "flowQualityAdjustPp": -2.7,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -34472,13 +34472,13 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": 2.1,
+    "relativeAdjustPp": 2.3,
     "flowQualityAdjustPp": 1.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
-    "reason": "확률교정 v3 후보는 5일 상승확률을 35.3%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
+    "reason": "확률교정 v3 후보는 5일 상승확률을 35.6%로 계산했습니다. 시장·업종 상대강도 +2.3%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다.",
     "target": "확률교정 후보 모델 · 그림자 평가 중",
-    "report": "확률교정 v3 후보는 5일 상승확률을 35.3%로 계산했습니다. 시장·업종 상대강도 +2.1%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
+    "report": "확률교정 v3 후보는 5일 상승확률을 35.6%로 계산했습니다. 시장·업종 상대강도 +2.3%p, 수급 품질 +1.3%p, RISK 7점 감점을 반영했습니다. 그림자 평가 중이며 승격 기준 통과 전에는 기존 판단을 바꾸지 않습니다."
    }
   },
   "032190": {
@@ -34550,7 +34550,7 @@ const LIVE_AUTO = {
     "riskScore": 40,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -0.3,
+    "relativeAdjustPp": -0.1,
     "flowQualityAdjustPp": 1.4,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -34579,7 +34579,7 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 14.1배 · PBR 3.2배 — 이익·자산 대비 저평가 매력",
+     "PER 14.15배 · PBR 3.21배 — 이익·자산 대비 저평가 매력",
      "ROE 22.7% · EPS 3,240원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 31,850 ~ 101,000 참고 · 목표주가 컨센 미제공"
@@ -35564,7 +35564,7 @@ const LIVE_AUTO = {
     "riskScore": 35,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": 3.2,
+    "relativeAdjustPp": 3.3,
     "flowQualityAdjustPp": -0.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -35593,7 +35593,7 @@ const LIVE_AUTO = {
     "score": 37,
     "stance": "bear",
     "findings": [
-     "PER 119.74배 · PBR 9.82배 — 밸류 부담 존재",
+     "PER 118.63배 · PBR 9.73배 — 밸류 부담 존재",
      "ROE 8.2% · EPS 271원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 12,440 ~ 56,900 참고 · 목표주가 컨센 미제공"
@@ -35983,10 +35983,10 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "PER -64.25배 · PBR 6.77배 — 밸류 중립 수준",
+     "PER -65.05배 · PBR 6.86배 — 밸류 중립 수준",
      "ROE -10.5% · EPS -442원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 101,000원 → 현재가 대비 +255.6%"
+     "목표주가 101,000원 → 현재가 대비 +251.3%"
     ]
    },
    "nova": {
@@ -36217,10 +36217,10 @@ const LIVE_AUTO = {
     "score": 85,
     "stance": "bull",
     "findings": [
-     "PER 7.56배 · PBR 0.92배 — 이익·자산 대비 저평가 매력",
+     "PER 7.58배 · PBR 0.93배 — 이익·자산 대비 저평가 매력",
      "ROE 12.2% · EPS 3,054원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 51,000원 → 현재가 대비 +120.8%"
+     "목표주가 51,000원 → 현재가 대비 +120.3%"
     ]
    },
    "nova": {
@@ -36295,10 +36295,10 @@ const LIVE_AUTO = {
     "score": 74,
     "stance": "bull",
     "findings": [
-     "PER 11.62배 · PBR 1.42배 — 이익·자산 대비 저평가 매력",
+     "PER 11.6배 · PBR 1.42배 — 이익·자산 대비 저평가 매력",
      "ROE 12.2% · EPS 3,986원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 66,000원 → 현재가 대비 +42.5%"
+     "목표주가 66,000원 → 현재가 대비 +42.7%"
     ]
    },
    "nova": {
@@ -36685,10 +36685,10 @@ const LIVE_AUTO = {
     "score": 60,
     "stance": "bull",
     "findings": [
-     "PER 34.7배 · PBR 1.6배 — 이익·자산 대비 저평가 매력",
+     "PER 34.78배 · PBR 1.6배 — 이익·자산 대비 저평가 매력",
      "ROE 4.6% · EPS 670원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 45,000원 → 현재가 대비 +93.5%"
+     "목표주가 45,000원 → 현재가 대비 +93.1%"
     ]
    },
    "nova": {
@@ -36734,7 +36734,7 @@ const LIVE_AUTO = {
     "riskScore": 11,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.8,
+    "relativeAdjustPp": -0.7,
     "flowQualityAdjustPp": -1.9,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -37543,10 +37543,10 @@ const LIVE_AUTO = {
     "score": 59,
     "stance": "bull",
     "findings": [
-     "PER 28.33배 · PBR 3.93배 — 이익·자산 대비 저평가 매력",
+     "PER 28.27배 · PBR 3.92배 — 이익·자산 대비 저평가 매력",
      "ROE 13.9% · EPS 750원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 48,000원 → 현재가 대비 +125.9%"
+     "목표주가 48,000원 → 현재가 대비 +126.4%"
     ]
    },
    "nova": {
@@ -37670,7 +37670,7 @@ const LIVE_AUTO = {
     "riskScore": 5,
     "riskGrade": "high",
     "riskApplied": true,
-    "relativeAdjustPp": -0.8,
+    "relativeAdjustPp": -0.7,
     "flowQualityAdjustPp": -1.2,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -37826,7 +37826,7 @@ const LIVE_AUTO = {
     "riskScore": 36,
     "riskGrade": "mid",
     "riskApplied": true,
-    "relativeAdjustPp": -3.2,
+    "relativeAdjustPp": -3.1,
     "flowQualityAdjustPp": -1.3,
     "regime": "up_high",
     "modelVersion": "calibrated-ensemble-v3",
@@ -38089,10 +38089,10 @@ const LIVE_AUTO = {
     "score": 56,
     "stance": "neu",
     "findings": [
-     "PER 38.91배 · PBR 2.97배 — 밸류 중립 수준",
+     "PER 38.27배 · PBR 2.92배 — 밸류 중립 수준",
      "ROE 7.6% · EPS 1,010원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 60,000원 → 현재가 대비 +52.7%"
+     "목표주가 60,000원 → 현재가 대비 +55.2%"
     ]
    },
    "nova": {
