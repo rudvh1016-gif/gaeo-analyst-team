@@ -7,8 +7,12 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 
 목적: Claude 세션이 원천 데이터(수천 줄)를 읽고 계산하는 대신 이 요약표만
 읽으면 되므로 토큰이 크게 절약된다. 계산 규격은 종목분석 스킬과 동일:
-  MA20/MA60=종가 단순평균 · RSI(14)=Wilder 평활 · MACD=EMA12−EMA26(시그널 EMA9)
-  거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
+  MA5/20/60/120/200=종가 단순평균(부족하면 계산하지 않고 None) · RSI(14)=Wilder 평활
+  MACD=EMA12−EMA26(시그널 EMA9) · 거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
+  ⭐ TARO 이동평균 시스템(2026-08-06): analysis_data.json의 daily가 약 3개월(≈60일치)
+  창이라 MA120/MA200은 현재 항상 None(데이터 부족)이다 — collect_analyst_data.py의
+  fetch_daily months 파라미터를 늘리기 전까진 정상 동작이다. None을 섣불리 다른 값으로
+  채우지 말 것(화면에 "데이터 부족"으로 정직하게 보여주는 게 이 시스템의 핵심 원칙).
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
@@ -56,12 +60,40 @@ def ema_series(vals, n):
     return out
 
 
+MA_SLOPE_LOOKBACK = 5   # 이동평균 기울기 판단용 lookback(거래일) — TARO 해석 규격
+
+
 def indicators_for(daily):
     closes = [r["close"] for r in daily]
     vols = [r["volume"] for r in daily]
     cur = closes[-1]
-    ma20 = sum(closes[-20:]) / min(20, len(closes))
-    ma60 = sum(closes[-60:]) / min(60, len(closes))
+    n = len(closes)
+
+    def sma(period):
+        # ⚠️ 예전엔 len(closes)가 짧아도 min(period, len(closes))로 있는 만큼만 평균 내
+        # "MA60"이라 이름 붙였다 — 20일치밖에 없는데 60일선이라고 속이는 셈이라 금지.
+        # 데이터가 부족하면 계산하지 않고 None(=데이터 부족)을 그대로 돌려준다.
+        return sum(closes[-period:]) / period if n >= period else None
+
+    def sma_asof(period, back):
+        """`period`일 평균을 최신 봉에서 `back`거래일 전 시점 기준으로 계산(기울기용)."""
+        end = n - back
+        return sum(closes[end - period:end]) / period if end >= period else None
+
+    def ma_block(period):
+        ma = sma(period)
+        if ma is None:
+            return None, None, None
+        gap = round((cur / ma - 1) * 100, 1)
+        prev = sma_asof(period, MA_SLOPE_LOOKBACK)
+        slope = round((ma / prev - 1) * 100, 2) if prev else None
+        return round(ma), gap, slope
+
+    ma5, ma5Gap, ma5Slope = ma_block(5)
+    ma20, ma20Gap, ma20Slope = ma_block(20)
+    ma60, ma60Gap, ma60Slope = ma_block(60)
+    ma120, ma120Gap, ma120Slope = ma_block(120)
+    ma200, ma200Gap, ma200Slope = ma_block(200)
     gains, losses = [], []
     for i in range(1, len(closes)):
         ch = closes[i] - closes[i - 1]
@@ -77,8 +109,12 @@ def indicators_for(daily):
     vol_ratio = vols[-1] / vol_avg if vol_avg else None   # 거래정지/저유동 종목은 0 평균 → None
     out = {
         "close": cur,
-        "ma20": round(ma20), "ma20Gap": round((cur / ma20 - 1) * 100, 1),
-        "ma60": round(ma60), "ma60Gap": round((cur / ma60 - 1) * 100, 1),
+        "daysAvail": n,   # TARO 이동평균 카드가 "며칠 더 필요해요" 문구를 만드는 데 씀
+        "ma5": ma5, "ma5Gap": ma5Gap, "ma5Slope": ma5Slope,
+        "ma20": ma20, "ma20Gap": ma20Gap, "ma20Slope": ma20Slope,
+        "ma60": ma60, "ma60Gap": ma60Gap, "ma60Slope": ma60Slope,
+        "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope,
+        "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope,
         "rsi14": round(rsi, 1),
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
