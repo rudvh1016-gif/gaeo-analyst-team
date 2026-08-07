@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-08-07 15:38",
- "priceLabel": "2026-08-07 종가 (15:34 수집)",
+ "generatedAt": "2026-08-07 16:08",
+ "priceLabel": "2026-08-07 종가 (16:07 수집)",
  "indices": {
   "KOSPI": {
    "value": 6258.77,
@@ -30,37 +30,37 @@
    "targetMean": null,
    "recommMean": null,
    "tech": {
-    "close": 75200,
+    "close": 75400,
     "daysAvail": 206,
-    "ma5": 72020,
-    "ma5Gap": 4.4,
-    "ma5Slope": 17.41,
+    "ma5": 72060,
+    "ma5Gap": 4.6,
+    "ma5Slope": 17.48,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 73020,
-    "ma20Gap": 3.0,
-    "ma20Slope": -3.7,
+    "ma20": 73030,
+    "ma20Gap": 3.2,
+    "ma20Slope": -3.69,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 90703,
-    "ma60Gap": -17.1,
-    "ma60Slope": 1.5,
+    "ma60": 90707,
+    "ma60Gap": -16.9,
+    "ma60Slope": 1.51,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 67992,
-    "ma120Gap": 10.6,
+    "ma120": 67994,
+    "ma120Gap": 10.9,
     "ma120Slope": 1.79,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 50680,
-    "ma200Gap": 48.4,
+    "ma200": 50681,
+    "ma200Gap": 48.8,
     "ma200Slope": 2.52,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 49.1,
-    "macd": -5051,
-    "macdSignal": -6582,
-    "volRatio": 0.62,
+    "rsi14": 49.2,
+    "macd": -5035,
+    "macdSignal": -6579,
+    "volRatio": 0.64,
     "low3m": 50100,
     "high3m": 134000,
     "last5": [
@@ -82,14 +82,14 @@
      },
      {
       "d": "08-07",
-      "c": 75200
+      "c": 75400
      }
     ],
     "bb": {
-     "upper": 92246,
-     "mid": 73020,
-     "lower": 53794,
-     "pctB": 0.557,
+     "upper": 92261,
+     "mid": 73030,
+     "lower": 53799,
+     "pctB": 0.562,
      "width": 52.7
     }
    },
@@ -107,10 +107,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -75466,
-    "flowRatioPct": -7.539,
-    "priceRet5": 15.51,
+    "flowRatioPct": -7.383,
+    "priceRet5": 15.82,
     "divergence": "distribution",
-    "qualityScore": -38.1
+    "qualityScore": -37.7
    },
    "risk": {
     "vol20": 11.61,
@@ -120,11 +120,11 @@
    },
    "sector": "반도체",
    "relative": {
-    "ret5": 15.51,
+    "ret5": 15.82,
     "marketMedian5": 7.53,
-    "vsMarket": 7.98,
+    "vsMarket": 8.29,
     "sectorMedian5": 2.5,
-    "vsSector": 13.01,
+    "vsSector": 13.32,
     "sectorPercentile": 91
    }
   },
@@ -146,37 +146,37 @@
    "targetGap": 113.7,
    "fwdPer": 4.8,
    "tech": {
-    "close": 231500,
+    "close": 231000,
     "daysAvail": 206,
-    "ma5": 237500,
-    "ma5Gap": -2.5,
-    "ma5Slope": 3.08,
+    "ma5": 237400,
+    "ma5Gap": -2.7,
+    "ma5Slope": 3.04,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 247975,
-    "ma20Gap": -6.6,
-    "ma20Slope": -5.55,
+    "ma20": 247950,
+    "ma20Gap": -6.8,
+    "ma20Slope": -5.56,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 292833,
-    "ma60Gap": -20.9,
+    "ma60": 292825,
+    "ma60Gap": -21.1,
     "ma60Slope": -1.03,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 248425,
-    "ma120Gap": -6.8,
-    "ma120Slope": 1.25,
+    "ma120": 248421,
+    "ma120Gap": -7.0,
+    "ma120Slope": 1.24,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 196778,
-    "ma200Gap": 17.6,
+    "ma200": 196776,
+    "ma200Gap": 17.4,
     "ma200Slope": 1.87,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 42.9,
-    "macd": -16274,
-    "macdSignal": -17178,
-    "volRatio": 0.6,
+    "rsi14": 42.8,
+    "macd": -16314,
+    "macdSignal": -17186,
+    "volRatio": 0.65,
     "low3m": 207000,
     "high3m": 362500,
     "last5": [
@@ -198,14 +198,14 @@
      },
      {
       "d": "08-07",
-      "c": 231500
+      "c": 231000
      }
     ],
     "bb": {
-     "upper": 289078,
-     "mid": 247975,
-     "lower": 206872,
-     "pctB": 0.3,
+     "upper": 289094,
+     "mid": 247950,
+     "lower": 206806,
+     "pctB": 0.294,
      "width": 33.2
     }
    },
@@ -223,10 +223,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -2056480,
-    "flowRatioPct": -4.425,
-    "priceRet5": -11.81,
+    "flowRatioPct": -4.08,
+    "priceRet5": -12.0,
     "divergence": "confirmation_down",
-    "qualityScore": -31.5
+    "qualityScore": -30.7
    },
    "risk": {
     "vol20": 8.43,
@@ -236,11 +236,11 @@
    },
    "sector": "반도체",
    "relative": {
-    "ret5": -11.81,
+    "ret5": -12.0,
     "marketMedian5": 7.53,
-    "vsMarket": -19.34,
+    "vsMarket": -19.52,
     "sectorMedian5": 2.5,
-    "vsSector": -14.31,
+    "vsSector": -14.5,
     "sectorPercentile": 6
    }
   },
@@ -262,37 +262,37 @@
    "targetGap": 133.6,
    "fwdPer": 4.1,
    "tech": {
-    "close": 1421000,
+    "close": 1422000,
     "daysAvail": 206,
-    "ma5": 1545600,
-    "ma5Gap": -8.1,
-    "ma5Slope": -1.01,
+    "ma5": 1545800,
+    "ma5Gap": -8.0,
+    "ma5Slope": -1.0,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1725250,
+    "ma20": 1725300,
     "ma20Gap": -17.6,
-    "ma20Slope": -9.22,
+    "ma20Slope": -9.21,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 2090900,
+    "ma60": 2090917,
     "ma60Gap": -32.0,
     "ma60Slope": -0.73,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1583175,
+    "ma120": 1583183,
     "ma120Gap": -10.2,
     "ma120Slope": 1.8,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 1203428,
-    "ma200Gap": 18.1,
+    "ma200": 1203432,
+    "ma200Gap": 18.2,
     "ma200Slope": 2.41,
     "ma200Days": 200,
     "ma200Full": true,
     "rsi14": 39.0,
-    "macd": -180655,
-    "macdSignal": -169410,
-    "volRatio": 0.68,
+    "macd": -180576,
+    "macdSignal": -169394,
+    "volRatio": 0.74,
     "low3m": 1322000,
     "high3m": 2919000,
     "last5": [
@@ -314,14 +314,14 @@
      },
      {
       "d": "08-07",
-      "c": 1421000
+      "c": 1422000
      }
     ],
     "bb": {
-     "upper": 2164189,
-     "mid": 1725250,
-     "lower": 1286311,
-     "pctB": 0.153,
+     "upper": 2164101,
+     "mid": 1725300,
+     "lower": 1286499,
+     "pctB": 0.154,
      "width": 50.9
     }
    },
@@ -339,10 +339,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -737014,
-    "flowRatioPct": -1.467,
-    "priceRet5": -17.29,
+    "flowRatioPct": -1.365,
+    "priceRet5": -17.23,
     "divergence": "confirmation_down",
-    "qualityScore": -27.1
+    "qualityScore": -26.8
    },
    "risk": {
     "vol20": 10.06,
@@ -352,11 +352,11 @@
    },
    "sector": "반도체",
    "relative": {
-    "ret5": -17.29,
+    "ret5": -17.23,
     "marketMedian5": 7.53,
-    "vsMarket": -24.81,
+    "vsMarket": -24.76,
     "sectorMedian5": 2.5,
-    "vsSector": -19.79,
+    "vsSector": -19.73,
     "sectorPercentile": 2
    }
   },
@@ -408,7 +408,7 @@
     "rsi14": 40.3,
     "macd": -109009,
     "macdSignal": -106225,
-    "volRatio": 0.65,
+    "volRatio": 0.69,
     "low3m": 799000,
     "high3m": 1970000,
     "last5": [
@@ -455,10 +455,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -204794,
-    "flowRatioPct": 2.888,
+    "flowRatioPct": 2.736,
     "priceRet5": -9.54,
     "divergence": "accumulation",
-    "qualityScore": 2.8
+    "qualityScore": 2.4
    },
    "risk": {
     "vol20": 10.84,
@@ -494,37 +494,37 @@
    "targetGap": 83.9,
    "fwdPer": 64.7,
    "tech": {
-    "close": 1281000,
+    "close": 1278000,
     "daysAvail": 206,
-    "ma5": 1246400,
-    "ma5Gap": 2.8,
-    "ma5Slope": 13.54,
+    "ma5": 1245800,
+    "ma5Gap": 2.6,
+    "ma5Slope": 13.48,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1262400,
-    "ma20Gap": 1.5,
-    "ma20Slope": -8.03,
+    "ma20": 1262250,
+    "ma20Gap": 1.2,
+    "ma20Slope": -8.04,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 1581200,
-    "ma60Gap": -19.0,
+    "ma60": 1581150,
+    "ma60Gap": -19.2,
     "ma60Slope": 1.75,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1062879,
-    "ma120Gap": 20.5,
+    "ma120": 1062854,
+    "ma120Gap": 20.2,
     "ma120Slope": 3.86,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 739230,
-    "ma200Gap": 73.3,
+    "ma200": 739215,
+    "ma200Gap": 72.9,
     "ma200Slope": 3.66,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 46.9,
-    "macd": -113269,
-    "macdSignal": -135065,
-    "volRatio": 0.9,
+    "rsi14": 46.8,
+    "macd": -113508,
+    "macdSignal": -135113,
+    "volRatio": 0.93,
     "low3m": 879000,
     "high3m": 2270000,
     "last5": [
@@ -546,14 +546,14 @@
      },
      {
       "d": "08-07",
-      "c": 1281000
+      "c": 1278000
      }
     ],
     "bb": {
-     "upper": 1558886,
-     "mid": 1262400,
-     "lower": 965914,
-     "pctB": 0.531,
+     "upper": 1558702,
+     "mid": 1262250,
+     "lower": 965798,
+     "pctB": 0.527,
      "width": 47.0
     }
    },
@@ -571,10 +571,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -174192,
-    "flowRatioPct": -7.347,
-    "priceRet5": 12.17,
+    "flowRatioPct": -7.131,
+    "priceRet5": 11.91,
     "divergence": "distribution",
-    "qualityScore": -25.7
+    "qualityScore": -25.1
    },
    "risk": {
     "vol20": 11.22,
@@ -584,11 +584,11 @@
    },
    "sector": "전자·부품",
    "relative": {
-    "ret5": 12.17,
+    "ret5": 11.91,
     "marketMedian5": 7.53,
-    "vsMarket": 4.64,
+    "vsMarket": 4.38,
     "sectorMedian5": 7.82,
-    "vsSector": 4.35,
+    "vsSector": 4.09,
     "sectorPercentile": 72
    }
   },
@@ -610,37 +610,37 @@
    "targetGap": 427.0,
    "fwdPer": 22.6,
    "tech": {
-    "close": 444500,
+    "close": 446000,
     "daysAvail": 206,
-    "ma5": 442400,
-    "ma5Gap": 0.5,
-    "ma5Slope": 13.82,
+    "ma5": 442700,
+    "ma5Gap": 0.7,
+    "ma5Slope": 13.89,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 449200,
-    "ma20Gap": -1.0,
-    "ma20Slope": -8.21,
+    "ma20": 449275,
+    "ma20Gap": -0.7,
+    "ma20Slope": -8.2,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 562192,
-    "ma60Gap": -20.9,
-    "ma60Slope": 0.92,
+    "ma60": 562217,
+    "ma60Gap": -20.7,
+    "ma60Slope": 0.93,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 390236,
-    "ma120Gap": 13.9,
+    "ma120": 390248,
+    "ma120Gap": 14.3,
     "ma120Slope": 3.53,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 279738,
-    "ma200Gap": 58.9,
-    "ma200Slope": 3.24,
+    "ma200": 279746,
+    "ma200Gap": 59.4,
+    "ma200Slope": 3.25,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 45.4,
-    "macd": -42799,
-    "macdSignal": -49952,
-    "volRatio": 0.62,
+    "rsi14": 45.5,
+    "macd": -42679,
+    "macdSignal": -49928,
+    "volRatio": 0.63,
     "low3m": 320000,
     "high3m": 954000,
     "last5": [
@@ -662,14 +662,14 @@
      },
      {
       "d": "08-07",
-      "c": 444500
+      "c": 446000
      }
     ],
     "bb": {
-     "upper": 551903,
-     "mid": 449200,
-     "lower": 346497,
-     "pctB": 0.477,
+     "upper": 551966,
+     "mid": 449275,
+     "lower": 346584,
+     "pctB": 0.484,
      "width": 45.7
     }
    },
@@ -687,24 +687,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -4518,
-    "flowRatioPct": -9.295,
-    "priceRet5": 6.85,
+    "flowRatioPct": -9.14,
+    "priceRet5": 7.21,
     "divergence": "distribution",
     "qualityScore": -33.8
    },
    "risk": {
-    "vol20": 10.4,
+    "vol20": 10.41,
     "mdd3m": -66.5,
     "pos52w": 40,
     "grade": "high"
    },
    "sector": "전자·부품",
    "relative": {
-    "ret5": 6.85,
+    "ret5": 7.21,
     "marketMedian5": 7.53,
-    "vsMarket": -0.68,
+    "vsMarket": -0.32,
     "sectorMedian5": 7.82,
-    "vsSector": -0.97,
+    "vsSector": -0.61,
     "sectorPercentile": 36
    }
   },
@@ -726,37 +726,37 @@
    "targetGap": 109.3,
    "fwdPer": 14.1,
    "tech": {
-    "close": 550000,
+    "close": 552000,
     "daysAvail": 206,
-    "ma5": 548600,
-    "ma5Gap": 0.3,
-    "ma5Slope": 8.68,
+    "ma5": 549000,
+    "ma5Gap": 0.5,
+    "ma5Slope": 8.76,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 592450,
-    "ma20Gap": -7.2,
-    "ma20Slope": -9.9,
+    "ma20": 592550,
+    "ma20Gap": -6.8,
+    "ma20Slope": -9.89,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 869383,
-    "ma60Gap": -36.7,
+    "ma60": 869417,
+    "ma60Gap": -36.5,
     "ma60Slope": -1.01,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 617667,
-    "ma120Gap": -11.0,
-    "ma120Slope": 2.13,
+    "ma120": 617683,
+    "ma120Gap": -10.6,
+    "ma120Slope": 2.14,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 472930,
-    "ma200Gap": 16.3,
+    "ma200": 472940,
+    "ma200Gap": 16.7,
     "ma200Slope": 1.94,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 40.4,
-    "macd": -83393,
-    "macdSignal": -95027,
-    "volRatio": 0.75,
+    "rsi14": 40.6,
+    "macd": -83234,
+    "macdSignal": -94995,
+    "volRatio": 0.76,
     "low3m": 424000,
     "high3m": 1530000,
     "last5": [
@@ -778,15 +778,15 @@
      },
      {
       "d": "08-07",
-      "c": 550000
+      "c": 552000
      }
     ],
     "bb": {
-     "upper": 754100,
-     "mid": 592450,
-     "lower": 430800,
-     "pctB": 0.369,
-     "width": 54.6
+     "upper": 754097,
+     "mid": 592550,
+     "lower": 431003,
+     "pctB": 0.374,
+     "width": 54.5
     }
    },
    "flow": {
@@ -803,8 +803,8 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -31225,
-    "flowRatioPct": -11.915,
-    "priceRet5": 7.0,
+    "flowRatioPct": -11.69,
+    "priceRet5": 7.39,
     "divergence": "distribution",
     "qualityScore": -45.0
    },
@@ -816,12 +816,12 @@
    },
    "sector": "전자·부품",
    "relative": {
-    "ret5": 7.0,
+    "ret5": 7.39,
     "marketMedian5": 7.53,
-    "vsMarket": -0.53,
+    "vsMarket": -0.14,
     "sectorMedian5": 7.82,
-    "vsSector": -0.82,
-    "sectorPercentile": 40
+    "vsSector": -0.43,
+    "sectorPercentile": 44
    }
   },
   "267260": {
@@ -842,37 +842,37 @@
    "targetGap": 56.7,
    "fwdPer": 28.7,
    "tech": {
-    "close": 765000,
+    "close": 762000,
     "daysAvail": 206,
-    "ma5": 737400,
-    "ma5Gap": 3.7,
-    "ma5Slope": 9.9,
+    "ma5": 736800,
+    "ma5Gap": 3.4,
+    "ma5Slope": 9.81,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 755100,
-    "ma20Gap": 1.3,
-    "ma20Slope": -4.52,
+    "ma20": 754950,
+    "ma20Gap": 0.9,
+    "ma20Slope": -4.54,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 940367,
-    "ma60Gap": -18.6,
-    "ma60Slope": -5.36,
+    "ma60": 940317,
+    "ma60Gap": -19.0,
+    "ma60Slope": -5.37,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 989783,
-    "ma120Gap": -22.7,
+    "ma120": 989758,
+    "ma120Gap": -23.0,
     "ma120Slope": -0.65,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 926715,
-    "ma200Gap": -17.5,
+    "ma200": 926700,
+    "ma200Gap": -17.8,
     "ma200Slope": 0.23,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 47.1,
-    "macd": -51631,
-    "macdSignal": -65151,
-    "volRatio": 0.76,
+    "rsi14": 46.8,
+    "macd": -51870,
+    "macdSignal": -65199,
+    "volRatio": 0.82,
     "low3m": 583000,
     "high3m": 1403000,
     "last5": [
@@ -894,14 +894,14 @@
      },
      {
       "d": "08-07",
-      "c": 765000
+      "c": 762000
      }
     ],
     "bb": {
-     "upper": 905257,
-     "mid": 755100,
-     "lower": 604943,
-     "pctB": 0.533,
+     "upper": 905073,
+     "mid": 754950,
+     "lower": 604827,
+     "pctB": 0.523,
      "width": 39.8
     }
    },
@@ -919,24 +919,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -5700,
-    "flowRatioPct": 4.346,
-    "priceRet5": 11.84,
+    "flowRatioPct": 4.034,
+    "priceRet5": 11.4,
     "divergence": "confirmation_up",
-    "qualityScore": 12.5
+    "qualityScore": 11.7
    },
    "risk": {
     "vol20": 7.43,
     "mdd3m": -58.4,
-    "pos52w": 33,
+    "pos52w": 32,
     "grade": "high"
    },
    "sector": "전력·에너지",
    "relative": {
-    "ret5": 11.84,
+    "ret5": 11.4,
     "marketMedian5": 7.53,
-    "vsMarket": 4.31,
+    "vsMarket": 3.88,
     "sectorMedian5": 11.11,
-    "vsSector": 0.73,
+    "vsSector": 0.29,
     "sectorPercentile": 60
    }
   },
@@ -988,7 +988,7 @@
     "rsi14": 50.3,
     "macd": -5267,
     "macdSignal": -9163,
-    "volRatio": 0.72,
+    "volRatio": 0.74,
     "low3m": 150300,
     "high3m": 313000,
     "last5": [
@@ -1035,7 +1035,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -84751,
-    "flowRatioPct": 16.315,
+    "flowRatioPct": 15.847,
     "priceRet5": 8.77,
     "divergence": "confirmation_up",
     "qualityScore": 47.1
@@ -1074,37 +1074,37 @@
    "targetGap": 83.1,
    "fwdPer": 10.4,
    "tech": {
-    "close": 395000,
+    "close": 395500,
     "daysAvail": 206,
-    "ma5": 397000,
-    "ma5Gap": -0.5,
-    "ma5Slope": 6.75,
+    "ma5": 397100,
+    "ma5Gap": -0.4,
+    "ma5Slope": 6.78,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 403925,
-    "ma20Gap": -2.2,
-    "ma20Slope": -4.68,
+    "ma20": 403950,
+    "ma20Gap": -2.1,
+    "ma20Slope": -4.67,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 536000,
-    "ma60Gap": -26.3,
+    "ma60": 536008,
+    "ma60Gap": -26.2,
     "ma60Slope": -3.14,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 530500,
-    "ma120Gap": -25.5,
+    "ma120": 530504,
+    "ma120Gap": -25.4,
     "ma120Slope": -0.69,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 450588,
-    "ma200Gap": -12.3,
+    "ma200": 450590,
+    "ma200Gap": -12.2,
     "ma200Slope": 0.99,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 40.2,
-    "macd": -30012,
-    "macdSignal": -37320,
-    "volRatio": 0.44,
+    "rsi14": 40.3,
+    "macd": -29972,
+    "macdSignal": -37312,
+    "volRatio": 0.47,
     "low3m": 351000,
     "high3m": 750000,
     "last5": [
@@ -1126,14 +1126,14 @@
      },
      {
       "d": "08-07",
-      "c": 395000
+      "c": 395500
      }
     ],
     "bb": {
-     "upper": 458384,
-     "mid": 403925,
-     "lower": 349466,
-     "pctB": 0.418,
+     "upper": 458393,
+     "mid": 403950,
+     "lower": 349507,
+     "pctB": 0.422,
      "width": 27.0
     }
    },
@@ -1151,24 +1151,24 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 84383,
-    "flowRatioPct": 4.111,
-    "priceRet5": 1.8,
+    "flowRatioPct": 3.864,
+    "priceRet5": 1.93,
     "divergence": "confirmation_up",
-    "qualityScore": 34.5
+    "qualityScore": 33.9
    },
    "risk": {
-    "vol20": 4.42,
+    "vol20": 4.41,
     "mdd3m": -53.2,
     "pos52w": 32,
     "grade": "mid"
    },
    "sector": "자동차·부품",
    "relative": {
-    "ret5": 1.8,
+    "ret5": 1.93,
     "marketMedian5": 7.53,
-    "vsMarket": -5.73,
-    "sectorMedian5": 4.29,
-    "vsSector": -2.49,
+    "vsMarket": -5.6,
+    "sectorMedian5": 4.31,
+    "vsSector": -2.38,
     "sectorPercentile": 26
    }
   },
@@ -1189,37 +1189,37 @@
    "recommMean": 4.0,
    "targetGap": 97.6,
    "tech": {
-    "close": 192500,
+    "close": 192300,
     "daysAvail": 206,
-    "ma5": 201500,
+    "ma5": 201460,
     "ma5Gap": -4.5,
-    "ma5Slope": 7.9,
+    "ma5Slope": 7.88,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 208260,
-    "ma20Gap": -7.6,
+    "ma20": 208250,
+    "ma20Gap": -7.7,
     "ma20Slope": -1.81,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 262498,
+    "ma60": 262495,
     "ma60Gap": -26.7,
-    "ma60Slope": -5.67,
+    "ma60Slope": -5.68,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 277186,
+    "ma120": 277184,
     "ma120Gap": -30.6,
-    "ma120Slope": 0.06,
+    "ma120Slope": 0.05,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 225176,
-    "ma200Gap": -14.5,
+    "ma200": 225174,
+    "ma200Gap": -14.6,
     "ma200Slope": 0.87,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 42.9,
-    "macd": -14692,
-    "macdSignal": -17380,
-    "volRatio": 0.7,
+    "rsi14": 42.8,
+    "macd": -14708,
+    "macdSignal": -17383,
+    "volRatio": 0.71,
     "low3m": 167600,
     "high3m": 409500,
     "last5": [
@@ -1241,14 +1241,14 @@
      },
      {
       "d": "08-07",
-      "c": 192500
+      "c": 192300
      }
     ],
     "bb": {
-     "upper": 253617,
-     "mid": 208260,
-     "lower": 162903,
-     "pctB": 0.326,
+     "upper": 253621,
+     "mid": 208250,
+     "lower": 162879,
+     "pctB": 0.324,
      "width": 43.6
     }
    },
@@ -1266,10 +1266,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -51068,
-    "flowRatioPct": 5.291,
-    "priceRet5": -10.26,
+    "flowRatioPct": 5.158,
+    "priceRet5": -10.35,
     "divergence": "accumulation",
-    "qualityScore": 20.6
+    "qualityScore": 20.3
    },
    "risk": {
     "vol20": 10.62,
@@ -1279,11 +1279,11 @@
    },
    "sector": "반도체",
    "relative": {
-    "ret5": -10.26,
+    "ret5": -10.35,
     "marketMedian5": 7.53,
-    "vsMarket": -17.79,
+    "vsMarket": -17.88,
     "sectorMedian5": 2.5,
-    "vsSector": -12.76,
+    "vsSector": -12.85,
     "sectorPercentile": 8
    }
   },
@@ -1305,37 +1305,37 @@
    "targetGap": 116.2,
    "fwdPer": 22.9,
    "tech": {
-    "close": 82400,
+    "close": 82300,
     "daysAvail": 206,
-    "ma5": 80860,
-    "ma5Gap": 1.9,
-    "ma5Slope": 13.92,
+    "ma5": 80840,
+    "ma5Gap": 1.8,
+    "ma5Slope": 13.89,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 84980,
-    "ma20Gap": -3.0,
+    "ma20": 84975,
+    "ma20Gap": -3.1,
     "ma20Slope": -4.75,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 108002,
-    "ma60Gap": -23.7,
+    "ma60": 108000,
+    "ma60Gap": -23.8,
     "ma60Slope": -4.49,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 114524,
+    "ma120": 114523,
     "ma120Gap": -28.1,
     "ma120Slope": -1.36,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 116117,
-    "ma200Gap": -29.0,
+    "ma200": 116116,
+    "ma200Gap": -29.1,
     "ma200Slope": 0.11,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 45.3,
-    "macd": -7450,
-    "macdSignal": -8971,
-    "volRatio": 0.44,
+    "rsi14": 45.2,
+    "macd": -7458,
+    "macdSignal": -8972,
+    "volRatio": 0.45,
     "low3m": 59200,
     "high3m": 141100,
     "last5": [
@@ -1357,14 +1357,14 @@
      },
      {
       "d": "08-07",
-      "c": 82400
+      "c": 82300
      }
     ],
     "bb": {
-     "upper": 108467,
-     "mid": 84980,
-     "lower": 61493,
-     "pctB": 0.445,
+     "upper": 108464,
+     "mid": 84975,
+     "lower": 61486,
+     "pctB": 0.443,
      "width": 55.3
     }
    },
@@ -1382,8 +1382,8 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -28006,
-    "flowRatioPct": 12.43,
-    "priceRet5": 10.6,
+    "flowRatioPct": 12.042,
+    "priceRet5": 10.47,
     "divergence": "confirmation_up",
     "qualityScore": 20.4
    },
@@ -1395,12 +1395,12 @@
    },
    "sector": "전자·부품",
    "relative": {
-    "ret5": 10.6,
+    "ret5": 10.47,
     "marketMedian5": 7.53,
-    "vsMarket": 3.07,
+    "vsMarket": 2.95,
     "sectorMedian5": 7.82,
-    "vsSector": 2.78,
-    "sectorPercentile": 64
+    "vsSector": 2.65,
+    "sectorPercentile": 60
    }
   },
   "017670": {
@@ -1421,37 +1421,37 @@
    "targetGap": 35.3,
    "fwdPer": 14.1,
    "tech": {
-    "close": 88100,
+    "close": 88200,
     "daysAvail": 206,
-    "ma5": 89120,
+    "ma5": 89140,
     "ma5Gap": -1.1,
-    "ma5Slope": 6.53,
+    "ma5Slope": 6.55,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 88015,
-    "ma20Gap": 0.1,
-    "ma20Slope": 0.98,
+    "ma20": 88020,
+    "ma20Gap": 0.2,
+    "ma20Slope": 0.99,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 94728,
-    "ma60Gap": -7.0,
+    "ma60": 94730,
+    "ma60Gap": -6.9,
     "ma60Slope": -0.67,
     "ma60Days": 60,
     "ma60Full": true,
     "ma120": 90052,
-    "ma120Gap": -2.2,
+    "ma120Gap": -2.1,
     "ma120Slope": 0.69,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 76638,
-    "ma200Gap": 15.0,
+    "ma200": 76639,
+    "ma200Gap": 15.1,
     "ma200Slope": 1.15,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 48.9,
-    "macd": -877,
-    "macdSignal": -1505,
-    "volRatio": 0.63,
+    "rsi14": 49.0,
+    "macd": -869,
+    "macdSignal": -1504,
+    "volRatio": 0.66,
     "low3m": 78200,
     "high3m": 125200,
     "last5": [
@@ -1473,14 +1473,14 @@
      },
      {
       "d": "08-07",
-      "c": 88100
+      "c": 88200
      }
     ],
     "bb": {
-     "upper": 100735,
-     "mid": 88015,
-     "lower": 75295,
-     "pctB": 0.503,
+     "upper": 100740,
+     "mid": 88020,
+     "lower": 75300,
+     "pctB": 0.507,
      "width": 28.9
     }
    },
@@ -1498,24 +1498,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -107989,
-    "flowRatioPct": -5.623,
-    "priceRet5": 8.23,
+    "flowRatioPct": -5.403,
+    "priceRet5": 8.35,
     "divergence": "distribution",
-    "qualityScore": -30.6
+    "qualityScore": -30.0
    },
    "risk": {
-    "vol20": 5.82,
+    "vol20": 5.81,
     "mdd3m": -37.5,
     "pos52w": 41,
     "grade": "mid"
    },
    "sector": "통신",
    "relative": {
-    "ret5": 8.23,
+    "ret5": 8.35,
     "marketMedian5": 7.53,
-    "vsMarket": 0.71,
+    "vsMarket": 0.82,
     "sectorMedian5": 14.55,
-    "vsSector": -6.32,
+    "vsSector": -6.21,
     "sectorPercentile": 38
    }
   },
@@ -1537,37 +1537,37 @@
    "targetGap": 57.9,
    "fwdPer": 17.7,
    "tech": {
-    "close": 209500,
+    "close": 210000,
     "daysAvail": 206,
-    "ma5": 219700,
-    "ma5Gap": -4.6,
-    "ma5Slope": 5.71,
+    "ma5": 219800,
+    "ma5Gap": -4.5,
+    "ma5Slope": 5.75,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 204155,
-    "ma20Gap": 2.6,
-    "ma20Slope": 3.34,
+    "ma20": 204180,
+    "ma20Gap": 2.9,
+    "ma20Slope": 3.35,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 213750,
-    "ma60Gap": -2.0,
+    "ma60": 213758,
+    "ma60Gap": -1.8,
     "ma60Slope": 0.41,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 217042,
-    "ma120Gap": -3.5,
+    "ma120": 217046,
+    "ma120Gap": -3.2,
     "ma120Slope": -0.73,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 231648,
-    "ma200Gap": -9.6,
+    "ma200": 231650,
+    "ma200Gap": -9.3,
     "ma200Slope": -0.43,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 50.2,
-    "macd": 3447,
-    "macdSignal": 832,
-    "volRatio": 1.31,
+    "rsi14": 50.4,
+    "macd": 3487,
+    "macdSignal": 840,
+    "volRatio": 1.36,
     "low3m": 183200,
     "high3m": 280500,
     "last5": [
@@ -1589,14 +1589,14 @@
      },
      {
       "d": "08-07",
-      "c": 209500
+      "c": 210000
      }
     ],
     "bb": {
-     "upper": 233356,
-     "mid": 204155,
-     "lower": 174954,
-     "pctB": 0.592,
+     "upper": 233400,
+     "mid": 204180,
+     "lower": 174960,
+     "pctB": 0.6,
      "width": 28.6
     }
    },
@@ -1614,25 +1614,25 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -13585,
-    "flowRatioPct": 11.667,
-    "priceRet5": 0.72,
+    "flowRatioPct": 11.263,
+    "priceRet5": 0.96,
     "divergence": "neutral",
     "qualityScore": 39.7
    },
    "risk": {
-    "vol20": 5.23,
+    "vol20": 5.21,
     "mdd3m": -34.7,
-    "pos52w": 22,
+    "pos52w": 23,
     "grade": "mid"
    },
    "sector": "인터넷·IT",
    "relative": {
-    "ret5": 0.72,
+    "ret5": 0.96,
     "marketMedian5": 7.53,
-    "vsMarket": -6.81,
+    "vsMarket": -6.57,
     "sectorMedian5": 7.04,
-    "vsSector": -6.33,
-    "sectorPercentile": 8
+    "vsSector": -6.08,
+    "sectorPercentile": 12
    }
   },
   "035720": {
@@ -1683,7 +1683,7 @@
     "rsi14": 63.9,
     "macd": 483,
     "macdSignal": -46,
-    "volRatio": 1.73,
+    "volRatio": 1.77,
     "low3m": 33150,
     "high3m": 46000,
     "last5": [
@@ -1730,10 +1730,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -235837,
-    "flowRatioPct": 0.914,
+    "flowRatioPct": 0.891,
     "priceRet5": 6.68,
     "divergence": "confirmation_up",
-    "qualityScore": -2.7
+    "qualityScore": -2.8
    },
    "risk": {
     "vol20": 2.57,
@@ -1769,20 +1769,20 @@
    "targetGap": 61.5,
    "fwdPer": 6.2,
    "tech": {
-    "close": 135000,
+    "close": 134900,
     "daysAvail": 206,
-    "ma5": 132160,
+    "ma5": 132140,
     "ma5Gap": 2.1,
-    "ma5Slope": 5.68,
+    "ma5Slope": 5.66,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 136155,
-    "ma20Gap": -0.8,
+    "ma20": 136150,
+    "ma20Gap": -0.9,
     "ma20Slope": -3.79,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 150487,
-    "ma60Gap": -10.3,
+    "ma60": 150485,
+    "ma60Gap": -10.4,
     "ma60Slope": -1.73,
     "ma60Days": 60,
     "ma60Full": true,
@@ -1792,14 +1792,14 @@
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 144696,
-    "ma200Gap": -6.7,
+    "ma200Gap": -6.8,
     "ma200Slope": 0.52,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 47.2,
-    "macd": -4793,
-    "macdSignal": -5499,
-    "volRatio": 0.6,
+    "rsi14": 47.1,
+    "macd": -4801,
+    "macdSignal": -5500,
+    "volRatio": 0.69,
     "low3m": 120400,
     "high3m": 179500,
     "last5": [
@@ -1821,14 +1821,14 @@
      },
      {
       "d": "08-07",
-      "c": 135000
+      "c": 134900
      }
     ],
     "bb": {
-     "upper": 154696,
-     "mid": 136155,
-     "lower": 117614,
-     "pctB": 0.469,
+     "upper": 154692,
+     "mid": 136150,
+     "lower": 117608,
+     "pctB": 0.466,
      "width": 27.2
     }
    },
@@ -1846,8 +1846,8 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 93576,
-    "flowRatioPct": 11.323,
-    "priceRet5": 2.35,
+    "flowRatioPct": 9.83,
+    "priceRet5": 2.27,
     "divergence": "confirmation_up",
     "qualityScore": 38.3
    },
@@ -1859,11 +1859,11 @@
    },
    "sector": "자동차·부품",
    "relative": {
-    "ret5": 2.35,
+    "ret5": 2.27,
     "marketMedian5": 7.53,
-    "vsMarket": -5.18,
-    "sectorMedian5": 4.29,
-    "vsSector": -1.94,
+    "vsMarket": -5.26,
+    "sectorMedian5": 4.31,
+    "vsSector": -2.04,
     "sectorPercentile": 32
    }
   },
@@ -1885,37 +1885,37 @@
    "targetGap": 27.9,
    "fwdPer": 9.6,
    "tech": {
-    "close": 176000,
+    "close": 175800,
     "daysAvail": 206,
-    "ma5": 171300,
+    "ma5": 171260,
     "ma5Gap": 2.7,
-    "ma5Slope": 2.72,
+    "ma5Slope": 2.7,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 173465,
-    "ma20Gap": 1.5,
-    "ma20Slope": -0.0,
+    "ma20": 173455,
+    "ma20Gap": 1.4,
+    "ma20Slope": -0.01,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 163643,
-    "ma60Gap": 7.6,
+    "ma60": 163640,
+    "ma60Gap": 7.4,
     "ma60Slope": 0.64,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 159552,
-    "ma120Gap": 10.3,
+    "ma120": 159550,
+    "ma120Gap": 10.2,
     "ma120Slope": 0.71,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 146478,
-    "ma200Gap": 20.2,
-    "ma200Slope": 1.0,
+    "ma200": 146477,
+    "ma200Gap": 20.0,
+    "ma200Slope": 0.99,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 57.2,
-    "macd": 1195,
-    "macdSignal": 1453,
-    "volRatio": 0.51,
+    "rsi14": 57.0,
+    "macd": 1179,
+    "macdSignal": 1450,
+    "volRatio": 0.57,
     "low3m": 149300,
     "high3m": 186200,
     "last5": [
@@ -1937,14 +1937,14 @@
      },
      {
       "d": "08-07",
-      "c": 176000
+      "c": 175800
      }
     ],
     "bb": {
-     "upper": 186504,
-     "mid": 173465,
-     "lower": 160426,
-     "pctB": 0.597,
+     "upper": 186487,
+     "mid": 173455,
+     "lower": 160423,
+     "pctB": 0.59,
      "width": 15.0
     }
    },
@@ -1962,24 +1962,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 42910,
-    "flowRatioPct": 1.852,
-    "priceRet5": 4.45,
+    "flowRatioPct": 1.675,
+    "priceRet5": 4.33,
     "divergence": "confirmation_up",
-    "qualityScore": 22.8
+    "qualityScore": 22.4
    },
    "risk": {
-    "vol20": 3.1,
+    "vol20": 3.09,
     "mdd3m": -14.0,
     "pos52w": 78,
     "grade": "low"
    },
    "sector": "금융·증권",
    "relative": {
-    "ret5": 4.45,
+    "ret5": 4.33,
     "marketMedian5": 7.53,
-    "vsMarket": -3.08,
+    "vsMarket": -3.2,
     "sectorMedian5": 3.88,
-    "vsSector": 0.57,
+    "vsSector": 0.45,
     "sectorPercentile": 59
    }
   },
@@ -2001,37 +2001,37 @@
    "targetGap": 73.0,
    "fwdPer": 604.5,
    "tech": {
-    "close": 106800,
+    "close": 107000,
     "daysAvail": 206,
-    "ma5": 102060,
-    "ma5Gap": 4.6,
-    "ma5Slope": 1.07,
+    "ma5": 102100,
+    "ma5Gap": 4.8,
+    "ma5Slope": 1.11,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 107325,
-    "ma20Gap": -0.5,
-    "ma20Slope": -3.6,
+    "ma20": 107335,
+    "ma20Gap": -0.3,
+    "ma20Slope": -3.59,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 149372,
-    "ma60Gap": -28.5,
+    "ma60": 149375,
+    "ma60Gap": -28.4,
     "ma60Slope": -6.46,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 176907,
-    "ma120Gap": -39.6,
+    "ma120": 176908,
+    "ma120Gap": -39.5,
     "ma120Slope": -2.51,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 172429,
-    "ma200Gap": -38.1,
+    "ma200": 172430,
+    "ma200Gap": -37.9,
     "ma200Slope": -0.25,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 44.1,
-    "macd": -10147,
-    "macdSignal": -12512,
-    "volRatio": 1.08,
+    "rsi14": 44.3,
+    "macd": -10131,
+    "macdSignal": -12508,
+    "volRatio": 1.13,
     "low3m": 92600,
     "high3m": 237500,
     "last5": [
@@ -2053,14 +2053,14 @@
      },
      {
       "d": "08-07",
-      "c": 106800
+      "c": 107000
      }
     ],
     "bb": {
-     "upper": 123496,
-     "mid": 107325,
-     "lower": 91154,
-     "pctB": 0.484,
+     "upper": 123505,
+     "mid": 107335,
+     "lower": 91165,
+     "pctB": 0.49,
      "width": 30.1
     }
    },
@@ -2078,24 +2078,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -3485,
-    "flowRatioPct": -4.295,
-    "priceRet5": 3.19,
+    "flowRatioPct": -4.124,
+    "priceRet5": 3.38,
     "divergence": "distribution",
-    "qualityScore": -26.6
+    "qualityScore": -26.2
    },
    "risk": {
-    "vol20": 6.19,
+    "vol20": 6.2,
     "mdd3m": -61.0,
     "pos52w": 11,
     "grade": "high"
    },
    "sector": "2차전지",
    "relative": {
-    "ret5": 3.19,
+    "ret5": 3.38,
     "marketMedian5": 7.53,
-    "vsMarket": -4.34,
+    "vsMarket": -4.15,
     "sectorMedian5": 14.18,
-    "vsSector": -10.99,
+    "vsSector": -10.8,
     "sectorPercentile": 8
    }
   },
@@ -2117,37 +2117,37 @@
    "targetGap": 41.5,
    "fwdPer": -219.1,
    "tech": {
-    "close": 359500,
+    "close": 360000,
     "daysAvail": 206,
-    "ma5": 336900,
-    "ma5Gap": 6.7,
-    "ma5Slope": 5.58,
+    "ma5": 337000,
+    "ma5Gap": 6.8,
+    "ma5Slope": 5.61,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 327925,
-    "ma20Gap": 9.6,
-    "ma20Slope": 0.1,
+    "ma20": 327950,
+    "ma20Gap": 9.8,
+    "ma20Slope": 0.11,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 370025,
-    "ma60Gap": -2.8,
+    "ma60": 370033,
+    "ma60Gap": -2.7,
     "ma60Slope": -2.92,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 391417,
-    "ma120Gap": -8.2,
+    "ma120": 391421,
+    "ma120Gap": -8.0,
     "ma120Slope": -0.6,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 404165,
-    "ma200Gap": -11.1,
+    "ma200": 404168,
+    "ma200Gap": -10.9,
     "ma200Slope": -0.25,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 56.2,
-    "macd": -4930,
-    "macdSignal": -11075,
-    "volRatio": 1.3,
+    "rsi14": 56.3,
+    "macd": -4890,
+    "macdSignal": -11067,
+    "volRatio": 1.36,
     "low3m": 300500,
     "high3m": 476500,
     "last5": [
@@ -2169,15 +2169,15 @@
      },
      {
       "d": "08-07",
-      "c": 359500
+      "c": 360000
      }
     ],
     "bb": {
-     "upper": 353734,
-     "mid": 327925,
-     "lower": 302116,
-     "pctB": 1.112,
-     "width": 15.7
+     "upper": 353882,
+     "mid": 327950,
+     "lower": 302018,
+     "pctB": 1.118,
+     "width": 15.8
     }
    },
    "flow": {
@@ -2194,10 +2194,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 2,
     "acceleration": 59081,
-    "flowRatioPct": 2.765,
-    "priceRet5": 9.6,
+    "flowRatioPct": 2.644,
+    "priceRet5": 9.76,
     "divergence": "confirmation_up",
-    "qualityScore": 23.5
+    "qualityScore": 23.2
    },
    "risk": {
     "vol20": 3.94,
@@ -2207,11 +2207,11 @@
    },
    "sector": "2차전지",
    "relative": {
-    "ret5": 9.6,
+    "ret5": 9.76,
     "marketMedian5": 7.53,
-    "vsMarket": 2.07,
+    "vsMarket": 2.23,
     "sectorMedian5": 14.18,
-    "vsSector": -4.58,
+    "vsSector": -4.42,
     "sectorPercentile": 25
    }
   },
@@ -2263,7 +2263,7 @@
     "rsi14": 39.9,
     "macd": -22662,
     "macdSignal": -22728,
-    "volRatio": 0.74,
+    "volRatio": 0.79,
     "low3m": 264000,
     "high3m": 497000,
     "last5": [
@@ -2310,10 +2310,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 33640,
-    "flowRatioPct": -3.181,
+    "flowRatioPct": -2.986,
     "priceRet5": -11.56,
     "divergence": "confirmation_down",
-    "qualityScore": -6.3
+    "qualityScore": -5.9
    },
    "risk": {
     "vol20": 6.25,
@@ -2349,39 +2349,39 @@
    "targetGap": 29.3,
    "fwdPer": 38.4,
    "tech": {
-    "close": 1551000,
+    "close": 1556000,
     "daysAvail": 206,
-    "ma5": 1491000,
-    "ma5Gap": 4.0,
-    "ma5Slope": -1.71,
+    "ma5": 1492000,
+    "ma5Gap": 4.3,
+    "ma5Slope": -1.65,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1449550,
-    "ma20Gap": 7.0,
-    "ma20Slope": 1.82,
+    "ma20": 1449800,
+    "ma20Gap": 7.3,
+    "ma20Slope": 1.84,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 1394050,
-    "ma60Gap": 11.3,
-    "ma60Slope": 0.16,
+    "ma60": 1394133,
+    "ma60Gap": 11.6,
+    "ma60Slope": 0.17,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1492550,
-    "ma120Gap": 3.9,
+    "ma120": 1492592,
+    "ma120Gap": 4.2,
     "ma120Slope": -0.62,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 1597699,
-    "ma200Gap": -2.9,
+    "ma200": 1597724,
+    "ma200Gap": -2.6,
     "ma200Slope": -0.06,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 60.2,
-    "macd": 34074,
-    "macdSignal": 27660,
-    "volRatio": 0.7,
+    "rsi14": 60.5,
+    "macd": 34473,
+    "macdSignal": 27739,
+    "volRatio": 0.76,
     "low3m": 1243000,
-    "high3m": 1551000,
+    "high3m": 1556000,
     "last5": [
      {
       "d": "08-03",
@@ -2401,15 +2401,15 @@
      },
      {
       "d": "08-07",
-      "c": 1551000
+      "c": 1556000
      }
     ],
     "bb": {
-     "upper": 1586410,
-     "mid": 1449550,
-     "lower": 1312690,
-     "pctB": 0.871,
-     "width": 18.9
+     "upper": 1587416,
+     "mid": 1449800,
+     "lower": 1312184,
+     "pctB": 0.886,
+     "width": 19.0
     }
    },
    "flow": {
@@ -2426,24 +2426,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 16079,
-    "flowRatioPct": -3.323,
-    "priceRet5": 4.44,
+    "flowRatioPct": -3.06,
+    "priceRet5": 4.78,
     "divergence": "distribution",
-    "qualityScore": -3.1
+    "qualityScore": -2.4
    },
    "risk": {
-    "vol20": 3.43,
+    "vol20": 3.44,
     "mdd3m": -15.6,
     "pos52w": 43,
     "grade": "mid"
    },
    "sector": "바이오·제약",
    "relative": {
-    "ret5": 4.44,
+    "ret5": 4.78,
     "marketMedian5": 7.53,
-    "vsMarket": -3.08,
+    "vsMarket": -2.75,
     "sectorMedian5": 13.03,
-    "vsSector": -8.59,
+    "vsSector": -8.25,
     "sectorPercentile": 12
    }
   },
@@ -2465,37 +2465,37 @@
    "targetGap": 47.6,
    "fwdPer": 20.4,
    "tech": {
-    "close": 337500,
+    "close": 336500,
     "daysAvail": 206,
-    "ma5": 334100,
-    "ma5Gap": 1.0,
-    "ma5Slope": 6.03,
+    "ma5": 333900,
+    "ma5Gap": 0.8,
+    "ma5Slope": 5.97,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 339125,
-    "ma20Gap": -0.5,
-    "ma20Slope": -5.71,
+    "ma20": 339075,
+    "ma20Gap": -0.8,
+    "ma20Slope": -5.72,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 408425,
-    "ma60Gap": -17.4,
-    "ma60Slope": -1.68,
+    "ma60": 408408,
+    "ma60Gap": -17.6,
+    "ma60Slope": -1.69,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 358362,
-    "ma120Gap": -5.8,
-    "ma120Slope": 0.31,
+    "ma120": 358354,
+    "ma120Gap": -6.1,
+    "ma120Slope": 0.3,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 314535,
-    "ma200Gap": 7.3,
+    "ma200": 314530,
+    "ma200Gap": 7.0,
     "ma200Slope": 1.07,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 45.8,
-    "macd": -21118,
-    "macdSignal": -25427,
-    "volRatio": 0.42,
+    "rsi14": 45.6,
+    "macd": -21198,
+    "macdSignal": -25443,
+    "volRatio": 0.45,
     "low3m": 285500,
     "high3m": 535000,
     "last5": [
@@ -2517,15 +2517,15 @@
      },
      {
       "d": "08-07",
-      "c": 337500
+      "c": 336500
      }
     ],
     "bb": {
-     "upper": 388373,
-     "mid": 339125,
-     "lower": 289877,
-     "pctB": 0.484,
-     "width": 29.0
+     "upper": 388332,
+     "mid": 339075,
+     "lower": 289818,
+     "pctB": 0.474,
+     "width": 29.1
     }
    },
    "flow": {
@@ -2542,10 +2542,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 46332,
-    "flowRatioPct": 5.051,
-    "priceRet5": -3.98,
+    "flowRatioPct": 4.742,
+    "priceRet5": -4.27,
     "divergence": "accumulation",
-    "qualityScore": 33.8
+    "qualityScore": 33.1
    },
    "risk": {
     "vol20": 6.89,
@@ -2555,11 +2555,11 @@
    },
    "sector": "지주·상사",
    "relative": {
-    "ret5": -3.98,
+    "ret5": -4.27,
     "marketMedian5": 7.53,
-    "vsMarket": -11.51,
+    "vsMarket": -11.79,
     "sectorMedian5": 6.92,
-    "vsSector": -10.9,
+    "vsSector": -11.19,
     "sectorPercentile": 6
    }
   },
@@ -2581,37 +2581,37 @@
    "targetGap": 71.1,
    "fwdPer": 16.6,
    "tech": {
-    "close": 505000,
+    "close": 506000,
     "daysAvail": 206,
-    "ma5": 494900,
-    "ma5Gap": 2.0,
-    "ma5Slope": 7.56,
+    "ma5": 495100,
+    "ma5Gap": 2.2,
+    "ma5Slope": 7.61,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 476775,
-    "ma20Gap": 5.9,
-    "ma20Slope": -2.67,
+    "ma20": 476825,
+    "ma20Gap": 6.1,
+    "ma20Slope": -2.66,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 584392,
-    "ma60Gap": -13.6,
-    "ma60Slope": -2.55,
+    "ma60": 584408,
+    "ma60Gap": -13.4,
+    "ma60Slope": -2.54,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 574442,
-    "ma120Gap": -12.1,
+    "ma120": 574450,
+    "ma120Gap": -11.9,
     "ma120Slope": -0.46,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 570070,
-    "ma200Gap": -11.4,
+    "ma200": 570075,
+    "ma200Gap": -11.2,
     "ma200Slope": -0.08,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 49.4,
-    "macd": -18125,
-    "macdSignal": -28849,
-    "volRatio": 0.49,
+    "rsi14": 49.6,
+    "macd": -18045,
+    "macdSignal": -28833,
+    "volRatio": 0.53,
     "low3m": 434000,
     "high3m": 745000,
     "last5": [
@@ -2633,15 +2633,15 @@
      },
      {
       "d": "08-07",
-      "c": 505000
+      "c": 506000
      }
     ],
     "bb": {
-     "upper": 520214,
-     "mid": 476775,
-     "lower": 433336,
-     "pctB": 0.825,
-     "width": 18.2
+     "upper": 520396,
+     "mid": 476825,
+     "lower": 433254,
+     "pctB": 0.835,
+     "width": 18.3
     }
    },
    "flow": {
@@ -2658,10 +2658,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 3846,
-    "flowRatioPct": -3.053,
-    "priceRet5": 4.99,
+    "flowRatioPct": -2.818,
+    "priceRet5": 5.2,
     "divergence": "distribution",
-    "qualityScore": -20.0
+    "qualityScore": -19.4
    },
    "risk": {
     "vol20": 4.08,
@@ -2671,11 +2671,11 @@
    },
    "sector": "조선",
    "relative": {
-    "ret5": 4.99,
+    "ret5": 5.2,
     "marketMedian5": 7.53,
-    "vsMarket": -2.54,
+    "vsMarket": -2.33,
     "sectorMedian5": 7.0,
-    "vsSector": -2.01,
+    "vsSector": -1.8,
     "sectorPercentile": 38
    }
   },
@@ -2727,7 +2727,7 @@
     "rsi14": 62.3,
     "macd": 901,
     "macdSignal": 517,
-    "volRatio": 1.03,
+    "volRatio": 1.12,
     "low3m": 91600,
     "high3m": 110000,
     "last5": [
@@ -2774,10 +2774,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 98636,
-    "flowRatioPct": 5.347,
+    "flowRatioPct": 4.933,
     "priceRet5": 9.24,
     "divergence": "confirmation_up",
-    "qualityScore": 38.1
+    "qualityScore": 37.1
    },
    "risk": {
     "vol20": 2.39,
@@ -2813,37 +2813,37 @@
    "targetGap": 67.8,
    "fwdPer": 156.4,
    "tech": {
-    "close": 77000,
+    "close": 77100,
     "daysAvail": 206,
-    "ma5": 74220,
-    "ma5Gap": 3.7,
-    "ma5Slope": 14.64,
+    "ma5": 74240,
+    "ma5Gap": 3.9,
+    "ma5Slope": 14.67,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 70290,
-    "ma20Gap": 9.5,
-    "ma20Slope": -2.05,
+    "ma20": 70295,
+    "ma20Gap": 9.7,
+    "ma20Slope": -2.04,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 87913,
-    "ma60Gap": -12.4,
+    "ma60": 87915,
+    "ma60Gap": -12.3,
     "ma60Slope": -4.96,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 97132,
-    "ma120Gap": -20.7,
+    "ma120": 97133,
+    "ma120Gap": -20.6,
     "ma120Slope": -0.78,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 91349,
-    "ma200Gap": -15.7,
+    "ma200": 91350,
+    "ma200Gap": -15.6,
     "ma200Slope": -0.02,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 52.4,
-    "macd": -2802,
-    "macdSignal": -4995,
-    "volRatio": 0.55,
+    "rsi14": 52.6,
+    "macd": -2794,
+    "macdSignal": -4994,
+    "volRatio": 0.59,
     "low3m": 60200,
     "high3m": 129600,
     "last5": [
@@ -2865,14 +2865,14 @@
      },
      {
       "d": "08-07",
-      "c": 77000
+      "c": 77100
      }
     ],
     "bb": {
-     "upper": 80368,
-     "mid": 70290,
-     "lower": 60212,
-     "pctB": 0.833,
+     "upper": 80387,
+     "mid": 70295,
+     "lower": 60203,
+     "pctB": 0.837,
      "width": 28.7
     }
    },
@@ -2890,24 +2890,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -242016,
-    "flowRatioPct": 10.898,
-    "priceRet5": 14.75,
+    "flowRatioPct": 10.097,
+    "priceRet5": 14.9,
     "divergence": "confirmation_up",
     "qualityScore": 18.6
    },
    "risk": {
     "vol20": 5.33,
     "mdd3m": -53.5,
-    "pos52w": 29,
+    "pos52w": 30,
     "grade": "mid"
    },
    "sector": "전력·에너지",
    "relative": {
-    "ret5": 14.75,
+    "ret5": 14.9,
     "marketMedian5": 7.53,
-    "vsMarket": 7.22,
+    "vsMarket": 7.38,
     "sectorMedian5": 11.11,
-    "vsSector": 3.64,
+    "vsSector": 3.79,
     "sectorPercentile": 80
    }
   },
@@ -2959,7 +2959,7 @@
     "rsi14": 60.2,
     "macd": -6348,
     "macdSignal": -35149,
-    "volRatio": 0.56,
+    "volRatio": 0.63,
     "low3m": 810000,
     "high3m": 1315000,
     "last5": [
@@ -3006,10 +3006,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 1230,
-    "flowRatioPct": 5.802,
+    "flowRatioPct": 5.194,
     "priceRet5": 19.63,
     "divergence": "confirmation_up",
-    "qualityScore": 34.2
+    "qualityScore": 32.6
    },
    "risk": {
     "vol20": 5.23,
@@ -3045,37 +3045,37 @@
    "targetGap": 68.0,
    "fwdPer": 4.1,
    "tech": {
-    "close": 507000,
+    "close": 508000,
     "daysAvail": 206,
-    "ma5": 523800,
-    "ma5Gap": -3.2,
-    "ma5Slope": -2.22,
+    "ma5": 524000,
+    "ma5Gap": -3.1,
+    "ma5Slope": -2.18,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 568625,
-    "ma20Gap": -10.8,
-    "ma20Slope": -4.77,
+    "ma20": 568675,
+    "ma20Gap": -10.7,
+    "ma20Slope": -4.76,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 624642,
-    "ma60Gap": -18.8,
+    "ma60": 624658,
+    "ma60Gap": -18.7,
     "ma60Slope": -0.28,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 499979,
-    "ma120Gap": 1.4,
-    "ma120Slope": 1.67,
+    "ma120": 499988,
+    "ma120Gap": 1.6,
+    "ma120Slope": 1.68,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 407378,
-    "ma200Gap": 24.5,
+    "ma200": 407382,
+    "ma200Gap": 24.7,
     "ma200Slope": 1.88,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 41.9,
-    "macd": -34902,
-    "macdSignal": -29981,
-    "volRatio": 0.5,
+    "rsi14": 42.0,
+    "macd": -34822,
+    "macdSignal": -29965,
+    "volRatio": 0.53,
     "low3m": 468500,
     "high3m": 858000,
     "last5": [
@@ -3097,14 +3097,14 @@
      },
      {
       "d": "08-07",
-      "c": 507000
+      "c": 508000
      }
     ],
     "bb": {
-     "upper": 675613,
-     "mid": 568625,
-     "lower": 461637,
-     "pctB": 0.212,
+     "upper": 675549,
+     "mid": 568675,
+     "lower": 461801,
+     "pctB": 0.216,
      "width": 37.6
     }
    },
@@ -3122,24 +3122,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 11446,
-    "flowRatioPct": -2.694,
-    "priceRet5": -8.98,
+    "flowRatioPct": -2.523,
+    "priceRet5": -8.8,
     "divergence": "confirmation_down",
-    "qualityScore": 1.5
+    "qualityScore": 1.9
    },
    "risk": {
     "vol20": 7.73,
     "mdd3m": -45.4,
-    "pos52w": 44,
+    "pos52w": 45,
     "grade": "high"
    },
    "sector": "지주·상사",
    "relative": {
-    "ret5": -8.98,
+    "ret5": -8.8,
     "marketMedian5": 7.53,
-    "vsMarket": -16.51,
+    "vsMarket": -16.33,
     "sectorMedian5": 6.92,
-    "vsSector": -15.9,
+    "vsSector": -15.72,
     "sectorPercentile": 3
    }
   },
@@ -3161,37 +3161,37 @@
    "targetGap": 48.5,
    "fwdPer": 10.9,
    "tech": {
-    "close": 494500,
+    "close": 496500,
     "daysAvail": 206,
-    "ma5": 496100,
-    "ma5Gap": -0.3,
-    "ma5Slope": 9.3,
+    "ma5": 496500,
+    "ma5Gap": 0.0,
+    "ma5Slope": 9.39,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 481700,
-    "ma20Gap": 2.7,
-    "ma20Slope": 0.24,
+    "ma20": 481800,
+    "ma20Gap": 3.1,
+    "ma20Slope": 0.26,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 556983,
-    "ma60Gap": -11.2,
-    "ma60Slope": -0.01,
+    "ma60": 557017,
+    "ma60Gap": -10.9,
+    "ma60Slope": -0.0,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 493358,
-    "ma120Gap": 0.2,
+    "ma120": 493375,
+    "ma120Gap": 0.6,
     "ma120Slope": 0.5,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 439875,
-    "ma200Gap": 12.4,
+    "ma200": 439885,
+    "ma200Gap": 12.9,
     "ma200Slope": 1.15,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 49.8,
-    "macd": -8262,
-    "macdSignal": -15224,
-    "volRatio": 0.54,
+    "rsi14": 50.2,
+    "macd": -8102,
+    "macdSignal": -15192,
+    "volRatio": 0.57,
     "low3m": 440000,
     "high3m": 768000,
     "last5": [
@@ -3213,14 +3213,14 @@
      },
      {
       "d": "08-07",
-      "c": 494500
+      "c": 496500
      }
     ],
     "bb": {
-     "upper": 525253,
-     "mid": 481700,
-     "lower": 438147,
-     "pctB": 0.647,
+     "upper": 525479,
+     "mid": 481800,
+     "lower": 438121,
+     "pctB": 0.668,
      "width": 18.1
     }
    },
@@ -3238,25 +3238,25 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 53454,
-    "flowRatioPct": 9.107,
-    "priceRet5": 3.89,
+    "flowRatioPct": 8.59,
+    "priceRet5": 4.31,
     "divergence": "confirmation_up",
     "qualityScore": 44.2
    },
    "risk": {
-    "vol20": 4.06,
+    "vol20": 4.05,
     "mdd3m": -42.7,
-    "pos52w": 39,
+    "pos52w": 40,
     "grade": "mid"
    },
    "sector": "자동차·부품",
    "relative": {
-    "ret5": 3.89,
+    "ret5": 4.31,
     "marketMedian5": 7.53,
-    "vsMarket": -3.64,
-    "sectorMedian5": 4.29,
-    "vsSector": -0.4,
-    "sectorPercentile": 42
+    "vsMarket": -3.22,
+    "sectorMedian5": 4.31,
+    "vsSector": 0.0,
+    "sectorPercentile": 53
    }
   },
   "068270": {
@@ -3277,39 +3277,39 @@
    "targetGap": 38.2,
    "fwdPer": 29.7,
    "tech": {
-    "close": 199100,
+    "close": 199300,
     "daysAvail": 206,
-    "ma5": 190480,
-    "ma5Gap": 4.5,
-    "ma5Slope": 4.34,
+    "ma5": 190520,
+    "ma5Gap": 4.6,
+    "ma5Slope": 4.36,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 180195,
-    "ma20Gap": 10.5,
-    "ma20Slope": 1.83,
+    "ma20": 180205,
+    "ma20Gap": 10.6,
+    "ma20Slope": 1.84,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 177047,
-    "ma60Gap": 12.5,
+    "ma60": 177050,
+    "ma60Gap": 12.6,
     "ma60Slope": 0.17,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 188340,
-    "ma120Gap": 5.7,
+    "ma120": 188341,
+    "ma120Gap": 5.8,
     "ma120Slope": -0.38,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 186237,
-    "ma200Gap": 6.9,
+    "ma200": 186238,
+    "ma200Gap": 7.0,
     "ma200Slope": 0.36,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 68.2,
-    "macd": 4805,
-    "macdSignal": 2614,
-    "volRatio": 0.97,
+    "rsi14": 68.3,
+    "macd": 4821,
+    "macdSignal": 2617,
+    "volRatio": 1.02,
     "low3m": 159400,
-    "high3m": 199100,
+    "high3m": 199300,
     "last5": [
      {
       "d": "08-03",
@@ -3329,14 +3329,14 @@
      },
      {
       "d": "08-07",
-      "c": 199100
+      "c": 199300
      }
     ],
     "bb": {
-     "upper": 196393,
-     "mid": 180195,
-     "lower": 163997,
-     "pctB": 1.084,
+     "upper": 196450,
+     "mid": 180205,
+     "lower": 163960,
+     "pctB": 1.088,
      "width": 18.0
     }
    },
@@ -3354,24 +3354,24 @@
     "jointBuyDays": 2,
     "jointSellDays": 2,
     "acceleration": 292562,
-    "flowRatioPct": 4.221,
-    "priceRet5": 6.64,
+    "flowRatioPct": 4.033,
+    "priceRet5": 6.75,
     "divergence": "confirmation_up",
-    "qualityScore": 28.0
+    "qualityScore": 27.5
    },
    "risk": {
     "vol20": 1.93,
     "mdd3m": -15.8,
-    "pos52w": 50,
+    "pos52w": 51,
     "grade": "low"
    },
    "sector": "바이오·제약",
    "relative": {
-    "ret5": 6.64,
+    "ret5": 6.75,
     "marketMedian5": 7.53,
-    "vsMarket": -0.89,
+    "vsMarket": -0.78,
     "sectorMedian5": 13.03,
-    "vsSector": -6.39,
+    "vsSector": -6.28,
     "sectorPercentile": 19
    }
   },
@@ -3393,37 +3393,37 @@
    "targetGap": 22.3,
    "fwdPer": 8.4,
    "tech": {
-    "close": 134600,
+    "close": 134700,
     "daysAvail": 206,
-    "ma5": 130200,
+    "ma5": 130220,
     "ma5Gap": 3.4,
-    "ma5Slope": 4.33,
+    "ma5Slope": 4.34,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 130210,
+    "ma20": 130215,
     "ma20Gap": 3.4,
     "ma20Slope": 1.12,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 123120,
-    "ma60Gap": 9.3,
+    "ma60": 123122,
+    "ma60Gap": 9.4,
     "ma60Slope": 0.28,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 120683,
-    "ma120Gap": 11.5,
+    "ma120": 120684,
+    "ma120Gap": 11.6,
     "ma120Slope": 0.56,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 110290,
-    "ma200Gap": 22.0,
+    "ma200Gap": 22.1,
     "ma200Slope": 1.01,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 61.0,
-    "macd": 1622,
-    "macdSignal": 1439,
-    "volRatio": 0.52,
+    "rsi14": 61.1,
+    "macd": 1630,
+    "macdSignal": 1441,
+    "volRatio": 0.6,
     "low3m": 109700,
     "high3m": 136800,
     "last5": [
@@ -3445,14 +3445,14 @@
      },
      {
       "d": "08-07",
-      "c": 134600
+      "c": 134700
      }
     ],
     "bb": {
-     "upper": 138982,
-     "mid": 130210,
-     "lower": 121438,
-     "pctB": 0.75,
+     "upper": 138997,
+     "mid": 130215,
+     "lower": 121433,
+     "pctB": 0.755,
      "width": 13.5
     }
    },
@@ -3470,10 +3470,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 30306,
-    "flowRatioPct": 4.735,
-    "priceRet5": 7.34,
+    "flowRatioPct": 4.135,
+    "priceRet5": 7.42,
     "divergence": "confirmation_up",
-    "qualityScore": 21.5
+    "qualityScore": 20.0
    },
    "risk": {
     "vol20": 2.38,
@@ -3483,11 +3483,11 @@
    },
    "sector": "금융·증권",
    "relative": {
-    "ret5": 7.34,
+    "ret5": 7.42,
     "marketMedian5": 7.53,
-    "vsMarket": -0.19,
+    "vsMarket": -0.11,
     "sectorMedian5": 3.88,
-    "vsSector": 3.46,
+    "vsSector": 3.54,
     "sectorPercentile": 79
    }
   },
@@ -3539,7 +3539,7 @@
     "rsi14": 54.2,
     "macd": -14504,
     "macdSignal": -23734,
-    "volRatio": 1.38,
+    "volRatio": 1.42,
     "low3m": 358500,
     "high3m": 688000,
     "last5": [
@@ -3586,7 +3586,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -26542,
-    "flowRatioPct": 0.891,
+    "flowRatioPct": 0.864,
     "priceRet5": 15.62,
     "divergence": "confirmation_up",
     "qualityScore": -11.2
@@ -3625,37 +3625,37 @@
    "targetGap": 24.3,
    "fwdPer": 14.6,
    "tech": {
-    "close": 184900,
+    "close": 185000,
     "daysAvail": 206,
-    "ma5": 172780,
-    "ma5Gap": 7.0,
-    "ma5Slope": 9.3,
+    "ma5": 172800,
+    "ma5Gap": 7.1,
+    "ma5Slope": 9.31,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 173025,
+    "ma20": 173030,
     "ma20Gap": 6.9,
     "ma20Slope": -2.14,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 211157,
+    "ma60": 211158,
     "ma60Gap": -12.4,
     "ma60Slope": 0.51,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 167654,
+    "ma120": 167655,
     "ma120Gap": 10.3,
     "ma120Slope": 1.82,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 137795,
-    "ma200Gap": 34.2,
+    "ma200": 137796,
+    "ma200Gap": 34.3,
     "ma200Slope": 1.7,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 52.3,
-    "macd": -7117,
-    "macdSignal": -10428,
-    "volRatio": 1.01,
+    "rsi14": 52.4,
+    "macd": -7109,
+    "macdSignal": -10426,
+    "volRatio": 1.05,
     "low3m": 148000,
     "high3m": 392500,
     "last5": [
@@ -3677,14 +3677,14 @@
      },
      {
       "d": "08-07",
-      "c": 184900
+      "c": 185000
      }
     ],
     "bb": {
-     "upper": 198195,
-     "mid": 173025,
-     "lower": 147855,
-     "pctB": 0.736,
+     "upper": 198210,
+     "mid": 173030,
+     "lower": 147850,
+     "pctB": 0.738,
      "width": 29.1
     }
    },
@@ -3702,24 +3702,24 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": 105764,
-    "flowRatioPct": 4.931,
-    "priceRet5": 14.07,
+    "flowRatioPct": 4.752,
+    "priceRet5": 14.13,
     "divergence": "confirmation_up",
-    "qualityScore": 35.8
+    "qualityScore": 35.4
    },
    "risk": {
-    "vol20": 5.46,
+    "vol20": 5.47,
     "mdd3m": -62.3,
     "pos52w": 29,
     "grade": "mid"
    },
    "sector": "전자·부품",
    "relative": {
-    "ret5": 14.07,
+    "ret5": 14.13,
     "marketMedian5": 7.53,
-    "vsMarket": 6.54,
+    "vsMarket": 6.61,
     "sectorMedian5": 7.82,
-    "vsSector": 6.25,
+    "vsSector": 6.31,
     "sectorPercentile": 84
    }
   },
@@ -3741,37 +3741,37 @@
    "targetGap": 14.2,
    "fwdPer": 13.9,
    "tech": {
-    "close": 643000,
+    "close": 645000,
     "daysAvail": 206,
-    "ma5": 632800,
-    "ma5Gap": 1.6,
-    "ma5Slope": 2.36,
+    "ma5": 633200,
+    "ma5Gap": 1.9,
+    "ma5Slope": 2.43,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 633200,
-    "ma20Gap": 1.5,
-    "ma20Slope": -0.96,
+    "ma20": 633300,
+    "ma20Gap": 1.8,
+    "ma20Slope": -0.95,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 628317,
-    "ma60Gap": 2.3,
+    "ma60": 628350,
+    "ma60Gap": 2.6,
     "ma60Slope": 1.85,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 558771,
-    "ma120Gap": 15.1,
+    "ma120": 558788,
+    "ma120Gap": 15.4,
     "ma120Slope": 0.91,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 529372,
-    "ma200Gap": 21.5,
+    "ma200": 529382,
+    "ma200Gap": 21.8,
     "ma200Slope": 0.88,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 52.2,
-    "macd": -579,
-    "macdSignal": -1906,
-    "volRatio": 0.69,
+    "rsi14": 52.6,
+    "macd": -419,
+    "macdSignal": -1874,
+    "volRatio": 0.75,
     "low3m": 498000,
     "high3m": 730000,
     "last5": [
@@ -3793,15 +3793,15 @@
      },
      {
       "d": "08-07",
-      "c": 643000
+      "c": 645000
      }
     ],
     "bb": {
-     "upper": 679880,
-     "mid": 633200,
-     "lower": 586520,
-     "pctB": 0.605,
-     "width": 14.7
+     "upper": 680072,
+     "mid": 633300,
+     "lower": 586528,
+     "pctB": 0.625,
+     "width": 14.8
     }
    },
    "flow": {
@@ -3818,24 +3818,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 3135,
-    "flowRatioPct": 2.332,
-    "priceRet5": 1.74,
+    "flowRatioPct": 2.145,
+    "priceRet5": 2.06,
     "divergence": "confirmation_up",
-    "qualityScore": 18.6
+    "qualityScore": 18.1
    },
    "risk": {
     "vol20": 4.43,
     "mdd3m": -19.6,
-    "pos52w": 71,
+    "pos52w": 72,
     "grade": "mid"
    },
    "sector": "보험",
    "relative": {
-    "ret5": 1.74,
+    "ret5": 2.06,
     "marketMedian5": 7.53,
-    "vsMarket": -5.79,
+    "vsMarket": -5.46,
     "sectorMedian5": 3.38,
-    "vsSector": -1.64,
+    "vsSector": -1.32,
     "sectorPercentile": 27
    }
   },
@@ -3857,37 +3857,37 @@
    "targetGap": 49.6,
    "fwdPer": 34.2,
    "tech": {
-    "close": 2836000,
+    "close": 2832000,
     "daysAvail": 206,
-    "ma5": 2735800,
-    "ma5Gap": 3.7,
-    "ma5Slope": 21.42,
+    "ma5": 2735000,
+    "ma5Gap": 3.5,
+    "ma5Slope": 21.38,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 2610600,
-    "ma20Gap": 8.6,
-    "ma20Slope": -2.1,
+    "ma20": 2610400,
+    "ma20Gap": 8.5,
+    "ma20Slope": -2.11,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 3228133,
-    "ma60Gap": -12.1,
+    "ma60": 3228067,
+    "ma60Gap": -12.3,
     "ma60Slope": -4.18,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 3096892,
-    "ma120Gap": -8.4,
+    "ma120": 3096858,
+    "ma120Gap": -8.6,
     "ma120Slope": 0.54,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 2677405,
-    "ma200Gap": 5.9,
+    "ma200": 2677385,
+    "ma200Gap": 5.8,
     "ma200Slope": 1.17,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 51.3,
-    "macd": -123333,
-    "macdSignal": -199717,
-    "volRatio": 0.9,
+    "rsi14": 51.2,
+    "macd": -123652,
+    "macdSignal": -199780,
+    "volRatio": 0.93,
     "low3m": 1894000,
     "high3m": 4398000,
     "last5": [
@@ -3909,15 +3909,15 @@
      },
      {
       "d": "08-07",
-      "c": 2836000
+      "c": 2832000
      }
     ],
     "bb": {
-     "upper": 3158235,
-     "mid": 2610600,
-     "lower": 2062965,
-     "pctB": 0.706,
-     "width": 42.0
+     "upper": 3157708,
+     "mid": 2610400,
+     "lower": 2063092,
+     "pctB": 0.702,
+     "width": 41.9
     }
    },
    "flow": {
@@ -3934,24 +3934,24 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -12731,
-    "flowRatioPct": 3.355,
-    "priceRet5": 17.34,
+    "flowRatioPct": 3.256,
+    "priceRet5": 17.17,
     "divergence": "confirmation_up",
-    "qualityScore": 13.0
+    "qualityScore": 12.7
    },
    "risk": {
-    "vol20": 9.44,
+    "vol20": 9.43,
     "mdd3m": -56.9,
     "pos52w": 46,
     "grade": "high"
    },
    "sector": "전력·에너지",
    "relative": {
-    "ret5": 17.34,
+    "ret5": 17.17,
     "marketMedian5": 7.53,
-    "vsMarket": 9.81,
+    "vsMarket": 9.65,
     "sectorMedian5": 11.11,
-    "vsSector": 6.23,
+    "vsSector": 6.06,
     "sectorPercentile": 88
    }
   },
@@ -3973,37 +3973,37 @@
    "targetGap": 57.8,
    "fwdPer": 13.9,
    "tech": {
-    "close": 89300,
+    "close": 89400,
     "daysAvail": 206,
-    "ma5": 88480,
-    "ma5Gap": 0.9,
-    "ma5Slope": 8.19,
+    "ma5": 88500,
+    "ma5Gap": 1.0,
+    "ma5Slope": 8.22,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 84185,
-    "ma20Gap": 6.1,
-    "ma20Slope": -1.81,
+    "ma20": 84190,
+    "ma20Gap": 6.2,
+    "ma20Slope": -1.8,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 103207,
-    "ma60Gap": -13.5,
+    "ma60": 103208,
+    "ma60Gap": -13.4,
     "ma60Slope": -3.07,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 116396,
-    "ma120Gap": -23.3,
+    "ma120": 116397,
+    "ma120Gap": -23.2,
     "ma120Slope": -1.71,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 120201,
-    "ma200Gap": -25.7,
+    "ma200": 120202,
+    "ma200Gap": -25.6,
     "ma200Slope": -0.4,
     "ma200Days": 200,
     "ma200Full": true,
     "rsi14": 49.3,
-    "macd": -2962,
-    "macdSignal": -4999,
-    "volRatio": 0.35,
+    "macd": -2954,
+    "macdSignal": -4998,
+    "volRatio": 0.37,
     "low3m": 74600,
     "high3m": 134900,
     "last5": [
@@ -4025,14 +4025,14 @@
      },
      {
       "d": "08-07",
-      "c": 89300
+      "c": 89400
      }
     ],
     "bb": {
-     "upper": 93613,
-     "mid": 84185,
-     "lower": 74757,
-     "pctB": 0.771,
+     "upper": 93629,
+     "mid": 84190,
+     "lower": 74751,
+     "pctB": 0.776,
      "width": 22.4
     }
    },
@@ -4050,8 +4050,8 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -11013,
-    "flowRatioPct": 36.406,
-    "priceRet5": 4.81,
+    "flowRatioPct": 34.261,
+    "priceRet5": 4.93,
     "divergence": "confirmation_up",
     "qualityScore": 50
    },
@@ -4063,11 +4063,11 @@
    },
    "sector": "조선",
    "relative": {
-    "ret5": 4.81,
+    "ret5": 4.93,
     "marketMedian5": 7.53,
-    "vsMarket": -2.72,
+    "vsMarket": -2.6,
     "sectorMedian5": 7.0,
-    "vsSector": -2.2,
+    "vsSector": -2.08,
     "sectorPercentile": 31
    }
   },
@@ -4089,37 +4089,37 @@
    "targetGap": 54.5,
    "fwdPer": 14.1,
    "tech": {
-    "close": 330500,
+    "close": 331000,
     "daysAvail": 206,
-    "ma5": 316600,
-    "ma5Gap": 4.4,
-    "ma5Slope": 4.39,
+    "ma5": 316700,
+    "ma5Gap": 4.5,
+    "ma5Slope": 4.42,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 309775,
-    "ma20Gap": 6.7,
+    "ma20": 309800,
+    "ma20Gap": 6.8,
     "ma20Slope": 0.41,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 355592,
-    "ma60Gap": -7.1,
-    "ma60Slope": -4.37,
+    "ma60": 355600,
+    "ma60Gap": -6.9,
+    "ma60Slope": -4.36,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 370125,
-    "ma120Gap": -10.7,
+    "ma120": 370129,
+    "ma120Gap": -10.6,
     "ma120Slope": -0.51,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 350525,
-    "ma200Gap": -5.7,
+    "ma200": 350528,
+    "ma200Gap": -5.6,
     "ma200Slope": 0.31,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 54.9,
-    "macd": -4666,
-    "macdSignal": -9600,
-    "volRatio": 0.96,
+    "rsi14": 55.1,
+    "macd": -4626,
+    "macdSignal": -9592,
+    "volRatio": 1.0,
     "low3m": 288500,
     "high3m": 525000,
     "last5": [
@@ -4141,14 +4141,14 @@
      },
      {
       "d": "08-07",
-      "c": 330500
+      "c": 331000
      }
     ],
     "bb": {
-     "upper": 328444,
-     "mid": 309775,
-     "lower": 291106,
-     "pctB": 1.055,
+     "upper": 328581,
+     "mid": 309800,
+     "lower": 291019,
+     "pctB": 1.064,
      "width": 12.1
     }
    },
@@ -4166,24 +4166,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 2815,
-    "flowRatioPct": 2.37,
-    "priceRet5": 5.76,
+    "flowRatioPct": 2.265,
+    "priceRet5": 5.92,
     "divergence": "confirmation_up",
-    "qualityScore": 14.5
+    "qualityScore": 14.2
    },
    "risk": {
-    "vol20": 3.29,
+    "vol20": 3.3,
     "mdd3m": -45.0,
     "pos52w": 26,
     "grade": "mid"
    },
    "sector": "철강·금속",
    "relative": {
-    "ret5": 5.76,
+    "ret5": 5.92,
     "marketMedian5": 7.53,
-    "vsMarket": -1.77,
+    "vsMarket": -1.61,
     "sectorMedian5": 8.77,
-    "vsSector": -3.01,
+    "vsSector": -2.85,
     "sectorPercentile": 27
    }
   },
@@ -4205,37 +4205,37 @@
    "targetGap": 39.4,
    "fwdPer": 7.4,
    "tech": {
-    "close": 400000,
+    "close": 398500,
     "daysAvail": 206,
-    "ma5": 387700,
-    "ma5Gap": 3.2,
-    "ma5Slope": 6.48,
+    "ma5": 387400,
+    "ma5Gap": 2.9,
+    "ma5Slope": 6.4,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 362075,
-    "ma20Gap": 10.5,
-    "ma20Slope": 2.64,
+    "ma20": 362000,
+    "ma20Gap": 10.1,
+    "ma20Slope": 2.61,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 381892,
-    "ma60Gap": 4.7,
+    "ma60": 381867,
+    "ma60Gap": 4.4,
     "ma60Slope": -1.6,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 399329,
-    "ma120Gap": 0.2,
-    "ma120Slope": -0.2,
+    "ma120": 399317,
+    "ma120Gap": -0.2,
+    "ma120Slope": -0.21,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 411262,
-    "ma200Gap": -2.7,
+    "ma200": 411255,
+    "ma200Gap": -3.1,
     "ma200Slope": -0.18,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 58.5,
-    "macd": 6410,
-    "macdSignal": -78,
-    "volRatio": 0.4,
+    "rsi14": 58.0,
+    "macd": 6290,
+    "macdSignal": -102,
+    "volRatio": 0.45,
     "low3m": 327000,
     "high3m": 474000,
     "last5": [
@@ -4257,15 +4257,15 @@
      },
      {
       "d": "08-07",
-      "c": 400000
+      "c": 398500
      }
     ],
     "bb": {
-     "upper": 407545,
-     "mid": 362075,
-     "lower": 316605,
-     "pctB": 0.917,
-     "width": 25.1
+     "upper": 407224,
+     "mid": 362000,
+     "lower": 316776,
+     "pctB": 0.904,
+     "width": 25.0
     }
    },
    "flow": {
@@ -4282,24 +4282,24 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 8742,
-    "flowRatioPct": 11.252,
-    "priceRet5": 4.03,
+    "flowRatioPct": 10.143,
+    "priceRet5": 3.64,
     "divergence": "confirmation_up",
     "qualityScore": 27.2
    },
    "risk": {
-    "vol20": 4.46,
+    "vol20": 4.47,
     "mdd3m": -31.0,
-    "pos52w": 48,
+    "pos52w": 47,
     "grade": "mid"
    },
    "sector": "조선",
    "relative": {
-    "ret5": 4.03,
+    "ret5": 3.64,
     "marketMedian5": 7.53,
-    "vsMarket": -3.5,
+    "vsMarket": -3.89,
     "sectorMedian5": 7.0,
-    "vsSector": -2.97,
+    "vsSector": -3.36,
     "sectorPercentile": 25
    }
   },
@@ -4321,37 +4321,37 @@
    "targetGap": 92.7,
    "fwdPer": 7.2,
    "tech": {
-    "close": 33750,
+    "close": 33900,
     "daysAvail": 206,
-    "ma5": 34160,
-    "ma5Gap": -1.2,
-    "ma5Slope": 3.17,
+    "ma5": 34190,
+    "ma5Gap": -0.8,
+    "ma5Slope": 3.26,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 36355,
-    "ma20Gap": -7.2,
-    "ma20Slope": -5.22,
+    "ma20": 36362,
+    "ma20Gap": -6.8,
+    "ma20Slope": -5.2,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 47776,
-    "ma60Gap": -29.4,
-    "ma60Slope": -7.29,
+    "ma60": 47778,
+    "ma60Gap": -29.0,
+    "ma60Slope": -7.28,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 57548,
-    "ma120Gap": -41.4,
+    "ma120": 57550,
+    "ma120Gap": -41.1,
     "ma120Slope": -1.15,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 45327,
-    "ma200Gap": -25.5,
-    "ma200Slope": 0.71,
+    "ma200Gap": -25.2,
+    "ma200Slope": 0.72,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 39.7,
-    "macd": -3072,
-    "macdSignal": -3521,
-    "volRatio": 0.62,
+    "rsi14": 39.9,
+    "macd": -3060,
+    "macdSignal": -3518,
+    "volRatio": 0.66,
     "low3m": 30200,
     "high3m": 79600,
     "last5": [
@@ -4373,14 +4373,14 @@
      },
      {
       "d": "08-07",
-      "c": 33750
+      "c": 33900
      }
     ],
     "bb": {
-     "upper": 42958,
-     "mid": 36355,
-     "lower": 29752,
-     "pctB": 0.303,
+     "upper": 42954,
+     "mid": 36362,
+     "lower": 29771,
+     "pctB": 0.313,
      "width": 36.3
     }
    },
@@ -4398,24 +4398,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -158903,
-    "flowRatioPct": 12.777,
-    "priceRet5": -2.32,
+    "flowRatioPct": 11.986,
+    "priceRet5": -1.88,
     "divergence": "accumulation",
     "qualityScore": 25.9
    },
    "risk": {
-    "vol20": 5.72,
+    "vol20": 5.71,
     "mdd3m": -62.1,
     "pos52w": 24,
     "grade": "mid"
    },
    "sector": "금융·증권",
    "relative": {
-    "ret5": -2.32,
+    "ret5": -1.88,
     "marketMedian5": 7.53,
-    "vsMarket": -9.85,
+    "vsMarket": -9.41,
     "sectorMedian5": 3.88,
-    "vsSector": -6.2,
+    "vsSector": -5.76,
     "sectorPercentile": 17
    }
   },
@@ -4437,37 +4437,37 @@
    "targetGap": 54.9,
    "fwdPer": 4.0,
    "tech": {
-    "close": 35500,
+    "close": 35600,
     "daysAvail": 206,
-    "ma5": 35360,
-    "ma5Gap": 0.4,
-    "ma5Slope": 3.51,
+    "ma5": 35380,
+    "ma5Gap": 0.6,
+    "ma5Slope": 3.57,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 34578,
-    "ma20Gap": 2.7,
-    "ma20Slope": -1.53,
+    "ma20": 34582,
+    "ma20Gap": 2.9,
+    "ma20Slope": -1.52,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 37018,
-    "ma60Gap": -4.1,
+    "ma60": 37019,
+    "ma60Gap": -3.8,
     "ma60Slope": -1.83,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 42626,
-    "ma120Gap": -16.7,
+    "ma120": 42627,
+    "ma120Gap": -16.5,
     "ma120Slope": -2.49,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 45917,
-    "ma200Gap": -22.7,
+    "ma200": 45918,
+    "ma200Gap": -22.5,
     "ma200Slope": -0.08,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 49.9,
-    "macd": -429,
-    "macdSignal": -755,
-    "volRatio": 0.52,
+    "rsi14": 50.4,
+    "macd": -421,
+    "macdSignal": -754,
+    "volRatio": 0.54,
     "low3m": 33000,
     "high3m": 44050,
     "last5": [
@@ -4489,15 +4489,15 @@
      },
      {
       "d": "08-07",
-      "c": 35500
+      "c": 35600
      }
     ],
     "bb": {
-     "upper": 36661,
-     "mid": 34578,
-     "lower": 32494,
-     "pctB": 0.721,
-     "width": 12.0
+     "upper": 36675,
+     "mid": 34582,
+     "lower": 32490,
+     "pctB": 0.743,
+     "width": 12.1
     }
    },
    "flow": {
@@ -4514,24 +4514,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -127056,
-    "flowRatioPct": 16.23,
-    "priceRet5": 2.01,
+    "flowRatioPct": 15.507,
+    "priceRet5": 2.3,
     "divergence": "confirmation_up",
     "qualityScore": 22.4
    },
    "risk": {
     "vol20": 2.93,
     "mdd3m": -25.1,
-    "pos52w": 10,
+    "pos52w": 11,
     "grade": "mid"
    },
    "sector": "전력·에너지",
    "relative": {
-    "ret5": 2.01,
+    "ret5": 2.3,
     "marketMedian5": 7.53,
-    "vsMarket": -5.52,
+    "vsMarket": -5.23,
     "sectorMedian5": 11.11,
-    "vsSector": -9.1,
+    "vsSector": -8.81,
     "sectorPercentile": 20
    }
   },
@@ -4583,7 +4583,7 @@
     "rsi14": 68.0,
     "macd": 852,
     "macdSignal": 585,
-    "volRatio": 0.9,
+    "volRatio": 0.98,
     "low3m": 28350,
     "high3m": 34800,
     "last5": [
@@ -4630,10 +4630,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -37124,
-    "flowRatioPct": 7.526,
+    "flowRatioPct": 6.925,
     "priceRet5": 3.57,
     "divergence": "confirmation_up",
-    "qualityScore": 28.5
+    "qualityScore": 27.0
    },
    "risk": {
     "vol20": 2.51,
@@ -4669,37 +4669,37 @@
    "targetGap": 77.7,
    "fwdPer": 52.5,
    "tech": {
-    "close": 1190000,
+    "close": 1191000,
     "daysAvail": 206,
-    "ma5": 1230000,
-    "ma5Gap": -3.3,
-    "ma5Slope": 15.78,
+    "ma5": 1230200,
+    "ma5Gap": -3.2,
+    "ma5Slope": 15.79,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1185700,
+    "ma20": 1185750,
     "ma20Gap": 0.4,
     "ma20Slope": -2.0,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 1468350,
-    "ma60Gap": -19.0,
+    "ma60": 1468367,
+    "ma60Gap": -18.9,
     "ma60Slope": -2.85,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1357725,
-    "ma120Gap": -12.4,
+    "ma120": 1357733,
+    "ma120Gap": -12.3,
     "ma120Slope": 1.1,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 1157885,
-    "ma200Gap": 2.8,
+    "ma200": 1157890,
+    "ma200Gap": 2.9,
     "ma200Slope": 1.4,
     "ma200Days": 200,
     "ma200Full": true,
     "rsi14": 46.7,
-    "macd": -59942,
-    "macdSignal": -84147,
-    "volRatio": 0.47,
+    "macd": -59862,
+    "macdSignal": -84131,
+    "volRatio": 0.5,
     "low3m": 900000,
     "high3m": 2203000,
     "last5": [
@@ -4721,14 +4721,14 @@
      },
      {
       "d": "08-07",
-      "c": 1190000
+      "c": 1191000
      }
     ],
     "bb": {
-     "upper": 1396913,
-     "mid": 1185700,
-     "lower": 974487,
-     "pctB": 0.51,
+     "upper": 1396967,
+     "mid": 1185750,
+     "lower": 974533,
+     "pctB": 0.512,
      "width": 35.6
     }
    },
@@ -4746,8 +4746,8 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -8835,
-    "flowRatioPct": -11.941,
-    "priceRet5": 1.71,
+    "flowRatioPct": -11.376,
+    "priceRet5": 1.79,
     "divergence": "distribution",
     "qualityScore": -37.1
    },
@@ -4759,11 +4759,11 @@
    },
    "sector": "지주·상사",
    "relative": {
-    "ret5": 1.71,
+    "ret5": 1.79,
     "marketMedian5": 7.53,
-    "vsMarket": -5.82,
+    "vsMarket": -5.74,
     "sectorMedian5": 6.92,
-    "vsSector": -5.21,
+    "vsSector": -5.13,
     "sectorPercentile": 26
    }
   },
@@ -4785,37 +4785,37 @@
    "targetGap": 52.8,
    "fwdPer": 17.5,
    "tech": {
-    "close": 1108000,
+    "close": 1106000,
     "daysAvail": 206,
-    "ma5": 1100200,
-    "ma5Gap": 0.7,
-    "ma5Slope": 13.99,
+    "ma5": 1099800,
+    "ma5Gap": 0.6,
+    "ma5Slope": 13.95,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1024100,
-    "ma20Gap": 8.2,
-    "ma20Slope": 0.7,
+    "ma20": 1024000,
+    "ma20Gap": 8.0,
+    "ma20Slope": 0.69,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 1167950,
-    "ma60Gap": -5.1,
+    "ma60": 1167917,
+    "ma60Gap": -5.3,
     "ma60Slope": -3.32,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1406267,
-    "ma120Gap": -21.2,
+    "ma120": 1406250,
+    "ma120Gap": -21.4,
     "ma120Slope": -1.81,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 1378405,
-    "ma200Gap": -19.6,
+    "ma200": 1378395,
+    "ma200Gap": -19.8,
     "ma200Slope": -0.11,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 53.2,
-    "macd": -4699,
-    "macdSignal": -32887,
-    "volRatio": 1.62,
+    "rsi14": 53.1,
+    "macd": -4859,
+    "macdSignal": -32919,
+    "volRatio": 1.69,
     "low3m": 923000,
     "high3m": 1559000,
     "last5": [
@@ -4837,14 +4837,14 @@
      },
      {
       "d": "08-07",
-      "c": 1108000
+      "c": 1106000
      }
     ],
     "bb": {
-     "upper": 1163004,
-     "mid": 1024100,
-     "lower": 885196,
-     "pctB": 0.802,
+     "upper": 1162665,
+     "mid": 1024000,
+     "lower": 885335,
+     "pctB": 0.796,
      "width": 27.1
     }
    },
@@ -4862,24 +4862,24 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 5422,
-    "flowRatioPct": 10.596,
-    "priceRet5": 10.91,
+    "flowRatioPct": 10.18,
+    "priceRet5": 10.71,
     "divergence": "confirmation_up",
     "qualityScore": 30.0
    },
    "risk": {
-    "vol20": 5.3,
+    "vol20": 5.32,
     "mdd3m": -40.8,
     "pos52w": 24,
     "grade": "mid"
    },
    "sector": "철강·금속",
    "relative": {
-    "ret5": 10.91,
+    "ret5": 10.71,
     "marketMedian5": 7.53,
-    "vsMarket": 3.38,
+    "vsMarket": 3.19,
     "sectorMedian5": 8.77,
-    "vsSector": 2.14,
+    "vsSector": 1.94,
     "sectorPercentile": 73
    }
   },
@@ -4931,7 +4931,7 @@
     "rsi14": 48.2,
     "macd": -619,
     "macdSignal": -890,
-    "volRatio": 0.58,
+    "volRatio": 0.64,
     "low3m": 19400,
     "high3m": 33950,
     "last5": [
@@ -4978,10 +4978,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 2,
     "acceleration": -44082,
-    "flowRatioPct": -0.879,
+    "flowRatioPct": -0.807,
     "priceRet5": 3.28,
     "divergence": "distribution",
-    "qualityScore": -19.8
+    "qualityScore": -19.6
    },
    "risk": {
     "vol20": 4.47,
@@ -5017,25 +5017,25 @@
    "targetGap": 90.0,
    "fwdPer": 17.8,
    "tech": {
-    "close": 146800,
+    "close": 146900,
     "daysAvail": 206,
-    "ma5": 141660,
-    "ma5Gap": 3.6,
-    "ma5Slope": 12.54,
+    "ma5": 141680,
+    "ma5Gap": 3.7,
+    "ma5Slope": 12.55,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 147985,
-    "ma20Gap": -0.8,
-    "ma20Slope": -6.45,
+    "ma20": 147990,
+    "ma20Gap": -0.7,
+    "ma20Slope": -6.44,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 180448,
+    "ma60": 180450,
     "ma60Gap": -18.6,
     "ma60Slope": -3.96,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 196731,
-    "ma120Gap": -25.4,
+    "ma120": 196732,
+    "ma120Gap": -25.3,
     "ma120Slope": -1.52,
     "ma120Days": 120,
     "ma120Full": true,
@@ -5045,9 +5045,9 @@
     "ma200Days": 200,
     "ma200Full": true,
     "rsi14": 46.1,
-    "macd": -11196,
-    "macdSignal": -13493,
-    "volRatio": 0.49,
+    "macd": -11188,
+    "macdSignal": -13492,
+    "volRatio": 0.53,
     "low3m": 120100,
     "high3m": 226500,
     "last5": [
@@ -5069,14 +5069,14 @@
      },
      {
       "d": "08-07",
-      "c": 146800
+      "c": 146900
      }
     ],
     "bb": {
-     "upper": 182131,
-     "mid": 147985,
-     "lower": 113839,
-     "pctB": 0.483,
+     "upper": 182135,
+     "mid": 147990,
+     "lower": 113845,
+     "pctB": 0.484,
      "width": 46.1
     }
    },
@@ -5094,8 +5094,8 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -48969,
-    "flowRatioPct": 16.487,
-    "priceRet5": 9.8,
+    "flowRatioPct": 15.323,
+    "priceRet5": 9.87,
     "divergence": "confirmation_up",
     "qualityScore": 29.2
    },
@@ -5107,11 +5107,11 @@
    },
    "sector": "방산",
    "relative": {
-    "ret5": 9.8,
+    "ret5": 9.87,
     "marketMedian5": 7.53,
-    "vsMarket": 2.28,
+    "vsMarket": 2.34,
     "sectorMedian5": 16.33,
-    "vsSector": -6.53,
+    "vsSector": -6.46,
     "sectorPercentile": 29
    }
   },
@@ -5133,39 +5133,39 @@
    "targetGap": 17.4,
    "fwdPer": 8.9,
    "tech": {
-    "close": 126100,
+    "close": 126300,
     "daysAvail": 206,
-    "ma5": 122400,
-    "ma5Gap": 3.0,
-    "ma5Slope": 0.43,
+    "ma5": 122440,
+    "ma5Gap": 3.2,
+    "ma5Slope": 0.46,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 119125,
-    "ma20Gap": 5.9,
+    "ma20": 119135,
+    "ma20Gap": 6.0,
     "ma20Slope": 1.96,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 111525,
-    "ma60Gap": 13.1,
-    "ma60Slope": 0.83,
+    "ma60": 111528,
+    "ma60Gap": 13.2,
+    "ma60Slope": 0.84,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 114418,
-    "ma120Gap": 10.2,
+    "ma120": 114419,
+    "ma120Gap": 10.4,
     "ma120Slope": 0.03,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 113192,
-    "ma200Gap": 11.4,
+    "ma200": 113193,
+    "ma200Gap": 11.6,
     "ma200Slope": 0.23,
     "ma200Days": 200,
     "ma200Full": true,
-    "rsi14": 62.6,
-    "macd": 3339,
-    "macdSignal": 2990,
-    "volRatio": 0.74,
+    "rsi14": 62.8,
+    "macd": 3355,
+    "macdSignal": 2994,
+    "volRatio": 0.78,
     "low3m": 100600,
-    "high3m": 126100,
+    "high3m": 126300,
     "last5": [
      {
       "d": "08-03",
@@ -5185,15 +5185,15 @@
      },
      {
       "d": "08-07",
-      "c": 126100
+      "c": 126300
      }
     ],
     "bb": {
-     "upper": 127701,
-     "mid": 119125,
-     "lower": 110549,
-     "pctB": 0.907,
-     "width": 14.4
+     "upper": 127743,
+     "mid": 119135,
+     "lower": 110527,
+     "pctB": 0.916,
+     "width": 14.5
     }
    },
    "flow": {
@@ -5210,25 +5210,25 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 90538,
-    "flowRatioPct": 16.117,
-    "priceRet5": 1.69,
+    "flowRatioPct": 15.226,
+    "priceRet5": 1.85,
     "divergence": "confirmation_up",
     "qualityScore": 47.0
    },
    "risk": {
     "vol20": 2.96,
     "mdd3m": -12.1,
-    "pos52w": 54,
+    "pos52w": 55,
     "grade": "low"
    },
    "sector": "금융·증권",
    "relative": {
-    "ret5": 1.69,
+    "ret5": 1.85,
     "marketMedian5": 7.53,
-    "vsMarket": -5.84,
+    "vsMarket": -5.68,
     "sectorMedian5": 3.88,
-    "vsSector": -2.19,
-    "sectorPercentile": 34
+    "vsSector": -2.03,
+    "sectorPercentile": 38
    }
   },
   "051910": {
@@ -5674,7 +5674,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -47375,
-    "flowRatioPct": -11.944,
+    "flowRatioPct": -11.943,
     "priceRet5": 8.87,
     "divergence": "distribution",
     "qualityScore": -34.8
@@ -5790,7 +5790,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 21724,
-    "flowRatioPct": -9.977,
+    "flowRatioPct": -9.975,
     "priceRet5": 0.48,
     "divergence": "neutral",
     "qualityScore": -25.3
@@ -6370,7 +6370,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -11969,
-    "flowRatioPct": -6.694,
+    "flowRatioPct": -6.693,
     "priceRet5": 8.09,
     "divergence": "distribution",
     "qualityScore": -25.6
@@ -7066,7 +7066,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -8458,
-    "flowRatioPct": 6.027,
+    "flowRatioPct": 6.026,
     "priceRet5": 13.03,
     "divergence": "confirmation_up",
     "qualityScore": 12.9
@@ -7182,7 +7182,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 28124,
-    "flowRatioPct": 8.64,
+    "flowRatioPct": 8.638,
     "priceRet5": 16.17,
     "divergence": "confirmation_up",
     "qualityScore": 34.4
@@ -7993,7 +7993,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 888244,
-    "flowRatioPct": 26.853,
+    "flowRatioPct": 26.839,
     "priceRet5": 4.83,
     "divergence": "confirmation_up",
     "qualityScore": 39.4
@@ -8223,7 +8223,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": 147796,
-    "flowRatioPct": 105.764,
+    "flowRatioPct": 105.752,
     "priceRet5": 6.45,
     "divergence": "confirmation_up",
     "qualityScore": 50
@@ -8355,9 +8355,9 @@
     "ret5": 4.29,
     "marketMedian5": 7.53,
     "vsMarket": -3.24,
-    "sectorMedian5": 4.29,
-    "vsSector": 0.0,
-    "sectorPercentile": 53
+    "sectorMedian5": 4.31,
+    "vsSector": -0.02,
+    "sectorPercentile": 47
    }
   },
   "443060": {
@@ -8803,7 +8803,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 124290,
-    "flowRatioPct": 9.012,
+    "flowRatioPct": 9.005,
     "priceRet5": 9.82,
     "divergence": "confirmation_up",
     "qualityScore": 34.5
@@ -9382,7 +9382,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -3746,
-    "flowRatioPct": 4.248,
+    "flowRatioPct": 4.247,
     "priceRet5": 4.59,
     "divergence": "confirmation_up",
     "qualityScore": 15.1
@@ -9614,7 +9614,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -3640,
-    "flowRatioPct": 20.174,
+    "flowRatioPct": 20.173,
     "priceRet5": 6.35,
     "divergence": "confirmation_up",
     "qualityScore": 26.1
@@ -9730,7 +9730,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 65541,
-    "flowRatioPct": -3.084,
+    "flowRatioPct": -3.08,
     "priceRet5": 7.23,
     "divergence": "distribution",
     "qualityScore": -11.7
@@ -9748,7 +9748,7 @@
     "vsMarket": -0.29,
     "sectorMedian5": 7.82,
     "vsSector": -0.59,
-    "sectorPercentile": 44
+    "sectorPercentile": 40
    }
   },
   "004170": {
@@ -10076,7 +10076,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -85633,
-    "flowRatioPct": 6.185,
+    "flowRatioPct": 6.184,
     "priceRet5": 8.72,
     "divergence": "confirmation_up",
     "qualityScore": 23.4
@@ -10191,10 +10191,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -87200,
-    "flowRatioPct": -3.142,
+    "flowRatioPct": -3.137,
     "priceRet5": 2.65,
     "divergence": "distribution",
-    "qualityScore": -29.1
+    "qualityScore": -29.0
    },
    "risk": {
     "vol20": 10.03,
@@ -10306,7 +10306,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -42565,
-    "flowRatioPct": 20.812,
+    "flowRatioPct": 20.809,
     "priceRet5": 7.39,
     "divergence": "confirmation_up",
     "qualityScore": 38.2
@@ -10422,7 +10422,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -63840,
-    "flowRatioPct": -4.941,
+    "flowRatioPct": -4.933,
     "priceRet5": -9.53,
     "divergence": "confirmation_down",
     "qualityScore": -29.3
@@ -10654,7 +10654,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -5873,
-    "flowRatioPct": -14.452,
+    "flowRatioPct": -14.449,
     "priceRet5": -8.64,
     "divergence": "confirmation_down",
     "qualityScore": -26.8
@@ -10768,7 +10768,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -303936,
-    "flowRatioPct": 25.601,
+    "flowRatioPct": 25.599,
     "priceRet5": 21.9,
     "divergence": "confirmation_up",
     "qualityScore": 32.4
@@ -10882,7 +10882,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -39182,
-    "flowRatioPct": 13.528,
+    "flowRatioPct": 13.47,
     "priceRet5": 10.09,
     "divergence": "confirmation_up",
     "qualityScore": 20.7
@@ -10997,7 +10997,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 1356,
-    "flowRatioPct": 2.505,
+    "flowRatioPct": 2.503,
     "priceRet5": 9.63,
     "divergence": "confirmation_up",
     "qualityScore": 12.0
@@ -11228,7 +11228,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -74056,
-    "flowRatioPct": 9.323,
+    "flowRatioPct": 9.322,
     "priceRet5": 29.64,
     "divergence": "confirmation_up",
     "qualityScore": 14.8
@@ -11344,7 +11344,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -88218,
-    "flowRatioPct": 8.503,
+    "flowRatioPct": 8.5,
     "priceRet5": 29.37,
     "divergence": "confirmation_up",
     "qualityScore": 17.8
@@ -11576,7 +11576,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -94761,
-    "flowRatioPct": -2.662,
+    "flowRatioPct": -2.66,
     "priceRet5": -0.58,
     "divergence": "neutral",
     "qualityScore": -18.6
@@ -11692,7 +11692,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -64741,
-    "flowRatioPct": -15.735,
+    "flowRatioPct": -15.733,
     "priceRet5": -4.15,
     "divergence": "confirmation_down",
     "qualityScore": -38.9
@@ -11808,7 +11808,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 37095,
-    "flowRatioPct": 2.859,
+    "flowRatioPct": 2.858,
     "priceRet5": 11.82,
     "divergence": "confirmation_up",
     "qualityScore": 27.4
@@ -11924,7 +11924,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -24315,
-    "flowRatioPct": -13.388,
+    "flowRatioPct": -13.383,
     "priceRet5": 1.08,
     "divergence": "distribution",
     "qualityScore": -42.8
@@ -12269,7 +12269,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 15963,
-    "flowRatioPct": -6.148,
+    "flowRatioPct": -6.146,
     "priceRet5": 3.33,
     "divergence": "distribution",
     "qualityScore": -29.4
@@ -12454,7 +12454,7 @@
     "rsi14": 61.6,
     "macd": 4484,
     "macdSignal": -989,
-    "volRatio": 1.98,
+    "volRatio": 1.99,
     "low3m": 221500,
     "high3m": 295000,
     "last5": [
@@ -12617,7 +12617,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -31080,
-    "flowRatioPct": -10.71,
+    "flowRatioPct": -10.694,
     "priceRet5": 1.01,
     "divergence": "distribution",
     "qualityScore": -30.0
@@ -12849,7 +12849,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -12570,
-    "flowRatioPct": 11.357,
+    "flowRatioPct": 11.356,
     "priceRet5": 13.11,
     "divergence": "confirmation_up",
     "qualityScore": 25.7
@@ -12965,7 +12965,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -34007,
-    "flowRatioPct": 4.546,
+    "flowRatioPct": 4.545,
     "priceRet5": 15.76,
     "divergence": "confirmation_up",
     "qualityScore": 26.1
@@ -13311,7 +13311,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -46477,
-    "flowRatioPct": 4.965,
+    "flowRatioPct": 4.964,
     "priceRet5": 7.23,
     "divergence": "confirmation_up",
     "qualityScore": 11.8
@@ -13427,7 +13427,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -130773,
-    "flowRatioPct": 32.692,
+    "flowRatioPct": 32.656,
     "priceRet5": 8.62,
     "divergence": "confirmation_up",
     "qualityScore": 48.2
@@ -14003,7 +14003,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -14851,
-    "flowRatioPct": 4.037,
+    "flowRatioPct": 4.035,
     "priceRet5": -8.96,
     "divergence": "accumulation",
     "qualityScore": 22.1
@@ -14119,7 +14119,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -713929,
-    "flowRatioPct": -2.844,
+    "flowRatioPct": -2.84,
     "priceRet5": 28.4,
     "divergence": "distribution",
     "qualityScore": -34.3
@@ -14235,7 +14235,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 52813,
-    "flowRatioPct": 9.302,
+    "flowRatioPct": 9.291,
     "priceRet5": 16.16,
     "divergence": "confirmation_up",
     "qualityScore": 40.0
@@ -14583,7 +14583,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -159486,
-    "flowRatioPct": -3.418,
+    "flowRatioPct": -3.414,
     "priceRet5": 16.81,
     "divergence": "distribution",
     "qualityScore": -16.1
@@ -14833,7 +14833,7 @@
     "vsMarket": -5.71,
     "sectorMedian5": 3.88,
     "vsSector": -2.07,
-    "sectorPercentile": 38
+    "sectorPercentile": 34
    }
   },
   "034220": {
@@ -14931,7 +14931,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -171931,
-    "flowRatioPct": 1.716,
+    "flowRatioPct": 1.715,
     "priceRet5": 6.08,
     "divergence": "confirmation_up",
     "qualityScore": -7.5
@@ -15000,7 +15000,7 @@
     "rsi14": 60.0,
     "macd": -920,
     "macdSignal": -1954,
-    "volRatio": 5.38,
+    "volRatio": 5.39,
     "low3m": 22850,
     "high3m": 45087,
     "last5": [
@@ -15047,7 +15047,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -103525,
-    "flowRatioPct": 1.027,
+    "flowRatioPct": 1.024,
     "priceRet5": 32.94,
     "divergence": "confirmation_up",
     "qualityScore": -1.7
@@ -15395,7 +15395,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -5553,
-    "flowRatioPct": 6.279,
+    "flowRatioPct": 6.274,
     "priceRet5": 5.97,
     "divergence": "confirmation_up",
     "qualityScore": 22.7
@@ -15511,7 +15511,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -60095,
-    "flowRatioPct": -14.254,
+    "flowRatioPct": -14.241,
     "priceRet5": 1.2,
     "divergence": "distribution",
     "qualityScore": -33.8
@@ -15627,7 +15627,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -224860,
-    "flowRatioPct": -35.191,
+    "flowRatioPct": -35.19,
     "priceRet5": -1.41,
     "divergence": "confirmation_down",
     "qualityScore": -41.3
@@ -15743,7 +15743,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -11166,
-    "flowRatioPct": 27.879,
+    "flowRatioPct": 27.874,
     "priceRet5": 17.69,
     "divergence": "confirmation_up",
     "qualityScore": 27.6
@@ -15974,7 +15974,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -130080,
-    "flowRatioPct": 5.163,
+    "flowRatioPct": 5.153,
     "priceRet5": 14.77,
     "divergence": "confirmation_up",
     "qualityScore": 12.3
@@ -16320,7 +16320,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 3614,
-    "flowRatioPct": 6.734,
+    "flowRatioPct": 6.733,
     "priceRet5": 10.06,
     "divergence": "confirmation_up",
     "qualityScore": 28.3
@@ -16668,7 +16668,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 680654,
-    "flowRatioPct": 13.191,
+    "flowRatioPct": 13.159,
     "priceRet5": 3.05,
     "divergence": "confirmation_up",
     "qualityScore": 38.2
@@ -16784,7 +16784,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 1377,
-    "flowRatioPct": 12.28,
+    "flowRatioPct": 12.278,
     "priceRet5": 14.49,
     "divergence": "confirmation_up",
     "qualityScore": 31.9
@@ -17016,7 +17016,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 183936,
-    "flowRatioPct": -13.589,
+    "flowRatioPct": -13.588,
     "priceRet5": 8.83,
     "divergence": "distribution",
     "qualityScore": -12.8
@@ -17248,7 +17248,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 1446272,
-    "flowRatioPct": -6.281,
+    "flowRatioPct": -6.269,
     "priceRet5": 9.68,
     "divergence": "distribution",
     "qualityScore": -18.1
@@ -17264,8 +17264,8 @@
     "ret5": 9.68,
     "marketMedian5": 7.53,
     "vsMarket": 2.15,
-    "sectorMedian5": 4.29,
-    "vsSector": 5.39,
+    "sectorMedian5": 4.31,
+    "vsSector": 5.37,
     "sectorPercentile": 84
    }
   },
@@ -17827,7 +17827,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 108548,
-    "flowRatioPct": -5.656,
+    "flowRatioPct": -5.655,
     "priceRet5": 2.21,
     "divergence": "distribution",
     "qualityScore": -2.1
@@ -17943,7 +17943,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -45241,
-    "flowRatioPct": -7.807,
+    "flowRatioPct": -7.806,
     "priceRet5": 12.12,
     "divergence": "distribution",
     "qualityScore": -38.3
@@ -18405,7 +18405,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -76359,
-    "flowRatioPct": 17.297,
+    "flowRatioPct": 17.294,
     "priceRet5": 7.74,
     "divergence": "confirmation_up",
     "qualityScore": 23.5
@@ -19401,7 +19401,7 @@
     "rsi14": 64.9,
     "macd": 173,
     "macdSignal": 71,
-    "volRatio": 1.44,
+    "volRatio": 1.45,
     "low3m": 4580,
     "high3m": 6120,
     "last5": [
@@ -19448,7 +19448,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -343273,
-    "flowRatioPct": 17.149,
+    "flowRatioPct": 17.133,
     "priceRet5": 10.42,
     "divergence": "confirmation_up",
     "qualityScore": 30.4
@@ -19796,7 +19796,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": 490482,
-    "flowRatioPct": 21.863,
+    "flowRatioPct": 21.858,
     "priceRet5": 34.97,
     "divergence": "confirmation_up",
     "qualityScore": 47.3
@@ -20025,7 +20025,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 29103,
-    "flowRatioPct": 1.917,
+    "flowRatioPct": 1.915,
     "priceRet5": 11.65,
     "divergence": "confirmation_up",
     "qualityScore": 28.5
@@ -20141,7 +20141,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 2784,
-    "flowRatioPct": -7.304,
+    "flowRatioPct": -7.296,
     "priceRet5": 7.96,
     "divergence": "distribution",
     "qualityScore": -23.6
@@ -20257,7 +20257,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 2711,
-    "flowRatioPct": 11.955,
+    "flowRatioPct": 11.953,
     "priceRet5": 9.41,
     "divergence": "confirmation_up",
     "qualityScore": 41.2
@@ -20389,8 +20389,8 @@
     "ret5": 4.35,
     "marketMedian5": 7.53,
     "vsMarket": -3.18,
-    "sectorMedian5": 4.29,
-    "vsSector": 0.06,
+    "sectorMedian5": 4.31,
+    "vsSector": 0.04,
     "sectorPercentile": 58
    }
   },
@@ -20832,7 +20832,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 5519,
-    "flowRatioPct": 8.456,
+    "flowRatioPct": 8.45,
     "priceRet5": 12.27,
     "divergence": "confirmation_up",
     "qualityScore": 38.5
@@ -21178,7 +21178,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 50695,
-    "flowRatioPct": 24.592,
+    "flowRatioPct": 24.567,
     "priceRet5": 23.08,
     "divergence": "confirmation_up",
     "qualityScore": 40.8
@@ -21755,7 +21755,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": 69939,
-    "flowRatioPct": 31.534,
+    "flowRatioPct": 31.515,
     "priceRet5": 13.65,
     "divergence": "confirmation_up",
     "qualityScore": 50
@@ -21771,8 +21771,8 @@
     "ret5": 13.65,
     "marketMedian5": 7.53,
     "vsMarket": 6.12,
-    "sectorMedian5": 4.29,
-    "vsSector": 9.36,
+    "sectorMedian5": 4.31,
+    "vsSector": 9.34,
     "sectorPercentile": 95
    }
   },
@@ -21985,7 +21985,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": 59422,
-    "flowRatioPct": 35.248,
+    "flowRatioPct": 35.244,
     "priceRet5": 24.55,
     "divergence": "confirmation_up",
     "qualityScore": 45.9
@@ -22233,8 +22233,8 @@
     "ret5": 7.13,
     "marketMedian5": 7.53,
     "vsMarket": -0.4,
-    "sectorMedian5": 4.29,
-    "vsSector": 2.84,
+    "sectorMedian5": 4.31,
+    "vsSector": 2.82,
     "sectorPercentile": 68
    }
   },
@@ -22332,7 +22332,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": 34692,
-    "flowRatioPct": -3.216,
+    "flowRatioPct": -3.214,
     "priceRet5": 0.0,
     "divergence": "neutral",
     "qualityScore": -18.3
@@ -22567,7 +22567,7 @@
     "flowRatioPct": 2.935,
     "priceRet5": 14.55,
     "divergence": "confirmation_up",
-    "qualityScore": 29.4
+    "qualityScore": 29.3
    },
    "risk": {
     "vol20": 3.22,
@@ -23043,8 +23043,8 @@
     "ret5": 17.97,
     "marketMedian5": 7.53,
     "vsMarket": 10.44,
-    "sectorMedian5": 4.29,
-    "vsSector": 13.68,
+    "sectorMedian5": 4.31,
+    "vsSector": 13.66,
     "sectorPercentile": 100
    }
   },
@@ -23509,7 +23509,7 @@
     "vsMarket": -5.52,
     "sectorMedian5": 11.11,
     "vsSector": -9.1,
-    "sectorPercentile": 20
+    "sectorPercentile": 16
    }
   },
   "008770": {
@@ -23607,7 +23607,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 235788,
-    "flowRatioPct": -49.115,
+    "flowRatioPct": -49.114,
     "priceRet5": -1.95,
     "divergence": "confirmation_down",
     "qualityScore": -16.6
@@ -23905,7 +23905,7 @@
     "rsi14": 52.5,
     "macd": -2987,
     "macdSignal": -4988,
-    "volRatio": 1.04,
+    "volRatio": 1.05,
     "low3m": 47400,
     "high3m": 115000,
     "last5": [
@@ -24298,7 +24298,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 17139,
-    "flowRatioPct": -14.55,
+    "flowRatioPct": -14.536,
     "priceRet5": -1.9,
     "divergence": "confirmation_down",
     "qualityScore": -23.0
@@ -24414,7 +24414,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": 110452,
-    "flowRatioPct": 41.928,
+    "flowRatioPct": 41.926,
     "priceRet5": 17.42,
     "divergence": "confirmation_up",
     "qualityScore": 49.7
@@ -24646,7 +24646,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -1639,
-    "flowRatioPct": 2.263,
+    "flowRatioPct": 2.26,
     "priceRet5": 6.83,
     "divergence": "confirmation_up",
     "qualityScore": 22.7
@@ -24894,8 +24894,8 @@
     "ret5": 7.39,
     "marketMedian5": 7.53,
     "vsMarket": -0.14,
-    "sectorMedian5": 4.29,
-    "vsSector": 3.1,
+    "sectorMedian5": 4.31,
+    "vsSector": 3.08,
     "sectorPercentile": 74
    }
   },
@@ -24947,7 +24947,7 @@
     "rsi14": 56.9,
     "macd": -502,
     "macdSignal": -1250,
-    "volRatio": 2.03,
+    "volRatio": 2.04,
     "low3m": 35050,
     "high3m": 60500,
     "last5": [
@@ -24994,7 +24994,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": 39060,
-    "flowRatioPct": 3.605,
+    "flowRatioPct": 3.594,
     "priceRet5": 17.56,
     "divergence": "confirmation_up",
     "qualityScore": 30.8
@@ -25063,7 +25063,7 @@
     "rsi14": 56.2,
     "macd": -1720,
     "macdSignal": -3158,
-    "volRatio": 0.93,
+    "volRatio": 0.94,
     "low3m": 45950,
     "high3m": 91900,
     "last5": [
@@ -25110,10 +25110,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -24552,
-    "flowRatioPct": 0.871,
+    "flowRatioPct": 0.86,
     "priceRet5": 21.96,
     "divergence": "confirmation_up",
-    "qualityScore": -5.2
+    "qualityScore": -5.3
    },
    "risk": {
     "vol20": 4.72,
@@ -25453,7 +25453,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -18214,
-    "flowRatioPct": 13.74,
+    "flowRatioPct": 13.65,
     "priceRet5": 6.37,
     "divergence": "confirmation_up",
     "qualityScore": 23.5
@@ -25914,7 +25914,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 351051,
-    "flowRatioPct": -6.789,
+    "flowRatioPct": -6.78,
     "priceRet5": 10.44,
     "divergence": "distribution",
     "qualityScore": -11.1
@@ -26030,7 +26030,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -290365,
-    "flowRatioPct": -1.235,
+    "flowRatioPct": -1.233,
     "priceRet5": 11.11,
     "divergence": "distribution",
     "qualityScore": -31.1
@@ -27418,7 +27418,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": -19062,
-    "flowRatioPct": -10.665,
+    "flowRatioPct": -10.662,
     "priceRet5": 12.97,
     "divergence": "distribution",
     "qualityScore": -44.3
@@ -28341,7 +28341,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -48123,
-    "flowRatioPct": -11.348,
+    "flowRatioPct": -11.338,
     "priceRet5": 7.82,
     "divergence": "distribution",
     "qualityScore": -41.3
@@ -28702,9 +28702,9 @@
     "ret5": 3.9,
     "marketMedian5": 7.53,
     "vsMarket": -3.63,
-    "sectorMedian5": 4.29,
-    "vsSector": -0.39,
-    "sectorPercentile": 47
+    "sectorMedian5": 4.31,
+    "vsSector": -0.41,
+    "sectorPercentile": 42
    }
   },
   "300720": {
@@ -29101,7 +29101,7 @@
     "rsi14": 56.4,
     "macd": -12,
     "macdSignal": -51,
-    "volRatio": 1.58,
+    "volRatio": 1.59,
     "low3m": 5900,
     "high3m": 7390,
     "last5": [
@@ -29148,10 +29148,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -2870,
-    "flowRatioPct": 2.71,
+    "flowRatioPct": 2.684,
     "priceRet5": 5.37,
     "divergence": "confirmation_up",
-    "qualityScore": 6.2
+    "qualityScore": 6.1
    },
    "risk": {
     "vol20": 1.66,
@@ -29262,7 +29262,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -111745,
-    "flowRatioPct": 29.612,
+    "flowRatioPct": 29.577,
     "priceRet5": 5.66,
     "divergence": "confirmation_up",
     "qualityScore": 40.7
@@ -30594,7 +30594,7 @@
     "rsi14": 54.2,
     "macd": 649,
     "macdSignal": 479,
-    "volRatio": 0.44,
+    "volRatio": 0.45,
     "low3m": 9040,
     "high3m": 18010,
     "last5": [
@@ -30641,7 +30641,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -464503,
-    "flowRatioPct": 3.841,
+    "flowRatioPct": 3.832,
     "priceRet5": 6.08,
     "divergence": "confirmation_up",
     "qualityScore": 19.1
@@ -30757,10 +30757,10 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": 72830,
-    "flowRatioPct": 2.461,
+    "flowRatioPct": 2.459,
     "priceRet5": 7.27,
     "divergence": "confirmation_up",
-    "qualityScore": 36.4
+    "qualityScore": 36.3
    },
    "risk": {
     "vol20": 8.0,
@@ -31863,7 +31863,7 @@
     "rsi14": 66.9,
     "macd": 232,
     "macdSignal": 157,
-    "volRatio": 1.27,
+    "volRatio": 1.29,
     "low3m": 4220,
     "high3m": 5560,
     "last5": [
@@ -31910,10 +31910,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 100773,
-    "flowRatioPct": -5.136,
+    "flowRatioPct": -5.075,
     "priceRet5": 2.77,
     "divergence": "distribution",
-    "qualityScore": -10.4
+    "qualityScore": -10.3
    },
    "risk": {
     "vol20": 4.43,
@@ -32141,7 +32141,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -58067,
-    "flowRatioPct": 12.017,
+    "flowRatioPct": 11.984,
     "priceRet5": 10.46,
     "divergence": "confirmation_up",
     "qualityScore": 33.1
@@ -32275,7 +32275,7 @@
     "vsMarket": 3.03,
     "sectorMedian5": 7.82,
     "vsSector": 2.73,
-    "sectorPercentile": 60
+    "sectorPercentile": 64
    }
   },
   "000370": {
@@ -32372,7 +32372,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 69842,
-    "flowRatioPct": 8.532,
+    "flowRatioPct": 8.515,
     "priceRet5": 4.06,
     "divergence": "confirmation_up",
     "qualityScore": 50
@@ -32619,8 +32619,8 @@
     "ret5": 3.21,
     "marketMedian5": 7.53,
     "vsMarket": -4.32,
-    "sectorMedian5": 4.29,
-    "vsSector": -1.08,
+    "sectorMedian5": 4.31,
+    "vsSector": -1.1,
     "sectorPercentile": 37
    }
   },
@@ -32851,8 +32851,8 @@
     "ret5": 5.99,
     "marketMedian5": 7.53,
     "vsMarket": -1.54,
-    "sectorMedian5": 4.29,
-    "vsSector": 1.7,
+    "sectorMedian5": 4.31,
+    "vsSector": 1.68,
     "sectorPercentile": 63
    }
   },
@@ -32949,7 +32949,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -38783,
-    "flowRatioPct": -12.117,
+    "flowRatioPct": -12.111,
     "priceRet5": 7.31,
     "divergence": "distribution",
     "qualityScore": -37.5
@@ -33177,7 +33177,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 5784,
-    "flowRatioPct": 9.081,
+    "flowRatioPct": 9.076,
     "priceRet5": 1.12,
     "divergence": "confirmation_up",
     "qualityScore": 37.4
@@ -33308,8 +33308,8 @@
     "ret5": 1.29,
     "marketMedian5": 7.53,
     "vsMarket": -6.24,
-    "sectorMedian5": 4.29,
-    "vsSector": -3.0,
+    "sectorMedian5": 4.31,
+    "vsSector": -3.02,
     "sectorPercentile": 16
    }
   },
@@ -33408,7 +33408,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 3162,
-    "flowRatioPct": 11.413,
+    "flowRatioPct": 11.412,
     "priceRet5": 13.93,
     "divergence": "confirmation_up",
     "qualityScore": 41.8
@@ -33753,7 +33753,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -80101,
-    "flowRatioPct": -15.095,
+    "flowRatioPct": -15.075,
     "priceRet5": -4.64,
     "divergence": "confirmation_down",
     "qualityScore": -42.1
@@ -34211,7 +34211,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -1533,
-    "flowRatioPct": 7.781,
+    "flowRatioPct": 7.78,
     "priceRet5": 9.64,
     "divergence": "confirmation_up",
     "qualityScore": 22.2
@@ -34558,7 +34558,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 3,
     "acceleration": 388296,
-    "flowRatioPct": -12.778,
+    "flowRatioPct": -12.752,
     "priceRet5": 7.24,
     "divergence": "distribution",
     "qualityScore": -28.5
@@ -34789,7 +34789,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -14461,
-    "flowRatioPct": 26.08,
+    "flowRatioPct": 26.031,
     "priceRet5": 9.95,
     "divergence": "confirmation_up",
     "qualityScore": 44.1
@@ -35609,8 +35609,8 @@
     "ret5": 13.54,
     "marketMedian5": 7.53,
     "vsMarket": 6.01,
-    "sectorMedian5": 4.29,
-    "vsSector": 9.25,
+    "sectorMedian5": 4.31,
+    "vsSector": 9.23,
     "sectorPercentile": 89
    }
   },
@@ -35838,8 +35838,8 @@
     "ret5": 1.76,
     "marketMedian5": 7.53,
     "vsMarket": -5.77,
-    "sectorMedian5": 4.29,
-    "vsSector": -2.53,
+    "sectorMedian5": 4.31,
+    "vsSector": -2.55,
     "sectorPercentile": 21
    }
   },
@@ -36507,7 +36507,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -551003,
-    "flowRatioPct": 14.219,
+    "flowRatioPct": 14.18,
     "priceRet5": 9.93,
     "divergence": "confirmation_up",
     "qualityScore": 35.6
@@ -36736,7 +36736,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -11153,
-    "flowRatioPct": 2.762,
+    "flowRatioPct": 2.761,
     "priceRet5": 55.01,
     "divergence": "confirmation_up",
     "qualityScore": 5.1
@@ -37427,7 +37427,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 24535,
-    "flowRatioPct": 15.95,
+    "flowRatioPct": 15.94,
     "priceRet5": 7.72,
     "divergence": "confirmation_up",
     "qualityScore": 38.8
@@ -38000,7 +38000,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -308,
-    "flowRatioPct": 10.353,
+    "flowRatioPct": 10.341,
     "priceRet5": 2.77,
     "divergence": "confirmation_up",
     "qualityScore": 25.6
@@ -38345,7 +38345,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -18498,
-    "flowRatioPct": 15.204,
+    "flowRatioPct": 15.19,
     "priceRet5": 11.58,
     "divergence": "confirmation_up",
     "qualityScore": 30.8
@@ -38690,7 +38690,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 5102,
-    "flowRatioPct": 6.266,
+    "flowRatioPct": 6.263,
     "priceRet5": 6.37,
     "divergence": "confirmation_up",
     "qualityScore": 32.5
@@ -39146,7 +39146,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -11,
-    "flowRatioPct": 2.968,
+    "flowRatioPct": 2.967,
     "priceRet5": 10.86,
     "divergence": "confirmation_up",
     "qualityScore": 12.8
@@ -39260,7 +39260,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -48028,
-    "flowRatioPct": 10.768,
+    "flowRatioPct": 10.743,
     "priceRet5": 9.09,
     "divergence": "confirmation_up",
     "qualityScore": 29.2
@@ -39949,7 +39949,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -64751,
-    "flowRatioPct": 26.657,
+    "flowRatioPct": 26.656,
     "priceRet5": 2.05,
     "divergence": "confirmation_up",
     "qualityScore": 35.1
@@ -40081,7 +40081,7 @@
     "vsMarket": -6.75,
     "sectorMedian5": 7.04,
     "vsSector": -6.26,
-    "sectorPercentile": 12
+    "sectorPercentile": 8
    }
   },
   "019170": {
@@ -40635,7 +40635,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -1081124,
-    "flowRatioPct": 6.285,
+    "flowRatioPct": 6.278,
     "priceRet5": 1.38,
     "divergence": "confirmation_up",
     "qualityScore": 15.1
@@ -41092,7 +41092,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 1,
     "acceleration": -45978,
-    "flowRatioPct": 15.699,
+    "flowRatioPct": 15.695,
     "priceRet5": 8.4,
     "divergence": "confirmation_up",
     "qualityScore": 39.5
@@ -41206,7 +41206,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -53680,
-    "flowRatioPct": 14.556,
+    "flowRatioPct": 14.555,
     "priceRet5": 8.85,
     "divergence": "confirmation_up",
     "qualityScore": 37.0
@@ -41450,8 +41450,8 @@
     "ret5": 0.49,
     "marketMedian5": 7.53,
     "vsMarket": -7.04,
-    "sectorMedian5": 4.29,
-    "vsSector": -3.8,
+    "sectorMedian5": 4.31,
+    "vsSector": -3.82,
     "sectorPercentile": 11
    }
   },
@@ -41664,7 +41664,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -28060,
-    "flowRatioPct": 17.059,
+    "flowRatioPct": 17.038,
     "priceRet5": 7.68,
     "divergence": "confirmation_up",
     "qualityScore": 29.1
@@ -41680,8 +41680,8 @@
     "ret5": 7.68,
     "marketMedian5": 7.53,
     "vsMarket": 0.15,
-    "sectorMedian5": 4.29,
-    "vsSector": 3.39,
+    "sectorMedian5": 4.31,
+    "vsSector": 3.37,
     "sectorPercentile": 79
    }
   },
@@ -41731,7 +41731,7 @@
     "rsi14": 61.0,
     "macd": -133,
     "macdSignal": -496,
-    "volRatio": 8.93,
+    "volRatio": 8.94,
     "low3m": 4365,
     "high3m": 13700,
     "last5": [
@@ -41778,7 +41778,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -585750,
-    "flowRatioPct": -0.886,
+    "flowRatioPct": -0.885,
     "priceRet5": 50.48,
     "divergence": "distribution",
     "qualityScore": -33.8
@@ -42123,7 +42123,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 20480,
-    "flowRatioPct": 1.29,
+    "flowRatioPct": 1.288,
     "priceRet5": 3.0,
     "divergence": "confirmation_up",
     "qualityScore": 14.6
@@ -42237,7 +42237,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -20200,
-    "flowRatioPct": 11.666,
+    "flowRatioPct": 11.658,
     "priceRet5": 4.55,
     "divergence": "confirmation_up",
     "qualityScore": 36.0
@@ -42580,7 +42580,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 4,
     "acceleration": -559984,
-    "flowRatioPct": -9.296,
+    "flowRatioPct": -9.288,
     "priceRet5": 35.85,
     "divergence": "distribution",
     "qualityScore": -50
@@ -42694,10 +42694,10 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -401624,
-    "flowRatioPct": -6.102,
+    "flowRatioPct": -6.09,
     "priceRet5": 14.09,
     "divergence": "distribution",
-    "qualityScore": -22.9
+    "qualityScore": -22.8
    },
    "risk": {
     "vol20": 8.53,
@@ -42809,10 +42809,10 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -22714,
-    "flowRatioPct": -6.717,
+    "flowRatioPct": -6.706,
     "priceRet5": -9.94,
     "divergence": "confirmation_down",
-    "qualityScore": -25.6
+    "qualityScore": -25.5
    },
    "risk": {
     "vol20": 10.38,
@@ -43222,7 +43222,7 @@
     "rsi14": 49.7,
     "macd": -664,
     "macdSignal": -1474,
-    "volRatio": 0.42,
+    "volRatio": 0.43,
     "low3m": 18550,
     "high3m": 43850,
     "last5": [
@@ -43269,7 +43269,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -277890,
-    "flowRatioPct": 13.169,
+    "flowRatioPct": 13.163,
     "priceRet5": 9.39,
     "divergence": "confirmation_up",
     "qualityScore": 22.7
@@ -43499,7 +43499,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -42678,
-    "flowRatioPct": 13.023,
+    "flowRatioPct": 12.98,
     "priceRet5": 27.85,
     "divergence": "confirmation_up",
     "qualityScore": 21.9
@@ -43729,7 +43729,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -2169352,
-    "flowRatioPct": -3.658,
+    "flowRatioPct": -3.656,
     "priceRet5": 34.35,
     "divergence": "distribution",
     "qualityScore": -36.3
@@ -43843,7 +43843,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -638826,
-    "flowRatioPct": 13.198,
+    "flowRatioPct": 13.187,
     "priceRet5": 24.03,
     "divergence": "confirmation_up",
     "qualityScore": 29.0
@@ -44649,7 +44649,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -91421,
-    "flowRatioPct": 10.13,
+    "flowRatioPct": 10.126,
     "priceRet5": 7.51,
     "divergence": "confirmation_up",
     "qualityScore": 29.1
@@ -44763,7 +44763,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -166351,
-    "flowRatioPct": 19.261,
+    "flowRatioPct": 19.242,
     "priceRet5": 5.19,
     "divergence": "confirmation_up",
     "qualityScore": 30.7
@@ -44945,7 +44945,7 @@
     "rsi14": 43.3,
     "macd": -2844,
     "macdSignal": -3785,
-    "volRatio": 1.3,
+    "volRatio": 1.31,
     "low3m": 11850,
     "high3m": 51400,
     "last5": [
@@ -44992,7 +44992,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -381578,
-    "flowRatioPct": -8.832,
+    "flowRatioPct": -8.824,
     "priceRet5": 15.19,
     "divergence": "distribution",
     "qualityScore": -37.1
@@ -45452,7 +45452,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -153427,
-    "flowRatioPct": -2.128,
+    "flowRatioPct": -2.126,
     "priceRet5": 24.67,
     "divergence": "distribution",
     "qualityScore": -12.9
@@ -45684,7 +45684,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -238962,
-    "flowRatioPct": -18.863,
+    "flowRatioPct": -18.859,
     "priceRet5": 13.47,
     "divergence": "distribution",
     "qualityScore": -46.9
@@ -45800,7 +45800,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -82009,
-    "flowRatioPct": -8.967,
+    "flowRatioPct": -8.965,
     "priceRet5": -3.16,
     "divergence": "confirmation_down",
     "qualityScore": -39.0
@@ -46029,7 +46029,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 40676,
-    "flowRatioPct": -13.465,
+    "flowRatioPct": -13.463,
     "priceRet5": 24.4,
     "divergence": "distribution",
     "qualityScore": -23.8
@@ -46371,7 +46371,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": -78063,
-    "flowRatioPct": -14.2,
+    "flowRatioPct": -14.199,
     "priceRet5": 11.21,
     "divergence": "distribution",
     "qualityScore": -50
@@ -46486,7 +46486,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -49591,
-    "flowRatioPct": 14.588,
+    "flowRatioPct": 14.583,
     "priceRet5": 14.9,
     "divergence": "confirmation_up",
     "qualityScore": 34.3
@@ -46717,7 +46717,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -188389,
-    "flowRatioPct": 1.496,
+    "flowRatioPct": 1.494,
     "priceRet5": 49.68,
     "divergence": "confirmation_up",
     "qualityScore": 2.3
@@ -46947,7 +46947,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -18415,
-    "flowRatioPct": 15.8,
+    "flowRatioPct": 15.775,
     "priceRet5": -5.05,
     "divergence": "accumulation",
     "qualityScore": 43.2
@@ -46963,8 +46963,8 @@
     "ret5": -5.05,
     "marketMedian5": 7.53,
     "vsMarket": -12.57,
-    "sectorMedian5": 4.29,
-    "vsSector": -9.34,
+    "sectorMedian5": 4.31,
+    "vsSector": -9.36,
     "sectorPercentile": 5
    }
   },
@@ -47176,7 +47176,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -6121,
-    "flowRatioPct": -16.192,
+    "flowRatioPct": -16.181,
     "priceRet5": 23.36,
     "divergence": "distribution",
     "qualityScore": -24.6
@@ -47291,7 +47291,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -34394,
-    "flowRatioPct": 11.082,
+    "flowRatioPct": 11.074,
     "priceRet5": 9.81,
     "divergence": "confirmation_up",
     "qualityScore": 47.4
@@ -47520,7 +47520,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -3384,
-    "flowRatioPct": 25.23,
+    "flowRatioPct": 25.223,
     "priceRet5": 16.33,
     "divergence": "confirmation_up",
     "qualityScore": 37.1
@@ -47748,7 +47748,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -10185,
-    "flowRatioPct": 1.785,
+    "flowRatioPct": 1.784,
     "priceRet5": 13.42,
     "divergence": "confirmation_up",
     "qualityScore": 15.4
@@ -47978,7 +47978,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -1921,
-    "flowRatioPct": 8.544,
+    "flowRatioPct": 8.542,
     "priceRet5": 12.7,
     "divergence": "confirmation_up",
     "qualityScore": 38.0
@@ -48208,7 +48208,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 2,
     "acceleration": -44022,
-    "flowRatioPct": 5.346,
+    "flowRatioPct": 5.345,
     "priceRet5": 13.52,
     "divergence": "confirmation_up",
     "qualityScore": 6.8
@@ -48324,7 +48324,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -96879,
-    "flowRatioPct": 6.016,
+    "flowRatioPct": 6.013,
     "priceRet5": 6.48,
     "divergence": "confirmation_up",
     "qualityScore": 13.6
@@ -48439,7 +48439,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -242032,
-    "flowRatioPct": 20.058,
+    "flowRatioPct": 20.056,
     "priceRet5": 2.57,
     "divergence": "confirmation_up",
     "qualityScore": 32.6
@@ -48553,7 +48553,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -550245,
-    "flowRatioPct": 13.751,
+    "flowRatioPct": 13.702,
     "priceRet5": 12.76,
     "divergence": "confirmation_up",
     "qualityScore": 34.6
@@ -48782,7 +48782,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -98976,
-    "flowRatioPct": 8.846,
+    "flowRatioPct": 8.845,
     "priceRet5": 14.4,
     "divergence": "confirmation_up",
     "qualityScore": 29.5
@@ -48896,7 +48896,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -36090,
-    "flowRatioPct": 2.467,
+    "flowRatioPct": 2.465,
     "priceRet5": 16.51,
     "divergence": "confirmation_up",
     "qualityScore": 0.1
@@ -49471,7 +49471,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -9043,
-    "flowRatioPct": 32.761,
+    "flowRatioPct": 32.759,
     "priceRet5": 13.96,
     "divergence": "confirmation_up",
     "qualityScore": 33.1
@@ -49585,7 +49585,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -61858,
-    "flowRatioPct": 2.885,
+    "flowRatioPct": 2.881,
     "priceRet5": 10.0,
     "divergence": "confirmation_up",
     "qualityScore": -5.0
@@ -50045,7 +50045,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -4897,
-    "flowRatioPct": -18.653,
+    "flowRatioPct": -18.65,
     "priceRet5": 21.31,
     "divergence": "distribution",
     "qualityScore": -30.6
@@ -50159,7 +50159,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -33410,
-    "flowRatioPct": -2.828,
+    "flowRatioPct": -2.827,
     "priceRet5": 13.96,
     "divergence": "distribution",
     "qualityScore": -27.5
@@ -50459,7 +50459,7 @@
     "rsi14": 43.6,
     "macd": -3356,
     "macdSignal": -3848,
-    "volRatio": 1.2,
+    "volRatio": 1.21,
     "low3m": 20550,
     "high3m": 62887,
     "last5": [
@@ -50506,7 +50506,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -32142,
-    "flowRatioPct": -19.938,
+    "flowRatioPct": -19.896,
     "priceRet5": 6.44,
     "divergence": "distribution",
     "qualityScore": -43.3
@@ -50621,7 +50621,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -87160,
-    "flowRatioPct": 22.249,
+    "flowRatioPct": 22.23,
     "priceRet5": 0.79,
     "divergence": "neutral",
     "qualityScore": 7.6
@@ -50963,7 +50963,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -22360,
-    "flowRatioPct": 10.663,
+    "flowRatioPct": 10.659,
     "priceRet5": 5.83,
     "divergence": "confirmation_up",
     "qualityScore": 30.6
@@ -51191,7 +51191,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -46804,
-    "flowRatioPct": 9.346,
+    "flowRatioPct": 9.345,
     "priceRet5": 8.96,
     "divergence": "confirmation_up",
     "qualityScore": 25.4
@@ -51536,7 +51536,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -18502,
-    "flowRatioPct": 3.419,
+    "flowRatioPct": 3.418,
     "priceRet5": 30.42,
     "divergence": "confirmation_up",
     "qualityScore": 8.5
@@ -51652,7 +51652,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 5946,
-    "flowRatioPct": -11.002,
+    "flowRatioPct": -11.001,
     "priceRet5": -0.37,
     "divergence": "neutral",
     "qualityScore": -24.3
@@ -51833,7 +51833,7 @@
     "rsi14": 61.4,
     "macd": -1001,
     "macdSignal": -4991,
-    "volRatio": 1.99,
+    "volRatio": 2.0,
     "low3m": 51400,
     "high3m": 158800,
     "last5": [
@@ -51880,7 +51880,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -69678,
-    "flowRatioPct": 4.362,
+    "flowRatioPct": 4.355,
     "priceRet5": 41.86,
     "divergence": "confirmation_up",
     "qualityScore": 22.3
@@ -52110,7 +52110,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -29715,
-    "flowRatioPct": -1.995,
+    "flowRatioPct": -1.987,
     "priceRet5": 14.51,
     "divergence": "distribution",
     "qualityScore": -32.2
@@ -52339,7 +52339,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 13012,
-    "flowRatioPct": -9.718,
+    "flowRatioPct": -9.717,
     "priceRet5": -5.12,
     "divergence": "confirmation_down",
     "qualityScore": -29.4
@@ -52453,10 +52453,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -26426,
-    "flowRatioPct": -2.381,
+    "flowRatioPct": -2.379,
     "priceRet5": -10.01,
     "divergence": "confirmation_down",
-    "qualityScore": -22.6
+    "qualityScore": -22.5
    },
    "risk": {
     "vol20": 9.68,
@@ -52913,7 +52913,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -302273,
-    "flowRatioPct": -1.825,
+    "flowRatioPct": -1.824,
     "priceRet5": 16.06,
     "divergence": "distribution",
     "qualityScore": -12.2
@@ -53027,7 +53027,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": 2456,
-    "flowRatioPct": -0.359,
+    "flowRatioPct": -0.358,
     "priceRet5": 3.01,
     "divergence": "distribution",
     "qualityScore": 21.5
@@ -53371,7 +53371,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -94067,
-    "flowRatioPct": 6.913,
+    "flowRatioPct": 6.906,
     "priceRet5": 14.01,
     "divergence": "confirmation_up",
     "qualityScore": 21.4
@@ -53600,7 +53600,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 8344,
-    "flowRatioPct": -10.317,
+    "flowRatioPct": -10.314,
     "priceRet5": 6.19,
     "divergence": "distribution",
     "qualityScore": -31.4
@@ -54057,7 +54057,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 1,
     "acceleration": 25542,
-    "flowRatioPct": 48.556,
+    "flowRatioPct": 48.536,
     "priceRet5": 10.6,
     "divergence": "confirmation_up",
     "qualityScore": 47.6
@@ -54171,7 +54171,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": 29067,
-    "flowRatioPct": -1.519,
+    "flowRatioPct": -1.518,
     "priceRet5": 12.93,
     "divergence": "distribution",
     "qualityScore": -13.8
@@ -54286,7 +54286,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -19981,
-    "flowRatioPct": -8.847,
+    "flowRatioPct": -8.845,
     "priceRet5": -1.68,
     "divergence": "confirmation_down",
     "qualityScore": -30.0
@@ -54629,7 +54629,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -5002,
-    "flowRatioPct": -10.87,
+    "flowRatioPct": -10.869,
     "priceRet5": 6.88,
     "divergence": "distribution",
     "qualityScore": -29.0
@@ -56006,7 +56006,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -11133,
-    "flowRatioPct": -36.509,
+    "flowRatioPct": -36.48,
     "priceRet5": 38.03,
     "divergence": "distribution",
     "qualityScore": -31.1
@@ -56236,7 +56236,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -67750,
-    "flowRatioPct": -32.927,
+    "flowRatioPct": -32.926,
     "priceRet5": -0.91,
     "divergence": "neutral",
     "qualityScore": -40.9
@@ -56351,7 +56351,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 42509,
-    "flowRatioPct": -35.17,
+    "flowRatioPct": -35.11,
     "priceRet5": 2.89,
     "divergence": "distribution",
     "qualityScore": -33.7
@@ -56466,7 +56466,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -132928,
-    "flowRatioPct": -3.373,
+    "flowRatioPct": -3.372,
     "priceRet5": 29.85,
     "divergence": "distribution",
     "qualityScore": -22.0
@@ -56809,7 +56809,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 149076,
-    "flowRatioPct": 6.515,
+    "flowRatioPct": 6.512,
     "priceRet5": 45.32,
     "divergence": "confirmation_up",
     "qualityScore": 26.0
@@ -57039,7 +57039,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -93035,
-    "flowRatioPct": 13.052,
+    "flowRatioPct": 13.049,
     "priceRet5": 7.07,
     "divergence": "confirmation_up",
     "qualityScore": 19.8
@@ -57154,7 +57154,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -690,
-    "flowRatioPct": -3.206,
+    "flowRatioPct": -3.205,
     "priceRet5": 18.05,
     "divergence": "distribution",
     "qualityScore": -25.1
@@ -57269,7 +57269,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 2,
     "acceleration": -122893,
-    "flowRatioPct": 8.174,
+    "flowRatioPct": 8.171,
     "priceRet5": 6.47,
     "divergence": "confirmation_up",
     "qualityScore": 19.4
@@ -57336,7 +57336,7 @@
     "rsi14": 47.6,
     "macd": -718,
     "macdSignal": -1192,
-    "volRatio": 0.68,
+    "volRatio": 0.69,
     "low3m": 9370,
     "high3m": 27450,
     "last5": [
@@ -57383,7 +57383,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -132686,
-    "flowRatioPct": -0.91,
+    "flowRatioPct": -0.908,
     "priceRet5": 14.31,
     "divergence": "distribution",
     "qualityScore": -9.9
@@ -57612,7 +57612,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -3296,
-    "flowRatioPct": 7.565,
+    "flowRatioPct": 7.564,
     "priceRet5": 42.57,
     "divergence": "confirmation_up",
     "qualityScore": 30.0
@@ -57636,7 +57636,7 @@
  },
  "indicesTech": {
   "KOSPI": {
-   "close": 6259.14,
+   "close": 6258.77,
    "daysAvail": 291,
    "ma5": 6354,
    "ma5Gap": -1.5,
@@ -57645,7 +57645,7 @@
    "ma5Full": true,
    "ma20": 6575,
    "ma20Gap": -4.8,
-   "ma20Slope": -4.75,
+   "ma20Slope": -4.76,
    "ma20Days": 20,
    "ma20Full": true,
    "ma60": 7626,
@@ -57659,14 +57659,14 @@
    "ma120Days": 120,
    "ma120Full": true,
    "ma200": 5803,
-   "ma200Gap": 7.9,
+   "ma200Gap": 7.8,
    "ma200Slope": 1.2,
    "ma200Days": 200,
    "ma200Full": true,
    "rsi14": 42.8,
    "macd": -373,
    "macdSignal": -406,
-   "volRatio": 0.74,
+   "volRatio": 0.76,
    "low3m": 5593.56,
    "high3m": 9114.55,
    "last5": [
@@ -57688,7 +57688,7 @@
     },
     {
      "d": "08-07",
-     "c": 6259.14
+     "c": 6258.77
     }
    ],
    "bb": {
@@ -57700,37 +57700,37 @@
    }
   },
   "KOSDAQ": {
-   "close": 797.97,
+   "close": 798.81,
    "daysAvail": 291,
-   "ma5": 783,
+   "ma5": 784,
    "ma5Gap": 1.9,
-   "ma5Slope": 11.99,
+   "ma5Slope": 12.01,
    "ma5Days": 5,
    "ma5Full": true,
-   "ma20": 762,
-   "ma20Gap": 4.7,
-   "ma20Slope": -1.35,
+   "ma20": 763,
+   "ma20Gap": 4.8,
+   "ma20Slope": -1.34,
    "ma20Days": 20,
    "ma20Full": true,
    "ma60": 918,
-   "ma60Gap": -13.0,
+   "ma60Gap": -12.9,
    "ma60Slope": -3.65,
    "ma60Days": 60,
    "ma60Full": true,
    "ma120": 1030,
-   "ma120Gap": -22.5,
+   "ma120Gap": -22.4,
    "ma120Slope": -1.35,
    "ma120Days": 120,
    "ma120Full": true,
    "ma200": 995,
-   "ma200Gap": -19.8,
-   "ma200Slope": -0.19,
+   "ma200Gap": -19.7,
+   "ma200Slope": -0.18,
    "ma200Days": 200,
    "ma200Full": true,
-   "rsi14": 50.0,
+   "rsi14": 50.1,
    "macd": -29,
    "macdSignal": -46,
-   "volRatio": 0.99,
+   "volRatio": 1.0,
    "low3m": 644.78,
    "high3m": 1207.72,
    "last5": [
@@ -57752,14 +57752,14 @@
     },
     {
      "d": "08-07",
-     "c": 797.97
+     "c": 798.81
     }
    ],
    "bb": {
     "upper": 861,
-    "mid": 762,
+    "mid": 763,
     "lower": 664,
-    "pctB": 0.681,
+    "pctB": 0.685,
     "width": 25.7
    }
   }
