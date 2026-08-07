@@ -403,7 +403,13 @@
 
   /* ── 요일별 평균 등락률 ── */
   .dowbar{background:var(--paper);border-radius:14px;padding:14px 18px 15px;box-shadow:var(--shadow-sm);margin:0 0 20px}
-  .dow-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  /* ⭐ 2026-08-07: 기본 접힘(details 기본값=닫힘) — 제목·기간만 보이다가 눌러야 펼쳐지게 */
+  .dow-details summary{cursor:pointer;list-style:none}
+  .dow-details summary::-webkit-details-marker{display:none}
+  .dow-details summary::after{content:'▸';flex:0 0 auto;color:var(--faint);font-size:11px;transition:transform .2s}
+  .dow-details[open] summary::after{transform:rotate(90deg)}
+  .dow-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .dow-h-txt{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0}
   .dow-h b{font-size:14px;font-weight:700;color:var(--ink)}
   .dow-sub{font-size:11px;color:var(--faint)}
   .dow-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
@@ -5513,10 +5519,11 @@ function moodLine(){
       `<div class="dow-meta">표본 ${r.n}일</div></div>`;
   }).join('');
   el.innerHTML=
-    `<div class="dow-h"><b>📅 요일별 평균 등락률</b>`+
-    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></div>`+
+    `<details class="dow-details"><summary class="dow-h"><span class="dow-h-txt"><b>📅 요일별 평균 등락률</b>`+
+    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></span></summary>`+
     `<div class="dow-grid">${cells}</div>`+
-    `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`;
+    `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`+
+    `</details>`;
   el.style.display='';
 })();
 
