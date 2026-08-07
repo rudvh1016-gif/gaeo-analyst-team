@@ -222,11 +222,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 74000,
+     "close": 73800,
      "open": 75400,
      "high": 80300,
      "low": 72900,
-     "volume": 1034970
+     "volume": 1060533
     }
    ],
    "start": "2026-08-06",
@@ -453,11 +453,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 232000,
+     "close": 232500,
      "open": 235000,
      "high": 239500,
      "low": 229000,
-     "volume": 13339849
+     "volume": 14906798
     }
    ],
    "start": "2026-08-06",
@@ -684,11 +684,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1422000,
+     "close": 1421000,
      "open": 1521000,
      "high": 1542000,
      "low": 1409000,
-     "volume": 3439541
+     "volume": 3611228
     }
    ],
    "start": "2026-08-06",
@@ -915,11 +915,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 934000,
+     "close": 936000,
      "open": 996000,
      "high": 1006000,
-     "low": 928000,
-     "volume": 443433
+     "low": 925000,
+     "volume": 488372
     }
    ],
    "start": "2026-08-06",
@@ -1146,11 +1146,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1286000,
+     "close": 1280000,
      "open": 1259000,
      "high": 1304000,
      "low": 1233000,
-     "volume": 639442
+     "volume": 672000
     }
    ],
    "start": "2026-08-06",
@@ -1377,11 +1377,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 447000,
+     "close": 446000,
      "open": 440500,
      "high": 455000,
      "low": 432000,
-     "volume": 25135
+     "volume": 26733
     }
    ],
    "start": "2026-08-06",
@@ -1612,7 +1612,7 @@ const PRICE_HISTORY = {
      "open": 576000,
      "high": 578000,
      "low": 539000,
-     "volume": 134394
+     "volume": 142549
     }
    ],
    "start": "2026-08-06",
@@ -1839,11 +1839,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 751000,
+     "close": 748000,
      "open": 777000,
      "high": 780000,
      "low": 736000,
-     "volume": 100447
+     "volume": 106825
     }
    ],
    "start": "2026-08-06",
@@ -2070,11 +2070,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 391500,
+     "close": 392000,
      "open": 401000,
      "high": 406000,
      "low": 387000,
-     "volume": 309179
+     "volume": 326944
     }
    ],
    "start": "2026-08-06",
@@ -2297,11 +2297,11 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-07",
-     "close": 196900,
+     "close": 197500,
      "open": 206000,
      "high": 206500,
      "low": 192300,
-     "volume": 513397
+     "volume": 547350
     }
    ],
    "start": "2026-08-07",
@@ -2524,11 +2524,11 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-07",
-     "close": 191300,
+     "close": 190800,
      "open": 201500,
      "high": 204500,
      "low": 189300,
-     "volume": 515649
+     "volume": 550829
     }
    ],
    "start": "2026-08-07",
@@ -2751,11 +2751,11 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-07",
-     "close": 82100,
+     "close": 82000,
      "open": 84400,
      "high": 85800,
      "low": 80000,
-     "volume": 259672
+     "volume": 276161
     }
    ],
    "start": "2026-08-07",
@@ -2978,11 +2978,11 @@ const PRICE_HISTORY = {
    "days": [
     {
      "date": "2026-08-07",
-     "close": 87500,
+     "close": 87100,
      "open": 91400,
      "high": 92500,
-     "low": 87100,
-     "volume": 623054
+     "low": 87000,
+     "volume": 694360
     }
    ],
    "start": "2026-08-07",
@@ -3194,11 +3194,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 210250,
+     "close": 210000,
      "open": 219500,
      "high": 222000,
      "low": 209000,
-     "volume": 1245634
+     "volume": 1304565
     }
    ],
    "start": "2026-08-03",
@@ -3410,11 +3410,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 39650,
+     "close": 39850,
      "open": 38300,
      "high": 40600,
      "low": 37800,
-     "volume": 3180816
+     "volume": 3344594
     }
    ],
    "start": "2026-08-03",
@@ -3626,11 +3626,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 133900,
+     "close": 134400,
      "open": 134000,
      "high": 135000,
      "low": 131000,
-     "volume": 417648
+     "volume": 467878
     }
    ],
    "start": "2026-08-03",
@@ -3842,11 +3842,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 174600,
+     "close": 174200,
      "open": 169200,
      "high": 176900,
      "low": 169200,
-     "volume": 513961
+     "volume": 564135
     }
    ],
    "start": "2026-08-03",
@@ -4058,11 +4058,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 102100,
+     "close": 102900,
      "open": 106700,
      "high": 111700,
      "low": 100600,
-     "volume": 354177
+     "volume": 373844
     }
    ],
    "start": "2026-08-03",
@@ -4278,7 +4278,7 @@ const PRICE_HISTORY = {
      "open": 347000,
      "high": 363000,
      "low": 346000,
-     "volume": 258951
+     "volume": 275547
     }
    ],
    "start": "2026-08-03",
@@ -4494,7 +4494,7 @@ const PRICE_HISTORY = {
      "open": 281500,
      "high": 284500,
      "low": 270000,
-     "volume": 267431
+     "volume": 293681
     }
    ],
    "start": "2026-08-03",
@@ -4706,11 +4706,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1524000,
+     "close": 1532000,
      "open": 1503000,
-     "high": 1528000,
+     "high": 1533000,
      "low": 1490000,
-     "volume": 24378
+     "volume": 29185
     }
    ],
    "start": "2026-08-03",
@@ -4926,7 +4926,7 @@ const PRICE_HISTORY = {
      "open": 333500,
      "high": 338500,
      "low": 323500,
-     "volume": 171928
+     "volume": 187353
     }
    ],
    "start": "2026-08-03",
@@ -5138,11 +5138,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 495500,
+     "close": 498000,
      "open": 508000,
      "high": 515000,
      "low": 489000,
-     "volume": 102450
+     "volume": 109208
     }
    ],
    "start": "2026-08-03",
@@ -5354,11 +5354,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 109500,
+     "close": 108900,
      "open": 107600,
      "high": 110300,
      "low": 105600,
-     "volume": 870915
+     "volume": 950998
     }
    ],
    "start": "2026-08-03",
@@ -5574,7 +5574,7 @@ const PRICE_HISTORY = {
      "open": 77100,
      "high": 78400,
      "low": 74000,
-     "volume": 1046282
+     "volume": 1105307
     }
    ],
    "start": "2026-08-03",
@@ -5786,11 +5786,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1077000,
+     "close": 1082000,
      "open": 1044000,
-     "high": 1082000,
+     "high": 1085000,
      "low": 1042000,
-     "volume": 82161
+     "volume": 89512
     }
    ],
    "start": "2026-08-03",
@@ -6002,11 +6002,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 501000,
+     "close": 500000,
      "open": 508000,
      "high": 517000,
      "low": 493000,
-     "volume": 84080
+     "volume": 91511
     }
    ],
    "start": "2026-08-03",
@@ -6222,7 +6222,7 @@ const PRICE_HISTORY = {
      "open": 503000,
      "high": 509000,
      "low": 485500,
-     "volume": 131399
+     "volume": 138077
     }
    ],
    "start": "2026-08-03",
@@ -6434,11 +6434,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 196800,
+     "close": 197500,
      "open": 193200,
      "high": 198700,
      "low": 193200,
-     "volume": 465452
+     "volume": 503071
     }
    ],
    "start": "2026-08-03",
@@ -6654,7 +6654,7 @@ const PRICE_HISTORY = {
      "open": 132000,
      "high": 133700,
      "low": 130200,
-     "volume": 356197
+     "volume": 386467
     }
    ],
    "start": "2026-08-03",
@@ -6866,11 +6866,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 444500,
+     "close": 446500,
      "open": 444000,
      "high": 468000,
      "low": 439000,
-     "volume": 507367
+     "volume": 529589
     }
    ],
    "start": "2026-08-03",
@@ -7082,11 +7082,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 181800,
+     "close": 181900,
      "open": 187400,
      "high": 187500,
      "low": 178100,
-     "volume": 1042085
+     "volume": 1097069
     }
    ],
    "start": "2026-08-03",
@@ -7298,11 +7298,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 644000,
+     "close": 641000,
      "open": 637000,
      "high": 655000,
      "low": 625000,
-     "volume": 56262
+     "volume": 62017
     }
    ],
    "start": "2026-08-03",
@@ -7514,11 +7514,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 2830000,
+     "close": 2829000,
      "open": 2840000,
      "high": 2879000,
      "low": 2735000,
-     "volume": 41622
+     "volume": 43446
     }
    ],
    "start": "2026-08-03",
@@ -7730,11 +7730,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 88200,
+     "close": 88100,
      "open": 90800,
      "high": 91700,
      "low": 87400,
-     "volume": 493352
+     "volume": 523209
     }
    ],
    "start": "2026-08-03",
@@ -7946,11 +7946,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 323000,
+     "close": 325500,
      "open": 327000,
      "high": 329500,
      "low": 318500,
-     "volume": 190394
+     "volume": 207597
     }
    ],
    "start": "2026-08-03",
@@ -8162,11 +8162,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 393000,
+     "close": 392500,
      "open": 394000,
      "high": 400500,
      "low": 388000,
-     "volume": 53626
+     "volume": 59592
     }
    ],
    "start": "2026-08-03",
@@ -8378,11 +8378,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 33600,
+     "close": 33550,
      "open": 34650,
      "high": 35000,
      "low": 33150,
-     "volume": 819144
+     "volume": 874597
     }
    ],
    "start": "2026-08-03",
@@ -8598,7 +8598,7 @@ const PRICE_HISTORY = {
      "open": 35600,
      "high": 35750,
      "low": 34900,
-     "volume": 622209
+     "volume": 668217
     }
    ],
    "start": "2026-08-03",
@@ -8814,7 +8814,7 @@ const PRICE_HISTORY = {
      "open": 33300,
      "high": 34500,
      "low": 33250,
-     "volume": 1269393
+     "volume": 1368152
     }
    ],
    "start": "2026-08-03",
@@ -9026,11 +9026,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1186000,
+     "close": 1172500,
      "open": 1192000,
      "high": 1225000,
      "low": 1151000,
-     "volume": 26506
+     "volume": 28901
     }
    ],
    "start": "2026-08-03",
@@ -9242,11 +9242,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1092000,
+     "close": 1102000,
      "open": 1211000,
      "high": 1213000,
      "low": 1086000,
-     "volume": 24012
+     "volume": 25637
     }
    ],
    "start": "2026-08-03",
@@ -9462,7 +9462,7 @@ const PRICE_HISTORY = {
      "open": 22050,
      "high": 22300,
      "low": 21600,
-     "volume": 1458371
+     "volume": 1572526
     }
    ],
    "start": "2026-08-03",
@@ -9674,11 +9674,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 143400,
+     "close": 143800,
      "open": 151900,
      "high": 152000,
      "low": 142000,
-     "volume": 202003
+     "volume": 222889
     }
    ],
    "start": "2026-08-03",
@@ -9890,11 +9890,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 125800,
+     "close": 125500,
      "open": 124500,
      "high": 126500,
      "low": 123300,
-     "volume": 149335
+     "volume": 165488
     }
    ],
    "start": "2026-08-03",
@@ -10106,11 +10106,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 266000,
+     "close": 268500,
      "open": 264500,
      "high": 272500,
      "low": 260500,
-     "volume": 94523
+     "volume": 104128
     }
    ],
    "start": "2026-08-03",
@@ -10322,11 +10322,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21600,
+     "close": 21700,
      "open": 21200,
-     "high": 21650,
+     "high": 21800,
      "low": 21200,
-     "volume": 779828
+     "volume": 898594
     }
    ],
    "start": "2026-08-03",
@@ -10538,11 +10538,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 186900,
+     "close": 186200,
      "open": 180800,
      "high": 187400,
      "low": 173100,
-     "volume": 204255
+     "volume": 220536
     }
    ],
    "start": "2026-08-03",
@@ -10754,11 +10754,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 114500,
+     "close": 115800,
      "open": 109800,
      "high": 116600,
      "low": 109600,
-     "volume": 784153
+     "volume": 840592
     }
    ],
    "start": "2026-08-03",
@@ -10970,11 +10970,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 20550,
+     "close": 20600,
      "open": 20200,
      "high": 20700,
      "low": 20200,
-     "volume": 549207
+     "volume": 586616
     }
    ],
    "start": "2026-08-03",
@@ -11186,11 +11186,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 714000,
+     "close": 712000,
      "open": 713000,
      "high": 722000,
      "low": 689000,
-     "volume": 91376
+     "volume": 97344
     }
    ],
    "start": "2026-08-03",
@@ -11402,11 +11402,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 221500,
+     "close": 221000,
      "open": 216000,
      "high": 225000,
      "low": 214000,
-     "volume": 60949
+     "volume": 75558
     }
    ],
    "start": "2026-08-03",
@@ -11622,7 +11622,7 @@ const PRICE_HISTORY = {
      "open": 230000,
      "high": 235500,
      "low": 219000,
-     "volume": 259081
+     "volume": 271885
     }
    ],
    "start": "2026-08-03",
@@ -11834,11 +11834,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 106500,
+     "close": 106200,
      "open": 106400,
      "high": 107700,
      "low": 104500,
-     "volume": 111911
+     "volume": 123615
     }
    ],
    "start": "2026-08-03",
@@ -12050,11 +12050,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 133400,
+     "close": 136300,
      "open": 126000,
-     "high": 135000,
+     "high": 136500,
      "low": 125900,
-     "volume": 327538
+     "volume": 390578
     }
    ],
    "start": "2026-08-03",
@@ -12266,11 +12266,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 205000,
+     "close": 204500,
      "open": 205500,
      "high": 207000,
      "low": 200500,
-     "volume": 78717
+     "volume": 92841
     }
    ],
    "start": "2026-08-03",
@@ -12482,11 +12482,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 156500,
+     "close": 156700,
      "open": 150200,
      "high": 158500,
      "low": 150200,
-     "volume": 337584
+     "volume": 368785
     }
    ],
    "start": "2026-08-03",
@@ -12698,11 +12698,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 370000,
+     "close": 375000,
      "open": 376000,
      "high": 391000,
      "low": 367500,
-     "volume": 187238
+     "volume": 201198
     }
    ],
    "start": "2026-08-03",
@@ -12918,7 +12918,7 @@ const PRICE_HISTORY = {
      "open": 53000,
      "high": 53600,
      "low": 52700,
-     "volume": 141926
+     "volume": 152004
     }
    ],
    "start": "2026-08-03",
@@ -13130,11 +13130,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 69300,
+     "close": 69500,
      "open": 71100,
      "high": 72300,
      "low": 68000,
-     "volume": 274557
+     "volume": 297000
     }
    ],
    "start": "2026-08-03",
@@ -13346,11 +13346,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 407500,
+     "close": 406000,
      "open": 425000,
      "high": 425000,
      "low": 396500,
-     "volume": 34189
+     "volume": 35903
     }
    ],
    "start": "2026-08-03",
@@ -13562,11 +13562,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 107000,
+     "close": 106900,
      "open": 110300,
      "high": 111900,
      "low": 105200,
-     "volume": 288192
+     "volume": 311632
     }
    ],
    "start": "2026-08-03",
@@ -13778,11 +13778,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27650,
+     "close": 27550,
      "open": 28350,
      "high": 28500,
      "low": 27500,
-     "volume": 437104
+     "volume": 484669
     }
    ],
    "start": "2026-08-03",
@@ -13994,11 +13994,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 239500,
+     "close": 239750,
      "open": 230000,
-     "high": 240000,
+     "high": 240500,
      "low": 228500,
-     "volume": 67464
+     "volume": 74171
     }
    ],
    "start": "2026-08-03",
@@ -14214,7 +14214,7 @@ const PRICE_HISTORY = {
      "open": 21450,
      "high": 22050,
      "low": 21300,
-     "volume": 557383
+     "volume": 599868
     }
    ],
    "start": "2026-08-03",
@@ -14426,11 +14426,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 314000,
+     "close": 314500,
      "open": 332000,
      "high": 341000,
      "low": 304500,
-     "volume": 129401
+     "volume": 137486
     }
    ],
    "start": "2026-08-03",
@@ -14642,11 +14642,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 164600,
+     "close": 165500,
      "open": 156600,
      "high": 165700,
      "low": 156100,
-     "volume": 100301
+     "volume": 110887
     }
    ],
    "start": "2026-08-03",
@@ -14858,11 +14858,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 90700,
+     "close": 90600,
      "open": 95500,
      "high": 95700,
      "low": 90400,
-     "volume": 469975
+     "volume": 504794
     }
    ],
    "start": "2026-08-03",
@@ -15074,11 +15074,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 26950,
+     "close": 27000,
      "open": 27150,
      "high": 27300,
      "low": 26650,
-     "volume": 1398813
+     "volume": 1463872
     }
    ],
    "start": "2026-08-03",
@@ -15290,11 +15290,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 181500,
+     "close": 182000,
      "open": 180800,
      "high": 186400,
      "low": 178500,
-     "volume": 162552
+     "volume": 172060
     }
    ],
    "start": "2026-08-03",
@@ -15506,11 +15506,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 117100,
+     "close": 116700,
      "open": 126000,
      "high": 127000,
      "low": 116200,
-     "volume": 67820
+     "volume": 73109
     }
    ],
    "start": "2026-08-03",
@@ -15722,11 +15722,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 70000,
+     "close": 69900,
      "open": 69700,
      "high": 70800,
      "low": 69200,
-     "volume": 114387
+     "volume": 122268
     }
    ],
    "start": "2026-08-03",
@@ -15938,11 +15938,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 191300,
+     "close": 193000,
      "open": 193900,
      "high": 197000,
      "low": 190500,
-     "volume": 26183
+     "volume": 28459
     }
    ],
    "start": "2026-08-03",
@@ -16154,11 +16154,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 277000,
+     "close": 276500,
      "open": 288000,
      "high": 291500,
      "low": 275500,
-     "volume": 67889
+     "volume": 74343
     }
    ],
    "start": "2026-08-03",
@@ -16370,11 +16370,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 57000,
+     "close": 57100,
      "open": 56100,
      "high": 57800,
      "low": 55800,
-     "volume": 246610
+     "volume": 268244
     }
    ],
    "start": "2026-08-03",
@@ -16586,11 +16586,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 47750,
+     "close": 47600,
      "open": 49150,
      "high": 49950,
      "low": 47300,
-     "volume": 1281506
+     "volume": 1353410
     }
    ],
    "start": "2026-08-03",
@@ -16802,11 +16802,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1284000,
+     "close": 1297000,
      "open": 1230000,
      "high": 1303000,
      "low": 1220000,
-     "volume": 36581
+     "volume": 40901
     }
    ],
    "start": "2026-08-03",
@@ -17018,11 +17018,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 97550,
+     "close": 97700,
      "open": 97900,
      "high": 101700,
      "low": 96600,
-     "volume": 246740
+     "volume": 261087
     }
    ],
    "start": "2026-08-03",
@@ -17234,11 +17234,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 139700,
+     "close": 139600,
      "open": 135900,
      "high": 141000,
      "low": 135200,
-     "volume": 247755
+     "volume": 289597
     }
    ],
    "start": "2026-08-03",
@@ -17450,11 +17450,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 83600,
+     "close": 84000,
      "open": 82700,
      "high": 85000,
      "low": 82000,
-     "volume": 75056
+     "volume": 83878
     }
    ],
    "start": "2026-08-03",
@@ -17666,11 +17666,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 94700,
+     "close": 94600,
      "open": 95700,
      "high": 96600,
      "low": 92000,
-     "volume": 89496
+     "volume": 97174
     }
    ],
    "start": "2026-08-03",
@@ -17882,11 +17882,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14920,
+     "close": 14890,
      "open": 15110,
      "high": 15280,
      "low": 14720,
-     "volume": 504359
+     "volume": 551954
     }
    ],
    "start": "2026-08-03",
@@ -18102,7 +18102,7 @@ const PRICE_HISTORY = {
      "open": 63400,
      "high": 63900,
      "low": 62200,
-     "volume": 49042
+     "volume": 53499
     }
    ],
    "start": "2026-08-03",
@@ -18314,11 +18314,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 102900,
+     "close": 103100,
      "open": 100900,
      "high": 105800,
      "low": 100100,
-     "volume": 476499
+     "volume": 504925
     }
    ],
    "start": "2026-08-03",
@@ -18530,11 +18530,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 415000,
+     "close": 418000,
      "open": 428000,
      "high": 429000,
      "low": 400500,
-     "volume": 47958
+     "volume": 53326
     }
    ],
    "start": "2026-08-03",
@@ -18746,11 +18746,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 290500,
+     "close": 293500,
      "open": 290000,
      "high": 296500,
      "low": 283000,
-     "volume": 248150
+     "volume": 265610
     }
    ],
    "start": "2026-08-03",
@@ -18962,11 +18962,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 82300,
+     "close": 83100,
      "open": 87400,
      "high": 91700,
      "low": 81500,
-     "volume": 1245933
+     "volume": 1281670
     }
    ],
    "start": "2026-08-03",
@@ -19178,11 +19178,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 126300,
+     "close": 126800,
      "open": 134800,
      "high": 141600,
      "low": 125000,
-     "volume": 660009
+     "volume": 684013
     }
    ],
    "start": "2026-08-03",
@@ -19394,11 +19394,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 450500,
+     "close": 452000,
      "open": 485000,
      "high": 488000,
      "low": 446250,
-     "volume": 104691
+     "volume": 109689
     }
    ],
    "start": "2026-08-03",
@@ -19610,11 +19610,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 86800,
+     "close": 87800,
      "open": 91200,
      "high": 98900,
      "low": 85700,
-     "volume": 873925
+     "volume": 911667
     }
    ],
    "start": "2026-08-03",
@@ -19826,11 +19826,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 65100,
+     "close": 65400,
      "open": 67100,
      "high": 68700,
      "low": 64000,
-     "volume": 268973
+     "volume": 288758
     }
    ],
    "start": "2026-08-03",
@@ -20042,11 +20042,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 117700,
+     "close": 117800,
      "open": 123800,
      "high": 129000,
      "low": 115700,
-     "volume": 199920
+     "volume": 210969
     }
    ],
    "start": "2026-08-03",
@@ -20258,11 +20258,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 35950,
+     "close": 36100,
      "open": 34750,
      "high": 36650,
      "low": 34750,
-     "volume": 481489
+     "volume": 499700
     }
    ],
    "start": "2026-08-03",
@@ -20474,11 +20474,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 161100,
+     "close": 161300,
      "open": 165000,
      "high": 168100,
      "low": 159800,
-     "volume": 86206
+     "volume": 91078
     }
    ],
    "start": "2026-08-03",
@@ -20690,11 +20690,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 316500,
+     "close": 319500,
      "open": 339000,
      "high": 343000,
      "low": 311000,
-     "volume": 52026
+     "volume": 55468
     }
    ],
    "start": "2026-08-03",
@@ -20906,11 +20906,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 108000,
+     "close": 109400,
      "open": 104900,
      "high": 112500,
      "low": 102500,
-     "volume": 685141
+     "volume": 758513
     }
    ],
    "start": "2026-08-03",
@@ -21122,11 +21122,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 83100,
+     "close": 84100,
      "open": 82400,
      "high": 86100,
      "low": 80500,
-     "volume": 229624
+     "volume": 245771
     }
    ],
    "start": "2026-08-03",
@@ -21338,11 +21338,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 109700,
+     "close": 111100,
      "open": 110800,
      "high": 114300,
      "low": 106500,
-     "volume": 217241
+     "volume": 231461
     }
    ],
    "start": "2026-08-03",
@@ -21554,11 +21554,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 110000,
+     "close": 111100,
      "open": 117000,
      "high": 121600,
      "low": 107400,
-     "volume": 129769
+     "volume": 140198
     }
    ],
    "start": "2026-08-03",
@@ -21770,11 +21770,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 33850,
+     "close": 34000,
      "open": 36250,
      "high": 37200,
      "low": 33600,
-     "volume": 954201
+     "volume": 1007220
     }
    ],
    "start": "2026-08-03",
@@ -21986,11 +21986,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 124400,
+     "close": 124000,
      "open": 132200,
      "high": 137900,
      "low": 122800,
-     "volume": 208414
+     "volume": 225097
     }
    ],
    "start": "2026-08-03",
@@ -22202,11 +22202,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 336000,
+     "close": 350000,
      "open": 396500,
      "high": 410000,
      "low": 333000,
-     "volume": 357719
+     "volume": 401136
     }
    ],
    "start": "2026-08-03",
@@ -22418,11 +22418,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 130900,
+     "close": 130000,
      "open": 138300,
      "high": 141100,
      "low": 129400,
-     "volume": 63407
+     "volume": 67036
     }
    ],
    "start": "2026-08-03",
@@ -22634,11 +22634,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 44950,
+     "close": 45050,
      "open": 45100,
      "high": 46100,
      "low": 44350,
-     "volume": 138554
+     "volume": 145566
     }
    ],
    "start": "2026-08-03",
@@ -22850,11 +22850,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 142500,
+     "close": 144500,
      "open": 153200,
      "high": 157000,
      "low": 141000,
-     "volume": 67868
+     "volume": 71912
     }
    ],
    "start": "2026-08-03",
@@ -23066,11 +23066,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 33650,
+     "close": 33700,
      "open": 36200,
      "high": 37400,
      "low": 33000,
-     "volume": 593590
+     "volume": 627530
     }
    ],
    "start": "2026-08-03",
@@ -23282,11 +23282,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 206000,
+     "close": 208000,
      "open": 211500,
      "high": 219000,
      "low": 202000,
-     "volume": 53728
+     "volume": 58206
     }
    ],
    "start": "2026-08-03",
@@ -23498,11 +23498,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 268000,
+     "close": 269500,
      "open": 273500,
      "high": 284500,
      "low": 264500,
-     "volume": 68858
+     "volume": 71809
     }
    ],
    "start": "2026-08-03",
@@ -23714,11 +23714,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29850,
+     "close": 30100,
      "open": 31350,
      "high": 32050,
-     "low": 29750,
-     "volume": 483863
+     "low": 29650,
+     "volume": 530401
     }
    ],
    "start": "2026-08-03",
@@ -23930,11 +23930,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 173700,
+     "close": 174400,
      "open": 178300,
      "high": 183400,
      "low": 169300,
-     "volume": 31885
+     "volume": 33229
     }
    ],
    "start": "2026-08-03",
@@ -24146,11 +24146,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 98200,
+     "close": 98400,
      "open": 100500,
      "high": 101900,
      "low": 97100,
-     "volume": 52049
+     "volume": 57208
     }
    ],
    "start": "2026-08-03",
@@ -24362,11 +24362,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 37800,
+     "close": 38450,
      "open": 39000,
      "high": 40400,
      "low": 37100,
-     "volume": 394686
+     "volume": 440531
     }
    ],
    "start": "2026-08-03",
@@ -24582,7 +24582,7 @@ const PRICE_HISTORY = {
      "open": 297500,
      "high": 305000,
      "low": 287500,
-     "volume": 24206
+     "volume": 25552
     }
    ],
    "start": "2026-08-03",
@@ -24794,11 +24794,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 38850,
+     "close": 38750,
      "open": 40450,
      "high": 40700,
      "low": 38450,
-     "volume": 286524
+     "volume": 300923
     }
    ],
    "start": "2026-08-03",
@@ -25010,11 +25010,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 34950,
+     "close": 35150,
      "open": 35200,
      "high": 36050,
      "low": 34550,
-     "volume": 121746
+     "volume": 125831
     }
    ],
    "start": "2026-08-03",
@@ -25226,11 +25226,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29600,
+     "close": 29700,
      "open": 31950,
      "high": 32000,
      "low": 28950,
-     "volume": 628294
+     "volume": 645994
     }
    ],
    "start": "2026-08-03",
@@ -25442,11 +25442,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 64200,
+     "close": 64100,
      "open": 67700,
      "high": 69100,
      "low": 62500,
-     "volume": 125249
+     "volume": 133560
     }
    ],
    "start": "2026-08-03",
@@ -25658,11 +25658,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 174800,
+     "close": 179600,
      "open": 177300,
      "high": 183200,
      "low": 169300,
-     "volume": 116116
+     "volume": 125722
     }
    ],
    "start": "2026-08-03",
@@ -25874,11 +25874,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 60000,
+     "close": 59900,
      "open": 62300,
      "high": 63700,
      "low": 59600,
-     "volume": 98115
+     "volume": 102685
     }
    ],
    "start": "2026-08-03",
@@ -26090,11 +26090,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 151300,
+     "close": 151500,
      "open": 168800,
      "high": 168800,
      "low": 150200,
-     "volume": 726837
+     "volume": 758878
     }
    ],
    "start": "2026-08-03",
@@ -26306,11 +26306,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 188000,
+     "close": 188100,
      "open": 208500,
      "high": 208500,
      "low": 187000,
-     "volume": 278692
+     "volume": 303192
     }
    ],
    "start": "2026-08-03",
@@ -26522,11 +26522,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16110,
+     "close": 16120,
      "open": 16870,
      "high": 17520,
      "low": 15700,
-     "volume": 4197442
+     "volume": 4357727
     }
    ],
    "start": "2026-08-03",
@@ -26738,11 +26738,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 71600,
+     "close": 71300,
      "open": 74600,
      "high": 74700,
      "low": 70800,
-     "volume": 671380
+     "volume": 702032
     }
    ],
    "start": "2026-08-03",
@@ -27170,11 +27170,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 137800,
+     "close": 137900,
      "open": 140200,
      "high": 142400,
      "low": 136400,
-     "volume": 154243
+     "volume": 166976
     }
    ],
    "start": "2026-08-03",
@@ -27386,11 +27386,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 26650,
+     "close": 26750,
      "open": 27900,
      "high": 28000,
      "low": 26200,
-     "volume": 1082358
+     "volume": 1138535
     }
    ],
    "start": "2026-08-03",
@@ -27602,11 +27602,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 158200,
+     "close": 158400,
      "open": 167700,
      "high": 167900,
      "low": 155600,
-     "volume": 165379
+     "volume": 174183
     }
    ],
    "start": "2026-08-03",
@@ -27818,11 +27818,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 47500,
+     "close": 47600,
      "open": 47000,
      "high": 47950,
      "low": 47000,
-     "volume": 27019
+     "volume": 29022
     }
    ],
    "start": "2026-08-03",
@@ -28038,7 +28038,7 @@ const PRICE_HISTORY = {
      "open": 9710,
      "high": 9840,
      "low": 9580,
-     "volume": 1479430
+     "volume": 1568389
     }
    ],
    "start": "2026-08-03",
@@ -28250,11 +28250,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 32800,
+     "close": 32900,
      "open": 33000,
      "high": 38550,
      "low": 31900,
-     "volume": 16735670
+     "volume": 17054631
     }
    ],
    "start": "2026-08-03",
@@ -28466,11 +28466,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 78800,
+     "close": 79200,
      "open": 77200,
-     "high": 79700,
+     "high": 80000,
      "low": 76800,
-     "volume": 161966
+     "volume": 190857
     }
    ],
    "start": "2026-08-03",
@@ -28682,11 +28682,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 136400,
+     "close": 137100,
      "open": 134200,
      "high": 138000,
      "low": 133800,
-     "volume": 41140
+     "volume": 48453
     }
    ],
    "start": "2026-08-03",
@@ -28902,7 +28902,7 @@ const PRICE_HISTORY = {
      "open": 238000,
      "high": 249000,
      "low": 238000,
-     "volume": 35753
+     "volume": 39468
     }
    ],
    "start": "2026-08-03",
@@ -29114,11 +29114,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 82700,
+     "close": 82600,
      "open": 90400,
      "high": 91600,
      "low": 81900,
-     "volume": 259137
+     "volume": 279356
     }
    ],
    "start": "2026-08-03",
@@ -29330,11 +29330,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 41600,
+     "close": 41700,
      "open": 41700,
      "high": 42625,
      "low": 41150,
-     "volume": 190739
+     "volume": 201402
     }
    ],
    "start": "2026-08-03",
@@ -29546,11 +29546,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 389000,
+     "close": 386000,
      "open": 388000,
      "high": 392500,
      "low": 382500,
-     "volume": 32302
+     "volume": 35874
     }
    ],
    "start": "2026-08-03",
@@ -29762,11 +29762,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 28550,
+     "close": 28400,
      "open": 28000,
      "high": 29600,
      "low": 27850,
-     "volume": 201479
+     "volume": 216580
     }
    ],
    "start": "2026-08-03",
@@ -29978,11 +29978,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 68600,
+     "close": 69200,
      "open": 72000,
      "high": 73400,
      "low": 68100,
-     "volume": 309160
+     "volume": 322750
     }
    ],
    "start": "2026-08-03",
@@ -30194,11 +30194,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 78900,
+     "close": 79000,
      "open": 81600,
      "high": 83200,
      "low": 78000,
-     "volume": 101744
+     "volume": 110595
     }
    ],
    "start": "2026-08-03",
@@ -30410,11 +30410,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 97100,
+     "close": 98600,
      "open": 110900,
      "high": 111300,
      "low": 95100,
-     "volume": 394630
+     "volume": 437665
     }
    ],
    "start": "2026-08-03",
@@ -30626,11 +30626,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 147400,
+     "close": 147350,
      "open": 159400,
      "high": 159500,
      "low": 143500,
-     "volume": 103895
+     "volume": 107429
     }
    ],
    "start": "2026-08-03",
@@ -30842,11 +30842,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 144200,
+     "close": 143500,
      "open": 144100,
      "high": 146400,
      "low": 141500,
-     "volume": 34611
+     "volume": 38641
     }
    ],
    "start": "2026-08-03",
@@ -31058,11 +31058,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 83800,
+     "close": 85800,
      "open": 85500,
      "high": 97600,
      "low": 83000,
-     "volume": 992670
+     "volume": 1028546
     }
    ],
    "start": "2026-08-03",
@@ -31274,11 +31274,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4495,
+     "close": 4505,
      "open": 4580,
      "high": 4610,
      "low": 4475,
-     "volume": 1169267
+     "volume": 1234595
     }
    ],
    "start": "2026-08-03",
@@ -31490,11 +31490,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 100500,
+     "close": 100600,
      "open": 101800,
      "high": 102500,
      "low": 98000,
-     "volume": 58195
+     "volume": 65228
     }
    ],
    "start": "2026-08-03",
@@ -31706,11 +31706,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 432000,
+     "close": 434000,
      "open": 427000,
      "high": 439000,
      "low": 424500,
-     "volume": 11252
+     "volume": 12154
     }
    ],
    "start": "2026-08-03",
@@ -31922,11 +31922,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 42150,
+     "close": 42050,
      "open": 43100,
      "high": 43850,
      "low": 40800,
-     "volume": 412417
+     "volume": 471862
     }
    ],
    "start": "2026-08-03",
@@ -32138,11 +32138,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 92400,
+     "close": 92500,
      "open": 93100,
      "high": 95000,
      "low": 91600,
-     "volume": 29559
+     "volume": 32916
     }
    ],
    "start": "2026-08-03",
@@ -32354,11 +32354,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 3580,
+     "close": 3585,
      "open": 3610,
      "high": 3675,
      "low": 3510,
-     "volume": 2751929
+     "volume": 2866184
     }
    ],
    "start": "2026-08-03",
@@ -32570,11 +32570,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 245500,
+     "close": 249000,
      "open": 262000,
      "high": 288500,
      "low": 235000,
-     "volume": 772116
+     "volume": 802948
     }
    ],
    "start": "2026-08-03",
@@ -32786,11 +32786,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 331000,
+     "close": 334000,
      "open": 317000,
-     "high": 332500,
+     "high": 334000,
      "low": 310000,
-     "volume": 119518
+     "volume": 133995
     }
    ],
    "start": "2026-08-03",
@@ -33002,11 +33002,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 101100,
+     "close": 100700,
      "open": 106500,
      "high": 106500,
      "low": 99900,
-     "volume": 117799
+     "volume": 129117
     }
    ],
    "start": "2026-08-03",
@@ -33218,11 +33218,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27700,
+     "close": 27900,
      "open": 28100,
      "high": 28600,
      "low": 27250,
-     "volume": 295307
+     "volume": 316609
     }
    ],
    "start": "2026-08-03",
@@ -33509,11 +33509,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 38700,
+     "close": 38650,
      "open": 38300,
      "high": 39200,
      "low": 38000,
-     "volume": 132382
+     "volume": 149404
     }
    ],
    "start": "2026-08-03",
@@ -33725,11 +33725,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 57500,
+     "close": 57600,
      "open": 60100,
      "high": 60600,
      "low": 56200,
-     "volume": 146767
+     "volume": 153449
     }
    ],
    "start": "2026-08-03",
@@ -33941,11 +33941,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14610,
+     "close": 14650,
      "open": 14400,
-     "high": 14630,
+     "high": 14660,
      "low": 14400,
-     "volume": 233308
+     "volume": 269192
     }
    ],
    "start": "2026-08-03",
@@ -34157,11 +34157,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29750,
+     "close": 30150,
      "open": 32300,
      "high": 32600,
      "low": 28800,
-     "volume": 681861
+     "volume": 725078
     }
    ],
    "start": "2026-08-03",
@@ -34373,11 +34373,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40450,
+     "close": 40700,
      "open": 38650,
      "high": 41000,
      "low": 38650,
-     "volume": 143991
+     "volume": 155965
     }
    ],
    "start": "2026-08-03",
@@ -34589,11 +34589,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 20450,
+     "close": 20400,
      "open": 21200,
      "high": 21500,
      "low": 20100,
-     "volume": 176964
+     "volume": 184135
     }
    ],
    "start": "2026-08-03",
@@ -34805,11 +34805,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 34600,
+     "close": 34700,
      "open": 34550,
      "high": 34950,
      "low": 34400,
-     "volume": 43803
+     "volume": 47321
     }
    ],
    "start": "2026-08-03",
@@ -35021,11 +35021,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 44250,
+     "close": 44450,
      "open": 43100,
-     "high": 44300,
+     "high": 44500,
      "low": 43100,
-     "volume": 16196
+     "volume": 19103
     }
    ],
    "start": "2026-08-03",
@@ -35237,11 +35237,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 52700,
+     "close": 53000,
      "open": 54600,
      "high": 55400,
      "low": 52200,
-     "volume": 197998
+     "volume": 219607
     }
    ],
    "start": "2026-08-03",
@@ -35453,11 +35453,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 66300,
+     "close": 66600,
      "open": 66500,
      "high": 67300,
      "low": 65700,
-     "volume": 42065
+     "volume": 47783
     }
    ],
    "start": "2026-08-03",
@@ -35669,11 +35669,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 122400,
+     "close": 122200,
      "open": 122000,
      "high": 124000,
      "low": 120500,
-     "volume": 40856
+     "volume": 46476
     }
    ],
    "start": "2026-08-03",
@@ -35885,11 +35885,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 36150,
+     "close": 36250,
      "open": 35700,
      "high": 37000,
      "low": 35700,
-     "volume": 48850
+     "volume": 54416
     }
    ],
    "start": "2026-08-03",
@@ -36105,7 +36105,7 @@ const PRICE_HISTORY = {
      "open": 201000,
      "high": 206500,
      "low": 201000,
-     "volume": 19863
+     "volume": 20944
     }
    ],
    "start": "2026-08-03",
@@ -36321,7 +36321,7 @@ const PRICE_HISTORY = {
      "open": 17510,
      "high": 17890,
      "low": 17490,
-     "volume": 260521
+     "volume": 293622
     }
    ],
    "start": "2026-08-03",
@@ -36533,11 +36533,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6000,
+     "close": 6030,
      "open": 5810,
      "high": 6050,
      "low": 5810,
-     "volume": 3029268
+     "volume": 3193156
     }
    ],
    "start": "2026-08-03",
@@ -36749,11 +36749,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 75900,
+     "close": 76400,
      "open": 74700,
-     "high": 76500,
+     "high": 76700,
      "low": 74400,
-     "volume": 19362
+     "volume": 23404
     }
    ],
    "start": "2026-08-03",
@@ -36965,11 +36965,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 218500,
+     "close": 219000,
      "open": 223500,
      "high": 228000,
      "low": 214500,
-     "volume": 18049
+     "volume": 19852
     }
    ],
    "start": "2026-08-03",
@@ -37185,7 +37185,7 @@ const PRICE_HISTORY = {
      "open": 32550,
      "high": 33150,
      "low": 31300,
-     "volume": 1847541
+     "volume": 1929793
     }
    ],
    "start": "2026-08-03",
@@ -37397,11 +37397,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 72400,
+     "close": 72600,
      "open": 72000,
      "high": 72900,
      "low": 71600,
-     "volume": 40551
+     "volume": 49141
     }
    ],
    "start": "2026-08-03",
@@ -37613,11 +37613,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 34850,
+     "close": 34950,
      "open": 36100,
      "high": 37800,
      "low": 34200,
-     "volume": 434484
+     "volume": 446962
     }
    ],
    "start": "2026-08-03",
@@ -37829,11 +37829,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 59300,
+     "close": 59700,
      "open": 59300,
      "high": 60200,
      "low": 58000,
-     "volume": 46664
+     "volume": 51886
     }
    ],
    "start": "2026-08-03",
@@ -38045,11 +38045,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 157900,
+     "close": 157400,
      "open": 160500,
      "high": 166000,
      "low": 156000,
-     "volume": 11104
+     "volume": 12519
     }
    ],
    "start": "2026-08-03",
@@ -38261,11 +38261,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 54300,
+     "close": 54400,
      "open": 56400,
      "high": 57000,
      "low": 53600,
-     "volume": 63790
+     "volume": 69438
     }
    ],
    "start": "2026-08-03",
@@ -38477,11 +38477,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 26450,
+     "close": 26400,
      "open": 26000,
      "high": 26500,
      "low": 25900,
-     "volume": 48270
+     "volume": 50935
     }
    ],
    "start": "2026-08-03",
@@ -38693,11 +38693,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 150700,
+     "close": 150600,
      "open": 156700,
      "high": 156700,
      "low": 147100,
-     "volume": 4193
+     "volume": 4788
     }
    ],
    "start": "2026-08-03",
@@ -38909,11 +38909,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 105000,
+     "close": 105700,
      "open": 106500,
      "high": 110500,
      "low": 104000,
-     "volume": 135496
+     "volume": 143763
     }
    ],
    "start": "2026-08-03",
@@ -39129,7 +39129,7 @@ const PRICE_HISTORY = {
      "open": 17280,
      "high": 17480,
      "low": 16770,
-     "volume": 98065
+     "volume": 103398
     }
    ],
    "start": "2026-08-03",
@@ -39341,11 +39341,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 239000,
+     "close": 240000,
      "open": 246000,
      "high": 260000,
      "low": 237000,
-     "volume": 75897
+     "volume": 79020
     }
    ],
    "start": "2026-08-03",
@@ -39557,11 +39557,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 204000,
+     "close": 203500,
      "open": 201000,
      "high": 207000,
      "low": 197400,
-     "volume": 5030
+     "volume": 5874
     }
    ],
    "start": "2026-08-03",
@@ -39773,11 +39773,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 71300,
+     "close": 71200,
      "open": 72200,
      "high": 73700,
      "low": 70400,
-     "volume": 236464
+     "volume": 253865
     }
    ],
    "start": "2026-08-03",
@@ -39989,11 +39989,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14580,
+     "close": 14500,
      "open": 14460,
      "high": 14600,
      "low": 14340,
-     "volume": 146024
+     "volume": 158203
     }
    ],
    "start": "2026-08-03",
@@ -40205,11 +40205,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 25700,
+     "close": 25800,
      "open": 26150,
      "high": 26700,
      "low": 25500,
-     "volume": 38845
+     "volume": 44719
     }
    ],
    "start": "2026-08-03",
@@ -40421,11 +40421,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 46600,
+     "close": 46650,
      "open": 45550,
      "high": 47150,
      "low": 45550,
-     "volume": 81237
+     "volume": 89911
     }
    ],
    "start": "2026-08-03",
@@ -40637,11 +40637,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 23350,
+     "close": 23300,
      "open": 23350,
      "high": 23800,
      "low": 23050,
-     "volume": 82284
+     "volume": 91869
     }
    ],
    "start": "2026-08-03",
@@ -40853,11 +40853,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 50300,
+     "close": 50400,
      "open": 51200,
      "high": 51500,
      "low": 49800,
-     "volume": 236257
+     "volume": 252285
     }
    ],
    "start": "2026-08-03",
@@ -41069,11 +41069,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 48750,
+     "close": 48950,
      "open": 48000,
-     "high": 49150,
+     "high": 49450,
      "low": 47000,
-     "volume": 131493
+     "volume": 149192
     }
    ],
    "start": "2026-08-03",
@@ -41289,7 +41289,7 @@ const PRICE_HISTORY = {
      "open": 43450,
      "high": 45900,
      "low": 42800,
-     "volume": 221062
+     "volume": 230531
     }
    ],
    "start": "2026-08-03",
@@ -41501,11 +41501,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 81600,
+     "close": 82100,
      "open": 80800,
      "high": 83100,
      "low": 80600,
-     "volume": 62428
+     "volume": 68575
     }
    ],
    "start": "2026-08-03",
@@ -41717,11 +41717,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7680,
+     "close": 7710,
      "open": 7890,
      "high": 8510,
      "low": 7550,
-     "volume": 9047831
+     "volume": 9223046
     }
    ],
    "start": "2026-08-03",
@@ -41937,7 +41937,7 @@ const PRICE_HISTORY = {
      "open": 5610,
      "high": 5630,
      "low": 5530,
-     "volume": 387374
+     "volume": 396567
     }
    ],
    "start": "2026-08-03",
@@ -42149,11 +42149,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 11960,
+     "close": 11800,
      "open": 11840,
      "high": 12620,
      "low": 11490,
-     "volume": 511415
+     "volume": 579933
     }
    ],
    "start": "2026-08-03",
@@ -42365,11 +42365,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 28150,
+     "close": 28400,
      "open": 26750,
      "high": 28950,
      "low": 26250,
-     "volume": 444225
+     "volume": 482754
     }
    ],
    "start": "2026-08-03",
@@ -42581,11 +42581,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 402500,
+     "close": 405000,
      "open": 387000,
-     "high": 405000,
+     "high": 406500,
      "low": 387000,
-     "volume": 23688
+     "volume": 29069
     }
    ],
    "start": "2026-08-03",
@@ -42797,11 +42797,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 19190,
+     "close": 19260,
      "open": 19120,
      "high": 19360,
      "low": 19010,
-     "volume": 181221
+     "volume": 198602
     }
    ],
    "start": "2026-08-03",
@@ -43013,11 +43013,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 152300,
+     "close": 151800,
      "open": 141900,
      "high": 156000,
      "low": 141200,
-     "volume": 145883
+     "volume": 159580
     }
    ],
    "start": "2026-08-03",
@@ -43229,11 +43229,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 47950,
+     "close": 47650,
      "open": 47400,
      "high": 49000,
      "low": 46750,
-     "volume": 129215
+     "volume": 144603
     }
    ],
    "start": "2026-08-03",
@@ -43445,11 +43445,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 54300,
+     "close": 54200,
      "open": 56100,
      "high": 56300,
      "low": 53200,
-     "volume": 132211
+     "volume": 141303
     }
    ],
    "start": "2026-08-03",
@@ -43661,11 +43661,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 46700,
+     "close": 47000,
      "open": 47000,
      "high": 47600,
      "low": 46300,
-     "volume": 38011
+     "volume": 42193
     }
    ],
    "start": "2026-08-03",
@@ -43881,7 +43881,7 @@ const PRICE_HISTORY = {
      "open": 32850,
      "high": 33450,
      "low": 32350,
-     "volume": 17126
+     "volume": 18942
     }
    ],
    "start": "2026-08-03",
@@ -44093,11 +44093,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 223500,
+     "close": 226000,
      "open": 221000,
-     "high": 224500,
+     "high": 226000,
      "low": 218500,
-     "volume": 6444
+     "volume": 7550
     }
    ],
    "start": "2026-08-03",
@@ -44313,7 +44313,7 @@ const PRICE_HISTORY = {
      "open": 42850,
      "high": 42900,
      "low": 41950,
-     "volume": 150707
+     "volume": 158917
     }
    ],
    "start": "2026-08-03",
@@ -44525,11 +44525,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 202500,
+     "close": 204000,
      "open": 198200,
      "high": 208000,
      "low": 198000,
-     "volume": 41556
+     "volume": 44340
     }
    ],
    "start": "2026-08-03",
@@ -44745,7 +44745,7 @@ const PRICE_HISTORY = {
      "open": 62600,
      "high": 64300,
      "low": 58200,
-     "volume": 171766
+     "volume": 177162
     }
    ],
    "start": "2026-08-03",
@@ -44957,11 +44957,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 60900,
+     "close": 61200,
      "open": 63700,
      "high": 65100,
      "low": 59400,
-     "volume": 97970
+     "volume": 101662
     }
    ],
    "start": "2026-08-03",
@@ -45173,11 +45173,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 28950,
+     "close": 29200,
      "open": 32500,
      "high": 33250,
      "low": 28650,
-     "volume": 269285
+     "volume": 296371
     }
    ],
    "start": "2026-08-03",
@@ -45389,11 +45389,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27050,
+     "close": 27000,
      "open": 26350,
      "high": 27350,
      "low": 26350,
-     "volume": 56147
+     "volume": 58651
     }
    ],
    "start": "2026-08-03",
@@ -45609,7 +45609,7 @@ const PRICE_HISTORY = {
      "open": 50900,
      "high": 51100,
      "low": 48200,
-     "volume": 41167
+     "volume": 43578
     }
    ],
    "start": "2026-08-03",
@@ -45821,11 +45821,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 83000,
+     "close": 83200,
      "open": 83900,
      "high": 86200,
      "low": 82200,
-     "volume": 133069
+     "volume": 139658
     }
    ],
    "start": "2026-08-03",
@@ -46037,11 +46037,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 55200,
+     "close": 54600,
      "open": 55700,
      "high": 57400,
      "low": 53600,
-     "volume": 222110
+     "volume": 232711
     }
    ],
    "start": "2026-08-03",
@@ -46253,11 +46253,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7660,
+     "close": 7710,
      "open": 7800,
      "high": 7860,
      "low": 7400,
-     "volume": 501699
+     "volume": 569484
     }
    ],
    "start": "2026-08-03",
@@ -46469,11 +46469,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 79000,
+     "close": 78900,
      "open": 77000,
      "high": 79300,
      "low": 76700,
-     "volume": 30559
+     "volume": 33047
     }
    ],
    "start": "2026-08-03",
@@ -46689,7 +46689,7 @@ const PRICE_HISTORY = {
      "open": 62200,
      "high": 62900,
      "low": 60900,
-     "volume": 29746
+     "volume": 33736
     }
    ],
    "start": "2026-08-03",
@@ -46901,11 +46901,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 43050,
+     "close": 43250,
      "open": 42800,
      "high": 44100,
      "low": 41050,
-     "volume": 732545
+     "volume": 775905
     }
    ],
    "start": "2026-08-03",
@@ -47117,11 +47117,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 55600,
+     "close": 56000,
      "open": 57000,
      "high": 59500,
      "low": 53900,
-     "volume": 85927
+     "volume": 94350
     }
    ],
    "start": "2026-08-03",
@@ -47333,11 +47333,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27400,
+     "close": 27700,
      "open": 26650,
      "high": 27900,
      "low": 26650,
-     "volume": 48665
+     "volume": 55731
     }
    ],
    "start": "2026-08-03",
@@ -47549,11 +47549,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 38350,
+     "close": 38500,
      "open": 38800,
      "high": 39400,
      "low": 37600,
-     "volume": 18976
+     "volume": 22046
     }
    ],
    "start": "2026-08-03",
@@ -47765,11 +47765,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16590,
+     "close": 16520,
      "open": 16710,
      "high": 17010,
      "low": 16240,
-     "volume": 200864
+     "volume": 216455
     }
    ],
    "start": "2026-08-03",
@@ -47981,11 +47981,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 127300,
+     "close": 127800,
      "open": 126700,
      "high": 129400,
      "low": 124800,
-     "volume": 14122
+     "volume": 15497
     }
    ],
    "start": "2026-08-03",
@@ -48201,7 +48201,7 @@ const PRICE_HISTORY = {
      "open": 36950,
      "high": 37700,
      "low": 36800,
-     "volume": 23157
+     "volume": 25111
     }
    ],
    "start": "2026-08-03",
@@ -48413,11 +48413,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7310,
+     "close": 7300,
      "open": 7330,
      "high": 7340,
      "low": 7250,
-     "volume": 43437
+     "volume": 46030
     }
    ],
    "start": "2026-08-03",
@@ -48629,11 +48629,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9600,
+     "close": 9660,
      "open": 10170,
      "high": 10770,
      "low": 9410,
-     "volume": 1915752
+     "volume": 1954789
     }
    ],
    "start": "2026-08-03",
@@ -48845,11 +48845,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 50700,
+     "close": 50600,
      "open": 58100,
      "high": 59100,
      "low": 50000,
-     "volume": 4186777
+     "volume": 4274823
     }
    ],
    "start": "2026-08-03",
@@ -49061,11 +49061,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 127600,
+     "close": 128000,
      "open": 124400,
      "high": 129800,
      "low": 124400,
-     "volume": 21376
+     "volume": 22446
     }
    ],
    "start": "2026-08-03",
@@ -49277,11 +49277,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 37500,
+     "close": 37750,
      "open": 37450,
      "high": 38150,
      "low": 37300,
-     "volume": 28714
+     "volume": 34406
     }
    ],
    "start": "2026-08-03",
@@ -49493,11 +49493,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 44450,
+     "close": 44900,
      "open": 46550,
      "high": 46800,
      "low": 43300,
-     "volume": 45298
+     "volume": 53782
     }
    ],
    "start": "2026-08-03",
@@ -49709,11 +49709,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 25900,
+     "close": 25950,
      "open": 26300,
      "high": 26550,
      "low": 25700,
-     "volume": 41701
+     "volume": 43737
     }
    ],
    "start": "2026-08-03",
@@ -49925,11 +49925,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 35500,
+     "close": 35750,
      "open": 37000,
      "high": 38050,
      "low": 35250,
-     "volume": 83646
+     "volume": 89047
     }
    ],
    "start": "2026-08-03",
@@ -50145,7 +50145,7 @@ const PRICE_HISTORY = {
      "open": 61500,
      "high": 63000,
      "low": 61200,
-     "volume": 25433
+     "volume": 27480
     }
    ],
    "start": "2026-08-03",
@@ -50357,11 +50357,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 127100,
+     "close": 129600,
      "open": 140800,
      "high": 152800,
      "low": 122100,
-     "volume": 811709
+     "volume": 829749
     }
    ],
    "start": "2026-08-03",
@@ -50573,11 +50573,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22850,
+     "close": 22900,
      "open": 22950,
      "high": 23350,
      "low": 22350,
-     "volume": 120396
+     "volume": 130315
     }
    ],
    "start": "2026-08-03",
@@ -50789,11 +50789,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 338500,
+     "close": 339500,
      "open": 332500,
      "high": 342000,
      "low": 324000,
-     "volume": 3510
+     "volume": 3953
     }
    ],
    "start": "2026-08-03",
@@ -51005,11 +51005,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 41000,
+     "close": 41750,
      "open": 42900,
      "high": 43350,
      "low": 40850,
-     "volume": 43232
+     "volume": 48324
     }
    ],
    "start": "2026-08-03",
@@ -51221,11 +51221,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 331000,
+     "close": 332000,
      "open": 341000,
      "high": 343000,
      "low": 328000,
-     "volume": 14637
+     "volume": 15733
     }
    ],
    "start": "2026-08-03",
@@ -51441,7 +51441,7 @@ const PRICE_HISTORY = {
      "open": 14570,
      "high": 15090,
      "low": 14080,
-     "volume": 109960
+     "volume": 116809
     }
    ],
    "start": "2026-08-03",
@@ -51653,11 +51653,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22550,
+     "close": 22600,
      "open": 22700,
      "high": 23300,
      "low": 22100,
-     "volume": 35857
+     "volume": 43395
     }
    ],
    "start": "2026-08-03",
@@ -52085,11 +52085,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40450,
+     "close": 40250,
      "open": 40100,
      "high": 40550,
      "low": 39750,
-     "volume": 45655
+     "volume": 49479
     }
    ],
    "start": "2026-08-03",
@@ -52305,7 +52305,7 @@ const PRICE_HISTORY = {
      "open": 12650,
      "high": 12990,
      "low": 12540,
-     "volume": 119023
+     "volume": 128958
     }
    ],
    "start": "2026-08-03",
@@ -52517,11 +52517,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22400,
+     "close": 22500,
      "open": 22200,
      "high": 22650,
      "low": 22050,
-     "volume": 62621
+     "volume": 72083
     }
    ],
    "start": "2026-08-03",
@@ -52733,11 +52733,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9920,
+     "close": 9940,
      "open": 10010,
      "high": 10070,
      "low": 9820,
-     "volume": 226012
+     "volume": 242958
     }
    ],
    "start": "2026-08-03",
@@ -52953,7 +52953,7 @@ const PRICE_HISTORY = {
      "open": 47500,
      "high": 48650,
      "low": 47350,
-     "volume": 23240
+     "volume": 24891
     }
    ],
    "start": "2026-08-03",
@@ -53165,11 +53165,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 77000,
+     "close": 76900,
      "open": 75900,
      "high": 79200,
      "low": 74500,
-     "volume": 182640
+     "volume": 201842
     }
    ],
    "start": "2026-08-03",
@@ -53381,11 +53381,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 41050,
+     "close": 41250,
      "open": 40200,
      "high": 42550,
      "low": 40200,
-     "volume": 152284
+     "volume": 162148
     }
    ],
    "start": "2026-08-03",
@@ -53597,11 +53597,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9970,
+     "close": 10000,
      "open": 10080,
      "high": 10130,
      "low": 9810,
-     "volume": 25407
+     "volume": 28100
     }
    ],
    "start": "2026-08-03",
@@ -53813,11 +53813,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 31600,
+     "close": 31750,
      "open": 31000,
      "high": 32100,
      "low": 31000,
-     "volume": 22661
+     "volume": 25161
     }
    ],
    "start": "2026-08-03",
@@ -54029,11 +54029,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14730,
+     "close": 14700,
      "open": 14580,
      "high": 14890,
      "low": 14570,
-     "volume": 28663
+     "volume": 30579
     }
    ],
    "start": "2026-08-03",
@@ -54249,7 +54249,7 @@ const PRICE_HISTORY = {
      "open": 27400,
      "high": 27500,
      "low": 25600,
-     "volume": 120520
+     "volume": 131246
     }
    ],
    "start": "2026-08-03",
@@ -54461,11 +54461,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 15810,
+     "close": 15830,
      "open": 15390,
      "high": 15860,
      "low": 15350,
-     "volume": 97522
+     "volume": 104302
     }
    ],
    "start": "2026-08-03",
@@ -54760,11 +54760,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4350,
+     "close": 4355,
      "open": 4435,
      "high": 4505,
      "low": 4295,
-     "volume": 447275
+     "volume": 462275
     }
    ],
    "start": "2026-08-03",
@@ -54976,11 +54976,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 52300,
+     "close": 52600,
      "open": 53200,
      "high": 56200,
      "low": 50400,
-     "volume": 117120
+     "volume": 127238
     }
    ],
    "start": "2026-08-03",
@@ -55192,11 +55192,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 17690,
+     "close": 17750,
      "open": 17710,
      "high": 18040,
      "low": 17550,
-     "volume": 26047
+     "volume": 29460
     }
    ],
    "start": "2026-08-03",
@@ -55408,11 +55408,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 106500,
+     "close": 107100,
      "open": 103100,
      "high": 107400,
      "low": 103100,
-     "volume": 15501
+     "volume": 16746
     }
    ],
    "start": "2026-08-03",
@@ -55624,11 +55624,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 69800,
+     "close": 70000,
      "open": 69000,
      "high": 70500,
      "low": 68200,
-     "volume": 19070
+     "volume": 20477
     }
    ],
    "start": "2026-08-03",
@@ -55840,11 +55840,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 50000,
+     "close": 49650,
      "open": 49900,
      "high": 50600,
      "low": 49000,
-     "volume": 33447
+     "volume": 37180
     }
    ],
    "start": "2026-08-03",
@@ -56056,11 +56056,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 916000,
+     "close": 919000,
      "open": 904000,
      "high": 923000,
      "low": 903000,
-     "volume": 1245
+     "volume": 1266
     }
    ],
    "start": "2026-08-03",
@@ -56272,11 +56272,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 101300,
+     "close": 101500,
      "open": 100500,
      "high": 101600,
      "low": 99200,
-     "volume": 10360
+     "volume": 11506
     }
    ],
    "start": "2026-08-03",
@@ -56488,11 +56488,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 73000,
+     "close": 72800,
      "open": 72400,
      "high": 73900,
      "low": 71300,
-     "volume": 43311
+     "volume": 45063
     }
    ],
    "start": "2026-08-03",
@@ -56704,11 +56704,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 53400,
+     "close": 53200,
      "open": 54200,
      "high": 54600,
      "low": 52500,
-     "volume": 20969
+     "volume": 22102
     }
    ],
    "start": "2026-08-03",
@@ -56920,11 +56920,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 26700,
+     "close": 26600,
      "open": 26350,
      "high": 26750,
      "low": 26150,
-     "volume": 8928
+     "volume": 9084
     }
    ],
    "start": "2026-08-03",
@@ -57136,11 +57136,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4530,
+     "close": 4520,
      "open": 4590,
      "high": 4655,
      "low": 4485,
-     "volume": 130276
+     "volume": 138897
     }
    ],
    "start": "2026-08-03",
@@ -57352,11 +57352,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13770,
+     "close": 13800,
      "open": 14850,
      "high": 14940,
      "low": 13400,
-     "volume": 5677812
+     "volume": 5865015
     }
    ],
    "start": "2026-08-03",
@@ -57568,11 +57568,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13250,
+     "close": 13240,
      "open": 13900,
      "high": 14170,
      "low": 13070,
-     "volume": 582378
+     "volume": 601486
     }
    ],
    "start": "2026-08-03",
@@ -57784,11 +57784,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 42900,
+     "close": 43150,
      "open": 44350,
      "high": 44350,
      "low": 42050,
-     "volume": 64359
+     "volume": 66325
     }
    ],
    "start": "2026-08-03",
@@ -58000,11 +58000,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40450,
+     "close": 40650,
      "open": 39850,
      "high": 41000,
      "low": 39550,
-     "volume": 23884
+     "volume": 27533
     }
    ],
    "start": "2026-08-03",
@@ -58216,11 +58216,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14920,
+     "close": 15090,
      "open": 14910,
-     "high": 15050,
+     "high": 15110,
      "low": 14740,
-     "volume": 33162
+     "volume": 42245
     }
    ],
    "start": "2026-08-03",
@@ -58432,11 +58432,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 48150,
+     "close": 48250,
      "open": 48200,
      "high": 49000,
      "low": 48000,
-     "volume": 8837
+     "volume": 9164
     }
    ],
    "start": "2026-08-03",
@@ -58648,11 +58648,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 76100,
+     "close": 76600,
      "open": 79900,
      "high": 82700,
      "low": 75300,
-     "volume": 81877
+     "volume": 83701
     }
    ],
    "start": "2026-08-03",
@@ -58864,11 +58864,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 63600,
+     "close": 63400,
      "open": 64000,
      "high": 64500,
      "low": 62800,
-     "volume": 13555
+     "volume": 16142
     }
    ],
    "start": "2026-08-03",
@@ -59080,11 +59080,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6400,
+     "close": 6390,
      "open": 6290,
      "high": 6450,
      "low": 6270,
-     "volume": 54760
+     "volume": 61768
     }
    ],
    "start": "2026-08-03",
@@ -59296,11 +59296,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 19490,
+     "close": 19510,
      "open": 19480,
      "high": 19710,
      "low": 19160,
-     "volume": 34744
+     "volume": 39592
     }
    ],
    "start": "2026-08-03",
@@ -59516,7 +59516,7 @@ const PRICE_HISTORY = {
      "open": 54500,
      "high": 56100,
      "low": 54300,
-     "volume": 19213
+     "volume": 19811
     }
    ],
    "start": "2026-08-03",
@@ -59732,7 +59732,7 @@ const PRICE_HISTORY = {
      "open": 5380,
      "high": 5560,
      "low": 5290,
-     "volume": 512887
+     "volume": 567672
     }
    ],
    "start": "2026-08-03",
@@ -59944,11 +59944,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8740,
+     "close": 8790,
      "open": 8700,
-     "high": 8770,
+     "high": 8790,
      "low": 8500,
-     "volume": 80980
+     "volume": 83241
     }
    ],
    "start": "2026-08-03",
@@ -60160,11 +60160,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 11070,
+     "close": 11140,
      "open": 11470,
      "high": 11800,
      "low": 10900,
-     "volume": 296803
+     "volume": 314300
     }
    ],
    "start": "2026-08-03",
@@ -60376,11 +60376,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14820,
+     "close": 14880,
      "open": 14880,
      "high": 14970,
      "low": 14540,
-     "volume": 18420
+     "volume": 19961
     }
    ],
    "start": "2026-08-03",
@@ -60596,7 +60596,7 @@ const PRICE_HISTORY = {
      "open": 5940,
      "high": 6000,
      "low": 5830,
-     "volume": 103682
+     "volume": 108212
     }
    ],
    "start": "2026-08-03",
@@ -60808,11 +60808,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 42850,
+     "close": 42900,
      "open": 42600,
      "high": 43750,
      "low": 42550,
-     "volume": 27612
+     "volume": 30307
     }
    ],
    "start": "2026-08-03",
@@ -61028,7 +61028,7 @@ const PRICE_HISTORY = {
      "open": 27300,
      "high": 27750,
      "low": 26750,
-     "volume": 36574
+     "volume": 38454
     }
    ],
    "start": "2026-08-03",
@@ -61240,11 +61240,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 92100,
+     "close": 92400,
      "open": 91900,
      "high": 93300,
      "low": 90400,
-     "volume": 19049
+     "volume": 20264
     }
    ],
    "start": "2026-08-03",
@@ -61456,11 +61456,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6540,
+     "close": 6560,
      "open": 6610,
      "high": 6710,
      "low": 6490,
-     "volume": 47746
+     "volume": 49686
     }
    ],
    "start": "2026-08-03",
@@ -61672,11 +61672,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10720,
+     "close": 10670,
      "open": 11100,
      "high": 11120,
      "low": 10590,
-     "volume": 91425
+     "volume": 103630
     }
    ],
    "start": "2026-08-03",
@@ -61888,11 +61888,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 37200,
+     "close": 37400,
      "open": 37850,
      "high": 38600,
      "low": 36850,
-     "volume": 26965
+     "volume": 29150
     }
    ],
    "start": "2026-08-03",
@@ -62108,7 +62108,7 @@ const PRICE_HISTORY = {
      "open": 22400,
      "high": 22700,
      "low": 22100,
-     "volume": 13878
+     "volume": 15710
     }
    ],
    "start": "2026-08-03",
@@ -62320,11 +62320,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 62800,
+     "close": 62900,
      "open": 63500,
      "high": 63600,
      "low": 62200,
-     "volume": 4452
+     "volume": 4738
     }
    ],
    "start": "2026-08-03",
@@ -62536,11 +62536,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 179400,
+     "close": 179500,
      "open": 177600,
      "high": 180900,
      "low": 173900,
-     "volume": 11119
+     "volume": 12831
     }
    ],
    "start": "2026-08-03",
@@ -62752,11 +62752,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 2010,
+     "close": 2005,
      "open": 2035,
      "high": 2045,
      "low": 1988,
-     "volume": 255996
+     "volume": 266305
     }
    ],
    "start": "2026-08-03",
@@ -62968,11 +62968,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 35350,
+     "close": 35400,
      "open": 35550,
      "high": 36200,
      "low": 34950,
-     "volume": 23013
+     "volume": 25103
     }
    ],
    "start": "2026-08-03",
@@ -63184,11 +63184,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14200,
+     "close": 14210,
      "open": 14620,
      "high": 14770,
      "low": 14050,
-     "volume": 315367
+     "volume": 336829
     }
    ],
    "start": "2026-08-03",
@@ -63400,11 +63400,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 510000,
+     "close": 512000,
      "open": 503000,
-     "high": 511000,
+     "high": 513000,
      "low": 502000,
-     "volume": 1125
+     "volume": 1234
     }
    ],
    "start": "2026-08-03",
@@ -63616,11 +63616,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9410,
+     "close": 9460,
      "open": 9310,
-     "high": 9450,
+     "high": 9460,
      "low": 9250,
-     "volume": 55590
+     "volume": 62054
     }
    ],
    "start": "2026-08-03",
@@ -64048,11 +64048,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45650,
+     "close": 45700,
      "open": 45350,
      "high": 46100,
      "low": 44850,
-     "volume": 18666
+     "volume": 19298
     }
    ],
    "start": "2026-08-03",
@@ -64264,11 +64264,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 15920,
+     "close": 15950,
      "open": 15550,
      "high": 15980,
      "low": 15550,
-     "volume": 36273
+     "volume": 41596
     }
    ],
    "start": "2026-08-03",
@@ -64480,11 +64480,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 54300,
+     "close": 54500,
      "open": 51200,
-     "high": 54700,
+     "high": 55500,
      "low": 50100,
-     "volume": 206065
+     "volume": 241257
     }
    ],
    "start": "2026-08-03",
@@ -64696,11 +64696,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9260,
+     "close": 9320,
      "open": 9700,
      "high": 9920,
      "low": 9140,
-     "volume": 1504444
+     "volume": 1575890
     }
    ],
    "start": "2026-08-03",
@@ -64916,7 +64916,7 @@ const PRICE_HISTORY = {
      "open": 23250,
      "high": 24050,
      "low": 22400,
-     "volume": 207141
+     "volume": 226696
     }
    ],
    "start": "2026-08-03",
@@ -65128,11 +65128,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 2010,
+     "close": 2015,
      "open": 2005,
      "high": 2065,
      "low": 2000,
-     "volume": 1514060
+     "volume": 1554102
     }
    ],
    "start": "2026-08-03",
@@ -65344,11 +65344,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 19000,
+     "close": 19060,
      "open": 19240,
      "high": 19600,
      "low": 18820,
-     "volume": 28420
+     "volume": 29927
     }
    ],
    "start": "2026-08-03",
@@ -65776,11 +65776,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 68800,
+     "close": 69000,
      "open": 68700,
      "high": 69400,
      "low": 68400,
-     "volume": 10715
+     "volume": 12392
     }
    ],
    "start": "2026-08-03",
@@ -65992,11 +65992,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 19260,
+     "close": 19490,
      "open": 19200,
-     "high": 19390,
+     "high": 19490,
      "low": 19010,
-     "volume": 19792
+     "volume": 23472
     }
    ],
    "start": "2026-08-03",
@@ -66208,11 +66208,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18360,
+     "close": 18380,
      "open": 18080,
      "high": 18640,
      "low": 18070,
-     "volume": 75119
+     "volume": 79611
     }
    ],
    "start": "2026-08-03",
@@ -66424,11 +66424,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14050,
+     "close": 14060,
      "open": 14140,
      "high": 14250,
      "low": 14010,
-     "volume": 7953
+     "volume": 8278
     }
    ],
    "start": "2026-08-03",
@@ -66640,11 +66640,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 24700,
+     "close": 24750,
      "open": 25250,
      "high": 26000,
      "low": 24250,
-     "volume": 67785
+     "volume": 68894
     }
    ],
    "start": "2026-08-03",
@@ -66856,11 +66856,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7770,
+     "close": 7780,
      "open": 7740,
      "high": 7880,
      "low": 7700,
-     "volume": 56428
+     "volume": 58297
     }
    ],
    "start": "2026-08-03",
@@ -67076,7 +67076,7 @@ const PRICE_HISTORY = {
      "open": 2910,
      "high": 2925,
      "low": 2845,
-     "volume": 252355
+     "volume": 278516
     }
    ],
    "start": "2026-08-03",
@@ -67288,11 +67288,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 55400,
+     "close": 55300,
      "open": 56200,
      "high": 57700,
-     "low": 55400,
-     "volume": 2461
+     "low": 55300,
+     "volume": 2528
     }
    ],
    "start": "2026-08-03",
@@ -67504,11 +67504,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21750,
+     "close": 21950,
      "open": 21500,
      "high": 22150,
      "low": 21500,
-     "volume": 26071
+     "volume": 28488
     }
    ],
    "start": "2026-08-03",
@@ -67720,11 +67720,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 24800,
+     "close": 24650,
      "open": 24600,
      "high": 25050,
      "low": 24350,
-     "volume": 21347
+     "volume": 21938
     }
    ],
    "start": "2026-08-03",
@@ -67936,11 +67936,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 85800,
+     "close": 86100,
      "open": 85800,
      "high": 86800,
      "low": 84800,
-     "volume": 2437
+     "volume": 4146
     }
    ],
    "start": "2026-08-03",
@@ -68152,11 +68152,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 121100,
+     "close": 121900,
      "open": 123600,
      "high": 123600,
      "low": 119900,
-     "volume": 3938
+     "volume": 4499
     }
    ],
    "start": "2026-08-03",
@@ -68368,11 +68368,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 2190,
+     "close": 2185,
      "open": 2270,
      "high": 2315,
      "low": 2165,
-     "volume": 1552162
+     "volume": 1597299
     }
    ],
    "start": "2026-08-03",
@@ -68584,11 +68584,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 25400,
+     "close": 25450,
      "open": 26200,
      "high": 26650,
      "low": 25000,
-     "volume": 26165
+     "volume": 27164
     }
    ],
    "start": "2026-08-03",
@@ -68800,11 +68800,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45850,
+     "close": 46150,
      "open": 44150,
      "high": 47600,
      "low": 43700,
-     "volume": 199007
+     "volume": 206308
     }
    ],
    "start": "2026-08-03",
@@ -69016,11 +69016,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18890,
+     "close": 18990,
      "open": 19000,
      "high": 19960,
      "low": 18430,
-     "volume": 53142
+     "volume": 57356
     }
    ],
    "start": "2026-08-03",
@@ -69232,11 +69232,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 87600,
+     "close": 87800,
      "open": 88200,
      "high": 89700,
-     "low": 87500,
-     "volume": 5188
+     "low": 87400,
+     "volume": 5631
     }
    ],
    "start": "2026-08-03",
@@ -69448,11 +69448,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7230,
+     "close": 7240,
      "open": 7620,
      "high": 7680,
      "low": 7120,
-     "volume": 139652
+     "volume": 147372
     }
    ],
    "start": "2026-08-03",
@@ -69664,11 +69664,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27600,
+     "close": 27650,
      "open": 28350,
      "high": 28550,
      "low": 27250,
-     "volume": 38865
+     "volume": 41074
     }
    ],
    "start": "2026-08-03",
@@ -69880,11 +69880,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 17530,
+     "close": 17520,
      "open": 17830,
      "high": 17830,
      "low": 17450,
-     "volume": 9434
+     "volume": 9523
     }
    ],
    "start": "2026-08-03",
@@ -70096,11 +70096,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 5810,
+     "close": 5820,
      "open": 5670,
      "high": 5900,
      "low": 5650,
-     "volume": 343633
+     "volume": 355294
     }
    ],
    "start": "2026-08-03",
@@ -70312,11 +70312,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 32550,
+     "close": 32750,
      "open": 33500,
      "high": 34000,
      "low": 32350,
-     "volume": 24643
+     "volume": 25036
     }
    ],
    "start": "2026-08-03",
@@ -70528,11 +70528,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7890,
+     "close": 7880,
      "open": 8030,
      "high": 8040,
      "low": 7850,
-     "volume": 80039
+     "volume": 82514
     }
    ],
    "start": "2026-08-03",
@@ -70748,7 +70748,7 @@ const PRICE_HISTORY = {
      "open": 118800,
      "high": 124100,
      "low": 118800,
-     "volume": 2788
+     "volume": 2832
     }
    ],
    "start": "2026-08-03",
@@ -70960,11 +70960,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1619,
+     "close": 1621,
      "open": 1650,
      "high": 1670,
      "low": 1610,
-     "volume": 142078
+     "volume": 153403
     }
    ],
    "start": "2026-08-03",
@@ -71180,7 +71180,7 @@ const PRICE_HISTORY = {
      "open": 31700,
      "high": 31800,
      "low": 31150,
-     "volume": 14043
+     "volume": 14517
     }
    ],
    "start": "2026-08-03",
@@ -71392,11 +71392,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 123500,
+     "close": 122800,
      "open": 120600,
      "high": 123700,
      "low": 120500,
-     "volume": 267
+     "volume": 282
     }
    ],
    "start": "2026-08-03",
@@ -71612,7 +71612,7 @@ const PRICE_HISTORY = {
      "open": 37350,
      "high": 37850,
      "low": 36950,
-     "volume": 19985
+     "volume": 21893
     }
    ],
    "start": "2026-08-03",
@@ -71824,11 +71824,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 15050,
+     "close": 15110,
      "open": 15690,
      "high": 15690,
      "low": 14850,
-     "volume": 46057
+     "volume": 48156
     }
    ],
    "start": "2026-08-03",
@@ -72044,7 +72044,7 @@ const PRICE_HISTORY = {
      "open": 16160,
      "high": 16490,
      "low": 16120,
-     "volume": 93215
+     "volume": 102544
     }
    ],
    "start": "2026-08-03",
@@ -72260,7 +72260,7 @@ const PRICE_HISTORY = {
      "open": 24300,
      "high": 25000,
      "low": 23900,
-     "volume": 12459
+     "volume": 12909
     }
    ],
    "start": "2026-08-03",
@@ -72472,11 +72472,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4770,
+     "close": 4790,
      "open": 4780,
      "high": 4810,
      "low": 4725,
-     "volume": 29896
+     "volume": 32051
     }
    ],
    "start": "2026-08-03",
@@ -72688,11 +72688,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21400,
+     "close": 21500,
      "open": 21550,
      "high": 21750,
      "low": 21250,
-     "volume": 5095
+     "volume": 5287
     }
    ],
    "start": "2026-08-03",
@@ -72904,11 +72904,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 17180,
+     "close": 17200,
      "open": 17420,
      "high": 18000,
      "low": 17090,
-     "volume": 19518
+     "volume": 20816
     }
    ],
    "start": "2026-08-03",
@@ -73120,11 +73120,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45050,
+     "close": 45000,
      "open": 44750,
      "high": 45500,
      "low": 44750,
-     "volume": 7733
+     "volume": 7985
     }
    ],
    "start": "2026-08-03",
@@ -73336,11 +73336,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10200,
+     "close": 10220,
      "open": 10190,
      "high": 10350,
      "low": 10050,
-     "volume": 50261
+     "volume": 55972
     }
    ],
    "start": "2026-08-03",
@@ -73552,11 +73552,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8780,
+     "close": 8860,
      "open": 9100,
      "high": 9160,
      "low": 8600,
-     "volume": 157775
+     "volume": 160807
     }
    ],
    "start": "2026-08-03",
@@ -73768,11 +73768,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14680,
+     "close": 14690,
      "open": 14710,
      "high": 14860,
      "low": 14440,
-     "volume": 31888
+     "volume": 32403
     }
    ],
    "start": "2026-08-03",
@@ -73984,11 +73984,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 59000,
+     "close": 59200,
      "open": 59000,
      "high": 59900,
      "low": 58400,
-     "volume": 15982
+     "volume": 16048
     }
    ],
    "start": "2026-08-03",
@@ -74200,11 +74200,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 11020,
+     "close": 11070,
      "open": 11290,
      "high": 11300,
      "low": 10910,
-     "volume": 52236
+     "volume": 54687
     }
    ],
    "start": "2026-08-03",
@@ -74416,11 +74416,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 112600,
+     "close": 113400,
      "open": 112800,
      "high": 118800,
      "low": 108200,
-     "volume": 36276
+     "volume": 40113
     }
    ],
    "start": "2026-08-03",
@@ -74632,11 +74632,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 61900,
+     "close": 62100,
      "open": 62200,
      "high": 62500,
      "low": 61100,
-     "volume": 3444
+     "volume": 3721
     }
    ],
    "start": "2026-08-03",
@@ -74848,11 +74848,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4190,
+     "close": 4195,
      "open": 4315,
      "high": 4345,
      "low": 4175,
-     "volume": 340231
+     "volume": 348510
     }
    ],
    "start": "2026-08-03",
@@ -75064,11 +75064,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 12790,
+     "close": 12860,
      "open": 12790,
      "high": 12990,
      "low": 12730,
-     "volume": 20098
+     "volume": 27248
     }
    ],
    "start": "2026-08-03",
@@ -75280,11 +75280,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8220,
+     "close": 8310,
      "open": 8140,
      "high": 8340,
      "low": 8110,
-     "volume": 55063
+     "volume": 70203
     }
    ],
    "start": "2026-08-03",
@@ -75496,11 +75496,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9720,
+     "close": 9750,
      "open": 9900,
      "high": 9980,
      "low": 9560,
-     "volume": 77424
+     "volume": 107643
     }
    ],
    "start": "2026-08-03",
@@ -75712,11 +75712,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 89500,
+     "close": 89900,
      "open": 88500,
-     "high": 89800,
+     "high": 90400,
      "low": 88000,
-     "volume": 2730
+     "volume": 3132
     }
    ],
    "start": "2026-08-03",
@@ -75928,11 +75928,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 63900,
+     "close": 63800,
      "open": 62400,
      "high": 64400,
      "low": 62400,
-     "volume": 2236
+     "volume": 2367
     }
    ],
    "start": "2026-08-03",
@@ -76144,11 +76144,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 1664,
+     "close": 1674,
      "open": 1677,
      "high": 1714,
      "low": 1647,
-     "volume": 2981754
+     "volume": 3167987
     }
    ],
    "start": "2026-08-03",
@@ -76360,11 +76360,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 119700,
+     "close": 119500,
      "open": 120100,
      "high": 120700,
      "low": 118500,
-     "volume": 4578
+     "volume": 4636
     }
    ],
    "start": "2026-08-03",
@@ -76576,11 +76576,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 41050,
+     "close": 40900,
      "open": 40950,
      "high": 41300,
      "low": 40650,
-     "volume": 4719
+     "volume": 4963
     }
    ],
    "start": "2026-08-03",
@@ -76796,7 +76796,7 @@ const PRICE_HISTORY = {
      "open": 9140,
      "high": 9240,
      "low": 9000,
-     "volume": 43857
+     "volume": 44646
     }
    ],
    "start": "2026-08-03",
@@ -77008,11 +77008,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4230,
+     "close": 4250,
      "open": 4275,
      "high": 4380,
      "low": 4210,
-     "volume": 180938
+     "volume": 187162
     }
    ],
    "start": "2026-08-03",
@@ -77224,11 +77224,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 2030,
+     "close": 2025,
      "open": 2055,
      "high": 2080,
      "low": 2000,
-     "volume": 546455
+     "volume": 569850
     }
    ],
    "start": "2026-08-03",
@@ -77440,11 +77440,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9930,
+     "close": 9950,
      "open": 9890,
      "high": 10060,
      "low": 9840,
-     "volume": 4883
+     "volume": 4922
     }
    ],
    "start": "2026-08-03",
@@ -77660,7 +77660,7 @@ const PRICE_HISTORY = {
      "open": 14300,
      "high": 14430,
      "low": 14140,
-     "volume": 22462
+     "volume": 23313
     }
    ],
    "start": "2026-08-03",
@@ -77872,11 +77872,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10390,
+     "close": 10380,
      "open": 10780,
      "high": 10780,
      "low": 10320,
-     "volume": 7377
+     "volume": 7478
     }
    ],
    "start": "2026-08-03",
@@ -78088,11 +78088,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6980,
+     "close": 6990,
      "open": 7090,
      "high": 7150,
      "low": 6880,
-     "volume": 57643
+     "volume": 61398
     }
    ],
    "start": "2026-08-03",
@@ -78304,11 +78304,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7930,
+     "close": 8140,
      "open": 6870,
      "high": 8570,
      "low": 6710,
-     "volume": 17324934
+     "volume": 18582313
     }
    ],
    "start": "2026-08-03",
@@ -78520,11 +78520,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9980,
+     "close": 10030,
      "open": 10200,
      "high": 10600,
      "low": 9850,
-     "volume": 118131
+     "volume": 123480
     }
    ],
    "start": "2026-08-03",
@@ -78736,11 +78736,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7730,
+     "close": 7780,
      "open": 7680,
      "high": 7800,
      "low": 7660,
-     "volume": 45239
+     "volume": 47258
     }
    ],
    "start": "2026-08-03",
@@ -78956,7 +78956,7 @@ const PRICE_HISTORY = {
      "open": 4040,
      "high": 4175,
      "low": 4032,
-     "volume": 153380
+     "volume": 154421
     }
    ],
    "start": "2026-08-03",
@@ -79168,11 +79168,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9120,
+     "close": 9140,
      "open": 9140,
      "high": 9310,
      "low": 9080,
-     "volume": 75338
+     "volume": 76853
     }
    ],
    "start": "2026-08-03",
@@ -79384,11 +79384,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 39150,
+     "close": 39050,
      "open": 39350,
      "high": 40300,
      "low": 38650,
-     "volume": 35948
+     "volume": 37132
     }
    ],
    "start": "2026-08-03",
@@ -79600,11 +79600,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10590,
+     "close": 10570,
      "open": 10640,
      "high": 10900,
      "low": 10460,
-     "volume": 35673
+     "volume": 36354
     }
    ],
    "start": "2026-08-03",
@@ -79816,11 +79816,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16910,
+     "close": 17100,
      "open": 17720,
      "high": 18220,
      "low": 16250,
-     "volume": 1816489
+     "volume": 1870684
     }
    ],
    "start": "2026-08-03",
@@ -80032,11 +80032,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 55700,
+     "close": 55900,
      "open": 54700,
      "high": 58300,
      "low": 54200,
-     "volume": 810193
+     "volume": 854740
     }
    ],
    "start": "2026-08-03",
@@ -80248,11 +80248,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 55900,
+     "close": 56500,
      "open": 58100,
      "high": 59700,
      "low": 54700,
-     "volume": 301495
+     "volume": 316923
     }
    ],
    "start": "2026-08-03",
@@ -80464,11 +80464,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 63100,
+     "close": 64400,
      "open": 65200,
      "high": 67200,
      "low": 62300,
-     "volume": 48085
+     "volume": 51078
     }
    ],
    "start": "2026-08-03",
@@ -80680,11 +80680,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 222500,
+     "close": 223000,
      "open": 237500,
      "high": 243000,
      "low": 221000,
-     "volume": 107709
+     "volume": 112244
     }
    ],
    "start": "2026-08-03",
@@ -80896,11 +80896,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 92800,
+     "close": 93500,
      "open": 102000,
      "high": 103900,
      "low": 91500,
-     "volume": 130474
+     "volume": 137994
     }
    ],
    "start": "2026-08-03",
@@ -81112,11 +81112,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22900,
+     "close": 22950,
      "open": 24400,
      "high": 24750,
      "low": 22700,
-     "volume": 802658
+     "volume": 822846
     }
    ],
    "start": "2026-08-03",
@@ -81328,11 +81328,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 59500,
+     "close": 60300,
      "open": 64700,
      "high": 67700,
      "low": 58400,
-     "volume": 566747
+     "volume": 591169
     }
    ],
    "start": "2026-08-03",
@@ -81544,11 +81544,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 117900,
+     "close": 120300,
      "open": 121600,
      "high": 124600,
      "low": 115200,
-     "volume": 100555
+     "volume": 111886
     }
    ],
    "start": "2026-08-03",
@@ -81760,11 +81760,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 107700,
+     "close": 108200,
      "open": 113200,
      "high": 118100,
      "low": 106500,
-     "volume": 73779
+     "volume": 75343
     }
    ],
    "start": "2026-08-03",
@@ -81976,11 +81976,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 11180,
+     "close": 11460,
      "open": 11170,
      "high": 12030,
      "low": 11070,
-     "volume": 15166675
+     "volume": 15816195
     }
    ],
    "start": "2026-08-03",
@@ -82192,11 +82192,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10910,
+     "close": 10960,
      "open": 11250,
      "high": 11540,
      "low": 10710,
-     "volume": 1598943
+     "volume": 1668182
     }
    ],
    "start": "2026-08-03",
@@ -82408,11 +82408,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 250000,
+     "close": 250500,
      "open": 250500,
      "high": 258500,
      "low": 246000,
-     "volume": 24522
+     "volume": 25832
     }
    ],
    "start": "2026-08-03",
@@ -82624,11 +82624,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 43400,
+     "close": 43500,
      "open": 42850,
      "high": 44450,
      "low": 42850,
-     "volume": 74240
+     "volume": 76685
     }
    ],
    "start": "2026-08-03",
@@ -82840,11 +82840,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 46100,
+     "close": 46250,
      "open": 46850,
      "high": 47800,
      "low": 45900,
-     "volume": 137636
+     "volume": 147851
     }
    ],
    "start": "2026-08-03",
@@ -83056,11 +83056,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 74600,
+     "close": 75200,
      "open": 73700,
      "high": 76800,
      "low": 73400,
-     "volume": 53074
+     "volume": 57184
     }
    ],
    "start": "2026-08-03",
@@ -83272,11 +83272,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 53700,
+     "close": 54100,
      "open": 55200,
      "high": 57100,
      "low": 53400,
-     "volume": 75081
+     "volume": 76793
     }
    ],
    "start": "2026-08-03",
@@ -83704,11 +83704,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 99500,
+     "close": 99800,
      "open": 109100,
      "high": 109700,
      "low": 98400,
-     "volume": 387800
+     "volume": 402778
     }
    ],
    "start": "2026-08-03",
@@ -83920,11 +83920,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 43250,
+     "close": 43600,
      "open": 47350,
      "high": 48700,
      "low": 43050,
-     "volume": 397736
+     "volume": 411351
     }
    ],
    "start": "2026-08-03",
@@ -84136,11 +84136,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21850,
+     "close": 22050,
      "open": 21850,
      "high": 22150,
      "low": 21350,
-     "volume": 212935
+     "volume": 225852
     }
    ],
    "start": "2026-08-03",
@@ -84352,11 +84352,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16670,
+     "close": 16860,
      "open": 17560,
      "high": 18350,
      "low": 15810,
-     "volume": 1680215
+     "volume": 1802494
     }
    ],
    "start": "2026-08-03",
@@ -84568,11 +84568,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 30100,
+     "close": 30250,
      "open": 31200,
      "high": 31800,
      "low": 29550,
-     "volume": 67851
+     "volume": 69640
     }
    ],
    "start": "2026-08-03",
@@ -84784,11 +84784,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 28000,
+     "close": 28200,
      "open": 29150,
      "high": 29750,
      "low": 27800,
-     "volume": 192937
+     "volume": 204361
     }
    ],
    "start": "2026-08-03",
@@ -85000,11 +85000,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 49250,
+     "close": 49100,
      "open": 52200,
      "high": 52700,
      "low": 48150,
-     "volume": 205626
+     "volume": 216160
     }
    ],
    "start": "2026-08-03",
@@ -85216,11 +85216,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18450,
+     "close": 18550,
      "open": 19810,
      "high": 20500,
      "low": 18300,
-     "volume": 721637
+     "volume": 746958
     }
    ],
    "start": "2026-08-03",
@@ -85432,11 +85432,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 30650,
+     "close": 30750,
      "open": 31250,
      "high": 32100,
      "low": 29300,
-     "volume": 219301
+     "volume": 233691
     }
    ],
    "start": "2026-08-03",
@@ -85648,11 +85648,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 48000,
+     "close": 48050,
      "open": 50800,
      "high": 52300,
      "low": 47000,
-     "volume": 336929
+     "volume": 359949
     }
    ],
    "start": "2026-08-03",
@@ -85864,11 +85864,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22550,
+     "close": 22400,
      "open": 24350,
      "high": 24350,
-     "low": 21950,
-     "volume": 231895
+     "low": 21750,
+     "volume": 322251
     }
    ],
    "start": "2026-08-03",
@@ -86080,11 +86080,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 39050,
+     "close": 38900,
      "open": 40000,
      "high": 41000,
      "low": 38350,
-     "volume": 71230
+     "volume": 87630
     }
    ],
    "start": "2026-08-03",
@@ -86296,11 +86296,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 85900,
+     "close": 86600,
      "open": 90100,
      "high": 92800,
      "low": 84000,
-     "volume": 179635
+     "volume": 184948
     }
    ],
    "start": "2026-08-03",
@@ -86512,11 +86512,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 37850,
+     "close": 38150,
      "open": 41000,
      "high": 41700,
      "low": 37300,
-     "volume": 267034
+     "volume": 275033
     }
    ],
    "start": "2026-08-03",
@@ -86728,11 +86728,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 34000,
+     "close": 34500,
      "open": 35000,
      "high": 36200,
      "low": 33700,
-     "volume": 87956
+     "volume": 92529
     }
    ],
    "start": "2026-08-03",
@@ -86944,11 +86944,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9850,
+     "close": 9880,
      "open": 10100,
      "high": 10350,
      "low": 9740,
-     "volume": 495474
+     "volume": 508754
     }
    ],
    "start": "2026-08-03",
@@ -87160,11 +87160,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10680,
+     "close": 10740,
      "open": 10730,
      "high": 11030,
      "low": 10630,
-     "volume": 306813
+     "volume": 326835
     }
    ],
    "start": "2026-08-03",
@@ -87376,11 +87376,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40850,
+     "close": 41200,
      "open": 40900,
      "high": 41850,
      "low": 40500,
-     "volume": 96360
+     "volume": 102461
     }
    ],
    "start": "2026-08-03",
@@ -87592,11 +87592,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 23050,
+     "close": 23200,
      "open": 20950,
      "high": 24350,
      "low": 20400,
-     "volume": 2747375
+     "volume": 2804518
     }
    ],
    "start": "2026-08-03",
@@ -87808,11 +87808,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 52300,
+     "close": 52800,
      "open": 55300,
      "high": 57800,
      "low": 51900,
-     "volume": 79779
+     "volume": 83638
     }
    ],
    "start": "2026-08-03",
@@ -88028,7 +88028,7 @@ const PRICE_HISTORY = {
      "open": 37500,
      "high": 38200,
      "low": 35100,
-     "volume": 116734
+     "volume": 120584
     }
    ],
    "start": "2026-08-03",
@@ -88240,11 +88240,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 60000,
+     "close": 59400,
      "open": 58000,
      "high": 60700,
      "low": 56800,
-     "volume": 74833
+     "volume": 81213
     }
    ],
    "start": "2026-08-03",
@@ -88456,11 +88456,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45000,
+     "close": 45700,
      "open": 48000,
      "high": 48300,
      "low": 44450,
-     "volume": 87913
+     "volume": 92194
     }
    ],
    "start": "2026-08-03",
@@ -88672,11 +88672,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 14310,
+     "close": 14330,
      "open": 15650,
      "high": 15830,
      "low": 14090,
-     "volume": 306498
+     "volume": 313926
     }
    ],
    "start": "2026-08-03",
@@ -88888,11 +88888,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40400,
+     "close": 40750,
      "open": 42650,
      "high": 43450,
      "low": 39850,
-     "volume": 137604
+     "volume": 145224
     }
    ],
    "start": "2026-08-03",
@@ -89104,11 +89104,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 73500,
+     "close": 73700,
      "open": 75000,
      "high": 78300,
      "low": 72600,
-     "volume": 38888
+     "volume": 40305
     }
    ],
    "start": "2026-08-03",
@@ -89320,11 +89320,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9090,
+     "close": 9150,
      "open": 9200,
      "high": 9450,
      "low": 9000,
-     "volume": 187740
+     "volume": 194868
     }
    ],
    "start": "2026-08-03",
@@ -89536,11 +89536,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 47550,
+     "close": 48350,
      "open": 50000,
      "high": 50700,
      "low": 47200,
-     "volume": 265959
+     "volume": 276963
     }
    ],
    "start": "2026-08-03",
@@ -89752,11 +89752,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8130,
+     "close": 8170,
      "open": 7900,
-     "high": 8150,
+     "high": 8200,
      "low": 7840,
-     "volume": 358478
+     "volume": 402449
     }
    ],
    "start": "2026-08-03",
@@ -89968,11 +89968,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7750,
+     "close": 7780,
      "open": 8010,
      "high": 8140,
      "low": 7660,
-     "volume": 304662
+     "volume": 318515
     }
    ],
    "start": "2026-08-03",
@@ -90184,11 +90184,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 92900,
+     "close": 93300,
      "open": 93900,
      "high": 99700,
      "low": 92100,
-     "volume": 87432
+     "volume": 92457
     }
    ],
    "start": "2026-08-03",
@@ -90400,11 +90400,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13830,
+     "close": 13860,
      "open": 14300,
      "high": 15150,
      "low": 13520,
-     "volume": 213683
+     "volume": 221261
     }
    ],
    "start": "2026-08-03",
@@ -90616,11 +90616,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8990,
+     "close": 9040,
      "open": 9430,
      "high": 9670,
      "low": 8920,
-     "volume": 242396
+     "volume": 250494
     }
    ],
    "start": "2026-08-03",
@@ -90832,11 +90832,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4945,
+     "close": 4955,
      "open": 5190,
      "high": 5310,
      "low": 4920,
-     "volume": 739747
+     "volume": 763073
     }
    ],
    "start": "2026-08-03",
@@ -91048,11 +91048,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6850,
+     "close": 6880,
      "open": 7270,
      "high": 7420,
      "low": 6750,
-     "volume": 1420319
+     "volume": 1460189
     }
    ],
    "start": "2026-08-03",
@@ -91264,11 +91264,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18770,
+     "close": 18900,
      "open": 19160,
      "high": 19230,
      "low": 18700,
-     "volume": 107568
+     "volume": 115872
     }
    ],
    "start": "2026-08-03",
@@ -91480,11 +91480,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 11560,
+     "close": 11590,
      "open": 12160,
      "high": 12440,
      "low": 11400,
-     "volume": 399600
+     "volume": 413613
     }
    ],
    "start": "2026-08-03",
@@ -91696,11 +91696,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 12480,
+     "close": 12540,
      "open": 12740,
      "high": 13060,
      "low": 11890,
-     "volume": 374511
+     "volume": 411191
     }
    ],
    "start": "2026-08-03",
@@ -91912,11 +91912,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18190,
+     "close": 18250,
      "open": 19310,
      "high": 19870,
-     "low": 18180,
-     "volume": 386575
+     "low": 18160,
+     "volume": 414865
     }
    ],
    "start": "2026-08-03",
@@ -92128,11 +92128,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 73900,
+     "close": 73800,
      "open": 78300,
      "high": 80400,
      "low": 73100,
-     "volume": 28089
+     "volume": 31776
     }
    ],
    "start": "2026-08-03",
@@ -92344,11 +92344,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27100,
+     "close": 27350,
      "open": 27850,
      "high": 28700,
      "low": 26500,
-     "volume": 114455
+     "volume": 119161
     }
    ],
    "start": "2026-08-03",
@@ -92560,11 +92560,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21350,
+     "close": 21400,
      "open": 21800,
      "high": 22300,
      "low": 21150,
-     "volume": 57915
+     "volume": 61190
     }
    ],
    "start": "2026-08-03",
@@ -92776,11 +92776,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 69000,
+     "close": 69300,
      "open": 71700,
      "high": 73900,
      "low": 68700,
-     "volume": 19492
+     "volume": 19990
     }
    ],
    "start": "2026-08-03",
@@ -92992,11 +92992,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 30750,
+     "close": 30900,
      "open": 32050,
      "high": 32900,
      "low": 30200,
-     "volume": 95348
+     "volume": 98928
     }
    ],
    "start": "2026-08-03",
@@ -93208,11 +93208,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10630,
+     "close": 10650,
      "open": 10850,
      "high": 11270,
      "low": 10450,
-     "volume": 226931
+     "volume": 238055
     }
    ],
    "start": "2026-08-03",
@@ -93424,11 +93424,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 41050,
+     "close": 41100,
      "open": 40500,
      "high": 41900,
      "low": 40100,
-     "volume": 74317
+     "volume": 78653
     }
    ],
    "start": "2026-08-03",
@@ -93640,11 +93640,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 69800,
+     "close": 70000,
      "open": 75100,
      "high": 76100,
      "low": 69500,
-     "volume": 51769
+     "volume": 54248
     }
    ],
    "start": "2026-08-03",
@@ -93856,11 +93856,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 31100,
+     "close": 31350,
      "open": 32700,
      "high": 33300,
      "low": 30550,
-     "volume": 91392
+     "volume": 95762
     }
    ],
    "start": "2026-08-03",
@@ -94072,11 +94072,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 32800,
+     "close": 33300,
      "open": 34700,
      "high": 35000,
      "low": 32150,
-     "volume": 108793
+     "volume": 117651
     }
    ],
    "start": "2026-08-03",
@@ -94288,11 +94288,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16020,
+     "close": 16220,
      "open": 16740,
      "high": 17380,
      "low": 15860,
-     "volume": 131092
+     "volume": 136199
     }
    ],
    "start": "2026-08-03",
@@ -94504,11 +94504,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27850,
+     "close": 27950,
      "open": 28500,
      "high": 30200,
      "low": 27300,
-     "volume": 377735
+     "volume": 399433
     }
    ],
    "start": "2026-08-03",
@@ -94720,11 +94720,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16030,
+     "close": 16180,
      "open": 16740,
      "high": 17340,
      "low": 15850,
-     "volume": 85014
+     "volume": 87573
     }
    ],
    "start": "2026-08-03",
@@ -94936,11 +94936,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 39750,
+     "close": 39700,
      "open": 40000,
      "high": 40800,
      "low": 38700,
-     "volume": 61289
+     "volume": 63731
     }
    ],
    "start": "2026-08-03",
@@ -95152,11 +95152,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 34550,
+     "close": 34750,
      "open": 35950,
      "high": 37600,
      "low": 34250,
-     "volume": 44368
+     "volume": 45514
     }
    ],
    "start": "2026-08-03",
@@ -95368,11 +95368,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 25000,
+     "close": 25100,
      "open": 26150,
      "high": 26800,
      "low": 24600,
-     "volume": 101012
+     "volume": 102445
     }
    ],
    "start": "2026-08-03",
@@ -95584,11 +95584,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 18670,
+     "close": 18720,
      "open": 19240,
      "high": 19470,
      "low": 18590,
-     "volume": 67058
+     "volume": 69995
     }
    ],
    "start": "2026-08-03",
@@ -95800,11 +95800,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 44000,
+     "close": 44250,
      "open": 46450,
      "high": 46650,
      "low": 43600,
-     "volume": 81745
+     "volume": 85120
     }
    ],
    "start": "2026-08-03",
@@ -96016,11 +96016,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 69800,
+     "close": 70700,
      "open": 68700,
      "high": 70800,
      "low": 65300,
-     "volume": 252578
+     "volume": 286299
     }
    ],
    "start": "2026-08-03",
@@ -96232,11 +96232,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 35100,
+     "close": 35200,
      "open": 34450,
      "high": 36700,
      "low": 34400,
-     "volume": 102669
+     "volume": 107141
     }
    ],
    "start": "2026-08-03",
@@ -96448,11 +96448,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13920,
+     "close": 14070,
      "open": 13900,
      "high": 14750,
      "low": 13680,
-     "volume": 532734
+     "volume": 564631
     }
    ],
    "start": "2026-08-03",
@@ -96668,7 +96668,7 @@ const PRICE_HISTORY = {
      "open": 27150,
      "high": 27150,
      "low": 25550,
-     "volume": 114970
+     "volume": 123978
     }
    ],
    "start": "2026-08-03",
@@ -96880,11 +96880,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6600,
+     "close": 6640,
      "open": 6880,
      "high": 7130,
      "low": 6560,
-     "volume": 407000
+     "volume": 418117
     }
    ],
    "start": "2026-08-03",
@@ -97100,7 +97100,7 @@ const PRICE_HISTORY = {
      "open": 85300,
      "high": 85400,
      "low": 78000,
-     "volume": 193281
+     "volume": 198467
     }
    ],
    "start": "2026-08-03",
@@ -97316,7 +97316,7 @@ const PRICE_HISTORY = {
      "open": 23550,
      "high": 23800,
      "low": 22150,
-     "volume": 103742
+     "volume": 109531
     }
    ],
    "start": "2026-08-03",
@@ -97528,11 +97528,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10780,
+     "close": 10800,
      "open": 10710,
      "high": 10970,
      "low": 10520,
-     "volume": 208575
+     "volume": 221083
     }
    ],
    "start": "2026-08-03",
@@ -97744,11 +97744,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29650,
+     "close": 29350,
      "open": 34200,
      "high": 34200,
      "low": 28300,
-     "volume": 600196
+     "volume": 622714
     }
    ],
    "start": "2026-08-03",
@@ -97960,11 +97960,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 20200,
+     "close": 20250,
      "open": 21550,
      "high": 22250,
      "low": 20000,
-     "volume": 218622
+     "volume": 227907
     }
    ],
    "start": "2026-08-03",
@@ -98176,11 +98176,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 43150,
+     "close": 43600,
      "open": 45500,
      "high": 46500,
      "low": 42800,
-     "volume": 74609
+     "volume": 76934
     }
    ],
    "start": "2026-08-03",
@@ -98392,11 +98392,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 25050,
+     "close": 25000,
      "open": 24300,
      "high": 25850,
      "low": 24300,
-     "volume": 88565
+     "volume": 93005
     }
    ],
    "start": "2026-08-03",
@@ -98612,7 +98612,7 @@ const PRICE_HISTORY = {
      "open": 32950,
      "high": 32950,
      "low": 30600,
-     "volume": 71048
+     "volume": 73047
     }
    ],
    "start": "2026-08-03",
@@ -98824,11 +98824,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 40850,
+     "close": 40750,
      "open": 42800,
      "high": 43800,
      "low": 40600,
-     "volume": 31140
+     "volume": 33559
     }
    ],
    "start": "2026-08-03",
@@ -99040,11 +99040,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9790,
+     "close": 9840,
      "open": 9960,
      "high": 10260,
      "low": 9650,
-     "volume": 837267
+     "volume": 854213
     }
    ],
    "start": "2026-08-03",
@@ -99256,11 +99256,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 130100,
+     "close": 131600,
      "open": 139000,
      "high": 143000,
      "low": 129000,
-     "volume": 9041
+     "volume": 9726
     }
    ],
    "start": "2026-08-03",
@@ -99472,11 +99472,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16030,
+     "close": 16140,
      "open": 15950,
      "high": 16470,
      "low": 15820,
-     "volume": 101516
+     "volume": 105696
     }
    ],
    "start": "2026-08-03",
@@ -99688,11 +99688,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 27050,
+     "close": 27450,
      "open": 27750,
      "high": 28600,
      "low": 26650,
-     "volume": 113768
+     "volume": 118911
     }
    ],
    "start": "2026-08-03",
@@ -99904,11 +99904,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7350,
+     "close": 7410,
      "open": 7730,
      "high": 7940,
      "low": 7240,
-     "volume": 593686
+     "volume": 615197
     }
    ],
    "start": "2026-08-03",
@@ -100120,11 +100120,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 58800,
+     "close": 58900,
      "open": 57900,
      "high": 59600,
      "low": 57800,
-     "volume": 20206
+     "volume": 20972
     }
    ],
    "start": "2026-08-03",
@@ -100336,11 +100336,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 23150,
+     "close": 23100,
      "open": 23350,
      "high": 23550,
      "low": 22600,
-     "volume": 74265
+     "volume": 85706
     }
    ],
    "start": "2026-08-03",
@@ -100552,11 +100552,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45700,
+     "close": 45300,
      "open": 45950,
      "high": 47450,
-     "low": 45450,
-     "volume": 48193
+     "low": 45250,
+     "volume": 63683
     }
    ],
    "start": "2026-08-03",
@@ -100772,7 +100772,7 @@ const PRICE_HISTORY = {
      "open": 62800,
      "high": 63600,
      "low": 59000,
-     "volume": 19395
+     "volume": 20077
     }
    ],
    "start": "2026-08-03",
@@ -100984,11 +100984,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8990,
+     "close": 9010,
      "open": 8970,
      "high": 9210,
      "low": 8930,
-     "volume": 61569
+     "volume": 62946
     }
    ],
    "start": "2026-08-03",
@@ -101200,11 +101200,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 35850,
+     "close": 36000,
      "open": 35600,
      "high": 36250,
      "low": 35200,
-     "volume": 43933
+     "volume": 45536
     }
    ],
    "start": "2026-08-03",
@@ -101416,11 +101416,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29300,
+     "close": 29600,
      "open": 30550,
      "high": 30600,
      "low": 28300,
-     "volume": 154062
+     "volume": 169561
     }
    ],
    "start": "2026-08-03",
@@ -101632,11 +101632,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22950,
+     "close": 23050,
      "open": 23700,
      "high": 24550,
      "low": 22800,
-     "volume": 164172
+     "volume": 166154
     }
    ],
    "start": "2026-08-03",
@@ -101852,7 +101852,7 @@ const PRICE_HISTORY = {
      "open": 9100,
      "high": 9180,
      "low": 8710,
-     "volume": 174200
+     "volume": 185124
     }
    ],
    "start": "2026-08-03",
@@ -102064,11 +102064,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 30850,
+     "close": 31150,
      "open": 33900,
      "high": 33900,
      "low": 29600,
-     "volume": 257607
+     "volume": 267346
     }
    ],
    "start": "2026-08-03",
@@ -102280,11 +102280,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29850,
+     "close": 29900,
      "open": 28500,
-     "high": 29900,
+     "high": 30250,
      "low": 27950,
-     "volume": 203596
+     "volume": 229221
     }
    ],
    "start": "2026-08-03",
@@ -102496,11 +102496,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 15440,
+     "close": 15480,
      "open": 15950,
      "high": 16500,
      "low": 15360,
-     "volume": 91130
+     "volume": 95660
     }
    ],
    "start": "2026-08-03",
@@ -102712,11 +102712,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 50500,
+     "close": 51900,
      "open": 45150,
-     "high": 51500,
+     "high": 51900,
      "low": 45150,
-     "volume": 357094
+     "volume": 387445
     }
    ],
    "start": "2026-08-03",
@@ -102928,11 +102928,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 45750,
+     "close": 46200,
      "open": 47050,
      "high": 48700,
      "low": 45050,
-     "volume": 103297
+     "volume": 105399
     }
    ],
    "start": "2026-08-03",
@@ -103144,11 +103144,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 42800,
+     "close": 43000,
      "open": 42800,
      "high": 44000,
      "low": 42550,
-     "volume": 41014
+     "volume": 43255
     }
    ],
    "start": "2026-08-03",
@@ -103360,11 +103360,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7670,
+     "close": 7750,
      "open": 7630,
      "high": 7780,
      "low": 7600,
-     "volume": 82985
+     "volume": 91117
     }
    ],
    "start": "2026-08-03",
@@ -103576,11 +103576,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 66400,
+     "close": 66800,
      "open": 71600,
      "high": 73100,
      "low": 65200,
-     "volume": 52370
+     "volume": 55221
     }
    ],
    "start": "2026-08-03",
@@ -103792,11 +103792,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 16010,
+     "close": 16070,
      "open": 18000,
      "high": 18290,
      "low": 15490,
-     "volume": 268379
+     "volume": 271600
     }
    ],
    "start": "2026-08-03",
@@ -104008,11 +104008,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 21050,
+     "close": 21100,
      "open": 21400,
      "high": 21850,
      "low": 20450,
-     "volume": 105288
+     "volume": 114746
     }
    ],
    "start": "2026-08-03",
@@ -104224,11 +104224,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 15230,
+     "close": 15260,
      "open": 15650,
      "high": 15870,
      "low": 14920,
-     "volume": 133741
+     "volume": 138577
     }
    ],
    "start": "2026-08-03",
@@ -104440,11 +104440,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 29500,
+     "close": 29650,
      "open": 30050,
      "high": 30650,
      "low": 29400,
-     "volume": 28313
+     "volume": 28778
     }
    ],
    "start": "2026-08-03",
@@ -104656,11 +104656,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 48050,
+     "close": 48400,
      "open": 50400,
      "high": 51300,
      "low": 47700,
-     "volume": 35307
+     "volume": 36896
     }
    ],
    "start": "2026-08-03",
@@ -104872,11 +104872,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 36100,
+     "close": 36550,
      "open": 36800,
      "high": 37850,
      "low": 35600,
-     "volume": 49278
+     "volume": 51573
     }
    ],
    "start": "2026-08-03",
@@ -105088,11 +105088,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8350,
+     "close": 8430,
      "open": 8500,
      "high": 8560,
      "low": 8140,
-     "volume": 98560
+     "volume": 104612
     }
    ],
    "start": "2026-08-03",
@@ -105304,11 +105304,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 19480,
+     "close": 19380,
      "open": 19900,
      "high": 20450,
-     "low": 19400,
-     "volume": 53432
+     "low": 19370,
+     "volume": 60781
     }
    ],
    "start": "2026-08-03",
@@ -105520,11 +105520,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 36050,
+     "close": 35750,
      "open": 39000,
      "high": 39900,
      "low": 35750,
-     "volume": 148406
+     "volume": 159559
     }
    ],
    "start": "2026-08-03",
@@ -105736,11 +105736,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13730,
+     "close": 13770,
      "open": 14900,
      "high": 14940,
      "low": 13660,
-     "volume": 737695
+     "volume": 765293
     }
    ],
    "start": "2026-08-03",
@@ -105952,11 +105952,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 78200,
+     "close": 78700,
      "open": 78400,
      "high": 81000,
      "low": 77600,
-     "volume": 11259
+     "volume": 11654
     }
    ],
    "start": "2026-08-03",
@@ -106168,11 +106168,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8320,
+     "close": 8430,
      "open": 8450,
      "high": 8730,
      "low": 8130,
-     "volume": 208445
+     "volume": 218740
     }
    ],
    "start": "2026-08-03",
@@ -106384,11 +106384,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 28500,
+     "close": 28600,
      "open": 30600,
      "high": 32350,
-     "low": 28300,
-     "volume": 1794376
+     "low": 28100,
+     "volume": 1872786
     }
    ],
    "start": "2026-08-03",
@@ -106600,11 +106600,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 10240,
+     "close": 10360,
      "open": 10560,
      "high": 10690,
      "low": 10160,
-     "volume": 93208
+     "volume": 102997
     }
    ],
    "start": "2026-08-03",
@@ -106816,11 +106816,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 12680,
+     "close": 12720,
      "open": 13050,
      "high": 13190,
      "low": 12630,
-     "volume": 183177
+     "volume": 188866
     }
    ],
    "start": "2026-08-03",
@@ -107032,11 +107032,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 65100,
+     "close": 65300,
      "open": 68100,
      "high": 72500,
      "low": 63000,
-     "volume": 64975
+     "volume": 66930
     }
    ],
    "start": "2026-08-03",
@@ -107248,11 +107248,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 5120,
+     "close": 5130,
      "open": 5260,
      "high": 5320,
      "low": 5100,
-     "volume": 293027
+     "volume": 307521
     }
    ],
    "start": "2026-08-03",
@@ -107464,11 +107464,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 12170,
+     "close": 12230,
      "open": 13300,
      "high": 13400,
      "low": 12120,
-     "volume": 225343
+     "volume": 232716
     }
    ],
    "start": "2026-08-03",
@@ -107684,7 +107684,7 @@ const PRICE_HISTORY = {
      "open": 16540,
      "high": 16800,
      "low": 15520,
-     "volume": 57414
+     "volume": 61207
     }
    ],
    "start": "2026-08-03",
@@ -107896,11 +107896,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 22800,
+     "close": 23150,
      "open": 23550,
      "high": 24650,
      "low": 21800,
-     "volume": 341209
+     "volume": 368767
     }
    ],
    "start": "2026-08-03",
@@ -108104,11 +108104,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6000,
+     "close": 6020,
      "open": 6410,
      "high": 6450,
      "low": 5910,
-     "volume": 79649
+     "volume": 80672
     }
    ],
    "start": "2026-08-05",
@@ -108285,11 +108285,11 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 6370,
+     "close": 6380,
      "open": 6320,
      "high": 6410,
      "low": 6270,
-     "volume": 20461
+     "volume": 22224
     }
    ],
    "start": "2026-08-05",
