@@ -475,23 +475,6 @@
     border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
   .qchart-route strong{display:inline;font-size:12px;font-weight:820;color:var(--trend);font-variant-numeric:tabular-nums}
   .qchart-route span{font-size:10.5px;color:var(--dim)}
-  .qchart-plot{--trend:#C64C5A;position:relative;overflow:hidden;
-    border:1px solid var(--line);border-radius:16px;background:var(--paper)}
-  .qchart-plot[data-trend="up"]{--trend:#25866F}
-  .qchart-canvas{position:relative;aspect-ratio:3.35/1;min-height:164px}
-  .qchart svg{position:absolute;inset:0;display:block;width:100%;height:100%}
-  .qchart-point{position:absolute;width:8px;height:8px;border:2px solid var(--paper);
-    border-radius:50%;background:var(--trend);transform:translate(-50%,-50%);box-sizing:border-box}
-  .qchart-point.is-first{width:10px;height:10px}
-  .qchart-point.is-current{width:12px;height:12px}
-  .qchart-point.is-current::after{content:"";position:absolute;inset:-6px;border:1px solid var(--trend);
-    border-radius:50%;opacity:.28}
-  .qchart-last{position:absolute;z-index:2;max-width:92px;padding:5px 9px;border-radius:999px;
-    background:var(--trend);color:#fff;font-size:10px;font-weight:820;line-height:1;
-    letter-spacing:-.015em;font-variant-numeric:tabular-nums;white-space:nowrap;
-    transform:translate(calc(-100% - 12px),-50%)}
-  .qchart-axis{display:flex;justify-content:space-between;align-items:center;padding:0 17px 10px;
-    font-size:9px;color:var(--faint);font-variant-numeric:tabular-nums}
   .qchart-foot{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
     flex-wrap:wrap;margin-top:9px}
   .qchart-extremes{display:flex;align-items:center;gap:5px 14px;flex-wrap:wrap;font-size:10.5px;color:var(--dim)}
@@ -521,9 +504,6 @@
     .qchart-price b{font-size:14px}
     .qchart-route{grid-column:1/-1;grid-row:2;padding-top:15px}
     .qchart-route::before{top:7px}
-    .qchart-canvas{aspect-ratio:2.05/1;min-height:152px}
-    .qchart-last{max-width:82px;padding:5px 8px;font-size:9px}
-    .qchart-axis{padding:0 13px 9px}
     .qchart-foot{gap:7px;margin-top:8px}
     .qchart-extremes{gap:4px 10px;font-size:9.5px}
     .qchart-cap{font-size:9.5px}
@@ -644,20 +624,6 @@
   .qm{background:var(--bg);border:none;border-radius:11px;
     padding:10px 14px;font-size:12px;color:var(--dim)}
   .qm b{color:var(--ink);font-size:13.5px;margin-left:6px;font-weight:700;font-variant-numeric:tabular-nums}
-
-  /* ── 픽셀 디오라마 ── */
-  .stage{background:var(--paper);border:none;
-    border-radius:16px;padding:16px;position:relative;box-shadow:var(--shadow)}
-  .stage::after{content:"HOME OFFICE";position:absolute;bottom:8px;left:0;right:0;text-align:center;
-    font-size:9px;letter-spacing:.42em;color:var(--faint);pointer-events:none;font-weight:600}
-  .stage .mat{padding:8px;background:#0f1420;border-radius:12px;
-    box-shadow:inset 0 2px 18px rgba(0,0,0,.5)}
-  canvas{width:100%;height:auto;display:block;border-radius:8px;image-rendering:pixelated}
-  .stagebtns{position:absolute;top:26px;right:28px;display:flex;gap:7px;z-index:2}
-  .stagebtns button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.22);
-    background:rgba(8,47,82,.72);color:#fff;font-size:16px;cursor:pointer;padding:0;
-    backdrop-filter:blur(3px);transition:border-color .2s}
-  .stagebtns button:hover{border-color:var(--sky)}
 
   /* ── 애널리스트 카드 ── */
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
@@ -893,20 +859,6 @@
     .sc-week-nav{flex-wrap:wrap;justify-content:center}
     .sc-week-label{flex:0 0 100%;order:-1;margin-bottom:2px}
   }
-  /* ---- 분석중 오버레이 ---- */
-  .stage{position:relative}
-  .analyzing{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    display:none;align-items:center;gap:9px;z-index:6;pointer-events:none;
-    background:rgba(11,65,113,.94);color:#fff;font-weight:800;font-size:15px;letter-spacing:.02em;
-    padding:11px 20px;border-radius:99px;border:2px solid rgba(255,255,255,.5);
-    box-shadow:0 8px 28px -6px rgba(8,47,82,.6),0 0 0 5px rgba(14,165,233,.2);
-    -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  .analyzing.on{display:inline-flex;animation:azbob 1.3s ease-in-out infinite}
-  .az-face{font-size:17px;color:#7DD3FC;display:inline-block;animation:azpop .8s ease-in-out infinite}
-  .az-dots::after{content:'';animation:azdots 1.2s steps(1) infinite}
-  @keyframes azbob{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-5px)}}
-  @keyframes azpop{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.18) rotate(3deg)}}
-  @keyframes azdots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
   /* ---- 월간 캘린더 ---- */
   .calendarView{display:none;margin-top:18px;background:var(--paper);border:none;
     border-radius:16px;padding:28px 30px;box-shadow:var(--shadow)}
@@ -2026,7 +1978,6 @@
 
     /* 넓어진 본문 보정 */
     .kpis{gap:16px}
-    .stage .mat{max-width:1280px;margin:0 auto}
     .gauges{max-width:560px}
     #vtext,#vreport{max-width:88ch}
     .viz.on{gap:40px;padding:30px 36px}
@@ -2721,7 +2672,6 @@
     background:var(--paper);color:var(--gaeo-muted);font-size:12.5px;line-height:1.65;text-align:center}
   #analysisPanelRadar:has(.radar-detail.on) .analysis-tab-empty{display:none}
   #analysisPanelRadar.checking .analysis-tab-empty{display:none}
-  .stage.analysis-finished{display:none}
   @keyframes analysisPanelIn{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
 
   .home-dashboard .start-board{grid-template-columns:1fr;
@@ -3511,14 +3461,7 @@
       <section class="analysis-tab-panel on" id="analysisPanelOverview" role="tabpanel" aria-labelledby="analysisTabOverview" data-analysis-panel="overview">
         <div class="qchart" id="qchartWrap" style="display:none"></div>
         <div class="qjudge" id="qjudgeWrap" style="display:none"></div>
-        <div class="stage" id="analysisStage">
-          <div class="mat"><canvas id="scene" width="960" height="520"></canvas></div>
-          <div class="stagebtns">
-            <button id="dayBtn" title="낮/밤 전환">☀️</button>
-            <button id="sndBtn" title="효과음 켜기/끄기">🔇</button>
-          </div>
-          <div class="analyzing" id="analyzing"><span class="az-face" id="azFace">(｡•̀ᴗ-)✧</span><span>분석 중<span class="az-dots"></span></span></div>
-        </div>
+        <div class="tab-checking" id="overviewChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
       </section>
 
       <section class="analysis-tab-panel" id="analysisPanelAgents" role="tabpanel" aria-labelledby="analysisTabAgents" data-analysis-panel="agents" hidden>
@@ -3642,8 +3585,7 @@
   </div><!-- /.layout -->
 
   <div class="foot" data-edit="foot">
-    <b>Gaeo</b> — 팀원들이 집 안을 돌아다니며 인사하고 커피도 마시다가, 「분석 시작」을 누르면 각자 자리로 가서 분석합니다.
-    우측 상단 버튼으로 <b>낮/밤 전환(☀️/🌙)</b>과 <b>효과음(🔊)</b>을 조절할 수 있어요.<br>
+    <b>Gaeo</b> — TARO·DIANA·QUANT·FLOW·CHIEF 5인의 애널리스트가 기술·재무·확률통계·수급·리스크를 나눠 맡아 분석합니다.<br>
     시세·지표는 평일 장중 자동으로 갱신되며, 공휴일·장 마감 뒤에는 마지막 거래일 값이 표시될 수 있어요.
     각 분석의 기준 시각과 데이터 상태를 함께 표시하니 투자 판단 전에 꼭 확인해 주세요.
   </div>
@@ -3714,9 +3656,8 @@ window.GaeoFeatures=(()=>{
 </script>
 <script>
 /* ============================================================
-   개오 애널리스트팀 — 홈오피스 v4
+   개오 애널리스트팀 — 메인 앱 스크립트
    실시간 시세(data.js) + 실제 AI 분석(analysis.js)
-   + 낮/밤 전환 + 표정/개성/고양이 + 효과음
    ============================================================ */
 
 // ---------- 시세: 종목 목록은 tickers.js(단일 소스), 값은 data.js에서 채운다 ----------
@@ -4588,23 +4529,6 @@ document.getElementById('scorecardView').addEventListener('click', e=>{
   SC_WEEK_OFFSET=Math.max(0, SC_WEEK_OFFSET+(+btn.dataset.scDir));
   renderScorecard();
 });
-
-/* ============================================================
-   "분석 중" 귀여운 로딩 표시
-   ============================================================ */
-let azTimer=null;
-const AZ_FACES=['(｡•̀ᴗ-)✧','( •̀ω•́ )✧','(๑˃ᴗ˂)ﻭ','(⌐■_■)','(•̀ᴗ•́)و'];
-function showAnalyzing(){
-  const el=document.getElementById('analyzing'); if(!el) return;
-  el.classList.add('on');
-  const f=document.getElementById('azFace'); let i=0;
-  if(azTimer) clearInterval(azTimer);
-  azTimer=setInterval(()=>{ i=(i+1)%AZ_FACES.length; if(f) f.textContent=AZ_FACES[i]; },520);
-}
-function hideAnalyzing(){
-  const el=document.getElementById('analyzing'); if(el) el.classList.remove('on');
-  if(azTimer){ clearInterval(azTimer); azTimer=null; }
-}
 
 /* ============================================================
    월간 캘린더 + 성적표 (history + 종목 events)
@@ -5612,13 +5536,24 @@ function showQuote(st){
            ['시가총액',st.cap],['52주',st.w52]];
   qm.innerHTML=M.map(([k,v])=>`<span class="qm">${term(k)}<b>${v}</b></span>`).join('');
 
+  // ⭐ 2026-08-07: price_history.js는 첫 화면 성능 때문에 지연 로드 파일이라(GaeoFeatures),
+  // 예전엔 아직 안 받아진 상태에서 flatOHLC를 바로 불러 "종가 5개짜리 임시값(last5)"으로만
+  // 차트를 그렸다 — 실제로는 몇 주치 기록이 있어도 화면엔 항상 5거래일만 보이던 버그.
+  // GaeoFeatures.load('history')로 먼저 내려받은 뒤에 그린다(index_history.js와 같은 패턴).
   const cw=document.getElementById('qchartWrap');
-  const ohlcDays=(typeof flatOHLC==='function')?flatOHLC(st.code):[];
-  if(ohlcDays.length>=2){
-    cw.innerHTML=stockOhlcSectionHTML(st.code,ohlcDays);
-    cw.style.display='block';
-    wireOhlcChart('q-'+st.code,ohlcDays,stockWon);
-  } else cw.style.display='none';
+  cw.style.display='block';
+  cw.innerHTML='<p class="idx-loading">차트를 불러오는 중…</p>';
+  GaeoFeatures.load('history').then(()=>{
+    if(document.getElementById('qcode').textContent!==st.code) return; // 그 사이 다른 종목을 검색했으면 버림
+    // GaeoFeatures는 스크립트 태그만 심어줄 뿐 LIVE_PH를 갱신하진 않는다 — 성적표 화면과
+    // 같은 방식으로 여기서도 직접 최신 PRICE_HISTORY를 다시 가리키게 해줘야 한다.
+    LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
+    const ohlcDays=(typeof flatOHLC==='function')?flatOHLC(st.code):[];
+    if(ohlcDays.length>=2){
+      cw.innerHTML=stockOhlcSectionHTML(st.code,ohlcDays);
+      wireOhlcChart('q-'+st.code,ohlcDays,stockWon);
+    } else cw.style.display='none';
+  }).catch(()=>{ cw.style.display='none'; });
   if(typeof window.renderStockJudge==='function') window.renderStockJudge(st.code);
 }
 // 개별 종목 캔들차트용 원화 표기(지수는 idxWon으로 소수점 포인트, 종목은 정수+'원')
@@ -6233,6 +6168,17 @@ function ohlcChartHTML(uid,days,fmt){
   const y=v=>padT+chartH*(1-(v-lo)/(hi-lo||1));
   const cw=Math.max(1.4,Math.min(9,plotW/n*0.62));
   const up='var(--krup)',down='var(--krdn)';
+  // ⭐ 2026-08-07: OHLC가 없는(종가만 있는) 옛 기록은 캔들 대신 점 하나만 찍히는데,
+  // 점이 작아서(r=1.6) 그런 날이 대부분이면 차트가 거의 빈 것처럼 보이는 문제가 있었다.
+  // 종가를 잇는 얇은 배경선을 항상 먼저 깔아서 — 캔들이 몇 개뿐이어도 — 가격 흐름 자체는
+  // 항상 눈에 보이게 한다(캔들·점은 그 위에 그대로 겹쳐 그린다).
+  let closeLine='',clOpen=false;
+  closes.forEach((c,i)=>{
+    if(!Number.isFinite(c)){clOpen=false;return;}
+    closeLine+=(clOpen?'L':'M')+x(i).toFixed(1)+' '+y(c).toFixed(1)+' ';
+    clOpen=true;
+  });
+  closeLine=closeLine.trim()?`<path class="ohlc-close-line" d="${closeLine.trim()}" fill="none" stroke="var(--dim)" stroke-width="1.3" stroke-linejoin="round" opacity=".5"/>`:'';
   let candles='';
   days.forEach((d,i)=>{
     const cx=x(i), c=closes[i]; if(!Number.isFinite(c)) return;
@@ -6284,7 +6230,7 @@ function ohlcChartHTML(uid,days,fmt){
     shortNote+
     `<div class="ohlc-svg-holder">`+
       `<svg class="ohlc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="최근 ${n}거래일 캔들차트와 이동평균선">`+
-        `${grid}<g class="ohlc-candles">${candles}</g>${maPaths}${volBars}${ticks}`+
+        `${grid}${closeLine}<g class="ohlc-candles">${candles}</g>${maPaths}${volBars}${ticks}`+
         `<line class="ohlc-crosshair" x1="0" y1="${padT}" x2="0" y2="${volY0+volH}" stroke="var(--dim)" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`+
       `</svg>`+
       `<div class="ohlc-tooltip" hidden></div>`+
@@ -6837,10 +6783,6 @@ const SFX={
   meow: ()=>{tone(760,980,.13,'sawtooth',.02); tone(980,540,.24,'sawtooth',.02,.13);},
   toggle:()=>tone(300,820,.28,'sine',.04),
 };
-document.getElementById('sndBtn').onclick=function(){
-  soundOn=!soundOn; this.textContent=soundOn?'🔊':'🔇';
-  if(soundOn) SFX.pop();
-};
 
 // ---------- 애널리스트 (개오 팀 — 개성 액세서리 포함) ----------
 // acc: 스프라이트 위에 덧그리는 픽셀 [col,row,color]
@@ -6870,628 +6812,6 @@ const AGENTS = [
          [5,7,'#7c2d12'],[6,7,'#7c2d12'],[5,8,'#7c2d12'],[6,8,'#7c2d12'],[5,9,'#7c2d12'],[6,9,'#7c2d12']], // 넥타이
     bubbles:['팀 의견 취합 중...','리스크 검토 중...','최종 판단 내리는 중...'] },
 ];
-
-const cv=document.getElementById('scene'), ctx=cv.getContext('2d');
-const W=cv.width, H=cv.height, TOP=54;
-
-// ---------- 낮/밤 ----------
-let night=1, nightTarget=1;      // 1=밤, 0=낮
-const dayBtn=document.getElementById('dayBtn');
-function setDayIcon(){dayBtn.textContent=nightTarget>0.5?'☀️':'🌙';} // 버튼=전환될 방향
-dayBtn.onclick=()=>{nightTarget=1-nightTarget; setDayIcon(); SFX.toggle();};
-setInterval(()=>{nightTarget=1-nightTarget; setDayIcon();},90000);  // 90초마다 자동 전환
-setDayIcon();
-
-// ---------- 픽셀 사람 스프라이트 ----------
-const FRAME_STAND=[
-'....HHHH....','...HHHHHH...','..HHHHHHHH..','..HSSSSSSH..',
-'..SSESSESS..','..SSSSSSSS..','...SSSSSS...','..TTTTTTTT..',
-'.TTTTTTTTTT.','.STTTTTTTTS.','..TTTTTTTT..','...PPPPPP...',
-'...PPPPPP...','...PP..PP...','...PP..PP...','..FFF..FFF..'];
-const FRAME_WALK=[
-'....HHHH....','...HHHHHH...','..HHHHHHHH..','..HSSSSSSH..',
-'..SSESSESS..','..SSSSSSSS..','...SSSSSS...','..TTTTTTTT..',
-'.TTTTTTTTTT.','.STTTTTTTTS.','..TTTTTTTT..','...PPPPPP...',
-'..PPP..PPP..','..PP....PP..','..PP....PP..','.FFF....FFF.'];
-const SC=3, SPW=12*SC;
-
-function pxA(x,top,c,r,flip,color){
-  const cc=flip?11-c:c;
-  ctx.fillStyle=color;
-  ctx.fillRect(x-SPW/2+cc*SC, top+r*SC, SC, SC);
-}
-function drawSprite(a,st,x,y,flip,frame,t){
-  const working=st&&st.status==='work';
-  ctx.fillStyle='rgba(0,0,0,.30)';
-  ctx.beginPath(); ctx.ellipse(x,y+3,13,4,0,0,Math.PI*2); ctx.fill();
-  const bob = working ? Math.round(Math.sin(t/220))*1 : 0;
-  const grid = frame? FRAME_WALK : FRAME_STAND;
-  const top = y-16*SC+bob;
-  for(let r=0;r<16;r++){
-    const row=grid[r];
-    for(let c=0;c<12;c++){
-      const ch=row[flip? 11-c : c]; if(ch==='.') continue;
-      let col;
-      switch(ch){
-        case 'H': col=a.hair; break;   case 'S': col='#f2c9a0'; break;
-        case 'E': col='#151515'; break;case 'T': col=a.shirt; break;
-        case 'P': col=a.pants; break;  case 'F': col='#26262e'; break;
-      }
-      ctx.fillStyle=col;
-      ctx.fillRect(x-SPW/2+c*SC, top+r*SC, SC, SC);
-    }
-  }
-  if(a.long){ // 긴 머리
-    for(const[c,r,h] of [[1,3,6],[10,3,6],[2,3,2],[9,3,2]]){
-      ctx.fillStyle=a.hair;
-      const cc=flip?11-c:c;
-      ctx.fillRect(x-SPW/2+cc*SC, top+r*SC, SC, h*SC);
-    }
-  }
-  if(a.acc) for(const[c,r,col] of a.acc) pxA(x,top,c,r,flip,col);
-  // --- 표정 ---
-  if(st){
-    const now=t;
-    if(!a.glasses){ // 눈 깜빡임
-      if(!st.nextBlink) st.nextBlink=now+2000+Math.random()*3000;
-      if(now>st.nextBlink){
-        if(now<st.nextBlink+160){ pxA(x,top,4,4,flip,'#f2c9a0'); pxA(x,top,7,4,flip,'#f2c9a0'); }
-        else st.nextBlink=now+2200+Math.random()*3800;
-      }
-    }
-    if(working){ // 집중: 미간 주름 + 땀방울
-      pxA(x,top,4,3,flip,'#c79b74'); pxA(x,top,7,3,flip,'#c79b74');
-      if(Math.floor(now/600)%2) pxA(x,top,10,3,flip,'#7dd3fc');
-    } else if(st.emote && now<st.emote.until){ // 웃는 입
-      pxA(x,top,5,5,flip,'#8a5b3a'); pxA(x,top,6,5,flip,'#8a5b3a');
-    } else if(typeof MOOD!=='undefined'){ // 평상시 표정 = 오늘 시장 무드
-      if(MOOD.key==='crash'||MOOD.key==='down'){ // 걱정: 처진 입(양끝 올라감) + 폭락 땐 땀
-        pxA(x,top,5,6,flip,'#8a5b3a'); pxA(x,top,6,6,flip,'#8a5b3a');
-        pxA(x,top,4,5,flip,'#8a5b3a'); pxA(x,top,7,5,flip,'#8a5b3a');
-        if(MOOD.key==='crash' && Math.floor(now/700)%3===0) pxA(x,top,9,3,flip,'#7dd3fc');
-      } else if(MOOD.key==='up'||MOOD.key==='surge'){ // 미소(양끝 올라간 입)
-        pxA(x,top,5,5,flip,'#8a5b3a'); pxA(x,top,6,5,flip,'#8a5b3a');
-        pxA(x,top,4,4,flip,'#8a5b3a'); pxA(x,top,7,4,flip,'#8a5b3a');
-      }
-    }
-  }
-}
-
-// ---------- 고양이 "먼지" ----------
-const CAT_A=[
-'.A.A....T.','.AAA....T.','.AEA..TT..','.AAAAAAA..','.AWWWWAA..','.A.A..A.A.'];
-const CAT_B=[
-'.A.A..T...','.AAA...T..','.AEA..TT..','.AAAAAAA..','.AWWWWAA..','..A.A..A..'];
-const CATCOL={A:'#d98c4a',W:'#f2e3cf',E:'#151515',T:'#c67a35'};
-function drawCat(x,y,flip,frame){
-  ctx.fillStyle='rgba(0,0,0,.25)';
-  ctx.beginPath(); ctx.ellipse(x,y+2,11,3,0,0,Math.PI*2); ctx.fill();
-  const grid=frame?CAT_B:CAT_A, top=y-6*SC;
-  for(let r=0;r<6;r++)for(let c=0;c<10;c++){
-    const ch=grid[r][flip?9-c:c]; if(ch==='.')continue;
-    ctx.fillStyle=CATCOL[ch];
-    ctx.fillRect(x-15+c*SC, top+r*SC, SC, SC);
-  }
-}
-
-// ---------- 집 구조 ----------
-const HOUSE={x0:36,y0:84,x1:924,y1:500};
-const VW=478, HW=290;
-const WALLS=[
-  {x:VW-8,y:94, w:16,h:150-94},
-  {x:VW-8,y:214,w:16,h:360-214},
-  {x:VW-8,y:424,w:16,h:490-424},
-  {x:46, y:HW-8,w:180-46, h:16},
-  {x:260,y:HW-8,w:700-260,h:16},
-  {x:780,y:HW-8,w:914-780,h:16},
-];
-const FURN=[
-  {id:'tv',    x:205,y:96, w:100,h:30},
-  {id:'sofa',  x:200,y:192,w:110,h:44},
-  {id:'plant', x:56, y:98, w:26, h:32},
-  {id:'counter',x:500,y:94,w:260,h:38},
-  {id:'fridge', x:856,y:94,w:56, h:64},
-  {id:'island', x:640,y:200,w:84,h:44},
-  {id:'shelf', x:46, y:320,w:36, h:120},
-  {id:'desk',  x:150,y:382,w:110,h:32},
-  {id:'ward',  x:497,y:312,w:56, h:52},
-  {id:'bed',   x:800,y:332,w:110,h:110},
-  {id:'ndesk', x:640,y:382,w:64, h:32},
-];
-const WORK={ taro:{x:252,y:168}, nova:{x:594,y:168},
-             diana:{x:205,y:438}, chief:{x:672,y:438}, flow:{x:130,y:172} };
-const ROOM_LABEL=[
-  {t:'거실 · TARO',  x:56, y:HW-26, c:'#22d3ee'},
-  {t:'부엌 · QUANT', x:498,y:HW-26, c:'#fb923c'},
-  {t:'서재 · DIANA', x:96, y:480,   c:'#a78bfa'},
-  {t:'침실 · CHIEF', x:566,y:480,   c:'#fbbf24'},
-];
-const ACTS=[
-  {x:766,y:168,e:'☕ 커피 타임'},
-  {x:230,y:170,e:'📺 잠깐 휴식'},
-  {x:69, y:150,e:'🌿 물 주는 중'},
-  {x:884,y:186,e:'🧃 간식 타임'},
-  {x:100,y:380,e:'📖 책 구경'},
-  {x:760,y:400,e:'😴 5분만 눕자'},
-  {x:610,y:222,e:'🍎 하나 먹자'},
-  {x:402,y:250,e:'📱 주식앱 확인'},
-  {x:330,y:440,e:'🙆 스트레칭'},
-];
-const CAT_ACTS=[
-  {x:134,y:140,e:'💤'},{x:250,y:258,e:'💤'},{x:540,y:160,e:'🐟?'},{x:744,y:466,e:'💤'}];
-const GREETS=['👋 안녕!','☕ 커피 마실래?','📈 오늘 장 봤어?','🍕 야식 콜?','😄 파이팅!','🤔 그 종목 어때?'];
-
-// ---------- 이동 그리드 + BFS ----------
-const CELL=24, GC=Math.ceil(W/CELL), GR=Math.ceil(H/CELL);
-const blocked=new Uint8Array(GC*GR);
-(function buildGrid(){
-  const inner={x0:HOUSE.x0+12,y0:HOUSE.y0+12,x1:HOUSE.x1-12,y1:HOUSE.y1-12};
-  for(let r=0;r<GR;r++)for(let c=0;c<GC;c++){
-    const cx=c*CELL+CELL/2, cy=r*CELL+CELL/2;
-    if(cx<inner.x0||cx>inner.x1||cy<inner.y0||cy>inner.y1){blocked[r*GC+c]=1;continue;}
-    for(const w of WALLS.concat(FURN)){
-      if(c*CELL<w.x+w.w && (c+1)*CELL>w.x && r*CELL<w.y+w.h && (r+1)*CELL>w.y){
-        blocked[r*GC+c]=1; break;
-      }
-    }
-  }
-})();
-const free=(c,r)=>c>=0&&r>=0&&c<GC&&r<GR&&!blocked[r*GC+c];
-function findPath(sx,sy,tx,ty){
-  const sc=Math.floor(sx/CELL),sr=Math.floor(sy/CELL);
-  const tc=Math.floor(tx/CELL),tr=Math.floor(ty/CELL);
-  if(!free(tc,tr)) return null;
-  const prev=new Int32Array(GC*GR).fill(-1), si=sr*GC+sc, ti=tr*GC+tc;
-  prev[si]=si; const q=[si];
-  while(q.length){
-    const cur=q.shift(); if(cur===ti)break;
-    const c=cur%GC, r=(cur/GC)|0;
-    for(const[dc,dr]of[[1,0],[-1,0],[0,1],[0,-1]]){
-      const nc=c+dc,nr=r+dr;
-      if(free(nc,nr)&&prev[nr*GC+nc]<0){prev[nr*GC+nc]=cur;q.push(nr*GC+nc);}
-    }
-  }
-  if(prev[ti]<0) return null;
-  const path=[]; let cur=ti;
-  while(cur!==si){path.push({x:(cur%GC)*CELL+CELL/2,y:((cur/GC)|0)*CELL+CELL/2});cur=prev[cur];}
-  path.reverse(); path.push({x:tx,y:ty});
-  return path;
-}
-function randomFreeCell(){
-  for(let i=0;i<200;i++){
-    const c=(Math.random()*GC)|0, r=(Math.random()*GR)|0;
-    if(free(c,r)) return {x:c*CELL+CELL/2,y:r*CELL+CELL/2};
-  }
-  return {x:W/2,y:H/2};
-}
-
-// ---------- 렌더 헬퍼 ----------
-function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);
-  ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
-  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
-const P=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
-function glow(x,y,r,rgb,a){
-  a*= (0.25+0.75*night);            // 밤일수록 램프가 도드라짐
-  if(a<0.005) return;
-  const g=ctx.createRadialGradient(x,y,2,x,y,r);
-  g.addColorStop(0,`rgba(${rgb},${a})`); g.addColorStop(1,`rgba(${rgb},0)`);
-  ctx.fillStyle=g; ctx.fillRect(x-r,y-r,r*2,r*2);
-}
-function windowPane(x,y,w,h){
-  P(x-3,y-3,w+6,h+6,'#3d4456');
-  // 낮 하늘
-  let g=ctx.createLinearGradient(x,y,x,y+h);
-  g.addColorStop(0,'#7ec3ee'); g.addColorStop(1,'#cfe8f8');
-  ctx.fillStyle=g; ctx.fillRect(x,y,w,h);
-  ctx.fillStyle='#ffd75e'; ctx.beginPath(); ctx.arc(x+12,y+9,6,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(255,255,255,.85)';
-  ctx.beginPath(); ctx.ellipse(x+w*.6,y+8,9,3.5,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(x+w*.75,y+14,7,3,0,0,Math.PI*2); ctx.fill();
-  // 밤 하늘 (크로스페이드)
-  if(night>0.02){
-    ctx.globalAlpha=night;
-    g=ctx.createLinearGradient(x,y,x,y+h);
-    g.addColorStop(0,'#1b2a4d'); g.addColorStop(1,'#0e1830');
-    ctx.fillStyle=g; ctx.fillRect(x,y,w,h);
-    ctx.fillStyle='#e8e4d8';
-    ctx.beginPath(); ctx.arc(x+w-14,y+9,5,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#f5d76e';
-    for(let i=0;i<7;i++) ctx.fillRect(x+5+i*((w-10)/7), y+h-6-(i%3)*3, 2, 2);
-    ctx.globalAlpha=1;
-  }
-  P(x+w/2-1,y,2,h,'#3d4456'); P(x,y+h/2-1,w,2,'#3d4456');
-  // 낮: 창으로 들어오는 햇살
-  if(night<0.98){
-    ctx.fillStyle=`rgba(255,236,170,${0.12*(1-night)})`;
-    ctx.beginPath();
-    ctx.moveTo(x,y+h+3); ctx.lineTo(x+w,y+h+3);
-    ctx.lineTo(x+w+22,y+h+70); ctx.lineTo(x-22,y+h+70); ctx.fill();
-  }
-}
-function artFrame(x,y,w,h,c1,c2){
-  P(x-2,y-2,w+4,h+4,'#c9a86a'); P(x,y,w,h,'#101624');
-  ctx.fillStyle=c1; ctx.beginPath(); ctx.arc(x+w*.35,y+h*.55,h*.28,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle=c2; ctx.fillRect(x+w*.55,y+h*.25,w*.3,h*.5);
-}
-
-// ---------- 배경/인테리어 ----------
-function drawHouse(t){
-  ctx.fillStyle='#0a0f1e'; ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='#0c1526'; ctx.fillRect(0,0,W,TOP);
-  ctx.fillStyle='#22c55e'; ctx.font='12px "SF Mono",monospace';
-  ctx.fillText((night>0.5?'🌙':'☀️')+' KOSPI  '+new Date().toLocaleTimeString('ko-KR'),14,22);
-  ctx.fillStyle='#7c8db3'; ctx.font='11px sans-serif';
-  ctx.fillText('Gaeo · HOME OFFICE',14,40);
-
-  // 바닥
-  for(let y=HOUSE.y0;y<HW;y+=13)for(let x=HOUSE.x0;x<VW;x+=52)
-    P(x,y,52,13, ((x/52|0)+(y/13|0))%2 ? '#77563a' : '#6b4c32');
-  for(let x=VW;x<HOUSE.x1;x+=36)for(let y=HOUSE.y0;y<HW;y+=36)
-    P(x,y,35,35, ((x/36|0)+(y/36|0))%2?'#79828f':'#6f7885');
-  for(let y=HW;y<HOUSE.y1;y+=13)for(let x=HOUSE.x0;x<VW;x+=52)
-    P(x,y,52,13, ((x/52|0)+(y/13|0))%2 ? '#5c3e24' : '#523719');
-  P(VW,HW,HOUSE.x1-VW,HOUSE.y1-HW,'#6d5a84');
-  ctx.fillStyle='#7a688f';
-  for(let x=VW+10;x<HOUSE.x1;x+=22)for(let y=HW+10;y<HOUSE.y1;y+=22)ctx.fillRect(x,y,2,2);
-
-  // 러그
-  ctx.fillStyle='#2e3f5e'; roundRect(180,140,160,48,16); ctx.fill();
-  ctx.strokeStyle='#c9a86a'; ctx.lineWidth=2; roundRect(186,145,148,38,12); ctx.stroke();
-  ctx.fillStyle='#8a3b3b'; roundRect(140,368,150,60,14); ctx.fill();
-  ctx.strokeStyle='#c9a86a'; roundRect(146,373,138,50,10); ctx.stroke();
-  ctx.fillStyle='#8f7ba6'; roundRect(720,440,140,40,12); ctx.fill();
-
-  // 벽
-  const WCOL='#343a4a', WEDGE='#20242e';
-  P(HOUSE.x0-10,HOUSE.y0-14,HOUSE.x1-HOUSE.x0+20,24,WCOL);
-  P(HOUSE.x0-10,HOUSE.y1-2, HOUSE.x1-HOUSE.x0+20,12,WCOL);
-  P(HOUSE.x0-10,HOUSE.y0-14,12,HOUSE.y1-HOUSE.y0+26,WCOL);
-  P(HOUSE.x1-2, HOUSE.y0-14,12,HOUSE.y1-HOUSE.y0+26,WCOL);
-  ctx.strokeStyle=WEDGE; ctx.lineWidth=1;
-  ctx.strokeRect(HOUSE.x0+2,HOUSE.y0+10,HOUSE.x1-HOUSE.x0-4,HOUSE.y1-HOUSE.y0-10);
-  for(const w of WALLS){P(w.x,w.y,w.w,w.h,WCOL); ctx.strokeStyle=WEDGE; ctx.strokeRect(w.x,w.y,w.w,w.h);}
-
-  // 창문 + 장식
-  windowPane(96, HOUSE.y0-10, 76, 26);
-  windowPane(340,HOUSE.y0-10, 76, 26);
-  windowPane(778,HOUSE.y0-10, 60, 26);
-  glow(134,HOUSE.y0+40,70,'150,180,255',.05);
-  glow(378,HOUSE.y0+40,70,'150,180,255',.05);
-  artFrame(390,110,40,28,'#22d3ee','#a78bfa');
-  artFrame(560,320,36,26,'#fbbf24','#ef4444');
-  artFrame(300,320,38,26,'#22c55e','#c9a86a');
-  ctx.fillStyle='#e8e4da'; ctx.beginPath(); ctx.arc(812,HOUSE.y0+22,10,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#444'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(812,HOUSE.y0+22); ctx.lineTo(812,HOUSE.y0+15); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(812,HOUSE.y0+22); ctx.lineTo(817,HOUSE.y0+22); ctx.stroke();
-
-  // === 거실 ===
-  P(196,120,118,10,'#4a3324');
-  P(202,92,106,30,'#0d1017');
-  P(206,95,98,23,'#0a1a12');
-  const taroWork=S.taro&&S.taro.status==='work';
-  ctx.strokeStyle=taroWork?'#22c55e':'#1f5c38'; ctx.lineWidth=1.5; ctx.beginPath();
-  for(let i=0;i<=24;i++){
-    const px=208+i*3.9, py=106+Math.sin(i*.85+(taroWork?t/170:0))*6;
-    i?ctx.lineTo(px,py):ctx.moveTo(px,py);
-  } ctx.stroke();
-  if(taroWork){ctx.fillStyle='#22c55e';ctx.font='7px monospace';ctx.fillText('LIVE',284,101);}
-  P(196,190,118,48,'#40618f'); P(196,190,118,14,'#365478');
-  P(192,190,10,48,'#334f70'); P(308,190,10,48,'#334f70');
-  P(202,206,52,22,'#4a6ea8'); P(258,206,50,22,'#4a6ea8');
-  P(204,232,8,8,'#2b2b33'); P(298,232,8,8,'#2b2b33');
-  ctx.fillStyle='#c9a86a'; roundRect(214,208,16,12,3); ctx.fill();
-  ctx.fillStyle='#8a3b3b'; roundRect(272,208,16,12,3); ctx.fill();
-  P(330,150,4,44,'#8a7a5a'); ctx.fillStyle='#e8c476';
-  ctx.beginPath(); ctx.moveTo(320,150); ctx.lineTo(344,150); ctx.lineTo(338,132); ctx.lineTo(326,132); ctx.fill();
-  glow(332,158,64,'251,191,36',.10);
-  P(58,114,22,18,'#9a5a3a'); P(60,112,18,3,'#7a4630');
-  ctx.fillStyle='#3f7d4f'; ctx.beginPath();ctx.arc(69,102,12,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#2f6b3f';
-  ctx.beginPath();ctx.arc(61,97,8,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(77,96,7,0,Math.PI*2);ctx.fill();
-
-  // === 부엌 ===
-  P(500,94,260,38,'#cdd3dc'); P(500,124,260,10,'#aab2bf');
-  ctx.strokeStyle='rgba(120,130,150,.5)'; ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(516,100);ctx.quadraticCurveTo(560,112,600,102);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(640,116);ctx.quadraticCurveTo(690,104,730,114);ctx.stroke();
-  P(514,102,66,18,'#1a1e26');
-  for(let i=0;i<2;i++){ctx.fillStyle='#333a46';ctx.beginPath();ctx.arc(530+i*30,111,7,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#4a525f';ctx.stroke();}
-  P(640,100,64,22,'#b8c2cf'); P(666,96,5,9,'#8a95a3');
-  P(744,98,26,26,'#2a2129');
-  P(748,102,18,8,'#4a3a45'); P(752,116,10,5,'#c9a86a');
-  ctx.fillStyle='#ef4444'; ctx.beginPath(); ctx.arc(766,102,2,0,Math.PI*2); ctx.fill();
-  P(856,94,56,64,'#c7ced8'); P(883,96,2,60,'#9aa4b2');
-  P(876,104,4,18,'#8a95a3'); P(888,104,4,18,'#8a95a3');
-  ctx.fillStyle='#39424e'; ctx.fillRect(860,98,12,8);
-  P(640,200,84,44,'#3a3f4c'); P(640,200,84,10,'#e4e8ee'); P(644,204,76,4,'#cdd3dc');
-  ctx.fillStyle='#8a5c36';
-  ctx.beginPath();ctx.arc(628,222,8,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(736,222,8,0,Math.PI*2);ctx.fill();
-  P(668,140,2,26,'#6a6a72'); P(694,140,2,26,'#6a6a72');
-  ctx.fillStyle='#d9a441';
-  ctx.beginPath();ctx.moveTo(661,166);ctx.lineTo(677,166);ctx.lineTo(672,176);ctx.lineTo(666,176);ctx.fill();
-  ctx.beginPath();ctx.moveTo(687,166);ctx.lineTo(703,166);ctx.lineTo(698,176);ctx.lineTo(692,176);ctx.fill();
-  glow(669,182,52,'251,191,36',.10); glow(695,182,52,'251,191,36',.10);
-  ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(676,216,4,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(684,214,4,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#84cc16';ctx.beginPath();ctx.arc(680,220,4,0,Math.PI*2);ctx.fill();
-
-  // === 서재 ===
-  P(44,316,40,126,'#4a3120'); P(48,320,32,118,'#3a2718');
-  const bookCols=['#c0504d','#4f81bd','#9bbb59','#8064a2','#f79646','#c9a86a'];
-  for(let s=0;s<4;s++){
-    P(48,320+s*29,32,4,'#5d3f28');
-    for(let b=0;b<4;b++) P(50+b*7,326+s*29,6,20,bookCols[(s*2+b)%6]);
-  }
-  P(148,380,114,36,'#6b4626'); P(148,380,114,8,'#7d5530');
-  P(156,392,44,18,'#2e4034');
-  P(206,388,36,22,'#191c24');
-  ctx.fillStyle=(S.diana&&S.diana.status==='work')?'#a78bfa':'#3d3357';
-  ctx.fillRect(209,391,30,16);
-  P(246,384,4,16,'#8a7a5a'); ctx.fillStyle='#e8c476';
-  ctx.beginPath();ctx.moveTo(240,384);ctx.lineTo(256,384);ctx.lineTo(252,374);ctx.lineTo(244,374);ctx.fill();
-  glow(248,392,44,'251,191,36',.09);
-  P(160,396,14,9,'#e8e4da'); P(178,398,12,7,'#d8d3c8');
-
-  // === 침실 ===
-  P(495,310,60,56,'#4a3120');
-  P(499,314,24,48,'#5d3f28'); P(527,314,24,48,'#8fa3b8');
-  ctx.fillStyle='rgba(255,255,255,.25)';
-  ctx.beginPath();ctx.moveTo(531,318);ctx.lineTo(543,358);ctx.lineTo(537,358);ctx.lineTo(527,322);ctx.fill();
-  P(521,336,3,9,'#c9a227'); P(529,336,3,9,'#c9a227');
-  P(798,328,114,20,'#4a3120');
-  P(800,344,110,100,'#e2ddd2');
-  P(808,350,42,20,'#f7f4ec'); P(858,350,42,20,'#f7f4ec');
-  P(800,386,110,58,'#6d4685'); P(800,386,110,9,'#7e57a0');
-  ctx.strokeStyle='#5d3a72';
-  ctx.beginPath();ctx.moveTo(800,410);ctx.lineTo(910,410);ctx.stroke();
-  P(800,432,110,12,'#c9a86a');
-  P(778,344,4,14,'#8a7a5a'); ctx.fillStyle='#e8c476';
-  ctx.beginPath();ctx.moveTo(772,346);ctx.lineTo(788,346);ctx.lineTo(784,336);ctx.lineTo(776,336);ctx.fill();
-  glow(780,352,40,'251,191,36',.10);
-  P(638,380,68,36,'#6b4626'); P(638,380,68,8,'#7d5530');
-  P(652,388,36,22,'#191c24');
-  ctx.fillStyle=(S.chief&&S.chief.status==='work')?'#fbbf24':'#4d4326';
-  ctx.fillRect(655,391,30,16);
-
-  // 방 라벨
-  ctx.font='bold 12px sans-serif';
-  for(const L of ROOM_LABEL){
-    ctx.fillStyle='rgba(10,14,26,.55)';
-    const w=ctx.measureText(L.t).width;
-    roundRect(L.x-6,L.y-13,w+12,18,6); ctx.fill();
-    ctx.fillStyle=L.c; ctx.fillText(L.t,L.x,L.y);
-  }
-}
-
-function drawBubble(cx,y,text,color,fill='#0c1424',tcol='#e6ecff'){
-  ctx.font='11px "SF Mono",Menlo,monospace';
-  const w=ctx.measureText(text).width+16, x=cx-w/2;
-  ctx.fillStyle=fill; ctx.strokeStyle=color; ctx.lineWidth=1.5;
-  roundRect(x,y,w,20,6); ctx.fill(); ctx.stroke();
-  ctx.fillStyle=color; ctx.beginPath();
-  ctx.moveTo(cx-4,y+20);ctx.lineTo(cx+4,y+20);ctx.lineTo(cx,y+26);ctx.fill();
-  ctx.fillStyle=tcol; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText(text,cx,y+10); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-}
-function drawBar(cx,y,p,color){
-  const w=44,x=cx-w/2;
-  ctx.fillStyle='#1b2540'; roundRect(x,y,w,5,3); ctx.fill();
-  ctx.fillStyle=color; roundRect(x,y,Math.max(4,w*p),5,3); ctx.fill();
-}
-
-// ---------- 캐릭터/고양이 상태 ----------
-let S={}, last=performance.now();
-const greetCd={};
-let CAT=null;
-function reset(){
-  AGENTS.forEach(a=>{
-    const p=randomFreeCell();
-    S[a.id]={status:'idle',x:p.x,y:p.y,path:null,facing:0,
-      p:0,workStart:0,workDur:0,bubbleIdx:0,bubbleT:0,pauseUntil:0,
-      done:false,onDone:null,animT:0,moving:false,
-      emote:null,pendingAct:null,nextBlink:0};
-    startWander(S[a.id]);
-  });
-  if(!CAT){
-    const p=randomFreeCell();
-    CAT={x:p.x,y:p.y,path:null,facing:0,animT:0,moving:false,
-      pauseUntil:0,emote:null,pendingAct:null,nextMeow:performance.now()+8000};
-  }
-}
-function startWander(st,acts){
-  const list=acts||ACTS;
-  if(Math.random()<0.38){
-    const act=list[(Math.random()*list.length)|0];
-    const path=findPath(st.x,st.y,act.x,act.y);
-    if(path){st.path=path; st.pendingAct=act; return;}
-  }
-  st.pendingAct=null;
-  const t=randomFreeCell();
-  st.path=findPath(st.x,st.y,t.x,t.y);
-}
-function moveAlong(st,speed,dt){
-  let sp=speed*dt;
-  while(sp>0 && st.path && st.path.length){
-    const wp=st.path[0], dx=wp.x-st.x, dy=wp.y-st.y, dist=Math.hypot(dx,dy);
-    if(Math.abs(dx)>2) st.facing=dx<0?1:0;
-    if(dist<=sp||dist<2){st.x=wp.x;st.y=wp.y;sp-=dist;st.path.shift();}
-    else{st.x+=dx/dist*sp; st.y+=dy/dist*sp; sp=0;}
-  }
-  st.moving=true; st.animT+=dt;
-}
-function step(a,st,dt,now){
-  st.moving=false;
-  const walkMul=(typeof MOOD!=='undefined' && MOOD.key==='crash')?1.4
-              :(typeof MOOD!=='undefined' && MOOD.key==='surge')?1.15:1;
-  if((st.status==='idle'||st.status==='go') && st.path && st.path.length){
-    moveAlong(st, st.status==='go'?135:55*walkMul, dt);
-  }
-  else if(st.status==='go'){ st.status='work'; st.workStart=now; st.p=0; SFX.pop(); }
-  else if(st.status==='idle'){
-    if(st.pendingAct){
-      st.emote={text:st.pendingAct.e, until:now+2400};
-      st.pauseUntil=now+2600; st.pendingAct=null; SFX.act();
-    }
-    const pauseMul=(typeof MOOD!=='undefined' && MOOD.key==='crash')?0.45
-                 :(typeof MOOD!=='undefined' && MOOD.key==='surge')?0.7:1;
-    if(!st.pauseUntil) st.pauseUntil=now+(600+Math.random()*2200)*pauseMul;
-    if(now>st.pauseUntil){st.pauseUntil=0; startWander(st);}
-  }
-  if(st.status==='work'){
-    st.p=Math.min(1,(now-st.workStart)/st.workDur);
-    if(now-st.bubbleT>950){st.bubbleIdx++;st.bubbleT=now;}
-    if(st.p>=1){
-      st.status='idle'; st.pauseUntil=now+600; st.path=null;
-      if(!st.done){st.done=true; st.onDone&&st.onDone();}
-    }
-  }
-}
-function stepCat(dt,now){
-  const st=CAT; st.moving=false;
-  if(st.path && st.path.length){ moveAlong(st,42,dt); }
-  else{
-    if(st.pendingAct){
-      st.emote={text:st.pendingAct.e, until:now+2600};
-      st.pauseUntil=now+3400; st.pendingAct=null;
-    }
-    if(!st.pauseUntil) st.pauseUntil=now+1000+Math.random()*4000;
-    if(now>st.pauseUntil){st.pauseUntil=0; startWander(st,CAT_ACTS);}
-  }
-  if(now>st.nextMeow){
-    st.emote={text:'야옹~',until:now+1500}; SFX.meow();
-    st.nextMeow=now+14000+Math.random()*16000;
-  }
-}
-function checkGreetings(now){
-  // 사람끼리 인사
-  for(let i=0;i<AGENTS.length;i++)for(let j=i+1;j<AGENTS.length;j++){
-    const A=S[AGENTS[i].id], B=S[AGENTS[j].id], key=i+'-'+j;
-    if(A.status!=='idle'||B.status!=='idle') continue;
-    if(Math.hypot(A.x-B.x,A.y-B.y)>46) continue;
-    if(now<(greetCd[key]||0)) continue;
-    greetCd[key]=now+10000+Math.random()*8000;
-    A.path=null; B.path=null;
-    A.pauseUntil=now+1700; B.pauseUntil=now+1700;
-    A.facing=B.x<A.x?1:0; B.facing=A.x<B.x?1:0;
-    A.emote={text:moodLine(),until:now+1600};
-    B.emote={text:moodLine(),until:now+1600};
-    SFX.greet();
-  }
-  // 고양이를 만나면
-  for(const a of AGENTS){
-    const A=S[a.id], key='cat-'+a.id;
-    if(A.status!=='idle'||!CAT) continue;
-    if(Math.hypot(A.x-CAT.x,A.y-CAT.y)>40) continue;
-    if(now<(greetCd[key]||0)) continue;
-    greetCd[key]=now+16000+Math.random()*10000;
-    A.path=null; A.pauseUntil=now+1500;
-    A.facing=CAT.x<A.x?1:0;
-    A.emote={text:'🐈 먼지야~',until:now+1500};
-    CAT.emote={text:'야옹!',until:now+1500};
-    SFX.meow();
-  }
-}
-
-// ---------- 앰비언스: 먼지·수증기·조명 연출 ----------
-function hexRGB(h){h=h.replace('#','');const n=parseInt(h,16);return ((n>>16)&255)+','+((n>>8)&255)+','+(n&255);}
-const MOTES=[];
-for(let i=0;i<28;i++) MOTES.push({
-  x:HOUSE.x0+Math.random()*(HOUSE.x1-HOUSE.x0),
-  y:HOUSE.y0+Math.random()*(HOUSE.y1-HOUSE.y0),
-  r:0.6+Math.random()*1.4, sp:0.10+Math.random()*0.22, ph:Math.random()*6.283});
-const STEAM_SRC=[{x:222,y:210},{x:757,y:112}];
-const LAMPS=[[332,158],[669,182],[695,182],[248,392],[780,352]];
-function drawAmbience(t){
-  const day=1-night;
-  // 램프 플리커(따뜻한 번짐) — 밤일수록 도드라짐
-  const fl=0.72+0.22*Math.sin(t/150)+0.06*Math.sin(t/41);
-  for(const[lx,ly]of LAMPS) glow(lx,ly,44,'255,198,120',(0.06+0.14*night)*fl);
-  // 집중 오라 + 상승 스파크(작업 중인 팀원)
-  for(const a of AGENTS){
-    const st=S[a.id]; if(!st||st.status!=='work') continue;
-    const w=WORK[a.id], pulse=0.5+0.5*Math.sin(t/280);
-    glow(w.x,w.y-8,26+7*pulse,hexRGB(a.color),0.09+0.05*pulse);
-    for(let i=0;i<2;i++){
-      const life=((t/15)+i*30)%58, yy=w.y-10-life*0.55, xx=w.x+Math.sin(life/9+i*2)*7;
-      ctx.fillStyle='rgba('+hexRGB(a.color)+','+(0.55*(1-life/58)).toFixed(3)+')';
-      ctx.fillRect(xx,yy,2,2);
-    }
-  }
-  // 떠다니는 햇빛 먼지 (낮에 더 잘 보임)
-  for(const m of MOTES){
-    m.y-=m.sp; m.x+=Math.sin(t/900+m.ph)*0.12;
-    if(m.y<HOUSE.y0+6){m.y=HOUSE.y1-6; m.x=HOUSE.x0+Math.random()*(HOUSE.x1-HOUSE.x0);}
-    const a=(0.04+0.11*day)*(0.55+0.45*Math.sin(t/650+m.ph));
-    if(a<=0) continue;
-    ctx.fillStyle='rgba(255,246,220,'+a.toFixed(3)+')';
-    ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,6.283); ctx.fill();
-  }
-  // 커피 수증기
-  for(const s of STEAM_SRC) for(let i=0;i<3;i++){
-    const life=((t/24)+i*14)%42, yy=s.y-life, xx=s.x+Math.sin(life/6+i)*3;
-    const a=0.14*(1-life/42);
-    if(a<=0) continue;
-    ctx.fillStyle='rgba(235,230,220,'+a.toFixed(3)+')';
-    ctx.beginPath(); ctx.arc(xx,yy,1.3+life*0.045,0,6.283); ctx.fill();
-  }
-}
-
-// ---------- 메인 루프 ----------
-function tick(){
-  const now=performance.now();
-  const dt=Math.min(1.2,(now-last)/1000); last=now;
-  if(dt<=0) return;
-  night += (nightTarget-night)*Math.min(1,dt*1.5);
-  AGENTS.forEach(a=>step(a,S[a.id],dt,now));
-  stepCat(dt,now);
-  checkGreetings(now);
-}
-setInterval(tick,300);           // 백그라운드 탭에서도 진행
-function loop(now){
-  tick();
-  drawHouse(now);
-  // y 정렬 (사람 + 고양이)
-  const ents=AGENTS.map(a=>({y:S[a.id].y, draw:()=>{
-    const st=S[a.id];
-    const frame=st.moving ? (Math.floor(st.animT*7)%2) : 0;
-    drawSprite(a,st,st.x,st.y,st.facing===1,frame,now);
-    ctx.fillStyle=a.color; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
-    ctx.fillText(a.name,st.x,st.y-52); ctx.textAlign='left';
-    if(st.status==='work'){
-      drawBubble(st.x,st.y-82,a.bubbles[st.bubbleIdx%a.bubbles.length],a.color);
-      drawBar(st.x,st.y+10,st.p,a.color);
-    } else if(st.emote && now<st.emote.until){
-      drawBubble(st.x,st.y-80,st.emote.text,'#94a3b8','#f5f2ea','#1e2433');
-    }
-  }}));
-  ents.push({y:CAT.y, draw:()=>{
-    const frame=CAT.moving ? (Math.floor(CAT.animT*6)%2) : 0;
-    drawCat(CAT.x,CAT.y,CAT.facing===1,frame);
-    if(CAT.emote && now<CAT.emote.until)
-      drawBubble(CAT.x,CAT.y-38,CAT.emote.text,'#d98c4a','#f5f2ea','#1e2433');
-  }});
-  ents.sort((a,b)=>a.y-b.y).forEach(e=>e.draw());
-  drawAmbience(now);
-  // 조명: 밤 어둡게 / 낮 화사하게 + 비네트
-  if(night>0.01){ctx.fillStyle=`rgba(9,12,26,${0.28*night})`; ctx.fillRect(0,TOP,W,H-TOP);}
-  if(night<0.99){ctx.fillStyle=`rgba(255,236,190,${0.06*(1-night)})`; ctx.fillRect(0,TOP,W,H-TOP);}
-  const g=ctx.createRadialGradient(W/2,H/2+30,H*0.4,W/2,H/2,H*0.95);
-  g.addColorStop(0,'rgba(0,0,0,0)');
-  g.addColorStop(1,`rgba(4,6,14,${0.14+0.26*night})`);
-  ctx.fillStyle=g; ctx.fillRect(0,TOP,W,H-TOP);
-  // 시장 무드 색조 (은은하게): 폭락=붉게 / 급등=푸른 초록빛
-  if(typeof MOOD!=='undefined'){
-    const tint={crash:'120,20,20',down:'110,40,40',up:'30,120,70',surge:'30,140,85'}[MOOD.key];
-    const amt={crash:0.11,down:0.05,up:0.05,surge:0.10}[MOOD.key];
-    if(tint){ctx.fillStyle=`rgba(${tint},${amt})`; ctx.fillRect(0,TOP,W,H-TOP);}
-  }
-  requestAnimationFrame(loop);
-}
-reset(); requestAnimationFrame(loop);
 
 /* ============================================================
    분석 엔진
@@ -8026,21 +7346,18 @@ function verdictFactorsHTML(data,v){
     + `<div class="vfactor-col neg"><div class="vfactor-head">⚠️ 주의 요인</div>${list(neg,'특별히 걸리는 위험 신호는 없어요')}</div>`
     + `</div>`;
 }
-function sendToWork(a,dur,onDone){
-  const st=S[a.id], w=WORK[a.id];
-  st.status='go'; st.done=false; st.workDur=dur; st.onDone=onDone;
-  st.emote=null; st.pendingAct=null;
-  st.path=findPath(st.x,st.y,w.x,w.y)||[{x:w.x,y:w.y}];
-}
+// ⭐ 2026-08-07: 픽셀 하우스 애니메이션 제거 — 분석가가 "일하러 걸어가는" 연출은 없앴지만
+// 카드가 순차적으로 채워지는 느낌(스태거드 리빌)은 그대로 유지하려고 단순 지연 타이머로 남겨둔다.
+function sendToWork(dur,onDone){ setTimeout(onDone,dur); }
 async function analyze(){
   if(running)return; running=true;
   SFX.click();
-  showAnalyzing();
   const stock=resolveStock(document.getElementById('ticker').value);
+  { const el=document.getElementById('overviewChecking'); if(el) el.style.display=''; }
   showQuote(stock);
+  { const el=document.getElementById('overviewChecking'); if(el) el.style.display='none'; }
   window.GaeoAnalysisReady=true;
   document.getElementById('analysisDetails').hidden=false;
-  document.getElementById('analysisStage').classList.remove('analysis-finished');
   setAnalysisTab('overview');
   gaeoTrack('search',{search_term:stock.name||document.getElementById('ticker').value,search_location:'analysis'});
   gaeoTrack('analysis_start',{stock_code:stock.code||'',stock_name:stock.name||''});
@@ -8061,7 +7378,7 @@ async function analyze(){
   let done=0;
   ['taro','diana','nova','flow'].forEach(id=>{
     const a=AGENTS.find(x=>x.id===id);
-    sendToWork(a,3200+Math.random()*2200,()=>{
+    sendToWork(3200+Math.random()*2200,()=>{
       fillCard(a,data[a.id],stock.code);
       if(++done===4){ cardsEl.classList.remove('busy');
         { const el=document.getElementById('agentsChecking'); if(el) el.style.display='none'; }
@@ -8133,8 +7450,7 @@ async function analyze(){
     return `<div class="vevidence"><div class="vsec-title">🔎 상세 분석 근거</div>${axesHTML}${narrative}${calcItem}</div>`;
   }
   function runChief(){
-    const a=AGENTS.find(x=>x.id==='chief');
-    sendToWork(a,2800,()=>{
+    sendToWork(2800,()=>{
       const v=decide(data,stock.code);
       // 1. Hero
       document.getElementById('vdot').style.background=v.color;
@@ -8199,7 +7515,6 @@ async function analyze(){
       { const el=document.getElementById('radarChecking'); if(el) el.style.display='none'; }
       { const rp=document.getElementById('analysisPanelRadar'); if(rp) rp.classList.remove('checking'); }
       vEl.classList.add('on');
-      document.getElementById('analysisStage').classList.add('analysis-finished');
       if(window.__gaeoNoAutoScroll){
         // BUY 칩에서 넘어온 경우: viz 대신 시세 카드(종목명·현재가·지표·차트)로 이동.
         // html{scroll-behavior:smooth}가 걸려있어 즉시이동을 위해 잠깐 끈다.
@@ -8214,7 +7529,6 @@ async function analyze(){
         document.getElementById('analysisDetails').scrollIntoView({behavior:'smooth',block:'start'});
       }
       SFX[v.call.toLowerCase()]();
-      hideAnalyzing();
       document.getElementById('run').disabled=false; running=false;
     });
   }
