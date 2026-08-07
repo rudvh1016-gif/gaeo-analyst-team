@@ -61,6 +61,37 @@ def fetch_daily_closes(code, start, end):
         out.append(entry)
     return out
 
+def load_analysis_daily():
+    """analysis_data.json(collect_analyst_data.py가 매 사이클 새로 받아두는 종목별 일봉,
+    2025-10-01부터 ~200여 거래일)을 백필 소스로 쓴다. 이미 이 파일에 실제 6개월치 이상이
+    있으니 — TARO 탭의 MA200 카드가 이 데이터로 벌써 값을 보여주고 있다 — 네이버를
+    다시 조회할 필요 없이 로컬 파일 병합만으로 즉시 200거래일을 채울 수 있다.
+    ⭐ 없으면(파일이 아직 없거나 읽기 실패) 빈 dict를 반환하고, 호출부는 예전처럼
+    네이버 넓은 창 재조회로 폴백한다 — 이 함수가 실패해도 파이프라인은 죽지 않는다."""
+    path = os.path.join(HERE, "analysis_data.json")
+    if not os.path.exists(path):
+        return {}
+    try:
+        raw = json.load(open(path, encoding="utf-8"))
+    except Exception as e:
+        print(f"[경고] analysis_data.json 로드 실패 — 백필 생략: {e}")
+        return {}
+    out = {}
+    for code, s in (raw.get("stocks") or {}).items():
+        entries = []
+        for d in (s.get("daily") or []):
+            date, close = d.get("date"), d.get("close")
+            if not date or close is None:
+                continue
+            entry = {"date": date, "close": close}
+            for k in ("open", "high", "low", "volume"):
+                if d.get(k) is not None:
+                    entry[k] = d[k]
+            entries.append(entry)
+        if entries:
+            out[code] = entries
+    return out
+
 def add_to_pages(pages, new_entries):
     """new_entries를 병합한 뒤 전체를 날짜순으로 재구성해 5일 단위 페이지로 다시 자른다.
     이미 있는 날짜는 종가를 최신 값으로 갱신한다 — 장중(10분 주기) 실행이 기록한
@@ -104,15 +135,26 @@ def main():
     path = os.path.join(HERE, "price_history.js")
     store = load_js_object(path, "PRICE_HISTORY") or {}
 
+    # ⭐ 2026-08-07: 이 기록은 2026-06-24에야 신설돼 종목마다 30여 거래일치뿐이었다 —
+    # 60·120·200일 이동평균선을 그리려면 최소 200거래일이 필요한데 한참 못 미쳤다
+    # ("가격 흐름" 차트에 200일선까지 못 그리던 진짜 원인 — 코드 버그가 아니라 원본
+    # 기록 자체가 짧았다). 그런데 정작 analysis_data.json엔 6개월 이상치 일봉이 이미
+    # 있다(TARO 탭 MA200 카드가 그걸로 벌써 값을 보여준다) — 네이버를 다시 조회할
+    # 필요 없이 그 파일을 그대로 병합하면 바로 채워진다. 그래도 부족한 종목만
+    # (신규 상장 등 analysis_data.json도 짧은 경우) 네이버 넓은 창으로 마저 채운다.
+    adata_daily = load_analysis_daily()
+    print(f"analysis_data.json 백필 소스: {len(adata_daily)}종목")
+
     added_total = 0
     for code, name in codes.items():
         pages = store.get(code, [])
         have = sum(len(p["days"]) for p in pages)
-        # ⭐ 2026-08-07: 이 기록은 2026-06-24에야 신설돼 종목마다 30여 거래일치뿐이었다 —
-        # 60·120·200일 이동평균선을 그리려면 최소 200거래일이 필요한데 한참 못 미쳤다
-        # ("가격 흐름" 차트에 200일선까지 못 그리던 진짜 원인 — 코드 버그가 아니라 원본
-        # 기록 자체가 짧았다). index_history.py와 같은 패턴: 아직 못 쌓인 종목만 넓은
-        # 창으로 한 번에 따라잡고, 이미 충분한 종목은 평소대로 저렴한 증분만 받는다.
+        if have < BACKFILL_THRESHOLD_DAYS and code in adata_daily:
+            pages = add_to_pages(pages, adata_daily[code])
+            have = sum(len(p["days"]) for p in pages)
+
+        # index_history.py와 같은 패턴: 그래도 아직 못 쌓인 종목만 네이버 넓은 창으로
+        # 한 번에 따라잡고, 이미 충분한 종목은 평소대로 저렴한 증분만 받는다.
         # (siseJson의 넓은 백필 무시 버그는 지수 심볼 한정이라 — update_index_history.py
         #  주석 참고 — 종목 코드는 이 단일 소스만으로도 정상 동작한다.)
         if manual:
@@ -125,6 +167,7 @@ def main():
             entries = fetch_daily_closes(code, start, end)
         except Exception as e:
             print(f"[실패] {name}({code}): {e}")
+            store[code] = pages   # analysis_data.json 병합분만이라도 저장
             continue
         before = have
         pages = add_to_pages(pages, entries)
