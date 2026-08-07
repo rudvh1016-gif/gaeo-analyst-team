@@ -1608,7 +1608,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 549000,
+     "close": 548000,
      "open": 576000,
      "high": 578000,
      "low": 539000,
@@ -5570,7 +5570,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 75200,
+     "close": 75100,
      "open": 77100,
      "high": 78400,
      "low": 74000,
@@ -8162,7 +8162,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 393000,
+     "close": 392000,
      "open": 394000,
      "high": 400500,
      "low": 388000,
@@ -53597,7 +53597,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 9900,
+     "close": 9910,
      "open": 10080,
      "high": 10130,
      "low": 9810,
@@ -54760,7 +54760,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 4320,
+     "close": 4310,
      "open": 4435,
      "high": 4505,
      "low": 4295,
@@ -57568,7 +57568,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 13180,
+     "close": 13200,
      "open": 13900,
      "high": 14170,
      "low": 13070,
@@ -59944,7 +59944,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8690,
+     "close": 8700,
      "open": 8700,
      "high": 8770,
      "low": 8500,
@@ -80464,7 +80464,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 62700,
+     "close": 62800,
      "open": 65200,
      "high": 67200,
      "low": 62300,
@@ -80680,7 +80680,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 224000,
+     "close": 224500,
      "open": 237500,
      "high": 243000,
      "low": 221000,
