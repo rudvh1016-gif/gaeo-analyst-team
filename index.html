@@ -1186,6 +1186,99 @@
   .vph td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
   .vph tr:last-child td{border-bottom:none}
   .vph-empty{font-size:12px;color:var(--dim);margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+
+  /* ═══════════════════════════════════════════════════════════════
+     🧭 종합 판단 리디자인(2026-08-07) — Hero → 핵심 지표 → 판단 이유 →
+     긍정/주의 요인 → 가격 구간 → 상세 근거(아코디언) → 최근 판단 → 유의사항
+     계산·값은 그대로, 정보 우선순위와 배치만 재구성한다.
+     ═══════════════════════════════════════════════════════════════ */
+  .vhero{margin-bottom:2px}
+  .vheroline{margin:10px 0 0;font-size:14.5px;line-height:1.7;color:var(--t2);font-weight:600;word-break:keep-all}
+  .vheroline b{color:var(--ink)}
+  /* #vconf가 .top(flex) 밖으로 나와 Hero 아래 별도 메타줄이 됐다 — id 선택자로
+     기존 .verdict .conf의 flex-item 전용 margin-left를 확실히 무효화한다. */
+  #vconf{display:block;margin:9px 0 0;margin-left:0}
+
+  /* ⚠️ 2026-08-07: grid/flex의 자식 stretch가 이 화면(탭 hidden→표시와 동시에 내용이
+     채워지는 타이밍)에서 부모 실제 너비 대신 훨씬 좁은 값으로 깨지는 버그가 재현돼
+     %폭 + inline-block으로 우회했다(.vfactors 옆 주석 참고). */
+  .vmetrics{margin-top:20px;font-size:0}
+  .vmetric{display:inline-block;vertical-align:top;width:calc(25% - 7.5px);margin-right:10px;
+    box-sizing:border-box;font-size:14px;background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+  .vmetric:last-child{margin-right:0}
+  .vmetric-label{font-size:11px;color:var(--dim);font-weight:700;margin-bottom:6px}
+  .vmetric-value{font-size:19px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
+  .vmetric-value small{font-size:11px;font-weight:700;margin-left:3px}
+  @media(max-width:700px){
+    .vmetric{width:calc(50% - 4px);margin-right:8px;margin-bottom:8px;padding:11px 12px}
+    .vmetric:nth-child(2n){margin-right:0}
+    .vmetric-value{font-size:17px}
+  }
+
+  .vreasons{margin-top:22px}
+  .vsec-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .vreason-item{display:flex;gap:11px;padding:12px 0;border-top:1px solid var(--line)}
+  .vreason-item:first-child{border-top:none}
+  .vreason-num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--sky-soft);color:var(--navy);
+    font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .vreason-body{flex:1;min-width:0}
+  .vreason-title{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:3px}
+  .vreason-title b{color:var(--navy)}
+  .vreason-desc{font-size:12.5px;line-height:1.65;color:var(--t3);word-break:keep-all}
+
+  /* ⚠️ 2026-08-07: 이 화면(종합 판단)의 컨테이너는 hidden 속성이 풀리면서(탭 전환) 동시에
+     내용이 채워지는데, 이 타이밍에서 display:grid/flex의 자식 stretch(1fr, flex:1)가
+     부모의 실제 너비 대신 훨씬 좁은 값으로 계산되는 재현 가능한 버그가 있었다(그리드·플렉스
+     둘 다 동일 증상 확인됨 — 순수 % 폭 기반 inline-block으로 바꾸면 정상 동작). 그래서 여기서는
+     grid/flex 대신 %폭 + inline-block을 쓴다(자세한 진단은 세션 기록 참고). */
+  .vfactors{margin-top:24px;font-size:0}
+  .vfactor-col{display:inline-block;vertical-align:top;width:calc(50% - 6px);margin-right:12px;
+    box-sizing:border-box;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .vfactor-col:last-child{margin-right:0}
+  .vfactor-col.pos{border-color:var(--color-positive-line,var(--line))}
+  .vfactor-col.neg{border-color:var(--color-warning-line,var(--line))}
+  .vfactor-head{font-size:12.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .vfactor-col.pos .vfactor-head{color:var(--green,#1E8E5A)}
+  .vfactor-col.neg .vfactor-head{color:#B45309}
+  .vfactor-col ul{margin:0;padding:0;list-style:none}
+  .vfactor-col li{position:relative;padding:4px 0 4px 14px;font-size:12px;line-height:1.6;color:var(--t2);word-break:keep-all}
+  .vfactor-col li::before{content:'';position:absolute;left:1px;top:11px;width:5px;height:5px;border-radius:50%}
+  .vfactor-col.pos li::before{background:var(--green,#1E8E5A)}
+  .vfactor-col.neg li::before{background:#D97706}
+  @media(max-width:700px){ .vfactor-col{width:100%;margin-right:0;margin-bottom:10px} .vfactor-col:last-child{margin-bottom:0} }
+
+  .vlv-table{width:100%;border-collapse:collapse;margin-top:4px}
+  .vlv-table td{padding:8px 6px;border-top:1px dashed var(--line);font-size:12.5px;vertical-align:middle}
+  .vlv-table tr:first-child td{border-top:none}
+  .vlv-table .vlv-tag{font-size:10.5px;font-weight:800;color:var(--dim);white-space:nowrap;width:64px}
+  .vlv-table .vlv-price{font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+  .vlv-table .vlv-gap{font-size:11px;font-weight:700;white-space:nowrap;padding-left:6px}
+  .vlv-table .vlv-mean{color:var(--faint);font-size:11.5px;word-break:keep-all}
+  .vlv-table tr.vlv-now td{background:var(--sky-soft);border-radius:8px}
+  .vlv-table tr.vlv-now .vlv-price{color:var(--navy)}
+  .vlv-upnote{font-size:12.5px;color:var(--green,#1E8E5A);font-weight:600;margin:6px 0 2px}
+
+  .vevidence{margin-top:22px}
+  .vev-item{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden;background:var(--paper)}
+  .vev-summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 15px;user-select:none}
+  .vev-summary::-webkit-details-marker{display:none}
+  .vev-summary-name{font-size:12.5px;font-weight:800;color:var(--ink);flex:0 0 auto}
+  .vev-summary-line{flex:1;min-width:0;font-size:11.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vev-badge{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--navy);background:var(--navy-soft);
+    border-radius:99px;padding:2px 9px;white-space:nowrap}
+  .vev-arrow{flex:0 0 auto;color:var(--faint);transition:transform .2s;font-size:11px}
+  .vev-item[open] .vev-arrow{transform:rotate(180deg)}
+  .vev-body{padding:0 15px 15px;font-size:12.5px;line-height:1.75;color:var(--t2);word-break:keep-all}
+  .vev-body p{margin:8px 0 0}
+  .vev-body p:first-child{margin-top:0}
+  .vev-findings{margin:8px 0 0;padding:0;list-style:none}
+  .vev-findings li{position:relative;padding:3px 0 3px 13px;font-size:12px;line-height:1.6}
+  .vev-findings li::before{content:'·';position:absolute;left:2px;font-weight:900;color:var(--faint)}
+
+  .vfoot-notice{margin-top:22px;padding:14px 16px;background:var(--paper2);border-radius:12px;
+    font-size:12px;line-height:1.7;color:var(--t3)}
+  .vfoot-notice b{color:var(--ink)}
+
   .foot{margin-top:28px;color:var(--dim);font-size:12px;line-height:1.7;
     border-top:1px solid var(--line);padding-top:18px}
   .foot code{background:var(--paper);border:1px solid var(--line);padding:1px 6px;
@@ -3411,23 +3504,43 @@
       <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
         <div class="verdict" id="verdict">
           <div class="analysis-eyebrow">개오팀 종합 판단 <button type="button" class="eval-rule" data-eval-rule="chief" aria-haspopup="dialog" aria-expanded="false">4인 보정 가중합 · RISK 감점 후 최종</button></div>
-          <div class="top">
-            <span class="dot" id="vdot"></span>
-            <span class="call" id="vcall"></span>
+
+          <!-- 1. 종합 판단 Hero -->
+          <div class="vhero">
+            <div class="top">
+              <span class="dot" id="vdot"></span>
+              <span class="call" id="vcall"></span>
+            </div>
+            <p class="vheroline" id="vheroline"></p>
             <span class="conf" id="vconf"></span>
+            <div class="vasof" id="vasof"></div>
           </div>
-          <div class="gauges" id="gauges"></div>
-          <p id="vtext"></p>
-          <div class="vasof" id="vasof"></div>
-          <div class="veasy" id="veasy" style="display:none"></div>
+
+          <!-- 2. 핵심 지표 요약 -->
+          <div class="vmetrics" id="vmetrics"></div>
+
+          <!-- 3. 판단 이유 -->
+          <div class="vreasons" id="vreasons"></div>
+
+          <!-- 4. 긍정 요인 / 주의 요인 -->
+          <div class="vfactors" id="vfactors"></div>
+
           <div class="autonote" id="vauto" style="display:none"></div>
           <div class="anote" id="vnote" style="display:none"></div>
           <div id="vclash" class="vclash" style="display:none"></div>
           <div id="vmacro" class="vmacro" style="display:none"></div>
-          <div id="vtarget" class="vtarget"></div>
+
+          <!-- 5. 주요 가격 구간 -->
           <div id="vlevels" class="vlevels" style="display:none"></div>
-          <p id="vreport" class="vreport"></p>
+
+          <!-- 6. 상세 분석 근거 -->
+          <div class="vevidence" id="vevidence"></div>
+
+          <!-- 7. 최근 판단 변화 -->
           <div id="vhistory" class="vhistory"></div>
+
+          <!-- 8. 데이터 기준 및 유의사항 -->
+          <div class="vfoot-notice">이 판단은 기술·재무·확률·수급 데이터를 종합한 GAEO 분석 결과입니다. 투자 판단의 참고자료로 활용해 주세요.</div>
           <div class="vdisclaimer">분석 기준 시각을 확인해 주세요 · 참고용 정보이며 투자 권유가 아닙니다.</div>
         </div>
       </section>
@@ -3683,10 +3796,18 @@ function freshnessHTML(code, curPrice){
        + (stale?' <span class="stale">🕒 재분석 권장</span>':'')+'</span>';
 }
 
-/* ── 🧭 가격 나침반: indicators.js(INDICATORS)의 이동평균·3개월 밴드로
-   목표/지지/손절 참고선을 자동 계산해 종합 판단 아래에 숫자로 보여준다.
-   시세가 갱신되면 선도 함께 움직인다 — AI 비용 0. ── */
-function levelsHTML(code, price){
+// CHIEF v.target 문자열("증권사 평균 목표주가 27,333원 (현재가 대비 +34.6% 상승여력)")에서
+// 숫자만 뽑아낸다 — 정밀/자동 두 티어 모두 v.target이 이미 이 형식의 문장이라 티어 구분 없이 동작한다.
+function parseTargetInfo(targetText){
+  const t=String(targetText||'');
+  const priceM=t.match(/([0-9][0-9,]{2,})\s*원/);
+  const gapM=t.match(/([+\-]?[\d.]+)%\s*상승여력/);
+  return {price:priceM?+priceM[1].replace(/,/g,''):null, gap:gapM?+gapM[1]:null};
+}
+/* ── 🧭 가격 나침반: indicators.js(INDICATORS)의 이동평균·3개월 밴드 + CHIEF 컨센서스
+   목표가로 "주요 가격 구간" 표를 자동 계산한다. 시세가 갱신되면 표도 함께 움직인다 — AI 비용 0.
+   ⭐ 2026-08-07 리디자인: 문장 나열 대신 표(구분/가격/의미)로 정리. 계산 로직은 그대로다. ── */
+function levelsHTML(code, price, targetText){
   const IND=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)||null;
   const T=IND&&IND[code]&&IND[code].tech;
   if(!T||!price) return '';
@@ -3695,23 +3816,34 @@ function levelsHTML(code, price){
   const mas=[[T.ma20,'20일 평균선(MA20)'],[T.ma60,'60일 평균선(MA60)']].filter(x=>typeof x[0]==='number');
   const ups=mas.filter(x=>x[0]>price*1.005).sort((a,b)=>a[0]-b[0]);
   const downs=mas.filter(x=>x[0]<price*0.995).sort((a,b)=>b[0]-a[0]);
-  const rows=[];
-  if(ups.length)
-    rows.push(`▲ 1차 목표 <b>${fm(ups[0][0])}</b> <span class="up">(${pctOf(ups[0][0])})</span> — ${wrapGloss(ups[0][1])} 회복이 첫 관문`);
+  const above=[], below=[];
+  if(ups.length) above.push({price:ups[0][0], tag:'1차 저항', mean:wrapGloss(ups[0][1])+' 회복이 첫 관문'});
   if(typeof T.high3m==='number'&&T.high3m>price*1.01)
-    rows.push(`▲ 3개월 고점 <b>${fm(T.high3m)}</b> <span class="up">(${pctOf(T.high3m)})</span> — 최근 석 달 사이 가장 높았던 가격`);
-  if(!rows.length&&typeof T.high3m==='number'&&price>=T.high3m*0.99)
-    rows.push(`▲ 위쪽 참고선 없음 — 3개월 최고가 부근(신고가 구간)이라 막고 있는 윗선이 없어요`);
+    above.push({price:T.high3m, tag:'3개월 고점', mean:'최근 석 달 사이 가장 높았던 가격'});
+  const tgt=parseTargetInfo(targetText);
+  if(tgt.price){
+    const row={price:tgt.price, tag:'컨센서스 목표가', mean:'증권사 평균 목표주가'};
+    (tgt.price>price?above:below).push(row);
+  }
   let sup=downs.length?downs[0]:(typeof T.low3m==='number'&&T.low3m<price*0.995?[T.low3m,'3개월 최저가']:null);
   if(sup){
-    rows.push(`▼ ${term('지지선')} <b>${fm(sup[0])}</b> <span class="dn">(${pctOf(sup[0])})</span> — ${wrapGloss(sup[1])}`);
-    const cut=sup[0]*0.97;
-    rows.push(`🚧 ${term('손절')} 참고 <b>${fm(cut)}</b> <span class="dn">(${pctOf(cut)})</span> — 지지선을 3% 넘게 밑돌면 한 발 물러나 다시 생각해요`);
+    below.push({price:sup[0], tag:term('지지선'), mean:wrapGloss(sup[1])});
+    below.push({price:sup[0]*0.97, tag:term('손절')+' 참고', mean:'지지선을 3% 넘게 밑돌면 한 발 물러나 다시 생각해요'});
   }
-  if(!rows.length) return '';
-  return `<div class="vl-t">🧭 가격 나침반 <span style="font-weight:600;color:var(--dim)">(이동평균선·3개월 가격범위로 자동 계산)</span></div>`
-    + rows.map(r=>`<div>${r}</div>`).join('')
-    + `<div class="vl-note">※ 컴퓨터가 차트 지표로 계산한 참고선이에요 — 시세가 갱신되면 선도 매일 조금씩 움직여요. 매수·매도 권유가 아닙니다.</div>`;
+  const noResUp=!above.length&&typeof T.high3m==='number'&&price>=T.high3m*0.99;
+  if(!above.length&&!below.length&&!noResUp) return '';
+  above.sort((a,b)=>a.price-b.price);
+  below.sort((a,b)=>b.price-a.price);
+  const rowHTML=(r,cls)=>`<tr><td class="vlv-tag">${r.tag}</td><td class="vlv-price">${fm(r.price)}</td>`+
+    `<td class="vlv-gap ${cls}" style="color:var(--${cls==='up'?'green':'red'})">${pctOf(r.price)}</td><td class="vlv-mean">${r.mean}</td></tr>`;
+  const aboveRows=above.slice().reverse().map(r=>rowHTML(r,'up')).join('');
+  const nowRow=`<tr class="vlv-now"><td class="vlv-tag">현재가</td><td class="vlv-price">${fm(price)}</td><td class="vlv-gap"></td><td class="vlv-mean">기준</td></tr>`;
+  const belowRows=below.map(r=>rowHTML(r,'dn')).join('');
+  const upNote=noResUp?`<div class="vlv-upnote">▲ 위쪽 참고선 없음 — 3개월 최고가 부근(신고가 구간)이라 막고 있는 윗선이 없어요</div>`:'';
+  return `<div class="vl-t">🧭 주요 가격 구간 <span style="font-weight:600;color:var(--dim)">(이동평균선·3개월 가격범위·컨센서스로 자동 계산)</span></div>`
+    + upNote
+    + `<table class="vlv-table">${aboveRows}${nowRow}${belowRows}</table>`
+    + `<div class="vl-note">※ 컴퓨터가 차트 지표로 계산한 참고선이에요 — 시세가 갱신되면 표도 매일 조금씩 움직여요. 매수·매도 권유가 아닙니다.</div>`;
 }
 
 /* ── 🏷️ 업종 내 상대비교: 같은 업종 종목들의 PER/PBR을 나란히 세워
@@ -5885,6 +6017,12 @@ function josaEunNeun(word){
   if(c<0xAC00||c>0xD7A3) return '는';
   return (c-0xAC00)%28!==0?'은':'는';
 }
+// 한글 조사(이/가) 자동 선택 — 종합 판단 Hero 한줄평(verdictHeadline)에서 쓴다.
+function josaIGa(word){
+  const c=String(word).charCodeAt(String(word).length-1);
+  if(c<0xAC00||c>0xD7A3) return '가';
+  return (c-0xAC00)%28!==0?'이':'가';
+}
 const MA_LINE_COLOR={5:'#3AACA0',20:'#E58A32',60:'#8367DB',120:'#B97A93',200:'#5A616B'};
 function idxWon(v){ return Number.isFinite(v)?v.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'; }
 /* 지수 상태 배지 — 위치·기울기·이격을 종합해 한 단어로 압축 */
@@ -7748,16 +7886,72 @@ function renderViz(data,code,verdict){
   setAnalystTab(window.GaeoAnalystTab||'taro');
   requestAnimationFrame(()=>el.querySelectorAll('.lfill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
-function renderGauges(v){
-  const el=document.getElementById('gauges');
-  el.innerHTML=
-    `<div class="gauge"><span class="glabel">종합</span>`+
-      `<span class="gtrack"><span class="gfill" data-w="${v.total}" style="background:${v.color}"></span></span>`+
-      `<span class="gnum" style="color:${v.color}">${v.total}</span></div>`+
-    `<div class="gauge"><span class="glabel">신뢰도</span>`+
-      `<span class="gtrack"><span class="gfill" data-w="${v.conf}" style="background:var(--gold)"></span></span>`+
-      `<span class="gnum" style="color:var(--gold-deep)">${v.conf}%</span></div>`;
-  requestAnimationFrame(()=>el.querySelectorAll('.gfill').forEach(f=>f.style.width=f.dataset.w+'%'));
+/* ═══════════════════════════════════════════════════════════════
+   🧭 종합 판단 리디자인(2026-08-07) — 핵심 지표 그리드·판단 이유·
+   긍정/주의 요인·상세 근거 아코디언. data(기술/재무/확률/수급 4축
+   점수)는 이미 구조화된 값이라, 여기서는 그 값을 새로 계산하지 않고
+   카드로 재배치만 한다(easySingleHTML의 best/worst 선정 로직 계승).
+   ═══════════════════════════════════════════════════════════════ */
+const VIZ_AX_EASY={
+  taro: {hi:'최근 주가가 오르려는 힘이 좋아요', mid:'주가 흐름은 보통이에요', lo:'주가가 아직 아래로 처져 있어요'},
+  diana:{hi:'회사가 돈을 잘 벌고, 지금 값도 싼 편이에요', mid:'돈 버는 실력은 무난한 편이에요', lo:'버는 돈에 비해 주가가 비싸거나 확인이 더 필요해요'},
+  nova: {hi:'비슷한 상황에서 과거에 오른 적이 많았어요', mid:'과거 통계로는 반반이에요', lo:'비슷한 상황에서 과거에 내린 적이 많았어요'},
+  flow: {hi:'외국인·기관 같은 큰손들이 사 모으고 있어요', mid:'큰손들은 지켜보는 중이에요', lo:'큰손들이 팔고 있어요'},
+};
+function axisEasyPhrase(id,score){ const x=VIZ_AX_EASY[id]; return score>=55?x.hi:(score<=45?x.lo:x.mid); }
+function axisBestWorst(data){
+  const best=VIZ_AXES.reduce((p,a)=>data[a.id].score>data[p.id].score?a:p);
+  const worst=VIZ_AXES.reduce((p,a)=>data[a.id].score<data[p.id].score?a:p);
+  return {best,worst};
+}
+// 1. 핵심 지표 요약 — 종합점수·확신도·현재가·기준가 대비를 같은 크기 카드 4개로
+function verdictMetricGridHTML(v,stock){
+  const base=analysisBase(stock.code);
+  const gapHTML=(base&&stock.price)
+    ? (()=>{const p=(stock.price-base)/base*100,col=p>0?'var(--green)':(p<0?'var(--red)':'var(--ink)');
+        return `<span style="color:${col}">${p>0?'+':''}${p.toFixed(1)}%</span>`;})()
+    : '<span style="color:var(--faint)">—</span>';
+  const cell=(label,valueHTML)=>`<div class="vmetric"><div class="vmetric-label">${label}</div><div class="vmetric-value">${valueHTML}</div></div>`;
+  return `<div class="vmetrics">`
+    + cell('종합점수', `<span style="color:${v.color}">${v.total}</span><small>점</small>`)
+    + cell('판단 확신도', `${v.conf}<small>%</small>`)
+    + cell('현재가', stock.price?won(stock.price):'—')
+    + cell('기준가 대비', gapHTML)
+    + `</div>`;
+}
+// 2. 판단 이유 3가지 — best/worst 축 + 확신도. 새 문장을 짓지 않고 구조화된 점수만 재배치한다.
+function verdictReasonsHTML(data,v){
+  const {best,worst}=axisBestWorst(data);
+  const confDesc=v.conf>=60?'분석가들의 시각이 대체로 일치해요.':(v.conf>=45?'의견이 어느 정도 갈려 조심스러운 판단이에요.':'의견이 크게 갈려 아직 자신이 크지 않은 판단이에요.');
+  const cl=clashInfo(data);
+  const items=[
+    {t:`${best.label} 흐름은 좋은 편이에요`, d:`「${best.label}」 ${data[best.id].score}점 — ${axisEasyPhrase(best.id,data[best.id].score)}`},
+    {t:`${worst.label}${josaIGa(worst.label)} 상대적으로 아쉬워요`, d:`「${worst.label}」 ${data[worst.id].score}점 — ${axisEasyPhrase(worst.id,data[worst.id].score)}`},
+    {t:`판단 확신도는 ${v.conf}%예요`, d:confDesc+(cl?` 분석가 간 최대 ${cl.spread}점 차이가 나요.`:'')},
+  ];
+  return `<div class="vreasons"><div class="vsec-title">🧾 판단 이유</div>`
+    + items.map((it,i)=>`<div class="vreason-item"><span class="vreason-num">${i+1}</span>`+
+        `<div class="vreason-body"><div class="vreason-title">${esc(it.t)}</div><div class="vreason-desc">${it.d}</div></div></div>`).join('')
+    + `</div>`;
+}
+// 3. 긍정 요인 / 주의 요인 — 4축의 강세(bull)/약세(bear) 방향과 RISK·확신도·의견갈림을 분리해서 보여준다.
+function verdictFactorsHTML(data,v){
+  const pos=[],neg=[];
+  VIZ_AXES.forEach(a=>{
+    const d=data[a.id]; if(!d) return;
+    const line=`${a.label} — ${axisEasyPhrase(a.id,d.score)}`;
+    if(d.stance==='bull') pos.push(line); else if(d.stance==='bear') neg.push(line);
+  });
+  if(v.riskGrade==='low') pos.push('RISK 안전축 — 변동성 부담이 크지 않아요');
+  if(v.riskGrade==='high') neg.push('RISK 안전축 — 변동성이 커서 감점이 반영됐어요');
+  if(v.conf<45) neg.push('판단 확신도가 높지 않아요 — 추가 확인이 필요해요');
+  const cl=clashInfo(data);
+  if(cl) neg.push(`분석가들 의견이 크게 갈렸어요(최대 ${cl.spread}점 차이)`);
+  const list=(arr,empty)=>arr.length?`<ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul>`:`<ul><li>${empty}</li></ul>`;
+  return `<div class="vfactors">`
+    + `<div class="vfactor-col pos"><div class="vfactor-head">✅ 긍정 요인</div>${list(pos,'뚜렷한 긍정 신호가 아직 없어요')}</div>`
+    + `<div class="vfactor-col neg"><div class="vfactor-head">⚠️ 주의 요인</div>${list(neg,'특별히 걸리는 위험 신호는 없어요')}</div>`
+    + `</div>`;
 }
 function sendToWork(a,dur,onDone){
   const st=S[a.id], w=WORK[a.id];
@@ -7796,56 +7990,70 @@ async function analyze(){
   const cleanAnalysisCopy=value=>String(value??'')
     .replace(/(?:🕒|🔎|🎯|🧒|👍|🤔|⚡|🤖|🧠|📝|🧭|🚧|🔍|※)\s*/g,'· ')
     .replace(/\s*[—–]\s*/g,': ');
-  const analysisParagraphHTML=value=>{
-    const sentences=(cleanAnalysisCopy(value).match(/[^.!?]+[.!?]?/g)||[])
-      .map(sentence=>sentence.trim()).filter(Boolean);
-    if(!sentences.length) return '';
-    const blocks=[];
-    for(let i=0;i<sentences.length;i+=2){
-      blocks.push(`<span class="analysis-copy-block">${SIGNUM(esc(sentences.slice(i,i+2).join(' ')))}</span>`);
-    }
-    return blocks.join('');
-  };
-  // 분석 점수 → 초보자 눈높이 문장 (종목 비교 탭의 easyExplain과 같은 원리)
-  function easySingleHTML(stock,d,v){
-    const AX=[
-      {id:'taro', name:'주가 흐름(차트)',   hi:'최근 주가가 오르려는 힘이 좋아요',           mid:'주가 흐름은 보통이에요',      lo:'주가가 아직 아래로 처져 있어요'},
-      {id:'diana',name:'돈 버는 실력(실적)',hi:'회사가 돈을 잘 벌고, 지금 값도 싼 편이에요',  mid:'돈 버는 실력은 무난한 편이에요', lo:'버는 돈에 비해 주가가 비싸거나 확인이 더 필요해요'},
-      {id:'nova', name:'과거 통계(승률)',   hi:'비슷한 상황에서 과거에 오른 적이 많았어요',    mid:'과거 통계로는 반반이에요',     lo:'비슷한 상황에서 과거에 내린 적이 많았어요'},
-      {id:'flow', name:'큰손들의 매매',     hi:'외국인·기관 같은 큰손들이 사 모으고 있어요',   mid:'큰손들은 지켜보는 중이에요',   lo:'큰손들이 팔고 있어요'}
-    ];
-    const phrase=(x,s)=>s>=55?x.hi:(s<=45?x.lo:x.mid);
-    const best=AX.reduce((p,x)=>d[x.id].score>d[p.id].score?x:p);
-    const worst=AX.reduce((p,x)=>d[x.id].score<d[p.id].score?x:p);
-    const callKid=c=>c==='BUY'?'사볼 만해요':(c==='SELL'?'지금은 조심하는 게 좋아요':'가지고 있다면 기다려 볼 만해요');
-    const confKid=c=>c>=60?'꽤 자신 있는 판단이에요':(c>=45?'반반 정도의 조심스러운 판단이에요':'아직 자신이 크지 않은 조심스러운 판단이에요');
-    const tg=(String(v.target||'').match(/\+([\d.]+)%\s*상승여력/)||[])[1];
-    const today=(typeof stock.rate==='number')?
-      (stock.rate>0?`오늘 주가는 <b>+${stock.rate.toFixed(2)}%</b> 올랐어요. `:
-       stock.rate<0?`오늘 주가는 <b>${stock.rate.toFixed(2)}%</b> 내렸어요. `:
-       '오늘 주가는 제자리예요. '):'';
-    return `<div class="ve-t">초보자도 이해하는 설명</div>`+
-      `<p>${today}네 방향 분석의 원점수 <b>${v.rawTotal??v.total}점</b>에 RISK 감점 <b>${v.riskPenalty||0}점</b>을 반영해 최종 <b>${v.total}점</b>입니다. 현재 판단은 <b>${callKid(v.call)}</b> (${v.call})입니다.</p>`+
-      `<p>· 제일 좋은 점은 「<b>${best.name}</b>」(${d[best.id].score}점)입니다: ${phrase(best,d[best.id].score)}.</p>`+
-      `<p>· 아쉬운 점은 「<b>${worst.name}</b>」(${d[worst.id].score}점)입니다: ${phrase(worst,d[worst.id].score)}.</p>`+
-      `${tg?`<p>· 전문가들이 적어낸 목표 가격까지 아직 <b>+${tg}%</b> 올라갈 여유가 있어요.</p>`:''}`+
-      `<p>· 이 판단의 자신감은 <b>${v.conf}%</b>입니다: ${confKid(v.conf)}.</p>`+
-      `${(function(){const c=clashInfo(d);return c?`<p>· 참고: 분석가들끼리 의견이 크게 갈렸어요(최대 <b>${c.spread}점</b> 차이). 이럴 땐 평소보다 더 조심하세요.</p>`:'';})()}`+
-      `<span class="ve-warn">· 공부용 쉬운 설명입니다. 실제 투자는 신중하게 판단해 주세요.</span>`;
+  // 0. Hero 한 줄 요약 — best/worst 축과 확신도를 조합한 자연어 문장(새 서술 생성 없이 구조화된 값만 조합).
+  // 짧은 문장 여러 개로 끊어 쓴다(결론 먼저, 전문용어 뒤 쉬운 설명 원칙).
+  function verdictHeadline(v,data){
+    const {best,worst}=axisBestWorst(data);
+    const confTail=v.conf>=60?'판단 확신도도 비교적 높은 편이에요.':(v.conf>=45?'판단 확신도는 보통이에요.':'다만 판단 확신도가 아직 높지 않아요.');
+    if(v.call==='BUY') return `<b>${best.label}</b> 흐름이 좋아요. ${confTail} 긍정 신호가 우세해요.`;
+    if(v.call==='SELL') return `<b>${worst.label}</b>${josaIGa(worst.label)} 부담으로 작용하고 있어요. ${confTail} 위험 요인을 먼저 확인하는 편이 좋아요.`;
+    return `<b>${best.label}</b>${josaEunNeun(best.label)} 양호하지만 <b>${worst.label}</b>${josaIGa(worst.label)} 걸려 있어요. 지금은 관망하며 추가 확인이 필요해요.`;
+  }
+  const EVID_LABEL={taro:'기술적 근거',diana:'재무 근거',nova:'확률·통계 근거',flow:'수급 근거'};
+  // 6. 상세 분석 근거 — 4축 findings를 아코디언으로(닫힌 상태엔 요약 1줄+점수만), v.text/v.report
+  //    원문은 삭제하지 않고 "종합 서술" 아코디언 안으로 그대로 옮긴다. 리스크 감점 계산 근거도 별도 항목.
+  function verdictEvidenceHTML(data,v,stock,cleanFn){
+    const STANCE_KR={bull:'강세',bear:'약세',neu:'중립'};
+    const axisItem=a=>{
+      const d=data[a.id]; if(!d) return '';
+      const summary=(d.findings&&d.findings[0])?cleanFn(d.findings[0]):'상세 근거를 확인해 보세요.';
+      const rest=(d.findings||[]).slice(1);
+      const restHTML=rest.length?`<ul class="vev-findings">${rest.map(f=>`<li>${SIGNUM(wrapGloss(cleanFn(f)))}</li>`).join('')}</ul>`:'';
+      return `<details class="vev-item"><summary class="vev-summary">`+
+        `<span class="vev-summary-name">${EVID_LABEL[a.id]}</span>`+
+        `<span class="vev-summary-line">${esc(summary)}</span>`+
+        `<span class="vev-badge">${d.score}점 · ${STANCE_KR[d.stance]||'중립'}</span>`+
+        `<span class="vev-arrow">▾</span></summary>`+
+        `<div class="vev-body"><p>${SIGNUM(wrapGloss(cleanFn(summary)))}</p>${restHTML}</div></details>`;
+    };
+    const axesHTML=VIZ_AXES.map(axisItem).join('');
+    const narrativeParts=[];
+    if(v.text) narrativeParts.push(`<p>${SIGNUM(cleanFn(v.text))}</p>`);
+    if(v.report) narrativeParts.push(`<p>${SIGNUM(cleanFn(v.report))}</p>`);
+    const narrative=narrativeParts.length
+      ? `<details class="vev-item"><summary class="vev-summary">`+
+          `<span class="vev-summary-name">종합 서술 전문</span>`+
+          `<span class="vev-summary-line">CHIEF가 계산한 전체 서술을 그대로 볼 수 있어요</span>`+
+          `<span class="vev-arrow">▾</span></summary>`+
+          `<div class="vev-body">${narrativeParts.join('')}</div></details>`
+      : '';
+    const ro={score:v.riskScore,grade:v.riskGrade,penalty:v.riskPenalty};
+    const riskBody=(ro.score==null)
+      ? '<p>RISK 데이터가 없어 감점 없이 계산했어요.</p>'
+      : `<p>RISK 안정도 <b>${ro.score}점</b>(등급: ${ro.grade==='high'?'높음':ro.grade==='mid'?'보통':'낮음'})을 기준으로, `+
+        `원점수 <b>${v.rawTotal??v.total}점</b>에서 <b>${ro.penalty||0}점</b>을 감점해 최종 <b>${v.total}점</b>이 됐어요. `+
+        `${ro.grade==='high'?'변동성이 커서 감점이 반영됐어요.':'변동성 부담이 크지 않아 감점이 거의 없어요.'}</p>`;
+    const calcItem=`<details class="vev-item"><summary class="vev-summary">`+
+        `<span class="vev-summary-name">계산 기준</span>`+
+        `<span class="vev-summary-line">RISK 감점·데이터 시점</span>`+
+        `<span class="vev-arrow">▾</span></summary>`+
+        `<div class="vev-body">${riskBody}</div></details>`;
+    return `<div class="vevidence"><div class="vsec-title">🔎 상세 분석 근거</div>${axesHTML}${narrative}${calcItem}</div>`;
   }
   function runChief(){
     const a=AGENTS.find(x=>x.id==='chief');
     sendToWork(a,2800,()=>{
       const v=decide(data,stock.code);
+      // 1. Hero
       document.getElementById('vdot').style.background=v.color;
       const call=document.getElementById('vcall'); call.textContent=v.call; call.style.color=v.color;
+      document.getElementById('vheroline').innerHTML=verdictHeadline(v,data);
       const tierBadge=v.tier==='auto'
         ? '<span class="tier-badge tier-auto" title="자동분석: 수집된 가격·재무·수급 지표를 정해진 규칙으로 해석한 결과예요. 개별 뉴스는 반영하지 않아요.">자동분석</span>'
         : (v.tier==='deep'?'<span class="tier-badge tier-deep" title="정밀분석: 가격·재무·수급과 함께 뉴스·공시까지 살펴본 결과예요.">정밀분석</span>':'');
       document.getElementById('vconf').innerHTML=
         `${stock.name}${stock.price?'('+stock.code+')':''}`+
         (stock.price?` · 현재가 ${won(stock.price)} (${SNAP_DATE})`:'')+
-        ` · 종합 ${v.total} · 신뢰도 ${v.conf}%`+
         (v.live?'<span class="live">LIVE</span>':' · mock')+tierBadge;
       const aof=analysisAsOf(stock.code);
       const fresh=freshnessHTML(stock.code, stock.price).replace(/^　·　/,'');
@@ -7853,14 +8061,16 @@ async function analyze(){
         (stock.price?'<span>· 시세 기준 <b>'+priceAsOf()+'</b></span>':'')+
         '<span>· 분석 기준 <b>'+(aof||'현재 제공 데이터')+'</b></span>'+
         (fresh?'<span>'+cleanAnalysisCopy(fresh)+'</span>':'');
-      document.getElementById('vtext').innerHTML=analysisParagraphHTML(v.text);
-      // 초보자도 이해하는 설명 (분석 점수를 쉬운 문장으로 자동 변환)
-      const ve=document.getElementById('veasy');
-      ve.innerHTML=easySingleHTML(stock,data,v); ve.style.display='block';
+      // 2. 핵심 지표 요약
+      document.getElementById('vmetrics').innerHTML=verdictMetricGridHTML(v,stock);
+      // 3. 판단 이유 3가지
+      document.getElementById('vreasons').innerHTML=verdictReasonsHTML(data,v);
+      // 4. 긍정 요인 / 주의 요인
+      document.getElementById('vfactors').innerHTML=verdictFactorsHTML(data,v);
       // 자동분석 안내 배너 (자동 티어일 때만)
       const va=document.getElementById('vauto');
       if(v.tier==='auto'){
-        va.innerHTML='· <b>자동분석</b>: 이 종목은 심부름꾼(무료 서버)이 <b>수집된 지표(차트·재무·수급)를 규칙으로 해석</b>한 결과예요. '
+        va.innerHTML='· <b>GAEO 자동 분석</b>: 기술·재무·확률·수급 지표를 규칙으로 해석한 결과예요. '
           +'QUANT는 지금과 비슷한 상태였던 과거 사례의 <b>실측 승률</b>을 계산하고, CHIEF는 분석가별 <b>실제 적중률에 비례한 가중치</b>로 합산해요. '
           +'개별 뉴스·공시는 반영되지 않아요. 뉴스·공시까지 살펴본 종목은 <b>정밀분석</b>으로 구분해 표시해요.';
         va.style.display='block';
@@ -7871,13 +8081,6 @@ async function analyze(){
       const note=(window.gaeoNote&&gaeoNote(stock.code))||'';
       if(note){ vn.innerHTML='<div class="an-t">추가 메모</div>'+cleanAnalysisCopy(escNote(note)); vn.style.display='block'; }
       else vn.style.display='none';
-      const vt=document.getElementById('vtarget'), vr=document.getElementById('vreport');
-      if(v.target){vt.style.display='block'; vt.innerHTML='· <b>'+cleanAnalysisCopy(v.target)+'</b>';}
-      else vt.style.display='none';
-      // 가격 나침반: 지표 기반 목표/지지/손절 참고선 (LIVE 시세가 있을 때만)
-      const vl=document.getElementById('vlevels');
-      const lv=stock.price?levelsHTML(stock.code, stock.price):'';
-      if(lv){ vl.innerHTML=cleanAnalysisCopy(lv); vl.style.display='block'; } else vl.style.display='none';
       // 의견 갈림: 4인 점수 편차가 크면 평균만 믿지 말라고 경고
       const vc=document.getElementById('vclash');
       const cl=clashInfo(data);
@@ -7890,9 +8093,14 @@ async function analyze(){
       // 시장국면 배지: 변동성 확대 구간에서만 노출
       const vm=document.getElementById('vmacro');
       if(v.macroNote){ vm.innerHTML=cleanAnalysisCopy(v.macroNote); vm.style.display='block'; } else vm.style.display='none';
-      if(v.report){vr.style.display='block'; vr.innerHTML=analysisParagraphHTML(v.report);}
-      else vr.style.display='none';
-      renderViz(data,stock.code,v); renderGauges(v); renderHistory(stock.code, stock.price);
+      // 5. 주요 가격 구간 (기술적 지지·저항 + 컨센서스 목표가)
+      const vl=document.getElementById('vlevels');
+      const lv=stock.price?levelsHTML(stock.code, stock.price, v.target):'';
+      if(lv){ vl.innerHTML=cleanAnalysisCopy(lv); vl.style.display='block'; } else vl.style.display='none';
+      // 6. 상세 분석 근거 (4축 findings + 종합 서술 원문 + 계산 기준, 아코디언)
+      document.getElementById('vevidence').innerHTML=verdictEvidenceHTML(data,v,stock,cleanAnalysisCopy);
+      // 7. 최근 판단 변화
+      renderViz(data,stock.code,v); renderHistory(stock.code, stock.price);
       // 📡 레이더가 이 종목에서 잡아낸 변화가 있으면 기존 분석 화면 아래에 카드로 덧붙인다
       try{ renderRadarDetail(stock.code); }catch(e){ console.warn('radar detail', e); }
       vEl.classList.add('on');
