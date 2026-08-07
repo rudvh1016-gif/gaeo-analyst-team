@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-07 15:38",
+ "generatedAt": "2026-08-07 16:08",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -492,15 +492,15 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 2000,
-  "errors": 1472,
+  "errors": 1473,
   "patterns": [
    {
     "label": "고변동성 국면",
-    "count": 1472
+    "count": 1473
    },
    {
     "label": "경계점수 판단",
-    "count": 1303
+    "count": 1304
    },
    {
     "label": "분석가 의견충돌",
@@ -512,13 +512,13 @@ const MODEL_INTELLIGENCE = {
    }
   ],
   "analystErrors": {
-   "taro": 1197,
+   "taro": 1198,
    "diana": 0,
-   "nova": 219,
+   "nova": 220,
    "flow": 130
   },
   "regimeErrors": {
-   "down_high": 1472
+   "down_high": 1473
   }
  },
  "shadow": {
