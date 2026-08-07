@@ -1776,7 +1776,12 @@
   .tv-rsi-chart{width:100%;height:66px;display:block}
   .tv-macd-chart{width:100%;height:82px;display:block}
   .tv-note{margin-top:6px;font-size:9.5px;line-height:1.5;color:var(--faint);word-break:keep-all}
-  .tv-note-sub{margin-top:4px;opacity:.82}
+  /* ⭐ 2026-08-07: MACD 설명이 한 문단에 다 몰려 있어 읽기 힘들다는 피드백 →
+     문장 단위로 문단을 나누고(줄간격도 살짝 넓힘) 핵심 단어는 볼드로 눈에 띄게 한다. */
+  .tv-note-sub{margin-top:6px;font-size:10.5px;line-height:1.7;opacity:.92}
+  .tv-note-sub p{margin:7px 0 0}
+  .tv-note-sub p:first-child{margin-top:0}
+  .tv-note-sub b{color:var(--ink);font-weight:800}
   .tv-regime{display:inline-flex;align-items:center;padding:3px 7px;border-radius:99px;font-size:9px;font-weight:800}
   .tv-regime-up{background:#ECFDF5;color:#2F8B73}.tv-regime-down{background:#FEF2F2;color:#D5535D}
   .tv-regime-neutral{background:var(--paper2);color:var(--dim)}
@@ -5608,73 +5613,53 @@ function showQuote(st){
   qm.innerHTML=M.map(([k,v])=>`<span class="qm">${term(k)}<b>${v}</b></span>`).join('');
 
   const cw=document.getElementById('qchartWrap');
-  const days=(typeof flatCloses==='function')?flatCloses(st.code):[];
-  const chart=quoteChartHTML(days);
-  if(chart){ cw.innerHTML=chart; cw.style.display='block'; }
-  else cw.style.display='none';
+  const ohlcDays=(typeof flatOHLC==='function')?flatOHLC(st.code):[];
+  if(ohlcDays.length>=2){
+    cw.innerHTML=stockOhlcSectionHTML(st.code,ohlcDays);
+    cw.style.display='block';
+    wireOhlcChart('q-'+st.code,ohlcDays,stockWon);
+  } else cw.style.display='none';
   if(typeof window.renderStockJudge==='function') window.renderStockJudge(st.code);
 }
-/* ── 시세 카드 종가 미니차트(구체화): 날짜축·가격축·격자·기간 등락 설명 ──
-   flatCloses(날짜순 종가)로 실제 라인차트를 그린다. 기존의 '설명 없는 빨간 줄'을 대체. */
-function quoteChartHTML(days){
-  if(!days || days.length<2) return '';
-  const closes=days.map(d=>d.c);
-  const n=closes.length, lo=Math.min(...closes), hi=Math.max(...closes);
-  const first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
+// 개별 종목 캔들차트용 원화 표기(지수는 idxWon으로 소수점 포인트, 종목은 정수+'원')
+function stockWon(v){ return Number.isFinite(v)?Math.round(v).toLocaleString('ko-KR')+'원':'-'; }
+// price_history.js 페이지를 날짜순 OHLCV 배열로 펼친다(캔들차트 입력용 — flatCloses의 종가만 뽑는
+// 버전과 달리 open/high/low/volume을 그대로 살려둔다). 기록이 아직 없으면 last5(종가만)로 대체.
+function flatOHLC(code){
+  const pages=(LIVE_PH&&LIVE_PH[code])||[];
+  const days=pages.flatMap(p=>p.days).filter(d=>d&&d.date&&typeof d.close==='number')
+    .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
+  if(days.length>=2) return days;
+  const t=(LIVE_IND[code]||{}).tech;
+  return (t&&t.last5)?t.last5.map(x=>({date:x.d,close:x.c})):[];
+}
+/* ── 시세 카드 가격 흐름(2026-08-07 개편): 코스피·코스닥 상세와 같은 캔들+이동평균+거래량
+   차트(ohlcChartHTML/wireOhlcChart)를 그대로 재사용해 "전문 차트" 수준으로 올렸다.
+   위아래 요약 바(시작종가→현재종가, 기간 최고·최저)는 기존 문구를 그대로 유지한다. */
+function stockOhlcSectionHTML(code,days){
+  const closes=days.map(d=>d.close);
+  const n=closes.length, first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
   const flat=Math.abs(chg)<0.05, up=last>=first;
   const trend=flat?'flat':(up?'up':'down');
-  const col=flat?'#607584':(up?'#25866F':'#C64C5A');
-  const W=760,H=230, padL=18,padR=18,padT=24,padB=18;
-  const iw=W-padL-padR, ih=H-padT-padB;
-  const rawSpan=(hi-lo)||Math.max(Math.abs(first)*.02,1);
-  const domainLo=lo-rawSpan*.14, domainHi=hi+rawSpan*.14, domainSpan=domainHi-domainLo;
-  const px=i=>padL+iw*(n>1?i/(n-1):0.5), py=v=>padT+ih*(1-(v-domainLo)/domainSpan);
-  const line=closes.map((c,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+py(c).toFixed(1)).join(' ');
-  const area=`M${px(0).toFixed(1)} ${py(closes[0]).toFixed(1)} `+
-    closes.slice(1).map((c,i)=>'L'+px(i+1).toFixed(1)+' '+py(c).toFixed(1)).join(' ')+
-    ` L${px(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${px(0).toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
-  const won0=v=>Math.round(v).toLocaleString();
-  let grid='';
-  [.25,.5,.75].forEach(r=>{const y=(padT+ih*r).toFixed(1);
-    grid+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;});
-  if(n<=7) closes.forEach((_,i)=>{const x=px(i).toFixed(1);
-    grid+=`<line x1="${x}" y1="${padT}" x2="${x}" y2="${padT+ih}" stroke="var(--line)" stroke-width=".75" stroke-opacity=".45" vector-effect="non-scaling-stroke"/>`;});
   const fmtD=s=>String(s).slice(5).replace('-','/');
-  const idxs=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
-  const lx=px(n-1).toFixed(1);
-  const pointHTML=closes.map((c,i)=>{
-    const left=(px(i)/W*100).toFixed(2), top=(py(c)/H*100).toFixed(2);
-    const cls=i===0?' is-first':(i===n-1?' is-current':'');
-    return `<i class="qchart-point${cls}" style="left:${left}%;top:${top}%" title="${days[i].date} 종가 ${won0(c)}원" aria-hidden="true"></i>`;
-  }).join('');
-  const lastLeft=(px(n-1)/W*100).toFixed(2), lastTop=(py(last)/H*100).toFixed(2);
-  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${n}거래일 종가가 ${won0(first)}원에서 ${won0(last)}원으로 ${Math.abs(chg).toFixed(1)}퍼센트 ${flat?'변화 없이 유지':(up?'상승':'하락')}한 그래프">`+
-    grid+
-    `<path d="${area}" fill="${col}" fill-opacity=".065" stroke="none"/>`+
-    `<line x1="${lx}" y1="${padT}" x2="${lx}" y2="${padT+ih}" stroke="${col}" stroke-opacity=".18" stroke-width="1" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>`+
-    `<path class="qchart-line" d="${line}" fill="none" stroke="${col}" stroke-width="3.25" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+
-    `</svg>`;
   const period=`${fmtD(days[0].date)} ~ ${fmtD(days[n-1].date)}`;
   const delta=Math.abs(last-first), direction=flat?'보합':(up?'상승':'하락');
   const action=flat?'같아요':(up?'올랐어요':'내렸어요');
   const arrow=flat?'→':(up?'↗':'↘');
-  const axisHTML=[...new Set(idxs)].map(i=>`<span>${fmtD(days[i].date)}</span>`).join('');
+  const hi=Math.max(...closes), lo=Math.min(...closes);
   return `<div class="qchart-head">`+
-      `<div class="qchart-heading"><span class="qchart-eyebrow">PRICE TREND</span><span class="qchart-t">최근 종가 흐름</span></div>`+
+      `<div class="qchart-heading"><span class="qchart-eyebrow">PRICE TREND</span><span class="qchart-t">최근 가격 흐름</span></div>`+
       `<span class="qchart-sub">${n}거래일 · <b>${period}</b></span>`+
     `</div>`+
-    `<div class="qchart-summary" data-trend="${trend}" style="--trend:${col}">`+
-      `<div class="qchart-price"><small>시작 종가</small><b>${won0(first)}원</b></div>`+
-      `<div class="qchart-route"><strong>${arrow} ${Math.abs(chg).toFixed(1)}% ${direction}</strong><span> · ${n}거래일 동안 ${won0(delta)}원 ${action}</span></div>`+
-      `<div class="qchart-price is-current"><small>현재 종가</small><b>${won0(last)}원</b></div>`+
+    `<div class="qchart-summary" data-trend="${trend}">`+
+      `<div class="qchart-price"><small>시작 종가</small><b>${stockWon(first)}</b></div>`+
+      `<div class="qchart-route"><strong>${arrow} ${Math.abs(chg).toFixed(1)}% ${direction}</strong><span> · ${n}거래일 동안 ${stockWon(delta)} ${action}</span></div>`+
+      `<div class="qchart-price is-current"><small>현재 종가</small><b>${stockWon(last)}</b></div>`+
     `</div>`+
-    `<div class="qchart-plot" data-trend="${trend}" style="--trend:${col}">`+
-      `<div class="qchart-canvas">${svg}${pointHTML}<span class="qchart-last" style="left:${lastLeft}%;top:${lastTop}%">${won0(last)}원</span></div>`+
-      `<div class="qchart-axis">${axisHTML}</div>`+
-    `</div>`+
+    ohlcChartHTML('q-'+code,days,stockWon)+
     `<div class="qchart-foot">`+
-      `<div class="qchart-extremes"><span>기간 최고 <b>${won0(hi)}원</b></span><span>기간 최저 <b>${won0(lo)}원</b></span></div>`+
-      `<div class="qchart-cap" style="--trend:${col}">선 색은 기간 방향, 점 하나는 하루 종가, 큰 테두리 점은 가장 최근 거래일입니다.</div>`+
+      `<div class="qchart-extremes"><span>기간 최고 <b>${stockWon(hi)}</b></span><span>기간 최저 <b>${stockWon(lo)}</b></span></div>`+
+      `<div class="qchart-cap">캔들은 하루 시가·고가·저가·종가, <b style="color:var(--krup)">빨강</b>=전일 대비 상승·<b style="color:var(--krdn)">파랑</b>=하락이에요. 이동평균 버튼을 눌러 선을 켜고 끌 수 있고, 아래 막대는 거래량이에요.</div>`+
     `</div>`;
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
@@ -6229,7 +6214,8 @@ function smaSeries(vals,period){
   });
 }
 /* ---- 캔들+거래량+MA오버레이+범례토글+툴팁 차트 (외부 라이브러리 없이 인라인 SVG) ---- */
-function ohlcChartHTML(uid,days){
+function ohlcChartHTML(uid,days,fmt){
+  fmt=fmt||idxWon;   // ⭐ 2026-08-07: 지수는 소수점 포인트(idxWon), 개별 종목은 정수+'원'을 쓰도록 분리
   const n=days.length;
   const closes=days.map(d=>Number.isFinite(d.close)?d.close:null);
   const hasOHLC=days.map(d=>Number.isFinite(d.open)&&Number.isFinite(d.high)&&Number.isFinite(d.low));
@@ -6275,7 +6261,7 @@ function ohlcChartHTML(uid,days){
   }).join('');
   const grid=[0,.25,.5,.75,1].map(r=>{const yy=padT+chartH*r,val=hi-(hi-lo)*r;
     return `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`+
-      `<text x="${W-padR+6}" y="${(yy+3).toFixed(1)}" fill="var(--faint)" font-size="9">${idxWon(val)}</text>`;
+      `<text x="${W-padR+6}" y="${(yy+3).toFixed(1)}" fill="var(--faint)" font-size="9">${fmt(val)}</text>`;
   }).join('');
   const tickIdx=n>=3?[0,Math.floor((n-1)/2),n-1]:[0,n-1];
   const ticks=[...new Set(tickIdx)].map((i,k)=>`<text x="${x(i).toFixed(1)}" y="${(volY0+volH+11).toFixed(1)}" text-anchor="${k===0?'start':(i===n-1?'end':'middle')}" fill="var(--faint)" font-size="9">${(days[i].date||'').slice(5)}</text>`).join('');
@@ -6306,7 +6292,8 @@ function ohlcChartHTML(uid,days){
     `</div>`+
   `</div>`;
 }
-function wireOhlcChart(uid,days){
+function wireOhlcChart(uid,days,fmt){
+  fmt=fmt||idxWon;
   const wrap=document.getElementById('ohlc-'+uid); if(!wrap) return;
   const svg=wrap.querySelector('.ohlc-svg'), hit=wrap.querySelector('.ohlc-hit'), tip=wrap.querySelector('.ohlc-tooltip');
   const cross=wrap.querySelector('.ohlc-crosshair');
@@ -6328,10 +6315,10 @@ function wireOhlcChart(uid,days){
     tip.style.left=xPct+'%';
     tip.style.left=Math.min(78,Math.max(2,parseFloat(xPct)))+'%';
     tip.innerHTML=`<b>${esc(d.date||'')}</b>`+
-      (Number.isFinite(d.open)?`<span>시가 ${idxWon(d.open)}</span>`:'')+
-      (Number.isFinite(d.high)?`<span>고가 ${idxWon(d.high)}</span>`:'')+
-      (Number.isFinite(d.low)?`<span>저가 ${idxWon(d.low)}</span>`:'')+
-      `<span>종가 ${idxWon(d.close)}${chg!==null?` <em class="${chg>0?'up':chg<0?'down':''}">${chg>0?'+':''}${chg.toFixed(2)}%</em>`:''}</span>`+
+      (Number.isFinite(d.open)?`<span>시가 ${fmt(d.open)}</span>`:'')+
+      (Number.isFinite(d.high)?`<span>고가 ${fmt(d.high)}</span>`:'')+
+      (Number.isFinite(d.low)?`<span>저가 ${fmt(d.low)}</span>`:'')+
+      `<span>종가 ${fmt(d.close)}${chg!==null?` <em class="${chg>0?'up':chg<0?'down':''}">${chg>0?'+':''}${chg.toFixed(2)}%</em>`:''}</span>`+
       (Number.isFinite(d.volume)?`<span>거래량 ${Math.round(d.volume).toLocaleString('ko-KR')}</span>`:'');
   };
   hit.addEventListener('pointermove',e=>move(e.clientX));
@@ -6431,7 +6418,7 @@ function taroChartHTML(code){
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="76" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="76" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub">💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요. MACD는 "최근 12일 평균 주가"에서 "최근 26일 평균 주가"를 뺀 값이고, 시그널은 그 MACD 값을 다시 9일 동안 부드럽게 평균 낸 값이라 MACD보다 느리게 움직여요(그래서 둘을 비교하면 방향이 바뀌는 순간을 잡아낼 수 있어요). 지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 ${fmtM(Math.abs(officialMacd))}원 더 높다`:`12일 평균이 26일 평균보다 ${fmtM(Math.abs(officialMacd))}원 더 낮다`}는 뜻이에요(부호가 ${officialMacd>=0?'+':'−'}인 이유). 종목마다 주가 크기가 달라서 숫자 크기 자체보다 두 선 중 어느 게 위에 있는지가 더 중요해요.</div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub"><p>💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요.</p><p><b>MACD</b>는 "최근 <b>12일 평균</b> 주가"에서 "최근 <b>26일 평균</b> 주가"를 뺀 값이고, <b>시그널</b>은 그 MACD 값을 다시 <b>9일</b> 동안 부드럽게 한 번 더 평균 낸 값이라 MACD보다 느리게 움직여요. 그래서 이 둘을 비교하면 추세가 바뀌는 순간을 잡아낼 수 있어요.</p><p>지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 높다</b>`:`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 낮다</b>`}는 뜻이에요. (부호가 ${officialMacd>=0?'+':'−'}인 이유예요.)</p><p>종목마다 주가 크기가 달라서 숫자 크기 자체보다 <b>두 선 중 어느 게 위에 있는지</b>가 더 중요해요.</p></div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}${taroMAExplainHTML(t)}</div>`;
 }
 
