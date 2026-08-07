@@ -308,6 +308,58 @@ def build_quant_stats(analysis_data):
     return stats
 
 
+# ── 골든/데드크로스 사후 통계 (2026-08-07 사용자 요청) ────────────────────────
+#    "데드크로스 나면 진짜 얼마나 떨어져요?"에 감이 아니라 숫자로 답하기 위해,
+#    500종목 누적 일봉에서 과거에 실제로 있었던 골든/데드크로스(5·20일선,
+#    20·60일선 두 쌍) 전부를 찾아 그 CROSS_STAT_HORIZON거래일 뒤 실제 등락률을
+#    센다. 종목 하나·사례 하나가 아니라 수백 건을 모은 평균이라 훨씬 믿을 만하다.
+CROSS_STAT_HORIZON = 20   # 교차 이후 며칠 뒤 결과를 볼지(거래일 기준, TARO MA 해석과 동일 규격)
+
+
+def build_cross_stats(analysis_data):
+    """반환: {"5_20_golden":{...}, "5_20_dead":{...}, "20_60_golden":{...}, "20_60_dead":{...}}
+    각 값은 {"n":표본수, "w":상승횟수(그 시점보다 CROSS_STAT_HORIZON일 뒤 종가가 높았던 횟수), "sum":수익률합}."""
+    H = CROSS_STAT_HORIZON
+    stats = {"5_20_golden": {"n": 0, "w": 0, "sum": 0.0}, "5_20_dead": {"n": 0, "w": 0, "sum": 0.0},
+             "20_60_golden": {"n": 0, "w": 0, "sum": 0.0}, "20_60_dead": {"n": 0, "w": 0, "sum": 0.0}}
+
+    def bump(key, ret):
+        b = stats[key]
+        b["n"] += 1; b["w"] += 1 if ret > 0 else 0; b["sum"] += ret
+
+    def sma(vals, p, i):
+        return sum(vals[i + 1 - p:i + 1]) / p if i + 1 >= p else None
+
+    for s in (analysis_data.get("stocks") or {}).values():
+        d = s.get("daily")
+        if not isinstance(d, list) or len(d) < 65:   # 20·60일선 계산에 필요한 최소치
+            continue
+        rows = sorted((r for r in d if r.get("date") and isinstance(r.get("close"), (int, float))),
+                      key=lambda r: r["date"])
+        closes = [r["close"] for r in rows]
+        n = len(closes)
+        ma5 = [sma(closes, 5, i) for i in range(n)]
+        ma20 = [sma(closes, 20, i) for i in range(n)]
+        ma60 = [sma(closes, 60, i) for i in range(n)]
+        for i in range(1, n - H):   # i+H가 배열 범위 안이어야 결과를 볼 수 있다
+            if not closes[i]:
+                continue
+            ret = (closes[i + H] - closes[i]) / closes[i] * 100
+            if ma5[i] is not None and ma20[i] is not None and ma5[i - 1] is not None and ma20[i - 1] is not None:
+                prev, cur = ma5[i - 1] - ma20[i - 1], ma5[i] - ma20[i]
+                if prev <= 0 < cur:
+                    bump("5_20_golden", ret)
+                elif prev >= 0 > cur:
+                    bump("5_20_dead", ret)
+            if ma20[i] is not None and ma60[i] is not None and ma20[i - 1] is not None and ma60[i - 1] is not None:
+                prev, cur = ma20[i - 1] - ma60[i - 1], ma20[i] - ma60[i]
+                if prev <= 0 < cur:
+                    bump("20_60_golden", ret)
+                elif prev >= 0 > cur:
+                    bump("20_60_dead", ret)
+    return stats
+
+
 def quant_eval(e, t, qstats):
     rsi = t.get("rsi14")
     g20 = t.get("ma20Gap")
@@ -547,12 +599,19 @@ def main():
     except Exception:
         adata = {}
     qstats = build_quant_stats(adata)
+    cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
     sectors = load_sectors()
     if qstats.get("all"):
         a = qstats["all"]
         print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · 버킷 {len(qstats)}개")
+    for key, label in (("5_20_golden", "5·20 골든"), ("5_20_dead", "5·20 데드"),
+                       ("20_60_golden", "20·60 골든"), ("20_60_dead", "20·60 데드")):
+        b = cross_stats.get(key) or {}
+        if b.get("n"):
+            print(f"교차 사후통계 {label} — 표본 {b['n']:,}건 · {CROSS_STAT_HORIZON}거래일 뒤 평균 {b['sum']/b['n']:+.1f}% "
+                  f"· 상승확률 {b['w']/b['n']*100:.0f}%")
     print(f"CHIEF 가중치 — {'자가 학습(team_weights.js)' if tw['learned'] else '균등(파일 없음)'} · 업종 오버라이드 {len(tw['sectors'])}개")
 
     price_label = ind.get("priceLabel", "")
@@ -600,6 +659,7 @@ def main():
         print(f"[경고] 자동분석 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
 
     out["marketInsight"] = build_market_insight(out, ind)
+    out["crossStats"] = {"horizonDays": CROSS_STAT_HORIZON, "buckets": cross_stats}
     body = json.dumps(out, ensure_ascii=False, indent=1)
     js = ("// 자동 생성: analyze_auto.py · GAEO 자동 분석(러너) 규칙 기반 (Claude 토큰 0)\n"
           "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"
