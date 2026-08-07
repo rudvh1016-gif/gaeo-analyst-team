@@ -1269,8 +1269,9 @@
   .vev-arrow{flex:0 0 auto;color:var(--faint);transition:transform .2s;font-size:11px}
   .vev-item[open] .vev-arrow{transform:rotate(180deg)}
   .vev-body{padding:0 15px 15px;font-size:12.5px;line-height:1.75;color:var(--t2);word-break:keep-all}
-  .vev-body p{margin:8px 0 0}
+  .vev-body p{margin:8px 0 0;font-size:12.5px}
   .vev-body p:first-child{margin-top:0}
+  .vev-body p b{font-weight:800;color:var(--ink)}
   .vev-findings{margin:8px 0 0;padding:0;list-style:none}
   .vev-findings li{position:relative;padding:3px 0 3px 13px;font-size:12px;line-height:1.6}
   .vev-findings li::before{content:'·';position:absolute;left:2px;font-weight:900;color:var(--faint)}
@@ -1799,6 +1800,11 @@
   .ma-card-mean{font-size:8.5px;color:var(--faint);display:block;margin-top:2px;font-weight:600;line-height:1.4}
   .ma-badge{flex:0 0 auto;font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;
     border:1px solid transparent;white-space:nowrap}
+  .ma-badge-info{cursor:pointer}
+  .ma-badge-info::after{content:'?';display:inline-block;margin-left:3px;width:9px;height:9px;
+    line-height:9px;border-radius:50%;background:rgba(0,0,0,.18);color:inherit;font-size:7.5px;
+    font-weight:800;text-align:center;vertical-align:1px}
+  html.gdark .ma-badge-info::after{background:rgba(255,255,255,.24)}
   .ma-badge.above{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
   .ma-badge.below{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
   .ma-badge.near{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
@@ -1822,6 +1828,13 @@
   .ma-combo li.ma-combo-star{padding-left:19px;font-weight:600}
   .ma-combo li.ma-combo-star::before{content:'★';position:absolute;left:0;top:.1em;font-size:10px;color:var(--gold,#c9932e)}
   .ma-combo-mut{color:var(--faint);font-size:10.5px}
+  /* ⭐ 2026-08-07: .card ul li{display:flex;gap:7px;...}(분석가별 근거 카드의 근거 목록용 규칙)이
+     같은 .card 안에 중첩된 .ma-combo ul li에도 새어 들어와, 문장 속 <b>굵은 단어가 별도 flex 칸으로
+     떨어져 나가며 문장이 표처럼 조각나 보이는 버그가 있었다. .card .ma-combo li로 특정도를 올려
+     원래 줄글(문단) 흐름으로 되돌린다(문구·계산은 그대로, 배치만 복구).*/
+  .card .ma-combo li{display:block;gap:0;align-items:normal;margin:0 0 7px;padding:0 0 0 16px;border-top:0}
+  .card .ma-combo li:last-child{margin-bottom:0}
+  .card .ma-combo li.ma-combo-star{padding-left:19px}
   .ma-risk-row{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
   .ma-risk-chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid transparent}
   .ma-risk-chip.warn{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
@@ -5715,6 +5728,13 @@ function findingLi(f){
   const mk=findingMark(f);
   return `<li><span class="fmk ${mk.cls}" aria-hidden="true">${mk.sym}</span><span>${SIGNUM(wrapGloss(f))}</span></li>`;
 }
+// 이동평균 카드의 위/아래/근처 배지 — GLOSSARY와는 별개 사전(문장 속 자동 링크 대상이 아니라
+// "위"·"아래" 같은 흔한 글자가 본문 곳곳에서 오매칭되는 걸 막기 위해 status 키로만 찾는다).
+const MA_BADGE_DEF={
+  above:'현재가가 이 이동평균선보다 높다는 뜻이에요. 그 기간 동안의 평균 매수단가보다 위에 있어서, 그 기간에 사고판 투자자들은 대체로 이익 구간에 있다고 볼 수 있어요.',
+  below:'현재가가 이 이동평균선보다 낮다는 뜻이에요. 그 기간 동안의 평균 매수단가보다 아래에 있어서, 그 기간에 사고판 투자자들은 대체로 손실 구간에 있다고 볼 수 있어요.',
+  near:'현재가와 이 이동평균선이 거의 같은 자리(±1% 이내)라는 뜻이에요. 위인지 아래인지 아직 방향이 정해지지 않은 갈림길 구간이에요.',
+};
 // 클릭(또는 Enter/Space)하면 용어 뜻을 큰 팝업으로 보여준다 — 모바일에서도 hover 없이 동작
 (function(){
   let pop=null, openFor=null;
@@ -5727,8 +5747,12 @@ function findingLi(f){
     return pop;
   }
   function close(){ if(pop){ pop.classList.remove('on'); } openFor=null; }
+  function lookup(el){
+    if(el.classList.contains('ma-badge-info')) return {label:el.textContent.trim(), def:MA_BADGE_DEF[el.dataset.badge]};
+    return {label:el.dataset.term, def:GLOSSARY[el.dataset.term]};
+  }
   function open(el){
-    const label=el.dataset.term, def=GLOSSARY[label]; if(!def) return;
+    const {label,def}=lookup(el); if(!def) return;
     const p=ensurePop();
     if(openFor===el && p.classList.contains('on')){ close(); return; }
     openFor=el;
@@ -5742,13 +5766,13 @@ function findingLi(f){
     p.style.left=left+'px'; p.style.top=top+'px';
   }
   document.addEventListener('click', e=>{
-    const t=e.target.closest('.gterm');
+    const t=e.target.closest('.gterm, .ma-badge-info');
     if(t){ open(t); return; }
     if(!e.target.closest('.gloss-pop')) close();
   });
   document.addEventListener('keydown', e=>{
     if(e.key==='Escape'){ close(); return; }
-    if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('gterm')){
+    if((e.key==='Enter'||e.key===' ') && e.target.classList && (e.target.classList.contains('gterm')||e.target.classList.contains('ma-badge-info'))){
       e.preventDefault(); open(e.target);
     }
   });
@@ -5885,7 +5909,7 @@ function maCardHTML(period,t,unit){
   return `<div class="ma-card${full?'':' is-provisional'}"><div class="ma-card-head">`+
     `<div><span class="ma-card-name">${displayName}${full?'':' <span class=\"ma-provisional-tag\">약식</span>'}</span>`+
     `<span class="ma-card-mean">${full?meta.mean:meta.mean+' · 정식 '+period+'일 채우는 중'}</span></div>`+
-    `<span class="ma-badge ${status}">${statusLabel}</span></div>`+
+    `<span class="ma-badge ${status} ma-badge-info" tabindex="0" role="button" data-badge="${status}" aria-label="${statusLabel} 배지 설명 보기">${statusLabel}</span></div>`+
     `<div class="ma-card-val">${Math.round(ma).toLocaleString('ko-KR')}${unit}<small>${Number.isFinite(gap)?(gap>=0?'+':'')+gap.toFixed(1)+'%':''}</small></div>`+
     lines.map(([tag,text])=>`<div class="ma-card-line"><b class="ma-card-tag">${tag}</b>${text}</div>`).join('')+
     `</div>`;
@@ -8044,9 +8068,14 @@ async function analyze(){
     // .!? 뒤에 공백이 있을 때만 문장 경계로 본다 — "+9.3%"처럼 숫자 사이 소수점은
     // 뒤에 공백이 없으니 쪼개지지 않는다(문장은 항상 "마침표+공백"으로 이어져 있다).
     const splitSentences=text=>String(text||'').trim().split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+    // ⭐ 2026-08-07: 문장을 문단으로 나눠도 다 똑같은 굵기라 핵심 축 이름(기술/재무/퀀트/수급/RISK)과
+    // 결론(BUY/SELL/HOLD)이 눈에 안 띈다는 피드백 → 해당 단어만 굵게(<b>) 감싸서 훑어읽기 쉽게 한다.
+    // 새 문장을 짓지 않고 원문 그대로에 굵기 태그만 추가한다.
+    const NARRATIVE_BOLD_RE=/(RISK|퀀트|기술|재무|수급|HOLD|BUY|SELL)/g;
+    const boldKeyTerms=text=>String(text||'').replace(NARRATIVE_BOLD_RE,'<b>$1</b>');
     const narrativeParts=[];
-    splitSentences(v.text).forEach(s=>narrativeParts.push(`<p>${SIGNUM(cleanFn(s))}</p>`));
-    splitSentences(v.report).forEach(s=>narrativeParts.push(`<p>${SIGNUM(cleanFn(s))}</p>`));
+    splitSentences(v.text).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
+    splitSentences(v.report).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
     const narrative=narrativeParts.length
       ? `<details class="vev-item"><summary class="vev-summary">`+
           `<span class="vev-summary-name">종합 서술 전문</span>`+
