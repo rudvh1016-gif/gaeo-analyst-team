@@ -1427,6 +1427,27 @@
    "caution": "상승 탄력이 잦아든 구간일 뿐, 하락 전환을 뜻하지는 않아요."
   },
   {
+   "id": "068760-bb-upper-recover-20260807",
+   "code": "068760",
+   "name": "셀트리온제약",
+   "type": "bb_upper_recover",
+   "label": "밴드 상단 재진입",
+   "group": "main",
+   "icon": "▼",
+   "metric": "종가",
+   "unit": "원",
+   "previousValue": 43450,
+   "currentValue": 43150,
+   "threshold": 43187,
+   "date": "2026-08-07",
+   "detectedAt": "2026-08-07 10:25",
+   "priceBaseAt": "2026-08-07 10:22 장중",
+   "status": "provisional",
+   "severity": "low",
+   "description": "종가가 볼린저밴드 상단 아래로 다시 내려오며 평소 범위 안으로 돌아왔어요.",
+   "caution": "상승 탄력이 잦아든 구간일 뿐, 하락 전환을 뜻하지는 않아요."
+  },
+  {
    "id": "083650-bb-upper-recover-20260807",
    "code": "083650",
    "name": "비에이치아이",

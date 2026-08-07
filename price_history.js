@@ -56488,7 +56488,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 73100,
+     "close": 73300,
      "open": 72400,
      "high": 73900,
      "low": 71300,
@@ -59944,7 +59944,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 8690,
+     "close": 8700,
      "open": 8700,
      "high": 8770,
      "low": 8500,
@@ -103360,7 +103360,7 @@ const PRICE_HISTORY = {
     },
     {
      "date": "2026-08-07",
-     "close": 7630,
+     "close": 7670,
      "open": 7630,
      "high": 7780,
      "low": 7600,
