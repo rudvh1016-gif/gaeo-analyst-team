@@ -84,30 +84,49 @@ def add_to_pages(pages, new_entries):
                         "start": chunk[0]["date"], "end": chunk[-1]["date"]})
     return rebuilt
 
+# 이력이 이 일수보다 짧으면 "아직 백필이 안 된 상태"로 보고 넓은 창으로 한 번에 받아온다.
+# update_index_history.py와 동일한 값 — 한국 증시 연 ~245거래일 기준, 14개월이면
+# MA200에 필요한 200거래일을 넉넉히 덮는다.
+BACKFILL_THRESHOLD_DAYS = 210
+BACKFILL_MONTHS = 14
+
 def main():
     codes = load_tickers()
     if not codes:
         print("tickers.js를 읽지 못해 중단합니다."); sys.exit(1)
 
-    if len(sys.argv) >= 3:
-        start, end = sys.argv[1], sys.argv[2]
-    else:
-        today = datetime.date.today()
-        start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
-        end = today.strftime("%Y%m%d")
+    manual = len(sys.argv) >= 3
+    today = datetime.date.today()
+    end = sys.argv[2] if manual else today.strftime("%Y%m%d")
+    default_start = (today - datetime.timedelta(days=15)).strftime("%Y%m%d")
+    backfill_start = (today - datetime.timedelta(days=BACKFILL_MONTHS * 31)).strftime("%Y%m%d")
 
     path = os.path.join(HERE, "price_history.js")
     store = load_js_object(path, "PRICE_HISTORY") or {}
 
     added_total = 0
     for code, name in codes.items():
+        pages = store.get(code, [])
+        have = sum(len(p["days"]) for p in pages)
+        # ⭐ 2026-08-07: 이 기록은 2026-06-24에야 신설돼 종목마다 30여 거래일치뿐이었다 —
+        # 60·120·200일 이동평균선을 그리려면 최소 200거래일이 필요한데 한참 못 미쳤다
+        # ("가격 흐름" 차트에 200일선까지 못 그리던 진짜 원인 — 코드 버그가 아니라 원본
+        # 기록 자체가 짧았다). index_history.py와 같은 패턴: 아직 못 쌓인 종목만 넓은
+        # 창으로 한 번에 따라잡고, 이미 충분한 종목은 평소대로 저렴한 증분만 받는다.
+        # (siseJson의 넓은 백필 무시 버그는 지수 심볼 한정이라 — update_index_history.py
+        #  주석 참고 — 종목 코드는 이 단일 소스만으로도 정상 동작한다.)
+        if manual:
+            start = sys.argv[1]
+        elif have < BACKFILL_THRESHOLD_DAYS:
+            start = backfill_start
+        else:
+            start = default_start
         try:
             entries = fetch_daily_closes(code, start, end)
         except Exception as e:
             print(f"[실패] {name}({code}): {e}")
             continue
-        pages = store.get(code, [])
-        before = sum(len(p["days"]) for p in pages)
+        before = have
         pages = add_to_pages(pages, entries)
         store[code] = pages
         after = sum(len(p["days"]) for p in pages)
