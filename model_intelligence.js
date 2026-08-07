@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-07 11:25",
+ "generatedAt": "2026-08-07 11:26",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -335,8 +335,8 @@ const MODEL_INTELLIGENCE = {
  },
  "errorCorrelation": {
   "taro:diana": {
-   "n": 1618,
-   "errorCorr": -0.107
+   "n": 1617,
+   "errorCorr": -0.108
   },
   "taro:nova": {
    "n": 3379,
@@ -347,8 +347,8 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": 0.195
   },
   "diana:nova": {
-   "n": 1135,
-   "errorCorr": -0.147
+   "n": 1134,
+   "errorCorr": -0.148
   },
   "diana:flow": {
    "n": 279,
@@ -399,8 +399,8 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.2847,
-    "diana": 0.0693,
-    "nova": 0.3624,
+    "diana": 0.0692,
+    "nova": 0.3625,
     "flow": 0.2836
    },
    "acc": {
@@ -451,13 +451,13 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_high": {
-   "n": 7115,
+   "n": 7114,
    "blend": 0.6,
    "weights": {
     "taro": 0.2854,
-    "diana": 0.0796,
-    "nova": 0.3531,
-    "flow": 0.282
+    "diana": 0.0795,
+    "nova": 0.3532,
+    "flow": 0.2819
    },
    "acc": {
     "taro": {
@@ -465,7 +465,7 @@ const MODEL_INTELLIGENCE = {
      "adjustedAcc": 55.7
     },
     "diana": {
-     "n": 1156,
+     "n": 1155,
      "adjustedAcc": 48.9
     },
     "nova": {
@@ -483,8 +483,8 @@ const MODEL_INTELLIGENCE = {
   "key": "up_low",
   "trend": "up",
   "vol": "low",
-  "median5": 5.91,
-  "medianAbs1": 1.89
+  "median5": 5.96,
+  "medianAbs1": 1.87
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -492,19 +492,19 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 2000,
-  "errors": 1442,
+  "errors": 1441,
   "patterns": [
    {
     "label": "고변동성 국면",
-    "count": 1442
+    "count": 1441
    },
    {
     "label": "경계점수 판단",
-    "count": 1274
+    "count": 1273
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1119
+    "count": 1118
    },
    {
     "label": "3인 이상 같은 방향 오판",
@@ -518,7 +518,7 @@ const MODEL_INTELLIGENCE = {
    "flow": 128
   },
   "regimeErrors": {
-   "down_high": 1442
+   "down_high": 1441
   }
  },
  "shadow": {
@@ -537,7 +537,7 @@ const MODEL_INTELLIGENCE = {
   "testRegimes": 1,
   "candidateAllCallAccuracy": 7.8,
   "brier": 0.3906,
-  "rawBrier": 0.258
+  "rawBrier": 0.2579
  },
  "prospective": {
   "n": 0,
