@@ -3105,6 +3105,8 @@
   html.gdark .rd-summary{background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
   .rd-summary-t{font-size:11.5px;font-weight:800;color:var(--gaeo-700);margin-bottom:4px}
   .rd-summary p{margin:0;font-size:12.5px;line-height:1.75;color:var(--gaeo-ink)}
+  .rd-summary p+p{margin-top:6px}
+  .rd-final-note{font-size:10.5px!important;line-height:1.6!important;color:var(--gaeo-muted)!important}
   /* 개별 신호 해석 카드(현재 상태 → 의미 → 주의점) */
   .rd-events{display:flex;flex-direction:column;gap:10px;margin-top:14px}
   .rd-event-card{padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:14px;
@@ -6843,8 +6845,8 @@ function rdShortInterp(kind,val,extra){
 
 // ⑥ 종합 해석 — RSI·거래량·볼린저·이동평균을 한데 모아 "지금 흐름"을 한두 문장으로 묶어준다.
 // 근거를 나열하는 방식이라 지표 몇 개가 비어 있어도(데이터 부족) 문장이 자연스럽게 줄어든다.
-function getRadarSummary(S){
-  if(!S||!S.c||S.c.length<2) return '';
+function getRadarSummaryParts(S){
+  if(!S||!S.c||S.c.length<2) return null;
   const n=S.c.length,i=n-1,j=n-2;
   const num=v=>(typeof v==='number'&&isFinite(v))?v:null;
   const rsi=num(S.r&&S.r[i]), c1=num(S.c[i]), c0=num(S.c[j]);
@@ -6886,7 +6888,21 @@ function getRadarSummary(S){
 
   let body=up.length?up.slice(0,2).join(', ')+'.':'';
   if(caution.length){ const c=caution.slice(0,2).join(', ')+'.'; body+=body?' 다만 '+c:c; }
-  return `<div class="rd-summary"><div class="rd-summary-t">📌 현재 흐름</div><p>${esc(head)} ${esc(body)}</p></div>`;
+  return {head,body};
+}
+function getRadarSummary(S){
+  const parts=getRadarSummaryParts(S);
+  if(!parts) return '';
+  return `<div class="rd-summary"><div class="rd-summary-t">📌 현재 흐름</div><p>${esc(parts.head)} ${esc(parts.body)}</p></div>`;
+}
+// ⑥-2 최종 종합의견 — 위 개별 신호·비교 카드를 다 본 뒤, 화면 맨 아래에서 한 번 더 정리해준다.
+// (내용은 위 "현재 흐름" 카드와 같은 근거를 쓰되, 다 읽고 난 뒤의 "그래서 결론은?" 자리라 문구를 다르게 짠다.)
+function radarFinalOpinionHTML(S){
+  const parts=getRadarSummaryParts(S);
+  if(!parts) return '';
+  return `<div class="rd-summary rd-final"><div class="rd-summary-t">🧭 최종 종합의견</div>`+
+    `<p>${esc(parts.head)} ${esc(parts.body)}</p>`+
+    `<p class="rd-final-note">여러 지표를 기계적으로 모은 참고용 해석일 뿐, 매수·매도를 권유하지 않아요.</p></div>`;
 }
 
 // ⑦ 개별 신호 카드 — "현재 상태 → 의미 → 주의점" 구조로 사건 하나하나를 풀어 보여준다.
@@ -6935,9 +6951,15 @@ function rdCompareCards(series,events){
       change:(rat1>=2?'거래량 급증':'평소 수준'),interp:rdShortInterp('vol',rat1)});
   }
   if(rdHasMa(series)){
+    // ⭐ 2026-08-08: "MA20 > MA60"처럼 부등호 그대로 보여주면 무슨 뜻인지 모르겠다는 피드백 →
+    // 두 선의 위아래 관계를 기호 없이 말로 풀어서 보여준다.
     const m20=num(series.bm[i]), m60=num(series.m60[i]);
+    const m20p=num(series.bm[j]), m60p=num(series.m60[j]);
+    const relText=above=>above?'20일선이 60일선 위':'20일선이 60일선 아래';
     if(m20!==null&&m60!==null){
-      cards.push({label:'MA20 · MA60',prev:'—',cur:(m20>m60?'MA20 > MA60':'MA20 < MA60'),
+      cards.push({label:'MA20 · MA60(20일선·60일선)',
+        prev:(m20p!==null&&m60p!==null)?relText(m20p>m60p):'—',
+        cur:relText(m20>m60),
         change:(m20>m60?'중기 우위':'중기 열세'),interp:rdShortInterp('ma',m20>m60)});
     }
   }
@@ -7009,7 +7031,7 @@ function renderRadarDetail(code){
       `<div class="rd-svg-wrap">${rdExtraChart(S)}</div>`+
       rdLegend([{label:'MACD',color:RD_COL.macd},{label:'시그널선',color:RD_COL.sig,cls:'dash'}]
         .concat(rdHasMa(S)?[{label:'MA20',color:RD_COL.mid},{label:'MA60',color:RD_COL.ma60}]:[]))+`</div></div>`;
-    el.innerHTML=head+summary+eventsHTML2+charts+rdCompareCards(S,events)+extra+note;
+    el.innerHTML=head+summary+eventsHTML2+charts+rdCompareCards(S,events)+radarFinalOpinionHTML(S)+extra+note;
     const btn=document.getElementById('rdExtraBtn'), box=document.getElementById('rdExtra');
     if(btn&&box) btn.onclick=()=>{
       const on=box.classList.toggle('on');
