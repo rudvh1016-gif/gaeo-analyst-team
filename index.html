@@ -5594,7 +5594,7 @@ function stockOhlcSectionHTML(code,days){
     ohlcChartHTML('q-'+code,days,stockWon)+
     `<div class="qchart-foot">`+
       `<div class="qchart-extremes"><span>기간 최고 <b>${stockWon(hi)}</b></span><span>기간 최저 <b>${stockWon(lo)}</b></span></div>`+
-      `<div class="qchart-cap">캔들은 하루 시가·고가·저가·종가, <b style="color:var(--krup)">빨강</b>=전일 대비 상승·<b style="color:var(--krdn)">파랑</b>=하락이에요. 이동평균 버튼을 눌러 선을 켜고 끌 수 있고, 아래 막대는 거래량이에요.</div>`+
+      `<div class="qchart-cap">캔들 <b>몸통</b>은 시가·종가 차이예요(길수록 그날 변동이 컸다는 뜻). 위아래 <b>꼬리</b>는 그날의 고가·저가고요(길수록 장중에 크게 오르내렸다는 뜻). 이동평균 버튼을 눌러 선을 켜고 끌 수 있고, 아래 막대는 거래량이에요.</div>`+
     `</div>`;
 }
 /* 용어 설명 — 커서를 올리면 짧은 뜻, 클릭하면 초등학생도 이해하는 쉬운 설명 팝업 */
