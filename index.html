@@ -6538,7 +6538,7 @@ function renderGaeoRadar(){
     html+=`<div class="gr-chips" role="group" aria-label="신호 분류 선택">${chips.join('')}</div>`;
     if(!RADAR_FILTER){
       html+='<p class="gr-note">분류를 누르면 해당 변화가 나온 종목 목록을 볼 수 있어요. '+
-        '「기타 변화」에는 MACD·이동평균 교차가 들어 있어요.</p>';
+        '「기타 변화」에는 MACD 교차가 들어 있어요.</p>';
     }else{
       const extras=RADAR.extraOrder||[];
       const list=RADAR.events.filter(e=>RADAR_FILTER==='__extra'?extras.indexOf(e.type)>=0:e.type===RADAR_FILTER);
