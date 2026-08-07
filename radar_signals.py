@@ -240,13 +240,13 @@ SIGNAL_DEFS = {
         "caution": "거래량 급증은 매수·매도 어느 쪽으로도 나올 수 있어요. 가격 흐름과 함께 봐야 해요.",
     },
     "macd_golden_cross": {
-        "label": "MACD 골든크로스", "group": "extra", "severity": "mid", "icon": "▲",
+        "label": "MACD 골든크로스", "group": "main", "severity": "mid", "icon": "▲",
         "metric": "MACD−시그널",
         "description": "MACD가 시그널선을 위로 통과하며 최근 가격의 힘이 세지는 쪽으로 바뀌었어요.",
         "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요.",
     },
     "macd_dead_cross": {
-        "label": "MACD 데드크로스", "group": "extra", "severity": "mid", "icon": "▼",
+        "label": "MACD 데드크로스", "group": "main", "severity": "mid", "icon": "▼",
         "metric": "MACD−시그널",
         "description": "MACD가 시그널선을 아래로 통과하며 최근 가격의 힘이 빠지는 쪽으로 바뀌었어요.",
         "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요.",
@@ -304,20 +304,23 @@ SIGNAL_DEFS = {
     },
 }
 
-# 홈 화면 분류 카드 순서 (main 그룹만 개별 카드, extra는 '기타 변화'로 묶는다)
+# 홈 화면 분류 카드 순서 (main 그룹만 개별 카드로 노출한다)
 # ⭐ 2026-08-07: 이동평균 교차·임박 신호(MA20·60, MA5·20 둘 다)는 "기타 변화"에 묻어두기엔
-# 아쉽다는 요청으로 main으로 승격했다 — MACD 교차만 기타에 남긴다.
+# 아쉽다는 요청으로 main으로 승격했다.
+# ⭐ 2026-08-07(2차): "MACD 골든크로스·데드크로스도 하나로 묶지 말고 각각 카테고리로 나눠달라"는
+# 요청이 다시 들어와 MACD 크로스 두 개도 마저 main으로 승격 — 이제 '기타 변화' 묶음 자체가 없다.
 MAIN_ORDER = [
     "rsi_oversold_entry", "rsi_oversold_exit",
     "bb_lower_break", "volume_spike",
     "rsi_overbought_entry", "rsi_overbought_exit",
     "bb_lower_recover", "bb_upper_break", "bb_upper_recover",
+    "macd_golden_cross", "macd_dead_cross",
     "ma_golden_cross", "ma_dead_cross",
     "ma5_20_golden_cross", "ma5_20_dead_cross",
     "ma20_60_cross_near_golden", "ma20_60_cross_near_dead",
     "ma5_20_cross_near_golden", "ma5_20_cross_near_dead",
 ]
-EXTRA_ORDER = ["macd_golden_cross", "macd_dead_cross"]
+EXTRA_ORDER = []
 
 # 한 종목에서 여러 신호가 겹쳤을 때 "대표 신호"를 고르는 순서(앞일수록 우선)
 REPRESENTATIVE_ORDER = [
