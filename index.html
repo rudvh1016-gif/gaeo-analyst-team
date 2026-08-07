@@ -619,6 +619,7 @@
   .vasof{margin-top:12px;display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
   .vasof b{color:var(--navy);font-weight:700}
   .cmp-asof{text-align:center;font-size:12px;color:var(--dim);margin-bottom:14px}
+  .cmp-asof+.cmp-asof{margin-top:-8px}
   .cmp-asof b{color:var(--navy);font-weight:700}
   .qmetrics{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
   .qm{background:var(--bg);border:none;border-radius:11px;
@@ -2787,8 +2788,14 @@
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none;
     scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
   .verdict,.quote,.viz{scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
-  body[data-mode="single"] .analysis-browser{display:grid;grid-template-columns:1fr;
+  body[data-mode="single"] .analysis-browser,body[data-mode="compare"] .analysis-browser{display:grid;grid-template-columns:1fr;
     gap:24px;align-items:start}
+  /* ⭐ 2026-08-07: 종목비교의 검색창(cmpControls)이 nav 리팩터로 이 컨테이너 안으로 옮겨졌는데,
+     이 컨테이너 자체가 원래 단일분석(single) 모드에서만 보이도록 돼 있어서 비교 모드에선
+     검색창이 통째로 사라져 있었다(cmpControls 자신은 display:flex인데 조상이 display:none이라
+     화면엔 안 보임 — 검색 기능이 지워진 게 아니라 컨테이너가 숨어 있던 것). 컨테이너는 비교
+     모드에서도 열어주고, 단일분석 전용 안내문구(제목·설명·미니차트 범례)만 비교 모드에서 숨긴다. */
+  body[data-mode="compare"] .analysis-browser-head{display:none}
   .analysis-browser-head{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(360px,1.2fr);
     gap:0 32px;padding-top:3px}
   .analysis-browser-head>span,.analysis-browser-head>h2,.analysis-browser-head>p{grid-column:1}
@@ -6364,7 +6371,7 @@ function taroChartHTML(code){
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="76" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="76" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub"><p>💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요.</p><p><b>MACD</b>는 "최근 <b>12일 평균</b> 주가"에서 "최근 <b>26일 평균</b> 주가"를 뺀 값이고, <b>시그널</b>은 그 MACD 값을 다시 <b>9일</b> 동안 부드럽게 한 번 더 평균 낸 값이라 MACD보다 느리게 움직여요. 그래서 이 둘을 비교하면 추세가 바뀌는 순간을 잡아낼 수 있어요.</p><p>지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 높다</b>`:`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 낮다</b>`}는 뜻이에요. (부호가 ${officialMacd>=0?'+':'−'}인 이유예요.)</p><p>종목마다 주가 크기가 달라서 숫자 크기 자체보다 <b>두 선 중 어느 게 위에 있는지</b>가 더 중요해요.</p></div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub"><p>🧭 MACD와 시그널을 <b>왜 봐야 하냐면</b> — 이 둘의 위치가 뒤바뀌는 순간이 상승 힘과 하락 힘의 우세가 바뀌는 지점이라, 많은 투자자가 추세 전환을 미리 눈치채는 힌트로 참고하기 때문이에요(다만 신호가 자주 뒤집히기도 해서 이것만으로 매매 시점을 단정하진 않아요).</p><p>💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요.</p><p><b>MACD</b>는 "최근 <b>12일 평균</b> 주가"에서 "최근 <b>26일 평균</b> 주가"를 뺀 값이고, <b>시그널</b>은 그 MACD 값을 다시 <b>9일</b> 동안 부드럽게 한 번 더 평균 낸 값이라 MACD보다 느리게 움직여요. 그래서 이 둘을 비교하면 추세가 바뀌는 순간을 잡아낼 수 있어요.</p><p>지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 높다</b>`:`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 낮다</b>`}는 뜻이에요. (부호가 ${officialMacd>=0?'+':'−'}인 이유예요.)</p><p>종목마다 주가 크기가 달라서 숫자 크기 자체보다 <b>두 선 중 어느 게 위에 있는지</b>가 더 중요해요.</p></div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}${taroMAExplainHTML(t)}</div>`;
 }
 
@@ -6394,7 +6401,10 @@ function radarNum(v,unit,metric){
 }
 function radarValueText(ev){
   const d=radarDef(ev.type);
-  return `${d.metric?d.metric+' ':''}${radarNum(ev.previousValue,ev.unit,d.metric)} → ${radarNum(ev.currentValue,ev.unit,d.metric)}`;
+  // ⭐ 2026-08-07: "MACD-시그널 -63 → 7"처럼 지표명 뒤에 콜론 없이 바로 숫자가 붙으면
+  // "MACD에서 시그널 -63을 뺀 게 7이 됐다"는 식으로 헷갈릴 수 있다는 피드백 →
+  // 지표명과 값 사이에 콜론을 넣어 "이전값 → 현재값"이라는 걸 분명히 한다.
+  return `${d.metric?d.metric+': ':''}${radarNum(ev.previousValue,ev.unit,d.metric)} → ${radarNum(ev.currentValue,ev.unit,d.metric)}`;
 }
 function radarDateText(dateStr){
   const m=String(dateStr||'').match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -6703,10 +6713,15 @@ function renderRadarDetail(code){
   const sigs=events.map(e=>{const d=radarDef(e.type);
     return `<span class="rd-sig"><span aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)} `+
       `<span style="font-weight:650;color:var(--gaeo-muted)">${esc(radarValueText(e))}</span></span>`;}).join('');
+  // ⭐ 2026-08-07: "MACD−시그널: -63 → 7" 숫자만 보고는 무슨 뜻인지 알기 어렵다는 피드백 →
+  // MACD 관련 신호가 하나라도 있으면 그 값이 뭘 뺀 건지 아주 작은 글씨로 설명을 붙인다.
+  const macdNote=events.some(e=>radarDef(e.type).metric==='MACD−시그널')
+    ? `<p style="margin:4px 0 0;font-size:9.5px;line-height:1.5;color:var(--gaeo-muted)">💡 MACD−시그널은 MACD값에서 시그널값을 뺀 차이(히스토그램)예요. 음수(−)에서 양수(+)로 바뀌면 MACD선이 시그널선을 아래에서 위로 넘었다는 뜻(골든크로스), 반대로 바뀌면 데드크로스예요.</p>`
+    : '';
   const head=`<div class="rd-head"><h3>📡 레이더 포착 변화 ${events.length}건</h3>`+
     `<span class="rd-asof">시세 기준 ${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}<br>`+
     `레이더 생성 ${esc(RADAR.generatedAt||'-')} · <span class="gr-status ${st}">${esc(radarStatusText())}</span></span></div>`+
-    `<div class="rd-sigs">${sigs}</div>`;
+    `<div class="rd-sigs">${sigs}</div>${macdNote}`;
   const rep=events[0], repDef=radarDef(rep.type);
   const desc=`<div class="rd-desc">${esc(repDef.description)}`+
     (events.length>1?` 같은 날 <b>${esc(radarDef(events[1].type).label)}</b> 변화도 함께 나왔어요.`:'')+
@@ -9980,7 +9995,20 @@ window.renderScreener=function(){
           `<span><span style="font-size:12px;color:var(--dim)">종합 ${vB.total} · 신뢰도 ${vB.conf}%</span> ${badge(vB)}${clashB(dB)}</span></div>`+
       `</div>`+
       `<div class="cmp-legend"><span><i style="background:${COL_A}"></i>${A.name}</span><span><i style="background:${COL_B}"></i>${B.name}</span></div>`+
-      `<div class="cmp-asof">🕒 시세 기준 <b>${priceAsOf()}</b> · 🔎 분석 기준 ${A.name} <b>${analysisAsOf(ca)||'mock'}</b> / ${B.name} <b>${analysisAsOf(cb)||'mock'}</b></div>`+
+      // ⭐ 2026-08-07: 시세 기준·분석 기준을 한 줄에 몰아넣고 종목마다 날짜를 따로 적었더니
+      // (예: "분석 기준 제주반도체 2026-08-07 16:08 / 삼성전자 2026-08-07 16:08") 줄바꿈이
+      // 세 줄로 깨져서 읽기 힘들었다. 분석 기준은 아래 줄로 내리고, 두 종목의 분석 시각이
+      // 같으면(대부분 같은 사이클에 함께 분석되므로) 날짜를 한 번만 적고 종목명만 나열해서
+      // 한 줄에 들어오게 한다. 혹시라도 두 종목의 분석 시각이 실제로 다르면(예: 한쪽만
+      // 정밀분석 이력이 있는 경우) 다른 값을 숨기지 않고 그대로 각각 표시한다.
+      (()=>{
+        const aofA=analysisAsOf(ca)||'mock', aofB=analysisAsOf(cb)||'mock';
+        const aofLine=(aofA===aofB)
+          ? `🔎 분석 기준 <b>${aofA}</b> · ${A.name}·${B.name}`
+          : `🔎 분석 기준 ${A.name} <b>${aofA}</b> · ${B.name} <b>${aofB}</b>`;
+        return `<div class="cmp-asof">🕒 시세 기준 <b>${priceAsOf()}</b></div>`+
+          `<div class="cmp-asof">${aofLine}</div>`;
+      })()+
       `<div class="cmp-radarwrap">${radarTwo(sA,sB)}</div>`+
       `<div class="cmp-rows">`+
         row('기술',sA[0],sB[0])+row('재무',sA[1],sB[1])+row('뉴스·심리',sA[2],sB[2])+
