@@ -6531,7 +6531,10 @@ function renderGaeoRadar(){
       wrows.slice(0,4).map(radarRowHTML).join('')+`</div>`;
   }
 
-  // ③ 분류 카드 — main 신호는 개별 칩, MACD 교차는 "MACD 교차"로 묶는다
+  // ③ 분류 카드 — main 신호를 전부 개별 칩으로 노출한다.
+  // ⭐ 2026-08-07: "MACD 골든크로스·데드크로스도 하나로 묶지 말고 각각 카테고리로 나눠달라"는
+  // 요청으로 MACD 두 종류도 radar_signals.py에서 main으로 승격됨 — 이제 '기타 변화(묶음)' 칩 자체가 없다.
+  // extraOrder는 하위호환용으로 계속 내려오지만 항상 빈 배열이라 아래 로직은 자연히 no-op이다.
   if(RADAR.total===0){
     html+='<div class="gr-empty">현재 기준 새롭게 경계를 통과한 종목이 없어요.<br>'+
       '기존 과매도·과매수 상태 종목은 종목 분석 화면에서 확인할 수 있어요.</div>';
@@ -6540,8 +6543,8 @@ function renderGaeoRadar(){
       .map(t=>radarChipHTML(t,RADAR.counts[t],RADAR_FILTER===t));
     if(RADAR.extraTotal>0){
       chips.push(`<button class="gr-chip" type="button" data-radar-type="__extra" aria-pressed="${RADAR_FILTER==='__extra'?'true':'false'}"`+
-        ` aria-label="MACD 교차 ${RADAR.extraTotal}건 종목 목록 보기">`+
-        `<span class="gr-ico" aria-hidden="true">◇</span>MACD 교차 <b>${RADAR.extraTotal}</b></button>`);
+        ` aria-label="기타 변화 ${RADAR.extraTotal}건 종목 목록 보기">`+
+        `<span class="gr-ico" aria-hidden="true">◇</span>기타 변화 <b>${RADAR.extraTotal}</b></button>`);
     }
     html+=`<div class="gr-chips" role="group" aria-label="신호 분류 선택">${chips.join('')}</div>`;
     if(!RADAR_FILTER){
