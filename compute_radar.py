@@ -154,10 +154,16 @@ def main():
         "extraOrder": R.EXTRA_ORDER,
         # 신호 종류별 공통 정보(이름·아이콘·심각도·설명·주의)를 한 번만 싣는다.
         # 이벤트마다 같은 문장을 반복하면 홈 화면이 먼저 받는 파일이 몇 배로 커진다.
+        # ⭐ 2026-08-07: {threshold}가 RSI 문구 전용이 아니게 됐다(임박 신호는 MA_NEAR_GAP_PCT를
+        # 쓴다) — 타입별로 실제 기준값을 골라 넣는다. 여기 안 걸리는 타입(MACD·MA 확정 교차 등)은
+        # description에 애초에 {threshold}가 없어 값이 안 쓰이므로 0을 넣어도 무해하다.
         "defs": {t: {"label": d["label"], "group": d["group"], "icon": d["icon"],
                      "metric": d["metric"], "severity": d["severity"],
                      "description": d["description"].format(
-                         threshold=("%g" % (R.RSI_OVERSOLD if "oversold" in t else R.RSI_OVERBOUGHT)),
+                         threshold=("%g" % (
+                             R.RSI_OVERSOLD if "oversold" in t else
+                             R.RSI_OVERBOUGHT if "overbought" in t else
+                             R.MA_NEAR_GAP_PCT if "near" in t else 0)),
                          vol_days=R.VOL_AVG_DAYS, mult=("%g" % R.VOL_SPIKE_MULT)),
                      "caution": d["caution"]}
                  for t, d in R.SIGNAL_DEFS.items()},
