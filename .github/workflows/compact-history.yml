@@ -1,0 +1,80 @@
+# 개오 애널리스트팀 — 저장소 용량 관리(오래된 데이터 스냅샷 이력 자동 정리)
+#
+# 배경: analysis_data.json·history.js·price_history.js 같은 자동 생성 파일은 장중 10분마다
+# 통째로 다시 커밋된다(update-analysis.yml/update-prices.yml). 화면에는 항상 "지금 이 순간의
+# 최신 버전"만 쓰이고 3주 전 스냅샷을 다시 볼 일은 없는데, git은 기본적으로 모든 버전을
+# 영원히 기억하기 때문에 이 스냅샷들이 계속 쌓여 저장소 용량이 끝없이 불어난다
+# (실측: 저장소 생성 1개월 만에 500MB 이상, 이 페이스면 자산군을 늘릴수록 더 빨리 불어난다).
+#
+# 이 워크플로우가 하는 일: 한 달에 한 번, "30일보다 오래된 커밋들"을 하나의 커밋으로
+# 합쳐서 그 이전 스냅샷들의 무게만 덜어낸다. main 브랜치에 지금 보이는 화면·글(뉴스분석·
+# 정밀분석·공부 콘텐츠 등)은 전혀 바뀌지 않는다 — HEAD(가장 최신 상태)의 파일 내용은
+# 정리 전후로 완전히 동일하다(로컬에서 md5sum으로 직접 검증함). 오직 "과거 버전들을
+# 얼마나 세세하게 git이 따로따로 기억하고 있느냐"만 줄어드는 것뿐이다.
+#
+# 기법: git replace --graft(특정 커밋을 "부모 없는 시작점"으로 만듦 — diff를 다시 적용하는
+# 게 아니라 트리 내용은 그대로 두고 연결만 끊는 방식이라 병합 커밋이 섞여 있어도 절대
+# 충돌이 안 난다) + git filter-branch(그 연결 끊기를 실제로 반영해 이전 버전 데이터를
+# 커밋 그래프에서 떼어냄) + git gc(떼어낸 데이터를 실제로 디스크에서 비움).
+# ⚠️ main 브랜치만 건드린다(-- main으로 범위 한정) — 다른 브랜치·태그는 손대지 않는다.
+#
+# 실행 시각(매달 1일 19:00 UTC = 한국시간 매달 2일 04:00)은 국내 주식시장이 절대 열려
+# 있지 않은 새벽으로 골랐다 — update-analysis.yml/update-prices.yml이 장중(09:00~16:05 KST)
+# 마다 main에 커밋하는 것과 시간이 겹쳐 충돌할 걱정이 없다.
+
+name: compact-history
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 19 1 * *"
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: 30일보다 오래된 기록을 하나로 합치기
+        env:
+          FILTER_BRANCH_SQUELCH_WARNING: "1"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          echo "── 정리 전 저장소 용량 ──"
+          git count-objects -vH
+
+          CUTOFF=$(git log --before="30 days ago" -1 --format=%H main || true)
+          if [ -z "$CUTOFF" ]; then
+            echo "30일보다 오래된 커밋이 없음 — 정리할 게 없어 종료"
+            exit 0
+          fi
+          # 이미 그 지점이 부모 없는 루트면(=지난달에 이미 여기까지 정리했으면) 또 할 필요 없다.
+          PARENTS=$(git rev-list --parents -n1 "$CUTOFF" | cut -s -d' ' -f2-)
+          if [ -z "$PARENTS" ]; then
+            echo "기준 커밋이 이미 정리된 시작점 — 종료"
+            exit 0
+          fi
+
+          echo "기준 커밋: $CUTOFF ($(git log -1 --format=%ai "$CUTOFF"))"
+          echo "이 시점 이전 기록을 하나로 합칩니다(화면에 보이는 내용은 안 바뀜)."
+
+          git replace --graft "$CUTOFF"
+          git filter-branch -f -- main
+
+          rm -rf .git/refs/original/
+          git reflog expire --expire=now --all
+          git gc --prune=now
+
+          echo "── 정리 후 저장소 용량 ──"
+          git count-objects -vH
+
+          git push --force-with-lease origin main
