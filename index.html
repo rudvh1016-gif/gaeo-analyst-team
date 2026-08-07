@@ -5949,6 +5949,27 @@ function maComboHTML(t,unit){
     lines.push(`현재가 <b>${won(price)}</b> 기준으로 ${parts.join(', ')}에 있어요. 기간마다 평가가 갈리는 전환 구간이에요.`);
   }
 
+  // ①-보조 골든크로스·데드크로스 — compute_indicators.py가 계산해둔 cross5_20/cross20_60을
+  // 그대로 문장으로 옮긴다(2026-08-07). 최근에 실제로 선이 뚫고 지나갔으면 그 사실을,
+  // 아직 안 뚫렸어도 두 선이 눈에 띄게 좁혀지는 중이면 "임박" 가능성을 미리 알려준다.
+  const crossLine=(c,shortName,longName)=>{
+    if(!c) return null;
+    if(c.event){
+      const verb=c.event==='golden'?'골든크로스':'데드크로스';
+      const dir=c.event==='golden'?'아래에서 위로 뚫고 올라가는':'위에서 아래로 뚫고 내려가는';
+      const tail=c.event==='golden'?'오름세로 바뀔 수 있다는 신호예요.':'내림세로 바뀔 수 있다는 신호예요.';
+      const when=c.daysAgo===0?'오늘':`${c.daysAgo}거래일 전`;
+      return `${when} ${shortName}이 ${longName}을 ${dir} <b>${verb}</b>가 나왔어요. ${tail}`;
+    }
+    if(c.near){
+      const verb=c.near==='golden'?'골든크로스':'데드크로스';
+      return `${shortName}과 ${longName}의 간격이 좁아지는 중이에요. 이대로 가면 <b>${verb} 가능성</b>이 있어요 — 실제로 뚫고 지나가는지 며칠 더 지켜보면 좋아요.`;
+    }
+    return null;
+  };
+  const cl1=crossLine(t.cross5_20,'5일선','20일선'); if(cl1) lines.push(cl1);
+  const cl2=crossLine(t.cross20_60,'20일선','60일선'); if(cl2) lines.push(cl2);
+
   // ② 단기(5·20) vs 중기(60) 조합 — 가장 실전적으로 자주 쓰는 조합
   const s5=st(5), s20=st(20), s60=st(60);
   const pairText=(a,b,map)=>(a&&b)?map[a+'_'+b]:null;
