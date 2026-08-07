@@ -62,6 +62,10 @@ def ema_series(vals, n):
 
 
 MA_SLOPE_LOOKBACK = 5   # 이동평균 기울기 판단용 lookback(거래일) — TARO 해석 규격
+CROSS_LOOKBACK = 20     # ⭐ 골든/데드크로스 감지(2026-08-07): 최근 며칠 안의 교차만 "새 소식"으로 알린다
+CROSS_NEAR_DAYS = 3     # 임박 판정 — 오늘과 며칠 전을 비교해 두 선이 좁혀지는 중인지 본다
+CROSS_NEAR_GAP_PCT = 1.2   # 두 선 간격이 이 %(현재가 대비) 이내로 좁혀져야 "임박"으로 본다
+CROSS_NEAR_SHRINK_RATIO = 0.7   # 오늘 간격이 CROSS_NEAR_DAYS 전 간격의 이 배율보다 좁아야 "좁혀지는 중"
 
 
 def indicators_for(daily):
@@ -76,6 +80,39 @@ def indicators_for(daily):
         """`period`일 평균을 최신 봉에서 `back`거래일 전 시점 기준으로 계산(기울기용)."""
         end = n - back
         return sum(closes[end - period:end]) / period if end >= period else None
+
+    # ⭐ 골든크로스/데드크로스 감지(2026-08-07 사용자 요청): 단기선(short_p)이 장기선(long_p)을
+    # 뚫고 올라가면(golden)/내려가면(dead) 각각 신호로 본다. sma_asof로 최근 CROSS_LOOKBACK
+    # 거래일치 두 선의 위치를 되짚어, ① 최근 며칠 안에 실제로 교차가 있었으면 그 사실(daysAgo)을,
+    # ② 아직 교차 전이지만 두 선 간격이 눈에 띄게 좁혀지는 중이면 "임박"(near) 신호를 돌려준다.
+    # 두 조건 다 아니면 event=None, near=None(평소와 다를 것 없는 상태).
+    def cross_signal(short_p, long_p):
+        diffs = []   # [(back, short-long, gap%)], back=0이 오늘
+        for back in range(0, CROSS_LOOKBACK + 2):
+            s, l = sma_asof(short_p, back), sma_asof(long_p, back)
+            if s is None or l is None:
+                break
+            diffs.append((back, s - l, (s / l - 1) * 100 if l else None))
+        if len(diffs) < 2:
+            return {"event": None, "daysAgo": None, "near": None}
+        for i in range(len(diffs) - 1):
+            back, diff, _ = diffs[i]
+            _, prevDiff, _ = diffs[i + 1]
+            if not diff or not prevDiff:
+                continue
+            if (diff > 0) != (prevDiff > 0):   # 부호가 바뀐 지점 = 그 사이 교차 발생
+                if back > CROSS_LOOKBACK:
+                    break
+                return {"event": ("golden" if diff > 0 else "dead"), "daysAgo": back, "near": None}
+        cur_gap, ref_gap = diffs[0][2], diffs[min(CROSS_NEAR_DAYS, len(diffs) - 1)][2]
+        if cur_gap is None or ref_gap is None or cur_gap == 0 or ref_gap == 0:
+            return {"event": None, "daysAgo": None, "near": None}
+        same_side = (cur_gap > 0) == (ref_gap > 0)
+        narrowing = abs(cur_gap) < abs(ref_gap) * CROSS_NEAR_SHRINK_RATIO
+        close_enough = abs(cur_gap) < CROSS_NEAR_GAP_PCT
+        if same_side and narrowing and close_enough:
+            return {"event": None, "daysAgo": None, "near": ("dead" if cur_gap > 0 else "golden")}
+        return {"event": None, "daysAgo": None, "near": None}
 
     def ma_block(period):
         # ⭐ 2026-08-06: period일치가 없다고 "데이터 부족"으로 숨기지 않는다. 대신 있는 만큼
@@ -100,6 +137,8 @@ def indicators_for(daily):
     ma60, ma60Gap, ma60Slope, ma60Days, ma60Full = ma_block(60)
     ma120, ma120Gap, ma120Slope, ma120Days, ma120Full = ma_block(120)
     ma200, ma200Gap, ma200Slope, ma200Days, ma200Full = ma_block(200)
+    cross5_20 = cross_signal(5, 20)
+    cross20_60 = cross_signal(20, 60)
     gains, losses = [], []
     for i in range(1, len(closes)):
         ch = closes[i] - closes[i - 1]
@@ -121,6 +160,7 @@ def indicators_for(daily):
         "ma60": ma60, "ma60Gap": ma60Gap, "ma60Slope": ma60Slope, "ma60Days": ma60Days, "ma60Full": ma60Full,
         "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope, "ma120Days": ma120Days, "ma120Full": ma120Full,
         "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope, "ma200Days": ma200Days, "ma200Full": ma200Full,
+        "cross5_20": cross5_20, "cross20_60": cross20_60,
         "rsi14": round(rsi, 1),
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
