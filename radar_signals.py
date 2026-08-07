@@ -252,13 +252,13 @@ SIGNAL_DEFS = {
         "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요.",
     },
     "ma_golden_cross": {
-        "label": "MA20·60 골든크로스", "group": "extra", "severity": "mid", "icon": "▲",
+        "label": "MA20·60 골든크로스", "group": "main", "severity": "mid", "icon": "▲",
         "metric": "MA20−MA60",
         "description": "20일 이동평균선이 60일선을 위로 통과했어요(중기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요.",
     },
     "ma_dead_cross": {
-        "label": "MA20·60 데드크로스", "group": "extra", "severity": "mid", "icon": "▼",
+        "label": "MA20·60 데드크로스", "group": "main", "severity": "mid", "icon": "▼",
         "metric": "MA20−MA60",
         "description": "20일 이동평균선이 60일선을 아래로 통과했어요(중기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요.",
@@ -267,37 +267,37 @@ SIGNAL_DEFS = {
     # compute_indicators.py의 cross5_20/cross20_60(종목 상세 화면용)과 같은 개념을
     # 레이더(전 종목 스캔)에도 넣어달라는 요청으로 추가했다.
     "ma5_20_golden_cross": {
-        "label": "MA5·20 골든크로스", "group": "extra", "severity": "low", "icon": "▲",
+        "label": "MA5·20 골든크로스", "group": "main", "severity": "low", "icon": "▲",
         "metric": "MA5−MA20",
         "description": "5일 이동평균선이 20일선을 위로 통과했어요(단기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요.",
     },
     "ma5_20_dead_cross": {
-        "label": "MA5·20 데드크로스", "group": "extra", "severity": "low", "icon": "▼",
+        "label": "MA5·20 데드크로스", "group": "main", "severity": "low", "icon": "▼",
         "metric": "MA5−MA20",
         "description": "5일 이동평균선이 20일선을 아래로 통과했어요(단기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요.",
     },
     "ma5_20_cross_near_golden": {
-        "label": "MA5·20 골든크로스 임박", "group": "extra", "severity": "low", "icon": "▲",
+        "label": "MA5·20 골든크로스 임박", "group": "main", "severity": "low", "icon": "▲",
         "metric": "간격(%)",
         "description": "5일선이 아직 20일선 아래지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
         "caution": "실제로 뚫고 올라가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
     },
     "ma5_20_cross_near_dead": {
-        "label": "MA5·20 데드크로스 임박", "group": "extra", "severity": "low", "icon": "▼",
+        "label": "MA5·20 데드크로스 임박", "group": "main", "severity": "low", "icon": "▼",
         "metric": "간격(%)",
         "description": "5일선이 아직 20일선 위지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
         "caution": "실제로 뚫고 내려가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
     },
     "ma20_60_cross_near_golden": {
-        "label": "MA20·60 골든크로스 임박", "group": "extra", "severity": "mid", "icon": "▲",
+        "label": "MA20·60 골든크로스 임박", "group": "main", "severity": "mid", "icon": "▲",
         "metric": "간격(%)",
         "description": "20일선이 아직 60일선 아래지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
         "caution": "실제로 뚫고 올라가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
     },
     "ma20_60_cross_near_dead": {
-        "label": "MA20·60 데드크로스 임박", "group": "extra", "severity": "mid", "icon": "▼",
+        "label": "MA20·60 데드크로스 임박", "group": "main", "severity": "mid", "icon": "▼",
         "metric": "간격(%)",
         "description": "20일선이 아직 60일선 위지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
         "caution": "실제로 뚫고 내려가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
@@ -305,16 +305,19 @@ SIGNAL_DEFS = {
 }
 
 # 홈 화면 분류 카드 순서 (main 그룹만 개별 카드, extra는 '기타 변화'로 묶는다)
+# ⭐ 2026-08-07: 이동평균 교차·임박 신호(MA20·60, MA5·20 둘 다)는 "기타 변화"에 묻어두기엔
+# 아쉽다는 요청으로 main으로 승격했다 — MACD 교차만 기타에 남긴다.
 MAIN_ORDER = [
     "rsi_oversold_entry", "rsi_oversold_exit",
     "bb_lower_break", "volume_spike",
     "rsi_overbought_entry", "rsi_overbought_exit",
     "bb_lower_recover", "bb_upper_break", "bb_upper_recover",
+    "ma_golden_cross", "ma_dead_cross",
+    "ma5_20_golden_cross", "ma5_20_dead_cross",
+    "ma20_60_cross_near_golden", "ma20_60_cross_near_dead",
+    "ma5_20_cross_near_golden", "ma5_20_cross_near_dead",
 ]
-EXTRA_ORDER = ["macd_golden_cross", "macd_dead_cross", "ma_golden_cross", "ma_dead_cross",
-               "ma5_20_golden_cross", "ma5_20_dead_cross",
-               "ma20_60_cross_near_golden", "ma20_60_cross_near_dead",
-               "ma5_20_cross_near_golden", "ma5_20_cross_near_dead"]
+EXTRA_ORDER = ["macd_golden_cross", "macd_dead_cross"]
 
 # 한 종목에서 여러 신호가 겹쳤을 때 "대표 신호"를 고르는 순서(앞일수록 우선)
 REPRESENTATIVE_ORDER = [
