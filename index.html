@@ -6714,9 +6714,12 @@ function rdExtraChart(series){
     `<path d="${rdPath(series.sig,px,py)}" fill="none" stroke="${RD_COL.sig}" stroke-width="1.4" stroke-dasharray="4 3"/>`+
     rdXTicks(series,px,H)+`</svg>`;
 }
+// ⭐ 2026-08-07: 범례 라벨(MACD·시그널선·MA20·MA60·RSI 등)을 탭/클릭하면 뜻을 보여주는
+// 용어사전 팝업이 뜨도록 term()으로 감싼다(GLOSSARY에 이미 정의된 단어만 자동으로 걸린다 —
+// esc() 대신 써도 안전한 건 라벨이 우리가 직접 넣는 고정 문자열이라 사용자 입력이 아니라서다).
 function rdLegend(items){
   return `<div class="rd-legend">${items.map(x=>
-    `<span><i class="${x.cls||''}" style="${x.cls==='box'?'background:':'border-top-color:'}${x.color}"></i>${esc(x.label)}</span>`).join('')}</div>`;
+    `<span><i class="${x.cls||''}" style="${x.cls==='box'?'background:':'border-top-color:'}${x.color}"></i>${term(x.label)}</span>`).join('')}</div>`;
 }
 // 어제 → 오늘 비교표 (숫자를 한꺼번에 쏟아내지 않도록 4줄로 제한)
 function rdCompareTable(series,events){
@@ -6798,11 +6801,11 @@ function renderRadarDetail(code){
       rdLegend([{label:'일별 거래량',color:RD_COL.vol,cls:'box'},{label:'20일 평균',color:RD_COL.avg,cls:'dash'},
                 {label:'평균의 2배 이상',color:RD_COL.mark,cls:'box'}])+`</div>`;
     const extra=`<button class="rd-toggle" type="button" id="rdExtraBtn" aria-expanded="false" aria-controls="rdExtra">MACD·이동평균 차트 보기</button>`+
-      `<div class="rd-extra" id="rdExtra"><div class="rd-chart"><h4>MACD${rdHasMa(S)?' · 이동평균':''}</h4>`+
+      `<div class="rd-extra" id="rdExtra"><div class="rd-chart"><h4>${term('MACD')}${rdHasMa(S)?' · 이동평균':''}</h4>`+
       `<p class="rd-hint">MACD가 시그널선을 위로 지나면 골든크로스, 아래로 지나면 데드크로스예요.`+
       (rdHasMa(S)?'':' (MA60은 60거래일 평균이라 이 기간에는 표시할 만큼 계산되지 않았어요.)')+`</p>`+
       `<div class="rd-svg-wrap">${rdExtraChart(S)}</div>`+
-      rdLegend([{label:'MACD',color:RD_COL.macd},{label:'시그널',color:RD_COL.sig,cls:'dash'}]
+      rdLegend([{label:'MACD',color:RD_COL.macd},{label:'시그널선',color:RD_COL.sig,cls:'dash'}]
         .concat(rdHasMa(S)?[{label:'MA20',color:RD_COL.mid},{label:'MA60',color:RD_COL.ma60}]:[]))+`</div></div>`;
     el.innerHTML=head+desc+charts+rdCompareTable(S,events)+extra+note;
     const btn=document.getElementById('rdExtraBtn'), box=document.getElementById('rdExtra');
