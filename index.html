@@ -853,6 +853,10 @@
   .sc-chip{font-size:11.5px;font-weight:700;background:var(--bg);border-radius:99px;padding:6px 12px}
   .sc-chip b{color:var(--navy)}
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
+  .sc-v3-period{display:block;font-size:11px;font-weight:600;color:var(--dim);margin-top:3px}
+  .sc-guide-btn{margin-top:14px;border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--navy);
+    border-radius:9px;padding:8px 14px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+  .sc-guide-btn:hover{background:var(--sky-soft);filter:brightness(0.97)}
   @media(max-width:900px){
     .sc-stat-row{grid-template-columns:repeat(2,1fr)}
     .sc-call-grid{grid-template-columns:1fr}
@@ -4503,7 +4507,7 @@ function renderScorecard(){
     const reasons=(promotion.reasons||[]).map(reason=>`<li>${esc(reason)}</li>`).join('');
     const status=promotion.qualified?'승격 기준 통과':'그림자 평가 중';
     modelDive=`<div class="sc-block">
-      <h3>🧪 종합판단 v3: ${status}</h3>
+      <h3>🧪 종합판단 v3: ${status}<span class="sc-v3-period">(2026년 8월4일 시작 · 예상 시행까지 최소 2개월 안팎)</span></h3>
       <p class="sc-sub">점수 확률교정, 분석가 오답 중복 보정, 시장국면 가중치, 상대강도, 수급 품질과 강화된 HOLD 기준을 기존 공식과 나란히 검증합니다. 실제 일별 그림자 판정이 기준을 통과하기 전에는 BUY·HOLD·SELL을 바꾸지 않습니다.</p>
       <div class="sc-stat-row">
         <div class="sc-stat"><b>${forward.n||0}</b><span>실제 그림자 표본</span></div>
@@ -4516,6 +4520,7 @@ function renderScorecard(){
       ${reasons?`<div class="sc-explain"><b>아직 승격하지 않는 이유</b><ul>${reasons}</ul></div>`:
         '<div class="sc-team-note">검증 기준을 모두 통과해 다음 자동분석부터 v3 공식이 실전 판단으로 승격됩니다.</div>'}
       <div class="sc-foot-note">확률오차는 Brier 점수로 낮을수록 좋습니다. 과거 자료는 시간순 앞 70%로 학습하고 뒤 30%에서 검사하며, 실전 승격에는 최소 40거래일과 500건의 전진검증을 요구합니다.</div>
+      <button class="sc-guide-btn" type="button">📖 이게 뭔지 설명 보기</button>
     </div>`;
   }
 
@@ -4532,10 +4537,22 @@ function renderScorecard(){
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
 document.getElementById('scorecardView').addEventListener('click', e=>{
+  const guideBtn=e.target.closest('.sc-guide-btn');
+  if(guideBtn){ goToGuideSection('gb-sec-modelv3'); return; }
   const btn=e.target.closest('.sc-week-btn'); if(!btn||btn.disabled) return;
   SC_WEEK_OFFSET=Math.max(0, SC_WEEK_OFFSET+(+btn.dataset.scDir));
   renderScorecard();
 });
+// 🧪 종합판단 v3 카드의 "설명 보기" 버튼 → 가이드북의 해당 설명 섹션으로 이동해 펼쳐 보여준다.
+function goToGuideSection(anchorId){
+  setMode('guide');
+  requestAnimationFrame(()=>{
+    const sec=document.getElementById(anchorId);
+    if(!sec) return;
+    sec.open=true;
+    sec.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
 
 /* ============================================================
    월간 캘린더 + 성적표 (history + 종목 events)
@@ -7792,8 +7809,8 @@ function renderGuide(){
     </div>
   </details>
 
-  <details class="gb-sec">
-    <summary>🧪 종합판단 v3 연구실: 왜 새 정확도 장치를 시험하나요?</summary>
+  <details class="gb-sec" id="gb-sec-modelv3">
+    <summary>🧪 종합판단 v3 연구실: 왜 새 정확도 장치를 시험하나요? (2026년 8월4일 시작 · 예상 시행까지 최소 2개월 안팎)</summary>
     <div class="gb-body">
       <b>먼저, 왜 이 작업을 시작했나요?</b><br>
       예전 방식은 네 분석가의 점수를 적중률에 따라 가중 평균하는 데 집중했습니다. 이것도 단순 평균보다 낫지만,
