@@ -467,7 +467,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2483,
+   "graded": 2482,
    "globalBlend": 0.25
   },
   "지주·상사": {
@@ -886,9 +886,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 47,
-     "acc": 59.6,
-     "adjustedAcc": 52.7,
+     "n": 48,
+     "acc": 60.4,
+     "adjustedAcc": 53.0,
      "days": 20,
      "deadband": 3.0
     },
@@ -907,7 +907,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 484,
+   "graded": 485,
    "globalBlend": 0.623
   },
   "식음료": {
