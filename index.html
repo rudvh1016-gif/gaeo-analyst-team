@@ -1269,8 +1269,9 @@
   .vev-arrow{flex:0 0 auto;color:var(--faint);transition:transform .2s;font-size:11px}
   .vev-item[open] .vev-arrow{transform:rotate(180deg)}
   .vev-body{padding:0 15px 15px;font-size:12.5px;line-height:1.75;color:var(--t2);word-break:keep-all}
-  .vev-body p{margin:8px 0 0}
+  .vev-body p{margin:8px 0 0;font-size:12.5px}
   .vev-body p:first-child{margin-top:0}
+  .vev-body p b{font-weight:800;color:var(--ink)}
   .vev-findings{margin:8px 0 0;padding:0;list-style:none}
   .vev-findings li{position:relative;padding:3px 0 3px 13px;font-size:12px;line-height:1.6}
   .vev-findings li::before{content:'·';position:absolute;left:2px;font-weight:900;color:var(--faint)}
@@ -1278,6 +1279,15 @@
   .vfoot-notice{margin-top:22px;padding:14px 16px;background:var(--paper2);border-radius:12px;
     font-size:12px;line-height:1.7;color:var(--t3)}
   .vfoot-notice b{color:var(--ink)}
+
+  /* 🔍 "분석 확인 중" — 분석가별 근거/종합 판단/레이더 변화 탭에 결과가 채워지기 전
+     빈 화면으로 보이지 않도록 로딩 상태를 명시한다(2026-08-07). */
+  .tab-checking{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:12px;padding:56px 20px;color:var(--dim);font-size:13px;font-weight:700;letter-spacing:.01em}
+  .tab-checking .tc-spin{width:22px;height:22px;border-radius:50%;
+    border:2.5px solid var(--line);border-top-color:var(--sky);animation:tcspin .85s linear infinite}
+  @keyframes tcspin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){ .tab-checking .tc-spin{animation:none;border-top-color:var(--line)} }
 
   .foot{margin-top:28px;color:var(--dim);font-size:12px;line-height:1.7;
     border-top:1px solid var(--line);padding-top:18px}
@@ -2685,6 +2695,7 @@
   .analysis-tab-empty{padding:34px 24px;border:1px dashed var(--gaeo-border);border-radius:18px;
     background:var(--paper);color:var(--gaeo-muted);font-size:12.5px;line-height:1.65;text-align:center}
   #analysisPanelRadar:has(.radar-detail.on) .analysis-tab-empty{display:none}
+  #analysisPanelRadar.checking .analysis-tab-empty{display:none}
   .stage.analysis-finished{display:none}
   @keyframes analysisPanelIn{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
 
@@ -3497,11 +3508,13 @@
           <button class="analyst-tab" id="analystTabFlow" type="button" role="tab" aria-selected="false" data-analyst-tab="flow">수급</button>
           <button class="analyst-tab" id="analystTabRisk" type="button" role="tab" aria-selected="false" data-analyst-tab="risk">리스크</button>
         </div>
+        <div class="tab-checking" id="agentsChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="cards" id="cards"></div>
         <div class="viz" id="viz"></div>
       </section>
 
       <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
+        <div class="tab-checking" id="verdictChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="verdict" id="verdict">
           <div class="analysis-eyebrow">개오팀 종합 판단 <button type="button" class="eval-rule" data-eval-rule="chief" aria-haspopup="dialog" aria-expanded="false">4인 보정 가중합 · RISK 감점 후 최종</button></div>
 
@@ -3546,6 +3559,7 @@
       </section>
 
       <section class="analysis-tab-panel" id="analysisPanelRadar" role="tabpanel" aria-labelledby="analysisTabRadar" data-analysis-panel="radar" hidden>
+        <div class="tab-checking" id="radarChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="radar-detail" id="radarDetail"></div>
         <div class="analysis-tab-empty">최근 레이더에서 새롭게 포착된 변화가 없어요. 판단 근거는 다른 탭에서 그대로 확인할 수 있어요.</div>
       </section>
@@ -7975,6 +7989,12 @@ async function analyze(){
   document.getElementById('run').disabled=true; vEl.classList.remove('on');
   document.getElementById('viz').classList.remove('on');
   { const rd=document.getElementById('radarDetail'); if(rd){ rd.classList.remove('on'); rd.innerHTML=''; } }
+  // 🔍 새 분석을 시작할 때마다 "분석 확인 중" 표시를 다시 켠다(이전 종목 결과가
+  // 남아있는 상태로 텅 비어 보이지 않게).
+  ['agentsChecking','verdictChecking','radarChecking'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='';
+  });
+  { const rp=document.getElementById('analysisPanelRadar'); if(rp) rp.classList.add('checking'); }
   const data=runAnalysis(stock);
   makeCards(!!data._live);
   cardsEl.classList.add('busy');            // 스켈레톤(시머) 표시 시작
@@ -7984,7 +8004,9 @@ async function analyze(){
     const a=AGENTS.find(x=>x.id===id);
     sendToWork(a,3200+Math.random()*2200,()=>{
       fillCard(a,data[a.id],stock.code);
-      if(++done===4){ cardsEl.classList.remove('busy'); renderRiskCard(stock.code,data); runChief(); }
+      if(++done===4){ cardsEl.classList.remove('busy');
+        { const el=document.getElementById('agentsChecking'); if(el) el.style.display='none'; }
+        renderRiskCard(stock.code,data); runChief(); }
     });
   });
   const cleanAnalysisCopy=value=>String(value??'')
@@ -8017,9 +8039,20 @@ async function analyze(){
         `<div class="vev-body"><p>${SIGNUM(wrapGloss(cleanFn(summary)))}</p>${restHTML}</div></details>`;
     };
     const axesHTML=VIZ_AXES.map(axisItem).join('');
+    // ⭐ 2026-08-07: v.text/v.report는 서버가 마침표로 문장을 구분해 만든 문자열인데,
+    // 통짜 한 문단으로 넣으면 읽기 힘들다. 문장 단위(.!?)로 쪼개 한 문장 = 한 문단으로
+    // 보여준다 — 원문 내용은 그대로, 줄바꿈만 추가한다(글자 하나 지우거나 새로 짓지 않음).
+    // .!? 뒤에 공백이 있을 때만 문장 경계로 본다 — "+9.3%"처럼 숫자 사이 소수점은
+    // 뒤에 공백이 없으니 쪼개지지 않는다(문장은 항상 "마침표+공백"으로 이어져 있다).
+    const splitSentences=text=>String(text||'').trim().split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+    // ⭐ 2026-08-07: 문장을 문단으로 나눠도 다 똑같은 굵기라 핵심 축 이름(기술/재무/퀀트/수급/RISK)과
+    // 결론(BUY/SELL/HOLD)이 눈에 안 띈다는 피드백 → 해당 단어만 굵게(<b>) 감싸서 훑어읽기 쉽게 한다.
+    // 새 문장을 짓지 않고 원문 그대로에 굵기 태그만 추가한다.
+    const NARRATIVE_BOLD_RE=/(RISK|퀀트|기술|재무|수급|HOLD|BUY|SELL)/g;
+    const boldKeyTerms=text=>String(text||'').replace(NARRATIVE_BOLD_RE,'<b>$1</b>');
     const narrativeParts=[];
-    if(v.text) narrativeParts.push(`<p>${SIGNUM(cleanFn(v.text))}</p>`);
-    if(v.report) narrativeParts.push(`<p>${SIGNUM(cleanFn(v.report))}</p>`);
+    splitSentences(v.text).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
+    splitSentences(v.report).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
     const narrative=narrativeParts.length
       ? `<details class="vev-item"><summary class="vev-summary">`+
           `<span class="vev-summary-name">종합 서술 전문</span>`+
@@ -8101,8 +8134,11 @@ async function analyze(){
       document.getElementById('vevidence').innerHTML=verdictEvidenceHTML(data,v,stock,cleanAnalysisCopy);
       // 7. 최근 판단 변화
       renderViz(data,stock.code,v); renderHistory(stock.code, stock.price);
+      { const el=document.getElementById('verdictChecking'); if(el) el.style.display='none'; }
       // 📡 레이더가 이 종목에서 잡아낸 변화가 있으면 기존 분석 화면 아래에 카드로 덧붙인다
       try{ renderRadarDetail(stock.code); }catch(e){ console.warn('radar detail', e); }
+      { const el=document.getElementById('radarChecking'); if(el) el.style.display='none'; }
+      { const rp=document.getElementById('analysisPanelRadar'); if(rp) rp.classList.remove('checking'); }
       vEl.classList.add('on');
       document.getElementById('analysisStage').classList.add('analysis-finished');
       if(window.__gaeoNoAutoScroll){

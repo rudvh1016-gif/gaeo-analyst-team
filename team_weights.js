@@ -467,7 +467,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2486,
+   "graded": 2487,
    "globalBlend": 0.25
   },
   "지주·상사": {
