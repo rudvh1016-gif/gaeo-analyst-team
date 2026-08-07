@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-07 11:25",
+ "generatedAt": "2026-08-07 11:26",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -28,7 +28,7 @@ const TEAM_WEIGHTS = {
   "weights": {
    "taro": 0.278,
    "diana": 0.084,
-   "nova": 0.3503,
+   "nova": 0.3504,
    "flow": 0.2877
   },
   "acc": {
@@ -40,8 +40,8 @@ const TEAM_WEIGHTS = {
     "deadband": 1.0
    },
    "diana": {
-    "n": 2100,
-    "acc": 44.0,
+    "n": 2099,
+    "acc": 43.9,
     "adjustedAcc": 44.3,
     "days": 20,
     "deadband": 3.0
@@ -61,11 +61,11 @@ const TEAM_WEIGHTS = {
     "deadband": 1.0
    }
   },
-  "graded": 19896,
+  "graded": 19895,
   "team": {
-   "hit": 6123,
+   "hit": 6124,
    "miss": 1909,
-   "n": 8032,
+   "n": 8033,
    "acc": 76.2
   }
  },
@@ -114,7 +114,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.3007,
     "diana": 0.0826,
-    "nova": 0.3306,
+    "nova": 0.3307,
     "flow": 0.2861
    },
    "acc": {
@@ -194,7 +194,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2922,
     "diana": 0.0828,
-    "nova": 0.3669,
+    "nova": 0.367,
     "flow": 0.2581
    },
    "acc": {
@@ -234,7 +234,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2745,
     "diana": 0.0895,
-    "nova": 0.3421,
+    "nova": 0.3422,
     "flow": 0.2938
    },
    "acc": {
@@ -274,7 +274,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2679,
     "diana": 0.1168,
-    "nova": 0.3318,
+    "nova": 0.3319,
     "flow": 0.2834
    },
    "acc": {
@@ -314,7 +314,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2885,
     "diana": 0.0819,
-    "nova": 0.3698,
+    "nova": 0.3699,
     "flow": 0.2598
    },
    "acc": {
@@ -394,7 +394,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2793,
     "diana": 0.0989,
-    "nova": 0.3354,
+    "nova": 0.3355,
     "flow": 0.2864
    },
    "acc": {
@@ -434,7 +434,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2797,
     "diana": 0.0994,
-    "nova": 0.3481,
+    "nova": 0.3482,
     "flow": 0.2728
    },
    "acc": {
@@ -467,14 +467,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2487,
+   "graded": 2486,
    "globalBlend": 0.25
   },
   "지주·상사": {
    "weights": {
     "taro": 0.2778,
     "diana": 0.0983,
-    "nova": 0.3661,
+    "nova": 0.3662,
     "flow": 0.2578
    },
    "acc": {
@@ -514,7 +514,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2747,
     "diana": 0.0869,
-    "nova": 0.3457,
+    "nova": 0.3458,
     "flow": 0.2926
    },
    "acc": {
@@ -554,7 +554,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2771,
     "diana": 0.0897,
-    "nova": 0.3433,
+    "nova": 0.3434,
     "flow": 0.2899
    },
    "acc": {
@@ -594,7 +594,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2868,
     "diana": 0.0952,
-    "nova": 0.336,
+    "nova": 0.3361,
     "flow": 0.282
    },
    "acc": {
@@ -634,7 +634,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2781,
     "diana": 0.0824,
-    "nova": 0.3429,
+    "nova": 0.343,
     "flow": 0.2966
    },
    "acc": {
@@ -674,7 +674,7 @@ const TEAM_WEIGHTS = {
    "weights": {
     "taro": 0.2775,
     "diana": 0.0993,
-    "nova": 0.3278,
+    "nova": 0.3279,
     "flow": 0.2954
    },
    "acc": {
@@ -832,10 +832,10 @@ const TEAM_WEIGHTS = {
   },
   "게임·엔터": {
    "weights": {
-    "taro": 0.2677,
+    "taro": 0.2676,
     "diana": 0.0827,
     "nova": 0.3489,
-    "flow": 0.3008
+    "flow": 0.3007
    },
    "acc": {
     "taro": {
@@ -872,10 +872,10 @@ const TEAM_WEIGHTS = {
   },
   "로봇": {
    "weights": {
-    "taro": 0.2816,
-    "diana": 0.0944,
-    "nova": 0.36,
-    "flow": 0.264
+    "taro": 0.2817,
+    "diana": 0.0941,
+    "nova": 0.3602,
+    "flow": 0.2641
    },
    "acc": {
     "taro": {
@@ -886,9 +886,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 48,
-     "acc": 60.4,
-     "adjustedAcc": 53.0,
+     "n": 47,
+     "acc": 59.6,
+     "adjustedAcc": 52.7,
      "days": 20,
      "deadband": 3.0
     },
@@ -907,14 +907,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 485,
+   "graded": 484,
    "globalBlend": 0.623
   },
   "식음료": {
    "weights": {
     "taro": 0.2741,
     "diana": 0.1111,
-    "nova": 0.3184,
+    "nova": 0.3185,
     "flow": 0.2964
    },
    "acc": {
