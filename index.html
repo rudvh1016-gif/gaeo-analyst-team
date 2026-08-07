@@ -1269,8 +1269,9 @@
   .vev-arrow{flex:0 0 auto;color:var(--faint);transition:transform .2s;font-size:11px}
   .vev-item[open] .vev-arrow{transform:rotate(180deg)}
   .vev-body{padding:0 15px 15px;font-size:12.5px;line-height:1.75;color:var(--t2);word-break:keep-all}
-  .vev-body p{margin:8px 0 0}
+  .vev-body p{margin:8px 0 0;font-size:12.5px}
   .vev-body p:first-child{margin-top:0}
+  .vev-body p b{font-weight:800;color:var(--ink)}
   .vev-findings{margin:8px 0 0;padding:0;list-style:none}
   .vev-findings li{position:relative;padding:3px 0 3px 13px;font-size:12px;line-height:1.6}
   .vev-findings li::before{content:'·';position:absolute;left:2px;font-weight:900;color:var(--faint)}
@@ -8044,9 +8045,14 @@ async function analyze(){
     // .!? 뒤에 공백이 있을 때만 문장 경계로 본다 — "+9.3%"처럼 숫자 사이 소수점은
     // 뒤에 공백이 없으니 쪼개지지 않는다(문장은 항상 "마침표+공백"으로 이어져 있다).
     const splitSentences=text=>String(text||'').trim().split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+    // ⭐ 2026-08-07: 문장을 문단으로 나눠도 다 똑같은 굵기라 핵심 축 이름(기술/재무/퀀트/수급/RISK)과
+    // 결론(BUY/SELL/HOLD)이 눈에 안 띈다는 피드백 → 해당 단어만 굵게(<b>) 감싸서 훑어읽기 쉽게 한다.
+    // 새 문장을 짓지 않고 원문 그대로에 굵기 태그만 추가한다.
+    const NARRATIVE_BOLD_RE=/(RISK|퀀트|기술|재무|수급|HOLD|BUY|SELL)/g;
+    const boldKeyTerms=text=>String(text||'').replace(NARRATIVE_BOLD_RE,'<b>$1</b>');
     const narrativeParts=[];
-    splitSentences(v.text).forEach(s=>narrativeParts.push(`<p>${SIGNUM(cleanFn(s))}</p>`));
-    splitSentences(v.report).forEach(s=>narrativeParts.push(`<p>${SIGNUM(cleanFn(s))}</p>`));
+    splitSentences(v.text).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
+    splitSentences(v.report).forEach(s=>narrativeParts.push(`<p>${SIGNUM(boldKeyTerms(cleanFn(s)))}</p>`));
     const narrative=narrativeParts.length
       ? `<details class="vev-item"><summary class="vev-summary">`+
           `<span class="vev-summary-name">종합 서술 전문</span>`+
