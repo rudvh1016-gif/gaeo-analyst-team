@@ -456,7 +456,7 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False):
                  else "균등 가중치로 합산했습니다. ")
               + risk_text
               + (" 분석축 간 편차가 커 신중한 접근이 필요합니다." if spread >= 30 else " 분석축 간 시각이 대체로 일치합니다."))
-    report = (f"이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. "
+    report = (f"이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. "
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. "
@@ -585,7 +585,7 @@ def main():
 
     out["marketInsight"] = build_market_insight(out, ind)
     body = json.dumps(out, ensure_ascii=False, indent=1)
-    js = ("// 자동 생성: analyze_auto.py · 심부름꾼(러너) 규칙 기반 자동분석 (Claude 토큰 0)\n"
+    js = ("// 자동 생성: analyze_auto.py · GAEO 자동 분석(러너) 규칙 기반 (Claude 토큰 0)\n"
           "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"
           "// 정밀을 우선하고, 오래되면(기준가 대비 시세가 벌어지면) 이 자동분석을 표시한다.\n"
           "const LIVE_AUTO = " + body + ";\n")
