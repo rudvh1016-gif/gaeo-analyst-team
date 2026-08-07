@@ -3093,15 +3093,27 @@
   .rd-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
   .rd-head h3{margin:0;font-size:17px;font-weight:820;letter-spacing:-.03em;color:var(--gaeo-ink)}
   .rd-head .rd-asof{font-size:10.5px;color:var(--gaeo-muted);text-align:right;line-height:1.5}
+  .rd-intro{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--gaeo-canvas);
+    font-size:11.5px;line-height:1.7;color:var(--gaeo-muted);word-break:keep-all}
   .rd-sigs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .rd-sig{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--gaeo-100);
     border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-950);font-size:12px;font-weight:750}
   html.gdark .rd-sig{color:var(--gaeo-ink)}
-  .rd-desc{margin-top:14px;padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:14px;
-    background:var(--gaeo-canvas);font-size:12.5px;line-height:1.75;color:var(--gaeo-ink);word-break:keep-all}
-  .rd-desc b{color:var(--color-text-primary)}
-  html.gdark .rd-desc b{color:var(--gaeo-700)}
-  .rd-desc .rd-caution{display:block;margin-top:8px;font-size:11.5px;color:var(--gaeo-muted)}
+  /* 📌 현재 흐름 종합 해석 카드 */
+  .rd-summary{margin-top:14px;padding:14px 16px;border:1px solid var(--gaeo-100);border-radius:14px;
+    background:var(--gaeo-50);word-break:keep-all}
+  html.gdark .rd-summary{background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
+  .rd-summary-t{font-size:11.5px;font-weight:800;color:var(--gaeo-700);margin-bottom:4px}
+  .rd-summary p{margin:0;font-size:12.5px;line-height:1.75;color:var(--gaeo-ink)}
+  /* 개별 신호 해석 카드(현재 상태 → 의미 → 주의점) */
+  .rd-events{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+  .rd-event-card{padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:14px;
+    background:var(--gaeo-canvas);word-break:keep-all}
+  .rd-event-head{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:var(--gaeo-ink)}
+  .rd-event-val{font-weight:650;color:var(--gaeo-muted);margin-left:auto;font-size:11.5px}
+  .rd-event-body{margin-top:7px;font-size:12px;line-height:1.75;color:var(--gaeo-ink)}
+  .rd-event-body b{color:var(--color-text-primary)}
+  html.gdark .rd-event-body b{color:var(--gaeo-700)}
   .rd-chart{margin-top:18px}
   .rd-chart h4{margin:0 0 4px;font-size:13px;font-weight:790;color:var(--gaeo-ink)}
   .rd-chart .rd-hint{margin:0 0 8px;font-size:11px;line-height:1.55;color:var(--gaeo-muted);word-break:keep-all}
@@ -3114,13 +3126,14 @@
   .rd-legend i.box{height:9px;border:0;border-radius:2px}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
     clip:rect(0 0 0 0);white-space:nowrap;border:0}
-  .rd-table-wrap{margin-top:18px;overflow-x:auto}
-  .rd-table{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
-  .rd-table th,.rd-table td{padding:9px 10px;border-bottom:1px solid var(--gaeo-border);text-align:right;
-    font-variant-numeric:tabular-nums;color:var(--gaeo-ink);white-space:nowrap}
-  .rd-table th{font-size:10.5px;font-weight:750;color:var(--gaeo-muted);background:var(--gaeo-canvas)}
-  .rd-table th:first-child,.rd-table td:first-child{text-align:left;font-weight:720}
-  .rd-table td:last-child{color:var(--gaeo-700);font-weight:720;white-space:normal}
+  /* 어제 → 오늘 비교 카드(항목·이전→현재·변화·해석) — 좁은 화면에서도 안 잘리게 표 대신 카드로 */
+  .rd-cmp-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+  .rd-cmp-card{padding:12px 14px;border:1px solid var(--gaeo-border);border-radius:12px;background:var(--gaeo-canvas)}
+  .rd-cmp-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .rd-cmp-label{font-size:11px;font-weight:800;color:var(--gaeo-muted)}
+  .rd-cmp-change{font-size:10.5px;font-weight:750;color:var(--gaeo-700)}
+  .rd-cmp-vals{margin-top:5px;font-size:14px;font-weight:750;font-variant-numeric:tabular-nums;color:var(--gaeo-ink)}
+  .rd-cmp-interp{margin-top:6px;font-size:11.5px;line-height:1.6;color:var(--gaeo-muted);word-break:keep-all}
   .rd-toggle{margin-top:16px;min-height:40px;padding:0 14px;border:1px solid var(--gaeo-border);
     border-radius:12px;background:var(--gaeo-canvas);color:var(--gaeo-700);font-size:12px;font-weight:750;cursor:pointer}
   .rd-toggle:hover{background:var(--gaeo-50)}
@@ -3137,8 +3150,7 @@
     .gr-chip{font-size:11.5px;padding:6px 10px}
     .radar-detail{padding:18px 15px;border-radius:18px}
     .rd-head .rd-asof{text-align:left}
-    .rd-table{min-width:360px;font-size:11.5px}
-    .rd-table th,.rd-table td{padding:8px 7px}
+    .rd-cmp-wrap{grid-template-columns:1fr}
   }
   @media(prefers-reduced-motion:reduce){
     .gr-chip,.gr-row{transition:none!important}
@@ -6684,13 +6696,217 @@ function rdLegend(items){
   return `<div class="rd-legend">${items.map(x=>
     `<span><i class="${x.cls||''}" style="${x.cls==='box'?'background:':'border-top-color:'}${x.color}"></i>${term(x.label)}</span>`).join('')}</div>`;
 }
-// 어제 → 오늘 비교표 (숫자를 한꺼번에 쏟아내지 않도록 4줄로 제한)
-function rdCompareTable(series,events){
+/* ═══════════════════════════════════════════════════════════════════
+   🤖 AI 해석 계층 — 위 계산 결과(rsi_series·bollinger·macd_series 등, 전부
+   radar_signals.py·compute_radar.py가 만든 값 그대로)는 절대 건드리지 않고,
+   그 숫자가 "무슨 뜻인지 · 무엇을 더 확인해야 하는지"를 초보자 눈높이로 풀어주는
+   문장만 여기서 따로 만든다. 원칙: 숫자 → 의미 → 주의점 순서, "무조건/확실히/
+   반드시" 같은 단정 표현·매수매도 지시 금지. (2026-08-07 레이더 UX 개선)
+   ═══════════════════════════════════════════════════════════════════ */
+function isMaCrossType(t){ return t.indexOf('ma_')===0 || t.indexOf('ma5_20')===0 || t.indexOf('ma20_60')===0; }
+
+// ① 이동평균선 교차·임박 — 골든크로스=무조건 상승, 데드크로스=무조건 하락으로 단정하지 않는다.
+function getMovingAverageInterpretation(ev){
+  const short=ev.type.indexOf('ma5_20')===0?'5일':'20일';
+  const long=ev.type.indexOf('ma5_20')===0?'20일':'60일';
+  const term=ev.type.indexOf('ma5_20')===0?'단기':'중기';
+  if(ev.type.slice(-12)==='golden_cross'){
+    return `${short} 이동평균선이 ${long} 이동평균선을 위로 돌파했습니다. ${term} 상승 추세가 시작될 가능성을 보여주는 기술적 신호입니다.<br><br>`+
+      `다만 이동평균선은 이미 지난 가격의 평균으로 계산되는 <b>후행지표</b>라 신호가 다소 늦게 나타날 수 있습니다. `+
+      `최근 가격 흐름과 거래량이 함께 좋아지고 있는지 확인하면 신뢰도를 높일 수 있어요.`;
+  }
+  if(ev.type.slice(-10)==='dead_cross'){
+    return `${short} 이동평균선이 ${long} 이동평균선 아래로 내려왔습니다. ${term} 흐름이 약해지고 있다는 신호로 해석할 수 있습니다.<br><br>`+
+      `다만 이동평균선 교차는 이미 지나간 가격의 평균으로 계산되므로 신호가 늦게 나타날 수 있어요. `+
+      `거래량과 최근 가격 흐름이 실제로 약해지고 있는지도 함께 확인하세요.`;
+  }
+  if(ev.type.indexOf('near_golden')>=0){
+    return `${short} 이동평균선이 아직 ${long} 이동평균선 아래에 있지만 간격이 좁혀지는 중입니다. ${term} 흐름이 바뀔 준비를 하는 단계로 볼 수 있어요.<br><br>`+
+      `아직 실제로 뚫고 올라간 것은 아니라서 다시 벌어질 수도 있습니다. 확정된 신호가 아니니 다음 며칠의 움직임을 지켜보세요.`;
+  }
+  if(ev.type.indexOf('near_dead')>=0){
+    return `${short} 이동평균선이 아직 ${long} 이동평균선 위에 있지만 간격이 좁혀지는 중입니다. ${term} 흐름이 꺾일 준비를 하는 단계로 볼 수 있어요.<br><br>`+
+      `아직 실제로 뚫고 내려간 것은 아니라서 다시 벌어질 수도 있습니다. 확정된 신호가 아니니 다음 며칠의 움직임을 지켜보세요.`;
+  }
+  return esc(radarDef(ev.type).description);
+}
+
+// ② 볼린저밴드 — 상단 돌파를 "곧 조정"으로 단정하지 않고 밴드 워킹 가능성도 함께 알려준다.
+function getBollingerInterpretation(ev){
+  if(ev.type==='bb_upper_break'){
+    return `주가가 볼린저밴드 상단을 돌파했습니다. 최근 상승 힘이 평소보다 강해졌다는 의미일 수도 있지만, 단기적으로 과열되어 조정 가능성이 커졌다는 신호일 수도 있습니다.<br><br>`+
+      `다만 상단을 돌파했다고 무조건 하락하는 것은 아니에요. 강한 상승장에서는 주가가 밴드 상단을 따라 계속 오르는 <b>밴드 워킹(Band Walking)</b>이 나타나기도 합니다. RSI·거래량·이동평균선의 방향을 함께 확인해보세요.`;
+  }
+  if(ev.type==='bb_upper_recover'){
+    return `주가가 볼린저밴드 상단 아래로 다시 내려오며 평소 범위 안으로 돌아왔습니다. 상승 탄력이 한 박자 쉬어가는 모습일 수 있습니다.<br><br>`+
+      `밴드 안으로 돌아온 것이 곧 하락 전환을 뜻하지는 않아요. 거래량이 유지되는지, 이동평균선이 여전히 위쪽을 향하는지 살펴보세요.`;
+  }
+  if(ev.type==='bb_lower_break'){
+    return `주가가 볼린저밴드 하단을 이탈했습니다. 매도세가 강하거나 단기 과매도 상태일 가능성을 보여줍니다.<br><br>`+
+      `하지만 하단을 벗어났다고 바로 반등하는 것은 아니에요. 강한 하락장에서는 하단을 따라 계속 내려가는 흐름이 이어질 수도 있습니다. RSI·거래량·이동평균선의 방향을 함께 확인해보세요.`;
+  }
+  if(ev.type==='bb_lower_recover'){
+    return `주가가 볼린저밴드 하단 위로 다시 올라오며 평소 범위 안으로 돌아왔습니다. 급격한 낙폭은 일단 진정된 모습입니다.<br><br>`+
+      `밴드 안으로 돌아온 것이 곧 하락이 끝났다는 뜻은 아니에요. 거래량과 이동평균선의 방향이 실제로 바뀌는지 함께 지켜보세요.`;
+  }
+  return esc(radarDef(ev.type).description);
+}
+
+// ③ RSI — 실제로 경계를 넘은 "사건"에 대한 설명(전환 시점 서술)
+function getRsiEventInterpretation(ev){
+  const c=(typeof ev.currentValue==='number')?ev.currentValue.toFixed(1):'—';
+  if(ev.type==='rsi_oversold_entry'){
+    return `RSI가 <b>${c}</b>로 30 아래로 내려오며 매도 압력이 강해진 구간에 들어왔습니다. 단기 과매도 가능성이 높아졌다는 의미입니다.<br><br>`+
+      `과매도에 들어왔다고 바로 반등하는 것은 아니에요. 추가 하락 가능성도 함께 열어두고 거래량과 가격 흐름을 지켜보세요.`;
+  }
+  if(ev.type==='rsi_oversold_exit'){
+    return `RSI가 <b>${c}</b>로 30 위로 올라오며 과매도 구간에서 벗어났습니다. 매도 압력이 다소 진정된 모습입니다.<br><br>`+
+      `과매도를 벗어난 것이 상승 전환을 확인해주는 신호는 아니에요. 이 흐름이 며칠 더 이어지는지 확인해보세요.`;
+  }
+  if(ev.type==='rsi_overbought_entry'){
+    return `RSI가 <b>${c}</b>로 70을 넘어서며 단기 과열 구간에 진입했습니다. 최근 매수세가 상당히 강했다는 의미입니다.<br><br>`+
+      `다만 거래량이 함께 증가하고 있다면 강한 상승세가 이어지는 과정일 수도 있어요. 단기 조정 가능성도 함께 살펴보세요.`;
+  }
+  if(ev.type==='rsi_overbought_exit'){
+    return `RSI가 <b>${c}</b>로 70 아래로 내려오며 과매수 구간에서 벗어났습니다. 매수세가 다소 잦아든 모습입니다.<br><br>`+
+      `이것만으로 하락 전환이 확정된 것은 아니에요. 가격과 거래량의 방향을 함께 확인해보세요.`;
+  }
+  return esc(radarDef(ev.type).description);
+}
+// RSI 현재 수치에 대한 짧은 해석 — 차트 설명·비교 카드·종합 요약에서 공통으로 재사용한다.
+function rsiLevelText(v){
+  if(typeof v!=='number'||!isFinite(v)) return '';
+  if(v>=70) return `단기 과열 가능성이 높아진 구간이에요.`;
+  if(v>=55) return `상승 힘이 비교적 강한 구간이지만 아직 과열 기준(70)에는 도달하지 않았어요.`;
+  if(v<=30) return `단기 과매도 가능성이 높아진 구간이에요.`;
+  if(v<=45) return `하락 힘이 비교적 강한 구간이지만 아직 과매도 기준(30)에는 도달하지 않았어요.`;
+  return `상승과 하락의 힘이 비슷한 중립 구간이에요.`;
+}
+
+// ④ 거래량 급증 — 같은 날 가격이 오르내린 방향과 엮어서 해석한다(거래량 하나만 보고 끝내지 않기).
+function getVolumeInterpretation(ev,S){
+  const ratio=(typeof ev.currentValue==='number')?ev.currentValue.toFixed(1):'—';
+  let priceDir=null;
+  if(S&&S.c&&S.c.length>=2){
+    const c1=S.c[S.c.length-1],c0=S.c[S.c.length-2];
+    if(typeof c1==='number'&&typeof c0==='number'&&c0) priceDir=c1>c0?'up':(c1<c0?'down':'flat');
+  }
+  let combo;
+  if(priceDir==='up') combo=`거래량이 크게 늘면서 주가도 함께 올랐습니다. 상승에 참여하는 투자자가 많아지고 있다는 신호로 해석할 수 있어요.`;
+  else if(priceDir==='down') combo=`거래량이 크게 늘면서 주가는 내렸습니다. 매도세가 강해지고 있다는 신호일 수 있어요.`;
+  else combo=`거래량이 평소보다 크게 늘었습니다. 시장의 관심이 커졌다는 뜻으로 볼 수 있어요.`;
+  return `거래량이 최근 20일 평균의 <b>${ratio}배</b>로 늘며 평소보다 크게 늘었습니다.<br><br>`+
+    combo+` 거래량 급증은 매수·매도 어느 쪽으로도 나올 수 있으니 가격 방향과 함께 해석하는 것이 중요해요.`;
+}
+
+// ⑤ MACD 교차
+function getMacdInterpretation(ev){
+  if(ev.type==='macd_golden_cross'){
+    return `MACD가 시그널선을 위로 통과했습니다. 최근 상승과 하락 힘의 우세가 상승 쪽으로 바뀌는 지점으로 해석할 수 있습니다.<br><br>`+
+      `이 교차는 자주 뒤바뀌기도 해서 이것 하나만으로 추세를 단정하긴 어려워요. 가격 흐름과 거래량이 함께 좋아지는지 확인해보세요.`;
+  }
+  if(ev.type==='macd_dead_cross'){
+    return `MACD가 시그널선을 아래로 통과했습니다. 최근 상승과 하락 힘의 우세가 하락 쪽으로 바뀌는 지점으로 해석할 수 있습니다.<br><br>`+
+      `이 교차는 자주 뒤바뀌기도 해서 이것 하나만으로 추세를 단정하긴 어려워요. 가격 흐름과 거래량이 실제로 약해지는지 확인해보세요.`;
+  }
+  return esc(radarDef(ev.type).description);
+}
+
+// 이벤트 타입 → 해석 함수 배차(계산 로직은 그대로 두고 "표현"만 분리)
+function radarInterpret(ev,S){
+  if(isMaCrossType(ev.type)) return getMovingAverageInterpretation(ev);
+  if(ev.type.indexOf('bb_')===0) return getBollingerInterpretation(ev);
+  if(ev.type.indexOf('rsi_')===0) return getRsiEventInterpretation(ev);
+  if(ev.type==='volume_spike') return getVolumeInterpretation(ev,S);
+  if(ev.type.indexOf('macd_')===0) return getMacdInterpretation(ev);
+  return esc(radarDef(ev.type).description)+'<br><br>'+esc(radarDef(ev.type).caution);
+}
+
+// 어제→오늘 비교 카드용 짧은 한 줄 해석(위 radarInterpret의 문구와 겹치지 않게 다르게 쓴다)
+function rdShortInterp(kind,val,extra){
+  if(kind==='rsi') return rsiLevelText(val);
+  if(kind==='price'){
+    if(val>0) return '최근 가격 흐름이 상승 방향으로 움직이고 있어요.';
+    if(val<0) return '최근 가격 흐름이 하락 방향으로 움직이고 있어요.';
+    return '가격이 거의 움직이지 않았어요.';
+  }
+  if(kind==='band') return extra==='below'?'종가가 밴드 하단 아래에 있어 단기 약세 신호예요.':'종가가 밴드 안에서 움직이고 있어요.';
+  if(kind==='vol'){
+    if(val>=2) return '시장 참여가 크게 늘어난 상태예요.';
+    if(val>=1.5) return '거래가 평소보다 활발한 상태예요.';
+    if(val>=1) return '평소보다 관심이 조금 늘었어요.';
+    return '평소보다 조용한 거래예요.';
+  }
+  if(kind==='ma') return val?'20일선이 60일선 위에 있어 중기 흐름이 개선되고 있어요.':'20일선이 60일선 아래에 있어 중기 흐름이 아직 무거운 편이에요.';
+  return '';
+}
+
+// ⑥ 종합 해석 — RSI·거래량·볼린저·이동평균을 한데 모아 "지금 흐름"을 한두 문장으로 묶어준다.
+// 근거를 나열하는 방식이라 지표 몇 개가 비어 있어도(데이터 부족) 문장이 자연스럽게 줄어든다.
+function getRadarSummary(S){
+  if(!S||!S.c||S.c.length<2) return '';
+  const n=S.c.length,i=n-1,j=n-2;
+  const num=v=>(typeof v==='number'&&isFinite(v))?v:null;
+  const rsi=num(S.r&&S.r[i]), c1=num(S.c[i]), c0=num(S.c[j]);
+  const pct=(c1!==null&&c0)?((c1/c0-1)*100):null;
+  const bu=num(S.bu&&S.bu[i]), bl=num(S.bl&&S.bl[i]);
+  const hasMa=rdHasMa(S), ma20=num(S.bm&&S.bm[i]), ma60=hasMa?num(S.m60&&S.m60[i]):null;
+  const vol=num(S.v&&S.v[i]), volAvg=num(S.va&&S.va[i]);
+  const volRatio=(vol!==null&&volAvg)?vol/volAvg:null;
+
+  const up=[],caution=[];
+  if(ma20!==null&&ma60!==null){
+    if(ma20>ma60) up.push('20일선이 60일선 위에 있어 중기 흐름은 우호적');
+    else caution.push('20일선이 60일선 아래에 있어 중기 흐름은 아직 무거운 편');
+  }
+  if(pct!==null){
+    if(pct>0) up.push(`전일보다 ${pct.toFixed(1)}% 올랐어요`);
+    else if(pct<0) caution.push(`전일보다 ${Math.abs(pct).toFixed(1)}% 내렸어요`);
+  }
+  if(rsi!==null){
+    if(rsi>=70) caution.push(`RSI ${rsi.toFixed(1)}로 단기 과열 구간`);
+    else if(rsi>=55) up.push(`RSI ${rsi.toFixed(1)}로 상승 힘이 비교적 강한 구간`);
+    else if(rsi<=30) caution.push(`RSI ${rsi.toFixed(1)}로 단기 과매도 구간`);
+    else if(rsi<=45) caution.push(`RSI ${rsi.toFixed(1)}로 하락 힘이 비교적 강한 구간`);
+  }
+  if(volRatio!==null){
+    if(volRatio>=1.5) up.push(`거래량이 평균의 ${volRatio.toFixed(1)}배로 활발`);
+    else if(volRatio<1) caution.push('거래량이 평소보다 적어 참여가 조용한 편');
+  }
+  if(c1!==null&&bu!==null&&c1>bu) caution.push('종가가 볼린저밴드 상단 위로 올라와 단기 과열 신호');
+  if(c1!==null&&bl!==null&&c1<bl) caution.push('종가가 볼린저밴드 하단 아래로 내려가 단기 약세 신호');
+
+  let head;
+  if(up.length>=2&&!caution.length) head='최근 상승 흐름이 뚜렷하게 나타나고 있어요.';
+  else if(up.length&&caution.length) head='상승 힘과 주의해야 할 신호가 함께 나타나는 구간이에요.';
+  else if(caution.length>=2&&!up.length) head='하락 압력이 우세한 흐름으로 보여요.';
+  else if(up.length) head='완만한 상승 흐름이 나타나고 있어요.';
+  else if(caution.length) head='조심스러운 흐름이 이어지고 있어요.';
+  else head='뚜렷한 방향 없이 눈치보기 장세예요.';
+
+  let body=up.length?up.slice(0,2).join(', ')+'.':'';
+  if(caution.length){ const c=caution.slice(0,2).join(', ')+'.'; body+=body?' 다만 '+c:c; }
+  return `<div class="rd-summary"><div class="rd-summary-t">📌 현재 흐름</div><p>${esc(head)} ${esc(body)}</p></div>`;
+}
+
+// ⑦ 개별 신호 카드 — "현재 상태 → 의미 → 주의점" 구조로 사건 하나하나를 풀어 보여준다.
+function radarEventCardHTML(ev,S){
+  const d=radarDef(ev.type);
+  return `<div class="rd-event-card">`+
+    `<div class="rd-event-head"><span aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)}`+
+    `<span class="rd-event-val">${esc(radarValueText(ev))}</span></div>`+
+    `<div class="rd-event-body">${radarInterpret(ev,S)}</div></div>`;
+}
+
+// ⑧ 어제 → 오늘 비교 카드(항목·이전·현재·변화·해석). 표 대신 카드로 둬서 좁은 화면에서도 안 잘린다.
+function rdCompareCards(series,events){
   const n=series.d.length; if(n<2) return '';
-  const i=n-1,j=n-2, rows=[];
-  const has=t=>events.some(e=>e.type===t);
+  const i=n-1,j=n-2;
   const num=v=>(typeof v==='number'&&isFinite(v))?v:null;
   const money=v=>v===null?'—':Math.round(v).toLocaleString('ko-KR')+'원';
+  const has=t=>events.some(e=>e.type===t);
+  const cards=[];
+
   const r0=num(series.r[j]), r1=num(series.r[i]);
   if(r0!==null&&r1!==null){
     let ch='변화 없음';
@@ -6699,29 +6915,40 @@ function rdCompareTable(series,events){
     else if(has('rsi_overbought_entry')) ch='과매수 진입';
     else if(has('rsi_overbought_exit')) ch='과매수 탈출';
     else ch=(r1>r0?'상승':(r1<r0?'하락':'변화 없음'));
-    rows.push(['RSI',r0.toFixed(1),r1.toFixed(1),ch]);
+    cards.push({label:'RSI',prev:r0.toFixed(1),cur:r1.toFixed(1),change:ch,interp:rdShortInterp('rsi',r1)});
   }
   const c0=num(series.c[j]), c1=num(series.c[i]);
   if(c0!==null&&c1!==null&&c0!==0){
     const pct=(c1/c0-1)*100;
-    rows.push(['종가',money(c0),money(c1),(pct>=0?'+':'')+pct.toFixed(1)+'%']);
+    cards.push({label:'종가',prev:money(c0),cur:money(c1),change:(pct>=0?'+':'')+pct.toFixed(1)+'%',interp:rdShortInterp('price',pct)});
   }
   const l0=num(series.bl[j]), l1=num(series.bl[i]);
   if(l0!==null&&l1!==null&&c1!==null){
-    rows.push(['밴드 하단',money(l0),money(l1),c1<l1?'종가가 하단 아래':'종가가 밴드 안']);
+    const below=c1<l1;
+    cards.push({label:'볼린저밴드 하단',prev:money(l0),cur:money(l1),change:below?'종가가 하단 아래':'종가가 밴드 안',
+      interp:rdShortInterp('band',null,below?'below':'in')});
   }
   const v0=num(series.v[j]), v1=num(series.v[i]), a0=num(series.va[j]), a1=num(series.va[i]);
   if(v1!==null&&a1!==null&&a1>0){
-    const rat0=(v0!==null&&a0)?(v0/a0):null;
-    rows.push(['거래량 배수',(rat0!==null?rat0.toFixed(1)+'배':'—'),(v1/a1).toFixed(1)+'배',
-      (v1/a1>=2?'거래량 급증':'평소 수준')]);
+    const rat0=(v0!==null&&a0)?(v0/a0):null, rat1=v1/a1;
+    cards.push({label:'거래량 배수',prev:(rat0!==null?rat0.toFixed(1)+'배':'—'),cur:rat1.toFixed(1)+'배',
+      change:(rat1>=2?'거래량 급증':'평소 수준'),interp:rdShortInterp('vol',rat1)});
   }
-  if(!rows.length) return '';
-  return `<div class="rd-table-wrap"><table class="rd-table"><caption class="sr-only">어제와 오늘 지표 비교</caption>`+
-    `<thead><tr><th scope="col">항목</th><th scope="col">이전</th><th scope="col">현재</th><th scope="col">변화</th></tr></thead>`+
-    `<tbody>${rows.map(r=>`<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('')}</tbody>`+
-    `</table></div>`;
+  if(rdHasMa(series)){
+    const m20=num(series.bm[i]), m60=num(series.m60[i]);
+    if(m20!==null&&m60!==null){
+      cards.push({label:'MA20 · MA60',prev:'—',cur:(m20>m60?'MA20 > MA60':'MA20 < MA60'),
+        change:(m20>m60?'중기 우위':'중기 열세'),interp:rdShortInterp('ma',m20>m60)});
+    }
+  }
+  if(!cards.length) return '';
+  return `<div class="rd-cmp-wrap">`+cards.map(c=>
+    `<div class="rd-cmp-card"><div class="rd-cmp-top"><span class="rd-cmp-label">${esc(c.label)}</span>`+
+    `<span class="rd-cmp-change">${esc(c.change)}</span></div>`+
+    `<div class="rd-cmp-vals">${esc(c.prev)} → <b>${esc(c.cur)}</b></div>`+
+    `<div class="rd-cmp-interp">${esc(c.interp)}</div></div>`).join('')+`</div>`;
 }
+
 function renderRadarDetail(code){
   const el=document.getElementById('radarDetail'); if(!el) return;
   const events=radarEventsOf(code);
@@ -6735,36 +6962,43 @@ function renderRadarDetail(code){
   const macdNote=events.some(e=>radarDef(e.type).metric==='MACD−시그널')
     ? `<p style="margin:4px 0 0;font-size:9.5px;line-height:1.5;color:var(--gaeo-muted)">💡 MACD−시그널은 MACD값에서 시그널값을 뺀 차이(히스토그램)예요. 음수(−)에서 양수(+)로 바뀌면 MACD선이 시그널선을 아래에서 위로 넘었다는 뜻(골든크로스), 반대로 바뀌면 데드크로스예요.</p>`
     : '';
+  // ⭐ 2026-08-07: "레이더 변화가 뭔데?"부터 막히지 않도록, 기능 자체의 목적을 먼저 짧게 설명한다.
+  const intro=`<p class="rd-intro">📡 레이더는 이동평균선 교차, 거래량 급증, 볼린저밴드 돌파, RSI 변화처럼 `+
+    `최근 새로 발생한 기술적 변화를 자동으로 찾아 보여줘요. 신호 하나만으로 매수·매도를 정하기보다, `+
+    `여러 지표가 같은 방향을 가리키는지 함께 확인하는 것이 좋아요.</p>`;
   const head=`<div class="rd-head"><h3>📡 레이더 포착 변화 ${events.length}건</h3>`+
     `<span class="rd-asof">시세 기준 ${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}<br>`+
     `레이더 생성 ${esc(RADAR.generatedAt||'-')} · <span class="gr-status ${st}">${esc(radarStatusText())}</span></span></div>`+
-    `<div class="rd-sigs">${sigs}</div>${macdNote}`;
-  const rep=events[0], repDef=radarDef(rep.type);
-  const desc=`<div class="rd-desc">${esc(repDef.description)}`+
-    (events.length>1?` 같은 날 <b>${esc(radarDef(events[1].type).label)}</b> 변화도 함께 나왔어요.`:'')+
-    `<span class="rd-caution">· ${esc(repDef.caution)} 추가 흐름을 함께 확인할 필요가 있어요.</span></div>`;
+    intro+`<div class="rd-sigs">${sigs}</div>${macdNote}`;
+  const eventsHTML=`<div class="rd-events">${events.map(e=>radarEventCardHTML(e,null)).join('')}</div>`;
   const note='<p class="rd-note">'+esc(RADAR.disclaimer||'')+'</p>';
-  el.innerHTML=head+desc+'<p class="rd-hint" style="margin-top:16px;font-size:11px;color:var(--gaeo-muted)">차트를 불러오는 중이에요…</p>'+note;
+  el.innerHTML=head+eventsHTML+'<p class="rd-hint" style="margin-top:16px;font-size:11px;color:var(--gaeo-muted)">차트를 불러오는 중이에요…</p>'+note;
   el.classList.add('on');
   GaeoFeatures.load('radar').then(()=>{
     const S=(typeof GAEO_RADAR_SERIES!=='undefined'&&GAEO_RADAR_SERIES)?GAEO_RADAR_SERIES[code]:null;
     if(!S||!S.d||S.d.length<2){
-      el.innerHTML=head+desc+'<p class="rd-note">이 종목은 차트를 그릴 만큼 데이터가 쌓이지 않았어요.</p>'+note;
+      el.innerHTML=head+eventsHTML+'<p class="rd-note">이 종목은 차트를 그릴 만큼 데이터가 쌓이지 않았어요.</p>'+note;
       return;
     }
+    const rsiNow=S.r&&S.r[S.r.length-1];
+    const summary=getRadarSummary(S);
+    const eventsHTML2=`<div class="rd-events">${events.map(e=>radarEventCardHTML(e,S)).join('')}</div>`;
     const charts=
       `<div class="rd-chart"><h4>최근 ${S.d.length}거래일 가격과 볼린저밴드</h4>`+
-      `<p class="rd-hint">볼린저밴드는 20일 평균선 위아래로 표준편차 2배만큼 그린 '평소 움직이는 범위'예요.</p>`+
+      `<p class="rd-hint">볼린저밴드는 20일 평균선 위아래로 표준편차 2배만큼 그린 '평소 움직이는 범위'예요. `+
+      `상단을 돌파했다고 무조건 꺾이는 건 아니고, 강한 상승장에서는 밴드 상단을 따라 계속 오르기도 해요.</p>`+
       `<div class="rd-svg-wrap">${rdPriceChart(S,events)}</div>`+
       rdLegend([{label:'종가',color:RD_COL.close},{label:'밴드 상·하단',color:RD_COL.band,cls:'dash'},
                 {label:'중심선(20일 평균)',color:RD_COL.mid,cls:'dash'},{label:'신호 발생일',color:RD_COL.mark,cls:'dash'}])+`</div>`+
       `<div class="rd-chart"><h4>RSI (14일)</h4>`+
-      `<p class="rd-hint">30 아래는 과매도, 70 위는 과매수 구간이에요. 그 사이는 중립이에요.</p>`+
+      `<p class="rd-hint">RSI는 최근 상승과 하락 중 어느 쪽 힘이 더 센지를 보여줘요. 30 아래는 과매도, 70 위는 과매수 구간이에요.`+
+      (typeof rsiNow==='number'?` 지금은 <b>${rsiNow.toFixed(1)}</b>로 ${rsiLevelText(rsiNow)}`:'')+`</p>`+
       `<div class="rd-svg-wrap">${rdRsiChart(S,events)}</div>`+
       rdLegend([{label:'RSI',color:RD_COL.rsi},{label:'30 과매도선',color:'#5B8EAA',cls:'dash'},
                 {label:'70 과매수선',color:'#B4666C',cls:'dash'}])+`</div>`+
       `<div class="rd-chart"><h4>거래량</h4>`+
-      `<p class="rd-hint">점선은 최근 20거래일 평균 거래량이에요. 평균의 2배를 넘은 날은 '급증'으로 표시했어요.</p>`+
+      `<p class="rd-hint">점선은 최근 20거래일 평균 거래량이에요. 평균의 2배를 넘은 날은 '급증'으로 표시했어요. `+
+      `거래량은 가격이 오르내린 방향과 함께 볼 때 의미가 더 분명해져요.</p>`+
       `<div class="rd-svg-wrap">${rdVolChart(S,events)}</div>`+
       rdLegend([{label:'일별 거래량',color:RD_COL.vol,cls:'box'},{label:'20일 평균',color:RD_COL.avg,cls:'dash'},
                 {label:'평균의 2배 이상',color:RD_COL.mark,cls:'box'}])+`</div>`;
@@ -6775,7 +7009,7 @@ function renderRadarDetail(code){
       `<div class="rd-svg-wrap">${rdExtraChart(S)}</div>`+
       rdLegend([{label:'MACD',color:RD_COL.macd},{label:'시그널선',color:RD_COL.sig,cls:'dash'}]
         .concat(rdHasMa(S)?[{label:'MA20',color:RD_COL.mid},{label:'MA60',color:RD_COL.ma60}]:[]))+`</div></div>`;
-    el.innerHTML=head+desc+charts+rdCompareTable(S,events)+extra+note;
+    el.innerHTML=head+summary+eventsHTML2+charts+rdCompareCards(S,events)+extra+note;
     const btn=document.getElementById('rdExtraBtn'), box=document.getElementById('rdExtra');
     if(btn&&box) btn.onclick=()=>{
       const on=box.classList.toggle('on');
@@ -6783,7 +7017,7 @@ function renderRadarDetail(code){
       btn.textContent=on?'MACD·이동평균 차트 접기':'MACD·이동평균 차트 보기';
     };
   }).catch(()=>{
-    el.innerHTML=head+desc+'<p class="rd-note">차트 자료를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.</p>'+note;
+    el.innerHTML=head+eventsHTML+'<p class="rd-note">차트 자료를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.</p>'+note;
   });
 }
 window.renderGaeoRadar=renderGaeoRadar;
