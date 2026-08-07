@@ -119,6 +119,23 @@ def taro_eval(t):
     macd, sig = t.get("macd"), t.get("macdSignal")
     golden = macd is not None and sig is not None and macd >= sig
     s += 9 if golden else -8
+    # ⭐ 2026-08-07: 이동평균 골든/데드크로스(5·20일선, 20·60일선)도 점수에 반영한다.
+    # compute_indicators.py가 계산한 cross5_20/cross20_60을 그대로 쓴다(중복 계산 없음).
+    # 막 일어난 교차일수록 크게, CROSS_LOOKBACK(20거래일)에 가까워질수록 약하게(decay) 반영해
+    # "한 달 전 교차"가 오늘 점수를 계속 흔드는 걸 막는다. 아직 안 뚫렸지만 좁혀지는 중인
+    # "임박" 신호는 확정 신호의 절반 무게만 준다. 20·60일선(더 긴 추세)이 5·20일선보다
+    # 더 드물게 일어나는 만큼 가중치도 더 크게 둔다(6 vs 3).
+    def cross_adj(c, base):
+        if not c:
+            return 0.0
+        if c.get("event"):
+            decay = max(0.0, 1 - (c.get("daysAgo") or 0) / 20)
+            return (base if c["event"] == "golden" else -base) * decay
+        if c.get("near"):
+            return (base * 0.4) if c["near"] == "golden" else -(base * 0.4)
+        return 0.0
+    s += cross_adj(t.get("cross5_20"), 3)
+    s += cross_adj(t.get("cross20_60"), 6)
     vr = t.get("volRatio")
     score = clamp(s)
     close, ma20, ma60 = t.get("close"), t.get("ma20"), t.get("ma60")
