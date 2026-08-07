@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-07 12:56",
+ "generatedAt": "2026-08-07 12:55",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -336,7 +336,7 @@ const MODEL_INTELLIGENCE = {
  "errorCorrelation": {
   "taro:diana": {
    "n": 1613,
-   "errorCorr": -0.105
+   "errorCorr": -0.104
   },
   "taro:nova": {
    "n": 3379,
@@ -348,7 +348,7 @@ const MODEL_INTELLIGENCE = {
   },
   "diana:nova": {
    "n": 1130,
-   "errorCorr": -0.143
+   "errorCorr": -0.141
   },
   "diana:flow": {
    "n": 278,
@@ -483,8 +483,8 @@ const MODEL_INTELLIGENCE = {
   "key": "up_low",
   "trend": "up",
   "vol": "low",
-  "median5": 5.91,
-  "medianAbs1": 1.91
+  "median5": 6.05,
+  "medianAbs1": 1.94
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -492,15 +492,15 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 2000,
-  "errors": 1438,
+  "errors": 1439,
   "patterns": [
    {
     "label": "고변동성 국면",
-    "count": 1438
+    "count": 1439
    },
    {
     "label": "경계점수 판단",
-    "count": 1270
+    "count": 1271
    },
    {
     "label": "분석가 의견충돌",
@@ -518,7 +518,7 @@ const MODEL_INTELLIGENCE = {
    "flow": 128
   },
   "regimeErrors": {
-   "down_high": 1438
+   "down_high": 1439
   }
  },
  "shadow": {

@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-07 12:56",
+ "generatedAt": "2026-08-07 12:55",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -63,9 +63,9 @@ const TEAM_WEIGHTS = {
   },
   "graded": 19879,
   "team": {
-   "hit": 6123,
+   "hit": 6122,
    "miss": 1906,
-   "n": 8029,
+   "n": 8028,
    "acc": 76.3
   }
  },
@@ -432,10 +432,10 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2793,
-    "diana": 0.0997,
-    "nova": 0.3483,
-    "flow": 0.2726
+    "taro": 0.2794,
+    "diana": 0.0994,
+    "nova": 0.3485,
+    "flow": 0.2728
    },
    "acc": {
     "taro": {
@@ -446,9 +446,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 258,
-     "acc": 56.2,
-     "adjustedAcc": 54.2,
+     "n": 257,
+     "acc": 56.0,
+     "adjustedAcc": 54.1,
      "days": 20,
      "deadband": 3.0
     },
@@ -467,7 +467,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 2483,
+   "graded": 2482,
    "globalBlend": 0.25
   },
   "지주·상사": {
@@ -872,10 +872,10 @@ const TEAM_WEIGHTS = {
   },
   "로봇": {
    "weights": {
-    "taro": 0.2819,
-    "diana": 0.0942,
-    "nova": 0.36,
-    "flow": 0.2638
+    "taro": 0.2818,
+    "diana": 0.0945,
+    "nova": 0.3599,
+    "flow": 0.2637
    },
    "acc": {
     "taro": {
@@ -886,9 +886,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 47,
-     "acc": 59.6,
-     "adjustedAcc": 52.7,
+     "n": 48,
+     "acc": 60.4,
+     "adjustedAcc": 53.0,
      "days": 20,
      "deadband": 3.0
     },
@@ -907,7 +907,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 484,
+   "graded": 485,
    "globalBlend": 0.623
   },
   "식음료": {
