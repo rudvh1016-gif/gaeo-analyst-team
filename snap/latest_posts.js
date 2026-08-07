@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 42,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-07",
+  "title": "2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥",
+  "featured": false
+ },
+ {
   "id": 41,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "포트폴리오 만드는 법: 초보자 자산배분 실전 가이드",
   "featured": false
- },
- {
-  "id": 70,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "상장폐지 완전정복: 거래정지부터 정리매매까지",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 41,
+ "news": 42,
  "study": 35,
  "lesson": 72,
  "estate": 19,

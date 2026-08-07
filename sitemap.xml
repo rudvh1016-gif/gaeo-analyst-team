@@ -26,6 +26,11 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://gaeoteam.com/snap/news/42.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gaeoteam.com/snap/news/41.html</loc>
     <lastmod>2026-08-06</lastmod>
     <priority>0.7</priority>
