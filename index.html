@@ -3072,6 +3072,7 @@
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .gr-row-name .gr-more{margin-left:6px;padding:2px 6px;border-radius:6px;background:var(--gaeo-50);
     color:var(--gaeo-700);font-size:10px;font-weight:750}
+  .gr-row-name .gr-row-score{margin-left:6px;font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
   .gr-row-sig{margin-top:3px;font-size:11.5px;font-weight:700;color:var(--gaeo-700);
     display:flex;align-items:center;gap:5px;flex-wrap:wrap}
   .gr-row-sig .gr-ico{font-size:10px}
@@ -6473,12 +6474,23 @@ function radarRowsHTML(events){
   rows.forEach(r=>{ r.total=radarEventsOf(r.ev.code).length; });
   return rows;
 }
+// ⭐ 2026-08-08: "종목 옆에 지금 점수도 보이면 좋겠다"는 요청 → 자동/정밀분석 중
+// 더 신선한 쪽(analysisEntry, 다른 화면과 같은 기준)의 CHIEF 종합점수를 배지로 붙인다.
+// 아직 분석이 없는 종목(신규상장 등)은 조용히 생략한다.
+function radarScoreBadge(code){
+  const entry=analysisEntry(code);
+  const total=entry&&entry.chief&&typeof entry.chief.total==='number'?entry.chief.total:null;
+  if(total==null) return '';
+  const call=entry.chief.call;
+  const col=call==='BUY'?'#2F8B73':call==='SELL'?'#D5535D':'#B97A2F';
+  return `<span class="gr-row-score" style="color:${col}">${Math.round(total)}점</span>`;
+}
 function radarRowHTML(row){
   const e=row.ev, d=radarDef(e.type), more=row.total-1;
   return `<button class="gr-row" type="button" data-radar-code="${esc(e.code)}" data-radar-name="${esc(e.name)}"`+
     ` aria-label="${esc(e.name)} ${esc(d.label)} 분석 보기">`+
-    `<span><span class="gr-row-name">${esc(e.name)}`+
-      (more>0?`<span class="gr-more">외 ${more}건</span>`:'')+`</span>`+
+    `<span><span class="gr-row-name">${esc(e.name)}${radarScoreBadge(e.code)}`+
+      (more>0?`<span class="gr-more" title="이 종목에서 오늘 포착된 다른 신호가 ${more}건 더 있어요">외 ${more}건</span>`:'')+`</span>`+
       `<span class="gr-row-sig"><span class="gr-ico" aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)}</span>`+
       `<span class="gr-row-val">${esc(radarValueText(e))} · ${esc(radarDateText(e.date))} 기준</span></span>`+
     `<span class="gr-row-go" aria-hidden="true">분석 보기 ›</span></button>`;
