@@ -444,11 +444,12 @@
   .ac-pr{font-size:11.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
   .ac-empty{padding:14px 13px;color:var(--faint);font-size:12.5px;text-align:center}
   .ac-mark{color:var(--sky);font-weight:800}
-  /* 종목 사업 한 줄 소개(시세 카드 최상단) */
-  .qbio{margin:2px 0 10px;padding:8px 13px;background:var(--sky-soft);border-radius:10px;
-    font-size:13px;color:var(--sky-ink);line-height:1.55;display:flex;align-items:flex-start;gap:7px}
+  /* 종목 사업 한 줄 소개(시세 카드 최상단) — ⭐ 2026-08-08: 시세 카드 전체를 메인
+     화면의 절제된 흑백 톤과 통일하면서 하늘색 포인트를 뺐다(모던 블랙&화이트). */
+  .qbio{margin:2px 0 10px;padding:8px 13px;background:var(--navy-soft);border-radius:10px;
+    font-size:13px;color:var(--t2);line-height:1.55;display:flex;align-items:flex-start;gap:7px}
   .qbio .qbio-ic{flex-shrink:0}
-  .qbio b{color:var(--navy)}
+  .qbio b{color:var(--ink)}
   /* 시세 카드 종가 미니차트(구체화) */
   .qchart{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
   .qchart-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:12px}
@@ -598,18 +599,19 @@
     .chip b{font-size:12px}
   }
 
-  /* ── 시세 카드 ── */
-  .quote{background:var(--paper);border:none;
-    border-radius:16px;padding:24px 26px;margin-bottom:16px;box-shadow:var(--shadow);
-    position:relative;overflow:hidden}
-  .quote::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-    background:linear-gradient(180deg,var(--sky),transparent)}
+  /* ── 시세 카드 ── ⭐ 2026-08-08: 하늘색 포인트 스트라이프·뱃지를 빼고, 메인 화면·
+     분석가 카드와 같은 절제된 흑백 톤 + 뚜렷한 틀(border)로 통일했다. PER·PBR 같은
+     지표가 "빈칸에 적어놓은 것처럼" 안 보이던 문제 — .qm이 카드 배경(--paper)과
+     완전히 같은 색(--bg, 라이트에서 둘 다 흰색)이라 경계가 안 보였던 게 원인이라,
+     실제로 구분되는 --navy-soft 배경 + 1px 테두리로 각 지표를 카드처럼 감쌌다. */
+  .quote{background:var(--paper);border:1px solid var(--line);
+    border-radius:16px;padding:24px 26px;margin-bottom:16px;box-shadow:var(--shadow)}
   .qtop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   .qname{font-size:22px;font-weight:800;letter-spacing:-.02em}
-  .qcaprank{font-size:11.5px;font-weight:700;color:var(--sky);
-    padding:3px 9px;border-radius:99px;background:var(--sky-soft)}
+  .qcaprank{font-size:11.5px;font-weight:700;color:var(--dim);
+    padding:3px 9px;border-radius:99px;background:var(--navy-soft);border:1px solid var(--line)}
   .qcode{font-size:12px;color:var(--faint);margin-left:auto;
-    padding:3px 9px;border-radius:7px;background:var(--bg)}
+    padding:3px 9px;border-radius:7px;background:var(--navy-soft);border:1px solid var(--line)}
   .qprice{font-size:38px;font-weight:800;
     letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
   .qrate{font-size:17px;font-weight:700}
@@ -621,10 +623,11 @@
   .cmp-asof{text-align:center;font-size:12px;color:var(--dim);margin-bottom:14px}
   .cmp-asof+.cmp-asof{margin-top:-8px}
   .cmp-asof b{color:var(--navy);font-weight:700}
-  .qmetrics{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-  .qm{background:var(--bg);border:none;border-radius:11px;
-    padding:10px 14px;font-size:12px;color:var(--dim)}
-  .qm b{color:var(--ink);font-size:13.5px;margin-left:6px;font-weight:700;font-variant-numeric:tabular-nums}
+  .qmetrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:10px;margin-top:16px}
+  .qm{background:var(--navy-soft);border:1px solid var(--line);border-radius:12px;
+    padding:10px 13px}
+  .qm-label{font-size:10.5px;font-weight:700;color:var(--dim)}
+  .qm-val{margin-top:3px;font-size:15px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
 
   /* ── 애널리스트 카드 ── */
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
@@ -5596,7 +5599,7 @@ function showQuote(st){
   const M=[['PER',st.per+'배'],['PBR',st.pbr+'배'],['ROE',st.roe?st.roe+'%':'—'],
            ['EPS',st.eps?won(st.eps):'—'],['배당수익률',st.div?st.div+'%':'—'],
            ['시가총액',st.cap],['52주',st.w52]];
-  qm.innerHTML=M.map(([k,v])=>`<span class="qm">${term(k)}<b>${v}</b></span>`).join('');
+  qm.innerHTML=M.map(([k,v])=>`<div class="qm"><div class="qm-label">${term(k)}</div><div class="qm-val">${v}</div></div>`).join('');
 
   // ⭐ 2026-08-07: price_history.js는 첫 화면 성능 때문에 지연 로드 파일이라(GaeoFeatures),
   // 예전엔 아직 안 받아진 상태에서 flatOHLC를 바로 불러 "종가 5개짜리 임시값(last5)"으로만
