@@ -407,9 +407,14 @@ def main():
 
     # 브라우저용 축약본(indicators.js) — TARO 미니 차트(가격·MA·RSI·MACD)가 index.html에서 직접 읽는다.
     # analysis.js 텍스트를 파싱하지 않고 이 구조화된 숫자를 그대로 그린다.
+    # ⭐ 2026-08-08: DIANA·FLOW 카드 재설계로 flow(수급 원자료)와 목표가·선행PER 필드도
+    # 문장 파싱 없이 화면이 바로 쓸 수 있게 함께 내려준다(PER·PBR·ROE·EPS는 STOCKS(data.js)에
+    # 이미 있어 여기서는 뺀다 — 중복 전송 방지).
     js_stocks = {
         code: {"name": e["name"], "price": e["price"], "rate": e["rate"], "tech": e["tech"],
-               "risk": e.get("risk")}
+               "risk": e.get("risk"), "flow": e.get("flow"),
+               "cnsEps": e.get("cnsEps"), "targetMean": e.get("targetMean"),
+               "targetGap": e.get("targetGap"), "fwdPer": e.get("fwdPer")}
         for code, e in out["stocks"].items() if e.get("tech")
     }
     js_path = os.path.join(HERE, "indicators.js")

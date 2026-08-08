@@ -265,8 +265,12 @@ def _trend5_zone(pct):
 def build_quant_stats(analysis_data):
     """전 종목 일봉에서 (상태 버킷 → 5거래일 뒤 상승 확률) 통계표 생성.
     반환: {key: {"n":표본수, "w":상승횟수, "sum":수익률합}}  (넓은 키일수록 표본이 큼)
-    키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)"""
+    키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)
+    "_period"는 버킷이 아니라 {"start":최초 표본일, "end":최종 표본일} 메타데이터다
+    (⭐ 2026-08-08: "표본이 몇 년치인지 안 보인다"는 피드백 → 화면에 실제 데이터 기간을
+    동적으로 보여주기 위해 추가. 승률·점수 계산 로직 자체는 전혀 안 건드린다)."""
     stats = {}
+    period = {"start": None, "end": None}
 
     def bump(key, win, ret):
         b = stats.setdefault(key, {"n": 0, "w": 0, "sum": 0.0})
@@ -305,6 +309,12 @@ def build_quant_stats(analysis_data):
             bump(f"z{z}m{m}", win, ret)
             bump(f"z{z}", win, ret)
             bump("all", win, ret)
+            date_i = rows[i]["date"]
+            if period["start"] is None or date_i < period["start"]:
+                period["start"] = date_i
+            if period["end"] is None or date_i > period["end"]:
+                period["end"] = date_i
+    stats["_period"] = period
     return stats
 
 
@@ -371,7 +381,9 @@ def quant_eval(e, t, qstats):
         return {"score": 50, "stance": "neu", "findings": [
             "📊 QUANT — 과거 통계 조회에 필요한 지표가 아직 부족합니다",
             "다음 자동 수집에서 RSI·이동평균·최근 추세가 채워지면 승률이 계산됩니다",
-            "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"]}
+            "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"],
+            "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     z, zname = _rsi_zone(rsi)
     m = 1 if g20 >= 0 else 0
     tz, tname = _trend5_zone(tr5)
@@ -389,7 +401,9 @@ def quant_eval(e, t, qstats):
     if not b["n"]:
         return {"score": 50, "stance": "neu", "findings": [
             "📊 QUANT — 아직 통계 표본이 없습니다", "데이터가 쌓이면 승률이 계산됩니다",
-            "현재는 중립(50점) 처리", "—"]}
+            "현재는 중립(50점) 처리", "—"],
+            "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     wr = b["w"] / b["n"] * 100
     avg = b["sum"] / b["n"]
     # ── 상대 승률로 재중심화 (2026-07-22 수정) ────────────────────────────────
@@ -410,7 +424,13 @@ def quant_eval(e, t, qstats):
         f"과거에 이런 상태({used})였던 적이 {b['n']}건 있었는데, 그중 {b['w']}건이 5거래일 뒤 올랐어요 → 경험적 승률 {wr:.0f}% (시장 평균 {base_wr:.0f}%보다 {rel:+.0f}%p {relword})",
         f"그 {b['n']}건의 5거래일 뒤 등락률 평균은 {avg:+.1f}%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요",
     ]
-    return {"score": score, "stance": stance_of(score), "findings": f[:4]}
+    # ⭐ 2026-08-08: findings 문장 속에 숫자를 파묻지 않고, 화면(index.html)이 카드로 재조립할 수
+    # 있도록 같은 숫자를 구조화된 필드로도 함께 내려준다. 문장(findings)·점수(score)는 그대로다.
+    period = qstats.get("_period") or {}
+    return {"score": score, "stance": stance_of(score), "findings": f[:4],
+            "sampleN": b["n"], "sampleWin": b["w"], "winRate": round(wr, 1),
+            "marketAvgWinRate": round(base_wr, 1), "relPp": round(rel, 1), "avgReturn": round(avg, 2),
+            "scopeUsed": used, "periodStart": period.get("start"), "periodEnd": period.get("end")}
 
 
 # ── CHIEF(종합): 자가 학습 가중치(team_weights.js) 기반 합산 ─────────────────
@@ -605,7 +625,9 @@ def main():
     sectors = load_sectors()
     if qstats.get("all"):
         a = qstats["all"]
-        print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · 버킷 {len(qstats)}개")
+        period = qstats.get("_period") or {}
+        print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · "
+              f"버킷 {len(qstats)-1}개 · 기간 {period.get('start')}~{period.get('end')}")
     for key, label in (("5_20_golden", "5·20 골든"), ("5_20_dead", "5·20 데드"),
                        ("20_60_golden", "20·60 골든"), ("20_60_dead", "20·60 데드")):
         b = cross_stats.get(key) or {}

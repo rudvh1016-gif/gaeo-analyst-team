@@ -639,9 +639,10 @@
   .card ul li{margin-bottom:4px}
   /* ── 한국어 줄바꿈: 어절(띄어쓰기) 단위로만 줄이 넘어가게 — "급등에/따라"식 어절 중간 끊김 방지 ── */
   .card ul li,.verdict p,.veasy,.vreport,.vtarget,.vlevels,.vclash,.vmacro,.autonote,.anote,
-  .dna-comp,.nova-src,.cmp-easy,.cmp-sum,.cmp-asof,.cmp-lbl,.gb-body,.gb-hero p,.gb-agent,
+  .nova-src,.cmp-easy,.cmp-sum,.cmp-asof,.cmp-lbl,.gb-body,.gb-hero p,.gb-agent,
   .qbio,.qchart-cap,.hsub,.mk-text,.mk-points li,.mk-antitle,.pf-note,.pf-guide,.pf-advice,
-  .pf-adv-note,.gloss-pop,.an-t,.ve-t,.ce-t{word-break:keep-all;overflow-wrap:break-word}
+  .pf-adv-note,.gloss-pop,.an-t,.ve-t,.ce-t,
+  .fx-lead,.fx-explain p,.fx-check p,.fx-metric-row.sub,.fx-flow-dir,.fx-sub{word-break:keep-all;overflow-wrap:break-word}
   .stance{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-left:auto;flex-shrink:0;white-space:nowrap}
   .stance.bull{background:#ECFDF5;color:var(--green)}
   .stance.bear{background:#FEF2F2;color:var(--red)}
@@ -651,6 +652,54 @@
   .scorebar{height:7px;background:var(--paper2);border:none;
     border-radius:99px;overflow:hidden;margin-top:10px}
   .scorebar-fill{height:100%;width:0;border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+
+  /* ── DIANA·QUANT·FLOW·RISK 카드 재설계(2026-08-08) ──
+     이름+역할 → 상태라벨 → 점수(+의미 안내) → 한줄결론 → 핵심지표 → 초보자해석 → 체크할 점 → 자세히보기 */
+  .card-state{margin-top:8px;display:inline-block;padding:3px 10px;border-radius:99px;
+    font-size:11.5px;font-weight:800}
+  .card-state:empty{display:none;margin:0}
+  .card-score-note{margin-top:3px;font-size:10px;color:var(--faint)}
+  .card-score-note:empty{display:none;margin:0}
+  .fx-body{margin-top:12px}
+  .fx-empty{margin:0;font-size:12.5px;color:var(--t3)}
+  .fx-ph{display:none}
+  .fx-lead{margin:0;font-size:13.5px;font-weight:700;line-height:1.6;color:var(--ink)}
+  .fx-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin-top:12px}
+  .fx-metric{background:var(--bg);border-radius:12px;padding:9px 11px}
+  .fx-metric-label{font-size:10px;font-weight:700;color:var(--dim)}
+  .fx-metric-row.main{margin-top:3px;font-size:14px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+  .fx-metric-row.sub{margin-top:2px;font-size:10px;line-height:1.4;color:var(--faint)}
+  .fx-flow-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+  .fx-flow-card{background:var(--bg);border-radius:12px;padding:9px 6px;text-align:center;
+    border-left:3px solid var(--line)}
+  .fx-flow-card.up{border-left-color:var(--green)}
+  .fx-flow-card.dn{border-left-color:var(--red)}
+  .fx-flow-label{font-size:10px;font-weight:700;color:var(--dim)}
+  .fx-flow-val{margin-top:3px;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .fx-flow-dir{margin-top:2px;font-size:10px;font-weight:700}
+  .fx-flow-card.up .fx-flow-dir{color:var(--green)}
+  .fx-flow-card.dn .fx-flow-dir{color:var(--red)}
+  .fx-flow-period{margin-top:1px;font-size:9px;color:var(--faint)}
+  .fx-sub{margin-top:8px;font-size:10.5px;line-height:1.6;color:var(--dim)}
+  .fx-explain{margin-top:12px;font-size:12px;line-height:1.7;color:var(--t3)}
+  .fx-explain b{display:block;font-size:10.5px;font-weight:800;color:var(--dim);margin-bottom:3px}
+  .fx-explain p{margin:0}
+  .fx-check{margin-top:10px;padding:9px 11px;background:var(--bg);border-radius:12px;
+    font-size:11px;line-height:1.6;color:var(--t3)}
+  .fx-check b{display:block;font-size:10.5px;font-weight:800;color:var(--dim);margin-bottom:3px}
+  .fx-check p{margin:0}
+  .fx-badge{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:99px;
+    background:var(--paper2);font-size:9.5px;font-weight:700;color:var(--dim)}
+  .fx-scope{margin-top:5px;font-size:9.5px;color:var(--faint)}
+  .fx-details{margin-top:12px}
+  .fx-details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--dim)}
+  .fx-details ul{margin:8px 0 0;padding-left:16px;font-size:12px;color:var(--t3);line-height:1.6}
+  .fx-details ul li{margin-bottom:4px}
+  @media(max-width:480px){
+    .fx-flow-row{gap:5px}
+    .fx-flow-card{padding:8px 3px}
+    .fx-flow-val{font-size:11.5px}
+  }
 
   /* ── 종합 시각화 패널 (레이더 + 범례) ── */
   .viz{display:none;margin-top:18px;background:var(--paper);border:none;
@@ -1057,12 +1106,6 @@
     box-shadow:0 18px 48px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.04)}
   html.gdark .eval-pop-title,html.gdark .eval-pop-body b{color:#FFFFFF;-webkit-text-fill-color:#FFFFFF}
   html.gdark .eval-pop-body p{color:#E8E8ED;-webkit-text-fill-color:#E8E8ED}
-  /* 🏷️ DIANA 업종 내 상대비교 */
-  .dna-comp{margin:0 0 10px;padding:10px 13px;background:var(--paper2);border-radius:10px;
-    font-size:12px;color:var(--t3);line-height:1.75}
-  .dna-comp .dc-t{font-weight:800;color:var(--navy);font-size:11.5px;margin-bottom:3px}
-  .dna-comp b{color:var(--navy);font-variant-numeric:tabular-nums}
-  .dna-comp .dc-note{margin-top:4px;font-size:10.5px;color:var(--faint)}
   /* 📰 NOVA 근거 기사(출처) */
   .nova-src{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);
     font-size:11.5px;color:var(--dim);line-height:1.75}
@@ -1946,6 +1989,14 @@
     width:35%;border-radius:99px;background:var(--sky-line);animation:skIndet 1.15s ease-in-out infinite}
   .cards.busy .card:not(.on) .stance{animation:skBlink 1.3s ease-in-out infinite}
   .cards.busy .card:not(.on) .score{color:var(--faint)!important}
+  /* DIANA·QUANT·FLOW·RISK는 fx-body가 <ul>이 아니라 <div>라 같은 시머를 .fx-ph로 따로 건다 */
+  .cards.busy .card:not(.on) .fx-empty{display:none}
+  .cards.busy .card:not(.on) .fx-ph{display:block;position:relative;height:11px;margin:10px 0;
+    border-radius:6px;overflow:hidden;background:var(--paper2)}
+  .cards.busy .card:not(.on) .fx-ph::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+    animation:shimmer 1.25s infinite}
+  .cards.busy .card:not(.on) .fx-ph:nth-child(3){width:82%}
 
   /* 접근성: 모션 최소화 설정 존중 (장식용 애니메이션만 끔) */
   @media(prefers-reduced-motion:reduce){
@@ -2144,8 +2195,6 @@
   .fmk-warn{color:var(--red)}
   .fmk-dot{color:var(--faint)}
   .taro-viz-holder{margin:22px 0 2px}
-  .dna-comp{background:var(--bg);border-radius:16px;padding:18px}
-  .dna-comp{margin:22px 0 2px;font-size:13px;line-height:1.8}
   .nova-src{border-top:1px solid var(--line);margin-top:18px;padding-top:15px}
   .nova-src .ns-t{color:var(--ink)}
 
@@ -3854,35 +3903,9 @@ function levelsHTML(code, price, targetText){
     + `<div class="vl-note">※ 컴퓨터가 차트 지표로 계산한 참고선이에요 — 시세가 갱신되면 표도 매일 조금씩 움직여요. 매수·매도 권유가 아닙니다.</div>`;
 }
 
-/* ── 🏷️ 업종 내 상대비교: 같은 업종 종목들의 PER/PBR을 나란히 세워
-   "업종 안에서 싼 편인지 비싼 편인지"를 DIANA 카드에 보여준다.
-   같은 업종이 3종목 미만이면 전체 종목 기준으로 넓혀 비교한다. ── */
-function sectorCompHTML(code){
-  const me=STOCKS[code]; if(!me) return '';
-  const line=key=>{
-    if(typeof me[key]!=='number') return '';
-    let peers=Object.entries(STOCKS).filter(([c,s])=>s.sector===me.sector&&typeof s[key]==='number');
-    let scope=`${me.sector} ${peers.length}종목`;
-    if(peers.length<3){
-      peers=Object.entries(STOCKS).filter(([c,s])=>typeof s[key]==='number');
-      scope=`전체 ${peers.length}종목`;
-    }
-    if(peers.length<2||!peers.some(([c])=>c===code)) return '';
-    const sorted=peers.slice().sort((a,b)=>a[1][key]-b[1][key]);   // 낮을수록 이익·자산 대비 저렴
-    const rank=sorted.findIndex(([c])=>c===code)+1;
-    const label=key.toUpperCase();
-    const rankTxt=rank===1?'<b>가장 낮아요</b> (제일 저렴한 편)'
-      :rank===sorted.length?`<b>${rank}번째</b> (가장 비싼 편)`
-      :`<b>${rank}번째</b>로 낮아요`;
-    const top=sorted[0];
-    const topTxt=rank===1?'':` · 최저는 ${top[1].name} ${top[1][key]}배`;
-    return `<div>${term(label)} <b>${me[key]}배</b> — ${scope} 중 ${rankTxt}${topTxt}</div>`;
-  };
-  const rows=[line('per'),line('pbr')].filter(Boolean);
-  if(!rows.length) return '';
-  return `<div class="dc-t">🏷️ 업종 안에서 견주면</div>`+rows.join('')
-    +`<div class="dc-note">PER·PBR은 낮을수록 "번 돈·가진 자산에 비해 주가가 싸다"는 뜻이에요 (업종마다 눈높이는 달라요).</div>`;
-}
+// ⭐ 2026-08-08: 업종 내 PER/PBR 순위는 이제 DIANA 카드 재설계의 일부로
+// sectorRankInfo()(analystCardBodyHTML 근처)가 구조화된 값으로 계산한다 —
+// 이 자리에 있던 sectorCompHTML()의 문장형 출력은 fx-metric 카드로 대체됐다.
 
 /* ============================================================
    판단 히스토리 & 트랙레코드 (history.js · LIVE_HISTORY)
@@ -7403,6 +7426,290 @@ function evalRuleBadge(key,text){
   window.addEventListener('scroll',close,true);
   window.addEventListener('resize',close);
 })();
+/* ═══════════════════════════════════════════════════════════════════
+   🎓 분석가 카드 해석 계층 (DIANA·QUANT·FLOW·RISK) — 2026-08-08
+   목표: "숫자 나열"이 아니라 "결론 먼저 → 핵심 숫자 → 쉬운 해석 → 주의점"
+   구조로 초보자도 5~10초 안에 이해하게 만든다. 점수·분석 로직
+   (analyze_auto.py·compute_indicators.py)은 전혀 건드리지 않고, 이미
+   계산된 값(INDICATORS.stocks[code]의 per/pbr/roe/eps/flow/risk 등,
+   analysis 엔진의 nova.sampleN 등)을 화면에 "번역"하는 표현 계층만 담당한다.
+   원칙: 숫자 → 의미 → 주의점 순서, "무조건/확실히/반드시" 단정 표현과
+   매수·매도 지시 금지. 각 getXInterpretation()은 필요한 데이터가 없으면
+   null을 돌려주고, 그러면 렌더러가 예전 방식(findings 목록)으로 안전하게
+   돌아간다(오래된 정밀분석처럼 새 스키마가 없는 데이터도 안 깨지게).
+   ═══════════════════════════════════════════════════════════════════ */
+const SCORE_MEANING_NOTE='0~100 상태 점수 · 주가 상승 확률이 아니에요';
+function fmtPct(v,nd){ return (typeof v!=='number'||!isFinite(v))?'—':(v>0?'+':'')+v.toFixed(nd==null?1:nd)+'%'; }
+function fmtPp(v){ return (typeof v!=='number'||!isFinite(v))?'—':(v>0?'+':'')+v.toFixed(1)+'%p'; }
+
+// ① DIANA — 재무·가치: "이 회사가 지금 비싼가, 싼가?"
+function dianaStateLabel(score){
+  if(score>=75) return '밸류 매력 높음';
+  if(score>=60) return '밸류 매력 양호';
+  if(score>=40) return '밸류 보통';
+  if(score>=25) return '밸류 매력 낮음';
+  return '밸류 부담';
+}
+// 업종 내 PER·PBR 순위 — sectorCompHTML과 같은 계산(낮을수록 저렴)을 구조화된 값으로 재사용
+function sectorRankInfo(code,key){
+  const me=STOCKS[code]; if(!me||typeof me[key]!=='number') return null;
+  let peers=Object.entries(STOCKS).filter(([c,s])=>s.sector===me.sector&&typeof s[key]==='number');
+  let scope=`${me.sector} ${peers.length}종목`;
+  if(peers.length<3){ peers=Object.entries(STOCKS).filter(([c,s])=>typeof s[key]==='number'); scope=`전체 ${peers.length}종목`; }
+  if(peers.length<2||!peers.some(([c])=>c===code)) return null;
+  const sorted=peers.slice().sort((a,b)=>a[1][key]-b[1][key]);
+  const rank=sorted.findIndex(([c])=>c===code)+1;
+  return {rank, total:sorted.length, scope,
+    text: rank===1?'가장 낮음(제일 저렴한 편)':rank===sorted.length?`${rank}번째(가장 비싼 편)`:`${rank}번째로 낮음`};
+}
+function getDianaInterpretation(code,res){
+  // PER·PBR·ROE·EPS는 STOCKS(data.js, 시세 갱신마다 항상 최신)를 1차 소스로 쓴다.
+  // INDICATORS(indicators.js)는 목표주가·선행PER처럼 STOCKS에 없는 보너스 필드만 있으면 얹는다
+  // (⭐ 2026-08-08 파이프라인 갱신 전에는 그 필드들이 아직 없을 수 있어 없으면 조용히 건너뛴다).
+  const S=STOCKS[code];
+  if(!S||typeof S.per!=='number') return null;
+  const I=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks[code]:null;
+  const state=dianaStateLabel(res.score);
+  const metrics=[];
+  const perR=sectorRankInfo(code,'per'), pbrR=sectorRankInfo(code,'pbr');
+  metrics.push({label:'PER', value:S.per+'배', sub:perR?`${perR.scope} 중 ${perR.text}`:'이익 대비 가격'});
+  if(typeof S.pbr==='number') metrics.push({label:'PBR', value:S.pbr+'배', sub:pbrR?`${pbrR.scope} 중 ${pbrR.text}`:'자산 대비 가격'});
+  if(typeof S.roe==='number'||typeof S.eps==='number'){
+    metrics.push({label:'수익성', value:typeof S.roe==='number'?S.roe+'%':'—',
+      sub:'ROE · EPS '+(typeof S.eps==='number'?won(S.eps):'—')});
+  }
+  // 목표주가: indicators.js에 targetGap이 있으면 그걸 쓰고, 없으면 CHIEF의 목표가 문장에서
+  // 같은 컨센서스 숫자를 뽑아 쓴다(levelsHTML의 parseTargetInfo와 동일 계산).
+  let targetGap=I&&typeof I.targetGap==='number'?I.targetGap:null;
+  let targetMean=I&&typeof I.targetMean==='number'?I.targetMean:null;
+  if(targetGap==null){
+    const L=analysisEntry(code), tgt=(L&&L.chief)?parseTargetInfo(L.chief.target):null;
+    if(tgt&&tgt.price&&S.price){ targetMean=tgt.price; targetGap=Math.round((tgt.price/S.price-1)*1000)/10; }
+  }
+  if(targetGap!=null) metrics.push({label:'목표주가', value:fmtPct(targetGap), sub:'컨센서스 '+(targetMean!=null?won(Math.round(targetMean)):'—')});
+  if(I&&typeof I.fwdPer==='number'){
+    metrics.push({label:'선행 PER', value:I.fwdPer+'배',
+      sub:'컨센서스 EPS'+(typeof I.cnsEps==='number'?' '+won(I.cnsEps)+' 기준':' 기준')});
+  }
+  let lead,explain,check;
+  if(res.score>=60){
+    lead='업종 대비 자산가치 기준으로 저평가 매력이 있는 편이에요. 다만 수익성 개선 여부가 함께 확인돼야 해요.';
+    explain='쉽게 말하면 회사가 벌어들이는 이익과 보유 자산에 비해 주가가 비교적 낮게 평가받고 있는 편이에요. PER·PBR이 낮은 이유가 실적 부진이나 성장성 부족 때문일 수도 있으니, 수익성과 성장 흐름을 함께 확인하는 게 중요해요.';
+    check='낮은 PER·PBR만으로 저평가가 해소되는 것은 아니에요. 향후 이익과 ROE가 함께 좋아지는지 확인하세요.';
+  }else if(res.score>=40){
+    lead='밸류에이션은 업종 평균과 비슷한 수준이에요. 뚜렷한 저평가·고평가 신호는 아직 확인되지 않았어요.';
+    explain='가격이 특별히 싸거나 비싸다고 말하기엔 애매한 위치예요. 이익·자산 규모에 비해 무난한 가격대로 볼 수 있어요.';
+    check='업종 평균과 비교하며 실적 발표나 목표주가 변화가 있는지 주기적으로 확인해보세요.';
+  }else{
+    lead='업종 대비 가격 부담이 있는 편이에요. 그 부담을 설명해줄 성장성·수익성이 있는지 확인이 필요해요.';
+    explain='이익·자산에 비해 주가가 높게 평가된 편이에요. 시장이 미래 성장에 대한 기대를 가격에 미리 반영했을 가능성이 있으니, 그 기대가 실제로 실현되는지 지켜볼 필요가 있어요.';
+    check='PER·PBR이 높다고 무조건 고평가는 아니에요. 성장성·수익성이 그만큼 뒷받침되는지 함께 확인하세요.';
+  }
+  return {state,lead,metrics,explain,check};
+}
+
+// ② QUANT(내부 id 'nova') — 확률·통계: "과거 비슷한 상황에서 이후 주가가 어떻게 움직였나?"
+function quantStateLabel(score){
+  if(score>=65) return '통계상 우위';
+  if(score>=55) return '통계상 약우위';
+  if(score>=45) return '통계상 중립';
+  if(score>=35) return '통계상 약열위';
+  return '통계상 열위';
+}
+function quantSampleQuality(n){
+  if(typeof n!=='number') return null;
+  if(n>=1000) return {label:'표본 충분', note:null};
+  if(n>=200) return {label:'표본 보통', note:'분석 기간이 짧아 다양한 시장 환경이 충분히 포함되지 않았을 수 있어요.'};
+  return {label:'표본 부족', note:'유사 사례가 적어 통계 해석에 주의가 필요해요.'};
+}
+// 실제 학습 데이터의 최초·마지막 날짜(analyze_auto.py가 매 실행마다 다시 계산)를 그대로 표시한다 —
+// "최근 N년"을 하드코딩하지 않고 실제 기간과 항상 일치하게 한다.
+function quantPeriodLabel(start,end){
+  if(!start||!end) return null;
+  const fmt=s=>{ const m=String(s).match(/^(\d{4})-(\d{2})/); return m?`${m[1]}.${m[2]}`:s; };
+  return `${fmt(start)} ~ ${fmt(end)}`;
+}
+// indicators.js와 마찬가지로, analyze_auto.py가 아직 구조화된 필드(sampleN 등)를 안 내려주는
+// 옛 데이터를 위한 안전망 — QUANT findings 문장(고정 템플릿)에서 같은 숫자를 다시 뽑아 쓴다.
+// 표본 기간(periodStart/End)만은 문장에 애초에 없어서 여기선 못 채운다(그러면 아래에서
+// "전체 500종목 누적 일봉 기준"이라는 정직한 대체 문구를 대신 보여준다).
+function parseQuantFromFindings(findings){
+  if(!Array.isArray(findings)||!findings.length) return null;
+  const joined=findings.join(' ');
+  const m1=joined.match(/이런\s*상태\(([^)]+)\)였던\s*적이\s*([\d,]+)건\s*있었는데,\s*그중\s*([\d,]+)건이\s*5거래일\s*뒤\s*올랐어요\s*→\s*경험적\s*승률\s*(\d+)%\s*\(시장\s*평균\s*(\d+)%보다\s*([+\-]?\d+)%p/);
+  if(!m1) return null;
+  const m2=joined.match(/등락률\s*평균은\s*([+\-]?[\d.]+)%예요/);
+  return {scopeUsed:m1[1], sampleN:parseInt(m1[2].replace(/,/g,''),10), sampleWin:parseInt(m1[3].replace(/,/g,''),10),
+    winRate:parseFloat(m1[4]), marketAvgWinRate:parseFloat(m1[5]), relPp:parseFloat(m1[6]),
+    avgReturn:m2?parseFloat(m2[1]):null, periodStart:null, periodEnd:null};
+}
+function getQuantInterpretation(code,res){
+  const q=(typeof res.sampleN==='number')?res:parseQuantFromFindings(res.findings);
+  if(!q||typeof q.sampleN!=='number') return null;
+  const n=q.sampleN, wr=q.winRate, mkt=q.marketAvgWinRate, rel=q.relPp, avg=q.avgReturn;
+  const state=quantStateLabel(res.score);
+  const period=quantPeriodLabel(q.periodStart,q.periodEnd);
+  const quality=quantSampleQuality(n);
+  const metrics=[
+    {label:'과거 상승 확률', value:wr+'%', sub:`유사 사례 100번 중 약 ${Math.round(wr)}번 상승`},
+    {label:'시장 평균 대비', value:fmtPp(rel), sub:`시장 평균 상승 확률 ${mkt}%보다 ${rel>=0?'높은':'낮은'} 수준`},
+    {label:'평균 5일 수익률', value:fmtPct(avg), sub:'상승·하락 사례를 모두 포함한 평균'},
+    {label:'유사 사례', value:n.toLocaleString('ko-KR')+'건', sub:period?`표본 기간 ${period}`:'전체 500종목 누적 일봉 기준'},
+  ];
+  let lead;
+  if(Math.abs(rel)<2) lead='과거 비슷한 상황에서는 5거래일 뒤 상승과 하락이 거의 반반이었어요. 현재 통계만으로는 뚜렷한 방향성이 확인되지 않아요.';
+  else if(rel>=2) lead='과거 비슷한 상황에서는 시장 평균보다 조금 더 자주 올랐어요. 다만 강한 우위라고 보기엔 부족한 수준이에요.';
+  else lead='과거 비슷한 상황에서는 시장 평균보다 오히려 덜 오르는 경향이 있었어요. 통계상 우위가 있다고 보기는 어려워요.';
+  const explain='상승 확률과 평균 수익률은 다른 지표예요. 상승한 경우의 상승폭이 하락한 경우의 하락폭보다 컸다면, 승률이 50% 근처여도 평균 수익률은 플러스가 될 수 있어요.';
+  let check='과거 통계는 참고 자료이며 같은 상황이 반복된다는 보장은 없어요. 표본 수와 분석 기간을 함께 확인하세요.';
+  if(quality&&quality.note) check=quality.note+' '+check;
+  return {state,lead,metrics,explain,check,badge:quality?quality.label:null,scope:q.scopeUsed};
+}
+
+// ③ FLOW — 수급: "지금 외국인·기관 같은 큰 자금이 들어오는가?"
+function flowStateLabel(score){
+  if(score>=65) return '수급 강세';
+  if(score>=55) return '수급 양호';
+  if(score>=45) return '수급 중립';
+  if(score>=35) return '수급 약세';
+  return '수급 부진';
+}
+const FLOW_DIVERGENCE_TXT={
+  accumulation:'가격은 약하지만 큰손 매수는 이어지는 매집 구간일 수 있어요.',
+  distribution:'가격은 오르지만 큰손은 팔고 있는 분배 구간일 수 있어요.',
+  confirmation_up:'가격 상승과 큰손 매수가 함께 가는 상승 확인 구간이에요.',
+  confirmation_down:'가격 하락과 큰손 매도가 함께 가는 하락 확인 구간이에요.',
+};
+function flowQualityLabel(q){
+  if(typeof q!=='number') return null;
+  if(q>=25) return '동반매수 강도 높음';
+  if(q>=8) return '동반매수 강도 양호';
+  if(q>-8) return '동반매수 강도 보통';
+  if(q>-25) return '동반매도 강도 약함';
+  return '동반매도 강도 높음';
+}
+// indicators.js에 flow 구조화 필드가 아직 없을 때(파이프라인 갱신 전)를 대비한 안전망 —
+// FLOW 자신의 findings 문장(analyze_auto.py의 고정 템플릿)에서 같은 숫자를 다시 뽑아 쓴다.
+// 예: "최근 5거래일 외국인 순매수 109,506주 · 기관 순매도 21,380주" 등 4개 고정 문장.
+function parseFlowFromFindings(findings){
+  if(!Array.isArray(findings)||!findings.length) return null;
+  const joined=findings.join(' ');
+  const m1=joined.match(/최근\s*(\d+)거래일\s*외국인\s*(순매수|순매도)\s*([\d,]+)주\s*·\s*기관\s*(순매수|순매도)\s*([\d,]+)주/);
+  if(!m1) return null;
+  const days=+m1[1];
+  const frgnSum=(m1[2]==='순매수'?1:-1)*parseInt(m1[3].replace(/,/g,''),10);
+  const orgSum=(m1[4]==='순매수'?1:-1)*parseInt(m1[5].replace(/,/g,''),10);
+  const m2=joined.match(/외국인\s*보유율\s*([\d.]+)%\s*→\s*([\d.]+)%/);
+  const holdBefore=m2?parseFloat(m2[1]):null, holdNow=m2?parseFloat(m2[2]):null;
+  const m3=joined.match(/직전\s*거래일\s*외국인\s*([+\-][\d,]+)주\s*·\s*기관\s*([+\-][\d,]+)주\s*·\s*개인\s*([+\-][\d,]+)주/);
+  if(!m3) return null;
+  const todayFrgn=parseInt(m3[1].replace(/,/g,''),10), todayOrg=parseInt(m3[2].replace(/,/g,''),10), todayIndi=parseInt(m3[3].replace(/,/g,''),10);
+  const m4=joined.match(/수급\s*품질\s*([+\-]?\d+)점/);
+  const qualityScore=m4?parseFloat(m4[1]):null;
+  let divergence=null;
+  if(joined.indexOf('매집형 괴리')>=0) divergence='accumulation';
+  else if(joined.indexOf('분배형 괴리')>=0) divergence='distribution';
+  else if(joined.indexOf('상승 확인')>=0) divergence='confirmation_up';
+  else if(joined.indexOf('하락 확인')>=0) divergence='confirmation_down';
+  return {days,frgnSum,orgSum,holdBefore,holdNow,todayFrgn,todayOrg,todayIndi,qualityScore,divergence};
+}
+function getFlowInterpretation(code,res){
+  const I=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks[code]:null;
+  const fl=(I&&I.flow&&typeof I.flow.frgnSum==='number')?I.flow:parseFlowFromFindings(res.findings);
+  if(!fl||typeof fl.frgnSum!=='number'||typeof fl.todayIndi!=='number') return null;
+  const state=flowStateLabel(res.score);
+  const rows=[
+    {label:'외국인', val:fl.frgnSum, dir:fl.frgnSum>=0?'순매수':'순매도', period:`최근 ${fl.days||5}거래일`},
+    {label:'기관', val:fl.orgSum, dir:fl.orgSum>=0?'순매수':'순매도', period:`최근 ${fl.days||5}거래일`},
+    {label:'개인', val:fl.todayIndi, dir:fl.todayIndi>=0?'순매수':'순매도', period:'직전 거래일'},
+  ];
+  const holdDelta=(typeof fl.holdNow==='number'&&typeof fl.holdBefore==='number')?fl.holdNow-fl.holdBefore:null;
+  const both=fl.frgnSum>=0&&fl.orgSum>=0, none=fl.frgnSum<0&&fl.orgSum<0;
+  let lead;
+  if(both) lead='외국인과 기관이 함께 순매수하고 있어요. 최근 가격 상승에 큰손 매수가 동반되는 흐름이에요.';
+  else if(none) lead='외국인과 기관이 함께 순매도하고 있어요. 큰손 자금이 빠져나가는 흐름이 확인돼요.';
+  else lead='외국인과 기관의 매매 방향이 엇갈리고 있어요. 아직 뚜렷한 한쪽 방향은 아니에요.';
+  const explain=both
+    ?'외국인과 기관이 동시에 매수하면 시장 참여자 중 비교적 큰 자금이 같은 방향으로 움직이고 있다는 의미예요. 다만 이 흐름이 계속 이어지는지가 중요해요 — 순매수가 갑자기 약해지거나 매도로 전환되는지도 함께 확인하세요.'
+    :'외국인·기관 중 한쪽만 사거나 둘 다 팔고 있다는 건, 아직 큰손 자금의 방향이 확실히 정해지지 않았다는 뜻일 수 있어요.';
+  return {state,lead,rows,holdDelta,fl,explain,
+    check:'좋은 수급도 지속 여부가 중요해요. 외국인·기관의 매수가 며칠 뒤에도 이어지는지 확인해보세요.',
+    quality:flowQualityLabel(fl.qualityScore), divergence:FLOW_DIVERGENCE_TXT[fl.divergence]||null};
+}
+
+// ④ RISK — 위험: "이 종목은 얼마나 크게 흔들릴 수 있는가?"
+function riskStateLabel(grade){ return grade==='low'?'위험도 낮음':grade==='high'?'위험도 높음':'위험도 보통'; }
+function getRiskInterpretation(code){
+  const r=(LIVE_IND[code]||{}).risk; if(!r) return null;
+  const overlay=riskDecisionOverlay(code);
+  const state=riskStateLabel(r.grade);
+  const swing=(r.vol20*2).toFixed(1);
+  const lead=r.grade==='high'
+    ?`가격 변동이 큰 편이에요. 최근 3개월 동안 고점 대비 최대 ${r.mdd3m}%의 큰 하락이 발생한 적이 있어요.`
+    :r.grade==='low'
+    ?`가격 변동은 차분한 편이에요. 다만 최근 3개월 고점 대비 최대 ${r.mdd3m}%까지 빠진 적은 있어요.`
+    :`가격 변동은 보통 수준이지만, 최근 3개월 동안 고점 대비 최대 ${r.mdd3m}%의 하락이 발생한 적이 있어요.`;
+  const metrics=[
+    {label:'하루 평균 변동폭', value:'±'+r.vol20+'%', sub:'이 종목은 하루에도 이 정도 오르내릴 수 있어요'},
+    {label:'최근 최대낙폭', value:r.mdd3m+'%', sub:'최근 3개월 고점 대비 최대 하락폭(참고값)'},
+    {label:'52주 가격 위치', value:r.pos52w!=null?r.pos52w+'%':'—',
+      sub:r.pos52w!=null?(r.pos52w>=70?'최근 1년 범위에서 비교적 높은 위치':r.pos52w<=30?'최근 1년 범위에서 비교적 낮은 위치':'최근 1년 범위의 중간 지점'):'데이터가 부족해 계산하지 못했어요'},
+  ];
+  const guide=swing<=12
+    ?`통계적 흔들림 참고 — 현재 변동성을 기준으로 보면 단기적으로 약 -${swing}% 수준의 가격 움직임도 나타날 수 있어요. 손절가나 목표가격을 의미하지 않으며, 개인의 투자기간과 위험 감내 수준에 따라 판단 기준은 달라질 수 있어요.`
+    :`통계적 흔들림 참고 — 지금은 이틀치 출렁임만 ±${swing}%에 달하는 이례적으로 험한 구간이에요. 일반적인 손절선(-5~-10%)이 하루 만에 닿을 수 있으니, 변동성이 가라앉은 뒤 접근하는 것도 한 방법이에요.`;
+  const explain=`현재 위험 수준은 ${state==='위험도 높음'?'높은':state==='위험도 낮음'?'낮은':'보통'} 편이에요. 주가 방향에 대한 긍정 신호가 있더라도, 변동성이 큰 종목은 점수를 보수적으로 반영해요.`;
+  return {state,lead,metrics,explain,guide,
+    check:'최근 최대낙폭과 하루 변동폭을 참고해 본인이 감당할 수 있는 가격 변동인지 확인해보세요.',
+    penalty:overlay.penalty, confPenalty:overlay.confPenalty};
+}
+
+// ⑤ 공통 렌더러 — 위 getXInterpretation() 결과를 "상태라벨→점수→한줄결론→핵심지표→
+// 초보자해석→체크할점→자세히보기" 구조의 카드 본문 HTML로 조립한다. 데이터가 부족해
+// null이 오면 예전처럼 findings 목록만 보여준다(깨지지 않는 안전망).
+function analystCardBodyHTML(id,code,res,color){
+  const I=id==='diana'?getDianaInterpretation(code,res)
+    :id==='nova'?getQuantInterpretation(code,res)
+    :id==='flow'?getFlowInterpretation(code,res)
+    :id==='risk'?getRiskInterpretation(code):null;
+  const stateEl=document.getElementById('state-'+id);
+  const noteEl=document.getElementById('note-'+id);
+  if(!I){
+    if(stateEl) stateEl.textContent='';
+    if(noteEl) noteEl.textContent='';
+    return `<ul>${res.findings.map(findingLi).join('')}</ul>`;
+  }
+  if(stateEl){ stateEl.textContent=I.state; stateEl.style.color=color; stateEl.style.background=color+'18'; }
+  if(noteEl) noteEl.textContent=SCORE_MEANING_NOTE;
+  const lead=`<p class="fx-lead">${esc(I.lead)}</p>`;
+  let metricsHTML='';
+  if(id==='flow'){
+    metricsHTML=`<div class="fx-flow-row">`+I.rows.map(m=>{
+      const up=m.val>=0;
+      return `<div class="fx-flow-card ${up?'up':'dn'}"><div class="fx-flow-label">${esc(m.label)}</div>`+
+        `<div class="fx-flow-val">${up?'+':'−'}${Math.abs(m.val).toLocaleString('ko-KR')}주</div>`+
+        `<div class="fx-flow-dir">${up?'▲':'▼'} ${m.dir}</div><div class="fx-flow-period">${esc(m.period)}</div></div>`;
+    }).join('')+`</div>`;
+    const subs=[];
+    if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
+    if(I.quality) subs.push(I.quality+(I.divergence?' · '+I.divergence:''));
+    if(subs.length) metricsHTML+=`<div class="fx-sub">${subs.map(esc).join('<br>')}</div>`;
+  }else{
+    metricsHTML=`<div class="fx-metrics">`+I.metrics.map(m=>
+      `<div class="fx-metric"><div class="fx-metric-label">${esc(m.label)}</div>`+
+      `<div class="fx-metric-row main">${esc(m.value)}</div>`+
+      (m.sub?`<div class="fx-metric-row sub">${esc(m.sub)}</div>`:'')+
+      `</div>`).join('')+`</div>`;
+  }
+  const badge=I.badge?`<span class="fx-badge">${esc(I.badge)}</span>`:'';
+  const scope=I.scope?`<div class="fx-scope">비교 범위: ${esc(I.scope)}</div>`:'';
+  const explain=I.explain?`<div class="fx-explain"><b>초보자용 해석</b><p>${esc(I.explain)}</p></div>`:'';
+  const guide=I.guide?`<div class="fx-explain"><p>${esc(I.guide)}</p></div>`:'';
+  const check=I.check?`<div class="fx-check"><b>✅ 체크할 점</b><p>${esc(I.check)}</p></div>`:'';
+  const details=`<details class="fx-details"><summary>자세히 보기</summary><ul>${res.findings.map(findingLi).join('')}</ul></details>`;
+  return lead+badge+metricsHTML+scope+explain+guide+check+details;
+}
+
 function makeCards(isLive){
   cardsEl.innerHTML='';
   const evalRules={
@@ -7427,9 +7734,11 @@ function makeCards(isLive){
          <h3><span style="color:${a.color}">●</span> ${a.name}${isLive?'<span class="live">LIVE</span>':''}${evalRule}<span class="accb" id="acc-${a.id}" style="display:none"></span>
            <span class="stance neu" id="st-${a.id}">대기</span></h3>
          <div class="role">${a.role} · ${a.room}</div>
+         <div class="card-state" id="state-${a.id}"></div>
          <div class="scorewrap"><span class="score" id="sc-${a.id}" style="color:${a.color}">—</span><span class="score-max">/100</span></div>
+         <div class="card-score-note" id="note-${a.id}"></div>
          <div class="scorebar"><div class="scorebar-fill" id="bar-${a.id}"></div></div>
-         <ul id="fx-${a.id}"><li>분석을 시작하면 결과가 표시됩니다.</li><li class="ph" aria-hidden="true"></li><li class="ph" aria-hidden="true"></li></ul>
+         <div id="fx-${a.id}" class="fx-body"><p class="fx-empty">분석을 시작하면 결과가 표시됩니다.</p><div class="fx-ph" aria-hidden="true"></div><div class="fx-ph" aria-hidden="true"></div></div>
        </div>`);
   });
   setAnalystTab(window.GaeoAnalystTab||'taro');
@@ -7464,16 +7773,14 @@ function fillCard(a,res,code){
   st.className='stance '+(res.stance==='bull'?'bull':res.stance==='bear'?'bear':'neu');
   st.textContent=res.stance==='bull'?'강세':res.stance==='bear'?'약세':'중립';
   const fx=document.getElementById('fx-'+a.id);
-  fx.innerHTML=res.findings.map(findingLi).join('');
   if(a.id==='taro'){
+    fx.innerHTML=`<ul>${res.findings.map(findingLi).join('')}</ul>`;
     const viz=taroChartHTML(code);
     if(viz){ const holder=document.createElement('div'); holder.className='taro-viz-holder';
       holder.innerHTML=viz; fx.before(holder); }
-  }
-  if(a.id==='diana'){
-    const comp=sectorCompHTML(code);
-    if(comp){ const holder=document.createElement('div'); holder.className='dna-comp';
-      holder.innerHTML=comp; fx.before(holder); }
+  }else{
+    // DIANA·QUANT·FLOW — "결론 먼저 → 핵심 숫자 → 쉬운 해석 → 주의점" 구조로 재조립
+    fx.innerHTML=analystCardBodyHTML(a.id,code,res,a.color);
   }
   if(a.id==='nova'&&Array.isArray(res.sources)&&res.sources.length){
     const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -7500,26 +7807,26 @@ function renderRiskCard(code,data){
   // 안정 점수(높을수록 차분한 종목): 변동성·최대낙폭이 클수록 깎인다
   const overlay=riskDecisionOverlay(code), score=overlay.score;
   const volDesc=r.vol20>=4?'하루에도 급등락이 오가는 큰 폭이에요':(r.vol20<=1.8?'큰 종목치고 차분한 편이에요':'적당히 출렁이는 보통 수준이에요');
-  const swingNum=r.vol20*2, swing=swingNum.toFixed(1);
-  // 이틀치 출렁임이 ±12%를 넘는 극단 변동성이면 "정상 범위" 표현 대신 관망 경고를 준다
-  const guide=swingNum<=12
-    ?`참고 가이드: 이 변동성이면 매수가 아래 -${swing}%(이틀치 출렁임)까지는 정상 범위로 볼 수 있어요 — 그보다 깊게 빠지면 처음 세운 계획을 점검해 보세요`
-    :`참고 가이드: 지금은 이틀치 출렁임만 ±${swing}%에 달하는 이례적으로 험한 구간이에요 — 일반적인 손절선(-5~-10%)이 하루 만에 닿을 수 있으니, 초보자라면 변동성이 가라앉은 뒤 접근하는 것도 전략이에요`;
+  // "자세히 보기"용 원문 — 내부 계산 방식(방향 원점수 감점 등)은 기본 화면 대신 여기로만 노출한다
   const findings=[
     `하루 변동폭: 최근 한 달간 하루 평균 ±${r.vol20}% 출렁였어요 — ${volDesc}`,
     `최대낙폭: 최근 3개월 안에서 고점 대비 최대 ${r.mdd3m}%까지 빠진 적이 있어요 — 이만큼의 하락은 이 종목에선 '있을 수 있는 일'이라는 뜻이에요`,
     (r.pos52w!=null?`52주 가격 위치: 1년 범위에서 지금은 ${r.pos52w}% 지점이에요 (0%=1년 최저가, 100%=1년 최고가)`:'52주 가격 위치: 데이터가 부족해 계산하지 못했어요'),
-    `종합 반영: 위험은 매수 근거로 쓰지 않고, 현재 안정도에서는 방향 원점수에서 ${overlay.penalty}점과 신뢰도에서 ${overlay.confPenalty}%p를 낮춰 과감한 판단을 억제해요`,
-    guide,
+    `점수 산정 방식: 위험은 매수 근거로 쓰지 않고, 현재 안정도에서는 방향 원점수에서 ${overlay.penalty}점과 신뢰도에서 ${overlay.confPenalty}%p를 낮춰 과감한 판단을 억제해요`,
   ];
   cardsEl.insertAdjacentHTML('beforeend',
     `<div class="card on" id="card-risk">
        <h3><span style="color:${RISK_COLOR}">●</span> RISK${evalRuleBadge('risk','가점 없음 · 고위험 최대 -7점')}<span class="stance ${gradeCls}" id="st-risk">${gradeKr}</span></h3>
        <div class="role">리스크 관리 · 종합점수 단방향 안전장치</div>
+       <div class="card-state" id="state-risk"></div>
        <div class="scorewrap"><span class="score" id="sc-risk" style="color:${RISK_COLOR}">—</span><span class="score-max">/100 안정도</span></div>
+       <div class="card-score-note" id="note-risk"></div>
        <div class="scorebar"><div class="scorebar-fill" id="bar-risk"></div></div>
-       <ul id="fx-risk">${findings.map(findingLi).join('')}</ul>
+       <div id="fx-risk" class="fx-body"></div>
      </div>`);
+  // state-risk/note-risk가 DOM에 먼저 들어간 뒤에 채워야 analystCardBodyHTML의
+  // getElementById('state-risk'/'note-risk')가 요소를 찾을 수 있다.
+  document.getElementById('fx-risk').innerHTML=analystCardBodyHTML('risk',code,{findings},RISK_COLOR);
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
   if(bar){ bar.style.background=RISK_COLOR; requestAnimationFrame(()=>{bar.style.width=Math.max(2,score)+'%';}); }
