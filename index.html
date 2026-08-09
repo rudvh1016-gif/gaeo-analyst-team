@@ -19,10 +19,10 @@
   // 여전히 옛 /v1/ 주소로 요청을 보내고 있어서 매번 실패 → 화면엔 캐시된 최소값만
   // 계속 보이고 실제 집계가 전혀 올라가지 않는 상태였다. v2 주소·응답 파싱으로 맞춘다.
   // ⚠️ v2는 "워크스페이스"를 CounterAPI 계정에서 미리 만들어둬야 카운터가 기록된다
-  // (v1은 아무 이름이나 즉석에서 써도 됐다) — 아래 workspace 슬러그(rudvh1016-gif-gaeo)로
-  // 실제 워크스페이스를 만들어야 그때부터 숫자가 올라간다.
+  // (v1은 아무 이름이나 즉석에서 써도 됐다) — app.counterapi.dev에서 가입 후 자동
+  // 생성된 기본 워크스페이스(Public)의 실제 슬러그를 그대로 쓴다.
   window.GaeoMetrics=(function(){
-    const API='https://api.counterapi.dev/v2/rudvh1016-gif-gaeo/';
+    const API='https://api.counterapi.dev/v2/s-team-47-4981/';
     const TOTAL_KEY='site-visits';
     const VISIT_CACHE_KEY='gaeo_visit_snapshot_v1';
     // 2026-07-29 CounterAPI(v1)에서 직접 확인한 누적값. 외부 집계가 늦어도 이 숫자 아래로 사라지지 않는다.
