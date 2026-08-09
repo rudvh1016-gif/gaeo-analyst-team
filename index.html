@@ -13,11 +13,19 @@
 <script>
   // 정적 사이트용 익명 활동 집계. 사람을 식별하지 않고 브라우저 세션 단위의
   // 방문·콘텐츠 이용 신호만 CounterAPI에 숫자로 저장한다.
+  // ⭐ 2026-08-09: "조회수 집계가 안 된다" 원인 파악 — CounterAPI가 v1 API를 완전히
+  // 폐지하고 v2로 전환했다(base URL이 /v1/에서 /v2/로 바뀌고, 응답 형태도
+  // {count} 단일 숫자에서 {code,data:{up_count,down_count,...}}로 바뀜). 이 사이트는
+  // 여전히 옛 /v1/ 주소로 요청을 보내고 있어서 매번 실패 → 화면엔 캐시된 최소값만
+  // 계속 보이고 실제 집계가 전혀 올라가지 않는 상태였다. v2 주소·응답 파싱으로 맞춘다.
+  // ⚠️ v2는 "워크스페이스"를 CounterAPI 계정에서 미리 만들어둬야 카운터가 기록된다
+  // (v1은 아무 이름이나 즉석에서 써도 됐다) — 아래 workspace 슬러그(rudvh1016-gif-gaeo)로
+  // 실제 워크스페이스를 만들어야 그때부터 숫자가 올라간다.
   window.GaeoMetrics=(function(){
-    const API='https://api.counterapi.dev/v1/rudvh1016-gif-gaeo/';
+    const API='https://api.counterapi.dev/v2/rudvh1016-gif-gaeo/';
     const TOTAL_KEY='site-visits';
     const VISIT_CACHE_KEY='gaeo_visit_snapshot_v1';
-    // 2026-07-29 CounterAPI에서 직접 확인한 누적값. 외부 집계가 늦어도 이 숫자 아래로 사라지지 않는다.
+    // 2026-07-29 CounterAPI(v1)에서 직접 확인한 누적값. 외부 집계가 늦어도 이 숫자 아래로 사라지지 않는다.
     const VERIFIED_TOTAL_FLOOR=939;
     const REQUEST_TIMEOUT=6000;
     const PREVIEW_HOST=!location.hostname||location.hostname==='localhost'||location.hostname==='127.0.0.1';
@@ -27,8 +35,11 @@
       const d=new Date(Date.now()+9*60*60*1000+offset*86400000);
       return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}`;
     };
+    // v2 응답 형태: {code:"200", data:{up_count, down_count, ...}, message}.
+    // v1의 {count}·{value} 단일 숫자 형태와는 다르다 — data.up_count를 우선 읽고,
+    // 혹시 API가 다시 예전 형태로 되돌아가도 깨지지 않게 count/value도 그대로 폴백에 남겨둔다.
     const counterValue=d=>{
-      const v=d&&(d.count!=null?d.count:d.value);
+      const v=d&&(d.data&&d.data.up_count!=null?d.data.up_count:(d.count!=null?d.count:d.value));
       return Number.isFinite(Number(v))?Number(v):0;
     };
     function visitSnapshot(){
