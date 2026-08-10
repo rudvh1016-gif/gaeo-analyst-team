@@ -61,7 +61,11 @@
 .rot-detail-score span{display:block;color:#7a8089;font-size:8px}.rot-detail-score strong{display:block;margin-top:5px;font-size:14px}
 .rot-meter-list{display:grid;gap:8px}
 .rot-meter-head{display:flex;justify-content:space-between;color:#606873;font-size:8px;font-weight:700}
-.rot-meter-head i{display:inline-grid;place-items:center;width:12px;height:12px;border:1px solid #c9ced5;border-radius:50%;font-style:normal;font-size:7px}.rot-meter small{display:block;margin-top:3px;color:#9297a0;font-size:7px;line-height:1.35}
+.rot-help{display:inline-grid;place-items:center;width:14px;height:14px;margin:0 0 0 3px;padding:0;border:1px solid #b9c0ca;border-radius:50%;background:#fff;color:#59616d;font-family:inherit;font-size:8px;font-weight:700;line-height:1;vertical-align:1px;cursor:help}
+.rot-help:hover,.rot-help:focus-visible{border-color:#2563eb;color:#2563eb;outline:2px solid rgba(37,99,235,.18);outline-offset:2px}
+.rot-help[data-tip]::after{left:0;bottom:calc(100% + 8px);width:220px;max-width:min(220px,70vw);font-size:10px}
+.rot-help[data-tip]::before{left:4px;bottom:calc(100% + 2px)}
+.rot-meter small{display:block;margin-top:3px;color:#9297a0;font-size:7px;line-height:1.35}
 .rot-meter-track{height:5px;border-radius:99px;background:#eaedf1;overflow:hidden}
 .rot-meter-fill{height:100%;border-radius:99px;background:#2563eb}
 .rot-score-note{margin:0 0 14px;padding:10px;border-radius:11px;background:#f3f6fa;color:#606873;font-size:8px;line-height:1.5}.rot-score-note strong{display:block;margin-bottom:3px;color:#1d1d1f;font-size:9px}
@@ -78,6 +82,9 @@
 .rot-method summary{cursor:pointer;color:#424a55;font-size:10px;font-weight:800}
 .rot-method-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;color:#707781;font-size:9px;line-height:1.6}
 .rot-method-body strong{display:block;margin-bottom:3px;color:#343b45}
+.rot-accumulation-note{margin-top:14px;padding:15px 18px;border-top:1px solid #dfe3e8;border-bottom:1px solid #edf0f3;background:#fafbfc;color:#69717c;font-size:9px;line-height:1.65}
+.rot-accumulation-note>strong{display:block;margin-bottom:3px;color:#343b45;font-size:10px}
+.rot-accumulation-note p{margin:0 0 6px}.rot-accumulation-note ul{display:grid;gap:3px;margin:0;padding-left:17px}.rot-accumulation-note b{color:#4b535e}
 .rot-sr-table{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 html.gdark .rotation-view{color:#f5f5f7}
 html.gdark .rot-card,html.gdark .rot-panel,html.gdark .rot-method{background:#1c1c1e;border-color:#343438}
@@ -86,6 +93,8 @@ html.gdark .rot-hero h2,html.gdark .rot-asof strong,html.gdark .rot-card strong,
 html.gdark .rot-hero p,html.gdark .rot-asof,html.gdark .rot-card span,html.gdark .rot-card small,html.gdark .rot-panel-head p,html.gdark .rot-rank-name small,html.gdark .rot-meter-head,html.gdark .rot-evidence-item span,html.gdark .rot-method-body,html.gdark .rot-map-legend{color:#aeb3bb}
 html.gdark .rot-warning{border-color:#b78a35;background:#2b271f;color:#d9ccb0}
 html.gdark .rot-meter-track{background:#45454a}
+html.gdark .rot-help{background:#242427;border-color:#555b65;color:#c8ccd3}
+html.gdark .rot-accumulation-note{background:#18181a;border-color:#343438;color:#aeb3bb}html.gdark .rot-accumulation-note>strong,html.gdark .rot-accumulation-note b{color:#e1e3e7}
 html.gdark .rot-orbit{stroke:#414147}html.gdark .rot-axis{stroke:#333338}
 html.gdark .rot-center{fill:#1c1c1e;stroke:#555960}html.gdark .rot-center-title{fill:#f5f5f7}
 html.gdark .rot-node circle{fill:#242427}.gdark .rot-node text{fill:#d8dbe0}
