@@ -137423,6 +137423,31 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 77
    }
+  },
+  {
+   "date": "2026-08-10 14:52",
+   "call": "BUY",
+   "total": 71,
+   "confidence": 68,
+   "base": 5770,
+   "baseAt": "2026-08-10 14:46 장중",
+   "target": "증권사 평균 목표주가 7,867원 (현재가 대비 +36.4% 상승여력), 다만 증권사별 목표가는 4,800원(하나증권)~8,700원(LS증권)까지 크게 갈려 있음",
+   "taro": {
+    "stance": "bull",
+    "score": 76
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 68
+   },
+   "nova": {
+    "stance": "neu",
+    "score": 62
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 77
+   }
   }
  ],
  "012750": [
