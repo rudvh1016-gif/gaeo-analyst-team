@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import re
@@ -70,7 +71,7 @@ def default_model():
     equal = round(1 / len(MODEL_COMPONENTS), 8)
     return {
         "schemaVersion": 1,
-        "version": "rotation-shadow-v1",
+        "version": "rotation-shadow-v2",
         "calibratedThrough": None,
         "weights": {
             str(horizon): {component: equal for component in MODEL_COMPONENTS}
@@ -85,6 +86,11 @@ def default_model():
         "similarityScores": {},
         "leadLagEdges": [],
         "similarMarkets": {"status": "accumulating", "cases": []},
+        "horizonPerformance": {},
+        "recommendedHorizon": {
+            "status": "accumulating", "horizon": None,
+            "reason": "표본 수와 구간 안정성이 기준에 도달할 때까지 추천을 보류합니다.",
+        },
         "warnings": ["Walk-forward 평가가 쌓일 때까지 높은 신뢰도를 잠급니다."],
     }
 
@@ -191,6 +197,62 @@ def update_archive(path, snapshot, limit=750):
     return archive
 
 
+def load_archive(path):
+    try:
+        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {"schemaVersion": 1, "days": []}
+    except (OSError, json.JSONDecodeError):
+        return {"schemaVersion": 1, "days": []}
+
+
+def _change_direction(value):
+    if value >= 3:
+        return "급부상"
+    if value >= 0.8:
+        return "강화"
+    if value <= -3:
+        return "약화"
+    if value <= -0.8:
+        return "둔화"
+    return "유지"
+
+
+def apply_score_history(snapshot, archive):
+    """Attach honest previous-close changes; same-day records never become the baseline."""
+    enriched = copy.deepcopy(snapshot)
+    current_date = str(enriched.get("dataCutoff") or enriched.get("generatedAt") or "")[:10]
+    prior_days = sorted(
+        (day for day in (archive or {}).get("days", []) if str(day.get("date") or "") < current_date),
+        key=lambda day: day.get("date") or "",
+    )
+    prior = prior_days[-1] if prior_days else None
+    prior_sectors = {
+        sector.get("name"): sector
+        for sector in ((prior or {}).get("sectors") or [])
+    }
+    for sector in enriched.get("sectors") or []:
+        previous = prior_sectors.get(sector.get("name")) or {}
+        previous_periods = previous.get("periods") or {}
+        for horizon, period in (sector.get("periods") or {}).items():
+            old_score = (previous_periods.get(horizon) or {}).get("score")
+            new_score = period.get("score")
+            if old_score is None or new_score is None:
+                period["scoreChange"] = {
+                    "status": "accumulating", "value": None, "direction": "축적 중", "baseDate": None,
+                }
+                continue
+            value = round(float(new_score) - float(old_score), 1)
+            period["scoreChange"] = {
+                "status": "ready", "value": value, "direction": _change_direction(value),
+                "baseDate": prior.get("date"),
+            }
+    enriched["historyStatus"] = {
+        "status": "ready" if prior else "accumulating",
+        "baseDate": prior.get("date") if prior else None,
+    }
+    return enriched
+
+
 def _latest_date(stocks):
     dates = [row["date"] for rows in stocks.values() for row in rows]
     return max(dates) if dates else None
@@ -211,9 +273,10 @@ def build_current_snapshot(root=HERE, mode="intraday", now=None):
     cutoff = f"{latest} {'종가' if mode == 'close' else moment.strftime('%H:%M') + ' 장중'}"
     snapshot = build_snapshot(
         inputs["stocks"], inputs["sectors"], inputs["markets"], inputs["indices"],
-        indicators=inputs["indicators"], model=model,
+        indicators=inputs["indicators"], names=inputs["names"], model=model,
         generated_at=moment.strftime("%Y-%m-%d %H:%M"), data_cutoff=cutoff,
     )
+    snapshot = apply_score_history(snapshot, load_archive(Path(root) / "rotation_archive.json"))
     snapshot["status"] = "confirmed" if mode == "close" else "provisional"
     return snapshot, model
 

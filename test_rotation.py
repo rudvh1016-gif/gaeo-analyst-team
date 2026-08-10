@@ -7,13 +7,15 @@ from pathlib import Path
 from rotation_engine import (
     beta_binomial_rate,
     build_snapshot,
+    explain_score,
     concentration,
     period_return,
     shrink_value,
     winsorized_mean,
 )
-from compute_rotation import load_inputs, update_archive, write_snapshot_if_valid
+from compute_rotation import apply_score_history, load_inputs, update_archive, write_snapshot_if_valid
 from rotation_backtest import compute_lead_lag, find_similar_periods, walk_forward_calibration
+from backtest_rotation import evaluate_horizons, select_recommended_horizon
 
 
 def rows(closes, volumes=None, start_day=1):
@@ -25,6 +27,29 @@ def rows(closes, volumes=None, start_day=1):
 
 
 class RotationMathTest(unittest.TestCase):
+    def test_score_explanation_contributions_reconcile_to_displayed_score(self):
+        components = {
+            "momentum": 69.6, "relativeStrength": 82.6, "flow": 69.6,
+            "breadth": 82.6, "leadLag": 61.1, "similarity": 45.0,
+            "regimeMatch": 50.0, "taro": 97.8,
+        }
+
+        explanation = explain_score(components, {name: 0.125 for name in components})
+
+        self.assertEqual(explanation["score"], 69.8)
+        self.assertEqual(explanation["contributions"]["taro"], 12.225)
+        self.assertAlmostEqual(sum(explanation["contributions"].values()), 69.7875)
+        self.assertEqual(explanation["agreement"]["positive"], 6)
+
+    def test_score_explanation_normalizes_partial_weights(self):
+        explanation = explain_score(
+            {"momentum": 80.0, "flow": 20.0},
+            {"momentum": 3.0, "flow": 1.0},
+        )
+
+        self.assertEqual(explanation["weights"], {"momentum": 0.75, "flow": 0.25})
+        self.assertEqual(explanation["score"], 65.0)
+
     def test_period_return_uses_exact_horizon(self):
         self.assertEqual(period_return([100, 102, 105, 110], 3), 10.0)
 
@@ -73,6 +98,61 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertIn("score", five["taro"])
         self.assertIn(semi["sampleReliability"], ("낮음", "보통", "높음"))
 
+    def test_sector_period_exposes_score_contributions_and_model_agreement(self):
+        snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
+        period = snapshot["sectors"][0]["periods"]["5"]
+
+        self.assertAlmostEqual(sum(period["scoreExplanation"]["contributions"].values()), period["score"], delta=0.11)
+        self.assertIn("확률이 아닙니다", period["scoreExplanation"]["meaning"])
+        self.assertEqual(period["modelAgreement"]["total"], 8)
+
+    def test_candidate_stocks_reuse_existing_taro_indicators(self):
+        indicator = {
+            "price": 110,
+            "tech": {
+                "close": 110, "ma5": 100, "ma20": 100, "ma60": 100,
+                "ma120": 100, "ma200": 100, "ma20Slope": 1.2,
+                "macd": 2.0, "macdSignal": 1.0, "volRatio": 1.4,
+            },
+            "relative": {"sectorPercentile": 92},
+            "risk": {"grade": "normal"},
+        }
+        snapshot = build_snapshot(
+            self.stocks, self.sectors, self.markets, self.indices,
+            indicators={"A": indicator}, names={"A": "A기업"},
+        )
+        semi = next(sector for sector in snapshot["sectors"] if sector["name"] == "반도체")
+        candidate = next(stock for stock in semi["candidateStocks"] if stock["code"] == "A")
+
+        self.assertEqual(candidate["name"], "A기업")
+        self.assertEqual(candidate["taroScore"], 100.0)
+        self.assertEqual(candidate["movingAverages"]["200"], 100)
+        self.assertEqual(candidate["volumeRatio"], 1.4)
+        self.assertEqual(candidate["source"], "existing-indicators")
+        self.assertEqual(semi["candidateExcludedCount"], 1)
+        self.assertTrue(all(stock["source"] == "existing-indicators" for stock in semi["candidateStocks"]))
+
+    def test_snapshot_exposes_horizon_evidence_without_calling_it_probability(self):
+        model = {
+            "version": "rotation-shadow-v2",
+            "horizonPerformance": {"5": {"sampleCount": 80, "hitRate": 61.2, "benchmark": "500종목 업종 중앙값"}},
+            "recommendedHorizon": {"status": "ready", "horizon": 5, "reason": "표본 80회 비교"},
+        }
+
+        snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices, model=model)
+
+        self.assertEqual(snapshot["model"]["version"], "rotation-shadow-v2")
+        self.assertEqual(snapshot["horizonPerformance"]["5"]["sampleCount"], 80)
+        self.assertEqual(snapshot["recommendedHorizon"]["horizon"], 5)
+        self.assertNotIn("확률", snapshot["recommendedHorizon"]["reason"])
+
+    def test_snapshot_includes_rule_based_interpretation_and_component_guide(self):
+        snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
+
+        self.assertEqual(len(snapshot["componentGuide"]), 8)
+        self.assertIn("현재", snapshot["summary"]["interpretation"])
+        self.assertIn("예측", snapshot["summary"]["disclaimer"])
+
     def test_stock_uses_its_own_market_benchmark(self):
         snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
         semi = next(sector for sector in snapshot["sectors"] if sector["name"] == "반도체")
@@ -117,6 +197,34 @@ class RotationSnapshotTest(unittest.TestCase):
 
 
 class RotationIoTest(unittest.TestCase):
+    def test_score_history_uses_only_prior_day_and_labels_direction(self):
+        snapshot = {
+            "dataCutoff": "2026-01-03 10:00 장중",
+            "sectors": [{"name": "반도체", "periods": {"5": {"score": 66.5}}}],
+        }
+        archive = {"days": [
+            {"date": "2026-01-02", "sectors": [{"name": "반도체", "periods": {"5": {"score": 62.0}}}]},
+            {"date": "2026-01-03", "sectors": [{"name": "반도체", "periods": {"5": {"score": 99.0}}}]},
+        ]}
+
+        enriched = apply_score_history(snapshot, archive)
+        change = enriched["sectors"][0]["periods"]["5"]["scoreChange"]
+
+        self.assertEqual(change["value"], 4.5)
+        self.assertEqual(change["direction"], "급부상")
+        self.assertEqual(change["baseDate"], "2026-01-02")
+
+    def test_score_history_marks_accumulating_without_prior_snapshot(self):
+        snapshot = {
+            "dataCutoff": "2026-01-03 10:00 장중",
+            "sectors": [{"name": "반도체", "periods": {"5": {"score": 66.5}}}],
+        }
+
+        change = apply_score_history(snapshot, {"days": []})["sectors"][0]["periods"]["5"]["scoreChange"]
+
+        self.assertEqual(change["status"], "accumulating")
+        self.assertIsNone(change["value"])
+
     def test_loaders_filter_to_configured_universe_and_sort_dates(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -175,6 +283,34 @@ class RotationIoTest(unittest.TestCase):
 
 
 class RotationBacktestTest(unittest.TestCase):
+    def test_horizon_performance_is_evaluated_independently(self):
+        dates = [f"D{day:03d}" for day in range(100)]
+        sectors = ["A", "B", "C"]
+        series = {
+            "A": [0.01] * 100,
+            "B": [0.0] * 100,
+            "C": [-0.005] * 100,
+        }
+
+        result = evaluate_horizons(dates, sectors, series, minimum_samples=30)
+
+        self.assertEqual(set(result), {"1", "3", "5", "20"})
+        self.assertGreater(result["1"]["sampleCount"], result["20"]["sampleCount"])
+        self.assertEqual(result["5"]["hitRate"], 100.0)
+        self.assertGreater(result["20"]["averageExcessReturn"], result["1"]["averageExcessReturn"])
+        self.assertEqual(result["20"]["benchmark"], "500종목 업종 중앙값")
+
+    def test_recommended_horizon_refuses_small_or_unstable_samples(self):
+        result = select_recommended_horizon({
+            "1": {"status": "ready", "sampleCount": 80, "hitRate": 60, "averageExcessReturn": 1.2, "stability": 90},
+            "3": {"status": "accumulating", "sampleCount": 10, "hitRate": 90, "averageExcessReturn": 5, "stability": 100},
+            "5": {"status": "ready", "sampleCount": 80, "hitRate": 65, "averageExcessReturn": 1.5, "stability": 40},
+        })
+
+        self.assertEqual(result["horizon"], 1)
+        self.assertEqual(result["status"], "ready")
+        self.assertIn("표본", result["reason"])
+
     def test_lead_lag_reports_leader_before_lagger(self):
         leader = [float((index % 9) - 4) for index in range(100)]
         lagger = [0.0, 0.0] + leader[:-2]
