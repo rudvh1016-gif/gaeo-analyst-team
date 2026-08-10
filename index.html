@@ -121,13 +121,13 @@
         notify({today:Math.max(1,result.value),exactToday:result.exact&&result.value>0});
         return result;
       });
-      let newDevicePromise=read(dailyName('new-device'));
       let firstSeen=false;
       try{ firstSeen=!!localStorage.getItem('gaeo_first_seen'); }catch(e){}
+      let newDevicePromise;
       if(!firstSeen){
         try{ localStorage.setItem('gaeo_first_seen',new Date().toISOString()); }catch(e){}
         newDevicePromise=request(dailyName('new-device'),true);
-      }
+      }else newDevicePromise=read(dailyName('new-device'));
       const newDeviceResult=settle(newDevicePromise,0);
       const values=await Promise.all([totalPromise,todayPromise,newDeviceResult]);
       const visit={
@@ -1518,6 +1518,8 @@
   .gb-agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:14px}
   .gb-agent{background:rgba(255,255,255,.10);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.6}
   .gb-agent b{display:block;font-size:12.5px}
+  .gb-updated{display:inline-flex;align-items:center;margin-top:12px;padding:5px 9px;border-radius:99px;
+    background:rgba(255,255,255,.14);font-size:11.5px;font-weight:800;letter-spacing:.01em}
   details.gb-sec{background:var(--paper);border-radius:14px;box-shadow:var(--shadow-sm);
     margin-bottom:10px;overflow:hidden}
   details.gb-sec summary{cursor:pointer;padding:15px 18px;font-weight:800;font-size:14.5px;color:var(--navy);
@@ -1542,6 +1544,15 @@
     padding:13px 16px;font-size:12.5px;color:#78350F;line-height:1.7}
   .gb-tip{margin-top:10px;background:var(--sky-soft);border:1.5px solid var(--sky);border-radius:12px;
     padding:12px 15px;font-size:12.5px;color:var(--navy);line-height:1.7}
+  .gb-rotation-guide{border:1.5px solid var(--sky-line)}
+  .gb-rotation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0}
+  .gb-rotation-card{border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:11px 12px}
+  .gb-rotation-card b{display:block;margin-bottom:3px}
+  .gb-read-order{margin:8px 0 0;padding-left:20px}
+  .gb-read-order li{margin:7px 0;padding-left:2px}
+  @media(max-width:640px){
+    .gb-rotation-grid{grid-template-columns:1fr}
+  }
   .cm-notice{background:var(--sky-soft);border-radius:14px;padding:14px 18px;margin:0 0 14px;
     font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.6;box-shadow:var(--shadow-sm)}
   .cm-post{background:var(--paper);border-radius:14px;padding:16px 18px;margin:0 0 12px;
@@ -8462,10 +8473,11 @@ function renderGuide(){
   const sign=(bg,fg,label,desc)=>`<div class="gb-sign"><span class="sg" style="background:${bg};color:${fg}">${label}</span><span>${desc}</span></div>`;
   el.innerHTML=`
   <div class="gb-hero">
-    <h2>개오 애널리스트팀 사용 설명서</h2>
-    <p>이 사이트는 AI 분석가 <b>여섯 명</b>이 한국 주식 <b>${nStocks}개</b>를 매일 살펴보고,
-    "지금 사도 될까? 기다릴까? 조심할까?"를 <b>점수와 쉬운 말</b>로 알려주는 곳이에요.
-    주식을 하나도 몰라도 괜찮아요 — 아래 순서대로 따라오면 돼요!</p>
+    <h2>처음 와도 바로 쓰는 Gaeo 가이드북</h2>
+    <p>한국 주식 <b>${nStocks}개</b>의 시세·분석·시장 흐름을 한곳에서 확인하는 방법을 안내해요.
+    먼저 새로고침하고, 시장 전체 흐름을 본 뒤, 궁금한 종목의 근거를 차례로 확인하면 됩니다.
+    점수는 정답이나 수익 보장이 아니라 여러 자료를 같은 기준으로 비교하기 위한 참고값이에요.</p>
+    <span class="gb-updated">2026년 8월 10일 업데이트 · 순환매 분석 시행</span>
     <div class="gb-agents">
       <div class="gb-agent"><b>📈 TARO (기술)</b>이동평균선·RSI·MACD·거래량으로 지금의 추세와 힘을 봐요</div>
       <div class="gb-agent"><b>💰 DIANA (재무)</b>PER·PBR·ROE·EPS와 목표주가로 기업가치와 가격 부담을 봐요</div>
@@ -8477,13 +8489,44 @@ function renderGuide(){
   </div>
 
   <details class="gb-sec" open>
-    <summary>🚀 3분 사용법 — 처음이라면 이 순서로!</summary>
+    <summary>처음이라면 이 순서로 확인하세요</summary>
     <div class="gb-body">
-      <div class="gb-step"><span class="gb-no">1</span><span><b>궁금한 회사를 검색해요.</b> 맨 위 검색창에 한글로 "삼성"처럼 일부만 쳐도 후보가 떠요. 회사 이름이 생각 안 나면 "반도체", "게임"처럼 <b>하는 일</b>로 검색해도 돼요.</span></div>
-      <div class="gb-step"><span class="gb-no">2</span><span><b>[분석 시작 ▶]을 눌러요.</b> 네 방향 분석가와 RISK 관리자가 일하고, 잠시 뒤 결과가 나와요.</span></div>
-      <div class="gb-step"><span class="gb-no">3</span><span><b>🧒 파란 말풍선부터 읽어요.</b> 분석 결과 맨 위 "초등학생도 이해하는 설명"이 오늘의 핵심을 제일 쉽게 알려줘요.</span></div>
-      <div class="gb-step"><span class="gb-no">4</span><span><b>더 궁금하면 아래로 내려요.</b> 분석가 카드 5장(기술·재무·확률·수급 + 🛡️리스크) → 팀 종합 점수 → <b>BUY/HOLD/SELL 최종 판단</b> → 🧭 가격 나침반(목표가·지지선) 순서로 자세해져요.</span></div>
-      <div class="gb-step"><span class="gb-no">5</span><span><b>점선 밑줄 단어는 눌러보세요.</b> <span style="border-bottom:1.5px dotted var(--sky);color:var(--navy);font-weight:700">PER</span>처럼 밑줄 있는 낱말을 누르면 쉬운 뜻풀이가 떠요.</span></div>
+      <div class="gb-step"><span class="gb-no">1</span><span><b>상단의 새로고침을 먼저 눌러요.</b> 주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신돼요. 정적 사이트이므로 새 자료가 생겨도 열어 둔 화면은 자동으로 바뀌지 않을 수 있어요.</span></div>
+      <div class="gb-step"><span class="gb-no">2</span><span><b>홈에서 ‘현재 기준 브리핑’을 확인해요.</b> 코스피·코스닥과 시장 전체 분위기를 먼저 보면 개별 종목의 움직임을 더 정확한 맥락에서 읽을 수 있어요.</span></div>
+      <div class="gb-step"><span class="gb-no">3</span><span><b>궁금한 회사나 업종을 검색해요.</b> 회사 이름 일부나 ‘반도체’, ‘게임’ 같은 업종을 입력한 뒤 <b>분석 보기</b>를 누르세요.</span></div>
+      <div class="gb-step"><span class="gb-no">4</span><span><b>가격보다 근거를 먼저 읽어요.</b> 분석가별 근거 → 종합 판단 → 리더 변화 → 정밀분석 기록 순서로 보면 서로 다른 신호가 왜 같은 결론 또는 다른 결론을 내는지 확인할 수 있어요.</span></div>
+      <div class="gb-step"><span class="gb-no">5</span><span><b>시장 메뉴를 목적에 맞게 활용해요.</b> 자금이 몰리는 업종은 <b>순환매</b>, 과거 판단 결과는 <b>성적표</b>, 요일별 통계는 <b>등락률 확인</b>에서 확인하세요. 점선 밑줄이 있는 용어는 누르면 쉬운 설명이 열려요.</span></div>
+    </div>
+  </details>
+
+  <details class="gb-sec gb-rotation-guide" id="gb-sec-rotation" open>
+    <summary>순환매 분석 활용법 · 2026년 8월 10일 시행</summary>
+    <div class="gb-body">
+      <p><b>순환매란 무엇인가요?</b><br>
+      시장의 돈이 한 업종에만 머물지 않고 반도체에서 바이오, 바이오에서 방산처럼 다른 업종으로 옮겨 가는 흐름을 말해요.
+      Gaeo 순환매는 추적 종목 500개를 24개 업종으로 묶고, 상승 탄력·시장 대비 강도·거래량·상승 종목 비율·기술 신호를 같은 기준으로 계산해 <b>지금 어느 업종에 힘이 상대적으로 모이는지</b> 보여줍니다.</p>
+
+      <div class="gb-tip"><b>먼저 기억할 점:</b> 순환매는 <b>예측 화면이 아닙니다.</b> 점수는 오를 확률이나 예상 수익률이 아니라 현재 관찰값을 비교하기 위한 상대 점수예요. 후보 종목도 <b>매수·매도 추천이 아닙니다.</b></div>
+
+      <p><b>기간 버튼은 이렇게 나눠 보세요.</b></p>
+      <div class="gb-rotation-grid">
+        <div class="gb-rotation-card"><b>1일·3일·5일·20일</b>최근 힘이 어디로 이동했는지 보는 핵심 관찰 기간이에요. 짧을수록 당일 움직임에 민감하고, 20일은 한 달 안팎의 흐름을 더 차분하게 보여줘요.</div>
+        <div class="gb-rotation-card"><b>60일·120일·200일</b>장기 추세 참고 기간이에요. 단기 지도와 순위에 모두 섞지 않고, 선택한 업종의 상세 화면에서 큰 흐름이 단기 신호와 같은 방향인지 확인할 때 사용해요.</div>
+      </div>
+
+      <p><b>화면은 아래 순서로 읽으면 쉬워요.</b></p>
+      <ol class="gb-read-order">
+        <li><b>상단 요약:</b> 현재 1위 업종, 다음 관찰 후보, 시장 국면을 먼저 확인해요.</li>
+        <li><b>업종 순환 지도:</b> 원의 위치와 색으로 업종의 상대 강도를 봐요. 모던한 블루는 강한 흐름, 회색은 관찰, 레드는 약한 흐름이에요. 원이 크다고 무조건 더 오르는 것은 아니며 업종별 표본과 점수를 함께 봐야 해요.</li>
+        <li><b>5거래일 업종 순위:</b> 한 번의 급등이 아니라 최근 며칠간 힘이 이어졌는지 비교해요. 지도와 순위가 같은 업종을 가리키는지 확인하면 단기 노이즈를 줄일 수 있어요.</li>
+        <li><b>업종 상세:</b> 업종을 누르면 시장 대비 강도, 거래량 흐름, 상승 종목 비율, 기술 신호, 선행 흐름을 볼 수 있어요. 물음표에 마우스를 올리거나 키보드로 초점을 맞추면 각 항목 설명이 나타나요.</li>
+        <li><b>선행 흐름과 과거 유사 국면:</b> 데이터가 충분할 때만 표시되는 보조 자료예요. 과거에 비슷했던 장면을 참고하되, 당시 결과가 이번에도 반복된다고 단정하지 마세요.</li>
+      </ol>
+
+      <p><b>‘축적 중’은 오류가 아니에요.</b><br>
+      순환매 시행 뒤 거래일별 업종 점수와 다음 기간의 실제 움직임을 쌓는 단계예요. 1·3·5·20거래일 결과는 각 기간이 지나야 채점할 수 있고, 60·120·200일은 장기 관찰 기간만큼 더 오래 걸려요. 화면 하단의 예상 기간과 현재 표본 수를 함께 확인하세요.</p>
+
+      <div class="gb-tip"><b>실전 활용 예시:</b> ① 새로고침 → ② 시장 국면 확인 → ③ 지도와 5거래일 순위에서 공통으로 강한 업종 찾기 → ④ 업종 상세의 구성 항목과 표본 확인 → ⑤ 후보 종목을 AI 분석에서 다시 검색해 가격·재무·수급 근거 확인. 어느 한 화면만 보고 결정하지 않는 것이 핵심이에요.</div>
     </div>
   </details>
 
@@ -8528,7 +8571,7 @@ function renderGuide(){
       <b>30%·12%·28%·30%</b>에 각 분석가의 표본 보정 적중률을 반영하고, 업종 표본이 충분하면
       업종별 성적도 전역 성적과 섞어 발언권을 조절합니다. 그 합산점수에 RISK 감점을 적용해
       최종 BUY·HOLD·SELL과 신뢰도를 냅니다. 작은 표본의 우연한 고득점이 바로 큰 발언권이 되지
-      않도록 베이지안 보정을 사용하며, 역할별 현재 발언권은 리더보드에서 확인할 수 있습니다.</p>
+      않도록 베이지안 보정을 사용하며, 역할별 현재 발언권은 성적표에서 확인할 수 있습니다.</p>
 
       <div class="gb-tip">💡 <b>기간이 다른 이유</b>: TARO·QUANT·FLOW는 단기 흐름을 보는 역할이라 약 1주인
       5거래일 뒤를 확인합니다. DIANA의 재무·가치 판단은 가격에 반영되는 데 시간이 더 필요하므로
@@ -8540,9 +8583,9 @@ function renderGuide(){
   <details class="gb-sec">
     <summary><svg class="sec-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 16.5v-4.5M12 8h.01"/></svg>화면 기호 읽는 법 — 이게 다 무슨 뜻이에요?</summary>
     <div class="gb-body">
-      ${sign('var(--color-positive-soft)','#126B4D','BUY','"사볼 만해요" — 팀이 보기에 좋아질 가능성이 커요.')}
-      ${sign('var(--color-warning-soft)','#755B2E','HOLD','"기다려요" — 좋지도 나쁘지도 않아요. 가진 사람은 지켜보고, 없는 사람은 서두르지 않아도 돼요.')}
-      ${sign('var(--color-negative-soft)','#B63D3D','SELL','"조심해요" — 내려갈 걱정이 커요. 비중을 줄이는 걸 생각해봐요.')}
+      ${sign('var(--color-positive-soft)','#126B4D','BUY','분석 기준에서 긍정 신호가 우세하다는 뜻이에요. 매수 추천은 아니에요.')}
+      ${sign('var(--color-warning-soft)','#755B2E','HOLD','긍정과 부정 신호가 비슷해 방향을 단정하기 어렵다는 뜻이에요.')}
+      ${sign('var(--color-negative-soft)','#B63D3D','SELL','분석 기준에서 부정 신호가 우세하다는 뜻이에요. 매도 추천은 아니에요.')}
       ${sign('var(--sky-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
       ${sign('var(--sky-soft)','var(--navy)','신뢰도 %','팀이 이 판단에 얼마나 자신 있는지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
       ${sign('#6D28D9','#fff','🧠 정밀분석','가격·재무·수급과 함께 뉴스와 공시까지 살펴본 분석이에요.')}
@@ -8562,7 +8605,7 @@ function renderGuide(){
   </details>
 
   <details class="gb-sec">
-    <summary>📊 QUANT와 자가 학습 — 팀이 스스로 똑똑해지는 법 (2026-07-21 도입)</summary>
+    <summary>📊 QUANT와 자가 학습 — 팀이 스스로 똑똑해지는 법 (2026년 7월 21일 도입)</summary>
     <div class="gb-body">
       <b>📊 QUANT(확률·통계 분석가)는 뭘 하나요?</b><br>
       "지금 이 종목이 RSI 42에 20일선 아래, 최근 5일 횡보" 같은 <b>현재 상태</b>를 보고,
@@ -8574,7 +8617,7 @@ function renderGuide(){
       <b>전부 합쳐서</b> 평균 낸 값이라, 승률이 높아도 어쩌다 크게 내린 사례가 있으면 평균은 마이너스로 나올 수 있어요.<br><br>
       <b>예전 NOVA(뉴스·심리)는 어디 갔나요?</b><br>
       자동분석의 NOVA는 사실 뉴스를 못 읽고 가격 흐름으로 분위기를 "추정"만 했어요.
-      그래서 2026-07-21부터 그 자리를 <b>실측 통계를 내는 QUANT</b>로 바꿨어요.
+      그래서 2026년 7월 21일부터 그 자리를 <b>실측 통계를 내는 QUANT</b>로 바꿨어요.
       진짜 뉴스를 읽는 분석은 🧠 정밀분석과 📰 뉴스분석 탭에서 계속 볼 수 있어요.<br><br>
       <b>🧠 자가 학습 가중치는 뭔가요?</b><br>
       CHIEF는 네 분석가(기술·재무·확률·수급)의 점수를 합쳐 최종 판단을 내리는데,
@@ -8582,7 +8625,7 @@ function renderGuide(){
       20거래일 뒤 결과로 채점합니다. <b>역할 기본비중과 표본수를 보정한 적중률</b>을 함께 사용해
       우연히 몇 번 맞힌 분석가가 과도한 발언권을 갖지 않게 했어요. 업종별 성적도 전역 성적과
       부드럽게 섞어 표본이 작은 업종의 과적합을 줄였어요. 가중치는 매 분석 사이클마다 자동으로 다시 계산되고,
-      🏆 리더보드에서 지금 누가 몇 %의 가중치를 받는지 볼 수 있어요.<br><br>
+      성적표에서 지금 누가 몇 %의 가중치를 받는지 볼 수 있어요.<br><br>
       <div class="gb-tip">💡 즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
       잘 맞히면 발언권이 커지고, 자꾸 틀리면 발언권이 줄어요. 다만 모든 통계가 그렇듯
       과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div>
@@ -8590,7 +8633,7 @@ function renderGuide(){
   </details>
 
   <details class="gb-sec" id="gb-sec-modelv3">
-    <summary>🧪 종합판단 v3 연구실: 왜 새 정확도 장치를 시험하나요? (2026년 8월4일 시작 · 예상 시행까지 최소 2개월 안팎)</summary>
+    <summary>🧪 종합판단 v3 연구실: 왜 새 정확도 장치를 시험하나요? (2026년 8월 4일 시작 · 예상 시행까지 최소 2개월 안팎)</summary>
     <div class="gb-body">
       <b>먼저, 왜 이 작업을 시작했나요?</b><br>
       예전 방식은 네 분석가의 점수를 적중률에 따라 가중 평균하는 데 집중했습니다. 이것도 단순 평균보다 낫지만,
@@ -8600,7 +8643,7 @@ function renderGuide(){
       모를 때는 모른다고 말하고 서로 다른 증거만 제대로 합쳐 <b>과한 확신과 반복되는 오판을 줄이는 것</b>입니다.<br><br>
 
       <b>언제부터 시작했고, 언제부터 화면에 적용되나요?</b><br>
-      이 연구실은 <b>2026년 8월4일부터</b> 개오팀의 실제 자동분석 파이프라인 옆에서 조용히 돌아가기 시작했습니다.
+      이 연구실은 <b>2026년 8월 4일부터</b> 개오팀의 실제 자동분석 파이프라인 옆에서 조용히 돌아가기 시작했습니다.
       "언제 적용된다"는 정해진 날짜가 없습니다. 사람이 특정일에 스위치를 켜는 게 아니라, <b>실제 운영 데이터가 아래 8가지
       최소 기준을 전부 통과하는 순간 다음 자동분석부터 자동으로 전환</b>되는 구조입니다. 기준은 이렇습니다:
       전체 표본 500건 이상, 방향 판단(BUY·SELL) 표본 100건 이상, BUY·SELL 각각 최소 50건, 검증 기간 40거래일 이상,
@@ -8675,23 +8718,24 @@ function renderGuide(){
   </details>
 
   <details class="gb-sec">
-    <summary>🧭 탭마다 뭐가 있어요?</summary>
+    <summary>메뉴별로 언제 사용하면 되나요?</summary>
     <div class="gb-body">
-      <b>단일 분석</b> — 한 종목을 골라 5명이 꼼꼼히 봐요. 이 사이트의 메인이에요.<br>
-      <b>종목 비교</b> — 두 종목을 나란히 놓고 "누가 더 나은가"를 그림으로 비교해요. 쉬운 말 정리도 있어요.<br>
-      <b>💼 포트폴리오</b> — 내가 가진 주식과 산 가격을 적어두면, 팀 판단과 함께 손익을 계산해줘요. (내 폰에만 저장돼요)<br>
-      <b>📰 뉴스분석</b> — 시장을 움직인 큰 뉴스를 골라 초보자 눈높이로 풀어쓴 심층 보고서예요. 계속 쌓이고 10건마다 한 페이지예요.<br>
-      <b>📚 종목공부</b> — "이 회사가 뭐 하는 곳인지"를 한 종목씩 쉽게 풀어쓴 회사 소개예요.<br>
-      <b>🎓 주식공부</b> — 차트 보는 법, 캔들 읽는 법처럼 어떤 종목에나 통하는 <b>투자 기초 지식</b>을 배우는 공부 노트예요.<br>
-      <b>🏠 부동산공부</b> — 근저당·대출규제·청약처럼 <b>내 집 마련에 꼭 필요한 부동산 기초</b>를 초보 눈높이로 쉽게 풀어요.<br>
-      <b>🏆 리더보드</b> — 역할에 맞는 기간으로 채점한 분석가별 적중률이에요. 작은 표본을 보정한 성적이 CHIEF 발언권에 반영돼요.<br>
-      <b>📅 캘린더</b> — 실적 발표 같은 중요한 일정과 그날그날의 팀 판단을 달력으로 봐요.<br>
-      <b>💬 커뮤니티</b> — 누구나 이름·비밀번호만 정하고 글을 남길 수 있는 방명록이에요.
+      <b>홈</b> — 오늘 시장의 핵심 변화와 코스피·코스닥 흐름부터 빠르게 확인할 때 사용해요.<br>
+      <b>시장</b> — 지수, 상승·하락 종목 수, 시장 분석 등 전체 분위기를 자세히 볼 때 사용해요.<br>
+      <b>순환매</b> — 24개 업종 가운데 현재 상대적으로 힘이 모이는 곳과 다음 관찰 후보를 비교할 때 사용해요.<br>
+      <b>AI 분석</b> — 한 종목의 가격·기술·재무·확률·수급·위험 근거를 자세히 확인할 때 사용해요.<br>
+      <b>뉴스</b> — 시장을 움직인 주요 소식의 배경과 투자자가 확인할 점을 쉬운 말로 읽을 때 사용해요.<br>
+      <b>공부</b> — 종목·주식·부동산 기초를 주제별로 배우고 싶을 때 사용해요.<br>
+      <b>투자 도구</b> — 종목 비교, 포트폴리오, 스크리너, 계산기 같은 실용 기능을 찾을 때 사용해요.<br>
+      <b>성적표</b> — 과거 판단을 실제 결과로 채점한 기록과 분석가별 적중률을 확인할 때 사용해요.<br>
+      <b>캘린더</b> — 실적 발표 같은 주요 일정과 날짜별 분석 기록을 확인할 때 사용해요.<br>
+      <b>등락률 확인</b> — 요일별 평균 등락률과 시가총액 상위 종목을 펼친 상태로 살펴볼 때 사용해요.<br>
+      <b>전체 메뉴</b> — 화면에 바로 보이지 않는 세부 기능을 한곳에서 찾을 때 사용해요.
     </div>
   </details>
 
   <details class="gb-sec">
-    <summary>📡 GAEO 레이더: 500종목 중 뭐가 달라졌는지 먼저 찾아줘요 (2026-07-30 도입)</summary>
+    <summary>📡 GAEO 레이더: 500종목 중 뭐가 달라졌는지 먼저 찾아줘요 (2026년 7월 30일 도입)</summary>
     <div class="gb-body">
       <b>📡 GAEO 레이더는 뭘 하나요?</b><br>
       500종목의 차트를 매일 자동으로 훑어서, <b>"어제와 비교해 오늘 새로 생긴 기술적 변화"</b>만 골라 보여주는
@@ -8733,9 +8777,9 @@ function renderGuide(){
     <div class="gb-body"><dl class="gb-dict">${dict(GLOSSARY)}</dl></div>
   </details>
 
-  <div class="gb-warn">⚠️ <b>꼭 기억하세요!</b> 이 사이트는 <b>공부와 참고용</b>이에요.
-  AI 분석가도 틀릴 수 있어요(리더보드에서 확인해보세요!). 진짜 투자는 어른과 상의하고,
-  잃어도 괜찮은 돈으로, 스스로 공부한 뒤에 결정하는 거예요. 여기 나온 어떤 내용도 "사라/팔아라"는 권유가 아니에요.</div>
+  <div class="gb-warn"><b>마지막 확인:</b> 이 사이트의 점수·판단·순위·후보는 모두 <b>공부와 참고용</b>이에요.
+  실제 결과는 성적표에서 확인할 수 있고, 과거 적중률도 미래 수익을 보장하지 않아요.
+  가격·재무·수급·시장 상황을 함께 확인한 뒤 자신의 기준으로 결정하세요. 어떤 내용도 특정 종목의 매수·매도를 권유하지 않습니다.</div>
   <div id="guideCompleteMarker" aria-hidden="true" style="height:1px"></div>`;
   watchGuideCompletion();
 }
