@@ -563,10 +563,12 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             period["confidence"] = _confidence(period, sector, model)
             period["signal"] = _signal_for(period)
 
-    sector_rows.sort(key=lambda sector: (-sector["periods"]["5"]["score"], sector["name"]))
+    summary_horizon = 5
+    summary_period = str(summary_horizon)
+    sector_rows.sort(key=lambda sector: (-sector["periods"][summary_period]["score"], sector["name"]))
     leaders = [
-        {"name": sector["name"], "score": sector["periods"]["5"]["score"],
-         "signal": sector["periods"]["5"]["signal"], "confidence": sector["periods"]["5"]["confidence"]}
+        {"name": sector["name"], "score": sector["periods"][summary_period]["score"],
+         "signal": sector["periods"][summary_period]["signal"], "confidence": sector["periods"][summary_period]["confidence"]}
         for sector in sector_rows[:5]
     ]
     active = [item for item in leaders if item["signal"] in ("주도", "관찰 후보") and item["score"] >= 58]
@@ -574,9 +576,12 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
     headline = f"{active[0]['name']} 중심 순환 신호 관찰" if active else "뚜렷한 순환 신호 없음"
     first = active[0] if active else leaders[0] if leaders else None
     interpretation = (
-        f"현재 {first['name']} 업종에 상대적인 힘이 가장 많이 모여 있습니다. "
-        f"종합점수 {first['score']}점은 업종 간 상대 위치이며 확률이 아닙니다."
+        f"현재 {first['name']} 업종에 상대적인 힘이 가장 많이 모여 있습니다."
         if first else "현재 비교할 수 있는 업종 데이터가 부족합니다."
+    )
+    score_meaning = (
+        f"종합점수 {first['score']}점은 업종 간 상대 위치이며 확률이 아닙니다."
+        if first else "종합점수는 업종 간 상대 위치이며 확률이 아닙니다."
     )
 
     valid_universe = sum(bool(rows) for rows in clean_stocks.values())
@@ -606,7 +611,9 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         "summary": {
             "state": state, "headline": headline, "leaders": leaders,
             "candidate": active[1] if len(active) > 1 else None,
+            "horizon": summary_horizon,
             "interpretation": interpretation,
+            "scoreMeaning": score_meaning,
             "disclaimer": "예측 화면이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.",
         },
         "componentGuide": [

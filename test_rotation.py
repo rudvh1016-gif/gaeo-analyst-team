@@ -150,7 +150,10 @@ class RotationSnapshotTest(unittest.TestCase):
         snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
 
         self.assertEqual(len(snapshot["componentGuide"]), 8)
+        self.assertEqual(snapshot["summary"]["horizon"], 5)
         self.assertIn("현재", snapshot["summary"]["interpretation"])
+        self.assertNotIn("종합점수", snapshot["summary"]["interpretation"])
+        self.assertIn("업종 간 상대 위치", snapshot["summary"]["scoreMeaning"])
         self.assertIn("예측", snapshot["summary"]["disclaimer"])
 
     def test_stock_uses_its_own_market_benchmark(self):
