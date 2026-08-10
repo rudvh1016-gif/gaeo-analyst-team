@@ -143,7 +143,7 @@ Run: `node test_metrics.js`
 
 Expected: `metrics tests passed`.
 
-Run: `$env:PYTHONUTF8='1'; python -m unittest test_radar.py test_model_intelligence.py`
+Run: `$env:PYTHONUTF8='1'; <bundled-python> test_radar.py; <bundled-python> test_model_intelligence.py`
 
 Expected: all tests pass with zero failures.
 
