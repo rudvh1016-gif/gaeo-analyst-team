@@ -15,6 +15,7 @@ import re, json, os, datetime, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HIST_CAP = 80   # 종목별 히스토리 상한(정적 사이트라 파일이 무한정 커지지 않게) — 최근 80건만 보존
+ARCHIVE_CAP = 30   # 종목별 "정밀분석 기록"(전체 본문) 상한 — 재분석은 드물게 일어나므로 80보다 낮게 잡아도 충분
 
 def load_js_object(path, varname):
     """`const VAR = {...};` 형태의 JS 파일에서 객체만 파싱해 dict로 반환."""
@@ -94,6 +95,13 @@ def main():
     if not an:
         print("analysis.js를 읽지 못했습니다 — 아카이브 중단."); return
     hist = load_js_object(os.path.join(HERE, "history.js"), "LIVE_HISTORY") or {}
+    # 📚 2026-08-10: history.js는 stance/score만 남기는 가벼운 채점용 기록이라, "그때 정밀분석이
+    # 정확히 뭐라고 썼는지" 원문(findings/reason/report 전체)은 재분석할 때마다 사라졌다.
+    # ("정밀분석을 요청해도 며칠 뒤엔 자동분석에 가려서 그 내용을 다시 못 본다"는 사용자 피드백)
+    # analysis_archive.js에 정밀분석 전체 스냅샷을 시각별로 별도 누적해 "정밀분석 기록" 탭에서
+    # 언제든 그 시점 원문을 다시 읽을 수 있게 한다. 500종목 자동분석은 대상이 아니다(용량 폭발 방지) —
+    # analysis.js에 실제로 있는(=정밀분석한) 종목만 대상.
+    full_archive = load_js_object(os.path.join(HERE, "analysis_archive.js"), "ANALYSIS_ARCHIVE") or {}
 
     global_date = an.get("date", datetime.date.today().isoformat())
     added, updated = 0, 0
@@ -114,6 +122,15 @@ def main():
         else:
             lst.append(entry); added += 1
 
+        # 전체 본문 스냅샷도 같은 시각 기준으로 누적(덮어쓰기/추가 규칙은 history.js와 동일)
+        flst = full_archive.setdefault(code, [])
+        fidx = next((i for i, e in enumerate(flst) if str(e.get("updated", "")) == when_key), None)
+        snapshot = {k: a[k] for k in ("updated", "base", "baseAt", "events", "taro", "diana", "nova", "flow", "chief") if k in a}
+        if fidx is not None:
+            flst[fidx] = snapshot
+        else:
+            flst.append(snapshot)
+
     # 🤖 자동분석 전 종목도 '하루 1건'으로 누적(--auto 또는 ARCHIVE_AUTO=1일 때만 — 러너에서 켠다)
     if with_auto:
         archive_auto(hist)
@@ -130,6 +147,21 @@ def main():
            + json.dumps(hist, ensure_ascii=False, indent=1) + ";\n")
     with open(os.path.join(HERE, "history.js"), "w", encoding="utf-8") as f:
         f.write(out)
+
+    # 종목별 시간순 정렬 + 상한(ARCHIVE_CAP) 적용
+    for code in full_archive:
+        full_archive[code].sort(key=lambda e: str(e.get("updated", "")))
+        if len(full_archive[code]) > ARCHIVE_CAP:
+            full_archive[code] = full_archive[code][-ARCHIVE_CAP:]
+    aout = ("// 자동 생성: archive_analysis.py · 정밀분석 전체 본문 기록(종목별 시간순 누적)\n"
+            "// history.js와 달리 stance/score만이 아니라 findings·reason·report 원문을 그대로 보존한다.\n"
+            "// 500종목 자동분석은 대상이 아니고, analysis.js에 실제로 정밀분석한 종목만 쌓인다.\n"
+            "// index.html의 \"정밀분석 기록\" 탭이 이 파일을 읽어 과거 특정 시점의 정밀분석 원문을 보여준다.\n"
+            "const ANALYSIS_ARCHIVE = "
+            + json.dumps(full_archive, ensure_ascii=False, indent=1) + ";\n")
+    with open(os.path.join(HERE, "analysis_archive.js"), "w", encoding="utf-8") as f:
+        f.write(aout)
+    print(f"analysis_archive.js 갱신 완료 (정밀분석 {len(full_archive)}종목 · 원문 스냅샷 보존)")
     print(f"history.js 갱신 완료 — 신규 {added}건 · 갱신 {updated}건 (종목 {len(hist)})")
 
     # ── 시장(코스피/코스닥) 분석도 날짜별로 누적 → market_history.js ──
