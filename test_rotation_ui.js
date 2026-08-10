@@ -9,8 +9,8 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260810-v3','rotation-ui\.js\?v=20260810-v4'\]/);
-assert.match(html, /rotation\.css\?v=20260810-v4/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260810-v3','rotation-ui\.js\?v=20260811-v5'\]/);
+assert.match(html, /rotation\.css\?v=20260811-v5/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -50,6 +50,13 @@ const fixture = {
   sectors: [{ name: '반도체', periods, candidateExcludedCount: 2, candidateStocks: [{ code: '005930', name: '삼성전자', taroScore: 88, movingAverages: { '60': 70000, '120': 68000, '200': 65000 }, volumeRatio: 1.4, reasons: ['거래량 확인'], source: 'existing-indicators' }] }], leadLagEdges: [], similarMarkets: {}
 };
 const rendered = context.window.GaeoRotation.renderView(fixture, { horizon: 5, selected: '반도체' });
+const workspaceStart = rendered.indexOf('<div class="rot-workspace">');
+const primaryStart = rendered.indexOf('<div class="rot-primary">', workspaceStart);
+const mapStart = rendered.indexOf('class="rot-panel rot-map-panel"', primaryStart);
+const candidatesStart = rendered.indexOf('class="rot-panel rot-analysis rot-candidates"', mapStart);
+const sideStart = rendered.indexOf('<aside class="rot-side">', candidatesStart);
+assert.ok(workspaceStart >= 0 && primaryStart > workspaceStart, '데스크톱 주 열이 있어야 합니다.');
+assert.ok(mapStart > primaryStart && candidatesStart > mapStart && sideStart > candidatesStart, '지도 아래 후보 종목이 오른쪽 상세 열보다 먼저 배치되어야 합니다.');
 assert.match(rendered, /현재 반도체에 힘이 모입니다\./);
 assert.match(rendered, /예측 화면이 아니라 현재 흐름 참고 화면입니다\./);
 assert.match(rendered, /class="rot-hero-summary"[^>]*>현재 반도체에 힘이 모입니다\.<\/p>\s*<p class="rot-hero-score-note"[^>]*>종합점수 61점은 업종 간 상대 위치이며 확률이 아닙니다\.<\/p>/);
