@@ -61,6 +61,14 @@ async function main() {
   assert.ok(totalCall, 'the total counter should use the shared KVdb bucket');
   assert.equal(totalCall.options.method, 'PATCH');
   assert.equal(totalCall.options.body, '+1');
+
+  const newDeviceCalls = calls.filter(call => call.url.includes('-new-device'));
+  assert.equal(
+    newDeviceCalls.length,
+    1,
+    'a first visit should not start a read that is immediately abandoned'
+  );
+  assert.equal(newDeviceCalls[0].options.method, 'PATCH');
 }
 
 main().then(
