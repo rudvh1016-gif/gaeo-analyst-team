@@ -1718,6 +1718,11 @@
      순위마다 다른 색을 주지 않는다(무지개 금지). 위계는 색이 아니라
      「순위 원 · 테두리 세기 · 글자 굵기」로만 표현한다. ── */
   .mk-buychips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .cap-top10{margin-top:18px;padding-top:16px;border-top:1px solid var(--color-border)}
+  .cap-top10-head{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.45}
+  .cap-top10-head span{margin-left:6px;color:var(--color-text-tertiary);font-size:10.5px;font-weight:500}
+  .cap-top10 .mk-buychips{margin-top:9px}
+  .cap-top10 .mk-buychip{font-family:inherit;appearance:none}
   .mk-buychip{font-size:11px;font-weight:500;color:#3F444C;
     background:var(--color-surface);border:1px solid var(--color-border);
     border-radius:var(--radius-pill);height:26px;padding:0 8px 0 3px;
@@ -3742,6 +3747,7 @@
       <h3 id="rateViewTitle">요일별 등락률 확인</h3>
       <p class="sc-sub">개오가 추적하는 종목의 하루 등락률을 요일별로 모아 본 참고용 통계예요.</p>
       <div class="dowbar" id="dowbar" style="display:none"></div>
+      <div class="cap-top10" id="capTop10"></div>
     </div>
   </section>
   <section class="rotation-view" id="rotationView" aria-label="업종 순환매 분석"></section>
@@ -3890,6 +3896,22 @@ const CAP_TOP10=(function(){
   arr.forEach((x,i)=>{ CAP_RANK[x.code]=i+1; });
   return arr.slice(0,10);
 })();
+function renderCapTop10(){
+  const el=document.getElementById('capTop10');
+  if(!el) return;
+  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[char]);
+  const chips=CAP_TOP10.map((stock,index)=>
+    `<button type="button" class="mk-buychip${rankCls(index)}" data-cap-stock="${escapeHtml(stock.name)}"><span class="bc-rank">${index+1}</span>${escapeHtml(stock.name)}<span class="bc-score">${escapeHtml(stock.capStr)}</span></button>`
+  ).join('');
+  el.innerHTML=CAP_TOP10.length
+    ? `<div class="cap-top10-head">시가총액 상위 10위 <span>종목을 누르면 상세 분석으로 이동합니다.</span></div><div class="mk-buychips cap-top10-chips">${chips}</div>`
+    : '';
+  el.querySelectorAll('.cap-top10-chips button').forEach(button=>{
+    button.onclick=()=>jumpToStock(button.dataset.capStock);
+  });
+}
 const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
 // 전체 500종목 자동분석은 첫 화면에서 받지 않고, 실제 분석 기능을 누를 때만 내려받는다.
 let AUTO_AN=null;
@@ -5383,19 +5405,6 @@ function renderMarket(){
     html+=isMobileBox
       ? `<div class="mk-an">${mkTitle}<details class="mk-buylist"><summary>시장 분석 펼쳐보기</summary>${mkBody}</details></div>`
       : `<div class="mk-an">${mkTitle}${mkBody}</div>`;
-  }
-  // 💰 시가총액 상위 10위 — data.js cap을 로컬 파싱해 계산(토큰 0), 시장 분석 바로 밑에 노출
-  if(CAP_TOP10.length){
-    const capShown=isMobileBox?5:15;   // 밀집 완화: 모바일 5개·데스크톱 15개 먼저, 나머지는 펼치기
-    const capChips=CAP_TOP10.map((s,i)=>
-      `<span class="mk-buychip${rankCls(i)}${i>=capShown?' bc-more':''}" data-nm="${esc(s.name)}"><span class="bc-rank">${i+1}</span>${esc(s.name)}<span class="bc-score">${esc(s.capStr)}</span></span>`
-    ).join('');
-    html+=`<div class="mk-tally">
-      <details class="mk-buylist"${isMobileBox?'':' open'}><summary>시가총액 상위 10위 펼쳐보기</summary>
-        <div class="mk-buychips" id="capChips">${capChips}</div>
-        ${expandBtn(CAP_TOP10.length,capShown,'capChips')}
-      </details>
-    </div>`;
   }
   // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
   const tal=analysisTally();
@@ -10671,7 +10680,10 @@ window.renderScreener=function(){
     if(estate && window.renderEstate) window.renderEstate();
     if(calc && window.renderCalc) window.renderCalc();
     if(screener && window.renderScreener) window.renderScreener();
-    if(rates) document.getElementById('dowbar').style.display='';
+    if(rates){
+      document.getElementById('dowbar').style.display='';
+      renderCapTop10();
+    }
     if(rotation && window.GaeoRotation) window.GaeoRotation.mount(document.getElementById('rotationView'),window.ROTATION_SNAPSHOT);
     if(scorecard) renderScorecard();
     if(calendar) renderCalendar();
