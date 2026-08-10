@@ -12,36 +12,38 @@
      crossorigin="anonymous"></script>
 <script>
   // 정적 사이트용 익명 활동 집계. 사람을 식별하지 않고 브라우저 세션 단위의
-  // 방문·콘텐츠 이용 신호만 CounterAPI에 숫자로 저장한다.
-  // ⭐ 2026-08-09: "조회수 집계가 안 된다" 원인 파악 — CounterAPI가 v1 API를 완전히
-  // 폐지하고 v2로 전환했다(base URL이 /v1/에서 /v2/로 바뀌고, 응답 형태도
-  // {count} 단일 숫자에서 {code,data:{up_count,down_count,...}}로 바뀜). 이 사이트는
-  // 여전히 옛 /v1/ 주소로 요청을 보내고 있어서 매번 실패 → 화면엔 캐시된 최소값만
-  // 계속 보이고 실제 집계가 전혀 올라가지 않는 상태였다. v2 주소·응답 파싱으로 맞춘다.
-  // ⚠️ v2는 "워크스페이스"를 CounterAPI 계정에서 미리 만들어둬야 카운터가 기록된다
-  // (v1은 아무 이름이나 즉석에서 써도 됐다) — app.counterapi.dev에서 가입 후 자동
-  // 생성된 기본 워크스페이스(Public)의 실제 슬러그를 그대로 쓴다.
+  // 방문·콘텐츠 이용 신호만 저장한다.
+  // ⭐ 2026-08-10: CounterAPI v1 종료 후 옮긴 v2는 카운터를 대시보드에서 먼저 만들어야
+  // 해서 날짜별·콘텐츠별 동적 키가 모두 404가 됐다. 기존 게시판이 쓰는 KVdb 버킷은
+  // PATCH +1 원자 증가와 없는 키 자동 생성을 지원하므로 같은 버킷의 metrics: 접두어로
+  // 집계를 분리한다. 버킷 주소는 심부름꾼이 관리하는 guestbook_id.json을 단일 소스로 쓴다.
   window.GaeoMetrics=(function(){
-    const API='https://api.counterapi.dev/v2/s-team-47-4981/';
     const TOTAL_KEY='site-visits';
     const VISIT_CACHE_KEY='gaeo_visit_snapshot_v1';
-    // 2026-07-29 CounterAPI(v1)에서 직접 확인한 누적값. 외부 집계가 늦어도 이 숫자 아래로 사라지지 않는다.
+    // 2026-07-29 CounterAPI(v1)에서 직접 확인한 누적값. KVdb에는 마이그레이션 이후 증가분만
+    // 저장하고 이 기준값을 더해 첫 새 방문이 940부터 이어지게 한다.
     const VERIFIED_TOTAL_FLOOR=939;
     const REQUEST_TIMEOUT=6000;
     const PREVIEW_HOST=!location.hostname||location.hostname==='localhost'||location.hostname==='127.0.0.1';
     const cache=new Map();
+    let metricsBasePromise=null;
     const pad=n=>String(n).padStart(2,'0');
     const dayKey=(offset=0)=>{
       const d=new Date(Date.now()+9*60*60*1000+offset*86400000);
       return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}`;
     };
-    // v2 응답 형태: {code:"200", data:{up_count, down_count, ...}, message}.
-    // v1의 {count}·{value} 단일 숫자 형태와는 다르다 — data.up_count를 우선 읽고,
-    // 혹시 API가 다시 예전 형태로 되돌아가도 깨지지 않게 count/value도 그대로 폴백에 남겨둔다.
-    const counterValue=d=>{
-      const v=d&&(d.data&&d.data.up_count!=null?d.data.up_count:(d.count!=null?d.count:d.value));
-      return Number.isFinite(Number(v))?Number(v):0;
-    };
+    const counterValue=value=>Number.isFinite(Number(value))?Number(value):0;
+    async function metricsBase(){
+      if(!metricsBasePromise){
+        metricsBasePromise=fetch('guestbook_id.json?t='+Date.now(),{cache:'no-store'}).then(async r=>{
+          if(!r.ok) throw new Error('metrics config '+r.status);
+          const base=String(((await r.json())||{}).url||'').replace(/\/+$/,'');
+          if(base.indexOf('https://kvdb.io/')!==0) throw new Error('invalid metrics base');
+          return base;
+        }).catch(error=>{ metricsBasePromise=null; throw error; });
+      }
+      return metricsBasePromise;
+    }
     function visitSnapshot(){
       let saved={};
       try{ saved=JSON.parse(localStorage.getItem(VISIT_CACHE_KEY)||'{}')||{}; }catch(e){}
@@ -60,24 +62,22 @@
     }
     async function request(name,increment=false){
       if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
-      const url=API+encodeURIComponent(name)+(increment?'/up':'');
+      const url=(await metricsBase())+'/'+encodeURIComponent('metrics:'+name);
       const controller='AbortController' in window?new AbortController():null;
       const timer=controller?setTimeout(()=>controller.abort(),REQUEST_TIMEOUT):null;
       try{
-        const r=await fetch(url,{cache:'no-store',signal:controller&&controller.signal});
-        // ⭐ 2026-08-10: 404를 "값 0"으로 조용히 처리하는 건 "오늘 날짜 카운터가 아직
-        // 하나도 안 찍혀서 없다"처럼 정말 0이 맞는 조회(increment=false)에서만 안전하다.
-        // increment=true(누적 방문수 /up 요청)가 404면 그건 "0회"가 아니라 워크스페이스에
-        // 카운터 자체가 없거나 이름이 안 맞는 실패다 — 그런데도 exact:true로 조용히
-        // 성공 처리돼 화면에 진짜 값인 것처럼 "939"(플러스 기호 없이)로 떠서, 누적수가
-        // 전혀 안 올라가도 사용자가 "제대로 집계되고 있다"고 오해하게 만드는 버그였다.
-        // increment 요청의 404는 실패로 던져서 fallback(최소값+'+')이 정직하게 뜨게 한다.
+        const options={cache:'no-store',signal:controller&&controller.signal};
+        if(increment){ options.method='PATCH'; options.body='+1'; }
+        const r=await fetch(url,options);
         if(r.status===404){
-          if(increment) throw new Error('counter 404 on /up — 워크스페이스에 카운터가 없을 수 있음');
-          return 0;
+          if(increment) throw new Error('metrics increment 404');
+          const value=name===TOTAL_KEY?VERIFIED_TOTAL_FLOOR:0;
+          cache.set(name,{value,at:Date.now()});
+          return value;
         }
-        if(!r.ok) throw new Error('counter '+r.status);
-        const value=counterValue(await r.json());
+        if(!r.ok) throw new Error('metrics '+r.status);
+        const stored=counterValue((await r.text()).trim());
+        const value=name===TOTAL_KEY?VERIFIED_TOTAL_FLOOR+stored:stored;
         cache.set(name,{value,at:Date.now()});
         return value;
       }finally{
@@ -1838,10 +1838,6 @@
   .tv-rsi-chart{width:100%;height:66px;display:block}
   .tv-macd-chart{width:100%;height:82px;display:block}
   .tv-note{margin-top:6px;font-size:9.5px;line-height:1.5;color:var(--faint);word-break:keep-all}
-  .tv-macd-help{display:grid;gap:3px;margin-top:8px;padding:9px 10px;border-radius:10px;
-    background:var(--bg);color:var(--dim);font-size:9px;line-height:1.55;word-break:keep-all}
-  .tv-macd-help strong{color:var(--ink);font-size:9.5px}
-  .tv-macd-help b{color:var(--t2);font-weight:800;font-variant-numeric:tabular-nums}
   /* ⭐ 2026-08-07: MACD 설명이 한 문단에 다 몰려 있어 읽기 힘들다는 피드백 →
      문장 단위로 문단을 나누고(줄간격도 살짝 넓힘) 핵심 단어는 볼드로 눈에 띄게 한다. */
   .tv-note-sub{margin-top:6px;font-size:10.5px;line-height:1.7;opacity:.92}
@@ -2047,7 +2043,6 @@
   .cards.busy .card:not(.on) ul li::after{content:"";position:absolute;inset:0;
     background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
     animation:shimmer 1.25s infinite}
-  .cards.busy .card:not(.on) ul li::before{display:none}
   .cards.busy .card:not(.on) ul li.ph{display:block}
   .cards.busy .card:not(.on) ul li:nth-child(2){width:82%}
   .cards.busy .card:not(.on) ul li:nth-child(3){width:58%}
@@ -2255,16 +2250,6 @@
   .card ul{margin:20px 0 0;padding:0;font-size:12.5px;line-height:1.58;color:var(--t2)}
   .card ul li{list-style:none;display:flex;gap:7px;align-items:flex-start;margin:0;padding:9px 0;border-top:1px solid var(--line)}
   .card ul li:last-child{padding-bottom:0}
-  /* 분석가 공통 근거 목록: 문장보다 중요도 기호를 먼저 읽도록 작고 촘촘하게 정리 */
-  .cards .card .analyst-findings{margin-top:18px;font-size:12.75px;line-height:1.58;color:var(--t2)}
-  .cards .card .analyst-findings li{display:grid;grid-template-columns:15px minmax(0,1fr);gap:6px;
-    align-items:start;padding:10px 0;margin:0}
-  .cards .card .analyst-findings li::before{content:"·";color:var(--dim);font-size:17px;font-weight:900;
-    line-height:1.05;text-align:center}
-  .cards .card .analyst-findings li.finding-key::before{content:"★";color:#C48122;font-size:11px;line-height:1.75}
-  .cards .card .analyst-findings li.finding-warn::before{content:"!";width:14px;height:14px;margin-top:2px;
-    border-radius:50%;background:#FEF2F2;color:var(--red);font-size:9px;line-height:14px}
-  .finding-copy{min-width:0;word-break:keep-all;overflow-wrap:break-word}
   .cards.busy .card:not(.on) ul li{padding:0;border:0}
   /* 근거 문장 앞에 붙는 중요도 표시: ★핵심 신호 · !주의 신호 · ·일반 정보 */
   .fmk{flex:0 0 14px;text-align:center;font-weight:800;font-size:12px;line-height:1.6}
@@ -2327,8 +2312,6 @@
     .card{border-radius:22px;padding:24px 22px 26px}
     .card .role{margin-bottom:20px}
     .card ul{font-size:12px}
-    .cards .card .analyst-findings{margin-top:15px;font-size:12px;line-height:1.55}
-    .cards .card .analyst-findings li{grid-template-columns:14px minmax(0,1fr);gap:5px;padding:9px 0}
     .verdict{margin-top:24px;border-radius:24px;padding:26px 18px}
     .verdict .top{align-items:flex-start}
     .verdict .call{font-size:38px}
@@ -6591,7 +6574,6 @@ function taroChartHTML(code){
   const mPath=arr=>arr.map((v,i)=>(i?'L':'M')+mx(i).toFixed(1)+' '+my(v).toFixed(1)).join(' ');
   const bars=hist.map((v,i)=>{const yy=barY(v),bw=Math.max(2,(mW-2*mPad)/m.length-2);return `<rect x="${(mx(i)-bw/2).toFixed(1)}" y="${Math.min(mZero,yy).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,Math.abs(yy-mZero)).toFixed(1)}" rx="1" fill="${v>=0?'#2F8B73':'#D5535D'}" opacity=".55"/>`}).join('');
   const diff=officialMacd-officialSignal,cross=diff>=0?'상승 모멘텀':'하락 모멘텀',fmtM=v=>Math.round(v).toLocaleString('ko-KR');
-  const signedDiff=`${diff>=0?'+':'-'}${fmtM(Math.abs(diff))}`;
   const mLastX=mx(m.length-1).toFixed(1);
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="76" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="76" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
@@ -7947,20 +7929,6 @@ function countUp(el,target,dur){
     el.textContent=Math.round(target*ease(p));
     if(p<1) requestAnimationFrame(step);
   })(t0);
-}
-function findingClass(text,index,roleId){
-  const plain=String(text||'').replace(/<[^>]*>/g,' ');
-  const warns=/위험|급등락|급락|최대낙폭|데드크로스|과매수|하락|하회|약세|고평가|순매도|둔화|부족|부재|엇갈림|억제|낮춰|손절/.test(plain);
-  if(warns) return 'finding-warn';
-  const keys=/골든크로스|상승|강세|저평가|순매수|동반 매수|승률|적중|목표주가|여력|종합 반영/.test(plain);
-  if(index===0||keys||(roleId==='risk'&&index===3)) return 'finding-key';
-  return '';
-}
-function findingsHTML(items,roleId){
-  return (items||[]).map((finding,index)=>{
-    const cls=findingClass(finding,index,roleId);
-    return `<li${cls?` class="${cls}"`:''}><span class="finding-copy">${SIGNUM(wrapGloss(finding))}</span></li>`;
-  }).join('');
 }
 function fillCard(a,res,code){
   document.getElementById('card-'+a.id).classList.add('on');
