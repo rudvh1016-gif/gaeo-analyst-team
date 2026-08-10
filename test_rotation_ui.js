@@ -27,16 +27,31 @@ for (const horizon of [1, 3, 5, 20, 60, 120, 200]) {
     score: 61, signal: '관찰 후보', confidence: '보통', validCount: 20,
     return: { adjusted: 2.1 }, breadth: { adjustedUpRate: 60 },
     flow: { medianRelativeVolume: 1.1 }, taro: { score: 55 },
-    concentration: { top3: 20 }, components: {}
+    concentration: { top3: 20 }, components: { momentum: 70, flow: 60 },
+    scoreExplanation: { meaning: '24개 업종 상대 위치이며 확률이 아닙니다.', weights: { momentum: .5, flow: .5 }, contributions: { momentum: 35, flow: 30 } },
+    modelAgreement: { positive: 5, total: 8, label: '다수 지표 동의' },
+    scoreChange: { status: 'ready', value: 2.4, direction: '강화', baseDate: '2026-08-09' }
   };
 }
 const rendered = context.window.GaeoRotation.renderView({
   generatedAt: '2026-08-10 16:10', dataCutoff: '2026-08-10 종가',
-  universe: { valid: 20, configured: 20 }, model: { highConfidenceUnlocked: false },
-  marketRegime: {}, summary: { leaders: [], candidate: null },
-  sectors: [{ name: '반도체', periods }], leadLagEdges: [], similarMarkets: {}
+  universe: { valid: 20, configured: 20 }, model: { highConfidenceUnlocked: false, version: 'rotation-shadow-v2' },
+  marketRegime: {}, summary: { leaders: [], candidate: null, interpretation: '현재 반도체에 힘이 모입니다.', disclaimer: '예측 화면이 아니라 현재 흐름 참고 화면입니다.' },
+  componentGuide: [{ key: 'momentum', label: '상승 탄력', description: '업종 수익 흐름' }],
+  horizonPerformance: { '5': { status: 'ready', sampleCount: 80, hitRate: 61.2, averageExcessReturn: 1.5, stability: 82, recentReproduction: 60, benchmark: '500종목 업종 중앙값' } },
+  recommendedHorizon: { status: 'ready', horizon: 5, reason: '표본 80회 비교' },
+  sectors: [{ name: '반도체', periods, candidateExcludedCount: 2, candidateStocks: [{ code: '005930', name: '삼성전자', taroScore: 88, movingAverages: { '60': 70000, '120': 68000, '200': 65000 }, volumeRatio: 1.4, reasons: ['거래량 확인'], source: 'existing-indicators' }] }], leadLagEdges: [], similarMarkets: {}
 }, { horizon: 5, selected: '반도체' });
-assert.match(rendered, /상승 종목 비율을 함께 봅니다\.<br class="rot-hero-break">예측이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다\./);
+assert.match(rendered, /현재 반도체에 힘이 모입니다\./);
+assert.match(rendered, /예측 화면이 아니라 현재 흐름 참고 화면입니다\./);
+assert.match(rendered, /점수는 확률이 아닙니다/);
+assert.match(rendered, /기간별 과거 성과/);
+assert.match(rendered, /추천 관찰 기간/);
+assert.match(rendered, /장기 추세 참고/);
+assert.match(rendered, /삼성전자/);
+assert.match(rendered, /200일선/);
+assert.match(rendered, /지표 누락 2종목 제외/);
+assert.match(rendered, /rotation-shadow-v2/);
 for (const horizon of [60, 120, 200]) {
   assert.match(rendered, new RegExp(`data-horizon="${horizon}"[^>]*>${horizon}일</button>`));
 }

@@ -56,6 +56,88 @@ def _window_return(series, end, horizon):
     return value - 1
 
 
+def _percent(value):
+    return round(float(value) * 100, 2)
+
+
+def evaluate_horizons(dates, sectors, series, horizons=(1, 3, 5, 20), minimum_samples=40):
+    """Walk forward each public horizon separately without borrowing future data."""
+    performance = {}
+    for horizon in horizons:
+        cases = []
+        for end in range(horizon - 1, len(dates) - horizon):
+            past = [_window_return(series[sector], end, horizon) for sector in sectors]
+            future = [_window_return(series[sector], end + horizon, horizon) for sector in sectors]
+            if any(value is None for value in past + future):
+                continue
+            chosen = max(range(len(sectors)), key=lambda index: (past[index], -index))
+            benchmark = _median(future)
+            excess = future[chosen] - benchmark
+            ordered_future = sorted(range(len(sectors)), key=lambda index: future[index], reverse=True)
+            adverse = 0.0
+            for step in range(1, horizon + 1):
+                partial = [_window_return(series[sector], end + step, step) for sector in sectors]
+                if all(value is not None for value in partial):
+                    adverse = min(adverse, partial[chosen] - _median(partial))
+            cases.append({
+                "date": dates[end],
+                "excess": excess,
+                "hit": excess > 0,
+                "top3": chosen in ordered_future[:3],
+                "adverse": adverse,
+            })
+        count = len(cases)
+        split = max(1, count // 2)
+        first = cases[:split]
+        second = cases[split:]
+        rate = lambda rows: (sum(case["hit"] for case in rows) / len(rows) * 100) if rows else 0.0
+        hit_rate = rate(cases)
+        stability = max(0.0, 100.0 - abs(rate(first) - rate(second))) if cases else 0.0
+        recent = cases[-min(20, count):]
+        performance[str(horizon)] = {
+            "horizon": horizon,
+            "status": "ready" if count >= minimum_samples else "accumulating",
+            "sampleCount": count,
+            "periodStart": cases[0]["date"] if cases else None,
+            "periodEnd": cases[-1]["date"] if cases else None,
+            "hitRate": round(hit_rate, 1),
+            "top3Rate": round(sum(case["top3"] for case in cases) / count * 100, 1) if count else None,
+            "averageExcessReturn": _percent(sum(case["excess"] for case in cases) / count) if count else None,
+            "medianExcessReturn": _percent(statistics.median(case["excess"] for case in cases)) if count else None,
+            "maximumAdverseExcursion": _percent(min((case["adverse"] for case in cases), default=0.0)),
+            "stability": round(stability, 1),
+            "recentReproduction": round(rate(recent), 1) if recent else None,
+            "benchmark": "500종목 업종 중앙값",
+            "definition": f"직전 {horizon}거래일 1위 업종이 이후 {horizon}거래일 업종 중앙값을 초과하면 적중",
+            "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다.",
+        }
+    return performance
+
+
+def select_recommended_horizon(performance):
+    eligible = [
+        dict(row, horizon=int(row.get("horizon") or horizon))
+        for horizon, row in (performance or {}).items()
+        if row.get("status") == "ready" and (row.get("stability") or 0) >= 60
+    ]
+    if not eligible:
+        return {
+            "status": "accumulating", "horizon": None,
+            "reason": "표본 수와 구간 안정성이 기준에 도달할 때까지 추천을 보류합니다.",
+        }
+    best = max(
+        eligible,
+        key=lambda row: (
+            (row.get("hitRate") or 0) + (row.get("averageExcessReturn") or 0) * 2 + (row.get("stability") or 0) * 0.1,
+            -(row.get("horizon") or 0),
+        ),
+    )
+    return {
+        "status": "ready", "horizon": best["horizon"],
+        "reason": f"표본 {best['sampleCount']}회에서 적중률·초과수익·구간 안정성을 함께 비교한 결과입니다.",
+    }
+
+
 def build_walk_forward_cases(dates, sectors, series, lookback=20, outcome_horizon=5):
     history = []
     calibration_records = []
@@ -103,6 +185,8 @@ def build_shadow_model(root=HERE):
     history, records, current_vector = build_walk_forward_cases(dates, sectors, series)
     similar = find_similar_periods(history, current_vector, dates[-1], embargo_days=30, top_n=5)
     calibration = walk_forward_calibration(records, minimum_per_group=60)
+    horizon_performance = evaluate_horizons(dates, sectors, series, minimum_samples=40)
+    recommended_horizon = select_recommended_horizon(horizon_performance)
 
     lead_strength = Counter()
     for edge in edges:
@@ -131,6 +215,8 @@ def build_shadow_model(root=HERE):
             "cases": similar,
             "embargoDays": 30,
         },
+        "horizonPerformance": horizon_performance,
+        "recommendedHorizon": recommended_horizon,
         "metrics": {
             "historyStart": dates[0],
             "historyEnd": dates[-1],
