@@ -2379,6 +2379,7 @@
     --gaeo-100:#E3E4E2;--gaeo-50:var(--color-accent-soft);--gaeo-canvas:var(--color-bg-soft);
     --gaeo-ink:var(--color-text-primary);--gaeo-muted:var(--color-text-secondary);--gaeo-border:var(--color-border);
     --gaeo-radius-lg:var(--radius-xl);--gaeo-radius-md:var(--radius-lg);--gaeo-nav-h:72px;
+    --gaeo-notice-h:28px;
   }
   html.gdark{
     --color-bg:#0B0C0E; --color-bg-soft:#131417; --color-bg-subtle:#191B1F;
@@ -2430,6 +2431,24 @@
   .global-icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;
     stroke-linecap:round;stroke-linejoin:round}
   .global-icon-btn.profile svg{width:19px;height:19px}
+  .nav-refresh-btn{width:46px;height:60px;border:0;background:transparent;color:var(--gaeo-muted);
+    display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:0;cursor:pointer;white-space:nowrap}
+  .nav-refresh-label{font-size:9px;font-weight:800;line-height:1;color:var(--gaeo-muted);letter-spacing:-.03em}
+  .nav-refresh-circle{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+    background:#E5484D;color:#fff;box-shadow:0 4px 12px rgba(229,72,77,.24);transition:transform .18s ease,background .18s ease}
+  .nav-refresh-circle svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round}
+  .nav-refresh-btn:hover .nav-refresh-circle{background:#CF3F44;transform:translateY(-1px)}
+  .nav-refresh-btn:disabled{cursor:wait;opacity:.8}
+  .nav-refresh-btn.is-refreshing .nav-refresh-circle svg{animation:navRefreshSpin .65s linear infinite}
+  @keyframes navRefreshSpin{to{transform:rotate(360deg)}}
+  .refresh-notice{position:fixed;z-index:999;top:var(--gaeo-nav-h);left:0;right:0;
+    min-height:var(--gaeo-notice-h);display:flex;align-items:center;justify-content:center;
+    box-sizing:border-box;padding:5px 18px;border-bottom:1px solid color-mix(in srgb,#E5484D 18%,var(--gaeo-border));
+    background:color-mix(in srgb,var(--paper) 96%,#E5484D 4%);color:var(--gaeo-muted);
+    font-size:10.5px;font-weight:650;line-height:1.35;text-align:center;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   .global-menu-lines{width:17px;height:12px;position:relative;border-top:1.8px solid currentColor;
     border-bottom:1.8px solid currentColor}
   .global-menu-lines::after{content:"";position:absolute;left:0;right:0;top:4px;border-top:1.8px solid currentColor}
@@ -2481,7 +2500,7 @@
     scrollbar-width:thin}
   .nav-workspace .chips>*{flex:0 0 auto}
 
-  .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + 22px) 0 96px}
+  .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 22px) 0 96px}
   .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
     box-shadow:none;padding:9px 0;color:var(--gaeo-muted)}
   .home-dashboard{margin-top:18px}
@@ -2750,7 +2769,7 @@
   /* 종목분석 상세는 토스증권처럼 항목을 고른 뒤 하나씩 읽는 탭 구조로 정리한다. */
   .analysis-details[hidden]{display:none!important}
   .analysis-details{margin-top:18px;min-width:0}
-  .analysis-tabs-wrap{position:sticky;z-index:20;top:calc(var(--gaeo-nav-h) + 10px);
+  .analysis-tabs-wrap{position:sticky;z-index:20;top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 10px);
     display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px;
     padding:14px 16px;border:1px solid var(--gaeo-border);border-radius:16px;
     background:color-mix(in srgb,var(--paper) 94%,transparent);box-shadow:0 8px 24px rgba(18,55,69,.06);
@@ -2901,8 +2920,8 @@
   .main{width:min(100%,1180px);margin:0 auto}
   .analysis-browser{display:none;margin:0 0 24px;padding:34px 36px;border:1px solid var(--gaeo-border);
     border-radius:var(--gaeo-radius-lg);background:var(--paper);box-shadow:none;
-    scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
-  .verdict,.quote,.viz{scroll-margin-top:calc(var(--gaeo-nav-h) + 16px)}
+    scroll-margin-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
+  .verdict,.quote,.viz{scroll-margin-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
   body[data-mode="single"] .analysis-browser,body[data-mode="compare"] .analysis-browser{display:grid;grid-template-columns:1fr;
     gap:24px;align-items:start}
   /* ⭐ 2026-08-07: 종목비교의 검색창(cmpControls)이 nav 리팩터로 이 컨테이너 안으로 옮겨졌는데,
@@ -2962,7 +2981,7 @@
   .analysis-browser .chip:hover{background:var(--gaeo-50);border-color:var(--gaeo-100)}
   body[data-mode]:not([data-mode="single"]) .home-dashboard{display:none}
   body[data-mode]:not([data-mode="single"]) .tape{display:none}
-  body[data-mode]:not([data-mode="single"]) .wrap{padding-top:calc(var(--gaeo-nav-h) + 32px)}
+  body[data-mode]:not([data-mode="single"]) .wrap{padding-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 32px)}
 
   @media(max-width:1280px){
     .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 48px)}
@@ -2972,7 +2991,7 @@
     .home-lead{grid-template-columns:minmax(0,1.35fr) minmax(340px,.8fr)}
   }
   @media(max-width:1179px){
-    :root{--gaeo-nav-h:64px}
+    :root{--gaeo-nav-h:64px;--gaeo-notice-h:38px}
     .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 28px)}
     .global-nav-inner{gap:14px}
     .global-primary{display:none}
@@ -2991,7 +3010,8 @@
     .nav-workspace .rail{grid-template-columns:1fr}
     .nav-workspace .modes{grid-template-columns:repeat(3,minmax(0,1fr))!important}
     .nav-workspace .chips{grid-column:auto}
-    .wrap{padding-top:calc(var(--gaeo-nav-h) + 16px)}
+    .wrap{padding-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
+    .refresh-notice{padding:5px 12px;font-size:9.5px;line-height:1.35}
     .home-lead{grid-template-columns:1fr}
     .hero-search-card{min-height:0}
     /* 좁은 화면에서도 세로 목록을 유지하고, 제목만 두 줄까지 접어 보여준다 */
@@ -3089,7 +3109,7 @@
     .watch-view-head h2{font-size:23px}
     .watchView .change-board{margin:0}
     .analysis-details{margin-top:14px}
-    .analysis-tabs-wrap{top:calc(var(--gaeo-nav-h) + 7px);display:block;padding:12px 10px 10px;
+    .analysis-tabs-wrap{top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 7px);display:block;padding:12px 10px 10px;
       border-radius:15px;overflow:hidden}
     .analysis-tabs-copy{padding:0 4px 9px}
     .analysis-tabs-copy span{display:none}
@@ -3293,13 +3313,19 @@
       <button class="global-link" type="button" data-nav-mode="news">뉴스</button>
       <button class="global-link" type="button" data-nav-mode="lesson">공부</button>
       <button class="global-link" type="button" data-nav-mode="calc">투자 도구</button>
-      <button class="global-link" type="button" data-nav-mode="leaderboard">리서치</button>
+      <button class="global-link" type="button" data-nav-mode="scorecard">성적표</button>
       <button class="global-link" type="button" data-nav-mode="calendar">캘린더</button>
     </div>
     <div class="global-utilities">
       <button class="global-icon-btn" id="navSearchToggle" type="button" aria-expanded="false" aria-controls="navSearchPanel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21"/></svg>
         <span>검색</span>
+      </button>
+      <button class="nav-refresh-btn" id="navRefresh" type="button" aria-label="최신 주가와 분석 새로고침" aria-describedby="refreshNotice">
+        <span class="nav-refresh-label" aria-hidden="true">새로고침</span>
+        <span class="nav-refresh-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .2 7.5"/><path d="M19 3v5h-5"/></svg>
+        </span>
       </button>
       <button class="global-icon-btn profile" id="navProfileToggle" type="button" aria-expanded="false" aria-controls="navProfilePanel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg>
@@ -3345,6 +3371,7 @@
     </div>
   </div>
 </nav>
+<div class="refresh-notice" id="refreshNotice" role="note">주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다. 꼭 자주 새로고침을 진행해주세요!</div>
 <div class="trust-backdrop" id="gaeoBackdrop" hidden></div>
 <section class="trust-strip" id="trustStrip" aria-labelledby="trustTitle" hidden>
   <button class="trust-close" id="trustClose" type="button" aria-label="닫기">✕</button>
@@ -3484,9 +3511,6 @@
     <section class="idx-panels" id="idxPanels" aria-label="코스피·코스닥 지수 상세"></section>
 
     <div class="market" id="marketBox" style="display:none"></div>
-    <!-- ⭐ 2026-08-07: "지난 시장 분석"(marketBox 안 맨 아래 항목) 바로 밑에 오도록
-         요일별 평균 등락률을 mood-row/datawarn/kpis보다 앞으로 옮겼다. -->
-    <div class="dowbar" id="dowbar" style="display:none"></div>
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
     <div class="kpis" id="kpis"></div>
@@ -3529,7 +3553,7 @@
     <button class="modebtn" id="mode-estate"><svg class="mi" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5h4v5h5v-9.5"/></svg>부동산공부</button>
     <button class="modebtn" id="mode-calc"><svg class="mi" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2.2"/><path d="M7 6.5h10M7 11h2.2M11.9 11h2.2M16.8 11h2.2M7 14.5h2.2M11.9 14.5h2.2M16.8 14.5h2.2M7 18h2.2M11.9 18h2.2M16.8 18h2.2"/></svg>계산기</button>
     <button class="modebtn" id="mode-screener"><svg class="mi" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21M7 10.5h7"/></svg>스크리너</button>
-    <button class="modebtn" id="mode-leaderboard"><svg class="mi" viewBox="0 0 24 24"><path d="M7.5 4h9v3.8A4.5 4.5 0 0 1 12 12a4.5 4.5 0 0 1-4.5-4.2zM7.5 5.5H4.2a3.4 3.4 0 0 0 3.4 3.9M16.5 5.5h3.3a3.4 3.4 0 0 1-3.4 3.9"/><path d="M12 12v4M8.5 20h7M10 20l.6-4h2.8l.6 4"/></svg>리더보드</button>
+    <button class="modebtn" id="mode-rates"><svg class="mi" viewBox="0 0 24 24"><path d="M4 19V9M9.5 19V5M15 19v-8M20 19v-5M3 21h18"/></svg>등락률 확인</button>
     <button class="modebtn" id="mode-scorecard"><svg class="mi" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="m8.5 13.5 2 2 4-4.5"/></svg>성적표</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
@@ -3711,7 +3735,13 @@
       </div>
     </section>
   </section>
-  <div class="leaderboard" id="leaderboard"></div>
+  <section class="newsView" id="rateView" aria-labelledby="rateViewTitle">
+    <div class="sc-block">
+      <h3 id="rateViewTitle">요일별 등락률 확인</h3>
+      <p class="sc-sub">개오가 추적하는 종목의 하루 등락률을 요일별로 모아 본 참고용 통계예요.</p>
+      <div class="dowbar" id="dowbar" style="display:none"></div>
+    </div>
+  </section>
   <!-- 🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전. history.js·price_history.js·team_weights.js
        실측 데이터만으로 렌더링한다(AI 토큰 0원, 서버 재계산 때마다 자동 갱신). -->
   <div class="newsView" id="scorecardView"></div>
@@ -4415,51 +4445,38 @@ function scoreStance(stance, ret, deadband=1){
   if(stance==='bear') return ret<-deadband?'hit':(ret>deadband?'miss':'mid');
   return null;
 }
-function computeLeaderboard(){
-  const acc={}; LB_IDS.forEach(id=>acc[id]={hits:0,misses:0,neus:0,pending:0});
-  if(LIVE_HIST){
-    for(const code in LIVE_HIST){
-      LIVE_HIST[code].forEach(e=>{
-        if(!e.base) return;
-        LB_IDS.forEach(id=>{
-          const a=e[id]; if(!a||!a.stance) return;
-          if(a.stance==='neu'){ acc[id].neus++; return; }
-          const rule=LB_RULES[id], ev=evalRet(code,e,rule.days);
-          if(!ev){ acc[id].pending++; return; }
-          const s=scoreStance(a.stance,ev.pct,rule.deadband);
-          if(s==='hit') acc[id].hits++; else if(s==='miss') acc[id].misses++;
-          // 'mid'(움직임 미미) = 평가 보류
-        });
-      });
-    }
-  }
-  return LB_IDS.map(id=>{
-    const A=(typeof AGENTS!=='undefined'&&AGENTS.find(x=>x.id===id))||{name:id,role:'',color:'#999'};
-    const {hits,misses,neus,pending}=acc[id], n=hits+misses;
-    return {id,name:A.name,role:A.role,color:A.color,hits,misses,neus,pending,n,
-            acc:n>0?Math.round(hits/n*100):null};
+function scorecardAnalystRows(teamWeights,agents){
+  const global=teamWeights&&teamWeights.global;
+  if(!global||!global.acc) return [];
+  const weights=global.weights||{};
+  const ids=['taro','diana','nova','flow'];
+  return ids.map(id=>{
+    const stat=global.acc[id];
+    if(!stat) return null;
+    const agent=(agents||[]).find(item=>item.id===id)||{name:id,role:'',color:'#999'};
+    return {id,name:agent.name,role:agent.role,color:agent.color,n:Number(stat.n)||0,
+      acc:stat.acc==null?null:Number(stat.acc),weight:weights[id]==null?null:Number(weights[id])};
+  }).filter(Boolean).sort((a,b)=>{
+    if(a.acc===null&&b.acc===null) return b.n-a.n;
+    if(a.acc===null) return 1;
+    if(b.acc===null) return -1;
+    return b.acc-a.acc||b.n-a.n;
   });
 }
-function renderLeaderboard(){
-  const el=document.getElementById('leaderboard'); if(!el) return;
-  const rows=computeLeaderboard().sort((a,b)=>{
-    if(a.acc===null&&b.acc===null) return b.n-a.n;
-    if(a.acc===null) return 1; if(b.acc===null) return -1;
-    return b.acc-a.acc || b.n-a.n;
-  });
-  const totalScored=rows.reduce((s,r)=>s+r.n,0);
-  const mvpEligible=rows[0]&&rows[0].acc!==null&&rows[0].n>=LB_MIN;
-  // 🧠 자가 학습 가중치(team_weights.js) — 러너가 채점 기록으로 계산한 CHIEF 합산 발언권
+function leaderboardHTML(){
   const TW=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)?TEAM_WEIGHTS:null;
-  const twW=TW?TW.global.weights:null;
+  if(!TW) return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
+    <div class="lb-empty">성적 자료를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</div></section>`;
+  const rows=scorecardAnalystRows(TW,typeof AGENTS!=='undefined'?AGENTS:[]);
+  const mvpEligible=rows[0]&&rows[0].acc!==null&&rows[0].n>=LB_MIN;
   let cards='';
   rows.forEach((r,i)=>{
     const isMvp=mvpEligible&&i===0;
     const accHtml=r.acc===null
       ? '<span class="lb-acc" style="color:var(--dim)">—</span>'
       : `<span class="lb-acc" style="color:${r.acc>=60?'var(--green)':(r.acc<45?'var(--red)':'var(--amber)')}">${r.acc}%</span>`;
-    const wHtml=(twW&&twW[r.id]!=null)
-      ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 주는 발언권 — 최근 적중률에 비례해 자동 조정돼요">🧠 발언권 ${(twW[r.id]*100).toFixed(0)}%</span>`
+    const wHtml=r.weight!==null
+      ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 주는 발언권 — 최근 적중률에 비례해 자동 조정돼요">발언권 ${(r.weight*100).toFixed(0)}%</span>`
       : '';
     cards+=`<div class="lb-card ${isMvp?'mvp':''}">
       <div class="lb-rank">${i+1}</div>
@@ -4468,16 +4485,15 @@ function renderLeaderboard(){
         <div class="lb-role">${r.role}</div>
         <div class="lb-bar"><i style="width:${r.acc===null?0:r.acc}%"></i></div>
       </div>
-      <div class="lb-stat">${accHtml}<div class="lb-rec">${r.acc===null?'표본 부족':`적중 ${r.hits} · 빗나감 ${r.misses}`}${r.neus?` · 중립 ${r.neus}`:''}${r.pending?` · ⏳평가중 ${r.pending}`:''}</div></div>
+      <div class="lb-stat">${accHtml}<div class="lb-rec">채점 ${r.n.toLocaleString()}건</div></div>
     </div>`;
   });
-  el.innerHTML=`<div class="lb-head"><h3>🏆 애널리스트 리더보드</h3></div>
+  return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-sub">각 분석가의 역할에 맞춰 채점합니다. <b>TARO·QUANT·FLOW는 5거래일</b>, 장기 기업가치를 보는 <b>DIANA는 20거래일</b> 뒤 종가를 사용합니다.
-    ${TW?`<b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>. 표본이 작을 때 생기는 우연한 급등락은 50% 쪽으로 완화합니다(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).`:''}
+    <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>. 표본이 작을 때 생기는 우연한 급등락은 50% 쪽으로 완화합니다(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
     <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
     ${cards}
-    ${totalScored===0?'<div class="lb-empty">아직 확정 채점된 예측이 없어요. 역할별 채점기간이 지나면 순서대로 채워집니다.</div>':''}
-    <div class="lb-note">적중률 = 적중 ÷ (적중+빗나감). 단기축은 ±1%, DIANA는 ±3% 이내 변동을 평가 보류합니다. 👑 MVP는 표본 ${LB_MIN}개 이상부터.${twW?' 🧠 발언권 = 역할 사전비중 × 베이지안 보정 적중률.':''}</div>`;
+    <div class="lb-note">단기축은 ±1%, DIANA는 ±3% 이내 변동을 평가 보류합니다. MVP는 채점 ${LB_MIN}건 이상부터 표시하며, 발언권은 역할 사전비중과 보정 적중률을 함께 반영합니다.</div></section>`;
 }
 
 /* ============================================================
@@ -4577,9 +4593,12 @@ function renderScorecard(){
     ? `<div class="sc-calls-head">🎯 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
   const worstHtml=wk.worst.length
     ? `<div class="sc-calls-head">🙈 가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
-  const weeklyBody=wk.total===0
+  const weeklyEmpty=wk.total===0
     ? `<div class="sc-empty">이 주간(${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)}) 안에 채점이 끝난 판단이 없어요. 판단은 5거래일이 지나야 채점되니, 최근 주라면 조금만 기다려 주세요.</div>`
-    : `${bestHtml}${worstHtml}`;
+    : '';
+  const weeklyExamples=wk.total>0
+    ? `<div class="sc-block"><h3>이번 주 판단 사례</h3>${bestHtml}${worstHtml}</div>`
+    : '';
 
   // ── 분석가 열전: team_weights.js의 실측 적중률만 사용, 매 사이클 자동 갱신 ──
   let deepDive='';
@@ -4655,8 +4674,10 @@ function renderScorecard(){
     <p class="sc-sub">판단 후 5거래일 뒤 종가로 채점이 끝난 주간 결과예요. 채점 기록이 쌓인 만큼 계속 과거 주로 넘겨볼 수 있어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
     ${weekNav}
     ${statRow}
-    ${weeklyBody}
+    ${weeklyEmpty}
   </div>
+  ${leaderboardHTML()}
+  ${weeklyExamples}
   ${deepDive}
   ${modelDive}`;
 }
@@ -6225,7 +6246,7 @@ function taroMAExplainHTML(t,unit){
    · MA5/20/60/120/200 카드·조합해석·위험칩은 taroMAExplainHTML을 그대로 재사용한다
      (종목이든 지수든 tech 오브젝트 모양이 같아서 가능 — 로직 중복 없음).
    ═══════════════════════════════════════════════════════════════════ */
-const IDX_META={KOSPI:{label:'코스피',emoji:'🇰🇷'},KOSDAQ:{label:'코스닥',emoji:'📊'}};
+const IDX_META={KOSPI:{label:'KR 코스피'},KOSDAQ:{label:'KR 코스닥'}};
 // 한글 조사(은/는) 자동 선택 — 코스피(모음 받침 없음)=는, 코스닥(ㄱ받침)=은 처럼 종성 유무로 갈린다.
 function josaEunNeun(word){
   const c=String(word).charCodeAt(String(word).length-1);
@@ -6308,7 +6329,7 @@ function indexPanelRowHTML(name){
     :`${meta.label} 일별 기록을 모으는 중이에요. 매일 자동으로 하루치씩 쌓이면 이동평균과 차트가 여기에 나타나요.`;
   return `<details class="idx-panel" data-idx="${name}">`+
     `<summary class="idx-panel-summary">`+
-      `<span class="idx-panel-name">${meta.emoji} ${meta.label}</span>`+
+      `<span class="idx-panel-name">${meta.label}</span>`+
       `<span class="idx-panel-val">${idxWon(value)}${Number.isFinite(change)?`<em class="${change>0?'up':change<0?'down':''}">${change>0?'▲':change<0?'▼':'•'} ${Math.abs(change).toFixed(2)} (${rate>0?'+':''}${Number.isFinite(rate)?rate.toFixed(2):'-'}%)</em>`:''}</span>`+
       `<span class="idx-badge tone-${badge.tone}">${badge.label}</span>`+
       `<span class="idx-panel-arrow">▾</span>`+
@@ -6319,7 +6340,7 @@ function indexPanelRowHTML(name){
 }
 function renderIndexPanels(){
   const box=document.getElementById('idxPanels'); if(!box) return;
-  box.innerHTML=`<div class="idx-panels-head">📈 코스피·코스닥 상세 <span class="idx-panels-sub">눌러서 이동평균·차트를 펼쳐보세요</span></div>`+
+  box.innerHTML=`<div class="idx-panels-head">코스피·코스닥 상세 <span class="idx-panels-sub">눌러서 이동평균·차트를 펼쳐보세요</span></div>`+
     indexPanelRowHTML('KOSPI')+indexPanelRowHTML('KOSDAQ');
 }
 /* 펼쳤을 때: index_history.js를 지연 로드한 뒤 MA해석+차트를 채운다(1회만) */
@@ -10543,12 +10564,14 @@ window.renderScreener=function(){
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
-  function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'leaderboard' | 'calendar' | 'community'
+  function normalizeGaeoMode(mode){ return mode==='leaderboard'?'scorecard':mode; }
+  function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'scorecard' | 'calendar' | 'community'
+    mode=normalizeGaeoMode(mode);
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
-      leaderboard:'history',calendar:'history',screener:'auto',scorecard:'history'}[mode];
+      calendar:'history',screener:'auto',scorecard:'history'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
       const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
-        calc:'calcView',leaderboard:'leaderboard',calendar:'calendarView',scorecard:'scorecardView'}[mode];
+        calc:'calcView',calendar:'calendarView',scorecard:'scorecardView'}[mode];
       const view=document.getElementById(viewId);
       if(view){
         view.classList.add('on');
@@ -10566,9 +10589,9 @@ window.renderScreener=function(){
       return;
     }
     const single=mode==='single', watch=mode==='watch', compare=mode==='compare', portfolio=mode==='portfolio',
-          leaderboard=mode==='leaderboard', calendar=mode==='calendar', community=mode==='community',
+          calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
-          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener',
+          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates',
           latest=mode==='latest', scorecard=mode==='scorecard';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
@@ -10583,7 +10606,7 @@ window.renderScreener=function(){
       estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
       screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 500개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
-      leaderboard:['분석 결과를 기록으로','팀 성적표','분석팀의 예측 결과와 적중률을 누적 기록으로 투명하게 확인해 보세요.'],
+      rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
       community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.']
@@ -10604,7 +10627,7 @@ window.renderScreener=function(){
     document.getElementById('mode-estate').classList.toggle('on',estate);
     document.getElementById('mode-calc').classList.toggle('on',calc);
     document.getElementById('mode-screener').classList.toggle('on',screener);
-    document.getElementById('mode-leaderboard').classList.toggle('on',leaderboard);
+    document.getElementById('mode-rates').classList.toggle('on',rates);
     document.getElementById('mode-scorecard').classList.toggle('on',scorecard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
@@ -10624,7 +10647,6 @@ window.renderScreener=function(){
     if(!compare) document.getElementById('compare').classList.remove('on');
     document.getElementById('portfolio').classList.toggle('on',portfolio);
     document.getElementById('watchView').classList.toggle('on',watch);
-    document.getElementById('leaderboard').classList.toggle('on',leaderboard);
     document.getElementById('scorecardView').classList.toggle('on',scorecard);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
@@ -10635,6 +10657,7 @@ window.renderScreener=function(){
     document.getElementById('estateView').classList.toggle('on',estate);
     document.getElementById('calcView').classList.toggle('on',calc);
     document.getElementById('screenerView').classList.toggle('on',screener);
+    document.getElementById('rateView').classList.toggle('on',rates);
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
@@ -10642,7 +10665,7 @@ window.renderScreener=function(){
     if(estate && window.renderEstate) window.renderEstate();
     if(calc && window.renderCalc) window.renderCalc();
     if(screener && window.renderScreener) window.renderScreener();
-    if(leaderboard) renderLeaderboard();
+    if(rates) document.getElementById('dowbar').style.display='';
     if(scorecard) renderScorecard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -10660,7 +10683,7 @@ window.renderScreener=function(){
   document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
-  document.getElementById('mode-leaderboard').onclick=()=>{setMode('leaderboard'); SFX.click();};
+  document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click();};
   document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
@@ -11709,7 +11732,8 @@ window.hangulFix=function(str){
     else if(m==='watch'){ window.setMode('watch'); }
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
-    else if(m==='scorecard'){ SC_WEEK_OFFSET=0; window.setMode('scorecard'); }
+    else if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.setMode(m); }
+    else if(m==='rates'){ window.setMode('rates'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
@@ -11765,6 +11789,7 @@ window.hangulFix=function(str){
   const profilePanel=document.getElementById('navProfilePanel');
   const menuToggle=document.getElementById('navMenuToggle');
   const searchToggle=document.getElementById('navSearchToggle');
+  const refreshButton=document.getElementById('navRefresh');
   const profileToggle=document.getElementById('navProfileToggle');
   const rail=document.querySelector('.layout>.rail');
   const home=document.getElementById('homeDashboard');
@@ -11778,6 +11803,13 @@ window.hangulFix=function(str){
     });
   }
   if(rail&&workspaceBody) workspaceBody.appendChild(rail);
+
+  if(refreshButton) refreshButton.addEventListener('click',()=>{
+    refreshButton.disabled=true;
+    refreshButton.classList.add('is-refreshing');
+    refreshButton.setAttribute('aria-label','새로고침 중');
+    requestAnimationFrame(()=>window.location.reload());
+  });
 
   const panels=[
     {panel:workspace,button:menuToggle},
@@ -11866,7 +11898,7 @@ window.hangulFix=function(str){
       closePanels();
       setTimeout(()=>{
         const target={single:'analysisBrowser',watch:'watchView',news:'newsView',lesson:'lessonView',calc:'calcView',
-          leaderboard:'leaderboard',calendar:'calendarView'}[mode];
+          scorecard:'scorecardView',rates:'rateView',calendar:'calendarView'}[mode];
         const element=document.getElementById(target);
         if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
       },60);
