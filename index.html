@@ -7635,8 +7635,9 @@ function getFlowInterpretation(code,res){
   if(!fl||typeof fl.frgnSum!=='number'||typeof fl.todayIndi!=='number') return null;
   const state=flowStateLabel(res.score);
   // ⭐ 2026-08-10: "최근 5거래일"만 있으면 실시간 화면과 비교할 때 "지금 이 순간" 숫자로
-  // 착각하기 쉽다(제주반도체 사례) — 실제 집계 기간(장마감 확정치 기준)을 괄호로 덧붙인다.
-  const periodTxt=(fl.periodStart&&fl.periodEnd)?`최근 ${fl.days||5}거래일(${fl.periodStart}~${fl.periodEnd})`:`최근 ${fl.days||5}거래일`;
+  // 착각하기 쉽다(제주반도체 사례) — 실제 집계 기간(장마감 확정치 기준)을 괄호로 덧붙이고,
+  // 별표(*)로 눈에 바로 띄게 한 뒤 아래 각주에서 "당일 수급은 아직 안 잡혀있다"를 못 박는다.
+  const periodTxt=(fl.periodStart&&fl.periodEnd)?`최근 ${fl.days||5}거래일(${fl.periodStart}~${fl.periodEnd})*`:`최근 ${fl.days||5}거래일`;
   const rows=[
     {label:'외국인', val:fl.frgnSum, dir:fl.frgnSum>=0?'순매수':'순매도', period:periodTxt},
     {label:'기관', val:fl.orgSum, dir:fl.orgSum>=0?'순매수':'순매도', period:periodTxt},
@@ -7713,6 +7714,7 @@ function analystCardBodyHTML(id,code,res,color){
         `<div class="fx-flow-dir">${up?'▲':'▼'} ${m.dir}</div><div class="fx-flow-period">${esc(m.period)}</div></div>`;
     }).join('')+`</div>`;
     const subs=[];
+    if(I.fl.periodStart&&I.fl.periodEnd) subs.push('* 당일 수급은 장마감 후 집계 반영 예정이에요');
     if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
     if(I.quality) subs.push(I.quality+(I.divergence?' · '+I.divergence:''));
     if(subs.length) metricsHTML+=`<div class="fx-sub">${subs.map(esc).join('<br>')}</div>`;
