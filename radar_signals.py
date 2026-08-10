@@ -34,6 +34,13 @@ VOL_SPIKE_MULT = 2.0         # 이 배수 이상이면 '거래량 급증'
 
 MACD_FAST, MACD_SLOW, MACD_SIGNAL = 12, 26, 9
 MA_SHORT, MA_LONG = 20, 60   # 이동평균 골든/데드크로스
+MA_XSHORT = 5                # ⭐ 2026-08-07: 5일선 — 5·20일선 골든/데드크로스용
+
+# ⭐ 2026-08-07: '임박'(아직 안 뚫렸지만 두 선 간격이 좁혀지는 중) 판정 기준.
+# compute_indicators.py의 cross5_20/cross20_60 near 판정과 같은 계산 규격을 쓴다.
+MA_NEAR_DAYS = 3             # 오늘과 며칠 전을 비교해 좁혀지는 중인지 본다
+MA_NEAR_SHRINK_RATIO = 0.7   # 오늘 간격이 MA_NEAR_DAYS 전 간격의 이 배율보다 좁아야 '좁혀지는 중'
+MA_NEAR_GAP_PCT = 1.2        # 두 선 간격이 장기선 대비 이 %(퍼센트) 이내여야 '임박'
 
 # 신호를 만들려면 최소 몇 개의 일봉이 필요한가 (신규상장·거래정지 방어)
 MIN_BARS_RSI = RSI_PERIOD + 2        # 16 — 어제/오늘 두 시점의 RSI가 나오려면
@@ -41,6 +48,8 @@ MIN_BARS_BB = BB_PERIOD + 1          # 21
 MIN_BARS_VOL = VOL_AVG_DAYS + 1      # 21
 MIN_BARS_MACD = MACD_SLOW + MACD_SIGNAL + 1   # 36
 MIN_BARS_MA = MA_LONG + 1            # 61
+MIN_BARS_MA5_20 = MA_SHORT + MA_NEAR_DAYS + 1     # 24 — 5·20일선 교차·임박 계산에 필요
+MIN_BARS_MA_NEAR = MA_LONG + MA_NEAR_DAYS + 1     # 64 — 20·60일선 임박 계산에 필요(교차 자체는 MIN_BARS_MA)
 MIN_BARS_ANY = min(MIN_BARS_RSI, MIN_BARS_BB, MIN_BARS_VOL)   # 이보다 적으면 '데이터 부족'
 
 
@@ -231,39 +240,87 @@ SIGNAL_DEFS = {
         "caution": "거래량 급증은 매수·매도 어느 쪽으로도 나올 수 있어요. 가격 흐름과 함께 봐야 해요.",
     },
     "macd_golden_cross": {
-        "label": "MACD 골든크로스", "group": "extra", "severity": "mid", "icon": "▲",
+        "label": "MACD 골든크로스", "group": "main", "severity": "mid", "icon": "▲",
         "metric": "MACD−시그널",
         "description": "MACD가 시그널선을 위로 통과하며 최근 가격의 힘이 세지는 쪽으로 바뀌었어요.",
         "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요.",
     },
     "macd_dead_cross": {
-        "label": "MACD 데드크로스", "group": "extra", "severity": "mid", "icon": "▼",
+        "label": "MACD 데드크로스", "group": "main", "severity": "mid", "icon": "▼",
         "metric": "MACD−시그널",
         "description": "MACD가 시그널선을 아래로 통과하며 최근 가격의 힘이 빠지는 쪽으로 바뀌었어요.",
         "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요.",
     },
     "ma_golden_cross": {
-        "label": "MA20·60 골든크로스", "group": "extra", "severity": "mid", "icon": "▲",
+        "label": "MA20·60 골든크로스", "group": "main", "severity": "mid", "icon": "▲",
         "metric": "MA20−MA60",
         "description": "20일 이동평균선이 60일선을 위로 통과했어요(중기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요.",
     },
     "ma_dead_cross": {
-        "label": "MA20·60 데드크로스", "group": "extra", "severity": "mid", "icon": "▼",
+        "label": "MA20·60 데드크로스", "group": "main", "severity": "mid", "icon": "▼",
         "metric": "MA20−MA60",
         "description": "20일 이동평균선이 60일선을 아래로 통과했어요(중기 흐름이 바뀌는 지점).",
         "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요.",
     },
+    # ⭐ 2026-08-07 추가: 5·20일선 골든/데드크로스 + 두 쌍(5·20, 20·60) '임박' 신호.
+    # compute_indicators.py의 cross5_20/cross20_60(종목 상세 화면용)과 같은 개념을
+    # 레이더(전 종목 스캔)에도 넣어달라는 요청으로 추가했다.
+    "ma5_20_golden_cross": {
+        "label": "MA5·20 골든크로스", "group": "main", "severity": "low", "icon": "▲",
+        "metric": "MA5−MA20",
+        "description": "5일 이동평균선이 20일선을 위로 통과했어요(단기 흐름이 바뀌는 지점).",
+        "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요.",
+    },
+    "ma5_20_dead_cross": {
+        "label": "MA5·20 데드크로스", "group": "main", "severity": "low", "icon": "▼",
+        "metric": "MA5−MA20",
+        "description": "5일 이동평균선이 20일선을 아래로 통과했어요(단기 흐름이 바뀌는 지점).",
+        "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요.",
+    },
+    "ma5_20_cross_near_golden": {
+        "label": "MA5·20 골든크로스 임박", "group": "main", "severity": "low", "icon": "▲",
+        "metric": "간격(%)",
+        "description": "5일선이 아직 20일선 아래지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
+        "caution": "실제로 뚫고 올라가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
+    },
+    "ma5_20_cross_near_dead": {
+        "label": "MA5·20 데드크로스 임박", "group": "main", "severity": "low", "icon": "▼",
+        "metric": "간격(%)",
+        "description": "5일선이 아직 20일선 위지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
+        "caution": "실제로 뚫고 내려가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
+    },
+    "ma20_60_cross_near_golden": {
+        "label": "MA20·60 골든크로스 임박", "group": "main", "severity": "mid", "icon": "▲",
+        "metric": "간격(%)",
+        "description": "20일선이 아직 60일선 아래지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
+        "caution": "실제로 뚫고 올라가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
+    },
+    "ma20_60_cross_near_dead": {
+        "label": "MA20·60 데드크로스 임박", "group": "main", "severity": "mid", "icon": "▼",
+        "metric": "간격(%)",
+        "description": "20일선이 아직 60일선 위지만 간격이 {threshold}% 안쪽으로 좁혀지는 중이에요.",
+        "caution": "실제로 뚫고 내려가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요.",
+    },
 }
 
-# 홈 화면 분류 카드 순서 (main 그룹만 개별 카드, extra는 '기타 변화'로 묶는다)
+# 홈 화면 분류 카드 순서 (main 그룹만 개별 카드로 노출한다)
+# ⭐ 2026-08-07: 이동평균 교차·임박 신호(MA20·60, MA5·20 둘 다)는 "기타 변화"에 묻어두기엔
+# 아쉽다는 요청으로 main으로 승격했다.
+# ⭐ 2026-08-07(2차): "MACD 골든크로스·데드크로스도 하나로 묶지 말고 각각 카테고리로 나눠달라"는
+# 요청이 다시 들어와 MACD 크로스 두 개도 마저 main으로 승격 — 이제 '기타 변화' 묶음 자체가 없다.
 MAIN_ORDER = [
     "rsi_oversold_entry", "rsi_oversold_exit",
     "bb_lower_break", "volume_spike",
     "rsi_overbought_entry", "rsi_overbought_exit",
     "bb_lower_recover", "bb_upper_break", "bb_upper_recover",
+    "macd_golden_cross", "macd_dead_cross",
+    "ma_golden_cross", "ma_dead_cross",
+    "ma5_20_golden_cross", "ma5_20_dead_cross",
+    "ma20_60_cross_near_golden", "ma20_60_cross_near_dead",
+    "ma5_20_cross_near_golden", "ma5_20_cross_near_dead",
 ]
-EXTRA_ORDER = ["macd_golden_cross", "macd_dead_cross", "ma_golden_cross", "ma_dead_cross"]
+EXTRA_ORDER = []
 
 # 한 종목에서 여러 신호가 겹쳤을 때 "대표 신호"를 고르는 순서(앞일수록 우선)
 REPRESENTATIVE_ORDER = [
@@ -271,12 +328,40 @@ REPRESENTATIVE_ORDER = [
     "bb_upper_break", "rsi_overbought_entry", "rsi_overbought_exit",
     "bb_lower_recover", "bb_upper_recover",
     "macd_golden_cross", "macd_dead_cross", "ma_golden_cross", "ma_dead_cross",
+    "ma5_20_golden_cross", "ma5_20_dead_cross",
+    "ma20_60_cross_near_golden", "ma20_60_cross_near_dead",
+    "ma5_20_cross_near_golden", "ma5_20_cross_near_dead",
 ]
 SEVERITY_RANK = {"high": 3, "mid": 2, "low": 1}
 
 
 def _round(v, nd=1):
     return None if not _finite(v) else round(float(v), nd)
+
+
+def _ma_gap_pct(short_ma, long_ma, k):
+    """k 시점의 (단기선−장기선)/장기선 × 100. 배열 범위를 벗어나거나 값이 없으면 None."""
+    if k < 0 or k >= len(short_ma) or k >= len(long_ma):
+        return None
+    s, l = short_ma[k], long_ma[k]
+    if not (_finite(s) and _finite(l)) or l == 0:
+        return None
+    return (s / l - 1) * 100
+
+
+def _ma_near_dir(short_ma, long_ma, k):
+    """⭐ 2026-08-07: k 시점에서 '임박'(아직 안 뚫렸지만 두 선 간격이 좁혀지는 중) 방향을
+    돌려준다('golden'/'dead'/None). compute_indicators.py의 cross5_20/cross20_60 near
+    판정과 같은 계산 규격(MA_NEAR_DAYS 전과 비교, 좁혀지는 비율·간격 기준)을 쓴다."""
+    gap, gap_ref = _ma_gap_pct(short_ma, long_ma, k), _ma_gap_pct(short_ma, long_ma, k - MA_NEAR_DAYS)
+    if gap is None or gap_ref is None or gap == 0 or gap_ref == 0:
+        return None
+    same_side = (gap > 0) == (gap_ref > 0)
+    narrowing = abs(gap) < abs(gap_ref) * MA_NEAR_SHRINK_RATIO
+    close_enough = abs(gap) < MA_NEAR_GAP_PCT
+    if same_side and narrowing and close_enough:
+        return "dead" if gap > 0 else "golden"
+    return None
 
 
 def _make_event(code, name, sig_type, date, prev, cur, threshold, unit,
@@ -399,15 +484,42 @@ def detect_events(code, name, daily, detected_at="", price_base_at="", status="c
             elif dp >= 0 > dc:
                 add("macd_dead_cross", round(dp), round(dc), 0, "")
 
-    # ── MA20·MA60 교차 ──
-    if n >= MIN_BARS_MA:
-        s20, s60 = sma_series(closes, MA_SHORT), sma_series(closes, MA_LONG)
-        if all(_finite(x) for x in (s20[j], s60[j], s20[i], s60[i])):
-            dp, dc = s20[j] - s60[j], s20[i] - s60[i]
+    # ── MA5·20, MA20·60 교차 + '임박'(아직 안 뚫렸지만 좁혀지는 중) ──
+    # ⭐ 2026-08-07: 종목 상세 화면(compute_indicators.py)에 있던 골든/데드크로스 감지를
+    # 레이더(전 종목 스캔)에도 추가했다. '임박'은 오늘 새로 그 상태에 들어선 날에만
+    # 이벤트로 만든다(다른 신호들과 같은 원칙 — 지속 상태를 매일 반복해서 알리지 않는다).
+    # 이미 실제 교차가 난 날은 같은 쌍에서 '임박'을 같이 띄우지 않는다(모순 방지).
+    if n >= MIN_BARS_MA5_20:
+        s5, s20 = sma_series(closes, MA_XSHORT), sma_series(closes, MA_SHORT)
+        crossed = False
+        if all(_finite(x) for x in (s5[j], s20[j], s5[i], s20[i])):
+            dp, dc = s5[j] - s20[j], s5[i] - s20[i]
             if dp <= 0 < dc:
-                add("ma_golden_cross", round(dp), round(dc), 0, "원")
+                add("ma5_20_golden_cross", round(dp), round(dc), 0, "원"); crossed = True
             elif dp >= 0 > dc:
-                add("ma_dead_cross", round(dp), round(dc), 0, "원")
+                add("ma5_20_dead_cross", round(dp), round(dc), 0, "원"); crossed = True
+        if not crossed:
+            near_p, near_c = _ma_near_dir(s5, s20, j), _ma_near_dir(s5, s20, i)
+            if near_c and near_c != near_p:
+                add(f"ma5_20_cross_near_{near_c}",
+                    _round(_ma_gap_pct(s5, s20, j), 2), _round(_ma_gap_pct(s5, s20, i), 2),
+                    MA_NEAR_GAP_PCT, "%")
+
+    if n >= MIN_BARS_MA:
+        s20b, s60 = sma_series(closes, MA_SHORT), sma_series(closes, MA_LONG)
+        crossed = False
+        if all(_finite(x) for x in (s20b[j], s60[j], s20b[i], s60[i])):
+            dp, dc = s20b[j] - s60[j], s20b[i] - s60[i]
+            if dp <= 0 < dc:
+                add("ma_golden_cross", round(dp), round(dc), 0, "원"); crossed = True
+            elif dp >= 0 > dc:
+                add("ma_dead_cross", round(dp), round(dc), 0, "원"); crossed = True
+        if not crossed and n >= MIN_BARS_MA_NEAR:
+            near_p, near_c = _ma_near_dir(s20b, s60, j), _ma_near_dir(s20b, s60, i)
+            if near_c and near_c != near_p:
+                add(f"ma20_60_cross_near_{near_c}",
+                    _round(_ma_gap_pct(s20b, s60, j), 2), _round(_ma_gap_pct(s20b, s60, i), 2),
+                    MA_NEAR_GAP_PCT, "%")
 
     return events, None
 

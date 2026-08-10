@@ -119,6 +119,23 @@ def taro_eval(t):
     macd, sig = t.get("macd"), t.get("macdSignal")
     golden = macd is not None and sig is not None and macd >= sig
     s += 9 if golden else -8
+    # ⭐ 2026-08-07: 이동평균 골든/데드크로스(5·20일선, 20·60일선)도 점수에 반영한다.
+    # compute_indicators.py가 계산한 cross5_20/cross20_60을 그대로 쓴다(중복 계산 없음).
+    # 막 일어난 교차일수록 크게, CROSS_LOOKBACK(20거래일)에 가까워질수록 약하게(decay) 반영해
+    # "한 달 전 교차"가 오늘 점수를 계속 흔드는 걸 막는다. 아직 안 뚫렸지만 좁혀지는 중인
+    # "임박" 신호는 확정 신호의 절반 무게만 준다. 20·60일선(더 긴 추세)이 5·20일선보다
+    # 더 드물게 일어나는 만큼 가중치도 더 크게 둔다(6 vs 3).
+    def cross_adj(c, base):
+        if not c:
+            return 0.0
+        if c.get("event"):
+            decay = max(0.0, 1 - (c.get("daysAgo") or 0) / 20)
+            return (base if c["event"] == "golden" else -base) * decay
+        if c.get("near"):
+            return (base * 0.4) if c["near"] == "golden" else -(base * 0.4)
+        return 0.0
+    s += cross_adj(t.get("cross5_20"), 3)
+    s += cross_adj(t.get("cross20_60"), 6)
     vr = t.get("volRatio")
     score = clamp(s)
     close, ma20, ma60 = t.get("close"), t.get("ma20"), t.get("ma60")
@@ -178,7 +195,11 @@ def diana_eval(e):
     else:
         f.append("증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한")
     if tgap is not None:
-        f.append(f"증권사 평균 목표주가 {won(e.get('targetMean'))} · 현재가 대비 {tgap:+.1f}% 여력")
+        # ⭐ 2026-08-05: "증권사 평균 목표주가 X원 · 현재가 대비 +Y% 여력" 풀 문장은
+        # 목표가 자릿수가 클 때(백만원대) 모바일 카드 폭에서 두 줄로 넘어가 화면이 답답해진다는
+        # 신고가 있었다. "증권사 평균"·"여력"을 빼고 화살표로 이어 항상 한 줄에 들어오게 압축했다
+        # (Playwright로 100만원대·세 자리 %까지 실측 검증).
+        f.append(f"목표주가 {won(e.get('targetMean'))} → 현재가 대비 {tgap:+.1f}%")
     else:
         f.append(f"52주 밴드 {e.get('w52') or '—'} 참고 · 목표주가 컨센 미제공")
     while len(f) < 4:
@@ -244,8 +265,12 @@ def _trend5_zone(pct):
 def build_quant_stats(analysis_data):
     """전 종목 일봉에서 (상태 버킷 → 5거래일 뒤 상승 확률) 통계표 생성.
     반환: {key: {"n":표본수, "w":상승횟수, "sum":수익률합}}  (넓은 키일수록 표본이 큼)
-    키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)"""
+    키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)
+    "_period"는 버킷이 아니라 {"start":최초 표본일, "end":최종 표본일} 메타데이터다
+    (⭐ 2026-08-08: "표본이 몇 년치인지 안 보인다"는 피드백 → 화면에 실제 데이터 기간을
+    동적으로 보여주기 위해 추가. 승률·점수 계산 로직 자체는 전혀 안 건드린다)."""
     stats = {}
+    period = {"start": None, "end": None}
 
     def bump(key, win, ret):
         b = stats.setdefault(key, {"n": 0, "w": 0, "sum": 0.0})
@@ -284,6 +309,64 @@ def build_quant_stats(analysis_data):
             bump(f"z{z}m{m}", win, ret)
             bump(f"z{z}", win, ret)
             bump("all", win, ret)
+            date_i = rows[i]["date"]
+            if period["start"] is None or date_i < period["start"]:
+                period["start"] = date_i
+            if period["end"] is None or date_i > period["end"]:
+                period["end"] = date_i
+    stats["_period"] = period
+    return stats
+
+
+# ── 골든/데드크로스 사후 통계 (2026-08-07 사용자 요청) ────────────────────────
+#    "데드크로스 나면 진짜 얼마나 떨어져요?"에 감이 아니라 숫자로 답하기 위해,
+#    500종목 누적 일봉에서 과거에 실제로 있었던 골든/데드크로스(5·20일선,
+#    20·60일선 두 쌍) 전부를 찾아 그 CROSS_STAT_HORIZON거래일 뒤 실제 등락률을
+#    센다. 종목 하나·사례 하나가 아니라 수백 건을 모은 평균이라 훨씬 믿을 만하다.
+CROSS_STAT_HORIZON = 20   # 교차 이후 며칠 뒤 결과를 볼지(거래일 기준, TARO MA 해석과 동일 규격)
+
+
+def build_cross_stats(analysis_data):
+    """반환: {"5_20_golden":{...}, "5_20_dead":{...}, "20_60_golden":{...}, "20_60_dead":{...}}
+    각 값은 {"n":표본수, "w":상승횟수(그 시점보다 CROSS_STAT_HORIZON일 뒤 종가가 높았던 횟수), "sum":수익률합}."""
+    H = CROSS_STAT_HORIZON
+    stats = {"5_20_golden": {"n": 0, "w": 0, "sum": 0.0}, "5_20_dead": {"n": 0, "w": 0, "sum": 0.0},
+             "20_60_golden": {"n": 0, "w": 0, "sum": 0.0}, "20_60_dead": {"n": 0, "w": 0, "sum": 0.0}}
+
+    def bump(key, ret):
+        b = stats[key]
+        b["n"] += 1; b["w"] += 1 if ret > 0 else 0; b["sum"] += ret
+
+    def sma(vals, p, i):
+        return sum(vals[i + 1 - p:i + 1]) / p if i + 1 >= p else None
+
+    for s in (analysis_data.get("stocks") or {}).values():
+        d = s.get("daily")
+        if not isinstance(d, list) or len(d) < 65:   # 20·60일선 계산에 필요한 최소치
+            continue
+        rows = sorted((r for r in d if r.get("date") and isinstance(r.get("close"), (int, float))),
+                      key=lambda r: r["date"])
+        closes = [r["close"] for r in rows]
+        n = len(closes)
+        ma5 = [sma(closes, 5, i) for i in range(n)]
+        ma20 = [sma(closes, 20, i) for i in range(n)]
+        ma60 = [sma(closes, 60, i) for i in range(n)]
+        for i in range(1, n - H):   # i+H가 배열 범위 안이어야 결과를 볼 수 있다
+            if not closes[i]:
+                continue
+            ret = (closes[i + H] - closes[i]) / closes[i] * 100
+            if ma5[i] is not None and ma20[i] is not None and ma5[i - 1] is not None and ma20[i - 1] is not None:
+                prev, cur = ma5[i - 1] - ma20[i - 1], ma5[i] - ma20[i]
+                if prev <= 0 < cur:
+                    bump("5_20_golden", ret)
+                elif prev >= 0 > cur:
+                    bump("5_20_dead", ret)
+            if ma20[i] is not None and ma60[i] is not None and ma20[i - 1] is not None and ma60[i - 1] is not None:
+                prev, cur = ma20[i - 1] - ma60[i - 1], ma20[i] - ma60[i]
+                if prev <= 0 < cur:
+                    bump("20_60_golden", ret)
+                elif prev >= 0 > cur:
+                    bump("20_60_dead", ret)
     return stats
 
 
@@ -298,7 +381,9 @@ def quant_eval(e, t, qstats):
         return {"score": 50, "stance": "neu", "findings": [
             "📊 QUANT — 과거 통계 조회에 필요한 지표가 아직 부족합니다",
             "다음 자동 수집에서 RSI·이동평균·최근 추세가 채워지면 승률이 계산됩니다",
-            "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"]}
+            "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"],
+            "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     z, zname = _rsi_zone(rsi)
     m = 1 if g20 >= 0 else 0
     tz, tname = _trend5_zone(tr5)
@@ -316,7 +401,9 @@ def quant_eval(e, t, qstats):
     if not b["n"]:
         return {"score": 50, "stance": "neu", "findings": [
             "📊 QUANT — 아직 통계 표본이 없습니다", "데이터가 쌓이면 승률이 계산됩니다",
-            "현재는 중립(50점) 처리", "—"]}
+            "현재는 중립(50점) 처리", "—"],
+            "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     wr = b["w"] / b["n"] * 100
     avg = b["sum"] / b["n"]
     # ── 상대 승률로 재중심화 (2026-07-22 수정) ────────────────────────────────
@@ -337,7 +424,13 @@ def quant_eval(e, t, qstats):
         f"과거에 이런 상태({used})였던 적이 {b['n']}건 있었는데, 그중 {b['w']}건이 5거래일 뒤 올랐어요 → 경험적 승률 {wr:.0f}% (시장 평균 {base_wr:.0f}%보다 {rel:+.0f}%p {relword})",
         f"그 {b['n']}건의 5거래일 뒤 등락률 평균은 {avg:+.1f}%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요",
     ]
-    return {"score": score, "stance": stance_of(score), "findings": f[:4]}
+    # ⭐ 2026-08-08: findings 문장 속에 숫자를 파묻지 않고, 화면(index.html)이 카드로 재조립할 수
+    # 있도록 같은 숫자를 구조화된 필드로도 함께 내려준다. 문장(findings)·점수(score)는 그대로다.
+    period = qstats.get("_period") or {}
+    return {"score": score, "stance": stance_of(score), "findings": f[:4],
+            "sampleN": b["n"], "sampleWin": b["w"], "winRate": round(wr, 1),
+            "marketAvgWinRate": round(base_wr, 1), "relPp": round(rel, 1), "avgReturn": round(avg, 2),
+            "scopeUsed": used, "periodStart": period.get("start"), "periodEnd": period.get("end")}
 
 
 # ── CHIEF(종합): 자가 학습 가중치(team_weights.js) 기반 합산 ─────────────────
@@ -422,6 +515,15 @@ def risk_overlay(risk):
     grade = risk.get("grade") if risk.get("grade") in ("low", "mid", "high") else (
         "high" if score < 35 else ("mid" if score < 55 else "low"))
     penalty = clamp(round(max(0, 45 - score) * 0.15) + 1, 1, 7) if grade == "high" else 0
+    # ⭐ 2026-08-10: vol20(변동성)은 급등이든 급락이든 방향을 안 가리고 똑같이 감점한다.
+    # "낙폭과대 후 이미 크게 반등 중"인 종목까지 "출렁이니 위험"으로 묶어 매번 SELL 쪽으로
+    # 미는 게 부당하다는 피드백(제주반도체 사례) → 3개월 저점 대비 반등률(reboundFromLow)이
+    # 클수록 페널티를 완화한다. "완화"만 한다는 점이 핵심 — 감점을 줄일 뿐 0 밑으로
+    # (보너스로) 내려가는 일은 없다. RISK가 상승표를 주지 않는다는 원칙은 그대로 유지된다.
+    rebound = float(risk.get("reboundFromLow") or 0)
+    if penalty > 0 and rebound > 15:
+        damp = min(0.6, (rebound - 15) / 60)   # 반등 15%~75%p 구간에서 감점을 최대 60%까지 완화
+        penalty = max(0, round(penalty * (1 - damp)))
     confidence_penalty = 10 if grade == "high" else (3 if grade == "mid" else 0)
     return {"score": score, "grade": grade, "penalty": penalty,
             "confidencePenalty": confidence_penalty}
@@ -452,10 +554,9 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False):
                  else "균등 가중치로 합산했습니다. ")
               + risk_text
               + (" 분석축 간 편차가 커 신중한 접근이 필요합니다." if spread >= 30 else " 분석축 간 시각이 대체로 일치합니다."))
-    report = (f"이 종목은 심부름꾼(자동 엔진)이 수집된 지표만으로 판단한 자동분석 결과입니다. "
+    report = (f"이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. "
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
-              f"개별 뉴스·공시는 반영되지 않으므로, 중요한 판단에는 정밀분석(Claude 5인)으로 재확인을 권장합니다. "
               f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
             "rawTotal": raw_total, "riskPenalty": risk["penalty"],
@@ -527,12 +628,21 @@ def main():
     except Exception:
         adata = {}
     qstats = build_quant_stats(adata)
+    cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
     sectors = load_sectors()
     if qstats.get("all"):
         a = qstats["all"]
-        print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · 버킷 {len(qstats)}개")
+        period = qstats.get("_period") or {}
+        print(f"QUANT 통계표 — 전체 표본 {a['n']:,}건 · 기저 승률 {a['w']/a['n']*100:.1f}% · "
+              f"버킷 {len(qstats)-1}개 · 기간 {period.get('start')}~{period.get('end')}")
+    for key, label in (("5_20_golden", "5·20 골든"), ("5_20_dead", "5·20 데드"),
+                       ("20_60_golden", "20·60 골든"), ("20_60_dead", "20·60 데드")):
+        b = cross_stats.get(key) or {}
+        if b.get("n"):
+            print(f"교차 사후통계 {label} — 표본 {b['n']:,}건 · {CROSS_STAT_HORIZON}거래일 뒤 평균 {b['sum']/b['n']:+.1f}% "
+                  f"· 상승확률 {b['w']/b['n']*100:.0f}%")
     print(f"CHIEF 가중치 — {'자가 학습(team_weights.js)' if tw['learned'] else '균등(파일 없음)'} · 업종 오버라이드 {len(tw['sectors'])}개")
 
     price_label = ind.get("priceLabel", "")
@@ -580,8 +690,9 @@ def main():
         print(f"[경고] 자동분석 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
 
     out["marketInsight"] = build_market_insight(out, ind)
+    out["crossStats"] = {"horizonDays": CROSS_STAT_HORIZON, "buckets": cross_stats}
     body = json.dumps(out, ensure_ascii=False, indent=1)
-    js = ("// 자동 생성: analyze_auto.py · 심부름꾼(러너) 규칙 기반 자동분석 (Claude 토큰 0)\n"
+    js = ("// 자동 생성: analyze_auto.py · GAEO 자동 분석(러너) 규칙 기반 (Claude 토큰 0)\n"
           "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"
           "// 정밀을 우선하고, 오래되면(기준가 대비 시세가 벌어지면) 이 자동분석을 표시한다.\n"
           "const LIVE_AUTO = " + body + ";\n")
