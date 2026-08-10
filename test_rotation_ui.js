@@ -9,8 +9,8 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260810-v3','rotation-ui\.js\?v=20260811-v5'\]/);
-assert.match(html, /rotation\.css\?v=20260811-v5/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260810-v3','rotation-ui\.js\?v=20260811-v6'\]/);
+assert.match(html, /rotation\.css\?v=20260811-v6/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
