@@ -9,7 +9,8 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js','rotation-ui\.js'\]/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260810-v3','rotation-ui\.js\?v=20260810-v3'\]/);
+assert.match(html, /rotation\.css\?v=20260810-v3/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -52,8 +53,20 @@ assert.match(rendered, /삼성전자/);
 assert.match(rendered, /200일선/);
 assert.match(rendered, /지표 누락 2종목 제외/);
 assert.match(rendered, /rotation-shadow-v2/);
+assert.match(rendered, /class="rot-help"/);
+assert.match(rendered, /data-tip="업종 수익 흐름"/);
+assert.match(rendered, /aria-label="상승 탄력 설명: 업종 수익 흐름"/);
+assert.match(rendered, /class="rot-accumulation-note"/);
+assert.match(rendered, /장 마감 후 저장되는 업종별 점수/);
+assert.match(rendered, /보통 다음 거래일 마감 뒤부터/);
+assert.match(rendered, /20거래일 성과는 약 4주/);
 for (const horizon of [60, 120, 200]) {
   assert.match(rendered, new RegExp(`data-horizon="${horizon}"[^>]*>${horizon}일</button>`));
 }
+
+const css = fs.readFileSync(path.join(root, 'rotation.css'), 'utf8');
+assert.match(css, /\.rot-help\{/);
+assert.match(css, /\.rot-accumulation-note\{/);
+assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.35fr repeat\(4,minmax\(0,1fr\)\)/);
 
 console.log('rotation UI contract passed');
