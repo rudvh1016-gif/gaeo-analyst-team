@@ -137398,6 +137398,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-10 14:02",
+   "call": "BUY",
+   "total": 75,
+   "confidence": 79,
+   "base": 5750,
+   "baseAt": "2026-08-10 14:02 장중",
+   "target": "증권사 평균 목표주가 7,867원 (현재가 대비 +36.8% 상승여력), 한국투자증권은 8월 8일 목표가 7,500원(매수)을 유지",
+   "taro": {
+    "stance": "bull",
+    "score": 76
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 74
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 72
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 77
+   }
   }
  ],
  "012750": [
