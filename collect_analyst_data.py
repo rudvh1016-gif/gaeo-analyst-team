@@ -7,7 +7,14 @@
 저장해두면, 제한된 세션은 git pull만으로 데스크톱과 동일한 데이터를 쓸 수 있다.
 
 수집 항목(종목별):
-  · daily   — 최근 3개월 일봉 [날짜, 시가, 고가, 저가, 종가, 거래량, 외국인소진율]
+  · daily   — 최근 약 10개월 일봉 [날짜, 시가, 고가, 저가, 종가, 거래량, 외국인소진율]
+    ⭐ 2026-08-06: TARO MA120/200을 실데이터로 채우려고 3개월→10개월로 확장(2단계).
+    200거래일 확보에 여유를 두려고 10개월(≈310일)로 잡았다 — 한국 증시는 연 약 245
+    거래일이라 10개월이면 보통 200거래일을 넘긴다. months가 커져도 종목당 API 호출
+    횟수는 그대로 1번이라(응답 본문만 커짐) 전체 실행 시간에 미치는 영향은 크지 않을
+    걸로 예상하지만, 실제 네이버 응답이 이 정도 기간을 다 주는지는 이 세션에서 검증할
+    수 없어(네이버 접속 차단) 러너가 실행된 뒤 analysis_data.json의 daily 길이 분포로
+    확인해야 한다.
   · info    — m.stock 통합 API의 totalInfos(PER/PBR/EPS/BPS/배당/52주 등)
   · consensus — 통합 API의 컨센서스(목표주가/투자의견) 있으면
   · dealTrends — 통합 API의 최근 거래일별 외인/기관/개인 순매매·보유율(수급, FLOW용)
@@ -40,7 +47,7 @@ def get(url, referer="https://finance.naver.com", tries=3, as_json=True):
     raise last
 
 
-def fetch_daily(code, months=3):
+def fetch_daily(code, months=10):
     end = datetime.date.today()
     start = end - datetime.timedelta(days=months * 31)
     url = (f"https://api.finance.naver.com/siseJson.naver?symbol={code}"

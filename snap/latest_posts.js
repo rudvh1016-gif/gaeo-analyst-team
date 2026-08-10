@@ -11,6 +11,54 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 43,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-10",
+  "title": "2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나",
+  "featured": false
+ },
+ {
+  "id": 42,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-07",
+  "title": "2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥",
+  "featured": false
+ },
+ {
+  "id": 41,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-06",
+  "title": "2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날",
+  "featured": false
+ },
+ {
+  "id": 40,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-06",
+  "title": "SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?",
+  "featured": false
+ },
+ {
+  "id": 39,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-05",
+  "title": "2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞",
+  "featured": false
+ },
+ {
+  "id": 38,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-04",
+  "title": "2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날",
+  "featured": false
+ },
+ {
   "id": 37,
   "mode": "news",
   "label": "뉴스분석",
@@ -33,58 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유",
   "featured": false
- },
- {
-  "id": 71,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "포트폴리오 만드는 법: 초보자 자산배분 실전 가이드",
-  "featured": false
- },
- {
-  "id": 70,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "상장폐지 완전정복: 거래정지부터 정리매매까지",
-  "featured": false
- },
- {
-  "id": 69,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "국내주식 세금: 매매·배당·대주주 과세 한 번에 정리",
-  "featured": false
- },
- {
-  "id": 68,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "DART 공시 보는 법: 10분 기업 점검 순서",
-  "featured": false
- },
- {
-  "id": 67,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "재무제표 보는 법: 손익·재무상태·현금흐름 연결하기",
-  "featured": false
- },
- {
-  "id": 66,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "S&P500 vs 나스닥100: 초보자를 위한 완전 비교",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 37,
+ "news": 43,
  "study": 35,
  "lesson": 72,
  "estate": 19,

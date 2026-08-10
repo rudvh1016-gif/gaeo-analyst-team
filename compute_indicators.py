@@ -7,8 +7,13 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 
 목적: Claude 세션이 원천 데이터(수천 줄)를 읽고 계산하는 대신 이 요약표만
 읽으면 되므로 토큰이 크게 절약된다. 계산 규격은 종목분석 스킬과 동일:
-  MA20/MA60=종가 단순평균 · RSI(14)=Wilder 평활 · MACD=EMA12−EMA26(시그널 EMA9)
+  MA5/20/60/120/200=종가 단순평균 · RSI(14)=Wilder 평활 · MACD=EMA12−EMA26(시그널 EMA9)
   거래량배율=당일/20일평균 · 수급=dealTrends 최근 6거래일 누적
+  ⭐ TARO 이동평균 시스템(2026-08-06): 각 MA는 period일치가 없으면 "데이터 부족"으로 숨기지
+  않고, 있는 만큼(eff일)만 평균 내 ma{P}Days(실제 일수)·ma{P}Full(정식 여부)와 함께 돌려준다.
+  화면은 정식이 아니면 "60일선" 대신 "54일선"처럼 실제 일수를 이름표로 그대로 쓴다(예전
+  버그는 54일 평균에 "60일선"이라는 가짜 이름을 붙였다 — 지금은 진짜 이름을 쓰는 게 다르다).
+  기울기(Slope)는 정식(Full)일 때만 계산한다(들쭉날쭉한 임시 구간의 기울기는 의미가 약함).
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
@@ -56,12 +61,84 @@ def ema_series(vals, n):
     return out
 
 
+MA_SLOPE_LOOKBACK = 5   # 이동평균 기울기 판단용 lookback(거래일) — TARO 해석 규격
+CROSS_LOOKBACK = 20     # ⭐ 골든/데드크로스 감지(2026-08-07): 최근 며칠 안의 교차만 "새 소식"으로 알린다
+CROSS_NEAR_DAYS = 3     # 임박 판정 — 오늘과 며칠 전을 비교해 두 선이 좁혀지는 중인지 본다
+CROSS_NEAR_GAP_PCT = 1.2   # 두 선 간격이 이 %(현재가 대비) 이내로 좁혀져야 "임박"으로 본다
+CROSS_NEAR_SHRINK_RATIO = 0.7   # 오늘 간격이 CROSS_NEAR_DAYS 전 간격의 이 배율보다 좁아야 "좁혀지는 중"
+
+
 def indicators_for(daily):
     closes = [r["close"] for r in daily]
     vols = [r["volume"] for r in daily]
     cur = closes[-1]
-    ma20 = sum(closes[-20:]) / min(20, len(closes))
-    ma60 = sum(closes[-60:]) / min(60, len(closes))
+    n = len(closes)
+
+    MA_MIN_DAYS = 2   # 최소 이 정도는 있어야 "평균"이라 부를 수 있다(1일이면 평균이 아니라 그냥 종가)
+
+    def sma_asof(period, back):
+        """`period`일 평균을 최신 봉에서 `back`거래일 전 시점 기준으로 계산(기울기용)."""
+        end = n - back
+        return sum(closes[end - period:end]) / period if end >= period else None
+
+    # ⭐ 골든크로스/데드크로스 감지(2026-08-07 사용자 요청): 단기선(short_p)이 장기선(long_p)을
+    # 뚫고 올라가면(golden)/내려가면(dead) 각각 신호로 본다. sma_asof로 최근 CROSS_LOOKBACK
+    # 거래일치 두 선의 위치를 되짚어, ① 최근 며칠 안에 실제로 교차가 있었으면 그 사실(daysAgo)을,
+    # ② 아직 교차 전이지만 두 선 간격이 눈에 띄게 좁혀지는 중이면 "임박"(near) 신호를 돌려준다.
+    # 두 조건 다 아니면 event=None, near=None(평소와 다를 것 없는 상태).
+    def cross_signal(short_p, long_p):
+        diffs = []   # [(back, short-long, gap%)], back=0이 오늘
+        for back in range(0, CROSS_LOOKBACK + 2):
+            s, l = sma_asof(short_p, back), sma_asof(long_p, back)
+            if s is None or l is None:
+                break
+            diffs.append((back, s - l, (s / l - 1) * 100 if l else None))
+        if len(diffs) < 2:
+            return {"event": None, "daysAgo": None, "near": None}
+        for i in range(len(diffs) - 1):
+            back, diff, _ = diffs[i]
+            _, prevDiff, _ = diffs[i + 1]
+            if not diff or not prevDiff:
+                continue
+            if (diff > 0) != (prevDiff > 0):   # 부호가 바뀐 지점 = 그 사이 교차 발생
+                if back > CROSS_LOOKBACK:
+                    break
+                return {"event": ("golden" if diff > 0 else "dead"), "daysAgo": back, "near": None}
+        cur_gap, ref_gap = diffs[0][2], diffs[min(CROSS_NEAR_DAYS, len(diffs) - 1)][2]
+        if cur_gap is None or ref_gap is None or cur_gap == 0 or ref_gap == 0:
+            return {"event": None, "daysAgo": None, "near": None}
+        same_side = (cur_gap > 0) == (ref_gap > 0)
+        narrowing = abs(cur_gap) < abs(ref_gap) * CROSS_NEAR_SHRINK_RATIO
+        close_enough = abs(cur_gap) < CROSS_NEAR_GAP_PCT
+        if same_side and narrowing and close_enough:
+            return {"event": None, "daysAgo": None, "near": ("dead" if cur_gap > 0 else "golden")}
+        return {"event": None, "daysAgo": None, "near": None}
+
+    def ma_block(period):
+        # ⭐ 2026-08-06: period일치가 없다고 "데이터 부족"으로 숨기지 않는다. 대신 있는 만큼
+        # (eff일)만 평균 내고, 며칠짜리 평균인지(effDays)와 "정식(60일 다 채움)"인지(full)를
+        # 함께 돌려준다 — 화면은 이 eff로 "54일선"처럼 실제 일수를 그대로 이름표에 쓴다.
+        # (예전 버그와의 차이: 예전엔 54일 평균에 "60일선"이라는 가짜 이름을 붙였다.
+        #  지금은 진짜 이름(54일선)을 붙이고, 60일 다 채워야만 "60일선"이라 부른다.)
+        eff = min(period, n)
+        if eff < MA_MIN_DAYS:
+            return None, None, None, eff, False
+        ma = sum(closes[-eff:]) / eff
+        gap = round((cur / ma - 1) * 100, 1)
+        full = eff >= period
+        slope = None
+        if full:   # 기울기는 정식 구간이 다 찼을 때만 계산(들쭉날쭉한 임시 구간의 기울기는 의미가 약해서)
+            prev = sma_asof(period, MA_SLOPE_LOOKBACK)
+            slope = round((ma / prev - 1) * 100, 2) if prev else None
+        return round(ma), gap, slope, eff, full
+
+    ma5, ma5Gap, ma5Slope, ma5Days, ma5Full = ma_block(5)
+    ma20, ma20Gap, ma20Slope, ma20Days, ma20Full = ma_block(20)
+    ma60, ma60Gap, ma60Slope, ma60Days, ma60Full = ma_block(60)
+    ma120, ma120Gap, ma120Slope, ma120Days, ma120Full = ma_block(120)
+    ma200, ma200Gap, ma200Slope, ma200Days, ma200Full = ma_block(200)
+    cross5_20 = cross_signal(5, 20)
+    cross20_60 = cross_signal(20, 60)
     gains, losses = [], []
     for i in range(1, len(closes)):
         ch = closes[i] - closes[i - 1]
@@ -77,12 +154,19 @@ def indicators_for(daily):
     vol_ratio = vols[-1] / vol_avg if vol_avg else None   # 거래정지/저유동 종목은 0 평균 → None
     out = {
         "close": cur,
-        "ma20": round(ma20), "ma20Gap": round((cur / ma20 - 1) * 100, 1),
-        "ma60": round(ma60), "ma60Gap": round((cur / ma60 - 1) * 100, 1),
+        "daysAvail": n,   # TARO 이동평균 카드가 "며칠 더 필요해요" 문구를 만드는 데 씀
+        "ma5": ma5, "ma5Gap": ma5Gap, "ma5Slope": ma5Slope, "ma5Days": ma5Days, "ma5Full": ma5Full,
+        "ma20": ma20, "ma20Gap": ma20Gap, "ma20Slope": ma20Slope, "ma20Days": ma20Days, "ma20Full": ma20Full,
+        "ma60": ma60, "ma60Gap": ma60Gap, "ma60Slope": ma60Slope, "ma60Days": ma60Days, "ma60Full": ma60Full,
+        "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope, "ma120Days": ma120Days, "ma120Full": ma120Full,
+        "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope, "ma200Days": ma200Days, "ma200Full": ma200Full,
+        "cross5_20": cross5_20, "cross20_60": cross20_60,
         "rsi14": round(rsi, 1),
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
-        "low3m": min(closes), "high3m": max(closes),
+        # ⚠️ daily가 이제 ~10개월치라, min/max(closes) 전체를 쓰면 "3개월 최저/최고"라는
+        # 화면 문구(가격 나침반 등)와 실제 계산 기간이 어긋난다. 최근 약 63거래일(~3개월)만 잘라 쓴다.
+        "low3m": min(closes[-63:]), "high3m": max(closes[-63:]),
         "last5": [{"d": r["date"][5:], "c": r["close"]} for r in daily[-5:]],
     }
     # 📊 볼린저밴드(20일 SMA ± 표준편차 2배) — 레이더 신호와 종목 상세 차트가 같이 쓴다.
@@ -103,6 +187,11 @@ def risk_for(daily, live):
     vol20  : 최근 20거래일 일간 등락률 표준편차(%) — '하루에 평균 얼마나 출렁이는가'
     mdd3m  : 3개월 창 최대낙폭(%) — 고점 대비 가장 깊게 빠졌던 폭(음수)
     pos52w : 52주 가격 범위 내 현재가 위치(0=1년 최저, 100=1년 최고)
+    reboundFromLow : 3개월 창 저점 대비 현재가 반등률(%) — vol20/mdd3m은 급등이든
+        급락이든 방향을 안 가리고 똑같이 '출렁임'으로만 보는데, "낙폭과대 후 이미 크게
+        반등한 종목"과 "아직 저점 근처에서 계속 흔들리는 종목"을 구분하기 위해 추가
+        (2026-08-10, analyze_auto.py의 risk_overlay 감점 완화용 — vol20/mdd3m 자체 계산은
+        건드리지 않음)
     grade  : low(안정)/mid(보통)/high(위험) — 변동성·낙폭 임계값 기반"""
     closes = [d.get("close") for d in (daily or []) if d.get("close")]
     if len(closes) < 6:
@@ -111,14 +200,18 @@ def risk_for(daily, live):
     tail = rets[-20:] if len(rets) >= 20 else rets
     mean = sum(tail) / len(tail)
     vol20 = round((sum((r - mean) ** 2 for r in tail) / len(tail)) ** 0.5, 2)
-    peak, mdd = closes[0], 0.0
-    for c in closes:
+    # ⚠️ daily가 ~10개월치라 mdd3m 이름에 맞게 최근 약 63거래일(~3개월)만 잘라 쓴다.
+    closes3m = closes[-63:]
+    peak, mdd = closes3m[0], 0.0
+    for c in closes3m:
         if c > peak:
             peak = c
         dd = (c / peak - 1) * 100
         if dd < mdd:
             mdd = dd
     mdd = round(mdd, 1)
+    low3m = min(closes3m)
+    rebound = round((closes[-1] / low3m - 1) * 100, 1) if low3m else None
     pos52 = None
     try:
         lo, hi = [float(x.replace(",", "").strip()) for x in str((live or {}).get("w52") or "").split("~")]
@@ -128,7 +221,7 @@ def risk_for(daily, live):
         pass
     # grade는 전 종목 수집이 끝난 뒤 main()에서 "시장 전체 대비 상대 위치"로 매긴다.
     # (절대 임계값만 쓰면 이번 주처럼 시장 전체가 요동칠 때 전 종목이 '위험'으로 쏠려 변별력이 사라진다)
-    return {"vol20": vol20, "mdd3m": mdd, "pos52w": pos52}
+    return {"vol20": vol20, "mdd3m": mdd, "pos52w": pos52, "reboundFromLow": rebound}
 
 
 def assign_risk_grades(stocks):
@@ -156,10 +249,21 @@ def assign_risk_grades(stocks):
         r["grade"] = g
 
 
+def _fmt_bizdate(bd):
+    s = str(bd or "")
+    return f"{int(s[4:6])}/{int(s[6:8])}" if len(s) == 8 else None
+
+
 def flow_summary(deal_trends, daily=None, days=6):
     dt = deal_trends[:days]
     if not dt:
         return None
+    # ⭐ 2026-08-10: "최근 N거래일"이 정확히 몇 월 며칠부터인지 화면에 안 보여서
+    # "지금 이 순간" 수치로 착각하기 쉬웠다(제주반도체 사례 — 사용자가 실시간 앱과
+    # 비교하다 혼란). 원본 API가 이미 주는 bizdate(그날 장이 끝나야 확정되는 값)를
+    # 그대로 옮겨 담을 뿐, 합산 로직 자체는 건드리지 않는다.
+    period_end = _fmt_bizdate(dt[0].get("bizdate"))
+    period_start = _fmt_bizdate(dt[-1].get("bizdate"))
     frgn = sum(num(r.get("foreignerPureBuyQuant")) or 0 for r in dt)
     org = sum(num(r.get("organPureBuyQuant")) or 0 for r in dt)
     today = dt[0]
@@ -198,6 +302,7 @@ def flow_summary(deal_trends, daily=None, days=6):
                 "confirmation_down": -5}.get(divergence, 0)
     return {
         "days": len(dt),
+        "periodStart": period_start, "periodEnd": period_end,
         "frgnSum": int(frgn), "orgSum": int(org),
         "holdNow": num(dt[0].get("foreignerHoldRatio")),
         "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
@@ -213,6 +318,28 @@ def flow_summary(deal_trends, daily=None, days=6):
     }
 
 
+def load_index_history():
+    """index_history.js(update_index_history.py 생성, TARO 3단계)를 안전하게 읽는다.
+    러너가 아직 한 번도 안 돌았거나 실패했을 수 있어 파일이 없어도 죽지 않는다."""
+    path = os.path.join(HERE, "index_history.js")
+    if not os.path.exists(path):
+        return {}
+    try:
+        return load_js_object(path, "INDEX_HISTORY") or {}
+    except Exception as e:
+        print(f"[경고] index_history.js 로드 실패: {e}")
+        return {}
+
+
+def flatten_index_daily(pages):
+    rows = {}
+    for p in pages or []:
+        for d in p.get("days", []):
+            if d.get("date"):
+                rows[d["date"]] = d
+    return [rows[k] for k in sorted(rows)]
+
+
 def main():
     raw = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
     live = load_js_object(os.path.join(HERE, "data.js"), "LIVE_DATA")
@@ -223,6 +350,16 @@ def main():
         "indices": live.get("indices"),
         "stocks": {},
     }
+    # 📈 코스피·코스닥 이동평균(TARO 3단계) — 종목과 똑같은 indicators_for() 엔진을 그대로 재사용한다.
+    out["indicesTech"] = {}
+    idx_hist = load_index_history()
+    for idx_name in ("KOSPI", "KOSDAQ"):
+        daily_idx = flatten_index_daily(idx_hist.get(idx_name))
+        if len(daily_idx) >= 2:
+            try:
+                out["indicesTech"][idx_name] = indicators_for(daily_idx)
+            except Exception as e:
+                print(f"[경고] {idx_name} 지수 지표 계산 실패: {e}")
     skipped = []
     for code, s in raw["stocks"].items():
         # 종목 하나가 이상 데이터로 에러를 던져도 전체(500종목)가 죽지 않게 개별 보호
@@ -289,16 +426,21 @@ def main():
 
     # 브라우저용 축약본(indicators.js) — TARO 미니 차트(가격·MA·RSI·MACD)가 index.html에서 직접 읽는다.
     # analysis.js 텍스트를 파싱하지 않고 이 구조화된 숫자를 그대로 그린다.
+    # ⭐ 2026-08-08: DIANA·FLOW 카드 재설계로 flow(수급 원자료)와 목표가·선행PER 필드도
+    # 문장 파싱 없이 화면이 바로 쓸 수 있게 함께 내려준다(PER·PBR·ROE·EPS는 STOCKS(data.js)에
+    # 이미 있어 여기서는 뺀다 — 중복 전송 방지).
     js_stocks = {
         code: {"name": e["name"], "price": e["price"], "rate": e["rate"], "tech": e["tech"],
-               "risk": e.get("risk")}
+               "risk": e.get("risk"), "flow": e.get("flow"),
+               "cnsEps": e.get("cnsEps"), "targetMean": e.get("targetMean"),
+               "targetGap": e.get("targetGap"), "fwdPer": e.get("fwdPer")}
         for code, e in out["stocks"].items() if e.get("tech")
     }
     js_path = os.path.join(HERE, "indicators.js")
     with open(js_path, "w", encoding="utf-8") as f:
         f.write("// 자동 생성: compute_indicators.py · 브라우저용 기술지표 축약본 (TARO 미니 차트)\n")
-        f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks}, ensure_ascii=False)};\n")
-    print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목)")
+        f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks, 'indicesTech': out['indicesTech']}, ensure_ascii=False)};\n")
+    print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목, 지수 {len(out['indicesTech'])}개)")
 
 
 if __name__ == "__main__":
