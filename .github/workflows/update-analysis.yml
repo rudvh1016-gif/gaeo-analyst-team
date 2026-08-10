@@ -135,6 +135,13 @@ jobs:
               && git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null \
               || echo "[경고] 라벨 직전 시세 재동기화 실패 — 사이클 시작분으로 진행"
             python3 compute_indicators.py    || echo "indicators 실패"
+            # 업종 순환매 스냅샷. 장중에는 현재 화면만 바꾸고, 15:40 이후에는
+            # 같은 거래일을 한 번만 마감 아카이브에 남긴다. 검증 실패 시 기존 정상 파일을 유지한다.
+            if [ "$(date +%H%M)" -ge 1540 ]; then
+              python3 compute_rotation.py --mode close || echo "rotation 마감 생성 실패"
+            else
+              python3 compute_rotation.py --mode intraday || echo "rotation 장중 생성 실패"
+            fi
             # 📡 GAEO 레이더 — 직전 거래일 대비 새로 경계를 통과한 종목 탐지(규칙 기반, 토큰 0).
             #   indicators 다음에 두는 이유: 같은 analysis_data.json을 읽고 볼린저밴드 규격을
             #   compute_indicators.py와 공유(radar_signals.py)하기 때문.
@@ -182,7 +189,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_model.json rotation_archive.json guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
