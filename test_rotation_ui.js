@@ -21,4 +21,23 @@ assert.strictEqual(context.window.GaeoRotation.formatPercent(-1.24), '-1.2%');
 assert.strictEqual(context.window.GaeoRotation.confidenceLabel('high', false), '검증 중');
 assert.strictEqual(context.window.GaeoRotation.confidenceLabel('moderate', false), '중간');
 
+const periods = {};
+for (const horizon of [1, 3, 5, 20, 60, 120, 200]) {
+  periods[String(horizon)] = {
+    score: 61, signal: '관찰 후보', confidence: '보통', validCount: 20,
+    return: { adjusted: 2.1 }, breadth: { adjustedUpRate: 60 },
+    flow: { medianRelativeVolume: 1.1 }, taro: { score: 55 },
+    concentration: { top3: 20 }, components: {}
+  };
+}
+const rendered = context.window.GaeoRotation.renderView({
+  generatedAt: '2026-08-10 16:10', dataCutoff: '2026-08-10 종가',
+  universe: { valid: 20, configured: 20 }, model: { highConfidenceUnlocked: false },
+  marketRegime: {}, summary: { leaders: [], candidate: null },
+  sectors: [{ name: '반도체', periods }], leadLagEdges: [], similarMarkets: {}
+}, { horizon: 5, selected: '반도체' });
+for (const horizon of [60, 120, 200]) {
+  assert.match(rendered, new RegExp(`data-horizon="${horizon}"[^>]*>${horizon}일</button>`));
+}
+
 console.log('rotation UI contract passed');
