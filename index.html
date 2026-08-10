@@ -7634,9 +7634,12 @@ function getFlowInterpretation(code,res){
   const fl=(I&&I.flow&&typeof I.flow.frgnSum==='number')?I.flow:parseFlowFromFindings(res.findings);
   if(!fl||typeof fl.frgnSum!=='number'||typeof fl.todayIndi!=='number') return null;
   const state=flowStateLabel(res.score);
+  // ⭐ 2026-08-10: "최근 5거래일"만 있으면 실시간 화면과 비교할 때 "지금 이 순간" 숫자로
+  // 착각하기 쉽다(제주반도체 사례) — 실제 집계 기간(장마감 확정치 기준)을 괄호로 덧붙인다.
+  const periodTxt=(fl.periodStart&&fl.periodEnd)?`최근 ${fl.days||5}거래일(${fl.periodStart}~${fl.periodEnd})`:`최근 ${fl.days||5}거래일`;
   const rows=[
-    {label:'외국인', val:fl.frgnSum, dir:fl.frgnSum>=0?'순매수':'순매도', period:`최근 ${fl.days||5}거래일`},
-    {label:'기관', val:fl.orgSum, dir:fl.orgSum>=0?'순매수':'순매도', period:`최근 ${fl.days||5}거래일`},
+    {label:'외국인', val:fl.frgnSum, dir:fl.frgnSum>=0?'순매수':'순매도', period:periodTxt},
+    {label:'기관', val:fl.orgSum, dir:fl.orgSum>=0?'순매수':'순매도', period:periodTxt},
     {label:'개인', val:fl.todayIndi, dir:fl.todayIndi>=0?'순매수':'순매도', period:'직전 거래일'},
   ];
   const holdDelta=(typeof fl.holdNow==='number'&&typeof fl.holdBefore==='number')?fl.holdNow-fl.holdBefore:null;
@@ -7648,8 +7651,11 @@ function getFlowInterpretation(code,res){
   const explain=both
     ?'외국인과 기관이 동시에 매수하면 시장 참여자 중 비교적 큰 자금이 같은 방향으로 움직이고 있다는 의미예요. 다만 이 흐름이 계속 이어지는지가 중요해요 — 순매수가 갑자기 약해지거나 매도로 전환되는지도 함께 확인하세요.'
     :'외국인·기관 중 한쪽만 사거나 둘 다 팔고 있다는 건, 아직 큰손 자금의 방향이 확실히 정해지지 않았다는 뜻일 수 있어요.';
+  const periodNote=(fl.periodStart&&fl.periodEnd)
+    ?` 이 수치는 ${fl.periodEnd} 장마감까지 확정된 값이에요 — 오늘 장중 실시간 매매 동향과는 며칠 차이가 날 수 있어요.`
+    :'';
   return {state,lead,rows,holdDelta,fl,explain,
-    check:'좋은 수급도 지속 여부가 중요해요. 외국인·기관의 매수가 며칠 뒤에도 이어지는지 확인해보세요.',
+    check:'좋은 수급도 지속 여부가 중요해요. 외국인·기관의 매수가 며칠 뒤에도 이어지는지 확인해보세요.'+periodNote,
     quality:flowQualityLabel(fl.qualityScore), divergence:FLOW_DIVERGENCE_TXT[fl.divergence]||null};
 }
 
