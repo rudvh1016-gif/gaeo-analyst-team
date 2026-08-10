@@ -36,6 +36,7 @@ const rendered = context.window.GaeoRotation.renderView({
   marketRegime: {}, summary: { leaders: [], candidate: null },
   sectors: [{ name: '반도체', periods }], leadLagEdges: [], similarMarkets: {}
 }, { horizon: 5, selected: '반도체' });
+assert.match(rendered, /상승 종목 비율을 함께 봅니다\.<br class="rot-hero-break">예측이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다\./);
 for (const horizon of [60, 120, 200]) {
   assert.match(rendered, new RegExp(`data-horizon="${horizon}"[^>]*>${horizon}일</button>`));
 }
