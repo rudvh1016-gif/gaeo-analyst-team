@@ -65,7 +65,17 @@
       const timer=controller?setTimeout(()=>controller.abort(),REQUEST_TIMEOUT):null;
       try{
         const r=await fetch(url,{cache:'no-store',signal:controller&&controller.signal});
-        if(r.status===404) return 0;
+        // ⭐ 2026-08-10: 404를 "값 0"으로 조용히 처리하는 건 "오늘 날짜 카운터가 아직
+        // 하나도 안 찍혀서 없다"처럼 정말 0이 맞는 조회(increment=false)에서만 안전하다.
+        // increment=true(누적 방문수 /up 요청)가 404면 그건 "0회"가 아니라 워크스페이스에
+        // 카운터 자체가 없거나 이름이 안 맞는 실패다 — 그런데도 exact:true로 조용히
+        // 성공 처리돼 화면에 진짜 값인 것처럼 "939"(플러스 기호 없이)로 떠서, 누적수가
+        // 전혀 안 올라가도 사용자가 "제대로 집계되고 있다"고 오해하게 만드는 버그였다.
+        // increment 요청의 404는 실패로 던져서 fallback(최소값+'+')이 정직하게 뜨게 한다.
+        if(r.status===404){
+          if(increment) throw new Error('counter 404 on /up — 워크스페이스에 카운터가 없을 수 있음');
+          return 0;
+        }
         if(!r.ok) throw new Error('counter '+r.status);
         const value=counterValue(await r.json());
         cache.set(name,{value,at:Date.now()});
