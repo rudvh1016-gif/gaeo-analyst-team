@@ -515,6 +515,15 @@ def risk_overlay(risk):
     grade = risk.get("grade") if risk.get("grade") in ("low", "mid", "high") else (
         "high" if score < 35 else ("mid" if score < 55 else "low"))
     penalty = clamp(round(max(0, 45 - score) * 0.15) + 1, 1, 7) if grade == "high" else 0
+    # ⭐ 2026-08-10: vol20(변동성)은 급등이든 급락이든 방향을 안 가리고 똑같이 감점한다.
+    # "낙폭과대 후 이미 크게 반등 중"인 종목까지 "출렁이니 위험"으로 묶어 매번 SELL 쪽으로
+    # 미는 게 부당하다는 피드백(제주반도체 사례) → 3개월 저점 대비 반등률(reboundFromLow)이
+    # 클수록 페널티를 완화한다. "완화"만 한다는 점이 핵심 — 감점을 줄일 뿐 0 밑으로
+    # (보너스로) 내려가는 일은 없다. RISK가 상승표를 주지 않는다는 원칙은 그대로 유지된다.
+    rebound = float(risk.get("reboundFromLow") or 0)
+    if penalty > 0 and rebound > 15:
+        damp = min(0.6, (rebound - 15) / 60)   # 반등 15%~75%p 구간에서 감점을 최대 60%까지 완화
+        penalty = max(0, round(penalty * (1 - damp)))
     confidence_penalty = 10 if grade == "high" else (3 if grade == "mid" else 0)
     return {"score": score, "grade": grade, "penalty": penalty,
             "confidencePenalty": confidence_penalty}
