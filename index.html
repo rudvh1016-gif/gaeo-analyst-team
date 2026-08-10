@@ -721,18 +721,24 @@
     .fx-flow-val{font-size:11.5px}
   }
 
-  /* ── "정밀분석 기록" 탭 — 신선도와 무관하게 과거 정밀분석 원문을 다시 읽는 목록/본문 ── */
-  .pa-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+  /* ── "정밀분석 기록" 탭 — 신선도와 무관하게 과거 정밀분석 원문을 다시 읽는 아코디언 목록 ── */
+  .pa-list{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+  .pa-entry{}
   .pa-item{display:flex;align-items:center;justify-content:space-between;gap:10px;
     background:var(--navy-soft);border:1px solid var(--line);border-radius:10px;
     padding:10px 14px;font:inherit;text-align:left;cursor:pointer;color:var(--ink);width:100%}
-  .pa-item.on{border-color:var(--ink);background:var(--paper);box-shadow:var(--shadow)}
+  .pa-item.on{border-color:var(--ink);background:var(--paper);box-shadow:var(--shadow);
+    border-bottom-left-radius:0;border-bottom-right-radius:0}
   .pa-item-date{font-size:12.5px;font-weight:600;color:var(--dim)}
   .pa-item-call{font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:99px;background:var(--paper2)}
   .pa-item-call.bull{color:var(--green)}
   .pa-item-call.bear{color:var(--red)}
   .pa-item-call.neu{color:var(--dim)}
-  .pa-body{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .pa-item-chevron{flex-shrink:0;font-size:11px;color:var(--faint);transition:transform .15s ease}
+  .pa-item[aria-expanded="true"] .pa-item-chevron{transform:rotate(180deg)}
+  .pa-panel{background:var(--paper);border:1px solid var(--ink);border-top:none;
+    border-radius:0 0 14px 14px;padding:16px 18px 18px;margin-bottom:8px}
+  .pa-panel[hidden]{display:none}
   .pa-chief{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .pa-call{font-size:15px;font-weight:800}
   .pa-call.bull{color:var(--green)} .pa-call.bear{color:var(--red)} .pa-call.neu{color:var(--dim)}
@@ -5815,6 +5821,9 @@ function paSnapshotHTML(snap){
     `<div class="pa-base">당시 기준가 ${snap.base!=null?won(snap.base):'—'}${snap.baseAt?' ('+esc(snap.baseAt)+')':''}</div>`+
     `</div><div class="pa-axes">${axes}</div>`;
 }
+// ⭐ 2026-08-10: 목록 따로 + 본문 하나만 바꿔치기하던 구조를, 항목을 누르면 그 자리에서
+// 바로 접혔다 펼쳐지는 아코디언으로 바꿨다(사용자 요청). 여러 항목을 동시에 펼쳐도 되고,
+// 내용은 처음 펼칠 때 한 번만 렌더링해 캐싱한다(자주 여닫아도 다시 계산하지 않음).
 function renderArchivePanel(code){
   const wrap=document.getElementById('archiveWrap');
   const checking=document.getElementById('archiveChecking');
@@ -5827,17 +5836,28 @@ function renderArchivePanel(code){
     window.GaeoArchiveRenderedFor=code;
     return;
   }
-  const items=list.map((snap,i)=>{
+  const rows=list.map((snap,i)=>{
     const c=snap.chief||{};
-    return `<button type="button" class="pa-item${i===0?' on':''}" data-idx="${i}">`+
+    return `<div class="pa-entry">`+
+      `<button type="button" class="pa-item${i===0?' on':''}" data-idx="${i}" aria-expanded="${i===0?'true':'false'}">`+
       `<span class="pa-item-date">${esc(snap.updated||'')}</span>`+
-      `<span class="pa-item-call ${paCallClass(c.call)}">${esc(c.call||'—')} · ${c.total!=null?c.total+'점':'—'}</span></button>`;
+      `<span class="pa-item-call ${paCallClass(c.call)}">${esc(c.call||'—')} · ${c.total!=null?c.total+'점':'—'}</span>`+
+      `<span class="pa-item-chevron" aria-hidden="true">▾</span></button>`+
+      `<div class="pa-panel" data-idx="${i}"${i===0?'':' hidden'}></div>`+
+      `</div>`;
   }).join('');
-  wrap.innerHTML=`<div class="pa-list">${items}</div><div class="pa-body" id="paBody">${paSnapshotHTML(list[0])}</div>`;
+  wrap.innerHTML=`<div class="pa-list">${rows}</div>`;
   wrap.querySelectorAll('.pa-item').forEach(btn=>{
+    const panel=btn.parentElement.querySelector('.pa-panel');
+    const idx=+btn.dataset.idx;
+    const fill=()=>{ if(!panel.innerHTML) panel.innerHTML=paSnapshotHTML(list[idx]); };
+    if(idx===0) fill();   // 첫 항목은 기본으로 펼쳐져 있으니 바로 채운다
     btn.addEventListener('click',()=>{
-      wrap.querySelectorAll('.pa-item').forEach(b=>b.classList.toggle('on',b===btn));
-      document.getElementById('paBody').innerHTML=paSnapshotHTML(list[+btn.dataset.idx]);
+      const open=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',open?'false':'true');
+      btn.classList.toggle('on',!open);
+      panel.hidden=open;
+      if(!open) fill();
       SFX.click();
     });
   });
