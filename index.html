@@ -5630,11 +5630,10 @@ function moodLine(){
       `<div class="dow-meta">표본 ${r.n}일</div></div>`;
   }).join('');
   el.innerHTML=
-    `<details class="dow-details"><summary class="dow-h"><span class="dow-h-txt"><b>📅 요일별 평균 등락률</b>`+
-    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></span></summary>`+
+    `<div class="dow-h"><span class="dow-h-txt"><b>📅 요일별 평균 등락률</b>`+
+    `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></span></div>`+
     `<div class="dow-grid">${cells}</div>`+
-    `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`+
-    `</details>`;
+    `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`;
   el.style.display='';
 })();
 
