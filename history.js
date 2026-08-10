@@ -160072,6 +160072,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-10 15:28",
+   "call": "BUY",
+   "total": 68,
+   "confidence": 76,
+   "base": 396500,
+   "baseAt": "2026-08-10 15:20 장중",
+   "target": "증권사 평균 목표주가 541,667원 (현재가 대비 +36.6% 상승여력), 다만 4분기 어닝쇼크 이후 KB·NH 등 절반가량이 목표가를 하향 조정한 뒤의 수치",
+   "taro": {
+    "stance": "bull",
+    "score": 71
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 62
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 63
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 74
+   }
   }
  ],
  "030000": [
