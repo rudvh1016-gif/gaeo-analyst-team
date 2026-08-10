@@ -5,6 +5,7 @@
 .rot-kicker{display:block;margin-bottom:8px;color:#2563eb;font-size:10px;font-weight:800;letter-spacing:.12em}
 .rot-hero h2{margin:0;font-size:clamp(25px,2.7vw,40px);line-height:1.08;letter-spacing:-.045em}
 .rot-hero p{max-width:720px;margin:12px 0 0;color:#6e737d;font-size:13px;line-height:1.7}
+.rot-hero-score-note{margin-top:5px!important;color:#555d68!important}
 .rot-hero-note{margin-top:4px!important;color:#3f4650!important;font-weight:650}
 .rot-asof{text-align:right;color:#6e737d;font-size:10px;line-height:1.65;white-space:nowrap}
 .rot-asof strong{display:block;color:#1d1d1f;font-size:11px}
@@ -107,5 +108,5 @@ html.gdark .rot-horizon{background:#242427;border-color:#424248;color:#c7c9ce}.g
   .rot-shell{padding:0 0 28px}.rot-hero{grid-template-columns:1fr;gap:10px;margin-bottom:14px}.rot-hero h2{font-size:26px}.rot-hero p{font-size:11px}.rot-asof{text-align:left;white-space:normal}
   .rot-summary{gap:8px}.rot-card{min-height:84px;padding:12px;border-radius:15px}.rot-card strong{margin-top:8px;font-size:15px}.rot-card-lead{grid-column:1/-1}.rot-card-lead strong{font-size:16px}
   .rot-workspace{display:flex;flex-direction:column}.rot-map-panel{order:1;width:100%;padding:13px;box-sizing:border-box}.rot-side{display:contents}.rot-rank-panel{order:2;width:100%;box-sizing:border-box}.rot-detail{order:3;width:100%;box-sizing:border-box}
-  .rot-panel-head{display:block}.rot-period-label{text-align:left}.rot-horizons{margin-top:6px}.rot-trend-horizons{justify-content:flex-start}.rot-map{min-height:330px}.rot-map svg{min-height:330px}.rot-node text{font-size:7px}.rot-method-body{grid-template-columns:1fr}.rot-evidence-grid{grid-template-columns:1fr 1fr}.rot-section-head{display:block}.rot-section-head p{margin-top:7px;text-align:left}.rot-stock-list{grid-template-columns:1fr}.rot-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-analysis{padding:14px}.rot-stock{font-size:9px}
+  .rot-panel-head{display:block}.rot-period-label{text-align:left}.rot-horizons{margin-top:6px}.rot-trend-horizons{justify-content:flex-start}.rot-map{min-height:360px}.rot-map svg{min-height:360px}.rot-map-mobile .rot-node text{font-size:12px}.rot-map-mobile .rot-node .rot-node-score{font-size:10px}.rot-map-mobile .rot-center-title{font-size:15px}.rot-map-mobile .rot-center-copy{font-size:10px}.rot-method-body{grid-template-columns:1fr}.rot-evidence-grid{grid-template-columns:1fr 1fr}.rot-section-head{display:block}.rot-section-head p{margin-top:7px;text-align:left}.rot-stock-list{grid-template-columns:1fr}.rot-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-analysis{padding:14px}.rot-stock{font-size:9px}
 }
