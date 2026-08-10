@@ -17,6 +17,76 @@
     "minimumPerGroup": 60,
     "status": "accumulating"
   },
+  "horizonPerformance": {
+    "1": {
+      "averageExcessReturn": 0.21,
+      "benchmark": "500종목 업종 중앙값",
+      "definition": "직전 1거래일 1위 업종이 이후 1거래일 업종 중앙값을 초과하면 적중",
+      "hitRate": 45.3,
+      "horizon": 1,
+      "maximumAdverseExcursion": -5.65,
+      "medianExcessReturn": -0.1,
+      "periodEnd": "2026-08-07",
+      "periodStart": "2025-06-04",
+      "recentReproduction": 35.0,
+      "sampleCount": 289,
+      "stability": 94.8,
+      "status": "ready",
+      "top3Rate": 22.5,
+      "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
+    },
+    "20": {
+      "averageExcessReturn": 1.19,
+      "benchmark": "500종목 업종 중앙값",
+      "definition": "직전 20거래일 1위 업종이 이후 20거래일 업종 중앙값을 초과하면 적중",
+      "hitRate": 53.0,
+      "horizon": 20,
+      "maximumAdverseExcursion": -22.41,
+      "medianExcessReturn": 0.54,
+      "periodEnd": "2026-07-10",
+      "periodStart": "2025-07-02",
+      "recentReproduction": 85.0,
+      "sampleCount": 251,
+      "stability": 80.5,
+      "status": "ready",
+      "top3Rate": 21.5,
+      "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
+    },
+    "3": {
+      "averageExcessReturn": 0.07,
+      "benchmark": "500종목 업종 중앙값",
+      "definition": "직전 3거래일 1위 업종이 이후 3거래일 업종 중앙값을 초과하면 적중",
+      "hitRate": 44.2,
+      "horizon": 3,
+      "maximumAdverseExcursion": -13.9,
+      "medianExcessReturn": -0.34,
+      "periodEnd": "2026-08-05",
+      "periodStart": "2025-06-09",
+      "recentReproduction": 20.0,
+      "sampleCount": 285,
+      "stability": 99.7,
+      "status": "ready",
+      "top3Rate": 20.7,
+      "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
+    },
+    "5": {
+      "averageExcessReturn": -0.43,
+      "benchmark": "500종목 업종 중앙값",
+      "definition": "직전 5거래일 1위 업종이 이후 5거래일 업종 중앙값을 초과하면 적중",
+      "hitRate": 43.8,
+      "horizon": 5,
+      "maximumAdverseExcursion": -16.73,
+      "medianExcessReturn": -0.43,
+      "periodEnd": "2026-08-03",
+      "periodStart": "2025-06-11",
+      "recentReproduction": 30.0,
+      "sampleCount": 281,
+      "stability": 96.1,
+      "status": "ready",
+      "top3Rate": 18.1,
+      "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
+    }
+  },
   "leadLagEdges": [],
   "leadLagScores": {
     "2차전지": {
@@ -169,6 +239,11 @@
     "historyStart": "2025-06-04",
     "tradingDays": 290,
     "walkForwardEvaluations": 266
+  },
+  "recommendedHorizon": {
+    "horizon": 20,
+    "reason": "표본 251회에서 적중률·초과수익·구간 안정성을 함께 비교한 결과입니다.",
+    "status": "ready"
   },
   "schemaVersion": 1,
   "similarMarkets": {
@@ -368,7 +443,7 @@
       "5": 45
     }
   },
-  "version": "rotation-shadow-v1",
+  "version": "rotation-shadow-v2",
   "warnings": [
     "Lead-Lag는 인과관계가 아닌 탐색 참고 정보입니다.",
     "높은 신뢰도는 과거 검증에서 중간 신뢰도를 앞설 때만 열립니다."

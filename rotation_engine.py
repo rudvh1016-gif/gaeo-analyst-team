@@ -20,6 +20,27 @@ MODEL_COMPONENTS = (
     "leadLag", "similarity", "regimeMatch", "taro",
 )
 
+COMPONENT_LABELS = {
+    "momentum": "상승 탄력",
+    "relativeStrength": "시장 대비 강도",
+    "flow": "거래량 흐름",
+    "breadth": "상승 종목 확산",
+    "leadLag": "선행 흐름",
+    "similarity": "과거 유사 국면",
+    "regimeMatch": "시장 국면 적합도",
+    "taro": "TARO 기술 신호",
+}
+COMPONENT_DESCRIPTIONS = {
+    "momentum": "업종 구성 종목의 해당 기간 수익 흐름",
+    "relativeStrength": "각 종목 시장지수보다 강했던 정도의 중앙값",
+    "flow": "최근 거래량이 평소보다 늘었는지 보는 대용 지표",
+    "breadth": "상승이 일부 종목이 아닌 업종 전반으로 퍼진 정도",
+    "leadLag": "과거 자료에서 다른 업종보다 먼저 움직인 패턴",
+    "similarity": "현재와 비슷했던 과거 시장 국면의 업종 결과",
+    "regimeMatch": "현재 시장 방향과 업종 흐름이 맞는 정도",
+    "taro": "기존 TARO 이동평균·MACD·거래량 기술 신호",
+}
+
 
 def _number(value):
     if value is None or isinstance(value, bool):
@@ -33,6 +54,42 @@ def _number(value):
 
 def _round(value, digits=2):
     return None if value is None else round(float(value), digits)
+
+
+def explain_score(components, weights=None):
+    """Return a transparent weighted score; it is a percentile composite, not probability."""
+    clean = {
+        name: max(0.0, min(100.0, _number(value) or 0.0))
+        for name, value in (components or {}).items()
+    }
+    raw_weights = {
+        name: max(0.0, _number((weights or {}).get(name)) or 0.0)
+        for name in clean
+    }
+    if not any(raw_weights.values()):
+        equal = 1 / len(clean) if clean else 0.0
+        normalized = {name: equal for name in clean}
+    else:
+        total = sum(raw_weights.values())
+        normalized = {name: value / total for name, value in raw_weights.items()}
+    contributions = {
+        name: round(clean[name] * normalized[name], 6)
+        for name in clean
+    }
+    positive = sum(value >= 55 for value in clean.values())
+    negative = sum(value <= 45 for value in clean.values())
+    return {
+        "score": round(sum(contributions.values()), 1),
+        "weights": {name: round(value, 6) for name, value in normalized.items()},
+        "contributions": contributions,
+        "agreement": {
+            "positive": positive,
+            "negative": negative,
+            "total": len(clean),
+            "label": "다수 지표 동의" if positive >= max(1, len(clean) * 0.625) else "지표 혼재",
+        },
+        "meaning": "24개 업종 안에서 현재 상대 위치를 0~100으로 환산한 종합점수이며 확률이 아닙니다.",
+    }
 
 
 def normalize_rows(rows, as_of=None):
@@ -167,6 +224,85 @@ def _stock_taro(rows):
     return details
 
 
+def _indicator_taro(indicator, rows):
+    """Reuse the site's already-generated TARO inputs, with history as a safe fallback."""
+    tech = (indicator or {}).get("tech") or {}
+    close = _number(tech.get("close")) or _number((indicator or {}).get("price"))
+    if not tech or close is None:
+        fallback = _stock_taro(rows)
+        fallback["source"] = "price-history-fallback"
+        return fallback
+    available = earned = 0.0
+    above = {}
+    for period, weight in ((5, 15), (20, 15), (60, 15), (120, 5), (200, 5)):
+        ma = _number(tech.get(f"ma{period}"))
+        if ma is None:
+            continue
+        available += weight
+        above[str(period)] = close > ma
+        if above[str(period)]:
+            earned += weight
+    slope = _number(tech.get("ma20Slope"))
+    if slope is not None:
+        available += 15
+        if slope > 0:
+            earned += 15
+    macd, signal = _number(tech.get("macd")), _number(tech.get("macdSignal"))
+    if macd is not None and signal is not None:
+        available += 20
+        if macd > signal:
+            earned += 20
+    volume_ratio = _number(tech.get("volRatio"))
+    if volume_ratio is not None:
+        available += 10
+        if volume_ratio >= 1:
+            earned += 10
+    return {
+        "score": round(earned / available * 100, 1) if available else 50.0,
+        "aboveMa": above,
+        "maSlopeImproving": bool(slope is not None and slope > 0),
+        "macdImproving": bool(macd is not None and signal is not None and macd > signal),
+        "volumeConfirmed": bool(volume_ratio is not None and volume_ratio >= 1),
+        "source": "existing-indicators",
+    }
+
+
+def _candidate_profile(code, name, indicator, rows):
+    tech = (indicator or {}).get("tech") or {}
+    taro = _indicator_taro(indicator, rows)
+    rsi = _number(tech.get("rsi14"))
+    pct_b = _number((tech.get("bb") or {}).get("pctB"))
+    overheat = bool((rsi is not None and rsi >= 70) or (pct_b is not None and pct_b > 1))
+    reasons = []
+    if taro["maSlopeImproving"]:
+        reasons.append("20일 추세 개선")
+    if taro["macdImproving"]:
+        reasons.append("MACD 우위")
+    if taro["volumeConfirmed"]:
+        reasons.append("거래량 확인")
+    percentile = _number(((indicator or {}).get("relative") or {}).get("sectorPercentile"))
+    if percentile is not None and percentile >= 70:
+        reasons.append("업종 내 상대강도 상위")
+    if not reasons:
+        reasons.append("기술 신호 관찰")
+    return {
+        "code": code,
+        "name": name or code,
+        "price": _number(tech.get("close")) or _number((indicator or {}).get("price")),
+        "taroScore": taro["score"],
+        "movingAverages": {
+            str(period): _number(tech.get(f"ma{period}"))
+            for period in (5, 20, 60, 120, 200)
+        },
+        "volumeRatio": _number(tech.get("volRatio")),
+        "sectorPercentile": percentile,
+        "overheat": overheat,
+        "riskGrade": ((indicator or {}).get("risk") or {}).get("grade"),
+        "reasons": reasons[:3],
+        "source": taro["source"],
+    }
+
+
 def _rank_scores(values):
     indexed = [(index, _number(value)) for index, value in enumerate(values)]
     valid = sorted(value for _, value in indexed if value is not None)
@@ -281,7 +417,7 @@ def _signal_for(period):
     return "관찰"
 
 
-def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=None,
+def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=None, names=None,
                    as_of=None, generated_at=None, data_cutoff=None):
     """Build a deterministic schemaVersion 1 rotation snapshot."""
     configured_by_sector = defaultdict(list)
@@ -289,6 +425,12 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         configured_by_sector[sector or "기타"].append(code)
 
     clean_stocks = {code: normalize_rows(stocks.get(code, []), as_of) for code in sectors}
+    indicators = indicators or {}
+    names = names or {}
+    stock_profiles = {
+        code: _candidate_profile(code, names.get(code, code), indicators.get(code), clean_stocks[code])
+        for code in sectors
+    }
     market_benchmarks = {
         horizon: {
             market: _benchmark_return((indices or {}).get(market, []), horizon, as_of)
@@ -335,7 +477,7 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
                 flow = _relative_volume(rows)
                 if flow is not None:
                     flows.append(flow)
-                taro_scores.append(_stock_taro(rows)["score"])
+                taro_scores.append(stock_profiles[code]["taroScore"])
             valid = len(returns)
             raw_up_rate = up / valid if valid else 0.0
             adjusted_up = beta_binomial_rate(up, valid, market_up_rates[horizon], 6.0)
@@ -376,6 +518,17 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             "validCount": latest_valid,
             "sampleReliability": _sample_reliability(latest_valid, len(codes)),
             "periods": periods,
+            "candidateStocks": sorted(
+                (
+                    stock_profiles[code] for code in codes
+                    if clean_stocks[code] and (indicators.get(code) or {}).get("tech")
+                ),
+                key=lambda item: (-(item["taroScore"] or 0), -(item["sectorPercentile"] or 0), item["name"]),
+            )[:8],
+            "candidateExcludedCount": sum(
+                1 for code in codes
+                if clean_stocks[code] and not (indicators.get(code) or {}).get("tech")
+            ),
         })
 
     regime = classify_regime(indices or {}, clean_stocks, as_of)
@@ -402,14 +555,11 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
                 "regimeMatch": 60.0 if regime["direction"] == "상승" and (period["return"]["adjusted"] or 0) > 0 else 50.0,
             }
             weights = (((model or {}).get("weights") or {}).get(str(horizon)) or {})
-            normalized_weights = {name: max(0.0, _number(weights.get(name)) or 0.0) for name in MODEL_COMPONENTS}
-            if not any(normalized_weights.values()):
-                normalized_weights = {name: 1 / len(MODEL_COMPONENTS) for name in MODEL_COMPONENTS}
-            else:
-                total_weight = sum(normalized_weights.values())
-                normalized_weights = {name: value / total_weight for name, value in normalized_weights.items()}
             period["components"] = {name: _round(components[name], 1) for name in MODEL_COMPONENTS}
-            period["score"] = _round(sum(components[name] * normalized_weights[name] for name in MODEL_COMPONENTS), 1)
+            explanation = explain_score(period["components"], weights)
+            period["score"] = explanation["score"]
+            period["scoreExplanation"] = explanation
+            period["modelAgreement"] = explanation["agreement"]
             period["confidence"] = _confidence(period, sector, model)
             period["signal"] = _signal_for(period)
 
@@ -422,6 +572,12 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
     active = [item for item in leaders if item["signal"] in ("주도", "관찰 후보") and item["score"] >= 58]
     state = "active" if active else "no-signal"
     headline = f"{active[0]['name']} 중심 순환 신호 관찰" if active else "뚜렷한 순환 신호 없음"
+    first = active[0] if active else leaders[0] if leaders else None
+    interpretation = (
+        f"현재 {first['name']} 업종에 상대적인 힘이 가장 많이 모여 있습니다. "
+        f"종합점수 {first['score']}점은 업종 간 상대 위치이며 확률이 아닙니다."
+        if first else "현재 비교할 수 있는 업종 데이터가 부족합니다."
+    )
 
     valid_universe = sum(bool(rows) for rows in clean_stocks.values())
     dates = [row["date"] for rows in clean_stocks.values() for row in rows]
@@ -443,14 +599,28 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         "universe": {"configured": len(sectors), "valid": valid_universe},
         "marketRegime": regime,
         "model": {
-            "version": (model or {}).get("version", "rotation-shadow-v1"),
+            "version": (model or {}).get("version", "rotation-shadow-v2"),
             "calibratedThrough": (model or {}).get("calibratedThrough"),
             "highConfidenceUnlocked": bool(((model or {}).get("calibration") or {}).get("highOutperformsModerate")),
         },
-        "summary": {"state": state, "headline": headline, "leaders": leaders, "candidate": active[1] if len(active) > 1 else None},
+        "summary": {
+            "state": state, "headline": headline, "leaders": leaders,
+            "candidate": active[1] if len(active) > 1 else None,
+            "interpretation": interpretation,
+            "disclaimer": "예측 화면이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.",
+        },
+        "componentGuide": [
+            {"key": name, "label": COMPONENT_LABELS[name], "description": COMPONENT_DESCRIPTIONS[name]}
+            for name in MODEL_COMPONENTS
+        ],
         "sectors": sector_rows,
         "leadLagEdges": (model or {}).get("leadLagEdges", []),
         "similarMarkets": (model or {}).get("similarMarkets", {"status": "accumulating", "cases": []}),
+        "horizonPerformance": (model or {}).get("horizonPerformance", {}),
+        "recommendedHorizon": (model or {}).get("recommendedHorizon", {
+            "status": "accumulating", "horizon": None,
+            "reason": "표본 수와 구간 안정성이 기준에 도달할 때까지 추천을 보류합니다.",
+        }),
         "methodology": {
             "historyStart": min(dates) if dates else None,
             "historyEnd": max(dates) if dates else None,
