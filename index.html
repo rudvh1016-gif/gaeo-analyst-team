@@ -721,6 +721,32 @@
     .fx-flow-val{font-size:11.5px}
   }
 
+  /* ── "정밀분석 기록" 탭 — 신선도와 무관하게 과거 정밀분석 원문을 다시 읽는 목록/본문 ── */
+  .pa-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+  .pa-item{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--navy-soft);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;font:inherit;text-align:left;cursor:pointer;color:var(--ink);width:100%}
+  .pa-item.on{border-color:var(--ink);background:var(--paper);box-shadow:var(--shadow)}
+  .pa-item-date{font-size:12.5px;font-weight:600;color:var(--dim)}
+  .pa-item-call{font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:99px;background:var(--paper2)}
+  .pa-item-call.bull{color:var(--green)}
+  .pa-item-call.bear{color:var(--red)}
+  .pa-item-call.neu{color:var(--dim)}
+  .pa-body{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .pa-chief{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .pa-call{font-size:15px;font-weight:800}
+  .pa-call.bull{color:var(--green)} .pa-call.bear{color:var(--red)} .pa-call.neu{color:var(--dim)}
+  .pa-total{font-size:19px;font-weight:700}
+  .pa-conf{font-size:12px;color:var(--dim)}
+  .pa-reason{margin:8px 0 0;font-size:12.5px;line-height:1.7;color:var(--t3)}
+  .pa-target,.pa-base{margin-top:6px;font-size:11.5px;color:var(--dim)}
+  .pa-axes{margin-top:16px;display:flex;flex-direction:column;gap:14px}
+  .pa-axis-head{display:flex;align-items:baseline;justify-content:space-between;
+    font-size:12.5px;color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:6px}
+  .pa-axis-head b{color:var(--ink);font-weight:700}
+  .pa-axis ul{margin:0;padding-left:0;list-style:none;font-size:12px;line-height:1.65;color:var(--t3)}
+  .pa-axis ul li{display:flex;gap:6px;margin-bottom:5px}
+
   /* ── 종합 시각화 패널 (레이더 + 범례) ── */
   .viz{display:none;margin-top:18px;background:var(--paper);border:none;
     border-radius:16px;padding:28px 30px;box-shadow:var(--shadow);
@@ -3550,6 +3576,7 @@
         <button class="analysis-tab" id="analysisTabAgents" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelAgents" data-analysis-tab="agents">분석가별 근거</button>
         <button class="analysis-tab" id="analysisTabVerdict" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelVerdict" data-analysis-tab="verdict">종합 판단</button>
         <button class="analysis-tab" id="analysisTabRadar" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelRadar" data-analysis-tab="radar">레이더 변화</button>
+        <button class="analysis-tab" id="analysisTabArchive" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelArchive" data-analysis-tab="archive" style="display:none">정밀분석 기록</button>
       </div>
     </div>
     <div class="analysis-panels">
@@ -3627,6 +3654,21 @@
         <div class="tab-checking" id="radarChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="radar-detail" id="radarDetail"></div>
         <div class="analysis-tab-empty">최근 레이더에서 새롭게 포착된 변화가 없어요. 판단 근거는 다른 탭에서 그대로 확인할 수 있어요.</div>
+      </section>
+
+      <!-- ⭐ 2026-08-10: 정밀분석은 "당일 + 시세 ±3% 이내"일 때만 위 탭들에 우선 표시되고,
+           그 조건을 벗어나면 자동분석으로 화면이 넘어간다(정상 동작). 근데 그렇게 되면
+           "직접 정밀분석 요청한 내용을 나중엔 다시 못 본다"는 피드백이 있어서, 신선도와
+           무관하게 이 종목에 대해 실제로 정밀분석했던 기록 전부를 시간순으로 다시 읽을 수
+           있는 탭을 별도로 둔다. LIVE_AN[code]가 있는 종목에서만 탭 자체가 보인다. -->
+      <section class="analysis-tab-panel" id="analysisPanelArchive" role="tabpanel" aria-labelledby="analysisTabArchive" data-analysis-panel="archive" hidden>
+        <div class="analysis-section-head">
+          <span>지난 정밀분석 다시 읽기</span>
+          <h2>정밀분석 기록</h2>
+          <p>화면에는 지금 가장 알맞은 분석(정밀 또는 자동)만 보이지만, 이 종목을 실제로 정밀분석했던 시점의 원문은 여기서 언제든 다시 볼 수 있어요.</p>
+        </div>
+        <div class="tab-checking" id="archiveChecking"><span class="tc-spin" aria-hidden="true"></span><span>기록을 불러오는 중···</span></div>
+        <div class="pa-wrap" id="archiveWrap"></div>
       </section>
     </div>
   </section>
@@ -3720,6 +3762,8 @@ window.GaeoFeatures=(()=>{
     calc:['calculators.js'],
     history:['history.js','price_history.js'],
     auto:['auto_analysis.js'],
+    // 📚 "정밀분석 기록" 탭을 실제로 열 때만 받는다(대부분의 종목엔 해당 없음).
+    archive:['analysis_archive.js'],
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
     radar:['radar_series.js'],
     // 📈 코스피·코스닥 지수 일별 이력(TARO 3단계) — 홈 화면 펼치기 패널을 열 때만 받는다.
@@ -3742,6 +3786,7 @@ window.GaeoFeatures=(()=>{
       job.then(()=>{
         job.status='fulfilled';
         if(key==='auto'&&typeof window.GaeoUseAuto==='function') window.GaeoUseAuto();
+        if(key==='archive'&&typeof window.GaeoUseArchive==='function') window.GaeoUseArchive();
       },()=>{delete jobs[key];});
       jobs[key]=job;
       return job;
@@ -3806,6 +3851,13 @@ window.GaeoUseAuto=()=>{
 window.ensureAutoAnalysis=()=>AUTO_AN
   ?Promise.resolve(AUTO_AN)
   :GaeoFeatures.load('auto').then(()=>window.GaeoUseAuto());
+// 📚 정밀분석 "전체 본문" 기록(analysis_archive.js) — "정밀분석 기록" 탭을 열 때만 지연 로딩.
+let ARCHIVE=null;
+window.GaeoUseArchive=()=>{
+  ARCHIVE=(typeof ANALYSIS_ARCHIVE!=='undefined'&&ANALYSIS_ARCHIVE)?ANALYSIS_ARCHIVE:
+    ((typeof window!=='undefined'&&window.ANALYSIS_ARCHIVE)||null);
+  return ARCHIVE;
+};
 // 정밀분석 '신선도' 판정: 아래 두 조건을 "모두" 만족할 때만 정밀분석을 우선 표시(true).
 //   ① 시간: 정밀분석이 자동분석(매일 전 종목 갱신)보다 오래되지 않았을 것.
 //      · 자동분석은 매일 새로 생성되므로, 하루라도 지난 정밀분석의 텍스트(뉴스·공시)는 낡았다.
@@ -5744,6 +5796,53 @@ function findingLi(f){
   const mk=findingMark(f);
   return `<li><span class="fmk ${mk.cls}" aria-hidden="true">${mk.sym}</span><span>${SIGNUM(wrapGloss(f))}</span></li>`;
 }
+// 📚 "정밀분석 기록" 탭 — 신선도와 무관하게 그 종목을 실제로 정밀분석했던 시점의 원문을
+// 시간순으로 다시 읽는다(analysis_archive.js, archive_analysis.py가 매 재분석 때 누적).
+function paCallClass(call){ return call==='BUY'?'bull':call==='SELL'?'bear':'neu'; }
+function paSnapshotHTML(snap){
+  const chief=snap.chief||{};
+  const axes=[['기술','taro'],['재무','diana'],['확률통계','nova'],['수급','flow']].map(([label,key])=>{
+    const a=snap[key]; if(!a||!Array.isArray(a.findings)) return '';
+    return `<div class="pa-axis"><div class="pa-axis-head"><b>${esc(label)}</b><span>${a.score!=null?a.score+'점':'—'}</span></div>`+
+      `<ul>${a.findings.map(findingLi).join('')}</ul></div>`;
+  }).join('');
+  return `<div class="pa-summary">`+
+    `<div class="pa-chief"><span class="pa-call ${paCallClass(chief.call)}">${esc(chief.call||'—')}</span>`+
+    `<span class="pa-total">${chief.total!=null?chief.total+'점':'—'}</span>`+
+    `<span class="pa-conf">신뢰도 ${chief.confidence!=null?chief.confidence+'%':'—'}</span></div>`+
+    `<p class="pa-reason">${esc(chief.reason||chief.report||'')}</p>`+
+    (chief.target?`<div class="pa-target">${esc(chief.target)}</div>`:'')+
+    `<div class="pa-base">당시 기준가 ${snap.base!=null?won(snap.base):'—'}${snap.baseAt?' ('+esc(snap.baseAt)+')':''}</div>`+
+    `</div><div class="pa-axes">${axes}</div>`;
+}
+function renderArchivePanel(code){
+  const wrap=document.getElementById('archiveWrap');
+  const checking=document.getElementById('archiveChecking');
+  if(checking) checking.style.display='none';
+  if(!wrap) return;
+  if(window.GaeoArchiveRenderedFor===code) return;   // 같은 종목이면 다시 그리지 않는다
+  const list=(ARCHIVE&&ARCHIVE[code])?[...ARCHIVE[code]].sort((a,b)=>String(b.updated||'').localeCompare(String(a.updated||''))):[];
+  if(!list.length){
+    wrap.innerHTML='<div class="analysis-tab-empty">이 종목의 정밀분석 전체 기록을 아직 찾지 못했어요. 잠시 후 다시 열어보세요.</div>';
+    window.GaeoArchiveRenderedFor=code;
+    return;
+  }
+  const items=list.map((snap,i)=>{
+    const c=snap.chief||{};
+    return `<button type="button" class="pa-item${i===0?' on':''}" data-idx="${i}">`+
+      `<span class="pa-item-date">${esc(snap.updated||'')}</span>`+
+      `<span class="pa-item-call ${paCallClass(c.call)}">${esc(c.call||'—')} · ${c.total!=null?c.total+'점':'—'}</span></button>`;
+  }).join('');
+  wrap.innerHTML=`<div class="pa-list">${items}</div><div class="pa-body" id="paBody">${paSnapshotHTML(list[0])}</div>`;
+  wrap.querySelectorAll('.pa-item').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      wrap.querySelectorAll('.pa-item').forEach(b=>b.classList.toggle('on',b===btn));
+      document.getElementById('paBody').innerHTML=paSnapshotHTML(list[+btn.dataset.idx]);
+      SFX.click();
+    });
+  });
+  window.GaeoArchiveRenderedFor=code;
+}
 // 이동평균 카드의 위/아래/근처 배지 — GLOSSARY와는 별개 사전(문장 속 자동 링크 대상이 아니라
 // "위"·"아래" 같은 흔한 글자가 본문 곳곳에서 오매칭되는 걸 막기 위해 status 키로만 찾는다).
 const MA_BADGE_DEF={
@@ -7285,6 +7384,10 @@ function setAnalysisTab(tab,options){
   tablist.addEventListener('click',event=>{
     const button=event.target.closest('[data-analysis-tab]'); if(!button) return;
     setAnalysisTab(button.dataset.analysisTab,{scroll:false});
+    if(button.dataset.analysisTab==='archive'&&window.GaeoCurrentCode){
+      const code=window.GaeoCurrentCode;
+      GaeoFeatures.load('archive').then(()=>renderArchivePanel(code));
+    }
     SFX.click();
   });
   tablist.addEventListener('keydown',event=>{
@@ -7991,6 +8094,14 @@ async function analyze(){
   if(running)return; running=true;
   SFX.click();
   const stock=resolveStock(document.getElementById('ticker').value);
+  window.GaeoCurrentCode=stock.code;
+  // 📚 정밀분석 기록 탭 — 이 종목이 정밀분석 대상(LIVE_AN)에 있을 때만 탭을 보여주고,
+  // 종목이 바뀌었으니 이전 종목의 렌더링 캐시는 지운다.
+  { const at=document.getElementById('analysisTabArchive');
+    if(at) at.style.display=(LIVE_AN&&LIVE_AN[stock.code])?'':'none'; }
+  { const aw=document.getElementById('archiveWrap'); if(aw) aw.innerHTML=''; }
+  { const ac=document.getElementById('archiveChecking'); if(ac) ac.style.display=''; }
+  window.GaeoArchiveRenderedFor=null;
   { const el=document.getElementById('overviewChecking'); if(el) el.style.display=''; }
   showQuote(stock);
   { const el=document.getElementById('overviewChecking'); if(el) el.style.display='none'; }

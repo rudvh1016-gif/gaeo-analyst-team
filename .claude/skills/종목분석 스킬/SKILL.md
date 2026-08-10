@@ -37,7 +37,7 @@ description: 개오 애널리스트팀(저장소 루트) 주식 정밀분석 갱
 3. `updated`는 **지금 실행 시각**(HH:MM까지), `baseAt`은 **data.js의 date 라벨에서 파생**:
    - 라벨이 "… 장중"이면 → `"YYYY-MM-DD HH:MM"` (수집 시각)
    - 라벨이 "… 종가"이면 → `"YYYY-MM-DD 종가"` (전일 종가 라벨이면 전일 날짜)
-4. **history.js를 직접 쓰거나 수정하지 않는다.** 오직 `archive_analysis.py`가 기록한다.
+4. **history.js·analysis_archive.js를 직접 쓰거나 수정하지 않는다.** 오직 `archive_analysis.py`가 기록한다.
 5. 마지막 검증(4단계)에서 **base ≡ data.js price 일치**를 실제로 확인하고, 불일치가 있으면 고친 뒤 끝낸다.
 
 ## 0단계 — 준비
@@ -138,6 +138,14 @@ const LIVE_ANALYSIS = {
 `python3 archive_analysis.py` 실행 → 오늘 판단(CHIEF + 4인 stance/score)을 history.js에 누적.
 **"updated"의 분 단위 시각까지 다르면 하루에 여러 번 재분석해도 각각 별도 기록으로 쌓인다**
 (정확히 같은 시각으로 재실행할 때만 그 기록을 덮어씀). **직접 history.js를 편집하지 말 것.**
+
+같은 실행이 **`analysis_archive.js`**(종목별 정밀분석 "전체 본문" 시간순 기록)도 함께 갱신한다
+(2026-08-10 추가). history.js는 stance/score만 남기는 가벼운 채점용 기록이라 "그때 정밀분석이
+정확히 뭐라고 썼는지"(findings·reason·report 원문)는 재분석할 때마다 사라졌었다 — 정밀분석을
+요청한 종목이 나중에 화면 신선도 기준(당일 + ±3%)을 벗어나 자동분석으로 넘어가도, 사용자가
+화면의 **"정밀분석 기록" 탭**에서 과거 특정 시점에 실제로 뭐라고 분석했는지 원문 그대로 다시
+읽을 수 있게 하기 위함. 종목별 상한 `ARCHIVE_CAP`(30건, 재분석은 드물게 일어나므로 history.js의
+80건보다 낮게 잡음). **직접 analysis_archive.js를 편집하지 말 것** — 오직 archive_analysis.py만 쓴다.
 
 > ⚠️ 2026-07-08 사고: 예전 버전은 "같은 날짜"로만 구분해 하루 2번 재분석 시 오전 기록이
 > 통째로 사라졌다(장중 급변일에 치명적). archive_analysis.py를 고쳐 재발하지 않지만,
