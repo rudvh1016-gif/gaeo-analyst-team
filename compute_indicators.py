@@ -187,6 +187,11 @@ def risk_for(daily, live):
     vol20  : 최근 20거래일 일간 등락률 표준편차(%) — '하루에 평균 얼마나 출렁이는가'
     mdd3m  : 3개월 창 최대낙폭(%) — 고점 대비 가장 깊게 빠졌던 폭(음수)
     pos52w : 52주 가격 범위 내 현재가 위치(0=1년 최저, 100=1년 최고)
+    reboundFromLow : 3개월 창 저점 대비 현재가 반등률(%) — vol20/mdd3m은 급등이든
+        급락이든 방향을 안 가리고 똑같이 '출렁임'으로만 보는데, "낙폭과대 후 이미 크게
+        반등한 종목"과 "아직 저점 근처에서 계속 흔들리는 종목"을 구분하기 위해 추가
+        (2026-08-10, analyze_auto.py의 risk_overlay 감점 완화용 — vol20/mdd3m 자체 계산은
+        건드리지 않음)
     grade  : low(안정)/mid(보통)/high(위험) — 변동성·낙폭 임계값 기반"""
     closes = [d.get("close") for d in (daily or []) if d.get("close")]
     if len(closes) < 6:
@@ -205,6 +210,8 @@ def risk_for(daily, live):
         if dd < mdd:
             mdd = dd
     mdd = round(mdd, 1)
+    low3m = min(closes3m)
+    rebound = round((closes[-1] / low3m - 1) * 100, 1) if low3m else None
     pos52 = None
     try:
         lo, hi = [float(x.replace(",", "").strip()) for x in str((live or {}).get("w52") or "").split("~")]
@@ -214,7 +221,7 @@ def risk_for(daily, live):
         pass
     # grade는 전 종목 수집이 끝난 뒤 main()에서 "시장 전체 대비 상대 위치"로 매긴다.
     # (절대 임계값만 쓰면 이번 주처럼 시장 전체가 요동칠 때 전 종목이 '위험'으로 쏠려 변별력이 사라진다)
-    return {"vol20": vol20, "mdd3m": mdd, "pos52w": pos52}
+    return {"vol20": vol20, "mdd3m": mdd, "pos52w": pos52, "reboundFromLow": rebound}
 
 
 def assign_risk_grades(stocks):
