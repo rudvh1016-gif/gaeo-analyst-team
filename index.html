@@ -8,6 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
+<link rel="stylesheet" href="rotation.css?v=20260810-v1" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <script>
@@ -3309,6 +3310,7 @@
     <div class="global-primary" aria-label="주요 서비스">
       <button class="global-link on" type="button" data-nav-home>홈</button>
       <button class="global-link" id="navMarket" type="button">시장</button>
+      <button class="global-link" type="button" data-nav-mode="rotation">순환매</button>
       <button class="global-link" type="button" data-nav-mode="single">AI 분석</button>
       <button class="global-link" type="button" data-nav-mode="news">뉴스</button>
       <button class="global-link" type="button" data-nav-mode="lesson">공부</button>
@@ -3539,6 +3541,7 @@
   <div class="layout">
   <aside class="rail">
   <div class="modes">
+    <button class="modebtn" id="mode-rotation"><svg class="mi" viewBox="0 0 24 24"><path d="M5 8a8 8 0 0 1 13.4-2.1L21 8.5M19 16a8 8 0 0 1-13.4 2.1L3 15.5"/><path d="M21 4v4.5h-4.5M3 20v-4.5h4.5"/></svg>순환매</button>
     <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span><svg class="mi" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2zM22 4h-7a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"/></svg>가이드북</button>
     <button class="modebtn on" id="mode-single"><svg class="mi" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>단일 분석</button>
     <button class="modebtn" id="mode-watch"><svg class="mi" viewBox="0 0 24 24"><path d="M12 3.5 14.6 8l5.1 1.1-3.5 3.8.5 5.2-4.7-2.2-4.7 2.2.5-5.2-3.5-3.8L9.4 8z"/><path d="M4 21h16"/></svg>내 종목 관리</button>
@@ -3740,6 +3743,7 @@
       <div class="dowbar" id="dowbar" style="display:none"></div>
     </div>
   </section>
+  <section class="rotation-view" id="rotationView" aria-label="업종 순환매 분석"></section>
   <!-- 🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전. history.js·price_history.js·team_weights.js
        실측 데이터만으로 렌더링한다(AI 토큰 0원, 서버 재계산 때마다 자동 갱신). -->
   <div class="newsView" id="scorecardView"></div>
@@ -3811,7 +3815,8 @@ window.GaeoFeatures=(()=>{
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
     radar:['radar_series.js'],
     // 📈 코스피·코스닥 지수 일별 이력(TARO 3단계) — 홈 화면 펼치기 패널을 열 때만 받는다.
-    indexHist:['index_history.js']
+    indexHist:['index_history.js'],
+    rotation:['rotation_snapshot.js','rotation-ui.js']
   };
   const jobs={};
   const loadFile=src=>new Promise((resolve,reject)=>{
@@ -10565,10 +10570,10 @@ window.renderScreener=function(){
   function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'scorecard' | 'calendar' | 'community'
     mode=normalizeGaeoMode(mode);
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
-      calendar:'history',screener:'auto',scorecard:'history'}[mode];
+      calendar:'history',screener:'auto',scorecard:'history',rotation:'rotation'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
       const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
-        calc:'calcView',calendar:'calendarView',scorecard:'scorecardView'}[mode];
+        calc:'calcView',calendar:'calendarView',scorecard:'scorecardView',rotation:'rotationView'}[mode];
       const view=document.getElementById(viewId);
       if(view){
         view.classList.add('on');
@@ -10588,7 +10593,7 @@ window.renderScreener=function(){
     const single=mode==='single', watch=mode==='watch', compare=mode==='compare', portfolio=mode==='portfolio',
           calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
-          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates',
+          estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
           latest=mode==='latest', scorecard=mode==='scorecard';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
@@ -10603,6 +10608,7 @@ window.renderScreener=function(){
       estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
       screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 500개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
+      rotation:['업종의 힘이 어디로 움직일까요?','순환매','500개 종목을 24개 업종으로 묶어 현재 강한 흐름과 다음 관찰 후보를 확인해 보세요.'],
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
@@ -10624,6 +10630,7 @@ window.renderScreener=function(){
     document.getElementById('mode-estate').classList.toggle('on',estate);
     document.getElementById('mode-calc').classList.toggle('on',calc);
     document.getElementById('mode-screener').classList.toggle('on',screener);
+    document.getElementById('mode-rotation').classList.toggle('on',rotation);
     document.getElementById('mode-rates').classList.toggle('on',rates);
     document.getElementById('mode-scorecard').classList.toggle('on',scorecard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
@@ -10655,6 +10662,7 @@ window.renderScreener=function(){
     document.getElementById('calcView').classList.toggle('on',calc);
     document.getElementById('screenerView').classList.toggle('on',screener);
     document.getElementById('rateView').classList.toggle('on',rates);
+    document.getElementById('rotationView').classList.toggle('on',rotation);
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
@@ -10663,6 +10671,7 @@ window.renderScreener=function(){
     if(calc && window.renderCalc) window.renderCalc();
     if(screener && window.renderScreener) window.renderScreener();
     if(rates) document.getElementById('dowbar').style.display='';
+    if(rotation && window.GaeoRotation) window.GaeoRotation.mount(document.getElementById('rotationView'),window.ROTATION_SNAPSHOT);
     if(scorecard) renderScorecard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
@@ -10680,6 +10689,7 @@ window.renderScreener=function(){
   document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
+  document.getElementById('mode-rotation').onclick=()=>{setMode('rotation'); SFX.click();};
   document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click();};
   document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
@@ -11731,6 +11741,7 @@ window.hangulFix=function(str){
     else if(m==='latest'){ window.setMode('latest'); }
     else if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.setMode(m); }
     else if(m==='rates'){ window.setMode('rates'); }
+    else if(m==='rotation'){ window.setMode('rotation'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
@@ -11895,7 +11906,7 @@ window.hangulFix=function(str){
       closePanels();
       setTimeout(()=>{
         const target={single:'analysisBrowser',watch:'watchView',news:'newsView',lesson:'lessonView',calc:'calcView',
-          scorecard:'scorecardView',rates:'rateView',calendar:'calendarView'}[mode];
+          scorecard:'scorecardView',rates:'rateView',calendar:'calendarView',rotation:'rotationView'}[mode];
         const element=document.getElementById(target);
         if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
       },60);
