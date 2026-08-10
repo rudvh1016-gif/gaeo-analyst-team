@@ -249,10 +249,21 @@ def assign_risk_grades(stocks):
         r["grade"] = g
 
 
+def _fmt_bizdate(bd):
+    s = str(bd or "")
+    return f"{int(s[4:6])}/{int(s[6:8])}" if len(s) == 8 else None
+
+
 def flow_summary(deal_trends, daily=None, days=6):
     dt = deal_trends[:days]
     if not dt:
         return None
+    # ⭐ 2026-08-10: "최근 N거래일"이 정확히 몇 월 며칠부터인지 화면에 안 보여서
+    # "지금 이 순간" 수치로 착각하기 쉬웠다(제주반도체 사례 — 사용자가 실시간 앱과
+    # 비교하다 혼란). 원본 API가 이미 주는 bizdate(그날 장이 끝나야 확정되는 값)를
+    # 그대로 옮겨 담을 뿐, 합산 로직 자체는 건드리지 않는다.
+    period_end = _fmt_bizdate(dt[0].get("bizdate"))
+    period_start = _fmt_bizdate(dt[-1].get("bizdate"))
     frgn = sum(num(r.get("foreignerPureBuyQuant")) or 0 for r in dt)
     org = sum(num(r.get("organPureBuyQuant")) or 0 for r in dt)
     today = dt[0]
@@ -291,6 +302,7 @@ def flow_summary(deal_trends, daily=None, days=6):
                 "confirmation_down": -5}.get(divergence, 0)
     return {
         "days": len(dt),
+        "periodStart": period_start, "periodEnd": period_end,
         "frgnSum": int(frgn), "orgSum": int(org),
         "holdNow": num(dt[0].get("foreignerHoldRatio")),
         "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
