@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 43,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-10",
+  "title": "2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나",
+  "featured": false
+ },
+ {
   "id": 42,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-03",
   "title": "2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유",
   "featured": false
- },
- {
-  "id": 71,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-03",
-  "title": "포트폴리오 만드는 법: 초보자 자산배분 실전 가이드",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 42,
+ "news": 43,
  "study": 35,
  "lesson": 72,
  "estate": 19,
