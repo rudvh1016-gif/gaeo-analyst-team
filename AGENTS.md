@@ -63,6 +63,10 @@ AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수�
 | `radar_signals.py` | 📡 GAEO 레이더 신호 계산·판정 공용 모듈(임계값 상수·볼린저밴드·RSI·MACD·교차 판정). `compute_indicators.py`도 볼린저밴드를 여기서 가져다 쓴다 | AI 에이전트 |
 | `radar.json` / `radar.js` / `radar_series.js` | 📡 레이더 전체 기록 / 홈 화면용 축약본 / 신호 종목의 최근 60거래일 차트 데이터(지연 로딩) | `compute_radar.py` (자동) |
 | `dow_stats.js` | 요일별 평균 등락률 사전계산 | `compute_dow_stats.py` (자동) |
+| `rotation_engine.py` / `compute_rotation.py` | 500종목을 24업종으로 집계하는 순환매 계산 엔진 / 현재 스냅샷·마감 아카이브 생성 | AI 에이전트 / `update-analysis.yml` (자동) |
+| `rotation_snapshot.js` / `rotation_archive.json` | 순환매 화면용 현재 자료 / 거래일별 마감 기록 | **`compute_rotation.py`만, 직접 편집 금지.** |
+| `rotation_backtest.py` / `backtest_rotation.py` / `rotation_model.json` | 미래 정보 차단형 Lead-Lag·유사 국면·Walk-forward 검증 / 주간 모델 산출물 | `rotation-maintenance.yml` (자동) |
+| `rotation-ui.js` / `rotation.css` | `?m=rotation` 전용 지연 로딩 화면과 반응형 디자인 | AI 에이전트가 직접 편집 |
 | `team_weights.js` | 자가 학습 CHIEF 가중치 | `compute_team_weights.py` (자동) |
 | `model_intelligence.js` | 확률교정·오답 중복·시장국면·AUDIT·그림자 승격 판정 | `compute_model_intelligence.py` (자동) |
 | `generate_sitemap.js` | `sitemap.xml` 재생성 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
@@ -119,6 +123,7 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 - **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 커밋.
 - **update-analysis.yml** — 같은 시간대, 30분마다 `price_history.js`·`analysis_data.json`·`indicators.json/js`·`radar.json/js`·`radar_series.js`·`auto_analysis.js`(홈 보강 브리핑 포함) 갱신 + `archive_analysis.py --auto`로 500종목 판단을 `history.js`에 하루 1건씩 누적.
+- **순환매 갱신** — `update-analysis.yml`이 매 사이클 `rotation_snapshot.js`를 갱신하고 15:40 KST 이후에는 같은 거래일 마감본을 `rotation_archive.json`에 한 번만 남긴다. `rotation-maintenance.yml`은 주 1회 과거 검증을 다시 계산한다. 높은 신뢰도는 검증상 중간 신뢰도를 앞설 때만 열린다.
 - 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조다(GitHub 무료 cron이 이 저장소에서 불안정해서). 이 워크플로우 파일들의 트리거는 `workflow_dispatch` / `push`(`.analyst-refresh` 경로) / `schedule`(cron)뿐이고, **외부 PR로 실행되는 트리거는 없다** — 이 점은 어떤 에이전트도 바꾸지 말 것(포크 PR이 권한 있는 워크플로우를 실행하게 만드는 건 보안 사고다).
 - ⚠️ **`cancel-in-progress: false`다(2026-07-21 변경).** 즉 이미 실행 중인 잡이 있으면 새 트리거(마커 push·cron·dispatch)는 그 잡을 **취소하지 않고 뒤에서 대기(큐)만** 한다. "마커를 push하면 최신 1개만 남으니 안전하다"는 옛 설명은 틀렸다. 잡이 완전히 죽었을 땐 대기하던 실행이 곧바로 시작돼 문제없지만, 잡이 **죽지 않고 멈춘(hang)** 경우엔 마커 push가 최대 6시간(잡 timeout 350분) 동안 효과가 없다 — 그땐 실행을 먼저 **취소**해야 대기분이 뜬다(매시 Routine 안전망이 이 판정을 한다).
 - 🔒 **파일 소유권(2026-07-31)**: `data.js`는 update-prices만 커밋하고, 파생물(`indicators*`·`auto_analysis.js`·`radar*`·`snap/` 등)은 update-analysis만 커밋한다. update-analysis는 매 사이클 `data.js`·`analysis.js`를 origin 최신본으로 받아 **읽기만** 하고, 커밋 직전 `git checkout HEAD --`로 되돌린다. (`git checkout <ref> -- <file>`은 인덱스에 stage까지 하므로, 안 되돌리면 add 목록에 없어도 커밋에 딸려 들어가고 push 재시도의 `merge -X ours`가 낡은 시세로 최신을 덮어쓴다.)
