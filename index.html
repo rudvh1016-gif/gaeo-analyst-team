@@ -2436,17 +2436,8 @@
   .global-icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;
     stroke-linecap:round;stroke-linejoin:round}
   .global-icon-btn.profile svg{width:19px;height:19px}
-  .nav-refresh-btn{width:46px;height:60px;border:0;background:transparent;color:var(--gaeo-muted);
-    display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-    padding:0;cursor:pointer;white-space:nowrap}
-  .nav-refresh-label{font-size:9px;font-weight:800;line-height:1;color:var(--gaeo-muted);letter-spacing:-.03em}
-  .nav-refresh-circle{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
-    background:#E5484D;color:#fff;box-shadow:0 4px 12px rgba(229,72,77,.24);transition:transform .18s ease,background .18s ease}
-  .nav-refresh-circle svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;
-    stroke-linecap:round;stroke-linejoin:round}
-  .nav-refresh-btn:hover .nav-refresh-circle{background:#CF3F44;transform:translateY(-1px)}
-  .nav-refresh-btn:disabled{cursor:wait;opacity:.8}
-  .nav-refresh-btn.is-refreshing .nav-refresh-circle svg{animation:navRefreshSpin .65s linear infinite}
+  .nav-refresh-btn:disabled{cursor:wait;opacity:.65}
+  .nav-refresh-btn.is-refreshing svg{animation:navRefreshSpin .65s linear infinite}
   @keyframes navRefreshSpin{to{transform:rotate(360deg)}}
   .refresh-notice{position:fixed;z-index:999;top:var(--gaeo-nav-h);left:0;right:0;
     min-height:var(--gaeo-notice-h);display:flex;align-items:center;justify-content:center;
@@ -3330,11 +3321,9 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21"/></svg>
         <span>검색</span>
       </button>
-      <button class="nav-refresh-btn" id="navRefresh" type="button" aria-label="최신 주가와 분석 새로고침" aria-describedby="refreshNotice">
-        <span class="nav-refresh-label" aria-hidden="true">새로고침</span>
-        <span class="nav-refresh-circle" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .2 7.5"/><path d="M19 3v5h-5"/></svg>
-        </span>
+      <button class="global-icon-btn nav-refresh-btn" id="navRefresh" type="button" aria-label="최신 주가와 분석 새로고침" aria-describedby="refreshNotice">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 8a7.5 7.5 0 1 0 .2 7.5"/><path d="M19 3v5h-5"/></svg>
+        <span>새로고침</span>
       </button>
       <button class="global-icon-btn profile" id="navProfileToggle" type="button" aria-expanded="false" aria-controls="navProfilePanel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg>
