@@ -1,4 +1,4 @@
-const CACHE = 'gaeo-shell-v10';
+const CACHE = 'gaeo-shell-v11';
 const SHELL = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const SHELL = [
   './app-icon-512.png',
   './app-icon-maskable-512.png',
   './app-icon-1024.png',
+  './market_archive.js',
   './apple-touch-icon.png',
   './favicon-16.png',
   './favicon-32.png',

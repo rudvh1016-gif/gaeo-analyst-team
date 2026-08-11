@@ -1799,11 +1799,20 @@
   .mk-click .mk-arrow{margin-left:0;color:var(--sky)}
   .mk-day-body{display:none;padding:11px 14px;background:var(--paper)}
   .mk-day.open .mk-day-body{display:block}
+  .mk-pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;
+    margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+  .mk-page-btn{display:grid;place-items:center;min-width:32px;height:32px;padding:0 9px;border:1px solid var(--line);
+    border-radius:9px;background:var(--bg);color:var(--dim);font:inherit;font-size:11.5px;font-weight:750;cursor:pointer}
+  .mk-page-btn:hover:not(:disabled){border-color:var(--color-border-strong);color:var(--navy);background:var(--color-surface-soft)}
+  .mk-page-btn[aria-current="page"]{border-color:var(--navy);background:var(--navy);color:#fff}
+  .mk-page-btn:disabled{opacity:.38;cursor:default}
   @media(max-width:600px){
     .market{padding:13px 14px}
     .mk-strip{gap:6px 18px}
     .mk-idx{font-size:14px}
     .mk-day-sum{font-size:10.5px}
+    .mk-pagination{gap:5px}
+    .mk-page-btn{min-width:30px;height:30px;padding:0 8px;font-size:11px}
   }
 
   /* ── 종목 칩 스파크라인(최근 종가 미니 라인) ── */
@@ -3830,7 +3839,7 @@
   ['tickers.js','stock_bios.js','data.js','site_config.js','community.js'].forEach(w);
   document.write('<scr'+'ipt src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></scr'+'ipt>');
   w('snap/home_brief.js');
-  ['analysis.js','indicators.js','radar.js','market_history.js','dow_stats.js','team_weights.js'].forEach(w);
+  ['analysis.js','indicators.js','radar.js','market_history.js','market_archive.js','dow_stats.js','team_weights.js'].forEach(w);
   document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
 })();
 </script>
@@ -5409,6 +5418,9 @@ function expandBtn(total,shown,targetId){
   return `<button type="button" class="bc-expand" data-bc-target="${targetId}"
     aria-expanded="false" aria-controls="${targetId}">전체 ${total}위 보기</button>`;
 }
+const MARKET_HISTORY_PAGE_SIZE=4;
+let marketHistoryPage=1;
+let marketHistoryOpen=false;
 function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
   const isMobileBox=window.innerWidth<1180;
@@ -5428,14 +5440,6 @@ function renderMarket(){
       `<span class="mk-macro-dot" aria-hidden="true"></span>`+
       `시장국면 「${MACRO_REGIME.label}」 <span class="mk-macro-sub">최근 ${MACRO_REGIME.n}거래일 코스피 표준편차 ${MACRO_REGIME.vol}%p · `+
       (MACRO_REGIME.damp<1?'개별 종목 분석의 확신도를 자동으로 낮춰 보여드려요':'평소와 비슷한 변동성이에요')+`</span></div>`;
-  }
-  if(mk){
-    const mkBody=mkParas(mk.text)+
-      (Array.isArray(mk.points)&&mk.points.length?'<ul class="mk-points">'+mk.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'');
-    const mkTitle=`<div class="mk-antitle"><svg class="sec-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V5M16 20v-7M20.5 20h-17"/></svg>시장 분석${mk.updated?`<span class="mk-asof">${esc(mk.updated)} 기준</span>`:''}</div>`;
-    html+=isMobileBox
-      ? `<div class="mk-an">${mkTitle}<details class="mk-buylist"><summary>시장 분석 펼쳐보기</summary>${mkBody}</details></div>`
-      : `<div class="mk-an">${mkTitle}${mkBody}</div>`;
   }
   // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
   const tal=analysisTally();
@@ -5470,19 +5474,33 @@ function renderMarket(){
 
   // 📚 날짜별 지난 시장 분석 목차 (market_history.js)
   const MH=(typeof MARKET_HISTORY!=='undefined'&&MARKET_HISTORY)||{};
-  const days=Object.keys(MH).sort().reverse();
-  if(days.length){
+  const archiveApi=window.GaeoMarketArchive;
+  const entries=archiveApi?archiveApi.mergeMarketEntries(MH,mk):[];
+  const archivePage=archiveApi
+    ? archiveApi.paginateMarketEntries(entries,marketHistoryPage,MARKET_HISTORY_PAGE_SIZE)
+    : {items:[],page:1,total:0,totalPages:0};
+  marketHistoryPage=archivePage.page;
+  if(archivePage.total){
     const rateTag=d=>{
       const r=d&&typeof d.rate==='number'?d.rate:null;
       if(r==null) return '';
       const col=r>0?'var(--green)':(r<0?'var(--red)':'var(--dim)');
       return `<span style="color:${col};font-weight:700">${r>0?'+':''}${r.toFixed(2)}%</span>`;
     };
-    html+=`<div class="mk-hist">
-      <button class="mk-hist-toggle" id="mkHistBtn"><svg class="sec-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5A2 2 0 0 1 5.5 4.5H18a2 2 0 0 1 2 2v13H5.5a2 2 0 0 1-2-2z"/><path d="M8 9h8M8 13h5"/></svg>지난 시장 분석 <span class="mk-cnt">${days.length}일</span><span class="mk-arrow">▾</span></button>
+    const pageButtons=archivePage.totalPages>1
+      ? `<nav class="mk-pagination" aria-label="지난 시장 분석 페이지">
+          <button type="button" class="mk-page-btn" data-mk-page="${archivePage.page-1}"${archivePage.page===1?' disabled':''} aria-label="이전 페이지">이전</button>`+
+          Array.from({length:archivePage.totalPages},(_,i)=>i+1).map(page=>
+            `<button type="button" class="mk-page-btn" data-mk-page="${page}"${page===archivePage.page?' aria-current="page"':''} aria-label="${page}페이지">${page}</button>`
+          ).join('')+
+          `<button type="button" class="mk-page-btn" data-mk-page="${archivePage.page+1}"${archivePage.page===archivePage.totalPages?' disabled':''} aria-label="다음 페이지">다음</button>
+        </nav>`
+      : '';
+    html+=`<div class="mk-hist${marketHistoryOpen?' open':''}">
+      <button class="mk-hist-toggle" id="mkHistBtn" aria-expanded="${marketHistoryOpen?'true':'false'}" aria-controls="mkHistBody"><svg class="sec-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5A2 2 0 0 1 5.5 4.5H18a2 2 0 0 1 2 2v13H5.5a2 2 0 0 1-2-2z"/><path d="M8 9h8M8 13h5"/></svg>지난 시장 분석 <span class="mk-cnt">${archivePage.total}일</span><span class="mk-arrow">▾</span></button>
       <div class="mk-hist-body" id="mkHistBody">`+
-      days.map(day=>{
-        const m=MH[day];
+      archivePage.items.map(m=>{
+        const day=m.day;
         return `<div class="mk-day" id="mkday-${day}">
           <button class="mk-day-head" data-mkd="${day}">
             <b>${esc(day)}</b>
@@ -5492,15 +5510,25 @@ function renderMarket(){
             mkParas(m.text)+
             (Array.isArray(m.points)&&m.points.length?'<ul class="mk-points">'+m.points.map(p=>`<li>${SIGNUM(esc(p))}</li>`).join('')+'</ul>':'')+
           `</div></div>`;
-      }).join('')+`</div></div>`;
+      }).join('')+pageButtons+`</div></div>`;
   }
 
   box.innerHTML=html; box.style.display='block';
 
   const hb=document.getElementById('mkHistBtn');
-  if(hb) hb.onclick=()=>document.querySelector('.mk-hist').classList.toggle('open');
+  if(hb) hb.onclick=()=>{
+    marketHistoryOpen=!marketHistoryOpen;
+    hb.setAttribute('aria-expanded',marketHistoryOpen?'true':'false');
+    document.querySelector('.mk-hist').classList.toggle('open',marketHistoryOpen);
+  };
   box.querySelectorAll('.mk-day-head').forEach(b=>b.onclick=()=>
     document.getElementById('mkday-'+b.dataset.mkd).classList.toggle('open'));
+  box.querySelectorAll('.mk-page-btn[data-mk-page]').forEach(btn=>btn.onclick=()=>{
+    if(btn.disabled) return;
+    marketHistoryPage=Number(btn.dataset.mkPage)||1;
+    marketHistoryOpen=true;
+    renderMarket();
+  });
   box.querySelectorAll('.mk-buychip').forEach(c=>c.onclick=()=>jumpToStock(c.dataset.nm));
   box.querySelectorAll('.bc-expand').forEach(btn=>btn.onclick=()=>{
     const wrap=document.getElementById(btn.dataset.bcTarget); if(!wrap) return;
