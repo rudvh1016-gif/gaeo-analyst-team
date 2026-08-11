@@ -116,6 +116,18 @@ def period_return(values, horizon):
     return round((clean[-1] / clean[-horizon - 1] - 1) * 100, 6)
 
 
+def period_metadata(rows, horizon):
+    """Describe the exact close-to-close window used for a horizon return."""
+    clean = normalize_rows(rows)
+    if horizon <= 0 or len(clean) <= horizon:
+        return {"periodStart": None, "periodEnd": clean[-1]["date"] if clean else None, "tradingDays": horizon}
+    return {
+        "periodStart": clean[-horizon - 1]["date"],
+        "periodEnd": clean[-1]["date"],
+        "tradingDays": horizon,
+    }
+
+
 def winsorized_mean(values, proportion=0.1):
     clean = sorted(value for value in (_number(item) for item in values) if value is not None)
     if not clean:
@@ -267,18 +279,20 @@ def _indicator_taro(indicator, rows):
     }
 
 
-def _candidate_profile(code, name, indicator, rows):
+def _candidate_profile(code, name, indicator, rows, auto_entry=None):
     tech = (indicator or {}).get("tech") or {}
-    taro = _indicator_taro(indicator, rows)
+    technical_filter = _indicator_taro(indicator, rows)
+    actual_taro = _number(((auto_entry or {}).get("taro") or {}).get("score"))
+    taro_score = actual_taro if actual_taro is not None else technical_filter["score"]
     rsi = _number(tech.get("rsi14"))
     pct_b = _number((tech.get("bb") or {}).get("pctB"))
     overheat = bool((rsi is not None and rsi >= 70) or (pct_b is not None and pct_b > 1))
     reasons = []
-    if taro["maSlopeImproving"]:
+    if technical_filter["maSlopeImproving"]:
         reasons.append("20일 추세 개선")
-    if taro["macdImproving"]:
+    if technical_filter["macdImproving"]:
         reasons.append("MACD 우위")
-    if taro["volumeConfirmed"]:
+    if technical_filter["volumeConfirmed"]:
         reasons.append("거래량 확인")
     percentile = _number(((indicator or {}).get("relative") or {}).get("sectorPercentile"))
     if percentile is not None and percentile >= 70:
@@ -289,17 +303,24 @@ def _candidate_profile(code, name, indicator, rows):
         "code": code,
         "name": name or code,
         "price": _number(tech.get("close")) or _number((indicator or {}).get("price")),
-        "taroScore": taro["score"],
+        "taroScore": taro_score,
+        "taroSource": "auto-analysis" if actual_taro is not None else "rotation-technical-filter",
         "movingAverages": {
             str(period): _number(tech.get(f"ma{period}"))
             for period in (5, 20, 60, 120, 200)
         },
         "volumeRatio": _number(tech.get("volRatio")),
+        "volumeBaseline": {
+            "label": "직전 20거래일 일평균 대비",
+            "periodStart": rows[-21]["date"] if len(rows) >= 21 else None,
+            "periodEnd": rows[-2]["date"] if len(rows) >= 2 else None,
+            "tradingDays": 20,
+        },
         "sectorPercentile": percentile,
         "overheat": overheat,
         "riskGrade": ((indicator or {}).get("risk") or {}).get("grade"),
         "reasons": reasons[:3],
-        "source": taro["source"],
+        "source": technical_filter["source"],
     }
 
 
@@ -382,6 +403,11 @@ def classify_regime(indices, stock_series, as_of=None):
         "leadership": leadership,
         "breadth": breadth,
         "breadthRate": _round((breadth_rate or 0) * 100, 1) if breadth_rate is not None else None,
+        "directionPeriod": period_metadata(combined, 20),
+        "volatilityPeriod": period_metadata(combined, 20),
+        "leadershipPeriod": period_metadata(combined, 20),
+        "trendConfirmationPeriod": period_metadata(combined, 60),
+        "breadthPeriod": period_metadata(combined, 5),
     }
 
 
@@ -418,6 +444,7 @@ def _signal_for(period):
 
 
 def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=None, names=None,
+                   auto_analysis=None,
                    as_of=None, generated_at=None, data_cutoff=None):
     """Build a deterministic schemaVersion 1 rotation snapshot."""
     configured_by_sector = defaultdict(list)
@@ -426,9 +453,12 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
 
     clean_stocks = {code: normalize_rows(stocks.get(code, []), as_of) for code in sectors}
     indicators = indicators or {}
+    auto_analysis = auto_analysis or {}
     names = names or {}
     stock_profiles = {
-        code: _candidate_profile(code, names.get(code, code), indicators.get(code), clean_stocks[code])
+        code: _candidate_profile(
+            code, names.get(code, code), indicators.get(code), clean_stocks[code], auto_analysis.get(code)
+        )
         for code in sectors
     }
     market_benchmarks = {
@@ -563,8 +593,14 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             period["confidence"] = _confidence(period, sector, model)
             period["signal"] = _signal_for(period)
 
-    summary_horizon = 5
+    recommended = (model or {}).get("recommendedHorizon") or {}
+    recommended_value = int(recommended.get("horizon") or 0)
+    summary_horizon = recommended_value if recommended.get("status") == "ready" and recommended_value in PUBLIC_HORIZONS else 5
     summary_period = str(summary_horizon)
+    short_term_ranked = sorted(
+        sector_rows,
+        key=lambda sector: (-sector["periods"]["5"]["score"], sector["name"]),
+    )
     sector_rows.sort(key=lambda sector: (-sector["periods"][summary_period]["score"], sector["name"]))
     leaders = [
         {"name": sector["name"], "score": sector["periods"][summary_period]["score"],
@@ -583,6 +619,22 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         f"종합점수 {first['score']}점은 업종 간 상대 위치이며 확률이 아닙니다."
         if first else "종합점수는 업종 간 상대 위치이며 확률이 아닙니다."
     )
+    combined_index = max(
+        (normalize_rows((indices or {}).get(market, []), as_of) for market in ("KOSPI", "KOSDAQ")),
+        key=len,
+        default=[],
+    )
+    short_term = None
+    if summary_horizon != 5 and short_term_ranked:
+        short_sector = short_term_ranked[0]
+        short_period = short_sector["periods"]["5"]
+        short_term = {
+            "horizon": 5,
+            "name": short_sector["name"],
+            "score": short_period["score"],
+            "signal": short_period["signal"],
+            "period": period_metadata(combined_index, 5),
+        }
 
     valid_universe = sum(bool(rows) for rows in clean_stocks.values())
     dates = [row["date"] for rows in clean_stocks.values() for row in rows]
@@ -612,6 +664,8 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             "state": state, "headline": headline, "leaders": leaders,
             "candidate": active[1] if len(active) > 1 else None,
             "horizon": summary_horizon,
+            "period": period_metadata(combined_index, summary_horizon),
+            "shortTerm": short_term,
             "interpretation": interpretation,
             "scoreMeaning": score_meaning,
             "disclaimer": "예측 화면이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.",
@@ -624,10 +678,10 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         "leadLagEdges": (model or {}).get("leadLagEdges", []),
         "similarMarkets": (model or {}).get("similarMarkets", {"status": "accumulating", "cases": []}),
         "horizonPerformance": (model or {}).get("horizonPerformance", {}),
-        "recommendedHorizon": (model or {}).get("recommendedHorizon", {
+        "recommendedHorizon": recommended or {
             "status": "accumulating", "horizon": None,
             "reason": "표본 수와 구간 안정성이 기준에 도달할 때까지 추천을 보류합니다.",
-        }),
+        },
         "methodology": {
             "historyStart": min(dates) if dates else None,
             "historyEnd": max(dates) if dates else None,

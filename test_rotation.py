@@ -106,7 +106,7 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertIn("확률이 아닙니다", period["scoreExplanation"]["meaning"])
         self.assertEqual(period["modelAgreement"]["total"], 8)
 
-    def test_candidate_stocks_reuse_existing_taro_indicators(self):
+    def test_candidate_stocks_use_actual_taro_score_and_disclose_volume_baseline(self):
         indicator = {
             "price": 110,
             "tech": {
@@ -117,17 +117,30 @@ class RotationSnapshotTest(unittest.TestCase):
             "relative": {"sectorPercentile": 92},
             "risk": {"grade": "normal"},
         }
+        long_stocks = dict(self.stocks)
+        long_stocks["A"] = rows(
+            list(range(100, 122)),
+            [100] * 21 + [140],
+        )
         snapshot = build_snapshot(
-            self.stocks, self.sectors, self.markets, self.indices,
+            long_stocks, self.sectors, self.markets, self.indices,
             indicators={"A": indicator}, names={"A": "A기업"},
+            auto_analysis={"A": {"taro": {"score": 87, "stance": "bull"}}},
         )
         semi = next(sector for sector in snapshot["sectors"] if sector["name"] == "반도체")
         candidate = next(stock for stock in semi["candidateStocks"] if stock["code"] == "A")
 
         self.assertEqual(candidate["name"], "A기업")
-        self.assertEqual(candidate["taroScore"], 100.0)
+        self.assertEqual(candidate["taroScore"], 87.0)
+        self.assertEqual(candidate["taroSource"], "auto-analysis")
         self.assertEqual(candidate["movingAverages"]["200"], 100)
         self.assertEqual(candidate["volumeRatio"], 1.4)
+        self.assertEqual(candidate["volumeBaseline"], {
+            "label": "직전 20거래일 일평균 대비",
+            "periodStart": "2026-01-02",
+            "periodEnd": "2026-01-21",
+            "tradingDays": 20,
+        })
         self.assertEqual(candidate["source"], "existing-indicators")
         self.assertEqual(semi["candidateExcludedCount"], 1)
         self.assertTrue(all(stock["source"] == "existing-indicators" for stock in semi["candidateStocks"]))
@@ -145,6 +158,32 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertEqual(snapshot["horizonPerformance"]["5"]["sampleCount"], 80)
         self.assertEqual(snapshot["recommendedHorizon"]["horizon"], 5)
         self.assertNotIn("확률", snapshot["recommendedHorizon"]["reason"])
+
+    def test_recommended_horizon_drives_summary_and_exposes_period_ranges(self):
+        model = {
+            "recommendedHorizon": {"status": "ready", "horizon": 20, "reason": "20일 우위"},
+            "horizonPerformance": {
+                "20": {"status": "ready", "sampleCount": 40, "periodStart": "2025-01-01", "periodEnd": "2025-12-01"}
+            },
+        }
+        long_stocks = {
+            code: rows([100 + index for index in range(22)])
+            for code in self.stocks
+        }
+        long_indices = {
+            market: rows([100 + index for index in range(22)])
+            for market in self.indices
+        }
+
+        snapshot = build_snapshot(long_stocks, self.sectors, self.markets, long_indices, model=model)
+
+        self.assertEqual(snapshot["summary"]["horizon"], 20)
+        self.assertEqual(snapshot["summary"]["period"], {
+            "periodStart": "2026-01-02", "periodEnd": "2026-01-22", "tradingDays": 20,
+        })
+        self.assertEqual(snapshot["summary"]["shortTerm"]["horizon"], 5)
+        self.assertEqual(snapshot["marketRegime"]["breadthPeriod"]["tradingDays"], 5)
+        self.assertEqual(snapshot["marketRegime"]["directionPeriod"]["tradingDays"], 20)
 
     def test_snapshot_includes_rule_based_interpretation_and_component_guide(self):
         snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
@@ -250,12 +289,17 @@ class RotationIoTest(unittest.TestCase):
                 'const INDEX_HISTORY = {"KOSPI":[],"KOSDAQ":[]};\n', encoding="utf-8"
             )
             (root / "indicators.json").write_text('{"stocks":{}}', encoding="utf-8")
+            (root / "auto_analysis.js").write_text(
+                'const LIVE_AUTO = {"generatedAt":"2026-01-02 16:00","stocks":{"A":{"taro":{"score":77}}}};\n',
+                encoding="utf-8",
+            )
 
             loaded = load_inputs(root)
 
             self.assertEqual(set(loaded["stocks"]), {"A", "B"})
             self.assertEqual([row["date"] for row in loaded["stocks"]["A"]], ["2026-01-01", "2026-01-02"])
             self.assertEqual(loaded["markets"], {"A": "KOSPI", "B": "KOSDAQ"})
+            self.assertEqual(loaded["autoAnalysis"]["A"]["taro"]["score"], 77)
 
     def test_invalid_snapshot_does_not_replace_last_good_file(self):
         with tempfile.TemporaryDirectory() as directory:
