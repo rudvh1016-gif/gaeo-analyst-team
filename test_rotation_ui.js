@@ -13,7 +13,7 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v8'\]/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v9'\]/);
 assert.match(html, /rotation\.css\?v=20260812-v8/);
 assert.match(html, /m==='rotation'/);
 
@@ -78,7 +78,8 @@ assert.match(rendered, /현재 1위 업종 · 추천 20거래일 기준/);
 assert.match(rendered, /다음 관찰 후보 · 추천 20거래일 기준/);
 assert.match(rendered, /계산기간 2026\.01\.02~2026\.01\.22/);
 assert.match(rendered, /단기 참고 · 5거래일 1위 화장품·미용/);
-assert.match(rendered, /방향·변동성·주도시장 · 최근 20거래일/);
+assert.match(rendered, /<span>시장 국면 · 최근 20거래일<\/span><strong>하락 · 확대<\/strong>/);
+assert.doesNotMatch(rendered, /시장 국면 · 방향·변동성·주도시장/);
 assert.match(rendered, /최근 5거래일 상승 종목 비율 90\.2%/);
 assert.doesNotMatch(rendered, /상승 폭/);
 assert.match(rendered, /점수는 확률이 아닙니다/);
