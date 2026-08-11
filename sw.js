@@ -1,12 +1,18 @@
-const CACHE = 'gaeo-shell-v7';
+const CACHE = 'gaeo-shell-v8';
 const SHELL = [
   './',
   './index.html',
   './manifest.json',
+  './gaeo-flower-symbol.png',
+  './gaeo-flower-symbol.webp',
   './app-icon-180.png',
   './app-icon-192.png',
   './app-icon-512.png',
+  './app-icon-maskable-512.png',
   './app-icon-1024.png',
+  './apple-touch-icon.png',
+  './favicon-16.png',
+  './favicon-32.png',
   './tickers.js',
   './stock_bios.js',
   './site_config.js',
