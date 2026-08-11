@@ -8,7 +8,6 @@ import copy
 import json
 import os
 import re
-import tempfile
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -129,16 +128,19 @@ def validate_snapshot(snapshot):
 def atomic_write(path, text):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent), text=True)
+    # tempfile.mkstemp can stall in the bundled Windows runtime when the
+    # workspace path contains Korean characters. Keep the temporary file next
+    # to the target (so os.replace stays atomic) and make its name process-local.
+    temporary = path.with_name(f"{path.name}.{os.getpid()}.tmp")
     try:
-        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+        with open(temporary, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(text)
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary, path)
     finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
+        if temporary.exists():
+            temporary.unlink()
 
 
 def write_snapshot_if_valid(path, snapshot):
@@ -171,6 +173,10 @@ def update_archive(path, snapshot, limit=750):
                 "flow": {"medianRelativeVolume": (period.get("flow") or {}).get("medianRelativeVolume")},
                 "taro": {"score": (period.get("taro") or {}).get("score")},
                 "concentration": {"top3": (period.get("concentration") or {}).get("top3")},
+                "components": period.get("components"),
+                "scoreExplanation": {
+                    "contributions": ((period.get("scoreExplanation") or {}).get("contributions") or {}),
+                },
             }
         archived_sectors.append({
             "name": sector.get("name"),
@@ -242,12 +248,25 @@ def apply_score_history(snapshot, archive):
             if old_score is None or new_score is None:
                 period["scoreChange"] = {
                     "status": "accumulating", "value": None, "direction": "축적 중", "baseDate": None,
+                    "previousScore": old_score, "currentScore": new_score,
+                    "componentStatus": "accumulating", "componentDeltas": {},
                 }
                 continue
             value = round(float(new_score) - float(old_score), 1)
+            old_contributions = (((previous_periods.get(horizon) or {}).get("scoreExplanation") or {}).get("contributions") or {})
+            new_contributions = ((period.get("scoreExplanation") or {}).get("contributions") or {})
+            common_components = sorted(set(old_contributions) & set(new_contributions))
+            component_deltas = {
+                name: round(float(new_contributions[name]) - float(old_contributions[name]), 1)
+                for name in common_components
+                if old_contributions.get(name) is not None and new_contributions.get(name) is not None
+            }
             period["scoreChange"] = {
                 "status": "ready", "value": value, "direction": _change_direction(value),
                 "baseDate": prior.get("date"),
+                "previousScore": old_score, "currentScore": new_score,
+                "componentStatus": "ready" if component_deltas else "accumulating",
+                "componentDeltas": component_deltas,
             }
     enriched["historyStatus"] = {
         "status": "ready" if prior else "accumulating",

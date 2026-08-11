@@ -301,17 +301,44 @@ def _candidate_profile(code, name, indicator, rows, auto_entry=None):
         reasons.append("업종 내 상대강도 상위")
     if not reasons:
         reasons.append("기술 신호 관찰")
+    price = _number(tech.get("close")) or _number((indicator or {}).get("price"))
+    moving_averages = {
+        str(period): _number(tech.get(f"ma{period}"))
+        for period in (5, 20, 60, 120, 200)
+    }
+    volume_ratio = _number(tech.get("volRatio"))
+    liquidity_score = max(0.0, min(100.0, (volume_ratio or 0.0) * 50.0))
+    rank_score = (
+        (taro_score or 0.0) * 0.50
+        + (percentile or 0.0) * 0.25
+        + liquidity_score * 0.25
+        - (10.0 if overheat else 0.0)
+    )
+    rank_reasons = []
+    if taro_score is not None:
+        rank_reasons.append("TARO 기술 확인")
+    if volume_ratio is not None and volume_ratio >= 1:
+        rank_reasons.append("거래량 증가")
+    if percentile is not None and percentile >= 70:
+        rank_reasons.append("업종 내 상대강도 상위")
+    if overheat:
+        rank_reasons.append("과열 감점 반영")
     return {
         "code": code,
         "name": name or code,
-        "price": _number(tech.get("close")) or _number((indicator or {}).get("price")),
+        "price": price,
         "taroScore": taro_score,
         "taroSource": "auto-analysis" if actual_taro is not None else "rotation-technical-filter",
-        "movingAverages": {
-            str(period): _number(tech.get(f"ma{period}"))
-            for period in (5, 20, 60, 120, 200)
+        "movingAverages": moving_averages,
+        "maStatus": {
+            str(period): (
+                f"{period}일선 위" if price is not None and value is not None and price >= value
+                else f"{period}일선 아래" if price is not None and value is not None
+                else f"{period}일선 확인 중"
+            )
+            for period, value in ((period, moving_averages[str(period)]) for period in (20, 60, 120, 200))
         },
-        "volumeRatio": _number(tech.get("volRatio")),
+        "volumeRatio": volume_ratio,
         "volumeBaseline": {
             "label": "직전 20거래일 일평균 대비",
             "periodStart": rows[-21]["date"] if len(rows) >= 21 else None,
@@ -322,6 +349,8 @@ def _candidate_profile(code, name, indicator, rows, auto_entry=None):
         "overheat": overheat,
         "riskGrade": ((indicator or {}).get("risk") or {}).get("grade"),
         "reasons": reasons[:3],
+        "rotationRankScore": round(max(0.0, min(100.0, rank_score)), 1),
+        "rotationRankReasons": rank_reasons[:3] or ["기술 신호 관찰"],
         "source": technical_filter["source"],
     }
 
@@ -548,6 +577,16 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             "name": sector_name,
             "configuredCount": len(codes),
             "validCount": latest_valid,
+            "taroAnalyzedCount": sum(
+                1 for code in codes
+                if clean_stocks[code] and (indicators.get(code) or {}).get("tech")
+            ),
+            "taroConfirmationCount": sum(
+                1 for code in codes
+                if clean_stocks[code]
+                and (indicators.get(code) or {}).get("tech")
+                and stock_profiles[code]["taroScore"] >= 70
+            ),
             "sampleReliability": _sample_reliability(latest_valid, len(codes)),
             "periods": periods,
             "candidateStocks": sorted(
@@ -555,7 +594,7 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
                     stock_profiles[code] for code in codes
                     if clean_stocks[code] and (indicators.get(code) or {}).get("tech")
                 ),
-                key=lambda item: (-(item["taroScore"] or 0), -(item["sectorPercentile"] or 0), item["name"]),
+                key=lambda item: (-(item["rotationRankScore"] or 0), -(item["taroScore"] or 0), item["name"]),
             )[:8],
             "candidateExcludedCount": sum(
                 1 for code in codes
