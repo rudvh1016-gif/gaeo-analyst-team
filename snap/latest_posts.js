@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 44,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-11",
+  "title": "2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날",
+  "featured": false
+ },
+ {
   "id": 43,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-04",
   "title": "생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나",
   "featured": false
- },
- {
-  "id": 36,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-03",
-  "title": "2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 43,
+ "news": 44,
  "study": 35,
  "lesson": 72,
  "estate": 19,

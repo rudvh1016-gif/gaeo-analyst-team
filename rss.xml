@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Mon, 10 Aug 2026 07:41:06 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 11 Aug 2026 13:52:13 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날</title>
+    <link>https://gaeoteam.com/snap/news/44.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/44.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 +0.73%(6,345.53), 코스닥은 +0.39%(857.84)로 이틀 연속 올랐어요. 삼성전자 +4.13%가 코스피를 받친 반면 방산·조선·2차전지는 약세였고, 전일 390개였던 상승 종목은 250개로 줄어 지수보다 체감 온도는 낮았어요.</description>
+    <pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나</title>
     <link>https://gaeoteam.com/snap/news/43.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/study/35.html</guid>
     <category>종목공부</category>
     <description>아모레퍼시픽은 설화수·라네즈·이니스프리에 최근 인수한 코스알엑스까지 여러 화장품 브랜드를 보유한 국내 대표 뷰티기업이에요. 오랫동안 발목을 잡던 중국 매출은 여전히 줄고 있지만, 미국·유럽에서 코스알엑스와 더마 브랜드가 크게 성장하면서 성장축이 중국에서 미주·유럽으로 옮겨가고 있어요. 주가는 4월 14만원대에서 6월 초 10만원대까지 조정받았고, 1분기 실적은 컨센서스에 대체로 부합했어요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>공매도 잔고와 대차잔고 읽는 법 — 거래량까지 헷갈리지 않게</title>
-    <link>https://gaeoteam.com/snap/lesson/52.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/52.html</guid>
-    <category>주식공부</category>
-    <description>공매도 거래량·공매도 잔고·대차잔고는 서로 다른 숫자예요. 어디서 확인하고 어떤 비율로 비교해야 하는지, 숫자가 늘 때 섣불리 주가 하락으로 단정하면 안 되는 이유까지 실제 분석 순서로 정리했어요.</description>
     <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
