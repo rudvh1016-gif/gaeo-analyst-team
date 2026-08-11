@@ -1,4 +1,6 @@
 import copy
+import importlib
+import importlib.util
 import json
 import tempfile
 import unittest
@@ -27,6 +29,17 @@ def rows(closes, volumes=None, start_day=1):
 
 
 class RotationMathTest(unittest.TestCase):
+    def test_future_trading_period_excludes_weekends_and_krx_holidays(self):
+        spec = importlib.util.find_spec("krx_calendar")
+        self.assertIsNotNone(spec, "KRX 거래일 계산 모듈이 필요합니다.")
+        future_trading_period = importlib.import_module("krx_calendar").future_trading_period
+
+        self.assertEqual(future_trading_period("2026-08-11", 20), {
+            "periodStart": "2026-08-12",
+            "periodEnd": "2026-09-09",
+            "tradingDays": 20,
+        })
+
     def test_score_explanation_contributions_reconcile_to_displayed_score(self):
         components = {
             "momentum": 69.6, "relativeStrength": 82.6, "flow": 69.6,
@@ -184,6 +197,59 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertEqual(snapshot["summary"]["shortTerm"]["horizon"], 5)
         self.assertEqual(snapshot["marketRegime"]["breadthPeriod"]["tradingDays"], 5)
         self.assertEqual(snapshot["marketRegime"]["directionPeriod"]["tradingDays"], 20)
+        self.assertNotIn("candidateObservationPeriod", snapshot["summary"])
+
+    def test_candidate_exposes_expected_observation_period(self):
+        dates = [
+            "2026-07-14", "2026-07-15", "2026-07-16", "2026-07-17",
+            "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23",
+            "2026-07-24", "2026-07-27", "2026-07-28", "2026-07-29",
+            "2026-07-30", "2026-07-31", "2026-08-03", "2026-08-04",
+            "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-10",
+            "2026-08-11",
+        ]
+        closes = {
+            "A": [100 + index * 1.5 for index in range(21)],
+            "B": [100 + index for index in range(21)],
+            "C": [100 - index * 0.5 for index in range(21)],
+            "D": [100 - index for index in range(21)],
+        }
+        stocks = {
+            code: [
+                {"date": day, "close": values[index], "volume": 100}
+                for index, day in enumerate(dates)
+            ]
+            for code, values in closes.items()
+        }
+        indices = {
+            market: [{"date": day, "close": 100, "volume": 100} for day in dates]
+            for market in ("KOSPI", "KOSDAQ")
+        }
+        weights = {name: 0.0 for name in (
+            "momentum", "relativeStrength", "flow", "breadth",
+            "leadLag", "similarity", "regimeMatch", "taro",
+        )}
+        weights["momentum"] = 1.0
+        model = {
+            "recommendedHorizon": {"status": "ready", "horizon": 20, "reason": "20일 우위"},
+            "weights": {"20": weights},
+        }
+
+        snapshot = build_snapshot(
+            stocks,
+            {code: f"업종{code}" for code in stocks},
+            {code: "KOSPI" for code in stocks},
+            indices,
+            model=model,
+        )
+
+        self.assertIsNotNone(snapshot["summary"]["candidate"])
+        self.assertIn("candidateObservationPeriod", snapshot["summary"])
+        self.assertEqual(snapshot["summary"]["candidateObservationPeriod"], {
+            "periodStart": "2026-08-12",
+            "periodEnd": "2026-09-09",
+            "tradingDays": 20,
+        })
 
     def test_snapshot_includes_rule_based_interpretation_and_component_guide(self):
         snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
