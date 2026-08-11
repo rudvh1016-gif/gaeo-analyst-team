@@ -7,7 +7,7 @@ const root = __dirname;
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 
-assert.match(serviceWorker, /const CACHE = 'gaeo-shell-v7'/);
+assert.match(serviceWorker, /const CACHE = 'gaeo-shell-v8'/);
 assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);

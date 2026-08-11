@@ -279,8 +279,10 @@
 <meta name="twitter:image" content="https://gaeoteam.com/gaeo-share-v3.jpg" />
 <meta name="twitter:image:alt" content="GAEO" />
 <link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/app-icon-192.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/app-icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
@@ -2436,9 +2438,9 @@
   .global-nav-inner{height:100%;display:flex;align-items:center;gap:34px}
   .global-brand{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--gaeo-ink);
     padding:0;cursor:pointer;flex:0 0 auto}
-  .global-brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;
-    overflow:hidden;background:#FFF;border:1px solid #E2E8EB}
-  .global-brand-mark img{display:block;width:100%;height:100%;object-fit:cover}
+  .global-brand-mark{display:grid;place-items:center;width:34px;height:34px}
+  .global-brand-mark picture,.global-brand-mark img{display:block;width:100%;height:100%}
+  .global-brand-mark img{object-fit:contain}
   .global-brand-word{font-size:19px;font-weight:850;letter-spacing:-.04em}
   .global-primary{display:flex;align-items:center;gap:2px;min-width:0}
   .global-link{height:40px;border:0;border-radius:12px;padding:0 13px;background:transparent;
@@ -3321,7 +3323,7 @@
 <nav class="global-nav" id="globalNav" aria-label="Gaeo 주요 메뉴">
   <div class="global-nav-inner">
     <button class="global-brand" id="globalHome" type="button" aria-label="Gaeo 홈으로 이동">
-      <span class="global-brand-mark" aria-hidden="true"><img src="app-icon-192.png" alt="" width="192" height="192"></span>
+      <span class="global-brand-mark"><picture><source srcset="gaeo-flower-symbol.webp" type="image/webp"><img src="gaeo-flower-symbol.png" alt="GAEO" width="910" height="882"></picture></span>
       <span class="global-brand-word">Gaeo</span>
     </button>
     <div class="global-primary" aria-label="주요 서비스">
