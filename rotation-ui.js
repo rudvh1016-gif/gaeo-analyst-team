@@ -147,7 +147,10 @@
       const validationRange=formatPeriod(row);
       return `<article class="rot-performance-card${recommended.horizon===horizon?' recommended':''}"><span>${horizon}일${recommended.horizon===horizon?' · 추천 관찰 기간':''}</span><strong>적중 ${number(row.hitRate).toFixed(1)}%</strong><small>${validationRange?`검증기간 ${validationRange}<br>`:''}중첩 평가 ${number(row.sampleCount)}회 · 평균 초과 ${formatPercent(row.averageExcessReturn)}<br>안정성 ${number(row.stability).toFixed(1)} · 최근 재현 ${number(row.recentReproduction).toFixed(1)}%</small></article>`;
     }).join('');
-    return `<section class="rot-panel rot-analysis rot-performance"><div class="rot-section-head"><div><span>WALK-FORWARD</span><h3>기간별 과거 성과</h3></div><p>${escapeHtml(recommended.reason||'표본과 안정성을 확인 중입니다.')}</p></div><div class="rot-performance-grid">${cards}</div><div class="rot-warning">과거 성과는 미래 확률이 아닙니다. 기준은 ${escapeHtml((performance['5']||{}).benchmark||'500종목 업종 중앙값')}이며 겹치는 기간 표본이 포함됩니다.</div></section>`;
+    const overlapHorizon=number(recommended.horizon)||20;
+    const overlapSample=number((performance[String(overlapHorizon)]||{}).sampleCount);
+    const overlapExplanation=`매 거래일마다 당시까지의 최근 ${overlapHorizon}거래일로 1위 업종을 다시 선정하고, 그다음 ${overlapHorizon}거래일 동안 업종 중앙값보다 높은 수익을 냈는지 확인합니다. 시작일을 하루씩 옮겨 반복하므로 관찰기간이 서로 겹칩니다. ${overlapSample}회는 거래일 수나 서로 독립된 투자 횟수가 아니라, 평가를 시작한 날짜 ${overlapSample}개의 결과입니다.`;
+    return `<section class="rot-panel rot-analysis rot-performance"><div class="rot-section-head"><div><span>WALK-FORWARD</span><h3>기간별 과거 성과</h3></div><p>${escapeHtml(recommended.reason||'표본과 안정성을 확인 중입니다.')}</p></div><div class="rot-performance-grid">${cards}</div><div class="rot-overlap-explanation"><strong>중첩 평가란?</strong><span>${escapeHtml(overlapExplanation)}</span></div><div class="rot-warning">과거 성과는 미래 확률이 아닙니다. 기준은 ${escapeHtml((performance['5']||{}).benchmark||'500종목 업종 중앙값')}이며 겹치는 기간 표본이 포함됩니다.</div></section>`;
   }
   function renderEvidence(data,selected){
     const edges=(data.leadLagEdges||[]).filter(edge=>edge.leader===selected||edge.lagger===selected).slice(0,3);
