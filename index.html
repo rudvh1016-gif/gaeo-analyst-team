@@ -643,7 +643,8 @@
   .qprice{font-size:32px;font-weight:700;
     letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
   .qrate{font-size:15px;font-weight:600}
-  .qrate.up{color:var(--green)} .qrate.down{color:var(--red)}
+  .qrate.up{color:var(--krup)} .qrate.down{color:var(--krdn)}
+  .qrate.flat{color:var(--dim)}
   .qdate{font-size:12px;color:var(--dim);margin-top:10px}
   .qdate b{color:var(--navy);font-weight:600;letter-spacing:.01em}
   .vasof{margin-top:12px;display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
@@ -656,13 +657,15 @@
      ⭐ 2026-08-10: 52주(값이 긴 범위)만 칸이 좁아 두 줄로 꺾여 안 예뻤다 → .qm-wide로
      해당 칸만 전체 폭을 차지하게 하고, 박스 자체도 한 단계 더 조밀하게 줄였다. */
   .qmetrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:7px;margin-top:16px}
-  .qm{background:var(--navy-soft);border:1px solid var(--line);border-radius:9px;
+  .qm{min-width:0;background:var(--navy-soft);border:1px solid var(--line);border-radius:9px;
     padding:7px 9px}
   .qm-wide{grid-column:1/-1}
-  .qm-label{font-size:10px;font-weight:600;color:var(--faint);line-height:1.3}
-  .qm-val{margin-top:2px;font-size:13px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap}
+  .qm-label{font-size:9px;font-weight:600;color:var(--faint);line-height:1.3}
+  .qm-val{margin-top:2px;font-size:12px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap}
   @media(min-width:1180px){
-    .qmetrics .qm-wide{grid-column:auto;min-width:140px}
+    .qmetrics{grid-template-columns:repeat(6,minmax(88px,1fr)) minmax(190px,1.5fr)}
+    .qmetrics .qm-wide{grid-column:auto}
+    .qm-wide .qm-val{font-size:11.5px;letter-spacing:-.02em}
   }
 
   /* ── 애널리스트 카드 ── */
@@ -5736,8 +5739,9 @@ function showQuote(st){
     return;
   }
   qp.textContent=won(st.price);
-  qr.textContent=(st.rate>0?'▲ +':'▼ ')+st.rate.toFixed(2)+'%';
-  qr.className='qrate '+(st.rate>0?'up':'down');
+  const rateTone=st.rate>0?'up':st.rate<0?'down':'flat';
+  qr.textContent=(st.rate>0?'▲ +':st.rate<0?'▼ ':'• ')+st.rate.toFixed(2)+'%';
+  qr.className='qrate '+rateTone;
   const aof=analysisAsOf(st.code);
   // ⭐ 2026-08-10: 시세/분석 기준 앞의 이모지 아이콘을 빼고 텍스트만 남겼다 —
   // 구간 사이 " · " 구분점(.qd-seg CSS)이 이미 있어 아이콘 없이도 잘 구분된다.
