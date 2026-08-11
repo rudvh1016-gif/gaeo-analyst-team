@@ -125,17 +125,77 @@ def select_recommended_horizon(performance):
             "status": "accumulating", "horizon": None,
             "reason": "표본 수와 구간 안정성이 기준에 도달할 때까지 추천을 보류합니다.",
         }
-    best = max(
-        eligible,
-        key=lambda row: (
-            (row.get("hitRate") or 0) + (row.get("averageExcessReturn") or 0) * 2 + (row.get("stability") or 0) * 0.1,
-            -(row.get("horizon") or 0),
-        ),
-    )
+    maximum_sample = max((row.get("sampleCount") or 0) for row in eligible) or 1
+    def normalized_excess(value):
+        return max(0.0, min(100.0, 50.0 + float(value or 0) * 10.0))
+    def composite(row):
+        return round(
+            (row.get("hitRate") or 0) * 0.25
+            + normalized_excess(row.get("averageExcessReturn")) * 0.20
+            + normalized_excess(row.get("medianExcessReturn")) * 0.15
+            + (row.get("stability") or 0) * 0.15
+            + (row.get("recentReproduction") or 0) * 0.15
+            + min(100.0, (row.get("sampleCount") or 0) / maximum_sample * 100.0) * 0.10,
+            2,
+        )
+    best = max(eligible, key=lambda row: (composite(row), -(row.get("horizon") or 0)))
+    evidence = {
+        "hitRate": best.get("hitRate"),
+        "averageExcessReturn": best.get("averageExcessReturn"),
+        "medianExcessReturn": best.get("medianExcessReturn"),
+        "stability": best.get("stability"),
+        "recentReproduction": best.get("recentReproduction"),
+        "sampleCount": best.get("sampleCount"),
+        "compositeScore": composite(best),
+    }
     return {
         "status": "ready", "horizon": best["horizon"],
-        "reason": f"표본 {best['sampleCount']}회에서 적중률·초과수익·구간 안정성을 함께 비교한 결과입니다.",
+        "reason": f"표본 {best['sampleCount']}회에서 적중률·평균/중앙 초과수익·안정성·최근 재현을 함께 비교한 결과입니다.",
+        "evidence": evidence,
+        "regimeMatchStatus": "accumulating",
     }
+
+
+def summarize_similar_markets(cases, sectors, horizon, period_start, period_end, trading_days):
+    """Summarize known similar cases for every sector without inventing missing outcomes."""
+    by_sector = {}
+    for sector in sectors:
+        rows = []
+        for case in cases or []:
+            sector_return = (case.get("sectorOutcomes") or {}).get(sector)
+            benchmark = case.get("benchmarkReturn")
+            if sector_return is None or benchmark is None:
+                continue
+            excess = float(sector_return) - float(benchmark)
+            rows.append({
+                "date": case.get("date"),
+                "similarity": round(max(0.0, 100.0 - float(case.get("distance") or 0) * 20.0), 1),
+                "sectorReturn": round(float(sector_return), 2),
+                "benchmarkReturn": round(float(benchmark), 2),
+                "excessReturn": round(excess, 2),
+                "success": excess > 0,
+            })
+        excess_values = [row["excessReturn"] for row in rows]
+        successes = sum(row["success"] for row in rows)
+        by_sector[sector] = {
+            "status": "ready" if len(rows) >= 3 else "accumulating",
+            "periodStart": period_start,
+            "periodEnd": period_end,
+            "tradingDays": trading_days,
+            "horizon": horizon,
+            "benchmark": "500종목 업종 중앙값",
+            "successDefinition": f"향후 {horizon}거래일 업종수익률 > 500종목 업종 중앙값",
+            "sampleCount": len(rows),
+            "successCount": successes,
+            "failureCount": len(rows) - successes,
+            "reproductionRate": round(successes / len(rows) * 100, 1) if rows else None,
+            "averageExcessReturn": round(sum(excess_values) / len(excess_values), 2) if rows else None,
+            "medianExcessReturn": round(statistics.median(excess_values), 2) if rows else None,
+            "currentSimilarity": max((row["similarity"] for row in rows), default=None),
+            "sampleReliability": "높음" if len(rows) >= 30 else "보통" if len(rows) >= 10 else "낮음",
+            "cases": rows,
+        }
+    return {"status": "ready" if any(row["sampleCount"] >= 3 for row in by_sector.values()) else "accumulating", "bySector": by_sector}
 
 
 def build_walk_forward_cases(dates, sectors, series, lookback=20, outcome_horizon=5):
@@ -157,6 +217,11 @@ def build_walk_forward_cases(dates, sectors, series, lookback=20, outcome_horizo
         history.append({
             "date": dates[end],
             "vector": vector,
+            "sectorOutcomes": {
+                sector: round(future_values[index] * 100, 2)
+                for index, sector in enumerate(sectors)
+            },
+            "benchmarkReturn": round(future_median * 100, 2),
             "outcome": {
                 "leader": sectors[winner_index],
                 "return": round(future_values[winner_index] * 100, 2),
@@ -182,11 +247,17 @@ def build_shadow_model(root=HERE):
         return model
 
     edges = compute_lead_lag(series, max_lag=20, min_pairs=60)
-    history, records, current_vector = build_walk_forward_cases(dates, sectors, series)
-    similar = find_similar_periods(history, current_vector, dates[-1], embargo_days=30, top_n=5)
-    calibration = walk_forward_calibration(records, minimum_per_group=60)
     horizon_performance = evaluate_horizons(dates, sectors, series, minimum_samples=40)
     recommended_horizon = select_recommended_horizon(horizon_performance)
+    outcome_horizon = int(recommended_horizon.get("horizon") or 5)
+    history, records, current_vector = build_walk_forward_cases(
+        dates, sectors, series, outcome_horizon=outcome_horizon
+    )
+    similar = find_similar_periods(history, current_vector, dates[-1], embargo_days=30, top_n=5)
+    similar_summary = summarize_similar_markets(
+        similar, sectors, outcome_horizon, dates[0], dates[-1], len(dates)
+    )
+    calibration = walk_forward_calibration(records, minimum_per_group=60)
 
     lead_strength = Counter()
     for edge in edges:
@@ -214,6 +285,8 @@ def build_shadow_model(root=HERE):
             "status": "ready" if len(similar) >= 3 else "accumulating",
             "cases": similar,
             "embargoDays": 30,
+            "horizon": outcome_horizon,
+            "bySector": similar_summary["bySector"],
         },
         "horizonPerformance": horizon_performance,
         "recommendedHorizon": recommended_horizon,

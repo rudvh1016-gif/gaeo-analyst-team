@@ -1,4 +1,4 @@
-const CACHE = 'gaeo-shell-v8';
+const CACHE = 'gaeo-shell-v9';
 const SHELL = [
   './',
   './index.html',
