@@ -1,7 +1,9 @@
-const CACHE = 'gaeo-shell-v9';
+const CACHE = 'gaeo-shell-v10';
 const SHELL = [
   './',
   './index.html',
+  './insight-rail.css',
+  './insight-rail.js',
   './manifest.json',
   './gaeo-flower-symbol.png',
   './gaeo-flower-symbol.webp',

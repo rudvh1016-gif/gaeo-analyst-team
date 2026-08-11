@@ -3311,6 +3311,7 @@
     .gr-chip,.gr-row{transition:none!important}
   }
 </style>
+<link rel="stylesheet" href="insight-rail.css?v=20260812-v1">
 </head>
 <body>
 <noscript>
@@ -5362,9 +5363,10 @@ function analysisTally(){
 // 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
 function jumpToStock(name){
   const inp=document.getElementById('ticker'); if(!inp) return;
+  const selected=resolveStock(name);
   const mb=document.getElementById('mode-single'); if(mb) mb.click();
   inp.value=name;
-  showQuote(resolveStock(name));         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
+  showQuote(selected);         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
   window.__gaeoNoAutoScroll=true;        // 이후 종합판단 viz 자동스크롤 억제(시세 카드 유지)
   // 누르는 즉시 시세 카드로 이동 — html{scroll-behavior:smooth} 때문에 잠깐 즉시이동으로
   const scrollNow=()=>{ const el=document.getElementById('quote'); if(!el) return;
@@ -5711,6 +5713,9 @@ function bioOf(code, sector){
   return b || (sector?`${sector} 업종 종목`:'');
 }
 function showQuote(st){
+  if(window.GaeoInsightRail&&typeof window.GaeoInsightRail.recordRecent==='function'){
+    window.GaeoInsightRail.recordRecent(st);
+  }
   document.getElementById('qname').textContent=st.name;
   document.getElementById('qcode').textContent=st.price?st.code:'';
   updateWatchToggle(st.price?st.code:null);
@@ -12028,5 +12033,6 @@ window.hangulFix=function(str){
   syncMode();
 })();
 </script>
+<script src="insight-rail.js?v=20260812-v1"></script>
 </body>
 </html>
