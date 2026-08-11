@@ -13,7 +13,7 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v10'\]/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v5','rotation-ui\.js\?v=20260812-v11'\]/);
 assert.match(html, /rotation\.css\?v=20260812-v9/);
 assert.match(html, /m==='rotation'/);
 
@@ -51,6 +51,7 @@ const fixture = {
     shortTerm: { horizon: 5, name: '화장품·미용', score: 69.3, signal: '주도', period: { periodStart: '2026-01-17', periodEnd: '2026-01-22', tradingDays: 5 } },
     leaders: [{ name: '반도체', score: 61, signal: '관찰 후보' }],
     candidate: { name: '바이오·제약', score: 59.4, signal: '관찰 후보' },
+    candidateObservationPeriod: { periodStart: '2026-08-12', periodEnd: '2026-09-09', tradingDays: 20 },
     interpretation: '현재 반도체에 힘이 모입니다. 종합점수 61점은 업종 간 상대 위치이며 확률이 아닙니다.',
     disclaimer: '예측 화면이 아니라 현재 흐름 참고 화면입니다.'
   },
@@ -76,6 +77,8 @@ assert.match(rendered, /class="rot-hero-summary"[^>]*>현재 반도체에 힘이
 assert.doesNotMatch(rendered, /모델 rotation-shadow-v2/);
 assert.match(rendered, /현재 1위 업종 · 추천 20거래일 기준/);
 assert.match(rendered, /다음 관찰 후보 · 추천 20거래일 기준/);
+assert.match(rendered, /예상 관찰기간 2026\.08\.12~2026\.09\.09 \(20거래일·휴장일 제외\)/);
+assert.doesNotMatch(rendered, /1위 전환 예상일/);
 assert.match(rendered, /계산기간 2026\.01\.02~2026\.01\.22/);
 assert.match(rendered, /단기 참고 · 5거래일 1위 화장품·미용/);
 assert.match(rendered, /<span>시장 국면 · 최근 20거래일<\/span><strong>하락 · 확대<\/strong>/);
