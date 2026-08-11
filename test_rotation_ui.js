@@ -13,8 +13,8 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v9'\]/);
-assert.match(html, /rotation\.css\?v=20260812-v8/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v10'\]/);
+assert.match(html, /rotation\.css\?v=20260812-v9/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -104,6 +104,13 @@ assert.match(rendered, /매 거래일마다 당시까지의 최근 20거래일�
 assert.match(rendered, /그다음 20거래일 동안 시장 업종 중앙값보다 높은 수익을 냈는지 확인하는 방식입니다/);
 assert.match(rendered, /평가를 하루씩 이동해 반복하므로 서로 겹치는 관찰기간이 포함됩니다/);
 assert.match(rendered, /251회는 거래일 수나 서로 독립된 투자 횟수가 아니라, 이렇게 평가한 시작일 251개의 결과입니다/);
+assert.match(rendered, /class="rot-metric-explanation"[^>]*aria-label="과거 성과 지표 설명"/);
+assert.match(rendered, /<strong>지표 읽는 법<\/strong>/);
+assert.match(rendered, /<dt>적중률<\/dt><dd>전체 중첩 평가 중 당시 1위 업종이 이후 관찰기간에 500종목 업종 중앙값보다 높은 수익을 낸 비율/);
+assert.match(rendered, /<dt>안정성<\/dt><dd>검증기간을 앞뒤 절반으로 나눈 두 적중률의 차이를 100에서 뺀 일관성 점수/);
+assert.match(rendered, /안정성 80은 적중률 80%라는 뜻이 아니며/);
+assert.match(rendered, /<dt>최근 재현<\/dt><dd>가장 최근 20개 평가 시작점만 따로 계산한 적중률/);
+assert.match(rendered, /<dt>평균 초과<\/dt><dd>각 평가에서 1위 업종 수익률과 500종목 업종 중앙값 수익률의 차이를 구한 뒤 전체 평균한 값/);
 assert.match(rendered, /장 마감 후 저장되는 업종별 점수/);
 assert.match(rendered, /보통 다음 거래일 마감 뒤부터/);
 assert.match(rendered, /20거래일 성과는 약 4주/);
@@ -120,6 +127,7 @@ assert.match(mobileRendered, /<circle r="34"><\/circle>/);
 const css = fs.readFileSync(path.join(root, 'rotation.css'), 'utf8');
 assert.match(css, /\.rot-help\{/);
 assert.match(css, /\.rot-accumulation-note\{/);
+assert.match(css, /\.rot-metric-explanation\{/);
 assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.35fr repeat\(4,minmax\(0,1fr\)\)/);
 
 console.log('rotation UI contract passed');
