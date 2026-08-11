@@ -82,6 +82,7 @@
 .rot-stock>small.rot-stock-volume{margin-top:-3px;color:#526070;font-size:7.5px;font-weight:700}
 .rot-history-value{display:flex;align-items:end;gap:9px;padding:14px;border-radius:13px;background:#f7f8fa}.rot-history-value strong{font-size:25px;letter-spacing:-.04em}.rot-history-value span{padding-bottom:3px;color:#285ea8;font-size:10px;font-weight:800}.rot-analysis-copy{margin:10px 0 0;color:#737a84;font-size:9px;line-height:1.55}
 .rot-performance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.rot-performance-card{padding:13px;border:1px solid #e3e5e8;border-radius:13px}.rot-performance-card.recommended{border-color:#8cb4f5;background:#f3f7fd}.rot-performance-card span{display:block;color:#606873;font-size:8px;font-weight:800}.rot-performance-card strong{display:block;margin-top:8px;font-size:16px}.rot-performance-card small{display:block;margin-top:6px;color:#747b86;font-size:8px;line-height:1.55}
+.rot-overlap-explanation{margin-top:12px;color:#7b8089;font-size:8px;line-height:1.65}.rot-overlap-explanation strong{display:block;margin-bottom:2px;color:#59616d;font-size:8.5px}.rot-overlap-explanation span{display:block}
 .rot-method{margin-top:14px;padding:16px 18px;border:1px solid #e3e5e8;border-radius:17px;background:#fff}
 .rot-method summary{cursor:pointer;color:#424a55;font-size:10px;font-weight:800}
 .rot-method-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;color:#707781;font-size:9px;line-height:1.6}
@@ -96,6 +97,7 @@ html.gdark .rot-card-lead,html.gdark .rot-map,html.gdark .rot-rank,html.gdark .r
 html.gdark .rot-hero h2,html.gdark .rot-asof strong,html.gdark .rot-card strong,html.gdark .rot-panel-head h3,html.gdark .rot-rank,html.gdark .rot-detail h3{color:#f5f5f7}
 html.gdark .rot-hero p,html.gdark .rot-asof,html.gdark .rot-card span,html.gdark .rot-card small,html.gdark .rot-panel-head p,html.gdark .rot-rank-name small,html.gdark .rot-meter-head,html.gdark .rot-evidence-item span,html.gdark .rot-method-body,html.gdark .rot-map-legend{color:#aeb3bb}
 html.gdark .rot-warning{border-color:#b78a35;background:#2b271f;color:#d9ccb0}
+html.gdark .rot-overlap-explanation{color:#aeb3bb}html.gdark .rot-overlap-explanation strong{color:#d7dae0}
 html.gdark .rot-meter-track{background:#45454a}
 html.gdark .rot-help{background:#242427;border-color:#555b65;color:#c8ccd3}
 html.gdark .rot-accumulation-note{background:#18181a;border-color:#343438;color:#aeb3bb}html.gdark .rot-accumulation-note>strong,html.gdark .rot-accumulation-note b{color:#e1e3e7}
