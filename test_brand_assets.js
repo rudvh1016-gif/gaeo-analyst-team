@@ -129,7 +129,7 @@ assert.match(index, /og:image" content="https:\/\/gaeoteam\.com\/gaeo-share-v3\.
 assert.doesNotMatch(about, /id="gaeo-symbol"|원과 반원으로 이루어진 GAEO 심볼/);
 assert.match(about, /<img class="brand-symbol" src="gaeo-flower-symbol\.png" alt="GAEO"/);
 assert.match(about, /gaeo-flower-symbol\.png" alt="GAEO" width="910" height="882"/);
-assert.match(about, /<img src="app-icon-192\.png" alt="GAEO 앱 아이콘"/);
+assert.match(about, /<img src="app-icon-1024\.png" srcset="app-icon-512\.png 512w, app-icon-1024\.png 1024w" sizes="[^\"]+" alt="GAEO 앱 아이콘" width="1024" height="1024"/);
 assert.doesNotMatch(about, />Black<|>White<|>Gray</);
 
 const maskable = manifest.icons.find(icon => icon.purpose === 'maskable');
