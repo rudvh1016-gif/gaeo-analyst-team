@@ -3803,20 +3803,32 @@
   </div>
 </div>
 
-<script src="tickers.js?v=20260731-cache4"></script>
-<script src="stock_bios.js?v=20260731-cache4" onerror="window.STOCK_BIO=window.STOCK_BIO||null"></script>
-<script src="data.js?v=20260731-cache4"></script>
-<script src="site_config.js?v=20260731-cache4"></script>
-<script src="community.js?v=20260731-cache4"></script>
-<script src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></script>
-<script src="snap/home_brief.js?v=20260731-cache4" onerror="window.HOME_BRIEF=window.HOME_BRIEF||null"></script>
-<script src="analysis.js?v=20260731-cache4"></script>
-<script src="indicators.js?v=20260731-cache4"></script>
-<script src="radar.js?v=20260731-cache4" onerror="window.GAEO_RADAR=window.GAEO_RADAR||null"></script>
-<script src="market_history.js?v=20260731-cache4"></script>
-<script src="dow_stats.js?v=20260731-cache4" onerror="window.DOW_STATS=window.DOW_STATS||null"></script>
-<script src="team_weights.js?v=20260731-cache4" onerror="window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null"></script>
-<script src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></script>
+<script>
+// ⭐ 2026-08-11: data.js·indicators.js 등은 파이프라인이 10~30분마다 새로 커밋하는데,
+// 캐시버스터(?v=)가 2026-07-31로 고정돼 있어서 브라우저가 며칠 전 캐시를 계속 재사용하는
+// 사고가 있었다(수급 카드가 8/11에도 8/7 데이터를 보여주는 식). 10분 단위로 값이 바뀌는
+// 캐시버스터를 써서, 새로고침만 하면 항상 최신 파일을 받아오게 한다.
+(function(){
+  var v=Math.floor(Date.now()/600000); // 10분마다 바뀌는 값
+  var onerr={
+    'stock_bios.js':'window.STOCK_BIO=window.STOCK_BIO||null',
+    'snap/home_brief.js':'window.HOME_BRIEF=window.HOME_BRIEF||null',
+    'radar.js':'window.GAEO_RADAR=window.GAEO_RADAR||null',
+    'dow_stats.js':'window.DOW_STATS=window.DOW_STATS||null',
+    'team_weights.js':'window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null'
+  };
+  function w(f){
+    var attr=onerr[f]?' onerror="'+onerr[f]+'"':'';
+    document.write('<scr'+'ipt src="'+f+'?v='+v+'"'+attr+'></scr'+'ipt>');
+  }
+  // 원래 순서 그대로 유지(정적 버전 파일 2개는 그 자리에서 건드리지 않음)
+  ['tickers.js','stock_bios.js','data.js','site_config.js','community.js'].forEach(w);
+  document.write('<scr'+'ipt src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></scr'+'ipt>');
+  w('snap/home_brief.js');
+  ['analysis.js','indicators.js','radar.js','market_history.js','dow_stats.js','team_weights.js'].forEach(w);
+  document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
+})();
+</script>
 <script>
 /* 첫 화면에 필요 없는 큰 자료는 사용자가 해당 메뉴를 열 때만 내려받는다. */
 window.GaeoFeatures=(()=>{
@@ -3837,9 +3849,11 @@ window.GaeoFeatures=(()=>{
     rotation:['rotation_snapshot.js?v=20260810-v3','rotation-ui.js?v=20260811-v6']
   };
   const jobs={};
+  // ⭐ 2026-08-11: 정적으로 고정된 캐시버스터 대신 10분마다 바뀌는 값을 써서, history.js·
+  // auto_analysis.js처럼 파이프라인이 자주 갱신하는 지연로딩 파일도 오래된 캐시가 안 붙게 한다.
   const loadFile=src=>new Promise((resolve,reject)=>{
     const script=document.createElement('script');
-    script.src=src+(src.includes('?')?'&':'?')+'v=20260731-cache4';
+    script.src=src+(src.includes('?')?'&':'?')+'v='+Math.floor(Date.now()/600000);
     script.onload=resolve;
     script.onerror=()=>reject(new Error(src+' 자료를 불러오지 못했습니다.'));
     document.head.appendChild(script);
