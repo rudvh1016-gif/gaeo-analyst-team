@@ -13,8 +13,8 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260811-v7'\]/);
-assert.match(html, /rotation\.css\?v=20260811-v7/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260811-v4','rotation-ui\.js\?v=20260812-v8'\]/);
+assert.match(html, /rotation\.css\?v=20260812-v8/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -99,10 +99,10 @@ assert.match(rendered, /aria-label="상승 탄력 설명: 업종 수익 흐름"/
 assert.match(rendered, /class="rot-accumulation-note"/);
 assert.match(rendered, /class="rot-overlap-explanation"/);
 assert.match(rendered, /중첩 평가란\?/);
-assert.match(rendered, /매 거래일마다 당시까지의 최근 20거래일로 1위 업종을 다시 선정/);
-assert.match(rendered, /그다음 20거래일 동안 업종 중앙값보다 높은 수익/);
-assert.match(rendered, /시작일을 하루씩 옮겨 반복하므로 관찰기간이 서로 겹칩니다/);
-assert.match(rendered, /251회는 거래일 수나 서로 독립된 투자 횟수가 아니라, 평가를 시작한 날짜 251개의 결과/);
+assert.match(rendered, /매 거래일마다 당시까지의 최근 20거래일로 1위 업종을 다시 선정한 뒤/);
+assert.match(rendered, /그다음 20거래일 동안 시장 업종 중앙값보다 높은 수익을 냈는지 확인하는 방식입니다/);
+assert.match(rendered, /평가를 하루씩 이동해 반복하므로 서로 겹치는 관찰기간이 포함됩니다/);
+assert.match(rendered, /251회는 거래일 수나 서로 독립된 투자 횟수가 아니라, 이렇게 평가한 시작일 251개의 결과입니다/);
 assert.match(rendered, /장 마감 후 저장되는 업종별 점수/);
 assert.match(rendered, /보통 다음 거래일 마감 뒤부터/);
 assert.match(rendered, /20거래일 성과는 약 4주/);
