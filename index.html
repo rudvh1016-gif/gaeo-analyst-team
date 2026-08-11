@@ -256,7 +256,7 @@
       document.documentElement.classList.add('gdark');
   }catch(e){}
 </script>
-<title>Gaeo · 내 종목에 달라진 것만, 하루 3분</title>
+<title>Gaeo · 달라진 흐름만 빠르게</title>
 <meta name="description" content="한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 쉬운 말로 확인하세요. 시세·재무·수급·확률 지표와 데이터 기준 시각을 함께 보여드립니다." />
 <link rel="canonical" href="https://gaeoteam.com/" />
 <!-- 네이버 서치어드바이저에 제출하는 RSS. 새 글이 올라오면 네이버 검색로봇이 사이트를 훑으러
@@ -289,7 +289,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Gaeo">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://gaeoteam.com/#website","name":"Gaeo · 내 종목에 달라진 것만, 하루 3분","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","inLanguage":"ko-KR","publisher":{"@id":"https://gaeoteam.com/#organization"}},{"@type":"Organization","@id":"https://gaeoteam.com/#organization","name":"Gaeo","alternateName":"개오 애널리스트팀","url":"https://gaeoteam.com/","logo":"https://gaeoteam.com/app-icon-192.png","description":"AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수급·CHIEF 총괄)이 한국 주식 500종목을 매일 같은 기준으로 살펴보고 쉬운 말로 판단과 근거를 알려주는 리서치 서비스.","slogan":"Understand More, Make Better Decisions"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://gaeoteam.com/#website","name":"Gaeo · 달라진 흐름만 빠르게","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","inLanguage":"ko-KR","publisher":{"@id":"https://gaeoteam.com/#organization"}},{"@type":"Organization","@id":"https://gaeoteam.com/#organization","name":"Gaeo","alternateName":"개오 애널리스트팀","url":"https://gaeoteam.com/","logo":"https://gaeoteam.com/app-icon-192.png","description":"AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수급·CHIEF 총괄)이 한국 주식 500종목을 매일 같은 기준으로 살펴보고 쉬운 말로 판단과 근거를 알려주는 리서치 서비스.","slogan":"Understand More, Make Better Decisions"}]}</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -2608,9 +2608,7 @@
   .hero-note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gaeo-600)}
   .hero-title{position:relative;z-index:1;margin:0;color:var(--gaeo-ink);
     font-size:clamp(38px,3.25vw,54px);font-weight:850;line-height:1.12;
-    letter-spacing:-.035em;word-spacing:.04em}
-  .hero-title>span,.hero-title>em{display:block;white-space:nowrap}
-  .hero-title em{color:var(--gaeo-700);font-style:normal}
+    letter-spacing:-.035em;word-spacing:.04em;white-space:nowrap}
   .home-dashboard .tagline{position:relative;z-index:1;max-width:650px;margin:14px 0 0;
     font-size:14px;line-height:1.58;font-weight:560;color:var(--gaeo-ink);letter-spacing:-.012em}
   .home-dashboard .tagline-line{display:block;white-space:nowrap}
@@ -3480,7 +3478,7 @@
             <span class="hero-note">판단 변화 기록</span>
             <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
           </div>
-          <h1 class="hero-title"><span>달라진 것만</span><em>하루 3분</em></h1>
+          <h1 class="hero-title">달라진 흐름만 빠르게</h1>
           <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
           <div class="hero-actions">
             <button class="hero-action primary" id="heroLatestBtn" type="button">최근 뉴스, 공부 자료 확인하기</button>
@@ -11854,7 +11852,7 @@ window.hangulFix=function(str){
   btn.innerHTML='📤';
   document.body.appendChild(btn);
   btn.onclick=async()=>{
-    const data={title:'Gaeo · 내 종목에 달라진 것만, 하루 3분', text:'추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 확인해보세요.', url:location.href};
+    const data={title:'Gaeo · 달라진 흐름만 빠르게', text:'추천보다 이유를, 예측보다 기록을. 내 종목의 오늘 판단과 달라진 이유를 확인해보세요.', url:location.href};
     if(navigator.share){ try{ await navigator.share(data); trackShare('native'); }catch(e){} }
     else{
       try{ await navigator.clipboard.writeText(location.href);
