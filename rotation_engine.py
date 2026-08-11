@@ -12,6 +12,8 @@ import statistics
 from collections import defaultdict
 from datetime import datetime
 
+from krx_calendar import future_trading_period
+
 
 HORIZONS = (1, 3, 5, 20, 60, 120, 200)
 PUBLIC_HORIZONS = (1, 3, 5, 20)
@@ -608,6 +610,7 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
         for sector in sector_rows[:5]
     ]
     active = [item for item in leaders if item["signal"] in ("주도", "관찰 후보") and item["score"] >= 58]
+    candidate = active[1] if len(active) > 1 else None
     state = "active" if active else "no-signal"
     headline = f"{active[0]['name']} 중심 순환 신호 관찰" if active else "뚜렷한 순환 신호 없음"
     first = active[0] if active else leaders[0] if leaders else None
@@ -648,6 +651,19 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
     if not dates or len(set(dates)) < 250:
         warnings.append("Lead-Lag와 유사 시장은 통계 축적 중입니다.")
 
+    summary = {
+        "state": state, "headline": headline, "leaders": leaders,
+        "candidate": candidate,
+        "horizon": summary_horizon,
+        "period": period_metadata(combined_index, summary_horizon),
+        "shortTerm": short_term,
+        "interpretation": interpretation,
+        "scoreMeaning": score_meaning,
+        "disclaimer": "예측 화면이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.",
+    }
+    if candidate and recommended.get("status") == "ready" and dates:
+        summary["candidateObservationPeriod"] = future_trading_period(max(dates), summary_horizon)
+
     return {
         "schemaVersion": 1,
         "generatedAt": generated_at,
@@ -660,16 +676,7 @@ def build_snapshot(stocks, sectors, markets, indices, indicators=None, model=Non
             "calibratedThrough": (model or {}).get("calibratedThrough"),
             "highConfidenceUnlocked": bool(((model or {}).get("calibration") or {}).get("highOutperformsModerate")),
         },
-        "summary": {
-            "state": state, "headline": headline, "leaders": leaders,
-            "candidate": active[1] if len(active) > 1 else None,
-            "horizon": summary_horizon,
-            "period": period_metadata(combined_index, summary_horizon),
-            "shortTerm": short_term,
-            "interpretation": interpretation,
-            "scoreMeaning": score_meaning,
-            "disclaimer": "예측 화면이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.",
-        },
+        "summary": summary,
         "componentGuide": [
             {"key": name, "label": COMPONENT_LABELS[name], "description": COMPONENT_DESCRIPTIONS[name]}
             for name in MODEL_COMPONENTS
