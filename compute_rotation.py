@@ -48,6 +48,8 @@ def load_inputs(root=HERE):
     markets_all = {str(row.get("c")): str(row.get("m") or "KOSPI") for row in krx_rows}
     indicators_path = root / "indicators.json"
     indicators = json.loads(indicators_path.read_text(encoding="utf-8")) if indicators_path.exists() else {"stocks": {}}
+    auto_path = root / "auto_analysis.js"
+    auto_payload = load_js_value(auto_path, "LIVE_AUTO") if auto_path.exists() else {"stocks": {}}
 
     stocks = {
         code: flatten_pages(price_history.get(code, []))
@@ -64,6 +66,7 @@ def load_inputs(root=HERE):
         "markets": {code: markets_all.get(code, "KOSPI") for code in configured},
         "indices": indices,
         "indicators": indicators.get("stocks") or {},
+        "autoAnalysis": auto_payload.get("stocks") or {},
     }
 
 
@@ -273,7 +276,7 @@ def build_current_snapshot(root=HERE, mode="intraday", now=None):
     cutoff = f"{latest} {'종가' if mode == 'close' else moment.strftime('%H:%M') + ' 장중'}"
     snapshot = build_snapshot(
         inputs["stocks"], inputs["sectors"], inputs["markets"], inputs["indices"],
-        indicators=inputs["indicators"], names=inputs["names"], model=model,
+        indicators=inputs["indicators"], names=inputs["names"], auto_analysis=inputs["autoAnalysis"], model=model,
         generated_at=moment.strftime("%Y-%m-%d %H:%M"), data_cutoff=cutoff,
     )
     snapshot = apply_score_history(snapshot, load_archive(Path(root) / "rotation_archive.json"))
