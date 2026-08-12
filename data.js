@@ -1,23 +1,23 @@
-// 자동 생성: update_prices.py · 2026-08-12 종가 (16:06 수집)
+// 자동 생성: update_prices.py · 2026-08-13 장전 (전일 종가 · 08:59 수집)
 const LIVE_DATA = {
- "date": "2026-08-12 종가 (16:06 수집)",
+ "date": "2026-08-13 장전 (전일 종가 · 08:59 수집)",
  "indices": {
   "KOSPI": {
    "value": 6579.04,
-   "change": 233.51,
-   "rate": 3.68
+   "change": 0.0,
+   "rate": 0.0
   },
   "KOSDAQ": {
    "value": 858.91,
-   "change": 1.07,
-   "rate": 0.12
+   "change": 0.0,
+   "rate": 0.0
   }
  },
  "stocks": {
   "080220": {
    "name": "제주반도체",
    "price": 87000,
-   "rate": -3.76,
+   "rate": 0.0,
    "per": 26.46,
    "pbr": 9.6,
    "roe": 36.3,
@@ -30,7 +30,7 @@ const LIVE_DATA = {
   "005930": {
    "name": "삼성전자",
    "price": 255500,
-   "rate": 6.68,
+   "rate": 0.0,
    "per": 20.65,
    "pbr": 3.55,
    "roe": 17.2,
@@ -43,7 +43,7 @@ const LIVE_DATA = {
   "000660": {
    "name": "SK하이닉스",
    "price": 1504000,
-   "rate": 5.54,
+   "rate": 0.0,
    "per": 14.53,
    "pbr": 6.48,
    "roe": 44.6,
@@ -56,7 +56,7 @@ const LIVE_DATA = {
   "402340": {
    "name": "SK스퀘어",
    "price": 1024000,
-   "rate": 8.36,
+   "rate": 0.0,
    "per": 8.7,
    "pbr": 3.74,
    "roe": 43.0,
@@ -69,7 +69,7 @@ const LIVE_DATA = {
   "009150": {
    "name": "삼성전기",
    "price": 1335000,
-   "rate": 5.78,
+   "rate": 0.0,
    "per": 126.1,
    "pbr": 10.28,
    "roe": 8.1,
@@ -82,7 +82,7 @@ const LIVE_DATA = {
   "009155": {
    "name": "삼성전기우",
    "price": 462000,
-   "rate": 5.84,
+   "rate": 0.0,
    "per": 43.64,
    "pbr": 3.56,
    "roe": 8.1,
@@ -95,7 +95,7 @@ const LIVE_DATA = {
   "011070": {
    "name": "LG이노텍",
    "price": 604000,
-   "rate": 10.02,
+   "rate": 0.0,
    "per": 29.49,
    "pbr": 2.35,
    "roe": 8.0,
@@ -108,7 +108,7 @@ const LIVE_DATA = {
   "267260": {
    "name": "HD현대일렉트릭",
    "price": 782000,
-   "rate": 5.82,
+   "rate": 0.0,
    "per": 35.84,
    "pbr": 13.53,
    "roe": 37.8,
@@ -121,7 +121,7 @@ const LIVE_DATA = {
   "010120": {
    "name": "LS일렉트릭",
    "price": 208500,
-   "rate": 2.71,
+   "rate": 0.0,
    "per": 92.75,
    "pbr": 14.99,
    "roe": 16.2,
@@ -134,7 +134,7 @@ const LIVE_DATA = {
   "005380": {
    "name": "현대차",
    "price": 409500,
-   "rate": 1.61,
+   "rate": 0.0,
    "per": 12.62,
    "pbr": 0.9,
    "roe": 7.1,
@@ -147,7 +147,7 @@ const LIVE_DATA = {
   "042700": {
    "name": "한미반도체",
    "price": 217500,
-   "rate": 2.11,
+   "rate": 0.0,
    "per": 116.5,
    "pbr": 32.44,
    "roe": 27.8,
@@ -160,7 +160,7 @@ const LIVE_DATA = {
   "007660": {
    "name": "이수페타시스",
    "price": 90100,
-   "rate": 2.62,
+   "rate": 0.0,
    "per": 37.98,
    "pbr": 8.31,
    "roe": 21.9,
@@ -173,7 +173,7 @@ const LIVE_DATA = {
   "017670": {
    "name": "SK텔레콤",
    "price": 87800,
-   "rate": 2.09,
+   "rate": 0.0,
    "per": 51.47,
    "pbr": 1.41,
    "roe": 2.7,
@@ -186,7 +186,7 @@ const LIVE_DATA = {
   "035420": {
    "name": "NAVER",
    "price": 215500,
-   "rate": 0.7,
+   "rate": 0.0,
    "per": 18.7,
    "pbr": 1.09,
    "roe": 5.8,
@@ -199,7 +199,7 @@ const LIVE_DATA = {
   "035720": {
    "name": "카카오",
    "price": 39550,
-   "rate": -2.83,
+   "rate": 0.0,
    "per": 35.6,
    "pbr": 1.52,
    "roe": 4.3,
@@ -212,7 +212,7 @@ const LIVE_DATA = {
   "000270": {
    "name": "기아",
    "price": 135600,
-   "rate": 0.97,
+   "rate": 0.0,
    "per": 7.63,
    "pbr": 0.85,
    "roe": 11.2,
@@ -225,7 +225,7 @@ const LIVE_DATA = {
   "105560": {
    "name": "KB금융",
    "price": 166000,
-   "rate": -0.36,
+   "rate": 0.0,
    "per": 10.5,
    "pbr": 0.99,
    "roe": 9.5,
@@ -238,7 +238,7 @@ const LIVE_DATA = {
   "247540": {
    "name": "에코프로비엠",
    "price": 114400,
-   "rate": 4.19,
+   "rate": 0.0,
    "per": 195.56,
    "pbr": 6.27,
    "roe": 3.2,
@@ -251,7 +251,7 @@ const LIVE_DATA = {
   "373220": {
    "name": "LG에너지솔루션",
    "price": 358500,
-   "rate": 1.13,
+   "rate": 0.0,
    "per": -52.33,
    "pbr": 3.78,
    "roe": -7.2,
@@ -264,20 +264,20 @@ const LIVE_DATA = {
   "032830": {
    "name": "삼성생명",
    "price": 302500,
-   "rate": 4.49,
+   "rate": 0.0,
    "per": 21.07,
    "pbr": 0.67,
    "roe": 3.2,
    "eps": 14356.0,
    "div": 1.75,
    "cap": "60조",
-   "w52": "122,800 ~ 518,000",
+   "w52": "125,000 ~ 518,000",
    "stale": false
   },
   "207940": {
    "name": "삼성바이오로직스",
    "price": 1549000,
-   "rate": -3.73,
+   "rate": 0.0,
    "per": 50.33,
    "pbr": 9.04,
    "roe": 18.0,
@@ -290,7 +290,7 @@ const LIVE_DATA = {
   "028260": {
    "name": "삼성물산",
    "price": 357500,
-   "rate": 3.77,
+   "rate": 0.0,
    "per": 23.97,
    "pbr": 0.94,
    "roe": 3.9,
@@ -303,7 +303,7 @@ const LIVE_DATA = {
   "329180": {
    "name": "HD현대중공업",
    "price": 496000,
-   "rate": -1.39,
+   "rate": 0.0,
    "per": 24.51,
    "pbr": 5.36,
    "roe": 21.9,
@@ -316,7 +316,7 @@ const LIVE_DATA = {
   "055550": {
    "name": "신한지주",
    "price": 103800,
-   "rate": -0.67,
+   "rate": 0.0,
    "per": 9.9,
    "pbr": 0.83,
    "roe": 8.4,
@@ -329,7 +329,7 @@ const LIVE_DATA = {
   "034020": {
    "name": "두산에너빌리티",
    "price": 80300,
-   "rate": 3.08,
+   "rate": 0.0,
    "per": 333.2,
    "pbr": 6.4,
    "roe": 1.9,
@@ -342,7 +342,7 @@ const LIVE_DATA = {
   "012450": {
    "name": "한화에어로스페이스",
    "price": 1156000,
-   "rate": 5.28,
+   "rate": 0.0,
    "per": 36.31,
    "pbr": 5.97,
    "roe": 16.4,
@@ -355,7 +355,7 @@ const LIVE_DATA = {
   "034730": {
    "name": "SK",
    "price": 545000,
-   "rate": 4.01,
+   "rate": 0.0,
    "per": 15.15,
    "pbr": 1.01,
    "roe": 6.7,
@@ -368,7 +368,7 @@ const LIVE_DATA = {
   "012330": {
    "name": "현대모비스",
    "price": 498500,
-   "rate": 0.61,
+   "rate": 0.0,
    "per": 13.02,
    "pbr": 0.88,
    "roe": 6.7,
@@ -381,7 +381,7 @@ const LIVE_DATA = {
   "068270": {
    "name": "셀트리온",
    "price": 202000,
-   "rate": -4.04,
+   "rate": 0.0,
    "per": 38.65,
    "pbr": 2.63,
    "roe": 6.8,
@@ -394,7 +394,7 @@ const LIVE_DATA = {
   "086790": {
    "name": "하나금융지주",
    "price": 127900,
-   "rate": 0.16,
+   "rate": 0.0,
    "per": 8.81,
    "pbr": 0.76,
    "roe": 8.6,
@@ -407,7 +407,7 @@ const LIVE_DATA = {
   "006400": {
    "name": "삼성SDI",
    "price": 485500,
-   "rate": 5.66,
+   "rate": 0.0,
    "per": -85.39,
    "pbr": 1.69,
    "roe": -2.0,
@@ -420,7 +420,7 @@ const LIVE_DATA = {
   "066570": {
    "name": "LG전자",
    "price": 205000,
-   "rate": 12.82,
+   "rate": 0.0,
    "per": 37.82,
    "pbr": 1.44,
    "roe": 3.8,
@@ -433,7 +433,7 @@ const LIVE_DATA = {
   "000810": {
    "name": "삼성화재",
    "price": 628000,
-   "rate": -2.03,
+   "rate": 0.0,
    "per": 15.12,
    "pbr": 1.11,
    "roe": 7.3,
@@ -446,7 +446,7 @@ const LIVE_DATA = {
   "298040": {
    "name": "효성중공업",
    "price": 2892000,
-   "rate": 2.15,
+   "rate": 0.0,
    "per": 53.4,
    "pbr": 11.24,
    "roe": 21.0,
@@ -459,7 +459,7 @@ const LIVE_DATA = {
   "042660": {
    "name": "한화오션",
    "price": 90100,
-   "rate": 1.24,
+   "rate": 0.0,
    "per": 18.04,
    "pbr": 4.05,
    "roe": 22.4,
@@ -472,7 +472,7 @@ const LIVE_DATA = {
   "005490": {
    "name": "POSCO홀딩스",
    "price": 325000,
-   "rate": -0.46,
+   "rate": 0.0,
    "per": 31.98,
    "pbr": 0.43,
    "roe": 1.4,
@@ -485,7 +485,7 @@ const LIVE_DATA = {
   "009540": {
    "name": "HD한국조선해양",
    "price": 380500,
-   "rate": -4.4,
+   "rate": 0.0,
    "per": 10.7,
    "pbr": 1.99,
    "roe": 18.6,
@@ -498,7 +498,7 @@ const LIVE_DATA = {
   "006800": {
    "name": "미래에셋증권",
    "price": 36500,
-   "rate": 2.82,
+   "rate": 0.0,
    "per": 11.45,
    "pbr": 1.51,
    "roe": 13.2,
@@ -511,7 +511,7 @@ const LIVE_DATA = {
   "015760": {
    "name": "한국전력",
    "price": 35450,
-   "rate": 0.71,
+   "rate": 0.0,
    "per": 2.61,
    "pbr": 0.45,
    "roe": 17.3,
@@ -524,7 +524,7 @@ const LIVE_DATA = {
   "316140": {
    "name": "우리금융지주",
    "price": 33000,
-   "rate": -2.37,
+   "rate": 0.0,
    "per": 7.83,
    "pbr": 0.63,
    "roe": 8.1,
@@ -537,7 +537,7 @@ const LIVE_DATA = {
   "000150": {
    "name": "두산",
    "price": 1254000,
-   "rate": 6.54,
+   "rate": 0.0,
    "per": 292.58,
    "pbr": 10.16,
    "roe": 3.5,
@@ -550,7 +550,7 @@ const LIVE_DATA = {
   "010130": {
    "name": "고려아연",
    "price": 1215000,
-   "rate": -1.14,
+   "rate": 0.0,
    "per": 25.33,
    "pbr": 2.21,
    "roe": 8.7,
@@ -563,7 +563,7 @@ const LIVE_DATA = {
   "010140": {
    "name": "삼성중공업",
    "price": 21750,
-   "rate": -0.23,
+   "rate": 0.0,
    "per": 34.47,
    "pbr": 4.12,
    "roe": 11.9,
@@ -576,7 +576,7 @@ const LIVE_DATA = {
   "064350": {
    "name": "현대로템",
    "price": 146500,
-   "rate": 3.61,
+   "rate": 0.0,
    "per": 19.67,
    "pbr": 4.97,
    "roe": 25.2,
@@ -589,7 +589,7 @@ const LIVE_DATA = {
   "138040": {
    "name": "메리츠금융지주",
    "price": 119000,
-   "rate": -3.88,
+   "rate": 0.0,
    "per": 8.92,
    "pbr": 1.83,
    "roe": 20.5,
@@ -602,7 +602,7 @@ const LIVE_DATA = {
   "051910": {
    "name": "LG화학",
    "price": 275500,
-   "rate": 0.55,
+   "rate": 0.0,
    "per": -10.47,
    "pbr": 0.62,
    "roe": -5.9,
@@ -615,7 +615,7 @@ const LIVE_DATA = {
   "011200": {
    "name": "HMM",
    "price": 21350,
-   "rate": -1.39,
+   "rate": 0.0,
    "per": 13.96,
    "pbr": 0.72,
    "roe": 5.2,
@@ -628,7 +628,7 @@ const LIVE_DATA = {
   "033780": {
    "name": "KT&G",
    "price": 177400,
-   "rate": -1.39,
+   "rate": 0.0,
    "per": 17.47,
    "pbr": 1.99,
    "roe": 11.4,
@@ -641,7 +641,7 @@ const LIVE_DATA = {
   "096770": {
    "name": "SK이노베이션",
    "price": 122400,
-   "rate": -1.37,
+   "rate": 0.0,
    "per": -9.29,
    "pbr": 0.88,
    "roe": -9.4,
@@ -667,7 +667,7 @@ const LIVE_DATA = {
   "079550": {
    "name": "LIG디펜스앤에어로스페이스",
    "price": 788000,
-   "rate": 3.68,
+   "rate": 0.0,
    "per": 55.76,
    "pbr": 11.41,
    "roe": 20.5,
@@ -680,7 +680,7 @@ const LIVE_DATA = {
   "267250": {
    "name": "HD현대",
    "price": 230500,
-   "rate": 2.67,
+   "rate": 0.0,
    "per": 11.94,
    "pbr": 1.49,
    "roe": 12.5,
@@ -693,7 +693,7 @@ const LIVE_DATA = {
   "018260": {
    "name": "삼성에스디에스",
    "price": 235500,
-   "rate": -0.63,
+   "rate": 0.0,
    "per": 28.45,
    "pbr": 1.84,
    "roe": 6.5,
@@ -706,7 +706,7 @@ const LIVE_DATA = {
   "003550": {
    "name": "LG",
    "price": 109600,
-   "rate": 1.2,
+   "rate": 0.0,
    "per": 34.97,
    "pbr": 0.56,
    "roe": 1.6,
@@ -719,7 +719,7 @@ const LIVE_DATA = {
   "010950": {
    "name": "S-Oil",
    "price": 141500,
-   "rate": -0.07,
+   "rate": 0.0,
    "per": 17.51,
    "pbr": 1.72,
    "roe": 9.8,
@@ -732,7 +732,7 @@ const LIVE_DATA = {
   "086280": {
    "name": "현대글로비스",
    "price": 199700,
-   "rate": -0.89,
+   "rate": 0.0,
    "per": 8.94,
    "pbr": 1.44,
    "roe": 16.1,
@@ -745,7 +745,7 @@ const LIVE_DATA = {
   "047810": {
    "name": "한국항공우주",
    "price": 144100,
-   "rate": 6.35,
+   "rate": 0.0,
    "per": 71.02,
    "pbr": 7.54,
    "roe": 10.6,
@@ -758,20 +758,20 @@ const LIVE_DATA = {
   "278470": {
    "name": "에이피알",
    "price": 397000,
-   "rate": 2.98,
+   "rate": 0.0,
    "per": 41.8,
    "pbr": 29.34,
    "roe": 70.2,
    "eps": 9498.0,
    "div": 1.28,
    "cap": "15조",
-   "w52": "199,850 ~ 473,000",
+   "w52": "204,000 ~ 473,000",
    "stale": false
   },
   "030200": {
    "name": "KT",
    "price": 52700,
-   "rate": -0.19,
+   "rate": 0.0,
    "per": 8.61,
    "pbr": 0.7,
    "roe": 8.1,
@@ -784,7 +784,7 @@ const LIVE_DATA = {
   "272210": {
    "name": "한화시스템",
    "price": 75600,
-   "rate": 3.7,
+   "rate": 0.0,
    "per": 89.57,
    "pbr": 2.86,
    "roe": 3.2,
@@ -797,7 +797,7 @@ const LIVE_DATA = {
   "307950": {
    "name": "현대오토에버",
    "price": 433000,
-   "rate": 0.12,
+   "rate": 0.0,
    "per": 65.68,
    "pbr": 6.52,
    "roe": 9.9,
@@ -810,7 +810,7 @@ const LIVE_DATA = {
   "000720": {
    "name": "현대건설",
    "price": 113800,
-   "rate": 1.34,
+   "rate": 0.0,
    "per": 30.01,
    "pbr": 1.4,
    "roe": 4.7,
@@ -823,7 +823,7 @@ const LIVE_DATA = {
   "005940": {
    "name": "NH투자증권",
    "price": 28550,
-   "rate": 0.71,
+   "rate": 0.0,
    "per": 8.01,
    "pbr": 1.07,
    "roe": 13.4,
@@ -836,7 +836,7 @@ const LIVE_DATA = {
   "259960": {
    "name": "크래프톤",
    "price": 235000,
-   "rate": -3.69,
+   "rate": 0.0,
    "per": 12.71,
    "pbr": 1.41,
    "roe": 11.1,
@@ -849,7 +849,7 @@ const LIVE_DATA = {
   "323410": {
    "name": "카카오뱅크",
    "price": 21750,
-   "rate": -2.03,
+   "rate": 0.0,
    "per": 19.58,
    "pbr": 1.56,
    "roe": 8.0,
@@ -862,7 +862,7 @@ const LIVE_DATA = {
   "006260": {
    "name": "LS",
    "price": 337000,
-   "rate": 4.5,
+   "rate": 0.0,
    "per": 31.59,
    "pbr": 1.82,
    "roe": 5.8,
@@ -875,7 +875,7 @@ const LIVE_DATA = {
   "005830": {
    "name": "DB손해보험",
    "price": 159000,
-   "rate": -3.34,
+   "rate": 0.0,
    "per": 7.02,
    "pbr": 0.83,
    "roe": 11.9,
@@ -888,7 +888,7 @@ const LIVE_DATA = {
   "016360": {
    "name": "삼성증권",
    "price": 93100,
-   "rate": 0.43,
+   "rate": 0.0,
    "per": 6.87,
    "pbr": 1.02,
    "roe": 14.8,
@@ -901,7 +901,7 @@ const LIVE_DATA = {
   "003490": {
    "name": "대한항공",
    "price": 26500,
-   "rate": -0.56,
+   "rate": 0.0,
    "per": 15.87,
    "pbr": 0.9,
    "roe": 5.7,
@@ -914,7 +914,7 @@ const LIVE_DATA = {
   "352820": {
    "name": "하이브",
    "price": 179500,
-   "rate": -0.44,
+   "rate": 0.0,
    "per": -16.59,
    "pbr": 2.3,
    "roe": -13.9,
@@ -927,7 +927,7 @@ const LIVE_DATA = {
   "180640": {
    "name": "한진칼",
    "price": 118200,
-   "rate": 0.25,
+   "rate": 0.0,
    "per": 47.51,
    "pbr": 2.33,
    "roe": 4.9,
@@ -940,7 +940,7 @@ const LIVE_DATA = {
   "161390": {
    "name": "한국타이어앤테크놀로지",
    "price": 70100,
-   "rate": 7.02,
+   "rate": 0.0,
    "per": 7.78,
    "pbr": 0.67,
    "roe": 8.6,
@@ -966,7 +966,7 @@ const LIVE_DATA = {
   "039490": {
    "name": "키움증권",
    "price": 299000,
-   "rate": -0.33,
+   "rate": 0.0,
    "per": 6.01,
    "pbr": 1.13,
    "roe": 18.9,
@@ -979,7 +979,7 @@ const LIVE_DATA = {
   "047050": {
    "name": "포스코인터내셔널",
    "price": 55800,
-   "rate": -0.53,
+   "rate": 0.0,
    "per": 14.44,
    "pbr": 1.41,
    "roe": 9.8,
@@ -992,7 +992,7 @@ const LIVE_DATA = {
   "028050": {
    "name": "삼성E&A",
    "price": 49300,
-   "rate": 0.72,
+   "rate": 0.0,
    "per": 15.52,
    "pbr": 2.01,
    "roe": 13.0,
@@ -1005,7 +1005,7 @@ const LIVE_DATA = {
   "003230": {
    "name": "삼양식품",
    "price": 1204000,
-   "rate": -3.99,
+   "rate": 0.0,
    "per": 20.85,
    "pbr": 6.53,
    "roe": 31.3,
@@ -1018,7 +1018,7 @@ const LIVE_DATA = {
   "078930": {
    "name": "GS",
    "price": 101000,
-   "rate": 3.59,
+   "rate": 0.0,
    "per": 7.26,
    "pbr": 0.63,
    "roe": 8.6,
@@ -1031,7 +1031,7 @@ const LIVE_DATA = {
   "090430": {
    "name": "아모레퍼시픽",
    "price": 135700,
-   "rate": -1.17,
+   "rate": 0.0,
    "per": 40.15,
    "pbr": 1.71,
    "roe": 4.3,
@@ -1044,7 +1044,7 @@ const LIVE_DATA = {
   "326030": {
    "name": "SK바이오팜",
    "price": 88200,
-   "rate": -2.54,
+   "rate": 0.0,
    "per": 19.8,
    "pbr": 7.41,
    "roe": 37.4,
@@ -1057,7 +1057,7 @@ const LIVE_DATA = {
   "021240": {
    "name": "코웨이",
    "price": 95800,
-   "rate": -1.84,
+   "rate": 0.0,
    "per": 10.41,
    "pbr": 1.82,
    "roe": 17.5,
@@ -1070,7 +1070,7 @@ const LIVE_DATA = {
   "032640": {
    "name": "LG유플러스",
    "price": 14880,
-   "rate": -4.55,
+   "rate": 0.0,
    "per": 12.02,
    "pbr": 0.71,
    "roe": 5.9,
@@ -1083,7 +1083,7 @@ const LIVE_DATA = {
   "241560": {
    "name": "두산밥캣",
    "price": 63600,
-   "rate": -0.31,
+   "rate": 0.0,
    "per": 14.42,
    "pbr": 0.81,
    "roe": 5.6,
@@ -1096,7 +1096,7 @@ const LIVE_DATA = {
   "353200": {
    "name": "대덕전자",
    "price": 107200,
-   "rate": 2.39,
+   "rate": 0.0,
    "per": 55.89,
    "pbr": 6.01,
    "roe": 10.8,
@@ -1109,7 +1109,7 @@ const LIVE_DATA = {
   "004170": {
    "name": "신세계",
    "price": 399000,
-   "rate": -6.88,
+   "rate": 0.0,
    "per": 50.24,
    "pbr": 0.75,
    "roe": 1.5,
@@ -1122,7 +1122,7 @@ const LIVE_DATA = {
   "196170": {
    "name": "알테오젠",
    "price": 317500,
-   "rate": -3.05,
+   "rate": 0.0,
    "per": 170.88,
    "pbr": 44.17,
    "roe": 25.9,
@@ -1135,7 +1135,7 @@ const LIVE_DATA = {
   "086520": {
    "name": "에코프로",
    "price": 91300,
-   "rate": 1.11,
+   "rate": 0.0,
    "per": 201.99,
    "pbr": 5.62,
    "roe": 2.8,
@@ -1148,7 +1148,7 @@ const LIVE_DATA = {
   "036930": {
    "name": "주성엔지니어링",
    "price": 174000,
-   "rate": 7.14,
+   "rate": 0.0,
    "per": 1208.33,
    "pbr": 13.55,
    "roe": 1.1,
@@ -1161,7 +1161,7 @@ const LIVE_DATA = {
   "277810": {
    "name": "레인보우로보틱스",
    "price": 490000,
-   "rate": 2.08,
+   "rate": 0.0,
    "per": 7656.25,
    "pbr": 71.52,
    "roe": 0.9,
@@ -1174,7 +1174,7 @@ const LIVE_DATA = {
   "240810": {
    "name": "원익IPS",
    "price": 111500,
-   "rate": 6.49,
+   "rate": 0.0,
    "per": 49.4,
    "pbr": 5.52,
    "roe": 11.2,
@@ -1187,7 +1187,7 @@ const LIVE_DATA = {
   "058470": {
    "name": "리노공업",
    "price": 71400,
-   "rate": -0.14,
+   "rate": 0.0,
    "per": 33.38,
    "pbr": 7.62,
    "roe": 22.8,
@@ -1200,7 +1200,7 @@ const LIVE_DATA = {
   "319660": {
    "name": "피에스케이",
    "price": 132800,
-   "rate": 2.87,
+   "rate": 0.0,
    "per": 38.62,
    "pbr": 6.79,
    "roe": 17.6,
@@ -1213,7 +1213,7 @@ const LIVE_DATA = {
   "028300": {
    "name": "HLB",
    "price": 41600,
-   "rate": -0.83,
+   "rate": 0.0,
    "per": -28.24,
    "pbr": 13.32,
    "roe": -47.2,
@@ -1226,7 +1226,7 @@ const LIVE_DATA = {
   "000250": {
    "name": "삼천당제약",
    "price": 186200,
-   "rate": -2.87,
+   "rate": 0.0,
    "per": 427.06,
    "pbr": 14.62,
    "roe": 3.4,
@@ -1239,7 +1239,7 @@ const LIVE_DATA = {
   "039030": {
    "name": "이오테크닉스",
    "price": 385500,
-   "rate": 4.61,
+   "rate": 0.0,
    "per": 64.16,
    "pbr": 6.72,
    "roe": 10.5,
@@ -1252,7 +1252,7 @@ const LIVE_DATA = {
   "222800": {
    "name": "심텍",
    "price": 104600,
-   "rate": -8.17,
+   "rate": 0.0,
    "per": -31.63,
    "pbr": 6.55,
    "roe": -20.7,
@@ -1265,7 +1265,7 @@ const LIVE_DATA = {
   "298380": {
    "name": "에이비엘바이오",
    "price": 86800,
-   "rate": -2.58,
+   "rate": 0.0,
    "per": -197.72,
    "pbr": 26.9,
    "roe": -13.6,
@@ -1278,7 +1278,7 @@ const LIVE_DATA = {
   "141080": {
    "name": "리가켐바이오",
    "price": 115100,
-   "rate": -1.54,
+   "rate": 0.0,
    "per": -30.51,
    "pbr": 9.06,
    "roe": -29.7,
@@ -1291,7 +1291,7 @@ const LIVE_DATA = {
   "084370": {
    "name": "유진테크",
    "price": 129200,
-   "rate": 0.62,
+   "rate": 0.0,
    "per": 52.24,
    "pbr": 6.1,
    "roe": 11.7,
@@ -1304,7 +1304,7 @@ const LIVE_DATA = {
   "403870": {
    "name": "HPSP",
    "price": 38650,
-   "rate": 0.65,
+   "rate": 0.0,
    "per": 39.2,
    "pbr": 10.72,
    "roe": 27.4,
@@ -1317,7 +1317,7 @@ const LIVE_DATA = {
   "095610": {
    "name": "테스",
    "price": 145900,
-   "rate": -0.07,
+   "rate": 0.0,
    "per": 43.63,
    "pbr": 6.31,
    "roe": 14.5,
@@ -1330,7 +1330,7 @@ const LIVE_DATA = {
   "214450": {
    "name": "파마리서치",
    "price": 408000,
-   "rate": -2.16,
+   "rate": 0.0,
    "per": 26.79,
    "pbr": 6.77,
    "roe": 25.3,
@@ -1343,7 +1343,7 @@ const LIVE_DATA = {
   "095340": {
    "name": "ISC",
    "price": 149200,
-   "rate": 0.4,
+   "rate": 0.0,
    "per": 45.34,
    "pbr": 5.63,
    "roe": 12.4,
@@ -1356,7 +1356,7 @@ const LIVE_DATA = {
   "214150": {
    "name": "클래시스",
    "price": 43800,
-   "rate": -5.5,
+   "rate": 0.0,
    "per": 21.13,
    "pbr": 5.47,
    "roe": 25.9,
@@ -1369,7 +1369,7 @@ const LIVE_DATA = {
   "310210": {
    "name": "보로노이",
    "price": 174900,
-   "rate": -0.91,
+   "rate": 0.0,
    "per": -63.58,
    "pbr": 34.91,
    "roe": -54.9,
@@ -1382,7 +1382,7 @@ const LIVE_DATA = {
   "178320": {
    "name": "서진시스템",
    "price": 37250,
-   "rate": -2.74,
+   "rate": 0.0,
    "per": -17.17,
    "pbr": 2.68,
    "roe": -15.6,
@@ -1395,7 +1395,7 @@ const LIVE_DATA = {
   "131290": {
    "name": "티에스이",
    "price": 250000,
-   "rate": 2.25,
+   "rate": 0.0,
    "per": 38.38,
    "pbr": 6.49,
    "roe": 16.9,
@@ -1408,7 +1408,7 @@ const LIVE_DATA = {
   "145020": {
    "name": "휴젤",
    "price": 268500,
-   "rate": -4.96,
+   "rate": 0.0,
    "per": 21.93,
    "pbr": 2.89,
    "roe": 13.2,
@@ -1421,7 +1421,7 @@ const LIVE_DATA = {
   "067310": {
    "name": "하나마이크론",
    "price": 35450,
-   "rate": 1.29,
+   "rate": 0.0,
    "per": 22.92,
    "pbr": 5.0,
    "roe": 21.8,
@@ -1434,7 +1434,7 @@ const LIVE_DATA = {
   "064760": {
    "name": "티씨케이",
    "price": 229000,
-   "rate": 14.21,
+   "rate": 0.0,
    "per": 34.99,
    "pbr": 4.85,
    "roe": 13.9,
@@ -1447,7 +1447,7 @@ const LIVE_DATA = {
   "237690": {
    "name": "에스티팜",
    "price": 107000,
-   "rate": -0.93,
+   "rate": 0.0,
    "per": 31.75,
    "pbr": 3.65,
    "roe": 11.5,
@@ -1460,7 +1460,7 @@ const LIVE_DATA = {
   "257720": {
    "name": "실리콘투",
    "price": 45250,
-   "rate": 12.98,
+   "rate": 0.0,
    "per": 16.11,
    "pbr": 6.02,
    "roe": 37.4,
@@ -1473,7 +1473,7 @@ const LIVE_DATA = {
   "357780": {
    "name": "솔브레인",
    "price": 327500,
-   "rate": 4.3,
+   "rate": 0.0,
    "per": 30.27,
    "pbr": 2.31,
    "roe": 7.6,
@@ -1486,7 +1486,7 @@ const LIVE_DATA = {
   "005290": {
    "name": "동진쎄미켐",
    "price": 43400,
-   "rate": 0.93,
+   "rate": 0.0,
    "per": 17.19,
    "pbr": 1.96,
    "roe": 11.4,
@@ -1499,20 +1499,20 @@ const LIVE_DATA = {
   "263750": {
    "name": "펄어비스",
    "price": 31550,
-   "rate": -14.5,
+   "rate": 0.0,
    "per": 13.6,
    "pbr": 2.02,
    "roe": 14.8,
    "eps": 2320.0,
    "div": null,
    "cap": "2.0조",
-   "w52": "29,000 ~ 77,400",
+   "w52": "29,250 ~ 77,400",
    "stale": false
   },
   "098460": {
    "name": "고영",
    "price": 31800,
-   "rate": -3.05,
+   "rate": 0.0,
    "per": 80.1,
    "pbr": 6.12,
    "roe": 7.6,
@@ -1525,7 +1525,7 @@ const LIVE_DATA = {
   "131970": {
    "name": "두산테스나",
    "price": 84400,
-   "rate": 15.14,
+   "rate": 0.0,
    "per": 61.92,
    "pbr": 3.67,
    "roe": 5.9,
@@ -1538,7 +1538,7 @@ const LIVE_DATA = {
   "087010": {
    "name": "펩트론",
    "price": 186400,
-   "rate": 1.08,
+   "rate": 0.0,
    "per": -261.43,
    "pbr": 31.86,
    "roe": -12.2,
@@ -1551,7 +1551,7 @@ const LIVE_DATA = {
   "290650": {
    "name": "엘앤씨바이오",
    "price": 56800,
-   "rate": -10.55,
+   "rate": 0.0,
    "per": -10.27,
    "pbr": 6.89,
    "roe": -67.1,
@@ -1564,7 +1564,7 @@ const LIVE_DATA = {
   "003670": {
    "name": "포스코퓨처엠",
    "price": 160000,
-   "rate": 1.98,
+   "rate": 0.0,
    "per": -969.7,
    "pbr": 3.44,
    "roe": -0.4,
@@ -1577,7 +1577,7 @@ const LIVE_DATA = {
   "071050": {
    "name": "한국금융지주",
    "price": 200500,
-   "rate": 1.21,
+   "rate": 0.0,
    "per": 4.99,
    "pbr": 0.92,
    "roe": 18.4,
@@ -1590,7 +1590,7 @@ const LIVE_DATA = {
   "047040": {
    "name": "대우건설",
    "price": 17830,
-   "rate": 2.94,
+   "rate": 0.0,
    "per": -9.57,
    "pbr": 2.04,
    "roe": -21.3,
@@ -1603,7 +1603,7 @@ const LIVE_DATA = {
   "064400": {
    "name": "LG씨엔에스",
    "price": 77300,
-   "rate": 2.25,
+   "rate": 0.0,
    "per": 16.23,
    "pbr": 2.56,
    "roe": 15.8,
@@ -1629,7 +1629,7 @@ const LIVE_DATA = {
   "267270": {
    "name": "HD건설기계",
    "price": 138500,
-   "rate": -2.46,
+   "rate": 0.0,
    "per": 14.11,
    "pbr": 1.41,
    "roe": 10.0,
@@ -1642,7 +1642,7 @@ const LIVE_DATA = {
   "001440": {
    "name": "대한전선",
    "price": 29450,
-   "rate": 4.06,
+   "rate": 0.0,
    "per": 112.4,
    "pbr": 3.46,
    "roe": 3.1,
@@ -1655,7 +1655,7 @@ const LIVE_DATA = {
   "062040": {
    "name": "산일전기",
    "price": 189100,
-   "rate": 2.38,
+   "rate": 0.0,
    "per": 35.23,
    "pbr": 9.71,
    "roe": 27.6,
@@ -1668,7 +1668,7 @@ const LIVE_DATA = {
   "029780": {
    "name": "삼성카드",
    "price": 47100,
-   "rate": -0.32,
+   "rate": 0.0,
    "per": 8.83,
    "pbr": 0.57,
    "roe": 6.5,
@@ -1681,7 +1681,7 @@ const LIVE_DATA = {
   "034220": {
    "name": "LG디스플레이",
    "price": 10120,
-   "rate": 1.81,
+   "rate": 0.0,
    "per": -62.09,
    "pbr": 0.78,
    "roe": -1.3,
@@ -1694,7 +1694,7 @@ const LIVE_DATA = {
   "009830": {
    "name": "한화솔루션",
    "price": 35700,
-   "rate": -1.79,
+   "rate": 0.0,
    "per": -10.5,
    "pbr": 0.71,
    "roe": -6.8,
@@ -1707,7 +1707,7 @@ const LIVE_DATA = {
   "000100": {
    "name": "유한양행",
    "price": 83100,
-   "rate": -2.92,
+   "rate": 0.0,
    "per": 31.75,
    "pbr": 2.71,
    "roe": 8.5,
@@ -1720,7 +1720,7 @@ const LIVE_DATA = {
   "271560": {
    "name": "오리온",
    "price": 132800,
-   "rate": -2.35,
+   "rate": 0.0,
    "per": 13.03,
    "pbr": 1.35,
    "roe": 10.3,
@@ -1733,7 +1733,7 @@ const LIVE_DATA = {
   "036570": {
    "name": "NC",
    "price": 246500,
-   "rate": -3.52,
+   "rate": 0.0,
    "per": 11.6,
    "pbr": 1.36,
    "roe": 11.7,
@@ -1746,7 +1746,7 @@ const LIVE_DATA = {
   "000990": {
    "name": "DB하이텍",
    "price": 95100,
-   "rate": 2.04,
+   "rate": 0.0,
    "per": 14.1,
    "pbr": 1.76,
    "roe": 12.5,
@@ -1759,7 +1759,7 @@ const LIVE_DATA = {
   "377300": {
    "name": "카카오페이",
    "price": 43950,
-   "rate": -2.12,
+   "rate": 0.0,
    "per": 98.32,
    "pbr": 3.08,
    "roe": 3.1,
@@ -1772,7 +1772,7 @@ const LIVE_DATA = {
   "128940": {
    "name": "한미약품",
    "price": 396000,
-   "rate": -4.12,
+   "rate": 0.0,
    "per": 29.42,
    "pbr": 3.87,
    "roe": 13.1,
@@ -1785,7 +1785,7 @@ const LIVE_DATA = {
   "175330": {
    "name": "JB금융지주",
    "price": 27950,
-   "rate": -2.78,
+   "rate": 0.0,
    "per": 7.49,
    "pbr": 0.88,
    "roe": 11.7,
@@ -1798,7 +1798,7 @@ const LIVE_DATA = {
   "454910": {
    "name": "두산로보틱스",
    "price": 76300,
-   "rate": 2.97,
+   "rate": 0.0,
    "per": -89.55,
    "pbr": 14.5,
    "roe": -16.2,
@@ -1811,7 +1811,7 @@ const LIVE_DATA = {
   "011790": {
    "name": "SKC",
    "price": 87000,
-   "rate": 1.99,
+   "rate": 0.0,
    "per": -4.63,
    "pbr": 3.55,
    "roe": -76.6,
@@ -1824,7 +1824,7 @@ const LIVE_DATA = {
   "023530": {
    "name": "롯데쇼핑",
    "price": 97300,
-   "rate": -1.52,
+   "rate": 0.0,
    "per": 16.83,
    "pbr": 0.18,
    "roe": 1.1,
@@ -1837,7 +1837,7 @@ const LIVE_DATA = {
   "000500": {
    "name": "가온전선",
    "price": 162000,
-   "rate": 3.05,
+   "rate": 0.0,
    "per": 86.54,
    "pbr": 9.63,
    "roe": 11.1,
@@ -1850,7 +1850,7 @@ const LIVE_DATA = {
   "001040": {
    "name": "CJ",
    "price": 138300,
-   "rate": 1.84,
+   "rate": 0.0,
    "per": 32.65,
    "pbr": 0.87,
    "roe": 2.7,
@@ -1863,7 +1863,7 @@ const LIVE_DATA = {
   "066970": {
    "name": "엘앤에프",
    "price": 99400,
-   "rate": 0.91,
+   "rate": 0.0,
    "per": -7.75,
    "pbr": 5.82,
    "roe": -75.1,
@@ -1876,7 +1876,7 @@ const LIVE_DATA = {
   "088350": {
    "name": "한화생명",
    "price": 4700,
-   "rate": -0.53,
+   "rate": 0.0,
    "per": 5.52,
    "pbr": 0.24,
    "roe": 4.3,
@@ -1889,7 +1889,7 @@ const LIVE_DATA = {
   "052690": {
    "name": "한전기술",
    "price": 99200,
-   "rate": -0.4,
+   "rate": 0.0,
    "per": 112.98,
    "pbr": 6.41,
    "roe": 5.7,
@@ -1902,7 +1902,7 @@ const LIVE_DATA = {
   "002380": {
    "name": "KCC",
    "price": 454000,
-   "rate": 0.89,
+   "rate": 0.0,
    "per": 2.36,
    "pbr": 0.41,
    "roe": 17.5,
@@ -1915,7 +1915,7 @@ const LIVE_DATA = {
   "082740": {
    "name": "한화엔진",
    "price": 45200,
-   "rate": 1.12,
+   "rate": 0.0,
    "per": 18.2,
    "pbr": 6.18,
    "roe": 34.0,
@@ -1928,7 +1928,7 @@ const LIVE_DATA = {
   "111770": {
    "name": "영원무역",
    "price": 85200,
-   "rate": -6.06,
+   "rate": 0.0,
    "per": 6.82,
    "pbr": 0.84,
    "roe": 12.4,
@@ -1941,7 +1941,7 @@ const LIVE_DATA = {
   "018880": {
    "name": "한온시스템",
    "price": 3865,
-   "rate": 2.11,
+   "rate": 0.0,
    "per": -29.73,
    "pbr": 1.0,
    "roe": -3.4,
@@ -1954,7 +1954,7 @@ const LIVE_DATA = {
   "010060": {
    "name": "OCI홀딩스",
    "price": 256000,
-   "rate": -6.4,
+   "rate": 0.0,
    "per": -54.89,
    "pbr": 1.19,
    "roe": -2.2,
@@ -1967,7 +1967,7 @@ const LIVE_DATA = {
   "051900": {
    "name": "LG생활건강",
    "price": 314000,
-   "rate": -1.41,
+   "rate": 0.0,
    "per": -48.16,
    "pbr": 0.95,
    "roe": -2.0,
@@ -1980,7 +1980,7 @@ const LIVE_DATA = {
   "069960": {
    "name": "현대백화점",
    "price": 97800,
-   "rate": -3.46,
+   "rate": 0.0,
    "per": 10.64,
    "pbr": 0.46,
    "roe": 4.3,
@@ -2006,20 +2006,20 @@ const LIVE_DATA = {
   "001450": {
    "name": "현대해상",
    "price": 41650,
-   "rate": -5.45,
+   "rate": 0.0,
    "per": 3.54,
    "pbr": 0.58,
    "roe": 16.5,
    "eps": 11772.0,
    "div": null,
    "cap": "3.6조",
-   "w52": "25,650 ~ 45,550",
+   "w52": "25,700 ~ 45,550",
    "stale": false
   },
   "103590": {
    "name": "일진전기",
    "price": 72500,
-   "rate": 17.31,
+   "rate": 0.0,
    "per": 29.57,
    "pbr": 5.73,
    "roe": 19.4,
@@ -2032,7 +2032,7 @@ const LIVE_DATA = {
   "035250": {
    "name": "강원랜드",
    "price": 14550,
-   "rate": 0.28,
+   "rate": 0.0,
    "per": 10.99,
    "pbr": 0.76,
    "roe": 6.9,
@@ -2045,7 +2045,7 @@ const LIVE_DATA = {
   "336260": {
    "name": "두산퓨얼셀",
    "price": 35800,
-   "rate": 0.85,
+   "rate": 0.0,
    "per": -21.57,
    "pbr": 8.23,
    "roe": -38.2,
@@ -2058,7 +2058,7 @@ const LIVE_DATA = {
   "251270": {
    "name": "넷마블",
    "price": 39750,
-   "rate": -1.97,
+   "rate": 0.0,
    "per": 9.46,
    "pbr": 0.57,
    "roe": 6.0,
@@ -2084,7 +2084,7 @@ const LIVE_DATA = {
   "036460": {
    "name": "한국가스공사",
    "price": 36650,
-   "rate": 1.95,
+   "rate": 0.0,
    "per": 10.77,
    "pbr": 0.28,
    "roe": 2.6,
@@ -2097,7 +2097,7 @@ const LIVE_DATA = {
   "031210": {
    "name": "서울보증보험",
    "price": 44150,
-   "rate": -0.67,
+   "rate": 0.0,
    "per": 10.06,
    "pbr": 0.62,
    "roe": 6.2,
@@ -2110,7 +2110,7 @@ const LIVE_DATA = {
   "009420": {
    "name": "한올바이오파마",
    "price": 55700,
-   "rate": -2.11,
+   "rate": 0.0,
    "per": -574.23,
    "pbr": 17.43,
    "roe": -3.0,
@@ -2123,7 +2123,7 @@ const LIVE_DATA = {
   "383220": {
    "name": "F&F",
    "price": 66200,
-   "rate": -1.19,
+   "rate": 0.0,
    "per": 4.94,
    "pbr": 1.25,
    "roe": 25.3,
@@ -2136,7 +2136,7 @@ const LIVE_DATA = {
   "011780": {
    "name": "금호석유화학",
    "price": 126300,
-   "rate": -0.86,
+   "rate": 0.0,
    "per": 14.08,
    "pbr": 0.5,
    "roe": 3.6,
@@ -2149,7 +2149,7 @@ const LIVE_DATA = {
   "302440": {
    "name": "SK바이오사이언스",
    "price": 36500,
-   "rate": -2.67,
+   "rate": 0.0,
    "per": -34.37,
    "pbr": 1.62,
    "roe": -4.7,
@@ -2162,7 +2162,7 @@ const LIVE_DATA = {
   "097950": {
    "name": "CJ제일제당",
    "price": 186900,
-   "rate": -0.59,
+   "rate": 0.0,
    "per": -6.08,
    "pbr": 0.4,
    "roe": -6.6,
@@ -2175,7 +2175,7 @@ const LIVE_DATA = {
   "139130": {
    "name": "iM금융지주",
    "price": 16800,
-   "rate": -1.52,
+   "rate": 0.0,
    "per": 6.16,
    "pbr": 0.43,
    "roe": 7.0,
@@ -2188,7 +2188,7 @@ const LIVE_DATA = {
   "028670": {
    "name": "팬오션",
    "price": 5800,
-   "rate": 0.35,
+   "rate": 0.0,
    "per": 9.57,
    "pbr": 0.51,
    "roe": 5.3,
@@ -2201,7 +2201,7 @@ const LIVE_DATA = {
   "012750": {
    "name": "에스원",
    "price": 77000,
-   "rate": 0.39,
+   "rate": 0.0,
    "per": 18.51,
    "pbr": 1.56,
    "roe": 8.4,
@@ -2227,7 +2227,7 @@ const LIVE_DATA = {
   "006360": {
    "name": "GS건설",
    "price": 35200,
-   "rate": 1.29,
+   "rate": 0.0,
    "per": 46.19,
    "pbr": 0.62,
    "roe": 1.3,
@@ -2240,7 +2240,7 @@ const LIVE_DATA = {
   "017800": {
    "name": "현대엘리베이터",
    "price": 70900,
-   "rate": -0.14,
+   "rate": 0.0,
    "per": 10.9,
    "pbr": 2.69,
    "roe": 24.7,
@@ -2253,7 +2253,7 @@ const LIVE_DATA = {
   "450080": {
    "name": "에코프로머티",
    "price": 38600,
-   "rate": 2.8,
+   "rate": 0.0,
    "per": 63.91,
    "pbr": 2.51,
    "roe": 3.9,
@@ -2266,7 +2266,7 @@ const LIVE_DATA = {
   "011170": {
    "name": "롯데케미칼",
    "price": 57900,
-   "rate": -0.34,
+   "rate": 0.0,
    "per": -1.38,
    "pbr": 0.19,
    "roe": -13.7,
@@ -2279,7 +2279,7 @@ const LIVE_DATA = {
   "004800": {
    "name": "효성",
    "price": 162700,
-   "rate": 2.33,
+   "rate": 0.0,
    "per": 8.05,
    "pbr": 1.1,
    "roe": 13.6,
@@ -2292,7 +2292,7 @@ const LIVE_DATA = {
   "005850": {
    "name": "에스엘",
    "price": 57400,
-   "rate": 0.88,
+   "rate": 0.0,
    "per": 7.77,
    "pbr": 1.02,
    "roe": 13.2,
@@ -2305,7 +2305,7 @@ const LIVE_DATA = {
   "026960": {
    "name": "동서",
    "price": 26000,
-   "rate": -1.89,
+   "rate": 0.0,
    "per": 17.98,
    "pbr": 1.53,
    "roe": 8.5,
@@ -2318,7 +2318,7 @@ const LIVE_DATA = {
   "001720": {
    "name": "신영증권",
    "price": 158900,
-   "rate": 2.45,
+   "rate": 0.0,
    "per": 14.44,
    "pbr": 0.63,
    "roe": 4.3,
@@ -2331,7 +2331,7 @@ const LIVE_DATA = {
   "161890": {
    "name": "한국콜마",
    "price": 132500,
-   "rate": 22.8,
+   "rate": 0.0,
    "per": 19.92,
    "pbr": 3.34,
    "roe": 16.8,
@@ -2344,7 +2344,7 @@ const LIVE_DATA = {
   "085620": {
    "name": "미래에셋생명",
    "price": 19050,
-   "rate": 9.55,
+   "rate": 0.0,
    "per": 23.49,
    "pbr": 0.86,
    "roe": 3.7,
@@ -2357,7 +2357,7 @@ const LIVE_DATA = {
   "483650": {
    "name": "달바글로벌",
    "price": 262000,
-   "rate": 6.5,
+   "rate": 0.0,
    "per": 35.29,
    "pbr": 14.04,
    "roe": 39.8,
@@ -2370,7 +2370,7 @@ const LIVE_DATA = {
   "009970": {
    "name": "영원무역홀딩스",
    "price": 188300,
-   "rate": -4.42,
+   "rate": 0.0,
    "per": 6.45,
    "pbr": 0.7,
    "roe": 10.9,
@@ -2383,7 +2383,7 @@ const LIVE_DATA = {
   "375500": {
    "name": "DL이앤씨",
    "price": 73700,
-   "rate": 0.96,
+   "rate": 0.0,
    "per": 6.33,
    "pbr": 0.57,
    "roe": 9.1,
@@ -2396,7 +2396,7 @@ const LIVE_DATA = {
   "003690": {
    "name": "코리안리",
    "price": 14390,
-   "rate": -2.18,
+   "rate": 0.0,
    "per": 6.35,
    "pbr": 0.67,
    "roe": 10.6,
@@ -2409,7 +2409,7 @@ const LIVE_DATA = {
   "000240": {
    "name": "한국앤컴퍼니",
    "price": 25400,
-   "rate": 1.6,
+   "rate": 0.0,
    "per": 6.76,
    "pbr": 0.48,
    "roe": 7.2,
@@ -2422,7 +2422,7 @@ const LIVE_DATA = {
   "081660": {
    "name": "미스토홀딩스",
    "price": 42900,
-   "rate": -1.83,
+   "rate": 0.0,
    "per": 10.77,
    "pbr": 1.12,
    "roe": 10.4,
@@ -2435,7 +2435,7 @@ const LIVE_DATA = {
   "004990": {
    "name": "롯데지주",
    "price": 23600,
-   "rate": -0.21,
+   "rate": 0.0,
    "per": -4.7,
    "pbr": 0.27,
    "roe": -5.8,
@@ -2461,7 +2461,7 @@ const LIVE_DATA = {
   "489790": {
    "name": "한화비전",
    "price": 53000,
-   "rate": 3.92,
+   "rate": 0.0,
    "per": 78.64,
    "pbr": 3.08,
    "roe": 3.9,
@@ -2474,7 +2474,7 @@ const LIVE_DATA = {
   "008930": {
    "name": "한미사이언스",
    "price": 43750,
-   "rate": -5.3,
+   "rate": 0.0,
    "per": 22.0,
    "pbr": 2.96,
    "roe": 13.5,
@@ -2487,7 +2487,7 @@ const LIVE_DATA = {
   "139480": {
    "name": "이마트",
    "price": 79900,
-   "rate": -0.87,
+   "rate": 0.0,
    "per": 17.61,
    "pbr": 0.19,
    "roe": 1.1,
@@ -2500,7 +2500,7 @@ const LIVE_DATA = {
   "073240": {
    "name": "금호타이어",
    "price": 7420,
-   "rate": -1.33,
+   "rate": 0.0,
    "per": 6.16,
    "pbr": 0.95,
    "roe": 15.4,
@@ -2513,7 +2513,7 @@ const LIVE_DATA = {
   "279570": {
    "name": "케이뱅크",
    "price": 5590,
-   "rate": 0.36,
+   "rate": 0.0,
    "per": 16.3,
    "pbr": 0.94,
    "roe": 5.7,
@@ -2526,7 +2526,7 @@ const LIVE_DATA = {
   "005440": {
    "name": "현대지에프홀딩스",
    "price": 11460,
-   "rate": -3.37,
+   "rate": 0.0,
    "per": 5.41,
    "pbr": 0.43,
    "roe": 8.0,
@@ -2539,7 +2539,7 @@ const LIVE_DATA = {
   "007070": {
    "name": "GS리테일",
    "price": 27000,
-   "rate": -2.0,
+   "rate": 0.0,
    "per": 28.3,
    "pbr": 0.69,
    "roe": 2.4,
@@ -2552,7 +2552,7 @@ const LIVE_DATA = {
   "004370": {
    "name": "농심",
    "price": 390000,
-   "rate": -1.39,
+   "rate": 0.0,
    "per": 13.28,
    "pbr": 0.78,
    "roe": 5.9,
@@ -2565,7 +2565,7 @@ const LIVE_DATA = {
   "030000": {
    "name": "제일기획",
    "price": 18900,
-   "rate": -0.79,
+   "rate": 0.0,
    "per": 10.48,
    "pbr": 1.26,
    "roe": 12.0,
@@ -2578,7 +2578,7 @@ const LIVE_DATA = {
   "282330": {
    "name": "BGF리테일",
    "price": 145500,
-   "rate": -3.32,
+   "rate": 0.0,
    "per": 11.91,
    "pbr": 1.98,
    "roe": 16.6,
@@ -2591,7 +2591,7 @@ const LIVE_DATA = {
   "007340": {
    "name": "DN오토모티브",
    "price": 47050,
-   "rate": -1.77,
+   "rate": 0.0,
    "per": 9.43,
    "pbr": 1.14,
    "roe": 12.1,
@@ -2604,7 +2604,7 @@ const LIVE_DATA = {
   "071970": {
    "name": "HD현대마린엔진",
    "price": 57400,
-   "rate": 1.23,
+   "rate": 0.0,
    "per": 10.85,
    "pbr": 3.9,
    "roe": 35.9,
@@ -2617,7 +2617,7 @@ const LIVE_DATA = {
   "051600": {
    "name": "한전KPS",
    "price": 45400,
-   "rate": -0.66,
+   "rate": 0.0,
    "per": 14.34,
    "pbr": 1.56,
    "roe": 10.9,
@@ -2630,7 +2630,7 @@ const LIVE_DATA = {
   "462870": {
    "name": "시프트업",
    "price": 31750,
-   "rate": -5.65,
+   "rate": 0.0,
    "per": 9.73,
    "pbr": 1.92,
    "roe": 19.8,
@@ -2643,7 +2643,7 @@ const LIVE_DATA = {
   "018670": {
    "name": "SK가스",
    "price": 231000,
-   "rate": -3.14,
+   "rate": 0.0,
    "per": 5.31,
    "pbr": 0.66,
    "roe": 12.4,
@@ -2656,7 +2656,7 @@ const LIVE_DATA = {
   "008770": {
    "name": "호텔신라",
    "price": 44050,
-   "rate": -1.23,
+   "rate": 0.0,
    "per": -10.97,
    "pbr": 1.5,
    "roe": -13.6,
@@ -2669,7 +2669,7 @@ const LIVE_DATA = {
   "192820": {
    "name": "코스맥스",
    "price": 249500,
-   "rate": 18.81,
+   "rate": 0.0,
    "per": 18.09,
    "pbr": 4.83,
    "roe": 26.7,
@@ -2682,7 +2682,7 @@ const LIVE_DATA = {
   "281820": {
    "name": "케이씨텍",
    "price": 72500,
-   "rate": 4.62,
+   "rate": 0.0,
    "per": 19.44,
    "pbr": 2.59,
    "roe": 13.3,
@@ -2695,7 +2695,7 @@ const LIVE_DATA = {
   "457190": {
    "name": "이수스페셜티케미컬",
    "price": 66800,
-   "rate": 1.98,
+   "rate": 0.0,
    "per": -1805.41,
    "pbr": 14.97,
    "roe": -0.8,
@@ -2708,7 +2708,7 @@ const LIVE_DATA = {
   "020150": {
    "name": "롯데에너지머티리얼즈",
    "price": 33100,
-   "rate": 2.16,
+   "rate": 0.0,
    "per": -15.87,
    "pbr": 1.01,
    "roe": -6.4,
@@ -2721,7 +2721,7 @@ const LIVE_DATA = {
   "002790": {
    "name": "아모레퍼시픽홀딩스",
    "price": 26400,
-   "rate": -2.22,
+   "rate": 0.0,
    "per": 20.12,
    "pbr": 0.68,
    "roe": 3.4,
@@ -2734,7 +2734,7 @@ const LIVE_DATA = {
   "439260": {
    "name": "대한조선",
    "price": 51700,
-   "rate": 2.38,
+   "rate": 0.0,
    "per": 7.01,
    "pbr": 1.74,
    "roe": 24.9,
@@ -2747,7 +2747,7 @@ const LIVE_DATA = {
   "103140": {
    "name": "풍산",
    "price": 82200,
-   "rate": -1.56,
+   "rate": 0.0,
    "per": 12.55,
    "pbr": 0.96,
    "roe": 7.6,
@@ -2760,7 +2760,7 @@ const LIVE_DATA = {
   "007810": {
    "name": "코리아써키트",
    "price": 63400,
-   "rate": 7.64,
+   "rate": 0.0,
    "per": 24.37,
    "pbr": 3.56,
    "roe": 14.6,
@@ -2773,7 +2773,7 @@ const LIVE_DATA = {
   "001740": {
    "name": "SK네트웍스",
    "price": 8110,
-   "rate": 3.18,
+   "rate": 0.0,
    "per": 18.6,
    "pbr": 0.77,
    "roe": 4.1,
@@ -2786,7 +2786,7 @@ const LIVE_DATA = {
   "000120": {
    "name": "CJ대한통운",
    "price": 74100,
-   "rate": -4.26,
+   "rate": 0.0,
    "per": 7.02,
    "pbr": 0.35,
    "roe": 5.0,
@@ -2799,7 +2799,7 @@ const LIVE_DATA = {
   "011210": {
    "name": "현대위아",
    "price": 65000,
-   "rate": 0.15,
+   "rate": 0.0,
    "per": 50.47,
    "pbr": 0.47,
    "roe": 0.9,
@@ -2812,7 +2812,7 @@ const LIVE_DATA = {
   "112610": {
    "name": "씨에스윈드",
    "price": 43350,
-   "rate": -3.45,
+   "rate": 0.0,
    "per": -106.51,
    "pbr": 1.49,
    "roe": -1.4,
@@ -2825,7 +2825,7 @@ const LIVE_DATA = {
   "120110": {
    "name": "코오롱인더",
    "price": 55900,
-   "rate": -1.24,
+   "rate": 0.0,
    "per": 17.6,
    "pbr": 0.41,
    "roe": 2.3,
@@ -2838,7 +2838,7 @@ const LIVE_DATA = {
   "001800": {
    "name": "오리온홀딩스",
    "price": 26850,
-   "rate": -3.94,
+   "rate": 0.0,
    "per": 12.49,
    "pbr": 0.65,
    "roe": 5.2,
@@ -2851,7 +2851,7 @@ const LIVE_DATA = {
   "023590": {
    "name": "다우기술",
    "price": 40950,
-   "rate": 1.61,
+   "rate": 0.0,
    "per": 2.99,
    "pbr": 0.49,
    "roe": 16.3,
@@ -2864,7 +2864,7 @@ const LIVE_DATA = {
   "097230": {
    "name": "HJ중공업",
    "price": 17830,
-   "rate": 4.45,
+   "rate": 0.0,
    "per": 21.66,
    "pbr": 2.32,
    "roe": 10.7,
@@ -2877,7 +2877,7 @@ const LIVE_DATA = {
   "069620": {
    "name": "대웅제약",
    "price": 124800,
-   "rate": -4.07,
+   "rate": 0.0,
    "per": 7.24,
    "pbr": 1.4,
    "roe": 19.3,
@@ -2890,7 +2890,7 @@ const LIVE_DATA = {
   "006040": {
    "name": "동원산업",
    "price": 36300,
-   "rate": -2.16,
+   "rate": 0.0,
    "per": 3.77,
    "pbr": 0.44,
    "roe": 11.6,
@@ -2903,7 +2903,7 @@ const LIVE_DATA = {
   "020560": {
    "name": "아시아나항공",
    "price": 7200,
-   "rate": 1.12,
+   "rate": 0.0,
    "per": -2.27,
    "pbr": 2.99,
    "roe": -131.3,
@@ -2916,20 +2916,20 @@ const LIVE_DATA = {
   "093370": {
    "name": "후성",
    "price": 10950,
-   "rate": 2.91,
+   "rate": 0.0,
    "per": -254.65,
    "pbr": 3.42,
    "roe": -1.3,
    "eps": -43.0,
    "div": null,
    "cap": "1.2조",
-   "w52": "5,020 ~ 23,550",
+   "w52": "5,220 ~ 23,550",
    "stale": false
   },
   "475150": {
    "name": "SK이터닉스",
    "price": 52700,
-   "rate": 3.13,
+   "rate": 0.0,
    "per": 72.29,
    "pbr": 6.64,
    "roe": 9.2,
@@ -2942,7 +2942,7 @@ const LIVE_DATA = {
   "006280": {
    "name": "녹십자",
    "price": 129500,
-   "rate": -2.41,
+   "rate": 0.0,
    "per": -108.92,
    "pbr": 1.2,
    "roe": -1.1,
@@ -2955,7 +2955,7 @@ const LIVE_DATA = {
   "001120": {
    "name": "LX인터내셔널",
    "price": 37800,
-   "rate": 0.13,
+   "rate": 0.0,
    "per": 14.08,
    "pbr": 0.48,
    "roe": 3.4,
@@ -2968,7 +2968,7 @@ const LIVE_DATA = {
   "229640": {
    "name": "LS에코에너지",
    "price": 48350,
-   "rate": 3.31,
+   "rate": 0.0,
    "per": 34.19,
    "pbr": 6.4,
    "roe": 18.7,
@@ -2981,7 +2981,7 @@ const LIVE_DATA = {
   "003540": {
    "name": "대신증권",
    "price": 27750,
-   "rate": 5.51,
+   "rate": 0.0,
    "per": 9.85,
    "pbr": 0.49,
    "roe": 4.9,
@@ -2994,7 +2994,7 @@ const LIVE_DATA = {
   "005070": {
    "name": "코스모신소재",
    "price": 39700,
-   "rate": 1.15,
+   "rate": 0.0,
    "per": -214.59,
    "pbr": 2.45,
    "roe": -1.1,
@@ -3007,7 +3007,7 @@ const LIVE_DATA = {
   "192080": {
    "name": "더블유게임즈",
    "price": 62000,
-   "rate": 0.32,
+   "rate": 0.0,
    "per": 8.65,
    "pbr": 0.94,
    "roe": 10.9,
@@ -3020,7 +3020,7 @@ const LIVE_DATA = {
   "322000": {
    "name": "HD현대에너지솔루션",
    "price": 121500,
-   "rate": 2.53,
+   "rate": 0.0,
    "per": 20.93,
    "pbr": 3.09,
    "roe": 14.8,
@@ -3033,7 +3033,7 @@ const LIVE_DATA = {
   "017960": {
    "name": "한국카본",
    "price": 24400,
-   "rate": 0.21,
+   "rate": 0.0,
    "per": 13.27,
    "pbr": 2.08,
    "roe": 15.7,
@@ -3046,7 +3046,7 @@ const LIVE_DATA = {
   "007310": {
    "name": "오뚜기",
    "price": 325000,
-   "rate": -2.4,
+   "rate": 0.0,
    "per": 18.14,
    "pbr": 0.53,
    "roe": 2.9,
@@ -3059,20 +3059,20 @@ const LIVE_DATA = {
   "181710": {
    "name": "NHN",
    "price": 61300,
-   "rate": 13.1,
+   "rate": 0.0,
    "per": 34.44,
    "pbr": 1.27,
    "roe": 3.7,
    "eps": 1780.0,
    "div": 0.82,
    "cap": "2.0조",
-   "w52": "24,650 ~ 64,900",
+   "w52": "24,650 ~ 65,000",
    "stale": false
   },
   "298020": {
    "name": "효성티앤씨",
    "price": 318500,
-   "rate": -3.78,
+   "rate": 0.0,
    "per": 47.09,
    "pbr": 0.84,
    "roe": 1.8,
@@ -3085,7 +3085,7 @@ const LIVE_DATA = {
   "361610": {
    "name": "SK아이이테크놀로지",
    "price": 15250,
-   "rate": 0.2,
+   "rate": 0.0,
    "per": -4.39,
    "pbr": 0.49,
    "roe": -11.1,
@@ -3098,7 +3098,7 @@ const LIVE_DATA = {
   "012630": {
    "name": "HDC",
    "price": 22500,
-   "rate": -1.96,
+   "rate": 0.0,
    "per": 4.49,
    "pbr": 0.37,
    "roe": 8.3,
@@ -3124,7 +3124,7 @@ const LIVE_DATA = {
   "089860": {
    "name": "롯데렌탈",
    "price": 44000,
-   "rate": -2.22,
+   "rate": 0.0,
    "per": 12.38,
    "pbr": 1.03,
    "roe": 8.3,
@@ -3137,7 +3137,7 @@ const LIVE_DATA = {
   "032350": {
    "name": "롯데관광개발",
    "price": 13480,
-   "rate": 1.35,
+   "rate": 0.0,
    "per": 24.16,
    "pbr": 2.96,
    "roe": 12.3,
@@ -3150,7 +3150,7 @@ const LIVE_DATA = {
   "294870": {
    "name": "IPARK현대산업개발",
    "price": 21850,
-   "rate": -2.67,
+   "rate": 0.0,
    "per": 9.4,
    "pbr": 0.43,
    "roe": 4.6,
@@ -3163,7 +3163,7 @@ const LIVE_DATA = {
   "034230": {
    "name": "파라다이스",
    "price": 9900,
-   "rate": 0.41,
+   "rate": 0.0,
    "per": 11.45,
    "pbr": 0.5,
    "roe": 4.4,
@@ -3176,7 +3176,7 @@ const LIVE_DATA = {
   "004000": {
    "name": "롯데정밀화학",
    "price": 47000,
-   "rate": -2.89,
+   "rate": 0.0,
    "per": 9.91,
    "pbr": 0.49,
    "roe": 4.9,
@@ -3189,7 +3189,7 @@ const LIVE_DATA = {
   "001820": {
    "name": "삼화콘덴서",
    "price": 88000,
-   "rate": 4.14,
+   "rate": 0.0,
    "per": 66.87,
    "pbr": 3.28,
    "roe": 4.9,
@@ -3202,7 +3202,7 @@ const LIVE_DATA = {
   "001430": {
    "name": "세아베스틸지주",
    "price": 40800,
-   "rate": -1.21,
+   "rate": 0.0,
    "per": 20.37,
    "pbr": 0.75,
    "roe": 3.7,
@@ -3215,7 +3215,7 @@ const LIVE_DATA = {
   "030610": {
    "name": "교보증권",
    "price": 10280,
-   "rate": 1.88,
+   "rate": 0.0,
    "per": 7.34,
    "pbr": 0.54,
    "roe": 7.3,
@@ -3228,7 +3228,7 @@ const LIVE_DATA = {
   "003570": {
    "name": "SNT다이내믹스",
    "price": 32450,
-   "rate": 0.93,
+   "rate": 0.0,
    "per": 16.85,
    "pbr": 0.87,
    "roe": 5.2,
@@ -3241,7 +3241,7 @@ const LIVE_DATA = {
   "300720": {
    "name": "한일시멘트",
    "price": 14710,
-   "rate": -1.28,
+   "rate": 0.0,
    "per": 14.13,
    "pbr": 0.6,
    "roe": 4.2,
@@ -3254,7 +3254,7 @@ const LIVE_DATA = {
   "077970": {
    "name": "STX엔진",
    "price": 28400,
-   "rate": 0.35,
+   "rate": 0.0,
    "per": 15.19,
    "pbr": 3.16,
    "roe": 20.8,
@@ -3267,20 +3267,20 @@ const LIVE_DATA = {
   "000080": {
    "name": "하이트진로",
    "price": 15390,
-   "rate": -1.16,
+   "rate": 0.0,
    "per": 27.78,
    "pbr": 0.97,
    "roe": 3.5,
    "eps": 554.0,
    "div": 4.55,
    "cap": "1.1조",
-   "w52": "13,830 ~ 19,900",
+   "w52": "13,830 ~ 19,820",
    "stale": false
   },
   "071840": {
    "name": "롯데하이마트",
    "price": 6470,
-   "rate": -1.37,
+   "rate": 0.0,
    "per": -16.89,
    "pbr": 0.16,
    "roe": -1.0,
@@ -3293,7 +3293,7 @@ const LIVE_DATA = {
   "003530": {
    "name": "한화투자증권",
    "price": 4660,
-   "rate": 1.86,
+   "rate": 0.0,
    "per": 12.17,
    "pbr": 0.5,
    "roe": 4.1,
@@ -3306,7 +3306,7 @@ const LIVE_DATA = {
   "195870": {
    "name": "해성디에스",
    "price": 57400,
-   "rate": 1.77,
+   "rate": 0.0,
    "per": 28.64,
    "pbr": 1.75,
    "roe": 6.1,
@@ -3319,7 +3319,7 @@ const LIVE_DATA = {
   "003090": {
    "name": "대웅",
    "price": 17900,
-   "rate": -3.24,
+   "rate": 0.0,
    "per": 5.65,
    "pbr": 0.6,
    "roe": 10.7,
@@ -3332,7 +3332,7 @@ const LIVE_DATA = {
   "280360": {
    "name": "롯데웰푸드",
    "price": 122800,
-   "rate": -3.46,
+   "rate": 0.0,
    "per": 17.36,
    "pbr": 0.49,
    "roe": 2.8,
@@ -3345,7 +3345,7 @@ const LIVE_DATA = {
   "185750": {
    "name": "종근당",
    "price": 69100,
-   "rate": -2.81,
+   "rate": 0.0,
    "per": 12.14,
    "pbr": 0.89,
    "roe": 7.3,
@@ -3358,7 +3358,7 @@ const LIVE_DATA = {
   "000210": {
    "name": "DL",
    "price": 50100,
-   "rate": -0.99,
+   "rate": 0.0,
    "per": -19.8,
    "pbr": 0.27,
    "roe": -1.4,
@@ -3371,7 +3371,7 @@ const LIVE_DATA = {
   "003240": {
    "name": "태광산업",
    "price": 917000,
-   "rate": -2.76,
+   "rate": 0.0,
    "per": 29.93,
    "pbr": 0.19,
    "roe": 0.6,
@@ -3384,7 +3384,7 @@ const LIVE_DATA = {
   "005300": {
    "name": "롯데칠성",
    "price": 99900,
-   "rate": -0.99,
+   "rate": 0.0,
    "per": 15.55,
    "pbr": 0.66,
    "roe": 4.2,
@@ -3397,20 +3397,20 @@ const LIVE_DATA = {
   "009450": {
    "name": "경동나비엔",
    "price": 68300,
-   "rate": -11.3,
+   "rate": 0.0,
    "per": 9.1,
    "pbr": 1.21,
    "roe": 13.3,
    "eps": 7509.0,
    "div": 1.1,
    "cap": "1.0조",
-   "w52": "48,300 ~ 99,300",
+   "w52": "48,300 ~ 83,200",
    "stale": false
   },
   "006120": {
    "name": "SK디스커버리",
    "price": 52600,
-   "rate": -2.05,
+   "rate": 0.0,
    "per": 4.16,
    "pbr": 0.31,
    "roe": 7.5,
@@ -3423,7 +3423,7 @@ const LIVE_DATA = {
   "192400": {
    "name": "쿠쿠홀딩스",
    "price": 26700,
-   "rate": -0.74,
+   "rate": 0.0,
    "per": 6.26,
    "pbr": 0.63,
    "roe": 10.0,
@@ -3436,7 +3436,7 @@ const LIVE_DATA = {
   "003470": {
    "name": "유안타증권",
    "price": 4765,
-   "rate": 1.71,
+   "rate": 0.0,
    "per": 6.55,
    "pbr": 0.51,
    "roe": 7.8,
@@ -3449,7 +3449,7 @@ const LIVE_DATA = {
   "006340": {
    "name": "대원전선",
    "price": 16030,
-   "rate": 10.4,
+   "rate": 0.0,
    "per": 100.82,
    "pbr": 9.65,
    "roe": 9.6,
@@ -3462,7 +3462,7 @@ const LIVE_DATA = {
   "100090": {
    "name": "SK오션플랜트",
    "price": 14250,
-   "rate": 1.93,
+   "rate": 0.0,
    "per": 20.18,
    "pbr": 1.08,
    "roe": 5.4,
@@ -3475,7 +3475,7 @@ const LIVE_DATA = {
   "499790": {
    "name": "GS피앤엘",
    "price": 44250,
-   "rate": 0.8,
+   "rate": 0.0,
    "per": 37.5,
    "pbr": 1.02,
    "roe": 2.7,
@@ -3488,7 +3488,7 @@ const LIVE_DATA = {
   "009240": {
    "name": "한샘",
    "price": 39950,
-   "rate": -5.56,
+   "rate": 0.0,
    "per": 23.92,
    "pbr": 1.65,
    "roe": 6.9,
@@ -3501,7 +3501,7 @@ const LIVE_DATA = {
   "030190": {
    "name": "NICE평가정보",
    "price": 15530,
-   "rate": -0.58,
+   "rate": 0.0,
    "per": 11.05,
    "pbr": 1.98,
    "roe": 17.9,
@@ -3514,7 +3514,7 @@ const LIVE_DATA = {
   "036530": {
    "name": "SNT홀딩스",
    "price": 48550,
-   "rate": -0.72,
+   "rate": 0.0,
    "per": 6.6,
    "pbr": 0.51,
    "roe": 7.7,
@@ -3527,7 +3527,7 @@ const LIVE_DATA = {
   "456040": {
    "name": "OCI",
    "price": 79000,
-   "rate": 0.51,
+   "rate": 0.0,
    "per": -32.07,
    "pbr": 0.61,
    "roe": -1.9,
@@ -3540,7 +3540,7 @@ const LIVE_DATA = {
   "071320": {
    "name": "지역난방공사",
    "price": 75200,
-   "rate": 0.13,
+   "rate": 0.0,
    "per": 2.71,
    "pbr": 0.36,
    "roe": 13.1,
@@ -3553,7 +3553,7 @@ const LIVE_DATA = {
   "137310": {
    "name": "에스디바이오센서",
    "price": 6510,
-   "rate": -4.12,
+   "rate": 0.0,
    "per": -1.68,
    "pbr": 0.33,
    "roe": -19.5,
@@ -3566,7 +3566,7 @@ const LIVE_DATA = {
   "214320": {
    "name": "이노션",
    "price": 19270,
-   "rate": -1.18,
+   "rate": 0.0,
    "per": 6.69,
    "pbr": 0.7,
    "roe": 10.5,
@@ -3579,7 +3579,7 @@ const LIVE_DATA = {
   "004490": {
    "name": "세방전지",
    "price": 55700,
-   "rate": -0.71,
+   "rate": 0.0,
    "per": 5.97,
    "pbr": 0.45,
    "roe": 7.6,
@@ -3592,7 +3592,7 @@ const LIVE_DATA = {
   "079160": {
    "name": "CJ CGV",
    "price": 5500,
-   "rate": -3.0,
+   "rate": 0.0,
    "per": -6.23,
    "pbr": 2.32,
    "roe": -37.3,
@@ -3605,7 +3605,7 @@ const LIVE_DATA = {
   "003850": {
    "name": "보령",
    "price": 9190,
-   "rate": -0.43,
+   "rate": 0.0,
    "per": 7.48,
    "pbr": 0.89,
    "roe": 11.9,
@@ -3618,7 +3618,7 @@ const LIVE_DATA = {
   "005690": {
    "name": "파미셀",
    "price": 11780,
-   "rate": 1.64,
+   "rate": 0.0,
    "per": 16.25,
    "pbr": 5.32,
    "roe": 32.8,
@@ -3631,7 +3631,7 @@ const LIVE_DATA = {
   "248070": {
    "name": "솔루엠",
    "price": 15300,
-   "rate": -0.78,
+   "rate": 0.0,
    "per": 58.17,
    "pbr": 1.51,
    "roe": 2.6,
@@ -3644,7 +3644,7 @@ const LIVE_DATA = {
   "000370": {
    "name": "한화손해보험",
    "price": 6200,
-   "rate": 1.14,
+   "rate": 0.0,
    "per": 3.55,
    "pbr": 0.33,
    "roe": 9.4,
@@ -3657,7 +3657,7 @@ const LIVE_DATA = {
   "285130": {
    "name": "SK케미칼",
    "price": 43750,
-   "rate": -2.56,
+   "rate": 0.0,
    "per": 67.72,
    "pbr": 0.37,
    "roe": 0.6,
@@ -3670,7 +3670,7 @@ const LIVE_DATA = {
   "064960": {
    "name": "SNT모티브",
    "price": 27750,
-   "rate": -0.54,
+   "rate": 0.0,
    "per": 10.06,
    "pbr": 0.64,
    "roe": 6.4,
@@ -3683,7 +3683,7 @@ const LIVE_DATA = {
   "006650": {
    "name": "대한유화",
    "price": 89200,
-   "rate": -0.78,
+   "rate": 0.0,
    "per": 6.96,
    "pbr": 0.29,
    "roe": 4.2,
@@ -3696,7 +3696,7 @@ const LIVE_DATA = {
   "002350": {
    "name": "넥센타이어",
    "price": 6490,
-   "rate": 1.25,
+   "rate": 0.0,
    "per": 3.91,
    "pbr": 0.31,
    "roe": 8.0,
@@ -3709,7 +3709,7 @@ const LIVE_DATA = {
   "075580": {
    "name": "세진중공업",
    "price": 11510,
-   "rate": 1.95,
+   "rate": 0.0,
    "per": 12.63,
    "pbr": 2.86,
    "roe": 22.6,
@@ -3722,7 +3722,7 @@ const LIVE_DATA = {
   "000670": {
    "name": "영풍",
    "price": 39300,
-   "rate": -0.38,
+   "rate": 0.0,
    "per": -2.58,
    "pbr": 0.2,
    "roe": -7.6,
@@ -3735,7 +3735,7 @@ const LIVE_DATA = {
   "093050": {
    "name": "LF",
    "price": 22600,
-   "rate": -0.66,
+   "rate": 0.0,
    "per": 6.13,
    "pbr": 0.36,
    "roe": 5.9,
@@ -3748,7 +3748,7 @@ const LIVE_DATA = {
   "025540": {
    "name": "한국단자",
    "price": 65000,
-   "rate": 0.62,
+   "rate": 0.0,
    "per": 5.77,
    "pbr": 0.55,
    "roe": 9.6,
@@ -3761,7 +3761,7 @@ const LIVE_DATA = {
   "298050": {
    "name": "HS효성첨단소재",
    "price": 176600,
-   "rate": -3.66,
+   "rate": 0.0,
    "per": -46.06,
    "pbr": 0.94,
    "roe": -2.0,
@@ -3774,7 +3774,7 @@ const LIVE_DATA = {
   "000400": {
    "name": "롯데손해보험",
    "price": 1992,
-   "rate": -1.14,
+   "rate": 0.0,
    "per": 30.65,
    "pbr": 0.87,
    "roe": 2.9,
@@ -3787,7 +3787,7 @@ const LIVE_DATA = {
   "108320": {
    "name": "LX세미콘",
    "price": 39700,
-   "rate": 0.25,
+   "rate": 0.0,
    "per": 13.31,
    "pbr": 0.58,
    "roe": 4.4,
@@ -3800,7 +3800,7 @@ const LIVE_DATA = {
   "090460": {
    "name": "비에이치",
    "price": 18470,
-   "rate": 1.93,
+   "rate": 0.0,
    "per": 7.71,
    "pbr": 0.77,
    "roe": 10.0,
@@ -3813,7 +3813,7 @@ const LIVE_DATA = {
   "002960": {
    "name": "한국쉘석유",
    "price": 514000,
-   "rate": -0.96,
+   "rate": 0.0,
    "per": 13.37,
    "pbr": 6.06,
    "roe": 45.3,
@@ -3826,7 +3826,7 @@ const LIVE_DATA = {
   "114090": {
    "name": "GKL",
    "price": 9670,
-   "rate": 1.58,
+   "rate": 0.0,
    "per": 12.98,
    "pbr": 1.38,
    "roe": 10.6,
@@ -3852,7 +3852,7 @@ const LIVE_DATA = {
   "317450": {
    "name": "명인제약",
    "price": 48350,
-   "rate": -2.42,
+   "rate": 0.0,
    "per": 7.33,
    "pbr": 0.89,
    "roe": 12.1,
@@ -3865,7 +3865,7 @@ const LIVE_DATA = {
   "069260": {
    "name": "TKG휴켐스",
    "price": 16120,
-   "rate": -0.86,
+   "rate": 0.0,
    "per": 11.09,
    "pbr": 0.7,
    "roe": 6.3,
@@ -3878,7 +3878,7 @@ const LIVE_DATA = {
   "005090": {
    "name": "SGC에너지",
    "price": 57100,
-   "rate": 1.6,
+   "rate": 0.0,
    "per": -14.84,
    "pbr": 1.2,
    "roe": -8.1,
@@ -3891,7 +3891,7 @@ const LIVE_DATA = {
   "002990": {
    "name": "금호건설",
    "price": 14930,
-   "rate": 29.94,
+   "rate": 0.0,
    "per": 7.57,
    "pbr": 2.27,
    "roe": 30.0,
@@ -3904,7 +3904,7 @@ const LIVE_DATA = {
   "003160": {
    "name": "디아이",
    "price": 25000,
-   "rate": -0.4,
+   "rate": 0.0,
    "per": 65.45,
    "pbr": 3.64,
    "roe": 5.6,
@@ -3917,7 +3917,7 @@ const LIVE_DATA = {
   "005880": {
    "name": "대한해운",
    "price": 2015,
-   "rate": -0.25,
+   "rate": 0.0,
    "per": 3.73,
    "pbr": 0.28,
    "roe": 7.5,
@@ -3956,10 +3956,10 @@ const LIVE_DATA = {
   "005180": {
    "name": "빙그레",
    "price": 69900,
-   "rate": -2.24,
+   "rate": 0.0,
    "per": 12.17,
    "pbr": 0.82,
-   "roe": 6.8,
+   "roe": 7.0,
    "eps": 5745.0,
    "div": 4.72,
    "cap": "0.6조",
@@ -3969,7 +3969,7 @@ const LIVE_DATA = {
   "453340": {
    "name": "현대그린푸드",
    "price": 18340,
-   "rate": -1.4,
+   "rate": 0.0,
    "per": 6.18,
    "pbr": 0.79,
    "roe": 12.8,
@@ -3982,7 +3982,7 @@ const LIVE_DATA = {
   "001680": {
    "name": "대상",
    "price": 17880,
-   "rate": -2.4,
+   "rate": 0.0,
    "per": -2.14,
    "pbr": 0.59,
    "roe": -27.6,
@@ -3995,7 +3995,7 @@ const LIVE_DATA = {
   "007700": {
    "name": "F&F홀딩스",
    "price": 14410,
-   "rate": -0.89,
+   "rate": 0.0,
    "per": 3.44,
    "pbr": 0.24,
    "roe": 6.9,
@@ -4008,7 +4008,7 @@ const LIVE_DATA = {
   "033240": {
    "name": "자화전자",
    "price": 27150,
-   "rate": -0.18,
+   "rate": 0.0,
    "per": 7.54,
    "pbr": 1.14,
    "roe": 15.1,
@@ -4021,7 +4021,7 @@ const LIVE_DATA = {
   "383800": {
    "name": "LX홀딩스",
    "price": 8070,
-   "rate": -0.62,
+   "rate": 0.0,
    "per": 6.11,
    "pbr": 0.31,
    "roe": 5.0,
@@ -4034,7 +4034,7 @@ const LIVE_DATA = {
   "003620": {
    "name": "KG모빌리티",
    "price": 2930,
-   "rate": 0.34,
+   "rate": 0.0,
    "per": 8.37,
    "pbr": 0.39,
    "roe": 4.7,
@@ -4047,7 +4047,7 @@ const LIVE_DATA = {
   "001270": {
    "name": "부국증권",
    "price": 57200,
-   "rate": 0.7,
+   "rate": 0.0,
    "per": 19.04,
    "pbr": 0.62,
    "roe": 3.3,
@@ -4060,7 +4060,7 @@ const LIVE_DATA = {
   "014820": {
    "name": "동원시스템즈",
    "price": 21650,
-   "rate": -3.13,
+   "rate": 0.0,
    "per": 10.69,
    "pbr": 0.72,
    "roe": 6.7,
@@ -4073,7 +4073,7 @@ const LIVE_DATA = {
   "001060": {
    "name": "JW중외제약",
    "price": 30000,
-   "rate": 14.29,
+   "rate": 0.0,
    "per": 10.45,
    "pbr": 1.9,
    "roe": 18.2,
@@ -4086,7 +4086,7 @@ const LIVE_DATA = {
   "017940": {
    "name": "E1",
    "price": 87800,
-   "rate": -0.34,
+   "rate": 0.0,
    "per": 5.34,
    "pbr": 0.24,
    "roe": 4.6,
@@ -4099,7 +4099,7 @@ const LIVE_DATA = {
   "002840": {
    "name": "미원상사",
    "price": 121300,
-   "rate": -3.5,
+   "rate": 0.0,
    "per": 13.9,
    "pbr": 1.31,
    "roe": 9.4,
@@ -4112,7 +4112,7 @@ const LIVE_DATA = {
   "001510": {
    "name": "SK증권",
    "price": 2390,
-   "rate": 3.02,
+   "rate": 0.0,
    "per": 11.55,
    "pbr": 0.81,
    "roe": 7.0,
@@ -4125,7 +4125,7 @@ const LIVE_DATA = {
   "002020": {
    "name": "코오롱",
    "price": 27850,
-   "rate": 3.15,
+   "rate": 0.0,
    "per": -2.98,
    "pbr": 0.2,
    "roe": -6.6,
@@ -4138,7 +4138,7 @@ const LIVE_DATA = {
   "006110": {
    "name": "삼아알미늄",
    "price": 52100,
-   "rate": 1.56,
+   "rate": 0.0,
    "per": -29.09,
    "pbr": 3.56,
    "roe": -12.2,
@@ -4151,7 +4151,7 @@ const LIVE_DATA = {
   "178920": {
    "name": "PI첨단소재",
    "price": 20000,
-   "rate": -2.91,
+   "rate": 0.0,
    "per": 16.71,
    "pbr": 1.65,
    "roe": 9.9,
@@ -4164,7 +4164,7 @@ const LIVE_DATA = {
   "000640": {
    "name": "동아쏘시오홀딩스",
    "price": 94800,
-   "rate": -2.27,
+   "rate": 0.0,
    "per": 6.81,
    "pbr": 0.55,
    "roe": 8.0,
@@ -4177,7 +4177,7 @@ const LIVE_DATA = {
   "336370": {
    "name": "솔루스첨단소재",
    "price": 7750,
-   "rate": 1.44,
+   "rate": 0.0,
    "per": -16.32,
    "pbr": 0.99,
    "roe": -6.1,
@@ -4190,7 +4190,7 @@ const LIVE_DATA = {
   "100840": {
    "name": "SNT에너지",
    "price": 28700,
-   "rate": 0.35,
+   "rate": 0.0,
    "per": 5.79,
    "pbr": 1.46,
    "roe": 25.3,
@@ -4203,7 +4203,7 @@ const LIVE_DATA = {
   "003300": {
    "name": "한일홀딩스",
    "price": 16700,
-   "rate": -3.64,
+   "rate": 0.0,
    "per": 14.94,
    "pbr": 0.31,
    "roe": 2.1,
@@ -4216,7 +4216,7 @@ const LIVE_DATA = {
   "016380": {
    "name": "KG스틸",
    "price": 5770,
-   "rate": -0.52,
+   "rate": 0.0,
    "per": 4.32,
    "pbr": 0.27,
    "roe": 6.3,
@@ -4229,7 +4229,7 @@ const LIVE_DATA = {
   "079900": {
    "name": "전진건설로봇",
    "price": 34600,
-   "rate": 0.58,
+   "rate": 0.0,
    "per": 16.21,
    "pbr": 3.29,
    "roe": 20.3,
@@ -4242,7 +4242,7 @@ const LIVE_DATA = {
   "001500": {
    "name": "현대차증권",
    "price": 8220,
-   "rate": -0.12,
+   "rate": 0.0,
    "per": 7.93,
    "pbr": 0.31,
    "roe": 3.9,
@@ -4255,7 +4255,7 @@ const LIVE_DATA = {
   "268280": {
    "name": "미원에스씨",
    "price": 120100,
-   "rate": -2.67,
+   "rate": 0.0,
    "per": 9.04,
    "pbr": 1.26,
    "roe": 13.9,
@@ -4268,7 +4268,7 @@ const LIVE_DATA = {
   "009410": {
    "name": "태영건설",
    "price": 1645,
-   "rate": 0.3,
+   "rate": 0.0,
    "per": 4.74,
    "pbr": 0.8,
    "roe": 16.9,
@@ -4281,7 +4281,7 @@ const LIVE_DATA = {
   "039130": {
    "name": "하나투어",
    "price": 32000,
-   "rate": 0.63,
+   "rate": 0.0,
    "per": 11.62,
    "pbr": 3.42,
    "roe": 29.4,
@@ -4294,7 +4294,7 @@ const LIVE_DATA = {
   "058650": {
    "name": "세아홀딩스",
    "price": 122000,
-   "rate": -2.79,
+   "rate": 0.0,
    "per": 6.95,
    "pbr": 0.22,
    "roe": 3.1,
@@ -4307,7 +4307,7 @@ const LIVE_DATA = {
   "005810": {
    "name": "풍산홀딩스",
    "price": 37800,
-   "rate": -0.26,
+   "rate": 0.0,
    "per": 5.97,
    "pbr": 0.44,
    "roe": 7.4,
@@ -4320,7 +4320,7 @@ const LIVE_DATA = {
   "249420": {
    "name": "일동제약",
    "price": 15260,
-   "rate": -1.99,
+   "rate": 0.0,
    "per": 13.35,
    "pbr": 1.94,
    "roe": 14.5,
@@ -4333,7 +4333,7 @@ const LIVE_DATA = {
   "020000": {
    "name": "한섬",
    "price": 16090,
-   "rate": -0.62,
+   "rate": 0.0,
    "per": 6.54,
    "pbr": 0.24,
    "roe": 3.7,
@@ -4346,7 +4346,7 @@ const LIVE_DATA = {
   "001530": {
    "name": "DI동일",
    "price": 24600,
-   "rate": -1.01,
+   "rate": 0.0,
    "per": -91.79,
    "pbr": 0.98,
    "roe": -1.1,
@@ -4359,7 +4359,7 @@ const LIVE_DATA = {
   "377740": {
    "name": "바이오노트",
    "price": 4925,
-   "rate": -0.91,
+   "rate": 0.0,
    "per": -10.01,
    "pbr": 0.32,
    "roe": -3.2,
@@ -4372,7 +4372,7 @@ const LIVE_DATA = {
   "284740": {
    "name": "쿠쿠홈시스",
    "price": 21550,
-   "rate": -0.69,
+   "rate": 0.0,
    "per": 3.91,
    "pbr": 0.44,
    "roe": 11.2,
@@ -4385,7 +4385,7 @@ const LIVE_DATA = {
   "002240": {
    "name": "고려제강",
    "price": 17240,
-   "rate": -0.58,
+   "rate": 0.0,
    "per": 18.66,
    "pbr": 0.25,
    "roe": 1.3,
@@ -4398,7 +4398,7 @@ const LIVE_DATA = {
   "145990": {
    "name": "삼양사",
    "price": 44600,
-   "rate": -1.0,
+   "rate": 0.0,
    "per": -1.51,
    "pbr": 0.26,
    "roe": -17.3,
@@ -4411,7 +4411,7 @@ const LIVE_DATA = {
   "005250": {
    "name": "녹십자홀딩스",
    "price": 10700,
-   "rate": -0.19,
+   "rate": 0.0,
    "per": -5.91,
    "pbr": 0.56,
    "roe": -9.5,
@@ -4424,7 +4424,7 @@ const LIVE_DATA = {
   "161000": {
    "name": "애경케미칼",
    "price": 9490,
-   "rate": -1.86,
+   "rate": 0.0,
    "per": -148.28,
    "pbr": 0.64,
    "roe": -0.4,
@@ -4437,7 +4437,7 @@ const LIVE_DATA = {
   "008060": {
    "name": "대덕",
    "price": 15750,
-   "rate": 2.67,
+   "rate": 0.0,
    "per": 26.92,
    "pbr": 0.84,
    "roe": 3.1,
@@ -4450,7 +4450,7 @@ const LIVE_DATA = {
   "000070": {
    "name": "삼양홀딩스",
    "price": 59500,
-   "rate": -1.49,
+   "rate": 0.0,
    "per": -2.44,
    "pbr": 0.22,
    "roe": -9.0,
@@ -4463,7 +4463,7 @@ const LIVE_DATA = {
   "031430": {
    "name": "신세계인터내셔날",
    "price": 10670,
-   "rate": -0.65,
+   "rate": 0.0,
    "per": 27.08,
    "pbr": 0.44,
    "roe": 1.6,
@@ -4476,7 +4476,7 @@ const LIVE_DATA = {
   "003030": {
    "name": "세아제강지주",
    "price": 107200,
-   "rate": -5.13,
+   "rate": 0.0,
    "per": 34.58,
    "pbr": 0.2,
    "roe": 0.6,
@@ -4489,7 +4489,7 @@ const LIVE_DATA = {
   "014830": {
    "name": "유니드",
    "price": 63800,
-   "rate": -1.85,
+   "rate": 0.0,
    "per": 6.37,
    "pbr": 0.37,
    "roe": 5.7,
@@ -4502,7 +4502,7 @@ const LIVE_DATA = {
   "001200": {
    "name": "유진투자증권",
    "price": 4480,
-   "rate": 0.9,
+   "rate": 0.0,
    "per": 3.9,
    "pbr": 0.35,
    "roe": 9.0,
@@ -4515,7 +4515,7 @@ const LIVE_DATA = {
   "034310": {
    "name": "NICE",
    "price": 12930,
-   "rate": -1.07,
+   "rate": 0.0,
    "per": 10.87,
    "pbr": 0.6,
    "roe": 5.5,
@@ -4528,7 +4528,7 @@ const LIVE_DATA = {
   "019170": {
    "name": "신풍제약",
    "price": 8700,
-   "rate": -1.92,
+   "rate": 0.0,
    "per": 45.79,
    "pbr": 1.58,
    "roe": 3.5,
@@ -4541,7 +4541,7 @@ const LIVE_DATA = {
   "460860": {
    "name": "동국제강",
    "price": 9780,
-   "rate": -3.46,
+   "rate": 0.0,
    "per": 40.41,
    "pbr": 0.26,
    "roe": 0.6,
@@ -4554,7 +4554,7 @@ const LIVE_DATA = {
   "072710": {
    "name": "농심홀딩스",
    "price": 90800,
-   "rate": -0.22,
+   "rate": 0.0,
    "per": 3.56,
    "pbr": 0.31,
    "roe": 8.7,
@@ -4567,7 +4567,7 @@ const LIVE_DATA = {
   "004700": {
    "name": "조광피혁",
    "price": 64000,
-   "rate": -1.39,
+   "rate": 0.0,
    "per": 36.06,
    "pbr": 0.39,
    "roe": 1.1,
@@ -4580,7 +4580,7 @@ const LIVE_DATA = {
   "003280": {
    "name": "흥아해운",
    "price": 1712,
-   "rate": -0.75,
+   "rate": 0.0,
    "per": 14.63,
    "pbr": 1.52,
    "roe": 10.4,
@@ -4593,7 +4593,7 @@ const LIVE_DATA = {
   "004690": {
    "name": "삼천리",
    "price": 123200,
-   "rate": -0.4,
+   "rate": 0.0,
    "per": 4.01,
    "pbr": 0.24,
    "roe": 5.9,
@@ -4606,7 +4606,7 @@ const LIVE_DATA = {
   "029530": {
    "name": "신도리코",
    "price": 41850,
-   "rate": 2.07,
+   "rate": 0.0,
    "per": 15.91,
    "pbr": 0.33,
    "roe": 2.0,
@@ -4619,7 +4619,7 @@ const LIVE_DATA = {
   "016610": {
    "name": "DB증권",
    "price": 9460,
-   "rate": 1.39,
+   "rate": 0.0,
    "per": 4.46,
    "pbr": 0.35,
    "roe": 7.8,
@@ -4632,7 +4632,7 @@ const LIVE_DATA = {
   "003000": {
    "name": "부광약품",
    "price": 4520,
-   "rate": -0.88,
+   "rate": 0.0,
    "per": 29.54,
    "pbr": 1.34,
    "roe": 4.5,
@@ -4645,7 +4645,7 @@ const LIVE_DATA = {
   "452260": {
    "name": "한화갤러리아",
    "price": 2085,
-   "rate": 0.24,
+   "rate": 0.0,
    "per": 59.57,
    "pbr": 0.49,
    "roe": 0.8,
@@ -4658,7 +4658,7 @@ const LIVE_DATA = {
   "016590": {
    "name": "신대양제지",
    "price": 9940,
-   "rate": -1.78,
+   "rate": 0.0,
    "per": 16.06,
    "pbr": 0.49,
    "roe": 3.0,
@@ -4671,7 +4671,7 @@ const LIVE_DATA = {
   "015360": {
    "name": "INVENI",
    "price": 14250,
-   "rate": -1.25,
+   "rate": 0.0,
    "per": 3.35,
    "pbr": 0.46,
    "roe": 13.8,
@@ -4684,7 +4684,7 @@ const LIVE_DATA = {
   "403550": {
    "name": "쏘카",
    "price": 10780,
-   "rate": -3.58,
+   "rate": 0.0,
    "per": -14.97,
    "pbr": 2.31,
    "roe": -15.4,
@@ -4697,7 +4697,7 @@ const LIVE_DATA = {
   "009900": {
    "name": "명신산업",
    "price": 7320,
-   "rate": -0.41,
+   "rate": 0.0,
    "per": 5.24,
    "pbr": 0.48,
    "roe": 9.1,
@@ -4710,7 +4710,7 @@ const LIVE_DATA = {
   "017900": {
    "name": "광전자",
    "price": 9060,
-   "rate": 4.26,
+   "rate": 0.0,
    "per": 87.12,
    "pbr": 1.88,
    "roe": 2.2,
@@ -4723,7 +4723,7 @@ const LIVE_DATA = {
   "005420": {
    "name": "코스모화학",
    "price": 10450,
-   "rate": -0.57,
+   "rate": 0.0,
    "per": -15.57,
    "pbr": 1.73,
    "roe": -11.1,
@@ -4736,7 +4736,7 @@ const LIVE_DATA = {
   "381970": {
    "name": "케이카",
    "price": 7750,
-   "rate": -2.27,
+   "rate": 0.0,
    "per": 8.07,
    "pbr": 1.71,
    "roe": 21.2,
@@ -4749,7 +4749,7 @@ const LIVE_DATA = {
   "027410": {
    "name": "BGF",
    "price": 4190,
-   "rate": 0.48,
+   "rate": 0.0,
    "per": 6.27,
    "pbr": 0.22,
    "roe": 3.6,
@@ -4762,7 +4762,7 @@ const LIVE_DATA = {
   "006220": {
    "name": "제주은행",
    "price": 9360,
-   "rate": 0.54,
+   "rate": 0.0,
    "per": 23.0,
    "pbr": 0.55,
    "roe": 2.4,
@@ -4775,7 +4775,7 @@ const LIVE_DATA = {
   "037710": {
    "name": "광주신세계",
    "price": 40350,
-   "rate": -3.81,
+   "rate": 0.0,
    "per": 6.89,
    "pbr": 0.36,
    "roe": 5.2,
@@ -4801,7 +4801,7 @@ const LIVE_DATA = {
   "950160": {
    "name": "코오롱티슈진",
    "price": 21350,
-   "rate": 8.82,
+   "rate": 0.0,
    "per": -6.16,
    "pbr": 14.39,
    "roe": -233.6,
@@ -4814,7 +4814,7 @@ const LIVE_DATA = {
   "347850": {
    "name": "디앤디파마텍",
    "price": 60500,
-   "rate": -0.66,
+   "rate": 0.0,
    "per": -113.08,
    "pbr": 35.56,
    "roe": -31.4,
@@ -4827,7 +4827,7 @@ const LIVE_DATA = {
   "440110": {
    "name": "파두",
    "price": 65000,
-   "rate": 4.84,
+   "rate": 0.0,
    "per": -60.47,
    "pbr": 97.32,
    "roe": -160.9,
@@ -4840,7 +4840,7 @@ const LIVE_DATA = {
   "214370": {
    "name": "케어젠",
    "price": 64400,
-   "rate": -2.42,
+   "rate": 0.0,
    "per": 148.05,
    "pbr": 14.67,
    "roe": 9.9,
@@ -4853,7 +4853,7 @@ const LIVE_DATA = {
   "108490": {
    "name": "로보티즈",
    "price": 247500,
-   "rate": 1.64,
+   "rate": 0.0,
    "per": -557.43,
    "pbr": 10.16,
    "roe": -1.8,
@@ -4866,7 +4866,7 @@ const LIVE_DATA = {
   "031980": {
    "name": "피에스케이홀딩스",
    "price": 108100,
-   "rate": -0.92,
+   "rate": 0.0,
    "per": 24.25,
    "pbr": 4.57,
    "roe": 18.8,
@@ -4879,7 +4879,7 @@ const LIVE_DATA = {
   "319400": {
    "name": "현대무벡스",
    "price": 25100,
-   "rate": 2.03,
+   "rate": 0.0,
    "per": 278.89,
    "pbr": 17.81,
    "roe": 6.4,
@@ -4892,7 +4892,7 @@ const LIVE_DATA = {
   "089970": {
    "name": "브이엠",
    "price": 68300,
-   "rate": -5.66,
+   "rate": 0.0,
    "per": 35.1,
    "pbr": 8.69,
    "roe": 24.8,
@@ -4905,20 +4905,20 @@ const LIVE_DATA = {
   "226950": {
    "name": "올릭스",
    "price": 113500,
-   "rate": -13.95,
+   "rate": 0.0,
    "per": -196.71,
    "pbr": 17.48,
    "roe": -8.9,
    "eps": -577.0,
    "div": null,
    "cap": "2.4조",
-   "w52": "50,300 ~ 225,500",
+   "w52": "51,750 ~ 225,500",
    "stale": false
   },
   "420770": {
    "name": "기가비스",
    "price": 117700,
-   "rate": 0.26,
+   "rate": 0.0,
    "per": 91.1,
    "pbr": 7.4,
    "roe": 8.1,
@@ -4931,7 +4931,7 @@ const LIVE_DATA = {
   "010170": {
    "name": "대한광통신",
    "price": 13510,
-   "rate": 0.45,
+   "rate": 0.0,
    "per": -70.36,
    "pbr": 18.11,
    "roe": -25.7,
@@ -4944,7 +4944,7 @@ const LIVE_DATA = {
   "032820": {
    "name": "우리기술",
    "price": 11500,
-   "rate": 0.44,
+   "rate": 0.0,
    "per": 56.93,
    "pbr": 11.92,
    "roe": 20.9,
@@ -4957,7 +4957,7 @@ const LIVE_DATA = {
   "140860": {
    "name": "파크시스템스",
    "price": 291000,
-   "rate": 2.65,
+   "rate": 0.0,
    "per": 82.58,
    "pbr": 8.82,
    "roe": 10.7,
@@ -4970,7 +4970,7 @@ const LIVE_DATA = {
   "068760": {
    "name": "셀트리온제약",
    "price": 44450,
-   "rate": -3.58,
+   "rate": 0.0,
    "per": 49.22,
    "pbr": 4.53,
    "roe": 9.2,
@@ -4983,7 +4983,7 @@ const LIVE_DATA = {
   "035900": {
    "name": "JYP Ent.",
    "price": 46000,
-   "rate": -1.18,
+   "rate": 0.0,
    "per": 13.26,
    "pbr": 2.44,
    "roe": 18.4,
@@ -4996,7 +4996,7 @@ const LIVE_DATA = {
   "041510": {
    "name": "에스엠",
    "price": 75500,
-   "rate": -1.05,
+   "rate": 0.0,
    "per": 13.15,
    "pbr": 1.73,
    "roe": 13.1,
@@ -5009,7 +5009,7 @@ const LIVE_DATA = {
   "140410": {
    "name": "메지온",
    "price": 63200,
-   "rate": 0.32,
+   "rate": 0.0,
    "per": -51.72,
    "pbr": 123.83,
    "roe": -239.6,
@@ -5035,7 +5035,7 @@ const LIVE_DATA = {
   "058610": {
    "name": "에스피지",
    "price": 112200,
-   "rate": -1.58,
+   "rate": 0.0,
    "per": 262.76,
    "pbr": 9.32,
    "roe": 3.5,
@@ -5048,7 +5048,7 @@ const LIVE_DATA = {
   "089030": {
    "name": "테크윙",
    "price": 48350,
-   "rate": 1.15,
+   "rate": 0.0,
    "per": 393.09,
    "pbr": 8.46,
    "roe": 2.2,
@@ -5061,7 +5061,7 @@ const LIVE_DATA = {
   "007390": {
    "name": "네이처셀",
    "price": 23050,
-   "rate": -1.5,
+   "rate": 0.0,
    "per": -536.05,
    "pbr": 23.54,
    "roe": -4.4,
@@ -5074,7 +5074,7 @@ const LIVE_DATA = {
   "043260": {
    "name": "성호전자",
    "price": 19930,
-   "rate": 1.17,
+   "rate": 0.0,
    "per": 3.41,
    "pbr": 2.43,
    "roe": 71.2,
@@ -5087,7 +5087,7 @@ const LIVE_DATA = {
   "060370": {
    "name": "LS마린솔루션",
    "price": 32300,
-   "rate": 1.41,
+   "rate": 0.0,
    "per": 125.19,
    "pbr": 2.63,
    "roe": 2.1,
@@ -5100,20 +5100,20 @@ const LIVE_DATA = {
   "096530": {
    "name": "씨젠",
    "price": 31950,
-   "rate": -1.84,
+   "rate": 0.0,
    "per": 25.42,
    "pbr": 1.42,
    "roe": 5.6,
    "eps": 1257.0,
    "div": 3.13,
    "cap": "1.7조",
-   "w52": "21,700 ~ 33,950",
+   "w52": "21,700 ~ 35,500",
    "stale": false
   },
   "083650": {
    "name": "비에이치아이",
    "price": 56500,
-   "rate": 3.48,
+   "rate": 0.0,
    "per": 28.38,
    "pbr": 9.56,
    "roe": 33.7,
@@ -5126,7 +5126,7 @@ const LIVE_DATA = {
   "030530": {
    "name": "원익홀딩스",
    "price": 20100,
-   "rate": -0.99,
+   "rate": 0.0,
    "per": 80.4,
    "pbr": 1.54,
    "roe": 1.9,
@@ -5139,7 +5139,7 @@ const LIVE_DATA = {
   "082920": {
    "name": "비츠로셀",
    "price": 34150,
-   "rate": -2.29,
+   "rate": 0.0,
    "per": 24.13,
    "pbr": 4.52,
    "roe": 18.7,
@@ -5152,7 +5152,7 @@ const LIVE_DATA = {
   "218410": {
    "name": "RFHIC",
    "price": 54000,
-   "rate": 3.65,
+   "rate": 0.0,
    "per": 45.49,
    "pbr": 3.93,
    "roe": 8.6,
@@ -5165,20 +5165,20 @@ const LIVE_DATA = {
   "458870": {
    "name": "씨어스",
    "price": 25400,
-   "rate": 0.59,
+   "rate": 0.0,
    "per": 31.67,
    "pbr": 17.86,
    "roe": 56.4,
    "eps": 802.0,
    "div": null,
    "cap": "1.0조",
-   "w52": "10,639 ~ 64,235",
+   "w52": "10,839 ~ 64,235",
    "stale": false
   },
   "127120": {
    "name": "제이에스링크",
    "price": 41600,
-   "rate": 1.46,
+   "rate": 0.0,
    "per": -79.24,
    "pbr": 16.06,
    "roe": -20.3,
@@ -5191,7 +5191,7 @@ const LIVE_DATA = {
   "078600": {
    "name": "대주전자재료",
    "price": 95200,
-   "rate": 0.85,
+   "rate": 0.0,
    "per": 146.01,
    "pbr": 5.67,
    "roe": 3.9,
@@ -5204,7 +5204,7 @@ const LIVE_DATA = {
   "323280": {
    "name": "태성",
    "price": 49700,
-   "rate": 0.71,
+   "rate": 0.0,
    "per": -871.93,
    "pbr": 11.85,
    "roe": -1.4,
@@ -5217,7 +5217,7 @@ const LIVE_DATA = {
   "039200": {
    "name": "오스코텍",
    "price": 38800,
-   "rate": 3.74,
+   "rate": 0.0,
    "per": 26.72,
    "pbr": 8.3,
    "roe": 31.1,
@@ -5230,7 +5230,7 @@ const LIVE_DATA = {
   "031330": {
    "name": "에스에이엠티",
    "price": 11740,
-   "rate": 7.12,
+   "rate": 0.0,
    "per": 3.84,
    "pbr": 1.59,
    "roe": 41.3,
@@ -5243,7 +5243,7 @@ const LIVE_DATA = {
   "003380": {
    "name": "하림지주",
    "price": 11380,
-   "rate": -1.73,
+   "rate": 0.0,
    "per": 4.97,
    "pbr": 0.34,
    "roe": 6.8,
@@ -5256,7 +5256,7 @@ const LIVE_DATA = {
   "195940": {
    "name": "HK이노엔",
    "price": 41650,
-   "rate": -1.42,
+   "rate": 0.0,
    "per": 14.01,
    "pbr": 0.88,
    "roe": 6.3,
@@ -5269,7 +5269,7 @@ const LIVE_DATA = {
   "347700": {
    "name": "스피어",
    "price": 26600,
-   "rate": 4.93,
+   "rate": 0.0,
    "per": 30.26,
    "pbr": 12.34,
    "roe": 40.8,
@@ -5282,7 +5282,7 @@ const LIVE_DATA = {
   "166090": {
    "name": "하나머티리얼즈",
    "price": 63400,
-   "rate": 0.16,
+   "rate": 0.0,
    "per": 25.14,
    "pbr": 2.52,
    "roe": 10.0,
@@ -5295,7 +5295,7 @@ const LIVE_DATA = {
   "437730": {
    "name": "삼현",
    "price": 38100,
-   "rate": 1.33,
+   "rate": 0.0,
    "per": 224.12,
    "pbr": 9.5,
    "roe": 4.2,
@@ -5308,7 +5308,7 @@ const LIVE_DATA = {
   "475830": {
    "name": "오름테라퓨틱",
    "price": 65900,
-   "rate": -7.18,
+   "rate": 0.0,
    "per": -29.11,
    "pbr": 12.59,
    "roe": -43.2,
@@ -5321,7 +5321,7 @@ const LIVE_DATA = {
   "491000": {
    "name": "리브스메드",
    "price": 44700,
-   "rate": -3.66,
+   "rate": 0.0,
    "per": -45.85,
    "pbr": 6.38,
    "roe": -13.9,
@@ -5334,7 +5334,7 @@ const LIVE_DATA = {
   "204270": {
    "name": "제이앤티씨",
    "price": 18870,
-   "rate": 22.93,
+   "rate": 0.0,
    "per": -13.32,
    "pbr": 4.47,
    "roe": -33.6,
@@ -5347,7 +5347,7 @@ const LIVE_DATA = {
   "101490": {
    "name": "에스앤에스텍",
    "price": 44850,
-   "rate": 0.22,
+   "rate": 0.0,
    "per": 15.97,
    "pbr": 2.94,
    "roe": 18.4,
@@ -5360,7 +5360,7 @@ const LIVE_DATA = {
   "099320": {
    "name": "쎄트렉아이",
    "price": 82200,
-   "rate": 4.85,
+   "rate": 0.0,
    "per": 74.93,
    "pbr": 3.65,
    "roe": 4.9,
@@ -5373,7 +5373,7 @@ const LIVE_DATA = {
   "085660": {
    "name": "차바이오텍",
    "price": 9670,
-   "rate": -0.51,
+   "rate": 0.0,
    "per": -10.23,
    "pbr": 1.75,
    "roe": -17.1,
@@ -5386,7 +5386,7 @@ const LIVE_DATA = {
   "083450": {
    "name": "GST",
    "price": 50900,
-   "rate": 0.2,
+   "rate": 0.0,
    "per": 17.07,
    "pbr": 2.95,
    "roe": 17.3,
@@ -5399,7 +5399,7 @@ const LIVE_DATA = {
   "293490": {
    "name": "카카오게임즈",
    "price": 8840,
-   "rate": 1.38,
+   "rate": 0.0,
    "per": -7.11,
    "pbr": 0.7,
    "roe": -9.8,
@@ -5412,7 +5412,7 @@ const LIVE_DATA = {
   "038500": {
    "name": "삼표시멘트",
    "price": 8290,
-   "rate": -0.24,
+   "rate": 0.0,
    "per": 18.18,
    "pbr": 1.15,
    "roe": 6.3,
@@ -5425,7 +5425,7 @@ const LIVE_DATA = {
   "241710": {
    "name": "코스메카코리아",
    "price": 123400,
-   "rate": 12.8,
+   "rate": 0.0,
    "per": 23.92,
    "pbr": 5.19,
    "roe": 21.7,
@@ -5438,7 +5438,7 @@ const LIVE_DATA = {
   "100790": {
    "name": "미래에셋벤처투자",
    "price": 16210,
-   "rate": -3.34,
+   "rate": 0.0,
    "per": 19.74,
    "pbr": 2.21,
    "roe": 11.2,
@@ -5451,7 +5451,7 @@ const LIVE_DATA = {
   "232140": {
    "name": "와이씨",
    "price": 10750,
-   "rate": 2.09,
+   "rate": 0.0,
    "per": 39.81,
    "pbr": 2.32,
    "roe": 5.8,
@@ -5464,7 +5464,7 @@ const LIVE_DATA = {
   "036540": {
    "name": "SFA반도체",
    "price": 6150,
-   "rate": -0.49,
+   "rate": 0.0,
    "per": -84.25,
    "pbr": 2.09,
    "roe": -2.5,
@@ -5477,7 +5477,7 @@ const LIVE_DATA = {
   "090710": {
    "name": "휴림로봇",
    "price": 7540,
-   "rate": 1.34,
+   "rate": 0.0,
    "per": -53.86,
    "pbr": 7.25,
    "roe": -13.5,
@@ -5490,7 +5490,7 @@ const LIVE_DATA = {
   "086450": {
    "name": "동국제약",
    "price": 21600,
-   "rate": 0.7,
+   "rate": 0.0,
    "per": 13.11,
    "pbr": 1.43,
    "roe": 10.9,
@@ -5503,7 +5503,7 @@ const LIVE_DATA = {
   "417200": {
    "name": "LS머트리얼즈",
    "price": 12350,
-   "rate": 1.4,
+   "rate": 0.0,
    "per": 1372.22,
    "pbr": 4.55,
    "roe": 0.3,
@@ -5516,7 +5516,7 @@ const LIVE_DATA = {
   "281740": {
    "name": "레이크머티리얼즈",
    "price": 13270,
-   "rate": -0.15,
+   "rate": 0.0,
    "per": 70.96,
    "pbr": 6.27,
    "roe": 8.8,
@@ -5529,7 +5529,7 @@ const LIVE_DATA = {
   "019210": {
    "name": "와이지-원",
    "price": 18050,
-   "rate": -0.61,
+   "rate": 0.0,
    "per": 14.33,
    "pbr": 1.45,
    "roe": 10.1,
@@ -5542,7 +5542,7 @@ const LIVE_DATA = {
   "388210": {
    "name": "씨엠티엑스",
    "price": 82000,
-   "rate": -0.24,
+   "rate": 0.0,
    "per": -25.28,
    "pbr": 4.08,
    "roe": -16.1,
@@ -5555,7 +5555,7 @@ const LIVE_DATA = {
   "074600": {
    "name": "원익QnC",
    "price": 31750,
-   "rate": 5.31,
+   "rate": 0.0,
    "per": 35.71,
    "pbr": 1.64,
    "roe": 4.6,
@@ -5568,7 +5568,7 @@ const LIVE_DATA = {
   "056190": {
    "name": "SFA",
    "price": 23400,
-   "rate": 3.31,
+   "rate": 0.0,
    "per": 16.71,
    "pbr": 0.72,
    "roe": 4.3,
@@ -5581,7 +5581,7 @@ const LIVE_DATA = {
   "388720": {
    "name": "유일로보틱스",
    "price": 72600,
-   "rate": 2.11,
+   "rate": 0.0,
    "per": -25.96,
    "pbr": 9.15,
    "roe": -35.3,
@@ -5594,7 +5594,7 @@ const LIVE_DATA = {
   "381620": {
    "name": "제닉스로보틱스",
    "price": 6650,
-   "rate": 1.53,
+   "rate": 0.0,
    "per": -9.33,
    "pbr": 1.87,
    "roe": -20.0,
@@ -5607,7 +5607,7 @@ const LIVE_DATA = {
   "065350": {
    "name": "신성델타테크",
    "price": 32800,
-   "rate": -1.8,
+   "rate": 0.0,
    "per": 39.42,
    "pbr": 3.54,
    "roe": 9.0,
@@ -5620,7 +5620,7 @@ const LIVE_DATA = {
   "328130": {
    "name": "루닛",
    "price": 10740,
-   "rate": -7.73,
+   "rate": 0.0,
    "per": -10.0,
    "pbr": 5.39,
    "roe": -53.9,
@@ -5633,7 +5633,7 @@ const LIVE_DATA = {
   "122870": {
    "name": "와이지엔터테인먼트",
    "price": 42500,
-   "rate": -1.85,
+   "rate": 0.0,
    "per": 21.76,
    "pbr": 1.54,
    "roe": 7.1,
@@ -5646,7 +5646,7 @@ const LIVE_DATA = {
   "189300": {
    "name": "인텔리안테크",
    "price": 76600,
-   "rate": -2.42,
+   "rate": 0.0,
    "per": 23.45,
    "pbr": 2.8,
    "roe": 11.9,
@@ -5659,7 +5659,7 @@ const LIVE_DATA = {
   "137400": {
    "name": "피엔티",
    "price": 33150,
-   "rate": 0.61,
+   "rate": 0.0,
    "per": 10.0,
    "pbr": 1.16,
    "roe": 11.6,
@@ -5672,7 +5672,7 @@ const LIVE_DATA = {
   "213420": {
    "name": "덕산네오룩스",
    "price": 34950,
-   "rate": -3.85,
+   "rate": 0.0,
    "per": 14.21,
    "pbr": 1.83,
    "roe": 12.9,
@@ -5685,7 +5685,7 @@ const LIVE_DATA = {
   "032500": {
    "name": "케이엠더블유",
    "price": 17090,
-   "rate": -0.64,
+   "rate": 0.0,
    "per": -26.25,
    "pbr": 5.09,
    "roe": -19.4,
@@ -5698,7 +5698,7 @@ const LIVE_DATA = {
   "356860": {
    "name": "티엘비",
    "price": 29850,
-   "rate": 5.48,
+   "rate": 0.0,
    "per": 24.0,
    "pbr": 4.77,
    "roe": 19.9,
@@ -5711,7 +5711,7 @@ const LIVE_DATA = {
   "490470": {
    "name": "세미파이브",
    "price": 18330,
-   "rate": 3.74,
+   "rate": 0.0,
    "per": -13.59,
    "pbr": 2.71,
    "roe": -19.9,
@@ -5724,7 +5724,7 @@ const LIVE_DATA = {
   "445680": {
    "name": "큐리옥스바이오시스템즈",
    "price": 41750,
-   "rate": -7.73,
+   "rate": 0.0,
    "per": -26.71,
    "pbr": 13.82,
    "roe": -51.7,
@@ -5737,7 +5737,7 @@ const LIVE_DATA = {
   "036830": {
    "name": "솔브레인홀딩스",
    "price": 41150,
-   "rate": 0.98,
+   "rate": 0.0,
    "per": 1.73,
    "pbr": 0.47,
    "roe": 27.3,
@@ -5750,7 +5750,7 @@ const LIVE_DATA = {
   "161580": {
    "name": "필옵틱스",
    "price": 29600,
-   "rate": 3.32,
+   "rate": 0.0,
    "per": -27.64,
    "pbr": 6.49,
    "roe": -23.5,
@@ -5763,7 +5763,7 @@ const LIVE_DATA = {
   "032190": {
    "name": "다우데이타",
    "price": 20500,
-   "rate": 1.99,
+   "rate": 0.0,
    "per": 3.11,
    "pbr": 0.47,
    "roe": 15.0,
@@ -5776,7 +5776,7 @@ const LIVE_DATA = {
   "033100": {
    "name": "제룡전기",
    "price": 50900,
-   "rate": 5.06,
+   "rate": 0.0,
    "per": 15.71,
    "pbr": 3.56,
    "roe": 22.7,
@@ -5789,7 +5789,7 @@ const LIVE_DATA = {
   "041830": {
    "name": "인바디",
    "price": 67400,
-   "rate": -3.58,
+   "rate": 0.0,
    "per": 22.73,
    "pbr": 2.74,
    "roe": 12.0,
@@ -5802,7 +5802,7 @@ const LIVE_DATA = {
   "035760": {
    "name": "CJ ENM",
    "price": 35650,
-   "rate": -4.17,
+   "rate": 0.0,
    "per": 8.0,
    "pbr": 0.26,
    "roe": 3.3,
@@ -5815,7 +5815,7 @@ const LIVE_DATA = {
   "252990": {
    "name": "샘씨엔에스",
    "price": 15030,
-   "rate": 1.9,
+   "rate": 0.0,
    "per": 40.62,
    "pbr": 4.88,
    "roe": 12.0,
@@ -5828,7 +5828,7 @@ const LIVE_DATA = {
   "014620": {
    "name": "성광벤드",
    "price": 26950,
-   "rate": -1.46,
+   "rate": 0.0,
    "per": 21.42,
    "pbr": 1.3,
    "roe": 6.0,
@@ -5841,7 +5841,7 @@ const LIVE_DATA = {
   "048410": {
    "name": "현대바이오",
    "price": 7950,
-   "rate": -3.64,
+   "rate": 0.0,
    "per": -35.81,
    "pbr": 6.85,
    "roe": -19.1,
@@ -5854,7 +5854,7 @@ const LIVE_DATA = {
   "090360": {
    "name": "로보스타",
    "price": 84800,
-   "rate": 2.91,
+   "rate": 0.0,
    "per": -401.9,
    "pbr": 9.42,
    "roe": -2.3,
@@ -5867,7 +5867,7 @@ const LIVE_DATA = {
   "115180": {
    "name": "큐리언트",
    "price": 23950,
-   "rate": -8.76,
+   "rate": 0.0,
    "per": -27.5,
    "pbr": 32.52,
    "roe": -118.3,
@@ -5880,7 +5880,7 @@ const LIVE_DATA = {
   "006730": {
    "name": "서부T&D",
    "price": 11260,
-   "rate": -1.14,
+   "rate": 0.0,
    "per": 8.53,
    "pbr": 0.68,
    "roe": 7.9,
@@ -5893,7 +5893,7 @@ const LIVE_DATA = {
   "466100": {
    "name": "클로봇",
    "price": 29300,
-   "rate": -5.64,
+   "rate": 0.0,
    "per": -523.21,
    "pbr": 12.55,
    "roe": -2.4,
@@ -5906,7 +5906,7 @@ const LIVE_DATA = {
   "122640": {
    "name": "예스티",
    "price": 27400,
-   "rate": 9.16,
+   "rate": 0.0,
    "per": 622.73,
    "pbr": 4.2,
    "roe": 0.7,
@@ -5919,7 +5919,7 @@ const LIVE_DATA = {
   "399720": {
    "name": "가온칩스",
    "price": 47800,
-   "rate": 0.42,
+   "rate": 0.0,
    "per": -53.95,
    "pbr": 10.32,
    "roe": -19.1,
@@ -5932,7 +5932,7 @@ const LIVE_DATA = {
   "253450": {
    "name": "스튜디오드래곤",
    "price": 24550,
-   "rate": -3.35,
+   "rate": 0.0,
    "per": 50.83,
    "pbr": 0.98,
    "roe": 1.9,
@@ -5958,7 +5958,7 @@ const LIVE_DATA = {
   "052400": {
    "name": "코나아이",
    "price": 43400,
-   "rate": 0.23,
+   "rate": 0.0,
    "per": 7.1,
    "pbr": 2.35,
    "roe": 33.1,
@@ -5971,7 +5971,7 @@ const LIVE_DATA = {
   "050890": {
    "name": "쏠리드",
    "price": 10250,
-   "rate": 1.69,
+   "rate": 0.0,
    "per": 11.23,
    "pbr": 1.64,
    "roe": 14.6,
@@ -5984,7 +5984,7 @@ const LIVE_DATA = {
   "093320": {
    "name": "케이아이엔엑스",
    "price": 151600,
-   "rate": -6.99,
+   "rate": 0.0,
    "per": 34.87,
    "pbr": 3.55,
    "roe": 10.2,
@@ -5997,7 +5997,7 @@ const LIVE_DATA = {
   "112040": {
    "name": "위메이드",
    "price": 17590,
-   "rate": -7.47,
+   "rate": 0.0,
    "per": 23.21,
    "pbr": 1.53,
    "roe": 6.6,
@@ -6010,20 +6010,20 @@ const LIVE_DATA = {
   "397030": {
    "name": "에이프릴바이오",
    "price": 28500,
-   "rate": -4.68,
+   "rate": 0.0,
    "per": -64.48,
    "pbr": 6.8,
    "roe": -10.5,
    "eps": -442.0,
    "div": null,
-   "cap": "0.7조",
+   "cap": "0.8조",
    "w52": "19,300 ~ 76,700",
    "stale": false
   },
   "222080": {
    "name": "SFA넥셀",
    "price": 8040,
-   "rate": 1.64,
+   "rate": 0.0,
    "per": 31.16,
    "pbr": 1.2,
    "roe": 3.9,
@@ -6036,7 +6036,7 @@ const LIVE_DATA = {
   "053800": {
    "name": "안랩",
    "price": 62800,
-   "rate": -2.64,
+   "rate": 0.0,
    "per": 12.49,
    "pbr": 1.54,
    "roe": 12.3,
@@ -6049,7 +6049,7 @@ const LIVE_DATA = {
   "023160": {
    "name": "태광",
    "price": 23500,
-   "rate": -3.69,
+   "rate": 0.0,
    "per": 7.69,
    "pbr": 0.94,
    "roe": 12.2,
@@ -6062,7 +6062,7 @@ const LIVE_DATA = {
   "102710": {
    "name": "이엔에프테크놀로지",
    "price": 51600,
-   "rate": 1.38,
+   "rate": 0.0,
    "per": 12.95,
    "pbr": 1.58,
    "roe": 12.2,
@@ -6075,7 +6075,7 @@ const LIVE_DATA = {
   "053610": {
    "name": "프로텍",
    "price": 63800,
-   "rate": 0.63,
+   "rate": 0.0,
    "per": 11.49,
    "pbr": 1.58,
    "roe": 13.8,
@@ -6088,7 +6088,7 @@ const LIVE_DATA = {
   "225570": {
    "name": "넥슨게임즈",
    "price": 9180,
-   "rate": -1.82,
+   "rate": 0.0,
    "per": -7.26,
    "pbr": 2.44,
    "roe": -33.7,
@@ -6101,7 +6101,7 @@ const LIVE_DATA = {
   "037460": {
    "name": "삼지전자",
    "price": 39600,
-   "rate": 4.35,
+   "rate": 0.0,
    "per": 3.33,
    "pbr": 0.93,
    "roe": 28.0,
@@ -6114,7 +6114,7 @@ const LIVE_DATA = {
   "044490": {
    "name": "태웅",
    "price": 33250,
-   "rate": 3.74,
+   "rate": 0.0,
    "per": 81.5,
    "pbr": 1.08,
    "roe": 1.3,
@@ -6127,7 +6127,7 @@ const LIVE_DATA = {
   "383310": {
    "name": "에코프로에이치엔",
    "price": 25350,
-   "rate": -0.39,
+   "rate": 0.0,
    "per": 37.84,
    "pbr": 1.74,
    "roe": 4.6,
@@ -6140,7 +6140,7 @@ const LIVE_DATA = {
   "046890": {
    "name": "서울반도체",
    "price": 10150,
-   "rate": 3.47,
+   "rate": 0.0,
    "per": -21.73,
    "pbr": 0.9,
    "roe": -4.1,
@@ -6153,7 +6153,7 @@ const LIVE_DATA = {
   "376900": {
    "name": "로킷헬스케어",
    "price": 34550,
-   "rate": -1.14,
+   "rate": 0.0,
    "per": -122.52,
    "pbr": 50.6,
    "roe": -41.3,
@@ -6166,7 +6166,7 @@ const LIVE_DATA = {
   "064290": {
    "name": "인텍플러스",
    "price": 32600,
-   "rate": -2.69,
+   "rate": 0.0,
    "per": 1715.79,
    "pbr": 8.89,
    "roe": 0.5,
@@ -6179,7 +6179,7 @@ const LIVE_DATA = {
   "059090": {
    "name": "미코",
    "price": 19330,
-   "rate": 11.73,
+   "rate": 0.0,
    "per": 97.14,
    "pbr": 3.81,
    "roe": 3.9,
@@ -6192,7 +6192,7 @@ const LIVE_DATA = {
   "295310": {
    "name": "에이치브이엠",
    "price": 55200,
-   "rate": 1.66,
+   "rate": 0.0,
    "per": 42.59,
    "pbr": 6.94,
    "roe": 16.3,
@@ -6205,7 +6205,7 @@ const LIVE_DATA = {
   "121600": {
    "name": "나노신소재",
    "price": 50900,
-   "rate": 1.9,
+   "rate": 0.0,
    "per": 84.27,
    "pbr": 2.37,
    "roe": 2.8,
@@ -6218,7 +6218,7 @@ const LIVE_DATA = {
   "067160": {
    "name": "SOOP",
    "price": 44250,
-   "rate": -1.45,
+   "rate": 0.0,
    "per": 5.03,
    "pbr": 1.04,
    "roe": 20.7,
@@ -6231,7 +6231,7 @@ const LIVE_DATA = {
   "041960": {
    "name": "코미팜",
    "price": 9030,
-   "rate": -2.38,
+   "rate": 0.0,
    "per": -102.61,
    "pbr": 9.17,
    "roe": -8.9,
@@ -6244,7 +6244,7 @@ const LIVE_DATA = {
   "171090": {
    "name": "선익시스템",
    "price": 70000,
-   "rate": -0.71,
+   "rate": 0.0,
    "per": 8.39,
    "pbr": 3.65,
    "roe": 43.5,
@@ -6257,7 +6257,7 @@ const LIVE_DATA = {
   "160190": {
    "name": "하이젠알앤엠",
    "price": 19380,
-   "rate": -0.36,
+   "rate": 0.0,
    "per": -76.3,
    "pbr": 5.42,
    "roe": -7.1,
@@ -6270,7 +6270,7 @@ const LIVE_DATA = {
   "089890": {
    "name": "코세스",
    "price": 23050,
-   "rate": -1.28,
+   "rate": 0.0,
    "per": 30.73,
    "pbr": 4.26,
    "roe": 13.9,
@@ -6283,7 +6283,7 @@ const LIVE_DATA = {
   "102940": {
    "name": "코오롱생명과학",
    "price": 16780,
-   "rate": 1.7,
+   "rate": 0.0,
    "per": 5.99,
    "pbr": 0.28,
    "roe": 4.7,
@@ -6296,7 +6296,7 @@ const LIVE_DATA = {
   "045100": {
    "name": "한양이엔지",
    "price": 32000,
-   "rate": -4.48,
+   "rate": 0.0,
    "per": 9.82,
    "pbr": 0.8,
    "roe": 8.2,
@@ -6309,7 +6309,7 @@ const LIVE_DATA = {
   "251970": {
    "name": "펌텍코리아",
    "price": 58900,
-   "rate": 15.04,
+   "rate": 0.0,
    "per": 19.93,
    "pbr": 2.42,
    "roe": 12.2,
@@ -6322,7 +6322,7 @@ const LIVE_DATA = {
   "456160": {
    "name": "지투지바이오",
    "price": 41750,
-   "rate": 1.09,
+   "rate": 0.0,
    "per": -43.44,
    "pbr": 5.02,
    "roe": -11.6,
@@ -6335,7 +6335,7 @@ const LIVE_DATA = {
   "052020": {
    "name": "에스티큐브",
    "price": 9130,
-   "rate": 0.11,
+   "rate": 0.0,
    "per": -25.86,
    "pbr": 9.46,
    "roe": -36.6,
@@ -6348,7 +6348,7 @@ const LIVE_DATA = {
   "376300": {
    "name": "디어유",
    "price": 20100,
-   "rate": -0.25,
+   "rate": 0.0,
    "per": 18.94,
    "pbr": 2.25,
    "roe": 11.9,
@@ -6361,7 +6361,7 @@ const LIVE_DATA = {
   "170920": {
    "name": "엘티씨",
    "price": 41450,
-   "rate": 0.24,
+   "rate": 0.0,
    "per": 41.04,
    "pbr": 3.13,
    "roe": 7.6,
@@ -6374,7 +6374,7 @@ const LIVE_DATA = {
   "476060": {
    "name": "온코닉테라퓨틱스",
    "price": 15800,
-   "rate": 6.4,
+   "rate": 0.0,
    "per": 34.5,
    "pbr": 8.92,
    "roe": 25.8,
@@ -6387,7 +6387,7 @@ const LIVE_DATA = {
   "086900": {
    "name": "메디톡스",
    "price": 77300,
-   "rate": -0.9,
+   "rate": 0.0,
    "per": 29.06,
    "pbr": 1.43,
    "roe": 4.9,
@@ -6400,7 +6400,7 @@ const LIVE_DATA = {
   "358570": {
    "name": "지아이이노베이션",
    "price": 8770,
-   "rate": -5.9,
+   "rate": 0.0,
    "per": -16.06,
    "pbr": 5.23,
    "roe": -32.5,
@@ -6413,7 +6413,7 @@ const LIVE_DATA = {
   "477850": {
    "name": "마키나락스",
    "price": 30000,
-   "rate": -3.69,
+   "rate": 0.0,
    "per": -31.78,
    "pbr": 36.81,
    "roe": -115.8,
@@ -6426,7 +6426,7 @@ const LIVE_DATA = {
   "211050": {
    "name": "인카금융서비스",
    "price": 10790,
-   "rate": -1.73,
+   "rate": 0.0,
    "per": 6.93,
    "pbr": 2.4,
    "roe": 34.6,
@@ -6439,7 +6439,7 @@ const LIVE_DATA = {
   "060250": {
    "name": "NHN KCP",
    "price": 14850,
-   "rate": 0.81,
+   "rate": 0.0,
    "per": 11.57,
    "pbr": 1.86,
    "roe": 16.1,
@@ -6452,14 +6452,14 @@ const LIVE_DATA = {
   "126340": {
    "name": "비나텍",
    "price": 70300,
-   "rate": 1.01,
+   "rate": 0.0,
    "per": -91.18,
    "pbr": 3.95,
    "roe": -4.3,
    "eps": -771.0,
    "div": null,
    "cap": "0.5조",
-   "w52": "28,032 ~ 204,500",
+   "w52": "28,324 ~ 204,500",
    "stale": false
   },
   "336570": {
@@ -6472,13 +6472,13 @@ const LIVE_DATA = {
    "eps": 375.0,
    "div": 0.92,
    "cap": "0.5조",
-   "w52": "4,130 ~ 13,110",
+   "w52": "4,130 ~ 11,430",
    "stale": false
   },
   "056080": {
    "name": "유진로봇",
    "price": 13310,
-   "rate": 0.83,
+   "rate": 0.0,
    "per": -58.63,
    "pbr": 20.1,
    "roe": -34.3,
@@ -6491,7 +6491,7 @@ const LIVE_DATA = {
   "033640": {
    "name": "네패스",
    "price": 18300,
-   "rate": 4.57,
+   "rate": 0.0,
    "per": 59.61,
    "pbr": 3.41,
    "roe": 5.7,
@@ -6504,7 +6504,7 @@ const LIVE_DATA = {
   "348370": {
    "name": "엔켐",
    "price": 23550,
-   "rate": -7.83,
+   "rate": 0.0,
    "per": -3.74,
    "pbr": 1.07,
    "roe": -28.7,
@@ -6516,34 +6516,34 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1418.5,
-  "change": 5.0,
-  "rate": 0.35
+  "value": 1418.0,
+  "change": -1.0,
+  "rate": -0.07
  },
  "marketBrief": {
-  "sourceAsOf": "2026-08-12 종가 (16:06 수집)",
+  "sourceAsOf": "2026-08-13 장전 (전일 종가 · 08:59 수집)",
   "breadth": {
    "total": 500,
-   "up": 234,
-   "down": 251,
-   "flat": 15
+   "up": 0,
+   "down": 0,
+   "flat": 500
   },
   "sectors": {
    "strong": {
-    "name": "화장품·미용",
-    "rate": 6.8,
-    "count": 12
+    "name": "반도체",
+    "rate": 0.0,
+    "count": 53
    },
    "weak": {
-    "name": "게임·엔터",
-    "rate": -2.98,
-    "count": 17
+    "name": "여행레저",
+    "rate": 0.0,
+    "count": 7
    }
   },
   "lines": [
-   "코스피 +3.68%, 코스닥 +0.12%로 움직이고 있어요.",
-   "500종목 중 상승 234개 · 하락 251개 · 보합 15개예요.",
-   "강한 업종은 화장품·미용(+6.80%), 약한 업종은 게임·엔터(-2.98%)이에요."
+   "코스피 +0.00%, 코스닥 +0.00%로 움직이고 있어요.",
+   "500종목 중 상승 0개 · 하락 0개 · 보합 500개예요.",
+   "강한 업종은 반도체(+0.00%), 약한 업종은 여행레저(+0.00%)이에요."
   ]
  }
 };
