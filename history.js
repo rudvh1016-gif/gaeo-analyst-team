@@ -99841,6 +99841,31 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 42
    }
+  },
+  {
+   "date": "2026-08-12 12:45",
+   "call": "HOLD",
+   "total": 57,
+   "confidence": 58,
+   "base": 45850,
+   "baseAt": "2026-08-12 12:40",
+   "target": "컨센서스 평균 목표주가 55,500원(현재가 대비 +21.1% 상승여력, 실적 서프라이즈로 상향 조정 가능성 높음) · 지지선 MA20(36,890원)·MA5(40,610원), 저항선은 사상 최고가 경신 중이라 뚜렷한 상단 부재",
+   "taro": {
+    "stance": "neu",
+    "score": 53
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 76
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 74
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 44
+   }
   }
  ],
  "357780": [
