@@ -6,84 +6,84 @@ const MODEL_INTELLIGENCE = {
  "calibration": {
   "taro": {
    "50": {
-    "n": 893,
-    "up": 312,
-    "raw": 0.3494,
-    "uncalibratedPUp": 0.3493,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "n": 952,
+    "up": 325,
+    "raw": 0.3414,
+    "uncalibratedPUp": 0.3412,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "20": {
-    "n": 645,
-    "up": 241,
-    "raw": 0.3736,
-    "uncalibratedPUp": 0.3725,
-    "base": 0.3476,
-    "pUp": 0.3397
+    "n": 700,
+    "up": 250,
+    "raw": 0.3571,
+    "uncalibratedPUp": 0.3563,
+    "base": 0.3357,
+    "pUp": 0.3233
    },
    "40": {
-    "n": 1198,
-    "up": 493,
-    "raw": 0.4115,
-    "uncalibratedPUp": 0.41,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "n": 1304,
+    "up": 509,
+    "raw": 0.3903,
+    "uncalibratedPUp": 0.3891,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "30": {
-    "n": 1420,
-    "up": 460,
-    "raw": 0.3239,
-    "uncalibratedPUp": 0.3244,
-    "base": 0.3476,
-    "pUp": 0.3397
+    "n": 1545,
+    "up": 475,
+    "raw": 0.3074,
+    "uncalibratedPUp": 0.308,
+    "base": 0.3357,
+    "pUp": 0.3233
    },
    "70": {
-    "n": 284,
-    "up": 98,
-    "raw": 0.3451,
-    "uncalibratedPUp": 0.3453,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "n": 303,
+    "up": 105,
+    "raw": 0.3465,
+    "uncalibratedPUp": 0.3456,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "80": {
-    "n": 263,
-    "up": 75,
-    "raw": 0.2852,
-    "uncalibratedPUp": 0.2916,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "n": 272,
+    "up": 77,
+    "raw": 0.2831,
+    "uncalibratedPUp": 0.2883,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "60": {
-    "n": 642,
-    "up": 232,
-    "raw": 0.3614,
-    "uncalibratedPUp": 0.3608,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "n": 686,
+    "up": 245,
+    "raw": 0.3571,
+    "uncalibratedPUp": 0.3562,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "10": {
-    "n": 2077,
-    "up": 679,
-    "raw": 0.3269,
-    "uncalibratedPUp": 0.3272,
-    "base": 0.3476,
-    "pUp": 0.3275
+    "n": 2171,
+    "up": 686,
+    "raw": 0.316,
+    "uncalibratedPUp": 0.3163,
+    "base": 0.3357,
+    "pUp": 0.3165
    },
    "90": {
-    "n": 106,
+    "n": 108,
     "up": 27,
-    "raw": 0.2547,
-    "uncalibratedPUp": 0.2752,
-    "base": 0.3476,
-    "pUp": 0.3644
+    "raw": 0.25,
+    "uncalibratedPUp": 0.2686,
+    "base": 0.3357,
+    "pUp": 0.3544
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.3275
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.3165
    }
   },
   "diana": {
@@ -170,166 +170,166 @@ const MODEL_INTELLIGENCE = {
   },
   "nova": {
    "50": {
-    "n": 1307,
-    "up": 388,
-    "raw": 0.2969,
-    "uncalibratedPUp": 0.298,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "n": 1327,
+    "up": 393,
+    "raw": 0.2962,
+    "uncalibratedPUp": 0.297,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "40": {
-    "n": 2967,
-    "up": 1013,
-    "raw": 0.3414,
-    "uncalibratedPUp": 0.3415,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "n": 3097,
+    "up": 1044,
+    "raw": 0.3371,
+    "uncalibratedPUp": 0.3371,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "30": {
-    "n": 2427,
-    "up": 902,
-    "raw": 0.3717,
-    "uncalibratedPUp": 0.3714,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "n": 2507,
+    "up": 921,
+    "raw": 0.3674,
+    "uncalibratedPUp": 0.367,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "70": {
-    "n": 51,
+    "n": 53,
     "up": 7,
-    "raw": 0.1373,
-    "uncalibratedPUp": 0.2152,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "raw": 0.1321,
+    "uncalibratedPUp": 0.2057,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "60": {
-    "n": 340,
-    "up": 88,
-    "raw": 0.2588,
-    "uncalibratedPUp": 0.266,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "n": 581,
+    "up": 114,
+    "raw": 0.1962,
+    "uncalibratedPUp": 0.2031,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "20": {
-    "n": 432,
-    "up": 219,
-    "raw": 0.5069,
-    "uncalibratedPUp": 0.4966,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "n": 471,
+    "up": 220,
+    "raw": 0.4671,
+    "uncalibratedPUp": 0.4592,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "90": {
     "n": 1,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.3364,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "uncalibratedPUp": 0.3248,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "80": {
-    "n": 3,
+    "n": 4,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.316,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "uncalibratedPUp": 0.2962,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.3357
    },
    "10": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.3476
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.3357
    }
   },
   "flow": {
    "50": {
-    "n": 4612,
-    "up": 1658,
-    "raw": 0.3595,
-    "uncalibratedPUp": 0.3594,
-    "base": 0.3476,
-    "pUp": 0.3594
+    "n": 4939,
+    "up": 1721,
+    "raw": 0.3485,
+    "uncalibratedPUp": 0.3484,
+    "base": 0.3357,
+    "pUp": 0.3484
    },
    "70": {
-    "n": 87,
+    "n": 92,
     "up": 44,
-    "raw": 0.5057,
-    "uncalibratedPUp": 0.4652,
-    "base": 0.3476,
-    "pUp": 0.4254
+    "raw": 0.4783,
+    "uncalibratedPUp": 0.4432,
+    "base": 0.3357,
+    "pUp": 0.4055
    },
    "40": {
-    "n": 2194,
-    "up": 703,
-    "raw": 0.3204,
-    "uncalibratedPUp": 0.3208,
-    "base": 0.3476,
-    "pUp": 0.3208
+    "n": 2342,
+    "up": 720,
+    "raw": 0.3074,
+    "uncalibratedPUp": 0.3078,
+    "base": 0.3357,
+    "pUp": 0.3078
    },
    "30": {
-    "n": 278,
+    "n": 293,
     "up": 81,
-    "raw": 0.2914,
-    "uncalibratedPUp": 0.2968,
-    "base": 0.3476,
-    "pUp": 0.3025
+    "raw": 0.2765,
+    "uncalibratedPUp": 0.2819,
+    "base": 0.3357,
+    "pUp": 0.2904
    },
    "60": {
-    "n": 313,
-    "up": 120,
-    "raw": 0.3834,
-    "uncalibratedPUp": 0.3803,
-    "base": 0.3476,
-    "pUp": 0.3803
+    "n": 328,
+    "up": 121,
+    "raw": 0.3689,
+    "uncalibratedPUp": 0.3661,
+    "base": 0.3357,
+    "pUp": 0.3661
    },
    "20": {
-    "n": 44,
-    "up": 11,
-    "raw": 0.25,
-    "uncalibratedPUp": 0.2896,
-    "base": 0.3476,
-    "pUp": 0.3025
+    "n": 46,
+    "up": 12,
+    "raw": 0.2609,
+    "uncalibratedPUp": 0.2904,
+    "base": 0.3357,
+    "pUp": 0.2904
+   },
+   "80": {
+    "n": 1,
+    "up": 0,
+    "raw": 0.0,
+    "uncalibratedPUp": 0.3248,
+    "base": 0.3357,
+    "pUp": 0.4055
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.3025
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.2904
    },
    "10": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.3025
-   },
-   "80": {
-    "n": 0,
-    "up": 0,
-    "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.4254
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.2904
    },
    "90": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.3476,
-    "base": 0.3476,
-    "pUp": 0.4254
+    "uncalibratedPUp": 0.3357,
+    "base": 0.3357,
+    "pUp": 0.4055
    }
   }
  },
@@ -339,12 +339,12 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": -0.114
   },
   "taro:nova": {
-   "n": 3727,
-   "errorCorr": 0.877
+   "n": 4022,
+   "errorCorr": 0.76
   },
   "taro:flow": {
-   "n": 853,
-   "errorCorr": 0.187
+   "n": 903,
+   "errorCorr": 0.186
   },
   "diana:nova": {
    "n": 1642,
@@ -355,15 +355,15 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": 0.085
   },
   "nova:flow": {
-   "n": 632,
-   "errorCorr": 0.151
+   "n": 679,
+   "errorCorr": 0.126
   }
  },
  "redundancyFactor": {
-  "taro": 0.9541,
+  "taro": 0.9612,
   "diana": 1,
-  "nova": 0.9563,
-  "flow": 0.9977
+  "nova": 0.9634,
+  "flow": 0.9978
  },
  "regimes": {
   "up_high": {
@@ -479,8 +479,8 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_low": {
-   "n": 826,
-   "blend": 0.508,
+   "n": 1618,
+   "blend": 0.6,
    "weights": {
     "taro": 0.2905,
     "diana": 0.0929,
@@ -489,20 +489,20 @@ const MODEL_INTELLIGENCE = {
    },
    "acc": {
     "taro": {
-     "n": 348,
-     "adjustedAcc": 65.0
+     "n": 740,
+     "adjustedAcc": 71.9
     },
     "diana": {
      "n": 0,
      "adjustedAcc": 50.0
     },
     "nova": {
-     "n": 426,
-     "adjustedAcc": 66.7
+     "n": 767,
+     "adjustedAcc": 53.4
     },
     "flow": {
-     "n": 52,
-     "adjustedAcc": 56.2
+     "n": 111,
+     "adjustedAcc": 55.6
     }
    }
   }
