@@ -7959,6 +7959,8 @@ function analystCardBodyHTML(id,code,res,color){
     if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
     if(I.quality) subs.push(I.quality+(I.divergence?' · '+I.divergence:''));
     if(subs.length) metricsHTML+=`<div class="fx-sub">${subs.map(esc).join('<br>')}</div>`;
+    if(I.fl.periodStart&&I.fl.periodEnd)
+      metricsHTML+=`<div class="fx-sub"><b>⚠️ 지금(장중) 진행 중인 수급은 이 점수에 반영되지 않아요.</b> 오늘 매매 상황이 궁금하면 이용 중인 증권사 앱(HTS·MTS)의 실시간 수급 화면에서 직접 확인해주세요.</div>`;
   }else{
     metricsHTML=`<div class="fx-metrics">`+I.metrics.map(m=>
       `<div class="fx-metric"><div class="fx-metric-label">${esc(m.label)}</div>`+
