@@ -215,7 +215,7 @@ def flow_eval(fl):
                              "다음 자동 수집에서 dealTrends가 채워지면 반영됩니다",
                              "현재는 중립으로 처리 — 채점에서 제외", "—"]}
     s = 50.0
-    fr, org = fl.get("frgnSum", 0), fl.get("orgSum", 0)
+    fr, org, indi = fl.get("frgnSum", 0), fl.get("orgSum", 0), fl.get("indiSum")
     hn, hb = fl.get("holdNow"), fl.get("holdBefore")
     s += max(-16, min(16, (1 if fr > 0 else -1) * min(16, abs(fr) / 50000)))
     s += max(-10, min(10, (1 if org > 0 else -1) * min(10, abs(org) / 50000)))
@@ -225,7 +225,8 @@ def flow_eval(fl):
     score = clamp(s)
     n = fl.get("days", 0)
     f = [
-        f"최근 {n}거래일 외국인 {'순매수' if fr >= 0 else '순매도'} {abs(fr):,}주 · 기관 {'순매수' if org >= 0 else '순매도'} {abs(org):,}주",
+        f"최근 {n}거래일 외국인 {'순매수' if fr >= 0 else '순매도'} {abs(fr):,}주 · 기관 {'순매수' if org >= 0 else '순매도'} {abs(org):,}주"
+        + (f" · 개인 {'순매수' if indi >= 0 else '순매도'} {abs(indi):,}주" if indi is not None else ""),
     ]
     if hn is not None and hb is not None:
         f.append(f"외국인 보유율 {hb:.2f}% → {hn:.2f}% ({'상승' if hn >= hb else '하락'})")

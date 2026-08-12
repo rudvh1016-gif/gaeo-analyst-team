@@ -266,6 +266,7 @@ def flow_summary(deal_trends, daily=None, days=6):
     period_start = _fmt_bizdate(dt[-1].get("bizdate"))
     frgn = sum(num(r.get("foreignerPureBuyQuant")) or 0 for r in dt)
     org = sum(num(r.get("organPureBuyQuant")) or 0 for r in dt)
+    indi = sum(num(r.get("individualPureBuyQuant")) or 0 for r in dt)
     today = dt[0]
     fr_rows = [int(num(row.get("foreignerPureBuyQuant")) or 0) for row in dt]
     org_rows = [int(num(row.get("organPureBuyQuant")) or 0) for row in dt]
@@ -303,7 +304,7 @@ def flow_summary(deal_trends, daily=None, days=6):
     return {
         "days": len(dt),
         "periodStart": period_start, "periodEnd": period_end,
-        "frgnSum": int(frgn), "orgSum": int(org),
+        "frgnSum": int(frgn), "orgSum": int(org), "indiSum": int(indi),
         "holdNow": num(dt[0].get("foreignerHoldRatio")),
         "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
         "todayFrgn": int(num(today.get("foreignerPureBuyQuant")) or 0),
