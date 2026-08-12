@@ -9,6 +9,8 @@ const path = require('path');
 const HERE = __dirname;
 const BASE = 'https://gaeoteam.com/';
 const SITE_NAME = 'Gaeo · 개오 애널리스트팀';
+const SHARE_IMAGE = BASE + 'gaeo-share-v3.jpg';
+const SHARE_ALT = 'GAEO';
 // <title> 뒤에 붙이는 짧은 브랜드 꼬리표. 검색결과 제목은 대략 60자를 넘으면 뒷부분이 잘리는데,
 // 전체 사이트명(19자)을 다 붙이면 글 제목 자체가 멀쩡해도 브랜드 때문에 잘려나갔다.
 // 글 제목은 그대로 두고 꼬리표만 줄여 34건 → 11건으로 해결한다(og:title에는 원래 안 붙는다).
@@ -76,7 +78,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
     "@context": "https://schema.org",
     "@type": articleType || "Article",
     "headline": title,
-    "image": BASE + "og-understand-more.png",
+    "image": SHARE_IMAGE,
     "datePublished": date,
     "dateModified": modified,
     "description": sdesc,
@@ -97,17 +99,19 @@ ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="ca
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(sdesc)}">
-<meta property="og:image" content="${BASE}og-understand-more.png">
-<meta property="og:image:type" content="image/png">
+<meta property="og:image" content="${SHARE_IMAGE}">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="800">
-<meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${SHARE_ALT}">
 <meta property="og:url" content="${esc(canonicalUrl)}">
+<meta property="og:site_name" content="GAEO">
+<meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(sdesc)}">
-<meta name="twitter:image" content="${BASE}og-understand-more.png">
-<meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta name="twitter:image" content="${SHARE_IMAGE}">
+<meta name="twitter:image:alt" content="${SHARE_ALT}">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
@@ -413,15 +417,19 @@ const indexPage = `<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:title" content="전체 글 목록 · ${esc(SITE_NAME)}">
 <meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
-<meta property="og:image" content="${BASE}og-understand-more.png">
-<meta property="og:image:type" content="image/png">
+<meta property="og:image" content="${SHARE_IMAGE}">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="800">
-<meta property="og:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${SHARE_ALT}">
 <meta property="og:url" content="${BASE}snap/index.html">
+<meta property="og:site_name" content="GAEO">
+<meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="${BASE}og-understand-more.png">
-<meta name="twitter:image:alt" content="GAEO Understand More 브랜드 소개 이미지">
+<meta name="twitter:title" content="전체 글 목록 · ${esc(SITE_NAME)}">
+<meta name="twitter:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta name="twitter:image" content="${SHARE_IMAGE}">
+<meta name="twitter:image:alt" content="${SHARE_ALT}">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>

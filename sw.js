@@ -1,12 +1,21 @@
-const CACHE = 'gaeo-shell-v7';
+const CACHE = 'gaeo-shell-v11';
 const SHELL = [
   './',
   './index.html',
+  './insight-rail.css',
+  './insight-rail.js',
   './manifest.json',
+  './gaeo-flower-symbol.png',
+  './gaeo-flower-symbol.webp',
   './app-icon-180.png',
   './app-icon-192.png',
   './app-icon-512.png',
+  './app-icon-maskable-512.png',
   './app-icon-1024.png',
+  './market_archive.js',
+  './apple-touch-icon.png',
+  './favicon-16.png',
+  './favicon-32.png',
   './tickers.js',
   './stock_bios.js',
   './site_config.js',
