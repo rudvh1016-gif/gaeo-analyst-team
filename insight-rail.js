@@ -13,7 +13,18 @@ var GaeoInsightRailCore=(function(){
     const p=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(now||new Date()).reduce((o,x)=>(o[x.type]=x.value,o),{});
     const m=+p.hour*60+(+p.minute);return !['Sat','Sun'].includes(p.weekday)&&m>=540&&m<=930?'실시간':'마감 흐름';
   }
-  return{nextPanelState,rankSnapshots,addRecent,marketFlowLabel};
+  function formatWon(value){
+    if(value==null||value===''||!Number.isFinite(+value))return'';
+    return Math.round(+value).toLocaleString('ko-KR')+'원';
+  }
+  function resolveTotalScore(code,snapshot){
+    const signal=snapshot&&snapshot.signals&&snapshot.signals[code];
+    if(signal&&Number.isFinite(+signal.t))return +signal.t;
+    const ranked=snapshot&&snapshot.marketInsight&&snapshot.marketInsight.ranked;
+    const row=Array.isArray(ranked)?ranked.find(item=>String(item.code)===String(code)):null;
+    return row&&Number.isFinite(+row.total)?+row.total:null;
+  }
+  return{nextPanelState,rankSnapshots,addRecent,marketFlowLabel,formatWon,resolveTotalScore};
 })();
 
 (function(core){
@@ -46,6 +57,9 @@ var GaeoInsightRailCore=(function(){
   const skeleton=()=>'<div class="gir-skeleton" aria-label="불러오는 중"><i></i><i></i><i></i><i></i></div>';
   function stockRow(x,html,cls=''){return`<button class="gir-row ${cls}" type="button" data-gir-stock="${esc(x.code)}" data-gir-name="${esc(x.name)}">${html}</button>`}
   function nameOf(code,fallback){return fallback||(stocks()[code]||{}).name||code}
+  function priceOf(code){const value=(stocks()[code]||{}).price;return Number.isFinite(+value)&&+value>0?core.formatWon(value):''}
+  function nameLine(code,name){const price=priceOf(code);return`<span class="gir-name-line"><b>${esc(name)}</b>${price?`<small class="gir-price">${esc(price)}</small>`:''}</span>`}
+  function eventValue(event){return event.unit==='원'?core.formatWon(event.currentValue):`${score(event.currentValue)}${esc(event.unit||'')}`}
 
   function top30(){
     const b=brief(),mi=b&&b.marketInsight,rows=mi&&Array.isArray(mi.ranked)?mi.ranked.slice(0,30):[];
@@ -53,7 +67,7 @@ var GaeoInsightRailCore=(function(){
     const ranks=core.rankSnapshots(b.signals||{});
     return`<p class="gir-caption">GAEO 종합점수 기준 · 확률이나 매수 순위가 아닙니다.</p><div class="gir-list">${rows.map((x,i)=>{
       const prev=ranks.previous[x.code],d=prev?prev-i-1:null,m=d==null?'NEW':d>0?`↑${d}`:d<0?`↓${-d}`:'–';
-      return stockRow(x,`<span class="gir-rank">${String(i+1).padStart(2,'0')}</span><span class="gir-row-main"><b>${esc(x.name)}</b><small>${esc((stocks()[x.code]||{}).sector||'')} · ${call(x.call)}</small></span><span class="gir-number">${score(x.total)}<small class="${d>0?'up':d<0?'down':''}">${m}</small></span>`);
+      return stockRow(x,`<span class="gir-rank">${String(i+1).padStart(2,'0')}</span><span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc((stocks()[x.code]||{}).sector||'')} · ${call(x.call)}</small></span><span class="gir-number">${score(x.total)}<small class="${d>0?'up':d<0?'down':''}">${m}</small></span>`);
     }).join('')}</div>`;
   }
   function reason(s){const d=(+s.t||0)-(+s.pt||0);return s.pc&&s.c&&s.pc!==s.c?`판단이 ${call(s.pc)}에서 ${call(s.c)}로 바뀌었습니다.`:`종합점수가 전일보다 ${Math.abs(d).toFixed(1)}점 ${d>=0?'높아졌습니다':'낮아졌습니다'}.`;}
@@ -61,7 +75,7 @@ var GaeoInsightRailCore=(function(){
     const b=brief(),signals=b&&b.signals||{},names=new Map(((b&&b.marketInsight&&b.marketInsight.ranked)||[]).map(x=>[x.code,x.name]));
     const rows=Object.entries(signals).map(([code,s])=>({code,s,d:(+s.t||0)-(+s.pt||0),changed:s.c!==s.pc})).sort((a,b)=>+b.changed-+a.changed||Math.abs(b.d)-Math.abs(a.d)).slice(0,20);
     if(!rows.length)return empty('두드러진 변화가 없습니다','전일과 비교할 판단 스냅샷이 없습니다.');
-    return`<p class="gir-caption">전일과 오늘을 비교해 판단 변화가 큰 순서입니다.</p><div class="gir-list">${rows.map(x=>{const name=nameOf(x.code,names.get(x.code));return stockRow({code:x.code,name},`<span class="gir-row-main"><b>${esc(name)}</b><small>${esc(reason(x.s))}</small></span><span class="gir-number ${x.d>0?'up':x.d<0?'down':''}">${x.d>0?'+':''}${score(x.d)}<small>${call(x.s.pc)} → ${call(x.s.c)}</small></span>`)}).join('')}</div>`;
+    return`<p class="gir-caption">전일과 오늘을 비교해 판단 변화가 큰 순서입니다.</p><div class="gir-list">${rows.map(x=>{const name=nameOf(x.code,names.get(x.code));return stockRow({code:x.code,name},`<span class="gir-row-main">${nameLine(x.code,name)}<small>${esc(reason(x.s))}</small></span><span class="gir-number ${x.d>0?'up':x.d<0?'down':''}">${x.d>0?'+':''}${score(x.d)}<small>${call(x.s.pc)} → ${call(x.s.c)}</small></span>`)}).join('')}</div>`;
   }
   async function rotation(){
     await GaeoFeatures.load('rotation');
@@ -83,11 +97,11 @@ var GaeoInsightRailCore=(function(){
   function live(){
     const r=typeof GAEO_RADAR!=='undefined'?GAEO_RADAR:null,l=typeof LIVE_DATA!=='undefined'?LIVE_DATA:null,events=r&&r.events?r.events.slice(0,18):[],indices=l&&l.indices?Object.entries(l.indices).slice(0,2):[];
     if(!events.length&&!indices.length)return empty('시장 흐름을 준비 중입니다','기존 시세·레이더 스냅샷을 확인해 주세요.');
-    return`<p class="gir-caption">시세 약 10분 · 변화 탐지 최대 30분 간격</p><div class="gir-indexes">${indices.map(([n,d])=>`<div><span>${esc(n)}</span><b>${(+d.value).toLocaleString('ko-KR')}</b><em class="${d.rate>=0?'up':'down'}">${d.rate>=0?'+':''}${d.rate}%</em></div>`).join('')}</div><div class="gir-list">${events.map(e=>stockRow(e,`<span class="gir-row-main"><b>${esc(e.name)}</b><small>${esc((r.labels||{})[e.type]||e.type.replaceAll('_',' '))}</small></span><span class="gir-number ${+e.currentValue>=+e.previousValue?'up':'down'}">${score(e.currentValue)}${esc(e.unit||'')}<small>${esc(e.date||'')}</small></span>`)).join('')}</div>`;
+    return`<p class="gir-caption">시세 약 10분 · 변화 탐지 최대 30분 간격</p><div class="gir-indexes">${indices.map(([n,d])=>`<div><span>${esc(n)}</span><b>${(+d.value).toLocaleString('ko-KR')}</b><em class="${d.rate>=0?'up':'down'}">${d.rate>=0?'+':''}${d.rate}%</em></div>`).join('')}</div><div class="gir-list">${events.map(e=>stockRow(e,`<span class="gir-row-main">${nameLine(e.code,e.name)}<small>${esc((r.labels||{})[e.type]||e.type.replaceAll('_',' '))}</small></span><span class="gir-number ${+e.currentValue>=+e.previousValue?'up':'down'}">${eventValue(e)}<small>${esc(e.date||'')}</small></span>`)).join('')}</div>`;
   }
   function recentPanel(){
     const rows=recent();if(!rows.length)return empty('최근 본 종목이 없습니다','이 기기에서 종목 상세를 열면 순서대로 저장됩니다.');
-    return`<div class="gir-recent-head"><span>이 기기에만 최대 25개 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main"><b>${esc(x.name)}</b><small>${esc(x.code)} · ${new Date(x.visitedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span>`)}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`).join('')}</div>`;
+    return`<div class="gir-recent-head"><span>이 기기에만 최대 25개 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>{const total=core.resolveTotalScore(x.code,brief());return`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc(x.code)} · ${new Date(x.visitedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span>${total==null?'':`<span class="gir-number gir-total-score">${score(total)}<small>종합점수</small></span>`}`)}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`}).join('')}</div>`;
   }
   const renders={top30,changes,rotation,news,live,recent:recentPanel};
   function sourceTime(tab){if(tab==='rotation'&&window.ROTATION_SNAPSHOT)return window.ROTATION_SNAPSHOT.generatedAt||window.ROTATION_SNAPSHOT.dataCutoff;if(tab==='news'&&typeof NEWS_ANALYSIS!=='undefined'&&NEWS_ANALYSIS[0])return NEWS_ANALYSIS[0].date;if(tab==='live'&&typeof GAEO_RADAR!=='undefined')return GAEO_RADAR.generatedAt||GAEO_RADAR.priceLabel;const b=brief();return b&&(b.generatedAt||(b.marketInsight||{}).sourceAsOf)}
@@ -97,7 +111,7 @@ var GaeoInsightRailCore=(function(){
     try{const html=await renders[state.tab]();if(id!==token)return;content.innerHTML=html;content.classList.remove('gir-content-enter');void content.offsetWidth;content.classList.add('gir-content-enter');asof.textContent=timeText(sourceTime(state.tab));}catch(e){if(id!==token)return;content.innerHTML=empty('데이터를 불러오지 못했습니다','잠시 뒤 다시 열어 주세요.');console.error('[GAEO insight rail]',e)}
   }
   function sync(doRender=true){
-    root.classList.toggle('is-open',state.open);document.body.classList.toggle('gaeo-insight-open',state.open);
+    root.classList.toggle('is-open',state.open);
     root.querySelectorAll('[data-gir-tab]').forEach(b=>{const on=b.dataset.girTab===state.tab;b.classList.toggle('is-active',on);b.setAttribute('aria-selected',String(on));b.setAttribute('aria-expanded',String(on&&state.open));b.tabIndex=on?0:-1});
     const panel=root.querySelector('.gir-panel');panel.setAttribute('aria-hidden',String(!state.open));panel.setAttribute('aria-labelledby','gir-tab-'+state.tab);persist();if(state.open&&doRender&&desktop.matches)render();
   }
