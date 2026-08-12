@@ -7953,7 +7953,7 @@ function analystCardBodyHTML(id,code,res,color){
     }).join('')+`</div>`;
     const subs=[];
     subs.push('자료: 네이버 증권 투자자별 순매매 · 장마감 확정치 기준');
-    if(I.fl.periodStart&&I.fl.periodEnd) subs.push('* 당일 수급은 장마감 후 집계 반영 예정이에요');
+    if(I.fl.periodStart&&I.fl.periodEnd) subs.push('* 당일(오늘) 수급 확정치는 오늘 장마감 직후가 아니라 다음 거래일에 반영돼요');
     if(typeof I.fl.todayFrgn==='number'&&typeof I.fl.todayOrg==='number'&&typeof I.fl.todayIndi==='number')
       subs.push(`직전 거래일: 외국인 ${I.fl.todayFrgn>=0?'+':''}${I.fl.todayFrgn.toLocaleString('ko-KR')}주 · 기관 ${I.fl.todayOrg>=0?'+':''}${I.fl.todayOrg.toLocaleString('ko-KR')}주 · 개인 ${I.fl.todayIndi>=0?'+':''}${I.fl.todayIndi.toLocaleString('ko-KR')}주`);
     if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
