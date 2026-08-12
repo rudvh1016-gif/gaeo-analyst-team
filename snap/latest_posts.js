@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 45,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-12",
+  "title": "2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유",
+  "featured": false
+ },
+ {
   "id": 44,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-04",
   "title": "한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나",
   "featured": false
- },
- {
-  "id": 72,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-04",
-  "title": "생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 44,
+ "news": 45,
  "study": 35,
  "lesson": 72,
  "estate": 19,
