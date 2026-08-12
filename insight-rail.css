@@ -1,8 +1,9 @@
 .gaeo-insight-shell{display:none}
 @media (min-width:1280px){
-  .gaeo-insight-shell{--gir-rail:62px;--gir-panel:300px;display:block;position:fixed;z-index:900;top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h));bottom:0;left:0;width:var(--gir-rail);pointer-events:none;color:#191a1d;font-family:inherit}
+  .gaeo-insight-shell{--gir-rail:68px;--gir-panel:300px;display:block;position:fixed;z-index:900;top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h));bottom:0;left:0;width:var(--gir-rail);pointer-events:none;color:#191a1d;font-family:inherit}
   .gir-rail{position:absolute;inset:0 auto 0 0;width:var(--gir-rail);display:flex;flex-direction:column;align-items:center;gap:5px;padding:16px 7px;background:rgba(255,255,255,.96);border-right:1px solid #e7e8ea;backdrop-filter:blur(18px);pointer-events:auto}
-  .gir-rail button{width:48px;min-height:54px;border:0;border-radius:14px;background:transparent;color:#747983;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:700 10px/1.1 inherit;cursor:pointer;transition:background .18s ease,color .18s ease,transform .18s ease}
+  .gir-rail button{width:56px;min-height:54px;border:0;border-radius:14px;background:transparent;color:#747983;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:700 9px/1 inherit;cursor:pointer;transition:background .18s ease,color .18s ease,transform .18s ease}
+  .gir-rail button>span{white-space:nowrap;line-height:1}
   .gir-rail button:hover{background:#f3f4f5;color:#222;transform:translateX(2px)}
   .gir-rail button.is-active{background:#202124;color:#fff}
   .gir-rail svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -18,7 +19,7 @@
   .gir-panel>footer{display:grid;border-top:1px solid #ececef;padding:9px 12px;background:#fff}.gir-panel>footer button{border:0;background:transparent;padding:7px 8px;text-align:left;color:#6d727b;font:650 11px/1.2 inherit;cursor:pointer}.gir-panel>footer button:hover{color:#111}
   .gir-caption{margin:0 5px 12px;color:#858a93;font-size:11px;line-height:1.55}.gir-list{display:flex;flex-direction:column;gap:3px}
   .gir-row{width:100%;min-width:0;border:0;border-radius:12px;background:transparent;padding:10px 8px;display:flex;align-items:center;gap:9px;text-align:left;color:inherit;font:inherit;cursor:pointer;transition:background .16s ease,transform .16s ease}.gir-row:hover{background:#f5f5f3;transform:translateX(2px)}
-  .gir-rank{flex:0 0 22px;color:#9a9ea5;font:700 11px/1 inherit;font-variant-numeric:tabular-nums}.gir-row-main{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}.gir-row-main b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:1.3;letter-spacing:-.02em}.gir-row-main small,.gir-row-main span{color:#868b94;font-size:11px;line-height:1.42}
+  .gir-rank{flex:0 0 22px;color:#9a9ea5;font:700 11px/1 inherit;font-variant-numeric:tabular-nums}.gir-row-main{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}.gir-name-line{min-width:0;display:flex;align-items:baseline;gap:6px;white-space:nowrap}.gir-name-line b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gir-price{flex:0 0 auto;color:#777c85!important;font-size:9px!important;font-weight:700;font-variant-numeric:tabular-nums}.gir-row-main b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:1.3;letter-spacing:-.02em}.gir-row-main small,.gir-row-main span{color:#868b94;font-size:11px;line-height:1.42}
   .gir-number{flex:0 0 auto;text-align:right;font:750 13px/1.25 inherit;font-variant-numeric:tabular-nums}.gir-number small{display:block;margin-top:4px;color:#989ca4;font:650 10px/1.2 inherit}.gaeo-insight-shell .up{color:#d95761!important}.gaeo-insight-shell .down{color:#3674c8!important}
   .gir-rotation-hero{padding:16px;border-radius:16px;background:#f5f6f7;display:flex;flex-direction:column;gap:5px}.gir-rotation-hero span,.gir-kpis span,.gir-flow span{color:#7b8088;font-size:11px;font-weight:650}.gir-rotation-hero strong{font-size:28px;line-height:1.15;letter-spacing:-.04em}.gir-rotation-hero small{color:#7d828b;font-size:10px;line-height:1.5}
   .gir-kpis{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.gir-kpis>div{min-width:0;padding:12px;border:1px solid #e8e9eb;border-radius:14px}.gir-kpis b{display:block;margin-top:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.gir-kpis small{display:block;margin-top:3px;color:#858a92;font-size:10px}
@@ -39,5 +40,4 @@
   html.gdark .gir-caption,html.gdark .gir-row-main small,html.gdark .gir-row-main span,html.gdark .gir-number small,html.gdark .gir-panel time{color:var(--color-text-secondary)}
   html.gdark .gir-skeleton i{background:linear-gradient(90deg,#191B1F 25%,#25282E 37%,#191B1F 63%);background-size:400% 100%}
 }
-@media (min-width:1680px){body.gaeo-insight-open .wrap{width:auto;max-width:none;margin-left:394px;margin-right:32px;transition:margin .32s cubic-bezier(.22,1,.36,1)}}
 @media (prefers-reduced-motion:reduce){.gir-panel,.gir-content,.gir-row,.gir-rail button{animation:none!important;transition:none!important}.gir-skeleton i{animation:none!important}}
