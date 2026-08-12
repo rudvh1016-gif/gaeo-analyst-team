@@ -21,6 +21,7 @@
 ## 이 원격 세션 환경의 특이사항
 
 - **네이버 금융이 이 원격 세션에서는 403으로 막힌다.** 수동 시세 수집이 필요하면 `.analyst-refresh` 내용을 바꿔 `main`에 커밋·푸시해서 GitHub Actions 러너가 대신 수집하게 한다(1~2분 뒤 pull). 이건 이 특정 원격 실행 환경의 네트워크 제약이라, Codex가 다른 환경(예: 사용자 로컬 PC)에서 실행되면 이 문제가 아예 없을 수 있다.
+- **`gaeoteam.com`·`rudvh1016-gif.github.io`(실제 프로덕션 사이트) 자체도 이 원격 세션 egress 프록시가 막는다** (2026-08-12 확인, `curl`·`WebFetch` 둘 다 `CONNECT tunnel failed, response 403`). 프로덕션 실물 화면을 직접 열어봐야 하는 감사·QA 요청이 오면, 리포지토리 내 `test_static_server.js`(로컬 8877 포트 정적 서버) + Playwright(`/opt/pw-browsers/chromium`)로 대체 검증하고 "프로덕션 직접 접근은 NOT VERIFIED — 세션 egress 제약"이라고 명시할 것. 다른 환경(사용자 로컬 PC 등)이나 이 프록시 정책이 바뀐 세션이라면 가능할 수 있으니, 그때는 직접 접근을 다시 시도해볼 것.
 - Playwright 시각 검증은 전역 설치된 Chromium(`/opt/pw-browsers/chromium`)을 쓴다. `NODE_PATH=/opt/node22/lib/node_modules node 스크립트.js`로 실행.
 - SessionStart 훅(`.claude/settings.json` → `check_pipeline.py`)이 세션 시작 때마다 데이터 파이프라인 신선도를 자동 점검해 경고를 띄운다. 이건 Claude Code 훅 메커니즘 전용 설정이다.
 - 클로드 Routine("gaeo 장중 매시 kickoff 안전망")이 평일 매시 data.js 커밋이 25분 이상 끊기면 마커 push로 러너를 소생시키는 안전망 중 하나로 등록돼 있다(Claude Code의 예약 실행 기능, `AGENTS.md`의 데이터 파이프라인 안전망 5중 중 ⑤).
