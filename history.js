@@ -2035,6 +2035,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-12 12:15",
+   "call": "BUY",
+   "total": 64,
+   "confidence": 60,
+   "base": 257750,
+   "baseAt": "2026-08-12 12:06",
+   "target": "컨센서스 평균 목표주가 491,875원(현재가 대비 +90.8% 상승여력) · 지지선 MA20(244,100원)·3개월 저점(207,000원), 저항선 MA60(290,742원) · 주주환원 정책 발표 시 추가 상향 가능성",
+   "taro": {
+    "stance": "neu",
+    "score": 58
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 70
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 74
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 59
+   }
   }
  ],
  "000660": [
@@ -99766,6 +99791,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-12 12:15",
+   "call": "HOLD",
+   "total": 53,
+   "confidence": 52,
+   "base": 46000,
+   "baseAt": "2026-08-12 12:06",
+   "target": "컨센서스 평균 목표주가 55,500원(현재가 대비 +20.7% 상승여력, 개별 증권사는 50,000~65,000원으로 편차 존재) · 지지선 MA20(36,870원)·MA5(40,530원), 저항선은 오늘 사상 최고가를 경신 중이라 뚜렷한 상단 부재",
+   "taro": {
+    "stance": "neu",
+    "score": 55
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 64
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 66
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 42
+   }
   }
  ],
  "357780": [
