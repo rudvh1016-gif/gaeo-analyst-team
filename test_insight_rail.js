@@ -11,6 +11,13 @@ const core = context.globalThis.__tested;
 
 assert(core, 'insight rail core must be exposed for deterministic tests');
 
+assert.strictEqual(core.formatWon(14600), '14,600원');
+assert.strictEqual(core.formatWon(14600.4), '14,600원');
+assert.strictEqual(core.formatWon(null), '');
+assert.strictEqual(core.resolveTotalScore('005930', { signals: { '005930': { t: 64 } } }), 64);
+assert.strictEqual(core.resolveTotalScore('005930', { marketInsight: { ranked: [{ code: '005930', total: 62 }] } }), 62);
+assert.strictEqual(core.resolveTotalScore('005930', {}), null);
+
 assert.deepStrictEqual(
   JSON.parse(JSON.stringify(core.nextPanelState({ open: false, tab: 'top30' }, 'rotation'))),
   { open: true, tab: 'rotation' }
