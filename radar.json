@@ -832,7 +832,7 @@
    "type": "rsi_overbought_entry",
    "label": "과매수 진입",
    "group": "main",
-   "icon": "▲",
+   "icon": "▼",
    "metric": "RSI",
    "unit": "",
    "previousValue": 61.0,
@@ -843,8 +843,8 @@
    "priceBaseAt": "2026-08-12 12:06 장중",
    "status": "provisional",
    "severity": "mid",
-   "description": "RSI가 70을 넘어서며 최근 매수세가 몰린 구간이에요.",
-   "caution": "과매수 구간이라고 해서 곧 하락한다는 뜻은 아니에요. 강세가 이어지기도 해요."
+   "description": "RSI가 70 아래로 내려오며 과매수 구간에서 벗어났어요.",
+   "caution": "매수세가 잦아든 구간일 뿐, 방향을 알려주는 신호는 아니에요."
   },
   {
    "id": "161890-rsi-overbought-entry-20260812",
@@ -853,7 +853,7 @@
    "type": "rsi_overbought_entry",
    "label": "과매수 진입",
    "group": "main",
-   "icon": "▲",
+   "icon": "▼",
    "metric": "RSI",
    "unit": "",
    "previousValue": 58.4,
@@ -864,8 +864,8 @@
    "priceBaseAt": "2026-08-12 12:06 장중",
    "status": "provisional",
    "severity": "mid",
-   "description": "RSI가 70을 넘어서며 최근 매수세가 몰린 구간이에요.",
-   "caution": "과매수 구간이라고 해서 곧 하락한다는 뜻은 아니에요. 강세가 이어지기도 해요."
+   "description": "RSI가 70 아래로 내려오며 과매수 구간에서 벗어났어요.",
+   "caution": "매수세가 잦아든 구간일 뿐, 방향을 알려주는 신호는 아니에요."
   },
   {
    "id": "251970-rsi-overbought-entry-20260812",
@@ -874,7 +874,7 @@
    "type": "rsi_overbought_entry",
    "label": "과매수 진입",
    "group": "main",
-   "icon": "▲",
+   "icon": "▼",
    "metric": "RSI",
    "unit": "",
    "previousValue": 64.0,
@@ -885,8 +885,8 @@
    "priceBaseAt": "2026-08-12 12:06 장중",
    "status": "provisional",
    "severity": "mid",
-   "description": "RSI가 70을 넘어서며 최근 매수세가 몰린 구간이에요.",
-   "caution": "과매수 구간이라고 해서 곧 하락한다는 뜻은 아니에요. 강세가 이어지기도 해요."
+   "description": "RSI가 70 아래로 내려오며 과매수 구간에서 벗어났어요.",
+   "caution": "매수세가 잦아든 구간일 뿐, 방향을 알려주는 신호는 아니에요."
   },
   {
    "id": "257720-rsi-overbought-entry-20260812",
