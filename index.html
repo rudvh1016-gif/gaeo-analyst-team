@@ -7953,14 +7953,14 @@ function analystCardBodyHTML(id,code,res,color){
     }).join('')+`</div>`;
     const subs=[];
     subs.push('자료: 네이버 증권 투자자별 순매매 · 장마감 확정치 기준');
-    if(I.fl.periodStart&&I.fl.periodEnd) subs.push('* 당일(오늘) 수급 확정치는 오늘 장마감 직후가 아니라 다음 거래일에 반영돼요');
     if(typeof I.fl.todayFrgn==='number'&&typeof I.fl.todayOrg==='number'&&typeof I.fl.todayIndi==='number')
       subs.push(`직전 거래일: 외국인 ${I.fl.todayFrgn>=0?'+':''}${I.fl.todayFrgn.toLocaleString('ko-KR')}주 · 기관 ${I.fl.todayOrg>=0?'+':''}${I.fl.todayOrg.toLocaleString('ko-KR')}주 · 개인 ${I.fl.todayIndi>=0?'+':''}${I.fl.todayIndi.toLocaleString('ko-KR')}주`);
     if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
     if(I.quality) subs.push(I.quality+(I.divergence?' · '+I.divergence:''));
     if(subs.length) metricsHTML+=`<div class="fx-sub">${subs.map(esc).join('<br>')}</div>`;
     if(I.fl.periodStart&&I.fl.periodEnd)
-      metricsHTML+=`<div class="fx-sub"><b>⚠️ 지금(장중) 진행 중인 수급은 이 점수에 반영되지 않아요.</b> 오늘 매매 상황이 궁금하면 이용 중인 증권사 앱(HTS·MTS)의 실시간 수급 화면에서 직접 확인해주세요.</div>`;
+      metricsHTML+=`<div class="fx-sub" style="font-weight:700;color:var(--ink)">* 당일(오늘) 수급 확정치는 오늘 장마감 직후가 아니라 다음 거래일에 반영돼요</div>`
+        +`<div class="fx-sub"><b>⚠️ 지금(장중) 진행 중인 수급은 이 점수에 반영되지 않아요.</b> 오늘 매매 상황이 궁금하면 이용 중인 증권사 앱(HTS·MTS)의 실시간 수급 화면에서 직접 확인해주세요.</div>`;
   }else{
     metricsHTML=`<div class="fx-metrics">`+I.metrics.map(m=>
       `<div class="fx-metric"><div class="fx-metric-label">${esc(m.label)}</div>`+
