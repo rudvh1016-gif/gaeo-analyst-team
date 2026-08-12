@@ -7846,11 +7846,12 @@ function flowQualityLabel(q){
 function parseFlowFromFindings(findings){
   if(!Array.isArray(findings)||!findings.length) return null;
   const joined=findings.join(' ');
-  const m1=joined.match(/최근\s*(\d+)거래일\s*외국인\s*(순매수|순매도)\s*([\d,]+)주\s*·\s*기관\s*(순매수|순매도)\s*([\d,]+)주/);
+  const m1=joined.match(/최근\s*(\d+)거래일\s*외국인\s*(순매수|순매도)\s*([\d,]+)주\s*·\s*기관\s*(순매수|순매도)\s*([\d,]+)주(?:\s*·\s*개인\s*(순매수|순매도)\s*([\d,]+)주)?/);
   if(!m1) return null;
   const days=+m1[1];
   const frgnSum=(m1[2]==='순매수'?1:-1)*parseInt(m1[3].replace(/,/g,''),10);
   const orgSum=(m1[4]==='순매수'?1:-1)*parseInt(m1[5].replace(/,/g,''),10);
+  const indiSum=m1[6]?(m1[6]==='순매수'?1:-1)*parseInt(m1[7].replace(/,/g,''),10):null;
   const m2=joined.match(/외국인\s*보유율\s*([\d.]+)%\s*→\s*([\d.]+)%/);
   const holdBefore=m2?parseFloat(m2[1]):null, holdNow=m2?parseFloat(m2[2]):null;
   const m3=joined.match(/직전\s*거래일\s*외국인\s*([+\-][\d,]+)주\s*·\s*기관\s*([+\-][\d,]+)주\s*·\s*개인\s*([+\-][\d,]+)주/);
@@ -7863,7 +7864,7 @@ function parseFlowFromFindings(findings){
   else if(joined.indexOf('분배형 괴리')>=0) divergence='distribution';
   else if(joined.indexOf('상승 확인')>=0) divergence='confirmation_up';
   else if(joined.indexOf('하락 확인')>=0) divergence='confirmation_down';
-  return {days,frgnSum,orgSum,holdBefore,holdNow,todayFrgn,todayOrg,todayIndi,qualityScore,divergence};
+  return {days,frgnSum,orgSum,indiSum,holdBefore,holdNow,todayFrgn,todayOrg,todayIndi,qualityScore,divergence};
 }
 function getFlowInterpretation(code,res){
   const I=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks[code]:null;
@@ -7877,7 +7878,9 @@ function getFlowInterpretation(code,res){
   const rows=[
     {label:'외국인', val:fl.frgnSum, dir:fl.frgnSum>=0?'순매수':'순매도', period:periodTxt},
     {label:'기관', val:fl.orgSum, dir:fl.orgSum>=0?'순매수':'순매도', period:periodTxt},
-    {label:'개인', val:fl.todayIndi, dir:fl.todayIndi>=0?'순매수':'순매도', period:'직전 거래일'},
+    {label:'개인', val:typeof fl.indiSum==='number'?fl.indiSum:fl.todayIndi,
+      dir:(typeof fl.indiSum==='number'?fl.indiSum:fl.todayIndi)>=0?'순매수':'순매도',
+      period:typeof fl.indiSum==='number'?periodTxt:'직전 거래일'},
   ];
   const holdDelta=(typeof fl.holdNow==='number'&&typeof fl.holdBefore==='number')?fl.holdNow-fl.holdBefore:null;
   const both=fl.frgnSum>=0&&fl.orgSum>=0, none=fl.frgnSum<0&&fl.orgSum<0;
@@ -7950,7 +7953,10 @@ function analystCardBodyHTML(id,code,res,color){
         `<div class="fx-flow-dir">${up?'▲':'▼'} ${m.dir}</div><div class="fx-flow-period">${esc(m.period)}</div></div>`;
     }).join('')+`</div>`;
     const subs=[];
+    subs.push('자료: 네이버 증권 투자자별 순매매 · 장마감 확정치 기준');
     if(I.fl.periodStart&&I.fl.periodEnd) subs.push('* 당일 수급은 장마감 후 집계 반영 예정이에요');
+    if(typeof I.fl.todayFrgn==='number'&&typeof I.fl.todayOrg==='number'&&typeof I.fl.todayIndi==='number')
+      subs.push(`직전 거래일: 외국인 ${I.fl.todayFrgn>=0?'+':''}${I.fl.todayFrgn.toLocaleString('ko-KR')}주 · 기관 ${I.fl.todayOrg>=0?'+':''}${I.fl.todayOrg.toLocaleString('ko-KR')}주 · 개인 ${I.fl.todayIndi>=0?'+':''}${I.fl.todayIndi.toLocaleString('ko-KR')}주`);
     if(typeof I.holdDelta==='number') subs.push(`외국인 보유율 ${I.fl.holdBefore}% → ${I.fl.holdNow}% (${fmtPp(I.holdDelta)})`);
     if(I.quality) subs.push(I.quality+(I.divergence?' · '+I.divergence:''));
     if(subs.length) metricsHTML+=`<div class="fx-sub">${subs.map(esc).join('<br>')}</div>`;
