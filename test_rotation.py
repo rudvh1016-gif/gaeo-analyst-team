@@ -1,4 +1,6 @@
 import copy
+import importlib
+import importlib.util
 import json
 import tempfile
 import unittest
@@ -15,7 +17,7 @@ from rotation_engine import (
 )
 from compute_rotation import apply_score_history, load_inputs, update_archive, write_snapshot_if_valid
 from rotation_backtest import compute_lead_lag, find_similar_periods, walk_forward_calibration
-from backtest_rotation import evaluate_horizons, select_recommended_horizon
+from backtest_rotation import evaluate_horizons, select_recommended_horizon, summarize_similar_markets
 
 
 def rows(closes, volumes=None, start_day=1):
@@ -27,6 +29,17 @@ def rows(closes, volumes=None, start_day=1):
 
 
 class RotationMathTest(unittest.TestCase):
+    def test_future_trading_period_excludes_weekends_and_krx_holidays(self):
+        spec = importlib.util.find_spec("krx_calendar")
+        self.assertIsNotNone(spec, "KRX 거래일 계산 모듈이 필요합니다.")
+        future_trading_period = importlib.import_module("krx_calendar").future_trading_period
+
+        self.assertEqual(future_trading_period("2026-08-11", 20), {
+            "periodStart": "2026-08-12",
+            "periodEnd": "2026-09-09",
+            "tradingDays": 20,
+        })
+
     def test_score_explanation_contributions_reconcile_to_displayed_score(self):
         components = {
             "momentum": 69.6, "relativeStrength": 82.6, "flow": 69.6,
@@ -106,7 +119,7 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertIn("확률이 아닙니다", period["scoreExplanation"]["meaning"])
         self.assertEqual(period["modelAgreement"]["total"], 8)
 
-    def test_candidate_stocks_reuse_existing_taro_indicators(self):
+    def test_candidate_stocks_use_actual_taro_score_and_disclose_volume_baseline(self):
         indicator = {
             "price": 110,
             "tech": {
@@ -117,18 +130,37 @@ class RotationSnapshotTest(unittest.TestCase):
             "relative": {"sectorPercentile": 92},
             "risk": {"grade": "normal"},
         }
+        long_stocks = dict(self.stocks)
+        long_stocks["A"] = rows(
+            list(range(100, 122)),
+            [100] * 21 + [140],
+        )
         snapshot = build_snapshot(
-            self.stocks, self.sectors, self.markets, self.indices,
+            long_stocks, self.sectors, self.markets, self.indices,
             indicators={"A": indicator}, names={"A": "A기업"},
+            auto_analysis={"A": {"taro": {"score": 87, "stance": "bull"}}},
         )
         semi = next(sector for sector in snapshot["sectors"] if sector["name"] == "반도체")
         candidate = next(stock for stock in semi["candidateStocks"] if stock["code"] == "A")
 
         self.assertEqual(candidate["name"], "A기업")
-        self.assertEqual(candidate["taroScore"], 100.0)
+        self.assertEqual(candidate["taroScore"], 87.0)
+        self.assertEqual(candidate["taroSource"], "auto-analysis")
         self.assertEqual(candidate["movingAverages"]["200"], 100)
         self.assertEqual(candidate["volumeRatio"], 1.4)
+        self.assertEqual(candidate["volumeBaseline"], {
+            "label": "직전 20거래일 일평균 대비",
+            "periodStart": "2026-01-02",
+            "periodEnd": "2026-01-21",
+            "tradingDays": 20,
+        })
         self.assertEqual(candidate["source"], "existing-indicators")
+        self.assertIn("rotationRankScore", candidate)
+        self.assertEqual(candidate["maStatus"]["20"], "20일선 위")
+        self.assertEqual(candidate["maStatus"]["200"], "200일선 위")
+        self.assertIn("TARO 기술 확인", candidate["rotationRankReasons"])
+        self.assertEqual(semi["taroAnalyzedCount"], 1)
+        self.assertEqual(semi["taroConfirmationCount"], 1)
         self.assertEqual(semi["candidateExcludedCount"], 1)
         self.assertTrue(all(stock["source"] == "existing-indicators" for stock in semi["candidateStocks"]))
 
@@ -145,6 +177,85 @@ class RotationSnapshotTest(unittest.TestCase):
         self.assertEqual(snapshot["horizonPerformance"]["5"]["sampleCount"], 80)
         self.assertEqual(snapshot["recommendedHorizon"]["horizon"], 5)
         self.assertNotIn("확률", snapshot["recommendedHorizon"]["reason"])
+
+    def test_recommended_horizon_drives_summary_and_exposes_period_ranges(self):
+        model = {
+            "recommendedHorizon": {"status": "ready", "horizon": 20, "reason": "20일 우위"},
+            "horizonPerformance": {
+                "20": {"status": "ready", "sampleCount": 40, "periodStart": "2025-01-01", "periodEnd": "2025-12-01"}
+            },
+        }
+        long_stocks = {
+            code: rows([100 + index for index in range(22)])
+            for code in self.stocks
+        }
+        long_indices = {
+            market: rows([100 + index for index in range(22)])
+            for market in self.indices
+        }
+
+        snapshot = build_snapshot(long_stocks, self.sectors, self.markets, long_indices, model=model)
+
+        self.assertEqual(snapshot["summary"]["horizon"], 20)
+        self.assertEqual(snapshot["summary"]["period"], {
+            "periodStart": "2026-01-02", "periodEnd": "2026-01-22", "tradingDays": 20,
+        })
+        self.assertEqual(snapshot["summary"]["shortTerm"]["horizon"], 5)
+        self.assertEqual(snapshot["marketRegime"]["breadthPeriod"]["tradingDays"], 5)
+        self.assertEqual(snapshot["marketRegime"]["directionPeriod"]["tradingDays"], 20)
+        self.assertNotIn("candidateObservationPeriod", snapshot["summary"])
+
+    def test_candidate_exposes_expected_observation_period(self):
+        dates = [
+            "2026-07-14", "2026-07-15", "2026-07-16", "2026-07-17",
+            "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23",
+            "2026-07-24", "2026-07-27", "2026-07-28", "2026-07-29",
+            "2026-07-30", "2026-07-31", "2026-08-03", "2026-08-04",
+            "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-10",
+            "2026-08-11",
+        ]
+        closes = {
+            "A": [100 + index * 1.5 for index in range(21)],
+            "B": [100 + index for index in range(21)],
+            "C": [100 - index * 0.5 for index in range(21)],
+            "D": [100 - index for index in range(21)],
+        }
+        stocks = {
+            code: [
+                {"date": day, "close": values[index], "volume": 100}
+                for index, day in enumerate(dates)
+            ]
+            for code, values in closes.items()
+        }
+        indices = {
+            market: [{"date": day, "close": 100, "volume": 100} for day in dates]
+            for market in ("KOSPI", "KOSDAQ")
+        }
+        weights = {name: 0.0 for name in (
+            "momentum", "relativeStrength", "flow", "breadth",
+            "leadLag", "similarity", "regimeMatch", "taro",
+        )}
+        weights["momentum"] = 1.0
+        model = {
+            "recommendedHorizon": {"status": "ready", "horizon": 20, "reason": "20일 우위"},
+            "weights": {"20": weights},
+        }
+
+        snapshot = build_snapshot(
+            stocks,
+            {code: f"업종{code}" for code in stocks},
+            {code: "KOSPI" for code in stocks},
+            indices,
+            model=model,
+        )
+
+        self.assertIsNotNone(snapshot["summary"]["candidate"])
+        self.assertIn("candidateObservationPeriod", snapshot["summary"])
+        self.assertEqual(snapshot["summary"]["candidateObservationPeriod"], {
+            "periodStart": "2026-08-12",
+            "periodEnd": "2026-09-09",
+            "tradingDays": 20,
+        })
 
     def test_snapshot_includes_rule_based_interpretation_and_component_guide(self):
         snapshot = build_snapshot(self.stocks, self.sectors, self.markets, self.indices)
@@ -200,6 +311,44 @@ class RotationSnapshotTest(unittest.TestCase):
 
 
 class RotationIoTest(unittest.TestCase):
+    def test_score_history_exposes_actual_component_contribution_changes(self):
+        snapshot = {
+            "dataCutoff": "2026-01-03 종가",
+            "sectors": [{"name": "반도체", "periods": {"20": {
+                "score": 70.0,
+                "scoreExplanation": {"contributions": {"momentum": 12.0, "flow": 8.0}},
+            }}}],
+        }
+        archive = {"days": [{
+            "date": "2026-01-02",
+            "sectors": [{"name": "반도체", "periods": {"20": {
+                "score": 66.0,
+                "scoreExplanation": {"contributions": {"momentum": 9.5, "flow": 6.5}},
+            }}}],
+        }]}
+
+        change = apply_score_history(snapshot, archive)["sectors"][0]["periods"]["20"]["scoreChange"]
+
+        self.assertEqual(change["previousScore"], 66.0)
+        self.assertEqual(change["currentScore"], 70.0)
+        self.assertEqual(change["componentStatus"], "ready")
+        self.assertEqual(change["componentDeltas"], {"momentum": 2.5, "flow": 1.5})
+
+    def test_score_history_marks_component_reason_accumulating_for_legacy_archive(self):
+        snapshot = {
+            "dataCutoff": "2026-01-03 종가",
+            "sectors": [{"name": "반도체", "periods": {"20": {
+                "score": 70.0, "scoreExplanation": {"contributions": {"momentum": 12.0}},
+            }}}],
+        }
+        archive = {"days": [{"date": "2026-01-02", "sectors": [{"name": "반도체", "periods": {"20": {"score": 66.0}}}]}]}
+
+        change = apply_score_history(snapshot, archive)["sectors"][0]["periods"]["20"]["scoreChange"]
+
+        self.assertEqual(change["value"], 4.0)
+        self.assertEqual(change["componentStatus"], "accumulating")
+        self.assertEqual(change["componentDeltas"], {})
+
     def test_score_history_uses_only_prior_day_and_labels_direction(self):
         snapshot = {
             "dataCutoff": "2026-01-03 10:00 장중",
@@ -250,12 +399,17 @@ class RotationIoTest(unittest.TestCase):
                 'const INDEX_HISTORY = {"KOSPI":[],"KOSDAQ":[]};\n', encoding="utf-8"
             )
             (root / "indicators.json").write_text('{"stocks":{}}', encoding="utf-8")
+            (root / "auto_analysis.js").write_text(
+                'const LIVE_AUTO = {"generatedAt":"2026-01-02 16:00","stocks":{"A":{"taro":{"score":77}}}};\n',
+                encoding="utf-8",
+            )
 
             loaded = load_inputs(root)
 
             self.assertEqual(set(loaded["stocks"]), {"A", "B"})
             self.assertEqual([row["date"] for row in loaded["stocks"]["A"]], ["2026-01-01", "2026-01-02"])
             self.assertEqual(loaded["markets"], {"A": "KOSPI", "B": "KOSDAQ"})
+            self.assertEqual(loaded["autoAnalysis"]["A"]["taro"]["score"], 77)
 
     def test_invalid_snapshot_does_not_replace_last_good_file(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -286,6 +440,44 @@ class RotationIoTest(unittest.TestCase):
 
 
 class RotationBacktestTest(unittest.TestCase):
+    def test_recommended_horizon_uses_balanced_out_of_sample_evidence(self):
+        result = select_recommended_horizon({
+            "5": {
+                "status": "ready", "sampleCount": 60, "hitRate": 57.0,
+                "averageExcessReturn": 0.1, "medianExcessReturn": -0.4,
+                "stability": 92.0, "recentReproduction": 35.0,
+            },
+            "20": {
+                "status": "ready", "sampleCount": 55, "hitRate": 54.0,
+                "averageExcessReturn": 1.3, "medianExcessReturn": 0.8,
+                "stability": 84.0, "recentReproduction": 75.0,
+            },
+        })
+
+        self.assertEqual(result["horizon"], 20)
+        self.assertEqual(result["regimeMatchStatus"], "accumulating")
+        self.assertEqual(set(result["evidence"]), {"hitRate", "averageExcessReturn", "medianExcessReturn", "stability", "recentReproduction", "sampleCount", "compositeScore"})
+        self.assertIn("중앙 초과", result["reason"])
+
+    def test_similar_market_summary_reports_selected_sector_success_and_failure(self):
+        cases = [
+            {"date": "2025-01-02", "distance": 0.2, "sectorOutcomes": {"인터넷·IT": 3.0}, "benchmarkReturn": 1.0},
+            {"date": "2025-02-03", "distance": 0.4, "sectorOutcomes": {"인터넷·IT": -1.0}, "benchmarkReturn": 0.5},
+            {"date": "2025-03-04", "distance": 0.1, "sectorOutcomes": {"인터넷·IT": 2.0}, "benchmarkReturn": 1.0},
+        ]
+
+        result = summarize_similar_markets(cases, ["인터넷·IT"], 20, "2021-01-04", "2026-01-02", 1230)
+        summary = result["bySector"]["인터넷·IT"]
+
+        self.assertEqual(summary["sampleCount"], 3)
+        self.assertEqual(summary["successCount"], 2)
+        self.assertEqual(summary["failureCount"], 1)
+        self.assertEqual(summary["horizon"], 20)
+        self.assertEqual(summary["successDefinition"], "향후 20거래일 업종수익률 > 500종목 업종 중앙값")
+        self.assertAlmostEqual(summary["averageExcessReturn"], 0.5, places=2)
+        self.assertEqual(summary["periodStart"], "2021-01-04")
+        self.assertEqual(summary["tradingDays"], 1230)
+
     def test_horizon_performance_is_evaluated_independently(self):
         dates = [f"D{day:03d}" for day in range(100)]
         sectors = ["A", "B", "C"]
@@ -324,12 +516,15 @@ class RotationBacktestTest(unittest.TestCase):
 
     def test_similarity_observes_embargo_and_known_outcomes(self):
         history = [
-            {"date": "2026-01-01", "vector": [0.0, 0.0], "outcome": 1.2},
+            {"date": "2026-01-01", "vector": [0.0, 0.0], "outcome": 1.2,
+             "sectorOutcomes": {"반도체": 2.5}, "benchmarkReturn": 1.0},
             {"date": "2026-01-20", "vector": [0.1, 0.1], "outcome": 9.9},
             {"date": "2026-02-01", "vector": [0.0, 0.2]},
         ]
         cases = find_similar_periods(history, [0.0, 0.0], "2026-02-10", embargo_days=30)
         self.assertEqual([case["date"] for case in cases], ["2026-01-01"])
+        self.assertEqual(cases[0]["sectorOutcomes"], {"반도체": 2.5})
+        self.assertEqual(cases[0]["benchmarkReturn"], 1.0)
 
     def test_calibration_keeps_high_confidence_locked_with_small_sample(self):
         result = walk_forward_calibration([

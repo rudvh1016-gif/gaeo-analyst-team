@@ -84,6 +84,8 @@ def find_similar_periods(history, current_vector, current_date, embargo_days=30,
             "date": row["date"],
             "distance": round(distance, 4),
             "outcome": row["outcome"],
+            "sectorOutcomes": row.get("sectorOutcomes") or {},
+            "benchmarkReturn": row.get("benchmarkReturn"),
         })
     ranked.sort(key=lambda item: (item["distance"], item["date"]))
     return ranked[:top_n]

@@ -8,7 +8,6 @@ import copy
 import json
 import os
 import re
-import tempfile
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -48,6 +47,8 @@ def load_inputs(root=HERE):
     markets_all = {str(row.get("c")): str(row.get("m") or "KOSPI") for row in krx_rows}
     indicators_path = root / "indicators.json"
     indicators = json.loads(indicators_path.read_text(encoding="utf-8")) if indicators_path.exists() else {"stocks": {}}
+    auto_path = root / "auto_analysis.js"
+    auto_payload = load_js_value(auto_path, "LIVE_AUTO") if auto_path.exists() else {"stocks": {}}
 
     stocks = {
         code: flatten_pages(price_history.get(code, []))
@@ -64,6 +65,7 @@ def load_inputs(root=HERE):
         "markets": {code: markets_all.get(code, "KOSPI") for code in configured},
         "indices": indices,
         "indicators": indicators.get("stocks") or {},
+        "autoAnalysis": auto_payload.get("stocks") or {},
     }
 
 
@@ -126,16 +128,19 @@ def validate_snapshot(snapshot):
 def atomic_write(path, text):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent), text=True)
+    # tempfile.mkstemp can stall in the bundled Windows runtime when the
+    # workspace path contains Korean characters. Keep the temporary file next
+    # to the target (so os.replace stays atomic) and make its name process-local.
+    temporary = path.with_name(f"{path.name}.{os.getpid()}.tmp")
     try:
-        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+        with open(temporary, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(text)
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary, path)
     finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
+        if temporary.exists():
+            temporary.unlink()
 
 
 def write_snapshot_if_valid(path, snapshot):
@@ -168,6 +173,10 @@ def update_archive(path, snapshot, limit=750):
                 "flow": {"medianRelativeVolume": (period.get("flow") or {}).get("medianRelativeVolume")},
                 "taro": {"score": (period.get("taro") or {}).get("score")},
                 "concentration": {"top3": (period.get("concentration") or {}).get("top3")},
+                "components": period.get("components"),
+                "scoreExplanation": {
+                    "contributions": ((period.get("scoreExplanation") or {}).get("contributions") or {}),
+                },
             }
         archived_sectors.append({
             "name": sector.get("name"),
@@ -239,12 +248,25 @@ def apply_score_history(snapshot, archive):
             if old_score is None or new_score is None:
                 period["scoreChange"] = {
                     "status": "accumulating", "value": None, "direction": "축적 중", "baseDate": None,
+                    "previousScore": old_score, "currentScore": new_score,
+                    "componentStatus": "accumulating", "componentDeltas": {},
                 }
                 continue
             value = round(float(new_score) - float(old_score), 1)
+            old_contributions = (((previous_periods.get(horizon) or {}).get("scoreExplanation") or {}).get("contributions") or {})
+            new_contributions = ((period.get("scoreExplanation") or {}).get("contributions") or {})
+            common_components = sorted(set(old_contributions) & set(new_contributions))
+            component_deltas = {
+                name: round(float(new_contributions[name]) - float(old_contributions[name]), 1)
+                for name in common_components
+                if old_contributions.get(name) is not None and new_contributions.get(name) is not None
+            }
             period["scoreChange"] = {
                 "status": "ready", "value": value, "direction": _change_direction(value),
                 "baseDate": prior.get("date"),
+                "previousScore": old_score, "currentScore": new_score,
+                "componentStatus": "ready" if component_deltas else "accumulating",
+                "componentDeltas": component_deltas,
             }
     enriched["historyStatus"] = {
         "status": "ready" if prior else "accumulating",
@@ -273,7 +295,7 @@ def build_current_snapshot(root=HERE, mode="intraday", now=None):
     cutoff = f"{latest} {'종가' if mode == 'close' else moment.strftime('%H:%M') + ' 장중'}"
     snapshot = build_snapshot(
         inputs["stocks"], inputs["sectors"], inputs["markets"], inputs["indices"],
-        indicators=inputs["indicators"], names=inputs["names"], model=model,
+        indicators=inputs["indicators"], names=inputs["names"], auto_analysis=inputs["autoAnalysis"], model=model,
         generated_at=moment.strftime("%Y-%m-%d %H:%M"), data_cutoff=cutoff,
     )
     snapshot = apply_score_history(snapshot, load_archive(Path(root) / "rotation_archive.json"))
