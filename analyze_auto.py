@@ -156,6 +156,14 @@ def taro_eval(t):
     s += cross_adj(t.get("cross5_20"), 3)
     s += cross_adj(t.get("cross20_60"), 6)
     vr = t.get("volRatio")
+    # ⭐ 2026-08-13 사용자 지정 — "급등 후 당일반납" 캔들 감지(금호건설 8/13: 장중 고가
+    # 18,040원 → 종가 14,290원, -20.8% 반납했는데 종가 기준 지표만으로는 안 잡혔다).
+    # compute_indicators.py가 계산한 todayGiveback(오늘 고가 대비 종가 하락폭%)을 그대로 쓴다.
+    # 500종목 실측 중앙값 2.5%·p90 5.8%·p99 11.7% — 6%부터 서서히 감점(최대 -15),
+    # 10%(p99 근처) 이상일 때만 findings에 별도로 경고한다(잔물결까지 매번 경고하지 않게).
+    gb = t.get("todayGiveback")
+    if gb is not None and gb > 6:
+        s -= min(15, (gb - 6) * 1.0)
     score = clamp(s)
     close, ma20, ma60 = t.get("close"), t.get("ma20"), t.get("ma60")
     f = []
@@ -166,7 +174,12 @@ def taro_eval(t):
     if rsi is not None:
         zone = "과매수" if rsi >= 70 else ("상승 모멘텀" if rsi >= 55 else ("중립" if rsi >= 45 else ("약세" if rsi >= 30 else "과매도")))
         f.append(f"RSI(14) {rsi:.0f} {zone}권 · MACD가 시그널을 {'상회(골든크로스)' if golden else '하회(데드크로스)'}")
-    if vr is not None:
+    giveback_alert = gb is not None and gb >= 10
+    if giveback_alert and vr is not None:
+        f.append(f"오늘 장중 고가 대비 종가가 {gb:.1f}% 밀려 급등분을 크게 반납(거래량 {vr:.2f}배) — 되돌림 캔들 경계")
+    elif giveback_alert:
+        f.append(f"오늘 장중 고가 대비 종가가 {gb:.1f}% 밀려 급등분을 크게 반납 — 되돌림 캔들 경계")
+    elif vr is not None:
         vzone = "활발" if vr >= 1.3 else ("보통" if vr >= 0.7 else "한산")
         f.append(f"거래량은 20일 평균의 {vr:.2f}배 — 거래 강도 {vzone}")
     while len(f) < 4:
@@ -199,7 +212,16 @@ def diana_eval(e):
     if fwd is not None and fwd > 0:
         s += 6 if fwd < 12 else (0 if fwd < 25 else -5)
     if tgap is not None:
-        s += max(-6, min(12, tgap * 0.25))
+        # ⭐ 2026-08-13 사용자 지정 — 목표가 괴리(tgap) 하한이 -6점에서 그냥 잘려서, 컨센서스
+        # 대비 -24%든 -95%든 감점이 똑같았다(금호건설 -60.4%도 -6점에 그쳐, PER·PBR·ROE
+        # 보너스(+20점)에 쉽게 묻혔다). 500종목 실측 기준 음수 tgap 자체가 극히 드물어서
+        # (356종목 중 5개, 대부분 +24%~+98%인 정상 분포) -24% 밑으로는 계속 깎이게 확장해도
+        # 정상 종목엔 영향이 없고 진짜 극단적 고평가만 걸러진다.
+        if tgap >= -24:
+            s += max(-6, min(12, tgap * 0.25))
+        else:
+            excess = -24 - tgap
+            s += max(-16, -6 - excess * 0.25)
     score = clamp(s)
     val_read = "이익·자산 대비 저평가 매력" if score >= 58 else ("밸류 부담 존재" if score <= 43 else "밸류 중립 수준")
     f = []
