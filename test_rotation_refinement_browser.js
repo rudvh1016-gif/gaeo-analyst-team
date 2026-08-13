@@ -5,6 +5,8 @@ function requireState(condition, message) {
 }
 
 (async () => {
+  const baseUrl = process.env.GAEO_TEST_URL || 'http://127.0.0.1:8878/index.html';
+  const rotationUrl = baseUrl.includes('?') ? baseUrl : `${baseUrl}?m=rotation`;
   const browser = await chromium.launch({
     headless: true,
     executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
@@ -21,7 +23,7 @@ function requireState(condition, message) {
   for (const width of [1920, 1440, 1280, 1024, 768, 390, 360]) {
     console.log(`checking ${width}px`);
     await page.setViewportSize({ width, height: width <= 390 ? 844 : 1080 });
-    await page.goto('http://127.0.0.1:8878/index.html?m=rotation', { waitUntil: 'domcontentloaded' });
+    await page.goto(rotationUrl, { waitUntil: 'domcontentloaded' });
     await page.evaluate(() => window.setMode && window.setMode('rotation'));
     const shell = page.locator('.rotation-view.on .rot-shell');
     await shell.waitFor({ state: 'visible', timeout: 30000 });
@@ -30,6 +32,19 @@ function requireState(condition, message) {
     requireState(overflow <= 1, `${width}px page overflowed horizontally by ${overflow}px`);
     requireState(await page.getByText('업종의 순환 흐름을 한눈에', { exact: true }).count() === 1, `${width}px hero copy missing`);
     requireState((await page.locator('.rot-card-today').innerText()).includes('오늘의 변화'), `${width}px TODAY summary missing`);
+    const leaderSubject = (await page.locator('.rot-card').nth(1).locator('.rot-card-primary').innerText()).trim();
+    const todayCard = page.locator('.rot-card-today');
+    const todayText = await todayCard.innerText();
+    requireState((await todayCard.locator('.rot-card-subject').innerText()).trim() === leaderSubject, `${width}px TODAY subject differs from the recommended leader`);
+    requireState(todayText.indexOf(leaderSubject) < todayText.indexOf('%'), `${width}px TODAY return appears before its sector subject`);
+    requireState(todayText.includes('구성 종목 중앙값 등락 · 표본 보정'), `${width}px adjusted return meaning is missing`);
+    const leadType = await page.locator('.rot-card-lead .rot-card-primary').evaluate(element => {
+      const style = getComputedStyle(element);
+      return { height: element.getBoundingClientRect().height, lineHeight: parseFloat(style.lineHeight) };
+    });
+    requireState(leadType.height <= leadType.lineHeight * 2.25, `${width}px lead title exceeds two lines: ${JSON.stringify(leadType)}`);
+    requireState(await page.locator('.rot-summary .rot-meta-block').count() >= 10, `${width}px summary metadata was removed`);
+    requireState(await page.locator('.rot-workspace').count() === 1 && await page.locator('.rot-analysis-grid').count() === 1 && await page.locator('.rot-method').count() === 1, `${width}px lower rotation sections changed`);
 
     if (width > 920) {
       const mapBox = await page.locator('.rot-map').boundingBox();
@@ -62,7 +77,7 @@ function requireState(condition, message) {
   }
 
   await page.setViewportSize({ width: 1440, height: 1080 });
-  await page.goto('http://127.0.0.1:8878/index.html?m=rotation', { waitUntil: 'domcontentloaded' });
+  await page.goto(rotationUrl, { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => window.setMode && window.setMode('rotation'));
   await page.locator('.rotation-view.on .rot-shell').waitFor({ state: 'visible' });
   requireState((await page.locator('.rot-card').nth(1).innerText()).includes('79.1'), 'latest 20-day leader score changed');
@@ -71,11 +86,22 @@ function requireState(condition, message) {
   requireState((await page.locator('.rot-rank-panel h3').innerText()).startsWith('5거래일'), 'ranking did not follow selected horizon');
   requireState((await page.locator('.rot-detail-sub').innerText()).includes('선택 5거래일'), 'detail mislabeled selected horizon as recommendation');
   requireState((await page.locator('.rot-summary').innerText()).includes('추천 20거래일 기준'), 'recommended horizon changed when selecting a reference tab');
+  const resourceUrls = await page.evaluate(() => performance.getEntriesByType('resource').map(entry => entry.name));
+  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260814-v12')), 'rotation CSS cache version was not refreshed');
+  requireState(resourceUrls.some(url => url.includes('rotation-ui.js?v=20260814-v14')), 'rotation UI cache version was not refreshed');
+  await page.evaluate(() => document.documentElement.classList.add('gdark'));
+  const darkColors = await page.locator('.rot-card-today').evaluate(element => {
+    const subject = element.querySelector('.rot-card-subject');
+    const meta = element.querySelector('.rot-meta dd');
+    return [getComputedStyle(element).backgroundColor, getComputedStyle(subject).color, getComputedStyle(meta).color];
+  });
+  requireState(darkColors[0] !== 'rgb(255, 255, 255)' && darkColors[1] !== darkColors[0] && darkColors[2] !== darkColors[0], `dark summary text is unreadable: ${darkColors.join(' | ')}`);
+  await page.evaluate(() => document.documentElement.classList.remove('gdark'));
   requireState(pageErrors.length === 0, 'page errors: ' + pageErrors.join(' | '));
 
   await browser.close();
   console.log('rotation refinement browser tests passed');
 })().catch(error => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });
