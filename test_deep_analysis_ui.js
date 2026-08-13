@@ -36,6 +36,13 @@ assert.match(html, /href="\/research\/deep-analysis\/" class="hda-more"/);
 assert.match(html, /\.home-daily-brief \.hda-list\{display:flex;flex-direction:column/);
 assert.doesNotMatch(html, /\.hda-row\{[^}]*border-radius/, '최근 정밀분석 항목을 카드로 만들지 않는다');
 
+// 한 줄 Summary — 저장된 값이 있을 때만 조용히 붙이고, 없으면 undefined/빈 줄 없이 이름·날짜만 남긴다.
+assert.match(html, /class="hda-summary"/, '최근 정밀분석에 한 줄 Summary 표시 영역이 있어야 한다');
+assert.match(html, /summary\?`<span class="hda-summary">\$\{esc\(summary\)\}<\/span>`:''/,
+  'summary가 없는 기록은 undefined나 빈 문구 대신 그 줄 자체를 생략한다');
+assert.doesNotMatch(html, /\.hda-summary\{[^}]*color:\s*#(2563EB|0071E3|0A84FF)/i,
+  'Summary 문장에 Brand Blue를 강제하지 않는다');
+
 const permalinkContext = { result: null, args: null };
 vm.createContext(permalinkContext);
 vm.runInContext(`${extractFunction('deepAnalysisPermalink')}; result=deepAnalysisPermalink('002990','2026-08-13 21:37');`, permalinkContext);

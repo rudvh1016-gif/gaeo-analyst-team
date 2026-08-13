@@ -86,7 +86,7 @@ assert.match(first, /<a class="da-index-row" href="https:\/\/gaeoteam\.com\/rese
 const latest = buildLatestRecords(many, 5);
 assert.equal(latest.length, 5);
 assert.deepEqual(latest.map((item) => item.analysisCreatedAt), many.slice(0, 5).map((item) => item.analysisCreatedAt));
-assert.deepEqual(Object.keys(latest[0]).sort(), ['analysisCreatedAt', 'date', 'permalink', 'stockName', 'ticker'].sort());
+assert.deepEqual(Object.keys(latest[0]).sort(), ['analysisCreatedAt', 'date', 'permalink', 'stockName', 'summary', 'ticker'].sort());
 
 const manifest = buildManifest(many, { baseUrl: 'https://gaeoteam.com/' });
 assert.equal(manifest.records.length, 23);
