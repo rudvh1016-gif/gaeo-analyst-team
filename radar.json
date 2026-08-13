@@ -2,7 +2,7 @@
  "generatedAt": "2026-08-13 15:23",
  "priceLabel": "2026-08-13 15:14 장중",
  "priceDate": "2026-08-13",
- "status": "provisional",
+ "status": "confirmed",
  "universe": 500,
  "scanned": 500,
  "insufficient": 0,
@@ -23,7 +23,7 @@
   "macd_dead_cross": 8,
   "ma_golden_cross": 2,
   "ma_dead_cross": 1,
-  "ma5_20_golden_cross": 20,
+  "ma5_20_golden_cross": 21,
   "ma5_20_dead_cross": 3,
   "ma20_60_cross_near_golden": 13,
   "ma20_60_cross_near_dead": 0,
@@ -1718,7 +1718,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.36,
-   "currentValue": -0.46,
+   "currentValue": -0.47,
    "threshold": 1.2,
    "date": "2026-08-13",
    "detectedAt": "2026-08-13 15:23",
@@ -2411,7 +2411,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": -458,
-   "currentValue": 10,
+   "currentValue": 18,
    "threshold": 0,
    "date": "2026-08-13",
    "detectedAt": "2026-08-13 15:23",
@@ -2621,7 +2621,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": -35,
-   "currentValue": 90,
+   "currentValue": 98,
    "threshold": 0,
    "date": "2026-08-13",
    "detectedAt": "2026-08-13 15:23",
@@ -3010,9 +3010,9 @@
    "caution": "실제로 뚫고 내려가지 않고 다시 벌어질 수도 있어요. 확정된 신호가 아니에요."
   },
   {
-   "id": "263750-ma5-20-cross-near-dead-20260813",
-   "code": "263750",
-   "name": "펄어비스",
+   "id": "139480-ma5-20-cross-near-dead-20260813",
+   "code": "139480",
+   "name": "이마트",
    "type": "ma5_20_cross_near_dead",
    "label": "MA5·20 데드크로스 임박",
    "group": "main",
@@ -3536,6 +3536,29 @@
    ]
   },
   {
+   "code": "268280",
+   "name": "미원에스씨",
+   "rep": "268280-bb-upper-break-20260813",
+   "repType": "bb_upper_break",
+   "repLabel": "밴드 상단 돌파",
+   "others": 1,
+   "types": [
+    "bb_upper_break",
+    "macd_golden_cross"
+   ]
+  },
+  {
+   "code": "361610",
+   "name": "SK아이이테크놀로지",
+   "rep": "361610-bb-upper-break-20260813",
+   "repType": "bb_upper_break",
+   "repLabel": "밴드 상단 돌파",
+   "others": 0,
+   "types": [
+    "bb_upper_break"
+   ]
+  },
+  {
    "code": "041960",
    "name": "코미팜",
    "rep": "041960-rsi-overbought-entry-20260813",
@@ -3556,18 +3579,6 @@
    "others": 0,
    "types": [
     "rsi_overbought_exit"
-   ]
-  },
-  {
-   "code": "251970",
-   "name": "펌텍코리아",
-   "rep": "251970-rsi-overbought-exit-20260813",
-   "repType": "rsi_overbought_exit",
-   "repLabel": "과매수 탈출",
-   "others": 1,
-   "types": [
-    "rsi_overbought_exit",
-    "bb_upper_recover"
    ]
   },
   {
@@ -3598,9 +3609,10 @@
    "rep": "161390-macd-golden-cross-20260813",
    "repType": "macd_golden_cross",
    "repLabel": "MACD 골든크로스",
-   "others": 0,
+   "others": 1,
    "types": [
-    "macd_golden_cross"
+    "macd_golden_cross",
+    "ma5_20_golden_cross"
    ]
   },
   {
@@ -3993,17 +4005,6 @@
    ]
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "rep": "006800-ma5-20-golden-cross-20260813",
-   "repType": "ma5_20_golden_cross",
-   "repLabel": "MA5·20 골든크로스",
-   "others": 0,
-   "types": [
-    "ma5_20_golden_cross"
-   ]
-  },
-  {
    "code": "007390",
    "name": "네이처셀",
    "rep": "007390-ma5-20-golden-cross-20260813",
@@ -4227,17 +4228,6 @@
    "code": "009970",
    "name": "영원무역홀딩스",
    "rep": "009970-ma5-20-cross-near-dead-20260813",
-   "repType": "ma5_20_cross_near_dead",
-   "repLabel": "MA5·20 데드크로스 임박",
-   "others": 0,
-   "types": [
-    "ma5_20_cross_near_dead"
-   ]
-  },
-  {
-   "code": "033780",
-   "name": "KT&G",
-   "rep": "033780-ma5-20-cross-near-dead-20260813",
    "repType": "ma5_20_cross_near_dead",
    "repLabel": "MA5·20 데드크로스 임박",
    "others": 0,
