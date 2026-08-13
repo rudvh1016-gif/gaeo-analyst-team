@@ -87,7 +87,7 @@ var GaeoInsightRailCore=(function(){
   function stockRow(x,html,cls=''){return`<button class="gir-row ${cls}" type="button" data-gir-stock="${esc(x.code)}" data-gir-name="${esc(x.name)}">${html}</button>`}
   function nameOf(code,fallback){return fallback||(stocks()[code]||{}).name||code}
   function priceOf(code){const value=(stocks()[code]||{}).price;return Number.isFinite(+value)&&+value>0?core.formatWon(value):''}
-  function nameLine(code,name){const price=priceOf(code);return`<span class="gir-name-line"><b>${esc(name)}</b>${price?`<small class="gir-price">${esc(price)}</small>`:''}</span>`}
+  function nameLine(code,name,showPrice=true){const price=priceOf(code);return`<span class="gir-name-line"><b>${esc(name)}</b>${showPrice&&price?`<small class="gir-price">${esc(price)}</small>`:''}</span>`}
   function eventValue(event){return core.signalMetric(event).value}
 
   function top30(){
@@ -124,7 +124,7 @@ var GaeoInsightRailCore=(function(){
     const all=typeof NEWS_ANALYSIS!=='undefined'&&Array.isArray(NEWS_ANALYSIS)?NEWS_ANALYSIS.slice():[];
     if(!all.length)return empty('표시할 뉴스가 없습니다','기존 뉴스 데이터가 갱신되면 표시됩니다.');
     const top=new Set((((brief()||{}).marketInsight||{}).ranked||[]).map(x=>x.code));
-    const rows=all.map((x,i)=>({x,n:(x.stocks||[]).filter(c=>top.has(c)).length*10+Math.max(0,20-i)})).sort((a,b)=>b.n-a.n).slice(0,12);
+    const rows=all.map((x,i)=>({x,n:(x.stocks||[]).filter(c=>top.has(c)).length*10+Math.max(0,20-i)})).sort((a,b)=>b.n-a.n).slice(0,8);
     return`<p class="gir-caption">시장 흐름과 주요 종목을 다룬 최신 분석이에요.</p><div class="gir-list">${rows.map(({x})=>`<button class="gir-row gir-news-row gir-article-row" type="button" data-gir-page="news"><span class="gir-row-main"><small>${esc(x.tag||x.cat||'시장')} · ${esc(core.formatPanelTime(x.date,'recent')||x.date||'')}</small><b>${esc(x.title)}</b><span>${esc(x.summary||'').slice(0,105)}</span></span></button>`).join('')}</div>`;
   }
   function live(){
@@ -134,11 +134,11 @@ var GaeoInsightRailCore=(function(){
   }
   function recentPanel(){
     const rows=recent();if(!rows.length)return empty('최근 본 종목이 없습니다','이 기기에서 종목 상세를 열면 순서대로 저장됩니다.');
-    return`<div class="gir-recent-head"><span>이 기기에서 최근 확인한 종목이에요. 최대 25개까지 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>{const total=core.resolveTotalScore(x.code,brief());const visited=core.formatPanelTime(new Date(x.visitedAt).toISOString().slice(0,16).replace('T',' '),'recent');return`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc(priceOf(x.code))}${priceOf(x.code)&&visited?' · ':''}${esc(visited)}</small></span>${total==null?'':`<span class="gir-number gir-total-score"><span class="gir-metric-label">종합</span> <span class="gir-metric-value">${score(total)}</span></span>`}`,'gir-history-row')}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`}).join('')}</div>`;
+    return`<div class="gir-recent-head"><span>이 기기에서 최근 확인한 종목이에요. 최대 25개까지 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>{const total=core.resolveTotalScore(x.code,brief());const visited=core.formatPanelTime(new Date(x.visitedAt).toISOString().slice(0,16).replace('T',' '),'recent');return`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main">${nameLine(x.code,x.name,false)}<small><span class="gir-price">${esc(priceOf(x.code))}</span>${priceOf(x.code)&&visited?' · ':''}${esc(visited)}</small></span>${total==null?'':`<span class="gir-number gir-total-score"><span class="gir-metric-label">종합</span> <span class="gir-metric-value">${score(total)}</span></span>`}`,'gir-history-row')}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`}).join('')}</div>`;
   }
   const renders={top30,changes,rotation,news,live,recent:recentPanel};
   function sourceTime(tab){if(tab==='rotation'&&window.ROTATION_SNAPSHOT)return window.ROTATION_SNAPSHOT.generatedAt||window.ROTATION_SNAPSHOT.dataCutoff;if(tab==='news'&&typeof NEWS_ANALYSIS!=='undefined'&&NEWS_ANALYSIS[0])return NEWS_ANALYSIS[0].date;if(tab==='live'&&typeof GAEO_RADAR!=='undefined')return GAEO_RADAR.generatedAt||GAEO_RADAR.priceLabel;const b=brief();return b&&(b.generatedAt||(b.marketInsight||{}).sourceAsOf)}
-  function timeText(v){const s=String(v||'').replace('T',' ');return s?s.slice(5,16).replace('-','.')+' 기준':'최신 스냅샷 기준'}
+  function timeText(v){return core.formatPanelTime(v,'header')||'최신 스냅샷 기준'}
   async function render(){
     const id=++token,flow=core.marketFlowLabel();title.textContent=state.tab==='live'?flow:titles[state.tab];root.querySelector('[data-gir-live-label]').textContent=flow;asof.textContent=timeText(sourceTime(state.tab));content.innerHTML=['rotation','news'].includes(state.tab)?skeleton():'';
     try{const html=await renders[state.tab]();if(id!==token)return;content.innerHTML=html;content.classList.remove('gir-content-enter');void content.offsetWidth;content.classList.add('gir-content-enter');asof.textContent=timeText(sourceTime(state.tab));}catch(e){if(id!==token)return;content.innerHTML=empty('데이터를 불러오지 못했습니다','잠시 뒤 다시 열어 주세요.');console.error('[GAEO insight rail]',e)}
@@ -158,7 +158,7 @@ var GaeoInsightRailCore=(function(){
   }
   function mount(){
     root=document.createElement('aside');root.className='gaeo-insight-shell';root.setAttribute('aria-label','빠른 시장 인사이트');
-    root.innerHTML=`<nav class="gir-rail" role="tablist" aria-orientation="vertical">${tabs.map(t=>`<button id="gir-tab-${t}" type="button" role="tab" data-gir-tab="${t}" aria-controls="gaeoInsightPanel" aria-selected="false" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[t]}</svg><span${t==='live'?' data-gir-live-label':''}>${t==='live'?core.marketFlowLabel():titles[t]}</span></button>`).join('')}</nav><section class="gir-panel" id="gaeoInsightPanel" role="tabpanel" aria-hidden="true"><header><div><h2></h2><time></time></div><button type="button" data-gir-close aria-label="인사이트 패널 닫기">×</button></header><div class="gir-content" aria-live="polite"></div><footer><button type="button" data-gir-page="single">전체 종목 보기</button><button type="button" data-gir-page="rotation">순환매 전체 보기</button><button type="button" data-gir-page="news">뉴스 전체 보기</button></footer></section>`;
+    root.innerHTML=`<nav class="gir-rail" role="tablist" aria-orientation="vertical">${tabs.map(t=>`<button id="gir-tab-${t}" type="button" role="tab" data-gir-tab="${t}" aria-controls="gaeoInsightPanel" aria-selected="false" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[t]}</svg><span${t==='live'?' data-gir-live-label':''}>${t==='live'?core.marketFlowLabel():titles[t]}</span></button>`).join('')}</nav><section class="gir-panel" id="gaeoInsightPanel" role="tabpanel" aria-hidden="true"><header><div><h2></h2><time></time></div><button type="button" data-gir-close aria-label="인사이트 패널 닫기">×</button></header><div class="gir-content" aria-live="polite"></div><footer><button type="button" data-gir-page="single">전체 종목 보기 →</button><button type="button" data-gir-page="rotation">순환매 전체 보기 →</button><button type="button" data-gir-page="news">뉴스 전체 보기 →</button></footer></section>`;
     document.body.appendChild(root);content=root.querySelector('.gir-content');title=root.querySelector('h2');asof=root.querySelector('time');bind();sync(state.open);
   }
   window.GaeoInsightRail={recordRecent,readRecent:recent};
