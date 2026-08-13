@@ -17,6 +17,35 @@ var GaeoInsightRailCore=(function(){
     if(value==null||value===''||!Number.isFinite(+value))return'';
     return Math.round(+value).toLocaleString('ko-KR')+'원';
   }
+  function formatNumber(value){
+    if(value==null||value===''||!Number.isFinite(+value))return'';
+    const n=+value;return Number.isInteger(n)?String(n):String(Math.round(n*10)/10);
+  }
+  function formatScore(value){
+    const n=Number(value);if(!Number.isFinite(n))return'';
+    return`${n>0?'+':''}${formatNumber(n)}점`;
+  }
+  function formatPanelTime(value,mode){
+    const match=String(value||'').replace('T',' ').match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{2}):(\d{2}))?/);
+    if(!match)return'';
+    const text=`${match[2]}.${match[3]}${match[4]?` · ${match[4]}:${match[5]}`:''}`;
+    return mode==='header'?`${text} 기준`:text;
+  }
+  function signalMetric(event){
+    const type=String(event&&event.type||''),unit=String(event&&event.unit||'');
+    const labels={
+      rsi_oversold_entry:'RSI',rsi_oversold_exit:'RSI',rsi_overbought_entry:'RSI',rsi_overbought_exit:'RSI',
+      volume_surge:'거래량',band_lower_break:'밴드 하단',band_lower_reentry:'밴드 하단',
+      band_upper_break:'밴드 상단',band_upper_reentry:'밴드 상단',macd_golden_cross:'MACD',macd_dead_cross:'MACD',
+      ma_golden_cross:'이동평균',ma_dead_cross:'이동평균'
+    };
+    const label=labels[type]||event&&event.metricLabel||'지표';
+    let value='';
+    if(unit==='원'||/band_/.test(type))value=formatWon(event&&event.currentValue);
+    else if(unit==='배'||type==='volume_surge')value=`${formatNumber(event&&event.currentValue)}배`;
+    else value=formatNumber(event&&event.currentValue);
+    return{label,value};
+  }
   function resolveTotalScore(code,snapshot){
     const signal=snapshot&&snapshot.signals&&snapshot.signals[code];
     if(signal&&Number.isFinite(+signal.t))return +signal.t;
@@ -24,7 +53,7 @@ var GaeoInsightRailCore=(function(){
     const row=Array.isArray(ranked)?ranked.find(item=>String(item.code)===String(code)):null;
     return row&&Number.isFinite(+row.total)?+row.total:null;
   }
-  return{nextPanelState,rankSnapshots,addRecent,marketFlowLabel,formatWon,resolveTotalScore};
+  return{nextPanelState,rankSnapshots,addRecent,marketFlowLabel,formatWon,formatNumber,formatScore,formatPanelTime,signalMetric,resolveTotalScore};
 })();
 
 (function(core){
