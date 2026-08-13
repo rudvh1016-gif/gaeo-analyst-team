@@ -1,6 +1,7 @@
 const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 
 (async () => {
+  const baseUrl = process.env.GAEO_TEST_URL || 'http://127.0.0.1:8877/index.html';
   const browser = await chromium.launch({
     headless: true,
     executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
@@ -10,7 +11,7 @@ const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primar
   const failedRequests = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
   page.on('requestfailed', request => failedRequests.push(request.url() + ': ' + (request.failure()?.errorText || 'failed')));
-  await page.goto('http://127.0.0.1:8877/index.html');
+  await page.goto(baseUrl);
   await page.waitForLoadState('networkidle');
   await page.evaluate(() => {
     localStorage.removeItem('gaeo-insight-panel-open');
@@ -36,7 +37,7 @@ const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primar
 
   await page.getByRole('tab', { name: '순환' }).click();
   try {
-    await page.getByText('추천 관찰 기간').waitFor({ timeout: 30000 });
+    await page.getByText('추천 관찰기간').waitFor({ timeout: 30000 });
   } catch (error) {
     throw new Error('rotation panel did not render: ' + await page.locator('.gir-content').innerText() + ' | requests: ' + failedRequests.join(' | '), { cause: error });
   }
@@ -88,8 +89,15 @@ const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primar
   if (darkPanel === 'rgb(255, 255, 255)') throw new Error('panel ignored dark theme');
   await page.evaluate(() => document.documentElement.classList.remove('gdark'));
 
-  await page.setViewportSize({ width: 1280, height: 900 });
-  if (!(await shell.isVisible())) throw new Error('rail hidden at desktop breakpoint');
+  for (const width of [1440, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    if (!(await shell.isVisible())) throw new Error(`rail hidden at ${width}px desktop viewport`);
+    const responsivePanel = await page.locator('.gir-panel').boundingBox();
+    if (!responsivePanel || responsivePanel.x < 60 || responsivePanel.width < 280 || responsivePanel.width > 320) {
+      throw new Error(`panel geometry is incorrect at ${width}px: ` + JSON.stringify(responsivePanel));
+    }
+    await page.screenshot({ path: `C:/Users/개오/.codex/visualizations/2026/08/11/019ff111-7a1a-7d72-aa74-0337da13b467/gaeo-insight-rail-${width}.png` });
+  }
   await page.setViewportSize({ width: 390, height: 844 });
   if (await shell.isVisible()) throw new Error('rail visible on mobile');
   if (pageErrors.length) throw new Error('page errors: ' + pageErrors.join(' | '));
@@ -100,7 +108,7 @@ const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primar
     localStorage.setItem('gaeo-insight-panel-open', 'true');
     localStorage.setItem('gaeo-insight-panel-tab', 'rotation');
   });
-  await mobile.goto('http://127.0.0.1:8877/index.html');
+  await mobile.goto(baseUrl);
   await mobile.waitForLoadState('networkidle');
   if (mobileRequests.some(url => url.includes('rotation_snapshot.js'))) throw new Error('mobile loaded hidden rotation data');
   await mobile.close();
