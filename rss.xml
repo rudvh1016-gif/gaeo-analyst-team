@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 12 Aug 2026 07:17:27 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 13 Aug 2026 06:44:30 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불</title>
+    <link>https://gaeoteam.com/snap/news/46.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/46.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 +2.94%(6,772.22), 코스닥은 +0.24%(860.95)로 나흘 연속 상승했어요. 삼성전자 +3.72%·SK하이닉스 +5.52%가 지수를 끌어올렸지만 500종목 중 상승 240개·하락 242개로 반반이었어요. 전자·부품(MLCC)은 강했고 화장품·엔터는 약했어요.</description>
+    <pubDate>Thu, 13 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유</title>
     <link>https://gaeoteam.com/snap/news/45.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/21.html</guid>
     <category>뉴스분석</category>
     <description>SK하이닉스가 2분기 영업이익 60조 5,426억 원이라는 역대 최대 실적을 냈지만 컨센서스에는 못 미쳤어요. 어제 서킷브레이커까지 부른 폭락 다음 날 나온 실적이라 더 주목받았고, 개장 전 여진 이후 정규장에서 반등했어요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>한화에어로스페이스</title>
-    <link>https://gaeoteam.com/snap/study/34.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/study/34.html</guid>
-    <category>종목공부</category>
-    <description>한화에어로스페이스는 K9 자주포·천무 다연장로켓 같은 지상무기와 항공엔진·우주발사체를 만들고, 조선사 한화오션도 자회사로 두고 있는 국내 대표 방산기업이에요. 유럽 재무장·러시아-우크라이나 전쟁 장기화로 폴란드·노르웨이·이집트 등에 수출이 급증하며 2026년 상반기 코스피 방산주 랠리를 이끌었지만, 7월 들어서는 100만원대였던 주가가 90만원대로 조정받는 흐름이에요. 1분기 실적은 늘었지만 컨센서스는 하회했고, 2.9조원 규모 유상증자 이후 밸류에이션 부담도 함께 보고 가야 하는 종목이에요.</description>
     <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
