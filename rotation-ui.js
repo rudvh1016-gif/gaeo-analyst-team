@@ -293,16 +293,9 @@
     const summaryRange=formatPeriod(summary.period);
     const candidateObservation=summary.candidateObservationPeriod||{};
     const candidateObservationRange=formatPeriod(candidateObservation);
-    const candidateObservationText=candidateObservationRange
-      ?`예상 관찰기간 ${candidateObservationRange} (${number(candidateObservation.tradingDays)}거래일·휴장일 제외)`
-      :'';
     const shortTerm=summary.shortTerm||{};
-    const shortTermText=shortTerm.name?`단기 참고 · ${number(shortTerm.horizon)||5}거래일 1위 ${escapeHtml(shortTerm.name)}${formatPeriod(shortTerm.period)?` (${formatPeriod(shortTerm.period)})`:''}`:'';
     const recommendedPerformance=(data.horizonPerformance||{})[String(recommended.horizon)]||{};
     const validationRange=formatPeriod(recommendedPerformance);
-    const recommendedCopy=recommended.horizon
-      ?`신호 다음 거래일부터 ${durationLabel(recommended.horizon)} 관찰${validationRange?`.<br>검증기간 ${validationRange} · 중첩 평가 ${number(recommendedPerformance.sampleCount)}회`:''}`
-      :escapeHtml(recommended.reason||'표본과 안정성을 확인 중입니다.');
     const regimeDays=number((regime.directionPeriod||{}).tradingDays)||20;
     const breadthDays=number((regime.breadthPeriod||{}).tradingDays)||5;
     const recommendedPrefix=recommended.horizon===summaryHorizon?'추천 ':'';
@@ -310,9 +303,29 @@
     const freshnessCopy=freshness.mismatch
       ?`추천 점수 ${formatDate(freshness.scoreDate)} 기준 · 가격 ${formatDate(freshness.priceDate)} 반영`
       :`${formatDate(freshness.priceDate||freshness.scoreDate)} 가격·추천 점수 기준`;
+    const metaBlock=(label,value,note='')=>`<div class="rot-meta-block"><dt>${escapeHtml(label)}</dt><dd>${value}${note?`<small>${note}</small>`:''}</dd></div>`;
+    const meta=(items,extra='')=>`<dl class="rot-meta${extra?` ${extra}`:''}">${items.filter(Boolean).join('')}</dl>`;
+    const calculationMeta=metaBlock('계산기간',summaryRange||'확인 중');
+    const shortTermMeta=shortTerm.name
+      ?metaBlock('단기 참고',`${number(shortTerm.horizon)||5}거래일 1위 · ${escapeHtml(shortTerm.name)}`,formatPeriod(shortTerm.period))
+      :'';
+    const observationMeta=candidateObservationRange
+      ?metaBlock('예상 관찰기간',candidateObservationRange,`${number(candidateObservation.tradingDays)}거래일 · 휴장일 제외`)
+      :metaBlock('예상 관찰기간','확인 중');
+    const regimeRange=formatPeriod(regime.breadthPeriod)||formatPeriod(regime.directionPeriod);
+    const recommendedObservation=recommended.horizon
+      ?`신호 다음 거래일부터 ${durationLabel(recommended.horizon)} 관찰`
+      :escapeHtml(recommended.reason||'표본과 안정성을 확인 중입니다.');
     return `<div class="rot-shell">
       <header class="rot-hero"><div><span class="rot-kicker">GAEO ROTATION</span><h2>업종의 순환 흐름을 한눈에</h2><p class="rot-hero-summary">${escapeHtml(interpretation)}</p><p class="rot-hero-score-note">${escapeHtml(scoreMeaning)}</p><p class="rot-hero-note">${escapeHtml(summary.disclaimer||'예측이 아니라 현재 어디로 힘이 모이는지 확인하는 참고 화면입니다.')}</p></div><div class="rot-asof"><strong>${escapeHtml(data.generatedAt)} 생성</strong>${escapeHtml(freshnessCopy)}<br>${number(data.universe&&data.universe.valid)}/${number(data.universe&&data.universe.configured)}종목 반영</div></header>
-      <section class="rot-summary" aria-label="순환매 요약"><article class="rot-card rot-card-lead"><span>현재 관찰 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong>${escapeHtml(summary.headline||'뚜렷한 순환 신호 없음')}</strong><small>${summaryRange?`계산기간 ${summaryRange}`:'계산기간 확인 중'}${shortTermText?`<br>${shortTermText}`:''}</small></article><article class="rot-card"><span>현재 1위 업종 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong>${escapeHtml(leader.name||'확인 중')}</strong><small>${number(leader.score).toFixed(1)}점 · ${signalLabel(leader.signal)}${summaryRange?`<br>계산기간 ${summaryRange}`:''}</small></article><article class="rot-card rot-card-today"><span>오늘의 변화 · 1거래일</span><strong>${todayPercent(leaderToday,'returnValue')} · ${escapeHtml(leaderToday.state)}</strong><small>${escapeHtml(leader.name||'현재 1위 업종')} · 시장 대비 ${todayPercent(leaderToday,'relativeStrength')}<br>상승 종목 ${todayBreadth(leaderToday)}</small></article><article class="rot-card"><span>다음 관찰 후보 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong>${escapeHtml(candidate.name||'뚜렷한 후보 없음')}</strong><small>${candidate.score!=null?number(candidate.score).toFixed(1)+'점':'조건 충족 업종 없음'}${summaryRange?`<br>계산기간 ${summaryRange}`:''}${candidateObservationText?`<br>${candidateObservationText}`:''}</small></article><article class="rot-card"><span>시장 국면 · 최근 ${regimeDays}거래일</span><strong>${escapeHtml(regime.direction||'확인 중')} · ${escapeHtml(regime.volatility||'확인 중')}</strong><small>${escapeHtml(regime.leadership||'시장')} 중심 · 최근 ${breadthDays}거래일 상승 종목 비율 ${number(regime.breadthRate).toFixed(1)}%${formatPeriod(regime.breadthPeriod)?`<br>${formatPeriod(regime.breadthPeriod)}`:''}</small></article><article class="rot-card"><span>추천 관찰 기간</span><strong>${recommended.horizon?recommended.horizon+'거래일':'축적 중'}</strong><small>${recommendedCopy}</small></article></section>
+      <section class="rot-summary" aria-label="순환매 요약">
+        <article class="rot-card rot-card-lead"><span class="rot-card-context">현재 관찰 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong class="rot-card-primary">${leader.name?`${escapeHtml(leader.name)} 순환 신호`:escapeHtml(summary.headline||'뚜렷한 순환 신호 없음')}</strong>${meta([calculationMeta,shortTermMeta])}</article>
+        <article class="rot-card"><span class="rot-card-context">현재 1위 업종 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong class="rot-card-primary">${escapeHtml(leader.name||'확인 중')}</strong><p class="rot-card-secondary"><b>${number(leader.score).toFixed(1)}점</b> · ${signalLabel(leader.signal)}</p>${meta([calculationMeta])}</article>
+        <article class="rot-card rot-card-today"><span class="rot-card-context">오늘의 변화 · 1거래일</span><strong class="rot-card-primary rot-card-subject">${escapeHtml(leader.name||'현재 1위 업종')}</strong><p class="rot-card-secondary rot-card-today-value">${todayPercent(leaderToday,'returnValue')} · ${escapeHtml(leaderToday.state)}</p><span class="rot-card-measure">구성 종목 중앙값 등락 · 표본 보정</span>${meta([metaBlock('시장 대비',todayPercent(leaderToday,'relativeStrength')),metaBlock('상승 종목',todayBreadth(leaderToday))],'rot-meta-inline')}</article>
+        <article class="rot-card"><span class="rot-card-context">다음 관찰 후보 · ${recommendedPrefix}${summaryHorizon}거래일 기준</span><strong class="rot-card-primary">${escapeHtml(candidate.name||'뚜렷한 후보 없음')}</strong><p class="rot-card-secondary"><b>${candidate.score!=null?number(candidate.score).toFixed(1)+'점':'조건 충족 업종 없음'}</b>${candidate.score!=null?' · 다음 후보':''}</p>${meta([calculationMeta,observationMeta])}</article>
+        <article class="rot-card"><span class="rot-card-context">시장 국면 · 최근 ${regimeDays}거래일</span><strong class="rot-card-primary">${escapeHtml(regime.direction||'확인 중')} · ${escapeHtml(regime.volatility||'확인 중')}</strong><p class="rot-card-secondary">${escapeHtml(regime.leadership||'시장')} 중심</p>${meta([metaBlock(`최근 ${breadthDays}거래일 상승 종목 비율`,`${number(regime.breadthRate).toFixed(1)}%`),metaBlock('계산기간',regimeRange||'확인 중')])}</article>
+        <article class="rot-card"><span class="rot-card-context">추천 관찰 기간</span><strong class="rot-card-primary">${recommended.horizon?recommended.horizon+'거래일':'축적 중'}</strong><p class="rot-card-secondary">${recommendedObservation}</p>${meta([metaBlock('검증기간',validationRange||'확인 중'),metaBlock('종합 평가',recommendedPerformance.sampleCount!=null?`${number(recommendedPerformance.sampleCount)}회`:'축적 중')])}</article>
+      </section>
       <div class="rot-workspace"><div class="rot-primary"><section class="rot-panel rot-map-panel"><div class="rot-panel-head"><div><h3>업종 순환 지도</h3><p>가까울수록 종합 점수가 높습니다. 업종을 누르면 근거가 열립니다.</p></div><div><div class="rot-period-label">성과 관찰 기간</div><div class="rot-horizons" role="tablist" aria-label="성과 관찰 기간">${[1,3,5,20].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" role="tab" aria-selected="${value===horizon}" data-horizon="${value}">${value}일${value===number(recommended.horizon)?'<small>추천</small>':''}</button>`).join('')}</div><div class="rot-period-label trend">장기 추세 참고</div><div class="rot-horizons rot-trend-horizons">${[60,120,200].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" data-horizon="${value}">${value}일</button>`).join('')}</div></div></div>${renderMap(data,horizon,selected.name)}<div class="rot-map-legend"><span><i class="lead"></i>강한 흐름</span><span><i class="watch"></i>관찰</span><span><i class="weak"></i>약한 흐름</span></div>${renderTable(data,horizon)}</section></div>
       <aside class="rot-side"><section class="rot-panel rot-rank-panel"><div class="rot-panel-head"><div><h3>${horizon}거래일 업종 순위</h3><p>점수는 8개 신호를 한꺼번에 반영합니다.</p></div></div><div class="rot-rank-list">${renderRank(data,horizon)}</div></section><section class="rot-panel rot-detail" aria-live="polite">${renderDetail(data,selected,horizon)}</section></aside></div>
       <div class="rot-analysis-grid">${renderScoreHistory(data,selected,horizon)}<section class="rot-panel rot-evidence rot-analysis">${renderEvidence(data,selected.name,horizon)}</section>${renderCandidates(selected)}${renderHowToView(data,selected,horizon)}${renderCurrentView(data,selected,horizon)}${renderPerformance(data)}</div>
