@@ -78,6 +78,13 @@ assert(source.includes("gaeo-recent-stocks"));
 assert(source.includes("GaeoFeatures.load('rotation')"));
 assert(source.includes("GaeoFeatures.load('news')"));
 assert(source.includes("role=\"tabpanel\""));
+for (const className of ['gir-ranking-row','gir-change-row','gir-signal-row','gir-history-row','gir-article-row','gir-metric-label','gir-metric-value']) {
+  assert(source.includes(className), `${className} shared row grammar is required`);
+}
+assert(source.includes('종합점수'));
+assert(source.includes('>종합<'));
+assert(source.includes('위'));
+assert(source.includes("core.signalMetric(e)"));
 assert(source.includes("'ArrowDown','ArrowUp','Home','End'"));
 assert(css.includes('@media (min-width:1280px)'));
 assert(css.includes('@media (prefers-reduced-motion:reduce)'));

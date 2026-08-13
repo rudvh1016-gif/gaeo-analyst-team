@@ -74,7 +74,7 @@ var GaeoInsightRailCore=(function(){
   let state={open:localStorage.getItem(K.open)==='true',tab:tabs.includes(localStorage.getItem(K.tab))?localStorage.getItem(K.tab):'top30'};
   let root,content,title,asof,token=0;
   const esc=v=>String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-  const score=v=>Number.isFinite(+v)?(+v).toFixed(1):'-';
+  const score=v=>core.formatNumber(v)||'-';
   const brief=()=>typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF?HOME_BRIEF:null;
   const stocks=()=>typeof STOCKS!=='undefined'?STOCKS:{};
   const call=c=>({BUY:'강화',HOLD:'관찰',SELL:'주의'}[c]||c||'관찰');
@@ -88,15 +88,15 @@ var GaeoInsightRailCore=(function(){
   function nameOf(code,fallback){return fallback||(stocks()[code]||{}).name||code}
   function priceOf(code){const value=(stocks()[code]||{}).price;return Number.isFinite(+value)&&+value>0?core.formatWon(value):''}
   function nameLine(code,name){const price=priceOf(code);return`<span class="gir-name-line"><b>${esc(name)}</b>${price?`<small class="gir-price">${esc(price)}</small>`:''}</span>`}
-  function eventValue(event){return event.unit==='원'?core.formatWon(event.currentValue):`${score(event.currentValue)}${esc(event.unit||'')}`}
+  function eventValue(event){return core.signalMetric(event).value}
 
   function top30(){
     const b=brief(),mi=b&&b.marketInsight,rows=mi&&Array.isArray(mi.ranked)?mi.ranked.slice(0,30):[];
     if(!rows.length)return empty('상위 종목을 준비 중입니다','현재 GAEO 종합점수 스냅샷을 확인해 주세요.');
     const ranks=core.rankSnapshots(b.signals||{});
     return`<p class="gir-caption">GAEO 종합점수 기준 · 확률이나 매수 순위가 아닙니다.</p><div class="gir-list">${rows.map((x,i)=>{
-      const prev=ranks.previous[x.code],d=prev?prev-i-1:null,m=d==null?'NEW':d>0?`↑${d}`:d<0?`↓${-d}`:'–';
-      return stockRow(x,`<span class="gir-rank">${String(i+1).padStart(2,'0')}</span><span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc((stocks()[x.code]||{}).sector||'')} · ${call(x.call)}</small></span><span class="gir-number">${score(x.total)}<small class="${d>0?'up':d<0?'down':''}">${m}</small></span>`);
+      const prev=ranks.previous[x.code],d=prev?prev-i-1:null,m=d==null?'NEW':d>0?`↑${d}위`:d<0?`↓${-d}위`:'—';
+      return stockRow(x,`<span class="gir-rank">${String(i+1).padStart(2,'0')}</span><span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc((stocks()[x.code]||{}).sector||'')} · ${call(x.call)}</small></span><span class="gir-number"><span class="gir-metric-label">종합</span> <span class="gir-metric-value">${score(x.total)}</span><small class="${d>0?'up':d<0?'down':''}">${m}</small></span>`,'gir-ranking-row');
     }).join('')}</div>`;
   }
   function reason(s){const d=(+s.t||0)-(+s.pt||0);return s.pc&&s.c&&s.pc!==s.c?`판단이 ${call(s.pc)}에서 ${call(s.c)}로 바뀌었습니다.`:`종합점수가 전일보다 ${Math.abs(d).toFixed(1)}점 ${d>=0?'높아졌습니다':'낮아졌습니다'}.`;}
@@ -104,7 +104,7 @@ var GaeoInsightRailCore=(function(){
     const b=brief(),signals=b&&b.signals||{},names=new Map(((b&&b.marketInsight&&b.marketInsight.ranked)||[]).map(x=>[x.code,x.name]));
     const rows=Object.entries(signals).map(([code,s])=>({code,s,d:(+s.t||0)-(+s.pt||0),changed:s.c!==s.pc})).sort((a,b)=>+b.changed-+a.changed||Math.abs(b.d)-Math.abs(a.d)).slice(0,20);
     if(!rows.length)return empty('두드러진 변화가 없습니다','전일과 비교할 판단 스냅샷이 없습니다.');
-    return`<p class="gir-caption">전일과 오늘을 비교해 판단 변화가 큰 순서입니다.</p><div class="gir-list">${rows.map(x=>{const name=nameOf(x.code,names.get(x.code));return stockRow({code:x.code,name},`<span class="gir-row-main">${nameLine(x.code,name)}<small>${esc(reason(x.s))}</small></span><span class="gir-number ${x.d>0?'up':x.d<0?'down':''}">${x.d>0?'+':''}${score(x.d)}<small>${call(x.s.pc)} → ${call(x.s.c)}</small></span>`)}).join('')}</div>`;
+    return`<p class="gir-caption">전일 대비 GAEO 종합점수와 판단이 크게 달라진 종목이에요.</p><div class="gir-list">${rows.map(x=>{const name=nameOf(x.code,names.get(x.code));return stockRow({code:x.code,name},`<span class="gir-row-main">${nameLine(x.code,name)}<small>${call(x.s.pc)} → ${call(x.s.c)}</small><span>종합점수 ${score(x.s.pt)} → ${score(x.s.t)}</span></span><span class="gir-number ${x.d>0?'up':x.d<0?'down':''}"><span class="gir-metric-label">종합</span> <span class="gir-metric-value">${core.formatScore(x.d)}</span></span>`,'gir-change-row')}).join('')}</div>`;
   }
   async function rotation(){
     await GaeoFeatures.load('rotation');
@@ -121,16 +121,16 @@ var GaeoInsightRailCore=(function(){
     if(!all.length)return empty('표시할 뉴스가 없습니다','기존 뉴스 데이터가 갱신되면 표시됩니다.');
     const top=new Set((((brief()||{}).marketInsight||{}).ranked||[]).map(x=>x.code));
     const rows=all.map((x,i)=>({x,n:(x.stocks||[]).filter(c=>top.has(c)).length*10+Math.max(0,20-i)})).sort((a,b)=>b.n-a.n).slice(0,12);
-    return`<p class="gir-caption">현재 상위 종목과 관련성이 높은 기존 GAEO 뉴스 분석입니다.</p><div class="gir-list">${rows.map(({x})=>`<button class="gir-row gir-news-row" type="button" data-gir-page="news"><span class="gir-row-main"><small>${esc(x.tag||x.cat||'시장')} · ${esc(x.date||'')}</small><b>${esc(x.title)}</b><span>${esc(x.summary||'').slice(0,105)}</span></span></button>`).join('')}</div>`;
+    return`<p class="gir-caption">시장 흐름과 주요 종목을 다룬 최신 분석이에요.</p><div class="gir-list">${rows.map(({x})=>`<button class="gir-row gir-news-row gir-article-row" type="button" data-gir-page="news"><span class="gir-row-main"><small>${esc(x.tag||x.cat||'시장')} · ${esc(core.formatPanelTime(x.date,'recent')||x.date||'')}</small><b>${esc(x.title)}</b><span>${esc(x.summary||'').slice(0,105)}</span></span></button>`).join('')}</div>`;
   }
   function live(){
     const r=typeof GAEO_RADAR!=='undefined'?GAEO_RADAR:null,l=typeof LIVE_DATA!=='undefined'?LIVE_DATA:null,events=r&&r.events?r.events.slice(0,18):[],indices=l&&l.indices?Object.entries(l.indices).slice(0,2):[];
     if(!events.length&&!indices.length)return empty('시장 흐름을 준비 중입니다','기존 시세·레이더 스냅샷을 확인해 주세요.');
-    return`<p class="gir-caption">시세 약 10분 · 변화 탐지 최대 30분 간격</p><div class="gir-indexes">${indices.map(([n,d])=>`<div><span>${esc(n)}</span><b>${(+d.value).toLocaleString('ko-KR')}</b><em class="${d.rate>=0?'up':'down'}">${d.rate>=0?'+':''}${d.rate}%</em></div>`).join('')}</div><div class="gir-list">${events.map(e=>stockRow(e,`<span class="gir-row-main">${nameLine(e.code,e.name)}<small>${esc((r.labels||{})[e.type]||e.type.replaceAll('_',' '))}</small></span><span class="gir-number ${+e.currentValue>=+e.previousValue?'up':'down'}">${eventValue(e)}<small>${esc(e.date||'')}</small></span>`)).join('')}</div>`;
+    return`<p class="gir-caption">장 마감 기준 가격·기술·거래량 이상신호예요. 지표 라벨과 단위를 함께 확인하세요.</p><div class="gir-indexes">${indices.map(([n,d])=>`<div><span>${esc(n)}</span><b>${(+d.value).toLocaleString('ko-KR')}</b><em class="${d.rate>=0?'up':'down'}">${d.rate>=0?'+':''}${d.rate}%</em></div>`).join('')}</div><div class="gir-list">${events.map(e=>{const metric=core.signalMetric(e);return stockRow(e,`<span class="gir-row-main">${nameLine(e.code,e.name)}<small>${esc((r.labels||{})[e.type]||e.type.replaceAll('_',' '))}</small><span class="gir-signal-metric"><span class="gir-metric-label">${esc(metric.label)}</span><span class="gir-metric-value">${esc(metric.value)}</span></span></span>${e.date?`<time>${esc(core.formatPanelTime(e.date,'recent')||e.date)}</time>`:''}`,'gir-signal-row')}).join('')}</div>`;
   }
   function recentPanel(){
     const rows=recent();if(!rows.length)return empty('최근 본 종목이 없습니다','이 기기에서 종목 상세를 열면 순서대로 저장됩니다.');
-    return`<div class="gir-recent-head"><span>이 기기에만 최대 25개 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>{const total=core.resolveTotalScore(x.code,brief());return`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc(x.code)} · ${new Date(x.visitedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span>${total==null?'':`<span class="gir-number gir-total-score">${score(total)}<small>종합점수</small></span>`}`)}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`}).join('')}</div>`;
+    return`<div class="gir-recent-head"><span>이 기기에서 최근 확인한 종목이에요. 최대 25개까지 저장됩니다.</span><button type="button" data-gir-clear>전체 삭제</button></div><div class="gir-list">${rows.map(x=>{const total=core.resolveTotalScore(x.code,brief());const visited=core.formatPanelTime(new Date(x.visitedAt).toISOString().slice(0,16).replace('T',' '),'recent');return`<div class="gir-recent-row">${stockRow(x,`<span class="gir-row-main">${nameLine(x.code,x.name)}<small>${esc(priceOf(x.code))}${priceOf(x.code)&&visited?' · ':''}${esc(visited)}</small></span>${total==null?'':`<span class="gir-number gir-total-score"><span class="gir-metric-label">종합</span> <span class="gir-metric-value">${score(total)}</span></span>`}`,'gir-history-row')}<button type="button" class="gir-delete" data-gir-delete="${esc(x.code)}" aria-label="${esc(x.name)} 최근 목록에서 삭제">×</button></div>`}).join('')}</div>`;
   }
   const renders={top30,changes,rotation,news,live,recent:recentPanel};
   function sourceTime(tab){if(tab==='rotation'&&window.ROTATION_SNAPSHOT)return window.ROTATION_SNAPSHOT.generatedAt||window.ROTATION_SNAPSHOT.dataCutoff;if(tab==='news'&&typeof NEWS_ANALYSIS!=='undefined'&&NEWS_ANALYSIS[0])return NEWS_ANALYSIS[0].date;if(tab==='live'&&typeof GAEO_RADAR!=='undefined')return GAEO_RADAR.generatedAt||GAEO_RADAR.priceLabel;const b=brief();return b&&(b.generatedAt||(b.marketInsight||{}).sourceAsOf)}
