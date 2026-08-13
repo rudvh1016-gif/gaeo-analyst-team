@@ -224829,6 +224829,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-13 10:10",
+   "call": "SELL",
+   "total": 32,
+   "confidence": 72,
+   "base": 107000,
+   "baseAt": "2026-08-13 10:07",
+   "target": "컨센서스 목표주가 51,000원(2월23일 iM증권 리포트, 이번 급등 반영 전) 대비 현재가가 이미 2배 이상 초과 · 지지선은 MA20(79,755원), 저항선은 3개월 고점(190,100원)",
+   "taro": {
+    "stance": "bear",
+    "score": 46
+   },
+   "diana": {
+    "stance": "bear",
+    "score": 22
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 32
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 28
+   }
   }
  ],
  "001430": [
