@@ -39,6 +39,8 @@ def _entry_from(a, when):
         "base": a.get("base"),              # 판단 당시 주가
         "baseAt": a.get("baseAt"),          # 그 주가의 시점
         "target": chief.get("target", ""),
+        "modelVersion": chief.get("modelVersion"),
+        "reboundCheck": chief.get("reboundCheck"),
     }
     for k in ("taro", "diana", "nova", "flow"):
         ana = a.get(k)

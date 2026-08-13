@@ -580,14 +580,38 @@ def risk_overlay(risk):
             "confidencePenalty": confidence_penalty}
 
 
-def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False):
+def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
+    """Require stronger SELL evidence during a high-volatility broad rebound."""
+    regime = e.get("marketRegime") or {}
+    broad_rebound = (
+        regime.get("trend") == "up"
+        and regime.get("vol") == "high"
+        and float(regime.get("medianRet5") or regime.get("median5") or 0) >= 2.0
+        and float(regime.get("advanceRatio5") or 0) >= 60.0
+        and float(regime.get("medianRet1") or 0) >= 0.5
+        and float(regime.get("advanceRatio1") or 0) >= 55.0
+    )
+    double_bear = taro.get("stance") == "bear" and nova.get("stance") == "bear"
+    high_vol = risk.get("grade") == "high" or regime.get("vol") == "high"
+    confirmed = bool(high_vol and broad_rebound and double_bear)
+    active = bool((guard_policy or {}).get("active")) and confirmed
+    sell_threshold = int((guard_policy or {}).get("policy", {}).get("sellThreshold", 40)) if active else 47
+    return {
+        "active": active, "confirmed": confirmed, "sellThreshold": sell_threshold,
+        "reason": ("고변동성인데 시장 전체가 동반 반등해 TARO·QUANT 약세만으로 SELL을 확정하지 않습니다."
+                   if active else "반등 레짐 확인 조건에 해당하지 않습니다."),
+    }
+
+
+def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_policy=None):
     w = {k: weights.get(k, BASE_W[k]) for k in ("taro", "diana", "nova", "flow")}
     tot_w = sum(w.values()) or 1.0
     raw_total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
                        + nova["score"] * w["nova"] + flow["score"] * w["flow"]) / tot_w)
     risk = risk_overlay(e.get("risk"))
     total = clamp(raw_total - risk["penalty"])
-    call = "BUY" if total >= 63 else ("HOLD" if total >= 47 else "SELL")
+    rebound_check = rebound_regime_confirmation(e, taro, nova, risk, guard_policy)
+    call = "BUY" if total >= 63 else ("HOLD" if total >= rebound_check["sellThreshold"] else "SELL")
     scores = [taro["score"], diana["score"], nova["score"], flow["score"]]
     spread = max(scores) - min(scores)
     conf = clamp(max(40, 88 - spread) - risk["confidencePenalty"], 30, 90)
@@ -612,6 +636,8 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False):
     return {"call": call, "total": total, "confidence": conf,
             "rawTotal": raw_total, "riskPenalty": risk["penalty"],
             "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
+            "reboundCheck": rebound_check,
+            "modelVersion": ("baseline-risk-v2.1-rebound-guard" if rebound_check["active"] else "baseline-risk-v2"),
             "reason": reason, "target": tgt, "report": report}
 
 
@@ -714,9 +740,10 @@ def main():
             nova = quant_eval(e, t, qstats)   # QUANT (내부 키는 'nova' 유지 — 호환성)
             flow = flow_eval(e.get("flow"))
             wsec = tw["sectors"].get(sectors.get(code, ""), None) or tw["global"]
-            baseline_chief = chief_eval(e, taro, diana, nova, flow, weights=wsec, learned=tw["learned"])
             candidate_context = dict(e)
             candidate_context["marketRegime"] = ind.get("marketRegime") or {}
+            baseline_chief = chief_eval(candidate_context, taro, diana, nova, flow, weights=wsec,
+                                        learned=tw["learned"], guard_policy=model.get("reboundGuard"))
             shadow_chief = candidate_chief_eval(candidate_context, taro, diana, nova, flow, wsec, model) if model else None
             promoted = bool((model.get("promotion") or {}).get("qualified")) and shadow_chief is not None
             chief = shadow_chief if promoted else baseline_chief

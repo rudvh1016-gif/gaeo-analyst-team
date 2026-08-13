@@ -397,6 +397,8 @@ def main():
             entry["sector"] = sectors.get(code, "기타")
             if len(daily) >= 6 and daily[-6].get("close"):
                 entry["_ret5"] = round((daily[-1]["close"] / daily[-6]["close"] - 1) * 100, 2)
+            if len(daily) >= 2 and daily[-2].get("close"):
+                entry["_ret1"] = round((daily[-1]["close"] / daily[-2]["close"] - 1) * 100, 2)
             out["stocks"][code] = entry
         except Exception as e:
             skipped.append(f"{code}({e})")
@@ -406,6 +408,7 @@ def main():
     assign_risk_grades(out["stocks"])   # 🛡️ 전 종목 분포 기준 상대 위험등급
     # 📐 같은 날짜의 시장·업종 대비 상대강도. 외부 API 없이 수집된 500종목 단면만 사용한다.
     market_returns = [entry["_ret5"] for entry in out["stocks"].values() if entry.get("_ret5") is not None]
+    market_returns1 = [entry["_ret1"] for entry in out["stocks"].values() if entry.get("_ret1") is not None]
     market_median = statistics.median(market_returns) if market_returns else 0.0
     sector_returns = {}
     for entry in out["stocks"].values():
@@ -414,6 +417,7 @@ def main():
     sector_medians = {sector: statistics.median(values) for sector, values in sector_returns.items() if values}
     for entry in out["stocks"].values():
         ret5 = entry.pop("_ret5", None)
+        entry.pop("_ret1", None)
         if ret5 is None:
             continue
         sector = entry.get("sector", "기타")
@@ -426,9 +430,13 @@ def main():
                              "sectorPercentile": round(rank)}
     median_vol = statistics.median([entry["risk"]["vol20"] for entry in out["stocks"].values() if entry.get("risk")])
     trend = "up" if market_median > 1 else ("down" if market_median < -1 else "side")
+    median_ret1 = statistics.median(market_returns1) if market_returns1 else 0.0
     out["marketRegime"] = {"key": f"{trend}_{'high' if median_vol >= 3 else 'low'}",
                            "trend": trend, "vol": "high" if median_vol >= 3 else "low",
-                           "medianRet5": round(market_median, 2), "medianVol20": round(median_vol, 2)}
+                           "medianRet5": round(market_median, 2), "medianVol20": round(median_vol, 2),
+                           "advanceRatio5": round(sum(ret > 0 for ret in market_returns) / len(market_returns) * 100, 1) if market_returns else 0.0,
+                           "medianRet1": round(median_ret1, 2),
+                           "advanceRatio1": round(sum(ret > 0 for ret in market_returns1) / len(market_returns1) * 100, 1) if market_returns1 else 0.0}
     path = os.path.join(HERE, "indicators.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

@@ -4,9 +4,10 @@
 import datetime
 
 from compute_indicators import flow_summary
+from analyze_auto import chief_eval
 from compute_model_intelligence import (
     ANALYSTS, calibration_from, calibrated_p, error_correlations,
-    evaluate_archived_shadow, score_bin, stance_hit,
+    evaluate_archived_shadow, evaluate_rebound_guard, score_bin, stance_hit,
 )
 
 passed = 0
@@ -71,5 +72,37 @@ check("그림자 전진검증 표본 집계", prospective["n"] == 2 and prospect
 check("그림자 전진검증 양방향 적중", prospective["candidateActionPrecision"] == 100.0)
 check("그림자 전진검증 시장국면 집계", prospective["testRegimes"] == 2)
 check("백분율 확률을 Brier 소수확률로 변환", prospective["brier"] == 0.065)
+
+guard_rows = [
+    {"day": "2026-02-01", "ret5": 4, "call": "SELL",
+     "taro": {"stance": "bear"}, "nova": {"stance": "bear"}},
+    {"day": "2026-02-01", "ret5": -4, "call": "SELL",
+     "taro": {"stance": "bear"}, "nova": {"stance": "bear"}},
+    {"day": "2026-02-02", "ret5": 3, "call": "SELL",
+     "taro": {"stance": "bear"}, "nova": {"stance": "bull"}},
+]
+guard_regimes = {
+    "2026-02-01": {"trend": "up", "vol": "high", "median5": 3.1,
+                   "advanceRatio5": 72.0, "medianRet1": 1.2, "advanceRatio1": 66.0},
+    "2026-02-02": {"trend": "up", "vol": "high", "median5": 3.1,
+                   "advanceRatio5": 72.0, "medianRet1": 1.2, "advanceRatio1": 66.0},
+}
+guard = evaluate_rebound_guard(guard_rows, guard_regimes)
+check("반등 국면에서만 SELL을 HOLD로 유보", guard["guardedN"] == 2)
+check("반등 가드 Walk-forward가 기존 SELL 오류를 줄임", guard["guarded"]["hit"] > guard["baseline"]["hit"])
+
+bear_taro = {"score": 30, "stance": "bear", "findings": ["약세"]}
+bear_nova = {"score": 30, "stance": "bear", "findings": ["약세"]}
+neutral_diana = {"score": 76, "stance": "neutral", "findings": ["중립"]}
+neutral_flow = {"score": 76, "stance": "neutral", "findings": ["중립"]}
+rebound_context = {
+    "risk": {"vol20": 6, "mdd3m": -30, "grade": "high"},
+    "marketRegime": {"trend": "up", "vol": "high", "medianRet5": 3.1,
+                     "advanceRatio5": 72, "medianRet1": 1.2, "advanceRatio1": 66},
+}
+guarded_chief = chief_eval(rebound_context, bear_taro, neutral_diana, bear_nova, neutral_flow,
+                           guard_policy={"active": True, "policy": {"sellThreshold": 40}})
+baseline_chief = chief_eval(rebound_context, bear_taro, neutral_diana, bear_nova, neutral_flow)
+check("실제 CHIEF가 반등 검증 시 SELL을 HOLD로 유보", guarded_chief["call"] == "HOLD" and baseline_chief["call"] == "SELL")
 
 print(f"종합판단 v3 테스트 {passed}건 통과")

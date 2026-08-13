@@ -71,13 +71,16 @@ def build_market_regimes(closes):
     """500종목 단면 중앙값으로 날짜별 시장 추세·변동성 국면을 만든다."""
     by_date = {}
     abs_daily = {}
+    daily_returns = {}
     for rows in closes.values():
         for i, row in enumerate(rows):
             day = row["date"]
             if i >= 5 and rows[i - 5]["close"]:
                 by_date.setdefault(day, []).append((row["close"] / rows[i - 5]["close"] - 1) * 100)
             if i >= 1 and rows[i - 1]["close"]:
-                abs_daily.setdefault(day, []).append(abs((row["close"] / rows[i - 1]["close"] - 1) * 100))
+                ret1 = (row["close"] / rows[i - 1]["close"] - 1) * 100
+                abs_daily.setdefault(day, []).append(abs(ret1))
+                daily_returns.setdefault(day, []).append(ret1)
     daily_vols = [statistics.median(values) for values in abs_daily.values() if values]
     vol_cut = statistics.median(daily_vols) if daily_vols else 2.0
     regimes = {}
@@ -86,9 +89,72 @@ def build_market_regimes(closes):
         trend = "up" if trend_value > 1 else ("down" if trend_value < -1 else "side")
         vol_value = statistics.median(abs_daily.get(day) or [0])
         vol = "high" if vol_value > vol_cut else "low"
+        values1 = daily_returns.get(day) or []
         regimes[day] = {"key": f"{trend}_{vol}", "trend": trend, "vol": vol,
-                        "median5": round(trend_value, 2), "medianAbs1": round(vol_value, 2)}
+                        "median5": round(trend_value, 2), "medianAbs1": round(vol_value, 2),
+                        "advanceRatio5": round(sum(value > 0 for value in values) / len(values) * 100, 1),
+                        "medianRet1": round(statistics.median(values1), 2) if values1 else 0.0,
+                        "advanceRatio1": round(sum(value > 0 for value in values1) / len(values1) * 100, 1) if values1 else 0.0}
     return regimes
+
+
+def rebound_guard_eligible(row, regime):
+    """Only pause a SELL when the same-day market data confirms a broad rebound.
+
+    All fields are available on the decision day; the forward return is used only
+    for evaluation, so this remains a walk-forward test without look-ahead.
+    """
+    taro = row.get("taro") or {}
+    nova = row.get("nova") or {}
+    return (
+        row.get("call") == "SELL"
+        and taro.get("stance") == "bear"
+        and nova.get("stance") == "bear"
+        and regime.get("trend") == "up"
+        and regime.get("vol") == "high"
+        and float(regime.get("median5") or 0) >= 2.0
+        and float(regime.get("advanceRatio5") or 0) >= 60.0
+        and float(regime.get("medianRet1") or 0) >= 0.5
+        and float(regime.get("advanceRatio1") or 0) >= 55.0
+    )
+
+
+def evaluate_rebound_guard(rows, regimes):
+    """Evaluate the baseline and the SELL→HOLD guard over every matured row."""
+    baseline = {"hit": 0, "miss": 0, "mid": 0}
+    guarded = {"hit": 0, "miss": 0, "mid": 0}
+    guarded_n = 0
+    days = set()
+    for row in rows:
+        ret = row.get("ret5")
+        if ret is None:
+            continue
+        days.add(row.get("day"))
+        base_verdict = call_hit(row.get("call"), ret)
+        if base_verdict == 1:
+            baseline["hit"] += 1
+        elif base_verdict == 0:
+            baseline["miss"] += 1
+        else:
+            baseline["mid"] += 1
+        changed = rebound_guard_eligible(row, regimes.get(row.get("day")) or {})
+        call = "HOLD" if changed else row.get("call")
+        if changed:
+            guarded_n += 1
+        verdict = call_hit(call, ret)
+        if verdict == 1:
+            guarded["hit"] += 1
+        elif verdict == 0:
+            guarded["miss"] += 1
+        else:
+            guarded["mid"] += 1
+
+    def with_accuracy(stats):
+        decided = stats["hit"] + stats["miss"]
+        return {**stats, "accuracy": round(stats["hit"] / decided * 100, 1) if decided else None}
+
+    return {"n": sum(baseline.values()), "days": len(days), "guardedN": guarded_n,
+            "baseline": with_accuracy(baseline), "guarded": with_accuracy(guarded)}
 
 
 def calibration_from(rows):
@@ -410,6 +476,21 @@ def main():
     regimes_table = regime_weights(train, regimes, global_weights)
     metrics = evaluate(test, calibration, global_weights, redundancy, regimes_table, regimes)
     prospective = evaluate_archived_shadow(rows, regimes)
+    rebound_guard = evaluate_rebound_guard(rows, regimes)
+    guard_baseline = rebound_guard["baseline"].get("accuracy")
+    guard_result = rebound_guard["guarded"].get("accuracy")
+    # A fixed safety rule is allowed into the live baseline only after the full
+    # archived walk-forward set shows no loss of decision accuracy and enough
+    # affected observations to make the comparison meaningful.
+    rebound_guard["active"] = bool(
+        rebound_guard["guardedN"] >= 30 and guard_baseline is not None and
+        guard_result is not None and guard_result >= guard_baseline
+    )
+    rebound_guard["policy"] = {
+        "sellThreshold": 40,
+        "minAffectedN": 30,
+        "conditions": "high-volatility broad rebound + TARO/QUANT both bear",
+    }
     base_precision = prospective.get("baselineActionPrecision")
     candidate_precision = prospective.get("candidateActionPrecision")
     reasons = []
@@ -440,6 +521,7 @@ def main():
         "regimes": regimes_table,
         "currentRegime": current_regime,
         "holdPolicy": {"buyProbability": .62, "sellProbability": .38},
+        "reboundGuard": rebound_guard,
         "audit": audit(test, regimes),
         "shadow": metrics,
         "prospective": prospective,

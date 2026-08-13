@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-13 15:23",
+ "generatedAt": "2026-08-13 23:20",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -512,11 +512,37 @@ const MODEL_INTELLIGENCE = {
   "trend": "up",
   "vol": "low",
   "median5": 3.3,
-  "medianAbs1": 1.45
+  "medianAbs1": 1.45,
+  "advanceRatio5": 71.6,
+  "medianRet1": 0.0,
+  "advanceRatio1": 47.6
  },
  "holdPolicy": {
   "buyProbability": 0.62,
   "sellProbability": 0.38
+ },
+ "reboundGuard": {
+  "n": 13556,
+  "days": 28,
+  "guardedN": 201,
+  "baseline": {
+   "hit": 6732,
+   "miss": 6279,
+   "mid": 545,
+   "accuracy": 51.7
+  },
+  "guarded": {
+   "hit": 6782,
+   "miss": 6242,
+   "mid": 532,
+   "accuracy": 52.1
+  },
+  "active": true,
+  "policy": {
+   "sellThreshold": 40,
+   "minAffectedN": 30,
+   "conditions": "high-volatility broad rebound + TARO/QUANT both bear"
+  }
  },
  "audit": {
   "matured": 2500,
