@@ -56,7 +56,7 @@ const TEAM_WEIGHTS = {
    "flow": {
     "n": 1818,
     "acc": 57.4,
-    "adjustedAcc": 56.9,
+    "adjustedAcc": 57.0,
     "days": 5,
     "deadband": 1.0
    }
@@ -187,7 +187,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1266,
+   "graded": 1267,
    "globalBlend": 0.387
   },
   "자동차·부품": {
@@ -227,7 +227,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 973,
+   "graded": 974,
    "globalBlend": 0.451
   },
   "통신": {
@@ -239,9 +239,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 180,
-     "acc": 52.2,
-     "adjustedAcc": 51.3,
+     "n": 181,
+     "acc": 51.9,
+     "adjustedAcc": 51.2,
      "days": 5,
      "deadband": 1.0
     },
@@ -319,9 +319,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 568,
-     "acc": 49.8,
-     "adjustedAcc": 49.9,
+     "n": 566,
+     "acc": 50.0,
+     "adjustedAcc": 50.0,
      "days": 5,
      "deadband": 1.0
     },
@@ -646,9 +646,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 292,
-     "acc": 51.4,
-     "adjustedAcc": 51.0,
+     "n": 294,
+     "acc": 51.7,
+     "adjustedAcc": 51.2,
      "days": 20,
      "deadband": 3.0
     },
@@ -747,7 +747,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 981,
+   "graded": 983,
    "globalBlend": 0.449
   },
   "화장품·미용": {
@@ -766,9 +766,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 77,
-     "acc": 62.3,
-     "adjustedAcc": 54.8,
+     "n": 78,
+     "acc": 61.5,
+     "adjustedAcc": 54.5,
      "days": 20,
      "deadband": 3.0
     },
@@ -787,7 +787,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 569,
+   "graded": 570,
    "globalBlend": 0.584
   },
   "건설·건자재": {
@@ -919,9 +919,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 233,
-     "acc": 59.2,
-     "adjustedAcc": 56.1,
+     "n": 234,
+     "acc": 59.4,
+     "adjustedAcc": 56.2,
      "days": 5,
      "deadband": 1.0
     },
@@ -947,7 +947,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 579,
+   "graded": 580,
    "globalBlend": 0.58
   },
   "식음료": {

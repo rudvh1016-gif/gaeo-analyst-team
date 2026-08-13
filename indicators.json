@@ -151,7 +151,7 @@
    "pbr": 3.7,
    "roe": 17.2,
    "eps": 12372.0,
-   "div": 0.63,
+   "div": 0.62,
    "w52": "67,500 ~ 380,000",
    "cap": "1,555조",
    "cnsEps": 47821.0,
@@ -256,7 +256,7 @@
     "qualityScore": 8.6
    },
    "risk": {
-    "vol20": 8.17,
+    "vol20": 8.19,
     "mdd3m": -42.9,
     "pos52w": 63,
     "reboundFromLow": 28.3,
@@ -404,11 +404,11 @@
   },
   "402340": {
    "name": "SK스퀘어",
-   "price": 1114000,
-   "rate": 8.79,
+   "price": 1117000,
+   "rate": 9.08,
    "stale": false,
-   "per": 9.46,
-   "pbr": 4.07,
+   "per": 9.49,
+   "pbr": 4.08,
    "roe": 43.0,
    "eps": 117759.0,
    "div": null,
@@ -417,7 +417,7 @@
    "cnsEps": 296272.0,
    "targetMean": 1900000.0,
    "recommMean": 4.0,
-   "targetGap": 70.6,
+   "targetGap": 70.1,
    "fwdPer": 3.8,
    "tech": {
     "close": 1112000,
@@ -680,30 +680,30 @@
    "targetGap": 364.5,
    "fwdPer": 25.6,
    "tech": {
-    "close": 507000,
+    "close": 508000,
     "daysAvail": 208,
-    "ma5": 459000,
-    "ma5Gap": 10.5,
-    "ma5Slope": 5.11,
+    "ma5": 459200,
+    "ma5Gap": 10.6,
+    "ma5Slope": 5.15,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 441950,
-    "ma20Gap": 14.7,
-    "ma20Slope": -2.61,
+    "ma20": 442000,
+    "ma20Gap": 14.9,
+    "ma20Slope": -2.59,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 566450,
-    "ma60Gap": -10.5,
+    "ma60": 566467,
+    "ma60Gap": -10.3,
     "ma60Slope": 0.94,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 401429,
-    "ma120Gap": 26.3,
+    "ma120": 401438,
+    "ma120Gap": 26.5,
     "ma120Slope": 3.58,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 287144,
-    "ma200Gap": 76.6,
+    "ma200": 287148,
+    "ma200Gap": 76.9,
     "ma200Slope": 3.3,
     "ma200Days": 200,
     "ma200Full": true,
@@ -742,15 +742,15 @@
      },
      {
       "d": "08-13",
-      "c": 507000
+      "c": 508000
      }
     ],
     "bb": {
-     "upper": 528798,
-     "mid": 441950,
-     "lower": 355102,
-     "pctB": 0.875,
-     "width": 39.3
+     "upper": 528999,
+     "mid": 442000,
+     "lower": 355001,
+     "pctB": 0.879,
+     "width": 39.4
     }
    },
    "flow": {
@@ -776,10 +776,10 @@
     "qualityScore": 29.0
    },
    "risk": {
-    "vol20": 9.44,
+    "vol20": 9.45,
     "mdd3m": -66.5,
     "pos52w": 47,
-    "reboundFromLow": 58.4,
+    "reboundFromLow": 58.7,
     "grade": "high"
    },
    "sector": "전자·부품",
@@ -2072,7 +2072,7 @@
     "flowRatioPct": 9.333,
     "priceRet5": 1.95,
     "divergence": "confirmation_up",
-    "qualityScore": 28.3
+    "qualityScore": 23.4
    },
    "risk": {
     "vol20": 4.34,
@@ -2629,30 +2629,30 @@
    "targetGap": 29.1,
    "fwdPer": 38.4,
    "tech": {
-    "close": 1556000,
+    "close": 1564000,
     "daysAvail": 208,
-    "ma5": 1567800,
-    "ma5Gap": -0.8,
-    "ma5Slope": 6.09,
+    "ma5": 1569400,
+    "ma5Gap": -0.3,
+    "ma5Slope": 6.2,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 1486650,
-    "ma20Gap": 4.7,
-    "ma20Slope": 3.37,
+    "ma20": 1487050,
+    "ma20Gap": 5.2,
+    "ma20Slope": 3.39,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 1404450,
-    "ma60Gap": 10.8,
-    "ma60Slope": 0.88,
+    "ma60": 1404583,
+    "ma60Gap": 11.3,
+    "ma60Slope": 0.89,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 1487858,
-    "ma120Gap": 4.6,
+    "ma120": 1487925,
+    "ma120Gap": 5.1,
     "ma120Slope": -0.39,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 1595811,
-    "ma200Gap": -2.5,
+    "ma200": 1595851,
+    "ma200Gap": -2.0,
     "ma200Slope": -0.15,
     "ma200Days": 200,
     "ma200Full": true,
@@ -2691,15 +2691,15 @@
      },
      {
       "d": "08-13",
-      "c": 1556000
+      "c": 1564000
      }
     ],
     "bb": {
-     "upper": 1636028,
-     "mid": 1486650,
-     "lower": 1337272,
-     "pctB": 0.732,
-     "width": 20.1
+     "upper": 1637209,
+     "mid": 1487050,
+     "lower": 1336891,
+     "pctB": 0.756,
+     "width": 20.2
     }
    },
    "flow": {
@@ -2727,8 +2727,8 @@
    "risk": {
     "vol20": 3.39,
     "mdd3m": -14.2,
-    "pos52w": 43,
-    "reboundFromLow": 25.2,
+    "pos52w": 44,
+    "reboundFromLow": 25.8,
     "grade": "mid"
    },
    "sector": "바이오·제약",
@@ -3010,7 +3010,7 @@
    "pbr": 0.85,
    "roe": 8.4,
    "eps": 10486.0,
-   "div": 2.45,
+   "div": 2.43,
    "w52": "63,600 ~ 115,800",
    "cap": "50조",
    "cnsEps": 12446.0,
@@ -3790,7 +3790,7 @@
    "pbr": 0.77,
    "roe": 8.6,
    "eps": 14513.0,
-   "div": 3.16,
+   "div": 3.13,
    "w52": "80,500 ~ 142,500",
    "cap": "36조",
    "cnsEps": 16056.0,
@@ -3799,31 +3799,31 @@
    "targetGap": 26.8,
    "fwdPer": 8.1,
    "tech": {
-    "close": 130000,
+    "close": 131000,
     "daysAvail": 208,
-    "ma5": 130140,
-    "ma5Gap": -0.1,
-    "ma5Slope": 1.39,
+    "ma5": 130340,
+    "ma5Gap": 0.5,
+    "ma5Slope": 1.54,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 129420,
-    "ma20Gap": 0.4,
-    "ma20Slope": -0.15,
+    "ma20": 129470,
+    "ma20Gap": 1.2,
+    "ma20Slope": -0.11,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 123688,
-    "ma60Gap": 5.1,
-    "ma60Slope": 0.62,
+    "ma60": 123705,
+    "ma60Gap": 5.9,
+    "ma60Slope": 0.63,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 120771,
-    "ma120Gap": 7.6,
-    "ma120Slope": 0.18,
+    "ma120": 120779,
+    "ma120Gap": 8.5,
+    "ma120Slope": 0.19,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 111120,
-    "ma200Gap": 17.0,
-    "ma200Slope": 0.97,
+    "ma200": 111125,
+    "ma200Gap": 17.9,
+    "ma200Slope": 0.98,
     "ma200Days": 200,
     "ma200Full": true,
     "cross5_20": {
@@ -3861,15 +3861,15 @@
      },
      {
       "d": "08-13",
-      "c": 130000
+      "c": 131000
      }
     ],
     "bb": {
-     "upper": 137400,
-     "mid": 129420,
-     "lower": 121440,
-     "pctB": 0.536,
-     "width": 12.3
+     "upper": 137477,
+     "mid": 129470,
+     "lower": 121463,
+     "pctB": 0.596,
+     "width": 12.4
     }
    },
    "flow": {
@@ -3895,10 +3895,10 @@
     "qualityScore": -7.2
    },
    "risk": {
-    "vol20": 2.19,
+    "vol20": 2.23,
     "mdd3m": -16.9,
-    "pos52w": 80,
-    "reboundFromLow": 18.5,
+    "pos52w": 81,
+    "reboundFromLow": 19.4,
     "grade": "low"
    },
    "sector": "금융·증권",
@@ -4050,9 +4050,9 @@
    "pbr": 1.44,
    "roe": 3.8,
    "eps": 5420.0,
-   "div": 0.66,
+   "div": 0.65,
    "w52": "71,900 ~ 467,500",
-   "cap": "33조",
+   "cap": "34조",
    "cnsEps": 12699.0,
    "targetMean": 232188.0,
    "recommMean": 4.0,
@@ -5352,7 +5352,7 @@
    "eps": 47960.0,
    "div": 1.65,
    "w52": "771,000 ~ 2,189,000",
-   "cap": "25조",
+   "cap": "26조",
    "cnsEps": 60524.0,
    "targetMean": 1564600.0,
    "recommMean": 4.0,
@@ -5870,9 +5870,9 @@
    "pbr": 0.62,
    "roe": -5.9,
    "eps": -26317.0,
-   "div": 0.72,
+   "div": 0.73,
    "w52": "224,000 ~ 437,500",
-   "cap": "20조",
+   "cap": "19조",
    "cnsEps": -4332.0,
    "targetMean": 383769.0,
    "recommMean": 3.85,
@@ -5972,7 +5972,7 @@
     "flowRatioPct": 15.147,
     "priceRet5": 5.94,
     "divergence": "confirmation_up",
-    "qualityScore": 30.0
+    "qualityScore": 29.1
    },
    "risk": {
     "vol20": 3.81,
@@ -6383,20 +6383,20 @@
   },
   "024110": {
    "name": "기업은행",
-   "price": 20100,
-   "rate": -0.25,
+   "price": 20000,
+   "rate": -0.74,
    "stale": false,
-   "per": 6.05,
-   "pbr": 0.44,
+   "per": 6.02,
+   "pbr": 0.43,
    "roe": 7.2,
    "eps": 3325.0,
-   "div": 5.21,
+   "div": 5.24,
    "w52": "18,550 ~ 29,900",
    "cap": "16조",
    "cnsEps": 3496.0,
    "targetMean": 27333.0,
    "recommMean": 3.73,
-   "targetGap": 36.0,
+   "targetGap": 36.7,
    "fwdPer": 5.7,
    "tech": {
     "close": 20100,
@@ -6780,7 +6780,7 @@
    "pbr": 1.84,
    "roe": 6.5,
    "eps": 8277.0,
-   "div": 1.36,
+   "div": 1.35,
    "w52": "143,700 ~ 389,000",
    "cap": "18조",
    "cnsEps": 9066.0,
@@ -6882,10 +6882,10 @@
     "flowRatioPct": 8.954,
     "priceRet5": 1.51,
     "divergence": "confirmation_up",
-    "qualityScore": 28.2
+    "qualityScore": 25.3
    },
    "risk": {
-    "vol20": 4.67,
+    "vol20": 4.66,
     "mdd3m": -48.7,
     "pos52w": 38,
     "reboundFromLow": 43.2,
@@ -7040,7 +7040,7 @@
    "pbr": 1.71,
    "roe": 9.8,
    "eps": 8083.0,
-   "div": 0.24,
+   "div": 0.23,
    "w52": "57,600 ~ 179,700",
    "cap": "16조",
    "cnsEps": 24781.0,
@@ -7145,7 +7145,7 @@
     "qualityScore": 23.9
    },
    "risk": {
-    "vol20": 4.17,
+    "vol20": 4.16,
     "mdd3m": -19.5,
     "pos52w": 68,
     "reboundFromLow": 50.3,
@@ -7792,7 +7792,7 @@
     "flowRatioPct": 10.041,
     "priceRet5": 13.12,
     "divergence": "confirmation_up",
-    "qualityScore": 27.8
+    "qualityScore": 26.6
    },
    "risk": {
     "vol20": 6.5,
@@ -8203,10 +8203,10 @@
   },
   "259960": {
    "name": "크래프톤",
-   "price": 233500,
-   "rate": -0.64,
+   "price": 234500,
+   "rate": -0.21,
    "stale": false,
-   "per": 12.63,
+   "per": 12.69,
    "pbr": 1.4,
    "roe": 11.1,
    "eps": 18485.0,
@@ -8216,7 +8216,7 @@
    "cnsEps": 20134.0,
    "targetMean": 368333.0,
    "recommMean": 4.0,
-   "targetGap": 57.7,
+   "targetGap": 57.1,
    "fwdPer": 11.6,
    "tech": {
     "close": 233500,
@@ -8312,7 +8312,7 @@
     "flowRatioPct": -10.306,
     "priceRet5": 1.52,
     "divergence": "distribution",
-    "qualityScore": -35.0
+    "qualityScore": -34.2
    },
    "risk": {
     "vol20": 3.68,
@@ -8349,30 +8349,30 @@
    "targetGap": 33.8,
    "fwdPer": 17.4,
    "tech": {
-    "close": 22100,
+    "close": 22150,
     "daysAvail": 208,
-    "ma5": 22040,
-    "ma5Gap": 0.3,
-    "ma5Slope": 1.15,
+    "ma5": 22050,
+    "ma5Gap": 0.5,
+    "ma5Slope": 1.19,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 21950,
-    "ma20Gap": 0.7,
-    "ma20Slope": -0.75,
+    "ma20": 21952,
+    "ma20Gap": 0.9,
+    "ma20Slope": -0.73,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 22191,
-    "ma60Gap": -0.4,
-    "ma60Slope": -0.21,
+    "ma60": 22192,
+    "ma60Gap": -0.2,
+    "ma60Slope": -0.2,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 23451,
-    "ma120Gap": -5.8,
+    "ma120": 23452,
+    "ma120Gap": -5.6,
     "ma120Slope": -0.98,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 23082,
-    "ma200Gap": -4.3,
+    "ma200Gap": -4.0,
     "ma200Slope": -0.08,
     "ma200Days": 200,
     "ma200Full": true,
@@ -8411,15 +8411,15 @@
      },
      {
       "d": "08-13",
-      "c": 22100
+      "c": 22150
      }
     ],
     "bb": {
-     "upper": 22767,
-     "mid": 21950,
-     "lower": 21133,
-     "pctB": 0.592,
-     "width": 7.4
+     "upper": 22771,
+     "mid": 21952,
+     "lower": 21134,
+     "pctB": 0.621,
+     "width": 7.5
     }
    },
    "flow": {
@@ -8445,10 +8445,10 @@
     "qualityScore": 8.1
    },
    "risk": {
-    "vol20": 1.8,
+    "vol20": 1.81,
     "mdd3m": -20.2,
-    "pos52w": 25,
-    "reboundFromLow": 11.9,
+    "pos52w": 26,
+    "reboundFromLow": 12.2,
     "grade": "low"
    },
    "sector": "금융·증권",
@@ -9247,9 +9247,9 @@
    "pbr": 0.68,
    "roe": 8.6,
    "eps": 9009.0,
-   "div": 3.24,
+   "div": 3.22,
    "w52": "37,650 ~ 78,400",
-   "cap": "8.8조",
+   "cap": "8.9조",
    "cnsEps": 10375.0,
    "targetMean": 89824.0,
    "recommMean": 4.0,
@@ -9284,8 +9284,8 @@
     "ma200Days": 200,
     "ma200Full": true,
     "cross5_20": {
-     "event": "dead",
-     "daysAgo": 11,
+     "event": "golden",
+     "daysAgo": 0,
      "near": null
     },
     "cross20_60": {
@@ -9352,7 +9352,7 @@
     "qualityScore": -16.4
    },
    "risk": {
-    "vol20": 3.8,
+    "vol20": 3.82,
     "mdd3m": -18.5,
     "pos52w": 82,
     "reboundFromLow": 19.7,
@@ -9379,7 +9379,7 @@
    "eps": 6790.0,
    "div": 1.98,
    "w52": "158,000 ~ 290,500",
-   "cap": "8.9조",
+   "cap": "9.0조",
    "cnsEps": 7838.0,
    "targetMean": 314727.0,
    "recommMean": 4.0,
@@ -9897,9 +9897,9 @@
    "pbr": 6.55,
    "roe": 31.3,
    "eps": 57735.0,
-   "div": 0.4,
+   "div": 0.39,
    "w52": "981,000 ~ 1,665,000",
-   "cap": "9.1조",
+   "cap": "9.2조",
    "cnsEps": 74874.0,
    "targetMean": 1856429.0,
    "recommMean": 4.0,
@@ -10519,10 +10519,10 @@
     "flowRatioPct": -9.411,
     "priceRet5": 0.0,
     "divergence": "neutral",
-    "qualityScore": -36.6
+    "qualityScore": -32.7
    },
    "risk": {
-    "vol20": 1.94,
+    "vol20": 1.96,
     "mdd3m": -12.2,
     "pos52w": 69,
     "reboundFromLow": 13.6,
@@ -10556,30 +10556,30 @@
    "targetGap": 36.5,
    "fwdPer": 8.5,
    "tech": {
-    "close": 14740,
+    "close": 14700,
     "daysAvail": 208,
-    "ma5": 15024,
-    "ma5Gap": -1.9,
-    "ma5Slope": 0.87,
+    "ma5": 15016,
+    "ma5Gap": -2.1,
+    "ma5Slope": 0.82,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 14819,
-    "ma20Gap": -0.5,
-    "ma20Slope": 0.67,
+    "ma20": 14817,
+    "ma20Gap": -0.8,
+    "ma20Slope": 0.66,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 14957,
-    "ma60Gap": -1.4,
+    "ma60": 14956,
+    "ma60Gap": -1.7,
     "ma60Slope": -0.5,
     "ma60Days": 60,
     "ma60Full": true,
     "ma120": 15517,
-    "ma120Gap": -5.0,
-    "ma120Slope": -0.4,
+    "ma120Gap": -5.3,
+    "ma120Slope": -0.41,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 15449,
-    "ma200Gap": -4.6,
+    "ma200": 15448,
+    "ma200Gap": -4.8,
     "ma200Slope": -0.01,
     "ma200Days": 200,
     "ma200Full": true,
@@ -10593,8 +10593,8 @@
      "daysAgo": null,
      "near": "golden"
     },
-    "rsi14": 48.3,
-    "macd": 68,
+    "rsi14": 47.8,
+    "macd": 65,
     "macdSignal": 45,
     "volRatio": 1.13,
     "low3m": 14000,
@@ -10618,14 +10618,14 @@
      },
      {
       "d": "08-13",
-      "c": 14740
+      "c": 14700
      }
     ],
     "bb": {
-     "upper": 15379,
-     "mid": 14819,
-     "lower": 14259,
-     "pctB": 0.429,
+     "upper": 15378,
+     "mid": 14817,
+     "lower": 14256,
+     "pctB": 0.396,
      "width": 7.6
     }
    },
@@ -10654,8 +10654,8 @@
    "risk": {
     "vol20": 2.39,
     "mdd3m": -15.7,
-    "pos52w": 23,
-    "reboundFromLow": 5.3,
+    "pos52w": 22,
+    "reboundFromLow": 5.0,
     "grade": "low"
    },
    "sector": "통신",
@@ -11447,11 +11447,11 @@
   },
   "277810": {
    "name": "레인보우로보틱스",
-   "price": 493500,
-   "rate": 0.71,
+   "price": 497000,
+   "rate": 1.43,
    "stale": false,
-   "per": 7710.94,
-   "pbr": 72.04,
+   "per": 7765.62,
+   "pbr": 72.55,
    "roe": 0.9,
    "eps": 64.0,
    "div": null,
@@ -11460,7 +11460,7 @@
    "cnsEps": null,
    "targetMean": 915000.0,
    "recommMean": 4.0,
-   "targetGap": 85.4,
+   "targetGap": 84.1,
    "tech": {
     "close": 493500,
     "daysAvail": 208,
@@ -11585,7 +11585,7 @@
    "eps": 2257.0,
    "div": 0.17,
    "w52": "37,150 ~ 187,800",
-   "cap": "5.8조",
+   "cap": "5.9조",
    "cnsEps": 4439.0,
    "targetMean": 154714.0,
    "recommMean": 3.86,
@@ -11843,7 +11843,7 @@
    "pbr": 6.93,
    "roe": 17.6,
    "eps": 3439.0,
-   "div": 0.5,
+   "div": 0.51,
    "w52": "19,620 ~ 224,000",
    "cap": "3.9조",
    "cnsEps": 5236.0,
@@ -11945,7 +11945,7 @@
     "flowRatioPct": -8.846,
     "priceRet5": 12.05,
     "divergence": "distribution",
-    "qualityScore": -45.6
+    "qualityScore": -45.2
    },
    "risk": {
     "vol20": 9.08,
@@ -12076,7 +12076,7 @@
     "qualityScore": 26.1
    },
    "risk": {
-    "vol20": 5.3,
+    "vol20": 5.32,
     "mdd3m": -53.8,
     "pos52w": 40,
     "reboundFromLow": 64.9,
@@ -12619,7 +12619,7 @@
    "eps": -3772.0,
    "div": null,
    "w52": "75,700 ~ 260,000",
-   "cap": "4.3조",
+   "cap": "4.2조",
    "cnsEps": -2254.0,
    "targetMean": 224000.0,
    "recommMean": 4.0,
@@ -12719,7 +12719,7 @@
     "flowRatioPct": -8.019,
     "priceRet5": 3.88,
     "divergence": "distribution",
-    "qualityScore": -29.2
+    "qualityScore": -23.4
    },
    "risk": {
     "vol20": 6.59,
@@ -12877,7 +12877,7 @@
    "pbr": 11.31,
    "roe": 27.4,
    "eps": 986.0,
-   "div": 1.23,
+   "div": 1.21,
    "w52": "24,700 ~ 92,000",
    "cap": "3.4조",
    "cnsEps": 1440.0,
@@ -15214,7 +15214,7 @@
    "eps": -713.0,
    "div": null,
    "w52": "98,000 ~ 397,000",
-   "cap": "4.5조",
+   "cap": "4.6조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
@@ -15315,7 +15315,7 @@
     "qualityScore": 7.3
    },
    "risk": {
-    "vol20": 8.76,
+    "vol20": 8.78,
     "mdd3m": -67.6,
     "pos52w": 32,
     "reboundFromLow": 86.8,
@@ -16907,30 +16907,30 @@
    "targetGap": 46.0,
    "fwdPer": 40.3,
    "tech": {
-    "close": 82900,
+    "close": 82500,
     "daysAvail": 208,
-    "ma5": 82840,
-    "ma5Gap": 0.1,
-    "ma5Slope": 10.51,
+    "ma5": 82760,
+    "ma5Gap": -0.3,
+    "ma5Slope": 10.41,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 75105,
-    "ma20Gap": 10.4,
-    "ma20Slope": 5.18,
+    "ma20": 75085,
+    "ma20Gap": 9.9,
+    "ma20Slope": 5.15,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 75450,
-    "ma60Gap": 9.9,
-    "ma60Slope": -0.31,
+    "ma60": 75443,
+    "ma60Gap": 9.4,
+    "ma60Slope": -0.32,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 86027,
-    "ma120Gap": -3.6,
-    "ma120Slope": -1.23,
+    "ma120": 86023,
+    "ma120Gap": -4.1,
+    "ma120Slope": -1.24,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 97234,
-    "ma200Gap": -14.7,
+    "ma200": 97232,
+    "ma200Gap": -15.2,
     "ma200Slope": -0.88,
     "ma200Days": 200,
     "ma200Full": true,
@@ -16969,15 +16969,15 @@
      },
      {
       "d": "08-13",
-      "c": 82900
+      "c": 82500
      }
     ],
     "bb": {
-     "upper": 85101,
-     "mid": 75105,
-     "lower": 65109,
-     "pctB": 0.89,
-     "width": 26.6
+     "upper": 85020,
+     "mid": 75085,
+     "lower": 65150,
+     "pctB": 0.873,
+     "width": 26.5
     }
    },
    "flow": {
@@ -17003,10 +17003,10 @@
     "qualityScore": 50
    },
    "risk": {
-    "vol20": 2.51,
+    "vol20": 2.52,
     "mdd3m": -25.7,
-    "pos52w": 28,
-    "reboundFromLow": 24.8,
+    "pos52w": 27,
+    "reboundFromLow": 24.2,
     "grade": "mid"
    },
    "sector": "바이오·제약",
@@ -17728,7 +17728,7 @@
     "macdSignal": 499,
     "volRatio": 1.38,
     "low3m": 22850,
-    "high3m": 28850,
+    "high3m": 29350,
     "last5": [
      {
       "d": "08-07",
@@ -18038,7 +18038,7 @@
     "flowRatioPct": 10.641,
     "priceRet5": 9.59,
     "divergence": "confirmation_up",
-    "qualityScore": 33.2
+    "qualityScore": 31.3
    },
    "risk": {
     "vol20": 6.14,
@@ -18429,7 +18429,7 @@
     "qualityScore": -15.0
    },
    "risk": {
-    "vol20": 3.15,
+    "vol20": 3.16,
     "mdd3m": -42.8,
     "pos52w": 18,
     "reboundFromLow": 11.0,
@@ -19106,7 +19106,7 @@
    "eps": 12493.0,
    "div": 2.52,
    "w52": "54,100 ~ 119,900",
-   "cap": "3.7조",
+   "cap": "3.8조",
    "cnsEps": 13504.0,
    "targetMean": 122000.0,
    "recommMean": 4.0,
@@ -19366,7 +19366,7 @@
    "eps": -4664.0,
    "div": 0.36,
    "w52": "82,100 ~ 414,000",
-   "cap": "5.1조",
+   "cap": "5.2조",
    "cnsEps": 8632.0,
    "targetMean": 430000.0,
    "recommMean": 4.0,
@@ -19503,30 +19503,30 @@
    "targetGap": 2.5,
    "fwdPer": 22.4,
    "tech": {
-    "close": 304000,
+    "close": 303500,
     "daysAvail": 208,
-    "ma5": 318000,
-    "ma5Gap": -4.4,
-    "ma5Slope": 7.54,
+    "ma5": 317900,
+    "ma5Gap": -4.5,
+    "ma5Slope": 7.51,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 280600,
-    "ma20Gap": 8.3,
-    "ma20Slope": 7.2,
+    "ma20": 280575,
+    "ma20Gap": 8.2,
+    "ma20Slope": 7.19,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 255283,
-    "ma60Gap": 19.1,
+    "ma60": 255275,
+    "ma60Gap": 18.9,
     "ma60Slope": 1.72,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 254646,
-    "ma120Gap": 19.4,
-    "ma120Slope": 0.74,
+    "ma120": 254642,
+    "ma120Gap": 19.2,
+    "ma120Slope": 0.73,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 262462,
-    "ma200Gap": 15.8,
+    "ma200": 262460,
+    "ma200Gap": 15.6,
     "ma200Slope": 0.34,
     "ma200Days": 200,
     "ma200Full": true,
@@ -19565,14 +19565,14 @@
      },
      {
       "d": "08-13",
-      "c": 304000
+      "c": 303500
      }
     ],
     "bb": {
-     "upper": 341343,
-     "mid": 280600,
-     "lower": 219857,
-     "pctB": 0.693,
+     "upper": 341280,
+     "mid": 280575,
+     "lower": 219870,
+     "pctB": 0.689,
      "width": 43.3
     }
    },
@@ -19599,10 +19599,10 @@
     "qualityScore": 22.8
    },
    "risk": {
-    "vol20": 3.79,
+    "vol20": 3.8,
     "mdd3m": -24.0,
     "pos52w": 75,
-    "reboundFromLow": 41.4,
+    "reboundFromLow": 41.2,
     "grade": "mid"
    },
    "sector": "화장품·미용",
@@ -19877,20 +19877,20 @@
   },
   "001450": {
    "name": "현대해상",
-   "price": 42750,
-   "rate": 2.64,
+   "price": 42950,
+   "rate": 3.12,
    "stale": false,
-   "per": 3.63,
+   "per": 3.65,
    "pbr": 0.6,
    "roe": 16.5,
    "eps": 11772.0,
    "div": null,
    "w52": "25,700 ~ 45,550",
-   "cap": "3.6조",
+   "cap": "3.7조",
    "cnsEps": null,
    "targetMean": 43429.0,
    "recommMean": 3.86,
-   "targetGap": 1.6,
+   "targetGap": 1.1,
    "tech": {
     "close": 42900,
     "daysAvail": 208,
@@ -20533,7 +20533,7 @@
    "pbr": 5.87,
    "roe": 6.2,
    "eps": 227.0,
-   "div": 0.58,
+   "div": 0.57,
    "w52": "16,510 ~ 45,600",
    "cap": "3.3조",
    "cnsEps": null,
@@ -20895,7 +20895,7 @@
     "qualityScore": 22.3
    },
    "risk": {
-    "vol20": 1.64,
+    "vol20": 1.66,
     "mdd3m": -16.6,
     "pos52w": 16,
     "reboundFromLow": 9.7,
@@ -21155,7 +21155,7 @@
     "qualityScore": -4.4
    },
    "risk": {
-    "vol20": 5.66,
+    "vol20": 5.67,
     "mdd3m": -28.1,
     "pos52w": 34,
     "reboundFromLow": 10.8,
@@ -21442,7 +21442,7 @@
    "eps": -30721.0,
    "div": 3.28,
    "w52": "172,600 ~ 252,000",
-   "cap": "2.8조",
+   "cap": "2.7조",
    "cnsEps": 19014.0,
    "targetMean": 277857.0,
    "recommMean": 4.0,
@@ -22065,7 +22065,7 @@
     "qualityScore": -28.1
    },
    "risk": {
-    "vol20": 4.54,
+    "vol20": 4.53,
     "mdd3m": -44.4,
     "pos52w": 39,
     "reboundFromLow": 23.7,
@@ -22860,14 +22860,14 @@
   },
   "026960": {
    "name": "동서",
-   "price": 26050,
-   "rate": 0.19,
+   "price": 26200,
+   "rate": 0.77,
    "stale": false,
-   "per": 18.02,
-   "pbr": 1.53,
+   "per": 18.12,
+   "pbr": 1.54,
    "roe": 8.5,
    "eps": 1446.0,
-   "div": 4.38,
+   "div": 4.35,
    "w52": "20,250 ~ 34,500",
    "cap": "2.6조",
    "cnsEps": null,
@@ -23514,7 +23514,7 @@
    "eps": 29208.0,
    "div": 3.49,
    "w52": "116,900 ~ 274,000",
-   "cap": "2.4조",
+   "cap": "2.5조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
@@ -23874,7 +23874,7 @@
     "qualityScore": 13.1
    },
    "risk": {
-    "vol20": 1.96,
+    "vol20": 1.98,
     "mdd3m": -14.6,
     "pos52w": 61,
     "reboundFromLow": 19.8,
@@ -23901,7 +23901,7 @@
    "eps": 3755.0,
    "div": 4.31,
    "w52": "21,000 ~ 37,900",
-   "cap": "2.4조",
+   "cap": "2.5조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
@@ -24262,7 +24262,7 @@
     "qualityScore": -13.4
    },
    "risk": {
-    "vol20": 2.05,
+    "vol20": 2.06,
     "mdd3m": -26.2,
     "pos52w": 12,
     "reboundFromLow": 8.8,
@@ -26078,7 +26078,7 @@
     "qualityScore": -42.8
    },
    "risk": {
-    "vol20": 2.65,
+    "vol20": 2.67,
     "mdd3m": -33.9,
     "pos52w": 15,
     "reboundFromLow": 8.5,
@@ -26465,7 +26465,7 @@
     "flowRatioPct": 9.39,
     "priceRet5": 1.28,
     "divergence": "confirmation_up",
-    "qualityScore": 19.9
+    "qualityScore": 18.3
    },
    "risk": {
     "vol20": 2.74,
@@ -26623,7 +26623,7 @@
    "pbr": 2.57,
    "roe": 13.3,
    "eps": 3730.0,
-   "div": 0.62,
+   "div": 0.63,
    "w52": "30,850 ~ 124,800",
    "cap": "1.4조",
    "cnsEps": null,
@@ -28668,7 +28668,7 @@
     "qualityScore": 12.1
    },
    "risk": {
-    "vol20": 3.53,
+    "vol20": 3.54,
     "mdd3m": -25.9,
     "pos52w": 18,
     "reboundFromLow": 15.6,
@@ -30117,7 +30117,7 @@
    "pbr": 2.07,
    "roe": 15.7,
    "eps": 1839.0,
-   "div": 1.31,
+   "div": 1.32,
    "w52": "18,400 ~ 54,100",
    "cap": "1.3조",
    "cnsEps": 2276.0,
@@ -30247,37 +30247,37 @@
    "pbr": 0.53,
    "roe": 2.9,
    "eps": 17919.0,
-   "div": 2.77,
+   "div": 2.76,
    "w52": "290,500 ~ 519,000",
    "cap": "1.3조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
    "tech": {
-    "close": 325000,
+    "close": 326500,
     "daysAvail": 208,
-    "ma5": 332000,
-    "ma5Gap": -2.1,
-    "ma5Slope": 2.19,
+    "ma5": 332300,
+    "ma5Gap": -1.7,
+    "ma5Slope": 2.28,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 321700,
-    "ma20Gap": 1.0,
-    "ma20Slope": 1.45,
+    "ma20": 321775,
+    "ma20Gap": 1.5,
+    "ma20Slope": 1.47,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 322492,
-    "ma60Gap": 0.8,
+    "ma60": 322517,
+    "ma60Gap": 1.2,
     "ma60Slope": -0.56,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 345438,
-    "ma120Gap": -5.9,
+    "ma120": 345450,
+    "ma120Gap": -5.5,
     "ma120Slope": -0.78,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 362260,
-    "ma200Gap": -10.3,
+    "ma200": 362268,
+    "ma200Gap": -9.9,
     "ma200Slope": -0.42,
     "ma200Days": 200,
     "ma200Full": true,
@@ -30316,15 +30316,15 @@
      },
      {
       "d": "08-13",
-      "c": 325000
+      "c": 326500
      }
     ],
     "bb": {
-     "upper": 340588,
-     "mid": 321700,
-     "lower": 302812,
-     "pctB": 0.587,
-     "width": 11.7
+     "upper": 340726,
+     "mid": 321775,
+     "lower": 302824,
+     "pctB": 0.625,
+     "width": 11.8
     }
    },
    "flow": {
@@ -30347,13 +30347,13 @@
     "flowRatioPct": 9.17,
     "priceRet5": -2.84,
     "divergence": "accumulation",
-    "qualityScore": 22.4
+    "qualityScore": 18.3
    },
    "risk": {
     "vol20": 1.67,
     "mdd3m": -19.0,
-    "pos52w": 15,
-    "reboundFromLow": 10.2,
+    "pos52w": 16,
+    "reboundFromLow": 10.7,
     "grade": "low"
    },
    "sector": "식음료",
@@ -32161,7 +32161,7 @@
     "qualityScore": -40.0
    },
    "risk": {
-    "vol20": 3.53,
+    "vol20": 3.54,
     "mdd3m": -42.6,
     "pos52w": 9,
     "reboundFromLow": 11.6,
@@ -32290,7 +32290,7 @@
     "qualityScore": 11.9
    },
    "risk": {
-    "vol20": 1.62,
+    "vol20": 1.63,
     "mdd3m": -22.6,
     "pos52w": 22,
     "reboundFromLow": 11.5,
@@ -32824,21 +32824,21 @@
   },
   "195870": {
    "name": "해성디에스",
-   "price": 58700,
-   "rate": 2.26,
+   "price": 58500,
+   "rate": 1.92,
    "stale": false,
-   "per": 29.29,
+   "per": 29.19,
    "pbr": 1.78,
    "roe": 6.1,
    "eps": 2004.0,
-   "div": 1.53,
+   "div": 1.54,
    "w52": "21,650 ~ 108,500",
    "cap": "1.0조",
    "cnsEps": 4783.0,
    "targetMean": 81000.0,
    "recommMean": 4.0,
-   "targetGap": 38.0,
-   "fwdPer": 12.3,
+   "targetGap": 38.5,
+   "fwdPer": 12.2,
    "tech": {
     "close": 58600,
     "daysAvail": 208,
@@ -33082,21 +33082,21 @@
   },
   "280360": {
    "name": "롯데웰푸드",
-   "price": 121000,
-   "rate": -1.47,
+   "price": 119200,
+   "rate": -2.93,
    "stale": false,
-   "per": 17.1,
+   "per": 16.85,
    "pbr": 0.48,
    "roe": 2.8,
    "eps": 7074.0,
-   "div": 2.73,
+   "div": 2.77,
    "w52": "90,000 ~ 137,000",
    "cap": "1.1조",
    "cnsEps": 13630.0,
    "targetMean": 169583.0,
    "recommMean": 4.0,
-   "targetGap": 40.2,
-   "fwdPer": 8.9,
+   "targetGap": 42.3,
+   "fwdPer": 8.7,
    "tech": {
     "close": 120200,
     "daysAvail": 208,
@@ -33708,7 +33708,7 @@
     "flowRatioPct": -8.337,
     "priceRet5": -2.96,
     "divergence": "confirmation_down",
-    "qualityScore": -50
+    "qualityScore": -47.3
    },
    "risk": {
     "vol20": 1.78,
@@ -35261,7 +35261,7 @@
     "qualityScore": 42.7
    },
    "risk": {
-    "vol20": 3.6,
+    "vol20": 3.61,
     "mdd3m": -19.5,
     "pos52w": 31,
     "reboundFromLow": 21.2,
@@ -36421,7 +36421,7 @@
     "flowRatioPct": 8.916,
     "priceRet5": 2.34,
     "divergence": "confirmation_up",
-    "qualityScore": 19.9
+    "qualityScore": 18.1
    },
    "risk": {
     "vol20": 3.43,
@@ -37496,23 +37496,23 @@
     "ma5Slope": 3.12,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 2083,
-    "ma20Gap": -4.6,
-    "ma20Slope": -3.36,
+    "ma20": 2082,
+    "ma20Gap": -4.8,
+    "ma20Slope": -3.37,
     "ma20Days": 20,
     "ma20Full": true,
     "ma60": 2043,
-    "ma60Gap": -2.8,
+    "ma60Gap": -2.9,
     "ma60Slope": -0.19,
     "ma60Days": 60,
     "ma60Full": true,
     "ma120": 2089,
-    "ma120Gap": -4.9,
+    "ma120Gap": -5.1,
     "ma120Slope": 0.41,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 1965,
-    "ma200Gap": 1.1,
+    "ma200Gap": 0.9,
     "ma200Slope": 0.04,
     "ma200Days": 200,
     "ma200Full": true,
@@ -37526,8 +37526,8 @@
      "daysAgo": 18,
      "near": null
     },
-    "rsi14": 46.3,
-    "macd": -32,
+    "rsi14": 46.1,
+    "macd": -33,
     "macdSignal": -23,
     "volRatio": 0.38,
     "low3m": 1674,
@@ -37556,7 +37556,7 @@
     ],
     "bb": {
      "upper": 2418,
-     "mid": 2083,
+     "mid": 2082,
      "lower": 1747,
      "pctB": 0.357,
      "width": 32.2
@@ -38488,7 +38488,7 @@
     "qualityScore": 13.6
    },
    "risk": {
-    "vol20": 1.89,
+    "vol20": 1.88,
     "mdd3m": -28.2,
     "pos52w": 24,
     "reboundFromLow": 10.9,
@@ -39806,7 +39806,7 @@
    "eps": 3603.0,
    "div": null,
    "w52": "16,550 ~ 61,400",
-   "cap": "0.6조",
+   "cap": "0.7조",
    "cnsEps": null,
    "targetMean": 62000.0,
    "recommMean": 4.0,
@@ -40293,7 +40293,7 @@
     "qualityScore": 32.5
    },
    "risk": {
-    "vol20": 3.25,
+    "vol20": 3.24,
     "mdd3m": -34.8,
     "pos52w": 18,
     "reboundFromLow": 19.0,
@@ -40311,14 +40311,14 @@
   },
   "014820": {
    "name": "동원시스템즈",
-   "price": 21700,
-   "rate": 0.23,
+   "price": 21850,
+   "rate": 0.92,
    "stale": false,
-   "per": 10.72,
-   "pbr": 0.72,
+   "per": 10.79,
+   "pbr": 0.73,
    "roe": 6.7,
    "eps": 2025.0,
-   "div": 2.77,
+   "div": 2.75,
    "w52": "17,310 ~ 31,300",
    "cap": "0.6조",
    "cnsEps": null,
@@ -41060,7 +41060,7 @@
     "flowRatioPct": 8.038,
     "priceRet5": 9.85,
     "divergence": "confirmation_up",
-    "qualityScore": 26.0
+    "qualityScore": 25.9
    },
    "risk": {
     "vol20": 8.42,
@@ -41477,7 +41477,7 @@
    "eps": -475.0,
    "div": 0.13,
    "w52": "5,290 ~ 16,900",
-   "cap": "0.6조",
+   "cap": "0.5조",
    "cnsEps": null,
    "targetMean": 15000.0,
    "recommMean": 4.0,
@@ -42250,7 +42250,7 @@
    "eps": 13284.0,
    "div": 2.61,
    "w52": "88,500 ~ 157,000",
-   "cap": "0.6조",
+   "cap": "0.7조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
@@ -42297,7 +42297,7 @@
     "macdSignal": 3576,
     "volRatio": 0.9,
     "low3m": 95500,
-    "high3m": 124800,
+    "high3m": 132100,
     "last5": [
      {
       "d": "08-07",
@@ -42756,8 +42756,8 @@
   },
   "005810": {
    "name": "풍산홀딩스",
-   "price": 37850,
-   "rate": 0.13,
+   "price": 37900,
+   "rate": 0.26,
    "stale": false,
    "per": 5.98,
    "pbr": 0.44,
@@ -42769,33 +42769,33 @@
    "cnsEps": null,
    "targetMean": 50250.0,
    "recommMean": 4.0,
-   "targetGap": 32.8,
+   "targetGap": 32.6,
    "tech": {
-    "close": 37850,
+    "close": 37900,
     "daysAvail": 208,
-    "ma5": 37760,
-    "ma5Gap": 0.2,
-    "ma5Slope": 4.92,
+    "ma5": 37770,
+    "ma5Gap": 0.3,
+    "ma5Slope": 4.95,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 35182,
-    "ma20Gap": 7.6,
-    "ma20Slope": 3.14,
+    "ma20": 35185,
+    "ma20Gap": 7.7,
+    "ma20Slope": 3.15,
     "ma20Days": 20,
     "ma20Full": true,
     "ma60": 36198,
-    "ma60Gap": 4.6,
+    "ma60Gap": 4.7,
     "ma60Slope": -0.96,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 39000,
-    "ma120Gap": -2.9,
-    "ma120Slope": -0.24,
+    "ma120": 39001,
+    "ma120Gap": -2.8,
+    "ma120Slope": -0.23,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 38762,
-    "ma200Gap": -2.4,
-    "ma200Slope": -0.23,
+    "ma200": 38763,
+    "ma200Gap": -2.2,
+    "ma200Slope": -0.22,
     "ma200Days": 200,
     "ma200Full": true,
     "cross5_20": {
@@ -42833,14 +42833,14 @@
      },
      {
       "d": "08-13",
-      "c": 37850
+      "c": 37900
      }
     ],
     "bb": {
-     "upper": 39138,
-     "mid": 35182,
-     "lower": 31227,
-     "pctB": 0.837,
+     "upper": 39148,
+     "mid": 35185,
+     "lower": 31222,
+     "pctB": 0.843,
      "width": 22.5
     }
    },
@@ -42870,7 +42870,7 @@
     "vol20": 3.0,
     "mdd3m": -27.1,
     "pos52w": 27,
-    "reboundFromLow": 19.4,
+    "reboundFromLow": 19.6,
     "grade": "mid"
    },
    "sector": "철강·금속",
@@ -43151,7 +43151,7 @@
    "pbr": 0.98,
    "roe": -1.1,
    "eps": -268.0,
-   "div": 0.39,
+   "div": 0.38,
    "w52": "14,981 ~ 41,620",
    "cap": "0.5조",
    "cnsEps": null,
@@ -43159,30 +43159,30 @@
    "recommMean": 4.0,
    "targetGap": 61.6,
    "tech": {
-    "close": 24750,
+    "close": 24800,
     "daysAvail": 208,
-    "ma5": 24750,
-    "ma5Gap": 0.0,
-    "ma5Slope": 2.95,
+    "ma5": 24760,
+    "ma5Gap": 0.2,
+    "ma5Slope": 3.0,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 23908,
-    "ma20Gap": 3.5,
-    "ma20Slope": 1.38,
+    "ma20": 23910,
+    "ma20Gap": 3.7,
+    "ma20Slope": 1.39,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 23727,
-    "ma60Gap": 4.3,
+    "ma60": 23728,
+    "ma60Gap": 4.5,
     "ma60Slope": -1.22,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 24107,
-    "ma120Gap": 2.7,
+    "ma120": 24108,
+    "ma120Gap": 2.9,
     "ma120Slope": 0.44,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 22086,
-    "ma200Gap": 12.1,
+    "ma200Gap": 12.3,
     "ma200Slope": 0.68,
     "ma200Days": 200,
     "ma200Full": true,
@@ -43221,14 +43221,14 @@
      },
      {
       "d": "08-13",
-      "c": 24750
+      "c": 24800
      }
     ],
     "bb": {
-     "upper": 25401,
-     "mid": 23908,
-     "lower": 22414,
-     "pctB": 0.782,
+     "upper": 25410,
+     "mid": 23910,
+     "lower": 22410,
+     "pctB": 0.797,
      "width": 12.5
     }
    },
@@ -43258,7 +43258,7 @@
     "vol20": 2.3,
     "mdd3m": -33.1,
     "pos52w": 37,
-    "reboundFromLow": 21.0,
+    "reboundFromLow": 21.3,
     "grade": "mid"
    },
    "sector": "화학·소재",
@@ -43383,7 +43383,7 @@
     "qualityScore": 10.0
    },
    "risk": {
-    "vol20": 2.17,
+    "vol20": 2.14,
     "mdd3m": -15.2,
     "pos52w": 35,
     "reboundFromLow": 11.0,
@@ -44023,7 +44023,7 @@
     "qualityScore": -41.2
    },
    "risk": {
-    "vol20": 4.17,
+    "vol20": 4.18,
     "mdd3m": -50.8,
     "pos52w": 19,
     "reboundFromLow": 26.0,
@@ -44148,7 +44148,7 @@
     "flowRatioPct": 8.069,
     "priceRet5": 7.59,
     "divergence": "confirmation_up",
-    "qualityScore": 10.3
+    "qualityScore": 9.5
    },
    "risk": {
     "vol20": 6.26,
@@ -44436,7 +44436,7 @@
    "eps": 3100.0,
    "div": 1.66,
    "w52": "94,000 ~ 278,000",
-   "cap": "0.5조",
+   "cap": "0.4조",
    "cnsEps": null,
    "targetMean": 205000.0,
    "recommMean": 4.0,
@@ -44538,7 +44538,7 @@
     "qualityScore": -36.8
    },
    "risk": {
-    "vol20": 3.99,
+    "vol20": 3.98,
     "mdd3m": -50.1,
     "pos52w": 8,
     "reboundFromLow": 13.3,
@@ -48679,7 +48679,7 @@
    "eps": -577.0,
    "div": null,
    "w52": "51,750 ~ 225,500",
-   "cap": "2.3조",
+   "cap": "2.4조",
    "cnsEps": null,
    "targetMean": null,
    "recommMean": null,
@@ -50230,30 +50230,30 @@
    "targetMean": null,
    "recommMean": null,
    "tech": {
-    "close": 23550,
+    "close": 23600,
     "daysAvail": 208,
-    "ma5": 23030,
-    "ma5Gap": 2.3,
-    "ma5Slope": 5.55,
+    "ma5": 23040,
+    "ma5Gap": 2.4,
+    "ma5Slope": 5.59,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 23020,
-    "ma20Gap": 2.3,
-    "ma20Slope": -2.7,
+    "ma20": 23022,
+    "ma20Gap": 2.5,
+    "ma20Slope": -2.69,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 25562,
-    "ma60Gap": -7.9,
-    "ma60Slope": 1.59,
+    "ma60": 25563,
+    "ma60Gap": -7.7,
+    "ma60Slope": 1.6,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 22469,
-    "ma120Gap": 4.8,
+    "ma120": 22470,
+    "ma120Gap": 5.0,
     "ma120Slope": -0.06,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 22747,
-    "ma200Gap": 3.5,
+    "ma200Gap": 3.7,
     "ma200Slope": -0.09,
     "ma200Days": 200,
     "ma200Full": true,
@@ -50292,15 +50292,15 @@
      },
      {
       "d": "08-13",
-      "c": 23550
+      "c": 23600
      }
     ],
     "bb": {
-     "upper": 25005,
-     "mid": 23020,
+     "upper": 25010,
+     "mid": 23022,
      "lower": 21035,
-     "pctB": 0.633,
-     "width": 17.2
+     "pctB": 0.645,
+     "width": 17.3
     }
    },
    "flow": {
@@ -50326,10 +50326,10 @@
     "qualityScore": 15.5
    },
    "risk": {
-    "vol20": 4.35,
+    "vol20": 4.36,
     "mdd3m": -38.8,
     "pos52w": 42,
-    "reboundFromLow": 36.0,
+    "reboundFromLow": 36.3,
     "grade": "mid"
    },
    "sector": "바이오·제약",
@@ -50609,7 +50609,7 @@
    "pbr": 1.42,
    "roe": 5.6,
    "eps": 1257.0,
-   "div": 3.13,
+   "div": 3.14,
    "w52": "21,700 ~ 35,500",
    "cap": "1.7조",
    "cnsEps": null,
@@ -50713,7 +50713,7 @@
     "qualityScore": 34.7
    },
    "risk": {
-    "vol20": 3.76,
+    "vol20": 3.77,
     "mdd3m": -21.4,
     "pos52w": 74,
     "reboundFromLow": 27.0,
@@ -50968,7 +50968,7 @@
     "flowRatioPct": -8.022,
     "priceRet5": 5.22,
     "divergence": "distribution",
-    "qualityScore": -16.6
+    "qualityScore": -16.2
    },
    "risk": {
     "vol20": 9.66,
@@ -55224,7 +55224,7 @@
     "qualityScore": 26.2
    },
    "risk": {
-    "vol20": 7.01,
+    "vol20": 7.03,
     "mdd3m": -51.0,
     "pos52w": 48,
     "reboundFromLow": 47.2,
@@ -56029,30 +56029,30 @@
    "targetGap": 83.7,
    "fwdPer": 19.8,
    "tech": {
-    "close": 78100,
+    "close": 77600,
     "daysAvail": 208,
-    "ma5": 76480,
-    "ma5Gap": 2.1,
-    "ma5Slope": 13.44,
+    "ma5": 76380,
+    "ma5Gap": 1.6,
+    "ma5Slope": 13.29,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 65138,
-    "ma20Gap": 19.9,
-    "ma20Slope": 3.68,
+    "ma20": 65112,
+    "ma20Gap": 19.2,
+    "ma20Slope": 3.64,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 87689,
-    "ma60Gap": -10.9,
-    "ma60Slope": -7.73,
+    "ma60": 87681,
+    "ma60Gap": -11.5,
+    "ma60Slope": -7.74,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 109515,
-    "ma120Gap": -28.7,
+    "ma120": 109510,
+    "ma120Gap": -29.1,
     "ma120Slope": -1.9,
     "ma120Days": 120,
     "ma120Full": true,
-    "ma200": 90738,
-    "ma200Gap": -13.9,
+    "ma200": 90735,
+    "ma200Gap": -14.5,
     "ma200Slope": 0.75,
     "ma200Days": 200,
     "ma200Full": true,
@@ -56091,15 +56091,15 @@
      },
      {
       "d": "08-13",
-      "c": 78100
+      "c": 77600
      }
     ],
     "bb": {
-     "upper": 82852,
-     "mid": 65138,
-     "lower": 47423,
-     "pctB": 0.866,
-     "width": 54.4
+     "upper": 82755,
+     "mid": 65112,
+     "lower": 47470,
+     "pctB": 0.854,
+     "width": 54.2
     }
    },
    "flow": {
@@ -56125,10 +56125,10 @@
     "qualityScore": -33.9
    },
    "risk": {
-    "vol20": 7.31,
+    "vol20": 7.3,
     "mdd3m": -70.5,
-    "pos52w": 28,
-    "reboundFromLow": 58.6,
+    "pos52w": 27,
+    "reboundFromLow": 57.6,
     "grade": "high"
    },
    "sector": "통신",
@@ -57023,7 +57023,7 @@
     "flowRatioPct": -8.527,
     "priceRet5": 16.69,
     "divergence": "distribution",
-    "qualityScore": -49.2
+    "qualityScore": -48.9
    },
    "risk": {
     "vol20": 5.79,
@@ -57058,30 +57058,30 @@
    "targetMean": null,
    "recommMean": null,
    "tech": {
-    "close": 29950,
+    "close": 29900,
     "daysAvail": 208,
-    "ma5": 28260,
-    "ma5Gap": 6.0,
-    "ma5Slope": 10.39,
+    "ma5": 28250,
+    "ma5Gap": 5.8,
+    "ma5Slope": 10.35,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 25960,
-    "ma20Gap": 15.4,
-    "ma20Slope": -1.08,
+    "ma20": 25958,
+    "ma20Gap": 15.2,
+    "ma20Slope": -1.09,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 34857,
-    "ma60Gap": -14.1,
+    "ma60": 34856,
+    "ma60Gap": -14.2,
     "ma60Slope": -5.36,
     "ma60Days": 60,
     "ma60Full": true,
-    "ma120": 40333,
-    "ma120Gap": -25.7,
+    "ma120": 40332,
+    "ma120Gap": -25.9,
     "ma120Slope": -2.26,
     "ma120Days": 120,
     "ma120Full": true,
     "ma200": 42320,
-    "ma200Gap": -29.2,
+    "ma200Gap": -29.3,
     "ma200Slope": -0.6,
     "ma200Days": 200,
     "ma200Full": true,
@@ -57120,14 +57120,14 @@
      },
      {
       "d": "08-13",
-      "c": 29950
+      "c": 29900
      }
     ],
     "bb": {
-     "upper": 30946,
-     "mid": 25960,
-     "lower": 20974,
-     "pctB": 0.9,
+     "upper": 30935,
+     "mid": 25958,
+     "lower": 20980,
+     "pctB": 0.896,
      "width": 38.4
     }
    },
@@ -57157,7 +57157,7 @@
     "vol20": 7.39,
     "mdd3m": -62.3,
     "pos52w": 23,
-    "reboundFromLow": 48.6,
+    "reboundFromLow": 48.4,
     "grade": "high"
    },
    "sector": "전자·부품",
@@ -59086,7 +59086,7 @@
     "qualityScore": -38.1
    },
    "risk": {
-    "vol20": 6.55,
+    "vol20": 6.54,
     "mdd3m": -53.6,
     "pos52w": 48,
     "reboundFromLow": 48.2,
@@ -60885,7 +60885,7 @@
     "qualityScore": -6.6
    },
    "risk": {
-    "vol20": 5.36,
+    "vol20": 5.35,
     "mdd3m": -37.9,
     "pos52w": 22,
     "reboundFromLow": 25.1,
@@ -61014,7 +61014,7 @@
     "qualityScore": 41.9
    },
    "risk": {
-    "vol20": 5.78,
+    "vol20": 5.8,
     "mdd3m": -59.6,
     "pos52w": 32,
     "reboundFromLow": 40.5,
@@ -61399,7 +61399,7 @@
     "qualityScore": 48.9
    },
    "risk": {
-    "vol20": 7.84,
+    "vol20": 7.83,
     "mdd3m": -50.5,
     "pos52w": 43,
     "reboundFromLow": 62.6,
@@ -61426,7 +61426,7 @@
    "eps": 1296.0,
    "div": null,
    "w52": "16,800 ~ 144,700",
-   "cap": "0.7조",
+   "cap": "0.6조",
    "cnsEps": null,
    "targetMean": 102000.0,
    "recommMean": 4.0,
@@ -63220,10 +63220,10 @@
   },
   "476060": {
    "name": "온코닉테라퓨틱스",
-   "price": 15490,
-   "rate": -1.96,
+   "price": 15480,
+   "rate": -2.03,
    "stale": false,
-   "per": 33.82,
+   "per": 33.8,
    "pbr": 8.74,
    "roe": 25.8,
    "eps": 458.0,
@@ -63233,7 +63233,7 @@
    "cnsEps": null,
    "targetMean": 21000.0,
    "recommMean": 4.0,
-   "targetGap": 35.6,
+   "targetGap": 35.7,
    "tech": {
     "close": 15480,
     "daysAvail": 208,
@@ -63457,7 +63457,7 @@
     "flowRatioPct": -8.458,
     "priceRet5": -1.77,
     "divergence": "confirmation_down",
-    "qualityScore": -43.4
+    "qualityScore": -42.1
    },
    "risk": {
     "vol20": 2.91,
@@ -63620,30 +63620,30 @@
    "targetMean": null,
    "recommMean": null,
    "tech": {
-    "close": 28850,
+    "close": 28600,
     "daysAvail": 59,
-    "ma5": 30380,
-    "ma5Gap": -5.0,
-    "ma5Slope": 21.87,
+    "ma5": 30330,
+    "ma5Gap": -5.7,
+    "ma5Slope": 21.67,
     "ma5Days": 5,
     "ma5Full": true,
-    "ma20": 25380,
-    "ma20Gap": 13.7,
-    "ma20Slope": 2.0,
+    "ma20": 25368,
+    "ma20Gap": 12.7,
+    "ma20Slope": 1.95,
     "ma20Days": 20,
     "ma20Full": true,
-    "ma60": 26632,
-    "ma60Gap": 8.3,
+    "ma60": 26628,
+    "ma60Gap": 7.4,
     "ma60Slope": null,
     "ma60Days": 59,
     "ma60Full": false,
-    "ma120": 26632,
-    "ma120Gap": 8.3,
+    "ma120": 26628,
+    "ma120Gap": 7.4,
     "ma120Slope": null,
     "ma120Days": 59,
     "ma120Full": false,
-    "ma200": 26632,
-    "ma200Gap": 8.3,
+    "ma200": 26628,
+    "ma200Gap": 7.4,
     "ma200Slope": null,
     "ma200Days": 59,
     "ma200Full": false,
@@ -63682,15 +63682,15 @@
      },
      {
       "d": "08-13",
-      "c": 28850
+      "c": 28600
      }
     ],
     "bb": {
-     "upper": 33953,
-     "mid": 25380,
-     "lower": 16807,
-     "pctB": 0.702,
-     "width": 67.6
+     "upper": 33921,
+     "mid": 25368,
+     "lower": 16814,
+     "pctB": 0.689,
+     "width": 67.4
     }
    },
    "flow": {
@@ -63716,10 +63716,10 @@
     "qualityScore": -33.8
    },
    "risk": {
-    "vol20": 12.05,
+    "vol20": 12.07,
     "mdd3m": -82.4,
     "pos52w": 22,
-    "reboundFromLow": 109.8,
+    "reboundFromLow": 108.0,
     "grade": "high"
    },
    "sector": "인터넷·IT",
@@ -63741,7 +63741,7 @@
    "pbr": 2.38,
    "roe": 34.6,
    "eps": 1556.0,
-   "div": 3.46,
+   "div": 3.45,
    "w52": "8,100 ~ 18,140",
    "cap": "0.5조",
    "cnsEps": null,
@@ -64507,11 +64507,11 @@
   },
   "348370": {
    "name": "엔켐",
-   "price": 24350,
-   "rate": 3.4,
+   "price": 23950,
+   "rate": 1.7,
    "stale": false,
-   "per": -3.87,
-   "pbr": 1.11,
+   "per": -3.8,
+   "pbr": 1.09,
    "roe": -28.7,
    "eps": -6298.0,
    "div": null,

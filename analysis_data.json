@@ -3888,7 +3888,7 @@
      "cnsEps": "47,821원",
      "pbr": "3.69배",
      "bps": "71,907원",
-     "dividendYieldRatio": "0.63%",
+     "dividendYieldRatio": "0.62%",
      "dividend": "1,668원"
     },
     "consensus": {
@@ -11830,11 +11830,11 @@
      "foreignRate": "27.25%",
      "highPriceOf52Weeks": "1,008,000",
      "lowPriceOf52Weeks": "69,000",
-     "per": "47.89배",
+     "per": "47.98배",
      "eps": "10,587원",
-     "cnsPer": "25.68배",
+     "cnsPer": "25.73배",
      "cnsEps": "19,742원",
-     "pbr": "3.90배",
+     "pbr": "3.91배",
      "bps": "129,912원",
      "dividendYieldRatio": "0.47%",
      "dividend": "2,400원"
@@ -41641,11 +41641,11 @@
      "highPriceOf52WeeksAdjusted": "1,987,000",
      "lowPriceOf52Weeks": "1,228,000",
      "lowPriceOf52WeeksAdjusted": "982,000",
-     "per": "50.55배",
+     "per": "50.81배",
      "eps": "30,779원",
-     "cnsPer": "38.40배",
+     "cnsPer": "38.60배",
      "cnsEps": "40,521원",
-     "pbr": "9.08배",
+     "pbr": "9.13배",
      "bps": "171,343원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -59526,13 +59526,13 @@
      "foreignRate": "68.28%",
      "highPriceOf52Weeks": "142,500",
      "lowPriceOf52Weeks": "80,500",
-     "per": "8.96배",
+     "per": "9.03배",
      "eps": "14,513원",
-     "cnsPer": "8.10배",
+     "cnsPer": "8.16배",
      "cnsEps": "16,056원",
-     "pbr": "0.77배",
+     "pbr": "0.78배",
      "bps": "168,253원",
-     "dividendYieldRatio": "3.16%",
+     "dividendYieldRatio": "3.13%",
      "dividend": "4,105원"
     },
     "consensus": {
@@ -63504,9 +63504,9 @@
      "eps": "5,420원",
      "cnsPer": "16.18배",
      "cnsEps": "12,699원",
-     "pbr": "1.44배",
+     "pbr": "1.45배",
      "bps": "142,232원",
-     "dividendYieldRatio": "0.66%",
+     "dividendYieldRatio": "0.65%",
      "dividend": "1,350원"
     },
     "consensus": {
@@ -83353,7 +83353,7 @@
     {
      "date": "2026-08-13",
      "open": 1221000,
-     "high": 1232000,
+     "high": 1233000,
      "low": 1192000,
      "close": 1211000,
      "volume": 17882,
@@ -91326,7 +91326,7 @@
      "cnsEps": "-4,332원",
      "pbr": "0.62배",
      "bps": "445,368원",
-     "dividendYieldRatio": "0.72%",
+     "dividendYieldRatio": "0.73%",
      "dividend": "2,000원"
     },
     "consensus": {
@@ -99272,7 +99272,7 @@
      "eps": "3,325원",
      "cnsPer": "5.75배",
      "cnsEps": "3,496원",
-     "pbr": "0.44배",
+     "pbr": "0.43배",
      "bps": "46,146원",
      "dividendYieldRatio": "5.21%",
      "dividend": "1,048원"
@@ -105235,7 +105235,7 @@
      "cnsEps": "9,066원",
      "pbr": "1.84배",
      "bps": "128,243원",
-     "dividendYieldRatio": "1.36%",
+     "dividendYieldRatio": "1.35%",
      "dividend": "3,190원"
     },
     "consensus": {
@@ -107197,7 +107197,7 @@
     {
      "date": "2026-08-13",
      "open": 110000,
-     "high": 112600,
+     "high": 113700,
      "low": 109800,
      "close": 112300,
      "volume": 233974,
@@ -107208,7 +107208,7 @@
     "totalInfos": {
      "lastClosePrice": "109,600",
      "openPrice": "111,000",
-     "highPrice": "112,600",
+     "highPrice": "113,700",
      "lowPrice": "109,800",
      "accumulatedTradingVolume": "292,652",
      "accumulatedTradingValue": "326억",
@@ -109207,9 +109207,9 @@
      "eps": "8,083원",
      "cnsPer": "5.65배",
      "cnsEps": "24,781원",
-     "pbr": "1.70배",
+     "pbr": "1.71배",
      "bps": "82,186원",
-     "dividendYieldRatio": "0.24%",
+     "dividendYieldRatio": "0.23%",
      "dividend": "330원"
     },
     "consensus": {
@@ -111190,13 +111190,13 @@
      "foreignRate": "46.40%",
      "highPriceOf52Weeks": "303,500",
      "lowPriceOf52Weeks": "156,000",
-     "per": "9.06배",
+     "per": "9.15배",
      "eps": "22,348원",
-     "cnsPer": "9.12배",
+     "cnsPer": "9.21배",
      "cnsEps": "22,213원",
-     "pbr": "1.46배",
+     "pbr": "1.48배",
      "bps": "138,526원",
-     "dividendYieldRatio": "2.86%",
+     "dividendYieldRatio": "2.84%",
      "dividend": "5,800원"
     },
     "consensus": {
@@ -117155,7 +117155,7 @@
      "eps": "6,124원",
      "cnsPer": "9.53배",
      "cnsEps": "5,637원",
-     "pbr": "0.71배",
+     "pbr": "0.70배",
      "bps": "75,437원",
      "dividendYieldRatio": "4.47%",
      "dividend": "2,400원"
@@ -129073,9 +129073,9 @@
      "foreignRate": "17.72%",
      "highPriceOf52Weeks": "30,850",
      "lowPriceOf52Weeks": "19,110",
-     "per": "19.89배",
+     "per": "19.94배",
      "eps": "1,111원",
-     "cnsPer": "17.47배",
+     "cnsPer": "17.51배",
      "cnsEps": "1,265원",
      "pbr": "1.59배",
      "bps": "13,899원",
@@ -142980,7 +142980,7 @@
      "eps": "9,009원",
      "cnsPer": "6.84배",
      "cnsEps": "10,375원",
-     "pbr": "0.68배",
+     "pbr": "0.69배",
      "bps": "104,279원",
      "dividendYieldRatio": "3.24%",
      "dividend": "2,300원"
@@ -152917,7 +152917,7 @@
      "cnsEps": "74,874원",
      "pbr": "6.55배",
      "bps": "184,342원",
-     "dividendYieldRatio": "0.40%",
+     "dividendYieldRatio": "0.39%",
      "dividend": "4,800원"
     },
     "consensus": {
@@ -160865,7 +160865,7 @@
      "cnsEps": "10,166원",
      "pbr": "1.84배",
      "bps": "52,568원",
-     "dividendYieldRatio": "2.03%",
+     "dividendYieldRatio": "2.01%",
      "dividend": "1,957원"
     },
     "consensus": {
@@ -162846,13 +162846,13 @@
      "foreignRate": "84.72%",
      "highPriceOf52Weeks": "18,850",
      "lowPriceOf52Weeks": "13,520",
-     "per": "11.91배",
+     "per": "11.87배",
      "eps": "1,238원",
-     "cnsPer": "8.53배",
+     "cnsPer": "8.50배",
      "cnsEps": "1,729원",
-     "pbr": "0.71배",
+     "pbr": "0.70배",
      "bps": "20,854원",
-     "dividendYieldRatio": "4.48%",
+     "dividendYieldRatio": "4.49%",
      "dividend": "660원"
     },
     "consensus": {
@@ -198602,7 +198602,7 @@
      "cnsEps": "1,440원",
      "pbr": "11.31배",
      "bps": "3,604원",
-     "dividendYieldRatio": "1.23%",
+     "dividendYieldRatio": "1.21%",
      "dividend": "500원"
     },
     "consensus": {
@@ -228391,9 +228391,9 @@
      "lowPriceOf52Weeks": "29,250",
      "per": "13.41배",
      "eps": "2,320원",
-     "cnsPer": "5.52배",
+     "cnsPer": "5.59배",
      "cnsEps": "5,639원",
-     "pbr": "1.99배",
+     "pbr": "2.01배",
      "bps": "15,653원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -260175,9 +260175,9 @@
      "eps": "2,617원",
      "cnsPer": "40.37배",
      "cnsEps": "2,056원",
-     "pbr": "2.71배",
+     "pbr": "2.70배",
      "bps": "30,611원",
-     "dividendYieldRatio": "0.72%",
+     "dividendYieldRatio": "0.73%",
      "dividend": "600원"
     },
     "consensus": {
@@ -268100,7 +268100,7 @@
     {
      "date": "2026-08-13",
      "open": 44350,
-     "high": 44550,
+     "high": 44700,
      "low": 43600,
      "close": 44250,
      "volume": 156705,
@@ -272097,7 +272097,7 @@
      "eps": "3,731원",
      "cnsPer": "7.27배",
      "cnsEps": "3,959원",
-     "pbr": "0.90배",
+     "pbr": "0.92배",
      "bps": "31,851원",
      "dividendYieldRatio": "3.96%",
      "dividend": "1,140원"
@@ -282030,7 +282030,7 @@
      "eps": "4,236원",
      "cnsPer": "12.70배",
      "cnsEps": "10,862원",
-     "pbr": "0.87배",
+     "pbr": "0.86배",
      "bps": "159,220원",
      "dividendYieldRatio": "2.39%",
      "dividend": "3,300원"
@@ -289978,7 +289978,7 @@
      "eps": "192,585원",
      "cnsPer": "2.27배",
      "cnsEps": "201,206원",
-     "pbr": "0.42배",
+     "pbr": "0.41배",
      "bps": "1,101,381원",
      "dividendYieldRatio": "3.28%",
      "dividend": "15,000원"
@@ -299911,9 +299911,9 @@
      "lowPriceOf52Weeks": "210,000",
      "per": "N/A",
      "eps": "-6,520원",
-     "cnsPer": "22.44배",
+     "cnsPer": "22.40배",
      "cnsEps": "13,547원",
-     "pbr": "0.92배",
+     "pbr": "0.91배",
      "bps": "332,075원",
      "dividendYieldRatio": "0.66%",
      "dividend": "2,000원"
@@ -315786,7 +315786,7 @@
     {
      "date": "2026-08-13",
      "open": 21750,
-     "high": 21750,
+     "high": 21800,
      "low": 21250,
      "close": 21600,
      "volume": 338676,
@@ -315811,7 +315811,7 @@
      "cnsEps": "N/A",
      "pbr": "5.88배",
      "bps": "3,671원",
-     "dividendYieldRatio": "0.58%",
+     "dividendYieldRatio": "0.57%",
      "dividend": "125원"
     },
     "dealTrends": [
@@ -319777,7 +319777,7 @@
      "eps": "4,390원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.62배",
+     "pbr": "0.61배",
      "bps": "71,321원",
      "dividendYieldRatio": "6.51%",
      "dividend": "2,865원"
@@ -323753,7 +323753,7 @@
      "cnsEps": "12,701원",
      "pbr": "1.30배",
      "bps": "52,854원",
-     "dividendYieldRatio": "3.94%",
+     "dividendYieldRatio": "3.92%",
      "dividend": "2,700원"
     },
     "consensus": {
@@ -329712,7 +329712,7 @@
      "eps": "-30,721원",
      "cnsPer": "9.63배",
      "cnsEps": "19,014원",
-     "pbr": "0.40배",
+     "pbr": "0.39배",
      "bps": "462,867원",
      "dividendYieldRatio": "3.28%",
      "dividend": "6,000원"
@@ -341630,13 +341630,13 @@
      "foreignRate": "23.40%",
      "highPriceOf52Weeks": "114,300",
      "lowPriceOf52Weeks": "61,800",
-     "per": "11.00배",
+     "per": "11.05배",
      "eps": "6,507원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "2.71배",
+     "pbr": "2.72배",
      "bps": "26,386원",
-     "dividendYieldRatio": "19.57%",
+     "dividendYieldRatio": "19.49%",
      "dividend": "14,010원"
     },
     "consensus": {
@@ -351563,7 +351563,7 @@
      "eps": "1,446원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "1.53배",
+     "pbr": "1.54배",
      "bps": "17,032원",
      "dividendYieldRatio": "4.37%",
      "dividend": "1,140원"
@@ -365450,13 +365450,13 @@
      "foreignRate": "26.68%",
      "highPriceOf52Weeks": "17,560",
      "lowPriceOf52Weeks": "10,010",
-     "per": "6.45배",
+     "per": "6.47배",
      "eps": "2,267원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
      "pbr": "0.68배",
      "bps": "21,488원",
-     "dividendYieldRatio": "3.90%",
+     "dividendYieldRatio": "3.89%",
      "dividend": "570원"
     },
     "consensus": {
@@ -367441,7 +367441,7 @@
      "eps": "3,755원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.49배",
+     "pbr": "0.50배",
      "bps": "52,442원",
      "dividendYieldRatio": "4.31%",
      "dividend": "1,100원"
@@ -438064,9 +438064,9 @@
      "eps": "17,249원",
      "cnsPer": "7.78배",
      "cnsEps": "15,931원",
-     "pbr": "1.39배",
+     "pbr": "1.38배",
      "bps": "89,169원",
-     "dividendYieldRatio": "0.48%",
+     "dividendYieldRatio": "0.49%",
      "dividend": "600원"
     },
     "consensus": {
@@ -463885,13 +463885,13 @@
      "foreignRate": "11.36%",
      "highPriceOf52Weeks": "519,000",
      "lowPriceOf52Weeks": "290,500",
-     "per": "18.14배",
+     "per": "18.22배",
      "eps": "17,919원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.53배",
+     "pbr": "0.54배",
      "bps": "610,025원",
-     "dividendYieldRatio": "2.77%",
+     "dividendYieldRatio": "2.76%",
      "dividend": "9,000원"
     },
     "dealTrends": [
@@ -491677,7 +491677,7 @@
      "eps": "1,478원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.87배",
+     "pbr": "0.86배",
      "bps": "37,267원",
      "dividendYieldRatio": "5.56%",
      "dividend": "1,800원"
@@ -519473,13 +519473,13 @@
      "foreignRate": "13.99%",
      "highPriceOf52Weeks": "68,300",
      "lowPriceOf52Weeks": "42,750",
-     "per": "4.13배",
+     "per": "4.10배",
      "eps": "12,649원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
      "pbr": "0.31배",
      "bps": "169,357원",
-     "dividendYieldRatio": "3.82%",
+     "dividendYieldRatio": "3.85%",
      "dividend": "2,000원"
     },
     "dealTrends": [
@@ -521458,7 +521458,7 @@
      "eps": "4,264원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.62배",
+     "pbr": "0.63배",
      "bps": "42,494원",
      "dividendYieldRatio": "5.85%",
      "dividend": "1,550원"
@@ -588952,7 +588952,7 @@
      "eps": "1,453원",
      "cnsPer": "8.58배",
      "cnsEps": "1,868원",
-     "pbr": "0.69배",
+     "pbr": "0.70배",
      "bps": "23,052원",
      "dividendYieldRatio": "6.24%",
      "dividend": "1,000원"
@@ -594909,11 +594909,11 @@
      "foreignRate": "14.77%",
      "highPriceOf52Weeks": "42,500",
      "lowPriceOf52Weeks": "12,480",
-     "per": "67.93배",
+     "per": "68.06배",
      "eps": "382원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "3.78배",
+     "pbr": "3.79배",
      "bps": "6,864원",
      "dividendYieldRatio": "0.96%",
      "dividend": "250원"
@@ -618727,7 +618727,7 @@
      "eps": "2,025원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.72배",
+     "pbr": "0.73배",
      "bps": "30,028원",
      "dividendYieldRatio": "2.76%",
      "dividend": "600원"
@@ -624678,7 +624678,7 @@
      "cnsEps": "N/A",
      "pbr": "1.32배",
      "bps": "92,593원",
-     "dividendYieldRatio": "1.97%",
+     "dividendYieldRatio": "1.85%",
      "dividend": "2,400원"
     },
     "dealTrends": [
@@ -630627,7 +630627,7 @@
      "eps": "-1,791원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "3.69배",
+     "pbr": "3.71배",
      "bps": "14,621원",
      "dividendYieldRatio": "0.05%",
      "dividend": "25원"
@@ -634597,9 +634597,9 @@
      "eps": "13,918원",
      "cnsPer": "8.43배",
      "cnsEps": "11,092원",
-     "pbr": "0.54배",
+     "pbr": "0.55배",
      "bps": "173,176원",
-     "dividendYieldRatio": "1.77%",
+     "dividendYieldRatio": "1.75%",
      "dividend": "1,650원"
     },
     "consensus": {
@@ -656432,7 +656432,7 @@
      "cnsEps": "N/A",
      "pbr": "0.44배",
      "bps": "86,139원",
-     "dividendYieldRatio": "4.23%",
+     "dividendYieldRatio": "4.22%",
      "dividend": "1,600원"
     },
     "consensus": {
@@ -662393,9 +662393,9 @@
      "eps": "-268원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.98배",
+     "pbr": "0.99배",
      "bps": "25,129원",
-     "dividendYieldRatio": "0.39%",
+     "dividendYieldRatio": "0.38%",
      "dividend": "95원"
     },
     "consensus": {
@@ -682219,7 +682219,7 @@
      "cnsEps": "N/A",
      "pbr": "0.21배",
      "bps": "526,923원",
-     "dividendYieldRatio": "1.65%",
+     "dividendYieldRatio": "1.66%",
      "dividend": "1,800원"
     },
     "consensus": {
@@ -696102,7 +696102,7 @@
      "eps": "1,775원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.39배",
+     "pbr": "0.40배",
      "bps": "163,935원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -715926,7 +715926,7 @@
      "eps": "1,398원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "0.48배",
+     "pbr": "0.47배",
      "bps": "15,334원",
      "dividendYieldRatio": "1.37%",
      "dividend": "100원"
@@ -771486,7 +771486,7 @@
      "eps": "-43원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "24.06배",
+     "pbr": "24.11배",
      "bps": "979원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -801267,7 +801267,7 @@
      "cnsEps": "3,253원",
      "pbr": "0.87배",
      "bps": "47,207원",
-     "dividendYieldRatio": "0.99%",
+     "dividendYieldRatio": "1.00%",
      "dividend": "410원"
     },
     "consensus": {
@@ -860051,11 +860051,11 @@
      "foreignRate": "22.42%",
      "highPriceOf52Weeks": "180,200",
      "lowPriceOf52Weeks": "39,000",
-     "per": "23.91배",
+     "per": "23.75배",
      "eps": "3,267원",
-     "cnsPer": "19.96배",
+     "cnsPer": "19.83배",
      "cnsEps": "3,913원",
-     "pbr": "2.85배",
+     "pbr": "2.83배",
      "bps": "27,393원",
      "dividendYieldRatio": "0.26%",
      "dividend": "200원"
@@ -875434,7 +875434,7 @@
      "eps": "-1,071원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "6.57배",
+     "pbr": "6.56배",
      "bps": "4,561원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
@@ -927002,7 +927002,7 @@
     "totalInfos": {
      "lastClosePrice": "9,180",
      "openPrice": "9,180",
-     "highPrice": "9,250",
+     "highPrice": "9,530",
      "lowPrice": "8,990",
      "accumulatedTradingVolume": "134,863",
      "accumulatedTradingValue": "12.2억",
@@ -932957,9 +932957,9 @@
      "eps": "670원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "1.78배",
+     "pbr": "1.77배",
      "bps": "14,554원",
-     "dividendYieldRatio": "0.77%",
+     "dividendYieldRatio": "0.78%",
      "dividend": "200원"
     },
     "consensus": {
@@ -975274,7 +975274,7 @@
      "eps": "-944원",
      "cnsPer": "N/A",
      "cnsEps": "N/A",
-     "pbr": "35.40배",
+     "pbr": "35.09배",
      "bps": "815원",
      "dividendYieldRatio": "N/A",
      "dividend": "N/A"
