@@ -2873,6 +2873,65 @@
     flex-wrap:wrap;gap:6px 12px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
   .home-dashboard .brief-count-row>span:first-child{color:var(--color-text-tertiary);font-weight:720}
   .home-dashboard .brief-count-row strong{color:var(--color-text-primary);font-weight:820;font-variant-numeric:tabular-nums}
+  .home-daily-brief .hdb-head{margin-bottom:2px}
+  .home-daily-brief .hdb-title-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  .home-daily-brief .hdb-title-row h2{margin:0}
+  .home-daily-brief .hdb-date{flex:none;color:var(--color-text-tertiary);font-size:11px;font-weight:700;white-space:nowrap}
+  .home-daily-brief .hdb-layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(300px,2fr);gap:0;margin-top:18px}
+  .home-daily-brief .hdb-context{min-width:0;padding-right:30px}
+  .home-daily-brief .hdb-decisions{min-width:0;padding-left:30px;border-left:1px solid var(--color-border)}
+  .home-daily-brief .brief-market{margin-top:0;padding-bottom:16px;border-bottom:1px solid var(--color-border)}
+  .home-daily-brief .brief-lines{display:grid;gap:0;margin-top:8px}
+  .home-daily-brief .brief-line{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;padding:11px 0;border-bottom:1px solid var(--color-border)}
+  .home-daily-brief .brief-line::before{content:attr(data-brief-label);color:var(--color-text-tertiary);font-size:10px;font-weight:800;letter-spacing:.04em}
+  .home-daily-brief .brief-line span{min-width:0}
+  .home-daily-brief .brief-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:13px;font-size:10.5px}
+  .home-daily-brief .brief-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+  .home-daily-brief .hdb-decision-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .home-daily-brief .hdb-decision-head strong{font-size:15px;letter-spacing:-.025em}
+  .home-daily-brief .hdb-decision-head span{color:var(--color-text-tertiary);font-size:10.5px;font-weight:700}
+  .home-daily-brief .hdb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .home-daily-brief .hdb-stat{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:0;border:0;background:none;color:var(--color-text-primary);text-align:left;cursor:pointer}
+  .home-daily-brief .hdb-stat strong{font-size:30px;line-height:1;font-weight:820;font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+  .home-daily-brief .hdb-stat span{color:var(--color-text-tertiary);font-size:9.5px;font-weight:800;letter-spacing:.08em}
+  .home-daily-brief .hdb-stat:hover strong,.home-daily-brief .hdb-stat:focus-visible strong{color:var(--color-accent)}
+  .home-daily-brief .hdb-distribution{display:flex;height:3px;margin:13px 0 20px;overflow:hidden;background:var(--color-bg-subtle)}
+  .home-daily-brief .hdb-distribution i{display:block;height:100%;min-width:0}
+  .home-daily-brief .hdb-distribution .buy{background:var(--green)}
+  .home-daily-brief .hdb-distribution .hold{background:var(--color-border-strong)}
+  .home-daily-brief .hdb-distribution .sell{background:var(--red)}
+  .home-daily-brief .hdb-preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px}
+  .home-daily-brief .hdb-preview-head strong{font-size:11px}
+  .home-daily-brief .hdb-preview-head span{color:var(--color-text-tertiary);font-size:9.5px}
+  .home-daily-brief .hdb-stock-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;padding:10px 0;border:0;border-bottom:1px solid var(--color-border);background:none;color:var(--color-text-primary);text-align:left;cursor:pointer}
+  .home-daily-brief .hdb-stock-row:hover .hdb-stock-name,.home-daily-brief .hdb-stock-row:focus-visible .hdb-stock-name{color:var(--color-accent)}
+  .home-daily-brief .hdb-rank{color:var(--color-text-tertiary);font-size:10px;font-variant-numeric:tabular-nums}
+  .home-daily-brief .hdb-stock-main{min-width:0}
+  .home-daily-brief .hdb-stock-name{display:block;overflow:hidden;font-size:11.5px;font-weight:780;text-overflow:ellipsis;white-space:nowrap}
+  .home-daily-brief .hdb-stock-call{display:block;margin-top:2px;color:var(--color-text-tertiary);font-size:9px}
+  .home-daily-brief .hdb-stock-score{font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
+  .home-daily-brief .hdb-buy-toggle{width:100%;margin-top:11px;padding:9px 0;border:0;background:none;color:var(--color-accent);font-size:10.5px;font-weight:800;text-align:left;cursor:pointer}
+  .home-daily-brief .hdb-empty{padding:20px 0;color:var(--color-text-tertiary);font-size:11px;line-height:1.6}
+  .home-daily-brief .hdb-buy-panel{margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border)}
+  .home-daily-brief .hdb-buy-panel[hidden],.home-daily-brief .hdb-sheet-backdrop[hidden]{display:none!important}
+  .home-daily-brief .hdb-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:5px}
+  .home-daily-brief .hdb-panel-head strong{font-size:12px}
+  .home-daily-brief .hdb-panel-close{width:30px;height:30px;border:0;border-radius:50%;background:var(--color-bg-subtle);color:var(--color-text-secondary);cursor:pointer}
+  .home-daily-brief .hdb-buy-list{max-height:380px;overflow:auto;overscroll-behavior:contain}
+  .home-daily-brief .brief-extra{margin-top:16px;padding:13px 0 0;border:0;border-top:1px solid var(--color-border);background:none}
+  .home-daily-brief .brief-extra p{margin:5px 0 0;font-size:10.5px;line-height:1.55}
+  .home-daily-brief .brief-extra-head{font-size:10px}
+  body.hdb-sheet-open{overflow:hidden}
+  @media(max-width:900px){
+    .home-daily-brief .hdb-layout{grid-template-columns:1fr}
+    .home-daily-brief .hdb-title-row{align-items:flex-start;flex-direction:column;gap:4px}
+    .home-daily-brief .hdb-context{padding-right:0}
+    .home-daily-brief .hdb-decisions{margin-top:24px;padding:22px 0 0;border-top:1px solid var(--color-border);border-left:0}
+    .home-daily-brief .hdb-stat strong{font-size:27px}
+    .home-daily-brief .hdb-sheet-backdrop{position:fixed;inset:0;z-index:520;background:rgba(15,20,28,.42)}
+    .home-daily-brief .hdb-buy-panel{position:fixed;right:0;bottom:0;left:0;z-index:521;max-height:78vh;margin:0;padding:18px 18px max(18px,env(safe-area-inset-bottom));overflow:hidden;border:0;border-radius:20px 20px 0 0;background:var(--color-surface);box-shadow:0 -12px 30px rgba(15,20,28,.14)}
+    .home-daily-brief .hdb-buy-list{max-height:calc(78vh - 72px)}
+  }
   .latest-panel .latest-post-pin{display:inline-block;margin-right:5px;color:#E5484D;
     font-size:12px;line-height:1;vertical-align:1px}
   .home-dashboard .brief-link{border-color:var(--color-border-strong);background:var(--color-surface);
@@ -3521,19 +3580,32 @@
     </div>
 
     <section class="start-board" aria-label="오늘 브리핑과 이용 안내">
-      <article class="start-step start-step-summary">
-        <span class="start-kicker" id="briefKicker">매일 아침</span>
-        <h2 id="briefTitle">오늘 아침 브리핑</h2>
-        <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
-          코스피·코스닥·환율을 불러오는 중이에요.
+      <article class="start-step start-step-summary home-daily-brief">
+        <header class="hdb-head">
+          <span class="start-kicker" id="briefKicker">DAILY BRIEF</span>
+          <div class="hdb-title-row">
+            <h2 id="briefTitle">현재 기준 브리핑</h2>
+            <span class="hdb-date" id="briefDate"></span>
+          </div>
+        </header>
+        <div class="hdb-layout">
+          <div class="hdb-context">
+            <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
+              코스피·코스닥·환율을 불러오는 중이에요.
+            </div>
+            <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
+            <div class="brief-meta" id="briefMeta"></div>
+            <div class="brief-actions" id="briefActions">
+              <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
+              <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
+            </div>
+          </div>
+          <aside class="hdb-decisions" id="homeBriefDecision" aria-live="polite">
+            <div id="hdbDecisionBody"><div class="hdb-decision-loading">오늘의 판단을 정리하고 있어요.</div></div>
+            <div class="brief-extra" id="briefExtra" style="display:none"></div>
+          </aside>
         </div>
-        <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
-        <div class="brief-meta" id="briefMeta"></div>
-        <div class="brief-extra" id="briefExtra" style="display:none"></div>
-        <div class="brief-actions" id="briefActions">
-          <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
-          <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
-        </div>
+        <div class="hdb-sheet-backdrop" id="hdbSheetBackdrop" hidden></div>
       </article>
     </section>
 
@@ -5220,8 +5292,13 @@ renderHomeWatchlist();
       ?new Date(`${insightAt.date}T${insightAt.time}:00+09:00`).getTime():0;
     const delayed=!weekend&&insightAt.date===clock.date&&insightTime&&
       ((now||new Date()).getTime()-insightTime)>45*60*1000;
-    document.getElementById('briefKicker').textContent=clock.date+' '+clock.time+' 현재';
+    document.getElementById('briefKicker').textContent='DAILY BRIEF';
     document.getElementById('briefTitle').textContent='현재 기준 브리핑';
+    const dateEl=document.getElementById('briefDate');
+    const dateParts=(source.date||clock.date).split('-');
+    if(dateEl) dateEl.textContent=dateParts.length===3
+      ?`${Number(dateParts[1])}월 ${Number(dateParts[2])}일 · ${weekend?'최근 시장':'시장 마감'}`
+      :'시장 마감 기준';
     const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
     document.getElementById('briefMeta').innerHTML=
       '<span class="brief-live-dot"></span><span>시세 '+esc(source.short)+' 기준</span>'+
@@ -5252,12 +5329,73 @@ renderHomeWatchlist();
       item('코스닥',market.indices.KOSDAQ)+item('원/달러',market.fx,'원')+
       `<span class="brief-market-asof">${esc(asofLabel)}</span>`;
   }
+  function renderHomeBriefDecision(){
+    const box=document.getElementById('hdbDecisionBody');
+    if(!box) return;
+    document.body.classList.remove('hdb-sheet-open');
+    const persistentBackdrop=document.getElementById('hdbSheetBackdrop');
+    if(persistentBackdrop) persistentBackdrop.hidden=true;
+    const model=homeBriefDecisionModel(analysisTally());
+    const sum=Math.max(1,model.counts.BUY+model.counts.HOLD+model.counts.SELL);
+    const width=call=>Math.max(0,model.counts[call]/sum*100);
+    const stockRow=(row,index)=>`<button class="hdb-stock-row" type="button" data-hdb-stock="${esc(row.name)}">`+
+      `<span class="hdb-rank">${String(index+1).padStart(2,'0')}</span>`+
+      `<span class="hdb-stock-main"><span class="hdb-stock-name">${esc(row.name)}</span>`+
+      `<span class="hdb-stock-call">BUY · 종합점수</span></span>`+
+      `<span class="hdb-stock-score">${Number(row.total)||0}점</span></button>`;
+    const preview=model.preview.map(stockRow).join('');
+    const full=model.buy.map(stockRow).join('');
+    box.innerHTML=`<div class="hdb-decision-head"><strong>오늘의 판단</strong><span>${model.total.toLocaleString('ko-KR')}종목</span></div>`+
+      `<div class="hdb-stats" aria-label="오늘의 판단 분포">`+
+      ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
+      `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
+      (model.buy.length
+        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>종합점수순</span></div><div class="hdb-preview">${preview}</div>`+
+          `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
+          `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
+          `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list">${full}</div></section>`
+        :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
+
+    box.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock));
+    box.querySelectorAll('[data-hdb-call]').forEach(button=>button.onclick=async()=>{
+      try{ await window.ensureAutoAnalysis(); }catch(e){}
+      SCR.sector='__all__'; SCR.call=button.dataset.hdbCall; SCR.sort='score_desc';
+      if(window.setMode) window.setMode('screener');
+      document.getElementById('screenerView')?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    const toggle=document.getElementById('hdbBuyToggle');
+    const panel=document.getElementById('hdbBuyPanel');
+    const backdrop=document.getElementById('hdbSheetBackdrop');
+    const close=document.getElementById('hdbPanelClose');
+    const closePanel=()=>{
+      if(!panel) return;
+      panel.hidden=true;
+      toggle?.setAttribute('aria-expanded','false');
+      if(backdrop) backdrop.hidden=true;
+      document.body.classList.remove('hdb-sheet-open');
+      toggle?.focus();
+    };
+    if(toggle&&panel) toggle.onclick=()=>{
+      panel.hidden=false;
+      toggle.setAttribute('aria-expanded','true');
+      const mobile=window.matchMedia('(max-width:900px)').matches;
+      panel.setAttribute('role',mobile?'dialog':'region');
+      panel.setAttribute('aria-modal',mobile?'true':'false');
+      if(backdrop) backdrop.hidden=!mobile;
+      document.body.classList.toggle('hdb-sheet-open',mobile);
+      close?.focus();
+    };
+    if(close) close.onclick=closePanel;
+    if(backdrop) backdrop.onclick=closePanel;
+  }
   function render(){
     const lines=(state.brief&&state.brief.lines)||[];
+    const labels=['시장','확산','업종'];
     brief.innerHTML=lines.length
-      ?lines.map((x,i)=>`<div class="brief-line"><b>${i+1}</b><span>${esc(x)}</span></div>`).join('')
+      ?lines.map((x,i)=>`<div class="brief-line" data-brief-label="${labels[i]||'메모'}"><span>${esc(x)}</span></div>`).join('')
       :'<p>오늘 시세를 정리하고 있어요.</p>';
     renderMarketTape();
+    renderHomeBriefDecision();
     const insightLines=(state.insight&&state.insight.lines)||[];
     if(insightLines.length){
       const at=stamp(state.insight.generatedAt);
@@ -5266,13 +5404,9 @@ renderHomeWatchlist();
       const insightTime=at.date&&at.time?new Date(`${at.date}T${at.time}:00+09:00`).getTime():0;
       const delayed=at.date===clock.date&&insightTime&&(Date.now()-insightTime)>45*60*1000;
       const calls=state.insight.calls;
-      const countTotal=calls?(Number(calls.BUY||0)+Number(calls.HOLD||0)+Number(calls.SELL||0)):0;
-      const countRow=calls
-        ?`<div class="brief-count-row"><span>${countTotal}종목 자동판단</span><strong>BUY ${calls.BUY||0}</strong><strong>HOLD ${calls.HOLD||0}</strong><strong>SELL ${calls.SELL||0}</strong></div>`
-        :'';
       const bodyLines=insightLines.slice(calls?1:0,3);
       extra.innerHTML=`<div class="brief-extra-head${delayed?' is-delayed':''}">${delayed?'자동 보강 지연':'자동 보강'} · ${esc(atLabel)} ${delayed?'마지막 생성':'기준'}</div>`+
-        countRow+bodyLines.map(x=>`<p>${esc(x)}</p>`).join('');
+        bodyLines.map(x=>`<p>${esc(x)}</p>`).join('');
       extra.style.display='block';
     }else extra.style.display='none';
     const sectorBtn=document.getElementById('briefSectorBtn');
@@ -5326,6 +5460,11 @@ renderHomeWatchlist();
   setInterval(refreshInsight,30*60*1000);
   setInterval(()=>renderClock(),60*1000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape') return;
+    const panel=document.getElementById('hdbBuyPanel');
+    if(panel&&!panel.hidden) document.getElementById('hdbPanelClose')?.click();
+  });
   window.GaeoBrief={refresh,renderClock};
   document.getElementById('briefSectorBtn').onclick=async()=>{
     const sector=document.getElementById('briefSectorBtn').dataset.sector;
@@ -5409,6 +5548,16 @@ function analysisTally(){
   return {counts,buy,ranked,total:counts.BUY+counts.HOLD+counts.SELL,
     asOf:(AUTO_AN&&(AUTO_AN.priceLabel||AUTO_AN.generatedAt))||(LIVE_AN&&LIVE_AN.date)||''};
 }
+function homeBriefDecisionModel(tally){
+  const counts={
+    BUY:Number(tally&&tally.counts&&tally.counts.BUY)||0,
+    HOLD:Number(tally&&tally.counts&&tally.counts.HOLD)||0,
+    SELL:Number(tally&&tally.counts&&tally.counts.SELL)||0
+  };
+  const buy=Array.isArray(tally&&tally.buy)?tally.buy.slice().sort((a,b)=>(Number(b.total)||0)-(Number(a.total)||0)):[];
+  return {counts,total:Number(tally&&tally.total)||counts.BUY+counts.HOLD+counts.SELL,
+    buy,preview:buy.slice(0,3),asOf:String(tally&&tally.asOf||'')};
+}
 // 종목 이동 공통: 어디서든(사이드바 칩·BUY 칩·우측 레일) 종목을 누르면
 // 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
 function jumpToStock(name){
@@ -5464,7 +5613,6 @@ let marketHistoryPage=1;
 let marketHistoryOpen=false;
 function renderMarket(){
   const box=document.getElementById('marketBox'); if(!box) return;
-  const isMobileBox=window.innerWidth<1180;
   const idx=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)||null;
   const mk=LIVE_AN&&LIVE_AN.market;
   if(!idx&&!mk) return;
@@ -5482,37 +5630,6 @@ function renderMarket(){
       `시장국면 「${MACRO_REGIME.label}」 <span class="mk-macro-sub">최근 ${MACRO_REGIME.n}거래일 코스피 표준편차 ${MACRO_REGIME.vol}%p · `+
       (MACRO_REGIME.damp<1?'개별 종목 분석의 확신도를 자동으로 낮춰 보여드려요':'평소와 비슷한 변동성이에요')+`</span></div>`;
   }
-  // 🧭 오늘의 개오팀 종합 판단 집계(BUY/HOLD/SELL) + BUY 종목 목록 — 코스피 분석 바로 밑
-  const tal=analysisTally();
-  if(tal.total>0){
-    const asOf=String(tal.asOf||'');
-    // 항상 종합점수 상위 30위(🟡HOLD 포함)까지 '상대 상위'로 펼쳐 보여준다 — BUY가 30개를
-    // 넘으면 자연히 BUY만 30개가 뽑히고, BUY가 적으면 점수 높은 HOLD가 채워져 늘 30개를 채운다.
-    const TOPN=30;
-    const list=tal.ranked.filter(b=>b.call==='BUY'||b.call==='HOLD').slice(0,TOPN);
-    const shown=isMobileBox?5:15;   // 밀집 완화: 30칩 벽 대신 먼저 5·15개만
-    const chips=list.map((b,i)=>{
-      const isBuy=b.call==='BUY';
-      const tag=isBuy?'':'<span class="bc-rel">매수우위</span>';
-      return `<span class="mk-buychip${rankCls(i)}${i>=shown?' bc-more':''}" data-nm="${esc(b.name)}"><span class="bc-rank">${i+1}</span>${esc(b.name)}${tag}<span class="bc-score">${b.total}점</span></span>`;
-    }).join('');
-    const summary=`종합점수 상위 ${list.length}위 펼쳐보기 (BUY ${tal.counts.BUY}개 포함)`;
-    const note='※ 앞의 번호는 종합점수 순위예요. 상위 30위까지 BUY·HOLD를 함께 보여드려요. 「매수우위」 표시는 판단은 HOLD지만 <b>상대적으로 매수 우위</b>인 종목이에요(절대적 매수 신호는 아님). 종목을 누르면 상세 분석으로 이동해요. 대부분 자동분석(뉴스 미반영) 기준이며, 투자 권유가 아닙니다.';
-    html+=`<div class="mk-tally">
-      <div class="mk-tally-head"><svg class="sec-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2 13 13l-3.8 1.8L11 11z"/></svg>오늘의 개오팀 종합 판단 <span class="mk-asof">${esc(asOf)} · 총 ${tal.total}종목</span></div>
-      <div class="mk-tally-row">
-        <span class="tly buy">BUY <b>${tal.counts.BUY}</b></span>
-        <span class="tly hold">HOLD <b>${tal.counts.HOLD}</b></span>
-        <span class="tly sell">SELL <b>${tal.counts.SELL}</b></span>
-      </div>`+
-      (list.length?`<details class="mk-buylist"${isMobileBox?'':' open'}><summary>${summary}</summary>
-        <div class="mk-buychips" id="tallyChips">${chips}</div>
-        ${expandBtn(list.length,shown,'tallyChips')}
-        <div class="mk-buynote">${note}</div>
-      </details>`:'')+
-      `</div>`;
-  }
-
   // 📚 날짜별 지난 시장 분석 목차 (market_history.js)
   const MH=(typeof MARKET_HISTORY!=='undefined'&&MARKET_HISTORY)||{};
   const archiveApi=window.GaeoMarketArchive;
