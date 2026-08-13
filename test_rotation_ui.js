@@ -213,6 +213,15 @@ assert.match(css, /\.rot-help\{/);
 assert.match(css, /\.rot-accumulation-note\{/);
 assert.match(css, /\.rot-metric-explanation\{/);
 assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.3fr repeat\(5,minmax\(0,1fr\)\)/);
+assert.match(css, /\.rot-card-context\{[^}]*font-size:11px[^}]*font-weight:600/);
+assert.match(css, /\.rot-card-primary\{[^}]*font-size:20px[^}]*font-weight:650/);
+assert.match(css, /\.rot-card-secondary\{[^}]*font-size:12px[^}]*font-weight:400/);
+assert.match(css, /\.rot-meta-block\+\.rot-meta-block\{[^}]*margin-top:12px/);
+assert.match(css, /\.rot-meta dt\{[^}]*font-size:11px[^}]*font-weight:600/);
+assert.match(css, /\.rot-meta dd\{[^}]*font-size:11px[^}]*font-weight:400/);
+assert.match(css, /\.rot-meta-inline\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+assert.match(css, /@media\(max-width:600px\)\{[\s\S]*?\.rot-card\{[^}]*padding:20px 16px/);
+assert.doesNotMatch(css, /\.rot-(?:summary|card)[^{]*\{[^}]*(?:linear-gradient|box-shadow)/);
 assert.match(css, /\.rot-map\{[^}]*min-height:620px/);
 
 console.log('rotation UI contract passed');
