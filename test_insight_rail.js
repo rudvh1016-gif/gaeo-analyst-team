@@ -91,5 +91,21 @@ for (const phrase of ['gir-rotation-section','추천기간 기준','다음 순�
 assert(source.includes("'ArrowDown','ArrowUp','Home','End'"));
 assert(css.includes('@media (min-width:1280px)'));
 assert(css.includes('@media (prefers-reduced-motion:reduce)'));
+assert(css.includes('--gir-ink:#1d1d1f'));
+assert(css.includes('--gir-panel:300px'));
+assert(css.includes('border-left:2px solid var(--gir-ink)'));
+assert(css.includes('.gir-ranking-row'));
+assert(css.includes('.gir-change-row'));
+assert(css.includes('.gir-signal-row'));
+assert(css.includes('.gir-history-row'));
+assert(css.includes('.gir-article-row'));
+assert(!/\.gir-row:hover\{[^}]*transform/.test(css), 'row hover must not move');
+assert(!css.includes('linear-gradient'), 'insight rail must not use gradients');
+assert(source.includes('.slice(0,8)'), 'news panel should stay editorially concise');
+assert(source.includes("function nameLine(code,name,showPrice=true)"), 'recent rows must be able to place price on the secondary line');
+assert(source.includes("core.formatPanelTime(v,'header')"), 'panel header dates must use the shared date formatter');
+assert(source.includes('전체 종목 보기 →'));
+assert(css.includes('.gir-sector-line'));
+assert(css.includes('.gir-rotation-stocks'));
 
 console.log('insight rail tests passed');
