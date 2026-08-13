@@ -122,6 +122,13 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+function safeJson(value) {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
 function cleanBaseUrl(value) {
   return `${String(value || 'https://gaeoteam.com/').replace(/\/+$/, '')}/`;
 }
@@ -196,7 +203,7 @@ function renderSnapshotPage(record, options = {}) {
 <title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${escapeHtml(canonical)}">
 <meta property="og:type" content="article"><meta property="og:title" content="${escapeHtml(title.replace(' | GAEO', ''))}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${escapeHtml(canonical)}"><meta property="og:site_name" content="GAEO"><meta property="og:locale" content="ko_KR"><meta property="og:image" content="${baseUrl}gaeo-share-v3.jpg">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeHtml(title.replace(' | GAEO', ''))}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${baseUrl}gaeo-share-v3.jpg">
-<script type="application/ld+json">${JSON.stringify(article)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script><style>${publicPageStyle()}</style></head>
+<script type="application/ld+json">${safeJson(article)}</script><script type="application/ld+json">${safeJson(breadcrumb)}</script><style>${publicPageStyle()}</style></head>
 <body><main class="da-shell"><header class="da-brand"><a class="da-wordmark" href="${baseUrl}">GAEO</a><span>Historical Research Record</span></header>
 <nav class="da-breadcrumb" aria-label="현재 위치"><a href="${baseUrl}">홈</a><span>›</span><a href="${archiveUrl}">정밀분석 기록</a><span>›</span><span>${escapeHtml(record.stockName)}</span></nav>
 <p class="da-kicker">DEEP ANALYSIS · ${escapeHtml(record.ticker)}</p><h1 class="da-title">${escapeHtml(record.stockName)} 정밀분석</h1><p class="da-deck">${escapeHtml(koreanDate(record.analysisCreatedAt, true))} 당시 기술·재무·확률통계·수급을 함께 검토해 남긴 분석 기록입니다.</p>
