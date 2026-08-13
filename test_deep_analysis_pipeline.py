@@ -28,6 +28,7 @@ class DeepAnalysisPipelineContract(unittest.TestCase):
         sitemap_at = source.index("node generate_sitemap.js")
         self.assertLess(archive_at, generate_at)
         self.assertLess(generate_at, sitemap_at)
+        self.assertNotIn('archive_analysis.py --auto || echo', source)
         self.assertRegex(source, r"git add[^\n]*analysis_archive\.js")
         self.assertIn("deep_analysis_latest.js", source)
         self.assertIn("deep_analysis_manifest.json", source)
