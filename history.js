@@ -38079,6 +38079,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-13 22:20",
+   "call": "HOLD",
+   "total": 62,
+   "confidence": 68,
+   "base": 33300,
+   "baseAt": "2026-08-13 종가",
+   "target": "컨센서스 목표주가 43,778원(증권사별 43,000~48,000원 편차, KB증권 7월 6.5% 하향) 대비 현재가가 +31.3% 낮아 상승여력 존재 · 지지선은 MA20(32,495원)·MA60(31,121원), 저항선은 3개월 고점(34,800원)",
+   "taro": {
+    "stance": "bull",
+    "score": 60
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 66
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 58
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 62
+   }
   }
  ],
  "000150": [
