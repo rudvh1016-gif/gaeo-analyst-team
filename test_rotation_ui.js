@@ -13,13 +13,22 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260812-v12'\]/);
-assert.match(html, /rotation\.css\?v=20260812-v10/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260814-v13'\]/);
+assert.match(html, /rotation\.css\?v=20260814-v11/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
 const context = { window: {}, console };
 vm.runInNewContext(source, context);
+const snapshotContext = { window: {} };
+vm.runInNewContext(fs.readFileSync(path.join(root, 'rotation_snapshot.js'), 'utf8'), snapshotContext);
+const snapshot = snapshotContext.window.ROTATION_SNAPSHOT;
+const snapshotLeader = snapshot.sectors.find(sector => sector.name === snapshot.summary.leaders[0].name);
+assert.strictEqual(snapshot.recommendedHorizon.horizon, 20);
+assert.strictEqual(snapshotLeader.periods['20'].score, 79.1);
+assert.strictEqual(snapshotLeader.periods['1'].return.adjusted, -1.24);
+assert.strictEqual(snapshotLeader.periods['1'].relativeStrength, -4.33);
+assert.strictEqual(snapshotLeader.periods['1'].breadth.adjustedUpRate, 25.8);
 assert.strictEqual(typeof context.window.GaeoRotation.formatPercent, 'function');
 assert.strictEqual(context.window.GaeoRotation.formatPercent(3.456), '+3.5%');
 assert.strictEqual(context.window.GaeoRotation.formatPercent(-1.24), '-1.2%');
@@ -38,6 +47,15 @@ for (const horizon of [1, 3, 5, 20, 60, 120, 200]) {
     scoreChange: { status: 'ready', value: 2.4, direction: '강화', baseDate: '2026-08-09', previousScore: 58.6, currentScore: 61, componentStatus: 'ready', componentDeltas: { momentum: 1.5, flow: .9 } }
   };
 }
+periods['1'] = {
+  ...periods['1'],
+  score: 48.6,
+  signal: '관찰',
+  return: { adjusted: -1.24 },
+  relativeStrength: -4.33,
+  breadth: { adjustedUpRate: 25.8 },
+  scoreChange: { status: 'ready', value: -3.1, direction: '약화', baseDate: '2026-08-09', previousScore: 51.7, currentScore: 48.6, componentStatus: 'ready', componentDeltas: { momentum: -1.8, breadth: -1.3 } }
+};
 const fixture = {
   generatedAt: '2026-08-10 16:10', dataCutoff: '2026-08-10 종가',
   universe: { valid: 20, configured: 20 }, model: { highConfidenceUnlocked: false, version: 'rotation-shadow-v2' },
@@ -64,6 +82,15 @@ const fixture = {
   sectors: [{ name: '반도체', configuredCount: 20, validCount: 20, sampleReliability: '높음', periods, candidateExcludedCount: 2, candidateStocks: [{ code: '005930', name: '삼성전자', price: 80000, taroScore: 88, taroSource: 'auto-analysis', rotationRankScore: 84, rotationRankReasons: ['TARO 기술 확인','거래량 증가'], movingAverages: { '20': 72000, '60': 70000, '120': 68000, '200': 65000 }, maStatus: { '20': '20일선 위', '60': '60일선 위', '120': '120일선 위', '200': '200일선 위' }, volumeRatio: 1.4, volumeBaseline: { label: '직전 20거래일 일평균 대비', periodStart: '2026-01-02', periodEnd: '2026-01-21', tradingDays: 20 }, reasons: ['거래량 확인'], overheat: false, source: 'existing-indicators' }] }], leadLagEdges: [], similarMarkets: { horizon: 20, bySector: { '반도체': { status: 'ready', periodStart: '2021-01-04', periodEnd: '2026-01-02', tradingDays: 1230, horizon: 20, benchmark: '500종목 업종 중앙값', successDefinition: '향후 20거래일 업종수익률 > 500종목 업종 중앙값', sampleCount: 3, successCount: 2, failureCount: 1, reproductionRate: 66.7, averageExcessReturn: 1.2, medianExcessReturn: .9, currentSimilarity: 81, sampleReliability: '낮음', cases: [] } } }
 };
 const rendered = context.window.GaeoRotation.renderView(fixture, { horizon: 20, selected: '반도체' });
+const shortRendered = context.window.GaeoRotation.renderView(fixture, { horizon: 5, selected: '반도체' });
+assert.match(shortRendered, /선택 5거래일/);
+assert.doesNotMatch(shortRendered, /추천 5거래일/);
+assert.match(shortRendered, /추천 기간<\/span><strong>20거래일/);
+const today = context.window.GaeoRotation.todayView(fixture.sectors[0]);
+assert.strictEqual(today.state, '약화');
+assert.strictEqual(today.returnValue, -1.24);
+assert.strictEqual(today.relativeStrength, -4.33);
+assert.strictEqual(today.breadth, 25.8);
 const workspaceStart = rendered.indexOf('<div class="rot-workspace">');
 const primaryStart = rendered.indexOf('<div class="rot-primary">', workspaceStart);
 const mapStart = rendered.indexOf('class="rot-panel rot-map-panel"', primaryStart);
@@ -123,6 +150,16 @@ assert.match(rendered, /직전 20거래일 일평균 대비 · 2026\.01\.02~2026
 assert.match(rendered, /200일선/);
 assert.match(rendered, /지표 누락 2종목 제외/);
 assert.match(rendered, /class="rot-help"/);
+assert.match(rendered, /업종의 순환 흐름을 한눈에/);
+assert.match(rendered, /오늘의 변화/);
+assert.match(rendered, /오늘 -1\.2% · 약화/);
+assert.match(rendered, /20거래일 종합 1위/);
+assert.match(rendered, /data-horizon="20"[^>]*>20일<small>추천<\/small><\/button>/);
+assert.match(rendered, /class="rot-today"/);
+assert.match(rendered, /<dt>오늘 업종 등락<\/dt><dd><strong>-1\.2%<\/strong>/);
+assert.match(rendered, /<dt>오늘 시장 대비<\/dt><dd><strong>-4\.3%<\/strong>/);
+assert.match(rendered, /<dt>오늘 점수 변화<\/dt><dd><strong>-3\.1점<\/strong>/);
+assert.match(rendered, /20거래일 흐름은[^<]*(?:강하지만|관찰이 필요하고)[^<]*오늘은[^<]*약화/);
 assert.match(rendered, /data-tip="선택 기간 동안 업종 구성 종목의 가격 흐름/);
 assert.match(rendered, /aria-label="상승 탄력 설명: 선택 기간 동안 업종 구성 종목의 가격 흐름/);
 assert.match(rendered, /class="rot-accumulation-note"/);
@@ -152,10 +189,16 @@ const mobileRendered = mobileContext.window.GaeoRotation.renderView(fixture, { h
 assert.match(mobileRendered, /viewBox="0 0 620 620"/);
 assert.match(mobileRendered, /<circle r="34"><\/circle>/);
 
+const desktopLayout = context.window.GaeoRotation.mapLayout();
+assert.strictEqual(desktopLayout.viewBox, '0 0 720 660');
+assert.ok(desktopLayout.radii.every(radius => radius.rx && radius.ry));
+assert.match(rendered, /<ellipse class="rot-orbit"/);
+
 const css = fs.readFileSync(path.join(root, 'rotation.css'), 'utf8');
 assert.match(css, /\.rot-help\{/);
 assert.match(css, /\.rot-accumulation-note\{/);
 assert.match(css, /\.rot-metric-explanation\{/);
-assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.35fr repeat\(4,minmax\(0,1fr\)\)/);
+assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.3fr repeat\(5,minmax\(0,1fr\)\)/);
+assert.match(css, /\.rot-map\{[^}]*min-height:620px/);
 
 console.log('rotation UI contract passed');
