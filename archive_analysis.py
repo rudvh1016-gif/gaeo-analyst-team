@@ -151,7 +151,9 @@ def main():
         flst = full_archive.setdefault(code, [])
         fidx = next((i for i, e in enumerate(flst) if str(e.get("updated", "")) == when_key), None)
         meta = ticker_metadata.get(str(code), {})
-        snapshot = {k: a[k] for k in ("updated", "base", "baseAt", "events", "taro", "diana", "nova", "flow", "chief") if k in a}
+        # "summary"는 정밀분석 완성 시점에 함께 쓰는 한 줄 Research Headline(홈 "최근 정밀분석" 표시용).
+        # 종목분석 스킬이 analysis.js에 적어두면 여기서 그대로 실어 나른다 — 없으면 조용히 생략(런타임 생성 금지).
+        snapshot = {k: a[k] for k in ("updated", "base", "baseAt", "events", "taro", "diana", "nova", "flow", "chief", "summary") if k in a}
         snapshot.update({
             "snapshotId": snapshot_identity(code, when),
             "ticker": str(code),
