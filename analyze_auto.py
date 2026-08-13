@@ -101,14 +101,33 @@ def stance_of(score):
     return "bull" if score >= 58 else ("bear" if score <= 43 else "neu")
 
 
+# ⭐ 2026-08-13 사용자 지정 — 이동평균 이격도 "과열 감점" 곡선.
+# 예전엔 gap*weight를 cap(±14/±10)에서 그냥 잘라내기만 해서, 정상적으로 오른 종목(예:
+# MA20 대비 +15%)이나 극단적으로 과열된 종목(예: 금호건설 MA20 대비 +39.6%·MA60 대비
+# +75.5%)이나 똑같이 "만점"을 받았다. 그 결과 며칠 새 급등해 평균회귀 리스크가 큰 종목이
+# TARO 95점(강한 매수)처럼 잘못 읽히는 사고가 있었다(002990 케이스, 정밀분석에서 발견).
+# plateau_end까지는 기존과 동일하게 선형·cap(건강한 상승은 그대로 보상), 그 너머는
+# "더 오를수록 더 감점"으로 뒤집어 평균회귀 경고 신호로 다룬다. 500종목 실측(상위 20개
+# ma20Gap·ma60Gap) 기준 plateau_end는 상위 10%(p90) 구간보다 넉넉히 위로 잡아, 정상적인
+# 강세 종목(한국콜마·코스맥스·인바디 등, ma20Gap 20%대)은 거의 영향받지 않고 진짜 극단적인
+# 케이스만 걸러지도록 보정했다. 하락 쪽(음수 gap)은 손대지 않았다(기존과 동일한 선형·cap).
+def _gap_score(gap, weight, cap, plateau_end, decay):
+    if gap is None:
+        return 0.0
+    if gap <= plateau_end:
+        return max(-cap, min(cap, gap * weight))
+    excess = gap - plateau_end
+    return max(-cap, cap - excess * decay)
+
+
 # ── TARO(기술): 이동평균 위치 + RSI + MACD + 거래량 ─────────────────────────
 def taro_eval(t):
     s = 50.0
     g20, g60 = t.get("ma20Gap"), t.get("ma60Gap")
     if g20 is not None:
-        s += max(-14, min(14, g20 * 1.1))
+        s += _gap_score(g20, 1.1, 14, plateau_end=25, decay=1.0)
     if g60 is not None:
-        s += max(-10, min(10, g60 * 0.7))
+        s += _gap_score(g60, 0.7, 10, plateau_end=20, decay=1.0)
     rsi = t.get("rsi14")
     if rsi is not None:
         if rsi >= 70:   s += 3      # 과매수(강하나 과열 주의)
