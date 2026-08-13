@@ -273463,6 +273463,31 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-13 09:30",
+   "call": "SELL",
+   "total": 30,
+   "confidence": 79,
+   "base": 16240,
+   "baseAt": "2026-08-13 09:21",
+   "target": "컨센서스 목표주가 12,700원(7월21~22일 리포트 기준) 대비 현재가가 이미 +20~25% 이상 초과 · 지지선은 MA5(12,442원)·MA20(10,380원), 저항선은 52주 신고가(19,380원, 7/18 기록)",
+   "taro": {
+    "stance": "bear",
+    "score": 40
+   },
+   "diana": {
+    "stance": "bear",
+    "score": 17
+   },
+   "nova": {
+    "stance": "bear",
+    "score": 28
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 36
+   }
   }
  ],
  "003160": [
