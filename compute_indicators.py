@@ -152,8 +152,17 @@ def indicators_for(daily):
     sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
     vol_avg = sum(vols[-21:-1]) / 20 if len(vols) > 20 else 0
     vol_ratio = vols[-1] / vol_avg if vol_avg else None   # 거래정지/저유동 종목은 0 평균 → None
+    # ⭐ 2026-08-13 사용자 지정 — 오늘 장중 고가 대비 종가가 얼마나 밀렸는지(급등 후 당일
+    # 반납 캔들 감지용). daily 원본에 이미 시가·고가·저가·종가가 다 있는데 여태 종가만
+    # 뽑아 썼다(금호건설 8/13: 고가 18,040원 → 종가 14,290원, -20.8% 반납이 감지 안 됐었음).
+    # 500종목 실측 기준 중앙값 2.5%·p90 5.8%·p99 11.7% — 이 셋보다 훨씬 큰 값만 이례적이다.
+    today_giveback = None
+    last_row = daily[-1] if daily else None
+    if last_row and last_row.get("high") and last_row.get("close") and last_row["high"] > 0:
+        today_giveback = round((last_row["high"] - last_row["close"]) / last_row["high"] * 100, 1)
     out = {
         "close": cur,
+        "todayGiveback": today_giveback,
         "daysAvail": n,   # TARO 이동평균 카드가 "며칠 더 필요해요" 문구를 만드는 데 씀
         "ma5": ma5, "ma5Gap": ma5Gap, "ma5Slope": ma5Slope, "ma5Days": ma5Days, "ma5Full": ma5Full,
         "ma20": ma20, "ma20Gap": ma20Gap, "ma20Slope": ma20Slope, "ma20Days": ma20Days, "ma20Full": ma20Full,
