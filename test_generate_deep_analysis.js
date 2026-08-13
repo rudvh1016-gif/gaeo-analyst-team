@@ -32,6 +32,13 @@ const tickers = [{ code: '002990', name: '금호건설', sector: '건설·건자
 const record = normalizePublishedRecords({ '002990': [snapshot('2026-08-13 21:37')] }, tickers)[0];
 const html = renderSnapshotPage(record, { baseUrl: 'https://gaeoteam.com/' });
 
+const hostile = normalizePublishedRecords({
+  '002990': [snapshot('2026-08-13 21:37')],
+}, [{ code: '002990', name: '</title><script>alert(1)</script>', sector: '<img src=x onerror=alert(1)>' }])[0];
+const hostileHtml = renderSnapshotPage(hostile, { baseUrl: 'https://gaeoteam.com/' });
+assert.doesNotMatch(hostileHtml, /<script>alert\(1\)<\/script>/);
+assert.doesNotMatch(hostileHtml, /<img src=x onerror=alert\(1\)>/);
+
 const sameDayMorning = normalizePublishedRecords({
   '002990': [snapshot('2026-08-13 09:30')],
 }, tickers)[0];
