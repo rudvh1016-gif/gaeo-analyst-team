@@ -768,6 +768,8 @@
   .pa-conf{font-size:12px;color:var(--dim)}
   .pa-reason{margin:8px 0 0;font-size:12.5px;line-height:1.7;color:var(--t3)}
   .pa-target,.pa-base{margin-top:6px;font-size:11.5px;color:var(--dim)}
+  .pa-permalink{display:inline-block;margin-top:12px;color:var(--navy);font-size:11.5px;font-weight:750;text-decoration:none}
+  .pa-permalink:hover,.pa-permalink:focus-visible{color:var(--sky)}
   .pa-axes{margin-top:16px;display:flex;flex-direction:column;gap:14px}
   .pa-axis-head{display:flex;align-items:baseline;justify-content:space-between;
     font-size:12.5px;color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:6px}
@@ -2887,6 +2889,19 @@
   .home-daily-brief .brief-line span{min-width:0}
   .home-daily-brief .brief-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:13px;font-size:10.5px}
   .home-daily-brief .brief-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+  .home-daily-brief .hda{margin-top:25px;padding-top:19px;border-top:1px solid var(--color-border)}
+  .home-daily-brief .hda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:7px}
+  .home-daily-brief .hda-title{font-size:14px;font-weight:760;letter-spacing:-.025em}
+  .home-daily-brief .hda-desc{margin:4px 0 0;color:var(--color-text-tertiary);font-size:10.5px;line-height:1.5}
+  .home-daily-brief .hda-list{display:flex;flex-direction:column}
+  .home-daily-brief .hda-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;min-height:38px;border-bottom:1px solid var(--color-border);color:var(--color-text-primary);font-size:11.5px;text-decoration:none}
+  .home-daily-brief .hda-row:first-child{border-top:1px solid var(--color-border)}
+  .home-daily-brief .hda-row:hover .hda-name,.home-daily-brief .hda-row:focus-visible .hda-name{color:var(--color-accent)}
+  .home-daily-brief .hda-name{min-width:0;overflow:hidden;font-weight:650;text-overflow:ellipsis;white-space:nowrap}
+  .home-daily-brief .hda-date{color:var(--color-text-tertiary);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .home-daily-brief .hda-empty{padding:12px 0;color:var(--color-text-tertiary);font-size:10.5px}
+  .home-daily-brief .hda-more{display:inline-block;margin-top:10px;color:var(--color-text-secondary);font-size:10.5px;font-weight:720;text-decoration:none}
+  .home-daily-brief .hda-more:hover,.home-daily-brief .hda-more:focus-visible{color:var(--color-accent)}
   .home-daily-brief .hdb-decision-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
   .home-daily-brief .hdb-decision-head strong{font-size:15px;letter-spacing:-.025em}
   .home-daily-brief .hdb-decision-head span{color:var(--color-text-tertiary);font-size:10.5px;font-weight:700}
@@ -3599,6 +3614,11 @@
               <button class="brief-link" id="briefSectorBtn" type="button" style="display:none">강한 업종 종목 보기</button>
               <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
             </div>
+            <section class="hda" id="homeDeepAnalysis" aria-labelledby="homeDeepAnalysisTitle">
+              <div class="hda-head"><div><strong class="hda-title" id="homeDeepAnalysisTitle">최근 정밀분석</strong><p class="hda-desc">직접 지정해 더 깊게 확인한 종목이에요</p></div></div>
+              <div class="hda-list" id="homeDeepAnalysisList"><div class="hda-empty">최근 정밀분석이 아직 없습니다.</div></div>
+              <a href="/research/deep-analysis/" class="hda-more">정밀분석 전체 보기 →</a>
+            </section>
           </div>
           <aside class="hdb-decisions" id="homeBriefDecision" aria-live="polite">
             <div id="hdbDecisionBody"><div class="hdb-decision-loading">오늘의 판단을 정리하고 있어요.</div></div>
@@ -3900,6 +3920,7 @@
   var onerr={
     'stock_bios.js':'window.STOCK_BIO=window.STOCK_BIO||null',
     'snap/home_brief.js':'window.HOME_BRIEF=window.HOME_BRIEF||null',
+    'deep_analysis_latest.js':'window.DEEP_ANALYSIS_LATEST=window.DEEP_ANALYSIS_LATEST||[]',
     'radar.js':'window.GAEO_RADAR=window.GAEO_RADAR||null',
     'dow_stats.js':'window.DOW_STATS=window.DOW_STATS||null',
     'team_weights.js':'window.TEAM_WEIGHTS=window.TEAM_WEIGHTS||null'
@@ -3912,6 +3933,7 @@
   ['tickers.js','stock_bios.js','data.js','site_config.js','community.js'].forEach(w);
   document.write('<scr'+'ipt src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></scr'+'ipt>');
   w('snap/home_brief.js');
+  w('deep_analysis_latest.js');
   ['analysis.js','indicators.js','radar.js','market_history.js','market_archive.js','dow_stats.js','team_weights.js'].forEach(w);
   document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
 })();
@@ -5211,6 +5233,20 @@ renderHomeWatchlist();
   };
 })();
 
+/* ── 최근 정밀분석: 전체 원문 Archive 대신 생성된 최신 5건만 첫 화면에서 읽는다. ── */
+function renderHomeDeepAnalysis(){
+  const box=document.getElementById('homeDeepAnalysisList'); if(!box) return;
+  const source=typeof DEEP_ANALYSIS_LATEST!=='undefined'?DEEP_ANALYSIS_LATEST:
+    ((typeof window!=='undefined'&&window.DEEP_ANALYSIS_LATEST)||[]);
+  const rows=Array.isArray(source)?source.slice(0,5):[];
+  if(!rows.length){ box.innerHTML='<div class="hda-empty">최근 정밀분석이 아직 없습니다.</div>'; return; }
+  box.innerHTML=rows.map(item=>{
+    const date=String(item.date||item.analysisCreatedAt||'').slice(5,10).replace('-','.');
+    return `<a class="hda-row" href="${esc(item.permalink)}"><span class="hda-name">${esc(item.stockName||item.ticker)}</span><time class="hda-date" datetime="${esc(String(item.analysisCreatedAt||item.date||''))}">${esc(date)}</time></a>`;
+  }).join('');
+}
+renderHomeDeepAnalysis();
+
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
 (function(){
   const brief=document.getElementById('homeBrief'), extra=document.getElementById('briefExtra');
@@ -6069,7 +6105,12 @@ function findingLi(f){
 // 📚 "정밀분석 기록" 탭 — 신선도와 무관하게 그 종목을 실제로 정밀분석했던 시점의 원문을
 // 시간순으로 다시 읽는다(analysis_archive.js, archive_analysis.py가 매 재분석 때 누적).
 function paCallClass(call){ return call==='BUY'?'bull':call==='SELL'?'bear':'neu'; }
-function paSnapshotHTML(snap){
+function deepAnalysisPermalink(code,updated){
+  const m=String(updated||'').match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}):(\d{2})/);
+  return /^\d{6}$/.test(String(code||''))&&m
+    ?`/research/deep-analysis/${code}/${m[1]}-${m[2]}${m[3]}/`:'';
+}
+function paSnapshotHTML(snap,code){
   const chief=snap.chief||{};
   const axes=[['기술','taro'],['재무','diana'],['확률통계','nova'],['수급','flow']].map(([label,key])=>{
     const a=snap[key]; if(!a||!Array.isArray(a.findings)) return '';
@@ -6083,6 +6124,7 @@ function paSnapshotHTML(snap){
     `<p class="pa-reason">${esc(chief.reason||chief.report||'')}</p>`+
     (chief.target?`<div class="pa-target">${esc(chief.target)}</div>`:'')+
     `<div class="pa-base">당시 기준가 ${snap.base!=null?won(snap.base):'—'}${snap.baseAt?' ('+esc(snap.baseAt)+')':''}</div>`+
+    (deepAnalysisPermalink(code,snap.updated)?`<a class="pa-permalink" href="${esc(deepAnalysisPermalink(code,snap.updated))}">이 분석만 보기 →</a>`:'')+
     `</div><div class="pa-axes">${axes}</div>`;
 }
 // ⭐ 2026-08-10: 목록 따로 + 본문 하나만 바꿔치기하던 구조를, 항목을 누르면 그 자리에서
@@ -6114,7 +6156,7 @@ function renderArchivePanel(code){
   wrap.querySelectorAll('.pa-item').forEach(btn=>{
     const panel=btn.parentElement.querySelector('.pa-panel');
     const idx=+btn.dataset.idx;
-    const fill=()=>{ if(!panel.innerHTML) panel.innerHTML=paSnapshotHTML(list[idx]); };
+    const fill=()=>{ if(!panel.innerHTML) panel.innerHTML=paSnapshotHTML(list[idx],code); };
     if(idx===0) fill();   // 첫 항목은 기본으로 펼쳐져 있으니 바로 채운다
     btn.addEventListener('click',()=>{
       const open=btn.getAttribute('aria-expanded')==='true';
