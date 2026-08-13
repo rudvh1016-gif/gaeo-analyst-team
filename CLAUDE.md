@@ -1,5 +1,9 @@
 # 개오(Gaeo) 애널리스트팀 — Claude Code 전용 가이드
 
+## 정밀분석 발행
+
+정밀분석 관련 작업 전에는 `docs/DEEP_ANALYSIS_PUBLISHING.md`를 읽고 Source of Truth, 영구 URL, Archive, 홈 최신 5건, sitemap 규칙을 함께 지킨다.
+
 > ⭐ **먼저 저장소 최상위의 `AGENTS.md`를 읽으세요.** 프로젝트가 무엇인지, 파일맵, 배포 규칙, 카테고리 철칙,
 > 콘텐츠 발행 철칙, 데이터 파이프라인, index.html 구조, 코딩 시 주의사항 등 **Claude Code와 Codex가 공통으로
 > 지켜야 할 작업 규칙은 전부 그 문서에 있습니다.** 이 파일(CLAUDE.md)에는 Claude Code 세션에서만 해당하는
