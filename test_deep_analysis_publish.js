@@ -82,6 +82,12 @@ assert.deepEqual(
 assert.equal(records[0].stockName, '금호건설', '기존 기록은 현재 ticker 이름으로 안전하게 보강한다');
 assert.equal(records[0].sector, '건설·건자재');
 assert.equal(records[0].permalink, '/research/deep-analysis/002990/2026-08-13-2137/');
+assert.equal(records[0].summary, '', 'summary가 없는 기록은 undefined가 아니라 빈 문자열로 안전하게 처리한다');
+
+const withSummary = normalizePublishedRecords({
+  '002990': [completeSnapshot('2026-08-13 21:37', { summary: '실적 개선은 확인됐지만 급등 뒤 되돌림 부담이 남음' })],
+}, tickers)[0];
+assert.equal(withSummary.summary, '실적 개선은 확인됐지만 급등 뒤 되돌림 부담이 남음', '정밀분석 완성 시점에 저장된 summary를 그대로 전달한다');
 
 const historicalIdentity = normalizePublishedRecords(
   { '002990': [completeSnapshot('2026-08-10 10:00', { stockName: '당시회사명', sector: '당시업종' })] },

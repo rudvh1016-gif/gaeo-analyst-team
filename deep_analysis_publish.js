@@ -107,6 +107,7 @@ function normalizePublishedRecords(archive, tickers) {
         nova: publicAxis(snapshot.nova),
         flow: publicAxis(snapshot.flow),
         chief: publicChief(snapshot.chief),
+        summary: text(snapshot.summary),
       };
       normalized.permalink = snapshotPath(normalized);
       records.set(snapshotId, normalized);
@@ -237,6 +238,7 @@ function buildLatestRecords(records, limit = 5) {
     analysisCreatedAt: record.analysisCreatedAt,
     date: record.analysisCreatedAt.slice(0, 10),
     permalink: record.permalink,
+    summary: record.summary || '',
   }));
 }
 

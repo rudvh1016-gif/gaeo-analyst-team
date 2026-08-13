@@ -5,34 +5,39 @@ const DEEP_ANALYSIS_LATEST = [
   "stockName": "우리금융지주",
   "analysisCreatedAt": "2026-08-13 22:20",
   "date": "2026-08-13",
-  "permalink": "/research/deep-analysis/316140/2026-08-13-2220/"
+  "permalink": "/research/deep-analysis/316140/2026-08-13-2220/",
+  "summary": "실적 회복과 낮은 밸류는 매력적이나 지배구조 리스크는 여전"
  },
  {
   "ticker": "002990",
   "stockName": "금호건설",
   "analysisCreatedAt": "2026-08-13 21:37",
   "date": "2026-08-13",
-  "permalink": "/research/deep-analysis/002990/2026-08-13-2137/"
+  "permalink": "/research/deep-analysis/002990/2026-08-13-2137/",
+  "summary": "실적 개선은 확인됐지만 급등 뒤 되돌림 부담이 남음"
  },
  {
   "ticker": "001820",
   "stockName": "삼화콘덴서",
   "analysisCreatedAt": "2026-08-13 10:10",
   "date": "2026-08-13",
-  "permalink": "/research/deep-analysis/001820/2026-08-13-1010/"
+  "permalink": "/research/deep-analysis/001820/2026-08-13-1010/",
+  "summary": "업계 후광 급등일 뿐 개별 재료와 밸류 부담은 확인 필요"
  },
  {
   "ticker": "002990",
   "stockName": "금호건설",
   "analysisCreatedAt": "2026-08-13 09:30",
   "date": "2026-08-13",
-  "permalink": "/research/deep-analysis/002990/2026-08-13-0930/"
+  "permalink": "/research/deep-analysis/002990/2026-08-13-0930/",
+  "summary": "정책 기대감에 편승한 급등, 확정 계약과 재무 부담은 여전"
  },
  {
   "ticker": "257720",
   "stockName": "실리콘투",
   "analysisCreatedAt": "2026-08-12 12:45",
   "date": "2026-08-12",
-  "permalink": "/research/deep-analysis/257720/2026-08-12-1245/"
+  "permalink": "/research/deep-analysis/257720/2026-08-12-1245/",
+  "summary": "실적 서프라이즈는 뚜렷하나 외국인 수급과 과열 부담 남음"
  }
 ];

@@ -1303,6 +1303,7 @@ const ANALYSIS_ARCHIVE = {
   },
   {
    "updated": "2026-08-12 12:45",
+   "summary": "실적 서프라이즈는 뚜렷하나 외국인 수급과 과열 부담 남음",
    "base": 45850,
    "baseAt": "2026-08-12 12:40",
    "events": [
@@ -1375,6 +1376,7 @@ const ANALYSIS_ARCHIVE = {
  "002990": [
   {
    "updated": "2026-08-13 09:30",
+   "summary": "정책 기대감에 편승한 급등, 확정 계약과 재무 부담은 여전",
    "base": 16240,
    "baseAt": "2026-08-13 09:21",
    "events": [],
@@ -1446,6 +1448,7 @@ const ANALYSIS_ARCHIVE = {
   },
   {
    "updated": "2026-08-13 21:37",
+   "summary": "실적 개선은 확인됐지만 급등 뒤 되돌림 부담이 남음",
    "base": 14370,
    "baseAt": "2026-08-13 종가",
    "events": [
@@ -1523,6 +1526,7 @@ const ANALYSIS_ARCHIVE = {
  "001820": [
   {
    "updated": "2026-08-13 10:10",
+   "summary": "업계 후광 급등일 뿐 개별 재료와 밸류 부담은 확인 필요",
    "base": 107000,
    "baseAt": "2026-08-13 10:07",
    "events": [],
@@ -1591,6 +1595,7 @@ const ANALYSIS_ARCHIVE = {
  "316140": [
   {
    "updated": "2026-08-13 22:20",
+   "summary": "실적 회복과 낮은 밸류는 매력적이나 지배구조 리스크는 여전",
    "base": 33300,
    "baseAt": "2026-08-13 종가",
    "events": [
