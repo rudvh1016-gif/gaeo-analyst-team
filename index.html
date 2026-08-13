@@ -944,6 +944,7 @@
   .sc-week-label{flex:1;text-align:center;font-size:12px;font-weight:700;color:var(--dim)}
   .sc-week-label b{color:var(--navy)}
   .sc-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+  .sc-stat-row.sc-score-summary{grid-template-columns:repeat(7,1fr)}
   .sc-stat{background:var(--bg);border-radius:12px;padding:14px 12px;text-align:center}
   .sc-stat b{display:block;font-size:21px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
   .sc-stat span{font-size:10.5px;color:var(--dim)}
@@ -982,6 +983,7 @@
   .sc-guide-btn:hover{background:var(--sky-soft);filter:brightness(0.97)}
   @media(max-width:900px){
     .sc-stat-row{grid-template-columns:repeat(2,1fr)}
+    .sc-stat-row.sc-score-summary{grid-template-columns:repeat(2,1fr)}
     .sc-call-grid{grid-template-columns:1fr}
     .sc-bar-row{grid-template-columns:88px 1fr 56px}
     .sc-week-nav{flex-wrap:wrap;justify-content:center}
@@ -4604,7 +4606,8 @@ function scAllGradedRows(){
       if(!e.base||!e.call) return;
       const ev=evalRet(code,e); if(!ev) return;
       rows.push({code, name:(STOCKS[code]&&STOCKS[code].name)||code, date:String(e.date).slice(0,10),
-        call:e.call, ret:ev.pct, gradeDate:ev.date, taro:e.taro, diana:e.diana, nova:e.nova, flow:e.flow});
+        call:e.call, ret:ev.pct, gradeDate:ev.date, modelVersion:e.modelVersion,
+        taro:e.taro, diana:e.diana, nova:e.nova, flow:e.flow});
     });
   }
   return rows;
@@ -4615,6 +4618,29 @@ function scWeekRange(offset){
   const start=new Date(end.getTime()-6*24*3600*1000);
   const fmt=d=>d.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
   return {start:fmt(start), end:fmt(end)};
+}
+function scorecardMetrics(scored){
+  const hits=scored.filter(r=>r.verdict==='hit');
+  const misses=scored.filter(r=>r.verdict==='miss');
+  const mids=scored.filter(r=>r.verdict==='mid');
+  const uniqueCodes=new Set(scored.map(r=>r.code));
+  const uniqueMissCodes=new Set(misses.map(r=>r.code));
+  const decided=hits.length+misses.length;
+  return {total:scored.length, hitN:hits.length, missN:misses.length, midN:mids.length,
+    uniqueN:uniqueCodes.size, uniqueMissN:uniqueMissCodes.size,
+    acc:decided?Math.round(hits.length/decided*100):null};
+}
+function scorecardVersionSummary(rows){
+  const groups={};
+  rows.forEach(row=>{
+    const version=row.modelVersion || (row.date<'2026-08-04'?'baseline-v1':'baseline-risk-v2');
+    (groups[version]||(groups[version]=[])).push(row);
+  });
+  return Object.entries(groups).map(([version,items])=>{
+    const scored=items.map(row=>Object.assign({verdict:scoreCall(row.call,row.ret)},row));
+    const dates=items.map(row=>row.date).sort();
+    return {version, ...scorecardMetrics(scored), start:dates[0], end:dates[dates.length-1]};
+  }).sort((a,b)=>a.start.localeCompare(b.start));
 }
 function computeWeeklyScorecard(offset){
   const allRows=scAllGradedRows();
@@ -4633,26 +4659,30 @@ function computeWeeklyScorecard(offset){
   const worst=dedupTop(misses);
   // 더 과거로 넘길 수 있는지 — 이번 주간 시작일보다 이전 채점 기록이 남아있는지로 판정
   const hasOlder=allRows.some(r=>r.gradeDate<start);
-  return {total:scored.length, hitN:hits.length, missN:misses.length,
-    acc:(hits.length+misses.length)?Math.round(hits.length/(hits.length+misses.length)*100):null,
-    best, worst, rangeStart:start, rangeEnd:end, hasOlder};
+  const judgementDates=weekRows.map(row=>row.date).sort();
+  return {...scorecardMetrics(scored), best, worst, rangeStart:start, rangeEnd:end,
+    judgmentStart:judgementDates[0]||null, judgmentEnd:judgementDates[judgementDates.length-1]||null,
+    hasOlder};
 }
 function renderScorecard(){
   const el=document.getElementById('scorecardView'); if(!el) return;
   const wk=computeWeeklyScorecard(SC_WEEK_OFFSET);
-  const weekTitle=SC_WEEK_OFFSET===0?'이번 주':`${SC_WEEK_OFFSET}주 전`;
+  const weekTitle=SC_WEEK_OFFSET===0?'이번 주 (최근 7개 달력일)':`${SC_WEEK_OFFSET}주 전 (최근 7개 달력일)`;
 
   const weekNav=`<div class="sc-week-nav">
     <button class="sc-week-btn" data-sc-dir="1" ${wk.hasOlder?'':'disabled'} type="button" title="더 이전 주 보기">‹ 이전 주</button>
-    <span class="sc-week-label"><b>${weekTitle}</b> · ${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)} 채점 기준</span>
+    <span class="sc-week-label"><b>${weekTitle}</b> · 채점일 ${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)} · 판단일 ${esc(wk.judgmentStart||'—')} ~ ${esc(wk.judgmentEnd||'—')}</span>
     <button class="sc-week-btn" data-sc-dir="-1" ${SC_WEEK_OFFSET>0?'':'disabled'} type="button" title="더 최근 주 보기">다음 주 ›</button>
   </div>`;
-  const statRow=`<div class="sc-stat-row">
+  const statRow=`<div class="sc-stat-row sc-score-summary">
     <div class="sc-stat"><b>${wk.total}</b><span>채점 완료</span></div>
     <div class="sc-stat"><b style="color:var(--green)">${wk.hitN}</b><span>적중</span></div>
     <div class="sc-stat"><b style="color:var(--red)">${wk.missN}</b><span>빗나감</span></div>
+    <div class="sc-stat"><b>${wk.midN}</b><span>중립·판정 유보</span></div>
+    <div class="sc-stat"><b>${wk.uniqueN}</b><span>고유 종목</span></div>
+    <div class="sc-stat"><b>${wk.uniqueMissN}</b><span>빗나간 고유 종목</span></div>
     <div class="sc-stat"><b>${wk.acc===null?'—':wk.acc+'%'}</b><span>주간 적중률</span></div>
-  </div>`;
+  </div><p class="sc-foot-note">적중률 = 적중 ÷ (적중 + 빗나감) · 중립·판정 유보는 적중률 분모에서 제외됩니다. 같은 종목의 여러 판단과 겹치는 5거래일 채점 구간은 채점 완료 횟수에 각각 포함됩니다.</p>`;
   const bestHtml=wk.best.length
     ? `<div class="sc-calls-head">🎯 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
   const worstHtml=wk.worst.length
@@ -4663,6 +4693,17 @@ function renderScorecard(){
   const weeklyExamples=wk.total>0
     ? `<div class="sc-block"><h3>이번 주 판단 사례</h3>${bestHtml}${worstHtml}</div>`
     : '';
+  const versionRows=scorecardVersionSummary(scAllGradedRows());
+  const versionLabels={
+    'baseline-v1':'기준 모델 v1 · 8/4 이전',
+    'baseline-risk-v2':'리스크 반영 v2 · 8/4 이후',
+    'baseline-risk-v2.1-rebound-guard':'반등 가드 v2.1',
+  };
+  const versionHtml=versionRows.length
+    ? `<div class="sc-block"><h3>모델 버전별 성적</h3>
+      <p class="sc-sub">가중치·리스크 규칙 변경 전후를 섞지 않고 분리해 보여드립니다. 과거 기록에 모델명이 없는 경우에는 2026-08-04 적용일을 기준으로 구분했습니다.</p>
+      <div class="sc-stat-row">${versionRows.map(row=>`<div class="sc-stat"><b>${row.acc===null?'—':row.acc+'%'}</b><span>${esc(versionLabels[row.version]||row.version)}<br>${esc(row.start)} ~ ${esc(row.end)} · ${row.total.toLocaleString()}회</span></div>`).join('')}</div>
+    </div>` : '';
 
   // ── 분석가 열전: team_weights.js의 실측 적중률만 사용, 매 사이클 자동 갱신 ──
   let deepDive='';
@@ -4742,6 +4783,7 @@ function renderScorecard(){
   </div>
   ${leaderboardHTML()}
   ${weeklyExamples}
+  ${versionHtml}
   ${deepDive}
   ${modelDive}`;
 }
