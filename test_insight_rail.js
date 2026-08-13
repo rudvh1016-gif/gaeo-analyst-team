@@ -85,6 +85,9 @@ assert(source.includes('종합점수'));
 assert(source.includes('>종합<'));
 assert(source.includes('위'));
 assert(source.includes("core.signalMetric(e)"));
+for (const phrase of ['gir-rotation-section','추천기간 기준','다음 순환 후보','오늘 주도 업종','대표 확인종목','summary.shortTerm']) {
+  assert(source.includes(phrase), `${phrase} rotation hierarchy is required`);
+}
 assert(source.includes("'ArrowDown','ArrowUp','Home','End'"));
 assert(css.includes('@media (min-width:1280px)'));
 assert(css.includes('@media (prefers-reduced-motion:reduce)'));
