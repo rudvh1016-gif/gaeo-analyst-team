@@ -153,7 +153,7 @@ function isoKst(value) {
 }
 
 function metaDescription(record) {
-  const lead = `${record.stockName}(${record.ticker})의 기술·재무·확률통계·수급·리스크를 종합한 GAEO 정밀분석 기록입니다. ${koreanDate(record.analysisCreatedAt)} 당시 분석 내용을 확인하세요.`;
+  const lead = `${record.stockName}(${record.ticker})의 기술·재무·확률통계·수급과 종합 판단을 담은 GAEO 정밀분석 기록입니다. ${koreanDate(record.analysisCreatedAt, true)} 당시 분석 내용을 확인하세요.`;
   return lead.length <= 155 ? lead : `${lead.slice(0, 154).trim()}…`;
 }
 
@@ -169,11 +169,11 @@ function renderSnapshotPage(record, options = {}) {
   const canonical = absoluteUrl(baseUrl, record.permalink);
   const archiveUrl = absoluteUrl(baseUrl, `${BASE_PATH}/`);
   const stockUrl = `${baseUrl}?m=single&amp;code=${escapeHtml(record.ticker)}`;
-  const title = `${record.stockName}(${record.ticker}) 정밀분석 · ${koreanDate(record.analysisCreatedAt)} | GAEO`;
+  const title = `${record.stockName}(${record.ticker}) 정밀분석 · ${koreanDate(record.analysisCreatedAt, true)} | GAEO`;
   const description = metaDescription(record);
   const article = {
     '@context': 'https://schema.org', '@type': 'Article',
-    headline: `${record.stockName}(${record.ticker}) 정밀분석 · ${koreanDate(record.analysisCreatedAt)}`,
+    headline: `${record.stockName}(${record.ticker}) 정밀분석 · ${koreanDate(record.analysisCreatedAt, true)}`,
     description, datePublished: isoKst(record.analysisCreatedAt),
     dateModified: isoKst(record.dateModified || record.analysisCreatedAt),
     inLanguage: 'ko-KR', mainEntityOfPage: canonical,

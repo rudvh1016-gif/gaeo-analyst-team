@@ -32,7 +32,22 @@ const tickers = [{ code: '002990', name: '금호건설', sector: '건설·건자
 const record = normalizePublishedRecords({ '002990': [snapshot('2026-08-13 21:37')] }, tickers)[0];
 const html = renderSnapshotPage(record, { baseUrl: 'https://gaeoteam.com/' });
 
-assert.match(html, /<title>금호건설\(002990\) 정밀분석 · 2026년 8월 13일 \| GAEO<\/title>/);
+const sameDayMorning = normalizePublishedRecords({
+  '002990': [snapshot('2026-08-13 09:30')],
+}, tickers)[0];
+const sameDayEvening = normalizePublishedRecords({
+  '002990': [snapshot('2026-08-13 21:37')],
+}, tickers)[0];
+const morningHtml = renderSnapshotPage(sameDayMorning, { baseUrl: 'https://gaeoteam.com/' });
+const eveningHtml = renderSnapshotPage(sameDayEvening, { baseUrl: 'https://gaeoteam.com/' });
+const headValue = (source, pattern) => source.match(pattern)?.[1];
+assert.notEqual(headValue(morningHtml, /<title>([^<]+)<\/title>/), headValue(eveningHtml, /<title>([^<]+)<\/title>/));
+assert.notEqual(
+  headValue(morningHtml, /<meta name="description" content="([^"]+)">/),
+  headValue(eveningHtml, /<meta name="description" content="([^"]+)">/),
+);
+
+assert.match(html, /<title>금호건설\(002990\) 정밀분석 · 2026년 8월 13일 21:37 \| GAEO<\/title>/);
 assert.match(html, /<link rel="canonical" href="https:\/\/gaeoteam\.com\/research\/deep-analysis\/002990\/2026-08-13-2137\/">/);
 assert.doesNotMatch(html, /noindex/i, '정상 Snapshot은 indexable이어야 한다');
 assert.match(html, /2026년 8월 13일 21:37 당시 분석/);

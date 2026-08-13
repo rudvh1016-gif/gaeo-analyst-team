@@ -10,6 +10,13 @@ function entries(file, varname) {
   } catch (e) { return []; }
 }
 
+function readDeepAnalysisManifest() {
+  try {
+    const value = JSON.parse(fs.readFileSync('deep_analysis_manifest.json', 'utf8'));
+    return value && typeof value === 'object' ? value : { records: [], archivePages: [] };
+  } catch (e) { return { records: [], archivePages: [] }; }
+}
+
 const BASE = 'https://gaeoteam.com/';
 const today = new Date().toISOString().slice(0, 10);
 const ymd = d => (/^\d{4}-\d{2}-\d{2}$/.test(String(d || '')) ? d : today);
@@ -26,6 +33,9 @@ add('study', 'study', entries('stock_study.js', 'STOCK_STUDY'), '0.6');
 add('lesson', 'lesson', entries('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
 add('estate', 'estate', entries('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
 add('calc', 'calc', entries('calculators.js', 'CALCULATORS'), '0.7');
+const deepManifest = readDeepAnalysisManifest();
+deepManifest.archivePages.forEach(x => urls.push({ loc: x.loc, prio: '0.7', mod: ymd(x.lastmod) }));
+deepManifest.records.forEach(x => urls.push({ loc: x.loc, prio: '0.8', mod: ymd(x.lastmod) }));
 // 500종목 개별 정밀/자동분석 스냅샷(snap/stock/<code>.html)은 룰엔진이 숫자만 바꿔 찍어내는
 // 템플릿 페이지라 구글 애드센스 품질심사에서 "가치가 별로 없는 콘텐츠"로 잡힐 위험이 커서
 // sitemap·색인 대상에서 제외한다(generate_snapshots.js에서 noindex 메타도 함께 넣음).

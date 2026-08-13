@@ -14,8 +14,7 @@
 import re, json, os, datetime, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-HIST_CAP = 80   # 종목별 히스토리 상한(정적 사이트라 파일이 무한정 커지지 않게) — 최근 80건만 보존
-ARCHIVE_CAP = 30   # 종목별 "정밀분석 기록"(전체 본문) 상한 — 재분석은 드물게 일어나므로 80보다 낮게 잡아도 충분
+HIST_CAP = 80   # 가벼운 채점 히스토리만 최근 80건 유지. 정밀분석 원문은 영구 보존한다.
 
 def load_js_object(path, varname):
     """`const VAR = {...};` 형태의 JS 파일에서 객체만 파싱해 dict로 반환."""
@@ -27,6 +26,29 @@ def load_js_object(path, varname):
     if not m:
         return None
     return json.loads(m.group(1))
+
+def load_ticker_metadata():
+    """tickers.js에서 역사 스냅샷에 고정할 종목명·업종 메타데이터를 읽는다."""
+    path = os.path.join(HERE, "tickers.js")
+    if not os.path.exists(path):
+        return {}
+    txt = open(path, encoding="utf-8").read()
+    txt = re.sub(r"^\s*//.*$", "", txt, flags=re.M)
+    m = re.search(r"const\s+TICKERS\s*=\s*(\[.*\])\s*;", txt, re.S)
+    if not m:
+        return {}
+    try:
+        rows = json.loads(m.group(1))
+    except (TypeError, json.JSONDecodeError):
+        return {}
+    return {
+        str(row.get("code")): {"name": row.get("name", ""), "sector": row.get("sector", "")}
+        for row in rows if isinstance(row, dict) and row.get("code")
+    }
+
+def snapshot_identity(code, when):
+    safe_time = re.sub(r"[^0-9]", "", str(when))[:12]
+    return f"{code}-{safe_time}"
 
 def _entry_from(a, when):
     """analysis.js/auto_analysis.js 공통 — 한 종목 dict(a)와 판단 시각(when)으로 히스토리 항목 생성."""
@@ -104,6 +126,7 @@ def main():
     # 언제든 그 시점 원문을 다시 읽을 수 있게 한다. 500종목 자동분석은 대상이 아니다(용량 폭발 방지) —
     # analysis.js에 실제로 있는(=정밀분석한) 종목만 대상.
     full_archive = load_js_object(os.path.join(HERE, "analysis_archive.js"), "ANALYSIS_ARCHIVE") or {}
+    ticker_metadata = load_ticker_metadata()
 
     global_date = an.get("date", datetime.date.today().isoformat())
     added, updated = 0, 0
@@ -127,7 +150,15 @@ def main():
         # 전체 본문 스냅샷도 같은 시각 기준으로 누적(덮어쓰기/추가 규칙은 history.js와 동일)
         flst = full_archive.setdefault(code, [])
         fidx = next((i for i, e in enumerate(flst) if str(e.get("updated", "")) == when_key), None)
+        meta = ticker_metadata.get(str(code), {})
         snapshot = {k: a[k] for k in ("updated", "base", "baseAt", "events", "taro", "diana", "nova", "flow", "chief") if k in a}
+        snapshot.update({
+            "snapshotId": snapshot_identity(code, when),
+            "ticker": str(code),
+            "stockName": a.get("stockName") or meta.get("name") or str(code),
+            "sector": a.get("sector") or meta.get("sector") or "",
+            "analysisCreatedAt": when,
+        })
         if fidx is not None:
             flst[fidx] = snapshot
         else:
@@ -150,11 +181,17 @@ def main():
     with open(os.path.join(HERE, "history.js"), "w", encoding="utf-8") as f:
         f.write(out)
 
-    # 종목별 시간순 정렬 + 상한(ARCHIVE_CAP) 적용
+    # 정밀분석 원문은 영구 기록이다. 기존 기록도 정체성 필드를 보강하되 삭제·절단하지 않는다.
     for code in full_archive:
+        meta = ticker_metadata.get(str(code), {})
+        for snapshot in full_archive[code]:
+            created = snapshot.get("analysisCreatedAt") or snapshot.get("updated")
+            snapshot.setdefault("snapshotId", snapshot_identity(code, created))
+            snapshot.setdefault("ticker", str(code))
+            snapshot.setdefault("stockName", meta.get("name") or str(code))
+            snapshot.setdefault("sector", meta.get("sector") or "")
+            snapshot.setdefault("analysisCreatedAt", created)
         full_archive[code].sort(key=lambda e: str(e.get("updated", "")))
-        if len(full_archive[code]) > ARCHIVE_CAP:
-            full_archive[code] = full_archive[code][-ARCHIVE_CAP:]
     aout = ("// 자동 생성: archive_analysis.py · 정밀분석 전체 본문 기록(종목별 시간순 누적)\n"
             "// history.js와 달리 stance/score만이 아니라 findings·reason·report 원문을 그대로 보존한다.\n"
             "// 500종목 자동분석은 대상이 아니고, analysis.js에 실제로 정밀분석한 종목만 쌓인다.\n"

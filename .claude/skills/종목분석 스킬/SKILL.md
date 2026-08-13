@@ -183,6 +183,10 @@ console.log(bad? '❌ '+bad+'건 수정 필요':'✅ base·findings·updated 전
    `(python3 -m http.server <새 포트> &>/dev/null &)` 서브셸 백그라운드 + **매번 새 포트**(재사용하면 죽은 서버에 붙는 사고 잦음).
 불일치 발견 시 고치고 재검증한 뒤에만 완료를 선언한다.
 
+## 정밀분석 공개 발행
+
+정밀분석 저장 이후 공개 발행은 `docs/DEEP_ANALYSIS_PUBLISHING.md`를 따른다. `archive_analysis.py` 실행만으로 끝내지 말고 `generate_deep_analysis.js`와 `generate_sitemap.js`까지 실행해 영구 Snapshot·Archive·홈 최신 5건·sitemap을 함께 갱신한다.
+
 ## 완료 보고
 
 "analysis.js 갱신 완료 (N종목)" + 종목별 한 줄 요약(call/total/confidence/base) + 수집 실패 항목(있으면).
