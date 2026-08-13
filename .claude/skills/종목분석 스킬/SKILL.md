@@ -114,7 +114,11 @@ const LIVE_ANALYSIS = {
   "diana": {"score":정수,"stance":"..","findings":[".."x4]},
   "nova":  {"score":정수,"stance":"..","findings":[".."x4]},
   "flow":  {"score":정수,"stance":"..","findings":[".."x4]},
-  "chief": {"call":"..","total":정수,"confidence":정수,"reason":"..","target":"..","report":".."}
+  "chief": {"call":"..","total":정수,"confidence":정수,"reason":"..","target":"..","report":".."},
+  "summary": ".."                         // ⭐ 2026-08-13 추가 — 홈 "최근 정밀분석" 한 줄 Research Headline. 18~34자, 마침표 없이,
+                                           // Primary factor 1개(+필요시 Counter factor 1개)만 압축. BUY/HOLD/SELL 단어·투자권유 표현·score의
+                                           // 기계적 번역("SELL이니까 매우 약함") 금지 — 실제 findings/report 근거로 판단. 작성 규칙 전문은
+                                           // docs/DEEP_ANALYSIS_PUBLISHING.md의 "Summary Generation" 참고. 런타임에 새로 만들지 않고 이 시점에 저장만 한다.
  }
  // ... TICKERS의 모든 종목
 };
@@ -126,6 +130,7 @@ const LIVE_ANALYSIS = {
 - 반드시 **유효한 JavaScript**(문자열 안 큰따옴표는 escape 또는 작은따옴표 회피).
 - 파일 상단 주석에 갱신 시각·데이터 기준을 남긴다.
 - **위 필드명·구조를 바꾸거나 빼지 않는다** — index.html이 전부 참조한다(base/baseAt=신선도, stance=리더보드, events=캘린더, target=목표가 거리).
+- **`summary`가 없으면 정밀분석이 아직 완료된 게 아니다.** `archive_analysis.py`가 이 필드를 그대로 `analysis_archive.js`에 실어 나르고, `generate_deep_analysis.js`가 홈 "최근 정밀분석"에 그 문장을 띄운다 — 비워두면 그 종목은 이름·날짜만 뜨고 요약이 생략된다(가짜 요약을 채우는 것보다는 낫지만, 정상 완료라면 항상 채워야 한다).
 
 > 🧠 정밀분석 vs 🤖 자동분석: analysis.js(LIVE_ANALYSIS)에 있는 종목은 "정밀분석"으로 표시되고,
 > 없는 종목은 심부름꾼이 `analyze_auto.py`로 만든 auto_analysis.js(LIVE_AUTO)의 "자동분석"이 대신 뜬다.
@@ -171,12 +176,16 @@ for(const [code,b] of Object.entries(AN)){
   for(const a of ['taro','diana','nova','flow'])
     if(!b[a]||!Array.isArray(b[a].findings)||b[a].findings.length!==4){ console.log('findings 이상',code,a); bad++; }
   if(!/\d{2}:\d{2}/.test(b.updated||'')){ console.log('updated에 HH:MM 없음',code); bad++; }
+  const s=(b.summary||'').trim();
+  if(!s){ console.log('summary 없음',code); bad++; }
+  else if(s.length<10||s.length>40){ console.log('summary 길이 확인 필요('+s.length+'자)',code,s); bad++; }
+  else if(/BUY|HOLD|SELL/.test(s)){ console.log('summary에 판단 문구 노출',code,s); bad++; }
 }
-console.log(bad? '❌ '+bad+'건 수정 필요':'✅ base·findings·updated 전부 정상 ('+(Object.keys(AN).length-2)+'종목)');
+console.log(bad? '❌ '+bad+'건 수정 필요':'✅ base·findings·updated·summary 전부 정상 ('+(Object.keys(AN).length-2)+'종목)');
 "
 ```
 
-1. 위 스니펫 ✅ (base ≡ data.js price / findings 4개 / updated HH:MM) — **하나라도 ❌면 고치고 재실행.**
+1. 위 스니펫 ✅ (base ≡ data.js price / findings 4개 / updated HH:MM / summary 존재) — **하나라도 ❌면 고치고 재실행.**
 2. `python3 archive_analysis.py` 실행 후 history.js가 `node -e "new Function(...+';return LIVE_HISTORY;')()"`로 파싱 성공?
 3. (화면 확인까지 요청받았으면) Playwright: chromium 실행파일 `/opt/pw-browsers/chromium`,
    `NODE_PATH=/opt/node22/lib/node_modules`로 `require('playwright')`. 로컬 서버는
