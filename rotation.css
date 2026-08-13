@@ -10,13 +10,18 @@
 .rot-asof{text-align:right;color:#6e737d;font-size:10px;line-height:1.65;white-space:nowrap}
 .rot-asof strong{display:block;color:#1d1d1f;font-size:11px}
 .rot-summary{display:grid;grid-template-columns:1.3fr repeat(5,minmax(0,1fr));gap:8px;margin-bottom:18px}
-.rot-card{min-height:108px;padding:16px;border:1px solid #e3e5e8;border-radius:14px;background:#fff}
-.rot-card span{display:block;color:#6e737d;font-size:10px;font-weight:700}
-.rot-card strong{display:block;margin-top:13px;color:#1d1d1f;font-size:21px;line-height:1.15;letter-spacing:-.035em}
-.rot-card small{display:block;margin-top:7px;color:#868b94;font-size:10px;line-height:1.45}
+.rot-card{min-height:228px;padding:22px 18px;border:1px solid #e3e5e8;border-radius:14px;background:#fff;box-sizing:border-box}
+.rot-card-context{display:block;color:#6e737d;font-size:11px;font-weight:600;line-height:1.4;letter-spacing:-.015em}
+.rot-card-primary{display:block;margin-top:12px;color:#1d1d1f;font-size:20px;font-weight:650;line-height:1.22;letter-spacing:-.035em;overflow-wrap:anywhere}
+.rot-card-secondary{margin:8px 0 0;color:#606670;font-size:12px;font-weight:400;line-height:1.45}.rot-card-secondary b{font-weight:650}
+.rot-card-measure{display:block;margin-top:4px;color:#8a8f97;font-size:10px;font-weight:400;line-height:1.4}
+.rot-meta{display:block;margin:16px 0 0;padding:0}.rot-meta-block{margin:0}.rot-meta-block+.rot-meta-block{margin-top:12px}
+.rot-meta dt{color:#59616b;font-size:11px;font-weight:600;line-height:1.35}.rot-meta dd{margin:2px 0 0;color:#858a93;font-size:11px;font-weight:400;line-height:1.45;overflow-wrap:anywhere}.rot-meta dd small{display:block;margin-top:3px;color:#979ba3;font-size:10px;font-weight:400;line-height:1.4}
+.rot-meta-inline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.rot-meta-inline .rot-meta-block+.rot-meta-block{margin-top:0}
 .rot-card-lead{background:#f7f9fc}
-.rot-card-lead strong{font-size:19px;color:#173d77}
-.rot-card-today{border-color:#d8e3f3}
+.rot-card-lead .rot-card-primary{color:#315b8a;font-size:18px;font-weight:600}
+.rot-card-today{border-color:#dde3ea}
+.rot-card-today-value{font-size:18px;font-weight:600;color:#1d1d1f}
 .rot-confidence{display:inline-flex!important;width:max-content;margin-top:10px;padding:4px 8px;border-radius:99px;background:#eaf1fc;color:#285ea8!important}
 .rot-workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.85fr);gap:14px;align-items:stretch}
 .rot-primary{display:flex;min-width:0}
@@ -108,6 +113,7 @@ html.gdark .rot-card,html.gdark .rot-panel,html.gdark .rot-method{background:#1c
 html.gdark .rot-card-lead,html.gdark .rot-map,html.gdark .rot-rank,html.gdark .rot-detail-score div,html.gdark .rot-evidence-item,html.gdark .rot-stock,html.gdark .rot-history-value,html.gdark .rot-score-note,html.gdark .rot-factor,html.gdark .rot-history-grid>div,html.gdark .rot-change-reasons,html.gdark .rot-change-pending,html.gdark .rot-path-row,html.gdark .rot-similar-summary>div,html.gdark .rot-view-summary>div,html.gdark .rot-view-factors>div{background:#242427}
 html.gdark .rot-hero h2,html.gdark .rot-asof strong,html.gdark .rot-card strong,html.gdark .rot-panel-head h3,html.gdark .rot-rank,html.gdark .rot-detail h3{color:#f5f5f7}
 html.gdark .rot-hero p,html.gdark .rot-asof,html.gdark .rot-card span,html.gdark .rot-card small,html.gdark .rot-panel-head p,html.gdark .rot-rank-name small,html.gdark .rot-meter-head,html.gdark .rot-evidence-item span,html.gdark .rot-method-body,html.gdark .rot-map-legend{color:#aeb3bb}
+html.gdark .rot-card-lead .rot-card-primary{color:#9bb9dc}html.gdark .rot-card-secondary,html.gdark .rot-meta dt{color:#c8cbd1}html.gdark .rot-card-measure,html.gdark .rot-meta dd{color:#9da1aa}
 html.gdark .rot-warning{border-color:#b78a35;background:#2b271f;color:#d9ccb0}
 html.gdark .rot-detail-title>strong,html.gdark .rot-score-total strong,html.gdark .rot-factor-value b,html.gdark .rot-how p strong,html.gdark .rot-current-view>p strong{color:#f5f5f7}html.gdark .rot-score-breakdown,html.gdark .rot-evidence-section+ .rot-evidence-section{border-color:#343438}html.gdark .rot-last-line{background:#17263c;color:#c7d7ef}
 html.gdark .rot-direction-conclusion{background:#17263c;color:#b8c6da}html.gdark .rot-direction-conclusion strong{color:#d9e5f7}
@@ -122,14 +128,14 @@ html.gdark .rot-node circle{fill:#242427}.gdark .rot-node text{fill:#d8dbe0}
 html.gdark .rot-node.lead circle{fill:#17263c}html.gdark .rot-node.weak circle{fill:#351e21}
 html.gdark .rot-horizon{background:#242427;border-color:#424248;color:#c7c9ce}.gdark .rot-horizon.on{background:#f5f5f7;color:#1d1d1f}
 @media(max-width:1200px){
-  .rot-summary{grid-template-columns:1.3fr repeat(2,minmax(0,1fr))}.rot-card-lead{grid-row:span 2}
+  .rot-summary{grid-template-columns:1.3fr repeat(2,minmax(0,1fr))}.rot-card-lead{grid-row:auto}
 }
 @media(max-width:920px){
   .rot-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-card-lead{grid-column:1/-1;grid-row:auto}.rot-workspace{grid-template-columns:1fr}.rot-primary{display:block}.rot-map{min-height:520px}.rot-map svg{min-height:520px}.rot-candidates{height:auto}.rot-side{grid-template-columns:1fr 1fr}.rot-evidence{grid-column:1/-1}.rot-analysis-grid{grid-template-columns:1fr}.rot-analysis-grid>*{grid-column:1!important}
 }
 @media(max-width:600px){
   .rot-shell{padding:0 0 28px}.rot-hero{grid-template-columns:1fr;gap:10px;margin-bottom:14px}.rot-hero h2{font-size:26px}.rot-hero p{font-size:11px}.rot-asof{text-align:left;white-space:normal}
-  .rot-summary{gap:8px}.rot-card{min-height:84px;padding:12px;border-radius:15px}.rot-card strong{margin-top:8px;font-size:15px}.rot-card-lead{grid-column:1/-1}.rot-card-lead strong{font-size:16px}
+  .rot-summary{gap:8px}.rot-card{min-height:0;padding:20px 16px;border-radius:15px}.rot-card-primary{margin-top:9px;font-size:18px}.rot-card-lead{grid-column:1/-1}.rot-card-lead .rot-card-primary{font-size:17px}.rot-card-today-value{font-size:17px}.rot-meta{margin-top:13px}.rot-meta-block+.rot-meta-block{margin-top:10px}
   .rot-workspace{display:flex;flex-direction:column}.rot-primary{display:contents}.rot-map-panel{order:1;width:100%;padding:13px;box-sizing:border-box}.rot-side{display:contents}.rot-rank-panel{order:2;width:100%;box-sizing:border-box}.rot-detail{order:3;width:100%;box-sizing:border-box}.rot-candidates{width:100%;height:auto;box-sizing:border-box}
   .rot-panel-head{display:block}.rot-period-label{text-align:left}.rot-horizons{margin-top:6px}.rot-trend-horizons{justify-content:flex-start}.rot-map{min-height:360px}.rot-map svg{min-height:360px}.rot-map-mobile .rot-node text{font-size:12px}.rot-map-mobile .rot-node .rot-node-score{font-size:10px}.rot-map-mobile .rot-center-title{font-size:15px}.rot-map-mobile .rot-center-copy{font-size:10px}.rot-today dl{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-method-body{grid-template-columns:1fr}.rot-evidence-grid{grid-template-columns:1fr 1fr}.rot-section-head{display:block}.rot-section-head p{margin-top:7px;text-align:left}.rot-stock-list{grid-template-columns:1fr}.rot-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-metric-explanation dl{grid-template-columns:1fr}.rot-analysis{padding:14px}.rot-stock{font-size:9px}.rot-factor-grid{grid-template-columns:1fr}.rot-history-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-similar-summary,.rot-view-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.rot-view-factors{grid-template-columns:1fr}.rot-path-row{display:grid}.rot-case{grid-template-columns:1fr 1fr}
 }
