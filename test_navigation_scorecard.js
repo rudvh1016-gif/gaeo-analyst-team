@@ -54,6 +54,20 @@ assert.deepEqual(rows.map(row => row.id), ['nova', 'flow', 'taro', 'diana']);
 assert.deepEqual(rows.map(row => row.n), [8041, 1605, 9035, 2418]);
 assert.deepEqual(rows.map(row => row.acc), [61.6, 56.4, 52.5, 45.8]);
 
+const scorecardMetrics = runFunction('scorecardMetrics', [[
+  { code: 'A', verdict: 'hit' },
+  { code: 'A', verdict: 'miss' },
+  { code: 'B', verdict: 'mid' },
+  { code: 'C', verdict: 'miss' },
+]]);
+assert.deepEqual(scorecardMetrics, {
+  total: 4, hitN: 1, missN: 2, midN: 1, uniqueN: 3, uniqueMissN: 2, acc: 33,
+});
+assert.match(html, /최근 7개 달력일/);
+assert.match(html, /적중률 = 적중/);
+assert.match(html, /고유 종목/);
+assert.match(html, /모델 버전별/);
+
 // The refresh control is placed between search and profile and carries the
 // approved always-visible notice.
 const searchAt = html.indexOf('id="navSearchToggle"');
