@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 46,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-13",
+  "title": "2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불",
+  "featured": false
+ },
+ {
   "id": 45,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-04",
   "title": "2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날",
   "featured": false
- },
- {
-  "id": 37,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-04",
-  "title": "한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 45,
+ "news": 46,
  "study": 35,
  "lesson": 72,
  "estate": 19,

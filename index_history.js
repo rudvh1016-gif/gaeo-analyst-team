@@ -2766,11 +2766,11 @@ const INDEX_HISTORY = {
     },
     {
      "date": "2026-08-13",
-     "close": 6813.34,
+     "close": 6782.82,
      "open": 6773.92,
      "high": 6895.63,
      "low": 6748.13,
-     "volume": 416003
+     "volume": 367398
     }
    ],
    "start": "2026-08-07",
@@ -5541,11 +5541,11 @@ const INDEX_HISTORY = {
     },
     {
      "date": "2026-08-13",
-     "close": 861.37,
+     "close": 859.49,
      "open": 863.15,
      "high": 870.96,
      "low": 853.09,
-     "volume": 676477
+     "volume": 654449
     }
    ],
    "start": "2026-08-07",
