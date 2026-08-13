@@ -1,0 +1,69 @@
+const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+
+function requireState(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+(async () => {
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+  });
+  const page = await browser.newPage({ viewport: { width: 1024, height: 900 } });
+  const pageErrors = [];
+  page.on('pageerror', error => pageErrors.push(String(error)));
+  await page.goto('http://127.0.0.1:8877/index.html');
+  await page.waitForLoadState('networkidle');
+
+  const card = page.locator('.home-daily-brief');
+  await card.waitFor({ state: 'visible' });
+  let contextBox = await page.locator('.home-daily-brief .hdb-context').boundingBox();
+  let decisionBox = await page.locator('.home-daily-brief .hdb-decisions').boundingBox();
+  requireState(contextBox && decisionBox, 'desktop brief columns must render');
+  requireState(decisionBox.x > contextBox.x, 'decisions must remain to the right on desktop');
+  requireState(await page.locator('.home-daily-brief .tly').count() === 0, 'legacy signal pills must not remain');
+  requireState(await page.locator('.home-daily-brief .brief-line').count() === 3, 'three editorial context rows must render');
+  requireState(await page.locator('.home-daily-brief .hdb-preview .hdb-stock-row').count() <= 3, 'BUY preview must be capped at three');
+
+  let toggle = page.locator('#hdbBuyToggle');
+  if (await toggle.count()) {
+    const match = (await toggle.innerText()).match(/(\d+)종목/);
+    const expectedCount = Number(match && match[1]);
+    await toggle.click();
+    const panel = page.locator('#hdbBuyPanel');
+    requireState(await panel.isVisible(), 'desktop BUY list must open inline');
+    requireState(await page.locator('#hdbSheetBackdrop').isHidden(), 'desktop list must not use a backdrop');
+    requireState(await page.locator('#hdbBuyPanel .hdb-stock-row').count() === expectedCount, 'full BUY list must not be capped');
+    await page.locator('#hdbPanelClose').click();
+    requireState(await panel.isHidden(), 'desktop BUY list must close');
+  }
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  await page.waitForLoadState('networkidle');
+  await card.waitFor({ state: 'visible' });
+  contextBox = await page.locator('.home-daily-brief .hdb-context').boundingBox();
+  decisionBox = await page.locator('.home-daily-brief .hdb-decisions').boundingBox();
+  requireState(decisionBox.y > contextBox.y, 'mobile brief must stack into one column');
+  toggle = page.locator('#hdbBuyToggle');
+  if (await toggle.count()) {
+    await toggle.click();
+    const panel = page.locator('#hdbBuyPanel');
+    requireState(await panel.isVisible(), 'mobile BUY bottom sheet must open');
+    requireState(await page.locator('#hdbSheetBackdrop').isVisible(), 'mobile bottom sheet must show backdrop');
+    requireState(await page.locator('body').evaluate(el => el.classList.contains('hdb-sheet-open')), 'mobile body scroll must lock');
+    await page.keyboard.press('Escape');
+    requireState(await panel.isHidden(), 'Escape must close the mobile BUY bottom sheet');
+  }
+
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.reload();
+  await page.waitForLoadState('networkidle');
+  requireState(await card.evaluate(el => el.scrollWidth <= el.clientWidth + 1), '360px brief must not overflow horizontally');
+  requireState(pageErrors.length === 0, 'page errors: ' + pageErrors.join(' | '));
+  await browser.close();
+  console.log('home daily brief browser tests passed');
+})().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});
