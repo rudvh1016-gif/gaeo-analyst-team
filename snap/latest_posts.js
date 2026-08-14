@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 47,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-14",
+  "title": "美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유",
+  "featured": false
+ },
+ {
   "id": 46,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-05",
   "title": "2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞",
   "featured": false
- },
- {
-  "id": 38,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-04",
-  "title": "2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 46,
+ "news": 47,
  "study": 35,
  "lesson": 72,
  "estate": 19,
