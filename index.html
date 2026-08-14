@@ -2970,7 +2970,10 @@
   .home-daily-brief .hdb-stock-name{display:block;overflow:hidden;font-size:11.5px;font-weight:780;text-overflow:ellipsis;white-space:nowrap}
   .home-daily-brief .hdb-stock-call{display:block;margin-top:2px;color:var(--color-text-tertiary);font-size:9px}
   .home-daily-brief .hdb-stock-score{font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
-  .home-daily-brief .hdb-rank-note{margin:6px 0 0;color:var(--color-text-tertiary);font-size:9px;line-height:1.5}
+  /* <span>(태그 아님)을 쓰는 이유: .start-step p{font-size:...} 규칙(모바일 미디어쿼리 안,
+     .home-dashboard .start-step p)이 태그 선택자 한 겹 때문에 이 규칙보다 우선순위가 높아져서
+     글자 크기가 안 먹혔다. p 대신 span+display:block으로 그 충돌 자체를 피한다. */
+  .home-daily-brief .hdb-rank-note{display:block;margin:6px 0 0;color:var(--color-text-tertiary);font-size:7px;line-height:1.5}
   .home-daily-brief .hdb-buy-toggle{width:100%;margin-top:11px;padding:9px 0;border:0;background:none;color:var(--color-accent);font-size:10.5px;font-weight:800;text-align:left;cursor:pointer}
   .home-daily-brief .hdb-empty{padding:20px 0;color:var(--color-text-tertiary);font-size:11px;line-height:1.6}
   .home-daily-brief .hdb-buy-panel{margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border)}
@@ -5661,7 +5664,7 @@ renderHomeDeepAnalysis();
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
       (model.buy.length
         ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>신뢰도순</span></div><div class="hdb-preview">${preview}</div>`+
-          `<p class="hdb-rank-note">신뢰도(분석가 의견이 얼마나 일치하는지)가 높은 순으로 정렬했고, 신뢰도가 같으면 종합점수 순이에요.</p>`+
+          `<span class="hdb-rank-note">· 신뢰도(분석가 의견이 얼마나 일치하는지)가 높은 순으로 정렬했고, 신뢰도가 같으면 종합점수 순이에요.</span>`+
           `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
           `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
