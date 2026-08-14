@@ -22,7 +22,8 @@ const today = new Date().toISOString().slice(0, 10);
 const ymd = d => (/^\d{4}-\d{2}-\d{2}$/.test(String(d || '')) ? d : today);
 const urls = [{ loc: BASE, prio: '1.0', mod: today }, { loc: BASE + 'snap/index.html', prio: '0.5', mod: today },
   { loc: BASE + 'about.html', prio: '0.4', mod: today }, { loc: BASE + 'contact.html', prio: '0.3', mod: today },
-  { loc: BASE + 'privacy.html', prio: '0.3', mod: today }];
+  { loc: BASE + 'privacy.html', prio: '0.3', mod: today },
+  { loc: BASE + 'changelog.html', prio: '0.4', mod: today }];
 // 자바스크립트를 실행하지 않는 검색봇도 읽을 수 있는 정적 스냅샷(/snap/...)을 sitemap에 올린다.
 // sitemap, 스냅샷 canonical, 관련 글 내부 링크가 모두 같은 정적 URL을 가리키도록 유지한다.
 // lastmod는 매번 "오늘"로 찍으면 구글이 신뢰하지 않고 무시하므로, 각 글의 실제 작성일을 쓴다.
