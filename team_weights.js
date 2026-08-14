@@ -49,7 +49,7 @@ const TEAM_WEIGHTS = {
    "nova": {
     "n": 8987,
     "acc": 56.7,
-    "adjustedAcc": 56.7,
+    "adjustedAcc": 56.6,
     "days": 5,
     "deadband": 1.0
    },
@@ -166,9 +166,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 212,
-     "acc": 57.5,
-     "adjustedAcc": 54.8,
+     "n": 210,
+     "acc": 58.1,
+     "adjustedAcc": 55.2,
      "days": 20,
      "deadband": 3.0
     },
@@ -500,9 +500,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "flow": {
-     "n": 54,
-     "acc": 42.6,
-     "adjustedAcc": 47.7,
+     "n": 55,
+     "acc": 43.6,
+     "adjustedAcc": 48.0,
      "days": 5,
      "deadband": 1.0
     }
@@ -839,9 +839,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 305,
-     "acc": 40.0,
-     "adjustedAcc": 42.8,
+     "n": 304,
+     "acc": 40.1,
+     "adjustedAcc": 42.9,
      "days": 5,
      "deadband": 1.0
     },
@@ -867,8 +867,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 726,
-   "globalBlend": 0.524
+   "graded": 725,
+   "globalBlend": 0.525
   },
   "기계": {
    "weights": {
@@ -879,9 +879,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 102,
-     "acc": 37.3,
-     "adjustedAcc": 44.1,
+     "n": 101,
+     "acc": 37.6,
+     "adjustedAcc": 44.3,
      "days": 5,
      "deadband": 1.0
     },
@@ -907,8 +907,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 251,
-   "globalBlend": 0.761
+   "graded": 250,
+   "globalBlend": 0.762
   },
   "로봇": {
    "weights": {

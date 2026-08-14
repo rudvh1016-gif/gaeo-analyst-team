@@ -554,7 +554,7 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "경계점수 판단",
-    "count": 1257
+    "count": 1256
    },
    {
     "label": "고변동성 국면",
