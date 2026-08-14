@@ -4911,24 +4911,61 @@ function renderScorecard(){
   </div>`:'';
 
   /* 신뢰도 표는 주간 표본(수십 건)으로는 노이즈가 커서 판단이 안 된다 — "우리가 매긴 신뢰도가
-     쓸모 있나"는 모델 품질 질문이므로 분석가 열전처럼 전체 누적 기록으로 집계한다. */
+     쓸모 있나"는 모델 품질 질문이므로 분석가 열전처럼 전체 누적 기록으로 집계한다.
+     ⭐ 2026-08-14: 합쳐서 보면 좋아 보이지만(52.5%→67.9%), 이게 표본 88%를 차지하는 SELL이
+     견인한 결과이고 BUY만 떼면 신뢰도가 올라가도 성적이 뚜렷이 좋아지지 않는다는 게 드러나서
+     BUY·SELL을 분리해서 보여주는 것으로 바꾼다(위 "판단 종류별 성적"과 같은 취지). */
   const allBS=scAllGradedRows().filter(r=>r.call!=='HOLD');
-  const confRows=[0,55,60,65,70].map(cut=>{
-    const sub=allBS.filter(r=>typeof r.conf==='number'&&r.conf>=cut);
+  const confTable=(rows,cuts)=>cuts.map(cut=>{
+    const sub=rows.filter(r=>typeof r.conf==='number'&&r.conf>=cut);
     if(sub.length<20) return '';
     const a=scTally(sub,'ret',true), e=scTally(sub.filter(r=>r.exc!==null),'exc',true);
-    const share=allBS.length?Math.round(sub.length/allBS.length*100):0;
-    return `<tr${cut>=70?' class="sc-total-row"':''}><td>${cut===0?'전체':'신뢰도 '+cut+'% 이상'}</td>`+
+    const share=rows.length?Math.round(sub.length/rows.length*100):0;
+    return `<tr${cut>=Math.max(...cuts)?' class="sc-total-row"':''}><td>${cut===0?'전체':'신뢰도 '+cut+'% 이상'}</td>`+
       `<td class="num">${sub.length.toLocaleString()}<small style="color:var(--faint)"> (${share}%)</small></td>`+
       `<td class="num">${a.acc===null?'—':a.acc+'%'}</td><td class="num">${e.acc===null?'—':e.acc+'%'}</td></tr>`;
   }).filter(Boolean).join('');
-  const confBlock=confRows?`<div class="sc-block">
+  const confRowsAll=confTable(allBS,[0,55,60,65,70]);
+  const confRowsBuy=confTable(allBS.filter(r=>r.call==='BUY'),[0,40,45,50,55,60]);
+  const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
+  const confHead=`<thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>`;
+  const confBlock=confRowsAll?`<div class="sc-block">
     <h3>🎯 신뢰도가 높을수록 잘 맞을까 (전체 누적)</h3>
-    <p class="sc-sub">개오팀이 스스로 매긴 신뢰도(확신 정도)를 기준으로 잘라서 채점했어요. 확신이 높다고 밝힌 판단만 골라 보면 성적이 실제로 올라가는지 확인하는 표입니다.
-      주간 표본은 수십 건뿐이라 우연에 흔들리므로 <b>지금까지 쌓인 전체 기록</b>으로 집계합니다.</p>
-    <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead><tbody>${confRows}</tbody></table></div>
-    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다. 신뢰도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
+    <p class="sc-sub">개오팀이 스스로 매긴 신뢰도(확신 정도)를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
+      <b>합친 표는 착시가 있어요</b> — 표본의 대부분(약 88%)을 SELL 판단이 차지해서, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
+    <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsAll}</tbody></table></div>
+    ${confRowsBuy?`<p class="sc-sub" style="margin-top:16px"><b>BUY만 떼어 보면</b> — 신뢰도가 올라가도 성적이 합친 표만큼 뚜렷이 좋아지지 않아요.</p>
+    <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsBuy}</tbody></table></div>`:''}
+    ${confRowsSell?`<p class="sc-sub" style="margin-top:16px"><b>SELL만 떼어 보면</b> — 위 개선 대부분이 여기서 나옵니다.</p>
+    <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsSell}</tbody></table></div>`:''}
+    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다(HOLD 제외). 신뢰도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
   </div>`:'';
+
+  /* 🧪 2026-08-14: 신뢰도 자체를 「분석가 의견 일치도」가 아니라 「판단 종류·점수 구간별
+     실측 적중률」로 다시 정의하는 후보(compute_model_intelligence.py의 confidenceModel)를
+     그림자로 검증한다. 학습에 안 쓴 구간(test)에서 기존 신뢰도보다 실제로 더 잘 가르는지
+     확인되기 전에는 화면 신뢰도를 바꾸지 않는다(reboundGuard·v3·순환매와 동일 원칙). */
+  let confModelShadow='';
+  const CM=(typeof MODEL_INTELLIGENCE!=='undefined'&&MODEL_INTELLIGENCE&&MODEL_INTELLIGENCE.confidenceModel)||null;
+  if(CM&&CM.evaluation){
+    const ev=CM.evaluation, cand=ev.candidate||{}, base=ev.baseline||{};
+    const q=(CM.promotion||{}).qualified;
+    const reasons=(CM.promotion||{}).reasons||[];
+    confModelShadow=`<div class="sc-block">
+      <h3>🧪 신뢰도 공식 재검증 (그림자)</h3>
+      <p class="sc-sub">지금 신뢰도는 분석가 4인의 의견이 얼마나 가까운지만 재요. 대신 <b>「이 점수대 판단이 실제로 몇 % 맞았는가」</b>를 신뢰도로 쓰는
+      후보를 만들어, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이 적중 여부를 더 잘 가르는지 매 분석 주기 확인합니다.</p>
+      <div class="sc-stat-row">
+        <div class="sc-stat"><b>${base.tierSpreadPp==null?'—':base.tierSpreadPp+'pp'}</b><span>기존 신뢰도<br>상위 1/3 − 하위 1/3 적중률차</span></div>
+        <div class="sc-stat"><b>${cand.tierSpreadPp==null?'—':cand.tierSpreadPp+'pp'}</b><span>후보 신뢰도<br>상위 1/3 − 하위 1/3 적중률차</span></div>
+        <div class="sc-stat"><b>${ev.testDays||0}일</b><span>검증 거래일<br>(최소 40일 필요)</span></div>
+        <div class="sc-stat"><b>${q?'✅ 승격':'🔬 그림자'}</b><span>${q?'화면 신뢰도에 반영 중':'화면엔 아직 미반영'}</span></div>
+      </div>
+      <div class="sc-foot-note">${q?'검증을 통과해 실제 신뢰도 계산에 쓰이고 있습니다.':
+        '아직 승격 기준 미달: '+esc(reasons.join(' · ')||'표본 부족')+'. 데이터가 더 쌓일 때까지 화면 신뢰도는 기존 방식 그대로입니다.'}
+        상위/하위 1/3 적중률차가 클수록 그 신뢰도 값이 실제로 잘 맞는 판단과 못 맞는 판단을 잘 구분한다는 뜻이에요. 후보 값이 음수라면 오히려 반대로 작동한다는 뜻이라 승격되지 않습니다.</div>
+    </div>`;
+  }
 
   /* 🔄 2026-08-14: 순환매(업종 로테이션)를 종합판단 v3와 같은 「그림자」 방식으로 성적표에만 올린다.
      업종 신호는 개별 종목 판단(BUY/HOLD/SELL)에 아직 전혀 반영하지 않고, 여기서 성적만 공개로
@@ -5058,6 +5095,7 @@ function renderScorecard(){
   </div>
   ${callBlock}
   ${confBlock}
+  ${confModelShadow}
   ${leaderboardHTML()}
   ${weeklyExamples}
   ${versionHtml}
@@ -9145,12 +9183,21 @@ function renderGuide(){
       이제 성적표에 표 두 개를 추가해 이걸 있는 그대로 보여줍니다.<br>
       ${sign('var(--sky-soft)','var(--navy)','판단 종류별 성적','BUY·HOLD·SELL을 <b>합치지 않고 따로</b> 보여줘요. 합친 숫자는 어느 판단이 잘 맞고 어느 판단이 망가졌는지를 가려버리기 때문이에요. HOLD도 ±5%를 벗어나면 정직하게 빗나감으로 셉니다.')}
       ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 500종목 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
-      ${sign('var(--sky-soft)','var(--navy)','신뢰도 구간별','신뢰도(확신 정도)가 높다고 표시한 판단만 골라서 다시 채점한 표예요. 확신이 높을수록 실제로 더 잘 맞는지 확인할 수 있어요.')}
-      <div class="gb-tip">💡 <b>여기서 제일 중요한 것!</b> 개오팀은 500종목 전부를 잘 맞히지는 못해요.
+      ${sign('var(--sky-soft)','var(--navy)','신뢰도 구간별(BUY·SELL 분리)','신뢰도(확신 정도)가 높다고 표시한 판단만 골라서 다시 채점한 표예요. BUY와 SELL을 나눠서 보여드려요.')}
+      <div class="gb-tip">💡 <b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 500종목 전부를 잘 맞히지는 못해요.
       전체 BUY·SELL 판단의 시장 대비 적중률은 동전 던지기와 크게 다르지 않아요.
-      대신 <b>신뢰도가 높다고 표시한 판단일수록 성적이 눈에 띄게 올라갑니다</b>(성적표의 신뢰도 표에서 직접 확인하세요).
-      그래서 모든 판단을 똑같이 따라가기보다, <b>신뢰도가 높은 판단을 중심으로</b> 보시는 편이 좋아요.
+      <b>신뢰도가 높을수록 성적이 좋아지는 건 SELL 판단에서만 뚜렷해요.</b> 예전엔 BUY·SELL을 합쳐서 보여드려서
+      이 개선이 전체에 고르게 적용되는 것처럼 보였는데, 다시 확인해 보니 BUY 판단은 신뢰도가 높아져도 성적이
+      뚜렷이 좋아지지 않았어요. 그래서 지금 신뢰도 계산 방식(분석가 4인의 의견이 얼마나 가까운지만 재는 식)을
+      「이 점수대 판단이 실제로 몇 % 맞았는가」로 바꾸는 후보를 만들어 검증 중이에요(바로 아래 「신뢰도 공식 재검증」 표).
+      아직 검증 기준(최소 40거래일 데이터)을 못 채워서 화면 신뢰도는 그대로지만, 통과하면 자동으로 바뀌어요.
       불편한 숫자도 가리지 않고 그대로 보여드리는 게 이 성적표의 목적이에요.</div><br>
+      <b>🧪 신뢰도 공식 재검증(그림자)은 뭔가요?</b><br>
+      지금 화면의 신뢰도는 「분석가 4인의 점수가 서로 얼마나 가까운가」만 재는 식이에요. 이걸 「이 점수대 판단이
+      과거에 실제로 몇 % 맞았는가」로 바꾸는 대안을 만들어서, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이
+      적중 여부를 더 잘 가르는지 매 분석 주기 확인해요. 검증 거래일 40일 이상, BUY·SELL 각각 50건 이상, 그리고
+      새 방식이 기존보다 실제로 더 잘 가른다는 근거가 쌓여야만 화면에 반영돼요(반등 가드·순환매·종합판단 v3와 같은 원칙).
+      아직은 데이터가 부족해서(수십 거래일치) 어느 쪽이 더 나은지 확신 있게 말하기 이릅니다 — 그래서 성급하게 바꾸지 않고 계속 지켜보고 있어요.<br><br>
       <b>🔄 순환매 그림자 평가는 뭔가요?</b><br>
       업종끼리 자금이 옮겨 다니는 흐름(순환매)을 읽는 기능인데, 아직 <b>개별 종목의 BUY·HOLD·SELL 판단에는 전혀 반영하지 않아요</b>.
       성적만 공개로 쌓아두고, 기록이 30거래일 이상 모이고 성적이 기준을 넘길 때만 실제 판단에 넣습니다.
