@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#090909" />
+<title>개발 기록 · GAEO</title>
+<meta name="description" content="GAEO가 2026년 7월 8일 첫 커밋부터 지금까지 무엇을 만들고, 무엇이 고장 났고, 어떻게 고쳐왔는지 시간순으로 남긴 기록입니다." />
+<link rel="canonical" href="https://gaeoteam.com/changelog.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="개발 기록 · GAEO" />
+<meta property="og:description" content="무엇을 만들고, 무엇이 고장 났고, 어떻게 고쳤는지 그대로 남긴 기록." />
+<meta property="og:image" content="https://gaeoteam.com/og-understand-more.png" />
+<meta property="og:url" content="https://gaeoteam.com/changelog.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="개발 기록 · GAEO" />
+<meta name="twitter:description" content="무엇을 만들고, 무엇이 고장 났고, 어떻게 고쳤는지 그대로 남긴 기록." />
+<meta name="twitter:image" content="https://gaeoteam.com/og-understand-more.png" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --background:#090909; --surface:#141414; --border:#242424;
+    --text:#F5F5F5; --text-secondary:#A1A1AA; --text-muted:#71717A;
+    --accent:#3B82F6; --accent-soft:rgba(59,130,246,.10);
+    --radius:20px; --radius-small:14px;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--background);color-scheme:dark;scroll-behavior:smooth}
+  body{margin:0;min-width:320px;background:var(--background);color:var(--text);
+    font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;word-break:keep-all}
+  .skip-link{position:absolute;left:-9999px;top:0;padding:10px 16px;background:var(--accent);color:#fff;z-index:99}
+  .skip-link:focus{left:0}
+  .page-shell{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 30px}
+  .back-link{display:inline-flex;align-items:center;gap:7px;color:var(--text-secondary);
+    text-decoration:none;font-size:13.5px;font-weight:600}
+  .back-link:hover{color:var(--text)}
+  .back-link svg{width:17px;height:17px}
+  .top-label{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--text-muted)}
+  h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.03em;margin:0 0 14px;line-height:1.2}
+  .lede{font-size:15px;color:var(--text-secondary);margin:0 0 12px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
+  .chip{font-size:12px;font-weight:600;color:var(--text-secondary);background:var(--surface);
+    border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+  .note{margin:26px 0 0;padding:16px 18px;background:var(--accent-soft);
+    border:1px solid rgba(59,130,246,.25);border-radius:var(--radius-small);font-size:13.5px;color:var(--text-secondary)}
+  .note b{color:var(--text)}
+  .era{margin:44px 0 0;padding:24px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+  .era-date{font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+  .era h2{font-size:19px;font-weight:800;letter-spacing:-.02em;margin:7px 0 4px;line-height:1.35}
+  .era-sub{font-size:13.5px;color:var(--text-muted);margin:0 0 16px}
+  .era ul{margin:0;padding:0;list-style:none}
+  .era li{position:relative;padding:9px 0 9px 20px;font-size:14px;color:var(--text-secondary);
+    border-bottom:1px solid var(--border)}
+  .era li:last-child{border-bottom:none}
+  .era li::before{content:'';position:absolute;left:2px;top:17px;width:5px;height:5px;
+    border-radius:50%;background:var(--text-muted)}
+  .era li b{color:var(--text);font-weight:700}
+  .era li.fix::before{background:#F59E0B}
+  .era li.new::before{background:#10B981}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:20px 0 0;font-size:12px;color:var(--text-muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:6px;height:6px;border-radius:50%;display:inline-block}
+  footer{margin:56px 0 0;padding-top:24px;border-top:1px solid var(--border);
+    font-size:12.5px;color:var(--text-muted);text-align:center}
+  footer a{color:var(--text-secondary);text-decoration:none;margin:0 8px}
+  footer a:hover{color:var(--text)}
+  @media(max-width:600px){ .era{padding:20px 17px} .era li{font-size:13.5px} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
+<div class="page-shell">
+  <header class="topbar">
+    <a class="back-link" href="./" aria-label="GAEO 홈으로 돌아가기">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+      <span>GAEO로 돌아가기</span>
+    </a>
+    <span class="top-label">CHANGELOG</span>
+  </header>
+
+  <main id="main-content">
+    <h1>개발 기록</h1>
+    <p class="lede">GAEO가 무엇을 만들고, 무엇이 고장 났고, 그걸 어떻게 고쳐왔는지 시간순으로 남긴 기록입니다.
+      잘된 것만이 아니라 <b>실수와 되돌린 결정도 함께</b> 적었습니다.</p>
+    <div class="meta-row">
+      <span class="chip">시작 2026년 7월 8일</span>
+      <span class="chip">기록 갱신 2026년 8월 14일</span>
+    </div>
+    <div class="note">💡 <b>지금 사이트를 어떻게 쓰는지</b> 궁금하다면 <b>가이드북</b> 탭을 보세요.
+      이 페이지는 「지금 어떻게 쓰는가」가 아니라 「여기까지 어떻게 왔는가」를 남기는 곳입니다.</div>
+    <div class="legend">
+      <span><i style="background:#10B981"></i>새 기능</span>
+      <span><i style="background:#F59E0B"></i>버그 수정·되돌림</span>
+      <span><i style="background:#71717A"></i>개선·정비</span>
+    </div>
+
+    <section class="era">
+      <div class="era-date">2026.07.08 – 07.10</div>
+      <h2>시작: 9종목을 사람이 직접 분석하던 시절</h2>
+      <p class="era-sub">애널리스트 5인 구조와 자동 시세 수집의 뼈대를 세웠습니다.</p>
+      <ul>
+        <li class="new">첫 커밋. <b>TARO(기술)·DIANA(재무)·NOVA(뉴스)·FLOW(수급)·CHIEF(총괄)</b> 5인 구조로 9종목 분석 시작</li>
+        <li class="new">GitHub Actions로 <b>시세 자동 수집</b> 도입 — 개발 환경에서 네이버 금융이 막히는 문제를 러너가 대신 수집하는 구조로 해결</li>
+        <li class="new">코스피·코스닥 지수와 <b>시장 분석 섹션</b>, 날짜별 「지난 시장 분석」 목차 추가</li>
+        <li class="new">계정 없이 쓰는 <b>자유게시판</b>과 관리자 편집 모드</li>
+        <li class="fix">종가 기록이 고정되던 버그와 게시판 반영 지연 수정. 채점 기준을 <b>5거래일 뒤 종가</b>로 통일</li>
+        <li>모바일 대응, 업종 폴더 UI, 딥네이비+하늘색 대시보드로 첫 리디자인</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.07.11 – 07.13</div>
+      <h2>500종목으로: 자동분석 엔진 도입</h2>
+      <p class="era-sub">사람이 다 볼 수 없는 규모를 규칙 기반 엔진에 맡기기 시작했습니다.</p>
+      <ul>
+        <li class="new"><b>자동분석 엔진</b> 도입 — 차트·재무·수급 숫자를 정해진 규칙으로 해석해 AI 비용 없이 전 종목 판단 생성</li>
+        <li class="new">종목을 <b>5개 → 100개 → 500개</b>로 확장. 정밀분석(뉴스·공시까지 확인)과 자동분석을 티어로 구분</li>
+        <li class="new"><b>가이드북</b> 탭, 포트폴리오 재설계, 종목별 지지·저항·손절 가격 나침반</li>
+        <li class="new">스파크라인, 용어 클릭 설명, TARO 미니 차트, 한글 검색 자동완성</li>
+        <li class="fix">500종목 지표 계산 안정화 — 거래량 0 나눗셈 버그 수정</li>
+        <li class="fix">GitHub 예약 실행이 거의 안 켜지는 문제를 <b>자기 재기동(self-loop) 방식</b>으로 우회</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.07.14 – 07.17</div>
+      <h2>읽을거리와 팀원 확충</h2>
+      <p class="era-sub">판단만 있던 사이트에 「왜 그런지 배우는 곳」을 붙였습니다.</p>
+      <ul>
+        <li class="new"><b>📰 뉴스분석 · 📚 종목공부 · 🎓 주식공부</b> 카테고리 신설</li>
+        <li class="new"><b>🛡️ RISK</b>(변동성 관리자)와 <b>🌐 MACRO</b>(시장국면 판독) 추가 — 둘 다 규칙 기반이라 비용 0</li>
+        <li class="new">전 종목 판단 히스토리 자동 누적 + 과거 가격으로 되살린 <b>재구성(백테스트)</b> 기록</li>
+        <li class="new">정밀분석이 오래되면 자동분석으로 자동 전환되는 <b>신선도 규칙</b></li>
+        <li class="fix">가격 기록 순서가 꼬이던 버그 3중 수정(신규 종목 백필 시 과거가 뒤에 붙던 문제)</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.07.18 – 07.21</div>
+      <h2>디자인 대개편과 자가 학습</h2>
+      <p class="era-sub">보기 좋게 고치고, 팀이 자기 성적을 보고 배우게 만들었습니다.</p>
+      <ul>
+        <li class="new">다크 터미널 테마로 갔다가 <b>라이트 기반 디자인으로 되돌림</b> — 가독성이 더 중요하다고 판단</li>
+        <li class="new"><b>NOVA → QUANT 교체</b>. 자동분석의 NOVA는 뉴스를 못 읽고 가격으로 분위기를 추정만 했기에, 실측 통계를 내는 QUANT로 정직하게 대체</li>
+        <li class="new"><b>CHIEF 자가 학습 가중치</b> — 잘 맞히는 분석가에게 발언권을 더 주고, 표본이 작으면 완화</li>
+        <li class="new">요일별 평균 등락률 패널, <b>🏠 부동산공부</b> 카테고리</li>
+        <li class="fix">러너가 서로를 죽이던 치명적 문제 영구 수정 — 여러 트리거가 겹칠 때 실행이 통째로 사라지던 원인을 찾아 <code>cancel-in-progress</code>를 끔</li>
+        <li class="fix">본문 등락 색상을 한국식(상승 빨강·하락 파랑)으로 정정</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.07.22 – 07.25</div>
+      <h2>찾아올 수 있는 사이트로</h2>
+      <p class="era-sub">검색·공유·앱 설치까지, 밖에서 들어오는 길을 열었습니다.</p>
+      <ul>
+        <li class="new">자체 도메인 <b>gaeoteam.com</b> 연결. 글마다 고유 URL 부여</li>
+        <li class="new"><b>sitemap · IndexNow · RSS</b> 도입 — 구글·네이버·빙·다음에 새 글을 바로 알림</li>
+        <li class="new">자바스크립트 없이도 읽히는 <b>정적 스냅샷(/snap)</b> — AI 크롤러 대응</li>
+        <li class="new"><b>PWA</b> 지원(홈 화면에 앱처럼 설치), 링크 공유 미리보기 이미지 재디자인</li>
+        <li class="new"><b>🧮 계산기</b> 카테고리(평단가·양도세·잔금·대출), 종목 스크리너, 배당 캘린더</li>
+        <li class="fix">전체 재분석 때 캘린더 일정이 통째로 사라진 사고 — 복구 후 재발 방지 규칙을 문서에 못 박음</li>
+        <li class="fix">모호한 지시로 14종목 전체를 임의 재분석한 사고 — <b>명시적 요청일 때만</b> 대규모 재분석하도록 절차 수정</li>
+        <li class="fix">마케팅 문구 정직화 — 실제 하는 일보다 부풀려진 표현을 걷어냄</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.08.01 – 08.04</div>
+      <h2>검색 품질과 확률 모델</h2>
+      <p class="era-sub">쌓인 콘텐츠의 기본기를 다지고, 다음 세대 모델을 그림자로 띄웠습니다.</p>
+      <ul>
+        <li class="fix">전체 글 목록 <b>174개 링크가 전부 404</b>이던 치명적 버그 수정</li>
+        <li class="fix">검색결과에서 제목·설명이 잘리던 문제 — 제목 53자·설명 155자 기준 도입</li>
+        <li class="fix">시장분석 위젯에 줄바꿈이 <code>\n</code> 글자 그대로 보이던 버그, MACD 차트가 설명과 반대로 그려지던 버그</li>
+        <li class="new"><b>종합판단 v3(확률교정 모델)</b>을 그림자로 도입 — 검증 기준을 통과하기 전에는 실제 판단을 바꾸지 않는 구조</li>
+        <li class="new">분석가 채점 기준을 화면에서 직접 설명하는 인터랙티브 안내 추가</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.08.07 – 08.13</div>
+      <h2>레이더 · 전문 차트 · 정밀분석 영구 보존</h2>
+      <p class="era-sub">변화를 먼저 잡아내고, 지나간 분석도 다시 읽을 수 있게 했습니다.</p>
+      <ul>
+        <li class="new"><b>GAEO 레이더</b> — 이동평균 골든/데드크로스와 임박 신호를 500종목에서 자동 감지</li>
+        <li class="new">개별 종목 <b>전문 캔들차트</b>(이동평균·거래량 포함)로 교체, 200일선까지 표시</li>
+        <li class="new"><b>정밀분석 기록 탭</b> — 화면에 자동분석이 떠 있어도 과거 정밀분석 원문을 언제든 다시 읽을 수 있게 영구 보존</li>
+        <li class="new"><b>순환매(업종 로테이션) 페이지</b> 신설</li>
+        <li class="fix">자동분석 알고리즘 3건 수정 — 지나치게 오른 종목의 감점 누락, 목표가 괴리 하한, 당일 고점 대비 반납폭 미반영</li>
+        <li class="fix">가격 흐름 차트가 안 보이던 근본 원인 수정</li>
+      </ul>
+    </section>
+
+    <section class="era">
+      <div class="era-date">2026.08.14</div>
+      <h2>성적표 정직성 개편</h2>
+      <p class="era-sub">가장 아팠던 점검. 우리 성적표가 실제보다 좋아 보이게 나오고 있었습니다.</p>
+      <ul>
+        <li class="fix"><b>적중률 70.8%는 부풀려진 숫자였습니다.</b> HOLD는 주가가 크게 움직여도 「빗나감」으로 안 세고 빼버려 HOLD 적중률이 늘 100%였습니다. 엄격 기준으로 다시 재면 51.4%</li>
+        <li class="fix">절대 수익률 채점은 종목 선별력이 아니라 <b>시장 방향</b>을 재고 있었습니다(이후 시장이 오른 구간 15.6% vs 내린 구간 78.6%). 같은 날 시장 중앙값을 뺀 <b>「시장 대비」 지표</b>를 새로 도입</li>
+        <li class="fix">합쳐진 숫자에 가려 <b>BUY가 43.2%</b>로 「무조건 매수」(48.7%)보다도 낮다는 사실이 몇 주간 보이지 않았습니다. BUY·HOLD·SELL을 <b>분리 표시</b>하도록 변경</li>
+        <li class="new"><b>신뢰도 구간별 성적표</b> 추가 — 확신이 높다고 표시한 판단만 보면 52.5% → 67.9%로 실제 성적이 올라가는 것을 확인</li>
+        <li class="new"><b>순환매 그림자 평가</b> — 업종 신호를 개별 종목 판단에 반영하지 않고 성적만 공개로 쌓다가, 30거래일 이상 검증 통과 시에만 승격</li>
+        <li class="fix">종목 상세의 <b>팀 판단 히스토리</b>가 데이터는 있는데 화면에 안 뜨던 버그 수정 후 접이식으로 개편</li>
+        <li>홈 화면 정비 — 영어 라벨 제거, 장중인데 「시장 마감」으로 잘못 뜨던 표기 수정, 「최근 정밀분석」에 한 줄 요약 노출</li>
+      </ul>
+    </section>
+
+    <footer>
+      GAEO의 분석·점수는 참고용 정보이며 특정 종목의 매수·매도를 권유하지 않습니다.<br>
+      <a href="./">홈</a><a href="./about.html">소개</a><a href="./contact.html">문의하기</a><a href="./privacy.html">개인정보처리방침</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
