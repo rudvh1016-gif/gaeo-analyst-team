@@ -516,6 +516,27 @@ def _calibrated_probability(model, analyst, score):
     return max(.05, min(.95, float(bucket.get("pUp", .5))))
 
 
+def _confidence_bin(total):
+    value = int(clamp(float(50 if total is None else total), 0, 100))
+    return str(value // 5 * 5)
+
+
+def _confidence_candidate(confidence_model, call, total):
+    """compute_model_intelligence.py의 confidence_calibration_from 결과(판단 종류·점수
+    구간별 실측 적중률)로 신뢰도 후보값을 찾는다. 표본 부족이면 None(호출부가 기존
+    의견 일치도 공식으로 폴백)."""
+    if call not in ("BUY", "SELL"):
+        return None
+    calibration = (confidence_model or {}).get("calibration") or {}
+    bucket = (calibration.get(call) or {}).get(_confidence_bin(total)) or {}
+    if bucket.get("n", 0) < 15:
+        return None
+    acc = bucket.get("calibratedAcc")
+    if acc is None:
+        return None
+    return int(clamp(round(25 + acc * 65), 25, 90))
+
+
 def candidate_chief_eval(e, taro, diana, nova, flow, weights, model):
     """v3 그림자 후보. 승격 기준을 통과하기 전에는 화면 판단을 바꾸지 않는다."""
     regime = (e.get("marketRegime") or {}).get("key") or (model.get("currentRegime") or {}).get("key")
@@ -603,7 +624,7 @@ def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
     }
 
 
-def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_policy=None):
+def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_policy=None, confidence_model=None):
     w = {k: weights.get(k, BASE_W[k]) for k in ("taro", "diana", "nova", "flow")}
     tot_w = sum(w.values()) or 1.0
     raw_total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
@@ -615,6 +636,17 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     scores = [taro["score"], diana["score"], nova["score"], flow["score"]]
     spread = max(scores) - min(scores)
     conf = clamp(max(40, 88 - spread) - risk["confidencePenalty"], 30, 90)
+    # ⭐ 2026-08-14: 위 conf(의견 일치도 기반)가 BUY 판단에서는 실제 적중률과 거의
+    # 무관하다는 게 드러났다. "판단 종류·점수 구간별 실측 적중률" 기반 후보를
+    # confidenceShadow로 항상 같이 계산해 기록만 해두고, compute_model_intelligence.py의
+    # confidenceModel.promotion.qualified가 검증(학습에 안 쓴 구간)을 통과했을 때만
+    # 실제 신뢰도(conf)를 이 후보로 교체한다. reboundGuard·v3와 동일한 원칙 — 화면 값을
+    # 검증 전에 먼저 바꾸지 않는다.
+    conf_candidate = _confidence_candidate(confidence_model, call, total)
+    conf_model_qualified = bool(((confidence_model or {}).get("promotion") or {}).get("qualified"))
+    conf_shadow = conf_candidate if conf_candidate is not None else conf
+    if conf_model_qualified and conf_candidate is not None:
+        conf = conf_candidate
     tgap = e.get("targetGap")
     tgt = (f"증권사 평균 목표주가 {won(e.get('targetMean'))} (현재가 대비 {tgap:+.1f}% 상승여력)"
            if tgap is not None else "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고")
@@ -634,6 +666,7 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
+            "confidenceShadow": conf_shadow, "confidenceModelPromoted": conf_model_qualified and conf_candidate is not None,
             "rawTotal": raw_total, "riskPenalty": risk["penalty"],
             "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
             "reboundCheck": rebound_check,
@@ -743,7 +776,8 @@ def main():
             candidate_context = dict(e)
             candidate_context["marketRegime"] = ind.get("marketRegime") or {}
             baseline_chief = chief_eval(candidate_context, taro, diana, nova, flow, weights=wsec,
-                                        learned=tw["learned"], guard_policy=model.get("reboundGuard"))
+                                        learned=tw["learned"], guard_policy=model.get("reboundGuard"),
+                                        confidence_model=model.get("confidenceModel"))
             shadow_chief = candidate_chief_eval(candidate_context, taro, diana, nova, flow, wsec, model) if model else None
             promoted = bool((model.get("promotion") or {}).get("qualified")) and shadow_chief is not None
             chief = shadow_chief if promoted else baseline_chief
