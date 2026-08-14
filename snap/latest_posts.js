@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 48,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-14",
+  "title": "2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등",
+  "featured": false
+ },
+ {
   "id": 47,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-06",
   "title": "SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?",
   "featured": false
- },
- {
-  "id": 39,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-05",
-  "title": "2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 47,
+ "news": 48,
  "study": 35,
  "lesson": 72,
  "estate": 19,
