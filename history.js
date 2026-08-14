@@ -1067,7 +1067,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 57,
    "base": 81500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -2194,7 +2194,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 51,
    "base": 274500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 491,875원 (현재가 대비 +79.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -3296,7 +3296,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 55,
    "base": 1645000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 3,317,917원 (현재가 대비 +101.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -4400,7 +4400,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 43,
    "base": 1154000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,900,000원 (현재가 대비 +64.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -5502,7 +5502,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 42,
    "base": 1558000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +50.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -6633,7 +6633,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 46,
    "base": 554000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +324.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -7737,7 +7737,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 61,
    "base": 654000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,155,500원 (현재가 대비 +76.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -8839,7 +8839,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 63,
    "base": 803000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,193,929원 (현재가 대비 +48.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -9920,7 +9920,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 54,
    "base": 453000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 722,000원 (현재가 대비 +59.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -10978,7 +10978,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 61,
    "base": 229000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 380,000원 (현재가 대비 +65.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -12036,7 +12036,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 60,
    "base": 206500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 300,000원 (현재가 대비 +45.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -13094,7 +13094,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 56,
    "base": 95600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 177,917원 (현재가 대비 +86.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -14152,7 +14152,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 31,
    "base": 100500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 119,368원 (현재가 대비 +18.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -15110,7 +15110,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 53,
    "base": 228000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 330,565원 (현재가 대비 +45.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -16068,7 +16068,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 56,
    "base": 40000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 58,389원 (현재가 대비 +46.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -17026,7 +17026,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 47,
    "base": 141700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 217,800원 (현재가 대비 +53.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -17984,7 +17984,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 55,
    "base": 168500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 224,889원 (현재가 대비 +33.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -18942,7 +18942,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 62,
    "base": 116700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 185,125원 (현재가 대비 +58.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -19900,7 +19900,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 50,
    "base": 369500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 509,526원 (현재가 대비 +37.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -20858,7 +20858,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 60,
    "base": 301000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 412,962원 (현재가 대비 +37.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -21816,7 +21816,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 48,
    "base": 1548000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 2,011,429원 (현재가 대비 +29.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -22774,7 +22774,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 62,
    "base": 369000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 496,667원 (현재가 대비 +34.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -23732,7 +23732,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 67,
    "base": 510000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 860,947원 (현재가 대비 +68.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -24690,7 +24690,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 58,
    "base": 107400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 137,000원 (현재가 대비 +27.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -25648,7 +25648,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 43,
    "base": 82600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 129,375원 (현재가 대비 +56.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -26606,7 +26606,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 44,
    "base": 1160000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,628,235원 (현재가 대비 +40.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -27564,7 +27564,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 57,
    "base": 585000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 855,667원 (현재가 대비 +46.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -28522,7 +28522,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 53,
    "base": 547000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 737,200원 (현재가 대비 +34.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -29480,7 +29480,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 47,
    "base": 201000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 275,338원 (현재가 대비 +37.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -30438,7 +30438,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 53,
    "base": 133000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 164,737원 (현재가 대비 +23.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -31396,7 +31396,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 36,
    "base": 516000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 694,842원 (현재가 대비 +34.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -32354,7 +32354,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 49,
    "base": 215000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 233,235원 (현재가 대비 +8.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -33312,7 +33312,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 51,
    "base": 615000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 736,667원 (현재가 대비 +19.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -34270,7 +34270,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 53,
    "base": 2954000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 4,235,385원 (현재가 대비 +43.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -35228,7 +35228,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 56,
    "base": 95800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 141,050원 (현재가 대비 +47.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -36186,7 +36186,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 58,
    "base": 334000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 511,412원 (현재가 대비 +53.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -37144,7 +37144,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 47,
    "base": 386000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 555,667원 (현재가 대비 +44.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -38102,7 +38102,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 48,
    "base": 37650,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 55,625원 (현재가 대비 +47.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -39060,7 +39060,7 @@ const LIVE_HISTORY = {
    "total": 42,
    "confidence": 40,
    "base": 33250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 50,600원 (현재가 대비 +52.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -40045,7 +40045,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 52,
    "base": 33700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 43,778원 (현재가 대비 +29.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -41003,7 +41003,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 55,
    "base": 1276000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 2,115,833원 (현재가 대비 +65.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -41961,7 +41961,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 47,
    "base": 1196000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,564,600원 (현재가 대비 +30.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -42919,7 +42919,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 65,
    "base": 22300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 38,750원 (현재가 대비 +73.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -43877,7 +43877,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 51,
    "base": 146900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 274,118원 (현재가 대비 +86.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -44835,7 +44835,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 42,
    "base": 116700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 151,800원 (현재가 대비 +30.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -45793,7 +45793,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 60,
    "base": 280500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 383,769원 (현재가 대비 +36.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -46751,7 +46751,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 66,
    "base": 21250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 23,100원 (현재가 대비 +8.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -47709,7 +47709,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 64,
    "base": 176000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 240,000원 (현재가 대비 +36.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -48667,7 +48667,7 @@ const LIVE_HISTORY = {
    "total": 72,
    "confidence": 44,
    "base": 128700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 179,714원 (현재가 대비 +39.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -49652,7 +49652,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 40,
    "base": 20400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 27,333원 (현재가 대비 +34.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -50610,7 +50610,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 39,
    "base": 815000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,150,938원 (현재가 대비 +41.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -51568,7 +51568,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 50,
    "base": 235500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 328,333원 (현재가 대비 +39.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -52526,7 +52526,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 39,
    "base": 243500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 266,643원 (현재가 대비 +9.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -53484,7 +53484,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 46,
    "base": 120000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 147,000원 (현재가 대비 +22.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -54442,7 +54442,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 50,
    "base": 147600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 169,286원 (현재가 대비 +14.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -55400,7 +55400,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 43,
    "base": 211000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 322,750원 (현재가 대비 +53.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -56358,7 +56358,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 51,
    "base": 146400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 189,500원 (현재가 대비 +29.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -57316,7 +57316,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 50,
    "base": 390500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 538,500원 (현재가 대비 +37.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -58274,7 +58274,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 45,
    "base": 53400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 74,632원 (현재가 대비 +39.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -59232,7 +59232,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 38,
    "base": 80300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 109,429원 (현재가 대비 +36.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -60190,7 +60190,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 37,
    "base": 489500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 576,000원 (현재가 대비 +17.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -61148,7 +61148,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 44,
    "base": 115800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 174,450원 (현재가 대비 +50.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -62106,7 +62106,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 45,
    "base": 28750,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 42,588원 (현재가 대비 +48.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -63064,7 +63064,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 52,
    "base": 238000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 368,333원 (현재가 대비 +54.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -64022,7 +64022,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 70,
    "base": 22200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +32.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -64980,7 +64980,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 60,
    "base": 323500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 585,667원 (현재가 대비 +81.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -65938,7 +65938,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 46,
    "base": 176800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 218,214원 (현재가 대비 +23.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -66896,7 +66896,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 39,
    "base": 93000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 152,588원 (현재가 대비 +64.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -67854,7 +67854,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 66,
    "base": 26300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 36,700원 (현재가 대비 +39.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -68812,7 +68812,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 71,
    "base": 179400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 328,500원 (현재가 대비 +83.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -69770,7 +69770,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 58,
    "base": 120000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -70728,7 +70728,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 50,
    "base": 71600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 89,824원 (현재가 대비 +25.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -71686,7 +71686,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 69,
    "base": 196800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 314,727원 (현재가 대비 +59.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -72644,7 +72644,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 40,
    "base": 300500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 450,588원 (현재가 대비 +49.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -73602,7 +73602,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 49,
    "base": 53300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 89,692원 (현재가 대비 +68.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -74560,7 +74560,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 55,
    "base": 49800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 67,069원 (현재가 대비 +34.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -75518,7 +75518,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 48,
    "base": 1270000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 1,856,429원 (현재가 대비 +46.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -76476,7 +76476,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 50,
    "base": 117000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 133,600원 (현재가 대비 +14.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -77434,7 +77434,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 45,
    "base": 135700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 177,235원 (현재가 대비 +30.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -78392,7 +78392,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 59,
    "base": 87300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 138,929원 (현재가 대비 +59.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -79350,7 +79350,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 53,
    "base": 98200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +34.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -80308,7 +80308,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 52,
    "base": 15060,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 20,139원 (현재가 대비 +33.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -81266,7 +81266,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 55,
    "base": 66100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 92,583원 (현재가 대비 +40.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -82224,7 +82224,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 51,
    "base": 119100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 198,333원 (현재가 대비 +66.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -83182,7 +83182,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 54,
    "base": 427000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 745,588원 (현재가 대비 +74.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -84140,7 +84140,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 37,
    "base": 314000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 455,000원 (현재가 대비 +44.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -85098,7 +85098,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 39,
    "base": 93600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -86056,7 +86056,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 33,
    "base": 177800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 190,000원 (현재가 대비 +6.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -87014,7 +87014,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 54,
    "base": 501000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 915,000원 (현재가 대비 +82.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -87972,7 +87972,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 46,
    "base": 116600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 154,714원 (현재가 대비 +32.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -88930,7 +88930,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 71,
    "base": 70800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 135,000원 (현재가 대비 +90.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -89888,7 +89888,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 69,
    "base": 134100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 182,857원 (현재가 대비 +36.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -90846,7 +90846,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 37,
    "base": 43150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -91804,7 +91804,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 46,
    "base": 189000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -92762,7 +92762,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 41,
    "base": 404000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 532,500원 (현재가 대비 +31.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -93720,7 +93720,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 48,
    "base": 108700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 171,111원 (현재가 대비 +57.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -94678,7 +94678,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 59,
    "base": 84100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 210,000원 (현재가 대비 +149.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -95636,7 +95636,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 51,
    "base": 113900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 224,000원 (현재가 대비 +96.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -96594,7 +96594,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 47,
    "base": 131100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 156,667원 (현재가 대비 +19.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -97552,7 +97552,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 60,
    "base": 40400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 68,000원 (현재가 대비 +68.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -98510,7 +98510,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 56,
    "base": 147500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 201,444원 (현재가 대비 +36.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -99468,7 +99468,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 47,
    "base": 398000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 506,923원 (현재가 대비 +27.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -100426,7 +100426,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 38,
    "base": 161300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 217,167원 (현재가 대비 +34.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -101384,7 +101384,7 @@ const LIVE_HISTORY = {
    "total": 39,
    "confidence": 37,
    "base": 37500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 66,000원 (현재가 대비 +76.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -102342,7 +102342,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 30,
    "base": 179700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -103300,7 +103300,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 60,
    "base": 36950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 67,500원 (현재가 대비 +82.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -104258,7 +104258,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 34,
    "base": 260000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 320,000원 (현재가 대비 +23.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -105216,7 +105216,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 58,
    "base": 256000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 391,429원 (현재가 대비 +52.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -106174,7 +106174,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 47,
    "base": 36600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 62,000원 (현재가 대비 +69.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -107132,7 +107132,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 40,
    "base": 244000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 334,286원 (현재가 대비 +37.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -108090,7 +108090,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 72,
    "base": 106400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 184,786원 (현재가 대비 +73.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -109125,7 +109125,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 37,
    "base": 42850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 55,500원 (현재가 대비 +29.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -110083,7 +110083,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 52,
    "base": 322000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 521,556원 (현재가 대비 +62.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -111041,7 +111041,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 60,
    "base": 43450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -111999,7 +111999,7 @@ const LIVE_HISTORY = {
    "total": 39,
    "confidence": 37,
    "base": 31250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 52,833원 (현재가 대비 +69.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -112957,7 +112957,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 30,
    "base": 32350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 44,083원 (현재가 대비 +36.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -113915,7 +113915,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 49,
    "base": 84000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 187,500원 (현재가 대비 +123.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -114873,7 +114873,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 30,
    "base": 194000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -115831,7 +115831,7 @@ const LIVE_HISTORY = {
    "total": 39,
    "confidence": 55,
    "base": 54700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -116789,7 +116789,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 41,
    "base": 170500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 205,625원 (현재가 대비 +20.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -117747,7 +117747,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 39,
    "base": 204000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 322,750원 (현재가 대비 +58.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -118705,7 +118705,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 42,
    "base": 18010,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 22,969원 (현재가 대비 +27.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -119663,7 +119663,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 52,
    "base": 79900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 97,727원 (현재가 대비 +22.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -120621,7 +120621,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 51,
    "base": 83800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 159,200원 (현재가 대비 +90.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -121579,7 +121579,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 47,
    "base": 138600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 204,667원 (현재가 대비 +47.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -122537,7 +122537,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 51,
    "base": 29950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 42,643원 (현재가 대비 +42.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -123495,7 +123495,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 56,
    "base": 182500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 278,889원 (현재가 대비 +52.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -124453,7 +124453,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 51,
    "base": 48550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 66,500원 (현재가 대비 +37.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -125411,7 +125411,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 66,
    "base": 10270,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 15,786원 (현재가 대비 +53.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -126369,7 +126369,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 37,
    "base": 35400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 44,835원 (현재가 대비 +26.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -127327,7 +127327,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 47,
    "base": 83700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 121,071원 (현재가 대비 +44.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -128285,7 +128285,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 54,
    "base": 134000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 179,385원 (현재가 대비 +33.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -129243,7 +129243,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 51,
    "base": 247500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 371,944원 (현재가 대비 +50.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -130201,7 +130201,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 57,
    "base": 102800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 189,000원 (현재가 대비 +83.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -131159,7 +131159,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 46,
    "base": 45150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 58,667원 (현재가 대비 +29.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -132117,7 +132117,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 60,
    "base": 398500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 603,889원 (현재가 대비 +51.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -133075,7 +133075,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 41,
    "base": 28000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 37,375원 (현재가 대비 +33.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -134033,7 +134033,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 53,
    "base": 79200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +83.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -134991,7 +134991,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 54,
    "base": 89800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 109,333원 (현재가 대비 +21.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -135949,7 +135949,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 37,
    "base": 102900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 183,214원 (현재가 대비 +78.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -136907,7 +136907,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 59,
    "base": 167100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -137865,7 +137865,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 64,
    "base": 138100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 239,727원 (현재가 대비 +73.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -138823,7 +138823,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 44,
    "base": 109700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 179,857원 (현재가 대비 +64.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -139781,7 +139781,7 @@ const LIVE_HISTORY = {
    "total": 69,
    "confidence": 45,
    "base": 5630,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 6,383원 (현재가 대비 +13.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -140766,7 +140766,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 62,
    "base": 101000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 179,545원 (현재가 대비 +77.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -141724,7 +141724,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 41,
    "base": 465500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 692,200원 (현재가 대비 +48.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -142682,7 +142682,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 56,
    "base": 49050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 88,500원 (현재가 대비 +80.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -143640,7 +143640,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 40,
    "base": 85900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 122,000원 (현재가 대비 +42.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -144598,7 +144598,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 59,
    "base": 3820,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 4,608원 (현재가 대비 +20.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -145556,7 +145556,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 34,
    "base": 279000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 430,000원 (현재가 대비 +54.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -146514,7 +146514,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 41,
    "base": 307500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 311,692원 (현재가 대비 +1.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -147472,7 +147472,7 @@ const LIVE_HISTORY = {
    "total": 41,
    "confidence": 37,
    "base": 102200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 186,529원 (현재가 대비 +82.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -148430,7 +148430,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 49,
    "base": 29900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 44,182원 (현재가 대비 +47.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -149388,7 +149388,7 @@ const LIVE_HISTORY = {
    "total": 71,
    "confidence": 44,
    "base": 45350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 43,429원 (현재가 대비 -4.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -150373,7 +150373,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 41,
    "base": 74300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 115,667원 (현재가 대비 +55.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -151331,7 +151331,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 54,
    "base": 14590,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,700원 (현재가 대비 +35.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -152289,7 +152289,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 54,
    "base": 37850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 58,167원 (현재가 대비 +53.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -153247,7 +153247,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 44,
    "base": 39100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 56,118원 (현재가 대비 +43.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -154205,7 +154205,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 43,
    "base": 21750,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -155163,7 +155163,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 55,
    "base": 36600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 48,333원 (현재가 대비 +32.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -156121,7 +156121,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 58,
    "base": 44900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 56,000원 (현재가 대비 +24.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -157079,7 +157079,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 37,
    "base": 59700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 79,714원 (현재가 대비 +33.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -158037,7 +158037,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 37,
    "base": 67000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 99,125원 (현재가 대비 +47.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -158995,7 +158995,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 54,
    "base": 130600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 176,846원 (현재가 대비 +35.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -159953,7 +159953,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 56,
    "base": 37650,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 46,000원 (현재가 대비 +22.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -160911,7 +160911,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 52,
    "base": 185400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 278,462원 (현재가 대비 +50.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -161869,7 +161869,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 49,
    "base": 17470,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 24,125원 (현재가 대비 +38.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -162879,7 +162879,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 46,
    "base": 5790,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 7,867원 (현재가 대비 +35.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -163837,7 +163837,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 52,
    "base": 77700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 93,750원 (현재가 대비 +20.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -164795,7 +164795,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 65,
    "base": 218500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 397,500원 (현재가 대비 +81.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -165753,7 +165753,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 33,
    "base": 35350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 39,333원 (현재가 대비 +11.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -166711,7 +166711,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 60,
    "base": 72500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 95,000원 (현재가 대비 +31.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -167669,7 +167669,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 49,
    "base": 39900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -168627,7 +168627,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 67,
    "base": 57200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 90,636원 (현재가 대비 +58.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -169585,7 +169585,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 52,
    "base": 169700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 215,000원 (현재가 대비 +26.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -170543,7 +170543,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 48,
    "base": 61600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 92,000원 (현재가 대비 +49.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -171501,7 +171501,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 61,
    "base": 26300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -172459,7 +172459,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 49,
    "base": 166100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -173417,7 +173417,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 68,
    "base": 136700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 167,722원 (현재가 대비 +22.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -174375,7 +174375,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 41,
    "base": 20850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 14,000원 (현재가 대비 -32.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -175333,7 +175333,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 72,
    "base": 228500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 303,929원 (현재가 대비 +33.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -176291,7 +176291,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 55,
    "base": 189400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -177249,7 +177249,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 45,
    "base": 73800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 93,421원 (현재가 대비 +26.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -178207,7 +178207,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 51,
    "base": 15290,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 16,333원 (현재가 대비 +6.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -179165,7 +179165,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 56,
    "base": 26250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 31,000원 (현재가 대비 +18.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -180123,7 +180123,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 40,
    "base": 42500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 60,222원 (현재가 대비 +41.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -181081,7 +181081,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 60,
    "base": 24300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 36,500원 (현재가 대비 +50.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -182039,7 +182039,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 48,
    "base": 57100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 69,136원 (현재가 대비 +21.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -182997,7 +182997,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 49,
    "base": 53300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 96,000원 (현재가 대비 +80.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -183955,7 +183955,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 56,
    "base": 44300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -184913,7 +184913,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 61,
    "base": 78900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 118,500원 (현재가 대비 +50.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -185871,7 +185871,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 50,
    "base": 8140,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 8,600원 (현재가 대비 +5.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -186829,7 +186829,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 72,
    "base": 5720,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 7,200원 (현재가 대비 +25.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -187787,7 +187787,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 37,
    "base": 11920,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,000원 (현재가 대비 +59.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -188745,7 +188745,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 45,
    "base": 27700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 35,071원 (현재가 대비 +26.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -189730,7 +189730,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 45,
    "base": 437500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 541,667원 (현재가 대비 +23.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -190688,7 +190688,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 51,
    "base": 18980,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 25,136원 (현재가 대비 +32.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -191646,7 +191646,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 37,
    "base": 145200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 186,533원 (현재가 대비 +28.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -192604,7 +192604,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 70,
    "base": 58900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 59,500원 (현재가 대비 +1.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -193562,7 +193562,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 49,
    "base": 58200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 111,200원 (현재가 대비 +91.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -194520,7 +194520,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 59,
    "base": 46350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 65,455원 (현재가 대비 +41.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -195478,7 +195478,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 48,
    "base": 31700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 43,545원 (현재가 대비 +37.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -196436,7 +196436,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 44,
    "base": 244000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 367,000원 (현재가 대비 +50.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -197394,7 +197394,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 77,
    "base": 45400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 69,846원 (현재가 대비 +53.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -198352,7 +198352,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 64,
    "base": 247500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 289,294원 (현재가 대비 +16.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -199310,7 +199310,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 61,
    "base": 71900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +76.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -200268,7 +200268,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 37,
    "base": 68200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -201226,7 +201226,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 58,
    "base": 34450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 56,143원 (현재가 대비 +63.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -202184,7 +202184,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 57,
    "base": 26350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -203142,7 +203142,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 42,
    "base": 54700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 107,375원 (현재가 대비 +96.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -204100,7 +204100,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 30,
    "base": 82000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 108,000원 (현재가 대비 +31.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -205058,7 +205058,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 56,
    "base": 63100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 156,667원 (현재가 대비 +148.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -206016,7 +206016,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 62,
    "base": 7590,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 10,125원 (현재가 대비 +33.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -206974,7 +206974,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 45,
    "base": 77200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 114,364원 (현재가 대비 +48.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -207932,7 +207932,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 54,
    "base": 67800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 87,267원 (현재가 대비 +28.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -208890,7 +208890,7 @@ const LIVE_HISTORY = {
    "total": 68,
    "confidence": 48,
    "base": 46850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 75,875원 (현재가 대비 +62.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -209848,7 +209848,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 52,
    "base": 55300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 107,400원 (현재가 대비 +94.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -210806,7 +210806,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 57,
    "base": 26800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -211764,7 +211764,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 50,
    "base": 40250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -212722,7 +212722,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 56,
    "base": 17900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 37,000원 (현재가 대비 +106.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -213680,7 +213680,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 37,
    "base": 124600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 202,308원 (현재가 대비 +62.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -214638,7 +214638,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 53,
    "base": 37550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 57,500원 (현재가 대비 +53.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -215596,7 +215596,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 62,
    "base": 7190,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -216554,7 +216554,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 40,
    "base": 12400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +61.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -217564,7 +217564,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 30,
    "base": 58300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 57,250원 (현재가 대비 -1.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -218522,7 +218522,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 57,
    "base": 129200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 186,923원 (현재가 대비 +44.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -219480,7 +219480,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 50,
    "base": 37800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 57,333원 (현재가 대비 +51.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -220438,7 +220438,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 59,
    "base": 48300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 72,857원 (현재가 대비 +50.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -221396,7 +221396,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 45,
    "base": 27200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 41,000원 (현재가 대비 +50.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -222354,7 +222354,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 34,
    "base": 42200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 50,500원 (현재가 대비 +19.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -223312,7 +223312,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 47,
    "base": 61600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 84,846원 (현재가 대비 +37.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -224270,7 +224270,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 57,
    "base": 123300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 267,500원 (현재가 대비 +117.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -225228,7 +225228,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 52,
    "base": 25150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 53,250원 (현재가 대비 +111.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -226186,7 +226186,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 55,
    "base": 337000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -227144,7 +227144,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 63,
    "base": 74700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 63,091원 (현재가 대비 -15.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -228102,7 +228102,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 55,
    "base": 330500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 543,333원 (현재가 대비 +64.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -229060,7 +229060,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 61,
    "base": 15550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,556원 (현재가 대비 +25.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -230018,7 +230018,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 50,
    "base": 22300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -230976,7 +230976,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 74,
    "base": 8250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -231934,7 +231934,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 59,
    "base": 45000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 48,200원 (현재가 대비 +7.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -232892,7 +232892,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 53,
    "base": 13760,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 24,700원 (현재가 대비 +79.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -233850,7 +233850,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 45,
    "base": 22100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 30,125원 (현재가 대비 +36.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -234808,7 +234808,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 40,
    "base": 9890,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 17,909원 (현재가 대비 +81.1% 상승여력)",
    "modelVersion": "baseline-risk-v2.1-rebound-guard",
    "reboundCheck": {
@@ -235766,7 +235766,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 46,
    "base": 47100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 64,167원 (현재가 대비 +36.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -236751,7 +236751,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 38,
    "base": 103000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -237709,7 +237709,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 44,
    "base": 45000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 56,290원 (현재가 대비 +25.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -238667,7 +238667,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 56,
    "base": 10530,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -239625,7 +239625,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 62,
    "base": 32600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 77,000원 (현재가 대비 +136.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -240583,7 +240583,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 56,
    "base": 14900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,500원 (현재가 대비 +30.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -241541,7 +241541,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 49,
    "base": 28400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 75,500원 (현재가 대비 +165.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -242499,7 +242499,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 61,
    "base": 15850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 24,500원 (현재가 대비 +54.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -243861,7 +243861,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 51,
    "base": 4780,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -244819,7 +244819,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 51,
    "base": 58900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 81,000원 (현재가 대비 +37.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -245777,7 +245777,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 59,
    "base": 18110,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -246735,7 +246735,7 @@ const LIVE_HISTORY = {
    "total": 67,
    "confidence": 40,
    "base": 129300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 169,583원 (현재가 대비 +31.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -247693,7 +247693,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 55,
    "base": 68300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 101,111원 (현재가 대비 +48.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -248651,7 +248651,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 52,
    "base": 51900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 82,000원 (현재가 대비 +58.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -249609,7 +249609,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 57,
    "base": 930000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -250567,7 +250567,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 60,
    "base": 101700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 148,333원 (현재가 대비 +45.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -251525,7 +251525,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 47,
    "base": 68100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +61.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -252483,7 +252483,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 62,
    "base": 52700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -253441,7 +253441,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 54,
    "base": 26350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +32.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -254399,7 +254399,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 59,
    "base": 4755,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -255357,7 +255357,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 30,
    "base": 14710,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -256315,7 +256315,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 63,
    "base": 14440,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 22,833원 (현재가 대비 +58.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -257273,7 +257273,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 61,
    "base": 42300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 71,000원 (현재가 대비 +67.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -258231,7 +258231,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 70,
    "base": 40500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 46,333원 (현재가 대비 +14.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -259189,7 +259189,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 49,
    "base": 15870,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +26.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -260147,7 +260147,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 56,
    "base": 48400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 83,000원 (현재가 대비 +71.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -261105,7 +261105,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 72,
    "base": 80900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 149,333원 (현재가 대비 +84.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -262063,7 +262063,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 42,
    "base": 76400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +72.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -263021,7 +263021,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 66,
    "base": 6550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -263979,7 +263979,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 48,
    "base": 19330,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 25,222원 (현재가 대비 +30.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -264937,7 +264937,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 51,
    "base": 58000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -265895,7 +265895,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 40,
    "base": 5440,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 6,740원 (현재가 대비 +23.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -266853,7 +266853,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 52,
    "base": 9170,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 14,000원 (현재가 대비 +52.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -267811,7 +267811,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 59,
    "base": 11910,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 18,500원 (현재가 대비 +55.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -268769,7 +268769,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 68,
    "base": 14770,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 27,600원 (현재가 대비 +86.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -269727,7 +269727,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 45,
    "base": 6990,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 8,700원 (현재가 대비 +24.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -270685,7 +270685,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 43,
    "base": 50000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 80,000원 (현재가 대비 +60.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -271643,7 +271643,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 46,
    "base": 28450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 41,667원 (현재가 대비 +46.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -272601,7 +272601,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 41,
    "base": 91400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 172,000원 (현재가 대비 +88.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -273559,7 +273559,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 48,
    "base": 6730,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 9,433원 (현재가 대비 +40.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -274517,7 +274517,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 68,
    "base": 11960,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -275475,7 +275475,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 64,
    "base": 38100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -276433,7 +276433,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 61,
    "base": 22900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -277391,7 +277391,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 47,
    "base": 64200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +71.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -278349,7 +278349,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 53,
    "base": 177700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 250,000원 (현재가 대비 +40.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -279307,7 +279307,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 74,
    "base": 2045,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -280265,7 +280265,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 54,
    "base": 41500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 51,500원 (현재가 대비 +24.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -281223,7 +281223,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 30,
    "base": 18400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 32,818원 (현재가 대비 +78.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -282181,7 +282181,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 60,
    "base": 519000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -283139,7 +283139,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 47,
    "base": 9400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 14,455원 (현재가 대비 +53.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -284097,7 +284097,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 48,
    "base": 9900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -285055,7 +285055,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 50,
    "base": 47650,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -286013,7 +286013,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 53,
    "base": 16350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 25,333원 (현재가 대비 +54.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -286971,7 +286971,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 46,
    "base": 63900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 81,667원 (현재가 대비 +27.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -287981,7 +287981,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 45,
    "base": 13400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 5,650원 (현재가 대비 -57.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -288939,7 +288939,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 43,
    "base": 25800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 38,000원 (현재가 대비 +47.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -289897,7 +289897,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 51,
    "base": 2035,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 2,650원 (현재가 대비 +30.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -290855,7 +290855,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 37,
    "base": 16730,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 42,000원 (현재가 대비 +151.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -291813,7 +291813,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 48,
    "base": 3660,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -292771,7 +292771,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 41,
    "base": 82400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -293729,7 +293729,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 46,
    "base": 18580,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 25,667원 (현재가 대비 +38.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -294687,7 +294687,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 59,
    "base": 18370,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 34,500원 (현재가 대비 +87.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -295645,7 +295645,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 60,
    "base": 14940,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -296603,7 +296603,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 40,
    "base": 30800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 62,000원 (현재가 대비 +101.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -297561,7 +297561,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 53,
    "base": 8290,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 12,500원 (현재가 대비 +50.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -298519,7 +298519,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 58,
    "base": 2915,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -299477,7 +299477,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 57,
    "base": 57400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -300435,7 +300435,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 47,
    "base": 22050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -301393,7 +301393,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 39,
    "base": 28850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -302351,7 +302351,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 53,
    "base": 89500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +62.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -303309,7 +303309,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 54,
    "base": 129400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -304267,7 +304267,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 47,
    "base": 2415,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -305225,7 +305225,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 56,
    "base": 28250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 100,000원 (현재가 대비 +254.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -306183,7 +306183,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 39,
    "base": 52900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -307141,7 +307141,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 59,
    "base": 19900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +48.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -308099,7 +308099,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 46,
    "base": 93000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 146,250원 (현재가 대비 +57.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -309057,7 +309057,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 57,
    "base": 8030,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 15,000원 (현재가 대비 +86.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -310015,7 +310015,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 46,
    "base": 28450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 61,000원 (현재가 대비 +114.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -310973,7 +310973,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 74,
    "base": 17220,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -311931,7 +311931,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 48,
    "base": 5690,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 7,600원 (현재가 대비 +33.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -312889,7 +312889,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 65,
    "base": 35400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 68,500원 (현재가 대비 +93.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -313847,7 +313847,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 62,
    "base": 8250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -314805,7 +314805,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 49,
    "base": 132500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -315763,7 +315763,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 55,
    "base": 1636,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -316721,7 +316721,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 52,
    "base": 32700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 49,000원 (현재가 대비 +49.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -317679,7 +317679,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 53,
    "base": 128000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 214,000원 (현재가 대비 +67.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -318637,7 +318637,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 49,
    "base": 39450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 50,250원 (현재가 대비 +27.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -319595,7 +319595,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 53,
    "base": 15200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 33,000원 (현재가 대비 +117.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -320553,7 +320553,7 @@ const LIVE_HISTORY = {
    "total": 42,
    "confidence": 37,
    "base": 16350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 28,833원 (현재가 대비 +76.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -321511,7 +321511,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 47,
    "base": 25500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +56.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -322469,7 +322469,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 51,
    "base": 4930,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -323427,7 +323427,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 62,
    "base": 21700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -324385,7 +324385,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 61,
    "base": 17690,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -325343,7 +325343,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 57,
    "base": 45550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -326301,7 +326301,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 50,
    "base": 10750,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -327259,7 +327259,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 62,
    "base": 9550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -328217,7 +328217,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 45,
    "base": 17000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -329175,7 +329175,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 52,
    "base": 60200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -330133,7 +330133,7 @@ const LIVE_HISTORY = {
    "total": 42,
    "confidence": 45,
    "base": 11010,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,833원 (현재가 대비 +80.1% 상승여력)",
    "modelVersion": "baseline-risk-v2.1-rebound-guard",
    "reboundCheck": {
@@ -331091,7 +331091,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 64,
    "base": 108000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 205,000원 (현재가 대비 +89.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -332049,7 +332049,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 46,
    "base": 63900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 89,000원 (현재가 대비 +39.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -333007,7 +333007,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 54,
    "base": 4510,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -333965,7 +333965,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 74,
    "base": 12990,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -334923,7 +334923,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 47,
    "base": 8790,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -335881,7 +335881,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 55,
    "base": 9860,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 14,500원 (현재가 대비 +47.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -336839,7 +336839,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 59,
    "base": 93000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -337797,7 +337797,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 59,
    "base": 65500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -338755,7 +338755,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 70,
    "base": 1713,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -339713,7 +339713,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 57,
    "base": 124700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +28.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -340671,7 +340671,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 55,
    "base": 43150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -341629,7 +341629,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 52,
    "base": 9920,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -342587,7 +342587,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 52,
    "base": 4415,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -343545,7 +343545,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 58,
    "base": 2125,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -344503,7 +344503,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 58,
    "base": 10070,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -345461,7 +345461,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 62,
    "base": 14370,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -346419,7 +346419,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 59,
    "base": 10810,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +85.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -347377,7 +347377,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 48,
    "base": 8120,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 13,000원 (현재가 대비 +60.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -348335,7 +348335,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 38,
    "base": 8520,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -349293,7 +349293,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 44,
    "base": 10760,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -350251,7 +350251,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 40,
    "base": 7760,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 16,000원 (현재가 대비 +106.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -351209,7 +351209,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 54,
    "base": 4195,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 6,000원 (현재가 대비 +43.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -352167,7 +352167,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 70,
    "base": 9340,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -353125,7 +353125,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 62,
    "base": 39800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -354083,7 +354083,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 51,
    "base": 11500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -355041,7 +355041,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 55,
    "base": 28550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 280,000원 (현재가 대비 +880.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -355999,7 +355999,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 51,
    "base": 61400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -356957,7 +356957,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 66,
    "base": 65500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 130,000원 (현재가 대비 +98.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -357915,7 +357915,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 64,
    "base": 61900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -358873,7 +358873,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 30,
    "base": 280000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 390,600원 (현재가 대비 +39.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -359831,7 +359831,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 53,
    "base": 111200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 191,600원 (현재가 대비 +72.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -360789,7 +360789,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 30,
    "base": 28000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -361747,7 +361747,7 @@ const LIVE_HISTORY = {
    "total": 42,
    "confidence": 60,
    "base": 68200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 118,750원 (현재가 대비 +74.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -362705,7 +362705,7 @@ const LIVE_HISTORY = {
    "total": 42,
    "confidence": 55,
    "base": 112000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -363663,7 +363663,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 66,
    "base": 120100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 182,500원 (현재가 대비 +52.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -364621,7 +364621,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 32,
    "base": 13370,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -365579,7 +365579,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 30,
    "base": 11950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -366537,7 +366537,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 39,
    "base": 279500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 361,125원 (현재가 대비 +29.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -367495,7 +367495,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 49,
    "base": 43950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -368453,7 +368453,7 @@ const LIVE_HISTORY = {
    "total": 35,
    "confidence": 37,
    "base": 41050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 68,778원 (현재가 대비 +67.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -369411,7 +369411,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 53,
    "base": 73400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 113,412원 (현재가 대비 +54.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -370369,7 +370369,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 30,
    "base": 68700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -371327,7 +371327,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 54,
    "base": 54400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 240,000원 (현재가 대비 +341.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -372285,7 +372285,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 30,
    "base": 118600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 130,000원 (현재가 대비 +9.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -373243,7 +373243,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 40,
    "base": 49250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -374201,7 +374201,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 57,
    "base": 23400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -375159,7 +375159,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 41,
    "base": 20400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 85,000원 (현재가 대비 +316.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -376117,7 +376117,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 39,
    "base": 32500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 44,000원 (현재가 대비 +35.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -377075,7 +377075,7 @@ const LIVE_HISTORY = {
    "total": 66,
    "confidence": 47,
    "base": 32150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 45,500원 (현재가 대비 +41.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -378033,7 +378033,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 35,
    "base": 61300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +79.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -378991,7 +378991,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 40,
    "base": 21000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -379949,7 +379949,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 52,
    "base": 31700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 40,500원 (현재가 대비 +27.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -380907,7 +380907,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 46,
    "base": 53200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 101,000원 (현재가 대비 +89.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -381865,7 +381865,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 52,
    "base": 23950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 64,250원 (현재가 대비 +168.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -382823,7 +382823,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 30,
    "base": 40500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -383781,7 +383781,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 43,
    "base": 95600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 191,500원 (현재가 대비 +100.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -384739,7 +384739,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 36,
    "base": 54000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -385697,7 +385697,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 47,
    "base": 37400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 67,000원 (현재가 대비 +79.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -386655,7 +386655,7 @@ const LIVE_HISTORY = {
    "total": 41,
    "confidence": 35,
    "base": 9900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -387613,7 +387613,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 46,
    "base": 11230,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 16,500원 (현재가 대비 +46.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -388571,7 +388571,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 53,
    "base": 41650,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 62,857원 (현재가 대비 +50.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -389529,7 +389529,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 50,
    "base": 26450,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 50,000원 (현재가 대비 +89.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -390487,7 +390487,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 53,
    "base": 58300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 87,000원 (현재가 대비 +49.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -391445,7 +391445,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 30,
    "base": 40100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -392403,7 +392403,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 30,
    "base": 68100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -393361,7 +393361,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 33,
    "base": 45900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 120,000원 (현재가 대비 +161.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -394319,7 +394319,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 37,
    "base": 18630,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +39.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -395277,7 +395277,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 59,
    "base": 44500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -396235,7 +396235,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 61,
    "base": 81400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +96.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -397193,7 +397193,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 65,
    "base": 9530,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -398151,7 +398151,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 51,
    "base": 49300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 65,000원 (현재가 대비 +31.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -399109,7 +399109,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 44,
    "base": 8990,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 8,914원 (현재가 대비 -0.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -400067,7 +400067,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 64,
    "base": 8340,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -401025,7 +401025,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 70,
    "base": 127200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 131,875원 (현재가 대비 +3.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -401983,7 +401983,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 41,
    "base": 17500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -402941,7 +402941,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 44,
    "base": 11100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 22,750원 (현재가 대비 +105.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -403899,7 +403899,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 47,
    "base": 6040,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 9,500원 (현재가 대비 +57.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -404857,7 +404857,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 43,
    "base": 7470,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -405815,7 +405815,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 57,
    "base": 19720,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +77.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -406773,7 +406773,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 55,
    "base": 12420,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -407731,7 +407731,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 43,
    "base": 13400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -408689,7 +408689,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 50,
    "base": 18210,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -409647,7 +409647,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 70,
    "base": 80800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 158,333원 (현재가 대비 +96.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -410605,7 +410605,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 55,
    "base": 29150,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 42,500원 (현재가 대비 +45.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -411563,7 +411563,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 47,
    "base": 25550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +46.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -412521,7 +412521,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 37,
    "base": 74100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -413479,7 +413479,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 41,
    "base": 6800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -414437,7 +414437,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 52,
    "base": 33100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -415395,7 +415395,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 64,
    "base": 10560,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -416353,7 +416353,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 62,
    "base": 41050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 61,059원 (현재가 대비 +48.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -417311,7 +417311,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 47,
    "base": 79000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 142,000원 (현재가 대비 +79.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -418269,7 +418269,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 63,
    "base": 33100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -419227,7 +419227,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 47,
    "base": 35050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 58,750원 (현재가 대비 +67.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -420185,7 +420185,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 57,
    "base": 17240,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 43,500원 (현재가 대비 +152.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -421143,7 +421143,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 58,
    "base": 31400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 64,352원 (현재가 대비 +104.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -422101,7 +422101,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 53,
    "base": 18250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -423059,7 +423059,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 34,
    "base": 50600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -424017,7 +424017,7 @@ const LIVE_HISTORY = {
    "total": 64,
    "confidence": 48,
    "base": 39950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -424975,7 +424975,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 42,
    "base": 29850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -425933,7 +425933,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 47,
    "base": 20500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -426891,7 +426891,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 60,
    "base": 48700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -427849,7 +427849,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 37,
    "base": 64400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 87,500원 (현재가 대비 +35.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -428807,7 +428807,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 46,
    "base": 34400,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 50,897원 (현재가 대비 +48.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -429765,7 +429765,7 @@ const LIVE_HISTORY = {
    "total": 65,
    "confidence": 32,
    "base": 15950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 25,000원 (현재가 대비 +56.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -430723,7 +430723,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 66,
    "base": 26050,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 45,500원 (현재가 대비 +74.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -431681,7 +431681,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 40,
    "base": 7560,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -432639,7 +432639,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 30,
    "base": 85900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -433597,7 +433597,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 30,
    "base": 25600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -434555,7 +434555,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 50,
    "base": 10120,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 17,333원 (현재가 대비 +71.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -435513,7 +435513,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 30,
    "base": 32700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -436471,7 +436471,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 41,
    "base": 28700,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 46,000원 (현재가 대비 +60.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -437429,7 +437429,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 39,
    "base": 48800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -438387,7 +438387,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 58,
    "base": 23600,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 36,083원 (현재가 대비 +52.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -439345,7 +439345,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 41,
    "base": 33000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -440303,7 +440303,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 50,
    "base": 39950,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 63,500원 (현재가 대비 +58.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -441261,7 +441261,7 @@ const LIVE_HISTORY = {
    "total": 59,
    "confidence": 57,
    "base": 10360,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 28,500원 (현재가 대비 +175.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -442219,7 +442219,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 44,
    "base": 150000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -443177,7 +443177,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 59,
    "base": 17180,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -444135,7 +444135,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 56,
    "base": 28300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 101,000원 (현재가 대비 +256.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -445093,7 +445093,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 55,
    "base": 8420,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -446051,7 +446051,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 58,
    "base": 59300,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -447009,7 +447009,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 43,
    "base": 23200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 51,000원 (현재가 대비 +119.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -447967,7 +447967,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 35,
    "base": 50500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 66,000원 (현재가 대비 +30.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -448925,7 +448925,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 47,
    "base": 69100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -449883,7 +449883,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 45,
    "base": 9480,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -450841,7 +450841,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 50,
    "base": 36250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -451799,7 +451799,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 30,
    "base": 35200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -452757,7 +452757,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 65,
    "base": 25850,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 45,000원 (현재가 대비 +74.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -453715,7 +453715,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 50,
    "base": 10270,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 9,500원 (현재가 대비 -7.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -454673,7 +454673,7 @@ const LIVE_HISTORY = {
    "total": 38,
    "confidence": 53,
    "base": 32250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -455631,7 +455631,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 68,
    "base": 30900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 76,000원 (현재가 대비 +146.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -456589,7 +456589,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 30,
    "base": 19350,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -457547,7 +457547,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 48,
    "base": 53800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 102,000원 (현재가 대비 +89.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -458505,7 +458505,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 35,
    "base": 50900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -459463,7 +459463,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 37,
    "base": 41500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 58,500원 (현재가 대비 +41.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -460421,7 +460421,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 37,
    "base": 9200,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -461379,7 +461379,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 37,
    "base": 67500,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 131,000원 (현재가 대비 +94.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -462337,7 +462337,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 37,
    "base": 22900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -463295,7 +463295,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 66,
    "base": 23800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +101.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -464253,7 +464253,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 45,
    "base": 18460,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -465211,7 +465211,7 @@ const LIVE_HISTORY = {
    "total": 58,
    "confidence": 55,
    "base": 32750,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -466169,7 +466169,7 @@ const LIVE_HISTORY = {
    "total": 63,
    "confidence": 55,
    "base": 53000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 74,800원 (현재가 대비 +41.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -467127,7 +467127,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 30,
    "base": 44100,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -468085,7 +468085,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 37,
    "base": 9250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -469043,7 +469043,7 @@ const LIVE_HISTORY = {
    "total": 55,
    "confidence": 70,
    "base": 19800,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 34,727원 (현재가 대비 +75.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -470001,7 +470001,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 62,
    "base": 38250,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +56.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -470959,7 +470959,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 35,
    "base": 14810,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 21,000원 (현재가 대비 +41.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -471917,7 +471917,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 63,
    "base": 76900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 120,000원 (현재가 대비 +56.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -472875,7 +472875,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 51,
    "base": 8820,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -473833,7 +473833,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 30,
    "base": 28550,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -474791,7 +474791,7 @@ const LIVE_HISTORY = {
    "total": 62,
    "confidence": 55,
    "base": 10710,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -475749,7 +475749,7 @@ const LIVE_HISTORY = {
    "total": 68,
    "confidence": 48,
    "base": 15190,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 19,600원 (현재가 대비 +29.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -476707,7 +476707,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 59,
    "base": 72900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 177,000원 (현재가 대비 +142.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -477665,7 +477665,7 @@ const LIVE_HISTORY = {
    "total": 52,
    "confidence": 49,
    "base": 5310,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 12,000원 (현재가 대비 +126.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -478623,7 +478623,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 45,
    "base": 14000,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -479581,7 +479581,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 62,
    "base": 18170,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 36,000원 (현재가 대비 +98.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -480539,7 +480539,7 @@ const LIVE_HISTORY = {
    "total": 56,
    "confidence": 41,
    "base": 24900,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
@@ -481095,7 +481095,7 @@ const LIVE_HISTORY = {
    "total": 57,
    "confidence": 65,
    "base": 6510,
-   "baseAt": "2026-08-14 종가 (15:48 수집)",
+   "baseAt": "2026-08-14 종가 (15:44 수집)",
    "target": "증권사 평균 목표주가 7,700원 (현재가 대비 +18.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "reboundCheck": {
