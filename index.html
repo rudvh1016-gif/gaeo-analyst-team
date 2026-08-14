@@ -990,6 +990,25 @@
   html.gdark .sc-table .sc-total-row td{background:rgba(255,255,255,.06)}
   @media(max-width:600px){ .sc-table{font-size:11.5px} .sc-table th{font-size:10.5px} }
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
+  /* 개발 기록(changelog) 전용 */
+  .cl-hero{background:var(--paper);border-radius:16px;padding:24px 28px;box-shadow:var(--shadow);margin-bottom:18px}
+  .cl-hero h2{margin:0 0 8px;font-size:21px;font-weight:820}
+  .cl-hero p{margin:0;font-size:13px;color:var(--t2);line-height:1.7}
+  .cl-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-size:11.5px;color:var(--dim)}
+  .cl-legend span{display:inline-flex;align-items:center;gap:6px}
+  .cl-legend i{width:6px;height:6px;border-radius:50%;display:inline-block}
+  .cl-entry .cl-date{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--sky)}
+  .cl-entry h3{margin:6px 0 4px}
+  .cl-list{margin:14px 0 0;padding:0;list-style:none}
+  .cl-list li{position:relative;padding:9px 0 9px 20px;font-size:13.5px;color:var(--t2);
+    border-top:1px solid var(--line);line-height:1.6}
+  .cl-list li:first-child{border-top:none}
+  .cl-list li::before{content:'';position:absolute;left:2px;top:17px;width:5px;height:5px;
+    border-radius:50%;background:var(--faint)}
+  .cl-list li b{color:var(--ink);font-weight:750}
+  .cl-list li.cl-fix::before{background:#F59E0B}
+  .cl-list li.cl-new::before{background:#10B981}
+  @media(max-width:600px){ .cl-hero{padding:20px 18px} .cl-list li{font-size:12.5px} }
   .sc-v3-period{display:block;font-size:11px;font-weight:600;color:var(--dim);margin-top:3px}
   .sc-guide-btn{margin-top:14px;border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--navy);
     border-radius:9px;padding:8px 14px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
@@ -3699,6 +3718,7 @@
   <aside class="rail">
   <div class="modes">
     <button class="modebtn modebtn-guide" id="mode-guide"><span class="gb-star">✦</span><svg class="mi" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2zM22 4h-7a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"/></svg>가이드북</button>
+    <button class="modebtn" id="mode-changelog"><svg class="mi" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M8 12.5h8M8 16h5.5"/></svg>개발 기록</button>
     <button class="modebtn" id="mode-rotation"><svg class="mi" viewBox="0 0 24 24"><path d="M5 8a8 8 0 0 1 13.4-2.1L21 8.5M19 16a8 8 0 0 1-13.4 2.1L3 15.5"/><path d="M21 4v4.5h-4.5M3 20v-4.5h4.5"/></svg>순환매</button>
     <button class="modebtn on" id="mode-single"><svg class="mi" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>단일 분석</button>
     <button class="modebtn" id="mode-watch"><svg class="mi" viewBox="0 0 24 24"><path d="M12 3.5 14.6 8l5.1 1.1-3.5 3.8.5 5.2-4.7-2.2-4.7 2.2.5-5.2-3.5-3.8L9.4 8z"/><path d="M4 21h16"/></svg>내 종목 관리</button>
@@ -3923,6 +3943,7 @@
     <div class="latest-panel-list" id="latestHomeList"><span class="home-watch-empty">최신 글을 불러오고 있어요.</span></div>
   </section>
   <div class="guideView" id="guideView"></div>
+  <div class="newsView" id="changelogView"></div>
   </main>
 
   </div><!-- /.layout -->
@@ -3938,7 +3959,7 @@
          이 링크가 noscript 안에만 있으면 자바스크립트를 실행하는 검색봇에는 보이지 않아
          글들이 sitemap으로만 발견되는 고아 페이지가 된다. 반드시 일반 링크로 노출할 것. -->
     <a href="snap/index.html" style="color:var(--dim);font-weight:600">전체 글 목록</a>
-    <a href="changelog.html" style="color:var(--dim);font-weight:600">개발 기록</a>
+    <a href="changelog.html" id="footChangelogLink" style="color:var(--dim);font-weight:600">개발 기록</a>
     <a href="contact.html" style="color:var(--dim);font-weight:600">문의하기</a>
     <a href="privacy.html" style="color:var(--dim);font-weight:600">개인정보처리방침</a>
   </div>
@@ -3981,6 +4002,7 @@ window.GaeoFeatures=(()=>{
     lesson:['stock_lessons.js'],
     estate:['estate_lessons.js'],
     calc:['calculators.js'],
+    changelog:['changelog.js'],
     history:['history.js','price_history.js'],
     auto:['auto_analysis.js'],
     // 📚 "정밀분석 기록" 탭을 실제로 열 때만 받는다(대부분의 종목엔 해당 없음).
@@ -5706,6 +5728,15 @@ renderHomeDeepAnalysis();
     await GaeoFeatures.load('news');
     setMode('news');
     if(window.openNewsCategory) window.openNewsCategory('market');
+  };
+  // 푸터 "개발 기록" 링크 — 예전엔 별도 정적 페이지(changelog.html)로만 이동했는데,
+  // 사이트 메뉴 안(mode-changelog)에서 바로 볼 수 있도록 전환. href는 JS 꺼진 환경·
+  // 검색엔진용 대체 경로로 그대로 둔다.
+  const footChangelogLink=document.getElementById('footChangelogLink');
+  if(footChangelogLink) footChangelogLink.onclick=e=>{
+    e.preventDefault();
+    gaeoTrack('select_content',{content_type:'home_section',item_id:'changelog'});
+    setMode('changelog');
   };
 
   // 히어로 첫 버튼: 최근 뉴스·공부 자료 10개를 세로로 펼친 패널로 이동한다.
@@ -9850,6 +9881,30 @@ window.GaeoContentAd=(function(){
     flushP(); flushL();
     return html;
   }
+  // 개발 기록: 세션마다 사람이 changelog.js의 CHANGELOG_LOG 맨 위(또는 오늘 날짜 항목의
+  // items 끝)에 이어 붙이는 방식으로 쌓는다. 자동 생성 아님 — history.js류와 다르다.
+  window.renderChangelog=function(){
+    const box=document.getElementById('changelogView'); if(!box) return;
+    const log=(typeof CHANGELOG_LOG!=='undefined'&&Array.isArray(CHANGELOG_LOG))?CHANGELOG_LOG:[];
+    if(!log.length){ box.innerHTML='<div class="nw-empty">기록을 불러오지 못했어요.</div>'; return; }
+    const dot={fix:'#F59E0B',new:'#10B981'};
+    const entryHTML=e=>{
+      const items=(e.items||[]).map(it=>
+        `<li${it.type?' class="cl-'+it.type+'"':''}>${it.text}</li>`).join('');
+      return `<div class="sc-block cl-entry"><div class="cl-date">${esc(e.date)}</div>
+        <h3>${esc(e.title)}</h3>
+        ${e.sub?`<p class="sc-sub">${esc(e.sub)}</p>`:''}
+        <ul class="cl-list">${items}</ul></div>`;
+    };
+    box.innerHTML=`<div class="cl-hero"><h2>개발 기록</h2>
+      <p>GAEO가 무엇을 만들고, 무엇이 고장 났고, 그걸 어떻게 고쳐왔는지 시간순으로 남긴 기록이에요.
+      잘된 것만이 아니라 <b>실수와 되돌린 결정, 아직 못 고친 문제</b>도 함께 적어요. 작업이 있는 날마다 맨 위에 새로 쌓여요.</p>
+      <div class="cl-legend"><span><i style="background:#10B981"></i>새 기능</span>
+      <span><i style="background:#F59E0B"></i>버그 수정·되돌림</span>
+      <span><i style="background:var(--faint)"></i>개선·정직한 점검 기록</span></div></div>
+      ${log.map(entryHTML).join('')}
+      <div class="sc-foot-note" style="text-align:center;margin-top:8px">GAEO의 분석·점수는 참고용 정보이며 특정 종목의 매수·매도를 권유하지 않습니다.</div>`;
+  };
   window.renderNews=function(){
     const box=document.getElementById('newsView'); if(!box) return;
     window.GaeoContentAd.park();
@@ -11121,10 +11176,11 @@ window.renderScreener=function(){
   function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'scorecard' | 'calendar' | 'community'
     mode=normalizeGaeoMode(mode);
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
-      calendar:'history',screener:'auto',scorecard:'history',rotation:'rotation'}[mode];
+      calendar:'history',screener:'auto',scorecard:'history',rotation:'rotation',changelog:'changelog'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
       const viewId={news:'newsView',study:'studyView',lesson:'lessonView',estate:'estateView',
-        calc:'calcView',calendar:'calendarView',scorecard:'scorecardView',rotation:'rotationView'}[mode];
+        calc:'calcView',calendar:'calendarView',scorecard:'scorecardView',rotation:'rotationView',
+        changelog:'changelogView'}[mode];
       const view=document.getElementById(viewId);
       if(view){
         view.classList.add('on');
@@ -11145,7 +11201,7 @@ window.renderScreener=function(){
           calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
-          latest=mode==='latest', scorecard=mode==='scorecard';
+          latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       watch:['내 종목에서 달라진 것만','내 종목 관리','저장한 관심종목의 오늘 판단 변화와 점수를 한곳에서 확인하세요.'],
@@ -11163,7 +11219,8 @@ window.renderScreener=function(){
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
-      community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.']
+      community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.'],
+      changelog:['무엇을 만들고, 무엇이 고장 났고','개발 기록','GAEO가 시간순으로 무엇을 만들고 무엇이 고장 났고 어떻게 고쳤는지, 잘된 것과 실수를 함께 남깁니다.']
     };
     const copy=sectionCopy[mode]||sectionCopy.single;
     document.getElementById('modeSectionEyebrow').textContent=copy[0];
@@ -11186,6 +11243,7 @@ window.renderScreener=function(){
     document.getElementById('mode-scorecard').classList.toggle('on',scorecard);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
+    document.getElementById('mode-changelog').classList.toggle('on',changelog);
     document.getElementById('guideView').classList.toggle('on',guide);
     window.GaeoCurrentMode=mode;
     if(guide){
@@ -11214,6 +11272,7 @@ window.renderScreener=function(){
     document.getElementById('screenerView').classList.toggle('on',screener);
     document.getElementById('rateView').classList.toggle('on',rates);
     document.getElementById('rotationView').classList.toggle('on',rotation);
+    document.getElementById('changelogView').classList.toggle('on',changelog);
     if(portfolio) renderPortfolio();
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
@@ -11229,6 +11288,7 @@ window.renderScreener=function(){
     if(scorecard) renderScorecard();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
+    if(changelog && window.renderChangelog) window.renderChangelog();
   }
   window.setMode=setMode;   // 딥링크 라우터(?m=...)가 페이지 로드 시 호출
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
@@ -11248,6 +11308,7 @@ window.renderScreener=function(){
   document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
+  document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click();};
 
   // 헤더의 "앱처럼 설치하기" 버튼 — 커뮤니티 탭의 PWA 설치 안내 고정 게시글(id 2)로 바로 이동
   window.openCommunityPost=function(postId){
@@ -12296,6 +12357,7 @@ window.hangulFix=function(str){
     else if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.setMode(m); }
     else if(m==='rates'){ window.setMode('rates'); }
     else if(m==='rotation'){ window.setMode('rotation'); }
+    else if(m==='changelog'){ window.setMode('changelog'); }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
