@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-08-14 15:51",
- "priceLabel": "2026-08-14 종가 (15:48 수집)",
+ "generatedAt": "2026-08-14 16:16",
+ "priceLabel": "2026-08-14 종가 (16:10 수집)",
  "indices": {
   "KOSPI": {
    "value": 6977.94,
@@ -121,7 +121,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -82128,
-    "flowRatioPct": -2.3,
+    "flowRatioPct": -2.297,
     "priceRet5": 8.09,
     "divergence": "distribution",
     "qualityScore": -30.4
@@ -383,7 +383,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 909270,
-    "flowRatioPct": 5.488,
+    "flowRatioPct": 5.485,
     "priceRet5": 15.68,
     "divergence": "confirmation_up",
     "qualityScore": 42.3
@@ -776,7 +776,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 6513,
-    "flowRatioPct": -0.446,
+    "flowRatioPct": -0.445,
     "priceRet5": 24.22,
     "divergence": "distribution",
     "qualityScore": 14.5
@@ -1430,7 +1430,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 1,
     "acceleration": 91836,
-    "flowRatioPct": 11.484,
+    "flowRatioPct": 11.483,
     "priceRet5": 19.08,
     "divergence": "confirmation_up",
     "qualityScore": 49.9
@@ -1954,7 +1954,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -535407,
-    "flowRatioPct": 9.079,
+    "flowRatioPct": 9.076,
     "priceRet5": 0.25,
     "divergence": "neutral",
     "qualityScore": 15.1
@@ -3264,7 +3264,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 274161,
-    "flowRatioPct": -4.757,
+    "flowRatioPct": -4.755,
     "priceRet5": 7.13,
     "divergence": "distribution",
     "qualityScore": -9.4
@@ -3526,7 +3526,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -16654,
-    "flowRatioPct": 3.017,
+    "flowRatioPct": 3.016,
     "priceRet5": 15.16,
     "divergence": "confirmation_up",
     "qualityScore": -3.3
@@ -3788,7 +3788,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -329291,
-    "flowRatioPct": 38.773,
+    "flowRatioPct": 38.772,
     "priceRet5": 0.85,
     "divergence": "neutral",
     "qualityScore": 30.1
@@ -4443,7 +4443,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 8660,
-    "flowRatioPct": 8.425,
+    "flowRatioPct": 8.424,
     "priceRet5": 4.31,
     "divergence": "confirmation_up",
     "qualityScore": 41.4
@@ -5491,7 +5491,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 1342,
-    "flowRatioPct": -10.434,
+    "flowRatioPct": -10.433,
     "priceRet5": 8.14,
     "divergence": "distribution",
     "qualityScore": -33.6
@@ -5622,7 +5622,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 88132,
-    "flowRatioPct": -9.091,
+    "flowRatioPct": -9.09,
     "priceRet5": 1.13,
     "divergence": "distribution",
     "qualityScore": -33.9
@@ -6015,7 +6015,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -26955,
-    "flowRatioPct": 7.125,
+    "flowRatioPct": 7.124,
     "priceRet5": 1.63,
     "divergence": "confirmation_up",
     "qualityScore": 18.2
@@ -6146,7 +6146,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -440299,
-    "flowRatioPct": 14.268,
+    "flowRatioPct": 14.266,
     "priceRet5": -2.52,
     "divergence": "accumulation",
     "qualityScore": 29.5
@@ -6801,7 +6801,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -31748,
-    "flowRatioPct": -8.214,
+    "flowRatioPct": -8.213,
     "priceRet5": 4.67,
     "divergence": "distribution",
     "qualityScore": -40.9
@@ -7456,7 +7456,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 236979,
-    "flowRatioPct": -20.983,
+    "flowRatioPct": -20.98,
     "priceRet5": -5.06,
     "divergence": "confirmation_down",
     "qualityScore": -20.2
@@ -7849,7 +7849,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": 46275,
-    "flowRatioPct": 15.427,
+    "flowRatioPct": 15.426,
     "priceRet5": 13.58,
     "divergence": "confirmation_up",
     "qualityScore": 40.8
@@ -9027,7 +9027,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -423887,
-    "flowRatioPct": -15.562,
+    "flowRatioPct": -15.557,
     "priceRet5": -3.13,
     "divergence": "confirmation_down",
     "qualityScore": -43.3
@@ -9942,7 +9942,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 21252,
-    "flowRatioPct": 1.852,
+    "flowRatioPct": 1.85,
     "priceRet5": 3.53,
     "divergence": "confirmation_up",
     "qualityScore": 12.9
@@ -10204,7 +10204,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 26348,
-    "flowRatioPct": 0.314,
+    "flowRatioPct": 0.313,
     "priceRet5": 18.3,
     "divergence": "confirmation_up",
     "qualityScore": 9.8
@@ -10728,7 +10728,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -634629,
-    "flowRatioPct": -11.795,
+    "flowRatioPct": -11.794,
     "priceRet5": 0.67,
     "divergence": "neutral",
     "qualityScore": -32.4
@@ -11252,7 +11252,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": -110554,
-    "flowRatioPct": -11.979,
+    "flowRatioPct": -11.978,
     "priceRet5": 2.95,
     "divergence": "distribution",
     "qualityScore": -50
@@ -11511,7 +11511,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": 260126,
-    "flowRatioPct": 6.226,
+    "flowRatioPct": 6.223,
     "priceRet5": 39.12,
     "divergence": "confirmation_up",
     "qualityScore": 45.0
@@ -11772,7 +11772,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 132764,
-    "flowRatioPct": 6.573,
+    "flowRatioPct": 6.567,
     "priceRet5": 32.05,
     "divergence": "confirmation_up",
     "qualityScore": 34.3
@@ -12683,7 +12683,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 8744,
-    "flowRatioPct": -12.86,
+    "flowRatioPct": -12.859,
     "priceRet5": -2.89,
     "divergence": "confirmation_down",
     "qualityScore": -30.5
@@ -13076,7 +13076,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 97088,
-    "flowRatioPct": 2.538,
+    "flowRatioPct": 2.536,
     "priceRet5": 17.44,
     "divergence": "confirmation_up",
     "qualityScore": 23.6
@@ -13859,7 +13859,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -120210,
-    "flowRatioPct": -6.638,
+    "flowRatioPct": -6.633,
     "priceRet5": 8.36,
     "divergence": "distribution",
     "qualityScore": -44.4
@@ -14202,7 +14202,7 @@
     "rsi14": 53.3,
     "macd": -1103,
     "macdSignal": -2284,
-    "volRatio": 1.08,
+    "volRatio": 1.09,
     "low3m": 24750,
     "high3m": 56800,
     "last5": [
@@ -14252,7 +14252,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -146325,
-    "flowRatioPct": -5.53,
+    "flowRatioPct": -5.52,
     "priceRet5": 22.0,
     "divergence": "distribution",
     "qualityScore": -34.4
@@ -15167,7 +15167,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 2,
     "acceleration": -261278,
-    "flowRatioPct": 5.681,
+    "flowRatioPct": 5.674,
     "priceRet5": 9.29,
     "divergence": "confirmation_up",
     "qualityScore": 13.6
@@ -15298,7 +15298,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -112570,
-    "flowRatioPct": -15.982,
+    "flowRatioPct": -15.978,
     "priceRet5": 31.87,
     "divergence": "distribution",
     "qualityScore": -32.3
@@ -15949,7 +15949,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 295839,
-    "flowRatioPct": 3.461,
+    "flowRatioPct": 3.459,
     "priceRet5": 9.75,
     "divergence": "confirmation_up",
     "qualityScore": 18.7
@@ -16030,7 +16030,7 @@
     "rsi14": 61.9,
     "macd": 1174,
     "macdSignal": -1109,
-    "volRatio": 1.54,
+    "volRatio": 1.55,
     "low3m": 58200,
     "high3m": 143700,
     "last5": [
@@ -16473,7 +16473,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 150152,
-    "flowRatioPct": -5.989,
+    "flowRatioPct": -5.984,
     "priceRet5": 10.52,
     "divergence": "distribution",
     "qualityScore": -24.9
@@ -16735,7 +16735,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -29602,
-    "flowRatioPct": -13.666,
+    "flowRatioPct": -13.665,
     "priceRet5": 1.46,
     "divergence": "distribution",
     "qualityScore": -41.2
@@ -16866,7 +16866,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -635068,
-    "flowRatioPct": -3.314,
+    "flowRatioPct": -3.311,
     "priceRet5": 5.12,
     "divergence": "distribution",
     "qualityScore": -21.9
@@ -16947,7 +16947,7 @@
     "rsi14": 60.2,
     "macd": 1187,
     "macdSignal": -161,
-    "volRatio": 0.54,
+    "volRatio": 0.55,
     "low3m": 22850,
     "high3m": 42200,
     "last5": [
@@ -16997,7 +16997,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -277317,
-    "flowRatioPct": 13.398,
+    "flowRatioPct": 13.386,
     "priceRet5": 4.42,
     "divergence": "confirmation_up",
     "qualityScore": 40.5
@@ -17128,7 +17128,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -155621,
-    "flowRatioPct": 24.087,
+    "flowRatioPct": 24.076,
     "priceRet5": 3.85,
     "divergence": "confirmation_up",
     "qualityScore": 32.2
@@ -17651,7 +17651,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -157196,
-    "flowRatioPct": 29.785,
+    "flowRatioPct": 29.782,
     "priceRet5": 7.5,
     "divergence": "confirmation_up",
     "qualityScore": 35.5
@@ -18043,7 +18043,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": 54162,
-    "flowRatioPct": 7.963,
+    "flowRatioPct": 7.958,
     "priceRet5": 12.02,
     "divergence": "confirmation_up",
     "qualityScore": 35.7
@@ -18174,7 +18174,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -15019,
-    "flowRatioPct": 13.352,
+    "flowRatioPct": 13.35,
     "priceRet5": 10.59,
     "divergence": "confirmation_up",
     "qualityScore": 35.6
@@ -18827,7 +18827,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 902141,
-    "flowRatioPct": 3.077,
+    "flowRatioPct": 3.076,
     "priceRet5": 23.6,
     "divergence": "confirmation_up",
     "qualityScore": 27.2
@@ -19482,7 +19482,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -536001,
-    "flowRatioPct": 6.137,
+    "flowRatioPct": 6.134,
     "priceRet5": 5.38,
     "divergence": "confirmation_up",
     "qualityScore": 18.9
@@ -19613,7 +19613,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 77545,
-    "flowRatioPct": 9.989,
+    "flowRatioPct": 9.985,
     "priceRet5": 2.39,
     "divergence": "confirmation_up",
     "qualityScore": 42.6
@@ -20529,7 +20529,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -71788,
-    "flowRatioPct": -7.53,
+    "flowRatioPct": -7.529,
     "priceRet5": 23.9,
     "divergence": "distribution",
     "qualityScore": -34.4
@@ -20920,7 +20920,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -2679,
-    "flowRatioPct": 32.408,
+    "flowRatioPct": 32.407,
     "priceRet5": 2.38,
     "divergence": "confirmation_up",
     "qualityScore": 37.9
@@ -21967,7 +21967,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -45375,
-    "flowRatioPct": 2.282,
+    "flowRatioPct": 2.28,
     "priceRet5": -4.14,
     "divergence": "accumulation",
     "qualityScore": 10.7
@@ -22229,7 +22229,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -3811,
-    "flowRatioPct": -1.28,
+    "flowRatioPct": -1.278,
     "priceRet5": -1.8,
     "divergence": "confirmation_down",
     "qualityScore": -33.4
@@ -22360,7 +22360,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": 4996,
-    "flowRatioPct": 19.413,
+    "flowRatioPct": 19.405,
     "priceRet5": 11.69,
     "divergence": "confirmation_up",
     "qualityScore": 50
@@ -22619,7 +22619,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 33377,
-    "flowRatioPct": -8.57,
+    "flowRatioPct": -8.564,
     "priceRet5": 10.99,
     "divergence": "distribution",
     "qualityScore": -22.7
@@ -23531,7 +23531,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -43363,
-    "flowRatioPct": -3.889,
+    "flowRatioPct": -3.887,
     "priceRet5": 19.9,
     "divergence": "distribution",
     "qualityScore": -31.7
@@ -24052,7 +24052,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -7006,
-    "flowRatioPct": 4.234,
+    "flowRatioPct": 4.232,
     "priceRet5": 5.23,
     "divergence": "confirmation_up",
     "qualityScore": 15.4
@@ -24575,7 +24575,7 @@
     "jointBuyDays": 5,
     "jointSellDays": 0,
     "acceleration": 11974,
-    "flowRatioPct": 10.682,
+    "flowRatioPct": 10.67,
     "priceRet5": 12.4,
     "divergence": "confirmation_up",
     "qualityScore": 50
@@ -24706,7 +24706,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 9728,
-    "flowRatioPct": 12.769,
+    "flowRatioPct": 12.765,
     "priceRet5": 9.0,
     "divergence": "confirmation_up",
     "qualityScore": 37.5
@@ -24835,7 +24835,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -60361,
-    "flowRatioPct": 45.756,
+    "flowRatioPct": 45.739,
     "priceRet5": -0.78,
     "divergence": "neutral",
     "qualityScore": 42.7
@@ -25230,7 +25230,7 @@
     "flowRatioPct": 0.66,
     "priceRet5": 2.33,
     "divergence": "confirmation_up",
-    "qualityScore": 19.9
+    "qualityScore": 19.8
    },
    "risk": {
     "vol20": 1.97,
@@ -26274,7 +26274,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": -3877,
-    "flowRatioPct": -30.651,
+    "flowRatioPct": -30.65,
     "priceRet5": -1.9,
     "divergence": "confirmation_down",
     "qualityScore": -44.8
@@ -26928,7 +26928,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": -66454,
-    "flowRatioPct": -10.41,
+    "flowRatioPct": -10.409,
     "priceRet5": 21.25,
     "divergence": "distribution",
     "qualityScore": -50
@@ -27188,7 +27188,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 53242,
-    "flowRatioPct": -13.172,
+    "flowRatioPct": -13.17,
     "priceRet5": 12.58,
     "divergence": "distribution",
     "qualityScore": -24.3
@@ -27841,7 +27841,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 39643,
-    "flowRatioPct": -1.283,
+    "flowRatioPct": -1.282,
     "priceRet5": -2.94,
     "divergence": "confirmation_down",
     "qualityScore": -3.3
@@ -28103,7 +28103,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -7800,
-    "flowRatioPct": 18.576,
+    "flowRatioPct": 18.571,
     "priceRet5": 8.48,
     "divergence": "confirmation_up",
     "qualityScore": 41.8
@@ -28234,7 +28234,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 94266,
-    "flowRatioPct": 34.922,
+    "flowRatioPct": 34.912,
     "priceRet5": 6.84,
     "divergence": "confirmation_up",
     "qualityScore": 40.3
@@ -29273,7 +29273,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 370537,
-    "flowRatioPct": -3.4,
+    "flowRatioPct": -3.398,
     "priceRet5": 24.75,
     "divergence": "distribution",
     "qualityScore": -12.5
@@ -29404,7 +29404,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": 890590,
-    "flowRatioPct": -2.466,
+    "flowRatioPct": -2.464,
     "priceRet5": 15.45,
     "divergence": "distribution",
     "qualityScore": -14.6
@@ -30319,7 +30319,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 162040,
-    "flowRatioPct": -21.956,
+    "flowRatioPct": -21.946,
     "priceRet5": -3.52,
     "divergence": "confirmation_down",
     "qualityScore": -12.6
@@ -30710,7 +30710,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 181004,
-    "flowRatioPct": 15.395,
+    "flowRatioPct": 15.384,
     "priceRet5": 78.71,
     "divergence": "confirmation_up",
     "qualityScore": 35.2
@@ -30841,7 +30841,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -368,
-    "flowRatioPct": -2.192,
+    "flowRatioPct": -2.19,
     "priceRet5": -2.51,
     "divergence": "confirmation_down",
     "qualityScore": -12.3
@@ -31885,7 +31885,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -23324,
-    "flowRatioPct": -6.909,
+    "flowRatioPct": -6.908,
     "priceRet5": -2.99,
     "divergence": "confirmation_down",
     "qualityScore": -20.3
@@ -31964,7 +31964,7 @@
     "rsi14": 58.1,
     "macd": -2464,
     "macdSignal": -7254,
-    "volRatio": 1.48,
+    "volRatio": 1.49,
     "low3m": 57800,
     "high3m": 190100,
     "last5": [
@@ -32014,7 +32014,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": 117965,
-    "flowRatioPct": -7.172,
+    "flowRatioPct": -7.163,
     "priceRet5": 33.42,
     "divergence": "distribution",
     "qualityScore": -14.3
@@ -32664,7 +32664,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -16245,
-    "flowRatioPct": -11.334,
+    "flowRatioPct": -11.333,
     "priceRet5": 4.99,
     "divergence": "distribution",
     "qualityScore": -37.8
@@ -33054,7 +33054,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -68822,
-    "flowRatioPct": -7.431,
+    "flowRatioPct": -7.43,
     "priceRet5": 9.01,
     "divergence": "distribution",
     "qualityScore": -26.0
@@ -33966,7 +33966,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 4,
     "acceleration": -10841,
-    "flowRatioPct": -31.663,
+    "flowRatioPct": -31.659,
     "priceRet5": -0.88,
     "divergence": "neutral",
     "qualityScore": -47.0
@@ -35397,7 +35397,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 0,
     "acceleration": -786,
-    "flowRatioPct": -7.777,
+    "flowRatioPct": -7.775,
     "priceRet5": 4.52,
     "divergence": "distribution",
     "qualityScore": -22.4
@@ -35657,7 +35657,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -66704,
-    "flowRatioPct": -2.778,
+    "flowRatioPct": -2.777,
     "priceRet5": -0.61,
     "divergence": "neutral",
     "qualityScore": -11.7
@@ -36048,10 +36048,10 @@
     "jointBuyDays": 3,
     "jointSellDays": 0,
     "acceleration": -283144,
-    "flowRatioPct": 3.541,
+    "flowRatioPct": 3.537,
     "priceRet5": -2.16,
     "divergence": "accumulation",
-    "qualityScore": 23.3
+    "qualityScore": 23.2
    },
    "risk": {
     "vol20": 4.48,
@@ -37740,7 +37740,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -5460,
-    "flowRatioPct": 1.241,
+    "flowRatioPct": 1.24,
     "priceRet5": -3.0,
     "divergence": "accumulation",
     "qualityScore": -1.3
@@ -37999,7 +37999,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -792,
-    "flowRatioPct": 4.452,
+    "flowRatioPct": 4.445,
     "priceRet5": 16.57,
     "divergence": "confirmation_up",
     "qualityScore": 27.5
@@ -38259,7 +38259,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 1,
     "acceleration": -575,
-    "flowRatioPct": 1.224,
+    "flowRatioPct": 1.223,
     "priceRet5": 1.17,
     "divergence": "confirmation_up",
     "qualityScore": 3.3
@@ -39040,7 +39040,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 60794,
-    "flowRatioPct": -1.317,
+    "flowRatioPct": -1.316,
     "priceRet5": 37.15,
     "divergence": "distribution",
     "qualityScore": -15.8
@@ -41244,7 +41244,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -261052,
-    "flowRatioPct": -3.876,
+    "flowRatioPct": -3.872,
     "priceRet5": 9.03,
     "divergence": "distribution",
     "qualityScore": -15.9
@@ -42284,7 +42284,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -30373,
-    "flowRatioPct": 12.215,
+    "flowRatioPct": 12.21,
     "priceRet5": -2.9,
     "divergence": "accumulation",
     "qualityScore": 36.6
@@ -43453,7 +43453,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": -53581,
-    "flowRatioPct": -24.631,
+    "flowRatioPct": -24.629,
     "priceRet5": 0.68,
     "divergence": "neutral",
     "qualityScore": -44.3
@@ -44307,7 +44307,7 @@
     "rsi14": 54.8,
     "macd": -40,
     "macdSignal": -257,
-    "volRatio": 0.6,
+    "volRatio": 0.61,
     "low3m": 7490,
     "high3m": 15230,
     "last5": [
@@ -44357,7 +44357,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 31284,
-    "flowRatioPct": -30.957,
+    "flowRatioPct": -30.933,
     "priceRet5": 6.11,
     "divergence": "distribution",
     "qualityScore": -24.3
@@ -45912,7 +45912,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -392841,
-    "flowRatioPct": -0.655,
+    "flowRatioPct": -0.653,
     "priceRet5": 1.66,
     "divergence": "distribution",
     "qualityScore": -21.2
@@ -47205,10 +47205,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 141139,
-    "flowRatioPct": -1.54,
+    "flowRatioPct": -1.539,
     "priceRet5": 9.09,
     "divergence": "distribution",
-    "qualityScore": -0.3
+    "qualityScore": -0.2
    },
    "risk": {
     "vol20": 8.98,
@@ -47334,7 +47334,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -722,
-    "flowRatioPct": 3.061,
+    "flowRatioPct": 3.06,
     "priceRet5": 4.36,
     "divergence": "confirmation_up",
     "qualityScore": 11.3
@@ -47724,7 +47724,7 @@
     "jointBuyDays": 3,
     "jointSellDays": 1,
     "acceleration": -20656,
-    "flowRatioPct": 33.422,
+    "flowRatioPct": 33.419,
     "priceRet5": 1.52,
     "divergence": "confirmation_up",
     "qualityScore": 32.8
@@ -48112,7 +48112,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": 50341,
-    "flowRatioPct": 0.8,
+    "flowRatioPct": 0.799,
     "priceRet5": 61.66,
     "divergence": "confirmation_up",
     "qualityScore": 4.0
@@ -49022,7 +49022,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -95215,
-    "flowRatioPct": -12.957,
+    "flowRatioPct": -12.956,
     "priceRet5": 12.73,
     "divergence": "distribution",
     "qualityScore": -39.6
@@ -49411,10 +49411,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": -269302,
-    "flowRatioPct": -5.052,
+    "flowRatioPct": -5.046,
     "priceRet5": 16.67,
     "divergence": "distribution",
-    "qualityScore": -37.2
+    "qualityScore": -37.1
    },
    "risk": {
     "vol20": 9.95,
@@ -49540,7 +49540,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": 169128,
-    "flowRatioPct": -8.752,
+    "flowRatioPct": -8.748,
     "priceRet5": 6.7,
     "divergence": "distribution",
     "qualityScore": -36.4
@@ -49931,7 +49931,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 4,
     "acceleration": -645864,
-    "flowRatioPct": -75.468,
+    "flowRatioPct": -75.457,
     "priceRet5": -12.29,
     "divergence": "confirmation_down",
     "qualityScore": -50
@@ -50839,7 +50839,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 3,
     "acceleration": 136662,
-    "flowRatioPct": -2.571,
+    "flowRatioPct": -2.57,
     "priceRet5": 18.54,
     "divergence": "distribution",
     "qualityScore": -21.8
@@ -51359,10 +51359,10 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": 4583,
-    "flowRatioPct": 5.216,
+    "flowRatioPct": 5.204,
     "priceRet5": 10.24,
     "divergence": "confirmation_up",
-    "qualityScore": 19.8
+    "qualityScore": 19.7
    },
    "risk": {
     "vol20": 9.35,
@@ -52528,7 +52528,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": 31083,
-    "flowRatioPct": -3.689,
+    "flowRatioPct": -3.684,
     "priceRet5": 1.81,
     "divergence": "distribution",
     "qualityScore": 0.9
@@ -52789,7 +52789,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -1207,
-    "flowRatioPct": -0.845,
+    "flowRatioPct": -0.843,
     "priceRet5": 14.75,
     "divergence": "distribution",
     "qualityScore": -11.9
@@ -53308,7 +53308,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": 31828,
-    "flowRatioPct": -2.939,
+    "flowRatioPct": -2.937,
     "priceRet5": -0.65,
     "divergence": "neutral",
     "qualityScore": 3.5
@@ -54476,7 +54476,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -471950,
-    "flowRatioPct": -31.497,
+    "flowRatioPct": -31.49,
     "priceRet5": 23.33,
     "divergence": "distribution",
     "qualityScore": -41.1
@@ -54737,7 +54737,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -351519,
-    "flowRatioPct": 9.482,
+    "flowRatioPct": 9.476,
     "priceRet5": 20.92,
     "divergence": "confirmation_up",
     "qualityScore": 14.4
@@ -54866,7 +54866,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 198465,
-    "flowRatioPct": 7.371,
+    "flowRatioPct": 7.364,
     "priceRet5": 7.02,
     "divergence": "confirmation_up",
     "qualityScore": 23.3
@@ -55125,7 +55125,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": 36290,
-    "flowRatioPct": -5.336,
+    "flowRatioPct": -5.335,
     "priceRet5": 4.9,
     "divergence": "distribution",
     "qualityScore": -25.5
@@ -55383,7 +55383,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -91707,
-    "flowRatioPct": -4.258,
+    "flowRatioPct": -4.255,
     "priceRet5": -2.04,
     "divergence": "confirmation_down",
     "qualityScore": -24.7
@@ -56032,7 +56032,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -8069,
-    "flowRatioPct": 4.558,
+    "flowRatioPct": 4.556,
     "priceRet5": 12.4,
     "divergence": "confirmation_up",
     "qualityScore": 12.8
@@ -57202,7 +57202,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 0,
     "acceleration": -17724,
-    "flowRatioPct": -2.678,
+    "flowRatioPct": -2.677,
     "priceRet5": 9.81,
     "divergence": "distribution",
     "qualityScore": -27.1
@@ -57331,7 +57331,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -60336,
-    "flowRatioPct": -1.28,
+    "flowRatioPct": -1.279,
     "priceRet5": 22.82,
     "divergence": "distribution",
     "qualityScore": -22.8
@@ -58239,7 +58239,7 @@
     "jointBuyDays": 4,
     "jointSellDays": 0,
     "acceleration": -53054,
-    "flowRatioPct": 31.371,
+    "flowRatioPct": 31.367,
     "priceRet5": 11.38,
     "divergence": "confirmation_up",
     "qualityScore": 49.4
@@ -58888,7 +58888,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 1,
     "acceleration": -38855,
-    "flowRatioPct": -1.388,
+    "flowRatioPct": -1.387,
     "priceRet5": -9.07,
     "divergence": "confirmation_down",
     "qualityScore": -16.6
@@ -59148,7 +59148,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -62136,
-    "flowRatioPct": -8.813,
+    "flowRatioPct": -8.811,
     "priceRet5": 40.69,
     "divergence": "distribution",
     "qualityScore": -42.9
@@ -61090,7 +61090,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 1,
     "acceleration": -6916,
-    "flowRatioPct": -4.395,
+    "flowRatioPct": -4.393,
     "priceRet5": 0.69,
     "divergence": "neutral",
     "qualityScore": -30.7
@@ -61349,7 +61349,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": -27590,
-    "flowRatioPct": 7.162,
+    "flowRatioPct": 7.161,
     "priceRet5": 10.23,
     "divergence": "confirmation_up",
     "qualityScore": 4.5
@@ -61738,7 +61738,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 2,
     "acceleration": -28489,
-    "flowRatioPct": -13.059,
+    "flowRatioPct": -13.009,
     "priceRet5": 4.75,
     "divergence": "distribution",
     "qualityScore": -47.0
@@ -62386,7 +62386,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -87166,
-    "flowRatioPct": 27.306,
+    "flowRatioPct": 27.305,
     "priceRet5": 10.58,
     "divergence": "confirmation_up",
     "qualityScore": 30.2
@@ -62646,7 +62646,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 3,
     "acceleration": 66281,
-    "flowRatioPct": -7.286,
+    "flowRatioPct": -7.285,
     "priceRet5": 39.04,
     "divergence": "distribution",
     "qualityScore": -29.8
@@ -63684,7 +63684,7 @@
     "jointBuyDays": 0,
     "jointSellDays": 5,
     "acceleration": 9419,
-    "flowRatioPct": -5.118,
+    "flowRatioPct": -5.117,
     "priceRet5": 7.59,
     "divergence": "distribution",
     "qualityScore": -50
@@ -64202,7 +64202,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 2,
     "acceleration": 131099,
-    "flowRatioPct": -3.317,
+    "flowRatioPct": -3.315,
     "priceRet5": -1.72,
     "divergence": "confirmation_down",
     "qualityScore": -7.7
@@ -64462,7 +64462,7 @@
     "jointBuyDays": 2,
     "jointSellDays": 0,
     "acceleration": -30446,
-    "flowRatioPct": 6.821,
+    "flowRatioPct": 6.82,
     "priceRet5": 16.58,
     "divergence": "confirmation_up",
     "qualityScore": 29.5
@@ -64722,7 +64722,7 @@
     "jointBuyDays": 1,
     "jointSellDays": 4,
     "acceleration": -188303,
-    "flowRatioPct": -10.593,
+    "flowRatioPct": -10.591,
     "priceRet5": 2.51,
     "divergence": "distribution",
     "qualityScore": -50

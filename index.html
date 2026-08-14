@@ -979,6 +979,16 @@
   .sc-chips{display:flex;flex-wrap:wrap;gap:8px}
   .sc-chip{font-size:11.5px;font-weight:700;background:var(--bg);border-radius:99px;padding:6px 12px}
   .sc-chip b{color:var(--navy)}
+  /* 판단 종류별·신뢰도별·순환매 그림자 표 (2026-08-14) */
+  .sc-table{border-collapse:collapse;width:100%;font-size:12.5px;margin:12px 0 2px}
+  .sc-table th{text-align:left;font-weight:600;color:var(--dim);font-size:11.5px;
+    padding:0 10px 8px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+  .sc-table td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+  .sc-table td.num,.sc-table th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;padding-right:0}
+  .sc-table tr:last-child td{border-bottom:none}
+  .sc-table .sc-total-row td{background:var(--navy-soft);font-weight:800}
+  html.gdark .sc-table .sc-total-row td{background:rgba(255,255,255,.06)}
+  @media(max-width:600px){ .sc-table{font-size:11.5px} .sc-table th{font-size:10.5px} }
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
   .sc-v3-period{display:block;font-size:11px;font-weight:600;color:var(--dim);margin-top:3px}
   .sc-guide-btn{margin-top:14px;border:1px solid var(--sky-line);background:var(--sky-soft);color:var(--navy);
@@ -4724,18 +4734,57 @@ function scCallCard(r,kind){
 // 채점 기록 자체가 history.js·price_history.js에 계속 쌓이는 로그라, 주 단위로 끊어
 // 넘겨보면 그 자체로 "매주 자동 기록되는 성적표 아카이브"가 된다(별도 저장소 불필요).
 let SC_WEEK_OFFSET=0;   // 0=이번 주, 1=한 주 전, 2=두 주 전 …
+/* 📊 2026-08-14: "시장 대비" 채점을 위한 날짜별 시장 중앙값.
+   절대수익률만으로 채점하면 시장이 오른 주에는 BUY가, 내린 주에는 SELL이 자동으로 맞아
+   "종목을 잘 골랐는지"가 아니라 "시장이 어느 쪽으로 갔는지"를 재게 된다(실측: 이후 시장이
+   오른 구간 적중률 15.6% vs 내린 구간 78.6%). 같은 날 500종목의 5거래일 수익률 중앙값을
+   빼주면 시장 흐름이 상쇄돼 "시장보다 잘했나"만 남는다. PRICE_HISTORY로 한 번만 계산해 캐시한다. */
+let SC_MKT_MED=null;
+function scMarketMedian(){
+  if(SC_MKT_MED) return SC_MKT_MED;
+  const byDate={};
+  const src=LIVE_PH||{};
+  for(const code in src){
+    const rows=src[code].flatMap(p=>p.days).filter(d=>d&&d.date&&typeof d.close==='number')
+      .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
+    for(let i=0;i+EVAL_DAYS<rows.length;i++){
+      if(!rows[i].close) continue;
+      (byDate[rows[i].date]=byDate[rows[i].date]||[]).push((rows[i+EVAL_DAYS].close/rows[i].close-1)*100);
+    }
+  }
+  SC_MKT_MED={};
+  for(const d in byDate){ const a=byDate[d].sort((x,y)=>x-y); SC_MKT_MED[d]=a[Math.floor(a.length/2)]; }
+  return SC_MKT_MED;
+}
 function scAllGradedRows(){
-  const rows=[];
+  const rows=[]; const med=scMarketMedian();
   if(LIVE_HIST) for(const code in LIVE_HIST){
     LIVE_HIST[code].forEach(e=>{
       if(!e.base||!e.call) return;
       const ev=evalRet(code,e); if(!ev) return;
-      rows.push({code, name:(STOCKS[code]&&STOCKS[code].name)||code, date:String(e.date).slice(0,10),
+      const day=String(e.date).slice(0,10);
+      rows.push({code, name:(STOCKS[code]&&STOCKS[code].name)||code, date:day,
         call:e.call, ret:ev.pct, gradeDate:ev.date, modelVersion:e.modelVersion,
+        conf:e.confidence, exc:med[day]===undefined?null:ev.pct-med[day],
         taro:e.taro, diana:e.diana, nova:e.nova, flow:e.flow});
     });
   }
   return rows;
+}
+/* 콜별·조건별 적중률 집계기. holdStrict=true면 HOLD가 ±5%를 벗어난 경우를 '빗나감'으로
+   센다(기존 규칙은 '중립'으로 빼서 HOLD 적중률이 항상 100%로 나왔다). */
+function scTally(list, key, holdStrict){
+  let hit=0, miss=0, mid=0;
+  list.forEach(r=>{
+    const v=r[key]; if(v===null||v===undefined){ return; }
+    let s;
+    if(r.call==='BUY') s = v>1?'hit':(v<-1?'miss':'mid');
+    else if(r.call==='SELL') s = v<-1?'hit':(v>1?'miss':'mid');
+    else s = Math.abs(v)<=5?'hit':(holdStrict?'miss':'mid');
+    if(s==='hit')hit++; else if(s==='miss')miss++; else mid++;
+  });
+  const dec=hit+miss;
+  return {n:list.length, hit, miss, mid, acc:dec?Math.round(hit/dec*1000)/10:null};
 }
 // offset주 전의 "채점일 기준 7일 구간" — 0이면 오늘까지 최근 7일, 1이면 그 이전 7일 …
 function scWeekRange(offset){
@@ -4787,7 +4836,7 @@ function computeWeeklyScorecard(offset){
   const judgementDates=weekRows.map(row=>row.date).sort();
   return {...scorecardMetrics(scored), best, worst, rangeStart:start, rangeEnd:end,
     judgmentStart:judgementDates[0]||null, judgmentEnd:judgementDates[judgementDates.length-1]||null,
-    hasOlder};
+    hasOlder, rows:scored};
 }
 function renderScorecard(){
   const el=document.getElementById('scorecardView'); if(!el) return;
@@ -4808,6 +4857,84 @@ function renderScorecard(){
     <div class="sc-stat"><b>${wk.uniqueMissN}</b><span>빗나간 고유 종목</span></div>
     <div class="sc-stat"><b>${wk.acc===null?'—':wk.acc+'%'}</b><span>주간 적중률</span></div>
   </div><p class="sc-foot-note">적중률 = 적중 ÷ (적중 + 빗나감) · 중립·판정 유보는 적중률 분모에서 제외됩니다. 같은 종목의 여러 판단과 겹치는 5거래일 채점 구간은 채점 완료 횟수에 각각 포함됩니다.</p>`;
+
+  /* ⭐ 2026-08-14: 콜별 분리 + 시장 대비 + 고신뢰도 (실측 감사 결과 반영)
+     ① 통합 적중률 하나만 보여주니 BUY가 43%로 무너져 있는 걸 몇 달째 못 봤다 → 콜별로 쪼갠다.
+     ② HOLD는 ±5% 밖으로 벗어나도 '중립'으로 빠져 적중률이 늘 100%였다 → 엄격 기준을 함께 보여준다.
+     ③ 절대수익률은 시장이 오르면 BUY가, 내리면 SELL이 자동으로 맞는다 → 시장 대비 지표를 같이 낸다.
+     ④ 신뢰도 70+ 구간은 실제로 절대 67.5%·시장 대비 56.5%로 유의미하게 높다 → 따로 노출한다. */
+  const R=wk.rows||[];
+  const callRows=['BUY','HOLD','SELL'].map(c=>{
+    const sub=R.filter(r=>r.call===c);
+    if(!sub.length) return '';
+    const abs=scTally(sub,'ret',true), exc=scTally(sub.filter(r=>r.exc!==null),'exc',true);
+    const cls=c==='BUY'?'buy':(c==='SELL'?'sell':'hold');
+    return `<tr><td><span class="sc-call-badge ${cls}">${c}</span></td>`+
+      `<td class="num">${sub.length.toLocaleString()}</td>`+
+      `<td class="num">${abs.acc===null?'—':abs.acc+'%'}</td>`+
+      `<td class="num">${exc.acc===null?'—':exc.acc+'%'}</td></tr>`;
+  }).join('');
+  const bsRows=R.filter(r=>r.call!=='HOLD');
+  const bsAbs=scTally(bsRows,'ret',true), bsExc=scTally(bsRows.filter(r=>r.exc!==null),'exc',true);
+  const callBlock=R.length?`<div class="sc-block">
+    <h3>🔍 이번 주 판단 종류별 성적</h3>
+    <p class="sc-sub">하나로 합친 적중률은 어느 판단이 잘 맞고 어느 판단이 틀리는지 가려버립니다. 위 주간 구간과 같은 기간을 BUY·HOLD·SELL로 나눠서 그대로 보여드려요.
+      <b>시장 대비</b>는 같은 날 500종목 수익률 중앙값을 뺀 값이라, 시장이 통째로 오르내린 효과를 걷어낸 「진짜 종목 선별력」이에요.</p>
+    <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>
+    <tbody>${callRows}<tr class="sc-total-row"><td><b>BUY+SELL</b></td><td class="num">${bsRows.length.toLocaleString()}</td>
+      <td class="num"><b>${bsAbs.acc===null?'—':bsAbs.acc+'%'}</b></td><td class="num"><b>${bsExc.acc===null?'—':bsExc.acc+'%'}</b></td></tr></tbody></table></div>
+    <div class="sc-foot-note">HOLD는 「크게 안 움직인다」는 예측이라 ±5%를 벗어나면 빗나감으로 셉니다(예전에는 중립으로 빼서 항상 100%로 나왔어요).
+      BUY·SELL은 ±1% 기준입니다. 시장 대비 50%는 「시장 흐름을 걷어내면 동전 던지기와 같다」는 뜻이에요.</div>
+  </div>`:'';
+
+  /* 신뢰도 표는 주간 표본(수십 건)으로는 노이즈가 커서 판단이 안 된다 — "우리가 매긴 신뢰도가
+     쓸모 있나"는 모델 품질 질문이므로 분석가 열전처럼 전체 누적 기록으로 집계한다. */
+  const allBS=scAllGradedRows().filter(r=>r.call!=='HOLD');
+  const confRows=[0,55,60,65,70].map(cut=>{
+    const sub=allBS.filter(r=>typeof r.conf==='number'&&r.conf>=cut);
+    if(sub.length<20) return '';
+    const a=scTally(sub,'ret',true), e=scTally(sub.filter(r=>r.exc!==null),'exc',true);
+    const share=allBS.length?Math.round(sub.length/allBS.length*100):0;
+    return `<tr${cut>=70?' class="sc-total-row"':''}><td>${cut===0?'전체':'신뢰도 '+cut+'% 이상'}</td>`+
+      `<td class="num">${sub.length.toLocaleString()}<small style="color:var(--faint)"> (${share}%)</small></td>`+
+      `<td class="num">${a.acc===null?'—':a.acc+'%'}</td><td class="num">${e.acc===null?'—':e.acc+'%'}</td></tr>`;
+  }).filter(Boolean).join('');
+  const confBlock=confRows?`<div class="sc-block">
+    <h3>🎯 신뢰도가 높을수록 잘 맞을까 (전체 누적)</h3>
+    <p class="sc-sub">개오팀이 스스로 매긴 신뢰도(확신 정도)를 기준으로 잘라서 채점했어요. 확신이 높다고 밝힌 판단만 골라 보면 성적이 실제로 올라가는지 확인하는 표입니다.
+      주간 표본은 수십 건뿐이라 우연에 흔들리므로 <b>지금까지 쌓인 전체 기록</b>으로 집계합니다.</p>
+    <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead><tbody>${confRows}</tbody></table></div>
+    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다. 신뢰도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
+  </div>`:'';
+
+  /* 🔄 2026-08-14: 순환매(업종 로테이션)를 종합판단 v3와 같은 「그림자」 방식으로 성적표에만 올린다.
+     업종 신호는 개별 종목 판단(BUY/HOLD/SELL)에 아직 전혀 반영하지 않고, 여기서 성적만 공개로
+     쌓는다. rotation_archive.json이 30거래일 이상 누적되고 highConfidenceUnlocked가 열릴 때만
+     실전 판단에 개입시킨다(reboundGuard·v3와 동일한 자동 승격 게이트). */
+  let rotationShadow='';
+  const RS=(typeof ROTATION_SNAPSHOT!=='undefined'&&ROTATION_SNAPSHOT)?ROTATION_SNAPSHOT:null;
+  if(RS){
+    const hp=RS.horizonPerformance||{};
+    const hRows=['1','3','5','20'].map(h=>{
+      const p=hp[h]; if(!p||p.hitRate==null) return '';
+      return `<tr><td>${h}거래일</td><td class="num">${p.sampleCount==null?'—':p.sampleCount.toLocaleString()}</td>`+
+        `<td class="num">${p.hitRate}%</td><td class="num">${p.medianExcessReturn==null?'—':(p.medianExcessReturn>0?'+':'')+p.medianExcessReturn+'%'}</td></tr>`;
+    }).filter(Boolean).join('');
+    const unlocked=!!(RS.model&&RS.model.highConfidenceUnlocked);
+    rotationShadow=`<div class="sc-block">
+      <h3>🔄 순환매 그림자 평가 중</h3>
+      <p class="sc-sub">업종 자금 이동(순환매) 신호가 실제로 맞는지 <b>공개로 성적만 쌓는 단계</b>예요. 아직 개별 종목의 BUY·HOLD·SELL 판단에는 전혀 반영하지 않습니다.
+        기록이 30거래일 이상 쌓이고 성적이 기준을 넘길 때만 실제 판단에 들어갑니다(종합판단 v3와 같은 방식).</p>
+      <div class="sc-stat-row"><div class="sc-stat"><b>${esc(String((RS.model&&RS.model.version)||'—'))}</b><span>모델 버전</span></div>
+        <div class="sc-stat"><b>${unlocked?'승격':'그림자'}</b><span>현재 상태</span></div>
+        <div class="sc-stat"><b>${esc(String(RS.dataCutoff||'—'))}</b><span>데이터 기준</span></div></div>
+      ${hRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>기간</th><th class="num">표본</th><th class="num">1위 업종 적중률</th><th class="num">시장 대비 중앙값</th></tr></thead><tbody>${hRows}</tbody></table></div>`:''}
+      <div class="sc-foot-note">「1위 업종 적중률」은 그 기간 점수 1위였던 업종이 이후 같은 기간 동안 500종목 중앙값을 넘겼는지로 셉니다. 날짜가 겹치는 중첩 표본이라 독립 시행 확률처럼 해석하지 않습니다. 승격 전까지는 참고 지표입니다.</div>
+    </div>`;
+  } else if(typeof GaeoFeatures!=='undefined'&&!GaeoFeatures.ready('rotation')){
+    // 순환매 자료는 지연 로드 파일이라, 성적표를 처음 열 때는 없다 — 받아온 뒤 한 번만 다시 그린다.
+    GaeoFeatures.load('rotation').then(()=>{ if(window.GaeoAnalysisTab==='scorecard'||document.getElementById('scorecardView').classList.contains('on')) renderScorecard(); }).catch(()=>{});
+  }
   const bestHtml=wk.best.length
     ? `<div class="sc-calls-head">🎯 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
   const worstHtml=wk.worst.length
@@ -4906,11 +5033,14 @@ function renderScorecard(){
     ${statRow}
     ${weeklyEmpty}
   </div>
+  ${callBlock}
+  ${confBlock}
   ${leaderboardHTML()}
   ${weeklyExamples}
   ${versionHtml}
   ${deepDive}
-  ${modelDive}`;
+  ${modelDive}
+  ${rotationShadow}`;
 }
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
@@ -8953,8 +9083,25 @@ function renderGuide(){
       성적표에서 지금 누가 몇 %의 가중치를 받는지 볼 수 있어요.<br><br>
       <div class="gb-tip">💡 즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
       잘 맞히면 발언권이 커지고, 자꾸 틀리면 발언권이 줄어요. 다만 모든 통계가 그렇듯
-      과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div>
-    </div>
+      과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div><br>
+      <b>🔍 성적표를 읽는 세 가지 눈 (2026년 8월 14일 개편)</b><br>
+      예전 성적표는 적중률을 <b>하나의 숫자</b>로만 보여줬어요. 그런데 그 숫자에는 두 가지 문제가 있었어요.
+      ① HOLD는 주가가 ±5%를 벗어나 크게 움직여도 「빗나감」으로 안 세고 그냥 빼버려서 HOLD 적중률이 항상 100%로 나왔고,
+      ② 오르든 내리든 <b>주가의 절대 방향</b>만 봤기 때문에, 시장이 통째로 오른 주에는 BUY가, 내린 주에는 SELL이 자동으로 맞는 것처럼 보였어요.
+      그래서 「종목을 잘 골랐는지」가 아니라 「시장이 어디로 갔는지」를 재고 있었던 거예요.<br><br>
+      이제 성적표에 표 두 개를 추가해 이걸 있는 그대로 보여줍니다.<br>
+      ${sign('var(--sky-soft)','var(--navy)','판단 종류별 성적','BUY·HOLD·SELL을 <b>합치지 않고 따로</b> 보여줘요. 합친 숫자는 어느 판단이 잘 맞고 어느 판단이 망가졌는지를 가려버리기 때문이에요. HOLD도 ±5%를 벗어나면 정직하게 빗나감으로 셉니다.')}
+      ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 500종목 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','신뢰도 구간별','신뢰도(확신 정도)가 높다고 표시한 판단만 골라서 다시 채점한 표예요. 확신이 높을수록 실제로 더 잘 맞는지 확인할 수 있어요.')}
+      <div class="gb-tip">💡 <b>여기서 제일 중요한 것!</b> 개오팀은 500종목 전부를 잘 맞히지는 못해요.
+      전체 BUY·SELL 판단의 시장 대비 적중률은 동전 던지기와 크게 다르지 않아요.
+      대신 <b>신뢰도가 높다고 표시한 판단일수록 성적이 눈에 띄게 올라갑니다</b>(성적표의 신뢰도 표에서 직접 확인하세요).
+      그래서 모든 판단을 똑같이 따라가기보다, <b>신뢰도가 높은 판단을 중심으로</b> 보시는 편이 좋아요.
+      불편한 숫자도 가리지 않고 그대로 보여드리는 게 이 성적표의 목적이에요.</div><br>
+      <b>🔄 순환매 그림자 평가는 뭔가요?</b><br>
+      업종끼리 자금이 옮겨 다니는 흐름(순환매)을 읽는 기능인데, 아직 <b>개별 종목의 BUY·HOLD·SELL 판단에는 전혀 반영하지 않아요</b>.
+      성적만 공개로 쌓아두고, 기록이 30거래일 이상 모이고 성적이 기준을 넘길 때만 실제 판단에 넣습니다.
+      「종합판단 v3」와 똑같은 방식이에요 — 검증되지 않은 기능을 조용히 실전에 넣지 않겠다는 원칙이에요.</div>
   </details>
 
   <details class="gb-sec" id="gb-sec-modelv3">
