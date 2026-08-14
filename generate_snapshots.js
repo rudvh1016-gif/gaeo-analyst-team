@@ -263,7 +263,18 @@ function buildStocks() {
       });
     }
   }
-  ranked.sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, 'ko'));
+  // ⭐ 2026-08-14: 홈 「오늘의 판단」 BUY 상위 종목이 신뢰도순으로 바뀌었는데, 이 목록은
+  // 상위 30개만 잘라서 홈 첫 화면에 내려보낸다. 예전처럼 종합점수순으로 자르면 "종합점수는
+  // 낮지만 신뢰도가 가장 높은" 종목이 30위 밖으로 밀려나서, 전체 자동분석(auto_analysis.js)이
+  // 백그라운드로 다 내려오기 전까지 첫 화면이 신뢰도 1~3위를 잘못 보여준다. 그래서 자를 때부터
+  // 화면과 같은 기준(BUY 먼저 · 신뢰도 높은 순 · 동률이면 종합점수)으로 정렬한다.
+  // (ranked를 code→row 맵으로만 쓰는 스크리너에는 순서가 영향을 주지 않는다.)
+  const conf = row => (typeof row.confidence === 'number' ? row.confidence : -1);
+  ranked.sort((a, b) =>
+    (a.call === 'BUY' ? 0 : 1) - (b.call === 'BUY' ? 0 : 1) ||
+    conf(b) - conf(a) ||
+    b.total - a.total ||
+    a.name.localeCompare(b.name, 'ko'));
   const sourceInsight = AUTO.marketInsight || {};
   const marketInsight = {
     ...sourceInsight,
