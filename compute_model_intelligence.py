@@ -208,6 +208,134 @@ def calibrated_p(calibration, analyst, score):
     return float(bucket.get("pUp", .5))
 
 
+CONF_PRIOR_N = 20
+MIN_CONF_CAL_N = 15
+
+
+def confidence_bin(total):
+    value = int(clamp(float(50 if total is None else total), 0, 100))
+    return str(value // 5 * 5)
+
+
+def confidence_calibration_from(rows):
+    """판단 종류(BUY/SELL)·종합점수 구간별 실제 5거래일 뒤 적중률을 그대로 잰다.
+    「신뢰도」를 분석가 의견 일치도(spread)가 아니라 실측 성적으로 정의하는 대안 후보.
+    PAVA로 "점수가 더 극단적인데 실측 적중률은 오히려 더 낮다"는 표본 노이즈성 역전을
+    눌러, 더 강한 판단일수록 최소한 같거나 더 잘 맞아야 한다는 단조성을 강제한다."""
+    out = {"BUY": {}, "SELL": {}}
+    global_counts = {"BUY": [0, 0], "SELL": [0, 0]}
+    for row in rows:
+        call = row.get("call")
+        if call not in ("BUY", "SELL"):
+            continue
+        ret = row.get("ret5")
+        if ret is None:
+            continue
+        verdict = call_hit(call, ret)
+        if verdict is None:
+            continue
+        bucket = out[call].setdefault(confidence_bin(row.get("total")), {"n": 0, "hit": 0})
+        bucket["n"] += 1
+        bucket["hit"] += verdict
+        global_counts[call][0] += 1
+        global_counts[call][1] += verdict
+    for call in ("BUY", "SELL"):
+        n_all, hit_all = global_counts[call]
+        base = hit_all / n_all if n_all else .5
+        # BUY는 점수가 높을수록, SELL은 점수가 낮을수록 "더 강한 판단"이므로
+        # 그 방향을 앞쪽에 두고 정렬해야 PAVA가 올바른 방향으로 단조성을 강제한다.
+        keys_sorted = sorted(out[call].keys(), key=lambda k: int(k), reverse=(call == "BUY"))
+        blocks = []
+        for key in keys_sorted:
+            bucket = out[call].setdefault(key, {"n": 0, "hit": 0})
+            raw = bucket["hit"] / bucket["n"] if bucket["n"] else None
+            prob = (bucket["hit"] + CONF_PRIOR_N * base) / (bucket["n"] + CONF_PRIOR_N)
+            bucket.update({"raw": round(raw, 4) if raw is not None else None,
+                           "uncalibratedAcc": round(prob, 4), "base": round(base, 4)})
+            blocks.append({"keys": [key], "weight": bucket["n"] + CONF_PRIOR_N, "value": prob})
+        merged = []
+        for block in blocks:
+            merged.append(block)
+            while len(merged) >= 2 and merged[-2]["value"] < merged[-1]["value"]:
+                right = merged.pop()
+                left = merged.pop()
+                weight = left["weight"] + right["weight"]
+                merged.append({"keys": left["keys"] + right["keys"], "weight": weight,
+                               "value": (left["value"] * left["weight"] + right["value"] * right["weight"]) / weight})
+        for block in merged:
+            for key in block["keys"]:
+                out[call][key]["calibratedAcc"] = round(block["value"], 4)
+    return out
+
+
+def confidence_candidate(calibration, call, total):
+    """confidence_calibration_from 학습 결과로 특정 판단의 실측 기반 신뢰도 후보값을
+    계산한다. 표본이 모자란 구간은 None을 돌려줘 호출부가 기존(의견 일치도) 신뢰도로
+    폴백하게 한다."""
+    if call not in ("BUY", "SELL"):
+        return None
+    bucket = (calibration.get(call) or {}).get(confidence_bin(total)) or {}
+    if bucket.get("n", 0) < MIN_CONF_CAL_N:
+        return None
+    acc = bucket.get("calibratedAcc")
+    if acc is None:
+        return None
+    return int(clamp(round(25 + acc * 65), 25, 90))
+
+
+def pearson(xs, ys):
+    n = len(xs)
+    if n < 2:
+        return 0.0
+    mx, my = sum(xs) / n, sum(ys) / n
+    num = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    dx2 = sum((x - mx) ** 2 for x in xs)
+    dy2 = sum((y - my) ** 2 for y in ys)
+    return num / math.sqrt(dx2 * dy2) if dx2 and dy2 else 0.0
+
+
+def evaluate_confidence_model(test_rows, calibration, regimes):
+    """검증(test) 구간에서 "실측 신뢰도 후보"가 기존(의견 일치도) 신뢰도보다 실제
+    적중 여부를 더 잘 가르는지 정직하게 확인한다. 계산 자체에 쓰지 않은 구간에서만
+    판단해야 과최적화(overfitting)를 스스로 속이지 않는다."""
+    pairs = []
+    for row in test_rows:
+        call = row.get("call")
+        if call not in ("BUY", "SELL"):
+            continue
+        ret = row.get("ret5")
+        if ret is None:
+            continue
+        verdict = call_hit(call, ret)
+        if verdict is None:
+            continue
+        pairs.append({"call": call, "hit": verdict, "day": row.get("day"),
+                      "candidate": confidence_candidate(calibration, call, row.get("total")),
+                      "baseline": row.get("confidence")})
+
+    def tier_spread(key):
+        vals = [(p[key], p["hit"]) for p in pairs if p[key] is not None]
+        if len(vals) < 20:
+            return {"n": len(vals), "tierSpreadPp": None, "corr": None}
+        vals.sort(key=lambda x: x[0])
+        third = max(1, len(vals) // 3)
+        low, high = vals[:third], vals[-third:]
+        low_acc = sum(v[1] for v in low) / len(low) * 100
+        high_acc = sum(v[1] for v in high) / len(high) * 100
+        corr = pearson([v[0] for v in vals], [v[1] for v in vals])
+        return {"n": len(vals), "tierSpreadPp": round(high_acc - low_acc, 1), "corr": round(corr, 4)}
+
+    buy_n = sum(1 for p in pairs if p["call"] == "BUY")
+    sell_n = sum(1 for p in pairs if p["call"] == "SELL")
+    test_days = len({p["day"] for p in pairs})
+    test_regimes = len({(regimes.get(p["day"]) or {}).get("key") for p in pairs if regimes.get(p["day"])})
+    return {
+        "n": len(pairs), "buyN": buy_n, "sellN": sell_n,
+        "testDays": test_days, "testRegimes": test_regimes,
+        "candidate": tier_spread("candidate"), "baseline": tier_spread("baseline"),
+    }
+
+
 def error_correlations(rows):
     pairs = {}
     penalties = {a: 1.0 for a in ANALYSTS}
@@ -454,7 +582,8 @@ def main():
             if not day or not base:
                 continue
             row = {"code": code, "day": day, "call": entry.get("call"),
-                   "total": entry.get("total"), "ret5": forward_return(code, day, base, 5),
+                   "total": entry.get("total"), "confidence": entry.get("confidence"),
+                   "ret5": forward_return(code, day, base, 5),
                    "archivedShadow": entry.get("shadow")}
             for analyst in ANALYSTS:
                 item = entry.get(analyst) or {}
@@ -512,6 +641,41 @@ def main():
         reasons.append("후보 판단이 한 방향에 80% 초과 편중")
     qualified = not reasons
     current_regime = regimes[max(regimes)] if regimes else {"key": "unknown"}
+
+    # ⭐ 2026-08-14: 표시되는 "신뢰도"가 사실 분석가 4인의 의견 일치도(spread)만 재는
+    # 식이라 BUY 판단에서는 실제 적중률과 거의 무관하다는 게 드러났다(상관계수 0.10
+    # 안팎). 대안으로 "판단 종류·종합점수 구간별 실측 적중률"을 신뢰도로 쓰는 후보를
+    # 학습(train)에서만 만들고, 학습에 전혀 쓰지 않은 검증(test) 구간에서 기존 신뢰도와
+    # 어느 쪽이 적중 여부를 더 잘 가르는지(구간별 적중률 스프레드·상관계수) 비교한다.
+    # v3·reboundGuard·순환매와 동일한 원칙 — 검증을 통과하기 전에는 화면에 보이는
+    # 신뢰도를 바꾸지 않는다. 표본이 이 정도(20여 거래일)로는 어떤 공식이든 신뢰도
+    # 있게 승격 판정을 내리기엔 부족하므로, 최소 표본 기준 미달이면 절대 승격하지 않는다.
+    confidence_calibration = confidence_calibration_from(train)
+    confidence_eval = evaluate_confidence_model(test, confidence_calibration, regimes)
+    conf_reasons = []
+    if confidence_eval["testDays"] < 40:
+        conf_reasons.append("검증일 40거래일 미만")
+    if confidence_eval["buyN"] < 50:
+        conf_reasons.append("검증 BUY 표본 50건 미만")
+    if confidence_eval["sellN"] < 50:
+        conf_reasons.append("검증 SELL 표본 50건 미만")
+    cand_stat, base_stat = confidence_eval["candidate"], confidence_eval["baseline"]
+    if cand_stat["tierSpreadPp"] is None or base_stat["tierSpreadPp"] is None:
+        conf_reasons.append("구간별 비교에 표본이 모자람")
+    elif cand_stat["tierSpreadPp"] < max(5.0, base_stat["tierSpreadPp"]):
+        conf_reasons.append("후보 신뢰도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족"
+                             f"(후보 {cand_stat['tierSpreadPp']}pp vs 기존 {base_stat['tierSpreadPp']}pp)")
+    confidence_qualified = not conf_reasons
+    confidence_model = {
+        "version": "calibrated-accuracy-v1",
+        "calibration": confidence_calibration,
+        "evaluation": confidence_eval,
+        "promotion": {"qualified": confidence_qualified,
+                      "status": "qualified" if confidence_qualified else "shadow",
+                      "reasons": conf_reasons,
+                      "minimums": {"testDays": 40, "buyN": 50, "sellN": 50, "minTierSpreadLiftPp": 5.0}},
+    }
+
     payload = {
         "generatedAt": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "version": "calibrated-ensemble-v3",
@@ -530,6 +694,7 @@ def main():
                       "precisionGainPp": 1.5, "brierGain": .005, "coveragePct": 15,
                       "testDays": 40, "testRegimes": 3, "buyN": 50, "sellN": 50,
                       "maxDirectionSharePct": 80}},
+        "confidenceModel": confidence_model,
     }
     body = json.dumps(payload, ensure_ascii=False, indent=1)
     header = ("// 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가\n"
@@ -537,7 +702,9 @@ def main():
     with open(os.path.join(HERE, "model_intelligence.js"), "w", encoding="utf-8") as handle:
         handle.write(header + "const MODEL_INTELLIGENCE = " + body + ";\n")
     print(f"model_intelligence.js 저장 · train {len(train):,} · test {len(test):,} · "
-          f"상태 {payload['promotion']['status']} · 후보 정밀도 {candidate_precision}")
+          f"상태 {payload['promotion']['status']} · 후보 정밀도 {candidate_precision} · "
+          f"신뢰도모델 {confidence_model['promotion']['status']}"
+          + (f" ({'; '.join(conf_reasons)})" if conf_reasons else ""))
 
 
 if __name__ == "__main__":
