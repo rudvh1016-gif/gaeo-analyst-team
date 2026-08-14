@@ -2854,7 +2854,7 @@
   .home-dashboard .start-step-summary{position:relative;background:var(--color-surface);
     border-color:var(--color-border);color:var(--color-text-primary);box-shadow:var(--shadow-xs)}
   .home-dashboard .start-step-summary::after{content:none}
-  .home-dashboard .start-step-summary .start-kicker{color:var(--color-accent)}
+  .home-dashboard .start-step-summary .start-kicker{display:none}
   .home-dashboard .start-step-summary h2{color:var(--color-text-primary)}
   .home-dashboard .brief-market{margin-top:13px;border-color:var(--color-border);color:var(--color-text-secondary)}
   .home-dashboard .brief-market-item>span{color:var(--color-text-secondary)}
@@ -2886,7 +2886,7 @@
   .home-daily-brief .brief-lines{display:grid;gap:0;margin-top:8px}
   .home-daily-brief .brief-line{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--color-border)}
   .home-daily-brief .brief-line::before{content:attr(data-brief-label);color:var(--color-text-tertiary);font-size:12.5px;font-weight:600;line-height:1.4;letter-spacing:0}
-  .home-daily-brief .brief-line span{min-width:0}
+  .home-daily-brief .brief-line span{min-width:0;font-size:13px;line-height:1.6;color:var(--color-text-primary)}
   .home-daily-brief .brief-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:13px;font-size:10.5px}
   .home-daily-brief .brief-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
   .home-daily-brief .hda{margin-top:25px;padding-top:19px;border-top:1px solid var(--color-border)}
@@ -5299,6 +5299,9 @@ renderHomeDeepAnalysis();
     const sectors=Object.entries(groups).filter(x=>x[1].length>=3)
       .map(x=>({name:x[0],rate:x[1].reduce((a,b)=>a+b,0)/x[1].length})).sort((a,b)=>b.rate-a.rate);
     const strong=sectors[0], weak=sectors[sectors.length-1];
+    // ⭐ 2026-08-14 사용자 지정 — "업종" 줄이 애매하게 2줄로 넘어가던 걸, 아예 문장을 늘려
+    // 두세줄로 자연스럽게 채운다(업종 상승·하락 개수까지 더해 정보량도 늘림).
+    const sectorUp=sectors.filter(s=>s.rate>=0).length, sectorDown=sectors.length-sectorUp;
     return {
       sourceAsOf:live.date||'',
       strongSector:strong&&strong.name||null,
@@ -5306,7 +5309,9 @@ renderHomeDeepAnalysis();
         `코스피 ${rate(idx.KOSPI)}, 코스닥 ${rate(idx.KOSDAQ)}로 움직이고 있어요.`,
         `${rows.length}종목 중 상승 ${up}개 · 하락 ${down}개 · 보합 ${flat}개예요.`,
         strong&&weak
-          ? `강한 업종은 ${strong.name}(${strong.rate>=0?'+':''}${strong.rate.toFixed(2)}%), 약한 업종은 ${weak.name}(${weak.rate>=0?'+':''}${weak.rate.toFixed(2)}%)이에요.`
+          ? `집계된 ${sectors.length}개 업종 중 ${sectorUp}개는 오르고 ${sectorDown}개는 내렸어요. `+
+            `가장 강한 업종은 ${strong.name}(${strong.rate>=0?'+':''}${strong.rate.toFixed(2)}%)이고, `+
+            `가장 약한 업종은 ${weak.name}(${weak.rate>=0?'+':''}${weak.rate.toFixed(2)}%)이에요.`
           : '업종 흐름을 집계하고 있어요.'
       ]
     };
@@ -5361,8 +5366,13 @@ renderHomeDeepAnalysis();
     document.getElementById('briefTitle').textContent='현재 기준 브리핑';
     const dateEl=document.getElementById('briefDate');
     const dateParts=(source.date||clock.date).split('-');
+    // ⭐ 2026-08-14 사용자 지정 — 장중(평일 09:00~16:00)에도 무조건 "시장 마감"이라고 떠서
+    // 헷갈린다는 신고. 장중에는 실제 브리핑 기준 시각(예: "10:52 기준")을 보여주고,
+    // 장이 실제로 끝난 뒤(또는 주말)에만 "시장 마감"/"최근 시장"을 쓴다.
+    const marketHours=!weekend&&clock.minutes>=540&&clock.minutes<960;
+    const statusLabel=weekend?'최근 시장':(marketHours?`${source.time||clock.time} 기준`:'시장 마감');
     if(dateEl) dateEl.textContent=dateParts.length===3
-      ?`${Number(dateParts[1])}월 ${Number(dateParts[2])}일 · ${weekend?'최근 시장':'시장 마감'}`
+      ?`${Number(dateParts[1])}월 ${Number(dateParts[2])}일 · ${statusLabel}`
       :'시장 마감 기준';
     const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
     document.getElementById('briefMeta').innerHTML=
