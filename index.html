@@ -2922,10 +2922,16 @@
   .home-daily-brief .brief-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:13px;font-size:10.5px}
   .home-daily-brief .brief-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
   .home-daily-brief .hda{margin-top:25px;padding-top:19px;border-top:1px solid var(--color-border)}
-  .home-daily-brief .hda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:7px}
+  /* PC에서는 늘 펼쳐진 정보 섹션, 모바일에서만 눌러서 펼치는 버튼이 된다(아래 max-width:900px).
+     .hda-head는 <button>이라 기본 버튼 크롬(테두리·배경·폰트)을 여기서 전부 지운다. */
+  .home-daily-brief .hda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    margin-bottom:7px;width:100%;border:0;background:none;padding:0;font:inherit;text-align:left;
+    color:inherit;cursor:default}
   .home-daily-brief .hda-title{font-size:14px;font-weight:760;letter-spacing:-.025em}
   .home-daily-brief .hda-desc{margin:4px 0 0;color:var(--color-text-tertiary);font-size:10.5px;line-height:1.5}
   .home-daily-brief .hda-list{display:flex;flex-direction:column}
+  .home-daily-brief .hda-chevron{display:none;width:16px;height:16px;margin:0;flex:0 0 auto;
+    color:var(--color-text-tertiary);transition:transform .18s ease}
   /* 최근 정밀분석 — 종목명·날짜만 있던 목록에 저장된 한 줄 Summary를 더해 Compact Research Index로.
      summary는 정밀분석 완성 시점에 함께 저장되며(런타임 생성 아님), 없는 기록은 이름·날짜만 조용히 표시한다. */
   .home-daily-brief .hda-row{display:flex;flex-direction:column;gap:4px;padding:12px 0;
@@ -2964,6 +2970,7 @@
   .home-daily-brief .hdb-stock-name{display:block;overflow:hidden;font-size:11.5px;font-weight:780;text-overflow:ellipsis;white-space:nowrap}
   .home-daily-brief .hdb-stock-call{display:block;margin-top:2px;color:var(--color-text-tertiary);font-size:9px}
   .home-daily-brief .hdb-stock-score{font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
+  .home-daily-brief .hdb-rank-note{margin:6px 0 0;color:var(--color-text-tertiary);font-size:9px;line-height:1.5}
   .home-daily-brief .hdb-buy-toggle{width:100%;margin-top:11px;padding:9px 0;border:0;background:none;color:var(--color-accent);font-size:10.5px;font-weight:800;text-align:left;cursor:pointer}
   .home-daily-brief .hdb-empty{padding:20px 0;color:var(--color-text-tertiary);font-size:11px;line-height:1.6}
   .home-daily-brief .hdb-buy-panel{margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border)}
@@ -2986,6 +2993,11 @@
     .home-daily-brief .hdb-sheet-backdrop{position:fixed;inset:0;z-index:520;background:rgba(15,20,28,.42)}
     .home-daily-brief .hdb-buy-panel{position:fixed;right:0;bottom:0;left:0;z-index:521;max-height:78vh;margin:0;padding:18px 18px max(18px,env(safe-area-inset-bottom));overflow:hidden;border:0;border-radius:20px 20px 0 0;background:var(--color-surface);box-shadow:0 -12px 30px rgba(15,20,28,.14)}
     .home-daily-brief .hdb-buy-list{max-height:calc(78vh - 72px)}
+    /* 최근 정밀분석: 모바일에서만 눌러야 펼쳐지는 버튼으로 바꾼다. PC는 위 규칙대로 항상 펼침. */
+    .home-daily-brief .hda-head{cursor:pointer}
+    .home-daily-brief .hda-chevron{display:block;transform:rotate(180deg)}
+    .home-daily-brief .hda.is-collapsed .hda-chevron{transform:rotate(0deg)}
+    .home-daily-brief .hda.is-collapsed .hda-list,.home-daily-brief .hda.is-collapsed .hda-more{display:none}
   }
   .latest-panel .latest-post-pin{display:inline-block;margin-right:5px;color:#E5484D;
     font-size:12px;line-height:1;vertical-align:1px}
@@ -3670,7 +3682,10 @@
               <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
             </div>
             <section class="hda" id="homeDeepAnalysis" aria-labelledby="homeDeepAnalysisTitle">
-              <div class="hda-head"><div><strong class="hda-title" id="homeDeepAnalysisTitle">최근 정밀분석</strong><p class="hda-desc">직접 지정해 더 깊게 확인한 종목이에요</p></div></div>
+              <button class="hda-head" id="hdaToggle" type="button" aria-expanded="true" aria-controls="homeDeepAnalysisList">
+                <div><strong class="hda-title" id="homeDeepAnalysisTitle">최근 정밀분석</strong><p class="hda-desc">직접 지정해 더 깊게 확인한 종목이에요</p></div>
+                <svg class="hda-chevron mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
               <div class="hda-list" id="homeDeepAnalysisList"><div class="hda-empty">최근 정밀분석이 아직 없습니다.</div></div>
               <a href="/research/deep-analysis/" class="hda-more">정밀분석 전체 보기 →</a>
             </section>
@@ -5476,6 +5491,20 @@ function renderHomeDeepAnalysis(){
   }).join('');
 }
 renderHomeDeepAnalysis();
+// ⭐ 2026-08-14 사용자 지정 — "최근 정밀분석"은 PC에서는 늘 펼쳐진 채로 두고,
+// 모바일(≤900px)에서만 헤더를 눌러야 펼쳐지는 버튼으로 바꾼다. 시작 상태는 접힘.
+(function(){
+  const hda=document.getElementById('homeDeepAnalysis');
+  const toggle=document.getElementById('hdaToggle');
+  if(!hda||!toggle) return;
+  const isMobile=()=>window.matchMedia('(max-width:900px)').matches;
+  if(isMobile()){ hda.classList.add('is-collapsed'); toggle.setAttribute('aria-expanded','false'); }
+  toggle.onclick=()=>{
+    if(!isMobile()) return;   // PC에서는 클릭해도 항상 펼쳐진 상태 유지(토글 없음)
+    const collapsed=hda.classList.toggle('is-collapsed');
+    toggle.setAttribute('aria-expanded', collapsed?'false':'true');
+  };
+})();
 
 /* ── 첫 화면 자동 브리핑: 숫자 10분 · 보강 설명 30분 · 열린 화면 5분 확인 ── */
 (function(){
@@ -5632,6 +5661,7 @@ renderHomeDeepAnalysis();
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
       (model.buy.length
         ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>신뢰도순</span></div><div class="hdb-preview">${preview}</div>`+
+          `<p class="hdb-rank-note">신뢰도(분석가 의견이 얼마나 일치하는지)가 높은 순으로 정렬했고, 신뢰도가 같으면 종합점수 순이에요.</p>`+
           `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
           `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
