@@ -6,7 +6,7 @@ const DEEP_ANALYSIS_LATEST = [
   "analysisCreatedAt": "2026-08-13 22:20",
   "date": "2026-08-13",
   "permalink": "/research/deep-analysis/316140/2026-08-13-2220/",
-  "summary": ""
+  "summary": "2분기 실적 회복, 지배구조 리스크는 부담"
  },
  {
   "ticker": "002990",
@@ -14,7 +14,7 @@ const DEEP_ANALYSIS_LATEST = [
   "analysisCreatedAt": "2026-08-13 21:37",
   "date": "2026-08-13",
   "permalink": "/research/deep-analysis/002990/2026-08-13-2137/",
-  "summary": ""
+  "summary": "상반기 실적 개선됐지만 급등분 큰 폭 반납"
  },
  {
   "ticker": "001820",
@@ -22,7 +22,7 @@ const DEEP_ANALYSIS_LATEST = [
   "analysisCreatedAt": "2026-08-13 10:10",
   "date": "2026-08-13",
   "permalink": "/research/deep-analysis/001820/2026-08-13-1010/",
-  "summary": ""
+  "summary": "MLCC 가격인상 훈풍, 목표가 대비 이미 과열"
  },
  {
   "ticker": "002990",
@@ -38,6 +38,6 @@ const DEEP_ANALYSIS_LATEST = [
   "analysisCreatedAt": "2026-08-12 12:45",
   "date": "2026-08-12",
   "permalink": "/research/deep-analysis/257720/2026-08-12-1245/",
-  "summary": ""
+  "summary": "2분기 어닝서프라이즈, 외국인 매수 전환은 아직"
  }
 ];
