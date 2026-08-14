@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-08-14 종가 (15:55 수집)
+// 자동 생성: update_prices.py · 2026-08-14 종가 (16:06 수집)
 const LIVE_DATA = {
- "date": "2026-08-14 종가 (15:55 수집)",
+ "date": "2026-08-14 종가 (16:06 수집)",
  "indices": {
   "KOSPI": {
    "value": 6977.94,
@@ -6516,12 +6516,12 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1417.8,
-  "change": -2.4,
-  "rate": -0.17
+  "value": 1417.3,
+  "change": -2.9,
+  "rate": -0.2
  },
  "marketBrief": {
-  "sourceAsOf": "2026-08-14 종가 (15:55 수집)",
+  "sourceAsOf": "2026-08-14 종가 (16:06 수집)",
   "breadth": {
    "total": 500,
    "up": 326,
