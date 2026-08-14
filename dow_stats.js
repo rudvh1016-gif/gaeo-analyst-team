@@ -31,7 +31,7 @@ const DOW_STATS = {
   "5": {
    "avg": 0.3722,
    "n": 42,
-   "up": 25
+   "up": 26
   }
  },
  "series": [

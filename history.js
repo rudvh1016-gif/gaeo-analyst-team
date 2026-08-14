@@ -1085,8 +1085,8 @@ const LIVE_HISTORY = {
     "score": 46
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -2222,8 +2222,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 38,
-    "confidence": 27,
-    "probabilityUp": 43.3,
+    "confidence": 28,
+    "probabilityUp": 43.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -12027,8 +12027,8 @@ const LIVE_HISTORY = {
     "score": 49
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -17028,7 +17028,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 37,
     "confidence": 38,
-    "probabilityUp": 37.2,
+    "probabilityUp": 37.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -19902,7 +19902,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 34,
     "confidence": 44,
-    "probabilityUp": 34.3,
+    "probabilityUp": 34.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -20846,7 +20846,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "nova": {
     "stance": "neu",
@@ -21818,7 +21818,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 41,
-    "probabilityUp": 34.9,
+    "probabilityUp": 34.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -22776,7 +22776,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 33,
-    "probabilityUp": 40.2,
+    "probabilityUp": 40.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -23716,15 +23716,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
     "score": 58
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -25632,7 +25632,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bear",
@@ -25650,7 +25650,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 34,
     "confidence": 41,
-    "probabilityUp": 33.6,
+    "probabilityUp": 33.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -26594,7 +26594,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 52
+    "score": 51
    },
    "nova": {
     "stance": "neu",
@@ -29482,7 +29482,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 36,
     "confidence": 42,
-    "probabilityUp": 35.9,
+    "probabilityUp": 35.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -33296,7 +33296,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 32
    },
    "diana": {
     "stance": "bull",
@@ -36178,7 +36178,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -37135,8 +37135,8 @@ const LIVE_HISTORY = {
     "score": 81
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -38072,7 +38072,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 53,
+   "total": 55,
    "confidence": 48,
    "base": 37100,
    "baseAt": "2026-08-14 11:26 장중",
@@ -38094,7 +38094,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -43861,15 +43861,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "bull",
     "score": 70
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -47711,7 +47711,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 28,
     "confidence": 56,
-    "probabilityUp": 27.7,
+    "probabilityUp": 27.5,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -49625,7 +49625,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 29,
+    "total": 28,
     "confidence": 48,
     "probabilityUp": 28.6,
     "modelVersion": "calibrated-ensemble-v3",
@@ -50583,7 +50583,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 33,
+    "total": 34,
     "confidence": 31,
     "probabilityUp": 38.5,
     "modelVersion": "calibrated-ensemble-v3",
@@ -51543,7 +51543,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 33,
     "confidence": 44,
-    "probabilityUp": 33.1,
+    "probabilityUp": 32.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -54399,7 +54399,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -54407,7 +54407,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53
+    "score": 50
    },
    "flow": {
     "stance": "neu",
@@ -56315,15 +56315,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bear",
     "score": 39
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -60164,7 +60164,7 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 36,
-    "confidence": 28,
+    "confidence": 29,
     "probabilityUp": 39.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -63997,7 +63997,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 48,
-    "probabilityUp": 35.3,
+    "probabilityUp": 35.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -64944,8 +64944,8 @@ const LIVE_HISTORY = {
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -66853,7 +66853,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -67818,8 +67818,8 @@ const LIVE_HISTORY = {
     "score": 63
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -69735,7 +69735,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -69743,7 +69743,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 31,
+    "total": 32,
     "confidence": 48,
     "probabilityUp": 31.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -71650,8 +71650,8 @@ const LIVE_HISTORY = {
     "score": 53
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -73559,7 +73559,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -77391,7 +77391,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "neu",
@@ -80281,7 +80281,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 30,
+    "total": 29,
     "confidence": 50,
     "probabilityUp": 29.6,
     "modelVersion": "calibrated-ensemble-v3",
@@ -83147,7 +83147,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55
+    "score": 49
    },
    "flow": {
     "stance": "neu",
@@ -83155,7 +83155,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 30,
+    "total": 31,
     "confidence": 47,
     "probabilityUp": 30.5,
     "modelVersion": "calibrated-ensemble-v3",
@@ -84115,7 +84115,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 43,
-    "probabilityUp": 30.2,
+    "probabilityUp": 30.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -85055,15 +85055,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "bear",
     "score": 34
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -86971,7 +86971,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "neu",
@@ -86979,7 +86979,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -93684,8 +93684,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -94642,8 +94642,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -95593,15 +95593,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "neu",
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -99433,7 +99433,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 50
    },
    "flow": {
     "stance": "neu",
@@ -105173,15 +105173,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "bull",
     "score": 65
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -108054,8 +108054,8 @@ const LIVE_HISTORY = {
     "score": 54
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -110997,8 +110997,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "neu",
@@ -116762,7 +116762,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 33,
+    "total": 34,
     "confidence": 42,
     "probabilityUp": 33.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -118662,7 +118662,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "neu",
@@ -120595,8 +120595,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 33,
-    "confidence": 43,
-    "probabilityUp": 33.4,
+    "confidence": 44,
+    "probabilityUp": 33.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -121543,8 +121543,8 @@ const LIVE_HISTORY = {
     "score": 81
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -123459,8 +123459,8 @@ const LIVE_HISTORY = {
     "score": 53
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -126342,9 +126342,9 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 33,
-    "confidence": 32,
-    "probabilityUp": 36.2,
+    "total": 34,
+    "confidence": 31,
+    "probabilityUp": 36.5,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -128242,15 +128242,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "bull",
     "score": 77
    },
    "nova": {
-    "stance": "neu",
-    "score": 47
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -130162,7 +130162,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 69
    },
    "nova": {
     "stance": "neu",
@@ -131116,7 +131116,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "diana": {
     "stance": "bear",
@@ -132081,8 +132081,8 @@ const LIVE_HISTORY = {
     "score": 59
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -132092,7 +132092,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 33,
     "confidence": 47,
-    "probabilityUp": 33.2,
+    "probabilityUp": 33.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -133032,7 +133032,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 72
    },
    "diana": {
     "stance": "bull",
@@ -133040,7 +133040,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -134948,7 +134948,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 65
    },
    "diana": {
     "stance": "neu",
@@ -137830,7 +137830,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 30
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -137838,8 +137838,8 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 28,
-    "confidence": 49,
+    "total": 29,
+    "confidence": 53,
     "probabilityUp": 28.5,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -140696,7 +140696,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 64
    },
    "diana": {
     "stance": "bear",
@@ -140714,7 +140714,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 29,
     "confidence": 52,
-    "probabilityUp": 28.7,
+    "probabilityUp": 28.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -153157,8 +153157,8 @@ const LIVE_HISTORY = {
     "score": 87
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -161772,7 +161772,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "bull",
@@ -164698,7 +164698,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -169492,7 +169492,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 83
+    "score": 82
    },
    "nova": {
     "stance": "neu",
@@ -172347,8 +172347,8 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-08-14",
-   "call": "BUY",
-   "total": 63,
+   "call": "HOLD",
+   "total": 62,
    "confidence": 50,
    "base": 164900,
    "baseAt": "2026-08-14 11:26 장중",
@@ -172366,7 +172366,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 64
+    "score": 58
    },
    "nova": {
     "stance": "neu",
@@ -185774,7 +185774,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -189649,7 +189649,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 38,
+    "total": 37,
     "confidence": 39,
     "probabilityUp": 37.9,
     "modelVersion": "calibrated-ensemble-v3",
@@ -190577,7 +190577,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 51,
    "base": 18850,
    "baseAt": "2026-08-14 11:26 장중",
@@ -190591,7 +190591,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -190599,7 +190599,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 54
    },
    "flow": {
     "stance": "bear",
@@ -193472,8 +193472,8 @@ const LIVE_HISTORY = {
     "score": 76
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -195380,8 +195380,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bear",
-    "score": 32
+    "stance": "neu",
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -195397,9 +195397,9 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 28,
-    "confidence": 48,
-    "probabilityUp": 28.5,
+    "total": 30,
+    "confidence": 51,
+    "probabilityUp": 29.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -201129,7 +201129,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -201137,7 +201137,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -201147,7 +201147,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 31,
     "confidence": 38,
-    "probabilityUp": 34.8,
+    "probabilityUp": 35.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -204965,7 +204965,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 59
    },
    "nova": {
     "stance": "neu",
@@ -205923,7 +205923,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 64
    },
    "nova": {
     "stance": "neu",
@@ -206884,8 +206884,8 @@ const LIVE_HISTORY = {
     "score": 88
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -207835,7 +207835,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 83
    },
    "diana": {
     "stance": "neu",
@@ -208811,7 +208811,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 38,
     "confidence": 37,
-    "probabilityUp": 38.2,
+    "probabilityUp": 38.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -209758,8 +209758,8 @@ const LIVE_HISTORY = {
     "score": 76
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -210716,8 +210716,8 @@ const LIVE_HISTORY = {
     "score": 64
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -215499,7 +215499,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bear",
@@ -215507,7 +215507,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -215516,7 +215516,7 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 30,
-    "confidence": 54,
+    "confidence": 53,
     "probabilityUp": 29.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -219383,7 +219383,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 65
    },
    "diana": {
     "stance": "bull",
@@ -221316,8 +221316,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 32,
-    "confidence": 43,
-    "probabilityUp": 32.1,
+    "confidence": 44,
+    "probabilityUp": 31.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -223215,11 +223215,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 61
    },
    "diana": {
     "stance": "bull",
-    "score": 88
+    "score": 89
    },
    "nova": {
     "stance": "neu",
@@ -228012,8 +228012,8 @@ const LIVE_HISTORY = {
     "score": 66
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -229928,8 +229928,8 @@ const LIVE_HISTORY = {
     "score": 73
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -232799,7 +232799,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 59
    },
    "nova": {
     "stance": "neu",
@@ -234696,8 +234696,8 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-08-14",
-   "call": "HOLD",
-   "total": 47,
+   "call": "SELL",
+   "total": 45,
    "confidence": 40,
    "base": 9840,
    "baseAt": "2026-08-14 11:26 장중",
@@ -234718,8 +234718,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 49
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -235676,8 +235676,8 @@ const LIVE_HISTORY = {
     "score": 85
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -241444,7 +241444,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -241452,7 +241452,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -243780,7 +243780,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 34,
+    "total": 35,
     "confidence": 45,
     "probabilityUp": 34.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -245680,7 +245680,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -247596,15 +247596,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
     "score": 76
    },
    "nova": {
-    "stance": "neu",
-    "score": 55
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -247613,8 +247613,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 30,
-    "confidence": 53,
-    "probabilityUp": 29.7,
+    "confidence": 51,
+    "probabilityUp": 29.8,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -248554,7 +248554,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -251435,8 +251435,8 @@ const LIVE_HISTORY = {
     "score": 81
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -254302,7 +254302,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "bull",
@@ -255267,8 +255267,8 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -260036,7 +260036,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 56,
    "base": 48600,
    "baseAt": "2026-08-14 11:26 장중",
@@ -260049,8 +260049,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -261026,7 +261026,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 34,
     "confidence": 48,
-    "probabilityUp": 34.0,
+    "probabilityUp": 34.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -268679,8 +268679,8 @@ const LIVE_HISTORY = {
     "score": 56
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -271546,7 +271546,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "bull",
@@ -272504,7 +272504,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -272520,7 +272520,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 30,
+    "total": 31,
     "confidence": 44,
     "probabilityUp": 30.1,
     "modelVersion": "calibrated-ensemble-v3",
@@ -275385,8 +275385,8 @@ const LIVE_HISTORY = {
     "score": 46
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -283028,7 +283028,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 50,
    "base": 9460,
    "baseAt": "2026-08-14 11:26 장중",
@@ -283041,8 +283041,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -284018,7 +284018,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 32,
     "confidence": 45,
-    "probabilityUp": 31.8,
+    "probabilityUp": 31.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -284966,7 +284966,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 50
    },
    "flow": {
     "stance": "neu",
@@ -285933,8 +285933,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 32,
-    "confidence": 46,
-    "probabilityUp": 31.9,
+    "confidence": 45,
+    "probabilityUp": 32.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -288850,7 +288850,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -297472,7 +297472,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -298408,7 +298408,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 52,
+   "total": 53,
    "confidence": 58,
    "base": 2870,
    "baseAt": "2026-08-14 11:26 장중",
@@ -298422,7 +298422,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -298430,7 +298430,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "bear",
@@ -298440,7 +298440,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 29,
     "confidence": 50,
-    "probabilityUp": 29.1,
+    "probabilityUp": 29.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -299380,7 +299380,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -300356,7 +300356,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 41,
-    "probabilityUp": 34.7,
+    "probabilityUp": 34.9,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -301314,7 +301314,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 36,
     "confidence": 37,
-    "probabilityUp": 35.9,
+    "probabilityUp": 36.0,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -302240,7 +302240,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 50,
    "base": 87500,
    "baseAt": "2026-08-14 11:26 장중",
@@ -302254,7 +302254,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -307044,15 +307044,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bull",
     "score": 69
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -308968,7 +308968,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "flow": {
     "stance": "neu",
@@ -309925,8 +309925,8 @@ const LIVE_HISTORY = {
     "score": 86
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -311852,7 +311852,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 40,
-    "probabilityUp": 35.5,
+    "probabilityUp": 35.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -318540,7 +318540,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -319505,8 +319505,8 @@ const LIVE_HISTORY = {
     "score": 75
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -321414,7 +321414,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "neu",
@@ -322388,7 +322388,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 34,
+    "total": 35,
     "confidence": 45,
     "probabilityUp": 34.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -331001,8 +331001,8 @@ const LIVE_HISTORY = {
     "score": 64
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -332896,7 +332896,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 59,
    "base": 4400,
    "baseAt": "2026-08-14 11:26 장중",
@@ -332910,7 +332910,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "bull",
@@ -334844,7 +334844,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 37,
     "confidence": 38,
-    "probabilityUp": 37.3,
+    "probabilityUp": 37.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -340592,7 +340592,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 32,
     "confidence": 48,
-    "probabilityUp": 32.4,
+    "probabilityUp": 32.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -341532,7 +341532,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -343466,7 +343466,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 36,
     "confidence": 44,
-    "probabilityUp": 35.9,
+    "probabilityUp": 36.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -345371,8 +345371,8 @@ const LIVE_HISTORY = {
     "score": 73
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -345380,7 +345380,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 31,
+    "total": 30,
     "confidence": 51,
     "probabilityUp": 30.7,
     "modelVersion": "calibrated-ensemble-v3",
@@ -352086,7 +352086,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 36,
+    "total": 35,
     "confidence": 46,
     "probabilityUp": 35.5,
     "modelVersion": "calibrated-ensemble-v3",
@@ -353028,7 +353028,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -355909,8 +355909,8 @@ const LIVE_HISTORY = {
     "score": 32
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -357825,8 +357825,8 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -358762,7 +358762,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 59,
+   "total": 58,
    "confidence": 30,
    "base": 274500,
    "baseAt": "2026-08-14 11:26 장중",
@@ -358776,7 +358776,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 87
    },
    "diana": {
     "stance": "bear",
@@ -364531,8 +364531,8 @@ const LIVE_HISTORY = {
     "score": 32
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -365489,8 +365489,8 @@ const LIVE_HISTORY = {
     "score": 42
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -366426,8 +366426,8 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 39,
+   "total": 61,
+   "confidence": 38,
    "base": 279000,
    "baseAt": "2026-08-14 11:26 장중",
    "target": "증권사 평균 목표주가 361,125원 (현재가 대비 +29.4% 상승여력)",
@@ -366440,7 +366440,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 86
    },
    "diana": {
     "stance": "bear",
@@ -369321,8 +369321,8 @@ const LIVE_HISTORY = {
     "score": 75
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -375069,8 +375069,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -378894,15 +378894,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 73
    },
    "diana": {
     "stance": "neu",
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -379859,8 +379859,8 @@ const LIVE_HISTORY = {
     "score": 66
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -380817,8 +380817,8 @@ const LIVE_HISTORY = {
     "score": 50
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -385600,7 +385600,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 84
    },
    "diana": {
     "stance": "bull",
@@ -385616,7 +385616,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 36,
+    "total": 35,
     "confidence": 40,
     "probabilityUp": 35.7,
     "modelVersion": "calibrated-ensemble-v3",
@@ -386565,8 +386565,8 @@ const LIVE_HISTORY = {
     "score": 74
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -390397,8 +390397,8 @@ const LIVE_HISTORY = {
     "score": 65
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -391348,7 +391348,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 70
    },
    "diana": {
     "stance": "bear",
@@ -391364,9 +391364,9 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 35,
+    "total": 34,
     "confidence": 31,
-    "probabilityUp": 37.6,
+    "probabilityUp": 37.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -392322,7 +392322,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 34,
+    "total": 33,
     "confidence": 26,
     "probabilityUp": 36.6,
     "modelVersion": "calibrated-ensemble-v3",
@@ -393264,7 +393264,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 87
    },
    "diana": {
     "stance": "neu",
@@ -393272,7 +393272,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -395187,8 +395187,8 @@ const LIVE_HISTORY = {
     "score": 58
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "bear",
@@ -395196,7 +395196,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 23,
+    "total": 22,
     "confidence": 47,
     "probabilityUp": 28.5,
     "modelVersion": "calibrated-ensemble-v3",
@@ -397103,8 +397103,8 @@ const LIVE_HISTORY = {
     "score": 42
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -397114,7 +397114,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 52,
-    "probabilityUp": 30.0,
+    "probabilityUp": 29.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -399977,8 +399977,8 @@ const LIVE_HISTORY = {
     "score": 54
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -402844,7 +402844,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 76
    },
    "diana": {
     "stance": "neu",
@@ -402861,8 +402861,8 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 32,
-    "confidence": 37,
-    "probabilityUp": 35.0,
+    "confidence": 35,
+    "probabilityUp": 35.1,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -404760,7 +404760,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bear",
@@ -405718,7 +405718,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -405726,7 +405726,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44
+    "score": 47
    },
    "flow": {
     "stance": "neu",
@@ -405734,7 +405734,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 36,
+    "total": 37,
     "confidence": 41,
     "probabilityUp": 36.3,
     "modelVersion": "calibrated-ensemble-v3",
@@ -407641,8 +407641,8 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -410515,8 +410515,8 @@ const LIVE_HISTORY = {
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -413382,7 +413382,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bear",
@@ -415305,8 +415305,8 @@ const LIVE_HISTORY = {
     "score": 38
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -416263,8 +416263,8 @@ const LIVE_HISTORY = {
     "score": 66
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -416274,7 +416274,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 50,
-    "probabilityUp": 30.1,
+    "probabilityUp": 30.2,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -418179,8 +418179,8 @@ const LIVE_HISTORY = {
     "score": 69
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -420095,8 +420095,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -426794,7 +426794,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "bull",
@@ -428717,8 +428717,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -429686,7 +429686,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 35,
     "confidence": 27,
-    "probabilityUp": 38.5,
+    "probabilityUp": 38.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -432528,7 +432528,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 55,
+   "total": 56,
    "confidence": 30,
    "base": 85300,
    "baseAt": "2026-08-14 11:26 장중",
@@ -432542,7 +432542,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bear",
@@ -438297,8 +438297,8 @@ const LIVE_HISTORY = {
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -441171,8 +441171,8 @@ const LIVE_HISTORY = {
     "score": 75
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -442140,7 +442140,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 36,
     "confidence": 39,
-    "probabilityUp": 35.7,
+    "probabilityUp": 35.6,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -444045,8 +444045,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -445954,7 +445954,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -446919,8 +446919,8 @@ const LIVE_HISTORY = {
     "score": 85
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -448814,7 +448814,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-14",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 46,
    "base": 70400,
    "baseAt": "2026-08-14 11:26 장중",
@@ -448844,7 +448844,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 34,
+    "total": 35,
     "confidence": 32,
     "probabilityUp": 37.6,
     "modelVersion": "calibrated-ensemble-v3",
@@ -450751,8 +450751,8 @@ const LIVE_HISTORY = {
     "score": 78
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -452667,8 +452667,8 @@ const LIVE_HISTORY = {
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -457457,8 +457457,8 @@ const LIVE_HISTORY = {
     "score": 54
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -461289,8 +461289,8 @@ const LIVE_HISTORY = {
     "score": 88
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -461299,7 +461299,7 @@ const LIVE_HISTORY = {
    "shadow": {
     "call": "SELL",
     "total": 24,
-    "confidence": 39,
+    "confidence": 38,
     "probabilityUp": 29.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
@@ -463198,7 +463198,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -465121,8 +465121,8 @@ const LIVE_HISTORY = {
     "score": 73
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -469920,7 +469920,7 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 27,
+    "total": 28,
     "confidence": 43,
     "probabilityUp": 31.4,
     "modelVersion": "calibrated-ensemble-v3",
@@ -471827,8 +471827,8 @@ const LIVE_HISTORY = {
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -471838,7 +471838,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 29,
     "confidence": 52,
-    "probabilityUp": 29.4,
+    "probabilityUp": 29.3,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -472785,8 +472785,8 @@ const LIVE_HISTORY = {
     "score": 32
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -472796,7 +472796,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 30,
     "confidence": 49,
-    "probabilityUp": 30.0,
+    "probabilityUp": 29.7,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -473743,8 +473743,8 @@ const LIVE_HISTORY = {
     "score": 32
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -476610,7 +476610,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -476628,7 +476628,7 @@ const LIVE_HISTORY = {
     "call": "SELL",
     "total": 32,
     "confidence": 38,
-    "probabilityUp": 35.2,
+    "probabilityUp": 35.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
@@ -480449,8 +480449,8 @@ const LIVE_HISTORY = {
     "score": 42
    },
    "nova": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "flow": {
     "stance": "neu",
@@ -480458,9 +480458,9 @@ const LIVE_HISTORY = {
    },
    "shadow": {
     "call": "SELL",
-    "total": 31,
+    "total": 30,
     "confidence": 37,
-    "probabilityUp": 33.6,
+    "probabilityUp": 33.4,
     "modelVersion": "calibrated-ensemble-v3",
     "regime": "up_high"
    },
