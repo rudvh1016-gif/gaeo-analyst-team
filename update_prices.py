@@ -63,8 +63,14 @@ def build_market_brief(data, here):
     weak = sector_rows[-1] if sector_rows else None
     rate_text = lambda value: f'{value:+.2f}%' if isinstance(value, (int, float)) else '—'
     indices = data.get('indices', {})
-    sector_line = (f"강한 업종은 {strong['name']}({rate_text(strong['rate'])}), "
-                   f"약한 업종은 {weak['name']}({rate_text(weak['rate'])})이에요."
+    # ⭐ 2026-08-14 사용자 지정 — "업종" 줄이 애매하게 2줄로 넘어가던 걸, 업종 상승·하락
+    # 개수까지 더해 문장을 늘려 두세줄로 자연스럽게 채운다(index.html의 summaryFromLive
+    # 폴백과 같은 문구 규칙).
+    sector_up = sum(1 for row in sector_rows if row['rate'] >= 0)
+    sector_down = len(sector_rows) - sector_up
+    sector_line = (f"집계된 {len(sector_rows)}개 업종 중 {sector_up}개는 오르고 {sector_down}개는 내렸어요. "
+                   f"가장 강한 업종은 {strong['name']}({rate_text(strong['rate'])})이고, "
+                   f"가장 약한 업종은 {weak['name']}({rate_text(weak['rate'])})이에요."
                    if strong and weak else '업종 흐름을 집계하고 있어요.')
     return {
         'sourceAsOf': data.get('date', ''),

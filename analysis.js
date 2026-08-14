@@ -7,6 +7,7 @@ const LIVE_ANALYSIS = {
   "base": 869000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "전력 인프라 테마로 반등, 매수 강도 확인 필요",
   "taro": {
    "score": 52,
    "stance": "neu",
@@ -68,6 +69,7 @@ const LIVE_ANALYSIS = {
   "base": 1221000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "하이닉스 급등에도 나 홀로 하락, 외국인 이탈 지속",
   "taro": {
    "score": 42,
    "stance": "bear",
@@ -122,6 +124,7 @@ const LIVE_ANALYSIS = {
   "base": 80600,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "상한가 이후 과매수 부담, 되돌림 리스크 커짐",
   "taro": {
    "score": 60,
    "stance": "bull",
@@ -227,6 +230,7 @@ const LIVE_ANALYSIS = {
   "base": 80900,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "개인 매수로 반등, 외국인·기관 이탈은 여전",
   "taro": {
    "score": 46,
    "stance": "neu",
@@ -285,6 +289,7 @@ const LIVE_ANALYSIS = {
     "title": "3분기 잠정실적 발표(통상 10월 초 예상, 정확한 날짜는 삼성전자 IR 공지 예정)"
    }
   ],
+  "summary": "주주환원 기대감에 급등, 분산 신호는 남아있음",
   "taro": {
    "score": 58,
    "stance": "neu",
@@ -356,6 +361,7 @@ const LIVE_ANALYSIS = {
     "title": "2분기 실적발표 컨퍼런스콜(예상일 — 공식 확정 전)"
    }
   ],
+  "summary": "메모리 업황 강세로 반등, 이동평균 하회는 지속",
   "taro": {
    "score": 48,
    "stance": "neu",
@@ -410,6 +416,7 @@ const LIVE_ANALYSIS = {
   "base": 1448000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "MLCC 수요 기대에 반등, 밸류에이션 부담 커짐",
   "taro": {
    "score": 50,
    "stance": "neu",
@@ -471,6 +478,7 @@ const LIVE_ANALYSIS = {
   "base": 504000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "보통주 대비 저평가, 거래량 적어 신뢰도 낮음",
   "taro": {
    "score": 48,
    "stance": "neu",
@@ -525,6 +533,7 @@ const LIVE_ANALYSIS = {
   "base": 679000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "FC-BGA 수요 기대감, 추세 전환 확인 필요",
   "taro": {
    "score": 45,
    "stance": "neu",
@@ -579,6 +588,7 @@ const LIVE_ANALYSIS = {
   "base": 223500,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "전력 테마 그룹 내 유일 MA20 돌파, 수급도 우호적",
   "taro": {
    "score": 68,
    "stance": "bull",
@@ -640,6 +650,7 @@ const LIVE_ANALYSIS = {
   "base": 432000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "2분기 매출 역대 최대, 영업이익은 감소",
   "taro": {
    "score": 48,
    "stance": "neu",
@@ -706,6 +717,7 @@ const LIVE_ANALYSIS = {
   "base": 216000,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "그룹 내 최저 상승률, 밸류에이션 부담 가장 큼",
   "taro": {
    "score": 38,
    "stance": "bear",
@@ -772,6 +784,7 @@ const LIVE_ANALYSIS = {
   "base": 93400,
   "baseAt": "2026-07-23 종가",
   "events": [],
+  "summary": "PCB 수요 기대감, 자금은 다른 부품주로 쏠림",
   "taro": {
    "score": 48,
    "stance": "neu",
@@ -831,6 +844,7 @@ const LIVE_ANALYSIS = {
     "title": "2분기 실적발표(예상 — 공식 확정 전, 잠정일)"
    }
   ],
+  "summary": "소버린 AI 테마 속 기관 매수세 두드러짐",
   "taro": {
    "score": 70,
    "stance": "bull",
@@ -897,6 +911,7 @@ const LIVE_ANALYSIS = {
   "base": 5770,
   "baseAt": "2026-08-10 14:46 장중",
   "events": [],
+  "summary": "3개 부문 고르게 성장, 낮은 ROE로 저평가 절반만",
   "taro": {
    "score": 76,
    "stance": "bull",
@@ -968,6 +983,7 @@ const LIVE_ANALYSIS = {
   "base": 396500,
   "baseAt": "2026-08-10 15:20 장중",
   "events": [],
+  "summary": "실적·수급 동반 개선, 삼양 대비 수익성 격차 여전",
   "taro": {
    "score": 71,
    "stance": "bull",
@@ -1043,6 +1059,7 @@ const LIVE_ANALYSIS = {
     "title": "2분기 상세 IR 자료·반기보고서 공개 예정(지역별 매출 등 세부 확정치는 공개 후 확인 필요)"
    }
   ],
+  "summary": "2분기 어닝서프라이즈, 외국인 매수 전환은 아직",
   "taro": {
    "score": 53,
    "stance": "neu",
@@ -1113,6 +1130,7 @@ const LIVE_ANALYSIS = {
     "title": "광주 반도체 국가산단 사업시행자 확정 발표(9월 하순 예정, 금호건설 참여 여부 미정)"
    }
   ],
+  "summary": "상반기 실적 개선됐지만 급등분 큰 폭 반납",
   "taro": {
    "score": 35,
    "stance": "bear",
@@ -1184,6 +1202,7 @@ const LIVE_ANALYSIS = {
   "base": 107000,
   "baseAt": "2026-08-13 10:07",
   "events": [],
+  "summary": "MLCC 가격인상 훈풍, 목표가 대비 이미 과열",
   "taro": {
    "score": 46,
    "stance": "bear",
@@ -1254,6 +1273,7 @@ const LIVE_ANALYSIS = {
     "title": "8월27일 한국은행 금융통화위원회(기준금리 결정, NIM 영향)"
    }
   ],
+  "summary": "2분기 실적 회복, 지배구조 리스크는 부담",
   "taro": {
    "score": 60,
    "stance": "bull",
