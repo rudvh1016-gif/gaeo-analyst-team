@@ -5536,6 +5536,33 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-14 11:50",
+   "call": "HOLD",
+   "total": 59,
+   "confidence": 55,
+   "base": 1563000,
+   "baseAt": "2026-08-14 11:41",
+   "target": "컨센서스 평균 목표주가 2,350,500원(현재가 대비 +48.9% 상승여력) · 지지선 MA20(1,268,100원), 저항선 3개월 고점(2,270,000원)",
+   "modelVersion": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 64
+   },
+   "diana": {
+    "stance": "bear",
+    "score": 47
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 66
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 58
+   }
   }
  ],
  "009155": [
@@ -48674,6 +48701,33 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-14 11:50",
+   "call": "HOLD",
+   "total": 59,
+   "confidence": 56,
+   "base": 126200,
+   "baseAt": "2026-08-14 11:41",
+   "target": "컨센서스 평균 목표주가 179,714원(현재가 대비 +42.3% 상승여력) · 지지선 MA60(110,455원), 저항선 3개월 고점(132,200원)",
+   "modelVersion": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 60
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 58
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 62
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 56
+   }
   }
  ],
  "024110": [
@@ -139761,6 +139815,33 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-14 11:50",
+   "call": "BUY",
+   "total": 65,
+   "confidence": 62,
+   "base": 5420,
+   "baseAt": "2026-08-14 11:41",
+   "target": "컨센서스 평균 목표주가 6,383원(현재가 대비 +17.6% 상승여력) · 지지선 MA20(4,517원), 저항선 3개월 고점(5,800원)",
+   "modelVersion": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 60
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 68
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 68
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 64
+   }
   }
  ],
  "052690": [
@@ -149341,6 +149422,33 @@ const LIVE_HISTORY = {
     "regime": "up_high"
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-14 11:50",
+   "call": "HOLD",
+   "total": 58,
+   "confidence": 54,
+   "base": 45350,
+   "baseAt": "2026-08-14 11:41",
+   "target": "컨센서스 평균 목표주가 43,429원(현재가가 이미 +4.0% 상회) · 지지선 MA20(39,298원), 저항선 오늘 3개월 신고가(45,350원)",
+   "modelVersion": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 60
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 54
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 58
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 58
+   }
   }
  ],
  "103590": [
