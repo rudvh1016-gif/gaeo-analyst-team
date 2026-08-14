@@ -5557,16 +5557,21 @@ renderHomeDeepAnalysis();
       `<span class="hdb-stock-call">BUY · 종합점수</span></span>`+
       `<span class="hdb-stock-score">${Number(row.total)||0}점</span></button>`;
     const preview=model.preview.map(stockRow).join('');
-    const full=model.buy.map(stockRow).join('');
+    // ⭐ 2026-08-14 사용자 지정 — PC(넓은 화면)는 미리보기 위 1~3등이 계속 보이는 상태로
+    // 패널이 펼쳐지므로 패널 안에서는 4등부터 이어서 보여준다. 모바일은 패널이 화면을
+    // 덮는 시트라 미리보기가 가려지므로 1등부터 전체를 그대로 보여준다.
+    const fullMobile=model.buy.map(stockRow).join('');
+    const fullDesktop=model.buy.slice(3).map((row,i)=>stockRow(row,i+3)).join('')||
+      '<div class="hdb-empty">4위 아래 BUY 종목이 없어요.</div>';
     box.innerHTML=`<div class="hdb-decision-head"><strong>오늘의 판단</strong><span>${model.total.toLocaleString('ko-KR')}종목</span></div>`+
       `<div class="hdb-stats" aria-label="오늘의 판단 분포">`+
       ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
       (model.buy.length
-        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>종합점수순</span></div><div class="hdb-preview">${preview}</div>`+
+        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>신뢰도순</span></div><div class="hdb-preview">${preview}</div>`+
           `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
           `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
-          `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list">${full}</div></section>`
+          `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
         :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
 
     box.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock));
@@ -5578,20 +5583,28 @@ renderHomeDeepAnalysis();
     });
     const toggle=document.getElementById('hdbBuyToggle');
     const panel=document.getElementById('hdbBuyPanel');
+    const list=document.getElementById('hdbBuyList');
     const backdrop=document.getElementById('hdbSheetBackdrop');
     const close=document.getElementById('hdbPanelClose');
+    const toggleLabel=`BUY 전체 ${model.buy.length}종목 보기 →`;
     const closePanel=()=>{
       if(!panel) return;
       panel.hidden=true;
       toggle?.setAttribute('aria-expanded','false');
+      if(toggle) toggle.textContent=toggleLabel;
       if(backdrop) backdrop.hidden=true;
       document.body.classList.remove('hdb-sheet-open');
       toggle?.focus();
     };
+    // ⭐ 2026-08-14 사용자 지정 — 닫기(×) 버튼뿐 아니라 여는 데 썼던 "BUY 전체 보기"
+    // 버튼을 다시 눌러도 그대로 접히는 진짜 토글로 동작한다.
     if(toggle&&panel) toggle.onclick=()=>{
+      if(!panel.hidden){ closePanel(); return; }
+      const mobile=window.matchMedia('(max-width:900px)').matches;
+      if(list) list.innerHTML=mobile?fullMobile:fullDesktop;
       panel.hidden=false;
       toggle.setAttribute('aria-expanded','true');
-      const mobile=window.matchMedia('(max-width:900px)').matches;
+      toggle.textContent='BUY 목록 접기 ↑';
       panel.setAttribute('role',mobile?'dialog':'region');
       panel.setAttribute('aria-modal',mobile?'true':'false');
       if(backdrop) backdrop.hidden=!mobile;
@@ -5678,7 +5691,7 @@ renderHomeDeepAnalysis();
     const panel=document.getElementById('hdbBuyPanel');
     if(panel&&!panel.hidden) document.getElementById('hdbPanelClose')?.click();
   });
-  window.GaeoBrief={refresh,renderClock};
+  window.GaeoBrief={refresh,renderClock,renderDecision:renderHomeBriefDecision};
   document.getElementById('briefSectorBtn').onclick=async()=>{
     const sector=document.getElementById('briefSectorBtn').dataset.sector;
     if(!sector) return;
@@ -5735,7 +5748,8 @@ function analysisTally(){
     if(seen.has(code)||!e||!e.chief||!e.chief.call) return;
     const c=e.chief.call; if(counts[c]==null) return;
     seen.add(code); counts[c]++;
-    ranked.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0, call:c});
+    ranked.push({code, name:(STOCKS[code]||{}).name||code, total:e.chief.total||0, call:c,
+      confidence:typeof e.chief.confidence==='number'?e.chief.confidence:null});
   };
   if(AUTO_AN&&AUTO_AN.stocks){
     for(const code in AUTO_AN.stocks) add(code,analysisEntry(code)||AUTO_AN.stocks[code]);
@@ -5749,7 +5763,8 @@ function analysisTally(){
       for(const call of Object.keys(counts)) counts[call]=Number(snap.calls[call])||0;
       const snapRanked=Array.isArray(snap.ranked)?snap.ranked.filter(x=>
         x&&x.code&&x.call&&typeof x.total==='number').map(x=>({
-          code:x.code,name:x.name||(STOCKS[x.code]||{}).name||x.code,total:x.total,call:x.call
+          code:x.code,name:x.name||(STOCKS[x.code]||{}).name||x.code,total:x.total,call:x.call,
+          confidence:typeof x.confidence==='number'?x.confidence:null
         })):[];
       return {counts,buy:snapRanked.filter(x=>x.call==='BUY'),ranked:snapRanked,
         total:counts.BUY+counts.HOLD+counts.SELL,asOf:snap.sourceAsOf||snap.generatedAt||''};
@@ -5767,7 +5782,13 @@ function homeBriefDecisionModel(tally){
     HOLD:Number(tally&&tally.counts&&tally.counts.HOLD)||0,
     SELL:Number(tally&&tally.counts&&tally.counts.SELL)||0
   };
-  const buy=Array.isArray(tally&&tally.buy)?tally.buy.slice().sort((a,b)=>(Number(b.total)||0)-(Number(a.total)||0)):[];
+  // ⭐ 2026-08-14 사용자 지정 — BUY 상위 종목은 신뢰도(confidence)가 높은 순서를 최우선으로,
+  // 신뢰도가 같거나 없으면 종합점수(total) 순으로 정렬한다.
+  const buy=Array.isArray(tally&&tally.buy)?tally.buy.slice().sort((a,b)=>{
+    const ac=Number.isFinite(a.confidence)?a.confidence:-1, bc=Number.isFinite(b.confidence)?b.confidence:-1;
+    if(bc!==ac) return bc-ac;
+    return (Number(b.total)||0)-(Number(a.total)||0);
+  }):[];
   return {counts,total:Number(tally&&tally.total)||counts.BUY+counts.HOLD+counts.SELL,
     buy,preview:buy.slice(0,3),asOf:String(tally&&tally.asOf||'')};
 }
@@ -9665,7 +9686,10 @@ makeCards(false);
   window.renderGaeoHomeSignals=renderAll;
   renderAll();
   if(!AUTO_AN&&window.ensureAutoAnalysis){
-    window.ensureAutoAnalysis().then(renderAll).catch(()=>{});
+    // ⭐ 2026-08-14 — "오늘의 판단" BUY 상위 종목은 처음엔 홈 경량 스냅샷(상위 30개, 종합점수순 선별)으로
+    // 먼저 그려지는데, 이 스냅샷은 confidence 기준 상위 3위가 빠져 있을 수 있다. 전체 500종목
+    // 자동분석(AUTO_AN)이 백그라운드로 다 내려오면 신뢰도순 정렬 결과가 바뀔 수 있으므로 다시 그린다.
+    window.ensureAutoAnalysis().then(()=>{ renderAll(); window.GaeoBrief&&window.GaeoBrief.renderDecision&&window.GaeoBrief.renderDecision(); }).catch(()=>{});
   }
 })();
 

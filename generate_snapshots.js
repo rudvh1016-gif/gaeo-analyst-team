@@ -257,7 +257,10 @@ function buildStocks() {
     if (!chief || calls[chief.call] == null) continue;
     calls[chief.call]++;
     if (chief.call !== 'SELL' && typeof chief.total === 'number') {
-      ranked.push({ code, name: tickerNames[code] || code, total: chief.total, call: chief.call });
+      ranked.push({
+        code, name: tickerNames[code] || code, total: chief.total, call: chief.call,
+        confidence: typeof chief.confidence === 'number' ? chief.confidence : null
+      });
     }
   }
   ranked.sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, 'ko'));
