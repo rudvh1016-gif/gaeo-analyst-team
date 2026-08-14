@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-14 16:22",
+ "generatedAt": "2026-08-14 15:08",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -635,6 +635,126 @@ const MODEL_INTELLIGENCE = {
    "buyN": 50,
    "sellN": 50,
    "maxDirectionSharePct": 80
+  }
+ },
+ "confidenceModel": {
+  "version": "calibrated-accuracy-v1",
+  "calibration": {
+   "BUY": {
+    "65": {
+     "n": 227,
+     "hit": 78,
+     "raw": 0.3436,
+     "uncalibratedAcc": 0.3428,
+     "base": 0.3333,
+     "calibratedAcc": 0.3428
+    },
+    "60": {
+     "n": 144,
+     "hit": 43,
+     "raw": 0.2986,
+     "uncalibratedAcc": 0.3028,
+     "base": 0.3333,
+     "calibratedAcc": 0.3028
+    },
+    "70": {
+     "n": 101,
+     "hit": 36,
+     "raw": 0.3564,
+     "uncalibratedAcc": 0.3526,
+     "base": 0.3333,
+     "calibratedAcc": 0.352
+    },
+    "75": {
+     "n": 2,
+     "hit": 1,
+     "raw": 0.5,
+     "uncalibratedAcc": 0.3485,
+     "base": 0.3333,
+     "calibratedAcc": 0.352
+    }
+   },
+   "SELL": {
+    "40": {
+     "n": 1414,
+     "hit": 1045,
+     "raw": 0.739,
+     "uncalibratedAcc": 0.7388,
+     "base": 0.723,
+     "calibratedAcc": 0.7266
+    },
+    "45": {
+     "n": 579,
+     "hit": 408,
+     "raw": 0.7047,
+     "uncalibratedAcc": 0.7053,
+     "base": 0.723,
+     "calibratedAcc": 0.7053
+    },
+    "35": {
+     "n": 1009,
+     "hit": 748,
+     "raw": 0.7413,
+     "uncalibratedAcc": 0.741,
+     "base": 0.723,
+     "calibratedAcc": 0.7266
+    },
+    "30": {
+     "n": 384,
+     "hit": 248,
+     "raw": 0.6458,
+     "uncalibratedAcc": 0.6497,
+     "base": 0.723,
+     "calibratedAcc": 0.7266
+    },
+    "25": {
+     "n": 20,
+     "hit": 14,
+     "raw": 0.7,
+     "uncalibratedAcc": 0.7115,
+     "base": 0.723,
+     "calibratedAcc": 0.7266
+    },
+    "20": {
+     "n": 2,
+     "hit": 1,
+     "raw": 0.5,
+     "uncalibratedAcc": 0.7027,
+     "base": 0.723,
+     "calibratedAcc": 0.7266
+    }
+   }
+  },
+  "evaluation": {
+   "n": 1274,
+   "buyN": 122,
+   "sellN": 1152,
+   "testDays": 6,
+   "testRegimes": 4,
+   "candidate": {
+    "n": 1246,
+    "tierSpreadPp": -17.3,
+    "corr": -0.4785
+   },
+   "baseline": {
+    "n": 1274,
+    "tierSpreadPp": -1.7,
+    "corr": -0.0315
+   }
+  },
+  "promotion": {
+   "qualified": false,
+   "status": "shadow",
+   "reasons": [
+    "검증일 40거래일 미만",
+    "후보 신뢰도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 -17.3pp vs 기존 -1.7pp)"
+   ],
+   "minimums": {
+    "testDays": 40,
+    "buyN": 50,
+    "sellN": 50,
+    "minTierSpreadLiftPp": 5.0
+   }
   }
  }
 };
