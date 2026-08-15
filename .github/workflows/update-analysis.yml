@@ -101,6 +101,11 @@ jobs:
           period=1800
           while :; do
             cstart=$(date +%s)
+            # ⏱️ 2026-08-15 (PHASE A) — cron '예정시각'이 아니라 러너가 이번 사이클을 실제로
+            # 시작한 시각을 기록한다. analyze_auto.py가 읽어 auto_analysis.js의 runTimestamps에
+            # 남기고, 나중에 "이 판단이 실제로 무엇을 보고 내려졌는지" 재구성할 수 있게 한다.
+            export GAEO_CYCLE_STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            export GAEO_CRON_NOMINAL="${{ github.event.schedule }}"
             # ⚠️ 2026-07-31 사고 원인 + 영구 수정: 이 잡은 시작할 때 checkout을 "딱 한 번"만 하고,
             # 위 "개장 전 기동" 분기에서 최대 330분을 잔 뒤 30분 주기로 루프를 돈다. 그래서 루프
             # 안에서 읽는 data.js가 checkout 시점(= 전날 밤 체인이 떴던 시각)에 얼어붙어 있었다.
@@ -134,6 +139,9 @@ jobs:
             timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
               && git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null \
               || echo "[경고] 라벨 직전 시세 재동기화 실패 — 사이클 시작분으로 진행"
+            # ⏱️ 2026-08-15 (PHASE A) — 시세(data.js)를 실제로 받아온 시각. 이 시각 이후에
+            # 들어온 정보는 이번 판단이 볼 수 없었던 정보다(미래정보 차단 근거로 쓴다).
+            export GAEO_PRICE_FETCHED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             python3 compute_indicators.py    || echo "indicators 실패"
             # 📡 GAEO 레이더 — 직전 거래일 대비 새로 경계를 통과한 종목 탐지(규칙 기반, 토큰 0).
             #   indicators 다음에 두는 이유: 같은 analysis_data.json을 읽고 볼린저밴드 규격을
