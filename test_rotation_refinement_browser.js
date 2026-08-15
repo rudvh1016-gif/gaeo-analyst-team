@@ -1,4 +1,14 @@
-const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const { chromium } = require('./test_playwright');
+const fs = require('fs');
+const pathMod = require('path');
+// 스크린샷은 실행 환경에 상관없이 저장되도록 로컬 폴더에 남긴다.
+// (예전에는 Windows 경로가 박혀 있어서 리눅스에서 'C:/' 디렉터리가 생겼다.)
+function shotPath(name) {
+  const dir = process.env.GAEO_SHOT_DIR || pathMod.join(__dirname, '.test-screenshots');
+  fs.mkdirSync(dir, { recursive: true });
+  return pathMod.join(dir, name);
+}
+
 
 function requireState(condition, message) {
   if (!condition) throw new Error(message);
@@ -9,7 +19,6 @@ function requireState(condition, message) {
   const rotationUrl = baseUrl.includes('?') ? baseUrl : `${baseUrl}?m=rotation`;
   const browser = await chromium.launch({
     headless: true,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
   });
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   const pageErrors = [];
@@ -70,7 +79,7 @@ function requireState(condition, message) {
     }
     if (width === 1440 || width === 390) {
       await page.screenshot({
-        path: `C:/Users/개오/.codex/visualizations/2026/08/11/019ff111-7a1a-7d72-aa74-0337da13b467/rotation-refinement-${width}.png`,
+        path: shotPath(`rotation-refinement-${width}.png`),
         fullPage: true
       });
     }

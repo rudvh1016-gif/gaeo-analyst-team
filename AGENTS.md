@@ -22,9 +22,9 @@
 
 ## 이 프로젝트가 무엇인가
 
-AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수급·CHIEF 총괄)이 한국 주식을 분석하는 **순수 정적 사이트**(빌드 과정 없음). 실사용 화면은 `gaeoteam.com`(GitHub Pages, `main` 브랜치 기준). 종목은 `tickers.js` 단일 소스(현재 500종목). 소수 핵심 종목(현재 14개, `analysis.js`에 있는 종목)만 AI가 직접 심층 분석하는 🧠 정밀분석이고, 나머지는 `analyze_auto.py`가 규칙(RSI·MACD·PER 등 지표 기반 if-then 로직)으로 매일 자동 갱신하는 🤖 자동분석이며 **AI API를 전혀 호출하지 않는다**(토큰 0). QUANT는 2026-07-21에 NOVA(뉴스심리)를 교체한 확률·통계 분석가 — 내부 id·데이터 키는 호환성 위해 `nova`를 유지한다. CHIEF 합산은 자가 학습 가중치(`compute_team_weights.py` → `team_weights.js`: `history.js` 채점 기록으로 분석가별 적중률→발언권)를 쓴다. 6번째 카드 🛡️ RISK(리스크 관리)도 규칙 기반 정보 전용(토큰 0).
+TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축을 보고, RISK가 위험을 점검하고, ROTATION이 시장·업종 흐름을 보고, CHIEF가 종합하는 **규칙 기반** 한국 주식 분석 **순수 정적 사이트** (⚠️ 여러 AI가 서로 대화·토론하는 구조가 아니다. 사용자 화면에 "AI 7명이 토론"처럼 쓰지 말 것)(빌드 과정 없음). 실사용 화면은 `gaeoteam.com`(GitHub Pages, `main` 브랜치 기준). 종목은 `tickers.js` 단일 소스(현재 600종목 · Coverage Version `GAEO_COVERAGE_V2_600`, `coverage_version.py`가 관리). 소수 핵심 종목(현재 14개, `analysis.js`에 있는 종목)만 AI가 직접 심층 분석하는 🧠 정밀분석이고, 나머지는 `analyze_auto.py`가 규칙(RSI·MACD·PER 등 지표 기반 if-then 로직)으로 매일 자동 갱신하는 🤖 자동분석이며 **AI API를 전혀 호출하지 않는다**(토큰 0). QUANT는 2026-07-21에 NOVA(뉴스심리)를 교체한 확률·통계 분석가 — 내부 id·데이터 키는 호환성 위해 `nova`를 유지한다. CHIEF 합산은 자가 학습 가중치(`compute_team_weights.py` → `team_weights.js`: `history.js` 채점 기록으로 분석가별 적중률→발언권)를 쓴다. 6번째 카드 🛡️ RISK(리스크 관리)도 규칙 기반 정보 전용(토큰 0).
 
-⭐ **📡 GAEO 레이더는 "6번째 AI 분석가"가 아니다.** 500종목 일봉을 기계적으로 훑어 *직전 거래일 대비 새로 경계를 통과한 종목*(RSI 30/70 돌파·볼린저밴드 이탈·재진입·거래량 2배 급증·MACD/이동평균 교차)만 찾아내는 **보조 탐지기**다(`compute_radar.py`, 토큰 0). 역할 구분: 레이더=변화가 생긴 종목을 찾음 / TARO=기술적 의미 해석 / DIANA=재무 / QUANT=확률·통계 / FLOW=수급 / CHIEF=종합. 레이더는 **BUY/HOLD/SELL 판단을 절대 만들지 않으며**, 화면 문구에도 "반등 확정·매수 기회·곧 상승·바닥 확인" 같은 단정 표현을 쓰지 않는다. 임계값을 바꾸려면 `radar_signals.py` 상단 상수만 고치고, 검증은 `python3 test_radar.py`로 돌린다.
+⭐ **📡 GAEO 레이더는 "6번째 AI 분석가"가 아니다.** 전 종목 일봉을 기계적으로 훑어 *직전 거래일 대비 새로 경계를 통과한 종목*(RSI 30/70 돌파·볼린저밴드 이탈·재진입·거래량 2배 급증·MACD/이동평균 교차)만 찾아내는 **보조 탐지기**다(`compute_radar.py`, 토큰 0). 역할 구분: 레이더=변화가 생긴 종목을 찾음 / TARO=기술적 의미 해석 / DIANA=재무 / QUANT=확률·통계 / FLOW=수급 / CHIEF=종합. 레이더는 **BUY/HOLD/SELL 판단을 절대 만들지 않으며**, 화면 문구에도 "반등 확정·매수 기회·곧 상승·바닥 확인" 같은 단정 표현을 쓰지 않는다. 임계값을 바꾸려면 `radar_signals.py` 상단 상수만 고치고, 검증은 `python3 test_radar.py`로 돌린다.
 
 더 자세한 배경·설계 이유는 `docs/PROJECT_OVERVIEW.md`와 `docs/ARCHITECTURE.md`를 참고하세요.
 
@@ -49,17 +49,17 @@ AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수�
 | 파일 | 역할 | 수정 주체 |
 |---|---|---|
 | `index.html` | 화면 전부(CSS+JS 인라인, ~5,000줄+) | AI 에이전트가 직접 편집 |
-| `tickers.js` | 종목 목록 단일 소스(500종목, code·name·sector) | 사람 / AI 에이전트 |
+| `tickers.js` | 종목 목록 단일 소스(600종목, code·name·sector). ⚠️ 배열은 순수 JSON이어야 한다 — 배열 안에 주석 금지(compute_rotation.py가 주석을 못 거른다) | 사람 / AI 에이전트 |
 | `data.js` | 현재가·PER 등 시세 스냅샷 + 홈 숫자 브리핑(`marketBrief`) | `update_prices.py` (GitHub Actions 자동) |
 | `analysis.js` | 5인 **정밀분석**(`LIVE_ANALYSIS`, 14종목+date/market 키) | AI 에이전트가 재분석 시 Write — 절차는 `.claude/skills/종목분석 스킬/SKILL.md` 참고(Codex는 이 파일을 일반 문서로 읽고 그대로 따르면 됨) |
-| `auto_analysis.js` | 5인 **자동분석**(`LIVE_AUTO`, 규칙 기반, 토큰 0) + 홈 보강 브리핑(`marketInsight`) | `analyze_auto.py` (자동) |
+| `auto_analysis.js` | 5인 **자동분석**(`LIVE_AUTO`, 규칙 기반, 토큰 0 · DART 공식공시 맥락 `dart` 블록 포함) + 홈 보강 브리핑(`marketInsight`) | `analyze_auto.py` (자동) |
 | `news_analysis.js` | 📰 뉴스분석 보고서 누적(`NEWS_ANALYSIS`, 최신이 배열 앞, 10건=1페이지) | AI 에이전트 — 절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 참고 |
 | `snap/latest_posts.js` | 첫 화면에 표시할 최신 콘텐츠 5개의 제목·날짜·종류 | `generate_snapshots.js` (콘텐츠 발행·러너 실행 시 자동) |
 | `stock_study.js` | 📚 종목공부(`STOCK_STUDY`, 회사별 소개 프로필) | AI 에이전트 |
 | `stock_lessons.js` | 🎓 주식공부(`STOCK_LESSONS`, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | AI 에이전트 |
 | `estate_lessons.js` | 🏠 부동산공부(`ESTATE_LESSONS`, 근저당·대출규제·청약 등, 주식공부와 형식·헬퍼 동일) | AI 에이전트 |
 | `calculators.js` | 🧮 계산기(`CALCULATORS`, 7종). body는 SEO용 설명 글이고, 실제 계산 로직은 `index.html`의 `calcWidgetHTML`/`wireCalcWidget`이 `calcType`별로 담당 | AI 에이전트 |
-| `history.js` | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 500종목 하루 1건, `tier:"auto"` 표식·정밀 우선·`HIST_CAP=80`) | **`archive_analysis.py`만 — 직접 편집 금지.** 러너가 `--auto`로 매 사이클 호출 |
+| `history.js` | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 종목 하루 1건, `tier:"auto"` 표식·정밀 우선·`HIST_CAP=80`) | **`archive_analysis.py`만 — 직접 편집 금지.** 러너가 `--auto`로 매 사이클 호출 |
 | `market_history.js` | 날짜별 시장분석 누적 | `archive_analysis.py` |
 | `price_history.js` | 일별 종가(5거래일=1페이지) | `update_price_history.py` |
 | `analysis_data.json` | 분석용 원천 데이터(일봉·수급·컨센서스) | `collect_analyst_data.py` |
@@ -67,14 +67,14 @@ AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수�
 | `radar_signals.py` | 📡 GAEO 레이더 신호 계산·판정 공용 모듈(임계값 상수·볼린저밴드·RSI·MACD·교차 판정). `compute_indicators.py`도 볼린저밴드를 여기서 가져다 쓴다 | AI 에이전트 |
 | `radar.json` / `radar.js` / `radar_series.js` | 📡 레이더 전체 기록 / 홈 화면용 축약본 / 신호 종목의 최근 60거래일 차트 데이터(지연 로딩) | `compute_radar.py` (자동) |
 | `dow_stats.js` | 요일별 평균 등락률 사전계산 | `compute_dow_stats.py` (자동) |
-| `rotation_engine.py` / `compute_rotation.py` | 500종목을 24업종으로 집계하는 순환매 계산 엔진 / 현재 스냅샷·마감 아카이브 생성 | AI 에이전트 / `update-analysis.yml` (자동) |
+| `rotation_engine.py` / `compute_rotation.py` | 분석 종목을 24업종으로 집계하는 순환매 계산 엔진 / 현재 스냅샷·마감 아카이브 생성 | AI 에이전트 / `update-analysis.yml` (자동) |
 | `rotation_snapshot.js` / `rotation_archive.json` | 순환매 화면용 현재 자료 / 거래일별 마감 기록 | **`compute_rotation.py`만, 직접 편집 금지.** |
 | `rotation_backtest.py` / `backtest_rotation.py` / `rotation_model.json` | 미래 정보 차단형 Lead-Lag·유사 국면·Walk-forward 검증 / 주간 모델 산출물 | `rotation-maintenance.yml` (자동) |
 | `rotation-ui.js` / `rotation.css` | `?m=rotation` 전용 지연 로딩 화면과 반응형 디자인 | AI 에이전트가 직접 편집 |
 | `team_weights.js` | 자가 학습 CHIEF 가중치 | `compute_team_weights.py` (자동) |
 | `model_intelligence.js` | 확률교정·오답 중복·시장국면·AUDIT·그림자 승격 판정 | `compute_model_intelligence.py` (자동) |
 | `generate_sitemap.js` | `sitemap.xml` 재생성 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
-| `generate_snapshots.js` | `/snap/{news,study,lesson,estate,calc}/{id}.html` 정적 스냅샷 + `/snap/stock/<code>.html` 500종목 랜딩페이지 생성 | 콘텐츠는 AI 에이전트가 실행 · 종목 스냅샷은 러너가 매 사이클 자동 재생성 |
+| `generate_snapshots.js` | `/snap/{news,study,lesson,estate,calc}/{id}.html` 정적 스냅샷 + `/snap/stock/<code>.html` 종목별 랜딩페이지 생성 | 콘텐츠는 AI 에이전트가 실행 · 종목 스냅샷은 러너가 매 사이클 자동 재생성 |
 | `indexnow_submit.js` · `<32자hex>.txt` | `sitemap.xml`의 URL을 빙·네이버에 즉시 제출 | 러너가 `.indexnow_hash`로 변경 감지해 자동 제출 |
 | `site_config.js` / `community.js` | 사이트 문구 오버라이드 / 커뮤니티 공지·고정글 | 관리자 모드 발행 기능이 생성 |
 | `stock_bios.js` | 종목별 한줄 소개 | AI 에이전트 |
@@ -126,7 +126,7 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 ## 데이터 파이프라인 (GitHub Actions 러너 2개) — 건드리지 말고 이해만 할 것
 
 - **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 커밋.
-- **update-analysis.yml** — 같은 시간대, 30분마다 `price_history.js`·`analysis_data.json`·`indicators.json/js`·`radar.json/js`·`radar_series.js`·`auto_analysis.js`(홈 보강 브리핑 포함) 갱신 + `archive_analysis.py --auto`로 500종목 판단을 `history.js`에 하루 1건씩 누적.
+- **update-analysis.yml** — 같은 시간대, 30분마다 `price_history.js`·`analysis_data.json`·`indicators.json/js`·`radar.json/js`·`radar_series.js`·`auto_analysis.js`(홈 보강 브리핑 포함) 갱신 + `archive_analysis.py --auto`로 600종목 판단을 `history.js`에 하루 1건씩 누적.
 - **순환매 갱신** — `update-analysis.yml`이 매 사이클 `rotation_snapshot.js`를 갱신하고 15:40 KST 이후에는 같은 거래일 마감본을 `rotation_archive.json`에 한 번만 남긴다. `rotation-maintenance.yml`은 주 1회 과거 검증을 다시 계산한다. 높은 신뢰도는 검증상 중간 신뢰도를 앞설 때만 열린다.
 - 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조다(GitHub 무료 cron이 이 저장소에서 불안정해서). 이 워크플로우 파일들의 트리거는 `workflow_dispatch` / `push`(`.analyst-refresh` 경로) / `schedule`(cron)뿐이고, **외부 PR로 실행되는 트리거는 없다** — 이 점은 어떤 에이전트도 바꾸지 말 것(포크 PR이 권한 있는 워크플로우를 실행하게 만드는 건 보안 사고다).
 - ⚠️ **`cancel-in-progress: false`다(2026-07-21 변경).** 즉 이미 실행 중인 잡이 있으면 새 트리거(마커 push·cron·dispatch)는 그 잡을 **취소하지 않고 뒤에서 대기(큐)만** 한다. "마커를 push하면 최신 1개만 남으니 안전하다"는 옛 설명은 틀렸다. 잡이 완전히 죽었을 땐 대기하던 실행이 곧바로 시작돼 문제없지만, 잡이 **죽지 않고 멈춘(hang)** 경우엔 마커 push가 최대 6시간(잡 timeout 350분) 동안 효과가 없다 — 그땐 실행을 먼저 **취소**해야 대기분이 뜬다(매시 Routine 안전망이 이 판정을 한다).
@@ -166,6 +166,25 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 10. ⭐ **em dash(—) 사용 금지 (2026-07-30 사용자 지정, 고정 규칙).** 뉴스분석·종목공부·주식공부·부동산공부·계산기 본문, 제목, summary, tag, 출처명, analysis.js의 findings·report·text, index.html이 화면에 그리는 모든 문장 등 사용자가 실제로 읽는 텍스트에는 절대 em dash를 쓰지 않는다. 이 부호가 들어가면 "AI가 썼다"는 티가 나서 독자가 피로감을 느낀다는 게 이유다. 대신 문장 구조에 맞게 쉼표·마침표·콜론(:)·괄호로 자연스럽게 풀어 쓸 것. (코드 주석처럼 사용자에게 노출되지 않는 부분은 해당 없음.)
 11. ⭐ **모바일 글자 잘림 방지: 콘텐츠 컨테이너는 `overflow-wrap:anywhere` 필수 (2026-08-03 실제 사고).** 뉴스분석·종목공부·주식공부·부동산공부·계산기가 전부 공유하는 `.nw-title`/`.nw-sum`/`.nw-body`에 `overflow-wrap:anywhere`가 걸려 있다 — 이게 없으면 `word-break:keep-all`(한국어 어절 단위 줄바꿈, 이 파일 다른 곳에도 적용된 규칙) 때문에 공백 없이 `·`로 죽 이어붙인 나열("로봇(+7.79%)·통신(+3.84%)·바이오제약(+3.63%)·..."처럼)이 줄바꿈될 자리를 못 찾고 뷰포트 밖으로 그냥 넘쳐서 모바일 화면에서 글자가 잘려 보인다(실제로 8/3 시장분석 기사에서 발생). `.nw-*` 계열 CSS를 고칠 때 이 속성을 빼지 말 것. 그리고 새 글을 쓸 때 `·`로 여러 항목을 나열하려면 **양옆에 공백을 넣는 게 원칙**이다(`"A(+1%) · B(+2%) · C(+3%)"`, 사이트 기존 관례와도 일치) — CSS가 넘침 자체는 막아주지만, 무공백으로 붙이면 그 줄바꿈이 단어 중간에서 뚝 끊겨 보기 나쁘다.
 12. ⭐ **분석 카드 근거(findings) 문장은 한 줄에 들어오게 짧게 쓴다 (2026-08-05 사용자 지정).** `.card ul li` 근거 목록은 항목마다 구분선(border-top)이 있는 짧은 리스트 디자인이라, 문장이 2줄로 넘어가면 답답해 보인다는 지적을 받았다. 특히 DIANA(재무)의 목표주가 문장처럼 "증권사 평균 목표주가 X원 · 현재가 대비 +Y% 여력"류로 큰 숫자(백만원대)와 %가 같이 들어가는 문장이 잘 넘친다 — `analyze_auto.py`의 `diana_eval()`을 "목표주가 X원 → 현재가 대비 +Y%"로 압축한 게 실제 수정 사례(불필요한 "증권사 평균"·"여력" 같은 수식어부터 뺀다). 새 finding 문장을 쓰거나 고칠 때는 모바일 폭(390px, 폰트 12~12.5px)에서 한 줄에 들어가는지를 기준으로 잡고, 숫자가 큰 종목(100만원 이상)·퍼센트가 세 자리(±100%대)인 경우까지 감안해서 여유 있게 짧게 쓴다.
+
+## ⭐ 디자인 — 새 화면을 만들기 전에 읽을 것
+
+**`docs/gaeo_design_system.md`를 먼저 읽으세요.** 기능을 추가할 때마다 새 색·새 배지·새 카드를
+얹다 보니 화면이 조용한 금융 리포트가 아니라 알록달록한 AI 대시보드처럼 변해 갔습니다.
+핵심 규칙 여덟 줄만 옮겨 둡니다.
+
+1. **분석가별 고유색 금지** — QUANT 주황·FLOW 초록 식으로 색을 배정하지 않는다. 이름과 역할로 구분한다.
+2. **장식용 그라데이션 금지** (neon·glass·glow도 마찬가지)
+3. **섹션 제목마다 장식 emoji 붙이지 않기**
+4. **모든 상태를 배지(pill)로 만들지 않기** — 가능하면 평범한 secondary text
+5. **빨강·파랑은 시장 방향에만** (주가 등락·실제 수익률·BUY/SELL). 카드 배경까지 칠하지 않는다
+6. **계층은 색이 아니라 타이포·크기·굵기·여백·구분선으로**
+7. **Apple 감성 Editorial 금융 리포트** — 화려함보다 읽히는 것
+8. **모바일 우선 가독성** — 375·390·430px에서 가로 넘침 0
+
+정보를 삭제하기보다 재배치·접기를 쓴다. 모바일이라고 내용을 빼지 않는다.
+
+---
 
 ## 작업 전 체크리스트 (모든 에이전트 공통)
 
