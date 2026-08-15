@@ -71,14 +71,47 @@ def _entry_from(a, when):
             # ⭐ 2026-08-14: QUANT(nova)만 그 점수가 어떤 기저 승률(업종 반영 블렌드)과
             # 비교돼 나왔는지도 함께 남긴다. 나중에 "그날 왜 이 점수였는지" 감사할 수 있게.
             if k == "nova":
-                entry[k].update({
-                    "sector": ana.get("sector"), "sectorWinRate": ana.get("sectorWinRate"),
-                    "sectorBlendPct": ana.get("sectorBlendPct"), "baseWinRate": ana.get("baseWinRate"),
-                })
+                # ⛔ 값이 없는 항목은 아예 넣지 않는다. 정밀분석(analysis.js)은 이 필드를
+                #    만들지 않으므로, 넣으면 과거 기록에 null 키만 새로 박히게 된다.
+                #    (APPEND-ONLY: 과거 기록은 새 코드 때문에 모양이 바뀌면 안 된다.)
+                entry[k].update({key: ana[key] for key in (
+                    "sector", "sectorWinRate", "sectorBlendPct", "baseWinRate")
+                    if ana.get(key) is not None})
     shadow = a.get("shadowChief")
     if isinstance(shadow, dict) and shadow.get("call"):
         entry["shadow"] = {key: shadow.get(key) for key in (
             "call", "total", "confidence", "probabilityUp", "modelVersion", "regime")}
+    # 🧪 Research Shadow (PHASE C) — APPEND-ONLY 원칙.
+    # 그 시점에 Research Engine이 실제로 낸 판단을 그대로 보존한다.
+    # 나중에 새 코드가 생겨도 과거 기록을 재계산해서 덮어쓰지 않는다.
+    rs = a.get("researchShadow")
+    if isinstance(rs, dict) and rs.get("researchModelVersion"):
+        horizons = {}
+        for h, hv in (rs.get("horizons") or {}).items():
+            if not isinstance(hv, dict):
+                continue
+            horizons[h] = {
+                "action": hv.get("primaryAction"),
+                "probability": hv.get("probability"),
+                "probabilityCalibrated": hv.get("probabilityCalibrated", False),
+                "maturity": hv.get("maturity"),
+                "performanceStatus": hv.get("performanceStatus"),
+                "reasonCodes": hv.get("reasonCodes"),
+            }
+        entry["research"] = {
+            "modelVersion": rs.get("researchModelVersion"),
+            "featureVersion": rs.get("featureVersion"),
+            "labelVersion": rs.get("labelVersion"),
+            "configHash": rs.get("configHash"),
+            "createdAt": rs.get("createdAt"),
+            "inputTimestamp": rs.get("inputTimestamp"),
+            "quantStatsAsof": rs.get("quantStatsAsof"),
+            "reliability": (rs.get("reliability") or {}).get("grade"),
+            "riskState": (rs.get("risk") or {}).get("state"),
+            "riskHardGate": (rs.get("risk") or {}).get("hardGate"),
+            "horizons": horizons,
+            "source": "live_shadow_oos",   # historical_backtest와 절대 섞지 않는다
+        }
     return entry
 
 
