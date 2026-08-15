@@ -257,7 +257,7 @@
   }catch(e){}
 </script>
 <title>Gaeo · 달라진 흐름만 빠르게</title>
-<meta name="description" content="한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 쉬운 말로 확인하세요. 시세·재무·수급·확률 지표와 데이터 기준 시각을 함께 보여드립니다." />
+<meta name="description" content="한국 주식 600종목의 오늘 판단과 어제 달라진 이유를 쉬운 말로 확인하세요. 시세·재무·수급·확률 지표와 데이터 기준 시각을 함께 보여드립니다." />
 <link rel="canonical" href="https://gaeoteam.com/" />
 <!-- 네이버 서치어드바이저에 제출하는 RSS. 새 글이 올라오면 네이버 검색로봇이 사이트를 훑으러
      오기 전에도 먼저 알아채 검색 반영이 빨라진다. generate_rss.js가 자동 생성한다. -->
@@ -289,7 +289,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Gaeo">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://gaeoteam.com/#website","name":"Gaeo · 달라진 흐름만 빠르게","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 500종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","inLanguage":"ko-KR","publisher":{"@id":"https://gaeoteam.com/#organization"}},{"@type":"Organization","@id":"https://gaeoteam.com/#organization","name":"Gaeo","alternateName":"개오 애널리스트팀","url":"https://gaeoteam.com/","logo":"https://gaeoteam.com/app-icon-192.png","description":"AI 애널리스트 5인(TARO 기술·DIANA 재무·QUANT 확률통계·FLOW 수급·CHIEF 총괄)이 한국 주식 500종목을 매일 같은 기준으로 살펴보고 쉬운 말로 판단과 근거를 알려주는 리서치 서비스.","slogan":"Understand More, Make Better Decisions"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://gaeoteam.com/#website","name":"Gaeo · 달라진 흐름만 빠르게","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 600종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","inLanguage":"ko-KR","publisher":{"@id":"https://gaeoteam.com/#organization"}},{"@type":"Organization","@id":"https://gaeoteam.com/#organization","name":"Gaeo","alternateName":"개오 애널리스트팀","url":"https://gaeoteam.com/","logo":"https://gaeoteam.com/app-icon-192.png","description":"TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축을 살펴보고, RISK가 위험을 점검하고, ROTATION이 시장과 업종 흐름을 보고, CHIEF가 이를 종합하는 규칙 기반 자동분석 리서치 서비스. 코스피·코스닥 600개 주요 종목을 매일 같은 기준으로 분석하고 쉬운 말로 판단과 근거를 알려줍니다.","slogan":"Understand More, Make Better Decisions"}]}</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -3377,7 +3377,7 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════
-     📡 GAEO 레이더 — 500종목에서 "직전 거래일 대비 새로 생긴 기술적 변화"만 탐지
+     📡 GAEO 레이더 — 분석 종목 전체에서 "직전 거래일 대비 새로 생긴 기술적 변화"만 탐지
      · 기존 홈 대시보드(연한 하늘색) 토큰만 재사용. 새 색·글로우·3D 효과 없음.
      · 색만으로 의미를 전달하지 않도록 아이콘(▲▼◆)·라벨 텍스트를 항상 함께 쓴다.
      ═══════════════════════════════════════════════════════════════ */
@@ -3604,7 +3604,7 @@
   </div>
   <div class="trust-points">
     <div class="trust-point"><b>최근 데이터</b><span id="trustDataAsOf">기준 시각을 확인하고 있어요.</span></div>
-    <div class="trust-point"><b>분석 방식 구분</b><span>500종목은 규칙 기반 자동분석으로 표시해요.</span></div>
+    <div class="trust-point"><b>분석 방식 구분</b><span>대부분의 종목은 규칙 기반 자동분석으로 표시해요.</span></div>
     <div class="trust-point"><b>자료 부족 표시</b><span>없는 숫자를 억지로 채우지 않고 그대로 알려드려요.</span></div>
     <div class="trust-point"><b>투자 권유 아님</b><span>판단 근거를 공부용 참고자료로 제공해요.</span></div>
   </div>
@@ -3756,7 +3756,7 @@
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
     <div class="kpis" id="kpis"></div>
-    <!-- 📡 GAEO 레이더 — 500종목을 규칙으로 훑어 '새로 생긴 기술적 변화'만 골라낸다.
+    <!-- 📡 GAEO 레이더 — 분석 종목 전체를 규칙으로 훑어 '새로 생긴 기술적 변화'만 골라낸다.
          5인 분석가(TARO·DIANA·QUANT·FLOW·CHIEF)를 대체하거나 6번째 분석가를 더하는 것이
          아니라, 분석가들이 들여다볼 종목을 기계가 먼저 찾아주는 보조 탐지기다. -->
     <section class="gaeo-radar" id="gaeoRadar" aria-labelledby="gaeoRadarTitle" hidden>
@@ -4117,8 +4117,13 @@ window.GaeoFeatures=(()=>{
 // ---------- 시세: 종목 목록은 tickers.js(단일 소스), 값은 data.js에서 채운다 ----------
 let SNAP_DATE='시세 없음';
 const STOCKS={};
+// ⭐ 분석 종목 수는 tickers.js 하나에서만 가져온다 (2026-08-15).
+//    예전에는 화면 곳곳에 "500종목"이 글자로 박혀 있어서, 종목을 늘릴 때마다
+//    사이트 여기저기가 낡은 숫자로 남았다. 이제 아래 두 상수만 쓴다.
+const COVERAGE_N=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)&&TICKERS.length)||0;
+const COVERAGE_TXT=COVERAGE_N?COVERAGE_N+'종목':'분석 대상 종목';
 // 코스피 초대형 우량주(시총 상위권) 화이트리스트 — 우측 레일 "최근 팀 판단"에서 쓴다.
-// 500종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어져 대표 종목만 추린다.
+// 분석 종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어져 대표 종목만 추린다.
 const MEGA_CAP=new Set([
   '005930','000660','373220','207940','005380','000270','068270','105560','055550',
   '005490','035420','012330','006400','051910','035720','028260','086790','032830',
@@ -4171,7 +4176,7 @@ function renderCapTop10(){
   });
 }
 const LIVE_AN=(typeof LIVE_ANALYSIS!=='undefined')?LIVE_ANALYSIS:null;
-// 전체 500종목 자동분석은 첫 화면에서 받지 않고, 실제 분석 기능을 누를 때만 내려받는다.
+// 전체 종목 자동분석은 첫 화면에서 받지 않고, 실제 분석 기능을 누를 때만 내려받는다.
 let AUTO_AN=null;
 window.GaeoUseAuto=()=>{
   AUTO_AN=(typeof LIVE_AUTO!=='undefined'&&LIVE_AUTO)?LIVE_AUTO:
@@ -4192,7 +4197,7 @@ window.GaeoUseArchive=()=>{
 //   ① 시간: 정밀분석이 자동분석(매일 전 종목 갱신)보다 오래되지 않았을 것.
 //      · 자동분석은 매일 새로 생성되므로, 하루라도 지난 정밀분석의 텍스트(뉴스·공시)는 낡았다.
 //        그래서 정밀 updated 날짜가 자동분석 생성 날짜보다 이르면 → 최신 자동분석을 우선한다.
-//        (효과: 정밀분석은 '그날 직접 재분석한 당일'만 우선, 이후엔 500종목 모두 자동분석 표시)
+//        (효과: 정밀분석은 '그날 직접 재분석한 당일'만 우선, 이후엔 전 종목 자동분석 표시)
 //   ② 가격: 기준가(base) 대비 현재가가 ±STALE_PCT 미만일 것(시세가 벌어지면 자동 우선).
 //  · base/현재가를 못 구하면 판단 불가이므로 시간 조건만으로 처리.
 function precisionFresh(code){
@@ -4845,7 +4850,7 @@ let SC_WEEK_OFFSET=0;   // 0=이번 주, 1=한 주 전, 2=두 주 전 …
 /* 📊 2026-08-14: "시장 대비" 채점을 위한 날짜별 시장 중앙값.
    절대수익률만으로 채점하면 시장이 오른 주에는 BUY가, 내린 주에는 SELL이 자동으로 맞아
    "종목을 잘 골랐는지"가 아니라 "시장이 어느 쪽으로 갔는지"를 재게 된다(실측: 이후 시장이
-   오른 구간 적중률 15.6% vs 내린 구간 78.6%). 같은 날 500종목의 5거래일 수익률 중앙값을
+   오른 구간 적중률 15.6% vs 내린 구간 78.6%). 같은 날 분석 종목 전체의 5거래일 수익률 중앙값을
    빼주면 시장 흐름이 상쇄돼 "시장보다 잘했나"만 남는다. PRICE_HISTORY로 한 번만 계산해 캐시한다. */
 let SC_MKT_MED=null;
 function scMarketMedian(){
@@ -5058,7 +5063,7 @@ function renderScorecard(){
   const callBlock=R.length?`<div class="sc-block">
     <h3>🔍 이번 주 판단 종류별 성적</h3>
     <p class="sc-sub">하나로 합친 적중률은 어느 판단이 잘 맞고 어느 판단이 틀리는지 가려버립니다. 위 주간 구간과 같은 기간을 BUY·HOLD·SELL로 나눠서 그대로 보여드려요.
-      <b>시장 대비</b>는 같은 날 500종목 수익률 중앙값을 뺀 값이라, 시장이 통째로 오르내린 효과를 걷어낸 「진짜 종목 선별력」이에요.</p>
+      <b>시장 대비</b>는 같은 날 분석 종목 전체의 수익률 중앙값을 뺀 값이라, 시장이 통째로 오르내린 효과를 걷어낸 「진짜 종목 선별력」이에요.</p>
     <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>
     <tbody>${callRows}<tr class="sc-total-row"><td><b>BUY+SELL</b></td><td class="num">${bsRows.length.toLocaleString()}</td>
       <td class="num"><b>${bsAbs.acc===null?'—':bsAbs.acc+'%'}</b></td><td class="num"><b>${bsExc.acc===null?'—':bsExc.acc+'%'}</b></td></tr></tbody></table></div>
@@ -5145,7 +5150,7 @@ function renderScorecard(){
         <div class="sc-stat"><b>${unlocked?'승격':'그림자'}</b><span>현재 상태</span></div>
         <div class="sc-stat"><b>${esc(String(RS.dataCutoff||'—'))}</b><span>데이터 기준</span></div></div>
       ${hRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>기간</th><th class="num">표본</th><th class="num">1위 업종 적중률</th><th class="num">시장 대비 중앙값</th></tr></thead><tbody>${hRows}</tbody></table></div>`:''}
-      <div class="sc-foot-note">「1위 업종 적중률」은 그 기간 점수 1위였던 업종이 이후 같은 기간 동안 500종목 중앙값을 넘겼는지로 셉니다. 날짜가 겹치는 중첩 표본이라 독립 시행 확률처럼 해석하지 않습니다. 승격 전까지는 참고 지표입니다.</div>
+      <div class="sc-foot-note">「1위 업종 적중률」은 그 기간 점수 1위였던 업종이 이후 같은 기간 동안 분석 종목 전체의 중앙값을 넘겼는지로 셉니다. 날짜가 겹치는 중첩 표본이라 독립 시행 확률처럼 해석하지 않습니다. 승격 전까지는 참고 지표입니다.</div>
     </div>`;
   } else if(typeof GaeoFeatures!=='undefined'&&!GaeoFeatures.ready('rotation')){
     // 순환매 자료는 지연 로드 파일이라, 성적표를 처음 열 때는 없다 — 받아온 뒤 한 번만 다시 그린다.
@@ -5991,7 +5996,7 @@ function mkParas(text){
   if(!sents.length) return `<p class="mk-text">${SIGNUM(esc(text))}</p>`;
   return sents.map(s=>`<p class="mk-text">${SIGNUM(esc(s))}</p>`).join('');
 }
-// 오늘 분석 종합 집계: 첫 화면에서는 경량 스냅샷의 최신 500종목 집계를 쓰고,
+// 오늘 분석 종합 집계: 첫 화면에서는 경량 스냅샷의 최신 전 종목 집계를 쓰고,
 // 자동분석 전체 파일을 내려받은 뒤에는 신선한 정밀분석만 우선해 다시 계산한다.
 function analysisTally(){
   const counts={BUY:0,HOLD:0,SELL:0}, ranked=[], seen=new Set();
@@ -6700,7 +6705,7 @@ function priceSparkSVG(closes,w,h){
 }
 
 // ---------- TARO 이동평균 해석 엔진(2026-08-06) — MA5/20/60/120/200을 위치·이격·기울기·
-// 지지저항·조합으로 풀어 설명한다. 순수 함수로만 구성해 500종목 전부에 규칙 기반으로
+// 지지저항·조합으로 풀어 설명한다. 순수 함수로만 구성해 전 종목에 규칙 기반으로
 // 동일하게 적용된다(종목별 하드코딩 없음). 데이터가 부족한 선(현재 120·200일)은 절대
 // 추정치를 만들지 않고 "데이터 부족"을 그대로 보여준다 — indicators.js의 tech.ma* 필드가
 // null이면 그 선은 계산 자체를 하지 않은 것(compute_indicators.py 참고). ----------
@@ -6845,7 +6850,7 @@ function maComboHTML(t,unit){
   // 그대로 문장으로 옮긴다(2026-08-07). 최근에 실제로 선이 뚫고 지나갔으면 그 사실을,
   // 아직 안 뚫렸어도 두 선이 눈에 띄게 좁혀지는 중이면 "임박" 가능성을 미리 알려준다.
   // ⭐ 2026-08-07: "데드크로스 나면 진짜 얼마나 떨어져요?"에 감이 아니라 숫자로 답하도록,
-  // analyze_auto.py가 500종목 누적 일봉에서 집계한 사후 통계(crossStats)를 같이 붙인다.
+  // analyze_auto.py가 전 종목 누적 일봉에서 집계한 사후 통계(crossStats)를 같이 붙인다.
   // 실제로 계산해보니 데드크로스 뒤 20거래일 평균은 소폭 플러스(상승확률 50% 안팎)로,
   // "데드크로스=하락 확정"이 아니라는 걸 숫자로 보여준다 — 있는 통계를 그대로 전달할 뿐,
   // 새로 판단을 짓지 않는다.
@@ -6854,7 +6859,7 @@ function maComboHTML(t,unit){
     const b=cs.buckets&&cs.buckets[pairKey+'_'+direction]; if(!b||!b.n) return '';
     const avg=b.sum/b.n, wr=Math.round(b.w/b.n*100), h=cs.horizonDays||20;
     const avgTxt=(avg>=0?'+':'')+avg.toFixed(1)+'%';
-    return ` 500종목 과거 통계로는 ${direction==='golden'?'골든':'데드'}크로스 이후 ${h}거래일 뒤 평균 ${avgTxt}(상승확률 ${wr}%, 표본 ${b.n.toLocaleString('ko-KR')}건)였어요.`;
+    return ` ${COVERAGE_TXT} 과거 통계로는 ${direction==='golden'?'골든':'데드'}크로스 이후 ${h}거래일 뒤 평균 ${avgTxt}(상승확률 ${wr}%, 표본 ${b.n.toLocaleString('ko-KR')}건)였어요.`;
   };
   const crossLine=(c,shortName,longName,pairKey)=>{
     if(!c) return null;
@@ -7332,7 +7337,7 @@ function taroChartHTML(code){
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   📡 GAEO 레이더 — 500종목에서 "직전 거래일 대비 새로 생긴 변화"만 보여준다.
+   📡 GAEO 레이더 — 분석 종목 전체에서 "직전 거래일 대비 새로 생긴 변화"만 보여준다.
    · 데이터: radar.js(compute_radar.py 생성) — 홈 요약용 이벤트 목록
              radar_series.js — 신호 종목의 최근 60거래일(상세를 열 때만 지연 로딩)
    · 이 기능은 BUY/HOLD/SELL 판단을 새로 만들지 않는다. TARO·DIANA·QUANT·FLOW·
@@ -8483,7 +8488,7 @@ function getQuantInterpretation(code,res){
     {label:'과거 상승 확률', value:wr+'%', sub:`유사 사례 100번 중 약 ${Math.round(wr)}번 상승`},
     {label:'기저 대비', value:fmtPp(rel), sub:`${baseLabel} ${base}%보다 ${rel>=0?'높은':'낮은'} 수준`},
     {label:'평균 5일 수익률', value:fmtPct(avg), sub:'상승·하락 사례를 모두 포함한 평균'},
-    {label:'유사 사례', value:n.toLocaleString('ko-KR')+'건', sub:period?`표본 기간 ${period}`:'전체 500종목 누적 일봉 기준'},
+    {label:'유사 사례', value:n.toLocaleString('ko-KR')+'건', sub:period?`표본 기간 ${period}`:`전체 ${COVERAGE_TXT} 누적 일봉 기준`},
   ];
   let lead;
   if(Math.abs(rel)<2) lead='과거 비슷한 상황에서는 5거래일 뒤 상승과 하락이 거의 반반이었어요. 현재 통계만으로는 뚜렷한 방향성이 확인되지 않아요.';
@@ -8493,7 +8498,7 @@ function getQuantInterpretation(code,res){
   let check='과거 통계는 참고 자료이며 같은 상황이 반복된다는 보장은 없어요. 표본 수와 분석 기간을 함께 확인하세요.';
   if(quality&&quality.note) check=quality.note+' '+check;
   // 🔎 카드 맨 아래 "이 계산은 어떻게 나온 건가요?" 접이식 각주(2026-08-14, 아주 작은 글씨).
-  const methodNote='RSI 구간·20일선 위/아래·최근 5일 추세, 이 3가지로 "지금 상태"를 정하고, 500종목 '
+  const methodNote='RSI 구간·20일선 위/아래·최근 5일 추세, 이 3가지로 "지금 상태"를 정하고, '+COVERAGE_TXT+' '
     +'전체 일별 기록에서 이 상태와 똑같았던 과거 사례를 찾아요. 표본이 30건 넘는 가장 좁은 조건을 '
     +'쓰고, 모자라면 조건을 하나씩 느슨하게 풀어요(동일 상태 → RSI·이평 동일 → RSI 구간 동일 → 시장 '
     +'전체). 이 승률과 비교하는 기준선(기저 승률)은 시장 전체 평균과 이 종목이 속한 업종의 평균 승률을 '
@@ -9299,7 +9304,7 @@ function renderGuide(){
       여기에 작은 표본을 50% 쪽으로 완화한 <b>실제 장기 보정 적중률</b>을 곱해 최종 발언권을 계산합니다.</p>
 
       <p><b>📊 QUANT · 확률·통계 분석가</b><br>
-      RSI, 이동평균선 위치, 최근 가격 흐름처럼 현재와 비슷한 상태를 과거 500종목 기록에서 찾아
+      RSI, 이동평균선 위치, 최근 가격 흐름처럼 현재와 비슷한 상태를 과거 ${COVERAGE_TXT} 기록에서 찾아
       <b>5거래일 뒤 실제로 오른 비율, 평균 수익률, 표본 수</b>를 계산합니다. 감이나 뉴스 해석이 아니라
       유사 사례의 실제 빈도를 점수로 사용하며, 의견 평가는 <b>5거래일·±1%</b> 기준입니다.
       역할 기본비중은 <b>28%</b>입니다.</p>
@@ -9359,7 +9364,7 @@ function renderGuide(){
     <div class="gb-body">
       <b>📊 QUANT(확률·통계 분석가)는 뭘 하나요?</b><br>
       "지금 이 종목이 RSI 42에 20일선 아래, 최근 5일 횡보" 같은 <b>현재 상태</b>를 보고,
-      개오가 매일 모아온 500종목 일봉 기록에서 <b>과거에 이것과 비슷한 상태였던 사례</b>를 전부 찾아요.
+      개오가 매일 모아온 ${COVERAGE_TXT} 일봉 기록에서 <b>과거에 이것과 비슷한 상태였던 사례</b>를 전부 찾아요.
       그리고 그 사례들이 <b>5거래일 뒤 실제로 올랐는지 내렸는지를 세서 승률</b>로 알려줘요.
       예: "비슷한 상태 1,469건 중 450건이 올랐다 → 이 비율(31%)이 경험적 승률". 누군가의 감이 아니라
       <b>실제로 일어났던 일의 빈도</b>라서 정직하고, 카드에 표본 수까지 같이 적어줘요.<br>
@@ -9386,9 +9391,9 @@ function renderGuide(){
       그래서 「종목을 잘 골랐는지」가 아니라 「시장이 어디로 갔는지」를 재고 있었던 거예요.<br><br>
       이제 성적표에 표 두 개를 추가해 이걸 있는 그대로 보여줍니다.<br>
       ${sign('var(--sky-soft)','var(--navy)','판단 종류별 성적','BUY·HOLD·SELL을 <b>합치지 않고 따로</b> 보여줘요. 합친 숫자는 어느 판단이 잘 맞고 어느 판단이 망가졌는지를 가려버리기 때문이에요. HOLD도 ±5%를 벗어나면 정직하게 빗나감으로 셉니다.')}
-      ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 500종목 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 분석 종목 전체의 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
       ${sign('var(--sky-soft)','var(--navy)','신뢰도 구간별(BUY·SELL 분리)','신뢰도(확신 정도)가 높다고 표시한 판단만 골라서 다시 채점한 표예요. BUY와 SELL을 나눠서 보여드려요.')}
-      <div class="gb-tip">💡 <b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 500종목 전부를 잘 맞히지는 못해요.
+      <div class="gb-tip">💡 <b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 분석 종목 전부를 잘 맞히지는 못해요.
       전체 BUY·SELL 판단의 시장 대비 적중률은 동전 던지기와 크게 다르지 않아요.
       <b>신뢰도가 높을수록 성적이 좋아지는 건 SELL 판단에서만 뚜렷해요.</b> 예전엔 BUY·SELL을 합쳐서 보여드려서
       이 개선이 전체에 고르게 적용되는 것처럼 보였는데, 다시 확인해 보니 BUY 판단은 신뢰도가 높아져도 성적이
@@ -9511,10 +9516,10 @@ function renderGuide(){
   </details>
 
   <details class="gb-sec">
-    <summary>📡 GAEO 레이더: 500종목 중 뭐가 달라졌는지 먼저 찾아줘요 (2026년 7월 30일 도입)</summary>
+    <summary>📡 GAEO 레이더: 분석 종목 중 뭐가 달라졌는지 먼저 찾아줘요 (2026년 7월 30일 도입)</summary>
     <div class="gb-body">
       <b>📡 GAEO 레이더는 뭘 하나요?</b><br>
-      500종목의 차트를 매일 자동으로 훑어서, <b>"어제와 비교해 오늘 새로 생긴 기술적 변화"</b>만 골라 보여주는
+      ${COVERAGE_TXT}의 차트를 매일 자동으로 훑어서, <b>"어제와 비교해 오늘 새로 생긴 기술적 변화"</b>만 골라 보여주는
       규칙 기반 탐지기예요. BUY·HOLD·SELL 같은 투자 판단을 내리지는 않아요, 그건 여전히 TARO·DIANA·QUANT·FLOW·CHIEF
       네 방향 분석가와 RISK 안전장치의 몫이에요. 레이더는 그냥 <b>"오늘 볼 만한 종목을 먼저 추려주는 안내판"</b>이라고 생각하면 돼요.<br><br>
       <b>어디서 볼 수 있어요?</b><br>
@@ -9969,7 +9974,7 @@ makeCards(false);
   renderAll();
   if(!AUTO_AN&&window.ensureAutoAnalysis){
     // ⭐ 2026-08-14 — "오늘의 판단" BUY 상위 종목은 처음엔 홈 경량 스냅샷(상위 30개, 종합점수순 선별)으로
-    // 먼저 그려지는데, 이 스냅샷은 confidence 기준 상위 3위가 빠져 있을 수 있다. 전체 500종목
+    // 먼저 그려지는데, 이 스냅샷은 confidence 기준 상위 3위가 빠져 있을 수 있다. 전체 종목
     // 자동분석(AUTO_AN)이 백그라운드로 다 내려오면 신뢰도순 정렬 결과가 바뀔 수 있으므로 다시 그린다.
     window.ensureAutoAnalysis().then(()=>{ renderAll(); window.GaeoBrief&&window.GaeoBrief.renderDecision&&window.GaeoBrief.renderDecision(); }).catch(()=>{});
   }
@@ -11323,7 +11328,7 @@ window.GaeoContentAd=(function(){
 })();
 
 // ---------- 🔍 종목 스크리너 ----------
-// 500종목 중 조건(업종·개오팀 판단)에 맞는 종목을 골라 정렬해서 보여준다.
+// 분석 종목 중 조건(업종·개오팀 판단)에 맞는 종목을 골라 정렬해서 보여준다.
 // analysisTally()가 이미 만들어둔 정밀+자동분석 통합 판단(ranked)과 STOCKS(시세·PER·PBR·배당 등)를 그대로 재사용 — 별도 데이터 수집 없이 토큰 0.
 let SCR={sector:'__all__', call:'__all__', sort:'score_desc'};
 window.renderScreener=function(){
@@ -11460,8 +11465,8 @@ window.renderScreener=function(){
       lesson:['기초부터 차근차근','주식 공부','처음 투자할 때 자주 막히는 개념을 사례와 함께 쉽게 익혀보세요.'],
       estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
-      screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 500개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
-      rotation:['업종의 힘이 어디로 움직일까요?','순환매','500개 종목을 24개 업종으로 묶어 현재 강한 흐름과 다음 관찰 후보를 확인해 보세요.'],
+      screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 '+COVERAGE_N+'개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
+      rotation:['업종의 힘이 어디로 움직일까요?','순환매',COVERAGE_N+'개 종목을 24개 업종으로 묶어 현재 강한 흐름과 다음 관찰 후보를 확인해 보세요.'],
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
