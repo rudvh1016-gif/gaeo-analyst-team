@@ -14,6 +14,7 @@
 import re, json, os, datetime, sys
 
 import append_only_guard
+import research_store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HIST_CAP = 80   # 가벼운 채점 히스토리만 최근 80건 유지. 정밀분석 원문은 영구 보존한다.
@@ -124,9 +125,6 @@ def archive_auto(hist):
     return a_add, a_upd
 
 
-RESEARCH_LOG = "research_history.jsonl"
-
-
 def _research_entry(code, day, rec):
     """research_shadow.json의 한 종목 기록을 영구 보존용 항목으로 바꾼다.
 
@@ -193,12 +191,16 @@ def _research_entry(code, day, rec):
 
 
 def archive_research():
-    """🧪 Research Shadow 판단을 research_history.jsonl에 APPEND-ONLY로 누적한다.
+    """🧪 Research Shadow 판단을 날짜별 Segment에 APPEND-ONLY로 누적한다.
 
     ⚠️ history.js와 완전히 분리한다. history.js는 브라우저가 내려받는 자료라
        화면에 쓰지도 않는 Shadow 기록을 얹으면 사용자 트래픽만 늘어난다.
-    ⚠️ HIST_CAP(80건) 절단도 적용하지 않는다. Research 기록은 성숙할 때까지
+    ⚠️ HIST_CAP(80건) 절단을 적용하지 않는다. Research 기록은 성숙할 때까지
        지우면 안 되는 전진검증 자료다.
+
+    저장 구조는 research_store.ResearchArchiveStore가 책임진다.
+    (하나의 거대한 파일을 매번 통째로 다시 커밋하는 방식을 피하기 위해
+     날짜별 Segment로 나눈다. 닫힌 날은 gzip으로 굳힌다.)
     """
     spath = os.path.join(HERE, "research_shadow.json")
     if not os.path.exists(spath):
@@ -212,51 +214,75 @@ def archive_research():
     if not stocks:
         return
 
-    lpath = os.path.join(HERE, RESEARCH_LOG)
-    log = {}
-    if os.path.exists(lpath):
-        with open(lpath, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    rec = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
-                log.setdefault(str(rec.get("code")), []).append(rec)
-
+    store = research_store.ResearchArchiveStore()
     today = datetime.date.today().isoformat()
-    # 🔒 쓰기 전 지문. '어제 이전에 만들어진' Prediction은 무엇도 바뀌면 안 된다.
-    #    오늘 만든 Prediction의 장중 재스냅샷은 허용한다(그 시점엔 결과를 알 수 없다).
-    before = append_only_guard.snapshot(log, today=today)
-
     gen = str(shadow.get("generatedAt", ""))[:10]
-    added = updated = 0
+
+    # 판단이 본 시세일(baseAt) 기준으로 날짜를 정한다. 대부분 한 날짜로 모인다.
+    by_day = {}
     for code, rec in stocks.items():
         day = (str(rec.get("baseAt") or gen)[:10]) or gen
-        if not day:
+        if day:
+            by_day.setdefault(day, []).append(_research_entry(code, day, rec))
+
+    total_added = total_replaced = 0
+    for day, records in sorted(by_day.items()):
+        state = store.segment_state(day, today)
+        if state in ("CLOSED", "COMPRESSED"):
+            # 이미 닫힌 날짜에는 쓰지 않는다. APPEND-ONLY의 핵심이다.
+            print(f"[Research] {day} Segment는 {state} — 쓰지 않고 건너뜁니다.")
             continue
-        entry = _research_entry(code, day, rec)
-        rows = log.setdefault(str(code), [])
-        idx = next((i for i, r in enumerate(rows) if str(r.get("date")) == day), None)
-        if idx is None:
-            rows.append(entry); added += 1
-        else:
-            rows[idx] = entry; updated += 1
+        # 🔒 쓰기 전 지문. 이 Segment 안의 과거 Prediction이 바뀌면 되돌린다.
+        existing = {day: store.read_day(day)}
+        before = append_only_guard.snapshot(
+            {code: [r] for code, r in
+             ((str(x.get("code")), x) for x in existing[day])}, today=today)
+        added, replaced = store.append_predictions(day, records, today=today)
+        after_rows = store.read_day(day)
+        after = append_only_guard.snapshot(
+            {str(x.get("code")): [x] for x in after_rows}, today=today)
+        violations = append_only_guard.verify(before, after)
+        if violations:
+            print(f"[APPEND-ONLY 위반] {day} — {len(violations)}건. "
+                  f"과거 Prediction이 바뀌었습니다.")
+        elif before:
+            print(f"APPEND-ONLY 검사 통과 — {day} 과거 Research 기록 {len(before)}건 그대로")
+        total_added += added
+        total_replaced += replaced
 
-    violations = append_only_guard.guard(log, before, RESEARCH_LOG, today=today)
-    if not violations and before:
-        print(f"APPEND-ONLY 검사 통과 — 과거 Research 기록 {len(before)}건 그대로")
+    # 닫힌 날 닫기 → gzip → manifest. 오늘 파일은 건드리지 않는다.
+    actions = store.maintain(today=today)
+    compressed = [a for a in actions if a.get("status") == research_store.OK]
+    broken = [a for a in actions if a.get("status") == research_store.ARCHIVE_INTEGRITY_ERROR]
 
-    with open(lpath, "w", encoding="utf-8") as f:
-        for code in sorted(log):
-            for rec in sorted(log[code], key=lambda r: str(r.get("date", ""))):
-                f.write(json.dumps(rec, ensure_ascii=False, separators=(",", ":")) + "\n")
-    total = sum(len(v) for v in log.values())
-    size_mb = os.path.getsize(lpath) / 1048576
-    print(f"{RESEARCH_LOG} 갱신 완료 — 신규 {added}건 · 같은날 갱신 {updated}건 "
-          f"· 누적 {total:,}건 {size_mb:.1f}MB (사이트 미로딩)")
+    report = store.storage_report(today=today)
+    _write_storage_report(report, compressed, broken)
+    print(f"Research Segment 갱신 — 신규 {total_added}건 · 같은날 갱신 {total_replaced}건 "
+          f"· 누적 {report['observedDays']}일 {report['totalArchiveBytes']/1048576:.1f}MB "
+          f"(사이트 미로딩)")
+    if compressed:
+        print(f"Segment 압축 완료 {len(compressed)}일 — "
+              f"압축비 {compressed[0].get('compressionRatio')}")
+    if broken:
+        print(f"[{research_store.ARCHIVE_INTEGRITY_ERROR}] {len(broken)}일 — 원본은 그대로 두었습니다.")
+
+
+def _write_storage_report(report, compressed, broken):
+    """저장량 추이를 매 실행 기록한다(요구 31번). 임의 한계를 두지 않는다."""
+    path = os.path.join(HERE, "research_archive", "storage_report.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = dict(report)
+    payload["compressedToday"] = compressed
+    payload["integrityErrors"] = broken
+    # 위험 판단은 실측 증가량으로만 한다. 하드코딩한 상수 한계를 쓰지 않는다.
+    gb = payload["estimated365dBytes"] / (1024 ** 3)
+    if gb >= 1.0:
+        payload["status"] = research_store.STORAGE_MIGRATION_RECOMMENDED
+        payload["statusReason"] = (
+            f"현재 속도면 1년에 약 {gb:.1f}GB. Git 저장소 안에 두기엔 큰 규모라 "
+            f"별도 저장소 분리를 검토할 시점이다.")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=1, sort_keys=True)
 
 
 def main():

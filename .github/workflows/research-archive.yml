@@ -1,0 +1,67 @@
+# 개오 애널리스트팀 — Research Archive 주기 유지보수
+#
+# 하는 일: 닫힌 Daily Segment를 gzip으로 굳히고, 끝난 주/달을 묶고(Rollup),
+# 압축본을 실제로 풀어보는 복원 테스트를 돌린다.
+#
+# ⚠️ 과거 Prediction 내용은 어떤 경우에도 바꾸지 않는다. 압축·묶음은 저장형태만
+#    바꾸는 작업이고, 검증이 통과하기 전에는 원본을 지우지 않는다.
+# ⚠️ 오늘(ACTIVE) Segment는 건드리지 않는다. 아직 쓰고 있기 때문이다.
+#
+# 실행 시각: 매주 월요일 20:10 UTC(한국시간 화요일 05:10) — 국내·미국 정규장이 모두
+# 끝난 뒤라 update-analysis.yml / update-prices.yml의 커밋과 겹치지 않는다.
+# 매달 1일에는 --monthly로 지난달 묶음까지 만든다.
+
+name: research-archive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 20 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research-archive
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Archive 무결성 테스트
+        run: python3 test_research_store.py
+
+      - name: 주기 유지보수 (Rollup + 복원 테스트)
+        run: |
+          if [ "$(date +%d)" = "01" ]; then
+            python3 maintain_research_archive.py --monthly
+          else
+            python3 maintain_research_archive.py
+          fi
+
+      - name: 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -d research_archive ] && git add research_archive || true
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "Research Archive 유지보수 (GitHub Actions) [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin main && break
+              sleep $((2 ** i))
+              git pull --rebase origin main || true
+            done
+          fi
