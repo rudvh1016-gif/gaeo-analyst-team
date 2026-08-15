@@ -3,20 +3,20 @@
   "byKind": {
    "detail": 0,
    "financial": 16,
-   "list": 8,
-   "mapping": 4,
+   "list": 10,
+   "mapping": 5,
    "other": 0
   },
   "day": "2026-08-15",
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9972,
-  "requests_today": 28,
-  "runs_today": 4,
+  "remaining": 9969,
+  "requests_today": 31,
+  "runs_today": 5,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.28
+  "usage_pct_of_hard_limit": 0.31
  },
  "connection": {
   "connectionStatus": "OK",
@@ -57,234 +57,7 @@
   },
   "status": "OK"
  },
- "financials": {
-  "probes": [
-   {
-    "accountCatalog": {},
-    "accountRows": 229,
-    "attempts": [
-     {
-      "accountRows": 229,
-      "dartStatus": "000",
-      "fsDiv": "CFS",
-      "status": "OK",
-      "year": "2025"
-     }
-    ],
-    "coverage": 1.0,
-    "found": [
-     "revenue",
-     "costOfSales",
-     "grossProfit",
-     "operatingIncome",
-     "netIncome",
-     "totalAssets",
-     "totalLiabilities",
-     "totalEquity",
-     "operatingCashFlow",
-     "investingCashFlow"
-    ],
-    "fsDiv": "CFS",
-    "hasAccountId": true,
-    "hasAccountNm": true,
-    "label": "일반 제조/반도체",
-    "matchedBy": {
-     "costOfSales": "account_id",
-     "grossProfit": "account_id",
-     "investingCashFlow": "account_id",
-     "netIncome": "account_id",
-     "operatingCashFlow": "account_id",
-     "operatingIncome": "account_id",
-     "revenue": "account_id",
-     "totalAssets": "account_id",
-     "totalEquity": "account_id",
-     "totalLiabilities": "account_id"
-    },
-    "missing": [],
-    "name": "삼성전자",
-    "notApplicable": [],
-    "sectorHandling": "STANDARD",
-    "sjDivValues": [
-     "BS",
-     "CF",
-     "CIS",
-     "IS",
-     "SCE"
-    ],
-    "status": "OK",
-    "ticker": "005930",
-    "year": "2025"
-   },
-   {
-    "accountCatalog": {},
-    "accountRows": 312,
-    "attempts": [
-     {
-      "accountRows": 312,
-      "dartStatus": "000",
-      "fsDiv": "CFS",
-      "status": "OK",
-      "year": "2025"
-     }
-    ],
-    "coverage": 1.0,
-    "found": [
-     "revenue",
-     "costOfSales",
-     "grossProfit",
-     "operatingIncome",
-     "netIncome",
-     "totalAssets",
-     "totalLiabilities",
-     "totalEquity",
-     "operatingCashFlow",
-     "investingCashFlow"
-    ],
-    "fsDiv": "CFS",
-    "hasAccountId": true,
-    "hasAccountNm": true,
-    "label": "일반 제조/자동차",
-    "matchedBy": {
-     "costOfSales": "account_id",
-     "grossProfit": "account_id",
-     "investingCashFlow": "account_id",
-     "netIncome": "account_id",
-     "operatingCashFlow": "account_id",
-     "operatingIncome": "account_id",
-     "revenue": "account_id",
-     "totalAssets": "account_id",
-     "totalEquity": "account_id",
-     "totalLiabilities": "account_id"
-    },
-    "missing": [],
-    "name": "현대차",
-    "notApplicable": [],
-    "sectorHandling": "STANDARD",
-    "sjDivValues": [
-     "BS",
-     "CF",
-     "CIS",
-     "IS",
-     "SCE"
-    ],
-    "status": "OK",
-    "ticker": "005380",
-    "year": "2025"
-   },
-   {
-    "accountCatalog": {
-     "costOfSales": [],
-     "grossProfit": []
-    },
-    "accountRows": 239,
-    "attempts": [
-     {
-      "accountRows": 239,
-      "dartStatus": "000",
-      "fsDiv": "CFS",
-      "status": "OK",
-      "year": "2025"
-     }
-    ],
-    "coverage": 0.8,
-    "found": [
-     "revenue",
-     "operatingIncome",
-     "netIncome",
-     "totalAssets",
-     "totalLiabilities",
-     "totalEquity",
-     "operatingCashFlow",
-     "investingCashFlow"
-    ],
-    "fsDiv": "CFS",
-    "hasAccountId": true,
-    "hasAccountNm": true,
-    "label": "서비스/인터넷",
-    "matchedBy": {
-     "investingCashFlow": "account_id",
-     "netIncome": "account_id",
-     "operatingCashFlow": "account_id",
-     "operatingIncome": "account_id",
-     "revenue": "account_id",
-     "totalAssets": "account_id",
-     "totalEquity": "account_id",
-     "totalLiabilities": "account_id"
-    },
-    "missing": [
-     "costOfSales",
-     "grossProfit"
-    ],
-    "name": "NAVER",
-    "notApplicable": [],
-    "sectorHandling": "STANDARD",
-    "sjDivValues": [
-     "BS",
-     "CF",
-     "CIS",
-     "SCE"
-    ],
-    "status": "OK",
-    "ticker": "035420",
-    "year": "2025"
-   },
-   {
-    "accountCatalog": {},
-    "accountRows": 349,
-    "attempts": [
-     {
-      "accountRows": 349,
-      "dartStatus": "000",
-      "fsDiv": "CFS",
-      "status": "OK",
-      "year": "2025"
-     }
-    ],
-    "coverage": 1.0,
-    "found": [
-     "operatingIncome",
-     "netIncome",
-     "totalAssets",
-     "totalLiabilities",
-     "totalEquity",
-     "operatingCashFlow",
-     "investingCashFlow"
-    ],
-    "fsDiv": "CFS",
-    "hasAccountId": true,
-    "hasAccountNm": true,
-    "label": "금융/은행",
-    "matchedBy": {
-     "investingCashFlow": "account_id",
-     "netIncome": "account_id",
-     "operatingCashFlow": "account_id",
-     "operatingIncome": "account_id",
-     "totalAssets": "account_id",
-     "totalEquity": "account_id",
-     "totalLiabilities": "account_id"
-    },
-    "missing": [],
-    "name": "KB금융",
-    "notApplicable": [
-     "revenue",
-     "costOfSales",
-     "grossProfit"
-    ],
-    "sectorHandling": "FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED",
-    "sjDivValues": [
-     "BS",
-     "CF",
-     "CIS",
-     "SCE"
-    ],
-    "status": "OK",
-    "ticker": "105560",
-    "year": "2025"
-   }
-  ],
-  "status": "OK"
- },
- "finishedAt": "2026-08-15T13:45:56.186922+00:00",
+ "finishedAt": "2026-08-15T13:49:27.560294+00:00",
  "kstToday": "2026-08-15",
  "mapping": {
   "ambiguousCount": 0,
@@ -304,12 +77,12 @@
   ]
  },
  "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
- "ranAt": "2026-08-15T13:41:22.096671+00:00",
+ "ranAt": "2026-08-15T13:49:15.697364+00:00",
  "usage": {
   "api_errors": 0,
-  "bytes_received": 4159230,
-  "detail_requests": 4,
+  "bytes_received": 3597048,
+  "detail_requests": 0,
   "no_data_responses": 2,
-  "requests_per_run": 7
+  "requests_per_run": 3
  }
 }
