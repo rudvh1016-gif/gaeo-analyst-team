@@ -582,6 +582,13 @@ def _confidence_candidate(confidence_model, call, total):
 
 
 def candidate_chief_eval(e, taro, diana, nova, flow, weights, model):
+    """🗄️ ARCHIVED_FAILED_EXPERIMENT — 구형 그림자모델(calibrated-ensemble-v3).
+
+    ⚠️ 2026-08-15 퇴출. main 경로에서 더 이상 호출하지 않는다.
+       실측에서 SELL이 전체의 41%로 치우쳤고, 상승장 SELL 적중률이 9.4%까지
+       떨어졌다(하락장 85.9%). 승격 기준을 통과한 적이 없다.
+       함수 자체는 과거 기록 재현·감사를 위해 남겨 두지만 신규 예측은 만들지 않는다.
+    """
     """v3 그림자 후보. 승격 기준을 통과하기 전에는 화면 판단을 바꾸지 않는다."""
     regime = (e.get("marketRegime") or {}).get("key") or (model.get("currentRegime") or {}).get("key")
     regime_weights = (((model.get("regimes") or {}).get(regime) or {}).get("weights") or weights)
@@ -686,11 +693,14 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     # confidenceModel.promotion.qualified가 검증(학습에 안 쓴 구간)을 통과했을 때만
     # 실제 신뢰도(conf)를 이 후보로 교체한다. reboundGuard·v3와 동일한 원칙 — 화면 값을
     # 검증 전에 먼저 바꾸지 않는다.
+    # ⚠️ 2026-08-15: 자동승격 제거. 후보 신뢰도는 기록만 하고 화면 값을 바꾸지 않는다.
+    #    프로그램이 스스로 Production을 교체하는 경로는 전부 없앴다.
+    #    기준을 충족하면 상태만 PROMOTION_REVIEW_AVAILABLE로 보고하고,
+    #    실제 적용은 사람이 승인한 뒤 별도 작업으로 한다.
     conf_candidate = _confidence_candidate(confidence_model, call, total)
-    conf_model_qualified = bool(((confidence_model or {}).get("promotion") or {}).get("qualified"))
+    conf_review = bool(((confidence_model or {}).get("promotion") or {}).get("qualified"))
     conf_shadow = conf_candidate if conf_candidate is not None else conf
-    if conf_model_qualified and conf_candidate is not None:
-        conf = conf_candidate
+    conf_model_qualified = False        # 자동 적용 금지
     tgap = e.get("targetGap")
     tgt = (f"증권사 평균 목표주가 {won(e.get('targetMean'))} (현재가 대비 {tgap:+.1f}% 상승여력)"
            if tgap is not None else "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고")
@@ -710,7 +720,9 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
-            "confidenceShadow": conf_shadow, "confidenceModelPromoted": conf_model_qualified and conf_candidate is not None,
+            "confidenceShadow": conf_shadow, "confidenceModelPromoted": False,
+            "confidencePromotionStatus": ("PROMOTION_REVIEW_AVAILABLE" if conf_review
+                                          else "SHADOW_ONLY"),
             "rawTotal": raw_total, "riskPenalty": risk["penalty"],
             "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
             "reboundCheck": rebound_check,
@@ -910,13 +922,13 @@ def main():
             baseline_chief = chief_eval(candidate_context, taro, diana, nova, flow, weights=wsec,
                                         learned=tw["learned"], guard_policy=model.get("reboundGuard"),
                                         confidence_model=model.get("confidenceModel"))
-            shadow_chief = candidate_chief_eval(candidate_context, taro, diana, nova, flow, wsec, model) if model else None
-            promoted = bool((model.get("promotion") or {}).get("qualified")) and shadow_chief is not None
-            chief = shadow_chief if promoted else baseline_chief
-            if promoted:
-                chief["promoted"] = True
-                chief["baselineCall"] = baseline_chief.get("call")
-                chief["baselineTotal"] = baseline_chief.get("total")
+            # 🗄️ 구형 그림자모델(calibrated-ensemble-v3)은 2026-08-15에 퇴출됐다.
+            #    실측에서 SELL이 전체의 41%로 치우쳤고 상승장 SELL 적중률이 9.4%까지
+            #    무너졌다. 신규 예측을 만들지 않고, 과거 기록만 보존한다.
+            #    ⚠️ 어떤 그림자 모델도 프로그램 스스로 Production을 바꾸지 않는다.
+            #       승격은 사람이 명시적으로 승인한 뒤 별도 작업으로만 한다.
+            shadow_chief = None
+            chief = baseline_chief
             # 🧪 Research Shadow — chief/shadowChief 옆에 하나 더 얹기만 한다.
             # 위 Legacy 계산 결과(chief)는 어떤 경우에도 수정하지 않는다.
             research_shadow = None
@@ -960,7 +972,7 @@ def main():
                 "baseAt": price_label,
                 "events": [],
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
-                "shadowChief": shadow_chief,
+                "shadowChief": shadow_chief,   # 항상 None — 구형 그림자모델 퇴출됨
             }
             n_auto += 1
         except Exception as ex:
