@@ -293,7 +293,39 @@ def flow_summary(deal_trends, daily=None, days=6):
     organ_buy_days = sum(1 for value in org_rows if value > 0)
     daily = daily or []
     last_volume = float((daily[-1] if daily else {}).get("volume") or 0)
+    # ⚠️ 기존 근사치: 마지막 하루 거래량 × 일수. 거래량이 들쭉날쭉한 종목에서 크게 틀린다.
+    #    호환성을 위해 flowRatioPct는 그대로 두고, 아래에 **같은 날짜끼리 맞춘**
+    #    실제 기간 거래량 합계를 따로 계산해 정규화 후보(A1)가 쓰게 한다.
     flow_ratio = (frgn + org) / (last_volume * len(dt)) * 100 if last_volume and dt else None
+
+    # ── 실제 기간 거래량 (요구 7-1) ──────────────────────────────────────────
+    # dealTrends의 bizdate(YYYYMMDD)와 daily의 date(YYYY-MM-DD)를 **정확히 같은
+    # 날짜끼리** 맞춘다. 근사(last_volume × days)를 쓰지 않는다.
+    volume_by_date = {}
+    for row in daily:
+        d = str(row.get("date") or "").replace("-", "")
+        v = row.get("volume")
+        if len(d) == 8 and v:
+            volume_by_date[d] = float(v)
+    matched_dates = []
+    period_volume = 0.0
+    for row in dt:
+        d = str(row.get("bizdate") or "").strip()
+        if d in volume_by_date:
+            period_volume += volume_by_date[d]
+            matched_dates.append(d)
+    # 며칠이 실제로 매칭됐는지 남긴다. 절반도 못 맞췄으면 정규화를 쓰지 않는다.
+    volume_match_days = len(matched_dates)
+    volume_coverage = volume_match_days / len(dt) if dt else 0.0
+    if period_volume > 0 and volume_coverage >= 0.6:
+        # 같은 기간 순매수 ÷ 같은 기간 실제 총거래량. 종목 규모에 자동으로 맞춰진다.
+        frgn_ratio = frgn / period_volume * 100
+        org_ratio = org / period_volume * 100
+        volume_state = "PERIOD_VOLUME_MATCHED"
+    else:
+        frgn_ratio = org_ratio = None
+        volume_state = ("PERIOD_VOLUME_PARTIAL" if period_volume > 0
+                        else "PERIOD_VOLUME_NOT_AVAILABLE")
     price_ret5 = None
     if len(daily) >= 6 and daily[-6].get("close"):
         price_ret5 = (daily[-1]["close"] / daily[-6]["close"] - 1) * 100
@@ -326,6 +358,12 @@ def flow_summary(deal_trends, daily=None, days=6):
         "jointBuyDays": joint_buy, "jointSellDays": joint_sell,
         "acceleration": round(acceleration),
         "flowRatioPct": round(flow_ratio, 3) if flow_ratio is not None else None,
+        # 정규화 후보(A1) 전용 — 같은 날짜끼리 맞춘 실제 기간 거래량 기준
+        "periodVolume": int(period_volume) if period_volume else None,
+        "volumeMatchDays": volume_match_days,
+        "volumeState": volume_state,
+        "frgnRatioPct": round(frgn_ratio, 4) if frgn_ratio is not None else None,
+        "orgRatioPct": round(org_ratio, 4) if org_ratio is not None else None,
         "priceRet5": round(price_ret5, 2) if price_ret5 is not None else None,
         "divergence": divergence, "qualityScore": round(max(-50, min(50, quality)), 1),
     }
