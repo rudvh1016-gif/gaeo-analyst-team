@@ -127,6 +127,44 @@ def probe_filings(client, budget):
     }
 
 
+# 못 찾은 항목별로 이 낱말이 들어간 계정을 뒤져 실제 이름·ID를 보여준다.
+CATALOG_HINTS = {
+    "revenue": ["매출", "수익", "영업수익"],
+    "costOfSales": ["매출원가", "원가"],
+    "grossProfit": ["매출총이익", "총이익"],
+    "operatingIncome": ["영업이익", "영업손익"],
+    "netIncome": ["당기순이익", "순이익", "순손익", "총포괄"],
+    "totalAssets": ["자산총계", "자산"],
+    "totalLiabilities": ["부채총계", "부채"],
+    "totalEquity": ["자본총계", "자본"],
+    "operatingCashFlow": ["영업활동", "영업현금"],
+    "investingCashFlow": ["투자활동", "투자현금"],
+}
+
+
+def _catalog(rows, missing_keys):
+    """실제 응답에서 계정 식별자를 배운다. 추측하지 않는다."""
+    out = {}
+    for key in missing_keys:
+        hits = []
+        for hint in CATALOG_HINTS.get(key, []):
+            for r in rows:
+                nm = (r.get("account_nm") or "")
+                if hint in nm:
+                    hits.append({"account_nm": nm, "account_id": r.get("account_id"),
+                                 "sj_div": r.get("sj_div")})
+            if hits:
+                break
+        # 같은 계정이 여러 재무제표에 나오므로 중복 제거
+        seen, uniq = set(), []
+        for h in hits:
+            k = (h["account_nm"], h["sj_div"])
+            if k not in seen:
+                seen.add(k); uniq.append(h)
+        out[key] = uniq[:6]
+    return out
+
+
 def probe_financials(client, budget):
     """대표기업 소수만 호출해 실제 응답 스키마를 확인한다.
 
@@ -178,7 +216,9 @@ def probe_financials(client, budget):
                 "hasAccountId": bool(rows and rows[0].get("account_id")),
                 "hasAccountNm": bool(rows and rows[0].get("account_nm")),
                 "sjDivValues": sorted({r.get("sj_div") for r in rows if r.get("sj_div")}),
-                "sampleAccountNames": [r.get("account_nm") for r in rows[:15]],
+                # 못 찾은 항목의 진짜 계정명·account_id를 알아내기 위한 카탈로그.
+                # ⚠️ 표준 ID를 추측하지 않고 실제 응답에서 배운다.
+                "accountCatalog": _catalog(rows, ext["missing"]),
             })
         else:
             row["status"] = "NO_DATA"

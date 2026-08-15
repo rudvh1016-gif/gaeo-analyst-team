@@ -1,0 +1,207 @@
+# DIANA v2.0 Feature Registry — 공식 확정 상태
+
+작성 2026-08-15
+
+> **이 문서는 Feature를 아직 계산하지 않는다.** 어떤 공식을 쓸지, 그 공식이 원 논문과
+> 같은지, DART 계정으로 실제 구할 수 있는지만 확정한다.
+> `research_v2.0` 점수·Weight·Threshold는 여기서 만들지 않는다.
+
+## 0. 상태 어휘
+
+| 상태 | 뜻 |
+| --- | --- |
+| `PAPER_EXACT` | 원 논문 공식과 분자·분모·시점이 모두 같다 |
+| `GAEO_PROXY` | 경제적 의도는 같지만 계산이 논문과 다르다. **논문 공식이라 부르지 않는다** |
+| `POTENTIALLY_AVAILABLE` | 필요한 계정이 있어 보이지만 실응답 Coverage를 아직 확인하지 못했다 |
+| `NOT_READY` | 필요한 계정이 없거나 정의가 확정되지 않았다 |
+
+> ⚠️ **데이터 항목이 존재한다 ≠ 논문의 Feature를 정확히 계산할 수 있다.**
+> 이전 보고에서 "DART로 DIANA 5개를 전부 채울 수 있다"고 쓴 것은 성급했다.
+> 실응답 Coverage와 공식 대조가 끝나기 전까지 전부 `POTENTIALLY_AVAILABLE`로 낮춘다.
+
+---
+
+## 1. grossProfitability (Novy-Marx 2013, JFE)
+
+| 항목 | 내용 |
+| --- | --- |
+| `formula` | (Revenue − COGS) / **Total Assets** |
+| `paper_reference` | Novy-Marx (2013), "The other side of value: The gross profitability premium", JFE |
+| `required_accounts` | 매출액, 매출원가 (또는 매출총이익), 자산총계 |
+| `period_rule` | 분자는 회계기간 플로우(연간), 분모는 기말 스톡 |
+| `availability_rule` | 세 계정이 모두 있을 때만. 하나라도 없으면 `NOT_AVAILABLE` |
+| `PIT_rule` | 해당 재무를 담은 공시를 GAEO가 탐지한 시각(`usableFrom`) 이후만 |
+| `status` | **`POTENTIALLY_AVAILABLE`** (실응답 Coverage 미확인) |
+
+### ⚠️ 매출총이익률과 혼동하지 않는다
+
+Novy-Marx의 핵심은 **분모가 자산총계**라는 점이다.
+
+```
+Novy-Marx Gross Profitability =  (매출액 − 매출원가) / 자산총계     ← 이것
+일반적인 Gross Margin        =  (매출액 − 매출원가) / 매출액       ← 이것이 아니다
+```
+
+`gross profit / revenue`로 구현하면 그것은 수익성 마진 지표이지 논문의 Feature가 아니다.
+그렇게 구현할 경우 이름을 `grossMargin`으로 바꾸고 상태를 `GAEO_PROXY`로 둔다.
+
+---
+
+## 2. operatingProfitability (Fama & French 2015, JFE)
+
+| 항목 | 내용 |
+| --- | --- |
+| `formula` | (Revenue − COGS − SG&A − Interest Expense) / **Book Equity** |
+| `paper_reference` | Fama & French (2015), "A five-factor asset pricing model", JFE |
+| `required_accounts` | 매출액, 매출원가, 판매비와관리비, 이자비용, 자본총계 |
+| `period_rule` | 분자 연간 플로우, 분모 기말 자기자본 |
+| `availability_rule` | 판관비·이자비용이 없으면 `PAPER_EXACT` 불가 |
+| `PIT_rule` | 위와 동일 |
+| `status` | **`NOT_READY`** (판관비·이자비용 수집 대상에 없음) |
+
+### ⚠️ `operating income / total assets`가 아니다
+
+FF5의 OP는 **분모가 자기자본(Book Equity)** 이고, 분자는 이자비용까지 뺀 값이다.
+현재 수집 목록(영업이익·자산총계)만으로는 다른 지표가 된다.
+
+| 선택지 | 결과 |
+| --- | --- |
+| 판관비·이자비용을 추가 수집 | `PAPER_EXACT` 가능 |
+| 영업이익 / 자기자본으로 대체 | `GAEO_PROXY` — 이름을 `operatingProfitabilityProxy`로 |
+| 영업이익 / 자산총계로 대체 | `GAEO_PROXY` — 이건 ROA 계열이지 FF5 OP가 아니다 |
+
+**결정: 판관비·이자비용을 수집 목록에 추가하고, 그 전까지 `NOT_READY`로 둔다.**
+
+---
+
+## 3. accruals (Sloan 1996, TAR)
+
+| 항목 | 내용 |
+| --- | --- |
+| `formula` (원 정의) | 대차대조표 접근 — ΔWC − Depreciation, 분모는 평균 총자산 |
+| `formula` (대체) | 현금흐름표 접근 — (Net Income − CFO) / 평균 총자산 |
+| `paper_reference` | Sloan (1996), "Do stock prices fully reflect information in accruals and cash flows about future earnings?", TAR |
+| `required_accounts` | 당기순이익, 영업활동현금흐름, 자산총계(2개 기간) |
+| `period_rule` | 분자 연간 플로우, 분모는 **기초·기말 평균** 총자산 |
+| `availability_rule` | 직전 기간 자산총계가 있어야 평균을 낼 수 있다 |
+| `PIT_rule` | 위와 동일 |
+| `status` | **`POTENTIALLY_AVAILABLE`** — 채택 시 `CASH_FLOW_PROXY` |
+
+### ⚠️ `Net Income − CFO`로 끝나지 않는다
+
+Sloan의 원 정의는 대차대조표 항목 변화(운전자본 증감 − 감가상각)로 발생액을 구한다.
+현금흐름표 기반 (NI − CFO)는 널리 쓰이는 대체 정의지만 **원 논문과 같은 계산이 아니다.**
+
+분모 normalization도 명시한다: **평균 총자산**(기초+기말)/2. 기말 총자산만 쓰면 다른 지표다.
+
+**결정: 현금흐름표 접근을 쓰되 상태를 `CASH_FLOW_PROXY`로 표기하고, 원 정의라고 부르지 않는다.**
+
+---
+
+## 4. assetGrowth (Cooper, Gulen & Schill 2008, JF)
+
+| 항목 | 내용 |
+| --- | --- |
+| `formula` | (TA_t − TA_{t−1}) / TA_{t−1} |
+| `paper_reference` | Cooper, Gulen & Schill (2008), "Asset growth and the cross-section of stock returns", JF |
+| `required_accounts` | 자산총계, 2개 회계연도 |
+| `period_rule` | 연간(FY) 기준. 분기와 섞지 않는다 |
+| `availability_rule` | 직전 연도 자산총계가 없으면 `NOT_AVAILABLE` |
+| `PIT_rule` | **나중 기간 재무의 탐지 시각** 이후부터 사용 가능 |
+| `status` | **`POTENTIALLY_AVAILABLE`** |
+
+두 시점을 명시한다: 직전 회계연도 기말과 당해 회계연도 기말. 분모는 **직전 연도** 자산총계다.
+분모를 평균 자산으로 바꾸면 다른 지표가 되므로 섞지 않는다.
+
+> ⚠️ 이 Feature는 `gaeo_verified_references.md`에 아직 등재되지 않은 논문을 참조한다.
+> LOCKED PAPER PACK에 추가 확인 후 등재해야 `PAPER_EXACT`를 논할 수 있다.
+> 현재는 정의만 고정해 둔 상태다.
+
+---
+
+## 5. leverage
+
+| 항목 | 내용 |
+| --- | --- |
+| `formula` (채택) | 부채총계 / 자산총계 (Liabilities / Assets) |
+| `paper_reference` | **단일 표준 정의 없음** |
+| `required_accounts` | 부채총계, 자산총계 |
+| `period_rule` | 기말 스톡 |
+| `availability_rule` | 두 계정 모두 필요 |
+| `PIT_rule` | 위와 동일 |
+| `status` | **`GAEO_PROXY`** (논문 공식이 아니라 우리가 고른 정의) |
+
+세 가지가 흔히 쓰이고 서로 다른 값이다. **임의로 섞지 않는다.**
+
+| 정의 | 성격 |
+| --- | --- |
+| Liabilities / Assets | 전체 부채 비중. **채택** — DART 계정으로 바로 구한다 |
+| Debt / Assets | 이자부부채만. 차입금 계정을 따로 뽑아야 한다 |
+| Debt / Equity | 자본 대비 배수. 자본잠식 시 발산한다 |
+
+Debt(이자부부채) 계정을 수집하기 전까지 `Liabilities / Assets` 하나만 쓰고,
+이름도 `liabilitiesToAssets`로 두어 오해를 막는다.
+
+---
+
+## 6. 연결(CFS) / 별도(OFS)
+
+**섞지 않는다.** 같은 회사에서 기간마다 CFS와 OFS가 번갈아 들어가면
+시계열 Feature가 회사의 변화가 아니라 보고서 종류의 변화를 재게 된다.
+
+원칙(스모크 테스트 결과 확인 후 확정):
+
+```
+1) CFS(연결) 우선
+2) CFS가 없으면 OFS(별도) fallback
+3) 어느 쪽을 썼는지 레코드마다 fs_div로 기록
+4) 같은 회사의 시계열에서 fs_div가 바뀌면 그 구간은 FS_DIV_INCONSISTENT로 표시하고
+   증감률 계산(assetGrowth 등)에 쓰지 않는다
+```
+
+4번이 핵심이다. fallback을 허용하되, **fallback이 섞인 구간의 증감률은 버린다.**
+
+---
+
+## 7. 금융업 별도 처리
+
+은행·보험·증권은 손익 구조가 다르다.
+
+| 항목 | 일반 제조업 | 금융업 |
+| --- | --- | --- |
+| 매출원가 | 있음 | 통상 없음 |
+| 매출총이익 | 있음 | 통상 없음 |
+| 부채비율 | 재무 건전성 신호 | 예금·보험부채가 본업이라 의미가 다르다 |
+
+따라서 금융업 종목은 `FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED`로 표시하고,
+`grossProfitability`·`leverage`를 **일반기업 공식에 억지로 넣지 않는다.**
+해당 종목의 그 Feature는 `NOT_APPLICABLE_FINANCIAL_SECTOR`로 남긴다.
+
+업종 판별은 `tickers.js`의 sector와 DART `corp_cls`를 함께 본다.
+실제 분류는 매핑 완료 후 확정한다.
+
+---
+
+## 8. 현재 상태 요약
+
+| Feature | 상태 | 막힌 것 |
+| --- | --- | --- |
+| `grossProfitability` | `POTENTIALLY_AVAILABLE` | 실응답 Coverage 미확인 |
+| `operatingProfitability` | **`NOT_READY`** | 판관비·이자비용 미수집 |
+| `accruals` | `POTENTIALLY_AVAILABLE` (`CASH_FLOW_PROXY` 예정) | 직전기 자산총계 필요 |
+| `assetGrowth` | `POTENTIALLY_AVAILABLE` | 2개 연도 필요, 논문 등재 필요 |
+| `leverage` | `GAEO_PROXY` (`liabilitiesToAssets`) | 표준 정의 없음 |
+
+**5개 중 `PAPER_EXACT`는 현재 0개다.**
+
+---
+
+## 9. 다음에 할 일
+
+1. 스모크 테스트로 대표기업 실응답 Coverage 확인 (계정명·`account_id`·`sj_div`·CFS/OFS).
+2. `operatingProfitability`를 위해 판관비·이자비용을 수집 목록에 추가.
+3. `assetGrowth` 논문을 LOCKED PAPER PACK에 등재.
+4. 금융업 종목 목록 확정 후 `NOT_APPLICABLE_FINANCIAL_SECTOR` 적용.
+5. 그 뒤에야 `research_v2.0`의 Feature 계산을 시작한다.
+
+**지금은 점수를 만들지 않는다.**
