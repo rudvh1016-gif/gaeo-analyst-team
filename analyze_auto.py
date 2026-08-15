@@ -313,19 +313,34 @@ def _trend5_zone(pct):
     return 2, "횡보"
 
 
-def build_quant_stats(analysis_data):
+def build_quant_stats(analysis_data, sectors=None):
     """전 종목 일봉에서 (상태 버킷 → 5거래일 뒤 상승 확률) 통계표 생성.
     반환: {key: {"n":표본수, "w":상승횟수, "sum":수익률합}}  (넓은 키일수록 표본이 큼)
     키 계층: z{rsi}m{ma}t{tr} → z{rsi}m{ma} → z{rsi} → "all"  (표본 부족 시 상위로 폴백)
     "_period"는 버킷이 아니라 {"start":최초 표본일, "end":최종 표본일} 메타데이터다
     (⭐ 2026-08-08: "표본이 몇 년치인지 안 보인다"는 피드백 → 화면에 실제 데이터 기간을
-    동적으로 보여주기 위해 추가. 승률·점수 계산 로직 자체는 전혀 안 건드린다)."""
+    동적으로 보여주기 위해 추가. 승률·점수 계산 로직 자체는 전혀 안 건드린다).
+    "_sectorBase"는 업종별 {"n","w"} — RSI·이평·추세 상태와 무관하게 그 업종 자체가
+    5거래일 뒤 오를 기본 확률이다(⭐ 2026-08-14: 업종별 기저율이 42.7%~52.7%로
+    10%p 가까이 벌어지는데, QUANT는 이 차이를 전혀 감안하지 않고 전체 시장 평균
+    하나로만 비교해서, 원래 상승률이 낮은 업종(게임·엔터 등)의 종목은 기술적 상태와
+    무관하게 늘 "부진"으로, 원래 높은 업종(건설·건자재 등)은 늘 "양호"로 나오는
+    편향이 있었다. quant_eval()이 이 값을 업종 표본 크기에 따라 전역값과 섞어
+    기저율로 쓴다)."""
     stats = {}
     period = {"start": None, "end": None}
+    sector_base = {}
 
     def bump(key, win, ret):
         b = stats.setdefault(key, {"n": 0, "w": 0, "sum": 0.0})
         b["n"] += 1; b["w"] += win; b["sum"] += ret
+
+    def bump_sector(code, win):
+        if not sectors:
+            return
+        sec = sectors.get(code) or "기타"
+        b = sector_base.setdefault(sec, {"n": 0, "w": 0})
+        b["n"] += 1; b["w"] += win
 
     for code, s in (analysis_data.get("stocks") or {}).items():
         d = s.get("daily")
@@ -360,12 +375,14 @@ def build_quant_stats(analysis_data):
             bump(f"z{z}m{m}", win, ret)
             bump(f"z{z}", win, ret)
             bump("all", win, ret)
+            bump_sector(code, win)
             date_i = rows[i]["date"]
             if period["start"] is None or date_i < period["start"]:
                 period["start"] = date_i
             if period["end"] is None or date_i > period["end"]:
                 period["end"] = date_i
     stats["_period"] = period
+    stats["_sectorBase"] = sector_base
     return stats
 
 
@@ -421,7 +438,12 @@ def build_cross_stats(analysis_data):
     return stats
 
 
-def quant_eval(e, t, qstats):
+QUANT_SECTOR_MIN_N = 200     # 업종 표본이 이보다 적으면 업종값을 아예 안 쓰고 전역값만 쓴다
+QUANT_SECTOR_SHRINK_N = 800  # 이 표본수만큼 쌓이면 업종값 쪽으로 절반 정도 기운다(작을수록 업종값을 빨리 신뢰)
+QUANT_SECTOR_BLEND_CAP = 0.75  # 업종 표본이 아무리 많아도 전역값 비중을 최소 25%는 남긴다
+
+
+def quant_eval(e, t, qstats, sector=None):
     rsi = t.get("rsi14")
     g20 = t.get("ma20Gap")
     last5 = t.get("last5") or []
@@ -434,6 +456,7 @@ def quant_eval(e, t, qstats):
             "다음 자동 수집에서 RSI·이동평균·최근 추세가 채워지면 승률이 계산됩니다",
             "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"],
             "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "sector": sector, "sectorWinRate": None, "sectorBlendPct": None, "baseWinRate": None,
             "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     z, zname = _rsi_zone(rsi)
     m = 1 if g20 >= 0 else 0
@@ -454,6 +477,7 @@ def quant_eval(e, t, qstats):
             "📊 QUANT — 아직 통계 표본이 없습니다", "데이터가 쌓이면 승률이 계산됩니다",
             "현재는 중립(50점) 처리", "—"],
             "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
+            "sector": sector, "sectorWinRate": None, "sectorBlendPct": None, "baseWinRate": None,
             "relPp": None, "avgReturn": None, "scopeUsed": None, "periodStart": None, "periodEnd": None}
     wr = b["w"] / b["n"] * 100
     avg = b["sum"] / b["n"]
@@ -465,14 +489,31 @@ def quant_eval(e, t, qstats):
     # 그래서 '시장 평균 대비 얼마나 나은 상태인가'로 바꾼다: 기저 승률=50점(중립),
     # 그보다 높으면 강세·낮으면 약세. 표시용 승률 %는 그대로 두되 점수만 재중심화한다.
     allb = qstats.get("all") or {}
-    base_wr = (allb["w"] / allb["n"] * 100) if allb.get("n") else 50.0
+    market_wr = (allb["w"] / allb["n"] * 100) if allb.get("n") else 50.0
+    # ⭐ 2026-08-14: '기저 승률'을 시장 전체 하나로만 쓰면, 업종 자체가 원래 잘
+    # 오르는지(예: 건설·건자재 52.7%)·안 오르는지(예: 게임·엔터 42.7%)를 무시하게 되어
+    # 기술적 상태와 무관하게 특정 업종 종목은 늘 부진, 다른 업종은 늘 양호로 나오는
+    # 편향이 생겼다(직접 대조 확인함). team_weights.js가 업종별 가중치를 전역값과
+    # 섞어 쓰는 것과 같은 방식(표본 200건 미만이면 업종값 자체를 안 믿고 전역값만
+    # 쓰고, 표본이 많아질수록 업종값 비중을 최대 75%까지 서서히 높임)으로,
+    # '시장 평균'을 '업종을 반영한 기저 승률'로 바꾼다.
+    sector_bucket = (qstats.get("_sectorBase") or {}).get(sector or "") or {}
+    sector_n = sector_bucket.get("n", 0)
+    sector_wr = (sector_bucket["w"] / sector_n * 100) if sector_n else None
+    if sector_wr is not None and sector_n >= QUANT_SECTOR_MIN_N:
+        blend = min(QUANT_SECTOR_BLEND_CAP, sector_n / (sector_n + QUANT_SECTOR_SHRINK_N))
+    else:
+        blend = 0.0
+    base_wr = market_wr * (1 - blend) + (sector_wr if sector_wr is not None else market_wr) * blend
     rel = wr - base_wr
     score = clamp(round(50 + rel * 1.8), 20, 80)   # k=1.8: 기저 대비 ±편차를 점수로
     relword = "높아 상대적 양호" if rel >= 1 else ("낮아 상대적 부진" if rel <= -1 else "비슷한 중립 수준")
+    base_desc = (f"{sector} 업종을 {round(blend*100)}% 반영한 기저 승률 {base_wr:.0f}%"
+                 if blend > 0 else f"시장 평균 {base_wr:.0f}%")
     f = [
         "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(500종목 누적 일봉)로 승률을 계산합니다",
         f"현재 상태: RSI {rsi:.0f}({zname}) · 20일선 {'위' if m else '아래'} · 최근 5일 {tname}({tr5:+.1f}%)",
-        f"과거에 이런 상태({used})였던 적이 {b['n']}건 있었는데, 그중 {b['w']}건이 5거래일 뒤 올랐어요 → 경험적 승률 {wr:.0f}% (시장 평균 {base_wr:.0f}%보다 {rel:+.0f}%p {relword})",
+        f"과거에 이런 상태({used})였던 적이 {b['n']}건 있었는데, 그중 {b['w']}건이 5거래일 뒤 올랐어요 → 경험적 승률 {wr:.0f}% ({base_desc}보다 {rel:+.0f}%p {relword})",
         f"그 {b['n']}건의 5거래일 뒤 등락률 평균은 {avg:+.1f}%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요",
     ]
     # ⭐ 2026-08-08: findings 문장 속에 숫자를 파묻지 않고, 화면(index.html)이 카드로 재조립할 수
@@ -480,7 +521,10 @@ def quant_eval(e, t, qstats):
     period = qstats.get("_period") or {}
     return {"score": score, "stance": stance_of(score), "findings": f[:4],
             "sampleN": b["n"], "sampleWin": b["w"], "winRate": round(wr, 1),
-            "marketAvgWinRate": round(base_wr, 1), "relPp": round(rel, 1), "avgReturn": round(avg, 2),
+            "marketAvgWinRate": round(market_wr, 1),
+            "sector": sector, "sectorWinRate": round(sector_wr, 1) if sector_wr is not None else None,
+            "sectorBlendPct": round(blend * 100), "baseWinRate": round(base_wr, 1),
+            "relPp": round(rel, 1), "avgReturn": round(avg, 2),
             "scopeUsed": used, "periodStart": period.get("start"), "periodEnd": period.get("end")}
 
 
@@ -737,11 +781,11 @@ def main():
         adata = json.load(open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8"))
     except Exception:
         adata = {}
-    qstats = build_quant_stats(adata)
+    sectors = load_sectors()
+    qstats = build_quant_stats(adata, sectors)
     cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
-    sectors = load_sectors()
     if qstats.get("all"):
         a = qstats["all"]
         period = qstats.get("_period") or {}
@@ -770,7 +814,7 @@ def main():
         try:                              # 종목 하나가 죽어도 전체(500종목)는 이어서 생성
             taro = taro_eval(t)
             diana = diana_eval(e)
-            nova = quant_eval(e, t, qstats)   # QUANT (내부 키는 'nova' 유지 — 호환성)
+            nova = quant_eval(e, t, qstats, sectors.get(code, "기타"))   # QUANT (내부 키는 'nova' 유지 — 호환성)
             flow = flow_eval(e.get("flow"))
             wsec = tw["sectors"].get(sectors.get(code, ""), None) or tw["global"]
             candidate_context = dict(e)

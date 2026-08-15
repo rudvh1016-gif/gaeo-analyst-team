@@ -738,6 +738,13 @@
   .fx-details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--dim)}
   .fx-details ul{margin:8px 0 0;padding-left:16px;font-size:12px;color:var(--t3);line-height:1.6}
   .fx-details ul li{margin-bottom:4px}
+  /* QUANT 카드 맨 아래 "이 계산은 어떻게 나온 건가요?" 각주 — 눌러야 펼쳐지고, 본문은
+     아주 작은 글씨. overflow-wrap 필수(AGENTS.md 주의 11번 — word-break:keep-all뿐이면
+     "게임·엔터 42.7% vs 건설·건자재 52.7%" 같은 가운뎃점 나열이 모바일에서 화면 밖으로 넘친다). */
+  .fx-method{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .fx-method summary{cursor:pointer;font-size:10px;font-weight:700;color:var(--faint)}
+  .fx-method p{margin:6px 0 0;font-size:9px;line-height:1.65;color:var(--faint);
+    word-break:keep-all;overflow-wrap:anywhere}
   @media(max-width:480px){
     .fx-flow-row{gap:5px}
     .fx-flow-card{padding:8px 3px}
@@ -8305,39 +8312,59 @@ function quantPeriodLabel(start,end){
 }
 // indicators.js와 마찬가지로, analyze_auto.py가 아직 구조화된 필드(sampleN 등)를 안 내려주는
 // 옛 데이터를 위한 안전망 — QUANT findings 문장(고정 템플릿)에서 같은 숫자를 다시 뽑아 쓴다.
-// 표본 기간(periodStart/End)만은 문장에 애초에 없어서 여기선 못 채운다(그러면 아래에서
-// "전체 500종목 누적 일봉 기준"이라는 정직한 대체 문구를 대신 보여준다).
+// 표본 기간(periodStart/End)·업종 블렌드 비중만은 문장에서 정확히 못 뽑아서(괄호 안 서술이
+// "시장 평균"과 "OOO 업종을 NN% 반영한 기저 승률" 두 가지 형태로 나올 수 있음), 그 앞쪽
+// 설명 문구를 그대로 baseLabel로만 살려 쓴다(2026-08-14 업종 기저율 반영 이후).
 function parseQuantFromFindings(findings){
   if(!Array.isArray(findings)||!findings.length) return null;
   const joined=findings.join(' ');
-  const m1=joined.match(/이런\s*상태\(([^)]+)\)였던\s*적이\s*([\d,]+)건\s*있었는데,\s*그중\s*([\d,]+)건이\s*5거래일\s*뒤\s*올랐어요\s*→\s*경험적\s*승률\s*(\d+)%\s*\(시장\s*평균\s*(\d+)%보다\s*([+\-]?\d+)%p/);
+  const m1=joined.match(/이런\s*상태\(([^)]+)\)였던\s*적이\s*([\d,]+)건\s*있었는데,\s*그중\s*([\d,]+)건이\s*5거래일\s*뒤\s*올랐어요\s*→\s*경험적\s*승률\s*(\d+)%\s*\(([^)]*?)(\d+)%보다\s*([+\-]?\d+)%p/);
   if(!m1) return null;
   const m2=joined.match(/등락률\s*평균은\s*([+\-]?[\d.]+)%예요/);
   return {scopeUsed:m1[1], sampleN:parseInt(m1[2].replace(/,/g,''),10), sampleWin:parseInt(m1[3].replace(/,/g,''),10),
-    winRate:parseFloat(m1[4]), marketAvgWinRate:parseFloat(m1[5]), relPp:parseFloat(m1[6]),
+    winRate:parseFloat(m1[4]), baseLabel:m1[5].trim()||'시장 평균', marketAvgWinRate:parseFloat(m1[6]), relPp:parseFloat(m1[7]),
     avgReturn:m2?parseFloat(m2[1]):null, periodStart:null, periodEnd:null};
 }
 function getQuantInterpretation(code,res){
   const q=(typeof res.sampleN==='number')?res:parseQuantFromFindings(res.findings);
   if(!q||typeof q.sampleN!=='number') return null;
-  const n=q.sampleN, wr=q.winRate, mkt=q.marketAvgWinRate, rel=q.relPp, avg=q.avgReturn;
+  const n=q.sampleN, wr=q.winRate, rel=q.relPp, avg=q.avgReturn;
+  // ⭐ 2026-08-14: 비교 기준선(기저 승률)이 "시장 전체 평균" 하나였다가, 업종 표본이
+  // 충분하면(200건↑) 그 종목이 속한 업종 평균 승률을 함께 섞어 쓰도록 바뀌었다(업종
+  // 표본이 많을수록 업종 비중을 최대 75%까지 높임 — 아래 methodNote에서 자세히 설명).
+  // base = 실제로 rel(= wr - base) 계산에 쓰인 기저 승률, blendPct = 그중 업종이 차지한 비중.
+  const base=(typeof res.baseWinRate==='number')?res.baseWinRate:q.marketAvgWinRate;
+  const blendPct=typeof res.sectorBlendPct==='number'?res.sectorBlendPct:0;
+  const sectorName=res.sector||'';
+  const baseLabel=q.baseLabel||(blendPct>0?`${sectorName} 업종 ${blendPct}% 반영 기저 승률`:'시장 평균');
   const state=quantStateLabel(res.score);
   const period=quantPeriodLabel(q.periodStart,q.periodEnd);
   const quality=quantSampleQuality(n);
   const metrics=[
     {label:'과거 상승 확률', value:wr+'%', sub:`유사 사례 100번 중 약 ${Math.round(wr)}번 상승`},
-    {label:'시장 평균 대비', value:fmtPp(rel), sub:`시장 평균 상승 확률 ${mkt}%보다 ${rel>=0?'높은':'낮은'} 수준`},
+    {label:'기저 대비', value:fmtPp(rel), sub:`${baseLabel} ${base}%보다 ${rel>=0?'높은':'낮은'} 수준`},
     {label:'평균 5일 수익률', value:fmtPct(avg), sub:'상승·하락 사례를 모두 포함한 평균'},
     {label:'유사 사례', value:n.toLocaleString('ko-KR')+'건', sub:period?`표본 기간 ${period}`:'전체 500종목 누적 일봉 기준'},
   ];
   let lead;
   if(Math.abs(rel)<2) lead='과거 비슷한 상황에서는 5거래일 뒤 상승과 하락이 거의 반반이었어요. 현재 통계만으로는 뚜렷한 방향성이 확인되지 않아요.';
-  else if(rel>=2) lead='과거 비슷한 상황에서는 시장 평균보다 조금 더 자주 올랐어요. 다만 강한 우위라고 보기엔 부족한 수준이에요.';
-  else lead='과거 비슷한 상황에서는 시장 평균보다 오히려 덜 오르는 경향이 있었어요. 통계상 우위가 있다고 보기는 어려워요.';
+  else if(rel>=2) lead='과거 비슷한 상황에서는 기저 승률보다 조금 더 자주 올랐어요. 다만 강한 우위라고 보기엔 부족한 수준이에요.';
+  else lead='과거 비슷한 상황에서는 기저 승률보다 오히려 덜 오르는 경향이 있었어요. 통계상 우위가 있다고 보기는 어려워요.';
   const explain='상승 확률과 평균 수익률은 다른 지표예요. 상승한 경우의 상승폭이 하락한 경우의 하락폭보다 컸다면, 승률이 50% 근처여도 평균 수익률은 플러스가 될 수 있어요.';
   let check='과거 통계는 참고 자료이며 같은 상황이 반복된다는 보장은 없어요. 표본 수와 분석 기간을 함께 확인하세요.';
   if(quality&&quality.note) check=quality.note+' '+check;
-  return {state,lead,metrics,explain,check,badge:quality?quality.label:null,scope:q.scopeUsed};
+  // 🔎 카드 맨 아래 "이 계산은 어떻게 나온 건가요?" 접이식 각주(2026-08-14, 아주 작은 글씨).
+  const methodNote='RSI 구간·20일선 위/아래·최근 5일 추세, 이 3가지로 "지금 상태"를 정하고, 500종목 '
+    +'전체 일별 기록에서 이 상태와 똑같았던 과거 사례를 찾아요. 표본이 30건 넘는 가장 좁은 조건을 '
+    +'쓰고, 모자라면 조건을 하나씩 느슨하게 풀어요(동일 상태 → RSI·이평 동일 → RSI 구간 동일 → 시장 '
+    +'전체). 이 승률과 비교하는 기준선(기저 승률)은 시장 전체 평균과 이 종목이 속한 업종의 평균 승률을 '
+    +'섞어서 만들어요. 업종 표본이 200건 미만이면 업종값은 안 쓰고 시장 평균만 쓰고, 업종 표본이 '
+    +'많아질수록 업종 비중을 최대 75%까지 높여요. 업종마다 원래 잘 오르내리는 정도가 서로 달라서('
+    +'예: 조사 기준 게임·엔터 업종 42.7% vs 건설·건자재 업종 52.7%), 시장 평균 하나로만 비교하면 '
+    +'원래 약한 업종 종목은 늘 부진하게, 원래 강한 업종 종목은 늘 양호하게 보이는 착시가 있었어요. '
+    +'승률·확률이 아니라 과거 통계를 정리한 상태 점수라는 점은 변하지 않아요.'
+    +(blendPct>0?` 이 종목은 지금 ${sectorName} 업종 값을 ${blendPct}% 반영했어요.`:' 이 종목은 업종 표본이 아직 부족해 시장 평균만 반영했어요.');
+  return {state,lead,metrics,explain,check,badge:quality?quality.label:null,scope:q.scopeUsed,methodNote};
 }
 
 // ③ FLOW — 수급: "지금 외국인·기관 같은 큰 자금이 들어오는가?"
@@ -8497,7 +8524,9 @@ function analystCardBodyHTML(id,code,res,color){
   const guide=I.guide?`<div class="fx-explain"><p>${esc(I.guide)}</p></div>`:'';
   const check=I.check?`<div class="fx-check"><b>✅ 체크할 점</b><p>${esc(I.check)}</p></div>`:'';
   const details=`<details class="fx-details"><summary>자세히 보기</summary><ul>${res.findings.map(findingLi).join('')}</ul></details>`;
-  return lead+badge+metricsHTML+scope+explain+guide+check+details;
+  // 🔎 QUANT 카드 맨 아래에만 붙는, 눌러야 펼쳐지는 아주 작은 글씨의 계산 방식 각주.
+  const method=I.methodNote?`<details class="fx-method"><summary>이 계산은 어떻게 나온 건가요?</summary><p>${esc(I.methodNote)}</p></details>`:'';
+  return lead+badge+metricsHTML+scope+explain+guide+check+details+method;
 }
 
 function makeCards(isLive){

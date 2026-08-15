@@ -68,6 +68,13 @@ def _entry_from(a, when):
         ana = a.get(k)
         if isinstance(ana, dict) and ana.get("stance"):
             entry[k] = {"stance": ana.get("stance"), "score": ana.get("score")}
+            # ⭐ 2026-08-14: QUANT(nova)만 그 점수가 어떤 기저 승률(업종 반영 블렌드)과
+            # 비교돼 나왔는지도 함께 남긴다. 나중에 "그날 왜 이 점수였는지" 감사할 수 있게.
+            if k == "nova":
+                entry[k].update({
+                    "sector": ana.get("sector"), "sectorWinRate": ana.get("sectorWinRate"),
+                    "sectorBlendPct": ana.get("sectorBlendPct"), "baseWinRate": ana.get("baseWinRate"),
+                })
     shadow = a.get("shadowChief")
     if isinstance(shadow, dict) and shadow.get("call"):
         entry["shadow"] = {key: shadow.get(key) for key in (
