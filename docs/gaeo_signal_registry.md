@@ -1,9 +1,13 @@
 # GAEO Feature Registry (PHASE B 설계)
 
-작성일 2026-08-15 · **설계 단계. 아직 어떤 Weight/Threshold도 정하지 않았다.**
+작성일 2026-08-15 · 수정 2026-08-15 · **설계 단계. 아직 어떤 Weight/Threshold도 정하지 않았다.**
+
+> ⚠️ **`gaeo_phaseB_revisions.md`가 이 문서보다 우선한다.** 아래 내용 중
+> MACD 상태와 중복 Feature 처리는 그 문서 기준으로 정정됐다.
 
 STATUS 정의: `CORE`(승격 후보 1군) / `SECONDARY`(보조) /
-`EXPERIMENTAL`(검증 중) / `DISABLED`(중복·근거 부족) /
+`CANDIDATE`·`SECONDARY_CANDIDATE`(예측력 미검증) /
+`HIGH_REDUNDANCY_CANDIDATE`(중복 의심, 삭제 확정 아님) / `EXPERIMENTAL`(검증 중) /
 `NEEDS_NEW_DATA`(데이터 없어 구현 불가) / `NOT_SUITABLE`
 
 ⚠️ 현재 모든 항목의 IS/OOS 결과는 **미측정**이다.
@@ -46,27 +50,35 @@ STATUS 정의: `CORE`(승격 후보 1군) / `SECONDARY`(보조) /
 **⭐ 예상이 빗나간 결과**: `macdHist`는 다른 모든 가격지표와
 거의 무상관이다(최대 |r| = 0.28, RSI와는 0.06).
 "MACD는 MA를 재가공한 중복 지표"라는 사전 가정은 **데이터로 반박됐다.**
-MACD를 중복이라는 이유로 약화시키지 않고 CORE 후보로 유지한다.
+
+⚠️ **그러나 이것으로 CORE 확정은 금지다(수정 2026-08-15).**
+"상관이 낮다" ≠ "예측력이 높다". Noise Feature도 상관이 낮을 수 있다.
+MACD 상태는 **`CANDIDATE`**이며, Walk-Forward OOS · Incremental value ·
+Ablation(`FULL TARO` vs `TARO WITHOUT MACD`) · Horizon별 안정성 ·
+Recent unseen result를 **전부 통과할 때만** CORE 승격을 검토한다.
 
 **⚠️ `ret5 ~ vsMarket` r = 1.000**: 버그가 아니다.
-같은 날 횡단면에서 시장 중앙값은 모든 종목에 같은 상수이므로
-빼도 순위가 안 바뀐다. **하루 안에서는 시장조정이 아무 정보를 더하지 않는다.**
-여러 날을 합칠 때만 의미가 생긴다. 이 점을 CHIEF 설계에 반영한다.
+같은 날 횡단면에서 시장 중앙값은 모든 종목에 같은 상수이므로 빼도 순위가 안 바뀐다.
+즉 **Cross-sectional ranking에서는** 시장조정이 정보를 더하지 않는다.
+
+⚠️ **그러나 "vsMarket이 언제나 무의미하다"는 뜻이 아니다(수정 2026-08-15).**
+날짜 간 비교 · Label 정의 · Time-series Excess Return 평가에서는 여전히 의미가 있다.
+r=1.0 하나만 보고 삭제하지 않는다.
 
 ### Feature 목록
 
 | Feature | 근거 | 상태 | 비고 |
 |---|---|---|---|
 | `ma5Gap` `ma20Gap` | Brock(1992)+Sullivan(1999) | CORE | Legacy 유지 |
-| `ma60Gap` | 〃 | SECONDARY | rsi14와 0.78 |
-| `ma120Gap` | 〃 | SECONDARY | ma200Gap와 0.90 → 둘 중 하나만 |
-| `ma200Gap` | 〃 | EXPERIMENTAL | pos52w와 0.77 |
+| `ma60Gap` | 〃 | HIGH_REDUNDANCY_CANDIDATE | rsi14와 0.78 |
+| `ma120Gap` | 〃 | HIGH_REDUNDANCY_CANDIDATE | ma200Gap와 0.90. Ablation 전 제거 금지 |
+| `ma200Gap` | 〃 | HIGH_REDUNDANCY_CANDIDATE | pos52w와 0.77 |
 | `ma5_20 cross` `ma20_60 cross` | 〃 | CORE | 이벤트+`daysAgo` 이미 저장됨 |
 | `ma60_120` `ma120_200 cross` | 〃 | NEEDS_NEW_DATA | 현재 미산출(추가 계산 필요) |
 | MA alignment 5단계 | 〃 | EXPERIMENTAL | 파생 가능 |
-| `macdHist` `macdSignal cross` | Lo(2000) | **CORE** | 상관 낮아 독립 정보 |
+| `macdHist` `macdSignal cross` | Lo(2000) | **CANDIDATE** | 상관 낮음. 예측력은 미검증 |
 | `rsi14` level/slope | Lo(2000) | CORE | 자동 BUY/SELL 규칙 금지 |
-| `bbPctB` | | DISABLED | rsi14와 0.85 중복 |
+| `bbPctB` | | **HIGH_REDUNDANCY_CANDIDATE** | rsi14와 0.85. Ablation 전 삭제 금지 |
 | 단기 반전(1~5D) | Jegadeesh(2025), Medhat(2022) | CORE | `ret5` 기반 |
 | 중기 모멘텀(20~120D) | Jegadeesh & Titman(1993) | **NEEDS_NEW_DATA** | 일봉으로 산출 가능하나 현재 미저장 |
 | `pos52w` (52주 고점 근접) | George & Hwang(2004) | CORE | 이미 있음 |
@@ -103,7 +115,9 @@ LOCKED PAPER PACK의 DIANA 핵심 지표가 **거의 전부 구현 불가**다.
 | 배당수익률 | EXPERIMENTAL | 결측 29% |
 | 컨센서스 대비 괴리 | EXPERIMENTAL | 결측 48%. **Actual만으로 Surprise 만들지 않는다** |
 
-**결론: DIANA Research는 OpenDART 재무제표 연동 없이는 논문 기반 설계가 불가능하다.**
+**결론: 출력 상태는 `DIANA_RESEARCH_PARTIAL` / `VALUE_ONLY_DIANA`다.**
+부족한 Feature를 **0점으로 넣지 않고** `NOT_AVAILABLE`로 처리해 Reliability에 반영한다.
+데이터 없음은 나쁜 기업이라는 뜻이 아니다.
 현재의 PER/PBR/ROE 3종은 Value 축에 몰려 있고 Profitability/Investment/Quality 축이 통째로 비어 있다.
 이를 "구현했다"고 표현하지 않는다.
 
@@ -128,7 +142,7 @@ LOCKED PAPER PACK의 DIANA 핵심 지표가 **거의 전부 구현 불가**다.
 | `foreignBuyDays` 지속성 | Sias(2004) | CORE | 이미 있음 |
 | `acceleration` | | SECONDARY | |
 | `divergence` (가격-수급 괴리) | Coval & Stafford(2007) | CORE | 이미 있음 |
-| `qualityScore` | | SECONDARY | flowRatio와 0.77 중복 |
+| `qualityScore` | | HIGH_REDUNDANCY_CANDIDATE | flowRatio와 0.77 |
 | Amihud 비유동성 | Amihud(2002) | **EXPERIMENTAL** | 일별 거래대금·수익률로 산출 가능 |
 | Bid-Ask Spread | 〃 | **NOT_SUITABLE** | 데이터 없음 |
 
@@ -191,7 +205,10 @@ OpenDART `rcept_dt`는 **YYYYMMDD 접수일자**다. 시:분:초가 아니다.
 - 실시간: GAEO가 처음 발견한 `event_detected_at`을 기록하고 그 이전 판단에 사용 금지
 - 과거 장중 백테스트: 정확한 공개시각 입증 불가 시 **다음 거래일부터** 사용
 
-상태: **NEEDS_NEW_DATA** (PHASE C 이후 별도 과제)
+상태: **`EVENT_NOT_IMPLEMENTED`** (PHASE C 이후 별도 과제)
+
+⚠️ **EVENT를 `50점`이나 `중립`으로 CHIEF에 넣지 않는다.**
+정보가 없는 것은 중립적인 정보가 아니다. CHIEF 합산에서 아예 제외한다.
 
 ---
 
