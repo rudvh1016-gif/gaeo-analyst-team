@@ -99,6 +99,8 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 
 `news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 중 **어느 파일이든 글을 추가/수정할 때마다** `node generate_snapshots.js` · `node generate_sitemap.js` · `node generate_rss.js` **3개를 반드시 함께 실행**한다(안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다). 이 3개 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버) + 네이버 서치어드바이저 RSS + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다. `sitemap.xml`만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다.
 
+**그다음 `python3 seo_publish_gate.py`를 실행해 0건 위반을 확인한다** (2026-08-16, AdSense 'Low value content' 대응). 글 단위 최소 계약(고유 제목·H1 1개·설명·canonical 자기참조·placeholder 없음·noindex/sitemap 모순 없음)을 기계 검사한다. 상세 규칙·체크리스트는 `docs/gaeo_seo_publishing_rules.md`. **게이트가 실패하면 filler로 채우지 말고 발행을 보류**하고 내용을 고친다.
+
 ### ⭐ 제목·요약 길이 기준 (2026-08-03 사용자 지정, 신규 글 전부 적용)
 
 검색결과에서 제목·설명이 중간에 잘려 뜻이 끊기는 걸 막기 위한 기준이다. **글을 새로 쓸 때 이 기준으로 쓰고, 다 쓴 뒤 아래 검증 스크립트로 확인한다.**

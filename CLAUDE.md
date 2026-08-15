@@ -1,5 +1,14 @@
 # 개오(Gaeo) 애널리스트팀 — Claude Code 전용 가이드
 
+## 공개 콘텐츠 SEO 규칙 (2026-08-16, AdSense 'Low value content' 대응)
+
+**공개 Publisher Content(시장분석·정밀분석·뉴스분석·종목/주식/부동산공부·방법론)를
+만들거나 고칠 때는** 설치된 SEO Skill(`.claude/skills/seo`)을 쓰고, 발행 전에
+`python3 seo_publish_gate.py`로 글 단위 계약(고유 제목·H1 1개·설명·canonical·
+placeholder 없음·중복 발행 없음·sitemap 반영)을 통과시킨다. 상세 규칙과 체크리스트는
+`docs/gaeo_seo_publishing_rules.md`. **게이트 실패 시 filler로 채우지 말고 발행 보류.**
+CSS 버그·시세 데이터·DART 수집 같은 SEO 무관 작업에는 강제하지 않는다.
+
 ## 정밀분석 발행
 
 정밀분석 관련 작업 전에는 `docs/DEEP_ANALYSIS_PUBLISHING.md`를 읽고 Source of Truth, 영구 URL, Archive, 홈 최신 5건, sitemap 규칙을 함께 지킨다.

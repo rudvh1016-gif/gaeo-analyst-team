@@ -7,7 +7,11 @@ const root = __dirname;
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 
-assert.match(serviceWorker, /const CACHE = 'gaeo-shell-v11'/);
+// 캐시 버전은 배포마다 올라간다. 특정 숫자를 못박으면 버전을 올릴 때마다 테스트가
+// 낡으므로, "버전 형식이 유지되고 v12 아래로 되돌아가지 않는다"만 검증한다.
+const cacheVersion = serviceWorker.match(/const CACHE = 'gaeo-shell-v(\d+)'/);
+assert.ok(cacheVersion, 'sw.js must declare a gaeo-shell-vN cache name');
+assert.ok(Number(cacheVersion[1]) >= 12, 'service worker cache version must not roll back below v12');
 assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
@@ -24,11 +28,15 @@ const snapshotContext = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'rotation_snapshot.js'), 'utf8'), snapshotContext);
 const snapshot = snapshotContext.window.ROTATION_SNAPSHOT;
 const snapshotLeader = snapshot.sectors.find(sector => sector.name === snapshot.summary.leaders[0].name);
-assert.strictEqual(snapshot.recommendedHorizon.horizon, 20);
-assert.strictEqual(snapshotLeader.periods['20'].score, 79.1);
-assert.strictEqual(snapshotLeader.periods['1'].return.adjusted, -1.24);
-assert.strictEqual(snapshotLeader.periods['1'].relativeStrength, -4.33);
-assert.strictEqual(snapshotLeader.periods['1'].breadth.adjustedUpRate, 25.8);
+// 스냅샷의 '당시 숫자'(예: 79.1점)를 못박으면 시세가 갱신될 때마다 테스트가 낡는다.
+// 검증할 불변식은 "요약 카드가 쓰는 필드가 올바른 구조·형식으로 존재한다"이다.
+const validHorizons = [1, 3, 5, 20, 60, 120, 200];
+assert.ok(validHorizons.includes(snapshot.recommendedHorizon.horizon), 'recommended horizon must be a real observation window');
+const leaderHorizonKey = String(snapshot.recommendedHorizon.horizon);
+assert.ok(Number.isFinite(snapshotLeader.periods[leaderHorizonKey].score), 'leader must carry a numeric score for the recommended horizon');
+assert.ok(Number.isFinite(snapshotLeader.periods['1'].return.adjusted), 'leader must carry a numeric adjusted 1-day return');
+assert.ok(Number.isFinite(snapshotLeader.periods['1'].relativeStrength), 'leader must carry numeric 1-day relative strength');
+assert.ok(Number.isFinite(snapshotLeader.periods['1'].breadth.adjustedUpRate), 'leader must carry numeric adjusted up-rate');
 assert.strictEqual(typeof context.window.GaeoRotation.formatPercent, 'function');
 assert.strictEqual(context.window.GaeoRotation.formatPercent(3.456), '+3.5%');
 assert.strictEqual(context.window.GaeoRotation.formatPercent(-1.24), '-1.2%');
