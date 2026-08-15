@@ -41,7 +41,7 @@ def _dart_store():
        Research Prediction 검사기를 그대로 쓰면 정상 Event가 손상으로 잡힌다.
     """
     return research_store.ResearchArchiveStore(
-        root=DART_ROOT, record_type=research_store.RECORD_DART)
+        root=DART_ROOT, record_type=research_store.RECORD_DART, encrypt=True)
 
 
 def write_status(payload):

@@ -12,6 +12,7 @@ import shutil
 import tempfile
 import unittest
 
+import research_crypto as CR
 import research_store as S
 
 
@@ -27,12 +28,20 @@ def _rec(code, day, ts="2026-08-15T09:00:00+00:00", version="research_v1.1"):
 
 
 class StoreCase(unittest.TestCase):
+    """실제 운영과 같은 조건(암호화 켬)에서 저장 동작을 시험한다."""
+
     def setUp(self):
         self.root = tempfile.mkdtemp(prefix="gaeo-store-")
+        self._saved_key = os.environ.get(CR.KEY_ENV)
+        os.environ[CR.KEY_ENV] = CR.generate_key_b64()
         self.store = S.ResearchArchiveStore(root=self.root)
 
     def tearDown(self):
         shutil.rmtree(self.root, ignore_errors=True)
+        if self._saved_key is None:
+            os.environ.pop(CR.KEY_ENV, None)
+        else:
+            os.environ[CR.KEY_ENV] = self._saved_key
 
 
 class DailySegment(StoreCase):
@@ -45,7 +54,7 @@ class DailySegment(StoreCase):
 
     def test_segment_path_is_dated(self):
         p = self.store.segment_path("2026-08-15")
-        self.assertTrue(p.endswith(os.path.join("live", "2026", "08", "15.jsonl")))
+        self.assertTrue(p.endswith(os.path.join("live", "2026", "08", "15.jsonl.enc")), p)
 
     def test_active_day_can_be_refreshed(self):
         day = "2026-08-15"
@@ -90,10 +99,11 @@ class Compression(StoreCase):
                          "검증 통과 후에만 원본을 정리한다")
 
     def test_gzip_decompresses_and_parses(self):
+        """압축·암호화를 실제로 풀어서 JSONL로 다시 읽을 수 있는가."""
         day = self._closed_day()
         self.store.compress_segment(day, today="2026-08-15")
-        with gzip.open(self.store.segment_path(day, True), "rt", encoding="utf-8") as f:
-            rows = [json.loads(l) for l in f if l.strip()]
+        text = S._read_text(self.store.existing_segment(day), self.store._label(day))
+        rows = [json.loads(l) for l in text.splitlines() if l.strip()]
         self.assertEqual(len(rows), 50)
 
     def test_record_count_preserved(self):
@@ -121,12 +131,12 @@ class Compression(StoreCase):
         src = self.store.segment_path(day, False)
         orig = S._stat_records
 
-        def broken(path, record_type=S.RECORD_RESEARCH):
-            if path.endswith(".gz"):
-                st = orig(path, record_type)
+        def broken(path, record_type=S.RECORD_RESEARCH, label=None):
+            if ".gz" in os.path.basename(path):
+                st = orig(path, record_type, label)
                 st["recordCount"] = -1        # 압축본 개수가 안 맞는 상황을 흉내
                 return st
-            return orig(path, record_type)
+            return orig(path, record_type, label)
         S._stat_records = broken
         try:
             res = self.store.compress_segment(day, today="2026-08-15")
@@ -164,11 +174,9 @@ class IntegrityChecks(StoreCase):
 
     def test_duplicate_key_detected(self):
         day = "2026-08-14"
-        path = self.store.segment_path(day, False)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            for _ in range(2):
-                f.write(json.dumps(_rec("005930", day), ensure_ascii=False) + "\n")
+        body = "".join(json.dumps(_rec("005930", day), ensure_ascii=False) + "\n"
+                       for _ in range(2))
+        CR.write_encrypted(self.store.segment_path(day, False), body, self.store._label(day))
         self.store.close_daily_segment(day, today="2026-08-15")
         v = self.store.verify_archive(day)
         self.assertTrue(any("중복" in e for e in v["errors"]))
@@ -177,8 +185,11 @@ class IntegrityChecks(StoreCase):
         day = "2026-08-14"
         self.store.append_predictions(day, [_rec("005930", day)], today=day)
         self.store.close_daily_segment(day, today="2026-08-15")
-        with open(self.store.segment_path(day, False), "a", encoding="utf-8") as f:
-            f.write(json.dumps(_rec("000660", day), ensure_ascii=False) + "\n")
+        # 매니페스트를 만든 뒤 내용을 늘려 개수 불일치를 만든다
+        path = self.store.segment_path(day, False)
+        body = S._read_text(path, self.store._label(day)) + \
+            json.dumps(_rec("000660", day), ensure_ascii=False) + "\n"
+        CR.write_encrypted(path, body, self.store._label(day))
         v = self.store.verify_archive(day)
         self.assertEqual(v["status"], S.ARCHIVE_INTEGRITY_ERROR)
 
@@ -232,10 +243,10 @@ class Rollups(StoreCase):
         res = self.store.rollup_month("2026-08", remove_source=True)
         self.assertEqual(res["status"], S.OK)
         self.assertEqual(sorted(res["removedSourceDays"]), sorted(days))
-        gz = os.path.join(self.store.archive, "2026", "08", "research-2026-08.jsonl.gz")
-        self.assertTrue(os.path.exists(gz))
-        with gzip.open(gz, "rt", encoding="utf-8") as f:
-            self.assertEqual(sum(1 for l in f if l.strip()), 20)
+        gz = os.path.join(self.store.archive, "2026", "08", "research-2026-08.jsonl.gz.enc")
+        self.assertTrue(os.path.exists(gz), "월간 묶음이 암호문으로 생성되지 않았다")
+        text = S._read_text(gz, f"{self.store.record_type}|month|2026-08")
+        self.assertEqual(sum(1 for l in text.splitlines() if l.strip()), 20)
 
     def test_monthly_manifest_fields(self):
         self._days(["2026-08-10"])
