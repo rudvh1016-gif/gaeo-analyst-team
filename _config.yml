@@ -1,0 +1,15 @@
+# GitHub Pages(Jekyll) 배포 제외 목록
+#
+# ⚠️ 이것만으로는 보안이 되지 않는다. 이 저장소는 public이라
+#    GitHub raw URL로는 여전히 접근할 수 있다. 그래서 Research Prediction 원본은
+#    research_crypto로 AES-256-GCM 암호화해서 저장한다(암호문만 커밋).
+#    이 파일은 "사이트 주소로도 굳이 내보내지 않는다"는 최소 조치다.
+#
+# 실측(2026-08-15): 이 설정 전에는
+#   https://gaeoteam.com/research_archive/dart/corp_map.json → HTTP 200
+exclude:
+  - research_archive/
+  - docs/
+  - "*.py"
+  - "*.command"
+  - .claude/
