@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-08-15T13:49:26.906475+00:00",
+ "builtAt": "2026-08-15T17:19:11.453819+00:00",
  "mapped": {
   "000070": {
    "company_name": "삼양홀딩스",
@@ -99,6 +99,24 @@
    "sector": "보험",
    "stock_code": "000400",
    "ticker": "000400"
+  },
+  "000430": {
+   "company_name": "대원강업",
+   "corp_code": "00111847",
+   "dart_corp_name": "대원강업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "자동차·부품",
+   "stock_code": "000430",
+   "ticker": "000430"
+  },
+  "000490": {
+   "company_name": "대동",
+   "corp_code": "00109286",
+   "dart_corp_name": "대동",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "기계",
+   "stock_code": "000490",
+   "ticker": "000490"
   },
   "000500": {
    "company_name": "가온전선",
@@ -208,6 +226,15 @@
    "stock_code": "001200",
    "ticker": "001200"
   },
+  "001230": {
+   "company_name": "동국홀딩스",
+   "corp_code": "00114792",
+   "dart_corp_name": "동국홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "001230",
+   "ticker": "001230"
+  },
   "001270": {
    "company_name": "부국증권",
    "corp_code": "00123772",
@@ -216,6 +243,15 @@
    "sector": "금융·증권",
    "stock_code": "001270",
    "ticker": "001270"
+  },
+  "001390": {
+   "company_name": "KG케미칼",
+   "corp_code": "00101220",
+   "dart_corp_name": "KG케미칼",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "001390",
+   "ticker": "001390"
   },
   "001430": {
    "company_name": "세아베스틸지주",
@@ -307,6 +343,15 @@
    "stock_code": "001740",
    "ticker": "001740"
   },
+  "001750": {
+   "company_name": "한양증권",
+   "corp_code": "00162416",
+   "dart_corp_name": "한양증권",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "001750",
+   "ticker": "001750"
+  },
   "001800": {
    "company_name": "오리온홀딩스",
    "corp_code": "00117577",
@@ -325,6 +370,15 @@
    "stock_code": "001820",
    "ticker": "001820"
   },
+  "001940": {
+   "company_name": "KISCO홀딩스",
+   "corp_code": "00159740",
+   "dart_corp_name": "KISCO홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "001940",
+   "ticker": "001940"
+  },
   "002020": {
    "company_name": "코오롱",
    "corp_code": "00152862",
@@ -334,6 +388,15 @@
    "stock_code": "002020",
    "ticker": "002020"
   },
+  "002030": {
+   "company_name": "아세아",
+   "corp_code": "00138701",
+   "dart_corp_name": "아세아",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "002030",
+   "ticker": "002030"
+  },
   "002240": {
    "company_name": "고려제강",
    "corp_code": "00103006",
@@ -342,6 +405,24 @@
    "sector": "철강·금속",
    "stock_code": "002240",
    "ticker": "002240"
+  },
+  "002310": {
+   "company_name": "아세아제지",
+   "corp_code": "00138729",
+   "dart_corp_name": "아세아제지",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "002310",
+   "ticker": "002310"
+  },
+  "002320": {
+   "company_name": "한진",
+   "corp_code": "00163512",
+   "dart_corp_name": "한진",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "물류·운송",
+   "stock_code": "002320",
+   "ticker": "002320"
   },
   "002350": {
    "company_name": "넥센타이어",
@@ -361,6 +442,15 @@
    "stock_code": "002380",
    "ticker": "002380"
   },
+  "002710": {
+   "company_name": "TCC스틸",
+   "corp_code": "00117300",
+   "dart_corp_name": "TCC스틸",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "2차전지",
+   "stock_code": "002710",
+   "ticker": "002710"
+  },
   "002790": {
    "company_name": "아모레퍼시픽홀딩스",
    "corp_code": "00154462",
@@ -378,6 +468,15 @@
    "sector": "화학·소재",
    "stock_code": "002840",
    "ticker": "002840"
+  },
+  "002900": {
+   "company_name": "TYM",
+   "corp_code": "00117230",
+   "dart_corp_name": "TYM",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "기계",
+   "stock_code": "002900",
+   "ticker": "002900"
   },
   "002960": {
    "company_name": "한국쉘석유",
@@ -415,6 +514,15 @@
    "stock_code": "003030",
    "ticker": "003030"
   },
+  "003070": {
+   "company_name": "코오롱글로벌",
+   "corp_code": "00152880",
+   "dart_corp_name": "코오롱글로벌",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "건설·건자재",
+   "stock_code": "003070",
+   "ticker": "003070"
+  },
   "003090": {
    "company_name": "대웅",
    "corp_code": "00111810",
@@ -432,6 +540,15 @@
    "sector": "전자·부품",
    "stock_code": "003160",
    "ticker": "003160"
+  },
+  "003200": {
+   "company_name": "일신방직",
+   "corp_code": "00146269",
+   "dart_corp_name": "일신방직",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "003200",
+   "ticker": "003200"
   },
   "003230": {
    "company_name": "삼양식품",
@@ -568,6 +685,24 @@
    "stock_code": "003850",
    "ticker": "003850"
   },
+  "003920": {
+   "company_name": "남양유업",
+   "corp_code": "00107598",
+   "dart_corp_name": "남양유업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "식음료",
+   "stock_code": "003920",
+   "ticker": "003920"
+  },
+  "003960": {
+   "company_name": "사조대림",
+   "corp_code": "00109718",
+   "dart_corp_name": "사조대림",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "식음료",
+   "stock_code": "003960",
+   "ticker": "003960"
+  },
   "004000": {
    "company_name": "롯데정밀화학",
    "corp_code": "00157681",
@@ -595,6 +730,15 @@
    "stock_code": "004170",
    "ticker": "004170"
   },
+  "004360": {
+   "company_name": "세방",
+   "corp_code": "00133812",
+   "dart_corp_name": "세방",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "물류·운송",
+   "stock_code": "004360",
+   "ticker": "004360"
+  },
   "004370": {
    "company_name": "농심",
    "corp_code": "00108241",
@@ -603,6 +747,15 @@
    "sector": "식음료",
    "stock_code": "004370",
    "ticker": "004370"
+  },
+  "004430": {
+   "company_name": "송원산업",
+   "corp_code": "00134963",
+   "dart_corp_name": "송원산업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "004430",
+   "ticker": "004430"
   },
   "004490": {
    "company_name": "세방전지",
@@ -631,6 +784,15 @@
    "stock_code": "004700",
    "ticker": "004700"
   },
+  "004710": {
+   "company_name": "한솔테크닉스",
+   "corp_code": "00157399",
+   "dart_corp_name": "한솔테크닉스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전자·부품",
+   "stock_code": "004710",
+   "ticker": "004710"
+  },
   "004800": {
    "company_name": "효성",
    "corp_code": "00117188",
@@ -639,6 +801,15 @@
    "sector": "지주·상사",
    "stock_code": "004800",
    "ticker": "004800"
+  },
+  "004980": {
+   "company_name": "성신양회",
+   "corp_code": "00132804",
+   "dart_corp_name": "성신양회",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "건설·건자재",
+   "stock_code": "004980",
+   "ticker": "004980"
   },
   "004990": {
    "company_name": "롯데지주",
@@ -721,6 +892,15 @@
    "stock_code": "005420",
    "ticker": "005420"
   },
+  "005430": {
+   "company_name": "한국공항",
+   "corp_code": "00156691",
+   "dart_corp_name": "한국공항",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "물류·운송",
+   "stock_code": "005430",
+   "ticker": "005430"
+  },
   "005440": {
    "company_name": "현대지에프홀딩스",
    "corp_code": "00105280",
@@ -739,6 +919,24 @@
    "stock_code": "005490",
    "ticker": "005490"
   },
+  "005500": {
+   "company_name": "삼진제약",
+   "corp_code": "00128412",
+   "dart_corp_name": "삼진제약",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "005500",
+   "ticker": "005500"
+  },
+  "005610": {
+   "company_name": "삼립",
+   "corp_code": "00125530",
+   "dart_corp_name": "삼립",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "식음료",
+   "stock_code": "005610",
+   "ticker": "005610"
+  },
   "005690": {
    "company_name": "파미셀",
    "corp_code": "00145163",
@@ -747,6 +945,15 @@
    "sector": "바이오·제약",
    "stock_code": "005690",
    "ticker": "005690"
+  },
+  "005720": {
+   "company_name": "넥센",
+   "corp_code": "00167192",
+   "dart_corp_name": "넥센",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "자동차·부품",
+   "stock_code": "005720",
+   "ticker": "005720"
   },
   "005810": {
    "company_name": "풍산홀딩스",
@@ -801,6 +1008,15 @@
    "sector": "금융·증권",
    "stock_code": "005940",
    "ticker": "005940"
+  },
+  "005950": {
+   "company_name": "이수화학",
+   "corp_code": "00145552",
+   "dart_corp_name": "이수화학",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "005950",
+   "ticker": "005950"
   },
   "006040": {
    "company_name": "동원산업",
@@ -964,6 +1180,15 @@
    "stock_code": "007660",
    "ticker": "007660"
   },
+  "007690": {
+   "company_name": "국도화학",
+   "corp_code": "00104388",
+   "dart_corp_name": "국도화학",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "007690",
+   "ticker": "007690"
+  },
   "007700": {
    "company_name": "F&F홀딩스",
    "corp_code": "00126487",
@@ -990,6 +1215,24 @@
    "sector": "전자·부품",
    "stock_code": "008060",
    "ticker": "008060"
+  },
+  "008490": {
+   "company_name": "서흥",
+   "corp_code": "00131692",
+   "dart_corp_name": "서흥",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "008490",
+   "ticker": "008490"
+  },
+  "008730": {
+   "company_name": "율촌화학",
+   "corp_code": "00145260",
+   "dart_corp_name": "율촌화학",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "008730",
+   "ticker": "008730"
   },
   "008770": {
    "company_name": "호텔신라",
@@ -1018,6 +1261,15 @@
    "stock_code": "009150",
    "ticker": "009150"
   },
+  "009160": {
+   "company_name": "SIMPAC",
+   "corp_code": "00138260",
+   "dart_corp_name": "SIMPAC",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "기계",
+   "stock_code": "009160",
+   "ticker": "009160"
+  },
   "009240": {
    "company_name": "한샘",
    "corp_code": "00161693",
@@ -1026,6 +1278,15 @@
    "sector": "건설·건자재",
    "stock_code": "009240",
    "ticker": "009240"
+  },
+  "009290": {
+   "company_name": "광동제약",
+   "corp_code": "00103592",
+   "dart_corp_name": "광동제약",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "009290",
+   "ticker": "009290"
   },
   "009410": {
    "company_name": "태영건설",
@@ -1135,6 +1396,15 @@
    "stock_code": "010170",
    "ticker": "010170"
   },
+  "010690": {
+   "company_name": "화신",
+   "corp_code": "00166315",
+   "dart_corp_name": "화신",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "자동차·부품",
+   "stock_code": "010690",
+   "ticker": "010690"
+  },
   "010780": {
    "company_name": "아이에스동서",
    "corp_code": "00115977",
@@ -1143,6 +1413,15 @@
    "sector": "건설·건자재",
    "stock_code": "010780",
    "ticker": "010780"
+  },
+  "010820": {
+   "company_name": "퍼스텍",
+   "corp_code": "00148522",
+   "dart_corp_name": "퍼스텍",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "방산",
+   "stock_code": "010820",
+   "ticker": "010820"
   },
   "010950": {
    "company_name": "S-Oil",
@@ -1189,6 +1468,15 @@
    "stock_code": "011210",
    "ticker": "011210"
   },
+  "011760": {
+   "company_name": "현대코퍼레이션",
+   "corp_code": "00164812",
+   "dart_corp_name": "현대코퍼레이션",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "011760",
+   "ticker": "011760"
+  },
   "011780": {
    "company_name": "금호석유화학",
    "corp_code": "00106368",
@@ -1206,6 +1494,24 @@
    "sector": "화학·소재",
    "stock_code": "011790",
    "ticker": "011790"
+  },
+  "011930": {
+   "company_name": "신성이엔지",
+   "corp_code": "00136271",
+   "dart_corp_name": "신성이엔지",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "011930",
+   "ticker": "011930"
+  },
+  "012030": {
+   "company_name": "DB",
+   "corp_code": "00163345",
+   "dart_corp_name": "DB",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "012030",
+   "ticker": "012030"
   },
   "012330": {
    "company_name": "현대모비스",
@@ -1225,6 +1531,15 @@
    "stock_code": "012450",
    "ticker": "012450"
   },
+  "012510": {
+   "company_name": "더존비즈온",
+   "corp_code": "00172291",
+   "dart_corp_name": "더존비즈온",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "인터넷·IT",
+   "stock_code": "012510",
+   "ticker": "012510"
+  },
   "012630": {
    "company_name": "HDC",
    "corp_code": "00164636",
@@ -1242,6 +1557,15 @@
    "sector": "인터넷·IT",
    "stock_code": "012750",
    "ticker": "012750"
+  },
+  "013030": {
+   "company_name": "하이록코리아",
+   "corp_code": "00165060",
+   "dart_corp_name": "하이록코리아",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "기계",
+   "stock_code": "013030",
+   "ticker": "013030"
   },
   "014620": {
    "company_name": "성광벤드",
@@ -1333,6 +1657,24 @@
    "stock_code": "016610",
    "ticker": "016610"
   },
+  "016800": {
+   "company_name": "퍼시스",
+   "corp_code": "00161709",
+   "dart_corp_name": "퍼시스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "016800",
+   "ticker": "016800"
+  },
+  "017390": {
+   "company_name": "서울가스",
+   "corp_code": "00130684",
+   "dart_corp_name": "서울도시가스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "017390",
+   "ticker": "017390"
+  },
   "017670": {
    "company_name": "SK텔레콤",
    "corp_code": "00159023",
@@ -1350,6 +1692,24 @@
    "sector": "기계",
    "stock_code": "017800",
    "ticker": "017800"
+  },
+  "017810": {
+   "company_name": "풀무원",
+   "corp_code": "00155355",
+   "dart_corp_name": "풀무원",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "식음료",
+   "stock_code": "017810",
+   "ticker": "017810"
+  },
+  "017860": {
+   "company_name": "DS단석",
+   "corp_code": "00108612",
+   "dart_corp_name": "DS단석",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "017860",
+   "ticker": "017860"
   },
   "017900": {
    "company_name": "광전자",
@@ -1378,6 +1738,15 @@
    "stock_code": "017960",
    "ticker": "017960"
   },
+  "018250": {
+   "company_name": "애경산업",
+   "corp_code": "00139454",
+   "dart_corp_name": "애경산업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화장품·미용",
+   "stock_code": "018250",
+   "ticker": "018250"
+  },
   "018260": {
    "company_name": "삼성에스디에스",
    "corp_code": "00126186",
@@ -1386,6 +1755,15 @@
    "sector": "인터넷·IT",
    "stock_code": "018260",
    "ticker": "018260"
+  },
+  "018290": {
+   "company_name": "브이티",
+   "corp_code": "00150165",
+   "dart_corp_name": "브이티",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화장품·미용",
+   "stock_code": "018290",
+   "ticker": "018290"
   },
   "018670": {
    "company_name": "SK가스",
@@ -1504,6 +1882,15 @@
    "stock_code": "024110",
    "ticker": "024110"
   },
+  "024720": {
+   "company_name": "콜마홀딩스",
+   "corp_code": "00203290",
+   "dart_corp_name": "콜마홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "024720",
+   "ticker": "024720"
+  },
   "025540": {
    "company_name": "한국단자",
    "corp_code": "00157070",
@@ -1512,6 +1899,24 @@
    "sector": "자동차·부품",
    "stock_code": "025540",
    "ticker": "025540"
+  },
+  "025860": {
+   "company_name": "남해화학",
+   "corp_code": "00107987",
+   "dart_corp_name": "남해화학",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "025860",
+   "ticker": "025860"
+  },
+  "026890": {
+   "company_name": "스틱인베스트먼트",
+   "corp_code": "00117498",
+   "dart_corp_name": "스틱인베스트먼트",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "026890",
+   "ticker": "026890"
   },
   "026960": {
    "company_name": "동서",
@@ -1567,6 +1972,15 @@
    "stock_code": "028670",
    "ticker": "028670"
   },
+  "029460": {
+   "company_name": "케이씨",
+   "corp_code": "00209780",
+   "dart_corp_name": "케이씨",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "반도체",
+   "stock_code": "029460",
+   "ticker": "029460"
+  },
   "029530": {
    "company_name": "신도리코",
    "corp_code": "00135795",
@@ -1611,6 +2025,24 @@
    "sector": "통신",
    "stock_code": "030200",
    "ticker": "030200"
+  },
+  "030210": {
+   "company_name": "다올투자증권",
+   "corp_code": "00156859",
+   "dart_corp_name": "다올투자증권",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "030210",
+   "ticker": "030210"
+  },
+  "030520": {
+   "company_name": "한글과컴퓨터",
+   "corp_code": "00204262",
+   "dart_corp_name": "한컴",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "인터넷·IT",
+   "stock_code": "030520",
+   "ticker": "030520"
   },
   "030530": {
    "company_name": "원익홀딩스",
@@ -1738,6 +2170,24 @@
    "stock_code": "033240",
    "ticker": "033240"
   },
+  "033270": {
+   "company_name": "유나이티드제약",
+   "corp_code": "00158963",
+   "dart_corp_name": "유나이티드",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "033270",
+   "ticker": "033270"
+  },
+  "033500": {
+   "company_name": "동성화인텍",
+   "corp_code": "00231105",
+   "dart_corp_name": "동성화인텍",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "조선",
+   "stock_code": "033500",
+   "ticker": "033500"
+  },
   "033640": {
    "company_name": "네패스",
    "corp_code": "00227333",
@@ -1764,6 +2214,15 @@
    "sector": "전력·에너지",
    "stock_code": "034020",
    "ticker": "034020"
+  },
+  "034120": {
+   "company_name": "SBS",
+   "corp_code": "00130772",
+   "dart_corp_name": "SBS",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "게임·엔터",
+   "stock_code": "034120",
+   "ticker": "034120"
   },
   "034220": {
    "company_name": "LG디스플레이",
@@ -1800,6 +2259,24 @@
    "sector": "지주·상사",
    "stock_code": "034730",
    "ticker": "034730"
+  },
+  "034830": {
+   "company_name": "한국토지신탁",
+   "corp_code": "00233653",
+   "dart_corp_name": "한국토지신탁",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "034830",
+   "ticker": "034830"
+  },
+  "034950": {
+   "company_name": "한국기업평가",
+   "corp_code": "00156956",
+   "dart_corp_name": "한국기업평가",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "034950",
+   "ticker": "034950"
   },
   "035250": {
    "company_name": "강원랜드",
@@ -1881,6 +2358,15 @@
    "sector": "게임·엔터",
    "stock_code": "036570",
    "ticker": "036570"
+  },
+  "036810": {
+   "company_name": "에프에스티",
+   "corp_code": "00223434",
+   "dart_corp_name": "에프에스티",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "반도체",
+   "stock_code": "036810",
+   "ticker": "036810"
   },
   "036830": {
    "company_name": "솔브레인홀딩스",
@@ -2188,6 +2674,24 @@
    "stock_code": "056190",
    "ticker": "056190"
   },
+  "057050": {
+   "company_name": "현대홈쇼핑",
+   "corp_code": "00412597",
+   "dart_corp_name": "현대홈쇼핑",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "057050",
+   "ticker": "057050"
+  },
+  "058430": {
+   "company_name": "포스코스틸리온",
+   "corp_code": "00155258",
+   "dart_corp_name": "포스코스틸리온",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "058430",
+   "ticker": "058430"
+  },
   "058470": {
    "company_name": "리노공업",
    "corp_code": "00369657",
@@ -2233,6 +2737,15 @@
    "stock_code": "060250",
    "ticker": "060250"
   },
+  "060280": {
+   "company_name": "큐렉소",
+   "corp_code": "00356802",
+   "dart_corp_name": "큐렉소",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "로봇",
+   "stock_code": "060280",
+   "ticker": "060280"
+  },
   "060370": {
    "company_name": "LS마린솔루션",
    "corp_code": "00225742",
@@ -2241,6 +2754,15 @@
    "sector": "조선",
    "stock_code": "060370",
    "ticker": "060370"
+  },
+  "060980": {
+   "company_name": "HL홀딩스",
+   "corp_code": "00299002",
+   "dart_corp_name": "HL홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "060980",
+   "ticker": "060980"
   },
   "062040": {
    "company_name": "산일전기",
@@ -2575,6 +3097,15 @@
    "stock_code": "083650",
    "ticker": "083650"
   },
+  "084010": {
+   "company_name": "대한제강",
+   "corp_code": "00113225",
+   "dart_corp_name": "대한제강",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "084010",
+   "ticker": "084010"
+  },
   "084370": {
    "company_name": "유진테크",
    "corp_code": "00531014",
@@ -2674,6 +3205,15 @@
    "stock_code": "089030",
    "ticker": "089030"
   },
+  "089590": {
+   "company_name": "제주항공",
+   "corp_code": "00555874",
+   "dart_corp_name": "제주항공",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "여행레저",
+   "stock_code": "089590",
+   "ticker": "089590"
+  },
   "089860": {
    "company_name": "롯데렌탈",
    "corp_code": "00545716",
@@ -2737,6 +3277,24 @@
    "stock_code": "090710",
    "ticker": "090710"
   },
+  "092230": {
+   "company_name": "KPX홀딩스",
+   "corp_code": "00587466",
+   "dart_corp_name": "KPX홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "092230",
+   "ticker": "092230"
+  },
+  "092790": {
+   "company_name": "넥스틸",
+   "corp_code": "00220613",
+   "dart_corp_name": "넥스틸",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "092790",
+   "ticker": "092790"
+  },
   "093050": {
    "company_name": "LF",
    "corp_code": "00593032",
@@ -2791,6 +3349,15 @@
    "stock_code": "095610",
    "ticker": "095610"
   },
+  "095660": {
+   "company_name": "네오위즈",
+   "corp_code": "00628860",
+   "dart_corp_name": "네오위즈",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "게임·엔터",
+   "stock_code": "095660",
+   "ticker": "095660"
+  },
   "096530": {
    "company_name": "씨젠",
    "corp_code": "00788773",
@@ -2799,6 +3366,15 @@
    "sector": "바이오·제약",
    "stock_code": "096530",
    "ticker": "096530"
+  },
+  "096760": {
+   "company_name": "JW홀딩스",
+   "corp_code": "00632304",
+   "dart_corp_name": "JW홀딩스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "지주·상사",
+   "stock_code": "096760",
+   "ticker": "096760"
   },
   "096770": {
    "company_name": "SK이노베이션",
@@ -2818,6 +3394,15 @@
    "stock_code": "097230",
    "ticker": "097230"
   },
+  "097520": {
+   "company_name": "엠씨넥스",
+   "corp_code": "00564562",
+   "dart_corp_name": "엠씨넥스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전자·부품",
+   "stock_code": "097520",
+   "ticker": "097520"
+  },
   "097950": {
    "company_name": "CJ제일제당",
    "corp_code": "00635134",
@@ -2835,6 +3420,15 @@
    "sector": "반도체",
    "stock_code": "098460",
    "ticker": "098460"
+  },
+  "099190": {
+   "company_name": "아이센스",
+   "corp_code": "00550994",
+   "dart_corp_name": "아이센스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "099190",
+   "ticker": "099190"
   },
   "099320": {
    "company_name": "쎄트렉아이",
@@ -2917,6 +3511,24 @@
    "stock_code": "103590",
    "ticker": "103590"
   },
+  "104700": {
+   "company_name": "한국철강",
+   "corp_code": "00687711",
+   "dart_corp_name": "한국철강",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "104700",
+   "ticker": "104700"
+  },
+  "104830": {
+   "company_name": "원익머트리얼즈",
+   "corp_code": "00623661",
+   "dart_corp_name": "원익머트리얼즈",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "반도체",
+   "stock_code": "104830",
+   "ticker": "104830"
+  },
   "105560": {
    "company_name": "KB금융",
    "corp_code": "00688996",
@@ -2925,6 +3537,15 @@
    "sector": "금융·증권",
    "stock_code": "105560",
    "ticker": "105560"
+  },
+  "105630": {
+   "company_name": "한세실업",
+   "corp_code": "00728638",
+   "dart_corp_name": "한세실업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "105630",
+   "ticker": "105630"
   },
   "108320": {
    "company_name": "LX세미콘",
@@ -2943,6 +3564,15 @@
    "sector": "로봇",
    "stock_code": "108490",
    "ticker": "108490"
+  },
+  "108670": {
+   "company_name": "LX하우시스",
+   "corp_code": "00759513",
+   "dart_corp_name": "LX하우시스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "건설·건자재",
+   "stock_code": "108670",
+   "ticker": "108670"
   },
   "111770": {
    "company_name": "영원무역",
@@ -2989,6 +3619,15 @@
    "stock_code": "115180",
    "ticker": "115180"
   },
+  "119850": {
+   "company_name": "지엔씨에너지",
+   "corp_code": "00626464",
+   "dart_corp_name": "지엔씨에너지",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "119850",
+   "ticker": "119850"
+  },
   "120110": {
    "company_name": "코오롱인더",
    "corp_code": "00795135",
@@ -3025,6 +3664,24 @@
    "stock_code": "122870",
    "ticker": "122870"
   },
+  "122900": {
+   "company_name": "아이마켓코리아",
+   "corp_code": "00360142",
+   "dart_corp_name": "아이마켓코리아",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "122900",
+   "ticker": "122900"
+  },
+  "123890": {
+   "company_name": "한국자산신탁",
+   "corp_code": "00404701",
+   "dart_corp_name": "한국자산신탁",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "123890",
+   "ticker": "123890"
+  },
   "126340": {
    "company_name": "비나텍",
    "corp_code": "00563518",
@@ -3033,6 +3690,24 @@
    "sector": "2차전지",
    "stock_code": "126340",
    "ticker": "126340"
+  },
+  "126560": {
+   "company_name": "현대퓨처넷",
+   "corp_code": "00403632",
+   "dart_corp_name": "현대퓨처넷",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "인터넷·IT",
+   "stock_code": "126560",
+   "ticker": "126560"
+  },
+  "126720": {
+   "company_name": "수산인더스트리",
+   "corp_code": "00193328",
+   "dart_corp_name": "수산인더스트리",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "126720",
+   "ticker": "126720"
   },
   "127120": {
    "company_name": "제이에스링크",
@@ -3051,6 +3726,15 @@
    "sector": "바이오·제약",
    "stock_code": "128940",
    "ticker": "128940"
+  },
+  "130660": {
+   "company_name": "한전산업",
+   "corp_code": "00194947",
+   "dart_corp_name": "한전산업",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "130660",
+   "ticker": "130660"
   },
   "131290": {
    "company_name": "티에스이",
@@ -3096,6 +3780,15 @@
    "sector": "금융·증권",
    "stock_code": "138040",
    "ticker": "138040"
+  },
+  "138930": {
+   "company_name": "BNK금융지주",
+   "corp_code": "00858364",
+   "dart_corp_name": "BNK금융지주",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "금융·증권",
+   "stock_code": "138930",
+   "ticker": "138930"
   },
   "139130": {
    "company_name": "iM금융지주",
@@ -3150,6 +3843,15 @@
    "sector": "바이오·제약",
    "stock_code": "145020",
    "ticker": "145020"
+  },
+  "145720": {
+   "company_name": "덴티움",
+   "corp_code": "00526599",
+   "dart_corp_name": "덴티움",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "145720",
+   "ticker": "145720"
   },
   "145990": {
    "company_name": "삼양사",
@@ -3214,6 +3916,15 @@
    "stock_code": "166090",
    "ticker": "166090"
   },
+  "170900": {
+   "company_name": "동아에스티",
+   "corp_code": "00956930",
+   "dart_corp_name": "동아에스티",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "170900",
+   "ticker": "170900"
+  },
   "170920": {
    "company_name": "엘티씨",
    "corp_code": "00866062",
@@ -3277,6 +3988,15 @@
    "stock_code": "181710",
    "ticker": "181710"
   },
+  "183190": {
+   "company_name": "아세아시멘트",
+   "corp_code": "00990165",
+   "dart_corp_name": "아세아시멘트",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "건설·건자재",
+   "stock_code": "183190",
+   "ticker": "183190"
+  },
   "183300": {
    "company_name": "코미코",
    "corp_code": "00997812",
@@ -3322,6 +4042,15 @@
    "stock_code": "192400",
    "ticker": "192400"
   },
+  "192650": {
+   "company_name": "드림텍",
+   "corp_code": "00415646",
+   "dart_corp_name": "드림텍",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전자·부품",
+   "stock_code": "192650",
+   "ticker": "192650"
+  },
   "192820": {
    "company_name": "코스맥스",
    "corp_code": "01009789",
@@ -3358,6 +4087,15 @@
    "stock_code": "196170",
    "ticker": "196170"
   },
+  "200880": {
+   "company_name": "서연이화",
+   "corp_code": "01036446",
+   "dart_corp_name": "서연이화",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "자동차·부품",
+   "stock_code": "200880",
+   "ticker": "200880"
+  },
   "204270": {
    "company_name": "제이앤티씨",
    "corp_code": "00447575",
@@ -3384,6 +4122,15 @@
    "sector": "바이오·제약",
    "stock_code": "207940",
    "ticker": "207940"
+  },
+  "210980": {
+   "company_name": "SK디앤디",
+   "corp_code": "00508344",
+   "dart_corp_name": "SK디앤디",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전력·에너지",
+   "stock_code": "210980",
+   "ticker": "210980"
   },
   "211050": {
    "company_name": "인카금융서비스",
@@ -3430,6 +4177,15 @@
    "stock_code": "214370",
    "ticker": "214370"
   },
+  "214430": {
+   "company_name": "아이쓰리시스템",
+   "corp_code": "00612489",
+   "dart_corp_name": "아이쓰리시스템",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "방산",
+   "stock_code": "214430",
+   "ticker": "214430"
+  },
   "214450": {
    "company_name": "파마리서치",
    "corp_code": "00970453",
@@ -3438,6 +4194,15 @@
    "sector": "바이오·제약",
    "stock_code": "214450",
    "ticker": "214450"
+  },
+  "215200": {
+   "company_name": "메가스터디교육",
+   "corp_code": "01074862",
+   "dart_corp_name": "메가스터디교육",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "유통·소비재",
+   "stock_code": "215200",
+   "ticker": "215200"
   },
   "218410": {
    "company_name": "RFHIC",
@@ -3691,6 +4456,24 @@
    "stock_code": "272210",
    "ticker": "272210"
   },
+  "272290": {
+   "company_name": "이녹스첨단소재",
+   "corp_code": "01237540",
+   "dart_corp_name": "이녹스첨단소재",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "전자·부품",
+   "stock_code": "272290",
+   "ticker": "272290"
+  },
+  "272450": {
+   "company_name": "진에어",
+   "corp_code": "00653024",
+   "dart_corp_name": "진에어",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "여행레저",
+   "stock_code": "272450",
+   "ticker": "272450"
+  },
   "277810": {
    "company_name": "레인보우로보틱스",
    "corp_code": "01261644",
@@ -3699,6 +4482,15 @@
    "sector": "로봇",
    "stock_code": "277810",
    "ticker": "277810"
+  },
+  "278280": {
+   "company_name": "천보",
+   "corp_code": "00897752",
+   "dart_corp_name": "천보",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "2차전지",
+   "stock_code": "278280",
+   "ticker": "278280"
   },
   "278470": {
    "company_name": "에이피알",
@@ -3772,6 +4564,15 @@
    "stock_code": "285130",
    "ticker": "285130"
   },
+  "286940": {
+   "company_name": "롯데이노베이트",
+   "corp_code": "01262032",
+   "dart_corp_name": "롯데이노베이트",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "인터넷·IT",
+   "stock_code": "286940",
+   "ticker": "286940"
+  },
   "290650": {
    "company_name": "엘앤씨바이오",
    "corp_code": "01181515",
@@ -3807,6 +4608,15 @@
    "sector": "2차전지",
    "stock_code": "295310",
    "ticker": "295310"
+  },
+  "298000": {
+   "company_name": "효성화학",
+   "corp_code": "01316236",
+   "dart_corp_name": "효성화학",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "화학·소재",
+   "stock_code": "298000",
+   "ticker": "298000"
   },
   "298020": {
    "company_name": "효성티앤씨",
@@ -3844,6 +4654,15 @@
    "stock_code": "298380",
    "ticker": "298380"
   },
+  "298690": {
+   "company_name": "에어부산",
+   "corp_code": "00651901",
+   "dart_corp_name": "에어부산",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "여행레저",
+   "stock_code": "298690",
+   "ticker": "298690"
+  },
   "300720": {
    "company_name": "한일시멘트",
    "corp_code": "01319808",
@@ -3861,6 +4680,15 @@
    "sector": "바이오·제약",
    "stock_code": "302440",
    "ticker": "302440"
+  },
+  "306200": {
+   "company_name": "세아제강",
+   "corp_code": "01325979",
+   "dart_corp_name": "세아제강",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "철강·금속",
+   "stock_code": "306200",
+   "ticker": "306200"
   },
   "307950": {
    "company_name": "현대오토에버",
@@ -3997,6 +4825,24 @@
    "stock_code": "336570",
    "ticker": "336570"
   },
+  "340570": {
+   "company_name": "티앤엘",
+   "corp_code": "00608440",
+   "dart_corp_name": "티앤엘",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "바이오·제약",
+   "stock_code": "340570",
+   "ticker": "340570"
+  },
+  "344820": {
+   "company_name": "KCC글라스",
+   "corp_code": "01428203",
+   "dart_corp_name": "케이씨씨글라스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "건설·건자재",
+   "stock_code": "344820",
+   "ticker": "344820"
+  },
   "347700": {
    "company_name": "스피어",
    "corp_code": "01336762",
@@ -4014,6 +4860,24 @@
    "sector": "바이오·제약",
    "stock_code": "347850",
    "ticker": "347850"
+  },
+  "348210": {
+   "company_name": "넥스틴",
+   "corp_code": "01080252",
+   "dart_corp_name": "넥스틴",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "반도체",
+   "stock_code": "348210",
+   "ticker": "348210"
+  },
+  "348340": {
+   "company_name": "뉴로메카",
+   "corp_code": "01336461",
+   "dart_corp_name": "뉴로메카",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "로봇",
+   "stock_code": "348340",
+   "ticker": "348340"
   },
   "348370": {
    "company_name": "엔켐",
@@ -4077,6 +4941,15 @@
    "sector": "2차전지",
    "stock_code": "361610",
    "ticker": "361610"
+  },
+  "365340": {
+   "company_name": "성일하이텍",
+   "corp_code": "01274329",
+   "dart_corp_name": "성일하이텍",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "2차전지",
+   "stock_code": "365340",
+   "ticker": "365340"
   },
   "373220": {
    "company_name": "LG에너지솔루션",
@@ -4384,6 +5257,15 @@
    "stock_code": "460860",
    "ticker": "460860"
   },
+  "460930": {
+   "company_name": "현대힘스",
+   "corp_code": "00667373",
+   "dart_corp_name": "현대힘스",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "조선",
+   "stock_code": "460930",
+   "ticker": "460930"
+  },
   "462870": {
    "company_name": "시프트업",
    "corp_code": "01384787",
@@ -4410,6 +5292,15 @@
    "sector": "전력·에너지",
    "stock_code": "475150",
    "ticker": "475150"
+  },
+  "475560": {
+   "company_name": "더본코리아",
+   "corp_code": "00968607",
+   "dart_corp_name": "더본코리아",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "식음료",
+   "stock_code": "475560",
+   "ticker": "475560"
   },
   "475830": {
    "company_name": "오름테라퓨틱",
@@ -4446,6 +5337,15 @@
    "sector": "화장품·미용",
    "stock_code": "483650",
    "ticker": "483650"
+  },
+  "484870": {
+   "company_name": "엠앤씨솔루션",
+   "corp_code": "01519790",
+   "dart_corp_name": "엠앤씨솔루션",
+   "mapped_by": "STOCK_CODE_EXACT",
+   "sector": "방산",
+   "stock_code": "484870",
+   "ticker": "484870"
   },
   "489790": {
    "company_name": "한화비전",
@@ -4493,9 +5393,9 @@
    "ticker": "950160"
   }
  },
- "mappedCount": 499,
+ "mappedCount": 599,
  "schemaVersion": "dart_corp_map_v1",
- "universeSize": 500,
+ "universeSize": 600,
  "unknown": [
   {
    "company_name": "삼성전기우",
