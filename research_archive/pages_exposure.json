@@ -1,0 +1,45 @@
+{
+ "exposedPaths": [
+  "dart_smoke_report",
+  "dart_corp_map"
+ ],
+ "note": "robots.txt는 색인 요청일 뿐 접근 차단이 아니다. 이 확인은 실제 HTTP 응답으로 판정한다.",
+ "probes": {
+  "baseline_public": {
+   "bytesSample": 2048,
+   "contentType": "text/html; charset=utf-8",
+   "httpStatus": 200,
+   "path": "/index.html",
+   "why": "공개 페이지 대조용"
+  },
+  "baseline_site": {
+   "bytesSample": 480,
+   "contentType": "text/plain; charset=utf-8",
+   "httpStatus": 200,
+   "path": "/robots.txt",
+   "why": "사이트 자체가 살아 있는지 대조용"
+  },
+  "dart_corp_map": {
+   "bytesSample": 2048,
+   "contentType": "application/json; charset=utf-8",
+   "httpStatus": 200,
+   "path": "/research_archive/dart/corp_map.json",
+   "why": "기업 매핑 테이블"
+  },
+  "dart_smoke_report": {
+   "bytesSample": 2048,
+   "contentType": "application/json; charset=utf-8",
+   "httpStatus": 200,
+   "path": "/research_archive/dart/smoke_report.json",
+   "why": "DART 점검 리포트"
+  },
+  "storage_report": {
+   "httpStatus": 404,
+   "path": "/research_archive/storage_report.json",
+   "reason": "Not Found",
+   "why": "저장량 리포트"
+  }
+ },
+ "site": "https://gaeoteam.com",
+ "verdict": "RAW_ARCHIVE_PUBLICLY_ACCESSIBLE"
+}
