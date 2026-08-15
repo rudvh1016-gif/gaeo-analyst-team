@@ -14,7 +14,7 @@
     research_shadow         Research Prediction (별도 파일)
 
 핵심 규칙
-- 500종목을 각각 호출하지 않는다. 신규공시 목록 → 유니버스 매칭 → 필요 시 상세.
+- 유니버스 종목을 각각 호출하지 않는다. 신규공시 목록 → 유니버스 매칭 → 필요 시 상세.
 - rcept_no로 중복을 막는다. 이미 처리한 접수번호는 새 Event로 만들지 않는다.
 - rcept_dt는 '접수일자'다. 시:분:초로 해석하지 않는다.
   실시간에서 가장 중요한 시각은 detected_at(우리가 처음 발견한 시각)이다.
@@ -65,7 +65,10 @@ def _now_iso():
 
 
 def load_universe():
-    """tickers.js의 500종목 = GAEO 유니버스."""
+    """tickers.js = GAEO 유니버스(단일 소스).
+
+    ⚠️ 종목 수를 코드에 고정하지 않는다. Coverage가 늘어나면 그대로 따라간다.
+    """
     path = os.path.join(HERE, "tickers.js")
     txt = open(path, encoding="utf-8").read()
     txt = re.sub(r"^\s*//.*$", "", txt, flags=re.M)

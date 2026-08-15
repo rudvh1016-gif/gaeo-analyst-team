@@ -189,7 +189,16 @@ def main():
         return 0
 
     try:
-        if "--map" in args or P.load_corp_map() is None:
+        # ⚠️ 유니버스가 늘었는데 기존 매핑 테이블을 그대로 쓰면, 새로 추가된 종목은
+        #    영원히 DART 매핑이 안 된다(2026-08-15 500 → 600 확대 때 실제로 발견).
+        #    저장된 universeSize와 지금 종목 수가 다르면 매핑을 다시 만든다.
+        existing_map = P.load_corp_map()
+        universe_changed = bool(
+            existing_map and existing_map.get("universeSize") != len(P.load_universe()))
+        if universe_changed:
+            print(f"[DART] 유니버스 변경 감지 — 매핑 {existing_map.get('universeSize')}종목 기준 "
+                  f"→ 현재 {len(P.load_universe())}종목. 매핑 테이블을 다시 만듭니다.")
+        if "--map" in args or existing_map is None or universe_changed:
             payload["mapping"] = refresh_corp_map(client, budget)
             print(f"[DART] 매핑 — {payload['mapping']}")
         corp_map = P.load_corp_map()

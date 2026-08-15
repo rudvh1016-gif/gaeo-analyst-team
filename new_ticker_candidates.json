@@ -1,0 +1,1210 @@
+{
+ "candidates": [
+  {
+   "rank": 108,
+   "code": "138930",
+   "name": "BNK금융지주",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 119,
+   "code": "088980",
+   "name": "맥쿼리인프라",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 150,
+   "code": "012510",
+   "name": "더존비즈온",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 267,
+   "code": "415640",
+   "name": "KB발해인프라",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 309,
+   "code": "057050",
+   "name": "현대홈쇼핑",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 449,
+   "code": "094800",
+   "name": "맵스리얼티",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 542,
+   "code": "130660",
+   "name": "한전산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 543,
+   "code": "004710",
+   "name": "한솔테크닉스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 545,
+   "code": "002030",
+   "name": "아세아",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 548,
+   "code": "105630",
+   "name": "한세실업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 550,
+   "code": "092230",
+   "name": "KPX홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 551,
+   "code": "008730",
+   "name": "율촌화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 553,
+   "code": "145720",
+   "name": "덴티움",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 554,
+   "code": "089590",
+   "name": "제주항공",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 556,
+   "code": "005950",
+   "name": "이수화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 557,
+   "code": "009160",
+   "name": "SIMPAC",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 558,
+   "code": "001940",
+   "name": "KISCO홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 559,
+   "code": "002810",
+   "name": "삼영무역",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 561,
+   "code": "170900",
+   "name": "동아에스티",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 562,
+   "code": "011930",
+   "name": "신성이엔지",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 563,
+   "code": "344820",
+   "name": "KCC글라스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 564,
+   "code": "060980",
+   "name": "HL홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 565,
+   "code": "017810",
+   "name": "풀무원",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 566,
+   "code": "306200",
+   "name": "세아제강",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 567,
+   "code": "950210",
+   "name": "프레스티지바이오파마",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 569,
+   "code": "194370",
+   "name": "제이에스코퍼레이션",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 572,
+   "code": "007690",
+   "name": "국도화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 573,
+   "code": "183190",
+   "name": "아세아시멘트",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 574,
+   "code": "029460",
+   "name": "케이씨",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 575,
+   "code": "104700",
+   "name": "한국철강",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 577,
+   "code": "005610",
+   "name": "삼립",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 579,
+   "code": "097520",
+   "name": "엠씨넥스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 584,
+   "code": "126560",
+   "name": "현대퓨처넷",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 587,
+   "code": "012030",
+   "name": "DB",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 592,
+   "code": "002310",
+   "name": "아세아제지",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 596,
+   "code": "005720",
+   "name": "넥센",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 600,
+   "code": "009290",
+   "name": "광동제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 601,
+   "code": "126720",
+   "name": "수산인더스트리",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 602,
+   "code": "105840",
+   "name": "우진",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 607,
+   "code": "011760",
+   "name": "현대코퍼레이션",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 608,
+   "code": "016800",
+   "name": "퍼시스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 611,
+   "code": "010690",
+   "name": "화신",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 613,
+   "code": "200880",
+   "name": "서연이화",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 614,
+   "code": "004430",
+   "name": "송원산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 615,
+   "code": "192650",
+   "name": "드림텍",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 616,
+   "code": "010820",
+   "name": "퍼스텍",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 618,
+   "code": "018250",
+   "name": "애경산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 626,
+   "code": "026890",
+   "name": "스틱인베스트먼트",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 627,
+   "code": "005680",
+   "name": "삼영전자",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 629,
+   "code": "015860",
+   "name": "일진홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 630,
+   "code": "034830",
+   "name": "한국토지신탁",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 632,
+   "code": "096760",
+   "name": "JW홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 633,
+   "code": "025860",
+   "name": "남해화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 634,
+   "code": "024720",
+   "name": "콜마홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 635,
+   "code": "001390",
+   "name": "KG케미칼",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 636,
+   "code": "108670",
+   "name": "LX하우시스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 637,
+   "code": "092790",
+   "name": "넥스틸",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 638,
+   "code": "058430",
+   "name": "포스코스틸리온",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 640,
+   "code": "272450",
+   "name": "진에어",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 641,
+   "code": "217590",
+   "name": "티엠씨",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 642,
+   "code": "033270",
+   "name": "유나이티드제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 648,
+   "code": "123890",
+   "name": "한국자산신탁",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 650,
+   "code": "017390",
+   "name": "서울가스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 651,
+   "code": "003960",
+   "name": "사조대림",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 653,
+   "code": "084690",
+   "name": "대상홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 654,
+   "code": "001230",
+   "name": "동국홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 656,
+   "code": "002900",
+   "name": "TYM",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 657,
+   "code": "003120",
+   "name": "일성아이에스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 658,
+   "code": "484870",
+   "name": "엠앤씨솔루션",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 661,
+   "code": "001750",
+   "name": "한양증권",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 662,
+   "code": "078520",
+   "name": "에이블씨엔씨",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 663,
+   "code": "298690",
+   "name": "에어부산",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 664,
+   "code": "091810",
+   "name": "트리니티항공",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 667,
+   "code": "003200",
+   "name": "일신방직",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 668,
+   "code": "084010",
+   "name": "대한제강",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 669,
+   "code": "286940",
+   "name": "롯데이노베이트",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 673,
+   "code": "005430",
+   "name": "한국공항",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 675,
+   "code": "003920",
+   "name": "남양유업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 680,
+   "code": "001340",
+   "name": "PKC",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 681,
+   "code": "002710",
+   "name": "TCC스틸",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 686,
+   "code": "004360",
+   "name": "세방",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 687,
+   "code": "900140",
+   "name": "엘브이엠씨홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 688,
+   "code": "001790",
+   "name": "대한제당",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 690,
+   "code": "002320",
+   "name": "한진",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 691,
+   "code": "122900",
+   "name": "아이마켓코리아",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 692,
+   "code": "005500",
+   "name": "삼진제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 693,
+   "code": "000430",
+   "name": "대원강업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 694,
+   "code": "003070",
+   "name": "코오롱글로벌",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 695,
+   "code": "007160",
+   "name": "사조산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 696,
+   "code": "003650",
+   "name": "미창석유",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 697,
+   "code": "244920",
+   "name": "에이플러스에셋",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 698,
+   "code": "298000",
+   "name": "효성화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 702,
+   "code": "000650",
+   "name": "천일고속",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 708,
+   "code": "000680",
+   "name": "LS네트웍스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 709,
+   "code": "000480",
+   "name": "CR홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 711,
+   "code": "136490",
+   "name": "선진",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 715,
+   "code": "034120",
+   "name": "SBS",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 716,
+   "code": "008490",
+   "name": "서흥",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 717,
+   "code": "004980",
+   "name": "성신양회",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 718,
+   "code": "226320",
+   "name": "잇츠한불",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 719,
+   "code": "000050",
+   "name": "경방",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 720,
+   "code": "000320",
+   "name": "노루홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 725,
+   "code": "134380",
+   "name": "미원화학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 727,
+   "code": "025000",
+   "name": "KPX케미칼",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 728,
+   "code": "001250",
+   "name": "GS글로벌",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 730,
+   "code": "044450",
+   "name": "KSS해운",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 732,
+   "code": "028100",
+   "name": "동아지질",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 736,
+   "code": "475560",
+   "name": "더본코리아",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 737,
+   "code": "003520",
+   "name": "영진약품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 738,
+   "code": "001460",
+   "name": "BYC",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 739,
+   "code": "033920",
+   "name": "무학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 741,
+   "code": "009680",
+   "name": "모토닉",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 742,
+   "code": "017860",
+   "name": "DS단석",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 743,
+   "code": "005010",
+   "name": "휴스틸",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 744,
+   "code": "025560",
+   "name": "미래산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 745,
+   "code": "000540",
+   "name": "흥국화재",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 747,
+   "code": "030210",
+   "name": "다올투자증권",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 750,
+   "code": "210980",
+   "name": "SK디앤디",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 752,
+   "code": "000490",
+   "name": "대동",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 754,
+   "code": "003720",
+   "name": "삼영",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 759,
+   "code": "011500",
+   "name": "한농화성",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 762,
+   "code": "035150",
+   "name": "백산",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 763,
+   "code": "053210",
+   "name": "스카이라이프",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 764,
+   "code": "039570",
+   "name": "HDC랩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 765,
+   "code": "001630",
+   "name": "종근당홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 766,
+   "code": "117580",
+   "name": "대성에너지",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 768,
+   "code": "100250",
+   "name": "진양홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 769,
+   "code": "317400",
+   "name": "자이에스앤디",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 770,
+   "code": "095570",
+   "name": "AJ네트웍스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 771,
+   "code": "128820",
+   "name": "대성산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 772,
+   "code": "000140",
+   "name": "하이트진로홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 773,
+   "code": "013890",
+   "name": "지누스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 776,
+   "code": "241590",
+   "name": "화승엔터프라이즈",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 777,
+   "code": "013580",
+   "name": "계룡건설",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 781,
+   "code": "044820",
+   "name": "코스맥스비티아이",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 782,
+   "code": "053690",
+   "name": "한미글로벌",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 783,
+   "code": "102460",
+   "name": "이연제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 784,
+   "code": "339770",
+   "name": "교촌에프앤비",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 785,
+   "code": "016580",
+   "name": "환인제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 788,
+   "code": "001130",
+   "name": "대한제분",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 790,
+   "code": "462520",
+   "name": "조선내화",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 791,
+   "code": "010580",
+   "name": "에스엠벡셀",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 792,
+   "code": "035510",
+   "name": "신세계 I&C",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 793,
+   "code": "003350",
+   "name": "한국화장품제조",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 796,
+   "code": "003460",
+   "name": "유화증권",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 797,
+   "code": "007860",
+   "name": "서연",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 799,
+   "code": "001080",
+   "name": "만호제강",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 800,
+   "code": "234080",
+   "name": "JW생명과학",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 801,
+   "code": "003220",
+   "name": "대원제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 802,
+   "code": "102260",
+   "name": "동성케미컬",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 803,
+   "code": "002100",
+   "name": "경농",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 810,
+   "code": "092200",
+   "name": "디아이씨",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 811,
+   "code": "000300",
+   "name": "DH오토넥스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 812,
+   "code": "002150",
+   "name": "도화엔지니어링",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 813,
+   "code": "016450",
+   "name": "한세예스24홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 814,
+   "code": "009470",
+   "name": "삼화전기",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 815,
+   "code": "033530",
+   "name": "SJG세종",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 816,
+   "code": "004560",
+   "name": "현대비앤지스틸",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 817,
+   "code": "004380",
+   "name": "삼익THK",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 818,
+   "code": "000390",
+   "name": "SP삼화",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 821,
+   "code": "000860",
+   "name": "강남제비스코",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 822,
+   "code": "005960",
+   "name": "동부건설",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 823,
+   "code": "487570",
+   "name": "HS효성",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 824,
+   "code": "003610",
+   "name": "방림",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 825,
+   "code": "101530",
+   "name": "해태제과식품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 830,
+   "code": "002170",
+   "name": "SYTS",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 831,
+   "code": "007570",
+   "name": "일양약품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 834,
+   "code": "001780",
+   "name": "알루코",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 835,
+   "code": "015230",
+   "name": "대창단조",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 836,
+   "code": "213500",
+   "name": "한솔제지",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 838,
+   "code": "016880",
+   "name": "웅진",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 843,
+   "code": "014710",
+   "name": "사조씨푸드",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 846,
+   "code": "004310",
+   "name": "현대약품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 847,
+   "code": "031440",
+   "name": "신세계푸드",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 851,
+   "code": "293480",
+   "name": "하나제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 855,
+   "code": "090350",
+   "name": "노루페인트",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 858,
+   "code": "000700",
+   "name": "유수홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 859,
+   "code": "000970",
+   "name": "한국주철관",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 860,
+   "code": "271980",
+   "name": "제일약품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 864,
+   "code": "004970",
+   "name": "신라교역",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 870,
+   "code": "004090",
+   "name": "한국석유",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 873,
+   "code": "000020",
+   "name": "동화약품",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 875,
+   "code": "003830",
+   "name": "대한화섬",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 878,
+   "code": "460850",
+   "name": "동국씨엠",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 879,
+   "code": "214420",
+   "name": "토니모리",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 884,
+   "code": "008350",
+   "name": "남선알미늄",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 886,
+   "code": "003480",
+   "name": "한진중공업홀딩스",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 887,
+   "code": "094280",
+   "name": "효성ITX",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 890,
+   "code": "015890",
+   "name": "태경산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 891,
+   "code": "448100",
+   "name": "WON 200",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 892,
+   "code": "000520",
+   "name": "삼일제약",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 893,
+   "code": "006060",
+   "name": "화승인더",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 894,
+   "code": "025820",
+   "name": "이구산업",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 898,
+   "code": "020120",
+   "name": "키다리스튜디오",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 900,
+   "code": "004960",
+   "name": "한신공영",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 902,
+   "code": "272550",
+   "name": "삼양패키징",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 903,
+   "code": "081000",
+   "name": "일진다이아",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 904,
+   "code": "013520",
+   "name": "화승코퍼레이션",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 905,
+   "code": "012610",
+   "name": "경인양행",
+   "market": "KOSPI"
+  },
+  {
+   "rank": 906,
+   "code": "092220",
+   "name": "KEC",
+   "market": "KOSPI"
+  }
+ ],
+ "excluded": {
+  "우선주": 91,
+  "ETF/ETN": 1256,
+  "REIT": 20,
+  "SPAC": 39
+ }
+}

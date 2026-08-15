@@ -1019,11 +1019,23 @@ def main():
 
     price_label = ind.get("priceLabel", "")
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    out = {"generatedAt": now, "priceLabel": price_label, "stocks": {}}
+    # 📌 Coverage Universe 각인 — 500종목 시절과 600종목 시절 성적을 섞지 않기 위해
+    #    새 판단마다 "그때 몇 종목이었나"를 함께 남긴다.
+    try:
+        import coverage_version
+        coverage_stamp = coverage_version.stamp()
+        print(f"Coverage Universe — {coverage_stamp['coverageUniverseVersion']} "
+              f"({coverage_stamp['coverageUniverseSize']}종목)")
+    except Exception as ex:
+        coverage_stamp = {}
+        print(f"[경고] Coverage 버전 각인 실패 — 계속 진행: {ex}")
+
+    out = {"generatedAt": now, "priceLabel": price_label, **coverage_stamp, "stocks": {}}
     # Research Shadow 전용 출력. 사이트(index.html)는 이 자료를 절대 읽지 않는다.
     research_out = {
         "generatedAt": now, "priceLabel": price_label,
         "createdAt": analysis_started_at,
+        **coverage_stamp,
         "versions": {
             "v10": (research_engine.RESEARCH_MODEL_VERSION if research_engine else None),
             "v11": (research_v11.RESEARCH_MODEL_VERSION if research_v11 else None),
