@@ -1021,6 +1021,11 @@
   .model-board .mb-fail,.model-board .mb-cands{margin-top:8px;font-size:12px}
   .model-board .mb-fail b,.model-board .mb-cands b{display:block;margin-bottom:2px;color:var(--t1)}
   .model-board .mb-archived .mb-name,.model-board .mb-archived .mb-status{color:var(--t3)}
+  .model-board .mb-pairs{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px}
+  .model-board .mb-pairs b{display:block;margin-bottom:4px;color:var(--t1);font-size:12px}
+  .model-board .mb-pairs ul{margin:0;padding-left:16px;color:var(--t2);line-height:1.7}
+  .model-board .mb-pairs code{font-size:11px;color:var(--t3)}
+  .model-board .mb-cands code{font-size:11px;color:var(--t3)}
   .model-board .mb-foot{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
     font-size:11px;color:var(--t3);line-height:1.6;overflow-wrap:anywhere}
   .model-board .mb-foot p{margin:0 0 4px}
@@ -4935,9 +4940,19 @@ function modelBoardHTML(){
   if(!SB||!Array.isArray(SB.models)) return '';
   const HSTAT={
     'NOT_APPLICABLE':'해당 없음',
-    'PENDING_NOT_MATURED':'평가 대기',
-    'INSUFFICIENT_EVIDENCE':'근거 부족',
+    'PENDING_NOT_MATURED':'아직 결과를 기다리는 중',
+    'INSUFFICIENT_EVIDENCE':'기록 부족',
+    'CANDIDATES_UNDER_TEST':'후보 시험 중',
     'ARCHIVED_NO_NEW_PREDICTIONS':'신규 없음'
+  };
+  /* 한 Horizon 블록의 BUY/SELL/HOLD 분해 한 줄 — HOLD가 많아 전체 %가 부풀어
+     보이는 것을 막기 위해 항상 방향판단(BUY+SELL)을 따로 보여준다. */
+  const splitLine=h=>{
+    if(!h||h.status!=='OK') return '';
+    const seg=(label,b)=>b&&b.count?`${label} ${b.precision!=null?b.precision+'%':'—'}(${b.count}건${b.marketRelativeMeanReturn!=null?` · 시장대비 ${b.marketRelativeMeanReturn>0?'+':''}${b.marketRelativeMeanReturn}%p`:''})`:'';
+    const parts=[seg('BUY',h.buy),seg('SELL',h.sell),seg('HOLD',h.hold)].filter(Boolean);
+    const dir=h.directionalAccuracy!=null?`방향판단(BUY+SELL) ${h.directionalAccuracy}% · ${h.directionalCount}건`:'';
+    return `<li>${[dir,...parts].filter(Boolean).join(' · ')}</li>`;
   };
   const cell=h=>{
     if(!h) return '<span class="mb-na">—</span>';
@@ -4960,6 +4975,27 @@ function modelBoardHTML(){
       m.note?esc(m.note):''
     ].filter(Boolean).map(t=>`<li>${t}</li>`).join('');
     const fails=(m.failureReasons||[]).map(r=>`<li>${esc(r)}</li>`).join('');
+    /* 기본모델: 현재 버전과 이전 버전(2026-08-15 개선 전) 성적을 섞지 않고 나란히 */
+    let versionRows='';
+    if(m.id==='base_production'&&m.byModelVersion){
+      const label=v=>v==='PRE_HOTFIX_BASE'?'이전 버전 (8/15 개선 전)':(v===m.currentModelVersion?'현재 버전':esc(v));
+      versionRows=Object.entries(m.byModelVersion).map(([v,h])=>{
+        if(h.status==='OK'){
+          return `<li><b>${label(v)}</b> · 전체 ${h.overallAccuracy}% (${h.matured.toLocaleString()}건 · ${h.uniqueDates}일)${h.accuracyCI95?` · 95% 범위 ${h.accuracyCI95[0]}~${h.accuracyCI95[1]}%`:''}</li>`+splitLine(h);
+        }
+        return `<li><b>${label(v)}</b> · ${esc(HSTAT[h.status]||h.status)}${h.pending?` · 대기 ${h.pending.toLocaleString()}건`:''}</li>`;
+      }).join('');
+      if(m.withheldCount) versionRows+=`<li>판단 보류 ${m.withheldCount}건 (적중률 계산에서 제외)</li>`;
+      if(m.coverageNote) versionRows+=`<li>${esc(m.coverageNote)}</li>`;
+    }
+    /* B/C: 후보별 성적 — candidateModelId 사전순 고정(성적순 정렬·1위 표시 없음) */
+    const candRows=(m.candidates||[]).filter(c=>c.horizons).map(c=>{
+      const h5=c.horizons['5']||{};
+      const line=h5.status==='OK'
+        ?`5일 ${h5.accuracy}% (${h5.matured}건 · ${h5.uniqueDates}일)`
+        :`5일 ${esc(HSTAT[h5.status]||h5.status||'—')}${h5.pending?` · 대기 ${h5.pending}건`:''}`;
+      return `<li><code>${esc(c.candidateModelId)}</code> · ${line}</li>`;
+    }).join('');
     return `<div class="mb-row${m.status==='ARCHIVED_FAILED_EXPERIMENT'?' mb-archived':''}">
       <button class="mb-head" type="button" aria-expanded="false" data-mb="${i}">
         <span class="mb-name"><span class="mb-icon">${esc(m.icon||'')}</span>${esc(m.displayName)}</span>
@@ -4971,8 +5007,9 @@ function modelBoardHTML(){
       </button>
       <div class="mb-body" hidden>
         <ul class="mb-detail">${detail}</ul>
+        ${versionRows?`<div class="mb-cands"><b>버전·구간별 실제 성적</b><ul>${versionRows}</ul></div>`:''}
         ${fails?`<div class="mb-fail"><b>물러난 이유</b><ul>${fails}</ul></div>`:''}
-        ${cands?`<div class="mb-cands"><b>후보별 성적</b><ul>${(m.candidates||[]).map(c=>`<li>${esc(c.candidateModelId)} · ${esc(HSTAT[c.status]||c.status)}</li>`).join('')}</ul></div>`:''}
+        ${candRows?`<div class="mb-cands"><b>후보별 성적 (대표 후보 없음 · 순위 없음)</b><ul>${candRows}</ul></div>`:''}
         <div class="mb-mobile-h">
           <span>5일 ${cell(m.horizons&&m.horizons['5'])}</span>
           <span>20일 ${cell(m.horizons&&m.horizons['20'])}</span>
@@ -4981,11 +5018,23 @@ function modelBoardHTML(){
       </div>
     </div>`;
   }).join('');
+  /* 공정 비교 — 같은 날짜·같은 종목에서 둘 다 판단한 표본만 직접 비교한다.
+     표본이 부족하면 승자 없이 "이릅니다"만 보여준다. */
+  const MODEL_LABEL={base_production:'기본모델',research_a:'연구 A',research_b:'연구 B',research_c:'연구 C'};
+  const pairName=n=>{const[base,cand]=String(n).split(':');return (MODEL_LABEL[base]||esc(base))+(cand?` <code>${esc(cand)}</code>`:'');};
+  const pairs=(SB.pairedComparisons||[]).map(p=>{
+    if(p.evidenceStatus==='OK'){
+      const d=p.differencePp;
+      return `<li>${pairName(p.leftModel)} ${p.leftAccuracy}% vs ${pairName(p.rightModel)} ${p.rightAccuracy}% · 차이 ${d>0?'+':''}${d}%p <span class="mb-sub">공통 ${p.matchedRows.toLocaleString()}건 · ${p.matchedUniqueDates}일</span></li>`;
+    }
+    return `<li>${pairName(p.leftModel)} vs ${pairName(p.rightModel)} · 아직 차이를 판단하기 이릅니다 <span class="mb-sub">공통 ${p.matchedRows}건 · ${p.matchedUniqueDates}일</span></li>`;
+  }).join('');
   return `<div class="sc-block model-board">
     <h3>🧭 모델 검증</h3>
-    <p class="sc-sub">지금 화면에 쓰는 모델 하나와, 뒤에서 조용히 시험 중인 모델들을 나란히 둡니다. 시험 모델은 화면 판단을 바꾸지 않아요.</p>
+    <p class="sc-sub">지금 화면에 쓰는 모델 하나와, 뒤에서 조용히 시험 중인 모델들을 나란히 둡니다. 시험 모델은 화면 판단을 바꾸지 않고, 기록이 충분해지기 전에는 순위를 매기지 않아요.</p>
     <div class="mb-legend"><span>모델</span><span>상태</span><span>5일</span><span class="mb-h-wide">20일</span><span class="mb-h-wide">60일</span></div>
     ${rows}
+    ${pairs?`<div class="mb-pairs"><b>공정 비교 — 같은 날짜·같은 종목에서만</b><ul>${pairs}</ul></div>`:''}
     <div class="mb-foot">
       <p>${esc(SB.policyNote||'')}</p>
       <p>${esc(SB.independenceNote||'')}</p>
