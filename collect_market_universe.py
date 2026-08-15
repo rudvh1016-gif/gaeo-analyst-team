@@ -309,6 +309,57 @@ def market_stats(eligible):
     return stats
 
 
+def sector_stats(eligible, sector_of, min_sample=5):
+    """업종 단위 통계 — median + breadth + cap/equal 분리 + 집중도.
+
+    sector_of: code → GAEO 대분류 (검증된 crosswalk만 — LLM 임의 분류 금지).
+    평균 하나로 '업종 강세'를 판단하지 않는다:
+      · medianReturn / advanceRatio / capWeighted-equalWeight 차이를 함께 제공
+      · 상위 1·3종목 기여 집중도(concentration) 제공
+      · 표본이 min_sample 미만이면 LOW_SAMPLE로 표시하고 강한 결론 금지
+    매핑 안 된 종목은 '기타'로 몰지 않고 unmappedCount로만 센다.
+    """
+    groups, unmapped = {}, 0
+    for x in eligible:
+        sector = sector_of.get(x["code"])
+        if not sector:
+            unmapped += 1
+            continue
+        groups.setdefault(sector, []).append(x)
+    out = {}
+    for sector, rows in sorted(groups.items()):
+        rates = [r["rate"] for r in rows]
+        up = sum(1 for v in rates if v > 0)
+        down = sum(1 for v in rates if v < 0)
+        med = _median(rates)
+        mean = sum(rates) / len(rates)
+        capped = [(r["rate"], r["cap"]) for r in rows if r["cap"]]
+        cap_total = sum(c for _, c in capped)
+        cap_w = (sum(v * c for v, c in capped) / cap_total) if cap_total else None
+        entry = {
+            "count": len(rows), "advancers": up, "decliners": down,
+            "advanceRatio": round(up / len(rows), 4),
+            "medianReturn": round(med, 3),
+            "equalWeightReturn": round(mean, 3),
+            "capWeightedReturn": round(cap_w, 3) if cap_w is not None else None,
+        }
+        # 시총 상위 1·3종목이 cap-weighted 수익에 기여한 몫 — '두 종목이 업종을
+        # 대표하는' 착시를 드러내기 위한 값.
+        if cap_total and len(capped) >= 3:
+            top = sorted(capped, key=lambda vc: -vc[1])
+            entry["capTop1Share"] = round(top[0][1] / cap_total, 4)
+            entry["capTop3Share"] = round(sum(c for _, c in top[:3]) / cap_total, 4)
+            if cap_w is not None and entry["medianReturn"] is not None:
+                # cap-weighted가 강한데 median·breadth가 약하면 '소수 대형주 집중'
+                entry["breadthDivergence"] = round(cap_w - med, 3)
+        if len(rows) < min_sample:
+            entry["reliability"] = "LOW_SAMPLE"
+            entry["note"] = "표본이 작아 강한 결론에 쓰지 않는다"
+        out[sector] = entry
+    return {"sectors": out, "unmappedCount": unmapped,
+            "mappedCount": sum(len(v) for v in groups.values())}
+
+
 def run_full(write_raw=False):
     fields = verified_fields()
     if not fields:
@@ -409,7 +460,11 @@ def run_full(write_raw=False):
     hour_kst = datetime.now(KST).hour
     if hour_kst >= 15 and not os.path.exists(hist_path):
         _atomic_write(hist_path, json.dumps(
-            {"day": kst_day, "asOf": as_of, "quality": quality,
+            {"day": kst_day, "asOf": as_of,
+             # 그날의 실제 Universe 구성을 함께 남긴다 — 오늘의 상장목록을 과거로
+             # 소급하는 survivorship bias를 막는 근거 기록이다.
+             "universeSource": "FULL_MARKET", "universeDate": kst_day,
+             "quality": quality,
              "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats},
             ensure_ascii=False, indent=1))
 
