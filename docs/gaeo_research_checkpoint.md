@@ -2,7 +2,10 @@
 
 **다음 세션은 이 파일을 가장 먼저 읽는다.** (토큰 절약 원칙, 스펙 3번)
 
-최종 갱신 2026-08-15 · 현재 위치 **PHASE B 설계 완료 / PHASE C(Shadow Engine) 착수 대기**
+최종 갱신 2026-08-15 · 현재 위치 **PHASE C(Shadow Engine) 구현 완료 / PHASE D는 Maturity 충족 후**
+
+> PHASE C 구현 내역·회귀 검증 결과는 `gaeo_phaseC_implementation.md`,
+> 설계 수정 16건은 `gaeo_phaseB_revisions.md`가 최상위 규범이다.
 
 ---
 
@@ -126,7 +129,9 @@ Point-in-Time을 지키는 범위에서 설계·사전 Walk-Forward에는 쓸 �
 | `gaeo_verified_references.md` | **완료**(LOCKED PAPER PACK) |
 | `gaeo_signal_registry.md` | **완료**(TARO·DIANA·FLOW·ROTATION·EVENT Feature + 상관 실측) |
 | `gaeo_phaseB_architecture.md` | **완료**(QUANT·RISK·CHIEF 역할 + Shadow Mode 설계) |
-| `gaeo_event_pipeline.md` | 미작성 (PHASE C, DART/SEC 연동 시) |
+| `gaeo_phaseB_revisions.md` | **완료**(설계 수정 16건 — 다른 문서보다 우선) |
+| `gaeo_phaseC_implementation.md` | **완료**(Shadow Engine 구현 + 회귀 검증) |
+| `gaeo_event_pipeline.md` | 미작성 (DART/SEC 연동 시) |
 | `gaeo_validation_report.md` | 미작성 (PHASE D~F) |
 
 ---
@@ -142,17 +147,32 @@ Point-in-Time을 지키는 범위에서 설계·사전 Walk-Forward에는 쓸 �
 
 ---
 
+## 5-1. PHASE C 완료 상태 (2026-08-15)
+
+`research_engine.py` (`research_v1.0`, config hash `e37e6cc0cb701171`) 구현 완료.
+`analyze_auto.py`가 종목마다 `researchShadow`를 Legacy `chief` **옆에** 저장하고,
+`archive_analysis.py`가 `history.js`에 `research` 블록을 APPEND-ONLY로 남긴다.
+
+핵심 회귀 결과: Legacy 출력(`chief`·4분석가·`shadowChief`·`marketInsight`·`crossStats`)
+500종목 전부 **바이트 동일**. `team_weights.js`·`model_intelligence.js` 재계산 결과도 동일.
+불변식 테스트 24개 통과. 상세는 `gaeo_phaseC_implementation.md` 8·9절.
+
+부수 수정: 2026-08-14에 넣은 QUANT 업종 필드가 값이 없을 때도 키를 만들어
+과거 정밀분석 기록 19건에 `null` 키를 새로 박고 있었다(APPEND-ONLY 위반). 수정 후 0건.
+
+---
+
 ## 6. 다음 세션이 할 일 (우선순위)
 
-1. **PHASE C 착수**: `researchShadow`를 `analyze_auto.py`에 추가.
-   Legacy `chief`는 손대지 않는다. 기존 `shadowChief` 패턴을 그대로 확장한다.
-   같은 `runTimestamps` 시각에 Legacy와 Research를 동시 저장.
-2. Horizon별(5D/20D/60D) 확률과 `maturity` 상태를 함께 기록.
-   60D는 산출만 하고 성능은 언급하지 않는다.
-3. **다음 평일 장중에 `runTimestamps` 4개 값 실제 저장 확인**
+1. **다음 평일 장중에 `runTimestamps` 4개 값 실제 저장 확인**
    (현재 `IMPLEMENTED_PENDING_LIVE_VERIFICATION`).
-4. 오늘 이후 `researchShadow` 기록은 **읽기 전용 Forward Validation 자료**.
-   이걸 보고 튜닝하면 OOS 자격 상실.
+   같은 실행에서 `researchShadow`가 러너 환경에서도 500종목 다 붙는지 함께 본다.
+2. 오늘 이후 `researchShadow` 기록은 **읽기 전용 Forward Validation 자료**.
+   이걸 보고 튜닝하면 OOS 자격 상실. 고치고 싶으면 `research_v1.1`로 버전을 올린다.
+3. Horizon별 Maturity 집계 리포트를 붙인다(5D/20D/60D 각각 matured 건수).
+   **60D는 산출만 하고 성능은 언급하지 않는다.**
+4. `reliability` 등급이 현재 전 종목 B로 변별력이 없다. DART(EVENT/재무 확장) 연동
+   전까지는 등급을 판단 근거로 쓰지 않는다.
 5. PHASE D 성능 비교는 Horizon별 Maturity 충족 후.
    **데이터 부족을 이유로 Research 개발 자체를 멈추지는 않는다.**
    단 "Research가 Legacy보다 좋다"는 결론은 금지.
