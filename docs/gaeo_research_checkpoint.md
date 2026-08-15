@@ -2,10 +2,16 @@
 
 **다음 세션은 이 파일을 가장 먼저 읽는다.** (토큰 절약 원칙, 스펙 3번)
 
-최종 갱신 2026-08-15 · 현재 위치 **PHASE C(Shadow Engine) 구현 완료 / PHASE D는 Maturity 충족 후**
+최종 갱신 2026-08-15 · 현재 위치 **PHASE C FINAL HARDENING 완료 / Live Shadow 기록 수집 단계**
 
-> PHASE C 구현 내역·회귀 검증 결과는 `gaeo_phaseC_implementation.md`,
+> PHASE C 구현 내역은 `gaeo_phaseC_implementation.md`,
+> 그 뒤 방법론 교정은 **`gaeo_phaseC_final_hardening.md`(최신·우선)**,
 > 설계 수정 16건은 `gaeo_phaseB_revisions.md`가 최상위 규범이다.
+>
+> 현재 버전 2개가 동시에 예측을 낸다.
+> `research_v1.0`(hash `e37e6cc0cb701171`, 그대로 보존) ·
+> `research_v1.1`(hash `0d8ff5f0909e7b7b`, Hardening 적용).
+> 각각 따로 측정한다. 성숙한 표본은 아직 0건이다.
 
 ---
 
@@ -131,6 +137,7 @@ Point-in-Time을 지키는 범위에서 설계·사전 Walk-Forward에는 쓸 �
 | `gaeo_phaseB_architecture.md` | **완료**(QUANT·RISK·CHIEF 역할 + Shadow Mode 설계) |
 | `gaeo_phaseB_revisions.md` | **완료**(설계 수정 16건 — 다른 문서보다 우선) |
 | `gaeo_phaseC_implementation.md` | **완료**(Shadow Engine 구현 + 회귀 검증) |
+| `gaeo_phaseC_final_hardening.md` | **완료**(방법론 교정 4건 + v1.1 + APPEND-ONLY 가드) |
 | `gaeo_event_pipeline.md` | 미작성 (DART/SEC 연동 시) |
 | `gaeo_validation_report.md` | 미작성 (PHASE D~F) |
 
@@ -162,18 +169,39 @@ Point-in-Time을 지키는 범위에서 설계·사전 Walk-Forward에는 쓸 �
 
 ---
 
+## 5-2. PHASE C FINAL HARDENING 완료 상태 (2026-08-15)
+
+방법론 교정 4건 + 별건 1건. 상세는 `gaeo_phaseC_final_hardening.md`.
+
+1. 5D `-net5`를 확정 정의에서 내리고 `SHORT_REVERSAL` / `SHORT_MOMENTUM` 두 후보로 분리.
+2. 45/35/20을 `PREDECLARED_CANDIDATE_45_35_20`으로 개명, 대표모델 지정 제거
+   (`NO_PRIMARY_CANDIDATE_SELECTED`).
+3. Candidate 4종을 같은 `predictionTimestamp`에 함께 Live 저장.
+4. Reliability는 `RELIABILITY_NOT_DIFFERENTIATED` / `uiDisplay: SUPPRESSED`.
+5. PIT를 Horizon별로 분리하고 **결과 확정일** 기준 차단을 테스트로 증명.
+6. `append_only_guard.py` — 과거 Prediction 변조 자동 탐지·복구.
+7. **별건**: Research 기록이 `auto_analysis.js`(2.4MB→11.5MB)·`history.js`(8.8MB→12.8MB)를
+   부풀리고 있었다. 사이트가 읽지 않는 `research_shadow.json`(gitignore) ·
+   `research_history.jsonl`(영구)로 완전히 분리했고 원래 크기로 복귀했다.
+
+---
+
 ## 6. 다음 세션이 할 일 (우선순위)
 
 1. **다음 평일 장중에 `runTimestamps` 4개 값 실제 저장 확인**
    (현재 `IMPLEMENTED_PENDING_LIVE_VERIFICATION`).
-   같은 실행에서 `researchShadow`가 러너 환경에서도 500종목 다 붙는지 함께 본다.
-2. 오늘 이후 `researchShadow` 기록은 **읽기 전용 Forward Validation 자료**.
-   이걸 보고 튜닝하면 OOS 자격 상실. 고치고 싶으면 `research_v1.1`로 버전을 올린다.
+   같은 실행에서 `research_history.jsonl`이 러너 환경에서 500종목 다 쌓이는지,
+   `research_shadow.json`이 커밋에 안 딸려 들어가는지 함께 본다.
+2. 이후 Research 기록은 **읽기 전용 Forward Validation 자료**.
+   이걸 보고 튜닝하면 OOS 자격 상실. 고치고 싶으면 `research_v1.2`로 버전을 올린다.
+   v1.0·v1.1 기록은 어느 쪽도 재작성하지 않는다.
 3. Horizon별 Maturity 집계 리포트를 붙인다(5D/20D/60D 각각 matured 건수).
    **60D는 산출만 하고 성능은 언급하지 않는다.**
-4. `reliability` 등급이 현재 전 종목 B로 변별력이 없다. DART(EVENT/재무 확장) 연동
-   전까지는 등급을 판단 근거로 쓰지 않는다.
-5. PHASE D 성능 비교는 Horizon별 Maturity 충족 후.
+4. `research_history.jsonl` 증가 속도 관찰(하루 약 1.7MB · 월 약 37MB).
+   부담되면 Candidate별 중복 메타데이터를 기록 단위로 올려 압축한다.
+5. `reliability`는 전 종목 B라 변별력이 없다. DART(EVENT/재무 확장) 연동 전까지
+   등급을 판단 근거로 쓰지 않고 UI에도 내보내지 않는다.
+6. PHASE D 성능 비교는 Horizon별 Maturity 충족 후.
    **데이터 부족을 이유로 Research 개발 자체를 멈추지는 않는다.**
    단 "Research가 Legacy보다 좋다"는 결론은 금지.
 

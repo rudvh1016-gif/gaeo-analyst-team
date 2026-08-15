@@ -13,6 +13,8 @@
 """
 import re, json, os, datetime, sys
 
+import append_only_guard
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 HIST_CAP = 80   # 가벼운 채점 히스토리만 최근 80건 유지. 정밀분석 원문은 영구 보존한다.
 
@@ -81,37 +83,6 @@ def _entry_from(a, when):
     if isinstance(shadow, dict) and shadow.get("call"):
         entry["shadow"] = {key: shadow.get(key) for key in (
             "call", "total", "confidence", "probabilityUp", "modelVersion", "regime")}
-    # 🧪 Research Shadow (PHASE C) — APPEND-ONLY 원칙.
-    # 그 시점에 Research Engine이 실제로 낸 판단을 그대로 보존한다.
-    # 나중에 새 코드가 생겨도 과거 기록을 재계산해서 덮어쓰지 않는다.
-    rs = a.get("researchShadow")
-    if isinstance(rs, dict) and rs.get("researchModelVersion"):
-        horizons = {}
-        for h, hv in (rs.get("horizons") or {}).items():
-            if not isinstance(hv, dict):
-                continue
-            horizons[h] = {
-                "action": hv.get("primaryAction"),
-                "probability": hv.get("probability"),
-                "probabilityCalibrated": hv.get("probabilityCalibrated", False),
-                "maturity": hv.get("maturity"),
-                "performanceStatus": hv.get("performanceStatus"),
-                "reasonCodes": hv.get("reasonCodes"),
-            }
-        entry["research"] = {
-            "modelVersion": rs.get("researchModelVersion"),
-            "featureVersion": rs.get("featureVersion"),
-            "labelVersion": rs.get("labelVersion"),
-            "configHash": rs.get("configHash"),
-            "createdAt": rs.get("createdAt"),
-            "inputTimestamp": rs.get("inputTimestamp"),
-            "quantStatsAsof": rs.get("quantStatsAsof"),
-            "reliability": (rs.get("reliability") or {}).get("grade"),
-            "riskState": (rs.get("risk") or {}).get("state"),
-            "riskHardGate": (rs.get("risk") or {}).get("hardGate"),
-            "horizons": horizons,
-            "source": "live_shadow_oos",   # historical_backtest와 절대 섞지 않는다
-        }
     return entry
 
 
@@ -151,6 +122,141 @@ def archive_auto(hist):
         lst.append(entry); a_add += 1
     print(f"자동분석 아카이브 — 신규 {a_add}건 · 갱신 {a_upd}건 (대상 {len(stocks)}종목)")
     return a_add, a_upd
+
+
+RESEARCH_LOG = "research_history.jsonl"
+
+
+def _research_entry(code, day, rec):
+    """research_shadow.json의 한 종목 기록을 영구 보존용 항목으로 바꾼다.
+
+    Live 당시 실제 Prediction을 그대로 남긴다. 나중에 결과를 알고 나서
+    과거 입력으로 다시 계산해 Candidate 성적을 만드는 일을 막기 위해서다.
+    """
+    # 기록 하나 전체에 공통으로 걸리는 값은 여기 한 번만 둔다.
+    # (Candidate마다 반복하면 파일이 몇 배로 커진다. 아래 기록의 모든 Candidate·
+    #  모든 Horizon에 이 값이 그대로 적용된다는 뜻이다.)
+    out = {"code": str(code), "date": day, "base": rec.get("base"),
+           "baseAt": rec.get("baseAt"), "source": "live_shadow_oos",
+           "probabilityCalibrated": False}
+    v10 = rec.get("v10")
+    if isinstance(v10, dict) and v10.get("researchModelVersion"):
+        out["research"] = {
+            "modelVersion": v10.get("researchModelVersion"),
+            "featureVersion": v10.get("featureVersion"),
+            "labelVersion": v10.get("labelVersion"),
+            "configHash": v10.get("configHash"),
+            "createdAt": v10.get("createdAt"),
+            "inputTimestamp": v10.get("inputTimestamp"),
+            "quantStatsAsof": v10.get("quantStatsAsof"),
+            "riskState": (v10.get("risk") or {}).get("state"),
+            "riskHardGate": (v10.get("risk") or {}).get("hardGate"),
+            "horizons": {h: {
+                "action": hv.get("primaryAction"),
+                "probability": hv.get("probability"),
+                "maturity": hv.get("maturity"),
+            } for h, hv in (v10.get("horizons") or {}).items() if isinstance(hv, dict)},
+        }
+    v11 = rec.get("v11")
+    if isinstance(v11, dict) and v11.get("researchModelVersion"):
+        out["researchV11"] = {
+            "modelVersion": v11.get("researchModelVersion"),
+            "featureVersion": v11.get("featureVersion"),
+            "labelVersion": v11.get("labelVersion"),
+            "configHash": v11.get("configHash"),
+            "createdAt": v11.get("createdAt"),
+            "inputTimestamp": v11.get("inputTimestamp"),
+            "quantStatsAsof": v11.get("quantStatsAsof"),
+            "primarySelection": v11.get("primarySelection"),
+            # ⚠️ 등급 값을 남기지 않는다. 아직 종목을 구분하지 못하는 상태다.
+            "reliabilityStatus": (v11.get("reliability") or {}).get("status"),
+            "riskState": (v11.get("risk") or {}).get("state"),
+            "riskHardGate": (v11.get("risk") or {}).get("hardGate"),
+            # Candidate마다 요구된 식별·버전·시각 정보를 그대로 남긴다.
+            # (chiefScheme·shortSignalMode는 candidateModelId에 그대로 들어 있고,
+            #  status·isRepresentativeModel은 위 primarySelection이 대신한다.)
+            "candidates": {cid: {
+                "candidateModelId": cv.get("candidateModelId"),
+                "predictionTimestamp": cv.get("predictionTimestamp"),
+                "modelVersion": cv.get("modelVersion"),
+                "featureVersion": cv.get("featureVersion"),
+                "labelVersion": cv.get("labelVersion"),
+                "inputTimestamp": cv.get("inputTimestamp"),
+                "horizons": {h: {
+                    "action": hv.get("action"),
+                    "probability": hv.get("probability"),
+                    "maturity": hv.get("maturity"),
+                } for h, hv in (cv.get("horizons") or {}).items() if isinstance(hv, dict)},
+            } for cid, cv in (v11.get("candidates") or {}).items() if isinstance(cv, dict)},
+        }
+    return out
+
+
+def archive_research():
+    """🧪 Research Shadow 판단을 research_history.jsonl에 APPEND-ONLY로 누적한다.
+
+    ⚠️ history.js와 완전히 분리한다. history.js는 브라우저가 내려받는 자료라
+       화면에 쓰지도 않는 Shadow 기록을 얹으면 사용자 트래픽만 늘어난다.
+    ⚠️ HIST_CAP(80건) 절단도 적용하지 않는다. Research 기록은 성숙할 때까지
+       지우면 안 되는 전진검증 자료다.
+    """
+    spath = os.path.join(HERE, "research_shadow.json")
+    if not os.path.exists(spath):
+        return
+    try:
+        shadow = json.load(open(spath, encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as ex:
+        print(f"[경고] research_shadow.json을 읽지 못했습니다 — Research 아카이브 생략: {ex}")
+        return
+    stocks = shadow.get("stocks") or {}
+    if not stocks:
+        return
+
+    lpath = os.path.join(HERE, RESEARCH_LOG)
+    log = {}
+    if os.path.exists(lpath):
+        with open(lpath, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                log.setdefault(str(rec.get("code")), []).append(rec)
+
+    today = datetime.date.today().isoformat()
+    # 🔒 쓰기 전 지문. '어제 이전에 만들어진' Prediction은 무엇도 바뀌면 안 된다.
+    #    오늘 만든 Prediction의 장중 재스냅샷은 허용한다(그 시점엔 결과를 알 수 없다).
+    before = append_only_guard.snapshot(log, today=today)
+
+    gen = str(shadow.get("generatedAt", ""))[:10]
+    added = updated = 0
+    for code, rec in stocks.items():
+        day = (str(rec.get("baseAt") or gen)[:10]) or gen
+        if not day:
+            continue
+        entry = _research_entry(code, day, rec)
+        rows = log.setdefault(str(code), [])
+        idx = next((i for i, r in enumerate(rows) if str(r.get("date")) == day), None)
+        if idx is None:
+            rows.append(entry); added += 1
+        else:
+            rows[idx] = entry; updated += 1
+
+    violations = append_only_guard.guard(log, before, RESEARCH_LOG, today=today)
+    if not violations and before:
+        print(f"APPEND-ONLY 검사 통과 — 과거 Research 기록 {len(before)}건 그대로")
+
+    with open(lpath, "w", encoding="utf-8") as f:
+        for code in sorted(log):
+            for rec in sorted(log[code], key=lambda r: str(r.get("date", ""))):
+                f.write(json.dumps(rec, ensure_ascii=False, separators=(",", ":")) + "\n")
+    total = sum(len(v) for v in log.values())
+    size_mb = os.path.getsize(lpath) / 1048576
+    print(f"{RESEARCH_LOG} 갱신 완료 — 신규 {added}건 · 같은날 갱신 {updated}건 "
+          f"· 누적 {total:,}건 {size_mb:.1f}MB (사이트 미로딩)")
 
 
 def main():
@@ -209,6 +315,10 @@ def main():
     # 🤖 자동분석 전 종목도 '하루 1건'으로 누적(--auto 또는 ARCHIVE_AUTO=1일 때만 — 러너에서 켠다)
     if with_auto:
         archive_auto(hist)
+
+    # 🧪 Research Shadow는 별도 파일에 누적한다(사이트 자료와 완전 분리).
+    if with_auto:
+        archive_research()
 
     # 종목별 시간순 정렬 + 상한(HIST_CAP) 적용 — 정적 사이트라 파일이 무한정 커지지 않게 최근 것만 보존
     for code in hist:
