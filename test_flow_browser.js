@@ -2,10 +2,7 @@ const assert = require('assert');
 const path = require('path');
 const os = require('os');
 const { spawn } = require('child_process');
-const { chromium } = require(path.join(
-  os.homedir(),
-  '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright',
-));
+const { chromium } = require('./test_playwright');
 
 const server = spawn(process.execPath, ['test_static_server.js'], {
   cwd: __dirname,
@@ -31,7 +28,6 @@ async function waitForServer() {
     await waitForServer();
     browser = await chromium.launch({
       headless: true,
-      executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     });
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
     await page.goto('http://127.0.0.1:8877/index.html');

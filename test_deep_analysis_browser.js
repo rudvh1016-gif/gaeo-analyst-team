@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const { chromium } = require('./test_playwright');
 
 function requireState(condition, message) {
   if (!condition) throw new Error(message);
@@ -8,7 +8,6 @@ function requireState(condition, message) {
   const base = process.env.TEST_BASE_URL || 'http://127.0.0.1:8891';
   const browser = await chromium.launch({
     headless: true,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
   });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const errors = [];
