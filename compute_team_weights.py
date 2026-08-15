@@ -70,6 +70,24 @@ def score_call(call, ret):
     return "hit" if abs(ret) <= 5 else "miss"
 
 
+# 🏷️ 점수 의미(semantics)가 바뀐 버전끼리 섞어 학습하지 않는다(요구 7-8).
+#    2026-08-15 hotfix로 QUANT의 RSI·5일수익률 정의가 바뀌었고 TARO가 미성숙 지표를
+#    빼기 시작했다. 그 이전 점수로 학습한 가중치를 새 점수에 이어 붙이면
+#    서로 다른 분석가를 한 사람처럼 취급하는 셈이 된다.
+#    표본이 충분히 쌓이기 전까지는 기존 안정 가중치를 그대로 쓴다(fallback).
+try:
+    from analyze_auto import BASE_MODEL_VERSION, PRE_HOTFIX_BASE
+except Exception:                                   # 순환 import 방지용 안전망
+    BASE_MODEL_VERSION, PRE_HOTFIX_BASE = "base-2026-08-15-parity-hotfix", "PRE_HOTFIX_BASE"
+
+MIN_SAMPLES_NEW_VERSION = 3000   # 새 버전 표본이 이만큼 쌓여야 새로 학습한다
+
+
+def record_base_version(entry):
+    """기록의 기본모델 버전. 없으면 hotfix 이전 기록이다."""
+    return entry.get("baseModelVersion") or PRE_HOTFIX_BASE
+
+
 def main():
     hist = load_js_object(os.path.join(HERE, "history.js"), "LIVE_HISTORY")
     if not hist:
@@ -107,6 +125,24 @@ def main():
     sec = {}
     team_hit = 0
     team_miss = 0
+    version_counts = {}
+    # 어떤 버전으로 학습할지 먼저 정한다. 새 버전 표본이 충분하면 새 버전만,
+    # 아직 모자라면 이전 버전 기록으로 계속 학습한다(급조한 가중치를 만들지 않는다).
+    for _code, _lst in hist.items():
+        if isinstance(_lst, list):
+            for _e in _lst:
+                if isinstance(_e, dict):
+                    v = record_base_version(_e)
+                    version_counts[v] = version_counts.get(v, 0) + 1
+    new_n = version_counts.get(BASE_MODEL_VERSION, 0)
+    if new_n >= MIN_SAMPLES_NEW_VERSION:
+        learn_versions = {BASE_MODEL_VERSION}
+        version_mode = "NEW_VERSION_ONLY"
+    else:
+        learn_versions = {v for v in version_counts if v != BASE_MODEL_VERSION}
+        version_mode = "PRE_HOTFIX_FALLBACK"
+    print(f"가중치 학습 버전 — {version_mode} · 새 버전 표본 {new_n:,}건 "
+          f"(기준 {MIN_SAMPLES_NEW_VERSION:,}건) · 버전 분포 {version_counts}")
     for code, lst in hist.items():
         if not re.match(r"^\d{6}$", str(code)) or not isinstance(lst, list):
             continue
@@ -116,6 +152,10 @@ def main():
             day = str(e.get("date", ""))[:10]
             if not base or not day:
                 continue
+            if record_base_version(e) not in learn_versions:
+                continue            # 다른 버전 점수와 섞지 않는다
+            if e.get("judgmentWithheld") or e.get("call") == "JUDGMENT_WITHHELD":
+                continue            # 판단 보류는 채점 대상이 아니다
             team_ret = eval_ret(code, day, base, 5)
             team_score = score_call(e.get("call"), team_ret) if team_ret is not None else None
             if team_score == "hit":
