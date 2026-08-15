@@ -1,0 +1,326 @@
+{
+ "budget": {
+  "byKind": {
+   "detail": 0,
+   "financial": 4,
+   "list": 2,
+   "mapping": 1,
+   "other": 0
+  },
+  "day": "2026-08-15",
+  "hard_limit": 10000,
+  "normal_target_per_day": 500,
+  "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
+  "remaining": 9993,
+  "requests_today": 7,
+  "runs_today": 1,
+  "soft_budget": 8000,
+  "status": "BUDGET_OK",
+  "usage_pct_of_hard_limit": 0.07
+ },
+ "connection": {
+  "connectionStatus": "OK",
+  "corpCode": {
+   "bytes": 3596918,
+   "error": null,
+   "status": "OK"
+  },
+  "list": {
+   "dartMessage": "조회된 데이타가 없습니다.",
+   "dartStatus": "013",
+   "error": null,
+   "status": "OK",
+   "totalCount": null,
+   "totalPage": null
+  },
+  "secretPresent": true
+ },
+ "filings": {
+  "coverageReasons": [],
+  "errors": [],
+  "eventState": "NO_OFFICIAL_EVENT_DETECTED",
+  "gaeoEventSamples": [],
+  "pagination": {
+   "coverage_complete": true,
+   "incomplete_reasons": [],
+   "page_limit": 30,
+   "pages_fetched": 1,
+   "total_pages_reported": null
+  },
+  "stats": {
+   "duplicate_skipped": 0,
+   "list_requests": 1,
+   "matched_gaeo_filings": 0,
+   "new_filings_detected": 0,
+   "pages_fetched": 1,
+   "unmatched_filings": 0
+  },
+  "status": "OK"
+ },
+ "financials": {
+  "probes": [
+   {
+    "accountRows": 229,
+    "attempts": [
+     {
+      "accountRows": 229,
+      "dartStatus": "000",
+      "fsDiv": "CFS",
+      "status": "OK",
+      "year": "2025"
+     }
+    ],
+    "coverage": 1.0,
+    "found": [
+     "revenue",
+     "costOfSales",
+     "grossProfit",
+     "operatingIncome",
+     "netIncome",
+     "totalAssets",
+     "totalLiabilities",
+     "totalEquity",
+     "operatingCashFlow",
+     "investingCashFlow"
+    ],
+    "fsDiv": "CFS",
+    "hasAccountId": true,
+    "hasAccountNm": true,
+    "label": "일반 제조/반도체",
+    "missing": [],
+    "name": "삼성전자",
+    "sampleAccountNames": [
+     "자산총계",
+     "유동자산",
+     "미수금",
+     "현금및현금성자산",
+     "단기상각후원가금융자산",
+     "단기당기손익-공정가치금융자산",
+     "선급비용",
+     "매출채권",
+     "재고자산",
+     "매각예정분류자산",
+     "기타유동자산",
+     "단기금융상품",
+     "비유동자산",
+     "이연법인세자산",
+     "무형자산"
+    ],
+    "sjDivValues": [
+     "BS",
+     "CF",
+     "CIS",
+     "IS",
+     "SCE"
+    ],
+    "status": "OK",
+    "ticker": "005930",
+    "year": "2025"
+   },
+   {
+    "accountRows": 312,
+    "attempts": [
+     {
+      "accountRows": 312,
+      "dartStatus": "000",
+      "fsDiv": "CFS",
+      "status": "OK",
+      "year": "2025"
+     }
+    ],
+    "coverage": 0.9,
+    "found": [
+     "revenue",
+     "costOfSales",
+     "grossProfit",
+     "operatingIncome",
+     "totalAssets",
+     "totalLiabilities",
+     "totalEquity",
+     "operatingCashFlow",
+     "investingCashFlow"
+    ],
+    "fsDiv": "CFS",
+    "hasAccountId": true,
+    "hasAccountNm": true,
+    "label": "일반 제조/자동차",
+    "missing": [
+     "netIncome"
+    ],
+    "name": "현대차",
+    "sampleAccountNames": [
+     "자산총계",
+     "유동자산",
+     "금융업채권",
+     "현금및현금성자산",
+     "당기법인세자산",
+     "매출채권",
+     "재고자산",
+     "매각예정비유동자산",
+     "기타자산",
+     "기타금융자산",
+     "기타채권",
+     "단기금융상품",
+     "비유동자산",
+     "장기금융상품",
+     "금융업채권"
+    ],
+    "sjDivValues": [
+     "BS",
+     "CF",
+     "CIS",
+     "IS",
+     "SCE"
+    ],
+    "status": "OK",
+    "ticker": "005380",
+    "year": "2025"
+   },
+   {
+    "accountRows": 239,
+    "attempts": [
+     {
+      "accountRows": 239,
+      "dartStatus": "000",
+      "fsDiv": "CFS",
+      "status": "OK",
+      "year": "2025"
+     }
+    ],
+    "coverage": 0.8,
+    "found": [
+     "revenue",
+     "operatingIncome",
+     "netIncome",
+     "totalAssets",
+     "totalLiabilities",
+     "totalEquity",
+     "operatingCashFlow",
+     "investingCashFlow"
+    ],
+    "fsDiv": "CFS",
+    "hasAccountId": true,
+    "hasAccountNm": true,
+    "label": "서비스/인터넷",
+    "missing": [
+     "costOfSales",
+     "grossProfit"
+    ],
+    "name": "NAVER",
+    "sampleAccountNames": [
+     "자산총계",
+     "유동자산",
+     "당기손익-공정가치 측정 금융자산",
+     "현금및현금성자산",
+     "당기법인세자산",
+     "재고자산",
+     "매각예정비유동자산",
+     "기타유동자산",
+     "단기금융상품",
+     "매출채권및기타채권",
+     "비유동자산",
+     "장기금융상품",
+     "당기손익-공정가치 측정 금융자산",
+     "이연법인세자산",
+     "무형자산"
+    ],
+    "sjDivValues": [
+     "BS",
+     "CF",
+     "CIS",
+     "SCE"
+    ],
+    "status": "OK",
+    "ticker": "035420",
+    "year": "2025"
+   },
+   {
+    "accountRows": 349,
+    "attempts": [
+     {
+      "accountRows": 349,
+      "dartStatus": "000",
+      "fsDiv": "CFS",
+      "status": "OK",
+      "year": "2025"
+     }
+    ],
+    "coverage": 0.5,
+    "found": [
+     "operatingIncome",
+     "netIncome",
+     "totalAssets",
+     "totalLiabilities",
+     "totalEquity"
+    ],
+    "fsDiv": "CFS",
+    "hasAccountId": true,
+    "hasAccountNm": true,
+    "label": "금융/은행",
+    "missing": [
+     "revenue",
+     "costOfSales",
+     "grossProfit",
+     "operatingCashFlow",
+     "investingCashFlow"
+    ],
+    "name": "KB금융",
+    "sampleAccountNames": [
+     "현금 및 예치금",
+     "상각후원가 측정 대출채권",
+     "매각예정자산",
+     "매각예정처분자산집단",
+     "투자금융자산",
+     "자산총계",
+     "당기법인세자산",
+     "이연법인세자산",
+     "파생상품자산",
+     "당기손익-공정가치 측정 금융자산",
+     "보험계약자산",
+     "무형자산",
+     "관계기업 및 공동기업 투자",
+     "투자부동산",
+     "기타자산"
+    ],
+    "sjDivValues": [
+     "BS",
+     "CF",
+     "CIS",
+     "SCE"
+    ],
+    "status": "OK",
+    "ticker": "105560",
+    "year": "2025"
+   }
+  ],
+  "status": "OK"
+ },
+ "finishedAt": "2026-08-15T13:31:14.705161+00:00",
+ "kstToday": "2026-08-15",
+ "mapping": {
+  "ambiguousCount": 0,
+  "ambiguousSamples": [],
+  "dartCompanies": 118712,
+  "mappedCount": 499,
+  "mappingRate": 0.998,
+  "status": "OK",
+  "universeCount": 500,
+  "unknownCount": 1,
+  "unknownSamples": [
+   {
+    "name": "삼성전기우",
+    "reason": "DART에 같은 종목코드가 없음",
+    "ticker": "009155"
+   }
+  ]
+ },
+ "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
+ "ranAt": "2026-08-15T13:30:59.528135+00:00",
+ "usage": {
+  "api_errors": 0,
+  "bytes_received": 4159230,
+  "detail_requests": 4,
+  "no_data_responses": 2,
+  "requests_per_run": 7
+ }
+}
