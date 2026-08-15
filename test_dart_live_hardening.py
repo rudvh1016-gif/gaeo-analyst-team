@@ -19,6 +19,7 @@ import dart_budget
 import dart_client as C
 import dart_pipeline as P
 import dart_time as T
+import research_crypto as CR
 import research_store as S
 
 
@@ -154,9 +155,15 @@ class DurableWrite(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="gaeo-durable-")
         self.seen = os.path.join(self.tmp, "seen.json")
+        self._saved_key = os.environ.get(CR.KEY_ENV)
+        os.environ[CR.KEY_ENV] = CR.generate_key_b64()
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
+        if self._saved_key is None:
+            os.environ.pop(CR.KEY_ENV, None)
+        else:
+            os.environ[CR.KEY_ENV] = self._saved_key
 
     def _collect(self, client=None):
         cmap = P.build_corp_map(DART_ROWS, UNIVERSE)
@@ -387,10 +394,16 @@ def _dart_event(no, day="2026-08-15"):
 class DartArchiveSchema(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="gaeo-dartarc-")
+        self._saved_key = os.environ.get(CR.KEY_ENV)
+        os.environ[CR.KEY_ENV] = CR.generate_key_b64()
         self.store = S.ResearchArchiveStore(root=self.tmp, record_type=S.RECORD_DART)
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
+        if self._saved_key is None:
+            os.environ.pop(CR.KEY_ENV, None)
+        else:
+            os.environ[CR.KEY_ENV] = self._saved_key
 
     def test_dart_event_passes_dart_validator(self):
         day = "2026-08-15"
@@ -403,7 +416,7 @@ class DartArchiveSchema(unittest.TestCase):
         """스키마를 안 나눴다면 정상 Event가 손상으로 잡혔을 것이다."""
         day = "2026-08-15"
         wrong = S.ResearchArchiveStore(root=os.path.join(self.tmp, "w"),
-                                       record_type=S.RECORD_RESEARCH)
+                                       record_type=S.RECORD_RESEARCH)   # 잘못된 스키마
         wrong.append_predictions(day, [_dart_event("A1")], today=day)
         wrong.close_daily_segment(day, today="2026-08-16")
         v = wrong.verify_archive(day)
@@ -444,6 +457,8 @@ class DartArchiveIntegration(unittest.TestCase):
 
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="gaeo-dartint-")
+        self._saved_key = os.environ.get(CR.KEY_ENV)
+        os.environ[CR.KEY_ENV] = CR.generate_key_b64()
         self.store = S.ResearchArchiveStore(root=self.tmp, record_type=S.RECORD_DART)
         self.day = "2026-08-15"
         self.n = 120
@@ -453,6 +468,10 @@ class DartArchiveIntegration(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
+        if self._saved_key is None:
+            os.environ.pop(CR.KEY_ENV, None)
+        else:
+            os.environ[CR.KEY_ENV] = self._saved_key
 
     def test_full_cycle(self):
         self.store.close_daily_segment(self.day, today="2026-08-16")
@@ -462,8 +481,9 @@ class DartArchiveIntegration(unittest.TestCase):
 
         gz = self.store.segment_path(self.day, True)
         self.assertTrue(os.path.exists(gz))
-        with gzip.open(gz, "rt", encoding="utf-8") as f:
-            rows = [json.loads(l) for l in f if l.strip()]
+        self.assertTrue(gz.endswith(".gz.enc"), "DART Raw도 암호화돼야 한다")
+        text = S._read_text(gz, self.store._label(self.day))
+        rows = [json.loads(l) for l in text.splitlines() if l.strip()]
         self.assertEqual(len(rows), self.n)
         self.assertEqual(rows[0]["source"], "OPENDART")
 

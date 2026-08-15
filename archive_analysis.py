@@ -14,6 +14,7 @@
 import re, json, os, datetime, sys
 
 import append_only_guard
+import research_crypto
 import research_store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -65,6 +66,10 @@ def _entry_from(a, when):
         "baseAt": a.get("baseAt"),          # 그 주가의 시점
         "target": chief.get("target", ""),
         "modelVersion": chief.get("modelVersion"),
+        # 🏷️ 기본모델 버전 — 점수 의미가 바뀐 뒤 기록을 섞어 학습하지 않기 위해 남긴다.
+        #    이 필드가 없는 과거 기록은 읽을 때 PRE_HOTFIX_BASE로 본다.
+        "baseModelVersion": chief.get("baseModelVersion"),
+        "judgmentWithheld": chief.get("judgmentWithheld") or None,
         "reboundCheck": chief.get("reboundCheck"),
     }
     for k in ("taro", "diana", "nova", "flow"):
@@ -187,6 +192,39 @@ def _research_entry(code, day, rec):
                 } for h, hv in (cv.get("horizons") or {}).items() if isinstance(hv, dict)},
             } for cid, cv in (v11.get("candidates") or {}).items() if isinstance(cv, dict)},
         }
+    v20 = rec.get("v20")
+    if isinstance(v20, dict) and v20.get("researchModelVersion"):
+        out["researchV20"] = {
+            "modelVersion": v20.get("researchModelVersion"),
+            "featureVersion": v20.get("featureVersion"),
+            "labelVersion": v20.get("labelVersion"),
+            "configHash": v20.get("configHash"),
+            "inheritedFrom": v20.get("inheritedFrom"),
+            "inheritedConfigHash": v20.get("inheritedConfigHash"),
+            "createdAt": v20.get("createdAt"),
+            "inputTimestamp": v20.get("inputTimestamp"),
+            "primarySelection": v20.get("primarySelection"),
+            # DART 맥락은 '무엇을 알 수 있었는가'만. 점수가 아니다.
+            "dart": {k: (v20.get("dart") or {}).get(k) for k in
+                     ("visibleEventCount", "hiddenNotYetDetected", "hasOfficialEvent",
+                      "correctionCount", "coverageState")},
+            "candidates": {cid: {
+                "candidateModelId": cv.get("candidateModelId"),
+                "pairedWith": cv.get("pairedWith"),
+                "predictionTimestamp": cv.get("predictionTimestamp"),
+                "modelVersion": cv.get("modelVersion"),
+                "featureVersion": cv.get("featureVersion"),
+                "labelVersion": cv.get("labelVersion"),
+                "inputTimestamp": cv.get("inputTimestamp"),
+                "dartContextApplied": cv.get("dartContextApplied"),
+                "horizons": {h: {"action": hv.get("action"),
+                                 "probability": hv.get("probability"),
+                                 "maturity": hv.get("maturity")}
+                             for h, hv in (cv.get("horizons") or {}).items()
+                             if isinstance(hv, dict)},
+            } for cid, cv in (v20.get("candidates") or {}).items() if isinstance(cv, dict)},
+            "source": "live_shadow_oos",
+        }
     return out
 
 
@@ -214,6 +252,12 @@ def archive_research():
     if not stocks:
         return
 
+    # 🔐 Key가 없으면 Research 기록을 아예 남기지 않는다(FAIL CLOSED).
+    #    평문으로 public repo에 커밋하느니 이번 회차 기록을 포기한다.
+    if research_crypto.key_status() != research_crypto.OK:
+        print(f"[Research] {research_crypto.KEY_ENV} 상태 {research_crypto.key_status()} — "
+              f"평문 저장을 하지 않고 이번 회차 Research 아카이브를 건너뜁니다(FAIL CLOSED).")
+        return
     store = research_store.ResearchArchiveStore()
     today = datetime.date.today().isoformat()
     gen = str(shadow.get("generatedAt", ""))[:10]

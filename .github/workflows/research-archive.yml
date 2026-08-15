@@ -18,6 +18,9 @@ on:
   schedule:
     - cron: "10 20 * * 1"
 
+env:
+  RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
+
 permissions:
   contents: write
 
@@ -38,6 +41,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: 암호화 라이브러리 설치 (Research Raw 저장에 필요)
+        run: python3 -m pip install --quiet --upgrade cryptography
 
       - name: Archive 무결성 테스트
         run: python3 test_research_store.py

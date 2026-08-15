@@ -1,0 +1,27 @@
+{
+ "asof": "2026-08-15",
+ "compressedBytesToday": 0,
+ "compressedToday": [
+  {
+   "compressedBytes": 52943,
+   "compressionRatio": 0.015,
+   "day": "2026-08-14",
+   "rawBytes": 3528645,
+   "recordCount": 500,
+   "status": "OK"
+  }
+ ],
+ "compressionRatio": 0.015,
+ "dailyGrowthAverageBytes": 52943,
+ "estimated30dBytes": 1588290,
+ "estimated365dBytes": 19324195,
+ "estimated90dBytes": 4764870,
+ "integrityErrors": [],
+ "newRecordsToday": 0,
+ "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
+ "observedDays": 1,
+ "projectedDailyBytes": 52943,
+ "rawBytesToday": 0,
+ "status": "OK",
+ "totalArchiveBytes": 52943
+}

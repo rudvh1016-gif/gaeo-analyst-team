@@ -19,6 +19,7 @@
 실행 : python3 analyze_auto.py   (워크플로우에서 compute_indicators.py 다음에 실행)
 """
 import json, re, os, datetime, time, tempfile, urllib.request
+import indicator_math
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -121,23 +122,67 @@ def _gap_score(gap, weight, cap, plateau_end, decay):
 
 
 # ── TARO(기술): 이동평균 위치 + RSI + MACD + 거래량 ─────────────────────────
+# ── 기본모델 버전 (7-8) ──────────────────────────────────────────────────────
+# ⚠️ 이번에 TARO·QUANT·FLOW의 점수 의미(semantics)가 바뀌었다.
+#    과거 점수로 학습한 team_weights를 새 점수에 그대로 이어 학습시키면 안 된다.
+#    판단마다 아래 버전을 남겨, 가중치 학습이 같은 버전 기록만 쓰도록 한다.
+#    modelVersion이 없는 과거 기록은 읽을 때 PRE_HOTFIX_BASE로 구분한다
+#    (과거 파일을 대규모로 다시 쓰지는 않는다).
+BASE_MODEL_VERSION = "base-2026-08-15-parity-hotfix"
+PRE_HOTFIX_BASE = "PRE_HOTFIX_BASE"
+COMPONENT_VERSIONS = {
+    "taro": "taro-2026-08-15-maturity-gate",     # 부분 MA·미성숙 지표 제외
+    "diana": "diana-2026-07-baseline",           # 이번에 안 바꿈
+    "quant": "quant-2026-08-15-parity",          # Wilder RSI + 5거래일 ret5 통일
+    "flow": "flow-2026-07-baseline",             # 이번에 안 바꿈(후보 검증 중)
+    "risk": "risk-2026-07-baseline",             # 이번에 안 바꿈(후보 검증 중)
+    "chief": "chief-2026-08-15-availability",    # 결측 분석가 가중치 재정규화
+}
+
+
+# 각 기술 지표가 '정식으로 쓸 수 있는 상태'인지 판정하는 최소 데이터 요건.
+# ⚠️ 상장한 지 얼마 안 돼 54일치밖에 없는 종목의 평균을 MA60처럼 쓰면
+#    가짜로 강한 TARO 점수가 나온다. 화면에는 보여줄 수 있어도 점수에는 못 쓴다.
+TARO_MIN_RSI_DAYS = 15        # Wilder RSI14는 종가 15개 이상 필요
+TARO_MIN_MACD_DAYS = 34       # EMA26 + 시그널 EMA9 워밍업
+
+
+def taro_readiness(t):
+    """지표별 사용 가능 여부. 부족한 것은 점수에서 빼고 이유를 남긴다."""
+    days = t.get("bars") or t.get("dailyCount")
+    return {
+        # ma20Full/ma60Full은 compute_indicators가 이미 계산해 준다.
+        "ma20": bool(t.get("ma20Full")) and t.get("ma20Gap") is not None,
+        "ma60": bool(t.get("ma60Full")) and t.get("ma60Gap") is not None,
+        "rsi14": t.get("rsi14") is not None and t.get("rsi14Ready", True),
+        "macd": (t.get("macd") is not None and t.get("macdSignal") is not None
+                 and (days is None or days >= TARO_MIN_MACD_DAYS)),
+    }
+
+
 def taro_eval(t):
     s = 50.0
+    ready = taro_readiness(t)
     g20, g60 = t.get("ma20Gap"), t.get("ma60Gap")
-    if g20 is not None:
+    # ⚠️ 기간을 못 채운 부분 이동평균(ma20Full/ma60Full == False)은 정식 MA로 쓰지 않는다.
+    #    54일치 평균을 MA60처럼 취급하면 신규상장주가 가짜로 강한 점수를 얻는다.
+    if ready["ma20"]:
         s += _gap_score(g20, 1.1, 14, plateau_end=25, decay=1.0)
-    if g60 is not None:
+    if ready["ma60"]:
         s += _gap_score(g60, 0.7, 10, plateau_end=20, decay=1.0)
     rsi = t.get("rsi14")
-    if rsi is not None:
+    if ready["rsi14"]:
         if rsi >= 70:   s += 3      # 과매수(강하나 과열 주의)
         elif rsi >= 55: s += 9
         elif rsi >= 45: s += 2
         elif rsi >= 30: s -= 4
         else:           s -= 1      # 과매도(반등 여지)
     macd, sig = t.get("macd"), t.get("macdSignal")
-    golden = macd is not None and sig is not None and macd >= sig
-    s += 9 if golden else -8
+    golden = ready["macd"] and macd >= sig
+    # ⚠️ 워밍업이 모자란 MACD를 '데드크로스'로 단정하지 않는다.
+    #    예전에는 값이 없어도 무조건 -8점을 줬다(없음 = 악재로 취급).
+    if ready["macd"]:
+        s += 9 if golden else -8
     # ⭐ 2026-08-07: 이동평균 골든/데드크로스(5·20일선, 20·60일선)도 점수에 반영한다.
     # compute_indicators.py가 계산한 cross5_20/cross20_60을 그대로 쓴다(중복 계산 없음).
     # 막 일어난 교차일수록 크게, CROSS_LOOKBACK(20거래일)에 가까워질수록 약하게(decay) 반영해
@@ -182,9 +227,16 @@ def taro_eval(t):
     elif vr is not None:
         vzone = "활발" if vr >= 1.3 else ("보통" if vr >= 0.7 else "한산")
         f.append(f"거래량은 20일 평균의 {vr:.2f}배 — 거래 강도 {vzone}")
+    not_ready = [k for k, v in ready.items() if not v]
+    if not_ready:
+        names = {"ma20": "20일선", "ma60": "60일선", "rsi14": "RSI", "macd": "MACD"}
+        f.append("상장 기간이 짧아 " + "·".join(names[k] for k in not_ready)
+                 + " 신호는 아직 점수에 넣지 않았습니다")
     while len(f) < 4:
         f.append("추가 지표는 다음 수집에서 보강됩니다")
-    return {"score": score, "stance": stance_of(score), "findings": f[:4]}
+    return {"score": score, "stance": stance_of(score), "findings": f[:4],
+            "ready": ready, "notReady": not_ready,
+            "usedSignals": sorted(k for k, v in ready.items() if v)}
 
 
 # ── DIANA(재무): PER/PBR/ROE + 선행PER + 컨센 목표주가 ───────────────────────
@@ -260,7 +312,10 @@ def diana_eval(e):
 # ── FLOW(수급): 외국인·기관 순매매 + 보유율 추이 ────────────────────────────
 def flow_eval(fl):
     if not fl:
-        return {"score": 50, "stance": "neu",
+        # ⚠️ 예전에는 50점을 돌려주고 "채점에서 제외"라고 적었지만, CHIEF가 그 50점을
+        #    실제로 가중합에 넣고 있었다. 진짜 제외가 아니었다.
+        #    이제 available=False를 명시하고 CHIEF가 가중치를 재정규화한다.
+        return {"score": None, "available": False, "stance": "neu",
                 "findings": ["수급(외국인·기관 순매매) 데이터가 아직 수집되지 않았습니다",
                              "다음 자동 수집에서 dealTrends가 채워지면 반영됩니다",
                              "현재는 중립으로 처리 — 채점에서 제외", "—"]}
@@ -273,6 +328,7 @@ def flow_eval(fl):
         s += max(-6, min(6, (hn - hb) * 3))
     quality = fl.get("qualityScore")
     score = clamp(s)
+    available = True
     n = fl.get("days", 0)
     f = [
         f"최근 {n}거래일 외국인 {'순매수' if fr >= 0 else '순매도'} {abs(fr):,}주 · 기관 {'순매수' if org >= 0 else '순매도'} {abs(org):,}주"
@@ -291,7 +347,8 @@ def flow_eval(fl):
                   "confirmation_down": "가격 하락과 큰손 매도가 함께 가는 하락 확인"}
         combo_text += f" · 수급 품질 {quality:+.0f}점 · {labels.get(fl.get('divergence'), '가격·수급 방향 중립')}"
     f.append(combo_text)
-    return {"score": score, "stance": stance_of(score), "findings": f[:4]}
+    return {"score": score, "available": available,
+            "stance": stance_of(score), "findings": f[:4]}
 
 
 # ── QUANT(확률·통계, 내부 id는 호환성 위해 'nova' 유지): 경험적 승률 ─────────
@@ -352,18 +409,15 @@ def build_quant_stats(analysis_data, sectors=None):
         n = len(closes)
         # 워밍업 20일(RSI/MA20) 확보 + 결과 확인용 5일 남기기
         for i in range(20, n - 5):
-            past = closes[: i + 1]
-            gains, losses = [], []
-            for j in range(max(1, i - 14), i + 1):
-                ch = closes[j] - closes[j - 1]
-                gains.append(max(ch, 0)); losses.append(max(-ch, 0))
-            al = sum(losses) / len(losses) if losses else 0
-            ag = sum(gains) / len(gains) if gains else 0
-            rsi = 100 - 100 / (1 + ag / al) if al else 100.0
-            ma20 = sum(past[-20:]) / 20
-            if not closes[i - 5]:
+            # ⚠️ Live와 같은 식을 써야 한다. 예전에는 여기서 RSI를 '최근 14변화의
+            #    단순 평균'으로 계산했는데, 실시간 지표는 Wilder 평활이었다.
+            #    같은 날짜인데 값이 달라 QUANT가 엉뚱한 과거 사례와 매칭됐다.
+            #    5일 수익률도 Live는 4거래일 간격이라 정의가 어긋나 있었다.
+            #    indicator_math.state_at()이 두 경로를 하나로 묶는다.
+            st = indicator_math.state_at(closes, i)
+            rsi, tr5, ma20 = st["rsi14"], st["ret5"], st["ma20"]
+            if rsi is None or tr5 is None or ma20 is None:
                 continue
-            tr5 = (closes[i] - closes[i - 5]) / closes[i - 5] * 100
             z, _ = _rsi_zone(rsi)
             m = 1 if closes[i] >= ma20 else 0
             t, _ = _trend5_zone(tr5)
@@ -446,12 +500,17 @@ QUANT_SECTOR_BLEND_CAP = 0.75  # 업종 표본이 아무리 많아도 전역값 
 def quant_eval(e, t, qstats, sector=None):
     rsi = t.get("rsi14")
     g20 = t.get("ma20Gap")
-    last5 = t.get("last5") or []
-    tr5 = None
-    if len(last5) >= 2 and last5[0].get("c"):
-        tr5 = (last5[-1]["c"] - last5[0]["c"]) / last5[0]["c"] * 100
+    # ⚠️ last5(종가 5개 = 4거래일 간격)로 다시 계산하지 않는다.
+    #    과거 통계는 5거래일 간격이라 정의가 달라진다.
+    #    compute_indicators가 만든 ret5(5거래일 간격) 필드를 그대로 쓴다.
+    tr5 = t.get("ret5")
+    if tr5 is None:
+        last5 = t.get("last5") or []
+        if len(last5) >= 2 and last5[0].get("c"):
+            # 구버전 indicators.json 호환. 간격이 달라 정확도가 떨어지므로 표시로 남긴다.
+            tr5 = (last5[-1]["c"] - last5[0]["c"]) / last5[0]["c"] * 100
     if rsi is None or g20 is None or tr5 is None or not qstats:
-        return {"score": 50, "stance": "neu", "findings": [
+        return {"score": None, "available": False, "stance": "neu", "findings": [
             "📊 QUANT — 과거 통계 조회에 필요한 지표가 아직 부족합니다",
             "다음 자동 수집에서 RSI·이동평균·최근 추세가 채워지면 승률이 계산됩니다",
             "현재는 중립(50점)으로 처리 — 채점에서 제외", "—"],
@@ -473,7 +532,7 @@ def quant_eval(e, t, qstats, sector=None):
     if b is None:
         b, used = qstats.get("all", {"n": 0, "w": 0, "sum": 0.0}), "시장 전체"
     if not b["n"]:
-        return {"score": 50, "stance": "neu", "findings": [
+        return {"score": None, "available": False, "stance": "neu", "findings": [
             "📊 QUANT — 아직 통계 표본이 없습니다", "데이터가 쌓이면 승률이 계산됩니다",
             "현재는 중립(50점) 처리", "—"],
             "sampleN": None, "sampleWin": None, "winRate": None, "marketAvgWinRate": None,
@@ -519,7 +578,7 @@ def quant_eval(e, t, qstats, sector=None):
     # ⭐ 2026-08-08: findings 문장 속에 숫자를 파묻지 않고, 화면(index.html)이 카드로 재조립할 수
     # 있도록 같은 숫자를 구조화된 필드로도 함께 내려준다. 문장(findings)·점수(score)는 그대로다.
     period = qstats.get("_period") or {}
-    return {"score": score, "stance": stance_of(score), "findings": f[:4],
+    return {"score": score, "available": True, "stance": stance_of(score), "findings": f[:4],
             "sampleN": b["n"], "sampleWin": b["w"], "winRate": round(wr, 1),
             "marketAvgWinRate": round(market_wr, 1),
             "sector": sector, "sectorWinRate": round(sector_wr, 1) if sector_wr is not None else None,
@@ -582,6 +641,13 @@ def _confidence_candidate(confidence_model, call, total):
 
 
 def candidate_chief_eval(e, taro, diana, nova, flow, weights, model):
+    """🗄️ ARCHIVED_FAILED_EXPERIMENT — 구형 그림자모델(calibrated-ensemble-v3).
+
+    ⚠️ 2026-08-15 퇴출. main 경로에서 더 이상 호출하지 않는다.
+       실측에서 SELL이 전체의 41%로 치우쳤고, 상승장 SELL 적중률이 9.4%까지
+       떨어졌다(하락장 85.9%). 승격 기준을 통과한 적이 없다.
+       함수 자체는 과거 기록 재현·감사를 위해 남겨 두지만 신규 예측은 만들지 않는다.
+    """
     """v3 그림자 후보. 승격 기준을 통과하기 전에는 화면 판단을 바꾸지 않는다."""
     regime = (e.get("marketRegime") or {}).get("key") or (model.get("currentRegime") or {}).get("key")
     regime_weights = (((model.get("regimes") or {}).get(regime) or {}).get("weights") or weights)
@@ -668,16 +734,54 @@ def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
     }
 
 
+# 사용 가능한 분석축이 이보다 적으면 억지로 판단하지 않는다.
+# ⚠️ 데이터 부족은 중립 신호가 아니다. 모르면 모른다고 해야 한다.
+MIN_AVAILABLE_ANALYSTS = 2
+JUDGMENT_WITHHELD = "JUDGMENT_WITHHELD"
+
+
+def _available_scores(taro, diana, nova, flow):
+    """점수를 실제로 낸 분석가만 골라낸다.
+
+    ⚠️ available이 False이거나 score가 None이면 가중합에 넣지 않는다.
+       예전에는 50점을 넣어 '중립 한 표'를 행사하게 했는데, 그건 제외가 아니다.
+    """
+    out = {}
+    for name, a in (("taro", taro), ("diana", diana), ("nova", nova), ("flow", flow)):
+        if not isinstance(a, dict):
+            continue
+        if a.get("available") is False:
+            continue
+        sc = a.get("score")
+        if sc is None:
+            continue
+        out[name] = sc
+    return out
+
+
 def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_policy=None, confidence_model=None):
     w = {k: weights.get(k, BASE_W[k]) for k in ("taro", "diana", "nova", "flow")}
-    tot_w = sum(w.values()) or 1.0
-    raw_total = clamp((taro["score"] * w["taro"] + diana["score"] * w["diana"]
-                       + nova["score"] * w["nova"] + flow["score"] * w["flow"]) / tot_w)
+    usable = _available_scores(taro, diana, nova, flow)
+    # 사용 가능한 분석가의 가중치만 모아 100%로 다시 정규화한다.
+    # 예: QUANT가 없으면 그 지분을 0으로 두는 게 아니라, 남은 셋의 비율을 다시 맞춘다.
+    tot_w = sum(w[k] for k in usable) or 0.0
+    if len(usable) < MIN_AVAILABLE_ANALYSTS or tot_w <= 0:
+        # 분석축이 너무 적다. 가짜 HOLD를 만들지 않고 판단을 보류한다.
+        return {"call": JUDGMENT_WITHHELD, "total": None, "confidence": None,
+                "available": sorted(usable), "availableCount": len(usable),
+                "judgmentWithheld": True,
+                "withheldReason": "INSUFFICIENT_ANALYST_COVERAGE",
+                "baseModelVersion": BASE_MODEL_VERSION,
+                "componentVersions": dict(COMPONENT_VERSIONS),
+                "reason": (f"판단에 쓸 수 있는 분석축이 {len(usable)}개뿐이라 "
+                           f"이번 회차 판단을 보류합니다. 데이터가 채워지면 다시 계산합니다."),
+                "target": "", "report": "데이터 부족으로 판단 보류", "findings": []}
+    raw_total = clamp(sum(usable[k] * w[k] for k in usable) / tot_w)
     risk = risk_overlay(e.get("risk"))
     total = clamp(raw_total - risk["penalty"])
     rebound_check = rebound_regime_confirmation(e, taro, nova, risk, guard_policy)
     call = "BUY" if total >= 63 else ("HOLD" if total >= rebound_check["sellThreshold"] else "SELL")
-    scores = [taro["score"], diana["score"], nova["score"], flow["score"]]
+    scores = list(usable.values())
     spread = max(scores) - min(scores)
     conf = clamp(max(40, 88 - spread) - risk["confidencePenalty"], 30, 90)
     # ⭐ 2026-08-14: 위 conf(의견 일치도 기반)가 BUY 판단에서는 실제 적중률과 거의
@@ -686,11 +790,14 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     # confidenceModel.promotion.qualified가 검증(학습에 안 쓴 구간)을 통과했을 때만
     # 실제 신뢰도(conf)를 이 후보로 교체한다. reboundGuard·v3와 동일한 원칙 — 화면 값을
     # 검증 전에 먼저 바꾸지 않는다.
+    # ⚠️ 2026-08-15: 자동승격 제거. 후보 신뢰도는 기록만 하고 화면 값을 바꾸지 않는다.
+    #    프로그램이 스스로 Production을 교체하는 경로는 전부 없앴다.
+    #    기준을 충족하면 상태만 PROMOTION_REVIEW_AVAILABLE로 보고하고,
+    #    실제 적용은 사람이 승인한 뒤 별도 작업으로 한다.
     conf_candidate = _confidence_candidate(confidence_model, call, total)
-    conf_model_qualified = bool(((confidence_model or {}).get("promotion") or {}).get("qualified"))
+    conf_review = bool(((confidence_model or {}).get("promotion") or {}).get("qualified"))
     conf_shadow = conf_candidate if conf_candidate is not None else conf
-    if conf_model_qualified and conf_candidate is not None:
-        conf = conf_candidate
+    conf_model_qualified = False        # 자동 적용 금지
     tgap = e.get("targetGap")
     tgt = (f"증권사 평균 목표주가 {won(e.get('targetMean'))} (현재가 대비 {tgap:+.1f}% 상승여력)"
            if tgap is not None else "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고")
@@ -699,8 +806,10 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     risk_text = (f" RISK 안정도 {risk['score']}점으로 원점수 {raw_total}점에서 "
                  f"{risk['penalty']}점을 감점했습니다." if risk["score"] is not None
                  else " RISK 데이터가 없어 감점 없이 계산했습니다.")
-    reason = (f"자동분석 종합 {total}점({label}). 기술 {taro['score']}·재무 {diana['score']}·"
-              f"퀀트(확률) {nova['score']}·수급 {flow['score']} 점을 "
+    def _sc(a):
+        return a.get("score") if isinstance(a, dict) and a.get("score") is not None else "자료없음"
+    reason = (f"자동분석 종합 {total}점({label}). 기술 {_sc(taro)}·재무 {_sc(diana)}·"
+              f"퀀트(확률) {_sc(nova)}·수급 {_sc(flow)} 점을 "
               + (f"자가 학습 가중치({wtxt} — 최근 적중률 기반 자동 조정)로 합산했습니다. " if learned
                  else "균등 가중치로 합산했습니다. ")
               + risk_text
@@ -710,11 +819,18 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
     return {"call": call, "total": total, "confidence": conf,
-            "confidenceShadow": conf_shadow, "confidenceModelPromoted": conf_model_qualified and conf_candidate is not None,
+            "confidenceShadow": conf_shadow, "confidenceModelPromoted": False,
+            "confidencePromotionStatus": ("PROMOTION_REVIEW_AVAILABLE" if conf_review
+                                          else "SHADOW_ONLY"),
             "rawTotal": raw_total, "riskPenalty": risk["penalty"],
             "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
             "reboundCheck": rebound_check,
             "modelVersion": ("baseline-risk-v2.1-rebound-guard" if rebound_check["active"] else "baseline-risk-v2"),
+            "baseModelVersion": BASE_MODEL_VERSION,
+            "componentVersions": dict(COMPONENT_VERSIONS),
+            "available": sorted(usable), "availableCount": len(usable),
+            "weightRenormalized": len(usable) < 4,
+            "judgmentWithheld": False,
             "reason": reason, "target": tgt, "report": report}
 
 
@@ -790,6 +906,9 @@ def build_run_timestamps(analysis_started_at, ind):
         # 시세 데이터 자체가 표방하는 기준(예: "2026-08-14 종가 (16:10 수집)")
         "priceLabel": ind.get("priceLabel", ""),
         # ⚠️ 아래는 '예정' 값이다. 실제 실행시각으로 사용하면 안 된다.
+        # DART 수집이 이 판단보다 먼저 끝났는지 확인할 수 있게 남긴다.
+        "dartCollectionStartedAt": env("GAEO_DART_COLLECTION_STARTED_AT") or None,
+        "dartCollectionCompletedAt": env("GAEO_DART_COLLECTION_COMPLETED_AT") or None,
         "cronScheduledNominal": env("GAEO_CRON_NOMINAL") or None,
         "githubRunId": env("GITHUB_RUN_ID") or None,
         "githubRunAttempt": env("GITHUB_RUN_ATTEMPT") or None,
@@ -851,6 +970,25 @@ def main():
     except Exception as ex:
         research_v11 = None
         print(f"[경고] Research Shadow v1.1 초기화 실패 — 나머지는 계속 진행: {ex}")
+    # 🧪 연구모델 C (research_v2.0) — B와 같은 조건 + DART 맥락. Production 미사용.
+    research_v20 = None
+    dart_events = []
+    dart_coverage = None
+    try:
+        import research_engine_v20
+        research_v20 = research_engine_v20
+        # 이번 회차 판단 시점에 '이미 발견돼 있던' 공시만 읽는다.
+        # collect_dart.py가 analyze_auto보다 먼저 돌도록 워크플로 순서를 바꿔 뒀다.
+        spath = os.path.join(HERE, "research_archive", "dart", "collection_status.json")
+        if os.path.exists(spath):
+            st = json.load(open(spath, encoding="utf-8"))
+            dart_coverage = st.get("eventState")
+        print(f"Research Shadow — {research_engine_v20.RESEARCH_MODEL_VERSION} "
+              f"(hash {research_engine_v20.config_hash()}) · B 상속 "
+              f"{research_engine_v20.INHERITED_CONFIG_HASH} · DART coverage {dart_coverage}")
+    except Exception as ex:
+        research_v20 = None
+        print(f"[경고] 연구모델 C 초기화 실패 — 나머지는 계속 진행: {ex}")
     cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
@@ -877,10 +1015,12 @@ def main():
         "versions": {
             "v10": (research_engine.RESEARCH_MODEL_VERSION if research_engine else None),
             "v11": (research_v11.RESEARCH_MODEL_VERSION if research_v11 else None),
+            "v20": (research_v20.RESEARCH_MODEL_VERSION if research_v20 else None),
         },
         "configHash": {
             "v10": (research_engine.config_hash() if research_engine else None),
             "v11": (research_v11.config_hash() if research_v11 else None),
+            "v20": (research_v20.config_hash() if research_v20 else None),
         },
         "quantStatsAsof": research_asof,
         "pitSample": {
@@ -910,13 +1050,13 @@ def main():
             baseline_chief = chief_eval(candidate_context, taro, diana, nova, flow, weights=wsec,
                                         learned=tw["learned"], guard_policy=model.get("reboundGuard"),
                                         confidence_model=model.get("confidenceModel"))
-            shadow_chief = candidate_chief_eval(candidate_context, taro, diana, nova, flow, wsec, model) if model else None
-            promoted = bool((model.get("promotion") or {}).get("qualified")) and shadow_chief is not None
-            chief = shadow_chief if promoted else baseline_chief
-            if promoted:
-                chief["promoted"] = True
-                chief["baselineCall"] = baseline_chief.get("call")
-                chief["baselineTotal"] = baseline_chief.get("total")
+            # 🗄️ 구형 그림자모델(calibrated-ensemble-v3)은 2026-08-15에 퇴출됐다.
+            #    실측에서 SELL이 전체의 41%로 치우쳤고 상승장 SELL 적중률이 9.4%까지
+            #    무너졌다. 신규 예측을 만들지 않고, 과거 기록만 보존한다.
+            #    ⚠️ 어떤 그림자 모델도 프로그램 스스로 Production을 바꾸지 않는다.
+            #       승격은 사람이 명시적으로 승인한 뒤 별도 작업으로만 한다.
+            shadow_chief = None
+            chief = baseline_chief
             # 🧪 Research Shadow — chief/shadowChief 옆에 하나 더 얹기만 한다.
             # 위 Legacy 계산 결과(chief)는 어떤 경우에도 수정하지 않는다.
             research_shadow = None
@@ -953,6 +1093,21 @@ def main():
                     "base": e["price"], "baseAt": price_label,
                     "v10": research_shadow, "v11": slim11,
                 }
+            # 연구모델 C — B와 같은 prediction timestamp·같은 입력으로 짝을 만든다.
+            research_shadow_v20 = None
+            if research_v20 is not None and research_pit_v11 is not None:
+                try:
+                    research_shadow_v20 = research_v20.predict(
+                        candidate_context, ind.get("marketRegime") or {}, research_pit_v11,
+                        created_at=analysis_started_at, input_timestamp=price_label,
+                        dart_events=[e for e in dart_events if e.get("ticker") == code],
+                        dart_coverage=dart_coverage, matured_horizons=())
+                except Exception as ex:
+                    research_shadow_v20 = {"researchModelVersion": research_v20.RESEARCH_MODEL_VERSION,
+                                           "error": str(ex)[:200], "status": "RESEARCH_PREDICT_FAILED"}
+            if research_shadow_v20 is not None:
+                research_out["stocks"].setdefault(code, {})["v20"] = {
+                    k: v for k, v in research_shadow_v20.items() if k != "unbuiltCandidates"}
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
@@ -960,7 +1115,7 @@ def main():
                 "baseAt": price_label,
                 "events": [],
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
-                "shadowChief": shadow_chief,
+                "shadowChief": shadow_chief,   # 항상 None — 구형 그림자모델 퇴출됨
             }
             n_auto += 1
         except Exception as ex:
