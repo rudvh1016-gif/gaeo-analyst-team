@@ -2,21 +2,21 @@
  "budget": {
   "byKind": {
    "detail": 0,
-   "financial": 4,
-   "list": 2,
-   "mapping": 1,
+   "financial": 8,
+   "list": 4,
+   "mapping": 2,
    "other": 0
   },
   "day": "2026-08-15",
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9993,
-  "requests_today": 7,
-  "runs_today": 1,
+  "remaining": 9986,
+  "requests_today": 14,
+  "runs_today": 2,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.07
+  "usage_pct_of_hard_limit": 0.14
  },
  "connection": {
   "connectionStatus": "OK",
@@ -60,6 +60,7 @@
  "financials": {
   "probes": [
    {
+    "accountCatalog": {},
     "accountRows": 229,
     "attempts": [
      {
@@ -89,23 +90,6 @@
     "label": "일반 제조/반도체",
     "missing": [],
     "name": "삼성전자",
-    "sampleAccountNames": [
-     "자산총계",
-     "유동자산",
-     "미수금",
-     "현금및현금성자산",
-     "단기상각후원가금융자산",
-     "단기당기손익-공정가치금융자산",
-     "선급비용",
-     "매출채권",
-     "재고자산",
-     "매각예정분류자산",
-     "기타유동자산",
-     "단기금융상품",
-     "비유동자산",
-     "이연법인세자산",
-     "무형자산"
-    ],
     "sjDivValues": [
      "BS",
      "CF",
@@ -118,6 +102,35 @@
     "year": "2025"
    },
    {
+    "accountCatalog": {
+     "netIncome": [
+      {
+       "account_id": "ifrs-full_ProfitLoss",
+       "account_nm": "연결당기순이익",
+       "sj_div": "IS"
+      },
+      {
+       "account_id": "ifrs-full_ProfitLossFromContinuingOperations",
+       "account_nm": "계속영업연결당기순이익",
+       "sj_div": "IS"
+      },
+      {
+       "account_id": "ifrs-full_ProfitLoss",
+       "account_nm": "연결당기순이익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "ifrs-full_ProfitLoss",
+       "account_nm": "연결당기순이익",
+       "sj_div": "CF"
+      },
+      {
+       "account_id": "ifrs-full_ProfitLoss",
+       "account_nm": "연결당기순이익",
+       "sj_div": "SCE"
+      }
+     ]
+    },
     "accountRows": 312,
     "attempts": [
      {
@@ -148,23 +161,6 @@
      "netIncome"
     ],
     "name": "현대차",
-    "sampleAccountNames": [
-     "자산총계",
-     "유동자산",
-     "금융업채권",
-     "현금및현금성자산",
-     "당기법인세자산",
-     "매출채권",
-     "재고자산",
-     "매각예정비유동자산",
-     "기타자산",
-     "기타금융자산",
-     "기타채권",
-     "단기금융상품",
-     "비유동자산",
-     "장기금융상품",
-     "금융업채권"
-    ],
     "sjDivValues": [
      "BS",
      "CF",
@@ -177,6 +173,10 @@
     "year": "2025"
    },
    {
+    "accountCatalog": {
+     "costOfSales": [],
+     "grossProfit": []
+    },
     "accountRows": 239,
     "attempts": [
      {
@@ -207,23 +207,6 @@
      "grossProfit"
     ],
     "name": "NAVER",
-    "sampleAccountNames": [
-     "자산총계",
-     "유동자산",
-     "당기손익-공정가치 측정 금융자산",
-     "현금및현금성자산",
-     "당기법인세자산",
-     "재고자산",
-     "매각예정비유동자산",
-     "기타유동자산",
-     "단기금융상품",
-     "매출채권및기타채권",
-     "비유동자산",
-     "장기금융상품",
-     "당기손익-공정가치 측정 금융자산",
-     "이연법인세자산",
-     "무형자산"
-    ],
     "sjDivValues": [
      "BS",
      "CF",
@@ -235,6 +218,72 @@
     "year": "2025"
    },
    {
+    "accountCatalog": {
+     "costOfSales": [
+      {
+       "account_id": "dart_LoansAtAmortisedCost",
+       "account_nm": "상각후원가 측정 대출채권",
+       "sj_div": "BS"
+      },
+      {
+       "account_id": "ifrs-full_InterestRevenueCalculatedUsingEffectiveInterestMethod",
+       "account_nm": "기타포괄손익-공정가치 측정 및 상각후원가 측정 금융상품 이자수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "dart_AdjustmentForDecreaseIncreaseInLoansAtAmortisedCost",
+       "account_nm": "상각후원가 측정 대출채권",
+       "sj_div": "CF"
+      }
+     ],
+     "grossProfit": [],
+     "investingCashFlow": [
+      {
+       "account_id": "ifrs-full_CashFlowsFromUsedInInvestingActivities",
+       "account_nm": "투자활동으로부터의 현금흐름",
+       "sj_div": "CF"
+      }
+     ],
+     "operatingCashFlow": [
+      {
+       "account_id": "ifrs-full_CashFlowsFromUsedInOperatingActivities",
+       "account_nm": "영업활동으로부터의 현금흐름",
+       "sj_div": "CF"
+      }
+     ],
+     "revenue": [
+      {
+       "account_id": "dart_OperatingIncomeInsurance",
+       "account_nm": "보험수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "ifrs-full_IncomeFromAmountsRecoveredFromReinsurer",
+       "account_nm": "재보험수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "ifrs-full_FeeAndCommissionIncome",
+       "account_nm": "수수료수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "ifrs-full_RevenueFromInterest",
+       "account_nm": "이자수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "dart_InsuranceFinanceIncomeFromInsuranceContractsIssuedRecognisedInProfitOrLoss",
+       "account_nm": "보험금융이자수익",
+       "sj_div": "CIS"
+      },
+      {
+       "account_id": "dart_InterestRevenueOnFinancialAssetsAtFairValueThroughProfitOrLoss",
+       "account_nm": "당기손익-공정가치로 측정하는 금융자산의 이자수익",
+       "sj_div": "CIS"
+      }
+     ]
+    },
     "accountRows": 349,
     "attempts": [
      {
@@ -265,23 +314,6 @@
      "investingCashFlow"
     ],
     "name": "KB금융",
-    "sampleAccountNames": [
-     "현금 및 예치금",
-     "상각후원가 측정 대출채권",
-     "매각예정자산",
-     "매각예정처분자산집단",
-     "투자금융자산",
-     "자산총계",
-     "당기법인세자산",
-     "이연법인세자산",
-     "파생상품자산",
-     "당기손익-공정가치 측정 금융자산",
-     "보험계약자산",
-     "무형자산",
-     "관계기업 및 공동기업 투자",
-     "투자부동산",
-     "기타자산"
-    ],
     "sjDivValues": [
      "BS",
      "CF",
@@ -295,7 +327,7 @@
   ],
   "status": "OK"
  },
- "finishedAt": "2026-08-15T13:31:14.705161+00:00",
+ "finishedAt": "2026-08-15T13:38:29.332052+00:00",
  "kstToday": "2026-08-15",
  "mapping": {
   "ambiguousCount": 0,
@@ -315,7 +347,7 @@
   ]
  },
  "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
- "ranAt": "2026-08-15T13:30:59.528135+00:00",
+ "ranAt": "2026-08-15T13:33:57.197372+00:00",
  "usage": {
   "api_errors": 0,
   "bytes_received": 4159230,
