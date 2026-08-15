@@ -970,19 +970,31 @@ def main():
     except Exception as ex:
         research_v11 = None
         print(f"[경고] Research Shadow v1.1 초기화 실패 — 나머지는 계속 진행: {ex}")
+    # 📄 DART 실제 Event 로드 (2026-08-15) — read-only. API를 다시 부르지 않는다.
+    #    예전에는 여기서 dart_events를 빈 목록으로 두고 상태값만 읽어서, 연구모델 C가
+    #    DART를 받을 준비가 돼 있는데도 늘 빈 목록을 받았다. 이제 실제로 채운다.
+    #    ⚠️ PIT 차단(detected_at <= prediction_timestamp)은 research_engine_v20의
+    #       dart_context()와 public_event_summary()가 담당한다. 여기서 미리 자르면
+    #       "아직 안 보이는 공시가 몇 건인지"를 셀 수 없게 된다.
+    dart_bundle = {}
+    dart_coverage = None
+    try:
+        import dart_context_loader
+        dart_bundle = dart_context_loader.load_events()
+        dart_coverage = dart_bundle.get("coverageState")
+        print(dart_context_loader.summary_line(dart_bundle))
+    except Exception as ex:
+        dart_context_loader = None
+        dart_bundle = {}
+        # 실패해도 파이프라인을 죽이지 않는다. 대신 '공시 없음'이라고 단정하지 않는다.
+        dart_coverage = "EVENT_DATA_ERROR"
+        print(f"[경고] DART Context 로드 실패 — 공시 맥락 없이 계속 진행: {ex}")
+
     # 🧪 연구모델 C (research_v2.0) — B와 같은 조건 + DART 맥락. Production 미사용.
     research_v20 = None
-    dart_events = []
-    dart_coverage = None
     try:
         import research_engine_v20
         research_v20 = research_engine_v20
-        # 이번 회차 판단 시점에 '이미 발견돼 있던' 공시만 읽는다.
-        # collect_dart.py가 analyze_auto보다 먼저 돌도록 워크플로 순서를 바꿔 뒀다.
-        spath = os.path.join(HERE, "research_archive", "dart", "collection_status.json")
-        if os.path.exists(spath):
-            st = json.load(open(spath, encoding="utf-8"))
-            dart_coverage = st.get("eventState")
         print(f"Research Shadow — {research_engine_v20.RESEARCH_MODEL_VERSION} "
               f"(hash {research_engine_v20.config_hash()}) · B 상속 "
               f"{research_engine_v20.INHERITED_CONFIG_HASH} · DART coverage {dart_coverage}")
@@ -1095,12 +1107,14 @@ def main():
                 }
             # 연구모델 C — B와 같은 prediction timestamp·같은 입력으로 짝을 만든다.
             research_shadow_v20 = None
+            code_events = ((dart_bundle.get("byTicker") or {}).get(code) or []
+                           if dart_bundle else [])
             if research_v20 is not None and research_pit_v11 is not None:
                 try:
                     research_shadow_v20 = research_v20.predict(
                         candidate_context, ind.get("marketRegime") or {}, research_pit_v11,
                         created_at=analysis_started_at, input_timestamp=price_label,
-                        dart_events=[e for e in dart_events if e.get("ticker") == code],
+                        dart_events=code_events,
                         dart_coverage=dart_coverage, matured_horizons=())
                 except Exception as ex:
                     research_shadow_v20 = {"researchModelVersion": research_v20.RESEARCH_MODEL_VERSION,
@@ -1108,12 +1122,23 @@ def main():
             if research_shadow_v20 is not None:
                 research_out["stocks"].setdefault(code, {})["v20"] = {
                     k: v for k, v in research_shadow_v20.items() if k != "unbuiltCandidates"}
+            # 📄 기본모델 DART 맥락 — 방향점수를 만들지 않는 '정보 전용' 요약이다.
+            #    "공시 발생 = +10점" 같은 규칙은 두지 않는다(요구 5번).
+            #    Raw Event 전체가 아니라 이미 공개된 값(공시명·접수번호·탐지시각)만 담는다.
+            dart_summary = None
+            if dart_context_loader is not None:
+                try:
+                    dart_summary = dart_context_loader.public_event_summary(
+                        code_events, analysis_started_at, dart_coverage)
+                except Exception:
+                    dart_summary = None
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
                 "base": e["price"],
                 "baseAt": price_label,
-                "events": [],
+                "events": [],          # 기존 필드 유지(형식 호환) — 아래 dart가 실제 맥락이다
+                "dart": dart_summary,
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
                 "shadowChief": shadow_chief,   # 항상 None — 구형 그림자모델 퇴출됨
             }
@@ -1143,6 +1168,11 @@ def main():
         print(f"Research Reliability — 등급 분포 {grades} · "
               f"{'종목 구분됨' if differentiated else '종목 구분 못함(UI 노출 금지)'}")
     out["marketInsight"] = build_market_insight(out, ind)
+    # DART 맥락의 공통 설명은 종목마다 반복하지 않고 여기 한 번만 싣는다.
+    if dart_context_loader is not None:
+        out["dartMeta"] = dict(dart_context_loader.PUBLIC_SUMMARY_META,
+                               coverageState=dart_coverage,
+                               eventsLoaded=(dart_bundle or {}).get("total", 0))
     out["crossStats"] = {"horizonDays": CROSS_STAT_HORIZON, "buckets": cross_stats}
     out["runTimestamps"] = build_run_timestamps(analysis_started_at, ind)
     body = json.dumps(out, ensure_ascii=False, indent=1)

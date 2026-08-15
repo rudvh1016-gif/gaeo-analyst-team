@@ -48,6 +48,13 @@ jobs:
       - name: Archive 무결성 테스트
         run: python3 test_research_store.py
 
+      # ⚠️ 유지보수(압축·묶음)를 시작하기 전에, 기존 암호문이 현재 Key로 실제로
+      #    열리는지 먼저 확인한다. 열리지 않으면 여기서 잡을 멈춘다.
+      #    (Key가 어긋난 채로 작업을 진행하면 과거 연구기록을 잃을 수 있다.)
+      #    이 단계는 Key 값을 절대 출력하지 않는다.
+      - name: 기존 Archive 복호화 확인 (Key 교체 금지 안전장치)
+        run: python3 verify_archive_key.py
+
       - name: 주기 유지보수 (Rollup + 복원 테스트)
         run: |
           if [ "$(date +%d)" = "01" ]; then

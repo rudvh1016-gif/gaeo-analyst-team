@@ -7,3 +7,6 @@ __pycache__/
 # Research Shadow 중간 산출물 — analyze_auto.py가 쓰고 archive_analysis.py가 바로 읽는
 # 한 사이클짜리 전달 파일(6MB). 영구 기록은 research_history.jsonl에 남으므로 커밋하지 않는다.
 research_shadow.json
+
+# 브라우저 테스트 스크린샷(로컬 산출물)
+.test-screenshots/
