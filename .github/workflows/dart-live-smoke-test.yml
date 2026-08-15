@@ -40,6 +40,8 @@ jobs:
     timeout-minutes: 15
     env:
       OPEN_DART_API_KEY: ${{ secrets.OPEN_DART_API_KEY }}
+      # Research Raw 암호화 키. 없으면 Research 기록을 남기지 않는다(FAIL CLOSED).
+      RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -49,6 +51,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: 암호화 라이브러리 설치 (Research Raw 저장에 필요)
+        run: python3 -m pip install --quiet --upgrade cryptography
 
       - name: Secret 존재 여부만 확인 (값은 출력하지 않음)
         run: |

@@ -27,6 +27,8 @@ import json
 import os
 import datetime
 
+import research_crypto
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ARCHIVE_ROOT = os.path.join(HERE, "research_archive")
 
@@ -73,18 +75,30 @@ def _sha256_file(path):
     return h.hexdigest()
 
 
-def _iter_jsonl(path):
-    """.jsonl / .jsonl.gz 어느 쪽이든 한 줄씩 dict로 돌려준다."""
-    opener = gzip.open if path.endswith(".gz") else open
-    with opener(path, "rt", encoding="utf-8") as f:
-        for lineno, line in enumerate(f, 1):
-            line = line.strip()
-            if not line:
-                continue
-            yield lineno, json.loads(line)
+def _read_text(path, label=None):
+    """.jsonl / .jsonl.gz / .*.enc 어느 형태든 평문 텍스트로 읽는다."""
+    if path.endswith(".enc"):
+        blob = research_crypto.decrypt_bytes(open(path, "rb").read(), label or "")
+        if path.endswith(".gz.enc"):
+            blob = gzip.decompress(blob)
+        return blob.decode("utf-8")
+    if path.endswith(".gz"):
+        with gzip.open(path, "rt", encoding="utf-8") as f:
+            return f.read()
+    with open(path, encoding="utf-8") as f:
+        return f.read()
 
 
-def _stat_records(path, record_type=RECORD_RESEARCH):
+def _iter_jsonl(path, label=None):
+    """한 줄씩 dict로 돌려준다. 암호문이면 복호 후 파싱한다."""
+    for lineno, line in enumerate(_read_text(path, label).splitlines(), 1):
+        line = line.strip()
+        if not line:
+            continue
+        yield lineno, json.loads(line)
+
+
+def _stat_records(path, record_type=RECORD_RESEARCH, label=None):
     """레코드 수 + 버전 집합 + 시각 범위 + 중복 키 + 필수필드 누락을 센다.
 
     record_type에 따라 '무엇이 필수인가'가 달라진다.
@@ -99,7 +113,7 @@ def _stat_records(path, record_type=RECORD_RESEARCH):
     dups = []
     missing_version, missing_ts = 0, 0
     missing_required = {}
-    for _lineno, rec in _iter_jsonl(path):
+    for _lineno, rec in _iter_jsonl(path, label):
         count += 1
         key = tuple(str(rec.get(k)) for k in spec["keyFields"])
         if key in keys:
@@ -159,6 +173,15 @@ def _stat_records(path, record_type=RECORD_RESEARCH):
     }
 
 
+def _day_from_path(path):
+    """live/YYYY/MM/DD.jsonl[.gz][.enc] → YYYY-MM-DD."""
+    parts = os.path.normpath(path).split(os.sep)
+    name = parts[-1].split(".")[0]
+    if len(parts) >= 3 and len(name) == 2:
+        return f"{parts[-3]}-{parts[-2]}-{name}"
+    return name
+
+
 def _write_json(path, obj):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -173,8 +196,11 @@ class ResearchArchiveStore:
     압축 방식이 바뀌어도 호출부는 그대로 둘 수 있다.
     """
 
-    def __init__(self, root=ARCHIVE_ROOT, record_type=RECORD_RESEARCH):
+    def __init__(self, root=ARCHIVE_ROOT, record_type=RECORD_RESEARCH, encrypt=True):
+        # ⚠️ 기본값이 encrypt=True다. public repo에 평문 Research Raw를 남기지 않기 위해서다.
+        #    Key가 없으면 평문으로 대체 저장하지 않고 쓰기 자체를 거부한다(FAIL CLOSED).
         self.root = root
+        self.encrypt = encrypt
         self.record_type = record_type
         self.spec = RECORD_SPECS.get(record_type) or RECORD_SPECS[RECORD_RESEARCH]
         self.live = os.path.join(root, "live")
@@ -184,24 +210,30 @@ class ResearchArchiveStore:
         """이 스키마에서 레코드를 구분하는 키."""
         return tuple(str(rec.get(k)) for k in self.spec["keyFields"])
 
-    def _stats(self, path):
-        return _stat_records(path, self.record_type)
+    def _stats(self, path, day=None):
+        label = self._label(day) if day else self._label(_day_from_path(path))
+        return _stat_records(path, self.record_type, label)
 
     # ── 경로 ────────────────────────────────────────────────────────────
-    def segment_path(self, day, compressed=False):
+    def segment_path(self, day, compressed=False, encrypted=None):
+        """encrypted=None이면 이 Store의 기본 정책(self.encrypt)을 따른다."""
         y, m, d = str(day)[:4], str(day)[5:7], str(day)[8:10]
-        name = f"{d}.jsonl" + (".gz" if compressed else "")
+        enc = self.encrypt if encrypted is None else encrypted
+        name = f"{d}.jsonl" + (".gz" if compressed else "") + (".enc" if enc else "")
         return os.path.join(self.live, y, m, name)
 
     def existing_segment(self, day):
-        """압축 전/후 어느 쪽이든 실제로 있는 파일 경로. 없으면 None."""
-        raw = self.segment_path(day, False)
-        gz = self.segment_path(day, True)
-        if os.path.exists(raw):
-            return raw
-        if os.path.exists(gz):
-            return gz
+        """실제로 있는 파일 경로. 암호문·평문·압축 여부를 모두 살핀다."""
+        for enc in (True, False):
+            for comp in (False, True):
+                path = self.segment_path(day, comp, enc)
+                if os.path.exists(path):
+                    return path
         return None
+
+    def _label(self, day):
+        """AAD 바인딩. 암호문을 다른 날짜 자리로 옮기면 복호가 실패한다."""
+        return f"{self.record_type}|{day}"
 
     def manifest_path(self, day):
         y, m, d = str(day)[:4], str(day)[5:7], str(day)[8:10]
@@ -221,7 +253,7 @@ class ResearchArchiveStore:
                 if not os.path.isdir(mdir):
                     continue
                 for name in sorted(os.listdir(mdir)):
-                    if name.endswith(".jsonl") or name.endswith(".jsonl.gz"):
+                    if ".jsonl" in name and not name.endswith(".tmp"):
                         d = name.split(".")[0]
                         if len(d) == 2 and d.isdigit():
                             days.append(f"{y}-{m}-{d}")
@@ -231,10 +263,12 @@ class ResearchArchiveStore:
     def segment_state(self, day, today=None):
         """ACTIVE(오늘, 계속 쓰는 중) / CLOSED(닫힘) / COMPRESSED / MISSING."""
         today = today or datetime.date.today().isoformat()
-        if os.path.exists(self.segment_path(day, True)):
-            return "COMPRESSED"
-        if os.path.exists(self.segment_path(day, False)):
-            return "ACTIVE" if str(day) >= str(today) else "CLOSED"
+        for enc in (True, False):
+            if os.path.exists(self.segment_path(day, True, enc)):
+                return "COMPRESSED"
+        for enc in (True, False):
+            if os.path.exists(self.segment_path(day, False, enc)):
+                return "ACTIVE" if str(day) >= str(today) else "CLOSED"
         return "MISSING"
 
     # ── 쓰기 ────────────────────────────────────────────────────────────
@@ -243,7 +277,7 @@ class ResearchArchiveStore:
         path = self.existing_segment(day)
         if not path:
             return []
-        return [rec for _n, rec in _iter_jsonl(path)]
+        return [rec for _n, rec in _iter_jsonl(path, self._label(day))]
 
     def append_predictions(self, day, records, today=None):
         """오늘(ACTIVE) Segment에만 쓴다.
@@ -271,13 +305,22 @@ class ResearchArchiveStore:
                 existing.append(rec)
                 added += 1
 
+        body = "".join(
+            json.dumps(rec, ensure_ascii=False, separators=(",", ":")) + "\n"
+            for rec in sorted(existing, key=self._key))
         path = self.segment_path(day, False)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        tmp = path + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            for rec in sorted(existing, key=self._key):
-                f.write(json.dumps(rec, ensure_ascii=False, separators=(",", ":")) + "\n")
-        os.replace(tmp, path)
+        if self.encrypt:
+            # ⚠️ FAIL CLOSED — Key가 없으면 여기서 예외가 나고 아무 파일도 안 생긴다.
+            #    평문으로 대신 저장하는 fallback은 존재하지 않는다.
+            research_crypto.write_encrypted(path, body, self._label(day))
+        else:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                f.write(body)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp, path)
         return added, replaced
 
     # ── 닫기 · 압축 ─────────────────────────────────────────────────────
@@ -293,14 +336,14 @@ class ResearchArchiveStore:
         if state == "ACTIVE":
             return None      # 아직 쓰는 중 — 닫지 않는다
         path = self.existing_segment(day)
-        stats = self._stats(path)
+        stats = self._stats(path, day)
         manifest = {
             "archiveVersion": ARCHIVE_VERSION,
             "schemaVersion": SCHEMA_VERSION,
             "createdAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "period": {"type": "day", "id": day},
             "recordType": self.record_type,
-            "compression": "gzip" if path.endswith(".gz") else "none",
+            "compression": "gzip" if ".gz" in os.path.basename(path) else "none",
             "sourceFiles": [os.path.relpath(path, self.root)],
             "sha256": {os.path.basename(path): _sha256_file(path)},
             "status": "CLOSED",
@@ -319,45 +362,52 @@ class ResearchArchiveStore:
           5) decompress test 6) 압축 전/후 count 비교 7) manifest 검증
           8) 검증 성공 후에만 원본 정리
 
-        검증이 하나라도 실패하면 gzip 파일을 지우고 원본은 그대로 둔다.
+        암호화 모드에서는 gzip → 암호화 순서로 만든다(.jsonl.gz.enc).
+        압축이 먼저여야 압축률이 나온다. 암호문은 압축되지 않는다.
+
+        검증이 하나라도 실패하면 만든 파일을 지우고 원본은 그대로 둔다.
         """
         today = today or datetime.date.today().isoformat()
         state = self.segment_state(day, today)
         if state == "COMPRESSED":
             return {"status": "ALREADY_COMPRESSED", "day": day}
         if state != "CLOSED":
-            # ACTIVE(오늘)나 MISSING은 압축 대상이 아니다.
             return {"status": f"SKIPPED_{state}", "day": day}
 
-        src = self.segment_path(day, False)
-        before = self._stats(src)
-        src_hash = _sha256_file(src)
-        raw_bytes = os.path.getsize(src)
+        src = self.existing_segment(day)
+        label = self._label(day)
+        before = self._stats(src, day)
+        plain = _read_text(src, label).encode("utf-8")
+        src_hash = hashlib.sha256(plain).hexdigest()
+        raw_bytes = len(plain)
 
         dst = self.segment_path(day, True)
         tmp = dst + ".tmp"
         try:
-            with open(src, "rb") as fi, gzip.open(tmp, "wb", compresslevel=9) as fo:
-                while True:
-                    chunk = fi.read(1 << 20)
-                    if not chunk:
-                        break
-                    fo.write(chunk)
+            gz_bytes_data = gzip.compress(plain, compresslevel=9)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            if self.encrypt:
+                # gzip 바이너리를 그대로 암호화한다(텍스트 변환 없이).
+                blob = research_crypto.encrypt_bytes(gz_bytes_data, label)
+                with open(tmp, "wb") as f:
+                    f.write(blob); f.flush(); os.fsync(f.fileno())
+            else:
+                with open(tmp, "wb") as f:
+                    f.write(gz_bytes_data); f.flush(); os.fsync(f.fileno())
             os.replace(tmp, dst)
 
             # 5·6) 실제로 풀어서 다시 세어 본다
-            after = self._stats(dst)
+            after = self._stats(dst, day)
             if after["recordCount"] != before["recordCount"]:
                 raise ValueError(
                     f"압축 전후 레코드 수 불일치 {before['recordCount']} != {after['recordCount']}")
             # 7) 내용 자체가 동일한지(바이트 단위)
-            with gzip.open(dst, "rb") as f:
-                if hashlib.sha256(f.read()).hexdigest() != src_hash:
-                    raise ValueError("압축 해제 결과가 원본과 다르다")
+            if hashlib.sha256(_read_text(dst, label).encode("utf-8")).hexdigest() != src_hash:
+                raise ValueError("압축 해제 결과가 원본과 다르다")
         except Exception as ex:
-            for p in (tmp, dst):
-                if os.path.exists(p):
-                    os.remove(p)
+            for pth in (tmp, dst):
+                if os.path.exists(pth):
+                    os.remove(pth)
             return {"status": ARCHIVE_INTEGRITY_ERROR, "day": day, "error": str(ex)[:200]}
 
         gz_bytes = os.path.getsize(dst)
@@ -368,10 +418,10 @@ class ResearchArchiveStore:
             "period": {"type": "day", "id": day},
             "recordType": self.record_type,
             "compression": "gzip",
+            "encryption": "AES-256-GCM" if self.encrypt else "none",
             "sourceFiles": [os.path.relpath(dst, self.root)],
-            "sha256": {os.path.basename(dst): _sha256_file(dst),
-                       os.path.basename(src): src_hash},
-            "uncompressedSha256": src_hash,
+            "sha256": {os.path.basename(dst): _sha256_file(dst)},
+            "plaintextSha256": src_hash,
             "rawBytes": raw_bytes,
             "compressedBytes": gz_bytes,
             "compressionRatio": round(gz_bytes / raw_bytes, 4) if raw_bytes else None,
@@ -383,7 +433,7 @@ class ResearchArchiveStore:
         _write_json(self.manifest_path(day), manifest)
 
         # 8) 여기까지 전부 통과했을 때만 원본을 정리한다
-        if remove_source:
+        if remove_source and os.path.abspath(src) != os.path.abspath(dst):
             os.remove(src)
         return {"status": OK, "day": day, "rawBytes": raw_bytes,
                 "compressedBytes": gz_bytes,
@@ -407,7 +457,7 @@ class ResearchArchiveStore:
         # EOFError, UnicodeDecodeError, BadGzipFile …) 여기서는 넓게 잡는다.
         # 무결성 검사기가 예외로 죽어버리면 검사 자체가 무의미하다.
         try:
-            stats = self._stats(path)
+            stats = self._stats(path, day)
         except Exception as ex:
             return {"status": ARCHIVE_INTEGRITY_ERROR, "day": day,
                     "errors": [f"복원 실패: {str(ex)[:120]}"]}
@@ -435,7 +485,7 @@ class ResearchArchiveStore:
         res = self.verify_archive(day)
         path = self.existing_segment(day)
         res["restoredFrom"] = os.path.relpath(path, self.root) if path else None
-        res["compressed"] = bool(path and path.endswith(".gz"))
+        res["compressed"] = bool(path and ".gz" in os.path.basename(path))
         return res
 
     # ── Weekly / Monthly Rollup ─────────────────────────────────────────
@@ -447,7 +497,7 @@ class ResearchArchiveStore:
             path = self.existing_segment(day)
             if not path:
                 continue
-            stats = self._stats(path)
+            stats = self._stats(path, day)
             included.append(day)
             hashes[os.path.relpath(path, self.root)] = _sha256_file(path)
             counts += stats["recordCount"]
@@ -493,7 +543,7 @@ class ResearchArchiveStore:
                 problems.append({"day": day, "errors": v.get("errors")})
                 continue
             path = self.existing_segment(day)
-            stats = self._stats(path)
+            stats = self._stats(path, day)
             total += stats["recordCount"]
             versions |= set(stats["modelVersions"])
             features |= set(stats["featureVersions"])
@@ -514,22 +564,28 @@ class ResearchArchiveStore:
         year = month_id[:4]
         outdir = os.path.join(self.archive, year, month_id[5:7])
         os.makedirs(outdir, exist_ok=True)
-        gz_path = os.path.join(outdir, f"research-{month_id}.jsonl.gz")
+        month_label = f"{self.record_type}|month|{month_id}"
+        gz_path = os.path.join(outdir, f"research-{month_id}.jsonl.gz"
+                               + (".enc" if self.encrypt else ""))
         tmp = gz_path + ".tmp"
         try:
-            with gzip.open(tmp, "wt", encoding="utf-8", compresslevel=9) as fo:
-                for day in days:
-                    for _n, rec in _iter_jsonl(self.existing_segment(day)):
-                        fo.write(json.dumps(rec, ensure_ascii=False,
-                                            separators=(",", ":")) + "\n")
+            lines = []
+            for day in days:
+                for _n, rec in _iter_jsonl(self.existing_segment(day), self._label(day)):
+                    lines.append(json.dumps(rec, ensure_ascii=False, separators=(",", ":")))
+            payload = gzip.compress(("\n".join(lines) + "\n").encode("utf-8"), compresslevel=9)
+            # ⚠️ 월간 묶음도 평문으로 두지 않는다. public repo에 들어가는 파일이다.
+            blob = research_crypto.encrypt_bytes(payload, month_label) if self.encrypt else payload
+            with open(tmp, "wb") as f:
+                f.write(blob); f.flush(); os.fsync(f.fileno())
             os.replace(tmp, gz_path)
-            merged = self._stats(gz_path)
+            merged = _stat_records(gz_path, self.record_type, month_label)
             if merged["recordCount"] != total:
                 raise ValueError(f"묶음 레코드 수 불일치 {merged['recordCount']} != {total}")
         except Exception as ex:
-            for p in (tmp, gz_path):
-                if os.path.exists(p):
-                    os.remove(p)
+            for pth in (tmp, gz_path):
+                if os.path.exists(pth):
+                    os.remove(pth)
             return {"status": ARCHIVE_INTEGRITY_ERROR, "month": month_id,
                     "error": str(ex)[:200]}
 
@@ -543,6 +599,7 @@ class ResearchArchiveStore:
             "labelVersions": sorted(labels),
             "firstPredictionTimestamp": first_ts, "lastPredictionTimestamp": last_ts,
             "compression": "gzip",
+            "encryption": "AES-256-GCM" if self.encrypt else "none",
             "sourceFiles": sources, "fileHashes": hashes,
             "sha256": {os.path.basename(gz_path): _sha256_file(gz_path)},
             "status": "MONTHLY_ARCHIVED",
@@ -575,8 +632,8 @@ class ResearchArchiveStore:
                 continue
             size = os.path.getsize(path)
             total_bytes += size
-            compressed = path.endswith(".gz")
-            stats = self._stats(path)
+            compressed = ".gz" in os.path.basename(path)   # .gz / .gz.enc 둘 다
+            stats = self._stats(path, day)
             per_day.append({"day": day, "bytes": size, "records": stats["recordCount"],
                             "compressed": compressed})
             if day == today:

@@ -14,6 +14,7 @@
 import re, json, os, datetime, sys
 
 import append_only_guard
+import research_crypto
 import research_store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -214,6 +215,12 @@ def archive_research():
     if not stocks:
         return
 
+    # 🔐 Key가 없으면 Research 기록을 아예 남기지 않는다(FAIL CLOSED).
+    #    평문으로 public repo에 커밋하느니 이번 회차 기록을 포기한다.
+    if research_crypto.key_status() != research_crypto.OK:
+        print(f"[Research] {research_crypto.KEY_ENV} 상태 {research_crypto.key_status()} — "
+              f"평문 저장을 하지 않고 이번 회차 Research 아카이브를 건너뜁니다(FAIL CLOSED).")
+        return
     store = research_store.ResearchArchiveStore()
     today = datetime.date.today().isoformat()
     gen = str(shadow.get("generatedAt", ""))[:10]
