@@ -2,21 +2,21 @@
  "budget": {
   "byKind": {
    "detail": 0,
-   "financial": 12,
-   "list": 6,
-   "mapping": 3,
+   "financial": 16,
+   "list": 8,
+   "mapping": 4,
    "other": 0
   },
   "day": "2026-08-15",
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9979,
-  "requests_today": 21,
-  "runs_today": 3,
+  "remaining": 9972,
+  "requests_today": 28,
+  "runs_today": 4,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.21
+  "usage_pct_of_hard_limit": 0.28
  },
  "connection": {
   "connectionStatus": "OK",
@@ -88,8 +88,22 @@
     "hasAccountId": true,
     "hasAccountNm": true,
     "label": "일반 제조/반도체",
+    "matchedBy": {
+     "costOfSales": "account_id",
+     "grossProfit": "account_id",
+     "investingCashFlow": "account_id",
+     "netIncome": "account_id",
+     "operatingCashFlow": "account_id",
+     "operatingIncome": "account_id",
+     "revenue": "account_id",
+     "totalAssets": "account_id",
+     "totalEquity": "account_id",
+     "totalLiabilities": "account_id"
+    },
     "missing": [],
     "name": "삼성전자",
+    "notApplicable": [],
+    "sectorHandling": "STANDARD",
     "sjDivValues": [
      "BS",
      "CF",
@@ -102,35 +116,7 @@
     "year": "2025"
    },
    {
-    "accountCatalog": {
-     "netIncome": [
-      {
-       "account_id": "ifrs-full_ProfitLoss",
-       "account_nm": "연결당기순이익",
-       "sj_div": "IS"
-      },
-      {
-       "account_id": "ifrs-full_ProfitLossFromContinuingOperations",
-       "account_nm": "계속영업연결당기순이익",
-       "sj_div": "IS"
-      },
-      {
-       "account_id": "ifrs-full_ProfitLoss",
-       "account_nm": "연결당기순이익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "ifrs-full_ProfitLoss",
-       "account_nm": "연결당기순이익",
-       "sj_div": "CF"
-      },
-      {
-       "account_id": "ifrs-full_ProfitLoss",
-       "account_nm": "연결당기순이익",
-       "sj_div": "SCE"
-      }
-     ]
-    },
+    "accountCatalog": {},
     "accountRows": 312,
     "attempts": [
      {
@@ -141,12 +127,13 @@
       "year": "2025"
      }
     ],
-    "coverage": 0.9,
+    "coverage": 1.0,
     "found": [
      "revenue",
      "costOfSales",
      "grossProfit",
      "operatingIncome",
+     "netIncome",
      "totalAssets",
      "totalLiabilities",
      "totalEquity",
@@ -157,10 +144,22 @@
     "hasAccountId": true,
     "hasAccountNm": true,
     "label": "일반 제조/자동차",
-    "missing": [
-     "netIncome"
-    ],
+    "matchedBy": {
+     "costOfSales": "account_id",
+     "grossProfit": "account_id",
+     "investingCashFlow": "account_id",
+     "netIncome": "account_id",
+     "operatingCashFlow": "account_id",
+     "operatingIncome": "account_id",
+     "revenue": "account_id",
+     "totalAssets": "account_id",
+     "totalEquity": "account_id",
+     "totalLiabilities": "account_id"
+    },
+    "missing": [],
     "name": "현대차",
+    "notApplicable": [],
+    "sectorHandling": "STANDARD",
     "sjDivValues": [
      "BS",
      "CF",
@@ -202,11 +201,23 @@
     "hasAccountId": true,
     "hasAccountNm": true,
     "label": "서비스/인터넷",
+    "matchedBy": {
+     "investingCashFlow": "account_id",
+     "netIncome": "account_id",
+     "operatingCashFlow": "account_id",
+     "operatingIncome": "account_id",
+     "revenue": "account_id",
+     "totalAssets": "account_id",
+     "totalEquity": "account_id",
+     "totalLiabilities": "account_id"
+    },
     "missing": [
      "costOfSales",
      "grossProfit"
     ],
     "name": "NAVER",
+    "notApplicable": [],
+    "sectorHandling": "STANDARD",
     "sjDivValues": [
      "BS",
      "CF",
@@ -218,72 +229,7 @@
     "year": "2025"
    },
    {
-    "accountCatalog": {
-     "costOfSales": [
-      {
-       "account_id": "dart_LoansAtAmortisedCost",
-       "account_nm": "상각후원가 측정 대출채권",
-       "sj_div": "BS"
-      },
-      {
-       "account_id": "ifrs-full_InterestRevenueCalculatedUsingEffectiveInterestMethod",
-       "account_nm": "기타포괄손익-공정가치 측정 및 상각후원가 측정 금융상품 이자수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "dart_AdjustmentForDecreaseIncreaseInLoansAtAmortisedCost",
-       "account_nm": "상각후원가 측정 대출채권",
-       "sj_div": "CF"
-      }
-     ],
-     "grossProfit": [],
-     "investingCashFlow": [
-      {
-       "account_id": "ifrs-full_CashFlowsFromUsedInInvestingActivities",
-       "account_nm": "투자활동으로부터의 현금흐름",
-       "sj_div": "CF"
-      }
-     ],
-     "operatingCashFlow": [
-      {
-       "account_id": "ifrs-full_CashFlowsFromUsedInOperatingActivities",
-       "account_nm": "영업활동으로부터의 현금흐름",
-       "sj_div": "CF"
-      }
-     ],
-     "revenue": [
-      {
-       "account_id": "dart_OperatingIncomeInsurance",
-       "account_nm": "보험수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "ifrs-full_IncomeFromAmountsRecoveredFromReinsurer",
-       "account_nm": "재보험수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "ifrs-full_FeeAndCommissionIncome",
-       "account_nm": "수수료수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "ifrs-full_RevenueFromInterest",
-       "account_nm": "이자수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "dart_InsuranceFinanceIncomeFromInsuranceContractsIssuedRecognisedInProfitOrLoss",
-       "account_nm": "보험금융이자수익",
-       "sj_div": "CIS"
-      },
-      {
-       "account_id": "dart_InterestRevenueOnFinancialAssetsAtFairValueThroughProfitOrLoss",
-       "account_nm": "당기손익-공정가치로 측정하는 금융자산의 이자수익",
-       "sj_div": "CIS"
-      }
-     ]
-    },
+    "accountCatalog": {},
     "accountRows": 349,
     "attempts": [
      {
@@ -294,26 +240,37 @@
       "year": "2025"
      }
     ],
-    "coverage": 0.5,
+    "coverage": 1.0,
     "found": [
      "operatingIncome",
      "netIncome",
      "totalAssets",
      "totalLiabilities",
-     "totalEquity"
+     "totalEquity",
+     "operatingCashFlow",
+     "investingCashFlow"
     ],
     "fsDiv": "CFS",
     "hasAccountId": true,
     "hasAccountNm": true,
     "label": "금융/은행",
-    "missing": [
+    "matchedBy": {
+     "investingCashFlow": "account_id",
+     "netIncome": "account_id",
+     "operatingCashFlow": "account_id",
+     "operatingIncome": "account_id",
+     "totalAssets": "account_id",
+     "totalEquity": "account_id",
+     "totalLiabilities": "account_id"
+    },
+    "missing": [],
+    "name": "KB금융",
+    "notApplicable": [
      "revenue",
      "costOfSales",
-     "grossProfit",
-     "operatingCashFlow",
-     "investingCashFlow"
+     "grossProfit"
     ],
-    "name": "KB금융",
+    "sectorHandling": "FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED",
     "sjDivValues": [
      "BS",
      "CF",
@@ -327,7 +284,7 @@
   ],
   "status": "OK"
  },
- "finishedAt": "2026-08-15T13:39:02.068515+00:00",
+ "finishedAt": "2026-08-15T13:45:56.186922+00:00",
  "kstToday": "2026-08-15",
  "mapping": {
   "ambiguousCount": 0,
@@ -347,7 +304,7 @@
   ]
  },
  "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
- "ranAt": "2026-08-15T13:38:46.919117+00:00",
+ "ranAt": "2026-08-15T13:41:22.096671+00:00",
  "usage": {
   "api_errors": 0,
   "bytes_received": 4159230,
