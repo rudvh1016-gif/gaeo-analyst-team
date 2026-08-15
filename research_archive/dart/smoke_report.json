@@ -1,0 +1,88 @@
+{
+ "budget": {
+  "byKind": {
+   "detail": 0,
+   "financial": 0,
+   "list": 2,
+   "mapping": 1,
+   "other": 0
+  },
+  "day": "2026-08-16",
+  "hard_limit": 10000,
+  "normal_target_per_day": 500,
+  "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
+  "remaining": 9997,
+  "requests_today": 3,
+  "runs_today": 1,
+  "soft_budget": 8000,
+  "status": "BUDGET_OK",
+  "usage_pct_of_hard_limit": 0.03
+ },
+ "connection": {
+  "connectionStatus": "OK",
+  "corpCode": {
+   "bytes": 3596918,
+   "error": null,
+   "status": "OK"
+  },
+  "list": {
+   "dartMessage": "조회된 데이타가 없습니다.",
+   "dartStatus": "013",
+   "error": null,
+   "status": "OK",
+   "totalCount": null,
+   "totalPage": null
+  },
+  "secretPresent": true
+ },
+ "filings": {
+  "coverageReasons": [],
+  "errors": [],
+  "eventState": "NO_OFFICIAL_EVENT_DETECTED",
+  "gaeoEventSamples": [],
+  "pagination": {
+   "coverage_complete": true,
+   "incomplete_reasons": [],
+   "page_limit": 30,
+   "pages_fetched": 1,
+   "total_pages_reported": null
+  },
+  "stats": {
+   "duplicate_skipped": 0,
+   "list_requests": 1,
+   "matched_gaeo_filings": 0,
+   "new_filings_detected": 0,
+   "pages_fetched": 1,
+   "unmatched_filings": 0
+  },
+  "status": "OK"
+ },
+ "finishedAt": "2026-08-15T17:19:12.453944+00:00",
+ "kstToday": "2026-08-16",
+ "mapping": {
+  "ambiguousCount": 0,
+  "ambiguousSamples": [],
+  "dartCompanies": 118712,
+  "mappedCount": 599,
+  "mappingRate": 0.9983,
+  "status": "OK",
+  "universeCount": 600,
+  "unknownCount": 1,
+  "unknownSamples": [
+   {
+    "name": "삼성전기우",
+    "reason": "DART에 같은 종목코드가 없음",
+    "ticker": "009155"
+   }
+  ]
+ },
+ "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
+ "ranAt": "2026-08-15T17:15:23.625893+00:00",
+ "usage": {
+  "api_errors": 0,
+  "bytes_received": 3597048,
+  "detail_requests": 0,
+  "no_data_responses": 2,
+  "requests_per_run": 3
+ }
+}
