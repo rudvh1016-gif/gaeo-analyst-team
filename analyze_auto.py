@@ -970,6 +970,25 @@ def main():
     except Exception as ex:
         research_v11 = None
         print(f"[경고] Research Shadow v1.1 초기화 실패 — 나머지는 계속 진행: {ex}")
+    # 🧪 연구모델 C (research_v2.0) — B와 같은 조건 + DART 맥락. Production 미사용.
+    research_v20 = None
+    dart_events = []
+    dart_coverage = None
+    try:
+        import research_engine_v20
+        research_v20 = research_engine_v20
+        # 이번 회차 판단 시점에 '이미 발견돼 있던' 공시만 읽는다.
+        # collect_dart.py가 analyze_auto보다 먼저 돌도록 워크플로 순서를 바꿔 뒀다.
+        spath = os.path.join(HERE, "research_archive", "dart", "collection_status.json")
+        if os.path.exists(spath):
+            st = json.load(open(spath, encoding="utf-8"))
+            dart_coverage = st.get("eventState")
+        print(f"Research Shadow — {research_engine_v20.RESEARCH_MODEL_VERSION} "
+              f"(hash {research_engine_v20.config_hash()}) · B 상속 "
+              f"{research_engine_v20.INHERITED_CONFIG_HASH} · DART coverage {dart_coverage}")
+    except Exception as ex:
+        research_v20 = None
+        print(f"[경고] 연구모델 C 초기화 실패 — 나머지는 계속 진행: {ex}")
     cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
@@ -996,10 +1015,12 @@ def main():
         "versions": {
             "v10": (research_engine.RESEARCH_MODEL_VERSION if research_engine else None),
             "v11": (research_v11.RESEARCH_MODEL_VERSION if research_v11 else None),
+            "v20": (research_v20.RESEARCH_MODEL_VERSION if research_v20 else None),
         },
         "configHash": {
             "v10": (research_engine.config_hash() if research_engine else None),
             "v11": (research_v11.config_hash() if research_v11 else None),
+            "v20": (research_v20.config_hash() if research_v20 else None),
         },
         "quantStatsAsof": research_asof,
         "pitSample": {
@@ -1072,6 +1093,21 @@ def main():
                     "base": e["price"], "baseAt": price_label,
                     "v10": research_shadow, "v11": slim11,
                 }
+            # 연구모델 C — B와 같은 prediction timestamp·같은 입력으로 짝을 만든다.
+            research_shadow_v20 = None
+            if research_v20 is not None and research_pit_v11 is not None:
+                try:
+                    research_shadow_v20 = research_v20.predict(
+                        candidate_context, ind.get("marketRegime") or {}, research_pit_v11,
+                        created_at=analysis_started_at, input_timestamp=price_label,
+                        dart_events=[e for e in dart_events if e.get("ticker") == code],
+                        dart_coverage=dart_coverage, matured_horizons=())
+                except Exception as ex:
+                    research_shadow_v20 = {"researchModelVersion": research_v20.RESEARCH_MODEL_VERSION,
+                                           "error": str(ex)[:200], "status": "RESEARCH_PREDICT_FAILED"}
+            if research_shadow_v20 is not None:
+                research_out["stocks"].setdefault(code, {})["v20"] = {
+                    k: v for k, v in research_shadow_v20.items() if k != "unbuiltCandidates"}
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,

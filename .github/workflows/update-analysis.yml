@@ -183,6 +183,8 @@ jobs:
             #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
             #   이게 있어야 모든 종목이 적중률 채점 대상이 되어 트랙레코드가 쌓인다.
             ARCHIVE_AUTO=1 python3 archive_analysis.py --auto || { echo "history·정밀분석 아카이브 실패"; exit 1; }
+            # 🧭 모델 대시보드용 집계(수천 바이트). 개별 종목 예측 원본은 넣지 않는다.
+            python3 build_model_scoreboard.py || echo "모델 대시보드 집계 실패 — 계속 진행"
             # 완성된 정밀분석을 영구 Snapshot·Archive·홈 최신 목록으로 발행한다.
             timeout 600 node generate_deep_analysis.js || { echo "정밀분석 발행 생성 실패"; exit 1; }
             # 💰 500종목 개별 정밀/자동분석 스냅샷 + sitemap 자동 갱신 — "OO 전망/주가" 검색 유입을
@@ -214,7 +216,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_model.json rotation_archive.json guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_model.json rotation_archive.json model_scoreboard.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap

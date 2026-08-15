@@ -996,6 +996,44 @@
   .sc-table .sc-total-row td{background:var(--navy-soft);font-weight:800}
   html.gdark .sc-table .sc-total-row td{background:rgba(255,255,255,.06)}
   @media(max-width:600px){ .sc-table{font-size:11.5px} .sc-table th{font-size:10.5px} }
+
+  /* 🧭 모델 검증 패널 — 단색·활자 위계만으로 구분한다(배지·색점 없음) */
+  .model-board .mb-legend{display:grid;grid-template-columns:1.6fr .8fr .9fr .9fr .9fr 16px;
+    gap:8px;padding:0 4px 6px;font-size:11px;color:var(--t3);border-bottom:1px solid var(--line)}
+  .model-board .mb-row{border-bottom:1px solid var(--line)}
+  .model-board .mb-row:last-of-type{border-bottom:none}
+  .model-board .mb-head{width:100%;display:grid;grid-template-columns:1.6fr .8fr .9fr .9fr .9fr 16px;
+    gap:8px;align-items:center;background:none;border:none;padding:12px 4px;text-align:left;
+    cursor:pointer;color:inherit;font:inherit}
+  .model-board .mb-name{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;
+    overflow-wrap:anywhere}
+  .model-board .mb-icon{font-size:13px}
+  .model-board .mb-status{font-size:11px;color:var(--t2);overflow-wrap:anywhere}
+  .model-board .mb-h{font-size:12px;display:flex;flex-direction:column;gap:1px;line-height:1.3}
+  .model-board .mb-sub{font-size:10px;color:var(--t3)}
+  .model-board .mb-ci{font-size:10px;color:var(--t3);font-weight:400}
+  .model-board .mb-na{color:var(--t3);font-size:11px}
+  .model-board .mb-chev{color:var(--t3);transition:transform .18s}
+  .model-board .mb-head[aria-expanded="true"] .mb-chev{transform:rotate(180deg)}
+  .model-board .mb-body{padding:0 4px 14px}
+  .model-board .mb-detail,.model-board .mb-fail ul,.model-board .mb-cands ul{
+    margin:0;padding-left:16px;font-size:12px;color:var(--t2);line-height:1.7;overflow-wrap:anywhere}
+  .model-board .mb-fail,.model-board .mb-cands{margin-top:8px;font-size:12px}
+  .model-board .mb-fail b,.model-board .mb-cands b{display:block;margin-bottom:2px;color:var(--t1)}
+  .model-board .mb-archived .mb-name,.model-board .mb-archived .mb-status{color:var(--t3)}
+  .model-board .mb-foot{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--t3);line-height:1.6;overflow-wrap:anywhere}
+  .model-board .mb-foot p{margin:0 0 4px}
+  .model-board .mb-mobile-h{display:none}
+  @media(max-width:760px){
+    .model-board .mb-legend{grid-template-columns:1fr .7fr 16px}
+    .model-board .mb-legend .mb-h-wide{display:none}
+    .model-board .mb-head{grid-template-columns:1fr .7fr 16px;padding:11px 4px}
+    .model-board .mb-head .mb-h{display:none}
+    .model-board .mb-mobile-h{display:flex;flex-direction:column;gap:4px;margin-top:8px;
+      font-size:12px;color:var(--t2)}
+    .model-board .mb-mobile-h span{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+  }
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
   /* 개발 기록(changelog) 전용 — 색으로 분류를 표시하지 않고 활자 위계만으로 정리한다.
      ⚠️ overflow-wrap:anywhere는 필수다(AGENTS.md 주의 11번). body에 word-break:keep-all이
@@ -4019,6 +4057,8 @@
   w('deep_analysis_latest.js');
   ['analysis.js','indicators.js','radar.js','market_history.js','market_archive.js','dow_stats.js','team_weights.js'].forEach(w);
   document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
+  /* 모델 대시보드 집계(7KB 남짓). 개별 종목 예측 원본은 들어 있지 않다. */
+  document.write('<scr'+'ipt src="model_scoreboard.js?v=20260815-v1" onerror="window.MODEL_SCOREBOARD=window.MODEL_SCOREBOARD||null"></scr'+'ipt>');
 })();
 </script>
 <script>
@@ -4862,6 +4902,72 @@ function scWeekRange(offset){
   const fmt=d=>d.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
   return {start:fmt(start), end:fmt(end)};
 }
+/* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
+   5개 모델을 한 판에 놓고 비교한다. 카드를 늘어놓지 않고 한 패널 안의 row로 둔다.
+   ⚠️ 없는 성적을 0%로 표시하지 않는다. 평가 대기·해당 없음·근거 부족을 구분해 적는다. */
+function modelBoardHTML(){
+  const SB=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
+  if(!SB||!Array.isArray(SB.models)) return '';
+  const HSTAT={
+    'NOT_APPLICABLE':'해당 없음',
+    'PENDING_NOT_MATURED':'평가 대기',
+    'INSUFFICIENT_EVIDENCE':'근거 부족',
+    'ARCHIVED_NO_NEW_PREDICTIONS':'신규 없음'
+  };
+  const cell=h=>{
+    if(!h) return '<span class="mb-na">—</span>';
+    if(h.status==='OK'&&h.accuracy!=null){
+      const ci=Array.isArray(h.accuracyCI95)?` <span class="mb-ci">${h.accuracyCI95[0]}~${h.accuracyCI95[1]}</span>`:'';
+      return `<b>${h.accuracy}%</b>${ci}<span class="mb-sub">${h.matured}건 · ${h.uniqueDates}일</span>`;
+    }
+    const label=HSTAT[h.status]||h.status||'—';
+    const sub=(h.pending?`대기 ${h.pending}건`:'');
+    return `<span class="mb-na">${esc(label)}</span>${sub?`<span class="mb-sub">${esc(sub)}</span>`:''}`;
+  };
+  const rows=SB.models.map((m,i)=>{
+    const cands=(m.candidates||[]).length;
+    const detail=[
+      m.internalVersion?`내부 버전 ${esc(m.internalVersion)}`:'',
+      `공시 활용 ${m.usesDart?'예':'아니오'}`,
+      `자동 승격 ${m.autoPromotion==='REMOVED'?'제거됨':'없음 (사람이 승인해야 적용)'}`,
+      m.uniquePredictionDates?`판단일 ${m.uniquePredictionDates}일 · 기록 ${Number(m.recordCount).toLocaleString()}건`:'기록 없음',
+      m.primarySelection==='NO_PRIMARY_CANDIDATE_SELECTED'?`후보 ${cands||4}개 동시 시험 · 대표 후보 없음`:'',
+      m.note?esc(m.note):''
+    ].filter(Boolean).map(t=>`<li>${t}</li>`).join('');
+    const fails=(m.failureReasons||[]).map(r=>`<li>${esc(r)}</li>`).join('');
+    return `<div class="mb-row${m.status==='ARCHIVED_FAILED_EXPERIMENT'?' mb-archived':''}">
+      <button class="mb-head" type="button" aria-expanded="false" data-mb="${i}">
+        <span class="mb-name"><span class="mb-icon">${esc(m.icon||'')}</span>${esc(m.displayName)}</span>
+        <span class="mb-status">${esc(m.statusLabel||'')}</span>
+        <span class="mb-h">${cell(m.horizons&&m.horizons['5'])}</span>
+        <span class="mb-h mb-h-wide">${cell(m.horizons&&m.horizons['20'])}</span>
+        <span class="mb-h mb-h-wide">${cell(m.horizons&&m.horizons['60'])}</span>
+        <svg class="mb-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mb-body" hidden>
+        <ul class="mb-detail">${detail}</ul>
+        ${fails?`<div class="mb-fail"><b>물러난 이유</b><ul>${fails}</ul></div>`:''}
+        ${cands?`<div class="mb-cands"><b>후보별 성적</b><ul>${(m.candidates||[]).map(c=>`<li>${esc(c.candidateModelId)} · ${esc(HSTAT[c.status]||c.status)}</li>`).join('')}</ul></div>`:''}
+        <div class="mb-mobile-h">
+          <span>5일 ${cell(m.horizons&&m.horizons['5'])}</span>
+          <span>20일 ${cell(m.horizons&&m.horizons['20'])}</span>
+          <span>60일 ${cell(m.horizons&&m.horizons['60'])}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="sc-block model-board">
+    <h3>🧭 모델 검증</h3>
+    <p class="sc-sub">지금 화면에 쓰는 모델 하나와, 뒤에서 조용히 시험 중인 모델들을 나란히 둡니다. 시험 모델은 화면 판단을 바꾸지 않아요.</p>
+    <div class="mb-legend"><span>모델</span><span>상태</span><span>5일</span><span class="mb-h-wide">20일</span><span class="mb-h-wide">60일</span></div>
+    ${rows}
+    <div class="mb-foot">
+      <p>${esc(SB.policyNote||'')}</p>
+      <p>${esc(SB.independenceNote||'')}</p>
+      <p>순위: ${esc((SB.ranking&&SB.ranking.reason)||'산정 보류')}</p>
+    </div>
+  </div>`;
+}
 function scorecardMetrics(scored){
   const hits=scored.filter(r=>r.verdict==='hit');
   const misses=scored.filter(r=>r.verdict==='miss');
@@ -5150,12 +5256,23 @@ function renderScorecard(){
   ${weeklyExamples}
   ${versionHtml}
   ${deepDive}
+  ${modelBoardHTML()}
   ${modelDive}
   ${rotationShadow}`;
 }
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
 document.getElementById('scorecardView').addEventListener('click', e=>{
+  const mbHead=e.target.closest('.mb-head');
+  if(mbHead){
+    const body=mbHead.parentElement.querySelector('.mb-body');
+    if(body){
+      const open=!body.hidden;
+      body.hidden=open;
+      mbHead.setAttribute('aria-expanded', String(!open));
+    }
+    return;
+  }
   const guideBtn=e.target.closest('.sc-guide-btn');
   if(guideBtn){ goToGuideSection('gb-sec-modelv3'); return; }
   const btn=e.target.closest('.sc-week-btn'); if(!btn||btn.disabled) return;
