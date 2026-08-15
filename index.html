@@ -4274,10 +4274,19 @@ function levelsHTML(code, price, targetText){
    ============================================================ */
 let LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
 // 콜 vs 이후 수익률로 적중 판정. BUY=오르면 적중 / SELL=내리면 적중 / HOLD=±5% 이내면 적중
+/* ⭐ 2026-08-15 채점 규칙 통일 — 예전에는 같은 저장소 안에 HOLD 채점이 3가지로 갈라져 있었다.
+   ① index.html scoreCall: HOLD는 ±5%를 벗어나도 '중립'(빗나감이 될 수 없음)
+   ② compute_team_weights.py score_call: ①과 동일
+   ③ compute_model_intelligence.py call_hit: ±5% 이탈이면 빗나감(엄격)
+   그래서 같은 데이터로 통산 적중률이 70.7%(관대) vs 51.2%(엄격)로 19.5%p 갈렸고,
+   성적표 안에서도 헤드라인(관대)과 판단 종류별 표(엄격)가 서로 다른 숫자를 보여줬다.
+   HOLD는 "크게 안 움직인다"는 예측이므로 크게 움직였으면 빗나간 것이 맞다.
+   ③(엄격)으로 통일한다. ⚠️ BUY/HOLD/SELL 판단 기준(63점·47점)과 가중치는 건드리지 않는다 —
+   이것은 성능 튜닝이 아니라 '채점자'의 잣대를 하나로 맞추는 측정 정합성 수정이다. */
 function scoreCall(call, retPct){
   if(call==='BUY')  return retPct>1?'hit':(retPct<-1?'miss':'mid');
   if(call==='SELL') return retPct<-1?'hit':(retPct>1?'miss':'mid');
-  return Math.abs(retPct)<=5?'hit':'mid';
+  return Math.abs(retPct)<=5?'hit':'miss';
 }
 /* ── 채점 기준: 판단 후 5거래일 뒤 종가 ──
    모든 판단을 같은 잣대(일주일 성적표)로 공평하게 비교하기 위해,
@@ -4288,7 +4297,11 @@ function evalClose(code, entryDateStr, days=EVAL_DAYS){
   const pages=(typeof PRICE_HISTORY!=='undefined'&&PRICE_HISTORY[code])||[];
   if(!pages.length) return null;
   const d0=String(entryDateStr).slice(0,10);
-  const after=pages.flatMap(p=>p.days).filter(d=>d.date>d0);   // 판단일 다음 거래일부터
+  // ⚠️ PRICE_HISTORY의 페이지 배열은 시간순이 아닐 수 있다(flatCloses()·AGENTS.md 주의 2번과 같은 이유).
+  // 정렬하지 않으면 "판단일 다음 5번째 거래일"이 엉뚱한 날로 잡혀 채점이 통째로 틀어진다.
+  // 2026-08-15 재현 확인: 페이지 순서만 뒤바꾸면 같은 판단의 수익률이 +5.0% → +9.0%로 달라졌다.
+  const after=pages.flatMap(p=>p.days).filter(d=>d&&d.date>d0)
+    .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));   // 판단일 다음 거래일부터(날짜 오름차순)
   return after.length>=days ? {close:after[days-1].close, date:after[days-1].date} : null;
 }
 // 판단 기록의 확정 수익률(5거래일 뒤 종가 기준). 미확정이면 null.
@@ -4301,8 +4314,8 @@ const VERDICT_LABEL={hit:'적중 ✅', miss:'빗나감 ✕', mid:'중립'};
 // 채점 뜻 설명(커서 올리면 뜸). 판단 후 5거래일 뒤 종가 대비 수익률로 판정.
 const VERDICT_TIP={
   hit:'적중 — 팀 판단대로 주가가 움직였어요. (SELL 뒤 하락 / BUY 뒤 상승 / HOLD가 ±5% 이내). 판단 후 5거래일 뒤 종가로 판정.',
-  miss:'빗나감 — 판단과 반대로 움직였어요. (SELL 뒤 상승 / BUY 뒤 하락).',
-  mid:'중립 — 방향을 판정하기 애매한 변동이에요(±1% 이내 등). 적중·빗나감 집계에서 제외돼요.',
+  miss:'빗나감 — 판단과 반대로 움직였어요. (SELL 뒤 상승 / BUY 뒤 하락 / HOLD인데 ±5%를 벗어남). 판단 후 5거래일 뒤 종가로 판정.',
+  mid:'중립 — 방향을 판정하기 애매한 변동이에요(BUY·SELL이 ±1% 이내). 적중·빗나감 집계에서 제외돼요.',
   now:'평가중 — 판단 후 5거래일이 아직 지나지 않았어요. 5거래일 뒤 종가가 기록되면 그 값으로 채점됩니다.',
   rec:'채점 불가 — 기준가 정보가 없어 판정할 수 없는 기록이에요.'
 };
