@@ -210,7 +210,7 @@ surprise  : "NOT_COMPUTABLE_WITHOUT_CONSENSUS"
 
 ## 7. 보안 · Graceful Failure
 
-**키 보안**: `OPENDART_API_KEY` 환경변수에서만 읽는다. 소스코드·HTML·클라이언트 JS·
+**키 보안**: `OPEN_DART_API_KEY` 환경변수에서만 읽는다. 소스코드·HTML·클라이언트 JS·
 공개 JSON·로그·저장소 어디에도 넣지 않는다. GitHub Actions에서는 Secrets로 주입한다.
 
 DART는 키를 쿼리스트링으로 받기 때문에 예외 메시지에 URL이 그대로 찍히면 그게 유출이다.

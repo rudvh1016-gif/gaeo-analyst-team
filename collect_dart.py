@@ -18,22 +18,30 @@ import json
 import os
 import sys
 
+import dart_budget
 import dart_client
 import dart_pipeline as P
+import dart_time
 import research_store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DART_ROOT = P.DART_ROOT
 STATUS_PATH = os.path.join(DART_ROOT, "collection_status.json")
+BUDGET_PATH = os.path.join(DART_ROOT, "api_budget.json")
 
 
 def _now_iso():
-    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+    return dart_time.iso_now()
 
 
 def _dart_store():
-    """DART Raw도 Research와 같은 Archive 정책을 쓴다(요구 36번)."""
-    return research_store.ResearchArchiveStore(root=DART_ROOT)
+    """DART Raw도 같은 Archive 정책(Segment·gzip·manifest)을 쓴다.
+
+    ⚠️ 단 스키마는 다르다. DART Raw에는 modelVersion이 없으므로
+       Research Prediction 검사기를 그대로 쓰면 정상 Event가 손상으로 잡힌다.
+    """
+    return research_store.ResearchArchiveStore(
+        root=DART_ROOT, record_type=research_store.RECORD_DART)
 
 
 def write_status(payload):
@@ -42,10 +50,15 @@ def write_status(payload):
         json.dump(payload, f, ensure_ascii=False, indent=1, sort_keys=True)
 
 
-def refresh_corp_map(client):
-    """corp_code 매핑 테이블 갱신. 자주 부를 필요 없다."""
+def refresh_corp_map(client, budget=None):
+    """corp_code 매핑 테이블 갱신. 자주 부를 필요 없다(하루 1회 이하)."""
     universe = P.load_universe()
+    if budget is not None and not budget.allow("mapping"):
+        return {"status": dart_budget.DART_BUDGET_EXCEEDED,
+                "error": "일일 예산이 부족해 매핑 갱신을 미룹니다."}
     res = client.corp_code_zip()
+    if budget is not None:
+        budget.spend("mapping")
     if res["status"] != dart_client.OK:
         return {"status": res["status"], "error": res["error"],
                 "universeSize": len(universe)}
@@ -57,45 +70,80 @@ def refresh_corp_map(client):
     cmap = P.build_corp_map(rows, universe)
     P.save_corp_map(cmap)
     rate = cmap["mappedCount"] / cmap["universeSize"] if cmap["universeSize"] else 0
+    ambiguous = sum(1 for u in cmap["unknown"] if u.get("candidates"))
     return {"status": dart_client.OK, "dartCompanies": len(rows),
             "universeSize": cmap["universeSize"], "mapped": cmap["mappedCount"],
-            "unknown": cmap["unknownCount"], "mappingRate": round(rate, 4)}
+            "unknown": cmap["unknownCount"] - ambiguous, "ambiguous": ambiguous,
+            "mappingRate": round(rate, 4)}
 
 
-def collect(client, corp_map):
-    """오늘 신규공시를 모아 Daily Segment에 append."""
+def collect(client, corp_map, budget=None):
+    """오늘 신규공시를 모아 Daily Segment에 저장한다.
+
+    ⚠️ Durable Write 순서를 지킨다.
+       발견 → 정규화 → **Raw 저장 성공 확인** → 그 다음 Seen ACKNOWLEDGE.
+       저장 전에 '봤다'고 확정하면, 저장이 실패한 공시가 영원히 사라진다.
+    """
     started = _now_iso()
-    result = P.collect_new_filings(client, corp_map)
+    result = P.collect_new_filings(client, corp_map, budget=budget)
     events = result["events"]
-    state = P.coverage_state(events, result["errors"], client.has_key)
+    registry = result["registry"]
+    pagination = result["pagination"]
 
     stored = 0
+    store_errors = []
+    acknowledged = 0
     if events:
         store = _dart_store()
-        day = datetime.date.today().isoformat()
-        # DART Raw도 날짜별 Segment. rcept_no를 키로 쓴다.
-        records = [dict(e, code=e["rcept_no"], date=day) for e in events]
+        day = dart_time.today_kst()
+        records = [dict(e, date=day) for e in events]
         try:
+            state = store.segment_state(day, today=day)
+            if state in ("CLOSED", "COMPRESSED"):
+                raise PermissionError(f"{day} Segment가 {state}라 기록할 수 없다")
             added, replaced = store.append_predictions(day, records, today=day)
             stored = added + replaced
-        except PermissionError as ex:
-            result["errors"].append({"stage": "append", "error": str(ex)})
+            # 저장이 실제로 읽히는지 확인한 뒤에만 ACK. 여기서 실패하면 재시도된다.
+            saved_keys = {str(r.get("rcept_no")) for r in store.read_day(day)}
+            ok_nos = [e["rcept_no"] for e in events if e["rcept_no"] in saved_keys]
+            missing = [e["rcept_no"] for e in events if e["rcept_no"] not in saved_keys]
+            for no in ok_nos:
+                registry.mark_stored(no)
+            registry.acknowledge_many(ok_nos)
+            acknowledged = len(ok_nos)
+            if missing:
+                store_errors.append({"stage": "verify",
+                                     "error": f"저장 확인 실패 {len(missing)}건 — 다음 실행에서 재시도"})
+        except Exception as ex:
+            # 저장 실패. ACK를 하지 않았으므로 다음 실행에서 다시 수집된다.
+            store_errors.append({"stage": "append",
+                                 "error": dart_client.redact(str(ex))[:200]})
 
+    # 저장 결과가 확정된 뒤에 registry를 디스크에 쓴다.
+    registry.save()
+
+    state, reasons = P.coverage_state(events, result["errors"] + store_errors,
+                                      client.has_key, pagination)
     finished = _now_iso()
     return {
         "startedAt": started, "finishedAt": finished,
-        "eventState": state, "coverageNote": P.COVERAGE_NOTE,
-        "eventsStored": stored,
+        "eventState": state, "coverageReasons": reasons,
+        "coverageNote": P.COVERAGE_NOTE,
+        "pagination": pagination,
+        "eventsFound": len(events), "eventsStored": stored,
+        "eventsAcknowledged": acknowledged,
+        "pendingRetryNext": registry.pending_count(),
         "efficiency": client.efficiency_report({
             "new_filings_detected": result["stats"]["new_filings_detected"],
             "matched_gaeo_filings": result["stats"]["matched_gaeo_filings"],
             "duplicate_skipped": result["stats"]["duplicate_skipped"],
             "unmatched_filings": result["stats"]["unmatched_filings"],
             "pages_fetched": result["stats"]["pages_fetched"],
+            "list_requests": result["stats"]["list_requests"],
             "processing_duration_sec": None,
         }),
         "seenTotal": result["seenTotal"],
-        "errors": result["errors"],
+        "errors": result["errors"] + store_errors,
     }
 
 
@@ -125,7 +173,9 @@ def main():
         return self_test()
 
     client = dart_client.DartClient()
+    budget = dart_budget.DailyBudget(BUDGET_PATH)
     payload = {"ranAt": _now_iso(), "hasApiKey": client.has_key,
+               "kstToday": dart_time.today_kst(),
                "note": ("DART 수집 전용. research_v1.0 / v1.1 판단에 사용하지 않는다. "
                         "최초 사용 버전은 research_v2.0이다.")}
 
@@ -140,7 +190,7 @@ def main():
 
     try:
         if "--map" in args or P.load_corp_map() is None:
-            payload["mapping"] = refresh_corp_map(client)
+            payload["mapping"] = refresh_corp_map(client, budget)
             print(f"[DART] 매핑 — {payload['mapping']}")
         corp_map = P.load_corp_map()
         if not corp_map:
@@ -150,7 +200,7 @@ def main():
             write_status(payload)
             print("[DART] 매핑 테이블 없음 — 수집 생략")
             return 0
-        payload.update(collect(client, corp_map))
+        payload.update(collect(client, corp_map, budget))
         payload["status"] = dart_client.OK if not payload["errors"] else P.EVENT_DATA_ERROR
 
         # DART Raw도 Daily Segment → gzip → manifest 정책을 그대로 쓴다.
@@ -159,10 +209,14 @@ def main():
         except Exception as ex:
             payload["maintenanceError"] = dart_client.redact(str(ex))[:200]
 
+        payload["budget"] = budget.report()
         print(f"[DART] {payload['eventState']} · 신규 {payload['efficiency']['new_filings_detected']}건 "
               f"· 유니버스 매칭 {payload['efficiency']['matched_gaeo_filings']}건 "
               f"· 중복 skip {payload['efficiency']['duplicate_skipped']}건 "
-              f"· 호출 {payload['efficiency']['requests_per_run']}회")
+              f"· 호출 {payload['efficiency']['requests_per_run']}회 "
+              f"· 오늘 누적 {payload['budget']['requests_today']}건 "
+              f"({payload['budget']['usage_pct_of_hard_limit']}% of {budget.hard_limit}) "
+              f"· {payload['budget']['status']}")
     except Exception as ex:
         # 여기까지 오면 예상 못 한 오류다. 그래도 워크플로를 죽이지 않는다.
         payload.update({"status": P.EVENT_DATA_ERROR,
@@ -170,6 +224,11 @@ def main():
                         "error": dart_client.redact(f"{type(ex).__name__}: {ex}")[:300]})
         print(f"[DART] 수집 실패 — 나머지 파이프라인은 계속 진행: {payload['error']}")
 
+    try:
+        budget.save()
+        payload.setdefault("budget", budget.report())
+    except OSError as ex:
+        payload["budgetSaveError"] = str(ex)[:120]
     write_status(payload)
     return 0
 
