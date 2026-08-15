@@ -192,6 +192,39 @@ def _research_entry(code, day, rec):
                 } for h, hv in (cv.get("horizons") or {}).items() if isinstance(hv, dict)},
             } for cid, cv in (v11.get("candidates") or {}).items() if isinstance(cv, dict)},
         }
+    v20 = rec.get("v20")
+    if isinstance(v20, dict) and v20.get("researchModelVersion"):
+        out["researchV20"] = {
+            "modelVersion": v20.get("researchModelVersion"),
+            "featureVersion": v20.get("featureVersion"),
+            "labelVersion": v20.get("labelVersion"),
+            "configHash": v20.get("configHash"),
+            "inheritedFrom": v20.get("inheritedFrom"),
+            "inheritedConfigHash": v20.get("inheritedConfigHash"),
+            "createdAt": v20.get("createdAt"),
+            "inputTimestamp": v20.get("inputTimestamp"),
+            "primarySelection": v20.get("primarySelection"),
+            # DART 맥락은 '무엇을 알 수 있었는가'만. 점수가 아니다.
+            "dart": {k: (v20.get("dart") or {}).get(k) for k in
+                     ("visibleEventCount", "hiddenNotYetDetected", "hasOfficialEvent",
+                      "correctionCount", "coverageState")},
+            "candidates": {cid: {
+                "candidateModelId": cv.get("candidateModelId"),
+                "pairedWith": cv.get("pairedWith"),
+                "predictionTimestamp": cv.get("predictionTimestamp"),
+                "modelVersion": cv.get("modelVersion"),
+                "featureVersion": cv.get("featureVersion"),
+                "labelVersion": cv.get("labelVersion"),
+                "inputTimestamp": cv.get("inputTimestamp"),
+                "dartContextApplied": cv.get("dartContextApplied"),
+                "horizons": {h: {"action": hv.get("action"),
+                                 "probability": hv.get("probability"),
+                                 "maturity": hv.get("maturity")}
+                             for h, hv in (cv.get("horizons") or {}).items()
+                             if isinstance(hv, dict)},
+            } for cid, cv in (v20.get("candidates") or {}).items() if isinstance(cv, dict)},
+            "source": "live_shadow_oos",
+        }
     return out
 
 
