@@ -1,0 +1,24 @@
+{
+ "status": "FULL_MARKET_PARTIAL",
+ "asOf": "2026-08-15T23:02:54+00:00",
+ "kstDay": "2026-08-16",
+ "rawCount": 3922,
+ "eligibleCount": 0,
+ "requestCount": 44,
+ "quality": {
+  "expectedCount": 4298,
+  "receivedCount": 4298,
+  "rawCount": 3922,
+  "eligibleCount": 0,
+  "kospiCount": 2477,
+  "kosdaqCount": 1821,
+  "duplicateCount": 0,
+  "missingPriceCount": 0,
+  "excludedCounts": {
+   "SPAC": 41,
+   "CLASS_SHARE": 423
+  },
+  "classificationUnknownCount": 3458,
+  "coverageRatio": 0.9125
+ }
+}
