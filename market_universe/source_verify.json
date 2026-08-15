@@ -1,0 +1,314 @@
+{
+ "ranAt": "2026-08-15T23:01:55+00:00",
+ "mode": "smoke",
+ "markets": {
+  "KOSPI": {
+   "status": "OK",
+   "totalCount": 2477,
+   "pageRows": 100,
+   "topLevelKeys": [
+    "localOpenTimeDesc",
+    "marketStatus",
+    "page",
+    "pageSize",
+    "stockListCategoryType",
+    "stockListSortType",
+    "stocks",
+    "totalCount"
+   ],
+   "stockFields": {
+    "accumulatedTradingValue": {
+     "nonNullRatio": 1.0,
+     "sample": "5,874,118"
+    },
+    "accumulatedTradingValueKrwHangeul": {
+     "nonNullRatio": 1.0,
+     "sample": "5조 8,741억원"
+    },
+    "accumulatedTradingValueRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "5874118000000"
+    },
+    "accumulatedTradingVolume": {
+     "nonNullRatio": 1.0,
+     "sample": "21,668,266"
+    },
+    "accumulatedTradingVolumeRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "21668266"
+    },
+    "closePrice": {
+     "nonNullRatio": 1.0,
+     "sample": "274,500"
+    },
+    "closePriceRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "274500"
+    },
+    "compareToPreviousClosePrice": {
+     "nonNullRatio": 1.0,
+     "sample": "6,500"
+    },
+    "compareToPreviousClosePriceRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "6500"
+    },
+    "compareToPreviousPrice": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': '2', 'text': '상승', 'name': 'RIS"
+    },
+    "endUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://m.stock.naver.com/domestic/stock"
+    },
+    "fluctuationsRatio": {
+     "nonNullRatio": 1.0,
+     "sample": "2.43"
+    },
+    "itemCode": {
+     "nonNullRatio": 1.0,
+     "sample": "005930"
+    },
+    "itemLogoPngUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://ssl.pstatic.net/imgstock/fn/real"
+    },
+    "itemLogoUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://ssl.pstatic.net/imgstock/fn/real"
+    },
+    "localTradedAt": {
+     "nonNullRatio": 1.0,
+     "sample": "2026-08-14T16:10:19+09:00"
+    },
+    "marketStatus": {
+     "nonNullRatio": 1.0,
+     "sample": "CLOSE"
+    },
+    "marketValue": {
+     "nonNullRatio": 1.0,
+     "sample": "16,048,035"
+    },
+    "marketValueHangeul": {
+     "nonNullRatio": 1.0,
+     "sample": "1,604조 8,035억원"
+    },
+    "marketValueRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "1604803477896000"
+    },
+    "nav": {
+     "nonNullRatio": 1.0,
+     "sample": "N/A"
+    },
+    "overMarketPriceInfo": {
+     "nonNullRatio": 0.81,
+     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
+    },
+    "reutersCode": {
+     "nonNullRatio": 1.0,
+     "sample": "005930"
+    },
+    "sosok": {
+     "nonNullRatio": 1.0,
+     "sample": "0"
+    },
+    "stockEndType": {
+     "nonNullRatio": 1.0,
+     "sample": "stock"
+    },
+    "stockExchangeType": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': 'KS', 'zoneId': 'Asia/Seoul', '"
+    },
+    "stockMiniImageChart": {
+     "nonNullRatio": 1.0,
+     "sample": "https://financial-vn.pstatic.net/chart/m"
+    },
+    "stockName": {
+     "nonNullRatio": 1.0,
+     "sample": "삼성전자"
+    },
+    "stockType": {
+     "nonNullRatio": 1.0,
+     "sample": "domestic"
+    },
+    "threeMonthEarningRate": {
+     "nonNullRatio": 1.0,
+     "sample": "N/A"
+    },
+    "tradableStatus": {
+     "nonNullRatio": 1.0,
+     "sample": "tradable"
+    },
+    "tradableStatusCode": {
+     "nonNullRatio": 1.0,
+     "sample": "ok"
+    },
+    "tradableStatusUpdatedAt": {
+     "nonNullRatio": 1.0,
+     "sample": "2026-08-14T08:01:26.519+09:00"
+    },
+    "tradeStopType": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': '1', 'text': '운영.Trading', 'nam"
+    }
+   }
+  },
+  "KOSDAQ": {
+   "status": "OK",
+   "totalCount": 1821,
+   "pageRows": 100,
+   "topLevelKeys": [
+    "localOpenTimeDesc",
+    "marketStatus",
+    "page",
+    "pageSize",
+    "stockListCategoryType",
+    "stockListSortType",
+    "stocks",
+    "totalCount"
+   ],
+   "stockFields": {
+    "accumulatedTradingValue": {
+     "nonNullRatio": 1.0,
+     "sample": "118,768"
+    },
+    "accumulatedTradingValueKrwHangeul": {
+     "nonNullRatio": 1.0,
+     "sample": "1,188억원"
+    },
+    "accumulatedTradingValueRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "118768000000"
+    },
+    "accumulatedTradingVolume": {
+     "nonNullRatio": 1.0,
+     "sample": "375,775"
+    },
+    "accumulatedTradingVolumeRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "375775"
+    },
+    "closePrice": {
+     "nonNullRatio": 1.0,
+     "sample": "314,000"
+    },
+    "closePriceRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "314000"
+    },
+    "compareToPreviousClosePrice": {
+     "nonNullRatio": 1.0,
+     "sample": "-3,500"
+    },
+    "compareToPreviousClosePriceRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "-3500"
+    },
+    "compareToPreviousPrice": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': '5', 'text': '하락', 'name': 'FAL"
+    },
+    "endUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://m.stock.naver.com/domestic/stock"
+    },
+    "fluctuationsRatio": {
+     "nonNullRatio": 1.0,
+     "sample": "-1.10"
+    },
+    "itemCode": {
+     "nonNullRatio": 1.0,
+     "sample": "196170"
+    },
+    "itemLogoPngUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://ssl.pstatic.net/imgstock/fn/real"
+    },
+    "itemLogoUrl": {
+     "nonNullRatio": 1.0,
+     "sample": "https://ssl.pstatic.net/imgstock/fn/real"
+    },
+    "localTradedAt": {
+     "nonNullRatio": 1.0,
+     "sample": "2026-08-14T16:10:16+09:00"
+    },
+    "marketStatus": {
+     "nonNullRatio": 1.0,
+     "sample": "CLOSE"
+    },
+    "marketValue": {
+     "nonNullRatio": 1.0,
+     "sample": "168,261"
+    },
+    "marketValueHangeul": {
+     "nonNullRatio": 1.0,
+     "sample": "16조 8,261억원"
+    },
+    "marketValueRaw": {
+     "nonNullRatio": 1.0,
+     "sample": "16826111702000"
+    },
+    "nav": {
+     "nonNullRatio": 1.0,
+     "sample": "N/A"
+    },
+    "overMarketPriceInfo": {
+     "nonNullRatio": 0.7,
+     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
+    },
+    "reutersCode": {
+     "nonNullRatio": 1.0,
+     "sample": "196170"
+    },
+    "sosok": {
+     "nonNullRatio": 1.0,
+     "sample": "1"
+    },
+    "stockEndType": {
+     "nonNullRatio": 1.0,
+     "sample": "stock"
+    },
+    "stockExchangeType": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': 'KQ', 'zoneId': 'Asia/Seoul', '"
+    },
+    "stockMiniImageChart": {
+     "nonNullRatio": 1.0,
+     "sample": "https://financial-vn.pstatic.net/chart/m"
+    },
+    "stockName": {
+     "nonNullRatio": 1.0,
+     "sample": "알테오젠"
+    },
+    "stockType": {
+     "nonNullRatio": 1.0,
+     "sample": "domestic"
+    },
+    "threeMonthEarningRate": {
+     "nonNullRatio": 1.0,
+     "sample": "N/A"
+    },
+    "tradableStatus": {
+     "nonNullRatio": 1.0,
+     "sample": "tradable"
+    },
+    "tradableStatusCode": {
+     "nonNullRatio": 1.0,
+     "sample": "ok"
+    },
+    "tradableStatusUpdatedAt": {
+     "nonNullRatio": 1.0,
+     "sample": "2026-08-14T08:02:06.99+09:00"
+    },
+    "tradeStopType": {
+     "nonNullRatio": 1.0,
+     "sample": "{'code': '1', 'text': '운영.Trading', 'nam"
+    }
+   }
+  }
+ },
+ "requestCount": 2,
+ "verified": true
+}
