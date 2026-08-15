@@ -7,7 +7,7 @@
    DART가 실제 분석 Feature로 쓰이는 최초 버전은 research_v2.0이다.
 
 키 보안 (요구 14번)
-- API Key는 환경변수(OPENDART_API_KEY)에서만 읽는다.
+- API Key는 환경변수(OPEN_DART_API_KEY)에서만 읽는다.
   소스코드·HTML·클라이언트 JS·공개 JSON·로그·저장소 어디에도 넣지 않는다.
 - GitHub Actions에서는 Secrets로 주입한다.
 - 예외 메시지·URL 로그에 키가 섞여 나가지 않도록 redact()로 항상 지운다.
@@ -30,7 +30,7 @@ import urllib.request
 import urllib.error
 
 API_BASE = "https://opendart.fss.or.kr/api"
-KEY_ENV = "OPENDART_API_KEY"
+KEY_ENV = "OPEN_DART_API_KEY"
 
 # 상태값
 OK = "OK"

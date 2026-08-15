@@ -120,13 +120,14 @@ class Compression(StoreCase):
         day = self._closed_day()
         src = self.store.segment_path(day, False)
         orig = S._stat_records
-        S._stat_records = lambda p: {"recordCount": -1, "modelVersions": [],
-                                     "featureVersions": [], "labelVersions": [],
-                                     "firstPredictionTimestamp": None,
-                                     "lastPredictionTimestamp": None,
-                                     "duplicateKeys": [], "missingModelVersion": 0,
-                                     "missingPredictionTimestamp": 0} \
-            if p.endswith(".gz") else orig(p)
+
+        def broken(path, record_type=S.RECORD_RESEARCH):
+            if path.endswith(".gz"):
+                st = orig(path, record_type)
+                st["recordCount"] = -1        # 압축본 개수가 안 맞는 상황을 흉내
+                return st
+            return orig(path, record_type)
+        S._stat_records = broken
         try:
             res = self.store.compress_segment(day, today="2026-08-15")
         finally:
@@ -159,7 +160,7 @@ class IntegrityChecks(StoreCase):
         self.store.append_predictions(day, [bad], today=day)
         self.store.close_daily_segment(day, today="2026-08-15")
         v = self.store.verify_archive(day)
-        self.assertTrue(any("predictionTimestamp" in e for e in v["errors"]))
+        self.assertTrue(any("createdAt" in e for e in v["errors"]), v["errors"])
 
     def test_duplicate_key_detected(self):
         day = "2026-08-14"
