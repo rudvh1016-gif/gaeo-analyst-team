@@ -389,14 +389,59 @@ v1.x의 가격·기술·수급
 | 항목 | 상태 |
 | --- | --- |
 | DART 수집 코드 | 구현 완료 |
-| DART API 실연결 | **이 세션에서는 검증 못 함** (키 없음 + egress 프록시 403) |
-| corp_map | API 키 주입 후 첫 실행에서 생성 |
+| DART API 실연결 | **성공** (2026-08-15, GitHub Actions 러너) |
+| corp_map | **499/500 (99.8%)** 생성 완료 |
 | Research Segment 저장 | 동작 확인 |
 | gzip · manifest · 무결성 | 동작 확인 |
 | Weekly / Monthly Rollup | 구현 + 테스트 완료 |
 | DART가 v1.x 판단에 반영 | **되지 않음**(테스트로 강제) |
 | research_v2.0 점수 | **아직 만들지 않음** |
-| Timestamp Live Verification | `IMPLEMENTED_PENDING_LIVE_VERIFICATION` |
+| Timestamp Live Verification | `IMPLEMENTED_PENDING_LIVE_VERIFICATION` (평일 장중 필요) |
+| Raw Archive 공개 노출 | **`RAW_ARCHIVE_PUBLICLY_ACCESSIBLE`** (아래 15절) |
 
 OpenDART와 장기 Research 저장 인프라는 준비되었지만,
 DART 정보가 포함된 research_v2.0이 기존 GAEO보다 정확하다는 결론은 아직 내리지 않는다.
+
+
+---
+
+## 15. Raw Archive 공개 노출 (2026-08-15 실측)
+
+`robots.txt`의 `Disallow`는 검색엔진에 대한 요청일 뿐 **접근 차단이 아니다.**
+실제 HTTP 응답으로 확인한 결과:
+
+| 경로 | HTTP |
+| --- | --- |
+| `/robots.txt` (대조) | 200 |
+| `/index.html` (대조) | 200 |
+| `/research_archive/dart/smoke_report.json` | **200** |
+| `/research_archive/dart/corp_map.json` | **200** |
+
+**판정: `RAW_ARCHIVE_PUBLICLY_ACCESSIBLE`**
+
+GitHub Pages가 저장소 루트를 그대로 서빙하므로 커밋된 `research_archive/`는
+누구나 내려받을 수 있다.
+
+### 지금 공개돼 있는 것의 성격
+
+| 파일 | 내용 | 민감도 |
+| --- | --- | --- |
+| `corp_map.json` | DART corp_code ↔ 종목코드 매핑 | 전부 공개 정보 |
+| `smoke_report.json` | 연결 상태·매핑 통계·재무 커버리지 | 통계값. **API Key 없음(실측 확인)** |
+
+즉 **지금 시점에 유출된 비밀은 없다.** 공개 데이터의 매핑표와 점검 통계뿐이다.
+
+### 앞으로가 문제다
+
+Research Prediction 원본(`research_archive/live/**`)이 쌓이기 시작하면
+그것도 같은 경로로 공개된다. 그건 아직 검증되지 않은 연구용 판단이라
+외부에 그대로 내보낼 자료가 아니다.
+
+### 선택지 (이번 작업에서 실행하지 않음)
+
+1. Pages 배포 소스를 `main` 루트가 아니라 별도 브랜치/디렉터리로 바꾼다.
+   가장 확실하지만 배포 구조를 건드리는 변경이라 별도 검토가 필요하다.
+2. Research Archive만 비공개 저장소로 분리한다.
+3. 현 상태를 유지하되 "연구 기록은 공개된다"를 전제로 운용한다.
+
+**요구 12번대로 위험한 대규모 Migration은 하지 않았다. 노출 사실만 확인해 보고한다.**
