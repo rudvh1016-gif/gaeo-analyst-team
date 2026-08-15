@@ -158,26 +158,31 @@ class Deduplication(unittest.TestCase):
         self.path = os.path.join(self.tmp, "seen.json")
 
     def test_rcept_no_dedup(self):
+        """⚠️ PENDING만으로는 건너뛰지 않는다. 저장 확인(ACK) 후에만 건너뛴다."""
         reg = P.SeenRegistry(self.path)
         self.assertTrue(reg.is_new("20260815000001"))
-        reg.mark("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
+        reg.mark_pending("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
+        self.assertTrue(reg.is_new("20260815000001"), "저장 전인데 건너뛰면 유실된다")
+        reg.acknowledge("20260815000001")
         self.assertFalse(reg.is_new("20260815000001"))
 
     def test_dedup_persists(self):
         reg = P.SeenRegistry(self.path)
-        reg.mark("20260815000001", {"ticker": "005930", "report_name": "x"})
+        reg.mark_pending("20260815000001", {"ticker": "005930", "report_name": "x"})
+        reg.acknowledge("20260815000001")
         reg.save()
         self.assertFalse(P.SeenRegistry(self.path).is_new("20260815000001"))
 
     def test_correction_is_separate_receipt(self):
         """정정공시는 새 rcept_no라 별개 Event로 들어온다."""
         reg = P.SeenRegistry(self.path)
-        reg.mark("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
+        reg.mark_pending("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
+        reg.acknowledge("20260815000001")
         self.assertTrue(reg.is_new("20260815000009"))
 
     def test_correction_links_to_original(self):
         reg = P.SeenRegistry(self.path)
-        reg.mark("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
+        reg.mark_pending("20260815000001", {"ticker": "005930", "report_name": "사업보고서"})
         ev = reg.link_correction({"rcept_no": "20260815000009", "ticker": "005930",
                                   "report_name": "[기재정정]사업보고서",
                                   "is_correction": True,
@@ -186,8 +191,8 @@ class Deduplication(unittest.TestCase):
 
     def test_ambiguous_correction_not_linked(self):
         reg = P.SeenRegistry(self.path)
-        reg.mark("A1", {"ticker": "005930", "report_name": "사업보고서"})
-        reg.mark("A2", {"ticker": "005930", "report_name": "사업보고서(정정전)"})
+        reg.mark_pending("A1", {"ticker": "005930", "report_name": "사업보고서"})
+        reg.mark_pending("A2", {"ticker": "005930", "report_name": "사업보고서(정정전)"})
         ev = reg.link_correction({"rcept_no": "A9", "ticker": "005930",
                                   "report_name": "[기재정정]사업보고서",
                                   "is_correction": True,
@@ -270,21 +275,22 @@ class Financials(unittest.TestCase):
 
 class EventStates(unittest.TestCase):
     def test_no_event_is_not_no_news(self):
-        self.assertEqual(P.coverage_state([], [], has_key=True),
-                         P.NO_OFFICIAL_EVENT_DETECTED)
+        state, _r = P.coverage_state([], [], has_key=True)
+        self.assertEqual(state, P.NO_OFFICIAL_EVENT_DETECTED)
         self.assertIn("뉴스 없음", P.COVERAGE_NOTE)
 
     def test_missing_key_is_incomplete_not_empty(self):
-        self.assertEqual(P.coverage_state([], [], has_key=False),
-                         P.EVENT_COVERAGE_INCOMPLETE)
+        state, reasons = P.coverage_state([], [], has_key=False)
+        self.assertEqual(state, P.EVENT_COVERAGE_INCOMPLETE)
+        self.assertIn(P.NO_API_KEY, reasons)
 
     def test_errors_become_data_error(self):
-        self.assertEqual(P.coverage_state([], [{"e": 1}], has_key=True),
-                         P.EVENT_DATA_ERROR)
+        state, _r = P.coverage_state([], [{"e": 1}], has_key=True)
+        self.assertEqual(state, P.EVENT_DATA_ERROR)
 
     def test_detected_state(self):
-        self.assertEqual(P.coverage_state([{"rcept_no": "1"}], [], has_key=True),
-                         P.EVENT_DETECTED)
+        state, _r = P.coverage_state([{"rcept_no": "1"}], [], has_key=True)
+        self.assertEqual(state, P.EVENT_DETECTED)
 
     def test_no_score_is_produced(self):
         """공시를 발견했다고 BUY/SELL 점수를 만들지 않는다."""
@@ -355,13 +361,19 @@ class NoPerStockPolling(unittest.TestCase):
         self.assertEqual([e["rcept_no"] for e in res["events"]], ["A"])
 
     def test_second_run_skips_duplicates(self):
+        """⚠️ 저장 확인(ACK) 뒤에만 건너뛴다. ACK 전이면 반드시 재시도한다."""
         pages = {1: {"list": [
             {"corp_code": "00126380", "rcept_no": "A", "report_nm": "x", "rcept_dt": "20260815"}],
             "total_page": 1}}
-        self._run(pages, self.seen)
-        _client, res2 = self._run(pages, self.seen)
-        self.assertEqual(res2["stats"]["duplicate_skipped"], 1)
-        self.assertEqual(res2["events"], [])
+        _c1, res1 = self._run(pages, self.seen)
+        _c2, res2 = self._run(pages, self.seen)
+        self.assertEqual([e["rcept_no"] for e in res2["events"]], ["A"],
+                         "ACK 전인데 건너뛰면 유실된다")
+        res1["registry"].acknowledge_many(["A"])
+        res1["registry"].save()
+        _c3, res3 = self._run(pages, self.seen)
+        self.assertEqual(res3["stats"]["duplicate_skipped"], 1)
+        self.assertEqual(res3["events"], [])
 
     def test_efficiency_metrics_present(self):
         pages = {1: {"list": [], "total_page": 1}}

@@ -33,6 +33,31 @@ ARCHIVE_ROOT = os.path.join(HERE, "research_archive")
 SCHEMA_VERSION = "research_archive_v1"
 ARCHIVE_VERSION = "1.0"
 
+# ⚠️ 레코드 종류마다 필수 필드가 다르다. Research Prediction 검사기를 그대로
+#    DART Raw Event에 쓰면 modelVersion이 없다고 정상 Event가 손상으로 잡힌다.
+#    DART 기록에 억지로 modelVersion을 넣어 검사를 통과시키지 않는다.
+RECORD_RESEARCH = "research_prediction"
+RECORD_DART = "dart_event"
+
+RECORD_SPECS = {
+    RECORD_RESEARCH: {
+        "versionBlocks": ("research", "researchV11"),
+        "versionField": "modelVersion",
+        "timestampField": "createdAt",
+        "keyFields": ("code", "date"),
+        "requiredFields": (),
+    },
+    RECORD_DART: {
+        # DART Raw는 모델 개념이 없다. 원본이 어디서 언제 왔는지가 핵심이다.
+        "versionBlocks": (),
+        "versionField": None,
+        "timestampField": "detected_at",
+        "keyFields": ("rcept_no",),
+        "requiredFields": ("rcept_no", "corp_code", "ticker",
+                           "detected_at", "fetched_at", "source", "sourceMode"),
+    },
+}
+
 # 무결성 상태값
 OK = "OK"
 ARCHIVE_INTEGRITY_ERROR = "ARCHIVE_INTEGRITY_ERROR"
@@ -59,44 +84,68 @@ def _iter_jsonl(path):
             yield lineno, json.loads(line)
 
 
-def _stat_records(path):
-    """레코드 수 + 모델버전 집합 + 시각 범위 + 중복 키를 한 번에 센다."""
+def _stat_records(path, record_type=RECORD_RESEARCH):
+    """레코드 수 + 버전 집합 + 시각 범위 + 중복 키 + 필수필드 누락을 센다.
+
+    record_type에 따라 '무엇이 필수인가'가 달라진다.
+    Research Prediction에는 modelVersion이, DART Raw에는 rcept_no·detected_at이
+    필수다. 서로의 잣대를 들이대지 않는다.
+    """
+    spec = RECORD_SPECS.get(record_type) or RECORD_SPECS[RECORD_RESEARCH]
     count = 0
     versions, features, labels = set(), set(), set()
     first_ts = last_ts = None
     keys = set()
     dups = []
     missing_version, missing_ts = 0, 0
+    missing_required = {}
     for _lineno, rec in _iter_jsonl(path):
         count += 1
-        key = (str(rec.get("code")), str(rec.get("date")))
+        key = tuple(str(rec.get(k)) for k in spec["keyFields"])
         if key in keys:
             dups.append(key)
         keys.add(key)
-        found_version = False
-        found_ts = False
-        for block in ("research", "researchV11"):
-            b = rec.get(block)
-            if not isinstance(b, dict):
-                continue
-            if b.get("modelVersion"):
-                versions.add(b["modelVersion"]); found_version = True
-            if b.get("featureVersion"):
-                features.add(b["featureVersion"])
-            if b.get("labelVersion"):
-                labels.add(b["labelVersion"])
-            ts = b.get("createdAt")
+
+        for field in spec["requiredFields"]:
+            if not rec.get(field):
+                missing_required[field] = missing_required.get(field, 0) + 1
+
+        if spec["versionBlocks"]:
+            found_version = False
+            found_ts = False
+            for block in spec["versionBlocks"]:
+                b = rec.get(block)
+                if not isinstance(b, dict):
+                    continue
+                if b.get("modelVersion"):
+                    versions.add(b["modelVersion"]); found_version = True
+                if b.get("featureVersion"):
+                    features.add(b["featureVersion"])
+                if b.get("labelVersion"):
+                    labels.add(b["labelVersion"])
+                ts = b.get(spec["timestampField"])
+                if ts:
+                    found_ts = True
+                    if first_ts is None or ts < first_ts:
+                        first_ts = ts
+                    if last_ts is None or ts > last_ts:
+                        last_ts = ts
+            if not found_version:
+                missing_version += 1
+            if not found_ts:
+                missing_ts += 1
+        else:
+            # DART Raw: 최상위에 시각이 있다. 모델 버전은 아예 개념이 없다.
+            ts = rec.get(spec["timestampField"])
             if ts:
-                found_ts = True
-                if first_ts is None or ts < first_ts:
+                if first_ts is None or str(ts) < str(first_ts):
                     first_ts = ts
-                if last_ts is None or ts > last_ts:
+                if last_ts is None or str(ts) > str(last_ts):
                     last_ts = ts
-        if not found_version:
-            missing_version += 1
-        if not found_ts:
-            missing_ts += 1
+            else:
+                missing_ts += 1
     return {
+        "recordType": record_type,
         "recordCount": count,
         "modelVersions": sorted(versions),
         "featureVersions": sorted(features),
@@ -106,6 +155,7 @@ def _stat_records(path):
         "duplicateKeys": sorted(set(dups)),
         "missingModelVersion": missing_version,
         "missingPredictionTimestamp": missing_ts,
+        "missingRequiredFields": missing_required,
     }
 
 
@@ -123,10 +173,19 @@ class ResearchArchiveStore:
     압축 방식이 바뀌어도 호출부는 그대로 둘 수 있다.
     """
 
-    def __init__(self, root=ARCHIVE_ROOT):
+    def __init__(self, root=ARCHIVE_ROOT, record_type=RECORD_RESEARCH):
         self.root = root
+        self.record_type = record_type
+        self.spec = RECORD_SPECS.get(record_type) or RECORD_SPECS[RECORD_RESEARCH]
         self.live = os.path.join(root, "live")
         self.archive = os.path.join(root, "archive")
+
+    def _key(self, rec):
+        """이 스키마에서 레코드를 구분하는 키."""
+        return tuple(str(rec.get(k)) for k in self.spec["keyFields"])
+
+    def _stats(self, path):
+        return _stat_records(path, self.record_type)
 
     # ── 경로 ────────────────────────────────────────────────────────────
     def segment_path(self, day, compressed=False):
@@ -200,11 +259,10 @@ class ResearchArchiveStore:
                 f"{day} Segment는 {state} 상태다. 닫힌 날짜에는 기록을 쓸 수 없다.")
 
         existing = self.read_day(day)
-        index = {(str(r.get("code")), str(r.get("date"))): i
-                 for i, r in enumerate(existing)}
+        index = {self._key(r): i for i, r in enumerate(existing)}
         added = replaced = 0
         for rec in records:
-            key = (str(rec.get("code")), str(rec.get("date")))
+            key = self._key(rec)
             if key in index:
                 existing[index[key]] = rec
                 replaced += 1
@@ -217,7 +275,7 @@ class ResearchArchiveStore:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
-            for rec in sorted(existing, key=lambda r: (str(r.get("code")), str(r.get("date")))):
+            for rec in sorted(existing, key=self._key):
                 f.write(json.dumps(rec, ensure_ascii=False, separators=(",", ":")) + "\n")
         os.replace(tmp, path)
         return added, replaced
@@ -235,12 +293,13 @@ class ResearchArchiveStore:
         if state == "ACTIVE":
             return None      # 아직 쓰는 중 — 닫지 않는다
         path = self.existing_segment(day)
-        stats = _stat_records(path)
+        stats = self._stats(path)
         manifest = {
             "archiveVersion": ARCHIVE_VERSION,
             "schemaVersion": SCHEMA_VERSION,
             "createdAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "period": {"type": "day", "id": day},
+            "recordType": self.record_type,
             "compression": "gzip" if path.endswith(".gz") else "none",
             "sourceFiles": [os.path.relpath(path, self.root)],
             "sha256": {os.path.basename(path): _sha256_file(path)},
@@ -271,7 +330,7 @@ class ResearchArchiveStore:
             return {"status": f"SKIPPED_{state}", "day": day}
 
         src = self.segment_path(day, False)
-        before = _stat_records(src)
+        before = self._stats(src)
         src_hash = _sha256_file(src)
         raw_bytes = os.path.getsize(src)
 
@@ -287,7 +346,7 @@ class ResearchArchiveStore:
             os.replace(tmp, dst)
 
             # 5·6) 실제로 풀어서 다시 세어 본다
-            after = _stat_records(dst)
+            after = self._stats(dst)
             if after["recordCount"] != before["recordCount"]:
                 raise ValueError(
                     f"압축 전후 레코드 수 불일치 {before['recordCount']} != {after['recordCount']}")
@@ -307,6 +366,7 @@ class ResearchArchiveStore:
             "schemaVersion": SCHEMA_VERSION,
             "createdAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "period": {"type": "day", "id": day},
+            "recordType": self.record_type,
             "compression": "gzip",
             "sourceFiles": [os.path.relpath(dst, self.root)],
             "sha256": {os.path.basename(dst): _sha256_file(dst),
@@ -347,7 +407,7 @@ class ResearchArchiveStore:
         # EOFError, UnicodeDecodeError, BadGzipFile …) 여기서는 넓게 잡는다.
         # 무결성 검사기가 예외로 죽어버리면 검사 자체가 무의미하다.
         try:
-            stats = _stat_records(path)
+            stats = self._stats(path)
         except Exception as ex:
             return {"status": ARCHIVE_INTEGRITY_ERROR, "day": day,
                     "errors": [f"복원 실패: {str(ex)[:120]}"]}
@@ -359,10 +419,13 @@ class ResearchArchiveStore:
             errors.append("SHA256 불일치")
         if stats["duplicateKeys"]:
             errors.append(f"중복 키 {len(stats['duplicateKeys'])}건")
-        if stats["missingModelVersion"]:
+        if self.spec["versionBlocks"] and stats["missingModelVersion"]:
             errors.append(f"modelVersion 누락 {stats['missingModelVersion']}건")
         if stats["missingPredictionTimestamp"]:
-            errors.append(f"predictionTimestamp 누락 {stats['missingPredictionTimestamp']}건")
+            errors.append(f"{self.spec['timestampField']} 누락 "
+                          f"{stats['missingPredictionTimestamp']}건")
+        for field, n in (stats.get("missingRequiredFields") or {}).items():
+            errors.append(f"필수 필드 {field} 누락 {n}건")
         return {"status": OK if not errors else ARCHIVE_INTEGRITY_ERROR,
                 "day": day, "errors": errors, "recordCount": stats["recordCount"],
                 "modelVersions": stats["modelVersions"]}
@@ -384,7 +447,7 @@ class ResearchArchiveStore:
             path = self.existing_segment(day)
             if not path:
                 continue
-            stats = _stat_records(path)
+            stats = self._stats(path)
             included.append(day)
             hashes[os.path.relpath(path, self.root)] = _sha256_file(path)
             counts += stats["recordCount"]
@@ -430,7 +493,7 @@ class ResearchArchiveStore:
                 problems.append({"day": day, "errors": v.get("errors")})
                 continue
             path = self.existing_segment(day)
-            stats = _stat_records(path)
+            stats = self._stats(path)
             total += stats["recordCount"]
             versions |= set(stats["modelVersions"])
             features |= set(stats["featureVersions"])
@@ -460,7 +523,7 @@ class ResearchArchiveStore:
                         fo.write(json.dumps(rec, ensure_ascii=False,
                                             separators=(",", ":")) + "\n")
             os.replace(tmp, gz_path)
-            merged = _stat_records(gz_path)
+            merged = self._stats(gz_path)
             if merged["recordCount"] != total:
                 raise ValueError(f"묶음 레코드 수 불일치 {merged['recordCount']} != {total}")
         except Exception as ex:
@@ -513,7 +576,7 @@ class ResearchArchiveStore:
             size = os.path.getsize(path)
             total_bytes += size
             compressed = path.endswith(".gz")
-            stats = _stat_records(path)
+            stats = self._stats(path)
             per_day.append({"day": day, "bytes": size, "records": stats["recordCount"],
                             "compressed": compressed})
             if day == today:

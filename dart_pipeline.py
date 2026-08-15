@@ -29,6 +29,7 @@ import re
 import zipfile
 
 import dart_client
+import dart_time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DART_ROOT = os.path.join(HERE, "research_archive", "dart")
@@ -40,6 +41,16 @@ NO_OFFICIAL_EVENT_DETECTED = "NO_OFFICIAL_EVENT_DETECTED"
 EVENT_COVERAGE_INCOMPLETE = "EVENT_COVERAGE_INCOMPLETE"
 EVENT_DATA_ERROR = "EVENT_DATA_ERROR"
 
+# 목록 페이지 안전 상한. 하루 공시 전체를 훑기에 충분하되(페이지당 100건 → 3,000건),
+# 사고로 무한히 돌지 않게 막는다. 이 한도에 걸리면 coverage_complete=False가 된다.
+DEFAULT_MAX_PAGES = 30
+
+# Coverage가 불완전한 사유
+PAGE_LIMIT_REACHED = "PAGE_LIMIT_REACHED"
+BUDGET_LIMIT_REACHED = "BUDGET_LIMIT_REACHED"
+API_ERROR = "API_ERROR"
+NO_API_KEY = "NO_API_KEY"
+
 UNKNOWN_MAPPING = "UNKNOWN_MAPPING"
 NOT_AVAILABLE = "NOT_AVAILABLE"
 
@@ -49,7 +60,8 @@ HISTORICAL_DART_BACKFILL = "HISTORICAL_DART_BACKFILL"
 
 
 def _now_iso():
-    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+    """timezone-aware UTC ISO. naive 시각을 만들지 않는다."""
+    return dart_time.iso_now()
 
 
 def load_universe():
@@ -182,28 +194,75 @@ def normalize_filing(row, corp_map_entry, detected_at, source_mode=LIVE_DART_PIT
 
 
 class SeenRegistry:
-    """rcept_no 기반 중복 제거 (요구 6번).
+    """rcept_no 기반 중복 제거 + Durable Write 상태 관리 (요구 5·6번).
 
-    이미 처리한 접수번호는 다시 새 Event로 저장하지 않는다.
-    정정공시는 그 자체로 새 rcept_no를 받으므로 별개 Event로 들어오고,
-    is_correction 표시와 원본 추적 필드로 관계를 남긴다.
+    ⚠️ 순서가 중요하다. "봤다"고 먼저 표시하고 나중에 저장하면,
+       저장이 실패한 순간 그 공시는 영원히 사라진다. 다음 실행에서
+       "이미 본 공시"로 건너뛰기 때문이다.
+
+    그래서 상태를 셋으로 나눈다.
+
+        PENDING       발견해서 정규화했지만 아직 저장 안 됨
+        STORED        Raw Archive에 실제로 기록됨(디스크 flush 확인)
+        ACKNOWLEDGED  저장 확인 후 '처리 완료'로 확정. 이때부터 건너뛴다
+
+    건너뛰기 판정은 **ACKNOWLEDGED만** 본다. PENDING/STORED에서 죽으면
+    다음 실행에서 같은 rcept_no를 다시 수집한다(at-least-once).
+    중복 저장은 Archive가 rcept_no 키로 덮어써서 흡수한다.
     """
+
+    PENDING = "PENDING"
+    STORED = "STORED"
+    ACKNOWLEDGED = "ACKNOWLEDGED"
 
     def __init__(self, path):
         self.path = path
         self.seen = {}
         if os.path.exists(path):
             try:
-                self.seen = json.load(open(path, encoding="utf-8")).get("seen", {})
+                with open(path, encoding="utf-8") as f:
+                    self.seen = json.load(f).get("seen", {})
             except (OSError, json.JSONDecodeError):
                 self.seen = {}
 
     def is_new(self, rcept_no):
-        return bool(rcept_no) and rcept_no not in self.seen
+        """아직 '처리 완료'로 확정되지 않은 접수번호인가.
 
-    def mark(self, rcept_no, meta):
+        PENDING/STORED에서 중단된 건은 새 것으로 취급해 반드시 재시도한다.
+        """
+        if not rcept_no:
+            return False
+        meta = self.seen.get(rcept_no)
+        if meta is None:
+            return True
+        return meta.get("state") != self.ACKNOWLEDGED
+
+    def mark_pending(self, rcept_no, meta):
+        """발견 단계. 아직 저장 전이라 건너뛰기 대상이 아니다."""
         if rcept_no:
-            self.seen[rcept_no] = meta
+            entry = dict(meta or {})
+            entry["state"] = self.PENDING
+            entry["pendingAt"] = dart_time.iso_now()
+            self.seen[rcept_no] = entry
+
+    def mark_stored(self, rcept_no):
+        if rcept_no in self.seen:
+            self.seen[rcept_no]["state"] = self.STORED
+            self.seen[rcept_no]["storedAt"] = dart_time.iso_now()
+
+    def acknowledge(self, rcept_no):
+        """Raw Archive 저장이 실제로 확인된 뒤에만 부른다."""
+        if rcept_no in self.seen:
+            self.seen[rcept_no]["state"] = self.ACKNOWLEDGED
+            self.seen[rcept_no]["acknowledgedAt"] = dart_time.iso_now()
+
+    def acknowledge_many(self, rcept_nos):
+        for no in rcept_nos:
+            self.acknowledge(no)
+
+    def pending_count(self):
+        return sum(1 for m in self.seen.values()
+                   if m.get("state") != self.ACKNOWLEDGED)
 
     def link_correction(self, event):
         """같은 종목의 직전 공시 중 이름이 겹치는 원본을 후보로 남긴다.
@@ -229,11 +288,16 @@ class SeenRegistry:
         return event
 
     def save(self):
+        """원자적으로 쓴다. 쓰는 도중 죽어도 기존 파일이 깨지지 않게."""
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
-        with open(self.path, "w", encoding="utf-8") as f:
-            json.dump({"schemaVersion": "dart_seen_v1", "updatedAt": _now_iso(),
+        tmp = self.path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"schemaVersion": "dart_seen_v2", "updatedAt": dart_time.iso_now(),
                        "count": len(self.seen), "seen": self.seen},
                       f, ensure_ascii=False, separators=(",", ":"))
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, self.path)
 
 
 # ── 3. Point-in-Time EVENT 규칙 (요구 8번) ───────────────────────────────────
@@ -241,12 +305,13 @@ def event_visible_at(event, prediction_timestamp):
     """이 공시를 그 시점 Prediction에서 써도 되는가.
 
     조건: event_detected_at <= prediction_timestamp
-    공시가 '오늘 존재한다'는 것과 '그 시각에 우리가 알고 있었다'는 것은 다르다.
+
+    ⚠️ 문자열 비교로 판정하지 않는다. timezone 표기가 다르면
+       (+09:00 vs +00:00) 문자열 순서와 실제 시각순서가 뒤집힌다.
+       aware datetime으로 parse해 UTC Instant로 비교한다.
+       읽을 수 없거나 timezone이 없는 값은 사용 불가로 본다(False).
     """
-    det = event.get("detected_at")
-    if not det or not prediction_timestamp:
-        return False
-    return str(det) <= str(prediction_timestamp)
+    return dart_time.instant_le(event.get("detected_at"), prediction_timestamp)
 
 
 def events_for_prediction(events, prediction_timestamp):
@@ -335,35 +400,65 @@ def financial_pit_record(corp_code, ticker, year, reprt_code, extracted,
 
 
 # ── 5. 수집 실행 (요구 4·16번) ───────────────────────────────────────────────
-def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=10,
-                        seen_path=None, source_mode=LIVE_DART_PIT):
+def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=None,
+                        seen_path=None, source_mode=LIVE_DART_PIT, budget=None):
     """신규공시 목록 → 유니버스 매칭 → 중복 제거 → 정규화.
 
     ⚠️ 종목별 반복호출을 하지 않는다. 목록 API를 페이지 단위로만 부른다.
        호출 수는 페이지 수에 비례하지, 종목 수(500)에 비례하지 않는다.
+
+    ⚠️ 여기서는 seen을 ACKNOWLEDGED로 만들지 않는다. PENDING까지만 표시한다.
+       실제 저장이 확인된 뒤 호출자가 acknowledge_many()를 부른다.
+       (그래야 저장 실패 시 다음 실행에서 반드시 재시도된다)
+
+    ⚠️ 페이지 한도나 예산 때문에 중간에 멈췄으면 coverageComplete=False.
+       그 상태를 '공시 없음'으로 해석하면 안 된다.
     """
-    today = datetime.date.today().strftime("%Y%m%d")
+    today = dart_time.today_kst_compact()      # Runner timezone에 기대지 않는다
     bgn_de = bgn_de or today
     end_de = end_de or today
+    page_limit = max_pages if max_pages is not None else DEFAULT_MAX_PAGES
     seen = SeenRegistry(seen_path or os.path.join(DART_ROOT, "seen_rcept.json"))
     by_corp = {v["corp_code"]: v for v in (corp_map.get("mapped") or {}).values()}
 
-    detected_at = _now_iso()
+    detected_at = dart_time.iso_now()
     stats = {"new_filings_detected": 0, "matched_gaeo_filings": 0,
-             "duplicate_skipped": 0, "unmatched_filings": 0, "pages_fetched": 0}
+             "duplicate_skipped": 0, "unmatched_filings": 0,
+             "pages_fetched": 0, "list_requests": 0}
     events, errors = [], []
+    total_pages_reported = None
+    coverage_complete = True
+    incomplete_reasons = []
 
-    for page in range(1, max_pages + 1):
+    page = 1
+    while True:
+        if page > page_limit:
+            coverage_complete = False
+            incomplete_reasons.append(PAGE_LIMIT_REACHED)
+            break
+        if budget is not None and not budget.allow("list"):
+            coverage_complete = False
+            incomplete_reasons.append(BUDGET_LIMIT_REACHED)
+            break
         res = client.list_filings(bgn_de=bgn_de, end_de=end_de,
                                   page_no=page, page_count=100)
+        stats["list_requests"] += 1
+        if budget is not None:
+            budget.spend("list")
         if res["status"] != dart_client.OK:
             errors.append({"page": page, "status": res["status"], "error": res["error"]})
+            coverage_complete = False
+            incomplete_reasons.append(API_ERROR)
             break
         stats["pages_fetched"] += 1
         payload = res["data"] or {}
         rows = payload.get("list") or []
-        if not rows:
-            break
+        reported = payload.get("total_page")
+        if reported is not None:
+            try:
+                total_pages_reported = int(reported)
+            except (TypeError, ValueError):
+                total_pages_reported = None
         for row in rows:
             stats["new_filings_detected"] += 1
             rcept_no = str(row.get("rcept_no") or "").strip()
@@ -376,28 +471,57 @@ def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=10
                 continue
             ev = normalize_filing(row, entry, detected_at, source_mode)
             ev = seen.link_correction(ev)
-            seen.mark(rcept_no, {"ticker": ev["ticker"], "report_name": ev["report_name"],
-                                 "detected_at": detected_at})
+            ev["processing_status"] = SeenRegistry.PENDING
+            # ⚠️ PENDING까지만. 저장 확인 전에는 절대 ACKNOWLEDGED로 만들지 않는다.
+            seen.mark_pending(rcept_no, {"ticker": ev["ticker"],
+                                         "report_name": ev["report_name"],
+                                         "detected_at": detected_at})
             events.append(ev)
             stats["matched_gaeo_filings"] += 1
-        total_page = int(payload.get("total_page") or 1)
-        if page >= total_page:
+        if not rows:
             break
+        if total_pages_reported is not None and page >= total_pages_reported:
+            break
+        if total_pages_reported is None and len(rows) < 100:
+            break              # 마지막 페이지로 본다
+        page += 1
 
-    seen.save()
+    # 실제로 다 훑었는지 최종 판정
+    if (total_pages_reported is not None
+            and stats["pages_fetched"] < total_pages_reported
+            and coverage_complete):
+        coverage_complete = False
+        incomplete_reasons.append(PAGE_LIMIT_REACHED)
+
     return {"events": events, "stats": stats, "errors": errors,
-            "seenTotal": len(seen.seen)}
+            "registry": seen, "seenTotal": len(seen.seen),
+            "pendingTotal": seen.pending_count(),
+            "pagination": {
+                "total_pages_reported": total_pages_reported,
+                "pages_fetched": stats["pages_fetched"],
+                "page_limit": page_limit,
+                "coverage_complete": coverage_complete,
+                "incomplete_reasons": sorted(set(incomplete_reasons)),
+            }}
 
 
-def coverage_state(events, errors, has_key):
-    """요구 10번 상태. '공시 없음'은 '뉴스 없음'이 아니다."""
+def coverage_state(events, errors, has_key, pagination=None):
+    """요구 6·10번 상태. '공시 없음'은 '뉴스 없음'이 아니다.
+
+    ⚠️ 페이지 한도·예산·에러로 전체를 못 훑었으면 NO_OFFICIAL_EVENT_DETECTED를
+       내면 안 된다. 못 본 페이지에 우리 종목 공시가 있었을 수 있다.
+    """
     if not has_key:
-        return EVENT_COVERAGE_INCOMPLETE
+        return EVENT_COVERAGE_INCOMPLETE, [NO_API_KEY]
+    complete = True if pagination is None else bool(pagination.get("coverage_complete"))
+    reasons = list((pagination or {}).get("incomplete_reasons") or [])
     if errors:
-        return EVENT_DATA_ERROR
+        return EVENT_DATA_ERROR, sorted(set(reasons + [API_ERROR]))
+    if not complete:
+        return EVENT_COVERAGE_INCOMPLETE, sorted(set(reasons)) or [PAGE_LIMIT_REACHED]
     if events:
-        return EVENT_DETECTED
-    return NO_OFFICIAL_EVENT_DETECTED
+        return EVENT_DETECTED, []
+    return NO_OFFICIAL_EVENT_DETECTED, []
 
 
 COVERAGE_NOTE = ("NO_OFFICIAL_EVENT_DETECTED는 '뉴스 없음'이 아니다. "
