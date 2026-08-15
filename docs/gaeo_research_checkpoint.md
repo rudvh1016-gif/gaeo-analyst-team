@@ -2,7 +2,7 @@
 
 **다음 세션은 이 파일을 가장 먼저 읽는다.** (토큰 절약 원칙, 스펙 3번)
 
-최종 갱신 2026-08-15 · 현재 위치 **PHASE A 완료 + 확정 결함 수정 완료 / PHASE B 착수 대기**
+최종 갱신 2026-08-15 · 현재 위치 **PHASE B 설계 완료 / PHASE C(Shadow Engine) 착수 대기**
 
 ---
 
@@ -57,31 +57,44 @@
 
 3. **SELL 평가 로직: 수정할 코드 오류 없었음.** 정직하게 기록.
 
-4. **실제 실행시각 기록 구조 추가.** `auto_analysis.js`에 `runTimestamps`
-   (workflowStartedAt / priceFetchedAt / analysisStartedAt / analysisCompletedAt).
-   예정값(cronScheduledNominal)은 분리 저장하고 데이터 시각으로 쓰지 말라고 명시.
-   환경변수 없으면 null. 시각을 지어내지 않는다.
+4. **실제 실행시각 기록 구조 추가 — 상태: `IMPLEMENTED_PENDING_LIVE_VERIFICATION`**
+   `auto_analysis.js`에 `runTimestamps`(workflowStartedAt / priceFetchedAt /
+   analysisStartedAt / analysisCompletedAt). 예정값(cronScheduledNominal)은
+   분리 저장하고 데이터 시각으로 쓰지 말라고 명시. 환경변수 없으면 null.
+   ⚠️ **CLOSED 처리 금지.** 2026-08-15는 토요일이라 러너가 장외 분기로 빠져
+   이 코드가 실제로 실행되지 않았다. **다음 평일 장중 실행에서 네 값이 모두
+   실제 시각으로 저장되는지 반드시 확인**한 뒤에야 CLOSED로 바꾼다.
 
 ---
 
-## 2. **가장 큰 제약: 판단 기록이 6.5주뿐**
+## 2. 검증기준 (2026-08-15 변경) → `gaeo_validation_policy.md`
 
-`history.js` = 2026-07-01 ~ 2026-08-14, 거래일 약 31일.
+**"40거래일이면 검증 가능"이라는 단일 기준은 폐기했다.**
+40거래일은 임시 최소 관찰기간일 뿐 통계적 충분성을 보장하지 않는다.
 
-| 요구 | 필요 | 현재 | 판정 |
-|---|---|---|---|
-| Walk-Forward 검증일 | 40거래일+ | 약 31일 | **미달** |
-| 국면 다양성 | 3개+ | 3개 | 충족 |
-| BUY 표본 | 50+ | 808 | 충족 |
-| SELL 표본 | 50+ | 5,799 | 충족 |
+Horizon별로 Maturity를 따로 관리한다. 5D는 5거래일, 20D는 20거래일,
+60D는 60거래일이 지나야 평가 가능하고, 그 전에는 적중/빗나감/중립 어디에도
+넣지 않고 `PENDING / NOT_MATURED`로 제외한다.
 
-**현재 데이터로는 Legacy vs Research의 OOS 우열 판정이 원천적으로 불가능하다.**
-게다가 6.5주 중 앞 4주 하락장, 뒤 2주 급등장으로 국면이 크게 치우쳐 있다.
+거래일 수만으로 "충분"을 선언하지 않는다. Horizon마다 matured count,
+BUY/HOLD/SELL count, 시장별·기간별·probability bin별 표본수,
+effective sample size, confidence interval을 함께 보고한다.
 
-이것은 모델 문제가 아니라 시간 문제다. 데이터가 쌓여야 한다.
-이 사실을 숨기고 "개선됐다"고 선언하면 스펙 위반이다.
+### 현재 실측 (판단일 34일, 2026-07-01 ~ 08-14)
 
----
+| Horizon | matured | PENDING | BUY | HOLD | SELL | 평가가능 판단일 |
+|---|---|---|---|---|---|---|
+| 5D | 14,063 | 2,523 | 808 | 7,456 | 5,799 | 29 / 34 |
+| 20D | 6,530 | 10,056 | 488 | 3,299 | 2,743 | 14 / 34 |
+| **60D** | **0** | **16,586** | **0** | **0** | **0** | **0 / 34** |
+
+- **60D는 평가 가능한 판단이 문자 그대로 0건.** 어떤 결론도 내지 않는다.
+- 20D는 건수는 많지만 서로 다른 날이 14일뿐이라 독립 표본이 아니다.
+- 같은 날 500종목이 함께 들어가므로 effective sample size는 훨씬 작다.
+  신뢰구간은 판단일 단위 block bootstrap으로 계산한다.
+
+시세 이력은 295거래일(2025-06-02~)로 더 길어서
+Point-in-Time을 지키는 범위에서 설계·사전 Walk-Forward에는 쓸 수 있다.
 
 ## 3. PHASE 진행 상태
 
@@ -89,9 +102,9 @@
 |---|---|---|
 | **A** | DATA / BUG / LABEL / LOOK-AHEAD 감사 | **완료** |
 | **A-fix** | 확정 결함 수정(튜닝 아님) | **완료** |
-| B | LOCKED PAPER 기반 Candidate Feature 설계 | **다음 차례** |
-| C | Research Engine 구현(Legacy 분리, SHADOW MODE) | 미착수 |
-| D | Walk-Forward OOS | **데이터 부족으로 착수 불가** |
+| **B** | LOCKED PAPER 기반 Candidate Feature 설계 | **완료** |
+| C | Research Engine 구현(Legacy 분리, SHADOW MODE) | **다음 차례** |
+| D | Walk-Forward OOS | Horizon별 Maturity 미달 (60D는 표본 0) |
 | E | Probability Calibration | 미착수 |
 | F | Legacy / Baseline / Research 비교 | 미착수 |
 | G | Production 교체 판정 | 미착수 |
@@ -109,16 +122,11 @@
 | `gaeo_point_in_time_rules.md` | 완료 |
 | `gaeo_confidence_calibration.md` | 완료(감사 + 그림자 검증 결과) |
 | `gaeo_phaseA_fixes.md` | 완료(확정 결함 수정 전/후 대조) |
-| `gaeo_verified_references.md` | 미작성 (PHASE B) |
-| `gaeo_signal_registry.md` | 미작성 (PHASE B) |
-| `gaeo_taro_research.md` | 미작성 (PHASE B) |
-| `gaeo_diana_research.md` | 미작성 (PHASE B) |
-| `gaeo_flow_research.md` | 미작성 (PHASE B) |
-| `gaeo_rotation_research.md` | 미작성 (PHASE B) |
-| `gaeo_event_pipeline.md` | 미작성 (PHASE C) |
-| `gaeo_quant_research.md` | 미작성 (PHASE B) |
-| `gaeo_risk_research.md` | 미작성 (PHASE B) |
-| `gaeo_chief_research.md` | 미작성 (PHASE B) |
+| `gaeo_validation_policy.md` | **완료**(Horizon별 Maturity, 40일 단일기준 폐기) |
+| `gaeo_verified_references.md` | **완료**(LOCKED PAPER PACK) |
+| `gaeo_signal_registry.md` | **완료**(TARO·DIANA·FLOW·ROTATION·EVENT Feature + 상관 실측) |
+| `gaeo_phaseB_architecture.md` | **완료**(QUANT·RISK·CHIEF 역할 + Shadow Mode 설계) |
+| `gaeo_event_pipeline.md` | 미작성 (PHASE C, DART/SEC 연동 시) |
 | `gaeo_validation_report.md` | 미작성 (PHASE D~F) |
 
 ---
@@ -136,17 +144,16 @@
 
 ## 6. 다음 세션이 할 일 (우선순위)
 
-1. **PHASE B 착수**: LOCKED PAPER PACK과 실제 데이터 가용성 대조.
-   각 Candidate를 CAN_IMPLEMENT_NOW / NEEDS_NEW_DATA / NOT_SUITABLE로 분류.
-2. `gaeo_signal_registry.md` 생성(Feature Registry 스켈레톤).
-3. 중복정보 검사 착수: MA / MACD / Momentum / 52W High 상관 및 Ablation 설계.
-4. 라벨을 시장 초과수익 기준으로 재정의하는 RESEARCH_LABEL 설계
-   (delta는 TRAIN/VALIDATION에서만 결정).
-5. **PHASE C는 SHADOW MODE로 구현한다.** Legacy를 건드리지 않고,
-   같은 Timestamp에 Legacy와 Research Prediction을 **동시에 저장**한다.
-   그래야 오늘 이후 새로 쌓이는 데이터가 진짜 unseen OOS 자료가 된다.
-   (기존 `shadowChief` 저장 방식이 이미 같은 패턴이므로 그대로 확장한다.)
-6. PHASE D 성능 비교는 판단 기록이 40거래일을 넘길 때까지 대기.
+1. **PHASE C 착수**: `researchShadow`를 `analyze_auto.py`에 추가.
+   Legacy `chief`는 손대지 않는다. 기존 `shadowChief` 패턴을 그대로 확장한다.
+   같은 `runTimestamps` 시각에 Legacy와 Research를 동시 저장.
+2. Horizon별(5D/20D/60D) 확률과 `maturity` 상태를 함께 기록.
+   60D는 산출만 하고 성능은 언급하지 않는다.
+3. **다음 평일 장중에 `runTimestamps` 4개 값 실제 저장 확인**
+   (현재 `IMPLEMENTED_PENDING_LIVE_VERIFICATION`).
+4. 오늘 이후 `researchShadow` 기록은 **읽기 전용 Forward Validation 자료**.
+   이걸 보고 튜닝하면 OOS 자격 상실.
+5. PHASE D 성능 비교는 Horizon별 Maturity 충족 후.
    **데이터 부족을 이유로 Research 개발 자체를 멈추지는 않는다.**
    단 "Research가 Legacy보다 좋다"는 결론은 금지.
 
