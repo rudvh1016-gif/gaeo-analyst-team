@@ -73,6 +73,9 @@ jobs:
             python3 dart_smoke_test.py
           fi
 
+      - name: Raw Archive 공개 노출 확인
+        run: python3 check_pages_exposure.py || echo "노출 확인 실패 — 계속 진행"
+
       - name: v1.x 동결 확인
         run: |
           git diff --exit-code -- research_engine.py research_engine_v11.py \
