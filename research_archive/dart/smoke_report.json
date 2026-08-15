@@ -2,21 +2,21 @@
  "budget": {
   "byKind": {
    "detail": 0,
-   "financial": 8,
-   "list": 4,
-   "mapping": 2,
+   "financial": 12,
+   "list": 6,
+   "mapping": 3,
    "other": 0
   },
   "day": "2026-08-15",
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9986,
-  "requests_today": 14,
-  "runs_today": 2,
+  "remaining": 9979,
+  "requests_today": 21,
+  "runs_today": 3,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.14
+  "usage_pct_of_hard_limit": 0.21
  },
  "connection": {
   "connectionStatus": "OK",
@@ -327,7 +327,7 @@
   ],
   "status": "OK"
  },
- "finishedAt": "2026-08-15T13:38:29.332052+00:00",
+ "finishedAt": "2026-08-15T13:39:02.068515+00:00",
  "kstToday": "2026-08-15",
  "mapping": {
   "ambiguousCount": 0,
@@ -347,7 +347,7 @@
   ]
  },
  "note": "연결 점검 전용. Production 판단을 바꾸지 않는다. research_v2.0 점수는 만들지 않는다.",
- "ranAt": "2026-08-15T13:33:57.197372+00:00",
+ "ranAt": "2026-08-15T13:38:46.919117+00:00",
  "usage": {
   "api_errors": 0,
   "bytes_received": 4159230,
