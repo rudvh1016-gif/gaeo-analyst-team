@@ -817,6 +817,22 @@ def main():
         adata = {}
     sectors = load_sectors()
     qstats = build_quant_stats(adata, sectors)
+    # 🧪 Research Shadow (PHASE C) — Legacy 판단은 절대 건드리지 않는다.
+    # 실패해도 Legacy 파이프라인이 멈추면 안 되므로 전부 감싼다.
+    research_pit = None
+    research_asof = None
+    try:
+        import research_engine
+        # Point-in-Time: 오늘 판단이 오늘 이후 결과를 알면 안 되므로
+        # priceLabel의 날짜(마지막 확정 시세일)를 asof로 쓴다.
+        research_asof = (ind.get("priceLabel") or "")[:10] or datetime.date.today().isoformat()
+        research_pit = research_engine.build_pit_quant_stats(adata, research_asof, horizon=5)
+        print(f"Research Shadow — {research_engine.RESEARCH_MODEL_VERSION} "
+              f"(hash {research_engine.config_hash()}) · PIT 표본 {research_pit['n']:,}건 "
+              f"· asof {research_pit['asof']} · 마지막 결과일 {research_pit['lastOutcomeDate']}")
+    except Exception as ex:
+        research_engine = None
+        print(f"[경고] Research Shadow 초기화 실패 — Legacy만 진행: {ex}")
     cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
@@ -863,6 +879,18 @@ def main():
                 chief["promoted"] = True
                 chief["baselineCall"] = baseline_chief.get("call")
                 chief["baselineTotal"] = baseline_chief.get("total")
+            # 🧪 Research Shadow — chief/shadowChief 옆에 하나 더 얹기만 한다.
+            # 위 Legacy 계산 결과(chief)는 어떤 경우에도 수정하지 않는다.
+            research_shadow = None
+            if research_engine is not None and research_pit is not None:
+                try:
+                    research_shadow = research_engine.predict(
+                        candidate_context, ind.get("marketRegime") or {}, research_pit,
+                        created_at=analysis_started_at, input_timestamp=price_label,
+                        matured_horizons=())   # 방금 낸 판단이라 아직 어떤 지평도 성숙하지 않음
+                except Exception as ex:
+                    research_shadow = {"researchModelVersion": research_engine.RESEARCH_MODEL_VERSION,
+                                       "error": str(ex)[:200], "status": "RESEARCH_PREDICT_FAILED"}
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
@@ -871,6 +899,7 @@ def main():
                 "events": [],
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
                 "shadowChief": shadow_chief,
+                "researchShadow": research_shadow,
             }
             n_auto += 1
         except Exception as ex:
