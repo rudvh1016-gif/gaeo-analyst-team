@@ -205,13 +205,16 @@ def probe_financials(client, budget):
                 break
         if got:
             year, fs_div, payload = got
-            ext = P.extract_financials(payload)
+            ext = P.extract_financials(payload, sector=entry.get("sector"))
             rows = payload.get("list") or []
             row.update({
                 "status": "OK", "year": year, "fsDiv": fs_div,
                 "accountRows": len(rows),
                 "coverage": round(ext["coverage"], 4),
                 "found": ext["found"], "missing": ext["missing"],
+                "notApplicable": ext["notApplicable"],
+                "sectorHandling": ext["sectorHandling"],
+                "matchedBy": ext["matchedBy"],
                 # 실제 응답이 어떤 식별자를 주는지 확인(요구 13번)
                 "hasAccountId": bool(rows and rows[0].get("account_id")),
                 "hasAccountNm": bool(rows and rows[0].get("account_nm")),

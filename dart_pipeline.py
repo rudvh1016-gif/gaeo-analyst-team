@@ -322,53 +322,169 @@ def events_for_prediction(events, prediction_timestamp):
 # ── 4. 재무 데이터 수집 준비 (요구 11·12번) ──────────────────────────────────
 # DIANA가 지금 못 쓰는 축과, DART 계정과목으로 채울 수 있는지의 대응표.
 # ⚠️ 실제로 응답에 없으면 0이 아니라 NOT_AVAILABLE로 남긴다.
+# ⚠️ 실제 응답에서 배운 값으로 만들었다(2026-08-15 스모크 테스트).
+#    account_nm(계정명)은 회사마다 다르다. 현대차는 "당기순이익"이 아니라
+#    "연결당기순이익"이고, KB금융은 "영업활동현금흐름"이 아니라
+#    "영업활동으로부터의 현금흐름"이다.
+#    반면 account_id는 IFRS 표준이라 회사가 달라도 같다.
+#    그래서 **account_id를 우선**으로 찾고, 없을 때만 이름으로 되찾는다.
+#
+#    sjDiv는 그 계정이 어느 재무제표에 있어야 하는지다. 같은 이름이 여러 표에
+#    나오므로(예: 당기순이익은 IS·CIS·CF에 모두 등장) 엉뚱한 표의 값을
+#    집지 않도록 제한한다.
 FINANCIAL_TARGETS = {
-    "revenue":            {"names": ["매출액", "수익(매출액)", "영업수익"], "for": ["GrossProfitability", "AssetTurnover"]},
-    "costOfSales":        {"names": ["매출원가"], "for": ["GrossProfitability"]},
-    "grossProfit":        {"names": ["매출총이익"], "for": ["GrossProfitability"]},
-    "operatingIncome":    {"names": ["영업이익", "영업이익(손실)"], "for": ["OperatingProfitability"]},
-    "netIncome":          {"names": ["당기순이익", "당기순이익(손실)"], "for": ["Accruals", "ROE"]},
-    "totalAssets":        {"names": ["자산총계"], "for": ["AssetGrowth", "GrossProfitability", "Leverage"]},
-    "totalLiabilities":   {"names": ["부채총계"], "for": ["Leverage"]},
-    "totalEquity":        {"names": ["자본총계"], "for": ["Leverage", "ROE"]},
-    "operatingCashFlow":  {"names": ["영업활동현금흐름", "영업활동으로인한현금흐름"], "for": ["CashFlowQuality", "Accruals"]},
-    "investingCashFlow":  {"names": ["투자활동현금흐름", "투자활동으로인한현금흐름"], "for": ["Investment"]},
+    "revenue": {
+        "ids": ["ifrs-full_Revenue"],
+        "names": ["매출액", "수익(매출액)", "영업수익"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["GrossProfitability", "AssetTurnover"]},
+    "costOfSales": {
+        "ids": ["ifrs-full_CostOfSales"],
+        "names": ["매출원가"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["GrossProfitability"]},
+    "grossProfit": {
+        "ids": ["ifrs-full_GrossProfit"],
+        "names": ["매출총이익"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["GrossProfitability"]},
+    "operatingIncome": {
+        "ids": ["dart_OperatingIncomeLoss", "ifrs-full_ProfitLossFromOperatingActivities"],
+        "names": ["영업이익", "영업이익(손실)"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["OperatingProfitability"]},
+    "netIncome": {
+        "ids": ["ifrs-full_ProfitLoss"],
+        "names": ["당기순이익", "당기순이익(손실)", "연결당기순이익"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["Accruals", "ROE"]},
+    "totalAssets": {
+        "ids": ["ifrs-full_Assets"],
+        "names": ["자산총계"],
+        "sjDiv": ["BS"],
+        "for": ["AssetGrowth", "GrossProfitability", "Leverage"]},
+    "totalLiabilities": {
+        "ids": ["ifrs-full_Liabilities"],
+        "names": ["부채총계"],
+        "sjDiv": ["BS"],
+        "for": ["Leverage"]},
+    "totalEquity": {
+        "ids": ["ifrs-full_Equity"],
+        "names": ["자본총계"],
+        "sjDiv": ["BS"],
+        "for": ["Leverage", "ROE"]},
+    "operatingCashFlow": {
+        "ids": ["ifrs-full_CashFlowsFromUsedInOperatingActivities"],
+        "names": ["영업활동현금흐름", "영업활동으로인한현금흐름", "영업활동으로부터의현금흐름"],
+        "sjDiv": ["CF"],
+        "for": ["CashFlowQuality", "Accruals"]},
+    "investingCashFlow": {
+        "ids": ["ifrs-full_CashFlowsFromUsedInInvestingActivities"],
+        "names": ["투자활동현금흐름", "투자활동으로인한현금흐름", "투자활동으로부터의현금흐름"],
+        "sjDiv": ["CF"],
+        "for": ["Investment"]},
 }
+
+# 금융업은 매출원가·매출총이익 개념이 없고 부채의 의미도 다르다(요구 20번).
+# 일반기업 공식에 억지로 넣지 않기 위한 표시.
+FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED = "FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED"
+NOT_APPLICABLE_FINANCIAL_SECTOR = "NOT_APPLICABLE_FINANCIAL_SECTOR"
+FINANCIAL_SECTOR_HINTS = ("은행", "금융", "보험", "증권", "카드", "캐피탈", "저축은행", "지주")
 
 REPRT_CODES = {"Q1": "11013", "H1": "11012", "Q3": "11014", "FY": "11011"}
 
 
-def extract_financials(payload):
+def is_financial_sector(sector_name):
+    """업종명으로 금융업 여부를 판정한다. 확정이 아니라 '별도 처리 필요' 표시용이다."""
+    name = str(sector_name or "")
+    return any(h in name for h in FINANCIAL_SECTOR_HINTS)
+
+
+def extract_financials(payload, sector=None):
     """fnlttSinglAcntAll.json 응답 → 목표 항목만 뽑는다.
 
-    없는 항목은 NOT_AVAILABLE. 0으로 만들지 않는다(요구 11번).
+    ⚠️ account_id(IFRS 표준) 우선, account_nm(회사마다 다름)은 보조.
+       실측: 현대차 netIncome은 이름이 "연결당기순이익"이라 이름만으로는 못 찾았고,
+       KB금융 영업활동현금흐름도 "영업활동으로부터의 현금흐름"이라 못 찾았다.
+       account_id는 둘 다 표준값이라 한 번에 잡힌다.
+
+    ⚠️ 없는 항목은 NOT_AVAILABLE. 0으로 만들지 않는다.
+    ⚠️ 금융업은 매출원가·매출총이익이 원래 없다. 그걸 '결측'이라고 부르지 않고
+       NOT_APPLICABLE_FINANCIAL_SECTOR로 구분한다.
     """
     rows = (payload or {}).get("list") or []
-    by_name = {}
+    by_id, by_name = {}, {}
+    any_id, any_name = {}, {}     # sj_div 없이도 찾을 수 있게 하는 보조 색인
     for r in rows:
+        sj = r.get("sj_div")
+        aid = (r.get("account_id") or "").strip()
+        if aid:
+            by_id.setdefault((aid, sj), r)
+            any_id.setdefault(aid, r)
         nm = (r.get("account_nm") or "").replace(" ", "")
         if nm:
-            by_name.setdefault(nm, r)
-    out, found, missing = {}, [], []
+            by_name.setdefault((nm, sj), r)
+            any_name.setdefault(nm, r)
+
+    financial_sector = is_financial_sector(sector)
+    out, found, missing, not_applicable = {}, [], [], []
+    matched_by = {}
     for key, spec in FINANCIAL_TARGETS.items():
-        hit = None
-        for cand in spec["names"]:
-            hit = by_name.get(cand.replace(" ", ""))
+        hit, how = None, None
+        for sj in spec["sjDiv"]:
+            for aid in spec["ids"]:
+                hit = by_id.get((aid, sj))
+                if hit:
+                    how = "account_id"
+                    break
             if hit:
                 break
         if hit is None:
-            out[key] = NOT_AVAILABLE
-            missing.append(key)
+            for sj in spec["sjDiv"]:
+                for cand in spec["names"]:
+                    hit = by_name.get((cand.replace(" ", ""), sj))
+                    if hit:
+                        how = "account_nm"
+                        break
+                if hit:
+                    break
+        if hit is None:
+            # sj_div가 비어 있는 응답도 있으므로 마지막에 표 구분 없이 한 번 더 찾는다.
+            for aid in spec["ids"]:
+                hit = any_id.get(aid)
+                if hit:
+                    how = "account_id_any_sj"
+                    break
+        if hit is None:
+            for cand in spec["names"]:
+                hit = any_name.get(cand.replace(" ", ""))
+                if hit:
+                    how = "account_nm_any_sj"
+                    break
+        if hit is None:
+            # 금융업에서 원래 존재하지 않는 항목은 '결측'과 구분한다.
+            if financial_sector and key in ("costOfSales", "grossProfit", "revenue"):
+                out[key] = NOT_APPLICABLE_FINANCIAL_SECTOR
+                not_applicable.append(key)
+            else:
+                out[key] = NOT_AVAILABLE
+                missing.append(key)
             continue
         amount = (hit.get("thstrm_amount") or "").replace(",", "").strip()
         try:
             out[key] = int(amount)
             found.append(key)
+            matched_by[key] = how
         except ValueError:
             out[key] = NOT_AVAILABLE
             missing.append(key)
+    # 적용 불가 항목은 분모에서 뺀다. 금융업이 억지로 낮은 점수를 받지 않게.
+    applicable = len(FINANCIAL_TARGETS) - len(not_applicable)
     return {"values": out, "found": found, "missing": missing,
-            "coverage": (len(found) / len(FINANCIAL_TARGETS)) if FINANCIAL_TARGETS else 0.0}
+            "notApplicable": not_applicable, "matchedBy": matched_by,
+            "sectorHandling": (FINANCIAL_SECTOR_SPECIAL_HANDLING_REQUIRED
+                               if financial_sector else "STANDARD"),
+            "coverage": (len(found) / applicable) if applicable else 0.0}
 
 
 def financial_pit_record(corp_code, ticker, year, reprt_code, extracted,
