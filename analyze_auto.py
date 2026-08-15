@@ -833,6 +833,24 @@ def main():
     except Exception as ex:
         research_engine = None
         print(f"[경고] Research Shadow 초기화 실패 — Legacy만 진행: {ex}")
+    # 🧪 Research Shadow v1.1 (PHASE C FINAL HARDENING)
+    # v1.0과 동시에 돌린다. 두 버전은 앞으로 각각 별도로 성능을 측정한다.
+    # v1.0 기록은 이 코드가 어떤 경우에도 바꾸지 않는다.
+    research_v11 = None
+    research_pit_v11 = None
+    try:
+        import research_engine_v11
+        if research_asof is None:
+            research_asof = (ind.get("priceLabel") or "")[:10] or datetime.date.today().isoformat()
+        # Horizon마다 별도 PIT 표. 5D 표를 20D/60D에 돌려쓰지 않는다.
+        research_pit_v11 = research_engine_v11.build_pit_quant_stats_all(adata, research_asof)
+        research_v11 = research_engine_v11
+        sizes = " · ".join(f"{h}D {research_pit_v11[h]['n']:,}건" for h in ("5", "20", "60"))
+        print(f"Research Shadow — {research_engine_v11.RESEARCH_MODEL_VERSION} "
+              f"(hash {research_engine_v11.config_hash()}) · PIT {sizes} · asof {research_asof}")
+    except Exception as ex:
+        research_v11 = None
+        print(f"[경고] Research Shadow v1.1 초기화 실패 — 나머지는 계속 진행: {ex}")
     cross_stats = build_cross_stats(adata)
     tw = load_team_weights()
     model = load_model_intelligence()
@@ -852,6 +870,26 @@ def main():
     price_label = ind.get("priceLabel", "")
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     out = {"generatedAt": now, "priceLabel": price_label, "stocks": {}}
+    # Research Shadow 전용 출력. 사이트(index.html)는 이 자료를 절대 읽지 않는다.
+    research_out = {
+        "generatedAt": now, "priceLabel": price_label,
+        "createdAt": analysis_started_at,
+        "versions": {
+            "v10": (research_engine.RESEARCH_MODEL_VERSION if research_engine else None),
+            "v11": (research_v11.RESEARCH_MODEL_VERSION if research_v11 else None),
+        },
+        "configHash": {
+            "v10": (research_engine.config_hash() if research_engine else None),
+            "v11": (research_v11.config_hash() if research_v11 else None),
+        },
+        "quantStatsAsof": research_asof,
+        "pitSample": {
+            "v10": {"5": (research_pit or {}).get("n")},
+            "v11": {h: (research_pit_v11 or {}).get(h, {}).get("n") for h in ("5", "20", "60")},
+        },
+        "unbuiltCandidates": (research_v11.REGISTERED_UNBUILT_CANDIDATES if research_v11 else {}),
+        "stocks": {},
+    }
     n_auto = 0
     skipped = []
     for code, e in ind.get("stocks", {}).items():
@@ -891,6 +929,30 @@ def main():
                 except Exception as ex:
                     research_shadow = {"researchModelVersion": research_engine.RESEARCH_MODEL_VERSION,
                                        "error": str(ex)[:200], "status": "RESEARCH_PREDICT_FAILED"}
+            # v1.1 — Candidate 전부를 같은 predictionTimestamp에 함께 산출한다.
+            research_shadow_v11 = None
+            if research_v11 is not None and research_pit_v11 is not None:
+                try:
+                    research_shadow_v11 = research_v11.predict(
+                        candidate_context, ind.get("marketRegime") or {}, research_pit_v11,
+                        created_at=analysis_started_at, input_timestamp=price_label,
+                        matured_horizons=())
+                except Exception as ex:
+                    research_shadow_v11 = {"researchModelVersion": research_v11.RESEARCH_MODEL_VERSION,
+                                           "error": str(ex)[:200], "status": "RESEARCH_PREDICT_FAILED"}
+            # ⚠️ Research 판단은 auto_analysis.js에 넣지 않는다.
+            #    이 파일은 브라우저가 실제로 내려받는 자료라, 화면에 쓰이지도 않는
+            #    Shadow 기록을 얹으면 사용자 트래픽만 늘어난다(2.4MB → 11.5MB 확인).
+            #    research_shadow.json으로 따로 뺀다. 사이트는 이 파일을 읽지 않는다.
+            if research_shadow is not None or research_shadow_v11 is not None:
+                slim11 = research_shadow_v11
+                if isinstance(slim11, dict):
+                    # 종목마다 똑같이 반복되는 목록은 파일 머리말에 한 번만 둔다.
+                    slim11 = {k: v for k, v in slim11.items() if k != "unbuiltCandidates"}
+                research_out["stocks"][code] = {
+                    "base": e["price"], "baseAt": price_label,
+                    "v10": research_shadow, "v11": slim11,
+                }
             out["stocks"][code] = {
                 "tier": "auto",
                 "updated": now,
@@ -899,7 +961,6 @@ def main():
                 "events": [],
                 "taro": taro, "diana": diana, "nova": nova, "flow": flow, "chief": chief,
                 "shadowChief": shadow_chief,
-                "researchShadow": research_shadow,
             }
             n_auto += 1
         except Exception as ex:
@@ -908,6 +969,24 @@ def main():
     if skipped:
         print(f"[경고] 자동분석 건너뜀 {len(skipped)}종목: {skipped[:10]}{' …' if len(skipped)>10 else ''}")
 
+    # Reliability가 실제로 종목을 구분하고 있는지 매 회차 자동 점검한다.
+    # 등급이 한 종류뿐이면 사용자에게 '이 종목의 신뢰등급'처럼 보여주면 안 된다.
+    grades = {}
+    for s in research_out["stocks"].values():
+        rs11 = s.get("v11")
+        g = ((rs11 or {}).get("reliability") or {}).get("internalGrade")
+        if g:
+            grades[g] = grades.get(g, 0) + 1
+    if grades:
+        differentiated = len(grades) > 1
+        research_out["researchMeta"] = {
+            "reliabilityGradeCounts": grades,
+            "reliabilityStatus": ("RELIABILITY_DIFFERENTIATED" if differentiated
+                                  else "RELIABILITY_NOT_DIFFERENTIATED"),
+            "reliabilityUiDisplay": "SUPPRESSED",   # 차이가 생겨도 수동 확인 뒤에 켠다
+        }
+        print(f"Research Reliability — 등급 분포 {grades} · "
+              f"{'종목 구분됨' if differentiated else '종목 구분 못함(UI 노출 금지)'}")
     out["marketInsight"] = build_market_insight(out, ind)
     out["crossStats"] = {"horizonDays": CROSS_STAT_HORIZON, "buckets": cross_stats}
     out["runTimestamps"] = build_run_timestamps(analysis_started_at, ind)
@@ -919,6 +998,17 @@ def main():
     with open(os.path.join(HERE, "auto_analysis.js"), "w", encoding="utf-8") as f:
         f.write(js)
     print(f"auto_analysis.js 저장 완료 — 자동분석 {n_auto}종목 (정밀분석 보유 {len(deep_codes)}종목 포함)")
+
+    # 🧪 Research Shadow는 사이트 자료와 완전히 분리된 파일로 쓴다.
+    #    index.html의 GaeoFeatures 목록에 없으므로 브라우저는 절대 내려받지 않는다.
+    #    archive_analysis.py가 이 파일을 읽어 research_history.jsonl에 누적한다.
+    rpath = os.path.join(HERE, "research_shadow.json")
+    if research_out["stocks"]:
+        with open(rpath, "w", encoding="utf-8") as f:
+            json.dump(research_out, f, ensure_ascii=False, separators=(",", ":"))
+        size_mb = os.path.getsize(rpath) / 1048576
+        print(f"research_shadow.json 저장 완료 — {len(research_out['stocks'])}종목 "
+              f"· {size_mb:.1f}MB (사이트 미로딩)")
     schedule_safety_handoff()
 
 
