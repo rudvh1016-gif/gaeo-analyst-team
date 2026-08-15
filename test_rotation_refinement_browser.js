@@ -70,13 +70,24 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
     requireState(await page.locator('.rot-workspace').count() === 1 && await page.locator('.rot-analysis-grid').count() === 1 && await page.locator('.rot-method').count() === 1, `${width}px lower rotation sections changed`);
 
     if (width > 920) {
-      const mapBox = await page.locator('.rot-map').boundingBox();
-      const svgBox = await page.locator('.rot-map svg').boundingBox();
-      const panelBox = await page.locator('.rot-map-panel').boundingBox();
-      const sideBox = await page.locator('.rot-side').boundingBox();
-      requireState(mapBox && mapBox.height >= 615, `${width}px map did not use expanded height: ${JSON.stringify(mapBox)}`);
-      requireState(svgBox && Math.abs(svgBox.height - mapBox.height) <= 2, `${width}px SVG did not fill map height`);
-      requireState(panelBox && sideBox && Math.abs(panelBox.height - sideBox.height) <= 2, `${width}px map and right stack heights diverged`);
+      // 지도 높이는 데이터 로드 뒤 뷰 전체가 다시 렌더되며 늦게 확정된다.
+      // locator 호출 사이에 DOM이 교체되는 경합이 있어(2026-08-16 콜드 컨테이너 실측),
+      // 한 번의 evaluate 안에서 네 상자를 함께 재고 안정화될 때까지 폴링한다.
+      // 시간 안에 기대 상태에 도달하지 못하면 실패하므로 검증 의도는 동일하다.
+      const layout = await page.waitForFunction(() => {
+        const map = document.querySelector('.rot-map');
+        const svg = document.querySelector('.rot-map svg');
+        const panel = document.querySelector('.rot-map-panel');
+        const side = document.querySelector('.rot-side');
+        if (!map || !svg || !panel || !side) return null;
+        const m = map.getBoundingClientRect();
+        const ok = m.height >= 615
+          && Math.abs(svg.getBoundingClientRect().height - m.height) <= 2
+          && Math.abs(panel.getBoundingClientRect().height - side.getBoundingClientRect().height) <= 2;
+        return ok ? { mapHeight: Math.round(m.height) } : null;
+      }, { timeout: 25000 }).then(handle => handle.jsonValue()).catch(() => null);
+      requireState(layout && layout.mapHeight >= 615,
+        `${width}px map/SVG/side-stack layout did not stabilize at expanded height`);
       const nodeBoxes = await page.locator('.rot-node circle').evaluateAll(nodes => nodes.map(node => {
         const box = node.getBoundingClientRect();
         return { width: box.width, height: box.height };
@@ -85,10 +96,18 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
     }
 
     if (width <= 390) {
-      const mapPanel = await page.locator('.rot-map-panel').boundingBox();
-      const rankPanel = await page.locator('.rot-rank-panel').boundingBox();
-      const detailPanel = await page.locator('.rot-detail').boundingBox();
-      requireState(mapPanel && rankPanel && detailPanel && mapPanel.y < rankPanel.y && rankPanel.y < detailPanel.y, `${width}px mobile section order is wrong`);
+      // 데스크톱 측정과 같은 이유(재렌더 경합)로 한 evaluate 안에서 폴링 측정한다.
+      const order = await page.waitForFunction(() => {
+        const mapPanel = document.querySelector('.rot-map-panel');
+        const rankPanel = document.querySelector('.rot-rank-panel');
+        const detailPanel = document.querySelector('.rot-detail');
+        if (!mapPanel || !rankPanel || !detailPanel) return null;
+        const m = mapPanel.getBoundingClientRect();
+        const r = rankPanel.getBoundingClientRect();
+        const d = detailPanel.getBoundingClientRect();
+        return (m.height > 0 && m.top < r.top && r.top < d.top) ? true : null;
+      }, { timeout: 25000 }).then(() => true).catch(() => false);
+      requireState(order, `${width}px mobile section order is wrong`);
       requireState(await page.locator('.rot-map svg').getAttribute('viewBox') === '0 0 620 620', `${width}px mobile map geometry changed`);
     }
     if (width === 1440 || width === 390) {

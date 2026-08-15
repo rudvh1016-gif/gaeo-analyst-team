@@ -186,31 +186,33 @@ def classify(row, fields):
     """종목 분류 — 검증된 metadata 우선, 그다음 결정적 규칙만.
 
     ⚠️ 이름이 비슷하다는 이유의 fuzzy matching은 하지 않는다.
+    2026-08-16 러너 실측: 상품 유형 field는 `stockEndType`이다(sample "stock").
+    `stockType`은 "domestic"(국내/해외 구분)이라 분류에 쓰면 안 된다.
     반환: (분류, 근거)
     """
-    # 1) 소스 metadata (smoke에서 field 존재가 확인된 경우에만 판독)
-    if "stockType" in fields:
-        st = str(row.get("stockType") or "").lower()
-        if st in ("etf",):
-            return "ETF", "source_stockType"
-        if st in ("etn",):
-            return "ETN", "source_stockType"
+    # 1) 소스 metadata — stockEndType (smoke로 존재가 검증된 경우에만 판독)
+    end_type = str(row.get("stockEndType") or "").lower() if "stockEndType" in fields else ""
+    if end_type and end_type != "stock":
+        # 관찰된 비주식 유형(etf/etn 등)은 실측 값 그대로 분류명으로 쓴다.
+        if end_type in ("etf", "etn"):
+            return end_type.upper(), "source_stockEndType"
+        return "NON_STOCK_" + end_type.upper()[:12], "source_stockEndType"
     # 2) KRX 단축코드 결정 규칙 — 끝자리가 0이 아니면 종류주(우선주 등).
     #    이름 추측이 아니라 코드 체계의 결정적 규칙이다.
     code = str(row.get("itemCode") or "")
     if re.match(r"^\d{6}$", code) and code[-1] != "0":
         return "CLASS_SHARE", "code_suffix_rule"
-    # 3) 스팩 — 법정 명칭 규칙('제N호스팩'). 부분일치 추측이 아니라 명칭 규칙.
+    # 3) 명칭 규칙 — 스팩('제N호스팩')·상장리츠('~리츠')는 법정/상장 명칭 규칙이라
+    #    부분일치 추측이 아니다. 애매한 변형은 걸리지 않고 COMMON으로 남는다.
     name = str(row.get("stockName") or "")
     if re.search(r"스팩\d*호?$|제\d+호스팩", name):
         return "SPAC", "legal_name_rule"
-    if "stockType" in fields:
-        st = str(row.get("stockType") or "").lower()
-        if st in ("stock", "common"):
-            return "COMMON", "source_stockType"
-        if st:
-            return "CLASSIFICATION_UNKNOWN", f"stockType={st[:20]}"
-        return "CLASSIFICATION_UNKNOWN", "stockType_empty"
+    if name.endswith("리츠"):
+        return "REIT", "listing_name_rule"
+    if end_type == "stock":
+        return "COMMON", "source_stockEndType"
+    if "stockEndType" in fields:
+        return "CLASSIFICATION_UNKNOWN", "stockEndType_empty"
     return "COMMON_ASSUMED", "no_type_metadata"
 
 
@@ -226,37 +228,49 @@ def _num(row, key):
 
 def build_universe(all_rows, fields):
     """RAW → ELIGIBLE 분리 + 품질 카운트."""
-    seen, dup = set(), 0
+    seen, dup, invalid_code = set(), 0, 0
     raw, eligible = [], []
-    counts = {"ETF": 0, "ETN": 0, "SPAC": 0, "CLASS_SHARE": 0,
-              "CLASSIFICATION_UNKNOWN": 0, "COMMON": 0, "COMMON_ASSUMED": 0}
-    missing_price = 0
+    counts = {}
+    type_histogram = {}          # stockEndType 실측 값 분포 — 증거 기록용
+    missing_price = suspended = 0
     for market, row in all_rows:
         code = str(row.get("itemCode") or "")
         if not re.match(r"^\d{6}$", code):
+            invalid_code += 1
             continue
         if code in seen:
             dup += 1
             continue
         seen.add(code)
+        if "stockEndType" in fields:
+            et = str(row.get("stockEndType") or "(empty)")
+            type_histogram[et] = type_histogram.get(et, 0) + 1
         kind, basis = classify(row, fields)
         counts[kind] = counts.get(kind, 0) + 1
+        tradable = (str(row.get("tradableStatus") or "").lower() == "tradable"
+                    if "tradableStatus" in fields else True)
         rate = _num(row, "fluctuationsRatio") if "fluctuationsRatio" in fields else None
-        close = _num(row, "closePrice") if "closePrice" in fields else None
-        cap = _num(row, "marketValue") if "marketValue" in fields else None
-        vol = _num(row, "accumulatedTradingValue") if "accumulatedTradingValue" in fields else None
+        close = _num(row, "closePriceRaw") if "closePriceRaw" in fields else None
+        cap = _num(row, "marketValueRaw") if "marketValueRaw" in fields else None
+        vol = _num(row, "accumulatedTradingValueRaw") if "accumulatedTradingValueRaw" in fields else None
         item = {"code": code, "name": str(row.get("stockName") or "").strip(),
-                "market": market, "kind": kind, "basis": basis,
+                "market": market, "kind": kind, "basis": basis, "tradable": tradable,
                 "rate": rate, "close": close, "cap": cap, "tval": vol}
         raw.append(item)
-        # ELIGIBLE = '한국 기업들의 흐름' — ETF/ETN/SPAC/종류주 제외.
-        # 분류 불명은 통계에 넣지 않고 따로 센다(억지 판단 금지).
+        # ELIGIBLE = '한국 기업들의 흐름' — ETF/ETN/SPAC/리츠/종류주 제외.
+        # 분류 불명·거래정지는 통계에 넣지 않고 따로 센다(억지 판단 금지).
         if kind in ("COMMON", "COMMON_ASSUMED"):
-            if rate is None:
+            if not tradable:
+                suspended += 1
+            elif rate is None:
                 missing_price += 1
             else:
                 eligible.append(item)
-    return raw, eligible, counts, dup, missing_price
+    return {"raw": raw, "eligible": eligible, "counts": counts,
+            "duplicateCount": dup, "invalidCodeCount": invalid_code,
+            "missingPriceCount": missing_price, "suspendedCount": suspended,
+            "typeHistogram": dict(sorted(type_histogram.items(),
+                                         key=lambda kv: -kv[1]))}
 
 
 def _median(vals):
@@ -295,6 +309,57 @@ def market_stats(eligible):
     return stats
 
 
+def sector_stats(eligible, sector_of, min_sample=5):
+    """업종 단위 통계 — median + breadth + cap/equal 분리 + 집중도.
+
+    sector_of: code → GAEO 대분류 (검증된 crosswalk만 — LLM 임의 분류 금지).
+    평균 하나로 '업종 강세'를 판단하지 않는다:
+      · medianReturn / advanceRatio / capWeighted-equalWeight 차이를 함께 제공
+      · 상위 1·3종목 기여 집중도(concentration) 제공
+      · 표본이 min_sample 미만이면 LOW_SAMPLE로 표시하고 강한 결론 금지
+    매핑 안 된 종목은 '기타'로 몰지 않고 unmappedCount로만 센다.
+    """
+    groups, unmapped = {}, 0
+    for x in eligible:
+        sector = sector_of.get(x["code"])
+        if not sector:
+            unmapped += 1
+            continue
+        groups.setdefault(sector, []).append(x)
+    out = {}
+    for sector, rows in sorted(groups.items()):
+        rates = [r["rate"] for r in rows]
+        up = sum(1 for v in rates if v > 0)
+        down = sum(1 for v in rates if v < 0)
+        med = _median(rates)
+        mean = sum(rates) / len(rates)
+        capped = [(r["rate"], r["cap"]) for r in rows if r["cap"]]
+        cap_total = sum(c for _, c in capped)
+        cap_w = (sum(v * c for v, c in capped) / cap_total) if cap_total else None
+        entry = {
+            "count": len(rows), "advancers": up, "decliners": down,
+            "advanceRatio": round(up / len(rows), 4),
+            "medianReturn": round(med, 3),
+            "equalWeightReturn": round(mean, 3),
+            "capWeightedReturn": round(cap_w, 3) if cap_w is not None else None,
+        }
+        # 시총 상위 1·3종목이 cap-weighted 수익에 기여한 몫 — '두 종목이 업종을
+        # 대표하는' 착시를 드러내기 위한 값.
+        if cap_total and len(capped) >= 3:
+            top = sorted(capped, key=lambda vc: -vc[1])
+            entry["capTop1Share"] = round(top[0][1] / cap_total, 4)
+            entry["capTop3Share"] = round(sum(c for _, c in top[:3]) / cap_total, 4)
+            if cap_w is not None and entry["medianReturn"] is not None:
+                # cap-weighted가 강한데 median·breadth가 약하면 '소수 대형주 집중'
+                entry["breadthDivergence"] = round(cap_w - med, 3)
+        if len(rows) < min_sample:
+            entry["reliability"] = "LOW_SAMPLE"
+            entry["note"] = "표본이 작아 강한 결론에 쓰지 않는다"
+        out[sector] = entry
+    return {"sectors": out, "unmappedCount": unmapped,
+            "mappedCount": sum(len(v) for v in groups.values())}
+
+
 def run_full(write_raw=False):
     fields = verified_fields()
     if not fields:
@@ -316,14 +381,17 @@ def run_full(write_raw=False):
         _atomic_write(STATE_PATH, json.dumps(state, ensure_ascii=False, indent=1))
         return 1
 
-    raw, eligible, counts, dup, missing_price = build_universe(all_rows, fields)
+    u = build_universe(all_rows, fields)
+    raw, eligible, counts = u["raw"], u["eligible"], u["counts"]
 
     # FAIL SAFE — 비정상 수집이면 last-good 덮어쓰기 금지
     sane = all(per_market.get(m, 0) >= MIN_SANE_PER_MARKET for m in MARKETS)
     prev_raw = state.get("rawCount") or 0
     coverage_vs_prev = (len(raw) / prev_raw) if prev_raw else 1.0
     expected = sum(t for t in totals.values() if t) or None
-    coverage_ratio = round(len(raw) / expected, 4) if expected else None
+    # Coverage = 소스가 있다고 말한 것 중 실제로 받아온 비율.
+    # (ETN 등 의도적으로 거른 종목 때문에 커버리지가 낮아 보이면 안 된다)
+    coverage_ratio = round(len(all_rows) / expected, 4) if expected else None
     if not sane or coverage_vs_prev < MIN_COVERAGE_RATIO:
         status = PARTIAL if sane else SOURCE_ERROR
         print(f"[full] 수집 불충분(raw={len(raw)}, 직전={prev_raw}) → {status}. "
@@ -339,10 +407,13 @@ def run_full(write_raw=False):
         "expectedCount": expected, "receivedCount": len(all_rows),
         "rawCount": len(raw), "eligibleCount": len(eligible),
         "kospiCount": per_market.get("KOSPI"), "kosdaqCount": per_market.get("KOSDAQ"),
-        "duplicateCount": dup, "missingPriceCount": missing_price,
+        "duplicateCount": u["duplicateCount"], "invalidCodeCount": u["invalidCodeCount"],
+        "missingPriceCount": u["missingPriceCount"], "suspendedCount": u["suspendedCount"],
         "excludedCounts": {k: v for k, v in counts.items()
-                           if k in ("ETF", "ETN", "SPAC", "CLASS_SHARE") and v},
+                           if k not in ("COMMON", "COMMON_ASSUMED",
+                                        "CLASSIFICATION_UNKNOWN") and v},
         "classificationUnknownCount": counts.get("CLASSIFICATION_UNKNOWN", 0),
+        "typeHistogram": u["typeHistogram"],
         "coverageRatio": coverage_ratio,
     }
     stats = market_stats(eligible)
@@ -389,7 +460,11 @@ def run_full(write_raw=False):
     hour_kst = datetime.now(KST).hour
     if hour_kst >= 15 and not os.path.exists(hist_path):
         _atomic_write(hist_path, json.dumps(
-            {"day": kst_day, "asOf": as_of, "quality": quality,
+            {"day": kst_day, "asOf": as_of,
+             # 그날의 실제 Universe 구성을 함께 남긴다 — 오늘의 상장목록을 과거로
+             # 소급하는 survivorship bias를 막는 근거 기록이다.
+             "universeSource": "FULL_MARKET", "universeDate": kst_day,
+             "quality": quality,
              "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats},
             ensure_ascii=False, indent=1))
 
