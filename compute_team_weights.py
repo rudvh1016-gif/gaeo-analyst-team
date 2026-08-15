@@ -57,12 +57,17 @@ def score_stance(stance, ret, deadband=1.0):
 
 
 def score_call(call, ret):
-    """index.html scoreCall과 동일한 CHIEF 팀 판단 채점 규칙."""
+    """index.html scoreCall과 동일한 CHIEF 팀 판단 채점 규칙.
+    ⭐ 2026-08-15: HOLD가 ±5%를 벗어나면 '중립'이 아니라 '빗나감'으로 센다.
+    예전에는 이 함수와 index.html이 관대(중립), compute_model_intelligence.py가
+    엄격(빗나감)으로 갈려 같은 데이터의 통산 적중률이 70.7% vs 51.2%로 19.5%p 달랐다.
+    엄격 쪽으로 통일한다. 이 값은 team 요약 표시용이며 분석가 가중치 계산
+    (score_stance)에는 쓰이지 않으므로 모델 동작은 바뀌지 않는다."""
     if call == "BUY":
         return "hit" if ret > 1 else ("miss" if ret < -1 else "mid")
     if call == "SELL":
         return "hit" if ret < -1 else ("miss" if ret > 1 else "mid")
-    return "hit" if abs(ret) <= 5 else "mid"
+    return "hit" if abs(ret) <= 5 else "miss"
 
 
 def main():
