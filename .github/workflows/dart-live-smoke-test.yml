@@ -1,0 +1,104 @@
+# 개오 애널리스트팀 — OpenDART 실연결 ONE-SHOT 점검
+#
+# 목적: Secret 하나 확인하려고 30분짜리 update-analysis 워크플로를 돌리지 않는다.
+#       이 워크플로는 수동 실행 전용이고, 루프도 자기재기동도 sleep도 없다.
+#       한 번 돌고 끝난다.
+#
+# 하는 일:
+#   1. Secret 존재 여부   2. corpCode.xml 연결   3. list.json 연결
+#   4. 500종목 Mapping    5. 오늘 신규공시 목록  6. API 호출량
+#   (옵션) 대표기업 소수의 재무 응답 스키마 확인
+#
+# ⚠️ Production 판단(Legacy · research_v1.0 · research_v1.1)을 전혀 바꾸지 않는다.
+# ⚠️ API Key 값은 어떤 로그·산출물에도 남지 않는다(dart_client.redact).
+# ⚠️ 500종목 재무를 호출하지 않는다. 대표 4곳만 본다.
+
+name: dart-live-smoke-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      financial:
+        description: "대표기업 재무 스키마까지 확인 (기본 false)"
+        type: boolean
+        default: false
+      commit:
+        description: "매핑·리포트를 main에 커밋 (기본 true)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dart-live-smoke-test
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPEN_DART_API_KEY: ${{ secrets.OPEN_DART_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Secret 존재 여부만 확인 (값은 출력하지 않음)
+        run: |
+          if [ -n "$OPEN_DART_API_KEY" ]; then
+            echo "secretPresent: true (길이 ${#OPEN_DART_API_KEY}자)"
+          else
+            echo "secretPresent: false"
+            echo "::warning::OPEN_DART_API_KEY가 비어 있습니다. Repository Secret 이름을 확인하세요."
+          fi
+
+      - name: 오프라인 불변식 테스트
+        run: |
+          python3 test_dart_pipeline.py
+          python3 test_dart_live_hardening.py
+          python3 test_research_store.py
+
+      - name: OpenDART 실연결 점검
+        run: |
+          if [ "${{ inputs.financial }}" = "true" ]; then
+            python3 dart_smoke_test.py --financial
+          else
+            python3 dart_smoke_test.py
+          fi
+
+      - name: v1.x 동결 확인
+        run: |
+          git diff --exit-code -- research_engine.py research_engine_v11.py \
+            && echo "research_v1.0 / v1.1 불변 확인"
+
+      - name: 리포트 커밋
+        if: ${{ inputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -d research_archive ] && git add research_archive || true
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "DART 실연결 점검 리포트 (GitHub Actions) [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin main && break
+              sleep $((2 ** i))
+              git pull --rebase origin main || true
+            done
+          fi
+
+      - name: 리포트 아티팩트
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dart-smoke-report
+          path: research_archive/dart/smoke_report.json
+          if-no-files-found: warn
