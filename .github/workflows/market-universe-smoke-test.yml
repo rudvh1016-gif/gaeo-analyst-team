@@ -1,0 +1,64 @@
+# 개오 애널리스트팀 — FULL MARKET UNIVERSE 소스 검증 ONE-SHOT
+#
+# 목적: 이 원격 개발 세션에서는 네이버 API가 막혀 있어(egress 제약) 실제 응답
+#       스키마를 볼 수 없다. field 이름을 추측해서 구현하는 것은 금지이므로,
+#       러너에서 실제 응답의 field 목록·건수만 확인해 branch에 기록한다.
+#
+# ⚠️ Secret 불필요. 응답 전체를 로그에 쏟지 않는다(스키마 요약 + 건수만).
+# ⚠️ 수동 실행 전용. 600종목 분석 파이프라인과 완전히 분리돼 있다.
+
+name: market-universe-smoke-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "스키마 검증 후 전체 수집·집계까지 실행 (기본 true)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-universe-smoke-test
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 스키마 검증 (시장별 1페이지)
+        run: python3 collect_market_universe.py --smoke
+
+      - name: 전체 수집·집계 (요청 수십 회, per-stock polling 없음)
+        if: ${{ inputs.full }}
+        run: |
+          time python3 collect_market_universe.py --write-raw
+          echo "── 산출물 크기 ──"
+          ls -la market_universe/ market_context.js 2>/dev/null || true
+
+      - name: 결과를 이 branch에 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add market_universe market_context.js 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "FULL MARKET 소스 검증 결과 (GitHub Actions) [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin HEAD && break
+              sleep $((2 ** i))
+              git pull --rebase || true
+            done
+          fi
