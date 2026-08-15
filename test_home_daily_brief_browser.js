@@ -1,4 +1,4 @@
-const { chromium } = require('C:/Users/개오/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const { chromium } = require('./test_playwright');
 
 function requireState(condition, message) {
   if (!condition) throw new Error(message);
@@ -7,7 +7,6 @@ function requireState(condition, message) {
 (async () => {
   const browser = await chromium.launch({
     headless: true,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
   });
   const page = await browser.newPage({ viewport: { width: 1024, height: 900 } });
   const pageErrors = [];
