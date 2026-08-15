@@ -14,6 +14,20 @@ function requireState(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+// 요약 카드 기대값은 rotation_snapshot.js에서 직접 계산한다.
+// 예전처럼 '79.1' 같은 당시 숫자를 박아두면 데이터가 갱신될 때마다 테스트가 낡는다.
+// 검증하려는 불변식은 "카드가 스냅샷의 1위 업종 값을 그대로 보여준다"이다.
+global.window = global.window || {};
+require('./rotation_snapshot.js');
+const rotationSnapshot = global.window.ROTATION_SNAPSHOT;
+const rotationLeader = (rotationSnapshot.summary && rotationSnapshot.summary.leaders || [])[0] || {};
+const leaderScoreText = `${Number(rotationLeader.score || 0).toFixed(1)}점`;
+const leaderSector = (rotationSnapshot.sectors || []).find(s => s.name === rotationLeader.name) || {};
+const leaderPeriod1 = (leaderSector.periods || {})['1'] || {};
+const leaderReturn = Number(leaderPeriod1.return && leaderPeriod1.return.adjusted) || 0;
+// rotation-ui.js formatPercent와 같은 형식: 양수만 + 접두, 소수 1자리
+const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)}%`;
+
 (async () => {
   const baseUrl = process.env.GAEO_TEST_URL || 'http://127.0.0.1:8878/index.html';
   const rotationUrl = baseUrl.includes('?') ? baseUrl : `${baseUrl}?m=rotation`;
@@ -89,8 +103,8 @@ function requireState(condition, message) {
   await page.goto(rotationUrl, { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => window.setMode && window.setMode('rotation'));
   await page.locator('.rotation-view.on .rot-shell').waitFor({ state: 'visible' });
-  requireState((await page.locator('.rot-card').nth(1).innerText()).includes('79.1'), 'latest 20-day leader score changed');
-  requireState((await page.locator('.rot-card-today').innerText()).includes('-1.2%'), 'latest one-day move is not separated');
+  requireState((await page.locator('.rot-card').nth(1).innerText()).includes(leaderScoreText), `leader card must show the snapshot leader score ${leaderScoreText}`);
+  requireState((await page.locator('.rot-card-today').innerText()).includes(leaderTodayText), `today card must show the snapshot one-day move ${leaderTodayText}`);
   await page.locator('[data-horizon="5"]').first().click();
   requireState((await page.locator('.rot-rank-panel h3').innerText()).startsWith('5거래일'), 'ranking did not follow selected horizon');
   requireState((await page.locator('.rot-detail-sub').innerText()).includes('선택 5거래일'), 'detail mislabeled selected horizon as recommendation');

@@ -28,11 +28,16 @@ function requireState(condition, message) {
   if (await toggle.count()) {
     const match = (await toggle.innerText()).match(/(\d+)종목/);
     const expectedCount = Number(match && match[1]);
+    const previewCount = await page.locator('.home-daily-brief .hdb-preview .hdb-stock-row').count();
     await toggle.click();
     const panel = page.locator('#hdbBuyPanel');
     requireState(await panel.isVisible(), 'desktop BUY list must open inline');
     requireState(await page.locator('#hdbSheetBackdrop').isHidden(), 'desktop list must not use a backdrop');
-    requireState(await page.locator('#hdbBuyPanel .hdb-stock-row').count() === expectedCount, 'full BUY list must not be capped');
+    // 2026-08-14 지정 UX: PC에서는 미리보기 1~3위가 계속 보인 채 패널이 4위부터 이어진다.
+    // 따라서 "전체 N종목"은 미리보기+패널 합계와 같아야 한다(잘림 금지 불변식).
+    const panelCount = await page.locator('#hdbBuyPanel .hdb-stock-row').count();
+    requireState(previewCount + panelCount === expectedCount,
+      `desktop preview(${previewCount}) + panel(${panelCount}) must equal full BUY count(${expectedCount})`);
     await page.locator('#hdbPanelClose').click();
     requireState(await panel.isHidden(), 'desktop BUY list must close');
   }
@@ -46,9 +51,14 @@ function requireState(condition, message) {
   requireState(decisionBox.y > contextBox.y, 'mobile brief must stack into one column');
   toggle = page.locator('#hdbBuyToggle');
   if (await toggle.count()) {
+    const mobileMatch = (await toggle.innerText()).match(/(\d+)종목/);
+    const mobileExpected = Number(mobileMatch && mobileMatch[1]);
     await toggle.click();
     const panel = page.locator('#hdbBuyPanel');
     requireState(await panel.isVisible(), 'mobile BUY bottom sheet must open');
+    // 모바일 시트는 미리보기가 가려지므로 1위부터 전체를 그대로 보여준다.
+    requireState(await page.locator('#hdbBuyPanel .hdb-stock-row').count() === mobileExpected,
+      'mobile BUY sheet must list the full BUY set');
     requireState(await page.locator('#hdbSheetBackdrop').isVisible(), 'mobile bottom sheet must show backdrop');
     requireState(await page.locator('body').evaluate(el => el.classList.contains('hdb-sheet-open')), 'mobile body scroll must lock');
     await page.keyboard.press('Escape');
