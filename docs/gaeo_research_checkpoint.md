@@ -2,7 +2,7 @@
 
 **다음 세션은 이 파일을 가장 먼저 읽는다.** (토큰 절약 원칙, 스펙 3번)
 
-최종 갱신 2026-08-15 · 현재 위치 **PHASE A 완료 / PHASE B 미착수**
+최종 갱신 2026-08-15 · 현재 위치 **PHASE A 완료 + 확정 결함 수정 완료 / PHASE B 착수 대기**
 
 ---
 
@@ -40,12 +40,27 @@
 
 상세: `gaeo_confidence_calibration.md`
 
-### 잠재 버그 1건 (미수정, 우선순위 낮음)
+### 확정 결함 수정 완료 (2026-08-15) → `gaeo_phaseA_fixes.md`
 
-`evalClose()`가 `flatMap` 후 날짜 정렬을 안 함.
-`flatCloses()`와 AGENTS.md 주의 2번은 정렬을 요구.
-**실측 결과 502종목 전부 순서 정상이라 현재는 발현되지 않음.**
-SELL 9.1%와 무관. 페이지 생성 방식이 바뀌면 위험.
+튜닝은 하지 않았다. Feature/Weight/Threshold 전부 그대로다.
+
+1. **HOLD 채점 규칙 3원화 → 엄격으로 통일.**
+   index.html·compute_team_weights.py가 관대(HOLD는 miss 불가),
+   compute_model_intelligence.py가 엄격으로 갈려 같은 데이터 적중률이
+   70.7% vs 51.2%로 19.5%p 달랐다. 성적표 헤드라인과 판단종류별 표도 서로 달랐다.
+   → 엄격으로 통일. 팀 통산 70.7% → **51.2%**.
+   **분석가 가중치는 수정 전후 완전 동일**(score_call은 표시용, 가중치는 score_stance에서 나옴).
+
+2. **`evalClose()` 정렬 누락 수정.** 합성 데이터로 재현 확인
+   (페이지 뒤바뀌면 +5.0%가 +9.0%로 오계산). 정렬 추가.
+   현재 실데이터 14,063건 대조 결과 **차이 0건** — 회귀 없이 미래 사고만 차단.
+
+3. **SELL 평가 로직: 수정할 코드 오류 없었음.** 정직하게 기록.
+
+4. **실제 실행시각 기록 구조 추가.** `auto_analysis.js`에 `runTimestamps`
+   (workflowStartedAt / priceFetchedAt / analysisStartedAt / analysisCompletedAt).
+   예정값(cronScheduledNominal)은 분리 저장하고 데이터 시각으로 쓰지 말라고 명시.
+   환경변수 없으면 null. 시각을 지어내지 않는다.
 
 ---
 
@@ -73,8 +88,9 @@ SELL 9.1%와 무관. 페이지 생성 방식이 바뀌면 위험.
 | PHASE | 내용 | 상태 |
 |---|---|---|
 | **A** | DATA / BUG / LABEL / LOOK-AHEAD 감사 | **완료** |
-| B | LOCKED PAPER 기반 Candidate Feature 설계 | 미착수 |
-| C | Research Engine 구현(Legacy 분리) | 미착수 |
+| **A-fix** | 확정 결함 수정(튜닝 아님) | **완료** |
+| B | LOCKED PAPER 기반 Candidate Feature 설계 | **다음 차례** |
+| C | Research Engine 구현(Legacy 분리, SHADOW MODE) | 미착수 |
 | D | Walk-Forward OOS | **데이터 부족으로 착수 불가** |
 | E | Probability Calibration | 미착수 |
 | F | Legacy / Baseline / Research 비교 | 미착수 |
@@ -92,6 +108,7 @@ SELL 9.1%와 무관. 페이지 생성 방식이 바뀌면 위험.
 | `gaeo_data_audit.md` | 완료 |
 | `gaeo_point_in_time_rules.md` | 완료 |
 | `gaeo_confidence_calibration.md` | 완료(감사 + 그림자 검증 결과) |
+| `gaeo_phaseA_fixes.md` | 완료(확정 결함 수정 전/후 대조) |
 | `gaeo_verified_references.md` | 미작성 (PHASE B) |
 | `gaeo_signal_registry.md` | 미작성 (PHASE B) |
 | `gaeo_taro_research.md` | 미작성 (PHASE B) |
@@ -125,7 +142,13 @@ SELL 9.1%와 무관. 페이지 생성 방식이 바뀌면 위험.
 3. 중복정보 검사 착수: MA / MACD / Momentum / 52W High 상관 및 Ablation 설계.
 4. 라벨을 시장 초과수익 기준으로 재정의하는 RESEARCH_LABEL 설계
    (delta는 TRAIN/VALIDATION에서만 결정).
-5. PHASE D는 판단 기록이 40거래일을 넘길 때까지 대기.
+5. **PHASE C는 SHADOW MODE로 구현한다.** Legacy를 건드리지 않고,
+   같은 Timestamp에 Legacy와 Research Prediction을 **동시에 저장**한다.
+   그래야 오늘 이후 새로 쌓이는 데이터가 진짜 unseen OOS 자료가 된다.
+   (기존 `shadowChief` 저장 방식이 이미 같은 패턴이므로 그대로 확장한다.)
+6. PHASE D 성능 비교는 판단 기록이 40거래일을 넘길 때까지 대기.
+   **데이터 부족을 이유로 Research 개발 자체를 멈추지는 않는다.**
+   단 "Research가 Legacy보다 좋다"는 결론은 금지.
 
 **하지 말 것**: 원인 규명 없이 threshold/weight 조정, Test 결과 보고 Feature 수정,
 Production 로직 선반영.

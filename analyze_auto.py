@@ -764,7 +764,41 @@ def build_market_insight(out, indicators):
     }
 
 
+def _iso_now():
+    """오프셋까지 포함한 ISO8601 시각. TZ가 바뀌어도 해석이 흔들리지 않게 한다."""
+    return datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def build_run_timestamps(analysis_started_at, ind):
+    """⭐ 2026-08-15 (PHASE A 수정 4) — '예정시각'이 아니라 '실제 실행시각'을 기록한다.
+
+    GitHub Actions의 cron 예정시각과 실제 실행시각은 다를 수 있으므로,
+    "cron이 10:30이니 10:30 데이터"라고 가정하면 안 된다(GAEO RESEARCH V2 스펙 7번).
+    나중에 "이 판단이 실제로 무엇을 보고 내려졌는지"를 재구성할 수 있어야 한다.
+
+    워크플로가 심어주는 환경변수를 읽되, 없으면 None으로 두고 절대 지어내지 않는다.
+    로컬 실행처럼 환경변수가 없는 경우에도 파이프라인이 죽지 않는다."""
+    env = os.environ.get
+    return {
+        # 러너가 이번 사이클을 실제로 시작한 시각(워크플로가 주입)
+        "workflowStartedAt": env("GAEO_CYCLE_STARTED_AT") or None,
+        # 시세(data.js)를 마지막으로 실제 받아온 시각(워크플로가 주입)
+        "priceFetchedAt": env("GAEO_PRICE_FETCHED_AT") or None,
+        # 이 스크립트가 실제로 시작·완료한 시각
+        "analysisStartedAt": analysis_started_at,
+        "analysisCompletedAt": _iso_now(),
+        # 시세 데이터 자체가 표방하는 기준(예: "2026-08-14 종가 (16:10 수집)")
+        "priceLabel": ind.get("priceLabel", ""),
+        # ⚠️ 아래는 '예정' 값이다. 실제 실행시각으로 사용하면 안 된다.
+        "cronScheduledNominal": env("GAEO_CRON_NOMINAL") or None,
+        "githubRunId": env("GITHUB_RUN_ID") or None,
+        "githubRunAttempt": env("GITHUB_RUN_ATTEMPT") or None,
+        "note": "workflowStartedAt·priceFetchedAt은 러너 실제 시각. cronScheduledNominal은 예정값이라 데이터 시각으로 쓰지 말 것.",
+    }
+
+
 def main():
+    analysis_started_at = _iso_now()
     # 첫 회차에 시작 시각을 기록하고, 이후 회차부터 장시간 실행 여부를 확인한다.
     schedule_safety_handoff()
 
@@ -847,6 +881,7 @@ def main():
 
     out["marketInsight"] = build_market_insight(out, ind)
     out["crossStats"] = {"horizonDays": CROSS_STAT_HORIZON, "buckets": cross_stats}
+    out["runTimestamps"] = build_run_timestamps(analysis_started_at, ind)
     body = json.dumps(out, ensure_ascii=False, indent=1)
     js = ("// 자동 생성: analyze_auto.py · GAEO 자동 분석(러너) 규칙 기반 (Claude 토큰 0)\n"
           "// 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만\n"
