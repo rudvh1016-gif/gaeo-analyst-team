@@ -17,6 +17,7 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 실행: python3 compute_indicators.py  →  indicators.json
 """
 import json, re, os, datetime
+import indicator_math
 import statistics
 from zoneinfo import ZoneInfo
 
@@ -139,14 +140,11 @@ def indicators_for(daily):
     ma200, ma200Gap, ma200Slope, ma200Days, ma200Full = ma_block(200)
     cross5_20 = cross_signal(5, 20)
     cross20_60 = cross_signal(20, 60)
-    gains, losses = [], []
-    for i in range(1, len(closes)):
-        ch = closes[i] - closes[i - 1]
-        gains.append(max(ch, 0)); losses.append(max(-ch, 0))
-    ag = sum(gains[:14]) / 14; al = sum(losses[:14]) / 14
-    for i in range(14, len(gains)):
-        ag = (ag * 13 + gains[i]) / 14; al = (al * 13 + losses[i]) / 14
-    rsi = 100 - 100 / (1 + ag / al) if al else 100.0
+    # ⚠️ RSI·ret5는 indicator_math의 공용 함수만 쓴다.
+    #    QUANT가 '오늘 상태'와 '과거 상태'를 비교하는데, 두 경로가 다른 식을 쓰면
+    #    같은 날짜인데도 값이 달라져 엉뚱한 과거 사례와 매칭된다(2026-08-15 발견).
+    rsi = indicator_math.wilder_rsi(closes)
+    ret5 = indicator_math.ret_n(closes, indicator_math.RET_LOOKBACK)
     e12, e26 = ema_series(closes, 12), ema_series(closes, 26)
     macd = [a - b for a, b in zip(e12, e26)]
     sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
@@ -170,7 +168,12 @@ def indicators_for(daily):
         "ma120": ma120, "ma120Gap": ma120Gap, "ma120Slope": ma120Slope, "ma120Days": ma120Days, "ma120Full": ma120Full,
         "ma200": ma200, "ma200Gap": ma200Gap, "ma200Slope": ma200Slope, "ma200Days": ma200Days, "ma200Full": ma200Full,
         "cross5_20": cross5_20, "cross20_60": cross20_60,
-        "rsi14": round(rsi, 1),
+        "rsi14": (round(rsi, 1) if rsi is not None else None),
+        # 5거래일 '간격' 수익률. last5 배열로 다시 계산하지 말고 이 값을 쓸 것.
+        # (last5는 종가 5개라 간격이 4일이다. 과거 통계는 5일 간격이라 정의가 어긋난다)
+        "ret5": (round(ret5, 4) if ret5 is not None else None),
+        "rsi14Ready": rsi is not None,
+        "ret5Ready": ret5 is not None,
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
         # ⚠️ daily가 이제 ~10개월치라, min/max(closes) 전체를 쓰면 "3개월 최저/최고"라는

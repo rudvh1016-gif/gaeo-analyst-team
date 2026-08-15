@@ -66,6 +66,10 @@ def _entry_from(a, when):
         "baseAt": a.get("baseAt"),          # 그 주가의 시점
         "target": chief.get("target", ""),
         "modelVersion": chief.get("modelVersion"),
+        # 🏷️ 기본모델 버전 — 점수 의미가 바뀐 뒤 기록을 섞어 학습하지 않기 위해 남긴다.
+        #    이 필드가 없는 과거 기록은 읽을 때 PRE_HOTFIX_BASE로 본다.
+        "baseModelVersion": chief.get("baseModelVersion"),
+        "judgmentWithheld": chief.get("judgmentWithheld") or None,
         "reboundCheck": chief.get("reboundCheck"),
     }
     for k in ("taro", "diana", "nova", "flow"):

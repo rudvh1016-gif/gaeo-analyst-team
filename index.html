@@ -4284,6 +4284,9 @@ let LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
    ③(엄격)으로 통일한다. ⚠️ BUY/HOLD/SELL 판단 기준(63점·47점)과 가중치는 건드리지 않는다 —
    이것은 성능 튜닝이 아니라 '채점자'의 잣대를 하나로 맞추는 측정 정합성 수정이다. */
 function scoreCall(call, retPct){
+  /* ⚪ 판단 보류는 적중/빗나감 어느 쪽에도 넣지 않는다. 분모에서 아예 뺀다.
+     데이터가 모자라 판단을 안 한 것을 HOLD로 채점하면 성적이 왜곡된다. */
+  if(call==='JUDGMENT_WITHHELD') return 'withheld';
   if(call==='BUY')  return retPct>1?'hit':(retPct<-1?'miss':'mid');
   if(call==='SELL') return retPct<-1?'hit':(retPct>1?'miss':'mid');
   return Math.abs(retPct)<=5?'hit':'miss';
@@ -4545,7 +4548,8 @@ function pfGuideText(code, price, avg, qty){
   const tier=analysisTier(code)==='auto'?'🤖 자동분석':'🧠 정밀분석';
   const team = call==='BUY'?'개오팀은 이 종목을 <b>좋게(BUY)</b> 봐요. '
              : call==='SELL'?'개오팀은 이 종목을 <b>조심(SELL)</b>하라고 봐요. '
-             : call==='HOLD'?'개오팀은 <b>지켜보라(HOLD)</b>고 봐요. ' : '';
+             : call==='HOLD'?'개오팀은 <b>지켜보라(HOLD)</b>고 봐요. '
+             : call==='JUDGMENT_WITHHELD'?'자료가 모자라 이번엔 <b>판단을 보류</b>했어요. ' : '';
   let me='';
   if(hasData){
     if(plPct>0) me = call==='SELL'
@@ -4842,7 +4846,8 @@ function scTally(list, key, holdStrict){
   list.forEach(r=>{
     const v=r[key]; if(v===null||v===undefined){ return; }
     let s;
-    if(r.call==='BUY') s = v>1?'hit':(v<-1?'miss':'mid');
+    if(r.call==='JUDGMENT_WITHHELD') s = 'withheld';   /* 채점 분모에서 제외 */
+    else if(r.call==='BUY') s = v>1?'hit':(v<-1?'miss':'mid');
     else if(r.call==='SELL') s = v<-1?'hit':(v>1?'miss':'mid');
     else s = Math.abs(v)<=5?'hit':(holdStrict?'miss':'mid');
     if(s==='hit')hit++; else if(s==='miss')miss++; else mid++;
@@ -4861,10 +4866,14 @@ function scorecardMetrics(scored){
   const hits=scored.filter(r=>r.verdict==='hit');
   const misses=scored.filter(r=>r.verdict==='miss');
   const mids=scored.filter(r=>r.verdict==='mid');
-  const uniqueCodes=new Set(scored.map(r=>r.code));
+  /* ⚪ 판단 보류는 적중률 분모에서 완전히 뺀다(hit도 miss도 아니다). */
+  const withheld=scored.filter(r=>r.verdict==='withheld');
+  const graded=scored.filter(r=>r.verdict!=='withheld');
+  const uniqueCodes=new Set(graded.map(r=>r.code));
   const uniqueMissCodes=new Set(misses.map(r=>r.code));
   const decided=hits.length+misses.length;
-  return {total:scored.length, hitN:hits.length, missN:misses.length, midN:mids.length,
+  return {total:graded.length, hitN:hits.length, missN:misses.length, midN:mids.length,
+    withheldN:withheld.length,
     uniqueN:uniqueCodes.size, uniqueMissN:uniqueMissCodes.size,
     acc:decided?Math.round(hits.length/decided*100):null};
 }
