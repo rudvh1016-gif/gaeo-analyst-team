@@ -22,6 +22,10 @@ function requireState(condition, message) {
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'networkidle' });
+  // 모바일(≤900px)은 2026-08-14 설계대로 접힘 상태로 시작한다. 접힘을 확인한 뒤
+  // 헤더를 눌러 펼치고 나서 목록을 검증한다.
+  requireState(await page.locator('#hdaToggle').getAttribute('aria-expanded') === 'false', 'mobile deep-analysis section must start collapsed');
+  await page.locator('#hdaToggle').click();
   await homeRows.first().waitFor({ state: 'visible' });
   requireState(await page.locator('#homeDeepAnalysis').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'mobile home list must not overflow');
 

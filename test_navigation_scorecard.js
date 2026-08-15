@@ -60,8 +60,10 @@ const scorecardMetrics = runFunction('scorecardMetrics', [[
   { code: 'B', verdict: 'mid' },
   { code: 'C', verdict: 'miss' },
 ]]);
+// withheldN: 판단 보류(JUDGMENT_WITHHELD)는 채점 분모에서 빠지고 별도 카운트로만
+// 집계된다(2026-08-15 기본모델 구조 수정). 이 픽스처에는 보류 건이 없으므로 0.
 assert.deepEqual(scorecardMetrics, {
-  total: 4, hitN: 1, missN: 2, midN: 1, uniqueN: 3, uniqueMissN: 2, acc: 33,
+  total: 4, hitN: 1, missN: 2, midN: 1, withheldN: 0, uniqueN: 3, uniqueMissN: 2, acc: 33,
 });
 assert.match(html, /최근 7개 달력일/);
 assert.match(html, /적중률 = 적중/);
