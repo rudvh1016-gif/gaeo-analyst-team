@@ -171,6 +171,10 @@ jobs:
             export GAEO_DART_COLLECTION_STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             python3 collect_dart.py || echo "DART 수집 실패 — 나머지는 계속 진행"
             export GAEO_DART_COLLECTION_COMPLETED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            # 🌐 FULL MARKET UNIVERSE(2026-08-16) — KOSPI+KOSDAQ 전체 가벼운 관찰.
+            #    bulk 페이지네이션 44요청/사이클, 종목별 polling 없음. 정밀분석과
+            #    별개 모집단이며, 실패해도 600종목 파이프라인을 절대 멈추지 않는다.
+            timeout 240 python3 collect_market_universe.py || echo "전체시장 수집 실패 — 나머지는 계속 진행"
             timeout 900 python3 analyze_auto.py || { echo "auto_analysis 실패"; exit 1; }
             # 업종 순환매 후보의 TARO는 auto_analysis.js의 실제 TARO 점수를 단일 원천으로 쓴다.
             # 따라서 자동분석이 끝난 뒤 스냅샷을 만들며, 장 마감 후에는 같은 거래일을 한 번만 보관한다.
@@ -223,6 +227,11 @@ jobs:
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
+            # 🌐 전체시장 집계 — 소형 파일만 커밋(state·일일 history·public 집계 1KB).
+            #    장중 raw(full_market_latest.json.gz)는 수집기가 기본적으로 안 쓴다.
+            [ -f market_context.js ] && git add market_context.js
+            [ -f market_universe/state.json ] && git add market_universe/state.json
+            [ -d market_universe/history ] && git add market_universe/history
             # Research·DART Archive(날짜별 Segment + manifest). 사이트가 읽지 않는 자료다.
             [ -d research_archive ] && git add research_archive
             git add analysis_archive.js deep_analysis_latest.js deep_analysis_manifest.json 2>/dev/null || true
