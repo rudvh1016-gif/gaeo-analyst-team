@@ -25,17 +25,17 @@
 
 ```
 브라우저(index.html)
-   ├─ tickers.js       500종목 마스터 목록(단일 소스)
+   ├─ tickers.js       600종목 마스터 목록(단일 소스)
    ├─ data.js          시세 스냅샷 + 홈 숫자 브리핑 ← update_prices.py (10분마다)
    ├─ analysis.js      정밀분석 14종목 ← Claude가 직접 Write (비정기)
-   ├─ auto_analysis.js 자동분석 500종목 + 홈 보강 브리핑 ← analyze_auto.py (30분마다)
+   ├─ auto_analysis.js 자동분석 600종목 + 홈 보강 브리핑 ← analyze_auto.py (30분마다)
    ├─ indicators.json/js, analysis_data.json  ← 지표·원천 데이터 계산 파이프라인
    ├─ history.js       CHIEF 판단 누적 기록 ← archive_analysis.py만 (직접 편집 금지)
    ├─ team_weights.js  적중률 기반 CHIEF 가중치 ← compute_team_weights.py
    ├─ news_analysis.js / stock_study.js / stock_lessons.js / estate_lessons.js / calculators.js
    │                    콘텐츠 5종 ← 사람/Claude가 직접 Write
    ├─ snap/latest_posts.js  첫 화면 최신 글 5개 목록 ← generate_snapshots.js
-   ├─ snap/home_brief.js    첫 화면 500종목 BUY/HOLD/SELL·상위 30종목 경량 집계 ← generate_snapshots.js
+   ├─ snap/home_brief.js    첫 화면 전 종목 BUY/HOLD/SELL·상위 30종목 경량 집계 ← generate_snapshots.js
    ├─ community.js     방문자 공개 게시판 ← 관리자 모드 "모두에게 발행"이 갱신
    └─ site_config.js   사이트 전역 문구/테마 설정 ← 관리자 모드가 갱신
 ```
@@ -44,7 +44,7 @@
 
 | | 🤖 자동분석 | 🧠 정밀분석 |
 |---|---|---|
-| 대상 | tickers.js 500종목 전체 | analysis.js의 14종목 |
+| 대상 | tickers.js 600종목 전체 | analysis.js의 14종목 |
 | 판단 주체 | `analyze_auto.py` — RSI/MACD/이동평균 규칙 기반 로직 | Claude가 웹서치+데이터 보고 직접 작성 |
 | AI API 호출 | 없음(토큰 0) | 있음(Claude가 직접 분석할 때만) |
 | 갱신 주기 | 30분마다 자동(GitHub Actions) | 비정기 — 누군가 재분석 작업을 할 때만 |
@@ -53,7 +53,7 @@
 **표시 우선순위(index.html 로직)**: 어떤 종목이 정밀분석 대상이더라도, 화면에 정밀분석이
 뜨는 건 "당일(자동분석 생성일과 같은 날) 재분석됐고 + 시세도 지금과 ±3% 이내"일 때뿐이다
 (`precisionFresh` 판정 — 시간 조건 + 가격 조건 둘 다 필요). 이 조건을 못 채우면 정밀분석
-대상 종목이라도 자동분석이 대신 뜬다. 즉 실질적으로 거의 항상 500종목 전부가 자동분석으로
+대상 종목이라도 자동분석이 대신 뜬다. 즉 실질적으로 거의 항상 600종목 전부가 자동분석으로
 보인다고 생각하면 된다.
 
 ## QUANT(구 NOVA)에 대한 특이사항
@@ -92,7 +92,7 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
 
 - **update-prices.yml** — 평일 09:00~16:00 KST, 10분마다 `data.js`(시세·지수·환율 + 홈 숫자 브리핑) 갱신·커밋.
 - **update-analysis.yml** — 같은 시간대 30분마다 `price_history.js` · `analysis_data.json` ·
-  `indicators.json/js` · `auto_analysis.js`(홈 보강 브리핑 포함)를 갱신하고, `archive_analysis.py --auto`로 500종목
+  `indicators.json/js` · `auto_analysis.js`(홈 보강 브리핑 포함)를 갱신하고, `archive_analysis.py --auto`로 600종목
   판단을 `history.js`에 하루 1건씩 누적한다.
 두 워크플로 모두 **GitHub의 기본 cron이 이 저장소에서 불안정하다는 걸 겪은 뒤** 만들어진
 "자가 반복 루프 + 종료 시 자기 재기동(workflow_dispatch 재호출) 체인" 구조다. 안전망이
