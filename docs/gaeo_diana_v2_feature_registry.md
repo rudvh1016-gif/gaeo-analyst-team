@@ -182,26 +182,72 @@ Debt(이자부부채) 계정을 수집하기 전까지 `Liabilities / Assets` �
 
 ---
 
-## 8. 현재 상태 요약
+## 8. 실측 Coverage (2026-08-15 실연결)
 
-| Feature | 상태 | 막힌 것 |
-| --- | --- | --- |
-| `grossProfitability` | `POTENTIALLY_AVAILABLE` | 실응답 Coverage 미확인 |
-| `operatingProfitability` | **`NOT_READY`** | 판관비·이자비용 미수집 |
-| `accruals` | `POTENTIALLY_AVAILABLE` (`CASH_FLOW_PROXY` 예정) | 직전기 자산총계 필요 |
-| `assetGrowth` | `POTENTIALLY_AVAILABLE` | 2개 연도 필요, 논문 등재 필요 |
-| `leverage` | `GAEO_PROXY` (`liabilitiesToAssets`) | 표준 정의 없음 |
+대표 4곳을 실제로 호출해 확인했다. FY2025 연결(CFS) 기준.
 
-**5개 중 `PAPER_EXACT`는 현재 0개다.**
+| 종목 | 업종 성격 | Coverage | 결측 | 해당 없음 |
+| --- | --- | --- | --- | --- |
+| 005930 삼성전자 | 제조/반도체 | **10/10** | 없음 | 없음 |
+| 005380 현대차 | 제조/자동차 | **10/10** | 없음 | 없음 |
+| 035420 NAVER | 서비스/인터넷 | **8/10** | 매출원가, 매출총이익 | 없음 |
+| 105560 KB금융 | 금융/은행 | **7/7** | 없음 | 매출액, 매출원가, 매출총이익 |
+
+전 항목이 `account_id`로 매칭됐다(이름 매칭 0건).
+
+### 이름 매칭이 실패했던 실제 사례
+
+| 종목 | 항목 | 실제 계정명 | account_id |
+| --- | --- | --- | --- |
+| 현대차 | `netIncome` | **연결**당기순이익 | `ifrs-full_ProfitLoss` |
+| KB금융 | `operatingCashFlow` | 영업활동**으로부터의** 현금흐름 | `ifrs-full_CashFlowsFromUsedInOperatingActivities` |
+| KB금융 | `investingCashFlow` | 투자활동**으로부터의** 현금흐름 | `ifrs-full_CashFlowsFromUsedInInvestingActivities` |
+
+계정명은 회사마다 다르고 `account_id`는 IFRS 표준이다. **account_id 우선**으로 바꿨다.
+
+`sj_div` 실측값: `BS` · `IS` · `CIS` · `CF` · `SCE`.
+NAVER·KB금융은 `IS`가 없고 `CIS`(포괄손익계산서)만 있다. 그래서 손익 항목은
+`IS`와 `CIS`를 모두 허용한다.
+
+### NAVER 매출원가는 매칭 버그가 아니다
+
+카탈로그로 "원가"가 들어간 계정을 전부 뒤졌으나 **하나도 없었다**.
+서비스 기업이라 영업비용으로만 보고한다. 즉 **Gross Profitability를 계산할 수 없는
+종목이 실제로 존재한다.** 이런 종목은 Feature를 `NOT_AVAILABLE`로 두고
+평균이나 0으로 채우지 않는다.
+
+### KB금융은 결측이 아니라 개념 부재
+
+매출액·매출원가·매출총이익 대신 보험수익·수수료수익·이자수익으로 나뉜다.
+`NOT_APPLICABLE_FINANCIAL_SECTOR`로 구분하고 coverage 분모에서 뺐다.
+그래서 7/7이 됐다. 일반기업 공식에 억지로 넣지 않는다.
 
 ---
 
-## 9. 다음에 할 일
+## 9. 현재 상태 요약
 
-1. 스모크 테스트로 대표기업 실응답 Coverage 확인 (계정명·`account_id`·`sj_div`·CFS/OFS).
+| Feature | 상태 | 막힌 것 |
+| --- | --- | --- |
+| `grossProfitability` | `POTENTIALLY_AVAILABLE` | 제조업은 계산 가능. **서비스업 일부는 원천 부재**, 금융업은 개념 부재 |
+| `operatingProfitability` | **`NOT_READY`** | 판관비·이자비용 미수집(FF5 원공식 분자에 필요) |
+| `accruals` | `POTENTIALLY_AVAILABLE` (`CASH_FLOW_PROXY`) | 직전기 자산총계 필요(2개 연도 수집 미구현) |
+| `assetGrowth` | `POTENTIALLY_AVAILABLE` | 2개 연도 필요, 논문 LOCKED PACK 등재 필요 |
+| `leverage` | `GAEO_PROXY` (`liabilitiesToAssets`) | 표준 정의 없음. 금융업은 의미가 다름 |
+
+**5개 중 `PAPER_EXACT`는 여전히 0개다.**
+계정을 구할 수 있다는 것과 논문 공식을 그대로 계산할 수 있다는 것은 다르다.
+
+---
+
+## 10. 다음에 할 일
+
+1. ~~대표기업 실응답 Coverage 확인~~ → **완료** (위 8절)
 2. `operatingProfitability`를 위해 판관비·이자비용을 수집 목록에 추가.
-3. `assetGrowth` 논문을 LOCKED PAPER PACK에 등재.
-4. 금융업 종목 목록 확정 후 `NOT_APPLICABLE_FINANCIAL_SECTOR` 적용.
-5. 그 뒤에야 `research_v2.0`의 Feature 계산을 시작한다.
+3. `accruals` · `assetGrowth`를 위해 **직전 회계연도 재무를 함께 수집**
+   (현재는 한 해만 받는다). 공시 기반으로 필요한 회사만.
+4. `assetGrowth` 논문을 LOCKED PAPER PACK에 등재.
+5. 금융업 종목 전체 목록 확정. 지금은 업종명 낱말로 판정하는 임시 방식이다.
+6. CFS/OFS가 시계열에서 섞이는지 실측 후 `FS_DIV_INCONSISTENT` 규칙 적용.
+7. 그 뒤에야 `research_v2.0`의 Feature 계산을 시작한다.
 
 **지금은 점수를 만들지 않는다.**
