@@ -43,9 +43,9 @@ GAEO에는 이제 모집단이 2개 있다:
 | 시장 전체·KOSPI·KOSDAQ 상승/하락 확산(Breadth) | ✅ READY |
 | 중앙값 vs 평균 vs 시총가중 수익률 비교 (대형주 착시 탐지) | ✅ READY |
 | 거래대금 집중도 (Top5/Top30) | ✅ READY |
-| 업종별 Breadth (전체시장) | ⏸ **PENDING** — 이 소스에는 업종 field가 없다. 검증된 업종 소스(KRX 등)를 연결하기 전에는 임의 분류로 채우지 않는다 |
+| 업종별 Breadth (전체시장) | ✅ **연결됨 (2026-08-16)** — KRX 상장법인목록 공식 업종 컬럼(러너 실측: 2,632법인·업종 충전율 100%) → `sector_crosswalk.py` 명시적 KSIC→GAEO 24대분류 매핑(실측 커버리지 97.2%, 95% 게이트 통과). 표에 없는 업종은 UNKNOWN으로 유지('기타'로 안 몰음). 게이트 미달·맵 부재 시 자동으로 PENDING/PARTIAL 복귀 |
 | 5일/20일 전체시장 추세 | ⏳ HISTORY_ACCUMULATING — 하루 1회(장 마감 후) 집계를 쌓는 중. 과거 데이터를 만들어내지 않는다 |
-| 순환매(ROTATION)에 전체시장 반영 | ⏸ **PARTIAL** — 업종 매핑 95% 게이트를 통과하기 전에는 기존 600종목 순환매를 그대로 쓴다 |
+| 순환매(ROTATION)에 전체시장 반영 | ⏸ **무변경(의도)** — 업종 Breadth는 관찰용 통계일 뿐, Production 순환매 계산은 기존 600종목 기반 그대로다. 반영 여부는 별도 검증·승인 후에만 결정 |
 
 ## 언제 기존 600 기준으로 돌아가나 (Fail-safe)
 
@@ -59,6 +59,10 @@ GAEO에는 이제 모집단이 2개 있다:
 ## 파일
 
 - `collect_market_universe.py` — 수집기 (`--smoke`: 스키마 검증 / 기본: 전체 수집)
+- `probe_sector_source.py` — KRX 업종 소스 실검증 + `sector_map.json`(종목코드→공식 업종명) 생성
+- `sector_crosswalk.py` — KSIC 업종명→GAEO 24대분류 명시적 매핑표(fuzzy·LLM 분류 금지, 미등재=UNKNOWN)
+- `market_universe/sector_map.json` — 러너가 실측한 코드→업종 맵 + crosswalk 게이트 판정
+- `market_universe/sector_source_probe.json` — 업종 소스 검증 보고(컬럼·건수·업종 분포만)
 - `market_universe/source_verify.json` — 러너가 실측한 API field 목록 (이것에 없는 field는 사용 금지)
 - `market_universe/state.json` — 마지막 수집 상태·품질 카운트
 - `market_universe/history/YYYY-MM-DD.json` — 하루 1회 소형 집계 (약 1.5KB/일)

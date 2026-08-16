@@ -40,15 +40,17 @@ jobs:
       - name: 스키마 검증 (시장별 1페이지)
         run: python3 collect_market_universe.py --smoke
 
+      # 업종 프로브가 sector_map.json을 만들어야 아래 본 수집이 업종 Breadth를
+      # 계산할 수 있다 — 반드시 본 수집보다 먼저 실행.
+      - name: 업종 소스 실검증 + sector_map 생성 (KRX 상장법인목록)
+        run: python3 probe_sector_source.py || echo "업종 소스 차단/실패 — BLOCKED_SOURCE로 기록됨(수집기는 last-good 맵 사용)"
+
       - name: 전체 수집·집계 (요청 수십 회, per-stock polling 없음)
         if: ${{ inputs.full }}
         run: |
           time python3 collect_market_universe.py --write-raw
           echo "── 산출물 크기 ──"
           ls -la market_universe/ market_context.js 2>/dev/null || true
-
-      - name: 업종 소스 실검증 (KRX 상장법인목록 — 스키마·업종 분포만 기록)
-        run: python3 probe_sector_source.py || echo "업종 소스 차단/실패 — BLOCKED_SOURCE로 기록됨"
 
       - name: 결과를 이 branch에 커밋
         run: |

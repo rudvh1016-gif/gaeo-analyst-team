@@ -41,6 +41,7 @@ VERIFY_PATH = os.path.join(OUT_DIR, "source_verify.json")
 RAW_LATEST = os.path.join(OUT_DIR, "full_market_latest.json.gz")
 PUBLIC_JS = os.path.join(HERE, "market_context.js")
 HISTORY_DIR = os.path.join(OUT_DIR, "history")
+SECTOR_MAP_PATH = os.path.join(OUT_DIR, "sector_map.json")   # probe_sector_source.py 산출
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
 KST = timezone(timedelta(hours=9))
@@ -360,6 +361,50 @@ def sector_stats(eligible, sector_of, min_sample=5):
             "mappedCount": sum(len(v) for v in groups.values())}
 
 
+def sector_breadth(eligible, map_path=None):
+    """검증된 KRX 업종 맵 + 명시적 crosswalk로만 업종 Breadth를 만든다.
+
+    게이트 원칙 (2026-08-16 업종 연결)
+      · sector_map.json 없음            → SECTOR_MAPPING_PENDING (임의 분류 금지)
+      · crosswalk 커버리지 게이트 미달   → SECTOR_MAPPING_PARTIAL, 통계 미첨부
+      · 게이트 통과                      → READY (eligible 매핑률 95% 미만이면 PARTIAL,
+                                            통계는 첨부하되 낮은 매핑률을 명시)
+    이 통계는 관찰용이다 — Production 판단·ROTATION 계산에 쓰지 않는다.
+    """
+    smap = _load_json(map_path or SECTOR_MAP_PATH)
+    if not smap or not smap.get("map"):
+        return {"status": "SECTOR_MAPPING_PENDING",
+                "note": "검증된 업종 소스 연결 전 — 임의 분류로 채우지 않는다"}
+    cov = smap.get("crosswalkCoverage") or {}
+    meta = {"mapSource": "krx_corplist", "mapAsOf": smap.get("asOf"),
+            "mapCorpCount": smap.get("corpCount"),
+            "crosswalkRatio": cov.get("ratio")}
+    if cov.get("gate") != "GATE_PASS":
+        return {"status": "SECTOR_MAPPING_PARTIAL",
+                "note": "crosswalk 커버리지 게이트(95%) 미달 — 업종 통계를 내보내지 않는다",
+                **meta}
+    try:
+        import sector_crosswalk
+    except ImportError:
+        return {"status": "SECTOR_MAPPING_PENDING",
+                "note": "sector_crosswalk 모듈 없음", **meta}
+    sector_of = {}
+    for code, industry in smap["map"].items():
+        sector = sector_crosswalk.gaeo_sector(industry)
+        if sector:                      # 표에 없는 업종은 UNKNOWN — '기타'로 몰지 않는다
+            sector_of[code] = sector
+    ss = sector_stats(eligible, sector_of)
+    denom = ss["mappedCount"] + ss["unmappedCount"]
+    mapped_ratio = round(ss["mappedCount"] / denom, 4) if denom else 0.0
+    status = "READY" if mapped_ratio >= 0.95 else "SECTOR_MAPPING_PARTIAL"
+    return {"status": status, **meta,
+            "eligibleMappedRatio": mapped_ratio,
+            "mappedCount": ss["mappedCount"], "unmappedCount": ss["unmappedCount"],
+            "sectors": ss["sectors"],
+            "note": ("KRX 공식 업종 → GAEO 대분류 명시적 crosswalk. "
+                     "GAEO 600 화면 분류와 별개 모집단 통계 — Production 판단에 쓰지 않는다")}
+
+
 def run_full(write_raw=False):
     fields = verified_fields()
     if not fields:
@@ -431,8 +476,7 @@ def run_full(write_raw=False):
         "quality": quality,
         "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats,
         "history": HISTORY_ACCUMULATING,
-        "sectorBreadth": {"status": "SECTOR_MAPPING_PENDING",
-                          "note": "검증된 업종 소스 연결 전 — 임의 분류로 채우지 않는다"},
+        "sectorBreadth": sector_breadth(eligible),
         "note": ("KOSPI·KOSDAQ 전체시장 가벼운 관찰용 집계. "
                  "GAEO 600종목 정밀분석과 별개의 모집단이다."),
     }
@@ -465,7 +509,8 @@ def run_full(write_raw=False):
              # 소급하는 survivorship bias를 막는 근거 기록이다.
              "universeSource": "FULL_MARKET", "universeDate": kst_day,
              "quality": quality,
-             "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats},
+             "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats,
+             "sectorBreadth": public["sectorBreadth"]},
             ensure_ascii=False, indent=1))
 
     print(f"[full] {status} raw={len(raw)} eligible={len(eligible)} "
