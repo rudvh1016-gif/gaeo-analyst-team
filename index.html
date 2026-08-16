@@ -9205,6 +9205,23 @@ document.getElementById('run').onclick=analyze;
 /* ── 한글 검색 자동완성 (이름·업종·사업내용으로 매칭) ──
    종목이 119개로 많아 직접 찾기 번거로우므로, 입력할 때마다 후보를 띄운다.
    단일분석 검색창과 종목비교의 A/B 검색창이 모두 이 함수를 공유한다. */
+/* ── 한글 초성검색 (2026-08-16) ──
+   'ㅅㅅㅈㅈ' → 삼성전자 처럼 초성만으로 종목을 찾는다. 외부 라이브러리 없이
+   유니코드 분해만 사용. 영문자는 소리 나는 첫 자음으로 근사(SK → ㅅㅋ). */
+const CHOSUNG_LIST=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const LATIN_CHOSUNG={B:'ㅂ',C:'ㅅ',D:'ㄷ',F:'ㅍ',G:'ㅈ',H:'ㅎ',J:'ㅈ',K:'ㅋ',L:'ㄹ',M:'ㅁ',
+  N:'ㄴ',P:'ㅍ',Q:'ㅋ',R:'ㄹ',S:'ㅅ',T:'ㅌ',V:'ㅂ',X:'ㅅ',Z:'ㅈ',A:'ㅇ',E:'ㅇ',I:'ㅇ',O:'ㅇ',U:'ㅇ',W:'ㅇ',Y:'ㅇ'};
+function chosungKey(text){
+  let out='';
+  for(const ch of String(text)){
+    const cp=ch.codePointAt(0);
+    if(cp>=0xAC00&&cp<=0xD7A3) out+=CHOSUNG_LIST[Math.floor((cp-0xAC00)/588)];
+    else if(/[A-Za-z]/.test(ch)) out+=LATIN_CHOSUNG[ch.toUpperCase()]||'';
+    else if(/[0-9]/.test(ch)) out+=ch;
+  }
+  return out;
+}
+const isChosungQuery=q=>/^[ㄱ-ㅎ]{2,}$/.test(q);
 function makeAutocomplete(inp, box, opts){
   if(!inp||!box) return;
   opts=opts||{};
@@ -9212,7 +9229,8 @@ function makeAutocomplete(inp, box, opts){
   const ALL=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)?TICKERS:Object.keys(STOCKS).map(c=>({code:c})))
     .map(t=>{const s=STOCKS[t.code]||{}; return {
       code:t.code, name:s.name||t.name||t.code, sector:s.sector||t.sector||'',
-      price:s.price, rate:s.rate, bio:bioOf(t.code, s.sector||t.sector||'')};})
+      price:s.price, rate:s.rate, bio:bioOf(t.code, s.sector||t.sector||''),
+      cho:chosungKey(s.name||t.name||'')};})
     .filter(x=>x.name);
   let sel=-1, cur=[];
   const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
@@ -9233,10 +9251,16 @@ function makeAutocomplete(inp, box, opts){
     q=(q||'').trim();
     if(!q){ box.classList.remove('on'); cur=[]; return; }
     const ql=q.toLowerCase();
-    // 우선순위: 이름 시작 > 이름 포함 > 업종/사업 포함
+    // 우선순위: 이름 시작 > 이름 포함 > 업종/사업 포함. 초성만 입력하면 초성검색.
     const starts=[],incl=[],other=[];
+    const cho=isChosungQuery(q)?q:null;
     ALL.forEach(x=>{
       const nm=x.name.toLowerCase();
+      if(cho){
+        if(x.cho.startsWith(cho)) starts.push(x);
+        else if(x.cho.includes(cho)) incl.push(x);
+        return;
+      }
       if(nm.startsWith(ql)) starts.push(x);
       else if(nm.includes(ql)||x.code.includes(q)) incl.push(x);
       else if((x.sector&&x.sector.toLowerCase().includes(ql))||(x.bio&&x.bio.toLowerCase().includes(ql))) other.push(x);
@@ -9464,7 +9488,7 @@ function renderGuide(){
     <div class="gb-body">
       <p><b>순환매란 무엇인가요?</b><br>
       시장의 돈이 한 업종에만 머물지 않고 반도체에서 바이오, 바이오에서 방산처럼 다른 업종으로 옮겨 가는 흐름을 말해요.
-      Gaeo 순환매는 추적 종목 500개를 24개 업종으로 묶고, 상승 탄력·시장 대비 강도·거래량·상승 종목 비율·기술 신호를 같은 기준으로 계산해 <b>지금 어느 업종에 힘이 상대적으로 모이는지</b> 보여줍니다.</p>
+      Gaeo 순환매는 추적 종목 600개를 24개 업종으로 묶고, 상승 탄력·시장 대비 강도·거래량·상승 종목 비율·기술 신호를 같은 기준으로 계산해 <b>지금 어느 업종에 힘이 상대적으로 모이는지</b> 보여줍니다.</p>
 
       <div class="gb-tip"><b>먼저 기억할 점:</b> 순환매는 <b>예측 화면이 아닙니다.</b> 점수는 오를 확률이나 예상 수익률이 아니라 현재 관찰값을 비교하기 위한 상대 점수예요. 후보 종목도 <b>매수·매도 추천이 아닙니다.</b></div>
 
@@ -11870,12 +11894,12 @@ window.renderScreener=function(){
     const diff=vW.total-vL.total;
     const closeness=diff<=4?`아주 근소한 차이(${diff}점)라 사실상 막상막하예요. `:'';
     let h=`<div class="cmp-easy"><div class="ce-t">🧒 쉬운 말로 정리하면</div>`;
-    h+=`<p><b style="color:var(--green)">👍 ${W.name}를 조금 더 추천하는 이유</b><br>
+    h+=`<p><b style="color:var(--green)">👍 ${W.name} 점수가 조금 더 높은 이유</b><br>
       100점 만점에 ${W.name} <b>${vW.total}점</b>, ${L.name} <b>${vL.total}점</b>이에요. ${closeness}
       ${W.name}의 최고 강점은 「<b>${bW.name}</b>」(${sW[bW.i]}점) — ${bW.hi}.
       ${gapW!=null?` 전문가들이 적어낸 목표 가격까지 아직 <b>+${gapW}%</b> 올라갈 여유도 있어요.`:''}
       한 줄 결론: <b>${callKid(vW.call)}</b> (${vW.call}).</p>`;
-    h+=`<p><b style="color:var(--red)">🤔 ${L.name}를 덜 추천하는 이유</b><br>
+    h+=`<p><b style="color:var(--red)">🤔 ${L.name} 점수가 낮게 나온 이유</b><br>
       ${L.name}의 아쉬운 점은 「<b>${wL.name}</b>」(${sL[wL.i]}점) — ${wL.lo}.
       그래도 「${bL.name}」(${sL[bL.i]}점)만큼은 괜찮아서, 완전히 나쁜 건 아니에요.
       한 줄 결론: <b>${callKid(vL.call)}</b> (${vL.call}).</p>`;
@@ -12862,6 +12886,22 @@ window.hangulFix=function(str){
   menuToggle.onclick=()=>togglePanel(workspace,menuToggle);
   searchToggle.onclick=()=>togglePanel(searchPanel,searchToggle);
   profileToggle.onclick=()=>togglePanel(profilePanel,profileToggle);
+  /* ── 기본 단축키 (2026-08-16): '/' 검색 열기 · ESC 패널 닫기 ──
+     사용자가 입력창에 타이핑 중이거나 modifier를 누른 경우에는 가로채지 않는다. */
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){
+      if(searchPanel&&!searchPanel.hidden){ togglePanel(searchPanel,searchToggle); return; }
+      if(workspace&&!workspace.hidden){ togglePanel(workspace,menuToggle); return; }
+      if(profilePanel&&!profilePanel.hidden){ togglePanel(profilePanel,profileToggle); }
+      return;
+    }
+    if(event.key!=='/'||event.ctrlKey||event.metaKey||event.altKey||event.isComposing) return;
+    const t=event.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable)) return;
+    event.preventDefault();
+    if(searchPanel&&searchPanel.hidden) togglePanel(searchPanel,searchToggle);
+    else{ const input=document.getElementById('navTicker'); if(input) input.focus(); }
+  });
   document.getElementById('navWorkspaceClose').onclick=()=>closePanels();
   document.addEventListener('keydown',e=>{if(e.key==='Escape') closePanels();});
   document.addEventListener('click',e=>{if(!nav.contains(e.target)) closePanels();});

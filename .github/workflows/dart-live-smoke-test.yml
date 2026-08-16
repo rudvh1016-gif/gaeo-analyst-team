@@ -6,12 +6,12 @@
 #
 # 하는 일:
 #   1. Secret 존재 여부   2. corpCode.xml 연결   3. list.json 연결
-#   4. 500종목 Mapping    5. 오늘 신규공시 목록  6. API 호출량
+#   4. 600종목 Mapping    5. 오늘 신규공시 목록  6. API 호출량
 #   (옵션) 대표기업 소수의 재무 응답 스키마 확인
 #
 # ⚠️ Production 판단(Legacy · research_v1.0 · research_v1.1)을 전혀 바꾸지 않는다.
 # ⚠️ API Key 값은 어떤 로그·산출물에도 남지 않는다(dart_client.redact).
-# ⚠️ 500종목 재무를 호출하지 않는다. 대표 4곳만 본다.
+# ⚠️ 600종목 재무를 호출하지 않는다. 대표 4곳만 본다.
 
 name: dart-live-smoke-test
 
