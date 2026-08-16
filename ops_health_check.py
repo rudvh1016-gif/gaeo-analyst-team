@@ -86,6 +86,16 @@ def collect():
 
     add("종목 스냅샷", bool(_mtime("snap/index.html")), f"갱신 {_mtime('snap/index.html')}")
     add("sitemap", bool(_mtime("sitemap.xml")), f"갱신 {_mtime('sitemap.xml')}")
+
+    # Paper Trading(가상매매) — 있으면 상태만. Secret·계좌 정보는 다루지 않는다.
+    ps = _read_json("paper_trading/state.json")
+    if ps:
+        summ = _read_json("paper_trading/summary.json") or {}
+        add("가상매매 엔진", True,
+            f"{ps.get('lastCycleResult', '')[:34]} · 진행 {summ.get('openTrades', 0)}건 "
+            f"· 종료 {summ.get('maturedTrades', 0)}건 · {str(ps.get('lastCycleAt', ''))[:16]}")
+    else:
+        add("가상매매 엔진", True, "대기 — Forward 시작 2026-08-18 (Toss Secret 등록 필요)")
     return rows
 
 
