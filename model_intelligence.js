@@ -747,7 +747,7 @@ const MODEL_INTELLIGENCE = {
    "status": "shadow",
    "reasons": [
     "검증일 40거래일 미만",
-    "후보 신뢰도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 -17.3pp vs 기존 -1.7pp)"
+    "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 -17.3pp vs 기존 -1.7pp)"
    ],
    "minimums": {
     "testDays": 40,
