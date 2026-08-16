@@ -255,9 +255,18 @@ function baseFixture(overrides) {
     await detail.waitFor({ state: 'visible', timeout: 5000 });
     const detailText = await detail.innerText();
     requireState(detailText.includes('전체 종목수') && detailText.includes('13'), '업종 집계(종목수 13) 표시 안 됨');
-    requireState(!detailText.includes('삼성전자') && !detailText.includes('종목명'), '업종 상세에 개별 종목명이 노출됨(FORBIDDEN)');
+    // ⭐ 2026-08-16 계약 갱신: 사용자 요청으로 "GAEO 추적 종목 참고 TOP3"를 업종 펼침에 표시한다.
+    // 단 전체시장 구성종목 목록으로 오인되지 않도록, 픽이 보이면 반드시
+    // ① 'GAEO 추적' 출처 라벨과 ② '구성종목 목록이 아니' 면책이 함께 있어야 한다.
+    const pickCount = await page.locator('.fm-pick').count();
+    if (pickCount > 0) {
+      requireState(detailText.includes('GAEO 추적'), '참고 종목이 있는데 GAEO 추적 출처 라벨이 없음');
+      requireState(detailText.includes('구성종목 목록이 아니'), '참고 종목이 있는데 전체시장 구성종목 아님 면책이 없음');
+      requireState(detailText.includes('판단 확신도'), '참고 종목에 판단 확신도 표기가 없음');
+      requireState(pickCount <= 3, `참고 종목이 3개를 초과: ${pickCount}`);
+    }
     await page.close();
-    console.log('TEST 8 (업종 상세는 집계만) 통과');
+    console.log(`TEST 8 (업종 상세 집계 + GAEO 참고 ${pickCount}종목 라벨) 통과`);
   }
 
   // ---------- TEST 14 — Segmented Control 어포던스 (390px 실측) ----------
@@ -305,8 +314,13 @@ function baseFixture(overrides) {
     for (const banned of ['5일선', '20일선', '5일 평균', '20일 평균', '5일 / 20일 흐름']) {
       requireState(!text.includes(banned), `금지 문구 발견: "${banned}"`);
     }
+    // 기준시각 명시(2026-08-16): fixture의 dataAsOf는 일요일 10:42 KST(휴장 시간).
+    // '수집' 표기와 '마지막 거래일 기준' 안내가 함께 나와야 한다(현재시각 위장 금지).
+    const asof = await page.locator('.fm-asof').innerText();
+    requireState(asof.includes('수집'), `수집 시각 표기 없음: ${asof.slice(0, 80)}`);
+    requireState(asof.includes('마지막 거래일 기준'), `휴장 시간 수집인데 시세 기준 안내 없음: ${asof.slice(0, 80)}`);
     await page.close();
-    console.log('TEST 15 (History 문구 명확화) 통과');
+    console.log('TEST 15 (History 문구 + 휴장 수집 기준 명시) 통과');
   }
 
   // ---------- TEST 12 — sectorBreadth 키 자체가 없음(구 스키마) → 업종 데이터 확인 중, 크래시 없음 ----------
