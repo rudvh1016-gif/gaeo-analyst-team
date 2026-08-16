@@ -54,7 +54,7 @@ jobs:
       - name: 암호화 라이브러리 설치 (Research Raw 저장에 필요)
         run: python3 -m pip install --quiet --upgrade cryptography
 
-      - name: 분석데이터 반복 수집 (500종목 · 30분 주기 · 종료 시 자기 재기동)
+      - name: 분석데이터 반복 수집 (600종목 · 30분 주기 · 종료 시 자기 재기동)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -105,7 +105,7 @@ jobs:
           # ---------- 장중 수집 루프 ----------
           hard=$(( $(date +%s) + 330*60 ))
           end=$close; [ "$hard" -lt "$end" ] && end=$hard
-          # 사이클 주기(시작-시작). 500종목 한 바퀴 실측 ~12분 → 30분이면 겹침 없이 여유.
+          # 사이클 주기(시작-시작). 한 바퀴 실측 ~12분(500종목 당시 기준) → 30분이면 겹침 없이 여유.
           period=1800
           while :; do
             cstart=$(date +%s)
@@ -139,7 +139,7 @@ jobs:
             timeout 1500 python3 collect_analyst_data.py || echo "analysis_data 실패"
             # ⏱️ 2026-07-31 2차 수정 — 화면 라벨이 30~40분 늦게 보이던 문제.
             # priceLabel(화면의 "오늘의 개오팀 종합 판단 <시각>")을 찍는 건 아래 compute_indicators.py인데,
-            # 바로 위 collect_analyst_data.py(500종목)가 십수 분 걸린다. 그래서 사이클 시작에 받아둔
+            # 바로 위 collect_analyst_data.py(600종목)가 십수 분 걸린다. 그래서 사이클 시작에 받아둔
             # data.js로 라벨을 찍으면, 발행 시점엔 이미 20분 이상 낡은 시각이 화면에 나간다.
             # 실측: 09:29 기동 → 09:22판 data.js로 라벨 → 09:46 발행 = 화면엔 24분 전 시각.
             # → 라벨을 찍기 "직전"에 시세만 한 번 더 최신화한다. 기준가(base)도 같이 최신이 된다.
@@ -183,7 +183,7 @@ jobs:
             else
               python3 compute_rotation.py --mode intraday || echo "rotation 장중 생성 실패"
             fi
-            # 🤖 자동분석 500종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
+            # 🤖 자동분석 600종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
             #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
             #   이게 있어야 모든 종목이 적중률 채점 대상이 되어 트랙레코드가 쌓인다.
             ARCHIVE_AUTO=1 python3 archive_analysis.py --auto || { echo "history·정밀분석 아카이브 실패"; exit 1; }
