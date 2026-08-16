@@ -8,8 +8,8 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
-<link rel="stylesheet" href="rotation.css?v=20260814-v12" />
-<link rel="stylesheet" href="full-market.css?v=20260816-v2" />
+<link rel="stylesheet" href="rotation.css?v=20260816-v13" />
+<link rel="stylesheet" href="full-market.css?v=20260816-v3" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <script>
@@ -4184,7 +4184,7 @@ window.GaeoFeatures=(()=>{
     rotation:['rotation_snapshot.js?v=20260812-v6','rotation-ui.js?v=20260814-v14'],
     // 🌐 전체시장 흐름(FULL MARKET) — 순환매 화면의 별도 탭. GAEO 600 순환매(rotation 키)와
     // 완전히 분리된 번들이라, market_context.js가 없거나 실패해도 순환매 판단 탭은 영향받지 않는다.
-    fullmarket:['market_context.js?v=20260816-v1','full-market-ui.js?v=20260816-v2']
+    fullmarket:['market_context.js?v=20260816-v1','full-market-ui.js?v=20260816-v3']
   };
   const jobs={};
   // ⭐ 2026-08-11: 정적으로 고정된 캐시버스터 대신 10분마다 바뀌는 값을 써서, history.js·
@@ -6219,6 +6219,20 @@ function mkParas(text){
 }
 // 오늘 분석 종합 집계: 첫 화면에서는 경량 스냅샷의 최신 전 종목 집계를 쓰고,
 // 자동분석 전체 파일을 내려받은 뒤에는 신선한 정밀분석만 우선해 다시 계산한다.
+// 🌐 전체시장 흐름 탭의 업종 펼침에서 쓰는 "GAEO 추적 종목 참고 TOP3" 제공자.
+// 전체시장 2,410 구성종목이 아니라 GAEO 600 분석 대상 중에서, 같은 업종의
+// 판단 확신도(같으면 종합점수) 상위를 돌려준다. full-market-ui.js가 있으면 쓴다.
+window.GaeoFmSectorPicks=function(sectorName){
+  try{
+    const tally=analysisTally();
+    const rows=(tally.ranked||[]).filter(r=>{
+      const sec=(STOCKS[r.code]||{}).sector;
+      return sec===sectorName&&Number.isFinite(r.confidence);
+    });
+    rows.sort((a,b)=>(b.confidence-a.confidence)||((b.total||0)-(a.total||0)));
+    return rows.slice(0,3);
+  }catch(e){ return []; }
+};
 function analysisTally(){
   const counts={BUY:0,HOLD:0,SELL:0}, ranked=[], seen=new Set();
   const add=(code,e)=>{
@@ -11989,6 +12003,9 @@ window.renderScreener=function(){
     window.GaeoMountFullMarket=function(){
       const el=document.getElementById('fullMarketView');
       if(!el) return;
+      // 업종 펼침의 GAEO 추적 TOP3가 전체 자동분석 기준으로 나오도록 백그라운드 로드.
+      // 실패해도 홈 스냅샷 fallback(analysisTally)으로 동작하므로 조용히 무시한다.
+      try{ if(window.ensureAutoAnalysis) window.ensureAutoAnalysis().catch(()=>{}); }catch(e){}
       GaeoFeatures.load('fullmarket').then(()=>{
         if(window.GaeoFullMarket&&typeof window.GaeoFullMarket.mount==='function'){
           window.GaeoFullMarket.mount(el,window.GAEO_MARKET_CONTEXT||null);
