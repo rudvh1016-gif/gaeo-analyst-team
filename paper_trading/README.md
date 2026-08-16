@@ -1,0 +1,45 @@
+# GAEO Paper Trading V1 (가상매매 검증)
+
+**실제 돈이 아닙니다.** 실제 주문·실제 계좌 접근이 전혀 없는 **가상자금 기록**입니다.
+"현재 GAEO의 Production 판단을 그날 실제로 믿고 거래했다면 무슨 일이 벌어졌는가"를
+미래정보 없이(Forward-only) 기록하는 검증 시스템입니다.
+
+## 원칙
+
+| 항목 | 내용 |
+|---|---|
+| 신호 소스 | `auto_analysis.js` → `LIVE_AUTO.stocks[code].chief.call` (Production CHIEF, 무수정) |
+| 전략 버전 | `PAPER_BASELINE_V1` — Forward 시작 후 규칙 소급 변경 금지(변경 시 V2 신설) |
+| Forward 시작 | **2026-08-18 (KST)** — 그 이전 판단으로 거래를 만들지 않음(Backfill 금지) |
+| 진입 | 직전 관측이 BUY가 아니던 종목이 BUY로 **전환**된 순간만. 탐지 이후 실측 **Best Ask** 체결(호가 없으면 현재가 fallback, 사유 기록) |
+| 청산 | ① 보유 **5거래일** 도달(공식 시장 캘린더 — 주말·휴장 미산입) ② `chief.call`이 SELL로 전환. **Best Bid** 체결. HOLD(보유·관망)는 매도 신호로 해석하지 않음 |
+| 익절/손절 | **없음** — 대신 MFE(최대 평가이익)·MAE(최대 평가손실)를 기록해 3개월 뒤 분포로 연구 |
+| Look-ahead 금지 | 탐지 시각 이후 시세만 사용. 당일 저가 매수·고가 매도 치팅 없음(자동 테스트로 강제) |
+| 비용 | `COST_MODEL_INCOMPLETE` — 수수료·세금 미검증. 순수익을 과장하지 않기 위해 net return은 null. spread는 Ask 매수/Bid 매도로 이미 반영 |
+| 벤치마크 | 종목의 시장(KOSPI/KOSDAQ) 지수를 같은 기간 일 단위 종가로 비교(`market_history.js`). 분 단위 정밀 매칭은 아님(한계) |
+| 시세 | 토스증권 Open API — **Market Data 전용**(prices·orderbook·trades·market-calendar). 계좌 헤더 미사용, 주문 API 미구현. 실패 시 가격을 추측하지 않고 SKIP/보류 |
+| 자금 | 가상 초기금 1,000만원·종목당 100만원 — 시뮬레이션 표기 단위일 뿐 투자 권장 금액이 아님 |
+| Production 영향 | 0 — 독립 워크플로, 어떤 실패도 분석 파이프라인을 멈추지 않음. 결과로 모델을 자동 수정하지 않음 |
+
+## 파일
+
+- `config.json` — 전략 버전·규칙·비용 모델 상태
+- `state.json` — 엔진 상태 캐시(기준 상태·거래일 관측·MFE/MAE 관측). **Ledger가 항상 우선**
+- `trades.jsonl` — Signal Ledger(append-only 이벤트 로그). 진입·청산·SKIP 전부 기록
+- `equity_curve.jsonl` — 사이클별 현금/포지션 원가
+- `summary.json` — 지표 요약(표본 20건 미만이면 `INSUFFICIENT_EVIDENCE` 우선 표시)
+
+## 알려진 한계 (정직 고지)
+
+- MFE/MAE 해상도는 사이클 주기(약 30분) 관측 기준 — 분봉 극값보다 보수적
+- 벤치마크는 일 단위 지수 종가 근사 — 체결 분 단위와 다를 수 있음
+- 정밀분석(analysis.js)이 화면에서 우선 표시되는 소수 종목(약 14개)의 표시 판단과
+  이 엔진의 기계 판단(auto_analysis)이 순간적으로 다를 수 있음 — 엔진은 항상
+  기계 canonical 소스(auto_analysis)를 쓴다
+- 토스 API rate limit 수치는 공식 스펙에 그룹명만 공표 — 429 시 Retry-After 존중
+
+## 결과 보기
+
+```bash
+python3 paper_report.py
+```
