@@ -953,12 +953,25 @@
   .sc-week-btn:not(:disabled):hover{background:var(--sky-soft);border-color:var(--sky-line)}
   .sc-week-label{flex:1;text-align:center;font-size:12px;font-weight:700;color:var(--dim)}
   .sc-week-label b{color:var(--navy)}
-  .sc-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+  /* Summary Grid — 카드 여러 개가 아니라 「하나의 컨테이너 + 칸 구분선」 구조.
+     (docs/gaeo_design_system.md §7 성적표 — 2026-08-16 적용) */
+  .sc-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:20px;
+    border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
   .sc-stat-row.sc-score-summary{grid-template-columns:repeat(7,1fr)}
-  .sc-stat{background:var(--bg);border-radius:12px;padding:14px 12px;text-align:center}
-  .sc-stat b{display:block;font-size:21px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+  .sc-stat-row.sc-stat-row-3{grid-template-columns:repeat(3,1fr)}
+  .sc-stat{background:none;border-radius:0;border-left:1px solid var(--line);padding:14px 12px;text-align:center}
+  .sc-stat:first-child{border-left:none}
+  .sc-stat b{display:block;font-size:20px;font-weight:680;color:var(--navy);font-variant-numeric:tabular-nums}
   .sc-stat span{font-size:10.5px;color:var(--dim)}
-  .sc-calls-head{font-size:12.5px;font-weight:800;margin:18px 0 9px;color:var(--dim)}
+  /* 과거 실험 기록 — 종료된 실험은 시각적 우선순위를 낮춘다(작게·중립·접힘) */
+  .sc-archived h3{color:var(--dim);font-size:13px}
+  .sc-arch-details summary{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:10px 2px;cursor:pointer;list-style:none;flex-wrap:wrap}
+  .sc-arch-details summary::-webkit-details-marker{display:none}
+  .sc-arch-name{font-weight:650;font-size:14px}
+  .sc-arch-status{font-size:11.5px;color:var(--dim)}
+  .sc-arch-details[open] summary{border-bottom:1px solid var(--line);margin-bottom:12px}
+  .sc-calls-head{font-size:12.5px;font-weight:650;margin:18px 0 9px;color:var(--dim)}
   .sc-call-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .sc-call-card{background:var(--bg);border-radius:12px;padding:13px 14px;border-left:3px solid var(--line)}
   .sc-call-card.best{border-left-color:var(--green)}
@@ -4645,7 +4658,7 @@ function renderPortfolio(){
   const el=document.getElementById('portfolio'); if(!el) return;
   if(!PF_SHELL){
     el.innerHTML=`
-      <div class="pf-head"><h3>💼 내 포트폴리오</h3><span class="pf-profile">프로필 <b>${PF_PROFILE}</b></span></div>
+      <div class="pf-head"><h3>내 포트폴리오</h3><span class="pf-profile">프로필 <b>${PF_PROFILE}</b></span></div>
       <div class="pf-guide">
         <span class="pg-t">📋 시작 전 가이드라인 — 이것만 지켜도 절반은 성공!</span>
         <ol>
@@ -5030,7 +5043,7 @@ function modelBoardHTML(){
     return `<li>${pairName(p.leftModel)} vs ${pairName(p.rightModel)} · 아직 차이를 판단하기 이릅니다 <span class="mb-sub">공통 ${p.matchedRows}건 · ${p.matchedUniqueDates}일</span></li>`;
   }).join('');
   return `<div class="sc-block model-board">
-    <h3>🧭 모델 검증</h3>
+    <h3>모델 검증</h3>
     <p class="sc-sub">지금 화면에 쓰는 모델 하나와, 뒤에서 조용히 시험 중인 모델들을 나란히 둡니다. 시험 모델은 화면 판단을 바꾸지 않고, 기록이 충분해지기 전에는 순위를 매기지 않아요.</p>
     <div class="mb-legend"><span>모델</span><span>상태</span><span>5일</span><span class="mb-h-wide">20일</span><span class="mb-h-wide">60일</span></div>
     ${rows}
@@ -5130,7 +5143,7 @@ function renderScorecard(){
   const bsRows=R.filter(r=>r.call!=='HOLD');
   const bsAbs=scTally(bsRows,'ret',true), bsExc=scTally(bsRows.filter(r=>r.exc!==null),'exc',true);
   const callBlock=R.length?`<div class="sc-block">
-    <h3>🔍 이번 주 판단 종류별 성적</h3>
+    <h3>이번 주 판단 종류별 성적</h3>
     <p class="sc-sub">하나로 합친 적중률은 어느 판단이 잘 맞고 어느 판단이 틀리는지 가려버립니다. 위 주간 구간과 같은 기간을 BUY·HOLD·SELL로 나눠서 그대로 보여드려요.
       <b>시장 대비</b>는 같은 날 분석 종목 전체의 수익률 중앙값을 뺀 값이라, 시장이 통째로 오르내린 효과를 걷어낸 「진짜 종목 선별력」이에요.</p>
     <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>
@@ -5160,7 +5173,7 @@ function renderScorecard(){
   const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
   const confHead=`<thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>`;
   const confBlock=confRowsAll?`<div class="sc-block">
-    <h3>🎯 신뢰도가 높을수록 잘 맞을까 (전체 누적)</h3>
+    <h3>신뢰도가 높을수록 잘 맞을까 (전체 누적)</h3>
     <p class="sc-sub">개오팀이 스스로 매긴 신뢰도(확신 정도)를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
       <b>합친 표는 착시가 있어요.</b> 표본의 대부분(약 88%)을 SELL 판단이 차지해서, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsAll}</tbody></table></div>
@@ -5182,7 +5195,7 @@ function renderScorecard(){
     const q=(CM.promotion||{}).qualified;
     const reasons=(CM.promotion||{}).reasons||[];
     confModelShadow=`<div class="sc-block">
-      <h3>🧪 신뢰도 공식 재검증 (그림자)</h3>
+      <h3>신뢰도 공식 재검증</h3>
       <p class="sc-sub">지금 신뢰도는 분석가 4인의 의견이 얼마나 가까운지만 재요. 대신 <b>「이 점수대 판단이 실제로 몇 % 맞았는가」</b>를 신뢰도로 쓰는
       후보를 만들어, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이 적중 여부를 더 잘 가르는지 매 분석 주기 확인합니다.</p>
       <div class="sc-stat-row">
@@ -5211,24 +5224,29 @@ function renderScorecard(){
         `<td class="num">${p.hitRate}%</td><td class="num">${p.medianExcessReturn==null?'—':(p.medianExcessReturn>0?'+':'')+p.medianExcessReturn+'%'}</td></tr>`;
     }).filter(Boolean).join('');
     const unlocked=!!(RS.model&&RS.model.highConfidenceUnlocked);
+    const rsSample=Math.max(...['1','3','5','20'].map(h=>(hp[h]&&hp[h].sampleCount)||0));
     rotationShadow=`<div class="sc-block">
-      <h3>🔄 순환매 그림자 평가 중</h3>
-      <p class="sc-sub">업종 자금 이동(순환매) 신호가 실제로 맞는지 <b>공개로 성적만 쌓는 단계</b>예요. 아직 개별 종목의 BUY·HOLD·SELL 판단에는 전혀 반영하지 않습니다.
-        기록이 30거래일 이상 쌓이고 성적이 기준을 넘길 때만 실제 판단에 들어갑니다(종합판단 v3와 같은 방식).</p>
-      <div class="sc-stat-row"><div class="sc-stat"><b>${esc(String((RS.model&&RS.model.version)||'—'))}</b><span>모델 버전</span></div>
-        <div class="sc-stat"><b>${unlocked?'승격':'그림자'}</b><span>현재 상태</span></div>
+      <h3>순환매 검증 기록</h3>
+      <p class="sc-sub">오늘 가장 강하다고 본 업종이 며칠 뒤에도 실제로 시장보다 잘 갔는지 기록하는 검증입니다.
+        아직 실제 종목의 매수·보유·매도 판단에는 반영하지 않고 <b>성적만 쌓고 있습니다.</b>
+        기록이 30거래일 이상 쌓이고 기준을 넘길 때만 실제 판단에 반영을 검토합니다.</p>
+      <div class="sc-stat-row sc-stat-row-3">
+        <div class="sc-stat"><b>${unlocked?'실전 반영':'검증 중'}</b><span>현재 상태</span></div>
+        <div class="sc-stat"><b>${rsSample?rsSample.toLocaleString():'—'}</b><span>평가 표본</span></div>
         <div class="sc-stat"><b>${esc(String(RS.dataCutoff||'—'))}</b><span>데이터 기준</span></div></div>
       ${hRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>기간</th><th class="num">표본</th><th class="num">1위 업종 적중률</th><th class="num">시장 대비 중앙값</th></tr></thead><tbody>${hRows}</tbody></table></div>`:''}
-      <div class="sc-foot-note">「1위 업종 적중률」은 그 기간 점수 1위였던 업종이 이후 같은 기간 동안 분석 종목 전체의 중앙값을 넘겼는지로 셉니다. 날짜가 겹치는 중첩 표본이라 독립 시행 확률처럼 해석하지 않습니다. 승격 전까지는 참고 지표입니다.</div>
+      <div class="sc-foot-note">「1위 업종 적중률」= 당시 가장 강하다고 본 업종이 이후 같은 기간 동안 시장 전체(분석 종목 수익률 중앙값)보다 잘 간 비율.
+        「시장 대비 중앙값」= 그 업종 종목들이 시장보다 얼마나 더 움직였는지의 중앙값.
+        날짜가 겹치는 중첩 표본이라 독립 시행 확률처럼 해석하지 않습니다. 내부 버전 ${esc(String((RS.model&&RS.model.version)||'—'))}.</div>
     </div>`;
   } else if(typeof GaeoFeatures!=='undefined'&&!GaeoFeatures.ready('rotation')){
     // 순환매 자료는 지연 로드 파일이라, 성적표를 처음 열 때는 없다 — 받아온 뒤 한 번만 다시 그린다.
     GaeoFeatures.load('rotation').then(()=>{ if(window.GaeoAnalysisTab==='scorecard'||document.getElementById('scorecardView').classList.contains('on')) renderScorecard(); }).catch(()=>{});
   }
   const bestHtml=wk.best.length
-    ? `<div class="sc-calls-head">🎯 가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
+    ? `<div class="sc-calls-head">가장 잘 맞힌 판단</div><div class="sc-call-grid">${wk.best.map(r=>scCallCard(r,'best')).join('')}</div>` : '';
   const worstHtml=wk.worst.length
-    ? `<div class="sc-calls-head">🙈 가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
+    ? `<div class="sc-calls-head">가장 크게 빗나간 판단</div><div class="sc-call-grid">${wk.worst.map(r=>scCallCard(r,'worst')).join('')}</div>` : '';
   const weeklyEmpty=wk.total===0
     ? `<div class="sc-empty">이 주간(${esc(wk.rangeStart)} ~ ${esc(wk.rangeEnd)}) 안에 채점이 끝난 판단이 없어요. 판단은 5거래일이 지나야 채점되니, 최근 주라면 조금만 기다려 주세요.</div>`
     : '';
@@ -5281,7 +5299,7 @@ function renderScorecard(){
     ).join('');
 
     deepDive=`<div class="sc-block">
-      <h3>🔬 분석가 열전: 왜 어떤 분석가는 더 잘 맞을까</h3>
+      <h3>분석가 열전: 왜 어떤 분석가는 더 잘 맞을까</h3>
       <p class="sc-sub">역할별 기간으로 채점한 실측 적중률이에요. TARO·QUANT·FLOW는 5거래일, DIANA는 20거래일을 봅니다(표본 ${(TW.global.graded||0).toLocaleString()}건, ${esc(TW.generatedAt||'')} 기준 자동 계산).</p>
       <div class="sc-bars">${bars}</div>
       <p class="sc-explain">재무·기본적 분석은 단기 타이밍보다 기업의 중장기 품질을 보는 도구입니다. 그래서 DIANA는 20거래일 뒤 ±3% 기준으로 따로 채점하고, 종합점수 기본 발언권도 12%로 제한했습니다. 다른 분석가는 5거래일 뒤 ±1% 기준입니다. 표본이 작은 업종 성적은 전역 성적과 섞어 과대평가를 줄입니다.</p>
@@ -5290,34 +5308,36 @@ function renderScorecard(){
       <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
     </div>`;
   }
+  /* 종합판단 v3(내부 calibrated-ensemble-v3) — 2026-08-15 검증 종료·보관된 실패 실험.
+     ⚠️ model_registry.py 기준 ARCHIVED_FAILED_EXPERIMENT이고 신규 예측이 중단됐다.
+     '평가 중'처럼 보이게 하지 않는다. 기록은 숨기지 않되 접힌 보조 섹션으로 내린다. */
   let modelDive='';
   const MI=(typeof MODEL_INTELLIGENCE!=='undefined'&&MODEL_INTELLIGENCE)?MODEL_INTELLIGENCE:null;
   if(MI){
-    const sh=MI.shadow||{}, forward=MI.prospective||{}, audit=MI.audit||{}, promotion=MI.promotion||{};
+    const forward=MI.prospective||{}, audit=MI.audit||{}, promotion=MI.promotion||{};
     const patterns=(audit.patterns||[]).filter(row=>row.count>0).slice(0,4).map(row=>
       `<span class="sc-chip"><b>${esc(row.label)}</b> ${Number(row.count).toLocaleString()}건</span>`).join('');
     const reasons=(promotion.reasons||[]).map(reason=>`<li>${esc(reason)}</li>`).join('');
-    const status=promotion.qualified?'승격 기준 통과':'그림자 평가 중';
-    modelDive=`<div class="sc-block">
-      <h3>🧪 종합판단 v3: ${status}<span class="sc-v3-period">(2026년 8월4일 시작 · 예상 시행까지 최소 2개월 안팎)</span></h3>
-      <p class="sc-sub">점수 확률교정, 분석가 오답 중복 보정, 시장국면 가중치, 상대강도, 수급 품질과 강화된 HOLD 기준을 기존 공식과 나란히 검증합니다. 실제 일별 그림자 판정이 기준을 통과하기 전에는 BUY·HOLD·SELL을 바꾸지 않습니다.</p>
-      <div class="sc-stat-row">
-        <div class="sc-stat"><b>${forward.n||0}</b><span>실제 그림자 표본</span></div>
-        <div class="sc-stat"><b>${forward.candidateActionPrecision==null?'없음':forward.candidateActionPrecision+'%'}</b><span>그림자 BUY·SELL 정밀도</span></div>
-        <div class="sc-stat"><b>${forward.candidateCoverage==null?'없음':forward.candidateCoverage+'%'}</b><span>그림자 판단 비율</span></div>
-        <div class="sc-stat"><b>${forward.brier==null?'없음':forward.brier}</b><span>그림자 확률오차</span></div>
-      </div>
-      <div class="sc-foot-note">참고용 과거 홀드아웃 ${Number(sh.n||0).toLocaleString()}건도 별도로 검사하지만, 승격 여부는 실제 자동분석이 매일 저장한 그림자 판정만으로 결정합니다.</div>
-      ${patterns?`<div class="sc-chip-head">🔎 AUDIT가 많이 찾은 오판 조건</div><div class="sc-chips">${patterns}</div>`:''}
-      ${reasons?`<div class="sc-explain"><b>아직 승격하지 않는 이유</b><ul>${reasons}</ul></div>`:
-        '<div class="sc-team-note">검증 기준을 모두 통과해 다음 자동분석부터 v3 공식이 실전 판단으로 승격됩니다.</div>'}
-      <div class="sc-foot-note">확률오차는 Brier 점수로 낮을수록 좋습니다. 과거 자료는 시간순 앞 70%로 학습하고 뒤 30%에서 검사하며, 실전 승격에는 최소 40거래일과 500건의 전진검증을 요구합니다.</div>
-      <button class="sc-guide-btn" type="button">📖 이게 뭔지 설명 보기</button>
+    modelDive=`<div class="sc-block sc-archived">
+      <h3>과거 실험 기록</h3>
+      <details class="sc-arch-details">
+        <summary><span class="sc-arch-name">종합판단 v3</span><span class="sc-arch-status">검증 종료 · 서비스 반영 없음</span></summary>
+        <p class="sc-sub">점수 확률교정·오답 중복 보정·시장국면 가중치 등을 시험했지만 <b>기준을 통과하지 못해 서비스 반영 없이 종료된 과거 실험</b>입니다. 현재 GAEO의 실제 판단에는 사용되지 않으며, 새 판단도 만들지 않습니다. 기록은 그대로 보존합니다.</p>
+        <div class="sc-stat-row">
+          <div class="sc-stat"><b>${forward.n||0}</b><span>검증 판단 표본 (최종)</span></div>
+          <div class="sc-stat"><b>${forward.candidateActionPrecision==null?'—':forward.candidateActionPrecision+'%'}</b><span>BUY·SELL 정밀도</span></div>
+          <div class="sc-stat"><b>${forward.candidateCoverage==null?'—':forward.candidateCoverage+'%'}</b><span>판단 비율</span></div>
+          <div class="sc-stat"><b>${forward.brier==null?'—':forward.brier}</b><span>확률오차</span></div>
+        </div>
+        ${reasons?`<div class="sc-explain"><b>통과하지 못한 기준</b><ul>${reasons}</ul></div>`:''}
+        ${patterns?`<div class="sc-chip-head">오판 원인 분석에서 많이 찾은 조건</div><div class="sc-chips">${patterns}</div>`:''}
+        <div class="sc-foot-note">확률오차는 낮을수록 좋습니다(상세 지표명 Brier). 이 실험의 자동 승격 장치는 제거됐고, 유사한 개선을 다시 시도하더라도 새 검증을 처음부터 거칩니다.</div>
+      </details>
     </div>`;
   }
 
   el.innerHTML=`<div class="sc-block">
-    <h3>🧾 개오 성적표</h3>
+    <h3>개오 성적표</h3>
     <p class="sc-sub">판단 후 5거래일 뒤 종가로 채점이 끝난 주간 결과예요. 채점 기록이 쌓인 만큼 계속 과거 주로 넘겨볼 수 있어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
     ${weekNav}
     ${statRow}
@@ -5476,7 +5496,7 @@ function renderCalendar(){
   Object.entries(STOCKS).forEach(([c,d])=>{const h=pf[c]||{},q=+h.qty||0,av=+h.avg||0; if(q>0&&d.price&&av>0){pVal+=q*d.price;pCost+=q*av;}});
   const pPl=pVal-pCost, pPct=pCost>0?pPl/pCost*100:0;
   const fmtCall=x=>x?`${x.name} ${x.call} → ${x.r>0?'+':''}${x.r.toFixed(1)}% ${x.vind>0?'✅':'✕'}`:'—';
-  const report=`<div class="cal-report"><h3>📋 ${mLabel} 성적표</h3><div class="cal-rgrid">
+  const report=`<div class="cal-report"><h3>${mLabel} 성적표</h3><div class="cal-rgrid">
     <span>분석한 날 <b>${days.size}</b>일 · 기록 <b>${ents.length}</b>건${pending?` (⏳평가중 ${pending})`:''}</span>
     <span>팀 적중률 <b>${acc===null?'—':acc+'%'}</b> <span style="font-size:10px;color:var(--faint)">5거래일 뒤 종가 기준</span></span>
     <span>👑 MVP <b>${mvp?`${mvp.name} ${mvp.acc}%`:'표본 부족'}</b></span>
@@ -9531,18 +9551,18 @@ function renderGuide(){
       이 개선이 전체에 고르게 적용되는 것처럼 보였는데, 다시 확인해 보니 BUY 판단은 신뢰도가 높아져도 성적이
       뚜렷이 좋아지지 않았어요. 그래서 지금 신뢰도 계산 방식(분석가 4인의 의견이 얼마나 가까운지만 재는 식)을
       「이 점수대 판단이 실제로 몇 % 맞았는가」로 바꾸는 후보를 만들어 검증 중이에요(바로 아래 「신뢰도 공식 재검증」 표).
-      아직 검증 기준(최소 40거래일 데이터)을 못 채워서 화면 신뢰도는 그대로지만, 통과하면 자동으로 바뀌어요.
+      아직 검증 기준(최소 40거래일 데이터)을 못 채워서 화면 신뢰도는 그대로예요. 기준을 채우면 「검토 가능」 상태가 되고, 실제 적용은 사람이 확인하고 승인해야 바뀝니다.
       불편한 숫자도 가리지 않고 그대로 보여드리는 게 이 성적표의 목적이에요.</div><br>
-      <b>🧪 신뢰도 공식 재검증(그림자)은 뭔가요?</b><br>
+      <b>신뢰도 공식 재검증은 뭔가요?</b><br>
       지금 화면의 신뢰도는 「분석가 4인의 점수가 서로 얼마나 가까운가」만 재는 식이에요. 이걸 「이 점수대 판단이
       과거에 실제로 몇 % 맞았는가」로 바꾸는 대안을 만들어서, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이
       적중 여부를 더 잘 가르는지 매 분석 주기 확인해요. 검증 거래일 40일 이상, BUY·SELL 각각 50건 이상, 그리고
-      새 방식이 기존보다 실제로 더 잘 가른다는 근거가 쌓여야만 화면에 반영돼요(반등 가드·순환매·종합판단 v3와 같은 원칙).
+      새 방식이 기존보다 실제로 더 잘 가른다는 근거가 쌓이고 사람이 승인해야만 화면에 반영돼요.
       아직은 데이터가 부족해서(수십 거래일치) 어느 쪽이 더 나은지 확신 있게 말하기 이릅니다. 그래서 성급하게 바꾸지 않고 계속 지켜보고 있어요.<br><br>
-      <b>🔄 순환매 그림자 평가는 뭔가요?</b><br>
+      <b>순환매 검증 기록은 뭔가요?</b><br>
       업종끼리 자금이 옮겨 다니는 흐름(순환매)을 읽는 기능인데, 아직 <b>개별 종목의 BUY·HOLD·SELL 판단에는 전혀 반영하지 않아요</b>.
-      성적만 공개로 쌓아두고, 기록이 30거래일 이상 모이고 성적이 기준을 넘길 때만 실제 판단에 넣습니다.
-      「종합판단 v3」와 똑같은 방식이에요 — 검증되지 않은 기능을 조용히 실전에 넣지 않겠다는 원칙이에요.</div>
+      성적만 공개로 쌓아두고, 기록이 30거래일 이상 모이고 성적이 기준을 넘길 때만 실제 판단 반영을 검토합니다.
+      검증되지 않은 기능을 조용히 실전에 넣지 않겠다는 원칙이에요. 실제로 「종합판단 v3」 실험은 이 기준을 통과하지 못해 서비스 반영 없이 종료됐어요.</div>
   </details>
 
   <details class="gb-sec">

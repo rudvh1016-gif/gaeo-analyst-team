@@ -113,11 +113,26 @@ Typography · Size · Weight · Spacing · Alignment · Divider
 
 ## 5. 타이포그래피
 
-- Pretendard / system stack 유지
-- 설명문 본문
-  - Desktop 약 13~15px
-  - Mobile 약 12.5~14px
-- 실제 화면을 보고 최종 조정한다
+### 표준 폰트 (2026-08-16 사이트 전체 통일)
+
+모든 공개 화면(index · about · 404 · snap 스냅샷 · 정밀분석 페이지)은 같은 스택을 쓴다:
+
+```
+"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,
+"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif
+```
+
+- 로딩: jsdelivr `pretendard@v1.3.9` **variable dynamic subset** CSS 한 줄
+  (쓰는 글자 블록만 내려받고 `font-display: swap` 내장 — 버전 고정 필수)
+- ⚠️ Apple SF Pro 폰트 파일을 저장소에 복사·배포하지 않는다(라이선스).
+  Pretendard가 Apple SD Gothic Neo 호환 설계라 같은 인상을 합법적으로 낸다
+- 새 화면·새 템플릿도 이 스택을 그대로 쓴다. 새 웹폰트를 추가하지 않는다
+- `test_design_contract.py`가 스택·로딩·SF Pro 부재를 검사한다
+
+### 크기·굵기
+
+- 설명문 본문: Desktop 약 13~15px · Mobile 약 12.5~14px
+- 800/900 남발 금지 — 본문 400대 · Label 500~600 · Section 600~650 · Title ~720
 - 숫자는 `font-variant-numeric: tabular-nums`
 
 한국어 줄바꿈 주의: 콘텐츠 컨테이너에는 `overflow-wrap:anywhere`가 필요하다
@@ -163,6 +178,23 @@ Typography · Size · Weight · Spacing · Alignment · Divider
 - Featured는 인기·AI 판단이 아니라 결정적 규칙(발행일 최신 → news→study→lesson→estate → id 큰 글)
 - 카드 남발 금지 — Section heading + row + divider + 여백으로만 계층
 - 하단 전체 기록(전 글 날짜순 href)은 항상 유지
+
+### 종료된 실험 표시 (2026-08-16)
+
+- 폐기·종료된 실험(예: 종합판단 v3 = 내부 calibrated-ensemble-v3)은 **절대
+  '평가 중'처럼 보이면 안 된다.** 사용자용 상태는 「검증 종료 · 서비스 반영 없음」
+- Active 성적 영역과 분리해 「과거 실험 기록」 접힌 보조 섹션(작게·중립 회색)으로 내린다
+- 실패 기록을 숨기지 않는다 — 최종 표본·성적·통과하지 못한 기준을 그대로 보존
+- 큰 컬러 카드·빨간 경고 박스·FAILED 배지 금지. 실패도 차분한 기록으로
+- `test_design_contract.py`가 이 계약을 검사한다
+
+### 사용자용 이름 (2026-08-16)
+
+- 내부 버전 ID(`rotation-shadow-v2` · `calibrated-ensemble-v3` · `research_v1.0` 등)를
+  **메인 제목이나 큰 수치 자리에 쓰지 않는다.** 각주·기술 상세로만
+- 순환매 그림자 검증의 사용자용 이름은 「순환매 검증 기록」
+- 자동승격이 없는데 "통과하면 자동으로 바뀝니다"라고 쓰지 않는다 —
+  「기준을 채우면 검토 가능 상태가 되고, 실제 적용은 사람이 승인」이 정확한 표현
 
 ### about.html
 
@@ -211,10 +243,12 @@ white typography 중심으로, accent는 매우 제한적으로.
 | 대상 | 상태 |
 |---|---|
 | 가이드북 | ✅ 적용 완료 (그라데이션 제거 · 장식 emoji 제거 · 번호 기반 계층) |
-| 분석가 카드 고유색 | ⏳ 미적용 — `index.html`의 분석가별 색 변수가 아직 남아 있다 |
-| 성적표 Summary Grid | ⏳ 미적용 |
-| 모델 대시보드 Comparison Panel | ⏳ 미적용 |
-| about.html accent 정리 | ⏳ 부분 적용 (문구만 갱신) |
+| 분석가 카드 고유색 | ✅ 2026-08-16 재확인 — 분석가별 색 변수 잔존 없음 |
+| 성적표 Summary Grid | ✅ 2026-08-16 적용 (단일 컨테이너 + 칸 구분선) |
+| 모델 대시보드 Comparison Panel | ✅ Priority 2에서 단일 패널·행 구조로 적용 |
+| 종료 실험 표시(종합판단 v3) | ✅ 2026-08-16 「과거 실험 기록」 접힌 섹션으로 이동 |
+| 사이트 전체 폰트 통일 | ✅ 2026-08-16 Pretendard Variable 표준 스택 |
+| about.html accent 정리 | ⏳ 부분 적용 (문구·폰트 로딩만 갱신 — accent 정리는 남음) |
 
 다음 작업자는 위 ⏳ 항목부터 이어서 하면 된다. **새 기능을 추가하면서
 다시 컬러풀하게 되돌리지 말 것.**
