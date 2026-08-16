@@ -48,19 +48,62 @@ jobs:
       - name: 사이트용 공개 요약 생성 (파생 데이터 · Secret 미포함)
         run: python3 paper_public.py || echo "공개 요약 생성 실패 — 기록 커밋은 계속"
 
+      # Push 안전 원칙: Paper 기록이 remote에 저장되지 않았는데 이 Step이
+      # SUCCESS로 끝나는 경로는 존재하면 안 된다(SILENT DATA LOSS 금지).
+      # - push 성공 여부는 pushed flag로 명시 판정, 실패 시 exit 1
+      # - rebase 실패는 abort 후 즉시 FAIL (자동 충돌 해결 금지)
+      # - rebase는 이미 만든 Paper Commit을 새 main 위로 replay할 뿐,
+      #   Paper Engine을 다시 실행하지 않는다 (Signal Source 불변)
       - name: 기록 커밋 (paper_trading/ + 공개 요약만)
+        env:
+          TARGET_REF: ${{ github.ref_name }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add paper_trading
-          [ -f paper_public.js ] && git add paper_public.js
+          if [ -f paper_public.js ]; then git add paper_public.js; fi
           if git diff --cached --quiet; then
-            echo "변경 없음"
-          else
-            git commit -m "paper: 가상매매 사이클 기록 [skip ci]"
-            for i in 1 2 3 4; do
-              git push origin HEAD && break
-              sleep $((2 ** i))
-              git pull --rebase origin main || true
-            done
+            echo "변경 없음 — push·artifact 없이 정상 종료"
+            exit 0
           fi
+          git commit -m "paper: 가상매매 사이클 기록 [skip ci]"
+          echo "로컬 Paper 커밋: $(git rev-parse HEAD) → push 대상: ${TARGET_REF}"
+          pushed=0
+          for i in 1 2 3 4; do
+            if git push origin "HEAD:refs/heads/${TARGET_REF}"; then
+              pushed=1
+              break
+            fi
+            echo "push 실패 (시도 ${i}/4) — $((2 ** i))초 대기 후 fetch/rebase"
+            sleep $((2 ** i))
+            if ! git fetch origin "${TARGET_REF}"; then
+              echo "fetch 실패 — 다음 재시도로 진행"
+              continue
+            fi
+            if ! git rebase "origin/${TARGET_REF}"; then
+              git rebase --abort || true
+              echo "::error::rebase 충돌 — Paper 기록을 자동 병합하지 않는다. Recovery Artifact로 수동 복구 필요"
+              exit 1
+            fi
+          done
+          if [ "${pushed}" -ne 1 ]; then
+            echo "::error::push ${i}회 재시도 모두 실패 — Paper 기록이 remote에 저장되지 않음. Recovery Artifact 확인"
+            exit 1
+          fi
+          echo "Paper 기록 push 성공 (${TARGET_REF})"
+
+      # 비상 복구본: push 최종 실패 등으로 Job이 FAIL했을 때만 업로드.
+      # 정상 저장경로가 아니며(Source of Truth는 main의 paper_trading/),
+      # 업로드 성공 여부와 무관하게 원래 Step의 FAIL 상태는 그대로 유지된다.
+      # 대상 파일은 파생 시세·거래 기록뿐 — Secret/토큰/계좌정보 미포함.
+      - name: Push 실패 시 Paper 기록 복구본 업로드 (비상용)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gaeo-paper-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            paper_trading/
+            paper_public.js
+          if-no-files-found: ignore
+          retention-days: 14
