@@ -4997,7 +4997,7 @@ function paperBlockHTML(){
     ${stat(portRet,'누적 가상수익률',pctColor(P.portfolioReturnPct))}
     ${stat(signWon(P.realizedPnl),'확정 손익')}
     ${stat(signWon(P.unrealizedPnl),'미실현 손익')}
-    ${stat(rel,'시장 대비')}
+    ${stat(rel,'종료거래 평균 시장대비')}
     ${stat(P.maxDrawdownPct==null?null:mdd,'최대 낙폭(MDD)')}
   </div>`;
   const second=`<div class="sc-stat-row sc-stat-row-3">
@@ -5024,7 +5024,7 @@ function paperBlockHTML(){
     +(rows?`<div class="sc-chip-head">최근 가상거래</div>${rows}`:
       (P.stage==='RUNNING'?`<div class="sc-explain">아직 새롭게 발생한 매수 고려 신호가 없습니다.</div>`:''))
     +(insufficient&&P.closedTrades?`<p class="sc-foot-note">아직 판단하기에 기록이 충분하지 않습니다(종료 ${P.closedTrades}건).</p>`:'')
-    +`<p class="sc-foot-note">가상 시작자금 ${won0(P.initialVirtualCash)} · 전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf}${P.valuationAsOf?` · 마지막 평가 ${esc(String(P.valuationAsOf).slice(5,16).replace('T',' '))} 기준`:''} · 수익률·손익은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
+    +`<p class="sc-foot-note">가상 시작자금 ${won0(P.initialVirtualCash)} · 전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf}${P.valuationObservedAt?` · 마지막 평가 관측 ${esc(String(P.valuationObservedAt).slice(5,16).replace('T',' '))}`:''} · 수익률·손익은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
   </div>`;
 }
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
