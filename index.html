@@ -9488,7 +9488,7 @@ function renderGuide(){
     <div class="gb-body">
       <p><b>순환매란 무엇인가요?</b><br>
       시장의 돈이 한 업종에만 머물지 않고 반도체에서 바이오, 바이오에서 방산처럼 다른 업종으로 옮겨 가는 흐름을 말해요.
-      Gaeo 순환매는 추적 종목 500개를 24개 업종으로 묶고, 상승 탄력·시장 대비 강도·거래량·상승 종목 비율·기술 신호를 같은 기준으로 계산해 <b>지금 어느 업종에 힘이 상대적으로 모이는지</b> 보여줍니다.</p>
+      Gaeo 순환매는 추적 종목 600개를 24개 업종으로 묶고, 상승 탄력·시장 대비 강도·거래량·상승 종목 비율·기술 신호를 같은 기준으로 계산해 <b>지금 어느 업종에 힘이 상대적으로 모이는지</b> 보여줍니다.</p>
 
       <div class="gb-tip"><b>먼저 기억할 점:</b> 순환매는 <b>예측 화면이 아닙니다.</b> 점수는 오를 확률이나 예상 수익률이 아니라 현재 관찰값을 비교하기 위한 상대 점수예요. 후보 종목도 <b>매수·매도 추천이 아닙니다.</b></div>
 
@@ -11894,12 +11894,12 @@ window.renderScreener=function(){
     const diff=vW.total-vL.total;
     const closeness=diff<=4?`아주 근소한 차이(${diff}점)라 사실상 막상막하예요. `:'';
     let h=`<div class="cmp-easy"><div class="ce-t">🧒 쉬운 말로 정리하면</div>`;
-    h+=`<p><b style="color:var(--green)">👍 ${W.name}를 조금 더 추천하는 이유</b><br>
+    h+=`<p><b style="color:var(--green)">👍 ${W.name} 점수가 조금 더 높은 이유</b><br>
       100점 만점에 ${W.name} <b>${vW.total}점</b>, ${L.name} <b>${vL.total}점</b>이에요. ${closeness}
       ${W.name}의 최고 강점은 「<b>${bW.name}</b>」(${sW[bW.i]}점) — ${bW.hi}.
       ${gapW!=null?` 전문가들이 적어낸 목표 가격까지 아직 <b>+${gapW}%</b> 올라갈 여유도 있어요.`:''}
       한 줄 결론: <b>${callKid(vW.call)}</b> (${vW.call}).</p>`;
-    h+=`<p><b style="color:var(--red)">🤔 ${L.name}를 덜 추천하는 이유</b><br>
+    h+=`<p><b style="color:var(--red)">🤔 ${L.name} 점수가 낮게 나온 이유</b><br>
       ${L.name}의 아쉬운 점은 「<b>${wL.name}</b>」(${sL[wL.i]}점) — ${wL.lo}.
       그래도 「${bL.name}」(${sL[bL.i]}점)만큼은 괜찮아서, 완전히 나쁜 건 아니에요.
       한 줄 결론: <b>${callKid(vL.call)}</b> (${vL.call}).</p>`;
