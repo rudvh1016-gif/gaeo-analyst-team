@@ -48,6 +48,9 @@ jobs:
       - name: Archive 무결성 테스트
         run: python3 test_research_store.py
 
+      - name: Secret 위생 검사 (실제값 하드코딩·공개 아카이브 민감 필드 차단)
+        run: python3 test_secret_hygiene.py
+
       # ⚠️ 유지보수(압축·묶음)를 시작하기 전에, 기존 암호문이 현재 Key로 실제로
       #    열리는지 먼저 확인한다. 열리지 않으면 여기서 잡을 멈춘다.
       #    (Key가 어긋난 채로 작업을 진행하면 과거 연구기록을 잃을 수 있다.)
