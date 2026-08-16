@@ -73,6 +73,36 @@ sf = [p for p in glob.glob("**/*.woff*", recursive=True) + glob.glob("**/*.otf",
       if "sf-pro" in p.lower() or "sanfrancisco" in p.lower()]
 check("SF Pro 폰트 파일 0건", not sf, str(sf))
 
+# ── Typography 계층 계약 (2026-08-16 FINAL PASS) ────────────────────────────
+# weight는 5단계 tier(400/500/600/650/700)만 쓴다. 800은 브랜드 로고·히어로
+# 전용 예외(소수), 900·자의적 중간값(720·760·820·850…)은 금지.
+import re as _re
+_weights = _re.findall(r"font-weight:(\d{3})", html)
+_allowed = {"400", "500", "600", "650", "700", "800"}
+_bad = sorted(set(w for w in _weights if w not in _allowed))
+check("font-weight는 5단계 tier + 브랜드 800만", not _bad, f"허용 외: {_bad}")
+check("브랜드 예외(800)는 소수(≤5)", _weights.count("800") <= 5,
+      f"800이 {_weights.count('800')}곳")
+check("font-weight:900 없음", "font-weight:900" not in html)
+for _f in ["rotation.css", "insight-rail.css"]:
+    _s = open(_f, encoding="utf-8").read()
+    _b = sorted(set(w for w in _re.findall(r"font-weight:(\d{3})", _s) if w not in _allowed))
+    check(f"{_f}: weight tier 준수", not _b, f"허용 외: {_b}")
+
+# ── AI 라벨 계약 (2026-08-16 사용자 지정) ───────────────────────────────────
+# 장식성 'AI 종목 분석' eyebrow·'AI 분석' 내비 라벨은 쓰지 않는다.
+# (About/가이드북의 방법론 설명에서 AI를 사실대로 언급하는 것은 허용)
+check("'AI 종목 분석' 문자열 0", "AI 종목 분석" not in html)
+check("내비게이션 'AI 분석' 라벨 없음", '>AI 분석</button>' not in html)
+
+# ── --sans 표준 스택 정합 (Inter 등 비표준 중간 폰트 금지) ──────────────────
+_sans = _re.search(r"--sans:([^;]+);", html)
+check("--sans에 Inter/Roboto 없음(표준 스택)",
+      _sans and "Inter" not in _sans.group(1) and "Roboto" not in _sans.group(1),
+      _sans.group(1)[:80] if _sans else "--sans 토큰 없음")
+check("--sans에 한글 fallback(Malgun Gothic) 포함",
+      _sans and "Malgun Gothic" in _sans.group(1))
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
