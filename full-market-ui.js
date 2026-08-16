@@ -55,14 +55,32 @@
     {key:'count',label:'종목수'}
   ];
 
+  // 수집 시각이 장 시간(평일 09:00~16:00 KST) 밖이면, 화면의 시세·등락이
+  // "그 시각의 시장"이 아니라 마지막 거래일 기준임을 명시한다.
+  // (2026-08-16 사용자 보고: 일요일 10:42가 '기준'으로 표시돼 혼란 — 수집 시각과
+  //  시세 기준일은 다른 개념이라 분리 표기한다. 공휴일 달력은 없으므로 주말·시간대만 판별)
+  function marketBasisNote(iso){
+    if(!iso) return '';
+    const d=new Date(iso);
+    if(isNaN(d.getTime())) return '';
+    try{
+      const parts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',weekday:'short',hour:'2-digit',hour12:false}).formatToParts(d);
+      const wd=(parts.find(x=>x.type==='weekday')||{}).value;
+      const hh=Number((parts.find(x=>x.type==='hour')||{}).value);
+      const off=(wd==='토'||wd==='일')||!(hh>=9&&hh<16);
+      return off?'휴장 시간 수집 — 시세·등락은 마지막 거래일 기준':'';
+    }catch(e){ return ''; }
+  }
+
   function renderHeader(data){
     // 사이트 상단 Section Header가 이미 "전체시장 흐름" 제목·설명을 보여주므로
-    // 여기서는 제목을 반복하지 않고 Metadata(대상 규모·기준시각·상태)만 한 줄로 보여준다.
+    // 여기서는 제목을 반복하지 않고 Metadata(대상 규모·수집시각·상태)만 한 줄로 보여준다.
     const status=statusView(data.sourceStatus,data.dataAsOf);
     const eligible=data.market&&data.market.eligibleCount;
+    const basis=marketBasisNote(data.dataAsOf);
     return `<header class="fm-hero">
-      <div class="fm-asof"><strong>전체시장 · ${count0(eligible)}종목</strong><span>${escapeHtml(formatAsOf(data.dataAsOf))} 기준</span>
-      <span class="fm-status fm-status-${status.cls}"><i></i>${status.label}</span></div>
+      <div class="fm-asof"><strong>전체시장 · ${count0(eligible)}종목</strong><span>${escapeHtml(formatAsOf(data.dataAsOf))} 수집</span>
+      <span class="fm-status fm-status-${status.cls}"><i></i>${status.label}</span>${basis?`<span class="fm-basis">${basis}</span>`:''}</div>
     </header>`;
   }
 
@@ -157,11 +175,26 @@
     ];
     const reliabilityNote=sector.reliability==='LOW_SAMPLE'&&sector.note
       ?`<p class="fm-sector-lowsample">${escapeHtml(sector.note)}</p>`:'';
+    // GAEO 추적 종목 참고 TOP3 — 사용자 요청(2026-08-16). window.GaeoFmSectorPicks
+    // (index.html이 제공, GAEO 600 분석 데이터에서 확신도→종합점수 순 상위)를 있으면 쓴다.
+    // 전체시장 2,410 구성종목 목록이 아님을 문구로 명시한다(개별 전체시장 종목은 여전히 미노출).
+    const picks=(typeof window!=='undefined'&&typeof window.GaeoFmSectorPicks==='function')
+      ?(window.GaeoFmSectorPicks(sector.name)||[]):[];
+    const picksHtml=picks.length?`<div class="fm-sector-picks">
+        <h4>이 업종의 GAEO 추적 종목 참고</h4>
+        ${picks.map(p=>`<button type="button" class="fm-pick" data-fm-stock="${escapeHtml(p.name)}">
+          <b>${escapeHtml(p.name)}</b><span class="fm-pick-call">${escapeHtml(p.call||'')}</span>
+          <em>판단 확신도 ${Number.isFinite(p.confidence)?p.confidence+'%':'—'} · 종합 ${Number.isFinite(p.total)?p.total+'점':'—'}</em>
+        </button>`).join('')}
+        <p class="fm-picks-note">GAEO가 추적하는 종목 중 판단 확신도가 높은 순(같으면 종합점수 순) 상위예요.
+        이 업종의 전체시장 구성종목 목록이 아니며, 투자 권유가 아니에요.</p>
+      </div>`:'';
     return `<div class="fm-sector-detail">
       <dl class="fm-sector-detail-grid">${rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}
         <div><dt>대형주 영향 차이</dt><dd>${pp2(sector.breadthDivergence)}</dd></div>
       </dl>
       <p class="fm-sector-detail-note">시총이 큰 종목의 움직임과 업종 전체 종목의 움직임이 얼마나 다른지 봅니다.</p>
+      ${picksHtml}
       ${reliabilityNote}
     </div>`;
   }
@@ -236,6 +269,11 @@
     const state={sortKey:'advanceRatio',expanded:null};
     const draw=()=>{ element.innerHTML=renderView(data,state); };
     element.onclick=event=>{
+      const pick=event.target.closest&&event.target.closest('[data-fm-stock]');
+      if(pick){
+        if(typeof window!=='undefined'&&typeof window.jumpToStock==='function') window.jumpToStock(pick.dataset.fmStock);
+        return;
+      }
       const row=event.target.closest&&event.target.closest('[data-sector]');
       if(row){
         const name=row.dataset.sector;
