@@ -1,0 +1,149 @@
+/* 🌐 전체시장 흐름(FULL MARKET) — 순환매 화면의 2번째 탭.
+   rotation.css의 색·간격·타이포 어휘를 그대로 따라 같은 화면 안에서 이질감이 없게 한다. */
+.fm-tabhost{display:none;max-width:1320px;margin:0 auto}
+.fm-tabhost.on{display:block}
+.fm-tabbar{display:flex;flex-wrap:wrap;gap:8px 26px;margin:2px 0 4px;border-bottom:1px solid #e3e5e8}
+.fm-tab{max-width:100%;padding:10px 1px 12px;border:0;border-bottom:2px solid transparent;background:transparent;
+  color:#7b8089;font:inherit;font-size:13px;font-weight:700;letter-spacing:-.01em;cursor:pointer;text-align:left;box-sizing:border-box}
+.fm-tab small{display:block;margin-top:3px;max-width:100%;color:#9297a0;font-size:10px;font-weight:500;line-height:1.4;white-space:normal;overflow-wrap:break-word}
+.fm-tab.on{color:#1d1d1f;border-bottom-color:#1d1d1f}
+.fm-tab.on small{color:#6e737d}
+.fm-tab:hover{color:#1d1d1f}
+
+.fullmarket-view{display:none;width:100%;color:#1d1d1f;font-variant-numeric:tabular-nums}
+.fullmarket-view.on{display:block}
+.fm-shell{max-width:1320px;margin:0 auto;padding:14px 0 36px}
+.fm-empty{padding:18px;border-radius:14px;background:#f7f8fa;color:#737a84;font-size:12px}
+
+.fm-hero{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
+.fm-kicker{display:block;margin-bottom:8px;color:#2563eb;font-size:10px;font-weight:700;letter-spacing:.12em}
+.fm-hero h2{margin:0;font-size:clamp(22px,2.4vw,32px);line-height:1.12;letter-spacing:-.04em}
+.fm-hero p{max-width:520px;margin:8px 0 0;color:#6e737d;font-size:12.5px;line-height:1.6}
+.fm-asof{text-align:right;color:#6e737d;font-size:10.5px;line-height:1.6}
+.fm-asof strong{display:block;color:#1d1d1f;font-size:15px;font-weight:700}
+.fm-status{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:10.5px;font-weight:600}
+.fm-status i{display:inline-block;width:6px;height:6px;border-radius:50%}
+.fm-status-ok i{background:var(--green,#2e7d46)}
+.fm-status-ok{color:var(--green,#2e7d46)}
+.fm-status-partial i{background:#d7a33d}
+.fm-status-partial{color:#a4791f}
+.fm-status-stale i{background:#8a8f97}
+.fm-status-stale{color:#767c86}
+
+.fm-panel{padding:18px;margin-bottom:14px;border:1px solid #e3e5e8;border-radius:16px;background:#fff;box-sizing:border-box}
+.fm-panel h3{margin:0;font-size:14px;letter-spacing:-.02em}
+.fm-panel .fm-sub{margin:5px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
+
+/* 시장 참여도 */
+.fm-participation-counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.fm-participation-counts>div{padding:10px 0;border-top:1px solid #e6e8eb}
+.fm-participation-counts span{display:block;color:#7a8089;font-size:10px}
+.fm-participation-counts strong{display:block;margin-top:6px;font-size:19px;font-weight:700}
+.fm-up{color:var(--krup)}
+.fm-down{color:var(--krdn)}
+.fm-bar{display:flex;height:8px;margin-top:16px;border-radius:99px;background:#eaedf1;overflow:hidden}
+.fm-bar-up{height:100%;background:var(--krup)}
+.fm-bar-down{height:100%;background:var(--krdn)}
+.fm-rate-line{margin-top:10px;color:#606873;font-size:12.5px}
+.fm-rate-line strong{color:#1d1d1f;font-size:16px;font-weight:700}
+
+/* KOSPI vs KOSDAQ */
+.fm-table-wrap{overflow-x:auto;margin-top:10px}
+.fm-compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.fm-compare-table th,.fm-compare-table td{padding:9px 10px;text-align:right;border-bottom:1px solid #eceef1;white-space:nowrap}
+.fm-compare-table thead th{color:#59616d;font-size:10.5px;font-weight:700}
+.fm-compare-table tbody th{text-align:left;color:#7b8089;font-weight:600}
+.fm-compare-table td{font-weight:700;color:#1d1d1f}
+
+/* 지수 체감 vs 종목 체감 */
+.fm-feel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.fm-feel-grid>div{padding:12px;border-radius:12px;background:#f7f8fa}
+.fm-feel-grid span{display:block;color:#7a8089;font-size:10px}
+.fm-feel-grid strong{display:block;margin-top:5px;font-size:16px;font-weight:700}
+.fm-feel-grid details{margin-top:6px;color:#8a8f97;font-size:9.5px}
+.fm-feel-grid details summary{cursor:pointer;font-weight:600}
+.fm-feel-grid details div{margin-top:4px;line-height:1.4}
+.fm-feel-note{margin-top:12px;padding:10px 12px;border-left:3px solid #2563eb;background:#f3f7fd;color:#5c6571;font-size:11.5px;line-height:1.55}
+
+/* 시장 집중도 */
+.fm-conc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.fm-conc-grid>div{padding:12px;border-radius:12px;background:#f7f8fa}
+.fm-conc-grid span{display:block;color:#7a8089;font-size:10px}
+.fm-conc-grid strong{display:block;margin-top:5px;font-size:16px;font-weight:700}
+.fm-conc-note{margin:10px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
+
+/* 업종별 상승 참여도 */
+.fm-empty-inline{margin-top:10px;padding:16px;border-radius:12px;background:#f7f8fa;color:#737a84;font-size:11.5px}
+.fm-sort{display:flex;align-items:center;gap:8px;margin:12px 0 4px}
+.fm-sort label{color:#7b8089;font-size:10.5px;font-weight:600}
+.fm-sort select{padding:6px 8px;border:1px solid #dfe2e6;border-radius:8px;background:#fff;color:#1d1d1f;font:inherit;font-size:11.5px}
+.fm-sector-list{margin-top:6px;border-top:1px solid #eceef1}
+.fm-sector-item{border-bottom:1px solid #eceef1}
+.fm-sector-row{display:block;width:100%;padding:12px 2px;border:0;background:transparent;color:#1d1d1f;font:inherit;text-align:left;cursor:pointer}
+.fm-sector-row:hover,.fm-sector-row:focus-visible{background:#f7f9fc}
+.fm-sector-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.fm-sector-name{min-width:0;overflow-wrap:anywhere;font-size:12.5px;font-weight:700}
+.fm-sector-rate{flex:0 0 auto;font-size:12.5px;font-weight:700;color:#1d1d1f}
+.fm-sector-bar{height:5px;margin-top:8px;border-radius:99px;background:#eaedf1;overflow:hidden}
+.fm-sector-bar-fill{height:100%;background:var(--krup)}
+.fm-sector-sub{margin-top:6px;color:#7b8089;font-size:10.5px}
+.fm-dot{margin:0 5px;color:#c3c7cd}
+.fm-sector-detail{padding:2px 2px 14px}
+.fm-sector-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:2px}
+.fm-sector-detail-grid>div{padding:10px;border-radius:11px;background:#f7f8fa}
+.fm-sector-detail-grid dt{color:#7a8089;font-size:9.5px}
+.fm-sector-detail-grid dd{margin:4px 0 0;font-size:12px;font-weight:700}
+.fm-sector-detail-note{margin:10px 0 0;color:#7b8089;font-size:10px;line-height:1.5}
+.fm-sector-lowsample{margin:8px 0 0;color:#a4791f;font-size:10px;line-height:1.5}
+
+/* History accumulating */
+.fm-history-note{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:12px 14px;
+  border-top:1px solid #edf0f3;color:#7b8089;font-size:11px}
+.fm-history-note span{color:#9297a0}
+
+/* ---------- Dark mode (html.gdark — rotation.css와 동일한 토글) ---------- */
+html.gdark .fm-tabbar{border-color:#343438}
+html.gdark .fm-tab{color:#aeb3bb}
+html.gdark .fm-tab:hover{color:#f5f5f7}
+html.gdark .fm-tab.on{color:#f5f5f7;border-bottom-color:#f5f5f7}
+html.gdark .fm-tab.on small{color:#c8cbd1}
+html.gdark .fullmarket-view{color:#f5f5f7}
+html.gdark .fm-hero p,html.gdark .fm-asof,html.gdark .fm-panel .fm-sub{color:#aeb3bb}
+html.gdark .fm-asof strong{color:#f5f5f7}
+html.gdark .fm-panel{background:#1c1c1e;border-color:#343438}
+html.gdark .fm-panel h3{color:#f5f5f7}
+html.gdark .fm-participation-counts>div{border-color:#343438}
+html.gdark .fm-participation-counts span,html.gdark .fm-conc-grid span,html.gdark .fm-feel-grid span,
+html.gdark .fm-compare-table tbody th,html.gdark .fm-sector-detail-grid dt{color:#9da1aa}
+html.gdark .fm-participation-counts strong,html.gdark .fm-conc-grid strong,html.gdark .fm-feel-grid strong,
+html.gdark .fm-compare-table td,html.gdark .fm-sector-detail-grid dd,html.gdark .fm-sector-name,html.gdark .fm-sector-rate{color:#f5f5f7}
+html.gdark .fm-bar,html.gdark .fm-sector-bar{background:#3a3a3e}
+html.gdark .fm-rate-line{color:#c8cbd1}
+html.gdark .fm-rate-line strong{color:#f5f5f7}
+html.gdark .fm-compare-table th,html.gdark .fm-compare-table td{border-color:#343438}
+html.gdark .fm-compare-table thead th{color:#c8cbd1}
+html.gdark .fm-feel-grid>div,html.gdark .fm-conc-grid>div,html.gdark .fm-sector-detail-grid>div{background:#242427}
+html.gdark .fm-feel-note{background:#17263c;color:#b8c6da}
+html.gdark .fm-conc-note,html.gdark .fm-sector-sub,html.gdark .fm-sector-detail-note,html.gdark .fm-history-note{color:#aeb3bb}
+html.gdark .fm-empty,html.gdark .fm-empty-inline{background:#242427;color:#aeb3bb}
+html.gdark .fm-sort select{background:#1c1c1e;border-color:#424248;color:#f5f5f7}
+html.gdark .fm-sort label{color:#aeb3bb}
+html.gdark .fm-sector-list,html.gdark .fm-sector-item,html.gdark .fm-history-note{border-color:#343438}
+html.gdark .fm-sector-row:hover,html.gdark .fm-sector-row:focus-visible{background:#242427}
+html.gdark .fm-sector-row{color:#f5f5f7}
+
+@media(max-width:920px){
+  .fm-feel-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .fm-shell{padding:10px 0 28px}
+  .fm-hero{gap:10px}
+  .fm-hero h2{font-size:22px}
+  .fm-asof{text-align:left}
+  .fm-panel{padding:15px}
+  .fm-participation-counts{gap:6px}
+  .fm-participation-counts strong{font-size:16px}
+  .fm-conc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fm-sector-detail-grid{grid-template-columns:1fr 1fr}
+  .fm-compare-table th,.fm-compare-table td{padding:8px 6px;font-size:11px}
+}
