@@ -106,8 +106,10 @@ def build():
         "unrealizedPnl": summary.get("unrealizedPnl"),
         "portfolioReturnPct": summary.get("portfolioReturnPct"),
         "maxDrawdownPct": summary.get("maxDrawdownPct"),
-        "valuationAsOf": summary.get("valuationAsOf"),
+        "valuationObservedAt": summary.get("valuationObservedAt"),   # 러너 관측 시각
+        "valuationMarketAt": summary.get("valuationMarketAt"),       # 공급자 원본 시각(없으면 null)
         "valuationStatus": summary.get("valuationStatus"),
+        "executedTradeCount": summary.get("executedTradeCount", len(opens) + len(closed)),
         "openTrades": len(opens),
         "closedTrades": len(closed),
         "skippedSignals": summary.get("skippedSignals", 0),
@@ -123,7 +125,7 @@ def build():
         "avgMfePct": summary.get("avgMfePct"),
         "avgMaePct": summary.get("avgMaePct"),
         "costModel": "COST_MODEL_INCOMPLETE",   # 비용 미검증 — '순수익' 표기 금지 근거
-        "benchmarkNote": "시장 대비 값은 KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다.",
+        "benchmarkNote": "종료거래 평균 시장대비는 종료된 개별 거래의 동일 기간 지수 대비 성과 평균이며, KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다(가상계좌 전체의 시장 대비 성과가 아님).",
         "recentTrades": [_public_trade(r) for r in recent],
     }
 

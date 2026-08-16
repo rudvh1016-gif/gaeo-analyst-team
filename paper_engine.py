@@ -204,7 +204,8 @@ def portfolio_valuation(config, latest, open_meta):
 
     marked_value = 0.0
     unrealized = 0.0
-    mark_times = []
+    mark_times = []          # 러너가 실제 관측한 시각
+    market_times = []        # 거래소/공급자 원본 시각(제공된 경우만 — now로 위조 금지)
     unmarked = 0
     for r in opens:
         meta = (open_meta or {}).get(r["trade_id"]) or {}
@@ -214,8 +215,10 @@ def portfolio_valuation(config, latest, open_meta):
             continue
         marked_value += mark * r["quantity"]
         unrealized += (mark - r["entry_price"]) * r["quantity"]
-        if meta.get("lastMarkAt"):
-            mark_times.append(meta["lastMarkAt"])
+        if meta.get("lastMarkObservedAt"):
+            mark_times.append(meta["lastMarkObservedAt"])
+        if meta.get("lastMarkMarketAt"):
+            market_times.append(meta["lastMarkMarketAt"])
 
     if not opens:
         status = "NO_OPEN_POSITIONS"
@@ -238,16 +241,23 @@ def portfolio_valuation(config, latest, open_meta):
         "unrealizedPnl": round(unrealized_out, 2) if unrealized_out is not None else None,
         "portfolioReturnPct": (round((equity / initial - 1) * 100, 3)
                                if equity is not None and initial else None),
-        "valuationAsOf": min(mark_times) if mark_times else None,   # 가장 오래된 관측 기준(보수적)
+        # FIX 5: Observed(러너 관측)와 Market(거래소 원본) 시각을 분리해 보고
+        "valuationObservedAt": min(mark_times) if mark_times else None,   # 가장 오래된 관측(보수적)
+        "valuationMarketAt": min(market_times) if market_times else None,
         "valuationStatus": status,
         "openCount": len(opens),
+        # FIX 3: SKIP을 제외한 실제 가상체결 수 — 성과 지표 표시 근거
+        "executedTradeCount": len(opens) + len(closed),
     }
 
 
-def max_drawdown_from_curve(path):
+def max_drawdown_from_curve(path, initial_seed=None):
     """MDD — Mark-to-Market Portfolio Equity Curve 기준 (개별 Trade 수익 아님).
 
-    유효한 markedEquity 관측이 2개 미만이면 None (수학적 0을 성과 0%로 오인 금지).
+    FIX 2 (2026-08-16 하드닝): initial_seed(시작자금)를 최초 Peak로 삼는다 —
+    Curve 파일이 손상돼 첫 행(10,000,000)이 없어도 '첫 관측부터의 손실'을
+    놓치지 않는다(9.5M·9.6M만 있어도 seed 10M 기준 -5.0%).
+    유효한 markedEquity 관측이 하나도 없으면 None (성과 0%로 오인 금지).
     """
     equities = []
     try:
@@ -265,9 +275,11 @@ def max_drawdown_from_curve(path):
                     equities.append(float(eq))
     except OSError:
         return None
-    if len(equities) < 2:
+    if not equities:
         return None
-    peak = equities[0]
+    if initial_seed is None and len(equities) < 2:
+        return None                      # seed 없이 관측 1개면 판단 불가(기존 동작 유지)
+    peak = float(initial_seed) if initial_seed is not None else equities[0]
     mdd = 0.0
     for eq in equities:
         peak = max(peak, eq)
@@ -360,6 +372,12 @@ class PaperEngine:
             self.state["lastCall"] = {c: s["call"] for c, s in signals.items()}
             self.state["lastProcessedAnalysisAt"] = analysis_at
             self.state["baselineCaptured"] = True
+            self.state["lastProcessedModelVersion"] = bundle.get("modelVersion")
+            # FIX 1 (2026-08-16 하드닝): 거래는 0이지만 회계 기준점(초기 1,000만원)은
+            # 반드시 기록한다 — Equity Curve 최초 행 + Baseline Summary.
+            # Entry 경로(_process_entries)는 호출하지 않으므로 소급 매수 0.
+            self._write_equity(now, None)
+            self._write_summary()
             return self._done(f"BASELINE_CAPTURED — {len(signals)}종목 기준 상태 기록, 거래 없음", now)
 
         actions = []
@@ -372,6 +390,7 @@ class PaperEngine:
             if entered != "DEFERRED":
                 self.state["lastCall"] = {c: s["call"] for c, s in signals.items()}
                 self.state["lastProcessedAnalysisAt"] = analysis_at
+                self.state["lastProcessedModelVersion"] = bundle.get("modelVersion")
 
         # ④ 보유 관리: MFE/MAE 관측 → SELL 전환/5거래일 청산
         self._manage_positions(signals, now, today_date, in_session, latest, actions)
@@ -451,8 +470,14 @@ class PaperEngine:
                                 "benchmark_entry_value": bench,
                                 "benchmark_entry_day": bench_day,
                                 "recorded_at": iso(now)})
-            self.state["openMeta"][tid] = {"mfePrice": price, "maePrice": price,
-                                           "entryBusinessDate": entry_day}
+            self.state["openMeta"][tid] = {
+                "mfePrice": price, "maePrice": price, "entryBusinessDate": entry_day,
+                # FIX 4: 실측 체결가(Best Ask/현재가)를 최초 Mark로 — 직후 시세 조회가
+                # 실패해도 평가 가능. 매매 판단(청산·MFE Rule)에는 쓰지 않는다.
+                "lastMarkPrice": price,
+                "lastMarkObservedAt": iso(now),
+                "lastMarkMarketAt": quote_ts,     # 공급자 원본 시각(없으면 None 유지)
+                "lastMarkSource": f"{self.provider.name}/{method}"}
             cash -= price * qty
             latest.update(self.ledger.latest_by_id())
             actions.append(f"{code} 진입 {qty}주 @{price:,.0f}({method})")
@@ -479,9 +504,17 @@ class PaperEngine:
                 meta["maePrice"] = min(meta["maePrice"], px["price"])
                 # 📊 평가용 Mark (표시·MDD 전용 — 매매 판단에 사용하지 않음).
                 #    이번 관측이 실패하면 이전 valid mark를 그대로 유지한다(추측 금지).
+                #    Observed(러너 관측)와 Market(공급자 원본) 시각을 절대 섞지 않는다 —
+                #    공급자 timestamp가 없으면 Market은 None(now로 위조 금지).
+                new_market_ts = px.get("timestamp")
+                prev_market_ts = meta.get("lastMarkMarketAt")
+                if new_market_ts and prev_market_ts and new_market_ts < prev_market_ts:
+                    # Timestamp 역행 — 관측 순서 기준으로 최신값을 쓰되 사실만 기록
+                    meta["marketTsRegressionCount"] = meta.get("marketTsRegressionCount", 0) + 1
                 meta["lastMarkPrice"] = px["price"]
-                meta["lastMarkAt"] = px.get("timestamp") or iso(now)
-                meta["lastMarkSource"] = self.provider.name
+                meta["lastMarkObservedAt"] = iso(now)
+                meta["lastMarkMarketAt"] = new_market_ts
+                meta["lastMarkSource"] = f"{self.provider.name}/PRICES"
 
             holding_days = sum(1 for d in self.state["businessDates"]
                                if d > r["entry_business_date"] and d <= today_date)
@@ -555,7 +588,8 @@ class PaperEngine:
                "markedEquity": val["currentVirtualEquity"],
                "realizedPnl": val["realizedPnl"],
                "unrealizedPnl": val["unrealizedPnl"],
-               "valuationAsOf": val["valuationAsOf"],
+               "valuationObservedAt": val["valuationObservedAt"],
+               "valuationMarketAt": val["valuationMarketAt"],
                "valuationStatus": val["valuationStatus"]}
         with open(os.path.join(self.dir, "equity_curve.jsonl"), "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -621,9 +655,23 @@ class PaperEngine:
         val = portfolio_valuation(self.config, latest, self.state.get("openMeta"))
         summary.update({k: val[k] for k in (
             "initialVirtualCash", "currentVirtualEquity", "realizedPnl",
-            "unrealizedPnl", "portfolioReturnPct", "valuationAsOf", "valuationStatus")})
+            "unrealizedPnl", "portfolioReturnPct",
+            "valuationObservedAt", "valuationMarketAt", "valuationStatus",
+            "executedTradeCount")})
         summary["maxDrawdownPct"] = max_drawdown_from_curve(
-            os.path.join(self.dir, "equity_curve.jsonl"))
+            os.path.join(self.dir, "equity_curve.jsonl"),
+            initial_seed=self.config["initial_cash_krw"])
+        # FIX 3: 실제 가상체결이 0건이면 성과 지표를 만들지 않는다 —
+        # '거래 없음'을 0% 성과처럼 보이게 하지 않는다(평가금 1,000만원 표시는 유지).
+        if val["executedTradeCount"] == 0:
+            summary["portfolioReturnPct"] = None
+            summary["realizedPnl"] = None
+            summary["unrealizedPnl"] = None
+            summary["maxDrawdownPct"] = None
+        # FIX 9: Reporting 전용 Provenance — 어떤 분석·코드 기준으로 처리했는지 추적
+        summary["sourceAnalysisCompletedAt"] = self.state.get("lastProcessedAnalysisAt")
+        summary["sourceModelVersion"] = self.state.get("lastProcessedModelVersion")
+        summary["sourceCommitSha"] = os.environ.get("GITHUB_SHA")
         atomic_write(os.path.join(self.dir, "summary.json"),
                      json.dumps(summary, ensure_ascii=False, indent=1))
 
