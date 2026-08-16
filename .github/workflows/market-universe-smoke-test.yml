@@ -47,6 +47,9 @@ jobs:
           echo "── 산출물 크기 ──"
           ls -la market_universe/ market_context.js 2>/dev/null || true
 
+      - name: 업종 소스 실검증 (KRX 상장법인목록 — 스키마·업종 분포만 기록)
+        run: python3 probe_sector_source.py || echo "업종 소스 차단/실패 — BLOCKED_SOURCE로 기록됨"
+
       - name: 결과를 이 branch에 커밋
         run: |
           git config user.name "github-actions[bot]"
