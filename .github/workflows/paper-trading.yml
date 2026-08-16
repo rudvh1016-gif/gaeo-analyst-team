@@ -1,0 +1,62 @@
+# 개오 애널리스트팀 — Paper Trading V1 (가상매매 Forward 검증)
+#
+# ⚠️ 실제 주문·계좌 접근 없음 — 토스증권 Open API의 시세(Market Data)만 사용.
+# ⚠️ Production 분석 파이프라인(update-analysis.yml)과 완전히 독립.
+#    이 워크플로가 실패해도 시세·분석·발행에는 아무 영향이 없다.
+# ⚠️ Secret(TOSS_INVEST_CLIENT_ID/SECRET)이 없으면 엔진이
+#    TOSS_MARKET_DATA_UNAVAILABLE 로 조용히 종료한다(exit 0).
+#
+# 주기: 평일 장중(KST 09:00~16:00) 30분 간격 — Swing 검증이라 이 이상 불필요.
+#       (UTC 0~7시 = KST 9~16시)
+
+name: paper-trading
+
+on:
+  schedule:
+    - cron: "5,35 0-6 * * 1-5"   # KST 09:05~15:35 매 30분
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-trading
+  cancel-in-progress: false
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Paper 사이클 실행 (시세 전용 · 실주문 0)
+        env:
+          TOSS_INVEST_CLIENT_ID: ${{ secrets.TOSS_INVEST_CLIENT_ID }}
+          TOSS_INVEST_CLIENT_SECRET: ${{ secrets.TOSS_INVEST_CLIENT_SECRET }}
+        run: python3 paper_engine.py
+
+      - name: 결과 요약
+        run: python3 paper_report.py || true
+
+      - name: 기록 커밋 (paper_trading/ 만)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper_trading
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "paper: 가상매매 사이클 기록 [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin HEAD && break
+              sleep $((2 ** i))
+              git pull --rebase origin main || true
+            done
+          fi
