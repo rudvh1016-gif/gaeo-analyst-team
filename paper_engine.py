@@ -189,6 +189,93 @@ def derive_cash(config, latest):
     return cash
 
 
+def portfolio_valuation(config, latest, open_meta):
+    """Mark-to-Market 포트폴리오 평가 (회계 전용 — 매매 행동에 영향 0).
+
+    currentVirtualEquity = 현금 + Σ(미청산 수량 × 마지막 유효 Mark 가격)
+    Mark가 한 번도 없는 미청산 포지션이 있으면 평가금·수익률을 만들지 않는다
+    (null 유지 — 가격 추측·Entry가로의 몰래 Reset 금지).
+    """
+    initial = config["initial_cash_krw"]
+    cash = derive_cash(config, latest)
+    opens = [r for r in latest.values() if r.get("status") == "OPEN"]
+    closed = [r for r in latest.values() if r.get("status") == "CLOSED"]
+    realized = sum((r["exit_price"] - r["entry_price"]) * r["quantity"] for r in closed)
+
+    marked_value = 0.0
+    unrealized = 0.0
+    mark_times = []
+    unmarked = 0
+    for r in opens:
+        meta = (open_meta or {}).get(r["trade_id"]) or {}
+        mark = meta.get("lastMarkPrice")
+        if mark is None:
+            unmarked += 1
+            continue
+        marked_value += mark * r["quantity"]
+        unrealized += (mark - r["entry_price"]) * r["quantity"]
+        if meta.get("lastMarkAt"):
+            mark_times.append(meta["lastMarkAt"])
+
+    if not opens:
+        status = "NO_OPEN_POSITIONS"
+        equity = cash
+        unrealized_out = 0.0
+    elif unmarked:
+        status = "VALUATION_UNAVAILABLE"   # 유효 Mark 없는 포지션 존재 — 0으로 만들지 않는다
+        equity = None
+        unrealized_out = None
+    else:
+        status = "MARKED"                  # 마지막 관측 기준 (관측 실패 시 이전 Mark 유지)
+        equity = cash + marked_value
+        unrealized_out = unrealized
+    return {
+        "initialVirtualCash": initial,
+        "cash": round(cash, 2),
+        "markedPositionsValue": round(marked_value, 2) if equity is not None else None,
+        "currentVirtualEquity": round(equity, 2) if equity is not None else None,
+        "realizedPnl": round(realized, 2),
+        "unrealizedPnl": round(unrealized_out, 2) if unrealized_out is not None else None,
+        "portfolioReturnPct": (round((equity / initial - 1) * 100, 3)
+                               if equity is not None and initial else None),
+        "valuationAsOf": min(mark_times) if mark_times else None,   # 가장 오래된 관측 기준(보수적)
+        "valuationStatus": status,
+        "openCount": len(opens),
+    }
+
+
+def max_drawdown_from_curve(path):
+    """MDD — Mark-to-Market Portfolio Equity Curve 기준 (개별 Trade 수익 아님).
+
+    유효한 markedEquity 관측이 2개 미만이면 None (수학적 0을 성과 0%로 오인 금지).
+    """
+    equities = []
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                eq = row.get("markedEquity")
+                if isinstance(eq, (int, float)):
+                    equities.append(float(eq))
+    except OSError:
+        return None
+    if len(equities) < 2:
+        return None
+    peak = equities[0]
+    mdd = 0.0
+    for eq in equities:
+        peak = max(peak, eq)
+        if peak > 0:
+            mdd = min(mdd, (eq / peak - 1) * 100)
+    return round(mdd, 3)
+
+
 # ── Engine ─────────────────────────────────────────────────────────────────
 class PaperEngine:
     def __init__(self, provider, data_dir=None, config=None, environment=ENVIRONMENT):
@@ -302,7 +389,7 @@ class PaperEngine:
         prev = self.state["lastCall"]
         candidates = [c for c, s in signals.items()
                       if s["call"] == "BUY" and prev.get(c) != "BUY"]
-        # Production 기존 순위 규칙 그대로: 신뢰도 → 종합점수 → 코드 (새 랭킹 발명 금지)
+        # Production 기존 순위 규칙 그대로: 판단 확신도(confidence) → 종합점수 → 코드 (새 랭킹 발명 금지)
         candidates.sort(key=lambda c: (-(signals[c]["confidence"] or 0),
                                        -(signals[c]["total"] or 0), c))
         market_map = load_market_map()
@@ -390,6 +477,11 @@ class PaperEngine:
             if px:
                 meta["mfePrice"] = max(meta["mfePrice"], px["price"])
                 meta["maePrice"] = min(meta["maePrice"], px["price"])
+                # 📊 평가용 Mark (표시·MDD 전용 — 매매 판단에 사용하지 않음).
+                #    이번 관측이 실패하면 이전 valid mark를 그대로 유지한다(추측 금지).
+                meta["lastMarkPrice"] = px["price"]
+                meta["lastMarkAt"] = px.get("timestamp") or iso(now)
+                meta["lastMarkSource"] = self.provider.name
 
             holding_days = sum(1 for d in self.state["businessDates"]
                                if d > r["entry_business_date"] and d <= today_date)
@@ -453,10 +545,18 @@ class PaperEngine:
         latest = self.ledger.latest_by_id()
         open_rows = [r for r in latest.values() if r.get("status") == "OPEN"]
         cash = derive_cash(self.config, latest)
-        # 포지션은 매수원가 기준으로 기록(보수적 — 미실현 평가익을 자산에 미리 반영하지 않음)
+        # 원가 기준(기존 필드 유지) + Mark-to-Market 평가(신규 필드) 병기.
+        # 과거 행은 절대 수정하지 않는다 — 이후 행부터 확장 필드가 붙는다.
         pos_value = sum(r["quantity"] * r["entry_price"] for r in open_rows)
+        val = portfolio_valuation(self.config, latest, self.state.get("openMeta"))
         row = {"at": iso(now), "cash": round(cash), "positionsCost": round(pos_value),
-               "openCount": len(open_rows)}
+               "openCount": len(open_rows),
+               "markedPositionsValue": val["markedPositionsValue"],
+               "markedEquity": val["currentVirtualEquity"],
+               "realizedPnl": val["realizedPnl"],
+               "unrealizedPnl": val["unrealizedPnl"],
+               "valuationAsOf": val["valuationAsOf"],
+               "valuationStatus": val["valuationStatus"]}
         with open(os.path.join(self.dir, "equity_curve.jsonl"), "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
@@ -501,7 +601,10 @@ class PaperEngine:
             "expectancyPct": _avg(rets),
             "profitFactor": (round(sum(wins) / abs(sum(losses)), 2)
                              if wins and losses and sum(losses) else None),
-            "grossReturnPct": round(sum(rets), 3) if rets else None,
+            # ⚠️ 개별 Trade 수익률의 단순 합 — 계좌(포트폴리오) 수익률이 아니다.
+            #    화면에는 절대 '누적 가상수익률'로 쓰지 않는다(그 값은 portfolioReturnPct).
+            "sumTradeReturnsPct": round(sum(rets), 3) if rets else None,
+            "grossReturnPct": round(sum(rets), 3) if rets else None,   # legacy alias(내부)
             "estimatedNetReturnPct": None,
             "costModel": "COST_MODEL_INCOMPLETE — 수수료·세금 미검증(0으로 가정하지 않음)",
             "avgBenchmarkReturnPct": _avg([r["benchmark_return_pct"] for r in closed
@@ -514,6 +617,13 @@ class PaperEngine:
             "note": ("가상자금 기록 전용 — 실제 계좌·주문 없음. "
                      "Production 모델을 그대로 검증하며 결과로 모델을 자동 수정하지 않는다."),
         }
+        # 📊 Mark-to-Market 회계 (표시·MDD 전용 — 매매 행동에 영향 0)
+        val = portfolio_valuation(self.config, latest, self.state.get("openMeta"))
+        summary.update({k: val[k] for k in (
+            "initialVirtualCash", "currentVirtualEquity", "realizedPnl",
+            "unrealizedPnl", "portfolioReturnPct", "valuationAsOf", "valuationStatus")})
+        summary["maxDrawdownPct"] = max_drawdown_from_curve(
+            os.path.join(self.dir, "equity_curve.jsonl"))
         atomic_write(os.path.join(self.dir, "summary.json"),
                      json.dumps(summary, ensure_ascii=False, indent=1))
 
