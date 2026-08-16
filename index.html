@@ -959,6 +959,14 @@
     border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
   .sc-stat-row.sc-score-summary{grid-template-columns:repeat(7,1fr)}
   .sc-stat-row.sc-stat-row-3{grid-template-columns:repeat(3,1fr)}
+  .paper-trade-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:11px 0;border-bottom:1px solid var(--line)}
+  .paper-trade-row .ptr-main{min-width:0}
+  .paper-trade-row .ptr-main b{display:block;font-size:13.5px;font-weight:600}
+  .paper-trade-row .ptr-main span{display:block;margin-top:2px;color:var(--t3);font-size:11.5px}
+  .paper-trade-row .ptr-num{flex:none;text-align:right}
+  .paper-trade-row .ptr-num b{display:block;font-size:13.5px;font-variant-numeric:tabular-nums}
+  .paper-trade-row .ptr-num span{display:block;margin-top:2px;color:var(--t3);font-size:11px;font-variant-numeric:tabular-nums}
   .sc-stat{background:none;border-radius:0;border-left:1px solid var(--line);padding:14px 12px;text-align:center}
   .sc-stat:first-child{border-left:none}
   .sc-stat b{display:block;font-size:20px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
@@ -1391,6 +1399,16 @@
   .vmetric-label{font-size:11px;color:var(--dim);font-weight:700;margin-bottom:6px}
   .vmetric-value{font-size:19px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
   .vmetric-value small{font-size:11px;font-weight:700;margin-left:3px}
+  .vmetric-note{margin-top:10px;color:var(--t2);font-size:12.5px;font-weight:400;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere}
+  .vmetric-note b{font-weight:600}
+  .dart-context{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+  .dart-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .dart-head span{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .dart-head small{color:var(--t3);font-size:11px}
+  .dart-item{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:6px 0;font-size:12.5px}
+  .dart-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dart-item small{flex:none;color:var(--t3);font-size:11px;font-variant-numeric:tabular-nums}
+  .dart-note{margin:7px 0 0;color:var(--t3);font-size:11px;line-height:1.5}
   @media(max-width:700px){
     .vmetric{width:calc(50% - 4px);margin-right:8px;margin-bottom:8px;padding:11px 12px}
     .vmetric:nth-child(2n){margin-right:0}
@@ -2997,8 +3015,9 @@
   .home-daily-brief .brief-market{margin-top:0;padding-bottom:16px;border-bottom:1px solid var(--color-border)}
   .home-daily-brief .brief-lines{display:grid;gap:0;margin-top:8px}
   .home-daily-brief .brief-line{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--color-border)}
-  .home-daily-brief .brief-line::before{content:attr(data-brief-label);color:var(--color-text-secondary);font-size:12.5px;font-weight:600;line-height:1.4;letter-spacing:0}
-  .home-daily-brief .brief-line span{min-width:0;font-size:13.5px;line-height:1.62;color:var(--color-text-primary)}
+  .home-daily-brief .brief-line::before{content:attr(data-brief-label);color:var(--color-text-secondary);font-size:13px;font-weight:600;line-height:1.45;letter-spacing:0}
+  .home-daily-brief .brief-line span{min-width:0;font-size:14px;font-weight:400;line-height:1.6;color:var(--color-text-primary)}
+  .home-daily-brief .brief-line .bl-num{display:inline;font-size:inherit;font-weight:600;font-variant-numeric:tabular-nums}
   .home-daily-brief .brief-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:13px;font-size:11px}
   .home-daily-brief .brief-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
   .home-daily-brief .hda{margin-top:25px;padding-top:19px;border-top:1px solid var(--color-border)}
@@ -4096,6 +4115,7 @@
   document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
   /* 모델 대시보드 집계(7KB 남짓). 개별 종목 예측 원본은 들어 있지 않다. */
   document.write('<scr'+'ipt src="model_scoreboard.js?v=20260815-v1" onerror="window.MODEL_SCOREBOARD=window.MODEL_SCOREBOARD||null"></scr'+'ipt>');
+  document.write('<scr'+'ipt src="paper_public.js" onerror="window.GAEO_PAPER=window.GAEO_PAPER||null"></scr'+'ipt>');
 })();
 </script>
 <script>
@@ -4944,6 +4964,61 @@ function scWeekRange(offset){
   const fmt=d=>d.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
   return {start:fmt(start), end:fmt(end)};
 }
+/* ── 💼 GAEO 모의투자 (Paper Trading) ────────────────────────────────────────
+   러너가 만든 파생 요약(paper_public.js)만 읽는다 — 브라우저는 Toss API·Secret에
+   절대 접근하지 않는다. 실제 계좌처럼 보이지 않게 하고, 거래 0건을 승률 0%로
+   보여주지 않는다(상태별 Empty State). 비용 미검증이라 '순수익' 표기 금지. */
+function paperBlockHTML(){
+  const P=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
+  const head=`<div class="sc-block"><h3>GAEO 모의투자</h3>
+    <p class="sc-sub">실제 주문 없이, GAEO의 판단(매수 고려 전환)을 실제 시장 시세로 검증하는 <b>가상매매 기록</b>이에요. 실제 계좌·실제 돈과는 무관합니다.</p>`;
+  if(!P) return head+`<div class="sc-explain">모의투자 요약을 아직 불러오지 못했어요. 다음 갱신 때 다시 시도합니다.</div></div>`;
+  const won0=v=>v==null?'—':Math.round(v).toLocaleString('ko-KR')+'원';
+  const pct=(v,signed)=>v==null?null:`${signed&&v>0?'+':''}${v.toFixed(2)}%`;
+  const stageMsg={
+    BEFORE_FORWARD_START:'8월 18일(월)부터 실제 시장 기준 Forward 검증을 시작합니다.',
+    AWAITING_MARKET_DATA:'시세 연결 준비 중이에요. 연결되면 다음 장중 사이클부터 자동으로 기록됩니다.',
+    BASELINE_ONLY:'기준 상태를 기록했습니다. 이제부터 새롭게 발생하는 「매수 고려」 전환부터 가상거래가 시작돼요.',
+  }[P.stage];
+  const insufficient=String(P.evidenceStatus||'').startsWith('INSUFFICIENT');
+  // 핵심 지표(4~6개) — 값이 없으면 0%가 아니라 '—'
+  const stat=(v,label,color)=>`<div class="sc-stat"><b${color?` style="color:${color}"`:''}>${v==null?'—':v}</b><span>${label}</span></div>`;
+  const gross=pct(P.grossReturnPct,true), rel=P.avgRelativeReturnPct==null?null:`${P.avgRelativeReturnPct>0?'+':''}${P.avgRelativeReturnPct.toFixed(2)}%p`;
+  const grossColor=P.grossReturnPct>0?'var(--green)':(P.grossReturnPct<0?'var(--red)':null);
+  const core=`<div class="sc-stat-row sc-stat-row-3">
+    ${stat(won0(P.initialVirtualCash),'가상 시작자금')}
+    ${stat(P.closedTrades?won0(P.realizedVirtualEquity):'—','확정 평가금')}
+    ${stat(gross,'누적 가상수익률',grossColor)}
+    ${stat(rel,'시장 대비')}
+    ${stat(P.openTrades,'진행 중')}
+    ${stat(P.closedTrades,'종료 거래')}
+  </div>`;
+  const second=P.closedTrades?`<div class="sc-stat-row sc-stat-row-3">
+    ${stat(insufficient?null:pct(P.winRatePct),insufficient?'승률 (표본 부족)':'승률')}
+    ${stat(pct(P.avgReturnPct,true),'평균 수익 (비용 미반영)')}
+    ${stat(P.avgHoldingTradingDays==null?null:`${P.avgHoldingTradingDays}일`,'평균 보유 거래일')}
+  </div>`:'';
+  const callName={BUY:'매수 고려 전환'};
+  const exitName={CHIEF_SELL:'매도 고려 전환',MAX_HOLDING_5D:'5거래일 도달'};
+  const stName={OPEN:'진행 중',CLOSED:'종료'};
+  const rows=(P.recentTrades||[]).filter(r=>r.status==='OPEN'||r.status==='CLOSED').map(r=>{
+    const ret=r.gross_return_pct, col=ret>0?'var(--green)':(ret<0?'var(--red)':'var(--dim)');
+    return `<div class="paper-trade-row">
+      <div class="ptr-main"><b>${esc(r.name||r.symbol)}</b>
+        <span>${callName[r.signal]||esc(r.signal||'')} · ${esc((r.entry_business_date||'').slice(5))} 진입${r.status==='CLOSED'?` → ${exitName[r.exit_reason]||esc(r.exit_reason||'')}`:''}</span></div>
+      <div class="ptr-num">${r.status==='CLOSED'&&ret!=null?`<b style="color:${col}">${ret>0?'+':''}${ret.toFixed(1)}%</b>`:`<b>${stName[r.status]||''}</b>`}
+        <span>매수 ${r.entry_price?Math.round(r.entry_price).toLocaleString('ko-KR'):'—'}${r.exit_price?` · 매도 ${Math.round(r.exit_price).toLocaleString('ko-KR')}`:''}</span></div>
+    </div>`;}).join('');
+  const asOf=P.lastCycleAt?` · 마지막 기록 ${esc(String(P.lastCycleAt).slice(5,16).replace('T',' '))}`:'';
+  return head
+    +(stageMsg?`<div class="sc-explain">${stageMsg}</div>`:'')
+    +core+second
+    +(rows?`<div class="sc-chip-head">최근 가상거래</div>${rows}`:
+      (P.stage==='RUNNING'?`<div class="sc-explain">아직 새롭게 발생한 매수 고려 신호가 없습니다.</div>`:''))
+    +(insufficient&&P.closedTrades?`<p class="sc-foot-note">아직 판단하기에 기록이 충분하지 않습니다(종료 ${P.closedTrades}건).</p>`:'')
+    +`<p class="sc-foot-note">전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf} · 수익률은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
+  </div>`;
+}
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
    5개 모델을 한 판에 놓고 비교한다. 카드를 늘어놓지 않고 한 패널 안의 row로 둔다.
    ⚠️ 없는 성적을 0%로 표시하지 않는다. 평가 대기·해당 없음·근거 부족을 구분해 적는다. */
@@ -5342,6 +5417,7 @@ function renderScorecard(){
     ${statRow}
     ${weeklyEmpty}
   </div>
+  ${paperBlockHTML()}
   ${callBlock}
   ${confBlock}
   ${confModelShadow}
@@ -5953,7 +6029,7 @@ renderHomeDeepAnalysis();
     const lines=(state.brief&&state.brief.lines)||[];
     const labels=['시장','확산','업종'];
     brief.innerHTML=lines.length
-      ?lines.map((x,i)=>`<div class="brief-line" data-brief-label="${labels[i]||'메모'}"><span>${esc(x)}</span></div>`).join('')
+      ?lines.map((x,i)=>`<div class="brief-line" data-brief-label="${labels[i]||'메모'}"><span>${esc(x).replace(/([+\-]\d+(?:\.\d+)?%)/g,'<span class="bl-num">$1</span>')}</span></div>`).join('')
       :'<p>오늘 시세를 정리하고 있어요.</p>';
     renderMarketTape();
     renderHomeBriefDecision();
@@ -8968,7 +9044,32 @@ function verdictMetricGridHTML(v,stock){
     + cell('판단 확신도', `${v.conf}<small>%</small>`)
     + cell('현재가', stock.price?won(stock.price):'—')
     + cell('기준가 대비', gapHTML)
-    + `</div>`;
+    + `</div>`
+    + confReliabilityNoteHTML(v);
+}
+/* 확신도 ≠ 신뢰도 — 확신도는 chief_eval 실제 산식(네 분석축 점수 일치도에서 리스크를
+   감점, 30~90 범위) 그대로의 '현재 판단 또렷함'이고, 신뢰도는 성적표(model_scoreboard)의
+   현행 모델 버전 Forward 검증 기록 상태다. 새 공식·새 %를 만들지 않는다 —
+   검증 적중률이 실측되기 전에는 숫자 없이 '기록 축적 중'으로만 쓴다. */
+function baseReliabilityState(){
+  const SB=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
+  const base=SB&&Array.isArray(SB.models)?SB.models.find(m=>m.id==='base_production'):null;
+  if(!base) return {kind:'UNKNOWN'};
+  const cur=base.currentModelVersion;
+  const v=cur?((base.byModelVersion||{})[cur]||null):null;
+  if(v&&typeof v.accuracy==='number')
+    return {kind:'MEASURED',acc:v.accuracy,ci:Array.isArray(v.accuracyCI95)?v.accuracyCI95:null};
+  return {kind:'ACCUMULATING'};
+}
+function confReliabilityNoteHTML(v){
+  if(v.conf==null) return '';
+  const r=baseReliabilityState();
+  const rel=r.kind==='MEASURED'
+    ?`현행 판단 방식의 5거래일 검증 적중률은 ${r.acc}%${r.ci?` (범위 ${r.ci[0]}~${r.ci[1]}%)`:''}예요.`
+    :(r.kind==='ACCUMULATING'
+      ?'현행 판단 방식은 새 검증 기록을 쌓는 중이라 아직 신뢰도 수치가 없어요(0%가 아니라 표본 대기예요).'
+      :'검증 기록 상태를 불러오지 못했어요.');
+  return `<div class="vmetric-note"><b>확신도</b>는 지금 이 판단의 신호(기술·재무·확률·수급 점수가 서로 얼마나 일치하는지, 리스크 감점 포함)가 얼마나 또렷한지를 보여줘요 — <b>상승 확률이 아니에요</b>. <b>신뢰도</b>는 같은 판단 방식이 실제 5거래일 검증에서 쌓아온 기록이에요. ${rel} 자세한 기록은 성적표에서 볼 수 있어요.</div>`;
 }
 // 2. 판단 이유 3가지 — best/worst 축 + 확신도. 새 문장을 짓지 않고 구조화된 점수만 재배치한다.
 function verdictReasonsHTML(data,v){
@@ -9064,6 +9165,27 @@ async function analyze(){
     return `<b>${best.label}</b>${josaEunNeun(best.label)} 양호하지만 <b>${worst.label}</b>${josaIGa(worst.label)} 걸려 있어요. 지금은 관망하며 추가 확인이 필요해요.`;
   }
   const EVID_LABEL={taro:'기술적 근거',diana:'재무 근거',nova:'확률·통계 근거',flow:'수급 근거'};
+  /* 📄 최근 공식 공시 (DART) — 러너가 판단 시각 기준(Point-in-Time)으로 요약한
+     dart 필드를 그대로 보여준다. 점수에 가산되지 않는 '정보 전용' 맥락이고,
+     구 스냅샷(필드 없음)에서는 아무것도 표시하지 않는다(없다고 단정 금지). */
+  function dartContextHTML(code){
+    const auto=(typeof window.GaeoUseAuto==='function')?window.GaeoUseAuto():null;
+    const row=auto&&auto.stocks?auto.stocks[code]:null;
+    const d=row?row.dart:null;
+    if(!d) return '';
+    let stateText=d.stateText||'';
+    if(d.state==='EVENT_DATA_ERROR') stateText='공시 데이터를 불러오지 못했어요';
+    const items=(d.items||[]).slice(-2).reverse().map(it=>{
+      const day=String(it.receiptDate||'').length===8
+        ?`${String(it.receiptDate).slice(4,6)}.${String(it.receiptDate).slice(6,8)}`:'';
+      return `<div class="dart-item"><span>${esc(it.name||'')}</span><small>${day}${it.isCorrection?' · 정정':''}</small></div>`;
+    }).join('');
+    return `<div class="dart-context">
+      <div class="dart-head"><span>최근 공식 공시</span><small>${esc(stateText)}${d.count>2?` · 최근 ${d.count}건 중 2건`:''}</small></div>
+      ${items}
+      <p class="dart-note">공시는 최신 공식 정보를 확인하기 위한 참고 근거이며, 현재 DIANA 점수에 직접 가산되지 않습니다.</p>
+    </div>`;
+  }
   // 6. 상세 분석 근거 — 4축 findings를 아코디언으로(닫힌 상태엔 요약 1줄+점수만), v.text/v.report
   //    원문은 삭제하지 않고 "종합 서술" 아코디언 안으로 그대로 옮긴다. 리스크 감점 계산 근거도 별도 항목.
   function verdictEvidenceHTML(data,v,stock,cleanFn){
@@ -9113,7 +9235,7 @@ async function analyze(){
         `<span class="vev-summary-line">RISK 감점·데이터 시점</span>`+
         `<span class="vev-arrow">▾</span></summary>`+
         `<div class="vev-body">${riskBody}</div></details>`;
-    return `<div class="vevidence"><div class="vsec-title">🔎 상세 분석 근거</div>${axesHTML}${narrative}${calcItem}</div>`;
+    return `<div class="vevidence"><div class="vsec-title">🔎 상세 분석 근거</div>${axesHTML}${dartContextHTML(stock.code)}${narrative}${calcItem}</div>`;
   }
   function runChief(){
     sendToWork(2800,()=>{
