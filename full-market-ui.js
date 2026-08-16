@@ -56,12 +56,12 @@
   ];
 
   function renderHeader(data){
+    // 사이트 상단 Section Header가 이미 "전체시장 흐름" 제목·설명을 보여주므로
+    // 여기서는 제목을 반복하지 않고 Metadata(대상 규모·기준시각·상태)만 한 줄로 보여준다.
     const status=statusView(data.sourceStatus,data.dataAsOf);
     const eligible=data.market&&data.market.eligibleCount;
     return `<header class="fm-hero">
-      <div><span class="fm-kicker">FULL MARKET</span><h2>전체시장 흐름</h2>
-      <p>KOSPI·KOSDAQ 전체 기업의 상승·하락 참여도를 봅니다.</p></div>
-      <div class="fm-asof"><strong>${count0(eligible)}종목</strong><span>${escapeHtml(formatAsOf(data.dataAsOf))} 기준</span>
+      <div class="fm-asof"><strong>전체시장 · ${count0(eligible)}종목</strong><span>${escapeHtml(formatAsOf(data.dataAsOf))} 기준</span>
       <span class="fm-status fm-status-${status.cls}"><i></i>${status.label}</span></div>
     </header>`;
   }
@@ -197,10 +197,19 @@
 
   function renderHistoryNote(data){
     // history가 아직 문자열 상태(HISTORY_ACCUMULATING)면 축적 중 안내만 조용히 보여준다.
-    // 나중에 실제 5D/20D 집계 객체로 바뀌면 그때 별도 작업으로 Trend를 그린다 — 여기서 미리 만들지 않는다.
+    // 나중에 실제 집계 객체로 바뀌면 그때 별도 작업으로 붙인다 — 여기서 미리 만들지 않는다.
+    // 그때의 Label은 반드시 측정 대상까지 포함해야 한다(예: "최근 5거래일 상승 참여율 평균").
+    // "5일선/20일선"(이동평균선 오해)·정의 없는 "5일 평균/20일 평균"은 금지.
     const ready=data.history&&typeof data.history==='object';
     if(ready) return '';
-    return `<div class="fm-history-note">5일 / 20일 흐름<span>기록 축적 중</span></div>`;
+    return `<section class="fm-panel fm-history"><h3>시장 흐름 추세</h3>
+      <p class="fm-sub">전체시장 기록이 쌓이면 단기와 중기 흐름을 기간별로 비교할 수 있습니다.</p>
+      <div class="fm-history-grid">
+        <div><span>최근 5거래일</span><strong>데이터 기록 중</strong></div>
+        <div><span>최근 20거래일</span><strong>데이터 기록 중</strong></div>
+      </div>
+      <p class="fm-history-copy">아직 충분한 기록이 없어 평균값이나 추세를 표시하지 않습니다.</p>
+    </section>`;
   }
 
   function renderEmpty(){
