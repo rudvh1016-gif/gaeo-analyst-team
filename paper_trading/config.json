@@ -1,0 +1,21 @@
+{
+ "schemaVersion": "gaeo_paper_config_v1",
+ "strategyVersion": "PAPER_BASELINE_V1",
+ "forwardStart": "2026-08-18",
+ "initial_cash_krw": 10000000,
+ "position_size_krw": 1000000,
+ "maxHoldingTradingDays": 5,
+ "signalSource": "auto_analysis.js LIVE_AUTO.stocks[code].chief.call (Production CHIEF)",
+ "entryRule": "BUY 전환(직전 관측 non-BUY → BUY) + 장중 Best Ask, fallback 현재가(사유 기록)",
+ "exitRule": "5거래일 도달 또는 chief.call SELL 전환 + 장중 Best Bid, fallback 현재가",
+ "takeProfitRule": null,
+ "stopLossRule": null,
+ "costModel": {
+  "status": "COST_MODEL_INCOMPLETE",
+  "note": "수수료·거래세·슬리피지 공식 수치 미검증 — 0으로 가정하지 않으며 net return을 null로 둔다. 검증되면 source/verified_at/value를 여기에 기록",
+  "brokerFee": null,
+  "transactionTax": null,
+  "slippage": null
+ },
+ "note": "initial_cash는 시뮬레이션 표기 단위일 뿐 투자 권장 금액이 아니다. Strategy Version 중간에 금액·규칙을 바꾸지 않는다(변경 시 V2 생성)"
+}
