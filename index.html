@@ -339,7 +339,8 @@
   /* 파스텔 알약(라이트 전용 hex) → 다크용 저채도 틴트로 */
   html.gdark .stance.bull{background:rgba(52,211,153,.13);color:var(--green)}
   html.gdark .stance.bear{background:rgba(248,113,113,.13);color:var(--red)}
-  html.gdark .tier-auto{background:rgba(251,191,36,.14);color:#FCD34D;border-color:rgba(251,191,36,.35)}
+  html.gdark .tier-auto{background:var(--paper);color:var(--t3);border-color:var(--line2)}
+  html.gdark .clash-badge{background:#2B271F;border-color:#4A3A14;color:#D9CCB0}
   html.gdark .gb-warn{background:#211B0E;border-color:#4A3A14;color:#F5D98B}
   /* 라이트 전용 파스텔(시장 무드·집계 알약·BUY 칩) → 다크 저채도 틴트 */
   html.gdark .mood-crash,html.gdark .mood-down{background:rgba(248,113,113,.12);color:var(--market-down)}
@@ -352,8 +353,8 @@
   html.gdark .mk-buychip.rank1 .bc-rank{background:var(--color-accent);color:#111318}
   /* 🧒 설명 말풍선·운영자 메모 — 라이트 전용 잉크색 텍스트 보정 */
   html.gdark .veasy{color:#E4EEF9}
-  html.gdark .anote{background:#211B0E;border-color:#4A3A14;color:#EBD9A8}
-  html.gdark .anote b{color:#FCD34D} html.gdark .anote .an-t{color:#FBBF24}
+  html.gdark .anote{background:var(--navy-soft);border-color:var(--line);color:var(--t2)}
+  html.gdark .anote b{color:var(--ink)} html.gdark .anote .an-t{color:var(--t3)}
   /* 시세 티커(양 테마 공통 카드형) · 숫자는 본문 서체 + 탭ular 정렬 */
   html.gdark .tape{background:#1C1C1E}
   .tape,.qprice,.card .score,.kpi b,.rr-total{font-family:var(--num);letter-spacing:-.01em}
@@ -1186,7 +1187,7 @@
   .cmp-side.b{text-align:right;align-items:flex-end}
   .cmp-nm{font-size:19px;font-weight:700;letter-spacing:-.01em}
   .cmp-pr{font-size:14px;font-variant-numeric:tabular-nums;color:var(--dim)}
-  .cmp-vs{color:var(--sky);font-size:15px;font-weight:700;padding-top:8px}
+  .cmp-vs{color:var(--faint);font-size:13px;font-weight:600;padding-top:8px;letter-spacing:.06em}
   .cmp-badge{font-size:11px;font-weight:700;color:#fff;border-radius:6px;
     padding:2px 8px;display:inline-block;letter-spacing:.03em}
   .cmp-legend{display:flex;gap:20px;justify-content:center;font-size:12.5px;color:var(--dim);margin:6px 0 4px}
@@ -1204,7 +1205,7 @@
   .cmp-abar{justify-content:flex-end}
   .cmp-abar i,.cmp-bbar i{display:block;height:100%;border-radius:99px}
   .cmp-lbl{text-align:center;color:var(--dim);font-size:12px}
-  .cmp-easy{margin-top:14px;padding:16px 18px;background:var(--sky-soft);border-radius:14px;
+  .cmp-easy{margin-top:14px;padding:16px 18px;background:var(--navy-soft);border-radius:14px;
     font-size:13.5px;line-height:1.75;color:var(--sky-ink)}
   .cmp-easy .ce-t{font-weight:700;font-size:14px;color:var(--navy);margin-bottom:8px}
   .cmp-easy p{margin:0 0 12px}
@@ -1234,10 +1235,10 @@
   .veasy b{color:var(--navy)}
   .veasy .ve-warn{display:block;margin-top:6px;font-size:11px;color:var(--faint)}
   /* 운영자(관리자) 한마디 — 단일분석·종목비교에 표시되는 관리자 메모 */
-  .anote{background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;
-    padding:12px 16px;margin:0 0 18px;font-size:13px;line-height:1.7;color:#78350F}
-  .anote b{color:#92400E}
-  .anote .an-t{font-weight:700;font-size:12.5px;margin-bottom:4px;color:#B45309}
+  .anote{background:var(--navy-soft);border:1px solid var(--line);border-radius:14px;
+    padding:12px 16px;margin:0 0 18px;font-size:13px;line-height:1.7;color:var(--t2)}
+  .anote b{color:var(--ink)}
+  .anote .an-t{font-weight:700;font-size:12.5px;margin-bottom:4px;color:var(--t3)}
   .verdict .call{font-size:34px;font-weight:700;letter-spacing:.01em;color:var(--navy)}
   .verdict .conf{color:var(--dim);font-size:13px}
   .verdict p{margin:14px 0 0;color:var(--t2);font-size:14.5px;line-height:1.75}
@@ -1245,7 +1246,7 @@
     border-radius:12px;font-size:13.5px;color:var(--t2)}
   .vtarget b{color:var(--navy)}
   .vreport{margin-top:16px;color:var(--t3);font-size:13.5px;line-height:1.85;
-    border-left:3px solid var(--sky);padding-left:16px}
+    border-left:2px solid var(--line2);padding-left:16px}
   /* 🧭 가격 나침반 — indicators.js의 이동평균·3개월 밴드로 자동 계산한 목표/지지/손절 참고선 */
   .vlevels{margin-top:12px;padding:14px 18px;background:var(--paper);border:1.5px solid var(--line);
     border-radius:12px;font-size:13px;color:var(--t2);line-height:1.95}
@@ -1255,14 +1256,14 @@
   .vlevels .dn{color:var(--red);font-weight:700}
   .vlevels .vl-note{margin-top:7px;font-size:11px;color:var(--faint);line-height:1.6}
   /* ⚡ 의견 갈림 경고 — 4인 점수 편차가 클 때 */
-  .vclash{margin:12px 0 0;padding:11px 15px;background:#FFF7ED;border:1.5px solid #FED7AA;
-    border-radius:12px;font-size:12.5px;color:#7C2D12;line-height:1.7}
-  .vclash b{color:#C2410C}
-  .clash-badge{font-size:10px;font-weight:700;color:#fff;background:#EA580C;border-radius:4px;
+  .vclash{margin:12px 0 0;padding:11px 15px;background:var(--navy-soft);border:1px solid var(--line);
+    border-radius:12px;font-size:12.5px;color:var(--t2);line-height:1.7}
+  .vclash b{color:var(--ink)}
+  .clash-badge{font-size:10px;font-weight:700;color:#8A6D2F;background:#FBF7ED;border:1px solid #E3D5B3;border-radius:5px;
     padding:2px 6px;margin-left:6px;vertical-align:2px;white-space:nowrap;cursor:help}
   /* 🌐 MACRO 시장국면 — 변동성 확대 구간에서 확신도를 낮춰 보여줄 때(판단 자체는 불변) */
-  .vmacro{margin:12px 0 0;padding:11px 15px;background:#EFF6FF;border:1.5px solid #BFDBFE;
-    border-radius:12px;font-size:12.5px;color:#1E3A8A;line-height:1.7}
+  .vmacro{margin:12px 0 0;padding:11px 15px;background:var(--navy-soft);border:1px solid var(--line);
+    border-radius:12px;font-size:12.5px;color:var(--t2);line-height:1.7}
   .vmacro b{color:#1D4ED8}
   /* 🎯 애널리스트 개인 통산 적중률 배지 (카드 헤더) */
   .accb{font-size:10px;font-weight:700;color:#7C5A0B;background:#FEF3C7;border:1px solid #FDE68A;
@@ -1301,12 +1302,12 @@
   /* 분석 티어 배지: 🧠 정밀분석(Claude) vs 🤖 자동분석(심부름꾼) */
   .tier-badge{font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;margin-left:8px;
     vertical-align:2px;white-space:nowrap;cursor:help}
-  .tier-deep{color:#fff;background:linear-gradient(180deg,#7C3AED,#6D28D9)}
-  .tier-auto{color:#92400E;background:#FEF3C7;border:1px solid #FCD34D}
+  .tier-deep{color:var(--bg);background:var(--ink)}
+  .tier-auto{color:var(--t3);background:var(--paper);border:1px solid var(--line2)}
   /* 자동분석 안내 배너 (종합 판단 위) */
-  .autonote{margin:0 0 14px;padding:11px 15px;background:#FFFBEB;border:1.5px solid #FDE68A;
-    border-radius:12px;font-size:12.5px;color:#78350F;line-height:1.7}
-  .autonote b{color:#B45309}
+  .autonote{margin:0 0 14px;padding:11px 15px;background:var(--navy-soft);border:1px solid var(--line);
+    border-radius:12px;font-size:12.5px;color:var(--t2);line-height:1.7}
+  .autonote b{color:var(--ink)}
   /* 칩(사이드바 종목)의 자동분석 표식 — 가장 작게 */
   .chip .auto-dot{font-size:7px;margin-left:2px;opacity:.65;vertical-align:1px}
   .stale{font-size:10px;font-weight:700;color:#fff;background:#F59E0B;letter-spacing:.02em;
@@ -1674,7 +1675,7 @@
   .gb-body b{color:var(--navy)}
   .gb-step{display:flex;gap:11px;margin-bottom:12px;align-items:flex-start}
   .gb-step:last-child{margin-bottom:0}
-  .gb-no{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--sky);color:#fff;
+  .gb-no{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--navy-soft);color:var(--navy);
     font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;margin-top:2px}
   .gb-sign{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line)}
   .gb-sign:last-child{border-bottom:none}
@@ -1683,10 +1684,10 @@
   .gb-dict dt{font-weight:700;color:var(--navy);margin-top:12px;font-size:13.5px}
   .gb-dict dt:first-child{margin-top:0}
   .gb-dict dd{margin:2px 0 0;color:var(--t3);font-size:13px;line-height:1.75}
-  .gb-warn{margin-top:4px;background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:12px;
-    padding:13px 16px;font-size:12.5px;color:#78350F;line-height:1.7}
-  .gb-tip{margin-top:10px;background:var(--sky-soft);border:1.5px solid var(--sky);border-radius:12px;
-    padding:12px 15px;font-size:12.5px;color:var(--navy);line-height:1.7}
+  .gb-warn{margin-top:4px;background:#FBF7ED;border:1px solid #EADFC2;border-radius:12px;
+    padding:13px 16px;font-size:12.5px;color:#6B5B39;line-height:1.7}
+  .gb-tip{margin-top:10px;background:var(--navy-soft);border:1px solid var(--line);border-radius:12px;
+    padding:12px 15px;font-size:12.5px;color:var(--t2);line-height:1.7}
   .gb-rotation-guide{border:1.5px solid var(--sky-line)}
   .gb-rotation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0}
   .gb-rotation-card{border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:11px 12px}
@@ -2466,7 +2467,7 @@
   .vlevels{margin-top:16px;padding:20px;background:var(--bg);border:0;border-radius:18px;
     font-size:13.5px;line-height:2}
   .vlevels .vl-t,.vlevels b{color:var(--ink)}
-  .vreport{max-width:780px;margin-top:28px;padding:0 0 0 18px;border-left:3px solid var(--sky);
+  .vreport{max-width:780px;margin-top:28px;padding:0 0 0 18px;border-left:2px solid var(--line2);
     color:var(--t2);font-size:15px;line-height:1.9}
   .vhistory{margin-top:36px;padding-top:28px}
   .vdisclaimer{margin-top:24px}
@@ -4443,7 +4444,7 @@ function evalRet(code, entry, days=EVAL_DAYS){
   const ev=evalClose(code, entry.date, days);
   return ev ? {pct:(ev.close-entry.base)/entry.base*100, date:ev.date} : null;
 }
-const VERDICT_LABEL={hit:'적중 ✅', miss:'빗나감 ✕', mid:'중립'};
+const VERDICT_LABEL={hit:'적중', miss:'빗나감', mid:'중립'};
 // 채점 뜻 설명(커서 올리면 뜸). 판단 후 5거래일 뒤 종가 대비 수익률로 판정.
 const VERDICT_TIP={
   hit:'적중 — 팀 판단대로 주가가 움직였어요. (SELL 뒤 하락 / BUY 뒤 상승 / HOLD가 ±5% 이내). 판단 후 5거래일 뒤 종가로 판정.',
@@ -4563,21 +4564,21 @@ function renderHistory(code, curPrice){
          <span style="font-size:11px;color:var(--dim);align-self:center;padding:0 4px">${hp}/${pageCount}p</span>
          <button class="vph-btn hh-btn" data-hdir="1" ${hp>=pageCount?'disabled':''} title="다음(최신)">›</button>
        </div>` : '';
-  // 📈 팀 판단 히스토리는 "계산 기준"과 같은 vev-item 아코디언으로 접어둔다 — 기본은 닫힌
+  // 팀 판단 히스토리는 "계산 기준"과 같은 vev-item 아코디언으로 접어둔다 — 기본은 닫힌
   // 상태로 시작해 화면을 덜 차지하고, 요약 줄에서 총 횟수와 최근 콜만 미리 보여준 뒤
   // 펼치면 날짜별 BUY/HOLD/SELL 표 전체가 나온다(눌렀다 폈다).
   const latestCall=rows[rows.length-1].call;
   let html=priceHtml+`<details class="vev-item vh-acc"><summary class="vev-summary">`+
-    `<span class="vev-summary-name">📈 팀 판단 히스토리</span>`+
+    `<span class="vev-summary-name">팀 판단 히스토리</span>`+
     `<span class="vev-summary-line">총 ${total}회 누적 · 최근 콜 ${latestCall}</span>`+
     `<span class="vev-badge hcall ${latestCall}">${latestCall}</span>`+
     `<span class="vev-arrow">▾</span></summary>`+
     `<div class="vev-body">`+
     `<div class="hsub" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">${single
-      ?'재분석이 쌓이면 신뢰도·콜 변화가 그래프로, 지난 판단이 적중 채점으로 표시됩니다. (지금은 첫 기록)'
-      :`점 색 = 그날의 콜(🟢BUY · 🟡HOLD · 🔴SELL) · 세로축 = 신뢰도${pageCount>1?` · 표는 10건씩(${startIdx+1}~${endIdx}번째)`:''}`}${pager}</div>`
+      ?'재분석이 쌓이면 확신도·콜 변화가 그래프로, 지난 판단이 적중 채점으로 표시됩니다. (지금은 첫 기록)'
+      :`점 색 = 그날의 콜(초록 BUY · 노랑 HOLD · 빨강 SELL) · 세로축 = 판단 확신도${pageCount>1?` · 표는 10건씩(${startIdx+1}~${endIdx}번째)`:''}`}${pager}</div>`
     + sparklineSVG(rows)
-    + '<div class="tbl-scroll"><table><thead><tr><th>일시</th><th>콜</th><th>신뢰도</th><th>기준가</th><th>이후 수익률</th><th>채점</th></tr></thead><tbody>';
+    + '<div class="tbl-scroll"><table><thead><tr><th>일시</th><th>콜</th><th>확신도</th><th>기준가</th><th>이후 수익률</th><th>채점</th></tr></thead><tbody>';
   pageRows.forEach((r,pi)=>{
     const i=startIdx+pi;
     const isLatest=(i===rows.length-1);
@@ -4675,7 +4676,7 @@ function pfAdviceHTML(code, price){
 function pfGuideText(code, price, avg, qty){
   const hasData=qty>0&&avg>0, plPct=(hasData&&price)?(price-avg)/avg*100:0;
   const e=analysisEntry(code), call=e&&e.chief?e.chief.call:null;
-  const tier=analysisTier(code)==='auto'?'🤖 자동분석':'🧠 정밀분석';
+  const tier=analysisTier(code)==='auto'?'자동분석':'정밀분석';
   const team = call==='BUY'?'개오팀은 이 종목을 <b>좋게(BUY)</b> 봐요. '
              : call==='SELL'?'개오팀은 이 종목을 <b>조심(SELL)</b>하라고 봐요. '
              : call==='HOLD'?'개오팀은 <b>지켜보라(HOLD)</b>고 봐요. '
@@ -5271,7 +5272,7 @@ function renderScorecard(){
     if(sub.length<20) return '';
     const a=scTally(sub,'ret',true), e=scTally(sub.filter(r=>r.exc!==null),'exc',true);
     const share=rows.length?Math.round(sub.length/rows.length*100):0;
-    return `<tr${cut>=Math.max(...cuts)?' class="sc-total-row"':''}><td>${cut===0?'전체':'신뢰도 '+cut+'% 이상'}</td>`+
+    return `<tr${cut>=Math.max(...cuts)?' class="sc-total-row"':''}><td>${cut===0?'전체':'확신도 '+cut+'% 이상'}</td>`+
       `<td class="num">${sub.length.toLocaleString()}<small style="color:var(--faint)"> (${share}%)</small></td>`+
       `<td class="num">${a.acc===null?'—':a.acc+'%'}</td><td class="num">${e.acc===null?'—':e.acc+'%'}</td></tr>`;
   }).filter(Boolean).join('');
@@ -5280,15 +5281,15 @@ function renderScorecard(){
   const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
   const confHead=`<thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>`;
   const confBlock=confRowsAll?`<div class="sc-block">
-    <h3>신뢰도가 높을수록 잘 맞을까 (전체 누적)</h3>
-    <p class="sc-sub">개오팀이 스스로 매긴 신뢰도(확신 정도)를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
+    <h3>확신도가 높을수록 잘 맞을까 (전체 누적)</h3>
+    <p class="sc-sub">개오팀이 스스로 매긴 판단 확신도를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
       <b>합친 표는 착시가 있어요.</b> 표본의 대부분(약 88%)을 SELL 판단이 차지해서, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsAll}</tbody></table></div>
-    ${confRowsBuy?`<p class="sc-sub" style="margin-top:16px"><b>BUY만 떼어 보면</b>, 신뢰도가 올라가도 성적이 합친 표만큼 뚜렷이 좋아지지 않아요.</p>
+    ${confRowsBuy?`<p class="sc-sub" style="margin-top:16px"><b>BUY만 떼어 보면</b>, 확신도가 올라가도 성적이 합친 표만큼 뚜렷이 좋아지지 않아요.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsBuy}</tbody></table></div>`:''}
     ${confRowsSell?`<p class="sc-sub" style="margin-top:16px"><b>SELL만 떼어 보면</b>, 위 개선 대부분이 여기서 나옵니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsSell}</tbody></table></div>`:''}
-    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다(HOLD 제외). 신뢰도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
+    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다(HOLD 제외). 확신도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
   </div>`:'';
 
   /* 🧪 2026-08-14: 신뢰도 자체를 「분석가 의견 일치도」가 아니라 「판단 종류·점수 구간별
@@ -5302,18 +5303,18 @@ function renderScorecard(){
     const q=(CM.promotion||{}).qualified;
     const reasons=(CM.promotion||{}).reasons||[];
     confModelShadow=`<div class="sc-block">
-      <h3>신뢰도 공식 재검증</h3>
-      <p class="sc-sub">지금 신뢰도는 분석가 4인의 의견이 얼마나 가까운지만 재요. 대신 <b>「이 점수대 판단이 실제로 몇 % 맞았는가」</b>를 신뢰도로 쓰는
+      <h3>확신도 공식 재검증</h3>
+      <p class="sc-sub">지금 확신도는 분석가 4인의 의견이 얼마나 가까운지만 재요. 대신 <b>「이 점수대 판단이 실제로 몇 % 맞았는가」</b>를 확신도로 쓰는
       후보를 만들어, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이 적중 여부를 더 잘 가르는지 매 분석 주기 확인합니다.</p>
       <div class="sc-stat-row">
-        <div class="sc-stat"><b>${base.tierSpreadPp==null?'—':base.tierSpreadPp+'pp'}</b><span>기존 신뢰도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
-        <div class="sc-stat"><b>${cand.tierSpreadPp==null?'—':cand.tierSpreadPp+'pp'}</b><span>후보 신뢰도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
+        <div class="sc-stat"><b>${base.tierSpreadPp==null?'—':base.tierSpreadPp+'pp'}</b><span>기존 확신도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
+        <div class="sc-stat"><b>${cand.tierSpreadPp==null?'—':cand.tierSpreadPp+'pp'}</b><span>후보 확신도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
         <div class="sc-stat"><b>${ev.testDays||0}일</b><span>검증 거래일<br>(최소 40일 필요)</span></div>
-        <div class="sc-stat"><b>${q?'✅ 승격':'🔬 그림자'}</b><span>${q?'화면 신뢰도에 반영 중':'화면엔 아직 미반영'}</span></div>
+        <div class="sc-stat"><b>${q?'승격':'그림자'}</b><span>${q?'화면 확신도에 반영 중':'화면엔 아직 미반영'}</span></div>
       </div>
-      <div class="sc-foot-note">${q?'검증을 통과해 실제 신뢰도 계산에 쓰이고 있습니다.':
-        '아직 승격 기준 미달: '+esc(reasons.join(' · ')||'표본 부족')+'. 데이터가 더 쌓일 때까지 화면 신뢰도는 기존 방식 그대로입니다.'}
-        상위 1/3과 하위 1/3의 적중률 차이가 클수록, 그 신뢰도 값이 잘 맞는 판단과 못 맞는 판단을 실제로 잘 구분한다는 뜻이에요. 후보 값이 음수라면 오히려 반대로 작동한다는 뜻이라 승격되지 않습니다.</div>
+      <div class="sc-foot-note">${q?'검증을 통과해 실제 확신도 계산에 쓰이고 있습니다.':
+        '아직 승격 기준 미달: '+esc(reasons.join(' · ')||'표본 부족')+'. 데이터가 더 쌓일 때까지 화면 확신도는 기존 방식 그대로입니다.'}
+        상위 1/3과 하위 1/3의 적중률 차이가 클수록, 그 확신도 값이 잘 맞는 판단과 못 맞는 판단을 실제로 잘 구분한다는 뜻이에요. 후보 값이 음수라면 오히려 반대로 작동한다는 뜻이라 승격되지 않습니다.</div>
     </div>`;
   }
 
@@ -5386,7 +5387,7 @@ function renderScorecard(){
     const bestA=ranked[0], worstA=ranked[ranked.length-1];
     const team=TW.global.team;
     const teamNote=(team&&team.acc!=null)
-      ? `<div class="sc-team-note">🤝 개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}도 ${bestA.acc}%인데, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 한 명의 관점만 따르는 것보다 서로 다른 관점을 종합할 때 더 정확해진다는 뜻이에요.</div>`
+      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}도 ${bestA.acc}%인데, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 한 명의 관점만 따르는 것보다 서로 다른 관점을 종합할 때 더 정확해진다는 뜻이에요.</div>`
       : '';
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};
@@ -5411,7 +5412,7 @@ function renderScorecard(){
       <div class="sc-bars">${bars}</div>
       <p class="sc-explain">재무·기본적 분석은 단기 타이밍보다 기업의 중장기 품질을 보는 도구입니다. 그래서 DIANA는 20거래일 뒤 ±3% 기준으로 따로 채점하고, 종합점수 기본 발언권도 12%로 제한했습니다. 다른 분석가는 5거래일 뒤 ±1% 기준입니다. 표본이 작은 업종 성적은 전역 성적과 섞어 과대평가를 줄입니다.</p>
       ${teamNote}
-      ${chips?`<div class="sc-chip-head">📍 업종별로는 승자가 달라요 (표본 100건 이상만 집계)</div><div class="sc-chips">${chips}</div>`:''}
+      ${chips?`<div class="sc-chip-head">업종별로는 승자가 달라요 (표본 100건 이상만 집계)</div><div class="sc-chips">${chips}</div>`:''}
       <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
     </div>`;
   }
@@ -6011,8 +6012,8 @@ renderHomeDeepAnalysis();
       ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
       (model.buy.length
-        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>신뢰도순</span></div><div class="hdb-preview">${preview}</div>`+
-          `<span class="hdb-rank-note">· 신뢰도(분석가 의견이 얼마나 일치하는지)가 높은 순으로 정렬했고, 신뢰도가 같으면 종합점수 순이에요.</span>`+
+        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>판단 확신도순</span></div><div class="hdb-preview">${preview}</div>`+
+          `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
           `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
           `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
@@ -6239,8 +6240,8 @@ function homeBriefDecisionModel(tally){
     HOLD:Number(tally&&tally.counts&&tally.counts.HOLD)||0,
     SELL:Number(tally&&tally.counts&&tally.counts.SELL)||0
   };
-  // ⭐ 2026-08-14 사용자 지정 — BUY 상위 종목은 신뢰도(confidence)가 높은 순서를 최우선으로,
-  // 신뢰도가 같거나 없으면 종합점수(total) 순으로 정렬한다.
+  // ⭐ 2026-08-14 사용자 지정 — BUY 상위 종목은 판단 확신도(confidence)가 높은 순서를 최우선으로,
+  // 확신도가 같거나 없으면 종합점수(total) 순으로 정렬한다.
   const buy=Array.isArray(tally&&tally.buy)?tally.buy.slice().sort((a,b)=>{
     const ac=Number.isFinite(a.confidence)?a.confidence:-1, bc=Number.isFinite(b.confidence)?b.confidence:-1;
     if(bc!==ac) return bc-ac;
@@ -6779,7 +6780,7 @@ function paSnapshotHTML(snap,code){
   return `<div class="pa-summary">`+
     `<div class="pa-chief"><span class="pa-call ${paCallClass(chief.call)}">${esc(chief.call||'—')}</span>`+
     `<span class="pa-total">${chief.total!=null?chief.total+'점':'—'}</span>`+
-    `<span class="pa-conf">신뢰도 ${chief.confidence!=null?chief.confidence+'%':'—'}</span></div>`+
+    `<span class="pa-conf">판단 확신도 ${chief.confidence!=null?chief.confidence+'%':'—'}</span></div>`+
     `<p class="pa-reason">${esc(chief.reason||chief.report||'')}</p>`+
     (chief.target?`<div class="pa-target">${esc(chief.target)}</div>`:'')+
     `<div class="pa-base">당시 기준가 ${snap.base!=null?won(snap.base):'—'}${snap.baseAt?' ('+esc(snap.baseAt)+')':''}</div>`+
@@ -7872,7 +7873,7 @@ function getMovingAverageInterpretation(ev){
   if(ev.type.slice(-12)==='golden_cross'){
     return `${short} 이동평균선이 ${long} 이동평균선을 위로 돌파했습니다. ${term} 상승 추세가 시작될 가능성을 보여주는 기술적 신호입니다.<br><br>`+
       `다만 이동평균선은 이미 지난 가격의 평균으로 계산되는 <b>후행지표</b>라 신호가 다소 늦게 나타날 수 있습니다. `+
-      `최근 가격 흐름과 거래량이 함께 좋아지고 있는지 확인하면 신뢰도를 높일 수 있어요.`;
+      `최근 가격 흐름과 거래량이 함께 좋아지고 있는지 확인하면 신호를 더 믿을 수 있어요.`;
   }
   if(ev.type.slice(-10)==='dead_cross'){
     return `${short} 이동평균선이 ${long} 이동평균선 아래로 내려왔습니다. ${term} 흐름이 약해지고 있다는 신호로 해석할 수 있습니다.<br><br>`+
@@ -8306,7 +8307,7 @@ function macroAdjustConf(conf){
   const adj=Math.max(20, Math.round(conf*MACRO_REGIME.damp));
   if(adj>=conf) return {conf, damped:false};
   return {conf:adj, raw:conf, damped:true,
-    note:`🌐 <b>시장국면 「${MACRO_REGIME.label}」</b> — 최근 ${MACRO_REGIME.n}거래일 코스피 등락률의 흔들림(표준편차 ${MACRO_REGIME.vol}%p)이 커서, 원래 확신도 ${conf}%를 <b>${adj}%</b>로 낮춰 표시했어요. `+
+    note:`<b>시장국면 「${MACRO_REGIME.label}」</b> — 최근 ${MACRO_REGIME.n}거래일 코스피 등락률의 흔들림(표준편차 ${MACRO_REGIME.vol}%p)이 커서, 원래 확신도 ${conf}%를 <b>${adj}%</b>로 낮춰 표시했어요. `+
       `BUY/HOLD/SELL 판단 자체는 그대로예요 — 다만 요즘같이 시장 전체가 출렁이는 장에서는 확신도를 에누리해서 보는 게 안전해요.`};
 }
 function riskDecisionOverlay(code){
@@ -8442,11 +8443,11 @@ function setAnalystTab(key){
 const EVAL_RULE_DETAILS=Object.freeze({
   taro:{
     title:'TARO 평가 기준',
-    body:'<p><b>5거래일</b>: 판단한 날의 다음 거래일부터 세어 약 일주일 뒤 종가로 결과를 확인합니다.</p><p><b>±1% 초과 채점</b>: 강세 의견 뒤 +1%를 넘게 오르면 적중, -1%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -1% 이상 +1% 이하는 애매한 움직임이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 30%</b>: CHIEF가 네 분석가 의견을 합칠 때 TARO에 먼저 배정하는 시작 비중입니다. 상승확률이나 신뢰도 30%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 변동</b>: 기본값은 30%지만 실제 합산 비중은 적중률, 표본 수, 업종별 성적과 다른 분석가와의 오답 중복을 반영해 성적 재계산 때마다 높아지거나 낮아질 수 있습니다.</p>',
+    body:'<p><b>5거래일</b>: 판단한 날의 다음 거래일부터 세어 약 일주일 뒤 종가로 결과를 확인합니다.</p><p><b>±1% 초과 채점</b>: 강세 의견 뒤 +1%를 넘게 오르면 적중, -1%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -1% 이상 +1% 이하는 애매한 움직임이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 30%</b>: CHIEF가 네 분석가 의견을 합칠 때 TARO에 먼저 배정하는 시작 비중입니다. 상승확률이나 확신도 30%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 변동</b>: 기본값은 30%지만 실제 합산 비중은 적중률, 표본 수, 업종별 성적과 다른 분석가와의 오답 중복을 반영해 성적 재계산 때마다 높아지거나 낮아질 수 있습니다.</p>',
   },
   diana:{
     title:'DIANA 평가 기준',
-    body:'<p><b>20거래일</b>: 판단한 날의 다음 거래일부터 세어 약 한 달 뒤 종가로 결과를 확인합니다. 재무와 기업가치는 단기 차트보다 가격에 반영되는 시간이 길어서 별도 기간을 씁니다.</p><p><b>±3% 초과 채점</b>: 강세 의견 뒤 +3%를 넘게 오르면 적중, -3%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -3% 이상 +3% 이하는 방향이 분명하지 않은 구간이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 12%</b>: CHIEF가 네 분석가 의견을 합칠 때 DIANA에 먼저 배정하는 시작 비중입니다. DIANA가 맞을 확률이나 신뢰도가 12%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 계속 변동</b>: 설계상 출발점인 12% 자체는 정책을 바꿀 때만 달라지지만, 화면의 실제 합산 비중은 20거래일 장기 적중률, 표본 수 보정, 업종별 성적과 오답 중복을 반영해 성적 재계산 때마다 12%보다 높아지거나 낮아질 수 있습니다.</p>',
+    body:'<p><b>20거래일</b>: 판단한 날의 다음 거래일부터 세어 약 한 달 뒤 종가로 결과를 확인합니다. 재무와 기업가치는 단기 차트보다 가격에 반영되는 시간이 길어서 별도 기간을 씁니다.</p><p><b>±3% 초과 채점</b>: 강세 의견 뒤 +3%를 넘게 오르면 적중, -3%보다 더 내리면 오답입니다. 약세 의견은 반대로 채점합니다. -3% 이상 +3% 이하는 방향이 분명하지 않은 구간이라 평가에서 제외하며 오답으로 세지 않습니다.</p><p><b>기본 12%</b>: CHIEF가 네 분석가 의견을 합칠 때 DIANA에 먼저 배정하는 시작 비중입니다. DIANA가 맞을 확률이나 확신도가 12%라는 뜻은 아닙니다.</p><p><b>실제 발언권은 계속 변동</b>: 설계상 출발점인 12% 자체는 정책을 바꿀 때만 달라지지만, 화면의 실제 합산 비중은 20거래일 장기 적중률, 표본 수 보정, 업종별 성적과 오답 중복을 반영해 성적 재계산 때마다 12%보다 높아지거나 낮아질 수 있습니다.</p>',
   },
   nova:{
     title:'QUANT 평가 기준',
@@ -8458,11 +8459,11 @@ const EVAL_RULE_DETAILS=Object.freeze({
   },
   risk:{
     title:'RISK 적용 기준',
-    body:'<p><b>가점 없음</b>: 저위험 종목이라고 종합점수를 올리지는 않습니다.</p><p><b>중위험</b>: 방향 점수는 유지하고 신뢰도만 낮춥니다.</p><p><b>고위험 최대 -7점</b>: 변동성과 최대 낙폭이 큰 종목은 종합점수를 최대 7점, 신뢰도를 10%p 낮춥니다. RISK는 매수나 매도 의견을 내는 분석가가 아니라 과한 확신을 막는 안전장치입니다.</p>',
+    body:'<p><b>가점 없음</b>: 저위험 종목이라고 종합점수를 올리지는 않습니다.</p><p><b>중위험</b>: 방향 점수는 유지하고 확신도만 낮춥니다.</p><p><b>고위험 최대 -7점</b>: 변동성과 최대 낙폭이 큰 종목은 종합점수를 최대 7점, 확신도를 10%p 낮춥니다. RISK는 매수나 매도 의견을 내는 분석가가 아니라 과한 확신을 막는 안전장치입니다.</p>',
   },
   chief:{
     title:'CHIEF 최종 합산 기준',
-    body:'<p><b>4인 보정 가중합</b>: TARO, DIANA, QUANT, FLOW의 점수를 단순 평균하지 않고 역할별 기본비중에서 시작해 실제 적중률, 표본 수, 업종별 성적과 오답 중복을 반영한 현재 발언권으로 합칩니다.</p><p><b>RISK 감점 후 최종</b>: 합산한 방향 원점수에 RISK의 단방향 감점과 신뢰도 조정을 적용해 최종 BUY, HOLD, SELL을 결정합니다.</p>',
+    body:'<p><b>4인 보정 가중합</b>: TARO, DIANA, QUANT, FLOW의 점수를 단순 평균하지 않고 역할별 기본비중에서 시작해 실제 적중률, 표본 수, 업종별 성적과 오답 중복을 반영한 현재 발언권으로 합칩니다.</p><p><b>RISK 감점 후 최종</b>: 합산한 방향 원점수에 RISK의 단방향 감점과 확신도 조정을 적용해 최종 BUY, HOLD, SELL을 결정합니다.</p>',
   },
 });
 function evalRuleBadge(key,text){
@@ -8976,7 +8977,7 @@ function renderRiskCard(code,data){
     `하루 변동폭: 최근 한 달간 하루 평균 ±${r.vol20}% 출렁였어요 — ${volDesc}`,
     `최대낙폭: 최근 3개월 안에서 고점 대비 최대 ${r.mdd3m}%까지 빠진 적이 있어요 — 이만큼의 하락은 이 종목에선 '있을 수 있는 일'이라는 뜻이에요`,
     (r.pos52w!=null?`52주 가격 위치: 1년 범위에서 지금은 ${r.pos52w}% 지점이에요 (0%=1년 최저가, 100%=1년 최고가)`:'52주 가격 위치: 데이터가 부족해 계산하지 못했어요'),
-    `점수 산정 방식: 위험은 매수 근거로 쓰지 않고, 현재 안정도에서는 방향 원점수에서 ${overlay.penalty}점과 신뢰도에서 ${overlay.confPenalty}%p를 낮춰 과감한 판단을 억제해요`,
+    `점수 산정 방식: 위험은 매수 근거로 쓰지 않고, 현재 안정도에서는 방향 원점수에서 ${overlay.penalty}점과 확신도에서 ${overlay.confPenalty}%p를 낮춰 과감한 판단을 억제해요`,
   ];
   cardsEl.insertAdjacentHTML('beforeend',
     `<div class="card on" id="card-risk">
@@ -9513,7 +9514,7 @@ function renderGuide(){
       <div class="gb-agent"><b>DIANA · 재무</b>회사의 재무와 기업가치를 봐요 (PER·PBR·ROE·목표주가)</div>
       <div class="gb-agent"><b>QUANT · 확률</b>과거에 비슷했던 상황의 실제 승률을 계산해요</div>
       <div class="gb-agent"><b>FLOW · 수급</b>외국인·기관이 사고 있는지 팔고 있는지 추적해요</div>
-      <div class="gb-agent"><b>RISK · 위험</b>얼마나 험하게 출렁이는지 재요. 위험할 때만 점수와 신뢰도를 낮추는 안전장치예요</div>
+      <div class="gb-agent"><b>RISK · 위험</b>얼마나 험하게 출렁이는지 재요. 위험할 때만 점수와 확신도를 낮추는 안전장치예요</div>
       <div class="gb-agent"><b>ROTATION · 업종</b>시장 전체와 업종 흐름이 어디로 움직이는지 봐요</div>
       <div class="gb-agent"><b>CHIEF · 종합</b>위 정보를 모아 최종 판단을 정리해요</div>
     </div>
@@ -9554,13 +9555,13 @@ function renderGuide(){
   <details class="gb-sec">
     <summary><span class="gb-num">03</span><span class="gb-t">분석가들은 무엇을 하나요?<span class="gb-sub">일곱 가지 역할</span></span></summary>
     <div class="gb-body">
-      <p><b>📈 TARO · 기술적 분석가</b><br>
+      <p><b>TARO · 기술적 분석가</b><br>
       종가가 <b>20일·60일 이동평균선</b> 위인지, <b>RSI(14)</b>가 과열·중립·과매도 중 어디인지,
       <b>MACD와 시그널선</b>의 방향, 최근 20일 평균 대비 <b>거래량 강도</b>를 봅니다.
       회사의 장기 가치보다 지금 주가의 추세와 타이밍을 판단하며, 강세·약세 의견은
       <b>5거래일 뒤 수익률이 ±1%를 넘었는지</b>로 평가합니다. 역할 기본비중은 <b>30%</b>입니다.</p>
 
-      <p><b>💰 DIANA · 재무·기본적 분석가</b><br>
+      <p><b>DIANA · 재무·기본적 분석가</b><br>
       이익 대비 가격인 <b>PER</b>, 자산 대비 가격인 <b>PBR</b>, 자기자본 수익성인 <b>ROE</b>,
       주당이익인 <b>EPS</b>, 컨센서스 EPS로 계산한 <b>선행 PER</b>, 증권사 평균 목표주가와
       현재가의 차이, 같은 업종 안에서의 밸류에이션 순위를 봅니다. 단기 차트 타이밍보다
@@ -9569,32 +9570,32 @@ function renderGuide(){
       일치했는지를 적중·오답으로 기록합니다. CHIEF 역할 기본비중은 <b>12%</b>로 제한하고,
       여기에 작은 표본을 50% 쪽으로 완화한 <b>실제 장기 보정 적중률</b>을 곱해 최종 발언권을 계산합니다.</p>
 
-      <p><b>📊 QUANT · 확률·통계 분석가</b><br>
+      <p><b>QUANT · 확률·통계 분석가</b><br>
       RSI, 이동평균선 위치, 최근 가격 흐름처럼 현재와 비슷한 상태를 과거 ${COVERAGE_TXT} 기록에서 찾아
       <b>5거래일 뒤 실제로 오른 비율, 평균 수익률, 표본 수</b>를 계산합니다. 감이나 뉴스 해석이 아니라
       유사 사례의 실제 빈도를 점수로 사용하며, 의견 평가는 <b>5거래일·±1%</b> 기준입니다.
       역할 기본비중은 <b>28%</b>입니다.</p>
 
-      <p><b>🌊 FLOW · 수급 분석가</b><br>
+      <p><b>FLOW · 수급 분석가</b><br>
       최근 거래일의 <b>외국인·기관 순매수와 순매도</b>, 외국인 보유율 변화, 매수 지속일,
       외국인·기관 동반 매수·매도, 최근 수급의 가속도를 봅니다. 가격은 내리는데 큰손이 사는
       <b>매집형 괴리</b>, 가격은 오르는데 큰손이 파는 <b>분배형 괴리</b>도 함께 표시합니다.
       의견 평가는 <b>5거래일·±1%</b> 기준이며 역할 기본비중은 <b>30%</b>입니다.</p>
 
-      <p><b>🛡️ RISK · 위험 관리자</b><br>
+      <p><b>RISK · 위험 관리자</b><br>
       최근 20일 변동성, 3개월 최대 낙폭과 가격 범위를 이용해 저위험·중위험·고위험으로 구분합니다.
       RISK는 다섯 번째 매수·매도 의견이 아닙니다. <b>저위험이라고 점수를 올리지 않고</b>, 중위험이면
-      신뢰도만 낮추며, 고위험이면 방향 원점수에서 <b>최대 7점</b>과 신뢰도 <b>10%p</b>를 낮추는
+      확신도만 낮추며, 고위험이면 방향 원점수에서 <b>최대 7점</b>과 확신도 <b>10%p</b>를 낮추는
       단방향 안전장치입니다.</p>
 
       <p><b>CHIEF · 종합 의사결정</b><br>
       TARO·DIANA·QUANT·FLOW의 점수를 단순 평균하지 않습니다. 역할 기본비중
       <b>30%·12%·28%·30%</b>에 각 분석가의 표본 보정 적중률을 반영하고, 업종 표본이 충분하면
       업종별 성적도 전역 성적과 섞어 발언권을 조절합니다. 그 합산점수에 RISK 감점을 적용해
-      최종 BUY·HOLD·SELL과 신뢰도를 냅니다. 작은 표본의 우연한 고득점이 바로 큰 발언권이 되지
+      최종 BUY·HOLD·SELL과 확신도를 냅니다. 작은 표본의 우연한 고득점이 바로 큰 발언권이 되지
       않도록 베이지안 보정을 사용하며, 역할별 현재 발언권은 성적표에서 확인할 수 있습니다.</p>
 
-      <div class="gb-tip">💡 <b>기간이 다른 이유</b>: TARO·QUANT·FLOW는 단기 흐름을 보는 역할이라 약 1주인
+      <div class="gb-tip"><b>기간이 다른 이유</b>: TARO·QUANT·FLOW는 단기 흐름을 보는 역할이라 약 1주인
       5거래일 뒤를 확인합니다. DIANA의 재무·가치 판단은 가격에 반영되는 데 시간이 더 필요하므로
       약 한 달인 20거래일 뒤를 확인합니다. 서로 다른 역할을 같은 5일 잣대로 평가하면 DIANA가 구조적으로
       불리해지기 때문에 평가 기간과 보류 범위를 분리했습니다.</div>
@@ -9607,18 +9608,18 @@ function renderGuide(){
       ${sign('var(--color-positive-soft)','#126B4D','BUY','분석 기준에서 긍정 신호가 우세하다는 뜻이에요. 매수 추천은 아니에요.')}
       ${sign('var(--color-warning-soft)','#755B2E','HOLD','긍정과 부정 신호가 비슷해 방향을 단정하기 어렵다는 뜻이에요.')}
       ${sign('var(--color-negative-soft)','#B63D3D','SELL','분석 기준에서 부정 신호가 우세하다는 뜻이에요. 매도 추천은 아니에요.')}
-      ${sign('var(--sky-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
-      ${sign('var(--sky-soft)','var(--navy)','신뢰도 %','팀이 이 판단에 얼마나 자신 있는지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
-      ${sign('#6D28D9','#fff','🧠 정밀분석','가격·재무·수급과 함께 뉴스와 공시까지 살펴본 분석이에요.')}
-      ${sign('#FEF3C7','#92400E','🤖 자동분석','컴퓨터가 차트·재무·수급 숫자만 보고 규칙대로 계산한 분석이에요. 뉴스는 반영 안 돼 있어요.')}
-      ${sign('#EA580C','#fff','⚡의견갈림','분석가들끼리 점수가 크게 엇갈렸다는 경고예요. 이런 종목은 평균 점수만 믿지 말고 한 번 더 생각!')}
-      ${sign('#a16207','#fff','🛡️ RISK 등급','이 종목이 얼마나 험하게 움직이는지예요. 안정은 점수를 올리지 않고, 위험할 때만 방향 원점수에서 최대 7점과 신뢰도를 낮춰 성급한 판단을 막아요.')}
-      ${sign('var(--sky-soft)','var(--navy)','🌐 시장국면','요즘 코스피가 얼마나 출렁이는지를 보고 "변동성 확대" 국면이면 팀의 확신도(%) 숫자를 자동으로 낮춰 보여줘요. BUY/HOLD/SELL 판단은 그대로고, 딱 "확신도"만 에누리하는 거예요 — 시장이 심하게 흔들릴 때 팀도 100% 확신하지 않는다는 걸 정직하게 보여주는 장치예요.')}
-      ${sign('var(--sky-soft)','var(--navy)','🧭 가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
-      ${sign('var(--sky-soft)','var(--navy)','⏳평가중','TARO·QUANT·FLOW와 팀 판단은 <b>5거래일 뒤</b>, 장기 재무를 보는 DIANA는 <b>20거래일 뒤</b> 종가로 채점해요. 각 역할의 기간이 아직 지나지 않은 판단이에요.')}
-      ${sign('#059669','#fff','📈 초록 꺾은선','왼쪽 종목 목록과 시세 카드에 있는 작은 그래프예요. <b>표시된 기간(최근 며칠)의 첫날보다 지금 주가가 높으면</b> 초록색이에요 = "그동안 올랐다".')}
-      ${sign('#D5535D','#fff','📉 빨강 꺾은선','같은 그래프가 빨간색이면 <b>그 기간 첫날보다 지금이 낮다</b> = "그동안 내렸다"는 뜻이에요.')}
-      <div class="gb-tip">💡 <b>헷갈리기 쉬운 점!</b> 이 꺾은선의 <b>색</b>은 <b>최근 며칠간의 흐름</b>을 보여주고,
+      ${sign('var(--navy-soft)','var(--navy)','종합 점수','100점 만점. 63점 이상이면 BUY, 47~62점은 HOLD, 그 밑은 SELL이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','판단 확신도 %','지금 판단이 얼마나 또렷한지예요. 낮으면 "잘 모르겠다"는 뜻이니 더 조심!')}
+      ${sign('var(--ink)','var(--bg)','정밀분석','가격·재무·수급과 함께 뉴스와 공시까지 살펴본 분석이에요.')}
+      ${sign('var(--navy-soft)','var(--t2)','자동분석','컴퓨터가 차트·재무·수급 숫자만 보고 규칙대로 계산한 분석이에요. 뉴스는 반영 안 돼 있어요.')}
+      ${sign('#FBF7ED','#8A6D2F','의견 갈림','분석가들끼리 점수가 크게 엇갈렸다는 경고예요. 이런 종목은 평균 점수만 믿지 말고 한 번 더 생각!')}
+      ${sign('#FBF7ED','#8A6D2F','RISK 등급','이 종목이 얼마나 험하게 움직이는지예요. 안정은 점수를 올리지 않고, 위험할 때만 방향 원점수에서 최대 7점과 확신도를 낮춰 성급한 판단을 막아요.')}
+      ${sign('var(--navy-soft)','var(--navy)','시장국면','요즘 코스피가 얼마나 출렁이는지를 보고 "변동성 확대" 국면이면 팀의 확신도(%) 숫자를 자동으로 낮춰 보여줘요. BUY/HOLD/SELL 판단은 그대로고, 딱 "확신도"만 에누리하는 거예요 — 시장이 심하게 흔들릴 때 팀도 100% 확신하지 않는다는 걸 정직하게 보여주는 장치예요.')}
+      ${sign('var(--navy-soft)','var(--navy)','가격 나침반','"어디까지 오를 수 있고(목표), 어디서 버티고(지지선), 어디를 깨지면 물러날지(손절)"를 숫자로 보여줘요.')}
+      ${sign('var(--navy-soft)','var(--navy)','평가중','TARO·QUANT·FLOW와 팀 판단은 <b>5거래일 뒤</b>, 장기 재무를 보는 DIANA는 <b>20거래일 뒤</b> 종가로 채점해요. 각 역할의 기간이 아직 지나지 않은 판단이에요.')}
+      ${sign('#059669','#fff','초록 꺾은선','왼쪽 종목 목록과 시세 카드에 있는 작은 그래프예요. <b>표시된 기간(최근 며칠)의 첫날보다 지금 주가가 높으면</b> 초록색이에요 = "그동안 올랐다".')}
+      ${sign('#D5535D','#fff','빨강 꺾은선','같은 그래프가 빨간색이면 <b>그 기간 첫날보다 지금이 낮다</b> = "그동안 내렸다"는 뜻이에요.')}
+      <div class="gb-tip"><b>헷갈리기 쉬운 점!</b> 이 꺾은선의 <b>색</b>은 <b>최근 며칠간의 흐름</b>을 보여주고,
       이름 옆에 붙은 빨강·파랑 <b>%</b> 숫자는 <b>어제 대비 오늘 하루</b> 변화예요. 둘은 기간이 달라요.
       그래서 "오늘 등락률은 파란색(하락)인데 꺾은선은 초록색"인 경우가 생겨요 — <b>오늘은 조금 빠졌어도, 최근 며칠 전체로 보면 아직 올라 있다</b>는 뜻이에요.
       (참고: 한국 증시는 오르면 빨강·내리면 파랑이지만, 이 <b>작은 꺾은선만은</b> 세계 공통 방식대로 오르면 초록·내리면 빨강으로 그려요.)</div>
@@ -9700,7 +9701,7 @@ function renderGuide(){
   <details class="gb-sec">
     <summary><span class="gb-num">07-1</span><span class="gb-t">QUANT는 확률을 어떻게 계산하나요?<span class="gb-sub">자가 학습 가중치</span></span></summary>
     <div class="gb-body">
-      <b>📊 QUANT(확률·통계 분석가)는 뭘 하나요?</b><br>
+      <b>QUANT(확률·통계 분석가)는 뭘 하나요?</b><br>
       "지금 이 종목이 RSI 42에 20일선 아래, 최근 5일 횡보" 같은 <b>현재 상태</b>를 보고,
       개오가 매일 모아온 ${COVERAGE_TXT} 일봉 기록에서 <b>과거에 이것과 비슷한 상태였던 사례</b>를 전부 찾아요.
       그리고 그 사례들이 <b>5거래일 뒤 실제로 올랐는지 내렸는지를 세서 승률</b>로 알려줘요.
@@ -9711,18 +9712,18 @@ function renderGuide(){
       <b>예전 NOVA(뉴스·심리)는 어디 갔나요?</b><br>
       자동분석의 NOVA는 사실 뉴스를 못 읽고 가격 흐름으로 분위기를 "추정"만 했어요.
       그래서 2026년 7월 21일부터 그 자리를 <b>실측 통계를 내는 QUANT</b>로 바꿨어요.
-      진짜 뉴스를 읽는 분석은 🧠 정밀분석과 📰 뉴스분석 탭에서 계속 볼 수 있어요.<br><br>
-      <b>🧠 자가 학습 가중치는 뭔가요?</b><br>
+      진짜 뉴스를 읽는 분석은 정밀분석과 뉴스분석 탭에서 계속 볼 수 있어요.<br><br>
+      <b>자가 학습 가중치는 뭔가요?</b><br>
       CHIEF는 네 분석가(기술·재무·확률·수급)의 점수를 합쳐 최종 판단을 내리는데,
       네 명을 같은 기간과 같은 비중으로 보지 않아요. TARO·QUANT·FLOW는 5거래일, DIANA는
       20거래일 뒤 결과로 채점합니다. <b>역할 기본비중과 표본수를 보정한 적중률</b>을 함께 사용해
       우연히 몇 번 맞힌 분석가가 과도한 발언권을 갖지 않게 했어요. 업종별 성적도 전역 성적과
       부드럽게 섞어 표본이 작은 업종의 과적합을 줄였어요. 가중치는 매 분석 사이클마다 자동으로 다시 계산되고,
       성적표에서 지금 누가 몇 %의 가중치를 받는지 볼 수 있어요.<br><br>
-      <div class="gb-tip">💡 즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
+      <div class="gb-tip">즉, 개오팀은 이제 <b>자기 성적표를 보고 스스로 배우는 팀</b>이에요.
       잘 맞히면 발언권이 커지고, 자꾸 틀리면 발언권이 줄어요. 다만 모든 통계가 그렇듯
       과거가 미래를 보장하진 않아요 — 참고용으로 봐주세요!</div><br>
-      <b>🔍 성적표를 읽는 세 가지 눈 (2026년 8월 14일 개편)</b><br>
+      <b>성적표를 읽는 세 가지 눈 (2026년 8월 14일 개편)</b><br>
       예전 성적표는 적중률을 <b>하나의 숫자</b>로만 보여줬어요. 그런데 그 숫자에는 두 가지 문제가 있었어요.
       ① HOLD는 주가가 ±5%를 벗어나 크게 움직여도 「빗나감」으로 안 세고 그냥 빼버려서 HOLD 적중률이 항상 100%로 나왔고,
       ② 오르든 내리든 <b>주가의 절대 방향</b>만 봤기 때문에, 시장이 통째로 오른 주에는 BUY가, 내린 주에는 SELL이 자동으로 맞는 것처럼 보였어요.
@@ -9731,7 +9732,7 @@ function renderGuide(){
       ${sign('var(--sky-soft)','var(--navy)','판단 종류별 성적','BUY·HOLD·SELL을 <b>합치지 않고 따로</b> 보여줘요. 합친 숫자는 어느 판단이 잘 맞고 어느 판단이 망가졌는지를 가려버리기 때문이에요. HOLD도 ±5%를 벗어나면 정직하게 빗나감으로 셉니다.')}
       ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 분석 종목 전체의 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
       ${sign('var(--sky-soft)','var(--navy)','신뢰도 구간별(BUY·SELL 분리)','신뢰도(확신 정도)가 높다고 표시한 판단만 골라서 다시 채점한 표예요. BUY와 SELL을 나눠서 보여드려요.')}
-      <div class="gb-tip">💡 <b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 분석 종목 전부를 잘 맞히지는 못해요.
+      <div class="gb-tip"><b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 분석 종목 전부를 잘 맞히지는 못해요.
       전체 BUY·SELL 판단의 시장 대비 적중률은 동전 던지기와 크게 다르지 않아요.
       <b>신뢰도가 높을수록 성적이 좋아지는 건 SELL 판단에서만 뚜렷해요.</b> 예전엔 BUY·SELL을 합쳐서 보여드려서
       이 개선이 전체에 고르게 적용되는 것처럼 보였는데, 다시 확인해 보니 BUY 판단은 신뢰도가 높아져도 성적이
@@ -9836,12 +9837,12 @@ function renderGuide(){
   <details class="gb-sec">
     <summary><span class="gb-num">11-2</span><span class="gb-t">GAEO 레이더는 무엇을 찾아주나요?</span></summary>
     <div class="gb-body">
-      <b>📡 GAEO 레이더는 뭘 하나요?</b><br>
+      <b>GAEO 레이더는 뭘 하나요?</b><br>
       ${COVERAGE_TXT}의 차트를 매일 자동으로 훑어서, <b>"어제와 비교해 오늘 새로 생긴 기술적 변화"</b>만 골라 보여주는
       규칙 기반 탐지기예요. BUY·HOLD·SELL 같은 투자 판단을 내리지는 않아요, 그건 여전히 TARO·DIANA·QUANT·FLOW·CHIEF
       네 방향 분석가와 RISK 안전장치의 몫이에요. 레이더는 그냥 <b>"오늘 볼 만한 종목을 먼저 추려주는 안내판"</b>이라고 생각하면 돼요.<br><br>
       <b>어디서 볼 수 있어요?</b><br>
-      홈 화면에 있는 📡 GAEO 레이더 카드에서 오늘 포착된 변화를 종목별로 모아 볼 수 있고, 개별 종목 분석 화면에서도
+      홈 화면에 있는 GAEO 레이더 카드에서 오늘 포착된 변화를 종목별로 모아 볼 수 있고, 개별 종목 분석 화면에서도
       "이 종목, 레이더에 뭐가 잡혔지?"를 CHIEF의 종합 판단 바로 아래에서 확인할 수 있어요.<br><br>
       <b>어떤 변화를 잡아내나요?</b><br>
       주로 보는 신호는 이렇게 9가지예요.
@@ -9858,7 +9859,7 @@ function renderGuide(){
       "RSI 32 → 29.7" 처럼 이전 값에서 지금 값으로 어떻게 바뀌었는지, 그리고 몇 월 며칠 기준인지가 함께 표시돼요.
       화면 위쪽에는 이 데이터가 "장중 잠정 신호"인지 "종가 확정 신호"인지도 알려주는데, 잠정 신호는 장이 끝나면
       숫자가 다시 바뀔 수 있으니 참고만 해주세요.<br><br>
-      <div class="gb-tip">💡 <b>꼭 기억하세요!</b> 레이더에 잡혔다고 무조건 사거나 팔아야 한다는 뜻이 아니에요.
+      <div class="gb-tip"><b>꼭 기억하세요!</b> 레이더에 잡혔다고 무조건 사거나 팔아야 한다는 뜻이 아니에요.
       예를 들어 "과매도 진입"은 매도 압력이 강해졌다는 뜻일 뿐, 곧바로 반등한다는 보장은 없어요.
       "밴드 돌파"나 "골든크로스" 같은 교차 신호도 나중에 다시 뒤집히는 경우가 흔해요.
       레이더는 어디까지나 <b>"오늘 뭐가 달라졌는지 빨리 발견하는 도구"</b>이고, 실제 판단은 항상 5인 분석가의
@@ -10310,7 +10311,7 @@ makeCards(false);
   if(!AUTO_AN&&window.ensureAutoAnalysis){
     // ⭐ 2026-08-14 — "오늘의 판단" BUY 상위 종목은 처음엔 홈 경량 스냅샷(상위 30개, 종합점수순 선별)으로
     // 먼저 그려지는데, 이 스냅샷은 confidence 기준 상위 3위가 빠져 있을 수 있다. 전체 종목
-    // 자동분석(AUTO_AN)이 백그라운드로 다 내려오면 신뢰도순 정렬 결과가 바뀔 수 있으므로 다시 그린다.
+    // 자동분석(AUTO_AN)이 백그라운드로 다 내려오면 확신도순 정렬 결과가 바뀔 수 있으므로 다시 그린다.
     window.ensureAutoAnalysis().then(()=>{ renderAll(); window.GaeoBrief&&window.GaeoBrief.renderDecision&&window.GaeoBrief.renderDecision(); }).catch(()=>{});
   }
 })();
@@ -12059,18 +12060,18 @@ window.renderScreener=function(){
     const sA=VIZ_AXES.map(x=>dA[x.id].score), sB=VIZ_AXES.map(x=>dB[x.id].score);
     const winner=vA.total>vB.total?A.name:vB.total>vA.total?B.name:null;
     // ⚡ 분석가 의견이 크게 갈린 종목엔 배지로 경고 (평균 점수 뒤에 숨은 시각차)
-    const clashB=d=>{const c=clashInfo(d);return c?`<span class="clash-badge" title="「${c.hi.label}」 ${c.hi.v}점 vs 「${c.lo.label}」 ${c.lo.v}점 — 분석가 점수가 ${c.spread}점 차이. 해석이 크게 갈리는 종목이라 더 신중히!">⚡의견갈림</span>`:'';};
+    const clashB=d=>{const c=clashInfo(d);return c?`<span class="clash-badge" title="「${c.hi.label}」 ${c.hi.v}점 vs 「${c.lo.label}」 ${c.lo.v}점 — 분석가 점수가 ${c.spread}점 차이. 해석이 크게 갈리는 종목이라 더 신중히!">의견 갈림</span>`:'';};
     // 🤖/🧠 분석 티어 표식
-    const tierB=code=>{const t=analysisTier(code);return t==='auto'?'<span class="tier-badge tier-auto">🤖 자동</span>':(t==='deep'?'<span class="tier-badge tier-deep">🧠 정밀</span>':'');};
+    const tierB=code=>{const t=analysisTier(code);return t==='auto'?'<span class="tier-badge tier-auto">자동</span>':(t==='deep'?'<span class="tier-badge tier-deep">정밀</span>':'');};
     el.innerHTML=
       `<div class="cmp-top">`+
         `<div class="cmp-side a"><span class="cmp-nm" style="color:${COL_A}">${A.name}${tierB(ca)}</span>`+
           `<span class="cmp-pr">${won(A.price)} ${rateHTML(A)}</span>`+
-          `<span>${badge(vA)}${clashB(dA)} <span style="font-size:12px;color:var(--dim)">종합 ${vA.total} · 신뢰도 ${vA.conf}%</span></span></div>`+
+          `<span>${badge(vA)}${clashB(dA)} <span style="font-size:12px;color:var(--dim)">종합 ${vA.total} · 판단 확신도 ${vA.conf}%</span></span></div>`+
         `<div class="cmp-vs">VS</div>`+
         `<div class="cmp-side b"><span class="cmp-nm" style="color:${COL_B}">${B.name}${tierB(cb)}</span>`+
           `<span class="cmp-pr">${won(B.price)} ${rateHTML(B)}</span>`+
-          `<span><span style="font-size:12px;color:var(--dim)">종합 ${vB.total} · 신뢰도 ${vB.conf}%</span> ${badge(vB)}${clashB(dB)}</span></div>`+
+          `<span><span style="font-size:12px;color:var(--dim)">종합 ${vB.total} · 판단 확신도 ${vB.conf}%</span> ${badge(vB)}${clashB(dB)}</span></div>`+
       `</div>`+
       `<div class="cmp-legend"><span><i style="background:${COL_A}"></i>${A.name}</span><span><i style="background:${COL_B}"></i>${B.name}</span></div>`+
       // ⭐ 2026-08-07: 시세 기준·분석 기준을 한 줄에 몰아넣고 종목마다 날짜를 따로 적었더니
@@ -12082,15 +12083,15 @@ window.renderScreener=function(){
       (()=>{
         const aofA=analysisAsOf(ca)||'mock', aofB=analysisAsOf(cb)||'mock';
         const aofLine=(aofA===aofB)
-          ? `🔎 분석 기준 <b>${aofA}</b> · ${A.name}·${B.name}`
-          : `🔎 분석 기준 ${A.name} <b>${aofA}</b> · ${B.name} <b>${aofB}</b>`;
-        return `<div class="cmp-asof">🕒 시세 기준 <b>${priceAsOf()}</b></div>`+
+          ? `분석 기준 <b>${aofA}</b> · ${A.name}·${B.name}`
+          : `분석 기준 ${A.name} <b>${aofA}</b> · ${B.name} <b>${aofB}</b>`;
+        return `<div class="cmp-asof">시세 기준 <b>${priceAsOf()}</b></div>`+
           `<div class="cmp-asof">${aofLine}</div>`;
       })()+
       `<div class="cmp-radarwrap">${radarTwo(sA,sB)}</div>`+
       `<div class="cmp-rows">`+
         row('기술',sA[0],sB[0])+row('재무',sA[1],sB[1])+row('뉴스·심리',sA[2],sB[2])+
-        row('수급',sA[3],sB[3])+row('종합',vA.total,vB.total)+row('신뢰도',vA.conf,vB.conf)+
+        row('수급',sA[3],sB[3])+row('종합',vA.total,vB.total)+row('판단 확신도',vA.conf,vB.conf)+
       `</div>`+
       `<div class="cmp-sum">${winner?`종합 점수 우위: <b>${winner}</b> (${Math.max(vA.total,vB.total)} vs ${Math.min(vA.total,vB.total)}) · 참고용이며 투자 권유가 아닙니다.`:'두 종목 종합 점수가 동일합니다 · 참고용이며 투자 권유가 아닙니다.'}</div>`+
       easyExplain(A,B,vA,vB,sA,sB,ca,cb)+
@@ -12103,7 +12104,7 @@ window.renderScreener=function(){
   /* 👑 운영자 한마디 — 관리자 모드 종목메모가 있으면 비교 결과에도 표시 */
   const noteBlock=(S,code)=>{
     const n=(window.gaeoNote&&gaeoNote(code))||'';
-    return n?`<div class="anote" style="margin:14px 0 0"><div class="an-t">📝 추가 메모 — ${S.name}</div>${escNote(n)}</div>`:'';
+    return n?`<div class="anote" style="margin:14px 0 0"><div class="an-t">추가 메모 — ${S.name}</div>${escNote(n)}</div>`:'';
   };
 
   /* ── 쉬운 말 비교 설명 — analysis.js의 점수·목표주가를 초등학생 눈높이 문장으로 변환 ──
