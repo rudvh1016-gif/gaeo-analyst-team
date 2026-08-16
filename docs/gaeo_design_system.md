@@ -154,6 +154,16 @@ Typography · Size · Weight · Spacing · Alignment · Divider
 `01` `02` `03` 번호 + 제목 + 짧은 설명 + (필요하면) accordion.
 화이트/뉴트럴, 색상 최소. → 2026-08-15 적용 완료.
 
+### Research Hub (snap/index.html)
+
+`generate_snapshots.js`가 자동 생성하는 정적 리서치 허브. 손으로 고치지 말 것(Generator-first).
+
+- Research(뉴스분석·종목공부·주식공부·부동산공부)와 Utility(계산기)를 숫자·화면 모두 분리
+- 자동 종목페이지(snap/stock) 절대 미포함 · 정밀분석은 기존 Library 링크 재사용
+- Featured는 인기·AI 판단이 아니라 결정적 규칙(발행일 최신 → news→study→lesson→estate → id 큰 글)
+- 카드 남발 금지 — Section heading + row + divider + 여백으로만 계층
+- 하단 전체 기록(전 글 날짜순 href)은 항상 유지
+
 ### about.html
 
 의도적인 Dark Brand page라면 무조건 White로 뒤집을 필요는 없다. 다만

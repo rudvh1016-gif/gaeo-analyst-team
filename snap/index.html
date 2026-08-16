@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>전체 글 목록 · Gaeo · 개오 애널리스트팀</title>
-<meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<title>GAEO Research | 시장·기업 분석과 투자 공부</title>
+<meta name="description" content="뉴스분석·종목공부·주식공부·부동산공부 글과 정밀분석 기록, 투자 계산기를 한곳에서 찾아볼 수 있는 개오 애널리스트팀의 리서치 허브입니다.">
 <link rel="canonical" href="https://gaeoteam.com/snap/index.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="전체 글 목록 · Gaeo · 개오 애널리스트팀">
-<meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta property="og:title" content="GAEO Research | 시장·기업 분석과 투자 공부">
+<meta property="og:description" content="뉴스분석·종목공부·주식공부·부동산공부 글과 정밀분석 기록, 투자 계산기를 한곳에서 찾아볼 수 있는 개오 애널리스트팀의 리서치 허브입니다.">
 <meta property="og:image" content="https://gaeoteam.com/gaeo-share-v3.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -18,215 +18,374 @@
 <meta property="og:site_name" content="GAEO">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="전체 글 목록 · Gaeo · 개오 애널리스트팀">
-<meta name="twitter:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta name="twitter:title" content="GAEO Research | 시장·기업 분석과 투자 공부">
+<meta name="twitter:description" content="뉴스분석·종목공부·주식공부·부동산공부 글과 정밀분석 기록, 투자 계산기를 한곳에서 찾아볼 수 있는 개오 애널리스트팀의 리서치 허브입니다.">
 <meta name="twitter:image" content="https://gaeoteam.com/gaeo-share-v3.jpg">
 <meta name="twitter:image:alt" content="GAEO">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
-body{margin:0;background:#F5F5F7;color:#1D1D1F;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.8}
-@media (prefers-color-scheme:dark){body{background:#000;color:#F5F5F7}}
-.wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
-a{color:#0071E3;text-decoration:none;font-weight:600}
-ul{list-style:none;padding:0}
-li{padding:10px 0;border-bottom:1px solid rgba(128,128,128,.15);font-size:14.5px}
-.cat{display:inline-block;font-size:11.5px;color:#6E6E73;margin-right:6px}
-.d{display:block;font-size:12px;color:#6E6E73;margin-top:2px}
+:root{--paper:#fff;--bg:#fafafa;--ink:#171a20;--muted:#707783;--line:#e7e9ed;--accent:#233b62}
+@media (prefers-color-scheme:dark){:root{--paper:#101315;--bg:#0b0d0f;--ink:#f3f5f7;--muted:#9aa4ad;--line:#2a2f34;--accent:#a9c1e8}}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
+.shell{width:min(1040px,calc(100% - 40px));margin:0 auto;padding:30px 0 80px}
+a{color:inherit;text-decoration:none}
+.brand{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--line);font-size:13px}
+.brand a{font-weight:760;letter-spacing:-.02em}
+.brand span{color:var(--muted)}
+header.hero{padding:44px 0 0}
+h1{margin:0;font-size:clamp(30px,5vw,42px);font-weight:740;letter-spacing:-.045em;line-height:1.12}
+.intro{max-width:640px;margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.75}
+nav.toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:30px 0 0;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);font-size:13px;font-weight:640}
+nav.toc a{color:var(--muted);padding:2px 0;border-bottom:2px solid transparent}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
+.sec{display:grid;grid-template-columns:180px minmax(0,1fr);gap:36px;padding:38px 0;border-bottom:1px solid var(--line)}
+.sec-head h2{margin:0;font-size:19px;font-weight:720;letter-spacing:-.02em}
+.cnt{margin:6px 0 0;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.blurb{margin:10px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
+.rows{margin:0;padding:0;list-style:none}
+.rows li{border-bottom:1px solid var(--line)}
+.rows li:last-child{border-bottom:0}
+.rows a{display:block;padding:12px 2px}
+.rows a:hover .rt,.rows a:focus-visible .rt{color:var(--accent)}
+.rt{display:block;font-size:15.5px;font-weight:620;line-height:1.5;letter-spacing:-.01em}
+.rm{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.more{display:inline-block;margin-top:14px;color:var(--muted);font-size:13px;font-weight:640}
+.more:hover,.more:focus-visible{color:var(--ink)}
+.featured{padding-bottom:20px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+.fmeta{margin:0 0 8px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.ftitle{display:block;font-size:clamp(20px,3vw,26px);font-weight:700;line-height:1.35;letter-spacing:-.025em}
+.ftitle:hover,.ftitle:focus-visible{color:var(--accent)}
+.entry{display:inline-block;margin-top:14px;color:var(--accent);font-size:13.5px;font-weight:660}
+#archive .rowsarchive{margin:0;padding:0;list-style:none;max-width:760px}
+#archive li{padding:10px 2px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.6}
+#archive li:last-child{border-bottom:0}
+#archive li>a{font-weight:620}
+#archive li>a:hover,#archive li>a:focus-visible{color:var(--accent)}
+.cat{display:inline-block;margin-right:6px;color:var(--muted);font-size:11.5px}
+.d{display:block;margin-top:2px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+footer.foot{margin-top:40px;color:var(--muted);font-size:12.5px;line-height:1.7}
+@media(max-width:760px){
+.shell{width:min(100% - 32px,1040px);padding-top:22px}
+header.hero{padding-top:30px}
+.sec{grid-template-columns:1fr;gap:16px;padding:30px 0}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p><a href="https://gaeoteam.com/">← Gaeo · 개오 애널리스트팀 홈</a></p>
-  <h1 style="font-size:20px">전체 글 목록 (188건)</h1>
-  <ul><li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/48.html">2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등</a> <span class="d">2026-08-14</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/47.html">美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유</a> <span class="d">2026-08-14</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/46.html">2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불</a> <span class="d">2026-08-13</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/45.html">2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유</a> <span class="d">2026-08-12</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/44.html">2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날</a> <span class="d">2026-08-11</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/43.html">2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나</a> <span class="d">2026-08-10</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/42.html">2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥</a> <span class="d">2026-08-07</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/41.html">2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날</a> <span class="d">2026-08-06</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/40.html">SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?</a> <span class="d">2026-08-06</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/39.html">2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞</a> <span class="d">2026-08-05</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/38.html">2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날</a> <span class="d">2026-08-04</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/37.html">한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나</a> <span class="d">2026-08-04</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/72.html">생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나</a> <span class="d">2026-08-04</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/36.html">2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/71.html">포트폴리오 만드는 법: 초보자 자산배분 실전 가이드</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/70.html">상장폐지 완전정복: 거래정지부터 정리매매까지</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/69.html">국내주식 세금: 매매·배당·대주주 과세 한 번에 정리</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/68.html">DART 공시 보는 법: 10분 기업 점검 순서</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/67.html">재무제표 보는 법: 손익·재무상태·현금흐름 연결하기</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/66.html">S&amp;P500 vs 나스닥100: 초보자를 위한 완전 비교</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/65.html">주식 주문 넣는 법: 시장가·지정가부터 체결까지</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/64.html">미국주식 사는 법: 계좌 개설부터 첫 매수까지</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/19.html">부동산 양도소득세 완전정복: 계산부터 신고까지</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/18.html">주택청약통장 완전정복: 가입·납입·1순위·소득공제</a> <span class="d">2026-08-03</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/63.html">기준금리와 주가의 관계: 금통위·FOMC 읽는 법</a> <span class="d">2026-08-02</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/62.html">레버리지·인버스 ETF, 지수가 원위치해도 내 계좌는 왜 마이너스일까</a> <span class="d">2026-08-02</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/61.html">일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편</a> <span class="d">2026-08-02</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/17.html">생애최초 대출 완전정복</a> <span class="d">2026-08-02</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/60.html">공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리</a> <span class="d">2026-08-01</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/59.html">IPO(기업공개)가 뭐길래: 오픈AI·앤트로픽은 상장하려 하고, SK하이닉스는 왜 미국에도 상장했을까</a> <span class="d">2026-08-01</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/35.html">2026년 7월31일 종가, 코스피 하루 만에 17.91% 폭등한 이유와 7월 총정리</a> <span class="d">2026-07-31</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a> <span class="d">2026-07-31</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a> <span class="d">2026-07-31</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/32.html">SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/31.html">SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/30.html">코스피, 삼성전자 깜짝 실적에 장중 6% 급등했다가 결국 하락 마감한 이유</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/29.html">삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/28.html">역대급 실적 행진에도 왜 코스피·코스닥은 계속 흔들릴까</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/27.html">삼성전자 2분기 확정실적, 영업이익 89.4조로 3분기 연속 역대 최대</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/26.html">마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/25.html">새벽 3시 FOMC, 금리는 그대로인데 말투가 매파적이었던 이유</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/58.html">RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/57.html">금 투자 완전정복, KRX 금시장부터 골드바·금 ETF까지 세금 비교</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/56.html">연말정산 완전정복, 13월의 월급 제대로 받는 법</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/55.html">상속세와 증여세 기초, 초보자를 위한 완벽 가이드</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/54.html">2000년 닷컴버블, 인터넷 신화가 무너진 날</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/53.html">급등락 반복장에서 살아남기: 전조증상 파악하고 매수·매도 타이밍 잡는 법</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/16.html">전세보증보험(HUG) 가입법, 전세금 지키는 마지막 안전장치</a> <span class="d">2026-07-30</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/24.html">코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/23.html">2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/22.html">새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/21.html">SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/52.html">공매도 잔고와 대차잔고 읽는 법 — 거래량까지 헷갈리지 않게</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/51.html">실적 컨센서스·EPS·영업이익 차이 — 어닝서프라이즈 제대로 읽는 법</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/50.html">2026년, 벌써 8번째 서킷브레이커 — 코스피는 왜 자꾸 멈출까</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/14.html">수수료·세금 포함 주식 손익분기 계산기</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/13.html">공모주 균등·비례 배정 및 증거금 계산기</a> <span class="d">2026-07-29</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/20.html">2026년 7월28일 종가 코스피·코스닥 분석 — 서킷브레이커까지 부른 반도체 대폭락, 무슨 일이 있었나</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/18.html">창신메모리 상장 첫날 중국 A주 시총 1위 — 삼성전자·SK하이닉스에는 어떤 의미일까</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/49.html">퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/48.html">사회초년생 월급 관리 — 통장 쪼개기보다 먼저 할 일</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/47.html">청년 주거지원 찾는 순서 — 전세·월세·청약을 한 번에 점검</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/46.html">청년내일저축계좌, 신청 전 확인할 조건과 유지 방법</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/45.html">2026 청년미래적금과 기존 청년도약계좌, 무엇이 다를까</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/44.html">청년 전세대출·월세 지원 전 체크리스트</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/43.html">ETF 투자 전 꼭 확인할 7가지 — 수수료·환율·추적오차</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/42.html">연금저축펀드에 ETF를 담기 전 체크리스트</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/41.html">ISA·연금저축·IRP 차이: 절세 계좌를 고르는 순서</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/40.html">ETF 분배금과 배당금, 세금은 어떻게 다를까</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/39.html">월배당 ETF, 매달 돈이 들어오면 정말 좋을까</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/38.html">S&amp;P 500 ETF 비교, 이름보다 먼저 봐야 할 6가지</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/37.html">국내 상장 ETF와 미국 ETF, 초보자는 무엇부터 봐야 할까</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/36.html">ETF란 무엇일까 — 펀드와 주식의 장점을 한 바구니에</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/35.html">폭락장에서 살아남는 법 — 오늘 같은 날 마음을 다잡는 주식 격언들</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/12.html">퇴직금·퇴사 후 버틸 기간 계산기</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/11.html">전세 vs 월세 비교 계산기</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/10.html">청년 자산형성 만기 계산기</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/9.html">ISA·연금저축 절세 예상 계산기</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/8.html">ETF 적립식·월분배금 통합 계산기</a> <span class="d">2026-07-28</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/19.html">엔비디아 순환출자 논란 — 마이클 버리는 왜 숏을 쳤고, 삼성전자·SK하이닉스엔 무슨 의미일까</a> <span class="d">2026-07-27</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/17.html">2026년 7월27일 종가 코스피·코스닥 분석: 이란 완화 기대와 SK-엔비디아 빅딜이 가른 업종별 희비</a> <span class="d">2026-07-27</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/16.html">월요일(7/27) 코스피 개장 전 체크리스트 — 이란 정전 기류·SK 빅딜·SK하이닉스 실적까지</a> <span class="d">2026-07-26</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/15.html">이재명 대통령 美 빅테크 CEO 연쇄 회동: SK·엔비디아 5,000억 달러 파트너십까지</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/14.html">SK하이닉스 2분기 실적 D-4에 최태원 9,440억 재산분할 판결, SK그룹에 무슨 일이</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/32.html">비자</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/30.html">테슬라</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/29.html">TSMC</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/28.html">브로드컴</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/27.html">메타</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/26.html">아마존</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/25.html">알파벳</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/24.html">마이크로소프트</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/23.html">일라이릴리</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/22.html">카카오</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/21.html">NAVER</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/20.html">삼성SDI</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/19.html">셀트리온</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/18.html">기아</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/17.html">KB금융</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/16.html">삼성바이오로직스</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/15.html">LG에너지솔루션</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/14.html">삼성전기</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/13.html">SK스퀘어</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/15.html">부동산 취득세 완전정복 — 집 살 때 얼마나 내야 할까(1주택·다주택·생애최초)</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/7.html">DSR·LTV 계산기 — 내 대출 한도 확인</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/6.html">배당소득세 계산기</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/5.html">부동산 잔금·대출 계산기 — 잔금대출 월상환액까지 한 번에</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/4.html">대출 원리금상환 계산기</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/3.html">복리 계산기 — 목돈·적립식 투자 미래가치</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/2.html">해외주식 양도소득세 계산기</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">🧮 계산기</span> <a href="https://gaeoteam.com/snap/calc/1.html">평단가 계산기 — 추가매수·목표 매도가</a> <span class="d">2026-07-25</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/13.html">2026년 7월24일 종가 코스피·코스닥 분석 — 어제 급등분을 하루 만에 반납한 이유</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/12.html">인텔 2분기 실적 — 매출 15년 만에 최대 성장인데 왜 112억 달러 손실을 냈을까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/29.html">자본주의 EP4 「세상을 바꾼 위대한 철학들」 — 애덤 스미스 vs 마르크스 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/30.html">자본주의 EP5 「국가는 무엇을 해야 하는가」: 케인즈 vs 하이에크 100년 논쟁 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/31.html">ETF 완전정복 — 인덱스펀드와 뭐가 다를까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/32.html">공모주 청약하는 법 — 균등배정과 &quot;따상&quot;이 뭐길래</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/33.html">유상증자·무상증자가 뭐길래 — 주가엔 호재일까 악재일까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/34.html">전환사채(CB)·신주인수권부사채(BW) — 개미들이 싫어하는 이유</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/25.html">자본주의 EP3 「금융지능은 있는가」 — 펀드·보험 수수료의 진실 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/26.html">2020년 코로나 서킷브레이커 — 역사상 가장 빨랐던 폭락과 반등</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/27.html">코스피200·KRX300이 뭐길래 — 지수 시리즈 2부</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/28.html">신약 파이프라인 가치평가하는 법 — 바이오 투자 시리즈 2부</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/20.html">자본주의 EP2 「소비는 감정이다」 — 광고는 왜 내 지갑을 여는 데 성공할까 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/21.html">1997년 IMF 외환위기 — 금 모으기 운동과 환율 폭등, 그날 무슨 일이 있었나</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/22.html">채권 투자 기초 — 국고채·회사채가 뭐고 왜 금리와 반대로 움직일까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/23.html">환율(원/달러)이 뭐길래 — 내 주식·내 물가에 이렇게 영향을 준다고?</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/24.html">종합소득세 신고 기초 — 5월마다 헷갈리는 그 세금, 나도 신고 대상일까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/13.html">부동산 보유세 완전정복 — 재산세·종합부동산세</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/14.html">재건축·재개발 EP2 — 조합원 지위 양도와 초과이익환수제 실전 계산</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/11.html">부동산 경매 EP3 — 경매 vs 공매, 뭐가 다를까 + 경락잔금대출 활용법</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/12.html">대출 상환방식 완전정복 — 원리금균등 vs 원금균등 + 신용점수 관리법</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/9.html">부동산 경매 실전편(EP2) — 입찰가는 어떻게 정하고, 낙찰 후엔 뭘 해야 할까</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/10.html">갭투자가 뭐길래 — 전세 낀 집 사는 법의 명암</a> <span class="d">2026-07-24</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/11.html">국제유가 급등 — 미·이란 갈등이 내 기름값·주식에 미치는 영향</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/10.html">현대차 2분기 실적 — 매출은 역대 최대인데 영업이익은 왜 20% 줄었을까</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/12.html">SK이터닉스</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/19.html">리츠(REITs)가 뭐길래 — 건물주 안 돼도 부동산에 투자하는 법</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/18.html">배당락일이 뭐길래 — 배당 받으려면 언제까지 사야 할까</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/17.html">국민연금이 내 주식과 무슨 상관? — 연기금이 사고팔 때 왜 뉴스에 나올까</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/16.html">해외주식 양도소득세 완전정복 — 5월마다 헷갈리는 신고법</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/15.html">퇴직연금 DC형·IRP가 뭐길래 — 내 노후자금 어디로 굴러가나</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/14.html">기업 밸류업 프로그램이 뭐길래 — 코스피가 반년 만에 2배 뛴 이유 중 하나</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/13.html">공매도가 뭐고 왜 항상 논란일까 — 개미가 싫어하는 이유</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/12.html">ISA 계좌가 뭐길래? 세금 아끼는 만능통장 완전정복</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/6.html">재건축·재개발, 뭐가 다르고 어떤 순서로 진행될까?</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/7.html">임대차 3법 완전정복 — 전월세 계약 전에 꼭 알아야 할 3가지</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/8.html">LTV·DTI·DSR 완전정복 — 대출 한도를 정하는 3가지 알파벳</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/5.html">전세사기 예방법 — 계약 전 꼭 확인해야 할 것들</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/4.html">청약 가점제 계산법 — 내 점수로 어디까지 당첨될까</a> <span class="d">2026-07-23</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/9.html">구글(알파벳) 2분기 실적 발표 — 순이익 1,121억 달러의 진실과 클라우드 82% 성장</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/8.html">삼성전자 로봇사업 본격 시동 — 레인보우로보틱스는 왜 하루 만에 +23%까지 뛰었나</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/7.html">오픈AI·앤트로픽·키미 3파전 — 세계는 왜 이 세 회사에 열광할까? (feat. HBM 이야기)</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/11.html">국내·미국 고배당주 TOP 10 정리 — 배당수익률 함정까지</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/10.html">반도체 '피크아웃'이 뭐고 왜 무서운 말인가</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/9.html">임상 3상이 뭐길래 주가가 하루에 30% 빠질까 — 임상시험 단계 완전정복</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/3.html">부동산 경매의 기초 — 시세보다 싸게 사는 법?</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/2.html">집 매매하는 법 — 초보자를 위한 구체적 가이드</a> <span class="d">2026-07-22</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/11.html">애플</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/10.html">현대차</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/9.html">삼성전자</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/8.html">2008년 리먼브라더스 사태 — 세계 경제를 무너뜨린 '썩은 사과' 이야기</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/7.html">자본주의 EP1 「돈은 빚이다」 — 은행이 돈을 만드는 마법 (EBS 다큐 완전정리)</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/6.html">코스피 6500·코스닥 750은 대체 무슨 단위예요? — 지수 완전정복</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/5.html">미수·신용거래와 프로그램 매매 — 뉴스에 자주 나오는 그 말들</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">🏠 부동산공부</span> <a href="https://gaeoteam.com/snap/estate/1.html">근저당 완전정복 — 이재명 대통령 아파트 17.7억 근저당은 무슨 뜻일까 + 2026년 7월 대출규제</a> <span class="d">2026-07-21</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/8.html">SK하이닉스</a> <span class="d">2026-07-18</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/7.html">호텔신라</a> <span class="d">2026-07-18</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/6.html">양자역학·양자컴퓨터가 뭐길래? — 원리부터 관련주·먼 미래까지 아주 쉽게</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/5.html">비트코인·이더리움·알트코인이 뭐길래? — 탄생부터 최근 하락까지 아주 쉽게</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/4.html">물가 3.2%·금리 2.75% — 국내 금리 인상, 내 주식은 어떻게 될까?</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/4.html">PER·PBR 읽는 법 — 주가가 싼지 비싼지 재는 두 개의 자</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/3.html">이동평균선(MA) 완전 기초 — 주가의 평균 속도 읽기</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/2.html">캔들 심화 — 자주 나오는 캔들 모양(패턴) 읽기</a> <span class="d">2026-07-17</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/6.html">팔란티어</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/5.html">엔비디아</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/4.html">샌디스크</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/3.html">HD현대일렉트릭</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/2.html">금호건설</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">🎓 주식공부</span> <a href="https://gaeoteam.com/snap/lesson/1.html">차트·캔들 보는 법 (왕초보 기초)</a> <span class="d">2026-07-16</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/3.html">미국 CPI가 뭐길래 코스피가 하루 만에 +6% 뛸까? — 발표부터 대응법까지</a> <span class="d">2026-07-15</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/2.html">삼성전자·SK하이닉스 레버리지 상품, 증시에 약(藥)일까 독(毒)일까?</a> <span class="d">2026-07-15</span></li>
-<li><span class="cat">📚 종목공부</span> <a href="https://gaeoteam.com/snap/study/1.html">제주반도체</a> <span class="d">2026-07-15</span></li>
-<li><span class="cat">📰 뉴스분석</span> <a href="https://gaeoteam.com/snap/news/1.html">SK하이닉스 ADR 나스닥 상장 — 국내 본주(本株)에는 어떤 영향을 줄까?</a> <span class="d">2026-07-14</span></li></ul>
-</div>
+<main class="shell">
+  <header class="brand"><a href="https://gaeoteam.com/">GAEO</a><span>Research</span></header>
+  <header class="hero">
+    <h1>GAEO Research</h1>
+    <p class="intro">시장과 기업을 이해하기 위한 개오 애널리스트팀의 분석과 학습 기록입니다.
+    리서치 글 174건과 정밀분석 기록, 투자 계산기를 한곳에서 볼 수 있어요.</p>
+  </header>
+  <nav class="toc" aria-label="리서치 허브 목차">
+    <a href="#recent">최근 분석</a>
+    <a href="#news">뉴스분석</a>
+    <a href="#study">종목공부</a>
+    <a href="#lesson">주식공부</a>
+    <a href="#deep">정밀분석</a>
+    <a href="#estate">부동산공부</a>
+    <a href="#tools">투자 도구</a>
+    <a href="#archive">전체 기록</a>
+  </nav>
+
+  <section class="sec" id="recent">
+    <div class="sec-head"><h2>최근 분석</h2><p class="blurb">가장 최근에 발행된 리서치 글이에요. 최신 발행일 순으로 자동 선정됩니다.</p></div>
+    <div class="sec-body">
+  <div class="featured">
+    <p class="fmeta">뉴스분석 · 2026-08-14</p>
+    <a class="ftitle" href="https://gaeoteam.com/snap/news/48.html">2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등</a>
+  </div>
+  <ul class="rows">
+<li><a href="https://gaeoteam.com/snap/news/47.html"><span class="rt">美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유</span><span class="rm">뉴스분석 · 2026-08-14</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/46.html"><span class="rt">2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불</span><span class="rm">뉴스분석 · 2026-08-13</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/45.html"><span class="rt">2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유</span><span class="rm">뉴스분석 · 2026-08-12</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/44.html"><span class="rt">2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날</span><span class="rm">뉴스분석 · 2026-08-11</span></a></li>
+  </ul>
+    </div>
+  </section>
+
+<section class="sec" id="news">
+  <div class="sec-head"><h2>뉴스분석</h2><p class="cnt">48건</p><p class="blurb">시장을 움직인 기사와 이슈를 초보자 눈높이로 풀어쓴 심층 분석입니다.</p></div>
+  <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/snap/news/48.html"><span class="rt">2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등</span><span class="rm">뉴스분석 · 2026-08-14</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/47.html"><span class="rt">美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유</span><span class="rm">뉴스분석 · 2026-08-14</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/46.html"><span class="rt">2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불</span><span class="rm">뉴스분석 · 2026-08-13</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/45.html"><span class="rt">2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유</span><span class="rm">뉴스분석 · 2026-08-12</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/44.html"><span class="rt">2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날</span><span class="rm">뉴스분석 · 2026-08-11</span></a></li>
+<li><a href="https://gaeoteam.com/snap/news/43.html"><span class="rt">2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나</span><span class="rm">뉴스분석 · 2026-08-10</span></a></li>
+  </ul>
+  <a class="more" href="#archive">전체 기록에서 모두 보기 ↓</a></div>
+</section>
+
+<section class="sec" id="study">
+  <div class="sec-head"><h2>종목공부</h2><p class="cnt">35건</p><p class="blurb">한 기업을 처음 공부하는 사람을 위한 종목별 기초 리서치입니다.</p></div>
+  <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/snap/study/34.html"><span class="rt">한화에어로스페이스</span><span class="rm">종목공부 · 2026-07-29</span></a></li>
+<li><a href="https://gaeoteam.com/snap/study/35.html"><span class="rt">아모레퍼시픽</span><span class="rm">종목공부 · 2026-07-29</span></a></li>
+<li><a href="https://gaeoteam.com/snap/study/33.html"><span class="rt">JP모간체이스</span><span class="rm">종목공부 · 2026-07-25</span></a></li>
+<li><a href="https://gaeoteam.com/snap/study/32.html"><span class="rt">비자</span><span class="rm">종목공부 · 2026-07-25</span></a></li>
+<li><a href="https://gaeoteam.com/snap/study/31.html"><span class="rt">버크셔해서웨이</span><span class="rm">종목공부 · 2026-07-25</span></a></li>
+<li><a href="https://gaeoteam.com/snap/study/30.html"><span class="rt">테슬라</span><span class="rm">종목공부 · 2026-07-25</span></a></li>
+  </ul>
+  <a class="more" href="#archive">전체 기록에서 모두 보기 ↓</a></div>
+</section>
+
+<section class="sec" id="lesson">
+  <div class="sec-head"><h2>주식공부</h2><p class="cnt">72건</p><p class="blurb">주식 투자에 필요한 개념과 제도를 하나씩 배우는 학습 글입니다.</p></div>
+  <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/snap/lesson/72.html"><span class="rt">생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나</span><span class="rm">주식공부 · 2026-08-04</span></a></li>
+<li><a href="https://gaeoteam.com/snap/lesson/71.html"><span class="rt">포트폴리오 만드는 법: 초보자 자산배분 실전 가이드</span><span class="rm">주식공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/lesson/70.html"><span class="rt">상장폐지 완전정복: 거래정지부터 정리매매까지</span><span class="rm">주식공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/lesson/69.html"><span class="rt">국내주식 세금: 매매·배당·대주주 과세 한 번에 정리</span><span class="rm">주식공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/lesson/68.html"><span class="rt">DART 공시 보는 법: 10분 기업 점검 순서</span><span class="rm">주식공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/lesson/67.html"><span class="rt">재무제표 보는 법: 손익·재무상태·현금흐름 연결하기</span><span class="rm">주식공부 · 2026-08-03</span></a></li>
+  </ul>
+  <a class="more" href="#archive">전체 기록에서 모두 보기 ↓</a></div>
+</section>
+
+  <section class="sec" id="deep">
+    <div class="sec-head"><h2>정밀분석 기록</h2><p class="blurb">직접 지정해 더 깊게 분석한 종목의 당시 기록입니다. 각 기록은 최신 판단으로 덮어쓰지 않고 보존합니다.</p></div>
+    <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/research/deep-analysis/001450/2026-08-14-1150/"><span class="rt">현대해상 — 실적 서프라이즈로 신고가, 목표주가는 이미 넘어섬</span><span class="rm">정밀분석 · 2026-08-14</span></a></li>
+<li><a href="https://gaeoteam.com/research/deep-analysis/009150/2026-08-14-1150/"><span class="rt">삼성전기 — MLCC 수요 기대 지속, 밸류에이션 부담은 더 커짐</span><span class="rm">정밀분석 · 2026-08-14</span></a></li>
+<li><a href="https://gaeoteam.com/research/deep-analysis/088350/2026-08-14-1150/"><span class="rt">한화생명 — 상반기 순익 96% 급증, 단기 과열 신호도 뚜렷</span><span class="rm">정밀분석 · 2026-08-14</span></a></li>
+  </ul>
+  <a class="entry" href="https://gaeoteam.com/research/deep-analysis/">정밀분석 기록 보기 →</a></div>
+  </section>
+
+<section class="sec" id="estate">
+  <div class="sec-head"><h2>부동산공부</h2><p class="cnt">19건</p><p class="blurb">전세·청약·대출 등 부동산과 주거 재무를 공부하는 글입니다.</p></div>
+  <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/snap/estate/19.html"><span class="rt">부동산 양도소득세 완전정복: 계산부터 신고까지</span><span class="rm">부동산공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/estate/18.html"><span class="rt">주택청약통장 완전정복: 가입·납입·1순위·소득공제</span><span class="rm">부동산공부 · 2026-08-03</span></a></li>
+<li><a href="https://gaeoteam.com/snap/estate/17.html"><span class="rt">생애최초 대출 완전정복</span><span class="rm">부동산공부 · 2026-08-02</span></a></li>
+<li><a href="https://gaeoteam.com/snap/estate/16.html"><span class="rt">전세보증보험(HUG) 가입법, 전세금 지키는 마지막 안전장치</span><span class="rm">부동산공부 · 2026-07-30</span></a></li>
+<li><a href="https://gaeoteam.com/snap/estate/15.html"><span class="rt">부동산 취득세 완전정복 — 집 살 때 얼마나 내야 할까(1주택·다주택·생애최초)</span><span class="rm">부동산공부 · 2026-07-25</span></a></li>
+<li><a href="https://gaeoteam.com/snap/estate/13.html"><span class="rt">부동산 보유세 완전정복 — 재산세·종합부동산세</span><span class="rm">부동산공부 · 2026-07-24</span></a></li>
+  </ul>
+  <a class="more" href="#archive">전체 기록에서 모두 보기 ↓</a></div>
+</section>
+
+  <section class="sec" id="tools">
+    <div class="sec-head"><h2>투자 도구</h2><p class="cnt">14개</p><p class="blurb">계산기 등 도구 페이지입니다. 위 리서치 글 수에는 포함하지 않아요.</p></div>
+    <div class="sec-body"><ul class="rows">
+<li><a href="https://gaeoteam.com/snap/calc/14.html"><span class="rt">수수료·세금 포함 주식 손익분기 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/13.html"><span class="rt">공모주 균등·비례 배정 및 증거금 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/12.html"><span class="rt">퇴직금·퇴사 후 버틸 기간 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/11.html"><span class="rt">전세 vs 월세 비교 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/10.html"><span class="rt">청년 자산형성 만기 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/9.html"><span class="rt">ISA·연금저축 절세 예상 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/8.html"><span class="rt">ETF 적립식·월분배금 통합 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/7.html"><span class="rt">DSR·LTV 계산기 — 내 대출 한도 확인</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/6.html"><span class="rt">배당소득세 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/5.html"><span class="rt">부동산 잔금·대출 계산기 — 잔금대출 월상환액까지 한 번에</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/4.html"><span class="rt">대출 원리금상환 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/3.html"><span class="rt">복리 계산기 — 목돈·적립식 투자 미래가치</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/2.html"><span class="rt">해외주식 양도소득세 계산기</span></a></li>
+<li><a href="https://gaeoteam.com/snap/calc/1.html"><span class="rt">평단가 계산기 — 추가매수·목표 매도가</span></a></li>
+    </ul></div>
+  </section>
+
+  <section class="sec" id="archive">
+    <div class="sec-head"><h2>전체 기록</h2><p class="cnt">전체 188건 · 리서치 174 · 도구 14</p><p class="blurb">발행한 모든 글을 최신순으로 담은 목록입니다.</p></div>
+    <div class="sec-body"><ul class="rowsarchive">
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/48.html">2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등</a> <span class="d">2026-08-14</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/47.html">美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유</a> <span class="d">2026-08-14</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/46.html">2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불</a> <span class="d">2026-08-13</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/45.html">2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유</a> <span class="d">2026-08-12</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/44.html">2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날</a> <span class="d">2026-08-11</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/43.html">2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나</a> <span class="d">2026-08-10</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/42.html">2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥</a> <span class="d">2026-08-07</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/41.html">2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날</a> <span class="d">2026-08-06</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/40.html">SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?</a> <span class="d">2026-08-06</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/39.html">2026년 8월5일 종가, 외국인 컴백에 코스피 6600 코앞</a> <span class="d">2026-08-05</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/38.html">2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날</a> <span class="d">2026-08-04</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/37.html">한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나</a> <span class="d">2026-08-04</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/72.html">생산적금융 ISA 신설, 이자·배당 전액 비과세 뭐가 달라지나</a> <span class="d">2026-08-04</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/36.html">2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/71.html">포트폴리오 만드는 법: 초보자 자산배분 실전 가이드</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/70.html">상장폐지 완전정복: 거래정지부터 정리매매까지</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/69.html">국내주식 세금: 매매·배당·대주주 과세 한 번에 정리</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/68.html">DART 공시 보는 법: 10분 기업 점검 순서</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/67.html">재무제표 보는 법: 손익·재무상태·현금흐름 연결하기</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/66.html">S&amp;P500 vs 나스닥100: 초보자를 위한 완전 비교</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/65.html">주식 주문 넣는 법: 시장가·지정가부터 체결까지</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/64.html">미국주식 사는 법: 계좌 개설부터 첫 매수까지</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/19.html">부동산 양도소득세 완전정복: 계산부터 신고까지</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/18.html">주택청약통장 완전정복: 가입·납입·1순위·소득공제</a> <span class="d">2026-08-03</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/63.html">기준금리와 주가의 관계: 금통위·FOMC 읽는 법</a> <span class="d">2026-08-02</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/62.html">레버리지·인버스 ETF, 지수가 원위치해도 내 계좌는 왜 마이너스일까</a> <span class="d">2026-08-02</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/61.html">일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편</a> <span class="d">2026-08-02</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/17.html">생애최초 대출 완전정복</a> <span class="d">2026-08-02</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/60.html">공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리</a> <span class="d">2026-08-01</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/59.html">IPO(기업공개)가 뭐길래: 오픈AI·앤트로픽은 상장하려 하고, SK하이닉스는 왜 미국에도 상장했을까</a> <span class="d">2026-08-01</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/35.html">2026년 7월31일 종가, 코스피 하루 만에 17.91% 폭등한 이유와 7월 총정리</a> <span class="d">2026-07-31</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a> <span class="d">2026-07-31</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a> <span class="d">2026-07-31</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/32.html">SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/31.html">SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/30.html">코스피, 삼성전자 깜짝 실적에 장중 6% 급등했다가 결국 하락 마감한 이유</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/29.html">삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/28.html">역대급 실적 행진에도 왜 코스피·코스닥은 계속 흔들릴까</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/27.html">삼성전자 2분기 확정실적, 영업이익 89.4조로 3분기 연속 역대 최대</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/26.html">마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/25.html">새벽 3시 FOMC, 금리는 그대로인데 말투가 매파적이었던 이유</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/58.html">RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/57.html">금 투자 완전정복, KRX 금시장부터 골드바·금 ETF까지 세금 비교</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/56.html">연말정산 완전정복, 13월의 월급 제대로 받는 법</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/55.html">상속세와 증여세 기초, 초보자를 위한 완벽 가이드</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/54.html">2000년 닷컴버블, 인터넷 신화가 무너진 날</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/53.html">급등락 반복장에서 살아남기: 전조증상 파악하고 매수·매도 타이밍 잡는 법</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/16.html">전세보증보험(HUG) 가입법, 전세금 지키는 마지막 안전장치</a> <span class="d">2026-07-30</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/24.html">코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/23.html">2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/22.html">새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/21.html">SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/52.html">공매도 잔고와 대차잔고 읽는 법 — 거래량까지 헷갈리지 않게</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/51.html">실적 컨센서스·EPS·영업이익 차이 — 어닝서프라이즈 제대로 읽는 법</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/50.html">2026년, 벌써 8번째 서킷브레이커 — 코스피는 왜 자꾸 멈출까</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/14.html">수수료·세금 포함 주식 손익분기 계산기</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/13.html">공모주 균등·비례 배정 및 증거금 계산기</a> <span class="d">2026-07-29</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/20.html">2026년 7월28일 종가 코스피·코스닥 분석 — 서킷브레이커까지 부른 반도체 대폭락, 무슨 일이 있었나</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/18.html">창신메모리 상장 첫날 중국 A주 시총 1위 — 삼성전자·SK하이닉스에는 어떤 의미일까</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/49.html">퇴사 전 돈 체크리스트 — 마지막 급여부터 비상금까지</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/48.html">사회초년생 월급 관리 — 통장 쪼개기보다 먼저 할 일</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/47.html">청년 주거지원 찾는 순서 — 전세·월세·청약을 한 번에 점검</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/46.html">청년내일저축계좌, 신청 전 확인할 조건과 유지 방법</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/45.html">2026 청년미래적금과 기존 청년도약계좌, 무엇이 다를까</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/44.html">청년 전세대출·월세 지원 전 체크리스트</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/43.html">ETF 투자 전 꼭 확인할 7가지 — 수수료·환율·추적오차</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/42.html">연금저축펀드에 ETF를 담기 전 체크리스트</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/41.html">ISA·연금저축·IRP 차이: 절세 계좌를 고르는 순서</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/40.html">ETF 분배금과 배당금, 세금은 어떻게 다를까</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/39.html">월배당 ETF, 매달 돈이 들어오면 정말 좋을까</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/38.html">S&amp;P 500 ETF 비교, 이름보다 먼저 봐야 할 6가지</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/37.html">국내 상장 ETF와 미국 ETF, 초보자는 무엇부터 봐야 할까</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/36.html">ETF란 무엇일까 — 펀드와 주식의 장점을 한 바구니에</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/35.html">폭락장에서 살아남는 법 — 오늘 같은 날 마음을 다잡는 주식 격언들</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/12.html">퇴직금·퇴사 후 버틸 기간 계산기</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/11.html">전세 vs 월세 비교 계산기</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/10.html">청년 자산형성 만기 계산기</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/9.html">ISA·연금저축 절세 예상 계산기</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/8.html">ETF 적립식·월분배금 통합 계산기</a> <span class="d">2026-07-28</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/19.html">엔비디아 순환출자 논란 — 마이클 버리는 왜 숏을 쳤고, 삼성전자·SK하이닉스엔 무슨 의미일까</a> <span class="d">2026-07-27</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/17.html">2026년 7월27일 종가 코스피·코스닥 분석: 이란 완화 기대와 SK-엔비디아 빅딜이 가른 업종별 희비</a> <span class="d">2026-07-27</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/16.html">월요일(7/27) 코스피 개장 전 체크리스트 — 이란 정전 기류·SK 빅딜·SK하이닉스 실적까지</a> <span class="d">2026-07-26</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/15.html">이재명 대통령 美 빅테크 CEO 연쇄 회동: SK·엔비디아 5,000억 달러 파트너십까지</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/14.html">SK하이닉스 2분기 실적 D-4에 최태원 9,440억 재산분할 판결, SK그룹에 무슨 일이</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/32.html">비자</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/30.html">테슬라</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/29.html">TSMC</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/28.html">브로드컴</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/27.html">메타</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/26.html">아마존</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/25.html">알파벳</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/24.html">마이크로소프트</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/23.html">일라이릴리</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/22.html">카카오</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/21.html">NAVER</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/20.html">삼성SDI</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/19.html">셀트리온</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/18.html">기아</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/17.html">KB금융</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/16.html">삼성바이오로직스</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/15.html">LG에너지솔루션</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/14.html">삼성전기</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/13.html">SK스퀘어</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/15.html">부동산 취득세 완전정복 — 집 살 때 얼마나 내야 할까(1주택·다주택·생애최초)</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/7.html">DSR·LTV 계산기 — 내 대출 한도 확인</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/6.html">배당소득세 계산기</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/5.html">부동산 잔금·대출 계산기 — 잔금대출 월상환액까지 한 번에</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/4.html">대출 원리금상환 계산기</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/3.html">복리 계산기 — 목돈·적립식 투자 미래가치</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/2.html">해외주식 양도소득세 계산기</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">투자 도구</span> <a href="https://gaeoteam.com/snap/calc/1.html">평단가 계산기 — 추가매수·목표 매도가</a> <span class="d">2026-07-25</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/13.html">2026년 7월24일 종가 코스피·코스닥 분석 — 어제 급등분을 하루 만에 반납한 이유</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/12.html">인텔 2분기 실적 — 매출 15년 만에 최대 성장인데 왜 112억 달러 손실을 냈을까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/29.html">자본주의 EP4 「세상을 바꾼 위대한 철학들」 — 애덤 스미스 vs 마르크스 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/30.html">자본주의 EP5 「국가는 무엇을 해야 하는가」: 케인즈 vs 하이에크 100년 논쟁 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/31.html">ETF 완전정복 — 인덱스펀드와 뭐가 다를까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/32.html">공모주 청약하는 법 — 균등배정과 &quot;따상&quot;이 뭐길래</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/33.html">유상증자·무상증자가 뭐길래 — 주가엔 호재일까 악재일까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/34.html">전환사채(CB)·신주인수권부사채(BW) — 개미들이 싫어하는 이유</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/25.html">자본주의 EP3 「금융지능은 있는가」 — 펀드·보험 수수료의 진실 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/26.html">2020년 코로나 서킷브레이커 — 역사상 가장 빨랐던 폭락과 반등</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/27.html">코스피200·KRX300이 뭐길래 — 지수 시리즈 2부</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/28.html">신약 파이프라인 가치평가하는 법 — 바이오 투자 시리즈 2부</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/20.html">자본주의 EP2 「소비는 감정이다」 — 광고는 왜 내 지갑을 여는 데 성공할까 (EBS 다큐 완전정리)</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/21.html">1997년 IMF 외환위기 — 금 모으기 운동과 환율 폭등, 그날 무슨 일이 있었나</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/22.html">채권 투자 기초 — 국고채·회사채가 뭐고 왜 금리와 반대로 움직일까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/23.html">환율(원/달러)이 뭐길래 — 내 주식·내 물가에 이렇게 영향을 준다고?</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/24.html">종합소득세 신고 기초 — 5월마다 헷갈리는 그 세금, 나도 신고 대상일까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/13.html">부동산 보유세 완전정복 — 재산세·종합부동산세</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/14.html">재건축·재개발 EP2 — 조합원 지위 양도와 초과이익환수제 실전 계산</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/11.html">부동산 경매 EP3 — 경매 vs 공매, 뭐가 다를까 + 경락잔금대출 활용법</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/12.html">대출 상환방식 완전정복 — 원리금균등 vs 원금균등 + 신용점수 관리법</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/9.html">부동산 경매 실전편(EP2) — 입찰가는 어떻게 정하고, 낙찰 후엔 뭘 해야 할까</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/10.html">갭투자가 뭐길래 — 전세 낀 집 사는 법의 명암</a> <span class="d">2026-07-24</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/11.html">국제유가 급등 — 미·이란 갈등이 내 기름값·주식에 미치는 영향</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/10.html">현대차 2분기 실적 — 매출은 역대 최대인데 영업이익은 왜 20% 줄었을까</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/12.html">SK이터닉스</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/19.html">리츠(REITs)가 뭐길래 — 건물주 안 돼도 부동산에 투자하는 법</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/18.html">배당락일이 뭐길래 — 배당 받으려면 언제까지 사야 할까</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/17.html">국민연금이 내 주식과 무슨 상관? — 연기금이 사고팔 때 왜 뉴스에 나올까</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/16.html">해외주식 양도소득세 완전정복 — 5월마다 헷갈리는 신고법</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/15.html">퇴직연금 DC형·IRP가 뭐길래 — 내 노후자금 어디로 굴러가나</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/14.html">기업 밸류업 프로그램이 뭐길래 — 코스피가 반년 만에 2배 뛴 이유 중 하나</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/13.html">공매도가 뭐고 왜 항상 논란일까 — 개미가 싫어하는 이유</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/12.html">ISA 계좌가 뭐길래? 세금 아끼는 만능통장 완전정복</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/6.html">재건축·재개발, 뭐가 다르고 어떤 순서로 진행될까?</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/7.html">임대차 3법 완전정복 — 전월세 계약 전에 꼭 알아야 할 3가지</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/8.html">LTV·DTI·DSR 완전정복 — 대출 한도를 정하는 3가지 알파벳</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/5.html">전세사기 예방법 — 계약 전 꼭 확인해야 할 것들</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/4.html">청약 가점제 계산법 — 내 점수로 어디까지 당첨될까</a> <span class="d">2026-07-23</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/9.html">구글(알파벳) 2분기 실적 발표 — 순이익 1,121억 달러의 진실과 클라우드 82% 성장</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/8.html">삼성전자 로봇사업 본격 시동 — 레인보우로보틱스는 왜 하루 만에 +23%까지 뛰었나</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/7.html">오픈AI·앤트로픽·키미 3파전 — 세계는 왜 이 세 회사에 열광할까? (feat. HBM 이야기)</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/11.html">국내·미국 고배당주 TOP 10 정리 — 배당수익률 함정까지</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/10.html">반도체 '피크아웃'이 뭐고 왜 무서운 말인가</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/9.html">임상 3상이 뭐길래 주가가 하루에 30% 빠질까 — 임상시험 단계 완전정복</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/3.html">부동산 경매의 기초 — 시세보다 싸게 사는 법?</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/2.html">집 매매하는 법 — 초보자를 위한 구체적 가이드</a> <span class="d">2026-07-22</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/11.html">애플</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/10.html">현대차</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/9.html">삼성전자</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/8.html">2008년 리먼브라더스 사태 — 세계 경제를 무너뜨린 '썩은 사과' 이야기</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/7.html">자본주의 EP1 「돈은 빚이다」 — 은행이 돈을 만드는 마법 (EBS 다큐 완전정리)</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/6.html">코스피 6500·코스닥 750은 대체 무슨 단위예요? — 지수 완전정복</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/5.html">미수·신용거래와 프로그램 매매 — 뉴스에 자주 나오는 그 말들</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">부동산공부</span> <a href="https://gaeoteam.com/snap/estate/1.html">근저당 완전정복 — 이재명 대통령 아파트 17.7억 근저당은 무슨 뜻일까 + 2026년 7월 대출규제</a> <span class="d">2026-07-21</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/8.html">SK하이닉스</a> <span class="d">2026-07-18</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/7.html">호텔신라</a> <span class="d">2026-07-18</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/6.html">양자역학·양자컴퓨터가 뭐길래? — 원리부터 관련주·먼 미래까지 아주 쉽게</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/5.html">비트코인·이더리움·알트코인이 뭐길래? — 탄생부터 최근 하락까지 아주 쉽게</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/4.html">물가 3.2%·금리 2.75% — 국내 금리 인상, 내 주식은 어떻게 될까?</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/4.html">PER·PBR 읽는 법 — 주가가 싼지 비싼지 재는 두 개의 자</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/3.html">이동평균선(MA) 완전 기초 — 주가의 평균 속도 읽기</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/2.html">캔들 심화 — 자주 나오는 캔들 모양(패턴) 읽기</a> <span class="d">2026-07-17</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/6.html">팔란티어</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/5.html">엔비디아</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/4.html">샌디스크</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/3.html">HD현대일렉트릭</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/2.html">금호건설</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">주식공부</span> <a href="https://gaeoteam.com/snap/lesson/1.html">차트·캔들 보는 법 (왕초보 기초)</a> <span class="d">2026-07-16</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/3.html">미국 CPI가 뭐길래 코스피가 하루 만에 +6% 뛸까? — 발표부터 대응법까지</a> <span class="d">2026-07-15</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/2.html">삼성전자·SK하이닉스 레버리지 상품, 증시에 약(藥)일까 독(毒)일까?</a> <span class="d">2026-07-15</span></li>
+<li><span class="cat">종목공부</span> <a href="https://gaeoteam.com/snap/study/1.html">제주반도체</a> <span class="d">2026-07-15</span></li>
+<li><span class="cat">뉴스분석</span> <a href="https://gaeoteam.com/snap/news/1.html">SK하이닉스 ADR 나스닥 상장 — 국내 본주(本株)에는 어떤 영향을 줄까?</a> <span class="d">2026-07-14</span></li>
+    </ul></div>
+  </section>
+
+  <footer class="foot">개오 애널리스트팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</footer>
+</main>
 </body>
 </html>
