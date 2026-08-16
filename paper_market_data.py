@@ -20,6 +20,7 @@ API 근거 (공식 OpenAPI 스펙 v1.0.3, openapi.tossinvest.com — 2026-08-16 
 """
 import json
 import os
+import random
 import time
 import urllib.error
 import urllib.parse
@@ -64,12 +65,23 @@ class TossMarketDataProvider:
         self._token_expires_at = 0
 
     # ── 내부 공통 ───────────────────────────────────────────────────────────
-    def _guard(self, path):
+    def _guard(self, path, method="GET"):
         if path not in ALLOWED_PATHS:
             raise PaperSafetyError(f"허용되지 않은 API 경로: {path} — Paper V1은 시세 전용이다")
+        # 메서드 수준 이중 차단(2026-08-16 보안 애드덤 G): 나중에 누가 허용 경로에
+        # 쓰기형 호출을 추가하더라도 공통 계층에서 막힌다.
+        #   GET  → 허용 경로 전부
+        #   POST → /oauth2/token(토큰 발급) 하나만
+        #   PUT/PATCH/DELETE 등 → 전면 거부
+        if method == "GET":
+            return
+        if method == "POST" and path == "/oauth2/token":
+            return
+        raise PaperSafetyError(f"쓰기형 호출 금지: {method} {path} — Paper V1은 read-only다")
 
-    def _request(self, path, params=None, method="GET", body=None, auth=True, retries=2):
-        self._guard(path)
+    def _request(self, path, params=None, method="GET", body=None, auth=True, retries=2,
+                 _reauth_done=False):
+        self._guard(path, method)
         url = BASE_URL + path
         if params:
             url += "?" + urllib.parse.urlencode(params)
@@ -87,12 +99,21 @@ class TossMarketDataProvider:
                 with urllib.request.urlopen(req, timeout=self.timeout) as r:
                     return json.loads(r.read())
             except urllib.error.HTTPError as e:
-                # 429: 공식 스펙대로 Retry-After 존중 후 1회 백오프 (폭주 금지)
+                # 429: 공식 스펙대로 Retry-After 우선 + 유한 백오프 + jitter (폭주 금지)
                 if e.code == 429 and attempt < retries:
                     wait = e.headers.get("Retry-After")
-                    time.sleep(min(float(wait) if wait else 2.0 * (attempt + 1), 30))
+                    base = float(wait) if wait else 2.0 * (attempt + 1)
+                    time.sleep(min(base, 30) + random.uniform(0, 0.5))
                     last = e
                     continue
+                # 401(토큰 만료·폐기): 정확히 1회만 토큰을 새로 받아 원 요청을 재시도.
+                # _reauth_done 플래그로 두 번째 401은 그대로 실패 — 무한 갱신 루프 금지.
+                if e.code == 401 and auth and not _reauth_done:
+                    self._token = None
+                    self._token_expires_at = 0
+                    return self._request(path, params=params, method=method, body=body,
+                                         auth=True, retries=retries, _reauth_done=True)
+                # 400/403 등 영구 오류는 재시도하지 않는다.
                 # ⚠️ 오류 본문에 토큰·비밀이 없도록 상태코드만 남긴다
                 raise MarketDataUnavailable(f"HTTP {e.code} at {path}") from None
             except Exception as e:
