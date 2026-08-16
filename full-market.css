@@ -2,25 +2,35 @@
    rotation.css의 색·간격·타이포 어휘를 그대로 따라 같은 화면 안에서 이질감이 없게 한다. */
 .fm-tabhost{display:none;max-width:1320px;margin:0 auto}
 .fm-tabhost.on{display:block}
-.fm-tabbar{display:flex;flex-wrap:wrap;gap:8px 26px;margin:2px 0 4px;border-bottom:1px solid #e3e5e8}
-.fm-tab{max-width:100%;padding:10px 1px 12px;border:0;border-bottom:2px solid transparent;background:transparent;
-  color:#7b8089;font:inherit;font-size:13px;font-weight:700;letter-spacing:-.01em;cursor:pointer;text-align:left;box-sizing:border-box}
-.fm-tab small{display:block;margin-top:3px;max-width:100%;color:#9297a0;font-size:10px;font-weight:500;line-height:1.4;white-space:normal;overflow-wrap:break-word}
-.fm-tab.on{color:#1d1d1f;border-bottom-color:#1d1d1f}
-.fm-tab.on small{color:#6e737d}
+/* 순환매 모드의 보이는 Section Header — 선택된 sub-tab의 제목·설명을 상단에 보여준다 */
+.fm-mode-head{margin:4px 0 16px}
+.fm-mode-eyebrow{display:block;margin-bottom:5px;color:#7b8089;font-size:11px;font-weight:600}
+.fm-mode-title{margin:0;color:#1d1d1f;font-size:clamp(22px,2.6vw,30px);line-height:1.15;letter-spacing:-.04em}
+.fm-mode-desc{max-width:640px;margin:7px 0 0;color:#6e737d;font-size:12.5px;line-height:1.6}
+/* Apple식 Segmented Control — "둘 중 하나를 눌러 선택한다"가 보자마자 읽히게.
+   선택 상태는 색만이 아니라 surface·border·shadow·font-weight로 함께 표현한다. */
+.fm-seg-label{margin:2px 0 6px;color:#7b8089;font-size:10.5px;font-weight:700;letter-spacing:.02em}
+.fm-tabbar{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;box-sizing:border-box;
+  border:1px solid #e3e5e8;border-radius:12px;background:#f2f3f5}
+.fm-tab{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:9px 8px;
+  border:1px solid transparent;border-radius:9px;background:transparent;color:#6e737d;
+  font:inherit;font-size:13px;font-weight:600;letter-spacing:-.01em;line-height:1.2;cursor:pointer;text-align:center;white-space:nowrap}
 .fm-tab:hover{color:#1d1d1f}
+.fm-tab.on{background:#fff;border-color:#dfe2e6;color:#1d1d1f;font-weight:650;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.fm-tab:focus-visible{outline:2px solid #1d1d1f;outline-offset:2px}
+.fm-seg-desc{margin:8px 0 6px;color:#7b8089;font-size:11px;line-height:1.55}
+.fm-seg-desc b{color:#3f4650;font-weight:650}
 
 .fullmarket-view{display:none;width:100%;color:#1d1d1f;font-variant-numeric:tabular-nums}
 .fullmarket-view.on{display:block}
 .fm-shell{max-width:1320px;margin:0 auto;padding:14px 0 36px}
 .fm-empty{padding:18px;border-radius:14px;background:#f7f8fa;color:#737a84;font-size:12px}
 
-.fm-hero{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
-.fm-kicker{display:block;margin-bottom:8px;color:#2563eb;font-size:10px;font-weight:700;letter-spacing:.12em}
-.fm-hero h2{margin:0;font-size:clamp(22px,2.4vw,32px);line-height:1.12;letter-spacing:-.04em}
-.fm-hero p{max-width:520px;margin:8px 0 0;color:#6e737d;font-size:12.5px;line-height:1.6}
-.fm-asof{text-align:right;color:#6e737d;font-size:10.5px;line-height:1.6}
-.fm-asof strong{display:block;color:#1d1d1f;font-size:15px;font-weight:700}
+/* Hero — 사이트 상단 Section Header가 이미 "전체시장 흐름" 제목을 담당하므로
+   내부는 Metadata 한 줄(대상 규모 · 기준시각 · 상태)로만 유지한다. */
+.fm-hero{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-bottom:14px}
+.fm-asof{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;color:#6e737d;font-size:11px;line-height:1.6}
+.fm-asof strong{color:#1d1d1f;font-size:14px;font-weight:700}
 .fm-status{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:10.5px;font-weight:600}
 .fm-status i{display:inline-block;width:6px;height:6px;border-radius:50%}
 .fm-status-ok i{background:var(--green,#2e7d46)}
@@ -96,19 +106,25 @@
 .fm-sector-detail-note{margin:10px 0 0;color:#7b8089;font-size:10px;line-height:1.5}
 .fm-sector-lowsample{margin:8px 0 0;color:#a4791f;font-size:10px;line-height:1.5}
 
-/* History accumulating */
-.fm-history-note{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:12px 14px;
-  border-top:1px solid #edf0f3;color:#7b8089;font-size:11px}
-.fm-history-note span{color:#9297a0}
+/* History accumulating — 5거래일/20거래일을 별도 기간으로 분리해 보여준다 */
+.fm-history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.fm-history-grid>div{padding:12px;border-radius:12px;background:#f7f8fa}
+.fm-history-grid span{display:block;color:#7a8089;font-size:10px}
+.fm-history-grid strong{display:block;margin-top:5px;font-size:12.5px;font-weight:600;color:#8a8f97}
+.fm-history-copy{margin:10px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
 
 /* ---------- Dark mode (html.gdark — rotation.css와 동일한 토글) ---------- */
-html.gdark .fm-tabbar{border-color:#343438}
+html.gdark .fm-mode-eyebrow,html.gdark .fm-mode-desc{color:#aeb3bb}
+html.gdark .fm-mode-title{color:#f5f5f7}
+html.gdark .fm-seg-label,html.gdark .fm-seg-desc{color:#aeb3bb}
+html.gdark .fm-seg-desc b{color:#d7dae0}
+html.gdark .fm-tabbar{background:#141416;border-color:#343438}
 html.gdark .fm-tab{color:#aeb3bb}
 html.gdark .fm-tab:hover{color:#f5f5f7}
-html.gdark .fm-tab.on{color:#f5f5f7;border-bottom-color:#f5f5f7}
-html.gdark .fm-tab.on small{color:#c8cbd1}
+html.gdark .fm-tab.on{background:#2c2c2e;border-color:#48484a;color:#f5f5f7;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+html.gdark .fm-tab:focus-visible{outline-color:#f5f5f7}
 html.gdark .fullmarket-view{color:#f5f5f7}
-html.gdark .fm-hero p,html.gdark .fm-asof,html.gdark .fm-panel .fm-sub{color:#aeb3bb}
+html.gdark .fm-asof,html.gdark .fm-panel .fm-sub{color:#aeb3bb}
 html.gdark .fm-asof strong{color:#f5f5f7}
 html.gdark .fm-panel{background:#1c1c1e;border-color:#343438}
 html.gdark .fm-panel h3{color:#f5f5f7}
@@ -124,11 +140,14 @@ html.gdark .fm-compare-table th,html.gdark .fm-compare-table td{border-color:#34
 html.gdark .fm-compare-table thead th{color:#c8cbd1}
 html.gdark .fm-feel-grid>div,html.gdark .fm-conc-grid>div,html.gdark .fm-sector-detail-grid>div{background:#242427}
 html.gdark .fm-feel-note{background:#17263c;color:#b8c6da}
-html.gdark .fm-conc-note,html.gdark .fm-sector-sub,html.gdark .fm-sector-detail-note,html.gdark .fm-history-note{color:#aeb3bb}
+html.gdark .fm-conc-note,html.gdark .fm-sector-sub,html.gdark .fm-sector-detail-note,html.gdark .fm-history-copy{color:#aeb3bb}
+html.gdark .fm-history-grid>div{background:#242427}
+html.gdark .fm-history-grid span{color:#9da1aa}
+html.gdark .fm-history-grid strong{color:#c8cbd1}
 html.gdark .fm-empty,html.gdark .fm-empty-inline{background:#242427;color:#aeb3bb}
 html.gdark .fm-sort select{background:#1c1c1e;border-color:#424248;color:#f5f5f7}
 html.gdark .fm-sort label{color:#aeb3bb}
-html.gdark .fm-sector-list,html.gdark .fm-sector-item,html.gdark .fm-history-note{border-color:#343438}
+html.gdark .fm-sector-list,html.gdark .fm-sector-item{border-color:#343438}
 html.gdark .fm-sector-row:hover,html.gdark .fm-sector-row:focus-visible{background:#242427}
 html.gdark .fm-sector-row{color:#f5f5f7}
 
