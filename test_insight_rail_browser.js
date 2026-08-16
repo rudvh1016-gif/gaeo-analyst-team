@@ -56,9 +56,23 @@ function shotPath(name) {
   const wrapAfterOpen = await page.locator('.wrap').boundingBox();
   if (!railBox || railBox.x !== 0 || railBox.width < 60) throw new Error('rail geometry is incorrect: ' + JSON.stringify(railBox));
   if (!panelBox || panelBox.x < 60 || panelBox.width < 280 || panelBox.width > 320) throw new Error('panel geometry is incorrect: ' + JSON.stringify(panelBox));
-  if (!wrapBeforeOpen || !wrapAfterOpen || Math.abs(wrapBeforeOpen.x - wrapAfterOpen.x) > 0.5 || Math.abs(wrapBeforeOpen.width - wrapAfterOpen.width) > 0.5) {
-    throw new Error('opening the insight panel changed main layout geometry: ' + JSON.stringify({ wrapBeforeOpen, wrapAfterOpen }));
+  // ⭐ 2026-08-16 계약 변경: 예전에는 "패널을 열어도 본문 좌표가 변하지 않을 것"을 요구했는데,
+  // 그건 곧 패널이 본문 위를 덮는다는 뜻이었다. 실제 사용자 환경(브라우저 확대 = CSS 뷰포트 축소)에서
+  // 레일·패널이 본문 왼쪽을 가려버리는 문제가 보고돼(2026-08-16), 이제는 셸이 차지한 폭만큼
+  // 본문이 실제로 자리를 비우는 app-shell 방식으로 바꿨다. 그래서 검증 기준도 "좌표 불변"이 아니라
+  // "본문을 절대 덮지 않는다 + 레이아웃이 여전히 멀쩡하다"로 바꾼다.
+  if (!wrapBeforeOpen || !wrapAfterOpen) throw new Error('wrap geometry missing');
+  if (panelBox.x + panelBox.width > wrapAfterOpen.x + 0.5) {
+    throw new Error('insight panel overlaps main content: ' + JSON.stringify({ panelBox, wrapAfterOpen }));
   }
+  if (railBox.width > wrapBeforeOpen.x + 0.5) {
+    throw new Error('icon rail overlaps main content when closed: ' + JSON.stringify({ railBox, wrapBeforeOpen }));
+  }
+  if (wrapAfterOpen.width < 800) {
+    throw new Error('main content became too narrow with the panel open: ' + JSON.stringify(wrapAfterOpen));
+  }
+  const hOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  if (hOverflow > 1) throw new Error('opening the insight panel caused horizontal overflow: ' + hOverflow);
   if (await page.evaluate(() => localStorage.getItem('gaeo-insight-panel-open')) !== 'true') throw new Error('open state not stored');
   if (await page.evaluate(() => localStorage.getItem('gaeo-insight-panel-tab')) !== 'rotation') throw new Error('tab state not stored');
   await page.locator('#homeDashboard').click({ position: { x: 900, y: 10 }, force: true });
