@@ -189,6 +189,9 @@ jobs:
             ARCHIVE_AUTO=1 python3 archive_analysis.py --auto || { echo "history·정밀분석 아카이브 실패"; exit 1; }
             # 🧭 모델 대시보드용 집계(수천 바이트). 개별 종목 예측 원본은 넣지 않는다.
             python3 build_model_scoreboard.py || echo "모델 대시보드 집계 실패 — 계속 진행"
+            # 🩺 운영 상태 요약(2026-08-16) — Actions Summary 탭에 상태표를 남긴다.
+            #    Secret 값은 출력하지 않는다(상태 이름만). 실패해도 계속 진행.
+            python3 ops_health_check.py || echo "운영 상태 점검 실패 — 계속 진행"
             # 완성된 정밀분석을 영구 Snapshot·Archive·홈 최신 목록으로 발행한다.
             timeout 600 node generate_deep_analysis.js || { echo "정밀분석 발행 생성 실패"; exit 1; }
             # 💰 전체 대상 종목(tickers.js) 개별 정밀/자동분석 스냅샷 + sitemap 자동 갱신 — "OO 전망/주가" 검색 유입을
