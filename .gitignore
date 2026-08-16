@@ -10,3 +10,12 @@ research_shadow.json
 
 # 브라우저 테스트 스크린샷(로컬 산출물)
 .test-screenshots/
+
+# 로컬 민감파일 — Secret은 GitHub Actions Secrets/환경변수로만 쓴다(2026-08-16 보안 정리).
+# 아래 패턴과 겹치는 정상 파일이 저장소에 없음을 확인하고 추가했다.
+.env
+.env.*
+*.key
+*.pem
+credentials*
+secrets.*

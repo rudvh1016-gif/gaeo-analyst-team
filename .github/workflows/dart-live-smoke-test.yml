@@ -58,7 +58,7 @@ jobs:
       - name: Secret 존재 여부만 확인 (값은 출력하지 않음)
         run: |
           if [ -n "$OPEN_DART_API_KEY" ]; then
-            echo "secretPresent: true (길이 ${#OPEN_DART_API_KEY}자)"
+            echo "secretPresent: true"   # 길이조차 출력하지 않는다 — configured/missing만
           else
             echo "secretPresent: false"
             echo "::warning::OPEN_DART_API_KEY가 비어 있습니다. Repository Secret 이름을 확인하세요."
