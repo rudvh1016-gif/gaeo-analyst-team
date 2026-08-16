@@ -103,6 +103,25 @@ check("--sans에 Inter/Roboto 없음(표준 스택)",
 check("--sans에 한글 fallback(Malgun Gothic) 포함",
       _sans and "Malgun Gothic" in _sans.group(1))
 
+# ── font shorthand 사각지대 (2026-08-16 Paper V1 동반 수정) ─────────────────
+# ① `font:500 9px/1 inherit`처럼 inherit를 다른 값과 섞은 shorthand는 CSS
+#    명세상 선언 전체가 무효로 버려져(실측: 13.3px로 fallback) 금지한다.
+#    `font:inherit` 단독은 유효하므로 허용.
+# ② shorthand 안의 weight도 tier(400/500/600/650/700/800)를 지켜야 한다.
+# ③ insight-rail 사용자 텍스트는 10px 바닥선(아이콘 glyph 크기 20px는 예외로
+#    font-size 단독 선언이라 이 검사에 안 걸린다).
+for _f in ["index.html", "rotation.css", "insight-rail.css"]:
+    _s = open(_f, encoding="utf-8").read()
+    _mixed = [m for m in _re.findall(r"font:[^;}]*", _s)
+              if "inherit" in m and m.strip() != "font:inherit"]
+    check(f"{_f}: inherit 혼합 font shorthand 없음(무효 CSS)", not _mixed,
+          str(_mixed[:2]))
+    _sw = [w for w in _re.findall(r"font:\s*(\d{3})\b", _s) if w not in _allowed]
+    check(f"{_f}: font shorthand weight tier 준수", not _sw, str(_sw))
+_ir = open("insight-rail.css", encoding="utf-8").read()
+_small = [v for v in _re.findall(r"font-size:([0-9.]+)px", _ir) if float(v) < 10]
+check("insight-rail 사용자 텍스트 10px 바닥선", not _small, str(_small))
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
