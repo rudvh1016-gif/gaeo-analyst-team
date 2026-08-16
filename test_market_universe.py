@@ -101,6 +101,70 @@ mixed = cmu.sector_stats(big + small, {"000001": "반도체"})
 check("unmapped는 업종에 안 들어가고 카운트만", mixed["unmappedCount"] == len(big + small) - 1
       and "기타" not in mixed["sectors"])
 
+# ── 업종 crosswalk 계약 (2026-08-16 업종 연결) ──────────────────────────────
+import sector_crosswalk as sx
+
+check("crosswalk 대상은 전부 GAEO 24대분류",
+      set(sx.KSIC_TO_GAEO.values()) <= set(sx.GAEO_SECTORS))
+check("표에 없는 업종은 None(UNKNOWN) — '기타' 아님",
+      sx.gaeo_sector("존재하지 않는 업종") is None and sx.gaeo_sector("") is None
+      and sx.gaeo_sector(None) is None)
+cov0 = sx.coverage({"의약품 제조업": 3, "광고업": 2})
+check("coverage: unknown을 별도 목록으로 유지",
+      cov0["mapped"] == 3 and cov0["unknownIndustries"] == {"광고업": 2})
+
+# 커밋된 실측 히스토그램(러너 probe 결과) 기준 게이트 — 95% 미만이면 이 테스트가
+# 막아서 업종 통계를 Production에 연결하지 못하게 한다.
+probe_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "market_universe", "sector_source_probe.json")
+if os.path.exists(probe_path):
+    probe = json.load(open(probe_path, encoding="utf-8"))
+    merged_hist = {}
+    for src in probe.get("sources", {}).values():
+        for ind, n in (src.get("industryHistogram") or {}).items():
+            merged_hist[ind] = merged_hist.get(ind, 0) + n
+    if merged_hist:
+        cov_real = sx.coverage(merged_hist)
+        check(f"실측 crosswalk 커버리지 ≥ 95% (현재 {cov_real['ratio']:.2%})",
+              cov_real["ratio"] >= 0.95)
+
+# ── sector_breadth 게이트 동작 ───────────────────────────────────────────────
+elig_sb = [{"code": "005930", "rate": 2.0, "cap": 100.0, "tval": 1, "market": "KOSPI"},
+           {"code": "000660", "rate": 1.0, "cap": 100.0, "tval": 1, "market": "KOSPI"}]
+sb_tmp = tempfile.mkdtemp(prefix="gaeo_sb_")
+try:
+    no_map = cmu.sector_breadth(elig_sb, os.path.join(sb_tmp, "없는파일.json"))
+    check("sector_map 없음 → SECTOR_MAPPING_PENDING", no_map["status"] == "SECTOR_MAPPING_PENDING")
+
+    fail_map = os.path.join(sb_tmp, "fail.json")
+    with open(fail_map, "w", encoding="utf-8") as f:
+        json.dump({"asOf": "t", "corpCount": 2, "map": {"005930": "반도체 제조업"},
+                   "crosswalkCoverage": {"ratio": 0.5, "gate": "GATE_FAIL"}}, f)
+    failed = cmu.sector_breadth(elig_sb, fail_map)
+    check("게이트 미달 → PARTIAL + 통계 미첨부",
+          failed["status"] == "SECTOR_MAPPING_PARTIAL" and "sectors" not in failed)
+
+    pass_map = os.path.join(sb_tmp, "pass.json")
+    with open(pass_map, "w", encoding="utf-8") as f:
+        json.dump({"asOf": "t", "corpCount": 2,
+                   "map": {"005930": "반도체 제조업", "000660": "반도체 제조업"},
+                   "crosswalkCoverage": {"ratio": 0.97, "gate": "GATE_PASS"}}, f)
+    ready = cmu.sector_breadth(elig_sb, pass_map)
+    check("게이트 통과 → READY + 반도체 통계",
+          ready["status"] == "READY" and ready["sectors"].get("반도체", {}).get("count") == 2
+          and ready["eligibleMappedRatio"] == 1.0)
+
+    low_map = os.path.join(sb_tmp, "low.json")
+    with open(low_map, "w", encoding="utf-8") as f:
+        json.dump({"asOf": "t", "corpCount": 1, "map": {"005930": "반도체 제조업"},
+                   "crosswalkCoverage": {"ratio": 0.97, "gate": "GATE_PASS"}}, f)
+    low = cmu.sector_breadth(elig_sb, low_map)
+    check("eligible 매핑률 95% 미만 → PARTIAL(통계는 첨부, 매핑률 명시)",
+          low["status"] == "SECTOR_MAPPING_PARTIAL" and low["eligibleMappedRatio"] == 0.5
+          and "sectors" in low)
+finally:
+    shutil.rmtree(sb_tmp, ignore_errors=True)
+
 # ── FAIL SAFE — 비정상 수집이 last-good을 덮어쓰지 않음 ─────────────────────
 tmp = tempfile.mkdtemp(prefix="gaeo_mu_")
 try:
