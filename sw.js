@@ -2,7 +2,7 @@
 //    오프라인 상태에서 쓰이는 precache 사본도 새 목록으로 교체된다.
 //    (온라인에서는 아래 changesOften 규칙이 .js를 network-first로 받으므로 문제없다.
 //     그래서 캐시를 매번 깨지 않고, 목록이 실제로 바뀔 때만 버전을 올린다.)
-const CACHE = 'gaeo-shell-v12';
+const CACHE = 'gaeo-shell-v13';
 const SHELL = [
   './',
   './index.html',
@@ -18,6 +18,7 @@ const SHELL = [
   './app-icon-1024.png',
   './market_archive.js',
   './apple-touch-icon.png',
+  './favicon.ico',
   './favicon-16.png',
   './favicon-32.png',
   './tickers.js',
