@@ -69,8 +69,8 @@ check("T1c. Portfolio Return = +0.5%", summ["portfolioReturnPct"] == 0.5,
 check("T1d. 회계 Identity: 초기+확정+미실현 == 현금+평가포지션",
       abs(CFG["initial_cash_krw"] + summ["realizedPnl"] + summ["unrealizedPnl"]
           - summ["currentVirtualEquity"]) < 1)
-check("T1e. valuationAsOf 존재 + MARKED", summ["valuationStatus"] == "MARKED"
-      and bool(summ["valuationAsOf"]))
+check("T1e. 관측/시장 시각 분리 + MARKED", summ["valuationStatus"] == "MARKED"
+      and bool(summ["valuationObservedAt"]) and bool(summ["valuationMarketAt"]))
 
 # ── TEST 4: 다음 사이클 시세 실패 → 이전 Mark·Timestamp 보존, 추측 0 ────────
 eng.provider = pmd.FixtureMarketDataProvider(prices={}, orderbooks={}, calendar=cal("2026-08-20"))
@@ -78,8 +78,10 @@ eng.run_cycle(bundle({"005930": "HOLD"}, "2026-08-20T10:05:00+09:00"), now=t("20
 summ = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
 check("T4. Stale — 이전 Mark(10,500) 유지 · Equity 불변",
       summ["currentVirtualEquity"] == 10_050_000)
-check("T4b. Stale — 이전 관측 Timestamp 유지(현재시간 아님)",
-      summ["valuationAsOf"] == f"{D2}T10:00:00+09:00", str(summ["valuationAsOf"]))
+check("T4b. Stale — 이전 Market 시각 보존·Observed는 그때의 관측 시각(현재시간 위조 없음)",
+      summ["valuationMarketAt"] == f"{D2}T10:00:00+09:00"
+      and summ["valuationObservedAt"] == f"{D2}T10:10:00+09:00",
+      f'{summ["valuationMarketAt"]} / {summ["valuationObservedAt"]}')
 shutil.rmtree(tmp)
 
 # ── TEST 2: +10% 실현 ×10회 → Portfolio +10% (Trade 합 +100% 아님) ──────────
@@ -108,7 +110,9 @@ check("T3. MDD = -10.0%", mdd == -10.0, str(mdd))
 # 데이터 부족 → None (0%로 표시 금지)
 with open(curve, "w", encoding="utf-8") as f:
     f.write(json.dumps({"markedEquity": 10_000_000}) + "\n")
-check("T3b. Equity 관측 1개 → MDD None(기록 대기)", pe.max_drawdown_from_curve(curve) is None)
+check("T3b. seed 없이 관측 1개 → None(기존 동작)", pe.max_drawdown_from_curve(curve) is None)
+check("T3c. seed 있으면 관측 1개도 계산(10M→10M = 0.0)",
+      pe.max_drawdown_from_curve(curve, initial_seed=10_000_000) == 0.0)
 shutil.rmtree(tmp)
 
 # ── TEST 5: 유효 Mark 전무 → Equity·Return null (0 금지) ────────────────────
@@ -130,9 +134,19 @@ check("T6b. UI: MDD 없으면 '기록 대기'(0.0% 금지)", "'기록 대기'" i
 
 # ── 매매 행동 불변 계약: valuation 도입 후에도 Entry/Exit 로직 diff 0 ────────
 src = open("paper_engine.py", encoding="utf-8").read()
-check("행동 불변: lastMarkPrice가 진입·청산 판단 코드에 미사용",
-      "lastMarkPrice" not in src.split("def _process_entries")[1].split("def _manage_positions")[0]
-      and "reason =" not in src.split('meta["lastMarkPrice"]')[0].split("def _manage_positions")[1])
+# Mark는 '쓰기(telemetry)'만 허용 — 매매 판단 코드에서 '읽기' 0이어야 한다.
+_entries = src.split("def _process_entries")[1].split("def _manage_positions")[0]
+_manage = src.split("def _manage_positions")[1].split("def _write_equity")[0]
+_reads = [seg for seg in (_entries, _manage) if 'get("lastMarkPrice")' in seg
+          or 'meta["lastMarkPrice"]' in seg.replace('meta["lastMarkPrice"] =', '')
+          .replace('"lastMarkPrice": price', '')]
+check("행동 불변: 진입·청산 코드에서 lastMarkPrice 읽기 0 (쓰기 telemetry만)",
+      not _reads and 'get("lastMarkPrice")' in src.split("def portfolio_valuation")[1]
+      .split("def max_drawdown")[0])
+# 청산 판단(reason)이 Mark를 참조하지 않는지 — reason 결정 블록에 mark 문자열 부재
+_reason_block = _manage.split("cur_call =")[1].split("if not in_session")[0]
+check("행동 불변: 청산 사유 결정에 Mark 미참조",
+      "lastMark" not in _reason_block and "MarkPrice" not in _reason_block)
 check("정렬 주석 용어: 판단 확신도", "판단 확신도(confidence) → 종합점수" in src)
 check("요일 하드코딩 없음", "(월)" not in html.split("stageMsg")[1][:400])
 
