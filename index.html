@@ -1401,6 +1401,7 @@
   .vmetric-value small{font-size:11px;font-weight:700;margin-left:3px}
   .vmetric-note{margin-top:10px;color:var(--t2);font-size:12.5px;font-weight:400;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere}
   .vmetric-note b{font-weight:600}
+  .vrel-line{margin-top:10px;color:var(--t2);font-size:12.5px;font-weight:500}
   .dart-context{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
   .dart-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
   .dart-head span{font-size:12.5px;font-weight:600;color:var(--ink)}
@@ -3091,7 +3092,9 @@
     .home-daily-brief .hdb-context{padding-right:0}
     .home-daily-brief .hdb-decisions{margin-top:24px;padding:22px 0 0;border-top:1px solid var(--color-border);border-left:0}
     .home-daily-brief .hdb-stat strong{font-size:27px}
-    .home-daily-brief .brief-line{padding:18px 0}
+    .home-daily-brief .brief-line{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 0}
+    .home-daily-brief .brief-line::before{font-size:12px;line-height:1.45}
+    .home-daily-brief .brief-line span{font-size:13px;line-height:1.58}
     .home-daily-brief .hdb-sheet-backdrop{position:fixed;inset:0;z-index:520;background:rgba(15,20,28,.42)}
     .home-daily-brief .hdb-buy-panel{position:fixed;right:0;bottom:0;left:0;z-index:521;max-height:78vh;margin:0;padding:18px 18px max(18px,env(safe-area-inset-bottom));overflow:hidden;border:0;border-radius:20px 20px 0 0;background:var(--color-surface);box-shadow:0 -12px 30px rgba(15,20,28,.14)}
     .home-daily-brief .hdb-buy-list{max-height:calc(78vh - 72px)}
@@ -4976,28 +4979,33 @@ function paperBlockHTML(){
   const won0=v=>v==null?'—':Math.round(v).toLocaleString('ko-KR')+'원';
   const pct=(v,signed)=>v==null?null:`${signed&&v>0?'+':''}${v.toFixed(2)}%`;
   const stageMsg={
-    BEFORE_FORWARD_START:'8월 18일(월)부터 실제 시장 기준 Forward 검증을 시작합니다.',
+    BEFORE_FORWARD_START:'8월 18일부터 실제 시장 기준 Forward 검증을 시작합니다.',
     AWAITING_MARKET_DATA:'시세 연결 준비 중이에요. 연결되면 다음 장중 사이클부터 자동으로 기록됩니다.',
     BASELINE_ONLY:'기준 상태를 기록했습니다. 이제부터 새롭게 발생하는 「매수 고려」 전환부터 가상거래가 시작돼요.',
   }[P.stage];
   const insufficient=String(P.evidenceStatus||'').startsWith('INSUFFICIENT');
-  // 핵심 지표(4~6개) — 값이 없으면 0%가 아니라 '—'
+  // 핵심 지표 — 값이 없으면 0%·0원이 아니라 '—'(기록 대기)로 정직하게.
+  //   누적 가상수익률 = (현재 평가금 ÷ 시작자금 − 1) — 개별 거래 수익률의 합이 아니다.
   const stat=(v,label,color)=>`<div class="sc-stat"><b${color?` style="color:${color}"`:''}>${v==null?'—':v}</b><span>${label}</span></div>`;
-  const gross=pct(P.grossReturnPct,true), rel=P.avgRelativeReturnPct==null?null:`${P.avgRelativeReturnPct>0?'+':''}${P.avgRelativeReturnPct.toFixed(2)}%p`;
-  const grossColor=P.grossReturnPct>0?'var(--green)':(P.grossReturnPct<0?'var(--red)':null);
+  const signWon=v=>v==null?null:`${v>0?'+':v<0?'−':''}${Math.abs(Math.round(v)).toLocaleString('ko-KR')}원`;
+  const pctColor=v=>v>0?'var(--green)':(v<0?'var(--red)':null);
+  const rel=P.avgRelativeReturnPct==null?null:`${P.avgRelativeReturnPct>0?'+':''}${P.avgRelativeReturnPct.toFixed(2)}%p`;
+  const portRet=pct(P.portfolioReturnPct,true);
+  const mdd=P.maxDrawdownPct==null?'기록 대기':`${P.maxDrawdownPct.toFixed(1)}%`;
   const core=`<div class="sc-stat-row sc-stat-row-3">
-    ${stat(won0(P.initialVirtualCash),'가상 시작자금')}
-    ${stat(P.closedTrades?won0(P.realizedVirtualEquity):'—','확정 평가금')}
-    ${stat(gross,'누적 가상수익률',grossColor)}
+    ${stat(won0(P.currentVirtualEquity),'현재 평가금액')}
+    ${stat(portRet,'누적 가상수익률',pctColor(P.portfolioReturnPct))}
+    ${stat(signWon(P.realizedPnl),'확정 손익')}
+    ${stat(signWon(P.unrealizedPnl),'미실현 손익')}
     ${stat(rel,'시장 대비')}
+    ${stat(P.maxDrawdownPct==null?null:mdd,'최대 낙폭(MDD)')}
+  </div>`;
+  const second=`<div class="sc-stat-row sc-stat-row-3">
     ${stat(P.openTrades,'진행 중')}
     ${stat(P.closedTrades,'종료 거래')}
+    ${stat(P.closedTrades?(insufficient?null:pct(P.winRatePct)):null,
+           P.closedTrades&&insufficient?'승률 (표본 부족)':'승률')}
   </div>`;
-  const second=P.closedTrades?`<div class="sc-stat-row sc-stat-row-3">
-    ${stat(insufficient?null:pct(P.winRatePct),insufficient?'승률 (표본 부족)':'승률')}
-    ${stat(pct(P.avgReturnPct,true),'평균 수익 (비용 미반영)')}
-    ${stat(P.avgHoldingTradingDays==null?null:`${P.avgHoldingTradingDays}일`,'평균 보유 거래일')}
-  </div>`:'';
   const callName={BUY:'매수 고려 전환'};
   const exitName={CHIEF_SELL:'매도 고려 전환',MAX_HOLDING_5D:'5거래일 도달'};
   const stName={OPEN:'진행 중',CLOSED:'종료'};
@@ -5016,7 +5024,7 @@ function paperBlockHTML(){
     +(rows?`<div class="sc-chip-head">최근 가상거래</div>${rows}`:
       (P.stage==='RUNNING'?`<div class="sc-explain">아직 새롭게 발생한 매수 고려 신호가 없습니다.</div>`:''))
     +(insufficient&&P.closedTrades?`<p class="sc-foot-note">아직 판단하기에 기록이 충분하지 않습니다(종료 ${P.closedTrades}건).</p>`:'')
-    +`<p class="sc-foot-note">전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf} · 수익률은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
+    +`<p class="sc-foot-note">가상 시작자금 ${won0(P.initialVirtualCash)} · 전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf}${P.valuationAsOf?` · 마지막 평가 ${esc(String(P.valuationAsOf).slice(5,16).replace('T',' '))} 기준`:''} · 수익률·손익은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
   </div>`;
 }
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
@@ -9064,12 +9072,16 @@ function baseReliabilityState(){
 function confReliabilityNoteHTML(v){
   if(v.conf==null) return '';
   const r=baseReliabilityState();
+  // 신뢰도 상태줄 — 숫자를 발명하지 않는다: 실측 적중률이 있으면 그 이름 그대로,
+  // 없으면 '기록 축적 중'. confidence 복사·재명명 금지.
+  const relState=r.kind==='MEASURED'?'검증 기록 확보'
+    :(r.kind==='ACCUMULATING'?'기록 축적 중':'상태 확인 불가');
   const rel=r.kind==='MEASURED'
     ?`현행 판단 방식의 5거래일 검증 적중률은 ${r.acc}%${r.ci?` (범위 ${r.ci[0]}~${r.ci[1]}%)`:''}예요.`
     :(r.kind==='ACCUMULATING'
       ?'현행 판단 방식은 새 검증 기록을 쌓는 중이라 아직 신뢰도 수치가 없어요(0%가 아니라 표본 대기예요).'
       :'검증 기록 상태를 불러오지 못했어요.');
-  return `<div class="vmetric-note"><b>확신도</b>는 지금 이 판단의 신호(기술·재무·확률·수급 점수가 서로 얼마나 일치하는지, 리스크 감점 포함)가 얼마나 또렷한지를 보여줘요 — <b>상승 확률이 아니에요</b>. <b>신뢰도</b>는 같은 판단 방식이 실제 5거래일 검증에서 쌓아온 기록이에요. ${rel} 자세한 기록은 성적표에서 볼 수 있어요.</div>`;
+  return `<div class="vrel-line">신뢰도 · ${relState}</div><div class="vmetric-note"><b>확신도</b>는 지금 이 판단의 신호(기술·재무·확률·수급 점수가 서로 얼마나 일치하는지, 리스크 감점 포함)가 얼마나 또렷한지를 보여줘요 — <b>상승 확률이 아니에요</b>. <b>신뢰도</b>는 같은 판단 방식이 실제 5거래일 검증에서 쌓아온 기록이에요. ${rel} 자세한 기록은 성적표에서 볼 수 있어요.</div>`;
 }
 // 2. 판단 이유 3가지 — best/worst 축 + 확신도. 새 문장을 짓지 않고 구조화된 점수만 재배치한다.
 function verdictReasonsHTML(data,v){

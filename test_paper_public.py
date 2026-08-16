@@ -83,7 +83,8 @@ try:
     payload3 = json.loads(open(pp.OUT, encoding="utf-8").read().split("=", 1)[1].strip().rstrip(";"))
     check("시작 전 상태 — 거래 0·수익률 null·stage 표기",
           rc3 == 0 and payload3["stage"] == "BEFORE_FORWARD_START"
-          and payload3["recentTrades"] == [] and payload3["grossReturnPct"] is None)
+          and payload3["recentTrades"] == [] and payload3["portfolioReturnPct"] is None
+          and "grossReturnPct" not in payload3)   # 개별 수익 합은 공개 payload에서 제외
 finally:
     pp.DIR, pp.OUT = orig_dir, orig_out
     shutil.rmtree(tmp, ignore_errors=True)
