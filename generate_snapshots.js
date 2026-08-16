@@ -416,21 +416,84 @@ fs.writeFileSync(
     JSON.stringify(latestPosts, null, 1) + ';\nconst CONTENT_STATS = ' +
     JSON.stringify(contentStats, null, 1) + ';\n'
 );
-const listHtml = index.map(x =>
-  `<li><span class="cat">${esc(x.cat)}</span> <a href="${esc(x.href)}">${esc(x.title)}</a> <span class="d">${esc(x.date)}</span></li>`
+// ══════════════════════════════════════════════════════════════════════
+// GAEO Research Hub — snap/index.html
+// 원칙(docs/gaeo_design_system.md · Research Hub 항목):
+//  · Generator-first — 이 파일이 다시 돌아도 허브 구조가 그대로 유지된다
+//  · Research(news/study/lesson/estate)와 Utility(calc)를 숫자·화면 모두 분리
+//  · 자동 종목페이지(snap/stock)는 index[]에 들어오지 않으므로 허브에도 없다
+//  · 정밀분석은 기존 구조화 소스(deep_analysis_latest.js)를 재사용 — HTML 스크래핑 금지
+//  · Featured는 인기·AI 판단이 아니라 아래의 결정적 규칙 하나뿐이다
+//  · 홈의 featuredLatestKey(latest_posts.js)와는 무관 — 허브는 허브 규칙만 쓴다
+// ══════════════════════════════════════════════════════════════════════
+// 화면 표시용 라벨 — 원본 데이터의 emoji 태그(cat)는 그대로 두고 표시만 분리한다.
+const HUB_LABELS = { news: '뉴스분석', study: '종목공부', lesson: '주식공부', estate: '부동산공부', calc: '투자 도구' };
+const RESEARCH_MODES = ['news', 'study', 'lesson', 'estate'];
+const researchItems = index.filter(x => RESEARCH_MODES.includes(x.mode));
+const calcItems = index.filter(x => x.mode === 'calc');
+const hubCount = index.reduce((m, x) => { m[x.mode] = (m[x.mode] || 0) + 1; return m; }, {});
+
+// Featured 규칙(결정적): ① 발행일 최신 ② 같은 날짜면 news → study → lesson → estate
+// ③ 그래도 같으면 id가 큰 글(나중 발행). calc·snap/stock은 후보 자체가 아니다.
+const HUB_MODE_PRIORITY = { news: 0, study: 1, lesson: 2, estate: 3 };
+const hubRecentPool = researchItems.slice().sort((a, b) =>
+  (b.date || '').localeCompare(a.date || '') ||
+  HUB_MODE_PRIORITY[a.mode] - HUB_MODE_PRIORITY[b.mode] ||
+  (Number(b.id) || 0) - (Number(a.id) || 0));
+const hubFeatured = hubRecentPool[0];
+const hubRecentRows = hubRecentPool.slice(1, 5);
+
+// 정밀분석 최신 3건 — generate_deep_analysis.js가 이미 만들어 두는 구조화 데이터 재사용.
+// 파일이 없거나 비어 있으면 목록 없이 Archive 진입 링크만 남는다.
+const deepLatestRaw = load('deep_analysis_latest.js', 'DEEP_ANALYSIS_LATEST');
+const deepRows = (Array.isArray(deepLatestRaw) ? deepLatestRaw : []).slice(0, 3);
+const DEEP_ARCHIVE_URL = BASE + 'research/deep-analysis/';
+
+const hubRow = x =>
+  `<li><a href="${esc(x.href)}"><span class="rt">${esc(x.title)}</span><span class="rm">${esc(HUB_LABELS[x.mode])} · ${esc(x.date)}</span></a></li>`;
+
+// 카테고리 Section — 최근 몇 건만 보여주고 나머지는 하단 전체 기록에서 잇는다.
+function hubSection(mode, anchor, blurb, n) {
+  const items = researchItems.filter(x => x.mode === mode);
+  const rows = items.slice(0, n).map(hubRow).join('\n');
+  return `<section class="sec" id="${anchor}">
+  <div class="sec-head"><h2>${esc(HUB_LABELS[mode])}</h2><p class="cnt">${items.length}건</p><p class="blurb">${esc(blurb)}</p></div>
+  <div class="sec-body"><ul class="rows">
+${rows}
+  </ul>
+  <a class="more" href="#archive">전체 기록에서 모두 보기 ↓</a></div>
+</section>`;
+}
+
+const featuredHtml = hubFeatured ? `<div class="featured">
+    <p class="fmeta">${esc(HUB_LABELS[hubFeatured.mode])} · ${esc(hubFeatured.date)}</p>
+    <a class="ftitle" href="${esc(hubFeatured.href)}">${esc(hubFeatured.title)}</a>
+  </div>` : '';
+
+const deepListHtml = deepRows.length ? `<ul class="rows">
+${deepRows.map(r =>
+  `<li><a href="${esc(BASE + String(r.permalink || '').replace(/^\//, ''))}"><span class="rt">${esc(r.stockName)}${r.summary ? ' — ' + esc(r.summary) : ''}</span><span class="rm">정밀분석 · ${esc(r.date)}</span></a></li>`
+).join('\n')}
+  </ul>\n  ` : '';
+
+const archiveListHtml = index.map(x =>
+  `<li><span class="cat">${esc(HUB_LABELS[x.mode] || x.cat)}</span> <a href="${esc(x.href)}">${esc(x.title)}</a> <span class="d">${esc(x.date)}</span></li>`
 ).join('\n');
+
+const HUB_TITLE = 'GAEO Research | 시장·기업 분석과 투자 공부';
+const HUB_DESC = '뉴스분석·종목공부·주식공부·부동산공부 글과 정밀분석 기록, 투자 계산기를 한곳에서 찾아볼 수 있는 개오 애널리스트팀의 리서치 허브입니다.';
 
 const indexPage = `<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>전체 글 목록 · ${esc(SITE_NAME)}</title>
-<meta name="description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<title>${esc(HUB_TITLE)}</title>
+<meta name="description" content="${esc(HUB_DESC)}">
 <link rel="canonical" href="${BASE}snap/index.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="전체 글 목록 · ${esc(SITE_NAME)}">
-<meta property="og:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta property="og:title" content="${esc(HUB_TITLE)}">
+<meta property="og:description" content="${esc(HUB_DESC)}">
 <meta property="og:image" content="${SHARE_IMAGE}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -440,29 +503,120 @@ const indexPage = `<!doctype html>
 <meta property="og:site_name" content="GAEO">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="전체 글 목록 · ${esc(SITE_NAME)}">
-<meta name="twitter:description" content="개오 애널리스트팀 뉴스분석·종목공부·주식공부·부동산공부 전체 글 목록입니다.">
+<meta name="twitter:title" content="${esc(HUB_TITLE)}">
+<meta name="twitter:description" content="${esc(HUB_DESC)}">
 <meta name="twitter:image" content="${SHARE_IMAGE}">
 <meta name="twitter:image:alt" content="${SHARE_ALT}">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
-body{margin:0;background:#F5F5F7;color:#1D1D1F;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.8}
-@media (prefers-color-scheme:dark){body{background:#000;color:#F5F5F7}}
-.wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
-a{color:#0071E3;text-decoration:none;font-weight:600}
-ul{list-style:none;padding:0}
-li{padding:10px 0;border-bottom:1px solid rgba(128,128,128,.15);font-size:14.5px}
-.cat{display:inline-block;font-size:11.5px;color:#6E6E73;margin-right:6px}
-.d{display:block;font-size:12px;color:#6E6E73;margin-top:2px}
+:root{--paper:#fff;--bg:#fafafa;--ink:#171a20;--muted:#707783;--line:#e7e9ed;--accent:#233b62}
+@media (prefers-color-scheme:dark){:root{--paper:#101315;--bg:#0b0d0f;--ink:#f3f5f7;--muted:#9aa4ad;--line:#2a2f34;--accent:#a9c1e8}}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
+.shell{width:min(1040px,calc(100% - 40px));margin:0 auto;padding:30px 0 80px}
+a{color:inherit;text-decoration:none}
+.brand{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--line);font-size:13px}
+.brand a{font-weight:760;letter-spacing:-.02em}
+.brand span{color:var(--muted)}
+header.hero{padding:44px 0 0}
+h1{margin:0;font-size:clamp(30px,5vw,42px);font-weight:740;letter-spacing:-.045em;line-height:1.12}
+.intro{max-width:640px;margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.75}
+nav.toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:30px 0 0;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);font-size:13px;font-weight:640}
+nav.toc a{color:var(--muted);padding:2px 0;border-bottom:2px solid transparent}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
+.sec{display:grid;grid-template-columns:180px minmax(0,1fr);gap:36px;padding:38px 0;border-bottom:1px solid var(--line)}
+.sec-head h2{margin:0;font-size:19px;font-weight:720;letter-spacing:-.02em}
+.cnt{margin:6px 0 0;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.blurb{margin:10px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
+.rows{margin:0;padding:0;list-style:none}
+.rows li{border-bottom:1px solid var(--line)}
+.rows li:last-child{border-bottom:0}
+.rows a{display:block;padding:12px 2px}
+.rows a:hover .rt,.rows a:focus-visible .rt{color:var(--accent)}
+.rt{display:block;font-size:15.5px;font-weight:620;line-height:1.5;letter-spacing:-.01em}
+.rm{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.more{display:inline-block;margin-top:14px;color:var(--muted);font-size:13px;font-weight:640}
+.more:hover,.more:focus-visible{color:var(--ink)}
+.featured{padding-bottom:20px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+.fmeta{margin:0 0 8px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.ftitle{display:block;font-size:clamp(20px,3vw,26px);font-weight:700;line-height:1.35;letter-spacing:-.025em}
+.ftitle:hover,.ftitle:focus-visible{color:var(--accent)}
+.entry{display:inline-block;margin-top:14px;color:var(--accent);font-size:13.5px;font-weight:660}
+#archive .rowsarchive{margin:0;padding:0;list-style:none;max-width:760px}
+#archive li{padding:10px 2px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.6}
+#archive li:last-child{border-bottom:0}
+#archive li>a{font-weight:620}
+#archive li>a:hover,#archive li>a:focus-visible{color:var(--accent)}
+.cat{display:inline-block;margin-right:6px;color:var(--muted);font-size:11.5px}
+.d{display:block;margin-top:2px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+footer.foot{margin-top:40px;color:var(--muted);font-size:12.5px;line-height:1.7}
+@media(max-width:760px){
+.shell{width:min(100% - 32px,1040px);padding-top:22px}
+header.hero{padding-top:30px}
+.sec{grid-template-columns:1fr;gap:16px;padding:30px 0}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p><a href="${BASE}">← ${esc(SITE_NAME)} 홈</a></p>
-  <h1 style="font-size:20px">전체 글 목록 (${index.length}건)</h1>
-  <ul>${listHtml}</ul>
-</div>
+<main class="shell">
+  <header class="brand"><a href="${BASE}">GAEO</a><span>Research</span></header>
+  <header class="hero">
+    <h1>GAEO Research</h1>
+    <p class="intro">시장과 기업을 이해하기 위한 개오 애널리스트팀의 분석과 학습 기록입니다.
+    리서치 글 ${researchItems.length}건과 정밀분석 기록, 투자 계산기를 한곳에서 볼 수 있어요.</p>
+  </header>
+  <nav class="toc" aria-label="리서치 허브 목차">
+    <a href="#recent">최근 분석</a>
+    <a href="#news">뉴스분석</a>
+    <a href="#study">종목공부</a>
+    <a href="#lesson">주식공부</a>
+    <a href="#deep">정밀분석</a>
+    <a href="#estate">부동산공부</a>
+    <a href="#tools">투자 도구</a>
+    <a href="#archive">전체 기록</a>
+  </nav>
+
+  <section class="sec" id="recent">
+    <div class="sec-head"><h2>최근 분석</h2><p class="blurb">가장 최근에 발행된 리서치 글이에요. 최신 발행일 순으로 자동 선정됩니다.</p></div>
+    <div class="sec-body">
+  ${featuredHtml}
+  <ul class="rows">
+${hubRecentRows.map(hubRow).join('\n')}
+  </ul>
+    </div>
+  </section>
+
+${hubSection('news', 'news', '시장을 움직인 기사와 이슈를 초보자 눈높이로 풀어쓴 심층 분석입니다.', 6)}
+
+${hubSection('study', 'study', '한 기업을 처음 공부하는 사람을 위한 종목별 기초 리서치입니다.', 6)}
+
+${hubSection('lesson', 'lesson', '주식 투자에 필요한 개념과 제도를 하나씩 배우는 학습 글입니다.', 6)}
+
+  <section class="sec" id="deep">
+    <div class="sec-head"><h2>정밀분석 기록</h2><p class="blurb">직접 지정해 더 깊게 분석한 종목의 당시 기록입니다. 각 기록은 최신 판단으로 덮어쓰지 않고 보존합니다.</p></div>
+    <div class="sec-body">${deepListHtml}<a class="entry" href="${DEEP_ARCHIVE_URL}">정밀분석 기록 보기 →</a></div>
+  </section>
+
+${hubSection('estate', 'estate', '전세·청약·대출 등 부동산과 주거 재무를 공부하는 글입니다.', 6)}
+
+  <section class="sec" id="tools">
+    <div class="sec-head"><h2>투자 도구</h2><p class="cnt">${calcItems.length}개</p><p class="blurb">계산기 등 도구 페이지입니다. 위 리서치 글 수에는 포함하지 않아요.</p></div>
+    <div class="sec-body"><ul class="rows">
+${calcItems.map(x => `<li><a href="${esc(x.href)}"><span class="rt">${esc(x.title)}</span></a></li>`).join('\n')}
+    </ul></div>
+  </section>
+
+  <section class="sec" id="archive">
+    <div class="sec-head"><h2>전체 기록</h2><p class="cnt">전체 ${index.length}건 · 리서치 ${researchItems.length} · 도구 ${calcItems.length}</p><p class="blurb">발행한 모든 글을 최신순으로 담은 목록입니다.</p></div>
+    <div class="sec-body"><ul class="rowsarchive">
+${archiveListHtml}
+    </ul></div>
+  </section>
+
+  <footer class="foot">개오 애널리스트팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</footer>
+</main>
 </body>
 </html>
 `;
