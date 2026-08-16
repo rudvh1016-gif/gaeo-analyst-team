@@ -145,6 +145,9 @@ var GaeoInsightRailCore=(function(){
   }
   function sync(doRender=true){
     root.classList.toggle('is-open',state.open);
+    // 본문이 레일·패널 폭만큼 실제로 자리를 비우도록 body에 상태를 알린다(index.html --gaeo-shell-w).
+    // 데스크톱(레일이 보이는 폭)에서만 밀고, 레일이 숨는 좁은 화면에서는 항상 0으로 되돌린다.
+    document.body.classList.toggle('gir-open',state.open&&desktop.matches);
     root.querySelectorAll('[data-gir-tab]').forEach(b=>{const on=b.dataset.girTab===state.tab;b.classList.toggle('is-active',on);b.setAttribute('aria-selected',String(on));b.setAttribute('aria-expanded',String(on&&state.open));b.tabIndex=on?0:-1});
     const panel=root.querySelector('.gir-panel');panel.setAttribute('aria-hidden',String(!state.open));panel.setAttribute('aria-labelledby','gir-tab-'+state.tab);persist();if(state.open&&doRender&&desktop.matches)render();
   }
@@ -154,7 +157,11 @@ var GaeoInsightRailCore=(function(){
     root.addEventListener('keydown',e=>{const current=e.target.closest('[data-gir-tab]');if(!current||!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;e.preventDefault();const index=tabs.indexOf(current.dataset.girTab);const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:e.key==='ArrowDown'?(index+1)%tabs.length:(index-1+tabs.length)%tabs.length;state={open:true,tab:tabs[next]};sync();root.querySelector(`[data-gir-tab="${state.tab}"]`).focus()});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.open){state.open=false;sync(false);root.querySelector(`[data-gir-tab="${state.tab}"]`).focus()}});
     window.addEventListener('gaeo:recent-changed',()=>{if(state.open&&state.tab==='recent')render()});
-    desktop.addEventListener('change',event=>{if(event.matches&&state.open)render()});
+    desktop.addEventListener('change',event=>{
+      // 1280px 경계를 넘나들 때 본문 여백 상태가 실제 레일 표시 여부와 어긋나지 않게 다시 맞춘다.
+      document.body.classList.toggle('gir-open',state.open&&event.matches);
+      if(event.matches&&state.open)render();
+    });
   }
   function mount(){
     root=document.createElement('aside');root.className='gaeo-insight-shell';root.setAttribute('aria-label','빠른 시장 인사이트');

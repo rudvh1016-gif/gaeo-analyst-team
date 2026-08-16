@@ -2668,6 +2668,24 @@
   .nav-workspace .chips>*{flex:0 0 auto}
 
   .wrap{width:calc(100% - 64px);max-width:1840px;margin:0 auto;padding:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 22px) 0 96px}
+
+  /* 🧭 좌측 인사이트 레일은 position:fixed라 예전에는 본문 위에 그대로 얹혀서,
+     화면이 좁아지거나(브라우저 확대 = CSS 뷰포트 축소) 패널을 펼치면 본문 왼쪽을
+     가려버렸다. 레일이 차지하는 폭만큼 실제로 본문 영역을 비워, 겹치지 않게 한다.
+     - body padding-left: 흐름 콘텐츠(.wrap)가 남은 영역 안에서 다시 중앙 정렬된다
+     - .global-nav/.global-panel padding-left: 배경은 화면 끝까지 유지한 채 안쪽
+       내용만 같이 밀어, 상단 메뉴와 본문의 좌측 기준선이 어긋나지 않게 한다
+     레일 자체가 안 뜨는 1280px 미만에서는 이 값이 0이라 아무 영향이 없다. */
+  :root{--gaeo-shell-w:0px}
+  body{padding-left:var(--gaeo-shell-w);transition:padding-left .28s cubic-bezier(.22,1,.36,1)}
+  .global-nav,.global-panel{padding-left:var(--gaeo-shell-w);transition:padding-left .28s cubic-bezier(.22,1,.36,1)}
+  @media(min-width:1280px){
+    :root{--gaeo-shell-w:66px}                 /* 아이콘 레일 폭 */
+    body.gir-open{--gaeo-shell-w:366px}        /* 레일 66 + 펼친 패널 300 */
+  }
+  @media(prefers-reduced-motion:reduce){
+    body,.global-nav,.global-panel{transition:none}
+  }
   .tape{margin:0;border:1px solid var(--gaeo-border);border-radius:14px;background:var(--paper);
     box-shadow:none;padding:9px 0;color:var(--gaeo-muted)}
   .home-dashboard{margin-top:18px}
@@ -13257,6 +13275,6 @@ window.hangulFix=function(str){
   syncMode();
 })();
 </script>
-<script src="insight-rail.js?v=20260812-v1"></script>
+<script src="insight-rail.js?v=20260816-v2"></script>
 </body>
 </html>
