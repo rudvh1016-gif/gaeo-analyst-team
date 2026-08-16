@@ -663,7 +663,7 @@ def main():
     if cand_stat["tierSpreadPp"] is None or base_stat["tierSpreadPp"] is None:
         conf_reasons.append("구간별 비교에 표본이 모자람")
     elif cand_stat["tierSpreadPp"] < max(5.0, base_stat["tierSpreadPp"]):
-        conf_reasons.append("후보 신뢰도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족"
+        conf_reasons.append("후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족"
                              f"(후보 {cand_stat['tierSpreadPp']}pp vs 기존 {base_stat['tierSpreadPp']}pp)")
     confidence_qualified = not conf_reasons
     confidence_model = {
