@@ -9,7 +9,7 @@
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
 <link rel="stylesheet" href="rotation.css?v=20260814-v12" />
-<link rel="stylesheet" href="full-market.css?v=20260816-v1" />
+<link rel="stylesheet" href="full-market.css?v=20260816-v2" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <script>
@@ -4048,10 +4048,20 @@
     </div>
   </section>
   <div class="fm-tabhost" id="fmTabHost">
-    <div class="fm-tabbar" id="fmTabBar" role="tablist" aria-label="순환매 화면 전환">
-      <button class="fm-tab on" id="fmTab-rotation" type="button" role="tab" aria-selected="true" aria-controls="rotationView">순환매 판단<small>GAEO 600종목을 기준으로 보는 기존 업종 판단</small></button>
-      <button class="fm-tab" id="fmTab-fullmarket" type="button" role="tab" aria-selected="false" aria-controls="fullMarketView">전체시장 흐름<small>KOSPI·KOSDAQ 전체 적격기업의 실제 상승·하락 참여도</small></button>
+    <!-- 순환매 모드의 보이는 Section Header — 기존 modeSection*는 종목분석 패널 안에 있어
+         순환매 모드에서는 화면에 안 보이므로(실측), 사용자가 실제로 보는 제목은 여기서 그린다.
+         선택된 sub-tab(순환매 판단/전체시장 흐름)에 따라 JS가 문구를 동기화한다. -->
+    <div class="fm-mode-head" id="fmModeHead">
+      <span class="fm-mode-eyebrow" id="fmModeEyebrow">업종의 힘이 어디로 움직일까요?</span>
+      <h2 class="fm-mode-title" id="fmModeTitle">순환매</h2>
+      <p class="fm-mode-desc" id="fmModeDesc">GAEO 추적 종목을 기준으로 업종의 흐름과 관찰 후보를 확인해 보세요.</p>
     </div>
+    <div class="fm-seg-label" id="fmSegLabel">화면 선택</div>
+    <div class="fm-tabbar" id="fmTabBar" role="tablist" aria-label="화면 선택">
+      <button class="fm-tab on" id="fmTab-rotation" type="button" role="tab" aria-selected="true" aria-controls="rotationView">순환매 판단</button>
+      <button class="fm-tab" id="fmTab-fullmarket" type="button" role="tab" aria-selected="false" aria-controls="fullMarketView">전체시장 흐름</button>
+    </div>
+    <p class="fm-seg-desc" id="fmSegDesc" aria-live="polite"><b>현재 선택 · 순환매 판단</b> — GAEO 추적 종목을 기준으로 계산한 기존 순환매 판단입니다.</p>
   </div>
   <section class="rotation-view" id="rotationView" aria-label="업종 순환매 분석"></section>
   <!-- 🌐 전체시장 흐름 — GAEO 600 순환매(rotationView)와 별도 모집단의 관찰용 통계 화면.
@@ -4154,7 +4164,7 @@ window.GaeoFeatures=(()=>{
     rotation:['rotation_snapshot.js?v=20260812-v6','rotation-ui.js?v=20260814-v14'],
     // 🌐 전체시장 흐름(FULL MARKET) — 순환매 화면의 별도 탭. GAEO 600 순환매(rotation 키)와
     // 완전히 분리된 번들이라, market_context.js가 없거나 실패해도 순환매 판단 탭은 영향받지 않는다.
-    fullmarket:['market_context.js?v=20260816-v1','full-market-ui.js?v=20260816-v1']
+    fullmarket:['market_context.js?v=20260816-v1','full-market-ui.js?v=20260816-v2']
   };
   const jobs={};
   // ⭐ 2026-08-11: 정적으로 고정된 캐시버스터 대신 10분마다 바뀌는 값을 써서, history.js·
@@ -11791,14 +11801,20 @@ window.renderScreener=function(){
       estate:['집과 정책을 함께 보기','부동산 공부','청약·대출·주거 정책을 실제 자격과 신청 순서 중심으로 확인해 보세요.'],
       calc:['숫자로 직접 확인하기','금융 계산기','수익률·세금·대출·연금처럼 헷갈리는 금액을 한곳에서 바로 계산해 보세요.'],
       screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 '+COVERAGE_N+'개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
-      rotation:['업종의 힘이 어디로 움직일까요?','순환매',COVERAGE_N+'개 종목을 24개 업종으로 묶어 현재 강한 흐름과 다음 관찰 후보를 확인해 보세요.'],
+      rotation:['업종의 힘이 어디로 움직일까요?','순환매','현재 '+COVERAGE_N+'개의 GAEO 추적 종목을 기준으로 업종의 흐름과 관찰 후보를 확인해 보세요.'],
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
       community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.'],
       changelog:['무엇을 만들고, 무엇이 고장 났고','개발 기록','GAEO가 시간순으로 무엇을 만들고 무엇이 고장 났고 어떻게 고쳤는지, 잘된 것과 실수를 함께 남깁니다.']
     };
-    const copy=sectionCopy[mode]||sectionCopy.single;
+    // 🌐 순환매 모드는 sub-tab(순환매 판단/전체시장 흐름)에 따라 상단 Section Header도 달라진다.
+    // 홈 "전체시장 흐름 보기"로 바로 들어와도 GaeoFmSubTab이 setMode 이전에 설정되므로
+    // 첫 페인트부터 전체시장 Header가 나온다(순환매 600 Header가 깜빡이지 않음).
+    const fmSubTab=window.GaeoFmSubTab||'rotation';
+    const copy=(mode==='rotation'&&typeof window.GaeoFmHeaderCopy==='function')
+      ?window.GaeoFmHeaderCopy(fmSubTab)
+      :(sectionCopy[mode]||sectionCopy.single);
     document.getElementById('modeSectionEyebrow').textContent=copy[0];
     document.getElementById('modeSectionTitle').textContent=copy[1];
     document.getElementById('modeSectionDesc').textContent=copy[2];
@@ -11849,7 +11865,7 @@ window.renderScreener=function(){
     document.getElementById('rateView').classList.toggle('on',rates);
     // 🌐 전체시장 흐름 탭이 선택된 상태면 순환매 판단(rotationView) 대신 fullMarketView를 보여준다.
     // window.GaeoFmSubTab은 순환매 모드 밖에서도 유지되어, 다시 순환매로 돌아오면 마지막으로 보던 탭이 이어진다.
-    const fmSubTab=window.GaeoFmSubTab||'rotation';
+    // (fmSubTab은 위 Section Header 선택부에서 이미 선언됨)
     document.getElementById('rotationView').classList.toggle('on',rotation&&fmSubTab!=='fullmarket');
     document.getElementById('fullMarketView').classList.toggle('on',rotation&&fmSubTab==='fullmarket');
     document.getElementById('fmTabHost').classList.toggle('on',rotation);
@@ -11897,10 +11913,35 @@ window.renderScreener=function(){
   // rotation-ui.js·compute_rotation.py는 전혀 건드리지 않는다. 이 블록은 순전히
   // rotationView / fullMarketView 두 섹션 사이의 표시 전환과, 전체시장 번들의 지연 로드만 담당한다.
   (function(){
+    // 순환매 모드의 상단 Section Header 문구 — sub-tab별로 다르다.
+    // setMode(첫 진입·딥링크)와 setFmSubTab(탭 클릭) 양쪽이 이 하나의 소스를 쓴다.
+    function fmHeaderCopy(subTab){
+      return subTab==='fullmarket'
+        ?['시장 전체는 얼마나 함께 움직일까요?','전체시장 흐름','KOSPI·KOSDAQ 전체 적격기업의 상승·하락 참여도와 업종별 확산을 확인해 보세요.']
+        :['업종의 힘이 어디로 움직일까요?','순환매','현재 '+COVERAGE_N+'개의 GAEO 추적 종목을 기준으로 업종의 흐름과 관찰 후보를 확인해 보세요.'];
+    }
+    window.GaeoFmHeaderCopy=fmHeaderCopy;
+    function applyFmHeader(subTab){
+      const copy=fmHeaderCopy(subTab);
+      // 사용자가 실제로 보는 헤더(fmModeHead)는 항상 동기화.
+      // modeSection*는 다른 모드(single 등)의 헤더도 공유하므로,
+      // 순환매 모드일 때만 갱신해 다른 모드 문구를 덮어쓰지 않는다.
+      const alsoSection=window.GaeoCurrentMode==='rotation';
+      [['fmModeEyebrow','modeSectionEyebrow'],['fmModeTitle','modeSectionTitle'],['fmModeDesc','modeSectionDesc']].forEach(function(pair,i){
+        const fmEl=document.getElementById(pair[0]);
+        if(fmEl) fmEl.textContent=copy[i];
+        if(alsoSection){ const secEl=document.getElementById(pair[1]); if(secEl) secEl.textContent=copy[i]; }
+      });
+    }
     function syncFmTabButtons(subTab){
+      applyFmHeader(subTab);
       const rBtn=document.getElementById('fmTab-rotation'), fBtn=document.getElementById('fmTab-fullmarket');
       if(rBtn){ rBtn.classList.toggle('on',subTab!=='fullmarket'); rBtn.setAttribute('aria-selected',String(subTab!=='fullmarket')); }
       if(fBtn){ fBtn.classList.toggle('on',subTab==='fullmarket'); fBtn.setAttribute('aria-selected',String(subTab==='fullmarket')); }
+      const desc=document.getElementById('fmSegDesc');
+      if(desc) desc.innerHTML=subTab==='fullmarket'
+        ?'<b>현재 선택 · 전체시장 흐름</b> — KOSPI·KOSDAQ 전체 적격기업의 실제 상승·하락 참여도를 집계한 시장 관찰 화면입니다.'
+        :'<b>현재 선택 · 순환매 판단</b> — GAEO 추적 종목을 기준으로 계산한 기존 순환매 판단입니다.';
     }
     window.GaeoSyncFmTabButtons=syncFmTabButtons;
     function setFmSubTab(subTab){
@@ -11910,6 +11951,7 @@ window.renderScreener=function(){
       const rotView=document.getElementById('rotationView'), fmView=document.getElementById('fullMarketView');
       if(rotView) rotView.classList.toggle('on',inRotationMode&&subTab!=='fullmarket');
       if(fmView) fmView.classList.toggle('on',inRotationMode&&subTab==='fullmarket');
+      // 상단 Header 동기화는 syncFmTabButtons 안의 applyFmHeader가 이미 수행했다.
       if(inRotationMode&&subTab==='fullmarket'&&window.GaeoMountFullMarket) window.GaeoMountFullMarket();
     }
     const rBtn=document.getElementById('fmTab-rotation'), fBtn=document.getElementById('fmTab-fullmarket');

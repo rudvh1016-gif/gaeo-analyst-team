@@ -104,6 +104,11 @@ function baseFixture(overrides) {
     await page.locator('.fullmarket-view.on .fm-shell').waitFor({ state: 'visible', timeout: 20000 });
     requireState(await page.locator('#fmTab-fullmarket').getAttribute('aria-selected') === 'true', 'Home 진입 후 전체시장 탭이 선택 상태가 아님');
     requireState(await page.evaluate(() => !document.getElementById('rotationView').classList.contains('on')), 'Home 진입 후 순환매 판단 뷰가 여전히 보임(전체시장 탭과 동시 표시)');
+    // Header Sync — 홈 direct navigation의 최종 상태는 처음부터 전체시장 Header여야 한다.
+    requireState((await page.locator('#modeSectionTitle').innerText()).trim() === '전체시장 흐름', 'Home 진입 후 상단 Section Title이 전체시장 흐름이 아님');
+    requireState(await page.evaluate(() => { const el = document.getElementById('fmModeTitle'); return !!el.offsetParent && el.textContent.trim() === '전체시장 흐름'; }), 'Home 진입 후 보이는 상단 헤더(fmModeTitle)가 전체시장 흐름이 아니거나 안 보임');
+    requireState((await page.locator('#modeSectionDesc').innerText()).includes('KOSPI·KOSDAQ 전체 적격기업'), 'Home 진입 후 상단 Description이 전체시장 설명이 아님');
+    requireState((await page.locator('#fmSegDesc').innerText()).includes('현재 선택 · 전체시장 흐름'), 'selector 아래 현재 선택 설명이 전체시장으로 안 바뀜');
 
     // 실측 데이터 정상 렌더 확인 — eligibleCount는 window.GAEO_MARKET_CONTEXT에서 동적으로 읽혀야 한다.
     const ctx = await page.evaluate(() => window.GAEO_MARKET_CONTEXT);
@@ -125,6 +130,32 @@ function baseFixture(overrides) {
     await page.locator('.rotation-view.on .rot-shell').waitFor({ state: 'visible', timeout: 20000 });
     requireState(await page.locator('#fmTab-rotation').getAttribute('aria-selected') === 'true', '순환매 판단 탭 복귀 후 aria-selected 갱신 안 됨');
     requireState(await page.evaluate(() => !document.getElementById('fullMarketView').classList.contains('on')), '순환매 판단 탭 복귀 후 전체시장 뷰가 계속 보임');
+    // Header Sync — 순환매 복귀 시 상단 Header도 즉시 순환매 설명으로 복원.
+    requireState((await page.locator('#modeSectionTitle').innerText()).trim() === '순환매', '순환매 복귀 후 상단 Section Title이 순환매로 복원 안 됨');
+    requireState(await page.evaluate(() => document.getElementById('fmModeTitle').textContent.trim() === '순환매'), '순환매 복귀 후 보이는 상단 헤더가 순환매로 복원 안 됨');
+    requireState((await page.locator('#modeSectionDesc').innerText()).includes('GAEO 추적 종목'), '순환매 복귀 후 Description이 GAEO 추적 종목 설명이 아님');
+    requireState((await page.locator('#fmSegDesc').innerText()).includes('현재 선택 · 순환매 판단'), 'selector 아래 현재 선택 설명이 순환매로 복원 안 됨');
+
+    // Header Sync 왕복 5회 — 매번 Title/active 버튼/보이는 뷰가 삼위일체로 일치해야 한다.
+    for (let i = 0; i < 5; i++) {
+      await page.click('#fmTab-fullmarket');
+      requireState(await page.evaluate(() => document.getElementById('fmModeTitle').textContent.trim() === '전체시장 흐름' && document.getElementById('modeSectionTitle').textContent.trim() === '전체시장 흐름'), `왕복 ${i + 1}회차: 전체시장 선택인데 Title 불일치`);
+      requireState(await page.evaluate(() => document.getElementById('fullMarketView').classList.contains('on') && !document.getElementById('rotationView').classList.contains('on')), `왕복 ${i + 1}회차: 전체시장 선택인데 뷰 표시 불일치`);
+      await page.click('#fmTab-rotation');
+      requireState(await page.evaluate(() => document.getElementById('fmModeTitle').textContent.trim() === '순환매' && document.getElementById('modeSectionTitle').textContent.trim() === '순환매'), `왕복 ${i + 1}회차: 순환매 복귀인데 Title 불일치`);
+      requireState(await page.evaluate(() => document.getElementById('rotationView').classList.contains('on') && !document.getElementById('fullMarketView').classList.contains('on')), `왕복 ${i + 1}회차: 순환매 복귀인데 뷰 표시 불일치`);
+    }
+    // 빠른 연타 6회 후에도 최종 상태(버튼·Header·뷰)가 일치해야 한다.
+    for (let i = 0; i < 6; i++) await page.click(i % 2 ? '#fmTab-rotation' : '#fmTab-fullmarket');
+    const finalState = await page.evaluate(() => ({
+      active: document.getElementById('fmTab-fullmarket').classList.contains('on') ? 'fullmarket' : 'rotation',
+      title: document.getElementById('fmModeTitle').textContent.trim(),
+      fmOn: document.getElementById('fullMarketView').classList.contains('on'),
+      rotOn: document.getElementById('rotationView').classList.contains('on')
+    }));
+    const expectTitle = finalState.active === 'fullmarket' ? '전체시장 흐름' : '순환매';
+    requireState(finalState.title === expectTitle && finalState.fmOn === (finalState.active === 'fullmarket') && finalState.rotOn === (finalState.active === 'rotation'),
+      `연타 후 상태 불일치: ${JSON.stringify(finalState)}`);
 
     requireState(pageErrors.length === 0, `pageerror 발생: ${pageErrors.join(' | ')}`);
     // blockExternal()로 의도적으로 중단시킨 외부 리소스는 "Failed to load resource: net::ERR_FAILED"를
@@ -227,6 +258,55 @@ function baseFixture(overrides) {
     requireState(!detailText.includes('삼성전자') && !detailText.includes('종목명'), '업종 상세에 개별 종목명이 노출됨(FORBIDDEN)');
     await page.close();
     console.log('TEST 8 (업종 상세는 집계만) 통과');
+  }
+
+  // ---------- TEST 14 — Segmented Control 어포던스 (390px 실측) ----------
+  {
+    const page = await newTestPage(browser, { width: 390, height: 844 });
+    await openFullMarketTab(page);
+    const seg = await page.evaluate(() => {
+      const bar = document.getElementById('fmTabBar');
+      const r = document.getElementById('fmTab-rotation'), f = document.getElementById('fmTab-fullmarket');
+      const barCs = getComputedStyle(bar), onCs = getComputedStyle(f), offCs = getComputedStyle(r);
+      return {
+        barBg: barCs.backgroundColor, barBorder: barCs.borderTopWidth, barRadius: barCs.borderRadius,
+        onBg: onCs.backgroundColor, offBg: offCs.backgroundColor,
+        onWeight: onCs.fontWeight, offWeight: offCs.fontWeight,
+        onShadow: onCs.boxShadow, sameRow: Math.abs(r.getBoundingClientRect().top - f.getBoundingClientRect().top) < 2,
+        heights: [r.getBoundingClientRect().height, f.getBoundingClientRect().height],
+        rClipped: r.scrollWidth > r.clientWidth + 1, fClipped: f.scrollWidth > f.clientWidth + 1,
+        smallCount: bar.querySelectorAll('small').length,
+        label: (document.getElementById('fmSegLabel') || {}).textContent || ''
+      };
+    });
+    requireState(seg.barBg !== 'rgba(0, 0, 0, 0)' && seg.barBorder !== '0px', 'selector container가 배경/테두리 없는 텍스트 메뉴처럼 보임');
+    requireState(seg.onBg !== seg.offBg, '선택/미선택 버튼 배경이 동일 — active state 식별 불가');
+    requireState(seg.onShadow !== 'none', '선택 버튼에 surface 구분(shadow) 없음');
+    requireState(Number(seg.onWeight) > Number(seg.offWeight) || seg.onBg !== seg.offBg, '선택 상태가 색상만으로 표현됨');
+    requireState(seg.sameRow, '390px에서 두 버튼이 한 줄에 있지 않음');
+    requireState(seg.heights.every(h => h >= 38 && h <= 50), `버튼 높이가 40~44px 범위를 벗어남: ${seg.heights}`);
+    requireState(!seg.rClipped && !seg.fClipped, '버튼 Label이 잘림(clipping)');
+    requireState(seg.smallCount === 0, '버튼 내부에 small 설명문이 남아 있음');
+    requireState(seg.label.includes('화면 선택'), '"화면 선택" 안내 라벨 없음');
+    await page.close();
+    console.log('TEST 14 (Segmented Control 어포던스, 390px) 통과');
+  }
+
+  // ---------- TEST 15 — HISTORY_ACCUMULATING 문구: 기간별 분리 + 이동평균선/무정의 평균 금지 ----------
+  {
+    const page = await newTestPage(browser, { width: 1024, height: 900 });
+    await openFullMarketTab(page);
+    await mountFixture(page, baseFixture());   // history = 'HISTORY_ACCUMULATING'
+    const text = await page.locator('#fullMarketView').innerText();
+    requireState(text.includes('시장 흐름 추세'), 'History 섹션 제목(시장 흐름 추세) 없음');
+    requireState(text.includes('최근 5거래일') && text.includes('최근 20거래일'), '5거래일/20거래일 기간 분리 표시 없음');
+    requireState((text.match(/데이터 기록 중/g) || []).length >= 2, '기간별 "데이터 기록 중" 표시가 2개 미만');
+    requireState(text.includes('아직 충분한 기록이 없어'), '평균/추세 미표시 사유 설명 없음');
+    for (const banned of ['5일선', '20일선', '5일 평균', '20일 평균', '5일 / 20일 흐름']) {
+      requireState(!text.includes(banned), `금지 문구 발견: "${banned}"`);
+    }
+    await page.close();
+    console.log('TEST 15 (History 문구 명확화) 통과');
   }
 
   // ---------- TEST 12 — sectorBreadth 키 자체가 없음(구 스키마) → 업종 데이터 확인 중, 크래시 없음 ----------
