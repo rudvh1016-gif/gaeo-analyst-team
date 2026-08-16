@@ -45,11 +45,15 @@ jobs:
       - name: 결과 요약
         run: python3 paper_report.py || true
 
-      - name: 기록 커밋 (paper_trading/ 만)
+      - name: 사이트용 공개 요약 생성 (파생 데이터 · Secret 미포함)
+        run: python3 paper_public.py || echo "공개 요약 생성 실패 — 기록 커밋은 계속"
+
+      - name: 기록 커밋 (paper_trading/ + 공개 요약만)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add paper_trading
+          [ -f paper_public.js ] && git add paper_public.js
           if git diff --cached --quiet; then
             echo "변경 없음"
           else
