@@ -1063,6 +1063,62 @@
       font-size:12px;color:var(--t2)}
     .model-board .mb-mobile-h span{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
   }
+  /* ── 모델 실험실 (Progressive Disclosure · 2026-08-17) ──────────────────
+     첫 화면은 짧게(모델 선택 + 요약), 긴 설명은 사용자가 버튼을 눌렀을 때만.
+     색 대신 활자 크기·굵기·hairline으로 위계. overflow-wrap:anywhere 필수(주의 11번). */
+  .model-lab .ml-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:2px 0 14px}
+  .model-lab .ml-tab{appearance:none;background:none;border:1px solid var(--line);border-radius:9px;
+    padding:9px 6px;font:inherit;font-size:12.5px;color:var(--t2);cursor:pointer;line-height:1.35;
+    min-height:38px;overflow-wrap:anywhere}
+  .model-lab .ml-tab[aria-selected="true"]{border-color:var(--t1);color:var(--t1);font-weight:700}
+  .model-lab .ml-tab:focus-visible{outline:2px solid var(--t1);outline-offset:2px}
+  .model-lab .ml-now{font-size:11px;letter-spacing:.06em;color:var(--faint);margin:0 0 2px}
+  .model-lab .ml-title{font-size:15.5px;font-weight:700;margin:0 0 4px;color:var(--t1);overflow-wrap:anywhere}
+  .model-lab .ml-oneline{font-size:12.5px;color:var(--t2);line-height:1.7;margin:0 0 12px;overflow-wrap:anywhere}
+  .model-lab .ml-facts{display:grid;grid-template-columns:96px 1fr;gap:5px 12px;font-size:12px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 2px;margin:0 0 10px}
+  .model-lab .ml-facts dt{color:var(--t3)}
+  .model-lab .ml-facts dd{margin:0;color:var(--t1);overflow-wrap:anywhere}
+  .model-lab .ml-acc{border-bottom:1px solid var(--line)}
+  .model-lab .ml-acc-btn{width:100%;display:flex;align-items:center;gap:8px;justify-content:space-between;
+    appearance:none;background:none;border:0;padding:11px 2px;font:inherit;font-size:13px;font-weight:600;
+    color:var(--t1);cursor:pointer;text-align:left;min-height:42px}
+  .model-lab .ml-acc-btn:focus-visible{outline:2px solid var(--t1);outline-offset:2px;border-radius:6px}
+  .model-lab .ml-acc-btn .ml-chev{flex:none;transition:transform .15s;color:var(--t3)}
+  .model-lab .ml-acc-btn[aria-expanded="true"] .ml-chev{transform:rotate(180deg)}
+  .model-lab .ml-acc-body{padding:2px 2px 16px;font-size:12.5px;color:var(--t2);line-height:1.8;overflow-wrap:anywhere}
+  .model-lab .ml-acc-body h4{margin:14px 0 4px;font-size:12.5px;font-weight:700;color:var(--t1)}
+  .model-lab .ml-acc-body h4:first-child{margin-top:2px}
+  .model-lab .ml-acc-body p{margin:0 0 8px}
+  .model-lab .ml-acc-body ul{margin:0 0 8px;padding-left:16px}
+  .model-lab .ml-acc-body li{margin:2px 0}
+  .model-lab .ml-acc-body code{font-size:11px;color:var(--t3)}
+  .model-lab .ml-flow{display:flex;flex-direction:column;margin:4px 0 10px;font-size:12.5px;color:var(--t1)}
+  .model-lab .ml-flow span{padding:3px 0}
+  .model-lab .ml-flow .ml-arrow{color:var(--t3);font-size:11px;padding:0 0 0 2px}
+  .model-lab .ml-w{display:grid;grid-template-columns:64px 56px 1fr;gap:6px 10px;align-items:center;margin:6px 0 4px;max-width:420px}
+  .model-lab .ml-w .ml-wn{font-size:12px;font-weight:700;color:var(--t1)}
+  .model-lab .ml-w .ml-wv{font-size:12.5px;font-weight:700;color:var(--t1);text-align:right;font-variant-numeric:tabular-nums}
+  .model-lab .ml-w .ml-meter{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+  .model-lab .ml-w .ml-meter i{display:block;height:100%;background:var(--t2)}
+  .model-lab .ml-wsub{font-size:11px;color:var(--t3);margin:2px 0 8px}
+  .model-lab .ml-note{font-size:11px;color:var(--t3);line-height:1.65;margin:8px 0 0}
+  .model-lab .ml-global{margin-top:14px}
+  .model-lab table.ml-cmp{width:100%;border-collapse:collapse;font-size:12px;margin:4px 0 8px}
+  .model-lab table.ml-cmp th{font-size:11px;color:var(--t3);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .model-lab table.ml-cmp td{padding:7px 8px;border-bottom:1px solid var(--line);color:var(--t2);vertical-align:top;overflow-wrap:anywhere}
+  .model-lab table.ml-cmp td:first-child{color:var(--t3);white-space:nowrap}
+  .model-lab .ml-cmp-cards{display:none}
+  @media(max-width:760px){
+    .model-lab .ml-tabs{grid-template-columns:1fr 1fr}
+    .model-lab .ml-facts{grid-template-columns:86px 1fr}
+    .model-lab table.ml-cmp{display:none}
+    .model-lab .ml-cmp-cards{display:block}
+    .model-lab .ml-cmp-cards .ml-cc{border-bottom:1px solid var(--line);padding:10px 0}
+    .model-lab .ml-cmp-cards .ml-cc:last-child{border-bottom:0}
+    .model-lab .ml-cmp-cards .ml-cc b{display:block;font-size:12.5px;color:var(--t1);margin-bottom:4px}
+    .model-lab .ml-cmp-cards .ml-cc ul{margin:0;padding-left:14px;font-size:12px;color:var(--t2);line-height:1.7}
+  }
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
   /* 개발 기록(changelog) 전용 — 색으로 분류를 표시하지 않고 활자 위계만으로 정리한다.
      ⚠️ overflow-wrap:anywhere는 필수다(AGENTS.md 주의 11번). body에 word-break:keep-all이
@@ -5075,6 +5131,246 @@ function paperBlockHTML(){
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
    5개 모델을 한 판에 놓고 비교한다. 카드를 늘어놓지 않고 한 패널 안의 row로 둔다.
    ⚠️ 없는 성적을 0%로 표시하지 않는다. 평가 대기·해당 없음·근거 부족을 구분해 적는다. */
+/* 🧪 모델 실험실 — 4개 모델을 "짧은 첫 화면 → 눌렀을 때만 상세" 구조로 설명한다.
+   ⚠️ 여기 있는 모든 설명은 analyze_auto.py·compute_team_weights.py·research_engine(v1.0/1.1/2.0)·
+   model_registry.py의 실제 동작만 적는다(2026-08-17 재확인). 모델 로직은 절대 건드리지 않는다.
+   숫자 중 발언권·표본·기록량은 team_weights.js/model_scoreboard.js에서 동적으로 읽는다. */
+let ML_SELECTED='base_production';
+const ML_OPEN=new Set();   // 열려 있는 상세 섹션 id — 탭 전환·재렌더 후에도 유지
+function modelLabHTML(){
+  const SB=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
+  const TW=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)?TEAM_WEIGHTS:null;
+  const sbModel=id=>SB&&Array.isArray(SB.models)?SB.models.find(m=>m.id===id):null;
+  const chev='<svg class="ml-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const acc=(id,label,body)=>{
+    const open=ML_OPEN.has(id);
+    return `<div class="ml-acc"><button type="button" class="ml-acc-btn" aria-expanded="${open}" aria-controls="${id}" data-mldisc="${id}"><span>${label}</span>${chev}</button><div class="ml-acc-body" id="${id}" ${open?'':'hidden'}>${body}</div></div>`;
+  };
+  const recLine=m=>m&&m.uniquePredictionDates
+    ?`판단일 ${m.uniquePredictionDates}일 · 기록 ${Number(m.recordCount||0).toLocaleString()}건`
+    :'자료 축적 중';
+  const flowChart=steps=>`<div class="ml-flow">${steps.map((s,i)=>(i?'<span class="ml-arrow" aria-hidden="true">↓</span>':'')+`<span>${s}</span>`).join('')}</div>`;
+
+  /* 현재 발언권 — team_weights.js를 동적으로 읽는다(하드코딩 금지) */
+  const NAME={taro:'TARO',diana:'DIANA',nova:'QUANT',flow:'FLOW'};
+  let weightRows='<p>발언권 자료 축적 중 — team_weights가 아직 준비되지 않았습니다.</p>';
+  let weightSub='';
+  if(TW&&TW.global.weights){
+    weightRows='<div class="ml-w">'+['taro','diana','nova','flow'].map(k=>{
+      const w=TW.global.weights[k];
+      const st=(TW.global.acc||{})[k]||{};
+      if(w==null) return '';
+      return `<span class="ml-wn">${NAME[k]}</span><span class="ml-wv">${(w*100).toFixed(1)}%</span><span class="ml-meter" aria-hidden="true"><i style="width:${Math.min(100,w/0.4*100).toFixed(0)}%"></i></span>`
+        +`<span></span><span></span><span class="ml-wsub">보정 적중 ${st.adjustedAcc!=null?st.adjustedAcc+'%':'—'} · 채점 ${st.n!=null?Number(st.n).toLocaleString()+'건':'—'} · ${st.days!=null?st.days+'거래일 기준':''}</span>`;
+    }).join('')+'</div>';
+    weightSub=`<p class="ml-note">${esc(TW.generatedAt||'')} 계산 · 총 채점 ${Number(TW.global.graded||0).toLocaleString()}건 · 업종별 오버라이드 ${Object.keys(TW.sectors||{}).length}개 업종</p>`;
+  }
+  const hdays=k=>{const h=TW&&TW.horizons&&TW.horizons[k];return h&&h.days?h.days:( {taro:5,diana:20,nova:5,flow:5}[k] );};
+
+  /* ── 모델별 콘텐츠 ── */
+  const mBase=sbModel('base_production'), mA=sbModel('research_a'), mB=sbModel('research_b'), mC=sbModel('research_c');
+  const PANEL={};
+
+  PANEL.base_production=()=>`
+    <h4 class="ml-title">GAEO 기본모델 개선판</h4>
+    <p class="ml-oneline">현재 GAEO에서 실제 BUY · HOLD · SELL을 만드는 모델입니다. 기술·재무·과거통계·수급을 각각 분석한 뒤, 각 분석가의 실제 성적에 따라 발언권을 조정하고 위험도를 마지막으로 반영해 최종 판단을 만듭니다.</p>
+    <dl class="ml-facts">
+      <dt>현재 상태</dt><dd>${esc((mBase&&mBase.statusLabel)||'실제 서비스')}</dd>
+      <dt>서비스 반영</dt><dd>사용 중 — 지금 화면의 판단이 이 모델입니다</dd>
+      <dt>핵심 질문</dt><dd>지금 이 종목을 BUY · HOLD · SELL 중 어떻게 볼 것인가</dd>
+      <dt>기록</dt><dd>${recLine(mBase)}</dd>
+    </dl>
+    ${acc('mlb-how','어떻게 판단하나요?',`
+      ${flowChart(['시장 데이터','TARO · DIANA · QUANT · FLOW 각자 분석','발언권을 반영한 CHIEF 종합','RISK 안전장치','BUY · HOLD · SELL'])}
+      <h4>TARO · 기술</h4>
+      <p>“지금 차트와 추세가 건강한가?” — MA20 · MA60 · RSI · MACD · 5·20 교차 · 20·60 교차 · 거래량을 봅니다.</p>
+      <ul>
+        <li>이동평균선 위라고 무조건 좋게 보지 않습니다. 건강한 상승은 긍정적으로 보되, 이동평균선에서 지나치게 멀어진 급등은 과열로 다시 감점합니다.</li>
+        <li>막 발생한 골든/데드크로스를 오래된 교차보다 크게 반영합니다(시간이 지날수록 약해짐).</li>
+        <li>RSI 70 이상을 무조건 매도로 처리하지 않습니다(강세이되 과열 주의로 봄).</li>
+        <li>MACD처럼 워밍업이 필요한 지표는 데이터가 부족하면 아예 쓰지 않고, 신규 상장주의 미완성 MA60을 정상 MA60처럼 쓰지 않습니다.</li>
+      </ul>
+      <p class="ml-note">최근 개선 핵심: 극단적 과열 보정 · 미성숙 기술지표 제외 (2026-08-15 개선판)</p>
+      <h4>DIANA · 재무와 가치</h4>
+      <p>“회사의 가치와 현재 가격이 괜찮은가?” — PER · PBR · ROE · Forward PER · 증권사 목표주가 괴리를 봅니다. DIANA는 단기 차트 예측가가 아니라 기업 가치와 품질을 보는 역할입니다. 목표주가보다 현재 가격이 지나치게 높아졌을 때 일정 수준에서 감점을 멈추지 않고, 극단적인 괴리는 추가로 경계하도록 개선됐습니다.</p>
+      <h4>QUANT · 과거통계</h4>
+      <p>“과거에 지금과 비슷했던 상황은 실제로 어떻게 끝났는가?” — 예를 들어 RSI 강세 + MA20 위 + 최근 5거래일 상승이라는 같은 상태가 과거 여러 종목에서 나왔을 때, 5거래일 뒤 실제로 오른 빈도를 셉니다.</p>
+      <ul>
+        <li>AI의 느낌이나 문장 추측이 아니라 실제 과거 관측 사례를 셉니다.</li>
+        <li>표본이 부족하면(30건 미만) 더 넓은 조건으로 넓혀서 다시 셉니다.</li>
+        <li>업종마다 기본 상승 확률이 다른 것도 보정합니다.</li>
+      </ul>
+      <p class="ml-note">코드 내부 이름은 호환성 때문에 nova지만, 화면에서는 QUANT로 통일합니다. 기본모델의 QUANT는 실제 방향점수를 냅니다(연구모델과 다른 점).</p>
+      <h4>FLOW · 수급</h4>
+      <p>“실제로 누가 사고 팔고 있는가?” — 외국인 순매수 · 기관 순매수 · 외국인 보유율 변화 · 매수 지속성 · 매집/분배 흐름을 봅니다.</p>
+      <p><b>데이터 없음 ≠ 중립 50점.</b> 수급 데이터가 없으면 가짜 중립 점수를 넣지 않고, FLOW의 의견을 최종 계산에서 아예 제외합니다.</p>
+      <h4>RISK · 안전장치</h4>
+      <p>“좋아 보이더라도 지금 너무 위험하지 않은가?” — 변동성 · 3개월 최대낙폭 · 저점 대비 반등 · 시장 변동성을 봅니다.</p>
+      <p>RISK는 다섯 번째 분석가가 아닙니다. 플러스 보너스를 주는 사람이 아니라, 위험할 때 마지막 결과를 낮추는 <b>브레이크</b>입니다. 강한 반등 국면에서는 과도한 위험 감점을 일부 완화할 수 있지만, 플러스 보너스로 바뀌지는 않습니다.</p>
+    `)}
+    ${acc('mlb-weight','발언권은 어떻게 정하나요?',`
+      <h4>분석가의 발언권은 실제 성적으로 바뀝니다</h4>
+      <p>TARO · DIANA · QUANT · FLOW가 항상 25%씩 투표하는 구조가 아닙니다. 각자 자기 전문 영역에서 실제로 얼마나 잘 맞았는지를 확인한 뒤 CHIEF가 발언권을 조정합니다.</p>
+      <h4>역할에 따른 시작 발언권</h4>
+      <p>TARO 30% · DIANA 12% · QUANT 28% · FLOW 30% — 단, 이것은 최종 발언권이 아니라 역할에 따른 출발점입니다. DIANA가 상대적으로 작은 이유는 재무·밸류가 단기 주가 방향을 맞히는 역할이 아니라 기업 품질을 보는 중기 성격이 강하기 때문입니다.</p>
+      <h4>각자 다른 시험을 봅니다</h4>
+      <p>TARO ${hdays('taro')}거래일 · QUANT ${hdays('nova')}거래일 · FLOW ${hdays('flow')}거래일 · DIANA ${hdays('diana')}거래일 기준으로 채점합니다. 재무분석가에게 “내일 주가가 올랐는지”를 묻는 것은 불공정하기 때문에, 각 분석가가 맡은 역할에 맞는 기간으로 성적을 평가합니다.</p>
+      <h4>작은 표본은 믿지 않습니다</h4>
+      <p>“10번 중 9번 맞았다”고 바로 천재라고 판단하지 않습니다. 표본이 적으면 우연일 가능성이 있으므로 50% 쪽으로 보수적으로 줄여 평가합니다. <span class="ml-note">(Bayesian shrinkage)</span></p>
+      <h4>현재 실제 발언권</h4>
+      ${weightRows}${weightSub}
+      <h4>업종마다 발언권도 달라질 수 있습니다</h4>
+      <p>반도체에서 잘 맞는 분석가와 금융에서 잘 맞는 분석가가 다를 수 있기 때문입니다. 단, 업종 표본이 적을 때는 그대로 믿지 않습니다 — 업종 채점 표본이 200건 이상일 때만 업종값을 만들고, 그때도 전역값과 부드럽게 섞어(표본이 적을수록 전역 쪽으로) 과적합을 줄입니다.</p>
+      <h4>계산법이 바뀌면 과거 성적도 구분합니다</h4>
+      <p>계산법이 바뀌었는데 이전 성적을 그대로 가져와 새 모델이 이미 검증된 것처럼 보이게 하지 않습니다. 새 버전의 채점 표본이 기준을 채우기 전까지는 이전 안정 가중치를 그대로 쓰고, 성적표에서도 현재 버전과 이전 버전을 나눠 보여줍니다.</p>
+    `)}
+    ${acc('mlb-final','최종 판단은 어떻게 하나요?',`
+      <p>CHIEF는 <b>각 분석가 점수 × 현재 발언권</b>을 합산합니다. 특정 분석가의 데이터가 없으면 가짜 50점으로 채우지 않고, 그 분석가를 제외한 뒤 남은 분석가의 발언권을 다시 100%로 정규화합니다.</p>
+      <p>그 다음 RISK 감점을 적용하고, 종합점수가 <b>63점 이상이면 BUY</b>, <b>47점 미만이면 SELL</b>, 그 사이는 HOLD입니다. 고변동성인데 시장 전체가 동반 반등하는 국면에서는 SELL 확정 기준을 40점으로 낮춰(= SELL이 더 어려워지게) 약세 신호만으로 SELL을 확정하지 않습니다.</p>
+      <p>판단에 쓸 수 있는 분석축이 2개 미만이면 가짜 HOLD를 만들지 않고 <b>판단 보류(JUDGMENT_WITHHELD)</b>로 처리합니다. 보류는 적중률 계산에서도 제외됩니다.</p>
+    `)}
+    ${acc('mlb-dart','공시(DART)는 어떻게 쓰나요?',`
+      <p><b>DART 연결됨 · 현재 직접적인 BUY/SELL 방향점수로 사용하지 않습니다.</b></p>
+      <p>현재 역할은 공식 공시 맥락 확인, 재무자료 신선도 확인, 안전 확인(게이트)입니다. “좋은 공시 +10점” 같은 방향점수는 검증 전이라 넣지 않습니다 — 그 검증이 바로 연구모델 C의 역할입니다.</p>
+    `)}
+    ${acc('mlb-diff','다른 모델과 차이 · 현재 한계',`
+      <ul>
+        <li><b>시간축</b> — 기본모델은 Production 기준 하나의 종합판단을 냅니다. 연구모델은 5·20·60거래일을 분리합니다.</li>
+        <li><b>QUANT 역할</b> — 기본모델의 QUANT는 방향점수를 내는 투표자, 연구모델의 QUANT는 점수를 내지 않는 통계 심판입니다.</li>
+        <li><b>가중치</b> — 기본모델은 실제 성적으로 발언권을 조정하고, 연구모델은 사전 선언한 Candidate를 동결한 채 기록합니다.</li>
+      </ul>
+      <p><b>현재 한계와 다음 단계</b> — 2026-08-15 개선판의 성적은 이전 버전과 분리해 새로 쌓는 중이라 표본이 아직 적습니다. DART는 맥락으로만 쓰고 방향점수 근거는 연구모델 C에서 먼저 검증합니다. 발언권 학습도 새 버전 표본이 기준을 채운 뒤에만 새로 학습합니다.</p>
+    `)}`;
+
+  PANEL.research_a=()=>`
+    <h4 class="ml-title">GAEO 연구모델 A</h4>
+    <p class="ml-oneline">“투자기간을 서로 다른 문제로 보면 더 정확할까?” — 하나의 종합판단 대신 5거래일 · 20거래일 · 60거래일을 서로 다른 문제로 나눠 판단하는 첫 연구모델입니다.</p>
+    <dl class="ml-facts">
+      <dt>현재 상태</dt><dd>${esc((mA&&mA.statusLabel)||'그림자 시험')} — 화면 판단을 바꾸지 않습니다</dd>
+      <dt>서비스 반영</dt><dd>미반영 (기록만) · 자동승격 없음</dd>
+      <dt>핵심 질문</dt><dd>5·20·60거래일 분리가 하나의 종합판단보다 더 좋은가</dd>
+      <dt>기록</dt><dd>${recLine(mA)}${mA&&mA.internalVersion?` · <code>${esc(mA.internalVersion)}</code> 동결`:''}</dd>
+    </dl>
+    ${acc('mla-how','어떻게 판단하나요?',`
+      <p>기간마다 <b>다른 기술지표 세트</b>를 씁니다. 같은 TARO 점수 하나를 5/20/60일에 돌려쓰지 않습니다.</p>
+      <ul>
+        <li><b>5D TARO</b> — MA5 · 최근 5일 수익률 · RSI · MACD · 거래량</li>
+        <li><b>20D TARO</b> — MA20 · MA60 · 20·60 교차 · 52주 위치 · MACD</li>
+        <li><b>60D TARO</b> — MA120 · MA200 · 52주 위치</li>
+      </ul>
+      <p><b>DIANA</b>는 현재 확보 가능한 PER · PBR · ROE 등 가치 기반 지표를 쓰고, 없는 연구 지표를 0이나 50으로 채우지 않습니다. <b>FLOW</b>는 수급 강도 · 지속성 · 매집/분배를 씁니다.</p>
+      <p><b>QUANT는 기본모델과 완전히 다릅니다.</b> 방향점수를 내지 않는 <b>통계 심판</b>으로, 과거 시점 기준(Point-in-Time) 표본과 표본 품질을 확인하고, 사용 가능한 분석축과 빠진 지표를 기록합니다.</p>
+      <p>최종 Candidate는 2개 — ① 균등 가중 ② 사전 선언 TARO 45 / FLOW 35 / DIANA 20. 상승확률이 0.58 이상이면 <b>매수 검토</b>, 0.42 이하면 <b>매도 검토</b>, 그 사이는 <b>관망</b>이고, 경계선 ±0.04 안쪽은 확신 부족으로 관망 처리합니다. 예: 5D 매수 검토 · 20D 관망 · 60D 매도 검토처럼 기간별로 다른 답이 나올 수 있습니다.</p>
+      <p class="ml-note">⚠️ A의 확률(probability)은 실제 적중률로 보정(calibration)된 확률이 아닙니다. 60D는 산출·기록만 하고 성능은 아직 말하지 않습니다.</p>
+    `)}
+    ${acc('mla-diff','기본모델과 차이',`
+      <ul>
+        <li>기본모델: 하나의 종합판단 · QUANT가 방향점수 투표 · 발언권을 성적으로 조정</li>
+        <li>연구 A: 5/20/60 분리 판단 · QUANT는 통계 심판 · 사전 선언 Candidate를 동결</li>
+      </ul>
+    `)}
+    ${acc('mla-limit','현재 한계',`
+      <p>A v1.0은 5D에서 <b>단기 반전 가설</b>(최근 5일 급등을 다음 5일에 불리하게 보는 쪽)을 하나로 확정해서 선택했습니다. “단기 반전이 존재할 수 있다”와 “모든 종목에서 5일 수익률 부호를 뒤집으면 예측력이 높다”는 다른 주장인데, v1.0은 후자를 가정한 셈입니다 — 이 문제의식이 연구모델 B를 만들었습니다.</p>
+    `)}
+    ${acc('mla-next','앞으로 무엇을 검증하나요?',`
+      <p>A 자체를 결과를 보고 수정하지 않습니다. 좋든 나쁘든 <b>동결된 Candidate</b>로 미래 성적을 계속 기록해서, “기간 분리가 종합판단보다 나은가”를 실제 기록으로 확인합니다.</p>
+    `)}`;
+
+  PANEL.research_b=()=>`
+    <h4 class="ml-title">GAEO 연구모델 B</h4>
+    <p class="ml-oneline">정답을 미리 고르지 않고 여러 가설을 동시에 시험합니다. A가 선택했던 단기 반전 가설이 정말 맞는지 확인하기 위해, 반전과 모멘텀을 같은 조건에서 나란히 시험합니다.</p>
+    <dl class="ml-facts">
+      <dt>현재 상태</dt><dd>${esc((mB&&mB.statusLabel)||'그림자 시험')} — 화면 판단을 바꾸지 않습니다</dd>
+      <dt>서비스 반영</dt><dd>미반영 (기록만) · 자동승격 없음</dd>
+      <dt>대표 후보</dt><dd><b>없음</b> — 후보 4개를 같은 조건으로 병렬 기록</dd>
+      <dt>기록</dt><dd>${recLine(mB)}${mB&&mB.internalVersion?` · <code>${esc(mB.internalVersion)}</code> 동결`:''}</dd>
+    </dl>
+    ${acc('mlrb-what','무엇을 동시에 시험하나요?',`
+      <p>단기 가설 2개 × CHIEF 가중 방식 2개 = <b>후보 4개</b>를 같은 판단 시각에 함께 저장합니다.</p>
+      <ul>
+        <li><b>단기 반전</b> — 최근 5일 강했던 종목이 다음 5일에는 되돌릴 수 있다는 가설</li>
+        <li><b>단기 모멘텀</b> — 최근 5일 강했던 종목이 다음 5일에도 강할 수 있다는 가설</li>
+        <li><b>균등 가중</b> — 점수가 있는 분석가만 균등 평균</li>
+        <li><b>사전 선언 45/35/20</b> — TARO 45 / FLOW 35 / DIANA 20 (최적이라는 근거는 없음 · 결과 보고 조정 금지)</li>
+      </ul>
+      <p>따라서 후보는 ① 반전×균등 ② 반전×45/35/20 ③ 모멘텀×균등 ④ 모멘텀×45/35/20 — 넷 다 같은 Prediction 시각에 저장돼, 나중에 과거 입력으로 성적을 다시 만드는 일을 막습니다.</p>
+    `)}
+    ${acc('mlrb-why','왜 대표모델이 없나요?',`
+      <p><b>“현재 연구모델 B에는 대표 후보가 없습니다.”</b> <span class="ml-note">(내부 상태: NO_PRIMARY_CANDIDATE_SELECTED)</span></p>
+      <p>충분한 미래 기록이 쌓이기 전에 지금 잠깐 좋아 보이는 후보를 우승자로 골라버리면 연구 결과가 왜곡될 수 있기 때문에, 현재는 네 후보를 같은 조건으로 비교하고 있습니다. 자동 우승자 선택도 없습니다.</p>
+    `)}
+    ${acc('mlrb-diff','A와 무엇이 다른가요?',`
+      <p>A는 5D 단기신호를 반전 하나로 확정했지만, B는 반전과 모멘텀을 <b>분리해서 동시에</b> 기록합니다. 45/35/20도 “검증된 가중치”가 아니라 “사전 선언 후보”로만 부릅니다. QUANT 통계도 기간(5/20/60)별로 따로 만듭니다.</p>
+    `)}
+    ${acc('mlrb-next','앞으로 무엇을 검증하나요?',`
+      <p>반전 vs 모멘텀, 균등 vs 45/35/20, 그리고 5/20/60D 각각에서 충분한 미래(Forward) 성적이 쌓인 뒤에 비교합니다. 그 전에는 순위도, 우승자도 없습니다.</p>
+    `)}`;
+
+  PANEL.research_c=()=>`
+    <h4 class="ml-title">GAEO 연구모델 C</h4>
+    <p class="ml-oneline">“공식 공시를 추가하면 실제로 더 나은 판단이 될까?” — 연구모델 B와 같은 판단 조건에 DART 공식 공시 맥락만 추가해, 공시가 실제로 도움이 되는지를 검증하는 모델입니다.</p>
+    <dl class="ml-facts">
+      <dt>현재 상태</dt><dd>${esc((mC&&mC.statusLabel)||'준비중')} — 화면 판단을 바꾸지 않습니다</dd>
+      <dt>서비스 반영</dt><dd>미반영 (기록만) · 자동승격 없음</dd>
+      <dt>대표 후보</dt><dd>없음 — B와 같은 후보 4개의 짝을 기록</dd>
+      <dt>기록</dt><dd>${recLine(mC)}${mC&&mC.internalVersion?` · <code>${esc(mC.internalVersion)}</code>`:''}</dd>
+    </dl>
+    ${acc('mlrc-dart','DART를 어떻게 사용하나요?',`
+      <p>B의 판단에 다음 정보를 <b>맥락으로만</b> 더합니다: 공시 존재 여부 · 공시 탐지 시각 · 정정 여부 · DART 커버리지 · 공식 재무자료 존재/신선도.</p>
+      <p><b>Point-in-Time 원칙</b> — “오전 10시에 낸 판단은 오전 10시까지 실제로 확인된 공시만 봅니다.” 오후 2시에 나온 공시를 오전 10시 판단이 알고 있었던 것처럼 과거 기록에 붙이지 않습니다(시각은 문자열이 아니라 UTC 순간으로 비교).</p>
+      <p class="ml-note">“공시 없음”은 “악재 없음”이 아닙니다 — DART는 일반 뉴스 커버리지가 아니기 때문입니다. 없는 재무값은 0이나 50으로 채우지 않고 부분 데이터 상태로 남깁니다.</p>
+    `)}
+    ${acc('mlrc-pair','왜 B와 짝으로 비교하나요?',`
+      <p>먼저 B와 똑같은 대조군을 만들어야, 나중에 <b>DART의 순수한 추가 효과만</b> 분리해서 확인할 수 있기 때문입니다. 연구 B = 비교 기준(대조군), 연구 C = B + DART 맥락.</p>
+    `)}
+    ${acc('mlrc-now','현재 DART가 점수를 바꾸나요?',`
+      <p><b>아니요. 현재 C의 DART는 BUY/SELL 방향점수를 바꾸지 않습니다.</b></p>
+      <p>그래서 지금은 B 후보의 방향과 C 짝의 방향이 같게 나오는 것이 <b>정상</b>입니다(기록의 directionIdenticalToPair 표시가 그 뜻입니다 — “이 판단의 방향은 짝인 B와 동일하다”). “DART를 넣었으니 점수가 달라져야 한다”고 억지로 만들지 않습니다. 좋은 공시 +10점, 나쁜 공시 −10점 같은 방향점수는 아직 없습니다.</p>
+    `)}
+    ${acc('mlrc-next','앞으로 무엇을 검증하나요?',`
+      <p>충분한 Forward DART 기록이 쌓인 뒤에 ① 어떤 공시가 실제 예측력이 있는가 ② 공식 재무자료가 도움이 되는가 ③ 방향점수에 넣을 근거가 있는가를 검증합니다. 검증 전에는 DART 방향점수를 추가하지 않습니다.</p>
+    `)}`;
+
+  /* ── 글로벌 섹션: 4모델 비교 + 성적 산정 ── */
+  const CMP=[
+    ['기본모델 개선판','실제 서비스','Production 기준','방향점수 투표','실제 성적으로 조정','Context (방향점수 아님)','있음'],
+    ['연구 A','첫 연구설계','5 / 20 / 60','통계 심판','Frozen Candidate 2개','없음','없음 (기록만)'],
+    ['연구 B','가설 비교','5 / 20 / 60','통계 심판','Candidate 4개 · 대표 없음','없음','없음 (기록만)'],
+    ['연구 C','DART 추가가치 검증','5 / 20 / 60','통계 심판','B와 같은 후보의 짝 · 대표 없음','Point-in-Time Context','없음 (기록만)'],
+  ];
+  const CMP_HEAD=['모델','역할','시간축(거래일)','QUANT 역할','가중치·후보','DART','실서비스 판단'];
+  const cmpTable=`<table class="ml-cmp"><thead><tr>${CMP_HEAD.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${
+    CMP.map(r=>`<tr>${r.map((c,i)=>i===0?`<td><b>${c}</b></td>`:`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const cmpCards=`<div class="ml-cmp-cards">${CMP.map(r=>`<div class="ml-cc"><b>${r[0]}</b><ul>${
+    r.slice(1).map((c,i)=>`<li>${CMP_HEAD[i+1]} — ${c}</li>`).join('')}</ul></div>`).join('')}</div>`;
+
+  const grading=`
+    <p><b>성적은 미래가 지난 뒤에만 확정됩니다.</b> 그날 실제로 저장했던 판단을 그대로 보존한 뒤, 정해진 거래일이 지난 후 실제 가격으로 채점합니다.</p>
+    <ul>
+      <li>5D · 20D · 60D는 달력일이 아니라 <b>거래일</b>입니다.</li>
+      <li>미래 결과를 알고 나서 과거 판단을 새로 만들지 않습니다.</li>
+      <li>결과가 아직 안 나온 판단은 <b>PENDING(대기)</b>이며, 실패 0점으로 넣지 않습니다.</li>
+      <li>판단 보류도 억지로 실패 처리하지 않습니다(분모에서 제외).</li>
+      <li>BUY/SELL 방향판단 성적과 HOLD 성적을 구분해서 봅니다.</li>
+      <li>하루 600종목 판단은 600개의 독립 실험이 아닙니다 — 같은 날 판단은 서로 영향을 받으므로, 기록 건수와 함께 <b>판단일 수</b>를 같이 봅니다.</li>
+    </ul>
+    ${SB&&SB.gradingNote?`<p class="ml-note">${esc(SB.gradingNote)}</p>`:''}`;
+
+  const paneFn=PANEL[ML_SELECTED]||PANEL.base_production;
+  const TABS=[['base_production','기본모델 개선판'],['research_a','연구모델 A'],['research_b','연구모델 B'],['research_c','연구모델 C']];
+  return `<div class="sc-block model-lab">
+    <h3>모델 실험실</h3>
+    <p class="sc-sub">같은 시장을 서로 다른 방식으로 판단하고, 실제 미래 결과로 성능을 비교합니다. 연구모델은 화면 판단을 바꾸지 않고, 어떤 모델도 자동으로 승격되지 않습니다.</p>
+    <div class="ml-tabs" role="tablist" aria-label="모델 선택">${
+      TABS.map(([id,label])=>`<button type="button" class="ml-tab" role="tab" id="mlTab-${id}" aria-selected="${id===ML_SELECTED}" aria-controls="mlPanel" data-mlmodel="${id}">${label}</button>`).join('')}</div>
+    <p class="ml-now">현재 선택</p>
+    <div id="mlPanel" role="tabpanel" aria-labelledby="mlTab-${ML_SELECTED}">${paneFn()}</div>
+    <div class="ml-global">
+      ${acc('mlg-compare','4개 모델 한눈에 비교',cmpTable+cmpCards)}
+      ${acc('mlg-grading','성적은 어떻게 계산하나요?',grading)}
+    </div>
+  </div>`;
+}
 function modelBoardHTML(){
   const SB=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
   if(!SB||!Array.isArray(SB.models)) return '';
@@ -5478,6 +5774,7 @@ function renderScorecard(){
   ${weeklyExamples}
   ${versionHtml}
   ${deepDive}
+  ${modelLabHTML()}
   ${modelBoardHTML()}
   ${modelDive}
   ${rotationShadow}`;
@@ -5485,6 +5782,29 @@ function renderScorecard(){
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
 document.getElementById('scorecardView').addEventListener('click', e=>{
+  /* 모델 실험실 — 탭 전환(재렌더)과 상세 펼침(제자리 토글). 열림 상태는 ML_OPEN에 보존. */
+  const mlTab=e.target.closest('.ml-tab');
+  if(mlTab){
+    if(mlTab.dataset.mlmodel && mlTab.dataset.mlmodel!==ML_SELECTED){
+      ML_SELECTED=mlTab.dataset.mlmodel;
+      renderScorecard();
+      const again=document.getElementById('mlTab-'+ML_SELECTED);
+      if(again) again.focus();
+    }
+    return;
+  }
+  const mlAcc=e.target.closest('.ml-acc-btn');
+  if(mlAcc){
+    const id=mlAcc.getAttribute('aria-controls');
+    const body=id?document.getElementById(id):null;
+    if(body){
+      const willOpen=body.hidden;
+      body.hidden=!willOpen;
+      mlAcc.setAttribute('aria-expanded', String(willOpen));
+      if(willOpen) ML_OPEN.add(id); else ML_OPEN.delete(id);
+    }
+    return;
+  }
   const mbHead=e.target.closest('.mb-head');
   if(mbHead){
     const body=mbHead.parentElement.querySelector('.mb-body');
