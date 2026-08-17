@@ -3,7 +3,7 @@
   "byKind": {
    "detail": 0,
    "financial": 0,
-   "list": 2,
+   "list": 3,
    "mapping": 0,
    "other": 0
   },
@@ -11,12 +11,12 @@
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9998,
-  "requests_today": 2,
-  "runs_today": 1,
+  "remaining": 9997,
+  "requests_today": 3,
+  "runs_today": 2,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.02
+  "usage_pct_of_hard_limit": 0.03
  },
  "coverageNote": "NO_OFFICIAL_EVENT_DETECTED는 '뉴스 없음'이 아니다. 일반 언론뉴스 Coverage가 없어서 공식 공시만 본 결과다.",
  "coverageReasons": [],
@@ -39,7 +39,7 @@
  "eventsAcknowledged": 0,
  "eventsFound": 0,
  "eventsStored": 0,
- "finishedAt": "2026-08-17T01:01:45.048713+00:00",
+ "finishedAt": "2026-08-17T01:31:43.691929+00:00",
  "hasApiKey": true,
  "kstToday": "2026-08-17",
  "maintenance": [],
@@ -52,8 +52,8 @@
   "total_pages_reported": null
  },
  "pendingRetryNext": 0,
- "ranAt": "2026-08-17T01:01:44.258591+00:00",
+ "ranAt": "2026-08-17T01:31:42.945862+00:00",
  "seenTotal": 0,
- "startedAt": "2026-08-17T01:01:44.262716+00:00",
+ "startedAt": "2026-08-17T01:31:42.950469+00:00",
  "status": "OK"
 }
