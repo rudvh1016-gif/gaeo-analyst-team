@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-15T23:57:41.566044+00:00",
+ "generatedAt": "2026-08-17T00:17:00.141090+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -27,7 +27,7 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 805,
-      "marketRelativeMeanReturn": -0.53,
+      "marketRelativeMeanReturn": -0.66,
       "meanReturn": -0.97,
       "medianReturn": -0.8,
       "precision": 43.5
@@ -40,7 +40,7 @@ const MODEL_SCOREBOARD = {
      "directionalCount": 6590,
      "hold": {
       "count": 7367,
-      "marketRelativeMeanReturn": 0.1,
+      "marketRelativeMeanReturn": -0.01,
       "meanReturn": 0.55,
       "medianReturn": 0.28,
       "precision": 50.6
@@ -50,7 +50,7 @@ const MODEL_SCOREBOARD = {
      "pending": 0,
      "sell": {
       "count": 5785,
-      "marketRelativeMeanReturn": 0.63,
+      "marketRelativeMeanReturn": 0.47,
       "meanReturn": 0.49,
       "medianReturn": -0.92,
       "precision": 53.6
@@ -73,7 +73,7 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 805,
-      "marketRelativeMeanReturn": -0.53,
+      "marketRelativeMeanReturn": -0.66,
       "meanReturn": -0.97,
       "medianReturn": -0.8,
       "precision": 43.5
@@ -86,7 +86,7 @@ const MODEL_SCOREBOARD = {
      "directionalCount": 6590,
      "hold": {
       "count": 7367,
-      "marketRelativeMeanReturn": 0.1,
+      "marketRelativeMeanReturn": -0.01,
       "meanReturn": 0.55,
       "medianReturn": 0.28,
       "precision": 50.6
@@ -96,7 +96,7 @@ const MODEL_SCOREBOARD = {
      "pending": 2508,
      "sell": {
       "count": 5785,
-      "marketRelativeMeanReturn": 0.63,
+      "marketRelativeMeanReturn": 0.47,
       "meanReturn": 0.49,
       "medianReturn": -0.92,
       "precision": 53.6
@@ -107,7 +107,7 @@ const MODEL_SCOREBOARD = {
     "base-2026-08-15-parity-hotfix": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 0,
+     "pending": 598,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     }
@@ -130,7 +130,7 @@ const MODEL_SCOREBOARD = {
      "actionDistribution": {},
      "matured": 0,
      "note": "현재 버전(2026-08-15 hotfix 이후) 기록을 축적하는 중입니다",
-     "pending": 0,
+     "pending": 598,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
@@ -146,13 +146,13 @@ const MODEL_SCOREBOARD = {
    "internalVersion": null,
    "maturedCount": 13957,
    "note": "현재 사이트에 실제로 보이는 판단입니다.",
-   "pendingCount": 2508,
+   "pendingCount": 3106,
    "primarySelection": null,
    "probabilityMetrics": {
     "status": "NOT_APPLICABLE"
    },
    "producesProbability": false,
-   "recordCount": 16465,
+   "recordCount": 17063,
    "status": "LIVE_PRODUCTION",
    "statusLabel": "실제 서비스",
    "uniquePredictionDates": 28,
@@ -170,21 +170,21 @@ const MODEL_SCOREBOARD = {
     "20": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 0,
+     "pending": 598,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
     "5": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 0,
+     "pending": 598,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
     "60": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 0,
+     "pending": 598,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     }
@@ -199,15 +199,120 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 0,
+   "recordCount": 598,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 0,
+   "uniquePredictionDates": 1,
    "usesDart": false
   },
   {
    "autoPromotion": "NONE_MANUAL_APPROVAL_REQUIRED",
-   "candidates": [],
+   "candidates": [
+    {
+     "candidateModelId": "MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    }
+   ],
    "configHash": "0d8ff5f0909e7b7b",
    "dartUsage": "사용 안 함 (완전 동결)",
    "displayName": "GAEO 연구모델 B",
@@ -216,23 +321,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     },
     "5": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     }
    },
    "icon": "🧪",
@@ -245,15 +350,120 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 0,
+   "recordCount": 598,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 0,
+   "uniquePredictionDates": 1,
    "usesDart": false
   },
   {
    "autoPromotion": "NONE_MANUAL_APPROVAL_REQUIRED",
-   "candidates": [],
+   "candidates": [
+    {
+     "candidateModelId": "MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    },
+    {
+     "candidateModelId": "PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE",
+     "horizons": {
+      "20": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "5": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      },
+      "60": {
+       "actionDistribution": {},
+       "matured": 0,
+       "pending": 598,
+       "status": "PENDING_NOT_MATURED",
+       "uniqueDates": 0
+      }
+     }
+    }
+   ],
    "configHash": null,
    "dartUsage": "공시 존재·탐지시각·정정·커버리지 (Point-in-Time)",
    "displayName": "GAEO 연구모델 C",
@@ -262,23 +472,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     },
     "5": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 0,
+     "pending": 2392,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 0
+     "uniqueDates": 1
     }
    },
    "icon": "🧪",
@@ -291,10 +501,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 0,
+   "recordCount": 598,
    "status": "SHADOW_STARTING",
    "statusLabel": "준비중",
-   "uniquePredictionDates": 0,
+   "uniquePredictionDates": 1,
    "usesDart": true
   },
   {
@@ -355,7 +565,7 @@ const MODEL_SCOREBOARD = {
   "note": "판단 당시 알 수 있었던 정보로만 장세를 나누려면 성숙한 기록이 더 필요합니다.",
   "status": "REGIME_DATA_INSUFFICIENT"
  },
- "researchKeyAvailable": false,
- "researchRecordDays": 0,
+ "researchKeyAvailable": true,
+ "researchRecordDays": 1,
  "schemaVersion": "gaeo_model_registry_v1"
 };
