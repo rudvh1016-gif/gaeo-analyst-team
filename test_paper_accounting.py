@@ -7,6 +7,7 @@ Mark가 없으면 0이 아니라 null. 매매 행동 로직은 이 테스트가 
 """
 import json
 import os
+import re as _re
 import shutil
 import sys
 import tempfile
@@ -129,8 +130,13 @@ val6 = pe.portfolio_valuation(CFG, {}, {})
 check("T6. 거래 0 → Equity=초기 1,000만·Return 0.0(현금 그대로)·NO_OPEN_POSITIONS",
       val6["currentVirtualEquity"] == 10_000_000 and val6["valuationStatus"] == "NO_OPEN_POSITIONS")
 html = open("index.html", encoding="utf-8").read()
-check("T6b. UI: MDD 없으면 '기록 대기'(0.0% 금지)", "'기록 대기'" in html
-      and "maxDrawdownPct==null?null:mdd" in html.replace(" ", ""))
+# 2026-08-18: 모의투자가 성적표 하위 블록(paperBlockHTML)에서 독립 화면(renderPaper)으로
+# 분리되면서 표현식이 바뀌었다. 검사 대상은 그대로 — "MDD가 없으면 0.0%가 아니라 '기록 대기'".
+_paper_ui = html[html.index("function renderPaper("):]
+_paper_ui = _paper_ui[:_paper_ui.index("\nfunction ", 10)]
+_flat = _paper_ui.replace(" ", "")
+check("T6b. UI: MDD 없으면 '기록 대기'(0.0% 금지)",
+      "n(P.maxDrawdownPct)==null?na('기록대기')" in _flat)
 
 # ── 매매 행동 불변 계약: valuation 도입 후에도 Entry/Exit 로직 diff 0 ────────
 src = open("paper_engine.py", encoding="utf-8").read()
@@ -148,7 +154,10 @@ _reason_block = _manage.split("cur_call =")[1].split("if not in_session")[0]
 check("행동 불변: 청산 사유 결정에 Mark 미참조",
       "lastMark" not in _reason_block and "MarkPrice" not in _reason_block)
 check("정렬 주석 용어: 판단 확신도", "판단 확신도(confidence) → 종합점수" in src)
-check("요일 하드코딩 없음", "(월)" not in html.split("stageMsg")[1][:400])
+# 상태 문구(stageNote)에 요일·날짜를 손으로 박아 넣지 않는다 — 스냅샷이 결정한다.
+_stage = _paper_ui.split("stageNote=")[1][:900]
+check("요일 하드코딩 없음", not any(d in _stage for d in ("(월)", "(화)", "(수)", "(목)", "(금)")))
+check("상태 문구에 날짜 하드코딩 없음", not _re.search(r"\d{1,2}월\s?\d{1,2}일", _stage))
 
 print()
 if FAILURES:
