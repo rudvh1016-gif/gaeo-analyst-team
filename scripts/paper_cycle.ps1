@@ -105,7 +105,9 @@ function Invoke-Git {
     $code = $LASTEXITCODE
     $text = ''
     if ($null -ne $raw) { $text = (($raw | ForEach-Object { $_.ToString() }) -join "`n") }
-    return [pscustomobject]@{ Code = $code; Output = $text.Trim() }
+    # ⚠️ TrimEnd만 쓴다. Trim()을 쓰면 `git status --porcelain`의 선행 공백(" M path")이
+    # 사라져 경로가 한 글자씩 밀리고, 정상 Paper 파일이 위반으로 오판된다.
+    return [pscustomobject]@{ Code = $code; Output = $text.TrimEnd() }
 }
 
 function Test-GitOk {
@@ -163,7 +165,8 @@ Write-Log "러너 HEAD(시작): $headBefore"
 # ─────────────────────────────────────────────────────────────────────────────
 function Test-Whitelisted {
     param([string]$Path)
-    $p = $Path.Replace('\', '/').Trim('"')
+    # 경로 추출 후 남을 수 있는 CR·따옴표 제거(여기서의 Trim은 경로 자체에만 적용된다)
+    $p = $Path.Replace('\', '/').Trim().Trim('"')
     if ($p -eq $WHITELIST_FILE) { return $true }
     if ($p.StartsWith($WHITELIST_DIR + '/')) { return $true }
     return $false
@@ -175,8 +178,13 @@ if (-not (Test-GitOk $statusRes 'git status')) { Stop-Cycle 'git status 실패 �
 $dirty = @()
 if ($statusRes.Output) {
     foreach ($line in ($statusRes.Output -split "`n")) {
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
-        $path = $line.Substring(3)
+        $l = $line.TrimEnd("`r")
+        if ([string]::IsNullOrWhiteSpace($l)) { continue }
+        # porcelain v1 형식: XY<공백><경로>  (X,Y는 각각 1글자 상태코드)
+        if ($l.Length -lt 4) {
+            Stop-Cycle "git status 출력을 해석할 수 없다: '$l' — 안전을 위해 중단" 4
+        }
+        $path = $l.Substring(3)
         if ($path -match '->') { $path = ($path -split '->')[-1].Trim() }
         $dirty += $path
     }
