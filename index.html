@@ -962,14 +962,6 @@
     border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
   .sc-stat-row.sc-score-summary{grid-template-columns:repeat(7,1fr)}
   .sc-stat-row.sc-stat-row-3{grid-template-columns:repeat(3,1fr)}
-  .paper-trade-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
-    padding:11px 0;border-bottom:1px solid var(--line)}
-  .paper-trade-row .ptr-main{min-width:0}
-  .paper-trade-row .ptr-main b{display:block;font-size:13.5px;font-weight:600}
-  .paper-trade-row .ptr-main span{display:block;margin-top:2px;color:var(--t3);font-size:11.5px}
-  .paper-trade-row .ptr-num{flex:none;text-align:right}
-  .paper-trade-row .ptr-num b{display:block;font-size:13.5px;font-variant-numeric:tabular-nums}
-  .paper-trade-row .ptr-num span{display:block;margin-top:2px;color:var(--t3);font-size:11px;font-variant-numeric:tabular-nums}
   .sc-stat{background:none;border-radius:0;border-left:1px solid var(--line);padding:14px 12px;text-align:center}
   .sc-stat:first-child{border-left:none}
   .sc-stat b{display:block;font-size:20px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
@@ -1120,6 +1112,119 @@
     .model-lab .ml-cmp-cards .ml-cc ul{margin:0;padding-left:14px;font-size:12px;color:var(--t2);line-height:1.7}
   }
   .sc-foot-note{margin-top:16px;font-size:11px;color:var(--faint);line-height:1.6}
+  /* ── 💼 모의투자(독립 화면) — GAEO 판단의 Forward 검증 트랙레코드 ─────────────
+     성적표 안의 부속 블록이 아니라 독립 화면이라, 여기서는 카드를 쌓지 않는다.
+     계층은 색이 아니라 활자·여백·가로 구분선으로만 만든다(docs/gaeo_design_system.md).
+     색은 성과 숫자의 방향(상승 빨강 --krup · 하락 파랑 --krdn)에만 쓰고,
+     브랜드 블루는 포커스 링 외의 장식으로 쓰지 않는다.
+     ⚠️ overflow-wrap:anywhere 필수 — body의 word-break:keep-all과 겹치면
+     "매수 고려 · 08.18 진입"처럼 가운뎃점으로 이어 붙인 토막이 모바일에서 넘친다. */
+  .paperView{display:none;margin-top:18px}
+  .paperView.on{display:block}
+  .pv-title{margin:0 0 10px;font-size:27px;font-weight:700;letter-spacing:-.03em;
+    line-height:1.2;overflow-wrap:anywhere}
+  .pv-claim{margin:0 0 14px;font-size:17px;font-weight:500;line-height:1.6;color:var(--t2);
+    max-width:34ch;letter-spacing:-.01em;overflow-wrap:anywhere}
+  .pv-lede{margin:0 0 24px;font-size:14px;line-height:1.85;color:var(--t3);
+    max-width:62ch;overflow-wrap:anywhere}
+  .pv-lede b{font-weight:600;color:var(--t2)}
+  .pv-meta{display:flex;flex-wrap:wrap;gap:6px 26px;margin:0 0 30px;padding:0 0 20px;
+    border-bottom:1px solid var(--line)}
+  .pv-meta>div{display:flex;align-items:baseline;gap:7px;min-width:0}
+  .pv-meta dt{font-size:11.5px;color:var(--faint)}
+  .pv-meta dd{margin:0;font-size:11.5px;color:var(--t3);font-variant-numeric:tabular-nums;
+    overflow-wrap:anywhere}
+  /* 핵심 요약 — KPI 카드 4개가 아니라 「한 줄의 띠 + 얇은 세로 구분선」 */
+  .pv-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 34px}
+  .pv-summary>div{min-width:0;padding:19px 18px 21px;border-left:1px solid var(--line)}
+  .pv-summary>div:first-child{border-left:none;padding-left:0}
+  .pv-sum-k{display:block;font-size:11.5px;color:var(--dim);margin-bottom:10px}
+  .pv-sum-v{display:block;font-size:24px;font-weight:600;letter-spacing:-.025em;line-height:1.2;
+    font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-sum-s{display:block;margin-top:7px;font-size:11.5px;color:var(--faint);
+    line-height:1.55;overflow-wrap:anywhere}
+  .pv-sec{margin:0 0 34px}
+  .pv-sec-h{margin:0 0 5px;font-size:16px;font-weight:650;letter-spacing:-.01em}
+  .pv-sec-d{margin:0 0 14px;font-size:12.5px;color:var(--dim);line-height:1.75;
+    max-width:58ch;overflow-wrap:anywhere}
+  /* 성과 상세 — 지표 하나에 카드 하나를 만들지 않고 행으로만 쌓는다 */
+  .pv-rows{margin:0;border-top:1px solid var(--line)}
+  .pv-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    padding:13px 2px;border-bottom:1px solid var(--line)}
+  .pv-row dt{min-width:0;font-size:13px;color:var(--t3);overflow-wrap:anywhere}
+  .pv-row dd{flex:none;margin:0;font-size:14.5px;font-weight:600;text-align:right;
+    font-variant-numeric:tabular-nums}
+  .pv-row dd.pv-na{font-size:12.5px;font-weight:500;color:var(--faint)}
+  .pv-up{color:var(--krup)}
+  .pv-dn{color:var(--krdn)}
+  /* 최근 가상거래 — 카드 스택이 아니라 금융 원장(ledger) 형태의 행 목록 */
+  .pv-ledger{border-top:1px solid var(--line)}
+  .pv-lhead,.pv-trade{display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(0,1.15fr) minmax(0,1fr) minmax(84px,auto);
+    gap:14px;align-items:baseline;padding:13px 2px;border-bottom:1px solid var(--line)}
+  .pv-lhead{padding:9px 2px;font-size:11px;color:var(--faint)}
+  .pv-lhead span:last-child,.pv-tret{text-align:right}
+  .pv-tname{min-width:0;font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
+  .pv-tmeta{display:contents}
+  .pv-tmeta i{min-width:0;font-style:normal;font-size:12.5px;color:var(--t3);
+    font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-tret{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pv-tret.pv-na{font-size:12.5px;font-weight:500;color:var(--faint)}
+  /* 빈 상태 — 망가진 화면이 아니라 "무엇을 기다리는 중인지" 읽히게 */
+  .pv-empty{padding:26px 2px 30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pv-empty b{display:block;margin-bottom:8px;font-size:14px;font-weight:600}
+  .pv-empty p{margin:0;font-size:13px;color:var(--dim);line-height:1.8;
+    max-width:56ch;overflow-wrap:anywhere}
+  /* 검증 방식 설명 — 번호는 순서 자체가 정보라 남긴다 */
+  .pv-steps{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+  .pv-steps li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:14px;
+    padding:15px 2px;border-bottom:1px solid var(--line)}
+  .pv-steps b{font-size:12px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums}
+  .pv-steps p{margin:0;font-size:13px;color:var(--t2);line-height:1.8;overflow-wrap:anywhere}
+  .pv-steps p em{font-style:normal;font-weight:600;color:var(--ink)}
+  /* 용어 설명은 늘어놓지 않고 필요할 때만 펼친다 */
+  .pv-gloss{margin-top:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pv-gloss>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:13px 2px;font-size:12.5px;color:var(--t3);cursor:pointer;list-style:none}
+  .pv-gloss>summary::-webkit-details-marker{display:none}
+  .pv-gloss>summary:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:6px}
+  .pv-gloss .pv-chev{flex:none;transition:transform .18s ease}
+  .pv-gloss[open] .pv-chev{transform:rotate(180deg)}
+  .pv-gloss .pv-rows{border-top:1px solid var(--line);margin-bottom:14px}
+  .pv-gloss .pv-row{display:block;padding:12px 2px}
+  .pv-gloss .pv-row dt{font-size:12.5px;font-weight:600;color:var(--t2)}
+  .pv-gloss .pv-row dd{margin:4px 0 0;font-size:12.5px;font-weight:400;text-align:left;
+    color:var(--dim);line-height:1.75;overflow-wrap:anywhere}
+  .pv-gloss .pv-row dd:last-child{border-bottom:none}
+  .pv-foot{margin:0;font-size:11.5px;color:var(--faint);line-height:1.8;overflow-wrap:anywhere}
+  .pv-foot b{color:var(--t3);font-weight:600}
+  @media (max-width:860px){
+    .pv-title{font-size:23px}
+    .pv-claim{font-size:15.5px;max-width:28ch}
+    .pv-lede{font-size:13px;line-height:1.8;margin-bottom:20px}
+    .pv-summary{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:28px}
+    .pv-summary>div{padding:16px 14px 17px}
+    .pv-summary>div:nth-child(odd){border-left:none;padding-left:0}
+    .pv-summary>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    .pv-sum-v{font-size:20px}
+    /* 표를 그대로 줄이지 않고 목록으로 다시 짠다: 1행 종목·성과 / 2행 판단·상태 */
+    .pv-lhead{display:none}
+    .pv-trade{grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:14px 2px}
+    .pv-tname{grid-column:1;grid-row:1}
+    .pv-tret{grid-column:2;grid-row:1}
+    .pv-tmeta{display:block;grid-column:1/-1;grid-row:2;min-width:0}
+    .pv-tmeta i+i::before{content:' · ';color:var(--faint)}
+    .pv-sec-h{font-size:15px}
+    .pv-sec-d,.pv-empty p,.pv-steps p{font-size:12.5px}
+  }
+  @media (max-width:400px){
+    .pv-meta{gap:5px 18px}
+    .pv-summary>div{padding:14px 11px 15px}
+    .pv-sum-v{font-size:18.5px}
+    .pv-sum-k,.pv-sum-s{font-size:11px}
+    .pv-row dd{font-size:13.5px}
+  }
   /* 개발 기록(changelog) 전용 — 색으로 분류를 표시하지 않고 활자 위계만으로 정리한다.
      ⚠️ overflow-wrap:anywhere는 필수다(AGENTS.md 주의 11번). body에 word-break:keep-all이
      걸려 있어서, 이게 없으면 "BUY·HOLD·SELL"처럼 가운뎃점으로 이어 붙인 긴 토막이 모바일에서
@@ -2259,7 +2364,7 @@
   @keyframes viewIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   .quote,#cards,.chips,.cmp-controls,
   .compare.on,.portfolio.on,.leaderboard.on,.calendarView.on,.communityView.on,.newsView.on,
-  .viz.on,.verdict.on{animation:viewIn .4s cubic-bezier(.22,1,.36,1) both}
+  .paperView.on,.viz.on,.verdict.on{animation:viewIn .4s cubic-bezier(.22,1,.36,1) both}
 
   /* ── 분석 중 스켈레톤(시머) ──
      analyze()가 #cards에 .busy를 붙이는 동안, 아직 결과가 안 나온 카드(.on 아님)는
@@ -3672,6 +3777,7 @@
       <button class="global-link" type="button" data-nav-mode="lesson">공부</button>
       <button class="global-link" type="button" data-nav-mode="calc">투자 도구</button>
       <button class="global-link" type="button" data-nav-mode="scorecard">성적표</button>
+      <button class="global-link" type="button" data-nav-mode="paper">모의투자</button>
       <button class="global-link" type="button" data-nav-mode="calendar">캘린더</button>
       <button class="global-link" type="button" data-nav-mode="guide">가이드북</button>
     </div>
@@ -3936,6 +4042,7 @@
     <button class="modebtn" id="mode-screener"><svg class="mi" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21M7 10.5h7"/></svg>스크리너</button>
     <button class="modebtn" id="mode-rates"><svg class="mi" viewBox="0 0 24 24"><path d="M4 19V9M9.5 19V5M15 19v-8M20 19v-5M3 21h18"/></svg>등락률 확인</button>
     <button class="modebtn" id="mode-scorecard"><svg class="mi" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="m8.5 13.5 2 2 4-4.5"/></svg>성적표</button>
+    <button class="modebtn" id="mode-paper"><svg class="mi" viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M4 15.5 9.5 10l3.5 3.5L20 6"/><path d="M20 10.5V6h-4.5"/></svg>모의투자</button>
     <button class="modebtn" id="mode-calendar"><svg class="mi" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.2"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7"/></svg>캘린더</button>
     <button class="modebtn" id="mode-community"><svg class="mi" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.2-.6L4 20.5l1.4-4.1a8 8 0 0 1-1.4-4.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>커뮤니티</button>
   </div>
@@ -4147,6 +4254,10 @@
   <!-- 🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전. history.js·price_history.js·team_weights.js
        실측 데이터만으로 렌더링한다(AI 토큰 0원, 서버 재계산 때마다 자동 갱신). -->
   <div class="newsView" id="scorecardView"></div>
+  <!-- 💼 모의투자 — GAEO 판단의 Forward 검증 트랙레코드(독립 최상위 화면).
+       러너가 만든 파생 스냅샷 window.GAEO_PAPER(paper_public.js)만 읽는 READ-ONLY 화면이며,
+       Toss API·Secret·실제 계좌에는 접근하지 않고 실제 주문 UI도 두지 않는다. -->
+  <section class="paperView" id="paperView" aria-label="모의투자 검증 기록"></section>
   <div class="calendarView" id="calendarView"></div>
   <div class="communityView" id="communityView"></div>
   <div class="newsView" id="newsView"></div>
@@ -5068,65 +5179,143 @@ function scWeekRange(offset){
   const fmt=d=>d.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
   return {start:fmt(start), end:fmt(end)};
 }
-/* ── 💼 GAEO 모의투자 (Paper Trading) ────────────────────────────────────────
-   러너가 만든 파생 요약(paper_public.js)만 읽는다 — 브라우저는 Toss API·Secret에
-   절대 접근하지 않는다. 실제 계좌처럼 보이지 않게 하고, 거래 0건을 승률 0%로
-   보여주지 않는다(상태별 Empty State). 비용 미검증이라 '순수익' 표기 금지. */
-function paperBlockHTML(){
+/* ── 💼 모의투자 — GAEO 판단의 Forward 검증 트랙레코드 (독립 화면) ──────────
+   러너가 만든 파생 요약(paper_public.js)만 읽는다 — 브라우저는 Toss API·Secret·
+   실제 계좌에 절대 접근하지 않고, 실제 주문 UI도 만들지 않는다.
+   ⚠️ 정직성 계약 (2026-08-18 독립화 이후에도 그대로)
+     · 거래 0건을 승률 0%·수익률 0%로 보여주지 않는다 — 없는 값은 0이 아니라 '—'
+     · 비용(수수료·세금) 미검증이라 '순수익'·'실제 수익' 표기 금지
+     · paper_public.js가 없거나 오래된 스키마여도 화면이 깨지지 않는다(모든 필드 옵셔널)
+   2026-08-18: 성적표 하위 블록(paperBlockHTML)에서 독립 최상위 화면으로 분리. */
+function renderPaper(){
+  const el=document.getElementById('paperView');
+  if(!el) return;
   const P=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
-  const head=`<div class="sc-block"><h3>GAEO 모의투자</h3>
-    <p class="sc-sub">실제 주문 없이, GAEO의 판단(매수 고려 전환)을 실제 시장 시세로 검증하는 <b>가상매매 기록</b>이에요. 실제 계좌·실제 돈과는 무관합니다.</p>`;
-  if(!P) return head+`<div class="sc-explain">모의투자 요약을 아직 불러오지 못했어요. 다음 갱신 때 다시 시도합니다.</div></div>`;
-  const won0=v=>v==null?'—':Math.round(v).toLocaleString('ko-KR')+'원';
-  const pct=(v,signed)=>v==null?null:`${signed&&v>0?'+':''}${v.toFixed(2)}%`;
-  const stageMsg={
-    BEFORE_FORWARD_START:'8월 18일부터 실제 시장 기준 Forward 검증을 시작합니다.',
-    AWAITING_MARKET_DATA:'시세 연결 준비 중이에요. 연결되면 다음 장중 사이클부터 자동으로 기록됩니다.',
-    BASELINE_ONLY:'기준 상태를 기록했습니다. 이제부터 새롭게 발생하는 「매수 고려」 전환부터 가상거래가 시작돼요.',
-  }[P.stage];
+  // 상단은 대시보드 카드가 아니라 editorial header — 제목·주장·설명·메타데이터 순.
+  const lede=`<h2 class="pv-title">모의투자</h2>
+    <p class="pv-claim">GAEO의 판단을 실제 시장에서 검증합니다.</p>
+    <p class="pv-lede">GAEO가 종목을 새롭게 「매수 고려」로 전환한 그 시점부터, 실제 시장 시세로 결과를 기록합니다. 지나간 판단을 골라 담지 않고 앞으로 벌어지는 일만 쌓는 <b>Forward 검증</b>이에요. 실제 계좌·실제 돈과는 무관합니다.</p>`;
+  // ⛔ Fail closed — 스냅샷을 못 읽으면 0으로 채우지 않고 "비어 있음"을 그대로 말한다.
+  if(!P){
+    el.innerHTML=lede+`<div class="pv-empty"><b>기록을 아직 불러오지 못했어요.</b>
+      <p>모의투자 요약 자료를 읽지 못했습니다. 없는 숫자를 임의로 채우지 않기 때문에 이 화면을 비워 둡니다. 다음 갱신 때 다시 표시됩니다.</p></div>`;
+    return;
+  }
+  const DASH='—';
+  const n=v=>(typeof v==='number'&&isFinite(v))?v:null;
+  const won=v=>n(v)==null?DASH:Math.round(v).toLocaleString('ko-KR')+'원';
+  const sWon=v=>n(v)==null?DASH:(v>0?'+':v<0?'−':'')+Math.abs(Math.round(v)).toLocaleString('ko-KR')+'원';
+  const sPct=(v,d)=>n(v)==null?DASH:(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d==null?2:d)+'%';
+  const dir=v=>n(v)==null||v===0?'':(v>0?' pv-up':' pv-dn');
+  const day=s=>s?esc(String(s).slice(0,10).replace(/-/g,'.')):DASH;
+  const stamp=s=>s?esc(String(s).slice(5,16).replace('T',' ').replace('-','.')):DASH;
   const insufficient=String(P.evidenceStatus||'').startsWith('INSUFFICIENT');
-  // 핵심 지표 — 값이 없으면 0%·0원이 아니라 '—'(기록 대기)로 정직하게.
-  //   누적 가상수익률 = (현재 평가금 ÷ 시작자금 − 1) — 개별 거래 수익률의 합이 아니다.
-  const stat=(v,label,color)=>`<div class="sc-stat"><b${color?` style="color:${color}"`:''}>${v==null?'—':v}</b><span>${label}</span></div>`;
-  const signWon=v=>v==null?null:`${v>0?'+':v<0?'−':''}${Math.abs(Math.round(v)).toLocaleString('ko-KR')}원`;
-  const pctColor=v=>v>0?'var(--green)':(v<0?'var(--red)':null);
-  const rel=P.avgRelativeReturnPct==null?null:`${P.avgRelativeReturnPct>0?'+':''}${P.avgRelativeReturnPct.toFixed(2)}%p`;
-  const portRet=pct(P.portfolioReturnPct,true);
-  const mdd=P.maxDrawdownPct==null?'기록 대기':`${P.maxDrawdownPct.toFixed(1)}%`;
-  const core=`<div class="sc-stat-row sc-stat-row-3">
-    ${stat(won0(P.currentVirtualEquity),'현재 평가금액')}
-    ${stat(portRet,'누적 가상수익률',pctColor(P.portfolioReturnPct))}
-    ${stat(signWon(P.realizedPnl),'확정 손익')}
-    ${stat(signWon(P.unrealizedPnl),'미실현 손익')}
-    ${stat(rel,'종료거래 평균 시장대비')}
-    ${stat(P.maxDrawdownPct==null?null:mdd,'최대 낙폭(MDD)')}
-  </div>`;
-  const second=`<div class="sc-stat-row sc-stat-row-3">
-    ${stat(P.openTrades,'진행 중')}
-    ${stat(P.closedTrades,'종료 거래')}
-    ${stat(P.closedTrades?(insufficient?null:pct(P.winRatePct)):null,
-           P.closedTrades&&insufficient?'승률 (표본 부족)':'승률')}
-  </div>`;
+  const open=n(P.openTrades)||0, closed=n(P.closedTrades)||0;
+
+  /* ① Hero — 대시보드 카드가 아니라 editorial header. 버전·날짜·시각은 전부 스냅샷 실측값. */
+  const meta=[
+    ['전략', esc(P.strategyVersion||DASH)],
+    ['검증 시작', day(P.forwardStart)],
+    ['최근 기록', P.lastCycleAt?stamp(P.lastCycleAt):'기록 대기']
+  ].map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  const hero=lede+`<dl class="pv-meta">${meta}</dl>`;
+
+  /* ② 핵심 요약 — 독립 카드 4개가 아니라 구분선으로 나눈 한 줄의 띠. */
+  const retTxt=n(P.portfolioReturnPct)==null?DASH:sPct(P.portfolioReturnPct);
+  const sum=[
+    ['가상 시작자금', won(P.initialVirtualCash), '실제로 예치한 돈이 아닙니다', ''],
+    ['현재 가상자산', won(P.currentVirtualEquity),
+      n(P.currentVirtualEquity)==null?'평가 대기':'확정 손익 반영 기준', ''],
+    ['누적 성과', retTxt, n(P.portfolioReturnPct)==null?'기록 축적 중':'시작자금 대비',
+      dir(P.portfolioReturnPct)],
+    ['거래', `진행 ${open} · 종료 ${closed}`,
+      closed?(insufficient?'표본 부족 — 성과 결론 보류':'종료 거래 누적'):'아직 종료 거래 없음','']
+  ].map(([k,v,s,c])=>`<div><span class="pv-sum-k">${k}</span><span class="pv-sum-v${c}">${v}</span><span class="pv-sum-s">${s}</span></div>`).join('');
+  const summary=`<div class="pv-summary">${sum}</div>`;
+
+  /* ③ 성과 상세 — 기록이 하나도 없으면 '—'만 늘어놓지 않고 섹션 자체를 생략한다. */
+  const hasPerf=closed>0||open>0||n(P.realizedPnl)!=null||n(P.unrealizedPnl)!=null||n(P.maxDrawdownPct)!=null;
+  const na=t=>`<dd class="pv-na">${t}</dd>`;
+  const val=(v,c)=>`<dd class="${c||''}">${v}</dd>`;
+  let perf='';
+  if(hasPerf){
+    // ⚠️ 방향색은 "방향을 훑는 것이 곧 과제인 자리"에만 쓴다 — 상단 누적 성과와
+    //    거래별 성과 열. 아래 상세 행은 +/− 부호가 이미 방향을 전달하므로 중립색으로
+    //    둔다(모든 숫자를 색으로 칠하지 않는다 — docs/gaeo_design_system.md §1).
+    const rows=[
+      ['확정 손익 <span class="pv-na">(종료된 거래)</span>',
+        n(P.realizedPnl)==null?na('기록 대기'):val(sWon(P.realizedPnl))],
+      ['미실현 손익 <span class="pv-na">(진행 중인 거래)</span>',
+        n(P.unrealizedPnl)==null?na('평가 대기'):val(sWon(P.unrealizedPnl))],
+      ['최대 낙폭 (MDD)', n(P.maxDrawdownPct)==null?na('기록 대기'):val(Math.abs(P.maxDrawdownPct).toFixed(1)+'%')],
+      ['승률', !closed?na('아직 종료 거래 없음')
+        :(insufficient?na('표본 부족')
+        :(n(P.winRatePct)==null?na('기록 대기'):val(P.winRatePct.toFixed(1)+'%')))],
+      ['종료거래 평균 수익률', !closed?na('아직 종료 거래 없음')
+        :(n(P.avgReturnPct)==null?na('기록 대기'):val(sPct(P.avgReturnPct)))],
+      ['종료거래 평균 시장대비', !closed?na('아직 종료 거래 없음')
+        :(n(P.avgRelativeReturnPct)==null?na('기록 대기')
+        :val((P.avgRelativeReturnPct>0?'+':P.avgRelativeReturnPct<0?'−':'')+Math.abs(P.avgRelativeReturnPct).toFixed(2)+'%p'))],
+      ['평균 보유기간', n(P.avgHoldingTradingDays)==null?na('기록 대기'):val(P.avgHoldingTradingDays.toFixed(1)+'거래일')]
+    ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt>${v}</div>`).join('');
+    perf=`<section class="pv-sec" aria-labelledby="pvPerfH">
+      <h3 class="pv-sec-h" id="pvPerfH">현재 검증 상태</h3>
+      <p class="pv-sec-d">종료된 거래가 쌓이기 전에는 대부분의 값이 비어 있는 게 정상이에요. 없는 값을 0으로 채우지 않습니다.</p>
+      <dl class="pv-rows">${rows}</dl></section>`;
+  }
+
+  /* ④ 최근 가상거래 — 실제 매매 버튼처럼 보이지 않게, 조용한 원장 형태로만. */
   const callName={BUY:'매수 고려 전환'};
   const exitName={CHIEF_SELL:'매도 고려 전환',MAX_HOLDING_5D:'5거래일 도달'};
-  const stName={OPEN:'진행 중',CLOSED:'종료'};
-  const rows=(P.recentTrades||[]).filter(r=>r.status==='OPEN'||r.status==='CLOSED').map(r=>{
-    const ret=r.gross_return_pct, col=ret>0?'var(--green)':(ret<0?'var(--red)':'var(--dim)');
-    return `<div class="paper-trade-row">
-      <div class="ptr-main"><b>${esc(r.name||r.symbol)}</b>
-        <span>${callName[r.signal]||esc(r.signal||'')} · ${esc((r.entry_business_date||'').slice(5))} 진입${r.status==='CLOSED'?` → ${exitName[r.exit_reason]||esc(r.exit_reason||'')}`:''}</span></div>
-      <div class="ptr-num">${r.status==='CLOSED'&&ret!=null?`<b style="color:${col}">${ret>0?'+':''}${ret.toFixed(1)}%</b>`:`<b>${stName[r.status]||''}</b>`}
-        <span>매수 ${r.entry_price?Math.round(r.entry_price).toLocaleString('ko-KR'):'—'}${r.exit_price?` · 매도 ${Math.round(r.exit_price).toLocaleString('ko-KR')}`:''}</span></div>
-    </div>`;}).join('');
-  const asOf=P.lastCycleAt?` · 마지막 기록 ${esc(String(P.lastCycleAt).slice(5,16).replace('T',' '))}`:'';
-  return head
-    +(stageMsg?`<div class="sc-explain">${stageMsg}</div>`:'')
-    +core+second
-    +(rows?`<div class="sc-chip-head">최근 가상거래</div>${rows}`:
-      (P.stage==='RUNNING'?`<div class="sc-explain">아직 새롭게 발생한 매수 고려 신호가 없습니다.</div>`:''))
-    +(insufficient&&P.closedTrades?`<p class="sc-foot-note">아직 판단하기에 기록이 충분하지 않습니다(종료 ${P.closedTrades}건).</p>`:'')
-    +`<p class="sc-foot-note">가상 시작자금 ${won0(P.initialVirtualCash)} · 전략 ${esc(P.strategyVersion||'')} · 시작 ${esc(P.forwardStart||'')}${asOf}${P.valuationObservedAt?` · 마지막 평가 관측 ${esc(String(P.valuationObservedAt).slice(5,16).replace('T',' '))}`:''} · 수익률·손익은 수수료·세금 반영 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>
-  </div>`;
+  const trades=(P.recentTrades||[]).filter(r=>r&&(r.status==='OPEN'||r.status==='CLOSED')).map(r=>{
+    const ret=n(r.gross_return_pct);
+    const held=n(r.holding_trading_days);
+    const entry=`${callName[r.signal]||'매수 고려 전환'}${r.entry_business_date?` · ${esc(String(r.entry_business_date).slice(5).replace('-','.'))} 진입`:''}`;
+    const state=r.status==='CLOSED'
+      ? `종료 · ${exitName[r.exit_reason]||esc(r.exit_reason||'사유 미기록')}${held!=null?` · ${held}거래일`:''}`
+      : `진행 중${held!=null?` · ${held}거래일`:''}`;
+    const num=(r.status==='CLOSED'&&ret!=null)
+      ? `<span class="pv-tret${dir(ret)}">${sPct(ret)}</span>`
+      : `<span class="pv-tret pv-na">${r.status==='CLOSED'?'기록 대기':'평가 전'}</span>`;
+    return `<div class="pv-trade"><span class="pv-tname">${esc(r.name||r.symbol||'종목 미기록')}</span>`
+      +`<span class="pv-tmeta"><i>${entry}</i><i>${state}</i></span>${num}</div>`;
+  }).join('');
+  const stageNote={
+    BEFORE_FORWARD_START:['검증 시작을 기다리고 있습니다.','예정된 시작일부터 실제 시장 시세를 기준으로 기록을 시작합니다. 그 전에 나온 판단을 소급해서 거래로 만들지 않습니다.'],
+    AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.','시세를 읽지 못하는 동안에는 가격을 추측해서 기록하지 않습니다. 연결되면 다음 장중 사이클부터 이어서 기록합니다.'],
+    BASELINE_ONLY:['첫 검증 신호를 기다리고 있습니다.','GAEO는 기준 상태를 기록했습니다. 이제부터 새롭게 발생하는 「매수 고려」 전환부터 실제 시장 시세로 가상 기록을 시작합니다.']
+  }[P.stage]||['아직 새롭게 발생한 매수 고려 신호가 없습니다.','검증은 계속 진행 중입니다. 새로운 「매수 고려」 전환이 나오면 그 시점의 시세로 이 목록에 기록됩니다.'];
+  const ledger=trades
+    ? `<div class="pv-ledger"><div class="pv-lhead" aria-hidden="true"><span>종목</span><span>진입 판단</span><span>상태</span><span>성과</span></div>${trades}</div>`
+    : `<div class="pv-empty"><b>${stageNote[0]}</b><p>${stageNote[1]}</p></div>`;
+  const recent=`<section class="pv-sec" aria-labelledby="pvTradeH">
+    <h3 class="pv-sec-h" id="pvTradeH">최근 가상거래</h3>
+    <p class="pv-sec-d">GAEO의 판단이 바뀐 시점에 기록된 가상 진입·청산이에요. 실제 주문은 발생하지 않습니다.</p>
+    ${ledger}</section>`;
+
+  /* ⑤ 검증 방식 — paper_engine.py의 실제 규칙만 적는다(없는 규칙 발명 금지).
+     신규 BUY 전환만 진입 · 장중에만 · 최우선호가 기준 · SELL 전환 또는 5거래일 청산. */
+  const chev='<svg class="pv-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const steps=[
+    'GAEO 기본모델의 판단이 직전과 달리 <em>새롭게 「매수 고려」로 바뀐</em> 종목만 골라냅니다. 이미 매수 고려였던 종목을 뒤늦게 담지 않습니다.',
+    '장이 열려 있는 동안에만, 그 시점의 <em>실제 시장 호가</em>로 가상 진입을 기록합니다. 시세를 읽지 못하면 가격을 추측하지 않고 그 신호를 건너뜁니다.',
+    '보유 중에 판단이 <em>「매도 고려」로 바뀌거나 5거래일이 지나면</em> 청산합니다. 청산 가격도 그 시점의 실제 시장 호가를 씁니다.',
+    '종료된 거래의 수익률을 같은 기간 코스피·코스닥 지수 움직임과 함께 남겨, 장기 트랙레코드로 쌓습니다.'
+  ].map((s,i)=>`<li><b>${i+1}</b><p>${s}</p></li>`).join('');
+  const gloss=[
+    ['최대 낙폭 (MDD)','가상자산이 고점에서 가장 크게 줄었던 폭이에요. 같은 수익률이라도 도중에 얼마나 크게 흔들렸는지를 보여줍니다.'],
+    ['시장대비','종료된 거래가 같은 기간 지수보다 얼마나 더(또는 덜) 움직였는지예요. 단위 %p는 두 수익률의 차이를 뜻합니다.'],
+    ['표본 부족','종료된 거래 수가 적어 성과를 결론짓기 어려운 상태예요. 이때는 승률을 계산해서 보여주지 않습니다.']
+  ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  const how=`<section class="pv-sec" aria-labelledby="pvHowH">
+    <h3 class="pv-sec-h" id="pvHowH">이 검증은 어떻게 작동하나요?</h3>
+    <p class="pv-sec-d">GAEO가 스스로 매긴 판단을 실제 시장 시세로 되짚는 순서예요.</p>
+    <ol class="pv-steps">${steps}</ol>
+    <details class="pv-gloss"><summary>처음 보는 용어 설명${chev}</summary><dl class="pv-rows">${gloss}</dl></details></section>`;
+
+  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록이며, 수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}${P.valuationObservedAt?` 마지막 평가 관측 ${stamp(P.valuationObservedAt)}.`:''}</p>`;
+
+  el.innerHTML=hero+summary+perf+recent+how+foot;
 }
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
    5개 모델을 한 판에 놓고 비교한다. 카드를 늘어놓지 않고 한 패널 안의 row로 둔다.
@@ -5766,7 +5955,6 @@ function renderScorecard(){
     ${statRow}
     ${weeklyEmpty}
   </div>
-  ${paperBlockHTML()}
   ${callBlock}
   ${confBlock}
   ${confModelShadow}
@@ -12125,6 +12313,12 @@ window.renderScreener=function(){
         changelog:'changelogView'}[mode];
       const view=document.getElementById(viewId);
       if(view){
+        // ⚠️ 지연 로딩 대기 중엔 아직 아래 본문 전환부까지 가지 못하고 return 한다.
+        //    그래서 직전 화면의 .on을 여기서 직접 걷어내지 않으면, 자료를 받는 몇 초 동안
+        //    이전 화면과 "불러오는 중" 안내가 같이 보이는 잔상이 생긴다(2026-08-18 수정).
+        document.querySelectorAll('.newsView.on,.paperView.on,.calendarView.on,.communityView.on,'
+          +'.rotation-view.on,.fullmarket-view.on,.latest-panel.on,.compare.on,.portfolio.on,.watchView.on')
+          .forEach(other=>{ if(other!==view) other.classList.remove('on'); });
         view.classList.add('on');
         view.innerHTML='<div class="nw-empty">자료를 불러오는 중이에요…</div>';
       }
@@ -12143,7 +12337,8 @@ window.renderScreener=function(){
           calendar=mode==='calendar', community=mode==='community',
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
-          latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog';
+          latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog',
+          paper=mode==='paper';
     const sectionCopy={
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       watch:['내 종목에서 달라진 것만','내 종목 관리','저장한 관심종목의 오늘 판단 변화와 점수를 한곳에서 확인하세요.'],
@@ -12160,6 +12355,7 @@ window.renderScreener=function(){
       rotation:['업종의 힘이 어디로 움직일까요?','순환매','현재 '+COVERAGE_N+'개의 GAEO 추적 종목을 기준으로 업종의 흐름과 관찰 후보를 확인해 보세요.'],
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
       scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
+      paper:['실제 주문 없이, 실제 시세로','모의투자','GAEO가 「매수 고려」로 전환한 시점부터 실제 시장 시세로 결과를 기록하는 공개 검증이에요. 실제 계좌·실제 돈과는 무관합니다.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
       community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.'],
       changelog:['무엇을 만들고, 무엇이 고장 났고','개발 기록','GAEO가 시간순으로 무엇을 만들고 무엇이 고장 났고 어떻게 고쳤는지, 잘된 것과 실수를 함께 남깁니다.']
@@ -12189,6 +12385,7 @@ window.renderScreener=function(){
     document.getElementById('mode-rotation').classList.toggle('on',rotation);
     document.getElementById('mode-rates').classList.toggle('on',rates);
     document.getElementById('mode-scorecard').classList.toggle('on',scorecard);
+    document.getElementById('mode-paper').classList.toggle('on',paper);
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
     document.getElementById('mode-changelog').classList.toggle('on',changelog);
@@ -12209,6 +12406,7 @@ window.renderScreener=function(){
     document.getElementById('portfolio').classList.toggle('on',portfolio);
     document.getElementById('watchView').classList.toggle('on',watch);
     document.getElementById('scorecardView').classList.toggle('on',scorecard);
+    document.getElementById('paperView').classList.toggle('on',paper);
     document.getElementById('calendarView').classList.toggle('on',calendar);
     document.getElementById('communityView').classList.toggle('on',community);
     document.getElementById('latestPanel').classList.toggle('on',latest);
@@ -12241,6 +12439,7 @@ window.renderScreener=function(){
     if(rotation && window.GaeoRotation) window.GaeoRotation.mount(document.getElementById('rotationView'),window.ROTATION_SNAPSHOT);
     if(rotation && fmSubTab==='fullmarket' && window.GaeoMountFullMarket) window.GaeoMountFullMarket();
     if(scorecard) renderScorecard();
+    if(paper) renderPaper();
     if(calendar) renderCalendar();
     if(community && window.renderCommunity) window.renderCommunity();
     if(changelog && window.renderChangelog) window.renderChangelog();
@@ -12261,6 +12460,7 @@ window.renderScreener=function(){
   document.getElementById('mode-rotation').onclick=()=>{setMode('rotation'); SFX.click();};
   document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click();};
   document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
+  document.getElementById('mode-paper').onclick=()=>{setMode('paper'); SFX.click();};
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
   document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click();};
@@ -13383,6 +13583,7 @@ window.hangulFix=function(str){
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
     else if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.setMode(m); }
+    else if(m==='paper'){ window.setMode('paper'); }
     else if(m==='rates'){ window.setMode('rates'); }
     else if(m==='rotation'){ window.setMode('rotation'); }
     else if(m==='changelog'){ window.setMode('changelog'); }
@@ -13566,7 +13767,7 @@ window.hangulFix=function(str){
       closePanels();
       setTimeout(()=>{
         const target={single:'analysisBrowser',watch:'watchView',news:'newsView',lesson:'lessonView',calc:'calcView',
-          scorecard:'scorecardView',rates:'rateView',calendar:'calendarView',rotation:'rotationView'}[mode];
+          scorecard:'scorecardView',paper:'paperView',rates:'rateView',calendar:'calendarView',rotation:'rotationView'}[mode];
         const element=document.getElementById(target);
         if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
       },60);
