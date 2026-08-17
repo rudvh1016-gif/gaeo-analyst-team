@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-08-17 10:11 장중
+// 자동 생성: update_prices.py · 2026-08-17 10:23 장중
 const LIVE_DATA = {
- "date": "2026-08-17 10:11 장중",
+ "date": "2026-08-17 10:23 장중",
  "indices": {
   "KOSPI": {
    "value": 6977.94,
@@ -7790,12 +7790,12 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1412.5,
-  "change": -7.7,
-  "rate": -0.54
+  "value": 1413.0,
+  "change": -7.2,
+  "rate": -0.51
  },
  "marketBrief": {
-  "sourceAsOf": "2026-08-17 10:11 장중",
+  "sourceAsOf": "2026-08-17 10:23 장중",
   "breadth": {
    "total": 598,
    "up": 406,
