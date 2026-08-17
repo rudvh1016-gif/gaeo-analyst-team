@@ -2785,7 +2785,7 @@ const INDEX_HISTORY = {
      "open": 6995.67,
      "high": 7010.86,
      "low": 6848.43,
-     "volume": 329905
+     "volume": 332942
     }
    ],
    "start": "2026-08-14",
@@ -5575,7 +5575,7 @@ const INDEX_HISTORY = {
      "open": 868.07,
      "high": 879.29,
      "low": 845.41,
-     "volume": 685881
+     "volume": 698635
     }
    ],
    "start": "2026-08-14",
