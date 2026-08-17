@@ -141,6 +141,24 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 자세한 동작 원리는 `docs/ARCHITECTURE.md`와 `docs/WORKFLOW.md` 참고.
 
+## 모의투자(Paper Trading) — 실행 주체는 집 PC 하나뿐 (2026-08-18)
+
+- **`paper-trading.yml`의 `schedule`은 의도적으로 비활성화돼 있다. 되살리지 말 것.**
+  토스증권 Open API는 허용 IP로 접근을 통제하는데 GitHub-hosted 러너(Azure) IP는
+  등록할 수 없어 403이 나고, 집 PC와 동시에 돌면 같은 Paper 상태를 두 곳에서 건드린다.
+- 단일 실행 주체: 집 Windows PC의 작업 스케줄러 **"GAEO Paper Trading"**
+  → `scripts/paper_cycle.ps1` (평일 KST 09:05~15:05, 30분 간격).
+  부트스트랩은 `%LOCALAPPDATA%\GAEO\run-paper.ps1`(저장소 밖, Secret은 DPAPI 암호화).
+- 러너는 **개발용 저장소를 절대 쓰지 않는다.** 전용 clone(`%LOCALAPPDATA%\GAEO\paper-runner\repo`)에서만
+  돌고, 러너 루트의 `.gaeo-paper-runner` 마커가 없으면 실행을 거부한다.
+- 러너가 커밋하는 파일은 `paper_trading/`과 `paper_public.js` **뿐**이다(화이트리스트 강제).
+  `git add .`·force push·`reset --hard`·자동 충돌 해결은 어느 경로에도 없다.
+- Toss는 **시세(Market Data)만** 쓴다. 계좌·보유·주문 API 호출 0, `POST`는 토큰 발급 하나뿐.
+  실주문 코드를 새로 만들지 말 것. 상세: `docs/PAPER_TRADING_LOCAL_RUNNER.md`.
+- ⚠️ Windows에서 Python 출력이 cp949로 나가면 `—` 같은 문자에서 `UnicodeEncodeError`로 죽는다.
+  러너는 `PYTHONUTF8=1`을 강제한다. 또 PowerShell 5.1은 BOM 없는 UTF-8 `.ps1`을 cp949로
+  오독하므로 **`scripts/*.ps1`은 BOM 있는 UTF-8로 저장**해야 한다.
+
 ## index.html 구조 (2026-07-28 Home Master Design 반영)
 
 - 상단 고정 글로벌 네비게이션(`.global-nav`): 로고·주요 메뉴·종목 검색·프로필·전체 메뉴 구조. 모바일에서는 주요 메뉴를 접고 아이콘과 전체 메뉴 버튼으로 전환한다.
