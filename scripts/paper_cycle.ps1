@@ -1,4 +1,4 @@
-<#
+﻿<#
   GAEO Paper Trading — 로컬 Windows 러너 사이클 (가상매매 전용)
 
   이 스크립트는 "전용 러너 저장소" 안에서만 돈다. 개발용 저장소(Desktop)에서는
