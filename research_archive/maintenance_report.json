@@ -1,0 +1,35 @@
+{
+ "maintenance": [],
+ "observedDays": 1,
+ "ranAt": "2026-08-17T20:40:22.559726+00:00",
+ "restoreStatus": "ARCHIVE_INTEGRITY_ERROR",
+ "restoreTests": [
+  {
+   "compressed": false,
+   "day": "2026-08-17",
+   "errors": [
+    "manifest 없음"
+   ],
+   "restoredFrom": "live/2026/08/17.jsonl.enc",
+   "status": "ARCHIVE_INTEGRITY_ERROR"
+  }
+ ],
+ "storage": {
+  "asof": "2026-08-17",
+  "compressedBytesToday": 0,
+  "compressionRatio": null,
+  "dailyGrowthAverageBytes": 4227021,
+  "estimated30dBytes": 126810630,
+  "estimated365dBytes": 1542862665,
+  "estimated90dBytes": 380431890,
+  "newRecordsToday": 598,
+  "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
+  "observedDays": 1,
+  "projectedDailyBytes": 4227021,
+  "rawBytesToday": 4227021,
+  "status": "OK",
+  "totalArchiveBytes": 4227021
+ },
+ "today": "2026-08-17",
+ "weeklyRollups": []
+}
