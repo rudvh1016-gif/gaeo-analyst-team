@@ -69,7 +69,10 @@ function Protect-Log {
 }
 
 $script:LogFile = $null
-$script:Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+# 로그는 BOM 있는 UTF-8로 쓴다 — 메모장·PowerShell 등 Windows 기본 도구가
+# BOM 없는 UTF-8을 cp949로 오독해 한글이 깨져 보이기 때문이다.
+# (AppendAllText는 파일이 비어 있을 때만 BOM을 쓰므로 중복되지 않는다)
+$script:LogEnc = New-Object System.Text.UTF8Encoding($true)
 
 function Write-Log {
     param([string]$Message, [string]$Level = 'INFO')
@@ -77,7 +80,7 @@ function Write-Log {
     $line = "[$stamp KST] [$Level] " + (Protect-Log $Message)
     Write-Host $line
     if ($script:LogFile) {
-        try { [System.IO.File]::AppendAllText($script:LogFile, $line + "`r`n", $script:Utf8NoBom) } catch { }
+        try { [System.IO.File]::AppendAllText($script:LogFile, $line + "`r`n", $script:LogEnc) } catch { }
     }
 }
 
