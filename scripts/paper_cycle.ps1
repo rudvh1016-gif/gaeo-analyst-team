@@ -262,6 +262,10 @@ Write-Log "러너 HEAD(동기화 후): $((Invoke-Git rev-parse HEAD).Output)"
 # UnicodeEncodeError로 죽는다. UTF-8 모드를 강제한다.
 $env:PYTHONUTF8 = '1'
 $env:PYTHONIOENCODING = 'utf-8'
+# 파이썬이 UTF-8로 써도 PowerShell이 자식 프로세스 stdout을 콘솔 코드페이지(cp949)로
+# 디코딩하면 로그에 한글이 깨져 들어간다. 엔진 오류 메시지를 읽어야 할 때 치명적이라
+# 캡처 인코딩도 UTF-8로 맞춘다.
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
 
 # 파이썬 실행기 결정 — py 런처 우선, 없으면 python
 $pyExe = 'py'; $pyPre = @('-3')
