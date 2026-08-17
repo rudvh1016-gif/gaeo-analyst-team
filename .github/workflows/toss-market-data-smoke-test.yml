@@ -1,0 +1,42 @@
+# STEP 1 — Toss Open API 실시세 스모크 테스트 (수동 1회 전용)
+#
+# · workflow_dispatch ONLY — schedule/push/PR 자동 실행 없음.
+# · 권한 최소화: contents: read. 결과를 커밋하지 않고 Artifact도 만들지 않는다.
+# · 실제 호출 전에 오프라인 Safety Guard(test_toss_guard.py) 전체가 통과해야 하며,
+#   실패하면 실제 Toss API를 아예 호출하지 않는다.
+# · 허용 호출은 POST /oauth2/token · GET /api/v1/prices(005930) 두 가지뿐 —
+#   계좌/보유/주문 계열 0회는 스크립트가 자체 감사(audit)해 출력한다.
+# · Secret·Token은 어떤 로그에도 출력하지 않는다(스크립트 계약 + Actions 마스킹).
+name: Toss Market Data Smoke Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: toss-market-data-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Safety Guard 회귀검증 (오프라인 · 실호출 전 필수)
+        run: |
+          python3 test_toss_guard.py
+          python3 test_toss_market_data_smoke.py
+
+      - name: 실제 Toss Market Data 스모크 (POST /oauth2/token + GET /api/v1/prices)
+        env:
+          TOSS_INVEST_CLIENT_ID: ${{ secrets.TOSS_INVEST_CLIENT_ID }}
+          TOSS_INVEST_CLIENT_SECRET: ${{ secrets.TOSS_INVEST_CLIENT_SECRET }}
+        run: python3 toss_market_data_smoke.py
