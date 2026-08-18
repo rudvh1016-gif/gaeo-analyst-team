@@ -1209,7 +1209,7 @@
     gap:14px;align-items:baseline;padding:13px 2px;border-bottom:1px solid var(--line)}
   .pv-lhead{padding:9px 2px;font-size:11px;color:var(--faint)}
   .pv-lhead span:last-child,.pv-tret{text-align:right}
-  .pv-tname{min-width:0;font-size:13.5px;font-weight:550;overflow-wrap:anywhere}
+  .pv-tname{min-width:0;font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
   .pv-tmeta{display:contents}
   .pv-tmeta i{min-width:0;font-style:normal;font-size:12.5px;color:var(--t3);
     font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -1250,15 +1250,23 @@
   /* 보유 종목 — "정보 하나마다 카드"가 아니라 "종목 하나 = 정돈된 surface 하나" */
   .pv-pos{padding:16px 0 18px;border-bottom:1px solid var(--line)}
   .pv-pos:first-child{border-top:1px solid var(--line)}
-  .pv-pos-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
   .pv-pos-id{min-width:0}
   .pv-pos-id h4{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.012em;
     line-height:1.35;overflow-wrap:anywhere}
   .pv-pos-id span{display:block;margin-top:3px;font-size:11.5px;color:var(--faint);
     font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-  .pv-pos-ret{flex:none;text-align:right;font-size:17px;font-weight:600;line-height:1.25;
-    letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .pv-pos-ret i{display:block;margin-top:3px;font-style:normal;font-size:12px;font-weight:500}
+  /* 수익률 — 화면 끝이 아니라 종목명 바로 옆. 이름보다 한 단계 작게, 방향색은 숫자에만 */
+  .pv-pos-r{font-style:normal;font-size:13px;font-weight:600;margin-left:8px;
+    letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
+    vertical-align:1px}
+  .pv-pos-r.pv-r-wait{font-size:11.5px;font-weight:500;color:var(--faint)}
+  /* 손익금액 — meta 줄 안의 보조 정보. 방향색은 유지하되 크기·굵기로 강도를 낮춘다 */
+  .pv-mpnl{font-style:normal;font-weight:500}
+  /* 섹션 머리 + 현재가 기준 시각 (섹션당 한 번만) */
+  .pv-sec-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .pv-sec-hd .pv-sec-h{margin-bottom:5px}
+  .pv-asof{flex:none;font-size:11px;color:var(--faint);
+    font-variant-numeric:tabular-nums;white-space:nowrap}
   .pv-pos-flow{display:flex;align-items:baseline;gap:9px;margin:13px 0 0;flex-wrap:wrap}
   .pv-pos-flow span{display:flex;align-items:baseline;gap:6px;font-size:14.5px;font-weight:500;
     font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -1273,7 +1281,6 @@
   .pv-pos-note{margin:12px 0 0;font-size:11.5px;color:var(--dim);line-height:1.7;
     overflow-wrap:anywhere}
   .pv-pos-wait{margin:12px 0 0;font-size:12px;color:var(--faint);line-height:1.7}
-  .pv-pos-ret.pv-pos-wait-ret{font-size:12.5px;font-weight:500;color:var(--faint)}
   /* 지표 라벨의 영문 약어는 보조 크기로만 — 큰 글자로 내세우지 않는다 */
   .pv-row dt small{font-size:10.5px;color:var(--faint);font-weight:400;margin-left:5px;
     letter-spacing:.02em}
@@ -1305,7 +1312,6 @@
     .pv-alloc-legend{gap:10px}
     .pv-alloc-legend>span{font-size:12.5px;flex-wrap:wrap;gap:4px 6px}
     /* 표를 그대로 줄이지 않고 목록으로 다시 짠다: 1행 종목·성과 / 2행 판단·상태 */
-    .pv-pos-ret{font-size:16px}
     .pv-pos-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 14px}
     .pv-lhead{display:none}
     .pv-trade{grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:14px 2px}
@@ -5293,6 +5299,44 @@ function scWeekRange(offset){
      · 비용(수수료·세금) 미검증이라 '순수익'·'실제 수익' 표기 금지
      · paper_public.js가 없거나 오래된 스키마여도 화면이 깨지지 않는다(모든 필드 옵셔널)
    2026-08-18: 성적표 하위 블록(paperBlockHTML)에서 독립 최상위 화면으로 분리. */
+/* 💹 표시용 현재가 신선화 (2026-08-18)
+   러너의 30분 mark보다 사이트 시세 파이프라인(data.js, 장중 약 10분 주기)이 더 신선하면
+   그 가격으로 "화면 표시만" 다시 평가한다. 매매 판단·체결·mark 기록(러너 원장)은 절대
+   건드리지 않는다 — 브라우저는 여전히 Toss API·Secret에 접근하지 않고, 이미 배포된
+   data.js를 읽을 뿐이라 추가 API 호출·커밋·토큰 발급이 0이다.
+   ⚠️ all-or-nothing: 보유 종목 중 하나라도 data.js에 없거나 stale이면 전체를 러너 mark로
+      되돌린다. 행은 신선한 가격, 합계는 낡은 가격 같은 "섞인 화면"을 만들지 않는다. */
+function paperLiveQuote(){
+  // 테스트·폴러가 갈아끼울 수 있게 window 오버라이드 우선(null=명시적 차단)
+  const src=(typeof window!=='undefined'&&window.GAEO_PAPER_LIVE!==undefined)
+    ? window.GAEO_PAPER_LIVE
+    : (typeof LIVE_DATA!=='undefined'?LIVE_DATA:null);
+  if(!src||!src.stocks||typeof src.date!=='string') return null;
+  const m=src.date.match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/);  // "2026-08-18 11:46 장중"
+  if(!m) return null;
+  const t=Date.parse(`${m[1]}T${m[2]}:00+09:00`);
+  if(!isFinite(t)) return null;
+  return {stocks:src.stocks, t, iso:`${m[1]}T${m[2]}:00+09:00`};
+}
+function paperDisplayVal(P){
+  /* 반환: {source:'mark'} → 지금까지처럼 러너 스냅샷 값 그대로.
+           {source:'live', at, prices} → 표시 전용으로 더 신선한 가격 세트. */
+  const base={source:'mark', at:(P&&P.valuationObservedAt)||null, prices:null};
+  const opens=((P&&P.recentTrades)||[]).filter(r=>r&&r.status==='OPEN');
+  const live=paperLiveQuote();
+  if(!live||!opens.length) return base;
+  const markT=base.at?Date.parse(base.at):0;
+  if(!(live.t>markT)) return base;                      // 더 신선할 때만 교체
+  const prices={};
+  for(const r of opens){
+    const q=r&&r.symbol?live.stocks[r.symbol]:null;
+    // 하나라도 없거나 stale·비정상 가격이면 전체 폴백 — 부분 혼합 금지
+    if(!q||q.stale===true||typeof q.price!=='number'||!isFinite(q.price)||q.price<=0) return base;
+    if(typeof r.quantity!=='number'||typeof r.entry_price!=='number') return base;
+    prices[r.symbol]=q.price;
+  }
+  return {source:'live', at:live.iso, prices};
+}
 function renderPaper(){
   const el=document.getElementById('paperView');
   if(!el) return;
@@ -5339,19 +5383,33 @@ function renderPaper(){
         (브라우저에서 다시 계산하지 않는다 — 산식이 두 곳에 생기면 언젠가 어긋난다).
      ⚠️ Fail closed: 보유 중인데 시세를 못 받은 종목이 하나라도 있으면 평가금액·손익을
         부분합으로 채우지 않고 비운다(엔진이 이미 null로 내려보낸다). */
-  const initialC=n(P.initialVirtualCash), equity=n(P.currentVirtualEquity);
+  const initialC=n(P.initialVirtualCash);
   const invested=n(P.investedCostBasis), vcash=n(P.availableVirtualCash);
-  const marked=n(P.markedPositionsValue);
-  const aInv=n(P.allocationInvestedPct), aCash=n(P.allocationCashPct);
-  const retPct=n(P.portfolioReturnPct);
+  /* 💹 표시용 신선화 — 러너 mark(약 30분)보다 data.js(약 10분)가 더 신선하고
+     보유 전 종목을 덮으면 그 가격으로 화면 값만 다시 계산한다(회계식은 동일).
+     실패·부분 커버리지·구식이면 dv.source==='mark' → 지금까지와 완전히 같은 값. */
+  const dv=paperDisplayVal(P);
+  let equity=n(P.currentVirtualEquity), marked=n(P.markedPositionsValue);
+  let retPct=n(P.portfolioReturnPct), unrealTot=n(P.unrealizedPnl);
+  let aInv=n(P.allocationInvestedPct), aCash=n(P.allocationCashPct);
+  if(dv.source==='live'&&invested!=null&&vcash!=null&&initialC){
+    const or_=(P.recentTrades||[]).filter(r=>r&&r.status==='OPEN');
+    marked=or_.reduce((s,r)=>s+Math.round(dv.prices[r.symbol]*r.quantity),0);
+    equity=vcash+marked;
+    unrealTot=marked-invested;
+    retPct=Math.round((equity/initialC-1)*100*1000)/1000;
+    aInv=Math.round(marked/equity*1000)/10;
+    aCash=Math.round(vcash/equity*1000)/10;
+  }
   /* 전체 손익은 retPct가 있을 때만 말한다 — 엔진이 "가상체결 0건"과 "평가 불가"를
      이미 null로 구분해 두었다. 거래가 없는 상태를 0%처럼 보이게 하지 않는다. */
   const totalPnl=(retPct!=null&&equity!=null&&initialC!=null)?equity-initialC:null;
-  const priced=P.valuationStatus!=='VALUATION_UNAVAILABLE';
-  /* 평가 기준 시각은 종목마다 반복하지 않고 포트폴리오 상단에 한 번만.
-     같은 날이 아니면 날짜까지 적어 오래된 관측이 최신처럼 보이지 않게 한다. */
-  const vAt=P.valuationObservedAt;
-  const sameDay=vAt&&P.lastCycleAt&&String(vAt).slice(0,10)===String(P.lastCycleAt).slice(0,10);
+  /* 평가 기준 시각은 종목마다 반복하지 않고 섹션 단위로만 표시한다.
+     오늘이 아니면 날짜까지 적어, 오래된 관측이 최신처럼 보이지 않게 한다.
+     ⚠️ 실제로 가격을 관측한 시각만 쓴다 — timestamp를 현재 시각으로 위조하지 않는다. */
+  const vAt=dv.at;
+  const todayKST=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+  const sameDay=vAt&&String(vAt).slice(0,10)===todayKST;
   const asOf=vAt?(sameDay?`${hm(vAt)} 기준`:`${md(vAt)} ${hm(vAt)} 기준`):'';
 
   const pnlBlock=totalPnl==null
@@ -5394,8 +5452,8 @@ function renderPaper(){
     ['보유 평가액', (!open?won(0):(marked==null?'일부 시세 확인 중':won(marked))),
       (!open?'보유 중인 종목 없음'
         :(marked==null?'전체 평가금액을 아직 계산할 수 없어요'
-          :(n(P.unrealizedPnl)==null?'평가 대기'
-            :`보유 손익 <b class="${dir(P.unrealizedPnl).trim()}">${sWon(P.unrealizedPnl)}</b>`)))]
+          :(unrealTot==null?'평가 대기'
+            :`보유 손익 <b class="${dir(unrealTot).trim()}">${sWon(unrealTot)}</b>`)))]
   ];
   /* 종료 거래가 없으면 '확정 손익 0원' 칸을 굳이 띄우지 않는다 —
      비어 있는 값으로 첫 화면을 밀어내지 않고, 값이 생기면 그때 칸이 나타난다. */
@@ -5413,13 +5471,26 @@ function renderPaper(){
   const opens=rows.filter(r=>r.status==='OPEN');
   const closes=rows.filter(r=>r.status==='CLOSED');
   const posHTML=opens.map(r=>{
-    const qty=n(r.quantity), ep=n(r.entry_price), cp=n(r.current_price);
-    const ret=n(r.unrealized_return_pct), pnl=n(r.unrealized_pnl);
+    const qty=n(r.quantity), ep=n(r.entry_price);
+    let cp=n(r.current_price), ret=n(r.unrealized_return_pct), pnl=n(r.unrealized_pnl);
+    let mv=n(r.market_value);
+    /* 💹 표시용 신선화 — 위 총계와 같은 dv 가격 세트로 행도 함께 바꾼다.
+       (행은 신선, 합계는 낡은 "섞인 화면" 금지 — 소스는 렌더당 정확히 하나) */
+    if(dv.source==='live'&&dv.prices[r.symbol]!=null&&qty!=null&&ep!=null){
+      cp=dv.prices[r.symbol];
+      mv=Math.round(cp*qty);
+      pnl=Math.round((cp-ep)*qty);
+      ret=Math.round((cp/ep-1)*10000)/100;
+    }
     const held=n(r.holding_trading_days), left=n(r.remaining_trading_days);
-    const mv=n(r.market_value), cb=n(r.cost_basis);
-    const retBlock=ret==null
-      ? `<div class="pv-pos-ret pv-pos-wait-ret">평가 대기</div>`
-      : `<div class="pv-pos-ret${dir(ret)}">${sPct(ret)}<i>${pnl==null?'':sWon(pnl)}</i></div>`;
+    const cb=n(r.cost_basis);
+    /* 수익률은 화면 끝이 아니라 종목명 바로 옆 — 한 덩어리 정보로 읽히게.
+       크기는 종목명보다 한 단계 작게, 방향색은 숫자에만. */
+    const retTag=ret==null
+      ? `<em class="pv-pos-r pv-r-wait">평가 대기</em>`
+      : `<em class="pv-pos-r${dir(ret)}">${sPct(ret)}</em>`;
+    /* 손익금액은 보조 정보로 meta 줄에 — 수익률보다 시각적 강도를 낮춘다. */
+    const pnlTag=(ret==null||pnl==null)?'':` · <i class="pv-mpnl${dir(pnl)}">${sWon(pnl)}</i>`;
     const flow=cp==null
       ? `<div class="pv-pos-flow"><span><i>매수가</i>${won(ep)}</span></div>`
       : `<div class="pv-pos-flow"><span><i>매수가</i>${won(ep)}</span><span class="pv-arrow" aria-hidden="true">→</span><span><i>현재가</i>${won(cp)}</span></div>`;
@@ -5435,13 +5506,12 @@ function renderPaper(){
     const note=left==null
       ? (maxHold?`최대 ${maxHold}거래일까지 보유하고, 판단이 「매도 고려」로 바뀌면 더 일찍 종료돼요.`:'')
       : `남은 최대 ${left}거래일 · 판단이 「매도 고려」로 바뀌면 더 일찍 종료돼요.`;
-    const when=r.entry_business_date?`${md(r.entry_business_date)} 진입`:'진입일 미기록';
+    const when=r.entry_business_date
+      ? (held===0?'오늘 진입':`${md(r.entry_business_date)} 진입`)
+      : '진입일 미기록';
     return `<article class="pv-pos">
-      <div class="pv-pos-top">
-        <div class="pv-pos-id"><h4>${esc(r.name||r.symbol||'종목 미기록')}</h4>
-          <span>${esc(r.symbol||'')}${r.symbol?' · ':''}보유 중 · ${when}</span></div>
-        ${retBlock}
-      </div>
+      <div class="pv-pos-id"><h4>${esc(r.name||r.symbol||'종목 미기록')}${retTag}</h4>
+        <span>${esc(r.symbol||'')}${r.symbol?' · ':''}보유 중 · ${when}${pnlTag}</span></div>
       ${flow}
       <dl class="pv-pos-facts">${facts}</dl>
       ${note?`<p class="pv-pos-note">${note}</p>`:''}
@@ -5452,8 +5522,11 @@ function renderPaper(){
     BEFORE_FORWARD_START:['검증 시작을 기다리고 있습니다.','예정된 시작일부터 실제 시장 가격을 기준으로 기록을 시작해요. 그 전에 나온 판단을 거슬러 올라가 거래로 만들지 않습니다.'],
     AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.','시세를 읽지 못하는 동안에는 가격을 추측해서 기록하지 않아요. 연결되면 다음 장중 기록부터 이어집니다.']
   }[P.stage]||['첫 검증 신호를 기다리고 있습니다.','새로운 「매수 고려」 판단이 나오면 여기에 종목, 매수가격, 수량, 현재가격, 보유기간과 가상 성과가 자동으로 기록돼요.'];
+  /* 현재가 기준 시각 — 종목마다 반복하지 않고 섹션 머리에 한 번만.
+     '실시간'이라고 쓰지 않는다(스트리밍이 아니다) — 실제 관측 시각을 그대로 적는다. */
+  const holdStamp=(open&&asOf)?`<span class="pv-asof">현재가 기준 ${asOf.replace(' 기준','')}</span>`:'';
   const held=`<section class="pv-sec" aria-labelledby="pvHoldH">
-    <h3 class="pv-sec-h" id="pvHoldH">현재 보유 중</h3>
+    <div class="pv-sec-hd"><h3 class="pv-sec-h" id="pvHoldH">현재 보유 중</h3>${holdStamp}</div>
     <p class="pv-sec-d">${open?'GAEO 판단으로 가상 매수한 종목이에요. 실제 주문은 발생하지 않습니다.':'가상으로 보유 중인 종목이 아직 없어요.'}</p>
     ${posHTML||`<div class="pv-empty"><b>${stageNote[0]}</b><p>${stageNote[1]}</p>${P.lastCycleAt?`<p class="pv-pos-wait">${live?'자동 기록 진행 중':'최근 기록'} · ${stamp(P.lastCycleAt)}</p>`:''}</div>`}
   </section>`;
@@ -5559,8 +5632,66 @@ function renderPaper(){
 
   const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록이며, 수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>`;
 
+  /* 자동 재렌더 시 사용자가 펼쳐 둔 설명(details)이 닫히지 않게 상태를 보존한다 */
+  const openGloss=[...el.querySelectorAll('.pv-gloss')].map(d=>d.open);
   el.innerHTML=hero+summary+held+closedSec+perf+how+foot;
+  el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
+/* 💹 모의투자 표시 데이터 자동 재조회 (2026-08-18)
+   화면이 열려 있는 동안 2분마다 data.js·paper_public.js가 새로 배포됐는지 확인하고,
+   실제로 더 새 것일 때만 표시를 다시 그린다(홈 브리핑의 refreshBrief와 같은 패턴).
+   · 원본 데이터가 약 10분 주기라 이보다 촘촘한 폴링은 낭비 — 2분이면 충분하다.
+   · 모의투자 화면이 꺼져 있거나 탭이 백그라운드면 아무 요청도 하지 않는다.
+   · 실패하면 조용히 기존 값 유지 — 표시를 0원으로 만들거나 시각을 위조하지 않는다.
+   · 커밋·Toss 호출·토큰 발급 0 — 이미 배포된 정적 파일을 다시 읽을 뿐이다. */
+(function(){
+  if(typeof window==='undefined'||typeof fetch!=='function') return;
+  let busy=false;
+  async function tick(){
+    const pv=document.getElementById('paperView');
+    if(busy||!pv||!pv.classList.contains('on')||document.hidden) return;
+    busy=true;
+    try{
+      let changed=false;
+      const [d,p]=await Promise.allSettled([
+        fetch('data.js',{cache:'no-cache'}),
+        fetch('paper_public.js',{cache:'no-cache'})
+      ]);
+      if(d.status==='fulfilled'&&d.value.ok){
+        const t=await d.value.text();
+        const start=t.indexOf('const LIVE_DATA ='), from=t.indexOf('{',start), to=t.lastIndexOf('};');
+        if(start>=0&&from>0&&to>from){
+          try{
+            const live=JSON.parse(t.slice(from,to+1));
+            const cur=(window.GAEO_PAPER_LIVE!==undefined)?window.GAEO_PAPER_LIVE
+              :(typeof LIVE_DATA!=='undefined'?LIVE_DATA:null);
+            // 같은 "YYYY-MM-DD HH:MM …" 형식이라 문자열 비교 = 시간 비교
+            if(live&&typeof live.date==='string'&&(!cur||!cur.date||live.date>cur.date)){
+              window.GAEO_PAPER_LIVE=live; changed=true;
+            }
+          }catch(e){/* 파싱 실패 — 기존 값 유지 */}
+        }
+      }
+      if(p.status==='fulfilled'&&p.value.ok){
+        const t=await p.value.text();
+        const m=t.match(/window\.GAEO_PAPER=({[\s\S]*});/);
+        if(m){
+          try{
+            const snap=JSON.parse(m[1]);
+            const cur=window.GAEO_PAPER;
+            if(snap&&snap.generatedAt&&(!cur||!cur.generatedAt||snap.generatedAt>cur.generatedAt)){
+              window.GAEO_PAPER=snap; changed=true;
+            }
+          }catch(e){/* 파싱 실패 — 기존 값 유지 */}
+        }
+      }
+      if(changed&&pv.classList.contains('on')) renderPaper();
+    }catch(e){/* 네트워크 실패 — 기존 값 유지, 다음 주기에 재시도 */}
+    busy=false;
+  }
+  setInterval(tick,2*60*1000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tick(); });
+})();
 /* ── 🧪 모델 대결 / 모델 검증 패널 ────────────────────────────────────────────
    5개 모델을 한 판에 놓고 비교한다. 카드를 늘어놓지 않고 한 패널 안의 row로 둔다.
    ⚠️ 없는 성적을 0%로 표시하지 않는다. 평가 대기·해당 없음·근거 부족을 구분해 적는다. */
