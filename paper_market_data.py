@@ -22,6 +22,13 @@ import json
 import os
 import random
 import time
+
+try:
+    # 집 PC에서 Toss 토큰을 하나만 유지하기 위한 공유 저장소(선택 기능).
+    # 없으면 기존 동작 그대로 — 이 모듈은 이것 없이도 완전히 동작한다.
+    import gaeo_shared_token
+except ImportError:  # pragma: no cover
+    gaeo_shared_token = None
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -63,6 +70,9 @@ class TossMarketDataProvider:
         self.timeout = timeout
         self._token = None
         self._token_expires_at = 0
+        # 401을 받아 "이 토큰은 죽었다"가 확인된 값. 공유 토큰 모드에서
+        # 다른 프로세스가 이미 갱신했는지 판단하는 데 쓴다.
+        self._dead_token = None
 
     # ── 내부 공통 ───────────────────────────────────────────────────────────
     def _guard(self, path, method="GET"):
@@ -109,6 +119,7 @@ class TossMarketDataProvider:
                 # 401(토큰 만료·폐기): 정확히 1회만 토큰을 새로 받아 원 요청을 재시도.
                 # _reauth_done 플래그로 두 번째 401은 그대로 실패 — 무한 갱신 루프 금지.
                 if e.code == 401 and auth and not _reauth_done:
+                    self._dead_token = self._token
                     self._token = None
                     self._token_expires_at = 0
                     return self._request(path, params=params, method=method, body=body,
@@ -124,9 +135,12 @@ class TossMarketDataProvider:
                 raise MarketDataUnavailable(f"{type(e).__name__} at {path}") from None
         raise MarketDataUnavailable(f"retry exhausted at {path} ({type(last).__name__})")
 
-    def _access_token(self):
-        if self._token and time.time() < self._token_expires_at - 60:
-            return self._token
+    def _issue_token(self):
+        """실제 토큰 발급 1회. (token, expires_in) 을 돌려준다.
+
+        ⚠️ 이 호출은 토스 계약상 **이전 토큰을 즉시 무효화한다.**
+           그래서 호출 지점을 한 곳으로 모아 두고, 꼭 필요할 때만 부른다.
+        """
         cid = os.environ.get(CLIENT_ID_ENV)
         secret = os.environ.get(CLIENT_SECRET_ENV)
         if not cid or not secret:
@@ -134,9 +148,32 @@ class TossMarketDataProvider:
         resp = self._request("/oauth2/token", method="POST", auth=False,
                              body={"grant_type": "client_credentials",
                                    "client_id": cid, "client_secret": secret})
-        self._token = resp["access_token"]
-        self._token_expires_at = time.time() + float(resp.get("expires_in", 900))
-        return self._token
+        return resp["access_token"], resp.get("expires_in", 900)
+
+    def _access_token(self):
+        dead, self._dead_token = self._dead_token, None
+
+        if dead is None and self._token and time.time() < self._token_expires_at - 60:
+            return self._token
+
+        # 공유 토큰 모드 (기본 꺼짐 — GAEO_SHARED_TOSS_TOKEN=1 일 때만).
+        #
+        # 토스는 client 당 유효 토큰을 1개만 유지하고 재발급 시 이전 것을 무효화한다.
+        # 집 PC에서 이 Runner와 계좌 조회용 Gateway가 각자 발급하면 서로를 끊는다.
+        # 켜면 두 프로그램이 같은 토큰을 쓰므로 그 충돌이 사라진다.
+        if gaeo_shared_token is not None and gaeo_shared_token.enabled():
+            token = gaeo_shared_token.acquire(self._issue_token, dead_token=dead)
+            self._token = token
+            # 만료 판단은 공유 저장소가 한다. 메모리 캐시로 건너뛰지 않고 매번 확인한다
+            # (다른 프로세스가 갱신했을 수 있으므로).
+            self._token_expires_at = 0
+            return token
+
+        # 기존 동작 — 이 프로세스가 자체 발급하고 메모리에만 캐시한다.
+        token, expires_in = self._issue_token()
+        self._token = token
+        self._token_expires_at = time.time() + float(expires_in or 900)
+        return token
 
     # ── 시세 인터페이스 (MarketDataProvider) ────────────────────────────────
     def get_prices(self, symbols):
