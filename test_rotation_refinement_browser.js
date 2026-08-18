@@ -129,7 +129,8 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
   requireState((await page.locator('.rot-detail-sub').innerText()).includes('선택 5거래일'), 'detail mislabeled selected horizon as recommendation');
   requireState((await page.locator('.rot-summary').innerText()).includes('권장 20거래일 기준'), 'recommended horizon changed when selecting a reference tab');
   const resourceUrls = await page.evaluate(() => performance.getEntriesByType('resource').map(entry => entry.name));
-  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260816-v13')), 'rotation CSS cache version was not refreshed');
+  // 2026-08-18 Typography Sweep에서 v13 → v14로 올렸다(굵기 700 → 600 정리 등).
+  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260818-v14')), 'rotation CSS cache version was not refreshed');
   requireState(resourceUrls.some(url => url.includes('rotation-ui.js?v=20260814-v14')), 'rotation UI cache version was not refreshed');
   await page.evaluate(() => document.documentElement.classList.add('gdark'));
   const darkColors = await page.locator('.rot-card-today').evaluate(element => {
