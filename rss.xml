@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Fri, 14 Aug 2026 12:08:14 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 18 Aug 2026 08:54:12 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월18일 종가, 코스피 오전 강세 반납하고 코스닥은 3.5% 급락</title>
+    <link>https://gaeoteam.com/snap/news/49.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/49.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 1.55% 내린 6,869.83, 코스닥은 3.52% 내린 834.20으로 마감했어요. 오전 한때 7,216.62까지 올랐다가 점심 무렵 하락으로 돌아선 전강후약 장세였고, 코스피에서 기관이 1조1,926억원을 순매도했어요. 598종목 중 489개가 내린 넓은 하락 속에 보험과 물류·운송만 업종 평균이 플러스였고, 그동안 많이 오른 2차전지·로봇은 6% 넘게 밀렸어요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등</title>
     <link>https://gaeoteam.com/snap/news/48.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/24.html</guid>
     <category>뉴스분석</category>
     <description>코카콜라가 2026년 2분기 실적에서 매출·EPS·판매량을 모두 시장 예상보다 웃돌며 사상 최고가를 새로 썼어요. 같은 시기 국내 증시는 반도체 급락으로 코스피가 이틀 연속 사이드카까지 발동될 만큼 흔들렸는데, 이 엇갈린 흐름 뒤에 있는 &apos;디펜시브 로테이션&apos;과 국내 식음료주 동반 강세까지 함께 짚어봤어요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>2026년 7월29일 종가 코스피·코스닥 분석 — 이틀 연속 시장 안정장치, 반등은 왜 실패했나</title>
-    <link>https://gaeoteam.com/snap/news/23.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/23.html</guid>
-    <category>뉴스분석</category>
-    <description>오늘 코스피가 -5.98%, 코스닥이 -6.12% 급락하며 어제 서킷브레이커에 이어 이틀 연속 매도 사이드카가 발동됐어요. 아침 반등이 오후 들어 꺾인 이유와 대통령실까지 나선 배경, 역대 최악으로 치닫는 7월 낙폭을 정리했어요.</description>
     <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

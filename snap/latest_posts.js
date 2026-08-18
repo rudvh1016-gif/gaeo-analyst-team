@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 49,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-18",
+  "title": "2026년 8월18일 종가, 코스피 오전 강세 반납하고 코스닥은 3.5% 급락",
+  "featured": false
+ },
+ {
   "id": 48,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-06",
   "title": "2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날",
   "featured": false
- },
- {
-  "id": 40,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-06",
-  "title": "SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 48,
+ "news": 49,
  "study": 35,
  "lesson": 72,
  "estate": 19,
