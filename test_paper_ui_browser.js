@@ -91,7 +91,7 @@ const BASELINE = {
   check('거래 0건을 승률 0%로 표시하지 않는다', !/승률[\s\S]{0,20}0(\.0)?%/.test(empty.text));
   check('거래 0건을 수익률 0%로 표시하지 않는다', !/누적 성과[\s\S]{0,20}\+?0\.00%/.test(empty.text));
   check('누적 성과가 —(기록 축적 중)로 표시된다', /기록 축적 중/.test(empty.text));
-  check('시작자금은 실제 예치금이 아니라고 밝힌다', /실제로 예치한 돈이 아닙니다/.test(empty.text));
+  check('시작자금은 실제 예치금이 아니라고 밝힌다', /실제로 예치한 돈이 아니에요/.test(empty.text));
   check('실제 주문이 없음을 명시한다', /실제 투자 주문은 발생하지 않습니다/.test(empty.text));
   check('비용 미반영을 명시한다', /비용 모델 확인 중/.test(empty.text));
   check("'순수익'·'실제 수익' 같은 오해 표현이 없다", !/순수익|실제 수익률|실전 수익/.test(empty.text));
@@ -106,7 +106,8 @@ const BASELINE = {
   }
   const running = await renderWith(page, { ...BASELINE, stage: 'RUNNING' });
   check('RUNNING인데 거래가 없으면 신호 대기 문구',
-    /아직 새롭게 발생한 매수 고려 신호가 없습니다/.test(running.text));
+    /첫 검증 신호를 기다리고 있습니다/.test(running.text)
+    && /가상으로 보유 중인 종목이 아직 없어요/.test(running.text));
 
   // ── ③ 실제 거래 렌더 · 부호별 · 결측 필드 ────────────────────────────────
   const withTrades = await renderWith(page, {
@@ -137,14 +138,17 @@ const BASELINE = {
         signal: 'BUY', entry_business_date: '2026-08-18', holding_trading_days: 1 }
     ]
   });
-  check('진행 중 거래가 렌더된다', /우리금융지주/.test(withTrades.text) && /진행 중/.test(withTrades.text));
+  check('진행 중 거래가 렌더된다', /우리금융지주/.test(withTrades.text)
+    && /현재 보유 중/.test(withTrades.text) && /보유 중 ·/.test(withTrades.text));
   check('양수 수익률에 + 부호와 상승색', /\+4\.21%/.test(withTrades.text) && /pv-tret pv-up/.test(withTrades.html));
   check('음수 수익률에 − 부호와 하락색', /−2\.50%/.test(withTrades.text) && /pv-tret pv-dn/.test(withTrades.html));
   check('0% 수익률은 방향색 없이 표시', /0\.00%/.test(withTrades.text));
   check('수익률 없는 종료 거래는 0%가 아니라 기록 대기', /기록 대기/.test(withTrades.text));
   check('종목명이 없어도 코드로 렌더된다', /000005/.test(withTrades.text));
   check('청산 사유가 사람 말로 번역된다',
-    /5거래일 도달/.test(withTrades.text) && /매도 고려 전환/.test(withTrades.text));
+    /최대 보유기간 도달/.test(withTrades.text)
+    && /GAEO 판단이 매도 고려로 변경/.test(withTrades.text)
+    && !/MAX_HOLDING_5D|CHIEF_SELL/.test(withTrades.text));
   check('시장대비는 %p 단위로 표시', /%p/.test(withTrades.text));
   check('승률이 표본 충분할 때 표시된다', /66\.7%/.test(withTrades.text));
   check('MDD는 절대값으로 표시', /3\.4%/.test(withTrades.text));
@@ -207,7 +211,97 @@ const BASELINE = {
   check('각 섹션에 aria-labelledby가 있다', a11y.labelled);
   check('용어 설명이 키보드 포커스를 받고 펼쳐진다', a11y.focusable && a11y.opens);
 
-  for (const width of [1440, 1280, 390, 360]) {
+  // ── ⑥ 현재 보유 중 — 이 화면의 핵심. 무슨 종목을 몇 주, 얼마에, 지금 얼마인지. ──
+  const OPEN_ONE = {
+    ...BASELINE, stage: 'RUNNING', openTrades: 1, closedTrades: 0, executedTradeCount: 1,
+    maxHoldingTradingDays: 5, lastCycleOk: true, currentVirtualEquity: 10010400,
+    unrealizedPnl: 10400, portfolioReturnPct: 0.1,
+    recentTrades: [{
+      status: 'OPEN', symbol: '005930', name: '삼성전자', entry_price: 72300, quantity: 13,
+      entry_business_date: '2026-08-18', cost_basis: 939900, current_price: 73100,
+      market_value: 950300, unrealized_pnl: 10400, unrealized_return_pct: 1.11,
+      holding_trading_days: 2, remaining_trading_days: 3
+    }]
+  };
+  const one = await renderWith(page, OPEN_ONE);
+  check('보유 종목 섹션이 존재한다', one.text.includes('현재 보유 중'));
+  check('종목명 표시', one.text.includes('삼성전자'));
+  check('종목코드 표시', one.text.includes('005930'));
+  check('수량 표시', one.text.includes('13주'));
+  check('매수가 표시', one.text.includes('72,300원'));
+  check('현재가 표시', one.text.includes('73,100원'));
+  check('투자금액 표시', one.text.includes('939,900원'));
+  check('평가금액 표시', one.text.includes('950,300원'));
+  check('가상 손익금액 표시', one.text.includes('10,400원'));
+  check('가상 수익률 표시', one.text.includes('+1.11%'));
+  check('보유 거래일 표시', one.text.includes('2거래일째'));
+  check('최대 보유기간 표시', one.text.includes('최대 5거래일'));
+  check('남은 최대 보유일 정확', one.text.includes('남은 최대 3거래일'));
+  check('판단 변경 시 조기 종료 설명', one.text.includes('매도 고려') && one.text.includes('일찍 종료'));
+  check('양수 수익률 방향색(상승)', /pv-pos-ret[^"]*pv-up/.test(one.html));
+  check('보유 섹션이 종료 거래 섹션보다 먼저 나온다',
+    one.html.indexOf('pvHoldH') >= 0 && (one.html.indexOf('pvClosedH') < 0
+      || one.html.indexOf('pvHoldH') < one.html.indexOf('pvClosedH')));
+
+  // 여러 건 + 음수 + 0% + null + 현재가 없음 + 긴 종목명
+  const OPEN_MANY = {
+    ...BASELINE, stage: 'RUNNING', openTrades: 4, closedTrades: 1, executedTradeCount: 5,
+    maxHoldingTradingDays: 5, lastCycleOk: true,
+    recentTrades: [
+      { status: 'OPEN', symbol: '005930', name: '삼성전자', entry_price: 72300, quantity: 13,
+        cost_basis: 939900, current_price: 71000, market_value: 923000, unrealized_pnl: -16900,
+        unrealized_return_pct: -1.8, holding_trading_days: 4, remaining_trading_days: 1 },
+      { status: 'OPEN', symbol: '373220', name: '엘지에너지솔루션우선주디알테스트종목명',
+        entry_price: 400000, quantity: 2, cost_basis: 800000, current_price: 400000,
+        market_value: 800000, unrealized_pnl: 0, unrealized_return_pct: 0,
+        holding_trading_days: 1, remaining_trading_days: 4 },
+      { status: 'OPEN', symbol: '000660', name: 'SK하이닉스', entry_price: 200000, quantity: 5,
+        cost_basis: 1000000, holding_trading_days: 0, remaining_trading_days: 5 },
+      { status: 'OPEN', symbol: '035420', name: 'NAVER', entry_price: 200000, quantity: 5,
+        cost_basis: 1000000, current_price: 210000, market_value: 1050000,
+        unrealized_pnl: 50000, unrealized_return_pct: 5 },
+      { status: 'CLOSED', symbol: '005380', name: '현대차', entry_price: 244000, exit_price: 259500,
+        quantity: 4, exit_reason: 'CHIEF_SELL', holding_trading_days: 9, gross_return_pct: 6.35,
+        cost_basis: 976000, realized_pnl: 62000 }
+    ]
+  };
+  const many = await renderWith(page, OPEN_MANY);
+  check('보유 여러 건 렌더', (many.html.match(/class="pv-pos"/g) || []).length === 4);
+  check('음수 수익률 방향색(하락)', /pv-pos-ret[^"]*pv-dn/.test(many.html));
+  check('0% 수익률은 방향색 없이 표시', many.text.includes('0.00%'));
+  check('현재가 없으면 지어내지 않고 안내', many.text.includes('현재가를 아직 받지 못해'));
+  check('현재가 없는 종목에 가짜 평가금액 0원 없음', !many.text.includes('평가금액\n0원'));
+  check('보유일 정보 없어도 렌더 유지(null 허용)', many.text.includes('NAVER'));
+  check('긴 종목명 렌더', many.text.includes('엘지에너지솔루션우선주디알테스트종목명'));
+
+  // ── ⑦ 종료 거래는 보유와 분리 ─────────────────────────────────────────────
+  check('종료 거래 섹션 분리', many.text.includes('최근 종료 거래'));
+  check('종료 거래 렌더', many.text.includes('현대차'));
+  check('종료 사유를 한국어로 변환', many.text.includes('GAEO 판단이 매도 고려로 변경'));
+  check('종료 사유 raw enum 미노출', !many.text.includes('CHIEF_SELL') && !many.text.includes('MAX_HOLDING_5D'));
+  check('확정 손익 표시', many.text.includes('62,000원'));
+
+  // ── ⑧ 개발자 용어가 사용자 화면에 노출되지 않는다 ─────────────────────────
+  for (const raw of ['PAPER_BASELINE_V1', 'BASELINE_ONLY', 'COST_MODEL_INCOMPLETE',
+                     'INSUFFICIENT_EVIDENCE', 'Forward', 'schemaVersion', 'lastCycleAt',
+                     'engineStartedAt', 'RUNNING']) {
+    check(`개발자 용어 미노출: ${raw}`, !many.text.includes(raw) && !one.text.includes(raw));
+  }
+  // ⚠️ MFI(Money Flow Index)는 전혀 다른 지표 — MFE와 혼동해서 쓰면 안 된다.
+  check('MFI/MFE 혼동 없음', !many.text.includes('MFI'));
+  check('전문 지표는 한국어를 먼저 쓴다',
+    many.text.includes('최대 낙폭') && many.text.includes('보유 중 최고 상승폭')
+    && many.text.includes('보유 중 최대 하락폭'));
+  check('MDD/MFE/MAE 설명이 펼침 안에 있다',
+    many.html.includes('이전 최고점') && many.html.includes('가장 많이 올랐던')
+    && many.html.includes('가장 많이 내렸던'));
+  check('자동 기록 상태 줄 표시', one.text.includes('자동 기록 진행 중'));
+  check('사이클 성공 미확인이면 정상이라 단정하지 않음',
+    (await renderWith(page, { ...OPEN_ONE, lastCycleOk: null })).text.includes('최근 기록'));
+
+  await renderWith(page, OPEN_MANY);
+  for (const width of [1440, 1280, 430, 390, 360]) {
+
     await page.setViewportSize({ width, height: 900 });
     await page.waitForTimeout(150);
     const layout = await page.evaluate(() => {
