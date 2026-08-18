@@ -18,7 +18,9 @@ assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
 assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260814-v14'\]/);
-assert.match(html, /rotation\.css\?v=20260814-v12/);
+// ⚠️ CSS를 고치면 이 버전을 올려야 재방문자가 옛 스타일을 계속 보지 않는다.
+//    (2026-08-18 sweep 전까지 이 줄이 v12에 멈춰 있어 테스트가 깨진 상태였다)
+assert.match(html, /rotation\.css\?v=20260818-v14/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -222,7 +224,8 @@ assert.match(css, /\.rot-accumulation-note\{/);
 assert.match(css, /\.rot-metric-explanation\{/);
 assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.3fr repeat\(5,minmax\(0,1fr\)\)/);
 assert.match(css, /\.rot-card-context\{[^}]*font-size:11px[^}]*font-weight:600/);
-assert.match(css, /\.rot-card-primary\{[^}]*font-size:20px[^}]*font-weight:650/);
+// 2026-08-18 sweep: 굵기 단계를 400/500/600 세 가지로 통일했다(650 폐지).
+assert.match(css, /\.rot-card-primary\{[^}]*font-size:20px[^}]*font-weight:600/);
 assert.match(css, /\.rot-card-secondary\{[^}]*font-size:12px[^}]*font-weight:400/);
 assert.match(css, /\.rot-meta-block\+\.rot-meta-block\{[^}]*margin-top:12px/);
 assert.match(css, /\.rot-meta dt\{[^}]*font-size:11px[^}]*font-weight:600/);

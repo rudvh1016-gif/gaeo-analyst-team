@@ -1,4 +1,4 @@
-/* 모의투자 화면 글꼴(Wanted Sans) 계약 — 2026-08-18
+/* 사이트 표준 글꼴(Wanted Sans) 계약 — 2026-08-18
  *
  * 왜 이 파일이 필요한가
  *   CSS에 글꼴 "이름"만 적어 두고 끝내면, 그 글꼴이 사용자 기기에 설치돼 있지 않은 한
@@ -11,7 +11,7 @@
  *   ② document.fonts가 Wanted Sans Variable을 loaded 상태로 갖는다.
  *   ③ 모의투자 화면의 대표 요소 + **JS가 나중에 그린 요소**의 computed 첫 글꼴이 그것이다.
  *   ④ button도 브라우저 기본 글꼴로 새지 않는다.
- *   ⑤ 사이트의 다른 화면은 기존 글꼴 그대로다(전체 강제 변경 금지).
+ *   ⑤ 사이트의 다른 화면도 같은 글꼴이다(2026-08-18 전체 통일 — 화면별 글꼴 금지).
  *   ⑥ 폰트를 못 받아도 글자가 사라지거나 레이아웃이 무너지지 않는다(fallback).
  *   ⑦ 폰트 로드 전/후 모두 가로 스크롤·잘림이 없다.
  *
@@ -127,11 +127,13 @@ const FAM = 'Wanted Sans Variable';
     check(`R8. 종합평가 본문 실제 적용 글꼴 = ${FAM}`, first(rv) === FAM, String(rv).slice(0, 60));
   }
 
-  // 다른 화면은 기존 글꼴 유지
+  // 2026-08-18 전체 sweep: 이 글꼴은 이제 모의투자 전용이 아니라 사이트 표준이다.
+  // 그래서 계약이 뒤집힌다 — "다른 화면은 그대로"가 아니라 "다른 화면도 같아야" 한다.
+  // (화면마다 글꼴이 다르면 한 회사 제품으로 보이지 않는다는 게 이번 작업의 출발점)
   await page.evaluate(() => window.setMode('home'));
   await page.waitForTimeout(400);
   const body = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
-  check('R9. 사이트 전체는 기존 글꼴 유지(모의투자에만 적용)', first(body) !== FAM, String(body).slice(0, 60));
+  check('R9. 사이트 전체가 같은 글꼴(홈도 동일)', first(body) === FAM, String(body).slice(0, 60));
   check('R10. JS 예외 0', errs.length === 0, errs.join(' | '));
   await ctx.close();
 
