@@ -59,9 +59,14 @@ try:
           all(t.get("symbol") != "999999" for t in payload["recentTrades"])
           and payload["closedTrades"] == 1 and payload["openTrades"] == 1)
     check("확정 평가금 = 초기금 + 확정 손익", payload["realizedVirtualEquity"] == 10_000_000 + 600 * 50)
-    allowed = pp.TRADE_ALLOWED
+    # 원장 필드 + 표시용 파생 필드 — 둘 다 명시 allowlist 안에만 있어야 한다.
+    allowed = pp.TRADE_ALLOWED | pp.DERIVED_ALLOWED
     extra = {k for t in payload["recentTrades"] for k in t} - allowed
     check("거래 공개 필드가 allowlist 밖으로 안 나감", not extra, str(extra))
+    # 파생 필드가 원장 필드를 덮어써 의미를 바꾸지 않는지(이름 충돌 0) 확인.
+    check("파생 필드가 원장 필드와 충돌하지 않음",
+          not (pp.DERIVED_ALLOWED & pp.TRADE_ALLOWED),
+          str(pp.DERIVED_ALLOWED & pp.TRADE_ALLOWED))
     check("금지 키워드(secret/token/account 등) 0",
           not any(w in out.lower() for w in pp.FORBIDDEN_SUBSTRINGS))
     check("비용 모델 INCOMPLETE 각인", payload["costModel"] == "COST_MODEL_INCOMPLETE")

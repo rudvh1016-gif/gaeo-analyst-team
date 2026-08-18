@@ -28,6 +28,13 @@ TRADE_ALLOWED = frozenset({
     "gross_return_pct", "benchmark_return_pct", "relative_return_pct",
     "mfe_pct", "mae_pct", "entry_method", "exit_method",
 })
+# 표시용 파생 필드(원장에 없고 여기서 계산해 붙인다) — 이 목록 밖은 붙이지 않는다.
+# ⚠️ 전부 read-only 파생이다. 매매 판단(entry/exit)에는 어떤 영향도 주지 않는다.
+DERIVED_ALLOWED = frozenset({
+    "current_price", "valued_at", "market_value", "cost_basis",
+    "unrealized_pnl", "unrealized_return_pct", "realized_pnl",
+    "remaining_trading_days",
+})
 FORBIDDEN_SUBSTRINGS = ("client_id", "client_secret", "token", "authorization",
                         "account", "secret")
 
@@ -63,6 +70,48 @@ def _public_trade(r):
     return {k: r[k] for k in TRADE_ALLOWED if k in r and r[k] is not None}
 
 
+def _holding_days(entry_day, business_dates, today):
+    """paper_engine.manage_positions와 완전히 같은 산식(읽기 전용 재현).
+    entry_business_date 이후 ~ 오늘까지의 영업일 수."""
+    if not entry_day:
+        return None
+    return sum(1 for d in (business_dates or [])
+               if d > entry_day and (today is None or d <= today))
+
+
+def _derived(r, meta, business_dates, today, max_hold):
+    """화면 표시용 파생값. 원본에 없는 값을 지어내지 않는다 — 근거가 없으면 넣지 않는다."""
+    out = {}
+    qty = r.get("quantity")
+    entry = r.get("entry_price")
+    if qty and entry:
+        out["cost_basis"] = round(entry * qty)
+    if r.get("status") == "OPEN":
+        # 러너가 사이클마다 이미 관측해 state.openMeta에 저장한 Mark를 그대로 쓴다.
+        # (브라우저는 시세 API를 부르지 않는다 — 여기서 파생만 한다)
+        mark = (meta or {}).get("lastMarkPrice")
+        if isinstance(mark, (int, float)) and mark > 0:
+            out["current_price"] = mark
+            if qty:
+                out["market_value"] = round(mark * qty)
+                if entry:
+                    out["unrealized_pnl"] = round((mark - entry) * qty)
+            if entry:
+                out["unrealized_return_pct"] = round((mark / entry - 1) * 100, 2)
+        if (meta or {}).get("lastMarkObservedAt"):
+            out["valued_at"] = meta["lastMarkObservedAt"]
+        held = _holding_days(r.get("entry_business_date"), business_dates, today)
+        if held is not None:
+            out["holding_trading_days"] = held
+            if isinstance(max_hold, int):
+                out["remaining_trading_days"] = max(0, max_hold - held)
+    elif r.get("status") == "CLOSED":
+        if qty and entry and r.get("exit_price"):
+            out["realized_pnl"] = round((r["exit_price"] - entry) * qty)
+    return {k: v for k, v in out.items()
+            if k in DERIVED_ALLOWED or k == "holding_trading_days"}
+
+
 def build():
     summary = _read_json(os.path.join(DIR, "summary.json")) or {}
     state = _read_json(os.path.join(DIR, "state.json")) or {}
@@ -87,9 +136,20 @@ def build():
     else:
         stage = "RUNNING"
 
-    recent = sorted(latest.values(),
-                    key=lambda r: r.get("exit_at") or r.get("detected_at") or "",
-                    reverse=True)[:12]
+    # 진행 중 거래는 사용자가 가장 먼저 보는 정보라 개수 제한에 잘리지 않게 전부 싣고,
+    # 종료 거래는 최근 12건까지만 싣는다(포지션당 100만원 · 총 1,000만원이라 open은 소수).
+    opens_sorted = sorted(opens, key=lambda r: r.get("entry_business_date") or "", reverse=True)
+    closed_sorted = sorted(closed, key=lambda r: r.get("exit_at") or r.get("detected_at") or "",
+                           reverse=True)[:12]
+    recent = opens_sorted + closed_sorted
+    business_dates = state.get("businessDates") or []
+    today_kst = datetime.now(KST).strftime("%Y-%m-%d")
+    max_hold = config.get("maxHoldingTradingDays")
+    max_hold = max_hold if isinstance(max_hold, int) else None
+    open_meta = state.get("openMeta") or {}
+    # 사이클이 실제로 성공했는지만 boolean으로 — 내부 결과 문자열은 공개하지 않는다.
+    _last = str(state.get("lastCycleResult") or "")
+    cycle_ok = True if _last.startswith("CYCLE_OK") else (False if _last else None)
 
     payload = {
         "schemaVersion": "gaeo_paper_public_v1",
@@ -126,7 +186,14 @@ def build():
         "avgMaePct": summary.get("avgMaePct"),
         "costModel": "COST_MODEL_INCOMPLETE",   # 비용 미검증 — '순수익' 표기 금지 근거
         "benchmarkNote": "종료거래 평균 시장대비는 종료된 개별 거래의 동일 기간 지수 대비 성과 평균이며, KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다(가상계좌 전체의 시장 대비 성과가 아님).",
-        "recentTrades": [_public_trade(r) for r in recent],
+        "maxHoldingTradingDays": max_hold,
+        "lastCycleOk": cycle_ok,
+        "recentTrades": [
+            {**_public_trade(r),
+             **_derived(r, open_meta.get(r.get("trade_id")), business_dates,
+                        today_kst, max_hold)}
+            for r in recent
+        ],
     }
 
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
