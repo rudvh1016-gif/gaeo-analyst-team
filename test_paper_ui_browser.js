@@ -20,13 +20,16 @@ function check(name, condition, detail) {
 }
 
 // window.GAEO_PAPER 를 갈아끼운 뒤 renderPaper()를 다시 돌려 화면 텍스트를 읽는다.
-async function renderWith(page, snapshot) {
-  return page.evaluate(payload => {
+// live: 표시용 신선화 소스(data.js 역할) — null이면 차단해 결정적으로 엔진 스냅샷만 쓰게 한다.
+async function renderWith(page, snapshot, live = null) {
+  return page.evaluate(({ payload, live }) => {
     window.GAEO_PAPER = payload;
+    window.GAEO_PAPER_LIVE = live;   // undefined가 아니면 전역 LIVE_DATA 대신 이 값을 쓴다
     window.setMode('paper');
+    window.renderPaper();
     const view = document.getElementById('paperView');
     return { text: view.innerText, html: view.innerHTML };
-  }, snapshot);
+  }, { payload: snapshot, live });
 }
 
 const BASELINE = {
@@ -239,7 +242,12 @@ const BASELINE = {
   check('최대 보유기간 표시', one.text.includes('최대 5거래일'));
   check('남은 최대 보유일 정확', one.text.includes('남은 최대 3거래일'));
   check('판단 변경 시 조기 종료 설명', one.text.includes('매도 고려') && one.text.includes('일찍 종료'));
-  check('양수 수익률 방향색(상승)', /pv-pos-ret[^"]*pv-up/.test(one.html));
+  check('양수 수익률 방향색(상승)', /pv-pos-r pv-up/.test(one.html));
+  check('수익률이 종목명 바로 옆(h4 안)에 있다',
+    /<h4>삼성전자<em class="pv-pos-r[^"]*">\+1\.11%<\/em><\/h4>/.test(one.html));
+  check('손익금액이 meta 줄의 보조 정보다',
+    /pv-mpnl[^>]*>\+10,400원/.test(one.html));
+  check('오른쪽 끝 수익률 블록(pv-pos-ret)이 사라졌다', !one.html.includes('pv-pos-ret'));
   check('보유 섹션이 종료 거래 섹션보다 먼저 나온다',
     one.html.indexOf('pvHoldH') >= 0 && (one.html.indexOf('pvClosedH') < 0
       || one.html.indexOf('pvHoldH') < one.html.indexOf('pvClosedH')));
@@ -318,6 +326,74 @@ const BASELINE = {
   check('P22. 일부 시세 누락이어도 투자원금·가상현금은 계속 보여준다',
     part.text.includes('9,663,055원') && part.text.includes('336,945원'));
 
+  // ── ⑥-3 표시용 현재가 신선화 — data.js가 러너 mark보다 신선하면 화면 값만 재평가 ──
+  const LIVE_BASE = {
+    ...BASELINE, stage: 'RUNNING', openTrades: 2, closedTrades: 0, executedTradeCount: 2,
+    maxHoldingTradingDays: 5, lastCycleOk: true, lastCycleAt: '2026-08-18T11:05:14+09:00',
+    initialVirtualCash: 10000000,
+    investedCostBasis: 1939900, availableVirtualCash: 8060100,
+    markedPositionsValue: 1923000, currentVirtualEquity: 9983100,
+    unrealizedPnl: -16900, realizedPnl: 0, portfolioReturnPct: -0.169,
+    allocationInvestedPct: 19.3, allocationCashPct: 80.7,
+    valuationStatus: 'MARKED', valuationObservedAt: '2026-08-18T11:05:14+09:00',
+    positionSizeKrw: 1000000,
+    recentTrades: [
+      { status: 'OPEN', symbol: '005930', name: '삼성전자', entry_price: 72300, quantity: 13,
+        cost_basis: 939900, current_price: 71000, market_value: 923000, unrealized_pnl: -16900,
+        unrealized_return_pct: -1.8, holding_trading_days: 1, remaining_trading_days: 4 },
+      { status: 'OPEN', symbol: '000660', name: 'SK하이닉스', entry_price: 200000, quantity: 5,
+        cost_basis: 1000000, current_price: 200000, market_value: 1000000, unrealized_pnl: 0,
+        unrealized_return_pct: 0, holding_trading_days: 1, remaining_trading_days: 4 }
+    ]
+  };
+  const LIVE_OK = { date: '2026-08-18 11:46 장중', stocks: {
+    '005930': { price: 74000, stale: false }, '000660': { price: 199000, stale: false } } };
+
+  const lv = await renderWith(page, LIVE_BASE, LIVE_OK);
+  check('L1. 더 신선한 시세로 행 현재가가 갱신된다', lv.text.includes('74,000원'));
+  check('L2. 행 평가금액·수익률·손익도 같은 가격으로 재계산',
+    lv.text.includes('962,000원') && lv.text.includes('+2.35%') && lv.text.includes('+22,100원'));
+  check('L3. 총계도 같은 가격 세트로 재계산(행·합계 소스 단일)',
+    lv.text.includes('10,017,100원') && lv.text.includes('1,957,000원')
+    && lv.text.includes('+17,100원'));
+  check('L4. 기준시각이 실제 관측 시각(11:46)으로 표시', lv.text.includes('11:46 기준'));
+  check('L5. 보유 섹션 머리에 현재가 기준 시각 1회 표시',
+    lv.text.includes('현재가 기준 11:46')
+    && (lv.text.match(/현재가 기준/g) || []).length === 1);
+  check("L6. '실시간'이라고 쓰지 않는다", !lv.text.includes('실시간'));
+
+  // 신선하지 않으면(더 오래된 live) 러너 mark 값 그대로
+  const lvOld = await renderWith(page, LIVE_BASE,
+    { date: '2026-08-18 10:00 장중', stocks: LIVE_OK.stocks });
+  check('L7. live가 mark보다 오래되면 엔진 값 유지',
+    lvOld.text.includes('71,000원') && lvOld.text.includes('9,983,100원')
+    && lvOld.text.includes('11:05 기준') && !lvOld.text.includes('74,000원'));
+
+  // 한 종목이라도 없으면 전체 폴백 — 행은 신선, 합계는 낡은 "섞인 화면" 금지
+  const lvMiss = await renderWith(page, LIVE_BASE,
+    { date: '2026-08-18 11:46 장중', stocks: { '005930': { price: 74000, stale: false } } });
+  check('L8. live에 한 종목 누락 → 전부 엔진 값(부분 혼합 금지)',
+    lvMiss.text.includes('71,000원') && !lvMiss.text.includes('74,000원')
+    && lvMiss.text.includes('9,983,100원'));
+
+  // stale 종목이 있으면 그 세트를 신선한 것처럼 쓰지 않는다
+  const lvStale = await renderWith(page, LIVE_BASE,
+    { date: '2026-08-18 11:46 장중', stocks: {
+      '005930': { price: 74000, stale: false }, '000660': { price: 199000, stale: true } } });
+  check('L9. stale 종목 포함 → 전부 엔진 값(오래된 가격을 최신처럼 쓰지 않음)',
+    lvStale.text.includes('71,000원') && !lvStale.text.includes('74,000원'));
+
+  // 러너가 평가 불가(fail closed)여도 live가 전 종목을 덮으면 표시는 복구된다
+  const lvRecover = await renderWith(page, { ...LIVE_BASE,
+    markedPositionsValue: null, currentVirtualEquity: null, unrealizedPnl: null,
+    portfolioReturnPct: null, allocationInvestedPct: null, allocationCashPct: null,
+    valuationStatus: 'VALUATION_UNAVAILABLE', valuationObservedAt: null,
+    recentTrades: LIVE_BASE.recentTrades.map(r => ({ ...r,
+      current_price: undefined, market_value: undefined,
+      unrealized_pnl: undefined, unrealized_return_pct: undefined })) }, LIVE_OK);
+  check('L10. 러너 평가 불가 상태여도 완전한 live 세트로 표시 복구',
+    lvRecover.text.includes('10,017,100원') && lvRecover.text.includes('74,000원'));
+
   // 여러 건 + 음수 + 0% + null + 현재가 없음 + 긴 종목명
   const OPEN_MANY = {
     ...BASELINE, stage: 'RUNNING', openTrades: 4, closedTrades: 1, executedTradeCount: 5,
@@ -342,7 +418,7 @@ const BASELINE = {
   };
   const many = await renderWith(page, OPEN_MANY);
   check('보유 여러 건 렌더', (many.html.match(/class="pv-pos"/g) || []).length === 4);
-  check('음수 수익률 방향색(하락)', /pv-pos-ret[^"]*pv-dn/.test(many.html));
+  check('음수 수익률 방향색(하락)', /pv-pos-r pv-dn/.test(many.html));
   check('0% 수익률은 방향색 없이 표시', many.text.includes('0.00%'));
   check('현재가 없으면 지어내지 않고 안내', many.text.includes('현재가를 아직 받지 못해'));
   check('현재가 없는 종목에 가짜 평가금액 0원 없음', !many.text.includes('평가금액\n0원'));
