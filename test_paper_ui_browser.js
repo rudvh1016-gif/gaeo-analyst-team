@@ -90,7 +90,8 @@ const BASELINE = {
   check('BASELINE_ONLY 빈 상태 문구가 나온다', /첫 검증 신호를 기다리고 있습니다/.test(empty.text));
   check('거래 0건을 승률 0%로 표시하지 않는다', !/승률[\s\S]{0,20}0(\.0)?%/.test(empty.text));
   check('거래 0건을 수익률 0%로 표시하지 않는다', !/누적 성과[\s\S]{0,20}\+?0\.00%/.test(empty.text));
-  check('누적 성과가 —(기록 축적 중)로 표시된다', /기록 축적 중/.test(empty.text));
+  // 거래 0건이면 손익을 0원/0%로 만들어내지 않고 "아직 기록 전"이라고 말한다.
+  check('거래 0건이면 현재 손익을 숫자로 만들어내지 않는다', /기록 전/.test(empty.text));
   check('시작자금은 실제 예치금이 아니라고 밝힌다', /실제로 예치한 돈이 아니에요/.test(empty.text));
   check('실제 주문이 없음을 명시한다', /실제 투자 주문은 발생하지 않습니다/.test(empty.text));
   check('비용 미반영을 명시한다', /비용 모델 확인 중/.test(empty.text));
@@ -234,7 +235,7 @@ const BASELINE = {
   check('평가금액 표시', one.text.includes('950,300원'));
   check('가상 손익금액 표시', one.text.includes('10,400원'));
   check('가상 수익률 표시', one.text.includes('+1.11%'));
-  check('보유 거래일 표시', one.text.includes('2거래일째'));
+  check('보유 거래일 표시', one.text.includes('2거래일 경과'));
   check('최대 보유기간 표시', one.text.includes('최대 5거래일'));
   check('남은 최대 보유일 정확', one.text.includes('남은 최대 3거래일'));
   check('판단 변경 시 조기 종료 설명', one.text.includes('매도 고려') && one.text.includes('일찍 종료'));
@@ -242,6 +243,80 @@ const BASELINE = {
   check('보유 섹션이 종료 거래 섹션보다 먼저 나온다',
     one.html.indexOf('pvHoldH') >= 0 && (one.html.indexOf('pvClosedH') < 0
       || one.html.indexOf('pvHoldH') < one.html.indexOf('pvClosedH')));
+  // 진입 당일은 "0거래일째"가 아니라 "오늘 진입"으로 읽힌다(표시 문구만 — 규칙은 불변)
+  const day0 = await renderWith(page, { ...OPEN_ONE, recentTrades: [
+    { ...OPEN_ONE.recentTrades[0], holding_trading_days: 0, remaining_trading_days: 5 }] });
+  check('진입 당일은 "오늘 진입"으로 표시', day0.text.includes('오늘 진입'));
+  check('진입 당일에 "0거래일째"라고 쓰지 않는다', !/0거래일/.test(day0.text));
+  check('진입 당일에도 최대 보유기간은 그대로 표시', day0.text.includes('최대 5거래일'));
+
+  // ── ⑥-2 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있나"를 바로 답하는가 ──
+  const PORT = {
+    ...OPEN_ONE, openTrades: 10, executedTradeCount: 10,
+    initialVirtualCash: 10000000, currentVirtualEquity: 9994300,
+    investedCostBasis: 9663055, availableVirtualCash: 336945,
+    markedPositionsValue: 9657355, unrealizedPnl: -5700, realizedPnl: 0,
+    portfolioReturnPct: -0.057, allocationInvestedPct: 96.6, allocationCashPct: 3.4,
+    valuationStatus: 'MARKED', valuationObservedAt: '2026-08-18T11:05:14+09:00',
+    lastCycleAt: '2026-08-18T11:05:14+09:00', positionSizeKrw: 1000000,
+    skippedInsufficientCash: 7, skippedPriceAbovePositionSize: 0,
+    skippedMarketDataUnavailable: 0
+  };
+  const port = await renderWith(page, PORT);
+  check('P1. 현재 가상자산 표시', port.text.includes('9,994,300원'));
+  check('P2. 현재 투자원금 표시', port.text.includes('9,663,055원'));
+  check('P3. 남은 가상현금 표시', port.text.includes('336,945원'));
+  check('P4. 보유 평가금액 표시', port.text.includes('9,657,355원'));
+  check('P5. 현재 손익 금액·수익률 표시',
+    port.text.includes('5,700원') && port.text.includes('0.06%'));
+  check('P6. 투자/현금 비중 표시', port.text.includes('96.6%') && port.text.includes('3.4%'));
+  check('P7. 자산구성 띠가 실제 비중대로 그려진다',
+    /pv-alloc-bar[\s\S]{0,120}width:96\.6%/.test(port.html));
+  check('P8. 현재 가상자산의 뜻을 설명한다',
+    port.text.includes('가상현금 + 보유종목 현재 평가액'));
+  check('P9. 평가 기준 시각을 상단에 한 번 표시', port.text.includes('11:05 기준'));
+  check('P10. 시작자금이 실제 예치금이 아님을 밝힌다',
+    port.text.includes('실제로 예치한 돈이 아니에요'));
+  check('P11. 손익 방향색(하락)이 부호와 함께 쓰인다',
+    /pv-port-pv[^"]*pv-dn/.test(port.html) && port.text.includes('−5,700원'));
+  // 종료 거래가 0건이면 '확정 손익' 칸을 띄우지 않는다 → 기존 4칸보다 오히려 줄어든다.
+  // ('확정 손익'은 아래 「검증 상태」 목록에도 나오므로 상단 띠 안만 따로 본다)
+  const bandOf = html => (html.match(/<div class="pv-summary[^"]*">([\s\S]*?)<\/div><\/div>/) || [])[0] || '';
+  check('P12. 상단 카드가 늘지 않고 오히려 줄었다(종료 0건 → 2칸)',
+    /pv-summary pv-summary-2/.test(port.html) && !bandOf(port.html).includes('확정 손익'));
+  const withClosed = await renderWith(page, { ...PORT, closedTrades: 3, realizedPnl: 41000 });
+  check('P12b. 종료 거래가 생기면 확정 손익 칸이 나타난다(3칸)',
+    /pv-summary pv-summary-3/.test(withClosed.html) && withClosed.text.includes('확정 손익'));
+  check('P12c. 확정 손익 금액이 정확히 표시된다', withClosed.text.includes('+41,000원'));
+  // 건너뛴 신호 설명은 메인 화면이 아니라 「상세 정보」 펼침 안에만 있어야 한다.
+  check('P13. 자금 부족으로 진입하지 않은 신호를 쉬운 말로 설명',
+    port.html.includes('가상 투자 여력이 부족해 진입하지 않은 신호'));
+  check('P14. 건너뛴 신호를 시스템 장애처럼 말하지 않는다',
+    port.html.includes('기록이 잘못된 게 아닙니다'));
+  check('P14b. 건너뛴 신호 설명이 접힌 상세 안에 있다(메인 화면에 크게 띄우지 않음)',
+    !port.text.includes('가상 투자 여력이 부족해 진입하지 않은 신호')
+    && port.html.indexOf('pv-skip') > port.html.indexOf('<details'));
+  check('P15. 내부 상태 코드(SKIPPED_*)를 화면에 노출하지 않는다',
+    !/SKIPPED_/.test(port.html));
+  check('P16. 개발자 필드명을 화면에 노출하지 않는다',
+    !/cost_basis|market_value|unrealized_pnl|realized_pnl|valuationStatus|investedCostBasis|availableVirtualCash|markedPositionsValue/.test(port.text));
+  check("P17. '순수익'·'순이익' 표현을 쓰지 않는다", !/순수익|순이익|실제 수익/.test(port.text));
+  check('P18. 수수료·세금 미반영을 고지한다',
+    port.text.includes('수수료') && port.text.includes('세금'));
+
+  // 시세 일부 누락 → 부분합을 전체 평가금액처럼 보여주지 않는다(fail closed)
+  const PART = { ...PORT, currentVirtualEquity: null, markedPositionsValue: null,
+    unrealizedPnl: null, portfolioReturnPct: null, allocationInvestedPct: null,
+    allocationCashPct: null, valuationStatus: 'VALUATION_UNAVAILABLE' };
+  const part = await renderWith(page, PART);
+  check('P19. 일부 시세 누락 시 전체 평가금액을 부분합으로 채우지 않는다',
+    !part.text.includes('9,657,355원'));
+  check('P20. 일부 시세 누락 시 현재 손익을 지어내지 않는다',
+    part.text.includes('평가 대기') && !part.text.includes('−5,700원'));
+  check('P21. 일부 시세 누락 시 자산구성 띠를 그리지 않는다',
+    !/pv-alloc-bar/.test(part.html));
+  check('P22. 일부 시세 누락이어도 투자원금·가상현금은 계속 보여준다',
+    part.text.includes('9,663,055원') && part.text.includes('336,945원'));
 
   // 여러 건 + 음수 + 0% + null + 현재가 없음 + 긴 종목명
   const OPEN_MANY = {

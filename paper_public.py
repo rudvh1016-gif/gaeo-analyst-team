@@ -15,6 +15,10 @@ import os
 import sys
 from datetime import datetime, timezone, timedelta
 
+# 회계는 여기서 다시 구현하지 않는다 — 엔진의 회계 함수 하나만 Source of Truth로 쓴다.
+# (paper_engine 은 러너 사이클에서 이 파일보다 먼저 실행되므로 두 산출물은 같은 원장을 본다)
+from paper_engine import portfolio_valuation, reporting_view
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, "paper_trading")
 OUT = os.path.join(HERE, "paper_public.js")
@@ -125,6 +129,33 @@ def build():
     realized = sum((r["exit_price"] - r["entry_price"]) * r["quantity"] for r in closed)
     equity_realized = initial + realized
 
+    # 📊 포트폴리오 총계 — 엔진의 회계 함수를 그대로 호출한다(재구현 금지).
+    #    summary.json 이 아직 새 필드를 갖고 있지 않아도(러너가 구버전 엔진으로 한 번 더
+    #    돌기 전이어도) 같은 원장에서 즉시 계산되므로 화면이 비지 않는다.
+    val = reporting_view(portfolio_valuation({**config, "initial_cash_krw": initial},
+                                             latest, state.get("openMeta") or {}))
+    invested = val["investedCostBasis"]
+    cash = val["cash"]
+    marked = val["markedPositionsValue"]      # 평가 불가 시 None (fail closed)
+    equity = val["currentVirtualEquity"]      # 평가 불가 시 None (fail closed)
+    # 자산 구성 비중 — 기준을 하나로 고정한다: "현재 가상자산" 대비.
+    #   투자 비중 = 보유 평가금액 / 현재 가상자산, 현금 비중 = 가상현금 / 현재 가상자산.
+    #   (투입원금/시작자금 기준과 섞지 않는다. 평가 불가 시 둘 다 None.)
+    if equity and marked is not None:
+        alloc_invested = round(marked / equity * 100, 1)
+        alloc_cash = round(cash / equity * 100, 1)
+    else:
+        alloc_invested = alloc_cash = None
+
+    # 건너뛴 신호 — "정상적인 미진입"과 "시스템 문제"를 절대 섞지 않는다.
+    #   정상: 가상현금 부족 · 1주 가격이 종목당 기준금액보다 큼
+    #   시스템: 시세를 못 받아 건너뜀
+    def _skips(status):
+        return sum(1 for r in latest.values() if r.get("status") == status)
+    skipped_cash = _skips("SKIPPED_INSUFFICIENT_CASH")
+    skipped_price = _skips("SKIPPED_PRICE_ABOVE_POSITION_SIZE")
+    skipped_quote = _skips("SKIPPED_MARKET_DATA_UNAVAILABLE")
+
     # 엔진 상태 → 사용자 상태 (가짜 승률·수익률을 만들지 않는 Empty State 어휘)
     last_result = str(state.get("lastCycleResult") or "")
     if "TOSS_MARKET_DATA_UNAVAILABLE" in last_result:
@@ -161,15 +192,28 @@ def build():
         "stage": stage,
         "initialVirtualCash": summary.get("initialVirtualCash", initial),
         "realizedVirtualEquity": equity_realized,      # legacy(확정분만) — UI는 아래 마크 기준 사용
-        "currentVirtualEquity": summary.get("currentVirtualEquity"),
-        "realizedPnl": summary.get("realizedPnl"),
-        "unrealizedPnl": summary.get("unrealizedPnl"),
-        "portfolioReturnPct": summary.get("portfolioReturnPct"),
-        "maxDrawdownPct": summary.get("maxDrawdownPct"),
-        "valuationObservedAt": summary.get("valuationObservedAt"),   # 러너 관측 시각
-        "valuationMarketAt": summary.get("valuationMarketAt"),       # 공급자 원본 시각(없으면 null)
-        "valuationStatus": summary.get("valuationStatus"),
-        "executedTradeCount": summary.get("executedTradeCount", len(opens) + len(closed)),
+        # ── 포트폴리오 총계(신규) — 전부 위 portfolio_valuation() 한 곳에서 나온 값이다 ──
+        "investedCostBasis": invested,          # 현재 투자원금(미청산 Σ 체결가×수량)
+        "availableVirtualCash": cash,           # 남은 가상현금
+        "markedPositionsValue": marked,         # 보유 평가금액(평가 불가 시 null)
+        "allocationInvestedPct": alloc_invested,
+        "allocationCashPct": alloc_cash,
+        "positionSizeKrw": config.get("position_size_krw"),
+        "skippedInsufficientCash": skipped_cash,
+        "skippedPriceAbovePositionSize": skipped_price,
+        "skippedMarketDataUnavailable": skipped_quote,
+        # ⚠️ 아래 평가 계열도 summary.json이 아니라 위 val(같은 원장에서 방금 계산한 값)에서
+        #    가져온다. 두 곳에서 따로 읽으면 요약이 낡았을 때 화면에서
+        #    "현금 + 평가금액 ≠ 현재 가상자산"처럼 회계가 어긋나 보인다.
+        "currentVirtualEquity": val["currentVirtualEquity"],
+        "realizedPnl": val["realizedPnl"],
+        "unrealizedPnl": val["unrealizedPnl"],
+        "portfolioReturnPct": val["portfolioReturnPct"],
+        "maxDrawdownPct": summary.get("maxDrawdownPct"),   # Equity Curve 기반 — 러너만 계산
+        "valuationObservedAt": val["valuationObservedAt"],  # 러너 관측 시각
+        "valuationMarketAt": val["valuationMarketAt"],      # 공급자 원본 시각(없으면 null)
+        "valuationStatus": val["valuationStatus"],
+        "executedTradeCount": val["executedTradeCount"],
         "openTrades": len(opens),
         "closedTrades": len(closed),
         "skippedSignals": summary.get("skippedSignals", 0),
