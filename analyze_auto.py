@@ -834,6 +834,16 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
             "reason": reason, "target": tgt, "report": report}
 
 
+def load_ticker_names():
+    """code → 종목명. dart_today.js에 종목명을 실어 보내기 위해 쓴다."""
+    try:
+        t = re.sub(r"^\s*//.*$", "", open(os.path.join(HERE, "tickers.js"), encoding="utf-8").read(), flags=re.M)
+        arr = json.loads(re.search(r"const\s+TICKERS\s*=\s*(\[.*?\])\s*;", t, re.S).group(1))
+        return {d["code"]: d.get("name") or d["code"] for d in arr}
+    except Exception:
+        return {}
+
+
 def load_sectors():
     try:
         t = re.sub(r"^\s*//.*$", "", open(os.path.join(HERE, "tickers.js"), encoding="utf-8").read(), flags=re.M)
@@ -1195,6 +1205,46 @@ def main():
     with open(os.path.join(HERE, "auto_analysis.js"), "w", encoding="utf-8") as f:
         f.write(js)
     print(f"auto_analysis.js 저장 완료 — 자동분석 {n_auto}종목 (정밀분석 보유 {len(deep_codes)}종목 포함)")
+
+    # 📄 dart_today.js — 홈 화면 "오늘의 공시" 위젯 전용 **작은** 스냅샷.
+    #    auto_analysis.js는 3MB라 홈에서 내려받게 하면 첫 화면이 느려진다. 그래서 위에서
+    #    이미 만든 dart 요약에서 "종목명 · 공시명 · 접수일"만 뽑아 따로 쓴다(수십 KB).
+    #    ⚠️ 여기서도 점수를 만들지 않는다. 이미 공개된 공시 원문 정보만 옮긴다.
+    try:
+        ticker_names = load_ticker_names()
+        dart_rows = []
+        for code, row in out["stocks"].items():
+            summary = row.get("dart") or {}
+            for item in (summary.get("items") or []):
+                name = item.get("name")
+                if not name or name in ("N/A", "-", ""):
+                    continue
+                dart_rows.append({
+                    "code": code,
+                    "name": ticker_names.get(code) or code,
+                    "title": " ".join(str(name).split()),
+                    "receiptDate": item.get("receiptDate") or "",
+                    "detectedAt": item.get("detectedAt") or "",
+                    "isCorrection": bool(item.get("isCorrection")),
+                })
+        # 최신 탐지 순 → 같으면 종목명 순. 화면에서 다시 정렬하지 않아도 되게 여기서 확정한다.
+        dart_rows.sort(key=lambda r: (r["detectedAt"], r["name"]), reverse=True)
+        dart_out = {
+            "generatedAt": now,
+            "priceLabel": price_label,
+            "count": len(dart_rows),
+            "coverageState": dart_coverage,
+            "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
+            "items": dart_rows,
+        }
+        with open(os.path.join(HERE, "dart_today.js"), "w", encoding="utf-8") as f:
+            f.write("// 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷\n"
+                    "// auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.\n"
+                    "const DART_TODAY = " + json.dumps(dart_out, ensure_ascii=False, indent=1) + ";\n")
+        print(f"dart_today.js 저장 완료 — 공시 {len(dart_rows)}건")
+    except Exception as ex:
+        # 공시 스냅샷 실패가 자동분석 전체를 막지는 않는다.
+        print(f"[경고] dart_today.js 생성 실패 — {ex}")
 
     # 🧪 Research Shadow는 사이트 자료와 완전히 분리된 파일로 쓴다.
     #    index.html의 GaeoFeatures 목록에 없으므로 브라우저는 절대 내려받지 않는다.
