@@ -354,7 +354,17 @@ class PaperEngine:
         if not today.get("open"):
             return self._done(f"HOLIDAY — {today_date} 휴장(보유일 미산입·거래 없음)", now)
 
-        session = today.get("integrated") or {}
+        # 🐛 2026-08-18 수정: 정규장인데 '장외'로 오판하던 버그.
+        #    공식 응답은 today.integrated = {preMarket, regularMarket, afterMarket} 구조라
+        #    startTime/endTime은 integrated 최상위가 아니라 regularMarket 안에 있다.
+        #    integrated를 그대로 넘기면 startTime=None → 파싱 실패 → 항상 '장외'가 되어
+        #    정규장에도 신규 진입이 영구 보류됐다(09:35·10:05·10:35 실측).
+        #    ⚠️ Paper V1은 국내 정규장만 쓴다 — NXT 프리마켓·애프터마켓은 쓰지 않는다.
+        integrated = today.get("integrated") or {}
+        session = (integrated.get("regularMarket") if isinstance(integrated, dict) else None) or {}
+        # 세션 시각을 못 읽으면 개장으로 추측하지 않는다(fail closed). 다만 조용히
+        # '장외'로 넘어가면 계약이 또 바뀌었을 때 알아채지 못하므로 사유를 구분해 남긴다.
+        self._session_known = bool(session)
         in_session = self._in_session(now, session)
 
         # 거래일 기록(보유일 계산의 근거 — 캘린더가 open이라고 한 날만)
@@ -403,7 +413,9 @@ class PaperEngine:
     # ── 진입 ──
     def _process_entries(self, signals, analysis_at, now, in_session, latest, actions):
         if not in_session:
-            actions.append("장외 시간 — 신규 진입 보류(다음 개장 사이클에 처리)")
+            actions.append("장외 시간 — 신규 진입 보류(다음 개장 사이클에 처리)"
+                           if getattr(self, "_session_known", True) else
+                           "정규장 시간 정보 없음 — 신규 진입 보류(캘린더 응답 확인 필요)")
             return "DEFERRED"
         prev = self.state["lastCall"]
         candidates = [c for c, s in signals.items()
