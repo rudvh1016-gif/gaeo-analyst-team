@@ -294,6 +294,11 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://gaeoteam.com/#website","name":"Gaeo · 달라진 흐름만 빠르게","alternateName":"개오","url":"https://gaeoteam.com/","description":"한국 주식 600종목의 오늘 판단과 어제 달라진 이유를 데이터 기준 시각과 함께 쉽게 보여주는 리서치입니다.","inLanguage":"ko-KR","publisher":{"@id":"https://gaeoteam.com/#organization"}},{"@type":"Organization","@id":"https://gaeoteam.com/#organization","name":"Gaeo","alternateName":"개오 애널리스트팀","url":"https://gaeoteam.com/","logo":"https://gaeoteam.com/app-icon-192.png","description":"TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축을 살펴보고, RISK가 위험을 점검하고, ROTATION이 시장과 업종 흐름을 보고, CHIEF가 이를 종합하는 규칙 기반 자동분석 리서치 서비스. 코스피·코스닥 600개 주요 종목을 매일 같은 기준으로 분석하고 쉬운 말로 판단과 근거를 알려줍니다.","slogan":"Understand More, Make Better Decisions"}]}</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<!-- 💬 모의투자 화면 전용 본문 글꼴 — Wanted Sans (SIL OFL 1.1, 공식 저장소 wanteddev/wanted-sans).
+     저장소에 self-host(assets/fonts/wanted-sans/)한다: GitHub Pages에서 iPhone·Windows가 같은 글꼴로
+     보이고 외부 CDN 장애에 영향받지 않는다. 92개 서브셋 + unicode-range라 브라우저는 화면에 실제로
+     쓰인 글자 조각만 내려받는다(전체 2.5MB를 다 받지 않는다). font-display:swap은 공식 CSS에 포함. -->
+<link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
 <style>
   :root{
     /* 🍎 애플 감성 라이트(기본): 거의 흑백 + 애플 블루 단일 액센트, 부드러운 확산 그림자 */
@@ -308,6 +313,10 @@
     --market-up:#2563EB; --market-down:#DC2626;
     --krup:#D5535D; --krdn:#4C78B8;   /* 본문 등락 색: 상승 빨강 · 하락 파랑(한국식) */
     --sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;
+    /* 모의투자 화면 전용 — 나머지 화면의 --sans는 건드리지 않는다.
+       Wanted Sans가 못 뜨면 Pretendard → 시스템 글꼴로 자연스럽게 내려간다. */
+    --paper-font:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,
+      BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR",sans-serif;
     --serif:var(--sans);
     --mono:var(--sans);
     --shadow:0 2px 8px rgba(0,0,0,.04),0 12px 32px rgba(0,0,0,.06);
@@ -1119,6 +1128,15 @@
      브랜드 블루는 포커스 링 외의 장식으로 쓰지 않는다.
      ⚠️ overflow-wrap:anywhere 필수 — body의 word-break:keep-all과 겹치면
      "매수 고려 · 08.18 진입"처럼 가운뎃점으로 이어 붙인 토막이 모바일에서 넘친다. */
+  /* 💬 모의투자 화면 글꼴 적용 지점 — 여기 하나로 하위 요소 전부에 상속된다.
+     JS가 나중에 그려 넣는 보유종목·오늘 거래·기록·종합평가도 #paperView 안에 들어가므로
+     자동으로 같은 글꼴을 쓴다. 단 button/input은 브라우저 기본 글꼴이 끼어들 수 있어
+     inherit을 명시한다(모의투자 화면은 탭·종목 펼침이 전부 button이다). */
+  #paperView,
+  #paperView button,
+  #paperView input,
+  #paperView select,
+  #paperView textarea{font-family:var(--paper-font)}
   .paperView{display:none;margin-top:18px}
   .paperView.on{display:block}
   .pv-title{margin:0 0 8px;font-size:25px;font-weight:600;letter-spacing:-.022em;
