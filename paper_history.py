@@ -1,0 +1,514 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""GAEO 모의투자 — 날짜별 기록 · 종합평가 · 전략 분류 (Read-only Derived).
+
+⚠️ 원칙
+    - Source of Truth는 trades.jsonl(전체 이벤트) · equity_curve.jsonl 뿐이다.
+      이 파일은 거기서 **파생**만 하며 언제든 원본에서 다시 만들 수 있다.
+    - Trading Logic(진입·청산·판단)에 어떤 영향도 주지 않는다. 읽기 전용이다.
+    - 과거 날짜는 **그날 저장된 값**으로만 만든다. 오늘 시세·현재 mark·현재 state를
+      절대 섞지 않는다(8/18 기록은 8/25에 열어도 1원도 달라지지 않아야 한다).
+    - 종합평가는 규칙 기반(결정적)이다. 유료 AI 호출 0. 같은 데이터·같은 버전이면
+      항상 같은 문장이 나온다.
+    - **근거 없는 원인을 지어내지 않는다.** 모든 문장은 fact(실제 저장값)에서 나오며
+      어떤 fact로 만들어졌는지 함께 싣는다(테스트가 이를 검증한다).
+      "외국인 매도 때문"처럼 저장된 데이터로 증명할 수 없는 원인은 생성 자체가 불가능하다.
+"""
+import json
+import os
+import re
+from datetime import datetime, timedelta, timezone
+
+KST = timezone(timedelta(hours=9))
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# 평가 문안 생성 규칙 버전 — 같은 버전 + 같은 원본 = 항상 같은 결과.
+REVIEW_VERSION = "paper_review_v1"
+HISTORY_SCHEMA = "gaeo_paper_history_v1"
+
+# 전략 bucket — 현재 엔진의 실제 최대 보유기간(5거래일) 안에서만 정의한다.
+# 엔진이 만들 수 없는 중기·장기 구간을 "현재 검증 중"처럼 보여주지 않는다.
+STRATEGY_BUCKETS = [
+    ("same_day", "당일형", "진입한 날 바로 종료", 0, 0),
+    ("ultra_short", "초단기", "1거래일 보유", 1, 1),
+    ("short", "단기", "2거래일 보유", 2, 2),
+    ("swing", "스윙", "3~5거래일 보유", 3, 5),
+]
+# 이 표본 수에 도달하기 전에는 어떤 bucket도 "더 낫다"고 말하지 않는다.
+MIN_STRATEGY_SAMPLE = 20
+
+
+def kst_date(ts):
+    """ISO 문자열 → KST 기준 YYYY-MM-DD. UTC 표기가 와도 KST로 변환한다."""
+    if not ts or not isinstance(ts, str):
+        return None
+    try:
+        dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=KST)
+    return dt.astimezone(KST).strftime("%Y-%m-%d")
+
+
+def kst_hm(ts):
+    if not ts or not isinstance(ts, str):
+        return None
+    try:
+        dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=KST)
+    return dt.astimezone(KST).strftime("%H:%M")
+
+
+def read_jsonl(path):
+    rows = []
+    if not os.path.exists(path):
+        return rows
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rows.append(json.loads(line))     # 잘린 줄은 건너뛴다(원장 보호)
+            except json.JSONDecodeError:
+                continue
+    return rows
+
+
+def load_market_daily(path=None):
+    """날짜별 지수 종가 — 시장 대비 비교용. 없으면 빈 dict(비교를 지어내지 않는다)."""
+    path = path or os.path.join(HERE, "market_history.js")
+    try:
+        s = open(path, encoding="utf-8").read()
+        d = json.loads(re.search(r"=\s*(\{.*\})\s*;?\s*$", s, re.S).group(1))
+        out = {}
+        for day, row in d.items():
+            out[day] = {"KOSPI": (row.get("kospi") or {}).get("value"),
+                        "KOSDAQ": (row.get("kosdaq") or {}).get("value")}
+        return out
+    except Exception:
+        return {}
+
+
+def _num(v):
+    return v if isinstance(v, (int, float)) and v == v else None
+
+
+def _pct(v, d=2):
+    return round(v, d) if v is not None else None
+
+
+# ── 이벤트 → 날짜별 매수/매도 ────────────────────────────────────────────────
+def split_events(ledger, environment="LIVE_PAPER"):
+    """전체 이벤트 원장을 매수(OPEN)·매도(CLOSED)·건너뜀으로 나눈다.
+
+    ⚠️ trade_id 하나는 OPEN 1회 + CLOSED 1회로 기록된다(같은 행이 두 번 쌓이는 게
+       아니라 상태가 바뀐 새 행이 append 된다). 그래서 매수 1 · 매도 1이 맞고,
+       같은 trade_id를 매수 2건으로 세면 안 된다 → trade_id로 중복을 제거한다.
+    ⚠️ 같은 종목이라도 trade_id가 다르면 다른 episode다(각각 1건).
+    """
+    buys, sells, skips = {}, {}, {}
+    for r in ledger:
+        if r.get("environment") != environment:
+            continue                      # TEST 기록은 절대 섞지 않는다
+        tid = r.get("trade_id")
+        if not tid:
+            continue
+        st = str(r.get("status") or "")
+        if st == "OPEN" and tid not in buys:
+            buys[tid] = r
+        elif st == "CLOSED":
+            sells[tid] = r                # 마지막 CLOSED 행을 쓴다
+            buys.setdefault(tid, None)    # 자리표시 — 아래에서 원 OPEN 행으로 채운다
+        elif st.startswith("SKIPPED") and tid not in skips:
+            skips[tid] = r
+    # CLOSED만 보고 buys에 None이 들어간 경우, 같은 tid의 OPEN 행을 다시 찾아 채운다
+    for r in ledger:
+        if r.get("environment") == environment and r.get("status") == "OPEN":
+            tid = r.get("trade_id")
+            if tid in buys and buys[tid] is None:
+                buys[tid] = r
+    return ([v for v in buys.values() if v],
+            list(sells.values()), list(skips.values()))
+
+
+def buy_date(r):
+    return r.get("entry_business_date") or kst_date(
+        r.get("simulated_fill_at") or r.get("recorded_at") or r.get("detected_at"))
+
+
+def sell_date(r):
+    return r.get("exit_business_date") or kst_date(r.get("exit_at") or r.get("recorded_at"))
+
+
+def public_buy(r):
+    """그날 매수 기록 — 종목·수량·진입가격·진입시각(사용자에게 보일 것만)."""
+    return {
+        "symbol": r.get("symbol"), "name": r.get("name"), "market": r.get("market"),
+        "quantity": _num(r.get("quantity")), "entryPrice": _num(r.get("entry_price")),
+        "entryAt": kst_hm(r.get("simulated_fill_at") or r.get("recorded_at")),
+        "costBasis": (round(r["entry_price"] * r["quantity"])
+                      if _num(r.get("entry_price")) and _num(r.get("quantity")) else None),
+    }
+
+
+# 내부 사유 코드는 화면에 내보내지 않는다 — 사람이 읽는 말로 바꿔서만 싣는다.
+EXIT_REASON_KO = {
+    "CHIEF_SELL": "GAEO 판단이 「매도 고려」로 변경",
+    "MAX_HOLDING_5D": "최대 보유기간 도달",
+}
+SKIP_REASON_KO = {
+    "SKIPPED_INSUFFICIENT_CASH": "가상 투자 여력 부족",
+    "SKIPPED_PRICE_ABOVE_POSITION_SIZE": "1주 가격이 종목당 기준금액보다 큼",
+    "SKIPPED_MARKET_DATA_UNAVAILABLE": "시세를 받지 못함",
+}
+
+
+def public_sell(r):
+    """그날 매도 기록 — 매수가·매도가·확정손익·수익률·보유기간·종료 이유."""
+    qty, ep, xp = _num(r.get("quantity")), _num(r.get("entry_price")), _num(r.get("exit_price"))
+    return {
+        "symbol": r.get("symbol"), "name": r.get("name"), "market": r.get("market"),
+        "quantity": qty, "entryPrice": ep, "exitPrice": xp,
+        "exitAt": kst_hm(r.get("exit_at")),
+        "realizedPnl": round((xp - ep) * qty) if None not in (qty, ep, xp) else None,
+        "returnPct": _num(r.get("gross_return_pct")),
+        "benchmarkReturnPct": _num(r.get("benchmark_return_pct")),
+        "holdingTradingDays": _num(r.get("holding_trading_days")),
+        "exitReason": EXIT_REASON_KO.get(r.get("exit_reason"), "종료"),
+        "mfePct": _num(r.get("mfe_pct")), "maePct": _num(r.get("mae_pct")),
+    }
+
+
+# ── 종합 평가 (결정적·근거 필수) ─────────────────────────────────────────────
+def _contributions(snap, initial):
+    """그날 마지막 스냅샷의 종목별 평가손익 기여도.
+
+    equity_curve 행에 positions(종목별 mark·수량·진입가)가 기록된 날에만 계산한다.
+    기록이 없는 날은 **추정하지 않고** None을 돌려준다(빈 값을 지어내지 않는다).
+    """
+    pos = (snap or {}).get("positions")
+    if not isinstance(pos, dict) or not pos:
+        return None
+    out = []
+    for sym, p in pos.items():
+        mark, qty, entry = _num(p.get("mark")), _num(p.get("qty")), _num(p.get("entry"))
+        if None in (mark, qty, entry) or qty <= 0 or entry <= 0:
+            continue
+        pnl = (mark - entry) * qty
+        out.append({
+            "symbol": sym, "name": p.get("name") or sym,
+            "pnl": round(pnl),
+            "returnPct": round((mark / entry - 1) * 100, 2),
+            # 시작자금 대비 몇 %p를 끌어올렸/내렸는지 — 자산 변동 기여도
+            "equityImpactPct": round(pnl / initial * 100, 3) if initial else None,
+        })
+    out.sort(key=lambda x: x["pnl"], reverse=True)
+    return out
+
+
+def _market_change_pct(market_daily, day, prev_day, key="KOSPI"):
+    """그날 지수 변화율 — 두 날짜의 저장된 종가가 모두 있을 때만."""
+    a = (market_daily.get(prev_day) or {}).get(key) if prev_day else None
+    b = (market_daily.get(day) or {}).get(key)
+    if not a or not b:
+        return None
+    return round((b / a - 1) * 100, 2)
+
+
+def build_review(day, snap, buys, sells, contribs, daily_change_pct,
+                 market_pct, initial, is_today):
+    """그날 데이터만으로 만드는 종합 평가.
+
+    반환 구조: {"version", "inProgress", "headline", "sections":[{key,title,lines}]}
+    각 line은 {"text", "fact"} — fact는 이 문장이 어떤 저장값에서 나왔는지의 이름이다.
+    fact 없이 만들어지는 문장은 없다(= 근거 없는 원인 서술이 구조적으로 불가능).
+    """
+    L = lambda text, fact: {"text": text, "fact": fact}
+    sections = []
+    realized = sum(s["realizedPnl"] for s in sells if s["realizedPnl"] is not None)
+    equity = _num((snap or {}).get("markedEquity"))
+    unreal = _num((snap or {}).get("unrealizedPnl"))
+
+    # ① 결과 — 저장된 자산·손익 수치 그대로
+    res = []
+    if equity is not None and initial:
+        cum = round((equity / initial - 1) * 100, 2)
+        res.append(L(f"가상자산 {equity:,.0f}원 · 시작자금 대비 {cum:+.2f}%", "markedEquity"))
+    if daily_change_pct is not None:
+        res.append(L(f"전 기록일 대비 {daily_change_pct:+.2f}%", "dailyChangePct"))
+    else:
+        res.append(L("이전 기록일이 없어 일간 변화는 비교하지 않았습니다.", "noPreviousRecord"))
+    if sells:
+        res.append(L(f"확정 손익 {realized:+,.0f}원 (종료 {len(sells)}건)", "realizedPnl"))
+    else:
+        res.append(L("이날 종료된 거래가 없어 확정 손익은 발생하지 않았습니다.", "noSells"))
+    if unreal is not None:
+        res.append(L(f"보유 손익 {unreal:+,.0f}원", "unrealizedPnl"))
+    sections.append({"key": "result", "title": "결과", "lines": res})
+
+    # ② 주요 영향 — 종목별 기여도 순위가 실제로 기록된 날에만
+    imp = []
+    if contribs:
+        win = contribs[0] if contribs[0]["pnl"] > 0 else None
+        lose = contribs[-1] if contribs[-1]["pnl"] < 0 else None
+        if lose:
+            imp.append(L(f"{lose['name']} {lose['returnPct']:+.2f}% "
+                         f"({lose['pnl']:+,.0f}원)이 손실에 가장 크게 기여했습니다.",
+                         "largestDetractor"))
+        if win:
+            imp.append(L(f"{win['name']} {win['returnPct']:+.2f}% "
+                         f"({win['pnl']:+,.0f}원)이 가장 크게 만회했습니다.",
+                         "largestContributor"))
+        up = sum(1 for c in contribs if c["pnl"] > 0)
+        dn = sum(1 for c in contribs if c["pnl"] < 0)
+        flat = len(contribs) - up - dn
+        imp.append(L(f"보유 {len(contribs)}종목 중 {up}종목 상승 · {dn}종목 하락"
+                     + (f" · {flat}종목 보합" if flat else ""), "advancersDecliners"))
+        if not win and not lose:
+            imp.append(L("모든 보유 종목이 진입가와 같아 손익 기여가 없습니다.", "allFlat"))
+    else:
+        imp.append(L("이 날짜에는 종목별 기여도 기록이 남아 있지 않아 "
+                     "어떤 종목이 손익을 이끌었는지는 계산하지 않았습니다.", "noPositionSnapshot"))
+    sections.append({"key": "impact", "title": "주요 영향", "lines": imp})
+
+    # ③ 시장 비교 — 저장된 지수값이 있을 때만. 없으면 "없다"고 말한다.
+    mk = []
+    if market_pct is not None and daily_change_pct is not None:
+        gap = round(daily_change_pct - market_pct, 2)
+        mk.append(L(f"코스피 {market_pct:+.2f}% 대비 {gap:+.2f}%p "
+                    + ("앞섰습니다." if gap > 0 else "뒤졌습니다." if gap < 0 else "같았습니다."),
+                    "benchmarkRelative"))
+    elif market_pct is not None:
+        mk.append(L(f"코스피는 {market_pct:+.2f}%였습니다.", "benchmarkOnly"))
+    else:
+        mk.append(L("이 날짜의 지수 기록이 없어 시장 대비 비교는 하지 않았습니다.",
+                    "noBenchmark"))
+    sections.append({"key": "market", "title": "시장 비교", "lines": mk})
+
+    # ④ 잘된 점 / ⑤ 아쉬운 점 — 수치 근거가 있을 때만 쓴다
+    good, bad = [], []
+    if contribs:
+        up = [c for c in contribs if c["pnl"] > 0]
+        dn = [c for c in contribs if c["pnl"] < 0]
+        if up:
+            good.append(L(f"상승 종목 {len(up)}개가 합계 {sum(c['pnl'] for c in up):+,.0f}원을 "
+                          "보탰습니다.", "advancerSum"))
+        if dn and len(dn) >= max(1, len(contribs) * 0.6):
+            bad.append(L(f"보유 {len(contribs)}종목 중 {len(dn)}종목이 진입가 아래입니다.",
+                         "decliner Majority".replace(" ", "")))
+        if dn and contribs[-1]["equityImpactPct"] is not None and len(dn) > 1:
+            share = abs(contribs[-1]["pnl"]) / abs(sum(c["pnl"] for c in dn)) * 100
+            if share >= 40:
+                bad.append(L(f"손실의 {share:.0f}%가 {contribs[-1]['name']} 한 종목에 "
+                             "몰려 있습니다.", "lossConcentration"))
+    realized_wins = [s for s in sells if (s["realizedPnl"] or 0) > 0]
+    realized_losses = [s for s in sells if (s["realizedPnl"] or 0) < 0]
+    if realized_wins:
+        good.append(L(f"종료한 거래 {len(realized_wins)}건이 이익으로 확정됐습니다.",
+                      "realizedWins"))
+    if realized_losses:
+        bad.append(L(f"종료한 거래 {len(realized_losses)}건이 손실로 확정됐습니다.",
+                     "realizedLosses"))
+    if market_pct is not None and daily_change_pct is not None:
+        (good if daily_change_pct >= market_pct else bad).append(
+            L("같은 날 시장보다 " + ("잘 방어했습니다." if daily_change_pct >= market_pct
+                                  else "부진했습니다."), "benchmarkRelative"))
+    if not good:
+        good.append(L("이날 기록만으로는 잘된 점을 꼽기 어렵습니다.", "insufficientEvidence"))
+    if not bad:
+        bad.append(L("이날 기록만으로는 아쉬운 점을 꼽기 어렵습니다.", "insufficientEvidence"))
+    sections.append({"key": "good", "title": "잘된 점", "lines": good})
+    sections.append({"key": "bad", "title": "아쉬운 점", "lines": bad})
+
+    # ⑥ 다음에 확인할 점 — 특정 종목 매매 지시가 아니라 "관찰 항목"만 쓴다
+    watch = []
+    if buys and not sells:
+        watch.append(L("이날 진입한 종목이 3~5거래일 구간에서 회복되는지 확인할 필요가 "
+                       "있습니다.", "buysWithoutSells"))
+    if contribs and contribs[-1]["pnl"] < 0:
+        watch.append(L(f"{contribs[-1]['name']}처럼 손실 기여가 큰 종목이 다음 기록에서도 "
+                       "반복되는지 볼 필요가 있습니다.", "largestDetractor"))
+    if sells:
+        watch.append(L("종료된 거래의 보유기간별 결과가 쌓이면 전략 인사이트에서 "
+                       "구간별 비교가 가능해집니다.", "sellsRecorded"))
+    watch.append(L("표본이 아직 적어 이날 결과만으로 전략의 좋고 나쁨을 판단하기는 "
+                   "어렵습니다.", "smallSample"))
+    sections.append({"key": "watch", "title": "다음 기록에서 확인할 점", "lines": watch})
+
+    headline = None
+    if equity is not None and initial:
+        headline = f"가상자산 {round((equity / initial - 1) * 100, 2):+.2f}%"
+    return {"version": REVIEW_VERSION, "inProgress": bool(is_today),
+            "headline": headline, "sections": sections}
+
+
+# ── 전략 분류 (사후 분석 전용 태그) ──────────────────────────────────────────
+def classify_holding(days):
+    """실제 보유 거래일 수 → 분석용 bucket. 엔진을 바꾸는 태그가 아니다.
+
+    엔진의 최대 보유기간(5거래일)을 넘는 거래는 현재 전략이 만들 수 없으므로
+    '기타'로 남기고, 중기·장기를 실행 중인 전략처럼 보여주지 않는다.
+    """
+    if days is None:
+        return None
+    for key, _label, _desc, lo, hi in STRATEGY_BUCKETS:
+        if lo <= days <= hi:
+            return key
+    return "other"
+
+
+def _stats(rows):
+    rets = [r["returnPct"] for r in rows if r["returnPct"] is not None]
+    rel = [round(r["returnPct"] - r["benchmarkReturnPct"], 3) for r in rows
+           if r["returnPct"] is not None and r["benchmarkReturnPct"] is not None]
+    hold = [r["holdingTradingDays"] for r in rows if r["holdingTradingDays"] is not None]
+    mfe = [r["mfePct"] for r in rows if r["mfePct"] is not None]
+    mae = [r["maePct"] for r in rows if r["maePct"] is not None]
+    avg = lambda a: round(sum(a) / len(a), 2) if a else None
+    med = None
+    if rets:
+        s = sorted(rets)
+        n = len(s)
+        med = round(s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2, 2)
+    wins = [r for r in rets if r > 0]
+    return {
+        "tradeCount": len(rows),
+        "winRatePct": round(len(wins) / len(rets) * 100, 1) if rets else None,
+        "avgReturnPct": avg(rets), "medianReturnPct": med,
+        "avgRelativeReturnPct": avg(rel),
+        "avgHoldingTradingDays": avg(hold),
+        "avgMfePct": avg(mfe), "avgMaePct": avg(mae),
+        "realizedPnl": sum(r["realizedPnl"] for r in rows
+                           if r["realizedPnl"] is not None) or 0,
+    }
+
+
+def build_strategy(all_sells):
+    """종료된 거래를 실제 보유기간 bucket으로 묶어 비교한다.
+
+    ⚠️ 표본이 MIN_STRATEGY_SAMPLE 미만이면 어떤 bucket도 우승 전략으로 선언하지
+       않는다(2~3건으로 "스윙이 최고" 같은 결론 금지). 항상 표본 수를 함께 싣는다.
+    ⚠️ 이 통계는 관찰용이다. paper_engine의 보유기간 규칙을 자동으로 바꾸지 않는다.
+    """
+    by = {k: [] for k, *_ in STRATEGY_BUCKETS}
+    by["other"] = []
+    for s in all_sells:
+        b = classify_holding(s.get("holdingTradingDays"))
+        if b:
+            by[b].append(s)
+    buckets = []
+    for key, label, desc, lo, hi in STRATEGY_BUCKETS:
+        st = _stats(by[key])
+        buckets.append({"key": key, "label": label, "desc": desc,
+                        "enough": st["tradeCount"] >= MIN_STRATEGY_SAMPLE, **st})
+    total = sum(b["tradeCount"] for b in buckets)
+    return {
+        "buckets": buckets,
+        "otherCount": len(by["other"]),
+        "totalClosed": total,
+        "minSample": MIN_STRATEGY_SAMPLE,
+        "enough": total >= MIN_STRATEGY_SAMPLE,
+        "maxHoldingTradingDays": 5,
+        # 현재 엔진이 만들 수 없는 구간은 "추후 별도 전략 필요"로만 남긴다
+        "unsupported": [{"label": "중기", "desc": "수 주 이상 보유"},
+                        {"label": "장기", "desc": "수 개월 이상 보유"}],
+        "note": ("현재 검증 중인 전략은 한 종목을 최대 5거래일까지만 보유합니다. "
+                 "그보다 긴 구간의 성과는 이 기록으로 알 수 없습니다."),
+    }
+
+
+def build(ledger, curve, config, today=None, market_daily=None):
+    """전체 History 산출물. 원본 두 파일만으로 언제든 다시 만들 수 있다."""
+    initial = config.get("initial_cash_krw", 10_000_000)
+    market_daily = market_daily if market_daily is not None else load_market_daily()
+    today = today or datetime.now(KST).strftime("%Y-%m-%d")
+
+    buys, sells, skips = split_events(ledger)
+    buys_by, sells_by, skips_by = {}, {}, {}
+    for r in buys:
+        d = buy_date(r)
+        if d:
+            buys_by.setdefault(d, []).append(r)
+    for r in sells:
+        d = sell_date(r)
+        if d:
+            sells_by.setdefault(d, []).append(r)
+    for r in skips:
+        d = kst_date(r.get("recorded_at") or r.get("detected_at"))
+        if d:
+            skips_by.setdefault(d, []).append(r)
+
+    # 날짜별 마지막 '유효' 스냅샷 — 하루에 사이클이 몇 번이든 Daily Record는 1개.
+    snap_by = {}
+    for row in curve:
+        d = kst_date(row.get("at"))
+        if not d:
+            continue
+        if _num(row.get("markedEquity")) is None:
+            continue                      # 평가 불가 사이클은 대표값으로 쓰지 않는다
+        prev = snap_by.get(d)
+        if prev is None or str(row.get("at")) >= str(prev.get("at")):
+            snap_by[d] = row
+
+    days = sorted(set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by))
+    records, prev_equity, all_sells_pub = [], None, []
+    for d in days:
+        snap = snap_by.get(d)
+        equity = _num((snap or {}).get("markedEquity"))
+        db = public_buy
+        b = [db(r) for r in sorted(buys_by.get(d, []),
+                                   key=lambda x: str(x.get("simulated_fill_at") or ""))]
+        s = [public_sell(r) for r in sorted(sells_by.get(d, []),
+                                            key=lambda x: str(x.get("exit_at") or ""))]
+        all_sells_pub.extend(s)
+        sk = {}
+        for r in skips_by.get(d, []):
+            lab = SKIP_REASON_KO.get(r.get("status"), "기타 사유")
+            sk[lab] = sk.get(lab, 0) + 1
+        # 일간 변화는 '이전 기록일 자산' 대비 — 첫 기록일은 0%를 지어내지 않고 None
+        daily = (round((equity / prev_equity - 1) * 100, 2)
+                 if equity is not None and prev_equity else None)
+        prev_day = records[-1]["date"] if records else None
+        contribs = _contributions(snap, initial)
+        mkt = _market_change_pct(market_daily, d, prev_day)
+        rec = {
+            "date": d,
+            "lastRecordAt": kst_hm((snap or {}).get("at")),
+            "inProgress": d == today,
+            "equity": equity,
+            "cash": _num((snap or {}).get("cash")),
+            "investedCostBasis": _num((snap or {}).get("positionsCost")),
+            "markedPositionsValue": _num((snap or {}).get("markedPositionsValue")),
+            "realizedPnl": _num((snap or {}).get("realizedPnl")),
+            "unrealizedPnl": _num((snap or {}).get("unrealizedPnl")),
+            "openCount": _num((snap or {}).get("openCount")),
+            "cumulativeReturnPct": (round((equity / initial - 1) * 100, 2)
+                                    if equity is not None and initial else None),
+            "dailyChangePct": daily,
+            "marketChangePct": mkt,
+            "buyCount": len(b), "sellCount": len(s),
+            "buys": b, "sells": s,
+            "skipped": [{"reason": k, "count": v} for k, v in sorted(sk.items())],
+            "contributions": contribs,
+            "review": build_review(d, snap, b, s, contribs, daily, mkt, initial,
+                                   is_today=(d == today)),
+        }
+        records.append(rec)
+        if equity is not None:
+            prev_equity = equity
+
+    records.reverse()                     # 최근 날짜가 위
+    return {
+        "schemaVersion": HISTORY_SCHEMA,
+        "reviewVersion": REVIEW_VERSION,
+        "generatedAt": datetime.now(KST).isoformat(timespec="seconds"),
+        "initialVirtualCash": initial,
+        "maxHoldingTradingDays": config.get("maxHoldingTradingDays", 5),
+        "days": records,
+        "strategy": build_strategy(all_sells_pub),
+    }

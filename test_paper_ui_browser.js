@@ -25,11 +25,23 @@ async function renderWith(page, snapshot, live = null) {
   return page.evaluate(({ payload, live }) => {
     window.GAEO_PAPER = payload;
     window.GAEO_PAPER_LIVE = live;   // undefined가 아니면 전역 LIVE_DATA 대신 이 값을 쓴다
+    // 시나리오마다 깨끗한 상태에서 시작한다(펼침 유지 자체는 C12에서 따로 검증)
+    if (typeof PV_VIEW !== 'undefined') { PV_VIEW = 'holdings'; PV_DAY = null; PV_OPEN.clear(); }
     window.setMode('paper');
     window.renderPaper();
     const view = document.getElementById('paperView');
     return { text: view.innerText, html: view.innerHTML };
   }, { payload: snapshot, live });
+}
+
+
+// 보유 종목 상세는 눌러야 열린다 — 상세 내용을 검증할 땐 전부 펼친 뒤 읽는다.
+async function expandAll(page) {
+  return page.evaluate(() => {
+    document.querySelectorAll('.pv-pos-hd[aria-expanded="false"]').forEach(b => b.click());
+    const v = document.getElementById('paperView');
+    return { text: v.innerText, html: v.innerHTML };
+  });
 }
 
 const BASELINE = {
@@ -143,7 +155,7 @@ const BASELINE = {
     ]
   });
   check('진행 중 거래가 렌더된다', /우리금융지주/.test(withTrades.text)
-    && /현재 보유 중/.test(withTrades.text) && /보유 중 ·/.test(withTrades.text));
+    && /현재 보유 중/.test(withTrades.text) && /class="pv-pos-hd"/.test(withTrades.html));
   check('양수 수익률에 + 부호와 상승색', /\+4\.21%/.test(withTrades.text) && /pv-tret pv-up/.test(withTrades.html));
   check('음수 수익률에 − 부호와 하락색', /−2\.50%/.test(withTrades.text) && /pv-tret pv-dn/.test(withTrades.html));
   check('0% 수익률은 방향색 없이 표시', /0\.00%/.test(withTrades.text));
@@ -230,23 +242,25 @@ const BASELINE = {
   const one = await renderWith(page, OPEN_ONE);
   check('보유 종목 섹션이 존재한다', one.text.includes('현재 보유 중'));
   check('종목명 표시', one.text.includes('삼성전자'));
-  check('종목코드 표시', one.text.includes('005930'));
+  const oneOpen = await expandAll(page);
+  check('종목코드 표시(상세)', oneOpen.text.includes('005930'));
   check('수량 표시', one.text.includes('13주'));
   check('매수가 표시', one.text.includes('72,300원'));
   check('현재가 표시', one.text.includes('73,100원'));
-  check('투자금액 표시', one.text.includes('939,900원'));
+  check('투자금액 표시(상세)', oneOpen.text.includes('939,900원'));
   check('평가금액 표시', one.text.includes('950,300원'));
   check('가상 손익금액 표시', one.text.includes('10,400원'));
   check('가상 수익률 표시', one.text.includes('+1.11%'));
-  check('보유 거래일 표시', one.text.includes('2거래일 경과'));
+  check('보유 거래일 표시(상세)', oneOpen.text.includes('2거래일 경과'));
   check('최대 보유기간 표시', one.text.includes('최대 5거래일'));
-  check('남은 최대 보유일 정확', one.text.includes('남은 최대 3거래일'));
-  check('판단 변경 시 조기 종료 설명', one.text.includes('매도 고려') && one.text.includes('일찍 종료'));
+  check('남은 최대 보유일 정확(상세)', oneOpen.text.includes('3거래일'));
+  check('종료 조건 설명(상세)', oneOpen.text.includes('종료 조건')
+    && oneOpen.text.includes('매도 고려'));
   check('양수 수익률 방향색(상승)', /pv-pos-r pv-up/.test(one.html));
-  check('수익률이 종목명 바로 옆(h4 안)에 있다',
-    /<h4>삼성전자<em class="pv-pos-r[^"]*">\+1\.11%<\/em><\/h4>/.test(one.html));
-  check('손익금액이 meta 줄의 보조 정보다',
-    /pv-mpnl[^>]*>\+10,400원/.test(one.html));
+  check('수익률이 종목명 바로 옆에 있다',
+    /삼성전자<em class="pv-pos-r[^"]*">\+1\.11%<\/em>/.test(one.html));
+  check('손익금액이 요약 줄의 보조 정보다',
+    /pv-pos-pl[^>]*>\+10,400원/.test(one.html));
   check('오른쪽 끝 수익률 블록(pv-pos-ret)이 사라졌다', !one.html.includes('pv-pos-ret'));
   check('보유 섹션이 종료 거래 섹션보다 먼저 나온다',
     one.html.indexOf('pvHoldH') >= 0 && (one.html.indexOf('pvClosedH') < 0
@@ -254,9 +268,10 @@ const BASELINE = {
   // 진입 당일은 "0거래일째"가 아니라 "오늘 진입"으로 읽힌다(표시 문구만 — 규칙은 불변)
   const day0 = await renderWith(page, { ...OPEN_ONE, recentTrades: [
     { ...OPEN_ONE.recentTrades[0], holding_trading_days: 0, remaining_trading_days: 5 }] });
-  check('진입 당일은 "오늘 진입"으로 표시', day0.text.includes('오늘 진입'));
-  check('진입 당일에 "0거래일째"라고 쓰지 않는다', !/0거래일/.test(day0.text));
-  check('진입 당일에도 최대 보유기간은 그대로 표시', day0.text.includes('최대 5거래일'));
+  const day0Open = await expandAll(page);
+  check('진입 당일은 "오늘 진입"으로 표시(상세)', day0Open.text.includes('오늘 진입'));
+  check('진입 당일에 "0거래일째"라고 쓰지 않는다', !/0거래일/.test(day0Open.text));
+  check('진입 당일에도 최대 보유기간은 그대로 표시', day0Open.text.includes('5거래일'));
 
   // ── ⑥-2 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있나"를 바로 답하는가 ──
   const PORT = {
@@ -420,8 +435,10 @@ const BASELINE = {
   check('보유 여러 건 렌더', (many.html.match(/class="pv-pos"/g) || []).length === 4);
   check('음수 수익률 방향색(하락)', /pv-pos-r pv-dn/.test(many.html));
   check('0% 수익률은 방향색 없이 표시', many.text.includes('0.00%'));
-  check('현재가 없으면 지어내지 않고 안내', many.text.includes('현재가를 아직 받지 못해'));
-  check('현재가 없는 종목에 가짜 평가금액 0원 없음', !many.text.includes('평가금액\n0원'));
+  const manyOpen = await expandAll(page);
+  check('현재가 없으면 지어내지 않고 안내(상세)',
+    manyOpen.text.includes('현재가를 아직 받지 못해'));
+  check('현재가 없는 종목에 가짜 평가금액 0원 없음', !manyOpen.text.includes('평가금액\n0원'));
   check('보유일 정보 없어도 렌더 유지(null 허용)', many.text.includes('NAVER'));
   check('긴 종목명 렌더', many.text.includes('엘지에너지솔루션우선주디알테스트종목명'));
 
@@ -466,6 +483,263 @@ const BASELINE = {
     check(`${width}px 가로 스크롤 없음`, layout.overflow <= 0, `overflow=${layout.overflow}px`);
     check(`${width}px 숫자 잘림 없음`, layout.clipped === 0, `clipped=${layout.clipped}`);
   }
+
+  // ── ⑨ Compact 보유 목록 + 눌러서 펼치기 (Progressive Disclosure) ─────────
+  const COMPACT = {
+    ...BASELINE, stage: 'RUNNING', openTrades: 3, closedTrades: 0, executedTradeCount: 3,
+    maxHoldingTradingDays: 5, lastCycleOk: true, lastCycleAt: '2026-08-18T13:05:00+09:00',
+    valuationObservedAt: '2026-08-18T13:05:00+09:00', valuationStatus: 'MARKED',
+    initialVirtualCash: 10000000, investedCostBasis: 2939900, availableVirtualCash: 7060100,
+    markedPositionsValue: 2960300, currentVirtualEquity: 10020400, unrealizedPnl: 20400,
+    realizedPnl: 0, portfolioReturnPct: 0.204, allocationInvestedPct: 29.5,
+    allocationCashPct: 70.5,
+    recentTrades: [
+      { status: 'OPEN', symbol: '005930', name: '삼성전자', entry_price: 72300, quantity: 13,
+        cost_basis: 939900, current_price: 73100, market_value: 950300, unrealized_pnl: 10400,
+        unrealized_return_pct: 1.11, holding_trading_days: 0, remaining_trading_days: 5,
+        entry_business_date: '2026-08-18', detected_at: '2026-08-18T10:05:00+09:00' },
+      { status: 'OPEN', symbol: '011200', name: 'HMM', entry_price: 20000, quantity: 50,
+        cost_basis: 1000000, current_price: 20000, market_value: 1000000, unrealized_pnl: 0,
+        unrealized_return_pct: 0, holding_trading_days: 2, remaining_trading_days: 3,
+        entry_business_date: '2026-08-14', detected_at: '2026-08-14T10:05:00+09:00' },
+      { status: 'OPEN', symbol: '000660', name: '에스케이하이닉스우선주디알특별계정테스트',
+        entry_price: 200000, quantity: 5, cost_basis: 1000000,
+        holding_trading_days: 1, remaining_trading_days: 4, entry_business_date: '2026-08-15' }
+    ]
+  };
+  const cmp = await renderWith(page, COMPACT);
+  check('C1. 보유 종목이 compact 목록으로 나온다',
+    (cmp.html.match(/class="pv-pos-hd"/g) || []).length === 3);
+  check('C2. compact에 종목명·수익률·수량·현재가·평가금액·손익이 보인다',
+    cmp.text.includes('삼성전자') && cmp.text.includes('+1.11%') && cmp.text.includes('13주')
+    && cmp.text.includes('현재가 73,100원') && cmp.text.includes('950,300원')
+    && cmp.text.includes('+10,400원'));
+  check('C3. 기본은 모두 접혀 있다',
+    !/aria-expanded="true"/.test(cmp.html)
+    && (cmp.html.match(/class="pv-pos-body"[^>]*hidden/g) || []).length === 3);
+  check('C4. 종목코드는 상세 안에만 있다(첫 화면 아님)', !cmp.text.includes('005930'));
+  check('C5. 현재가 없는 종목도 목록이 깨지지 않는다',
+    cmp.text.includes('에스케이하이닉스우선주디알특별계정테스트') && cmp.text.includes('평가 대기'));
+
+  const expandOne = await page.evaluate(() => {
+    const btn = document.querySelectorAll('.pv-pos-hd')[0];
+    btn.click();
+    const body = document.getElementById(btn.getAttribute('aria-controls'));
+    return { aria: btn.getAttribute('aria-expanded'), shown: !body.hidden, text: body.innerText };
+  });
+  check('C6. 누르면 펼쳐지고 aria-expanded가 바뀐다',
+    expandOne.aria === 'true' && expandOne.shown);
+  check('C7. 상세에 기존 정보가 그대로 있다',
+    ['종목코드', '매수가', '현재가', '수량', '투자원금', '평가금액', '가상 손익', '수익률',
+     '진입일', '진입시각', '보유기간', '남은 최대 보유', '종료 조건', '현재가 기준']
+      .every(k => expandOne.text.includes(k)), expandOne.text.slice(0, 200));
+  check('C8. 상세에 종목코드가 표시된다', expandOne.text.includes('005930'));
+  check('C9. 진입 당일은 "오늘 진입"으로 읽힌다', expandOne.text.includes('오늘 진입'));
+
+  const collapsed = await page.evaluate(() => {
+    const btn = document.querySelectorAll('.pv-pos-hd')[0];
+    btn.click();
+    return { aria: btn.getAttribute('aria-expanded'),
+             hidden: document.getElementById(btn.getAttribute('aria-controls')).hidden };
+  });
+  check('C10. 다시 누르면 닫힌다', collapsed.aria === 'false' && collapsed.hidden);
+
+  const kbd = await page.evaluate(() => {
+    const btn = document.querySelectorAll('.pv-pos-hd')[1];
+    btn.focus();
+    const focused = document.activeElement === btn;
+    btn.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    btn.click();                                   // 브라우저 기본 동작과 동일
+    return { focused, aria: btn.getAttribute('aria-expanded') };
+  });
+  check('C11. 키보드 포커스를 받고 Enter로 열린다', kbd.focused && kbd.aria === 'true');
+
+  // 자동 재조회(2분)로 다시 그려도 펼쳐 둔 종목이 닫히지 않는다
+  const afterRerender = await page.evaluate(() => {
+    window.renderPaper();
+    const btns = [...document.querySelectorAll('.pv-pos-hd')];
+    return btns.map(b => b.getAttribute('aria-expanded'));
+  });
+  check('C12. 재렌더 후에도 펼침 상태가 유지된다',
+    afterRerender[1] === 'true' && afterRerender[0] === 'false',
+    JSON.stringify(afterRerender));
+  const fastTap = await page.evaluate(() => {
+    const btn = document.querySelectorAll('.pv-pos-hd')[2];
+    for (let i = 0; i < 7; i++) btn.click();       // 연타 + 중간 재렌더
+    window.renderPaper();
+    const again = document.querySelectorAll('.pv-pos-hd')[2];
+    return { aria: again.getAttribute('aria-expanded'),
+             hidden: document.getElementById(again.getAttribute('aria-controls')).hidden };
+  });
+  check('C13. 연타/재렌더 경합에도 상태가 어긋나지 않는다',
+    (fastTap.aria === 'true') === (fastTap.hidden === false), JSON.stringify(fastTap));
+
+  // ── ⑩ 오늘 거래 ─────────────────────────────────────────────────────────
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+  const mkTrades = (buys, sells) => ({
+    ...COMPACT, openTrades: buys.length, closedTrades: sells.length,
+    recentTrades: [
+      ...buys.map((b, i) => ({
+        status: 'OPEN', symbol: '10000' + i, name: b, entry_price: 1000 * (i + 1),
+        quantity: 10, cost_basis: 10000, current_price: 1000 * (i + 1),
+        market_value: 10000, unrealized_pnl: 0, unrealized_return_pct: 0,
+        entry_business_date: today, detected_at: today + 'T10:05:00+09:00',
+        holding_trading_days: 0, remaining_trading_days: 5 })),
+      ...sells.map((x, i) => ({
+        status: 'CLOSED', symbol: '20000' + i, name: x, entry_price: 1000, exit_price: 1100,
+        quantity: 10, exit_business_date: today, exit_reason: 'CHIEF_SELL',
+        holding_trading_days: 3, gross_return_pct: 10, realized_pnl: 1000 }))
+    ]
+  });
+  const none = await renderWith(page, { ...COMPACT, recentTrades: [
+    { status: 'OPEN', symbol: '005930', name: '어제산종목', entry_price: 100, quantity: 1,
+      cost_basis: 100, current_price: 100, market_value: 100, unrealized_pnl: 0,
+      unrealized_return_pct: 0, entry_business_date: '2026-01-02',
+      holding_trading_days: 3, remaining_trading_days: 2 }], openTrades: 1, closedTrades: 0 });
+  check('T1. 오늘 거래 섹션이 존재한다', none.text.includes('오늘 거래'));
+  check('T2. 매수 0·매도 0을 오류가 아니라 문장으로 말한다',
+    none.text.includes('오늘 새로 가상 매수한 종목이 없어요')
+    && none.text.includes('오늘 종료된 거래가 없어요'));
+  check('T3. 어제 산 보유 종목을 오늘 매수로 세지 않는다',
+    /오늘 거래[\s\S]{0,40}매수 0 · 매도 0/.test(none.text), none.text.slice(0, 200));
+
+  const b1 = await renderWith(page, mkTrades(['가나다전자'], []));
+  check('T4. 오늘 매수 1건이 집계·표시된다',
+    /매수 1 · 매도 0/.test(b1.text) && b1.text.includes('가나다전자'));
+  const bMany = await renderWith(page, mkTrades(
+    ['가전자', '나전자', '다전자', '라전자', '마전자', '바전자', '사전자'], []));
+  check('T5. 매수가 많으면 이름을 다 늘어놓지 않고 "외 N종목"으로 줄인다',
+    /매수 7 · 매도 0/.test(bMany.text) && bMany.text.includes('외 3종목'));
+  check('T6. 전체 보기로 펼칠 수 있다', bMany.html.includes('전체 보기'));
+  const s1 = await renderWith(page, mkTrades([], ['판다전자']));
+  check('T7. 오늘 매도 1건이 상세와 함께 표시된다',
+    /매수 0 · 매도 1/.test(s1.text) && s1.text.includes('판다전자')
+    && s1.text.includes('1,000원 → 1,100원') && s1.text.includes('+10.00%')
+    && s1.text.includes('보유 3거래일') && s1.text.includes('GAEO 판단이 매도 고려로 변경'));
+  check('T8. 매도 표시에 내부 사유 코드가 없다', !/CHIEF_SELL|MAX_HOLDING/.test(s1.html));
+  const both = await renderWith(page, mkTrades(['산종목'], ['판종목', '또판종목']));
+  check('T9. 같은 날 매수·매도가 함께 집계된다',
+    /매수 1 · 매도 2/.test(both.text) && both.text.includes('산종목')
+    && both.text.includes('또판종목'));
+
+  // ── ⑪ 기록(History) 화면 ────────────────────────────────────────────────
+  const HIST = {
+    schemaVersion: 'gaeo_paper_history_v1', reviewVersion: 'paper_review_v1',
+    initialVirtualCash: 10000000, maxHoldingTradingDays: 5,
+    days: [
+      { date: '2026-08-19', lastRecordAt: '12:35', inProgress: true, equity: 9941190,
+        cash: 336945, investedCostBasis: 9663055, markedPositionsValue: 9604245,
+        realizedPnl: 0, unrealizedPnl: -58810, openCount: 10,
+        cumulativeReturnPct: -0.59, dailyChangePct: -0.12, marketChangePct: -0.4,
+        buyCount: 0, sellCount: 1,
+        buys: [],
+        sells: [{ symbol: '072710', name: '농심홀딩스', quantity: 10, entryPrice: 93700,
+          exitPrice: 96000, realizedPnl: 23000, returnPct: 2.45, holdingTradingDays: 3,
+          exitReason: 'GAEO 판단이 「매도 고려」로 변경', exitAt: '11:20' }],
+        skipped: [{ reason: '가상 투자 여력 부족', count: 2 }],
+        contributions: [{ symbol: 'A', name: '가전자', pnl: 5000, returnPct: 1.2 }],
+        review: { version: 'paper_review_v1', inProgress: true, headline: '가상자산 -0.59%',
+          sections: [{ key: 'result', title: '결과',
+            lines: [{ text: '가상자산 9,941,190원 · 시작자금 대비 -0.59%', fact: 'markedEquity' }] },
+            { key: 'impact', title: '주요 영향',
+              lines: [{ text: '가전자 +1.20%가 가장 크게 만회했습니다.', fact: 'largestContributor' }] }] } },
+      { date: '2026-08-18', lastRecordAt: '15:05', inProgress: false, equity: 9934850,
+        cash: 336945, investedCostBasis: 9663055, markedPositionsValue: 9597905,
+        realizedPnl: 0, unrealizedPnl: -65150, openCount: 10,
+        cumulativeReturnPct: -0.65, dailyChangePct: null, marketChangePct: null,
+        buyCount: 2, sellCount: 0,
+        buys: [{ symbol: '072710', name: '농심홀딩스', quantity: 10, entryPrice: 93700,
+          entryAt: '11:05', costBasis: 937000 },
+          { symbol: '034120', name: 'SBS', quantity: 78, entryPrice: 12660,
+            entryAt: '11:05', costBasis: 987480 }],
+        sells: [], skipped: [], contributions: null,
+        review: { version: 'paper_review_v1', inProgress: false, headline: '가상자산 -0.65%',
+          sections: [{ key: 'result', title: '결과',
+            lines: [{ text: '이전 기록일이 없어 일간 변화는 비교하지 않았습니다.',
+              fact: 'noPreviousRecord' }] }] } }
+    ],
+    strategy: { buckets: [
+      { key: 'same_day', label: '당일형', desc: '진입한 날 바로 종료', tradeCount: 0,
+        enough: false, avgReturnPct: null, winRatePct: null },
+      { key: 'swing', label: '스윙', desc: '3~5거래일 보유', tradeCount: 3, enough: false,
+        avgReturnPct: 1.4, winRatePct: 66.7 }],
+      totalClosed: 3, minSample: 20, enough: false, otherCount: 0,
+      unsupported: [{ label: '중기' }, { label: '장기' }],
+      note: '현재 검증 중인 전략은 한 종목을 최대 5거래일까지만 보유합니다.' }
+  };
+  const showHistory = async (payload, day) => page.evaluate(({ h, d }) => {
+    window.PV_HISTORY_SET(h);
+    PV_VIEW = 'history'; PV_DAY = d || null;
+    window.renderPaper();
+    const v = document.getElementById('paperView');
+    return { text: v.innerText, html: v.innerHTML };
+  }, { h: payload, d: day });
+
+  const hist = await showHistory(HIST, null);
+  check('H1. 기록 탭이 날짜 목록을 보여준다',
+    hist.text.includes('8월 19일 모의투자 기록') && hist.text.includes('8월 18일 모의투자 기록'));
+  check('H2. 최근 날짜가 위', hist.text.indexOf('8월 19일') < hist.text.indexOf('8월 18일'));
+  check('H3. 월별로 묶인다', hist.text.includes('2026년 8월'));
+  check('H4. 목록에 자산·성과·거래수·마지막 기록시각이 있다',
+    hist.text.includes('9,941,190원') && hist.text.includes('−0.59%')
+    && hist.text.includes('매수 0 · 매도 1 · 보유 10') && hist.text.includes('마지막 기록 12:35'));
+  check('H5. 오늘은 진행 중으로 표시', hist.text.includes('진행 중'));
+  check('H6. 전략 인사이트가 함께 있다', hist.text.includes('전략 인사이트'));
+  check('H7. 표본 부족이면 우승 전략을 선언하지 않는다',
+    hist.text.includes('최소 20건이 필요') && !/최고|가장 좋은 전략|우수 전략/.test(hist.text));
+  check('H8. 표본 없는 구간은 "기록 축적 중"', hist.text.includes('기록 축적 중'));
+  check('H9. 미지원 구간을 실행 중 전략처럼 보여주지 않는다',
+    hist.text.includes('아직 검증 대상이 아닌 구간'));
+  check('H10. 분석이 매매 규칙을 자동 변경하지 않는다고 밝힌다',
+    hist.text.includes('자동으로 바뀌지 않습니다'));
+
+  const det = await showHistory(HIST, '2026-08-18');
+  check('H11. 날짜를 열면 그날 상세가 나온다', det.text.includes('8월 18일 모의투자 기록'));
+  check('H12. 상세에 자산·현금·투자원금·평가금액·손익·누적·일간이 있다',
+    ['가상자산', '가상현금', '투자원금', '평가금액', '보유 손익', '확정 손익', '누적 성과',
+     '일간 변화', '마지막 기록'].every(k => det.text.includes(k)));
+  check('H13. 첫 기록일의 일간 변화는 0%가 아니라 없음',
+    det.text.includes('—(이전 기록일 없음)'));
+  check('H14. 이날 매수한 종목이 수량·가격·시각과 함께 남는다',
+    det.text.includes('이날 매수한 종목') && det.text.includes('농심홀딩스')
+    && det.text.includes('10주 · 93,700원 · 11:05'));
+  check('H15. 매도 0건이면 그 사실을 명시', det.text.includes('이날 종료된 거래가 없어요'));
+  check('H16. 종료된 날은 "이날의 종합 평가"로 표시', det.text.includes('이날의 종합 평가'));
+  check('H17. 평가 문장이 그대로 렌더된다',
+    det.text.includes('이전 기록일이 없어 일간 변화는 비교하지 않았습니다'));
+  check('H18. 근거 없는 시장 원인을 쓰지 않는다',
+    det.text.includes('기록으로 증명할 수 없는 시장 원인')
+    && !/외국인|금리|실적 발표|시장 심리/.test(det.text));
+  const det19 = await showHistory(HIST, '2026-08-19');
+  check('H19. 진행 중인 날은 "현재까지의 평가"로 표시',
+    det19.text.includes('현재까지의 평가') && det19.text.includes('아직 확정된 결과가 아니에요'));
+  check('H20. 이날 매도 종목이 손익·수익률·보유기간·사유와 함께 남는다',
+    det19.text.includes('93,700원 → 96,000원') && det19.text.includes('+23,000원')
+    && det19.text.includes('+2.45%') && det19.text.includes('보유 3거래일')
+    && det19.text.includes('매도 고려'));
+  check('H21. 진입하지 않은 신호를 쉬운 말로 남긴다',
+    det19.text.includes('가상 투자 여력 부족 2건'));
+  const back = await page.evaluate(() => {
+    document.querySelector('.pv-back').click();
+    return document.getElementById('paperView').innerText;
+  });
+  check('H22. 뒤로 누르면 목록으로 돌아온다',
+    back.includes('8월 19일 모의투자 기록') && back.includes('8월 18일 모의투자 기록'));
+
+  const histFail = await showHistory(null, null);
+  check('H23. 기록을 못 불러와도 fail closed 문구만 나온다',
+    histFail.text.includes('기록을 불러오지 못했습니다'));
+  const stillOk = await renderWith(page, COMPACT);
+  check('H24. 기록이 깨져도 보유 현황은 정상이다',
+    stillOk.text.includes('삼성전자') && stillOk.text.includes('현재 보유 중'));
+  const histEmpty = await showHistory({ ...HIST, days: [] }, null);
+  check('H25. 기록이 비어 있으면 "아직 쌓인 기록이 없어요"',
+    histEmpty.text.includes('아직 쌓인 기록이 없어요'));
+  const histOld = await showHistory({ days: [{ date: '2026-08-18' }] }, null);
+  check('H26. 옛 스키마(필드 없음)에도 깨지지 않는다',
+    histOld.text.includes('8월 18일 모의투자 기록'));
+
+  await renderWith(page, COMPACT);   // 뷰포트 측정 전 보유 현황으로 복귀
 
   check('JS 예외 없음', pageErrors.length === 0, pageErrors.join(' | '));
 
