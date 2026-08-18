@@ -19,74 +19,74 @@ const LATEST_POSTS = [
   "featured": false
  },
  {
-  "id": 48,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-14",
-  "title": "2026년 8월14일 종가, 코스피 닷새째 올라 이번주만 11.5% 급등",
+  "id": 82,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "공모주 락업이 뭐길래, 만기 되면 주가가 흔들릴까",
   "featured": false
  },
  {
-  "id": 47,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-14",
-  "title": "美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유",
+  "id": 81,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "시간외 거래, 정규장 끝나고도 주식을 살 수 있다고",
   "featured": false
  },
  {
-  "id": 46,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-13",
-  "title": "2026년 8월13일 종가, 코스피 4일째 상승했지만 반은 여전히 빨간불",
+  "id": 80,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "인적분할과 물적분할, 왜 물적분할에 주가가 빠질까",
   "featured": false
  },
  {
-  "id": 45,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-12",
-  "title": "2026년 8월12일 종가, 코스피 3.68% 급등했는데 상승 종목은 더 적었던 이유",
+  "id": 79,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "물타기와 불타기, 평단가 관리는 정말 좋은 전략일까",
   "featured": false
  },
  {
-  "id": 44,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-11",
-  "title": "2026년 8월11일 종가, 삼성전자 반등과 방산 급락이 갈린 날",
+  "id": 78,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "동시호가와 VI, 장 시작·마감에 가격이 튀는 이유",
   "featured": false
  },
  {
-  "id": 43,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-10",
-  "title": "2026년 8월10일 종가, 삼성전자는 잠잠한데 코스닥은 왜 7% 뛰었나",
+  "id": 77,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "자사주 매입과 소각, 회사가 제 주식을 사는 이유",
   "featured": false
  },
  {
-  "id": 42,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-07",
-  "title": "2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥",
+  "id": 76,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "우선주와 보통주, 같은 회사인데 가격은 왜 다를까",
   "featured": false
  },
  {
-  "id": 41,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-06",
-  "title": "2026년 8월6일 종가, 반도체 두 종목에 코스피 -4.58% 흔들린 날",
+  "id": 75,
+  "mode": "lesson",
+  "label": "주식공부",
+  "date": "2026-08-18",
+  "title": "복리와 72의 법칙, 장기투자가 강력한 진짜 이유",
   "featured": false
  }
 ];
 const CONTENT_STATS = {
  "news": 49,
  "study": 35,
- "lesson": 72,
+ "lesson": 82,
  "estate": 19,
  "calc": 14
 };
