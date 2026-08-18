@@ -113,27 +113,48 @@ Typography · Size · Weight · Spacing · Alignment · Divider
 
 ## 5. 타이포그래피
 
-### 표준 폰트 (2026-08-16 사이트 전체 통일)
+### 표준 폰트 (2026-08-18 갱신 — 사이트 전체 통일)
 
-모든 공개 화면(index · about · 404 · snap 스냅샷 · 정밀분석 페이지)은 같은 스택을 쓴다:
+모든 공개 화면(index · about · 404 · snap 스냅샷 787개 · 정밀분석 페이지 31개)은
+같은 스택을 쓴다:
 
 ```
-"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,
-"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif
+"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,
+system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif
 ```
 
-- 로딩: jsdelivr `pretendard@v1.3.9` **variable dynamic subset** CSS 한 줄
-  (쓰는 글자 블록만 내려받고 `font-display: swap` 내장 — 버전 고정 필수)
+- 1순위 **Wanted Sans Variable** — 원터(Wanted) 공식 저장소 배포본, SIL OFL 1.1.
+  `assets/fonts/wanted-sans/`에 **self-host**(공식 woff2 서브셋 92개 + `OFL.txt`).
+  불러오기는 `<link rel="stylesheet" href="/assets/fonts/wanted-sans/WantedSansVariable.css">`
+  한 줄. `unicode-range` 서브셋이라 브라우저는 실제로 쓰는 조각(약 13개)만 내려받고,
+  `font-display:swap`이 들어 있어 글자가 안 보이는 구간이 없다.
+- 예비(fallback)로 **Pretendard**를 남겨 둔다. 웹폰트를 못 받아도 인상이 유지되고,
+  실측 결과 두 글꼴 사이 레이아웃 이동(CLS)은 **0px**이었다.
+- ⚠️ 비공식 미러·출처 불명 폰트 파일을 쓰지 않는다. 공식 배포본만.
 - ⚠️ Apple SF Pro 폰트 파일을 저장소에 복사·배포하지 않는다(라이선스).
-  Pretendard가 Apple SD Gothic Neo 호환 설계라 같은 인상을 합법적으로 낸다
 - 새 화면·새 템플릿도 이 스택을 그대로 쓴다. 새 웹폰트를 추가하지 않는다
-- `test_design_contract.py`가 스택·로딩·SF Pro 부재를 검사한다
+- 코드·식별자(`code` `kbd` `samp` `pre`)만 고정폭을 쓴다. 브라우저 기본
+  `monospace`는 기기마다 글꼴이 달라지므로 `--mono` 스택을 못박아 쓴다
+  (기기에 이미 있는 글꼴만 — 새로 내려받는 파일 없음).
+- `test_design_contract.py`가 스택·self-host CSS 로딩·jsdelivr 링크 제거·
+  **발행된 정적 페이지 재생성 여부**·SF Pro 부재를 검사한다.
+  `test_paper_font.js`가 브라우저에서 실제 로드·적용까지 실측한다.
 
 ### 크기·굵기
 
 - 설명문 본문: Desktop 약 13~15px · Mobile 약 12.5~14px
-- 800/900 남발 금지 — 본문 400대 · Label 500~600 · Section 600~650 · Title ~720
+- **굵기는 3단계뿐이다 (2026-08-18 sweep).** 본문 `400` · 라벨 `500` · 제목·강조 `600`.
+  브랜드 로고/히어로만 `800` 예외(전체 3곳). `650` `700` `720` `760` `900` 같은
+  값은 쓰지 않는다 — 화면마다 굵기가 미묘하게 달라 "페이지마다 다른 사람이 만든"
+  인상을 주던 원인이었다(sweep 전 700 이상 1,088곳 → 후 브랜드 2곳).
+- ⚠️ 브라우저 기본 굵기가 새는 것도 막아야 한다. `<b>` `<strong>` `<h1~h6>` `<th>`는
+  선언을 안 하면 UA 기본 `bold`(=700)로 그려진다. 각 화면 CSS 맨 앞에
+  `b,strong{font-weight:600}h1..h6{font-weight:600}th{font-weight:600}`를 둔다.
+- 제목에는 `text-wrap:balance`를 건다. 마지막 줄에 한 단어만 떨어지는
+  고아 줄바꿈을 **글자를 줄이지 않고** 없앤다.
 - 숫자는 `font-variant-numeric: tabular-nums`
+- 날짜·상태처럼 **숫자가 아닌 값**은 큰 지표 자리(20px)에 넣지 않는다.
+  좁은 칸에서 날짜가 중간에 잘린다(성적표 `.sc-stat-txt` 참고).
 
 한국어 줄바꿈 주의: 콘텐츠 컨테이너에는 `overflow-wrap:anywhere`가 필요하다
 (`word-break:keep-all`과 겹치면 `·`로 이어붙인 나열이 뷰포트를 넘친다 — 2026-08-03 실제 사고).
@@ -207,13 +228,29 @@ white typography 중심으로, accent는 매우 제한적으로.
 
 ## 8. 모바일
 
-최소 **375px · 390px · 430px**에서 검증한다.
+최소 **360px · 375px · 390px · 430px**에서 검증한다.
 
 - 가로 넘침 0
 - 버튼·배지 잘림 0
 - 너무 큰 설명문 0
 - 불필요한 빈 공간 0
 - 표가 화면 밖으로 이탈 0
+
+### ⚠️ "가로 스크롤 0"은 합격 기준이 아니다 (2026-08-18 사용자 지적)
+
+글자가 화면 안에 들어가더라도 아래는 전부 불합격이다:
+
+| 불합격 | 고치는 순서 |
+|---|---|
+| 제목이 3줄 이상으로 무너짐 | ① 문구를 짧게 ② 칸 폭 확보 ③ **마지막에만** 크기 미세 조정 |
+| 마지막 줄에 한 단어만 남음(고아) | `text-wrap:balance` — 크기는 건드리지 않는다 |
+| 탭·버튼 글자가 2줄로 접힘 | 라벨을 짧게 / 칸 폭 확보 |
+| 좁은 칸에 과도하게 큰 글자 | 그 값이 정말 지표 단계인지 다시 본다 |
+
+⚠️ **"줄바꿈을 없애려고 글자를 무조건 작게" 하는 해결은 금지한다.**
+
+`test_typography_quality.js`가 15개 화면 × 360·390·1280px에서 위 7가지를 기계로
+검사한다(줄 수는 높이 나눗셈이 아니라 실제로 그려진 줄 사각형으로 센다).
 
 ⚠️ 정보를 **삭제하기보다 재배치하거나 접는다.** 모바일이라고 내용을 빼지 않는다.
 
@@ -247,7 +284,9 @@ white typography 중심으로, accent는 매우 제한적으로.
 | 성적표 Summary Grid | ✅ 2026-08-16 적용 (단일 컨테이너 + 칸 구분선) |
 | 모델 대시보드 Comparison Panel | ✅ Priority 2에서 단일 패널·행 구조로 적용 |
 | 종료 실험 표시(종합판단 v3) | ✅ 2026-08-16 「과거 실험 기록」 접힌 섹션으로 이동 |
-| 사이트 전체 폰트 통일 | ✅ 2026-08-16 Pretendard Variable 표준 스택 |
+| 사이트 전체 폰트 통일 | ✅ 2026-08-18 Wanted Sans Variable self-host (index·about·404·snap 787·정밀분석 31 전부) |
+| 굵기 3단계 통일 | ✅ 2026-08-18 (700+ 1,088곳 → 브랜드 2곳) |
+| 줄바꿈 품질 계약 | ✅ 2026-08-18 `test_typography_quality.js` (15화면 × 3뷰포트) |
 | about.html accent 정리 | ⏳ 부분 적용 (문구·폰트 로딩만 갱신 — accent 정리는 남음) |
 
 다음 작업자는 위 ⏳ 항목부터 이어서 하면 된다. **새 기능을 추가하면서
