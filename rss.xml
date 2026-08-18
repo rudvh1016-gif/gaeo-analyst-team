@@ -5,7 +5,7 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Tue, 18 Aug 2026 11:38:14 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 18 Aug 2026 18:39:59 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
   <item>
     <title>2026년 8월18일 종가, 코스피 오전 강세 반납하고 코스닥은 3.5% 급락</title>
@@ -13,6 +13,86 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/49.html</guid>
     <category>뉴스분석</category>
     <description>코스피가 1.55% 내린 6,869.83, 코스닥은 3.52% 내린 834.20으로 마감했어요. 오전 한때 7,216.62까지 올랐다가 점심 무렵 하락으로 돌아선 전강후약 장세였고, 코스피에서 기관이 1조1,926억원을 순매도했어요. 598종목 중 489개가 내린 넓은 하락 속에 보험과 물류·운송만 업종 평균이 플러스였고, 그동안 많이 오른 2차전지·로봇은 6% 넘게 밀렸어요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>공모주 락업이 뭐길래, 만기 되면 주가가 흔들릴까</title>
+    <link>https://gaeoteam.com/snap/lesson/82.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/82.html</guid>
+    <category>주식공부</category>
+    <description>락업(보호예수)은 공모주를 받은 기관이나 최대주주가 일정 기간 주식을 못 팔게 묶는 제도예요. 기관 확약은 15일부터 6개월까지, 최대주주 의무보유는 통상 6개월인데, 만기일엔 물량 부담으로 주가가 흔들리기도 해요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>시간외 거래, 정규장 끝나고도 주식을 살 수 있다고</title>
+    <link>https://gaeoteam.com/snap/lesson/81.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/81.html</guid>
+    <category>주식공부</category>
+    <description>정규장이 끝나도 장전·장후 시간외종가매매, 시간외단일가매매로 주식을 사고팔 수 있어요. 시간외단일가는 당일 종가 대비 ±10% 안에서 10분 단위로 체결되지만, 참여자가 적어 가격이 쉽게 흔들려요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>인적분할과 물적분할, 왜 물적분할에 주가가 빠질까</title>
+    <link>https://gaeoteam.com/snap/lesson/80.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/80.html</guid>
+    <category>주식공부</category>
+    <description>인적분할은 주주가 두 회사 주식을 지분율대로 나눠 받고, 물적분할은 새 회사 주식을 모회사가 그대로 가져가요. 알짜 사업부가 자회사로 빠지고 나중에 쪼개기 상장까지 이어질 수 있어 물적분할엔 주가가 하락하는 경우가 많아요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>물타기와 불타기, 평단가 관리는 정말 좋은 전략일까</title>
+    <link>https://gaeoteam.com/snap/lesson/79.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/79.html</guid>
+    <category>주식공부</category>
+    <description>물타기는 주가 하락 시 추가 매수로 평단가를 낮추는 전략이에요. 평단가가 낮아져도 손실 금액 자체는 줄지 않고, 주가가 더 떨어지면 투입한 돈만 늘어나 손실이 커질 수 있다는 함정을 숫자로 짚었어요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>동시호가와 VI, 장 시작·마감에 가격이 튀는 이유</title>
+    <link>https://gaeoteam.com/snap/lesson/78.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/78.html</guid>
+    <category>주식공부</category>
+    <description>동시호가는 장 시작·마감 전후로 주문을 모아 한 번에 체결시켜 시가·종가를 정하는 방식이에요. VI(변동성완화장치)는 정적 ±10%, 동적 코스피200 ±3%·그 외 ±6% 기준을 넘으면 2분간 매매를 멈추는 안전장치예요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>자사주 매입과 소각, 회사가 제 주식을 사는 이유</title>
+    <link>https://gaeoteam.com/snap/lesson/77.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/77.html</guid>
+    <category>주식공부</category>
+    <description>자사주 매입은 회사가 제 주식을 사들이는 것, 소각은 그 주식을 아예 없애는 거예요. 소각까지 이어지면 발행주식수가 줄어 주당순이익이 늘어나는 효과가 있어 시장은 대체로 호재로 받아들여요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>우선주와 보통주, 같은 회사인데 가격은 왜 다를까</title>
+    <link>https://gaeoteam.com/snap/lesson/76.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/76.html</guid>
+    <category>주식공부</category>
+    <description>우선주는 배당을 먼저 더 받는 대신 의결권이 없는 주식이에요. 종목명 뒤에 「우」가 붙고, 의결권 프리미엄이 빠지면서 보통주보다 낮은 가격에 거래되는 「우선주 할인」이 흔하게 나타나요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>복리와 72의 법칙, 장기투자가 강력한 진짜 이유</title>
+    <link>https://gaeoteam.com/snap/lesson/75.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/75.html</guid>
+    <category>주식공부</category>
+    <description>복리는 원금뿐 아니라 이자에도 이자가 붙는 방식이에요. 72를 연 수익률로 나누면 원금이 2배 되는 데 걸리는 기간을 암산으로 알 수 있고, 같은 적립액도 투자 기간이 길수록 최종 금액 차이가 기하급수적으로 벌어져요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>액면분할과 액면병합, 주식 수만 바뀌는데 왜 반응할까</title>
+    <link>https://gaeoteam.com/snap/lesson/74.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/74.html</guid>
+    <category>주식공부</category>
+    <description>액면분할은 주식 1주를 여러 주로 쪼개고, 액면병합은 여러 주를 1주로 합치는 거예요. 삼성전자가 2018년 1주를 50주로 쪼개 주가를 250만원대에서 5만원대로 낮춘 사례로 원리를 정리했어요.</description>
+    <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>시가총액이 뭐길래, 주가보다 먼저 봐야 하는 진짜 이유</title>
+    <link>https://gaeoteam.com/snap/lesson/73.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/73.html</guid>
+    <category>주식공부</category>
+    <description>시가총액은 주가 곱하기 발행주식수로 계산하는, 회사 전체의 몸값이에요. 주가만 보면 회사 크기를 거꾸로 오해하기 쉬운데, 코스피200 편입이나 대형주 구분도 전부 시가총액 기준으로 정해져요.</description>
     <pubDate>Tue, 18 Aug 2026 00:00:00 GMT</pubDate>
   </item>
   <item>
@@ -326,86 +406,6 @@
     <category>뉴스분석</category>
     <description>삼성전자가 오늘 2분기 확정 실적을 공시했어요. 매출 171조원, 영업이익 89조4천억원으로 3분기 연속 역대 최대 기록을 세웠어요. 확정된 헤드라인 숫자와 아직 컨퍼런스콜에서 확인해야 할 세부 내용을 구분해서 정리했어요.</description>
     <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>마이크로소프트 2분기 실적, 애저 43% 성장인데 주가는 왜 잠잠해졌을까</title>
-    <link>https://gaeoteam.com/snap/news/26.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/26.html</guid>
-    <category>뉴스분석</category>
-    <description>마이크로소프트가 2분기 매출 900억 달러, 애저 클라우드 43% 성장이라는 깜짝 실적을 냈지만, 1,900억 달러에 달하는 연간 설비투자 계획이 함께 공개되며 주가 상승폭이 줄었어요. 실적 세부 내용과 한국 반도체에 주는 의미를 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>새벽 3시 FOMC, 금리는 그대로인데 말투가 매파적이었던 이유</title>
-    <link>https://gaeoteam.com/snap/news/25.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/25.html</guid>
-    <category>뉴스분석</category>
-    <description>오늘 새벽 미국 연준이 기준금리를 3.50~3.75%로 동결했지만 9대 3 표결과 워시 의장의 발언이 매파적으로 읽히면서 미국 증시가 급락했어요. 이번 주 내내 흔들린 한국 반도체 시장에 어떤 영향을 줄지, 개장 전 확인해야 할 점을 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>RSI·MACD·볼린저밴드 완전정복: 보조지표 3인방 제대로 읽는 법</title>
-    <link>https://gaeoteam.com/snap/lesson/58.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/58.html</guid>
-    <category>주식공부</category>
-    <description>종목분석 글마다 나오는 &quot;RSI 과매도&quot;, &quot;MACD 골든크로스&quot; 같은 표현이 정확히 뭘 뜻하는지, 계산법부터 실전 함정까지 초보자 눈높이로 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>금 투자 완전정복, KRX 금시장부터 골드바·금 ETF까지 세금 비교</title>
-    <link>https://gaeoteam.com/snap/lesson/57.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/57.html</guid>
-    <category>주식공부</category>
-    <description>사상 최고치 경신 중인 금값, 개인이 투자하는 5가지 방법과 세금 차이를 초보자 눈높이로 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>연말정산 완전정복, 13월의 월급 제대로 받는 법</title>
-    <link>https://gaeoteam.com/snap/lesson/56.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/56.html</guid>
-    <category>주식공부</category>
-    <description>초보자도 이해하는 연말정산 개념부터 신용카드, 연금저축, 의료비 공제까지 항목별 한도와 절세 포인트를 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>상속세와 증여세 기초, 초보자를 위한 완벽 가이드</title>
-    <link>https://gaeoteam.com/snap/lesson/55.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/55.html</guid>
-    <category>주식공부</category>
-    <description>상속세, 증여세 세율과 공제 한도, 신고 기한까지 초보자 눈높이에서 예시로 쉽게 풀어드려요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>2000년 닷컴버블, 인터넷 신화가 무너진 날</title>
-    <link>https://gaeoteam.com/snap/lesson/54.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/54.html</guid>
-    <category>주식공부</category>
-    <description>나스닥이 5048에서 78% 폭락한 2000년 닷컴버블, 그 시작과 붕괴 과정을 숫자로 되짚고 AI 랠리와 비교해봐요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>급등락 반복장에서 살아남기: 전조증상 파악하고 매수·매도 타이밍 잡는 법</title>
-    <link>https://gaeoteam.com/snap/lesson/53.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/53.html</guid>
-    <category>주식공부</category>
-    <description>개그맨 황현희의 &quot;지금 주식시장 안 들어간다&quot; 발언을 계기로, 급등락 반복장의 전조증상과 매수·매도 타이밍 잡는 법, 개별종목이 어려울 때 대안이 되는 국내외 ETF를 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전세보증보험(HUG) 가입법, 전세금 지키는 마지막 안전장치</title>
-    <link>https://gaeoteam.com/snap/estate/16.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/estate/16.html</guid>
-    <category>부동산공부</category>
-    <description>계약 끝나고 집주인이 보증금을 안 돌려줄 때를 대비하는 HUG 전세보증보험, 가입조건부터 보증료·이행절차까지 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코카콜라 2분기 실적 서프라이즈로 사상 최고가 — 반도체 폭락장에 홀로 오르는 이유</title>
-    <link>https://gaeoteam.com/snap/news/24.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/24.html</guid>
-    <category>뉴스분석</category>
-    <description>코카콜라가 2026년 2분기 실적에서 매출·EPS·판매량을 모두 시장 예상보다 웃돌며 사상 최고가를 새로 썼어요. 같은 시기 국내 증시는 반도체 급락으로 코스피가 이틀 연속 사이드카까지 발동될 만큼 흔들렸는데, 이 엇갈린 흐름 뒤에 있는 &apos;디펜시브 로테이션&apos;과 국내 식음료주 동반 강세까지 함께 짚어봤어요.</description>
-    <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
