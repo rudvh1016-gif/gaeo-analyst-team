@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-18T04:46:56.171461+00:00",
+ "generatedAt": "2026-08-18T05:29:33.231104+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -17,7 +17,7 @@ const MODEL_SCOREBOARD = {
     "GAEO_COVERAGE_V1_500": {
      "accuracy": 51.5,
      "accuracyCI95": [
-      45.1,
+      44.9,
       57.7
      ],
      "actionDistribution": {
@@ -27,9 +27,9 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 871,
-      "marketRelativeMeanReturn": -0.6,
-      "meanReturn": -0.97,
-      "medianReturn": -0.92,
+      "marketRelativeMeanReturn": -0.59,
+      "meanReturn": -0.96,
+      "medianReturn": -0.88,
       "precision": 42.5
      },
      "directionalAccuracy": 51.9,
@@ -43,7 +43,7 @@ const MODEL_SCOREBOARD = {
       "marketRelativeMeanReturn": 0.02,
       "meanReturn": 0.51,
       "medianReturn": 0.2,
-      "precision": 51.2
+      "precision": 51.1
      },
      "matured": 14457,
      "overallAccuracy": 51.5,
@@ -63,7 +63,7 @@ const MODEL_SCOREBOARD = {
     "PRE_HOTFIX_BASE": {
      "accuracy": 51.5,
      "accuracyCI95": [
-      45.1,
+      44.9,
       57.7
      ],
      "actionDistribution": {
@@ -73,9 +73,9 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 871,
-      "marketRelativeMeanReturn": -0.6,
-      "meanReturn": -0.97,
-      "medianReturn": -0.92,
+      "marketRelativeMeanReturn": -0.59,
+      "meanReturn": -0.96,
+      "medianReturn": -0.88,
       "precision": 42.5
      },
      "directionalAccuracy": 51.9,
@@ -89,7 +89,7 @@ const MODEL_SCOREBOARD = {
       "marketRelativeMeanReturn": 0.02,
       "meanReturn": 0.51,
       "medianReturn": 0.2,
-      "precision": 51.2
+      "precision": 51.1
      },
      "matured": 14457,
      "overallAccuracy": 51.5,
