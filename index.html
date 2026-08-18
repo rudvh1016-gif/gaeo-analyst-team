@@ -1795,6 +1795,50 @@
   .dart-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .dart-item small{flex:none;color:var(--t3);font-size:11px;font-variant-numeric:tabular-nums}
   .dart-note{margin:7px 0 0;color:var(--t3);font-size:11px;line-height:1.5}
+
+  /* 📄 오늘의 공시(홈) — 제목만 훑는 목록. 카드를 겹치지 않고 구분선으로만 나눈다. */
+  .dart-board{margin-top:18px;background:var(--paper);border-radius:var(--gaeo-radius-md);
+    padding:22px 24px 18px;box-shadow:var(--shadow-sm)}
+  .dart-board[hidden]{display:none}
+  .db-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .db-title{margin:0;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+  .db-kicker{margin-left:8px;color:var(--t3);font-size:11px;font-weight:500;letter-spacing:0}
+  .db-count{flex:none;color:var(--t3);font-size:11.5px;font-variant-numeric:tabular-nums}
+  .db-list{margin:0;padding:0;list-style:none}
+  .db-item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:10px;
+    padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .db-item:last-child{border-bottom:0}
+  .db-item:hover .db-nm,.db-item:focus-visible .db-nm{text-decoration:underline}
+  .db-main{min-width:0}
+  .db-nm{font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .db-tt{display:block;margin-top:3px;color:var(--t2);font-size:12px;line-height:1.5;
+    word-break:keep-all;overflow-wrap:anywhere}
+  .db-meta{flex:none;color:var(--t3);font-size:11px;font-variant-numeric:tabular-nums;text-align:right}
+  .db-axis{display:block;margin-top:3px;color:var(--t3);font-size:10.5px;font-weight:500}
+  .db-fix{color:var(--t3);font-size:10.5px;font-weight:500}
+  .db-pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
+  .db-pg{border:1px solid var(--line);background:var(--paper);color:var(--t2);
+    border-radius:9px;padding:7px 13px;font:inherit;font-size:12px;font-weight:500;cursor:pointer}
+  .db-pg:hover:not(:disabled){background:var(--gaeo-canvas)}
+  .db-pg:disabled{opacity:.4;cursor:default}
+  .db-page{color:var(--t3);font-size:11.5px;font-variant-numeric:tabular-nums}
+  .db-note{margin:12px 0 0;color:var(--t3);font-size:11px;line-height:1.55}
+  .db-empty{padding:18px 0;color:var(--t3);font-size:12.5px}
+
+  /* 📄 분석가 카드에 붙는 공시 — 그 분석가가 보는 축에 해당하는 공시만 매칭해 보여준다. */
+  .dart-match{margin-top:14px;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
+    background:var(--gaeo-canvas)}
+  .dm-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px}
+  .dm-head b{font-size:12px;font-weight:600;color:var(--ink)}
+  .dm-head span{color:var(--t3);font-size:10.5px}
+  .dm-item{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    padding:5px 0;font-size:12px;color:var(--t2);line-height:1.5}
+  .dm-item span{min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+  .dm-item small{flex:none;color:var(--t3);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .dm-note{margin:6px 0 0;color:var(--t3);font-size:10.5px;line-height:1.5}
+  html.gdark .dart-board,html.gdark .dart-match{background:var(--paper)}
+  html.gdark .dart-match{background:rgba(255,255,255,.03)}
   @media(max-width:700px){
     .vmetric{width:calc(50% - 4px);margin-right:8px;margin-bottom:8px;padding:11px 12px}
     .vmetric:nth-child(2n){margin-right:0}
@@ -4236,6 +4280,23 @@
         <p class="gr-lead">레이더 결과를 불러오고 있어요.</p>
       </div>
     </section>
+
+    <!-- 📄 오늘의 공시 — DART(금융감독원 전자공시)에서 자동 수집한 추적 종목의 오늘 공시.
+         홈에서는 "무슨 공시가 있었는지" 제목만 훑고, 자세한 내용은 해당 종목분석
+         화면(분석가별 근거 · 종합 판단)에서 확인하는 구조다. 한 장에 5건씩 넘겨 본다. -->
+    <section class="dart-board" id="dartBoard" aria-labelledby="dartBoardTitle" hidden>
+      <div class="db-head">
+        <h2 class="db-title" id="dartBoardTitle">오늘의 공시<span class="db-kicker">DART 자동 수집</span></h2>
+        <span class="db-count" id="dartBoardCount"></span>
+      </div>
+      <ol class="db-list" id="dartBoardList" aria-live="polite"></ol>
+      <div class="db-pager" id="dartBoardPager" hidden>
+        <button class="db-pg" id="dartPrev" type="button" aria-label="이전 공시 목록">‹ 이전</button>
+        <span class="db-page" id="dartPageLabel" aria-live="polite"></span>
+        <button class="db-pg" id="dartNext" type="button" aria-label="다음 공시 목록">다음 ›</button>
+      </div>
+      <p class="db-note">금융감독원 전자공시(DART)에서 자동으로 모은 원문 제목이에요. 공시는 참고 정보이며 매수·매도 판단을 바꾸는 점수로는 쓰지 않습니다.</p>
+    </section>
     <div class="ad-slot ad-slot-home">
       <span class="ad-label">광고</span>
       <span class="ad-status">광고를 불러오는 중이에요.</span>
@@ -4567,6 +4628,9 @@ window.GaeoFeatures=(()=>{
     changelog:['changelog.js'],
     history:['history.js','price_history.js'],
     auto:['auto_analysis.js'],
+    // 📄 홈 "오늘의 공시" 위젯 전용 소형 스냅샷(수십 KB). auto_analysis.js(3MB)를
+    //    홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이라, 첫 화면을 느리게 하지 않는다.
+    dartToday:['dart_today.js'],
     // 📚 "정밀분석 기록" 탭을 실제로 열 때만 받는다(대부분의 종목엔 해당 없음).
     archive:['analysis_archive.js'],
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
@@ -9482,6 +9546,155 @@ function renderRadarDetail(code){
 window.renderGaeoRadar=renderGaeoRadar;
 try{ renderGaeoRadar(); }catch(e){ console.warn('radar render', e); }
 
+/* ─── 📄 공시 → 분석가 매칭 규칙 (최상위 스코프) ────────────────────────────
+   홈 위젯(renderDartBoard)과 종목 화면(dartMatchHTML)이 **같은 규칙**을 써야
+   두 화면의 분류가 어긋나지 않는다. 그래서 규칙은 최상위에 한 벌만 둔다. */
+const DART_AXIS_RULES=[
+  {axis:'risk', label:'정정·해명',
+   re:/정정|해명|불성실공시|소송|감사의견|관리종목|거래정지|상장폐지|조회공시/},
+  {axis:'flow', label:'지분·주식 수',
+   re:/대량보유|특정증권등소유|자기주식|자사주|주주명부|주주총회|의결권|최대주주|스톡옵션|주식매수선택권/},
+  {axis:'diana', label:'실적·자금·계약',
+   re:/보고서|실적|결산|배당|증자|사채|합병|분할|양수도|취득|처분|투자판단|공급계약|수주|설명회|IR|기업가치|임상|승인/}
+];
+const DART_AXIS_NAME={diana:'재무',flow:'수급',risk:'리스크'};
+/* 한국어 조사 — 받침이 있으면 '과', 없으면 '와'. ('수급와' 같은 어색한 표기를 막는다) */
+function josaGwa(word){
+  const ch=String(word||'').trim().slice(-1);
+  const code=ch.charCodeAt(0);
+  if(!(code>=0xAC00&&code<=0xD7A3)) return '와';      // 한글 음절이 아니면 기본값
+  return ((code-0xAC00)%28)?'과':'와';                 // 종성이 있으면 '과'
+}
+function dartAxisOf(name){
+  const t=String(name||'');
+  for(const r of DART_AXIS_RULES) if(r.re.test(t)) return r;
+  return {axis:'diana', label:'기업 정보'};
+}
+/* 오늘(=수집 기준일) 공시를 종목 구분 없이 한 줄씩 펼쳐 최신순으로 모은다. */
+function dartTodayItems(){
+  // ① 소형 스냅샷(dart_today.js)이 있으면 그걸 쓴다 — 홈에서 3MB를 받지 않기 위한 경로다.
+  const snap=(typeof DART_TODAY!=='undefined'&&DART_TODAY)?DART_TODAY:
+    ((typeof window!=='undefined'&&window.DART_TODAY)||null);
+  if(snap&&Array.isArray(snap.items)){
+    return snap.items.map(it=>{
+      const ax=dartAxisOf(it.title);
+      return {code:it.code, name:it.name||it.code, title:it.title,
+        receiptDate:it.receiptDate||'', isCorrection:!!it.isCorrection,
+        detectedAt:it.detectedAt||'', axis:ax.axis, axisLabel:ax.label};
+    });
+  }
+  // ② 스냅샷이 아직 없으면(구버전 배포 등) 이미 받아 둔 자동분석에서 직접 만든다.
+  const auto=(typeof window.GaeoUseAuto==='function')?window.GaeoUseAuto():null;
+  if(!auto||!auto.stocks) return [];
+  const out=[];
+  for(const code in auto.stocks){
+    const d=auto.stocks[code]&&auto.stocks[code].dart;
+    if(!d||!Array.isArray(d.items)) continue;
+    d.items.forEach(it=>{
+      if(!it||!it.name) return;
+      const ax=dartAxisOf(it.name);
+      out.push({code, name:(STOCKS[code]&&STOCKS[code].name)||code,
+        title:String(it.name).replace(/\s+/g,' ').trim(),
+        receiptDate:it.receiptDate||'', isCorrection:!!it.isCorrection,
+        detectedAt:it.detectedAt||'', axis:ax.axis, axisLabel:ax.label});
+    });
+  }
+  out.sort((a,b)=>String(b.detectedAt).localeCompare(String(a.detectedAt))
+    ||String(a.name).localeCompare(String(b.name)));
+  return out;
+}
+
+/* 분석가 카드용 — 그 분석가 축에 해당하는 공시만 골라 보여준다. 없으면 아무것도 안 그린다
+   ("공시 없음"은 "이슈 없음"이 아니므로 없다고 단정하는 문구를 만들지 않는다). */
+function dartMatchHTML(code, axis){
+  const auto=(typeof window.GaeoUseAuto==='function')?window.GaeoUseAuto():null;
+  const d=auto&&auto.stocks?(auto.stocks[code]||{}).dart:null;
+  if(!d||!Array.isArray(d.items)||!d.items.length) return '';
+  const hits=d.items.filter(it=>it&&it.name&&dartAxisOf(it.name).axis===axis);
+  if(!hits.length) return '';
+  const rows=hits.slice(-3).reverse().map(it=>{
+    const r=String(it.receiptDate||'');
+    const day=r.length===8?`${r.slice(4,6)}.${r.slice(6,8)}`:'';
+    return `<div class="dm-item"><span>${esc(String(it.name).replace(/\s+/g,' ').trim())}</span>`
+      +`<small>${day}${it.isCorrection?' · 정정':''}</small></div>`;
+  }).join('');
+  return `<div class="dart-match">
+    <div class="dm-head"><b>${esc(DART_AXIS_NAME[axis]||'')}${josaGwa(DART_AXIS_NAME[axis]||'')} 관련된 공식 공시</b>`
+    +`<span>${hits.length}건${d.count>hits.length?` / 전체 ${d.count}건`:''}</span></div>
+    ${rows}
+    <p class="dm-note">금융감독원 전자공시(DART) 원문 제목이에요. 참고 정보이며 이 분석가의 점수에는 반영되지 않습니다.</p>
+  </div>`;
+}
+
+/* ── 📄 오늘의 공시(홈) — 제목만 훑는 목록, 한 장에 5건 ────────────────────────
+   자세한 내용은 그 종목의 분석 화면(분석가별 근거 · 종합 판단)에서 축별로 매칭해
+   보여주므로, 여기서는 "무슨 공시가 있었나"만 빠르게 넘겨 볼 수 있게 한다.
+   항목을 누르면 해당 종목 분석으로 바로 이동한다. */
+const DART_PAGE_SIZE=5;
+let DART_PAGE=0;
+function renderDartBoard(){
+  const box=document.getElementById('dartBoard');
+  const list=document.getElementById('dartBoardList');
+  const pager=document.getElementById('dartBoardPager');
+  const cnt=document.getElementById('dartBoardCount');
+  const label=document.getElementById('dartPageLabel');
+  if(!box||!list) return;
+  let items=[];
+  try{ items=dartTodayItems(); }catch(e){ items=[]; }
+  // 공시가 한 건도 없는 날은 "공시 없음"을 단정하지 않고 섹션 자체를 숨긴다.
+  if(!items.length){ box.hidden=true; return; }
+  box.hidden=false;
+  const pages=Math.max(1,Math.ceil(items.length/DART_PAGE_SIZE));
+  if(DART_PAGE>=pages) DART_PAGE=pages-1;
+  if(DART_PAGE<0) DART_PAGE=0;
+  const from=DART_PAGE*DART_PAGE_SIZE;
+  const page=items.slice(from,from+DART_PAGE_SIZE);
+  if(cnt) cnt.textContent=`${items.length}건`;
+  list.innerHTML=page.map(it=>{
+    const r=String(it.receiptDate||'');
+    const day=r.length===8?`${r.slice(4,6)}.${r.slice(6,8)}`:'';
+    return `<li class="db-item" data-go="${esc(it.name)}" data-code="${esc(it.code)}" tabindex="0" role="link"`
+      +` aria-label="${esc(it.name)} 공시: ${esc(it.title)} — 종목분석으로 이동">`
+      +`<span class="db-main"><span class="db-nm">${esc(it.name)}</span>`
+      +`<span class="db-tt">${esc(it.title)}${it.isCorrection?' <span class="db-fix">· 정정</span>':''}</span></span>`
+      +`<span class="db-meta">${esc(day)}<span class="db-axis">${esc(it.axisLabel)}</span></span></li>`;
+  }).join('');
+  if(pager){
+    pager.hidden=pages<=1;
+    if(label) label.textContent=`${DART_PAGE+1} / ${pages}`;
+    const prev=document.getElementById('dartPrev'), next=document.getElementById('dartNext');
+    if(prev) prev.disabled=DART_PAGE<=0;
+    if(next) next.disabled=DART_PAGE>=pages-1;
+  }
+}
+(function(){
+  const prev=document.getElementById('dartPrev'), next=document.getElementById('dartNext');
+  if(prev) prev.onclick=()=>{ DART_PAGE--; renderDartBoard(); };
+  if(next) next.onclick=()=>{ DART_PAGE++; renderDartBoard(); };
+  const list=document.getElementById('dartBoardList');
+  // 이동은 사이트의 기존 방식(jumpToStock)을 그대로 쓴다 — 종목명으로 검색창을 채우고
+  // 단일 분석 모드로 넘어가는 동작이라 다른 위젯(캘린더·변화 보드)과 완전히 같다.
+  const go=el=>{ const row=el&&el.closest?el.closest('.db-item'):null;
+    const name=row&&row.dataset.go;
+    if(!name) return;
+    try{ jumpToStock(name); if(typeof SFX!=='undefined') SFX.click(); }catch(e){ console.warn('dart go', e); } };
+  if(list){
+    list.addEventListener('click', e=>go(e.target));
+    list.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(e.target); } });
+  }
+})();
+window.renderDartBoard=renderDartBoard;
+/* 소형 스냅샷을 받아온 뒤 한 번 그린다. 첫 페인트를 막지 않도록 화면이 한가해진 뒤에
+   내려받고(12KB 남짓), 실패해도 홈의 다른 부분에는 영향을 주지 않는다. */
+(function(){
+  const draw=()=>{ try{ renderDartBoard(); }catch(e){ console.warn('dart board render', e); } };
+  draw();                                    // 이미 로드돼 있으면 즉시
+  const load=()=>{ if(!window.GaeoFeatures) return;
+    GaeoFeatures.load('dartToday').then(draw).catch(()=>{}); };
+  if('requestIdleCallback' in window) requestIdleCallback(load,{timeout:2500});
+  else setTimeout(load,1200);
+})();
+
 // ---------- 효과음 (WebAudio 합성 — 파일 불필요) ----------
 let AC=null, soundOn=false;
 function tone(f0,f1,dur,type,vol,delay=0){
@@ -10226,6 +10439,12 @@ function fillCard(a,res,code){
     // DIANA·QUANT·FLOW — "결론 먼저 → 핵심 숫자 → 쉬운 해석 → 주의점" 구조로 재조립
     fx.innerHTML=analystCardBodyHTML(a.id,code,res,a.color);
   }
+  // 📄 이 분석가 축에 해당하는 공식 공시를 카드 아래에 붙인다(재무·수급만 해당).
+  //    기술(TARO)·확률통계(QUANT)는 공시로 설명되는 축이 아니라 붙이지 않는다.
+  if(a.id==='diana'||a.id==='flow'){
+    const dm=dartMatchHTML(code,a.id);
+    if(dm){ const holder=document.createElement('div'); holder.innerHTML=dm; fx.after(holder.firstElementChild); }
+  }
   if(a.id==='nova'&&Array.isArray(res.sources)&&res.sources.length){
     const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const holder=document.createElement('div'); holder.className='nova-src';
@@ -10271,6 +10490,11 @@ function renderRiskCard(code,data){
   // state-risk/note-risk가 DOM에 먼저 들어간 뒤에 채워야 analystCardBodyHTML의
   // getElementById('state-risk'/'note-risk')가 요소를 찾을 수 있다.
   document.getElementById('fx-risk').innerHTML=analystCardBodyHTML('risk',code,{findings},RISK_COLOR);
+  // 📄 정정·해명 공시는 "앞서 낸 정보가 흔들린" 신호라 리스크 카드에 매칭해 붙인다.
+  { const dm=dartMatchHTML(code,'risk');
+    if(dm){ const fxr=document.getElementById('fx-risk');
+      const holder=document.createElement('div'); holder.innerHTML=dm;
+      fxr.after(holder.firstElementChild); } }
   countUp(document.getElementById('sc-risk'),score,750);
   const bar=document.getElementById('bar-risk');
   if(bar){ bar.style.background=RISK_COLOR; requestAnimationFrame(()=>{bar.style.width=Math.max(2,score)+'%';}); }
