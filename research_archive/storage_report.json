@@ -1,19 +1,27 @@
 {
- "asof": "2026-08-17",
+ "asof": "2026-08-18",
  "compressedBytesToday": 0,
- "compressedToday": [],
- "compressionRatio": null,
- "dailyGrowthAverageBytes": 4227021,
- "estimated30dBytes": 126810630,
- "estimated365dBytes": 1542862665,
- "estimated90dBytes": 380431890,
+ "compressedToday": [
+  {
+   "compressedBytes": 63191,
+   "compressionRatio": 0.0149,
+   "day": "2026-08-17",
+   "rawBytes": 4226985,
+   "recordCount": 598,
+   "status": "OK"
+  }
+ ],
+ "compressionRatio": 0.0149,
+ "dailyGrowthAverageBytes": 63191,
+ "estimated30dBytes": 1895730,
+ "estimated365dBytes": 23064715,
+ "estimated90dBytes": 5687190,
  "integrityErrors": [],
- "newRecordsToday": 598,
+ "newRecordsToday": 0,
  "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
  "observedDays": 1,
- "projectedDailyBytes": 4227021,
- "rawBytesToday": 4227021,
- "status": "STORAGE_MIGRATION_RECOMMENDED",
- "statusReason": "현재 속도면 1년에 약 1.4GB. Git 저장소 안에 두기엔 큰 규모라 별도 저장소 분리를 검토할 시점이다.",
- "totalArchiveBytes": 4227021
+ "projectedDailyBytes": 63191,
+ "rawBytesToday": 0,
+ "status": "OK",
+ "totalArchiveBytes": 63191
 }
