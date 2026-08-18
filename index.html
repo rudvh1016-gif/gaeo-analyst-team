@@ -1134,9 +1134,53 @@
   .pv-meta dt{font-size:11.5px;color:var(--faint)}
   .pv-meta dd{margin:0;font-size:11.5px;color:var(--t3);font-variant-numeric:tabular-nums;
     overflow-wrap:anywhere}
-  /* 핵심 요약 — KPI 카드 4개가 아니라 「한 줄의 띠 + 얇은 세로 구분선」 */
+  /* 포트폴리오 전체 — 「가장 큰 값 하나 + 그 값의 구성」을 한 덩어리로 읽힌다.
+     카드가 아니라 위아래 hairline 하나로만 구획한다. */
+  .pv-port{border-top:1px solid var(--line);padding:20px 0 19px}
+  .pv-port-lead{display:flex;align-items:flex-start;justify-content:space-between;gap:20px 28px;
+    flex-wrap:wrap}
+  .pv-port-main,.pv-port-pnl{min-width:0}
+  .pv-port-pnl{text-align:right}
+  .pv-port-k{display:block;margin:0 0 9px;font-size:11.5px;font-weight:400;color:var(--dim);
+    letter-spacing:0}
+  .pv-port-v{display:block;font-size:31px;font-weight:600;letter-spacing:-.025em;line-height:1.15;
+    font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-port-pv{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.2;
+    font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-port-pv i{display:inline-block;margin-left:8px;font-style:normal;font-size:14.5px;
+    font-weight:500}
+  .pv-port-pv.pv-port-na{font-size:14.5px;font-weight:500;color:var(--faint)}
+  .pv-port-s{display:block;margin-top:8px;font-size:11.5px;color:var(--faint);line-height:1.6;
+    overflow-wrap:anywhere}
+  /* 자산구성 띠 — 정보 그 자체(투자/현금 비율). 3px 단색, 등락색·그라데이션 없음. */
+  /* 투자 비중이 96%를 넘으면 한 덩어리 막대로만 보여 비율이 안 읽힌다 —
+     현금 칸을 남은 폭 전체로 두고 3px 간격을 띄워, 아무리 작아도 두 구간이 구분되게 한다. */
+  .pv-alloc-bar{display:flex;gap:3px;height:3px;margin:20px 0 0}
+  .pv-alloc-bar>span{display:block;height:100%;min-width:2px;background:var(--ink);border-radius:1.5px}
+  .pv-alloc-bar>b{display:block;flex:1;min-width:2px;height:100%;background:var(--line2);
+    border-radius:1.5px}
+  .pv-alloc-legend{display:flex;justify-content:space-between;gap:14px;margin-top:11px}
+  .pv-alloc-legend>span{display:flex;align-items:baseline;gap:7px;min-width:0;font-size:13px;
+    font-weight:500;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-alloc-legend>span:last-child{text-align:right}
+  .pv-alloc-legend i{font-style:normal;font-size:11.5px;font-weight:400;color:var(--faint)}
+  .pv-alloc-legend em{font-style:normal;font-size:11.5px;font-weight:500;color:var(--dim)}
+  .pv-port-note{margin:13px 0 0;font-size:11.5px;color:var(--faint);line-height:1.6;
+    overflow-wrap:anywhere}
+  /* 진입하지 않은 신호 설명 — 상세 정보 안에서만. 배지·경고색을 쓰지 않는다. */
+  .pv-skip{margin:2px 0 14px;padding-top:13px;border-top:1px solid var(--line)}
+  .pv-skip-h{margin:0 0 7px;font-size:12.5px;font-weight:600;color:var(--t2)}
+  .pv-skip-p{margin:0 0 7px;font-size:12.5px;color:var(--dim);line-height:1.75;
+    max-width:60ch;overflow-wrap:anywhere}
+  .pv-skip-p:last-child{margin-bottom:0}
+  .pv-skip-p b{font-weight:600;color:var(--t2)}
+  /* 핵심 요약 — KPI 카드가 아니라 「한 줄의 띠 + 얇은 세로 구분선」 */
   .pv-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
     border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 34px}
+  .pv-summary.pv-summary-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pv-summary.pv-summary-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* 부제 안의 손익만 등락색을 갖는다(금액 자체는 중립) */
+  .pv-sum-s b{font-weight:600}
   .pv-summary>div{min-width:0;padding:19px 18px 21px;border-left:1px solid var(--line)}
   .pv-summary>div:first-child{border-left:none;padding-left:0}
   .pv-sum-k{display:block;font-size:11.5px;color:var(--dim);margin-bottom:10px}
@@ -1244,6 +1288,22 @@
     .pv-summary>div:nth-child(odd){border-left:none;padding-left:0}
     .pv-summary>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
     .pv-sum-v{font-size:19.5px}
+    /* 3칸 띠는 모바일에서 2칸 + 마지막 칸 전체폭 (고아 칸이 생기지 않게).
+       2칸 띠는 그대로 한 줄에 둘 — 첫 화면에서 보유 종목이 밀려나지 않게 한다. */
+    .pv-summary.pv-summary-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pv-summary.pv-summary-3>div:last-child{grid-column:1/-1;border-left:none;padding-left:0}
+    .pv-summary.pv-summary-2>div:nth-child(-n+2){border-bottom:none}
+    /* 포트폴리오 리드 — 자산과 손익을 위아래로 쌓되 손익은 왼쪽 정렬로 되돌린다 */
+    .pv-port{padding:18px 0 17px}
+    .pv-port-lead{gap:16px}
+    .pv-port-main,.pv-port-pnl{flex:1 1 100%}
+    .pv-port-pnl{text-align:left}
+    .pv-port-v{font-size:27px}
+    .pv-port-pv{font-size:18px}
+    .pv-port-pv i{font-size:13.5px;margin-left:7px}
+    .pv-alloc-bar{margin-top:17px}
+    .pv-alloc-legend{gap:10px}
+    .pv-alloc-legend>span{font-size:12.5px;flex-wrap:wrap;gap:4px 6px}
     /* 표를 그대로 줄이지 않고 목록으로 다시 짠다: 1행 종목·성과 / 2행 판단·상태 */
     .pv-pos-ret{font-size:16px}
     .pv-pos-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 14px}
@@ -1262,6 +1322,14 @@
     .pv-sum-v{font-size:18.5px}
     .pv-sum-k,.pv-sum-s{font-size:11px}
     .pv-row dd{font-size:13.5px}
+    .pv-port-v{font-size:25px}
+    .pv-port-pv{font-size:17px}
+    .pv-port-k,.pv-port-s{font-size:11px}
+    /* 360px에서 "투자 중 9,663,055원 96.6%" 두 덩이가 한 줄에 안 들어간다 —
+       가로로 우겨넣지 않고 위아래로 쌓아 각 값이 온전히 읽히게 한다. */
+    .pv-alloc-legend{display:grid;grid-template-columns:1fr;gap:7px}
+    .pv-alloc-legend>span:last-child{text-align:left}
+    .pv-alloc-legend>span{justify-content:flex-start;font-size:13px}
   }
   /* 개발 기록(changelog) 전용 — 색으로 분류를 표시하지 않고 활자 위계만으로 정리한다.
      ⚠️ overflow-wrap:anywhere는 필수다(AGENTS.md 주의 11번). body에 word-break:keep-all이
@@ -5264,17 +5332,80 @@ function renderPaper(){
     : '기록 준비 중';
   const hero=lede+`<p class="pv-status${live?' is-live':''}"><span class="pv-dot" aria-hidden="true"></span>${statusTxt}</p>`;
 
-  /* ② 핵심 요약 — 카드 4개가 아니라 얇은 구분선으로 나눈 한 띠 (모바일 2열) */
-  const sum=[
-    ['가상 시작자금', won(P.initialVirtualCash), '실제로 예치한 돈이 아니에요', ''],
-    ['현재 가상자산', won(P.currentVirtualEquity),
-      n(P.currentVirtualEquity)==null?'평가 대기':(open?'보유 종목 평가 반영':'확정 손익 기준'), ''],
-    ['누적 성과', n(P.portfolioReturnPct)==null?DASH:sPct(P.portfolioReturnPct),
-      n(P.portfolioReturnPct)==null?'기록 축적 중':'시작자금 대비', dir(P.portfolioReturnPct)],
-    ['거래', `보유 ${open} · 종료 ${closed}`,
-      closed?(insufficient?'표본이 적어 성과 결론 보류':'종료 거래 누적'):'아직 종료 거래 없음','']
-  ].map(([k,v,sub,c])=>`<div><span class="pv-sum-k">${k}</span><span class="pv-sum-v${c}">${v}</span><span class="pv-sum-s">${sub}</span></div>`).join('');
-  const summary=`<div class="pv-summary">${sum}</div>`;
+  /* ② 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있고, 얼마가 남았고,
+        전체로 얼마를 벌거나 잃고 있나"를 계산기 없이 읽히게 한다.
+     ⚠️ 숫자가 늘어난다고 카드를 늘리지 않는다: 큰 값 하나 + 그에 종속된 구성 + 얇은 띠.
+     ⚠️ 모든 총계는 paper_public.js가 엔진 회계 함수 하나로 만든 값을 "표시만" 한다
+        (브라우저에서 다시 계산하지 않는다 — 산식이 두 곳에 생기면 언젠가 어긋난다).
+     ⚠️ Fail closed: 보유 중인데 시세를 못 받은 종목이 하나라도 있으면 평가금액·손익을
+        부분합으로 채우지 않고 비운다(엔진이 이미 null로 내려보낸다). */
+  const initialC=n(P.initialVirtualCash), equity=n(P.currentVirtualEquity);
+  const invested=n(P.investedCostBasis), vcash=n(P.availableVirtualCash);
+  const marked=n(P.markedPositionsValue);
+  const aInv=n(P.allocationInvestedPct), aCash=n(P.allocationCashPct);
+  const retPct=n(P.portfolioReturnPct);
+  /* 전체 손익은 retPct가 있을 때만 말한다 — 엔진이 "가상체결 0건"과 "평가 불가"를
+     이미 null로 구분해 두었다. 거래가 없는 상태를 0%처럼 보이게 하지 않는다. */
+  const totalPnl=(retPct!=null&&equity!=null&&initialC!=null)?equity-initialC:null;
+  const priced=P.valuationStatus!=='VALUATION_UNAVAILABLE';
+  /* 평가 기준 시각은 종목마다 반복하지 않고 포트폴리오 상단에 한 번만.
+     같은 날이 아니면 날짜까지 적어 오래된 관측이 최신처럼 보이지 않게 한다. */
+  const vAt=P.valuationObservedAt;
+  const sameDay=vAt&&P.lastCycleAt&&String(vAt).slice(0,10)===String(P.lastCycleAt).slice(0,10);
+  const asOf=vAt?(sameDay?`${hm(vAt)} 기준`:`${md(vAt)} ${hm(vAt)} 기준`):'';
+
+  const pnlBlock=totalPnl==null
+    ? `<span class="pv-port-pv pv-port-na">${open?'평가 대기':'기록 전'}</span>
+       <span class="pv-port-s">${open?'일부 종목 시세를 확인하는 중이에요':'아직 가상 매수 기록이 없어요'}</span>`
+    : `<span class="pv-port-pv${dir(totalPnl)}">${sWon(totalPnl)}<i>${sPct(retPct)}</i></span>
+       <span class="pv-port-s">가상 시작자금 대비</span>`;
+  /* 자산구성 띠 — 장식이 아니라 정보다(투자/현금 비율 그 자체).
+     3px 단색 · 그라데이션·광택 없음 · 등락색(빨강/파랑)은 쓰지 않는다.
+     비중을 만들 수 없으면(평가 불가) 띠를 그리지 않는다 — 추측한 비율을 그리지 않는다. */
+  const bar=(aInv!=null&&aCash!=null)
+    ? `<div class="pv-alloc-bar" aria-hidden="true"><span style="width:${Math.max(0,Math.min(100,aInv))}%"></span><b></b></div>`
+    : '';
+  const legend=`<div class="pv-alloc-legend">
+      <span><i>투자 중</i>${won(invested)}${aInv==null?'':`<em>${aInv.toFixed(1)}%</em>`}</span>
+      <span><i>가상현금</i>${won(vcash)}${aCash==null?'':`<em>${aCash.toFixed(1)}%</em>`}</span>
+    </div>`;
+  const portfolio=`<section class="pv-port" aria-labelledby="pvPortH">
+    <div class="pv-port-lead">
+      <div class="pv-port-main">
+        <h3 class="pv-port-k" id="pvPortH">현재 가상자산</h3>
+        <span class="pv-port-v">${equity==null?DASH:won(equity)}</span>
+        <span class="pv-port-s">가상현금 + 보유종목 현재 평가액${asOf?` · ${asOf}`:''}</span>
+      </div>
+      <div class="pv-port-pnl">
+        <span class="pv-port-k">현재 손익</span>
+        ${pnlBlock}
+      </div>
+    </div>
+    ${bar}${legend}
+    <p class="pv-port-note">가상 시작자금 ${won(initialC)} · 실제로 예치한 돈이 아니에요</p>
+  </section>`;
+
+  /* ③ 나머지 총계 — 카드를 늘리지 않으려고 기존 4칸 띠를 3칸으로 줄였다.
+     보유 평가액의 부제로 "보유 손익"을 붙여, 투자원금과 평가금액의 차이가
+     곧 평가 손익이라는 걸 따로 설명하지 않아도 읽히게 한다. */
+  /* ⚠️ 금액 자체에는 등락색을 쓰지 않는다 — 평가액은 방향이 아니다.
+        빨강/파랑은 오르내림(손익)에만 붙인다(디자인 규칙). */
+  const cells=[
+    ['보유 평가액', (!open?won(0):(marked==null?'일부 시세 확인 중':won(marked))),
+      (!open?'보유 중인 종목 없음'
+        :(marked==null?'전체 평가금액을 아직 계산할 수 없어요'
+          :(n(P.unrealizedPnl)==null?'평가 대기'
+            :`보유 손익 <b class="${dir(P.unrealizedPnl).trim()}">${sWon(P.unrealizedPnl)}</b>`)))]
+  ];
+  /* 종료 거래가 없으면 '확정 손익 0원' 칸을 굳이 띄우지 않는다 —
+     비어 있는 값으로 첫 화면을 밀어내지 않고, 값이 생기면 그때 칸이 나타난다. */
+  if(closed) cells.push(['확정 손익', n(P.realizedPnl)==null?DASH
+      :`<b class="${dir(P.realizedPnl).trim()}">${sWon(P.realizedPnl)}</b>`,
+    insufficient?'표본이 적어 성과 결론 보류':'종료된 거래 누적']);
+  cells.push(['거래', `보유 ${open} · 종료 ${closed}`,
+    maxHold?`한 종목 최대 ${maxHold}거래일 보유`:'가상 기록 전용']);
+  const sum=cells.map(([k,v,sub])=>`<div><span class="pv-sum-k">${k}</span><span class="pv-sum-v">${v}</span><span class="pv-sum-s">${sub}</span></div>`).join('');
+  const summary=portfolio+`<div class="pv-summary pv-summary-${cells.length}">${sum}</div>`;
 
   /* ③ 현재 보유 중 — 이 화면에서 가장 중요한 정보. 종목 하나 = 정돈된 surface 하나.
      수량·매수가·현재가·평가금액·손익·보유기간을 한 번에 읽히게 둔다. */
@@ -5296,7 +5427,10 @@ function renderPaper(){
       ['수량', qty==null?DASH:qty.toLocaleString('ko-KR')+'주'],
       ['투자금액', won(cb)],
       ['평가금액', mv==null?'평가 대기':won(mv)],
-      ['보유기간', held==null?DASH:(held+'거래일째'+(maxHold?` · 최대 ${maxHold}거래일`:''))]
+      /* 진입 당일은 "0거래일째"라고 쓰면 어색하게 읽힌다 — 표시 문구만 바꾼다.
+         내부 계산값(holding_trading_days)과 5거래일 청산 규칙은 그대로다. */
+      ['보유기간', held==null?DASH
+        :((held===0?'오늘 진입':`${held}거래일 경과`)+(maxHold?` · 최대 ${maxHold}거래일`:''))]
     ].map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     const note=left==null
       ? (maxHold?`최대 ${maxHold}거래일까지 보유하고, 판단이 「매도 고려」로 바뀌면 더 일찍 종료돼요.`:'')
@@ -5402,9 +5536,25 @@ function renderPaper(){
       ['검증 방식', 'GAEO 기본 검증'],
       ['검증 시작', day(P.forwardStart)],
       ['한 종목 최대 보유', maxHold?`${maxHold}거래일`:DASH],
+      ['한 종목 가상 투자 기준금액', n(P.positionSizeKrw)==null?DASH:won(P.positionSizeKrw)],
+      ['남은 가상현금', won(P.availableVirtualCash)],
       ['평가 기준 시각', P.valuationObservedAt?stamp(P.valuationObservedAt):'평가 대기']
     ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
-    return `<details class="pv-gloss"><summary>상세 정보${chev}</summary><dl class="pv-rows">${d}</dl></details>`;
+    /* 「매수 고려」인데 진입하지 않은 신호 설명.
+       ⚠️ 정상적인 미진입(자금 부족·1주 가격이 기준금액 초과)과 시스템 문제(시세 못 받음)를
+          절대 같은 문장으로 묶지 않는다. 내부 상태 코드는 화면에 쓰지 않는다. */
+    const nCash=n(P.skippedInsufficientCash)||0;
+    const nBig=n(P.skippedPriceAbovePositionSize)||0;
+    const nQuote=n(P.skippedMarketDataUnavailable)||0;
+    const notes=[];
+    if(nCash) notes.push(`가상 투자 여력이 부족해 진입하지 않은 신호가 <b>${nCash}건</b> 있어요. 남은 가상현금보다 한 종목 기준금액이 커서 자연스럽게 건너뛴 경우로, 기록이 잘못된 게 아닙니다.`);
+    if(nBig) notes.push(`1주 가격이 한 종목 기준금액보다 높아 한 주도 살 수 없어 건너뛴 신호가 <b>${nBig}건</b> 있어요. 이것도 정상적인 결과입니다.`);
+    if(nQuote) notes.push(`시세를 받지 못해 기록하지 못한 신호가 <b>${nQuote}건</b> 있어요. 가격을 추측하지 않기 때문이며, 이건 시세 연결 상태를 확인해야 하는 경우입니다.`);
+    const skipSec=notes.length
+      ? `<div class="pv-skip"><p class="pv-skip-h">「매수 고려」였지만 가상 매수하지 않은 신호</p>`
+        +notes.map(t=>`<p class="pv-skip-p">${t}</p>`).join('')+`</div>`
+      : '';
+    return `<details class="pv-gloss"><summary>상세 정보${chev}</summary><dl class="pv-rows">${d}</dl>${skipSec}</details>`;
   }
 
   const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록이며, 수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>`;
