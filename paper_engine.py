@@ -615,8 +615,18 @@ class PaperEngine:
         # 과거 행은 절대 수정하지 않는다 — 이후 행부터 확장 필드가 붙는다.
         pos_value = sum(r["quantity"] * r["entry_price"] for r in open_rows)
         val = portfolio_valuation(self.config, latest, self.state.get("openMeta"))
+        # 📒 종목별 평가 기록 — 날짜별 기록의 "어떤 종목이 손익을 이끌었나"를
+        #    나중에 그날 값 그대로 재현하려면 이 시점의 mark를 남겨 둬야 한다.
+        #    ⚠️ 표시·분석 전용이다. 진입·청산·보유기간 판단에는 쓰이지 않는다.
+        meta_all = self.state.get("openMeta") or {}
+        positions = {}
+        for r in open_rows:
+            mk = (meta_all.get(r["trade_id"]) or {}).get("lastMarkPrice")
+            if isinstance(mk, (int, float)) and mk > 0:
+                positions[r["symbol"]] = {"name": r.get("name"), "qty": r["quantity"],
+                                          "entry": r["entry_price"], "mark": mk}
         row = {"at": iso(now), "cash": round(cash), "positionsCost": round(pos_value),
-               "openCount": len(open_rows),
+               "openCount": len(open_rows), "positions": positions,
                "markedPositionsValue": val["markedPositionsValue"],
                "markedEquity": val["currentVirtualEquity"],
                "realizedPnl": val["realizedPnl"],

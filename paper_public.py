@@ -18,6 +18,7 @@ from datetime import datetime, timezone, timedelta
 # 회계는 여기서 다시 구현하지 않는다 — 엔진의 회계 함수 하나만 Source of Truth로 쓴다.
 # (paper_engine 은 러너 사이클에서 이 파일보다 먼저 실행되므로 두 산출물은 같은 원장을 본다)
 from paper_engine import portfolio_valuation, reporting_view
+import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, "paper_trading")
@@ -246,6 +247,26 @@ def build():
     if leaked:
         print(f"[paper_public] 차단 — 금지 키워드 감지 {leaked}, 산출물 미생성")
         return 1
+    # 📚 날짜별 기록(History) — 원장 + Equity Curve에서만 파생한다.
+    #    paper_trading/ 안에 두어 러너가 이미 커밋하는 경로를 그대로 쓴다(러너 변경 0).
+    #    실패해도 공개 스냅샷 생성은 계속된다 — History 고장이 보유화면을 막지 않는다.
+    try:
+        hist = paper_history.build(
+            paper_history.read_jsonl(os.path.join(DIR, "trades.jsonl")),
+            paper_history.read_jsonl(os.path.join(DIR, "equity_curve.jsonl")),
+            {**config, "initial_cash_krw": initial})
+        hblob = json.dumps(hist, ensure_ascii=False, separators=(",", ":"))
+        if not any(w in hblob.lower() for w in FORBIDDEN_SUBSTRINGS):
+            hp = os.path.join(DIR, "history.json")
+            with open(hp + ".tmp", "w", encoding="utf-8") as f:
+                f.write(hblob)
+            os.replace(hp + ".tmp", hp)
+            print(f"[paper_public] history {len(hist['days'])}일 → {hp}")
+        else:
+            print("[paper_public] history 차단 — 금지 키워드 감지, 미생성")
+    except Exception as e:
+        print(f"[paper_public] history 생성 실패(공개 스냅샷은 계속): {type(e).__name__}")
+
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         f.write("// 자동 생성: paper_public.py — 모의투자 공개 요약(파생 데이터, 원본은 paper_trading/)\n")
