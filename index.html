@@ -1500,8 +1500,10 @@
   .cal-upcoming .rr-date.today{background:var(--sky-soft);color:var(--sky)}
   .cal-upcoming .rr-date.today .dd{color:var(--sky)}
   .cal-upcoming .rr-body{min-width:0}
-  .cal-upcoming .rr-name{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.4}
-  .cal-upcoming .rr-sub{font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:1px;word-break:keep-all}
+  /* 이름과 설명은 각자 한 줄씩 차지한다 — display를 안 주면 inline으로 붙어
+     "실리콘투유상증자 결정"처럼 종목명과 내용이 한 덩어리로 읽힌다. */
+  .cal-upcoming .rr-name{display:block;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.4;overflow-wrap:anywhere}
+  .cal-upcoming .rr-sub{display:block;font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:2px;word-break:keep-all;overflow-wrap:anywhere}
   .cal-upcoming .rr-empty{font-size:12.5px;color:var(--faint);padding:6px 2px;grid-column:1/-1}
   @media(min-width:640px){ .cal-upcoming{grid-template-columns:repeat(2,minmax(0,1fr))} }
   .cal-report{background:var(--bg);border:none;border-radius:13px;padding:16px 18px;margin-bottom:18px}
@@ -2692,8 +2694,8 @@
     .rr-date .dd{display:block;font-size:14px;letter-spacing:-.02em}
     .rr-date.today{background:var(--sky-soft);color:var(--sky)}
     .rr-body{min-width:0}
-    .rr-name{font-size:12px;font-weight:500;color:var(--ink);line-height:1.35}
-    .rr-sub{font-size:11px;color:var(--dim);line-height:1.45;margin-top:1px;word-break:keep-all}
+    .rr-name{display:block;font-size:12px;font-weight:500;color:var(--ink);line-height:1.35;overflow-wrap:anywhere}
+    .rr-sub{display:block;font-size:11px;color:var(--dim);line-height:1.45;margin-top:2px;word-break:keep-all;overflow-wrap:anywhere}
     .rr-empty{font-size:12px;color:var(--faint);padding:6px 8px}
     .rr-call{flex-shrink:0;font-size:10px;font-weight:500;color:#fff;border-radius:7px;
       padding:3px 8px;margin-top:1px;letter-spacing:.02em}
