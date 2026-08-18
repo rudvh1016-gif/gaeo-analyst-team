@@ -3457,7 +3457,14 @@
     flex-wrap:wrap;gap:6px 12px;margin:1px 0 8px;font-size:11px;white-space:nowrap}
   .home-dashboard .brief-count-row>span:first-child{color:var(--color-text-tertiary);font-weight:600}
   .home-dashboard .brief-count-row strong{color:var(--color-text-primary);font-weight:600;font-variant-numeric:tabular-nums}
-  .home-daily-brief .hdb-head{margin-bottom:2px}
+  /* ⚠️ 상단 히어로용 `.home-dashboard header` 규칙이 이 <header class="hdb-head">에도
+     걸려서, 카드 안에 흰 상자가 하나 더 그려지고 있었다(2026-08-18 사용자 지적).
+     제목은 카드의 제목일 뿐 별도 상자가 아니므로 그 장식을 전부 되돌린다. */
+  .home-daily-brief .hdb-head{display:block;min-height:0;margin-bottom:2px;padding:0;
+    border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+  .home-daily-brief .hdb-head::before,.home-daily-brief .hdb-head::after{content:none}
+  /* 홈에서 가장 먼저 읽는 제목이라 굵기를 한 단계 더 준다(사용자 지정). */
+  .home-daily-brief #briefTitle{font-weight:700}
   .home-daily-brief .hdb-title-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
   .home-daily-brief .hdb-title-row h2{margin:0}
   .home-daily-brief .hdb-date{flex:none;color:var(--color-text-secondary);font-size:12px;font-weight:500;white-space:nowrap}
