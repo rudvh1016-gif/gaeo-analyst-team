@@ -62,6 +62,20 @@ check("가상매매 고지 존재", "실제 계좌·실제 돈과는 무관합�
 check("비용 미반영 고지 존재", "비용 모델 확인 중" in html)
 check("벤치마크 한계 각주(러너 산출 문구) 사용", "benchmarkNote" in html)
 check("거래 0건 상태 문구 존재", "아직 새롭게 발생한 매수 고려 신호가 없습니다" in html)
+check("실제 주문 없음을 명시", "실제 투자 주문은 발생하지 않습니다" in html)
+
+# ── ⑦ 모의투자는 성적표 하위가 아니라 독립 최상위 화면 (2026-08-18) ─────────
+check("모의투자 전용 뷰 컨테이너 존재", 'id="paperView"' in html)
+check("좌측/전체 메뉴에 모의투자 최상위 항목", 'id="mode-paper"' in html)
+check("상단 글로벌 내비게이션에 모의투자", 'data-nav-mode="paper">모의투자</button>' in html)
+check("?m=paper 딥링크 라우팅 존재", "m==='paper'" in html)
+check("성적표 렌더에 모의투자 블록이 섞여 있지 않음", "paperBlockHTML()" not in html)
+sc = html[html.index("el.innerHTML=`<div class=\"sc-block\">\n    <h3>개오 성적표</h3>"):]
+sc = sc[:sc.index("`;", 10)]
+check("성적표 조립부에 모의투자 흔적 0", "paper" not in sc.lower() and "모의투자" not in sc)
+# 사용자 화면 주요 명칭은 한국어 '모의투자' — 'Paper Trading'을 제목으로 노출하지 않는다.
+for bad in ("<h3>GAEO 모의투자", "Paper Trading</", ">Paper Trading<"):
+    check(f"사용자용 제목에 Paper 표기 없음: {bad!r}", bad not in html)
 
 print()
 if FAILURES:
