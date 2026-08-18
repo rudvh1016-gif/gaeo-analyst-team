@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-17T07:18:05.263483+00:00",
+ "generatedAt": "2026-08-18T00:17:59.122539+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -15,94 +15,94 @@ const MODEL_SCOREBOARD = {
    "autoPromotion": "NONE_MANUAL_APPROVAL_REQUIRED",
    "byCoverage": {
     "GAEO_COVERAGE_V1_500": {
-     "accuracy": 51.4,
+     "accuracy": 51.6,
      "accuracyCI95": [
-      44.8,
-      57.7
+      45.0,
+      57.8
      ],
      "actionDistribution": {
-      "BUY": 805,
-      "HOLD": 7367,
-      "SELL": 5785
+      "BUY": 832,
+      "HOLD": 7574,
+      "SELL": 5820
      },
      "buy": {
-      "count": 805,
-      "marketRelativeMeanReturn": -0.66,
-      "meanReturn": -0.97,
-      "medianReturn": -0.8,
-      "precision": 43.5
+      "count": 832,
+      "marketRelativeMeanReturn": -0.65,
+      "meanReturn": -0.94,
+      "medianReturn": -0.86,
+      "precision": 43.2
      },
-     "directionalAccuracy": 52.5,
+     "directionalAccuracy": 52.2,
      "directionalCI95": [
       42.2,
-      63.0
+      63.2
      ],
-     "directionalCount": 6590,
+     "directionalCount": 6652,
      "hold": {
-      "count": 7367,
-      "marketRelativeMeanReturn": -0.01,
-      "meanReturn": 0.55,
-      "medianReturn": 0.28,
-      "precision": 50.6
+      "count": 7574,
+      "marketRelativeMeanReturn": 0.03,
+      "meanReturn": 0.59,
+      "medianReturn": 0.33,
+      "precision": 51.1
      },
-     "matured": 13957,
-     "overallAccuracy": 51.4,
+     "matured": 14226,
+     "overallAccuracy": 51.6,
      "pending": 0,
      "sell": {
-      "count": 5785,
-      "marketRelativeMeanReturn": 0.47,
-      "meanReturn": 0.49,
-      "medianReturn": -0.92,
-      "precision": 53.6
+      "count": 5820,
+      "marketRelativeMeanReturn": 0.52,
+      "meanReturn": 0.53,
+      "medianReturn": -0.85,
+      "precision": 53.4
      },
      "status": "OK",
-     "uniqueDates": 28
+     "uniqueDates": 29
     }
    },
    "byModelVersion": {
     "PRE_HOTFIX_BASE": {
-     "accuracy": 51.4,
+     "accuracy": 51.6,
      "accuracyCI95": [
-      44.8,
-      57.7
+      45.0,
+      57.8
      ],
      "actionDistribution": {
-      "BUY": 805,
-      "HOLD": 7367,
-      "SELL": 5785
+      "BUY": 832,
+      "HOLD": 7574,
+      "SELL": 5820
      },
      "buy": {
-      "count": 805,
-      "marketRelativeMeanReturn": -0.66,
-      "meanReturn": -0.97,
-      "medianReturn": -0.8,
-      "precision": 43.5
+      "count": 832,
+      "marketRelativeMeanReturn": -0.65,
+      "meanReturn": -0.94,
+      "medianReturn": -0.86,
+      "precision": 43.2
      },
-     "directionalAccuracy": 52.5,
+     "directionalAccuracy": 52.2,
      "directionalCI95": [
       42.2,
-      63.0
+      63.2
      ],
-     "directionalCount": 6590,
+     "directionalCount": 6652,
      "hold": {
-      "count": 7367,
-      "marketRelativeMeanReturn": -0.01,
-      "meanReturn": 0.55,
-      "medianReturn": 0.28,
-      "precision": 50.6
+      "count": 7574,
+      "marketRelativeMeanReturn": 0.03,
+      "meanReturn": 0.59,
+      "medianReturn": 0.33,
+      "precision": 51.1
      },
-     "matured": 13957,
-     "overallAccuracy": 51.4,
-     "pending": 2508,
+     "matured": 14226,
+     "overallAccuracy": 51.6,
+     "pending": 2239,
      "sell": {
-      "count": 5785,
-      "marketRelativeMeanReturn": 0.47,
-      "meanReturn": 0.49,
-      "medianReturn": -0.92,
-      "precision": 53.6
+      "count": 5820,
+      "marketRelativeMeanReturn": 0.52,
+      "meanReturn": 0.53,
+      "medianReturn": -0.85,
+      "precision": 53.4
      },
      "status": "OK",
-     "uniqueDates": 28
+     "uniqueDates": 29
     },
     "base-2026-08-15-parity-hotfix": {
      "actionDistribution": {},
@@ -144,9 +144,9 @@ const MODEL_SCOREBOARD = {
    "icon": "🟢",
    "id": "base_production",
    "internalVersion": null,
-   "maturedCount": 13957,
+   "maturedCount": 14226,
    "note": "현재 사이트에 실제로 보이는 판단입니다.",
-   "pendingCount": 3106,
+   "pendingCount": 2837,
    "primarySelection": null,
    "probabilityMetrics": {
     "status": "NOT_APPLICABLE"
@@ -155,7 +155,7 @@ const MODEL_SCOREBOARD = {
    "recordCount": 17063,
    "status": "LIVE_PRODUCTION",
    "statusLabel": "실제 서비스",
-   "uniquePredictionDates": 28,
+   "uniquePredictionDates": 29,
    "usesDart": true,
    "withheldCount": 0
   },
