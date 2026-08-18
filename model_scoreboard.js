@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-18T03:16:50.128935+00:00",
+ "generatedAt": "2026-08-18T03:46:51.729392+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -28,21 +28,21 @@ const MODEL_SCOREBOARD = {
      "buy": {
       "count": 871,
       "marketRelativeMeanReturn": -0.6,
-      "meanReturn": -0.96,
-      "medianReturn": -0.92,
-      "precision": 42.6
+      "meanReturn": -0.99,
+      "medianReturn": -0.93,
+      "precision": 42.2
      },
      "directionalAccuracy": 51.9,
      "directionalCI95": [
       42.0,
-      62.7
+      62.6
      ],
      "directionalCount": 6736,
      "hold": {
       "count": 7721,
       "marketRelativeMeanReturn": 0.02,
-      "meanReturn": 0.52,
-      "medianReturn": 0.2,
+      "meanReturn": 0.5,
+      "medianReturn": 0.19,
       "precision": 51.2
      },
      "matured": 14457,
@@ -51,8 +51,8 @@ const MODEL_SCOREBOARD = {
      "sell": {
       "count": 5865,
       "marketRelativeMeanReturn": 0.59,
-      "meanReturn": 0.59,
-      "medianReturn": -0.81,
+      "meanReturn": 0.58,
+      "medianReturn": -0.82,
       "precision": 53.2
      },
      "status": "OK",
@@ -74,21 +74,21 @@ const MODEL_SCOREBOARD = {
      "buy": {
       "count": 871,
       "marketRelativeMeanReturn": -0.6,
-      "meanReturn": -0.96,
-      "medianReturn": -0.92,
-      "precision": 42.6
+      "meanReturn": -0.99,
+      "medianReturn": -0.93,
+      "precision": 42.2
      },
      "directionalAccuracy": 51.9,
      "directionalCI95": [
       42.0,
-      62.7
+      62.6
      ],
      "directionalCount": 6736,
      "hold": {
       "count": 7721,
       "marketRelativeMeanReturn": 0.02,
-      "meanReturn": 0.52,
-      "medianReturn": 0.2,
+      "meanReturn": 0.5,
+      "medianReturn": 0.19,
       "precision": 51.2
      },
      "matured": 14457,
@@ -97,8 +97,8 @@ const MODEL_SCOREBOARD = {
      "sell": {
       "count": 5865,
       "marketRelativeMeanReturn": 0.59,
-      "meanReturn": 0.59,
-      "medianReturn": -0.81,
+      "meanReturn": 0.58,
+      "medianReturn": -0.82,
       "precision": 53.2
      },
      "status": "OK",
