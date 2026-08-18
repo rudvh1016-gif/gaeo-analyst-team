@@ -226,7 +226,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_model.json rotation_archive.json model_scoreboard.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_model.json rotation_archive.json model_scoreboard.js dart_today.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
