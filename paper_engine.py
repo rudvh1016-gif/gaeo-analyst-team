@@ -201,6 +201,10 @@ def portfolio_valuation(config, latest, open_meta):
     opens = [r for r in latest.values() if r.get("status") == "OPEN"]
     closed = [r for r in latest.values() if r.get("status") == "CLOSED"]
     realized = sum((r["exit_price"] - r["entry_price"]) * r["quantity"] for r in closed)
+    # 현재 투자원금 — 미청산 포지션에 실제로 들어가 있는 가상 원금(Σ 체결가 × 수량).
+    # 누적 체결금액이 아니라 "지금 들어가 있는 돈"이다. 시세(Mark)와 무관하므로
+    # 평가 불가 상태에서도 항상 계산된다. 표시 전용 — 매매 판단에 쓰지 않는다.
+    invested = sum(r["entry_price"] * r["quantity"] for r in opens)
 
     marked_value = 0.0
     unrealized = 0.0
@@ -235,6 +239,7 @@ def portfolio_valuation(config, latest, open_meta):
     return {
         "initialVirtualCash": initial,
         "cash": round(cash, 2),
+        "investedCostBasis": round(invested, 2),
         "markedPositionsValue": round(marked_value, 2) if equity is not None else None,
         "currentVirtualEquity": round(equity, 2) if equity is not None else None,
         "realizedPnl": round(realized, 2),
@@ -249,6 +254,22 @@ def portfolio_valuation(config, latest, open_meta):
         # FIX 3: SKIP을 제외한 실제 가상체결 수 — 성과 지표 표시 근거
         "executedTradeCount": len(opens) + len(closed),
     }
+
+
+# 가상체결 0건일 때 성과 지표로 쓰지 않는 키 — "거래 없음"이 0% 성과처럼 보이지 않게 한다.
+ZERO_TRADE_NULLED = ("portfolioReturnPct", "realizedPnl", "unrealizedPnl")
+
+
+def reporting_view(val):
+    """보고(summary·공개 스냅샷)용 사본 — 가상체결 0건이면 성과 지표를 만들지 않는다.
+
+    ⚠️ 원본 val은 절대 바꾸지 않는다. Equity Curve는 원본을 그대로 써야 하고
+       (MDD 계산 입력), 이 게이트는 '표시할 때의 정책'일 뿐이다.
+    ⚠️ 요약과 공개 스냅샷이 같은 정책을 쓰도록 구현을 여기 한 곳에만 둔다.
+    """
+    if val.get("executedTradeCount"):
+        return dict(val)
+    return {**val, **{k: None for k in ZERO_TRADE_NULLED}}
 
 
 def max_drawdown_from_curve(path, initial_seed=None):
@@ -664,21 +685,21 @@ class PaperEngine:
                      "Production 모델을 그대로 검증하며 결과로 모델을 자동 수정하지 않는다."),
         }
         # 📊 Mark-to-Market 회계 (표시·MDD 전용 — 매매 행동에 영향 0)
-        val = portfolio_valuation(self.config, latest, self.state.get("openMeta"))
+        # FIX 3: 실제 가상체결이 0건이면 성과 지표를 만들지 않는다 —
+        # '거래 없음'을 0% 성과처럼 보이게 하지 않는다(평가금 1,000만원 표시는 유지).
+        # 게이트 구현은 reporting_view() 한 곳에만 둔다(공개 스냅샷도 같은 함수를 쓴다).
+        val = reporting_view(
+            portfolio_valuation(self.config, latest, self.state.get("openMeta")))
         summary.update({k: val[k] for k in (
-            "initialVirtualCash", "currentVirtualEquity", "realizedPnl",
+            "initialVirtualCash", "cash", "investedCostBasis", "markedPositionsValue",
+            "currentVirtualEquity", "realizedPnl",
             "unrealizedPnl", "portfolioReturnPct",
             "valuationObservedAt", "valuationMarketAt", "valuationStatus",
             "executedTradeCount")})
         summary["maxDrawdownPct"] = max_drawdown_from_curve(
             os.path.join(self.dir, "equity_curve.jsonl"),
             initial_seed=self.config["initial_cash_krw"])
-        # FIX 3: 실제 가상체결이 0건이면 성과 지표를 만들지 않는다 —
-        # '거래 없음'을 0% 성과처럼 보이게 하지 않는다(평가금 1,000만원 표시는 유지).
         if val["executedTradeCount"] == 0:
-            summary["portfolioReturnPct"] = None
-            summary["realizedPnl"] = None
-            summary["unrealizedPnl"] = None
             summary["maxDrawdownPct"] = None
         # FIX 9: Reporting 전용 Provenance — 어떤 분석·코드 기준으로 처리했는지 추적
         summary["sourceAnalysisCompletedAt"] = self.state.get("lastProcessedAnalysisAt")
