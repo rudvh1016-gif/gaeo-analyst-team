@@ -608,7 +608,7 @@
   "2026-08-18"
  ],
  "openMeta": {},
- "lastCycleAt": "2026-08-18T10:05:07+09:00",
+ "lastCycleAt": "2026-08-18T10:35:10+09:00",
  "lastCycleResult": "CYCLE_OK — 장외 시간 — 신규 진입 보류(다음 개장 사이클에 처리)",
  "lastProcessedModelVersion": "baseline-risk-v2"
 }
