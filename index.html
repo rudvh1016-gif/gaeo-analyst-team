@@ -1247,39 +1247,104 @@
   .pv-status .pv-dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--faint)}
   .pv-status.is-live .pv-dot{background:var(--krup)}
   .pv-status time{font-variant-numeric:tabular-nums;color:var(--t2)}
-  /* 보유 종목 — "정보 하나마다 카드"가 아니라 "종목 하나 = 정돈된 surface 하나" */
-  .pv-pos{padding:16px 0 18px;border-bottom:1px solid var(--line)}
-  .pv-pos:first-child{border-top:1px solid var(--line)}
-  .pv-pos-id{min-width:0}
-  .pv-pos-id h4{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.012em;
-    line-height:1.35;overflow-wrap:anywhere}
-  .pv-pos-id span{display:block;margin-top:3px;font-size:11.5px;color:var(--faint);
+  /* 모의투자 하위 화면 전환 — 배지가 아니라 밑줄 하나로만 구분한다 */
+  .pv-tabs{display:flex;gap:22px;margin:0 0 26px;border-bottom:1px solid var(--line)}
+  .pv-tab{appearance:none;background:none;border:none;padding:0 0 11px;cursor:pointer;
+    font-family:inherit;font-size:14px;font-weight:500;color:var(--faint);
+    border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+  .pv-tab:hover{color:var(--t2)}
+  .pv-tab.on{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
+  .pv-tab:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:4px}
+  /* 오늘 거래 — 매수/매도 두 묶음. 없을 때도 오류처럼 보이지 않게 문장으로 말한다 */
+  .pv-today{border-top:1px solid var(--line)}
+  .pv-td-grp{padding:14px 2px;border-bottom:1px solid var(--line)}
+  .pv-td-k{display:block;margin-bottom:8px;font-size:11.5px;color:var(--faint)}
+  .pv-td-sum{margin:0;font-size:14px;font-weight:500;line-height:1.7;overflow-wrap:anywhere}
+  .pv-td-none{margin:0;font-size:13px;color:var(--dim);line-height:1.7}
+  .pv-td-all{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+  .pv-td-row{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .pv-td-nm{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
+  .pv-td-meta{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums;
+    overflow-wrap:anywhere}
+  .pv-td-more{margin-top:10px}
+  .pv-td-more>summary{font-size:12.5px;color:var(--t3);cursor:pointer;list-style:none}
+  .pv-td-more>summary::-webkit-details-marker{display:none}
+  .pv-td-more>summary:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:4px}
+  .pv-td-more[open]>summary{margin-bottom:10px}
+  /* 기록 — 날짜 목록 · 상세 · 종합 평가 */
+  .pv-hs-load{font-size:13px;color:var(--dim);padding:20px 2px}
+  .pv-hs-mo{margin:0 0 26px}
+  .pv-hs-moh{margin:0 0 10px;font-size:12px;font-weight:500;color:var(--faint);
+    letter-spacing:.01em}
+  .pv-hd-list{border-top:1px solid var(--line)}
+  .pv-hd-row{display:flex;width:100%;align-items:flex-start;justify-content:space-between;
+    gap:14px;padding:15px 2px;border-bottom:1px solid var(--line);background:none;border-left:none;
+    border-right:none;border-top:none;cursor:pointer;font-family:inherit;text-align:left;
+    color:inherit;transition:background .12s}
+  .pv-hd-row:hover{background:var(--paper2)}
+  .pv-hd-row:focus-visible{outline:2px solid var(--sky);outline-offset:-2px;border-radius:6px}
+  .pv-hd-l{min-width:0}
+  .pv-hd-t{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em;
+    overflow-wrap:anywhere}
+  .pv-hd-live{font-style:normal;margin-left:7px;font-size:11px;font-weight:500;color:var(--faint)}
+  .pv-hd-s{display:block;margin-top:4px;font-size:11.5px;color:var(--faint);
     font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-hd-r{flex:none;text-align:right}
+  .pv-hd-eq{display:block;font-size:14.5px;font-weight:600;font-variant-numeric:tabular-nums;
+    white-space:nowrap}
+  .pv-hd-pc{display:block;margin-top:3px;font-size:12px;font-weight:500;
+    font-variant-numeric:tabular-nums}
+  .pv-back{appearance:none;background:none;border:none;padding:0 0 16px;cursor:pointer;
+    font-family:inherit;font-size:12.5px;color:var(--t3)}
+  .pv-back:hover{color:var(--ink)}
+  .pv-back:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:4px}
+  .pv-sec-h2{margin:0 0 12px;font-size:14px;font-weight:600;letter-spacing:-.01em}
+  /* 종합 평가 — 보고서 표가 아니라 짧은 문장 묶음으로 읽히게 */
+  .pv-rv-hl{margin-left:9px;font-size:12.5px;font-weight:500;color:var(--faint);
+    font-variant-numeric:tabular-nums}
+  .pv-rv-sec{padding:13px 0;border-top:1px solid var(--line)}
+  .pv-rv-sec h5{margin:0 0 7px;font-size:12px;font-weight:500;color:var(--faint)}
+  .pv-rv-sec ul{margin:0;padding-left:16px;list-style:none}
+  .pv-rv-sec li{position:relative;margin-bottom:6px;font-size:13.5px;color:var(--t2);
+    line-height:1.8;overflow-wrap:anywhere}
+  .pv-rv-sec li::before{content:'';position:absolute;left:-13px;top:.72em;width:3px;height:3px;
+    border-radius:50%;background:var(--line2)}
+  .pv-rv-sec li:last-child{margin-bottom:0}
+  /* 보유 종목 — "정보 하나마다 카드"가 아니라 "종목 하나 = 정돈된 surface 하나" */
+  .pv-pos{border-bottom:1px solid var(--line)}
+  .pv-pos:first-child{border-top:1px solid var(--line)}
+  /* 기본은 한 줄 요약 — 누르면 상세가 열린다 */
+  .pv-pos-hd{display:flex;width:100%;align-items:center;gap:12px;padding:14px 2px;
+    background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;
+    color:inherit;transition:background .12s}
+  .pv-pos-hd:hover{background:var(--paper2)}
+  .pv-pos-hd:focus-visible{outline:2px solid var(--sky);outline-offset:-2px;border-radius:6px}
+  .pv-pos-l{flex:1 1 auto;min-width:0}
+  .pv-pos-nm{display:block;font-size:15px;font-weight:600;letter-spacing:-.012em;
+    line-height:1.35;overflow-wrap:anywhere}
+  .pv-pos-sub{display:block;margin-top:3px;font-size:11.5px;color:var(--faint);
+    font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .pv-pos-rt{flex:none;text-align:right;min-width:0}
+  .pv-pos-mv{display:block;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;
+    white-space:nowrap}
+  .pv-pos-pl{display:block;margin-top:3px;font-size:11.5px;font-weight:500;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pv-pos-hd .pv-chev{flex:none;color:var(--faint);transition:transform .18s ease}
+  .pv-pos-hd[aria-expanded="true"] .pv-chev{transform:rotate(180deg)}
+  .pv-pos-body{padding:0 2px 16px}
+  .pv-pos-body .pv-rows{border-top:none}
+  .pv-pos-body .pv-row{padding:9px 0}
   /* 수익률 — 화면 끝이 아니라 종목명 바로 옆. 이름보다 한 단계 작게, 방향색은 숫자에만 */
   .pv-pos-r{font-style:normal;font-size:13px;font-weight:600;margin-left:8px;
     letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
     vertical-align:1px}
   .pv-pos-r.pv-r-wait{font-size:11.5px;font-weight:500;color:var(--faint)}
   /* 손익금액 — meta 줄 안의 보조 정보. 방향색은 유지하되 크기·굵기로 강도를 낮춘다 */
-  .pv-mpnl{font-style:normal;font-weight:500}
   /* 섹션 머리 + 현재가 기준 시각 (섹션당 한 번만) */
   .pv-sec-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
   .pv-sec-hd .pv-sec-h{margin-bottom:5px}
   .pv-asof{flex:none;font-size:11px;color:var(--faint);
     font-variant-numeric:tabular-nums;white-space:nowrap}
-  .pv-pos-flow{display:flex;align-items:baseline;gap:9px;margin:13px 0 0;flex-wrap:wrap}
-  .pv-pos-flow span{display:flex;align-items:baseline;gap:6px;font-size:14.5px;font-weight:500;
-    font-variant-numeric:tabular-nums;white-space:nowrap}
-  .pv-pos-flow i{font-style:normal;font-size:11px;font-weight:400;color:var(--faint)}
-  .pv-pos-flow .pv-arrow{color:var(--faint);font-size:12.5px;font-weight:400}
-  .pv-pos-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 16px;
-    margin:14px 0 0}
-  .pv-pos-facts>div{min-width:0}
-  .pv-pos-facts dt{font-size:11px;color:var(--faint);margin-bottom:3px}
-  .pv-pos-facts dd{margin:0;font-size:13px;font-weight:500;font-variant-numeric:tabular-nums;
-    overflow-wrap:anywhere}
-  .pv-pos-note{margin:12px 0 0;font-size:11.5px;color:var(--dim);line-height:1.7;
-    overflow-wrap:anywhere}
   .pv-pos-wait{margin:12px 0 0;font-size:12px;color:var(--faint);line-height:1.7}
   /* 지표 라벨의 영문 약어는 보조 크기로만 — 큰 글자로 내세우지 않는다 */
   .pv-row dt small{font-size:10.5px;color:var(--faint);font-weight:400;margin-left:5px;
@@ -1312,7 +1377,6 @@
     .pv-alloc-legend{gap:10px}
     .pv-alloc-legend>span{font-size:12.5px;flex-wrap:wrap;gap:4px 6px}
     /* 표를 그대로 줄이지 않고 목록으로 다시 짠다: 1행 종목·성과 / 2행 판단·상태 */
-    .pv-pos-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 14px}
     .pv-lhead{display:none}
     .pv-trade{grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:14px 2px}
     .pv-tname{grid-column:1;grid-row:1}
@@ -5337,6 +5401,146 @@ function paperDisplayVal(P){
   }
   return {source:'live', at:live.iso, prices};
 }
+/* ── 📚 모의투자 기록(History) — 날짜별 기록 · 종합평가 · 전략 인사이트 ──────
+   러너가 원장에서 만든 paper_trading/history.json만 읽는 READ-ONLY 화면이다.
+   ⚠️ 과거 날짜는 그날 저장된 값으로만 그린다 — 현재 시세(data.js)나 현재 mark을
+      절대 섞지 않는다(8/18 기록은 며칠 뒤에 열어도 1원도 달라지지 않는다).
+   ⚠️ 기록이 깨져도 보유 현황 화면은 멀쩡해야 한다(여기서만 fail closed). */
+function paperHistoryHTML(){
+  const DASH='—';
+  const n=v=>(typeof v==='number'&&isFinite(v))?v:null;
+  const won=v=>n(v)==null?DASH:Math.round(v).toLocaleString('ko-KR')+'원';
+  const sWon=v=>n(v)==null?DASH:(v>0?'+':v<0?'−':'')+Math.abs(Math.round(v)).toLocaleString('ko-KR')+'원';
+  const sPct=(v,d)=>n(v)==null?DASH:(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d==null?2:d)+'%';
+  const dir=v=>n(v)==null||v===0?'':(v>0?' pv-up':' pv-dn');
+  const H=PV_HISTORY;
+  if(H===undefined) return `<p class="pv-hs-load">기록을 불러오는 중이에요…</p>`;
+  if(H===null||!H.days) return `<div class="pv-empty"><b>기록을 불러오지 못했습니다.</b>
+    <p>날짜별 기록 자료를 읽지 못했어요. 없는 숫자를 임의로 채우지 않기 때문에 이 영역을 비워 둡니다.
+    보유 현황은 정상적으로 확인할 수 있습니다.</p></div>`;
+  if(!H.days.length) return `<div class="pv-empty"><b>아직 쌓인 기록이 없어요.</b>
+    <p>가상 매매가 기록되기 시작하면 날짜별로 그날의 매수·매도·자산·종합평가가 여기에 쌓입니다.</p></div>`;
+
+  /* ① 날짜 하나를 펼쳐 둔 상태면 그 날짜의 상세를 본다 */
+  const cur=PV_DAY?H.days.find(d=>d.date===PV_DAY):null;
+  if(cur) return dayDetail(cur);
+
+  /* ② 목록 — 월별로 묶고 최근 날짜가 위 */
+  const months={};
+  H.days.forEach(d=>{ const m=d.date.slice(0,7); (months[m]=months[m]||[]).push(d); });
+  const monthHTML=Object.keys(months).sort().reverse().map(m=>{
+    const [y,mo]=m.split('-');
+    const rows=months[m].map(d=>{
+      const md=`${+d.date.slice(5,7)}월 ${+d.date.slice(8,10)}일`;
+      const cum=n(d.cumulativeReturnPct);
+      return `<button type="button" class="pv-hd-row" data-day="${d.date}">
+        <span class="pv-hd-l">
+          <span class="pv-hd-t">${md} 모의투자 기록${d.inProgress?'<i class="pv-hd-live">진행 중</i>':''}</span>
+          <span class="pv-hd-s">매수 ${d.buyCount} · 매도 ${d.sellCount} · 보유 ${d.openCount==null?DASH:d.openCount}
+            ${d.lastRecordAt?` · 마지막 기록 ${d.lastRecordAt}`:''}</span>
+        </span>
+        <span class="pv-hd-r">
+          <span class="pv-hd-eq">${won(d.equity)}</span>
+          <span class="pv-hd-pc${dir(cum)}">${cum==null?DASH:sPct(cum)}</span>
+        </span>
+      </button>`;
+    }).join('');
+    return `<section class="pv-hs-mo"><h4 class="pv-hs-moh">${y}년 ${+mo}월</h4>
+      <div class="pv-hd-list">${rows}</div></section>`;
+  }).join('');
+
+  /* ③ 전략 인사이트 — 표본이 충분해질 때까지 "누가 최고"라고 말하지 않는다 */
+  const S=H.strategy||{};
+  const bk=(S.buckets||[]).map(b=>`<div class="pv-row"><dt>${b.label}<small>${b.desc}</small></dt>
+    <dd>${b.tradeCount?`${b.tradeCount}건${b.avgReturnPct==null?'':` · 평균 ${sPct(b.avgReturnPct)}`}${b.winRatePct==null?'':` · 승률 ${b.winRatePct.toFixed(0)}%`}`:'<span class="pv-na">기록 축적 중</span>'}</dd></div>`).join('');
+  const stratNote=S.enough
+    ? `<p class="pv-sec-d">종료된 거래 ${S.totalClosed}건을 실제 보유기간별로 나눈 결과예요.</p>`
+    : `<p class="pv-sec-d">종료된 거래가 <b>${S.totalClosed||0}건</b>이에요. 구간별 성과를 비교하려면
+       최소 ${S.minSample||20}건이 필요해서, 아직 어느 구간이 낫다고 말하지 않습니다.</p>`;
+  const strat=`<section class="pv-sec" aria-labelledby="pvStratH">
+    <h3 class="pv-sec-h" id="pvStratH">전략 인사이트</h3>
+    ${stratNote}
+    <dl class="pv-rows">${bk}</dl>
+    <p class="pv-foot" style="margin-top:14px">${esc(S.note||'')}
+      ${(S.unsupported||[]).length?`아직 검증 대상이 아닌 구간: ${(S.unsupported||[]).map(u=>esc(u.label)).join(' · ')}.`:''}
+      이 비교는 관찰용이며, 결과에 따라 매매 규칙이 자동으로 바뀌지 않습니다.</p>
+  </section>`;
+  return `<div class="pv-hs">${monthHTML}${strat}</div>`;
+
+  /* ── 날짜 상세 ── */
+  function dayDetail(d){
+    const md=`${+d.date.slice(5,7)}월 ${+d.date.slice(8,10)}일`;
+    const facts=[
+      ['가상자산', won(d.equity)],
+      ['가상현금', won(d.cash)],
+      ['투자원금', won(d.investedCostBasis)],
+      ['평가금액', won(d.markedPositionsValue)],
+      ['보유 손익', d.unrealizedPnl==null?DASH:sWon(d.unrealizedPnl)],
+      ['확정 손익', d.realizedPnl==null?DASH:sWon(d.realizedPnl)],
+      ['누적 성과', d.cumulativeReturnPct==null?DASH:sPct(d.cumulativeReturnPct)],
+      ['일간 변화', d.dailyChangePct==null?'—(이전 기록일 없음)':sPct(d.dailyChangePct)],
+      ['거래', `매수 ${d.buyCount} · 매도 ${d.sellCount} · 보유 ${d.openCount==null?DASH:d.openCount}`],
+      ['마지막 기록', d.lastRecordAt||DASH]
+    ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    const skip=(d.skipped||[]).length
+      ? `<p class="pv-sec-d">진입하지 않은 신호: ${(d.skipped||[]).map(x=>`${esc(x.reason)} ${x.count}건`).join(' · ')}</p>`
+      : '';
+    const buys=(d.buys||[]).length
+      ? `<div class="pv-td-all">`+(d.buys||[]).map(b=>`<div class="pv-td-row">
+          <span class="pv-td-nm">${esc(b.name||b.symbol||'종목')}</span>
+          <span class="pv-td-meta">${b.quantity==null?'':b.quantity.toLocaleString('ko-KR')+'주 · '}${won(b.entryPrice)}${b.entryAt?` · ${b.entryAt}`:''}</span>
+        </div>`).join('')+`</div>`
+      : `<p class="pv-td-none">이날 새로 가상 매수한 종목이 없어요.</p>`;
+    const sells=(d.sells||[]).length
+      ? `<div class="pv-td-all">`+(d.sells||[]).map(x=>`<div class="pv-td-row">
+          <span class="pv-td-nm">${esc(x.name||x.symbol||'종목')}${x.returnPct==null?'':`<em class="pv-pos-r${dir(x.returnPct)}">${sPct(x.returnPct)}</em>`}</span>
+          <span class="pv-td-meta">${won(x.entryPrice)} → ${won(x.exitPrice)}${x.quantity==null?'':` · ${x.quantity.toLocaleString('ko-KR')}주`}${x.realizedPnl==null?'':` · ${sWon(x.realizedPnl)}`}${x.holdingTradingDays==null?'':` · 보유 ${x.holdingTradingDays}거래일`} · ${esc(x.exitReason||'종료')}</span>
+        </div>`).join('')+`</div>`
+      : `<p class="pv-td-none">이날 종료된 거래가 없어요.</p>`;
+    const R=d.review||{};
+    const rv=(R.sections||[]).map(sec=>`<div class="pv-rv-sec"><h5>${esc(sec.title)}</h5>
+      <ul>${(sec.lines||[]).map(l=>`<li>${esc(l.text)}</li>`).join('')}</ul></div>`).join('');
+    return `<div class="pv-hs">
+      <button type="button" class="pv-back" data-back="1">← 기록 목록</button>
+      <div class="pv-sec-hd"><h3 class="pv-sec-h">${md} 모의투자 기록</h3>
+        <span class="pv-asof">${d.inProgress?`진행 중 · 최근 ${d.lastRecordAt||''}`:`마지막 기록 ${d.lastRecordAt||''}`}</span></div>
+      <dl class="pv-rows">${facts}</dl>${skip}
+      <section class="pv-sec"><h4 class="pv-sec-h2">이날 매수한 종목</h4>${buys}</section>
+      <section class="pv-sec"><h4 class="pv-sec-h2">이날 매도한 종목</h4>${sells}</section>
+      <section class="pv-sec pv-rv">
+        <h4 class="pv-sec-h2">${R.inProgress?'현재까지의 평가':'이날의 종합 평가'}
+          ${R.headline?`<span class="pv-rv-hl">${esc(R.headline)}</span>`:''}</h4>
+        ${R.inProgress?`<p class="pv-sec-d">장이 진행 중이라 아직 확정된 결과가 아니에요${d.lastRecordAt?` (${d.lastRecordAt} 기준)`:''}.</p>`:''}
+        ${rv}
+        <p class="pv-foot" style="margin-top:12px">이 평가는 그날 기록된 숫자에서만 만들어집니다.
+          기록으로 증명할 수 없는 시장 원인(뉴스·수급 등)은 쓰지 않습니다.</p>
+      </section>
+    </div>`;
+  }
+}
+/* 테스트에서 기록 데이터를 주입하기 위한 훅 — 네트워크 없이 화면 계약을 검증한다.
+   (실제 사용자 경로는 아래 paperLoadHistory의 fetch 하나뿐이다) */
+function PV_HISTORY_SET(h){ PV_HISTORY=h; PV_HIST_LOADING=false; }
+if(typeof window!=='undefined') window.PV_HISTORY_SET=PV_HISTORY_SET;
+/* history.json은 기록 탭을 처음 열 때만 받아온다(보유 화면 로딩을 늦추지 않는다). */
+function paperLoadHistory(){
+  if(PV_HIST_LOADING||PV_HISTORY!==undefined) return;
+  PV_HIST_LOADING=true;
+  fetch('paper_trading/history.json',{cache:'no-cache'})
+    .then(r=>r.ok?r.json():Promise.reject(new Error('http')))
+    .then(j=>{ PV_HISTORY=(j&&Array.isArray(j.days))?j:null; })
+    .catch(()=>{ PV_HISTORY=null; })
+    .then(()=>{ PV_HIST_LOADING=false; if(PV_VIEW==='history') renderPaper(); });
+}
+
+/* 모의투자 화면 상태 — 펼쳐 둔 종목·현재 하위 화면·열어 둔 날짜.
+   자동 재조회(2분)로 다시 그려도 사용자가 펼쳐 둔 것이 닫히지 않게 유지한다. */
+const PV_OPEN=new Set();          // 펼쳐 둔 보유 종목 symbol
+let PV_VIEW='holdings';           // 'holdings' | 'history'
+let PV_DAY=null;                  // 기록에서 열어 둔 날짜(YYYY-MM-DD)
+let PV_HISTORY=undefined;         // undefined=미로드 · null=실패 · object=성공
+let PV_HIST_LOADING=false;
+
 function renderPaper(){
   const el=document.getElementById('paperView');
   if(!el) return;
@@ -5470,7 +5674,7 @@ function renderPaper(){
   const rows=(P.recentTrades||[]).filter(r=>r&&(r.status==='OPEN'||r.status==='CLOSED'));
   const opens=rows.filter(r=>r.status==='OPEN');
   const closes=rows.filter(r=>r.status==='CLOSED');
-  const posHTML=opens.map(r=>{
+  const posHTML=opens.map((r,idx)=>{
     const qty=n(r.quantity), ep=n(r.entry_price);
     let cp=n(r.current_price), ret=n(r.unrealized_return_pct), pnl=n(r.unrealized_pnl);
     let mv=n(r.market_value);
@@ -5484,44 +5688,110 @@ function renderPaper(){
     }
     const held=n(r.holding_trading_days), left=n(r.remaining_trading_days);
     const cb=n(r.cost_basis);
-    /* 수익률은 화면 끝이 아니라 종목명 바로 옆 — 한 덩어리 정보로 읽히게.
-       크기는 종목명보다 한 단계 작게, 방향색은 숫자에만. */
+    const key=String(r.symbol||idx);
+    const open_=PV_OPEN.has(key);
+    const pid='pvpos-'+key;
+    /* 기본은 한 줄로 훑고, 누르면 상세가 열린다(Progressive Disclosure).
+       수익률은 종목명 바로 옆 — 한 덩어리 정보로 읽히게. */
     const retTag=ret==null
       ? `<em class="pv-pos-r pv-r-wait">평가 대기</em>`
       : `<em class="pv-pos-r${dir(ret)}">${sPct(ret)}</em>`;
-    /* 손익금액은 보조 정보로 meta 줄에 — 수익률보다 시각적 강도를 낮춘다. */
-    const pnlTag=(ret==null||pnl==null)?'':` · <i class="pv-mpnl${dir(pnl)}">${sWon(pnl)}</i>`;
-    const flow=cp==null
-      ? `<div class="pv-pos-flow"><span><i>매수가</i>${won(ep)}</span></div>`
-      : `<div class="pv-pos-flow"><span><i>매수가</i>${won(ep)}</span><span class="pv-arrow" aria-hidden="true">→</span><span><i>현재가</i>${won(cp)}</span></div>`;
-    const facts=[
+    const line2=[qty==null?null:qty.toLocaleString('ko-KR')+'주',
+                 cp==null?null:'현재가 '+won(cp)].filter(Boolean).join(' · ');
+    const chev='<svg class="pv-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const head=`<button type="button" class="pv-pos-hd" data-pos="${esc(key)}"
+        aria-expanded="${open_?'true':'false'}" aria-controls="${pid}">
+      <span class="pv-pos-l">
+        <span class="pv-pos-nm">${esc(r.name||r.symbol||'종목 미기록')}${retTag}</span>
+        <span class="pv-pos-sub">${line2||'&nbsp;'}</span>
+      </span>
+      <span class="pv-pos-rt">
+        <span class="pv-pos-mv">${mv==null?'평가 대기':won(mv)}</span>
+        <span class="pv-pos-pl${dir(pnl)}">${pnl==null?'':sWon(pnl)}</span>
+      </span>${chev}
+    </button>`;
+    /* 상세 — 기존에 보여주던 정보를 하나도 줄이지 않는다. */
+    const rows2=[
+      ['종목코드', esc(r.symbol||DASH)],
+      ['매수가', won(ep)],
+      ['현재가', cp==null?'평가 대기':won(cp)],
       ['수량', qty==null?DASH:qty.toLocaleString('ko-KR')+'주'],
-      ['투자금액', won(cb)],
+      ['투자원금', won(cb)],
       ['평가금액', mv==null?'평가 대기':won(mv)],
-      /* 진입 당일은 "0거래일째"라고 쓰면 어색하게 읽힌다 — 표시 문구만 바꾼다.
-         내부 계산값(holding_trading_days)과 5거래일 청산 규칙은 그대로다. */
-      ['보유기간', held==null?DASH
-        :((held===0?'오늘 진입':`${held}거래일 경과`)+(maxHold?` · 최대 ${maxHold}거래일`:''))]
-    ].map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
-    const note=left==null
-      ? (maxHold?`최대 ${maxHold}거래일까지 보유하고, 판단이 「매도 고려」로 바뀌면 더 일찍 종료돼요.`:'')
-      : `남은 최대 ${left}거래일 · 판단이 「매도 고려」로 바뀌면 더 일찍 종료돼요.`;
-    const when=r.entry_business_date
-      ? (held===0?'오늘 진입':`${md(r.entry_business_date)} 진입`)
-      : '진입일 미기록';
-    return `<article class="pv-pos">
-      <div class="pv-pos-id"><h4>${esc(r.name||r.symbol||'종목 미기록')}${retTag}</h4>
-        <span>${esc(r.symbol||'')}${r.symbol?' · ':''}보유 중 · ${when}${pnlTag}</span></div>
-      ${flow}
-      <dl class="pv-pos-facts">${facts}</dl>
-      ${note?`<p class="pv-pos-note">${note}</p>`:''}
-      ${cp==null?`<p class="pv-pos-wait">현재가를 아직 받지 못해 평가금액을 계산하지 않았어요. 다음 기록에서 채워집니다.</p>`:''}
+      ['가상 손익', pnl==null?'평가 대기':sWon(pnl)],
+      ['수익률', ret==null?'평가 대기':sPct(ret)],
+      ['진입일', r.entry_business_date?day(r.entry_business_date):DASH],
+      ['진입시각', r.detected_at?hm(r.detected_at):DASH],
+      ['보유기간', held==null?DASH:(held===0?'오늘 진입':`${held}거래일 경과`)],
+      ['남은 최대 보유', left==null?(maxHold?`최대 ${maxHold}거래일`:DASH):`${left}거래일`],
+      ['종료 조건', maxHold?`${maxHold}거래일 도달 또는 판단이 「매도 고려」로 변경`:'판단이 「매도 고려」로 변경'],
+      ['현재가 기준', asOf||'평가 대기']
+    ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    return `<article class="pv-pos">${head}
+      <div class="pv-pos-body" id="${pid}"${open_?'':' hidden'}>
+        <dl class="pv-rows">${rows2}</dl>
+        ${cp==null?`<p class="pv-pos-wait">현재가를 아직 받지 못해 평가금액을 계산하지 않았어요. 다음 기록에서 채워집니다.</p>`:''}
+      </div>
     </article>`;
   }).join('');
   const stageNote={
     BEFORE_FORWARD_START:['검증 시작을 기다리고 있습니다.','예정된 시작일부터 실제 시장 가격을 기준으로 기록을 시작해요. 그 전에 나온 판단을 거슬러 올라가 거래로 만들지 않습니다.'],
     AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.','시세를 읽지 못하는 동안에는 가격을 추측해서 기록하지 않아요. 연결되면 다음 장중 기록부터 이어집니다.']
   }[P.stage]||['첫 검증 신호를 기다리고 있습니다.','새로운 「매수 고려」 판단이 나오면 여기에 종목, 매수가격, 수량, 현재가격, 보유기간과 가상 성과가 자동으로 기록돼요.'];
+  /* 종료 사유 코드 → 사람 말 (오늘 거래·종료 거래 두 곳에서 함께 쓴다) */
+  const exitName={CHIEF_SELL:'GAEO 판단이 매도 고려로 변경',MAX_HOLDING_5D:'최대 보유기간 도달'};
+  /* ③-0 오늘 거래 — "오늘 무엇을 사고팔았나"를 보유 목록과 분리해 먼저 답한다.
+     ⚠️ 오늘 매수 = 오늘 실제로 진입(ENTRY)한 거래만. 어제 사서 오늘도 들고 있는 종목은
+        '보유 중'일 뿐 오늘 매수가 아니다 — entry_business_date로 가른다.
+     ⚠️ 오늘 매도 = 오늘 실제로 종료(EXIT)된 거래만(exit_business_date). */
+  const tKST=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+  const todayBuys=opens.filter(r=>r&&r.entry_business_date===tKST);
+  const todaySells=closes.filter(r=>r&&r.exit_business_date===tKST);
+  const nameList=(arr,cap)=>{
+    const names=arr.map(r=>esc(r.name||r.symbol||'종목'));
+    if(names.length<=cap) return names.join(' · ');
+    return names.slice(0,cap).join(' · ')+` 외 ${names.length-cap}종목`;
+  };
+  const sellLines=todaySells.map(r=>{
+    const q=n(r.quantity), rr=n(r.gross_return_pct), rp=n(r.realized_pnl);
+    const hd=n(r.holding_trading_days);
+    return `<div class="pv-td-row"><span class="pv-td-nm">${esc(r.name||r.symbol||'종목')}`
+      +`${rr==null?'':`<em class="pv-pos-r${dir(rr)}">${sPct(rr)}</em>`}</span>`
+      +`<span class="pv-td-meta">${won(r.entry_price)} → ${won(r.exit_price)}`
+      +`${q==null?'':` · ${q.toLocaleString('ko-KR')}주`}`
+      +`${rp==null?'':` · ${sWon(rp)}`}`
+      +`${hd==null?'':` · 보유 ${hd}거래일`}`
+      +` · ${exitName[r.exit_reason]||'종료'}</span></div>`;
+  }).join('');
+  const buyMore=todayBuys.length>4
+    ? `<details class="pv-td-more"><summary>전체 보기</summary><div class="pv-td-all">`
+      +todayBuys.map(r=>{
+        const q=n(r.quantity);
+        return `<div class="pv-td-row"><span class="pv-td-nm">${esc(r.name||r.symbol||'종목')}</span>`
+          +`<span class="pv-td-meta">${q==null?'':q.toLocaleString('ko-KR')+'주 · '}`
+          +`${won(r.entry_price)}${r.detected_at?` · ${hm(r.detected_at)}`:''}</span></div>`;
+      }).join('')+`</div></details>`
+    : (todayBuys.length?`<div class="pv-td-all">`+todayBuys.map(r=>{
+        const q=n(r.quantity);
+        return `<div class="pv-td-row"><span class="pv-td-nm">${esc(r.name||r.symbol||'종목')}</span>`
+          +`<span class="pv-td-meta">${q==null?'':q.toLocaleString('ko-KR')+'주 · '}`
+          +`${won(r.entry_price)}${r.detected_at?` · ${hm(r.detected_at)}`:''}</span></div>`;
+      }).join('')+`</div>`:'');
+  const todaySec=`<section class="pv-sec" aria-labelledby="pvTodayH">
+    <div class="pv-sec-hd"><h3 class="pv-sec-h" id="pvTodayH">오늘 거래</h3>
+      <span class="pv-asof">매수 ${todayBuys.length} · 매도 ${todaySells.length}</span></div>
+    <div class="pv-today">
+      <div class="pv-td-grp"><span class="pv-td-k">매수</span>
+        ${todayBuys.length
+          ? `<p class="pv-td-sum">${nameList(todayBuys,4)}</p>${buyMore}`
+          : `<p class="pv-td-none">오늘 새로 가상 매수한 종목이 없어요.</p>`}</div>
+      <div class="pv-td-grp"><span class="pv-td-k">매도</span>
+        ${todaySells.length
+          ? `<div class="pv-td-all">${sellLines}</div>`
+          : `<p class="pv-td-none">오늘 종료된 거래가 없어요.</p>`}</div>
+    </div>
+  </section>`;
+
   /* 현재가 기준 시각 — 종목마다 반복하지 않고 섹션 머리에 한 번만.
      '실시간'이라고 쓰지 않는다(스트리밍이 아니다) — 실제 관측 시각을 그대로 적는다. */
   const holdStamp=(open&&asOf)?`<span class="pv-asof">현재가 기준 ${asOf.replace(' 기준','')}</span>`:'';
@@ -5532,7 +5802,6 @@ function renderPaper(){
   </section>`;
 
   /* ④ 최근 종료 거래 — 진행 중과 절대 섞지 않는다. 내부 사유 코드는 한국어로 바꿔 쓴다. */
-  const exitName={CHIEF_SELL:'GAEO 판단이 매도 고려로 변경',MAX_HOLDING_5D:'최대 보유기간 도달'};
   const closedHTML=closes.map(r=>{
     const ret=n(r.gross_return_pct), hd=n(r.holding_trading_days), pnl=n(r.realized_pnl);
     const qty=n(r.quantity);
@@ -5634,9 +5903,54 @@ function renderPaper(){
 
   /* 자동 재렌더 시 사용자가 펼쳐 둔 설명(details)이 닫히지 않게 상태를 보존한다 */
   const openGloss=[...el.querySelectorAll('.pv-gloss')].map(d=>d.open);
-  el.innerHTML=hero+summary+held+closedSec+perf+how+foot;
+  /* 모의투자 안의 두 화면 — 보유 현황 / 기록. 최상위 메뉴는 그대로 '모의투자' 하나다. */
+  const tab=(k,label)=>`<button type="button" class="pv-tab${PV_VIEW===k?' on':''}"
+    data-pview="${k}" role="tab" aria-selected="${PV_VIEW===k?'true':'false'}">${label}</button>`;
+  const tabs=`<div class="pv-tabs" role="tablist" aria-label="모의투자 화면 선택">
+    ${tab('holdings','보유 현황')}${tab('history','기록')}</div>`;
+  const body=PV_VIEW==='history'
+    ? paperHistoryHTML()
+    : summary+todaySec+held+closedSec+perf+how+foot;
+  el.innerHTML=hero+tabs+body;
   el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
+/* 모의투자 화면 클릭 위임 — 종목 펼침 · 화면 전환 · 날짜 열기/뒤로.
+   재렌더로 노드가 갈려도 계속 동작하도록 컨테이너에 한 번만 건다. */
+(function(){
+  if(typeof document==='undefined') return;
+  document.addEventListener('click',ev=>{
+    const el=document.getElementById('paperView');
+    if(!el||!el.contains(ev.target)) return;
+    const pos=ev.target.closest('.pv-pos-hd');
+    if(pos){
+      const k=pos.dataset.pos;
+      if(PV_OPEN.has(k)) PV_OPEN.delete(k); else PV_OPEN.add(k);
+      // 전체 재렌더 없이 그 자리에서 여닫는다(빠른 연타에도 상태가 어긋나지 않는다)
+      const open_=PV_OPEN.has(k);
+      pos.setAttribute('aria-expanded',open_?'true':'false');
+      const body=document.getElementById(pos.getAttribute('aria-controls'));
+      if(body) body.hidden=!open_;
+      return;
+    }
+    const tab=ev.target.closest('.pv-tab');
+    if(tab){
+      PV_VIEW=tab.dataset.pview; PV_DAY=null;
+      if(PV_VIEW==='history') paperLoadHistory();
+      try{
+        const u=new URL(location.href);
+        if(PV_VIEW==='history') u.searchParams.set('view','history');
+        else u.searchParams.delete('view');
+        history.replaceState(null,'',u);
+      }catch(e){}
+      renderPaper();
+      return;
+    }
+    const dayBtn=ev.target.closest('.pv-hd-row');
+    if(dayBtn){ PV_DAY=dayBtn.dataset.day; renderPaper(); return; }
+    if(ev.target.closest('.pv-back')){ PV_DAY=null; renderPaper(); return; }
+  });
+})();
+
 /* 💹 모의투자 표시 데이터 자동 재조회 (2026-08-18)
    화면이 열려 있는 동안 2분마다 data.js·paper_public.js가 새로 배포됐는지 확인하고,
    실제로 더 새 것일 때만 표시를 다시 그린다(홈 브리핑의 refreshBrief와 같은 패턴).
@@ -13958,7 +14272,13 @@ window.hangulFix=function(str){
     else if(m==='guide'){ window.setMode('guide'); }
     else if(m==='latest'){ window.setMode('latest'); }
     else if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.setMode(m); }
-    else if(m==='paper'){ window.setMode('paper'); }
+    else if(m==='paper'){
+      // ?m=paper&view=history — 기록 화면 딥링크(기본은 보유 현황)
+      if(qp.get('view')==='history'){
+        try{ PV_VIEW='history'; paperLoadHistory(); }catch(e){}
+      }
+      window.setMode('paper');
+    }
     else if(m==='rates'){ window.setMode('rates'); }
     else if(m==='rotation'){ window.setMode('rotation'); }
     else if(m==='changelog'){ window.setMode('changelog'); }
