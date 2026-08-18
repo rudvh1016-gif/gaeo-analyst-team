@@ -34,7 +34,15 @@ def bundle(calls, at):
 
 
 def cal(day, open_=True):
-    ses = {"startTime": f"{day}T09:00:00+09:00", "endTime": f"{day}T15:30:00+09:00"}
+    # ⚠️ 실제 응답 모양 그대로: integrated 안에 preMarket/regularMarket/afterMarket이 있고
+    #    정규장 시각은 regularMarket에 있다. (2026-08-18 이전 픽스처는 integrated 최상위에
+    #    startTime/endTime을 두는 잘못된 모양이라, 정규장 오판 버그를 잡아내지 못했다)
+    regular = {"startTime": f"{day}T09:00:00+09:00", "endTime": f"{day}T15:30:00+09:00"}
+    ses = {"preMarket": {"startTime": f"{day}T08:00:00+09:00",
+                         "endTime": f"{day}T09:00:00+09:00"},
+           "regularMarket": regular,
+           "afterMarket": {"startTime": f"{day}T15:30:00+09:00",
+                           "endTime": f"{day}T20:00:00+09:00"}}
     return {"today": {"date": day, "open": open_, "integrated": ses if open_ else None},
             "previousBusinessDay": None, "nextBusinessDay": None}
 
