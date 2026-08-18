@@ -1,6 +1,6 @@
 {
  "status": "READY",
- "asOf": "2026-08-18T00:17:43+00:00",
+ "asOf": "2026-08-18T00:46:34+00:00",
  "kstDay": "2026-08-18",
  "rawCount": 3916,
  "eligibleCount": 2410,
@@ -18,16 +18,16 @@
   "suspendedCount": 119,
   "excludedCounts": {
    "CLASS_SHARE": 90,
-   "ETF": 866,
+   "ETF": 865,
    "REIT": 21,
-   "ETN": 369,
+   "ETN": 370,
    "SPAC": 41
   },
   "classificationUnknownCount": 0,
   "typeHistogram": {
    "stock": 2681,
-   "etf": 866,
-   "etn": 369
+   "etf": 865,
+   "etn": 370
   },
   "coverageRatio": 1.0
  }
