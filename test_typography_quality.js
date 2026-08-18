@@ -38,7 +38,9 @@ function check(name, condition, detail) {
 }
 
 // 브랜드 로고·히어로 타이틀은 굵기 예외를 허용한다(디자인 계약과 동일 기준).
+// briefTitle(홈 「현재 기준 브리핑」)은 2026-08-18 사용자 지정으로 700을 쓴다.
 const WEIGHT_EXEMPT = ['global-brand-word', 'hero-brand', 'hero-title'];
+const WEIGHT_EXEMPT_IDS = ['briefTitle'];
 
 async function auditMode(page, mode, width) {
   await page.evaluate(m => { try { window.setMode(m); } catch (e) {} }, mode);
@@ -55,7 +57,7 @@ async function auditMode(page, mode, width) {
   }
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(400);
-  return page.evaluate(([exempt, sel, HUGE]) => {
+  return page.evaluate(([exempt, sel, HUGE, exemptIds]) => {
     const view = document.querySelector(sel);
     // 그 화면이 실제로 보이지 않으면 검사 결과가 무의미하므로 그대로 알린다.
     if (!view || view.offsetParent === null || (view.innerText || '').trim().length < 40)
@@ -111,7 +113,7 @@ async function auditMode(page, mode, width) {
         fams.add(s.fontFamily.split(',')[0].replace(/["']/g, ''));
       }
       const cls = typeof el.className === 'string' ? el.className : '';
-      const isExempt = exempt.some(x => cls.includes(x));
+      const isExempt = exempt.some(x => cls.includes(x)) || exemptIds.includes(el.id);
       const w = parseInt(s.fontWeight);
       if (!isExempt) weights[w] = (weights[w] || 0) + 1;
       const px = parseFloat(s.fontSize);
@@ -167,7 +169,7 @@ async function auditMode(page, mode, width) {
       clip: bad.slice(0, 3),
       overflow: document.documentElement.scrollWidth > window.innerWidth + 1
     };
-  }, [WEIGHT_EXEMPT, MODE_VIEW[mode], width <= 430 ? 30 : 46]);
+  }, [WEIGHT_EXEMPT, MODE_VIEW[mode], width <= 430 ? 30 : 46, WEIGHT_EXEMPT_IDS]);
 }
 
 (async () => {
