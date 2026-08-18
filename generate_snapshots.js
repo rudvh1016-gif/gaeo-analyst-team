@@ -93,7 +93,7 @@ function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/fonts/wanted-sans/WantedSansVariable.css">
 <title>${esc(title)} · ${esc(TITLE_SUFFIX)}</title>
 <meta name="description" content="${esc(sdesc)}">
 ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="canonical" href="${esc(canonicalUrl)}">
@@ -120,21 +120,21 @@ ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="ca
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
 .card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
-.tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
 ul{margin:0 0 12px;padding-left:20px}
 li{margin-bottom:6px;font-size:15px}
-.cta{display:inline-block;margin-top:22px;background:var(--sky);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:99px}
+.cta{display:inline-block;margin-top:22px;background:var(--sky);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:11px 20px;border-radius:99px}
 .trust{margin-top:22px;padding:14px 16px;border-radius:13px;background:var(--soft);font-size:12.5px;color:var(--t2)}
 .trust strong{display:block;color:var(--ink);margin-bottom:3px}
 .related{margin-top:24px;padding-top:18px;border-top:1px solid rgba(128,128,128,.2)}
@@ -489,7 +489,7 @@ const indexPage = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/fonts/wanted-sans/WantedSansVariable.css">
 <title>${esc(HUB_TITLE)}</title>
 <meta name="description" content="${esc(HUB_DESC)}">
 <link rel="canonical" href="${BASE}snap/index.html">
@@ -516,20 +516,20 @@ const indexPage = `<!doctype html>
 @media (prefers-color-scheme:dark){:root{--paper:#101315;--bg:#0b0d0f;--ink:#f3f5f7;--muted:#9aa4ad;--line:#2a2f34;--accent:#a9c1e8}}
 *{box-sizing:border-box}
 html{background:var(--paper)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .shell{width:min(1040px,calc(100% - 40px));margin:0 auto;padding:30px 0 80px}
 a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--line);font-size:13px}
-.brand a{font-weight:700;letter-spacing:-.02em}
+.brand a{font-weight:600;letter-spacing:-.02em}
 .brand span{color:var(--muted)}
 header.hero{padding:44px 0 0}
-h1{margin:0;font-size:clamp(30px,5vw,42px);font-weight:700;letter-spacing:-.045em;line-height:1.12}
+h1{margin:0;font-size:clamp(30px,5vw,42px);font-weight:600;letter-spacing:-.045em;line-height:1.12}
 .intro{max-width:640px;margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.75}
-nav.toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:30px 0 0;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);font-size:13px;font-weight:650}
+nav.toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:30px 0 0;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);font-size:13px;font-weight:600}
 nav.toc a{color:var(--muted);padding:2px 0;border-bottom:2px solid transparent}
 nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
 .sec{display:grid;grid-template-columns:180px minmax(0,1fr);gap:36px;padding:38px 0;border-bottom:1px solid var(--line)}
-.sec-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.sec-head h2{margin:0;font-size:19px;font-weight:600;letter-spacing:-.02em}
 .cnt{margin:6px 0 0;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
 .blurb{margin:10px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
 .rows{margin:0;padding:0;list-style:none}
@@ -537,19 +537,19 @@ nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink);border-bottom-color:var
 .rows li:last-child{border-bottom:0}
 .rows a{display:block;padding:12px 2px}
 .rows a:hover .rt,.rows a:focus-visible .rt{color:var(--accent)}
-.rt{display:block;font-size:15.5px;font-weight:650;line-height:1.5;letter-spacing:-.01em}
+.rt{display:block;font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
 .rm{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
-.more{display:inline-block;margin-top:14px;color:var(--muted);font-size:13px;font-weight:650}
+.more{display:inline-block;margin-top:14px;color:var(--muted);font-size:13px;font-weight:600}
 .more:hover,.more:focus-visible{color:var(--ink)}
 .featured{padding-bottom:20px;margin-bottom:8px;border-bottom:1px solid var(--line)}
 .fmeta{margin:0 0 8px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
-.ftitle{display:block;font-size:clamp(20px,3vw,26px);font-weight:700;line-height:1.35;letter-spacing:-.025em}
+.ftitle{display:block;font-size:clamp(20px,3vw,26px);font-weight:600;line-height:1.35;letter-spacing:-.025em}
 .ftitle:hover,.ftitle:focus-visible{color:var(--accent)}
-.entry{display:inline-block;margin-top:14px;color:var(--accent);font-size:13.5px;font-weight:650}
+.entry{display:inline-block;margin-top:14px;color:var(--accent);font-size:13.5px;font-weight:600}
 #archive .rowsarchive{margin:0;padding:0;list-style:none;max-width:760px}
 #archive li{padding:10px 2px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.6}
 #archive li:last-child{border-bottom:0}
-#archive li>a{font-weight:650}
+#archive li>a{font-weight:600}
 #archive li>a:hover,#archive li>a:focus-visible{color:var(--accent)}
 .cat{display:inline-block;margin-right:6px;color:var(--muted);font-size:11.5px}
 .d{display:block;margin-top:2px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}

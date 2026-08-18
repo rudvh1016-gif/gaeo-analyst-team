@@ -56,17 +56,27 @@ check("순환매 쉬운 설명(시장보다 잘 갔는지) 포함",
 check("순환매 미반영 안내 포함", "성적만 쌓고 있습니다" in html)
 
 # ── Typography — 표준 스택·tabular-nums ─────────────────────────────────────
-check("--sans 토큰이 Pretendard Variable 우선", "'Pretendard Variable',Pretendard" in html
-      or '"Pretendard Variable",Pretendard' in html)
-check("Pretendard variable dynamic subset 로드", "pretendardvariable-dynamic-subset" in html)
+# 2026-08-18 사이트 전체 통일: 1순위 Wanted Sans Variable(저장소에 self-host,
+# SIL OFL 1.1), 예비로 Pretendard → 시스템 글꼴. 화면마다 다른 글꼴이 뜨는 일을
+# 막기 위해 index뿐 아니라 about·404·스냅샷·정밀분석 생성기까지 같은 계약을 건다.
+_WS = '"Wanted Sans Variable","Pretendard Variable"'
+_WS_CSS = "assets/fonts/wanted-sans/WantedSansVariable.css"
+check("--sans 토큰이 Wanted Sans Variable 우선", _WS in html)
+check("Wanted Sans self-host CSS 로드", _WS_CSS in html)
+check("예비 글꼴로 Pretendard 유지(웹폰트 실패 대비)", "Pretendard" in html)
 check("성적표 숫자 tabular-nums", "font-variant-numeric:tabular-nums" in html)
-for f in ["404.html", "about.html"]:
+for f in ["404.html", "about.html", "generate_snapshots.js", "deep_analysis_publish.js"]:
     s = open(f, encoding="utf-8").read()
-    check(f"{f}: Pretendard variable dynamic subset 로드", "pretendardvariable-dynamic-subset" in s)
-for f in ["generate_snapshots.js", "deep_analysis_publish.js"]:
-    s = open(f, encoding="utf-8").read()
-    check(f"{f}: 표준 스택 적용", '"Pretendard Variable",Pretendard,-apple-system' in s)
-    check(f"{f}: 폰트 링크 포함", "pretendardvariable-dynamic-subset" in s)
+    check(f"{f}: 표준 스택 적용(Wanted Sans 우선)", _WS in s)
+    check(f"{f}: Wanted Sans self-host CSS 로드", _WS_CSS in s)
+    check(f"{f}: jsdelivr Pretendard 링크 제거", "pretendardvariable-dynamic-subset" not in s)
+# 발행된 정적 페이지도 같은 글꼴이어야 한다(생성기만 고치고 재생성을 잊는 사고 방지)
+import glob as _glob
+_pub = ["snap/index.html", "research/deep-analysis/index.html"] + \
+       sorted(_glob.glob("snap/stock/*.html"))[:3] + \
+       sorted(_glob.glob("research/deep-analysis/*/*/index.html"))[:3]
+_stale = [f for f in _pub if _WS not in open(f, encoding="utf-8").read()]
+check("발행된 정적 페이지도 Wanted Sans로 재생성됨", not _stale, str(_stale[:3]))
 # SF Pro 파일 금지
 import glob, os
 sf = [p for p in glob.glob("**/*.woff*", recursive=True) + glob.glob("**/*.otf", recursive=True)
@@ -74,17 +84,19 @@ sf = [p for p in glob.glob("**/*.woff*", recursive=True) + glob.glob("**/*.otf",
 check("SF Pro 폰트 파일 0건", not sf, str(sf))
 
 # ── Typography 계층 계약 (2026-08-16 FINAL PASS) ────────────────────────────
-# weight는 5단계 tier(400/500/600/650/700)만 쓴다. 800은 브랜드 로고·히어로
-# 전용 예외(소수), 900·자의적 중간값(720·760·820·850…)은 금지.
+# weight는 3단계 tier(400 본문 / 500 라벨 / 600 제목·강조)만 쓴다. 800은
+# 브랜드 로고·히어로 전용 예외(소수), 650·700·720·760·900 같은 값은 금지.
+# (2026-08-18 전체 sweep — 화면마다 굵기가 미묘하게 다르던 원인을 없앴다)
 import re as _re
 _weights = _re.findall(r"font-weight:(\d{3})", html)
-_allowed = {"400", "500", "600", "650", "700", "800"}
+_allowed = {"400", "500", "600", "800"}
 _bad = sorted(set(w for w in _weights if w not in _allowed))
-check("font-weight는 5단계 tier + 브랜드 800만", not _bad, f"허용 외: {_bad}")
+check("font-weight는 3단계 tier + 브랜드 800만", not _bad, f"허용 외: {_bad}")
 check("브랜드 예외(800)는 소수(≤5)", _weights.count("800") <= 5,
       f"800이 {_weights.count('800')}곳")
 check("font-weight:900 없음", "font-weight:900" not in html)
-for _f in ["rotation.css", "insight-rail.css"]:
+for _f in ["rotation.css", "insight-rail.css", "full-market.css",
+           "about.html", "404.html", "generate_snapshots.js", "deep_analysis_publish.js"]:
     _s = open(_f, encoding="utf-8").read()
     _b = sorted(set(w for w in _re.findall(r"font-weight:(\d{3})", _s) if w not in _allowed))
     check(f"{_f}: weight tier 준수", not _b, f"허용 외: {_b}")
