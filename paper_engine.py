@@ -329,6 +329,42 @@ class PaperEngine:
                 "position_size_krw": 1_000_000,
                 "maxHoldingTradingDays": MAX_HOLDING_TRADING_DAYS}
 
+    # ── 놓친 거래일 보충 ──
+    MAX_BACKFILL_DAYS = 15          # API 폭주 방지 상한(3주치면 충분)
+
+    def _backfill_missed_business_days(self, today_date):
+        """오늘 이전에 기록이 빠진 거래일을 공식 캘린더로만 되짚어 채운다.
+
+        추측 금지 원칙: 요일·공휴일을 자체 계산하지 않고, 캘린더 API가 준
+        previousBusinessDay를 따라 뒤로 걸으며 "open이라고 답한 날"만 넣는다.
+        이미 기록된 가장 최근 거래일에 도달하면 멈춘다. 실패하면 조용히 포기한다
+        (보충은 부가 기능이라, 여기서 예외를 던져 사이클 전체를 죽이지 않는다).
+        """
+        known = set(self.state.get("businessDates") or [])
+        prior = sorted(d for d in known if d < today_date)
+        floor = prior[-1] if prior else None
+        if floor is None:
+            return 0                # 기준점이 없으면 어디까지 거슬러야 할지 알 수 없다
+        added, cursor = [], today_date
+        for _ in range(self.MAX_BACKFILL_DAYS):
+            try:
+                cal = self.provider.get_market_calendar_kr(date=cursor)
+            except pmd.MarketDataUnavailable:
+                break               # 보충 실패는 사이클을 막지 않는다
+            prev = cal.get("previousBusinessDay") or {}
+            pdate = prev.get("date")
+            if not pdate or pdate <= floor:
+                break               # 이미 아는 구간에 닿았다
+            if prev.get("open") and pdate not in known:
+                known.add(pdate)
+                added.append(pdate)
+            cursor = pdate
+        if added:
+            self.state["businessDates"] = sorted(known)[-400:]
+            self.state["backfilledBusinessDates"] = sorted(
+                set(self.state.get("backfilledBusinessDates") or []) | set(added))[-400:]
+        return len(added)
+
     def _load_state(self):
         path = os.path.join(self.dir, "state.json")
         st = {}
@@ -392,6 +428,12 @@ class PaperEngine:
         if today_date not in self.state["businessDates"]:
             self.state["businessDates"].append(today_date)
             self.state["businessDates"] = sorted(self.state["businessDates"])[-400:]
+
+        # 🐛 2026-08-19 추가: 러너가 며칠 죽어 있으면 그 사이 거래일이 businessDates에서
+        #    통째로 빠지고, 보유일이 실제보다 적게 세어져 MAX_HOLDING 청산이 밀린다.
+        #    (2026-08-19 실제 사고: 자격증명 유실로 12사이클 연속 실패 → 그날이 미기록)
+        #    ⚠️ 날짜를 추측해서 채우지 않는다. 공식 캘린더가 open이라고 답한 날만 넣는다.
+        self._backfill_missed_business_days(today_date)
 
         bundle = signals_bundle or load_production_signals()
         signals = bundle["signals"]
