@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-19T03:12:08.595156+00:00",
+ "generatedAt": "2026-08-19T03:42:08.309817+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -27,10 +27,10 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 950,
-      "marketRelativeMeanReturn": -0.54,
-      "meanReturn": -1.17,
-      "medianReturn": -1.27,
-      "precision": 40.3
+      "marketRelativeMeanReturn": -0.55,
+      "meanReturn": -1.16,
+      "medianReturn": -1.25,
+      "precision": 40.4
      },
      "directionalAccuracy": 51.5,
      "directionalCI95": [
@@ -41,7 +41,7 @@ const MODEL_SCOREBOARD = {
      "hold": {
       "count": 8086,
       "marketRelativeMeanReturn": 0.02,
-      "meanReturn": 0.33,
+      "meanReturn": 0.34,
       "medianReturn": 0.0,
       "precision": 51.3
      },
@@ -73,10 +73,10 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 950,
-      "marketRelativeMeanReturn": -0.54,
-      "meanReturn": -1.17,
-      "medianReturn": -1.27,
-      "precision": 40.3
+      "marketRelativeMeanReturn": -0.55,
+      "meanReturn": -1.16,
+      "medianReturn": -1.25,
+      "precision": 40.4
      },
      "directionalAccuracy": 51.5,
      "directionalCI95": [
@@ -87,7 +87,7 @@ const MODEL_SCOREBOARD = {
      "hold": {
       "count": 8086,
       "marketRelativeMeanReturn": 0.02,
-      "meanReturn": 0.33,
+      "meanReturn": 0.34,
       "medianReturn": 0.0,
       "precision": 51.3
      },
