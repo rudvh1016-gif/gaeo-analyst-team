@@ -362,7 +362,14 @@ def classify_holding(days):
     return "other"
 
 
-def _stats(rows):
+def _stats(rows, gated=False):
+    """gated=True면 성과 결론을 숫자로 내지 않는다(건수·실현손익·보유일수는 사실이라 유지).
+
+    ⚠️ 게이트 기준은 **bucket별 표본이 아니라 전체 청산 표본**이다. 그래야 보유 화면의
+       게이트(paper_engine.MIN_CLOSED_FOR_EVIDENCE)와 정확히 같은 시점에 함께 열려,
+       "보유 화면은 표본 부족인데 기록 탭은 승률 100%"라는 모순이 생기지 않는다.
+       bucket 사이의 우열 선언은 별도로 각 bucket의 enough 플래그가 막는다.
+    """
     rets = [r["returnPct"] for r in rows if r["returnPct"] is not None]
     rel = [round(r["returnPct"] - r["benchmarkReturnPct"], 3) for r in rows
            if r["returnPct"] is not None and r["benchmarkReturnPct"] is not None]
@@ -376,13 +383,22 @@ def _stats(rows):
         n = len(s)
         med = round(s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2, 2)
     wins = [r for r in rets if r > 0]
+    # 🔒 표본 게이트 — 청산 표본이 MIN_STRATEGY_SAMPLE 미만이면 성과 결론을 숫자로 내지 않는다.
+    # build_strategy()가 "우승 전략 선언"만 막고 있었는데, 정작 각 bucket의 승률·평균수익률은
+    # 그대로 나가서 기록 탭에 "2건 · 평균 +3.00% · 승률 100%"가 찍혔다. 보유 화면은
+    # "표본 부족"이라고 하는데 기록 탭은 승률 100%를 보여주는 모순이 실제로 재현됐다.
+    # paper_engine.EVIDENCE_GATED_FIELDS와 같은 원칙이다: 일부만 막으면 구멍이 남는다.
+    # ⚠️ tradeCount·realizedPnl·avgHoldingTradingDays는 서술 지표라 막지 않는다
+    #    (몇 건인지·실제로 얼마를 벌거나 잃었는지는 사실이고, 성과 "결론"이 아니다).
     return {
         "tradeCount": len(rows),
-        "winRatePct": round(len(wins) / len(rets) * 100, 1) if rets else None,
-        "avgReturnPct": avg(rets), "medianReturnPct": med,
-        "avgRelativeReturnPct": avg(rel),
+        "winRatePct": None if gated else (round(len(wins) / len(rets) * 100, 1) if rets else None),
+        "avgReturnPct": None if gated else avg(rets),
+        "medianReturnPct": None if gated else med,
+        "avgRelativeReturnPct": None if gated else avg(rel),
         "avgHoldingTradingDays": avg(hold),
-        "avgMfePct": avg(mfe), "avgMaePct": avg(mae),
+        "avgMfePct": None if gated else avg(mfe),
+        "avgMaePct": None if gated else avg(mae),
         "realizedPnl": sum(r["realizedPnl"] for r in rows
                            if r["realizedPnl"] is not None) or 0,
     }
@@ -401,9 +417,13 @@ def build_strategy(all_sells):
         b = classify_holding(s.get("holdingTradingDays"))
         if b:
             by[b].append(s)
+    # 전체 청산 표본이 최소치 미만이면 모든 bucket의 성과 결론을 숫자로 내지 않는다.
+    # (bucket별로 따로 재면 총 20건인데 12/8로 갈린 경우까지 막혀 화면이 비어버린다.)
+    total_closed = sum(len(by[k]) for k, *_ in STRATEGY_BUCKETS)
+    gated = total_closed < MIN_STRATEGY_SAMPLE
     buckets = []
     for key, label, desc, lo, hi in STRATEGY_BUCKETS:
-        st = _stats(by[key])
+        st = _stats(by[key], gated=gated)
         buckets.append({"key": key, "label": label, "desc": desc,
                         "enough": st["tradeCount"] >= MIN_STRATEGY_SAMPLE, **st})
     total = sum(b["tradeCount"] for b in buckets)
