@@ -1,12 +1,28 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-19 14:55",
- "priceLabel": "2026-08-19 14:48 장중",
- "count": 70,
+ "generatedAt": "2026-08-19 15:26",
+ "priceLabel": "2026-08-19 15:22 장중",
+ "count": 72,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "348370",
+   "name": "엔켐",
+   "title": "[기재정정]주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:25:07.479776+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "092230",
+   "name": "KPX홀딩스",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:25:07.479776+00:00",
+   "isCorrection": false
+  },
   {
    "code": "041510",
    "name": "에스엠",
