@@ -706,7 +706,7 @@
    "marketTsRegressionCount": 1
   }
  },
- "lastCycleAt": "2026-08-19T12:35:12+09:00",
+ "lastCycleAt": "2026-08-19T13:05:09+09:00",
  "lastCycleResult": "TOSS_MARKET_DATA_UNAVAILABLE — credential 미등록(NEEDS_USER_ACTION)",
  "lastProcessedModelVersion": "baseline-risk-v2"
 }
