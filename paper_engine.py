@@ -48,6 +48,21 @@ ENVIRONMENT = "LIVE_PAPER"          # 테스트는 TEST 로 분리(절대 혼합
 
 DEFAULT_DIR = os.path.join(HERE, "paper_trading")
 
+# 성과 결론(승률·평균수익률 등)을 숫자로 내보내려면 최소한 이만큼의 청산 표본이 있어야 한다.
+MIN_CLOSED_FOR_EVIDENCE = 20
+# 표본이 그보다 적으면 아래 필드는 계산해 두고도 전부 null로 내보낸다.
+# (evidence 라벨만 INSUFFICIENT로 두고 숫자는 그대로 두면, 화면·외부 사용처가
+#  그 숫자만 집어다 "승률 100%" 같은 결론으로 쓰는 사고가 난다.)
+# ⚠️ 청산 표본에서 파생된 "성과 결론"은 전부 넣는다. 일부만 막으면 구멍이 생긴다.
+#    예: avgWinPct·avgLossPct를 막아놓고 그 비율인 winLossRatio를 숫자로 내보내면
+#    소비자는 결국 같은 결론을 얻는다. 반대로 순수 서술 지표(보유일수·건수)는
+#    성과 주장이 아니므로 막지 않는다.
+EVIDENCE_GATED_FIELDS = ("winRatePct", "avgReturnPct", "medianReturnPct",
+                         "avgWinPct", "avgLossPct", "profitFactor", "expectancyPct",
+                         "winLossRatio", "sumTradeReturnsPct", "grossReturnPct",
+                         "avgBenchmarkReturnPct", "avgRelativeReturnPct",
+                         "avgMfePct", "avgMaePct")
+
 
 # ── 유틸 ────────────────────────────────────────────────────────────────────
 def now_kst():
@@ -707,7 +722,7 @@ class PaperEngine:
             "engineStartedAt": self.state.get("engineStartedAt"),
             "generatedAt": iso(now_kst()),
             "evidence": ("INSUFFICIENT_EVIDENCE — 표본이 적어 성과 결론 금지"
-                         if len(closed) < 20 else "SAMPLE_OK"),
+                         if len(closed) < MIN_CLOSED_FOR_EVIDENCE else "SAMPLE_OK"),
             "totalForwardSignals": len(rows),
             "openTrades": len(opens),
             "maturedTrades": len(closed),
@@ -736,6 +751,13 @@ class PaperEngine:
             "note": ("가상자금 기록 전용 — 실제 계좌·주문 없음. "
                      "Production 모델을 그대로 검증하며 결과로 모델을 자동 수정하지 않는다."),
         }
+        # 🔒 표본 게이트 — 청산 표본이 최소치 미만이면 성과 결론 필드를 숫자로 내보내지 않는다.
+        # evidence 라벨은 이미 INSUFFICIENT를 달고 있었지만 숫자 자체는 살아 있어서,
+        # 라벨을 안 보는 소비자(공개 스냅샷·외부 스크립트)가 "청산 2건짜리 승률 50%"를
+        # 그대로 성과처럼 쓸 수 있었다. 표본이 차기 전에는 필드 자체가 null이어야 한다.
+        if len(closed) < MIN_CLOSED_FOR_EVIDENCE:
+            for _k in EVIDENCE_GATED_FIELDS:
+                summary[_k] = None
         # 📊 Mark-to-Market 회계 (표시·MDD 전용 — 매매 행동에 영향 0)
         # FIX 3: 실제 가상체결이 0건이면 성과 지표를 만들지 않는다 —
         # '거래 없음'을 0% 성과처럼 보이게 하지 않는다(평가금 1,000만원 표시는 유지).
