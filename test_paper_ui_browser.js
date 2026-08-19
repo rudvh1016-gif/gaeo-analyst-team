@@ -342,15 +342,20 @@ const BASELINE = {
     part.text.includes('9,663,055원') && part.text.includes('336,945원'));
 
   // ── ⑥-3 표시용 현재가 신선화 — data.js가 러너 mark보다 신선하면 화면 값만 재평가 ──
+  /* ⚠️ 날짜를 하드코딩하지 않는다. 화면은 관측일이 "오늘"이 아니면 기준시각 앞에 날짜를
+     붙인다(어제 시세를 오늘 것처럼 보이지 않게 하는 안전장치). 픽스처 날짜를 고정하면
+     그 날이 지나는 순간 L4·L5가 실패한다 — 실제로 2026-08-19에 그렇게 깨졌다.
+     그래서 "오늘(KST)"을 매번 계산해서 픽스처에 넣고, 같은 날 동작을 검사한다. */
+  const TODAY_KST = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
   const LIVE_BASE = {
     ...BASELINE, stage: 'RUNNING', openTrades: 2, closedTrades: 0, executedTradeCount: 2,
-    maxHoldingTradingDays: 5, lastCycleOk: true, lastCycleAt: '2026-08-18T11:05:14+09:00',
+    maxHoldingTradingDays: 5, lastCycleOk: true, lastCycleAt: `${TODAY_KST}T11:05:14+09:00`,
     initialVirtualCash: 10000000,
     investedCostBasis: 1939900, availableVirtualCash: 8060100,
     markedPositionsValue: 1923000, currentVirtualEquity: 9983100,
     unrealizedPnl: -16900, realizedPnl: 0, portfolioReturnPct: -0.169,
     allocationInvestedPct: 19.3, allocationCashPct: 80.7,
-    valuationStatus: 'MARKED', valuationObservedAt: '2026-08-18T11:05:14+09:00',
+    valuationStatus: 'MARKED', valuationObservedAt: `${TODAY_KST}T11:05:14+09:00`,
     positionSizeKrw: 1000000,
     recentTrades: [
       { status: 'OPEN', symbol: '005930', name: '삼성전자', entry_price: 72300, quantity: 13,
@@ -361,7 +366,7 @@ const BASELINE = {
         unrealized_return_pct: 0, holding_trading_days: 1, remaining_trading_days: 4 }
     ]
   };
-  const LIVE_OK = { date: '2026-08-18 11:46 장중', stocks: {
+  const LIVE_OK = { date: `${TODAY_KST} 11:46 장중`, stocks: {
     '005930': { price: 74000, stale: false }, '000660': { price: 199000, stale: false } } };
 
   const lv = await renderWith(page, LIVE_BASE, LIVE_OK);

@@ -13,6 +13,7 @@ Claude 세션이 시작될 때 .claude/settings.json 훅이 이 스크립트를 
 - 어떤 경우에도 exit 0 (세션 시작을 막지 않는다).
 """
 import datetime
+import json
 import os
 import re
 import sys
@@ -54,6 +55,38 @@ def read_stamp(path, pattern):
         return None
 
 
+def check_paper_cycle(now, in_window):
+    """모의투자 러너가 사이클에 실패하고 있으면 알린다.
+
+    2026-08-19 사고: 집 PC 러너의 토스 자격증명이 유실돼 하루 12사이클이 전부
+    실패했는데, 아무도 몰라서 하루치 기록이 통째로 비었다. 실패는 state.json에
+    남아 있었지만 아무 데도 안 떴다.
+
+    ⚠️ 장외·주말에는 점검하지 않는다(러너가 안 도는 게 정상인 시간대).
+    ⚠️ 이 파일은 세션 시작 훅이라 절대 예외를 밖으로 던지지 않는다.
+    """
+    if not in_window:
+        return []
+    try:
+        with open("paper_trading/state.json", encoding="utf-8") as f:
+            st = json.load(f)
+    except Exception:
+        return []                      # 모의투자를 안 쓰는 환경일 수 있다
+    result = str(st.get("lastCycleResult") or "")
+    at = str(st.get("lastCycleAt") or "")
+    if not result or result.startswith("CYCLE_OK"):
+        return []
+    # 오늘 시도한 기록이 아니면(예: 주말 지나 월요일 아침) 아직 판단하지 않는다
+    if at[:10] != now.strftime("%Y-%m-%d"):
+        return []
+    reason = result.split("—")[0].split("(")[0].strip() or result[:40]
+    hint = ""
+    if "TOSS_MARKET_DATA_UNAVAILABLE" in result:
+        hint = (" → 집 PC 작업 스케줄러의 GAEO Paper Trading이 부트스트랩(run-paper.ps1)을 "
+                "실행하는지, 자격증명이 살아 있는지 확인 (docs/PAPER_TRADING_LOCAL_RUNNER.md)")
+    return [f"모의투자 사이클이 실패 중입니다 — {reason}{hint}"]
+
+
 def main():
     now = datetime.datetime.now(KST)
     in_window = now.weekday() < 5 and ("09:10" <= now.strftime("%H:%M") < "16:00")
@@ -68,6 +101,7 @@ def main():
 
     pa, aa = age_min(price_at), age_min(auto_at)
     msgs = []
+    msgs += check_paper_cycle(now, in_window)
     if in_window:
         # 여유 임계: 시세 10분 주기→25분, 자동분석 30분 주기→70분
         # 파싱 실패(None)는 "갱신이 끊겼다"와 원인이 다르므로 문구를 구분한다 —
