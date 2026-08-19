@@ -31,6 +31,10 @@ CSS 버그·시세 데이터·DART 수집 같은 SEO 무관 작업에는 강제�
 
 정밀분석에 쓰이는 5개 역할별 서브에이전트 정의: `chief-pm`(총괄 PM) · `diana-fundamental`(재무) · `flow-supply`(수급) · `nova-sentiment`(뉴스·심리) · `taro-technical`(기술적 분석). 종목분석 스킬 절차 안에서 병렬로 호출된다. 이 구조는 Claude Code의 서브에이전트 기능에 의존하므로, Codex가 같은 작업을 할 땐 이 5개 관점을 순차적으로(또는 자기 방식대로) 직접 수행하면 된다.
 
+## GAEO TEAM — 저장소 개발·점검용 8개 Agent + 7개 Skill
+
+위 5인 팀이 "종목 판단"을 만든다면, GAEO TEAM은 **이 저장소를 개발·점검·성장시키는 작업**(다음에 뭘 만들지, 만든 걸 검수하는지, 버그를 고치는지, 사이트 전체를 점검하는지)을 돕는다. `.claude/agents/gaeo-*.md`(8개) · `.claude/skills/gaeo-*/SKILL.md`(7개, `/gaeo-strategy`·`/gaeo-build`·`/gaeo-review`·`/gaeo-bug`·`/gaeo-quant`·`/gaeo-growth`·`/gaeo-health`)로 구성돼 있고, `/gaeo`만 입력해도 전체 목록이 뜬다. 매주 월요일 09:00 KST·금요일 09:00 KST에 이 세션으로 오는 Routine 2개가 각각 `/gaeo-strategy`·`/gaeo-health` 실행을 "제안"한다(자동 실행·자동 커밋 아님). 전체 구조·안전 규칙·Skill별 Agent 조합은 `docs/gaeo_team_system.md`에 정리돼 있다.
+
 ## 이 원격 세션 환경의 특이사항
 
 - **네이버 금융이 이 원격 세션에서는 403으로 막힌다.** 수동 시세 수집이 필요하면 `.analyst-refresh` 내용을 바꿔 `main`에 커밋·푸시해서 GitHub Actions 러너가 대신 수집하게 한다(1~2분 뒤 pull). 이건 이 특정 원격 실행 환경의 네트워크 제약이라, Codex가 다른 환경(예: 사용자 로컬 PC)에서 실행되면 이 문제가 아예 없을 수 있다.
