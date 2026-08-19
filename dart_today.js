@@ -1,12 +1,20 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-19 14:27",
- "priceLabel": "2026-08-19 14:13 장중",
- "count": 69,
+ "generatedAt": "2026-08-19 14:55",
+ "priceLabel": "2026-08-19 14:48 장중",
+ "count": 70,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "041510",
+   "name": "에스엠",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T05:54:47.727163+00:00",
+   "isCorrection": false
+  },
   {
    "code": "086790",
    "name": "하나금융지주",
