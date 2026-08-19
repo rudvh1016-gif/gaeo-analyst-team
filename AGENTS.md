@@ -227,7 +227,7 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 ## GAEO TEAM — 저장소 개발·점검을 돕는 Agent/Skill 체계 (Claude Code 전용)
 
-이 저장소를 개발·점검·성장시키는 작업(사용자에게 보여줄 종목 판단이 아니라 이 서비스 자체를 다루는 작업)을 돕는 8개 Agent + 7개 `gaeo-` Skill이 `.claude/agents/gaeo-*.md`·`.claude/skills/gaeo-*/SKILL.md`에 있다. Claude Code에서 `/gaeo-strategy`(방향 제안, 읽기 전용)·`/gaeo-build`(구현)·`/gaeo-review`(배포 전 검수)·`/gaeo-bug`(버그 수정)·`/gaeo-quant`(분석력 실증 검증)·`/gaeo-growth`(유입·성장 검토)·`/gaeo-health`(전체 점검, 읽기 전용)로 호출한다. 전체 구조·안전 규칙·주간 자동 제안(Routine) 방식은 `docs/gaeo_team_system.md`에 정리돼 있다. Codex 등 다른 에이전트는 이 체계를 직접 호출할 수 없지만, 같은 절차를 텍스트 그대로 따라 하면 동일한 결과를 낼 수 있다.
+이 저장소를 개발·점검·성장시키는 작업(사용자에게 보여줄 종목 판단이 아니라 이 서비스 자체를 다루는 작업)을 돕는 8개 Agent + 8개 `gaeo-` Skill이 `.claude/agents/gaeo-*.md`·`.claude/skills/gaeo-*/SKILL.md`에 있다. Claude Code에서 `/gaeo-strategy`(방향 제안, 읽기 전용)·`/gaeo-design`(디자인 점검, 읽기 전용)·`/gaeo-build`(구현)·`/gaeo-review`(배포 전 검수)·`/gaeo-bug`(버그 수정)·`/gaeo-quant`(분석력 실증 검증)·`/gaeo-growth`(유입·성장 검토)·`/gaeo-health`(전체 점검, 읽기 전용)로 호출한다. 전체 구조·안전 규칙·주간 자동 제안(Routine) 방식은 `docs/gaeo_team_system.md`에 정리돼 있다. Codex 등 다른 에이전트는 이 체계를 직접 호출할 수 없지만, 같은 절차를 텍스트 그대로 따라 하면 동일한 결과를 낼 수 있다.
 
 ## 작업 전 체크리스트 (모든 에이전트 공통)
 
