@@ -1,12 +1,52 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-19 09:11",
- "priceLabel": "2026-08-19 장전 (전일 종가 · 08:59 수집)",
- "count": 54,
+ "generatedAt": "2026-08-19 09:41",
+ "priceLabel": "2026-08-19 09:35 장중",
+ "count": 58,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "042700",
+   "name": "한미반도체",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "042700",
+   "name": "한미반도체",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "042700",
+   "name": "한미반도체",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010780",
+   "name": "아이에스동서",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010780",
+   "name": "아이에스동서",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
+   "isCorrection": false
+  },
   {
    "code": "000810",
    "name": "삼성화재",
@@ -317,14 +357,6 @@ const DART_TODAY = {
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260818",
    "detectedAt": "2026-08-18T03:15:33.623227+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "042700",
-   "name": "한미반도체",
-   "title": "유형자산취득결정",
-   "receiptDate": "20260818",
-   "detectedAt": "2026-08-18T02:45:35.147247+00:00",
    "isCorrection": false
   },
   {
