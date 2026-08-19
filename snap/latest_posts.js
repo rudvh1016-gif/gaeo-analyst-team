@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 51,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-19",
+  "title": "2026년 8월19일 종가, 코스피 5.8% 급락하고 24개 업종이 전부 내렸다",
+  "featured": false
+ },
+ {
   "id": 50,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "자사주 매입과 소각, 회사가 제 주식을 사는 이유",
   "featured": false
- },
- {
-  "id": 76,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "우선주와 보통주, 같은 회사인데 가격은 왜 다를까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 50,
+ "news": 51,
  "study": 35,
  "lesson": 82,
  "estate": 19,

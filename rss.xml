@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 19 Aug 2026 03:40:26 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 19 Aug 2026 10:46:36 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월19일 종가, 코스피 5.8% 급락하고 24개 업종이 전부 내렸다</title>
+    <link>https://gaeoteam.com/snap/news/51.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/51.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 398.66포인트(5.80%) 내린 6,471.17, 코스닥은 9.74포인트(1.17%) 내린 824.46으로 마감했어요. 미국 30년 국채금리가 19년 만의 최고치인 연 5.33%까지 오르고 중동 정세가 나빠진 것이 겹쳐 개장 직후 매도 사이드카가 발동됐어요. 598종목을 직접 집계하니 24개 업종이 전부 내렸는데, 가장 약한 업종조차 평균 -2.85%라 지수 낙폭 -5.80%와 차이가 컸어요. 그 이유를 짚었어요.</description>
+    <pubDate>Wed, 19 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>외국인은 아직 안 팔았다, 코스피 7주 수급 데이터 해부</title>
     <link>https://gaeoteam.com/snap/news/50.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/29.html</guid>
     <category>뉴스분석</category>
     <description>삼성전기가 2분기 매출 3조 4,572억 원, 영업이익 4,404억 원으로 증권가 전망치까지 넘겼는데 주가는 오히려 11.86% 급락했어요. AI 서버·전장 부품이라는 성장 축과 PER 85배 밸류에이션 부담, 레버리지 ETF 수급 문제를 함께 짚었어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>역대급 실적 행진에도 왜 코스피·코스닥은 계속 흔들릴까</title>
-    <link>https://gaeoteam.com/snap/news/28.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/28.html</guid>
-    <category>뉴스분석</category>
-    <description>삼성전자·SK하이닉스·마이크로소프트까지 이번 주 굵직한 기업들이 줄줄이 역대급 실적을 냈는데도 코스피·코스닥은 서킷브레이커와 사이드카가 반복될 만큼 흔들렸어요. 왜 좋은 실적에도 주가가 빠지는지 여러 이유로 나눠 정리했어요.</description>
     <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
