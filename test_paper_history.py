@@ -282,9 +282,13 @@ check("⑦ 표본 3건으로는 우승 전략을 선언하지 않는다",
 check("⑦ 각 bucket이 항상 표본 수를 함께 싣는다",
       all("tradeCount" in b for b in S["buckets"]))
 swing = [b for b in S["buckets"] if b["key"] == "swing"][0]
-check("⑦ 스윙 통계가 정확(3건·평균 +10%·승률 100%)",
-      swing["tradeCount"] == 3 and swing["avgReturnPct"] == 10.0
-      and swing["winRatePct"] == 100.0, json.dumps(swing, ensure_ascii=False))
+# 🐛 2026-08-20 계약 변경: 예전엔 3건으로도 "평균 +10%·승률 100%"를 숫자로 냈다.
+#    "우승 전략 선언"만 막고 정작 각 bucket의 승률·평균수익률은 그대로 나가서,
+#    보유 화면은 "표본 부족"인데 기록 탭은 "3건 · 승률 100%"를 보여주는 모순이 실재했다
+#    (독립 검수에서 실제 렌더로 재현됨). 표본이 차기 전엔 건수만 남기고 결론은 null이다.
+check("⑦ 표본 부족이면 bucket 건수만 남고 성과 결론은 null",
+      swing["tradeCount"] == 3 and swing["avgReturnPct"] is None
+      and swing["winRatePct"] is None, json.dumps(swing, ensure_ascii=False))
 check("⑦ 중기·장기는 '현재 검증 중'이 아니라 미지원으로만 남는다",
       [u["label"] for u in S["unsupported"]] == ["중기", "장기"]
       and all(b["label"] not in ("중기", "장기") for b in S["buckets"]))

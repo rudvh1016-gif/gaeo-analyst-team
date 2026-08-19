@@ -17,7 +17,7 @@ from datetime import datetime, timezone, timedelta
 
 # 회계는 여기서 다시 구현하지 않는다 — 엔진의 회계 함수 하나만 Source of Truth로 쓴다.
 # (paper_engine 은 러너 사이클에서 이 파일보다 먼저 실행되므로 두 산출물은 같은 원장을 본다)
-from paper_engine import portfolio_valuation, reporting_view
+from paper_engine import portfolio_valuation, reporting_view, MIN_CLOSED_FOR_EVIDENCE
 import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -42,6 +42,13 @@ DERIVED_ALLOWED = frozenset({
 })
 FORBIDDEN_SUBSTRINGS = ("client_id", "client_secret", "token", "authorization",
                         "account", "secret")
+# 표본이 차기 전(evidence가 SAMPLE_OK가 아닐 때) 화면으로 내보내지 않는 성과 결론 필드.
+# 엔진(paper_engine.EVIDENCE_GATED_FIELDS)이 이미 null로 만들지만, 여기서 한 번 더
+# 막는다 — summary.json이 옛 버전이거나 손으로 고쳐졌을 때도 결론 숫자가 새면 안 된다.
+EVIDENCE_GATED_PUBLIC = ("winRatePct", "avgReturnPct", "medianReturnPct",
+                         "avgWinPct", "avgLossPct",
+                         "avgBenchmarkReturnPct", "avgRelativeReturnPct",
+                         "avgMfePct", "avgMaePct")
 
 
 def _read_json(path, default=None):
@@ -240,6 +247,15 @@ def build():
             for r in recent
         ],
     }
+
+    # 🔒 표본 게이트(2차 방어선) — SAMPLE_OK 도장이 찍히기 전에는 결론 숫자를 공개하지 않는다.
+    # ⚠️ 라벨만 믿으면 안 된다. 이 방어선이 막으려는 게 "손으로 고쳐진 summary.json"인데
+    #    손으로 고칠 수 있는 대상이 바로 그 라벨이다(evidence만 SAMPLE_OK로 바꾸면 뚫린다).
+    #    그래서 원장에서 직접 센 청산 건수로도 함께 판정한다.
+    if (len(closed) < MIN_CLOSED_FOR_EVIDENCE
+            or not str(payload.get("evidenceStatus") or "").startswith("SAMPLE_OK")):
+        for _k in EVIDENCE_GATED_PUBLIC:
+            payload[_k] = None
 
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     low = blob.lower()
