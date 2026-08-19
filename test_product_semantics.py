@@ -70,7 +70,9 @@ check("실제 주문 없음을 명시", "실제 투자 주문은 발생하지 �
 # ── ⑦ 모의투자는 성적표 하위가 아니라 독립 최상위 화면 (2026-08-18) ─────────
 check("모의투자 전용 뷰 컨테이너 존재", 'id="paperView"' in html)
 check("좌측/전체 메뉴에 모의투자 최상위 항목", 'id="mode-paper"' in html)
-check("상단 글로벌 내비게이션에 모의투자", 'data-nav-mode="paper">모의투자</button>' in html)
+# 2026-08-19: 상단 메뉴 버튼에 data-nav-alias(하위 모드 묶음)가 붙을 수 있어 속성 뒤를 열어 둔다.
+check("상단 글로벌 내비게이션에 모의투자",
+      bool(re.search(r'data-nav-mode="paper"[^>]*>모의투자</button>', html)))
 check("?m=paper 딥링크 라우팅 존재", "m==='paper'" in html)
 check("성적표 렌더에 모의투자 블록이 섞여 있지 않음", "paperBlockHTML()" not in html)
 sc = html[html.index("el.innerHTML=`<div class=\"sc-block\">\n    <h3>개오 성적표</h3>"):]
