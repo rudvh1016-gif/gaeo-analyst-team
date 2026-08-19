@@ -187,10 +187,14 @@ class FixtureMarketDataProvider:
 
     name = "FIXTURE"
 
-    def __init__(self, prices=None, orderbooks=None, calendar=None, fail=False):
+    def __init__(self, prices=None, orderbooks=None, calendar=None, fail=False,
+                 calendar_by_date=None):
         self.prices = prices or {}
         self.orderbooks = orderbooks or {}
         self.calendar = calendar
+        # 날짜별 캘린더 응답(놓친 거래일 보충 테스트용). {date: 캘린더dict}
+        # 지정하지 않으면 기존처럼 calendar 하나만 돌려준다 — 기존 테스트 호환.
+        self.calendar_by_date = calendar_by_date or {}
         self.fail = fail
         self.calls = []
 
@@ -211,6 +215,10 @@ class FixtureMarketDataProvider:
 
     def get_market_calendar_kr(self, date=None):
         self.calls.append(("calendar", date))
-        if self.fail or self.calendar is None:
+        if self.fail:
+            raise MarketDataUnavailable("fixture: 캘린더 없음")
+        if date is not None and date in self.calendar_by_date:
+            return self.calendar_by_date[date]
+        if self.calendar is None:
             raise MarketDataUnavailable("fixture: 캘린더 없음")
         return self.calendar

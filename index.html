@@ -5878,7 +5878,10 @@ function renderPaper(){
     const retTag=ret==null
       ? `<em class="pv-pos-r pv-r-wait">평가 대기</em>`
       : `<em class="pv-pos-r${dir(ret)}">${sPct(ret)}</em>`;
+    /* 접힌 상태에서도 "얼마에 사서 지금 얼마인지"가 한 줄로 읽혀야 한다.
+       매수가가 없으면 수익률만 보이고 근거가 안 보인다(2026-08-19 보강). */
     const line2=[qty==null?null:qty.toLocaleString('ko-KR')+'주',
+                 ep==null?null:'매수 '+won(ep),
                  cp==null?null:'현재가 '+won(cp)].filter(Boolean).join(' · ');
     const chev='<svg class="pv-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const head=`<button type="button" class="pv-pos-hd" data-pos="${esc(key)}"
