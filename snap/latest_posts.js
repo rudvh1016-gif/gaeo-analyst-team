@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 50,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-19",
+  "title": "외국인은 아직 안 팔았다, 코스피 7주 수급 데이터 해부",
+  "featured": false
+ },
+ {
   "id": 49,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "우선주와 보통주, 같은 회사인데 가격은 왜 다를까",
   "featured": false
- },
- {
-  "id": 75,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "복리와 72의 법칙, 장기투자가 강력한 진짜 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 49,
+ "news": 50,
  "study": 35,
  "lesson": 82,
  "estate": 19,
