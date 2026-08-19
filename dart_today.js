@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-19 15:26",
- "priceLabel": "2026-08-19 15:22 장중",
- "count": 72,
+ "generatedAt": "2026-08-19 15:56",
+ "priceLabel": "2026-08-19 종가 (15:45 수집)",
+ "count": 80,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "021240",
+   "name": "코웨이",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000660",
+   "name": "SK하이닉스",
+   "title": "주요사항보고서(자기주식취득결정)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000660",
+   "name": "SK하이닉스",
+   "title": "수시공시의무관련사항(공정공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000660",
+   "name": "SK하이닉스",
+   "title": "주식소각결정",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "096770",
+   "name": "SK이노베이션",
+   "title": "지주회사의자회사편입",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "402340",
+   "name": "SK스퀘어",
+   "title": "주요사항보고서(자기주식취득결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "402340",
+   "name": "SK스퀘어",
+   "title": "주식소각결정(자회사의 주요경영사항)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "isCorrection": false
+  },
   {
    "code": "348370",
    "name": "엔켐",
