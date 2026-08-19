@@ -112,26 +112,21 @@ def run():
         for f in os.listdir(tmp):
             os.remove(os.path.join(tmp, f))
         state = {"n": 0}
+        real_os_replace = shared.os.replace
 
-        def flaky_replace(t, p):
+        # os.replace 자체에 실패를 주입한다 — 재시도 로직(_replace_with_retry)을
+        # 테스트가 다시 구현하지 않고 **실제 함수를 그대로 타게** 하기 위해서다.
+        def flaky_os_replace(t, p):
             state["n"] += 1
             if state["n"] <= 2:            # 처음 두 번은 Windows 공유 위반 흉내
                 raise PermissionError(32, "sharing violation")
-            return orig_replace(t, p)
+            return real_os_replace(t, p)
 
-        shared._replace_with_retry = lambda t, p: _retry_wrapper(flaky_replace, t, p)
-
-        def _retry_wrapper(fn, t, p):
-            import time
-            for i in range(shared.REPLACE_ATTEMPTS):
-                try:
-                    return fn(t, p)
-                except PermissionError:
-                    if i == shared.REPLACE_ATTEMPTS - 1:
-                        raise
-                    time.sleep(shared.REPLACE_DELAY_SECONDS)
-
-        got = shared.write_shared("TOK-RETRY-OK", 900)
+        shared.os.replace = flaky_os_replace
+        try:
+            got = shared.write_shared("TOK-RETRY-OK", 900)
+        finally:
+            shared.os.replace = real_os_replace
         check("H5. 공유 위반 2회 후 저장 성공", got == "TOK-RETRY-OK" and state["n"] == 3,
               f"replace 시도 {state['n']}회")
         check("H5b. 저장된 값을 다시 읽을 수 있다", orig_read() == "TOK-RETRY-OK")
@@ -140,7 +135,8 @@ def run():
         # ── H6: 끝까지 저장 실패해도 발급 토큰을 쓴다 ────────────────────
         for f in os.listdir(tmp):
             os.remove(os.path.join(tmp, f))
-        shared._replace_with_retry = lambda t, p: (_ for _ in ()).throw(
+        real_os_replace2 = shared.os.replace
+        shared.os.replace = lambda t, p: (_ for _ in ()).throw(
             PermissionError(32, "sharing violation"))
         issued = {"n": 0}
 
@@ -155,7 +151,8 @@ def run():
         except Exception as e:
             check("H6. 저장 실패해도 발급 토큰 반환(재발급 폭주 금지)", False,
                   f"{type(e).__name__} 로 실패")
-        shared._replace_with_retry = orig_replace
+        finally_replace = real_os_replace2
+        shared.os.replace = finally_replace
 
         # ── H3: 저장 오류가 계약 예외로 변환되는가 (호출측 관점) ─────────
         for f in os.listdir(tmp):
