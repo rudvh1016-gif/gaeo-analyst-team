@@ -1,0 +1,147 @@
+# 개오 모의투자 — 러너 사이클 실패 알림 (세션 독립)
+#
+# 왜 있나 (2026-08-19 사고)
+#   집 PC 러너가 하루 12사이클을 전부 실패했는데 아무도 몰랐다. 실패는
+#   paper_trading/state.json 에 남아 있었지만, 그걸 읽어 알려주는 건
+#   check_pipeline.py(Claude 세션 시작 훅)뿐이라 "세션을 여는 사람"이 없으면
+#   며칠이 조용히 비어도 아무 신호가 없었다. 이 워크플로가 세션과 무관하게
+#   하루 한 번 상태를 보고 GitHub Issue로 알린다.
+#
+# 안전 규칙 (바꾸지 말 것)
+#   - 토스 API를 호출하지 않는다. 저장소 파일(state.json)만 읽는다.
+#     GitHub 러너 IP는 토스에서 막히고, 러너는 집 PC 하나뿐이다(AGENTS.md 모의투자 절).
+#   - 새 Secret을 요구하지 않는다. GITHUB_TOKEN(github.token)만 쓴다.
+#   - 저장소에 아무것도 커밋·push 하지 않는다. 이슈만 만들고 닫는다.
+#   - 이슈는 제목이 같은 열린 이슈를 재사용한다(중복 폭증 금지).
+name: paper-health-alert
+
+on:
+  schedule:
+    # 07:30 UTC = 16:30 KST — 장 마감(15:30) + 마지막 사이클(15:05) 이후 하루 1회면 충분하다.
+    - cron: "30 7 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read      # checkout 전용(쓰기 없음)
+  issues: write       # 알림 이슈 생성·댓글·닫기
+
+concurrency:
+  group: paper-health-alert
+  cancel-in-progress: false
+
+jobs:
+  check:
+    # 포크에서는 돌지 않는다(남의 저장소에 이슈를 만들지 않게).
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Asia/Seoul
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_TITLE: "🛑 모의투자 러너 사이클 실패 (집 PC 자동 기록 중단)"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 상태 판정 (state.json만 읽음)
+        id: check
+        run: |
+          # stdout은 통째로 GITHUB_OUTPUT(key=value)으로 들어간다.
+          # 사람이 읽을 로그는 반드시 stderr로 낸다(형식이 깨지면 스텝이 실패한다).
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import datetime, json, re, sys
+
+          KST = datetime.timezone(datetime.timedelta(hours=9))
+          today = datetime.datetime.now(KST).strftime("%Y-%m-%d")
+
+          try:
+              with open("paper_trading/state.json", encoding="utf-8") as f:
+                  st = json.load(f)
+          except Exception as e:
+              # 파일이 없거나 깨졌으면 판정하지 않는다(모의투자를 안 쓰는 상태일 수 있다).
+              print("status=SKIP")
+              print("reason=STATE_UNREADABLE")
+              print("cycle_at=")
+              print(f"state.json을 읽지 못했습니다: {type(e).__name__}", file=sys.stderr)
+              raise SystemExit(0)
+
+          result = str(st.get("lastCycleResult") or "")
+          at = str(st.get("lastCycleAt") or "")
+          ok = (not result) or result.startswith("CYCLE_OK")
+          today_try = at[:10] == today
+
+          # 실패 사유는 앞머리 코드만 쓴다(내부 문자열을 그대로 이슈에 붙이지 않는다).
+          m = re.match(r"[A-Z][A-Z0-9_]{3,}", result)
+          reason = m.group(0) if m else ("UNKNOWN" if result else "NONE")
+
+          if not ok and today_try:
+              status = "FAIL"
+          elif ok and today_try:
+              status = "OK"
+          else:
+              # 오늘 시도 기록 자체가 없다(주말·공휴일·아직 반영 전). 판정 보류.
+              status = "SKIP"
+
+          print(f"status={status}")
+          print(f"reason={reason}")
+          print(f"cycle_at={at}")
+          print(f"판정 {status} · 사유 {reason} · 마지막 시도 {at or '없음'}", file=sys.stderr)
+          PY
+
+      - name: 실패 시 알림 이슈 생성 또는 갱신
+        if: steps.check.outputs.status == 'FAIL'
+        env:
+          REASON: ${{ steps.check.outputs.reason }}
+          CYCLE_AT: ${{ steps.check.outputs.cycle_at }}
+        run: |
+          set -euo pipefail
+          cat > /tmp/paper_alert.md <<EOF
+          모의투자 러너(집 PC 작업 스케줄러 "GAEO Paper Trading")가 오늘 사이클에 실패했습니다.
+
+          - 마지막 시도: \`${CYCLE_AT}\`
+          - 실패 코드: \`${REASON}\`
+          - 확인 파일: \`paper_trading/state.json\` 의 \`lastCycleResult\`
+
+          ## 조치 순서
+
+          1. 집 PC에서 진단 스크립트를 먼저 돌립니다(읽기 전용, 아무것도 고치지 않습니다).
+             \`\`\`
+             powershell -ExecutionPolicy Bypass -File scripts\\paper_doctor.ps1
+             \`\`\`
+          2. 진단 결과에서 아래 두 가지를 먼저 봅니다. 지금까지 실제로 있었던 원인입니다.
+             - **작업 스케줄러가 부트스트랩을 안 거치고 있다**: 스케줄러가
+               \`%LOCALAPPDATA%\\GAEO\\run-paper.ps1\`(부트스트랩) 대신
+               \`scripts/paper_cycle.ps1\`을 직접 실행하면, DPAPI로 암호화된 자격증명이
+               환경에 안 실려서 시세를 못 받습니다.
+             - **로그온 방식이 InteractiveToken이 아니다**: 작업이 "사용자의 로그온 여부에 관계없이 실행"
+               (S4U/서비스 토큰)으로 잡혀 있으면 DPAPI 복호화가 실패합니다.
+               "사용자가 로그온할 때만 실행"(InteractiveToken)이어야 합니다.
+          3. 그래도 원인을 못 찾으면 \`docs/PAPER_TRADING_LOCAL_RUNNER.md\`의 점검 절차를 따릅니다.
+
+          ## 참고
+
+          - 이 이슈는 평일 16:30 KST에 자동 점검이 만듭니다. 다음 점검에서 사이클이 정상이면 자동으로 닫힙니다.
+          - 이 워크플로는 저장소 파일만 읽습니다. 토스 API를 호출하지 않고, 아무것도 커밋하지 않습니다.
+          EOF
+
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                --jq "map(select(.title == \"${ISSUE_TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then
+            echo "기존 알림 이슈 #$NUM 갱신"
+            gh issue comment "$NUM" --body-file /tmp/paper_alert.md
+          else
+            echo "새 알림 이슈 생성"
+            gh issue create --title "$ISSUE_TITLE" --body-file /tmp/paper_alert.md
+          fi
+
+      - name: 정상 복구 시 열려 있던 알림 이슈 닫기
+        if: steps.check.outputs.status == 'OK'
+        run: |
+          set -euo pipefail
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                --jq "map(select(.title == \"${ISSUE_TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "오늘 사이클이 정상(CYCLE_OK)으로 확인돼 자동으로 닫습니다." \
+              --reason completed
+          else
+            echo "정상: 열린 알림 이슈 없음"
+          fi

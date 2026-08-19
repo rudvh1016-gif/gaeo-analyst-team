@@ -42,6 +42,13 @@ DERIVED_ALLOWED = frozenset({
 })
 FORBIDDEN_SUBSTRINGS = ("client_id", "client_secret", "token", "authorization",
                         "account", "secret")
+# 표본이 차기 전(evidence가 SAMPLE_OK가 아닐 때) 화면으로 내보내지 않는 성과 결론 필드.
+# 엔진(paper_engine.EVIDENCE_GATED_FIELDS)이 이미 null로 만들지만, 여기서 한 번 더
+# 막는다 — summary.json이 옛 버전이거나 손으로 고쳐졌을 때도 결론 숫자가 새면 안 된다.
+EVIDENCE_GATED_PUBLIC = ("winRatePct", "avgReturnPct", "medianReturnPct",
+                         "avgWinPct", "avgLossPct",
+                         "avgBenchmarkReturnPct", "avgRelativeReturnPct",
+                         "avgMfePct", "avgMaePct")
 
 
 def _read_json(path, default=None):
@@ -240,6 +247,11 @@ def build():
             for r in recent
         ],
     }
+
+    # 🔒 표본 게이트(2차 방어선) — SAMPLE_OK 도장이 찍히기 전에는 결론 숫자를 공개하지 않는다.
+    if not str(payload.get("evidenceStatus") or "").startswith("SAMPLE_OK"):
+        for _k in EVIDENCE_GATED_PUBLIC:
+            payload[_k] = None
 
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     low = blob.lower()
