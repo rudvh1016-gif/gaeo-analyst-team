@@ -1293,6 +1293,9 @@
   .pv-status .pv-dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--faint)}
   .pv-status.is-live .pv-dot{background:var(--krup)}
   .pv-status time{font-variant-numeric:tabular-nums;color:var(--t2)}
+  /* 기록이 멈춘 사유 한 줄. 경고색·배지를 새로 만들지 않고 본문 톤으로 사실만 적는다
+     (빨강파랑은 시장 방향 전용이라 상태 표시에 쓰지 않는다). */
+  .pv-pause{margin:0 0 22px;font-size:12px;color:var(--dim);line-height:1.75;overflow-wrap:anywhere}
   /* 모의투자 하위 화면 전환 — 배지가 아니라 밑줄 하나로만 구분한다 */
   .pv-tabs{display:flex;gap:22px;margin:0 0 26px;border-bottom:1px solid var(--line)}
   .pv-tab{appearance:none;background:none;border:none;padding:0 0 11px;cursor:pointer;
@@ -5559,6 +5562,9 @@ function paperDisplayVal(P){
   }
   return {source:'live', at:live.iso, prices};
 }
+/* 시세 연결이 끊겨 기록이 멈춘 이유. 보유 현황·기록 탭 두 곳에서 같은 문장을 쓰므로
+   한 곳에만 둔다(문구가 갈라지면 화면마다 다른 말을 하게 된다). */
+const PAUSE_WHY='시세를 읽지 못하는 동안에는 가격을 추측해서 기록하지 않아요. 연결되면 다음 장중 기록부터 이어집니다.';
 /* ── 📚 모의투자 기록(History) — 날짜별 기록 · 종합평가 · 전략 인사이트 ──────
    러너가 원장에서 만든 paper_trading/history.json만 읽는 READ-ONLY 화면이다.
    ⚠️ 과거 날짜는 그날 저장된 값으로만 그린다 — 현재 시세(data.js)나 현재 mark을
@@ -5582,6 +5588,17 @@ function paperHistoryHTML(){
   /* ① 날짜 하나를 펼쳐 둔 상태면 그 날짜의 상세를 본다 */
   const cur=PV_DAY?H.days.find(d=>d.date===PV_DAY):null;
   if(cur) return dayDetail(cur);
+
+  /* 🐛 2026-08-19 수정: 러너가 시세를 못 받아 그날 기록이 통째로 빠졌는데도
+     목록이 그냥 이전 날짜에서 끝나 "왜 없는지" 알 수 없던 문제.
+     ⚠️ 없는 날짜 행을 만들어 채우지 않는다 — 빠졌다는 사실만 한 줄로 적는다.
+     오늘 날짜는 브라우저 시계 대신 서버가 KST로 준 lastCycleAt에서 읽는다. */
+  const PP=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
+  const lastTry=(PP&&PP.lastCycleAt)?String(PP.lastCycleAt).slice(0,10):null;
+  const newestDay=H.days.map(d=>d.date).sort().slice(-1)[0];
+  const gapNote=(PP&&PP.stage==='AWAITING_MARKET_DATA'&&lastTry&&newestDay&&lastTry>newestDay)
+    ? `<p class="pv-pause">${esc(lastTry.slice(5).replace('-','.'))} 기록은 아직 없어요. ${PAUSE_WHY}</p>`
+    : '';
 
   /* ② 목록 — 월별로 묶고 최근 날짜가 위 */
   const months={};
@@ -5623,7 +5640,7 @@ function paperHistoryHTML(){
       ${(S.unsupported||[]).length?`아직 검증 대상이 아닌 구간: ${(S.unsupported||[]).map(u=>esc(u.label)).join(' · ')}.`:''}
       이 비교는 관찰용이며, 결과에 따라 매매 규칙이 자동으로 바뀌지 않습니다.</p>
   </section>`;
-  return `<div class="pv-hs">${monthHTML}${strat}</div>`;
+  return `<div class="pv-hs">${gapNote}${monthHTML}${strat}</div>`;
 
   /* ── 날짜 상세 ── */
   function dayDetail(d){
@@ -5732,11 +5749,18 @@ function renderPaper(){
      ⚠️ 시각이 최근이라는 이유만으로 "정상"이라 쓰지 않는다 — 러너가 사이클 성공을
         확인해 준 경우(lastCycleOk === true)에만 진행 중이라고 말한다. */
   const live=P.lastCycleOk===true&&!!P.lastCycleAt;
-  const statusTxt=P.lastCycleAt
-    ? (live?`자동 기록 진행 중 · 최근 <time>${stamp(P.lastCycleAt)}</time>`
-           :`최근 기록 <time>${stamp(P.lastCycleAt)}</time>`)
-    : '기록 준비 중';
-  const hero=lede+`<p class="pv-status${live?' is-live':''}"><span class="pv-dot" aria-hidden="true"></span>${statusTxt}</p>`;
+  /* 🐛 2026-08-19 수정: 시세를 못 받아 기록이 멈춘 걸 사용자가 알 수 없던 버그.
+     사유 안내가 "보유 종목 0건"일 때만 나오는 빈 상태 문구(아래 stageNote) 안에만 있어서,
+     보유 종목이 하나라도 있으면 화면 어디에도 표시되지 않았다. 게다가 상태 줄이
+     아무것도 기록하지 못한 시각을 "최근 기록"이라고 적어 반대로 오해시켰다.
+     → 사유는 보유 유무와 무관하게 항상 보이고, 기록과 시도를 말로 구분한다. */
+  const paused=P.stage==='AWAITING_MARKET_DATA';
+  const statusTxt=!P.lastCycleAt ? '기록 준비 중'
+    : live ? `자동 기록 진행 중 · 최근 <time>${stamp(P.lastCycleAt)}</time>`
+    : paused ? `시세 연결이 끊겨 기록이 멈춰 있어요 · 마지막 시도 <time>${stamp(P.lastCycleAt)}</time>`
+    : `최근 시도 <time>${stamp(P.lastCycleAt)}</time>`;
+  const hero=lede+`<p class="pv-status${live?' is-live':''}"><span class="pv-dot" aria-hidden="true"></span>${statusTxt}</p>`
+    +(paused?`<p class="pv-pause">${PAUSE_WHY}</p>`:'');
 
   /* ② 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있고, 얼마가 남았고,
         전체로 얼마를 벌거나 잃고 있나"를 계산기 없이 읽히게 한다.
@@ -5894,7 +5918,7 @@ function renderPaper(){
   }).join('');
   const stageNote={
     BEFORE_FORWARD_START:['검증 시작을 기다리고 있습니다.','예정된 시작일부터 실제 시장 가격을 기준으로 기록을 시작해요. 그 전에 나온 판단을 거슬러 올라가 거래로 만들지 않습니다.'],
-    AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.','시세를 읽지 못하는 동안에는 가격을 추측해서 기록하지 않아요. 연결되면 다음 장중 기록부터 이어집니다.']
+    AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.',PAUSE_WHY]
   }[P.stage]||['첫 검증 신호를 기다리고 있습니다.','새로운 「매수 고려」 판단이 나오면 여기에 종목, 매수가격, 수량, 현재가격, 보유기간과 가상 성과가 자동으로 기록돼요.'];
   /* 종료 사유 코드 → 사람 말 (오늘 거래·종료 거래 두 곳에서 함께 쓴다) */
   const exitName={CHIEF_SELL:'GAEO 판단이 매도 고려로 변경',MAX_HOLDING_5D:'최대 보유기간 도달'};

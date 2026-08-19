@@ -464,8 +464,22 @@ const BASELINE = {
     many.html.includes('이전 최고점') && many.html.includes('가장 많이 올랐던')
     && many.html.includes('가장 많이 내렸던'));
   check('자동 기록 상태 줄 표시', one.text.includes('자동 기록 진행 중'));
+  /* 문구를 그대로 박아 검사하지 않고 "정상이라 단정하지 않는가"라는 계약 자체를 본다. */
+  const unconfirmed = (await renderWith(page, { ...OPEN_ONE, lastCycleOk: null })).text;
   check('사이클 성공 미확인이면 정상이라 단정하지 않음',
-    (await renderWith(page, { ...OPEN_ONE, lastCycleOk: null })).text.includes('최근 기록'));
+    !unconfirmed.includes('자동 기록 진행 중') && unconfirmed.includes('최근 시도'));
+
+  /* 🐛 2026-08-19 회귀 방지: 시세 연결이 끊긴 사유 안내가 "보유 0건"일 때만 나오는
+     빈 상태 문구 안에만 있어서, 보유 종목이 하나라도 있으면 화면 어디에도 표시되지
+     않던 버그. 사용자는 어제 숫자만 보며 왜 오늘 기록이 없는지 알 수 없었다.
+     ⚠️ 반드시 보유가 있는 픽스처(OPEN_ONE)로 검사한다 — 보유 0건으로 검사하면
+        예전 코드도 통과해 버려서 이 버그를 다시 놓친다. */
+  const stalled = (await renderWith(page,
+    { ...OPEN_ONE, lastCycleOk: false, stage: 'AWAITING_MARKET_DATA' })).text;
+  check('시세 중단 시 보유 종목이 있어도 사유가 보인다',
+    stalled.includes('시세 연결이 끊겨') && stalled.includes('가격을 추측해서 기록하지 않아요'));
+  check('시세 중단 시 기록이 남은 것처럼 말하지 않는다',
+    !stalled.includes('자동 기록 진행 중') && stalled.includes('마지막 시도'));
 
   await renderWith(page, OPEN_MANY);
   for (const width of [1440, 1280, 430, 390, 360]) {
