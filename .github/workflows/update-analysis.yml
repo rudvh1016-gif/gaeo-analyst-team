@@ -158,6 +158,11 @@ jobs:
             #   (실패는 로그에 남고, 이전 radar.js가 그대로 유지된다 — 잘못 덮어쓰지 않는다).
             python3 compute_radar.py         || echo "radar 실패"
             python3 compute_dow_stats.py     || echo "dow_stats 실패"
+            # 📥 일별 수급(FLOW) 영구 기록 — 네이버가 최근 5거래일치만 주기 때문에,
+            #    지금 쌓아두지 않으면 과거 수급은 영원히 복원할 수 없다(시가총액 정규화
+            #    검증의 원본). analysis_data.json만 읽어 flow_history/에 APPEND-ONLY로 붙인다.
+            #    점수 계산에는 관여하지 않는다. 실패해도 이번 사이클을 절대 멈추지 않는다.
+            timeout 180 python3 update_flow_history.py || echo "flow_history 실패"
             # 🧠 자가 학습 가중치(채점 기록 → 분석가별 발언권) — analyze_auto가 읽으므로 먼저 실행
             python3 compute_team_weights.py  || echo "team_weights 실패"
             # 🧪 v3 모델 지능: 확률교정·오답중복·시장국면·AUDIT·그림자 승격 판정
@@ -235,6 +240,8 @@ jobs:
             [ -f market_context.js ] && git add market_context.js
             [ -f market_universe/state.json ] && git add market_universe/state.json
             [ -d market_universe/history ] && git add market_universe/history
+            # 📥 일별 수급 원본(APPEND-ONLY 월별 샤드). 새 거래일이 없으면 아무 변화도 없다.
+            [ -d flow_history ] && git add flow_history
             # Research·DART Archive(날짜별 Segment + manifest). 사이트가 읽지 않는 자료다.
             [ -d research_archive ] && git add research_archive
             git add analysis_archive.js deep_analysis_latest.js deep_analysis_manifest.json 2>/dev/null || true

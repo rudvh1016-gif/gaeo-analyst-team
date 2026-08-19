@@ -1,0 +1,107 @@
+# 개오 애널리스트팀 — 병합 전 자동 검사 (CI)
+#
+# 왜 있나
+#   저장소에 계약 테스트가 60개 넘게 있는데도 병합 전에 자동으로 도는 건 하나도 없었다
+#   (기존 워크플로 9개 전부 schedule·push·workflow_dispatch 트리거만 있었다).
+#   그래서 인사이트 레일 3~4회, 순환매 레이아웃 5커밋 연속처럼 같은 회귀가 반복해서
+#   main까지 들어갔다. 이 워크플로가 PR 단계에서 그 테스트들을 대신 돌린다.
+#
+# 안전 규칙 (바꾸지 말 것)
+#   - 읽기·실행만 한다. 어떤 파일도 커밋·push 하지 않는다(권한도 contents: read뿐).
+#   - 외부 네트워크가 필요한 테스트는 넣지 않는다. 여기 있는 테스트는 전부
+#     저장소 파일과 임시 fixture만 쓴다(토스·네이버·DART·OpenAI 호출 0).
+#   - 브라우저(Playwright) 테스트는 넣지 않는다. 매 PR마다 크로미움을 내려받아야 해서
+#     느리고 네트워크 상태에 흔들린다. 시각 검증은 지금처럼 작업 세션에서 돌린다.
+#     (test_*.js 중 playwright를 쓰는 파일은 아래에서 자동으로 걸러진다.)
+#   - 데이터 파이프라인 워크플로(update-prices·update-analysis)는 건드리지 않는다.
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Seoul          # 테스트가 보는 '오늘'을 러너와 같은 KST로 맞춘다
+      PYTHONUTF8: "1"
+      # 네트워크가 필요해 CI에서 뺄 테스트가 생기면 여기에 파일명을 띄어쓰기로 적는다.
+      # (지금은 test_*.py 전부가 오프라인에서 통과한다 — 비워 두는 게 정상이다.)
+      PY_SKIP: ""
+      # test_static_server.js는 테스트가 아니라 8877 포트 정적 서버라 실행하면 안 끝난다.
+      JS_SKIP: "test_static_server.js"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # 이 잡에는 push 권한이 필요 없다
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Python 계약 테스트
+        run: |
+          fail=0
+          for f in test_*.py; do
+            case " $PY_SKIP " in *" $f "*) echo "SKIP $f"; continue;; esac
+            echo "::group::$f"
+            if timeout 300 python3 "$f"; then
+              echo "PASS $f"
+            else
+              echo "::endgroup::"
+              echo "::error file=$f::$f 실패 — 위 로그의 [FAIL] 줄을 확인하세요"
+              fail=$((fail + 1))
+              continue
+            fi
+            echo "::endgroup::"
+          done
+          echo "python 실패 $fail건"
+          [ "$fail" -eq 0 ]
+
+      - name: Node 계약 테스트 (브라우저 테스트 제외)
+        run: |
+          fail=0
+          for f in test_*.js; do
+            case " $JS_SKIP " in *" $f "*) echo "SKIP $f (테스트 아님)"; continue;; esac
+            if grep -q "playwright" "$f"; then
+              echo "SKIP $f (브라우저 테스트 — 작업 세션에서 실행)"
+              continue
+            fi
+            echo "::group::$f"
+            if timeout 300 node "$f"; then
+              echo "PASS $f"
+            else
+              echo "::endgroup::"
+              echo "::error file=$f::$f 실패 — 위 로그를 확인하세요"
+              fail=$((fail + 1))
+              continue
+            fi
+            echo "::endgroup::"
+          done
+          echo "node 실패 $fail건"
+          [ "$fail" -eq 0 ]
+
+      - name: 결과 요약
+        if: always()
+        run: |
+          {
+            echo "### 개오 CI 결과"
+            echo ""
+            echo "- Python 계약 테스트: $(ls test_*.py | wc -l)개 대상"
+            echo "- Node 계약 테스트: $(grep -L playwright test_*.js | grep -v test_static_server.js | wc -l)개 대상"
+            echo "- 브라우저(Playwright) 테스트는 CI에서 제외합니다. 작업 세션에서 직접 실행하세요."
+          } >> "$GITHUB_STEP_SUMMARY"

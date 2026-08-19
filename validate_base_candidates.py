@@ -198,7 +198,8 @@ def decide(variant, state, taro_s, quant_s, regime, relative, sector_flow=None):
 
     taro_a = {"stance": stance_of(taro_s)}
     nova_a = {"stance": stance_of(quant_s)}
-    sell_threshold = 47
+    # A5·A6은 BUY/SELL 문턱 자체를 바꾼 후보다(그 외 계산은 A0와 동일).
+    buy_threshold, sell_threshold = CAND.thresholds_for(variant)
     if variant == "A3":
         g = CAND.expanded_uptrend_sell_guard(
             {"marketRegime": regime, "relative": relative},
@@ -206,7 +207,7 @@ def decide(variant, state, taro_s, quant_s, regime, relative, sector_flow=None):
         if g.get("expandedActive"):
             sell_threshold = g["expandedSellThreshold"]
 
-    call = "BUY" if total >= 63 else ("HOLD" if total >= sell_threshold else "SELL")
+    call = "BUY" if total >= buy_threshold else ("HOLD" if total >= sell_threshold else "SELL")
     return {"call": call, "total": total}
 
 
@@ -263,7 +264,7 @@ def relative_cross(bars, sectors, code, active, regime_med5):
 
 
 # ── 실행 ─────────────────────────────────────────────────────────────────────
-def run(horizon=5, step=5, variants=("A0", "A2", "A3", "A4")):
+def run(horizon=5, step=5, variants=("A0", "A2", "A3", "A4", "A5", "A6")):
     bars_raw = load_bars()
     sectors = load_sectors()
     closes_by = {c: [d["close"] for d in rows] for c, rows in bars_raw.items()}

@@ -16,7 +16,7 @@
    실제 적용 여부는 검증 결과를 보고 사람이 정한다.
 """
 
-CANDIDATE_IDS = ("A0", "A1", "A2", "A3", "A4")
+CANDIDATE_IDS = ("A0", "A1", "A2", "A3", "A4", "A5", "A6")
 
 CANDIDATE_LABELS = {
     "A0": "현재 기본모델",
@@ -24,7 +24,29 @@ CANDIDATE_LABELS = {
     "A2": "RISK 방향 분리",
     "A3": "상승장 SELL 확인 강화",
     "A4": "MA 기울기 확인",
+    "A5": "임계값 점수대칭 (BUY>=63 / SELL<37)",
+    "A6": "임계값 좁은대칭 (BUY>=55 / SELL<45)",
 }
+
+# ── A5·A6. BUY/SELL 임계값 비대칭 재검토 ─────────────────────────────────────
+# 배경: docs/gaeo_sell_forensic_audit.md(2026-08-15)가 현재 문턱을 이렇게 지적했다.
+#   "BUY 63점은 상위 7.0%, SELL 47점 미만은 하위 36.6% — 문 자체가 비대칭이다."
+#   그리고 이를 "PHASE B 과제 3번: BUY/SELL 문턱 비대칭의 근거 재검토"로 등록했지만
+#   아직 실행되지 않았다. 여기서 그 검증을 실제로 돌린다.
+#
+# ⚠️ 이 후보들은 Production 판단을 바꾸지 않는다. 비대칭이 실측에서 정당한지
+#    확인하는 것이 목적이며, "대칭이 무조건 낫다"고 가정하지 않는다.
+#    (선례: A2는 직관적으로 맞아 보였지만 SELL 정밀도가 61.3%→48.8%로 악화됐다.)
+CANDIDATE_THRESHOLDS = {
+    # variant: (buy_threshold, sell_threshold)
+    "A5": (63, 37),   # 중립 50 기준 ±13 대칭. BUY 문턱은 그대로 두고 SELL만 대칭 이동
+    "A6": (55, 45),   # 중립 50 기준 ±5 대칭. 양쪽 문턱을 모두 좁힘
+}
+
+
+def thresholds_for(variant, default_buy=63, default_sell=47):
+    """variant에 해당하는 (BUY, SELL) 문턱을 돌려준다. 미등록이면 현재 운영값."""
+    return CANDIDATE_THRESHOLDS.get(variant, (default_buy, default_sell))
 
 # 정규화가 의미를 갖기 위한 최소 조건. 성적이 아니라 데이터 품질로 정한 값이다.
 MIN_VOLUME_COVERAGE_STATE = "PERIOD_VOLUME_MATCHED"
