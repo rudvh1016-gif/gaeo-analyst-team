@@ -40,6 +40,7 @@ Gateway가 꺼져 있어도 Paper Runner는 그대로 동작한다.
 꺼져 있으면 기존 동작(각 프로세스가 자체 발급)이 100% 그대로다.
 """
 import json
+import math
 import os
 import sys
 import time
@@ -55,10 +56,48 @@ _ENTROPY = b"GAEO-Gateway-v1"
 SKEW_SECONDS = 60.0
 LOCK_TIMEOUT_SECONDS = 30.0
 
+#: Windows에서 다른 프로세스가 파일을 읽는 순간과 겹치면 os.replace 가
+#: ERROR_SHARING_VIOLATION(PermissionError)으로 실패할 수 있다. 짧게 유한 재시도한다.
+#: 총 대기 상한 = 0.05+0.10+0.15+0.20 = 0.5초 (무한 대기 금지).
+REPLACE_ATTEMPTS = 5
+REPLACE_DELAY_SECONDS = 0.05
+
+
+class SharedTokenError(RuntimeError):
+    """공유 토큰 저장소 자체의 장애(잠금 타임아웃 등).
+
+    호출측이 "토큰 발급 실패"와 "저장소 장애"를 구분해 자기 예외 계약으로
+    변환할 수 있도록 전용 타입으로 둔다. 메시지에 토큰·경로를 담지 않는다.
+    """
+
 
 def enabled():
     """공유 토큰 사용 여부. 기본은 꺼짐 — 명시적으로 켜야 한다."""
     return (os.environ.get(ENV_FLAG) or "").strip() == "1"
+
+
+_warned = [False]
+
+
+def warn_if_shared_store_exists():
+    """공유가 꺼져 있는데 공유 저장소가 이미 있으면 **한 번만** 알린다.
+
+    그 상태는 "상대 프로그램(GAEO Gateway)은 공유 토큰을 쓰는데 이쪽은 각자 발급"이라는
+    뜻이고, 이쪽이 발급하는 순간 상대가 끊긴다(토스는 client 당 유효 토큰 1개).
+
+    동작은 바꾸지 않는다 — 사실만 알린다. 토큰 값·경로는 출력하지 않는다.
+    """
+    if _warned[0] or enabled():
+        return
+    try:
+        exists = os.path.exists(_token_path())
+    except Exception:
+        return
+    if exists:
+        _warned[0] = True
+        print("[toss] 경고: 공유 토큰 저장소가 이미 있는데 " + ENV_FLAG + " 가 꺼져 있습니다. "
+              "지금 토큰을 발급하면 다른 프로그램(GAEO Gateway)의 토큰이 끊깁니다. "
+              "두 프로그램을 함께 쓰려면 " + ENV_FLAG + "=1 로 켜세요.")
 
 
 def secrets_dir():
@@ -131,7 +170,7 @@ class _Lock(object):
                 if time.monotonic() >= deadline:
                     self._fh.close()
                     self._fh = None
-                    raise RuntimeError("shared token lock timeout")
+                    raise SharedTokenError("shared token lock timeout")
                 time.sleep(0.05)
 
     def __exit__(self, exc_type, exc, tb):
@@ -202,11 +241,31 @@ def read_shared(now=None):
         return None
     expires_at = record.get("expires_at")
     if isinstance(expires_at, (int, float)):
+        # NaN 은 어떤 비교도 False 라서 그냥 두면 "영원히 유효한 토큰"으로 새어나간다.
+        # Gateway 쪽 is_fresh() 는 같은 값을 폐기하므로, 판정이 갈리지 않게 여기서도 버린다.
+        if isinstance(expires_at, float) and math.isnan(expires_at):
+            return None
         if now >= (expires_at - SKEW_SECONDS):
             return None
     # expires_at 이 없으면 시간만으로 버리지 않는다
     # (불필요한 재발급 하나하나가 다른 프로세스를 끊기 때문이다).
     return token
+
+
+def _replace_with_retry(tmp, path):
+    """os.replace 를 짧게 유한 재시도한다 (Windows 공유 위반 대비).
+
+    PermissionError 만 재시도한다 — 경로 오류·디스크 문제 같은 진짜 실패는
+    숨기지 않고 그대로 올린다.
+    """
+    for attempt in range(REPLACE_ATTEMPTS):
+        try:
+            os.replace(tmp, path)
+            return
+        except PermissionError:
+            if attempt == REPLACE_ATTEMPTS - 1:
+                raise
+            time.sleep(REPLACE_DELAY_SECONDS * (attempt + 1))
 
 
 def write_shared(token, expires_in, now=None):
@@ -223,7 +282,18 @@ def write_shared(token, expires_in, now=None):
     tmp = path + ".tmp"
     with open(tmp, "wb") as fh:
         fh.write(raw)
-    os.replace(tmp, path)
+        # 전원이 끊겨도 "이름은 바뀌었는데 내용은 비어 있는" 파일이 남지 않게 한다.
+        fh.flush()
+        os.fsync(fh.fileno())
+    try:
+        _replace_with_retry(tmp, path)
+    finally:
+        # 실패했을 때 반쪽 tmp 를 남기지 않는다 (Gateway SecretStore.put 과 같은 처리).
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
     if sys.platform != "win32":
         try:
             os.chmod(path, 0o600)
@@ -248,4 +318,12 @@ def acquire(issue_fn, dead_token=None):
         if token and token != dead_token:
             return token
         issued, expires_in = issue_fn()
-        return write_shared(issued, expires_in)
+        try:
+            return write_shared(issued, expires_in)
+        except OSError:
+            # 발급은 이미 성공했다(= 상대 토큰은 이미 무효화됐다).
+            # 여기서 예외를 올리면 이 프로세스는 토큰 없이 매번 재발급을 시도하게 되고,
+            # 그 재발급 하나하나가 상대를 다시 끊는다 — 막으려던 문제로 되돌아간다.
+            # 그래서 저장에 실패해도 발급된 토큰은 반환해 쓰게 한다.
+            # (상대는 401 한 번을 겪고 스스로 1회 갱신하면 다시 수렴한다.)
+            return issued
