@@ -1,23 +1,151 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-19 15:56",
- "priceLabel": "2026-08-19 종가 (15:45 수집)",
- "count": 80,
+ "generatedAt": "2026-08-19 16:26",
+ "priceLabel": "2026-08-19 종가 (16:08 수집)",
+ "count": 96,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
    "code": "021240",
    "name": "코웨이",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "316140",
+   "name": "우리금융지주",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
    "isCorrection": false
   },
   {
    "code": "397030",
    "name": "에이프릴바이오",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "[기재정정]최대주주변경",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "028050",
+   "name": "삼성E&A",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "083650",
+   "name": "비에이치아이",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "010130",
+   "name": "고려아연",
+   "title": "소송등의제기ㆍ신청(경영권분쟁소송)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "096770",
+   "name": "SK이노베이션",
+   "title": "지주회사의자회사편입",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006120",
+   "name": "SK디스커버리",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "지주회사의자회사편입(자회사의 주요경영사항)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "지주회사의자회사편입(자회사의 주요경영사항)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051900",
+   "name": "LG생활건강",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "[기재정정]주요사항보고서(상각형조건부자본증권발행결정)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "028300",
+   "name": "HLB",
+   "title": "증권발행결과(자율공시)",
+   "receiptDate": "20260819",
+   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "021240",
+   "name": "코웨이",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260819",
    "detectedAt": "2026-08-19T06:55:18.573027+00:00",
