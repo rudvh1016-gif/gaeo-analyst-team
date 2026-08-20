@@ -69,16 +69,28 @@ jobs:
           ok = (not result) or result.startswith("CYCLE_OK")
           today_try = at[:10] == today
 
+          # ⚠️ 사이클이 "정상적으로 아무것도 안 한" 결과들. 실패가 아니다.
+          #    공휴일에 엔진은 HOLIDAY를 오늘 타임스탬프와 함께 기록하는데(paper_engine.py),
+          #    이걸 실패로 보면 평일 공휴일마다 허위 알림 이슈가 열린다
+          #    (AGENTS.md·CLAUDE.md의 "공휴일엔 안 도는 게 정상" 전제와 정면 충돌).
+          #    ⭐ OK가 아니라 SKIP으로 둔다 — OK로 두면 어제 난 진짜 실패 이슈를
+          #      공휴일에 자동으로 닫아버려서 문제를 덮는다.
+          NEUTRAL = ("HOLIDAY", "BASELINE_CAPTURED", "ENGINE_NOT_STARTED")
+          neutral = result.startswith(NEUTRAL)
+
           # 실패 사유는 앞머리 코드만 쓴다(내부 문자열을 그대로 이슈에 붙이지 않는다).
           m = re.match(r"[A-Z][A-Z0-9_]{3,}", result)
           reason = m.group(0) if m else ("UNKNOWN" if result else "NONE")
 
-          if not ok and today_try:
+          if neutral:
+              # 휴장·기준선 캡처·시작 전. 실패도 성공도 아니므로 판정하지 않는다.
+              status = "SKIP"
+          elif not ok and today_try:
               status = "FAIL"
           elif ok and today_try:
               status = "OK"
           else:
-              # 오늘 시도 기록 자체가 없다(주말·공휴일·아직 반영 전). 판정 보류.
+              # 오늘 시도 기록 자체가 없다(주말·아직 반영 전). 판정 보류.
               status = "SKIP"
 
           print(f"status={status}")

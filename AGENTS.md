@@ -24,6 +24,12 @@
 
 TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축을 보고, RISK가 위험을 점검하고, ROTATION이 시장·업종 흐름을 보고, CHIEF가 종합하는 **규칙 기반** 한국 주식 분석 **순수 정적 사이트** (⚠️ 여러 AI가 서로 대화·토론하는 구조가 아니다. 사용자 화면에 "AI 7명이 토론"처럼 쓰지 말 것)(빌드 과정 없음). 실사용 화면은 `gaeoteam.com`(GitHub Pages, `main` 브랜치 기준). 종목은 `tickers.js` 단일 소스(현재 600종목 · Coverage Version `GAEO_COVERAGE_V2_600`, `coverage_version.py`가 관리). 소수 핵심 종목(현재 14개, `analysis.js`에 있는 종목)만 AI가 직접 심층 분석하는 🧠 정밀분석이고, 나머지는 `analyze_auto.py`가 규칙(RSI·MACD·PER 등 지표 기반 if-then 로직)으로 매일 자동 갱신하는 🤖 자동분석이며 **AI API를 전혀 호출하지 않는다**(토큰 0). QUANT는 2026-07-21에 NOVA(뉴스심리)를 교체한 확률·통계 분석가 — 내부 id·데이터 키는 호환성 위해 `nova`를 유지한다. CHIEF 합산은 자가 학습 가중치(`compute_team_weights.py` → `team_weights.js`: `history.js` 채점 기록으로 분석가별 적중률→발언권)를 쓴다. 6번째 카드 🛡️ RISK(리스크 관리)도 규칙 기반 정보 전용(토큰 0).
 
+⭐ **정밀분석 대상 종목은 대표가 직접 고른다. 선정 기준은 없고, 없는 게 정상이다(2026-08-20 대표 확정).**
+"600종목 중 4%만 정밀분석인데 편입 기준이 없다"는 건 결함이 아니라 의도된 운영 방식이다.
+시가총액·거래대금·검색량 같은 자동 선정 규칙을 만들자는 제안을 하지 말 것. 대표가 분석하고
+싶은 종목을 그때그때 지정하면 그 종목을 하면 된다. `/gaeo-strategy`·주간 제안 Routine도
+이 항목을 개선 과제로 다시 올리지 않는다.
+
 ⭐ **📡 GAEO 레이더는 "6번째 AI 분석가"가 아니다.** 전 종목 일봉을 기계적으로 훑어 *직전 거래일 대비 새로 경계를 통과한 종목*(RSI 30/70 돌파·볼린저밴드 이탈·재진입·거래량 2배 급증·MACD/이동평균 교차)만 찾아내는 **보조 탐지기**다(`compute_radar.py`, 토큰 0). 역할 구분: 레이더=변화가 생긴 종목을 찾음 / TARO=기술적 의미 해석 / DIANA=재무 / QUANT=확률·통계 / FLOW=수급 / CHIEF=종합. 레이더는 **BUY/HOLD/SELL 판단을 절대 만들지 않으며**, 화면 문구에도 "반등 확정·매수 기회·곧 상승·바닥 확인" 같은 단정 표현을 쓰지 않는다. 임계값을 바꾸려면 `radar_signals.py` 상단 상수만 고치고, 검증은 `python3 test_radar.py`로 돌린다.
 
 더 자세한 배경·설계 이유는 `docs/PROJECT_OVERVIEW.md`와 `docs/ARCHITECTURE.md`를 참고하세요.
@@ -132,7 +138,7 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 - **update-analysis.yml** — 같은 시간대, 30분마다 `price_history.js`·`analysis_data.json`·`indicators.json/js`·`radar.json/js`·`radar_series.js`·`auto_analysis.js`(홈 보강 브리핑 포함) 갱신 + `archive_analysis.py --auto`로 600종목 판단을 `history.js`에 하루 1건씩 누적.
 - **순환매 갱신** — `update-analysis.yml`이 매 사이클 `rotation_snapshot.js`를 갱신하고 15:40 KST 이후에는 같은 거래일 마감본을 `rotation_archive.json`에 한 번만 남긴다. `rotation-maintenance.yml`은 주 1회 과거 검증을 다시 계산한다. 높은 신뢰도는 검증상 중간 신뢰도를 앞설 때만 열린다.
 - **🌐 전체시장 관찰(2026-08-16)** — `collect_market_universe.py`가 같은 사이클에서 KOSPI+KOSDAQ 전체(bulk 44요청, 종목별 polling 금지)의 Breadth·집중도 집계만 만든다(`market_context.js` 1KB + 일일 history). 600 정밀분석과 **별개 모집단**이고 실패해도 파이프라인을 멈추지 않는다. 상세: `docs/full_market_universe.md`. 업종 매핑 95% 게이트 통과 전에는 순환매를 전체시장으로 바꾸지 않는다.
-- 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조다(GitHub 무료 cron이 이 저장소에서 불안정해서). 이 워크플로우 파일들의 트리거는 `workflow_dispatch` / `push`(`.analyst-refresh` 경로) / `schedule`(cron)뿐이고, **외부 PR로 실행되는 트리거는 없다** — 이 점은 어떤 에이전트도 바꾸지 말 것(포크 PR이 권한 있는 워크플로우를 실행하게 만드는 건 보안 사고다).
+- 두 러너 모두 "자가 반복 루프 + 종료 시 자기 재기동 체인" 구조다(GitHub 무료 cron이 이 저장소에서 불안정해서). 이 워크플로우 파일들의 트리거는 `workflow_dispatch` / `push`(`.analyst-refresh` 경로) / `schedule`(cron)뿐이고, **외부 PR로 실행되는 트리거는 없다(⚠️ 데이터 파이프라인 워크플로 한정이다. 2026-08-20 신설된 `ci.yml`은 `pull_request` 트리거를 쓰지만 secrets 참조가 0이고 `permissions: contents:read`뿐이라 포크 PR이 권한을 얻지 못한다)** — 이 점은 어떤 에이전트도 바꾸지 말 것(포크 PR이 권한 있는 워크플로우를 실행하게 만드는 건 보안 사고다).
 - ⚠️ **`cancel-in-progress: false`다(2026-07-21 변경).** 즉 이미 실행 중인 잡이 있으면 새 트리거(마커 push·cron·dispatch)는 그 잡을 **취소하지 않고 뒤에서 대기(큐)만** 한다. "마커를 push하면 최신 1개만 남으니 안전하다"는 옛 설명은 틀렸다. 잡이 완전히 죽었을 땐 대기하던 실행이 곧바로 시작돼 문제없지만, 잡이 **죽지 않고 멈춘(hang)** 경우엔 마커 push가 최대 6시간(잡 timeout 350분) 동안 효과가 없다 — 그땐 실행을 먼저 **취소**해야 대기분이 뜬다(매시 Routine 안전망이 이 판정을 한다).
 - 🔒 **파일 소유권(2026-07-31)**: `data.js`는 update-prices만 커밋하고, 파생물(`indicators*`·`auto_analysis.js`·`radar*`·`snap/` 등)은 update-analysis만 커밋한다. update-analysis는 매 사이클 `data.js`·`analysis.js`를 origin 최신본으로 받아 **읽기만** 하고, 커밋 직전 `git checkout HEAD --`로 되돌린다. (`git checkout <ref> -- <file>`은 인덱스에 stage까지 하므로, 안 되돌리면 add 목록에 없어도 커밋에 딸려 들어가고 push 재시도의 `merge -X ours`가 낡은 시세로 최신을 덮어쓴다.)
 - ⏱️ **hang 방지**: 루프 안의 모든 `git fetch`·`git push`와 네트워크를 쓰는 스크립트(`curl`·`node ...submit.js` 등)에 `timeout`을 건다. 한 단계가 멈추면 잡이 350분 timeout으로 강제 종료되고, 그 경우 `chain()` 재기동 줄에 도달하지 못해 체인이 통째로 끊긴다(2026-07-22 사고 유형). ⚠️ 2026-08-04: `dispatch()`/`alive()` 함수 안 `curl`과 `git push` 자체에 timeout이 안 걸려 있어서, 이것들이 응답을 못 받으면 잡이 몇 시간이고 조용히 멈춰 있는 사고가 또 발생했다(체인은 안 끊기고 그냥 hang만 남는 유형이라 알아채기 더 어렵다) — 새 네트워크 호출을 추가할 땐 반드시 `timeout N <명령>`으로 감쌀 것.
