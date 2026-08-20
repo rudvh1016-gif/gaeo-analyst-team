@@ -63,6 +63,17 @@ REPLACE_ATTEMPTS = 5
 REPLACE_DELAY_SECONDS = 0.05
 
 
+class DecryptError(OSError):
+    """공유 토큰 파일의 복호화 실패 — 즉 **파일 내용이 깨졌다**는 뜻.
+
+    파일시스템 오류(권한·디스크)와 구분하려고 전용 타입으로 둔다.
+    깨진 캐시는 버리고 새로 받으면 되지만, 권한 오류는 숨기면 안 된다
+    (숨기면 매번 재발급 → 상대 프로세스를 계속 끊는 상태가 조용히 이어진다).
+    OSError 하위형이라 기존 except OSError 는 그대로 동작한다.
+    메시지에 토큰 값을 담지 않는다.
+    """
+
+
 class SharedTokenError(RuntimeError):
     """공유 토큰 저장소 자체의 장애(잠금 타임아웃 등).
 
@@ -131,7 +142,7 @@ def _dpapi(func_name, blob):
         ctypes.byref(src), None, ctypes.byref(ent), None, None, 0x1, ctypes.byref(out)
     )
     if not ok:
-        raise OSError(func_name + " 실패")
+        raise DecryptError(func_name + " 실패")
     try:
         return ctypes.string_at(out.pbData, out.cbData)
     finally:
@@ -232,8 +243,12 @@ def read_shared(now=None):
         with open(path, "rb") as fh:
             raw = _unprotect(fh.read())
         record = json.loads(raw.decode("utf-8"))
-    except Exception:
-        # 손상된 캐시는 조용히 버린다(내용은 어디에도 남기지 않는다).
+    except (DecryptError, ValueError):
+        # 깨진 캐시만 조용히 버린다(내용은 어디에도 남기지 않는다).
+        #   · DecryptError — DPAPI 복호화 실패(0바이트·난수·잘린 blob·평문 파일)
+        #   · ValueError   — JSON 파싱 실패, UTF-8 디코드 실패(UnicodeDecodeError 포함)
+        # 권한/디스크 오류(PermissionError 등)와 프로그래밍 오류는 **통과시킨다.**
+        # 그것까지 None 으로 삼키면 매 요청 재발급이 되어 상대 프로세스를 계속 끊는다.
         return None
 
     token = record.get("access_token")

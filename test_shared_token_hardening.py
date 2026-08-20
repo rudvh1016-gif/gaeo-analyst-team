@@ -203,6 +203,46 @@ def run():
                    if (os.environ.update({"GAEO_SHARED_TOSS_TOKEN": v}) or shared.enabled()) != want]
         check("H9. 환경변수는 '1' 만 ON (문서와 일치)", not bad_env, str(bad_env))
 
+        # ── H11: 손상 캐시는 None, 운영 오류는 통과 (Gateway 와 같은 경계) ──
+        os.environ["GAEO_SHARED_TOSS_TOKEN"] = "1"
+        shared.read_shared = orig_read
+        for f in os.listdir(tmp):
+            os.remove(os.path.join(tmp, f))
+        real_unprotect = shared._unprotect
+        for label, data in (("0 바이트", b""), ("무작위 바이트", os.urandom(48)),
+                            ("잘린 blob", b"\x01\x00\xd0\x8c"), ("평문 JSON", b'{"access_token":"x"}')):
+            open(shared._token_path(), "wb").write(data)
+            shared._unprotect = lambda _b: (_ for _ in ()).throw(shared.DecryptError("복호화 실패"))
+            try:
+                got = shared.read_shared()
+                check(f"H11. {label} → 복호화 실패해도 None", got is None, f"{got!r}")
+            except Exception as e:
+                check(f"H11. {label} → 복호화 실패해도 None", False, type(e).__name__)
+            finally:
+                shared._unprotect = real_unprotect
+
+        open(shared._token_path(), "wb").write(b'{"access_token":"T","expires_at":null}')
+        real_open = shared.open if hasattr(shared, "open") else None
+        import builtins as _b
+        _real_bopen = _b.open
+
+        def denied(path, *a, **k):
+            if isinstance(path, str) and path.endswith(("token.bin", "token.dpapi")):
+                raise PermissionError(13, "Permission denied")
+            return _real_bopen(path, *a, **k)
+
+        _b.open = denied
+        try:
+            shared.read_shared()
+            check("H12. 권한 오류는 삼키지 않는다", False, "None 으로 조용히 넘어감")
+        except PermissionError:
+            check("H12. 권한 오류는 삼키지 않는다", True)
+        except Exception as e:
+            check("H12. 권한 오류는 삼키지 않는다", False, type(e).__name__)
+        finally:
+            _b.open = _real_bopen
+        os.environ.pop("GAEO_SHARED_TOSS_TOKEN", None)
+
         # ── H10: OFF + 저장소 존재 → 경고 1회 ────────────────────────────
         os.environ["GAEO_SHARED_TOSS_TOKEN"] = "1"
         shared.write_shared("TOK-PEER", 900)
