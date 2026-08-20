@@ -16,7 +16,8 @@
     D6. 401(죽은 토큰) 시 다른 쪽이 이미 갱신했으면 중복 발급하지 않는다
     D7. 손상된 캐시는 조용히 복구된다
     D8. 저장 파일에 토큰이 평문으로 남지 않는다(Windows DPAPI, 그 외는 개발용)
-    D9. Trading Logic 파일을 건드리지 않았다
+    D9. Trading Logic 파일을 건드리지 않았다 (변경 파일 목록 기준)
+    D9b. 매매 판단 모듈에 공유토큰 기능이 스며들지 않았다 (git 이력 없이도 검사)
 """
 import io
 import json
@@ -34,6 +35,58 @@ def check(name, cond, detail=""):
     print(f"[{'PASS' if cond else 'FAIL'}] {name}" + ("" if cond or not detail else f" — {detail}"))
     if not cond:
         FAILURES.append(name)
+
+
+#: 이 기능이 건드려도 되는 파일 — **token infrastructure 로만** 한정한다.
+#: ⚠️ paper_engine.py · paper_history.py · paper_public.py · paper_report.py ·
+#:    paper_trading/* 를 여기 절대 넣지 말 것. 넣는 순간 D9 는 Trading Logic 변경을
+#:    통과시키는 가짜 검사가 된다. 새 파일이 늘면 "정말 토큰 경로인가"를 먼저 따진다.
+TOKEN_INFRA_FILES = frozenset({
+    "paper_market_data.py",           # 토큰 획득 경로(시세 provider) — 유일하게 수정되는 기존 파일
+    "gaeo_shared_token.py",           # 공유 토큰 저장소 (신규)
+    "test_shared_toss_token.py",      # 이 파일 (신규)
+    "test_shared_token_hardening.py", # 장애 주입 계약 (신규)
+    "docs/SHARED_TOSS_TOKEN.md",      # 문서 (신규)
+    ".gitignore",                     # 공유 토큰 산출물이 커밋되지 않도록 하는 안전망
+})
+
+#: 매매 판단이 들어 있는 모듈. 공유토큰 기능이 여기 스며들면 즉시 실패한다.
+TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
+                         "paper_public.py", "paper_report.py")
+
+
+def _git(*args):
+    """git 명령 1회. (성공여부, stdout) 을 돌려준다.
+
+    returncode 를 반드시 본다 — 예전 구현은 stdout 만 읽어서, git 이 오류로 끝나
+    빈 문자열을 돌려준 경우와 "정말 바뀐 파일이 없는" 경우를 구분하지 못했다.
+    """
+    try:
+        proc = subprocess.run(["git"] + list(args), capture_output=True,
+                              text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return False, ""
+    return proc.returncode == 0, proc.stdout
+
+
+def _changed_files():
+    """이 브랜치가 바꾼 파일 목록. 얻을 수 없으면 None (빈 목록과 구분한다)."""
+    ok, out = _git("diff", "--name-only", "origin/main...HEAD")
+    if ok:
+        return out.split()
+
+    # GitHub Actions 의 pull_request 체크아웃은 refs/pull/N/merge 라 부모가 2개다
+    # (HEAD^1 = base, HEAD^2 = PR head). origin/main ref 가 없어 위 비교는 실패하지만
+    # 부모끼리 비교하면 PR 변경 파일을 그대로 얻는다. fetch-depth 가 2 이상이어야 한다.
+    #
+    # ⚠️ 부모가 정확히 2개일 때만 쓴다. 일반 브랜치에서 HEAD^1 과 비교하면
+    #    "마지막 커밋 하나"만 보게 되어 검사가 조용히 헐거워진다.
+    ok, parents = _git("rev-list", "--parents", "-n", "1", "HEAD")
+    if ok and len(parents.split()) == 3:
+        ok, out = _git("diff", "--name-only", "HEAD^1", "HEAD")
+        if ok:
+            return out.split()
+    return None
 
 
 # ── 가짜 토스 서버: '토큰 1개' 규칙을 그대로 흉내낸다 ────────────────────────
@@ -205,21 +258,37 @@ def run():
         for key in ("GAEO_SHARED_TOSS_TOKEN", "GAEO_SECRETS_DIR"):
             os.environ.pop(key, None)
 
-    # ── D9: Trading Logic 무변경 ──────────────────────────────────────────
-    try:
-        changed = subprocess.run(
-            ["git", "diff", "--name-only", "origin/main...HEAD"],
-            capture_output=True, text=True, timeout=30,
-        ).stdout.split()
-    except Exception:
-        changed = []
-    if changed:
-        allowed = {"paper_market_data.py", "gaeo_shared_token.py", "test_shared_toss_token.py",
-                   "docs/SHARED_TOSS_TOKEN.md"}
-        unexpected = [f for f in changed if f not in allowed]
-        check("D9. Trading Logic 파일 변경 0", unexpected == [], str(unexpected))
+    # ── D9 / D9b: Trading Logic 무변경 ────────────────────────────────────
+    #
+    # 이 기능이 건드리는 것은 "토큰을 어떻게 얻는가" 하나뿐이다.
+    # 매매 판단(BUY/SELL/HOLD)·비중·진입/청산·원장·전략은 한 줄도 바뀌면 안 된다.
+    #
+    # ⚠️ 예전 구현은 git diff 가 실패하면 조용히 [SKIP] 했다. 그런데 얕은 클론과
+    #    GitHub Actions 의 pull_request 체크아웃(기본 fetch-depth=1, 게다가 HEAD 가
+    #    refs/pull/N/merge 라 origin/main 이라는 ref 자체가 없다)에서는 그 비교가
+    #    **항상** 실패한다. 즉 이 검사는 정작 돌아야 할 곳에서 한 번도 돈 적이 없고,
+    #    로그에는 통과처럼 보이는 [SKIP] 만 남았다. 이제는 어떤 환경에서도
+    #    반드시 무언가를 검사한다 — 이력이 있으면 D9, 없으면 D9b 로 내려간다.
+    changed = _changed_files()
+    if changed is None:
+        print("[INFO] D9. git 변경 목록을 얻을 수 없어 D9b(이력 불필요 검사)로 대체합니다")
     else:
-        print("[SKIP] D9. git diff 를 얻지 못해 건너뜀")
+        unexpected = sorted(f for f in changed if f not in TOKEN_INFRA_FILES)
+        check("D9. Trading Logic 파일 변경 0", unexpected == [], str(unexpected))
+
+    # D9b 는 이력 유무와 무관하게 **항상** 돈다.
+    # 허용목록(TOKEN_INFRA_FILES)을 넓히는 것만으로는 이 검사를 통과할 수 없다 —
+    # 매매 판단 모듈 자체를 읽어서 공유토큰 기능이 새어 들어갔는지 본다.
+    leaked = []
+    for module in TRADING_LOGIC_MODULES:
+        if not os.path.exists(module):
+            leaked.append(module + " (파일 없음 — 목록을 갱신할 것)")
+            continue
+        with io.open(module, encoding="utf-8") as fh:
+            source = fh.read()
+        if "gaeo_shared_token" in source or "GAEO_SHARED_TOSS_TOKEN" in source:
+            leaked.append(module)
+    check("D9b. 매매 판단 모듈에 공유토큰 흔적 0", leaked == [], str(leaked))
 
 
 run()
