@@ -352,7 +352,7 @@
   html.gdark .modebtn.on{background:#48484A;color:#F5F5F7;box-shadow:0 1px 4px rgba(0,0,0,.4)}
   /* 전체 메뉴는 다크에서도 배경 없는 텍스트 메뉴로 유지(위 두 줄보다 구체성이 높아야 한다) */
   html.gdark .nav-workspace .modes{background:transparent}
-  html.gdark .nav-menu-title{color:var(--ink)}
+  html.gdark .nav-menu-title{color:var(--dim)}
   html.gdark .nav-workspace .modebtn,
   html.gdark .nav-workspace .modebtn:hover,
   html.gdark .nav-workspace .modebtn.on{background:transparent;color:var(--ink);box-shadow:none}
@@ -2026,6 +2026,11 @@
     font-size:11.5px;color:var(--faint);line-height:1.8}
   .nw-src a{color:var(--sky);text-decoration:none;word-break:break-all}
   .nw-disc{margin-top:10px;font-size:11px;color:var(--faint)}
+  /* 종목공부 글 → 그 종목의 실제 분석 화면으로 넘어가는 텍스트 링크
+     (분석 대상 600종목에 들어 있을 때만 렌더한다 — 해외 종목은 링크가 죽는다) */
+  .nw-golink{margin-top:14px;font-size:12.5px}
+  .nw-golink a{color:var(--sky);text-decoration:none}
+  .nw-golink a:hover{text-decoration:underline}
   /* 🧮 계산기 위젯 */
   .calc-wrap{margin:18px 0 4px;padding:18px;background:var(--sky-soft);border-radius:14px}
   .calc-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px}
@@ -2556,10 +2561,12 @@
   .idx-panel-val em.up{color:var(--krup)} .idx-panel-val em.down{color:var(--krdn)}
   .idx-badge{flex:0 0 auto;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px;
     border:1px solid var(--color-border);background:var(--color-bg-subtle);color:var(--color-text-secondary)}
-  .idx-badge.tone-good{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
-  .idx-badge.tone-bad{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
-  .idx-badge.tone-warn{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
-  html.gdark .idx-badge.tone-good{color:#7FD9BC} html.gdark .idx-badge.tone-bad{color:#F0A6A6} html.gdark .idx-badge.tone-warn{color:#E0C088}
+  /* ⚠️ 상태 배지 문구("중기 추세 양호"·"단기 약세"·"과열 주의")는 실제 등락이 아니라
+     이동평균을 읽은 해석이다. 색은 시장 방향(실제 등락·수익률)에만 쓴다는 규칙에 따라
+     초록/빨강/주황 배경·테두리를 걷어내고, 잉크 톤과 굵기 차이로만 구분한다.
+     (라벨 문구와 판정 로직 indexStateBadge()는 그대로 둔다 — 정보 삭제가 아니다.) */
+  .idx-badge.tone-good,.idx-badge.tone-bad,.idx-badge.tone-warn{
+    background:var(--color-bg-subtle);border-color:var(--color-border);color:var(--t2);font-weight:600}
   .idx-panel-arrow{flex:0 0 auto;color:var(--faint);font-size:11px;transition:transform var(--motion-control,.2s) var(--ease-standard,ease)}
   .idx-panel[open] .idx-panel-arrow{transform:rotate(180deg)}
   .idx-panel-teaser{padding:0 18px 12px;font-size:11.5px;color:var(--dim);line-height:1.55;word-break:keep-all}
@@ -3098,18 +3105,26 @@
     gap:20px;max-height:none!important;overflow:visible!important;padding:0!important}
   /* 전체 메뉴 = 그룹 텍스트 메뉴. 박스·테두리·아이콘 없이 제목과 여백으로만 계층을 만든다.
      (2026-08-19) 이전에는 19개 항목이 전부 테두리+15px 라운드 박스라 앱 서랍처럼 보였다. */
-  .nav-workspace .modes{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  .nav-workspace .modes{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
     grid-column:1/-1;gap:12px 28px;padding:0;margin:0;background:transparent}
   .nav-menu-group{display:flex;flex-direction:column;min-width:0}
   .nav-menu-title{margin:0 0 8px;padding-bottom:9px;border-bottom:1px solid var(--gaeo-border);
-    font-size:12px;font-weight:600;letter-spacing:.01em;color:#000}
-  .nav-workspace .modebtn{min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+    font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--dim)}
+  .nav-workspace .modebtn,.nav-workspace .nav-menu-link{min-height:0;border:0;border-radius:0;
+    background:transparent;box-shadow:none;
     display:block;width:100%;padding:7px 0;font-size:13.5px;font-weight:400;line-height:1.5;
-    text-align:left;color:#000;white-space:normal;word-break:keep-all}
-  .nav-workspace .modebtn:hover{background:transparent;border:0;box-shadow:none;color:#000;
+    text-align:left;color:var(--ink);white-space:normal;word-break:keep-all}
+  .nav-workspace .modebtn:hover,.nav-workspace .nav-menu-link:hover{background:transparent;border:0;
+    box-shadow:none;color:var(--ink);
     text-decoration:underline;text-underline-offset:3px}
-  .nav-workspace .modebtn.on{background:transparent;border:0;box-shadow:none;color:#000;font-weight:600}
-  .nav-workspace .modebtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;border-radius:4px}
+  .nav-workspace .modebtn.on{background:transparent;border:0;box-shadow:none;color:var(--ink);font-weight:600}
+  .nav-workspace .modebtn:focus-visible,.nav-workspace .nav-menu-link:focus-visible{
+    outline:2px solid var(--color-accent);outline-offset:2px;border-radius:4px}
+  /* 전체 메뉴 헤드의 '홈' 바로가기 — 닫기와 나란히 서므로 테두리 없는 텍스트 버튼으로 둔다
+     (pill 2개가 나란히 서면 디자인시스템 §3 'pill 남발' 위반) */
+  .nav-quick-home{border:0;background:transparent;color:var(--t2);font:inherit;font-size:13px;
+    font-weight:500;min-height:44px;padding:0 8px;cursor:pointer}
+  .nav-head-actions{display:flex;align-items:center;gap:8px}
   .nav-workspace .controls,.nav-workspace .cmp-controls{margin:0;padding:20px;border:1px solid var(--gaeo-border);
     border-radius:18px;background:var(--gaeo-canvas)}
   .nav-workspace .chips{grid-column:1/-1;display:flex;gap:8px;overflow-x:auto;margin:0;padding:2px 0 10px;
@@ -3736,7 +3751,9 @@
   @media(max-width:1280px){
     .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 48px)}
     .global-primary{gap:0}
-    .global-link{padding:0 9px}
+    /* 1180~1280에서는 상단 메뉴 11개가 검색 아이콘과 겹치지 않도록 좌우 여백을 줄인다.
+       (padding 9 + margin 9 = 항목 사이 36px이면 11개가 들어가지 않는다) */
+    .global-link{padding:0 6px;margin:0 4px}
     .global-icon-btn span{display:none}
     .home-lead{grid-template-columns:minmax(0,1.35fr) minmax(340px,.8fr)}
   }
@@ -3748,24 +3765,43 @@
     .global-brand-word{font-size:18px}
     .global-icon-btn,.global-menu-btn{width:40px;padding:0}
     .global-menu-btn>span:last-child{display:none}
-    .global-panel-inner{padding:18px 0 22px}
     .nav-search-inner{grid-template-columns:1fr auto}
     .nav-search-inner>.nav-panel-label{grid-column:1/-1}
     .nav-search-inner .ac-wrap{width:auto;min-width:0}
     .nav-profile-panel .global-panel-inner{align-items:flex-start;flex-wrap:wrap;gap:12px}
     .nav-profile-inner>div:first-child{width:100%}
     .nav-profile-row{width:100%}
-    .nav-workspace{max-height:calc(100vh - var(--gaeo-nav-h));overflow-y:auto}
+    /* 모바일 전체 메뉴 — 패널이 화면을 다 덮지 않도록 그룹 크롬(패딩·구분선)을 걷어내고
+       항목은 44px 터치영역·14px을 유지한 채 2열로 흘린다(2026-08-19 재설계).
+       100vh는 100dvh를 모르는 iOS Safari 15.4 미만 폴백이라 반드시 앞줄에 둔다. */
+    .nav-workspace{max-height:calc(100vh - var(--gaeo-nav-h) - 28px);
+                   max-height:calc(100dvh - var(--gaeo-nav-h) - 28px);
+                   overflow-y:auto;overscroll-behavior:contain}
     .nav-workspace-inner{max-height:none}
+    .global-panel-inner{padding:14px 0 20px}
+    .nav-workspace-head{margin-bottom:12px;gap:10px}
+    .nav-workspace-head strong{display:none}
+    .nav-workspace-head .nav-panel-label{margin-bottom:0;font-size:13px;font-weight:600;
+      letter-spacing:0;text-transform:none;color:var(--ink)}
+    .nav-close{min-height:44px;padding:0 14px;font-size:12.5px}
     .nav-workspace .rail{grid-template-columns:1fr}
     .nav-workspace .modes{grid-template-columns:1fr!important;gap:0}
-    .nav-menu-group{padding:14px 0;border-bottom:1px solid var(--gaeo-border)}
-    .nav-menu-group:last-child{border-bottom:0}
-    .nav-menu-title{border-bottom:0;padding-bottom:0;margin-bottom:4px}
-    /* 항목은 2열로 흘려 세로 스크롤을 줄인다(탭 영역 높이는 그대로 유지) */
-    .nav-menu-group{display:grid;grid-template-columns:1fr 1fr;column-gap:14px}
-    .nav-menu-title{grid-column:1/-1}
-    .nav-workspace .modebtn{padding:10px 0;font-size:14px}
+    .nav-menu-group{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:0;
+      padding:0;border-bottom:0;margin-top:16px}
+    .nav-menu-group:first-child{margin-top:0}
+    .nav-menu-title{grid-column:1/-1;border-bottom:0;padding-bottom:0;margin:0 0 2px;
+      font-size:12px;font-weight:500;line-height:1.35}
+    .nav-workspace .modebtn,.nav-workspace .nav-menu-link{
+      padding:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;
+      font-size:14px;text-align:left}
+    /* 패널이 열려 있는 동안 뒤 페이지가 따라 움직이지 않게 잠근다.
+       (예전엔 body.nav-open 클래스만 토글되고 대응 CSS가 한 줄도 없어서,
+        메뉴를 연 채 스크림을 끌면 뒤 페이지가 스크롤됐다.) */
+    /* ⚠️ 이 문서의 스크롤 주체는 body가 아니라 html(document.scrollingElement)이다.
+       body에만 걸면 안 막힌다 — 실측으로 확인하고 둘 다 잠근다. */
+    html:has(body.nav-open),body.nav-open{overflow:hidden}
+    body.nav-open::after{content:"";position:fixed;left:0;right:0;bottom:0;
+      top:var(--gaeo-nav-h);background:rgba(15,20,28,.32);z-index:900;pointer-events:none}
     .nav-workspace .chips{grid-column:auto}
     .wrap{padding-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
     .refresh-notice{padding:5px 12px;font-size:9.5px;line-height:1.35}
@@ -4072,16 +4108,16 @@
     </button>
     <div class="global-primary" aria-label="주요 서비스">
       <button class="global-link on" type="button" data-nav-home>홈</button>
-      <button class="global-link" id="navMarket" type="button">시장</button>
+      <button class="global-link" id="navMarket" type="button">오늘 시장</button>
+      <button class="global-link" type="button" data-nav-mode="single"   data-nav-alias="compare screener rates">종목 분석</button>
       <button class="global-link" type="button" data-nav-mode="rotation">순환매</button>
-      <button class="global-link" type="button" data-nav-mode="single">종목 분석</button>
-      <button class="global-link" type="button" data-nav-mode="news">뉴스</button>
-      <button class="global-link" type="button" data-nav-mode="lesson">공부</button>
-      <button class="global-link" type="button" data-nav-mode="calc">투자 도구</button>
-      <button class="global-link" type="button" data-nav-mode="scorecard">성적표</button>
-      <button class="global-link" type="button" data-nav-mode="paper">모의투자</button>
-      <button class="global-link" type="button" data-nav-mode="calendar">캘린더</button>
+      <button class="global-link" type="button" data-nav-mode="paper"    data-nav-alias="watch portfolio">모의투자</button>
+      <button class="global-link" type="button" data-nav-mode="lesson"   data-nav-alias="study estate">주식공부</button>
       <button class="global-link" type="button" data-nav-mode="guide">가이드북</button>
+      <button class="global-link" type="button" data-nav-mode="news"     data-nav-alias="latest">뉴스분석</button>
+      <button class="global-link" type="button" data-nav-mode="calc"     data-nav-alias="community changelog">계산기</button>
+      <button class="global-link" type="button" data-nav-mode="calendar">캘린더</button>
+      <button class="global-link" type="button" data-nav-mode="scorecard">성적표</button>
     </div>
     <div class="global-utilities">
       <button class="global-icon-btn" id="navSearchToggle" type="button" aria-expanded="false" aria-controls="navSearchPanel">
@@ -4130,7 +4166,10 @@
     <div class="global-panel-inner nav-workspace-inner">
       <div class="nav-workspace-head">
         <div><span class="nav-panel-label">전체 메뉴</span><strong>원하는 리서치 도구로 바로 이동하세요.</strong></div>
-        <button class="nav-close" id="navWorkspaceClose" type="button" aria-label="전체 메뉴 닫기">닫기</button>
+        <div class="nav-head-actions">
+          <button class="nav-quick-home" type="button" data-nav-home>홈</button>
+          <button class="nav-close" id="navWorkspaceClose" type="button" aria-label="전체 메뉴 닫기">닫기</button>
+        </div>
       </div>
       <div id="navWorkspaceBody"></div>
     </div>
@@ -4347,10 +4386,11 @@
   <div class="modes">
     <div class="nav-menu-group">
       <h3 class="nav-menu-title">분석</h3>
-      <button class="modebtn on" id="mode-single" type="button">단일 분석</button>
+      <button class="nav-menu-link" id="navMarketPanel" type="button">오늘 시장</button>
+      <button class="modebtn on" id="mode-single" type="button">종목 분석</button>
       <button class="modebtn" id="mode-compare" type="button">종목 비교</button>
-      <button class="modebtn" id="mode-rotation" type="button">순환매</button>
       <button class="modebtn" id="mode-screener" type="button">스크리너</button>
+      <button class="modebtn" id="mode-rotation" type="button">순환매</button>
       <button class="modebtn" id="mode-rates" type="button">등락률 확인</button>
     </div>
     <div class="nav-menu-group">
@@ -4360,14 +4400,11 @@
       <button class="modebtn" id="mode-paper" type="button">모의투자</button>
     </div>
     <div class="nav-menu-group">
-      <h3 class="nav-menu-title">공부</h3>
+      <h3 class="nav-menu-title">공부 · 읽을거리</h3>
       <button class="modebtn" id="mode-lesson" type="button">주식공부</button>
       <button class="modebtn" id="mode-study" type="button">종목공부</button>
       <button class="modebtn" id="mode-estate" type="button">부동산공부</button>
       <button class="modebtn" id="mode-guide" type="button">가이드북</button>
-    </div>
-    <div class="nav-menu-group">
-      <h3 class="nav-menu-title">읽을거리</h3>
       <button class="modebtn" id="mode-news" type="button">뉴스분석</button>
       <button class="modebtn" id="mode-latest" type="button">최근 글</button>
     </div>
@@ -8651,7 +8688,7 @@ function indexProgressLine(name,t){
   const brokenNames=[...new Set(above.map(r=>maDisplayName(r.p,t)))].join('·');
   const brokenPart=brokenNames?`${brokenNames} 돌파하며 `:'';
   const milestone=MA_MILESTONE_TEXT[next.p]||`${maDisplayName(next.p,t)}을 넘으면 흐름이 한 단계 개선됐다고 볼 수 있어요`;
-  return `현재 ${brokenPart}${maDisplayName(next.p,t)} 돌파까지 ${gapTxt} — ${milestone}.`;
+  return `현재 ${brokenPart}${maDisplayName(next.p,t)} 돌파까지 ${gapTxt}, ${milestone}.`;
 }
 function indexSummaryBullets(name,t){
   if(!t) return [];
@@ -12467,6 +12504,20 @@ window.GaeoContentAd=(function(){
     flushP(); flushL();
     return html;
   }
+  /* 종목공부 글 하단 "이 종목 분석 보기" 링크.
+     STOCKS(=tickers.js 600종목)에 실제로 있는 코드일 때만 렌더한다.
+     해외 종목(JPM·BRK.B 등)은 분석 대상이 아니라 링크가 죽으므로 아예 만들지 않는다. */
+  function studyStockCode(a){
+    const code=String(a&&a.code||'').trim();
+    if(!code) return '';
+    if(typeof STOCKS==='undefined'||!STOCKS[code]||!STOCKS[code].name) return '';
+    return code;
+  }
+  function studyStockLinkHTML(a){
+    const code=studyStockCode(a); if(!code) return '';
+    return `<div class="nw-golink"><a href="?m=single&code=${escN(code)}" data-study-code="${escN(code)}"`+
+      ` aria-label="${escN(STOCKS[code].name)} 분석 보기">이 종목 분석 보기 ›</a></div>`;
+  }
   window.renderStudy=function(){
     const box=document.getElementById('studyView'); if(!box) return;
     window.GaeoContentAd.park();
@@ -12504,6 +12555,7 @@ window.GaeoContentAd=(function(){
             <div class="nw-title">📚 ${escN(a.name||'')}${a.code?` <span style="color:var(--faint);font-weight:600">(${escN(a.code)})</span>`:''} <span class="nw-arrow">▸</span></div>
           </div>
           <div class="nw-body">${bodyHTML(a.body)}
+            ${studyStockLinkHTML(a)}
             ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 회사 이해를 돕기 위한 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
@@ -12537,6 +12589,14 @@ window.GaeoContentAd=(function(){
       if(!p||p===page||b.disabled) return;
       page=p; renderStudy();
       box.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    // 페이지 전체를 다시 부르지 않고 그 자리에서 단일 분석 화면으로 전환한다
+    // (href는 새 탭·링크 복사용 fallback으로 그대로 둔다).
+    box.querySelectorAll('[data-study-code]').forEach(el=>el.onclick=ev=>{
+      const s=STOCKS[el.dataset.studyCode];
+      if(!s||!s.name) return;
+      ev.preventDefault();
+      jumpToStock(s.name);
     });
     if(!searching&&page===1&&slice.length){
       const first=document.getElementById('st-'+slice[0].id);
@@ -14751,7 +14811,7 @@ window.hangulFix=function(str){
   document.addEventListener('keydown',e=>{if(e.key==='Escape') closePanels();});
   document.addEventListener('click',e=>{if(!nav.contains(e.target)) closePanels();});
   workspaceBody.addEventListener('click',e=>{
-    if(e.target.closest('.modebtn')) setTimeout(closePanels,40);
+    if(e.target.closest('.modebtn,.nav-menu-link')) setTimeout(closePanels,40);
   });
 
   // 📐 기준 · 👁 조회 — 「판단보다 먼저, 기준을 공개해요」·「오늘의 Gaeo」는 메인화면엔 항상 숨겨두고,
@@ -14791,15 +14851,16 @@ window.hangulFix=function(str){
     setTimeout(()=>element&&element.scrollIntoView({behavior:'smooth',block:'start'}),40);
   }
   document.getElementById('globalHome').onclick=()=>goHome();
-  document.querySelector('[data-nav-home]').onclick=()=>goHome();
-  document.getElementById('navMarket').onclick=()=>{
+  document.querySelectorAll('[data-nav-home]').forEach(b=>b.onclick=()=>goHome());
+  function goMarket(){
     if(typeof window.setMode==='function') window.setMode('single');
     closePanels();
     setTimeout(()=>{
       const market=document.getElementById('marketBox');
       if(market) market.scrollIntoView({behavior:'smooth',block:'center'});
     },40);
-  };
+  }
+  ['navMarket','navMarketPanel'].forEach(id=>{const b=document.getElementById(id); if(b) b.onclick=goMarket;});
   document.querySelectorAll('[data-nav-mode]').forEach(button=>{
     button.onclick=()=>{
       const mode=button.dataset.navMode;
@@ -14842,9 +14903,17 @@ window.hangulFix=function(str){
     const mode=active?active.id.replace('mode-',''):'single';
     document.body.dataset.mode=mode;
     document.querySelectorAll('.global-link').forEach(link=>link.classList.remove('on'));
-    const navMode=document.querySelector(`.global-link[data-nav-mode="${mode}"]`);
+    // 상단 메뉴는 11개인데 전체 메뉴 목적지는 19개라, 상단에 없는 mode는 대표 메뉴의
+    // data-nav-alias로 이어 붙인다(안 그러면 엉뚱하게 '홈'에 현재 위치 표시가 켜진다).
+    const navMode=document.querySelector(`.global-link[data-nav-mode="${mode}"]`)
+               || document.querySelector(`.global-link[data-nav-alias~="${mode}"]`);
     const homeLink=document.querySelector('.global-link[data-nav-home]');
     (navMode||homeLink).classList.add('on');
+    // 색을 쓰지 않는 화면이라 현재 위치를 알리는 유일한 수단이 aria-current다.
+    document.querySelectorAll('.modes .modebtn').forEach(btn=>{
+      if(btn===active) btn.setAttribute('aria-current','page');
+      else btn.removeAttribute('aria-current');
+    });
   }
   const modes=document.querySelector('.modes');
   if(modes){
