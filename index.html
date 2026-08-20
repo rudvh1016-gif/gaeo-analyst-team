@@ -2563,7 +2563,8 @@
     border:1px solid var(--color-border);background:var(--color-bg-subtle);color:var(--color-text-secondary)}
   /* ⚠️ 상태 배지 문구("중기 추세 양호"·"단기 약세"·"과열 주의")는 실제 등락이 아니라
      이동평균을 읽은 해석이다. 색은 시장 방향(실제 등락·수익률)에만 쓴다는 규칙에 따라
-     초록/빨강/주황 배경·테두리를 걷어내고, 잉크 톤과 굵기 차이로만 구분한다.
+     초록/빨강/주황 배경·테두리를 걷어내고 세 상태를 같은 중립 배지로 통일한다.
+     구분은 색이 아니라 라벨 문구가 한다("중기 추세 양호" vs "단기 약세" vs "과열 주의").
      (라벨 문구와 판정 로직 indexStateBadge()는 그대로 둔다 — 정보 삭제가 아니다.) */
   .idx-badge.tone-good,.idx-badge.tone-bad,.idx-badge.tone-warn{
     background:var(--color-bg-subtle);border-color:var(--color-border);color:var(--t2);font-weight:600}
@@ -3123,7 +3124,7 @@
   /* 전체 메뉴 헤드의 '홈' 바로가기 — 닫기와 나란히 서므로 테두리 없는 텍스트 버튼으로 둔다
      (pill 2개가 나란히 서면 디자인시스템 §3 'pill 남발' 위반) */
   .nav-quick-home{border:0;background:transparent;color:var(--t2);font:inherit;font-size:13px;
-    font-weight:500;min-height:44px;padding:0 8px;cursor:pointer}
+    font-weight:500;min-height:44px;min-width:44px;padding:0 12px;cursor:pointer}
   .nav-head-actions{display:flex;align-items:center;gap:8px}
   .nav-workspace .controls,.nav-workspace .cmp-controls{margin:0;padding:20px;border:1px solid var(--gaeo-border);
     border-radius:18px;background:var(--gaeo-canvas)}
@@ -3146,6 +3147,20 @@
   @media(min-width:1280px){
     :root{--gaeo-shell-w:66px}                 /* 아이콘 레일 폭 */
     body.gir-open{--gaeo-shell-w:366px}        /* 레일 66 + 펼친 패널 300 */
+  }
+  /* 레일 패널을 펼치면 위 규칙이 상단 메뉴까지 366px 밀어붙여, 좁은 데스크톱에서는
+     메뉴 11개가 검색·새로고침 아이콘 위에 겹쳐 찍혔다(기존 버그).
+     레일 shell은 top이 nav 아래에서 시작해 상단 메뉴를 애초에 가리지 않으므로,
+     자리가 부족한 폭에서는 좌측 기준선 정렬보다 판독성을 택해 접힌 레일 폭만 민다.
+     여유가 생기는 1700px 이상에서는 원래대로 366px 정렬을 유지한다. */
+  @media(min-width:1280px) and (max-width:1699px){
+    body.gir-open .global-nav,body.gir-open .global-panel{padding-left:66px}
+  }
+  /* 1280~1439는 66px만 밀어도 폰트 폴백 상태에서 마지막 항목이 아이콘에 닿는다(실측 -1.8px).
+     이 구간에 한해 1280px 이하와 같은 좁은 여백을 함께 적용한다. */
+  @media(min-width:1280px) and (max-width:1439px){
+    body.gir-open .global-primary{gap:0}
+    body.gir-open .global-link{padding:0 6px;margin:0 4px}
   }
   @media(prefers-reduced-motion:reduce){
     body,.global-nav,.global-panel{transition:none}
@@ -3800,8 +3815,12 @@
     /* ⚠️ 이 문서의 스크롤 주체는 body가 아니라 html(document.scrollingElement)이다.
        body에만 걸면 안 막힌다 — 실측으로 확인하고 둘 다 잠근다. */
     html:has(body.nav-open),body.nav-open{overflow:hidden}
+    /* ⚠️ pointer-events를 끄면 안 된다. 스크림이 입력을 흘려보내면 그 아래 있는
+       .pc-toggle(PC 모드)·.share-fab(공유)가 대신 눌려서, 메뉴를 닫으려던 탭이
+       엉뚱하게 PC 모드 전환·공유 시트 열기로 이어진다. 스크림이 입력을 직접
+       먹고, 그 클릭은 body로 올라가 nav 바깥 클릭 → closePanels()로 처리된다. */
     body.nav-open::after{content:"";position:fixed;left:0;right:0;bottom:0;
-      top:var(--gaeo-nav-h);background:rgba(15,20,28,.32);z-index:900;pointer-events:none}
+      top:var(--gaeo-nav-h);background:rgba(15,20,28,.32);z-index:900}
     .nav-workspace .chips{grid-column:auto}
     .wrap{padding-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
     .refresh-notice{padding:5px 12px;font-size:9.5px;line-height:1.35}
@@ -8688,7 +8707,8 @@ function indexProgressLine(name,t){
   const brokenNames=[...new Set(above.map(r=>maDisplayName(r.p,t)))].join('·');
   const brokenPart=brokenNames?`${brokenNames} 돌파하며 `:'';
   const milestone=MA_MILESTONE_TEXT[next.p]||`${maDisplayName(next.p,t)}을 넘으면 흐름이 한 단계 개선됐다고 볼 수 있어요`;
-  return `현재 ${brokenPart}${maDisplayName(next.p,t)} 돌파까지 ${gapTxt}, ${milestone}.`;
+  // gapTxt는 '남았어요'·'거의 다 왔어요'로 끝나는 완결 문장이라, 쉼표로 이으면 비문이 된다.
+  return `현재 ${brokenPart}${maDisplayName(next.p,t)} 돌파까지 ${gapTxt}. ${milestone}.`;
 }
 function indexSummaryBullets(name,t){
   if(!t) return [];
