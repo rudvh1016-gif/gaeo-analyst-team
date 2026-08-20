@@ -72,6 +72,19 @@ def _entry_from(a, when):
         "judgmentWithheld": chief.get("judgmentWithheld") or None,
         "reboundCheck": chief.get("reboundCheck"),
     }
+    # 🔬 2026-08-21: 총점을 나중에 그대로 재현할 수 있게 하는 근거.
+    #    축 점수(taro·diana·nova·flow)만으로는 total이 복원되지 않는다 — 실측 결과
+    #    18,978건 중 48.2%만 ±1점 안에 들어왔다. 원인은 위험 감점(riskPenalty)이
+    #    기록에 없었기 때문이고, 실제로 total = rawTotal - riskPenalty가 598종목
+    #    100% 일치한다. 이 두 값이 있어야 "가중치를 바꿨다면 어땠을까"를 근사가
+    #    아니라 정확하게 재채점할 수 있다.
+    #    ⛔ 값이 없으면 키를 만들지 않는다(APPEND-ONLY: 과거 기록 모양 보존).
+    for _k in ("rawTotal", "riskPenalty"):
+        if chief.get(_k) is not None:
+            entry[_k] = chief[_k]
+    # 결측 축 때문에 가중치가 재정규화된 날에만 남긴다(축 가중합 ≠ rawTotal의 사유).
+    if chief.get("weightRenormalized"):
+        entry["weightRenormalized"] = True
     for k in ("taro", "diana", "nova", "flow"):
         ana = a.get(k)
         if isinstance(ana, dict) and ana.get("stance"):
