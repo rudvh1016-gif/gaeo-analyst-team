@@ -213,7 +213,11 @@ def build():
     if os.path.exists(_curve):
         data_gaps = observation_gaps(_curve, business_dates, today_kst)
     else:
-        data_gaps = [g for g in (summary.get("dataGaps") or []) if isinstance(g, dict)]
+        # 외부 파일(summary.json)에서 온 값을 공개 payload에 그대로 싣지 않는다 —
+        # 정상 경로(엔진 재계산)와 같은 모양만 통과시킨다.
+        _gap_keys = ("businessDate", "kind", "observations")
+        data_gaps = [{k: g[k] for k in _gap_keys if k in g}
+                     for g in (summary.get("dataGaps") or []) if isinstance(g, dict)]
     gap_days = [g["businessDate"] for g in data_gaps if g.get("businessDate")]
 
     payload = {

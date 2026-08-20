@@ -308,6 +308,47 @@ check("⑥-2 mfe/mae·벤치마크가 없으면 그 문장을 지어내지 않�
       not any(l["fact"] in ("exitGiveback", "exitDrawdown", "tradeBenchmarkCount",
                             "tradeBenchmarkBest") for l in lb))
 
+# ── ⑥-3 검수에서 잡힌 거짓 문장 (2026-08-21) ─────────────────────────────────
+# 전부 "관측된 적 없는 것을 말하지 않는다"는 같은 원칙의 위반이었다.
+loser = [cl("z1", "005930", "2026-08-18", "2026-08-19", 70000, 66500, 10, 1,
+            reason="CHIEF_SELL", bench=0.4, mfe=0.0, mae=-5.0, name="삼성전자")]
+h_z = ph.build(loser, [cv("2026-08-19", "15:20", 9_965_000, cash=9_965_000, marked=0)],
+               CFG, today="2026-08-20",
+               market_daily={"2026-08-18": {"KOSPI": 100.0}, "2026-08-19": {"KOSPI": 100.4}})
+lz = all_lines(h_z["days"][0])
+check("⑥-3 진입가 위로 간 적 없으면 '고점 대비 반납'을 말하지 않는다",
+      not any(l["fact"] == "exitGiveback" for l in lz),
+      str([l["text"] for l in lz if l["fact"] == "exitGiveback"]))
+check("⑥-3-1 그래도 실제 관측된 최저점은 말한다",
+      any(l["fact"] == "exitDrawdown" for l in lz))
+check("⑥-3-2 앞선 거래가 0건이면 '가장 앞선 거래'를 만들지 않는다",
+      not any(l["fact"] == "tradeBenchmarkBest" for l in lz),
+      str([l["text"] for l in lz if l["fact"] == "tradeBenchmarkBest"]))
+check("⑥-3-3 몇 건이 앞섰는지는 사실이므로 그대로 말한다",
+      any(l["fact"] == "tradeBenchmarkCount" and "0건이" in l["text"] for l in lz))
+
+# 표본이 다 찬 뒤 조용한 날 — 섹션 제목만 남고 내용이 비면 안 된다.
+quiet = ph.build_review("2026-08-19", None, [], [], None, None, None, 10_000_000,
+                        is_today=False, closed_total=25)
+qw = [s for s in quiet["sections"] if s["key"] == "watch"][0]
+check("⑥-3-4 표본이 다 차도 '다음에 확인할 점'이 비지 않는다",
+      len(qw["lines"]) >= 1 and all(l.get("fact") for l in qw["lines"]),
+      str(qw["lines"]))
+
+# 사이클은 돌았는데 평가만 실패한 날(markedEquity 없음)을 '기록 없음'이라 하면 거짓이다.
+val_fail = [cv("2026-08-18", "15:20", 10_000_000),
+            {"at": "2026-08-19T15:20:00+09:00", "markedEquity": None, "cash": 0,
+             "positionsCost": 0, "markedPositionsValue": None, "openCount": 1,
+             "realizedPnl": 0, "unrealizedPnl": None,
+             "valuationStatus": "VALUATION_UNAVAILABLE"},
+            cv("2026-08-20", "15:20", 9_900_000)]
+h_v = ph.build([], val_fail, CFG, today="2026-08-21",
+               business_dates=["2026-08-18", "2026-08-19", "2026-08-20"])
+day19 = [d for d in h_v["days"] if d["date"] == "2026-08-19"]
+check("⑥-3-5 사이클이 돌았으면(평가만 실패해도) '기록 없음'이라 하지 않는다",
+      bool(day19) and day19[0].get("noRecord") is False,
+      str(day19[0].get("noRecord")) if day19 else "행 자체가 없음")
+
 # ═══ ⑦ 전략 분류 · 표본 부족 ═════════════════════════════════════════════════
 check("⑦ 보유기간 → bucket 결정적",
       [ph.classify_holding(i) for i in range(6)]

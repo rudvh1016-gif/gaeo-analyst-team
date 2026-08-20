@@ -58,9 +58,11 @@ def provider_for(day, price=10_000):
         calendar=calendar_open(day))
 
 
-def picks_file(tmp, codes):
+def picks_file(tmp, codes, generated=None):
     p = os.path.join(tmp, "rotation_picks.js")
     body = {"schemaVersion": 1, "status": "ready" if codes else "hold",
+            # 신선도 게이트가 보는 값 — 기본은 테스트가 도는 날(D1)로 맞춘다.
+            "generatedAt": f"{generated or D1} 10:00",
             "picks": [{"code": c, "name": f"종목{c}", "sector": "테스트"} for c in codes]}
     with open(p, "w", encoding="utf-8") as f:
         f.write("window.ROTATION_PICKS = " + json.dumps(body, ensure_ascii=False) + ";\n")
@@ -199,6 +201,64 @@ check("9-1. V1 원장 경로를 쓰지 않는다",
       "paper_trading/momentum" in pm.DATA_DIR.replace("\\", "/"))
 check("9-2. 공개 화면은 V1 기록만 읽는다(모멘텀 기록이 새지 않는다)",
       '"LIVE_PAPER"' in open(os.path.join(pe.HERE, "paper_public.py"), encoding="utf-8").read())
+
+# ── 9-3. 사자마자 되파는 자멸 매수 금지 (검수 M1) ────────────────────────────
+# rotation 후보인데 GAEO 판단이 이미 「매도 고려」면, 사는 즉시 같은 사이클 ④단계가
+# CHIEF_SELL로 되판다 → 호가 차이만큼 확정 손실 + 보유 0일짜리 거래가 원장에 남는다.
+tmp5 = tempfile.mkdtemp(prefix="mom_selfsell_")
+_picks_path_holder["p"] = picks_file(tmp5, SYMS[:2])
+e5 = engine(tmp5, D1, _picks_path_holder["p"])
+e5.run_cycle(bundle({s: "HOLD" for s in SYMS}, f"{D1}T09:05:00+09:00"), now=t(D1, 9, 10))
+# 후보 2개 중 첫 번째만 GAEO가 매도로 본다
+e5.run_cycle(bundle({SYMS[0]: "SELL", SYMS[1]: "HOLD"}, f"{D1}T10:05:00+09:00"),
+             now=t(D1, 10, 10))
+rows5 = ledger_rows(tmp5)
+check("9-3. GAEO가 「매도 고려」로 본 후보는 아예 사지 않는다",
+      all(r.get("symbol") != SYMS[0] for r in rows5), str([r.get("symbol") for r in rows5]))
+check("9-4. 나머지 후보는 정상 매수된다",
+      any(r.get("symbol") == SYMS[1] and r.get("status") == "OPEN" for r in rows5))
+check("9-5. 보유 0일짜리 즉시 청산 기록이 생기지 않는다",
+      not [r for r in rows5 if r.get("status") == "CLOSED"
+           and r.get("holding_trading_days") == 0],
+      str([(r.get("symbol"), r.get("status")) for r in rows5]))
+
+# ── 9-6. 낡은 후보 목록으로는 사지 않는다 (추측 금지) ────────────────────────
+tmp6 = tempfile.mkdtemp(prefix="mom_stale_")
+_picks_path_holder["p"] = picks_file(tmp6, SYMS[:1], generated="2026-08-11")  # 일주일 전
+e6 = engine(tmp6, D1, _picks_path_holder["p"])
+e6.run_cycle(bundle({SYMS[0]: "HOLD"}, f"{D1}T09:05:00+09:00"), now=t(D1, 9, 10))
+r6 = e6.run_cycle(bundle({SYMS[0]: "HOLD"}, f"{D1}T10:05:00+09:00"), now=t(D1, 10, 10))
+check("9-6. 후보 목록이 오늘 것이 아니면 사지 않는다",
+      not [r for r in ledger_rows(tmp6) if r.get("status") == "OPEN"], r6)
+check("9-7. 그 사유를 기록에 남긴다", "오늘 것이 아님" in r6, r6)
+
+# ── 10. 검수에서 잡힌 회귀 (2026-08-21) ──────────────────────────────────────
+# 프로덕션 첫 실행 조건은 "원장 폴더가 아직 없음"이다. 위 테스트들은 mkdtemp()가
+# 미리 만들어 둔 폴더를 data_dir로 넘겨 이 경로를 통과해 버렸다. 실제로는 baseline
+# 기록이 FileNotFoundError로 죽고 run_safe가 그걸 삼켜서, 스위치를 켜도 매 사이클
+# 조용히 아무 일도 일어나지 않았다. 그 조건을 그대로 재현한다.
+fresh_base = tempfile.mkdtemp(prefix="mom_fresh_")
+fresh_dir = os.path.join(fresh_base, "momentum")      # 일부러 만들지 않는다
+_picks_path_holder["p"] = picks_file(fresh_base, SYMS[:1])
+check("10. 시작 시점에 폴더가 없다(프로덕션 첫 실행과 같은 조건)",
+      not os.path.isdir(fresh_dir))
+e10 = pm.MomentumEngine(provider_for(D1), data_dir=fresh_dir, environment="TEST_MOMENTUM")
+r10 = e10.run_cycle(bundle({SYMS[0]: "HOLD"}, f"{D1}T09:05:00+09:00"), now=t(D1, 9, 10))
+check("10-1. 폴더가 없어도 첫 사이클이 성공한다", r10.startswith("BASELINE_CAPTURED"), r10)
+check("10-2. 필요한 파일이 실제로 만들어진다",
+      os.path.exists(os.path.join(fresh_dir, "equity_curve.jsonl"))
+      and os.path.exists(os.path.join(fresh_dir, "state.json")),
+      str(sorted(os.listdir(fresh_dir))) if os.path.isdir(fresh_dir) else "폴더 없음")
+r10b = e10.run_cycle(bundle({SYMS[0]: "HOLD"}, f"{D1}T10:05:00+09:00"), now=t(D1, 10, 10))
+check("10-3. 이어지는 사이클도 정상", r10b.startswith("CYCLE_OK"), r10b)
+
+# data_dir을 빠뜨리면 부모 기본값(V1 폴더)으로 떨어져 원장이 섞일 수 있었다.
+_saved_data_dir = pm.DATA_DIR
+pm.DATA_DIR = os.path.join(fresh_base, "default_check")
+e11 = pm.MomentumEngine(provider_for(D1), environment="TEST_MOMENTUM")
+check("11. data_dir을 안 넘겨도 V1 원장 폴더를 쓰지 않는다",
+      e11.dir == pm.DATA_DIR and e11.dir != pe.DEFAULT_DIR, str(e11.dir))
+pm.DATA_DIR = _saved_data_dir
 
 print()
 if FAILURES:

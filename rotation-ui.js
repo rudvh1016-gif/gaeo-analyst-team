@@ -280,6 +280,11 @@
      ⚠️ 내용을 지우거나 줄이지 않는다. 접을 뿐이다.
      ⚠️ 기간·업종을 바꾸면 화면을 통째로 다시 그리므로, 열어 둔 것이 닫히지 않게
         state.open에 기록해 둔다(모의투자 화면의 PV_OPEN과 같은 방식). */
+  /* 🐛 2026-08-21 검수에서 잡힘: 이 Set을 mount() 안에서 만들면, 순환매 버튼을 다시
+     누르거나 홈의 "전체시장 흐름 보기"로 들어올 때마다 mount()가 다시 불려서
+     사용자가 열어 둔 것이 전부 닫혔다(index.html의 setMode('rotation') → mount).
+     모의투자 화면의 PV_OPEN처럼 모듈 스코프에 두어야 다시 마운트해도 살아남는다. */
+  const OPEN_FOLDS = new Set();
   function fold(key,label,body,open){
     return `<details class="rot-fold" data-fold="${escapeHtml(key)}"${open?' open':''}>`
       + `<summary class="rot-fold-sum">${escapeHtml(label)}</summary>`
@@ -289,7 +294,7 @@
     const sectors=data.sectors||[];
     // state.open이 없는 옛 호출(테스트 등)에서도 깨지지 않게 한다 — 그때는 전부 접힘.
     // instanceof를 쓰지 않는다: 다른 실행 컨텍스트(vm·iframe)의 Set은 instanceof가 거짓이 된다.
-    const open=(state&&state.open&&typeof state.open.has==='function')?state.open:new Set();
+    const open=(state&&state.open&&typeof state.open.has==='function')?state.open:OPEN_FOLDS;
     if(!sectors.length) return '<div class="rot-panel rot-detail">순환매 자료를 준비하고 있습니다.</div>';
     const selected=sectors.find(sector=>sector.name===state.selected)||sectors[0];
     const leader=(data.summary&&data.summary.leaders&&data.summary.leaders[0])||{};
@@ -351,8 +356,9 @@
     if(!element||!data) return false;
     const recommended=number(data.recommendedHorizon&&data.recommendedHorizon.horizon);
     const defaultHorizon=[1,3,5,20].includes(recommended)?recommended:5;
+    // open은 모듈 스코프 Set을 공유한다 — 다시 마운트해도 펼쳐 둔 것이 유지된다.
     const state={horizon:defaultHorizon,selected:(data.sectors&&data.sectors[0]&&data.sectors[0].name)||'',
-      open:new Set()};
+      open:OPEN_FOLDS};
     const draw=()=>{ element.innerHTML=renderView(data,state); };
     element.onclick=event=>{
       // 🔽 접이식 섹션 — 브라우저가 스스로 여닫으므로 여기서는 상태만 기록한다.
