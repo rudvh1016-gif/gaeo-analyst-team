@@ -60,9 +60,11 @@ if (-not $task) {
     }
 
     # 1-b) 로그온 방식 — DPAPI 복호화에 결정적
-    $lt = $task.Principal.LogonType
+    # 주의: 같은 설정을 Task Scheduler XML은 'InteractiveToken', PowerShell API는 'Interactive'로
+    # 부른다(PowerShell enum에는 'InteractiveToken'이라는 값이 아예 없다). 둘 다 정상으로 본다.
+    $lt = "$($task.Principal.LogonType)"
     Say "     로그온 방식: $lt" 'DarkGray'
-    if ($lt -eq 'InteractiveToken') {
+    if ($lt -eq 'Interactive' -or $lt -eq 'InteractiveToken') {
         Say '[O] "사용자가 로그온할 때만 실행" = 정상' 'Green'
         $oks += '로그온 방식 정상'
     } else {
@@ -93,6 +95,41 @@ if (Test-Path $Bootstrap) {
      (docs/PAPER_TRADING_LOCAL_RUNNER.md 참고).
 "@
     Say "[X] 부트스트랩 파일 없음: $Bootstrap" 'Red'
+}
+
+# 2-b) credential 파일 — 부트스트랩과 같은 방식으로 실제로 읽어본다 (값은 절대 출력하지 않음)
+Add-Type -AssemblyName System.Security
+$SecretDir = Join-Path $GaeoRoot 'secrets'
+foreach ($credName in 'toss_client_id', 'toss_client_secret') {
+    $credPath = Join-Path $SecretDir "$credName.dpapi"
+    if (-not (Test-Path $credPath)) {
+        $problems += "credential 파일이 없습니다: $credPath — 토스 키가 등록돼 있지 않습니다."
+        Say "[X] credential 파일 없음: $credName" 'Red'
+        continue
+    }
+    try {
+        $credBytes = [System.IO.File]::ReadAllBytes($credPath)
+        if ($credBytes.Length -ge 4 -and $credBytes[0] -eq 1 -and $credBytes[1] -eq 0 -and $credBytes[2] -eq 0 -and $credBytes[3] -eq 0) {
+            # GAEO Gateway 형식 (원시 DPAPI blob + entropy)
+            $credEntropy = [System.Text.Encoding]::UTF8.GetBytes('GAEO-Gateway-v1')
+            $credPlain = [System.Security.Cryptography.ProtectedData]::Unprotect(
+                $credBytes, $credEntropy, [System.Security.Cryptography.DataProtectionScope]::CurrentUser)
+            [Array]::Clear($credPlain, 0, $credPlain.Length)
+        } else {
+            # 구 형식 (ConvertFrom-SecureString 16진 텍스트)
+            $null = [System.IO.File]::ReadAllText($credPath).Trim() | ConvertTo-SecureString -ErrorAction Stop
+        }
+        Say "[O] credential 읽기 가능: $credName" 'Green'
+        $oks += "credential 읽기 가능($credName)"
+    } catch {
+        $problems += @"
+credential 파일을 읽지 못했습니다: $credPath
+   → 파일은 있지만 이 Windows 사용자로 복호화되지 않거나, 형식이 러너가 아는 두 방식이 아닙니다.
+   → 다른 사용자/PC에서 만든 파일이거나, 다른 도구가 다른 형식으로 덮어쓴 경우입니다.
+     (오류 종류: $(if ($_.Exception.InnerException) { $_.Exception.InnerException.GetType().Name } else { $_.Exception.GetType().Name }))
+"@
+        Say "[X] credential 읽기 실패: $credName" 'Red'
+    }
 }
 
 # 3) 러너 전용 저장소 ------------------------------------------------------------
