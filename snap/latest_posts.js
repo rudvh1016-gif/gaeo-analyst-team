@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 52,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-20",
+  "title": "2026년 8월20일 종가, 코스피 5.89% 반등시킨 SK하이닉스 40조 자사주 소각",
+  "featured": false
+ },
+ {
   "id": 51,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "동시호가와 VI, 장 시작·마감에 가격이 튀는 이유",
   "featured": false
- },
- {
-  "id": 77,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "자사주 매입과 소각, 회사가 제 주식을 사는 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 51,
+ "news": 52,
  "study": 35,
  "lesson": 82,
  "estate": 19,
