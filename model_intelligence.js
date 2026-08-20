@@ -351,8 +351,8 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": -0.162
   },
   "diana:flow": {
-   "n": 604,
-   "errorCorr": 0.165
+   "n": 606,
+   "errorCorr": 0.168
   },
   "nova:flow": {
    "n": 918,
@@ -361,9 +361,9 @@ const MODEL_INTELLIGENCE = {
  },
  "redundancyFactor": {
   "taro": 0.976,
-  "diana": 0.9991,
+  "diana": 0.9989,
   "nova": 0.9822,
-  "flow": 0.9929
+  "flow": 0.9927
  },
  "regimes": {
   "up_high": {

@@ -60,7 +60,7 @@ const DART_TODAY = {
    "name": "우리기술",
    "title": "단일판매ㆍ공급계약체결(자율공시)",
    "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T00:41:39.135577+00:00",
+   "detectedAt": "2026-08-20T00:43:05.206215+00:00",
    "isCorrection": false
   },
   {
@@ -68,7 +68,7 @@ const DART_TODAY = {
    "name": "LIG디펜스앤에어로스페이스",
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T00:13:16.844996+00:00",
+   "detectedAt": "2026-08-20T00:11:41.071216+00:00",
    "isCorrection": false
   },
   {
@@ -76,7 +76,7 @@ const DART_TODAY = {
    "name": "LG디스플레이",
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T00:13:16.844996+00:00",
+   "detectedAt": "2026-08-20T00:11:41.071216+00:00",
    "isCorrection": false
   },
   {

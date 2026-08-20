@@ -2533,7 +2533,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 47,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -3769,7 +3769,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 53,
+   "total": 52,
    "confidence": 46,
    "base": 1660000,
    "baseAt": "2026-08-20 09:56 장중",
@@ -3784,8 +3784,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bull",
-    "score": 59
+    "stance": "neu",
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -5031,7 +5031,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 51,
+   "total": 50,
    "confidence": 40,
    "base": 1087500,
    "baseAt": "2026-08-20 09:56 장중",
@@ -11341,7 +11341,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 54,
    "confidence": 50,
    "base": 417500,
    "baseAt": "2026-08-20 09:56 장중",
@@ -11356,8 +11356,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bull",
-    "score": 58
+    "stance": "neu",
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -11365,11 +11365,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -12573,7 +12573,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 65
    },
    "diana": {
     "stance": "neu",
@@ -12581,7 +12581,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 47,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -13789,7 +13789,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 58
    },
    "diana": {
     "stance": "neu",
@@ -17345,7 +17345,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 55,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -18459,7 +18459,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -19573,9 +19573,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -20661,7 +20661,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 40,
    "base": 162000,
    "baseAt": "2026-08-20 09:56 장중",
@@ -20677,7 +20677,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 32
    },
    "diana": {
     "stance": "bull",
@@ -21801,7 +21801,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -22915,7 +22915,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -28475,7 +28475,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -31817,7 +31817,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -32935,15 +32935,15 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "nova": {
     "stance": "neu",
     "score": 51,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -35144,7 +35144,7 @@ const LIVE_HISTORY = {
    "date": "2026-08-20",
    "call": "HOLD",
    "total": 54,
-   "confidence": 45,
+   "confidence": 46,
    "base": 125800,
    "baseAt": "2026-08-20 09:56 장중",
    "target": "증권사 평균 목표주가 164,737원 (현재가 대비 +31.0% 상승여력)",
@@ -35159,7 +35159,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -36283,7 +36283,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -37387,7 +37387,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "diana": {
     "stance": "neu",
@@ -41843,7 +41843,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 65
    },
    "diana": {
     "stance": "bull",
@@ -48560,7 +48560,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 53
+    "score": 52
    },
    "nova": {
     "stance": "neu",
@@ -59709,7 +59709,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 50,
    "base": 225500,
    "baseAt": "2026-08-20 09:56 장중",
@@ -59725,7 +59725,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -60839,7 +60839,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 87
    },
    "diana": {
     "stance": "neu",
@@ -60849,7 +60849,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -61953,15 +61953,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 77
    },
    "diana": {
     "stance": "bull",
     "score": 60
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 41,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -65295,7 +65295,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 29
    },
    "diana": {
     "stance": "bear",
@@ -69761,7 +69761,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 55,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -70868,8 +70868,8 @@ const LIVE_HISTORY = {
     "score": 80
    },
    "diana": {
-    "stance": "bull",
-    "score": 60
+    "stance": "neu",
+    "score": 55
    },
    "nova": {
     "stance": "bear",
@@ -74191,7 +74191,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 49,
+   "total": 54,
    "confidence": 64,
    "base": 21600,
    "baseAt": "2026-08-20 09:56 장중",
@@ -74206,8 +74206,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "bull",
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -77549,7 +77549,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -78663,7 +78663,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -80891,7 +80891,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 60
    },
    "diana": {
     "stance": "bear",
@@ -82015,9 +82015,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -89807,7 +89807,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 56
+    "score": 47
    },
    "nova": {
     "stance": "neu",
@@ -93145,7 +93145,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -94243,7 +94243,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 37,
    "base": 60700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -94259,7 +94259,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -95377,7 +95377,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 49
+    "score": 53
    },
    "nova": {
     "stance": "neu",
@@ -96487,15 +96487,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 35
    },
    "diana": {
     "stance": "bull",
     "score": 66
    },
    "nova": {
-    "stance": "bear",
-    "score": 31,
+    "stance": "neu",
+    "score": 47,
     "sector": "유통·소비재",
     "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
@@ -97605,7 +97605,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "nova": {
     "stance": "neu",
@@ -98715,7 +98715,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 63
    },
    "diana": {
     "stance": "bear",
@@ -98725,7 +98725,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -102057,11 +102057,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 65
    },
    "diana": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 47
    },
    "nova": {
     "stance": "neu",
@@ -103171,7 +103171,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "diana": {
     "stance": "neu",
@@ -104293,7 +104293,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 49,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -106521,7 +106521,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 54,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -115425,11 +115425,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 66
    },
    "diana": {
     "stance": "neu",
-    "score": 53
+    "score": 52
    },
    "nova": {
     "stance": "neu",
@@ -126648,7 +126648,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 59
+    "score": 58
    },
    "nova": {
     "stance": "neu",
@@ -127758,15 +127758,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 84
    },
    "diana": {
     "stance": "neu",
     "score": 56
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 41,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -129970,7 +129970,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "SELL",
-   "total": 46,
+   "total": 45,
    "confidence": 37,
    "base": 31700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -129986,7 +129986,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -131104,7 +131104,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "nova": {
     "stance": "neu",
@@ -134442,7 +134442,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 35
    },
    "diana": {
     "stance": "bear",
@@ -135556,7 +135556,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 80
    },
    "diana": {
     "stance": "bear",
@@ -135566,7 +135566,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -137788,7 +137788,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 51
+    "score": 50
    },
    "nova": {
     "stance": "neu",
@@ -138908,7 +138908,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -141126,7 +141126,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -141134,7 +141134,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "기계",
     "sectorWinRate": 50.9,
     "sectorBlendPct": 70,
@@ -144452,7 +144452,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 48,
+   "total": 51,
    "confidence": 40,
    "base": 46700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -144468,15 +144468,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 38
    },
    "diana": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 54,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -145582,7 +145582,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -148908,7 +148908,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 40,
    "base": 125000,
    "baseAt": "2026-08-20 09:56 장중",
@@ -148934,7 +148934,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -152276,7 +152276,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -154494,11 +154494,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "nova": {
     "stance": "neu",
@@ -155608,7 +155608,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 58
    },
    "diana": {
     "stance": "bear",
@@ -161188,7 +161188,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -167899,11 +167899,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 45,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -170123,11 +170123,11 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 47
+    "score": 46
    },
    "nova": {
-    "stance": "bear",
-    "score": 43,
+    "stance": "neu",
+    "score": 44,
     "sector": "화장품·미용",
     "sectorWinRate": 49.2,
     "sectorBlendPct": 75,
@@ -173497,8 +173497,8 @@ const LIVE_HISTORY = {
     "score": 87
    },
    "nova": {
-    "stance": "neu",
-    "score": 44,
+    "stance": "bear",
+    "score": 40,
     "sector": "보험",
     "sectorWinRate": 52.5,
     "sectorBlendPct": 72,
@@ -175702,7 +175702,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 54,
    "base": 14330,
    "baseAt": "2026-08-20 09:56 장중",
@@ -175718,7 +175718,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -176836,7 +176836,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "nova": {
     "stance": "neu",
@@ -177930,7 +177930,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 40,
    "base": 37950,
    "baseAt": "2026-08-20 09:56 장중",
@@ -179060,7 +179060,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 58
+    "score": 59
    },
    "diana": {
     "stance": "bear",
@@ -179070,7 +179070,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -180174,7 +180174,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -181296,7 +181296,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44,
+    "score": 46,
     "sector": "보험",
     "sectorWinRate": 52.5,
     "sectorBlendPct": 72,
@@ -184614,7 +184614,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 59,
+   "total": 61,
    "confidence": 56,
    "base": 124100,
    "baseAt": "2026-08-20 09:56 장중",
@@ -184630,7 +184630,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -184638,7 +184638,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 54,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -186858,7 +186858,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -186868,7 +186868,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -190264,7 +190264,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -191368,7 +191368,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 35
    },
    "diana": {
     "stance": "bull",
@@ -192486,7 +192486,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 61
+    "score": 60
    },
    "nova": {
     "stance": "neu",
@@ -193600,7 +193600,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "nova": {
     "stance": "neu",
@@ -194718,9 +194718,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 56,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -196922,7 +196922,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 59,
+   "total": 58,
    "confidence": 44,
    "base": 163300,
    "baseAt": "2026-08-20 09:56 장중",
@@ -196938,7 +196938,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -198062,9 +198062,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -199165,8 +199165,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 48
    },
    "diana": {
     "stance": "neu",
@@ -199176,7 +199176,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -200288,7 +200288,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 50,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -201394,7 +201394,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -202508,7 +202508,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 72
    },
    "diana": {
     "stance": "neu",
@@ -203630,7 +203630,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "화장품·미용",
     "sectorWinRate": 49.2,
     "sectorBlendPct": 75,
@@ -204720,7 +204720,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "SELL",
-   "total": 44,
+   "total": 45,
    "confidence": 37,
    "base": 171300,
    "baseAt": "2026-08-20 09:56 장중",
@@ -204736,7 +204736,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 21
    },
    "diana": {
     "stance": "bull",
@@ -206971,8 +206971,8 @@ const LIVE_HISTORY = {
     "score": 79
    },
    "nova": {
-    "stance": "bear",
-    "score": 39,
+    "stance": "neu",
+    "score": 44,
     "sector": "보험",
     "sectorWinRate": 52.5,
     "sectorBlendPct": 72,
@@ -209176,7 +209176,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 47,
+   "total": 48,
    "confidence": 40,
    "base": 42250,
    "baseAt": "2026-08-20 09:56 장중",
@@ -210306,7 +210306,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "neu",
@@ -211430,9 +211430,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 41,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -215886,9 +215886,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 41,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bull",
@@ -219222,7 +219222,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "nova": {
     "stance": "bear",
@@ -220371,7 +220371,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -221475,7 +221475,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -221485,7 +221485,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -223713,9 +223713,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -225931,7 +225931,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -225939,7 +225939,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 51,
     "sector": "전력·에너지",
     "sectorWinRate": 50.7,
     "sectorBlendPct": 75,
@@ -227049,11 +227049,11 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 83
+    "score": 82
    },
    "nova": {
     "stance": "bull",
-    "score": 60,
+    "score": 63,
     "sector": "게임·엔터",
     "sectorWinRate": 42.0,
     "sectorBlendPct": 75,
@@ -228159,7 +228159,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 83
    },
    "diana": {
     "stance": "bull",
@@ -228167,7 +228167,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 50.7,
     "sectorBlendPct": 75,
@@ -229273,7 +229273,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "neu",
@@ -230387,7 +230387,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -231500,8 +231500,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 49
+    "stance": "bear",
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -231509,7 +231509,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 49,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -233739,7 +233739,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -235941,7 +235941,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 42,
    "base": 50500,
    "baseAt": "2026-08-20 09:56 장중",
@@ -235957,7 +235957,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -235965,7 +235965,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 54,
     "sector": "조선",
     "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
@@ -238193,7 +238193,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 45,
     "sector": "전자·부품",
     "sectorWinRate": 51.2,
     "sectorBlendPct": 75,
@@ -240413,7 +240413,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "bull",
@@ -241537,9 +241537,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -243739,7 +243739,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 59,
+   "total": 57,
    "confidence": 61,
    "base": 55200,
    "baseAt": "2026-08-20 09:56 장중",
@@ -244869,7 +244869,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 41
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -245983,7 +245983,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 72
    },
    "diana": {
     "stance": "bull",
@@ -245993,7 +245993,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -249325,17 +249325,17 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 84
    },
    "diana": {
     "stance": "bull",
-    "score": 91
+    "score": 90
    },
    "nova": {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -251553,7 +251553,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "diana": {
     "stance": "neu",
@@ -254957,7 +254957,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 45,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -256063,7 +256063,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 59
    },
    "diana": {
     "stance": "neu",
@@ -258291,7 +258291,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "diana": {
     "stance": "bear",
@@ -258299,9 +258299,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 54,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -259389,7 +259389,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 40,
    "base": 56700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -261633,7 +261633,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -262746,8 +262746,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 52
+    "stance": "bull",
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -262755,9 +262755,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -263871,7 +263871,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -266099,7 +266099,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -267203,7 +267203,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 72
    },
    "diana": {
     "stance": "bull",
@@ -270529,7 +270529,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 69,
    "base": 13090,
    "baseAt": "2026-08-20 09:56 장중",
@@ -270553,7 +270553,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 57,
     "sector": "여행레저",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 70,
@@ -271666,8 +271666,8 @@ const LIVE_HISTORY = {
     "score": 85
    },
    "nova": {
-    "stance": "bear",
-    "score": 42,
+    "stance": "neu",
+    "score": 46,
     "sector": "건설·건자재",
     "sectorWinRate": 50.6,
     "sectorBlendPct": 75,
@@ -273871,7 +273871,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 52,
+   "total": 53,
    "confidence": 40,
    "base": 45350,
    "baseAt": "2026-08-20 09:56 장중",
@@ -277258,7 +277258,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -278382,9 +278382,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -281724,7 +281724,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -283240,7 +283240,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 50,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -286558,7 +286558,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "BUY",
-   "total": 68,
+   "total": 67,
    "confidence": 41,
    "base": 126400,
    "baseAt": "2026-08-20 09:56 장중",
@@ -286578,13 +286578,13 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 79
+    "score": 78
    },
    "nova": {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -287695,8 +287695,8 @@ const LIVE_HISTORY = {
     "score": 76
    },
    "nova": {
-    "stance": "neu",
-    "score": 54,
+    "stance": "bull",
+    "score": 58,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -288802,7 +288802,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -288810,7 +288810,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 45,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -289915,8 +289915,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 51
+    "stance": "bull",
+    "score": 71
    },
    "diana": {
     "stance": "neu",
@@ -289924,7 +289924,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 54,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -291040,7 +291040,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -292154,7 +292154,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -293266,7 +293266,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 57,
+    "score": 54,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -297698,7 +297698,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 48,
+   "total": 50,
    "confidence": 63,
    "base": 13860,
    "baseAt": "2026-08-20 09:56 장중",
@@ -297722,7 +297722,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 54,
     "sector": "조선",
     "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
@@ -298836,9 +298836,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -299942,7 +299942,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 50
+    "score": 51
    },
    "diana": {
     "stance": "neu",
@@ -299950,7 +299950,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 51,
     "sector": "건설·건자재",
     "sectorWinRate": 50.6,
     "sectorBlendPct": 75,
@@ -301066,7 +301066,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -302154,7 +302154,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 49,
+   "total": 48,
    "confidence": 40,
    "base": 47400,
    "baseAt": "2026-08-20 09:56 장중",
@@ -302170,7 +302170,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -302178,7 +302178,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 45,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -303284,7 +303284,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -304381,8 +304381,8 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-08-20",
-   "call": "HOLD",
-   "total": 62,
+   "call": "BUY",
+   "total": 63,
    "confidence": 37,
    "base": 72900,
    "baseAt": "2026-08-20 09:56 장중",
@@ -304398,7 +304398,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 90
    },
    "diana": {
     "stance": "bull",
@@ -304406,7 +304406,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 41,
+    "score": 42,
     "sector": "전력·에너지",
     "sectorWinRate": 50.7,
     "sectorBlendPct": 75,
@@ -305512,7 +305512,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 24
    },
    "diana": {
     "stance": "neu",
@@ -306636,7 +306636,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -307748,9 +307748,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 49,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -313310,7 +313310,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 87
    },
    "diana": {
     "stance": "bull",
@@ -315538,7 +315538,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -315546,11 +315546,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -316652,7 +316652,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "bull",
@@ -317776,9 +317776,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -320002,7 +320002,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 45,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -322232,9 +322232,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -323336,7 +323336,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -328905,8 +328905,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -330030,7 +330030,7 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 20,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -331134,7 +331134,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "diana": {
     "stance": "bull",
@@ -332248,7 +332248,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -332256,7 +332256,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 48,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -336742,7 +336742,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "BUY",
-   "total": 63,
+   "total": 64,
    "confidence": 53,
    "base": 2005,
    "baseAt": "2026-08-20 09:56 장중",
@@ -340110,7 +340110,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -341224,7 +341224,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -342338,7 +342338,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -343426,7 +343426,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 54,
+   "total": 55,
    "confidence": 64,
    "base": 13940,
    "baseAt": "2026-08-20 09:56 장중",
@@ -343442,7 +343442,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -343450,9 +343450,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -344566,9 +344566,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -346784,7 +346784,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 27
+    "score": 28
    },
    "diana": {
     "stance": "bull",
@@ -346794,9 +346794,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -348996,7 +348996,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 54,
+   "total": 56,
    "confidence": 68,
    "base": 20850,
    "baseAt": "2026-08-20 09:56 장중",
@@ -349022,7 +349022,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -351240,7 +351240,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -357924,7 +357924,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 53
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -359038,7 +359038,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -359048,7 +359048,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -361250,7 +361250,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 75,
    "base": 17610,
    "baseAt": "2026-08-20 09:56 장중",
@@ -361266,7 +361266,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 53
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -366820,7 +366820,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 52,
+   "total": 53,
    "confidence": 53,
    "base": 1605,
    "baseAt": "2026-08-20 09:56 장중",
@@ -366836,7 +366836,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -366844,7 +366844,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 51,
     "sector": "건설·건자재",
     "sectorWinRate": 50.6,
     "sectorBlendPct": 75,
@@ -370182,7 +370182,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 79
+    "score": 78
    },
    "nova": {
     "stance": "neu",
@@ -372406,7 +372406,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -373528,7 +373528,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 57,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -376862,7 +376862,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -376870,7 +376870,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 52,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -377986,7 +377986,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -382442,7 +382442,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -385774,7 +385774,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -386896,7 +386896,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 52,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -388012,7 +388012,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -390230,7 +390230,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -390238,7 +390238,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -391344,7 +391344,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 84
    },
    "diana": {
     "stance": "bull",
@@ -391354,7 +391354,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -392458,15 +392458,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 75
    },
    "diana": {
     "stance": "neu",
     "score": 48
    },
    "nova": {
-    "stance": "neu",
-    "score": 49,
+    "stance": "bear",
+    "score": 42,
     "sector": "유통·소비재",
     "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
@@ -401370,7 +401370,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -401380,9 +401380,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -402494,7 +402494,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -403608,9 +403608,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -405826,7 +405826,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "bear",
@@ -408054,7 +408054,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 64
    },
    "diana": {
     "stance": "bull",
@@ -412517,8 +412517,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "bull",
-    "score": 58,
+    "stance": "neu",
+    "score": 52,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -414746,7 +414746,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 45,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -418080,7 +418080,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 69
    },
    "diana": {
     "stance": "bull",
@@ -419204,7 +419204,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -421429,8 +421429,8 @@ const LIVE_HISTORY = {
     "score": 32
    },
    "nova": {
-    "stance": "neu",
-    "score": 54,
+    "stance": "bull",
+    "score": 58,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -423650,7 +423650,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 69
    },
    "diana": {
     "stance": "bear",
@@ -430318,7 +430318,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 52,
+   "total": 50,
    "confidence": 30,
    "base": 64800,
    "baseAt": "2026-08-20 09:56 장중",
@@ -430342,7 +430342,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 49,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -433684,7 +433684,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 50,
     "sector": "반도체",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -435888,7 +435888,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 51,
+   "total": 50,
    "confidence": 39,
    "base": 19700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -435904,7 +435904,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -439246,7 +439246,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -441474,7 +441474,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -442591,8 +442591,8 @@ const LIVE_HISTORY = {
     "score": 58
    },
    "diana": {
-    "stance": "neu",
-    "score": 54
+    "stance": "bull",
+    "score": 59
    },
    "nova": {
     "stance": "neu",
@@ -444826,7 +444826,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -445940,7 +445940,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -447044,7 +447044,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "bear",
@@ -448158,7 +448158,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "diana": {
     "stance": "bull",
@@ -450393,8 +450393,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 40,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -451508,7 +451508,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 54,
     "sector": "바이오·제약",
     "sectorWinRate": 44.9,
     "sectorBlendPct": 75,
@@ -453728,7 +453728,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -454852,9 +454852,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -458168,7 +458168,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 58,
+   "total": 57,
    "confidence": 30,
    "base": 19180,
    "baseAt": "2026-08-20 09:56 장중",
@@ -463754,7 +463754,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 79
    },
    "diana": {
     "stance": "neu",
@@ -469324,11 +469324,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 71
    },
    "diana": {
     "stance": "neu",
-    "score": 50
+    "score": 54
    },
    "nova": {
     "stance": "bear",
@@ -472676,7 +472676,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -473780,7 +473780,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 61
    },
    "diana": {
     "stance": "bear",
@@ -473790,7 +473790,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -476018,7 +476018,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -477122,7 +477122,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -478236,7 +478236,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "diana": {
     "stance": "bull",
@@ -480471,8 +480471,8 @@ const LIVE_HISTORY = {
     "score": 42
    },
    "nova": {
-    "stance": "neu",
-    "score": 55,
+    "stance": "bull",
+    "score": 58,
     "sector": "로봇",
     "sectorWinRate": 43.6,
     "sectorBlendPct": 74,
@@ -481578,7 +481578,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "neu",
@@ -481586,9 +481586,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -486044,7 +486044,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -492718,7 +492718,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "bull",
@@ -494956,7 +494956,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -502752,7 +502752,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 50,
     "sector": "로봇",
     "sectorWinRate": 43.6,
     "sectorBlendPct": 74,
@@ -503842,7 +503842,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 58,
+   "total": 57,
    "confidence": 30,
    "base": 25850,
    "baseAt": "2026-08-20 09:56 장중",
@@ -503858,7 +503858,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 94
+    "score": 93
    },
    "diana": {
     "stance": "bear",
@@ -504972,7 +504972,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -508314,7 +508314,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 67
    },
    "diana": {
     "stance": "bear",
@@ -511666,7 +511666,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -513894,7 +513894,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -514998,7 +514998,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "neu",
@@ -517226,7 +517226,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -518350,7 +518350,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -519454,7 +519454,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -523894,7 +523894,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "SELL",
-   "total": 46,
+   "total": 45,
    "confidence": 37,
    "base": 30700,
    "baseAt": "2026-08-20 09:56 장중",
@@ -523920,7 +523920,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -527252,7 +527252,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -531718,7 +531718,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -532832,7 +532832,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -536164,7 +536164,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 81
    },
    "diana": {
     "stance": "bull",
@@ -536172,7 +536172,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 40,
+    "score": 41,
     "sector": "전자·부품",
     "sectorWinRate": 51.2,
     "sectorBlendPct": 75,
@@ -537286,7 +537286,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bull",
-    "score": 58,
+    "score": 61,
     "sector": "로봇",
     "sectorWinRate": 43.6,
     "sectorBlendPct": 74,
@@ -542832,7 +542832,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 55,
    "confidence": 30,
    "base": 41450,
    "baseAt": "2026-08-20 09:56 장중",
@@ -542848,11 +542848,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "diana": {
     "stance": "bear",
-    "score": 38
+    "score": 32
    },
    "nova": {
     "stance": "neu",
@@ -550656,7 +550656,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -552884,7 +552884,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -553998,7 +553998,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -558454,7 +558454,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -559156,7 +559156,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 65
    },
    "diana": {
     "stance": "neu",
@@ -559164,7 +559164,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 49,
     "sector": "유통·소비재",
     "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
@@ -559298,7 +559298,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "SELL",
-   "total": 43,
+   "total": 44,
    "confidence": 37,
    "base": 14440,
    "baseAt": "2026-08-20 09:56 장중",
@@ -559314,7 +559314,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -559472,7 +559472,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bear",
@@ -559930,7 +559930,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 50,
    "base": 9120,
    "baseAt": "2026-08-20 09:56 장중",
@@ -559946,7 +559946,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -560111,8 +560111,8 @@ const LIVE_HISTORY = {
     "score": 73
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 41,
     "sector": "지주·상사",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -560404,7 +560404,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 47,
+   "total": 48,
    "confidence": 37,
    "base": 37850,
    "baseAt": "2026-08-20 09:56 장중",
@@ -560420,7 +560420,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 26
    },
    "diana": {
     "stance": "bull",
@@ -560578,7 +560578,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 28
+    "score": 29
    },
    "diana": {
     "stance": "neu",
@@ -560894,15 +560894,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 84
    },
    "diana": {
     "stance": "bull",
     "score": 58
    },
    "nova": {
-    "stance": "neu",
-    "score": 48,
+    "stance": "bear",
+    "score": 42,
     "sector": "기계",
     "sectorWinRate": 50.9,
     "sectorBlendPct": 70,
@@ -561060,7 +561060,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -561209,8 +561209,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bull",
-    "score": 71
+    "stance": "neu",
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -561534,7 +561534,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bear",
-    "score": 42,
+    "score": 41,
     "sector": "건설·건자재",
     "sectorWinRate": 50.6,
     "sectorBlendPct": 75,
@@ -561852,7 +561852,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -562000,11 +562000,11 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 81
    },
    "diana": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "nova": {
     "stance": "neu",
@@ -562166,7 +562166,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 57,
+    "score": 54,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -562316,7 +562316,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -562631,8 +562631,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 49
+    "stance": "bull",
+    "score": 74
    },
    "diana": {
     "stance": "neu",
@@ -562640,7 +562640,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 45,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -562800,7 +562800,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -562948,15 +562948,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 78
    },
    "diana": {
     "stance": "bull",
     "score": 73
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 40,
     "sector": "전자·부품",
     "sectorWinRate": 51.2,
     "sectorBlendPct": 75,
@@ -563106,7 +563106,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 53
+    "score": 54
    },
    "diana": {
     "stance": "neu",
@@ -563116,7 +563116,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -563248,7 +563248,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 53,
    "base": 1490,
    "baseAt": "2026-08-20 09:56 장중",
@@ -563264,7 +563264,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -563430,7 +563430,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 54,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -563590,9 +563590,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -563722,7 +563722,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 65,
    "base": 6100,
    "baseAt": "2026-08-20 09:56 장중",
@@ -563738,7 +563738,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 51
    },
    "diana": {
     "stance": "bull",
@@ -563896,7 +563896,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "bull",
@@ -563904,7 +563904,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 50.7,
     "sectorBlendPct": 75,
@@ -564212,7 +564212,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -564220,7 +564220,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 47,
     "sector": "유통·소비재",
     "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
@@ -564380,9 +564380,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -564538,9 +564538,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 41,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -564694,7 +564694,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 52,
     "sector": "화학·소재",
     "sectorWinRate": 46.3,
     "sectorBlendPct": 75,
@@ -564844,7 +564844,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 72
    },
    "diana": {
     "stance": "neu",
@@ -565321,8 +565321,8 @@ const LIVE_HISTORY = {
     "score": 84
    },
    "diana": {
-    "stance": "bull",
-    "score": 60
+    "stance": "neu",
+    "score": 54
    },
    "nova": {
     "stance": "neu",
@@ -565460,7 +565460,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 54,
    "base": 1119,
    "baseAt": "2026-08-20 09:56 장중",
@@ -565476,7 +565476,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -565484,7 +565484,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 52,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -565792,7 +565792,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -566092,7 +566092,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 61,
    "base": 4375,
    "baseAt": "2026-08-20 09:56 장중",
@@ -566108,7 +566108,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -566432,7 +566432,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 49,
     "sector": "철강·금속",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -566740,7 +566740,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 28
    },
    "diana": {
     "stance": "neu",
@@ -567372,7 +567372,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "neu",
@@ -567382,7 +567382,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -567530,7 +567530,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 88
    },
    "diana": {
     "stance": "bull",
@@ -567846,15 +567846,15 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 48
    },
    "diana": {
     "stance": "bull",
     "score": 76
    },
    "nova": {
-    "stance": "neu",
-    "score": 53,
+    "stance": "bear",
+    "score": 43,
     "sector": "방산",
     "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
@@ -568004,7 +568004,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -568012,7 +568012,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 52,
     "sector": "금융·증권",
     "sectorWinRate": 47.9,
     "sectorBlendPct": 75,
@@ -568462,7 +568462,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 55,
+   "total": 56,
    "confidence": 70,
    "base": 8100,
    "baseAt": "2026-08-20 09:56 장중",
@@ -568478,7 +568478,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 64
    },
    "diana": {
     "stance": "bull",
@@ -568646,7 +568646,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
@@ -568962,7 +568962,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -569110,7 +569110,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "bear",
@@ -569120,7 +569120,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -569268,7 +569268,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -569900,7 +569900,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -569910,9 +569910,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "자동차·부품",
-    "sectorWinRate": 50.9,
+    "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -570374,7 +570374,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "neu",
@@ -570532,7 +570532,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -570858,7 +570858,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 46.5,
+    "sectorWinRate": 46.6,
     "sectorBlendPct": 75,
     "baseWinRate": 47.0
    },
@@ -571329,8 +571329,8 @@ const LIVE_HISTORY = {
     "score": 46
    },
    "nova": {
-    "stance": "neu",
-    "score": 46,
+    "stance": "bear",
+    "score": 30,
     "sector": "전력·에너지",
     "sectorWinRate": 50.7,
     "sectorBlendPct": 75,
@@ -571638,7 +571638,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -572096,7 +572096,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 54,
+   "total": 55,
    "confidence": 45,
    "base": 21450,
    "baseAt": "2026-08-20 09:56 장중",
@@ -572111,8 +572111,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -572280,7 +572280,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -572435,10 +572435,10 @@ const LIVE_HISTORY = {
     "score": 50
    },
    "nova": {
-    "stance": "neu",
-    "score": 56,
+    "stance": "bull",
+    "score": 59,
     "sector": "2차전지",
-    "sectorWinRate": 45.0,
+    "sectorWinRate": 45.1,
     "sectorBlendPct": 75,
     "baseWinRate": 45.9
    },
@@ -572744,7 +572744,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 50
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -573218,7 +573218,7 @@ const LIVE_HISTORY = {
    },
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -573676,7 +573676,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-20",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 39,
    "base": 35300,
    "baseAt": "2026-08-20 09:56 장중",
@@ -574170,7 +574170,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 74
+    "score": 73
    },
    "nova": {
     "stance": "neu",
@@ -574639,8 +574639,8 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -574650,7 +574650,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
     "baseWinRate": 48.3
    },
