@@ -1280,11 +1280,9 @@
   .paperView.on{display:block}
   .pv-title{margin:0 0 8px;font-size:25px;font-weight:600;letter-spacing:-.022em;
     line-height:1.25;overflow-wrap:anywhere}
-  .pv-claim{margin:0 0 10px;font-size:15px;font-weight:400;line-height:1.65;color:var(--t2);
+  .pv-claim{margin:0 0 14px;font-size:15px;font-weight:400;line-height:1.65;color:var(--t2);
     max-width:36ch;letter-spacing:-.005em;overflow-wrap:anywhere}
-  .pv-lede{margin:0 0 18px;font-size:13.5px;font-weight:400;line-height:1.75;color:var(--t3);
-    max-width:50ch;overflow-wrap:anywhere}
-  .pv-lede b{font-weight:600;color:var(--t2)}
+  .pv-claim b{font-weight:600;color:var(--t2)}
   .pv-meta{display:flex;flex-wrap:wrap;gap:6px 26px;margin:0 0 30px;padding:0 0 20px;
     border-bottom:1px solid var(--line)}
   .pv-meta>div{display:flex;align-items:baseline;gap:7px;min-width:0}
@@ -1298,6 +1296,10 @@
     flex-wrap:wrap}
   .pv-port-main,.pv-port-pnl{min-width:0}
   .pv-port-pnl{text-align:right}
+  /* 기준 시각 안내 — 예전에는 자산 금액과 손익 사이에 끼어 둘을 95px 떨어뜨렸다.
+     실제 투자 화면처럼 금액과 손익을 한 덩어리로 붙이고, 근거는 그 아래로 내린다. */
+  .pv-port-basis{margin:10px 0 0;font-size:11.5px;color:var(--faint);line-height:1.6;
+    word-break:keep-all;overflow-wrap:break-word}
   .pv-port-k{display:block;margin:0 0 9px;font-size:11.5px;font-weight:400;color:var(--dim);
     letter-spacing:0}
   .pv-port-v{display:block;font-size:31px;font-weight:600;letter-spacing:-.025em;line-height:1.15;
@@ -1491,7 +1493,7 @@
   .pv-pos-rt{flex:none;text-align:right;min-width:0}
   .pv-pos-mv{display:block;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;
     white-space:nowrap}
-  .pv-pos-pl{display:block;margin-top:3px;font-size:11.5px;font-weight:500;
+  .pv-pos-pl{display:block;margin-top:3px;font-size:13px;font-weight:600;
     font-variant-numeric:tabular-nums;white-space:nowrap}
   .pv-pos-hd .pv-chev{flex:none;color:var(--faint);transition:transform .18s ease}
   .pv-pos-hd[aria-expanded="true"] .pv-chev{transform:rotate(180deg)}
@@ -1499,7 +1501,8 @@
   .pv-pos-body .pv-rows{border-top:none}
   .pv-pos-body .pv-row{padding:9px 0}
   /* 수익률 — 화면 끝이 아니라 종목명 바로 옆. 이름보다 한 단계 작게, 방향색은 숫자에만 */
-  .pv-pos-r{font-style:normal;font-size:13px;font-weight:600;margin-left:8px;
+  /* 수익률은 이 화면에서 사용자가 가장 먼저 찾는 값이다 — 종목명과 대등한 크기로 둔다. */
+  .pv-pos-r{font-style:normal;font-size:15px;font-weight:600;margin-left:8px;
     letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
     vertical-align:1px}
   .pv-pos-r.pv-r-wait{font-size:11.5px;font-weight:500;color:var(--faint)}
@@ -1517,8 +1520,7 @@
   .pv-foot b{color:var(--t3);font-weight:600}
   @media (max-width:860px){
     .pv-title{font-size:24px}
-    .pv-claim{font-size:14.5px;max-width:30ch}
-    .pv-lede{font-size:13px;line-height:1.75;margin-bottom:16px}
+    .pv-claim{font-size:14.5px;max-width:30ch;margin-bottom:12px}
     .pv-summary{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:28px}
     .pv-summary>div{padding:16px 14px 17px}
     .pv-summary>div:nth-child(odd){border-left:none;padding-left:0}
@@ -1531,7 +1533,10 @@
     .pv-summary.pv-summary-2>div:nth-child(-n+2){border-bottom:none}
     /* 포트폴리오 리드 — 자산과 손익을 위아래로 쌓되 손익은 왼쪽 정렬로 되돌린다 */
     .pv-port{padding:18px 0 17px}
-    .pv-port-lead{gap:16px}
+    /* 모바일에서는 금액과 손익이 세로로 쌓인다 — 실제 투자 앱처럼 바짝 붙인다. */
+    .pv-port-lead{gap:10px}
+    .pv-port-pnl{text-align:left}
+    .pv-port-pnl .pv-port-k{margin-bottom:4px}
     .pv-port-main,.pv-port-pnl{flex:1 1 100%}
     .pv-port-pnl{text-align:left}
     .pv-port-v{font-size:27px}
@@ -5966,9 +5971,12 @@ function renderPaper(){
   const P=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
   /* Hero는 짧게. 긴 원칙 설명은 아래 「어떻게 기록하나요?」로 내린다.
      사용자 화면에는 내부 코드(PAPER_BASELINE_V1·BASELINE_ONLY 등)를 노출하지 않는다. */
+  /* 🎯 2026-08-21: 실제 투자 화면의 정보 위계를 따른다 — 돈이 먼저, 설명은 나중.
+     예전에는 제목 아래 설명이 두 문단(142px)이나 깔려 자산 금액을 아래로 밀어냈다.
+     자세한 기록 규칙은 아래 「어떻게 기록하나요?」에 이미 단계별로 있으므로,
+     여기서는 무엇을 보는 화면인지와 실제 주문이 없다는 고지만 한 줄로 남긴다. */
   const lede=`<h2 class="pv-title">모의투자</h2>
-    <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다.</p>
-    <p class="pv-lede">새로운 「매수 고려」 판단이 나오면 그 시점의 실제 시장 가격으로 가상 기록을 시작합니다. 실제 주문은 발생하지 않습니다.</p>`;
+    <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다. <b>실제 주문은 발생하지 않습니다.</b></p>`;
   // ⛔ Fail closed — 스냅샷을 못 읽으면 0으로 채우지 않고 "비어 있음"을 그대로 말한다.
   if(!P){
     el.innerHTML=lede+`<div class="pv-empty"><b>기록을 아직 불러오지 못했어요.</b>
@@ -6062,13 +6070,13 @@ function renderPaper(){
       <div class="pv-port-main">
         <h3 class="pv-port-k" id="pvPortH">현재 가상자산</h3>
         <span class="pv-port-v">${equity==null?DASH:won(equity)}</span>
-        <span class="pv-port-s">가상현금 + 보유종목 현재 평가액${asOf?` · ${asOf}`:''}</span>
       </div>
       <div class="pv-port-pnl">
         <span class="pv-port-k">현재 손익</span>
         ${pnlBlock}
       </div>
     </div>
+    <p class="pv-port-basis">가상현금 + 보유종목 현재 평가액${asOf?` · ${asOf}`:''}</p>
     ${bar}${legend}
     <p class="pv-port-note">가상 시작자금 ${won(initialC)} · 실제로 예치한 돈이 아니에요</p>
   </section>`;
@@ -6362,7 +6370,10 @@ function renderPaper(){
     ${tab('holdings','보유 현황')}${tab('history','기록')}</div>`;
   const body=PV_VIEW==='history'
     ? paperHistoryHTML()
-    : summary+todaySec+held+closedSec+perf+how+foot;
+    /* 🎯 실제 투자 화면 순서: 자산 → 내 보유 종목 → 오늘 거래 → 종료 거래 → 설명.
+       예전에는 '오늘 거래'가 보유 종목보다 위에 있어, 거래가 없는 날(대부분)에는
+       "없어요" 두 줄을 지나야 내 종목이 나왔다. */
+    : summary+held+todaySec+closedSec+perf+how+foot;
   el.innerHTML=hero+tabs+body;
   el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
