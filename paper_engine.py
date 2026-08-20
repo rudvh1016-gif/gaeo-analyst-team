@@ -370,6 +370,8 @@ def observation_gaps(curve_path, business_dates, today_date=None):
                     row = json.loads(line)
                 except json.JSONDecodeError:
                     continue              # 손상 라인은 무시(Ledger와 같은 보호 원칙)
+                if not isinstance(row, dict):
+                    continue              # 숫자·null·배열 같은 줄도 조용히 건너뛴다
                 day = _kst_day(row.get("at"))
                 if not day:
                     continue

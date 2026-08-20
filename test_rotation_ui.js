@@ -17,7 +17,8 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260820-v15'\]/);
+// ⚠️ 캐시 버전이 박힌 곳이 test_rotation_refinement_browser.js에도 있다. 올릴 때 둘 다 고칠 것.
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260821-v16'\]/);
 // ⚠️ CSS를 고치면 이 버전을 올려야 재방문자가 옛 스타일을 계속 보지 않는다.
 //    (2026-08-18 sweep 전까지 이 줄이 v12에 멈춰 있어 테스트가 깨진 상태였다)
 assert.match(html, /rotation\.css\?v=20260820-v15/);

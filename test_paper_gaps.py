@@ -123,6 +123,16 @@ with open(c2, "w", encoding="utf-8") as f:
 check("4. 손상된 줄이 섞여 있어도 판정이 죽지 않는다",
       [x["businessDate"] for x in pe.observation_gaps(c2, BD, "2026-08-21")] == [D2])
 
+# JSON으로는 읽히지만 dict가 아닌 줄(숫자·null·배열). paper_public이 이 함수를
+# try/except 밖에서 부르므로, 여기서 터지면 공개 스냅샷 생성이 통째로 멈춘다.
+c2b = os.path.join(tmp, "c2b.jsonl")
+with open(c2b, "w", encoding="utf-8") as f:
+    f.write(json.dumps(row(f"{D1}T15:05:00+09:00")) + "\n123\nnull\n[]\n\"문자열\"\n")
+    f.write(json.dumps(row(f"{D3}T15:05:00+09:00")) + "\n")
+check("4-1. dict가 아닌 줄(숫자·null·배열)이 있어도 죽지 않는다",
+      [x["businessDate"] for x in pe.observation_gaps(c2b, BD, "2026-08-21")] == [D2],
+      "AttributeError 없이 정상 판정해야 한다")
+
 # ── 5. 기록은 있는데 전부 장 끝난 뒤였던 날 ─────────────────────────────────
 c3 = curve(os.path.join(tmp, "c3.jsonl"),
            [row(f"{D1}T15:05:00+09:00", True),

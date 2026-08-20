@@ -42,7 +42,9 @@ import paper_market_data as pmd
 from paper_engine import HERE, PaperEngine
 
 STRATEGY_VERSION = "PAPER_MOMENTUM_V1"
-# V1과 같은 파일에 섞여도 Ledger가 걸러내도록 environment 자체를 다르게 둔다(이중 안전).
+# 격리는 ① 폴더 분리(아래 DATA_DIR) ② environment 분리 ③ trade_id 해시에 전략명 포함,
+# 이렇게 3중이다. 다만 Ledger.known_ids()는 environment를 거르지 않으므로
+# "environment만으로 모든 게 걸러진다"고 믿으면 안 된다 — 폴더 분리가 1차 방어선이다.
 ENVIRONMENT = "LIVE_PAPER_MOMENTUM"
 ENABLE_ENV = "GAEO_PAPER_MOMENTUM"
 # 러너의 커밋 화이트리스트가 paper_trading/ 이므로 그 **안에** 둔다(경계를 넓히지 않는다).
@@ -74,6 +76,20 @@ def load_rotation_picks(path=None):
 class MomentumEngine(PaperEngine):
     """진입 신호만 바꾼 V1. 나머지는 전부 부모 코드를 그대로 쓴다."""
 
+    def __init__(self, provider, data_dir=None, config=None, environment=ENVIRONMENT):
+        # 🐛 2026-08-21 검수에서 잡힘: 첫 실행 때 폴더가 없으면 baseline 기록
+        #    (_write_equity의 open(...,'a'))이 FileNotFoundError로 죽는다. 부모는
+        #    "원장 폴더는 이미 있다"는 전제로 쓰여 있고(V1은 paper_trading/이 저장소에
+        #    커밋돼 있어 이 경로를 겪지 않는다), run_safe()가 예외를 삼키므로 켜도
+        #    매 사이클 조용히 아무 일도 일어나지 않았다.
+        #    ⚠️ 부모(V1)를 고치지 않으려고 여기서 먼저 만든다.
+        # 🔒 data_dir 기본값도 여기서 못박는다. 부모 기본값은 V1 폴더라서, 인자를
+        #    빠뜨린 채 만들면 모멘텀 거래가 V1 원장 파일에 섞여 들어간다.
+        data_dir = data_dir or DATA_DIR
+        os.makedirs(data_dir, exist_ok=True)
+        super().__init__(provider, data_dir=data_dir, config=config,
+                         environment=environment)
+
     def _load_config(self):
         path = os.path.join(self.dir, "config.json")
         if os.path.exists(path):
@@ -95,9 +111,19 @@ class MomentumEngine(PaperEngine):
                            "정규장 시간 정보 없음 — 신규 진입 보류(캘린더 응답 확인 필요)")
             return "DEFERRED"
 
-        picks = load_rotation_picks()["picks"]
+        bundle = load_rotation_picks()
+        picks = bundle["picks"]
         if not picks:
             actions.append("업종 흐름 후보 없음(시장 게이트 관망) — 신규 진입 없음")
+            return "PROCESSED"
+        # 🕰️ 신선도 게이트 — 후보 목록이 오늘 만들어진 것이 아니면 사지 않는다.
+        #    update-analysis 워크플로가 compute_rotation_picks 실패를 삼키기 때문에
+        #    "분석은 새것인데 후보 목록은 며칠 전 것"인 조합이 실제로 생길 수 있다.
+        #    낡은 목록으로 사는 것은 추측으로 사는 것과 같다.
+        stamp = str(bundle.get("generatedAt") or "")[:10]
+        if stamp != now.strftime("%Y-%m-%d"):
+            actions.append(f"업종 흐름 후보가 오늘 것이 아님({stamp or '생성시각 없음'}) "
+                           "— 신규 진입 보류")
             return "PROCESSED"
 
         held = {r.get("symbol") for r in latest.values() if r.get("status") == "OPEN"}
@@ -106,6 +132,11 @@ class MomentumEngine(PaperEngine):
             code = p["code"]
             if code in held or code in candidates:
                 continue          # 이미 들고 있으면 다시 사지 않는다(중복 진입 금지)
+            # 🐛 GAEO 판단이 이미 「매도 고려」인 종목은 사지 않는다. 사면 같은 사이클
+            #    ④단계(_manage_positions)가 CHIEF_SELL로 곧바로 되팔아, 호가 차이만큼
+            #    확정 손실을 내고 보유 0일짜리 거래가 원장에 남는다(검수에서 실측).
+            if (signals.get(code) or {}).get("call") == "SELL":
+                continue
             # confidence/total은 부모의 정렬 기준일 뿐이다. rotation_picks가 정한
             # 순서를 그대로 보존하려고 역순 번호를 넣는다(새 점수를 만들지 않는다).
             order = len(picks) - rank

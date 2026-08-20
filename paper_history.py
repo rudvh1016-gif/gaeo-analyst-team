@@ -285,7 +285,11 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
                  if s.get("mfePct") is not None and s.get("returnPct") is not None]
     if givebacks:
         gap, s = max(givebacks, key=lambda x: x[0])
-        if gap > 0:
+        # ⚠️ mfePrice는 진입가로 시작하므로, 진입가 위로 한 번도 안 간 손실 거래는
+        #    mfePct가 0.0이 된다. 그대로 쓰면 "최고 +0.00%까지 올랐다가"처럼 관측된
+        #    적 없는 고점을 서술하게 된다(2026-08-21 검수에서 실제로 재현됨).
+        #    실제로 진입가 위로 올라간 적이 있을 때만 '반납'을 말한다.
+        if gap > 0 and s["mfePct"] > 0:
             # 종목명 뒤에 조사를 붙이지 않는다 — 받침에 따라 은/는이 갈려
             # "삼성전자은" 같은 문장이 나온다.
             imp.append(L(f"{s['name']} — 보유 중 최고 {s['mfePct']:+.2f}%까지 올랐다가 "
@@ -323,8 +327,11 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
         mk.append(L(f"이날 종료한 {len(rel)}건 중 {ahead}건이 같은 기간 자기 시장 지수보다 "
                     "앞섰습니다.", "tradeBenchmarkCount"))
         gap, s = max(rel, key=lambda x: x[0])
-        mk.append(L(f"가장 앞선 거래 — {s['name']} 지수 대비 {gap:+.2f}%p.",
-                    "tradeBenchmarkBest"))
+        # 앞선 거래가 하나도 없는데 "가장 앞선 거래"라고 쓰면 거짓이 된다
+        # (0건이 앞섰다고 적어 놓고 바로 아래에 -4.8%p를 '가장 앞선'이라 부르던 문제).
+        if gap > 0:
+            mk.append(L(f"가장 앞선 거래 — {s['name']} 지수 대비 {gap:+.2f}%p.",
+                        "tradeBenchmarkBest"))
     sections.append({"key": "market", "title": "시장 비교", "lines": mk})
 
     # ④ 잘된 점 / ⑤ 아쉬운 점 — 수치 근거가 있을 때만 쓴다
@@ -380,6 +387,10 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
         watch.append(L(f"지금까지 종료된 거래는 {have}입니다. 전략의 좋고 나쁨을 말하려면 "
                        f"최소 {MIN_STRATEGY_SAMPLE}건이 필요해 아직 판단하지 않습니다.",
                        "smallSample"))
+    if not watch:
+        # 표본이 다 찬 뒤 매매도 기여도도 없는 조용한 날 — 화면에 제목만 남고 내용이
+        # 비는 것을 막는다(섹션 제목은 무조건 그려지기 때문).
+        watch.append(L("이날은 새로 확인할 만한 변화가 기록되지 않았습니다.", "quietDay"))
     sections.append({"key": "watch", "title": "다음 기록에서 확인할 점", "lines": watch})
 
     headline = None
@@ -543,7 +554,13 @@ def build(ledger, curve, config, today=None, market_daily=None, business_dates=N
         if prev is None or str(row.get("at")) >= str(prev.get("at")):
             snap_by[d] = row
 
-    observed = set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by)
+    # ⚠️ snap_by는 '평가 가능한' 행만 담는다(markedEquity가 없는 행은 대표값에서 뺀다).
+    #    그것만으로 관측 여부를 판정하면, 사이클은 정상적으로 돌았지만 평가만 실패한 날을
+    #    "자동 기록이 남지 않았다"고 잘못 말하게 된다. 관측 여부는 paper_engine의
+    #    observation_gaps와 같은 기준(그날 행이 하나라도 있는가)으로 판정한다.
+    curve_days = {kst_date(row.get("at")) for row in curve if isinstance(row, dict)}
+    curve_days.discard(None)
+    observed = set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by) | curve_days
     # 🕳️ 관측 공백 — 거래일인데 아무 기록도 남지 않은 날을 '없는 채로' 두지 않는다.
     #    목록이 그냥 이전 날짜로 건너뛰면 사용자는 그날이 왜 없는지 알 수 없다.
     #    ⚠️ 날짜를 하드코딩하지 않는다 — 공식 캘린더가 준 거래일과 실제 기록의 차이로만 뽑는다.
