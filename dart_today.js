@@ -1,12 +1,92 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 15:02",
- "priceLabel": "2026-08-20 14:59 장중",
- "count": 133,
+ "generatedAt": "2026-08-20 15:33",
+ "priceLabel": "2026-08-20 15:21 장중",
+ "count": 139,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003280",
+   "name": "흥아해운",
+   "title": "임시주주총회결과",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "052690",
+   "name": "한전기술",
+   "title": "횡령ㆍ배임사실확인",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "062040",
+   "name": "산일전기",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "047040",
+   "name": "대우건설",
+   "title": "[기재정정]타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "047040",
+   "name": "대우건설",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
+   "isCorrection": false
+  },
   {
    "code": "008770",
    "name": "호텔신라",
@@ -72,14 +152,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "036460",
    "name": "한국가스공사",
    "title": "자원개발진행사항공시(자율공시)",
@@ -93,14 +165,6 @@ const DART_TODAY = {
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T05:11:55.637372+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T04:41:46.866696+00:00",
    "isCorrection": false
   },
   {
@@ -424,14 +488,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "[기재정정]주요사항보고서(상각형조건부자본증권발행결정)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": true
-  },
-  {
    "code": "028300",
    "name": "HLB",
    "title": "증권발행결과(자율공시)",
@@ -699,14 +755,6 @@ const DART_TODAY = {
    "code": "222080",
    "name": "SFA넥셀",
    "title": "[기재정정]반기보고서 (2026.06)",
-   "receiptDate": "20260818",
-   "detectedAt": "2026-08-18T07:27:22.608487+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "[기재정정]일괄신고서",
    "receiptDate": "20260818",
    "detectedAt": "2026-08-18T07:27:22.608487+00:00",
    "isCorrection": true
