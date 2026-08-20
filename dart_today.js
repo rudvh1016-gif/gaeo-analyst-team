@@ -1,12 +1,100 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 15:33",
- "priceLabel": "2026-08-20 15:21 장중",
- "count": 139,
+ "generatedAt": "2026-08-20 16:03",
+ "priceLabel": "2026-08-20 종가 (15:55 수집)",
+ "count": 150,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "105630",
+   "name": "한세실업",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "183300",
+   "name": "코미코",
+   "title": "주권매매거래정지해제 (액면분할 주권 변경상장)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "358570",
+   "name": "지아이이노베이션",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005930",
+   "name": "삼성전자",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "[기재정정]타법인주식및출자증권처분결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "025860",
+   "name": "남해화학",
+   "title": "[기재정정]기업지배구조보고서공시",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "222080",
+   "name": "SFA넥셀",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "344820",
+   "name": "KCC글라스",
+   "title": "[기재정정]반기보고서 (2026.06)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "[첨부정정]지속가능경영보고서등관련사항(자율공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "009540",
+   "name": "HD한국조선해양",
+   "title": "[첨부정정]지속가능경영보고서등관련사항(자율공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "078930",
+   "name": "GS",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003280",
    "name": "흥아해운",
