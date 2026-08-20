@@ -395,8 +395,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 2380,
-   "currentValue": 2430,
-   "threshold": 2425,
+   "currentValue": 2425,
+   "threshold": 2424,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
    "priceBaseAt": "2026-08-20 09:21 장중",
@@ -605,8 +605,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 23900,
-   "currentValue": 24650,
-   "threshold": 24065,
+   "currentValue": 24500,
+   "threshold": 24034,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
    "priceBaseAt": "2026-08-20 09:21 장중",
@@ -1319,7 +1319,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 33,
-   "currentValue": -26,
+   "currentValue": -23,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -1655,7 +1655,7 @@
    "metric": "MA20−MA60",
    "unit": "원",
    "previousValue": -28,
-   "currentValue": 14,
+   "currentValue": 13,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -2201,7 +2201,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.46,
-   "currentValue": -0.97,
+   "currentValue": -0.96,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -2566,6 +2566,27 @@
    "status": "provisional",
    "severity": "low",
    "description": "5일 이동평균선이 20일선을 위로 통과했어요(단기 흐름이 바뀌는 지점).",
+   "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요."
+  },
+  {
+   "id": "000080-ma5-20-dead-cross-20260820",
+   "code": "000080",
+   "name": "하이트진로",
+   "type": "ma5_20_dead_cross",
+   "label": "MA5·20 데드크로스",
+   "group": "main",
+   "icon": "▼",
+   "metric": "MA5−MA20",
+   "unit": "원",
+   "previousValue": 66,
+   "currentValue": -1,
+   "threshold": 0,
+   "date": "2026-08-20",
+   "detectedAt": "2026-08-20 09:11",
+   "priceBaseAt": "2026-08-20 09:10 장중",
+   "status": "provisional",
+   "severity": "low",
+   "description": "5일 이동평균선이 20일선을 아래로 통과했어요(단기 흐름이 바뀌는 지점).",
    "caution": "이동평균 교차는 이미 지나간 가격을 평균 낸 결과라 늦게 나타나요. 5·20일선은 자주 엇갈려요."
   },
   {
@@ -3125,7 +3146,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.47,
-   "currentValue": -1.01,
+   "currentValue": -1.05,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -3167,7 +3188,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 1.12,
-   "currentValue": 0.73,
+   "currentValue": 0.71,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -3629,7 +3650,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 2.19,
-   "currentValue": 0.5,
+   "currentValue": 0.53,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -3755,7 +3776,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 2.75,
-   "currentValue": 0.74,
+   "currentValue": 0.75,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 09:41",
@@ -4101,9 +4122,9 @@
    ]
   },
   {
-   "code": "003090",
-   "name": "대웅",
-   "rep": "003090-macd-dead-cross-20260820",
+   "code": "003030",
+   "name": "세아제강지주",
+   "rep": "003030-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 1,
@@ -4134,17 +4155,6 @@
    "types": [
     "macd_dead_cross",
     "ma5_20_cross_near_dead"
-   ]
-  },
-  {
-   "code": "005500",
-   "name": "삼진제약",
-   "rep": "005500-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
    ]
   },
   {
@@ -4286,17 +4296,6 @@
    "code": "055550",
    "name": "신한지주",
    "rep": "055550-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
-   ]
-  },
-  {
-   "code": "068270",
-   "name": "셀트리온",
-   "rep": "068270-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 0,
@@ -4923,6 +4922,17 @@
    ]
   },
   {
+   "code": "403870",
+   "name": "HPSP",
+   "rep": "403870-bb-upper-recover-20260820",
+   "repType": "bb_upper_recover",
+   "repLabel": "밴드 상단 재진입",
+   "others": 0,
+   "types": [
+    "bb_upper_recover"
+   ]
+  },
+  {
    "code": "000660",
    "name": "SK하이닉스",
    "rep": "000660-ma5-20-golden-cross-20260820",
@@ -4953,6 +4963,17 @@
    "others": 0,
    "types": [
     "ma5_20_golden_cross"
+   ]
+  },
+  {
+   "code": "000080",
+   "name": "하이트진로",
+   "rep": "000080-ma5-20-dead-cross-20260820",
+   "repType": "ma5_20_dead_cross",
+   "repLabel": "MA5·20 데드크로스",
+   "others": 0,
+   "types": [
+    "ma5_20_dead_cross"
    ]
   },
   {
@@ -5143,9 +5164,31 @@
    ]
   },
   {
+   "code": "328130",
+   "name": "루닛",
+   "rep": "328130-ma5-20-dead-cross-20260820",
+   "repType": "ma5_20_dead_cross",
+   "repLabel": "MA5·20 데드크로스",
+   "others": 0,
+   "types": [
+    "ma5_20_dead_cross"
+   ]
+  },
+  {
    "code": "003300",
    "name": "한일홀딩스",
    "rep": "003300-ma5-20-cross-near-golden-20260820",
+   "repType": "ma5_20_cross_near_golden",
+   "repLabel": "MA5·20 골든크로스 임박",
+   "others": 0,
+   "types": [
+    "ma5_20_cross_near_golden"
+   ]
+  },
+  {
+   "code": "279570",
+   "name": "케이뱅크",
+   "rep": "279570-ma5-20-cross-near-golden-20260820",
    "repType": "ma5_20_cross_near_golden",
    "repLabel": "MA5·20 골든크로스 임박",
    "others": 0,

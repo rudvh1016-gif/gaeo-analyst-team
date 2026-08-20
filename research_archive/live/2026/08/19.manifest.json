@@ -3,7 +3,7 @@
  "compressedBytes": 63837,
  "compression": "gzip",
  "compressionRatio": 0.0151,
- "createdAt": "2026-08-20T00:14:14.750419+00:00",
+ "createdAt": "2026-08-20T00:12:38.561877+00:00",
  "encryption": "AES-256-GCM",
  "featureVersions": [
   "features_v1.0",
@@ -28,7 +28,7 @@
  "recordType": "research_prediction",
  "schemaVersion": "research_archive_v1",
  "sha256": {
-  "19.jsonl.gz.enc": "9763c6ba97f29eb4c67086279265c474a097f57d067003d8cdddef831a18f3d3"
+  "19.jsonl.gz.enc": "41e83b27dca06d439ee39746a8eddbb52018367e2d085de258cbac6ae63112db"
  },
  "sourceFiles": [
   "live/2026/08/19.jsonl.gz.enc"
