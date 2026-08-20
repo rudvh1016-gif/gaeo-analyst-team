@@ -32,7 +32,7 @@ const MODEL_SCOREBOARD = {
       "medianReturn": -1.28,
       "precision": 39.7
      },
-     "directionalAccuracy": 51.4,
+     "directionalAccuracy": 51.5,
      "directionalCI95": [
       41.9,
       62.8
@@ -50,9 +50,9 @@ const MODEL_SCOREBOARD = {
      "pending": 0,
      "sell": {
       "count": 5967,
-      "marketRelativeMeanReturn": 0.62,
-      "meanReturn": 0.57,
-      "medianReturn": -0.77,
+      "marketRelativeMeanReturn": 0.61,
+      "meanReturn": 0.56,
+      "medianReturn": -0.78,
       "precision": 53.3
      },
      "status": "OK",
@@ -78,7 +78,7 @@ const MODEL_SCOREBOARD = {
       "medianReturn": -1.28,
       "precision": 39.7
      },
-     "directionalAccuracy": 51.4,
+     "directionalAccuracy": 51.5,
      "directionalCI95": [
       41.9,
       62.8
@@ -96,9 +96,9 @@ const MODEL_SCOREBOARD = {
      "pending": 1008,
      "sell": {
       "count": 5967,
-      "marketRelativeMeanReturn": 0.62,
-      "meanReturn": 0.57,
-      "medianReturn": -0.77,
+      "marketRelativeMeanReturn": 0.61,
+      "meanReturn": 0.56,
+      "medianReturn": -0.78,
       "precision": 53.3
      },
      "status": "OK",

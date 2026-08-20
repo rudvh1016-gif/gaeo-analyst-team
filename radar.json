@@ -605,8 +605,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 26050,
-   "currentValue": 26700,
-   "threshold": 25929,
+   "currentValue": 26650,
+   "threshold": 25920,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
    "priceBaseAt": "2026-08-20 09:56 장중",
@@ -836,7 +836,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 97,
-   "currentValue": -126,
+   "currentValue": -82,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -983,7 +983,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 3,
-   "currentValue": -3,
+   "currentValue": -2,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1382,7 +1382,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 33,
-   "currentValue": -39,
+   "currentValue": -26,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1393,9 +1393,9 @@
    "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요."
   },
   {
-   "id": "185750-macd-dead-cross-20260820",
-   "code": "185750",
-   "name": "종근당",
+   "id": "170900-macd-dead-cross-20260820",
+   "code": "170900",
+   "name": "동아에스티",
    "type": "macd_dead_cross",
    "label": "MACD 데드크로스",
    "group": "main",
@@ -1487,7 +1487,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 1,
-   "currentValue": -8,
+   "currentValue": -5,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1613,7 +1613,7 @@
    "metric": "MA20−MA60",
    "unit": "원",
    "previousValue": -32,
-   "currentValue": 34,
+   "currentValue": 36,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1718,7 +1718,7 @@
    "metric": "MA20−MA60",
    "unit": "원",
    "previousValue": -28,
-   "currentValue": 13,
+   "currentValue": 14,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1907,7 +1907,7 @@
    "metric": "MA20−MA60",
    "unit": "원",
    "previousValue": -29,
-   "currentValue": 22,
+   "currentValue": 23,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1928,7 +1928,7 @@
    "metric": "MA20−MA60",
    "unit": "원",
    "previousValue": 2,
-   "currentValue": -7,
+   "currentValue": -5,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -1970,7 +1970,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.97,
-   "currentValue": -0.53,
+   "currentValue": -0.5,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2285,7 +2285,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.46,
-   "currentValue": -0.98,
+   "currentValue": -0.97,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2453,8 +2453,8 @@
    "metric": "종가",
    "unit": "원",
    "previousValue": 28450,
-   "currentValue": 27500,
-   "threshold": 28466,
+   "currentValue": 27700,
+   "threshold": 28497,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
    "priceBaseAt": "2026-08-20 09:56 장중",
@@ -2705,7 +2705,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 112,
-   "currentValue": -45,
+   "currentValue": -44,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2747,7 +2747,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 24,
-   "currentValue": -16,
+   "currentValue": -14,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2810,7 +2810,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 430,
-   "currentValue": -330,
+   "currentValue": -375,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2894,7 +2894,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 16,
-   "currentValue": -50,
+   "currentValue": -48,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -2915,7 +2915,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 188,
-   "currentValue": -198,
+   "currentValue": -175,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -3125,7 +3125,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 325,
-   "currentValue": -435,
+   "currentValue": -375,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -3272,7 +3272,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": -1.75,
-   "currentValue": -0.91,
+   "currentValue": -0.67,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -3692,7 +3692,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 1.52,
-   "currentValue": 0.98,
+   "currentValue": 1.1,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -3797,7 +3797,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 2.19,
-   "currentValue": 0.36,
+   "currentValue": 0.5,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -3923,7 +3923,7 @@
    "metric": "간격(%)",
    "unit": "%",
    "previousValue": 2.75,
-   "currentValue": 0.69,
+   "currentValue": 0.74,
    "threshold": 1.2,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 10:41",
@@ -4037,20 +4037,20 @@
    ]
   },
   {
-   "code": "397030",
-   "name": "에이프릴바이오",
-   "rep": "397030-volume-spike-20260820",
-   "repType": "volume_spike",
-   "repLabel": "거래량 급증",
-   "others": 0,
-   "types": [
-    "volume_spike"
-   ]
-  },
-  {
    "code": "003230",
    "name": "삼양식품",
    "rep": "003230-bb-upper-break-20260820",
+   "repType": "bb_upper_break",
+   "repLabel": "밴드 상단 돌파",
+   "others": 0,
+   "types": [
+    "bb_upper_break"
+   ]
+  },
+  {
+   "code": "072710",
+   "name": "농심홀딩스",
+   "rep": "072710-bb-upper-break-20260820",
    "repType": "bb_upper_break",
    "repLabel": "밴드 상단 돌파",
    "others": 0,
@@ -4103,15 +4103,25 @@
    ]
   },
   {
-   "code": "001450",
-   "name": "현대해상",
-   "rep": "001450-rsi-overbought-exit-20260820",
-   "repType": "rsi_overbought_exit",
-   "repLabel": "과매수 탈출",
-   "others": 1,
+   "code": "005180",
+   "name": "빙그레",
+   "rep": "005180-rsi-overbought-entry-20260820",
+   "repType": "rsi_overbought_entry",
+   "repLabel": "과매수 진입",
+   "others": 0,
    "types": [
-    "rsi_overbought_exit",
-    "bb_upper_recover"
+    "rsi_overbought_entry"
+   ]
+  },
+  {
+   "code": "041960",
+   "name": "코미팜",
+   "rep": "041960-rsi-overbought-entry-20260820",
+   "repType": "rsi_overbought_entry",
+   "repLabel": "과매수 진입",
+   "others": 0,
+   "types": [
+    "rsi_overbought_entry"
    ]
   },
   {
@@ -4206,6 +4216,17 @@
    ]
   },
   {
+   "code": "139480",
+   "name": "이마트",
+   "rep": "139480-bb-lower-recover-20260820",
+   "repType": "bb_lower_recover",
+   "repLabel": "밴드 하단 재진입",
+   "others": 0,
+   "types": [
+    "bb_lower_recover"
+   ]
+  },
+  {
    "code": "214150",
    "name": "클래시스",
    "rep": "214150-bb-lower-recover-20260820",
@@ -4261,6 +4282,18 @@
    ]
   },
   {
+   "code": "279570",
+   "name": "케이뱅크",
+   "rep": "279570-macd-golden-cross-20260820",
+   "repType": "macd_golden_cross",
+   "repLabel": "MACD 골든크로스",
+   "others": 1,
+   "types": [
+    "macd_golden_cross",
+    "ma5_20_cross_near_golden"
+   ]
+  },
+  {
    "code": "000640",
    "name": "동아쏘시오홀딩스",
    "rep": "000640-macd-dead-cross-20260820",
@@ -4305,31 +4338,9 @@
    ]
   },
   {
-   "code": "003030",
-   "name": "세아제강지주",
-   "rep": "003030-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
-   ]
-  },
-  {
    "code": "003090",
    "name": "대웅",
    "rep": "003090-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
-   ]
-  },
-  {
-   "code": "003240",
-   "name": "태광산업",
-   "rep": "003240-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 0,
@@ -4448,18 +4459,6 @@
    "rep": "030520-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
-   "others": 1,
-   "types": [
-    "macd_dead_cross",
-    "ma5_20_cross_near_dead"
-   ]
-  },
-  {
-   "code": "034950",
-   "name": "한국기업평가",
-   "rep": "034950-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
    "others": 0,
    "types": [
     "macd_dead_cross"
@@ -4567,9 +4566,9 @@
    ]
   },
   {
-   "code": "185750",
-   "name": "종근당",
-   "rep": "185750-macd-dead-cross-20260820",
+   "code": "170900",
+   "name": "동아에스티",
+   "rep": "170900-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
    "others": 0,
@@ -4638,17 +4637,6 @@
    ]
   },
   {
-   "code": "323410",
-   "name": "카카오뱅크",
-   "rep": "323410-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
-   ]
-  },
-  {
    "code": "328130",
    "name": "루닛",
    "rep": "328130-macd-dead-cross-20260820",
@@ -4699,10 +4687,9 @@
    "rep": "004360-ma-golden-cross-20260820",
    "repType": "ma_golden_cross",
    "repLabel": "MA20·60 골든크로스",
-   "others": 1,
+   "others": 0,
    "types": [
-    "ma_golden_cross",
-    "ma5_20_cross_near_dead"
+    "ma_golden_cross"
    ]
   },
   {
@@ -5046,10 +5033,21 @@
    "rep": "491000-ma20-60-cross-near-golden-20260820",
    "repType": "ma20_60_cross_near_golden",
    "repLabel": "MA20·60 골든크로스 임박",
+   "others": 0,
+   "types": [
+    "ma20_60_cross_near_golden"
+   ]
+  },
+  {
+   "code": "000240",
+   "name": "한국앤컴퍼니",
+   "rep": "000240-ma20-60-cross-near-dead-20260820",
+   "repType": "ma20_60_cross_near_dead",
+   "repLabel": "MA20·60 데드크로스 임박",
    "others": 1,
    "types": [
-    "ma20_60_cross_near_golden",
-    "ma5_20_cross_near_dead"
+    "ma20_60_cross_near_dead",
+    "ma5_20_dead_cross"
    ]
   },
   {
@@ -5064,9 +5062,9 @@
    ]
   },
   {
-   "code": "004690",
-   "name": "삼천리",
-   "rep": "004690-bb-upper-recover-20260820",
+   "code": "001450",
+   "name": "현대해상",
+   "rep": "001450-bb-upper-recover-20260820",
    "repType": "bb_upper_recover",
    "repLabel": "밴드 상단 재진입",
    "others": 0,
@@ -5111,6 +5109,17 @@
    "code": "089860",
    "name": "롯데렌탈",
    "rep": "089860-bb-upper-recover-20260820",
+   "repType": "bb_upper_recover",
+   "repLabel": "밴드 상단 재진입",
+   "others": 0,
+   "types": [
+    "bb_upper_recover"
+   ]
+  },
+  {
+   "code": "092230",
+   "name": "KPX홀딩스",
+   "rep": "092230-bb-upper-recover-20260820",
    "repType": "bb_upper_recover",
    "repLabel": "밴드 상단 재진입",
    "others": 0,
@@ -5185,17 +5194,6 @@
    ]
   },
   {
-   "code": "009290",
-   "name": "광동제약",
-   "rep": "009290-ma5-20-dead-cross-20260820",
-   "repType": "ma5_20_dead_cross",
-   "repLabel": "MA5·20 데드크로스",
-   "others": 0,
-   "types": [
-    "ma5_20_dead_cross"
-   ]
-  },
-  {
    "code": "009450",
    "name": "경동나비엔",
    "rep": "009450-ma5-20-dead-cross-20260820",
@@ -5232,17 +5230,6 @@
    "code": "023160",
    "name": "태광",
    "rep": "023160-ma5-20-dead-cross-20260820",
-   "repType": "ma5_20_dead_cross",
-   "repLabel": "MA5·20 데드크로스",
-   "others": 0,
-   "types": [
-    "ma5_20_dead_cross"
-   ]
-  },
-  {
-   "code": "026960",
-   "name": "동서",
-   "rep": "026960-ma5-20-dead-cross-20260820",
    "repType": "ma5_20_dead_cross",
    "repLabel": "MA5·20 데드크로스",
    "others": 0,
@@ -5372,28 +5359,6 @@
    ]
   },
   {
-   "code": "279570",
-   "name": "케이뱅크",
-   "rep": "279570-ma5-20-cross-near-golden-20260820",
-   "repType": "ma5_20_cross_near_golden",
-   "repLabel": "MA5·20 골든크로스 임박",
-   "others": 0,
-   "types": [
-    "ma5_20_cross_near_golden"
-   ]
-  },
-  {
-   "code": "001530",
-   "name": "DI동일",
-   "rep": "001530-ma5-20-cross-near-dead-20260820",
-   "repType": "ma5_20_cross_near_dead",
-   "repLabel": "MA5·20 데드크로스 임박",
-   "others": 0,
-   "types": [
-    "ma5_20_cross_near_dead"
-   ]
-  },
-  {
    "code": "001750",
    "name": "한양증권",
    "rep": "001750-ma5-20-cross-near-dead-20260820",
@@ -5452,6 +5417,17 @@
    "code": "007700",
    "name": "F&F홀딩스",
    "rep": "007700-ma5-20-cross-near-dead-20260820",
+   "repType": "ma5_20_cross_near_dead",
+   "repLabel": "MA5·20 데드크로스 임박",
+   "others": 0,
+   "types": [
+    "ma5_20_cross_near_dead"
+   ]
+  },
+  {
+   "code": "009290",
+   "name": "광동제약",
+   "rep": "009290-ma5-20-cross-near-dead-20260820",
    "repType": "ma5_20_cross_near_dead",
    "repLabel": "MA5·20 데드크로스 임박",
    "others": 0,
