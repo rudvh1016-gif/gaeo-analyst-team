@@ -324,6 +324,78 @@ def max_drawdown_from_curve(path, initial_seed=None):
     return round(mdd, 3)
 
 
+# ── 관측 공백 (Observation Gap) ────────────────────────────────────────────
+# "거래일인데 러너가 기록을 하나도 남기지 못한 날"을 사실로만 판정한다.
+#
+# ⚠️ 날짜를 하드코딩하지 않는다. 사람의 기억("8월 19일에 장애가 있었다")이 아니라
+#    저장된 파일의 사실("그날 Equity Curve 행이 0개다")에서만 공백을 만든다.
+#    그래서 다음에 또 멈춰도 아무도 코드를 고치지 않고 그날이 자동으로 드러난다.
+# ⚠️ 공백을 "채우지" 않는다. 없었다는 사실만 드러낼 뿐, 없는 가격·수익을 만들지 않는다.
+GAP_NO_RECORD = "NO_RECORD"                    # 그날 사이클 기록이 아예 없음
+GAP_NO_SESSION_RECORD = "NO_SESSION_RECORD"    # 기록은 있으나 장중 관측이 0건
+
+
+def _kst_day(ts):
+    """ISO 시각 → KST 기준 YYYY-MM-DD. 못 읽으면 None(날짜를 추측하지 않는다)."""
+    if not isinstance(ts, str):
+        return None
+    try:
+        dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=KST)
+    return dt.astimezone(KST).strftime("%Y-%m-%d")
+
+
+def observation_gaps(curve_path, business_dates, today_date=None):
+    """관측 공백 목록 — Equity Curve에 실제로 남은 기록에서만 도출한다.
+
+    판정 규칙(전부 '있는 것'만 근거로 쓴다):
+      · 기록이 시작된 날 이전은 판단하지 않는다 — 엔진이 없던 시절은 공백이 아니다.
+      · 오늘은 판단하지 않는다 — 아직 사이클이 남아 있어 공백으로 단정할 수 없다.
+      · 그날 행이 0개면 NO_RECORD.
+      · 행이 있어도 모든 행이 inSession을 기록했고 그 전부가 장외였다면
+        NO_SESSION_RECORD(장중 고가·저가를 한 번도 못 본 날). inSession 필드가
+        없던 옛 행이 섞여 있으면 판단하지 않는다 — 모르는 것을 단정하지 않는다.
+    """
+    counts = {}      # day → [행 수, inSession을 기록한 행 수, 장중이었던 행 수]
+    try:
+        with open(curve_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue              # 손상 라인은 무시(Ledger와 같은 보호 원칙)
+                day = _kst_day(row.get("at"))
+                if not day:
+                    continue
+                c = counts.setdefault(day, [0, 0, 0])
+                c[0] += 1
+                if isinstance(row.get("inSession"), bool):
+                    c[1] += 1
+                    c[2] += 1 if row["inSession"] else 0
+    except OSError:
+        return []                         # 근거 파일이 없으면 공백을 주장하지 않는다
+    if not counts:
+        return []
+    first = min(counts)
+    gaps = []
+    for day in sorted(set(business_dates or [])):
+        if day <= first or (today_date and day >= today_date):
+            continue
+        c = counts.get(day)
+        if not c:
+            gaps.append({"businessDate": day, "kind": GAP_NO_RECORD, "observations": 0})
+        elif c[0] == c[1] and c[2] == 0:
+            gaps.append({"businessDate": day, "kind": GAP_NO_SESSION_RECORD,
+                         "observations": c[0]})
+    return gaps
+
+
 # ── Engine ─────────────────────────────────────────────────────────────────
 class PaperEngine:
     def __init__(self, provider, data_dir=None, config=None, environment=ENVIRONMENT):
@@ -333,6 +405,7 @@ class PaperEngine:
         self.config = config or self._load_config()
         self.ledger = Ledger(os.path.join(self.dir, "trades.jsonl"), environment)
         self.state = self._load_state()
+        self._gaps = []                 # 관측 공백 — 사이클마다 파일에서 다시 판정한다
 
     # ── 저장소 ──
     def _load_config(self):
@@ -450,6 +523,13 @@ class PaperEngine:
         #    ⚠️ 날짜를 추측해서 채우지 않는다. 공식 캘린더가 open이라고 답한 날만 넣는다.
         self._backfill_missed_business_days(today_date)
 
+        # 🕳️ 관측 공백 판정 — 오늘 이전 거래일 중 기록이 남지 않은 날.
+        #    보충(위)이 "보유일을 제대로 세게" 만드는 일이라면, 이쪽은 "그날 우리가
+        #    아무것도 못 봤다"는 사실을 남기는 일이다. 채우는 게 아니라 드러내는 것.
+        #    청산 기록의 MFE/MAE 한계 표기와 요약(dataGaps)이 이 값을 함께 쓴다.
+        self._gaps = observation_gaps(os.path.join(self.dir, "equity_curve.jsonl"),
+                                      self.state.get("businessDates"), today_date)
+
         bundle = signals_bundle or load_production_signals()
         signals = bundle["signals"]
         analysis_at = bundle.get("analysisCompletedAt")
@@ -464,7 +544,7 @@ class PaperEngine:
             # FIX 1 (2026-08-16 하드닝): 거래는 0이지만 회계 기준점(초기 1,000만원)은
             # 반드시 기록한다 — Equity Curve 최초 행 + Baseline Summary.
             # Entry 경로(_process_entries)는 호출하지 않으므로 소급 매수 0.
-            self._write_equity(now, None)
+            self._write_equity(now, None, in_session)
             self._write_summary()
             return self._done(f"BASELINE_CAPTURED — {len(signals)}종목 기준 상태 기록, 거래 없음", now)
 
@@ -483,7 +563,7 @@ class PaperEngine:
         # ④ 보유 관리: MFE/MAE 관측 → SELL 전환/5거래일 청산
         self._manage_positions(signals, now, today_date, in_session, latest, actions)
 
-        self._write_equity(now, latest)
+        self._write_equity(now, latest, in_session)
         self._write_summary()
         msg = "; ".join(actions) if actions else "NO_ACTION"
         return self._done(f"CYCLE_OK — {msg}", now)
@@ -640,6 +720,13 @@ class PaperEngine:
             if bench_exit and r.get("benchmark_entry_value"):
                 bench_ret = (bench_exit - r["benchmark_entry_value"]) / r["benchmark_entry_value"] * 100
             meta = self.state["openMeta"].get(r["trade_id"], {})
+            # 🕳️ 이 거래를 보유한 기간 중 '관측이 없던 거래일'.
+            #    MFE/MAE는 사이클마다 실제로 본 값이라, 못 본 날의 고가·저가는
+            #    애초에 들어 있지 않다. 값을 보정하지 않고 한계를 함께 남긴다
+            #    (보정하면 관측하지 않은 가격을 지어내는 것이 된다).
+            entry_day = r.get("entry_business_date") or ""
+            gap_days = [g["businessDate"] for g in getattr(self, "_gaps", [])
+                        if entry_day < g["businessDate"] <= today_date]
             closed = {**r, "status": "CLOSED",
                       "exit_at": iso(now), "exit_price": price,
                       "exit_method": method, "exit_quote_at": quote_ts,
@@ -653,6 +740,7 @@ class PaperEngine:
                                        / r["entry_price"] * 100, 3),
                       "mae_pct": round((meta.get("maePrice", price) - r["entry_price"])
                                        / r["entry_price"] * 100, 3),
+                      "observation_gap_business_days": gap_days or None,
                       "benchmark_exit_value": bench_exit,
                       "benchmark_exit_day": bench_exit_day,
                       "benchmark_return_pct": round(bench_ret, 3) if bench_ret is not None else None,
@@ -664,7 +752,7 @@ class PaperEngine:
             actions.append(f"{r['symbol']} 청산 @{price:,.0f} {gross:+.1f}% ({reason})")
 
     # ── 산출물 ──
-    def _write_equity(self, now, latest):
+    def _write_equity(self, now, latest, in_session=None):
         latest = self.ledger.latest_by_id()
         open_rows = [r for r in latest.values() if r.get("status") == "OPEN"]
         cash = derive_cash(self.config, latest)
@@ -691,6 +779,11 @@ class PaperEngine:
                "valuationObservedAt": val["valuationObservedAt"],
                "valuationMarketAt": val["valuationMarketAt"],
                "valuationStatus": val["valuationStatus"]}
+        # 🕳️ 이 관측이 장중이었는지 — "그날 기록은 있는데 전부 장 끝난 뒤였다"를
+        #    나중에 증명할 수 있게 남긴다(관측 공백 판정이 이 값을 쓴다).
+        #    옛 행에는 없는 필드이며, 없으면 '모른다'로 다뤄 단정하지 않는다.
+        if isinstance(in_session, bool):
+            row["inSession"] = in_session
         with open(os.path.join(self.dir, "equity_curve.jsonl"), "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
@@ -775,6 +868,10 @@ class PaperEngine:
             initial_seed=self.config["initial_cash_krw"])
         if val["executedTradeCount"] == 0:
             summary["maxDrawdownPct"] = None
+        # 🕳️ 관측 공백 — 거래일인데 기록이 없는 날. 빈 곳을 숫자로 메우지 않고
+        #    "여기는 비어 있다"는 사실 자체를 산출물에 싣는다. 화면은 이걸 읽어
+        #    MFE/MAE·기록 목록에 한계를 표시한다.
+        summary["dataGaps"] = list(getattr(self, "_gaps", []))
         # FIX 9: Reporting 전용 Provenance — 어떤 분석·코드 기준으로 처리했는지 추적
         summary["sourceAnalysisCompletedAt"] = self.state.get("lastProcessedAnalysisAt")
         summary["sourceModelVersion"] = self.state.get("lastProcessedModelVersion")

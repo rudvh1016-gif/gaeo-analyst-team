@@ -442,8 +442,34 @@ def build_strategy(all_sells):
     }
 
 
-def build(ledger, curve, config, today=None, market_daily=None):
-    """전체 History 산출물. 원본 두 파일만으로 언제든 다시 만들 수 있다."""
+def gap_record(day):
+    """관측 공백 날짜 — 숫자를 하나도 지어내지 않고 '기록이 없다'는 사실만 남긴다.
+
+    ⚠️ 이 행은 거래일이 맞는데(공식 캘린더가 open이라고 답한 날) 러너가 그날
+       기록을 남기지 못했다는 뜻이다. 자산·손익을 0으로 채우면 "그날 0원을 벌었다"로
+       읽히므로 전부 None으로 둔다 — 0과 '모름'은 다르다.
+    """
+    return {
+        "date": day, "noRecord": True, "lastRecordAt": None, "inProgress": False,
+        "equity": None, "cash": None, "investedCostBasis": None,
+        "markedPositionsValue": None, "realizedPnl": None, "unrealizedPnl": None,
+        "openCount": None, "cumulativeReturnPct": None, "dailyChangePct": None,
+        "marketChangePct": None, "buyCount": 0, "sellCount": 0,
+        "buys": [], "sells": [], "skipped": [], "contributions": None,
+        "review": {"version": REVIEW_VERSION, "inProgress": False, "headline": None,
+                   "sections": [{"key": "result", "title": "결과", "lines": [
+                       {"text": "이 거래일에는 자동 기록이 남지 않아 자산·매매 기록이 "
+                                "없습니다. 없는 값을 채우지 않기 때문에 빈 날로 둡니다.",
+                        "fact": "noObservationRecorded"}]}]},
+    }
+
+
+def build(ledger, curve, config, today=None, market_daily=None, business_dates=None):
+    """전체 History 산출물. 원본 두 파일만으로 언제든 다시 만들 수 있다.
+
+    business_dates를 주면(공식 캘린더가 확인한 거래일 목록) 기록이 통째로 빠진
+    거래일을 '관측 공백' 행으로 드러낸다. 주지 않으면 기존과 똑같이 동작한다.
+    """
     initial = config.get("initial_cash_krw", 10_000_000)
     market_daily = market_daily if market_daily is not None else load_market_daily()
     today = today or datetime.now(KST).strftime("%Y-%m-%d")
@@ -475,9 +501,22 @@ def build(ledger, curve, config, today=None, market_daily=None):
         if prev is None or str(row.get("at")) >= str(prev.get("at")):
             snap_by[d] = row
 
-    days = sorted(set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by))
-    records, prev_equity, all_sells_pub = [], None, []
+    observed = set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by)
+    # 🕳️ 관측 공백 — 거래일인데 아무 기록도 남지 않은 날을 '없는 채로' 두지 않는다.
+    #    목록이 그냥 이전 날짜로 건너뛰면 사용자는 그날이 왜 없는지 알 수 없다.
+    #    ⚠️ 날짜를 하드코딩하지 않는다 — 공식 캘린더가 준 거래일과 실제 기록의 차이로만 뽑는다.
+    #    ⚠️ 기록이 시작된 날 이전과 오늘은 공백으로 단정하지 않는다(아직 진행 중이다).
+    gap_set = set()
+    if business_dates and observed:
+        first = min(observed)
+        gap_set = {d for d in business_dates if first < d < today and d not in observed}
+
+    days = sorted(observed | gap_set)
+    records, prev_equity, prev_equity_day, all_sells_pub = [], None, None, []
     for d in days:
+        if d in gap_set:
+            records.append(gap_record(d))
+            continue          # 공백 날은 자산 흐름(prev_equity)에 끼어들지 않는다
         snap = snap_by.get(d)
         equity = _num((snap or {}).get("markedEquity"))
         db = public_buy
@@ -493,11 +532,14 @@ def build(ledger, curve, config, today=None, market_daily=None):
         # 일간 변화는 '이전 기록일 자산' 대비 — 첫 기록일은 0%를 지어내지 않고 None
         daily = (round((equity / prev_equity - 1) * 100, 2)
                  if equity is not None and prev_equity else None)
-        prev_day = records[-1]["date"] if records else None
+        # 시장 비교의 기준일은 '직전 기록일'이 아니라 '직전에 자산이 기록된 날'이다.
+        # 일간 변화(dailyChangePct)와 같은 구간을 봐야 둘을 나란히 놓고 비교할 수 있다.
+        prev_day = prev_equity_day
         contribs = _contributions(snap, initial)
         mkt = _market_change_pct(market_daily, d, prev_day)
         rec = {
             "date": d,
+            "noRecord": False,
             "lastRecordAt": kst_hm((snap or {}).get("at")),
             "inProgress": d == today,
             "equity": equity,
@@ -521,6 +563,7 @@ def build(ledger, curve, config, today=None, market_daily=None):
         records.append(rec)
         if equity is not None:
             prev_equity = equity
+            prev_equity_day = d
 
     records.reverse()                     # 최근 날짜가 위
     return {

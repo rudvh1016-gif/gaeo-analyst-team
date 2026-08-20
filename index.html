@@ -1443,6 +1443,10 @@
     color:inherit;transition:background .12s}
   .pv-hd-row:hover{background:var(--paper2)}
   .pv-hd-row:focus-visible{outline:2px solid var(--sky);outline-offset:-2px;border-radius:6px}
+  /* 🕳️ 관측 공백 — 거래일인데 기록이 없는 날. 펼칠 내용이 없으므로 누를 수 없게 두고
+     흐리게만 표시한다(빈 날을 정상 기록처럼 보이게 하지 않는다). */
+  .pv-hd-gap{cursor:default;opacity:.62}
+  .pv-hd-gap:hover{background:none}
   .pv-hd-l{min-width:0}
   .pv-hd-t{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em;
     overflow-wrap:anywhere}
@@ -5839,6 +5843,14 @@ function paperHistoryHTML(){
     const [y,mo]=m.split('-');
     const rows=months[m].map(d=>{
       const md=`${+d.date.slice(5,7)}월 ${+d.date.slice(8,10)}일`;
+      /* 🕳️ 관측 공백 — 거래일인데 기록이 통째로 빠진 날. 목록이 조용히 건너뛰면
+         "왜 없는지" 알 수 없으므로 한 줄로 드러낸다.
+         ⚠️ 숫자를 만들어 채우지 않으므로 펼칠 상세도 없다 → 버튼이 아니라 그냥 행이다. */
+      if(d.noRecord) return `<div class="pv-hd-row pv-hd-gap">
+        <span class="pv-hd-l"><span class="pv-hd-t">${md}</span>
+          <span class="pv-hd-s">이날은 자동 기록이 남지 않았어요 · 없는 값을 채우지 않습니다</span></span>
+        <span class="pv-hd-r"><span class="pv-hd-eq pv-na">기록 없음</span></span>
+      </div>`;
       const cum=n(d.cumulativeReturnPct);
       return `<button type="button" class="pv-hd-row" data-day="${d.date}">
         <span class="pv-hd-l">
@@ -6143,7 +6155,15 @@ function renderPaper(){
       ['남은 최대 보유', left==null?(maxHold?`최대 ${maxHold}거래일`:DASH):`${left}거래일`],
       ['종료 조건', maxHold?`${maxHold}거래일 도달 또는 판단이 「매도 고려」로 변경`:'판단이 「매도 고려」로 변경'],
       ['현재가 기준', asOf||'평가 대기']
-    ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    ].concat(
+      /* 🕳️ 이 종목을 보유한 기간 중 기록이 없던 거래일. 그날 고가·저가는 관측되지
+         않았으므로, 나중에 종료될 때의 MFE·MAE에도 반영되지 않는다는 사실을 미리 밝힌다. */
+      (Array.isArray(r.observation_gap_business_days)&&r.observation_gap_business_days.length)
+        ? [['관측 공백', `${r.observation_gap_business_days.length}거래일 · `
+            +r.observation_gap_business_days.map(g=>day(g)).join(', ')
+            +' — 이날 움직임은 기록되지 않았어요']]
+        : []
+    ).map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     return `<article class="pv-pos">${head}
       <div class="pv-pos-body" id="${pid}"${open_?'':' hidden'}>
         <dl class="pv-rows">${rows2}</dl>
@@ -6226,9 +6246,13 @@ function renderPaper(){
     const why=exitName[r.exit_reason]||'종료';
     const num=ret==null?`<span class="pv-tret pv-na">기록 대기</span>`
       :`<span class="pv-tret${dir(ret)}">${sPct(ret)}</span>`;
+    /* 🕳️ 보유 기간 중 기록이 없던 거래일 수 — 이 거래의 MFE·MAE가 그만큼
+       덜 본 값이라는 뜻이라, 성과 숫자 옆에 사실대로 함께 적는다. */
+    const gp=Array.isArray(r.observation_gap_business_days)?r.observation_gap_business_days.length:0;
     return `<div class="pv-trade"><span class="pv-tname">${esc(r.name||r.symbol||'종목 미기록')}</span>`
       +`<span class="pv-tmeta"><i>${price}${qty==null?'':` · ${qty}주`}</i>`
-      +`<i>${why}${hd==null?'':` · ${hd}거래일`}${pnl==null?'':` · ${sWon(pnl)}`}</i></span>${num}</div>`;
+      +`<i>${why}${hd==null?'':` · ${hd}거래일`}${pnl==null?'':` · ${sWon(pnl)}`}`
+      +`${gp?` · 관측 공백 ${gp}거래일`:''}</i></span>${num}</div>`;
   }).join('');
   const closedSec=closes.length?`<section class="pv-sec" aria-labelledby="pvClosedH">
     <h3 class="pv-sec-h" id="pvClosedH">최근 종료 거래</h3>
@@ -6259,10 +6283,21 @@ function renderPaper(){
         :val((P.avgRelativeReturnPct>0?'+':P.avgRelativeReturnPct<0?'−':'')+Math.abs(P.avgRelativeReturnPct).toFixed(2)+'%p'))],
       ['평균 보유기간', n(P.avgHoldingTradingDays)==null?na('기록 대기'):val(P.avgHoldingTradingDays.toFixed(1)+'거래일')]
     ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt>${v}</div>`).join('');
+    /* 🕳️ 관측 공백 고지 — MFE·MAE는 "사이클마다 실제로 본 값"이라, 기록이 없던
+       거래일의 장중 고가·저가는 애초에 들어 있지 않다. 값을 보정하지 않고(보정하면
+       관측한 적 없는 가격을 지어내는 것이다) 한계를 숫자 옆에 그대로 적는다. */
+    const gapDaysAll=(P.dataGaps||[]).map(g=>g&&g.businessDate).filter(Boolean);
+    const gapNote=gapDaysAll.length
+      ? `<p class="pv-foot" style="margin-top:12px"><b>관측 공백 ${gapDaysAll.length}거래일</b>
+         (${gapDaysAll.map(g=>day(g)).join(' · ')}) — 이날은 자동 기록이 돌지 않아 장중 움직임을
+         한 번도 보지 못했어요. 위 <b>보유 중 최고 상승폭(MFE)·최대 하락폭(MAE)</b>은 실제로 관측한
+         사이클에서만 계산한 값이라 이 날들의 고가·저가는 빠져 있습니다. 지나간 날의 가격을
+         나중에 채워 넣지 않기 때문이에요.</p>`
+      : '';
     perf=`<section class="pv-sec" aria-labelledby="pvPerfH">
       <h3 class="pv-sec-h" id="pvPerfH">검증 상태</h3>
       <p class="pv-sec-d">종료된 거래가 쌓이기 전에는 대부분의 값이 비어 있는 게 정상이에요. 없는 값을 0으로 채우지 않습니다.</p>
-      <dl class="pv-rows">${pr}</dl>${glossHTML()}</section>`;
+      <dl class="pv-rows">${pr}</dl>${gapNote}${glossHTML()}</section>`;
   }
 
   /* ⑥ 어떻게 기록하나요 — paper_engine.py의 실제 규칙만. 없는 규칙을 만들지 않는다. */
@@ -6362,8 +6397,9 @@ function renderPaper(){
       renderPaper();
       return;
     }
+    /* 관측 공백 행에는 data-day가 없다(펼칠 상세가 없는 날) — 눌러도 아무 일이 없어야 한다 */
     const dayBtn=ev.target.closest('.pv-hd-row');
-    if(dayBtn){ PV_DAY=dayBtn.dataset.day; renderPaper(); return; }
+    if(dayBtn&&dayBtn.dataset.day){ PV_DAY=dayBtn.dataset.day; renderPaper(); return; }
     if(ev.target.closest('.pv-back')){ PV_DAY=null; renderPaper(); return; }
   });
 })();

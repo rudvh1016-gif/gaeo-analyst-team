@@ -18,6 +18,7 @@ from datetime import datetime, timezone, timedelta
 # 회계는 여기서 다시 구현하지 않는다 — 엔진의 회계 함수 하나만 Source of Truth로 쓴다.
 # (paper_engine 은 러너 사이클에서 이 파일보다 먼저 실행되므로 두 산출물은 같은 원장을 본다)
 from paper_engine import portfolio_valuation, reporting_view, MIN_CLOSED_FOR_EVIDENCE
+from paper_engine import observation_gaps      # 관측 공백 판정도 엔진 규칙 하나만 쓴다
 import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +40,10 @@ DERIVED_ALLOWED = frozenset({
     "current_price", "valued_at", "market_value", "cost_basis",
     "unrealized_pnl", "unrealized_return_pct", "realized_pnl",
     "remaining_trading_days",
+    # 🕳️ 보유 기간 중 관측이 없던 거래일 — MFE/MAE를 읽을 때의 한계를 같이 보여준다.
+    #    이름은 여기 한 곳에만 둔다(원장 필드와 이름이 겹치면 파생이 기록을 덮어쓴다).
+    #    청산분은 원장에 기록된 값을 _derived가 그대로 전달하고, 보유분만 계산한다.
+    "observation_gap_business_days",
 })
 FORBIDDEN_SUBSTRINGS = ("client_id", "client_secret", "token", "authorization",
                         "account", "secret")
@@ -91,7 +96,7 @@ def _holding_days(entry_day, business_dates, today):
                if d > entry_day and (today is None or d <= today))
 
 
-def _derived(r, meta, business_dates, today, max_hold):
+def _derived(r, meta, business_dates, today, max_hold, gap_days=()):
     """화면 표시용 파생값. 원본에 없는 값을 지어내지 않는다 — 근거가 없으면 넣지 않는다."""
     out = {}
     qty = r.get("quantity")
@@ -117,9 +122,20 @@ def _derived(r, meta, business_dates, today, max_hold):
             out["holding_trading_days"] = held
             if isinstance(max_hold, int):
                 out["remaining_trading_days"] = max(0, max_hold - held)
+        # 🕳️ 보유 기간 중 관측이 없던 거래일. 청산 기록에는 엔진이 직접 남기고(원장),
+        #    아직 들고 있는 종목은 여기서 같은 산식으로 파생한다 — 미리 알려주기 위함이다.
+        entry_day = r.get("entry_business_date") or ""
+        gaps = [d for d in (gap_days or ())
+                if entry_day < d and (today is None or d <= today)]
+        if gaps:
+            out["observation_gap_business_days"] = gaps
     elif r.get("status") == "CLOSED":
         if qty and entry and r.get("exit_price"):
             out["realized_pnl"] = round((r["exit_price"] - entry) * qty)
+        # 🕳️ 청산 시점에 엔진이 원장에 남긴 관측 공백을 그대로 전달한다.
+        #    다시 계산하지 않는다 — 그 거래의 사실은 청산할 때 기록된 값이 맞다.
+        if r.get("observation_gap_business_days"):
+            out["observation_gap_business_days"] = list(r["observation_gap_business_days"])
     return {k: v for k, v in out.items()
             if k in DERIVED_ALLOWED or k == "holding_trading_days"}
 
@@ -189,6 +205,16 @@ def build():
     # 사이클이 실제로 성공했는지만 boolean으로 — 내부 결과 문자열은 공개하지 않는다.
     _last = str(state.get("lastCycleResult") or "")
     cycle_ok = True if _last.startswith("CYCLE_OK") else (False if _last else None)
+    # 🕳️ 관측 공백 — 판정 규칙은 엔진 한 곳에만 있고(observation_gaps), 여기서는
+    #    그 함수를 같은 원장에 대해 호출만 한다. summary.json이 아직 새 필드를 갖고
+    #    있지 않아도(러너가 구버전 엔진으로 한 번 더 돌기 전이어도) 화면이 비지 않는다.
+    #    근거 파일 자체가 없을 때만 요약에 실려 온 값으로 물러선다.
+    _curve = os.path.join(DIR, "equity_curve.jsonl")
+    if os.path.exists(_curve):
+        data_gaps = observation_gaps(_curve, business_dates, today_kst)
+    else:
+        data_gaps = [g for g in (summary.get("dataGaps") or []) if isinstance(g, dict)]
+    gap_days = [g["businessDate"] for g in data_gaps if g.get("businessDate")]
 
     payload = {
         "schemaVersion": "gaeo_paper_public_v1",
@@ -240,10 +266,12 @@ def build():
         "benchmarkNote": "종료거래 평균 시장대비는 종료된 개별 거래의 동일 기간 지수 대비 성과 평균이며, KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다(가상계좌 전체의 시장 대비 성과가 아님).",
         "maxHoldingTradingDays": max_hold,
         "lastCycleOk": cycle_ok,
+        # 거래일인데 기록이 통째로 빠진 날 — 화면이 "여기는 비어 있다"고 밝힐 근거.
+        "dataGaps": data_gaps,
         "recentTrades": [
             {**_public_trade(r),
              **_derived(r, open_meta.get(r.get("trade_id")), business_dates,
-                        today_kst, max_hold)}
+                        today_kst, max_hold, gap_days)}
             for r in recent
         ],
     }
@@ -270,7 +298,8 @@ def build():
         hist = paper_history.build(
             paper_history.read_jsonl(os.path.join(DIR, "trades.jsonl")),
             paper_history.read_jsonl(os.path.join(DIR, "equity_curve.jsonl")),
-            {**config, "initial_cash_krw": initial})
+            {**config, "initial_cash_krw": initial},
+            business_dates=business_dates)
         hblob = json.dumps(hist, ensure_ascii=False, separators=(",", ":"))
         if not any(w in hblob.lower() for w in FORBIDDEN_SUBSTRINGS):
             hp = os.path.join(DIR, "history.json")
