@@ -33,7 +33,8 @@ CSS 버그·시세 데이터·DART 수집 같은 SEO 무관 작업에는 강제�
 
 ## GAEO TEAM — 저장소 개발·점검용 8개 Agent + 8개 Skill
 
-위 5인 팀이 "종목 판단"을 만든다면, GAEO TEAM은 **이 저장소를 개발·점검·성장시키는 작업**(다음에 뭘 만들지, 만든 걸 검수하는지, 버그를 고치는지, 사이트 전체를 점검하는지)을 돕는다. `.claude/agents/gaeo-*.md`(8개) · `.claude/skills/gaeo-*/SKILL.md`(8개, `/gaeo-strategy`·`/gaeo-design`·`/gaeo-build`·`/gaeo-review`·`/gaeo-bug`·`/gaeo-quant`·`/gaeo-growth`·`/gaeo-health`)로 구성돼 있고, `/gaeo`만 입력해도 전체 목록이 뜬다. 매주 월요일 09:00 KST·금요일 09:00 KST에 이 세션으로 오는 Routine 2개가 각각 `/gaeo-strategy`·`/gaeo-health` 실행을 "제안"한다(자동 실행·자동 커밋 아님). 전체 구조·안전 규칙·Skill별 Agent 조합은 `docs/gaeo_team_system.md`에 정리돼 있다.
+위 5인 팀이 "종목 판단"을 만든다면, GAEO TEAM은 **이 저장소를 개발·점검·성장시키는 작업**(다음에 뭘 만들지, 만든 걸 검수하는지, 버그를 고치는지, 사이트 전체를 점검하는지)을 돕는다. `.claude/agents/gaeo-*.md`(8개) · `.claude/skills/gaeo-*/SKILL.md`(작업 스킬 8개, `/gaeo-strategy`·`/gaeo-design`·`/gaeo-build`·`/gaeo-review`·`/gaeo-bug`·`/gaeo-quant`·`/gaeo-growth`·`/gaeo-health`)로 구성돼 있다. 여기에 목록만 띄우는 안내 스킬 `.claude/skills/gaeo/SKILL.md`가 따로 있어서 `/gaeo`만 입력하면 8개 목록이 뜬다(2026-08-20 신설 — 그 전에는 문서에만 「`/gaeo`가 된다」고 적혀 있고 실제 스킬이 없어서, 입력해도 아무 것도 안 뜨는 상태였다).
+> ⚠️ 이 스킬들은 저장소 안에 들어 있어서 **이 저장소를 연 세션에서만 보인다.** 계정에 저장되는 게 아니라, 저장소를 열지 않은 일반 대화창에서는 `/gaeo`가 안 뜨는 게 정상이다. 매주 월요일 09:00 KST·금요일 09:00 KST에 이 세션으로 오는 Routine 2개가 각각 `/gaeo-strategy`·`/gaeo-health` 실행을 "제안"한다(자동 실행·자동 커밋 아님). 전체 구조·안전 규칙·Skill별 Agent 조합은 `docs/gaeo_team_system.md`에 정리돼 있다.
 
 ## 이 원격 세션 환경의 특이사항
 
