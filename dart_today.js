@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 12:42",
- "priceLabel": "2026-08-20 12:34 장중",
- "count": 115,
+ "generatedAt": "2026-08-20 13:12",
+ "priceLabel": "2026-08-20 13:08 장중",
+ "count": 119,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "272210",
+   "name": "한화시스템",
+   "title": "[기재정정]반기보고서 (2026.06)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T04:11:43.236558+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "240810",
+   "name": "원익IPS",
+   "title": "주주총회소집공고",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T04:11:43.236558+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "240810",
+   "name": "원익IPS",
+   "title": "의결권대리행사권유참고서류",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T04:11:43.236558+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002380",
+   "name": "KCC",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T04:11:43.236558+00:00",
+   "isCorrection": false
+  },
   {
    "code": "137310",
    "name": "에스디바이오센서",
