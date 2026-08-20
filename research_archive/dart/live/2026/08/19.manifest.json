@@ -3,7 +3,7 @@
  "compressedBytes": 2247,
  "compression": "gzip",
  "compressionRatio": 0.0851,
- "createdAt": "2026-08-20T00:13:17.952897+00:00",
+ "createdAt": "2026-08-20T00:11:41.825845+00:00",
  "encryption": "AES-256-GCM",
  "featureVersions": [],
  "firstPredictionTimestamp": "2026-08-19T00:11:02.920720+00:00",
@@ -20,7 +20,7 @@
  "recordType": "dart_event",
  "schemaVersion": "research_archive_v1",
  "sha256": {
-  "19.jsonl.gz.enc": "177238154659492029fe70c6730c506abdf98b40c934bd42e2828379a6c062d6"
+  "19.jsonl.gz.enc": "a28788aaf829ebfd55ec0c956ab0699e925183f2b2b549c05bd23851e56c0897"
  },
  "sourceFiles": [
   "live/2026/08/19.jsonl.gz.enc"

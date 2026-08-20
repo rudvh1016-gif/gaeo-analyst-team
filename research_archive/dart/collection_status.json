@@ -39,7 +39,7 @@
  "eventsAcknowledged": 2,
  "eventsFound": 2,
  "eventsStored": 2,
- "finishedAt": "2026-08-20T00:13:17.949717+00:00",
+ "finishedAt": "2026-08-20T00:11:41.822400+00:00",
  "hasApiKey": true,
  "kstToday": "2026-08-20",
  "maintenance": [
@@ -61,8 +61,8 @@
   "total_pages_reported": 1
  },
  "pendingRetryNext": 0,
- "ranAt": "2026-08-20T00:13:16.840561+00:00",
+ "ranAt": "2026-08-20T00:11:41.067036+00:00",
  "seenTotal": 101,
- "startedAt": "2026-08-20T00:13:16.844664+00:00",
+ "startedAt": "2026-08-20T00:11:41.070889+00:00",
  "status": "OK"
 }
