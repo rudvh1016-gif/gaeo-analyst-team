@@ -1,12 +1,124 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 16:03",
- "priceLabel": "2026-08-20 종가 (15:55 수집)",
- "count": 150,
+ "generatedAt": "2026-08-20 16:33",
+ "priceLabel": "2026-08-20 종가 (16:06 수집)",
+ "count": 163,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "298000",
+   "name": "효성화학",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011760",
+   "name": "현대코퍼레이션",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "319400",
+   "name": "현대무벡스",
+   "title": "임원ㆍ주요주주특정증권등거래계획보고서",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "089590",
+   "name": "제주항공",
+   "title": "특수관계인으로부터자산양수",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "031330",
+   "name": "에스에이엠티",
+   "title": "무상증자결정(종속회사의주요경영사항)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "347700",
+   "name": "스피어",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036830",
+   "name": "솔브레인홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "328130",
+   "name": "루닛",
+   "title": "주식매수선택권부여에관한신고",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011170",
+   "name": "롯데케미칼",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004990",
+   "name": "롯데지주",
+   "title": "[기재정정]유상증자결정(종속회사의주요경영사항)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "002350",
+   "name": "넥센타이어",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002350",
+   "name": "넥센타이어",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005720",
+   "name": "넥센",
+   "title": "타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "294870",
+   "name": "IPARK현대산업개발",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T07:32:20.233037+00:00",
+   "isCorrection": true
+  },
   {
    "code": "105630",
    "name": "한세실업",
@@ -333,14 +445,6 @@ const DART_TODAY = {
    "title": "주식등의대량보유상황보고서(일반)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T03:41:44.275944+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "002350",
-   "name": "넥센타이어",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T03:11:41.180198+00:00",
    "isCorrection": false
   },
   {
