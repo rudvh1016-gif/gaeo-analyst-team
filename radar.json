@@ -595,9 +595,9 @@
    "caution": "매수세가 잦아든 구간일 뿐, 방향을 알려주는 신호는 아니에요."
   },
   {
-   "id": "008930-rsi-overbought-exit-20260820",
-   "code": "008930",
-   "name": "한미사이언스",
+   "id": "092230-rsi-overbought-exit-20260820",
+   "code": "092230",
+   "name": "KPX홀딩스",
    "type": "rsi_overbought_exit",
    "label": "과매수 탈출",
    "group": "main",
@@ -941,7 +941,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 97,
-   "currentValue": -82,
+   "currentValue": -126,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 11:41",
@@ -1519,17 +1519,17 @@
    "caution": "교차 신호는 자주 뒤바뀌어요. 한 번의 교차만으로 흐름을 단정할 수 없어요."
   },
   {
-   "id": "170900-macd-dead-cross-20260820",
-   "code": "170900",
-   "name": "동아에스티",
+   "id": "185750-macd-dead-cross-20260820",
+   "code": "185750",
+   "name": "종근당",
    "type": "macd_dead_cross",
    "label": "MACD 데드크로스",
    "group": "main",
    "icon": "▼",
    "metric": "MACD−시그널",
    "unit": "",
-   "previousValue": 62,
-   "currentValue": -5,
+   "previousValue": 13,
+   "currentValue": -18,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 11:41",
@@ -1655,7 +1655,7 @@
    "metric": "MACD−시그널",
    "unit": "",
    "previousValue": 1,
-   "currentValue": -5,
+   "currentValue": -8,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 11:41",
@@ -3398,7 +3398,7 @@
    "metric": "MA5−MA20",
    "unit": "원",
    "previousValue": 10,
-   "currentValue": -44,
+   "currentValue": -52,
    "threshold": 0,
    "date": "2026-08-20",
    "detectedAt": "2026-08-20 11:41",
@@ -4359,14 +4359,15 @@
    ]
   },
   {
-   "code": "008930",
-   "name": "한미사이언스",
-   "rep": "008930-rsi-overbought-exit-20260820",
+   "code": "092230",
+   "name": "KPX홀딩스",
+   "rep": "092230-rsi-overbought-exit-20260820",
    "repType": "rsi_overbought_exit",
    "repLabel": "과매수 탈출",
-   "others": 0,
+   "others": 1,
    "types": [
-    "rsi_overbought_exit"
+    "rsi_overbought_exit",
+    "bb_upper_recover"
    ]
   },
   {
@@ -4439,9 +4440,9 @@
    ]
   },
   {
-   "code": "067160",
-   "name": "SOOP",
-   "rep": "067160-bb-lower-recover-20260820",
+   "code": "025540",
+   "name": "한국단자",
+   "rep": "025540-bb-lower-recover-20260820",
    "repType": "bb_lower_recover",
    "repLabel": "밴드 하단 재진입",
    "others": 0,
@@ -4587,10 +4588,20 @@
    "rep": "003090-macd-dead-cross-20260820",
    "repType": "macd_dead_cross",
    "repLabel": "MACD 데드크로스",
-   "others": 1,
+   "others": 0,
    "types": [
-    "macd_dead_cross",
-    "ma5_20_cross_near_dead"
+    "macd_dead_cross"
+   ]
+  },
+  {
+   "code": "003240",
+   "name": "태광산업",
+   "rep": "003240-macd-dead-cross-20260820",
+   "repType": "macd_dead_cross",
+   "repLabel": "MACD 데드크로스",
+   "others": 0,
+   "types": [
+    "macd_dead_cross"
    ]
   },
   {
@@ -4626,17 +4637,6 @@
    "types": [
     "macd_dead_cross",
     "ma5_20_cross_near_dead"
-   ]
-  },
-  {
-   "code": "005500",
-   "name": "삼진제약",
-   "rep": "005500-macd-dead-cross-20260820",
-   "repType": "macd_dead_cross",
-   "repLabel": "MACD 데드크로스",
-   "others": 0,
-   "types": [
-    "macd_dead_cross"
    ]
   },
   {
