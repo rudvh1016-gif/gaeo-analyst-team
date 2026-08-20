@@ -1,12 +1,20 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 09:14",
- "priceLabel": "2026-08-19 종가 (16:08 수집)",
- "count": 98,
+ "generatedAt": "2026-08-20 09:42",
+ "priceLabel": "2026-08-20 09:21 장중",
+ "count": 99,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "032820",
+   "name": "우리기술",
+   "title": "단일판매ㆍ공급계약체결(자율공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T00:41:39.135577+00:00",
+   "isCorrection": false
+  },
   {
    "code": "079550",
    "name": "LIG디펜스앤에어로스페이스",
