@@ -3847,6 +3847,20 @@
     .nav-workspace .modebtn,.nav-workspace .nav-menu-link{
       padding:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;
       font-size:14px;text-align:left}
+    /* 화면이 낮으면 여백부터 조여 스크롤 양을 줄인다. 항목 높이 44px(터치 최소치)는
+       건드리지 않는다. 375x812는 27px 모자랐는데 이 32px 절약으로 무스크롤이 된다.
+       360x740 이하는 21개 x 44px가 물리적으로 안 들어가므로 스크롤이 정상이고,
+       대신 아래 .nav-scroll-more로 "더 있다"는 것을 보이게 한다. */
+    @media (max-height:840px){
+      .nav-menu-group{margin-top:16px}
+      .nav-menu-title{margin:0 0 6px}
+    }
+    /* 스크롤이 남아 있을 때만 하단에 얇은 경계선을 띄워, 잘린 게 아니라
+       더 있다는 것을 알린다. 색을 쓰지 않고 기존 구분선 토큰만 쓴다. */
+    .nav-workspace-inner.has-more{position:relative}
+    .nav-workspace-inner.has-more::after{content:"";position:sticky;display:block;
+      bottom:0;left:0;right:0;height:1px;margin-top:-1px;
+      background:var(--gaeo-border);opacity:.9}
     /* 패널이 열려 있는 동안 뒤 페이지가 따라 움직이지 않게 잠근다.
        (예전엔 body.nav-open 클래스만 토글되고 대응 CSS가 한 줄도 없어서,
         메뉴를 연 채 스크림을 끌면 뒤 페이지가 스크롤됐다.) */
@@ -11492,17 +11506,17 @@ function renderGuide(){
   <details class="gb-sec">
     <summary><span class="gb-num">11-1</span><span class="gb-t">메뉴별로 언제 사용하면 되나요?</span></summary>
     <div class="gb-body">
-      <b>홈</b> — 오늘 시장의 핵심 변화와 코스피·코스닥 흐름부터 빠르게 확인할 때 사용해요.<br>
-      <b>시장</b> — 지수, 상승·하락 종목 수, 시장 분석 등 전체 분위기를 자세히 볼 때 사용해요.<br>
-      <b>순환매</b> — 24개 업종 가운데 현재 상대적으로 힘이 모이는 곳과 다음 관찰 후보를 비교할 때 사용해요.<br>
-      <b>종목 분석</b> — 한 종목의 가격·기술·재무·확률·수급·위험 근거를 자세히 확인할 때 사용해요.<br>
-      <b>뉴스</b> — 시장을 움직인 주요 소식의 배경과 투자자가 확인할 점을 쉬운 말로 읽을 때 사용해요.<br>
-      <b>공부</b> — 종목·주식·부동산 기초를 주제별로 배우고 싶을 때 사용해요.<br>
-      <b>투자 도구</b> — 종목 비교, 포트폴리오, 스크리너, 계산기 같은 실용 기능을 찾을 때 사용해요.<br>
-      <b>성적표</b> — 과거 판단을 실제 결과로 채점한 기록과 분석가별 적중률을 확인할 때 사용해요.<br>
-      <b>캘린더</b> — 실적 발표 같은 주요 일정과 날짜별 분석 기록을 확인할 때 사용해요.<br>
-      <b>등락률 확인</b> — 요일별 평균 등락률과 시가총액 상위 종목을 펼친 상태로 살펴볼 때 사용해요.<br>
-      <b>전체 메뉴</b> — 화면에 바로 보이지 않는 세부 기능을 한곳에서 찾을 때 사용해요.
+      <b>홈</b> · 오늘 시장의 핵심 변화와 코스피·코스닥 흐름부터 빠르게 확인할 때 사용해요.<br>
+      <b>오늘 시장</b> · 지수, 상승·하락 종목 수, 시장 분석 등 전체 분위기를 자세히 볼 때 사용해요.<br>
+      <b>순환매</b> · 24개 업종 가운데 현재 상대적으로 힘이 모이는 곳과 다음 관찰 후보를 비교할 때 사용해요.<br>
+      <b>종목 분석</b> · 한 종목의 가격·기술·재무·확률·수급·위험 근거를 자세히 확인할 때 사용해요.<br>
+      <b>뉴스분석</b> · 시장을 움직인 주요 소식의 배경과 투자자가 확인할 점을 쉬운 말로 읽을 때 사용해요.<br>
+      <b>주식공부</b> · 주식 기초를 주제별로 배우고 싶을 때 사용해요. 종목공부·부동산공부는 전체 메뉴에 있어요.<br>
+      <b>계산기</b> · 손익분기, 공모주 증거금, 전세와 월세 비교처럼 내 숫자를 직접 넣어 계산할 때 사용해요.<br>
+      <b>성적표</b> · 과거 판단을 실제 결과로 채점한 기록과 분석가별 적중률을 확인할 때 사용해요.<br>
+      <b>캘린더</b> · 실적 발표 같은 주요 일정과 날짜별 분석 기록을 확인할 때 사용해요.<br>
+      <b>등락률 확인</b> · 요일별 평균 등락률과 시가총액 상위 종목을 펼친 상태로 살펴볼 때 사용해요.<br>
+      <b>전체 메뉴</b> · 화면에 바로 보이지 않는 세부 기능을 한곳에서 찾을 때 사용해요.
     </div>
   </details>
 
@@ -14846,7 +14860,18 @@ window.hangulFix=function(str){
       setTimeout(()=>input&&input.focus(),30);
     }
   }
-  menuToggle.onclick=()=>togglePanel(workspace,menuToggle);
+  /* 전체 메뉴가 실제로 넘칠 때만 하단 경계선을 켠다. 작은 화면에서 마지막 항목이
+     잘려 보이면 "메뉴가 깨졌다"고 오해하기 쉬워서, 더 있다는 신호를 준다. */
+  const workspaceScroller=workspace.querySelector('.nav-workspace-inner')||workspace;
+  function syncNavMore(){
+    if(workspace.hidden) return;
+    const box=workspace;
+    const more=box.scrollHeight>box.clientHeight+1;
+    workspaceScroller.classList.toggle('has-more',more);
+  }
+  workspace.addEventListener('scroll',syncNavMore,{passive:true});
+  window.addEventListener('resize',syncNavMore,{passive:true});
+  menuToggle.onclick=()=>{togglePanel(workspace,menuToggle);requestAnimationFrame(syncNavMore);};
   searchToggle.onclick=()=>togglePanel(searchPanel,searchToggle);
   profileToggle.onclick=()=>togglePanel(profilePanel,profileToggle);
   /* ── 기본 단축키 (2026-08-16): '/' 검색 열기 · ESC 패널 닫기 ──
