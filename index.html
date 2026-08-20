@@ -62,29 +62,56 @@
         day:dayKey(),total:visit.total,today:visit.today,at:new Date().toISOString()
       })); }catch(e){}
     }
-    async function request(name,increment=false){
-      if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
-      const url=(await metricsBase())+'/'+encodeURIComponent('metrics:'+name);
+    /* ⭐ 2026-08-20 견고화. 집계 자체는 정상 동작 중이다
+       (guestbook_backup.json 기준 metrics:site-visits=270, 일자별 키도 매일 쌓임).
+       다만 예전 코드는 증가와 읽기를 한 요청에 묶어놔서, 증가가 한 번 실패하면
+       읽기까지 같이 죽어 실제 저장값이 있어도 화면이 폴백(939+)으로 떨어졌다.
+       kvdb가 잠깐 흔들리거나 PATCH가 막히는 날이 오면 그 순간부터 숫자가
+       기준값에 갇히는 구조라, 다음 두 가지를 넣어 그 실패를 흡수한다.
+         · PATCH가 실패하면 게시판이 쓰는 PUT 경로로 폴백한다(읽고 +1해서 PUT).
+           원자성은 없어 동시 방문 시 1이 누락될 수 있지만 방문 카운터엔 허용 범위다.
+         · 증가가 어떻게 실패하든 읽기는 따로 살린다.
+       키 이름은 기존 그대로 encodeURIComponent를 쓴다 - 백업을 보면 이 방식으로
+       실제 값이 쌓여 왔으므로(kvdb가 %3A를 ':'로 해석) 바꿀 이유가 없다. */
+    const keyPath=name=>encodeURIComponent('metrics:'+name);
+    async function send(base,key,options){
       const controller='AbortController' in window?new AbortController():null;
       const timer=controller?setTimeout(()=>controller.abort(),REQUEST_TIMEOUT):null;
-      try{
-        const options={cache:'no-store',signal:controller&&controller.signal};
-        if(increment){ options.method='PATCH'; options.body='+1'; }
-        const r=await fetch(url,options);
-        if(r.status===404){
-          if(increment) throw new Error('metrics increment 404');
-          const value=name===TOTAL_KEY?VERIFIED_TOTAL_FLOOR:0;
-          cache.set(name,{value,at:Date.now()});
-          return value;
-        }
-        if(!r.ok) throw new Error('metrics '+r.status);
-        const stored=counterValue((await r.text()).trim());
-        const value=name===TOTAL_KEY?VERIFIED_TOTAL_FLOOR+stored:stored;
-        cache.set(name,{value,at:Date.now()});
-        return value;
-      }finally{
-        if(timer) clearTimeout(timer);
+      const init={cache:'no-store',signal:controller&&controller.signal};
+      if(options){ if(options.method) init.method=options.method; if('body' in options) init.body=options.body; }
+      try{ return await fetch(base+'/'+key,init); }
+      finally{ if(timer) clearTimeout(timer); }
+    }
+    function finish(name,stored){
+      const value=name===TOTAL_KEY?VERIFIED_TOTAL_FLOOR+stored:stored;
+      cache.set(name,{value,at:Date.now()});
+      return value;
+    }
+    async function fetchStored(base,key){
+      const r=await send(base,key);
+      if(r.status===404) return 0;              // 아직 안 만들어진 키는 0으로 본다
+      if(!r.ok) throw new Error('metrics '+r.status);
+      return counterValue((await r.text()).trim());
+    }
+    async function request(name,increment=false){
+      if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
+      const base=await metricsBase(), key=keyPath(name);
+      if(increment){
+        try{                                    // ① 원자 증가가 되면 그게 가장 좋다
+          const r=await send(base,key,{method:'PATCH',body:'+1'});
+          if(r.ok){
+            const body=(await r.text()).trim();
+            if(/^[0-9]+$/.test(body)) return finish(name,counterValue(body));
+          }
+        }catch(e){}
+        try{                                    // ② 폴백: 읽고 +1해서 PUT
+          const next=(await fetchStored(base,key))+1;
+          const w=await send(base,key,{method:'PUT',body:String(next)});
+          if(w.ok) return finish(name,next);
+        }catch(e){}
       }
+      // ③ 증가가 실패해도 읽기는 살린다
+      return finish(name,await fetchStored(base,key));
     }
     async function read(name){
       const hit=cache.get(name);
@@ -352,7 +379,7 @@
   html.gdark .modebtn.on{background:#48484A;color:#F5F5F7;box-shadow:0 1px 4px rgba(0,0,0,.4)}
   /* 전체 메뉴는 다크에서도 배경 없는 텍스트 메뉴로 유지(위 두 줄보다 구체성이 높아야 한다) */
   html.gdark .nav-workspace .modes{background:transparent}
-  html.gdark .nav-menu-title{color:var(--t3)}
+  html.gdark .nav-menu-title{color:var(--ink)}
   html.gdark .nav-workspace .modebtn,
   html.gdark .nav-workspace .modebtn:hover,
   html.gdark .nav-workspace .modebtn.on{background:transparent;color:var(--ink);box-shadow:none}
@@ -3110,10 +3137,14 @@
     grid-column:1/-1;gap:12px 28px;padding:0;margin:0;background:transparent}
   .nav-menu-group{display:flex;flex-direction:column;min-width:0}
   /* 그룹 제목은 라벨(500)이 아니라 제목이다 - 디자인시스템 §5 굵기 3단계(본문 400 / 라벨 500 /
-     제목 600)에서 600이 제자리다. 색도 --dim에서 --t3로 한 단계만 올려, 항목(--ink)보다는
-     확실히 물러나 있으면서 "분류"로 읽히게 한다(실측 대비 5.07 -> 7.91, 항목은 16.83). */
+     제목 600)에서 600이 제자리다.
+     ⭐ 2026-08-20 대표 지시로 색을 --dim -> --t3 -> --ink까지 올렸다. 600이어도 12px 회색으로는
+     굵어 보이지 않아 "분류랑 내용이 크기 차이 말곤 없다"는 지적이 반복됐기 때문이다.
+     그 결과 대분류와 항목이 같은 먹색이 되므로, 둘을 가르는 건 이제 색이 아니라
+     크기(12.5 vs 14px) · 굵기(600 vs 400) · 여백이다(디자인시스템 원칙 #27과 같은 방향).
+     활성 항목(.nav-workspace .modebtn.on)도 600이지만 14px라 "현재 화면" 표시로 읽힌다. */
   .nav-menu-title{margin:0 0 8px;padding-bottom:9px;border-bottom:1px solid var(--gaeo-border);
-    font-size:12px;font-weight:600;letter-spacing:.01em;color:var(--t3)}
+    font-size:12px;font-weight:600;letter-spacing:.01em;color:var(--ink)}
   .nav-workspace .modebtn,.nav-workspace .nav-menu-link{min-height:0;border:0;border-radius:0;
     background:transparent;box-shadow:none;
     display:block;width:100%;padding:7px 0;font-size:13.5px;font-weight:400;line-height:1.5;
@@ -3812,7 +3843,7 @@
        ⚠️ 그룹 사이를 28px까지 벌리면 내용 755px > 가용 751px로 390x844 무스크롤이 깨진다
        (실측). 24px이 무스크롤을 지키는 상한이다. */
     .nav-menu-title{grid-column:1/-1;border-bottom:0;padding-bottom:0;margin:0 0 8px;
-      font-size:12px;font-weight:600;line-height:1.35}
+      font-size:12.5px;font-weight:600;line-height:1.35}
     .nav-workspace .modebtn,.nav-workspace .nav-menu-link{
       padding:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;
       font-size:14px;text-align:left}
