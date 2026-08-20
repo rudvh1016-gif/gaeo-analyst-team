@@ -428,7 +428,7 @@ fs.writeFileSync(
 //  · 홈의 featuredLatestKey(latest_posts.js)와는 무관 — 허브는 허브 규칙만 쓴다
 // ══════════════════════════════════════════════════════════════════════
 // 화면 표시용 라벨 — 원본 데이터의 emoji 태그(cat)는 그대로 두고 표시만 분리한다.
-const HUB_LABELS = { news: '뉴스분석', study: '종목공부', lesson: '주식공부', estate: '부동산공부', calc: '투자 도구' };
+const HUB_LABELS = { news: '뉴스분석', study: '종목공부', lesson: '주식공부', estate: '부동산공부', calc: '계산기' };
 const RESEARCH_MODES = ['news', 'study', 'lesson', 'estate'];
 const researchItems = index.filter(x => RESEARCH_MODES.includes(x.mode));
 const calcItems = index.filter(x => x.mode === 'calc');
@@ -576,7 +576,7 @@ header.hero{padding-top:30px}
     <a href="#lesson">주식공부</a>
     <a href="#deep">정밀분석</a>
     <a href="#estate">부동산공부</a>
-    <a href="#tools">투자 도구</a>
+    <a href="#tools">계산기</a>
     <a href="#archive">전체 기록</a>
   </nav>
 
@@ -604,7 +604,7 @@ ${hubSection('lesson', 'lesson', '주식 투자에 필요한 개념과 제도를
 ${hubSection('estate', 'estate', '전세·청약·대출 등 부동산과 주거 재무를 공부하는 글입니다.', 6)}
 
   <section class="sec" id="tools">
-    <div class="sec-head"><h2>투자 도구</h2><p class="cnt">${calcItems.length}개</p><p class="blurb">계산기 등 도구 페이지입니다. 위 리서치 글 수에는 포함하지 않아요.</p></div>
+    <div class="sec-head"><h2>계산기</h2><p class="cnt">${calcItems.length}개</p><p class="blurb">계산기 등 도구 페이지입니다. 위 리서치 글 수에는 포함하지 않아요.</p></div>
     <div class="sec-body"><ul class="rows">
 ${calcItems.map(x => `<li><a href="${esc(x.href)}"><span class="rt">${esc(x.title)}</span></a></li>`).join('\n')}
     </ul></div>
