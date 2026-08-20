@@ -491,6 +491,7 @@
   .hrp-record{margin:0;color:var(--color-text-secondary);font-size:11.5px;font-weight:400;
     line-height:1.6;font-variant-numeric:tabular-nums;word-break:keep-all;overflow-wrap:break-word}
   .hrp-record b{color:var(--color-text-primary);font-weight:500}
+  .hrp-note b{color:var(--color-text-primary);font-weight:500}
   .hrp-note{margin:6px 0 0;color:var(--color-text-secondary);font-size:11.5px;font-weight:400;
     line-height:1.62;word-break:keep-all;overflow-wrap:break-word}
   .hrp-more-note{margin-top:8px}
@@ -521,7 +522,9 @@
     .hrp-row{grid-template-columns:22px minmax(0,1fr);gap:10px;padding:12px 0}
     .hrp-sector{grid-column:2;margin-top:5px;text-align:left}
     .hrp-sector b,.hrp-sector span{display:inline;margin:0;font-size:11px}
-    .hrp-sector b::after{content:" \00B7 ";color:var(--color-text-secondary);font-weight:400}
+    /* content의 앞뒤 공백은 CSS 공백 정규화로 사라진다. \00A0(줄바꿈 없는 공백)를 써야
+       "바이오·제약 · 업종 흐름 1위"처럼 띄어 보인다(실측: 일반 공백은 gap 0px). */
+    .hrp-sector b::after{content:"\00A0\00B7\00A0";color:var(--color-text-secondary);font-weight:400}
     .hrp-name{font-size:13.5px}
   }
   html.gdark .home-rotation-picks{background:var(--color-surface);border-color:var(--color-border);box-shadow:none}
@@ -4500,7 +4503,7 @@
           <h2 class="hrp-title" id="hrpTitle">업종 흐름에서 고른 종목</h2>
           <span class="hrp-asof" id="hrpAsof"></span>
         </div>
-        <p class="hrp-lead">종목마다 점수를 매겨 고르는 방식이 아니에요. 오늘 종가까지의 시황으로 자금이 모이는 업종을 먼저 찾고, 그 업종 안에서 흐름이 강한 종목을 순서대로 뽑았어요.</p>
+        <p class="hrp-lead" id="hrpLead">종목마다 점수를 매겨 고르는 방식이 아니에요. 자금이 모이는 업종을 먼저 찾고, 그 업종 안에서 흐름이 강한 종목을 순서대로 뽑았어요.</p>
       </div>
       <div class="hrp-inputs" id="hrpInputs"></div>
       <div class="hrp-body">
@@ -4508,6 +4511,7 @@
         <aside class="hrp-notes">
           <p class="hrp-record" id="hrpRecord"></p>
           <p class="hrp-note" id="hrpRecordNote"></p>
+          <p class="hrp-note"><b>매수 추천이 아니에요.</b> 지금 흐름이 어디에 모여 있는지 보여주는 참고 목록이고, 짧은 기간에 많이 오른 종목이 뽑히기 쉬운 방식이라 되돌림 폭도 클 수 있어요.</p>
           <details class="hrp-more-note">
             <summary>이 목록을 어떻게 만들고, 무엇을 못 하는지</summary>
             <p class="hrp-note">추적 종목을 24개 업종으로 묶어 상승 탄력, 시장 대비 강도, 거래량, 상승 종목 비율을 같은 기준으로 계산한 뒤, 오늘 시장 국면과 맞는 업종을 골라 그 안에서 흐름이 강한 종목을 뽑았어요.</p>
@@ -4906,7 +4910,7 @@ window.GaeoFeatures=(()=>{
     dartToday:['dart_today.js'],
     // 🔄 홈 "업종 흐름에서 고른 종목" 전용 경량 요약(2KB 안팎). rotation_snapshot.js는
     //    421KB라 홈에서 받지 않고, compute_rotation_picks.py가 추린 이 파일만 받는다.
-    rotationPicks:['rotation_picks.js?v=20260820-v1'],
+    rotationPicks:['rotation_picks.js'],
     // 📚 "정밀분석 기록" 탭을 실제로 열 때만 받는다(대부분의 종목엔 해당 없음).
     archive:['analysis_archive.js'],
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
@@ -7640,8 +7644,7 @@ renderHomeDeepAnalysis();
       `<div class="hdb-stats" aria-label="오늘의 판단 분포">`+
       ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
-      `<span class="hdb-call-note"><b>실측 성적</b> BUY 39.4%(평균 -1.21%) · HOLD 51.7% · SELL 53.3%. `+
-      `SELL이 가장 잘 맞아서, 살 종목을 고를 때보다 피할 종목을 거를 때 더 도움이 돼요.</span>`+
+      gaeoCallNoteHTML()+
       (model.buy.length
         ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>판단 확신도순</span></div><div class="hdb-preview">${preview}</div>`+
           `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
@@ -9998,6 +10001,42 @@ window.renderDartBoard=renderDartBoard;
   else setTimeout(load,1200);
 })();
 
+/* 홈 「오늘의 판단」 각주 — BUY/HOLD/SELL이 실제로 얼마나 맞았는지.
+   ⚠️ 숫자를 하드코딩하지 않는다. build_model_scoreboard.py가 매일 다시 만드는
+      model_scoreboard.js를 런타임에 읽는다. 하드코딩하면 화면만 옛 숫자를 말하게 된다.
+   ⚠️ 어느 집계 구간의 숫자인지 반드시 함께 밝힌다. 지금 성숙한 표본은 500종목을
+      추적하던 구간뿐이라, 그 사실을 숨기면 "지금 598종목 성적"으로 오해된다. */
+const COVERAGE_LABEL={GAEO_COVERAGE_V1_500:'500종목을 추적하던 구간',
+                      GAEO_COVERAGE_V2_600:'600종목 추적 구간'};
+function gaeoCallNoteHTML(){
+  try{
+    /* ⚠️ model_scoreboard.js는 const로 선언한다. 최상위 const는 window의 속성이
+       되지 않으므로 window.MODEL_SCOREBOARD로는 절대 안 잡힌다(실측으로 확인).
+       저장소의 다른 사용처(6436·6670·11025행)와 같이 맨 식별자로 읽는다. */
+    const B=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
+    if(!B||!Array.isArray(B.models)) return '';
+    const m=B.models.find(x=>x.id==='base_production')||B.models[0]; if(!m||!m.byCoverage) return '';
+    // 성숙한 표본이 가장 많은 구간을 쓴다(현재 coverage는 아직 안 익었을 수 있다).
+    const rows=Object.entries(m.byCoverage).filter(([,d])=>d&&d.buy&&d.sell&&d.matured);
+    if(!rows.length) return '';
+    rows.sort((a,b)=>(b[1].matured||0)-(a[1].matured||0));
+    const [covKey,d]=rows[0];
+    const pc=x=>(x==null?'?':x);
+    const nf=n=>Number(n||0).toLocaleString('ko-KR');
+    const best=[['BUY',d.buy],['HOLD',d.hold],['SELL',d.sell]]
+      .filter(r=>r[1]&&r[1].precision!=null).sort((a,b)=>b[1].precision-a[1].precision)[0];
+    if(!best) return '';
+    const tail=best[0]==='SELL'
+      ? 'SELL이 가장 잘 맞아서, 살 종목을 고를 때보다 피할 종목을 거를 때 더 도움이 돼요.'
+      : best[0]+' 판단이 지금까지 가장 잘 맞았어요.';
+    const cov=COVERAGE_LABEL[covKey]||covKey;
+    return '<span class="hdb-call-note"><b>GAEO 판단 실측 성적</b> '+
+      'BUY '+pc(d.buy.precision)+'% · HOLD '+pc(d.hold&&d.hold.precision)+'% · SELL '+pc(d.sell.precision)+'%. '+
+      tail+' ('+cov+'에서 '+nf(d.uniqueDates)+'일간 '+nf(d.matured)+'건을 채점한 기록이에요)</span>';
+  }catch(e){ return ''; }
+}
+window.gaeoCallNoteHTML=gaeoCallNoteHTML;
+
 /* 🔄 업종 흐름에서 고른 종목 — 순환매+시장국면+당일 종가 시황으로 뽑은 관찰 후보.
    ⚠️ 성적 숫자(적중률·표본·기간)는 화면에서 하드코딩하지 않고 rotation_picks.js가 실어 온
       값을 그대로 쓴다. 모델이 갱신됐을 때 화면만 옛 숫자를 말하는 사고를 막는다.
@@ -10012,7 +10051,15 @@ function renderRotationPicks(){
   const inputs=document.getElementById('hrpInputs');
   const asof=document.getElementById('hrpAsof');
 
-  if(asof) asof.textContent=(D.dataCutoff?D.dataCutoff+' 기준':'')+' · '+(D.horizonDays||20)+'거래일 관찰';
+  const cut=D.dataCutoff||'';
+  if(asof) asof.textContent=(cut?cut+' 기준 · ':'')+(D.horizonDays||20)+'거래일 관찰';
+  /* dataCutoff는 장중이면 "2026-08-20 10:30 장중", 마감 뒤면 "2026-08-20 종가"다.
+     리드에 "종가까지"를 고정해두면 거래시간 내내 화면이 거짓말을 한다. */
+  const lead=document.getElementById('hrpLead');
+  if(lead){
+    const when = /장중/.test(cut) ? '지금까지의 장중 시황' : '오늘 종가까지의 시황';
+    lead.textContent='종목마다 점수를 매겨 고르는 방식이 아니에요. '+when+'으로 자금이 모이는 업종을 먼저 찾고, 그 업종 안에서 흐름이 강한 종목을 순서대로 뽑았어요.';
+  }
 
   const r=D.regime||{};
   if(inputs){
@@ -10026,7 +10073,16 @@ function renderRotationPicks(){
     let em=box.querySelector('.hrp-empty');
     if(!em){ em=document.createElement('p'); em.className='hrp-empty';
       box.querySelector('.hrp-head').appendChild(em); }
-    em.textContent='오늘은 코스피와 코스닥이 20일 이동평균 아래에 있어 목록을 비웠어요. 흐름이 한쪽으로 모이지 않는 구간이라 골라내도 신뢰하기 어렵기 때문이에요. 아래 「오늘의 판단」과 순환매 화면은 그대로 볼 수 있어요.';
+    /* ⚠️ 이유를 문장으로 단정하지 않는다. 게이트가 비는 경우는 두 가지이고
+       (지수가 20일선 아래 / 조건을 통과한 종목이 아예 없음) 실려온 값으로 갈라 말한다.
+       ⚠️ 「오늘의 판단」은 이 섹션보다 화면 위에 있다. "아래"라고 쓰면 안 된다. */
+    const g=D.gate||{};
+    const why = (g.indexAboveMa20===0)
+      ? '코스피와 코스닥이 둘 다 20일 이동평균 아래에 있어서'
+      : (g.allowed===0 ? '시장 상태가 목록을 내놓을 조건에 못 미쳐서'
+                       : '조건을 통과한 종목이 없어서');
+    const br = (g.breadthPct!=null) ? ' 오늘 20일선 위에 있는 종목은 '+g.breadthPct+'%예요.' : '';
+    em.textContent='오늘은 '+why+' 목록을 비웠어요. 흐름이 한쪽으로 모이지 않는 구간이라 골라내도 신뢰하기 어렵기 때문이에요.'+br+' 위쪽 「오늘의 판단」과 순환매 화면은 그대로 볼 수 있어요.';
     box.hidden=false; return;
   }
   const em=box.querySelector('.hrp-empty'); if(em) em.remove();
@@ -10046,7 +10102,7 @@ function renderRotationPicks(){
   const recEl=document.getElementById('hrpRecord');
   const noteEl=document.getElementById('hrpRecordNote');
   if(recEl&&rec.hitRate!=null){
-    recEl.innerHTML='<b>실측 성적</b> '+(D.horizonDays||20)+'거래일 적중률 '+esc(rec.hitRate)+'% · 초과수익 평균 '+
+    recEl.innerHTML='<b>업종 모델 실측 성적</b> '+(D.horizonDays||20)+'거래일 적중률 '+esc(rec.hitRate)+'% · 초과수익 평균 '+
       (rec.excessMean>=0?'+':'')+esc(rec.excessMean)+'% · 표본 '+esc(rec.sampleCount)+'회';
   }
   if(noteEl&&rec.periodStart){
