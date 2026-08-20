@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-20 19:20",
+ "generatedAt": "2026-08-20 20:14",
  "dataCutoff": "2026-08-20 종가",
  "horizonDays": 20,
  "picks": [
@@ -16,7 +16,8 @@ window.ROTATION_PICKS = {
    "why": "20거래일 +68.9% · 20일선 위",
    "overheat": false,
    "gapPct": 25.6,
-   "call": "HOLD"
+   "call": "HOLD",
+   "callConflict": false
   },
   {
    "code": "241710",
@@ -26,7 +27,8 @@ window.ROTATION_PICKS = {
    "why": "20거래일 +79.6% · 20일선 위",
    "overheat": true,
    "gapPct": 38.4,
-   "call": "HOLD"
+   "call": "HOLD",
+   "callConflict": false
   },
   {
    "code": "181710",
@@ -36,7 +38,8 @@ window.ROTATION_PICKS = {
    "why": "20거래일 +99.2% · 20일선 위",
    "overheat": true,
    "gapPct": 46.8,
-   "call": "HOLD"
+   "call": "HOLD",
+   "callConflict": false
   },
   {
    "code": "196170",
@@ -46,7 +49,8 @@ window.ROTATION_PICKS = {
    "why": "20거래일 +64.6% · 20일선 위 · 거래량 평소의 1.8배",
    "overheat": false,
    "gapPct": 22.2,
-   "call": "HOLD"
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
