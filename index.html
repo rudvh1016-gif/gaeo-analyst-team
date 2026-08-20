@@ -379,7 +379,7 @@
   html.gdark .modebtn.on{background:#48484A;color:#F5F5F7;box-shadow:0 1px 4px rgba(0,0,0,.4)}
   /* 전체 메뉴는 다크에서도 배경 없는 텍스트 메뉴로 유지(위 두 줄보다 구체성이 높아야 한다) */
   html.gdark .nav-workspace .modes{background:transparent}
-  html.gdark .nav-menu-title{color:var(--t3)}
+  html.gdark .nav-menu-title{color:var(--ink)}
   html.gdark .nav-workspace .modebtn,
   html.gdark .nav-workspace .modebtn:hover,
   html.gdark .nav-workspace .modebtn.on{background:transparent;color:var(--ink);box-shadow:none}
@@ -3137,10 +3137,14 @@
     grid-column:1/-1;gap:12px 28px;padding:0;margin:0;background:transparent}
   .nav-menu-group{display:flex;flex-direction:column;min-width:0}
   /* 그룹 제목은 라벨(500)이 아니라 제목이다 - 디자인시스템 §5 굵기 3단계(본문 400 / 라벨 500 /
-     제목 600)에서 600이 제자리다. 색도 --dim에서 --t3로 한 단계만 올려, 항목(--ink)보다는
-     확실히 물러나 있으면서 "분류"로 읽히게 한다(실측 대비 5.07 -> 7.91, 항목은 16.83). */
+     제목 600)에서 600이 제자리다.
+     ⭐ 2026-08-20 대표 지시로 색을 --dim -> --t3 -> --ink까지 올렸다. 600이어도 12px 회색으로는
+     굵어 보이지 않아 "분류랑 내용이 크기 차이 말곤 없다"는 지적이 반복됐기 때문이다.
+     그 결과 대분류와 항목이 같은 먹색이 되므로, 둘을 가르는 건 이제 색이 아니라
+     크기(12.5 vs 14px) · 굵기(600 vs 400) · 여백이다(디자인시스템 원칙 #27과 같은 방향).
+     활성 항목(.nav-workspace .modebtn.on)도 600이지만 14px라 "현재 화면" 표시로 읽힌다. */
   .nav-menu-title{margin:0 0 8px;padding-bottom:9px;border-bottom:1px solid var(--gaeo-border);
-    font-size:12px;font-weight:600;letter-spacing:.01em;color:var(--t3)}
+    font-size:12px;font-weight:600;letter-spacing:.01em;color:var(--ink)}
   .nav-workspace .modebtn,.nav-workspace .nav-menu-link{min-height:0;border:0;border-radius:0;
     background:transparent;box-shadow:none;
     display:block;width:100%;padding:7px 0;font-size:13.5px;font-weight:400;line-height:1.5;
@@ -3839,7 +3843,7 @@
        ⚠️ 그룹 사이를 28px까지 벌리면 내용 755px > 가용 751px로 390x844 무스크롤이 깨진다
        (실측). 24px이 무스크롤을 지키는 상한이다. */
     .nav-menu-title{grid-column:1/-1;border-bottom:0;padding-bottom:0;margin:0 0 8px;
-      font-size:12px;font-weight:600;line-height:1.35}
+      font-size:12.5px;font-weight:600;line-height:1.35}
     .nav-workspace .modebtn,.nav-workspace .nav-menu-link{
       padding:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;
       font-size:14px;text-align:left}
