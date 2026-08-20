@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 13:42",
- "priceLabel": "2026-08-20 13:31 장중",
- "count": 124,
+ "generatedAt": "2026-08-20 14:12",
+ "priceLabel": "2026-08-20 14:01 장중",
+ "count": 127,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005440",
+   "name": "현대지에프홀딩스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "자원개발진행사항공시(자율공시)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260820",
+   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -101,14 +133,6 @@ const DART_TODAY = {
    "title": "주식등의대량보유상황보고서(일반)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T03:41:44.275944+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T03:11:41.180198+00:00",
    "isCorrection": false
   },
   {
