@@ -615,7 +615,7 @@
    "maePrice": 92900.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 93800.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:12.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -625,7 +625,7 @@
    "maePrice": 12610.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 12630.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T18:58:17.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   },
@@ -634,7 +634,7 @@
    "maePrice": 27200.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 27250.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:57:51.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -644,7 +644,7 @@
    "maePrice": 21250.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 21250.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:58.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   },
@@ -653,7 +653,7 @@
    "maePrice": 127800.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 138900.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:59.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -663,7 +663,7 @@
    "maePrice": 233000.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 262500.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:55.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   },
@@ -672,7 +672,7 @@
    "maePrice": 17460.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 17460.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:58:44.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -682,7 +682,7 @@
    "maePrice": 1977.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 1977.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T18:00:30.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -692,7 +692,7 @@
    "maePrice": 9000.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 9000.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:48.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
@@ -702,13 +702,13 @@
    "maePrice": 91200.0,
    "entryBusinessDate": "2026-08-18",
    "lastMarkPrice": 92800.0,
-   "lastMarkObservedAt": "2026-08-20T21:14:30+09:00",
+   "lastMarkObservedAt": "2026-08-20T21:22:07+09:00",
    "lastMarkMarketAt": "2026-08-20T19:59:59.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
   }
  },
- "lastCycleAt": "2026-08-20T21:14:30+09:00",
+ "lastCycleAt": "2026-08-20T21:22:07+09:00",
  "lastCycleResult": "CYCLE_OK — 장외 시간 — 신규 진입 보류(다음 개장 사이클에 처리)",
  "lastProcessedModelVersion": "baseline-risk-v2",
  "backfilledBusinessDates": [
