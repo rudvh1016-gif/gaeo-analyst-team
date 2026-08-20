@@ -221,7 +221,7 @@ def _market_change_pct(market_daily, day, prev_day, key="KOSPI"):
 
 
 def build_review(day, snap, buys, sells, contribs, daily_change_pct,
-                 market_pct, initial, is_today):
+                 market_pct, initial, is_today, closed_total=None):
     """그날 데이터만으로 만드는 종합 평가.
 
     반환 구조: {"version", "inProgress", "headline", "sections":[{key,title,lines}]}
@@ -245,6 +245,14 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
         res.append(L("이전 기록일이 없어 일간 변화는 비교하지 않았습니다.", "noPreviousRecord"))
     if sells:
         res.append(L(f"확정 손익 {realized:+,.0f}원 (종료 {len(sells)}건)", "realizedPnl"))
+        # 왜 팔렸는지는 성격이 전혀 다르다 — "판단이 매도로 바뀌어서"와 "기간이 다 돼서"는
+        # 같은 종료가 아니다. 원장에 이미 있는 사유를 세어 그대로 적는다.
+        by_reason = {}
+        for s in sells:
+            by_reason[s["exitReason"]] = by_reason.get(s["exitReason"], 0) + 1
+        res.append(L("종료 사유 — " + " · ".join(f"{k} {v}건"
+                                              for k, v in sorted(by_reason.items())),
+                     "exitReasons"))
     else:
         res.append(L("이날 종료된 거래가 없어 확정 손익은 발생하지 않았습니다.", "noSells"))
     if unreal is not None:
@@ -271,7 +279,25 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
                      + (f" · {flat}종목 보합" if flat else ""), "advancersDecliners"))
         if not win and not lose:
             imp.append(L("모든 보유 종목이 진입가와 같아 손익 기여가 없습니다.", "allFlat"))
-    else:
+    # 청산한 거래는 "얼마에 팔았나"보다 "최고점에서 얼마나 돌려주고 팔았나"가 더 구체적이다.
+    # mfe/mae는 청산할 때 이미 원장에 저장돼 있는데 지금까지 문장으로 쓰이지 않았다.
+    givebacks = [(round(s["mfePct"] - s["returnPct"], 2), s) for s in sells
+                 if s.get("mfePct") is not None and s.get("returnPct") is not None]
+    if givebacks:
+        gap, s = max(givebacks, key=lambda x: x[0])
+        if gap > 0:
+            # 종목명 뒤에 조사를 붙이지 않는다 — 받침에 따라 은/는이 갈려
+            # "삼성전자은" 같은 문장이 나온다.
+            imp.append(L(f"{s['name']} — 보유 중 최고 {s['mfePct']:+.2f}%까지 올랐다가 "
+                         f"{s['returnPct']:+.2f}%에 종료(고점 대비 {gap:.2f}%p 반납).",
+                         "exitGiveback"))
+    dips = [s for s in sells if s.get("maePct") is not None and s.get("returnPct") is not None]
+    if dips:
+        d = min(dips, key=lambda s: s["maePct"])
+        if d["maePct"] < 0:
+            imp.append(L(f"{d['name']} — 보유 중 최저 {d['maePct']:+.2f}%까지 내렸다가 "
+                         f"{d['returnPct']:+.2f}%로 종료.", "exitDrawdown"))
+    if not contribs:
         imp.append(L("이 날짜에는 종목별 기여도 기록이 남아 있지 않아 "
                      "어떤 종목이 손익을 이끌었는지는 계산하지 않았습니다.", "noPositionSnapshot"))
     sections.append({"key": "impact", "title": "주요 영향", "lines": imp})
@@ -288,6 +314,17 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
     else:
         mk.append(L("이 날짜의 지수 기록이 없어 시장 대비 비교는 하지 않았습니다.",
                     "noBenchmark"))
+    # 위 비교는 계좌 전체를 코스피 하나와 견준 것이다. 종료된 거래에는 각자 자기 시장
+    # (코스피/코스닥) 기준 성적이 이미 원장에 저장돼 있으므로, 그것도 함께 적는다.
+    rel = [(round(s["returnPct"] - s["benchmarkReturnPct"], 2), s) for s in sells
+           if s.get("returnPct") is not None and s.get("benchmarkReturnPct") is not None]
+    if rel:
+        ahead = sum(1 for gap, _ in rel if gap > 0)
+        mk.append(L(f"이날 종료한 {len(rel)}건 중 {ahead}건이 같은 기간 자기 시장 지수보다 "
+                    "앞섰습니다.", "tradeBenchmarkCount"))
+        gap, s = max(rel, key=lambda x: x[0])
+        mk.append(L(f"가장 앞선 거래 — {s['name']} 지수 대비 {gap:+.2f}%p.",
+                    "tradeBenchmarkBest"))
     sections.append({"key": "market", "title": "시장 비교", "lines": mk})
 
     # ④ 잘된 점 / ⑤ 아쉬운 점 — 수치 근거가 있을 때만 쓴다
@@ -336,8 +373,13 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
     if sells:
         watch.append(L("종료된 거래의 보유기간별 결과가 쌓이면 전략 인사이트에서 "
                        "구간별 비교가 가능해집니다.", "sellsRecorded"))
-    watch.append(L("표본이 아직 적어 이날 결과만으로 전략의 좋고 나쁨을 판단하기는 "
-                   "어렵습니다.", "smallSample"))
+    # 매일 똑같은 문장이 붙던 자리다. 지금까지 몇 건이 종료됐는지 실제 숫자를 넣어
+    # 얼마나 남았는지 보이게 하고, 표본이 다 차면 이 문장 자체를 없앤다.
+    if closed_total is None or closed_total < MIN_STRATEGY_SAMPLE:
+        have = "확인 중" if closed_total is None else f"{closed_total}건"
+        watch.append(L(f"지금까지 종료된 거래는 {have}입니다. 전략의 좋고 나쁨을 말하려면 "
+                       f"최소 {MIN_STRATEGY_SAMPLE}건이 필요해 아직 판단하지 않습니다.",
+                       "smallSample"))
     sections.append({"key": "watch", "title": "다음 기록에서 확인할 점", "lines": watch})
 
     headline = None
@@ -558,7 +600,8 @@ def build(ledger, curve, config, today=None, market_daily=None, business_dates=N
             "skipped": [{"reason": k, "count": v} for k, v in sorted(sk.items())],
             "contributions": contribs,
             "review": build_review(d, snap, b, s, contribs, daily, mkt, initial,
-                                   is_today=(d == today)),
+                                   is_today=(d == today),
+                                   closed_total=len(all_sells_pub)),
         }
         records.append(rec)
         if equity is not None:
