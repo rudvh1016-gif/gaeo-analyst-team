@@ -17,10 +17,10 @@ assert.match(serviceWorker, /\(\?:html\|css\|js\|json\)\$/);
 assert.match(html, /data-nav-mode="rotation"[^>]*>순환매</);
 assert.match(html, /id="mode-rotation"/);
 assert.match(html, /id="rotationView"/);
-assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260814-v14'\]/);
+assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260820-v15'\]/);
 // ⚠️ CSS를 고치면 이 버전을 올려야 재방문자가 옛 스타일을 계속 보지 않는다.
 //    (2026-08-18 sweep 전까지 이 줄이 v12에 멈춰 있어 테스트가 깨진 상태였다)
-assert.match(html, /rotation\.css\?v=20260818-v14/);
+assert.match(html, /rotation\.css\?v=20260820-v15/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');
@@ -187,6 +187,24 @@ assert.match(rendered, /20거래일 흐름은[^<]*(?:강하지만|관찰이 필�
 assert.match(rendered, /data-tip="선택 기간 동안 업종 구성 종목의 가격 흐름/);
 assert.match(rendered, /aria-label="상승 탄력 설명: 선택 기간 동안 업종 구성 종목의 가격 흐름/);
 assert.match(rendered, /class="rot-accumulation-note"/);
+
+/* 🔽 접이식 심화 섹션 (2026-08-20) — "박스가 너무 많다"는 지적에 대한 계약.
+   ⚠️ 핵심: 접는 것이지 지우는 게 아니다. 안쪽 알맹이는 그대로 있어야 한다. */
+['score', 'evidence', 'how', 'current', 'performance', 'note'].forEach(key => {
+  assert.match(rendered, new RegExp(`data-fold="${key}"`), `접이식 섹션 누락: ${key}`);
+});
+// 기본은 접힌 상태다(state.open 없이 그린 화면에 open 속성이 붙으면 안 된다).
+assert.ok(!/data-fold="[a-z]+" open/.test(rendered), '접이식 섹션은 기본이 접힘이어야 한다');
+// 접었다고 내용이 사라지면 안 된다.
+assert.match(rendered, /class="rot-performance-grid"/);
+assert.match(rendered, /class="rot-metric-explanation"/);
+// 매일 보는 정보(함께 볼 종목)는 접지 않고 심화 영역 맨 앞에 그대로 둔다.
+assert.match(rendered, /class="rot-analysis-grid"><section class="rot-panel rot-analysis rot-candidates"/);
+// 열어 둔 섹션은 다시 그려도 열린 채로 유지된다(기간·업종 변경 시 닫히면 안 된다).
+const reopened = context.window.GaeoRotation.renderView(
+  fixture, { horizon: 20, selected: '반도체', open: new Set(['performance']) });
+assert.match(reopened, /data-fold="performance" open/);
+assert.ok(!/data-fold="score" open/.test(reopened), '열지 않은 섹션까지 열리면 안 된다');
 assert.match(rendered, /class="rot-overlap-explanation"/);
 assert.match(rendered, /중첩 평가란\?/);
 assert.match(rendered, /매 거래일마다 당시까지의 최근 20거래일로 1위 업종을 다시 선정한 뒤/);
