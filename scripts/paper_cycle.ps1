@@ -313,6 +313,14 @@ if ($engineCode -ne 0) {
     Stop-Cycle "Paper Engine 비정상 종료(exit $engineCode) — 결과를 커밋하지 않는다" 7
 }
 
+# 🧪 두 번째 전략(업종 흐름 급등주 단기 보유) — 기본 OFF.
+#    GAEO_PAPER_MOMENTUM=1 일 때만 실제로 돈다. 스크립트가 스스로 꺼짐을 판단해
+#    즉시 종료하므로 여기서는 조건 없이 부른다(켜고 끄는 데 코드 수정이 필요 없다).
+#    ⚠️ 실패해도 기존 전략의 기록 커밋을 막지 않는다.
+if (Test-Path (Join-Path $RepoPath 'paper_momentum.py')) {
+    Invoke-PaperScript 'paper_momentum.py' -ContinueOnError | Out-Null
+}
+
 # 워크플로와 동일한 의미: report·public 실패는 기록 커밋을 막지 않는다.
 Invoke-PaperScript 'paper_report.py' -ContinueOnError | Out-Null
 Invoke-PaperScript 'paper_public.py' -ContinueOnError | Out-Null
