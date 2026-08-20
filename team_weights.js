@@ -126,9 +126,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 199,
-     "acc": 54.3,
-     "adjustedAcc": 52.7,
+     "n": 198,
+     "acc": 54.5,
+     "adjustedAcc": 52.8,
      "days": 20,
      "deadband": 3.0
     },
@@ -159,9 +159,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 574,
-     "acc": 43.7,
-     "adjustedAcc": 44.8,
+     "n": 573,
+     "acc": 43.8,
+     "adjustedAcc": 44.9,
      "days": 5,
      "deadband": 1.0
     },
@@ -387,7 +387,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1304,
+   "graded": 1305,
    "globalBlend": 0.38
   },
   "보험": {
@@ -455,7 +455,7 @@ const TEAM_WEIGHTS = {
     "nova": {
      "n": 1194,
      "acc": 59.2,
-     "adjustedAcc": 58.4,
+     "adjustedAcc": 58.3,
      "days": 5,
      "deadband": 1.0
     },
@@ -500,9 +500,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "flow": {
-     "n": 61,
-     "acc": 44.3,
-     "adjustedAcc": 48.1,
+     "n": 60,
+     "acc": 45.0,
+     "adjustedAcc": 48.3,
      "days": 5,
      "deadband": 1.0
     }
@@ -686,9 +686,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 76,
-     "acc": 89.5,
-     "adjustedAcc": 65.3,
+     "n": 77,
+     "acc": 89.6,
+     "adjustedAcc": 65.5,
      "days": 20,
      "deadband": 3.0
     },
@@ -759,9 +759,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 311,
-     "acc": 49.5,
-     "adjustedAcc": 49.7,
+     "n": 312,
+     "acc": 49.7,
+     "adjustedAcc": 49.8,
      "days": 5,
      "deadband": 1.0
     },
@@ -846,9 +846,9 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 180,
-     "acc": 38.9,
-     "adjustedAcc": 43.3,
+     "n": 181,
+     "acc": 39.2,
+     "adjustedAcc": 43.5,
      "days": 20,
      "deadband": 3.0
     },
@@ -987,7 +987,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 677,
+   "graded": 675,
    "globalBlend": 0.542
   },
   "여행레저": {
