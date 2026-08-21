@@ -1,24 +1,144 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-21 15:16",
- "priceLabel": "2026-08-21 15:09 장중",
- "count": 219,
+ "generatedAt": "2026-08-21 15:46",
+ "priceLabel": "2026-08-21 종가 (15:43 수집)",
+ "count": 227,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
-   "code": "000720",
-   "name": "현대건설",
-   "title": "회사합병결정(종속회사의주요경영사항)",
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:15:10.423907+00:00",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "012330",
+   "name": "현대모비스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
    "isCorrection": false
   },
   {
    "code": "003530",
    "name": "한화투자증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001750",
+   "name": "한양증권",
+   "title": "유형자산처분결정(자율공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "047050",
+   "name": "포스코인터내셔널",
+   "title": "자원개발진행사항공시(자율공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "340570",
+   "name": "티앤엘",
+   "title": "[기재정정]반기보고서 (2026.06)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "032820",
+   "name": "우리기술",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "096530",
+   "name": "씨젠",
+   "title": "자기주식처분결과보고서",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001510",
+   "name": "SK증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "회사합병결정(종속회사의주요경영사항)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T06:15:10.423907+00:00",
    "isCorrection": false
@@ -104,22 +224,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:15:10.423907+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:15:10.423907+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "011790",
    "name": "SKC",
    "title": "유상증자결정(종속회사의주요경영사항)",
@@ -147,30 +251,6 @@ const DART_TODAY = {
    "code": "001500",
    "name": "현대차증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
@@ -435,22 +515,6 @@ const DART_TODAY = {
    "code": "071970",
    "name": "HD현대마린엔진",
    "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
