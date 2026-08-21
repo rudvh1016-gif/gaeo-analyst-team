@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-20T07:33:26.438792+00:00",
+ "generatedAt": "2026-08-21T00:19:11.111298+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -15,99 +15,99 @@ const MODEL_SCOREBOARD = {
    "autoPromotion": "NONE_MANUAL_APPROVAL_REQUIRED",
    "byCoverage": {
     "GAEO_COVERAGE_V1_500": {
-     "accuracy": 51.5,
+     "accuracy": 51.6,
      "accuracyCI95": [
-      45.1,
-      57.6
+      45.9,
+      57.4
      ],
      "actionDistribution": {
-      "BUY": 1019,
-      "HOLD": 8471,
-      "SELL": 5967
+      "BUY": 1042,
+      "HOLD": 8705,
+      "SELL": 5999
      },
      "buy": {
-      "count": 1019,
-      "marketRelativeMeanReturn": -0.45,
-      "meanReturn": -1.21,
+      "count": 1042,
+      "marketRelativeMeanReturn": -0.38,
+      "meanReturn": -1.2,
       "medianReturn": -1.31,
-      "precision": 39.4
+      "precision": 39.5
      },
-     "directionalAccuracy": 51.4,
+     "directionalAccuracy": 51.5,
      "directionalCI95": [
-      41.8,
-      62.7
+      41.5,
+      61.9
      ],
-     "directionalCount": 6986,
+     "directionalCount": 7041,
      "hold": {
-      "count": 8471,
-      "marketRelativeMeanReturn": 0.03,
-      "meanReturn": 0.21,
-      "medianReturn": -0.06,
+      "count": 8705,
+      "marketRelativeMeanReturn": -0.02,
+      "meanReturn": 0.07,
+      "medianReturn": -0.23,
       "precision": 51.7
      },
-     "matured": 15457,
-     "overallAccuracy": 51.5,
+     "matured": 15746,
+     "overallAccuracy": 51.6,
      "pending": 0,
      "sell": {
-      "count": 5967,
-      "marketRelativeMeanReturn": 0.62,
-      "meanReturn": 0.56,
-      "medianReturn": -0.77,
-      "precision": 53.3
+      "count": 5999,
+      "marketRelativeMeanReturn": 0.52,
+      "meanReturn": 0.45,
+      "medianReturn": -0.84,
+      "precision": 53.4
      },
      "status": "OK",
-     "uniqueDates": 31
+     "uniqueDates": 32
     }
    },
    "byModelVersion": {
     "PRE_HOTFIX_BASE": {
-     "accuracy": 51.5,
+     "accuracy": 51.6,
      "accuracyCI95": [
-      45.1,
-      57.6
+      45.9,
+      57.4
      ],
      "actionDistribution": {
-      "BUY": 1019,
-      "HOLD": 8471,
-      "SELL": 5967
+      "BUY": 1042,
+      "HOLD": 8705,
+      "SELL": 5999
      },
      "buy": {
-      "count": 1019,
-      "marketRelativeMeanReturn": -0.45,
-      "meanReturn": -1.21,
+      "count": 1042,
+      "marketRelativeMeanReturn": -0.38,
+      "meanReturn": -1.2,
       "medianReturn": -1.31,
-      "precision": 39.4
+      "precision": 39.5
      },
-     "directionalAccuracy": 51.4,
+     "directionalAccuracy": 51.5,
      "directionalCI95": [
-      41.8,
-      62.7
+      41.5,
+      61.9
      ],
-     "directionalCount": 6986,
+     "directionalCount": 7041,
      "hold": {
-      "count": 8471,
-      "marketRelativeMeanReturn": 0.03,
-      "meanReturn": 0.21,
-      "medianReturn": -0.06,
+      "count": 8705,
+      "marketRelativeMeanReturn": -0.02,
+      "meanReturn": 0.07,
+      "medianReturn": -0.23,
       "precision": 51.7
      },
-     "matured": 15457,
-     "overallAccuracy": 51.5,
-     "pending": 1008,
+     "matured": 15746,
+     "overallAccuracy": 51.6,
+     "pending": 719,
      "sell": {
-      "count": 5967,
-      "marketRelativeMeanReturn": 0.62,
-      "meanReturn": 0.56,
-      "medianReturn": -0.77,
-      "precision": 53.3
+      "count": 5999,
+      "marketRelativeMeanReturn": 0.52,
+      "meanReturn": 0.45,
+      "medianReturn": -0.84,
+      "precision": 53.4
      },
      "status": "OK",
-     "uniqueDates": 31
+     "uniqueDates": 32
     },
     "base-2026-08-15-parity-hotfix": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 2392,
+     "pending": 2990,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     }
@@ -130,7 +130,7 @@ const MODEL_SCOREBOARD = {
      "actionDistribution": {},
      "matured": 0,
      "note": "현재 버전(2026-08-15 hotfix 이후) 기록을 축적하는 중입니다",
-     "pending": 2392,
+     "pending": 2990,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
@@ -144,18 +144,18 @@ const MODEL_SCOREBOARD = {
    "icon": "🟢",
    "id": "base_production",
    "internalVersion": null,
-   "maturedCount": 15457,
+   "maturedCount": 15746,
    "note": "현재 사이트에 실제로 보이는 판단입니다.",
-   "pendingCount": 3400,
+   "pendingCount": 3709,
    "primarySelection": null,
    "probabilityMetrics": {
     "status": "NOT_APPLICABLE"
    },
    "producesProbability": false,
-   "recordCount": 18857,
+   "recordCount": 19455,
    "status": "LIVE_PRODUCTION",
    "statusLabel": "실제 서비스",
-   "uniquePredictionDates": 31,
+   "uniquePredictionDates": 32,
    "usesDart": true,
    "withheldCount": 0
   },
@@ -170,21 +170,21 @@ const MODEL_SCOREBOARD = {
     "20": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 2392,
+     "pending": 2990,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
     "5": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 2392,
+     "pending": 2990,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
     "60": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 2392,
+     "pending": 2990,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     }
@@ -199,10 +199,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 2392,
+   "recordCount": 2990,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 4,
+   "uniquePredictionDates": 5,
    "usesDart": false
   },
   {
@@ -214,21 +214,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -240,21 +240,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -266,21 +266,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -292,21 +292,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -321,23 +321,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     },
     "5": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     }
    },
    "icon": "🧪",
@@ -350,10 +350,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 2392,
+   "recordCount": 2990,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 4,
+   "uniquePredictionDates": 5,
    "usesDart": false
   },
   {
@@ -365,21 +365,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -391,21 +391,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -417,21 +417,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -443,21 +443,21 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 2392,
+       "pending": 2990,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -472,23 +472,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     },
     "5": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 9568,
+     "pending": 11960,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 4
+     "uniqueDates": 5
     }
    },
    "icon": "🧪",
@@ -501,10 +501,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 2392,
+   "recordCount": 2990,
    "status": "SHADOW_STARTING",
    "statusLabel": "준비중",
-   "uniquePredictionDates": 4,
+   "uniquePredictionDates": 5,
    "usesDart": true
   },
   {
@@ -566,6 +566,6 @@ const MODEL_SCOREBOARD = {
   "status": "REGIME_DATA_INSUFFICIENT"
  },
  "researchKeyAvailable": true,
- "researchRecordDays": 4,
+ "researchRecordDays": 5,
  "schemaVersion": "gaeo_model_registry_v1"
 };
