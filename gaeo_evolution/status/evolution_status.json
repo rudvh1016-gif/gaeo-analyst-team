@@ -1,0 +1,44 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-08-22T01:19:41+09:00",
+ "mode": "BOOTSTRAP_SHADOW",
+ "productionVersion": "base-2026-08-15-parity-hotfix",
+ "lastEvaluationAt": "2026-08-22T01:19:41+09:00",
+ "baselineSummary": {
+  "n": 16074,
+  "uniqueDays": 33,
+  "regimeCount": 5,
+  "coveragePct": 44.3,
+  "brier": 0.2596,
+  "actionablePrecisionPct": 51.7,
+  "buyPrecisionPct": 39.3,
+  "sellPrecisionPct": 53.8
+ },
+ "candidateCounts": {},
+ "memory": {
+  "total": 20,
+  "byStatus": {
+   "candidate": 2,
+   "validated": 18,
+   "stale": 0,
+   "deprecated": 0
+  },
+  "schemaVersion": 1,
+  "detailStored": false,
+  "note": "암호화 저장 불가(ResearchArchiveKeyMissing) — 평문 저장은 하지 않음"
+ },
+ "failureClusterCount": 20,
+ "researchNeeded": true,
+ "lastPromotion": null,
+ "lastRollback": null,
+ "systemHealth": "OK",
+ "safeModeReasons": [],
+ "llmUsageKnown": false,
+ "costKnown": false,
+ "claim": "GAEO는 실제 결과를 지속적으로 평가하고, 검증된 개선만 반영하도록 설계되어 있다. 적중률이 저절로 오른다는 보장은 없다.",
+ "notes": [
+  "데이터 기준일 2026-08-21",
+  "previousStable 없음 — 첫 승격 전까지 점검 대상 없음",
+  "cheap filter: 생성 18 → 생존 0 · 탈락 18"
+ ]
+}

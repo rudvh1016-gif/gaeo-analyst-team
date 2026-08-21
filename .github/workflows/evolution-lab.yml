@@ -1,0 +1,79 @@
+# GAEO Evolution Lab — 주 1회, 장 닫힌 시간, 결정론(무LLM) 연구 실행.
+#
+# 하는 일: Baseline 성적표 갱신 · Failure Mining · Deterministic Candidate 연구 ·
+#          Gate 판정(Bootstrap) · 공개 Status 갱신.
+# 안 하는 일: Claude/LLM API 호출(credential 가정 금지) · Production 코드 수정 ·
+#             Constitution/Benchmark/Workflow 변경 · 시장시간 실행.
+#
+# 커밋 안전장치: Constitution의 autoCommitAllowlist 밖 파일이 하나라도 변경되면
+#                커밋하지 않고 FAIL한다(FAIL CLOSED).
+name: evolution-lab
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * 6"   # 토 23:00 UTC = 일 08:00 KST — 다른 워크플로와 충돌 없음
+
+concurrency:
+  group: evolution-lab
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 계약 테스트가 먼저다 — 미래정보·표본조작·보호경로 위반은 여기서 막힌다.
+      - name: Harness contract tests
+        run: python -m unittest test_gaeo_evolution -q
+
+      - name: Run deterministic evolution lab
+        env:
+          # Key가 없으면 상세 Memory 저장은 생략된다(평문 fallback 없음).
+          RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
+        run: python run_evolution_lab.py
+
+      - name: Enforce commit allowlist (FAIL CLOSED)
+        id: allowlist
+        run: |
+          CHANGED=$(git diff --name-only)
+          echo "changed files:"; echo "$CHANGED"
+          if [ -z "$CHANGED" ]; then
+            echo "noop=true" >> "$GITHUB_OUTPUT"
+            echo "변경 없음 — no-op fast exit"
+            exit 0
+          fi
+          echo "noop=false" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" | python -c "
+          import sys
+          sys.path.insert(0, '.')
+          from gaeo_evolution import constitution
+          const = constitution.load()
+          changed = [l.strip() for l in sys.stdin if l.strip()]
+          violations, outside = constitution.check_changed_paths(changed, const)
+          if violations or outside:
+              print('커밋 금지 — allowlist 밖 변경:', violations + outside)
+              sys.exit(1)
+          print('allowlist OK:', changed)
+          "
+
+      - name: Commit allowlisted results
+        if: steps.allowlist.outputs.noop == 'false'
+        run: |
+          git config user.name "gaeo-evolution-lab"
+          git config user.email "actions@users.noreply.github.com"
+          git add gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ 2>/dev/null || true
+          git commit -m "evolution: 주간 결정론 연구 기록 갱신 [skip ci]" || exit 0
+          git pull --no-rebase -q origin main
+          git push origin HEAD:main

@@ -238,6 +238,23 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 이 저장소를 개발·점검·성장시키는 작업(사용자에게 보여줄 종목 판단이 아니라 이 서비스 자체를 다루는 작업)을 돕는 8개 Agent + 8개 `gaeo-` Skill이 `.claude/agents/gaeo-*.md`·`.claude/skills/gaeo-*/SKILL.md`에 있다. Claude Code에서 `/gaeo-strategy`(방향 제안, 읽기 전용)·`/gaeo-design`(디자인 점검, 읽기 전용)·`/gaeo-build`(구현)·`/gaeo-review`(배포 전 검수)·`/gaeo-bug`(버그 수정)·`/gaeo-quant`(분석력 실증 검증)·`/gaeo-growth`(유입·성장 검토)·`/gaeo-health`(전체 점검, 읽기 전용)로 호출한다. 전체 구조·안전 규칙·주간 자동 제안(Routine) 방식은 `docs/gaeo_team_system.md`에 정리돼 있다. Codex 등 다른 에이전트는 이 체계를 직접 호출할 수 없지만, 같은 절차를 텍스트 그대로 따라 하면 동일한 결과를 낼 수 있다.
 
+## GAEO Evolution Harness (2026-08-21 신설 — gaeo_evolution/)
+
+GAEO가 실측 결과로 실패를 찾고, 안전범위 후보를 만들어 시험까지 보게 하는 계층.
+**전부 ADDITIVE** — 기존 판단 경로(analyze_auto.py 등)를 읽기만 하고 수정하지 않는다.
+
+- 실행: 주 1회 `evolution-lab` workflow(무LLM·결정론) + Claude Code `/gaeo-evolve`(가설 spec만)
+- 원칙: 600종 자동분석 LLM 토큰 0 유지 · 정밀분석 대상 자동확대 금지 ·
+  Candidate가 Production을 직접 수정하는 것 금지 · 승격은 실전 Shadow 실측이
+  `gaeo_evolution/evolution_constitution.json`의 promotionFloor(기존
+  compute_model_intelligence minimums이 바닥값)를 채우고 사람이 승인해야만 한다.
+- 보호: Constitution+checksum(어긋나면 SAFE_MODE), 자동 커밋은
+  `gaeo_evolution/registry|status/`·`research_archive/evolution/`만 허용(위반=커밋 거부).
+- Rollback: previousStableVersion(config 선택 방식). 상세는
+  `docs/GAEO_EVOLUTION_ARCHITECTURE.md`·`docs/GAEO_HARNESS.md`·`docs/GAEO_EVOLUTION_SAFETY.md`.
+- ⚠️ Constitution 수정은 사람 전용: JSON 수정 후 `constitution.write_checksum()`으로
+  재고정해 두 파일을 함께 커밋한다.
+
 ## 작업 전 체크리스트 (모든 에이전트 공통)
 
 1. 이 문서(AGENTS.md)와 `CLAUDE.md`를 읽었는가?
