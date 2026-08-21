@@ -249,6 +249,29 @@ class Financials(unittest.TestCase):
             covered |= set(spec["for"])
         self.assertTrue(wanted <= covered, f"대응 없는 축: {wanted - covered}")
 
+    def test_operating_profitability_inputs_are_collected(self):
+        """FF5 영업수익성의 분자에 필요한 판관비·이자비용을 실제로 뽑는가.
+
+        (docs/gaeo_diana_v2_feature_registry.md 10절 2번 — 이 둘이 없어서
+         operatingProfitability가 NOT_READY로 막혀 있었다.)
+        ⚠️ 수집만 늘린 것이다. 이 값으로 점수를 만들지 않는다.
+        """
+        out = P.extract_financials({"list": [
+            {"sj_div": "IS", "account_id": "dart_SellingGeneralAdministrativeExpenses",
+             "account_nm": "판매비와관리비", "thstrm_amount": "1,234"},
+            {"sj_div": "IS", "account_id": "ifrs-full_InterestExpense",
+             "account_nm": "이자비용", "thstrm_amount": "56"}]})
+        self.assertEqual(out["values"]["sgaExpenses"], 1234)
+        self.assertEqual(out["values"]["interestExpense"], 56)
+        # 회사마다 계정명이 다르므로 이름으로도 잡혀야 한다(account_id가 없는 응답).
+        by_name = P.extract_financials({"list": [
+            {"sj_div": "IS", "account_nm": "판매비및관리비", "thstrm_amount": "77"}]})
+        self.assertEqual(by_name["values"]["sgaExpenses"], 77)
+        # 없으면 0이 아니라 NOT_AVAILABLE로 남아야 한다(지어내지 않는다).
+        empty = P.extract_financials({})
+        self.assertEqual(empty["values"]["sgaExpenses"], P.NOT_AVAILABLE)
+        self.assertEqual(empty["values"]["interestExpense"], P.NOT_AVAILABLE)
+
     def test_pit_record_separates_period_and_visibility(self):
         rec = P.financial_pit_record("00126380", "005930", 2026, P.REPRT_CODES["H1"],
                                      P.extract_financials({}),

@@ -229,7 +229,7 @@ NAVER·KB금융은 `IS`가 없고 `CIS`(포괄손익계산서)만 있다. 그래
 | Feature | 상태 | 막힌 것 |
 | --- | --- | --- |
 | `grossProfitability` | `POTENTIALLY_AVAILABLE` | 제조업은 계산 가능. **서비스업 일부는 원천 부재**, 금융업은 개념 부재 |
-| `operatingProfitability` | **`NOT_READY`** | 판관비·이자비용 미수집(FF5 원공식 분자에 필요) |
+| `operatingProfitability` | `PENDING_REAL_RESPONSE_CHECK` | 2026-08-21 판관비·이자비용을 수집 목록에 추가했다(`FINANCIAL_TARGETS`의 `sgaExpenses`·`interestExpense`). 합성 응답에서는 뽑히지만 **실제 DART 응답에 그 계정이 있는지는 아직 확인 전** |
 | `accruals` | `POTENTIALLY_AVAILABLE` (`CASH_FLOW_PROXY`) | 직전기 자산총계 필요(2개 연도 수집 미구현) |
 | `assetGrowth` | `POTENTIALLY_AVAILABLE` | 2개 연도 필요, 논문 LOCKED PACK 등재 필요 |
 | `leverage` | `GAEO_PROXY` (`liabilitiesToAssets`) | 표준 정의 없음. 금융업은 의미가 다름 |
@@ -242,9 +242,17 @@ NAVER·KB금융은 `IS`가 없고 `CIS`(포괄손익계산서)만 있다. 그래
 ## 10. 다음에 할 일
 
 1. ~~대표기업 실응답 Coverage 확인~~ → **완료** (위 8절)
-2. `operatingProfitability`를 위해 판관비·이자비용을 수집 목록에 추가.
+2. ~~`operatingProfitability`를 위해 판관비·이자비용을 수집 목록에 추가~~
+   → **완료** (2026-08-21). `FINANCIAL_TARGETS`에 `sgaExpenses`·`interestExpense`를
+   넣었고 `test_dart_pipeline.py`가 추출을 검증한다.
+   **남은 것**: 대표기업 실응답에 이 두 계정이 실제로 있는지 확인
+   (`dart_smoke_test.py`). 없으면 지금처럼 `NOT_AVAILABLE`로 남는다 — 0으로
+   만들지 않으므로 잘못된 점수가 생길 위험은 없다.
 3. `accruals` · `assetGrowth`를 위해 **직전 회계연도 재무를 함께 수집**
    (현재는 한 해만 받는다). 공시 기반으로 필요한 회사만.
+   ⚠️ 이건 설정 추가가 아니라 **수집 경로 신설**이다. `financial_statement()`는
+   현재 일일 수집에 연결돼 있지 않고 스모크 테스트에서만 쓰인다. API 예산
+   (`dart_budget.py`)과 대상 선정 규칙을 함께 정해야 하므로 별도 작업으로 다룬다.
 4. `assetGrowth` 논문을 LOCKED PAPER PACK에 등재.
 5. 금융업 종목 전체 목록 확정. 지금은 업종명 낱말로 판정하는 임시 방식이다.
 6. CFS/OFS가 시계열에서 섞이는지 실측 후 `FS_DIV_INCONSISTENT` 규칙 적용.
