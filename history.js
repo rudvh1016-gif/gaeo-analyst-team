@@ -346767,6 +346767,35 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-21 09:46",
+   "call": "SELL",
+   "total": 41,
+   "confidence": 60,
+   "base": 17520,
+   "baseAt": "2026-08-21 09:36",
+   "target": "증권사 컨센서스 목표주가 5,700원(8월 20일 기준, 현재가 대비 -67%). 저항은 3개월이자 52주 최고가인 19,380원, 지지는 8월 20일 종가 15,650원과 5일선 14,624원이며, 이 둘을 내주면 20일선 11,206원까지 받쳐줄 구간이 비어 있다.",
+   "modelVersion": null,
+   "baseModelVersion": null,
+   "judgmentWithheld": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 55
+   },
+   "diana": {
+    "stance": "bear",
+    "score": 38
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 55
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 30
+   }
   }
  ],
  "003160": [
