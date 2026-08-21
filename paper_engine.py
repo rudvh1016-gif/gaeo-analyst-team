@@ -50,6 +50,14 @@ DEFAULT_DIR = os.path.join(HERE, "paper_trading")
 
 # 성과 결론(승률·평균수익률 등)을 숫자로 내보내려면 최소한 이만큼의 청산 표본이 있어야 한다.
 MIN_CLOSED_FOR_EVIDENCE = 20
+# 🔒 건수만 세면 안 된다. 같은 날 한꺼번에 들어간 20건은 20번의 독립된 시행이 아니다.
+#    이 계좌는 1,000만원을 종목당 100만원으로 나눠 쓰므로 자리가 10칸이고, 그 10칸이
+#    한 덩어리로 들어갔다 한 덩어리로 나온다(실측: 2026-08-18 10건이 전부 11:05 진입).
+#    그래서 청산 건수만 보면 "판단일 2일짜리 20건"이 게이트를 통과해 버린다.
+#    같은 사이트의 성적표(build_model_scoreboard.MIN_UNIQUE_DATES)는 정확히 같은 이유로
+#    이미 판단일 20일을 요구하고, 화면에도 "하루 600종목 판단은 600개의 독립 실험이
+#    아닙니다"라고 써 두었다. 화면마다 잣대가 다르지 않도록 여기서도 같은 값을 쓴다.
+MIN_ENTRY_DAYS_FOR_EVIDENCE = 20
 # 표본이 그보다 적으면 아래 필드는 계산해 두고도 전부 null로 내보낸다.
 # (evidence 라벨만 INSUFFICIENT로 두고 숫자는 그대로 두면, 화면·외부 사용처가
 #  그 숫자만 집어다 "승률 100%" 같은 결론으로 쓰는 사고가 난다.)
@@ -61,7 +69,58 @@ EVIDENCE_GATED_FIELDS = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          "avgWinPct", "avgLossPct", "profitFactor", "expectancyPct",
                          "winLossRatio", "sumTradeReturnsPct", "grossReturnPct",
                          "avgBenchmarkReturnPct", "avgRelativeReturnPct",
-                         "avgMfePct", "avgMaePct")
+                         "avgMfePct", "avgMaePct",
+                         # 순수익도 성과 결론이다 — 표본이 차기 전엔 숫자로 내지 않는다.
+                         "estimatedNetReturnPct")
+
+
+# ── 거래비용 모델 (2026-08-21 확정) ─────────────────────────────────────────
+# ⚠️ 추정치를 지어내지 않는다. 출처가 있는 공시 요율만 쓰고 확인 날짜를 함께 남긴다.
+#    요율이 바뀌면 버전을 올린다 — 옛 기록은 그때의 버전으로 남아 소급되지 않는다.
+COST_MODEL_VERSION = "COST_MODEL_V1_2026H2"
+COST_MODEL_VERIFIED_AT = "2026-08-21"
+# 위탁수수료 — 토스증권 국내주식, 매수·매도 양방향에 각각 부과(KRX 체결 기준).
+#   2025-12 ~ 2026-06 무료 이벤트가 끝나 기본 요율이 다시 적용된다.
+#   ⚠️ NXT(대체거래소) 체결은 0.014%로 더 싸지만, 이 엔진은 국내 정규장만 쓰므로
+#      더 비싼 KRX 요율을 쓴다(비용을 낮게 잡아 성과를 부풀리지 않는다).
+COMMISSION_PCT = 0.015
+# 증권거래세(+농어촌특별세) — 매도할 때만 부과된다.
+#   유가증권(코스피): 증권거래세 0.05% + 농어촌특별세 0.15% = 0.20%
+#   코스닥:           증권거래세 0.20% (농어촌특별세 없음)   = 0.20%
+#   근거: 국가법령정보센터 '찾기쉬운 생활법령정보' 증권거래세율(2026-07-15 기준)
+SELL_TAX_PCT = {"KOSPI": 0.20, "KOSDAQ": 0.20}
+SELL_TAX_DEFAULT_PCT = 0.20
+# 슬리피지는 별도 가정을 만들지 않는다. 이 엔진은 실측 호가로 체결하므로
+# (매수 Best Ask · 매도 Best Bid) 스프레드 비용이 이미 체결가에 들어 있다.
+# 대량주문의 시장충격은 종목당 100만원 규모에서 모형화하지 않는다 — 그 한계를 명시한다.
+
+
+def net_return_pct(entry_price, exit_price, market):
+    """수수료·세금을 반영한 실질 수익률(%). 근거 없는 값은 만들지 않는다(None)."""
+    if not entry_price or exit_price is None:
+        return None
+    c = COMMISSION_PCT / 100.0
+    t = SELL_TAX_PCT.get(market, SELL_TAX_DEFAULT_PCT) / 100.0
+    paid = entry_price * (1 + c)          # 살 때 실제로 나간 돈
+    received = exit_price * (1 - c - t)   # 팔 때 실제로 들어온 돈
+    return round((received / paid - 1) * 100, 3)
+
+
+def cost_model_detail():
+    """화면·외부가 '무엇을 얼마로 반영했는지' 그대로 읽을 수 있게 근거를 싣는다."""
+    return {
+        "version": COST_MODEL_VERSION,
+        "verifiedAt": COST_MODEL_VERIFIED_AT,
+        "commissionPct": COMMISSION_PCT,
+        "commissionNote": "토스증권 국내주식 위탁수수료(KRX 체결). 매수·매도 각각 부과.",
+        "sellTaxPct": dict(SELL_TAX_PCT),
+        "sellTaxNote": "증권거래세+농어촌특별세, 매도 시에만 부과. "
+                       "코스피 0.05%+0.15%, 코스닥 0.20%(농특세 없음).",
+        "roundTripPct": round(COMMISSION_PCT * 2 + SELL_TAX_DEFAULT_PCT, 3),
+        "slippageModeled": False,
+        "slippageNote": "체결가가 실측 호가(매수 Best Ask·매도 Best Bid)라 스프레드는 "
+                        "이미 반영돼 있다. 대량주문 시장충격은 모형화하지 않는다.",
+    }
 
 
 # ── 유틸 ────────────────────────────────────────────────────────────────────
@@ -735,9 +794,11 @@ class PaperEngine:
                       "exit_reason": reason, "exit_business_date": today_date,
                       "holding_trading_days": holding_days,
                       "gross_return_pct": round(gross, 3),
-                      # 비용 미검증 → 순수익 과장 금지(COST_MODEL_INCOMPLETE)
-                      "estimated_net_return_pct": None,
-                      "cost_model": "COST_MODEL_INCOMPLETE",
+                      # 💸 수수료·세금을 반영한 실질 수익률. 어떤 요율로 계산했는지
+                      #    cost_model 버전으로 함께 남긴다(요율이 바뀌어도 소급되지 않게).
+                      "estimated_net_return_pct": net_return_pct(
+                          r["entry_price"], price, r.get("market")),
+                      "cost_model": COST_MODEL_VERSION,
                       "mfe_pct": round((meta.get("mfePrice", price) - r["entry_price"])
                                        / r["entry_price"] * 100, 3),
                       "mae_pct": round((meta.get("maePrice", price) - r["entry_price"])
@@ -799,6 +860,12 @@ class PaperEngine:
         wins = [x for x in rets if x > 0]
         losses = [x for x in rets if x < 0]
         rel = [r["relative_return_pct"] for r in closed if r.get("relative_return_pct") is not None]
+        # 🔒 표본의 '건수'와 '독립성'을 따로 센다. 같은 날 담은 종목들은 같은 시장에
+        #    같이 노출되므로 서로 독립이 아니다 — 판단일 수가 실질 시행 횟수에 가깝다.
+        entry_days = {r.get("entry_business_date") for r in closed
+                      if r.get("entry_business_date")}
+        evidence_ok = (len(closed) >= MIN_CLOSED_FOR_EVIDENCE
+                       and len(entry_days) >= MIN_ENTRY_DAYS_FOR_EVIDENCE)
 
         def _avg(v):
             return round(sum(v) / len(v), 3) if v else None
@@ -816,11 +883,19 @@ class PaperEngine:
             "forwardStart": "2026-08-18",
             "engineStartedAt": self.state.get("engineStartedAt"),
             "generatedAt": iso(now_kst()),
-            "evidence": ("INSUFFICIENT_EVIDENCE — 표본이 적어 성과 결론 금지"
-                         if len(closed) < MIN_CLOSED_FOR_EVIDENCE else "SAMPLE_OK"),
+            # 무엇이 모자라는지 구분해 적는다 — "건수"와 "판단일"은 다른 부족이다.
+            "evidence": ("SAMPLE_OK" if evidence_ok
+                         else ("INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지"
+                               if len(closed) < MIN_CLOSED_FOR_EVIDENCE
+                               else "INSUFFICIENT_EVIDENCE — 판단일이 적어 성과 결론 금지"
+                                    "(같은 날 담은 거래는 서로 독립이 아님)")),
             "totalForwardSignals": len(rows),
             "openTrades": len(opens),
             "maturedTrades": len(closed),
+            # 청산된 거래가 서로 다른 며칠에 걸쳐 시작됐는지 — 실질 시행 횟수의 근거.
+            "closedEntryDays": len(entry_days),
+            "minClosedForEvidence": MIN_CLOSED_FOR_EVIDENCE,
+            "minEntryDaysForEvidence": MIN_ENTRY_DAYS_FOR_EVIDENCE,
             "skippedSignals": len(skipped),
             "winRatePct": round(len(wins) / len(rets) * 100, 1) if rets else None,
             "avgReturnPct": _avg(rets), "medianReturnPct": _median(rets),
@@ -834,8 +909,10 @@ class PaperEngine:
             #    화면에는 절대 '누적 가상수익률'로 쓰지 않는다(그 값은 portfolioReturnPct).
             "sumTradeReturnsPct": round(sum(rets), 3) if rets else None,
             "grossReturnPct": round(sum(rets), 3) if rets else None,   # legacy alias(내부)
-            "estimatedNetReturnPct": None,
-            "costModel": "COST_MODEL_INCOMPLETE — 수수료·세금 미검증(0으로 가정하지 않음)",
+            "estimatedNetReturnPct": _avg([r["estimated_net_return_pct"] for r in closed
+                                           if r.get("estimated_net_return_pct") is not None]),
+            "costModel": COST_MODEL_VERSION,
+            "costModelDetail": cost_model_detail(),
             "avgBenchmarkReturnPct": _avg([r["benchmark_return_pct"] for r in closed
                                            if r.get("benchmark_return_pct") is not None]),
             "avgRelativeReturnPct": _avg(rel),
@@ -846,11 +923,11 @@ class PaperEngine:
             "note": ("가상자금 기록 전용 — 실제 계좌·주문 없음. "
                      "Production 모델을 그대로 검증하며 결과로 모델을 자동 수정하지 않는다."),
         }
-        # 🔒 표본 게이트 — 청산 표본이 최소치 미만이면 성과 결론 필드를 숫자로 내보내지 않는다.
+        # 🔒 표본 게이트 — 건수와 판단일을 둘 다 채워야 성과 결론 필드를 숫자로 내보낸다.
         # evidence 라벨은 이미 INSUFFICIENT를 달고 있었지만 숫자 자체는 살아 있어서,
         # 라벨을 안 보는 소비자(공개 스냅샷·외부 스크립트)가 "청산 2건짜리 승률 50%"를
         # 그대로 성과처럼 쓸 수 있었다. 표본이 차기 전에는 필드 자체가 null이어야 한다.
-        if len(closed) < MIN_CLOSED_FOR_EVIDENCE:
+        if not evidence_ok:
             for _k in EVIDENCE_GATED_FIELDS:
                 summary[_k] = None
         # 📊 Mark-to-Market 회계 (표시·MDD 전용 — 매매 행동에 영향 0)

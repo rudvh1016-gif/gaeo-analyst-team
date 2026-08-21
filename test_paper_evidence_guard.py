@@ -23,6 +23,7 @@ import os
 import shutil
 import sys
 import tempfile
+from datetime import datetime, timedelta
 
 import paper_engine as pe
 import paper_public as pp
@@ -40,29 +41,39 @@ def check(name, cond, detail=""):
         FAILURES.append(name)
 
 
-def closed_trade(i, ret):
-    """청산 완료된 가상 거래 한 건(승/패는 ret 부호로)."""
+def closed_trade(i, ret, day=None):
+    """청산 완료된 가상 거래 한 건(승/패는 ret 부호로).
+
+    day를 주지 않으면 거래마다 서로 다른 진입일을 준다 — 게이트의 '판단일' 조건을
+    통과시키기 위한 기본값이다. 같은 날 무더기 진입을 재현하려면 day를 고정한다.
+    """
     entry = 10_000
+    d = day or (datetime(2026, 8, 18) + timedelta(days=i)).strftime("%Y-%m-%d")
     return {"trade_id": f"c{i}", "environment": "TEST", "status": "CLOSED",
             "symbol": f"{i:06d}", "name": f"종목{i}", "market": "KOSPI",
             "signal": "BUY", "entry_price": entry, "quantity": 100,
             "exit_price": round(entry * (1 + ret / 100)),
             "exit_reason": "MAX_HOLDING_5D", "gross_return_pct": ret,
             "holding_trading_days": 5,
-            "entry_business_date": "2026-08-18", "exit_business_date": "2026-08-25",
-            "detected_at": "2026-08-18T10:10:00+09:00",
-            "exit_at": "2026-08-25T10:10:00+09:00"}
+            "entry_business_date": d, "exit_business_date": "2026-09-30",
+            "detected_at": f"{d}T10:10:00+09:00",
+            "exit_at": "2026-09-30T10:10:00+09:00"}
 
 
-def build_summary(n_closed):
-    """청산 n건짜리 원장을 만들고 엔진이 쓰는 summary.json을 그대로 돌려준다."""
+def build_summary(n_closed, same_day=False):
+    """청산 n건짜리 원장을 만들고 엔진이 쓰는 summary.json을 그대로 돌려준다.
+
+    same_day=True면 전부 같은 날 진입한 것으로 만든다(실제 계좌에서 자리 10칸이
+    한 덩어리로 움직이는 상황을 재현).
+    """
     tmp = tempfile.mkdtemp(prefix="pev_")
     try:
         with open(os.path.join(tmp, "trades.jsonl"), "w", encoding="utf-8") as f:
             for i in range(n_closed):
                 # 승/패를 섞어야 avgWinPct·avgLossPct·profitFactor가 실제로 계산된다.
                 ret = 2.0 if i % 2 == 0 else -1.0
-                f.write(json.dumps(closed_trade(i, ret), ensure_ascii=False) + "\n")
+                day = "2026-08-18" if same_day else None
+                f.write(json.dumps(closed_trade(i, ret, day), ensure_ascii=False) + "\n")
         eng = pe.PaperEngine(None, data_dir=tmp, config=CFG, environment="TEST")
         eng._write_summary()
         return json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
@@ -88,10 +99,30 @@ check("표본 부족 — 건수·평가 계열은 그대로 살아 있다",
       and scarce["initialVirtualCash"] == 10_000_000)
 
 # ── ② 표본 충족: 같은 필드가 숫자로 나온다(과잉 차단 방지) ─────────────────
-ok = build_summary(MIN)
+ok = build_summary(max(MIN, pe.MIN_ENTRY_DAYS_FOR_EVIDENCE))
 check("표본 충족 — evidence가 SAMPLE_OK", ok["evidence"] == "SAMPLE_OK", str(ok["evidence"]))
 missing = [k for k in GATED if ok.get(k) is None]
 check("표본 충족 — 성과 결론 필드가 실제 숫자로 계산된다", not missing, str(missing))
+
+# ── ②-2 건수는 찼지만 판단일이 하루뿐이면 여전히 막는다 (2026-08-21 신설) ──
+# 이 계좌는 1,000만원을 종목당 100만원으로 나눠 자리가 10칸이라, 열 종목이 한 덩어리로
+# 들어갔다 한 덩어리로 나온다. 그래서 "청산 20건"은 쉽게 채워지지만 그 20건의 판단일은
+# 2일뿐일 수 있다. 같은 사이트의 성적표는 정확히 그런 숫자를 거부하므로, 여기서도 막는다.
+MIN_DAYS = pe.MIN_ENTRY_DAYS_FOR_EVIDENCE
+check("판단일 기준이 상수로 노출돼 있다", isinstance(MIN_DAYS, int) and MIN_DAYS >= 2, str(MIN_DAYS))
+lumped = build_summary(max(MIN, MIN_DAYS), same_day=True)
+check("건수는 찼는데 판단일 1일 — 건수는 사실대로 센다",
+      lumped["maturedTrades"] >= MIN and lumped["closedEntryDays"] == 1,
+      f'건수 {lumped["maturedTrades"]} / 판단일 {lumped["closedEntryDays"]}')
+check("건수는 찼는데 판단일 1일 — evidence가 INSUFFICIENT",
+      str(lumped["evidence"]).startswith("INSUFFICIENT"), str(lumped["evidence"]))
+check("건수는 찼는데 판단일 1일 — 무엇이 모자란지 문장에 적는다",
+      "판단일" in str(lumped["evidence"]), str(lumped["evidence"]))
+lumped_leak = {k: lumped.get(k) for k in GATED if lumped.get(k) is not None}
+check("건수는 찼는데 판단일 1일 — 성과 결론이 새지 않는다", not lumped_leak, str(lumped_leak))
+check("표본 진행 상황을 숫자로 내보낸다(화면이 사유를 설명할 근거)",
+      lumped.get("minClosedForEvidence") == MIN
+      and lumped.get("minEntryDaysForEvidence") == MIN_DAYS)
 check("표본 충족 — 승률이 실제 승패 비율과 일치",
       abs(ok["winRatePct"] - (MIN + 1) // 2 / MIN * 100) < 0.11, str(ok["winRatePct"]))
 
