@@ -194,6 +194,11 @@ jobs:
             # 0.01초짜리라 매 사이클 돌려도 부담이 없고, 깨진 산식이 홈에 나가는 걸 막는다.
             python3 -m unittest test_rotation_picks -q \
               && timeout 180 python3 compute_rotation_picks.py || echo "rotation_picks 생성 실패"
+            # 🔎 반등 후보 관찰 기록 — GAEO 「매수 고려」가 놓치는 폭등을 다른 규칙으로 잡을 수
+            #   있는지 성적만 쌓는다(실제 매수 없음). price_history.js가 갱신된 뒤에 돌아야 한다.
+            #   계약 테스트를 먼저 돌린다 — 미래를 보거나 표본 없이 성적을 만들면 여기서 막힌다.
+            python3 -m unittest test_rebound_watch -q \
+              && timeout 180 python3 compute_rebound_watch.py || echo "반등 후보 생성 실패"
             # 🤖 자동분석 600종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
             #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
             #   이게 있어야 모든 종목이 적중률 채점 대상이 되어 트랙레코드가 쌓인다.

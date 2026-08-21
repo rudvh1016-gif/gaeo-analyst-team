@@ -1356,6 +1356,14 @@
     line-height:1.55;overflow-wrap:anywhere}
   .pv-sec{margin:0 0 34px}
   .pv-sec-h{margin:0 0 5px;font-size:15.5px;font-weight:600;letter-spacing:-.012em}
+  /* 🔎 반등 후보 관찰 — 아직 검증 중인 구역이라 "실험 중" 표를 달아 본 기록과 구분한다. */
+  .pv-rw-tag{display:inline-block;margin-left:7px;padding:2px 7px;border:1px solid var(--color-border-strong);
+    border-radius:99px;color:var(--color-text-secondary);font-size:10.5px;font-weight:500;vertical-align:middle}
+  .pv-rw-list{display:grid;gap:7px;margin:10px 0 14px}
+  .pv-rw-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:11px 13px;
+    border:1px solid var(--color-border);border-radius:12px;background:var(--color-surface-soft)}
+  .pv-rw-name{font-size:14px;font-weight:600}
+  .pv-rw-meta{color:var(--color-text-secondary);font-size:12px;font-variant-numeric:tabular-nums}
   .pv-sec-d{margin:0 0 14px;font-size:12.5px;color:var(--dim);line-height:1.75;
     max-width:58ch;overflow-wrap:anywhere}
   /* 성과 상세 — 지표 하나에 카드 하나를 만들지 않고 행으로만 쌓는다 */
@@ -4957,6 +4965,9 @@ window.GaeoFeatures=(()=>{
     rotationPicks:['rotation_picks.js'],
     // 📚 "정밀분석 기록" 탭을 실제로 열 때만 받는다(대부분의 종목엔 해당 없음).
     archive:['analysis_archive.js'],
+    // 🔎 반등 후보 관찰 기록 — 모의투자 화면을 열 때만 받는다. 날마다 조금씩 늘어나는
+    //    누적 파일이라 홈에서 받지 않는다.
+    rebound:['rebound_watch.js'],
     // 📡 레이더 상세 차트(신호 종목의 최근 60거래일) — 홈 요약엔 필요 없어서 상세를 열 때만 받는다.
     radar:['radar_series.js'],
     // 📈 코스피·코스닥 지수 일별 이력(TARO 3단계) — 홈 화면 펼치기 패널을 열 때만 받는다.
@@ -5992,6 +6003,22 @@ function paperLoadHistory(){
     .then(()=>{ PV_HIST_LOADING=false; if(PV_VIEW==='history') renderPaper(); });
 }
 
+/* 🔎 반등 후보 관찰 기록(rebound_watch.js) — 모의투자 화면을 열 때만 받는다.
+   2026-08-21 검증에서 "GAEO BUY는 폭등을 구조적으로 놓친다"가 확인됐다
+   (+30% 폭등 342건 중 BUY는 2건, 전체 BUY 비율 6.8%보다 낮았다).
+   그 대안 규칙이 진짜 통하는지 성적을 쌓는 관찰 목록이라, 돈을 걸지 않고 기록만 한다. */
+let RW_DATA;                       // undefined=아직 안 받음 · null=실패 · 객체=받음
+let RW_LOADING=false;
+function paperLoadRebound(){
+  if(RW_LOADING||RW_DATA!==undefined) return;
+  RW_LOADING=true;
+  GaeoFeatures.load('rebound')
+    .then(()=>{ RW_DATA=(typeof window!=='undefined'&&window.REBOUND_WATCH)||null; })
+    .catch(()=>{ RW_DATA=null; })
+    .then(()=>{ RW_LOADING=false; renderPaper(); });
+}
+if(typeof window!=='undefined') window.RW_SET=v=>{ RW_DATA=v; RW_LOADING=false; };
+
 /* 모의투자 화면 상태 — 펼쳐 둔 종목·현재 하위 화면·열어 둔 날짜.
    자동 재조회(2분)로 다시 그려도 사용자가 펼쳐 둔 것이 닫히지 않게 유지한다. */
 const PV_OPEN=new Set();          // 펼쳐 둔 보유 종목 symbol
@@ -5999,6 +6026,53 @@ let PV_VIEW='holdings';           // 'holdings' | 'history'
 let PV_DAY=null;                  // 기록에서 열어 둔 날짜(YYYY-MM-DD)
 let PV_HISTORY=undefined;         // undefined=미로드 · null=실패 · object=성공
 let PV_HIST_LOADING=false;
+
+/* 🔎 반등 후보 관찰 — 모의투자 화면 안의 실험 구역.
+   ⚠️ 매수 추천이 아니다. "GAEO가 놓치는 폭등"을 잡는 규칙이 진짜인지 성적을 쌓는 중이다.
+   ⚠️ 표본이 찰 때까지 성적 숫자를 만들지 않는다. 파일이 null로 내려보내면 그대로 비운다. */
+function reboundHTML(){
+  if(RW_DATA===undefined){ paperLoadRebound();
+    return `<section class="pv-sec"><h3 class="pv-sec-h">반등 후보 관찰</h3>
+      <p class="pv-sec-d">불러오는 중이에요.</p></section>`; }
+  if(!RW_DATA) return '';                       // 파일이 없거나 실패하면 조용히 감춘다
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const S=RW_DATA.summary||{}, rule=RW_DATA.rule||{};
+  const today=(RW_DATA.entries||[]).filter(e=>e.date===RW_DATA.today);
+  const num=v=>typeof v==='number'&&isFinite(v);
+  const na=t=>`<dd class="pv-na">${t}</dd>`;
+  const rows=[
+    ['관찰한 후보', `${S.scoredCount||0}건 채점 완료 · ${S.pendingCount||0}건 결과 대기`],
+    ['관찰한 날', `${S.observedDays||0}일 / 필요 ${S.minDaysForEvidence||20}일`],
+    ['이 중 GAEO가 BUY라고 한 비율',
+      num(S.gaeoBuyRatePct)?`${S.gaeoBuyRatePct}%`:'채점된 후보가 아직 없어요'],
+    ['승률', num(S.winRatePct)?`${S.winRatePct}%`:null],
+    ['평균 수익률 <small>수수료·세금 반영</small>', num(S.avgReturnPct)?`${S.avgReturnPct}%`:null],
+    ['+15% 이상 나온 비율', num(S.surgeRatePct)?`${S.surgeRatePct}%`:null],
+  ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt>${
+    v==null?na(`표본 부족 · 채점 ${S.scoredCount||0}/${S.minScoredForEvidence||20}건`)
+           :`<dd>${esc(v)}</dd>`}</div>`).join('');
+  const list=today.length
+    ? `<div class="pv-rw-list">${today.map(e=>`<div class="pv-rw-item">
+        <span class="pv-rw-name">${esc(e.name)}</span>
+        <span class="pv-rw-meta">20일 ${esc(e.dropPct)}% · 거래량 ${esc(e.volRatio)}배${
+          e.gaeoCall?` · GAEO ${esc(e.gaeoCall)}`:''}</span></div>`).join('')}</div>`
+    : `<p class="pv-sec-d">오늘은 조건에 맞는 종목이 없어요. 없는 날도 그대로 기록합니다.</p>`;
+  return `<section class="pv-sec" aria-labelledby="pvRwH">
+    <h3 class="pv-sec-h" id="pvRwH">반등 후보 관찰 <span class="pv-rw-tag">실험 중</span></h3>
+    <p class="pv-sec-d">GAEO가 「매수 고려」로 잡아내지 못하는 폭등을 다른 규칙으로 찾을 수 있는지
+      시험하는 중이에요. <b>매수 추천이 아니고, 실제로 사지도 않습니다.</b> 조건에 맞는 종목을 매일
+      적어두고 5거래일 뒤 결과만 채점해서, 여러 시장 상황을 겪은 성적이 쌓이면 그때 쓸지 정합니다.</p>
+    <p class="pv-sec-d"><b>오늘의 후보 ${today.length}종목</b>
+      <span class="pv-asof">조건: 20거래일 ${esc(rule.dropPct)}% 이하 하락 + 거래량 평소의 ${esc(rule.volRatio)}배 이상</span></p>
+    ${list}
+    <dl class="pv-rows">${rows}</dl>
+    <p class="pv-foot">왜 이걸 보나요? 2026년 8월 21일 검증에서, 5거래일에 30% 넘게 오른 342건 가운데
+      GAEO가 「매수 고려」라고 한 건 2건(0.6%)뿐이었어요. 전체 「매수 고려」 비율 6.8%보다 낮습니다.
+      폭등하는 종목은 대부분 <b>이미 많이 떨어져 있던</b> 종목이었는데(직전 20일 평균 −20.4%),
+      GAEO는 반대로 <b>이미 오른</b> 종목을 고르고 있었어요.
+      다만 같은 검증에서 "떨어진 걸 사면 된다"는 시장 상황에 따라 정반대 결과가 나왔습니다.
+      그래서 지금은 돈을 걸지 않고 기록만 모읍니다.</p></section>`;
+}
 
 function renderPaper(){
   const el=document.getElementById('paperView');
@@ -6450,7 +6524,7 @@ function renderPaper(){
     /* 🎯 실제 투자 화면 순서: 자산 → 내 보유 종목 → 오늘 거래 → 종료 거래 → 설명.
        예전에는 '오늘 거래'가 보유 종목보다 위에 있어, 거래가 없는 날(대부분)에는
        "없어요" 두 줄을 지나야 내 종목이 나왔다. */
-    : summary+held+todaySec+closedSec+perf+how+foot;
+    : summary+held+todaySec+closedSec+perf+reboundHTML()+how+foot;
   el.innerHTML=hero+tabs+body;
   el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
