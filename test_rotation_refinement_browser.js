@@ -133,7 +133,7 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
   // ⚠️ 캐시 버전이 박혀 있는 곳이 여기 말고 test_rotation_ui.js에도 있다. 올릴 때 둘 다
   //    고쳐야 한다 — 이 파일은 playwright가 필요해 CI에서 건너뛰므로, 안 고치면 조용히
   //    깨진 채로 남는다(2026-08-20에 실제로 그렇게 됐고 검수에서 잡혔다).
-  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260820-v15')), 'rotation CSS cache version was not refreshed');
+  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260821-v18')), 'rotation CSS cache version was not refreshed');
   requireState(resourceUrls.some(url => url.includes('rotation-ui.js?v=20260821-v16')), 'rotation UI cache version was not refreshed');
   await page.evaluate(() => document.documentElement.classList.add('gdark'));
   const darkColors = await page.locator('.rot-card-today').evaluate(element => {
