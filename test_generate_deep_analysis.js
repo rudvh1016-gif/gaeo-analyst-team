@@ -7,6 +7,7 @@ const {
   normalizePublishedRecords,
   renderSnapshotPage,
   renderArchivePage,
+  renderStockHubPage,
   buildLatestRecords,
   buildManifest,
 } = require('./deep_analysis_publish');
@@ -113,8 +114,49 @@ try {
   assert.equal(fs.existsSync(path.join(tempRoot, 'research', 'deep-analysis', 'page', '2', 'index.html')), true);
   assert.match(fs.readFileSync(path.join(tempRoot, 'deep_analysis_latest.js'), 'utf8'), /const DEEP_ANALYSIS_LATEST = /);
   assert.equal(JSON.parse(fs.readFileSync(path.join(tempRoot, 'deep_analysis_manifest.json'), 'utf8')).records.length, 23);
+  // 종목별 대표 페이지: 23건이 모두 한 종목(002990)이므로 대표는 1건이어야 한다.
+  assert.equal(result.hubCount, 1);
+  assert.equal(fs.existsSync(path.join(tempRoot, 'research', 'deep-analysis', '002990', 'index.html')), true);
 } finally {
   fs.rmSync(tempRoot, { recursive: true, force: true });
 }
+
+// ── 종목별 대표 페이지 계약 ────────────────────────────────────────────────
+// 이 페이지가 없으면 같은 종목의 날짜별 기록이 서로 경쟁해서, "종목명 주가 전망"
+// 검색에 옛 기록이 뜰 수 있다. 대표 URL·최신 판단·이력 전체가 계약이다.
+const hub = renderStockHubPage(many, { baseUrl: 'https://gaeoteam.com/' });
+assert.match(hub, /<link rel="canonical" href="https:\/\/gaeoteam\.com\/research\/deep-analysis\/002990\/">/);
+assert.doesNotMatch(hub, /noindex/i, '대표 페이지는 반드시 색인 대상이어야 한다');
+assert.equal((hub.match(/<h1/g) || []).length, 1, 'H1은 정확히 1개');
+assert.match(hub, /금호건설\(002990\) 주가 전망/);
+// 최신 기록이 대표 판단으로 올라와야 한다(옛 기록이 아니라).
+assert.match(hub, new RegExp(`분석 시점[^]{0,80}${many[0].analysisCreatedAt.slice(0, 10).replace(/-/g, '\\.')}`));
+assert.equal((hub.match(/class="da-index-row"/g) || []).length, many.length, '이력은 전부 나열한다');
+many.forEach((r) => assert.ok(hub.includes(`https://gaeoteam.com${r.permalink}`), `${r.snapshotId} 링크 누락`));
+
+const hubSchemas = [...hub.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
+  .map((m) => JSON.parse(m[1]));
+assert.deepEqual(hubSchemas.map((s) => s['@type']), ['Article', 'BreadcrumbList', 'FAQPage']);
+assert.equal(hubSchemas[2].mainEntity.length, 3);
+hubSchemas[2].mainEntity.forEach((q) => {
+  assert.ok(q.name.trim().length > 0 && q.acceptedAnswer.text.trim().length > 0, 'FAQ는 비어 있으면 안 된다');
+});
+// FAQ 답변은 지어내지 않고 데이터에서 나온 값이어야 한다.
+assert.match(hubSchemas[2].mainEntity[0].acceptedAnswer.text, /SELL, 종합점수 34점, 확신도 65%/);
+
+// 스냅샷 → 대표 페이지로 돌아가는 내부 링크가 있어야 색인된다(sitemap만으로는 약하다).
+assert.match(html, /href="https:\/\/gaeoteam\.com\/research\/deep-analysis\/002990\/"/);
+// 목록 1페이지에도 대표 페이지 링크가 있어야 한다.
+const archiveFirst = renderArchivePage(many, { page: 1, pageSize: 20, baseUrl: 'https://gaeoteam.com/' });
+assert.match(archiveFirst, /class="da-hub-chip" href="https:\/\/gaeoteam\.com\/research\/deep-analysis\/002990\/"/);
+
+// XSS: 대표 페이지도 스냅샷과 같은 이스케이프 계약을 지킨다.
+assert.doesNotMatch(renderStockHubPage([hostile], { baseUrl: 'https://gaeoteam.com/' }),
+  /<script>alert\(1\)<\/script>/);
+
+const hubManifest = buildManifest(many, { baseUrl: 'https://gaeoteam.com/' });
+assert.equal(hubManifest.stockHubs.length, 1);
+assert.equal(hubManifest.stockHubs[0].loc, 'https://gaeoteam.com/research/deep-analysis/002990/');
+assert.equal(hubManifest.stockHubs[0].lastmod, many[0].analysisCreatedAt.slice(0, 10));
 
 console.log('deep analysis static publishing tests passed');

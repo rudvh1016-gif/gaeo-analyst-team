@@ -13,8 +13,9 @@ function entries(file, varname) {
 function readDeepAnalysisManifest() {
   try {
     const value = JSON.parse(fs.readFileSync('deep_analysis_manifest.json', 'utf8'));
-    return value && typeof value === 'object' ? value : { records: [], archivePages: [] };
-  } catch (e) { return { records: [], archivePages: [] }; }
+    if (!value || typeof value !== 'object') return { records: [], archivePages: [], stockHubs: [] };
+    return { records: [], archivePages: [], stockHubs: [], ...value };
+  } catch (e) { return { records: [], archivePages: [], stockHubs: [] }; }
 }
 
 const BASE = 'https://gaeoteam.com/';
@@ -36,6 +37,9 @@ add('estate', 'estate', entries('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
 add('calc', 'calc', entries('calculators.js', 'CALCULATORS'), '0.7');
 const deepManifest = readDeepAnalysisManifest();
 deepManifest.archivePages.forEach(x => urls.push({ loc: x.loc, prio: '0.7', mod: ymd(x.lastmod) }));
+// 종목별 대표 페이지가 "종목명 주가 전망" 검색의 착지점이다. 같은 종목의 날짜별
+// 스냅샷보다 우선순위를 높게 줘서, 구글이 옛 기록 대신 대표 페이지를 고르게 한다.
+deepManifest.stockHubs.forEach(x => urls.push({ loc: x.loc, prio: '0.9', mod: ymd(x.lastmod) }));
 deepManifest.records.forEach(x => urls.push({ loc: x.loc, prio: '0.8', mod: ymd(x.lastmod) }));
 // 개별 종목 자동분석 스냅샷(snap/stock/<code>.html, tickers.js 전체)은 룰엔진이 숫자만 바꿔 찍어내는
 // 템플릿 페이지라 구글 애드센스 품질심사에서 "가치가 별로 없는 콘텐츠"로 잡힐 위험이 커서
