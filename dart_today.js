@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-21 09:50",
- "priceLabel": "2026-08-21 09:48 장중",
- "count": 171,
+ "generatedAt": "2026-08-21 10:19",
+ "priceLabel": "2026-08-21 10:11 장중",
+ "count": 176,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "130660",
+   "name": "한전산업",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "035720",
+   "name": "카카오",
+   "title": "주요사항보고서(회사합병결정)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "035720",
+   "name": "카카오",
+   "title": "매매거래정지및정지해제(중요내용공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "035720",
+   "name": "카카오",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030000",
+   "name": "제일기획",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
+   "isCorrection": false
+  },
   {
    "code": "047040",
    "name": "대우건설",
@@ -230,14 +294,6 @@ const DART_TODAY = {
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T07:02:20.202024+00:00",
    "isCorrection": false
-  },
-  {
-   "code": "020150",
-   "name": "롯데에너지머티리얼즈",
-   "title": "[기재정정]타법인주식및출자증권처분결정",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
-   "isCorrection": true
   },
   {
    "code": "025860",
@@ -568,14 +624,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "035720",
-   "name": "카카오",
-   "title": "조회공시요구(풍문또는보도)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T01:41:41.841856+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "181710",
    "name": "NHN",
    "title": "풍문또는보도에대한해명(미확정)",
@@ -902,14 +950,6 @@ const DART_TODAY = {
    "receiptDate": "20260819",
    "detectedAt": "2026-08-19T01:41:03.282380+00:00",
    "isCorrection": false
-  },
-  {
-   "code": "035720",
-   "name": "카카오",
-   "title": "[기재정정]반기보고서 (2026.06)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T01:11:08.507228+00:00",
-   "isCorrection": true
   },
   {
    "code": "011930",
