@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-21T06:46:49.232595+00:00",
+ "generatedAt": "2026-08-21T07:16:52.842588+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -15,7 +15,7 @@ const MODEL_SCOREBOARD = {
    "autoPromotion": "NONE_MANUAL_APPROVAL_REQUIRED",
    "byCoverage": {
     "GAEO_COVERAGE_V1_500": {
-     "accuracy": 51.3,
+     "accuracy": 51.4,
      "accuracyCI95": [
       45.6,
       57.1
@@ -29,31 +29,31 @@ const MODEL_SCOREBOARD = {
       "count": 1076,
       "marketRelativeMeanReturn": -0.23,
       "meanReturn": -1.22,
-      "medianReturn": -1.38,
-      "precision": 39.1
+      "medianReturn": -1.36,
+      "precision": 39.2
      },
      "directionalAccuracy": 51.6,
      "directionalCI95": [
       41.5,
-      61.8
+      61.9
      ],
      "directionalCount": 7096,
      "hold": {
       "count": 8861,
       "marketRelativeMeanReturn": -0.02,
       "meanReturn": -0.06,
-      "medianReturn": -0.34,
+      "medianReturn": -0.33,
       "precision": 51.2
      },
      "matured": 15957,
-     "overallAccuracy": 51.3,
+     "overallAccuracy": 51.4,
      "pending": 0,
      "sell": {
       "count": 6020,
       "marketRelativeMeanReturn": 0.5,
       "meanReturn": 0.4,
       "medianReturn": -0.91,
-      "precision": 53.6
+      "precision": 53.7
      },
      "status": "OK",
      "uniqueDates": 32
@@ -61,7 +61,7 @@ const MODEL_SCOREBOARD = {
    },
    "byModelVersion": {
     "PRE_HOTFIX_BASE": {
-     "accuracy": 51.3,
+     "accuracy": 51.4,
      "accuracyCI95": [
       45.6,
       57.1
@@ -75,31 +75,31 @@ const MODEL_SCOREBOARD = {
       "count": 1076,
       "marketRelativeMeanReturn": -0.23,
       "meanReturn": -1.22,
-      "medianReturn": -1.38,
-      "precision": 39.1
+      "medianReturn": -1.36,
+      "precision": 39.2
      },
      "directionalAccuracy": 51.6,
      "directionalCI95": [
       41.5,
-      61.8
+      61.9
      ],
      "directionalCount": 7096,
      "hold": {
       "count": 8861,
       "marketRelativeMeanReturn": -0.02,
       "meanReturn": -0.06,
-      "medianReturn": -0.34,
+      "medianReturn": -0.33,
       "precision": 51.2
      },
      "matured": 15957,
-     "overallAccuracy": 51.3,
+     "overallAccuracy": 51.4,
      "pending": 508,
      "sell": {
       "count": 6020,
       "marketRelativeMeanReturn": 0.5,
       "meanReturn": 0.4,
       "medianReturn": -0.91,
-      "precision": 53.6
+      "precision": 53.7
      },
      "status": "OK",
      "uniqueDates": 32
