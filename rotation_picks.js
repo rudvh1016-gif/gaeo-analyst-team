@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-21 09:19",
- "dataCutoff": "2026-08-21 09:19 장중",
+ "generatedAt": "2026-08-21 09:51",
+ "dataCutoff": "2026-08-21 09:51 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,19 +13,19 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +63.8% · 20일선 위",
+   "why": "20거래일 +66.4% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.2,
+   "gapPct": 36.3,
    "call": "HOLD"
   },
   {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 2,
-   "why": "20거래일 +70.1% · 20일선 위 · 거래량 평소의 4.4배",
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 6,
+   "why": "20거래일 +79.7% · 20일선 위",
    "overheat": true,
-   "gapPct": 49.9,
+   "gapPct": 37.0,
    "call": "HOLD"
   },
   {
@@ -33,41 +33,31 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +54.0% · 20일선 위",
+   "why": "20거래일 +47.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 24.8,
-   "call": "HOLD"
-  },
-  {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 3,
-   "why": "20거래일 +86.8% · 20일선 위",
-   "overheat": true,
-   "gapPct": 41.9,
+   "gapPct": 22.8,
    "call": "HOLD"
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 60.2,
-  "shown": 4,
-  "allowed": 4,
+  "breadthPct": 47.3,
+  "shown": 3,
+  "allowed": 3,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6748.38,
-    "ma20": 6452.48,
+    "close": 6820.76,
+    "ma20": 6456.1,
     "above": true,
-    "gapPct": 4.59
+    "gapPct": 5.65
    },
    "KOSDAQ": {
-    "close": 816.07,
-    "ma20": 788.86,
+    "close": 809.61,
+    "ma20": 788.53,
     "above": true,
-    "gapPct": 3.45
+    "gapPct": 2.67
    }
   }
  },
