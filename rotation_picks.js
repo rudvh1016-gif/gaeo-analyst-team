@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-20 20:14",
+ "generatedAt": "2026-08-21 09:11",
  "dataCutoff": "2026-08-20 종가",
  "horizonDays": 20,
  "picks": [
@@ -58,6 +58,7 @@ window.ROTATION_PICKS = {
   "breadthPct": 66.9,
   "shown": 4,
   "allowed": 4,
+  "sectorCap": 2,
   "detail": {
    "KOSPI": {
     "close": 6852.58,

@@ -273,7 +273,18 @@ def run():
     if changed is None:
         print("[INFO] D9. git 변경 목록을 얻을 수 없어 D9b(이력 불필요 검사)로 대체합니다")
     else:
-        unexpected = sorted(f for f in changed if f not in TOKEN_INFRA_FILES)
+        # ⚠️ 2026-08-21 수정: 예전 구현은 "허용목록에 없는 파일이 하나라도 바뀌면 실패"였다.
+        #    이름은 「Trading Logic 파일 변경 0」인데 실제로는 무관한 파일까지 전부 잡아서,
+        #    토스 토큰 브랜치가 아닌 **모든** 브랜치에서 무조건 실패했다(순환매 작업 브랜치에서
+        #    실제로 터졌다). 검사 이름이 약속하는 것만 검사한다 — 매매 판단 모듈과
+        #    paper_trading/ 산출물이 바뀌었는지. 허용목록은 그중 토큰 경로 하나(paper_market_data.py)를
+        #    예외로 두는 데만 쓴다.
+        #    가드가 약해지는 게 아니다. 아래 D9b가 매매 판단 모듈 본문을 직접 읽어
+        #    공유토큰 기능이 스며들었는지 이력과 무관하게 항상 검사한다.
+        def _is_trading_logic(path):
+            return path in TRADING_LOGIC_MODULES or path.startswith("paper_trading/")
+        unexpected = sorted(f for f in changed
+                            if _is_trading_logic(f) and f not in TOKEN_INFRA_FILES)
         check("D9. Trading Logic 파일 변경 0", unexpected == [], str(unexpected))
 
     # D9b 는 이력 유무와 무관하게 **항상** 돈다.
