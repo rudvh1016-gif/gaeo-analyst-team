@@ -455,7 +455,7 @@ const BASELINE = {
   check('확정 손익 표시', many.text.includes('62,000원'));
 
   // ── ⑧ 개발자 용어가 사용자 화면에 노출되지 않는다 ─────────────────────────
-  for (const raw of ['PAPER_BASELINE_V1', 'BASELINE_ONLY', 'COST_MODEL_INCOMPLETE',
+  for (const raw of ['PAPER_BASELINE_V1', 'BASELINE_ONLY', 'COST_MODEL_V1_2026H2',
                      'INSUFFICIENT_EVIDENCE', 'Forward', 'schemaVersion', 'lastCycleAt',
                      'engineStartedAt', 'RUNNING']) {
     check(`개발자 용어 미노출: ${raw}`, !many.text.includes(raw) && !one.text.includes(raw));

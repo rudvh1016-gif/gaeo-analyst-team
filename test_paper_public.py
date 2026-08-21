@@ -7,6 +7,7 @@ import shutil
 import sys
 import tempfile
 
+import paper_engine as pe
 import paper_public as pp
 
 FAILURES = []
@@ -69,7 +70,16 @@ try:
           str(pp.DERIVED_ALLOWED & pp.TRADE_ALLOWED))
     check("금지 키워드(secret/token/account 등) 0",
           not any(w in out.lower() for w in pp.FORBIDDEN_SUBSTRINGS))
-    check("비용 모델 INCOMPLETE 각인", payload["costModel"] == "COST_MODEL_INCOMPLETE")
+    # 비용 모델은 버전 문자열로 각인하고, 반영한 요율과 확인 날짜를 함께 공개한다.
+    check("비용 모델 버전 각인", payload["costModel"] == pe.COST_MODEL_VERSION,
+          str(payload.get("costModel")))
+    _cm = payload.get("costModelDetail") or {}
+    check("비용 근거 공개 — 요율·확인일·왕복비용",
+          _cm.get("commissionPct") == pe.COMMISSION_PCT
+          and _cm.get("verifiedAt") == pe.COST_MODEL_VERIFIED_AT
+          and _cm.get("roundTripPct") is not None, str(_cm))
+    check("슬리피지를 지어내지 않았음을 명시",
+          _cm.get("slippageModeled") is False and bool(_cm.get("slippageNote")))
     check("표본 부족 상태 전달", str(payload["evidenceStatus"]).startswith("INSUFFICIENT"))
 
     # 오염된 요약 — allowlist에 있는 필드(evidence)에 비밀 문자열이 섞인 경우에도
