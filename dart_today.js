@@ -1,12 +1,68 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-20 16:33",
- "priceLabel": "2026-08-20 종가 (16:06 수집)",
- "count": 163,
+ "generatedAt": "2026-08-21 09:18",
+ "priceLabel": "2026-08-21 09:11 장중",
+ "count": 169,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "효력발생안내( 2026.8.14. 제출 일괄신고서 )",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "033240",
+   "name": "자화전자",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034020",
+   "name": "두산에너빌리티",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000270",
+   "name": "기아",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "294870",
+   "name": "IPARK현대산업개발",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "조회공시요구(풍문또는보도)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "012630",
+   "name": "HDC",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260821",
+   "detectedAt": "2026-08-21T00:17:46.939588+00:00",
+   "isCorrection": true
+  },
   {
    "code": "298000",
    "name": "효성화학",
@@ -317,14 +373,6 @@ const DART_TODAY = {
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T06:02:03.896637+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "특수관계인에대한출자",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T05:32:13.972095+00:00",
    "isCorrection": false
   },
   {

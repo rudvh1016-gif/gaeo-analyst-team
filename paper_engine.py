@@ -69,7 +69,58 @@ EVIDENCE_GATED_FIELDS = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          "avgWinPct", "avgLossPct", "profitFactor", "expectancyPct",
                          "winLossRatio", "sumTradeReturnsPct", "grossReturnPct",
                          "avgBenchmarkReturnPct", "avgRelativeReturnPct",
-                         "avgMfePct", "avgMaePct")
+                         "avgMfePct", "avgMaePct",
+                         # 순수익도 성과 결론이다 — 표본이 차기 전엔 숫자로 내지 않는다.
+                         "estimatedNetReturnPct")
+
+
+# ── 거래비용 모델 (2026-08-21 확정) ─────────────────────────────────────────
+# ⚠️ 추정치를 지어내지 않는다. 출처가 있는 공시 요율만 쓰고 확인 날짜를 함께 남긴다.
+#    요율이 바뀌면 버전을 올린다 — 옛 기록은 그때의 버전으로 남아 소급되지 않는다.
+COST_MODEL_VERSION = "COST_MODEL_V1_2026H2"
+COST_MODEL_VERIFIED_AT = "2026-08-21"
+# 위탁수수료 — 토스증권 국내주식, 매수·매도 양방향에 각각 부과(KRX 체결 기준).
+#   2025-12 ~ 2026-06 무료 이벤트가 끝나 기본 요율이 다시 적용된다.
+#   ⚠️ NXT(대체거래소) 체결은 0.014%로 더 싸지만, 이 엔진은 국내 정규장만 쓰므로
+#      더 비싼 KRX 요율을 쓴다(비용을 낮게 잡아 성과를 부풀리지 않는다).
+COMMISSION_PCT = 0.015
+# 증권거래세(+농어촌특별세) — 매도할 때만 부과된다.
+#   유가증권(코스피): 증권거래세 0.05% + 농어촌특별세 0.15% = 0.20%
+#   코스닥:           증권거래세 0.20% (농어촌특별세 없음)   = 0.20%
+#   근거: 국가법령정보센터 '찾기쉬운 생활법령정보' 증권거래세율(2026-07-15 기준)
+SELL_TAX_PCT = {"KOSPI": 0.20, "KOSDAQ": 0.20}
+SELL_TAX_DEFAULT_PCT = 0.20
+# 슬리피지는 별도 가정을 만들지 않는다. 이 엔진은 실측 호가로 체결하므로
+# (매수 Best Ask · 매도 Best Bid) 스프레드 비용이 이미 체결가에 들어 있다.
+# 대량주문의 시장충격은 종목당 100만원 규모에서 모형화하지 않는다 — 그 한계를 명시한다.
+
+
+def net_return_pct(entry_price, exit_price, market):
+    """수수료·세금을 반영한 실질 수익률(%). 근거 없는 값은 만들지 않는다(None)."""
+    if not entry_price or exit_price is None:
+        return None
+    c = COMMISSION_PCT / 100.0
+    t = SELL_TAX_PCT.get(market, SELL_TAX_DEFAULT_PCT) / 100.0
+    paid = entry_price * (1 + c)          # 살 때 실제로 나간 돈
+    received = exit_price * (1 - c - t)   # 팔 때 실제로 들어온 돈
+    return round((received / paid - 1) * 100, 3)
+
+
+def cost_model_detail():
+    """화면·외부가 '무엇을 얼마로 반영했는지' 그대로 읽을 수 있게 근거를 싣는다."""
+    return {
+        "version": COST_MODEL_VERSION,
+        "verifiedAt": COST_MODEL_VERIFIED_AT,
+        "commissionPct": COMMISSION_PCT,
+        "commissionNote": "토스증권 국내주식 위탁수수료(KRX 체결). 매수·매도 각각 부과.",
+        "sellTaxPct": dict(SELL_TAX_PCT),
+        "sellTaxNote": "증권거래세+농어촌특별세, 매도 시에만 부과. "
+                       "코스피 0.05%+0.15%, 코스닥 0.20%(농특세 없음).",
+        "roundTripPct": round(COMMISSION_PCT * 2 + SELL_TAX_DEFAULT_PCT, 3),
+        "slippageModeled": False,
+        "slippageNote": "체결가가 실측 호가(매수 Best Ask·매도 Best Bid)라 스프레드는 "
+                        "이미 반영돼 있다. 대량주문 시장충격은 모형화하지 않는다.",
+    }
 
 
 # ── 유틸 ────────────────────────────────────────────────────────────────────
@@ -743,9 +794,11 @@ class PaperEngine:
                       "exit_reason": reason, "exit_business_date": today_date,
                       "holding_trading_days": holding_days,
                       "gross_return_pct": round(gross, 3),
-                      # 비용 미검증 → 순수익 과장 금지(COST_MODEL_INCOMPLETE)
-                      "estimated_net_return_pct": None,
-                      "cost_model": "COST_MODEL_INCOMPLETE",
+                      # 💸 수수료·세금을 반영한 실질 수익률. 어떤 요율로 계산했는지
+                      #    cost_model 버전으로 함께 남긴다(요율이 바뀌어도 소급되지 않게).
+                      "estimated_net_return_pct": net_return_pct(
+                          r["entry_price"], price, r.get("market")),
+                      "cost_model": COST_MODEL_VERSION,
                       "mfe_pct": round((meta.get("mfePrice", price) - r["entry_price"])
                                        / r["entry_price"] * 100, 3),
                       "mae_pct": round((meta.get("maePrice", price) - r["entry_price"])
@@ -856,8 +909,10 @@ class PaperEngine:
             #    화면에는 절대 '누적 가상수익률'로 쓰지 않는다(그 값은 portfolioReturnPct).
             "sumTradeReturnsPct": round(sum(rets), 3) if rets else None,
             "grossReturnPct": round(sum(rets), 3) if rets else None,   # legacy alias(내부)
-            "estimatedNetReturnPct": None,
-            "costModel": "COST_MODEL_INCOMPLETE — 수수료·세금 미검증(0으로 가정하지 않음)",
+            "estimatedNetReturnPct": _avg([r["estimated_net_return_pct"] for r in closed
+                                           if r.get("estimated_net_return_pct") is not None]),
+            "costModel": COST_MODEL_VERSION,
+            "costModelDetail": cost_model_detail(),
             "avgBenchmarkReturnPct": _avg([r["benchmark_return_pct"] for r in closed
                                            if r.get("benchmark_return_pct") is not None]),
             "avgRelativeReturnPct": _avg(rel),

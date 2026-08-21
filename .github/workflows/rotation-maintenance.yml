@@ -29,7 +29,7 @@ jobs:
 
       - name: 누수 방지 테스트와 과거 검증
         run: |
-          python3 -m unittest test_rotation test_rotation_workflow -v
+          python3 -m unittest test_rotation test_rotation_workflow test_rotation_picks -v
           python3 backtest_rotation.py
           python3 compute_rotation.py --mode intraday
 
