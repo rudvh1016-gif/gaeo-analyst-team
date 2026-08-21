@@ -1,6 +1,14 @@
 // generate_deep_analysis.js 자동 생성 · 홈 최근 정밀분석 5건
 const DEEP_ANALYSIS_LATEST = [
  {
+  "ticker": "002990",
+  "stockName": "금호건설",
+  "analysisCreatedAt": "2026-08-21 09:46",
+  "date": "2026-08-21",
+  "permalink": "/research/deep-analysis/002990/2026-08-21-0946/",
+  "summary": "컨센서스 목표가 3배 위, 외국인은 순매도"
+ },
+ {
   "ticker": "001450",
   "stockName": "현대해상",
   "analysisCreatedAt": "2026-08-14 11:50",
@@ -31,13 +39,5 @@ const DEEP_ANALYSIS_LATEST = [
   "date": "2026-08-14",
   "permalink": "/research/deep-analysis/096770/2026-08-14-1150/",
   "summary": "정유·배터리 동반 흑자전환, 3분기 배터리 적자 우려는 여전"
- },
- {
-  "ticker": "316140",
-  "stockName": "우리금융지주",
-  "analysisCreatedAt": "2026-08-13 22:20",
-  "date": "2026-08-13",
-  "permalink": "/research/deep-analysis/316140/2026-08-13-2220/",
-  "summary": "2분기 실적 회복, 지배구조 리스크는 부담"
  }
 ];
