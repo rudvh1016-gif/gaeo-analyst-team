@@ -4,80 +4,77 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-21 09:11",
- "dataCutoff": "2026-08-20 종가",
+ "generatedAt": "2026-08-21 09:19",
+ "dataCutoff": "2026-08-21 09:19 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "475830",
-   "name": "오름테라퓨틱",
-   "sector": "바이오·제약",
-   "sectorRank": 1,
-   "why": "20거래일 +68.9% · 20일선 위",
-   "overheat": false,
-   "gapPct": 25.6,
-   "call": "HOLD",
-   "callConflict": false
-  },
   {
    "code": "241710",
    "name": "코스메카코리아",
    "sector": "화장품·미용",
-   "sectorRank": 2,
-   "why": "20거래일 +79.6% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +63.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 38.4,
-   "call": "HOLD",
-   "callConflict": false
+   "gapPct": 34.2,
+   "call": "HOLD"
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "sector": "보험",
+   "sectorRank": 2,
+   "why": "20거래일 +70.1% · 20일선 위 · 거래량 평소의 4.4배",
+   "overheat": true,
+   "gapPct": 49.9,
+   "call": "HOLD"
+  },
+  {
+   "code": "192820",
+   "name": "코스맥스",
+   "sector": "화장품·미용",
+   "sectorRank": 1,
+   "why": "20거래일 +54.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 24.8,
+   "call": "HOLD"
   },
   {
    "code": "181710",
    "name": "NHN",
    "sector": "인터넷·IT",
-   "sectorRank": 4,
-   "why": "20거래일 +99.2% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +86.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 46.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "196170",
-   "name": "알테오젠",
-   "sector": "바이오·제약",
-   "sectorRank": 1,
-   "why": "20거래일 +64.6% · 20일선 위 · 거래량 평소의 1.8배",
-   "overheat": false,
-   "gapPct": 22.2,
-   "call": "HOLD",
-   "callConflict": false
+   "gapPct": 41.9,
+   "call": "HOLD"
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 66.9,
+  "breadthPct": 60.2,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
+  "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6852.58,
-    "ma20": 6469.9,
+    "close": 6748.38,
+    "ma20": 6452.48,
     "above": true,
-    "gapPct": 5.91
+    "gapPct": 4.59
    },
    "KOSDAQ": {
-    "close": 840.89,
-    "ma20": 787.57,
+    "close": 816.07,
+    "ma20": 788.86,
     "above": true,
-    "gapPct": 6.77
+    "gapPct": 3.45
    }
   }
  },
  "regime": {
-  "direction": "횡보",
+  "direction": "하락",
   "leadership": "코스닥",
-  "topSector": "바이오·제약"
+  "topSector": "화장품·미용"
  },
  "record": {
   "hitRate": 53.7,
