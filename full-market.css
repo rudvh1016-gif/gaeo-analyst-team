@@ -4,21 +4,21 @@
 .fm-tabhost.on{display:block}
 /* 순환매 모드의 보이는 Section Header — 선택된 sub-tab의 제목·설명을 상단에 보여준다 */
 .fm-mode-head{margin:4px 0 16px}
-.fm-mode-eyebrow{display:block;margin-bottom:5px;color:#7b8089;font-size:11px;font-weight:600}
+.fm-mode-eyebrow{display:block;margin-bottom:5px;color:#72777f;font-size:11px;font-weight:600}
 .fm-mode-title{margin:0;color:#1d1d1f;font-size:clamp(22px,2.6vw,30px);line-height:1.15;letter-spacing:-.04em}
-.fm-mode-desc{max-width:640px;margin:7px 0 0;color:#6e737d;font-size:12.5px;line-height:1.6}
+.fm-mode-desc{max-width:640px;margin:7px 0 0;color:#6b6f79;font-size:12.5px;line-height:1.6}
 /* Apple식 Segmented Control — "둘 중 하나를 눌러 선택한다"가 보자마자 읽히게.
    선택 상태는 색만이 아니라 surface·border·shadow·font-weight로 함께 표현한다. */
-.fm-seg-label{margin:2px 0 6px;color:#7b8089;font-size:10.5px;font-weight:500;letter-spacing:.02em}
+.fm-seg-label{margin:2px 0 6px;color:#72777f;font-size:10.5px;font-weight:500;letter-spacing:.02em}
 .fm-tabbar{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;box-sizing:border-box;
   border:1px solid #e3e5e8;border-radius:12px;background:#f2f3f5}
 .fm-tab{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:9px 8px;
-  border:1px solid transparent;border-radius:9px;background:transparent;color:#6e737d;
+  border:1px solid transparent;border-radius:9px;background:transparent;color:#6b6f79;
   font:inherit;font-size:13px;font-weight:600;letter-spacing:-.01em;line-height:1.2;cursor:pointer;text-align:center;white-space:nowrap}
 .fm-tab:hover{color:#1d1d1f}
 .fm-tab.on{background:#fff;border-color:#dfe2e6;color:#1d1d1f;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .fm-tab:focus-visible{outline:2px solid #1d1d1f;outline-offset:2px}
-.fm-seg-desc{margin:8px 0 6px;color:#7b8089;font-size:11px;line-height:1.55}
+.fm-seg-desc{margin:8px 0 6px;color:#72777f;font-size:11px;line-height:1.55}
 .fm-seg-desc b{color:#3f4650;font-weight:600}
 
 .fullmarket-view{display:none;width:100%;color:#1d1d1f;font-variant-numeric:tabular-nums}
@@ -29,7 +29,7 @@
 /* Hero — 사이트 상단 Section Header가 이미 "전체시장 흐름" 제목을 담당하므로
    내부는 Metadata 한 줄(대상 규모 · 기준시각 · 상태)로만 유지한다. */
 .fm-hero{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-bottom:14px}
-.fm-asof{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;color:#6e737d;font-size:11px;line-height:1.6}
+.fm-asof{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;color:#6b6f79;font-size:11px;line-height:1.6}
 .fm-asof strong{color:#1d1d1f;font-size:14px;font-weight:600}
 .fm-status{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:10.5px;font-weight:600}
 .fm-status i{display:inline-block;width:6px;height:6px;border-radius:50%}
@@ -49,12 +49,12 @@
 .fm-pick:hover,.fm-pick:focus-visible{background:#f7f9fc}
 .fm-pick b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px;font-weight:600}
 .fm-pick .fm-pick-call{color:#59616d;font-size:10.5px;font-weight:500;text-align:right}
-.fm-pick em{grid-column:1/-1;color:#7b8089;font-size:10.5px;font-style:normal;font-variant-numeric:tabular-nums}
+.fm-pick em{grid-column:1/-1;color:#72777f;font-size:10.5px;font-style:normal;font-variant-numeric:tabular-nums}
 .fm-picks-note{margin:8px 0 0;color:#8a8f97;font-size:10px;line-height:1.55}
 
 .fm-panel{padding:18px;margin-bottom:14px;border:1px solid #e3e5e8;border-radius:16px;background:#fff;box-sizing:border-box}
 .fm-panel h3{margin:0;font-size:14px;letter-spacing:-.02em}
-.fm-panel .fm-sub{margin:5px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
+.fm-panel .fm-sub{margin:5px 0 0;color:#72777f;font-size:10.5px;line-height:1.5}
 
 /* 시장 참여도 */
 .fm-participation-counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -74,7 +74,7 @@
 .fm-compare-table{width:100%;border-collapse:collapse;font-size:12px}
 .fm-compare-table th,.fm-compare-table td{padding:9px 10px;text-align:right;border-bottom:1px solid #eceef1;white-space:nowrap}
 .fm-compare-table thead th{color:#59616d;font-size:10.5px;font-weight:500}
-.fm-compare-table tbody th{text-align:left;color:#7b8089;font-weight:600}
+.fm-compare-table tbody th{text-align:left;color:#72777f;font-weight:600}
 .fm-compare-table td{font-weight:600;color:#1d1d1f}
 
 /* 지수 체감 vs 종목 체감 */
@@ -92,12 +92,12 @@
 .fm-conc-grid>div{padding:12px;border-radius:12px;background:#f7f8fa}
 .fm-conc-grid span{display:block;color:#7a8089;font-size:10px}
 .fm-conc-grid strong{display:block;margin-top:5px;font-size:16px;font-weight:600}
-.fm-conc-note{margin:10px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
+.fm-conc-note{margin:10px 0 0;color:#72777f;font-size:10.5px;line-height:1.5}
 
 /* 업종별 상승 참여도 */
 .fm-empty-inline{margin-top:10px;padding:16px;border-radius:12px;background:#f7f8fa;color:#737a84;font-size:11.5px}
 .fm-sort{display:flex;align-items:center;gap:8px;margin:12px 0 4px}
-.fm-sort label{color:#7b8089;font-size:10.5px;font-weight:600}
+.fm-sort label{color:#72777f;font-size:10.5px;font-weight:600}
 .fm-sort select{padding:6px 8px;border:1px solid #dfe2e6;border-radius:8px;background:#fff;color:#1d1d1f;font:inherit;font-size:11.5px}
 .fm-sector-list{margin-top:6px;border-top:1px solid #eceef1}
 .fm-sector-item{border-bottom:1px solid #eceef1}
@@ -108,14 +108,14 @@
 .fm-sector-rate{flex:0 0 auto;font-size:12.5px;font-weight:600;color:#1d1d1f}
 .fm-sector-bar{height:5px;margin-top:8px;border-radius:99px;background:#eaedf1;overflow:hidden}
 .fm-sector-bar-fill{height:100%;background:var(--krup)}
-.fm-sector-sub{margin-top:6px;color:#7b8089;font-size:10.5px}
+.fm-sector-sub{margin-top:6px;color:#72777f;font-size:10.5px}
 .fm-dot{margin:0 5px;color:#c3c7cd}
 .fm-sector-detail{padding:2px 2px 14px}
 .fm-sector-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:2px}
 .fm-sector-detail-grid>div{padding:10px;border-radius:11px;background:#f7f8fa}
 .fm-sector-detail-grid dt{color:#7a8089;font-size:9.5px}
 .fm-sector-detail-grid dd{margin:4px 0 0;font-size:12px;font-weight:500}
-.fm-sector-detail-note{margin:10px 0 0;color:#7b8089;font-size:10px;line-height:1.5}
+.fm-sector-detail-note{margin:10px 0 0;color:#72777f;font-size:10px;line-height:1.5}
 .fm-sector-lowsample{margin:8px 0 0;color:#a4791f;font-size:10px;line-height:1.5}
 
 /* History accumulating — 5거래일/20거래일을 별도 기간으로 분리해 보여준다 */
@@ -123,7 +123,7 @@
 .fm-history-grid>div{padding:12px;border-radius:12px;background:#f7f8fa}
 .fm-history-grid span{display:block;color:#7a8089;font-size:10px}
 .fm-history-grid strong{display:block;margin-top:5px;font-size:12.5px;font-weight:600;color:#8a8f97}
-.fm-history-copy{margin:10px 0 0;color:#7b8089;font-size:10.5px;line-height:1.5}
+.fm-history-copy{margin:10px 0 0;color:#72777f;font-size:10.5px;line-height:1.5}
 
 /* ---------- Dark mode (html.gdark — rotation.css와 동일한 토글) ---------- */
 html.gdark .fm-mode-eyebrow,html.gdark .fm-mode-desc{color:#aeb3bb}
