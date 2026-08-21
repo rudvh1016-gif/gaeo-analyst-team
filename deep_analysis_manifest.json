@@ -1,6 +1,11 @@
 {
-  "generatedFrom": "2026-08-14 11:50",
+  "generatedFrom": "2026-08-21 09:46",
   "records": [
+    {
+      "snapshotId": "002990-2026-08-21-0946",
+      "loc": "https://gaeoteam.com/research/deep-analysis/002990/2026-08-21-0946/",
+      "lastmod": "2026-08-21"
+    },
     {
       "snapshotId": "001450-2026-08-14-1150",
       "loc": "https://gaeoteam.com/research/deep-analysis/001450/2026-08-14-1150/",
@@ -150,11 +155,11 @@
   "archivePages": [
     {
       "loc": "https://gaeoteam.com/research/deep-analysis/",
-      "lastmod": "2026-08-14"
+      "lastmod": "2026-08-21"
     },
     {
       "loc": "https://gaeoteam.com/research/deep-analysis/page/2/",
-      "lastmod": "2026-08-14"
+      "lastmod": "2026-08-21"
     }
   ]
 }
