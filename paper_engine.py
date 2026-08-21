@@ -50,6 +50,14 @@ DEFAULT_DIR = os.path.join(HERE, "paper_trading")
 
 # 성과 결론(승률·평균수익률 등)을 숫자로 내보내려면 최소한 이만큼의 청산 표본이 있어야 한다.
 MIN_CLOSED_FOR_EVIDENCE = 20
+# 🔒 건수만 세면 안 된다. 같은 날 한꺼번에 들어간 20건은 20번의 독립된 시행이 아니다.
+#    이 계좌는 1,000만원을 종목당 100만원으로 나눠 쓰므로 자리가 10칸이고, 그 10칸이
+#    한 덩어리로 들어갔다 한 덩어리로 나온다(실측: 2026-08-18 10건이 전부 11:05 진입).
+#    그래서 청산 건수만 보면 "판단일 2일짜리 20건"이 게이트를 통과해 버린다.
+#    같은 사이트의 성적표(build_model_scoreboard.MIN_UNIQUE_DATES)는 정확히 같은 이유로
+#    이미 판단일 20일을 요구하고, 화면에도 "하루 600종목 판단은 600개의 독립 실험이
+#    아닙니다"라고 써 두었다. 화면마다 잣대가 다르지 않도록 여기서도 같은 값을 쓴다.
+MIN_ENTRY_DAYS_FOR_EVIDENCE = 20
 # 표본이 그보다 적으면 아래 필드는 계산해 두고도 전부 null로 내보낸다.
 # (evidence 라벨만 INSUFFICIENT로 두고 숫자는 그대로 두면, 화면·외부 사용처가
 #  그 숫자만 집어다 "승률 100%" 같은 결론으로 쓰는 사고가 난다.)
@@ -799,6 +807,12 @@ class PaperEngine:
         wins = [x for x in rets if x > 0]
         losses = [x for x in rets if x < 0]
         rel = [r["relative_return_pct"] for r in closed if r.get("relative_return_pct") is not None]
+        # 🔒 표본의 '건수'와 '독립성'을 따로 센다. 같은 날 담은 종목들은 같은 시장에
+        #    같이 노출되므로 서로 독립이 아니다 — 판단일 수가 실질 시행 횟수에 가깝다.
+        entry_days = {r.get("entry_business_date") for r in closed
+                      if r.get("entry_business_date")}
+        evidence_ok = (len(closed) >= MIN_CLOSED_FOR_EVIDENCE
+                       and len(entry_days) >= MIN_ENTRY_DAYS_FOR_EVIDENCE)
 
         def _avg(v):
             return round(sum(v) / len(v), 3) if v else None
@@ -816,11 +830,19 @@ class PaperEngine:
             "forwardStart": "2026-08-18",
             "engineStartedAt": self.state.get("engineStartedAt"),
             "generatedAt": iso(now_kst()),
-            "evidence": ("INSUFFICIENT_EVIDENCE — 표본이 적어 성과 결론 금지"
-                         if len(closed) < MIN_CLOSED_FOR_EVIDENCE else "SAMPLE_OK"),
+            # 무엇이 모자라는지 구분해 적는다 — "건수"와 "판단일"은 다른 부족이다.
+            "evidence": ("SAMPLE_OK" if evidence_ok
+                         else ("INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지"
+                               if len(closed) < MIN_CLOSED_FOR_EVIDENCE
+                               else "INSUFFICIENT_EVIDENCE — 판단일이 적어 성과 결론 금지"
+                                    "(같은 날 담은 거래는 서로 독립이 아님)")),
             "totalForwardSignals": len(rows),
             "openTrades": len(opens),
             "maturedTrades": len(closed),
+            # 청산된 거래가 서로 다른 며칠에 걸쳐 시작됐는지 — 실질 시행 횟수의 근거.
+            "closedEntryDays": len(entry_days),
+            "minClosedForEvidence": MIN_CLOSED_FOR_EVIDENCE,
+            "minEntryDaysForEvidence": MIN_ENTRY_DAYS_FOR_EVIDENCE,
             "skippedSignals": len(skipped),
             "winRatePct": round(len(wins) / len(rets) * 100, 1) if rets else None,
             "avgReturnPct": _avg(rets), "medianReturnPct": _median(rets),
@@ -846,11 +868,11 @@ class PaperEngine:
             "note": ("가상자금 기록 전용 — 실제 계좌·주문 없음. "
                      "Production 모델을 그대로 검증하며 결과로 모델을 자동 수정하지 않는다."),
         }
-        # 🔒 표본 게이트 — 청산 표본이 최소치 미만이면 성과 결론 필드를 숫자로 내보내지 않는다.
+        # 🔒 표본 게이트 — 건수와 판단일을 둘 다 채워야 성과 결론 필드를 숫자로 내보낸다.
         # evidence 라벨은 이미 INSUFFICIENT를 달고 있었지만 숫자 자체는 살아 있어서,
         # 라벨을 안 보는 소비자(공개 스냅샷·외부 스크립트)가 "청산 2건짜리 승률 50%"를
         # 그대로 성과처럼 쓸 수 있었다. 표본이 차기 전에는 필드 자체가 null이어야 한다.
-        if len(closed) < MIN_CLOSED_FOR_EVIDENCE:
+        if not evidence_ok:
             for _k in EVIDENCE_GATED_FIELDS:
                 summary[_k] = None
         # 📊 Mark-to-Market 회계 (표시·MDD 전용 — 매매 행동에 영향 0)

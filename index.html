@@ -5996,6 +5996,14 @@ function renderPaper(){
   const insufficient=String(P.evidenceStatus||'').startsWith('INSUFFICIENT');
   const open=n(P.openTrades)||0, closed=n(P.closedTrades)||0;
   const maxHold=n(P.maxHoldingTradingDays);
+  /* 🔒 표본 게이트는 '건수'와 '판단일' 두 조건이다. 어느 쪽이 모자란지 화면에 적어야
+     건수가 다 찼는데 승률이 안 나올 때 고장으로 오해하지 않는다.
+     ⚠️ 기준값은 러너가 내려준 값을 쓰고, 없으면 화면에서 지어내지 않고 20을 쓴다
+        (엔진 상수와 같은 값 — 옛 스냅샷에도 화면이 깨지지 않게 하는 폴백일 뿐이다). */
+  const eDays=n(P.closedEntryDays);
+  const minClosed=n(P.minClosedForEvidence)||20;
+  const minDays=n(P.minEntryDaysForEvidence)||20;
+  const needClosed=closed<minClosed;
 
   /* ① Hero + 자동 기록 상태 한 줄.
      ⚠️ 시각이 최근이라는 이유만으로 "정상"이라 쓰지 않는다 — 러너가 사이클 성공을
@@ -6098,8 +6106,14 @@ function renderPaper(){
   if(closed) cells.push(['확정 손익', n(P.realizedPnl)==null?DASH
       :`<b class="${dir(P.realizedPnl).trim()}">${sWon(P.realizedPnl)}</b>`,
     insufficient?'표본이 적어 성과 결론 보류':'종료된 거래 누적']);
+  /* 🔒 표본은 '건수'와 '판단일'을 같이 보여준다. 이 계좌는 자리가 10칸이라 열 종목이
+     한 덩어리로 들어갔다 한 덩어리로 나온다 — 종료 20건이 곧 20번의 독립된 시행은
+     아니다(같은 날 담은 종목은 같은 시장에 함께 노출된다). 성적표 화면이 쓰는 잣대와
+     같은 기준이며, 건수만 보고 "곧 승률이 나오겠네"라고 오해하지 않게 둘 다 적는다. */
   cells.push(['거래', `보유 ${open} · 종료 ${closed}`,
-    maxHold?`한 종목 최대 ${maxHold}거래일 보유`:'가상 기록 전용']);
+    closed&&eDays!=null
+      ? `판단일 ${eDays}일${maxHold?` · 한 종목 최대 ${maxHold}거래일`:''}`
+      : (maxHold?`한 종목 최대 ${maxHold}거래일 보유`:'가상 기록 전용')]);
   const sum=cells.map(([k,v,sub])=>`<div><span class="pv-sum-k">${k}</span><span class="pv-sum-v">${v}</span><span class="pv-sum-s">${sub}</span></div>`).join('');
   const summary=portfolio+`<div class="pv-summary pv-summary-${cells.length}">${sum}</div>`;
 
@@ -6281,8 +6295,11 @@ function renderPaper(){
       ['최대 낙폭 <small>MDD</small>', n(P.maxDrawdownPct)==null?na('기록 대기'):val(Math.abs(P.maxDrawdownPct).toFixed(1)+'%')],
       ['보유 중 최고 상승폭 <small>MFE</small>', n(P.avgMfePct)==null?na('기록 대기'):val(sPct(P.avgMfePct))],
       ['보유 중 최대 하락폭 <small>MAE</small>', n(P.avgMaePct)==null?na('기록 대기'):val(sPct(P.avgMaePct))],
+      /* 표본 부족이면 "무엇이" 부족한지 적는다 — 건수가 다 찼는데도 승률이 안 나오면
+         고장으로 오해하기 때문이다(같은 날 담은 거래는 서로 독립이 아니라서 판단일도 센다). */
       ['승률', !closed?na('아직 종료 거래 없음')
-        :(insufficient?na('표본 부족')
+        :(insufficient?na(needClosed?`표본 부족 · 거래 ${closed}/${minClosed}건`
+                                    :`표본 부족 · 판단일 ${eDays==null?'—':eDays}/${minDays}일`)
         :(n(P.winRatePct)==null?na('기록 대기'):val(P.winRatePct.toFixed(1)+'%')))],
       ['종료거래 평균 수익률', !closed?na('아직 종료 거래 없음')
         :(n(P.avgReturnPct)==null?na('기록 대기'):val(sPct(P.avgReturnPct)))],
@@ -6328,7 +6345,7 @@ function renderPaper(){
       ['보유 중 최고 상승폭 (MFE)','보유하는 동안 가장 많이 올랐던 순간의 폭이에요. 끝까지 들고 있었을 때의 결과와는 다릅니다.'],
       ['보유 중 최대 하락폭 (MAE)','보유하는 동안 가장 많이 내렸던 순간의 폭이에요. 버티기 얼마나 힘들었는지를 보여줍니다.'],
       ['시장대비','종료된 거래가 같은 기간 지수보다 얼마나 더(또는 덜) 움직였는지예요. %p는 두 수익률의 차이를 뜻합니다.'],
-      ['표본 부족','종료된 거래 수가 적어 성과를 결론짓기 어려운 상태예요. 이때는 승률을 계산해서 보여주지 않습니다.']
+      ['표본 부족',`성과를 결론짓기에 기록이 아직 모자란 상태예요. 두 가지를 같이 봅니다 — <b>종료된 거래 ${minClosed}건</b>과 <b>서로 다른 판단일 ${minDays}일</b>. 이 계좌는 한 번에 열 종목까지만 담아서 같은 날 한꺼번에 사고 한꺼번에 파는데, 같은 날 산 열 종목은 같은 시장에 함께 올라탄 것이라 열 번의 서로 다른 시도가 아니에요. 그래서 건수만 채워진 승률은 보여주지 않습니다.`]
     ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     return `<details class="pv-gloss"><summary>처음 보는 용어 설명${chev}</summary><dl class="pv-rows">${g}</dl></details>`;
   }
