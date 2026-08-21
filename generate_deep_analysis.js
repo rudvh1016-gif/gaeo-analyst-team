@@ -5,6 +5,9 @@ const {
   normalizePublishedRecords,
   renderSnapshotPage,
   renderArchivePage,
+  renderStockHubPage,
+  groupRecordsByTicker,
+  stockHubPath,
   buildLatestRecords,
   buildManifest,
 } = require('./deep_analysis_publish');
@@ -38,6 +41,11 @@ function generateAll(options) {
     const relativePath = path.join(record.permalink.replace(/^\//, ''), 'index.html');
     outputs.set(relativePath, renderSnapshotPage(record, { baseUrl }));
   });
+  const hubs = groupRecordsByTicker(records);
+  hubs.forEach((list, ticker) => {
+    const relativePath = path.join(stockHubPath(ticker).replace(/^\//, ''), 'index.html');
+    outputs.set(relativePath, renderStockHubPage(list, { baseUrl }));
+  });
   for (let page = 1; page <= pageCount; page += 1) {
     const relativePath = page === 1
       ? path.join('research', 'deep-analysis', 'index.html')
@@ -52,14 +60,14 @@ function generateAll(options) {
   outputs.set('deep_analysis_manifest.json', `${JSON.stringify(manifest, null, 2)}\n`);
 
   outputs.forEach((content, relativePath) => writeOutput(outDir, relativePath, content));
-  return { recordCount: records.length, pageCount, latestCount: latest.length };
+  return { recordCount: records.length, pageCount, latestCount: latest.length, hubCount: hubs.size };
 }
 
 function main() {
   const archive = loadJsValue(path.join(HERE, 'analysis_archive.js'), 'ANALYSIS_ARCHIVE');
   const tickers = loadJsValue(path.join(HERE, 'tickers.js'), 'TICKERS');
   const result = generateAll({ archive, tickers, outDir: HERE, baseUrl: BASE_URL, pageSize: PAGE_SIZE });
-  console.log(`정밀분석 발행 완료 — Snapshot ${result.recordCount}건 · Archive ${result.pageCount}페이지 · 홈 ${result.latestCount}건`);
+  console.log(`정밀분석 발행 완료 — Snapshot ${result.recordCount}건 · 종목 대표 ${result.hubCount}건 · Archive ${result.pageCount}페이지 · 홈 ${result.latestCount}건`);
 }
 
 if (require.main === module) main();

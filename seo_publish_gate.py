@@ -193,6 +193,11 @@ def check_repo(root="."):
             check_page(root, rel, 0, False, locs_set, problems, titles, canonicals)
         else:
             check_page(root, rel, DEEP_DETAIL_MIN, True, locs_set, problems, titles, canonicals)
+    # 종목별 대표 페이지(research/deep-analysis/<code>/index.html).
+    # 같은 종목의 날짜별 스냅샷이 서로 경쟁하지 않도록 이 URL이 대표 자리를 맡는다.
+    for path in sorted(glob.glob(os.path.join(root, "research/deep-analysis/*/index.html"))):
+        rel = os.path.relpath(path, root)
+        check_page(root, rel, DEEP_DETAIL_MIN, True, locs_set, problems, titles, canonicals)
     for rel in ["research/deep-analysis/index.html", "snap/index.html"]:
         if os.path.exists(os.path.join(root, rel)):
             check_page(root, rel, 0, False, locs_set, problems, titles, canonicals)

@@ -82,6 +82,7 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 | `team_weights.js` | 자가 학습 CHIEF 가중치 | `compute_team_weights.py` (자동) |
 | `model_intelligence.js` | 확률교정·오답 중복·시장국면·AUDIT·그림자 승격 판정 | `compute_model_intelligence.py` (자동) |
 | `generate_sitemap.js` | `sitemap.xml` 재생성 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
+| `generate_llms.js` | `llms.txt` 재생성. AI 답변엔진(ChatGPT·Perplexity 등)이 읽을 사이트 안내판 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
 | `generate_snapshots.js` | `/snap/{news,study,lesson,estate,calc}/{id}.html` 정적 스냅샷 + `/snap/stock/<code>.html` 종목별 랜딩페이지 생성 | 콘텐츠는 AI 에이전트가 실행 · 종목 스냅샷은 러너가 매 사이클 자동 재생성 |
 | `indexnow_submit.js` · `<32자hex>.txt` | `sitemap.xml`의 URL을 빙·네이버에 즉시 제출 | 러너가 `.indexnow_hash`로 변경 감지해 자동 제출 |
 | `site_config.js` / `community.js` | 사이트 문구 오버라이드 / 커뮤니티 공지·고정글 | 관리자 모드 발행 기능이 생성 |
@@ -105,7 +106,7 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 
 ## ⭐ 콘텐츠 발행 철칙
 
-`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 중 **어느 파일이든 글을 추가/수정할 때마다** `node generate_snapshots.js` · `node generate_sitemap.js` · `node generate_rss.js` **3개를 반드시 함께 실행**한다(안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다). 이 3개 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버) + 네이버 서치어드바이저 RSS + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다. `sitemap.xml`만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다.
+`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 중 **어느 파일이든 글을 추가/수정할 때마다** `node generate_snapshots.js` · `node generate_sitemap.js` · `node generate_rss.js` · `node generate_llms.js` **4개를 반드시 함께 실행**한다(안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다). `generate_llms.js`는 AI 답변엔진용 `/llms.txt` 안내판을 다시 만든다. 이 4개 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버) + 네이버 서치어드바이저 RSS + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다. `sitemap.xml`만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다.
 
 **그다음 `python3 seo_publish_gate.py`를 실행해 0건 위반을 확인한다** (2026-08-16, AdSense 'Low value content' 대응). 글 단위 최소 계약(고유 제목·H1 1개·설명·canonical 자기참조·placeholder 없음·noindex/sitemap 모순 없음)을 기계 검사한다. 상세 규칙·체크리스트는 `docs/gaeo_seo_publishing_rules.md`. **게이트가 실패하면 filler로 채우지 말고 발행을 보류**하고 내용을 고친다.
 
@@ -241,7 +242,7 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 1. 이 문서(AGENTS.md)와 `CLAUDE.md`를 읽었는가?
 2. 자동 생성 파일(`data.js`, `history.js`, `analysis_data.json`, `indicators.json/js`, `auto_analysis.js`, `price_history.js`, `team_weights.js`, `dow_stats.js`, `market_history.js`, `sitemap.xml`)을 직접 손으로 고치려는 게 아닌가? (전부 스크립트/러너 전용 — 사람이나 AI가 직접 편집하면 다음 자동 갱신 때 덮어써지거나 형식이 깨진다.)
-3. 콘텐츠 파일을 추가/수정했다면 `generate_snapshots.js`·`generate_sitemap.js`·`generate_rss.js` 3개를 실행했는가?
+3. 콘텐츠 파일을 추가/수정했다면 `generate_snapshots.js`·`generate_sitemap.js`·`generate_rss.js`·`generate_llms.js` 4개를 실행했는가?
 4. 화면(`index.html`)을 바꿨다면 데스크톱·모바일·다크모드에서 실제로 확인했는가?
 5. 작업 브랜치에서 끝내지 않고 PR을 만들어 `main`까지 병합했는가?
 6. `git diff`의 삭제·교체 내용을 확인했고, 사용자가 요청하지 않은 기존 기능·콘텐츠가 그대로 보존됐는가?

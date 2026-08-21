@@ -194,7 +194,23 @@ console.log(bad? '❌ '+bad+'건 수정 필요':'✅ base·findings·updated·su
 
 ## 정밀분석 공개 발행
 
-정밀분석 저장 이후 공개 발행은 `docs/DEEP_ANALYSIS_PUBLISHING.md`를 따른다. `archive_analysis.py` 실행만으로 끝내지 말고 `generate_deep_analysis.js`와 `generate_sitemap.js`까지 실행해 영구 Snapshot·Archive·홈 최신 5건·sitemap을 함께 갱신한다.
+정밀분석 저장 이후 공개 발행은 `docs/DEEP_ANALYSIS_PUBLISHING.md`를 따른다. `archive_analysis.py` 실행만으로 끝내지 말고 **아래 5개를 순서대로 전부** 실행한다.
+
+```bash
+python archive_analysis.py && node generate_snapshots.js && node generate_deep_analysis.js && node generate_sitemap.js && node generate_llms.js
+```
+
+| 스크립트 | 갱신되는 것 |
+|---|---|
+| `archive_analysis.py` | `analysis_archive.js`·`history.js`·`market_history.js` |
+| `generate_snapshots.js` | `snap/stock/<코드>.html` 종목 랜딩페이지 |
+| `generate_deep_analysis.js` | 시점별 Snapshot · **종목별 대표 페이지** · Archive · 홈 최신 5건 |
+| `generate_sitemap.js` | `sitemap.xml` |
+| `generate_llms.js` | `llms.txt` (AI 답변엔진 안내판) |
+
+🐛 **2026-08-21 회귀 방지**: `generate_snapshots.js`가 이 절차에서 빠져 있어서, 정밀분석을
+새로 써도 `snap/stock/002990.html`이 8일 전 판단(SELL 34점)을 계속 보여줬다. 종목
+랜딩페이지는 `analysis.js`를 직접 읽지 않고 이 스크립트가 다시 찍어야 갱신된다.
 
 ## 완료 보고
 
