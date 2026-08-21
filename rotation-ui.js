@@ -273,8 +273,28 @@
     const rows=(data.sectors||[]).slice().sort((a,b)=>number(sectorPeriod(b,horizon).score)-number(sectorPeriod(a,horizon).score));
     return `<table class="rot-sr-table"><caption>${horizon}거래일 업종 순위</caption><thead><tr><th>순위</th><th>업종</th><th>점수</th><th>신호</th></tr></thead><tbody>${rows.map((sector,index)=>{const period=sectorPeriod(sector,horizon);return `<tr><td>${index+1}</td><td>${escapeHtml(sector.name)}</td><td>${number(period.score).toFixed(1)}</td><td>${signalLabel(period.signal)}</td></tr>`;}).join('')}</tbody></table>`;
   }
+  /* 🔽 접이식 심화 섹션 (2026-08-20)
+     대표 지적: "박스가 너무 많고 한눈에 정보가 너무 많아 보기 불편하다."
+     매일 보는 정보(지도·순위·업종 상세·함께 볼 종목)는 그대로 펼쳐 두고,
+     "왜·어떻게·과거" 성격의 설명만 눌러야 열리게 한다.
+     ⚠️ 내용을 지우거나 줄이지 않는다. 접을 뿐이다.
+     ⚠️ 기간·업종을 바꾸면 화면을 통째로 다시 그리므로, 열어 둔 것이 닫히지 않게
+        state.open에 기록해 둔다(모의투자 화면의 PV_OPEN과 같은 방식). */
+  /* 🐛 2026-08-21 검수에서 잡힘: 이 Set을 mount() 안에서 만들면, 순환매 버튼을 다시
+     누르거나 홈의 "전체시장 흐름 보기"로 들어올 때마다 mount()가 다시 불려서
+     사용자가 열어 둔 것이 전부 닫혔다(index.html의 setMode('rotation') → mount).
+     모의투자 화면의 PV_OPEN처럼 모듈 스코프에 두어야 다시 마운트해도 살아남는다. */
+  const OPEN_FOLDS = new Set();
+  function fold(key,label,body,open){
+    return `<details class="rot-fold" data-fold="${escapeHtml(key)}"${open?' open':''}>`
+      + `<summary class="rot-fold-sum">${escapeHtml(label)}</summary>`
+      + `<div class="rot-fold-body">${body}</div></details>`;
+  }
   function renderView(data,state){
     const sectors=data.sectors||[];
+    // state.open이 없는 옛 호출(테스트 등)에서도 깨지지 않게 한다 — 그때는 전부 접힘.
+    // instanceof를 쓰지 않는다: 다른 실행 컨텍스트(vm·iframe)의 Set은 instanceof가 거짓이 된다.
+    const open=(state&&state.open&&typeof state.open.has==='function')?state.open:OPEN_FOLDS;
     if(!sectors.length) return '<div class="rot-panel rot-detail">순환매 자료를 준비하고 있습니다.</div>';
     const selected=sectors.find(sector=>sector.name===state.selected)||sectors[0];
     const leader=(data.summary&&data.summary.leaders&&data.summary.leaders[0])||{};
@@ -328,17 +348,27 @@
       </section>
       <div class="rot-workspace"><div class="rot-primary"><section class="rot-panel rot-map-panel"><div class="rot-panel-head"><div><h3>업종 순환 지도</h3><p>가까울수록 종합 점수가 높습니다. 업종을 누르면 근거가 열립니다.</p></div><div><div class="rot-period-label">성과 관찰 기간</div><div class="rot-horizons" role="tablist" aria-label="성과 관찰 기간">${[1,3,5,20].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" role="tab" aria-selected="${value===horizon}" data-horizon="${value}">${value}일${value===number(recommended.horizon)?'<small>권장</small>':''}</button>`).join('')}</div><div class="rot-period-label trend">장기 추세 참고</div><div class="rot-horizons rot-trend-horizons">${[60,120,200].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" data-horizon="${value}">${value}일</button>`).join('')}</div></div></div>${renderMap(data,horizon,selected.name)}<div class="rot-map-legend"><span><i class="lead"></i>강한 흐름</span><span><i class="watch"></i>관찰</span><span><i class="weak"></i>약한 흐름</span></div>${renderTable(data,horizon)}</section></div>
       <aside class="rot-side"><section class="rot-panel rot-rank-panel"><div class="rot-panel-head"><div><h3>${horizon}거래일 업종 순위</h3><p>점수는 8개 신호를 한꺼번에 반영합니다.</p></div></div><div class="rot-rank-list">${renderRank(data,horizon)}</div></section><section class="rot-panel rot-detail" aria-live="polite">${renderDetail(data,selected,horizon)}</section></aside></div>
-      <div class="rot-analysis-grid">${renderScoreHistory(data,selected,horizon)}<section class="rot-panel rot-evidence rot-analysis">${renderEvidence(data,selected.name,horizon)}</section>${renderCandidates(selected)}${renderHowToView(data,selected,horizon)}${renderCurrentView(data,selected,horizon)}${renderPerformance(data)}</div>
-      ${renderAccumulationNote()}<details class="rot-method"><summary>계산 방법과 주의사항 보기</summary><div class="rot-method-body"><div><strong>표본 보정</strong>작은 업종이 우연히 과장되지 않도록 전체 시장 쪽으로 보수적으로 보정합니다.</div><div><strong>미래 정보 차단</strong>각 날짜에서 당시 알 수 있던 자료만 사용하고 최근 30일은 유사 국면 비교에서 제외합니다.</div><div><strong>신뢰도 잠금</strong>과거 검증에서 높은 신뢰도가 중간 신뢰도를 실제로 앞설 때만 높은 단계가 열립니다.</div></div></details>
+      <div class="rot-analysis-grid">${renderCandidates(selected)}${fold('score','점수가 왜 바뀌었나요?',renderScoreHistory(data,selected,horizon),open.has('score'))}${fold('evidence','이 흐름은 어디에서 왔나요?',`<section class="rot-panel rot-evidence rot-analysis">${renderEvidence(data,selected.name,horizon)}</section>`,open.has('evidence'))}${fold('how','어떻게 봐야 하나요?',renderHowToView(data,selected,horizon),open.has('how'))}${fold('current','지금 종합하면 어떤가요?',renderCurrentView(data,selected,horizon),open.has('current'))}${fold('performance','과거에는 얼마나 맞았나요?',renderPerformance(data),open.has('performance'))}</div>
+      ${fold('note','‘축적 중’은 무슨 뜻인가요?',renderAccumulationNote(),open.has('note'))}<details class="rot-method"><summary>계산 방법과 주의사항 보기</summary><div class="rot-method-body"><div><strong>표본 보정</strong>작은 업종이 우연히 과장되지 않도록 전체 시장 쪽으로 보수적으로 보정합니다.</div><div><strong>미래 정보 차단</strong>각 날짜에서 당시 알 수 있던 자료만 사용하고 최근 30일은 유사 국면 비교에서 제외합니다.</div><div><strong>신뢰도 잠금</strong>과거 검증에서 높은 신뢰도가 중간 신뢰도를 실제로 앞설 때만 높은 단계가 열립니다.</div></div></details>
     </div>`;
   }
   function mount(element,data){
     if(!element||!data) return false;
     const recommended=number(data.recommendedHorizon&&data.recommendedHorizon.horizon);
     const defaultHorizon=[1,3,5,20].includes(recommended)?recommended:5;
-    const state={horizon:defaultHorizon,selected:(data.sectors&&data.sectors[0]&&data.sectors[0].name)||''};
+    // open은 모듈 스코프 Set을 공유한다 — 다시 마운트해도 펼쳐 둔 것이 유지된다.
+    const state={horizon:defaultHorizon,selected:(data.sectors&&data.sectors[0]&&data.sectors[0].name)||'',
+      open:OPEN_FOLDS};
     const draw=()=>{ element.innerHTML=renderView(data,state); };
     element.onclick=event=>{
+      // 🔽 접이식 섹션 — 브라우저가 스스로 여닫으므로 여기서는 상태만 기록한다.
+      //    다시 그리면(draw) 방금 연 것이 도로 닫히므로 draw를 부르지 않는다.
+      const foldSum=event.target.closest&&event.target.closest('.rot-fold > summary');
+      if(foldSum){
+        const key=foldSum.parentElement.dataset.fold;
+        if(state.open.has(key)) state.open.delete(key); else state.open.add(key);
+        return;
+      }
       const horizon=event.target.closest&&event.target.closest('[data-horizon]');
       if(horizon){state.horizon=number(horizon.dataset.horizon);draw();return;}
       const sector=event.target.closest&&event.target.closest('[data-sector]');

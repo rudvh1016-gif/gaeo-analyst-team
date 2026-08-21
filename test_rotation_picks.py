@@ -69,10 +69,14 @@ class SelectPicksTest(unittest.TestCase):
         z가 둘 다 3.0으로 잘려 총점이 완전히 같아진다. 그때 +99.2%가
         +79.6%보다 뒤에 오면 화면이 고장난 것처럼 보인다.
         """
+        # ⚠️ 자리를 4개로 잡는 이유: sector_cap_for(n)이 자리 3개 미만이면 업종당
+        #    1개로 조인다. 자리를 2개로 두면 같은 업종의 두 종목이 애초에 함께
+        #    담기지 못해서, 이 테스트가 보려는 "동점일 때의 순서"를 못 본다.
         cands = [cand("000010", 79.6), cand("000020", 99.2)]
         cands += [cand(f"{i:06d}", 1.0 + i * 0.1) for i in range(100, 160)]
-        picks = rp.select_picks(cands, 2)
-        self.assertEqual([p["code"] for p in picks], ["000020", "000010"])
+        picks = rp.select_picks(cands, 4)
+        semi = [p["code"] for p in picks if p["code"] in ("000010", "000020")]
+        self.assertEqual(semi, ["000020", "000010"])
 
     def test_same_input_always_gives_same_list(self):
         """입력 순서만 바꿔도 결과가 흔들리면 안 된다(결정성)."""
@@ -143,6 +147,66 @@ class ZScoreTest(unittest.TestCase):
 
     def test_weights_sum_to_one(self):
         self.assertAlmostEqual(rp.W_STOCK + rp.W_SECTOR, 1.0)
+
+
+class SectorCapTest(unittest.TestCase):
+    """자리 수에 따라 '한 업종 최대 개수'가 달라진다.
+
+    🐛 2026-08-20 회귀 방지: 자리가 2개로 줄어드는 날 상한 2가 그대로 적용돼
+       한 업종이 두 자리를 다 가져갔다. 그러면 "골고루 보인다"는 이 코너의
+       목적이 사라진다. 자리가 3개 미만이면 업종당 1개로 조인다.
+    """
+
+    def test_roomy_slots_allow_two_per_sector(self):
+        self.assertEqual(rp.sector_cap_for(4), rp.SECTOR_CAP)
+        self.assertEqual(rp.sector_cap_for(3), rp.SECTOR_CAP)
+
+    def test_tight_slots_allow_one_per_sector(self):
+        self.assertEqual(rp.sector_cap_for(2), 1)
+        self.assertEqual(rp.sector_cap_for(1), 1)
+
+    def test_zero_slots_cap_is_harmless(self):
+        self.assertEqual(rp.sector_cap_for(0), 1)
+
+    def test_two_slots_are_not_monopolised_by_one_sector(self):
+        """같은 업종 1·2위가 점수로는 앞서도 두 자리를 다 먹지 못한다."""
+        cands = [
+            cand("000001", 90.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000002", 85.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000003", 40.0, sec="바이오", sec_score=70.0, sec_rank=2),
+        ]
+        picks = rp.select_picks([dict(c) for c in cands], 2)
+        self.assertEqual(len(picks), 2)
+        self.assertEqual(len({p["sector"] for p in picks}), 2)
+
+    def test_rank_order_survives_the_tighter_cap(self):
+        """상한을 조여도 1위는 여전히 최고 점수 종목이다."""
+        cands = [
+            cand("000001", 90.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000002", 85.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000003", 40.0, sec="바이오", sec_score=70.0, sec_rank=2),
+        ]
+        picks = rp.select_picks([dict(c) for c in cands], 2)
+        self.assertEqual(picks[0]["code"], "000001")
+
+    def test_four_slots_keep_two_per_sector(self):
+        cands = [
+            cand("000001", 90.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000002", 85.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000003", 80.0, sec="반도체", sec_score=90.0, sec_rank=1),
+            cand("000004", 40.0, sec="바이오", sec_score=70.0, sec_rank=2),
+            cand("000005", 30.0, sec="화학", sec_score=60.0, sec_rank=3),
+        ]
+        picks = rp.select_picks([dict(c) for c in cands], 4)
+        semis = [p for p in picks if p["sector"] == "반도체"]
+        self.assertEqual(len(semis), rp.SECTOR_CAP)
+        self.assertGreaterEqual(len({p["sector"] for p in picks}), 3)
+
+    def test_single_sector_pool_cannot_fill_all_slots(self):
+        """후보가 한 업종뿐이면 자리를 다 못 채운다. 억지로 채우지 않는다."""
+        cands = [cand(f"00000{i}", 90.0 - i, sec="반도체") for i in range(1, 5)]
+        picks = rp.select_picks([dict(c) for c in cands], 4)
+        self.assertEqual(len(picks), rp.SECTOR_CAP)
 
 
 if __name__ == "__main__":

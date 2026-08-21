@@ -1,0 +1,344 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""집 PC 안에서 Toss access token을 **하나만** 유지하기 위한 공유 저장소.
+
+왜 필요한가
+-----------
+토스증권 공식 계약상 **client 당 유효 access token은 1개**다.
+새로 발급하면 이전에 발급된 토큰은 **즉시 무효화된다.**
+
+집 PC에서 같은 Client ID/Secret 을 쓰는 프로그램이 둘 이상이면
+(예: 이 Paper Runner + 계좌 조회용 GAEO Gateway) 각자 토큰을 발급하는 순간
+서로를 끝없이 로그아웃시킨다:
+
+    Runner 발급 → tok-1          Gateway: 401
+    Gateway 발급 → tok-2         Runner:  401
+    Runner 발급 → tok-3          Gateway: 401
+    …
+
+핵심은 "누가 발급하느냐"가 아니라 **"토큰이 하나만 존재하느냐"** 다.
+그래서 발급 결과를 한 곳에 두고 모두가 같은 값을 쓴다.
+
+동작
+----
+    1) 토큰이 필요하면 먼저 공유 저장소를 본다
+    2) 유효하면 그대로 쓴다 (발급 0회)
+    3) 만료됐거나 죽은 토큰이면, **프로세스 간 잠금 안에서** 한 번만 발급하고 저장한다
+
+이 모듈은 아무 프로세스에도 의존하지 않는다. 파일과 잠금뿐이므로
+Gateway가 꺼져 있어도 Paper Runner는 그대로 동작한다.
+
+보안
+----
+    · Windows에서는 DPAPI(현재 사용자 계정)로 암호화해 저장한다.
+      같은 사용자만 복호화할 수 있고, 그 사용자는 어차피 client_secret도 읽을 수 있으므로
+      새로운 노출 등급이 생기지 않는다.
+    · 저장 위치는 git 저장소 **바깥**이다.
+    · 토큰 값을 로그·예외 메시지에 절대 넣지 않는다.
+
+이 기능은 **기본으로 꺼져 있다.** GAEO_SHARED_TOSS_TOKEN=1 일 때만 켜진다.
+꺼져 있으면 기존 동작(각 프로세스가 자체 발급)이 100% 그대로다.
+"""
+import json
+import math
+import os
+import sys
+import time
+
+ENV_FLAG = "GAEO_SHARED_TOSS_TOKEN"
+ENV_DIR = "GAEO_SECRETS_DIR"
+
+_TOKEN_FILE = "toss_shared_access_token"
+_LOCK_FILE = "toss_token.lock"
+_ENTROPY = b"GAEO-Gateway-v1"
+
+#: 만료 직전에 미리 갱신할 여유(시계 오차 포함)
+SKEW_SECONDS = 60.0
+LOCK_TIMEOUT_SECONDS = 30.0
+
+#: Windows에서 다른 프로세스가 파일을 읽는 순간과 겹치면 os.replace 가
+#: ERROR_SHARING_VIOLATION(PermissionError)으로 실패할 수 있다. 짧게 유한 재시도한다.
+#: 총 대기 상한 = 0.05+0.10+0.15+0.20 = 0.5초 (무한 대기 금지).
+REPLACE_ATTEMPTS = 5
+REPLACE_DELAY_SECONDS = 0.05
+
+
+class DecryptError(OSError):
+    """공유 토큰 파일의 복호화 실패 — 즉 **파일 내용이 깨졌다**는 뜻.
+
+    파일시스템 오류(권한·디스크)와 구분하려고 전용 타입으로 둔다.
+    깨진 캐시는 버리고 새로 받으면 되지만, 권한 오류는 숨기면 안 된다
+    (숨기면 매번 재발급 → 상대 프로세스를 계속 끊는 상태가 조용히 이어진다).
+    OSError 하위형이라 기존 except OSError 는 그대로 동작한다.
+    메시지에 토큰 값을 담지 않는다.
+    """
+
+
+class SharedTokenError(RuntimeError):
+    """공유 토큰 저장소 자체의 장애(잠금 타임아웃 등).
+
+    호출측이 "토큰 발급 실패"와 "저장소 장애"를 구분해 자기 예외 계약으로
+    변환할 수 있도록 전용 타입으로 둔다. 메시지에 토큰·경로를 담지 않는다.
+    """
+
+
+def enabled():
+    """공유 토큰 사용 여부. 기본은 꺼짐 — 명시적으로 켜야 한다."""
+    return (os.environ.get(ENV_FLAG) or "").strip() == "1"
+
+
+_warned = [False]
+
+
+def warn_if_shared_store_exists():
+    """공유가 꺼져 있는데 공유 저장소가 이미 있으면 **한 번만** 알린다.
+
+    그 상태는 "상대 프로그램(GAEO Gateway)은 공유 토큰을 쓰는데 이쪽은 각자 발급"이라는
+    뜻이고, 이쪽이 발급하는 순간 상대가 끊긴다(토스는 client 당 유효 토큰 1개).
+
+    동작은 바꾸지 않는다 — 사실만 알린다. 토큰 값·경로는 출력하지 않는다.
+    """
+    if _warned[0] or enabled():
+        return
+    try:
+        exists = os.path.exists(_token_path())
+    except Exception:
+        return
+    if exists:
+        _warned[0] = True
+        print("[toss] 경고: 공유 토큰 저장소가 이미 있는데 " + ENV_FLAG + " 가 꺼져 있습니다. "
+              "지금 토큰을 발급하면 다른 프로그램(GAEO Gateway)의 토큰이 끊깁니다. "
+              "두 프로그램을 함께 쓰려면 " + ENV_FLAG + "=1 로 켜세요.")
+
+
+def secrets_dir():
+    override = (os.environ.get(ENV_DIR) or "").strip()
+    if override:
+        return override
+    if sys.platform == "win32":
+        base = os.environ.get("LOCALAPPDATA") or os.path.expanduser(r"~\AppData\Local")
+        return os.path.join(base, "GAEO", "secrets")
+    base = os.environ.get("XDG_STATE_HOME") or os.path.expanduser("~/.local/state")
+    return os.path.join(base, "gaeo", "secrets")
+
+
+# ── Windows DPAPI (외부 의존성 없이 ctypes만) ────────────────────────────────
+def _dpapi_available():
+    return sys.platform == "win32"
+
+
+def _dpapi(func_name, blob):
+    import ctypes
+    from ctypes import wintypes
+
+    class _Blob(ctypes.Structure):
+        _fields_ = [("cbData", wintypes.DWORD), ("pbData", ctypes.POINTER(ctypes.c_char))]
+
+    crypt32 = ctypes.windll.crypt32
+    src = _Blob(len(blob), ctypes.cast(ctypes.create_string_buffer(blob), ctypes.POINTER(ctypes.c_char)))
+    ent = _Blob(len(_ENTROPY), ctypes.cast(ctypes.create_string_buffer(_ENTROPY), ctypes.POINTER(ctypes.c_char)))
+    out = _Blob()
+    ok = getattr(crypt32, func_name)(
+        ctypes.byref(src), None, ctypes.byref(ent), None, None, 0x1, ctypes.byref(out)
+    )
+    if not ok:
+        raise DecryptError(func_name + " 실패")
+    try:
+        return ctypes.string_at(out.pbData, out.cbData)
+    finally:
+        if out.pbData:
+            ctypes.windll.kernel32.LocalFree(out.pbData)
+
+
+def _protect(raw):
+    return _dpapi("CryptProtectData", raw) if _dpapi_available() else raw
+
+
+def _unprotect(raw):
+    return _dpapi("CryptUnprotectData", raw) if _dpapi_available() else raw
+
+
+# ── 프로세스 간 잠금 ─────────────────────────────────────────────────────────
+class _Lock(object):
+    """파일 기반 배타 잠금. 잠금 파일에는 어떤 내용도 쓰지 않는다."""
+
+    def __init__(self, path, timeout=LOCK_TIMEOUT_SECONDS):
+        self.path = path
+        self.timeout = timeout
+        self._fh = None
+
+    def __enter__(self):
+        directory = os.path.dirname(self.path)
+        if directory and not os.path.isdir(directory):
+            os.makedirs(directory, exist_ok=True)
+        self._fh = open(self.path, "a+b")
+        deadline = time.monotonic() + self.timeout
+        while True:
+            try:
+                self._acquire()
+                return self
+            except OSError:
+                if time.monotonic() >= deadline:
+                    self._fh.close()
+                    self._fh = None
+                    raise SharedTokenError("shared token lock timeout")
+                time.sleep(0.05)
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            self._release()
+        finally:
+            if self._fh is not None:
+                self._fh.close()
+                self._fh = None
+
+    def _acquire(self):
+        if sys.platform == "win32":
+            import msvcrt
+
+            self._fh.seek(0)
+            msvcrt.locking(self._fh.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(self._fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+    def _release(self):
+        if self._fh is None:
+            return
+        try:
+            if sys.platform == "win32":
+                import msvcrt
+
+                self._fh.seek(0)
+                msvcrt.locking(self._fh.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(self._fh.fileno(), fcntl.LOCK_UN)
+        except OSError:
+            pass
+
+
+# ── 공유 토큰 읽기/쓰기 ──────────────────────────────────────────────────────
+def _token_path():
+    suffix = ".dpapi" if _dpapi_available() else ".bin"
+    return os.path.join(secrets_dir(), _TOKEN_FILE + suffix)
+
+
+def _lock_path():
+    return os.path.join(secrets_dir(), _LOCK_FILE)
+
+
+def read_shared(now=None):
+    """공유 토큰을 읽는다. 없거나 손상됐거나 만료가 임박하면 None.
+
+    반환값은 토큰 문자열이며, 값은 로그에 남기지 않는다.
+    """
+    now = time.time() if now is None else now
+    path = _token_path()
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "rb") as fh:
+            raw = _unprotect(fh.read())
+        record = json.loads(raw.decode("utf-8"))
+    except (DecryptError, ValueError):
+        # 깨진 캐시만 조용히 버린다(내용은 어디에도 남기지 않는다).
+        #   · DecryptError — DPAPI 복호화 실패(0바이트·난수·잘린 blob·평문 파일)
+        #   · ValueError   — JSON 파싱 실패, UTF-8 디코드 실패(UnicodeDecodeError 포함)
+        # 권한/디스크 오류(PermissionError 등)와 프로그래밍 오류는 **통과시킨다.**
+        # 그것까지 None 으로 삼키면 매 요청 재발급이 되어 상대 프로세스를 계속 끊는다.
+        return None
+
+    token = record.get("access_token")
+    if not isinstance(token, str) or not token:
+        return None
+    expires_at = record.get("expires_at")
+    if isinstance(expires_at, (int, float)):
+        # NaN 은 어떤 비교도 False 라서 그냥 두면 "영원히 유효한 토큰"으로 새어나간다.
+        # Gateway 쪽 is_fresh() 는 같은 값을 폐기하므로, 판정이 갈리지 않게 여기서도 버린다.
+        if isinstance(expires_at, float) and math.isnan(expires_at):
+            return None
+        if now >= (expires_at - SKEW_SECONDS):
+            return None
+    # expires_at 이 없으면 시간만으로 버리지 않는다
+    # (불필요한 재발급 하나하나가 다른 프로세스를 끊기 때문이다).
+    return token
+
+
+def _replace_with_retry(tmp, path):
+    """os.replace 를 짧게 유한 재시도한다 (Windows 공유 위반 대비).
+
+    PermissionError 만 재시도한다 — 경로 오류·디스크 문제 같은 진짜 실패는
+    숨기지 않고 그대로 올린다.
+    """
+    for attempt in range(REPLACE_ATTEMPTS):
+        try:
+            os.replace(tmp, path)
+            return
+        except PermissionError:
+            if attempt == REPLACE_ATTEMPTS - 1:
+                raise
+            time.sleep(REPLACE_DELAY_SECONDS * (attempt + 1))
+
+
+def write_shared(token, expires_in, now=None):
+    now = time.time() if now is None else now
+    directory = secrets_dir()
+    os.makedirs(directory, exist_ok=True)
+    record = {
+        "access_token": token,
+        "expires_at": (now + float(expires_in)) if expires_in else None,
+        "issued_at": now,
+    }
+    raw = _protect(json.dumps(record).encode("utf-8"))
+    path = _token_path()
+    tmp = path + ".tmp"
+    with open(tmp, "wb") as fh:
+        fh.write(raw)
+        # 전원이 끊겨도 "이름은 바뀌었는데 내용은 비어 있는" 파일이 남지 않게 한다.
+        fh.flush()
+        os.fsync(fh.fileno())
+    try:
+        _replace_with_retry(tmp, path)
+    finally:
+        # 실패했을 때 반쪽 tmp 를 남기지 않는다 (Gateway SecretStore.put 과 같은 처리).
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+    if sys.platform != "win32":
+        try:
+            os.chmod(path, 0o600)
+        except OSError:
+            pass
+    return token
+
+
+def acquire(issue_fn, dead_token=None):
+    """공유 토큰을 얻는다. 필요할 때만 issue_fn() 을 호출한다.
+
+    issue_fn 은 (token, expires_in) 을 돌려주는 함수다.
+    dead_token 이 주어지면 그 값과 같은 공유 토큰은 무효로 본다(401을 받은 경우).
+    """
+    token = read_shared()
+    if token and token != dead_token:
+        return token
+
+    with _Lock(_lock_path()):
+        # 잠금을 잡는 사이 다른 프로세스가 이미 받아 뒀을 수 있다.
+        token = read_shared()
+        if token and token != dead_token:
+            return token
+        issued, expires_in = issue_fn()
+        try:
+            return write_shared(issued, expires_in)
+        except OSError:
+            # 발급은 이미 성공했다(= 상대 토큰은 이미 무효화됐다).
+            # 여기서 예외를 올리면 이 프로세스는 토큰 없이 매번 재발급을 시도하게 되고,
+            # 그 재발급 하나하나가 상대를 다시 끊는다 — 막으려던 문제로 되돌아간다.
+            # 그래서 저장에 실패해도 발급된 토큰은 반환해 쓰게 한다.
+            # (상대는 401 한 번을 겪고 스스로 1회 갱신하면 다시 수렴한다.)
+            return issued

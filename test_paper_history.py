@@ -266,6 +266,89 @@ check("⑥ '다음에 확인할 점'은 매매 지시가 아니다",
                             if s["key"] == "watch" for l in s["lines"])
               for w in ("매수하", "매도하", "사세요", "파세요", "손절", "비중 확대")))
 
+# ── ⑥-2 종합평가 구체화(2026-08-20) ──────────────────────────────────────────
+# 대표 지적: "모의투자 기록의 최종판단이 매번 비슷하고 두루뭉술하다."
+# 원장에 이미 저장돼 있는데 문장으로 쓰이지 않던 사실(종료 사유·MFE/MAE·거래별
+# 벤치마크)을 쓴다. ⚠️ 없는 값을 지어내지 않으므로, 해당 값이 없으면 문장도 없다.
+detail_led = [
+    cl("d1", "005930", "2026-08-18", "2026-08-19", 70000, 71400, 10, 1,
+       reason="CHIEF_SELL", bench=0.4, mfe=6.5, mae=-1.2, name="삼성전자"),
+    cl("d2", "011200", "2026-08-18", "2026-08-19", 20000, 19600, 50, 1,
+       reason="MAX_HOLDING_5D", bench=0.4, mfe=1.1, mae=-4.8, name="HMM"),
+]
+h_d = ph.build(detail_led,
+               [cv("2026-08-19", "15:20", 10_004_000, cash=10_004_000, marked=0)],
+               CFG, today="2026-08-20",
+               market_daily={"2026-08-18": {"KOSPI": 100.0}, "2026-08-19": {"KOSPI": 100.4}})
+ld = all_lines(h_d["days"][0])
+fact_of = lambda f: next((l for l in ld if l["fact"] == f), None)
+
+check("⑥-2 종료 사유를 종류별로 센다(판단 변경 ≠ 기간 만료)",
+      bool(fact_of("exitReasons")) and "매도 고려" in fact_of("exitReasons")["text"]
+      and "최대 보유기간" in fact_of("exitReasons")["text"])
+check("⑥-2 고점 대비 얼마를 반납했는지 말한다(mfe 활용)",
+      bool(fact_of("exitGiveback")) and "4.50%p" in fact_of("exitGiveback")["text"],
+      fact_of("exitGiveback")["text"] if fact_of("exitGiveback") else "문장 없음")
+check("⑥-2 보유 중 최저까지 얼마나 내렸는지 말한다(mae 활용)",
+      bool(fact_of("exitDrawdown")) and "-4.80%" in fact_of("exitDrawdown")["text"])
+check("⑥-2 거래별 자기 시장 대비 성적을 말한다(계좌 전체 코스피 비교와 별개)",
+      bool(fact_of("tradeBenchmarkCount"))
+      and "2건 중 1건" in fact_of("tradeBenchmarkCount")["text"])
+check("⑥-2 종목명 뒤에 조사를 붙이지 않는다('삼성전자은' 방지)",
+      bool(fact_of("exitGiveback")) and "삼성전자 — " in fact_of("exitGiveback")["text"])
+check("⑥-2 표본 안내에 실제 누적 종료 건수가 들어간다(매번 같은 문장 금지)",
+      bool(fact_of("smallSample")) and "2건입니다" in fact_of("smallSample")["text"],
+      fact_of("smallSample")["text"] if fact_of("smallSample") else "문장 없음")
+check("⑥-2 신설 문장도 전부 근거 fact를 갖는다", all(l.get("fact") for l in ld))
+# 값이 없으면 문장도 만들지 않는다 — mfe/mae/benchmark가 없는 옛 기록 보호.
+bare = [cl("b1", "005930", "2026-08-18", "2026-08-19", 100, 110, 10, 1)]
+lb = all_lines(ph.build(bare, [cv("2026-08-19", "15:20", 10_001_000)],
+                        CFG, today="2026-08-20")["days"][0])
+check("⑥-2 mfe/mae·벤치마크가 없으면 그 문장을 지어내지 않는다",
+      not any(l["fact"] in ("exitGiveback", "exitDrawdown", "tradeBenchmarkCount",
+                            "tradeBenchmarkBest") for l in lb))
+
+# ── ⑥-3 검수에서 잡힌 거짓 문장 (2026-08-21) ─────────────────────────────────
+# 전부 "관측된 적 없는 것을 말하지 않는다"는 같은 원칙의 위반이었다.
+loser = [cl("z1", "005930", "2026-08-18", "2026-08-19", 70000, 66500, 10, 1,
+            reason="CHIEF_SELL", bench=0.4, mfe=0.0, mae=-5.0, name="삼성전자")]
+h_z = ph.build(loser, [cv("2026-08-19", "15:20", 9_965_000, cash=9_965_000, marked=0)],
+               CFG, today="2026-08-20",
+               market_daily={"2026-08-18": {"KOSPI": 100.0}, "2026-08-19": {"KOSPI": 100.4}})
+lz = all_lines(h_z["days"][0])
+check("⑥-3 진입가 위로 간 적 없으면 '고점 대비 반납'을 말하지 않는다",
+      not any(l["fact"] == "exitGiveback" for l in lz),
+      str([l["text"] for l in lz if l["fact"] == "exitGiveback"]))
+check("⑥-3-1 그래도 실제 관측된 최저점은 말한다",
+      any(l["fact"] == "exitDrawdown" for l in lz))
+check("⑥-3-2 앞선 거래가 0건이면 '가장 앞선 거래'를 만들지 않는다",
+      not any(l["fact"] == "tradeBenchmarkBest" for l in lz),
+      str([l["text"] for l in lz if l["fact"] == "tradeBenchmarkBest"]))
+check("⑥-3-3 몇 건이 앞섰는지는 사실이므로 그대로 말한다",
+      any(l["fact"] == "tradeBenchmarkCount" and "0건이" in l["text"] for l in lz))
+
+# 표본이 다 찬 뒤 조용한 날 — 섹션 제목만 남고 내용이 비면 안 된다.
+quiet = ph.build_review("2026-08-19", None, [], [], None, None, None, 10_000_000,
+                        is_today=False, closed_total=25)
+qw = [s for s in quiet["sections"] if s["key"] == "watch"][0]
+check("⑥-3-4 표본이 다 차도 '다음에 확인할 점'이 비지 않는다",
+      len(qw["lines"]) >= 1 and all(l.get("fact") for l in qw["lines"]),
+      str(qw["lines"]))
+
+# 사이클은 돌았는데 평가만 실패한 날(markedEquity 없음)을 '기록 없음'이라 하면 거짓이다.
+val_fail = [cv("2026-08-18", "15:20", 10_000_000),
+            {"at": "2026-08-19T15:20:00+09:00", "markedEquity": None, "cash": 0,
+             "positionsCost": 0, "markedPositionsValue": None, "openCount": 1,
+             "realizedPnl": 0, "unrealizedPnl": None,
+             "valuationStatus": "VALUATION_UNAVAILABLE"},
+            cv("2026-08-20", "15:20", 9_900_000)]
+h_v = ph.build([], val_fail, CFG, today="2026-08-21",
+               business_dates=["2026-08-18", "2026-08-19", "2026-08-20"])
+day19 = [d for d in h_v["days"] if d["date"] == "2026-08-19"]
+check("⑥-3-5 사이클이 돌았으면(평가만 실패해도) '기록 없음'이라 하지 않는다",
+      bool(day19) and day19[0].get("noRecord") is False,
+      str(day19[0].get("noRecord")) if day19 else "행 자체가 없음")
+
 # ═══ ⑦ 전략 분류 · 표본 부족 ═════════════════════════════════════════════════
 check("⑦ 보유기간 → bucket 결정적",
       [ph.classify_holding(i) for i in range(6)]
