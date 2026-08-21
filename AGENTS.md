@@ -77,6 +77,7 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 | `rotation_engine.py` / `compute_rotation.py` | 분석 종목을 24업종으로 집계하는 순환매 계산 엔진 / 현재 스냅샷·마감 아카이브 생성 | AI 에이전트 / `update-analysis.yml` (자동) |
 | `rotation_snapshot.js` / `rotation_archive.json` | 순환매 화면용 현재 자료 / 거래일별 마감 기록 | **`compute_rotation.py`만, 직접 편집 금지.** |
 | `rotation_backtest.py` / `backtest_rotation.py` / `rotation_model.json` | 미래 정보 차단형 Lead-Lag·유사 국면·Walk-forward 검증 / 주간 모델 산출물 | `rotation-maintenance.yml` (자동) |
+| `compute_rotation_picks.py` / `rotation_picks.js` | 홈 「업종 흐름에서 고른 종목」용 2KB 경량 요약(시장 게이트·상위 4종목·성적). 홈이 421KB짜리 `rotation_snapshot.js`를 받지 않게 하려고 분리했다. ⚠️ z점수 클램프를 고치기 전에 `zscores()` 주석의 측정 결과를 읽을 것 | `compute_rotation_picks.py`만, 직접 편집 금지. 계약은 `test_rotation_picks.py` |
 | `rotation-ui.js` / `rotation.css` | `?m=rotation` 전용 지연 로딩 화면과 반응형 디자인 | AI 에이전트가 직접 편집 |
 | `team_weights.js` | 자가 학습 CHIEF 가중치 | `compute_team_weights.py` (자동) |
 | `model_intelligence.js` | 확률교정·오답 중복·시장국면·AUDIT·그림자 승격 판정 | `compute_model_intelligence.py` (자동) |
