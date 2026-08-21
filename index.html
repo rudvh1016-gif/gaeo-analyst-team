@@ -15111,6 +15111,12 @@ window.hangulFix=function(str){
     else if(m==='rates'){ window.setMode('rates'); }
     else if(m==='rotation'){ window.setMode('rotation'); }
     else if(m==='changelog'){ window.setMode('changelog'); }
+    /* 🔗 2026-08-21: setMode는 처리하는데 라우터에만 분기가 빠져 있던 화면들.
+       ?m=compare 같은 링크를 열면 조용히 기본 화면(종목 분석)이 떠서, 공유받은
+       사람이 엉뚱한 곳에 도착했다. 아래 5개가 그 상태였다. */
+    else if(['compare','portfolio','screener','calendar','community'].includes(m)){
+      window.setMode(m);
+    }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
