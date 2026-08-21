@@ -6004,6 +6004,9 @@ function renderPaper(){
   const minClosed=n(P.minClosedForEvidence)||20;
   const minDays=n(P.minEntryDaysForEvidence)||20;
   const needClosed=closed<minClosed;
+  /* 💸 비용 모델 — 아래 「검증 상태」와 맨 아래 안내문이 둘 다 쓴다. 쓰는 곳보다
+     먼저 선언해야 한다(뒤에 두면 선언 전 참조로 화면 전체가 안 그려진다). */
+  const cm=P.costModelDetail;
 
   /* ① Hero + 자동 기록 상태 한 줄.
      ⚠️ 시각이 최근이라는 이유만으로 "정상"이라 쓰지 않는다 — 러너가 사이클 성공을
@@ -6301,8 +6304,11 @@ function renderPaper(){
         :(insufficient?na(needClosed?`표본 부족 · 거래 ${closed}/${minClosed}건`
                                     :`표본 부족 · 판단일 ${eDays==null?'—':eDays}/${minDays}일`)
         :(n(P.winRatePct)==null?na('기록 대기'):val(P.winRatePct.toFixed(1)+'%')))],
-      ['종료거래 평균 수익률', !closed?na('아직 종료 거래 없음')
+      ['종료거래 평균 수익률 <small>비용 전</small>', !closed?na('아직 종료 거래 없음')
         :(n(P.avgReturnPct)==null?na('기록 대기'):val(sPct(P.avgReturnPct)))],
+      /* 💸 수수료·세금을 뺀 값. 비용 모델이 없는 옛 스냅샷에서는 칸을 만들지 않는다. */
+      ...(cm?[['종료거래 평균 순수익 <small>수수료·세금 반영</small>', !closed?na('아직 종료 거래 없음')
+        :(n(P.estimatedNetReturnPct)==null?na('기록 대기'):val(sPct(P.estimatedNetReturnPct)))]]:[]),
       ['종료거래 평균 시장대비', !closed?na('아직 종료 거래 없음')
         :(n(P.avgRelativeReturnPct)==null?na('기록 대기')
         :val((P.avgRelativeReturnPct>0?'+':P.avgRelativeReturnPct<0?'−':'')+Math.abs(P.avgRelativeReturnPct).toFixed(2)+'%p'))],
@@ -6376,7 +6382,12 @@ function renderPaper(){
     return `<details class="pv-gloss"><summary>상세 정보${chev}</summary><dl class="pv-rows">${d}</dl>${skipSec}</details>`;
   }
 
-  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록이며, 수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중). ${esc(P.benchmarkNote||'')}</p>`;
+  /* 💸 비용 안내 — 러너가 실제로 반영한 요율을 그대로 읽어 쓴다(화면에 숫자를 박지 않는다).
+     비용 모델이 아직 없는 옛 스냅샷에서는 예전 문구를 그대로 쓴다. */
+  const costLine=(cm&&n(cm.roundTripPct)!=null)
+    ? `표시되는 <b>수익률은 수수료·세금을 빼기 전 값</b>이고, 아래 「검증 상태」의 순수익만 이를 반영합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
+    : `수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중).`;
+  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록입니다. ${costLine} ${esc(P.benchmarkNote||'')}</p>`;
 
   /* 자동 재렌더 시 사용자가 펼쳐 둔 설명(details)이 닫히지 않게 상태를 보존한다 */
   const openGloss=[...el.querySelectorAll('.pv-gloss')].map(d=>d.open);
