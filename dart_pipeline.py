@@ -386,6 +386,24 @@ FINANCIAL_TARGETS = {
         "names": ["투자활동현금흐름", "투자활동으로인한현금흐름", "투자활동으로부터의현금흐름"],
         "sjDiv": ["CF"],
         "for": ["Investment"]},
+    # 📚 2026-08-21 추가 — docs/gaeo_diana_v2_feature_registry.md 10절 2번.
+    #    operatingProfitability(FF5 원공식)의 분자에 판관비·이자비용이 필요한데
+    #    수집 목록에 없어서 그 축이 NOT_READY로 막혀 있었다.
+    #    ⚠️ 수집만 늘린다. 점수는 만들지 않는다 — 같은 문서 "지금은 점수를
+    #       만들지 않는다"와 7번(그 뒤에야 Feature 계산 시작)을 그대로 따른다.
+    #    ⚠️ 계정을 못 찾으면 기존과 같이 NOT_AVAILABLE로 남는다(0으로 만들지 않는다).
+    #       실제 응답에 있는지는 dart_smoke_test.py로 확인해야 확정된다.
+    "sgaExpenses": {
+        "ids": ["dart_SellingGeneralAdministrativeExpenses",
+                "ifrs-full_SellingGeneralAndAdministrativeExpense"],
+        "names": ["판매비와관리비", "판매비및관리비", "판매관리비"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["OperatingProfitability"]},
+    "interestExpense": {
+        "ids": ["ifrs-full_InterestExpense", "dart_InterestExpense"],
+        "names": ["이자비용", "금융원가", "이자비용(금융원가)"],
+        "sjDiv": ["IS", "CIS"],
+        "for": ["OperatingProfitability"]},
 }
 
 # 금융업은 매출원가·매출총이익 개념이 없고 부채의 의미도 다르다(요구 20번).
