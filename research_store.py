@@ -79,7 +79,10 @@ def _read_text(path, label=None):
     """.jsonl / .jsonl.gz / .*.enc 어느 형태든 평문 텍스트로 읽는다."""
     if path.endswith(".enc"):
         blob = research_crypto.decrypt_bytes(open(path, "rb").read(), label or "")
-        if path.endswith(".gz.enc"):
+        # 이름이 .gz.enc면 무조건 gzip이고, ACTIVE(.jsonl.enc)도 2026-08-21부터
+        # 압축해서 저장한다(암호문은 git 델타 압축이 안 돼 매 커밋마다 4MB가 통째로
+        # 쌓였다). 그 전에 저장된 비압축 파일도 계속 읽혀야 하므로 매직바이트로 함께 판별한다.
+        if path.endswith(".gz.enc") or blob[:2] == b"\x1f\x8b":
             blob = gzip.decompress(blob)
         return blob.decode("utf-8")
     if path.endswith(".gz"):
@@ -312,7 +315,13 @@ class ResearchArchiveStore:
         if self.encrypt:
             # ⚠️ FAIL CLOSED — Key가 없으면 여기서 예외가 나고 아무 파일도 안 생긴다.
             #    평문으로 대신 저장하는 fallback은 존재하지 않는다.
-            research_crypto.write_encrypted(path, body, self._label(day))
+            # 💾 gzip 후 암호화한다. 이 파일은 하루 동안 사이클마다 통째로 다시 쓰이는데,
+            #    암호문은 git 델타 압축이 안 돼서 매 커밋마다 전체 크기가 저장소에 쌓인다.
+            #    2026-08-21 실측: 하루치 원본 4.16MB × 23커밋 = 저장소에 90MB.
+            #    압축하면 같은 내용이 64KB 수준이라 그 비용이 60분의 1로 준다.
+            #    파일 이름은 그대로 두고(ACTIVE/CLOSED 상태 판별이 이름을 쓴다),
+            #    읽는 쪽이 gzip 매직바이트로 자동 판별한다.
+            research_crypto.write_encrypted(path, body, self._label(day), gzip_first=True)
         else:
             os.makedirs(os.path.dirname(path), exist_ok=True)
             tmp = path + ".tmp"

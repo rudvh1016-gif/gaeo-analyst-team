@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
-<link rel="stylesheet" href="rotation.css?v=20260821-v18" />
+<link rel="stylesheet" href="rotation.css?v=20260821-v20" />
 <link rel="stylesheet" href="full-market.css?v=20260818-v4" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
@@ -12389,12 +12389,16 @@ makeCards(false);
   }
   window.renderGaeoHomeSignals=renderAll;
   renderAll();
-  if(!AUTO_AN&&window.ensureAutoAnalysis){
-    // ⭐ 2026-08-14 — "오늘의 판단" BUY 상위 종목은 처음엔 홈 경량 스냅샷(상위 30개, 종합점수순 선별)으로
-    // 먼저 그려지는데, 이 스냅샷은 confidence 기준 상위 3위가 빠져 있을 수 있다. 전체 종목
-    // 자동분석(AUTO_AN)이 백그라운드로 다 내려오면 확신도순 정렬 결과가 바뀔 수 있으므로 다시 그린다.
-    window.ensureAutoAnalysis().then(()=>{ renderAll(); window.GaeoBrief&&window.GaeoBrief.renderDecision&&window.GaeoBrief.renderDecision(); }).catch(()=>{});
-  }
+  /* ⭐ 2026-08-14에는 여기서 전체 자동분석(auto_analysis.js · 3MB)을 백그라운드로 받아
+     "오늘의 판단" BUY 상위를 다시 그렸다. 홈 스냅샷이 종합점수순으로 잘려서 확신도 1~3위가
+     30위 밖으로 밀릴 수 있었기 때문이다.
+     그 원인은 같은 날 generate_snapshots.js에서 이미 없앴다 — 자를 때부터 화면과 똑같은
+     기준(BUY 먼저 · 확신도 · 종합점수 · 이름)으로 정렬한 뒤 상위 30개를 남긴다. 같은
+     기준으로 정렬해 자른 30개 안에는 그 기준의 1~3위가 반드시 들어 있으므로, 다시 그릴
+     이유가 사라졌다(계약은 test_home_brief_top.js가 지킨다).
+     그런데 재로드 코드만 남아 있어서, 홈에 들어올 때마다 이름 세 개를 확인하려고 3MB를
+     받고 파싱했다. 2026-08-21에 제거한다. 전체 자동분석이 진짜 필요한 화면(비교·포트폴리오·
+     스크리너·전체시장)은 각자 ensureAutoAnalysis()를 호출하므로 영향이 없다. */
 })();
 
 // ---------- 🗂 뉴스분석·종목공부·주식공부·부동산공부 공통 — 중카테고리(대>중>소) ----------
