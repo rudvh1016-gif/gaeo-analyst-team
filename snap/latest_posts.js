@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 53,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-21",
+  "title": "2026년 8월21일 종가, 코스피 오르고 코스닥 사이드카, 494종목 하락",
+  "featured": false
+ },
+ {
   "id": 52,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "물타기와 불타기, 평단가 관리는 정말 좋은 전략일까",
   "featured": false
- },
- {
-  "id": 78,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "동시호가와 VI, 장 시작·마감에 가격이 튀는 이유",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 52,
+ "news": 53,
  "study": 35,
  "lesson": 82,
  "estate": 19,
