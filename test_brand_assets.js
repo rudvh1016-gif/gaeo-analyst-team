@@ -117,9 +117,13 @@ const about = fs.readFileSync('about.html', 'utf8');
 const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
 const serviceWorker = fs.readFileSync('sw.js', 'utf8');
 
-assert.match(index, /<source srcset="gaeo-flower-symbol\.webp" type="image\/webp">/);
-assert.match(index, /<img src="gaeo-flower-symbol\.png" alt="GAEO"/);
-assert.match(index, /gaeo-flower-symbol\.png" alt="GAEO" width="910" height="882"/);
+// 🐛 2026-08-21: 34px로 보이는 헤더 심볼이 910x882 원본(WebP 737KB)을 받고 있었다.
+//    모바일 첫 화면 전송량의 3분의 1이 로고 하나였다. 화면에는 축소본만 쓴다.
+//    원본은 마스터 파일로 남긴다(위 decodePng 검사가 계속 지킨다).
+assert.match(index, /<source srcset="gaeo-flower-symbol-96\.webp" type="image\/webp">/);
+assert.match(index, /<img src="gaeo-flower-symbol-96\.png" alt="GAEO" width="96" height="93">/);
+assert.doesNotMatch(index, /srcset="gaeo-flower-symbol\.webp"|src="gaeo-flower-symbol\.png"/,
+  '헤더에 원본(737KB)을 다시 걸지 않는다');
 assert.match(index, /<span class="global-brand-word">Gaeo<\/span>/);
 assert.match(index, /rel="icon" type="image\/png" sizes="16x16" href="\/favicon-16\.png"/);
 assert.match(index, /rel="icon" type="image\/png" sizes="32x32" href="\/favicon-32\.png"/);
@@ -127,15 +131,19 @@ assert.match(index, /rel="apple-touch-icon" sizes="180x180" href="\/apple-touch-
 assert.match(index, /og:image" content="https:\/\/gaeoteam\.com\/gaeo-share-v3\.jpg"/);
 
 assert.doesNotMatch(about, /id="gaeo-symbol"|원과 반원으로 이루어진 GAEO 심볼/);
-assert.match(about, /<img class="brand-symbol" src="gaeo-flower-symbol\.png" alt="GAEO"/);
-assert.match(about, /gaeo-flower-symbol\.png" alt="GAEO" width="910" height="882"/);
+// about은 148px로 보이므로 320px 축소본을 쓴다(원본 PNG는 1.2MB).
+assert.match(about, /<source srcset="gaeo-flower-symbol-320\.webp" type="image\/webp">/);
+assert.match(about, /<img class="brand-symbol" src="gaeo-flower-symbol-320\.png" alt="GAEO" width="320" height="310">/);
 assert.match(about, /<img src="app-icon-1024\.png" srcset="app-icon-512\.png 512w, app-icon-1024\.png 1024w" sizes="[^\"]+" alt="GAEO 앱 아이콘" width="1024" height="1024"/);
 assert.doesNotMatch(about, />Black<|>White<|>Gray</);
 
 const maskable = manifest.icons.find(icon => icon.purpose === 'maskable');
 assert.equal(maskable.src, '/app-icon-maskable-512.png');
-assert.match(serviceWorker, /\.\/gaeo-flower-symbol\.png/);
-assert.match(serviceWorker, /\.\/gaeo-flower-symbol\.webp/);
+// precache도 화면이 실제로 쓰는 축소본만 받는다. 원본을 미리 받으면 첫 방문에 737KB를 더 쓴다.
+assert.match(serviceWorker, /'\.\/gaeo-flower-symbol-96\.png'/);
+assert.match(serviceWorker, /'\.\/gaeo-flower-symbol-96\.webp'/);
+assert.doesNotMatch(serviceWorker, /'\.\/gaeo-flower-symbol\.(png|webp)'/,
+  'precache에 원본을 넣지 않는다');
 assert.match(serviceWorker, /\.\/favicon-16\.png/);
 assert.match(serviceWorker, /\.\/favicon-32\.png/);
 

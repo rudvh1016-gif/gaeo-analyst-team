@@ -21,7 +21,7 @@ assert.match(html, /id="rotationView"/);
 assert.match(html, /rotation:\['rotation_snapshot\.js\?v=20260812-v6','rotation-ui\.js\?v=20260821-v16'\]/);
 // ⚠️ CSS를 고치면 이 버전을 올려야 재방문자가 옛 스타일을 계속 보지 않는다.
 //    (2026-08-18 sweep 전까지 이 줄이 v12에 멈춰 있어 테스트가 깨진 상태였다)
-assert.match(html, /rotation\.css\?v=20260820-v15/);
+assert.match(html, /rotation\.css\?v=20260821-v18/);
 assert.match(html, /m==='rotation'/);
 
 const source = fs.readFileSync(path.join(root, 'rotation-ui.js'), 'utf8');

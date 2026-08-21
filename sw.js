@@ -2,15 +2,17 @@
 //    오프라인 상태에서 쓰이는 precache 사본도 새 목록으로 교체된다.
 //    (온라인에서는 아래 changesOften 규칙이 .js를 network-first로 받으므로 문제없다.
 //     그래서 캐시를 매번 깨지 않고, 목록이 실제로 바뀔 때만 버전을 올린다.)
-const CACHE = 'gaeo-shell-v14';
+const CACHE = 'gaeo-shell-v15';
 const SHELL = [
   './',
   './index.html',
   './insight-rail.css',
   './insight-rail.js',
   './manifest.json',
-  './gaeo-flower-symbol.png',
-  './gaeo-flower-symbol.webp',
+  // 화면이 실제로 쓰는 축소본만 미리 받는다. 원본(910x882 · PNG 1.2MB / WebP 737KB)은
+  // 마스터 파일이라 저장소에는 남아 있지만 화면에서 쓰지 않으므로 precache에서 뺐다.
+  './gaeo-flower-symbol-96.png',
+  './gaeo-flower-symbol-96.webp',
   './app-icon-180.png',
   './app-icon-192.png',
   './app-icon-512.png',
