@@ -6,9 +6,17 @@ Disallow: /*.command$
 Disallow: /.claude/
 Disallow: /.github/
 Disallow: /docs/
+# 자동생성 종목 스냅샷 598건. 룰엔진이 숫자만 바꿔 찍어내는 템플릿 페이지라
+# 애드센스 품질심사에서 한 번 반려된 이력이 있고, 구글의 대량 자동생성 콘텐츠
+# 정책에도 걸릴 위험이 있어 색인에서 제외한다. 사람이 직접 지정해 깊게 본 종목은
+# /research/deep-analysis/<종목코드>/ 대표 페이지로 따로 발행하며 색인 대상이다.
 Disallow: /snap/stock/
 # Research Raw Archive — 사이트가 쓰지 않는 연구용 원본이라 색인하지 않는다.
 Disallow: /research_archive/
+
+# AI 답변엔진(ChatGPT·Perplexity·Claude 등)이 사이트 구조를 한 번에 파악하도록
+# /llms.txt 를 둔다. 자바스크립트를 실행하지 않는 크롤러가 읽을 정적 본문 위치를 안내한다.
+# llms.txt: https://gaeoteam.com/llms.txt
 
 Sitemap: https://gaeoteam.com/sitemap.xml
 Sitemap: https://gaeoteam.com/rss.xml
