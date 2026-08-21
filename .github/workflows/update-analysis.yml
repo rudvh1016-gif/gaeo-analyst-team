@@ -190,7 +190,10 @@ jobs:
             fi
             # 🔄 홈 "업종 흐름에서 고른 종목" 경량 요약(2KB). rotation_snapshot.js가 갱신된
             #    뒤에 돌아야 하므로 바로 여기서 만든다. 실패해도 다른 단계를 막지 않는다.
-            timeout 180 python3 compute_rotation_picks.py || echo "rotation_picks 생성 실패"
+            # 계약 테스트(게이트 0이면 진짜 비우는지, 같은 입력이면 같은 목록인지 등)를 먼저 돌린다.
+            # 0.01초짜리라 매 사이클 돌려도 부담이 없고, 깨진 산식이 홈에 나가는 걸 막는다.
+            python3 -m unittest test_rotation_picks -q \
+              && timeout 180 python3 compute_rotation_picks.py || echo "rotation_picks 생성 실패"
             # 🤖 자동분석 600종목 판단을 '하루 1건'으로 history.js에 누적(정밀분석 우선, tier:auto 표식).
             #   같은 날 계속 갱신하지만 종목·날짜당 1건이라 파일이 폭증하지 않는다(HIST_CAP로 상한).
             #   이게 있어야 모든 종목이 적중률 채점 대상이 되어 트랙레코드가 쌓인다.

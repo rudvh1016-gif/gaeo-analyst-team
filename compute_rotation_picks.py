@@ -43,6 +43,7 @@ def sector_cap_for(n):
 W_STOCK, W_SECTOR = 0.70, 0.30
 WEAK_SECTOR_TAIL = 6   # 순환매 하위 N개 업종은 후보에서 뺀다
 OVERHEAT_GAP = 30.0    # 20일선 대비 이 이상이면 "과열" 라벨
+Z_CLAMP = 3.0          # z점수를 자르는 지점. 바꾸기 전에 zscores() 주석을 읽을 것.
 
 
 def load_js(path, var):
@@ -84,6 +85,29 @@ def ret_pct(vals, n):
 
 
 def zscores(xs):
+    """±Z_CLAMP에서 자른 z점수.
+
+    ⚠️ 이 클램프는 실제로 자주 걸린다. 함부로 "버그"로 보고 고치지 말 것.
+       20거래일 수익률 분포는 오른쪽으로 길어서, 우리가 뽑는 상위권 종목이
+       바로 클램프에 닿는 구간이다. 그래서 예를 들어 +79.6%와 +99.2%가 똑같이
+       3.0을 받고, 둘의 순서는 업종 성분(가중 0.3)이 정하게 된다.
+
+    측정 (599종목 x 298거래일, 5거래일마다 리밸런스, 20거래일 보유, 43회):
+      하드 ±3(현행)  적중 62.8%  초과평균 +7.82%p
+      하드 ±2.5      적중 67.4%  초과평균 +7.71%p
+      하드 ±1        적중 58.1%  초과평균 +9.62%p
+      클램프 없음     적중 67.4%  초과평균 +7.39%p
+      소프트(tanh)   적중 58.1%  초과평균 +6.77%p
+      순위 정규화     적중 48.8%  초과평균 +4.05%p   <- 확실히 나쁘다
+      무작위 4종목    적중 51.2%  초과평균 +3.03%p
+    순위 정규화만 빼면 전부 한 잡음 구간(58~67%) 안이라, 표본 43회(그마저 날짜가
+    겹친다)로는 우열을 가릴 수 없다. 반면 클램프를 손대면 상위 4종목 구성이
+    43일 중 33일(77%)에서 바뀐다. 이득이 측정되지 않는데 목록의 3/4를 바꾸는
+    변경이라 현행을 유지한다. 표본이 2~3년으로 늘면 다시 재볼 것.
+
+    동점 자체가 만드는 "순서가 뒤죽박죽" 문제는 산식이 아니라 select_picks()의
+    결정적 타이브레이크로 푼다.
+    """
     n = len(xs)
     if n < 2:
         return [0.0] * n
@@ -92,7 +116,67 @@ def zscores(xs):
     sd = var ** 0.5
     if sd == 0:
         return [0.0] * n
-    return [max(-3.0, min(3.0, (x - m) / sd)) for x in xs]
+    return [max(-Z_CLAMP, min(Z_CLAMP, (x - m) / sd)) for x in xs]
+
+
+def market_gate(index_above_ma20, breadth):
+    """오늘 몇 종목까지 보여줄지(N). 0이면 목록을 비우고 이유를 화면에 쓴다.
+
+    index_above_ma20: 코스피/코스닥 중 20일선 위인 지수의 수 (0~2)
+    breadth:          전체 추적 종목 중 20일선 위 비율 (0.0~1.0)
+    """
+    G, B = index_above_ma20, breadth
+    if G == 2 and B >= 0.55:
+        return MAX_PICKS
+    if G == 2 and B >= 0.40:
+        return 3
+    if G == 1 or (G == 2 and B < 0.40):
+        return 2
+    return 0
+
+
+def select_picks(cands, n):
+    """후보에서 최종 목록을 고른다. 파일 입출력 없이 순수하게 계산한다.
+
+    cands: {code,name,sector,r20,gapPct,volRatio,secScore,secRank,call} 목록
+    정렬 키가 (-총점, -20일수익률, 코드)인 이유:
+      z점수가 ±Z_CLAMP에서 자주 동점이 되기 때문에(zscores 주석 참고) 총점만으로
+      정렬하면 같은 업종의 두 종목 순서가 입력 순서에 따라 매번 달라진다.
+      같은 점수면 실제로 더 오른 종목을 앞에 두고, 그것마저 같으면 코드로 고정해
+      같은 입력이면 항상 같은 목록이 나오게 한다.
+    """
+    if n <= 0 or not cands:
+        return []
+    z20 = zscores([c["r20"] for c in cands])
+    zsec = zscores([c["secScore"] for c in cands])
+    for c, a, b in zip(cands, z20, zsec):
+        c["rfs"] = W_STOCK * a + W_SECTOR * b
+    ordered = sorted(cands, key=lambda c: (-c["rfs"], -c["r20"], c["code"]))
+
+    cap = sector_cap_for(n)
+    picks, used = [], {}
+    for c in ordered:
+        if len(picks) >= n:
+            break
+        if used.get(c["sector"], 0) >= cap:
+            continue
+        used[c["sector"]] = used.get(c["sector"], 0) + 1
+        # ⚠️ "업종 흐름 N위"는 카드 오른쪽 칸에 이미 있으므로 여기서 반복하지 않는다.
+        why = [f"20거래일 +{c['r20']:.1f}%", "20일선 위"]
+        if c.get("volRatio") and c["volRatio"] >= 1.3:
+            why.append(f"거래량 평소의 {c['volRatio']:.1f}배")
+        picks.append({
+            "code": c["code"], "name": c["name"], "sector": c["sector"],
+            "sectorRank": c["secRank"],
+            "why": " · ".join(why),
+            "overheat": c["gapPct"] >= OVERHEAT_GAP,
+            "gapPct": round(c["gapPct"], 1),
+            "call": c.get("call"),
+            # GAEO Score가 SELL인데 이 목록에 오른 경우. 숨기지 않고 화면에 그대로 띄운다.
+            # 두 산식이 서로 다른 것을 보고 있다는 사실 자체가 읽는 사람에게 정보다.
+            "callConflict": c.get("call") == "SELL",
+        })
+    return picks
 
 
 def main():
@@ -135,14 +219,7 @@ def main():
                 above_cnt += 1
     B = (above_cnt / tot_cnt) if tot_cnt else 0.0
 
-    if G == 2 and B >= 0.55:
-        N = MAX_PICKS
-    elif G == 2 and B >= 0.40:
-        N = 3
-    elif G == 1 or (G == 2 and B < 0.40):
-        N = 2
-    else:
-        N = 0
+    N = market_gate(G, B)
 
     # ── ② 업종 순환매 20일 점수 ─────────────────────────────────────
     sec_score = {}
@@ -181,33 +258,7 @@ def main():
             "call": ((auto.get(code) or {}).get("chief") or {}).get("call"),
         })
 
-    picks = []
-    if N > 0 and cands:
-        z20 = zscores([c["r20"] for c in cands])
-        zs = zscores([c["secScore"] for c in cands])
-        for c, a, b in zip(cands, z20, zs):
-            c["rfs"] = W_STOCK * a + W_SECTOR * b
-        cands.sort(key=lambda c: -c["rfs"])
-        used = {}
-        cap = sector_cap_for(N)
-        for c in cands:
-            if len(picks) >= N:
-                break
-            if used.get(c["sector"], 0) >= cap:
-                continue
-            used[c["sector"]] = used.get(c["sector"], 0) + 1
-            # ⚠️ "업종 흐름 N위"는 카드 오른쪽 칸에 이미 있으므로 여기서 반복하지 않는다.
-            why = [f"20거래일 +{c['r20']:.1f}%", "20일선 위"]
-            if c["volRatio"] and c["volRatio"] >= 1.3:
-                why.append(f"거래량 평소의 {c['volRatio']:.1f}배")
-            picks.append({
-                "code": c["code"], "name": c["name"], "sector": c["sector"],
-                "sectorRank": c["secRank"],
-                "why": " · ".join(why),
-                "overheat": c["gapPct"] >= OVERHEAT_GAP,
-                "gapPct": round(c["gapPct"], 1),
-                "call": c["call"],
-            })
+    picks = select_picks(cands, N)
 
     perf = ((snap.get("horizonPerformance") or {}).get("20") or {})
     regime = snap.get("marketRegime") or {}
@@ -223,6 +274,7 @@ def main():
             "breadthPct": round(B * 100, 1),
             "shown": len(picks), "allowed": N,
             "sectorCap": sector_cap_for(N),
+            # 실제로 몇 개 업종이 섞였는지. 상한이 제 일을 했는지 사후에 확인하는 값이다.
             "sectorCount": len({p["sector"] for p in picks}),
             "detail": gate_detail,
         },
@@ -255,6 +307,7 @@ def main():
           f"허용 {N}개 / 실제 {len(picks)}개")
     for p in picks:
         flag = " [과열]" if p["overheat"] else ""
+        flag += " [GAEO는 SELL]" if p["callConflict"] else ""
         print(f"  {p['name']}({p['code']}) {p['sector']} 업종{p['sectorRank']}위 "
               f"20일선 +{p['gapPct']}%{flag} · GAEO {p['call']}")
     return 0
