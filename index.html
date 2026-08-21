@@ -481,7 +481,9 @@
   .hrp-main{min-width:0}
   .hrp-name{display:block;overflow:hidden;font-size:14px;font-weight:600;letter-spacing:-.02em;
     text-overflow:ellipsis;white-space:nowrap}
-  .hrp-hot{margin-left:5px;color:var(--color-text-secondary);font-size:10.5px;font-weight:500}
+  /* 과열·GAEO 충돌 표시. 디자인 규칙상 배지·색상 강조를 쓰지 않는다(빨강파랑은 시장 방향 전용).
+     작은 회색 글씨로 이름 옆에 붙이기만 한다. */
+  .hrp-hot,.hrp-flag{margin-left:5px;color:var(--color-text-secondary);font-size:10.5px;font-weight:500}
   .hrp-why{display:block;margin-top:3px;color:var(--color-text-secondary);font-size:11.5px;
     font-weight:400;line-height:1.5;word-break:keep-all;overflow-wrap:break-word}
   .hrp-sector{display:block;flex:none;text-align:right}
@@ -4520,12 +4522,16 @@
         <aside class="hrp-notes">
           <p class="hrp-record" id="hrpRecord"></p>
           <p class="hrp-note" id="hrpRecordNote"></p>
+          <!-- GAEO Score가 SELL인 종목이 이 목록에 오른 날에만 뜬다. 목록에서 빼는 대신
+               두 산식이 갈렸다는 사실을 알려준다. 평소에는 hidden. -->
+          <p class="hrp-note" id="hrpConflictNote" hidden></p>
           <p class="hrp-note"><b>매수 추천이 아니에요.</b> 지금 흐름이 어디에 모여 있는지 보여주는 참고 목록이고, 짧은 기간에 많이 오른 종목이 뽑히기 쉬운 방식이라 되돌림 폭도 클 수 있어요.</p>
           <details class="hrp-more-note">
             <summary>이 목록을 어떻게 만들고, 무엇을 못 하는지</summary>
             <p class="hrp-note">추적 종목을 24개 업종으로 묶어 상승 탄력, 시장 대비 강도, 거래량, 상승 종목 비율을 같은 기준으로 계산한 뒤, 오늘 시장 국면과 맞는 업종을 골라 그 안에서 흐름이 강한 종목을 뽑았어요.</p>
             <p class="hrp-note">표본은 날짜가 서로 겹치게 세었기 때문에 그 횟수만큼 따로 맞힌 것으로 보면 안 돼요. 매수 추천이 아니라 지금 흐름이 어디에 모여 있는지 보여주는 참고 목록이고, 종목별 BUY·HOLD·SELL 판단에는 이 신호를 아직 넣지 않았어요.</p>
             <p class="hrp-note">짧은 기간에 많이 오른 종목이 뽑히기 쉬운 방식이에요. 20일선에서 30% 이상 떨어져 있으면 「과열」로 표시하고, 20일선 아래로 내려가면 목록에서 뺍니다.</p>
+            <p class="hrp-note"><b>번호는 수익률 순서가 아니에요.</b> 아주 많이 오른 종목들끼리는 상승폭 차이를 더 세지 않고 같은 값으로 묶은 뒤, 업종 흐름이 더 강한 쪽을 앞에 둡니다. 그래서 더 많이 오른 종목이 아래에 있을 수 있어요.</p>
           </details>
           <button class="hrp-more" type="button" data-nav-mode="rotation">순환매 화면에서 업종 24개 전부 보기 →</button>
         </aside>
@@ -10167,7 +10173,9 @@ function renderRotationPicks(){
       '<li><button class="hrp-row" type="button" data-hrp-stock="'+esc(p.name)+'">'+
       '<span class="hrp-rank">'+String(i+1).padStart(2,'0')+'</span>'+
       '<span class="hrp-main"><span class="hrp-name">'+esc(p.name)+
-      (p.overheat?'<span class="hrp-hot">과열</span>':'')+'</span>'+
+      (p.overheat?'<span class="hrp-hot">과열</span>':'')+
+      /* GAEO Score가 SELL인데 업종 흐름으로는 뽑힌 종목. 빼지 않고 갈렸다는 사실을 그대로 보여준다. */
+      (p.callConflict?'<span class="hrp-flag">GAEO는 SELL</span>':'')+'</span>'+
       '<span class="hrp-why">'+esc(p.why)+'</span></span>'+
       '<span class="hrp-sector"><b>'+esc(p.sector)+'</b><span>업종 흐름 '+esc(p.sectorRank)+'위</span></span>'+
       '</button></li>').join('');
@@ -10180,6 +10188,23 @@ function renderRotationPicks(){
     recEl.innerHTML='<b>업종 모델 실측 성적</b> '+(D.horizonDays||20)+'거래일 적중률 '+esc(rec.hitRate)+'% · 초과수익 평균 '+
       (rec.excessMean>=0?'+':'')+esc(rec.excessMean)+'% · 표본 '+esc(rec.sampleCount)+'회';
   }
+  /* GAEO 판단이 SELL인데 업종 흐름으로 뽑힌 종목. 목록에서 빼지 않고 갈렸다고 알린다.
+     ⚠️ 실측상 SELL이 세 판단 중 가장 정확했으므로(홈 「오늘의 판단」 각주) 이 충돌을
+        가볍게 적으면 안 된다. */
+  const conflictEl=document.getElementById('hrpConflictNote');
+  if(conflictEl){
+    const names=D.picks.filter(p=>p.callConflict).map(p=>p.name);
+    if(names.length){
+      /* ⚠️ 종목 이름 뒤에 은/는을 붙이지 말 것. 「NHN는」처럼 틀린 조사가 나온다.
+         받침 판별을 넣는 대신 조사가 필요 없는 문장으로 쓴다. */
+      conflictEl.innerHTML='<b>판단이 갈린 종목이 있어요.</b> '+esc(names.join(' · '))+
+        ' — 업종 흐름으로는 뽑혔지만 종목별 GAEO 판단은 SELL이에요. '+
+        '두 방식이 서로 다른 것을 보기 때문인데, 지금까지 실측으로는 SELL 판단이 셋 중 가장 정확했어요. '+
+        '목록에서 빼지 않고 그대로 두되 갈렸다는 사실을 같이 알려드려요.';
+      conflictEl.hidden=false;
+    }else{ conflictEl.textContent=''; conflictEl.hidden=true; }
+  }
+
   if(noteEl&&rec.periodStart){
     const ym=d=>{const m=String(d).match(/^(\d{4})-(\d{2})/); return m?(m[1]+'년 '+Number(m[2])+'월'):d;};
     noteEl.textContent=ym(rec.periodStart)+'부터 '+ym(rec.periodEnd)+'까지 업종 중앙값과 비교해 채점한 기록이에요. '+
@@ -15086,6 +15111,12 @@ window.hangulFix=function(str){
     else if(m==='rates'){ window.setMode('rates'); }
     else if(m==='rotation'){ window.setMode('rotation'); }
     else if(m==='changelog'){ window.setMode('changelog'); }
+    /* 🔗 2026-08-21: setMode는 처리하는데 라우터에만 분기가 빠져 있던 화면들.
+       ?m=compare 같은 링크를 열면 조용히 기본 화면(종목 분석)이 떠서, 공유받은
+       사람이 엉뚱한 곳에 도착했다. 아래 5개가 그 상태였다. */
+    else if(['compare','portfolio','screener','calendar','community'].includes(m)){
+      window.setMode(m);
+    }
   }, 300);   // 각 IIFE의 초기 렌더가 끝난 뒤 이동하도록 살짝 늦춤
 })();
 
