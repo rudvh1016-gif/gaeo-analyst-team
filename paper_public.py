@@ -21,6 +21,7 @@ from paper_engine import portfolio_valuation, reporting_view, MIN_CLOSED_FOR_EVI
 # ⚠️ 위 한 줄은 test_paper_portfolio.py가 문자열로 검사한다(회계를 여기서 재구현하지
 #    않는다는 계약). 형태를 바꾸지 말고, 추가 import는 아래 줄에 붙일 것.
 from paper_engine import observation_gaps, MIN_ENTRY_DAYS_FOR_EVIDENCE
+from paper_engine import COST_MODEL_VERSION, cost_model_detail
 import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -55,7 +56,9 @@ FORBIDDEN_SUBSTRINGS = ("client_id", "client_secret", "token", "authorization",
 EVIDENCE_GATED_PUBLIC = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          "avgWinPct", "avgLossPct",
                          "avgBenchmarkReturnPct", "avgRelativeReturnPct",
-                         "avgMfePct", "avgMaePct")
+                         "avgMfePct", "avgMaePct",
+                         # 순수익도 성과 결론이다 — 표본 게이트 안쪽에 둔다.
+                         "estimatedNetReturnPct")
 
 
 def _read_json(path, default=None):
@@ -273,7 +276,13 @@ def build():
         "avgHoldingTradingDays": summary.get("avgHoldingTradingDays"),
         "avgMfePct": summary.get("avgMfePct"),
         "avgMaePct": summary.get("avgMaePct"),
-        "costModel": "COST_MODEL_INCOMPLETE",   # 비용 미검증 — '순수익' 표기 금지 근거
+        # 💸 비용 모델 — 어떤 요율을 어디서 확인해 반영했는지 화면이 그대로 밝힐 근거.
+        #    요율은 원장이 아니라 엔진 상수라, 요약이 낡았어도 여기서 바로 낼 수 있다
+        #    (이 파일의 다른 총계와 같은 원칙: 러너가 새 엔진으로 한 번 더 돌기 전에도
+        #     화면이 비지 않는다). 순수익은 원장에서 나오므로 요약 값을 그대로 쓴다.
+        "costModel": summary.get("costModel") or COST_MODEL_VERSION,
+        "costModelDetail": summary.get("costModelDetail") or cost_model_detail(),
+        "estimatedNetReturnPct": summary.get("estimatedNetReturnPct"),
         "benchmarkNote": "종료거래 평균 시장대비는 종료된 개별 거래의 동일 기간 지수 대비 성과 평균이며, KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다(가상계좌 전체의 시장 대비 성과가 아님).",
         "maxHoldingTradingDays": max_hold,
         "lastCycleOk": cycle_ok,

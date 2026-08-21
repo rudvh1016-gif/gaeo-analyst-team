@@ -274,6 +274,8 @@ def main():
             "breadthPct": round(B * 100, 1),
             "shown": len(picks), "allowed": N,
             "sectorCap": sector_cap_for(N),
+            # 실제로 몇 개 업종이 섞였는지. 상한이 제 일을 했는지 사후에 확인하는 값이다.
+            "sectorCount": len({p["sector"] for p in picks}),
             "detail": gate_detail,
         },
         "regime": {

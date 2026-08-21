@@ -129,10 +129,21 @@ check("6·7. SELL 전환 → 조기 청산(CHIEF_SELL) · Best Bid 체결",
       and closed[0]["exit_price"] == 9_990 and closed[0]["exit_method"] == "BEST_BID")
 check("14b. MFE/MAE 기록됨", closed[0].get("mfe_pct") is not None
       and closed[0].get("mae_pct") is not None)
-check("15b. gross/net 분리 — 비용 미검증이라 net은 null(과장 금지)",
+check("15b. gross/net 분리 — 둘 다 기록하고 어떤 요율로 계산했는지 남긴다",
       closed[0]["gross_return_pct"] is not None
-      and closed[0]["estimated_net_return_pct"] is None
-      and closed[0]["cost_model"] == "COST_MODEL_INCOMPLETE")
+      and closed[0]["estimated_net_return_pct"] is not None
+      and closed[0]["cost_model"] == pe.COST_MODEL_VERSION)
+check("15c. 순수익은 총수익보다 항상 작다(왕복비용만큼)",
+      closed[0]["estimated_net_return_pct"] < closed[0]["gross_return_pct"],
+      f'gross {closed[0]["gross_return_pct"]} / net {closed[0]["estimated_net_return_pct"]}')
+# 본전에 팔면 딱 왕복비용만큼 손해여야 한다 — 비용 계산이 맞는지 직접 검산한다.
+_rt = pe.cost_model_detail()["roundTripPct"]
+check("15d. 본전 매도 시 순수익 = -왕복비용",
+      abs(pe.net_return_pct(10_000, 10_000, "KOSPI") + _rt) < 0.01,
+      f'{pe.net_return_pct(10_000, 10_000, "KOSPI")} vs -{_rt}')
+check("15e. 근거 없는 입력에는 값을 만들지 않는다",
+      pe.net_return_pct(0, 10_000, "KOSPI") is None
+      and pe.net_return_pct(10_000, None, "KOSPI") is None)
 shutil.rmtree(tmp)
 
 # ── 3. 시세 실패 → 거래 미생성 ──────────────────────────────────────────────
