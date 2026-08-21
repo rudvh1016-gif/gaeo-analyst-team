@@ -44,6 +44,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false   # 이 잡에는 push 권한이 필요 없다
+          # pull_request 체크아웃의 HEAD 는 refs/pull/N/merge(부모 2개)다.
+          # 기본값 1이면 부모를 못 받아 "이 PR 이 바꾼 파일"을 알 수 없고,
+          # 그걸 보는 계약 테스트가 조용히 건너뛴다(= 통과처럼 보인다).
+          # 2 면 base 와 head 만 더 받으므로 전체 이력을 받는 비용은 들지 않는다.
+          fetch-depth: 2
 
       - uses: actions/setup-python@v5
         with:
@@ -52,6 +57,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      # research_archive 계열 테스트는 AES-256-GCM 으로 실제 암복호를 한다.
+      # 없으면 research_crypto 가 FAIL CLOSED 로 중단하므로(평문 저장을 하지 않는다)
+      # test_archive_security / test_dart_live_hardening / test_research_store 가 통째로 실패한다.
+      # 저장소의 다른 워크플로(research-archive · dart-live-smoke-test · update-analysis)와
+      # 같은 방식·같은 줄을 쓴다. 이 저장소에는 requirements.txt 가 없다.
+      - name: 암호화 라이브러리 설치 (Research Archive 암복호에 필요)
+        run: python3 -m pip install --quiet --upgrade cryptography
 
       - name: Python 계약 테스트
         run: |

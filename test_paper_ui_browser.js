@@ -758,6 +758,56 @@ const BASELINE = {
   check('H26. 옛 스키마(필드 없음)에도 깨지지 않는다',
     histOld.text.includes('8월 18일 모의투자 기록'));
 
+  // ── ⑫ 관측 공백 표시 (2026-08-20) ───────────────────────────────────────
+  //   러너가 이틀 멈춘 뒤, 기록 목록이 8/18 다음에 곧바로 8/20을 보여줘
+  //   "그 사이엔 아무 일도 없었다"처럼 읽히던 문제.
+  //   ⚠️ 핵심 계약: 없는 날을 숫자로 채우지 않는다(0원·0%를 만들지 않는다).
+  const HIST_GAP = { ...HIST, days: [
+    { ...HIST.days[0], date: '2026-08-20', inProgress: false },
+    { date: '2026-08-19', noRecord: true, lastRecordAt: null, inProgress: false,
+      equity: null, cash: null, investedCostBasis: null, markedPositionsValue: null,
+      realizedPnl: null, unrealizedPnl: null, openCount: null, cumulativeReturnPct: null,
+      dailyChangePct: null, marketChangePct: null, buyCount: 0, sellCount: 0,
+      buys: [], sells: [], skipped: [], contributions: null,
+      review: { version: 'paper_review_v1', inProgress: false, headline: null,
+        sections: [{ key: 'result', title: '결과', lines: [
+          { text: '이 거래일에는 자동 기록이 남지 않아 자산·매매 기록이 없습니다.',
+            fact: 'noObservationRecorded' }] }] } },
+    HIST.days[1]
+  ] };
+  const histGap = await showHistory(HIST_GAP, null);
+  check('H27. 기록이 없는 거래일도 목록에 한 줄로 드러난다',
+    histGap.text.includes('8월 19일') && histGap.text.includes('기록 없음'));
+  const gapRow = await page.evaluate(() => {
+    const el = document.querySelector('.pv-hd-gap');
+    return el ? { text: el.innerText, day: el.dataset.day || null, tag: el.tagName } : null;
+  });
+  check('H28. 공백 행은 펼칠 상세가 없으므로 누를 대상이 아니다',
+    gapRow && gapRow.tag === 'DIV' && gapRow.day === null, JSON.stringify(gapRow));
+  check('H29. 공백 행은 자산·성과 숫자를 만들어내지 않는다',
+    gapRow && !/\d,\d{3}/.test(gapRow.text) && !gapRow.text.includes('%'),
+    gapRow && gapRow.text);
+  check('H30. 공백이 끼어도 정상 날짜는 그대로 보인다',
+    histGap.text.includes('8월 20일 모의투자 기록') && histGap.text.includes('9,941,190원'));
+
+  // 보유 화면 — MFE·MAE 옆에 "못 본 날이 있다"는 한계를 함께 적는다.
+  const GAPS = [{ businessDate: '2026-08-19', kind: 'NO_RECORD', observations: 0 }];
+  const withGap = await renderWith(page, { ...COMPACT, dataGaps: GAPS,
+    avgMfePct: 2.1, avgMaePct: -1.4 });
+  check('H31. 검증 상태에 관측 공백 고지가 뜬다',
+    withGap.text.includes('관측 공백 1거래일') && withGap.text.includes('2026.08.19'));
+  check('H32. 고지가 MFE·MAE의 한계임을 밝힌다',
+    withGap.text.includes('MFE') && withGap.text.includes('채워 넣지 않기'));
+  const noGap = await renderWith(page, { ...COMPACT, avgMfePct: 2.1, avgMaePct: -1.4 });
+  check('H33. 공백이 없으면 고지를 지어내지 않는다', !noGap.text.includes('관측 공백'));
+
+  // 보유 종목 상세 — 그 종목이 못 본 날을 그 자리에서 밝힌다.
+  await renderWith(page, { ...COMPACT, dataGaps: GAPS, recentTrades: [
+    { ...COMPACT.recentTrades[0], observation_gap_business_days: ['2026-08-19'] }] });
+  const posGap = await expandAll(page);
+  check('H34. 보유 종목 상세에 그 종목의 관측 공백이 표기된다',
+    posGap.text.includes('관측 공백') && posGap.text.includes('2026.08.19'));
+
   await renderWith(page, COMPACT);   // 뷰포트 측정 전 보유 현황으로 복귀
 
   check('JS 예외 없음', pageErrors.length === 0, pageErrors.join(' | '));

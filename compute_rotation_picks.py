@@ -27,7 +27,19 @@ KST = timezone(timedelta(hours=9))
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 MAX_PICKS = 4          # 화면 설계상 상한(모바일 스크롤). 늘리지 말 것.
-SECTOR_CAP = 2         # 한 업종에서 최대 몇 개
+SECTOR_CAP = 2         # 한 업종에서 최대 몇 개(자리가 넉넉할 때)
+
+
+def sector_cap_for(n):
+    """보여줄 자리 수 n에 맞는 '한 업종 최대 개수'.
+
+    🐛 2026-08-20: 자리가 2개로 줄어드는 날(시장 게이트가 조일 때) 상한 2가 그대로
+       적용돼 한 업종이 두 자리를 다 가져갈 수 있었다. 그러면 화면에는 한 업종만
+       남아 "골고루 보인다"는 이 코너의 목적이 사라진다.
+       자리가 3개 미만이면 업종당 1개로 조여 최소 2개 업종이 섞이게 한다.
+    ⚠️ 점수·랭킹 산식은 건드리지 않는다. 같은 순위에서 무엇을 담을지만 정한다.
+    """
+    return SECTOR_CAP if n >= 3 else 1
 W_STOCK, W_SECTOR = 0.70, 0.30
 WEAK_SECTOR_TAIL = 6   # 순환매 하위 N개 업종은 후보에서 뺀다
 OVERHEAT_GAP = 30.0    # 20일선 대비 이 이상이면 "과열" 라벨
@@ -141,11 +153,12 @@ def select_picks(cands, n):
         c["rfs"] = W_STOCK * a + W_SECTOR * b
     ordered = sorted(cands, key=lambda c: (-c["rfs"], -c["r20"], c["code"]))
 
+    cap = sector_cap_for(n)
     picks, used = [], {}
     for c in ordered:
         if len(picks) >= n:
             break
-        if used.get(c["sector"], 0) >= SECTOR_CAP:
+        if used.get(c["sector"], 0) >= cap:
             continue
         used[c["sector"]] = used.get(c["sector"], 0) + 1
         # ⚠️ "업종 흐름 N위"는 카드 오른쪽 칸에 이미 있으므로 여기서 반복하지 않는다.
@@ -260,6 +273,7 @@ def main():
             "indexAboveMa20": G,
             "breadthPct": round(B * 100, 1),
             "shown": len(picks), "allowed": N,
+            "sectorCap": sector_cap_for(N),
             "detail": gate_detail,
         },
         "regime": {

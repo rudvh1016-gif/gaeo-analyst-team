@@ -129,9 +129,12 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
   requireState((await page.locator('.rot-detail-sub').innerText()).includes('선택 5거래일'), 'detail mislabeled selected horizon as recommendation');
   requireState((await page.locator('.rot-summary').innerText()).includes('권장 20거래일 기준'), 'recommended horizon changed when selecting a reference tab');
   const resourceUrls = await page.evaluate(() => performance.getEntriesByType('resource').map(entry => entry.name));
-  // 2026-08-18 Typography Sweep에서 v13 → v14로 올렸다(굵기 700 → 600 정리 등).
-  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260818-v14')), 'rotation CSS cache version was not refreshed');
-  requireState(resourceUrls.some(url => url.includes('rotation-ui.js?v=20260814-v14')), 'rotation UI cache version was not refreshed');
+  // 2026-08-18 Typography Sweep에서 v13 → v14, 2026-08-20 접이식 심화 섹션에서 v15로 올렸다.
+  // ⚠️ 캐시 버전이 박혀 있는 곳이 여기 말고 test_rotation_ui.js에도 있다. 올릴 때 둘 다
+  //    고쳐야 한다 — 이 파일은 playwright가 필요해 CI에서 건너뛰므로, 안 고치면 조용히
+  //    깨진 채로 남는다(2026-08-20에 실제로 그렇게 됐고 검수에서 잡혔다).
+  requireState(resourceUrls.some(url => url.includes('rotation.css?v=20260820-v15')), 'rotation CSS cache version was not refreshed');
+  requireState(resourceUrls.some(url => url.includes('rotation-ui.js?v=20260821-v16')), 'rotation UI cache version was not refreshed');
   await page.evaluate(() => document.documentElement.classList.add('gdark'));
   const darkColors = await page.locator('.rot-card-today').evaluate(element => {
     const subject = element.querySelector('.rot-card-subject');

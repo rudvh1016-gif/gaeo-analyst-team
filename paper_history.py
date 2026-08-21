@@ -221,7 +221,7 @@ def _market_change_pct(market_daily, day, prev_day, key="KOSPI"):
 
 
 def build_review(day, snap, buys, sells, contribs, daily_change_pct,
-                 market_pct, initial, is_today):
+                 market_pct, initial, is_today, closed_total=None):
     """그날 데이터만으로 만드는 종합 평가.
 
     반환 구조: {"version", "inProgress", "headline", "sections":[{key,title,lines}]}
@@ -245,6 +245,14 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
         res.append(L("이전 기록일이 없어 일간 변화는 비교하지 않았습니다.", "noPreviousRecord"))
     if sells:
         res.append(L(f"확정 손익 {realized:+,.0f}원 (종료 {len(sells)}건)", "realizedPnl"))
+        # 왜 팔렸는지는 성격이 전혀 다르다 — "판단이 매도로 바뀌어서"와 "기간이 다 돼서"는
+        # 같은 종료가 아니다. 원장에 이미 있는 사유를 세어 그대로 적는다.
+        by_reason = {}
+        for s in sells:
+            by_reason[s["exitReason"]] = by_reason.get(s["exitReason"], 0) + 1
+        res.append(L("종료 사유 — " + " · ".join(f"{k} {v}건"
+                                              for k, v in sorted(by_reason.items())),
+                     "exitReasons"))
     else:
         res.append(L("이날 종료된 거래가 없어 확정 손익은 발생하지 않았습니다.", "noSells"))
     if unreal is not None:
@@ -271,7 +279,29 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
                      + (f" · {flat}종목 보합" if flat else ""), "advancersDecliners"))
         if not win and not lose:
             imp.append(L("모든 보유 종목이 진입가와 같아 손익 기여가 없습니다.", "allFlat"))
-    else:
+    # 청산한 거래는 "얼마에 팔았나"보다 "최고점에서 얼마나 돌려주고 팔았나"가 더 구체적이다.
+    # mfe/mae는 청산할 때 이미 원장에 저장돼 있는데 지금까지 문장으로 쓰이지 않았다.
+    givebacks = [(round(s["mfePct"] - s["returnPct"], 2), s) for s in sells
+                 if s.get("mfePct") is not None and s.get("returnPct") is not None]
+    if givebacks:
+        gap, s = max(givebacks, key=lambda x: x[0])
+        # ⚠️ mfePrice는 진입가로 시작하므로, 진입가 위로 한 번도 안 간 손실 거래는
+        #    mfePct가 0.0이 된다. 그대로 쓰면 "최고 +0.00%까지 올랐다가"처럼 관측된
+        #    적 없는 고점을 서술하게 된다(2026-08-21 검수에서 실제로 재현됨).
+        #    실제로 진입가 위로 올라간 적이 있을 때만 '반납'을 말한다.
+        if gap > 0 and s["mfePct"] > 0:
+            # 종목명 뒤에 조사를 붙이지 않는다 — 받침에 따라 은/는이 갈려
+            # "삼성전자은" 같은 문장이 나온다.
+            imp.append(L(f"{s['name']} — 보유 중 최고 {s['mfePct']:+.2f}%까지 올랐다가 "
+                         f"{s['returnPct']:+.2f}%에 종료(고점 대비 {gap:.2f}%p 반납).",
+                         "exitGiveback"))
+    dips = [s for s in sells if s.get("maePct") is not None and s.get("returnPct") is not None]
+    if dips:
+        d = min(dips, key=lambda s: s["maePct"])
+        if d["maePct"] < 0:
+            imp.append(L(f"{d['name']} — 보유 중 최저 {d['maePct']:+.2f}%까지 내렸다가 "
+                         f"{d['returnPct']:+.2f}%로 종료.", "exitDrawdown"))
+    if not contribs:
         imp.append(L("이 날짜에는 종목별 기여도 기록이 남아 있지 않아 "
                      "어떤 종목이 손익을 이끌었는지는 계산하지 않았습니다.", "noPositionSnapshot"))
     sections.append({"key": "impact", "title": "주요 영향", "lines": imp})
@@ -288,6 +318,20 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
     else:
         mk.append(L("이 날짜의 지수 기록이 없어 시장 대비 비교는 하지 않았습니다.",
                     "noBenchmark"))
+    # 위 비교는 계좌 전체를 코스피 하나와 견준 것이다. 종료된 거래에는 각자 자기 시장
+    # (코스피/코스닥) 기준 성적이 이미 원장에 저장돼 있으므로, 그것도 함께 적는다.
+    rel = [(round(s["returnPct"] - s["benchmarkReturnPct"], 2), s) for s in sells
+           if s.get("returnPct") is not None and s.get("benchmarkReturnPct") is not None]
+    if rel:
+        ahead = sum(1 for gap, _ in rel if gap > 0)
+        mk.append(L(f"이날 종료한 {len(rel)}건 중 {ahead}건이 같은 기간 자기 시장 지수보다 "
+                    "앞섰습니다.", "tradeBenchmarkCount"))
+        gap, s = max(rel, key=lambda x: x[0])
+        # 앞선 거래가 하나도 없는데 "가장 앞선 거래"라고 쓰면 거짓이 된다
+        # (0건이 앞섰다고 적어 놓고 바로 아래에 -4.8%p를 '가장 앞선'이라 부르던 문제).
+        if gap > 0:
+            mk.append(L(f"가장 앞선 거래 — {s['name']} 지수 대비 {gap:+.2f}%p.",
+                        "tradeBenchmarkBest"))
     sections.append({"key": "market", "title": "시장 비교", "lines": mk})
 
     # ④ 잘된 점 / ⑤ 아쉬운 점 — 수치 근거가 있을 때만 쓴다
@@ -336,8 +380,17 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
     if sells:
         watch.append(L("종료된 거래의 보유기간별 결과가 쌓이면 전략 인사이트에서 "
                        "구간별 비교가 가능해집니다.", "sellsRecorded"))
-    watch.append(L("표본이 아직 적어 이날 결과만으로 전략의 좋고 나쁨을 판단하기는 "
-                   "어렵습니다.", "smallSample"))
+    # 매일 똑같은 문장이 붙던 자리다. 지금까지 몇 건이 종료됐는지 실제 숫자를 넣어
+    # 얼마나 남았는지 보이게 하고, 표본이 다 차면 이 문장 자체를 없앤다.
+    if closed_total is None or closed_total < MIN_STRATEGY_SAMPLE:
+        have = "확인 중" if closed_total is None else f"{closed_total}건"
+        watch.append(L(f"지금까지 종료된 거래는 {have}입니다. 전략의 좋고 나쁨을 말하려면 "
+                       f"최소 {MIN_STRATEGY_SAMPLE}건이 필요해 아직 판단하지 않습니다.",
+                       "smallSample"))
+    if not watch:
+        # 표본이 다 찬 뒤 매매도 기여도도 없는 조용한 날 — 화면에 제목만 남고 내용이
+        # 비는 것을 막는다(섹션 제목은 무조건 그려지기 때문).
+        watch.append(L("이날은 새로 확인할 만한 변화가 기록되지 않았습니다.", "quietDay"))
     sections.append({"key": "watch", "title": "다음 기록에서 확인할 점", "lines": watch})
 
     headline = None
@@ -442,8 +495,34 @@ def build_strategy(all_sells):
     }
 
 
-def build(ledger, curve, config, today=None, market_daily=None):
-    """전체 History 산출물. 원본 두 파일만으로 언제든 다시 만들 수 있다."""
+def gap_record(day):
+    """관측 공백 날짜 — 숫자를 하나도 지어내지 않고 '기록이 없다'는 사실만 남긴다.
+
+    ⚠️ 이 행은 거래일이 맞는데(공식 캘린더가 open이라고 답한 날) 러너가 그날
+       기록을 남기지 못했다는 뜻이다. 자산·손익을 0으로 채우면 "그날 0원을 벌었다"로
+       읽히므로 전부 None으로 둔다 — 0과 '모름'은 다르다.
+    """
+    return {
+        "date": day, "noRecord": True, "lastRecordAt": None, "inProgress": False,
+        "equity": None, "cash": None, "investedCostBasis": None,
+        "markedPositionsValue": None, "realizedPnl": None, "unrealizedPnl": None,
+        "openCount": None, "cumulativeReturnPct": None, "dailyChangePct": None,
+        "marketChangePct": None, "buyCount": 0, "sellCount": 0,
+        "buys": [], "sells": [], "skipped": [], "contributions": None,
+        "review": {"version": REVIEW_VERSION, "inProgress": False, "headline": None,
+                   "sections": [{"key": "result", "title": "결과", "lines": [
+                       {"text": "이 거래일에는 자동 기록이 남지 않아 자산·매매 기록이 "
+                                "없습니다. 없는 값을 채우지 않기 때문에 빈 날로 둡니다.",
+                        "fact": "noObservationRecorded"}]}]},
+    }
+
+
+def build(ledger, curve, config, today=None, market_daily=None, business_dates=None):
+    """전체 History 산출물. 원본 두 파일만으로 언제든 다시 만들 수 있다.
+
+    business_dates를 주면(공식 캘린더가 확인한 거래일 목록) 기록이 통째로 빠진
+    거래일을 '관측 공백' 행으로 드러낸다. 주지 않으면 기존과 똑같이 동작한다.
+    """
     initial = config.get("initial_cash_krw", 10_000_000)
     market_daily = market_daily if market_daily is not None else load_market_daily()
     today = today or datetime.now(KST).strftime("%Y-%m-%d")
@@ -475,9 +554,28 @@ def build(ledger, curve, config, today=None, market_daily=None):
         if prev is None or str(row.get("at")) >= str(prev.get("at")):
             snap_by[d] = row
 
-    days = sorted(set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by))
-    records, prev_equity, all_sells_pub = [], None, []
+    # ⚠️ snap_by는 '평가 가능한' 행만 담는다(markedEquity가 없는 행은 대표값에서 뺀다).
+    #    그것만으로 관측 여부를 판정하면, 사이클은 정상적으로 돌았지만 평가만 실패한 날을
+    #    "자동 기록이 남지 않았다"고 잘못 말하게 된다. 관측 여부는 paper_engine의
+    #    observation_gaps와 같은 기준(그날 행이 하나라도 있는가)으로 판정한다.
+    curve_days = {kst_date(row.get("at")) for row in curve if isinstance(row, dict)}
+    curve_days.discard(None)
+    observed = set(buys_by) | set(sells_by) | set(skips_by) | set(snap_by) | curve_days
+    # 🕳️ 관측 공백 — 거래일인데 아무 기록도 남지 않은 날을 '없는 채로' 두지 않는다.
+    #    목록이 그냥 이전 날짜로 건너뛰면 사용자는 그날이 왜 없는지 알 수 없다.
+    #    ⚠️ 날짜를 하드코딩하지 않는다 — 공식 캘린더가 준 거래일과 실제 기록의 차이로만 뽑는다.
+    #    ⚠️ 기록이 시작된 날 이전과 오늘은 공백으로 단정하지 않는다(아직 진행 중이다).
+    gap_set = set()
+    if business_dates and observed:
+        first = min(observed)
+        gap_set = {d for d in business_dates if first < d < today and d not in observed}
+
+    days = sorted(observed | gap_set)
+    records, prev_equity, prev_equity_day, all_sells_pub = [], None, None, []
     for d in days:
+        if d in gap_set:
+            records.append(gap_record(d))
+            continue          # 공백 날은 자산 흐름(prev_equity)에 끼어들지 않는다
         snap = snap_by.get(d)
         equity = _num((snap or {}).get("markedEquity"))
         db = public_buy
@@ -493,11 +591,14 @@ def build(ledger, curve, config, today=None, market_daily=None):
         # 일간 변화는 '이전 기록일 자산' 대비 — 첫 기록일은 0%를 지어내지 않고 None
         daily = (round((equity / prev_equity - 1) * 100, 2)
                  if equity is not None and prev_equity else None)
-        prev_day = records[-1]["date"] if records else None
+        # 시장 비교의 기준일은 '직전 기록일'이 아니라 '직전에 자산이 기록된 날'이다.
+        # 일간 변화(dailyChangePct)와 같은 구간을 봐야 둘을 나란히 놓고 비교할 수 있다.
+        prev_day = prev_equity_day
         contribs = _contributions(snap, initial)
         mkt = _market_change_pct(market_daily, d, prev_day)
         rec = {
             "date": d,
+            "noRecord": False,
             "lastRecordAt": kst_hm((snap or {}).get("at")),
             "inProgress": d == today,
             "equity": equity,
@@ -516,11 +617,13 @@ def build(ledger, curve, config, today=None, market_daily=None):
             "skipped": [{"reason": k, "count": v} for k, v in sorted(sk.items())],
             "contributions": contribs,
             "review": build_review(d, snap, b, s, contribs, daily, mkt, initial,
-                                   is_today=(d == today)),
+                                   is_today=(d == today),
+                                   closed_total=len(all_sells_pub)),
         }
         records.append(rec)
         if equity is not None:
             prev_equity = equity
+            prev_equity_day = d
 
     records.reverse()                     # 최근 날짜가 위
     return {

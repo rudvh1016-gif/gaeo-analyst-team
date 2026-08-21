@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
-<link rel="stylesheet" href="rotation.css?v=20260818-v14" />
+<link rel="stylesheet" href="rotation.css?v=20260820-v15" />
 <link rel="stylesheet" href="full-market.css?v=20260818-v4" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
@@ -1282,11 +1282,9 @@
   .paperView.on{display:block}
   .pv-title{margin:0 0 8px;font-size:25px;font-weight:600;letter-spacing:-.022em;
     line-height:1.25;overflow-wrap:anywhere}
-  .pv-claim{margin:0 0 10px;font-size:15px;font-weight:400;line-height:1.65;color:var(--t2);
+  .pv-claim{margin:0 0 14px;font-size:15px;font-weight:400;line-height:1.65;color:var(--t2);
     max-width:36ch;letter-spacing:-.005em;overflow-wrap:anywhere}
-  .pv-lede{margin:0 0 18px;font-size:13.5px;font-weight:400;line-height:1.75;color:var(--t3);
-    max-width:50ch;overflow-wrap:anywhere}
-  .pv-lede b{font-weight:600;color:var(--t2)}
+  .pv-claim b{font-weight:600;color:var(--t2)}
   .pv-meta{display:flex;flex-wrap:wrap;gap:6px 26px;margin:0 0 30px;padding:0 0 20px;
     border-bottom:1px solid var(--line)}
   .pv-meta>div{display:flex;align-items:baseline;gap:7px;min-width:0}
@@ -1300,6 +1298,10 @@
     flex-wrap:wrap}
   .pv-port-main,.pv-port-pnl{min-width:0}
   .pv-port-pnl{text-align:right}
+  /* 기준 시각 안내 — 예전에는 자산 금액과 손익 사이에 끼어 둘을 95px 떨어뜨렸다.
+     실제 투자 화면처럼 금액과 손익을 한 덩어리로 붙이고, 근거는 그 아래로 내린다. */
+  .pv-port-basis{margin:10px 0 0;font-size:11.5px;color:var(--faint);line-height:1.6;
+    word-break:keep-all;overflow-wrap:break-word}
   .pv-port-k{display:block;margin:0 0 9px;font-size:11.5px;font-weight:400;color:var(--dim);
     letter-spacing:0}
   .pv-port-v{display:block;font-size:31px;font-weight:600;letter-spacing:-.025em;line-height:1.15;
@@ -1445,6 +1447,10 @@
     color:inherit;transition:background .12s}
   .pv-hd-row:hover{background:var(--paper2)}
   .pv-hd-row:focus-visible{outline:2px solid var(--sky);outline-offset:-2px;border-radius:6px}
+  /* 🕳️ 관측 공백 — 거래일인데 기록이 없는 날. 펼칠 내용이 없으므로 누를 수 없게 두고
+     흐리게만 표시한다(빈 날을 정상 기록처럼 보이게 하지 않는다). */
+  .pv-hd-gap{cursor:default;opacity:.62}
+  .pv-hd-gap:hover{background:none}
   .pv-hd-l{min-width:0}
   .pv-hd-t{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em;
     overflow-wrap:anywhere}
@@ -1489,7 +1495,7 @@
   .pv-pos-rt{flex:none;text-align:right;min-width:0}
   .pv-pos-mv{display:block;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;
     white-space:nowrap}
-  .pv-pos-pl{display:block;margin-top:3px;font-size:11.5px;font-weight:500;
+  .pv-pos-pl{display:block;margin-top:3px;font-size:13px;font-weight:600;
     font-variant-numeric:tabular-nums;white-space:nowrap}
   .pv-pos-hd .pv-chev{flex:none;color:var(--faint);transition:transform .18s ease}
   .pv-pos-hd[aria-expanded="true"] .pv-chev{transform:rotate(180deg)}
@@ -1497,7 +1503,8 @@
   .pv-pos-body .pv-rows{border-top:none}
   .pv-pos-body .pv-row{padding:9px 0}
   /* 수익률 — 화면 끝이 아니라 종목명 바로 옆. 이름보다 한 단계 작게, 방향색은 숫자에만 */
-  .pv-pos-r{font-style:normal;font-size:13px;font-weight:600;margin-left:8px;
+  /* 수익률은 이 화면에서 사용자가 가장 먼저 찾는 값이다 — 종목명과 대등한 크기로 둔다. */
+  .pv-pos-r{font-style:normal;font-size:15px;font-weight:600;margin-left:8px;
     letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
     vertical-align:1px}
   .pv-pos-r.pv-r-wait{font-size:11.5px;font-weight:500;color:var(--faint)}
@@ -1515,8 +1522,7 @@
   .pv-foot b{color:var(--t3);font-weight:600}
   @media (max-width:860px){
     .pv-title{font-size:24px}
-    .pv-claim{font-size:14.5px;max-width:30ch}
-    .pv-lede{font-size:13px;line-height:1.75;margin-bottom:16px}
+    .pv-claim{font-size:14.5px;max-width:30ch;margin-bottom:12px}
     .pv-summary{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:28px}
     .pv-summary>div{padding:16px 14px 17px}
     .pv-summary>div:nth-child(odd){border-left:none;padding-left:0}
@@ -1529,7 +1535,10 @@
     .pv-summary.pv-summary-2>div:nth-child(-n+2){border-bottom:none}
     /* 포트폴리오 리드 — 자산과 손익을 위아래로 쌓되 손익은 왼쪽 정렬로 되돌린다 */
     .pv-port{padding:18px 0 17px}
-    .pv-port-lead{gap:16px}
+    /* 모바일에서는 금액과 손익이 세로로 쌓인다 — 실제 투자 앱처럼 바짝 붙인다. */
+    .pv-port-lead{gap:10px}
+    .pv-port-pnl{text-align:left}
+    .pv-port-pnl .pv-port-k{margin-bottom:4px}
     .pv-port-main,.pv-port-pnl{flex:1 1 100%}
     .pv-port-pnl{text-align:left}
     .pv-port-v{font-size:27px}
@@ -4923,7 +4932,7 @@ window.GaeoFeatures=(()=>{
     radar:['radar_series.js'],
     // 📈 코스피·코스닥 지수 일별 이력(TARO 3단계) — 홈 화면 펼치기 패널을 열 때만 받는다.
     indexHist:['index_history.js'],
-    rotation:['rotation_snapshot.js?v=20260812-v6','rotation-ui.js?v=20260814-v14'],
+    rotation:['rotation_snapshot.js?v=20260812-v6','rotation-ui.js?v=20260821-v16'],
     // 🌐 전체시장 흐름(FULL MARKET) — 순환매 화면의 별도 탭. GAEO 600 순환매(rotation 키)와
     // 완전히 분리된 번들이라, market_context.js가 없거나 실패해도 순환매 판단 탭은 영향받지 않는다.
     fullmarket:['market_context.js?v=20260816-v1','full-market-ui.js?v=20260816-v3']
@@ -5845,6 +5854,14 @@ function paperHistoryHTML(){
     const [y,mo]=m.split('-');
     const rows=months[m].map(d=>{
       const md=`${+d.date.slice(5,7)}월 ${+d.date.slice(8,10)}일`;
+      /* 🕳️ 관측 공백 — 거래일인데 기록이 통째로 빠진 날. 목록이 조용히 건너뛰면
+         "왜 없는지" 알 수 없으므로 한 줄로 드러낸다.
+         ⚠️ 숫자를 만들어 채우지 않으므로 펼칠 상세도 없다 → 버튼이 아니라 그냥 행이다. */
+      if(d.noRecord) return `<div class="pv-hd-row pv-hd-gap">
+        <span class="pv-hd-l"><span class="pv-hd-t">${md}</span>
+          <span class="pv-hd-s">이날은 자동 기록이 남지 않았어요 · 없는 값을 채우지 않습니다</span></span>
+        <span class="pv-hd-r"><span class="pv-hd-eq pv-na">기록 없음</span></span>
+      </div>`;
       const cum=n(d.cumulativeReturnPct);
       return `<button type="button" class="pv-hd-row" data-day="${d.date}">
         <span class="pv-hd-l">
@@ -5960,9 +5977,12 @@ function renderPaper(){
   const P=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
   /* Hero는 짧게. 긴 원칙 설명은 아래 「어떻게 기록하나요?」로 내린다.
      사용자 화면에는 내부 코드(PAPER_BASELINE_V1·BASELINE_ONLY 등)를 노출하지 않는다. */
+  /* 🎯 2026-08-21: 실제 투자 화면의 정보 위계를 따른다 — 돈이 먼저, 설명은 나중.
+     예전에는 제목 아래 설명이 두 문단(142px)이나 깔려 자산 금액을 아래로 밀어냈다.
+     자세한 기록 규칙은 아래 「어떻게 기록하나요?」에 이미 단계별로 있으므로,
+     여기서는 무엇을 보는 화면인지와 실제 주문이 없다는 고지만 한 줄로 남긴다. */
   const lede=`<h2 class="pv-title">모의투자</h2>
-    <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다.</p>
-    <p class="pv-lede">새로운 「매수 고려」 판단이 나오면 그 시점의 실제 시장 가격으로 가상 기록을 시작합니다. 실제 주문은 발생하지 않습니다.</p>`;
+    <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다. <b>실제 주문은 발생하지 않습니다.</b></p>`;
   // ⛔ Fail closed — 스냅샷을 못 읽으면 0으로 채우지 않고 "비어 있음"을 그대로 말한다.
   if(!P){
     el.innerHTML=lede+`<div class="pv-empty"><b>기록을 아직 불러오지 못했어요.</b>
@@ -5982,6 +6002,14 @@ function renderPaper(){
   const insufficient=String(P.evidenceStatus||'').startsWith('INSUFFICIENT');
   const open=n(P.openTrades)||0, closed=n(P.closedTrades)||0;
   const maxHold=n(P.maxHoldingTradingDays);
+  /* 🔒 표본 게이트는 '건수'와 '판단일' 두 조건이다. 어느 쪽이 모자란지 화면에 적어야
+     건수가 다 찼는데 승률이 안 나올 때 고장으로 오해하지 않는다.
+     ⚠️ 기준값은 러너가 내려준 값을 쓰고, 없으면 화면에서 지어내지 않고 20을 쓴다
+        (엔진 상수와 같은 값 — 옛 스냅샷에도 화면이 깨지지 않게 하는 폴백일 뿐이다). */
+  const eDays=n(P.closedEntryDays);
+  const minClosed=n(P.minClosedForEvidence)||20;
+  const minDays=n(P.minEntryDaysForEvidence)||20;
+  const needClosed=closed<minClosed;
 
   /* ① Hero + 자동 기록 상태 한 줄.
      ⚠️ 시각이 최근이라는 이유만으로 "정상"이라 쓰지 않는다 — 러너가 사이클 성공을
@@ -6056,13 +6084,13 @@ function renderPaper(){
       <div class="pv-port-main">
         <h3 class="pv-port-k" id="pvPortH">현재 가상자산</h3>
         <span class="pv-port-v">${equity==null?DASH:won(equity)}</span>
-        <span class="pv-port-s">가상현금 + 보유종목 현재 평가액${asOf?` · ${asOf}`:''}</span>
       </div>
       <div class="pv-port-pnl">
         <span class="pv-port-k">현재 손익</span>
         ${pnlBlock}
       </div>
     </div>
+    <p class="pv-port-basis">가상현금 + 보유종목 현재 평가액${asOf?` · ${asOf}`:''}</p>
     ${bar}${legend}
     <p class="pv-port-note">가상 시작자금 ${won(initialC)} · 실제로 예치한 돈이 아니에요</p>
   </section>`;
@@ -6084,8 +6112,14 @@ function renderPaper(){
   if(closed) cells.push(['확정 손익', n(P.realizedPnl)==null?DASH
       :`<b class="${dir(P.realizedPnl).trim()}">${sWon(P.realizedPnl)}</b>`,
     insufficient?'표본이 적어 성과 결론 보류':'종료된 거래 누적']);
+  /* 🔒 표본은 '건수'와 '판단일'을 같이 보여준다. 이 계좌는 자리가 10칸이라 열 종목이
+     한 덩어리로 들어갔다 한 덩어리로 나온다 — 종료 20건이 곧 20번의 독립된 시행은
+     아니다(같은 날 담은 종목은 같은 시장에 함께 노출된다). 성적표 화면이 쓰는 잣대와
+     같은 기준이며, 건수만 보고 "곧 승률이 나오겠네"라고 오해하지 않게 둘 다 적는다. */
   cells.push(['거래', `보유 ${open} · 종료 ${closed}`,
-    maxHold?`한 종목 최대 ${maxHold}거래일 보유`:'가상 기록 전용']);
+    closed&&eDays!=null
+      ? `판단일 ${eDays}일${maxHold?` · 한 종목 최대 ${maxHold}거래일`:''}`
+      : (maxHold?`한 종목 최대 ${maxHold}거래일 보유`:'가상 기록 전용')]);
   const sum=cells.map(([k,v,sub])=>`<div><span class="pv-sum-k">${k}</span><span class="pv-sum-v">${v}</span><span class="pv-sum-s">${sub}</span></div>`).join('');
   const summary=portfolio+`<div class="pv-summary pv-summary-${cells.length}">${sum}</div>`;
 
@@ -6149,7 +6183,15 @@ function renderPaper(){
       ['남은 최대 보유', left==null?(maxHold?`최대 ${maxHold}거래일`:DASH):`${left}거래일`],
       ['종료 조건', maxHold?`${maxHold}거래일 도달 또는 판단이 「매도 고려」로 변경`:'판단이 「매도 고려」로 변경'],
       ['현재가 기준', asOf||'평가 대기']
-    ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    ].concat(
+      /* 🕳️ 이 종목을 보유한 기간 중 기록이 없던 거래일. 그날 고가·저가는 관측되지
+         않았으므로, 나중에 종료될 때의 MFE·MAE에도 반영되지 않는다는 사실을 미리 밝힌다. */
+      (Array.isArray(r.observation_gap_business_days)&&r.observation_gap_business_days.length)
+        ? [['관측 공백', `${r.observation_gap_business_days.length}거래일 · `
+            +r.observation_gap_business_days.map(g=>day(g)).join(', ')
+            +' — 이날 움직임은 기록되지 않았어요']]
+        : []
+    ).map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     return `<article class="pv-pos">${head}
       <div class="pv-pos-body" id="${pid}"${open_?'':' hidden'}>
         <dl class="pv-rows">${rows2}</dl>
@@ -6232,9 +6274,13 @@ function renderPaper(){
     const why=exitName[r.exit_reason]||'종료';
     const num=ret==null?`<span class="pv-tret pv-na">기록 대기</span>`
       :`<span class="pv-tret${dir(ret)}">${sPct(ret)}</span>`;
+    /* 🕳️ 보유 기간 중 기록이 없던 거래일 수 — 이 거래의 MFE·MAE가 그만큼
+       덜 본 값이라는 뜻이라, 성과 숫자 옆에 사실대로 함께 적는다. */
+    const gp=Array.isArray(r.observation_gap_business_days)?r.observation_gap_business_days.length:0;
     return `<div class="pv-trade"><span class="pv-tname">${esc(r.name||r.symbol||'종목 미기록')}</span>`
       +`<span class="pv-tmeta"><i>${price}${qty==null?'':` · ${qty}주`}</i>`
-      +`<i>${why}${hd==null?'':` · ${hd}거래일`}${pnl==null?'':` · ${sWon(pnl)}`}</i></span>${num}</div>`;
+      +`<i>${why}${hd==null?'':` · ${hd}거래일`}${pnl==null?'':` · ${sWon(pnl)}`}`
+      +`${gp?` · 관측 공백 ${gp}거래일`:''}</i></span>${num}</div>`;
   }).join('');
   const closedSec=closes.length?`<section class="pv-sec" aria-labelledby="pvClosedH">
     <h3 class="pv-sec-h" id="pvClosedH">최근 종료 거래</h3>
@@ -6255,8 +6301,11 @@ function renderPaper(){
       ['최대 낙폭 <small>MDD</small>', n(P.maxDrawdownPct)==null?na('기록 대기'):val(Math.abs(P.maxDrawdownPct).toFixed(1)+'%')],
       ['보유 중 최고 상승폭 <small>MFE</small>', n(P.avgMfePct)==null?na('기록 대기'):val(sPct(P.avgMfePct))],
       ['보유 중 최대 하락폭 <small>MAE</small>', n(P.avgMaePct)==null?na('기록 대기'):val(sPct(P.avgMaePct))],
+      /* 표본 부족이면 "무엇이" 부족한지 적는다 — 건수가 다 찼는데도 승률이 안 나오면
+         고장으로 오해하기 때문이다(같은 날 담은 거래는 서로 독립이 아니라서 판단일도 센다). */
       ['승률', !closed?na('아직 종료 거래 없음')
-        :(insufficient?na('표본 부족')
+        :(insufficient?na(needClosed?`표본 부족 · 거래 ${closed}/${minClosed}건`
+                                    :`표본 부족 · 판단일 ${eDays==null?'—':eDays}/${minDays}일`)
         :(n(P.winRatePct)==null?na('기록 대기'):val(P.winRatePct.toFixed(1)+'%')))],
       ['종료거래 평균 수익률', !closed?na('아직 종료 거래 없음')
         :(n(P.avgReturnPct)==null?na('기록 대기'):val(sPct(P.avgReturnPct)))],
@@ -6265,10 +6314,21 @@ function renderPaper(){
         :val((P.avgRelativeReturnPct>0?'+':P.avgRelativeReturnPct<0?'−':'')+Math.abs(P.avgRelativeReturnPct).toFixed(2)+'%p'))],
       ['평균 보유기간', n(P.avgHoldingTradingDays)==null?na('기록 대기'):val(P.avgHoldingTradingDays.toFixed(1)+'거래일')]
     ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt>${v}</div>`).join('');
+    /* 🕳️ 관측 공백 고지 — MFE·MAE는 "사이클마다 실제로 본 값"이라, 기록이 없던
+       거래일의 장중 고가·저가는 애초에 들어 있지 않다. 값을 보정하지 않고(보정하면
+       관측한 적 없는 가격을 지어내는 것이다) 한계를 숫자 옆에 그대로 적는다. */
+    const gapDaysAll=(P.dataGaps||[]).map(g=>g&&g.businessDate).filter(Boolean);
+    const gapNote=gapDaysAll.length
+      ? `<p class="pv-foot" style="margin-top:12px"><b>관측 공백 ${gapDaysAll.length}거래일</b>
+         (${gapDaysAll.map(g=>day(g)).join(' · ')}) — 이날은 자동 기록이 돌지 않아 장중 움직임을
+         한 번도 보지 못했어요. 위 <b>보유 중 최고 상승폭(MFE)·최대 하락폭(MAE)</b>은 실제로 관측한
+         사이클에서만 계산한 값이라 이 날들의 고가·저가는 빠져 있습니다. 지나간 날의 가격을
+         나중에 채워 넣지 않기 때문이에요.</p>`
+      : '';
     perf=`<section class="pv-sec" aria-labelledby="pvPerfH">
       <h3 class="pv-sec-h" id="pvPerfH">검증 상태</h3>
       <p class="pv-sec-d">종료된 거래가 쌓이기 전에는 대부분의 값이 비어 있는 게 정상이에요. 없는 값을 0으로 채우지 않습니다.</p>
-      <dl class="pv-rows">${pr}</dl>${glossHTML()}</section>`;
+      <dl class="pv-rows">${pr}</dl>${gapNote}${glossHTML()}</section>`;
   }
 
   /* ⑥ 어떻게 기록하나요 — paper_engine.py의 실제 규칙만. 없는 규칙을 만들지 않는다. */
@@ -6291,7 +6351,7 @@ function renderPaper(){
       ['보유 중 최고 상승폭 (MFE)','보유하는 동안 가장 많이 올랐던 순간의 폭이에요. 끝까지 들고 있었을 때의 결과와는 다릅니다.'],
       ['보유 중 최대 하락폭 (MAE)','보유하는 동안 가장 많이 내렸던 순간의 폭이에요. 버티기 얼마나 힘들었는지를 보여줍니다.'],
       ['시장대비','종료된 거래가 같은 기간 지수보다 얼마나 더(또는 덜) 움직였는지예요. %p는 두 수익률의 차이를 뜻합니다.'],
-      ['표본 부족','종료된 거래 수가 적어 성과를 결론짓기 어려운 상태예요. 이때는 승률을 계산해서 보여주지 않습니다.']
+      ['표본 부족',`성과를 결론짓기에 기록이 아직 모자란 상태예요. 두 가지를 같이 봅니다 — <b>종료된 거래 ${minClosed}건</b>과 <b>서로 다른 판단일 ${minDays}일</b>. 이 계좌는 한 번에 열 종목까지만 담아서 같은 날 한꺼번에 사고 한꺼번에 파는데, 같은 날 산 열 종목은 같은 시장에 함께 올라탄 것이라 열 번의 서로 다른 시도가 아니에요. 그래서 건수만 채워진 승률은 보여주지 않습니다.`]
     ].map(([k,v])=>`<div class="pv-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     return `<details class="pv-gloss"><summary>처음 보는 용어 설명${chev}</summary><dl class="pv-rows">${g}</dl></details>`;
   }
@@ -6333,7 +6393,10 @@ function renderPaper(){
     ${tab('holdings','보유 현황')}${tab('history','기록')}</div>`;
   const body=PV_VIEW==='history'
     ? paperHistoryHTML()
-    : summary+todaySec+held+closedSec+perf+how+foot;
+    /* 🎯 실제 투자 화면 순서: 자산 → 내 보유 종목 → 오늘 거래 → 종료 거래 → 설명.
+       예전에는 '오늘 거래'가 보유 종목보다 위에 있어, 거래가 없는 날(대부분)에는
+       "없어요" 두 줄을 지나야 내 종목이 나왔다. */
+    : summary+held+todaySec+closedSec+perf+how+foot;
   el.innerHTML=hero+tabs+body;
   el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
@@ -6368,8 +6431,9 @@ function renderPaper(){
       renderPaper();
       return;
     }
+    /* 관측 공백 행에는 data-day가 없다(펼칠 상세가 없는 날) — 눌러도 아무 일이 없어야 한다 */
     const dayBtn=ev.target.closest('.pv-hd-row');
-    if(dayBtn){ PV_DAY=dayBtn.dataset.day; renderPaper(); return; }
+    if(dayBtn&&dayBtn.dataset.day){ PV_DAY=dayBtn.dataset.day; renderPaper(); return; }
     if(ev.target.closest('.pv-back')){ PV_DAY=null; renderPaper(); return; }
   });
 })();
