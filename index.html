@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
-<link rel="stylesheet" href="rotation.css?v=20260820-v15" />
+<link rel="stylesheet" href="rotation.css?v=20260821-v18" />
 <link rel="stylesheet" href="full-market.css?v=20260818-v4" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
@@ -330,15 +330,18 @@
   :root{
     /* 🍎 애플 감성 라이트(기본): 거의 흑백 + 애플 블루 단일 액센트, 부드러운 확산 그림자 */
     --navy:#1D1D1F; --navy-deep:#1D1D1F; --navy-soft:#F5F5F7;
-    --sky:#3E94B5; --sky-soft:#EFF9FC; --sky-line:#BFE4F2;
+    --sky:#337A95; --sky-soft:#EFF9FC; --sky-line:#BFE4F2;
     --bg:#FFFFFF; --paper:#FFFFFF; --paper2:#FFFFFF; --ink:#1D1D1F;
-    --line:#E8E8ED; --line2:#D2D2D7; --dim:#6E6E73; --faint:#86868B;
+    /* ♿ --faint는 흰 배경에서 4.5:1(WCAG AA)을 넘겨야 한다. 8.5~11px 보조 문구에
+       55곳 넘게 쓰이는데, 예전 #86868B는 3.62:1로 밝은 곳에서 흐릿하게 보였다.
+       색조는 유지하고 밝기만 낮춰 4.52:1로 맞췄다(--dim 5.07:1과 단계는 유지된다). */
+    --line:#E8E8ED; --line2:#D2D2D7; --dim:#6E6E73; --faint:#76767B;
     --t2:#3A3A3C; --t3:#515154;
     --gold:var(--sky); --gold-deep:var(--navy);
     --sky-ink:#1E3A5F; /* sky-soft 박스 위 본문 글자색(라이트) */
-    --green:#2F8B73; --red:#D65A64; --amber:#B97A2F;
+    --green:#2D846E; --red:#C2525B; --amber:#A96D28;
     --market-up:#2563EB; --market-down:#DC2626;
-    --krup:#D5535D; --krdn:#4C78B8;   /* 본문 등락 색: 상승 빨강 · 하락 파랑(한국식) */
+    --krup:#C74D57; --krdn:#4B77B7;   /* 본문 등락 색: 상승 빨강 · 하락 파랑(한국식) */
     /* GAEO 공통 서체 — Wanted Sans (SIL OFL 1.1, assets/fonts/wanted-sans self-host).
        2026-08-18: 모의투자에만 쓰던 것을 사이트 전체로 넓혔다. 화면마다 서체가 달라
        "만든 사람이 다르다"는 인상을 주던 문제를 없애는 게 목적이다.
@@ -364,7 +367,9 @@
     --sky:#88CDE7; --sky-soft:#102C38; --sky-line:#376476;
     --sky-ink:#CFE7F5; /* sky-soft 박스 위 본문 글자색(다크) — 어두운 남색 대신 밝은 하늘색으로 가독성 확보 */
     --bg:#000000; --paper:#1C1C1E; --paper2:#2C2C2E; --ink:#F5F5F7;
-    --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#6E6E76;
+    /* ♿ 다크에서도 같은 기준. 예전 #6E6E76은 --paper(#1C1C1E) 위에서 3.37:1이라 미달이었다.
+       더 불리한 --paper 배경을 기준으로 4.52:1이 되게 밝혔다(--bg #000 위에서는 5.5:1). */
+    --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#83838A;
     --green:#65B89F; --red:#F07A82; --amber:#E0AE65;
     --market-up:#60A5FA; --market-down:#F87171;
     --krup:#F07880; --krdn:#7EA3D4;   /* 다크: 상승 빨강 · 하락 파랑(가독 위해 밝게) */
@@ -3092,7 +3097,10 @@
     --color-bg:#FFFFFF; --color-bg-soft:#FFFFFF; --color-bg-subtle:#F7F7F8;
     --color-surface:#FFFFFF; --color-surface-soft:#FBFBFC;
     /* 글자 */
-    --color-text-primary:#111318; --color-text-secondary:#626872; --color-text-tertiary:#9297A0;
+    /* ♿ tertiary는 예전 #9297A0(2.93:1)이라 WCAG AA 미달이었고, 그래서
+       "작은 글씨에 tertiary를 쓰지 말 것"이라는 예외 규칙까지 따로 달려 있었다.
+       색 자체를 4.55:1로 맞춰 그 예외가 없어도 되게 한다(secondary 5.61:1과 단계 유지). */
+    --color-text-primary:#111318; --color-text-secondary:#626872; --color-text-tertiary:#73767D;
     /* 선 */
     --color-border:#E8E9EC; --color-border-strong:#D9DCE1;
     /* GAEO 액센트(잉크 블랙) — 넓은 면적에 쓰지 않고 강조에만 쓴다.
@@ -3101,7 +3109,7 @@
     /* 금융 의미색 — 장식용 금지, 실제 상태일 때만 */
     --color-positive:#14815C; --color-positive-soft:#EAF6F1; --color-positive-line:#D5EBE2;
     --color-negative:#D84A4A; --color-negative-soft:#FCEEEE; --color-negative-line:#F2D9D9;
-    --color-warning:#9A793B;  --color-warning-soft:#F7F4EC;  --color-warning-line:#ECE4D2;
+    --color-warning:#907137;  --color-warning-soft:#F7F4EC;  --color-warning-line:#ECE4D2;
     --color-neutral:#727983;
     /* 모서리 */
     --radius-xs:8px; --radius-sm:12px; --radius-md:18px; --radius-lg:24px; --radius-xl:32px;
@@ -3129,7 +3137,9 @@
   html.gdark{
     --color-bg:#0B0C0E; --color-bg-soft:#131417; --color-bg-subtle:#191B1F;
     --color-surface:#131417; --color-surface-soft:#191B1F;
-    --color-text-primary:#F2F3F5; --color-text-secondary:#A0A6B0; --color-text-tertiary:#767C86;
+    /* ♿ 라이트와 같은 기준. 예전 #767C86은 가장 밝은 표면(--color-bg-subtle #191B1F)
+       위에서 4.10:1이라 미달이었다. 그 최악 조합을 기준으로 4.51:1이 되게 밝혔다. */
+    --color-text-primary:#F2F3F5; --color-text-secondary:#A0A6B0; --color-text-tertiary:#7D838C;
     --color-border:#2A2D33; --color-border-strong:#3A3E45;
     --color-accent:#F2F3F5; --color-accent-hover:#FFFFFF; --color-accent-soft:#22252B;
     --color-positive:#4FB894; --color-positive-soft:#10241D; --color-positive-line:#1E3D33;
@@ -3372,7 +3382,10 @@
   /* 건너뛰기 링크(§53) */
   .skip-link{position:absolute;left:-9999px;top:0;z-index:2000;
     padding:12px 18px;border-radius:0 0 var(--radius-sm) 0;
-    background:var(--color-accent);color:#fff;font-size:13px;font-weight:600;text-decoration:none}
+    /* 🐛 글자색을 #fff로 박아두면 다크모드에서 안 보인다. --color-accent가 다크에서
+       #F2F3F5(거의 흰색)로 뒤집히기 때문이다(대비 1.11:1). 키보드 사용자만 보는
+       링크라 눈에 안 띄던 버그다. 배경과 반대로 뒤집히는 토큰을 쓴다. */
+    background:var(--color-accent);color:var(--color-bg);font-size:13px;font-weight:600;text-decoration:none}
   .skip-link:focus{left:0}
   .home-hero-top{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:20px;flex:0 0 auto}
   .hero-brand{color:var(--color-text-primary);font-size:15px;font-weight:800;letter-spacing:-.035em;cursor:pointer}
@@ -4288,7 +4301,9 @@
 <nav class="global-nav" id="globalNav" aria-label="Gaeo 주요 메뉴">
   <div class="global-nav-inner">
     <button class="global-brand" id="globalHome" type="button" aria-label="Gaeo 홈으로 이동">
-      <span class="global-brand-mark"><picture><source srcset="gaeo-flower-symbol.webp" type="image/webp"><img src="gaeo-flower-symbol.png" alt="GAEO" width="910" height="882"></picture></span>
+      <!-- 34px로 보이는 자리라 96px 축소본을 쓴다. 원본(910x882 · webp 737KB)을 그대로
+           받으면 첫 화면 전송량의 3분의 1을 로고 하나가 먹는다. 원본은 마스터 파일로 남겨둔다. -->
+      <span class="global-brand-mark"><picture><source srcset="gaeo-flower-symbol-96.webp" type="image/webp"><img src="gaeo-flower-symbol-96.png" alt="GAEO" width="96" height="93"></picture></span>
       <span class="global-brand-word">Gaeo</span>
     </button>
     <div class="global-primary" aria-label="주요 서비스">
@@ -6345,10 +6360,24 @@ function renderPaper(){
          사이클에서만 계산한 값이라 이 날들의 고가·저가는 빠져 있습니다. 지나간 날의 가격을
          나중에 채워 넣지 않기 때문이에요.</p>`
       : '';
+    /* 🕐 이 칸의 숫자는 엔진이 마지막으로 계산해 저장한 값이다. 반면 맨 위 「현재 손익」은
+       더 신선한 data.js 시세로 화면에서 다시 계산한다(위 dv.source==='live' 분기).
+       그래서 같은 「보유 중 손익」이 두 값으로 보일 수 있다. 값을 맞추려고 이 칸을 다시
+       계산하면 옆 칸(MDD·MFE·MAE)만 엔진 기록으로 남아 기준이 섞이므로, 계산하지 않고
+       기준 시각을 적어 어느 시점의 숫자인지 드러낸다. */
+    const engAt=P.valuationObservedAt||P.generatedAt||'';
+    const engSame=engAt&&String(engAt).slice(0,10)===todayKST;
+    const engAsOf=engAt?(engSame?`${hm(engAt)} 기준`:`${md(engAt)} ${hm(engAt)} 기준`):'';
+    const engNote=engAsOf
+      ? `<p class="pv-sec-d">이 칸의 숫자는 자동 기록이 마지막으로 계산한 <b>${engAsOf}</b> 값이에요.${
+          (dv.source==='live'&&asOf&&asOf!==engAsOf)
+            ? ` 맨 위 「현재 손익」은 더 최신 시세(${asOf})로 다시 계산한 값이라 조금 다를 수 있어요.`
+            : ''}</p>`
+      : '';
     perf=`<section class="pv-sec" aria-labelledby="pvPerfH">
       <h3 class="pv-sec-h" id="pvPerfH">검증 상태</h3>
       <p class="pv-sec-d">종료된 거래가 쌓이기 전에는 대부분의 값이 비어 있는 게 정상이에요. 없는 값을 0으로 채우지 않습니다.</p>
-      <dl class="pv-rows">${pr}</dl>${gapNote}${glossHTML()}</section>`;
+      ${engNote}<dl class="pv-rows">${pr}</dl>${gapNote}${glossHTML()}</section>`;
   }
 
   /* ⑥ 어떻게 기록하나요 — paper_engine.py의 실제 규칙만. 없는 규칙을 만들지 않는다. */
