@@ -11,8 +11,14 @@ name: evolution-lab
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 23 * * 6"   # 토 23:00 UTC = 일 08:00 KST — 다른 워크플로와 충돌 없음
+  # ⏸️ 2026-08-22 주간 자동 실행 일시중단.
+  #    Evolution Harness 독립 감사에서 평가/후보 비교/Shadow 기록 개선 필요 사항이
+  #    발견되어(기준선에 사후 backfill 행 혼입, 무변경 후보가 +2.3%p로 보이는 비교
+  #    오류 등) 잘못된 연구 결과가 더 쌓이지 않도록 schedule만 끈다.
+  #    Harness 코드·데이터·Constitution은 그대로 유지하고, 수동 실행(workflow_dispatch)은
+  #    계속 가능하다. 수정·재검증이 끝나면 아래 schedule 주석을 풀어 복구한다.
+  # schedule:
+  #   - cron: "0 23 * * 6"   # 토 23:00 UTC = 일 08:00 KST — 다른 워크플로와 충돌 없음
 
 concurrency:
   group: evolution-lab
