@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-21T05:46:56.424874+00:00",
+ "generatedAt": "2026-08-21T06:16:47.651662+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -17,7 +17,7 @@ const MODEL_SCOREBOARD = {
     "GAEO_COVERAGE_V1_500": {
      "accuracy": 51.3,
      "accuracyCI95": [
-      45.6,
+      45.5,
       57.1
      ],
      "actionDistribution": {
@@ -27,10 +27,10 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 1076,
-      "marketRelativeMeanReturn": -0.22,
-      "meanReturn": -1.21,
+      "marketRelativeMeanReturn": -0.21,
+      "meanReturn": -1.22,
       "medianReturn": -1.44,
-      "precision": 39.1
+      "precision": 39.0
      },
      "directionalAccuracy": 51.6,
      "directionalCI95": [
@@ -41,8 +41,8 @@ const MODEL_SCOREBOARD = {
      "hold": {
       "count": 8861,
       "marketRelativeMeanReturn": -0.01,
-      "meanReturn": -0.06,
-      "medianReturn": -0.34,
+      "meanReturn": -0.07,
+      "medianReturn": -0.35,
       "precision": 51.1
      },
      "matured": 15957,
@@ -63,7 +63,7 @@ const MODEL_SCOREBOARD = {
     "PRE_HOTFIX_BASE": {
      "accuracy": 51.3,
      "accuracyCI95": [
-      45.6,
+      45.5,
       57.1
      ],
      "actionDistribution": {
@@ -73,10 +73,10 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 1076,
-      "marketRelativeMeanReturn": -0.22,
-      "meanReturn": -1.21,
+      "marketRelativeMeanReturn": -0.21,
+      "meanReturn": -1.22,
       "medianReturn": -1.44,
-      "precision": 39.1
+      "precision": 39.0
      },
      "directionalAccuracy": 51.6,
      "directionalCI95": [
@@ -87,8 +87,8 @@ const MODEL_SCOREBOARD = {
      "hold": {
       "count": 8861,
       "marketRelativeMeanReturn": -0.01,
-      "meanReturn": -0.06,
-      "medianReturn": -0.34,
+      "meanReturn": -0.07,
+      "medianReturn": -0.35,
       "precision": 51.1
      },
      "matured": 15957,
