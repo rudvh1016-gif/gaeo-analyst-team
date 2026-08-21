@@ -1,15 +1,15 @@
 {
  "status": "READY",
- "asOf": "2026-08-21T05:46:36+00:00",
+ "asOf": "2026-08-21T06:16:29+00:00",
  "kstDay": "2026-08-21",
  "rawCount": 3922,
- "eligibleCount": 2406,
+ "eligibleCount": 2405,
  "requestCount": 44,
  "quality": {
   "expectedCount": 4300,
   "receivedCount": 4300,
   "rawCount": 3922,
-  "eligibleCount": 2406,
+  "eligibleCount": 2405,
   "kospiCount": 2478,
   "kosdaqCount": 1822,
   "duplicateCount": 3,
@@ -19,7 +19,7 @@
   "excludedCounts": {
    "CLASS_SHARE": 90,
    "ETF": 865,
-   "REIT": 20,
+   "REIT": 21,
    "ETN": 373,
    "SPAC": 41
   },
