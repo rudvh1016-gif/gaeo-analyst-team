@@ -1,0 +1,80 @@
+{
+ "schemaVersion": 1,
+ "entries": [
+  {
+   "recordedAt": "2026-08-22T01:18:10+09:00",
+   "day": "2026-08-22",
+   "versions": {
+    "gitSha": "ad3004a706cbac73f1e858671f1bf1439bb17e3a",
+    "teamWeightVersion": "2026-08-21 16:15",
+    "modelIntelligenceVersion": "calibrated-ensemble-v3",
+    "modelIntelligencePromotion": "shadow",
+    "baseModelVersion": "base-2026-08-15-parity-hotfix",
+    "baseWeights": {
+     "taro": 0.3,
+     "diana": 0.12,
+     "nova": 0.28,
+     "flow": 0.3
+    }
+   },
+   "metrics": {
+    "semantics": "production_call_hit(deadband=1)",
+    "n": 16074,
+    "uniqueDays": 33,
+    "regimeCount": 5,
+    "buy": {
+     "n": 929,
+     "precisionPct": 39.3
+    },
+    "sell": {
+     "n": 5564,
+     "precisionPct": 53.8
+    },
+    "hold": {
+     "n": 8954,
+     "hitPct": 50.8
+    },
+    "actionable": {
+     "n": 6493,
+     "precisionPct": 51.7,
+     "precisionCi95": [
+      41.2,
+      63.7
+     ]
+    },
+    "coveragePct": 44.3,
+    "directionSharePct": 84.8,
+    "brier": 0.2596,
+    "largeErrorPct": 20.2,
+    "topErrorSectors": [
+     [
+      "반도체",
+      547
+     ],
+     [
+      "바이오·제약",
+      440
+     ],
+     [
+      "전자·부품",
+      230
+     ],
+     [
+      "화학·소재",
+      185
+     ],
+     [
+      "전력·에너지",
+      182
+     ]
+    ],
+    "cutoffExclusion": {
+     "excludedN": 0,
+     "excludedWhy": {}
+    }
+   },
+   "note": "deterministic evolution lab 자동 기록"
+  }
+ ],
+ "previousStable": null
+}

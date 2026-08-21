@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "constitutionVersion": "GAEO_EVOLUTION_CONSTITUTION_V1",
+  "createdAt": "2026-08-21",
+  "purpose": "GAEO Evolution(자기개선) 자동 런타임이 절대 스스로 바꿀 수 없는 규칙. 이 파일의 변경은 사람(대표)의 명시적 작업으로만 한다. 자동 런타임은 이 파일의 checksum이 어긋나면 SAFE_MODE로 들어가고 어떤 승격·커밋도 하지 않는다.",
+
+  "scoringVersion": "grading_v1_2026-08-16",
+  "scoringSemanticsSource": "build_model_scoreboard.py + compute_model_intelligence.py(call_hit/stance_hit). 의미를 바꾸면 새 scoringVersion으로만 기록하고 기존 기록과 섞지 않는다.",
+
+  "protectedPaths": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "gaeo_evolution/evolution_constitution.json",
+    "gaeo_evolution/evolution_constitution.sha256",
+    "analyze_auto.py",
+    "compute_team_weights.py",
+    "compute_model_intelligence.py",
+    "compute_indicators.py",
+    "archive_analysis.py",
+    "research_engine.py",
+    "research_engine_v11.py",
+    "research_engine_v20.py",
+    "research_store.py",
+    "research_crypto.py",
+    "model_registry.py",
+    "build_model_scoreboard.py",
+    "paper_engine.py",
+    "paper_momentum.py",
+    "paper_public.py",
+    "paper_history.py",
+    "compute_rebound_watch.py",
+    "index.html",
+    ".github/workflows/",
+    ".claude/",
+    "test_"
+  ],
+  "protectedPathsNote": "Evolution 자동 런타임(evolution-lab workflow)이 변경·커밋할 수 없는 경로. prefix 매칭. 'test_'는 모든 테스트 파일을 뜻한다. 같은 저장소에 쓰기 권한이 있는 사람/Claude Code 대화 세션까지 물리적으로 막지는 못한다 — 이 목록은 자동 런타임의 commit allowlist 검사와 protected-path 검사에 쓰이는 규칙이며, 그 한계는 docs/GAEO_EVOLUTION_SAFETY.md에 기록한다.",
+
+  "autoCommitAllowlist": [
+    "gaeo_evolution/registry/",
+    "gaeo_evolution/status/",
+    "research_archive/evolution/"
+  ],
+
+  "promotionFloor": {
+    "source": "compute_model_intelligence.py promotion.minimums (2026-08-21 실코드 확인값). 이 바닥값을 낮추는 것은 금지. 더 보수적으로 올리는 것만 가능.",
+    "prospectiveN": 500,
+    "prospectiveActionN": 100,
+    "precisionGainPp": 1.5,
+    "brierGain": 0.005,
+    "coveragePct": 15,
+    "testDays": 40,
+    "testRegimes": 3,
+    "buyN": 50,
+    "sellN": 50,
+    "maxDirectionSharePct": 80,
+    "minUniqueDaysOffline": 20,
+    "blockBootstrapRounds": 400,
+    "precisionDeltaCiMustExcludeZero": true
+  },
+
+  "statisticalPolicy": {
+    "independenceUnit": "decision_date",
+    "note": "같은 날 600종목은 서로 독립이 아니다. 표본 크기는 raw N이 아니라 unique decision days 기준으로 판단하고, 불확실성은 날짜 단위 block bootstrap으로 계산한다.",
+    "minRegimeDiversity": 3
+  },
+
+  "leakagePolicy": {
+    "requireCutoffFields": ["decisionTime|analysisStartedAt|date"],
+    "futureFeatureBan": "판단 시각 이후의 가격·수급·공시·뉴스·수정 데이터는 feature가 될 수 없다.",
+    "unprovenCutoffHandling": "EXCLUDE_OR_LOW_TRUST",
+    "postHocBackfillBan": "결과를 본 뒤 계산한 값을 실전 prospective 기록이라고 부르지 않는다."
+  },
+
+  "riskTiers": {
+    "GREEN": {
+      "autoResearch": true, "autoShadow": true,
+      "applyMode": "manual_approval",
+      "applyModeNote": "현행 저장소 정책(model_registry.AUTO_PROMOTION = NONE_MANUAL_APPROVAL_REQUIRED)과 일치시킨다. Gate가 객관적으로 QUALIFIED를 판정하면 대표는 전문 판단 없이 승인 명령만 실행하면 된다. auto 적용으로 바꾸려면 사람이 이 Constitution을 직접 수정해야 한다(자동 런타임은 불가).",
+      "allowedChanges": ["analyst_weight_within_bounds", "sector_weight_within_bounds", "regime_weight_within_bounds", "calibration_params", "threshold_within_bounds"]
+    },
+    "YELLOW": {
+      "autoResearch": true, "autoShadow": true, "applyMode": "manual_approval",
+      "allowedChanges": ["existing_feature_combination", "new_risk_filter", "decision_modifier"]
+    },
+    "ORANGE": {
+      "autoResearch": "report_only", "autoShadow": false, "applyMode": "manual_only",
+      "allowedChanges": ["core_algorithm_proposal_document_only"]
+    },
+    "RED": {
+      "autoResearch": false, "autoShadow": false, "applyMode": "forbidden",
+      "forbidden": ["constitution", "benchmark_definition", "sealed_holdout", "scoring_semantics", "secrets", "security_rules", "workflow_permissions", "github_auth", "real_trading", "archive_history", "protected_past_predictions"]
+    }
+  },
+
+  "weightBounds": {
+    "perAnalystMin": 0.05,
+    "perAnalystMax": 0.45,
+    "maxStepFromBaseline": 0.08,
+    "mustSumTo": 1.0
+  },
+
+  "thresholdBounds": {
+    "buyCutBaseline": 63,
+    "buyCutRange": [60, 68],
+    "note": "analyze_auto.py chief_eval의 실측 경계(total>=63 BUY). SELL 경계는 reboundCheck.sellThreshold가 행마다 달라 후보 대상에서 제외한다."
+  },
+
+  "complexityBudget": {
+    "maxParametersAddedPerCandidate": 6,
+    "maxRulesAddedPerCandidate": 2,
+    "note": "복잡도가 늘수록 같은 성능 개선이라도 더 강한 근거를 요구한다. simpler-first."
+  },
+
+  "bootstrapPolicy": {
+    "initialState": "BOOTSTRAP_SHADOW",
+    "rule": "새 Harness가 만든 Candidate는 배포 당일 과거데이터만으로 Production에 오를 수 없다. cutoff가 증명된 prospective 기록이 promotionFloor를 채우기 전까지 SHADOW 이하 상태를 유지한다."
+  },
+
+  "rollbackPolicy": {
+    "trigger": {
+      "actionPrecisionDropPp": 3.0,
+      "brierRisePct": 10,
+      "coverageCollapseBelowPct": 5,
+      "directionShareAbovePct": 90,
+      "minObservationDays": 10
+    },
+    "method": "config/version 선택 방식(previousStableVersion). 코드 git revert가 아니라 Registry의 이전 안정 버전을 다시 가리킨다."
+  },
+
+  "budgetPolicy": {
+    "autoAnalysisLlmTokens": 0,
+    "workflowLlmCalls": "forbidden_without_explicit_credential",
+    "unknownCostHandling": "record_null_never_fabricate",
+    "costSourceWhenUnknown": "unavailable_claude_code_subscription"
+  },
+
+  "safeModeTriggers": [
+    "constitution_checksum_mismatch",
+    "protected_path_modified_by_auto_runtime",
+    "benchmark_integrity_fail",
+    "stale_or_missing_market_data",
+    "archive_integrity_fail",
+    "critical_test_failure",
+    "candidate_schema_corruption",
+    "coverage_collapse",
+    "cost_explosion",
+    "secret_hygiene_fail"
+  ],
+
+  "publicClaimPolicy": "\"스스로 학습하므로 적중률이 계속 오른다\"는 표현 금지. \"실제 결과를 지속 평가하고 검증된 개선만 반영하도록 설계됐다\"만 허용. 성능 숫자는 실측값만 표시한다."
+}
