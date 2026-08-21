@@ -21,6 +21,7 @@ Key 형식
 """
 import base64
 import binascii
+import gzip
 import json
 import os
 
@@ -143,9 +144,18 @@ def is_encrypted_file(path):
         return False
 
 
-def write_encrypted(path, text, label):
-    """텍스트를 암호화해 저장한다. Key가 없으면 아무것도 쓰지 않는다."""
-    blob = encrypt_bytes(text.encode("utf-8"), label)   # 여기서 먼저 실패해야 한다
+def write_encrypted(path, text, label, gzip_first=False):
+    """텍스트를 암호화해 저장한다. Key가 없으면 아무것도 쓰지 않는다.
+
+    gzip_first=True면 압축 후 암호화한다. 암호문은 델타 압축이 안 되기 때문에
+    같은 파일을 자주 커밋하면 매번 전체 크기가 저장소에 통째로 쌓인다.
+    읽는 쪽(research_store._read_text)이 gzip 매직바이트로 자동 판별하므로
+    파일 이름은 그대로 두고, 예전에 저장된 비압축 파일도 계속 읽힌다.
+    """
+    payload = text.encode("utf-8")
+    if gzip_first:
+        payload = gzip.compress(payload, compresslevel=9)
+    blob = encrypt_bytes(payload, label)   # 여기서 먼저 실패해야 한다
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "wb") as f:
