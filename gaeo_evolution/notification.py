@@ -310,7 +310,13 @@ def main(argv=None):
 
     status_doc = _read_json_safe(args.status)
     cards_doc = _read_json_safe(args.cards)
-    candidate_generation = (status_doc or {}).get("candidateGeneration")
+    # build_notification() 안의 dict 가드보다 먼저 status_doc을 만지므로 여기서도
+    # 같은 가드를 미리 적용한다 — 그러지 않으면 status_doc이 dict가 아닌 참(truthy)
+    # 값(예: 빈 리스트가 아닌 리스트)일 때 여기서 먼저 AttributeError로 죽는다
+    # (독립 QA 재검토 LOW, 2026-08-23 — 워크플로우 폴백이 항상 흡수해 최종 사용자
+    # 결과는 안전했지만, 커버리지 공백을 남겨 정식으로 막는다).
+    safe_status_doc = _as_dict_or_none(status_doc)
+    candidate_generation = (safe_status_doc or {}).get("candidateGeneration")
 
     result = build_notification(
         owner=args.owner, run_id=args.run_id, run_url=args.run_url,
