@@ -54,8 +54,14 @@ spec = {
   "complexity": {"parametersAdded": n, "rulesAdded": n,
                  "featuresAdded": n, "branchesAdded": n},
 }
-registry.upsert_candidate(spec, const)   # 스키마·범위 위반이면 여기서 거부된다
+registry.register_candidate(spec, const)   # 스키마·범위 위반이면 여기서 거부된다
 ```
+
+⭐ 2026-08-22부터 후보는 **생성 순간 fingerprint로 잠긴다.** 같은 candidateId로
+내용을 바꿔 다시 저장할 수 없다(CandidateImmutabilityError). 가설·가중치를 고치고
+싶으면 새 candidateId로 새 후보를 만든다 — 실험번호(EXP-…)가 자동 부여되고,
+탈락해도 기록은 영구 보존된다. spec의 hypothesis는 데이터일 뿐이며 어떤 문장을
+넣어도 Gate 판정에 영향을 주지 않는다.
 
 ## ⭐ 절대 금지
 

@@ -11,6 +11,17 @@
   · 적용(applyMode)은 Constitution riskTiers를 따른다. 현행 저장소 정책과
     같게 GREEN도 manual_approval — 자동 런타임은 QUALIFIED_AWAITING_APPROVAL
     까지만 올릴 수 있다.
+
+⭐ 2026-08-22 감사 수리:
+  · 전체 점수 하나가 아니라 BUY/SELL/시장국면/큰 오답을 각각 본다 — 전체가
+    좋아져도 중요한 subgroup이 의미 있게 나빠지면 승격 불가(fail closed:
+    해당 실측이 없어도 승격 불가).
+  · complexity는 후보의 자기신고를 믿지 않는다 — registry.computed_complexity
+    (실제 parameterChanges 기준)와 대조해 과소신고면 REJECTED.
+  · ROLLED_BACK된 설정(paramHash)은 cooldown 기간 재승격이 차단된다.
+    ROLLED_BACK/REJECTED 후보 자체는 상태기계(registry)가 종점으로 강제한다.
+  · Candidate의 hypothesis/Memory 문자열은 데이터일 뿐이다 — 이 모듈은 그 안의
+    문장("무조건 승격" 등)을 읽지도, 실행하지도 않는다.
 """
 import os
 
@@ -23,12 +34,51 @@ VERDICT_QUALIFIED = "QUALIFIED_AWAITING_APPROVAL"
 VERDICT_REJECT = "REJECTED"
 
 
-def promotion_decision(candidate, prospective, constitution):
+def _days_between(later_iso, earlier_iso):
+    import datetime
+    try:
+        later = datetime.date.fromisoformat(str(later_iso)[:10])
+        earlier = datetime.date.fromisoformat(str(earlier_iso)[:10])
+        return (later - earlier).days
+    except ValueError:
+        return None
+
+
+def repromotion_block(candidate, constitution, param_history, today_iso=None):
+    """롤백/탈락된 것과 같은 설정(paramHash)의 재승격을 차단한다.
+
+    · 같은 paramHash가 ROLLED_BACK 이력 → cooldown(sameParamCooldownDays) 동안 차단.
+      cooldown이 지나도 '새 후보 + 새 Shadow 축적'이 있어야만 다시 올 수 있다
+      (상태기계가 옛 후보 재사용을 이미 막는다).
+    반환: (차단여부, 사유)
+    """
+    import datetime
+    ph = candidate.get("paramHash")
+    if not ph or not param_history:
+        return False, None
+    record = param_history.get(ph)
+    if not record:
+        return False, None
+    rolled_at = record.get("rolledBackAt")
+    if not rolled_at:
+        return False, None
+    today_iso = today_iso or datetime.date.today().isoformat()
+    cooldown = int((constitution.get("rollbackPolicy") or {}).get("sameParamCooldownDays", 30))
+    age = _days_between(today_iso, rolled_at)
+    if age is None or age <= cooldown:
+        return True, (f"롤백된 설정과 동일(paramHash) — 롤백 후 {age}일 ≤ cooldown {cooldown}일. "
+                      "재승격 금지")
+    return False, None
+
+
+def promotion_decision(candidate, prospective, constitution, param_history=None):
     """후보 1개에 대한 객관 판정.
 
-    prospective: 실전 Shadow 실측(없으면 None) —
+    prospective: 실전 Shadow 실측(shadow.prospective_metrics, 없으면 None) —
       {"n","actionN","testDays","testRegimes","buyN","sellN",
-       "precisionGainPp","brierGain","coveragePct","directionSharePct"}
+       "precisionGainPp","precisionGainCi95","brierGain","coveragePct",
+       "directionSharePct","buyPrecisionDeltaPp","sellPrecisionDeltaPp",
+       "largeErrorDeltaPp","regimeWorstDeltaPp"}
     반환: (verdict, reasons)
     """
     floor = constitution["promotionFloor"]
@@ -36,8 +86,31 @@ def promotion_decision(candidate, prospective, constitution):
     reasons = []
     if not tier or tier.get("applyMode") == "forbidden":
         return VERDICT_REJECT, ["riskTier가 자동 경로에서 허용되지 않음"]
+
+    # complexity 자기신고 검증 — 실제 변경내용 기준(과소신고는 즉시 거부).
+    from gaeo_evolution import registry
+    verified = registry.computed_complexity(candidate)
+    comp = candidate.get("complexity") or {}
+    declared_params = int(comp.get("parametersAdded", 0) or 0)
+    if declared_params < verified["parametersAdded"]:
+        return VERDICT_REJECT, [
+            f"complexity 과소신고: 선언 {declared_params} < 실측 {verified['parametersAdded']} "
+            f"(새 키 {verified['newParameterKeys']})"]
+
+    # 롤백된 설정의 재승격 차단(cooldown).
+    blocked, why = repromotion_block(candidate, constitution, param_history)
+    if blocked:
+        return VERDICT_REJECT, [why]
+
     if prospective is None:
         return VERDICT_BOOTSTRAP, ["실전 Shadow 실측 기록 없음 — 과거데이터만으로 승격 불가(Bootstrap)"]
+
+    # 자동 Shadow/승격 경로가 허용되지 않은 tier(ORANGE 등)는 실측이 있어도
+    # QUALIFIED에 오를 수 없다 — Constitution riskTiers를 코드로 집행한다.
+    if tier.get("autoShadow") is not True or tier.get("applyMode") != "manual_approval":
+        return VERDICT_KEEP, [
+            f"riskTier {candidate.get('riskTier')}는 자동 승격 경로가 아님 "
+            f"(autoShadow={tier.get('autoShadow')}, applyMode={tier.get('applyMode')}) — 수동 검토 전용"]
 
     def need(key, minimum, label):
         value = prospective.get(key)
@@ -51,6 +124,9 @@ def promotion_decision(candidate, prospective, constitution):
     need("buyN", floor["buyN"], "BUY 표본")
     need("sellN", floor["sellN"], "SELL 표본")
     need("precisionGainPp", floor["precisionGainPp"], "정밀도 개선폭(%p)")
+    # CI가 인증하는 통계량(일평균)도 같은 바닥값을 넘어야 한다 — 풀링/일평균이
+    # 서로 다른 얘기를 하는 후보(특정 하루가 끌어올린 개선)를 걸러낸다.
+    need("precisionGainDayMeanPp", floor["precisionGainPp"], "정밀도 개선폭(일평균 %p)")
     need("brierGain", floor["brierGain"], "Brier 개선폭")
     need("coveragePct", floor["coveragePct"], "커버리지(%)")
     share = prospective.get("directionSharePct")
@@ -60,10 +136,37 @@ def promotion_decision(candidate, prospective, constitution):
     if floor.get("precisionDeltaCiMustExcludeZero"):
         if not ci or len(ci) != 2 or ci[0] is None or ci[0] <= 0:
             reasons.append(f"개선폭 95% 신뢰구간이 0을 포함/미산출: {ci}")
+
+    # ── 하위그룹 보호 — 전체가 좋아도 BUY/SELL/국면/큰 오답이 나빠지면 승격 불가 ──
+    def guard_min(key, minimum, label):
+        """value ≥ minimum 이어야 한다. 실측이 없으면(None) 승격 불가(fail closed)."""
+        value = prospective.get(key)
+        if value is None or value < minimum:
+            reasons.append(f"{label}: {value} (허용 하한 {minimum})")
+
+    def guard_max(key, maximum, label):
+        value = prospective.get(key)
+        if value is None or value > maximum:
+            reasons.append(f"{label}: {value} (허용 상한 {maximum})")
+
+    if "maxBuyPrecisionDropPp" in floor:
+        guard_min("buyPrecisionDeltaPp", -float(floor["maxBuyPrecisionDropPp"]),
+                  "BUY 정밀도 변화(%p)")
+    if "maxSellPrecisionDropPp" in floor:
+        guard_min("sellPrecisionDeltaPp", -float(floor["maxSellPrecisionDropPp"]),
+                  "SELL 정밀도 변화(%p)")
+    if "maxLargeErrorRisePp" in floor:
+        guard_max("largeErrorDeltaPp", float(floor["maxLargeErrorRisePp"]),
+                  "큰 오답 비율 변화(%p)")
+    if "maxRegimeWorstDropPp" in floor:
+        guard_min("regimeWorstDeltaPp", -float(floor["maxRegimeWorstDropPp"]),
+                  "시장국면별 최악 악화폭(%p)")
+
     # 복잡한 후보는 같은 개선이라도 더 강한 근거를 요구한다(simpler-first).
-    comp = candidate.get("complexity") or {}
-    complexity_load = sum(int(comp.get(k, 0) or 0) for k in
-                          ("parametersAdded", "rulesAdded", "featuresAdded", "branchesAdded"))
+    complexity_load = max(
+        sum(int(comp.get(k, 0) or 0) for k in
+            ("parametersAdded", "rulesAdded", "featuresAdded", "branchesAdded")),
+        verified["parametersAdded"])
     if complexity_load > 0:
         gain = prospective.get("precisionGainPp") or 0
         required = floor["precisionGainPp"] + 0.5 * complexity_load
@@ -74,6 +177,60 @@ def promotion_decision(candidate, prospective, constitution):
         return VERDICT_KEEP, reasons
     return VERDICT_QUALIFIED, ["모든 객관 기준 통과 — 적용은 "
                                f"{tier.get('applyMode')} 정책을 따름"]
+
+
+def build_promotion_card(candidate, prospective, verdict, reasons, constitution=None):
+    """대표용 승격 카드 — 전문 판단 없이 '안전시험을 모두 통과했는가'만 보면 되게.
+
+    복잡한 통계 대신 아주 쉬운 문장으로 만든다. 숫자는 실측값만 쓴다.
+    """
+    p = prospective or {}
+    regime_limit = float(((constitution or {}).get("promotionFloor") or {})
+                         .get("maxRegimeWorstDropPp", 5.0))
+
+    def _pp(value):
+        return f"{value:+.1f}%p" if isinstance(value, (int, float)) else "실측 없음"
+
+    def _pct(value):
+        return f"{value:.1f}%" if isinstance(value, (int, float)) else "실측 없음"
+
+    buy_delta = p.get("buyPrecisionDeltaPp")
+    sell_delta = p.get("sellPrecisionDeltaPp")
+    large_delta = p.get("largeErrorDeltaPp")
+    regime_worst = p.get("regimeWorstDeltaPp")
+    real_gain = p.get("realGainPp")
+    return {
+        "후보": candidate.get("candidateId"),
+        "실험번호": candidate.get("experimentSerial"),
+        "가설": candidate.get("hypothesis"),
+        "Shadow기간": (f"{p.get('testDays')}거래일 "
+                     f"({p.get('windowStart')}~{p.get('windowEnd')})"
+                     if p.get("testDays") else "실측 없음"),
+        "실전표본": p.get("n"),
+        "기존성능": _pct(p.get("championPrecisionPct")),
+        "후보성능": _pct(p.get("challengerPrecisionPct")),
+        "개선": _pp(p.get("precisionGainPp")),
+        "일평균개선": _pp(p.get("precisionGainDayMeanPp")),
+        "실전기록대비": (_pp(real_gain) +
+                    (" ⚠️ 실전 기록보다 나쁨 — 승인 전 확인 필요" if isinstance(real_gain, (int, float))
+                     and real_gain < 0 else ""))
+                    if real_gain is not None else "실측 없음",
+        "BUY": ("악화 없음" if isinstance(buy_delta, (int, float)) and buy_delta >= 0
+                else f"변화 {_pp(buy_delta)}"),
+        "SELL": ("개선" if isinstance(sell_delta, (int, float)) and sell_delta > 0
+                 else ("악화 없음" if isinstance(sell_delta, (int, float)) and sell_delta >= 0
+                       else f"변화 {_pp(sell_delta)}")),
+        "시장국면": ("치명적 악화 없음"
+                  if isinstance(regime_worst, (int, float)) and regime_worst > -regime_limit
+                  else f"최악 국면 {_pp(regime_worst)}"),
+        "큰오답": ("증가 없음" if isinstance(large_delta, (int, float)) and large_delta <= 0
+                else f"변화 {_pp(large_delta)}"),
+        "미래정보": "사용 안 함(코드로 차단·검증됨)",
+        "Rollback준비": "준비됨(승인 시 previousStable·승인 시점 성적표 자동 기록 + 자동 감시)",
+        "기계판정": ("승격 추천 — 대표 승인 대기" if verdict == VERDICT_QUALIFIED
+                 else f"{verdict}: {'; '.join(reasons[:3])}"),
+        "안내": "이 카드의 판정은 자동 계산이며, 실제 Production 반영은 대표 승인 후에만 진행됩니다.",
+    }
 
 
 def rollback_check(current_metrics, baseline_metrics, constitution,
@@ -102,6 +259,35 @@ def rollback_check(current_metrics, baseline_metrics, constitution,
     if share is not None and share > trigger["directionShareAbovePct"]:
         reasons.append(f"방향 붕괴 {share}% > {trigger['directionShareAbovePct']}%")
     return bool(reasons), reasons or ["악화 신호 없음"]
+
+
+def execute_rollback(candidate_id, reasons, baselines_doc=None,
+                     candidates_path=None):
+    """롤백 실집행 — 상태를 ROLLED_BACK(종점)으로 바꾸고 복구 지시서를 만든다.
+
+    코드 revert / force push가 아니라 'previousStable 버전 재선택' 방식이다.
+    Production 반영 자체가 수동(config)이므로, 여기서는:
+      1) 후보를 ROLLED_BACK 종점으로 고정(재승격 불가)
+      2) 복구해야 할 previousStable 버전 정보를 상태 파일에 노출
+    반환: rollback 이벤트 dict(status 파일용).
+    """
+    import datetime
+    from gaeo_evolution import registry
+    kwargs = {"path": candidates_path} if candidates_path else {}
+    entry = registry.set_status(candidate_id, "ROLLED_BACK", reasons,
+                                extra={"rolledBackAt":
+                                       datetime.datetime.now().astimezone()
+                                       .isoformat(timespec="seconds")},
+                                **kwargs)
+    baselines_doc = baselines_doc or registry.load_baselines()
+    return {
+        "candidateId": candidate_id,
+        "rolledBackAt": entry.get("rolledBackAt"),
+        "reasons": reasons,
+        "restoreTo": baselines_doc.get("previousStable"),
+        "method": "previousStable 버전 재선택(코드 revert 아님)",
+        "note": "이 후보는 종점(ROLLED_BACK)이며 자동으로 다시 Production에 오를 수 없습니다.",
+    }
 
 
 def circuit_breaker(checks):

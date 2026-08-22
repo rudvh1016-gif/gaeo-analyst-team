@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
-  "constitutionVersion": "GAEO_EVOLUTION_CONSTITUTION_V1",
+  "constitutionVersion": "GAEO_EVOLUTION_CONSTITUTION_V1.1",
   "createdAt": "2026-08-21",
   "purpose": "GAEO Evolution(자기개선) 자동 런타임이 절대 스스로 바꿀 수 없는 규칙. 이 파일의 변경은 사람(대표)의 명시적 작업으로만 한다. 자동 런타임은 이 파일의 checksum이 어긋나면 SAFE_MODE로 들어가고 어떤 승격·커밋도 하지 않는다.",
+  "amendments": [
+    {"version": "GAEO_EVOLUTION_CONSTITUTION_V1", "date": "2026-08-21", "summary": "최초 제정"},
+    {"version": "GAEO_EVOLUTION_CONSTITUTION_V1.1", "date": "2026-08-22", "summary": "독립 감사 수리 — promotionFloor에 BUY/SELL/국면/큰오답 하위그룹 보호 추가(더 보수적으로만 변경), rollback cooldown·재승격 차단 추가, 데이터 진위(FORWARD RECORD ONLY)·offline 연구/평가 분리 정책 명문화. checksum은 이 개정과 같은 커밋에서 사람이 함께 갱신한다(git 이력으로 동시 변경 추적)."}
+  ],
 
   "scoringVersion": "grading_v1_2026-08-16",
   "scoringSemanticsSource": "build_model_scoreboard.py + compute_model_intelligence.py(call_hit/stance_hit). 의미를 바꾸면 새 scoringVersion으로만 기록하고 기존 기록과 섞지 않는다.",
@@ -56,7 +60,29 @@
     "maxDirectionSharePct": 80,
     "minUniqueDaysOffline": 20,
     "blockBootstrapRounds": 400,
-    "precisionDeltaCiMustExcludeZero": true
+    "precisionDeltaCiMustExcludeZero": true,
+    "maxBuyPrecisionDropPp": 2.0,
+    "maxSellPrecisionDropPp": 2.0,
+    "maxLargeErrorRisePp": 2.0,
+    "maxRegimeWorstDropPp": 5.0,
+    "subgroupGuardNote": "2026-08-22 추가(더 보수적으로만). 전체 개선이 있어도 BUY/SELL/시장국면/큰오답 중 하나가 이 한도 넘게 나빠지면 승격 불가. 해당 실측이 없어도 승격 불가(fail closed)."
+  },
+
+  "recordAuthenticityPolicy": {
+    "rule": "FORWARD_RECORD_ONLY",
+    "source": "build_model_scoreboard.py 원칙 재사용 — 성적은 '그 당시 실제 저장된 판단'만 채점한다.",
+    "excludeMarkers": ["recon"],
+    "excludeConditions": ["tier != auto", "judgmentWithheld"],
+    "modelVersionMixing": "기본 금지 — 현재 baseModelVersion만 사용. 혼합은 ALL_LIVE 명시 + 행별 modelVersion 태그가 있을 때만.",
+    "note": "recon/backfill 기록은 파일에서 지우지 않는다(보존). 단 Baseline 성적·Failure Mining·Candidate 평가 어디에도 들어갈 수 없다."
+  },
+
+  "offlineDataPolicy": {
+    "researchEvalSplit": "time_ordered",
+    "minResearchDays": 10,
+    "minEvalDays": 20,
+    "insufficientDataVerdict": "Offline 연구용 데이터 부족 — Shadow 축적 필요",
+    "note": "Failure Mining(연구구간)과 후보 평가(평가구간)는 시간순으로 분리한다. 데이터가 짧으면 억지로 쪼개 가짜 통계 신뢰도를 만들지 않고 후보 생성을 쉰다. Offline 결과는 Shadow行 선별용 1차 시험일 뿐 승격 근거가 아니다."
   },
 
   "statisticalPolicy": {
@@ -125,7 +151,10 @@
       "directionShareAbovePct": 90,
       "minObservationDays": 10
     },
-    "method": "config/version 선택 방식(previousStableVersion). 코드 git revert가 아니라 Registry의 이전 안정 버전을 다시 가리킨다."
+    "method": "config/version 선택 방식(previousStableVersion). 코드 git revert가 아니라 Registry의 이전 안정 버전을 다시 가리킨다. force push/reset --hard 금지.",
+    "sameParamCooldownDays": 30,
+    "terminalStates": "ROLLED_BACK된 후보는 종점 — 자동으로 다시 Production에 오를 수 없다. 같은 설정(paramHash)은 cooldown 동안 새 후보로도 승격 불가. 다시 연구하려면 cooldown 후 새 후보 + 새 Shadow 축적이 필요하다.",
+    "circuitBreaker": "rollback 권고가 미해결 상태면 새 QUALIFIED 승격을 전면 보류한다."
   },
 
   "budgetPolicy": {

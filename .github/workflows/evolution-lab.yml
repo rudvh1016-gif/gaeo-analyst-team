@@ -11,14 +11,13 @@ name: evolution-lab
 
 on:
   workflow_dispatch:
-  # ⏸️ 2026-08-22 주간 자동 실행 일시중단.
-  #    Evolution Harness 독립 감사에서 평가/후보 비교/Shadow 기록 개선 필요 사항이
-  #    발견되어(기준선에 사후 backfill 행 혼입, 무변경 후보가 +2.3%p로 보이는 비교
-  #    오류 등) 잘못된 연구 결과가 더 쌓이지 않도록 schedule만 끈다.
-  #    Harness 코드·데이터·Constitution은 그대로 유지하고, 수동 실행(workflow_dispatch)은
-  #    계속 가능하다. 수정·재검증이 끝나면 아래 schedule 주석을 풀어 복구한다.
-  # schedule:
-  #   - cron: "0 23 * * 6"   # 토 23:00 UTC = 일 08:00 KST — 다른 워크플로와 충돌 없음
+  # ▶️ 2026-08-22 주간 자동 실행 복구.
+  #    (2026-08-22 오전 독립 감사로 일시중단했던 schedule.
+  #     recon 오염 차단 · sim-vs-sim 공정 비교 · Candidate 불변성/실험 영구기록 ·
+  #     실제 Shadow 기록기 · Gate 하위그룹 보호 + Rollback 연결 수리와
+  #     계약 테스트/고의 실패 시험 통과를 확인한 뒤 다시 켰다.)
+  schedule:
+    - cron: "0 23 * * 6"   # 토 23:00 UTC = 일 08:00 KST — 다른 워크플로와 충돌 없음
 
 concurrency:
   group: evolution-lab
@@ -40,6 +39,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Memory 암호화 저장(research_crypto)에 필요 — ci.yml·research-archive 등
+      # 다른 워크플로와 같은 방식. 없으면 Key가 있어도 상세 저장이 조용히 생략됐다
+      # (2026-08-22 수리에서 발견된 기존 누락).
+      - name: 암호화 라이브러리 설치
+        run: python3 -m pip install --quiet --upgrade cryptography
+
       # 계약 테스트가 먼저다 — 미래정보·표본조작·보호경로 위반은 여기서 막힌다.
       - name: Harness contract tests
         run: python -m unittest test_gaeo_evolution -q
@@ -53,7 +58,8 @@ jobs:
       - name: Enforce commit allowlist (FAIL CLOSED)
         id: allowlist
         run: |
-          CHANGED=$(git diff --name-only)
+          # untracked(신규 파일 — 예: 새 shadow ledger)까지 포함해 전수 검사한다.
+          CHANGED=$(git status --porcelain | awk '{print $NF}')
           echo "changed files:"; echo "$CHANGED"
           if [ -z "$CHANGED" ]; then
             echo "noop=true" >> "$GITHUB_OUTPUT"
@@ -70,6 +76,10 @@ jobs:
           violations, outside = constitution.check_changed_paths(changed, const)
           if violations or outside:
               print('커밋 금지 — allowlist 밖 변경:', violations + outside)
+              sys.exit(1)
+          links = constitution.find_symlinks(changed, '.')
+          if links:
+              print('커밋 금지 — 심볼릭 링크 감지:', links)
               sys.exit(1)
           print('allowlist OK:', changed)
           "
