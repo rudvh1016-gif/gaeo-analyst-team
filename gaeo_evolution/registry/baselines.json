@@ -2,78 +2,62 @@
  "schemaVersion": 1,
  "entries": [
   {
-   "recordedAt": "2026-08-22T01:18:10+09:00",
+   "recordedAt": "2026-08-22T07:23:10+00:00",
    "day": "2026-08-22",
    "versions": {
-    "gitSha": "ad3004a706cbac73f1e858671f1bf1439bb17e3a",
+    "gitSha": "da99ce79c3ebf596e39cec28bc9f0fd8b5bdf4ac",
     "teamWeightVersion": "2026-08-21 16:15",
     "modelIntelligenceVersion": "calibrated-ensemble-v3",
     "modelIntelligencePromotion": "shadow",
     "baseModelVersion": "base-2026-08-15-parity-hotfix",
-    "baseWeights": {
-     "taro": 0.3,
-     "diana": 0.12,
-     "nova": 0.28,
-     "flow": 0.3
-    }
+    "productionWeights": {
+     "taro": 0.2652,
+     "diana": 0.1232,
+     "nova": 0.3003,
+     "flow": 0.3112
+    },
+    "productionWeightsSource": "team_weights.js(global)"
    },
    "metrics": {
     "semantics": "production_call_hit(deadband=1)",
-    "n": 16074,
-    "uniqueDays": 33,
-    "regimeCount": 5,
+    "recordSelection": "forward_record_only_v2",
+    "modelVersions": [],
+    "n": 0,
+    "uniqueDays": 0,
+    "regimeCount": 0,
     "buy": {
-     "n": 929,
-     "precisionPct": 39.3
+     "n": 0,
+     "precisionPct": null
     },
     "sell": {
-     "n": 5564,
-     "precisionPct": 53.8
+     "n": 0,
+     "precisionPct": null
     },
     "hold": {
-     "n": 8954,
-     "hitPct": 50.8
+     "n": 0,
+     "hitPct": null
     },
     "actionable": {
-     "n": 6493,
-     "precisionPct": 51.7,
-     "precisionCi95": [
-      41.2,
-      63.7
-     ]
+     "n": 0,
+     "precisionPct": null,
+     "precisionCi95": null
     },
-    "coveragePct": 44.3,
-    "directionSharePct": 84.8,
-    "brier": 0.2596,
-    "largeErrorPct": 20.2,
-    "topErrorSectors": [
-     [
-      "반도체",
-      547
-     ],
-     [
-      "바이오·제약",
-      440
-     ],
-     [
-      "전자·부품",
-      230
-     ],
-     [
-      "화학·소재",
-      185
-     ],
-     [
-      "전력·에너지",
-      182
-     ]
-    ],
+    "coveragePct": null,
+    "directionSharePct": null,
+    "brier": null,
+    "largeErrorPct": null,
+    "topErrorSectors": [],
     "cutoffExclusion": {
      "excludedN": 0,
      "excludedWhy": {}
+    },
+    "authenticityExclusion": {
+     "recon_backfill_post_hoc": 5965,
+     "non_auto_tier": 122,
+     "model_version_out_of_scope": 10500
     }
    },
-   "note": "deterministic evolution lab 자동 기록"
+   "note": "deterministic evolution lab 자동 기록 · forward-only v2"
   }
  ],
  "previousStable": null
