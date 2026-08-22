@@ -97,9 +97,13 @@ def decide_level(*, job_failed, status_doc, promotion_cards_doc):
     """실제 실행 결과만으로 결정론적으로 분류한다. 셋 중 정확히 하나를 돌려준다."""
     if job_failed:
         return LEVEL_RED
-    if status_doc is None:
-        # 실행은 성공했다는데 결과 파일을 못 읽으면 정직하게 문제로 본다.
+    # 스키마가 어긋난 입력(dict가 아닌 값)은 '읽지 못함'과 동일하게 취급한다
+    # (독립 QA 검토 LOW 대응, 2026-08-23) — 손상된 status.json이 들어와도
+    # AttributeError로 죽지 않고 정직하게 RED(문제 있음)로 판정한다.
+    if not isinstance(status_doc, dict):
         return LEVEL_RED
+    if not isinstance(promotion_cards_doc, dict):
+        promotion_cards_doc = None
     health = status_doc.get("systemHealth")
     if health in ("SAFE_MODE", "DEGRADED"):
         return LEVEL_RED
@@ -241,10 +245,19 @@ def build_marker(run_id):
     return f"gaeo-evolution-run:{run_id}"
 
 
+def _as_dict_or_none(value):
+    """스키마가 어긋난 입력(dict가 아닌 값)을 '측정값 없음'과 동일하게 취급한다.
+    독립 QA 검토 LOW 대응(2026-08-23) — 손상된 status.json/promotion_cards.json이
+    들어와도 AttributeError로 죽지 않고 정직하게 RED(문제 있음)로 처리한다."""
+    return value if isinstance(value, dict) else None
+
+
 def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
                        status_doc=None, promotion_cards_doc=None,
                        candidate_generation=None, today=None):
     """전체 알림(제목·본문·레벨·marker)을 결정론적으로 만든다. 순수 함수."""
+    status_doc = _as_dict_or_none(status_doc)
+    promotion_cards_doc = _as_dict_or_none(promotion_cards_doc)
     level = decide_level(job_failed=job_failed, status_doc=status_doc,
                          promotion_cards_doc=promotion_cards_doc)
     title = build_title(level, today=today)

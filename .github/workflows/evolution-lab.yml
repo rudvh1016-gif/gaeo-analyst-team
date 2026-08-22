@@ -174,40 +174,47 @@ jobs:
           OWNER: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
+          # ⚠️ GitHub Actions 스텝 outcome은 success/failure/cancelled/skipped
+          # 4가지다. "failure"만 검사하면 이 job의 timeout-minutes(20분) 초과나
+          # 사람이 Actions 화면에서 수동 취소한 경우(outcome=cancelled)를 놓쳐서
+          # stale status.json으로 거짓 🟢 GREEN 보고가 재발한다(독립 QA 감사
+          # HIGH, 2026-08-23 발견·수리 — 원래 HIGH와 증상 동일, 트리거만 다름).
+          is_bad() { [ "$1" = "failure" ] || [ "$1" = "cancelled" ]; }
           FAILED_STEP=""
-          if [ "$OUTCOME_CHECKOUT" = "failure" ]; then
+          if is_bad "$OUTCOME_CHECKOUT"; then
             FAILED_STEP="Checkout"
-          elif [ "$OUTCOME_SETUP_PYTHON" = "failure" ]; then
+          elif is_bad "$OUTCOME_SETUP_PYTHON"; then
             FAILED_STEP="setup-python"
-          elif [ "$OUTCOME_INSTALL_DEPS" = "failure" ]; then
+          elif is_bad "$OUTCOME_INSTALL_DEPS"; then
             FAILED_STEP="암호화 라이브러리 설치"
-          elif [ "$OUTCOME_CONTRACT_TESTS" = "failure" ]; then
+          elif is_bad "$OUTCOME_CONTRACT_TESTS"; then
             FAILED_STEP="Harness contract tests"
-          elif [ "$OUTCOME_RUN_LAB" = "failure" ]; then
+          elif is_bad "$OUTCOME_RUN_LAB"; then
             FAILED_STEP="Run deterministic evolution lab"
-          elif [ "$OUTCOME_ALLOWLIST" = "failure" ]; then
+          elif is_bad "$OUTCOME_ALLOWLIST"; then
             FAILED_STEP="Enforce commit allowlist"
-          elif [ "$OUTCOME_VERIFY_CONFIG" = "failure" ]; then
+          elif is_bad "$OUTCOME_VERIFY_CONFIG"; then
             FAILED_STEP="Verify production_config change is deactivation-only"
-          elif [ "$OUTCOME_COMMIT" = "failure" ]; then
+          elif is_bad "$OUTCOME_COMMIT"; then
             FAILED_STEP="Commit allowlisted results"
           fi
           JOB_FAILED="false"
           if [ -n "$FAILED_STEP" ]; then JOB_FAILED="true"; fi
           echo "판정 — 실패단계:[$FAILED_STEP] job_failed=$JOB_FAILED" 1>&2
 
-          # checkout 자체가 실패하면 저장소 파일(gaeo_evolution 패키지)이 없어
-          # 아래 python -m 호출이 통째로 실패할 수 있다. 그 경우에도 "이슈 0개"가
-          # 되면 안 되므로(독립 QA 감사 MEDIUM), 저장소 파일 없이도 만들 수 있는
-          # 최소 폴백 알림을 fallback으로 생성한다.
+          # notification.py 호출 자체가 실패하는 경우는 최소 두 가지다 — ①checkout
+          # 자체가 실패해 저장소 파일(gaeo_evolution 패키지)이 없는 경우 ②상태
+          # 파일은 있지만 형식이 손상된 경우(독립 QA 감사 LOW). 원인이 무엇이든
+          # "이슈 0개"가 되면 안 되므로(독립 QA 감사 MEDIUM), 저장소 파일 없이도
+          # 만들 수 있는 최소 폴백 알림을 생성한다 — 문구는 원인을 단정하지 않는다.
           if python3 -m gaeo_evolution.notification build \
               --owner "$OWNER" --run-id "$RUN_ID" --run-url "$RUN_URL" \
               --job-failed "$JOB_FAILED" --failed-step "$FAILED_STEP" \
               --out /tmp/gaeo_notify.json; then
             :
           else
-            echo "notification.py 호출 실패(저장소 체크아웃 문제 등으로 추정) — 최소 폴백 알림 생성" 1>&2
-            FAILED_STEP_FALLBACK="${FAILED_STEP:-알 수 없음(초기 단계 실패로 상세 파악 불가)}" \
+            echo "notification.py 호출 실패(체크아웃 문제 또는 상태 파일 손상 등으로 추정) — 최소 폴백 알림 생성" 1>&2
+            FAILED_STEP_FALLBACK="${FAILED_STEP:-알 수 없음(초기 단계 실패 또는 상태 파일 손상으로 상세 파악 불가)}" \
             python3 -c "
           import datetime, json, os
           owner = os.environ['OWNER']; run_id = os.environ['RUN_ID']; run_url = os.environ['RUN_URL']
@@ -216,8 +223,8 @@ jobs:
           today = datetime.datetime.now(KST).date().isoformat()
           marker = f'gaeo-evolution-run:{run_id}'
           body = (f'@{owner}\n\n'
-                  '이번 Evolution 실행 자체가 초기 단계에서 실패해 평소 보고에 필요한 '
-                  '저장소 파일(gaeo_evolution 모듈)을 읽지 못했습니다.\n\n'
+                  '이번 Evolution 실행 결과를 평소 방식으로 보고하지 못했습니다 '
+                  '(초기 단계 실패 또는 상태 파일 손상 추정).\n\n'
                   f'- 실패 단계: {failed_step}\n'
                   '- 오류 종류: 측정값 없음 (자세한 내용은 GitHub Actions 로그 확인)\n'
                   '- Production 자동승격: 없음\n- 대표 확인 필요: 예\n\n'
