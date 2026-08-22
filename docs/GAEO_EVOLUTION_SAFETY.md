@@ -34,6 +34,12 @@
 | 수동전용 tier(ORANGE) 자동 승격 | riskTiers.autoShadow/applyMode를 Gate·러너가 코드로 집행 | test_manual_only_tier_cannot_auto_qualify |
 | QUALIFIED/PRODUCTION으로 '태어나는' 후보 | 신규 등록 초기 상태를 RESEARCH_DRAFT/BOOTSTRAP_SHADOW로 제한 | test_candidate_cannot_be_born_qualified_or_production |
 | 롤백 기준선이 늦게 잡히는 문제 | 사람 승인 순간의 성적표를 productionBaselineMetrics로 동결 | test_approval_freezes_baseline_metrics_at_approval_time |
+| **(2차)** status만 PRODUCTION, 실제 판단은 옛 설정 | Production Config Adapter — 승인=원자 적용+fixture 검증, 불일치는 DEGRADED로 감지 | ProductionWiringTest(A~G) |
+| '장부만 롤백'(실제 config 미복원) | execute_rollback이 previousStable을 실제 복원+판단 복구 검증, 실패 시 SAFE_MODE·후보 상태 유지 | test_EF·test_rollback_failure_is_safe_mode |
+| 40일 전 동결 Champion만 이기고 승격 | realGainPp(실전 Champion 대비) ≥ 0 + 실전 대비 하위그룹 보호(fail closed) + 구성 세그먼트 분리 | ContemporaryChampionGateTest |
+| 자동 런타임이 override를 활성화(자동 승격 경로) | production_config 커밋은 '해제/복원' 방향만 허용(is_auto_change_safe, workflow FAIL CLOSED) | test_auto_change_guard_blocks_activation |
+| status mode 고정·오류의 OK 위장 | mode를 실제 상태로 계산, DEGRADED/SAFE_MODE 표면화, lastPromotion은 실제 이벤트만 | StatusModeTest |
+| workflow silent commit failure | `\|\| true`/`\|\| exit 0` 제거, set -euo pipefail, no-op만 명시적 성공 | test_no_silent_commit_failure |
 
 ## 기존 승격 바닥값 (실코드에서 가져옴 — 낮추지 않음)
 

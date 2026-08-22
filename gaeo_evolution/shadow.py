@@ -8,9 +8,10 @@
 
 공정 비교 원칙:
   · Challenger 판단은 leakage.decision_view(결과 필드 물리 제거)로만 계산한다.
-  · Champion도 같은 시뮬 함수로 재판정한 champSim을 함께 기록해, Gate 비교는
-    "같은 함수 · 같은 입력"의 champSim vs challenger로 한다(완전 대칭).
-    실전 기록 그대로의 champReal도 투명성을 위해 같이 남긴다(참고용).
+  · Champion은 두 기준으로 본다 — 둘 다 Gate 판정에 실제로 쓰인다(2차 수리):
+    (1) champSim: 같은 시뮬 함수로 재판정한 동결 기준(완전 대칭 비교),
+    (2) champReal: 그날그날 실제 Production 판단(Contemporary Champion) —
+        realGainPp·실전 대비 하위그룹 보호의 근거. 후보는 둘 다 이겨야 한다.
   · Candidate 생성일(shadowStartDay) '이후' 판단일만 증거로 인정한다 —
     생성 전 데이터를 Shadow로 소급 생성하는 것은 코드가 거부한다.
   · 결과(outcome)는 판단일 이후 5번째 거래일 종가로만 성숙 처리하고,
@@ -156,6 +157,11 @@ def append_rows(led, rows):
             "champReal": source.get("call"),
             "champSim": champ["call"], "champSimTotal": champ["total"],
             "chall": c["call"], "challTotal": c["total"],
+            # 🏷️ '그 판단이 나온 날'의 Production 구성 — append 실행 시점이 아니라
+            #    행 단위 각인(history의 productionConfigVersion)을 쓴다.
+            #    2차 감사(M-1): append 시점 각인은 구성 변경 직후 최대 5거래일의
+            #    구-구성 행을 새 세그먼트로 오염시켰다.
+            "pcv": source.get("pcv") or "base",
             "ret5": None, "outcomeDate": None,
         })
         added += 1
@@ -244,21 +250,31 @@ def prospective_metrics(led, closes=None):
                 f"{row.get('code')} {row.get('day')} — 소급 기록 금지")
     if not matured:
         return None
+    # Production 구성이 Shadow 기간 중 바뀌었다면(pcv 혼재) 증거를 섞지 않는다 —
+    # 최신 구성 세그먼트만 평가하고, 이전 구성 행 수를 함께 보고한다.
+    versions_seen = sorted({r.get("pcv") or "base" for r in matured})
+    latest_pcv = (sorted(matured, key=lambda r: r["day"])[-1].get("pcv")) or "base"
+    segment = [r for r in matured if (r.get("pcv") or "base") == latest_pcv]
+    dropped_other_config = len(matured) - len(segment)
+    matured = segment
     days = sorted({r["day"] for r in matured})
     regimes = build_market_regimes(closes) if closes else {}
     regime_of = {d: (regimes.get(d) or {}).get("key") for d in days}
 
     chall_prec, chall_action_n = _precision(matured, "chall")
     champ_prec, champ_action_n = _precision(matured, "champSim")
-    real_prec, _ = _precision(matured, "champReal")
+    real_prec, real_action_n = _precision(matured, "champReal")
     buy_prec_chall, buy_n = _precision(matured, "chall", want=("BUY",))
     buy_prec_champ, _ = _precision(matured, "champSim", want=("BUY",))
+    buy_prec_real, _ = _precision(matured, "champReal", want=("BUY",))
     sell_prec_chall, sell_n = _precision(matured, "chall", want=("SELL",))
     sell_prec_champ, _ = _precision(matured, "champSim", want=("SELL",))
+    sell_prec_real, _ = _precision(matured, "champReal", want=("SELL",))
     chall_brier = _brier(matured, "challTotal")
     champ_brier = _brier(matured, "champSimTotal")
     chall_large = _large_error_pct(matured, "chall")
     champ_large = _large_error_pct(matured, "champSim")
+    real_large = _large_error_pct(matured, "champReal")
 
     direction = {"BUY": sum(1 for r in matured if r["chall"] == "BUY"),
                  "SELL": sum(1 for r in matured if r["chall"] == "SELL")}
@@ -284,17 +300,25 @@ def prospective_metrics(led, closes=None):
     day_mean_gain = _day_delta(days)
 
     # 시장국면별 최악 악화폭 — 국면당 행동표본 10건 이상인 국면만 신뢰해 계산.
+    # champSim(동결 기준)과 champReal(그날 실제 Production) 두 기준 모두 계산한다.
     regime_worst = None
+    regime_worst_real = None
     regime_detail = {}
     for key in sorted({v for v in regime_of.values() if v}):
         rows_r = [r for r in matured if regime_of.get(r["day"]) == key]
         c, cn = _precision(rows_r, "chall")
         b, bn = _precision(rows_r, "champSim")
+        real_p, rn = _precision(rows_r, "champReal")
         if c is not None and b is not None and min(cn, bn) >= 10:
             delta = round(c - b, 2)
             regime_detail[key] = {"deltaPp": delta, "challN": cn, "champN": bn}
             if regime_worst is None or delta < regime_worst:
                 regime_worst = delta
+            if real_p is not None and rn >= 10:
+                delta_r = round(c - real_p, 2)
+                regime_detail[key]["deltaRealPp"] = delta_r
+                if regime_worst_real is None or delta_r < regime_worst_real:
+                    regime_worst_real = delta_r
 
     return {
         "n": len(matured),
@@ -314,6 +338,7 @@ def prospective_metrics(led, closes=None):
                                    if day_mean_gain is not None else None),
         "realGainPp": (round(chall_prec - real_prec, 2)
                        if chall_prec is not None and real_prec is not None else None),
+        "realActionN": real_action_n,   # 실전 Champion 쪽 채점된 행동표본(극소표본 방지)
         "precisionGainCi95": ci,
         "brierGain": (round(champ_brier - chall_brier, 4)
                       if champ_brier is not None and chall_brier is not None else None),
@@ -326,8 +351,22 @@ def prospective_metrics(led, closes=None):
         "largeErrorDeltaPp": (round(chall_large - champ_large, 2)
                               if chall_large is not None and champ_large is not None else None),
         "regimeWorstDeltaPp": regime_worst,
+        # 실전(Contemporary) Champion 대비 — 그날그날 실제 Production 판단과의 짝비교.
+        "buyPrecisionDeltaRealPp": (round(buy_prec_chall - buy_prec_real, 2)
+                                    if buy_prec_chall is not None and buy_prec_real is not None
+                                    else None),
+        "sellPrecisionDeltaRealPp": (round(sell_prec_chall - sell_prec_real, 2)
+                                     if sell_prec_chall is not None and sell_prec_real is not None
+                                     else None),
+        "largeErrorDeltaRealPp": (round(chall_large - real_large, 2)
+                                  if chall_large is not None and real_large is not None else None),
+        "regimeWorstDeltaRealPp": regime_worst_real,
         "regimeDetail": regime_detail,
-        "comparisonBasis": "champSim vs challenger — 같은 시뮬 함수·같은 입력(완전 대칭)",
+        "comparisonBasis": ("champSim vs challenger(동결 기준·완전 대칭) + "
+                            "champReal vs challenger(그날 실제 Production·짝비교)"),
+        "productionConfigVersions": versions_seen,
+        "configSegmentUsed": latest_pcv,
+        "configSegmentDroppedRows": dropped_other_config,
         "shadowStartDay": led.get("shadowStartDay"),
         "windowStart": days[0], "windowEnd": days[-1],
     }

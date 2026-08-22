@@ -82,6 +82,12 @@ def _entry_from(a, when):
     for _k in ("rawTotal", "riskPenalty"):
         if chief.get(_k) is not None:
             entry[_k] = chief[_k]
+    # 🏷️ 2026-08-22: Evolution Production override가 활성일 때만 남는 각인(additive).
+    #    "어느 구성(config)이 만든 판단인가"를 나중에 정확히 구분해 채점하기 위한 것.
+    #    ⛔ 값이 없으면 키를 만들지 않는다(기존 기록 모양 보존).
+    for _k in ("productionConfigVersion", "evolutionCandidateId", "evolutionParamHash"):
+        if chief.get(_k) is not None:
+            entry[_k] = chief[_k]
     # 결측 축 때문에 가중치가 재정규화된 날에만 남긴다(축 가중합 ≠ rawTotal의 사유).
     if chief.get("weightRenormalized"):
         entry["weightRenormalized"] = True

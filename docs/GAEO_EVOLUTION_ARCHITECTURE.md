@@ -17,6 +17,21 @@
 수리 후에도 자동 런타임의 종점은 QUALIFIED_AWAITING_APPROVAL — Production 반영은
 사람(대표) 승인 명령(registry.approve_production)으로만 가능하다.
 
+## 2026-08-22 2차 독립 감사 수리 (승인·롤백의 '실제 적용' 배선)
+
+| # | 감사 발견 | 수리 내용 |
+|---|---|---|
+| 1 | **CRITICAL** — approve_production이 status만 PRODUCTION으로 적고, candidate parameterChanges가 실제 analyze_auto 판단에 적용되는 연결이 부재 | **Production Config Adapter**(`gaeo_evolution/production_config.py` + `production_config.json`) 신설. analyze_auto가 `_evolution_overrides()`로 GREEN 선언 파라미터(weights/buyCut)만 layered로 읽는다. override 없으면 100% 기존 동작(파일을 지워도 무해). team_weights.js는 덮어쓰지 않는다(재생성돼도 계약 유지) |
+| 2 | 승인 절차가 원자적이지 않음, previousStable을 호출자가 임의 전달 | approve_production을 8단계 원자 절차로 재구성: 상태·fingerprint·Constitution 재검증 → **코드가 직접** 현재 설정 Snapshot → previousStable/성적표 동결 → 원자 적용 → 재읽기 검증 → 실제 분석 fixture 검증 → 전부 성공 시에만 PRODUCTION 기록(기록 실패 시 config 자동 원복) |
+| 3 | **CRITICAL** — execute_rollback이 상태·지시서만 기록, 실제 config 미복원 | 롤백이 previousStable을 **실제로 원자 복원**(재읽기+fixture 검증)하고, 성공 시에만 ROLLED_BACK 확정. 복원 실패 시 후보 상태 유지+SAFE_MODE(가장 최근 안정 설정 보존) |
+| 4 | 각 판단이 어느 구성에서 나왔는지 구분 불가 | override 활성 시에만 additive 필드 각인: productionConfigVersion·evolutionCandidateId·evolutionParamHash (chief 출력+history). 기존 기록 모양 무변화 |
+| 5 | **HIGH** — 후보가 '40일 전 동결 Champion'만 이기고 승격 가능 | Shadow의 champReal(그날그날 실제 Production 판단)과의 짝비교를 Gate 필수 조건으로: realGainPp ≥ 0 + BUY/SELL/큰오답/국면 실전 대비 하위그룹 보호(fail closed). Shadow 행에 구성버전(pcv) 각인, 구성이 바뀌면 세그먼트 분리(증거 혼합 금지) |
+| 6 | status.mode가 BOOTSTRAP_SHADOW 고정, lastPromotion 항상 null, 오류가 OK로 은폐 | mode를 실제 후보 상태로 계산(ACTIVE_SHADOW/AWAITING_APPROVAL/ACTIVE_PRODUCTION), 실제 승인 이벤트만 lastPromotion, 오류는 DEGRADED/SAFE_MODE로 표면화 |
+| 7 | workflow의 `\|\| true`·`\|\| exit 0`이 git 오류를 성공으로 위장 | no-op(스테이지 없음)과 진짜 git 오류를 분리 — 오류는 워크플로우 FAIL. production_config는 자동 런타임이 '해제/복원' 방향으로만 커밋 가능(is_auto_change_safe 검사, 활성화 커밋 차단) |
+
+승인 명령(대표 전용, Claude Code 세션에서):
+`python3 -c "import sys; sys.path.insert(0,'.'); from gaeo_evolution import registry; registry.approve_production('<candidateId>', '대표')"`
+
 ## 한 장 요약 (전체 흐름)
 
 ```
@@ -90,6 +105,7 @@ gaeo_evolution/
   candidates.py                 결정론 후보 생성+Cheap Filter
   gate.py                       Promotion Gate·Rollback·Circuit Breaker
   shadow.py                     ⭐ 실전 Shadow 기록기(champ/chall 병행, 2026-08-22)
+  production_config.py/.json    ⭐ Production Config Adapter(승인 후보 실제 적용·롤백 복원)
   memory.py                     경험 저장(암호화, Key 없으면 상세 생략)
   context_builder.py            정밀분석용 compact 컨텍스트(내부용)
   status.py                     공개 상태 파일

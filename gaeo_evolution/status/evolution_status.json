@@ -1,9 +1,9 @@
 {
  "schemaVersion": 1,
- "generatedAt": "2026-08-22T07:23:10+00:00",
+ "generatedAt": "2026-08-22T12:17:40+00:00",
  "mode": "BOOTSTRAP_SHADOW",
  "productionVersion": "base-2026-08-15-parity-hotfix",
- "lastEvaluationAt": "2026-08-22T07:23:10+00:00",
+ "lastEvaluationAt": "2026-08-22T12:17:40+00:00",
  "baselineSummary": {
   "n": 0,
   "uniqueDays": 0,
@@ -14,7 +14,8 @@
   "buyPrecisionPct": null,
   "sellPrecisionPct": null,
   "recordSelection": "forward_record_only_v2",
-  "modelVersions": []
+  "modelVersions": [],
+  "productionConfigVersion": "base"
  },
  "candidateCounts": {},
  "memory": {
@@ -35,6 +36,7 @@
  "lastRollback": null,
  "systemHealth": "OK",
  "safeModeReasons": [],
+ "degradedReasons": [],
  "llmUsageKnown": false,
  "costKnown": false,
  "claim": "GAEO는 실제 결과를 지속적으로 평가하고, 검증된 개선만 반영하도록 설계되어 있다. 적중률이 저절로 오른다는 보장은 없다.",
