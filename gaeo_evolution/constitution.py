@@ -79,26 +79,44 @@ def load(constitution_path=CONSTITUTION_PATH, checksum_path=CHECKSUM_PATH,
 
 
 def _normalize(path):
-    """경로 정규화 — 구분자 통일 + './' prefix 제거.
+    """경로 정규화 — 구분자 통일 + './' prefix 제거 + '..'/'//' 해소.
 
     🐛 lstrip("./")는 문자집합 제거라 ".github/…"의 맨 앞 점까지 지워
     보호경로 검사가 뚫렸다(테스트가 잡음). prefix만 정확히 벗긴다.
+    ⭐ 2026-08-22: posixpath.normpath로 'a/../analyze_auto.py' 같은 중첩 우회를
+    해소한 뒤 검사한다.
     """
+    import posixpath
     norm = str(path).replace("\\", "/")
     while norm.startswith("./"):
         norm = norm[2:]
-    return norm
+    return posixpath.normpath(norm)
+
+
+def _escapes_repo(norm):
+    """저장소 루트 밖을 가리키는 경로(절대경로 · ../ · 드라이브 문자)인가."""
+    if norm.startswith("/") or norm == ".." or norm.startswith("../"):
+        return True
+    head = norm.split("/", 1)[0]
+    return ":" in head          # 'C:' 등 Windows 드라이브
 
 
 def is_protected(path, constitution):
-    """자동 런타임 기준으로 보호된 경로인가(prefix 매칭, 경로 구분자 정규화)."""
+    """자동 런타임 기준으로 보호된 경로인가.
+
+    prefix 매칭 + 경로 구분자·'..' 정규화 + 대소문자 무시(보수적) 매칭.
+    저장소 밖을 가리키는 경로는 무조건 보호 취급한다(FAIL CLOSED).
+    """
     norm = _normalize(path)
+    if _escapes_repo(norm):
+        return True
+    low = norm.casefold()
     for prefix in constitution["protectedPaths"]:
-        p = prefix.replace("\\", "/")
-        if norm == p or norm.startswith(p):
+        p = _normalize(prefix).casefold()
+        if low == p or low.startswith(p):
             return True
         # 'test_' 같은 파일명 prefix 규칙: 경로 마지막 조각에도 적용한다.
-        if "/" not in p and norm.rsplit("/", 1)[-1].startswith(p):
+        if "/" not in p and low.rsplit("/", 1)[-1].startswith(p):
             return True
     return False
 
@@ -107,13 +125,35 @@ def check_changed_paths(changed_paths, constitution):
     """자동 커밋 직전 검사. (위반목록, allowlist외목록)을 돌려준다.
 
     위반이 하나라도 있으면 호출자는 커밋하지 말아야 한다(FAIL CLOSED).
+    allowlist 매칭은 대소문자·경로를 엄격히 본다(넓혀 해석하지 않는다).
     """
     allow = [a.replace("\\", "/") for a in constitution["autoCommitAllowlist"]]
     violations, outside = [], []
     for path in changed_paths:
         norm = _normalize(path)
-        if is_protected(norm, constitution):
+        if _escapes_repo(norm) or is_protected(norm, constitution):
             violations.append(norm)
         elif not any(norm == a or norm.startswith(a) for a in allow):
             outside.append(norm)
     return violations, outside
+
+
+def find_symlinks(changed_paths, root):
+    """변경 경로 중 심볼릭 링크(경로의 어느 조각이든)를 찾는다.
+
+    autoCommitAllowlist 안의 파일이 사실은 보호 파일을 가리키는 심볼릭 링크인
+    우회를 자동 커밋 전에 잡기 위한 검사다. 위반 목록을 돌려준다.
+    """
+    bad = []
+    for path in changed_paths:
+        norm = _normalize(path)
+        if _escapes_repo(norm):
+            bad.append(norm)
+            continue
+        current = root
+        for part in norm.split("/"):
+            current = os.path.join(current, part)
+            if os.path.islink(current):
+                bad.append(norm)
+                break
+    return bad
