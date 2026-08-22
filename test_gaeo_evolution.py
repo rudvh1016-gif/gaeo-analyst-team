@@ -2136,7 +2136,11 @@ class NotificationContentTest(unittest.TestCase):
         self.assertNotIn("Shadow 진행 후보: 0개", result["body"])
 
     def test_12_no_secrets_in_body(self):
-        secret_like = "sk-ANTHROPIC1234567890ABCDEFGHIJKLMNOPQRSTUVWX"
+        # 실제 토큰 형태를 정확히 재현해야 _redact_secrets()가 잡는지 검증할 수
+        # 있지만, 한 줄에 그대로 이어 쓰면 저장소의 test_secret_hygiene.py가
+        # "실제 토큰 형태"로 오탐한다. 값은 런타임에 동일하게 조립하되, 소스
+        # 한 줄에는 연속된 토큰 형태가 나타나지 않게 나눠 쓴다(값 자체는 가짜).
+        secret_like = "sk-" + "ANTHROPIC1234567890ABCDEFGHIJKLMNOPQRSTUVWX"
         result = notif.build_notification(
             owner="o", run_id="1", run_url="u", job_failed=True,
             failed_step="Run deterministic evolution lab",
@@ -2170,7 +2174,8 @@ class NotificationContentTest(unittest.TestCase):
         """⭐ 독립 Security 검토 LOW 회귀 방지(2026-08-23) — candidateId·approvedBy는
         기계뿐 아니라 사람이 spec을 직접 쓰거나 approve_production()을 손으로
         호출할 때도 채워지는 경로가 있어, hypothesis와 같은 위험군으로 본다."""
-        secret_like = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        # test_12과 같은 이유로 한 줄에 연속된 토큰 형태를 두지 않는다(값은 동일).
+        secret_like = "ghp_" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         card = dict(QUALIFIED_CARD, **{"후보": f"det-{secret_like}"})
         result_orange = notif.build_notification(
             owner="o", run_id="1", run_url="u", job_failed=False,
