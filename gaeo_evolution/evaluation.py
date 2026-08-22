@@ -169,6 +169,9 @@ def build_rows(history, closes, horizon=5, model_versions=None):
                    "rawTotal": entry.get("rawTotal"), "riskPenalty": entry.get("riskPenalty"),
                    "sellThreshold": rebound.get("sellThreshold"),
                    "modelVersion": version,
+                   # 판단이 '어느 Production 구성'에서 나왔는지 — override가 활성일 때만
+                   # history에 각인되므로, 없으면 base다(Shadow 세그먼트 분리용).
+                   "pcv": entry.get("productionConfigVersion") or "base",
                    "ret5": ret, "outcomeDate": out_date}
             for analyst in ANALYSTS:
                 item = entry.get(analyst) or {}
@@ -341,17 +344,21 @@ def simulate_candidate(rows, weights=None, buy_cut=BUY_CUT_BASELINE):
             w = weights or {a: 0.25 for a in ANALYSTS}
             tot_w = sum(w.values())
             raw = sum(scores[a] * w[a] for a in ANALYSTS) / tot_w
+            # ⭐ 2차 감사(M-2) 수리: chief_eval의 clamp(정수 반올림, 5~95)를 그대로
+            #    재현한다 — 시험한 함수와 배포되는 함수의 경계 처리가 같아야
+            #    "시험한 그대로 반영"이 성립한다(양쪽 시뮬에 동일 적용 = 대칭 유지).
+            raw = int(max(5, min(95, round(raw))))
             # 그날 실전이 적용한 위험감점을 그대로 쓴다(재추정 금지).
             penalty = 0.0
             if d.get("rawTotal") is not None and d.get("total") is not None:
                 penalty = float(d["rawTotal"]) - float(d["total"])
-            total = max(5, min(95, raw - penalty))
+            total = int(max(5, min(95, round(raw - penalty))))
             sell_cut = d.get("sellThreshold")
             sell_cut = float(sell_cut) if sell_cut is not None else SELL_CUT_FALLBACK
             call = "BUY" if total >= buy_cut else ("HOLD" if total >= sell_cut else "SELL")
             sim = dict(row)
             sim["call"] = call
-            sim["total"] = round(total, 1)
+            sim["total"] = total
             sim["simulatedBy"] = OFFLINE_SEMANTICS
             out.append(sim)
     return out

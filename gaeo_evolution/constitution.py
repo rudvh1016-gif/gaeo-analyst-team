@@ -125,15 +125,27 @@ def check_changed_paths(changed_paths, constitution):
     """자동 커밋 직전 검사. (위반목록, allowlist외목록)을 돌려준다.
 
     위반이 하나라도 있으면 호출자는 커밋하지 말아야 한다(FAIL CLOSED).
-    allowlist 매칭은 대소문자·경로를 엄격히 본다(넓혀 해석하지 않는다).
+    allowlist 매칭은 대소문자·경로를 엄격히 본다(넓혀 해석하지 않는다):
+      · '…/'로 끝나는 항목 = 그 디렉터리 아래만(prefix)
+      · 그 외 항목 = 정확히 그 파일만(*.tmp·*.bak 같은 접미 파일 불허)
     """
     allow = [a.replace("\\", "/") for a in constitution["autoCommitAllowlist"]]
     violations, outside = [], []
+
+    def _allowed(norm):
+        for a in allow:
+            if a.endswith("/"):
+                if norm.startswith(a):
+                    return True
+            elif norm == a:
+                return True
+        return False
+
     for path in changed_paths:
         norm = _normalize(path)
         if _escapes_repo(norm) or is_protected(norm, constitution):
             violations.append(norm)
-        elif not any(norm == a or norm.startswith(a) for a in allow):
+        elif not _allowed(norm):
             outside.append(norm)
     return violations, outside
 
