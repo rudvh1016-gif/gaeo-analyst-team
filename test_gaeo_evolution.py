@@ -2271,15 +2271,25 @@ class NotificationEarlyStepFailureTest(unittest.TestCase):
         실행한다 — 예전처럼 '동치 로직을 손으로 다시 씀'으로는 이 버그를
         다시 놓칠 수 있기 때문이다.
         """
-        import yaml
         import subprocess
-        import tempfile
 
-        wf = yaml.safe_load(open(os.path.join(HERE, ".github", "workflows",
-                                              "evolution-lab.yml"), encoding="utf-8"))
-        steps = wf["jobs"]["lab"]["steps"]
-        notify_step = next(s for s in steps if s.get("id") == "notify_build")
-        script = notify_step["run"]
+        # PyYAML은 이 저장소 CI 러너에 설치돼 있지 않다(requirements.txt를 두지
+        # 않는 게 저장소 방침) — YAML 파서 없이 notify_build 스텝의 `run: |`
+        # 블록 스칼라를 텍스트로 직접 잘라낸다. 이 워크플로우의 들여쓰기는
+        # 고정(스텝 8칸, run 블록 본문 10칸)이라 안전하게 잘라낼 수 있다.
+        wf = open(os.path.join(HERE, ".github", "workflows",
+                               "evolution-lab.yml"), encoding="utf-8").read()
+        id_idx = wf.index("id: notify_build")
+        run_marker = "\n        run: |\n"
+        run_idx = wf.index(run_marker, id_idx)
+        body_start = run_idx + len(run_marker)
+        lines = []
+        for line in wf[body_start:].splitlines(keepends=True):
+            if line.strip() == "" or line.startswith(" " * 10):
+                lines.append(line)
+            else:
+                break
+        script = "".join(lines)
 
         with tempfile.TemporaryDirectory() as tmp:
             gh_output = os.path.join(tmp, "github_output")
@@ -2361,14 +2371,17 @@ class NotificationSensitiveFileTest(unittest.TestCase):
         self.assertIn("if: always()", wf[idx2:idx2 + 300])
 
     def test_permissions_least_privilege(self):
-        import yaml
-        wf = yaml.safe_load(open(os.path.join(HERE, ".github", "workflows",
-                                              "evolution-lab.yml"), encoding="utf-8"))
-        perms = wf["permissions"]
-        self.assertEqual(perms.get("contents"), "write")
-        self.assertEqual(perms.get("issues"), "write")
-        for bad in ("admin", "actions", "packages", "deployments"):
-            self.assertNotIn(bad, perms)
+        # PyYAML은 이 저장소 CI 러너에 설치돼 있지 않다(requirements.txt를 두지
+        # 않는 게 저장소 방침) — 파싱 없이 permissions: 블록만 텍스트로 잘라 확인한다.
+        wf = open(os.path.join(HERE, ".github", "workflows",
+                               "evolution-lab.yml"), encoding="utf-8").read()
+        start = wf.index("\npermissions:\n") + 1
+        end = wf.index("\njobs:\n", start)
+        perms_block = wf[start:end]
+        self.assertIn("contents: write", perms_block)
+        self.assertIn("issues: write", perms_block)
+        for bad in ("admin:", "actions:", "packages:", "deployments:"):
+            self.assertNotIn(bad, perms_block)
 
     def test_workflow_does_not_use_external_notification_services(self):
         wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
