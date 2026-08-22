@@ -117,17 +117,22 @@ def build_title(level, today=None):
 
 
 def _summarize_event(event, kind):
-    """lastPromotion/lastRollback dict를 사람이 읽을 한 줄로 — 실측 필드만 쓴다."""
+    """lastPromotion/lastRollback dict를 사람이 읽을 한 줄로 — 실측 필드만 쓴다.
+
+    candidateId/approvedBy는 기계가 아니라 사람이 spec을 직접 쓰거나
+    승인 명령을 손으로 실행할 때 채워지는 경로도 있어(독립 Security 검토
+    LOW, 2026-08-23) hypothesis와 같은 위험군으로 보고 _truncate(Secret
+    패턴 마스킹 포함)를 거치게 한다."""
     if not event:
         return "없음"
     if kind == "promotion":
-        return (f"{event.get('candidateId', '측정값 없음')} "
-                f"(승인: {event.get('approvedBy', '측정값 없음')}, "
+        return (f"{_truncate(event.get('candidateId', '측정값 없음'))} "
+                f"(승인: {_truncate(event.get('approvedBy', '측정값 없음'))}, "
                 f"{event.get('promotedAt', '측정값 없음')})")
     # rollback
     reasons = event.get("reasons") or []
     reason_text = "; ".join(_truncate(r) for r in reasons[:3]) or "측정값 없음"
-    return f"{event.get('candidateId', '측정값 없음')} — 사유: {reason_text}"
+    return f"{_truncate(event.get('candidateId', '측정값 없음'))} — 사유: {reason_text}"
 
 
 def build_green_body(*, owner, status_doc, candidate_generation):
@@ -168,7 +173,7 @@ def _card_block(card):
         return card.get(key, default)
 
     lines = [
-        f"### Candidate: {g('후보')}",
+        f"### Candidate: {_truncate(g('후보'))}",
         f"- Experiment Serial: {g('실험번호')}",
         f"- 변경 내용(가설): {_truncate(g('가설'))}",
         f"- Candidate fingerprint: `{meta.get('fingerprint') or '측정값 없음'}`",
