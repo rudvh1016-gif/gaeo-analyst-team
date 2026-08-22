@@ -76,9 +76,13 @@ def promotion_decision(candidate, prospective, constitution, param_history=None)
 
     prospective: 실전 Shadow 실측(shadow.prospective_metrics, 없으면 None) —
       {"n","actionN","testDays","testRegimes","buyN","sellN",
-       "precisionGainPp","precisionGainCi95","brierGain","coveragePct",
-       "directionSharePct","buyPrecisionDeltaPp","sellPrecisionDeltaPp",
-       "largeErrorDeltaPp","regimeWorstDeltaPp"}
+       "precisionGainPp","precisionGainDayMeanPp","precisionGainCi95",
+       "brierGain","coveragePct","directionSharePct",
+       "buyPrecisionDeltaPp","sellPrecisionDeltaPp","largeErrorDeltaPp",
+       "regimeWorstDeltaPp",
+       # 실전(Contemporary) Champion 대비 — 전부 승격 필수 조건(fail closed):
+       "realGainPp","realActionN","buyPrecisionDeltaRealPp",
+       "sellPrecisionDeltaRealPp","largeErrorDeltaRealPp","regimeWorstDeltaRealPp"}
     반환: (verdict, reasons)
     """
     floor = constitution["promotionFloor"]
@@ -161,6 +165,28 @@ def promotion_decision(candidate, prospective, constitution, param_history=None)
     if "maxRegimeWorstDropPp" in floor:
         guard_min("regimeWorstDeltaPp", -float(floor["maxRegimeWorstDropPp"]),
                   "시장국면별 최악 악화폭(%p)")
+
+    # ── 실전(Contemporary) Champion 보호 — 2026-08-22 2차 감사 수리 ──────────
+    # 후보는 '동결된 40일 전 기준'만 이겨서는 안 된다. Shadow 기간의 그날그날
+    # 실제 Production 판단(champReal — 그날의 team_weights·업종 오버라이드·가드
+    # 전부 반영)보다도 나빠지면 승격 불가. 실측이 없어도 승격 불가(fail closed).
+    if "minRealGainPp" in floor:
+        need("realGainPp", float(floor["minRealGainPp"]),
+             "실전 Champion 대비 개선폭(%p)")
+        # 실전 쪽도 극소표본 노이즈로 판정하지 않는다(행동표본 최소치 동일 적용).
+        need("realActionN", floor["prospectiveActionN"], "실전 Champion 행동표본")
+        if "maxBuyPrecisionDropPp" in floor:
+            guard_min("buyPrecisionDeltaRealPp", -float(floor["maxBuyPrecisionDropPp"]),
+                      "BUY 정밀도 변화(실전 Champion 대비 %p)")
+        if "maxSellPrecisionDropPp" in floor:
+            guard_min("sellPrecisionDeltaRealPp", -float(floor["maxSellPrecisionDropPp"]),
+                      "SELL 정밀도 변화(실전 Champion 대비 %p)")
+        if "maxLargeErrorRisePp" in floor:
+            guard_max("largeErrorDeltaRealPp", float(floor["maxLargeErrorRisePp"]),
+                      "큰 오답 비율 변화(실전 Champion 대비 %p)")
+        if "maxRegimeWorstDropPp" in floor:
+            guard_min("regimeWorstDeltaRealPp", -float(floor["maxRegimeWorstDropPp"]),
+                      "시장국면별 최악 악화폭(실전 Champion 대비 %p)")
 
     # 복잡한 후보는 같은 개선이라도 더 강한 근거를 요구한다(simpler-first).
     complexity_load = max(
@@ -262,17 +288,29 @@ def rollback_check(current_metrics, baseline_metrics, constitution,
 
 
 def execute_rollback(candidate_id, reasons, baselines_doc=None,
-                     candidates_path=None):
-    """롤백 실집행 — 상태를 ROLLED_BACK(종점)으로 바꾸고 복구 지시서를 만든다.
+                     candidates_path=None, config_path=None):
+    """롤백 실집행 — 실제 Production 설정 복원까지 수행한다(2026-08-22 2차 수리).
 
     코드 revert / force push가 아니라 'previousStable 버전 재선택' 방식이다.
-    Production 반영 자체가 수동(config)이므로, 여기서는:
-      1) 후보를 ROLLED_BACK 종점으로 고정(재승격 불가)
-      2) 복구해야 할 previousStable 버전 정보를 상태 파일에 노출
+      1) production_config를 previousStable로 원자 복원(재읽기 + 실제 분석 경로
+         fixture 검증) — 예전에는 이 단계가 없어 '장부만 롤백'이었다.
+      2) 복원이 성공했을 때만 후보를 ROLLED_BACK 종점으로 고정(재승격 불가)
+      3) 복원 실패면 후보 상태를 바꾸지 않고(다음 실행에서 재시도 가능)
+         safeMode=True 이벤트를 돌려준다 — 호출자는 SAFE_MODE로 전환해야 한다.
     반환: rollback 이벤트 dict(status 파일용).
     """
     import datetime
+    from gaeo_evolution import production_config as pc
     from gaeo_evolution import registry
+    try:
+        restored_active, cfg_doc = pc.rollback_to_previous(
+            "; ".join(str(r) for r in (reasons or []))[:200], config_path=config_path)
+    except Exception as exc:
+        return {"candidateId": candidate_id, "rolledBackAt": None, "reasons": reasons,
+                "safeMode": True,
+                "error": (f"Production 설정 복원 실패({type(exc).__name__}: {exc}) — "
+                          "후보 상태 유지·기존 안정 설정 보존, SAFE_MODE 필요"),
+                "method": "previousStable 버전 재선택(코드 revert 아님)"}
     kwargs = {"path": candidates_path} if candidates_path else {}
     entry = registry.set_status(candidate_id, "ROLLED_BACK", reasons,
                                 extra={"rolledBackAt":
@@ -284,8 +322,11 @@ def execute_rollback(candidate_id, reasons, baselines_doc=None,
         "candidateId": candidate_id,
         "rolledBackAt": entry.get("rolledBackAt"),
         "reasons": reasons,
+        "safeMode": False,
+        "restoredConfigVersion": cfg_doc.get("productionConfigVersion"),
+        "restoredActive": (restored_active or {}).get("candidateId"),
         "restoreTo": baselines_doc.get("previousStable"),
-        "method": "previousStable 버전 재선택(코드 revert 아님)",
+        "method": "previousStable 버전 재선택(코드 revert 아님) + 실제 config 복원 완료",
         "note": "이 후보는 종점(ROLLED_BACK)이며 자동으로 다시 Production에 오를 수 없습니다.",
     }
 

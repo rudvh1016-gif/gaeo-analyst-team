@@ -22,11 +22,21 @@ def write_json(path, doc):
 def build_status(*, mode, production_version, baseline_summary, candidate_counts,
                  memory_aggregate, failure_cluster_count, research_needed,
                  safe_mode_reasons, llm_usage_known=False, cost_known=False,
-                 last_promotion=None, last_rollback=None, notes=None):
+                 last_promotion=None, last_rollback=None, notes=None,
+                 degraded_reasons=None):
+    # 오류를 note에 숨기고 OK로 표시하지 않는다(2026-08-22 2차 수리):
+    #   SAFE_MODE(치명) > DEGRADED(비치명이지만 운영 문제) > OK
+    if safe_mode_reasons:
+        health = "SAFE_MODE"
+    elif degraded_reasons:
+        health = "DEGRADED"
+    else:
+        health = "OK"
     return {
         "schemaVersion": 1,
         "generatedAt": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
-        "mode": mode,                                # BOOTSTRAP_SHADOW | ACTIVE | SAFE_MODE
+        # BOOTSTRAP_SHADOW | ACTIVE_SHADOW | AWAITING_APPROVAL | ACTIVE_PRODUCTION | SAFE_MODE
+        "mode": mode,
         "productionVersion": production_version,
         "lastEvaluationAt": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "baselineSummary": baseline_summary,          # 집계 수치만
@@ -36,8 +46,9 @@ def build_status(*, mode, production_version, baseline_summary, candidate_counts
         "researchNeeded": research_needed,            # /gaeo-evolve 실행이 유용한 상태인가
         "lastPromotion": last_promotion,
         "lastRollback": last_rollback,
-        "systemHealth": ("SAFE_MODE" if safe_mode_reasons else "OK"),
+        "systemHealth": health,
         "safeModeReasons": safe_mode_reasons or [],
+        "degradedReasons": degraded_reasons or [],
         "llmUsageKnown": llm_usage_known,
         "costKnown": cost_known,
         "claim": "GAEO는 실제 결과를 지속적으로 평가하고, 검증된 개선만 반영하도록 설계되어 있다. 적중률이 저절로 오른다는 보장은 없다.",

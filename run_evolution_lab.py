@@ -38,8 +38,31 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from gaeo_evolution import (candidates, constitution as constitution_mod,   # noqa: E402
                             evaluation, failure_miner, gate, manifest as manifest_mod,
-                            memory as memory_mod, registry, shadow as shadow_mod,
-                            status as status_mod)
+                            memory as memory_mod, production_config as prodcfg_mod,
+                            registry, shadow as shadow_mod, status as status_mod)
+
+
+def _compute_mode(by_status):
+    """실제 후보 상태로 mode를 계산한다 — 영원히 BOOTSTRAP_SHADOW로 남지 않게."""
+    if by_status.get("PRODUCTION"):
+        return "ACTIVE_PRODUCTION"
+    if by_status.get("QUALIFIED_AWAITING_APPROVAL"):
+        return "AWAITING_APPROVAL"
+    if by_status.get("SHADOW") or by_status.get("BOOTSTRAP_SHADOW"):
+        return "ACTIVE_SHADOW"
+    return "BOOTSTRAP_SHADOW"
+
+
+def _last_promotion(entries):
+    """실제로 발생한 승인 이벤트만 — 없으면 None."""
+    promoted = [e for e in entries if e.get("promotedAt")]
+    if not promoted:
+        return None
+    latest = max(promoted, key=lambda e: e["promotedAt"])
+    return {"candidateId": latest.get("candidateId"),
+            "promotedAt": latest.get("promotedAt"),
+            "approvedBy": latest.get("approvedBy"),
+            "status": latest.get("status")}
 
 PROMOTION_CARDS_PATH = os.path.join(HERE, "gaeo_evolution", "status", "promotion_cards.json")
 ACTIVE_SHADOW_STATES = ("BOOTSTRAP_SHADOW", "SHADOW", "QUALIFIED_AWAITING_APPROVAL")
@@ -281,6 +304,7 @@ def main():
     # ── 8. Rollback 감시(승격된 후보의 실측 악화) ──────────────────────────
     cand_doc = registry.load_candidates()
     last_rollback = None
+    rollback_safe_errors = []
     for spec in cand_doc["entries"]:
         if spec.get("status") != "PRODUCTION":
             continue
@@ -301,12 +325,37 @@ def main():
             current_metrics, spec["productionBaselineMetrics"], const,
             observation_days=len(post_matured_days))
         if recommend:
+            # 실제 Production 설정 복원까지 수행한다(gate.execute_rollback 내부).
             last_rollback = gate.execute_rollback(spec["candidateId"], why)
+            if last_rollback.get("safeMode"):
+                # 복원 실패 — 잘못된 설정이 남아 있을 수 있다. 치명으로 취급.
+                rollback_safe_errors.append(last_rollback.get("error"))
 
     # ── 9. research_needed — 큰 실패군집이 있는데 결정론 후보가 하나도
     #      살아남지 못했다면, 새 아이디어(Claude 연구)가 필요한 상태다.
     big_clusters = [c for c in report["clusters"] if c["rawN"] >= 30]
     research_needed = bool(big_clusters) and len(survivors) == 0 and split_note["sufficient"]
+
+    # ── 9.5 Production 적용 정합성 + 실제 상태 계산 ────────────────────────
+    cand_doc = registry.load_candidates()
+    totals = registry.experiment_totals(cand_doc)
+    by_status = totals["byStatus"]
+    cfg_health = prodcfg_mod.config_health()
+    degraded_reasons = list(state_errors)
+    if not cfg_health["ok"]:
+        degraded_reasons.append(f"production config: {cfg_health['note']}")
+    prod_ids = {e.get("candidateId") for e in cand_doc["entries"]
+                if e.get("status") == "PRODUCTION"}
+    if prod_ids and cfg_health.get("activeCandidateId") not in prod_ids:
+        degraded_reasons.append(
+            f"불일치: Registry PRODUCTION {sorted(prod_ids)} vs 실제 적용 "
+            f"{cfg_health.get('activeCandidateId')} — status만 PRODUCTION인 상태 금지")
+    if not prod_ids and cfg_health.get("overrideApplied"):
+        degraded_reasons.append(
+            f"불일치: 적용된 override({cfg_health.get('activeCandidateId')})가 있는데 "
+            "PRODUCTION 후보가 없음")
+    safe_reasons_final = list(rollback_safe_errors)   # 롤백 복원 실패 = 치명
+    mode_final = "SAFE_MODE" if safe_reasons_final else _compute_mode(by_status)
 
     # ── 10. Status + Manifest ─────────────────────────────────────────────
     offline_note = ("offline 연구 정상" if split_note["sufficient"]
@@ -318,7 +367,7 @@ def main():
         1 for r in rows if r.get("ret5") is None and
         sum(1 for d in all_days if d > r["day"]) >= 10)
     doc = status_mod.build_status(
-        mode=const["bootstrapPolicy"]["initialState"],
+        mode=mode_final,
         production_version=versions.get("baseModelVersion"),
         baseline_summary={k: baseline[k] for k in
                           ("n", "uniqueDays", "regimeCount", "coveragePct", "brier")}
@@ -326,12 +375,15 @@ def main():
            "buyPrecisionPct": baseline["buy"]["precisionPct"],
            "sellPrecisionPct": baseline["sell"]["precisionPct"],
            "recordSelection": baseline["recordSelection"],
-           "modelVersions": baseline["modelVersions"]},
-        candidate_counts=verdict_counts,
+           "modelVersions": baseline["modelVersions"],
+           "productionConfigVersion": cfg_health.get("productionConfigVersion")},
+        candidate_counts=by_status,
         memory_aggregate=mem_aggregate,
         failure_cluster_count=len(report["clusters"]),
         research_needed=research_needed,
-        safe_mode_reasons=[],
+        safe_mode_reasons=safe_reasons_final,
+        degraded_reasons=degraded_reasons,
+        last_promotion=_last_promotion(cand_doc["entries"]),
         last_rollback=last_rollback,
         notes=[fresh_note, offline_note,
                f"실험 누계: {registry.experiment_totals()['totalExperiments']}회",

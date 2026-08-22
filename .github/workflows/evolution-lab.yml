@@ -58,6 +58,7 @@ jobs:
       - name: Enforce commit allowlist (FAIL CLOSED)
         id: allowlist
         run: |
+          set -euo pipefail
           # untracked(신규 파일 — 예: 새 shadow ledger)까지 포함해 전수 검사한다.
           CHANGED=$(git status --porcelain | awk '{print $NF}')
           echo "changed files:"; echo "$CHANGED"
@@ -84,12 +85,49 @@ jobs:
           print('allowlist OK:', changed)
           "
 
+      # production_config.json은 자동 런타임이 '해제/previousStable 복원' 방향으로만
+      # 바꿀 수 있다 — override 활성화(=자동 승격 경로)는 여기서 차단한다(FAIL CLOSED).
+      - name: Verify production_config change is deactivation-only
+        if: steps.allowlist.outputs.noop == 'false'
+        run: |
+          set -euo pipefail
+          # git 오류와 '변경 없음'을 섞지 않는다 — status 실패는 여기서 즉시 FAIL.
+          PC_CHANGED=$(git status --porcelain -- gaeo_evolution/production_config.json)
+          if [ -n "$PC_CHANGED" ]; then
+            python - <<'PY'
+          import json, subprocess, sys
+          sys.path.insert(0, '.')
+          from gaeo_evolution import production_config as pc
+          try:
+              shown = subprocess.run(
+                  ["git", "show", "HEAD:gaeo_evolution/production_config.json"],
+                  capture_output=True, text=True, check=True).stdout
+              old = json.loads(shown)
+          except subprocess.CalledProcessError:
+              old = None            # 저장소에 아직 없던 파일
+          new = json.load(open("gaeo_evolution/production_config.json"))
+          ok, why = pc.is_auto_change_safe(old, new)
+          print("production_config 자동 변경 검사:", why)
+          sys.exit(0 if ok else 1)
+          PY
+          else
+            echo "production_config 변경 없음"
+          fi
+
       - name: Commit allowlisted results
         if: steps.allowlist.outputs.noop == 'false'
         run: |
+          # '변경 없음'과 '진짜 git 오류'를 구분한다 — 오류는 워크플로우 FAIL(초록색 금지).
+          set -euo pipefail
           git config user.name "gaeo-evolution-lab"
           git config user.email "actions@users.noreply.github.com"
-          git add gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ 2>/dev/null || true
-          git commit -m "evolution: 주간 결정론 연구 기록 갱신 [skip ci]" || exit 0
+          for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json; do
+            if [ -e "$p" ]; then git add "$p"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "스테이지된 변경 없음 — 정상 no-op"
+            exit 0
+          fi
+          git commit -m "evolution: 주간 결정론 연구 기록 갱신 [skip ci]"
           git pull --no-rebase -q origin main
           git push origin HEAD:main

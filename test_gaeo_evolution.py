@@ -351,7 +351,12 @@ class GateTest(unittest.TestCase):
                 "precisionGainCi95": [0.4, 4.6],
                 # ⭐ 2026-08-22 하위그룹 보호 — 이 실측 없이는 승격 불가(fail closed)
                 "buyPrecisionDeltaPp": 0.5, "sellPrecisionDeltaPp": 1.0,
-                "largeErrorDeltaPp": -0.5, "regimeWorstDeltaPp": -1.0}
+                "largeErrorDeltaPp": -0.5, "regimeWorstDeltaPp": -1.0,
+                # ⭐ 2차 수리 — 실전(Contemporary) Champion 대비도 악화 금지
+                "realGainPp": 1.0, "realActionN": 140,
+                "buyPrecisionDeltaRealPp": 0.3,
+                "sellPrecisionDeltaRealPp": 0.5, "largeErrorDeltaRealPp": -0.2,
+                "regimeWorstDeltaRealPp": -1.0}
 
     def test_no_prospective_evidence_means_bootstrap_shadow(self):
         """⭐ 배포 당일 과거데이터만으로는 절대 승격 경로에 못 오른다."""
@@ -838,9 +843,15 @@ class StateMachineTest(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.path = os.path.join(self.tmp.name, "candidates.json")
         self.baseline_path = os.path.join(self.tmp.name, "baselines.json")
+        self.config_path = os.path.join(self.tmp.name, "production_config.json")
 
     def tearDown(self):
         self.tmp.cleanup()
+
+    def _approve(self, cid="s-1", approver="대표"):
+        return registry.approve_production(cid, approver, path=self.path,
+                                           baseline_path=self.baseline_path,
+                                           config_path=self.config_path)
 
     def _register(self, cid="s-1", status="RESEARCH_DRAFT"):
         spec = cand_spec(cid=cid, status=status,
@@ -860,8 +871,7 @@ class StateMachineTest(unittest.TestCase):
         self._register(status="BOOTSTRAP_SHADOW")
         registry.set_status("s-1", "SHADOW", path=self.path)
         registry.set_status("s-1", "QUALIFIED_AWAITING_APPROVAL", path=self.path)
-        registry.approve_production("s-1", "대표", {"note": "test"},
-                                    path=self.path, baseline_path=self.baseline_path)
+        self._approve()
         registry.set_status("s-1", "ROLLED_BACK", ["악화"], path=self.path)
         for target in ("PRODUCTION", "QUALIFIED_AWAITING_APPROVAL", "SHADOW"):
             with self.assertRaises(registry.CandidateStateError):
@@ -876,21 +886,24 @@ class StateMachineTest(unittest.TestCase):
             registry.set_status("s-1", "PRODUCTION", path=self.path)
         # 승인자 명시 없으면 불가
         with self.assertRaises(registry.CandidateStateError):
-            registry.approve_production("s-1", "  ", {}, path=self.path,
-                                        baseline_path=self.baseline_path)
-        entry = registry.approve_production("s-1", "대표", {"v": 1}, path=self.path,
-                                            baseline_path=self.baseline_path)
+            self._approve(approver="  ")
+        entry = self._approve()
         self.assertEqual(entry["status"], "PRODUCTION")
         self.assertEqual(entry["approvedBy"], "대표")
-        # 승인 직전 안정버전이 previousStable로 남는다(롤백 목적지)
+        # 승인 직전 '실제 현재 설정' Snapshot이 previousStable로 남는다(롤백 목적지).
+        # 호출자가 임의 값을 넘기는 게 아니라 코드가 직접 뜬다.
         doc = registry.load_baselines(path=self.baseline_path)
-        self.assertEqual(doc["previousStable"]["versions"], {"v": 1})
+        snap = doc["previousStable"]["versions"]
+        self.assertIn("productionConfigVersion", snap)
+        self.assertIsNone(snap["active"])          # 승인 전에는 override 없음(base)
+        # 실제 config에 적용됐는지 — status만 PRODUCTION인 상태 금지
+        cfg = json.load(open(self.config_path, encoding="utf-8"))
+        self.assertEqual(cfg["active"]["candidateId"], "s-1")
 
     def test_shadow_cannot_be_approved_directly(self):
         self._register(status="BOOTSTRAP_SHADOW")
         with self.assertRaises(registry.CandidateStateError):
-            registry.approve_production("s-1", "대표", {}, path=self.path,
-                                        baseline_path=self.baseline_path)
+            self._approve()
 
     def test_candidate_cannot_be_born_qualified_or_production(self):
         """(독립 QA 검토 M1) 신규 등록이 QUALIFIED/PRODUCTION 상태로 태어날 수 없다."""
@@ -909,9 +922,21 @@ class StateMachineTest(unittest.TestCase):
         self._register(status="BOOTSTRAP_SHADOW")
         registry.set_status("s-1", "SHADOW", path=self.path)
         registry.set_status("s-1", "QUALIFIED_AWAITING_APPROVAL", path=self.path)
-        entry = registry.approve_production("s-1", "대표", {"v": 1}, path=self.path,
-                                            baseline_path=self.baseline_path)
+        entry = self._approve()
         self.assertEqual(entry["productionBaselineMetrics"]["n"], 42)
+
+    def test_tampered_candidate_cannot_be_approved(self):
+        """승인 직전 fingerprint 재검증 — 파일 변조된 후보는 승인 자체가 거부된다."""
+        self._register(status="BOOTSTRAP_SHADOW")
+        registry.set_status("s-1", "SHADOW", path=self.path)
+        registry.set_status("s-1", "QUALIFIED_AWAITING_APPROVAL", path=self.path)
+        doc = json.load(open(self.path, encoding="utf-8"))
+        doc["entries"][0]["parameterChanges"]["weights"]["taro"] = 0.45   # 몰래 변조
+        json.dump(doc, open(self.path, "w", encoding="utf-8"))
+        with self.assertRaises(registry.CandidateImmutabilityError):
+            self._approve()
+        # config는 건드려지지 않았다
+        self.assertFalse(os.path.exists(self.config_path))
 
     def test_runner_never_calls_approve_production(self):
         """자동 런타임에는 사람 승인 명령이 존재하지 않는다(자동승격 불가능)."""
@@ -1028,6 +1053,21 @@ class ShadowTest(unittest.TestCase):
                                            shadow_dir=tempfile.mkdtemp())
         self.assertIsNone(shadow.prospective_metrics(led))     # → gate는 BOOTSTRAP 유지
 
+    def test_pcv_is_row_level_not_append_time(self):
+        """(2차 감사 M-1) pcv는 '그 판단이 나온 날'의 구성 — append 시점이 아니다."""
+        cand = cand_spec(created="2026-07-01", buy_cut=65)
+        led = shadow.load_or_create_ledger(cand, PROD_FIXTURE,
+                                           shadow_dir=tempfile.mkdtemp())
+        rows = self.make_rows(["2026-07-02"])
+        for r in rows:
+            r["pcv"] = "evo-old-config"        # build_rows가 history 각인에서 실어옴
+        shadow.append_rows(led, rows)
+        self.assertTrue(all(r["pcv"] == "evo-old-config" for r in led["rows"]))
+        rows2 = self.make_rows(["2026-07-03"])  # 각인 없는 행(=base 시절 판단)
+        shadow.append_rows(led, rows2)
+        day3 = [r for r in led["rows"] if r["day"] == "2026-07-03"]
+        self.assertTrue(all(r["pcv"] == "base" for r in day3))
+
     def test_shadow_writes_only_into_shadow_dir(self):
         sdir = tempfile.mkdtemp()
         cand = cand_spec(created="2026-07-01", buy_cut=65)
@@ -1052,7 +1092,11 @@ class SubgroupGateTest(unittest.TestCase):
                 "brierGain": 0.01, "coveragePct": 20, "directionSharePct": 55,
                 "precisionGainCi95": [0.4, 4.6],
                 "buyPrecisionDeltaPp": 0.5, "sellPrecisionDeltaPp": 1.0,
-                "largeErrorDeltaPp": -0.5, "regimeWorstDeltaPp": -1.0}
+                "largeErrorDeltaPp": -0.5, "regimeWorstDeltaPp": -1.0,
+                "realGainPp": 1.0, "realActionN": 140,
+                "buyPrecisionDeltaRealPp": 0.3,
+                "sellPrecisionDeltaRealPp": 0.5, "largeErrorDeltaRealPp": -0.2,
+                "regimeWorstDeltaRealPp": -1.0}
 
     def test_buy_deterioration_blocks_promotion(self):
         """⭐ 고의 실패 시험 6 — 전체 +3%p라도 BUY -7%p면 승격 추천 금지."""
@@ -1274,9 +1318,18 @@ class ProtectedPathBypassTest(unittest.TestCase):
         violations, outside = constitution.check_changed_paths(
             ["gaeo_evolution/registry/candidates.json",
              "gaeo_evolution/registry/shadow/det-1.json",
-             "gaeo_evolution/status/promotion_cards.json"], CONST)
+             "gaeo_evolution/status/promotion_cards.json",
+             "gaeo_evolution/production_config.json"], CONST)
         self.assertEqual(violations, [])
         self.assertEqual(outside, [])
+
+    def test_allowlist_file_entries_are_exact_match(self):
+        """(2차 감사 L-2) 파일 항목은 정확 일치만 — *.tmp/*.bak 접미 파일 불허."""
+        for path in ("gaeo_evolution/production_config.json.tmp",
+                     "gaeo_evolution/production_config.json.bak",
+                     "gaeo_evolution/production_config.json2"):
+            violations, outside = constitution.check_changed_paths([path], CONST)
+            self.assertTrue(violations or outside, path)
 
     def test_symlink_detection(self):
         with tempfile.TemporaryDirectory() as td:
@@ -1307,24 +1360,35 @@ class RollbackWiringTest(unittest.TestCase):
                        "registry.record_rejected", "registry.verify_integrity",
                        "evaluation.load_production_weights",
                        "evaluation.split_research_eval",
-                       "gate.build_promotion_card"):
+                       "gate.build_promotion_card",
+                       "prodcfg_mod.config_health", "_compute_mode",
+                       "_last_promotion", "rollback_safe_errors"):
             self.assertIn(needle, source, needle)
 
     def test_execute_rollback_sets_terminal_state_with_restore_target(self):
         with tempfile.TemporaryDirectory() as td:
             path = os.path.join(td, "candidates.json")
+            config_path = os.path.join(td, "production_config.json")
             spec = cand_spec(cid="p-1", status="BOOTSTRAP_SHADOW", buy_cut=65)
             registry.register_candidate(spec, CONST, path=path)
             registry.set_status("p-1", "SHADOW", path=path)
             registry.set_status("p-1", "QUALIFIED_AWAITING_APPROVAL", path=path)
-            registry.approve_production("p-1", "대표", {"weights": "safe-v1"},
-                                        path=path,
-                                        baseline_path=os.path.join(td, "baselines.json"))
+            registry.approve_production("p-1", "대표", path=path,
+                                        baseline_path=os.path.join(td, "baselines.json"),
+                                        config_path=config_path)
+            cfg = json.load(open(config_path, encoding="utf-8"))
+            self.assertEqual(cfg["active"]["candidateId"], "p-1")   # 실제 적용됨
             baselines = registry.load_baselines(path=os.path.join(td, "baselines.json"))
             event = gate.execute_rollback("p-1", ["정밀도 하락"],
                                           baselines_doc=baselines,
-                                          candidates_path=path)
-            self.assertEqual(event["restoreTo"]["versions"], {"weights": "safe-v1"})
+                                          candidates_path=path,
+                                          config_path=config_path)
+            self.assertFalse(event["safeMode"])
+            # ⭐ 실제 config가 previousStable(base)로 복원됐다 — 장부만 롤백 금지
+            cfg2 = json.load(open(config_path, encoding="utf-8"))
+            self.assertIsNone(cfg2["active"])
+            self.assertEqual(event["restoredConfigVersion"], "base")
+            self.assertIn("productionConfigVersion", event["restoreTo"]["versions"])
             entry = registry.find_candidate("p-1", path=path)
             self.assertEqual(entry["status"], "ROLLED_BACK")
             with self.assertRaises(registry.CandidateStateError):
@@ -1403,14 +1467,26 @@ class WorkflowContractTest(unittest.TestCase):
         active, _ = self.load()
         self.assertIn("check_changed_paths", active)
         self.assertIn("find_symlinks", active)
-        m = re.findall(r"git add ([^\n]+)", active)
-        self.assertTrue(m)
-        for line in m:
-            for token in line.split():
-                if token.startswith("-") or token.startswith("2>"): continue
-                if token in ("||", "true"): continue
-                self.assertTrue(any(token.startswith(a) for a in
-                                    CONST["autoCommitAllowlist"]), token)
+        m = re.search(r"for p in ([^;]+); do", active)
+        self.assertIsNotNone(m, "commit 단계의 대상 목록(for p in …)이 없음")
+        for token in m.group(1).split():
+            self.assertTrue(any(token.startswith(a) for a in
+                                CONST["autoCommitAllowlist"]), token)
+
+    def test_no_silent_commit_failure(self):
+        """(2차 감사 9) '변경 없음'과 '진짜 git 오류'를 같은 성공으로 처리하지 않는다."""
+        active, text = self.load()
+        self.assertNotIn("|| true", text)
+        self.assertNotIn("|| exit 0", text)
+        self.assertIn("set -euo pipefail", active)          # add/commit/pull/push 실패 = FAIL
+        self.assertIn("git diff --cached --quiet", active)  # no-op은 명시적으로만 성공
+
+    def test_production_config_auto_change_guard(self):
+        """자동 런타임은 production_config를 '해제/복원' 방향으로만 커밋할 수 있다."""
+        active, _ = self.load()
+        self.assertIn("is_auto_change_safe", active)
+        self.assertLess(active.index("is_auto_change_safe"),
+                        active.index("Commit allowlisted results"))
 
     def test_no_force_push(self):
         _, text = self.load()
@@ -1441,6 +1517,414 @@ class RepairPreservationTest(unittest.TestCase):
         const_policy = CONST.get("offlineDataPolicy", {})
         self.assertEqual(const_policy.get("insufficientDataVerdict"),
                          "Offline 연구용 데이터 부족 — Shadow 축적 필요")
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 2026-08-22 2차 독립 감사 수리 — Production 실제 적용/복구 배선 계약 테스트.
+# "Registry에 PRODUCTION이라고 적혔는가"가 아니라
+# "실제 analyze_auto 판단이 승인된 후보를 쓰는가"를 검증한다.
+# ═══════════════════════════════════════════════════════════════════════════
+from gaeo_evolution import production_config as prodcfg  # noqa: E402
+
+
+def _analyst_fx(score=64):
+    return {"score": score, "stance": "bull", "findings": ["f1", "f2", "f3"]}
+
+
+def _chief_fixture():
+    """실제 chief_eval을 같은 입력으로 호출 — 판단이 설정에 따라 변하는지 본다."""
+    import analyze_auto
+    return analyze_auto.chief_eval(
+        {"risk": None}, _analyst_fx(), _analyst_fx(), _analyst_fx(), _analyst_fx(),
+        weights={"taro": .25, "diana": .25, "nova": .25, "flow": .25})
+
+
+class ProductionWiringTest(unittest.TestCase):
+    """승인된 후보 ↔ 실제 Production 판단의 배선(2차 감사 CRITICAL 1~5)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.cand_path = os.path.join(self.tmp.name, "candidates.json")
+        self.baseline_path = os.path.join(self.tmp.name, "baselines.json")
+        self.config_path = os.path.join(self.tmp.name, "production_config.json")
+        self._orig_config = prodcfg.CONFIG_PATH
+        prodcfg.CONFIG_PATH = self.config_path      # 실코드 경로 그대로, 파일만 격리
+        prodcfg.clear_cache()
+
+    def tearDown(self):
+        prodcfg.CONFIG_PATH = self._orig_config
+        prodcfg.clear_cache()
+        self.tmp.cleanup()
+
+    def _qualified(self, cid="w-1", buy_cut=66, weights=None):
+        spec = cand_spec(cid=cid, status="BOOTSTRAP_SHADOW",
+                         buy_cut=buy_cut, weights=weights)
+        registry.register_candidate(spec, CONST, path=self.cand_path)
+        registry.set_status(cid, "SHADOW", path=self.cand_path)
+        registry.set_status(cid, "QUALIFIED_AWAITING_APPROVAL", path=self.cand_path)
+        return spec
+
+    def _approve(self, cid="w-1"):
+        return registry.approve_production(cid, "대표", path=self.cand_path,
+                                           baseline_path=self.baseline_path,
+                                           config_path=self.config_path)
+
+    def test_A_no_config_means_identical_legacy_behavior(self):
+        """A. Evolution config 없음 → 기존 GAEO 판단 완전 동일."""
+        import analyze_auto
+        self.assertEqual(analyze_auto._evolution_overrides(), {})
+        self.assertEqual(analyze_auto._buy_cut(), 63.0)
+        chief = _chief_fixture()
+        self.assertEqual(chief["call"], "BUY")            # 64점 ≥ 63 → 기존 그대로
+        self.assertNotIn("productionConfigVersion", chief)  # 기록 모양도 그대로
+        self.assertNotIn("evolutionCandidateId", chief)
+
+    def test_B_approval_applies_candidate_to_real_decisions(self):
+        """B. 검증된 후보 승인 → 실제 fixture 판단에 파라미터가 적용된다."""
+        import analyze_auto
+        before = _chief_fixture()
+        self.assertEqual(before["call"], "BUY")
+        self._qualified(buy_cut=66)
+        self._approve()
+        after = _chief_fixture()
+        self.assertEqual(after["call"], "HOLD")           # 64점 < 66 → 판단이 실제로 바뀜
+        self.assertEqual(after["productionConfigVersion"], "evo-w-1")
+        self.assertEqual(after["evolutionCandidateId"], "w-1")
+        self.assertEqual(analyze_auto._buy_cut(), 66.0)
+        # 가중치 후보도 실제 적용 확인
+        w = {"taro": .31, "diana": .19, "nova": .25, "flow": .25}
+        self._qualified(cid="w-2", buy_cut=None, weights=w)
+        gate.execute_rollback("w-1", ["교체"], candidates_path=self.cand_path,
+                              config_path=self.config_path)
+        self._approve("w-2")
+        tw = analyze_auto.load_team_weights()
+        self.assertEqual({a: tw["global"][a] for a in w}, w)
+        self.assertEqual(tw["evolutionOverride"], "evo-w-2")
+
+    def test_C_registry_production_without_applied_config_is_detectable(self):
+        """C. status만 PRODUCTION이고 실제 config 미적용 → 감지돼야 한다(불일치 금지)."""
+        self._qualified(buy_cut=66)
+        self._approve()
+        health = prodcfg.config_health(self.config_path)
+        self.assertEqual(health["activeCandidateId"], "w-1")   # 정상: 일치
+        os.unlink(self.config_path)                            # 적용 소실 시뮬레이션
+        prodcfg.clear_cache()
+        health2 = prodcfg.config_health(self.config_path)
+        self.assertFalse(health2["overrideApplied"])
+        self.assertIsNone(health2["activeCandidateId"])
+        # runner의 불일치 감지 조건이 참이 된다(status는 PRODUCTION인데 적용 없음)
+        prod_ids = {e["candidateId"] for e in
+                    registry.load_candidates(path=self.cand_path)["entries"]
+                    if e["status"] == "PRODUCTION"}
+        self.assertTrue(prod_ids and health2["activeCandidateId"] not in prod_ids)
+
+    def test_D_apply_failure_keeps_old_production_and_blocks_promotion(self):
+        """D. 적용 실패 → 기존 Production 유지 + 후보 PRODUCTION 금지."""
+        import analyze_auto
+        # (1) 적용할 GREEN 파라미터가 없는 후보 — 적용 단계에서 실패해야 한다
+        spec = cand_spec(cid="w-bad", status="BOOTSTRAP_SHADOW")   # parameterChanges {}
+        registry.register_candidate(spec, CONST, path=self.cand_path)
+        registry.set_status("w-bad", "SHADOW", path=self.cand_path)
+        registry.set_status("w-bad", "QUALIFIED_AWAITING_APPROVAL", path=self.cand_path)
+        with self.assertRaises(prodcfg.ProductionConfigError):
+            self._approve("w-bad")
+        entry = registry.find_candidate("w-bad", path=self.cand_path)
+        self.assertEqual(entry["status"], "QUALIFIED_AWAITING_APPROVAL")  # 승격 안 됨
+        self.assertFalse(os.path.exists(self.config_path))               # config 무변화
+        self.assertEqual(analyze_auto._buy_cut(), 63.0)                  # 실판단 무변화
+        # (2) config 쓰기 자체가 실패하는 경우(경로 부모가 파일)
+        bad_dir = os.path.join(self.tmp.name, "notdir")
+        open(bad_dir, "w").write("x")
+        self._qualified(cid="w-io", buy_cut=66)
+        with self.assertRaises(Exception):
+            registry.approve_production("w-io", "대표", path=self.cand_path,
+                                        baseline_path=self.baseline_path,
+                                        config_path=os.path.join(bad_dir, "pc.json"))
+        entry2 = registry.find_candidate("w-io", path=self.cand_path)
+        self.assertEqual(entry2["status"], "QUALIFIED_AWAITING_APPROVAL")
+
+    def test_EF_rollback_restores_previous_stable_and_decisions(self):
+        """E/F. Rollback 실행 → 실제 이전 Stable config 복원 + 같은 fixture 판단 복구."""
+        import analyze_auto
+        before = _chief_fixture()["call"]                  # BUY (base)
+        self._qualified(buy_cut=66)
+        self._approve()
+        self.assertEqual(_chief_fixture()["call"], "HOLD")
+        event = gate.execute_rollback("w-1", ["악화"], candidates_path=self.cand_path,
+                                      config_path=self.config_path)
+        self.assertFalse(event["safeMode"])
+        self.assertEqual(event["restoredConfigVersion"], "base")
+        restored = _chief_fixture()
+        self.assertEqual(restored["call"], before)         # 이전 판단 복구
+        self.assertNotIn("productionConfigVersion", restored)
+        self.assertEqual(analyze_auto._buy_cut(), 63.0)
+
+    def test_G_team_weights_regeneration_does_not_erase_override(self):
+        """G. compute_team_weights.py가 team_weights.js를 다시 만들어도 override 유지.
+
+        override는 team_weights.js를 덮어쓰지 않고 별도 파일에 layered로 살기 때문에,
+        원본 파일이 몇 번 재생성돼도 승인된 계약은 그대로다.
+        """
+        import analyze_auto
+        w = {"taro": .31, "diana": .19, "nova": .25, "flow": .25}
+        self._qualified(cid="w-3", buy_cut=None, weights=w)
+        self._approve("w-3")
+        for _ in range(3):                    # 재생성(재로드) 시뮬레이션
+            prodcfg.clear_cache()
+            tw = analyze_auto.load_team_weights()
+            self.assertEqual({a: tw["global"][a] for a in w}, w)
+        # 해제하면 원래 team_weights.js 값으로 즉시 복귀(파일은 무손상)
+        gate.execute_rollback("w-3", ["시험"], candidates_path=self.cand_path,
+                              config_path=self.config_path)
+        tw2 = analyze_auto.load_team_weights()
+        self.assertNotIn("evolutionOverride", tw2)
+
+    def test_rollback_failure_is_safe_mode_and_keeps_candidate(self):
+        """복원 실패 → safeMode 신호 + 후보 상태 유지(기존 안정 설정 보존 원칙)."""
+        self._qualified(buy_cut=66)
+        self._approve()
+        os.unlink(self.config_path)
+        os.makedirs(self.config_path)          # 파일 자리에 디렉터리 → 쓰기 실패 유도
+        try:
+            event = gate.execute_rollback("w-1", ["악화"],
+                                          candidates_path=self.cand_path,
+                                          config_path=self.config_path)
+            self.assertTrue(event["safeMode"])
+            entry = registry.find_candidate("w-1", path=self.cand_path)
+            self.assertEqual(entry["status"], "PRODUCTION")   # 상태 불변(재시도 가능)
+        finally:
+            os.rmdir(self.config_path)
+
+    def test_invalid_or_corrupt_config_falls_back_to_base(self):
+        """무효/손상 config는 절대 적용되지 않는다 — base로 동작(fail to safe)."""
+        import analyze_auto
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            f.write("{corrupted json")
+        prodcfg.clear_cache()
+        self.assertEqual(analyze_auto._evolution_overrides(), {})
+        doc = {"schemaVersion": 1, "productionConfigVersion": "evo-x",
+               "active": {"candidateId": "x", "paramHash": "h",
+                          "overrides": {"buyCut": 30}},     # Constitution 범위 밖
+               "previousStable": None, "history": []}
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            json.dump(doc, f)
+        prodcfg.clear_cache()
+        self.assertEqual(analyze_auto._evolution_overrides(), {})  # 범위 위반 → 미적용
+        self.assertEqual(analyze_auto._buy_cut(), 63.0)
+        health = prodcfg.config_health(self.config_path)
+        self.assertFalse(health["ok"])                     # DEGRADED 신호로 노출
+
+    def test_auto_change_guard_blocks_activation(self):
+        """자동 런타임의 config 변경은 '해제/복원'만 허용 — 활성화는 차단."""
+        base = {"schemaVersion": 1, "productionConfigVersion": "base",
+                "active": None, "previousStable": None, "history": []}
+        activated = dict(base, active={"candidateId": "x", "paramHash": "h",
+                                       "overrides": {"buyCut": 65}},
+                         productionConfigVersion="evo-x")
+        ok, _ = prodcfg.is_auto_change_safe(base, activated)
+        self.assertFalse(ok)                               # 활성화 커밋 금지
+        ok2, _ = prodcfg.is_auto_change_safe(activated, dict(activated, active=None))
+        self.assertTrue(ok2)                               # 해제 허용
+        prev = {"productionConfigVersion": "base", "active": None}
+        doc_with_prev = dict(activated, previousStable=prev)
+        ok3, _ = prodcfg.is_auto_change_safe(
+            doc_with_prev, dict(doc_with_prev, active=None,
+                                productionConfigVersion="base"))
+        self.assertTrue(ok3)                               # previousStable 복원 허용
+        ok4, _ = prodcfg.is_auto_change_safe(
+            base, dict(base, active={"candidateId": "y", "paramHash": "h2",
+                                     "overrides": {"buyCut": 60}}))
+        self.assertFalse(ok4)
+
+    def test_auto_change_guard_blocks_two_commit_bypass(self):
+        """⭐ 2차 감사 H-1 회귀 — previousStable 오염(1주차)→복원 위장 활성화(2주차) 차단."""
+        base = {"schemaVersion": 1, "productionConfigVersion": "base",
+                "active": None, "previousStable": None, "history": []}
+        evil = {"candidateId": "evil", "paramHash": "eh",
+                "overrides": {"buyCut": 60}}
+        # 1주차: active는 null 그대로 두고 previousStable에 몰래 심기 → 차단돼야 한다
+        poisoned = dict(base, previousStable={"productionConfigVersion": "evo-evil",
+                                              "active": evil})
+        ok1, why1 = prodcfg.is_auto_change_safe(base, poisoned)
+        self.assertFalse(ok1)
+        self.assertIn("previousStable", why1)
+        # (만약 1주차가 통과했다 치고) 2주차: '복원' 위장 활성화 — 정상 old 기준으론 차단
+        ok2, _ = prodcfg.is_auto_change_safe(base, dict(base, active=evil))
+        self.assertFalse(ok2)
+        # 정당한 경로는 여전히 동작: 사람 승인(apply)이 만든 previousStable은
+        # 자동 롤백(복원)에서 그대로 보존되며 복원이 허용된다
+        human_applied = dict(base,
+                             active={"candidateId": "good", "paramHash": "g",
+                                     "overrides": {"buyCut": 66}},
+                             previousStable={"productionConfigVersion": "base",
+                                             "active": None},
+                             productionConfigVersion="evo-good")
+        rolled = dict(human_applied, active=None, productionConfigVersion="base")
+        ok3, _ = prodcfg.is_auto_change_safe(human_applied, rolled)
+        self.assertTrue(ok3)
+
+    def test_corrupt_config_health_is_honest_from_first_call(self):
+        """⭐ 2차 감사 M-1 회귀 — 깨진 config는 첫 호출부터 ok=False(DEGRADED 신호)."""
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            f.write("{broken json!!")
+        prodcfg.clear_cache()
+        h1 = prodcfg.config_health(self.config_path)
+        self.assertFalse(h1["ok"])                     # 첫 호출부터 정직
+        h2 = prodcfg.config_health(self.config_path)   # 캐시 적중 경로도 동일
+        self.assertFalse(h2["ok"])
+
+    def test_string_override_values_never_crash_or_apply(self):
+        """(Security LOW-2) 문자열/이상 타입 값은 실행도 적용도 없이 base로."""
+        import analyze_auto
+        doc = {"schemaVersion": 1, "productionConfigVersion": "evo-x",
+               "active": {"candidateId": "x", "paramHash": "h",
+                          "overrides": {"buyCut": "65; __import__('os')"}},
+               "previousStable": None, "history": []}
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            json.dump(doc, f)
+        prodcfg.clear_cache()
+        self.assertEqual(analyze_auto._evolution_overrides(), {})
+        self.assertEqual(analyze_auto._buy_cut(), 63.0)
+        health = prodcfg.config_health(self.config_path)
+        self.assertFalse(health["ok"])                 # 크래시 없이 DEGRADED 신호
+
+
+class StatusModeTest(unittest.TestCase):
+    """J/K. status mode가 실제 상태를 반영하고, 오류가 OK로 숨지 않는다."""
+
+    def test_J_mode_follows_actual_candidate_states(self):
+        import run_evolution_lab as lab
+        self.assertEqual(lab._compute_mode({}), "BOOTSTRAP_SHADOW")
+        self.assertEqual(lab._compute_mode({"REJECTED": 5}), "BOOTSTRAP_SHADOW")
+        self.assertEqual(lab._compute_mode({"SHADOW": 1}), "ACTIVE_SHADOW")
+        self.assertEqual(lab._compute_mode({"BOOTSTRAP_SHADOW": 2}), "ACTIVE_SHADOW")
+        self.assertEqual(lab._compute_mode({"SHADOW": 1,
+                                            "QUALIFIED_AWAITING_APPROVAL": 1}),
+                         "AWAITING_APPROVAL")
+        self.assertEqual(lab._compute_mode({"QUALIFIED_AWAITING_APPROVAL": 1,
+                                            "PRODUCTION": 1}), "ACTIVE_PRODUCTION")
+
+    def test_last_promotion_reflects_real_events_only(self):
+        import run_evolution_lab as lab
+        self.assertIsNone(lab._last_promotion([]))
+        self.assertIsNone(lab._last_promotion([{"candidateId": "a"}]))
+        latest = lab._last_promotion([
+            {"candidateId": "a", "promotedAt": "2026-08-01T09:00:00", "approvedBy": "대표"},
+            {"candidateId": "b", "promotedAt": "2026-08-10T09:00:00", "approvedBy": "대표"}])
+        self.assertEqual(latest["candidateId"], "b")
+
+    def test_K_errors_are_never_reported_as_ok(self):
+        from gaeo_evolution import status as status_mod
+        base = dict(mode="ACTIVE_SHADOW", production_version="v",
+                    baseline_summary=None, candidate_counts={}, memory_aggregate=None,
+                    failure_cluster_count=0, research_needed=False)
+        ok = status_mod.build_status(**base, safe_mode_reasons=[])
+        self.assertEqual(ok["systemHealth"], "OK")
+        degraded = status_mod.build_status(**base, safe_mode_reasons=[],
+                                           degraded_reasons=["상태전이 오류 1건"])
+        self.assertEqual(degraded["systemHealth"], "DEGRADED")
+        self.assertEqual(degraded["degradedReasons"], ["상태전이 오류 1건"])
+        safe = status_mod.build_status(**base, safe_mode_reasons=["롤백 복원 실패"],
+                                       degraded_reasons=["기타"])
+        self.assertEqual(safe["systemHealth"], "SAFE_MODE")   # SAFE > DEGRADED
+
+
+class ContemporaryChampionGateTest(unittest.TestCase):
+    """H/I. 옛 Champion만 이기는 후보의 승격 금지(실전 Champion 대비 보호)."""
+
+    def candidate(self):
+        return {"candidateId": "rc-1", "riskTier": "GREEN",
+                "parameterChanges": {"buyCut": 65},
+                "complexity": {"parametersAdded": 0, "rulesAdded": 0}}
+
+    def strong(self):
+        return {"n": 600, "actionN": 150, "testDays": 45, "testRegimes": 4,
+                "buyN": 70, "sellN": 70, "precisionGainPp": 3.0,
+                "precisionGainDayMeanPp": 2.8, "brierGain": 0.01,
+                "coveragePct": 20, "directionSharePct": 55,
+                "precisionGainCi95": [0.4, 4.6],
+                "buyPrecisionDeltaPp": 0.5, "sellPrecisionDeltaPp": 1.0,
+                "largeErrorDeltaPp": -0.5, "regimeWorstDeltaPp": -1.0,
+                "realGainPp": 1.0, "realActionN": 140,
+                "buyPrecisionDeltaRealPp": 0.3,
+                "sellPrecisionDeltaRealPp": 0.5, "largeErrorDeltaRealPp": -0.2,
+                "regimeWorstDeltaRealPp": -1.0}
+
+    def test_HI_frozen_win_but_contemporary_loss_is_blocked(self):
+        """H/I. 동결 기준 +3.0%p여도 실전 Champion 대비 음수면 QUALIFIED 금지."""
+        p = self.strong()
+        p["realGainPp"] = -1.0                    # 40일 전 GAEO는 이기지만 오늘 GAEO엔 짐
+        verdict, reasons = gate.promotion_decision(self.candidate(), p, CONST)
+        self.assertNotEqual(verdict, gate.VERDICT_QUALIFIED)
+        self.assertTrue(any("실전 Champion" in r for r in reasons))
+
+    def test_missing_real_gain_fails_closed(self):
+        p = self.strong()
+        del p["realGainPp"]
+        verdict, _ = gate.promotion_decision(self.candidate(), p, CONST)
+        self.assertNotEqual(verdict, gate.VERDICT_QUALIFIED)
+
+    def test_real_subgroup_deterioration_blocked(self):
+        for key in ("buyPrecisionDeltaRealPp", "sellPrecisionDeltaRealPp"):
+            p = self.strong()
+            p[key] = -6.0
+            verdict, _ = gate.promotion_decision(self.candidate(), p, CONST)
+            self.assertNotEqual(verdict, gate.VERDICT_QUALIFIED, key)
+        p = self.strong()
+        p["largeErrorDeltaRealPp"] = 4.0
+        verdict, _ = gate.promotion_decision(self.candidate(), p, CONST)
+        self.assertNotEqual(verdict, gate.VERDICT_QUALIFIED)
+
+    def test_shadow_metrics_pair_against_real_champion(self):
+        """Shadow 실측이 실전 Champion(champReal)과의 짝비교를 실제로 만든다."""
+        led = {"candidateId": "rc-led", "shadowStartDay": "2026-06-30",
+               "rows": [], "appendLog": []}
+        for d in range(1, 26):
+            day = f"2026-07-{d:02d}"
+            for i in range(4):
+                # chall은 champSim은 이기지만 champReal에는 진다
+                hit_for_chall = (d + i) % 2 == 0
+                led["rows"].append({
+                    "day": day, "code": f"R{i:04d}", "base": 100,
+                    "champReal": "BUY",                       # 실전은 전부 적중(+3%)
+                    "champSim": "SELL",                       # 항상 틀리게(+3% 수익)
+                    "champSimTotal": 40,
+                    "chall": "BUY" if hit_for_chall else "SELL",
+                    "challTotal": 70,
+                    "ret5": 3.0, "outcomeDate": f"2026-08-{min(28, d + 5):02d}",
+                })
+        m = shadow.prospective_metrics(led)
+        self.assertIsNotNone(m["realGainPp"])
+        self.assertLess(m["realGainPp"], 0)       # 실전(BUY 100% 적중) 대비 음수
+        self.assertGreater(m["precisionGainPp"], 0)  # 동결 기준(champSim 0%)은 이김
+        self.assertIn("buyPrecisionDeltaRealPp", m)
+        verdict, _ = gate.promotion_decision(
+            {"candidateId": "rc-led", "riskTier": "GREEN",
+             "parameterChanges": {"buyCut": 65}, "complexity": {}},
+            m, CONST)
+        self.assertNotEqual(verdict, gate.VERDICT_QUALIFIED)
+
+    def test_mixed_config_segments_are_not_pooled(self):
+        """Production 구성이 Shadow 중 바뀌면 증거를 섞지 않는다(최신 세그먼트만)."""
+        led = {"candidateId": "seg-1", "shadowStartDay": "2026-06-30",
+               "rows": [], "appendLog": []}
+        for d in range(1, 11):                     # 옛 구성(base) 구간 — chall 전부 적중
+            led["rows"].append({"day": f"2026-07-{d:02d}", "code": "S1", "base": 100,
+                                "champReal": "BUY", "champSim": "BUY",
+                                "champSimTotal": 70, "chall": "BUY", "challTotal": 70,
+                                "pcv": "base", "ret5": 3.0,
+                                "outcomeDate": f"2026-07-{d + 10:02d}"})
+        for d in range(11, 16):                    # 새 구성 구간 — chall 전부 빗나감
+            led["rows"].append({"day": f"2026-07-{d:02d}", "code": "S1", "base": 100,
+                                "champReal": "BUY", "champSim": "BUY",
+                                "champSimTotal": 70, "chall": "SELL", "challTotal": 30,
+                                "pcv": "evo-x", "ret5": 3.0,
+                                "outcomeDate": f"2026-07-{d + 10:02d}"})
+        m = shadow.prospective_metrics(led)
+        self.assertEqual(m["configSegmentUsed"], "evo-x")
+        self.assertEqual(m["configSegmentDroppedRows"], 10)
+        self.assertEqual(m["n"], 5)                # 최신 구성 5행만 평가
+        self.assertEqual(m["challengerPrecisionPct"], 0.0)
 
 
 if __name__ == "__main__":

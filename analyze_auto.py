@@ -592,10 +592,39 @@ def quant_eval(e, t, qstats, sector=None):
 #    분석가별 적중률 비례 가중치를 쓴다. 파일이 없으면 균등(25%씩)으로 동작.
 
 BASE_W = {"taro": 0.30, "diana": 0.12, "nova": 0.28, "flow": 0.30}
+BUY_CUT_BASE = 63     # chief_eval의 기본 BUY 경계 — Evolution override가 없으면 항상 이 값
+
+
+def _evolution_overrides():
+    """검증·승인된 Evolution Production override(gaeo_evolution/production_config.json).
+
+    ⭐ 2026-08-22 2차 감사 수리 — 승인된 Candidate가 실제 판단에 적용되는 유일한 다리.
+    · override가 없으면 빈 dict → 기존 GAEO와 100% 동일하게 동작한다.
+      (gaeo_evolution/을 통째로 지워도 이 함수는 빈 dict를 돌려주고 분석은 그대로 돈다.)
+    · 읽기·검증 실패 시에도 빈 dict(기존 동작 유지) — 이 파일 때문에 분석이 죽지 않는다.
+    · 선언적 파라미터(weights/buyCut)만 읽는다. 어떤 문자열도 실행하지 않는다.
+    """
+    try:
+        from gaeo_evolution import production_config
+        return production_config.active_overrides() or {}
+    except Exception:
+        return {}
+
+
+def _buy_cut():
+    """BUY 경계 — 승인된 override가 있으면 그 값, 없으면 기존 63 그대로."""
+    cut = _evolution_overrides().get("buyCut")
+    return float(cut) if cut is not None else float(BUY_CUT_BASE)
 
 
 def load_team_weights():
     tw = load_js_object(os.path.join(HERE, "team_weights.js"), "TEAM_WEIGHTS")
+    ov = _evolution_overrides()
+    if ov.get("weights"):
+        # 승인된 후보 가중치는 Shadow에서 '전 종목 공통'으로 검증된 값이므로
+        # 업종별 오버라이드 없이 전역으로 적용한다(시험한 그대로 반영).
+        return {"global": dict(ov["weights"]), "sectors": {}, "learned": True,
+                "evolutionOverride": ov.get("productionConfigVersion")}
     if not tw or not isinstance(tw.get("global"), dict):
         return {"global": BASE_W, "sectors": {}, "learned": False}
     return {"global": tw["global"].get("weights", BASE_W),
@@ -780,7 +809,7 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     risk = risk_overlay(e.get("risk"))
     total = clamp(raw_total - risk["penalty"])
     rebound_check = rebound_regime_confirmation(e, taro, nova, risk, guard_policy)
-    call = "BUY" if total >= 63 else ("HOLD" if total >= rebound_check["sellThreshold"] else "SELL")
+    call = "BUY" if total >= _buy_cut() else ("HOLD" if total >= rebound_check["sellThreshold"] else "SELL")
     scores = list(usable.values())
     spread = max(scores) - min(scores)
     conf = clamp(max(40, 88 - spread) - risk["confidencePenalty"], 30, 90)
@@ -818,20 +847,28 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
               f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
-    return {"call": call, "total": total, "confidence": conf,
-            "confidenceShadow": conf_shadow, "confidenceModelPromoted": False,
-            "confidencePromotionStatus": ("PROMOTION_REVIEW_AVAILABLE" if conf_review
-                                          else "SHADOW_ONLY"),
-            "rawTotal": raw_total, "riskPenalty": risk["penalty"],
-            "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
-            "reboundCheck": rebound_check,
-            "modelVersion": ("baseline-risk-v2.1-rebound-guard" if rebound_check["active"] else "baseline-risk-v2"),
-            "baseModelVersion": BASE_MODEL_VERSION,
-            "componentVersions": dict(COMPONENT_VERSIONS),
-            "available": sorted(usable), "availableCount": len(usable),
-            "weightRenormalized": len(usable) < 4,
-            "judgmentWithheld": False,
-            "reason": reason, "target": tgt, "report": report}
+    result = {"call": call, "total": total, "confidence": conf,
+              "confidenceShadow": conf_shadow, "confidenceModelPromoted": False,
+              "confidencePromotionStatus": ("PROMOTION_REVIEW_AVAILABLE" if conf_review
+                                            else "SHADOW_ONLY"),
+              "rawTotal": raw_total, "riskPenalty": risk["penalty"],
+              "riskScore": risk["score"], "riskGrade": risk["grade"], "riskApplied": True,
+              "reboundCheck": rebound_check,
+              "modelVersion": ("baseline-risk-v2.1-rebound-guard" if rebound_check["active"] else "baseline-risk-v2"),
+              "baseModelVersion": BASE_MODEL_VERSION,
+              "componentVersions": dict(COMPONENT_VERSIONS),
+              "available": sorted(usable), "availableCount": len(usable),
+              "weightRenormalized": len(usable) < 4,
+              "judgmentWithheld": False,
+              "reason": reason, "target": tgt, "report": report}
+    # 🏷️ Evolution override가 활성일 때만 남긴다(additive — 없으면 기존 기록 모양 그대로).
+    #    나중에 "어느 모델(구성)이 만든 판단인가"를 정확히 채점하기 위한 각인.
+    _ov = _evolution_overrides()
+    if _ov:
+        result["productionConfigVersion"] = _ov.get("productionConfigVersion")
+        result["evolutionCandidateId"] = _ov.get("candidateId")
+        result["evolutionParamHash"] = _ov.get("paramHash")
+    return result
 
 
 def load_ticker_names():
