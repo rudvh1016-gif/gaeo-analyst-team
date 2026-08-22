@@ -1927,5 +1927,354 @@ class ContemporaryChampionGateTest(unittest.TestCase):
         self.assertEqual(m["challengerPrecisionPct"], 0.0)
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# 2026-08-23 알림(Notification) 기능 — GitHub Issue로 대표에게 주간 실행결과 보고.
+# 핵심 원칙: Harness 상태 → Notification(단방향). 이 모듈은 candidates.json/
+# production_config.json을 절대 쓰지 않고, approve_production/execute_rollback을
+# 호출하지 않는다. LLM/네트워크 호출 없이 순수 함수로 제목·본문·레벨만 결정한다.
+# ═══════════════════════════════════════════════════════════════════════════
+from gaeo_evolution import notification as notif  # noqa: E402
+
+QUALIFIED_CARD = {
+    "후보": "det-x", "실험번호": "EXP-000137", "가설": "TARO 가중치 조정",
+    "Shadow기간": "68거래일 (2026-09-01~2026-12-05)", "실전표본": 1243,
+    "기존성능": "51.7%", "후보성능": "55.1%", "개선": "+3.4%p", "일평균개선": "+3.2%p",
+    "실전기록대비": "+1.0%p", "BUY": "악화 없음", "SELL": "개선",
+    "시장국면": "치명적 악화 없음", "큰오답": "증가 없음", "미래정보": "사용 안 함",
+    "Rollback준비": "준비됨", "기계판정": "승격 추천 — 대표 승인 대기", "안내": "..",
+    "_meta": {"fingerprint": "abc123def456", "status": "QUALIFIED_AWAITING_APPROVAL",
+             "actionN": 150, "directionSharePct": 55.0, "coveragePct": 20.0},
+}
+
+
+def _status_doc(**overrides):
+    base = {"systemHealth": "OK", "failureClusterCount": 5,
+            "candidateCounts": {}, "shadowSummaries": [1, 2, 3],
+            "lastPromotion": None, "lastRollback": None,
+            "baselineSummary": {"n": 2990, "uniqueDays": 5},
+            "safeModeReasons": [], "degradedReasons": []}
+    base.update(overrides)
+    return base
+
+
+class NotificationModuleBoundaryTest(unittest.TestCase):
+    """notification.py가 Harness 상태를 절대 바꾸지 않는다는 것을 구조적으로 보장."""
+
+    def test_no_registry_or_production_config_imports(self):
+        import ast
+        tree = ast.parse(open(os.path.join(HERE, "gaeo_evolution", "notification.py"),
+                              encoding="utf-8").read())
+        names = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                names += [a.name for a in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                names.append(node.module)
+        # re는 순수 stdlib 정규식 모듈이다(Secret 패턴 마스킹용, 2026-08-23 추가) —
+        # 네트워크·Harness 상태 접근이 없으므로 허용 목록에 추가해도 경계 보장은 그대로다.
+        self.assertTrue(all(n in (None, "datetime", "json", "os", "re", "sys", "argparse")
+                            for n in names), names)
+
+    def test_13_no_approve_production_call(self):
+        src = open(os.path.join(HERE, "gaeo_evolution", "notification.py"),
+                   encoding="utf-8").read()
+        self.assertNotRegex(src, r"approve_production\s*\(")
+
+    def test_14_no_execute_rollback_call(self):
+        src = open(os.path.join(HERE, "gaeo_evolution", "notification.py"),
+                   encoding="utf-8").read()
+        self.assertNotRegex(src, r"execute_rollback\s*\(")
+
+    def test_18_no_llm_api_calls(self):
+        src = open(os.path.join(HERE, "gaeo_evolution", "notification.py"),
+                   encoding="utf-8").read()
+        for banned in ("anthropic", "openai", "generativelanguage", "api_key",
+                       "API_KEY", "requests.", "urllib.request", "http.client"):
+            self.assertNotIn(banned, src, banned)
+
+    def test_15_16_17_no_file_writes_to_harness_state(self):
+        """알림 생성 중 candidates.json/production_config.json에 쓰기 시도 자체가 없다.
+
+        모듈 docstring은 '이 모듈이 이 파일들을 건드리지 않는다'는 설명상 그
+        파일명을 언급하므로(오탐 방지), docstring을 뺀 실제 코드에서만 확인한다.
+        """
+        import ast
+        path = os.path.join(HERE, "gaeo_evolution", "notification.py")
+        source = open(path, encoding="utf-8").read()
+        tree = ast.parse(source)
+        mod_doc = ast.get_docstring(tree) or ""
+        code_only = source.replace(mod_doc, "", 1)
+        self.assertNotIn("candidates.json", code_only)
+        self.assertNotIn("production_config.json", code_only)
+
+
+class NotificationLevelTest(unittest.TestCase):
+    """TEST 1~5: 실행 결과를 GREEN/ORANGE/RED로 정확히 분류하는지."""
+
+    def test_1_normal_no_candidates_is_green(self):
+        level = notif.decide_level(job_failed=False, status_doc=_status_doc(),
+                                   promotion_cards_doc={"cards": []})
+        self.assertEqual(level, notif.LEVEL_GREEN)
+
+    def test_2_qualified_awaiting_is_orange(self):
+        level = notif.decide_level(
+            job_failed=False,
+            status_doc=_status_doc(candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 1}),
+            promotion_cards_doc={"cards": [QUALIFIED_CARD]})
+        self.assertEqual(level, notif.LEVEL_ORANGE)
+
+    def test_3_workflow_failure_is_red(self):
+        level = notif.decide_level(job_failed=True, status_doc=None,
+                                   promotion_cards_doc=None)
+        self.assertEqual(level, notif.LEVEL_RED)
+
+    def test_4_safe_mode_is_red(self):
+        level = notif.decide_level(
+            job_failed=False, status_doc=_status_doc(systemHealth="SAFE_MODE",
+                                                     safeModeReasons=["dataFresh"]),
+            promotion_cards_doc=None)
+        self.assertEqual(level, notif.LEVEL_RED)
+
+    def test_5_degraded_is_reported_not_hidden(self):
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(systemHealth="DEGRADED",
+                                   degradedReasons=["Registry/실적용 불일치"]),
+            promotion_cards_doc=None, today="2026-08-23")
+        self.assertEqual(result["level"], notif.LEVEL_RED)
+        self.assertIn("DEGRADED", result["body"])
+        self.assertIn("Registry/실적용 불일치", result["body"])
+        self.assertNotIn("정상적으로 끝났습니다", result["body"])  # OK로 위장 금지
+
+    def test_red_priority_over_orange_when_both_apply(self):
+        """대표 승인 후보가 있어도 SAFE_MODE면 문제를 숨기지 않고 RED가 이긴다."""
+        level = notif.decide_level(
+            job_failed=False,
+            status_doc=_status_doc(systemHealth="SAFE_MODE",
+                                   candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 1}),
+            promotion_cards_doc={"cards": [QUALIFIED_CARD]})
+        self.assertEqual(level, notif.LEVEL_RED)
+
+
+class NotificationMentionAssigneeTest(unittest.TestCase):
+    """TEST 6~7: owner를 assignee로/본문에 멘션. (assignee 지정 자체는 workflow의
+    `gh issue create --assignee` 몫이므로, 여기서는 그 인자를 만드는 workflow 배선과
+    본문 멘션을 검증한다.)"""
+
+    def test_6_workflow_uses_repository_owner_as_assignee(self):
+        wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                  encoding="utf-8").read()
+        self.assertIn("OWNER: ${{ github.repository_owner }}", wf)
+        self.assertIn("--assignee \"$OWNER\"", wf)
+
+    def test_7_body_starts_with_owner_mention(self):
+        for level_doc in (
+            {"job_failed": False, "status_doc": _status_doc(), "promotion_cards_doc": None},
+            {"job_failed": False,
+             "status_doc": _status_doc(candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 1}),
+             "promotion_cards_doc": {"cards": [QUALIFIED_CARD]}},
+            {"job_failed": True, "status_doc": None, "promotion_cards_doc": None},
+        ):
+            result = notif.build_notification(owner="rudvh1016-gif", run_id="1",
+                                               run_url="u", today="2026-08-23", **level_doc)
+            self.assertTrue(result["body"].startswith("@rudvh1016-gif"),
+                            result["body"][:50])
+
+
+class NotificationIdempotencyTest(unittest.TestCase):
+    """TEST 8~9: Run ID 기반 marker — 같은 Run은 재사용, 다른 Run은 새로."""
+
+    def test_8_same_run_id_same_marker(self):
+        r1 = notif.build_notification(owner="o", run_id="123456789", run_url="u",
+                                      job_failed=False, status_doc=_status_doc(),
+                                      today="2026-08-23")
+        r2 = notif.build_notification(owner="o", run_id="123456789", run_url="u",
+                                      job_failed=False, status_doc=_status_doc(),
+                                      today="2026-08-23")
+        self.assertEqual(r1["marker"], r2["marker"])
+        self.assertIn(r1["marker"], r1["body"])
+
+    def test_9_different_run_id_different_marker(self):
+        r1 = notif.build_notification(owner="o", run_id="111", run_url="u",
+                                      job_failed=False, status_doc=_status_doc())
+        r2 = notif.build_notification(owner="o", run_id="222", run_url="u",
+                                      job_failed=False, status_doc=_status_doc())
+        self.assertNotEqual(r1["marker"], r2["marker"])
+
+    def test_workflow_searches_by_marker_before_creating(self):
+        wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                  encoding="utf-8").read()
+        self.assertIn("gh issue list", wf)
+        self.assertIn("in:body", wf)
+        self.assertLess(wf.index("gh issue list"), wf.index("gh issue create"))
+
+
+class NotificationContentTest(unittest.TestCase):
+    """TEST 10~12: 여러 후보 전부 표시, 없는 숫자는 지어내지 않음, Secret 미노출."""
+
+    def test_10_multiple_candidates_all_shown_in_one_issue(self):
+        card2 = dict(QUALIFIED_CARD, **{"후보": "det-y", "실험번호": "EXP-000138"})
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 2}),
+            promotion_cards_doc={"cards": [QUALIFIED_CARD, card2]}, today="2026-08-23")
+        self.assertEqual(result["level"], notif.LEVEL_ORANGE)
+        self.assertIn("EXP-000137", result["body"])
+        self.assertIn("EXP-000138", result["body"])
+        self.assertIn("det-x", result["body"])
+        self.assertIn("det-y", result["body"])
+
+    def test_11_missing_numbers_are_not_fabricated(self):
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(failureClusterCount=None,
+                                   baselineSummary={}, shadowSummaries=None),
+            candidate_generation=None, today="2026-08-23")
+        self.assertIn("측정값 없음", result["body"])
+        # 지어낸 숫자(0을 임의로 채우는 등)가 없는지 — None 입력이 "0"으로 둔갑하지 않음
+        self.assertNotIn("발견한 실패 패턴: 0개", result["body"])
+        self.assertNotIn("Shadow 진행 후보: 0개", result["body"])
+
+    def test_12_no_secrets_in_body(self):
+        secret_like = "sk-ANTHROPIC1234567890ABCDEFGHIJKLMNOPQRSTUVWX"
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=True,
+            failed_step="Run deterministic evolution lab",
+            status_doc=_status_doc(systemHealth="SAFE_MODE",
+                                   safeModeReasons=[f"내부 오류: {secret_like}"]),
+            today="2026-08-23")
+        # 상류 코드(gate.circuit_breaker/constitution)는 관례상 라벨·경로 수준
+        # 문자열만 사유로 넘기지만, "관례"는 보장이 아니다(독립 Security 검토
+        # MEDIUM, 2026-08-23). 그래서 이 모듈 자체가 알려진 Secret 형식을
+        # 구조적으로 한 번 더 가린다 — 실수로 원문이 섞여 들어와도 새어나가지 않는다.
+        self.assertNotIn(secret_like, result["body"])
+        self.assertIn("[REDACTED]", result["body"])
+        self.assertNotIn("RESEARCH_ARCHIVE_KEY=", result["body"])
+        self.assertNotIn("GITHUB_TOKEN", result["body"])
+
+    def test_secret_redaction_does_not_touch_fingerprint(self):
+        """가짜 secret 마스킹이 정상 16진수 값(Candidate fingerprint)까지
+        가리면 안 된다 — Fingerprint는 ORANGE 보고의 필수 실측값이다."""
+        fp = "a" * 64  # SHA256 fingerprint 형태(순수 16진수, secret 패턴 아님)
+        card = dict(QUALIFIED_CARD)
+        card["_meta"] = dict(card["_meta"], fingerprint=fp)
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 1}),
+            promotion_cards_doc={"cards": [card]}, today="2026-08-23")
+        self.assertIn(fp, result["body"])
+        self.assertNotIn("[REDACTED]", result["body"])
+        self.assertNotIn("Traceback (most recent call last)", result["body"])
+
+    def test_no_full_stack_trace_ever(self):
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=True,
+            failed_step="Harness contract tests", status_doc=None, today="2026-08-23")
+        self.assertNotIn("Traceback", result["body"])
+        self.assertIn("GitHub Actions", result["body"])  # 로그는 링크로만 안내
+
+
+class NotificationEarlyStepFailureTest(unittest.TestCase):
+    """⭐ 독립 QA 감사 HIGH 회귀 방지(2026-08-23).
+
+    checkout/setup-python/install_deps처럼 contract_tests '이전' 단계가 실패하면
+    이후 5개 단계는 전부 skipped가 된다. Notification Builder가 그 앞단만
+    빠뜨리면, job은 실제로 실패했는데 오래된(stale) status.json을 읽고
+    🟢 '정상 완료'로 거짓 보고하는 사고가 난다(재현·수리 완료).
+    """
+
+    def setUp(self):
+        self.wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                       encoding="utf-8").read()
+
+    def test_all_steps_before_notify_have_explicit_ids(self):
+        for step_id in ("checkout", "setup_python", "install_deps",
+                        "contract_tests", "run_lab", "allowlist",
+                        "verify_config", "commit"):
+            self.assertIn(f"id: {step_id}", self.wf, step_id)
+
+    def test_failure_chain_covers_every_step_before_notify(self):
+        idx = self.wf.index("notify_build")
+        chain = self.wf[idx:self.wf.index("GitHub Issue로 대표에게 알림")]
+        for outcome_var in ("OUTCOME_CHECKOUT", "OUTCOME_SETUP_PYTHON",
+                            "OUTCOME_INSTALL_DEPS", "OUTCOME_CONTRACT_TESTS",
+                            "OUTCOME_RUN_LAB", "OUTCOME_ALLOWLIST",
+                            "OUTCOME_VERIFY_CONFIG", "OUTCOME_COMMIT"):
+            self.assertIn(outcome_var, chain, outcome_var)
+        # checkout이 체인 맨 앞(최우선)에 검사돼야 한다 — 나중 elif로 밀리면
+        # 이미 skipped인 뒷단계 검사에 가려 놓칠 수 있다.
+        self.assertLess(chain.index("OUTCOME_CHECKOUT"),
+                        chain.index("OUTCOME_CONTRACT_TESTS"))
+
+    def test_module_call_failure_has_fallback_notification(self):
+        """checkout 자체가 실패해 gaeo_evolution 패키지가 없어도 이슈가 0개가
+        되지 않는다(독립 QA 감사 MEDIUM 회귀 방지) — 폴백 알림 생성 배선 확인."""
+        idx = self.wf.index("notify_build")
+        chain = self.wf[idx:self.wf.index("GitHub Issue로 대표에게 알림")]
+        self.assertIn("최소 폴백 알림", chain)
+        self.assertIn("if python3 -m gaeo_evolution.notification build", chain)
+        self.assertIn("else", chain)
+
+    def test_install_deps_failure_yields_red_not_stale_green(self):
+        """실제 로직을 그대로 재현 — install_deps 실패 시 RED가 나오는지."""
+        # 워크플로우의 elif 체인과 동치인 판정을 그대로 수행(실행 로직 재현).
+        outcomes = {"checkout": "success", "setup_python": "success",
+                   "install_deps": "failure", "contract_tests": "skipped",
+                   "run_lab": "skipped", "allowlist": "skipped",
+                   "verify_config": "skipped", "commit": "skipped"}
+        order = ["checkout", "setup_python", "install_deps", "contract_tests",
+                 "run_lab", "allowlist", "verify_config", "commit"]
+        failed_step = next((s for s in order if outcomes[s] == "failure"), None)
+        job_failed = failed_step is not None
+        self.assertEqual(failed_step, "install_deps")
+        self.assertTrue(job_failed)
+        # 오래된(stale) GREEN status.json이 있어도 job_failed가 우선한다.
+        stale_status = _status_doc(systemHealth="OK")
+        level = notif.decide_level(job_failed=job_failed, status_doc=stale_status,
+                                   promotion_cards_doc={"cards": []})
+        self.assertEqual(level, notif.LEVEL_RED)
+
+
+class NotificationSensitiveFileTest(unittest.TestCase):
+    def test_workflow_notify_step_has_always_condition(self):
+        wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                  encoding="utf-8").read()
+        # 알림 관련 두 단계 모두 if: always()
+        idx = wf.index("Notification Builder")
+        self.assertIn("if: always()", wf[idx - 400:idx + 400])
+        idx2 = wf.index("GitHub Issue로 대표에게 알림")
+        self.assertIn("if: always()", wf[idx2:idx2 + 300])
+
+    def test_permissions_least_privilege(self):
+        import yaml
+        wf = yaml.safe_load(open(os.path.join(HERE, ".github", "workflows",
+                                              "evolution-lab.yml"), encoding="utf-8"))
+        perms = wf["permissions"]
+        self.assertEqual(perms.get("contents"), "write")
+        self.assertEqual(perms.get("issues"), "write")
+        for bad in ("admin", "actions", "packages", "deployments"):
+            self.assertNotIn(bad, perms)
+
+    def test_workflow_does_not_use_external_notification_services(self):
+        wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                  encoding="utf-8").read()
+        for banned in ("slack.com", "discord.com", "api.telegram.org",
+                       "kakao", "sendgrid", "twilio", "SLACK_WEBHOOK",
+                       "DISCORD_WEBHOOK"):
+            self.assertNotIn(banned, wf, banned)
+
+
+class Test19And20Placeholder(unittest.TestCase):
+    """TEST 19(기존 계약 테스트 전부 PASS)·TEST 20(Behavioral Parity)은 이 파일
+    자체의 전체 실행 + 별도 parity 스크립트로 검증한다(스킬 절차 문서에 기록)."""
+
+    def test_notification_module_does_not_alter_evaluation_or_gate(self):
+        """알림 기능이 evaluation.py/gate.py의 판정 함수를 재정의하지 않는지."""
+        import gaeo_evolution.evaluation as ev
+        import gaeo_evolution.gate as gt
+        self.assertFalse(hasattr(ev, "notification"))
+        self.assertFalse(hasattr(gt, "notification"))
+
+
 if __name__ == "__main__":
     unittest.main()
