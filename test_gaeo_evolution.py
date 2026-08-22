@@ -2326,6 +2326,24 @@ class NotificationSchemaDriftTest(unittest.TestCase):
         self.assertEqual(result["level"], notif.LEVEL_RED)
         self.assertIn("@o", result["body"])
 
+    def test_cli_main_survives_truthy_non_dict_status_file(self):
+        """독립 QA 재검토 LOW(2026-08-23) — main()이 build_notification()의 dict
+        가드보다 먼저 status_doc을 만지는 줄(candidateGeneration 추출)이 있어,
+        status.json이 '참(truthy)'인 비-dict JSON(예: 빈 리스트가 아닌 리스트)이면
+        거기서 먼저 AttributeError로 죽을 수 있었다. CLI 진입점 자체로 재현."""
+        with tempfile.TemporaryDirectory() as tmp:
+            status_path = os.path.join(tmp, "status.json")
+            cards_path = os.path.join(tmp, "cards.json")
+            out_path = os.path.join(tmp, "out.json")
+            json.dump(["이건 dict가 아니라 손상된 status.json이다"], open(status_path, "w"))
+            json.dump({"cards": []}, open(cards_path, "w"))
+            rc = notif.main(["build", "--status", status_path, "--cards", cards_path,
+                            "--owner", "o", "--run-id", "1", "--run-url", "u",
+                            "--job-failed", "false", "--out", out_path])
+            self.assertEqual(rc, 0)
+            result = json.load(open(out_path))
+            self.assertEqual(result["level"], notif.LEVEL_RED)
+
 
 class NotificationSensitiveFileTest(unittest.TestCase):
     def test_workflow_notify_step_has_always_condition(self):
