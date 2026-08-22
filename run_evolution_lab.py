@@ -293,8 +293,15 @@ def main():
             continue
         verdict_counts[new_state] = verdict_counts.get(new_state, 0) + 1
         if new_state == "QUALIFIED_AWAITING_APPROVAL":
-            promotion_cards.append(gate.build_promotion_card(
-                spec, prospective, verdict, reasons, const))
+            card = gate.build_promotion_card(spec, prospective, verdict, reasons, const)
+            # 알림용 보강 필드 — gate.build_promotion_card(승격 판정 자체)는 건드리지
+            # 않는다. 이미 판정이 끝난 뒤 보고용으로만 원본 값 몇 개를 더 붙인다.
+            card["_meta"] = {"fingerprint": spec.get("fingerprint"),
+                             "status": new_state,
+                             "actionN": (prospective or {}).get("actionN"),
+                             "directionSharePct": (prospective or {}).get("directionSharePct"),
+                             "coveragePct": (prospective or {}).get("coveragePct")}
+            promotion_cards.append(card)
     # 카드 파일은 항상 현재 상태로 갱신 — 강등된 후보의 옛 카드가 남지 않게 한다.
     status_mod.write_json(PROMOTION_CARDS_PATH, {
         "generatedAt": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -397,6 +404,11 @@ def main():
     doc["experimentTotals"] = registry.experiment_totals()
     doc["shadowSummaries"] = shadow_summaries
     doc["promotionCardsAvailable"] = bool(promotion_cards)
+    # 알림(gaeo_evolution/notification.py) 보고용 — 이번 실행이 실제로 생성/생존/탈락
+    # 시킨 후보 수. 결정 로직에는 쓰이지 않는 순수 보고 필드(additive)다.
+    doc["candidateGeneration"] = {"generatedCount": len(generated),
+                                  "survivorCount": len(survivors),
+                                  "rejectedCount": len(rejected)}
     status_mod.write_json(status_mod.STATUS_PATH, doc)
     manifest_mod.finish(run, status="OK")
     print(f"Evolution Lab 완료 — 표본 {baseline['n']:,}행/{baseline['uniqueDays']}일 "
