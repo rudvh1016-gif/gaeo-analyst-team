@@ -2255,6 +2255,77 @@ class NotificationEarlyStepFailureTest(unittest.TestCase):
                                    promotion_cards_doc={"cards": []})
         self.assertEqual(level, notif.LEVEL_RED)
 
+    def test_cancelled_outcome_is_treated_as_failure_not_success(self):
+        """⭐ 독립 QA 감사 HIGH #2 회귀 방지(2026-08-23).
+
+        GitHub Actions 스텝 outcome은 success/failure/cancelled/skipped
+        4가지다. job의 timeout-minutes(20분) 초과나 사람의 수동 취소는
+        outcome=cancelled로 기록되는데, "= failure"만 검사하면 이를 놓쳐
+        stale status.json으로 거짓 🟢 GREEN이 나간다(재현·수리 완료).
+        재구현이 아니라 워크플로우의 실제 bash 스크립트를 그대로 추출해
+        실행한다 — 예전처럼 '동치 로직을 손으로 다시 씀'으로는 이 버그를
+        다시 놓칠 수 있기 때문이다.
+        """
+        import yaml
+        import subprocess
+        import tempfile
+
+        wf = yaml.safe_load(open(os.path.join(HERE, ".github", "workflows",
+                                              "evolution-lab.yml"), encoding="utf-8"))
+        steps = wf["jobs"]["lab"]["steps"]
+        notify_step = next(s for s in steps if s.get("id") == "notify_build")
+        script = notify_step["run"]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            gh_output = os.path.join(tmp, "github_output")
+            open(gh_output, "w").close()
+            # 스크립트 안 --out 인자는 하드코딩된 /tmp/gaeo_notify.json이라
+            # 그 경로에 그대로 쓰인다 — 판정 결과는 GITHUB_OUTPUT의 level=로 읽는다.
+            env = dict(os.environ)
+            env.update({
+                "OUTCOME_CHECKOUT": "success", "OUTCOME_SETUP_PYTHON": "success",
+                "OUTCOME_INSTALL_DEPS": "success", "OUTCOME_CONTRACT_TESTS": "success",
+                "OUTCOME_RUN_LAB": "cancelled",  # ← job timeout/수동취소 재현
+                "OUTCOME_ALLOWLIST": "skipped", "OUTCOME_VERIFY_CONFIG": "skipped",
+                "OUTCOME_COMMIT": "skipped",
+                "RUN_ID": "999888777", "RUN_URL": "https://example.invalid/run",
+                "OWNER": "test-owner", "TZ": "Asia/Seoul",
+                "GITHUB_OUTPUT": gh_output,
+            })
+            result = subprocess.run(["bash", "-c", script], cwd=HERE, env=env,
+                                    capture_output=True, text=True, timeout=60)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("job_failed=true", result.stderr,
+                          f"cancelled 단계가 실패로 감지되지 않음. stderr={result.stderr}")
+            gh_out_text = open(gh_output).read()
+            self.assertIn("level=RED", gh_out_text,
+                          f"cancelled인데 RED가 아님 — stale status로 거짓 GREEN 가능성. "
+                          f"stderr={result.stderr} github_output={gh_out_text}")
+
+
+class NotificationSchemaDriftTest(unittest.TestCase):
+    """⭐ 독립 QA 감사 LOW 회귀 방지(2026-08-23) — 손상된 status.json/
+    promotion_cards.json(dict가 아닌 값)이 들어와도 AttributeError로 죽지 않고
+    정직하게 RED로 판정한다(워크플로우 레벨 폴백에만 기대지 않는다)."""
+
+    def test_non_dict_status_doc_is_treated_as_missing(self):
+        level = notif.decide_level(job_failed=False, status_doc=["not", "a", "dict"],
+                                   promotion_cards_doc={"cards": []})
+        self.assertEqual(level, notif.LEVEL_RED)
+
+    def test_non_dict_promotion_cards_doc_does_not_crash(self):
+        level = notif.decide_level(job_failed=False, status_doc=_status_doc(),
+                                   promotion_cards_doc=["not", "a", "dict"])
+        self.assertEqual(level, notif.LEVEL_GREEN)  # cards 없음 취급, 크래시 없음
+
+    def test_build_notification_survives_malformed_docs(self):
+        result = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc="완전히 잘못된 문자열", promotion_cards_doc=123,
+            today="2026-08-23")
+        self.assertEqual(result["level"], notif.LEVEL_RED)
+        self.assertIn("@o", result["body"])
+
 
 class NotificationSensitiveFileTest(unittest.TestCase):
     def test_workflow_notify_step_has_always_condition(self):
