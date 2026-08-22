@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "constitutionVersion": "GAEO_EVOLUTION_CONSTITUTION_V1.1",
+  "constitutionVersion": "GAEO_EVOLUTION_CONSTITUTION_V1.2",
   "createdAt": "2026-08-21",
   "purpose": "GAEO Evolution(자기개선) 자동 런타임이 절대 스스로 바꿀 수 없는 규칙. 이 파일의 변경은 사람(대표)의 명시적 작업으로만 한다. 자동 런타임은 이 파일의 checksum이 어긋나면 SAFE_MODE로 들어가고 어떤 승격·커밋도 하지 않는다.",
   "amendments": [
     {"version": "GAEO_EVOLUTION_CONSTITUTION_V1", "date": "2026-08-21", "summary": "최초 제정"},
-    {"version": "GAEO_EVOLUTION_CONSTITUTION_V1.1", "date": "2026-08-22", "summary": "독립 감사 수리 — promotionFloor에 BUY/SELL/국면/큰오답 하위그룹 보호 추가(더 보수적으로만 변경), rollback cooldown·재승격 차단 추가, 데이터 진위(FORWARD RECORD ONLY)·offline 연구/평가 분리 정책 명문화. checksum은 이 개정과 같은 커밋에서 사람이 함께 갱신한다(git 이력으로 동시 변경 추적)."}
+    {"version": "GAEO_EVOLUTION_CONSTITUTION_V1.1", "date": "2026-08-22", "summary": "독립 감사 수리 — promotionFloor에 BUY/SELL/국면/큰오답 하위그룹 보호 추가(더 보수적으로만 변경), rollback cooldown·재승격 차단 추가, 데이터 진위(FORWARD RECORD ONLY)·offline 연구/평가 분리 정책 명문화. checksum은 이 개정과 같은 커밋에서 사람이 함께 갱신한다(git 이력으로 동시 변경 추적)."},
+    {"version": "GAEO_EVOLUTION_CONSTITUTION_V1.2", "date": "2026-08-22", "summary": "2차 독립 감사 수리 — Production Config Adapter(gaeo_evolution/production_config.json) 신설: 승인된 후보의 GREEN 선언 파라미터(weights/buyCut)만 layered override로 실제 판단 경로에 적용, override 없으면 기존과 100% 동일. promotionFloor에 minRealGainPp(실전 Champion 대비 악화 금지) 추가 — 더 보수적으로만. autoCommitAllowlist에 production_config.json 추가하되, 자동 런타임은 '해제/previousStable 복원' 방향 변경만 커밋 가능(workflow is_auto_change_safe 검사)."}
   ],
 
   "scoringVersion": "grading_v1_2026-08-16",
@@ -43,8 +44,10 @@
   "autoCommitAllowlist": [
     "gaeo_evolution/registry/",
     "gaeo_evolution/status/",
-    "research_archive/evolution/"
+    "research_archive/evolution/",
+    "gaeo_evolution/production_config.json"
   ],
+  "autoCommitAllowlistNote": "production_config.json은 자동 런타임이 '해제/previousStable 복원' 방향으로만 바꿀 수 있다 — workflow의 production_config.is_auto_change_safe 검사가 활성화 커밋을 차단한다. 활성화(승격 적용)는 사람 승인 명령(registry.approve_production) 전용.",
 
   "promotionFloor": {
     "source": "compute_model_intelligence.py promotion.minimums (2026-08-21 실코드 확인값). 이 바닥값을 낮추는 것은 금지. 더 보수적으로 올리는 것만 가능.",
@@ -65,7 +68,8 @@
     "maxSellPrecisionDropPp": 2.0,
     "maxLargeErrorRisePp": 2.0,
     "maxRegimeWorstDropPp": 5.0,
-    "subgroupGuardNote": "2026-08-22 추가(더 보수적으로만). 전체 개선이 있어도 BUY/SELL/시장국면/큰오답 중 하나가 이 한도 넘게 나빠지면 승격 불가. 해당 실측이 없어도 승격 불가(fail closed)."
+    "minRealGainPp": 0.0,
+    "subgroupGuardNote": "2026-08-22 추가(더 보수적으로만). 전체 개선이 있어도 BUY/SELL/시장국면/큰오답 중 하나가 이 한도 넘게 나빠지면 승격 불가. 해당 실측이 없어도 승격 불가(fail closed). minRealGainPp: 후보는 동결 기준(champSim)뿐 아니라 Shadow 기간의 실제 그날그날 Production 판단(champReal)보다도 나빠지면 안 된다 — 하위그룹(BUY/SELL/큰오답/국면)도 실전 대비 같은 한도로 보호."
   },
 
   "recordAuthenticityPolicy": {

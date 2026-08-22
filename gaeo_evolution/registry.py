@@ -346,14 +346,28 @@ def set_status(candidate_id, status, reasons=None, path=CANDIDATE_PATH, extra=No
     return entry
 
 
-def approve_production(candidate_id, approver, previous_stable_versions,
-                       path=CANDIDATE_PATH, baseline_path=BASELINE_PATH):
-    """⭐ 사람(대표) 승인 전용 — 자동 런타임은 이 함수를 절대 부르지 않는다.
+def approve_production(candidate_id, approver, path=CANDIDATE_PATH,
+                       baseline_path=BASELINE_PATH, config_path=None,
+                       constitution_doc=None):
+    """⭐ 사람(대표) 승인 전용 — 실제 Production 적용까지 '원자적으로' 수행한다.
 
-    QUALIFIED_AWAITING_APPROVAL 상태의 후보만 PRODUCTION이 될 수 있고,
-    승인 직전의 안정 버전(previous_stable_versions)을 함께 기록해
-    롤백이 '어디로 돌아가야 하는지'를 항상 알게 한다.
+    2026-08-22 2차 감사 수리: 예전에는 status만 PRODUCTION으로 적고 실제
+    분석 경로에는 아무것도 적용하지 않았다. 이제 순서는 다음과 같고,
+    하나라도 실패하면 기존 Production 설정 유지 + 후보 상태 불변이다.
+
+      1 승인자·상태(QUALIFIED_AWAITING_APPROVAL) 확인
+      2 fingerprint 재검증(변조 의심 시 거부)
+      3 Constitution 재검증(checksum 포함)
+      4 실제 현재 Production 설정 Snapshot — 호출자가 아니라 코드가 직접 뜬다
+        (잘못된 rollback target이 기록되는 것을 방지)
+      5 previousStable 기록 + 승인 시점 성적표 동결
+      6 후보 파라미터 재검증(Constitution 범위)
+      7 production_config 원자 적용 → 재읽기 검증 → 실제 분석 경로 fixture 검증
+      8 전부 성공했을 때만 status=PRODUCTION 기록
+        (이 기록마저 실패하면 방금 적용한 config를 즉시 원복하고 예외)
     """
+    from gaeo_evolution import constitution as constitution_mod
+    from gaeo_evolution import production_config as pc
     if not approver or not str(approver).strip():
         raise CandidateStateError("approver(승인자)를 명시해야 합니다")
     doc = load_candidates(path)
@@ -363,20 +377,34 @@ def approve_production(candidate_id, approver, previous_stable_versions,
     if entry.get("status") != "QUALIFIED_AWAITING_APPROVAL":
         raise CandidateStateError(
             f"승인 불가 — 현재 상태 {entry.get('status')} (QUALIFIED_AWAITING_APPROVAL만 승인 가능)")
-    set_previous_stable(previous_stable_versions, path=baseline_path)
+    if candidate_fingerprint(entry) != entry.get("fingerprint"):
+        raise CandidateImmutabilityError(
+            f"승인 거부 — fingerprint 불일치(핵심 설정 변조 의심): {candidate_id}")
+    const = constitution_doc or constitution_mod.load()      # checksum 검증 포함
+    validate_candidate(entry, const)
+    # 실제 '지금' 설정을 코드가 직접 스냅샷 — rollback 목적지의 단일 원천.
+    snapshot = pc.current_snapshot(config_path)
+    set_previous_stable(snapshot, path=baseline_path)
     # 승인 '시점'의 성적표를 동결해 롤백 감시의 비교 기준으로 삼는다 —
     # 다음 주간 실행까지 기다리면 승격 후 기록이 기준선에 섞인다.
     usable = usable_baselines(path=baseline_path)
     if usable:
         entry["productionBaselineMetrics"] = usable[-1].get("metrics")
-    entry["status"] = "PRODUCTION"
-    entry["statusChangedAt"] = _now()
-    entry["promotedAt"] = _now()
-    entry["approvedBy"] = str(approver)
-    entry.setdefault("statusHistory", []).append(
-        {"at": _now(), "from": "QUALIFIED_AWAITING_APPROVAL", "to": "PRODUCTION",
-         "reasons": [f"사람 승인: {approver}"]})
-    _write(path, doc)
+    # 원자 적용(+재읽기·fixture 검증). 실패 시 예외 — status는 그대로 QUALIFIED.
+    pc.apply_candidate(entry, const, config_path=config_path)
+    try:
+        entry["status"] = "PRODUCTION"
+        entry["statusChangedAt"] = _now()
+        entry["promotedAt"] = _now()
+        entry["approvedBy"] = str(approver)
+        entry.setdefault("statusHistory", []).append(
+            {"at": _now(), "from": "QUALIFIED_AWAITING_APPROVAL", "to": "PRODUCTION",
+             "reasons": [f"사람 승인: {approver}"]})
+        _write(path, doc)
+    except Exception:
+        # "적용은 됐는데 기록이 안 된" 불일치를 남기지 않는다 — 즉시 원복.
+        pc.rollback_to_previous("승인 기록 실패 — 자동 원복", config_path=config_path)
+        raise
     return entry
 
 

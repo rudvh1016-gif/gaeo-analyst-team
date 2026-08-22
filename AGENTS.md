@@ -252,6 +252,12 @@ GAEO가 실측 결과로 실패를 찾고, 안전범위 후보를 만들어 시�
   `gaeo_evolution/registry|status/`·`research_archive/evolution/`만 허용(위반=커밋 거부).
 - Rollback: previousStableVersion(config 선택 방식). 상세는
   `docs/GAEO_EVOLUTION_ARCHITECTURE.md`·`docs/GAEO_HARNESS.md`·`docs/GAEO_EVOLUTION_SAFETY.md`.
+- ⭐ 2026-08-22 2차 수리: 승인된 후보는 `gaeo_evolution/production_config.json`
+  (Production Config Adapter)을 통해 실제 analyze_auto 판단에 적용된다 —
+  override 없으면 기존과 100% 동일, team_weights.js는 덮어쓰지 않음(재생성 무관).
+  승인 = `registry.approve_production(후보ID, '대표')`(원자 적용+fixture 검증),
+  롤백 = 실제 previousStable 복원까지 자동. 자동 런타임은 이 파일을
+  '해제/복원' 방향으로만 커밋할 수 있다(활성화는 사람 전용).
 - ⚠️ Constitution 수정은 사람 전용: JSON 수정 후 `constitution.write_checksum()`으로
   재고정해 두 파일을 함께 커밋한다.
 
