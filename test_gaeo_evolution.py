@@ -2166,6 +2166,27 @@ class NotificationContentTest(unittest.TestCase):
         self.assertNotIn("[REDACTED]", result["body"])
         self.assertNotIn("Traceback (most recent call last)", result["body"])
 
+    def test_candidate_id_and_approved_by_are_also_redacted(self):
+        """⭐ 독립 Security 검토 LOW 회귀 방지(2026-08-23) — candidateId·approvedBy는
+        기계뿐 아니라 사람이 spec을 직접 쓰거나 approve_production()을 손으로
+        호출할 때도 채워지는 경로가 있어, hypothesis와 같은 위험군으로 본다."""
+        secret_like = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        card = dict(QUALIFIED_CARD, **{"후보": f"det-{secret_like}"})
+        result_orange = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(candidateCounts={"QUALIFIED_AWAITING_APPROVAL": 1}),
+            promotion_cards_doc={"cards": [card]}, today="2026-08-23")
+        self.assertNotIn(secret_like, result_orange["body"])
+        self.assertIn("[REDACTED]", result_orange["body"])
+
+        result_green = notif.build_notification(
+            owner="o", run_id="1", run_url="u", job_failed=False,
+            status_doc=_status_doc(lastPromotion={
+                "candidateId": "det-x", "approvedBy": secret_like,
+                "promotedAt": "2026-08-23"}),
+            promotion_cards_doc={"cards": []}, today="2026-08-23")
+        self.assertNotIn(secret_like, result_green["body"])
+
     def test_no_full_stack_trace_ever(self):
         result = notif.build_notification(
             owner="o", run_id="1", run_url="u", job_failed=True,
