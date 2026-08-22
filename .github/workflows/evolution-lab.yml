@@ -1,12 +1,19 @@
 # GAEO Evolution Lab — 주 1회, 장 닫힌 시간, 결정론(무LLM) 연구 실행.
 #
 # 하는 일: Baseline 성적표 갱신 · Failure Mining · Deterministic Candidate 연구 ·
-#          Gate 판정(Bootstrap) · 공개 Status 갱신.
+#          Gate 판정(Bootstrap) · 공개 Status 갱신 · 대표에게 GitHub Issue로 실행결과 보고.
 # 안 하는 일: Claude/LLM API 호출(credential 가정 금지) · Production 코드 수정 ·
-#             Constitution/Benchmark/Workflow 변경 · 시장시간 실행.
+#             Constitution/Benchmark/Workflow 변경 · 시장시간 실행 · 외부 알림 서비스 사용.
 #
 # 커밋 안전장치: Constitution의 autoCommitAllowlist 밖 파일이 하나라도 변경되면
 #                커밋하지 않고 FAIL한다(FAIL CLOSED).
+#
+# 알림(2026-08-23 추가): 이 Run이 성공/실패/승인대기 중 무엇이든, 마지막 Notification
+# 단계는 `if: always()`로 항상 실행되어 대표(repository owner)에게 GitHub Issue
+# 1개를 만든다(🟢 정상/🟠 승인필요/🔴 점검필요). 알림 로직은 gaeo_evolution/notification.py
+# (순수 함수, 네트워크·LLM 호출 없음)가 내용을 결정하고, 실제 이슈 생성·assignee·검색은
+# 이 워크플로우의 `gh` CLI(GITHUB_TOKEN)만 쓴다(paper-health-alert.yml과 같은 방식).
+# 알림 실패는 워크플로우를 FAIL시키되, Production 판단·Candidate 상태는 절대 건드리지 않는다.
 name: evolution-lab
 
 on:
@@ -25,6 +32,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write   # 대표에게 보내는 주간 실행결과 Issue 생성용(최소 권한만 추가)
 
 jobs:
   lab:
@@ -32,10 +40,12 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        id: checkout
         with:
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
+        id: setup_python
         with:
           python-version: "3.12"
 
@@ -43,13 +53,16 @@ jobs:
       # 다른 워크플로와 같은 방식. 없으면 Key가 있어도 상세 저장이 조용히 생략됐다
       # (2026-08-22 수리에서 발견된 기존 누락).
       - name: 암호화 라이브러리 설치
+        id: install_deps
         run: python3 -m pip install --quiet --upgrade cryptography
 
       # 계약 테스트가 먼저다 — 미래정보·표본조작·보호경로 위반은 여기서 막힌다.
       - name: Harness contract tests
+        id: contract_tests
         run: python -m unittest test_gaeo_evolution -q
 
       - name: Run deterministic evolution lab
+        id: run_lab
         env:
           # Key가 없으면 상세 Memory 저장은 생략된다(평문 fallback 없음).
           RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
@@ -88,6 +101,7 @@ jobs:
       # production_config.json은 자동 런타임이 '해제/previousStable 복원' 방향으로만
       # 바꿀 수 있다 — override 활성화(=자동 승격 경로)는 여기서 차단한다(FAIL CLOSED).
       - name: Verify production_config change is deactivation-only
+        id: verify_config
         if: steps.allowlist.outputs.noop == 'false'
         run: |
           set -euo pipefail
@@ -115,6 +129,7 @@ jobs:
           fi
 
       - name: Commit allowlisted results
+        id: commit
         if: steps.allowlist.outputs.noop == 'false'
         run: |
           # '변경 없음'과 '진짜 git 오류'를 구분한다 — 오류는 워크플로우 FAIL(초록색 금지).
@@ -131,3 +146,123 @@ jobs:
           git commit -m "evolution: 주간 결정론 연구 기록 갱신 [skip ci]"
           git pull --no-rebase -q origin main
           git push origin HEAD:main
+
+      # ── 대표에게 보내는 주간 실행결과 알림 ──────────────────────────────────
+      # if: always() — 위 단계 중 어디서 실패해도(계약 테스트·연구 실행·커밋 등)
+      # 이 단계는 반드시 실행되어 🔴 점검 필요 이슈를 만든다. 알림 내용 자체는
+      # gaeo_evolution/notification.py(순수 함수, LLM·네트워크 호출 없음)가
+      # status.json/promotion_cards.json만 읽어 결정론적으로 만든다.
+      - name: 알림 내용 결정 (Notification Builder — 상태 파일만 읽음)
+        id: notify_build
+        if: always()
+        env:
+          TZ: Asia/Seoul
+          # ⚠️ 실패 감지는 이 job의 '모든' 단계를 본다 — contract_tests 이후만 보면
+          # checkout/setup-python/install_deps가 실패했을 때 놓쳐서, 실제로는 job이
+          # 실패했는데 오래된(stale) status.json을 읽고 🟢 "정상 완료"로 거짓 보고하는
+          # 사고가 난다(독립 QA 감사 HIGH, 2026-08-23 발견·수리).
+          OUTCOME_CHECKOUT: ${{ steps.checkout.outcome }}
+          OUTCOME_SETUP_PYTHON: ${{ steps.setup_python.outcome }}
+          OUTCOME_INSTALL_DEPS: ${{ steps.install_deps.outcome }}
+          OUTCOME_CONTRACT_TESTS: ${{ steps.contract_tests.outcome }}
+          OUTCOME_RUN_LAB: ${{ steps.run_lab.outcome }}
+          OUTCOME_ALLOWLIST: ${{ steps.allowlist.outcome }}
+          OUTCOME_VERIFY_CONFIG: ${{ steps.verify_config.outcome }}
+          OUTCOME_COMMIT: ${{ steps.commit.outcome }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          # ⚠️ GitHub Actions 스텝 outcome은 success/failure/cancelled/skipped
+          # 4가지다. "failure"만 검사하면 이 job의 timeout-minutes(20분) 초과나
+          # 사람이 Actions 화면에서 수동 취소한 경우(outcome=cancelled)를 놓쳐서
+          # stale status.json으로 거짓 🟢 GREEN 보고가 재발한다(독립 QA 감사
+          # HIGH, 2026-08-23 발견·수리 — 원래 HIGH와 증상 동일, 트리거만 다름).
+          is_bad() { [ "$1" = "failure" ] || [ "$1" = "cancelled" ]; }
+          FAILED_STEP=""
+          if is_bad "$OUTCOME_CHECKOUT"; then
+            FAILED_STEP="Checkout"
+          elif is_bad "$OUTCOME_SETUP_PYTHON"; then
+            FAILED_STEP="setup-python"
+          elif is_bad "$OUTCOME_INSTALL_DEPS"; then
+            FAILED_STEP="암호화 라이브러리 설치"
+          elif is_bad "$OUTCOME_CONTRACT_TESTS"; then
+            FAILED_STEP="Harness contract tests"
+          elif is_bad "$OUTCOME_RUN_LAB"; then
+            FAILED_STEP="Run deterministic evolution lab"
+          elif is_bad "$OUTCOME_ALLOWLIST"; then
+            FAILED_STEP="Enforce commit allowlist"
+          elif is_bad "$OUTCOME_VERIFY_CONFIG"; then
+            FAILED_STEP="Verify production_config change is deactivation-only"
+          elif is_bad "$OUTCOME_COMMIT"; then
+            FAILED_STEP="Commit allowlisted results"
+          fi
+          JOB_FAILED="false"
+          if [ -n "$FAILED_STEP" ]; then JOB_FAILED="true"; fi
+          echo "판정 — 실패단계:[$FAILED_STEP] job_failed=$JOB_FAILED" 1>&2
+
+          # notification.py 호출 자체가 실패하는 경우는 최소 두 가지다 — ①checkout
+          # 자체가 실패해 저장소 파일(gaeo_evolution 패키지)이 없는 경우 ②상태
+          # 파일은 있지만 형식이 손상된 경우(독립 QA 감사 LOW). 원인이 무엇이든
+          # "이슈 0개"가 되면 안 되므로(독립 QA 감사 MEDIUM), 저장소 파일 없이도
+          # 만들 수 있는 최소 폴백 알림을 생성한다 — 문구는 원인을 단정하지 않는다.
+          if python3 -m gaeo_evolution.notification build \
+              --owner "$OWNER" --run-id "$RUN_ID" --run-url "$RUN_URL" \
+              --job-failed "$JOB_FAILED" --failed-step "$FAILED_STEP" \
+              --out /tmp/gaeo_notify.json; then
+            :
+          else
+            echo "notification.py 호출 실패(체크아웃 문제 또는 상태 파일 손상 등으로 추정) — 최소 폴백 알림 생성" 1>&2
+            FAILED_STEP_FALLBACK="${FAILED_STEP:-알 수 없음(초기 단계 실패 또는 상태 파일 손상으로 상세 파악 불가)}" \
+            python3 -c "
+          import datetime, json, os
+          owner = os.environ['OWNER']; run_id = os.environ['RUN_ID']; run_url = os.environ['RUN_URL']
+          failed_step = os.environ['FAILED_STEP_FALLBACK']
+          KST = datetime.timezone(datetime.timedelta(hours=9))
+          today = datetime.datetime.now(KST).date().isoformat()
+          marker = f'gaeo-evolution-run:{run_id}'
+          body = (f'@{owner}\n\n'
+                  '이번 Evolution 실행 결과를 평소 방식으로 보고하지 못했습니다 '
+                  '(초기 단계 실패 또는 상태 파일 손상 추정).\n\n'
+                  f'- 실패 단계: {failed_step}\n'
+                  '- 오류 종류: 측정값 없음 (자세한 내용은 GitHub Actions 로그 확인)\n'
+                  '- Production 자동승격: 없음\n- 대표 확인 필요: 예\n\n'
+                  f'실행 로그: {run_url}\n\n'
+                  '(Secret·토큰·전체 스택트레이스는 이 알림에 포함하지 않습니다.)\n\n'
+                  f'<!-- {marker} -->\n')
+          json.dump({'level': 'RED', 'title': f'🔴 [GAEO Evolution] 점검 필요 — {today}',
+                     'body': body, 'marker': marker},
+                    open('/tmp/gaeo_notify.json', 'w'), ensure_ascii=False, indent=1)
+          "
+          fi
+          {
+            echo "level=$(python3 -c "import json;print(json.load(open('/tmp/gaeo_notify.json'))['level'])")"
+            echo "marker=$(python3 -c "import json;print(json.load(open('/tmp/gaeo_notify.json'))['marker'])")"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: GitHub Issue로 대표에게 알림 (assignee + @멘션)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          MARKER: ${{ steps.notify_build.outputs.marker }}
+        run: |
+          set -euo pipefail
+          python3 -c "
+          import json
+          doc = json.load(open('/tmp/gaeo_notify.json'))
+          open('/tmp/gaeo_notify_title.txt', 'w', encoding='utf-8').write(doc['title'])
+          open('/tmp/gaeo_notify_body.md', 'w', encoding='utf-8').write(doc['body'])
+          "
+          TITLE=$(cat /tmp/gaeo_notify_title.txt)
+          # 같은 Run ID의 이슈가 이미 있으면 새로 만들지 않는다(재시도 중복 방지).
+          # GitHub 검색 인덱싱에는 최대 수십 초 지연이 있을 수 있어 100% 보장은 아니다.
+          EXISTING=$(gh issue list --state all --limit 5 \
+            --search "\"${MARKER}\" in:body" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            echo "이미 같은 Run(${MARKER})의 알림 이슈 #$EXISTING 존재 — 새로 만들지 않음"
+          else
+            gh issue create --title "$TITLE" --body-file /tmp/gaeo_notify_body.md --assignee "$OWNER"
+            echo "새 알림 이슈 생성 완료(assignee=$OWNER, 본문에 @$OWNER 멘션 포함)"
+          fi
