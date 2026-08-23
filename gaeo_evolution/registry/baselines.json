@@ -58,6 +58,64 @@
     }
    },
    "note": "deterministic evolution lab 자동 기록 · forward-only v2"
+  },
+  {
+   "recordedAt": "2026-08-23T06:08:56+00:00",
+   "day": "2026-08-23",
+   "versions": {
+    "gitSha": "a9bfe1439e1863bb4bbf7df074e68fd8256ad637",
+    "teamWeightVersion": "2026-08-21 16:15",
+    "modelIntelligenceVersion": "calibrated-ensemble-v3",
+    "modelIntelligencePromotion": "shadow",
+    "baseModelVersion": "base-2026-08-15-parity-hotfix",
+    "productionWeights": {
+     "taro": 0.2652,
+     "diana": 0.1232,
+     "nova": 0.3003,
+     "flow": 0.3112
+    },
+    "productionWeightsSource": "team_weights.js(global)"
+   },
+   "metrics": {
+    "semantics": "production_call_hit(deadband=1)",
+    "recordSelection": "forward_record_only_v2",
+    "modelVersions": [],
+    "n": 0,
+    "uniqueDays": 0,
+    "regimeCount": 0,
+    "buy": {
+     "n": 0,
+     "precisionPct": null
+    },
+    "sell": {
+     "n": 0,
+     "precisionPct": null
+    },
+    "hold": {
+     "n": 0,
+     "hitPct": null
+    },
+    "actionable": {
+     "n": 0,
+     "precisionPct": null,
+     "precisionCi95": null
+    },
+    "coveragePct": null,
+    "directionSharePct": null,
+    "brier": null,
+    "largeErrorPct": null,
+    "topErrorSectors": [],
+    "cutoffExclusion": {
+     "excludedN": 0,
+     "excludedWhy": {}
+    },
+    "authenticityExclusion": {
+     "recon_backfill_post_hoc": 5965,
+     "non_auto_tier": 122,
+     "model_version_out_of_scope": 10500
+    }
+   },
+   "note": "deterministic evolution lab 자동 기록 · forward-only v2"
   }
  ],
  "previousStable": null

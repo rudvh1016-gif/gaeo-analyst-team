@@ -1,9 +1,9 @@
 {
- "runId": "evo-20260822-121738",
+ "runId": "evo-20260823-060855",
  "runType": "deterministic_evolution_lab",
- "startedAt": "2026-08-22T12:17:38+00:00",
- "finishedAt": "2026-08-22T12:17:40+00:00",
- "gitSha": "cd0cc0621606a59e38138910ff7ca025f210eb37",
+ "startedAt": "2026-08-23T06:08:55+00:00",
+ "finishedAt": "2026-08-23T06:08:56+00:00",
+ "gitSha": "a9bfe1439e1863bb4bbf7df074e68fd8256ad637",
  "scoringVersion": "grading_v1_2026-08-16",
  "baseModelVersion": "base-2026-08-15-parity-hotfix",
  "candidateVersion": null,
@@ -23,7 +23,7 @@
  "cachedTokens": 0,
  "costUsd": null,
  "costSource": "not_applicable_no_llm",
- "runtimeSeconds": 1.7,
+ "runtimeSeconds": 0.9,
  "status": "OK",
  "evaluationMeta": {
   "evaluationVersion": "evolution_eval_v2_2026-08-22",
@@ -42,7 +42,7 @@
    "seed": 17,
    "note": "build_model_scoreboard._block_bootstrap_ci 재사용"
   },
-  "generatedAt": "2026-08-22T12:17:40+00:00",
+  "generatedAt": "2026-08-23T06:08:56+00:00",
   "selection": {
    "recordSelection": "forward_record_only_v2",
    "modelVersions": [
