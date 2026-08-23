@@ -135,7 +135,16 @@ def check_changed_paths(changed_paths, constitution):
     def _allowed(norm):
         for a in allow:
             if a.endswith("/"):
-                if norm.startswith(a):
+                # 🐛 2026-08-23: norm은 _normalize()(posixpath.normpath)를 거쳐
+                # 끝 '/'가 이미 제거돼 있는데, allow 쪽은 원문 그대로(끝 '/' 유지)라
+                # git이 통째로 새 디렉터리를 한 줄(예: 'research_archive/evolution/')
+                # 로만 보고할 때 norm == 'research_archive/evolution'이 돼 startswith가
+                # 실패했다 — allowlist에 이미 있는 디렉터리인데도 밖으로 튕겨 FAIL
+                # CLOSED가 걸렸다(실제 스케줄 실행에서 재현·발견). 양쪽을 같은 기준
+                # (끝 '/' 없음)으로 맞추고, '그 디렉터리 자체'와 '그 아래 파일' 둘 다
+                # 허용한다.
+                a_dir = a.rstrip("/")
+                if norm == a_dir or norm.startswith(a_dir + "/"):
                     return True
             elif norm == a:
                 return True
