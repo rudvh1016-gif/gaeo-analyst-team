@@ -1323,6 +1323,22 @@ class ProtectedPathBypassTest(unittest.TestCase):
         self.assertEqual(violations, [])
         self.assertEqual(outside, [])
 
+    def test_bare_new_allowlisted_directory_is_committable(self):
+        """⭐ 실제 프로덕션 재발견(2026-08-23 일요일 정기 실행) — git status가 완전히
+        새로운(그 전엔 하나도 추적 안 되던) 디렉터리를 파일 단위가 아니라
+        'research_archive/evolution/' 한 줄로만 보고할 때, allowlist에 이미 있는
+        디렉터리인데도 밖으로 튕겨 FAIL CLOSED가 걸렸다(실제 알림에서 🔴로
+        발견). _normalize()가 끝 '/'를 지우는데 allow 쪽은 원문 그대로라 생긴
+        비대칭 버그 — 양쪽 기준을 맞춰 고쳤다."""
+        for path in ("research_archive/evolution/", "research_archive/evolution"):
+            violations, outside = constitution.check_changed_paths([path], CONST)
+            self.assertEqual(violations, [], path)
+            self.assertEqual(outside, [], path)
+        # 회귀 방지 — 진짜 다른(비슷한 이름) 경로는 여전히 막혀야 한다.
+        violations, outside = constitution.check_changed_paths(
+            ["research_archive/evolution2/x.json"], CONST)
+        self.assertEqual(outside, ["research_archive/evolution2/x.json"])
+
     def test_allowlist_file_entries_are_exact_match(self):
         """(2차 감사 L-2) 파일 항목은 정확 일치만 — *.tmp/*.bak 접미 파일 불허."""
         for path in ("gaeo_evolution/production_config.json.tmp",
