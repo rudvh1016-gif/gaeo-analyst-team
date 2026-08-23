@@ -1,9 +1,9 @@
 {
  "schemaVersion": 1,
- "generatedAt": "2026-08-22T12:17:40+00:00",
+ "generatedAt": "2026-08-23T06:08:56+00:00",
  "mode": "BOOTSTRAP_SHADOW",
  "productionVersion": "base-2026-08-15-parity-hotfix",
- "lastEvaluationAt": "2026-08-22T12:17:40+00:00",
+ "lastEvaluationAt": "2026-08-23T06:08:56+00:00",
  "baselineSummary": {
   "n": 0,
   "uniqueDays": 0,
@@ -27,8 +27,8 @@
    "deprecated": 0
   },
   "schemaVersion": 1,
-  "detailStored": false,
-  "note": "암호화 저장 불가(ResearchArchiveKeyMissing) — 평문 저장은 하지 않음"
+  "detailStored": true,
+  "note": "0건 암호화 저장"
  },
  "failureClusterCount": 0,
  "researchNeeded": false,
@@ -55,5 +55,10 @@
   "byStatus": {}
  },
  "shadowSummaries": [],
- "promotionCardsAvailable": false
+ "promotionCardsAvailable": false,
+ "candidateGeneration": {
+  "generatedCount": 0,
+  "survivorCount": 0,
+  "rejectedCount": 0
+ }
 }
