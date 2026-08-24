@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-24 11:42",
- "dataCutoff": "2026-08-24 11:42 장중",
+ "generatedAt": "2026-08-24 12:12",
+ "dataCutoff": "2026-08-24 12:12 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,20 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +72.2% · 20일선 위",
+   "why": "20거래일 +73.0% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.7,
+   "gapPct": 33.3,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 6,
+   "why": "20거래일 +89.0% · 20일선 위",
+   "overheat": true,
+   "gapPct": 31.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,54 +35,43 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +59.2% · 20일선 위",
+   "why": "20거래일 +60.0% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.5,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "087010",
+   "name": "펩트론",
+   "sector": "바이오·제약",
+   "sectorRank": 3,
+   "why": "20거래일 +63.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 7,
-   "why": "20거래일 +88.2% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.7,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 6,
-   "why": "20거래일 +63.2% · 20일선 위",
-   "overheat": true,
-   "gapPct": 39.1,
+   "gapPct": 9.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 58.0,
+  "breadthPct": 55.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6774.28,
-    "ma20": 6464.89,
+    "close": 6737.64,
+    "ma20": 6463.06,
     "above": true,
-    "gapPct": 4.79
+    "gapPct": 4.25
    },
    "KOSDAQ": {
-    "close": 819.52,
-    "ma20": 791.72,
+    "close": 817.98,
+    "ma20": 791.64,
     "above": true,
-    "gapPct": 3.51
+    "gapPct": 3.33
    }
   }
  },
