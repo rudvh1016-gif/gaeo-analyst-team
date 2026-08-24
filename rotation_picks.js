@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-24 09:12",
- "dataCutoff": "2026-08-24 09:12 장중",
+ "generatedAt": "2026-08-24 09:42",
+ "dataCutoff": "2026-08-24 09:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,20 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +70.1% · 20일선 위",
+   "why": "20거래일 +72.7% · 20일선 위",
    "overheat": true,
-   "gapPct": 31.2,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "192820",
-   "name": "코스맥스",
-   "sector": "화장품·미용",
-   "sectorRank": 1,
-   "why": "20거래일 +53.1% · 20일선 위 · 거래량 평소의 1.4배",
-   "overheat": false,
-   "gapPct": 26.9,
+   "gapPct": 33.1,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,32 +24,43 @@ window.ROTATION_PICKS = {
    "name": "NHN",
    "sector": "인터넷·IT",
    "sectorRank": 4,
-   "why": "20거래일 +95.3% · 20일선 위 · 거래량 평소의 1.3배",
+   "why": "20거래일 +96.4% · 20일선 위",
    "overheat": true,
-   "gapPct": 48.0,
+   "gapPct": 36.0,
    "call": "HOLD",
    "callConflict": false
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "sector": "보험",
+   "sectorRank": 5,
+   "why": "20거래일 +66.7% · 20일선 위",
+   "overheat": true,
+   "gapPct": 41.9,
+   "call": "SELL",
+   "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 47.2,
+  "breadthPct": 53.7,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
-  "sectorCount": 2,
+  "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6867.95,
-    "ma20": 6469.57,
+    "close": 6802.96,
+    "ma20": 6466.32,
     "above": true,
-    "gapPct": 6.16
+    "gapPct": 5.21
    },
    "KOSDAQ": {
-    "close": 810.18,
-    "ma20": 791.25,
+    "close": 808.2,
+    "ma20": 791.15,
     "above": true,
-    "gapPct": 2.39
+    "gapPct": 2.16
    }
   }
  },
