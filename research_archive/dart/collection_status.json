@@ -3,7 +3,7 @@
   "byKind": {
    "detail": 0,
    "financial": 0,
-   "list": 1,
+   "list": 2,
    "mapping": 0,
    "other": 0
   },
@@ -11,47 +11,38 @@
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9999,
-  "requests_today": 1,
-  "runs_today": 0,
+  "remaining": 9998,
+  "requests_today": 2,
+  "runs_today": 1,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.01
+  "usage_pct_of_hard_limit": 0.02
  },
  "coverageNote": "NO_OFFICIAL_EVENT_DETECTED는 '뉴스 없음'이 아니다. 일반 언론뉴스 Coverage가 없어서 공식 공시만 본 결과다.",
  "coverageReasons": [],
  "efficiency": {
   "api_errors": 0,
-  "bytes_received": 3948,
+  "bytes_received": 5680,
   "detail_requests": 0,
-  "duplicate_skipped": 0,
+  "duplicate_skipped": 3,
   "list_requests": 1,
   "matched_gaeo_filings": 3,
-  "new_filings_detected": 14,
+  "new_filings_detected": 21,
   "no_data_responses": 0,
   "pages_fetched": 1,
   "processing_duration_sec": null,
   "requests_per_run": 1,
-  "unmatched_filings": 11
+  "unmatched_filings": 15
  },
  "errors": [],
  "eventState": "EVENT_DETECTED",
  "eventsAcknowledged": 3,
  "eventsFound": 3,
  "eventsStored": 3,
- "finishedAt": "2026-08-24T00:11:45.046900+00:00",
+ "finishedAt": "2026-08-24T00:41:42.439233+00:00",
  "hasApiKey": true,
  "kstToday": "2026-08-24",
- "maintenance": [
-  {
-   "compressedBytes": 5436,
-   "compressionRatio": 0.0503,
-   "day": "2026-08-21",
-   "rawBytes": 108106,
-   "recordCount": 183,
-   "status": "OK"
-  }
- ],
+ "maintenance": [],
  "note": "DART 수집 전용. research_v1.0 / v1.1 판단에 사용하지 않는다. 최초 사용 버전은 research_v2.0이다.",
  "pagination": {
   "coverage_complete": true,
@@ -61,8 +52,8 @@
   "total_pages_reported": 1
  },
  "pendingRetryNext": 0,
- "ranAt": "2026-08-24T00:11:44.261213+00:00",
- "seenTotal": 364,
- "startedAt": "2026-08-24T00:11:44.265257+00:00",
+ "ranAt": "2026-08-24T00:41:41.525700+00:00",
+ "seenTotal": 367,
+ "startedAt": "2026-08-24T00:41:41.530294+00:00",
  "status": "OK"
 }

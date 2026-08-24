@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 09:12",
- "priceLabel": "2026-08-24 09:10 장중",
- "count": 248,
+ "generatedAt": "2026-08-24 09:42",
+ "priceLabel": "2026-08-24 09:32 장중",
+ "count": 251,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "059090",
+   "name": "미코",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:41:41.531320+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:41:41.531320+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:41:41.531320+00:00",
+   "isCorrection": false
+  },
   {
    "code": "383310",
    "name": "에코프로에이치엔",
