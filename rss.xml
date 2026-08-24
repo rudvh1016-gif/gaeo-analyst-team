@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Fri, 21 Aug 2026 07:44:33 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 24 Aug 2026 07:39:52 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월24일 종가, 삼성전자 8.7% 급락에도 429종목은 올랐다</title>
+    <link>https://gaeoteam.com/snap/news/54.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/54.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 3.12% 내린 6,696.96으로 마감했지만 598종목 중 429종목이 올랐어요. 금요일과 정확히 반대예요. 지수를 끌어내린 건 삼성전자 한 종목으로, 주주환원 발표가 기대에 못 미치며 8.70% 떨어졌어요. 좋은 소식에 왜 주가가 내렸는지 숫자로 풀어봤어요.</description>
+    <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월21일 종가, 코스피 오르고 코스닥 사이드카, 494종목 하락</title>
     <link>https://gaeoteam.com/snap/news/53.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/32.html</guid>
     <category>뉴스분석</category>
     <description>SK하이닉스의 2026년 2분기 실적 발표 직후 한국투자증권은 목표주가를 470만원으로 올리고 BNK투자증권은 148만원으로 내리면서 두 증권사 전망이 322만원이나 벌어졌어요. 같은 실적을 보고도 정반대 결론이 나온 이유와 두 증권사의 근거를 각각 쉽게 정리했어요.</description>
-    <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까</title>
-    <link>https://gaeoteam.com/snap/news/31.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/31.html</guid>
-    <category>뉴스분석</category>
-    <description>넥스트레이드 프리마켓에서 SK하이닉스 1주가 하한가에 체결된 이상거래가 해외 코인 파생상품 오라클에 그대로 반영되면서, 826억 원 규모의 강제 청산 사고로 번졌어요. 실제 주식은 멀쩡했는데 왜 이런 일이 벌어졌는지 쉽게 정리했어요.</description>
     <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
