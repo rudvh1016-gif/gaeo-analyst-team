@@ -1,12 +1,20 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 09:42",
- "priceLabel": "2026-08-24 09:32 장중",
+ "generatedAt": "2026-08-24 10:12",
+ "priceLabel": "2026-08-24 10:06 장중",
  "count": 251,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:11:41.919182+00:00",
+   "isCorrection": false
+  },
   {
    "code": "059090",
    "name": "미코",
@@ -707,14 +715,6 @@ const DART_TODAY = {
    "code": "100840",
    "name": "SNT에너지",
    "title": "기타경영사항(자율공시)(종속회사의주요경영사항)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
