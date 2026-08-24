@@ -1,12 +1,52 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 10:42",
- "priceLabel": "2026-08-24 10:39 장중",
- "count": 258,
+ "generatedAt": "2026-08-24 11:12",
+ "priceLabel": "2026-08-24 11:02 장중",
+ "count": 262,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "293490",
+   "name": "카카오게임즈",
+   "title": "임시주주총회결과",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "490470",
+   "name": "세미파이브",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "171090",
+   "name": "선익시스템",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011170",
+   "name": "롯데케미칼",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
+   "isCorrection": false
+  },
   {
    "code": "483650",
    "name": "달바글로벌",
@@ -85,14 +125,6 @@ const DART_TODAY = {
    "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T01:41:39.566187+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T01:11:41.919182+00:00",
    "isCorrection": false
   },
   {
