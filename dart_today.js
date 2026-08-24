@@ -1,19 +1,155 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 15:59",
- "priceLabel": "2026-08-24 종가 (15:57 수집)",
- "count": 289,
+ "generatedAt": "2026-08-24 16:29",
+ "priceLabel": "2026-08-24 종가 (16:08 수집)",
+ "count": 300,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "145020",
+   "name": "휴젤",
+   "title": "[기재정정]임시주주총회결과",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": true
+  },
+  {
    "code": "003530",
    "name": "한화투자증권",
-   "title": "주주총회소집공고",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T06:58:36.893505+00:00",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
    "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "009240",
+   "name": "한샘",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034830",
+   "name": "한국토지신탁",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "466100",
+   "name": "클로봇",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "466100",
+   "name": "클로봇",
+   "title": "증권발행결과(자율공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "035720",
+   "name": "카카오",
+   "title": "[첨부정정]주요사항보고서(회사합병결정)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "005850",
+   "name": "에스엘",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "336370",
+   "name": "솔루스첨단소재",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005930",
+   "name": "삼성전자",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "126340",
+   "name": "비나텍",
+   "title": "증권발행결과(자율공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "067160",
+   "name": "SOOP",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051900",
+   "name": "LG생활건강",
+   "title": "타법인주식및출자증권처분결정(자율공시)(종속회사의주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051900",
+   "name": "LG생활건강",
+   "title": "타법인주식및출자증권취득결정(종속회사의주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "267250",
+   "name": "HD현대",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
+   "isCorrection": true
   },
   {
    "code": "003530",
@@ -90,14 +226,6 @@ const DART_TODAY = {
   {
    "code": "005940",
    "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T06:58:36.893505+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T06:58:36.893505+00:00",
@@ -139,14 +267,6 @@ const DART_TODAY = {
    "code": "003540",
    "name": "대신증권",
    "title": "증권발행실적보고서",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T06:28:38.919165+00:00",
    "isCorrection": false
@@ -498,14 +618,6 @@ const DART_TODAY = {
   {
    "code": "001500",
    "name": "현대차증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T07:15:15.123721+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T07:15:15.123721+00:00",
@@ -1096,14 +1208,6 @@ const DART_TODAY = {
    "isCorrection": true
   },
   {
-   "code": "035720",
-   "name": "카카오",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T01:17:46.383692+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "030000",
    "name": "제일기획",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -1616,14 +1720,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "005930",
-   "name": "삼성전자",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T01:11:44.725982+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "059090",
    "name": "미코",
    "title": "주식등의대량보유상황보고서(약식)",
@@ -1987,14 +2083,6 @@ const DART_TODAY = {
    "code": "005380",
    "name": "현대차",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260818",
-   "detectedAt": "2026-08-18T06:57:23.903319+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "466100",
-   "name": "클로봇",
-   "title": "유상증자또는주식관련사채등의청약결과(자율공시)",
    "receiptDate": "20260818",
    "detectedAt": "2026-08-18T06:57:23.903319+00:00",
    "isCorrection": false
