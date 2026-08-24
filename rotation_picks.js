@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-24 12:12",
- "dataCutoff": "2026-08-24 12:12 장중",
+ "generatedAt": "2026-08-24 12:42",
+ "dataCutoff": "2026-08-24 12:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,20 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +73.0% · 20일선 위",
+   "why": "20거래일 +71.6% · 20일선 위",
    "overheat": true,
-   "gapPct": 33.3,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 6,
-   "why": "20거래일 +89.0% · 20일선 위",
-   "overheat": true,
-   "gapPct": 31.2,
+   "gapPct": 32.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,43 +24,43 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +60.0% · 20일선 위",
+   "why": "20거래일 +60.6% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.5,
+   "gapPct": 30.9,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "087010",
-   "name": "펩트론",
-   "sector": "바이오·제약",
-   "sectorRank": 3,
-   "why": "20거래일 +63.8% · 20일선 위",
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 6,
+   "why": "20거래일 +86.0% · 20일선 위",
    "overheat": false,
-   "gapPct": 9.6,
+   "gapPct": 29.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 55.5,
-  "shown": 4,
-  "allowed": 4,
+  "breadthPct": 53.2,
+  "shown": 3,
+  "allowed": 3,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6737.64,
-    "ma20": 6463.06,
+    "close": 6682.93,
+    "ma20": 6460.32,
     "above": true,
-    "gapPct": 4.25
+    "gapPct": 3.45
    },
    "KOSDAQ": {
-    "close": 817.98,
-    "ma20": 791.64,
+    "close": 811.31,
+    "ma20": 791.31,
     "above": true,
-    "gapPct": 3.33
+    "gapPct": 2.53
    }
   }
  },
