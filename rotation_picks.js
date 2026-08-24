@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-24 11:12",
- "dataCutoff": "2026-08-24 11:12 장중",
+ "generatedAt": "2026-08-24 11:42",
+ "dataCutoff": "2026-08-24 11:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +71.7% · 20일선 위",
+   "why": "20거래일 +72.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.4,
+   "gapPct": 32.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,20 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +59.5% · 20일선 위",
+   "why": "20거래일 +59.2% · 20일선 위",
+   "overheat": false,
+   "gapPct": 29.8,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 7,
+   "why": "20거래일 +88.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.0,
+   "gapPct": 30.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,33 +45,33 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 4,
-   "why": "20거래일 +68.6% · 20일선 위",
+   "sectorRank": 6,
+   "why": "20거래일 +63.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 43.4,
-   "call": "SELL",
-   "callConflict": true
+   "gapPct": 39.1,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 53.2,
-  "shown": 3,
-  "allowed": 3,
+  "breadthPct": 58.0,
+  "shown": 4,
+  "allowed": 4,
   "sectorCap": 2,
-  "sectorCount": 2,
+  "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6737.82,
-    "ma20": 6463.07,
+    "close": 6774.28,
+    "ma20": 6464.89,
     "above": true,
-    "gapPct": 4.25
+    "gapPct": 4.79
    },
    "KOSDAQ": {
-    "close": 811.26,
-    "ma20": 791.3,
+    "close": 819.52,
+    "ma20": 791.72,
     "above": true,
-    "gapPct": 2.52
+    "gapPct": 3.51
    }
   }
  },
