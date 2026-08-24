@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 54,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-24",
+  "title": "2026년 8월24일 종가, 삼성전자 8.7% 급락에도 429종목은 올랐다",
+  "featured": false
+ },
+ {
   "id": 53,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "인적분할과 물적분할, 왜 물적분할에 주가가 빠질까",
   "featured": false
- },
- {
-  "id": 79,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "물타기와 불타기, 평단가 관리는 정말 좋은 전략일까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 53,
+ "news": 54,
  "study": 35,
  "lesson": 82,
  "estate": 19,
