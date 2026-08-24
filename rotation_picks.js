@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-24 13:12",
- "dataCutoff": "2026-08-24 13:12 장중",
+ "generatedAt": "2026-08-24 13:42",
+ "dataCutoff": "2026-08-24 13:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,20 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +70.4% · 20일선 위",
+   "why": "20거래일 +70.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 31.4,
+   "gapPct": 31.7,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 5,
+   "why": "20거래일 +84.3% · 20일선 위",
+   "overheat": false,
+   "gapPct": 28.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,43 +35,32 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +58.6% · 20일선 위",
+   "why": "20거래일 +58.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.4,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 7,
-   "why": "20거래일 +84.1% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.0,
+   "gapPct": 29.0,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 50.7,
+  "breadthPct": 53.8,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6663.66,
-    "ma20": 6459.36,
+    "close": 6700.31,
+    "ma20": 6461.19,
     "above": true,
-    "gapPct": 3.16
+    "gapPct": 3.7
    },
    "KOSDAQ": {
-    "close": 808.3,
-    "ma20": 791.15,
+    "close": 814.02,
+    "ma20": 791.44,
     "above": true,
-    "gapPct": 2.17
+    "gapPct": 2.85
    }
   }
  },
