@@ -1,18 +1,18 @@
 {
  "status": "READY",
- "asOf": "2026-08-24T05:59:25+00:00",
+ "asOf": "2026-08-24T06:29:37+00:00",
  "kstDay": "2026-08-24",
- "rawCount": 3923,
- "eligibleCount": 2406,
+ "rawCount": 3926,
+ "eligibleCount": 2409,
  "requestCount": 44,
  "quality": {
   "expectedCount": 4301,
   "receivedCount": 4301,
-  "rawCount": 3923,
-  "eligibleCount": 2406,
+  "rawCount": 3926,
+  "eligibleCount": 2409,
   "kospiCount": 2478,
   "kosdaqCount": 1823,
-  "duplicateCount": 3,
+  "duplicateCount": 0,
   "invalidCodeCount": 375,
   "missingPriceCount": 0,
   "suspendedCount": 127,
@@ -25,7 +25,7 @@
   },
   "classificationUnknownCount": 0,
   "typeHistogram": {
-   "stock": 2685,
+   "stock": 2688,
    "etf": 865,
    "etn": 373
   },

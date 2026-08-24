@@ -2828,11 +2828,11 @@ const INDEX_HISTORY = {
    "days": [
     {
      "date": "2026-08-24",
-     "close": 6685.26,
+     "close": 6707.01,
      "open": 6881.07,
      "high": 6884.57,
      "low": 6656.07,
-     "volume": 233396
+     "volume": 253371
     }
    ],
    "start": "2026-08-24",
@@ -5665,11 +5665,11 @@ const INDEX_HISTORY = {
    "days": [
     {
      "date": "2026-08-24",
-     "close": 812.07,
+     "close": 812.86,
      "open": 804.27,
      "high": 821.96,
      "low": 804.27,
-     "volume": 448604
+     "volume": 484560
     }
    ],
    "start": "2026-08-24",

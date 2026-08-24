@@ -1,12 +1,84 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 14:59",
- "priceLabel": "2026-08-24 14:48 장중",
- "count": 278,
+ "generatedAt": "2026-08-24 15:29",
+ "priceLabel": "2026-08-24 15:22 장중",
+ "count": 282,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000100",
+   "name": "유한양행",
+   "title": "공정거래자율준수프로그램운영현황(안내공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "083450",
+   "name": "GST",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "083450",
+   "name": "GST",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "083450",
+   "name": "GST",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T06:28:38.919165+00:00",
+   "isCorrection": false
+  },
   {
    "code": "005380",
    "name": "현대차",
@@ -144,14 +216,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T04:41:41.499985+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "001720",
    "name": "신영증권",
    "title": "증권발행실적보고서",
@@ -227,14 +291,6 @@ const DART_TODAY = {
    "code": "011170",
    "name": "롯데케미칼",
    "title": "풍문또는보도에대한해명(미확정)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T02:11:38.892797+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T02:11:38.892797+00:00",
    "isCorrection": false
@@ -600,14 +656,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T07:15:15.123721+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "001500",
    "name": "현대차증권",
    "title": "투자설명서(일괄신고)",
@@ -931,22 +979,6 @@ const DART_TODAY = {
    "code": "069620",
    "name": "대웅제약",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
