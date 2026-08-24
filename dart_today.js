@@ -1,12 +1,60 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 14:31",
- "priceLabel": "2026-08-24 14:25 장중",
- "count": 275,
+ "generatedAt": "2026-08-24 14:59",
+ "priceLabel": "2026-08-24 14:48 장중",
+ "count": 278,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005380",
+   "name": "현대차",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010780",
+   "name": "아이에스동서",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004370",
+   "name": "농심",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "267250",
+   "name": "HD현대",
+   "title": "풍문또는보도에대한해명(미확정)(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:58:25.172065+00:00",
+   "isCorrection": false
+  },
   {
    "code": "086280",
    "name": "현대글로비스",
@@ -656,14 +704,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "000720",
    "name": "현대건설",
    "title": "회사합병결정(종속회사의주요경영사항)",
@@ -891,14 +931,6 @@ const DART_TODAY = {
    "code": "069620",
    "name": "대웅제약",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
@@ -1795,14 +1827,6 @@ const DART_TODAY = {
    "code": "042700",
    "name": "한미반도체",
    "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "010780",
-   "name": "아이에스동서",
-   "title": "주식등의대량보유상황보고서(일반)",
    "receiptDate": "20260819",
    "detectedAt": "2026-08-19T00:41:05.391664+00:00",
    "isCorrection": false
