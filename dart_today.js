@@ -1,12 +1,92 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 10:12",
- "priceLabel": "2026-08-24 10:06 장중",
- "count": 251,
+ "generatedAt": "2026-08-24 10:42",
+ "priceLabel": "2026-08-24 10:39 장중",
+ "count": 258,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "483650",
+   "name": "달바글로벌",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010120",
+   "name": "LS일렉트릭",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006260",
+   "name": "LS",
+   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "060980",
+   "name": "HL홀딩스",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "009540",
+   "name": "HD한국조선해양",
+   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "375500",
+   "name": "DL이앤씨",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000210",
+   "name": "DL",
+   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
+   "isCorrection": false
+  },
   {
    "code": "005940",
    "name": "NH투자증권",
@@ -51,14 +131,6 @@ const DART_TODAY = {
    "code": "068270",
    "name": "셀트리온",
    "title": "투자판단관련주요경영사항 (CTP51(키트루다 바이오시밀러) 한국 품목허가 신청)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T00:11:44.266145+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T00:11:44.266145+00:00",
    "isCorrection": false
@@ -515,14 +587,6 @@ const DART_TODAY = {
    "code": "011790",
    "name": "SKC",
    "title": "유상증자결정(종속회사의주요경영사항)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:15:10.423907+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T06:15:10.423907+00:00",
    "isCorrection": false
@@ -1027,14 +1091,6 @@ const DART_TODAY = {
    "code": "344820",
    "name": "KCC글라스",
    "title": "[기재정정]반기보고서 (2026.06)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T07:02:20.202024+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "329180",
-   "name": "HD현대중공업",
-   "title": "[첨부정정]지속가능경영보고서등관련사항(자율공시)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T07:02:20.202024+00:00",
    "isCorrection": true
