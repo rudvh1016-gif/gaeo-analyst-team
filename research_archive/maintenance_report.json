@@ -1,35 +1,65 @@
 {
  "maintenance": [],
- "observedDays": 1,
- "ranAt": "2026-08-17T20:40:22.559726+00:00",
+ "observedDays": 6,
+ "ranAt": "2026-08-24T20:45:45.206458+00:00",
  "restoreStatus": "ARCHIVE_INTEGRITY_ERROR",
  "restoreTests": [
   {
+   "compressed": true,
+   "day": "2026-08-20",
+   "errors": [],
+   "modelVersions": [
+    "research_v1.0",
+    "research_v1.1"
+   ],
+   "recordCount": 598,
+   "restoredFrom": "live/2026/08/20.jsonl.gz.enc",
+   "status": "OK"
+  },
+  {
+   "compressed": true,
+   "day": "2026-08-21",
+   "errors": [],
+   "modelVersions": [
+    "research_v1.0",
+    "research_v1.1"
+   ],
+   "recordCount": 598,
+   "restoredFrom": "live/2026/08/21.jsonl.gz.enc",
+   "status": "OK"
+  },
+  {
    "compressed": false,
-   "day": "2026-08-17",
+   "day": "2026-08-24",
    "errors": [
     "manifest 없음"
    ],
-   "restoredFrom": "live/2026/08/17.jsonl.enc",
+   "restoredFrom": "live/2026/08/24.jsonl.enc",
    "status": "ARCHIVE_INTEGRITY_ERROR"
   }
  ],
  "storage": {
-  "asof": "2026-08-17",
+  "asof": "2026-08-24",
   "compressedBytesToday": 0,
-  "compressionRatio": null,
-  "dailyGrowthAverageBytes": 4227021,
-  "estimated30dBytes": 126810630,
-  "estimated365dBytes": 1542862665,
-  "estimated90dBytes": 380431890,
+  "compressionRatio": 0.0151,
+  "dailyGrowthAverageBytes": 63944,
+  "estimated30dBytes": 1600887,
+  "estimated365dBytes": 19477453,
+  "estimated90dBytes": 4802660,
   "newRecordsToday": 598,
   "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
-  "observedDays": 1,
-  "projectedDailyBytes": 4227021,
-  "rawBytesToday": 4227021,
+  "observedDays": 6,
+  "projectedDailyBytes": 53363,
+  "rawBytesToday": 64458,
   "status": "OK",
-  "totalArchiveBytes": 4227021
+  "totalArchiveBytes": 384720
  },
- "today": "2026-08-17",
- "weeklyRollups": []
+ "today": "2026-08-24",
+ "weeklyRollups": [
+  {
+   "days": 5,
+   "records": 2990,
+   "weekId": "2026-W34"
+  }
+ ]
 }
