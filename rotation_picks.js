@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-21 16:16",
- "dataCutoff": "2026-08-21 종가",
+ "generatedAt": "2026-08-24 09:12",
+ "dataCutoff": "2026-08-24 09:12 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +64.6% · 20일선 위",
+   "why": "20거래일 +70.1% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.9,
+   "gapPct": 31.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,7 +34,7 @@ window.ROTATION_PICKS = {
    "code": "181710",
    "name": "NHN",
    "sector": "인터넷·IT",
-   "sectorRank": 3,
+   "sectorRank": 4,
    "why": "20거래일 +95.3% · 20일선 위 · 거래량 평소의 1.3배",
    "overheat": true,
    "gapPct": 48.0,
@@ -44,37 +44,37 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 47.0,
+  "breadthPct": 47.2,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6912.95,
-    "ma20": 6460.71,
+    "close": 6867.95,
+    "ma20": 6469.57,
     "above": true,
-    "gapPct": 7.0
+    "gapPct": 6.16
    },
    "KOSDAQ": {
-    "close": 801.94,
-    "ma20": 788.15,
+    "close": 810.18,
+    "ma20": 791.25,
     "above": true,
-    "gapPct": 1.75
+    "gapPct": 2.39
    }
   }
  },
  "regime": {
-  "direction": "하락",
+  "direction": "횡보",
   "leadership": "코스닥",
   "topSector": "화장품·미용"
  },
  "record": {
-  "hitRate": 53.7,
-  "excessMean": 1.23,
-  "sampleCount": 255,
+  "hitRate": 54.8,
+  "excessMean": 1,
+  "sampleCount": 259,
   "periodStart": "2025-07-02",
-  "periodEnd": "2026-07-16",
+  "periodEnd": "2026-07-23",
   "benchmark": "500종목 업종 중앙값"
  }
 };
