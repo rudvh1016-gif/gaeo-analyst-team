@@ -4,7 +4,7 @@
  "environment": "LIVE_PAPER",
  "forwardStart": "2026-08-18",
  "engineStartedAt": "2026-08-18T00:56:30+09:00",
- "generatedAt": "2026-08-24T14:05:06+09:00",
+ "generatedAt": "2026-08-24T14:35:06+09:00",
  "evidence": "INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지",
  "totalForwardSignals": 61,
  "openTrades": 10,
@@ -48,13 +48,13 @@
  "initialVirtualCash": 10000000,
  "cash": 336945.0,
  "investedCostBasis": 9663055.0,
- "markedPositionsValue": 9749285.0,
- "currentVirtualEquity": 10086230.0,
+ "markedPositionsValue": 9786345.0,
+ "currentVirtualEquity": 10123290.0,
  "realizedPnl": 0,
- "unrealizedPnl": 86230.0,
- "portfolioReturnPct": 0.862,
- "valuationObservedAt": "2026-08-24T14:05:05+09:00",
- "valuationMarketAt": "2026-08-24T14:03:39.000+09:00",
+ "unrealizedPnl": 123290.0,
+ "portfolioReturnPct": 1.233,
+ "valuationObservedAt": "2026-08-24T14:35:05+09:00",
+ "valuationMarketAt": "2026-08-24T14:32:46.000+09:00",
  "valuationStatus": "MARKED",
  "executedTradeCount": 10,
  "maxDrawdownPct": -1.747,
@@ -65,7 +65,7 @@
    "observations": 0
   }
  ],
- "sourceAnalysisCompletedAt": "2026-08-24T13:42:37+09:00",
+ "sourceAnalysisCompletedAt": "2026-08-24T14:31:12+09:00",
  "sourceModelVersion": "baseline-risk-v2",
  "sourceCommitSha": null
 }
