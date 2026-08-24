@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-21 16:16",
- "priceLabel": "2026-08-21 종가 (16:06 수집)",
- "count": 245,
+ "generatedAt": "2026-08-24 09:12",
+ "priceLabel": "2026-08-24 09:10 장중",
+ "count": 248,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "383310",
+   "name": "에코프로에이치엔",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:11:44.266145+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "068270",
+   "name": "셀트리온",
+   "title": "투자판단관련주요경영사항 (CTP51(키트루다 바이오시밀러) 한국 품목허가 신청)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:11:44.266145+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T00:11:44.266145+00:00",
+   "isCorrection": false
+  },
   {
    "code": "145020",
    "name": "휴젤",
