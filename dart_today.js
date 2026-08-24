@@ -1,12 +1,84 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-24 13:42",
- "priceLabel": "2026-08-24 13:39 장중",
- "count": 267,
+ "generatedAt": "2026-08-24 14:31",
+ "priceLabel": "2026-08-24 14:25 장중",
+ "count": 275,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "086280",
+   "name": "현대글로비스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "127120",
+   "name": "제이에스링크",
+   "title": "주요사항보고서(자기전환사채만기전취득결정)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "064290",
+   "name": "인텍플러스",
+   "title": "단일판매ㆍ공급계약체결(자율공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "014620",
+   "name": "성광벤드",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "005290",
+   "name": "동진쎄미켐",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051910",
+   "name": "LG화학",
+   "title": "기타안내사항(안내공시)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051910",
+   "name": "LG화학",
+   "title": "조회공시요구(풍문또는보도)에대한답변(미확정)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "051910",
+   "name": "LG화학",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260824",
+   "detectedAt": "2026-08-24T05:30:06.531484+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003470",
    "name": "유안타증권",
@@ -123,14 +195,6 @@ const DART_TODAY = {
    "code": "483650",
    "name": "달바글로벌",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T01:41:39.566187+00:00",
    "isCorrection": false
