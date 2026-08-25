@@ -1,27 +1,18 @@
 {
  "asof": "2026-08-25",
  "compressedBytesToday": 0,
- "compressedToday": [
-  {
-   "compressedBytes": 64458,
-   "compressionRatio": 0.0153,
-   "day": "2026-08-24",
-   "rawBytes": 4220525,
-   "recordCount": 598,
-   "status": "OK"
-  }
- ],
+ "compressedToday": [],
  "compressionRatio": 0.0151,
- "dailyGrowthAverageBytes": 64049,
- "estimated30dBytes": 1648451,
- "estimated365dBytes": 20056158,
- "estimated90dBytes": 4945354,
+ "dailyGrowthAverageBytes": 64046,
+ "estimated30dBytes": 1648450,
+ "estimated365dBytes": 20056142,
+ "estimated90dBytes": 4945350,
  "integrityErrors": [],
  "newRecordsToday": 598,
  "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
  "observedDays": 7,
  "projectedDailyBytes": 54948,
- "rawBytesToday": 64678,
+ "rawBytesToday": 64658,
  "status": "OK",
- "totalArchiveBytes": 449398
+ "totalArchiveBytes": 449378
 }
