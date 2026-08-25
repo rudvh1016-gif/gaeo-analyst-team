@@ -68,6 +68,27 @@ jobs:
           RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
         run: python run_evolution_lab.py
 
+      # ── Coverage Guardian (2026-08-25 추가) ─────────────────────────────────
+      # "600종목이 정말 600종목인가"를 실측만 한다. tickers.js·data.js·
+      # auto_analysis.js·coverage_version.py를 읽기만 하고, 종목을 자동으로
+      # 교체하는 경로가 코드에 없다. 산출물은 gaeo_coverage/state/*.json 뿐이고
+      # 그 경로만 Constitution autoCommitAllowlist에 추가돼 있다.
+      # 실패해도 연구 결과 커밋을 막지 않는다(측정 실패는 알림에서 '측정값 없음').
+      # if: always() — 연구 실행이 실패한 주에도 Coverage 실측은 보고해야 한다.
+      # (이 단계가 성공해도, 앞 단계가 실패하면 allowlist/commit 단계는 기본
+      #  success() 조건 때문에 그대로 건너뛴다 — 커밋 경로가 열리지 않는다.)
+      - name: Coverage Guardian (읽기 전용 실측)
+        id: coverage_guard
+        if: always()
+        run: |
+          set -uo pipefail
+          python3 -m gaeo_coverage.guardian \
+            || echo "coverage guardian 실패 — 알림에는 측정값 없음으로 나간다" 1>&2
+          python3 -m gaeo_coverage.standby \
+            || echo "standby pool 실패 — 알림에는 측정값 없음으로 나간다" 1>&2
+          python3 -m gaeo_coverage.proposal \
+            || echo "replacement proposal 실패 — 알림에는 측정값 없음으로 나간다" 1>&2
+
       - name: Enforce commit allowlist (FAIL CLOSED)
         id: allowlist
         run: |
@@ -136,7 +157,7 @@ jobs:
           set -euo pipefail
           git config user.name "gaeo-evolution-lab"
           git config user.email "actions@users.noreply.github.com"
-          for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json; do
+          for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json gaeo_coverage/state/; do
             if [ -e "$p" ]; then git add "$p"; fi
           done
           if git diff --cached --quiet; then
@@ -146,6 +167,26 @@ jobs:
           git commit -m "evolution: 주간 결정론 연구 기록 갱신 [skip ci]"
           git pull --no-rebase -q origin main
           git push origin HEAD:main
+
+      # ── GS Reference Check (2026-08-25 추가, 선택·격리) ─────────────────────
+      # GAEO 위험지표(변동성·최대낙폭) 계산을 외부 라이브러리로 한 번 더 검산만 한다.
+      # · Production 의존성이 아니다 — analyze_auto.py·compute_indicators.py·
+      #   gaeo_evolution 어디서도 gaeo_reference를 import하지 않는다.
+      # · 설치가 실패하거나 라이브러리가 없으면 status="N/A"로 보고될 뿐 이 워크플로우를
+      #   죽이지 않는다. 그래서 커밋 단계보다 **뒤에** 둔다(느린 설치가 연구 결과 커밋을
+      #   위험하게 만들면 안 된다).
+      # · 산출물은 RUNNER_TEMP에만 쓴다 — 저장소에 커밋하지 않는다.
+      # · 새 Secret·네트워크 API·인증을 쓰지 않는다(timeseries 순수 계산 함수만).
+      - name: Goldman Reference Check (검산 전용 · 실패해도 무시)
+        id: gs_reference
+        if: always()
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          timeout 420 python3 -m pip install --quiet gs-quant \
+            || echo "gs-quant 설치 실패 또는 시간초과 — 검산은 N/A로 보고된다" 1>&2
+          python3 -m gaeo_reference.gs_reference --out "${RUNNER_TEMP:-/tmp}/gs_reference.json" \
+            || echo "검산 실행 실패 — 알림에는 측정값 없음으로 나간다" 1>&2
 
       # ── 대표에게 보내는 주간 실행결과 알림 ──────────────────────────────────
       # if: always() — 위 단계 중 어디서 실패해도(계약 테스트·연구 실행·커밋 등)
@@ -210,6 +251,10 @@ jobs:
           if python3 -m gaeo_evolution.notification build \
               --owner "$OWNER" --run-id "$RUN_ID" --run-url "$RUN_URL" \
               --job-failed "$JOB_FAILED" --failed-step "$FAILED_STEP" \
+              --coverage gaeo_coverage/state/coverage_state.json \
+              --standby gaeo_coverage/state/standby_pool.json \
+              --proposal gaeo_coverage/state/replacement_proposal.json \
+              --gs "${RUNNER_TEMP:-/tmp}/gs_reference.json" \
               --out /tmp/gaeo_notify.json; then
             :
           else

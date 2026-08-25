@@ -1,0 +1,83 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-08-25T20:20:55+09:00",
+ "status": "WARN",
+ "statusReasons": [
+  "시세 누락 2종목 (원인: UNKNOWN 2)",
+  "자동분석 누락 2종목"
+ ],
+ "coverageVersion": "GAEO_COVERAGE_V2_600",
+ "targetCoverage": 600,
+ "configuredCoverage": 600,
+ "freshPriceCoverage": 598,
+ "autoAnalysisCoverage": 598,
+ "stalePriceCount": 0,
+ "universeNote": "configuredCoverage가 Universe 크기다. 시세·자동분석 숫자가 작다고 해서 Universe가 줄어든 것이 아니다.",
+ "missingPriceCodes": [
+  "012510",
+  "057050"
+ ],
+ "missingAutoAnalysisCodes": [
+  "012510",
+  "057050"
+ ],
+ "extraPriceCodes": [],
+ "extraAutoAnalysisCodes": [],
+ "causeCounts": {
+  "UNKNOWN": 2
+ },
+ "replaceableCount": 0,
+ "findings": [
+  {
+   "code": "012510",
+   "name": "더존비즈온",
+   "sector": "인터넷·IT",
+   "cause": "UNKNOWN",
+   "replaceable": false,
+   "consecutiveMissing": 2,
+   "firstMissingAt": "2026-08-25T20:15:44+09:00",
+   "inAutoAnalysis": false,
+   "evidence": [
+    "연속 누락 관측 2회 (지속 누락 기준 3회)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.40일 경과)",
+    "전체시장 snapshot에 없음",
+    "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
+   ],
+   "fingerprint": "cc617526b7697ea1"
+  },
+  {
+   "code": "057050",
+   "name": "현대홈쇼핑",
+   "sector": "유통·소비재",
+   "cause": "UNKNOWN",
+   "replaceable": false,
+   "consecutiveMissing": 2,
+   "firstMissingAt": "2026-08-25T20:15:44+09:00",
+   "inAutoAnalysis": false,
+   "evidence": [
+    "연속 누락 관측 2회 (지속 누락 기준 3회)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.40일 경과)",
+    "전체시장 snapshot에 없음",
+    "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
+   ],
+   "fingerprint": "d72fcfa95039d089"
+  }
+ ],
+ "recoveries": [],
+ "snapshot": {
+  "path": "market_universe/full_market_latest.json.gz",
+  "available": true,
+  "asOf": "2026-08-16T01:42:45+00:00",
+  "ageDays": 9.4,
+  "freshEnoughForDelisting": false,
+  "itemCount": 3922,
+  "collectorStatus": "READY",
+  "collectorAsOf": "2026-08-25T07:12:54+00:00"
+ },
+ "priceAsOf": "2026-08-25 종가 (16:07 수집)",
+ "autoAnalysisGeneratedAt": "2026-08-25 16:13",
+ "autoAnalysisStamp": {
+  "coverageUniverseVersion": "GAEO_COVERAGE_V2_600",
+  "coverageUniverseSize": 600
+ }
+}
