@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 55,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-25",
+  "title": "2026년 8월25일 종가, 원전주 랠리에 코스피·코스닥 모처럼 동반 상승",
+  "featured": false
+ },
+ {
   "id": 54,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "시간외 거래, 정규장 끝나고도 주식을 살 수 있다고",
   "featured": false
- },
- {
-  "id": 80,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "인적분할과 물적분할, 왜 물적분할에 주가가 빠질까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 54,
+ "news": 55,
  "study": 35,
  "lesson": 82,
  "estate": 19,
