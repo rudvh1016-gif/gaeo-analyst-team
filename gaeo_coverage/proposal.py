@@ -11,6 +11,14 @@
     4. Coverage Version은 **초안 문자열**만 만든다. coverage_version.py의
        COVERAGE_HISTORY append는 대표 승인 후 사람이 별도로 한다.
        (그 전까지 Coverage Version은 바뀌지 않는다.)
+
+교체 후보 고르는 법 (2026-08-25 퀀트 감사 MEDIUM 수리)
+    대기 명단은 시가총액 순으로만 정렬돼 있는데, 지금 그 상위권이 거의 코스닥이다
+    (후보 40개 중 KOSPI 2개). 그대로 교체를 반복하면 Universe가 한 방향으로
+    (KOSPI→KOSDAQ, 대형→중형) 계속 밀려서 Coverage Version끼리 성적을 비교할 수
+    없게 된다. 그래서 **빠지는 종목과 같은 시장에서 가장 큰 후보**를 먼저 고른다.
+    같은 시장에 자격 후보가 없으면 그 건은 FAIL CLOSED다 (억지로 다른 시장 종목을
+    끼워 넣지 않는다).
 """
 import argparse
 import json
@@ -36,6 +44,68 @@ APPLY_NOTE = ("이 문서는 제안일 뿐이다. tickers.js·main 반영은 대
 def draft_coverage_version(history, target):
     """다음 Coverage Version '초안' 문자열. 실제 등록은 승인 후 사람이 한다."""
     return "GAEO_COVERAGE_V%d_%d" % (len(history) + 1, int(target))
+
+
+def market_of(removal):
+    """빠지는 종목이 어느 시장이었나. 실측으로 확인되지 않으면 None(추측 금지)."""
+    market = removal.get("market")
+    return str(market) if market else None
+
+
+def match_by_market(removals, candidates):
+    """빠지는 종목과 **같은 시장**에서 시가총액이 가장 큰 후보를 하나씩 배정한다.
+
+    대기 명단은 이미 시가총액 내림차순이므로 앞에서부터 훑으면 그게 최대다.
+    같은 시장 후보가 없으면 그 건은 배정하지 않고 unmatched로 돌려준다
+    (다른 시장 종목으로 대충 채우지 않는다).
+    """
+    used, additions, unmatched = set(), [], []
+    for removal in removals:
+        market = market_of(removal)
+        if not market:
+            unmatched.append("시장미상(%s)" % removal.get("code"))
+            continue
+        picked = None
+        for c in candidates:
+            if c["code"] in used:
+                continue
+            if str(c.get("market")) != market:
+                continue
+            picked = c
+            break
+        if picked is None:
+            unmatched.append(market)
+            continue
+        used.add(picked["code"])
+        additions.append(picked)
+    return additions, unmatched
+
+
+def eligible_candidates(standby_pool):
+    """자격 통과 후보 목록.
+
+    본문(candidates, 시총 순 40개)을 먼저 두고, 그 뒤에 시장별 예비 명단
+    (marketReserves)을 붙인다. 본문에 그 시장 후보가 없더라도 같은 시장 안에서
+    고를 수 있게 하기 위한 것이고, 정렬 규칙(시가총액 내림차순)은 두 목록 모두
+    동일하다. 중복은 code로 제거한다.
+    """
+    seen, out = set(), []
+    groups = [standby_pool.get("candidates") or []]
+    reserves = standby_pool.get("marketReserves") or {}
+    for market in sorted(reserves):
+        groups.append(reserves[market] or [])
+    for group in groups:
+        for c in group:
+            if not isinstance(c, dict):
+                continue
+            if c.get("eligibilityVerdict") != "ELIGIBLE_STANDBY":
+                continue
+            code = c.get("code")
+            if not code or code in seen:
+                continue
+            seen.add(code)
+            out.append(c)
+    return out
 
 
 def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=None):
@@ -82,8 +152,7 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
         base["reason"] = "targetCoverage/configuredCoverage 실측값이 없다. 제안 생성 거부."
         return base
 
-    candidates = [c for c in (standby_pool.get("candidates") or [])
-                  if c.get("eligibilityVerdict") == "ELIGIBLE_STANDBY"]
+    candidates = eligible_candidates(standby_pool)
     if len(candidates) < len(delisted):
         base["status"] = STATUS_FAIL_CLOSED
         base["reason"] = ("대기 명단 자격 후보가 %d개뿐이라 상장폐지 %d종목을 채울 수 없다. "
@@ -93,10 +162,19 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
 
     removals = [{"code": f.get("code"), "name": f.get("name"),
                  "sector": f.get("sector"), "cause": f.get("cause"),
-                 "consecutiveMissing": f.get("consecutiveMissing"),
+                 "market": f.get("market"),
+                 "missingDayCount": f.get("missingDayCount"),
+                 "elapsedTradingDays": f.get("elapsedTradingDays"),
                  "evidence": f.get("evidence"), "fingerprint": f.get("fingerprint")}
                 for f in delisted]
-    additions = candidates[:len(delisted)]
+    additions, unmatched = match_by_market(removals, candidates)
+    if unmatched:
+        base["status"] = STATUS_FAIL_CLOSED
+        base["reason"] = ("같은 시장(%s)에서 자격 후보를 찾지 못했다. 시장을 바꿔 끼우면 "
+                          "Universe가 한 방향으로 밀려 Coverage Version 간 비교가 "
+                          "깨지므로 제안 생성을 거부한다."
+                          % ", ".join(sorted({str(u) for u in unmatched})))
+        return base
 
     expected = configured - len(removals) + len(additions)
     if expected != target:
@@ -111,6 +189,10 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
         "reason": "확정 상장폐지 %d종목에 대한 교체 제안." % len(removals),
         "removals": removals,
         "additions": additions,
+        "marketMatched": True,
+        "marketMatchNote": ("교체 후보는 빠지는 종목과 같은 시장(KOSPI/KOSDAQ)에서 "
+                            "시가총액이 가장 큰 자격 후보로 골랐다. Universe가 한 방향으로 "
+                            "밀리는 것을 막기 위한 규칙이다."),
         "expectedConfiguredCoverage": expected,
         "draftCoverageVersion": draft_coverage_version(coverage_history, target),
         "draftCoverageVersionNote": (

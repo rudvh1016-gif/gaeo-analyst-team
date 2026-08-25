@@ -249,14 +249,27 @@ def build_marker(run_id):
 # ⚠️ 이 모듈의 격리 규칙은 그대로다 — gaeo_coverage/gaeo_reference를 import하지
 #    않는다. 두 계층이 **이미 만들어 둔 JSON**을 워크플로우가 읽어서 dict로
 #    넘겨주면, 여기서는 문자열로 옮겨 적기만 한다(계산·판정·쓰기 없음).
-def _coverage_block(doc):
+def _coverage_block(doc, today=None):
     if not isinstance(doc, dict):
-        return ["- 상태: 측정값 없음 (Coverage 관측 결과를 읽지 못함)"]
+        return ["- 상태: 측정값 없음 (Coverage 관측 결과를 읽지 못함)",
+                "- ⚠️ 이번 Run에서 Coverage를 측정하지 못했습니다. 아래 숫자는 없습니다."]
+    generated = doc.get("generatedAt")
+    lines = []
+    # ⚠️ 상태 파일은 저장소에 커밋되므로 '지난주 값'이 항상 존재한다. 이번 Run에서
+    #    측정이 실패해도 그 숫자가 이번 주 결과처럼 보이면 안 된다
+    #    (2026-08-25 보안 감사 MEDIUM — 2026-08-23의 stale→거짓 GREEN과 같은 계열).
+    stale = bool(today) and str(generated or "")[:10] != str(today)[:10]
+    lines.append(f"- 측정 시각: {_fmt(generated)}")
+    if stale:
+        lines.append(f"- ⚠️ 이번 Run 날짜({today})와 다릅니다. **이번 주 미측정**이며 "
+                     "아래 숫자는 지난 측정값입니다.")
     cause_counts = doc.get("causeCounts") or {}
     cause_text = ", ".join(f"{_truncate(str(k))} {v}건"
                            for k, v in sorted(cause_counts.items())) or "없음"
     snapshot = doc.get("snapshot") or {}
-    lines = [
+    independent = doc.get("independentSource") or {}
+    rules = doc.get("delistingRules") or {}
+    lines += [
         f"- 상태: {doc.get('status', '측정값 없음')}",
         f"- 목표 Universe(targetCoverage): {_fmt_count(doc.get('targetCoverage'), '종목')}"
         f" · Coverage Version {doc.get('coverageVersion', '측정값 없음')}",
@@ -272,14 +285,25 @@ def _coverage_block(doc):
         f"- 참조 snapshot: {snapshot.get('asOf', '측정값 없음')} "
         f"(경과 {_fmt(snapshot.get('ageDays'), '일')} · "
         f"상장폐지 판정 가능 {snapshot.get('freshEnoughForDelisting')})",
+        f"- 독립 확인 소스(KRX 상장법인목록): 사용가능 {independent.get('available')} · "
+        f"수집 {independent.get('asOf', '측정값 없음')} "
+        f"(경과 {_fmt(independent.get('ageDays'), '일')} · "
+        f"기준 충족 {independent.get('freshEnough')})",
+        f"- 상장폐지 확정 조건: 서로 다른 날짜 "
+        f"{_fmt_count(rules.get('persistentMissingMinDays'), '일')} 이상 + 경과 "
+        f"{_fmt_count(rules.get('minElapsedTradingDays'), '거래일')} 이상 + 독립 소스 "
+        f"부재 확인 + 시총 상위 "
+        f"{_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖 (하나라도 미충족이면 확정하지 않음)",
+        f"- 동시 대량 누락 차단(벤더 장애 방어) 발동: {doc.get('massMissingBlockActive')}",
         "- Universe 해석: configuredCoverage가 Universe 크기다. "
         "시세·자동분석 숫자가 작다고 Universe가 줄어든 것이 아니다.",
     ]
     for finding in (doc.get("findings") or [])[:10]:
         lines.append(
             f"  · {finding.get('code')} {_truncate(str(finding.get('name')))} "
-            f"→ {finding.get('cause')} (연속 누락 "
-            f"{_fmt_count(finding.get('consecutiveMissing'), '회')}, "
+            f"({finding.get('market') or '시장미상'}) → {finding.get('cause')} "
+            f"(관측 {_fmt_count(finding.get('missingDayCount'), '일')} · 경과 "
+            f"{_fmt_count(finding.get('elapsedTradingDays'), '거래일')} · "
             f"fingerprint `{finding.get('fingerprint') or '측정값 없음'}`)")
     return lines
 
@@ -305,10 +329,18 @@ def _standby_proposal_block(standby_doc, proposal_doc):
     return lines
 
 
+GS_SEPARATE_JOB_NOTE = ("이 검산은 evolution-lab workflow의 **별도 job(gs-reference)**"
+                        "에서 돕니다. 그 job은 쓰기 권한이 없고(contents: read) git "
+                        "자격증명도 갖지 않습니다. 결과는 해당 job의 요약(Job Summary)"
+                        "에서 볼 수 있습니다.")
+
+
 def _gs_block(doc):
     if not isinstance(doc, dict):
-        return ["- 상태: N/A (검산 결과를 읽지 못함)",
-                "- Production 영향: 없음 (검산 전용 계층입니다)"]
+        return ["- 상태: N/A (이 알림에는 검산 결과를 싣지 않습니다)",
+                f"- 확인 위치: {GS_SEPARATE_JOB_NOTE}",
+                "- Production 영향: 없음 (검산 전용 계층이며 판단 경로와 분리돼 있습니다)"]
+    design = doc.get("designAssertions") or {}
     return [
         f"- 상태: {doc.get('status', 'N/A')}",
         f"- 사유: {_truncate(str(doc.get('reason', '측정값 없음')))}",
@@ -316,10 +348,15 @@ def _gs_block(doc):
         f"일치 {_fmt_count(doc.get('checkPass'), '건')} · "
         f"불일치 {_fmt_count(doc.get('checkWarn'), '건')} · "
         f"미측정 {_fmt_count(doc.get('checkNA'), '건')}",
-        f"- 외부 라이브러리 사용 가능: {(doc.get('gsQuant') or {}).get('available')}",
-        f"- 네트워크 호출: {_fmt(doc.get('networkCalls'))} · "
-        f"인증 사용: {doc.get('credentialsUsed')} · "
-        f"Production 의존성: {doc.get('isProductionDependency')}",
+        f"- 외부 라이브러리 사용 가능: {(doc.get('gsQuant') or {}).get('available')} · "
+        f"외부 계산이 실제로 돈 케이스 {_fmt_count(doc.get('gsLegRanCases'))} · "
+        f"계산 실패 {_fmt_count(doc.get('checkGsError'), '건')}",
+        f"- 실제로 사용한 계산 다리(legsUsed): "
+        f"{', '.join(doc.get('legsUsed') or []) or '측정값 없음'}",
+        f"- 네트워크 호출: {_truncate(str(design.get('networkCalls', '측정값 없음')))}",
+        f"- 인증 사용: {_truncate(str(design.get('credentialsUsed', '측정값 없음')))}",
+        f"- Production 의존성: "
+        f"{_truncate(str(design.get('isProductionDependency', '측정값 없음')))}",
         f"- 이 검산으로 생성된 Candidate: {_fmt_count(doc.get('candidatesCreated'))}",
         "- 정의 차이(연율화·표본/모집단·퍼센트 단위)는 맞춘 뒤 비교하며, "
         "정의 차이 자체를 불일치로 세지 않습니다.",
@@ -342,14 +379,14 @@ def _evolution_block(status_doc, promotion_cards_doc):
 
 def build_system_health_section(*, coverage_doc=None, standby_doc=None,
                                 proposal_doc=None, gs_doc=None, status_doc=None,
-                                promotion_cards_doc=None):
+                                promotion_cards_doc=None, today=None):
     """GREEN/ORANGE/RED 본문 끝에 공통으로 붙는 3블록 점검 요약.
 
     이미 만들어진 상태 파일의 값을 그대로 옮겨 적는다. 여기서 숫자를 새로
     계산하거나 상태 파일을 수정하지 않는다(읽기 전용).
     """
     lines = ["## GAEO SYSTEM HEALTH", "", "### Coverage"]
-    lines += _coverage_block(coverage_doc)
+    lines += _coverage_block(coverage_doc, today=today)
     lines += _standby_proposal_block(standby_doc, proposal_doc)
     lines += ["", "### Goldman Reference Check"]
     lines += _gs_block(gs_doc)
@@ -403,7 +440,7 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
     health = build_system_health_section(
         coverage_doc=coverage_doc, standby_doc=standby_doc,
         proposal_doc=proposal_doc, gs_doc=gs_doc, status_doc=status_doc,
-        promotion_cards_doc=promotion_cards_doc)
+        promotion_cards_doc=promotion_cards_doc, today=(today or today_kst()))
     body = f"{body}\n\n{health}\n\n<!-- {marker} -->\n"
     return {"level": level, "title": title, "body": body, "marker": marker}
 
