@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 15:13",
- "dataCutoff": "2026-08-25 15:12 장중",
+ "generatedAt": "2026-08-25 15:43",
+ "dataCutoff": "2026-08-25 종가",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 2,
-   "why": "20거래일 +60.9% · 20일선 위",
+   "why": "20거래일 +61.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.6,
+   "gapPct": 30.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +62.8% · 20일선 위",
+   "why": "20거래일 +62.1% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.6,
+   "gapPct": 32.1,
    "call": "SELL",
    "callConflict": true
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "NHN",
    "sector": "인터넷·IT",
    "sectorRank": 7,
-   "why": "20거래일 +66.6% · 20일선 위",
+   "why": "20거래일 +64.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 24.1,
+   "gapPct": 22.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,33 +45,33 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 10,
-   "why": "20거래일 +77.7% · 20일선 위 · 거래량 평소의 2.1배",
+   "sectorRank": 8,
+   "why": "20거래일 +78.0% · 20일선 위 · 거래량 평소의 2.2배",
    "overheat": true,
-   "gapPct": 51.1,
+   "gapPct": 51.3,
    "call": "SELL",
    "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 64.5,
+  "breadthPct": 66.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6723.64,
-    "ma20": 6459.42,
+    "close": 6746.37,
+    "ma20": 6460.55,
     "above": true,
-    "gapPct": 4.09
+    "gapPct": 4.42
    },
    "KOSDAQ": {
-    "close": 822.89,
-    "ma20": 794.31,
+    "close": 825.95,
+    "ma20": 794.46,
     "above": true,
-    "gapPct": 3.6
+    "gapPct": 3.96
    }
   }
  },
