@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-25 15:41",
+ "generatedAt": "2026-08-25 16:11",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2038,
-   "diana": 0.1262,
-   "nova": 0.3012,
-   "flow": 0.3687
+   "taro": 0.205,
+   "diana": 0.1266,
+   "nova": 0.3041,
+   "flow": 0.3643
   },
   "acc": {
    "taro": {
-    "n": 893,
-    "acc": 33.5,
-    "adjustedAcc": 35.4,
+    "n": 891,
+    "acc": 33.6,
+    "adjustedAcc": 35.5,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,26 +47,26 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 144,
-    "acc": 51.4,
-    "adjustedAcc": 50.8,
+    "n": 143,
+    "acc": 51.7,
+    "adjustedAcc": 51.0,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 159,
-    "acc": 59.1,
-    "adjustedAcc": 55.2,
+    "n": 158,
+    "acc": 58.2,
+    "adjustedAcc": 54.7,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 1196,
+  "graded": 1192,
   "team": {
-   "hit": 670,
-   "miss": 492,
+   "hit": 669,
+   "miss": 493,
    "n": 1162,
-   "acc": 57.7
+   "acc": 57.6
   }
  },
  "sectors": {}
