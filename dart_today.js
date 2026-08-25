@@ -1,18 +1,34 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-25 09:42",
- "priceLabel": "2026-08-25 09:32 장중",
- "count": 254,
+ "generatedAt": "2026-08-25 10:12",
+ "priceLabel": "2026-08-25 10:06 장중",
+ "count": 257,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
-   "code": "005440",
-   "name": "현대지에프홀딩스",
+   "code": "453340",
+   "name": "현대그린푸드",
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T00:41:41.019224+00:00",
+   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "161890",
+   "name": "한국콜마",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "137400",
+   "name": "피엔티",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
    "isCorrection": false
   },
   {
@@ -20,7 +36,23 @@ const DART_TODAY = {
    "name": "교보증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T00:11:42.191957+00:00",
+   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005440",
+   "name": "현대지에프홀딩스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T00:41:41.019224+00:00",
    "isCorrection": false
   },
   {
@@ -923,14 +955,6 @@ const DART_TODAY = {
    "code": "096530",
    "name": "씨젠",
    "title": "자기주식처분결과보고서",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:45:10.833668+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T06:45:10.833668+00:00",
    "isCorrection": false
