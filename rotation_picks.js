@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 14:44",
- "dataCutoff": "2026-08-25 14:44 장중",
+ "generatedAt": "2026-08-25 15:13",
+ "dataCutoff": "2026-08-25 15:12 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "241710",
    "name": "코스메카코리아",
    "sector": "화장품·미용",
-   "sectorRank": 1,
-   "why": "20거래일 +60.1% · 20일선 위",
+   "sectorRank": 2,
+   "why": "20거래일 +60.9% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.0,
+   "gapPct": 29.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +58.5% · 20일선 위",
-   "overheat": false,
-   "gapPct": 29.4,
+   "why": "20거래일 +62.8% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.6,
    "call": "SELL",
    "callConflict": true
   },
@@ -34,10 +34,10 @@ window.ROTATION_PICKS = {
    "code": "181710",
    "name": "NHN",
    "sector": "인터넷·IT",
-   "sectorRank": 8,
-   "why": "20거래일 +63.7% · 20일선 위",
+   "sectorRank": 7,
+   "why": "20거래일 +66.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.1,
+   "gapPct": 24.1,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,30 +45,30 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 9,
-   "why": "20거래일 +79.3% · 20일선 위 · 거래량 평소의 2.0배",
+   "sectorRank": 10,
+   "why": "20거래일 +77.7% · 20일선 위 · 거래량 평소의 2.1배",
    "overheat": true,
-   "gapPct": 52.3,
+   "gapPct": 51.1,
    "call": "SELL",
    "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 64.9,
+  "breadthPct": 64.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6720.85,
-    "ma20": 6459.28,
+    "close": 6723.64,
+    "ma20": 6459.42,
     "above": true,
-    "gapPct": 4.05
+    "gapPct": 4.09
    },
    "KOSDAQ": {
-    "close": 822.94,
+    "close": 822.89,
     "ma20": 794.31,
     "above": true,
     "gapPct": 3.6
@@ -78,7 +78,7 @@ window.ROTATION_PICKS = {
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "화장품·미용"
+  "topSector": "철강·금속"
  },
  "record": {
   "hitRate": 54.8,
