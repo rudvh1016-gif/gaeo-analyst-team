@@ -4,7 +4,7 @@
  "engineStartedAt": "2026-08-18T00:56:30+09:00",
  "baselineCaptured": true,
  "lastCall": {
-  "080220": "SELL",
+  "080220": "HOLD",
   "005930": "SELL",
   "000660": "SELL",
   "402340": "HOLD",
@@ -211,7 +211,7 @@
   "192820": "HOLD",
   "281820": "SELL",
   "457190": "HOLD",
-  "020150": "SELL",
+  "020150": "HOLD",
   "002790": "HOLD",
   "439260": "HOLD",
   "103140": "HOLD",
@@ -384,7 +384,7 @@
   "420770": "SELL",
   "010170": "HOLD",
   "032820": "HOLD",
-  "140860": "SELL",
+  "140860": "HOLD",
   "068760": "HOLD",
   "035900": "HOLD",
   "041510": "HOLD",
@@ -464,7 +464,7 @@
   "052400": "SELL",
   "050890": "HOLD",
   "093320": "HOLD",
-  "112040": "HOLD",
+  "112040": "SELL",
   "397030": "SELL",
   "222080": "HOLD",
   "053800": "HOLD",
@@ -492,9 +492,9 @@
   "456160": "HOLD",
   "052020": "SELL",
   "376300": "HOLD",
-  "170920": "HOLD",
+  "170920": "SELL",
   "476060": "HOLD",
-  "086900": "HOLD",
+  "086900": "SELL",
   "358570": "SELL",
   "477850": "SELL",
   "211050": "HOLD",
@@ -553,7 +553,7 @@
   "058430": "HOLD",
   "272450": "HOLD",
   "033270": "HOLD",
-  "123890": "HOLD",
+  "123890": "BUY",
   "017390": "HOLD",
   "003960": "HOLD",
   "001230": "HOLD",
@@ -603,7 +603,7 @@
   "119850": "SELL",
   "030520": "HOLD"
  },
- "lastProcessedAnalysisAt": "2026-08-25T11:12:41+09:00",
+ "lastProcessedAnalysisAt": "2026-08-25T11:42:42+09:00",
  "businessDates": [
   "2026-08-18",
   "2026-08-19",
@@ -615,11 +615,11 @@
  "openMeta": {
   "b879562787968058": {
    "mfePrice": 35050.0,
-   "maePrice": 34900.0,
+   "maePrice": 34600.0,
    "entryBusinessDate": "2026-08-25",
-   "lastMarkPrice": 34950.0,
-   "lastMarkObservedAt": "2026-08-25T11:35:12+09:00",
-   "lastMarkMarketAt": "2026-08-25T11:35:13.000+09:00",
+   "lastMarkPrice": 34600.0,
+   "lastMarkObservedAt": "2026-08-25T12:05:08+09:00",
+   "lastMarkMarketAt": "2026-08-25T12:05:08.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   },
   "8f8aa95343156ec2": {
@@ -627,14 +627,23 @@
    "maePrice": 2530.0,
    "entryBusinessDate": "2026-08-25",
    "lastMarkPrice": 2535.0,
-   "lastMarkObservedAt": "2026-08-25T11:35:12+09:00",
-   "lastMarkMarketAt": "2026-08-25T11:35:02.000+09:00",
+   "lastMarkObservedAt": "2026-08-25T12:05:08+09:00",
+   "lastMarkMarketAt": "2026-08-25T12:05:06.000+09:00",
    "lastMarkSource": "TOSS/PRICES",
    "marketTsRegressionCount": 1
+  },
+  "a1a6b2a78d72b5cf": {
+   "mfePrice": 2540.0,
+   "maePrice": 2535.0,
+   "entryBusinessDate": "2026-08-25",
+   "lastMarkPrice": 2535.0,
+   "lastMarkObservedAt": "2026-08-25T12:05:08+09:00",
+   "lastMarkMarketAt": "2026-08-25T12:05:06.000+09:00",
+   "lastMarkSource": "TOSS/PRICES"
   }
  },
- "lastCycleAt": "2026-08-25T11:35:12+09:00",
- "lastCycleResult": "CYCLE_OK — NO_ACTION",
+ "lastCycleAt": "2026-08-25T12:05:08+09:00",
+ "lastCycleResult": "CYCLE_OK — 123890 진입 393주 @2,540(BEST_ASK)",
  "lastProcessedModelVersion": "baseline-risk-v2",
  "backfilledBusinessDates": [
   "2026-08-19"
