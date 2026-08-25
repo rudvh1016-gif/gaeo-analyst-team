@@ -1,12 +1,68 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-25 13:42",
- "priceLabel": "2026-08-25 13:41 장중",
- "count": 261,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-08-25 14:12",
+ "priceLabel": "2026-08-25 14:01 장중",
+ "count": 264,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "[기재정정]주주총회소집공고",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "020000",
+   "name": "한섬",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "100090",
+   "name": "SK오션플랜트",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
+   "isCorrection": false
+  },
   {
    "code": "079550",
    "name": "LIG디펜스앤에어로스페이스",
@@ -238,14 +294,6 @@ const DART_TODAY = {
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T07:28:38.046778+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "의결권대리행사권유참고서류",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T06:58:36.893505+00:00",
-   "isCorrection": false
   },
   {
    "code": "064290",
@@ -832,22 +880,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "[기재정정]일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T07:15:15.123721+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "[기재정정]투자설명서(일괄신고)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T07:15:15.123721+00:00",
-   "isCorrection": true
-  },
-  {
    "code": "023530",
    "name": "롯데쇼핑",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -1179,14 +1211,6 @@ const DART_TODAY = {
    "code": "005930",
    "name": "삼성전자",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T05:45:20.352410+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T05:45:20.352410+00:00",
    "isCorrection": false
