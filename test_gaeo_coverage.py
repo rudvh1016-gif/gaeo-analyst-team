@@ -1,0 +1,1240 @@
+# -*- coding: utf-8 -*-
+"""Coverage Guardian · Standby · Proposal · GS Reference Lab 계약 테스트.
+
+대표 지시 43개 항목을 고의 실패 시험(negative test) 위주로 검증한다.
+핵심 명제는 딱 두 줄이다.
+    ① 시세가 몇 개 덜 들어왔다고 Universe(종목집합)가 바뀌지 않는다.
+    ② 어떤 경우에도 이 코드가 tickers.js·Production을 자동으로 바꾸지 않는다.
+
+⚠️ CI 러너에는 PyYAML·gs-quant·numpy가 없다.
+   워크플로우 검사는 텍스트 파싱으로만 하고, GS 검산은 미설치 상태(N/A 경로)에서도
+   통과해야 한다.
+"""
+import ast
+import copy
+import datetime
+import gzip
+import hashlib
+import json
+import os
+import re
+import shutil
+import sys
+import tempfile
+import tokenize
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import coverage_version                                   # noqa: E402
+from gaeo_coverage import guardian, proposal, standby      # noqa: E402
+from gaeo_reference import gs_reference                    # noqa: E402
+from gaeo_evolution import notification                    # noqa: E402
+
+KST = guardian.KST
+NOW = datetime.datetime(2026, 8, 25, 9, 0, tzinfo=KST)
+
+# 실제 저장소 파일 — 이 테스트가 도는 동안 단 1바이트도 바뀌면 안 되는 것들.
+PRODUCTION_FILES = [
+    "tickers.js", "data.js", "auto_analysis.js", "coverage_version.py",
+    "analyze_auto.py", "compute_indicators.py", "history.js", "team_weights.js",
+    "gaeo_evolution/production_config.json",
+    "gaeo_evolution/evolution_constitution.json",
+]
+
+
+def sha(path):
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def repo_fingerprints():
+    return {p: sha(os.path.join(HERE, p)) for p in PRODUCTION_FILES
+            if os.path.exists(os.path.join(HERE, p))}
+
+
+# ── 가짜 저장소 만들기 ───────────────────────────────────────────────────────
+def synth_codes(n, start=1):
+    """끝자리 0인 6자리 코드 n개(보통주 코드 규칙에 맞춘 합성값)."""
+    return ["%06d" % ((i + start) * 10) for i in range(n)]
+
+
+def write_tickers(path, codes, names=None):
+    names = names or {}
+    rows = [{"code": c, "name": names.get(c, "종목%s" % c), "sector": "테스트업종"}
+            for c in codes]
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("// 테스트 픽스처\nconst TICKERS = %s;\n"
+                % json.dumps(rows, ensure_ascii=False))
+
+
+def write_data_js(path, codes, stale=()):
+    stocks = {}
+    for c in codes:
+        row = {"name": "종목%s" % c, "price": 1000, "rate": 0.1}
+        if c in stale:
+            row["stale"] = True
+        stocks[c] = row
+    doc = {"date": "2026-08-25 종가", "stocks": stocks}
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("const LIVE_DATA = %s;\n" % json.dumps(doc, ensure_ascii=False))
+
+
+def write_auto_js(path, codes):
+    doc = {"generatedAt": "2026-08-25 16:13",
+           "coverageUniverseVersion": coverage_version.current_version(),
+           "coverageUniverseSize": coverage_version.CURRENT["size"],
+           "stocks": {c: {"chief": {"call": "HOLD"}} for c in codes}}
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("const LIVE_AUTO = %s;\n" % json.dumps(doc, ensure_ascii=False))
+
+
+def snap_item(code, **kw):
+    item = {"code": code, "name": "종목%s" % code, "market": "KOSPI",
+            "kind": "COMMON", "basis": "source_stockEndType", "tradable": True,
+            "rate": 0.5, "close": 1000.0, "cap": 1.0e12, "tval": 1.0e9}
+    item.update(kw)
+    return item
+
+
+def write_snapshot(path, items, as_of):
+    doc = {"schemaVersion": 1, "asOf": as_of, "kstDay": as_of[:10],
+           "source": "test", "rawCount": len(items), "items": items}
+    with gzip.open(path, "wt", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False)
+
+
+# 테스트용 기본 업종 — 실제 KRX 업종명 표기를 그대로 쓴다(정상 제조업 / 집합투자기구).
+NORMAL_SECTOR = "전자부품 제조업"
+FUND_SECTOR = "신탁업 및 집합투자업"
+
+
+def write_sector_map(path, codes, sector=None):
+    doc = {"schemaVersion": "gaeo_sector_map_v1", "asOf": NOW.isoformat(),
+           "source": "test", "corpCount": len(codes),
+           "map": {c: (sector or NORMAL_SECTOR) for c in codes}}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False)
+
+
+# Universe(tickers.js) 밖에 있는 정상 보통주 — 대기 명단 후보가 될 수 있는 종목들
+OUTSIDE_ITEMS = [snap_item("%06d" % (900000 + i * 10), cap=1e12 - i)
+                 for i in range(1, 6)]
+
+
+class Fixture:
+    """임시 디렉터리에 tickers/data/auto/snapshot 한 벌을 만든다."""
+
+    def __init__(self, tmp):
+        self.tmp = tmp
+        self.tickers = os.path.join(tmp, "tickers.js")
+        self.data = os.path.join(tmp, "data.js")
+        self.auto = os.path.join(tmp, "auto_analysis.js")
+        self.snapshot = os.path.join(tmp, "full_market_latest.json.gz")
+        self.sector_map = os.path.join(tmp, "sector_map.json")
+        self.observations = os.path.join(tmp, "observations.json")
+        self.report = os.path.join(tmp, "coverage_state.json")
+        self.standby = os.path.join(tmp, "standby_pool.json")
+        self.proposal = os.path.join(tmp, "replacement_proposal.json")
+
+    def guard(self, now=NOW):
+        return guardian.run(tickers_path=self.tickers, data_js_path=self.data,
+                            auto_js_path=self.auto, snapshot_path=self.snapshot,
+                            universe_state_path=os.path.join(self.tmp, "no_state.json"),
+                            observations_path=self.observations,
+                            report_out=self.report, write=True, now=now)
+
+    def pool(self, now=NOW, target=standby.DEFAULT_TARGET):
+        return standby.run(snapshot_path=self.snapshot, tickers_path=self.tickers,
+                           sector_map_path=self.sector_map,
+                           out=self.standby, target=target, write=True, now=now)
+
+    def propose(self, now=NOW):
+        return proposal.run(coverage_path=self.report, standby_path=self.standby,
+                            out=self.proposal, write=True, now=now)
+
+
+def make_fixture(tmp, *, configured=600, missing=(), stale=(), snapshot_as_of=None,
+                 snapshot_overrides=None, extra_snapshot_items=(),
+                 drop_from_snapshot=()):
+    """configured개 종목 Universe + 그중 missing만 시세에서 빠진 상태."""
+    fx = Fixture(tmp)
+    codes = synth_codes(configured)
+    write_tickers(fx.tickers, codes)
+    live = [c for c in codes if c not in set(missing)]
+    write_data_js(fx.data, live, stale=stale)
+    write_auto_js(fx.auto, live)
+
+    overrides = snapshot_overrides or {}
+    dropped = set(drop_from_snapshot)
+    items = [snap_item(c, **overrides.get(c, {})) for c in codes if c not in dropped]
+    items += list(extra_snapshot_items)
+    write_snapshot(fx.snapshot, items,
+                   snapshot_as_of or (NOW - datetime.timedelta(hours=6)).isoformat())
+    write_sector_map(fx.sector_map, [i["code"] for i in items])
+    return fx, codes
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 1~7. Coverage Guardian — 4개 숫자 · 원인 분류 · 교체 금지
+# ═══════════════════════════════════════════════════════════════════════════
+class GuardianCoreTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    def test_01_configured600_fresh598_membership_unchanged(self):
+        """① 시세 598 · 설정 600 → Universe는 여전히 600이고 membership 변화 0."""
+        codes_missing = ("000010", "000020")
+        fx, codes = make_fixture(self.tmp, missing=codes_missing)
+        before = sha(fx.tickers)
+        rep = fx.guard()
+        self.assertEqual(rep["targetCoverage"], 600)
+        self.assertEqual(rep["configuredCoverage"], 600)
+        self.assertEqual(rep["freshPriceCoverage"], 598)
+        self.assertEqual(rep["autoAnalysisCoverage"], 598)
+        self.assertEqual(sorted(rep["missingPriceCodes"]), sorted(codes_missing))
+        # 파일도 종목집합도 그대로다
+        self.assertEqual(before, sha(fx.tickers))
+        self.assertEqual(len(guardian.load_configured(fx.tickers)["codes"]), 600)
+        self.assertEqual(rep["replaceableCount"], 0)
+        # "598로 줄었다"고 쓰지 않는다
+        self.assertIn("configuredCoverage가 Universe 크기다", rep["universeNote"])
+
+    def test_01b_four_numbers_have_distinct_names(self):
+        keys = ("targetCoverage", "configuredCoverage", "freshPriceCoverage",
+                "autoAnalysisCoverage")
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        rep = fx.guard()
+        for k in keys:
+            self.assertIn(k, rep)
+        self.assertEqual(len(set(keys)), 4)
+
+    def test_01c_stale_price_is_not_fresh(self):
+        fx, _ = make_fixture(self.tmp, stale=("000030",))
+        rep = fx.guard()
+        self.assertEqual(rep["freshPriceCoverage"], 599)
+        self.assertEqual(rep["stalePriceCount"], 1)
+        self.assertIn("000030", rep["missingPriceCodes"])
+
+    def test_02_recovered_next_cycle_zero_replacement(self):
+        """② 다음 cycle에 600이 회복되면 교체 0 · 회복 기록만 남는다."""
+        fx, codes = make_fixture(self.tmp, missing=("000010",))
+        fx.guard()
+        fx.guard(now=NOW + datetime.timedelta(days=7))
+        # 회복: 전 종목 시세 복구
+        write_data_js(fx.data, codes)
+        write_auto_js(fx.auto, codes)
+        rep = fx.guard(now=NOW + datetime.timedelta(days=14))
+        self.assertEqual(rep["missingPriceCodes"], [])
+        self.assertEqual(rep["status"], guardian.STATUS_PASS)
+        self.assertEqual(rep["replaceableCount"], 0)
+        self.assertTrue(any(r["code"] == "000010" for r in rep["recoveries"]))
+        obs = guardian.load_observations(fx.observations)
+        self.assertNotIn("000010", obs["codes"])
+        fx.pool()
+        self.assertEqual(fx.propose()["status"], proposal.STATUS_NO_PROPOSAL)
+
+    def test_03_api_timeout_style_bulk_failure_zero_replacement(self):
+        """③ 수집 API 타임아웃처럼 여러 종목이 한꺼번에 빠져도 교체 0."""
+        missing = synth_codes(12)
+        fx, _ = make_fixture(self.tmp, missing=missing)
+        rep = fx.guard()
+        self.assertEqual(len(rep["missingPriceCodes"]), 12)
+        for f in rep["findings"]:
+            self.assertEqual(f["cause"], guardian.TEMP_DATA_FAILURE)
+            self.assertFalse(f["replaceable"])
+        self.assertEqual(rep["replaceableCount"], 0)
+        fx.pool()
+        self.assertEqual(fx.propose()["status"], proposal.STATUS_NO_PROPOSAL)
+
+    def test_04_suspended_stock_zero_replacement(self):
+        """④ 거래정지는 상장 유지다 — 교체 대상이 아니다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"tradable": False}})
+        for _ in range(5):          # 몇 번을 관측해도 결론이 바뀌지 않는다
+            rep = fx.guard()
+        f = rep["findings"][0]
+        self.assertEqual(f["cause"], guardian.LISTED_BUT_SUSPENDED)
+        self.assertFalse(f["replaceable"])
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_04b_name_change_is_corporate_event_not_delisting(self):
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"name": "새이름홀딩스"}})
+        rep = fx.guard()
+        self.assertEqual(rep["findings"][0]["cause"], guardian.CORPORATE_EVENT)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_04c_persistent_missing_but_listed_is_pipeline_bug_not_delisting(self):
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        for _ in range(guardian.PERSISTENT_MISSING_MIN_OBSERVATIONS):
+            rep = fx.guard()
+        self.assertEqual(rep["findings"][0]["cause"], guardian.PIPELINE_BUG)
+        self.assertEqual(rep["replaceableCount"], 0)
+        self.assertEqual(rep["status"], guardian.STATUS_RED)
+
+    def test_05_unknown_zero_replacement(self):
+        """⑤ snapshot이 오래됐으면 '없다'는 사실만으로 상폐로 올리지 않는다."""
+        old = (NOW - datetime.timedelta(days=30)).isoformat()
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",), snapshot_as_of=old)
+        for _ in range(6):
+            rep = fx.guard()
+        f = rep["findings"][0]
+        self.assertEqual(f["cause"], guardian.UNKNOWN)
+        self.assertFalse(f["replaceable"])
+        self.assertTrue(any("오래됐거나" in e for e in f["evidence"]))
+        self.assertFalse(rep["snapshot"]["freshEnoughForDelisting"])
+
+    def test_05b_missing_snapshot_is_unknown(self):
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        os.remove(fx.snapshot)
+        rep = fx.guard()
+        self.assertEqual(rep["findings"][0]["cause"], guardian.UNKNOWN)
+        self.assertFalse(rep["snapshot"]["available"])
+
+    def test_05c_fresh_snapshot_but_single_observation_is_unknown(self):
+        """한 번 빠졌다고 상폐로 판정하지 않는다(지속 누락 요건)."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",))
+        rep = fx.guard()
+        self.assertEqual(rep["findings"][0]["cause"], guardian.UNKNOWN)
+        self.assertEqual(rep["findings"][0]["consecutiveMissing"], 1)
+
+    def test_06_confirmed_delisting_allows_proposal(self):
+        """⑥ 최신 snapshot 부재 + 지속 누락 둘 다일 때만 확정 상폐 → 제안 생성 가능."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",),
+                             extra_snapshot_items=OUTSIDE_ITEMS)
+        for i in range(guardian.PERSISTENT_MISSING_MIN_OBSERVATIONS):
+            rep = fx.guard(now=NOW + datetime.timedelta(hours=i))
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        self.assertEqual(rep["replaceableCount"], 1)
+        fx.pool()
+        doc = fx.propose()
+        self.assertEqual(doc["status"], proposal.STATUS_AWAITING)
+        self.assertEqual(len(doc["removals"]), 1)
+        self.assertEqual(len(doc["additions"]), 1)
+        self.assertEqual(doc["expectedConfiguredCoverage"], 600)
+
+    def test_07_confirmed_delisting_never_touches_tickers_or_main(self):
+        """⑦ 확정 상폐라도 tickers.js·Coverage Version은 그대로다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",),
+                             extra_snapshot_items=OUTSIDE_ITEMS)
+        before_file = sha(fx.tickers)
+        before_history = copy.deepcopy(coverage_version.COVERAGE_HISTORY)
+        repo_before = repo_fingerprints()
+        for i in range(guardian.PERSISTENT_MISSING_MIN_OBSERVATIONS):
+            fx.guard(now=NOW + datetime.timedelta(hours=i))
+        fx.pool()
+        doc = fx.propose()
+        self.assertFalse(doc["appliedToTickers"])
+        self.assertFalse(doc["autoApplyPath"])
+        self.assertTrue(doc["approvalRequired"])
+        self.assertIsNone(doc["approvedBy"])
+        self.assertEqual(before_file, sha(fx.tickers))
+        self.assertEqual(before_history, coverage_version.COVERAGE_HISTORY)
+        self.assertEqual(repo_before, repo_fingerprints())
+
+    def test_07b_only_state_dir_writer_exists(self):
+        """코드에 파일 쓰기 경로가 write_json(state 산출물) 하나뿐이다."""
+        for mod in ("guardian.py", "standby.py", "proposal.py"):
+            path = os.path.join(HERE, "gaeo_coverage", mod)
+            writers = _write_mode_open_calls(path)
+            self.assertTrue(all(fn == "write_json" for fn, _ in writers),
+                            "%s: %s" % (mod, writers))
+        # standby/proposal은 자기 쓰기 함수를 따로 두지 않고 guardian 것을 재사용한다
+        for mod in ("standby.py", "proposal.py"):
+            self.assertEqual(_write_mode_open_calls(
+                os.path.join(HERE, "gaeo_coverage", mod)), [])
+        # 산출물 경로는 항상 gaeo_coverage/state/ 아래다
+        for mod, attr in (("guardian.py", "DEFAULT_REPORT_OUT"),
+                          ("standby.py", "DEFAULT_OUT"),
+                          ("proposal.py", "DEFAULT_OUT")):
+            module = {"guardian.py": guardian, "standby.py": standby,
+                      "proposal.py": proposal}[mod]
+            self.assertTrue(getattr(module, attr).replace("\\", "/").endswith(
+                tuple(["coverage_state.json", "standby_pool.json",
+                       "replacement_proposal.json"])))
+            self.assertIn("gaeo_coverage/state",
+                          getattr(module, attr).replace("\\", "/"))
+        # proposal은 tickers.js를 읽지도 않는다(반영 경로 자체가 없다)
+        prop_src = _code_only(os.path.join(HERE, "gaeo_coverage", "proposal.py"))
+        self.assertNotIn("load_configured", prop_src)
+        self.assertNotIn("DEFAULT_TICKERS", prop_src)
+
+    def test_07c_fingerprint_is_stable_and_dedupes(self):
+        a = guardian.fingerprint("000010", guardian.UNKNOWN)
+        b = guardian.fingerprint("000010", guardian.UNKNOWN)
+        c = guardian.fingerprint("000010", guardian.DELISTED_CONFIRMED)
+        d = guardian.fingerprint("000020", guardian.UNKNOWN)
+        self.assertEqual(a, b)
+        self.assertNotEqual(a, c)
+        self.assertNotEqual(a, d)
+
+    def test_07d_replaceable_causes_are_only_delisted(self):
+        self.assertEqual(guardian.REPLACEABLE_CAUSES, (guardian.DELISTED_CONFIRMED,))
+        for cause in (guardian.TEMP_DATA_FAILURE, guardian.LISTED_BUT_SUSPENDED,
+                      guardian.CORPORATE_EVENT, guardian.PIPELINE_BUG,
+                      guardian.UNKNOWN):
+            self.assertNotIn(cause, guardian.REPLACEABLE_CAUSES)
+
+
+def _strip_docstrings(path, source=None):
+    """모듈·함수·클래스 docstring을 제거한 실코드만 돌려준다(오탐 방지)."""
+    source = source if source is not None else open(path, encoding="utf-8").read()
+    tree = ast.parse(source)
+    drop = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef,
+                             ast.ClassDef)):
+            body = getattr(node, "body", None) or []
+            if body and isinstance(body[0], ast.Expr) and \
+                    isinstance(body[0].value, ast.Constant) and \
+                    isinstance(body[0].value.value, str):
+                drop.add((body[0].lineno, body[0].end_lineno))
+    lines = source.splitlines()
+    keep = []
+    for i, line in enumerate(lines, start=1):
+        if any(lo <= i <= hi for lo, hi in drop):
+            continue
+        keep.append(line)
+    return "\n".join(keep)
+
+
+def _code_only(path):
+    """주석과 docstring을 모두 걷어낸 '실행되는 코드'만 남긴다.
+
+    설명 주석에 'gaeo_reference' 같은 단어가 들어 있다는 이유로 격리 위반이라고
+    잘못 판정하지 않기 위해 필요하다(경계는 실코드로만 판정한다).
+    """
+    source = open(path, encoding="utf-8").read()
+    lines = source.splitlines(keepends=True)
+    with open(path, "rb") as f:
+        for tok in tokenize.tokenize(f.readline):
+            if tok.type != tokenize.COMMENT:
+                continue
+            row, col = tok.start
+            line = lines[row - 1]
+            lines[row - 1] = line[:col] + " " * len(tok.string) + line[col + len(tok.string):]
+    return _strip_docstrings(path, source="".join(lines))
+
+
+def _write_mode_open_calls(path):
+    """파일을 '쓰기'로 여는 open() 호출 목록 [(함수이름, 대상표현식)]."""
+    tree = ast.parse(open(path, encoding="utf-8").read())
+    parents = {}
+    for node in ast.walk(tree):
+        for child in ast.iter_child_nodes(node):
+            parents[child] = node
+
+    def owner(node):
+        cur = node
+        while cur in parents:
+            cur = parents[cur]
+            if isinstance(cur, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                return cur.name
+        return "<module>"
+
+    found = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        fname = getattr(node.func, "id", None) or getattr(node.func, "attr", None)
+        if fname not in ("open",):
+            continue
+        modes = [a.value for a in node.args[1:] if isinstance(a, ast.Constant)]
+        modes += [k.value.value for k in node.keywords
+                  if k.arg == "mode" and isinstance(k.value, ast.Constant)]
+        if any(("w" in str(m) or "a" in str(m) or "+" in str(m)) for m in modes):
+            found.append((owner(node), ast.dump(node.args[0]) if node.args else ""))
+    return found
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 8~15. Standby Pool — 자격 심사 고의 실패 시험
+# ═══════════════════════════════════════════════════════════════════════════
+class StandbyScreeningTest(unittest.TestCase):
+    def pool_from(self, items, covered=(), sectors=None, target=None):
+        """업종 매핑은 기본으로 '정상 제조업'을 채워 준다.
+
+        업종 기준 제외(집합투자기구·업종불명)를 따로 시험하는 테스트만
+        sectors 인자로 원하는 업종을 덮어쓴다.
+        """
+        mapping = {i["code"]: NORMAL_SECTOR for i in items}
+        if sectors is not None:
+            mapping.update(sectors)
+            for code, value in sectors.items():
+                if value is None:
+                    mapping.pop(code, None)
+        snapshot = {"asOf": (NOW - datetime.timedelta(hours=3)).isoformat(),
+                    "byCode": {i["code"]: i for i in items}}
+        kwargs = {}
+        if target is not None:
+            kwargs["target"] = target
+        return standby.build_pool(
+            snapshot=snapshot, covered_codes=covered,
+            sector_map={"asOf": NOW.isoformat(), "source": "test", "map": mapping},
+            now=NOW, **kwargs)
+
+    def _assert_rejected(self, item, reason):
+        pool = self.pool_from([item, snap_item("999990")])
+        codes = [c["code"] for c in pool["candidates"]]
+        self.assertNotIn(item["code"], codes)
+        self.assertEqual(pool["excludedCounts"].get(reason), 1,
+                         pool["excludedCounts"])
+
+    def test_08_etf_rejected(self):
+        self._assert_rejected(snap_item("069500", kind="ETF"), standby.R_NOT_COMMON)
+
+    def test_09_etn_rejected(self):
+        self._assert_rejected(snap_item("530000", kind="ETN"), standby.R_NOT_COMMON)
+
+    def test_10_spac_rejected(self):
+        self._assert_rejected(snap_item("400010", kind="SPAC",
+                                        basis="legal_name_rule"),
+                              standby.R_NOT_COMMON)
+
+    def test_11_reit_rejected(self):
+        self._assert_rejected(snap_item("330990", kind="REIT",
+                                        basis="listing_name_rule"),
+                              standby.R_NOT_COMMON)
+
+    def test_12_class_share_rejected(self):
+        self._assert_rejected(snap_item("005935", kind="CLASS_SHARE",
+                                        basis="code_suffix_rule"),
+                              standby.R_NOT_COMMON)
+
+    def test_13_not_tradable_rejected(self):
+        self._assert_rejected(snap_item("111110", tradable=False),
+                              standby.R_NOT_TRADABLE)
+
+    def test_14_already_covered_rejected(self):
+        pool = self.pool_from([snap_item("005930"), snap_item("999990")],
+                              covered=("005930",))
+        self.assertNotIn("005930", [c["code"] for c in pool["candidates"]])
+        self.assertEqual(pool["excludedCounts"].get(standby.R_ALREADY), 1)
+
+    def test_15_unclassified_kinds_rejected(self):
+        for kind, basis in (("COMMON_ASSUMED", "no_type_metadata"),
+                            ("CLASSIFICATION_UNKNOWN", "stockEndType_empty"),
+                            ("NON_STOCK_FUND", "source_stockEndType")):
+            with self.subTest(kind=kind):
+                pool = self.pool_from([snap_item("222220", kind=kind, basis=basis),
+                                       snap_item("999990")])
+                self.assertNotIn("222220", [c["code"] for c in pool["candidates"]])
+
+    def test_15b_unverified_basis_rejected(self):
+        """kind가 COMMON이어도 근거가 실측 metadata가 아니면 탈락."""
+        self._assert_rejected(snap_item("333330", basis="code_suffix_rule"),
+                              standby.R_BASIS)
+
+    def test_15c_missing_cap_rejected(self):
+        self._assert_rejected(snap_item("444440", cap=None), standby.R_NO_CAP)
+        self._assert_rejected(snap_item("444450", cap=0), standby.R_NO_CAP)
+
+    def test_15d_sorted_by_market_cap_only(self):
+        items = [snap_item("100000", cap=1e11, rate=30.0, tval=9e12),   # 급등·거래폭발
+                 snap_item("200000", cap=9e12, rate=-5.0, tval=1e6),    # 큰 회사
+                 snap_item("300000", cap=5e12, rate=0.0, tval=5e9)]
+        pool = self.pool_from(items)
+        self.assertEqual([c["code"] for c in pool["candidates"]],
+                         ["200000", "300000", "100000"])
+        self.assertEqual([c["capRank"] for c in pool["candidates"]], [1, 2, 3])
+
+    def test_15e_no_popularity_criteria_in_source(self):
+        """'많이 오른 종목'·'거래대금' 기준이 정렬에 쓰이지 않는다."""
+        src = _code_only(os.path.join(HERE, "gaeo_coverage", "standby.py"))
+        self.assertNotIn('["rate"]', src)
+        self.assertNotIn('["tval"]', src)
+        self.assertNotIn('"tval"', src)
+        self.assertIn('-float(it["cap"])', src)
+
+    def test_15f_shortfall_is_reported_not_padded(self):
+        """자격 미달이면 숫자를 억지로 채우지 않는다."""
+        pool = self.pool_from([snap_item("100000"), snap_item("200000")])
+        self.assertEqual(pool["candidateCount"], 2)
+        self.assertTrue(pool["shortfall"])
+        self.assertEqual(pool["status"], "SHORTFALL")
+        self.assertEqual(pool["targetRange"], [30, 50])
+
+    def test_15g_required_fields_present(self):
+        pool = self.pool_from([snap_item("100000")])
+        c = pool["candidates"][0]
+        for key in ("code", "name", "market", "sector", "marketCap", "capRank",
+                    "tradableStatus", "instrumentType", "basis", "checkedAt",
+                    "sourceSnapshot", "eligibilityVerdict", "fingerprint"):
+            self.assertIn(key, c)
+
+    def test_15j_collective_investment_sector_rejected(self):
+        """집합투자기구 업종(신탁업 및 집합투자업)은 kind가 COMMON이어도 탈락한다.
+
+        실제 사례: 맥쿼리인프라·KB발해인프라·맵스리얼티는 stockEndType이 "stock"이고
+        이름이 '리츠'로 끝나지 않아 기존 규칙 넷을 전부 통과했었다.
+        """
+        fund = snap_item("088980", cap=4.64e12)      # 맥쿼리인프라 실측 시총
+        normal = snap_item("999990", cap=1.0e11)
+        pool = self.pool_from([fund, normal], sectors={"088980": FUND_SECTOR})
+        self.assertNotIn("088980", [c["code"] for c in pool["candidates"]])
+        self.assertEqual(pool["excludedCounts"].get(standby.R_COLLECTIVE), 1,
+                         pool["excludedCounts"])
+        # 시총이 훨씬 작아도 정상 기업은 그대로 남는다
+        self.assertIn("999990", [c["code"] for c in pool["candidates"]])
+        self.assertIn(FUND_SECTOR, pool["excludedSectors"])
+
+    def test_15k_normal_operating_companies_still_pass(self):
+        """정상 제조/IT 기업은 업종 규칙에 걸리지 않는다(과잉 제외 회귀 방지)."""
+        cases = {
+            "111100": "전자부품 제조업",
+            "111200": "소프트웨어 개발 및 공급업",
+            "111300": "자동차 신품 부품 제조업",
+            "111400": "기타 금융업",                    # 지주회사·은행 업종
+            "111500": "금융 지원 서비스업",              # 증권사 업종
+            "111600": "부동산 임대 및 공급업",           # 부동산 개발기업 업종
+        }
+        items = [snap_item(code, cap=1.0e12 - i)
+                 for i, code in enumerate(cases)]
+        pool = self.pool_from(items, sectors=cases)
+        self.assertEqual(pool["candidateCount"], len(cases), pool["excludedCounts"])
+        for code in cases:
+            self.assertIn(code, [c["code"] for c in pool["candidates"]])
+        self.assertIsNone(pool["excludedCounts"].get(standby.R_COLLECTIVE))
+        self.assertIsNone(pool["excludedCounts"].get(standby.R_SECTOR_UNKNOWN))
+
+    def test_15l_unknown_sector_rejected_with_reason(self):
+        """업종을 확인할 수 없는 종목은 '확실하지 않은 종목'이므로 제외한다."""
+        pool = self.pool_from([snap_item("222200"), snap_item("999990")],
+                              sectors={"222200": None})
+        self.assertNotIn("222200", [c["code"] for c in pool["candidates"]])
+        self.assertEqual(pool["excludedCounts"].get(standby.R_SECTOR_UNKNOWN), 1,
+                         pool["excludedCounts"])
+        self.assertTrue(pool["requireKnownSector"])
+
+    def test_15m_sector_check_runs_last_so_counts_stay_readable(self):
+        """ETF처럼 다른 이유로 떨어지는 종목이 SECTOR_UNKNOWN을 부풀리지 않는다."""
+        pool = self.pool_from([snap_item("069500", kind="ETF"), snap_item("999990")],
+                              sectors={"069500": None})
+        self.assertEqual(pool["excludedCounts"].get(standby.R_NOT_COMMON), 1)
+        self.assertIsNone(pool["excludedCounts"].get(standby.R_SECTOR_UNKNOWN))
+
+    def test_15n_every_candidate_has_a_known_sector(self):
+        items = [snap_item("%06d" % (i * 10), cap=1e12 + i) for i in range(1, 40)]
+        pool = self.pool_from(items)
+        self.assertEqual(pool["unmappedSectorCount"], 0)
+        for c in pool["candidates"]:
+            self.assertTrue(c["sector"])
+
+    def test_15h_no_snapshot_means_no_pool(self):
+        pool = standby.build_pool(snapshot=None, covered_codes=(), now=NOW)
+        self.assertEqual(pool["status"], "NO_SNAPSHOT")
+        self.assertEqual(pool["candidates"], [])
+
+    def test_15i_target_never_exceeds_50(self):
+        items = [snap_item("%06d" % (i * 10), cap=1e12 + i) for i in range(1, 200)]
+        pool = self.pool_from(items)
+        self.assertLessEqual(pool["candidateCount"], standby.TARGET_MAX)
+        pool2 = self.pool_from(items, target=999)
+        self.assertLessEqual(pool2["candidateCount"], standby.TARGET_MAX)
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 16~23. Proposal · Coverage Version 불변식
+# ═══════════════════════════════════════════════════════════════════════════
+def fake_report(*, target=600, configured=600, delisted=0, other_causes=()):
+    findings = []
+    for i in range(delisted):
+        code = "%06d" % ((i + 1) * 10)
+        findings.append({"code": code, "name": "폐지%s" % code, "sector": "테스트",
+                         "cause": guardian.DELISTED_CONFIRMED, "replaceable": True,
+                         "consecutiveMissing": 5, "evidence": ["테스트"],
+                         "fingerprint": guardian.fingerprint(
+                             code, guardian.DELISTED_CONFIRMED)})
+    for i, cause in enumerate(other_causes):
+        code = "%06d" % ((900 + i) * 10)
+        findings.append({"code": code, "name": "정상%s" % code, "sector": "테스트",
+                         "cause": cause, "replaceable": False,
+                         "consecutiveMissing": 9, "evidence": ["테스트"],
+                         "fingerprint": guardian.fingerprint(code, cause)})
+    return {"targetCoverage": target, "configuredCoverage": configured,
+            "coverageVersion": coverage_version.current_version(),
+            "findings": findings,
+            "missingPriceCodes": [f["code"] for f in findings]}
+
+
+def fake_pool(n=5):
+    return {"candidates": [
+        {"code": "%06d" % ((700 + i) * 10), "name": "후보%d" % i, "market": "KOSPI",
+         "sector": "테스트", "marketCap": 1e12, "capRank": i + 1,
+         "tradableStatus": "TRADABLE", "instrumentType": "COMMON",
+         "basis": "source_stockEndType", "checkedAt": NOW.isoformat(),
+         "sourceSnapshot": NOW.isoformat(), "eligibilityVerdict": "ELIGIBLE_STANDBY",
+         "fingerprint": "f%015d" % i}
+        for i in range(n)], "sourceSnapshot": NOW.isoformat()}
+
+
+class ProposalContractTest(unittest.TestCase):
+    def test_16_fail_closed_when_expected_size_is_not_target(self):
+        """⑯ 적용 후 예상이 정확히 600이 아니면 제안을 만들지 않는다."""
+        rep = fake_report(target=600, configured=599, delisted=1)
+        doc = proposal.build_proposal(coverage_report=rep, standby_pool=fake_pool(),
+                                      now=NOW)
+        self.assertEqual(doc["status"], proposal.STATUS_FAIL_CLOSED)
+        self.assertEqual(doc["expectedConfiguredCoverage"], 599)
+        self.assertEqual(doc["additions"], [])
+        self.assertEqual(doc["removals"], [])
+
+    def test_16b_fail_closed_when_not_enough_candidates(self):
+        rep = fake_report(delisted=3)
+        doc = proposal.build_proposal(coverage_report=rep,
+                                      standby_pool=fake_pool(1), now=NOW)
+        self.assertEqual(doc["status"], proposal.STATUS_FAIL_CLOSED)
+        self.assertEqual(doc["additions"], [])
+
+    def test_16c_no_proposal_for_non_replaceable_causes(self):
+        rep = fake_report(delisted=0, other_causes=(
+            guardian.TEMP_DATA_FAILURE, guardian.LISTED_BUT_SUSPENDED,
+            guardian.CORPORATE_EVENT, guardian.PIPELINE_BUG, guardian.UNKNOWN))
+        doc = proposal.build_proposal(coverage_report=rep, standby_pool=fake_pool(),
+                                      now=NOW)
+        self.assertEqual(doc["status"], proposal.STATUS_NO_PROPOSAL)
+        self.assertEqual(len(doc["nonReplaceableMissing"]), 5)
+
+    def test_16d_valid_proposal_keeps_size_exactly_target(self):
+        rep = fake_report(delisted=2)
+        doc = proposal.build_proposal(coverage_report=rep, standby_pool=fake_pool(),
+                                      now=NOW)
+        self.assertEqual(doc["status"], proposal.STATUS_AWAITING)
+        self.assertEqual(doc["expectedConfiguredCoverage"], 600)
+        self.assertEqual(len(doc["removals"]), len(doc["additions"]))
+
+    def test_17_coverage_version_unchanged_before_membership_change(self):
+        """⑰ membership이 실제로 바뀌기 전에는 Coverage Version이 그대로다."""
+        before = coverage_version.current_version()
+        doc = proposal.build_proposal(coverage_report=fake_report(delisted=1),
+                                      standby_pool=fake_pool(), now=NOW)
+        self.assertEqual(coverage_version.current_version(), before)
+        self.assertEqual(doc["currentCoverageVersion"], before)
+        self.assertNotEqual(doc["draftCoverageVersion"], before)
+
+    def test_18_new_version_is_draft_only_until_approval(self):
+        doc = proposal.build_proposal(coverage_report=fake_report(delisted=1),
+                                      standby_pool=fake_pool(), now=NOW)
+        versions = [e["version"] for e in coverage_version.COVERAGE_HISTORY]
+        self.assertEqual(doc["draftCoverageVersion"], "GAEO_COVERAGE_V3_600")
+        self.assertNotIn(doc["draftCoverageVersion"], versions)
+        self.assertTrue(doc["approvalRequired"])
+
+    def test_19_past_versions_never_modified(self):
+        before = copy.deepcopy(coverage_version.COVERAGE_HISTORY)
+        proposal.build_proposal(coverage_report=fake_report(delisted=1),
+                                standby_pool=fake_pool(), now=NOW)
+        self.assertEqual(before, coverage_version.COVERAGE_HISTORY)
+        self.assertEqual(before[0]["version"], "GAEO_COVERAGE_V1_500")
+        self.assertEqual(before[0]["effectiveTo"], "2026-08-14")
+
+    def test_20_no_backfill_of_past_records(self):
+        """⑳ 과거 날짜는 그 시절 Version 그대로여야 한다(소급 금지)."""
+        self.assertEqual(coverage_version.version_for_date("2026-07-01"),
+                         "GAEO_COVERAGE_V1_500")
+        proposal.build_proposal(coverage_report=fake_report(delisted=1),
+                                standby_pool=fake_pool(), now=NOW)
+        self.assertEqual(coverage_version.version_for_date("2026-07-01"),
+                         "GAEO_COVERAGE_V1_500")
+        self.assertEqual(coverage_version.version_for_date("2026-08-20"),
+                         "GAEO_COVERAGE_V2_600")
+
+    def test_21_removed_stock_history_is_preserved(self):
+        """㉑ 제거 제안이 나와도 그 종목의 과거 기록은 지우지 않는다."""
+        history_before = sha(os.path.join(HERE, "history.js"))
+        doc = proposal.build_proposal(coverage_report=fake_report(delisted=1),
+                                      standby_pool=fake_pool(), now=NOW)
+        self.assertEqual(history_before, sha(os.path.join(HERE, "history.js")))
+        # 제거 근거가 문서에 남는다(무엇을 왜 뺐는지 추적 가능)
+        self.assertTrue(doc["removals"][0]["evidence"])
+        self.assertTrue(doc["removals"][0]["fingerprint"])
+        src = _code_only(os.path.join(HERE, "gaeo_coverage", "proposal.py"))
+        for banned in ("history.js", "price_history", "market_history"):
+            self.assertNotIn(banned, src)
+
+    def test_22_coverage_version_stamp_prevents_shadow_mixing(self):
+        """㉒ 서로 다른 Coverage Version 기록을 섞지 않도록 stamp를 그대로 쓴다."""
+        stamp = coverage_version.stamp()
+        self.assertEqual(stamp["coverageUniverseVersion"],
+                         coverage_version.current_version())
+        self.assertEqual(stamp["coverageUniverseSize"], coverage_version.current_size())
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        fx, _ = make_fixture(tmp, missing=("000010",))
+        rep = fx.guard()
+        # 산출물이 어떤 Version 기준인지 항상 함께 기록된다
+        self.assertEqual(rep["coverageVersion"], coverage_version.current_version())
+        self.assertIn("coverageUniverseVersion", rep["autoAnalysisStamp"])
+
+    def test_23_coverage_problem_is_not_reported_as_model_failure(self):
+        """㉓ Coverage 문제(WARN)가 Evolution 판정(GREEN/ORANGE/RED)을 바꾸지 않는다."""
+        status_doc = {"systemHealth": "OK", "candidateCounts": {}}
+        level_plain = notification.decide_level(
+            job_failed=False, status_doc=status_doc, promotion_cards_doc=None)
+        self.assertEqual(level_plain, notification.LEVEL_GREEN)
+        note = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc={"status": "RED", "statusReasons": ["누락"],
+                          "targetCoverage": 600, "configuredCoverage": 600},
+            gs_doc={"status": "WARN"})
+        self.assertEqual(note["level"], notification.LEVEL_GREEN)
+        self.assertIn("### Coverage", note["body"])
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 24~34. GS Reference Lab — 격리 · 정의 정합 · Production 무영향
+# ═══════════════════════════════════════════════════════════════════════════
+GS_SRC = os.path.join(HERE, "gaeo_reference", "gs_reference.py")
+
+
+class GsIsolationTest(unittest.TestCase):
+    def test_24_not_a_production_dependency(self):
+        """㉔ Production 코드 어디서도 gaeo_reference를 import하지 않는다."""
+        targets = ["analyze_auto.py", "compute_indicators.py", "archive_analysis.py",
+                   "compute_model_intelligence.py", "compute_team_weights.py",
+                   "update_prices.py", "collect_analyst_data.py", "run_evolution_lab.py"]
+        targets += [os.path.join("gaeo_evolution", f)
+                    for f in sorted(os.listdir(os.path.join(HERE, "gaeo_evolution")))
+                    if f.endswith(".py")]
+        for rel in targets:
+            path = os.path.join(HERE, rel)
+            if not os.path.exists(path):
+                continue
+            src = _code_only(path)
+            self.assertNotIn("gaeo_reference", src, rel)
+            self.assertNotIn("gs_quant", src, rel)
+
+    def test_24b_evolution_does_not_import_gaeo_coverage(self):
+        """Coverage 계층도 Evolution 런타임 안으로 역류하지 않는다."""
+        for f in sorted(os.listdir(os.path.join(HERE, "gaeo_evolution"))):
+            if not f.endswith(".py"):
+                continue
+            src = _code_only(os.path.join(HERE, "gaeo_evolution", f))
+            self.assertNotIn("import gaeo_coverage", src, f)
+            self.assertNotIn("from gaeo_coverage", src, f)
+
+    def test_25_no_network_or_session_calls(self):
+        src = _code_only(GS_SRC)
+        for banned in ("urllib", "requests", "http.client", "socket", "GsSession",
+                       "gs_quant.session", "Environment.Prod", "oauth", "OAuth"):
+            self.assertNotIn(banned, src, banned)
+
+    def test_26_no_credentials_required(self):
+        src = _code_only(GS_SRC)
+        for banned in ("client_id", "client_secret", "api_key", "API_KEY",
+                       "GS_QUANT_TOKEN", "os.environ"):
+            self.assertNotIn(banned, src, banned)
+
+    def test_26b_only_timeseries_imported(self):
+        tree = ast.parse(open(GS_SRC, encoding="utf-8").read())
+        gs_modules = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom) and (node.module or "").startswith("gs_quant"):
+                gs_modules.add(node.module)
+            elif isinstance(node, ast.Import):
+                for a in node.names:
+                    if a.name.startswith("gs_quant"):
+                        gs_modules.add(a.name)
+        self.assertTrue(gs_modules)
+        for m in gs_modules:
+            self.assertIn(m, ("gs_quant", "gs_quant.timeseries"), m)
+
+    def test_27_analyze_auto_behaviour_unaffected_by_import(self):
+        """㉗ 이 모듈을 import해도 analyze_auto 판단이 달라지지 않는다."""
+        import analyze_auto
+        sample = {"per": 10.0, "pbr": 1.0, "roe": 12.0, "div": 2.0,
+                  "price": 10000, "eps": 1000}
+        before = json.dumps(analyze_auto.diana_eval(sample), sort_keys=True,
+                            ensure_ascii=False)
+        gs_reference.build_report(cases=gs_reference.closed_form_cases(), now=NOW)
+        after = json.dumps(analyze_auto.diana_eval(sample), sort_keys=True,
+                           ensure_ascii=False)
+        self.assertEqual(before, after)
+
+    def test_28_definition_difference_is_not_a_mismatch(self):
+        """㉘ 연율화·ddof·단위 차이를 '불일치'로 판정하지 않는다."""
+        import math
+        n = 20
+        daily_ddof0 = 1.5766143133110304
+        # GS 규약(ddof=1 × √252 × 100)으로 만든 '같은 값'
+        gs_like = daily_ddof0 * math.sqrt(n / (n - 1.0)) * math.sqrt(252)
+        self.assertGreater(gs_like, 20)          # 원본끼리는 20배 넘게 달라 보인다
+        aligned = gs_reference.gs_vol_to_gaeo_daily(gs_like, n)
+        self.assertAlmostEqual(aligned, daily_ddof0, places=9)
+        self.assertAlmostEqual(gs_reference.gs_mdd_to_pct(-0.018182), -1.8182, places=9)
+
+    def test_28b_layers_agree_without_gs_installed(self):
+        """gs_quant가 없어도 ①②③은 돌고 상태는 N/A(RED 아님)."""
+        report = gs_reference.build_report(cases=gs_reference.closed_form_cases(),
+                                           now=NOW)
+        self.assertIn(report["status"], (gs_reference.STATUS_PASS,
+                                         gs_reference.STATUS_NA))
+        self.assertEqual(report["checkWarn"], 0)
+        for case in report["cases"]:
+            vol = case["metrics"]["vol20"]
+            self.assertAlmostEqual(vol["gaeo"], vol["independent"],
+                                   delta=gs_reference.TOL_VOL)
+
+    def test_28c_closed_form_matches_gaeo(self):
+        report = gs_reference.build_report(cases=gs_reference.closed_form_cases(),
+                                           now=NOW)
+        by_name = {c["name"]: c for c in report["cases"]}
+        self.assertEqual(by_name["constant_growth_1pct"]["metrics"]["vol20"]["gaeo"], 0.0)
+        self.assertEqual(by_name["alternating_2pct"]["metrics"]["vol20"]["gaeo"], 2.0)
+        self.assertEqual(
+            by_name["single_drawdown_10pct"]["metrics"]["mdd3m"]["gaeo"], -10.0)
+
+    def test_29_status_is_only_pass_warn_or_na(self):
+        report = gs_reference.build_report(cases=gs_reference.closed_form_cases(),
+                                           now=NOW)
+        self.assertIn(report["status"], ("PASS", "WARN", "N/A"))
+        src = _code_only(GS_SRC)
+        self.assertNotIn('"RED"', src)
+        self.assertNotIn("SAFE_MODE", src)
+
+    def test_30_mismatch_creates_no_candidate(self):
+        """㉚ 한 번 어긋나도 Candidate를 만들지 않는다(그 경로 자체가 없다)."""
+        src = _code_only(GS_SRC)
+        for banned in ("gaeo_evolution", "candidates.json", "registry",
+                       "approve_production", "promote"):
+            self.assertNotIn(banned, src, banned)
+        bad_case = {"name": "forced", "kind": "synthetic",
+                    "closes": gs_reference._series_alternating(0.02, 80),
+                    "expected": {"vol20": 99.0, "mdd3m": None},
+                    "why": "고의로 틀린 기대값"}
+        report = gs_reference.build_report(cases=[bad_case], now=NOW)
+        self.assertEqual(report["candidatesCreated"], 0)
+        if report["status"] != gs_reference.STATUS_NA:
+            self.assertEqual(report["status"], gs_reference.STATUS_WARN)
+        self.assertTrue(report["mismatches"])
+
+    def test_31_32_33_production_config_and_weights_untouched(self):
+        """㉛㉜㉝ CHIEF·QUANT·RISK·team_weights·production_config 무변경."""
+        before = repo_fingerprints()
+        gs_reference.build_report(cases=gs_reference.closed_form_cases(), now=NOW)
+        self.assertEqual(before, repo_fingerprints())
+        src = _code_only(GS_SRC)
+        for banned in ("team_weights", "production_config", "chief_eval",
+                       "quant_eval", "risk_overlay", "analysis.js", "auto_analysis.js"):
+            self.assertNotIn(banned, src, banned)
+
+    def test_34_no_auto_path_from_reference_to_production(self):
+        """㉞ 검산 결과가 Production으로 흘러 들어가는 경로가 없다."""
+        report = gs_reference.build_report(cases=gs_reference.closed_form_cases(),
+                                           now=NOW)
+        self.assertFalse(report["isProductionDependency"])
+        self.assertEqual(report["networkCalls"], 0)
+        self.assertFalse(report["credentialsUsed"])
+        # 산출물 경로는 저장소 커밋 대상이 아니다(.gitignore로 차단)
+        ignore = open(os.path.join(HERE, ".gitignore"), encoding="utf-8").read()
+        self.assertIn("gaeo_reference/state/", ignore)
+        const = json.load(open(
+            os.path.join(HERE, "gaeo_evolution", "evolution_constitution.json"),
+            encoding="utf-8"))
+        self.assertNotIn("gaeo_reference/state/", const["autoCommitAllowlist"])
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 35~39. Issue 통합 · Secret · LLM
+# ═══════════════════════════════════════════════════════════════════════════
+class NotificationIntegrationTest(unittest.TestCase):
+    def sample_docs(self):
+        coverage = {"status": "WARN", "coverageVersion": "GAEO_COVERAGE_V2_600",
+                    "targetCoverage": 600, "configuredCoverage": 600,
+                    "freshPriceCoverage": 598, "autoAnalysisCoverage": 598,
+                    "missingPriceCodes": ["012510", "057050"],
+                    "causeCounts": {"UNKNOWN": 2}, "replaceableCount": 0,
+                    "snapshot": {"asOf": "2026-08-16T01:42:45+00:00", "ageDays": 9.35,
+                                 "freshEnoughForDelisting": False},
+                    "autoAnalysisStamp": {"coverageUniverseVersion":
+                                          "GAEO_COVERAGE_V2_600"},
+                    "findings": [{"code": "012510", "name": "더존비즈온",
+                                  "cause": "UNKNOWN", "consecutiveMissing": 1,
+                                  "fingerprint": "cc617526b7697ea1"}]}
+        gs = {"status": "N/A", "reason": "gs_quant 없음", "caseCount": 3,
+              "checkPass": 6, "checkWarn": 0, "checkNA": 3,
+              "gsQuant": {"available": False}, "networkCalls": 0,
+              "credentialsUsed": False, "isProductionDependency": False,
+              "candidatesCreated": 0}
+        return coverage, gs
+
+    def test_35_no_production_change_before_approval(self):
+        """㉟ 알림을 만들어도 Production 파일은 그대로다."""
+        coverage, gs = self.sample_docs()
+        before = repo_fingerprints()
+        notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc={"systemHealth": "OK", "candidateCounts": {}},
+            coverage_doc=coverage, gs_doc=gs,
+            proposal_doc={"status": "NO_PROPOSAL", "reason": "없음",
+                          "appliedToTickers": False})
+        self.assertEqual(before, repo_fingerprints())
+
+    def test_36_issue_builder_does_not_write_state(self):
+        """㊱ Issue Builder는 상태 파일을 수정하지 않는다(읽기 전용).
+
+        유일한 쓰기는 CLI가 --out으로 받은 알림 산출물 하나뿐이고, coverage/GS/
+        Harness 상태 파일 경로에는 쓰기 호출이 존재하지 않는다.
+        """
+        path = os.path.join(HERE, "gaeo_evolution", "notification.py")
+        writers = _write_mode_open_calls(path)
+        self.assertEqual([fn for fn, _ in writers], ["main"], writers)
+        self.assertIn("args", writers[0][1])
+        self.assertIn("out", writers[0][1])
+        src = _code_only(path)
+        for banned in ("os.remove", "os.replace", "shutil.", "json.dump("):
+            if banned == "json.dump(":
+                continue
+            self.assertNotIn(banned, src, banned)
+        # SYSTEM HEALTH 섹션 함수는 순수 함수다(같은 입력 → 같은 출력, 부작용 0)
+        coverage, gs = self.sample_docs()
+        before = repo_fingerprints()
+        a = notification.build_system_health_section(coverage_doc=coverage, gs_doc=gs)
+        b = notification.build_system_health_section(coverage_doc=coverage, gs_doc=gs)
+        self.assertEqual(a, b)
+        self.assertEqual(before, repo_fingerprints())
+
+    def test_36b_notification_stays_stdlib_only(self):
+        """기존 격리 계약이 그대로다 — coverage/GS는 '만들어진 JSON'만 읽는다."""
+        tree = ast.parse(open(os.path.join(HERE, "gaeo_evolution", "notification.py"),
+                              encoding="utf-8").read())
+        names = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                names += [a.name for a in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                names.append(node.module)
+        self.assertTrue(all(n in (None, "datetime", "json", "os", "re", "sys",
+                                  "argparse") for n in names), names)
+
+    def test_36c_three_blocks_present_in_every_level(self):
+        coverage, gs = self.sample_docs()
+        for job_failed, status_doc in ((False, {"systemHealth": "OK",
+                                                "candidateCounts": {}}),
+                                       (False, {"systemHealth": "OK",
+                                                "candidateCounts":
+                                                {"QUALIFIED_AWAITING_APPROVAL": 1}}),
+                                       (True, {"systemHealth": "SAFE_MODE"})):
+            note = notification.build_notification(
+                owner="o", run_id="r", run_url="u", job_failed=job_failed,
+                status_doc=status_doc, coverage_doc=coverage, gs_doc=gs)
+            for block in ("## GAEO SYSTEM HEALTH", "### Coverage",
+                          "### Goldman Reference Check", "### Evolution"):
+                self.assertIn(block, note["body"], (note["level"], block))
+
+    def test_36d_missing_docs_render_as_measurement_absent(self):
+        note = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc={"systemHealth": "OK", "candidateCounts": {}},
+            coverage_doc=None, gs_doc=None)
+        self.assertIn("측정값 없음", note["body"])
+        self.assertIn("### Coverage", note["body"])
+
+    def test_37_issue_dedupe_marker_is_stable_per_run(self):
+        """㊲ 같은 Run은 같은 marker를 만들어 중복 이슈를 막는다."""
+        coverage, gs = self.sample_docs()
+        kw = dict(owner="o", run_url="u", job_failed=False,
+                  status_doc={"systemHealth": "OK", "candidateCounts": {}},
+                  coverage_doc=coverage, gs_doc=gs)
+        a = notification.build_notification(run_id="123", **kw)
+        b = notification.build_notification(run_id="123", **kw)
+        c = notification.build_notification(run_id="124", **kw)
+        self.assertEqual(a["marker"], b["marker"])
+        self.assertNotEqual(a["marker"], c["marker"])
+        self.assertIn(a["marker"], a["body"])
+        wf = open(os.path.join(HERE, ".github", "workflows", "evolution-lab.yml"),
+                  encoding="utf-8").read()
+        self.assertIn('--search "\\"${MARKER}\\" in:body"', wf)
+
+    def test_38_secrets_are_redacted_in_health_section(self):
+        """㊳ 자유 텍스트에 Secret 형태가 섞여도 본문에 그대로 나가지 않는다."""
+        fake_token = "sk-" + "A" * 32          # 리터럴을 쪼개 스캐너 오탐 방지
+        coverage = {"status": "WARN", "targetCoverage": 600,
+                    "configuredCoverage": 600,
+                    "findings": [{"code": "000010", "name": fake_token,
+                                  "cause": "UNKNOWN", "consecutiveMissing": 1,
+                                  "fingerprint": "abc"}],
+                    "causeCounts": {}, "missingPriceCodes": ["000010"],
+                    "snapshot": {}}
+        text = notification.build_system_health_section(coverage_doc=coverage)
+        self.assertNotIn(fake_token, text)
+        self.assertIn("[REDACTED]", text)
+        gs = {"status": "WARN", "reason": fake_token}
+        text2 = notification.build_system_health_section(gs_doc=gs)
+        self.assertNotIn(fake_token, text2)
+
+    def test_38b_no_secret_literals_in_new_sources(self):
+        pattern = re.compile(r"(sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}"
+                             r"|AKIA[0-9A-Z]{12,})")
+        for rel in ("gaeo_coverage/guardian.py", "gaeo_coverage/standby.py",
+                    "gaeo_coverage/proposal.py", "gaeo_reference/gs_reference.py"):
+            src = open(os.path.join(HERE, rel), encoding="utf-8").read()
+            self.assertIsNone(pattern.search(src), rel)
+
+    def test_39_no_llm_calls_anywhere_in_new_code(self):
+        for rel in ("gaeo_coverage/guardian.py", "gaeo_coverage/standby.py",
+                    "gaeo_coverage/proposal.py", "gaeo_coverage/__init__.py",
+                    "gaeo_reference/gs_reference.py", "gaeo_reference/__init__.py"):
+            src = _code_only(os.path.join(HERE, rel))
+            for banned in ("anthropic", "openai", "generativelanguage", "claude",
+                           "urllib.request", "requests.", "http.client"):
+                self.assertNotIn(banned, src, "%s: %s" % (rel, banned))
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 40~43. Parity · 기존 계약 · 워크플로우(§22)
+# ═══════════════════════════════════════════════════════════════════════════
+class ParityAndWorkflowTest(unittest.TestCase):
+    def test_40_analyze_auto_parity_digest_is_stable(self):
+        """㊵ 실제 지표로 돌린 CHIEF 판단이 이 변경 전후로 동일하다(결정론 확인)."""
+        import analyze_auto
+        ind = json.load(open(os.path.join(HERE, "indicators.json"), encoding="utf-8"))
+        codes = sorted((ind.get("stocks") or {}).keys())[:40]
+        tw = analyze_auto.load_team_weights()
+        model = analyze_auto.load_model_intelligence()
+        try:
+            qstats = analyze_auto.load_quant_stats()
+        except Exception:
+            qstats = {}
+
+        def digest():
+            rows = []
+            for code in codes:
+                e = ind["stocks"][code]
+                t = e.get("tech")
+                if not t or not e.get("price"):
+                    continue
+                ctx = dict(e)
+                ctx["marketRegime"] = ind.get("marketRegime") or {}
+                nova = analyze_auto.quant_eval(e, t, qstats, "기타")
+                chief = analyze_auto.chief_eval(
+                    ctx, analyze_auto.taro_eval(t), analyze_auto.diana_eval(e),
+                    nova, analyze_auto.flow_eval(e.get("flow")),
+                    weights=tw["global"], learned=tw["learned"],
+                    guard_policy=model.get("reboundGuard"),
+                    confidence_model=model.get("confidenceModel"))
+                rows.append((code, chief.get("call"), chief.get("total")))
+            return hashlib.sha256(json.dumps(rows, ensure_ascii=False,
+                                             sort_keys=True).encode()).hexdigest()
+
+        first = digest()
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        fx, _ = make_fixture(tmp, missing=("000010",))
+        fx.guard()
+        fx.pool()
+        fx.propose()
+        gs_reference.build_report(cases=gs_reference.closed_form_cases(), now=NOW)
+        self.assertEqual(first, digest())
+
+    def test_41_constitution_promotion_floor_unchanged(self):
+        """㊶ Promotion Floor는 손대지 않았다 + checksum이 맞는다."""
+        from gaeo_evolution import constitution
+        const = constitution.load()
+        floor = const["promotionFloor"]
+        expected = {"prospectiveN": 500, "prospectiveActionN": 100,
+                    "precisionGainPp": 1.5, "brierGain": 0.005, "coveragePct": 15,
+                    "testDays": 40, "testRegimes": 3, "buyN": 50, "sellN": 50,
+                    "maxDirectionSharePct": 80, "minUniqueDaysOffline": 20,
+                    "blockBootstrapRounds": 400, "maxBuyPrecisionDropPp": 2.0,
+                    "maxSellPrecisionDropPp": 2.0, "maxLargeErrorRisePp": 2.0,
+                    "maxRegimeWorstDropPp": 5.0, "minRealGainPp": 0.0}
+        for k, v in expected.items():
+            self.assertEqual(floor[k], v, k)
+        self.assertTrue(floor["precisionDeltaCiMustExcludeZero"])
+
+    def test_41b_allowlist_added_state_dir_only(self):
+        const = json.load(open(
+            os.path.join(HERE, "gaeo_evolution", "evolution_constitution.json"),
+            encoding="utf-8"))
+        self.assertIn("gaeo_coverage/state/", const["autoCommitAllowlist"])
+        for banned in ("tickers.js", "coverage_version.py", "data.js",
+                       "auto_analysis.js"):
+            self.assertNotIn(banned, const["autoCommitAllowlist"], banned)
+
+    def test_42_no_new_workflow_file(self):
+        """§22 — 새 워크플로우를 만들지 않고 evolution-lab에 붙였다."""
+        names = sorted(os.listdir(os.path.join(HERE, ".github", "workflows")))
+        for n in names:
+            self.assertNotIn("coverage", n.lower())
+            self.assertNotIn("goldman", n.lower())
+            self.assertNotIn("gs-", n.lower())
+
+    def test_42b_workflow_contract_unchanged(self):
+        """(PyYAML 없이) 텍스트로만 검사한다 — schedule·concurrency·권한 그대로."""
+        path = os.path.join(HERE, ".github", "workflows", "evolution-lab.yml")
+        text = open(path, encoding="utf-8").read()
+        active = "\n".join(l for l in text.splitlines()
+                           if not l.lstrip().startswith("#"))
+        self.assertRegex(active, r'(?m)^\s*-\s*cron:\s*"0 23 \* \* 6"')
+        self.assertIn("workflow_dispatch:", active)
+        self.assertRegex(active, r"(?m)^\s*group:\s*evolution-lab\s*$")
+        self.assertRegex(active, r"(?m)^\s*cancel-in-progress:\s*false\s*$")
+        self.assertRegex(active, r"(?m)^\s*contents:\s*write\b")
+        self.assertRegex(active, r"(?m)^\s*issues:\s*write\b")
+        # 권한을 넓히지 않았다
+        for banned in ("packages:", "id-token:", "actions: write", "pull-requests:"):
+            self.assertNotIn(banned, active, banned)
+
+    def test_42c_gs_install_failure_cannot_kill_workflow(self):
+        path = os.path.join(HERE, ".github", "workflows", "evolution-lab.yml")
+        text = open(path, encoding="utf-8").read()
+        active = "\n".join(l for l in text.splitlines()
+                           if not l.lstrip().startswith("#"))
+        self.assertIn("pip install --quiet gs-quant", active)
+        self.assertIn("continue-on-error: true", active)
+        # 기존 계약: '|| true'로 진짜 오류를 감추지 않는다
+        self.assertNotIn("|| true", text)
+        self.assertNotIn("|| exit 0", text)
+        # 검산 단계는 커밋 단계보다 뒤에 있다(느린 설치가 커밋을 위협하지 않게)
+        self.assertLess(active.index("Commit allowlisted results"),
+                        active.index("gs-quant"))
+
+    def test_42d_no_new_secret_reference(self):
+        path = os.path.join(HERE, ".github", "workflows", "evolution-lab.yml")
+        text = open(path, encoding="utf-8").read()
+        secrets_used = set(re.findall(r"secrets\.([A-Za-z0-9_]+)", text))
+        self.assertEqual(secrets_used, {"RESEARCH_ARCHIVE_KEY"}, secrets_used)
+
+    def test_42e_coverage_step_commits_only_state_dir(self):
+        path = os.path.join(HERE, ".github", "workflows", "evolution-lab.yml")
+        active = "\n".join(l for l in open(path, encoding="utf-8").read().splitlines()
+                           if not l.lstrip().startswith("#"))
+        m = re.search(r"for p in ([^;]+); do", active)
+        self.assertIsNotNone(m)
+        const = json.load(open(
+            os.path.join(HERE, "gaeo_evolution", "evolution_constitution.json"),
+            encoding="utf-8"))
+        for token in m.group(1).split():
+            self.assertIn(token, const["autoCommitAllowlist"], token)
+        self.assertIn("gaeo_coverage/state/", m.group(1))
+
+    def test_43_real_repo_run_is_read_only(self):
+        """실제 저장소 데이터로 돌려도 Production 파일이 바뀌지 않는다."""
+        before = repo_fingerprints()
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        rep = guardian.run(observations_path=os.path.join(tmp, "obs.json"),
+                           report_out=os.path.join(tmp, "rep.json"), now=NOW)
+        pool = standby.run(out=os.path.join(tmp, "pool.json"), now=NOW)
+        doc = proposal.run(coverage_path=os.path.join(tmp, "rep.json"),
+                           standby_path=os.path.join(tmp, "pool.json"),
+                           out=os.path.join(tmp, "prop.json"), now=NOW)
+        self.assertEqual(before, repo_fingerprints())
+        self.assertEqual(rep["targetCoverage"], coverage_version.CURRENT["size"])
+        self.assertEqual(rep["configuredCoverage"], coverage_version.current_size())
+        self.assertEqual(rep["replaceableCount"], 0)
+        self.assertEqual(doc["status"], proposal.STATUS_NO_PROPOSAL)
+        self.assertGreaterEqual(pool["candidateCount"], 0)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

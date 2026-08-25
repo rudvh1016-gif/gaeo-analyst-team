@@ -1,0 +1,27 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-08-25T20:21:12+09:00",
+ "appliedToTickers": false,
+ "autoApplyPath": false,
+ "currentCoverageVersion": "GAEO_COVERAGE_V2_600",
+ "draftCoverageVersion": null,
+ "targetCoverage": 600,
+ "configuredCoverage": 600,
+ "removals": [],
+ "additions": [],
+ "note": "이 문서는 제안일 뿐이다. tickers.js·main 반영은 대표 승인 후 사람이 직접 한다. 이 코드에는 자동 반영 경로가 없다.",
+ "nonReplaceableMissing": [
+  {
+   "code": "012510",
+   "name": "더존비즈온",
+   "cause": "UNKNOWN"
+  },
+  {
+   "code": "057050",
+   "name": "현대홈쇼핑",
+   "cause": "UNKNOWN"
+  }
+ ],
+ "status": "NO_PROPOSAL",
+ "reason": "확정 상장폐지 종목이 0건이다. 나머지 누락 원인은 교체 사유가 아니므로 종목 교체를 제안하지 않는다."
+}

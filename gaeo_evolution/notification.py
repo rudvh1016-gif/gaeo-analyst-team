@@ -245,6 +245,119 @@ def build_marker(run_id):
     return f"gaeo-evolution-run:{run_id}"
 
 
+# ── GAEO SYSTEM HEALTH 섹션 (2026-08-25 추가) ────────────────────────────────
+# ⚠️ 이 모듈의 격리 규칙은 그대로다 — gaeo_coverage/gaeo_reference를 import하지
+#    않는다. 두 계층이 **이미 만들어 둔 JSON**을 워크플로우가 읽어서 dict로
+#    넘겨주면, 여기서는 문자열로 옮겨 적기만 한다(계산·판정·쓰기 없음).
+def _coverage_block(doc):
+    if not isinstance(doc, dict):
+        return ["- 상태: 측정값 없음 (Coverage 관측 결과를 읽지 못함)"]
+    cause_counts = doc.get("causeCounts") or {}
+    cause_text = ", ".join(f"{_truncate(str(k))} {v}건"
+                           for k, v in sorted(cause_counts.items())) or "없음"
+    snapshot = doc.get("snapshot") or {}
+    lines = [
+        f"- 상태: {doc.get('status', '측정값 없음')}",
+        f"- 목표 Universe(targetCoverage): {_fmt_count(doc.get('targetCoverage'), '종목')}"
+        f" · Coverage Version {doc.get('coverageVersion', '측정값 없음')}",
+        f"- tickers.js 설정(configuredCoverage): "
+        f"{_fmt_count(doc.get('configuredCoverage'), '종목')}",
+        f"- 시세 수신(freshPriceCoverage): "
+        f"{_fmt_count(doc.get('freshPriceCoverage'), '종목')}",
+        f"- 자동분석(autoAnalysisCoverage): "
+        f"{_fmt_count(doc.get('autoAnalysisCoverage'), '종목')}",
+        f"- 시세 누락: {_fmt_count(len(doc.get('missingPriceCodes') or []), '종목')}"
+        f" (원인별: {cause_text})",
+        f"- 교체 검토 대상(확정 상장폐지): {_fmt_count(doc.get('replaceableCount'), '종목')}",
+        f"- 참조 snapshot: {snapshot.get('asOf', '측정값 없음')} "
+        f"(경과 {_fmt(snapshot.get('ageDays'), '일')} · "
+        f"상장폐지 판정 가능 {snapshot.get('freshEnoughForDelisting')})",
+        "- Universe 해석: configuredCoverage가 Universe 크기다. "
+        "시세·자동분석 숫자가 작다고 Universe가 줄어든 것이 아니다.",
+    ]
+    for finding in (doc.get("findings") or [])[:10]:
+        lines.append(
+            f"  · {finding.get('code')} {_truncate(str(finding.get('name')))} "
+            f"→ {finding.get('cause')} (연속 누락 "
+            f"{_fmt_count(finding.get('consecutiveMissing'), '회')}, "
+            f"fingerprint `{finding.get('fingerprint') or '측정값 없음'}`)")
+    return lines
+
+
+def _standby_proposal_block(standby_doc, proposal_doc):
+    lines = []
+    if isinstance(standby_doc, dict):
+        lines.append(
+            f"- 대기 명단(Standby): {_fmt_count(standby_doc.get('candidateCount'))} "
+            f"(자격 통과 {_fmt_count(standby_doc.get('eligibleCount'))} · "
+            f"상태 {standby_doc.get('status', '측정값 없음')})")
+    else:
+        lines.append("- 대기 명단(Standby): 측정값 없음")
+    if isinstance(proposal_doc, dict):
+        lines.append(f"- 교체 제안: {proposal_doc.get('status', '측정값 없음')} "
+                     f"({_truncate(str(proposal_doc.get('reason', '측정값 없음')))})")
+        lines.append(f"- tickers.js 자동 반영: "
+                     f"{'있음' if proposal_doc.get('appliedToTickers') else '없음'}"
+                     " (승인 전에는 종목이 바뀌지 않습니다)")
+    else:
+        lines.append("- 교체 제안: 측정값 없음")
+        lines.append("- tickers.js 자동 반영: 없음")
+    return lines
+
+
+def _gs_block(doc):
+    if not isinstance(doc, dict):
+        return ["- 상태: N/A (검산 결과를 읽지 못함)",
+                "- Production 영향: 없음 (검산 전용 계층입니다)"]
+    return [
+        f"- 상태: {doc.get('status', 'N/A')}",
+        f"- 사유: {_truncate(str(doc.get('reason', '측정값 없음')))}",
+        f"- 검산 케이스: {_fmt_count(doc.get('caseCount'))} · "
+        f"일치 {_fmt_count(doc.get('checkPass'), '건')} · "
+        f"불일치 {_fmt_count(doc.get('checkWarn'), '건')} · "
+        f"미측정 {_fmt_count(doc.get('checkNA'), '건')}",
+        f"- 외부 라이브러리 사용 가능: {(doc.get('gsQuant') or {}).get('available')}",
+        f"- 네트워크 호출: {_fmt(doc.get('networkCalls'))} · "
+        f"인증 사용: {doc.get('credentialsUsed')} · "
+        f"Production 의존성: {doc.get('isProductionDependency')}",
+        f"- 이 검산으로 생성된 Candidate: {_fmt_count(doc.get('candidatesCreated'))}",
+        "- 정의 차이(연율화·표본/모집단·퍼센트 단위)는 맞춘 뒤 비교하며, "
+        "정의 차이 자체를 불일치로 세지 않습니다.",
+    ]
+
+
+def _evolution_block(status_doc, promotion_cards_doc):
+    if not isinstance(status_doc, dict):
+        return ["- 상태: 측정값 없음"]
+    counts = status_doc.get("candidateCounts") or {}
+    cards = (promotion_cards_doc or {}).get("cards") or []
+    return [
+        f"- 시스템 상태: {status_doc.get('systemHealth', '측정값 없음')}",
+        f"- 승인 대기 후보: {_fmt_count(counts.get('QUALIFIED_AWAITING_APPROVAL', 0))}"
+        f" (승격 카드 {len(cards)}장)",
+        f"- Production 변경: {_summarize_event(status_doc.get('lastPromotion'), 'promotion')}",
+        f"- Rollback 발생: {_summarize_event(status_doc.get('lastRollback'), 'rollback')}",
+    ]
+
+
+def build_system_health_section(*, coverage_doc=None, standby_doc=None,
+                                proposal_doc=None, gs_doc=None, status_doc=None,
+                                promotion_cards_doc=None):
+    """GREEN/ORANGE/RED 본문 끝에 공통으로 붙는 3블록 점검 요약.
+
+    이미 만들어진 상태 파일의 값을 그대로 옮겨 적는다. 여기서 숫자를 새로
+    계산하거나 상태 파일을 수정하지 않는다(읽기 전용).
+    """
+    lines = ["## GAEO SYSTEM HEALTH", "", "### Coverage"]
+    lines += _coverage_block(coverage_doc)
+    lines += _standby_proposal_block(standby_doc, proposal_doc)
+    lines += ["", "### Goldman Reference Check"]
+    lines += _gs_block(gs_doc)
+    lines += ["", "### Evolution"]
+    lines += _evolution_block(status_doc, promotion_cards_doc)
+    return "\n".join(lines)
+
+
 def _as_dict_or_none(value):
     """스키마가 어긋난 입력(dict가 아닌 값)을 '측정값 없음'과 동일하게 취급한다.
     독립 QA 검토 LOW 대응(2026-08-23) — 손상된 status.json/promotion_cards.json이
@@ -254,10 +367,16 @@ def _as_dict_or_none(value):
 
 def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
                        status_doc=None, promotion_cards_doc=None,
-                       candidate_generation=None, today=None):
+                       candidate_generation=None, today=None,
+                       coverage_doc=None, standby_doc=None, proposal_doc=None,
+                       gs_doc=None):
     """전체 알림(제목·본문·레벨·marker)을 결정론적으로 만든다. 순수 함수."""
     status_doc = _as_dict_or_none(status_doc)
     promotion_cards_doc = _as_dict_or_none(promotion_cards_doc)
+    coverage_doc = _as_dict_or_none(coverage_doc)
+    standby_doc = _as_dict_or_none(standby_doc)
+    proposal_doc = _as_dict_or_none(proposal_doc)
+    gs_doc = _as_dict_or_none(gs_doc)
     level = decide_level(job_failed=job_failed, status_doc=status_doc,
                          promotion_cards_doc=promotion_cards_doc)
     title = build_title(level, today=today)
@@ -281,7 +400,11 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
         body = build_green_body(owner=owner, status_doc=status_doc,
                                 candidate_generation=candidate_generation)
 
-    body = f"{body}\n\n<!-- {marker} -->\n"
+    health = build_system_health_section(
+        coverage_doc=coverage_doc, standby_doc=standby_doc,
+        proposal_doc=proposal_doc, gs_doc=gs_doc, status_doc=status_doc,
+        promotion_cards_doc=promotion_cards_doc)
+    body = f"{body}\n\n{health}\n\n<!-- {marker} -->\n"
     return {"level": level, "title": title, "body": body, "marker": marker}
 
 
@@ -305,11 +428,24 @@ def main(argv=None):
     b.add_argument("--run-url", default="")
     b.add_argument("--job-failed", choices=("true", "false"), default="false")
     b.add_argument("--failed-step", default="")
+    # GAEO SYSTEM HEALTH 섹션 입력 — 전부 '이미 만들어진 상태 파일'이다.
+    # 없으면 '측정값 없음'으로 표시할 뿐, 알림 자체는 정상 생성된다.
+    b.add_argument("--coverage", default=os.path.join(
+        ROOT, "gaeo_coverage", "state", "coverage_state.json"))
+    b.add_argument("--standby", default=os.path.join(
+        ROOT, "gaeo_coverage", "state", "standby_pool.json"))
+    b.add_argument("--proposal", default=os.path.join(
+        ROOT, "gaeo_coverage", "state", "replacement_proposal.json"))
+    b.add_argument("--gs", default="")
     b.add_argument("--out", required=True)
     args = parser.parse_args(argv)
 
     status_doc = _read_json_safe(args.status)
     cards_doc = _read_json_safe(args.cards)
+    coverage_doc = _read_json_safe(args.coverage)
+    standby_doc = _read_json_safe(args.standby)
+    proposal_doc = _read_json_safe(args.proposal)
+    gs_doc = _read_json_safe(args.gs) if args.gs else None
     # build_notification() 안의 dict 가드보다 먼저 status_doc을 만지므로 여기서도
     # 같은 가드를 미리 적용한다 — 그러지 않으면 status_doc이 dict가 아닌 참(truthy)
     # 값(예: 빈 리스트가 아닌 리스트)일 때 여기서 먼저 AttributeError로 죽는다
@@ -323,7 +459,9 @@ def main(argv=None):
         job_failed=(args.job_failed == "true"),
         failed_step=args.failed_step or None,
         status_doc=status_doc, promotion_cards_doc=cards_doc,
-        candidate_generation=candidate_generation)
+        candidate_generation=candidate_generation,
+        coverage_doc=coverage_doc, standby_doc=standby_doc,
+        proposal_doc=proposal_doc, gs_doc=gs_doc)
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=1)
