@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 12:12",
- "dataCutoff": "2026-08-25 12:12 장중",
+ "generatedAt": "2026-08-25 12:42",
+ "dataCutoff": "2026-08-25 12:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +61.0% · 20일선 위",
-   "overheat": false,
-   "gapPct": 29.7,
+   "why": "20거래일 +61.5% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.1,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +55.7% · 20일선 위",
+   "why": "20거래일 +56.0% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.2,
+   "gapPct": 27.4,
    "call": "SELL",
    "callConflict": true
   },
@@ -34,38 +34,49 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 8,
-   "why": "20거래일 +78.7% · 20일선 위 · 거래량 평소의 1.5배",
+   "sectorRank": 9,
+   "why": "20거래일 +78.7% · 20일선 위 · 거래량 평소의 1.6배",
    "overheat": true,
    "gapPct": 51.8,
    "call": "SELL",
    "callConflict": true
+  },
+  {
+   "code": "192820",
+   "name": "코스맥스",
+   "sector": "화장품·미용",
+   "sectorRank": 1,
+   "why": "20거래일 +47.8% · 20일선 위",
+   "overheat": false,
+   "gapPct": 27.3,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 50.0,
-  "shown": 3,
-  "allowed": 3,
+  "breadthPct": 59.2,
+  "shown": 4,
+  "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6545.04,
-    "ma20": 6450.49,
+    "close": 6626.86,
+    "ma20": 6454.58,
     "above": true,
-    "gapPct": 1.47
+    "gapPct": 2.67
    },
    "KOSDAQ": {
-    "close": 799.08,
-    "ma20": 793.12,
+    "close": 811.21,
+    "ma20": 793.72,
     "above": true,
-    "gapPct": 0.75
+    "gapPct": 2.2
    }
   }
  },
  "regime": {
-  "direction": "하락",
+  "direction": "횡보",
   "leadership": "코스닥",
   "topSector": "화장품·미용"
  },
