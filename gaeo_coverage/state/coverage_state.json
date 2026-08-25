@@ -1,6 +1,6 @@
 {
- "schemaVersion": 1,
- "generatedAt": "2026-08-25T20:20:55+09:00",
+ "schemaVersion": 2,
+ "generatedAt": "2026-08-25T20:53:49+09:00",
  "status": "WARN",
  "statusReasons": [
   "시세 누락 2종목 (원인: UNKNOWN 2)",
@@ -27,6 +27,7 @@
   "UNKNOWN": 2
  },
  "replaceableCount": 0,
+ "massMissingBlockActive": false,
  "findings": [
   {
    "code": "012510",
@@ -34,12 +35,16 @@
    "sector": "인터넷·IT",
    "cause": "UNKNOWN",
    "replaceable": false,
-   "consecutiveMissing": 2,
-   "firstMissingAt": "2026-08-25T20:15:44+09:00",
+   "missingDayCount": 1,
+   "elapsedTradingDays": 0,
+   "firstMissingAt": "2026-08-25T20:53:49+09:00",
+   "capRank": null,
+   "market": "KOSPI",
    "inAutoAnalysis": false,
    "evidence": [
-    "연속 누락 관측 2회 (지속 누락 기준 3회)",
-    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.40일 경과)",
+    "서로 다른 날짜로 1일 관측 (지속 누락 기준 3일)",
+    "처음 빠진 날 이후 0거래일 경과 (기준 10거래일)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.42일 경과)",
     "전체시장 snapshot에 없음",
     "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
    ],
@@ -51,12 +56,16 @@
    "sector": "유통·소비재",
    "cause": "UNKNOWN",
    "replaceable": false,
-   "consecutiveMissing": 2,
-   "firstMissingAt": "2026-08-25T20:15:44+09:00",
+   "missingDayCount": 1,
+   "elapsedTradingDays": 0,
+   "firstMissingAt": "2026-08-25T20:53:49+09:00",
+   "capRank": null,
+   "market": "KOSPI",
    "inAutoAnalysis": false,
    "evidence": [
-    "연속 누락 관측 2회 (지속 누락 기준 3회)",
-    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.40일 경과)",
+    "서로 다른 날짜로 1일 관측 (지속 누락 기준 3일)",
+    "처음 빠진 날 이후 0거래일 경과 (기준 10거래일)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (9.42일 경과)",
     "전체시장 snapshot에 없음",
     "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
    ],
@@ -64,11 +73,29 @@
   }
  ],
  "recoveries": [],
+ "delistingRules": {
+  "persistentMissingMinDays": 3,
+  "minElapsedTradingDays": 10,
+  "snapshotMaxAgeDays": 3,
+  "krxCorplistMaxAgeDays": 14,
+  "megaCapRankGuard": 300,
+  "massMissingBlock": 5,
+  "note": "상장폐지 확정에는 서로 다른 벤더의 부재 확인이 함께 필요하다. 시세와 전체시장 snapshot은 같은 네이버 계열이라 하나의 증거로 본다."
+ },
+ "independentSource": {
+  "path": "market_universe/sector_map.json",
+  "available": true,
+  "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
+  "asOf": "2026-08-16T01:41:44+00:00",
+  "ageDays": 9.43,
+  "listedCount": 2596,
+  "freshEnough": true
+ },
  "snapshot": {
   "path": "market_universe/full_market_latest.json.gz",
   "available": true,
   "asOf": "2026-08-16T01:42:45+00:00",
-  "ageDays": 9.4,
+  "ageDays": 9.42,
   "freshEnoughForDelisting": false,
   "itemCount": 3922,
   "collectorStatus": "READY",

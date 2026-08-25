@@ -57,6 +57,9 @@ MDD_WINDOW = 63             # GAEO risk_for가 쓰는 종가 개수(약 3개월)
 TOL_VOL = 0.006
 TOL_MDD = 0.06
 TOL_RET = 1e-9
+# ③ 독립 구현 vs ④ gs_quant 는 양쪽 다 반올림을 거치지 않으므로 부동소수 수준까지
+# 좁힌다. 이 축이 4단 중 검출력이 가장 높다(규약 드리프트 전수 포착).
+TOL_EXACT = 1e-9
 
 DEFAULT_REAL_SAMPLES = 5
 
@@ -160,8 +163,12 @@ def gs_metrics(closes):
         series = pd.Series([float(c) for c in closes], index=idx)
 
         n_ret = min(VOL_WINDOW, len(closes) - 1)
+        # ⚠️ 연율화 계수를 라이브러리 자동탐지에 맡기지 않는다(2026-08-25 퀀트 감사 LOW).
+        #    인덱스 빈도가 달라지면 252가 아닌 값이 자동 선택될 수 있고, 그러면 우리가
+        #    맞춰 놓은 환산식이 조용히 어긋난다. 명시적으로 넘겨서 규약을 고정한다.
         vol_raw = float(volatility(series, Window(n_ret, 0),
-                                   returns_type=Returns.SIMPLE).iloc[-1])
+                                   returns_type=Returns.SIMPLE,
+                                   annualization_factor=TRADING_DAYS).iloc[-1])
 
         window = closes[-MDD_WINDOW:]
         w_series = pd.Series([float(c) for c in window], index=idx[-len(window):])
@@ -266,33 +273,81 @@ def compare_case(case, want_gs):
         gs_vol_aligned = gs_vol_to_gaeo_daily(gs.get("volAnnualizedPct"), n_ret)
         gs_mdd_aligned = gs_mdd_to_pct(gs.get("mddFraction"))
 
+    legs_used = ["gaeo"] if gaeo else []
+    if indep:
+        legs_used.append("independent:%s" % indep.get("engine"))
+    if gs and not gs_error:
+        legs_used.append("gs_quant")
+
     metrics = {}
-    for key, tol, expected in (("vol20", TOL_VOL, case["expected"].get("vol20")),
-                               ("mdd3m", TOL_MDD, case["expected"].get("mdd3m"))):
+    for key, tol, digits, expected in (
+            ("vol20", TOL_VOL, 2, case["expected"].get("vol20")),
+            ("mdd3m", TOL_MDD, 1, case["expected"].get("mdd3m"))):
         gaeo_v = (gaeo or {}).get(key)
         indep_v = indep.get(key)
         gs_v = gs_vol_aligned if key == "vol20" else gs_mdd_aligned
+
+        # ── 축 1: 반올림 전 값끼리 (가장 강한 비교) ────────────────────────
+        # ③ numpy/표준라이브러리 vs ④ gs_quant. 둘 다 반올림을 거치지 않으므로
+        # 허용 오차를 부동소수 수준(1e-9)까지 좁힐 수 있다. 연율화 계수가 252에서
+        # 251로 바뀌는 식의 규약 드리프트는 이 축에서만 잡힌다
+        # (2026-08-25 퀀트 감사 MEDIUM).
+        exact_diff = _diff(indep_v, gs_v)
+        if exact_diff is None:
+            exact_verdict = STATUS_NA
+        elif exact_diff <= TOL_EXACT:
+            exact_verdict = STATUS_PASS
+        else:
+            exact_verdict = STATUS_WARN
+
+        # ── 축 2: GAEO가 정말 '독립 계산을 반올림한 값'인가 (오차 0 요구) ──
+        if gaeo_v is None or indep_v is None:
+            round_verdict, round_ok = STATUS_NA, None
+        else:
+            round_ok = (gaeo_v == round(indep_v, digits))
+            round_verdict = STATUS_PASS if round_ok else STATUS_WARN
+
+        # ── 축 3: 수학적 기대값 대조(반올림 폭 허용) ──────────────────────
         diffs = {
             "closedForm_vs_gaeo": _diff(expected, gaeo_v),
             "gaeo_vs_independent": _diff(gaeo_v, indep_v),
             "gaeo_vs_gs": _diff(gaeo_v, gs_v),
+            "independent_vs_gs": exact_diff,
         }
-        measured = [d for d in diffs.values() if d is not None]
+        measured = [d for k, d in diffs.items()
+                    if d is not None and k != "independent_vs_gs"]
         max_diff = max(measured) if measured else None
         if max_diff is None:
-            verdict = STATUS_NA
+            tol_verdict = STATUS_NA
         elif max_diff <= tol:
-            verdict = STATUS_PASS
+            tol_verdict = STATUS_PASS
         else:
+            tol_verdict = STATUS_WARN
+
+        verdicts = [v for v in (tol_verdict, exact_verdict, round_verdict)
+                    if v != STATUS_NA]
+        if not verdicts:
+            verdict = STATUS_NA
+        elif STATUS_WARN in verdicts:
             verdict = STATUS_WARN
+        else:
+            verdict = STATUS_PASS
+
         metrics[key] = {
             "closedForm": expected, "gaeo": gaeo_v,
-            "independent": None if indep_v is None else round(indep_v, 9),
+            "independent": None if indep_v is None else round(indep_v, 12),
             "gsRaw": (gs or {}).get("volAnnualizedPct" if key == "vol20"
                                     else "mddFraction") if gs and not gs_error else None,
-            "gsAligned": None if gs_v is None else round(gs_v, 9),
-            "diffs": {k: (None if v is None else round(v, 12)) for k, v in diffs.items()},
-            "tolerance": tol, "verdict": verdict,
+            "gsAligned": None if gs_v is None else round(gs_v, 12),
+            "diffs": {k: (None if v is None else round(v, 15)) for k, v in diffs.items()},
+            "maxAbsDiffPct": None if max_diff is None else round(max_diff, 15),
+            "tolerance": tol,
+            "exactTolerance": TOL_EXACT,
+            "exactVerdict": exact_verdict,
+            "roundingContractOk": round_ok,
+            "roundingVerdict": round_verdict,
+            "toleranceVerdict": tol_verdict,
+            "verdict": verdict,
         }
 
     # 일간 수익률 자체도 대조한다(정의 차이 없음 — GS는 분수, GAEO는 퍼센트).
@@ -310,6 +365,7 @@ def compare_case(case, want_gs):
     return {"name": case["name"], "kind": case["kind"], "why": case["why"],
             "closeCount": len(closes), "returnObs": n_ret,
             "independentEngine": indep.get("engine"),
+            "legsUsed": legs_used,
             "gsError": gs_error, "metrics": metrics}
 
 
@@ -328,6 +384,13 @@ def build_report(*, cases=None, now=None, analysis_data=DEFAULT_ANALYSIS_DATA,
     warn_n = sum(1 for v in verdicts if v == STATUS_WARN)
     pass_n = sum(1 for v in verdicts if v == STATUS_PASS)
 
+    # ⚠️ import가 됐다고 계산까지 됐다는 뜻이 아니다(2026-08-25 퀀트 감사 HIGH).
+    #    케이스별 gsError를 실제로 세서, 외부 참조 다리가 한 번이라도 부러졌으면
+    #    PASS라고 말하지 않는다.
+    gs_error_n = sum(1 for r in results if r.get("gsError"))
+    gs_leg_n = sum(1 for r in results if "gs_quant" in (r.get("legsUsed") or []))
+    legs_used = sorted({leg for r in results for leg in (r.get("legsUsed") or [])})
+
     if not ok:
         status = STATUS_NA
         reason = ("gs_quant를 불러올 수 없어 외부 참조 검산을 건너뛴다. "
@@ -335,20 +398,35 @@ def build_report(*, cases=None, now=None, analysis_data=DEFAULT_ANALYSIS_DATA,
     elif not results or pass_n == 0:
         status = STATUS_NA
         reason = "검산할 데이터가 없다."
-    elif warn_n:
+    elif gs_error_n and gs_leg_n == 0:
+        status = STATUS_NA
+        reason = ("gs_quant를 불러오기는 했지만 %d개 케이스 전부에서 계산이 실패해 "
+                  "외부 참조 대조를 하나도 못 했다." % gs_error_n)
+    elif warn_n or gs_error_n:
         status = STATUS_WARN
-        reason = "정의를 맞춘 뒤에도 허용 오차를 넘는 항목이 %d건 있다." % warn_n
+        parts = []
+        if warn_n:
+            parts.append("정의를 맞춘 뒤에도 허용 오차를 넘는 항목이 %d건" % warn_n)
+        if gs_error_n:
+            parts.append("외부 참조 계산이 실패한 케이스가 %d건" % gs_error_n)
+        reason = " · ".join(parts) + " 있다."
     else:
         status = STATUS_PASS
         reason = "정의를 맞춘 뒤 %d개 항목이 전부 허용 오차 안에서 일치한다." % pass_n
 
     mismatches = []
     for r in results:
+        if r.get("gsError"):
+            mismatches.append({"case": r["name"], "metric": "gs_quant",
+                               "error": r["gsError"],
+                               "action": "기록만 한다. Candidate를 만들지 않는다."})
         for key, m in r["metrics"].items():
             if m["verdict"] == STATUS_WARN:
                 mismatches.append({"case": r["name"], "metric": key,
                                    "diffs": m.get("diffs"),
                                    "maxAbsDiffPct": m.get("maxAbsDiffPct"),
+                                   "exactVerdict": m.get("exactVerdict"),
+                                   "roundingContractOk": m.get("roundingContractOk"),
                                    "tolerance": m.get("tolerance"),
                                    "action": "기록만 한다. Candidate를 만들지 않는다."})
 
@@ -359,10 +437,26 @@ def build_report(*, cases=None, now=None, analysis_data=DEFAULT_ANALYSIS_DATA,
         "reason": reason,
         "gsQuant": gs_info,
         "independentEngine": independent_engine(),
-        "isProductionDependency": False,
-        "networkCalls": 0,
-        "credentialsUsed": False,
+        # ⚠️ 아래 3개는 **측정치가 아니라 설계 선언**이다(2026-08-25 보안 감사 MEDIUM).
+        #    "실제로 패킷을 세어 봤다"가 아니라 "이 모듈에는 네트워크·인증 호출 코드가
+        #    없다"는 뜻이고, 그 사실은 test_gaeo_coverage.py의 정적 검사(소스 스캔·
+        #    import 화이트리스트)가 매 실행마다 강제한다. 실측치와 섞이지 않도록
+        #    designAssertions 아래로 모아 두고 근거(evidence)를 함께 적는다.
+        "designAssertions": {
+            "networkCalls": ("설계상 없음(정적 검증). 통신 라이브러리·세션 객체를 "
+                             "부르는 코드가 이 모듈에 존재하지 않는다"),
+            "credentialsUsed": ("설계상 없음(정적 검증). 자격증명·환경변수를 읽는 "
+                                "코드가 이 모듈에 존재하지 않는다"),
+            "isProductionDependency": ("설계상 아님(정적 검증). 판단 경로 어디에서도 "
+                                       "이 패키지를 불러오지 않는다"),
+            "measured": False,
+            "verifiedBy": ("test_gaeo_coverage.py GsIsolationTest: 금지 토큰 소스 "
+                           "스캔과 import 화이트리스트로 매 테스트 실행마다 강제한다"),
+        },
         "candidatesCreated": 0,
+        "legsUsed": legs_used,
+        "gsLegRanCases": gs_leg_n,
+        "checkGsError": gs_error_n,
         "definitionAlignment": {
             "vol20": ("GAEO=ddof0·일간·%; GS=ddof1·√252 연율화·%. "
                       "gs_daily_ddof0 = gs_vol / sqrt(252) * sqrt((n-1)/n) 로 맞춘 뒤 비교."),

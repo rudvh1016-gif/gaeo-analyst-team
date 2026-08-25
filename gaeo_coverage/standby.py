@@ -45,6 +45,13 @@ TARGET_MIN = 30
 TARGET_MAX = 50
 DEFAULT_TARGET = 40
 
+# 시장별 예비 명단 크기 (2026-08-25 퀀트 감사 MEDIUM 수리).
+#   대기 명단 본문(candidates)은 지시대로 시가총액 순으로만 정렬한다. 그런데 지금
+#   그 상위권이 거의 코스닥이라(40개 중 KOSPI 2개), 코스피 종목이 빠졌을 때 같은
+#   시장에서 채울 후보가 없다. 그래서 정렬 규칙은 그대로 두고, 시장별로 가장 큰
+#   후보를 따로 모아 둔다. 선택 단계(proposal)가 여기서 시장을 맞춰 고른다.
+MARKET_RESERVE_SIZE = 20
+
 ELIGIBLE_KIND = "COMMON"
 ELIGIBLE_BASIS = "source_stockEndType"
 
@@ -151,6 +158,29 @@ def screen(item, covered_codes, sector=None):
     return True, None
 
 
+def _candidate_row(item, rank, now_iso, snapshot, sectors):
+    code = str(item["code"])
+    return {
+        "code": code,
+        "name": str(item.get("name") or "").strip(),
+        "market": item.get("market"),
+        "sector": sectors.get(code),
+        "marketCap": item.get("cap"),
+        "capRank": rank,
+        # 40위 컷이 0.001조 차이로 갈리는 knife-edge라, 나중에 "왜 이 종목이
+        # 들어왔나/빠졌나"를 되짚을 수 있게 그때의 시총 원값을 함께 남긴다.
+        "capAtSnapshot": item.get("cap"),
+        "capAtSnapshotAsOf": snapshot.get("asOf"),
+        "tradableStatus": "TRADABLE" if item.get("tradable") is True else "UNKNOWN",
+        "instrumentType": item.get("kind"),
+        "basis": item.get("basis"),
+        "checkedAt": now_iso,
+        "sourceSnapshot": snapshot.get("asOf"),
+        "eligibilityVerdict": VERDICT_ELIGIBLE,
+        "fingerprint": candidate_fingerprint(code),
+    }
+
+
 def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGET,
                now=None):
     now_iso = guardian.now_kst_iso(now)
@@ -166,7 +196,7 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
             "sourceSnapshot": None, "snapshotAgeDays": None,
             "targetRange": [TARGET_MIN, TARGET_MAX], "candidateCount": 0,
             "eligibleCount": 0, "shortfall": True, "excludedCounts": {},
-            "candidates": [],
+            "marketReserves": {}, "candidates": [],
         }
 
     age = guardian.snapshot_age_days(snapshot.get("asOf"), now)
@@ -182,24 +212,18 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
 
     passed.sort(key=lambda it: (-float(it["cap"]), str(it["code"])))
 
-    candidates = []
-    for rank, item in enumerate(passed[:target], start=1):
-        code = str(item["code"])
-        candidates.append({
-            "code": code,
-            "name": str(item.get("name") or "").strip(),
-            "market": item.get("market"),
-            "sector": sectors.get(code),
-            "marketCap": item.get("cap"),
-            "capRank": rank,
-            "tradableStatus": "TRADABLE" if item.get("tradable") is True else "UNKNOWN",
-            "instrumentType": item.get("kind"),
-            "basis": item.get("basis"),
-            "checkedAt": now_iso,
-            "sourceSnapshot": snapshot.get("asOf"),
-            "eligibilityVerdict": VERDICT_ELIGIBLE,
-            "fingerprint": candidate_fingerprint(code),
-        })
+    candidates = [_candidate_row(item, rank, now_iso, snapshot, sectors)
+                  for rank, item in enumerate(passed[:target], start=1)]
+
+    reserves = {}
+    for item in passed:
+        market = str(item.get("market") or "")
+        if not market:
+            continue
+        bucket = reserves.setdefault(market, [])
+        if len(bucket) < MARKET_RESERVE_SIZE:
+            bucket.append(_candidate_row(item, len(bucket) + 1, now_iso, snapshot,
+                                         sectors))
 
     shortfall = len(candidates) < TARGET_MIN
     return {
@@ -220,6 +244,12 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
         "shortfall": shortfall,
         "unmappedSectorCount": sum(1 for c in candidates if not c["sector"]),
         "excludedCounts": dict(sorted(excluded.items())),
+        "marketReserveSize": MARKET_RESERVE_SIZE,
+        "marketReserveNote": ("본문 candidates는 시가총액 순 하나로만 정렬한다. "
+                              "아래 marketReserves는 같은 정렬 규칙을 시장별로 따로 "
+                              "적용한 예비 명단이며, 교체 제안이 '빠진 종목과 같은 "
+                              "시장'에서 고를 때만 쓴다."),
+        "marketReserves": reserves,
         "candidates": candidates,
     }
 
