@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-25 11:12",
- "priceLabel": "2026-08-25 11:03 장중",
- "count": 257,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-08-25 11:42",
+ "priceLabel": "2026-08-25 11:36 장중",
+ "count": 260,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "122640",
+   "name": "예스티",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T02:41:46.423931+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "490470",
+   "name": "세미파이브",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T02:41:46.423931+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000430",
+   "name": "대원강업",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T02:41:46.423931+00:00",
+   "isCorrection": false
+  },
   {
    "code": "453340",
    "name": "현대그린푸드",
