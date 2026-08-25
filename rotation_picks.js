@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 12:42",
- "dataCutoff": "2026-08-25 12:42 장중",
+ "generatedAt": "2026-08-25 13:12",
+ "dataCutoff": "2026-08-25 13:12 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +61.5% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.1,
+   "why": "20거래일 +59.5% · 20일선 위",
+   "overheat": false,
+   "gapPct": 28.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,20 +24,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +56.0% · 20일선 위",
+   "why": "20거래일 +57.9% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.4,
-   "call": "SELL",
-   "callConflict": true
-  },
-  {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 9,
-   "why": "20거래일 +78.7% · 20일선 위 · 거래량 평소의 1.6배",
-   "overheat": true,
-   "gapPct": 51.8,
+   "gapPct": 28.9,
    "call": "SELL",
    "callConflict": true
   },
@@ -46,37 +35,48 @@ window.ROTATION_PICKS = {
    "name": "코스맥스",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +47.8% · 20일선 위",
+   "why": "20거래일 +48.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.3,
+   "gapPct": 27.9,
    "call": "HOLD",
    "callConflict": false
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "sector": "보험",
+   "sectorRank": 8,
+   "why": "20거래일 +75.6% · 20일선 위 · 거래량 평소의 1.7배",
+   "overheat": true,
+   "gapPct": 49.4,
+   "call": "SELL",
+   "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 59.2,
+  "breadthPct": 58.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6626.86,
-    "ma20": 6454.58,
+    "close": 6620.57,
+    "ma20": 6454.26,
     "above": true,
-    "gapPct": 2.67
+    "gapPct": 2.58
    },
    "KOSDAQ": {
-    "close": 811.21,
-    "ma20": 793.72,
+    "close": 812.98,
+    "ma20": 793.81,
     "above": true,
-    "gapPct": 2.2
+    "gapPct": 2.41
    }
   }
  },
  "regime": {
-  "direction": "횡보",
+  "direction": "하락",
   "leadership": "코스닥",
   "topSector": "화장품·미용"
  },
