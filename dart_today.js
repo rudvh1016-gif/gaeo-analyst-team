@@ -1,12 +1,60 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-25 14:12",
- "priceLabel": "2026-08-25 14:01 장중",
- "count": 264,
+ "generatedAt": "2026-08-25 14:44",
+ "priceLabel": "2026-08-25 14:36 장중",
+ "count": 270,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "126560",
+   "name": "현대퓨처넷",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "192820",
+   "name": "코스맥스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "347700",
+   "name": "스피어",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000490",
+   "name": "대동",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000490",
+   "name": "대동",
+   "title": "타법인주식및출자증권취득결정",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000490",
+   "name": "대동",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260825",
+   "detectedAt": "2026-08-25T05:43:30.642809+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
