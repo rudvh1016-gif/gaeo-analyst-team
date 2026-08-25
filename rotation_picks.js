@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 09:12",
- "dataCutoff": "2026-08-25 09:12 장중",
+ "generatedAt": "2026-08-25 09:42",
+ "dataCutoff": "2026-08-25 09:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,65 +13,43 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 1,
-   "why": "20거래일 +61.8% · 20일선 위",
+   "why": "20거래일 +63.5% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.3,
+   "gapPct": 31.5,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "192820",
-   "name": "코스맥스",
-   "sector": "화장품·미용",
-   "sectorRank": 1,
-   "why": "20거래일 +60.3% · 20일선 위 · 거래량 평소의 1.4배",
-   "overheat": true,
-   "gapPct": 30.7,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
    "sectorRank": 2,
-   "why": "20거래일 +64.2% · 20일선 위 · 거래량 평소의 1.7배",
+   "why": "20거래일 +62.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 39.9,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "008930",
-   "name": "한미사이언스",
-   "sector": "바이오·제약",
-   "sectorRank": 6,
-   "why": "20거래일 +63.3% · 20일선 위 · 거래량 평소의 19.0배",
-   "overheat": true,
-   "gapPct": 34.9,
-   "call": "HOLD",
-   "callConflict": false
+   "gapPct": 32.2,
+   "call": "SELL",
+   "callConflict": true
   }
  ],
  "gate": {
-  "indexAboveMa20": 2,
-  "breadthPct": 56.2,
-  "shown": 4,
-  "allowed": 4,
-  "sectorCap": 2,
-  "sectorCount": 3,
+  "indexAboveMa20": 1,
+  "breadthPct": 46.3,
+  "shown": 2,
+  "allowed": 2,
+  "sectorCap": 1,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6538.89,
-    "ma20": 6450.18,
+    "close": 6528.88,
+    "ma20": 6449.68,
     "above": true,
-    "gapPct": 1.38
+    "gapPct": 1.23
    },
    "KOSDAQ": {
-    "close": 802.34,
-    "ma20": 793.28,
-    "above": true,
-    "gapPct": 1.14
+    "close": 792.67,
+    "ma20": 792.8,
+    "above": false,
+    "gapPct": -0.02
    }
   }
  },
