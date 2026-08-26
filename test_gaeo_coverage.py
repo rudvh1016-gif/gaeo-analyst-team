@@ -213,11 +213,20 @@ _FILLER_JSON_CACHE = {}
 
 
 def snapshot_filler_items(exclude, n):
-    """순위·자격에 영향을 주지 않는 아주 작은 채움 종목 n개(생성 결과는 캐시)."""
+    """snapshot 크기를 채우기만 하는 항목 n개.
+
+    ⚠️ 일부러 **ETF**로 만들고 키를 3개만 둔다.
+       · kind=ETF 라 cap_ranks(보통주 전용)에서 아예 빠진다 → 검사 대상 종목의
+         순위가 채움 개수에 흔들리지 않는다.
+       · standby.screen()이 NOT_COMMON_KIND로 즉시 걸러 낸다 → 후보에 안 낀다.
+       · 키가 적어 JSON이 작다. guardian.run()은 호출마다 이 파일을 다시 읽으므로,
+         테스트 전체(수천 회 호출)의 속도를 좌우한다. 9개 키로 뒀다가 CI 20분
+         제한을 넘겨 타임아웃이 났다(2026-08-26).
+    """
     global _FILLER_CACHE
     if _FILLER_CACHE is None:
-        _FILLER_CACHE = [snap_item("%06d" % (SNAPSHOT_FILLER_START + i * 10),
-                                   cap=1.0e7 - i) for i in range(4500)]
+        _FILLER_CACHE = [{"code": "%06d" % (SNAPSHOT_FILLER_START + i * 10),
+                          "kind": "ETF", "cap": 1.0e7 - i} for i in range(4500)]
     ex = set(exclude)
     picked = [it for it in _FILLER_CACHE if it["code"] not in ex][:n]
     assert len(picked) == n, "채움 종목이 모자란다"
@@ -278,7 +287,7 @@ class Fixture:
                                as_of=now - datetime.timedelta(hours=6))
 
     def guard_days(self, days, start=NOW, per_day=1, refresh=True,
-                   refresh_krx=True):
+                   refresh_krx=True, step=1):
         """서로 다른 날짜로 days일 동안 관측한다(하루 per_day회 실행).
 
         '실행 횟수'가 아니라 '날짜'로 세는지 확인하기 위한 헬퍼다.
@@ -289,7 +298,11 @@ class Fixture:
         # 갱신해도 판정 결과가 같고, 마지막 날은 반드시 갱신한다.
         # (매일 다시 쓰면 3,000종목 gzip을 수백 번 만들어 테스트가 몇 배 느려진다.)
         every = max(1, guardian.SNAPSHOT_MAX_AGE_DAYS_FOR_DELISTING)
-        for d in range(days):
+        # step>1 이면 그 간격으로만 실행한다. 운영은 주 1회(step=7)라 이쪽이 오히려
+        # 실제에 가깝고, guard() 호출 수가 줄어 테스트가 빨라진다. 관측은 '서로 다른
+        # 날짜' 기준이라 간격을 벌려도 기준일수·경과거래일 의미가 유지된다.
+        # (⚠️ 정확한 관측일수를 단언하는 테스트에서는 step을 건드리지 말 것.)
+        for d in range(0, days, step):
             for k in range(per_day):
                 now = start + datetime.timedelta(days=d, minutes=5 * k)
                 if refresh and k == 0 and (d % every == 0 or d == days - 1):
@@ -384,6 +397,9 @@ def live_then_delisted(tmp, *, code="000010", cap=SMALL_CAP, alive_days=6,
     fx, codes = make_fixture(tmp, missing=(code,),
                              snapshot_overrides={code: {"cap": cap}},
                              extra_snapshot_items=extra_snapshot_items, **kw)
+    # ⚠️ 여기서는 step을 쓰지 않는다. 이 헬퍼를 쓰는 여러 테스트가 그 뒤에
+    #    '특정 날짜'로 guard()를 한 번 더 부르는데, 간격을 벌리면 마지막 관측일과
+    #    그 날짜의 관계가 달라져 독립 원장 신선도 판정이 뒤집힌다(실제로 6건 깨졌다).
     fx.guard_days(alive_days)
     fx.leave_market([code], keep_in_krx=keep_in_krx)
     rep = fx.guard_days(after_days,
@@ -3254,7 +3270,31 @@ class ParityAndWorkflowTest(unittest.TestCase):
         for artifact in (rep, pool, doc):
             self.assertEqual(artifact["runId"], "12345-2")
         # 로컬(식별자 없음)에서는 None이고, 그래도 예외 없이 돈다
-        self.assertIsNone(guardian.resolve_run_id(None))
+        # ⚠️ GitHub Actions 안에서는 GITHUB_RUN_ID가 실제로 들어 있다. 그냥
+        #    "None이어야 한다"고 쓰면 로컬에서만 통과하고 CI에서 깨진다
+        #    (실제로 이 테스트가 CI에서만 실패했다 — 2026-08-26).
+        #    환경을 명시적으로 비운 뒤 확인한다.
+        saved = {k: os.environ.pop(k, None)
+                 for k in ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT")}
+        try:
+            self.assertIsNone(guardian.resolve_run_id(None))
+        finally:
+            for k, v in saved.items():
+                if v is not None:
+                    os.environ[k] = v
+        # 반대로 환경에 있으면 그 값을 각인한다
+        os.environ["GITHUB_RUN_ID"] = "555"
+        os.environ["GITHUB_RUN_ATTEMPT"] = "2"
+        self.addCleanup(lambda: [os.environ.pop(k, None)
+                                 for k in ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT")]
+                        if saved["GITHUB_RUN_ID"] is None else None)
+        self.assertEqual(guardian.resolve_run_id(None), "555-2")
+        self.assertEqual(guardian.resolve_run_id("explicit"), "explicit")
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+            else:
+                os.environ.pop(k, None)
         ok, _ = notification.coverage_freshness(
             {"coverage": rep, "standby": pool, "proposal": doc},
             expected_run_id="12345-2")
