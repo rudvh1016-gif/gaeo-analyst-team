@@ -357,6 +357,85 @@ check("9g. 손절·익절·교체 규칙이 config에도 없다(null)",
       _cfg["stopLossRule"] is None and _cfg["takeProfitRule"] is None
       and _cfg["replacementRule"] is None)
 
+# ═══ ⑩ 지금 안 남기면 영원히 복구 불가능한 관측 2가지 ════════════════════════
+tmp = tempfile.mkdtemp(prefix="sv2rec_")
+eng = make(tmp, provider(D[0], QUOTES))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+# 같은 날 사이클을 두 번 더 돌린다(장중 30분 간격을 재현).
+# ⚠️ 여기서 다시 BUY를 주면 'non-BUY → BUY 전환'이 되어 두 번째 진입이 생긴다
+#    (V1과 같은 규칙이다). 이 검사는 한 포지션의 경로를 보는 것이므로 HOLD로 둔다.
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T10:35:00+09:00"), now=t(D[0], 10, 40))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T11:05:00+09:00"), now=t(D[0], 11, 10))
+path = [json.loads(x) for x in open(os.path.join(tmp, sv.PATH_FILE), encoding="utf-8")]
+obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+check("10a. CHIEF 경로는 사이클마다 남긴다(하루 한 줄로 줄이지 않는다)",
+      len(path) == 3 and len({p["at"] for p in path}) == 3, str(len(path)))
+check("10b. 같은 날 상세 관측은 여전히 하루 한 줄", len(obs) == 1, str(len(obs)))
+check("10c. 경로 기록에 call·total·confidence·관측가가 들어 있다",
+      all(p["chief_call"] and p["chief_total"] is not None
+          and p["chief_confidence"] is not None and p["observed_price"] for p in path))
+check("10d. 판단이 바뀐 경로가 그대로 남는다(BUY → HOLD)",
+      [p["chief_call"] for p in path] == ["BUY", "HOLD", "HOLD"],
+      str([p["chief_call"] for p in path]))
+shutil.rmtree(tmp)
+
+# 못 산 후보의 '그 시점 가격'
+tmp = tempfile.mkdtemp(prefix="sv2skip_")
+codes = [f"00{i:04d}" for i in range(1, 10)]
+quotes = {c: (1_000_000, 999_000) for c in codes}
+quotes["999999"] = (44_000, 43_900)
+eng = make(tmp, provider(D[0], quotes))
+eng.run_cycle(bundle({c: "HOLD" for c in codes}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({c: "BUY" for c in codes}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+eng.provider = provider(D[1], quotes)
+sig = {c: "HOLD" for c in codes}
+sig["999999"] = "BUY"
+eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
+skips = [json.loads(x) for x in open(os.path.join(tmp, sv.SKIP_FILE), encoding="utf-8")]
+check("10e. 못 산 후보를 그 시점 관측가와 함께 남긴다",
+      len(skips) == 1 and skips[0]["symbol"] == "999999"
+      and skips[0]["observed_price"] == 43_950.0
+      and skips[0]["reason"] == "INSUFFICIENT_CASH",
+      json.dumps(skips, ensure_ascii=False)[:220])
+check("10f. 같은 분석 배치에 대해 중복 기록하지 않는다",
+      (eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 11, 10)),
+       len([json.loads(x) for x in open(os.path.join(tmp, sv.SKIP_FILE), encoding="utf-8")])
+       == 1)[1])
+shutil.rmtree(tmp)
+
+# ═══ ⑪ 짝비교(Layer A) 재료와 2층 비교 안내 ══════════════════════════════════
+tmp = tempfile.mkdtemp(prefix="sv2cf_")
+eng = make(tmp, provider(D[0], QUOTES))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+run_days(eng, D[1:6], {"005930": "HOLD"}, {"005930": (10_600, 10_500)})
+obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+cf = [o for o in obs if o.get("counterfactual_exit")]
+check("11a. 5거래일 재평가 지점에 'V1이었다면 여기서 팔았다'를 함께 박아 둔다",
+      len(cf) == 1 and cf[0]["counterfactual_exit"]["rule"] == "V1_MAX_HOLDING_5D",
+      json.dumps([o.get("counterfactual_exit") for o in obs], ensure_ascii=False)[:200])
+ce = cf[0]["counterfactual_exit"]
+check("11b. 짝비교 값도 총수익·순수익을 함께 남긴다(순수익이 더 낮다)",
+      ce["gross_return_pct"] is not None
+      and ce["estimated_net_return_pct"] < ce["gross_return_pct"])
+check("11c. 관측가 근사라는 한계를 함께 적는다", "근사" in ce["note"])
+s = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
+check("11d. 비교를 2층으로 읽으라고 산출물에 적는다",
+      set(s["comparisonLayers"]) == {"layerA", "layerB", "warning"}
+      and "SKIP" in s["comparisonLayers"]["warning"])
+check("11e. 60거래일 성적을 주장하지 않는다고 못박는다",
+      s["horizonPerformanceClaim"] == "NONE" and "상한" in s["horizonClaimNote"])
+check("11f. 60D 성능 지표를 만들지 않는다(요약에 60일 성과 필드 없음)",
+      not any("60" in k for k in s.keys()), str([k for k in s if "60" in k]))
+check("11g. 기록 파일 4종이 전부 자기 폴더에만 생긴다",
+      all(os.path.exists(os.path.join(tmp, f))
+          for f in (sv.OBS_FILE, sv.PATH_FILE)) and set(os.listdir(tmp)) <= {
+              "trades.jsonl", "state.json", "summary.json", "equity_curve.jsonl",
+              sv.OBS_FILE, sv.SWAP_FILE, sv.PATH_FILE, SKIP := sv.SKIP_FILE},
+      str(sorted(os.listdir(tmp))))
+shutil.rmtree(tmp)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")

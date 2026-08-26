@@ -310,6 +310,195 @@ check("D8. 전부 반영했을 때의 확정손익(69,882원)도 함께 공개�
       abs(disc["realizedPnlIfAllNetKrw"] - 69_881.52) < 0.02,
       str(disc["realizedPnlIfAllNetKrw"]))
 
+# ═══ E. 회계 항등식 — 옛 기준과 새 기준을 나눠서 검증 ═══════════════════════
+# (기존 test_paper_accounting.py의 항등식은 무비용 전제라 옛 기준 거래에만 성립한다.
+#  새 기준 거래에서는 '실제로 나간 돈(investedCashOutlay)'으로 같은 항등식이 성립한다)
+def identities(tag, val, initial, outlay_expected, invested_expected):
+    check(f"{tag} · 투자원금 = Σ(체결가×수량)",
+          abs(val["investedCostBasis"] - invested_expected) < 1e-6,
+          str(val["investedCostBasis"]))
+    check(f"{tag} · 실제로 나간 돈 = Σ(체결가×수량 + 매수수수료)",
+          abs(val["investedCashOutlay"] - outlay_expected) < 1e-6,
+          str(val["investedCashOutlay"]))
+    check(f"{tag} · 실제로 나간 돈 = 시작자금 + 실현손익 - 현금",
+          abs(val["investedCashOutlay"]
+              - (initial + val["realizedPnl"] - val["cash"])) < 1e-6)
+    check(f"{tag} · 현금 + 평가금액 = 현재 가상자산",
+          abs(val["cash"] + val["markedPositionsValue"]
+              - val["currentVirtualEquity"]) < 1e-6)
+    check(f"{tag} · 미실현 = 평가금액 - 실제로 나간 돈",
+          abs(val["unrealizedPnl"]
+              - (val["markedPositionsValue"] - val["investedCashOutlay"])) < 1e-6)
+    check(f"{tag} · 전체손익 = 현재자산 - 시작자금 = 실현 + 미실현",
+          abs((val["currentVirtualEquity"] - initial)
+              - (val["realizedPnl"] + val["unrealizedPnl"])) < 1e-6)
+
+
+net_latest = {"o": row_net("OPEN", trade_id="o"),
+              "c": row_net(trade_id="c")}
+val_net = pe.portfolio_valuation(CFG_NET, net_latest,
+                                 {"o": {"lastMarkPrice": 10_500,
+                                        "lastMarkObservedAt": "2026-09-02T10:00:00+09:00"}})
+identities("E1. 새 기준(NET)", val_net, 10_000_000, FIX_OUTLAY, 1_000_000.0)
+check("E1b. 새 기준에서는 투자원금 ≠ 실제로 나간 돈(수수료 150원 차이)",
+      abs(val_net["investedCashOutlay"] - val_net["investedCostBasis"] - FIX_BUY_FEE) < 1e-6)
+gross_latest = {"o": {**row_net("OPEN", trade_id="o"),
+                      "accounting_version": pe.ACCOUNTING_V1_GROSS},
+                "c": {**row_net(trade_id="c"),
+                      "accounting_version": pe.ACCOUNTING_V1_GROSS}}
+val_gross = pe.portfolio_valuation(CFG_NET, gross_latest,
+                                   {"o": {"lastMarkPrice": 10_500,
+                                          "lastMarkObservedAt": "2026-09-02T10:00:00+09:00"}})
+identities("E2. 옛 기준(GROSS)", val_gross, 10_000_000, 1_000_000.0, 1_000_000.0)
+check("E2b. 옛 기준에서는 두 값이 같다(예전 항등식 그대로 성립)",
+      val_gross["investedCashOutlay"] == val_gross["investedCostBasis"] == 1_000_000.0)
+
+# ═══ F. 벤치마크 — 실제 진입일·청산일로 다시 계산 ════════════════════════════
+_idx = pe.load_index_history()
+_real = [json.loads(ln) for ln in raw_lines[:FROZEN_ROWS]]
+_real_closed = [r for r in _real if r.get("status") == "CLOSED"
+                and r.get("environment") == "LIVE_PAPER"]
+check("F0. 실측 대상 — 청산 10건이 모두 2026-08-18 진입 · 2026-08-25 청산",
+      len(_real_closed) == 10
+      and {r["entry_business_date"] for r in _real_closed} == {"2026-08-18"}
+      and {r["exit_business_date"] for r in _real_closed} == {"2026-08-25"})
+_kospi = [r for r in _real_closed if r["market"] == "KOSPI"][0]
+rb = pe.recomputed_benchmark(_kospi, _idx)
+# 손계산: KOSPI 6,869.83(8/18 종가) → 6,742.74(8/25 종가) = -1.850%
+check("F1. 재계산 벤치마크가 실제 진입일·청산일 종가를 쓴다(-1.85%)",
+      rb["status"] == "RECOMPUTED" and abs(rb["benchmarkReturnPct"] + 1.850) < 0.002
+      and rb["entryDay"] == "2026-08-18" and rb["exitDay"] == "2026-08-25",
+      json.dumps(rb, ensure_ascii=False))
+check("F2. 원장에 박제된 값은 그대로 둔다(고치지 않는다)",
+      abs(_kospi["benchmark_return_pct"] + 4.027) < 0.002,
+      str(_kospi["benchmark_return_pct"]))
+_frozen_rel = sum(r["relative_return_pct"] for r in _real_closed) / len(_real_closed)
+_recomp_rel = sum(pe.recomputed_benchmark(r, _idx)["relativeReturnPct"]
+                  for r in _real_closed) / len(_real_closed)
+check("F3. 부풀려져 있던 시장대비가 실제 값으로 내려간다(+5.341 → +2.873%p)",
+      abs(_frozen_rel - 5.341) < 0.01 and abs(_recomp_rel - 2.873) < 0.01,
+      f"{_frozen_rel} → {_recomp_rel}")
+check("F4. 그 날짜 종가가 없으면 값을 만들지 않는다(근처 날로 대체 금지)",
+      pe.recomputed_benchmark({"market": "KOSPI", "entry_business_date": "2026-08-17",
+                               "exit_business_date": "2026-08-25",
+                               "gross_return_pct": 1.0}, _idx)["status"]
+      == "MISSING_INDEX_ON_TRADE_DAY")
+
+# ═══ G. 비율지표도 '비용 전부 반영' 값을 함께 낸다 ═══════════════════════════
+# 고정 대조군: 총수익 +0.2%짜리 10건은 왕복비용 0.23%를 빼면 손실로 뒤집힌다.
+tmp = tempfile.mkdtemp(prefix="pa2g_")
+with open(os.path.join(tmp, "trades.jsonl"), "w", encoding="utf-8") as f:
+    for i in range(20):
+        thin = i % 2 == 0
+        day = (datetime(2026, 9, 1) + timedelta(days=i)).strftime("%Y-%m-%d")
+        f.write(json.dumps({
+            "trade_id": f"g{i}", "environment": "TEST", "status": "CLOSED",
+            "symbol": f"{i:06d}", "market": "KOSPI", "quantity": 100,
+            "entry_price": 10_000, "exit_price": 10_020 if thin else 10_500,
+            "gross_return_pct": 0.2 if thin else 5.0,
+            # 손계산: 10,020×0.99785 / (10,000×1.00015) - 1 = -0.030%
+            #        10,500×0.99785 / (10,000×1.00015) - 1 = +4.758%
+            "estimated_net_return_pct": -0.030 if thin else 4.758,
+            "holding_trading_days": 5, "entry_business_date": day,
+            "exit_business_date": day, "accounting_version": pe.ACCOUNTING_V1_GROSS,
+        }, ensure_ascii=False) + "\n")
+eng = pe.PaperEngine(None, data_dir=tmp, config=CFG_NET, environment="TEST")
+eng._write_summary()
+sm = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
+check("G0. 표본 게이트 통과(20건 · 판단일 20일)", sm["evidence"] == "SAMPLE_OK",
+      str(sm["evidence"]))
+check("G1. 총수익 기준 승률은 100%인데",
+      sm["winRatePct"] == 100.0, str(sm["winRatePct"]))
+check("G2. 비용 전부 반영 승률은 50%다(비율지표도 IfAllNet을 낸다)",
+      sm["winRatePctIfAllNet"] == 50.0, str(sm["winRatePctIfAllNet"]))
+check("G3. 평균·중앙값·손익비·Profit Factor도 IfAllNet 값을 낸다",
+      all(sm.get(k) is not None for k in
+          ("avgReturnPctIfAllNet", "medianReturnPctIfAllNet", "avgWinPctIfAllNet",
+           "avgLossPctIfAllNet", "expectancyPctIfAllNet", "profitFactorIfAllNet",
+           "winLossRatioIfAllNet")),
+      json.dumps({k: sm.get(k) for k in ("avgReturnPctIfAllNet", "profitFactorIfAllNet")}))
+check("G4. IfAllNet 평균이 총수익 평균보다 낮다(비용만큼)",
+      sm["avgReturnPctIfAllNet"] < sm["avgReturnPct"],
+      f'{sm["avgReturnPctIfAllNet"]} vs {sm["avgReturnPct"]}')
+check("G5. 비율지표가 무비용 기준이라는 경고를 명시한다(침묵 금지)",
+      "IfAllNet" in sm["accounting"]["ratioBasisWarning"]
+      and "maxDrawdownBasis" in sm["accounting"])
+check("G6. 벤치마크 기준도 산출물에 밝힌다",
+      sm["benchmarkBasis"] == "RECOMPUTED_FROM_TRADE_DATES"
+      and "benchmarkRecomputedCount" in sm)
+shutil.rmtree(tmp)
+# 표본이 모자라면 IfAllNet 비율도 함께 막힌다(한쪽만 새면 결론이 새어 나간다)
+tmp = tempfile.mkdtemp(prefix="pa2g2_")
+with open(os.path.join(tmp, "trades.jsonl"), "w", encoding="utf-8") as f:
+    f.write(json.dumps({"trade_id": "x1", "environment": "TEST", "status": "CLOSED",
+                        "symbol": "000001", "market": "KOSPI", "quantity": 100,
+                        "entry_price": 10_000, "exit_price": 10_500,
+                        "gross_return_pct": 5.0, "estimated_net_return_pct": 4.758,
+                        "entry_business_date": "2026-09-01",
+                        "exit_business_date": "2026-09-08"}, ensure_ascii=False) + "\n")
+eng = pe.PaperEngine(None, data_dir=tmp, config=CFG_NET, environment="TEST")
+eng._write_summary()
+sm2 = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
+check("G7. 표본 부족이면 IfAllNet 비율도 전부 null",
+      all(sm2.get(k) is None for k in
+          ("winRatePct", "winRatePctIfAllNet", "avgReturnPctIfAllNet",
+           "profitFactorIfAllNet", "expectancyPctIfAllNet")),
+      json.dumps({k: sm2.get(k) for k in ("winRatePctIfAllNet",)}))
+shutil.rmtree(tmp)
+
+# ═══ H. 화면에 보이는 거래별 값도 같은 회계를 쓰는가 ═════════════════════════
+# (합계만 고치고 거래별 값을 무비용으로 두면 "거래별 합 ≠ 총계"가 된다)
+import re as _re2
+
+import paper_public as _pp
+
+tmp = tempfile.mkdtemp(prefix="pa2h_")
+d = os.path.join(tmp, "paper_trading")
+os.makedirs(d)
+_closed_net = {"trade_id": "h1", "environment": "LIVE_PAPER", "status": "CLOSED",
+               "symbol": "005930", "name": "삼성전자", "market": "KOSPI",
+               "entry_price": ENTRY, "exit_price": EXIT_, "quantity": QTY,
+               "entry_business_date": "2026-08-18", "exit_business_date": "2026-08-25",
+               "exit_at": "2026-08-25T10:10:00+09:00", "exit_reason": "CHIEF_SELL",
+               "gross_return_pct": 10.0, "holding_trading_days": 5,
+               "accounting_version": pe.ACCOUNTING_V2_NET,
+               "simulated_fill_at": "2026-08-18T10:10:00+09:00",
+               "detected_at": "2026-08-18T10:10:00+09:00"}
+with open(os.path.join(d, "trades.jsonl"), "w", encoding="utf-8") as f:
+    f.write(json.dumps(_closed_net, ensure_ascii=False) + "\n")
+json.dump({"engineStartedAt": "2026-08-18T09:10:00+09:00", "baselineCaptured": True,
+           "lastCycleAt": "2026-08-25T10:10:00+09:00", "lastCycleResult": "CYCLE_OK",
+           "businessDates": ["2026-08-18", "2026-08-25"], "openMeta": {}},
+          open(os.path.join(d, "state.json"), "w"))
+json.dump(_cfg_file, open(os.path.join(d, "config.json"), "w"))
+json.dump({"initialVirtualCash": 10_000_000}, open(os.path.join(d, "summary.json"), "w"))
+_od, _oo = _pp.DIR, _pp.OUT
+_pp.DIR = d
+_pp.OUT = os.path.join(tmp, "paper_public.js")
+try:
+    rc = _pp.build()
+    pub = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*);\s*$",
+                                 open(_pp.OUT, encoding="utf-8").read(), _re2.S).group(1))
+finally:
+    _pp.DIR, _pp.OUT = _od, _oo
+tr = pub["recentTrades"][0]
+check("H0. 공개 스냅샷 생성 성공", rc == 0)
+check("H1. 화면의 거래별 확정손익도 비용 반영 값이다(97,485원)",
+      tr["realized_pnl"] == round(FIX_REALIZED), str(tr["realized_pnl"]))
+check("H2. 거래별 값의 합 = 총계(두 곳이 어긋나지 않는다)",
+      abs(sum(t.get("realized_pnl", 0) for t in pub["recentTrades"])
+          - pub["realizedPnl"]) < 1.0,
+      f'{sum(t.get("realized_pnl", 0) for t in pub["recentTrades"])} vs {pub["realizedPnl"]}')
+check("H3. 화면의 시장대비도 실제 진입일·청산일로 다시 계산된 값이다",
+      abs(tr["benchmark_return_pct"] + 1.850) < 0.002,
+      str(tr.get("benchmark_return_pct")))
+check("H4. 회계 기준이 섞여 있다는 사실을 화면 payload에 싣는다",
+      pub["costBasisMix"]["current"] == "NET"
+      and pub["costBasisMix"]["unreflectedCostKrw"] == 0.0)
+check("H5. 공개 payload에 'account' 문자열이 없다(계좌 흔적 차단에 걸리지 않게)",
+      "account" not in json.dumps(pub, ensure_ascii=False).lower())
+shutil.rmtree(tmp)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")

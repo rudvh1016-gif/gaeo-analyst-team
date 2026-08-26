@@ -62,7 +62,7 @@ import sys
 
 import paper_market_data as pmd
 from paper_engine import (HERE, PaperEngine, ACCOUNTING_V2_NET, COMMISSION_PCT,
-                          SELL_TAX_PCT, SELL_TAX_DEFAULT_PCT, iso,
+                          SELL_TAX_PCT, SELL_TAX_DEFAULT_PCT, iso, net_return_pct,
                           load_index_history, index_value_on_or_before)
 
 STRATEGY_VERSION = "PAPER_SMART_V2"
@@ -79,8 +79,15 @@ MAX_HOLDING_TRADING_DAYS = 60
 HORIZON_CHECKPOINTS = (5, 20, 60)
 EXIT_SAFETY_CAP = "MAX_HOLDING_SAFETY_CAP"   # V1의 MAX_HOLDING_5D와 절대 섞지 않는다
 
-OBS_FILE = "observations.jsonl"
-SWAP_FILE = "shadow_swaps.jsonl"
+OBS_FILE = "observations.jsonl"          # 하루 한 줄 상세 관측
+SWAP_FILE = "shadow_swaps.jsonl"         # 자리가 꽉 차 못 산 후보 비교(교체는 안 한다)
+# 🕰️ 지금 남기지 않으면 영원히 복구할 수 없는 두 가지 (2026-08-26 감사 지적)
+#   ① 보유 중 CHIEF 판단의 '사이클별' 경로 — 나중에 "5일에 안 팔았으면?"을
+#      사후 재구성하려면 그때그때의 call/total/confidence가 남아 있어야 한다.
+#   ② 못 산 후보의 '스킵 시점 가격' — 없으면 "자리가 있었다면?"을 계산할 수 없다.
+#   둘 다 Forward 기록 전용이다. 과거를 소급해 만들지 않는다.
+PATH_FILE = "chief_path.jsonl"           # 사이클마다 한 줄(보유 종목별 CHIEF 경로)
+SKIP_FILE = "skipped_candidates.jsonl"   # 못 산 후보 + 그 시점 관측가
 
 DEFAULT_CONFIG = {
     "schemaVersion": "gaeo_paper_config_v1",
@@ -159,6 +166,49 @@ class SmartV2Engine(PaperEngine):
             return json.load(open(path, encoding="utf-8"))
         return json.loads(json.dumps(DEFAULT_CONFIG))     # 깊은 복사(상수 오염 방지)
 
+    # ── 진입: 규칙은 V1 그대로, '못 산 후보'만 추가로 기록한다 ──
+    def _process_entries(self, signals, analysis_at, now, in_session, latest, actions):
+        """진입 규칙은 한 줄도 바꾸지 않는다(super가 전부 처리).
+
+        다만 자리·현금이 없어 못 산 후보의 **그 시점 가격**을 남긴다. 지금 안 남기면
+        "자리가 있었다면 어땠나"를 나중에 영원히 계산할 수 없다.
+        ⚠️ 후보마다 따로 조회하면 호출이 폭증한다 → 한 배치로 모아 한 번만 조회한다.
+        """
+        self._skipped_batch = []
+        result = super()._process_entries(signals, analysis_at, now, in_session,
+                                          latest, actions)
+        self._flush_skipped(signals, analysis_at, now)
+        return result
+
+    def _flush_skipped(self, signals, analysis_at, now):
+        codes = list(dict.fromkeys(getattr(self, "_skipped_batch", []) or []))
+        if not codes:
+            return
+        if self.state.get("lastSkippedBatch") == analysis_at:
+            return                      # 같은 분석 배치는 한 번만 기록한다
+        self.state["lastSkippedBatch"] = analysis_at
+        prices, reason = {}, None
+        try:
+            prices = self.provider.get_prices(codes)
+        except pmd.MarketDataUnavailable as e:
+            reason = str(e)[:120]       # 가격을 추측하지 않는다 — 못 봤다고 적는다
+        for code in codes:
+            sig = signals.get(code) or {}
+            px = prices.get(code) or {}
+            _append_jsonl(os.path.join(self.dir, SKIP_FILE), {
+                "at": iso(now), "business_date": now.strftime("%Y-%m-%d"),
+                "analysis_at": analysis_at, "symbol": code, "name": sig.get("name"),
+                "reason": "INSUFFICIENT_CASH",
+                "chief_call": sig.get("call"), "chief_total": sig.get("total"),
+                "chief_confidence": sig.get("confidence"),
+                "taro_score": sig.get("taro"), "diana_score": sig.get("diana"),
+                "quant_score": sig.get("quant"), "flow_score": sig.get("flow"),
+                "observed_price": px.get("price"),
+                "observed_at": px.get("timestamp"),
+                "price_unavailable_reason": reason,
+                "note": "자리가 없어 사지 않았다. 이 가격은 '샀다면'을 나중에 계산할 근거일 뿐이다",
+            })
+
     # ── 청산: 5거래일은 '재평가일'이지 '청산일'이 아니다 ──
     def _exit_reason(self, row, cur_call, holding_days):
         """① CHIEF SELL 전환 = 강한 Exit ② 안전상한 도달.
@@ -184,13 +234,22 @@ class SmartV2Engine(PaperEngine):
         """
         if meta is None:
             return None
-        if meta.get("lastObservedDate") == today_date:
-            return None
-        meta["lastObservedDate"] = today_date
         sig = signals.get(row["symbol"]) or {}
         entry = row.get("entry_price")
         px = (price or {}).get("price")
         ret = (round((px / entry - 1) * 100, 3) if px and entry else None)
+        # ① 사이클마다 남기는 CHIEF 경로(하루 한 줄로 줄이지 않는다).
+        #    이 값은 지금 안 남기면 나중에 어떤 방법으로도 복원할 수 없다.
+        _append_jsonl(os.path.join(self.dir, PATH_FILE), {
+            "at": iso(now), "business_date": today_date, "trade_id": row["trade_id"],
+            "symbol": row["symbol"], "holding_trading_days": holding_days,
+            "chief_call": sig.get("call"), "chief_total": sig.get("total"),
+            "chief_confidence": sig.get("confidence"),
+            "observed_price": px, "return_pct": ret})
+        # ② 상세 관측은 하루 한 줄(MFE/MAE가 누적값이라 극값은 유실되지 않는다).
+        if meta.get("lastObservedDate") == today_date:
+            return None
+        meta["lastObservedDate"] = today_date
         if self._regime is None:
             self._regime = load_market_regime()
         bench_ret = None
@@ -229,6 +288,18 @@ class SmartV2Engine(PaperEngine):
             "market_regime": (self._regime or {}).get("key"),
             "observation_note": "기록 전용 — 이 값으로 만드는 매매 규칙은 없다",
         }
+        # 📐 Layer A(짝비교) 재료 — 같은 진입에 '청산 규칙만' 달랐다면 어땠는지.
+        #    재평가 지점에서 "V1이었다면 여기서 팔았다"를 그 시점 값으로 박아 둔다.
+        #    ⚠️ 관측가 기준 근사다(실제 청산은 Best Bid로 체결된다). 그 한계를 함께 적는다.
+        if obs["horizon_checkpoint"] and px and entry:
+            obs["counterfactual_exit"] = {
+                "rule": ("V1_MAX_HOLDING_5D" if holding_days == 5
+                         else f"HORIZON_{holding_days}D"),
+                "observed_price": px,
+                "gross_return_pct": ret,
+                "estimated_net_return_pct": net_return_pct(entry, px, row.get("market")),
+                "note": "관측가 기준 근사 — 실제 청산은 Best Bid로 체결되므로 조금 낮다",
+            }
         _append_jsonl(os.path.join(self.dir, OBS_FILE), obs)
         return obs
 
@@ -240,8 +311,12 @@ class SmartV2Engine(PaperEngine):
            지금 만들면 근거 없는 임계값이 된다. 여기서는 그때 무엇을 포기했는지만
            남겨서, 표본이 쌓인 뒤 "교체했다면/유지했다면"을 계산할 수 있게 한다.
         """
+        # 못 산 후보는 전부 모아 두었다가 한 배치로 시세를 한 번만 조회한다.
+        if not hasattr(self, "_skipped_batch"):
+            self._skipped_batch = []
+        self._skipped_batch.append(code)
         if self.state.get("lastShadowSwapBatch") == analysis_at:
-            return None            # 같은 분석 배치에 대해서는 한 번만 남긴다
+            return None            # 비교 기록은 같은 분석 배치에 한 번만 남긴다
         self.state["lastShadowSwapBatch"] = analysis_at
         cand = signals.get(code) or {}
         opens = [r for r in latest.values() if r.get("status") == "OPEN"]
@@ -313,6 +388,31 @@ class SmartV2Engine(PaperEngine):
                           "note": "V1을 대체하지 않는다. 성적이 좋아도 자동 승격 없음"},
             "observationRecords": _count_lines(os.path.join(self.dir, OBS_FILE)),
             "shadowSwapRecords": _count_lines(os.path.join(self.dir, SWAP_FILE)),
+            "chiefPathRecords": _count_lines(os.path.join(self.dir, PATH_FILE)),
+            "skippedCandidateRecords": _count_lines(os.path.join(self.dir, SKIP_FILE)),
+            # 📐 비교는 반드시 두 층으로 읽어야 한다. 한 층만 보면 오해가 생긴다.
+            #    실측 근거: V1은 신호 111건 중 91건이 현금 부족으로 진입조차 못 했다.
+            #    그래서 두 지갑의 성적 차이에는 '전략 차이'와 '누가 자리를 먼저 차지했나'가
+            #    섞여 있다. 그 둘을 분리해서 봐야 한다.
+            "comparisonLayers": {
+                "layerA": {
+                    "name": "짝비교(같은 진입 · 청산 규칙만 다름)",
+                    "source": f"{OBS_FILE}의 counterfactual_exit",
+                    "note": "V2가 실제로 진입한 거래에 대해 '5거래일에 팔았다면'을 "
+                            "그 시점 관측가로 함께 기록한다. 진입 집합이 같아 "
+                            "청산 규칙의 효과만 비교할 수 있다."},
+                "layerB": {
+                    "name": "지갑 전체 운용(각자 별도 계좌)",
+                    "source": "paper_trading/summary.json vs smart_v2/summary.json",
+                    "note": "자리 배분·현금 제약까지 포함한 결과다. 진입 집합이 서로 "
+                            "다를 수 있어 전략 차이만으로 해석하면 안 된다."},
+                "warning": "한 층만 인용하지 말 것. 자리 부족(SKIP)이 결과를 좌우한다.",
+            },
+            # 🚫 60거래일은 '보유 상한'일 뿐이다. 60D 성적·적중률을 주장하지 않는다
+            #    (docs/gaeo_validation_policy.md: 60D는 평가 가능한 판단이 0건).
+            "horizonPerformanceClaim": "NONE",
+            "horizonClaimNote": ("60거래일은 무한보유를 막는 상한이지 성능 구간이 아니다. "
+                                 "이 전략은 60D 성적·적중률을 어떤 형태로도 주장하지 않는다."),
             "publicSnapshot": False,
         }
 
