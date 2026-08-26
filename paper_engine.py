@@ -1107,6 +1107,21 @@ class PaperEngine:
         return {}
 
     def _flush_skip_quotes(self, signals, analysis_at, now):
+        """기록 전용 — 어떤 이유로도 매매를 막지 않는다.
+
+        ⚠️ 이 함수는 _process_entries 끝에서 불리고, _process_entries 는 보유
+           관리·청산보다 **먼저** 돈다. 여기서 예외가 밖으로 나가면 그 사이클의
+           CHIEF SELL 청산이 통째로 건너뛰어진다 — 기록 기능이 매매를 막는 것은
+           "매매 행동 영향 0"이라는 이 기능의 전제를 깨는 일이다.
+           디스크가 꽉 차거나 provider 가 예상 밖 예외를 던져도 조용히 포기하고
+           다음 사이클에 다시 시도한다(가격을 추측하거나 지어내지 않는다).
+        """
+        try:
+            self._flush_skip_quotes_inner(signals, analysis_at, now)
+        except Exception as e:      # noqa: BLE001 — 기록이 매매를 막으면 안 된다
+            self._skip_quote_error = f"{type(e).__name__}: {str(e)[:120]}"
+
+    def _flush_skip_quotes_inner(self, signals, analysis_at, now):
         skipped = list(dict.fromkeys(getattr(self, "_skipped_batch", []) or []))
         entered = list(getattr(self, "_entered_batch", []) or [])
         if not skipped and not entered:

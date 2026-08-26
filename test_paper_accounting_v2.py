@@ -621,6 +621,51 @@ _sm = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
 check("K3. 요약에도 같은 고지가 실린다", bool(_sm.get("benchmarkClockMismatchNote")))
 shutil.rmtree(tmp)
 
+# ── L. 기록 전용 기능이 매매를 막지 않는다 (2026-08-26 코디네이터 지적) ────────
+# _flush_skip_quotes 는 _process_entries 끝에서 불리고, _process_entries 는 보유
+# 관리·청산보다 먼저 돈다. 그래서 거기서 예외가 새어 나가면 그 사이클의 CHIEF SELL
+# 청산이 통째로 건너뛰어진다 — "기록 전용, 매매 행동 영향 0"이라는 전제가 깨진다.
+# 디스크가 꽉 차는 상황(파일 쓰기 실패)을 실제로 만들어 청산이 그대로 되는지 본다.
+tmp = tempfile.mkdtemp(prefix="pa2l_")
+eng = pe.PaperEngine(provider(N1, ENTRY, ENTRY - 10), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{N1}T09:05:00+09:00"), now=t(N1, 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{N1}T10:05:00+09:00"), now=t(N1, 10, 10))
+check("L1. 대조군 — 정상 상태에서는 진입이 기록된다",
+      any(r["status"] == "OPEN" for r in eng.ledger.latest_by_id().values()))
+
+
+def _boom(*_a, **_k):
+    raise OSError(28, "No space left on device")
+
+
+_qpath = os.path.join(tmp, pe.PaperEngine.SKIP_QUOTE_FILE)
+
+
+def _qlines():
+    try:
+        return sum(1 for line in open(_qpath, encoding="utf-8") if line.strip())
+    except OSError:
+        return 0
+
+
+_before = _qlines()          # 진입 사이클에서 정상적으로 남은 행(대조군)
+check("L1b. 대조군 — 정상 사이클에서는 같은 잣대 관측가가 남는다", _before > 0, str(_before))
+eng.provider = provider(N2, EXIT_ + 10, EXIT_)
+eng._flush_skip_quotes_inner = _boom       # 기록 경로만 고장낸다
+_res = eng.run_cycle(bundle({"005930": "SELL"}, f"{N2}T10:05:00+09:00"),
+                     now=t(N2, 10, 10))
+_closed = [r for r in eng.ledger.latest_by_id().values() if r["status"] == "CLOSED"]
+check("L2. 기록이 터져도 CHIEF SELL 청산은 그대로 일어난다",
+      len(_closed) == 1 and _closed[0]["exit_reason"] == "CHIEF_SELL",
+      f"{_res} / {[r['status'] for r in eng.ledger.latest_by_id().values()]}")
+check("L3. 예외를 삼키되 사실은 남긴다(조용히 사라지지 않는다)",
+      "OSError" in str(getattr(eng, "_skip_quote_error", "")),
+      str(getattr(eng, "_skip_quote_error", None)))
+check("L4. 가격을 지어내지 않는다(터진 사이클에서는 한 행도 안 늘어난다)",
+      _qlines() == _before, f"{_before} → {_qlines()}")
+shutil.rmtree(tmp)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
