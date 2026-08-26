@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-26 11:13",
+ "generatedAt": "2026-08-26 11:43",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2413,
-   "diana": 0.129,
-   "nova": 0.2879,
-   "flow": 0.3418
+   "taro": 0.2466,
+   "diana": 0.1302,
+   "nova": 0.2852,
+   "flow": 0.338
   },
   "acc": {
    "taro": {
-    "n": 1308,
-    "acc": 39.4,
-    "adjustedAcc": 40.3,
+    "n": 1294,
+    "acc": 39.9,
+    "adjustedAcc": 40.7,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,68 +47,27 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 216,
-    "acc": 47.7,
-    "adjustedAcc": 48.5,
+    "n": 212,
+    "acc": 46.7,
+    "adjustedAcc": 47.9,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 242,
-    "acc": 52.9,
-    "adjustedAcc": 51.9,
+    "n": 241,
+    "acc": 51.9,
+    "adjustedAcc": 51.2,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 1766,
+  "graded": 1747,
   "team": {
-   "hit": 1076,
-   "miss": 665,
-   "n": 1741,
-   "acc": 61.8
+   "hit": 1070,
+   "miss": 668,
+   "n": 1738,
+   "acc": 61.6
   }
  },
- "sectors": {
-  "바이오·제약": {
-   "weights": {
-    "taro": 0.2532,
-    "diana": 0.1272,
-    "nova": 0.2806,
-    "flow": 0.339
-   },
-   "acc": {
-    "taro": {
-     "n": 150,
-     "acc": 50.0,
-     "adjustedAcc": 50.0,
-     "days": 5,
-     "deadband": 1.0
-    },
-    "diana": {
-     "n": 0,
-     "acc": null,
-     "adjustedAcc": 50.0,
-     "days": 20,
-     "deadband": 3.0
-    },
-    "nova": {
-     "n": 33,
-     "acc": 33.3,
-     "adjustedAcc": 46.4,
-     "days": 5,
-     "deadband": 1.0
-    },
-    "flow": {
-     "n": 18,
-     "acc": 72.2,
-     "adjustedAcc": 52.9,
-     "days": 5,
-     "deadband": 1.0
-    }
-   },
-   "graded": 201,
-   "globalBlend": 0.799
-  }
- }
+ "sectors": {}
 };

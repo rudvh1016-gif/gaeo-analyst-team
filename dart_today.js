@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-26 11:14",
- "priceLabel": "2026-08-26 11:06 장중",
+ "generatedAt": "2026-08-26 11:44",
+ "priceLabel": "2026-08-26 11:40 장중",
  "count": 273,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "isCorrection": false
+  },
   {
    "code": "006400",
    "name": "삼성SDI",
@@ -424,14 +488,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T06:11:36.092427+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "003540",
    "name": "대신증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
@@ -486,14 +542,6 @@ const DART_TODAY = {
    "receiptDate": "20260825",
    "detectedAt": "2026-08-25T05:43:30.642809+00:00",
    "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "[기재정정]주주총회소집공고",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T05:11:51.210852+00:00",
-   "isCorrection": true
   },
   {
    "code": "020000",
@@ -570,14 +618,6 @@ const DART_TODAY = {
   {
    "code": "030610",
    "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T01:11:41.644785+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260825",
    "detectedAt": "2026-08-25T01:11:41.644785+00:00",
@@ -592,36 +632,12 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T00:11:42.191957+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "145020",
    "name": "휴젤",
    "title": "[기재정정]임시주주총회결과",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T07:28:38.046778+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
-   "isCorrection": false
   },
   {
    "code": "009240",
@@ -1186,14 +1202,6 @@ const DART_TODAY = {
   {
    "code": "039490",
    "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T07:15:15.123721+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T07:15:15.123721+00:00",
@@ -1435,14 +1443,6 @@ const DART_TODAY = {
    "code": "137400",
    "name": "피엔티",
    "title": "자기주식취득결과보고서",
-   "receiptDate": "20260821",
-   "detectedAt": "2026-08-21T06:15:10.423907+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260821",
    "detectedAt": "2026-08-21T06:15:10.423907+00:00",
    "isCorrection": false
