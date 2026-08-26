@@ -27,8 +27,10 @@
 import json
 import os
 
-from paper_engine import (MIN_CLOSED_FOR_EVIDENCE, MIN_ENTRY_DAYS_FOR_EVIDENCE,
-                          SOURCE_EPISODE_SCHEMA)
+import re
+
+from paper_engine import (EVIDENCE_GATED_FIELDS, MIN_CLOSED_FOR_EVIDENCE,
+                          MIN_ENTRY_DAYS_FOR_EVIDENCE, SOURCE_EPISODE_SCHEMA)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -229,9 +231,55 @@ def render_report(status):
     ])
 
 
+# ── 발행 직전 유출 검사 ──────────────────────────────────────────────────────
+# 왜 별도로 두나 (2026-08-26 보안 감사 LOW 지적)
+#   위 render_report는 애초에 성과를 만들지 않는다. 그래도 게이트를 한 겹 더 두는
+#   이유는, 나중에 누군가 보고서에 한 줄을 더할 때 이 검사가 막아주기 때문이다.
+#   단 그 검사를 워크플로 셸에 금지어를 손으로 적어 두면 두 가지가 틀어진다.
+#     ① 목록이 원본(EVIDENCE_GATED_FIELDS)과 어긋난다. 한쪽만 고쳐지면 조용히 샌다.
+#     ② 영문 필드명만 보면 한국어 라벨을 못 잡는다. 이 보고서 본문은 한국어라
+#        실제 사고는 "누적 수익률 +12.3%" 같은 모양으로 난다.
+#   그래서 금지 목록을 엔진 상수에서 파생시키고, 한국어 성과 용어도 함께 본다.
+
+#: 계좌 상태를 드러내는 값. EVIDENCE_GATED_FIELDS(성과 결론)에는 없지만
+#  이것만으로도 수익률을 역산할 수 있어 같이 막는다.
+ACCOUNT_STATE_FIELDS = ("portfolioReturnPct", "currentVirtualEquity", "cash",
+                        "markedPositionsValue", "realizedPnl", "unrealizedPnl",
+                        "maxDrawdownPct")
+
+#: 한국어 성과 표현. 숫자가 함께 있을 때만 유출로 본다 —
+#  "성과 숫자를 공개하지 않습니다" 같은 설명 문장까지 막으면 게이트를 못 쓴다.
+KOREAN_PERFORMANCE_TERMS = ("수익률", "평가액", "평가금액", "최대낙폭", "낙폭",
+                            "승률", "손익", "누적수익", "평가손익", "원금")
+
+
+def performance_leaks(text):
+    """보고서 본문에서 성과 유출을 찾아 사유 목록으로 돌려준다(빈 목록 = 안전)."""
+    leaks = []
+    for field in tuple(EVIDENCE_GATED_FIELDS) + ACCOUNT_STATE_FIELDS:
+        if field in text:
+            leaks.append(f"성과 필드명 노출: {field}")
+    for term in KOREAN_PERFORMANCE_TERMS:
+        # 용어 주변 40자 안에 숫자가 있으면 값이 실린 것으로 본다.
+        for m in re.finditer(re.escape(term), text):
+            window = text[max(0, m.start() - 40):m.end() + 40]
+            if re.search(r"[-+]?\d[\d,.]*\s*(%|원|퍼센트)", window):
+                leaks.append(f"한국어 성과 표현에 숫자가 붙어 있음: {term}")
+                break
+    return leaks
+
+
 def main():
     status = pairing_status()
-    print(render_report(status))
+    report = render_report(status)
+    leaks = performance_leaks(report)
+    if leaks:
+        # 새는 보고서는 발행하지 않는다. 조용히 통과시키지 않고 실패로 끝낸다.
+        import sys
+        for reason in leaks:
+            print(f"[pairing] 발행 중단 — {reason}", file=sys.stderr)
+        return 3
+    print(report)
     return 0
 
 
