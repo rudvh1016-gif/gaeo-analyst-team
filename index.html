@@ -429,7 +429,12 @@
      한글에서 700은 과하게 무거워 "전부 굵은 보고서" 인상을 만들던 주된 원인이었다.
      GAEO 굵기 체계는 400(본문)·500(라벨·보조)·600(제목·종목명·중요 숫자) 3단계이고,
      브랜드 로고(800)만 예외다. 클래스 규칙이 있으면 그쪽이 우선한다(요소 선택자라 약함). */
-  code,kbd,samp,pre{font-family:var(--mono);font-size:.92em;letter-spacing:0}
+  /* 🔤 공백 없는 긴 식별자(PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM 같은
+     모델·후보 이름)는 줄바꿈할 자리가 없어 폭 360px 화면을 통째로 밀어낸다.
+     실측: 성적표 화면 scrollWidth 426px(화면 360px) → 좌우 스크롤 발생.
+     어디서든 끊어 접게 해서 화면 밖으로 나가지 않게 한다. */
+  code,kbd,samp,pre{font-family:var(--mono);font-size:.92em;letter-spacing:0;
+    overflow-wrap:anywhere;word-break:break-word;max-width:100%}
   b,strong{font-weight:600}
   h1,h2,h3,h4,h5,h6{font-weight:600}
   /* 제목은 줄을 고르게 나눈다 — 마지막 줄에 한 단어만 떨어지는 고아 줄을 막는다.
