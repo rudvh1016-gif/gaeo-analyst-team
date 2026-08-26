@@ -164,6 +164,17 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
   `git add .`·force push·`reset --hard`·자동 충돌 해결은 어느 경로에도 없다.
 - Toss는 **시세(Market Data)만** 쓴다. 계좌·보유·주문 API 호출 0, `POST`는 토큰 발급 하나뿐.
   실주문 코드를 새로 만들지 말 것. 상세: `docs/PAPER_TRADING_LOCAL_RUNNER.md`.
+- ⭐ **회계 기준은 거래마다 진입할 때 원장에 박제된다(2026-08-26).** 2026-08-27부터
+  진입한 거래는 수수료·거래세를 반영하고(`ACCOUNTING_V2_NET`), 그 전 거래는 옛 기준
+  (`ACCOUNTING_V1_GROSS`)으로 남는다. **과거 원장(trades.jsonl)을 다시 쓰지 않는다.**
+  전환 이전 미반영 비용은 `summary.accounting.unreflectedCostKrw`로 그대로 공개한다.
+  시장대비(벤치마크)는 원장 값이 아니라 **보고 시점에 실제 진입일·청산일 종가로
+  재계산**한다(원장의 `benchmark_*`는 탐지 시점 기록이라 손대지 않는다).
+- 🧪 세 번째 전략 `paper_smart_v2.py`(PAPER_SMART_V2)는 **Shadow**다. 별도 폴더
+  (`paper_trading/smart_v2`)·별도 environment를 쓰고 공개 화면에 나가지 않으며,
+  **자동 승격이 없다**(V1이 Baseline). 5거래일은 청산일이 아니라 재평가일이고
+  안전상한은 60거래일이다. 60D 성적·적중률은 어떤 형태로도 주장하지 않는다
+  (`docs/gaeo_validation_policy.md`: 60D는 평가 가능한 판단 0건).
 - ⚠️ Windows에서 Python 출력이 cp949로 나가면 `—` 같은 문자에서 `UnicodeEncodeError`로 죽는다.
   러너는 `PYTHONUTF8=1`을 강제한다. 또 PowerShell 5.1은 BOM 없는 UTF-8 `.ps1`을 cp949로
   오독하므로 **`scripts/*.ps1`은 BOM 있는 UTF-8로 저장**해야 한다.

@@ -22,6 +22,10 @@ from paper_engine import portfolio_valuation, reporting_view, MIN_CLOSED_FOR_EVI
 #    않는다는 계약). 형태를 바꾸지 말고, 추가 import는 아래 줄에 붙일 것.
 from paper_engine import observation_gaps, MIN_ENTRY_DAYS_FOR_EVIDENCE
 from paper_engine import COST_MODEL_VERSION, cost_model_detail
+from paper_engine import accounting_disclosure, realized_pnl_krw, ACCOUNTING_V2_NET
+from paper_engine import accounting_version_for
+from paper_engine import recomputed_benchmark, load_index_history
+from paper_engine import entry_cash_outlay, trade_return_pct, ACCOUNTING_V1_GROSS
 import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +40,9 @@ TRADE_ALLOWED = frozenset({
     "exit_business_date", "exit_reason", "holding_trading_days",
     "gross_return_pct", "benchmark_return_pct", "relative_return_pct",
     "mfe_pct", "mae_pct", "entry_method", "exit_method",
+    # 💸 화면이 "비용 전 수익률"과 "비용 반영 수익률"을 나란히 놓을 수 있게 함께 내보낸다.
+    #    이게 없으면 화면은 금액(비용 반영)과 수익률(비용 전)을 화해시킬 숫자가 없다.
+    "estimated_net_return_pct",
 })
 # 표시용 파생 필드(원장에 없고 여기서 계산해 붙인다) — 이 목록 밖은 붙이지 않는다.
 # ⚠️ 전부 read-only 파생이다. 매매 판단(entry/exit)에는 어떤 영향도 주지 않는다.
@@ -43,6 +50,9 @@ DERIVED_ALLOWED = frozenset({
     "current_price", "valued_at", "market_value", "cost_basis",
     "unrealized_pnl", "unrealized_return_pct", "realized_pnl",
     "remaining_trading_days",
+    # 💸 이 거래가 어느 장부(비용 반영 전/후)로 계산됐는지. 금액과 수익률이 같은
+    #    기준인지 화면이 판단할 수 있어야 한다.
+    "return_basis", "return_pct",
     # 🕳️ 보유 기간 중 관측이 없던 거래일 — MFE/MAE를 읽을 때의 한계를 같이 보여준다.
     #    이름은 여기 한 곳에만 둔다(원장 필드와 이름이 겹치면 파생이 기록을 덮어쓴다).
     #    청산분은 원장에 기록된 값을 _derived가 그대로 전달하고, 보유분만 계산한다.
@@ -59,6 +69,48 @@ EVIDENCE_GATED_PUBLIC = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          "avgMfePct", "avgMaePct",
                          # 순수익도 성과 결론이다 — 표본 게이트 안쪽에 둔다.
                          "estimatedNetReturnPct")
+
+
+def _benchmark_fix(r, idx_hist):
+    """청산 거래의 시장대비를 실제 진입일·청산일 종가로 다시 계산해 덮어쓴다.
+
+    ⚠️ 원장은 고치지 않는다. 원장의 benchmark_* 는 '탐지 시점에 알 수 있었던 값'이고,
+       장중에는 그 날 종가가 아직 없어 직전 거래일로 후퇴한다. 후퇴 폭이 진입과
+       청산에서 달라(실측: 진입 -2거래일 · 청산 -1거래일) 시장대비가 부풀려졌다.
+    ⚠️ 두 날짜의 종가가 아직 없으면 값을 지우고 만들지 않는다(추측 금지).
+    """
+    if r.get("status") != "CLOSED":
+        return {}
+    rb = recomputed_benchmark(r, idx_hist)
+    if rb["status"] != "RECOMPUTED":
+        return {"benchmark_return_pct": None, "relative_return_pct": None}
+    return {"benchmark_return_pct": rb["benchmarkReturnPct"],
+            "relative_return_pct": rb["relativeReturnPct"]}
+
+
+def _cost_basis_mix(config, latest, val):
+    """회계 기준이 섞여 있다는 사실과 미반영 비용을 화면으로 그대로 넘긴다.
+
+    ⚠️ 키 이름에 'account'가 들어가면 안 된다 — 공개 payload는 계좌 흔적 차단
+       (FORBIDDEN_SUBSTRINGS)에 걸려 산출물 생성이 통째로 막힌다. 그래서 엔진의
+       accounting 블록을 여기서 안전한 이름으로 옮겨 싣는다(숫자는 그대로).
+    ⚠️ 좋게 보이는 값만 고르지 않는다 — 전부 반영했을 때의 더 낮은 값도 함께 낸다.
+    """
+    d = accounting_disclosure(config, latest, val)
+
+    def _label(v):
+        return "NET" if v == ACCOUNTING_V2_NET else "GROSS"
+
+    return {"current": _label(d["version"]), "legacy": _label(d["legacyVersion"]),
+            "switchAt": d["costAccountingFrom"],
+            "mixed": bool(d["unreflectedCostKrw"]),
+            "grossBasisTrades": d["grossBasisTrades"],
+            "netBasisTrades": d["netBasisTrades"],
+            "unreflectedCostKrw": d["unreflectedCostKrw"],
+            "cashIfAllNetKrw": d["cashIfAllNetKrw"],
+            "equityIfAllNetKrw": d["equityIfAllNetKrw"],
+            "realizedPnlIfAllNetKrw": d["realizedPnlIfAllNetKrw"],
+            "portfolioReturnPctIfAllNet": d["portfolioReturnPctIfAllNetPct"]}
 
 
 def _read_json(path, default=None):
@@ -101,7 +153,7 @@ def _holding_days(entry_day, business_dates, today):
                if d > entry_day and (today is None or d <= today))
 
 
-def _derived(r, meta, business_dates, today, max_hold, gap_days=()):
+def _derived(r, meta, business_dates, today, max_hold, gap_days=(), config=None):
     """화면 표시용 파생값. 원본에 없는 값을 지어내지 않는다 — 근거가 없으면 넣지 않는다."""
     out = {}
     qty = r.get("quantity")
@@ -117,9 +169,18 @@ def _derived(r, meta, business_dates, today, max_hold, gap_days=()):
             if qty:
                 out["market_value"] = round(mark * qty)
                 if entry:
-                    out["unrealized_pnl"] = round((mark - entry) * qty)
-            if entry:
-                out["unrealized_return_pct"] = round((mark / entry - 1) * 100, 2)
+                    # 💸 총계(payload.unrealizedPnl)는 '실제로 나간 돈' 기준인데
+                    #    종목별 카드만 진입가×수량 기준이면 두 숫자가 안 맞는다
+                    #    (실측: 총 -450원인데 종목별은 전부 0원). 같은 분모를 쓴다.
+                    outlay = entry_cash_outlay(r, config)
+                    out["unrealized_pnl"] = round(mark * qty - outlay)
+                    if outlay:
+                        # 수익률도 같은 분모(실제 나간 돈)를 쓴다 —
+                        # 그래야 카드의 금액과 %가 서로를 부정하지 않는다.
+                        out["unrealized_return_pct"] = round(
+                            (mark * qty / outlay - 1) * 100, 2)
+                    out["return_basis"] = ("GROSS" if accounting_version_for(r, config)
+                                           == ACCOUNTING_V1_GROSS else "NET")
         if (meta or {}).get("lastMarkObservedAt"):
             out["valued_at"] = meta["lastMarkObservedAt"]
         held = _holding_days(r.get("entry_business_date"), business_dates, today)
@@ -136,7 +197,15 @@ def _derived(r, meta, business_dates, today, max_hold, gap_days=()):
             out["observation_gap_business_days"] = gaps
     elif r.get("status") == "CLOSED":
         if qty and entry and r.get("exit_price"):
-            out["realized_pnl"] = round((r["exit_price"] - entry) * qty)
+            # 💸 거래별 확정손익도 엔진 회계 함수를 그대로 쓴다. 합계만 고치면
+            #    거래별 값의 합과 총계가 어긋난다(옛 기준 거래는 값이 안 바뀐다).
+            out["realized_pnl"] = round(realized_pnl_krw(r, config))
+            # 💸 금액이 비용 반영인데 옆의 수익률만 총수익이면, 총수익이 왕복비용보다
+            #    작은 구간에서 "+0.22% · -105원"처럼 한 줄 안에서 부호가 엇갈린다.
+            pct, ver = trade_return_pct(r, config)
+            if pct is not None:
+                out["return_pct"] = pct
+            out["return_basis"] = "GROSS" if ver == ACCOUNTING_V1_GROSS else "NET"
         # 🕳️ 청산 시점에 엔진이 원장에 남긴 관측 공백을 그대로 전달한다.
         #    다시 계산하지 않는다 — 그 거래의 사실은 청산할 때 기록된 값이 맞다.
         if r.get("observation_gap_business_days"):
@@ -155,7 +224,10 @@ def build():
     closed = [r for r in latest.values() if r.get("status") == "CLOSED"]
     initial = config.get("initial_cash_krw", 10_000_000)
     # 평가금액 = 초기금 + 확정 손익(원가 기준 — 미실현 평가익을 미리 더하지 않는다)
-    realized = sum((r["exit_price"] - r["entry_price"]) * r["quantity"] for r in closed)
+    # 💸 확정 손익은 엔진의 회계 함수를 그대로 쓴다(여기서 다시 정의하지 않는다).
+    #    거래마다 자기 회계 기준을 따르므로 옛 기록의 값은 예전과 같다.
+    _cfg = {**config, "initial_cash_krw": initial}
+    realized = sum(realized_pnl_krw(r, _cfg) for r in closed)
     equity_realized = initial + realized
 
     # 📊 포트폴리오 총계 — 엔진의 회계 함수를 그대로 호출한다(재구현 금지).
@@ -224,6 +296,8 @@ def build():
         data_gaps = [{k: g[k] for k in _gap_keys if k in g}
                      for g in (summary.get("dataGaps") or []) if isinstance(g, dict)]
     gap_days = [g["businessDate"] for g in data_gaps if g.get("businessDate")]
+    # 📉 시장대비 재계산에 쓸 지수 종가(한 번만 읽어 모든 거래에 같은 값을 쓴다)
+    _idx_hist = load_index_history()
 
     payload = {
         "schemaVersion": "gaeo_paper_public_v1",
@@ -282,6 +356,9 @@ def build():
         #     화면이 비지 않는다). 순수익은 원장에서 나오므로 요약 값을 그대로 쓴다.
         "costModel": summary.get("costModel") or COST_MODEL_VERSION,
         "costModelDetail": summary.get("costModelDetail") or cost_model_detail(),
+        # 💸 회계 기준이 섞여 있다는 사실 — 숨기지 않고 화면까지 그대로 내보낸다.
+        #    (엔진 회계 함수에서 방금 계산한 값이라 요약이 낡아도 정확하다)
+        "costBasisMix": _cost_basis_mix(_cfg, latest, val),
         "estimatedNetReturnPct": summary.get("estimatedNetReturnPct"),
         "benchmarkNote": "종료거래 평균 시장대비는 종료된 개별 거래의 동일 기간 지수 대비 성과 평균이며, KOSPI/KOSDAQ 지수의 일 단위 종가 기준 근사치입니다(가상계좌 전체의 시장 대비 성과가 아님).",
         "maxHoldingTradingDays": max_hold,
@@ -291,7 +368,8 @@ def build():
         "recentTrades": [
             {**_public_trade(r),
              **_derived(r, open_meta.get(r.get("trade_id")), business_dates,
-                        today_kst, max_hold, gap_days)}
+                        today_kst, max_hold, gap_days, _cfg),
+             **_benchmark_fix(r, _idx_hist)}
             for r in recent
         ],
     }

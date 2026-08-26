@@ -19,6 +19,31 @@ import os
 import re
 from datetime import datetime, timedelta, timezone
 
+# 확정손익 산식은 여기서 다시 만들지 않는다 — 엔진의 회계 함수 하나만 쓴다.
+# (거래마다 자기 회계 기준을 따르므로 옛 기록의 값은 예전과 1원도 다르지 않다)
+from paper_engine import (realized_pnl_krw, recomputed_benchmark, load_index_history,
+                          trade_return_pct, ACCOUNTING_V1_GROSS)
+
+# 📉 시장대비(벤치마크)도 여기서 다시 계산하지 않는다 — 엔진 함수를 쓴다.
+#    원장에 박제된 benchmark_* 는 장중 진입·청산 때 직전 거래일로 후퇴한 값이라
+#    진입·청산의 후퇴 폭이 달라 시장대비가 부풀려져 있다(실측 2.18~5.09%p).
+#    지수 종가 파일은 한 번만 읽어 캐시한다(사이클마다 새 프로세스라 캐시가 곧 최신이다).
+_IDX_CACHE = {}
+
+
+def _idx_hist():
+    if "h" not in _IDX_CACHE:
+        _IDX_CACHE["h"] = load_index_history()
+    return _IDX_CACHE["h"]
+
+
+def set_index_history(hist):
+    """지수 종가 주입점(테스트·재현용). None이면 다음 호출 때 파일에서 다시 읽는다."""
+    if hist is None:
+        _IDX_CACHE.pop("h", None)
+    else:
+        _IDX_CACHE["h"] = hist
+
 KST = timezone(timedelta(hours=9))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -168,6 +193,19 @@ SKIP_REASON_KO = {
 }
 
 
+def _benchmark_pct(r):
+    v = recomputed_benchmark(r, _idx_hist()).get("benchmarkReturnPct")
+    return _num(v) if v is not None else _num(r.get("benchmark_return_pct"))
+
+
+def _benchmark_basis(r):
+    ok = recomputed_benchmark(r, _idx_hist()).get("benchmarkReturnPct") is not None
+    if ok:
+        return "RECOMPUTED_FROM_TRADE_DATES"
+    return ("FROZEN_POINT_IN_TIME" if r.get("benchmark_return_pct") is not None
+            else "UNAVAILABLE")
+
+
 def public_sell(r):
     """그날 매도 기록 — 매수가·매도가·확정손익·수익률·보유기간·종료 이유."""
     qty, ep, xp = _num(r.get("quantity")), _num(r.get("entry_price")), _num(r.get("exit_price"))
@@ -175,9 +213,18 @@ def public_sell(r):
         "symbol": r.get("symbol"), "name": r.get("name"), "market": r.get("market"),
         "quantity": qty, "entryPrice": ep, "exitPrice": xp,
         "exitAt": kst_hm(r.get("exit_at")),
-        "realizedPnl": round((xp - ep) * qty) if None not in (qty, ep, xp) else None,
-        "returnPct": _num(r.get("gross_return_pct")),
-        "benchmarkReturnPct": _num(r.get("benchmark_return_pct")),
+        "realizedPnl": (round(realized_pnl_krw(r)) if None not in (qty, ep, xp) else None),
+        # 💸 금액과 같은 장부를 쓴다. 옛 기준 거래는 예전 값(gross)과 똑같고,
+        #    비용 반영 거래만 net이 된다. 어느 기준인지 라벨을 함께 낸다.
+        "returnPct": _num(trade_return_pct(r)[0]),
+        "returnBasis": ("GROSS" if trade_return_pct(r)[1] == ACCOUNTING_V1_GROSS
+                        else "NET"),
+        "grossReturnPct": _num(r.get("gross_return_pct")),
+        # 실제 진입일·청산일 종가로 다시 계산한 값을 우선 쓴다.
+        # 그 날짜 종가가 아직 없으면 원장에 남은 '탐지 시점 값'으로 물러서되,
+        # 어느 기준인지 반드시 함께 밝힌다(조용히 섞지 않는다).
+        "benchmarkReturnPct": _benchmark_pct(r),
+        "benchmarkBasis": _benchmark_basis(r),
         "holdingTradingDays": _num(r.get("holding_trading_days")),
         "exitReason": EXIT_REASON_KO.get(r.get("exit_reason"), "종료"),
         "mfePct": _num(r.get("mfe_pct")), "maePct": _num(r.get("mae_pct")),
@@ -199,11 +246,23 @@ def _contributions(snap, initial):
         mark, qty, entry = _num(p.get("mark")), _num(p.get("qty")), _num(p.get("entry"))
         if None in (mark, qty, entry) or qty <= 0 or entry <= 0:
             continue
-        pnl = (mark - entry) * qty
+        # 💸 '실제로 나간 돈'이 기록된 행이면 그것으로 계산한다(총계와 같은 장부).
+        #    옛 행에는 그 값이 없어 복구할 수 없으므로 예전 방식(진입가×수량)으로 두되,
+        #    어느 기준으로 계산했는지 라벨을 반드시 붙인다 — 조용히 섞지 않는다.
+        outlay = _num(p.get("outlay"))
+        if outlay and outlay > 0:
+            pnl = mark * qty - outlay
+            ret = round((mark * qty / outlay - 1) * 100, 2)
+            basis = "GROSS" if p.get("basis") == ACCOUNTING_V1_GROSS else "NET"
+        else:
+            pnl = (mark - entry) * qty
+            ret = round((mark / entry - 1) * 100, 2)
+            basis = "GROSS_LEGACY_ROW"        # 매수수수료를 복구할 수 없는 옛 기록
         out.append({
             "symbol": sym, "name": p.get("name") or sym,
             "pnl": round(pnl),
-            "returnPct": round((mark / entry - 1) * 100, 2),
+            "returnPct": ret,
+            "basis": basis,
             # 시작자금 대비 몇 %p를 끌어올렸/내렸는지 — 자산 변동 기여도
             "equityImpactPct": round(pnl / initial * 100, 3) if initial else None,
         })
@@ -279,6 +338,13 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
                      + (f" · {flat}종목 보합" if flat else ""), "advancersDecliners"))
         if not win and not lose:
             imp.append(L("모든 보유 종목이 진입가와 같아 손익 기여가 없습니다.", "allFlat"))
+        # 💸 어느 장부로 계산했는지 카드 안에서 밝힌다. 옛 기록은 매수수수료를 되살릴
+        #    수 없어 수수료 전 값으로 계산되는데, 그 사실을 말하지 않으면 같은 카드의
+        #    "보유 손익"(비용 반영)과 어긋나 보인다.
+        legacy = [c for c in contribs if c.get("basis") == "GROSS_LEGACY_ROW"]
+        if legacy:
+            imp.append(L(f"이 중 {len(legacy)}종목은 매수수수료를 되살릴 수 없는 옛 "
+                         "기록이라 수수료를 빼기 전 값으로 계산했습니다.", "legacyBasis"))
     # 청산한 거래는 "얼마에 팔았나"보다 "최고점에서 얼마나 돌려주고 팔았나"가 더 구체적이다.
     # mfe/mae는 청산할 때 이미 원장에 저장돼 있는데 지금까지 문장으로 쓰이지 않았다.
     givebacks = [(round(s["mfePct"] - s["returnPct"], 2), s) for s in sells
@@ -443,8 +509,22 @@ def _stats(rows, gated=False):
     # paper_engine.EVIDENCE_GATED_FIELDS와 같은 원칙이다: 일부만 막으면 구멍이 남는다.
     # ⚠️ tradeCount·realizedPnl·avgHoldingTradingDays는 서술 지표라 막지 않는다
     #    (몇 건인지·실제로 얼마를 벌거나 잃었는지는 사실이고, 성과 "결론"이 아니다).
+    # 🧾 이 집계에 들어간 행들이 같은 회계 기준인지 밝힌다.
+    #    2026-08-27 전후로 GROSS 행과 NET 행이 함께 섞이는 구간이 실제로 생긴다.
+    #    행마다 returnBasis가 붙어 있어도, 그 행들을 평균낸 값에 아무 표시가 없으면
+    #    보는 사람은 한 가지 기준으로 잰 값이라고 읽는다. 숫자를 고치지 말고
+    #    "섞였다"는 사실을 그대로 적는다(성과를 유리하게 고르지 않는다).
+    bases = sorted({r.get("returnBasis") for r in rows
+                    if r.get("returnPct") is not None and r.get("returnBasis")})
     return {
         "tradeCount": len(rows),
+        "returnBasis": (bases[0] if len(bases) == 1 else ("MIXED" if bases else None)),
+        "returnBasisCounts": {b: sum(1 for r in rows if r.get("returnBasis") == b)
+                              for b in bases} or None,
+        "returnBasisNote": ("이 평균에는 수수료·세금을 반영한 거래와 반영하지 않은 "
+                            "옛 거래가 함께 들어 있습니다. 과거 기록을 다시 쓰지 않기 "
+                            "때문이며, 거래별 기준은 각 행의 returnBasis에 있습니다."
+                            if len(bases) > 1 else None),
         "winRatePct": None if gated else (round(len(wins) / len(rets) * 100, 1) if rets else None),
         "avgReturnPct": None if gated else avg(rets),
         "medianReturnPct": None if gated else med,

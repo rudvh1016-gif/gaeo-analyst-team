@@ -19,6 +19,8 @@
     D9. Trading Logic 파일을 건드리지 않았다 (변경 파일 목록 기준)
     D9b. 매매 판단 모듈에 공유토큰 기능이 스며들지 않았다 (git 이력 없이도 검사)
 """
+import ast
+import glob
 import io
 import json
 import os
@@ -51,8 +53,59 @@ TOKEN_INFRA_FILES = frozenset({
 })
 
 #: 매매 판단이 들어 있는 모듈. 공유토큰 기능이 여기 스며들면 즉시 실패한다.
+# ⚠️ 목록에 없는 모듈은 D9b가 아예 읽지 않으므로 조용한 사각지대가 된다.
+#    실제로 두 번 그런 일이 있었다(2026-08-26 paper_smart_v2.py · paper_momentum.py).
+#    그래서 사람 손에만 맡기지 않는다 — D9c가 목록이 낡았는지 스스로 찾아낸다.
 TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
-                         "paper_public.py", "paper_report.py")
+                         "paper_public.py", "paper_report.py",
+                         "paper_smart_v2.py", "paper_momentum.py")
+
+#: 목록이 낡았는지 자동으로 찾아내는 기준 — 이 흔적이 있으면 매매 판단 모듈이다.
+#: (PaperEngine 을 쓰거나 원장 파일을 직접 다루면 매매 판단에 관여한다)
+TRADING_LOGIC_MARKERS = ("PaperEngine", "trades.jsonl")
+
+
+def _local_module_path(name):
+    """import 이름이 이 저장소 안의 .py 파일이면 그 경로를, 아니면 None."""
+    path = name.split(".")[0] + ".py"
+    return path if os.path.exists(path) else None
+
+
+def _import_graph(entry, seen=None):
+    """entry 에서 실제로 도달 가능한 저장소 내부 모듈 이름 전부.
+
+    ⚠️ 문자열 검색만으로는 'import 이름을 바꿔 다는' 우회를 못 잡는다
+       (2026-08-26 보안 감사에서 실제로 재현됐다). 그래서 AST 로 import 를 따라간다.
+       난독화(importlib + 문자열 조합)까지는 못 잡지만, 평범한 간접 참조는 잡는다.
+    ⚠️ token infrastructure(paper_market_data 등)에서는 **더 들어가지 않는다.**
+       매매 모듈이 승인된 provider 를 통해 시세를 받는 것은 설계 그대로이고,
+       그 provider 가 내부에서 토큰을 다루는 것도 정상이다. 여기서 막아야 하는 것은
+       "승인된 경로를 우회해 매매 모듈이 토큰에 닿는 것"이다. 이름은 기록하되
+       내부까지 따라가지 않아야 정상 경로가 오탐으로 잡히지 않는다.
+    """
+    seen = seen if seen is not None else set()
+    try:
+        tree = ast.parse(io.open(entry, encoding="utf-8").read(), filename=entry)
+    except (IOError, OSError, SyntaxError):
+        return seen
+    for node in ast.walk(tree):
+        names = []
+        if isinstance(node, ast.Import):
+            names = [a.name for a in node.names]
+        elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
+            names = [node.module]
+        for name in names:
+            root = name.split(".")[0]
+            if root in seen:
+                continue
+            child = _local_module_path(root)
+            if child is None:
+                continue
+            seen.add(root)
+            if child in TOKEN_INFRA_FILES:
+                continue          # 승인된 토큰 경로 — 이름만 남기고 더 들어가지 않는다
+            _import_graph(child, seen)
+    return seen
 
 
 def _git(*args):
@@ -281,11 +334,28 @@ def run():
         #    예외로 두는 데만 쓴다.
         #    가드가 약해지는 게 아니다. 아래 D9b가 매매 판단 모듈 본문을 직접 읽어
         #    공유토큰 기능이 스며들었는지 이력과 무관하게 항상 검사한다.
+        # ⚠️ 2026-08-26 수정: "바뀌었는가"가 아니라 "공유토큰이 스며들었는가"를 본다.
+        #    이 검사가 약속하는 것은 '공유토큰 기능이 매매 판단을 건드리지 않았다'인데,
+        #    예전 구현은 파일이 바뀌기만 해도 실패해서 **매매 로직을 정당하게 고치는
+        #    브랜치는 무조건 터졌다**(모의투자 회계 수리 브랜치에서 실제로 터졌다).
+        #    그러면 개발자는 검사를 끄거나 허용목록을 넓히게 되고, 가드는 그때 죽는다.
+        #    그래서 바뀐 파일의 '내용'에 공유토큰 흔적이 있는지로 판정한다 —
+        #    파일 목록만 보는 것보다 오히려 촘촘하다(paper_trading/ 산출물까지 읽는다).
         def _is_trading_logic(path):
             return path in TRADING_LOGIC_MODULES or path.startswith("paper_trading/")
+
+        def _has_token_trace(path):
+            try:
+                with io.open(path, encoding="utf-8", errors="replace") as fh:
+                    body = fh.read()
+            except (IOError, OSError):
+                return False        # 지워진 파일은 흔적을 남길 수 없다
+            return "gaeo_shared_token" in body or "GAEO_SHARED_TOSS_TOKEN" in body
         unexpected = sorted(f for f in changed
-                            if _is_trading_logic(f) and f not in TOKEN_INFRA_FILES)
-        check("D9. Trading Logic 파일 변경 0", unexpected == [], str(unexpected))
+                            if _is_trading_logic(f) and f not in TOKEN_INFRA_FILES
+                            and _has_token_trace(f))
+        check("D9. 바뀐 Trading Logic 파일에 공유토큰 흔적 0", unexpected == [],
+              str(unexpected))
 
     # D9b 는 이력 유무와 무관하게 **항상** 돈다.
     # 허용목록(TOKEN_INFRA_FILES)을 넓히는 것만으로는 이 검사를 통과할 수 없다 —
@@ -300,6 +370,34 @@ def run():
         if "gaeo_shared_token" in source or "GAEO_SHARED_TOSS_TOKEN" in source:
             leaked.append(module)
     check("D9b. 매매 판단 모듈에 공유토큰 흔적 0", leaked == [], str(leaked))
+
+    # D9c — 목록 자체가 낡았는지 검사한다. 새 매매 판단 모듈을 만들고 등록을 잊으면
+    #        D9·D9b 가 그 파일을 아예 읽지 않아 검사가 조용히 통과해 버린다.
+    #        (2026-08-26 보안 감사 MEDIUM-1: paper_momentum.py 가 정확히 그 상태였다)
+    unregistered = []
+    for path in sorted(glob.glob("paper_*.py")):
+        try:
+            body = io.open(path, encoding="utf-8").read()
+        except (IOError, OSError):
+            continue
+        if not any(marker in body for marker in TRADING_LOGIC_MARKERS):
+            continue
+        if path not in TRADING_LOGIC_MODULES:
+            unregistered.append(path)
+    check("D9c. 매매 판단 모듈이 전부 목록에 등록돼 있다", unregistered == [],
+          str(unregistered) + " — TRADING_LOGIC_MODULES 에 추가할 것")
+
+    # D9d — import 를 따라가 공유토큰이 '간접적으로' 실려 들어왔는지 본다.
+    #        문자열 검색만 하면 중간 모듈을 하나 끼우는 것만으로 우회된다
+    #        (2026-08-26 보안 감사 LOW-2 에서 실제 우회가 재현됐다).
+    indirect = []
+    for module in TRADING_LOGIC_MODULES:
+        if not os.path.exists(module):
+            continue
+        if "gaeo_shared_token" in _import_graph(module):
+            indirect.append(module)
+    check("D9d. 매매 판단 모듈이 공유토큰을 간접적으로도 끌어오지 않는다",
+          indirect == [], str(indirect))
 
 
 run()
