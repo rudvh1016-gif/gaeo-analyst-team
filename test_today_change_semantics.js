@@ -131,6 +131,106 @@ test('버전 정보가 없으면 달라졌다고 단정하지 않는다(옛 기�
   assert.strictEqual(scope.conditionChanged(oneSided), false);
 });
 
+console.log('\n[3-1] 비교 대상이 "직전 거래일"인가 (오늘 vs 오늘 금지)');
+
+/** signalFor를 LIVE_HISTORY/AUTO_AN을 주입한 스코프에서 실행한다. */
+function makeSignalFor(liveHistory, autoAn) {
+  return new Function('LIVE_HISTORY', 'AUTO_AN', 'HOME_BRIEF',
+    `const analystKeys=['taro','diana','nova','flow'];\n` +
+    `const dayOf=v=>String(v||'').slice(0,10);\n` +
+    `${extractFn('historyRows')}\n${extractFn('autoRow')}\n${extractFn('signalFor')}\n` +
+    `return signalFor;`
+  )(liveHistory, autoAn, undefined);
+}
+
+const autoAn = (call, date, model) => ({
+  generatedAt: date,
+  coverageUniverseVersion: 'GAEO_COVERAGE_V2_600',
+  stocks: { '005930': { updated: date, chief: { call, total: 50, modelVersion: model || 'm1' } } },
+});
+
+test('당일 분석과 같은 날 history가 있으면 previous는 어제여야 한다', () => {
+  // 2026-08-26 감사에서 찾은 결함의 핵심 재현.
+  // history 최신 행이 "2026-08-26"(SELL), 당일 분석이 "2026-08-26 16:26"(SELL),
+  // 그 앞 행이 "2026-08-25"(HOLD)일 때 — 어제와 비교하면 HOLD→SELL 변화다.
+  // 예전 코드는 문자열 비교로 live가 이겨서 previous가 오늘 자신이 됐고,
+  // 그래서 SELL→SELL(변화 없음)로 보였다.
+  const hist = {
+    '005930': [
+      { date: '2026-08-24', call: 'BUY', total: 50 },
+      { date: '2026-08-25', call: 'HOLD', total: 50 },
+      { date: '2026-08-26', call: 'SELL', total: 50 },
+    ],
+  };
+  const s = makeSignalFor(hist, autoAn('SELL', '2026-08-26 16:26'))('005930');
+  assert.ok(s, 'signalFor가 null을 돌려줬다');
+  assert.strictEqual(s.previous.date, '2026-08-25',
+    `previous가 어제가 아니다: ${s.previous.date} (오늘과 오늘을 비교하고 있다)`);
+  assert.strictEqual(s.previous.call, 'HOLD');
+  assert.strictEqual(s.latest.call, 'SELL');
+  assert.strictEqual(scope.meaningful(s), true, '진짜 변화를 놓쳤다');
+});
+
+test('진짜 새 거래일이면 직전 기록이 비교 대상이 된다', () => {
+  const hist = {
+    '005930': [
+      { date: '2026-08-25', call: 'HOLD', total: 50 },
+      { date: '2026-08-26', call: 'HOLD', total: 50 },
+    ],
+  };
+  const s = makeSignalFor(hist, autoAn('BUY', '2026-08-27 09:10'))('005930');
+  assert.strictEqual(s.latest.call, 'BUY');
+  assert.strictEqual(s.previous.date, '2026-08-26');
+  assert.strictEqual(scope.meaningful(s), true);
+});
+
+test('같은 날 값이 갱신돼도 비교 대상은 그대로다', () => {
+  const hist = {
+    '005930': [
+      { date: '2026-08-25', call: 'HOLD', total: 50 },
+      { date: '2026-08-26', call: 'BUY', total: 50 },
+    ],
+  };
+  // 당일 분석이 한 번 더 돌아 값이 바뀌어도 previous는 여전히 8/25다.
+  const s = makeSignalFor(hist, autoAn('SELL', '2026-08-26 16:26'))('005930');
+  assert.strictEqual(s.previous.date, '2026-08-25');
+  assert.strictEqual(s.latest.call, 'SELL', '같은 날의 최신 값으로 갱신되지 않았다');
+});
+
+test('history가 없으면 당일 분석만으로 첫 기록이 된다', () => {
+  const s = makeSignalFor({}, autoAn('BUY', '2026-08-26 16:26'))('005930');
+  assert.ok(s);
+  assert.strictEqual(s.previous, null);
+  assert.strictEqual(scope.meaningful(s), false, '첫 기록은 변화가 아니다');
+});
+
+test('history 한 줄뿐이면 비교 대상이 없다', () => {
+  const hist = { '005930': [{ date: '2026-08-26', call: 'BUY', total: 50 }] };
+  const s = makeSignalFor(hist, autoAn('BUY', '2026-08-26 16:26'))('005930');
+  assert.strictEqual(s.previous, null);
+  assert.strictEqual(scope.meaningful(s), false);
+});
+
+test('당일 분석이 없어도 저장된 기록만으로 비교한다', () => {
+  const hist = {
+    '005930': [
+      { date: '2026-08-25', call: 'HOLD', total: 50 },
+      { date: '2026-08-26', call: 'BUY', total: 50 },
+    ],
+  };
+  const s = makeSignalFor(hist, { stocks: {} })('005930');
+  assert.strictEqual(s.latest.call, 'BUY');
+  assert.strictEqual(s.previous.call, 'HOLD');
+  assert.strictEqual(scope.meaningful(s), true);
+});
+
+test('소스에 문자열 통째 비교가 남아 있지 않다', () => {
+  const body = extractFn('signalFor');
+  assert.ok(!/String\(live\.date\|\|''\)>String\(latest\.date\|\|''\)/.test(body),
+    'signalFor가 아직 날짜를 문자열 통째로 비교한다');
+  assert.ok(/dayOf\(/.test(body), 'signalFor가 날짜의 날 부분만 보지 않는다');
+});
+
 console.log('\n[4] 변화가 없을 때 없는 변화를 지어내지 않는가');
 
 test('representativeSignals() 함수 정의가 제거됐다', () => {

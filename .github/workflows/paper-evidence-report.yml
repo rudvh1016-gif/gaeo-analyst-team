@@ -53,6 +53,28 @@ jobs:
         #    통째로 놓친다. 판정은 paper_pairing.performance_leaks가 한다.
         run: python3 paper_pairing.py > /tmp/paper_evidence.md
 
+      - name: 독립 2차 게이트 (생성기 밖에서 한 번 더)
+        # ⚠️ 위 검사는 보고서를 만드는 그 모듈 안에 있다. 생성기가 새면 검사기도
+        #    같이 샌다. 그래서 프로세스 밖에서 한 겹 더 본다 — 게이트는 두 겹일 때만
+        #    게이트다. 금지어는 여기서도 손으로 적지 않고 엔진 상수에서 뽑아 쓴다.
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import sys
+          from paper_engine import EVIDENCE_GATED_FIELDS
+          from paper_pairing import ACCOUNT_STATE_FIELDS, performance_leaks
+          text = open("/tmp/paper_evidence.md", encoding="utf-8").read()
+          leaks = performance_leaks(text)
+          for f in tuple(EVIDENCE_GATED_FIELDS) + ACCOUNT_STATE_FIELDS:
+              if f in text and f"성과 필드명 노출: {f}" not in leaks:
+                  leaks.append(f"2차 게이트가 잡음: {f}")
+          if leaks:
+              for r in leaks:
+                  print(f"::error::{r}")
+              sys.exit(1)
+          print("2차 게이트 통과 — 성과 유출 없음")
+          PY
+
       - name: 상태 이슈 생성 또는 갱신
         run: |
           set -euo pipefail
