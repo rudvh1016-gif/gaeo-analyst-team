@@ -23,7 +23,9 @@ from paper_engine import portfolio_valuation, reporting_view, MIN_CLOSED_FOR_EVI
 from paper_engine import observation_gaps, MIN_ENTRY_DAYS_FOR_EVIDENCE
 from paper_engine import COST_MODEL_VERSION, cost_model_detail
 from paper_engine import accounting_disclosure, realized_pnl_krw, ACCOUNTING_V2_NET
+from paper_engine import accounting_version_for
 from paper_engine import recomputed_benchmark, load_index_history
+from paper_engine import entry_cash_outlay, trade_return_pct, ACCOUNTING_V1_GROSS
 import paper_history
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -38,6 +40,9 @@ TRADE_ALLOWED = frozenset({
     "exit_business_date", "exit_reason", "holding_trading_days",
     "gross_return_pct", "benchmark_return_pct", "relative_return_pct",
     "mfe_pct", "mae_pct", "entry_method", "exit_method",
+    # 💸 화면이 "비용 전 수익률"과 "비용 반영 수익률"을 나란히 놓을 수 있게 함께 내보낸다.
+    #    이게 없으면 화면은 금액(비용 반영)과 수익률(비용 전)을 화해시킬 숫자가 없다.
+    "estimated_net_return_pct",
 })
 # 표시용 파생 필드(원장에 없고 여기서 계산해 붙인다) — 이 목록 밖은 붙이지 않는다.
 # ⚠️ 전부 read-only 파생이다. 매매 판단(entry/exit)에는 어떤 영향도 주지 않는다.
@@ -45,6 +50,9 @@ DERIVED_ALLOWED = frozenset({
     "current_price", "valued_at", "market_value", "cost_basis",
     "unrealized_pnl", "unrealized_return_pct", "realized_pnl",
     "remaining_trading_days",
+    # 💸 이 거래가 어느 장부(비용 반영 전/후)로 계산됐는지. 금액과 수익률이 같은
+    #    기준인지 화면이 판단할 수 있어야 한다.
+    "return_basis", "return_pct",
     # 🕳️ 보유 기간 중 관측이 없던 거래일 — MFE/MAE를 읽을 때의 한계를 같이 보여준다.
     #    이름은 여기 한 곳에만 둔다(원장 필드와 이름이 겹치면 파생이 기록을 덮어쓴다).
     #    청산분은 원장에 기록된 값을 _derived가 그대로 전달하고, 보유분만 계산한다.
@@ -161,9 +169,18 @@ def _derived(r, meta, business_dates, today, max_hold, gap_days=(), config=None)
             if qty:
                 out["market_value"] = round(mark * qty)
                 if entry:
-                    out["unrealized_pnl"] = round((mark - entry) * qty)
-            if entry:
-                out["unrealized_return_pct"] = round((mark / entry - 1) * 100, 2)
+                    # 💸 총계(payload.unrealizedPnl)는 '실제로 나간 돈' 기준인데
+                    #    종목별 카드만 진입가×수량 기준이면 두 숫자가 안 맞는다
+                    #    (실측: 총 -450원인데 종목별은 전부 0원). 같은 분모를 쓴다.
+                    outlay = entry_cash_outlay(r, config)
+                    out["unrealized_pnl"] = round(mark * qty - outlay)
+                    if outlay:
+                        # 수익률도 같은 분모(실제 나간 돈)를 쓴다 —
+                        # 그래야 카드의 금액과 %가 서로를 부정하지 않는다.
+                        out["unrealized_return_pct"] = round(
+                            (mark * qty / outlay - 1) * 100, 2)
+                    out["return_basis"] = ("GROSS" if accounting_version_for(r, config)
+                                           == ACCOUNTING_V1_GROSS else "NET")
         if (meta or {}).get("lastMarkObservedAt"):
             out["valued_at"] = meta["lastMarkObservedAt"]
         held = _holding_days(r.get("entry_business_date"), business_dates, today)
@@ -183,6 +200,12 @@ def _derived(r, meta, business_dates, today, max_hold, gap_days=(), config=None)
             # 💸 거래별 확정손익도 엔진 회계 함수를 그대로 쓴다. 합계만 고치면
             #    거래별 값의 합과 총계가 어긋난다(옛 기준 거래는 값이 안 바뀐다).
             out["realized_pnl"] = round(realized_pnl_krw(r, config))
+            # 💸 금액이 비용 반영인데 옆의 수익률만 총수익이면, 총수익이 왕복비용보다
+            #    작은 구간에서 "+0.22% · -105원"처럼 한 줄 안에서 부호가 엇갈린다.
+            pct, ver = trade_return_pct(r, config)
+            if pct is not None:
+                out["return_pct"] = pct
+            out["return_basis"] = "GROSS" if ver == ACCOUNTING_V1_GROSS else "NET"
         # 🕳️ 청산 시점에 엔진이 원장에 남긴 관측 공백을 그대로 전달한다.
         #    다시 계산하지 않는다 — 그 거래의 사실은 청산할 때 기록된 값이 맞다.
         if r.get("observation_gap_business_days"):

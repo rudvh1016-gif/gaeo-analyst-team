@@ -21,7 +21,8 @@ from datetime import datetime, timedelta, timezone
 
 # 확정손익 산식은 여기서 다시 만들지 않는다 — 엔진의 회계 함수 하나만 쓴다.
 # (거래마다 자기 회계 기준을 따르므로 옛 기록의 값은 예전과 1원도 다르지 않다)
-from paper_engine import realized_pnl_krw, recomputed_benchmark, load_index_history
+from paper_engine import (realized_pnl_krw, recomputed_benchmark, load_index_history,
+                          trade_return_pct, ACCOUNTING_V1_GROSS)
 
 # 📉 시장대비(벤치마크)도 여기서 다시 계산하지 않는다 — 엔진 함수를 쓴다.
 #    원장에 박제된 benchmark_* 는 장중 진입·청산 때 직전 거래일로 후퇴한 값이라
@@ -213,7 +214,12 @@ def public_sell(r):
         "quantity": qty, "entryPrice": ep, "exitPrice": xp,
         "exitAt": kst_hm(r.get("exit_at")),
         "realizedPnl": (round(realized_pnl_krw(r)) if None not in (qty, ep, xp) else None),
-        "returnPct": _num(r.get("gross_return_pct")),
+        # 💸 금액과 같은 장부를 쓴다. 옛 기준 거래는 예전 값(gross)과 똑같고,
+        #    비용 반영 거래만 net이 된다. 어느 기준인지 라벨을 함께 낸다.
+        "returnPct": _num(trade_return_pct(r)[0]),
+        "returnBasis": ("GROSS" if trade_return_pct(r)[1] == ACCOUNTING_V1_GROSS
+                        else "NET"),
+        "grossReturnPct": _num(r.get("gross_return_pct")),
         # 실제 진입일·청산일 종가로 다시 계산한 값을 우선 쓴다.
         # 그 날짜 종가가 아직 없으면 원장에 남은 '탐지 시점 값'으로 물러서되,
         # 어느 기준인지 반드시 함께 밝힌다(조용히 섞지 않는다).
@@ -240,11 +246,23 @@ def _contributions(snap, initial):
         mark, qty, entry = _num(p.get("mark")), _num(p.get("qty")), _num(p.get("entry"))
         if None in (mark, qty, entry) or qty <= 0 or entry <= 0:
             continue
-        pnl = (mark - entry) * qty
+        # 💸 '실제로 나간 돈'이 기록된 행이면 그것으로 계산한다(총계와 같은 장부).
+        #    옛 행에는 그 값이 없어 복구할 수 없으므로 예전 방식(진입가×수량)으로 두되,
+        #    어느 기준으로 계산했는지 라벨을 반드시 붙인다 — 조용히 섞지 않는다.
+        outlay = _num(p.get("outlay"))
+        if outlay and outlay > 0:
+            pnl = mark * qty - outlay
+            ret = round((mark * qty / outlay - 1) * 100, 2)
+            basis = "GROSS" if p.get("basis") == ACCOUNTING_V1_GROSS else "NET"
+        else:
+            pnl = (mark - entry) * qty
+            ret = round((mark / entry - 1) * 100, 2)
+            basis = "GROSS_LEGACY_ROW"        # 매수수수료를 복구할 수 없는 옛 기록
         out.append({
             "symbol": sym, "name": p.get("name") or sym,
             "pnl": round(pnl),
-            "returnPct": round((mark / entry - 1) * 100, 2),
+            "returnPct": ret,
+            "basis": basis,
             # 시작자금 대비 몇 %p를 끌어올렸/내렸는지 — 자산 변동 기여도
             "equityImpactPct": round(pnl / initial * 100, 3) if initial else None,
         })
@@ -320,6 +338,13 @@ def build_review(day, snap, buys, sells, contribs, daily_change_pct,
                      + (f" · {flat}종목 보합" if flat else ""), "advancersDecliners"))
         if not win and not lose:
             imp.append(L("모든 보유 종목이 진입가와 같아 손익 기여가 없습니다.", "allFlat"))
+        # 💸 어느 장부로 계산했는지 카드 안에서 밝힌다. 옛 기록은 매수수수료를 되살릴
+        #    수 없어 수수료 전 값으로 계산되는데, 그 사실을 말하지 않으면 같은 카드의
+        #    "보유 손익"(비용 반영)과 어긋나 보인다.
+        legacy = [c for c in contribs if c.get("basis") == "GROSS_LEGACY_ROW"]
+        if legacy:
+            imp.append(L(f"이 중 {len(legacy)}종목은 매수수수료를 되살릴 수 없는 옛 "
+                         "기록이라 수수료를 빼기 전 값으로 계산했습니다.", "legacyBasis"))
     # 청산한 거래는 "얼마에 팔았나"보다 "최고점에서 얼마나 돌려주고 팔았나"가 더 구체적이다.
     # mfe/mae는 청산할 때 이미 원장에 저장돼 있는데 지금까지 문장으로 쓰이지 않았다.
     givebacks = [(round(s["mfePct"] - s["returnPct"], 2), s) for s in sells

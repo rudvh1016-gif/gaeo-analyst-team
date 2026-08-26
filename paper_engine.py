@@ -175,9 +175,11 @@ def _parse_kst(ts):
 def entry_instant(row):
     """그 거래가 '언제 진입했는지'. 청산 행에도 진입 시각 필드는 그대로 남아 있다.
 
-    ⚠️ recorded_at은 청산 행에서 '청산 시각'으로 덮여 쓰이므로 맨 뒤에 둔다.
+    ⚠️ recorded_at은 쓰지 않는다(2026-08-26 감사 지적 L1). 청산 행에서는 그 값이
+       '청산 시각'으로 덮이기 때문에, 셋 다 없는 행이 OPEN일 때 GROSS → CLOSED일 때
+       NET으로 기준을 갈아타는 일이 실제로 재현됐다. 모르면 모르는 대로 둔다.
     """
-    for key in ("simulated_fill_at", "detected_at", "entry_business_date", "recorded_at"):
+    for key in ("simulated_fill_at", "detected_at", "entry_business_date"):
         dt = _parse_kst((row or {}).get(key))
         if dt:
             return dt
@@ -200,8 +202,12 @@ def accounting_policy(config=None):
 def accounting_version_for(row, config=None):
     """이 거래를 어느 회계 기준으로 볼 것인가.
 
-    ① 원장에 찍힌 기준이 언제나 우선한다 — 설정을 나중에 고쳐도 이미 열린 거래의
-       기준은 바뀌지 않는다(그래야 같은 거래가 중간에 장부를 갈아타지 않는다).
+    ① 원장에 **스탬프가 찍힌 행**은 설정을 나중에 고쳐도 기준이 바뀌지 않는다.
+       ⚠️ 이 보호는 스탬프가 있는 행에만 적용된다. 2026-08-26 이전에 기록된 행에는
+          스탬프가 없어서, config의 costAccountingFrom을 옮기면 그 행들의 기준이
+          함께 뒤집힌다(실측: 20건이 GROSS→NET, 지갑 423,025 → 399,151).
+          그래서 원장을 소급 스탬프하지 않는 대신, 설정 변경에 영향을 받는 행이
+          몇 건인지 summary.accounting.unstampedLegacyTrades로 드러낸다.
     ② 스탬프가 없는 옛 행은 진입 시각과 전환 시점을 비교해 판정한다.
     ③ 진입 시각조차 모르면 기준을 바꾸지 않는다(옛 기준 유지). 새로 여는 거래는
        엔진이 반드시 스탬프를 찍으므로, 이 경로에 걸리는 것은 옛 기록뿐이다.
@@ -255,6 +261,24 @@ def realized_pnl_krw(row, config=None):
     return exit_cash_proceeds(row, config) - entry_cash_outlay(row, config)
 
 
+def trade_return_pct(row, config=None):
+    """거래별 수익률(%) — **확정손익과 같은 분모(실제로 나간 돈)** 로 계산한다.
+
+    (pct, basis) 를 돌려준다. 옛 기준(GROSS) 거래에서는 값이 예전 gross_return_pct와
+    같고, 새 기준(NET) 거래에서는 수수료·거래세를 반영한 값이 된다.
+    ⚠️ 금액은 비용을 반영했는데 옆의 수익률만 총수익이면, 총수익이 왕복비용보다 작은
+       구간(0 < gross <= 0.23%)에서 "수익률 +0.22% · 확정손익 -105원"처럼 한 줄 안에서
+       부호가 엇갈린다(실측 재현). 그래서 두 값이 같은 장부를 쓰게 한다.
+    """
+    basis = accounting_version_for(row, config)
+    outlay = entry_cash_outlay(row, config)
+    if not outlay:
+        return None, basis
+    if row.get("status") == "CLOSED" and row.get("exit_price") is not None:
+        return round(realized_pnl_krw(row, config) / outlay * 100, 3), basis
+    return None, basis
+
+
 def unreflected_costs(latest, config=None):
     """옛 기준으로 남아 있는 거래에 '반영되지 않은' 실제 비용을 그대로 센다.
 
@@ -290,7 +314,7 @@ def unreflected_costs(latest, config=None):
             "closedTradesKrw": round(closed_part, 2), "openTradesKrw": round(open_part, 2)}
 
 
-def accounting_disclosure(config, latest, val=None):
+def accounting_disclosure(config, latest, val=None, evidence_ok=None):
     """지갑이 두 기준을 섞고 있다는 사실과 미반영 비용을 그대로 내보낸다.
 
     ⚠️ 이 블록은 '숨기지 않기 위한' 것이다. 값을 좋게 보이도록 고르지 않는다 —
@@ -310,6 +334,15 @@ def accounting_disclosure(config, latest, val=None):
         "mixedBasis": bool(un["grossBasisTrades"] and un["netBasisTrades"]),
         "grossBasisTrades": un["grossBasisTrades"],
         "netBasisTrades": un["netBasisTrades"],
+        # ⚠️ 스탬프가 없는 옛 행은 config의 전환 시점을 옮기면 기준이 함께 뒤집힌다.
+        #    소급 스탬프(원장 재작성)를 하지 않는 대신, 몇 건이 그런 상태인지 밝힌다.
+        "unstampedLegacyTrades": sum(
+            1 for r in (latest or {}).values()
+            if r.get("status") in ("OPEN", "CLOSED")
+            and r.get("accounting_version") not in (ACCOUNTING_V1_GROSS, ACCOUNTING_V2_NET)),
+        "unstampedNote": ("스탬프가 없는 옛 행은 costAccountingFrom을 옮기면 기준이 "
+                          "함께 바뀐다. 원장을 소급해 고치지 않기 때문이며, 설정을 "
+                          "바꿀 때 이 건수만큼 과거 숫자가 달라진다는 뜻이다."),
         "unreflectedCostKrw": gap,
         "unreflectedCostBreakdownKrw": {
             "buyCommission": un["buyCommissionKrw"],
@@ -333,7 +366,10 @@ def accounting_disclosure(config, latest, val=None):
         "ratioBasisWarning": (
             "승률·평균수익률·손익비·Profit Factor의 기본 값은 수수료·세금을 빼기 전"
             "(gross) 기준이라 실제보다 유리하게 보입니다. 같은 이름 뒤에 IfAllNet이"
-            " 붙은 값이 비용을 전부 반영한 값입니다."),
+            " 붙은 값이 비용을 전부 반영한 값입니다."
+            + ("" if evidence_ok is not False else
+               " 다만 표본이 차기 전에는 그 IfAllNet 값도 전부 null입니다"
+               "(지금은 두 기준 모두 숫자로 내지 않습니다).")),
         "maxDrawdownBasis": (
             "최대 낙폭은 그때그때 기록된 평가금액 곡선에서 계산하므로 전환 이전 구간은"
             " 옛 기준(무비용)입니다. 소급 재계산하지 않습니다."),
@@ -1072,6 +1108,21 @@ class PaperEngine:
                    "benchmark_entry_day": bench_day,
                    "recorded_at": iso(now)}
             row["entry_commission_krw"] = round(entry_commission_krw(row, self.config), 2)
+            # 💸 게이트(cash < pos_size)는 체결금액 기준이라 수수료를 못 본다.
+            #    실측: 현금 1,000,000 · 기준금액 1,000,000 · 가격 10,000이면 게이트를
+            #    통과해 100주가 체결되고 가상현금이 -150원이 된다(신용 없는 현금계좌
+            #    시뮬에서 음수 현금은 불변식 위반). 수량이 정해진 뒤 실제 출금액으로
+            #    다시 판정해 부족하면 기존 SKIP 경로로 보낸다 — 기존 체결은 바뀌지 않는다
+            #    (도달 구간이 cash ∈ [pos_size, pos_size+수수료)로만 좁다).
+            outlay = entry_cash_outlay(row, self.config)
+            if cash < outlay:
+                self._skipped_batch.append(code)
+                self._on_insufficient_cash(code, signals, latest, analysis_at, now, cash)
+                self.ledger.append({**base, "status": "SKIPPED_INSUFFICIENT_CASH",
+                                    "skip_reason": "수수료까지 더하면 가상현금이 모자람",
+                                    "recorded_at": iso(now)})
+                actions.append(f"{code} SKIP(현금 부족 — 수수료 포함)")
+                continue
             self.ledger.append(row)
             self.state["openMeta"][tid] = {
                 "mfePrice": price, "maePrice": price, "entryBusinessDate": entry_day,
@@ -1083,7 +1134,7 @@ class PaperEngine:
                 "lastMarkSource": f"{self.provider.name}/{method}"}
             self._entered_batch.append(row)
             # 💸 다음 후보의 현금 게이트가 보는 값도 실제로 빠진 돈(수수료 포함)이어야 한다.
-            cash -= entry_cash_outlay(row, self.config)
+            cash -= outlay
             latest.update(self.ledger.latest_by_id())
             actions.append(f"{code} 진입 {qty}주 @{price:,.0f}({method})")
         self._flush_skip_quotes(signals, analysis_at, now)
@@ -1329,8 +1380,16 @@ class PaperEngine:
         for r in open_rows:
             mk = (meta_all.get(r["trade_id"]) or {}).get("lastMarkPrice")
             if isinstance(mk, (int, float)) and mk > 0:
-                positions[r["symbol"]] = {"name": r.get("name"), "qty": r["quantity"],
-                                          "entry": r["entry_price"], "mark": mk}
+                positions[r["symbol"]] = {
+                    "name": r.get("name"), "qty": r["quantity"],
+                    "entry": r["entry_price"], "mark": mk,
+                    # 💸 종목별 평가손익을 나중에 총계와 똑같이 재현하려면 '실제로 나간
+                    #    돈'이 필요하다. 진입가×수량만 남기면 매수수수료를 복구할 수
+                    #    없어서, 같은 카드 안에서 "총 보유손익 -450원"과 "종목별 기여
+                    #    0원"이 동시에 뜬다(실측 재현). 옛 행은 그대로 두고 이후 행부터
+                    #    이 두 필드가 붙는다.
+                    "outlay": round(entry_cash_outlay(r, self.config), 2),
+                    "basis": accounting_version_for(r, self.config)}
         row = {"at": iso(now), "cash": round(cash), "positionsCost": round(pos_value),
                "openCount": len(open_rows), "positions": positions,
                "markedPositionsValue": val["markedPositionsValue"],
@@ -1480,7 +1539,8 @@ class PaperEngine:
             "executedTradeCount")})
         # 💸 회계 기준 공개 — 지갑이 두 기준을 섞고 있다는 사실과 전환 이전 미반영
         #    비용을 숨기지 않고 그대로 싣는다(성과를 낮추는 방향이라 부풀림이 아니다).
-        summary["accounting"] = accounting_disclosure(self.config, latest, val)
+        summary["accounting"] = accounting_disclosure(self.config, latest, val,
+                                                     evidence_ok=evidence_ok)
         summary["accountingVersion"] = summary["accounting"]["version"]
         # 전략별 추가 블록(Shadow 전략의 역할·승격 상태 등). V1은 비어 있다.
         summary.update(self._summary_extra())
