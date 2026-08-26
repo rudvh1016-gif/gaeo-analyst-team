@@ -26,7 +26,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FAILURES = []
 PAPER_MODULES = ("paper_engine.py", "paper_market_data.py", "paper_smart_v2.py",
                  "paper_momentum.py", "paper_public.py", "paper_history.py",
-                 "paper_report.py")
+                 "paper_report.py",
+                 # 2026-08-26 신설 — 새 모의투자 모듈도 같은 경계 안에 둔다.
+                 "paper_single_writer.py", "paper_health_check.py")
 
 
 def check(name, cond, detail=""):
