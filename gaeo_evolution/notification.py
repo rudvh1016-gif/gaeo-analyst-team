@@ -88,6 +88,13 @@ def _fmt_count(value, unit="개"):
     return "측정값 없음" if value is None else f"{value}{unit}"
 
 
+def _fmt_trillion(value):
+    """시가총액을 '조' 단위로 읽기 쉽게. 값이 없으면 지어내지 않는다."""
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return "측정값 없음"
+    return "%.2f조" % (float(value) / 1e12)
+
+
 def _truncate(text, limit=MAX_REASON_LEN):
     text = _redact_secrets(text)
     return text if len(text) <= limit else text[:limit] + "…(생략)"
@@ -447,14 +454,19 @@ def _coverage_block(doc, today=None, expected_run_id=None):
         #    (2026-08-25 퀀트 재감사 MEDIUM).
         "- 상장폐지 확정 조건 (아래를 **전부** 만족할 때만 확정, 하나라도 미충족이면 확정하지 않음):",
         f"  ① 전체시장 snapshot에 없음 + 그 snapshot이 "
-        f"{_fmt_count(rules.get('snapshotMaxAgeDays'), '일')} 이내로 최신",
+        f"{_fmt_count(rules.get('snapshotMaxAgeDays'), '일')} 이내로 최신 + "
+        f"{_fmt_count(rules.get('snapshotMinItemCount'), '종목')} 이상을 담고 있고 "
+        f"수집기가 스스로 정상이라고 기록한 상태",
         f"  ② **시장 자료에서 그 종목이 안 보인 날**이 서로 다른 날짜로 "
         f"{_fmt_count(rules.get('persistentMissingMinDays'), '일')} 이상",
         f"  ③ **시장 자료에서 처음 사라진 날**부터 "
         f"{_fmt_count(rules.get('minElapsedTradingDays'), '거래일')} 이상 경과 "
         f"(우리 시세가 안 들어온 기간이 아무리 길어도 이 조건을 대신하지 못함)",
         f"  ④ 같은 사이클에 "
-        f"{_fmt_count(rules.get('massMissingBlock'), '종목')} 이상이 동시에 빠지지 않음",
+        f"{_fmt_count(rules.get('massMissingBlock'), '종목')} 이상이 동시에 시세가 "
+        f"빠지지 않았고, "
+        f"{_fmt_count(rules.get('massAbsenceBlock'), '종목')} 이상이 동시에 시장 "
+        f"자료에서 사라지지도 않음",
         f"  ⑤ 살아 있을 때 확인해 둔 시가총액 순위가 있고, 그 순위가 상위 "
         f"{_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖 "
         f"(순위를 모르면 확정하지 않고 사람 확인으로 넘김)",
@@ -496,6 +508,25 @@ def _standby_proposal_block(standby_doc, proposal_doc):
         lines.append(f"- tickers.js 자동 반영: "
                      f"{'있음' if proposal_doc.get('appliedToTickers') else '없음'}"
                      " (승인 전에는 종목이 바뀌지 않습니다)")
+        # ⭐ 크기 차이는 승인 전에 반드시 눈에 띄어야 한다. 이 줄이 없으면 제안서에만
+        #    적혀 있고 대표는 못 보므로, 넣어 둔 의미가 없다(2026-08-26).
+        comparisons = proposal_doc.get("sizeComparison")
+        if isinstance(comparisons, list) and comparisons:
+            mismatch_n = proposal_doc.get("sizeMismatchCount") or 0
+            lines.append(f"- 교체 종목 크기 비교 (크기가 많이 다른 건 "
+                         f"{_fmt_count(mismatch_n, '건')}):")
+            for c in comparisons[:10]:
+                if not isinstance(c, dict):
+                    continue
+                mark = "⚠️ " if c.get("sizeMismatch") else ""
+                lines.append(
+                    f"  · {mark}{_truncate(str(c.get('removeName')))} "
+                    f"({_fmt_trillion(c.get('removeCap'))}) → "
+                    f"{_truncate(str(c.get('addName')))} "
+                    f"({_fmt_trillion(c.get('addCap'))})")
+            if mismatch_n:
+                lines.append("  · ⚠️ 빠지는 종목보다 훨씬 작은 종목이 들어옵니다. "
+                             "승인하면 감시 대상의 성격이 바뀔 수 있습니다.")
     else:
         lines.append("- 교체 제안: 측정값 없음")
         lines.append("- tickers.js 자동 반영: 없음")

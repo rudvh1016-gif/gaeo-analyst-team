@@ -2255,6 +2255,56 @@ class GsIsolationTest(unittest.TestCase):
 # ═══════════════════════════════════════════════════════════════════════════
 # 35~39. Issue 통합 · Secret · LLM
 # ═══════════════════════════════════════════════════════════════════════════
+class ProposalVisibilityTest(unittest.TestCase):
+    """승인 전에 대표가 반드시 봐야 하는 숫자가 실제로 알림 본문에 나오는지."""
+
+    @staticmethod
+    def _proposal(add_cap, remove_cap=1.6e15):
+        ratio = add_cap / remove_cap
+        return {"status": proposal.STATUS_AWAITING, "reason": "확정 상장폐지 1종목",
+                "appliedToTickers": False,
+                "sizeMismatchCount": 1 if ratio < proposal.SIZE_MISMATCH_RATIO else 0,
+                "sizeComparison": [{
+                    "removeCode": "005930", "removeName": "삼성전자",
+                    "removeCap": remove_cap,
+                    "addCode": "002810", "addName": "삼영무역", "addCap": add_cap,
+                    "capRatio": ratio,
+                    "sizeMismatch": ratio < proposal.SIZE_MISMATCH_RATIO}]}
+
+    def test_size_gap_is_printed_in_the_notification(self):
+        """⭐ 제안서에만 적혀 있고 알림에 안 나오면 넣은 의미가 없다."""
+        body = "\n".join(notification._standby_proposal_block(
+            None, self._proposal(0.435e12)))
+        self.assertIn("삼성전자", body)
+        self.assertIn("삼영무역", body)
+        self.assertIn("1600.00조", body)
+        self.assertIn("0.43조", body)   # 0.435조 → %.2f 표기
+        self.assertIn("⚠️", body)
+        self.assertIn("성격이 바뀔 수 있습니다", body)
+
+    def test_similar_size_is_not_flagged(self):
+        body = "\n".join(notification._standby_proposal_block(
+            None, self._proposal(1.4e15)))
+        self.assertNotIn("⚠️", body)
+        self.assertIn("삼영무역", body)
+
+    def test_missing_cap_is_reported_not_invented(self):
+        doc = self._proposal(0.4e12)
+        doc["sizeComparison"][0]["addCap"] = None
+        body = "\n".join(notification._standby_proposal_block(None, doc))
+        self.assertIn("측정값 없음", body)
+
+    def test_delisting_conditions_mention_snapshot_quality(self):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        fx, _ = make_fixture(tmp, missing=("000010",))
+        rep = fx.guard()
+        body = "\n".join(notification._coverage_block(rep))
+        self.assertIn(str(rep["delistingRules"]["snapshotMinItemCount"]), body)
+        self.assertIn(str(rep["delistingRules"]["massAbsenceBlock"]), body)
+        self.assertIn("수집기가 스스로 정상이라고 기록한 상태", body)
+
+
 class GsDriftWatchTest(unittest.TestCase):
     """규약 드리프트 조기경보 — 판정을 바꾸지 않고 기록만 하는지 확인한다."""
 
