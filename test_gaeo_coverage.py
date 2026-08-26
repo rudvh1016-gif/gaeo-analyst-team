@@ -1419,6 +1419,191 @@ class ThirdAuditRegressionTest(unittest.TestCase):
         self.assertNotEqual(f["cause"], guardian.DELISTED_CONFIRMED)
 
 
+class FourthAuditRegressionTest(unittest.TestCase):
+    """2026-08-26 퀀트 4차 감사에서 재현된 경로를 고정한다."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    # ── CRITICAL-4: '가장 안전한 값 고르기'가 표본 1건이면 아무 일도 안 한다 ──
+    def test_c4_thin_history_cannot_justify_delisting(self):
+        """⭐ 크기가 작다는 판단의 근거가 표본 1건뿐이면 상폐로 확정하지 않는다.
+
+        1건의 min/max는 그 1건이다. 즉 표본이 얇으면 safest_known_size는 옛
+        last_known_size와 완전히 같아지고, 하루짜리 이상값이 곧 마지막 기억이 된다.
+        실제로 저장소의 597종목 전부 이력 1건이었다(퀀트 4차 감사 CRITICAL-4).
+        """
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": 1.0e9}})
+        fx.guard_days(1)                       # 관측 1일 = 표본 1건
+        fx.leave_market(["000010"])
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=1))
+        f = rep["findings"][0]
+        self.assertEqual(f["capSampleCount"], 1)
+        self.assertEqual(f["cause"], guardian.REVIEW_REQUIRED)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_c4b_enough_history_still_allows_genuine_delisting(self):
+        """표본이 충분히 쌓이면 진짜 상폐는 그대로 확정된다(기능 사망 금지)."""
+        fx, rep = live_then_delisted(self.tmp, extra_snapshot_items=OUTSIDE_ITEMS)
+        f = rep["findings"][0]
+        self.assertGreaterEqual(f["capSampleCount"], guardian.CAP_MEMORY_MIN_SAMPLES)
+        self.assertEqual(f["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_c4c_min_samples_gate_is_live_code(self):
+        """뮤테이션 — 최소 표본 기준을 0으로 내리면 얇은 이력도 상폐가 된다."""
+        real = guardian.CAP_MEMORY_MIN_SAMPLES
+        self.addCleanup(setattr, guardian, "CAP_MEMORY_MIN_SAMPLES", real)
+        guardian.CAP_MEMORY_MIN_SAMPLES = 0
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": 1.0e9}})
+        fx.guard_days(1)
+        fx.leave_market(["000010"])
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=1))
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_c4d_same_day_rerun_cannot_erase_a_good_sample(self):
+        """⭐ 같은 날 두 번 돌려도 정상 표본이 이상값으로 교체되지 않는다.
+
+        워크플로우 재시도 · workflow_dispatch · 로컬 실행 모두 같은 날 두 번이다.
+        날짜를 키로 덮어쓰면 나중 값이 앞 값을 지운다(퀀트 4차 감사 재현 B).
+        """
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": MEGA_CAP}})
+        fx.guard(now=NOW)                                   # 정상
+        fx.snapshot_items = [dict(i, cap=1.0e9) if i["code"] == "000010" else i
+                             for i in fx.snapshot_items]
+        later = NOW + datetime.timedelta(hours=8)
+        fx.refresh_sources(later)
+        fx.guard(now=later)                                 # 같은 날 이상값
+        history = json.load(open(fx.observations))["capMemory"]["000010"]["history"]
+        self.assertEqual(list(history.values())[0][0], 1)   # 좋은 순위가 남는다
+        fx.leave_market(["000010"])
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=1))
+        self.assertEqual(rep["findings"][0]["cause"], guardian.PIPELINE_BUG)
+
+    # ── HIGH-6: 못 믿는 자료 위에서 부재 시계가 돌았다 ──────────────────
+    def test_h6_absence_clock_does_not_run_on_untrusted_data(self):
+        """⭐ 잘린 자료로 쌓은 부재 일수가 복구 당일 현금화되면 안 된다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(6)
+        fx.leave_market(["000010"])
+        full = list(fx.snapshot_items)
+        fx.snapshot_pad = 0
+        fx.snapshot_items = full[:1999]
+        mid = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        self.assertEqual(mid["findings"][0]["cause"], guardian.MARKET_DATA_UNRELIABLE)
+        self.assertEqual(mid["findings"][0]["absentDayCount"], 0)   # 시계가 안 돈다
+        fx.snapshot_pad = None
+        fx.snapshot_items = full                                    # 수집 복구
+        rep = fx.guard_days(1, start=NOW + datetime.timedelta(days=22))
+        f = rep["findings"][0]
+        self.assertEqual(f["absentDayCount"], 1)     # 정직한 근거는 '부재 1일'뿐
+        self.assertEqual(f["cause"], guardian.UNKNOWN)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    # ── HIGH-7: 대량부재 가드에 탈출구가 없어 교체가 영구 정지했다 ──────
+    def test_h7_chronic_absentees_do_not_lock_replacement_forever(self):
+        """⭐ 오래 부재이던 종목이 슬롯을 영구 점유하면 안 된다.
+
+        누적 부재 수로 세면, 상폐가 확정돼야 종목이 빠지는데 확정이 막혀서 종목이
+        안 빠지고, 그래서 부재 수도 안 줄어 영원히 풀리지 않는다(자기강화형 교착).
+        """
+        chronic = synth_codes(4)                    # 오래전부터 부재인 4종목
+        target = "000050"
+        fx, _ = make_fixture(self.tmp, missing=(target,),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in list(chronic) + [target]})
+        fx.guard_days(3)
+        fx.leave_market(chronic)                    # 먼저 사라진다
+        fx.guard_days(30, start=NOW + datetime.timedelta(days=3))
+        fx.leave_market([target])                   # 한참 뒤 진짜 상폐 1종목
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=33))
+        self.assertEqual(rep["absentFromMarketDataCount"], 5)   # 누적은 임계값과 같다
+        self.assertLess(rep["recentlyAbsentCount"],
+                        guardian.MASS_ABSENCE_DELISTING_BLOCK)  # 최근 창에는 적다
+        self.assertFalse(rep["massAbsenceBlockActive"])
+        found = [f for f in rep["findings"] if f["code"] == target][0]
+        self.assertEqual(found["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_h7b_simultaneous_disappearance_is_still_blocked(self):
+        """반대로 한 무리가 비슷한 시기에 사라지면 여전히 벤더 장애로 본다."""
+        vanish = synth_codes(guardian.MASS_ABSENCE_DELISTING_BLOCK)
+        fx, _ = make_fixture(self.tmp, missing=(vanish[0],),
+                             snapshot_overrides={c: {"cap": SMALL_CAP} for c in vanish})
+        fx.guard_days(6)
+        fx.leave_market(vanish)
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        self.assertTrue(rep["massAbsenceBlockActive"])
+        self.assertEqual(rep["findings"][0]["cause"], guardian.PIPELINE_BUG)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    # ── MEDIUM-3: 과거 날짜로만 채운 위조가 통과했다 ────────────────────
+    def test_m3d_past_dated_forgery_is_rejected(self):
+        """⭐ 과거 날짜로만 채운 상태파일 위조도 첫 실행에 상폐로 이어지지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",), krx_delisted=("000010",))
+        days = [(NOW - datetime.timedelta(days=d)).date().isoformat()
+                for d in range(30, 5, -1)]
+        with open(fx.observations, "w", encoding="utf-8") as f:
+            json.dump({"schemaVersion": 3, "codes": {"000010": {
+                "missingDays": days, "firstMissingAt": days[0] + "T00:00:00+09:00",
+                "absentDays": days, "firstAbsentAt": days[0] + "T00:00:00+09:00"}},
+                "capMemory": {"000010": {"capRank": 9999, "cap": 1.0,
+                                         "history": {d: [9999, 1.0] for d in days}}}}, f)
+        rep = fx.guard()
+        f = rep["findings"][0]
+        self.assertEqual(f["capSampleCount"], 0)     # 자기모순 기록은 버려진다
+        self.assertNotEqual(f["cause"], guardian.DELISTED_CONFIRMED)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_m3e_capmemory_cannot_claim_days_the_stock_was_absent(self):
+        """capMemory 날짜와 부재 날짜는 겹칠 수 없다(정상 운영에선 불가능)."""
+        doc = {"schemaVersion": 3,
+               "codes": {"000010": {"missingDays": ["2026-08-20"],
+                                    "absentDays": ["2026-08-20", "2026-08-21"],
+                                    "firstAbsentAt": "2026-08-20T00:00:00+09:00",
+                                    "firstMissingAt": "2026-08-20T00:00:00+09:00"}},
+               "capMemory": {"000010": {"history": {"2026-08-20": [5, 9.0e12],
+                                                    "2026-08-19": [5, 9.0e12]}}}}
+        clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
+        self.assertEqual(list(clean["capMemory"]["000010"]["history"]), ["2026-08-19"])
+
+    def test_m3f_implausible_rank_is_rejected(self):
+        doc = {"schemaVersion": 3, "codes": {},
+               "capMemory": {"000010": {"history": {
+                   "2026-08-20": [guardian.MAX_PLAUSIBLE_CAP_RANK + 1, 1.0e12],
+                   "2026-08-21": [0, 1.0e12],
+                   "2026-08-22": [7, -5.0],
+                   "2026-08-23": [7, 1.0e12]}}}}
+        clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
+        self.assertEqual(list(clean["capMemory"]["000010"]["history"]), ["2026-08-23"])
+
+    # ── MEDIUM-8: 크기 비교가 커지는 방향을 못 잡았다 ───────────────────
+    def test_m8_size_mismatch_is_bidirectional(self):
+        """진짜 상폐 종목은 대개 초소형이라 실제 교체는 커지는 방향이 흔하다."""
+        self.assertGreater(proposal.SIZE_MISMATCH_RATIO_UP, 1)
+        rep = {"targetCoverage": 600, "configuredCoverage": 600,
+               "coverageVersion": "GAEO_COVERAGE_V2_600",
+               "findings": [{"code": "000010", "name": "제닉스로보틱스",
+                             "cause": guardian.DELISTED_CONFIRMED,
+                             "market": "KOSDAQ", "safestKnownCap": 0.089e12,
+                             "firstAbsentAt": "2026-08-01T00:00:00+09:00"}]}
+        pool = {"candidates": [{"code": "476830", "name": "알지노믹스",
+                                "market": "KOSDAQ", "marketCap": 0.989e12,
+                                "eligibilityVerdict": "ELIGIBLE_STANDBY"}]}
+        doc = proposal.build_proposal(coverage_report=rep, standby_pool=pool, now=NOW)
+        self.assertEqual(doc["status"], proposal.STATUS_AWAITING)
+        cmp0 = doc["sizeComparison"][0]
+        self.assertTrue(cmp0["sizeMismatch"], cmp0)          # 11배 확대를 잡는다
+        self.assertEqual(cmp0["direction"], "LARGER")
+        self.assertIn("훨씬 큰", cmp0["note"])
+        self.assertEqual(doc["removals"][0]["removalEffectiveFrom"],
+                         "2026-08-01T00:00:00+09:00")
+
+
 class StandbyScreeningTest(unittest.TestCase):
     def pool_from(self, items, covered=(), sectors=None, target=None):
         """업종 매핑은 기본으로 '정상 제조업'을 채워 준다.
@@ -1930,6 +2115,32 @@ class ProposalContractTest(unittest.TestCase):
         # ④ 아무 것도 아님
         self.assertIsNone(notification.coverage_alert_level(dict(base, status="WARN")))
 
+    def test_23f_collection_failure_is_not_hidden_behind_a_delisting(self):
+        """⭐ 상폐와 수집장애가 섞이면 안전 문제(🔴)로 본다.
+
+        (2026-08-26 독립 QA 감사 LOW-A: PIPELINE_BUG만 넣은 입력으로는 두 경로가
+         같은 답을 내서 구분이 안 됐다. 섞인 입력이 두 경로를 갈라 준다 —
+         수집장애 3건이 상폐 1건에 가려 🟠로 강등되면 안 된다.)
+        """
+        mixed = {"status": "RED", "statusReasons": ["상폐 1 · 수집장애 3"],
+                 "redCauseCounts": {"DELISTED_CONFIRMED": 1, "PIPELINE_BUG": 3},
+                 "targetCoverage": 600, "configuredCoverage": 600}
+        self.assertEqual(
+            notification.coverage_alert_level(mixed,
+                                              {"status": proposal.STATUS_AWAITING}),
+            notification.COVERAGE_ALERT_SAFETY)
+        note = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc={"systemHealth": "OK", "candidateCounts": {}},
+            coverage_doc=mixed, proposal_doc={"status": proposal.STATUS_AWAITING})
+        self.assertEqual(note["level"], notification.LEVEL_RED)
+        # 상폐만 있을 때는 승인 등급이라는 대비도 같이 고정한다
+        only_delisting = dict(mixed, redCauseCounts={"DELISTED_CONFIRMED": 1})
+        self.assertEqual(
+            notification.coverage_alert_level(only_delisting,
+                                              {"status": proposal.STATUS_AWAITING}),
+            notification.COVERAGE_ALERT_APPROVAL)
+
     def test_23c_unmeasured_coverage_never_grades_by_stale_numbers(self):
         """이번 Run에서 측정 못 했으면 지난 숫자로 등급을 매기지 않는다."""
         status_doc = {"systemHealth": "OK", "candidateCounts": {}}
@@ -2007,14 +2218,42 @@ class NotificationClaimAccuracyTest(unittest.TestCase):
         rep = fx.guard()
         return "\n".join(notification._coverage_block(rep)), rep
 
+    # 알림 본문에 각 상수가 어떤 모양으로 찍히는지 적어 둔 계약표.
+    # 새 상수를 delistingRules에 넣으면 여기에도 표기 방법을 적어야 한다.
+    RENDERED = {
+        "persistentMissingMinDays": lambda v: str(int(v)),
+        "minElapsedTradingDays": lambda v: str(int(v)),
+        "snapshotMaxAgeDays": lambda v: str(int(v)),
+        "krxCorplistMaxAgeDays": lambda v: str(int(v)),
+        "krxCorplistMinCount": lambda v: str(int(v)),
+        "megaCapRankGuard": lambda v: str(int(v)),
+        "massMissingBlock": lambda v: str(int(v)),
+        "massAbsenceBlock": lambda v: str(int(v)),
+        "massAbsenceWindowDays": lambda v: str(int(v)),
+        "snapshotMinItemCount": lambda v: str(int(v)),
+        "capMemoryMinSamples": lambda v: str(int(v)),
+        "megaCapAbsFloor": lambda v: "%.2f조" % (v / 1e12),
+        "massAbsenceTotalRatio": lambda v: str(v),
+    }
+
     def test_every_real_guard_value_is_stated(self):
+        """⭐ 상폐 조건표에 빠진 가드가 하나도 없어야 한다.
+
+        예전 이 테스트는 7개 키만 봤는데 delistingRules에는 13개 넘는 숫자가 있었다.
+        그래서 3차 감사가 추가한 절대 시총 하한(1조)이 대표가 읽는 조건표에 한 글자도
+        없는 채로 통과했다(2026-08-26 독립 QA 감사 MEDIUM-A).
+        이제 **숫자형 규칙 전부**를 훑고, 표기 방법이 안 적힌 새 상수가 있으면
+        그 자체로 실패한다.
+        """
         body, rep = self._body()
         rules = rep["delistingRules"]
-        for key in ("persistentMissingMinDays", "minElapsedTradingDays",
-                    "snapshotMaxAgeDays", "krxCorplistMaxAgeDays",
-                    "krxCorplistMinCount", "megaCapRankGuard", "massMissingBlock"):
-            self.assertIn(str(rules[key]), body,
-                          "%s(%s)이 알림 본문에 없다" % (key, rules[key]))
+        numeric = {k: v for k, v in rules.items()
+                   if isinstance(v, (int, float)) and not isinstance(v, bool)}
+        self.assertEqual(sorted(set(numeric) - set(self.RENDERED)), [],
+                         "새 가드 상수가 알림 문구 계약표에 없다")
+        for key, value in numeric.items():
+            self.assertIn(self.RENDERED[key](value), body,
+                          "%s(%s)이 알림 본문에 없다" % (key, value))
 
     def test_report_exposes_every_constant_the_notification_needs(self):
         """알림이 읽는 키가 보고서에 실제로 있는지(빠지면 '측정값 없음'이 된다)."""

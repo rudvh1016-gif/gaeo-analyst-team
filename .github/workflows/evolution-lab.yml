@@ -93,6 +93,11 @@ jobs:
       #    알림 단계가 runId 대조에서 '이번 Run 미측정'으로 보고 🔴를 낸다.
       - name: Coverage contract tests (실패해도 연구는 계속 · 산출물만 막는다)
         id: coverage_tests
+        # ⚠️ if: always() 가 없으면 기본이 success() 라서, 앞 단계(contract_tests ·
+        #    run_lab)가 실패한 주에는 이 단계가 skipped 가 되고 그 결과
+        #    coverage_guard 까지 안 돈다. 연구가 실패한 주에도 종목 실측은 보고해야
+        #    한다(대표 지시 §4 — 서로 다른 시스템). 2026-08-26 퀀트 4차 감사 MEDIUM-7.
+        if: always()
         continue-on-error: true
         run: python -m unittest test_gaeo_coverage -q
 

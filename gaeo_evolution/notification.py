@@ -465,16 +465,24 @@ def _coverage_block(doc, today=None, expected_run_id=None):
         f"  ④ 같은 사이클에 "
         f"{_fmt_count(rules.get('massMissingBlock'), '종목')} 이상이 동시에 시세가 "
         f"빠지지 않았고, "
-        f"{_fmt_count(rules.get('massAbsenceBlock'), '종목')} 이상이 동시에 시장 "
-        f"자료에서 사라지지도 않음",
-        f"  ⑤ 살아 있을 때 확인해 둔 시가총액 순위가 있고, 그 순위가 상위 "
-        f"{_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖 "
-        f"(순위를 모르면 확정하지 않고 사람 확인으로 넘김)",
+        f"{_fmt_count(rules.get('massAbsenceBlock'), '종목')} 이상이 최근 "
+        f"{_fmt_count(rules.get('massAbsenceWindowDays'), '일')} 안에 함께 시장 "
+        f"자료에서 사라지지도 않았고, 누적 부재가 Universe의 "
+        f"{_fmt(rules.get('massAbsenceTotalRatio'))}배를 넘지도 않음",
+        f"  ⑤ 살아 있을 때 확인해 둔 크기가 있고, 그 크기가 **보통주 기준** 시가총액 "
+        f"상위 {_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖이면서 동시에 "
+        f"{_fmt_trillion(rules.get('megaCapAbsFloor'))} 미만 "
+        f"(둘 중 하나라도 걸리면 대형주로 보고 확정하지 않는다. ETF·우선주는 순위에서 "
+        f"제외해 세므로 보호 대상이 줄지 않는다)",
+        f"  ⑤-2 그 크기 판단의 근거가 서로 다른 날짜로 "
+        f"{_fmt_count(rules.get('capMemoryMinSamples'), '건')} 이상 "
+        f"(표본이 얇으면 확정하지 않고 사람 확인으로 넘긴다. 크기를 아예 모르면 "
+        f"당연히 확정하지 않는다)",
         "  ⑥ 보통주 코드(끝자리 0) — 우선주·종류주는 법인 단위 원장으로 판단할 수 없음",
         f"  ⑦ 독립 원장(KRX 상장법인목록)에도 없음. 그 원장은 "
         f"{_fmt_count(rules.get('krxCorplistMinCount'), '법인')} 이상 + "
         f"{_fmt_count(rules.get('krxCorplistMaxAgeDays'), '일')} 이내 + "
-        f"우리가 시세를 못 받기 시작한 시점 이후에 수집된 것이어야 함",
+        f"그 종목이 **시장 자료에서 사라진 시점** 이후에 수집된 것이어야 함",
         f"- 동시 대량 누락 차단(벤더 장애 방어) 발동: {doc.get('massMissingBlockActive')}",
         f"- 사람 확인이 필요하지만 즉시 위험은 아닌 건: "
         f"{_fmt_count(doc.get('attentionCount'), '건')}{attention_text}",
