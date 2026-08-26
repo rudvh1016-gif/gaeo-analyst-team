@@ -14,8 +14,8 @@
     ⛔ V1 기록에 한 행도 쓰지 않는다. 격리는 3중이다.
        ① 폴더 분리(paper_trading/smart_v2) ② environment 분리
        ③ trade_id 해시에 전략명 포함.
-       ⚠️ Ledger.known_ids()는 environment를 거르지 않는다 —
-          그래서 폴더 분리가 1차 방어선이다(paper_momentum.py의 경고와 같다).
+       ⚠️ 2026-08-26부터 Ledger.known_ids()도 environment를 거른다(예전에는 안 걸러서
+          파일이 섞이면 진입이 조용히 영구 유실됐다). 그래도 폴더 분리가 1차 방어선이다.
     ⛔ 과거 가상체결을 만들지 않는다(Backfill 0). 최초 실행은 Baseline 캡처만 하고
        거래하지 않는다 — 그 시점 이후 새로 생긴 BUY 전환만 산다.
     ⛔ 손절 -5% · 익절 +8% · 7일 보유 · 점수 +3 교체 같은 숫자를 지어내지 않는다.
@@ -63,7 +63,8 @@ import sys
 import paper_market_data as pmd
 from paper_engine import (HERE, PaperEngine, ACCOUNTING_V2_NET, COMMISSION_PCT,
                           SELL_TAX_PCT, SELL_TAX_DEFAULT_PCT, iso, net_return_pct,
-                          load_index_history, index_value_on_or_before)
+                          load_index_history, benchmark_window, latest_settled_index_day,
+                          today_kst_date, BENCHMARK_CLOCK_NOTE, STRATEGY_VERSION as _V1_VERSION)
 
 STRATEGY_VERSION = "PAPER_SMART_V2"
 ENVIRONMENT = "LIVE_PAPER_SMART_V2"
@@ -87,7 +88,15 @@ SWAP_FILE = "shadow_swaps.jsonl"         # 자리가 꽉 차 못 산 후보 비�
 #   ② 못 산 후보의 '스킵 시점 가격' — 없으면 "자리가 있었다면?"을 계산할 수 없다.
 #   둘 다 Forward 기록 전용이다. 과거를 소급해 만들지 않는다.
 PATH_FILE = "chief_path.jsonl"           # 사이클마다 한 줄(보유 종목별 CHIEF 경로)
-SKIP_FILE = "skipped_candidates.jsonl"   # 못 산 후보 + 그 시점 관측가
+SKIP_FILE = "skipped_candidates.jsonl"   # 못 산 후보·진입 종목 + 그 시점 관측가
+# 🔒 표본이 차기 전에는 계좌 단위 성과도 숫자로 내지 않는다.
+#    이 전략의 산출물은 화면에 싣지 않지만 저장소가 public이라 URL로는 읽힌다.
+#    publicSnapshot:false 는 아무 것도 강제하지 못하므로 값 자체를 비운다.
+#    ⚠️ 수익률만 막고 현금·평가금액을 남기면 그 둘로 수익률을 되만들 수 있다.
+SHADOW_ACCOUNT_GATED = ("portfolioReturnPct", "realizedPnl", "unrealizedPnl",
+                        "currentVirtualEquity", "maxDrawdownPct",
+                        "markedPositionsValue", "cash", "investedCashOutlay",
+                        "sumTradeReturnsPct")
 
 DEFAULT_CONFIG = {
     "schemaVersion": "gaeo_paper_config_v1",
@@ -166,48 +175,29 @@ class SmartV2Engine(PaperEngine):
             return json.load(open(path, encoding="utf-8"))
         return json.loads(json.dumps(DEFAULT_CONFIG))     # 깊은 복사(상수 오염 방지)
 
-    # ── 진입: 규칙은 V1 그대로, '못 산 후보'만 추가로 기록한다 ──
-    def _process_entries(self, signals, analysis_at, now, in_session, latest, actions):
-        """진입 규칙은 한 줄도 바꾸지 않는다(super가 전부 처리).
+    def _load_state(self):
+        """🔒 전략 이름을 여기서 못박는다(2026-08-26 감사 지적 M1).
 
-        다만 자리·현금이 없어 못 산 후보의 **그 시점 가격**을 남긴다. 지금 안 남기면
-        "자리가 있었다면 어땠나"를 나중에 영원히 계산할 수 없다.
-        ⚠️ 후보마다 따로 조회하면 호출이 폭증한다 → 한 배치로 모아 한 번만 조회한다.
+        부모의 _load_state는 config에 strategyVersion이 없으면 **V1 상수**로 폴백한다.
+        그러면 trade_id가 V1과 완전히 똑같아져(실측 78a24fdf28104cdd) 3중 격리의
+        ③(해시에 전략명 포함)이 조용히 무력화된다. 설정이 어떻든 이 전략의 이름은 하나다.
         """
-        self._skipped_batch = []
-        result = super()._process_entries(signals, analysis_at, now, in_session,
-                                          latest, actions)
-        self._flush_skipped(signals, analysis_at, now)
-        return result
+        st = super()._load_state()
+        st["strategyVersion"] = STRATEGY_VERSION
+        return st
 
-    def _flush_skipped(self, signals, analysis_at, now):
-        codes = list(dict.fromkeys(getattr(self, "_skipped_batch", []) or []))
-        if not codes:
-            return
-        if self.state.get("lastSkippedBatch") == analysis_at:
-            return                      # 같은 분석 배치는 한 번만 기록한다
-        self.state["lastSkippedBatch"] = analysis_at
-        prices, reason = {}, None
-        try:
-            prices = self.provider.get_prices(codes)
-        except pmd.MarketDataUnavailable as e:
-            reason = str(e)[:120]       # 가격을 추측하지 않는다 — 못 봤다고 적는다
-        for code in codes:
-            sig = signals.get(code) or {}
-            px = prices.get(code) or {}
-            _append_jsonl(os.path.join(self.dir, SKIP_FILE), {
-                "at": iso(now), "business_date": now.strftime("%Y-%m-%d"),
-                "analysis_at": analysis_at, "symbol": code, "name": sig.get("name"),
-                "reason": "INSUFFICIENT_CASH",
-                "chief_call": sig.get("call"), "chief_total": sig.get("total"),
-                "chief_confidence": sig.get("confidence"),
-                "taro_score": sig.get("taro"), "diana_score": sig.get("diana"),
-                "quant_score": sig.get("quant"), "flow_score": sig.get("flow"),
-                "observed_price": px.get("price"),
-                "observed_at": px.get("timestamp"),
-                "price_unavailable_reason": reason,
-                "note": "자리가 없어 사지 않았다. 이 가격은 '샀다면'을 나중에 계산할 근거일 뿐이다",
-            })
+    def _account_gated_fields(self):
+        return SHADOW_ACCOUNT_GATED
+
+    # ── 진입: 규칙은 V1 그대로. 기록은 부모의 배치 조회(호출 1회)를 그대로 쓴다 ──
+    #    ⚠️ 여기서 따로 조회를 만들면 두 전략의 '잣대'가 갈라지고 호출도 두 배가 된다.
+    SKIP_QUOTE_FILE = SKIP_FILE
+
+    def _skip_quote_extra(self, code, signals):
+        """못 산 후보에 분석가 4인 점수까지 남긴다(나중에 무엇을 포기했는지 보려고)."""
+        sig = signals.get(code) or {}
+        return {"taro_score": sig.get("taro"), "diana_score": sig.get("diana"),
+                "quant_score": sig.get("quant"), "flow_score": sig.get("flow")}
 
     # ── 청산: 5거래일은 '재평가일'이지 '청산일'이 아니다 ──
     def _exit_reason(self, row, cur_call, holding_days):
@@ -225,12 +215,10 @@ class SmartV2Engine(PaperEngine):
 
     # ── 보유 중 Forward 관측 기록 ──
     def _observe_position(self, row, price, meta, signals, now, today_date, holding_days):
-        """하루 한 줄, 그날 처음 관측한 시점의 상태를 남긴다.
+        """CHIEF 경로는 사이클마다, 상세 관측은 하루 한 줄(가격을 실제로 본 때만).
 
         ⚠️ 기록 전용이다. 이 값들로 사고파는 규칙은 하나도 만들지 않았다
            (표본이 차기 전에 임계값을 정하면 과최적화다).
-        ⚠️ 사이클마다 남기면 하루 13줄 × 종목 수라 원장이 금방 불어난다.
-           하루 한 줄이면 MFE/MAE는 어차피 누적값이라 극값이 유실되지 않는다.
         """
         if meta is None:
             return None
@@ -246,31 +234,48 @@ class SmartV2Engine(PaperEngine):
             "chief_call": sig.get("call"), "chief_total": sig.get("total"),
             "chief_confidence": sig.get("confidence"),
             "observed_price": px, "return_pct": ret})
-        # ② 상세 관측은 하루 한 줄(MFE/MAE가 누적값이라 극값은 유실되지 않는다).
+        # ② 상세 관측은 하루 한 줄.
         if meta.get("lastObservedDate") == today_date:
             return None
-        meta["lastObservedDate"] = today_date
+        # 🐛 2026-08-26 감사 지적 A: 예전에는 '기록했다' 표시를 성공 전에 찍어서,
+        #    그날 첫 사이클에 시세가 실패하면 같은 날 뒤 사이클에 가격이 살아 있어도
+        #    영영 쓰지 않았다(관측가 None짜리 행 하나만 남고 체크포인트도 비었다).
+        #    가격을 실제로 본 사이클에만 쓰고, 표시도 그때 찍는다.
+        if px is None or not entry:
+            return None
         if self._regime is None:
             self._regime = load_market_regime()
-        bench_ret = None
-        if row.get("benchmark_entry_value"):
-            if self._idx_hist is None:
-                self._idx_hist = load_index_history()
-            bench_now, _bd = index_value_on_or_before(
-                self._idx_hist, row.get("market") or "KOSPI", today_date)
-            if bench_now:
-                bench_ret = round((bench_now - row["benchmark_entry_value"])
-                                  / row["benchmark_entry_value"] * 100, 3)
+        if self._idx_hist is None:
+            self._idx_hist = load_index_history()
+        market = row.get("market") or "KOSPI"
+        # 📉 시장대비 — 요약·공개면과 **같은 규칙**을 쓴다(감사 지적 HIGH 1).
+        #    예전에는 분모가 원장의 benchmark_entry_value(진입 시점에 직전 거래일로
+        #    후퇴한 값)이고 분자가 오늘 시점에 후퇴한 값이라, 후퇴 폭이 다르면
+        #    그 차이가 그대로 '초과수익'으로 붙었다(실측 2.18~5.09%p).
+        #    이제 진입일과 '마지막 확정 거래일'의 확정 종가로만 계산하고,
+        #    실제로 쓴 두 날짜를 행에 함께 남긴다(행만 봐도 검증할 수 있게).
+        entry_day = row.get("entry_business_date")
+        obs_day = latest_settled_index_day(self._idx_hist, market,
+                                           after_day=entry_day, today=today_date)
+        win = benchmark_window(self._idx_hist, market, entry_day, obs_day, ret, today_date)
+        if obs_day is None:
+            win["status"] = "NO_SETTLED_WINDOW"
         mfe = meta.get("mfePrice")
         mae = meta.get("maePrice")
+        # 🕰️ 체크포인트는 '정확히 그 날'이 아니라 '넘어섰는가'로 판정한다(감사 지적 HIGH 2).
+        #    흉내내려는 V1 규칙 자체가 holding_days >= 5이고, 러너가 하루 죽으면
+        #    보유일이 4 → 6으로 건너뛴다(2026-08-19에 12사이클 연속 실패를 겪었다).
+        #    ==로 잡으면 그 거래의 짝비교 재료가 통째로 사라지고, 장애는 변동성 큰 날과
+        #    상관될 수 있어 결측이 편향된다. 늦게 찍힌 사실은 숨기지 않고 함께 적는다.
+        crossed = list(meta.get("crossedCheckpoints") or [])
+        due = [c for c in HORIZON_CHECKPOINTS if c not in crossed and holding_days >= c]
         obs = {
             "at": iso(now), "business_date": today_date,
             "trade_id": row["trade_id"], "symbol": row["symbol"], "name": row.get("name"),
-            "market": row.get("market"),
+            "market": market,
             "holding_trading_days": holding_days,
             # 5·20·60거래일은 '재평가 지점'이다 — 여기서 팔지 않는다.
-            "horizon_checkpoint": (holding_days if holding_days in HORIZON_CHECKPOINTS
-                                   else None),
+            "horizon_checkpoints_crossed": due,
             "chief_call": sig.get("call"), "chief_total": sig.get("total"),
             "chief_confidence": sig.get("confidence"),
             "taro_score": sig.get("taro"), "diana_score": sig.get("diana"),
@@ -282,25 +287,39 @@ class SmartV2Engine(PaperEngine):
             # 고점 이후 얼마나 되밀렸는지 — 나중에 '언제 팔았어야 했나'를 볼 재료.
             "drawdown_from_peak_pct": (round((px / mfe - 1) * 100, 3)
                                        if px and mfe else None),
-            "benchmark_return_pct": bench_ret,
-            "relative_return_pct": (round(ret - bench_ret, 3)
-                                    if ret is not None and bench_ret is not None else None),
+            "benchmark_entry_day": win["startDay"],
+            "benchmark_observed_day": win["endDay"],
+            "benchmark_entry_value": win["startValue"],
+            "benchmark_observed_value": win["endValue"],
+            "benchmark_return_pct": win["benchmarkReturnPct"],
+            "relative_return_pct": win["relativeReturnPct"],
+            "benchmark_status": win["status"],
+            "benchmark_clock_note": BENCHMARK_CLOCK_NOTE + " 지수 구간은 마지막 확정 "
+                                    "종가까지라 종목 쪽보다 하루 짧을 수 있다.",
             "market_regime": (self._regime or {}).get("key"),
             "observation_note": "기록 전용 — 이 값으로 만드는 매매 규칙은 없다",
         }
         # 📐 Layer A(짝비교) 재료 — 같은 진입에 '청산 규칙만' 달랐다면 어땠는지.
-        #    재평가 지점에서 "V1이었다면 여기서 팔았다"를 그 시점 값으로 박아 둔다.
-        #    ⚠️ 관측가 기준 근사다(실제 청산은 Best Bid로 체결된다). 그 한계를 함께 적는다.
-        if obs["horizon_checkpoint"] and px and entry:
-            obs["counterfactual_exit"] = {
-                "rule": ("V1_MAX_HOLDING_5D" if holding_days == 5
-                         else f"HORIZON_{holding_days}D"),
-                "observed_price": px,
-                "gross_return_pct": ret,
-                "estimated_net_return_pct": net_return_pct(entry, px, row.get("market")),
-                "note": "관측가 기준 근사 — 실제 청산은 Best Bid로 체결되므로 조금 낮다",
-            }
+        #    ⚠️ 관측가 기준 근사다(실제 청산은 Best Bid로 체결된다).
+        obs["counterfactual_exits"] = [
+            {"checkpoint": c,
+             "rule": "V1_MAX_HOLDING_5D" if c == 5 else "HORIZON_%dD" % c,
+             "holding_trading_days_actual": holding_days,
+             "late_by_trading_days": holding_days - c,
+             "recorded_late": holding_days > c,
+             "observed_price": px,
+             "gross_return_pct": ret,
+             "estimated_net_return_pct": net_return_pct(entry, px, market),
+             "note": ("관측가 기준 근사 — 실제 청산은 Best Bid로 체결되므로 조금 낮다"
+                      + ("" if holding_days == c else
+                         " · %d거래일에 관측하지 못해 %d거래일에 기록했다(러너 공백)"
+                         % (c, holding_days)))}
+            for c in due]
         _append_jsonl(os.path.join(self.dir, OBS_FILE), obs)
+        # ✅ 기록에 성공한 뒤에만 '오늘 찍었다'와 '체크포인트 소비'를 표시한다.
+        meta["lastObservedDate"] = today_date
+        if due:
+            meta["crossedCheckpoints"] = sorted(set(crossed) | set(due))
         return obs
 
     # ── 자리가 꽉 찼을 때: 갈아타지 않고 비교만 남긴다 ──
@@ -311,10 +330,7 @@ class SmartV2Engine(PaperEngine):
            지금 만들면 근거 없는 임계값이 된다. 여기서는 그때 무엇을 포기했는지만
            남겨서, 표본이 쌓인 뒤 "교체했다면/유지했다면"을 계산할 수 있게 한다.
         """
-        # 못 산 후보는 전부 모아 두었다가 한 배치로 시세를 한 번만 조회한다.
-        if not hasattr(self, "_skipped_batch"):
-            self._skipped_batch = []
-        self._skipped_batch.append(code)
+        # (못 산 후보 목록은 부모가 모아 두었다가 배치 1회로 시세를 조회한다)
         if self.state.get("lastShadowSwapBatch") == analysis_at:
             return None            # 비교 기록은 같은 분석 배치에 한 번만 남긴다
         self.state["lastShadowSwapBatch"] = analysis_at
@@ -322,14 +338,21 @@ class SmartV2Engine(PaperEngine):
         opens = [r for r in latest.values() if r.get("status") == "OPEN"]
         meta_all = self.state.get("openMeta") or {}
 
+        # 🐛 2026-08-26 감사 지적 M4: 예전에는 점수가 없는 종목에 999를 넣어
+        #    "절대 최약체로 안 뽑히는" 종목을 만들었다. 그러면 비교 대상이 체계적으로
+        #    어긋난다(모르는 것을 '아주 강하다'로 취급한 셈이다).
+        #    → 점수가 있는 종목 중에서 고르고, 없으면 없다고 적는다.
         def _rank(r):
             s = signals.get(r["symbol"]) or {}
             # 보유 중 '가장 약한' 종목 = 진입 순위를 뒤집은 것뿐이다(새 점수 발명 0).
-            return ((s.get("total") if s.get("total") is not None else 999),
-                    (s.get("confidence") if s.get("confidence") is not None else 999),
-                    r["symbol"])
+            return (s.get("total"), s.get("confidence"), r["symbol"])
 
-        weakest = min(opens, key=_rank) if opens else None
+        scored = [r for r in opens
+                  if (signals.get(r["symbol"]) or {}).get("total") is not None]
+        unscored = [r["symbol"] for r in opens if r not in scored]
+        weakest = min(scored, key=_rank) if scored else None
+        coverage = ("FULL" if opens and not unscored
+                    else ("PARTIAL" if scored else ("MISSING" if opens else "NO_POSITIONS")))
         held = None
         swap_cost = None
         if weakest is not None:
@@ -359,6 +382,9 @@ class SmartV2Engine(PaperEngine):
                           "taro_score": cand.get("taro"), "diana_score": cand.get("diana"),
                           "quant_score": cand.get("quant"), "flow_score": cand.get("flow")},
             "weakestHeld": held,
+            # 판단이 없는 보유 종목이 있으면 비교가 반쪽이라는 사실을 함께 적는다.
+            "chief_coverage": coverage,
+            "positionsWithoutChiefSignal": unscored or None,
             "availableCashKrw": round(cash, 2),
             "positionSizeKrw": self.config.get("position_size_krw"),
             "swapExtraCostKrw": swap_cost,
@@ -390,6 +416,8 @@ class SmartV2Engine(PaperEngine):
             "shadowSwapRecords": _count_lines(os.path.join(self.dir, SWAP_FILE)),
             "chiefPathRecords": _count_lines(os.path.join(self.dir, PATH_FILE)),
             "skippedCandidateRecords": _count_lines(os.path.join(self.dir, SKIP_FILE)),
+            # 🔒 표본이 차기 전에는 계좌 단위 성과도 숫자로 내지 않는다(URL로도 못 읽게).
+            "accountMetricsGatedUntilEvidence": list(SHADOW_ACCOUNT_GATED),
             # 📐 비교는 반드시 두 층으로 읽어야 한다. 한 층만 보면 오해가 생긴다.
             #    실측 근거: V1은 신호 111건 중 91건이 현금 부족으로 진입조차 못 했다.
             #    그래서 두 지갑의 성적 차이에는 '전략 차이'와 '누가 자리를 먼저 차지했나'가

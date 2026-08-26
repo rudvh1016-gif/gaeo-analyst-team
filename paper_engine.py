@@ -463,32 +463,92 @@ def index_value_on_or_before(hist, market, day):
 #   그대로 둔다(Backfill 금지). 벤치마크는 파생값이므로 **보고할 때** 실제
 #   진입일·청산일의 종가로 다시 계산한다 — 그때는 두 날짜의 종가가 이미 존재한다.
 #   ⚠️ 그 날짜의 값이 아직 없으면 근처 날로 대체하지 않고 null이다(추측 금지).
+# ⏳ '오늘' 항목은 아직 확정이 아니다 (2026-08-26 감사 지적)
+#    market_history.js는 불변 종가 파일이 아니다 — update-analysis 워크플로가
+#    장중(cron "8,38 1-6 * * 1-5" = KST 10:08~15:38)에도 그날 값을 계속 덮어쓴다.
+#    그래서 그날 값으로 시장대비를 계산하면, 같은 거래의 성적이 나중에 열어볼 때
+#    소급해서 바뀐다(paper_history의 "8/18 기록은 8/25에 열어도 안 달라진다" 계약 위반).
+#    → 오늘 날짜 항목은 쓰지 않는다. 다음 날이 되면 값이 생기고, 그 뒤로는 안 바뀐다.
+def today_kst_date():
+    return now_kst().strftime("%Y-%m-%d")
+
+
+def settled_index_close(hist, market, day, today=None):
+    """확정된 지수 종가. 오늘(미확정) 또는 없는 날이면 None(추측 금지)."""
+    if not day:
+        return None
+    today = today or today_kst_date()
+    if day >= today:
+        return None                    # 아직 장중이거나 미래 — 확정된 종가가 아니다
+    return (hist.get(day) or {}).get(market)
+
+
+def benchmark_window(hist, market, start_day, end_day, gross_pct=None, today=None):
+    """두 '확정' 종가 사이의 지수 등락률. 한쪽이라도 없으면 값을 만들지 않는다.
+
+    ⚠️ 근처 날짜로 후퇴하지 않는다. 시작·끝에서 후퇴 폭이 달라지면 그 차이가
+       그대로 '시장 대비 초과수익'으로 둔갑한다(2026-08-18 실측 2.18~5.09%p).
+    """
+    today = today or today_kst_date()
+    out = {"market": market, "startDay": start_day, "endDay": end_day,
+           "startValue": None, "endValue": None,
+           "benchmarkReturnPct": None, "relativeReturnPct": None,
+           "status": "MISSING_INDEX_ON_TRADE_DAY"}
+    if not start_day or not end_day:
+        return out
+    if start_day >= today or end_day >= today:
+        out["status"] = "PENDING_SETTLEMENT"      # 종가가 확정되면 그때 계산된다
+        return out
+    if start_day >= end_day:
+        out["status"] = "NO_SETTLED_WINDOW"       # 같은 날이거나 순서가 뒤집혔다
+        return out
+    start_val = settled_index_close(hist, market, start_day, today)
+    end_val = settled_index_close(hist, market, end_day, today)
+    out["startValue"], out["endValue"] = start_val, end_val
+    if not start_val or not end_val:
+        return out
+    bench = (end_val - start_val) / start_val * 100
+    out["status"] = "RECOMPUTED"
+    out["benchmarkReturnPct"] = round(bench, 3)
+    if gross_pct is not None:
+        out["relativeReturnPct"] = round(gross_pct - bench, 3)
+    return out
+
+
+def latest_settled_index_day(hist, market, after_day=None, today=None):
+    """확정된 지수 종가가 있는 가장 최근 거래일(오늘 제외). 없으면 None."""
+    today = today or today_kst_date()
+    days = [d for d, row in (hist or {}).items()
+            if d < today and row.get(market) and (after_day is None or d > after_day)]
+    return max(days) if days else None
+
+
 def recomputed_benchmark(row, idx_hist=None, today=None):
-    """실제 진입일·청산일의 지수로 다시 계산한 벤치마크(파생값).
+    """실제 진입일·청산일의 확정 종가로 다시 계산한 벤치마크(파생값).
 
     반환 status
-      RECOMPUTED                 두 날짜의 종가가 모두 있어 다시 계산했다
-      MISSING_INDEX_ON_TRADE_DAY 한쪽이라도 없다 → 값을 만들지 않는다(null)
+      RECOMPUTED                 두 날짜의 확정 종가가 모두 있어 다시 계산했다
+      PENDING_SETTLEMENT         한쪽이 오늘이라 아직 확정 전 → 내일 계산된다
+      NO_SETTLED_WINDOW          기간이 0이거나 뒤집혔다
+      MISSING_INDEX_ON_TRADE_DAY 그 날짜의 종가가 없다 → 값을 만들지 않는다(null)
     """
     hist = idx_hist if idx_hist is not None else load_index_history()
     market = row.get("market") or "KOSPI"
-    entry_day = row.get("entry_business_date")
-    exit_day = row.get("exit_business_date") or today
-    entry_val = (hist.get(entry_day) or {}).get(market) if entry_day else None
-    exit_val = (hist.get(exit_day) or {}).get(market) if exit_day else None
-    out = {"market": market, "entryDay": entry_day, "exitDay": exit_day,
-           "entryValue": entry_val, "exitValue": exit_val,
-           "benchmarkReturnPct": None, "relativeReturnPct": None}
-    if not entry_val or not exit_val:
-        out["status"] = "MISSING_INDEX_ON_TRADE_DAY"
-        return out
-    bench = (exit_val - entry_val) / entry_val * 100
-    gross = row.get("gross_return_pct")
-    out["status"] = "RECOMPUTED"
-    out["benchmarkReturnPct"] = round(bench, 3)
-    if gross is not None:
-        out["relativeReturnPct"] = round(gross - bench, 3)
-    return out
+    win = benchmark_window(hist, market, row.get("entry_business_date"),
+                           row.get("exit_business_date"),
+                           row.get("gross_return_pct"), today)
+    return {"market": market, "entryDay": win["startDay"], "exitDay": win["endDay"],
+            "entryValue": win["startValue"], "exitValue": win["endValue"],
+            "benchmarkReturnPct": win["benchmarkReturnPct"],
+            "relativeReturnPct": win["relativeReturnPct"],
+            "status": win["status"]}
+
+
+# ⏱️ (D) 시계 불일치 — 이 저장소가 쓸 수 있는 시세 경로(pmd.ALLOWED_PATHS)에는
+#    지수(index) 조회가 없다. 없는 API를 새로 만들지 않는다(Market Data 경계 유지).
+#    대신 "종목은 장중 체결가, 지수는 일 종가"라는 한계를 값 옆에 사실로 박아 둔다.
+BENCHMARK_CLOCK_NOTE = ("종목은 장중 체결가, 지수는 일 종가라 시계가 다르다. "
+                        "체결 순간의 지수 레벨은 시세 경로에 없어 기록하지 않는다.")
 
 
 # ── Ledger (Source of Truth) ───────────────────────────────────────────────
@@ -525,7 +585,15 @@ class Ledger:
         return out
 
     def known_ids(self):
-        return {r["trade_id"] for r in self.rows}
+        """이 environment에서 이미 처리한 trade_id.
+
+        🐛 2026-08-26 수리: 예전에는 environment를 거르지 않았다. 파일이 섞이는 사고가
+           나면 결과가 '중복 방지'가 아니라 **영구 유실**이었다 — 진입은 막히는데
+           latest_by_id()는 다른 environment 행을 걸러내므로 아무 상태에도 안 잡혀서
+           누구도 알아채지 못한다. trade_id 계산식은 그대로라 기존 기록에는 영향이 없다.
+        """
+        return {r["trade_id"] for r in self.rows
+                if r.get("environment") == self.environment}
 
 
 def derive_cash(config, latest):
@@ -920,6 +988,9 @@ class PaperEngine:
 
     # ── 진입 ──
     def _process_entries(self, signals, analysis_at, now, in_session, latest, actions):
+        # 📒 이번 배치에서 '못 산 후보'와 '산 종목'을 모아 둔다(아래에서 한 번만 조회).
+        self._skipped_batch = []
+        self._entered_batch = []
         if not in_session:
             actions.append("장외 시간 — 신규 진입 보류(다음 개장 사이클에 처리)"
                            if getattr(self, "_session_known", True) else
@@ -951,8 +1022,9 @@ class PaperEngine:
                 "signal_at": analysis_at, "detected_at": detected_at,
             }
             if cash < pos_size:
-                # 🪝 자리가 다 찼을 때 무엇을 포기했는지 기록만 하고 싶은 전략을 위한 hook.
-                #    기본 구현은 아무 것도 하지 않는다 — V1 동작은 예전과 완전히 같다.
+                self._skipped_batch.append(code)
+                # 🪝 자리가 다 찼을 때 무엇을 포기했는지 더 남기고 싶은 전략을 위한 hook.
+                #    기본 구현은 아무 것도 하지 않는다 — 매매 행동은 예전과 완전히 같다.
                 self._on_insufficient_cash(code, signals, latest, analysis_at, now, cash)
                 self.ledger.append({**base, "status": "SKIPPED_INSUFFICIENT_CASH",
                                     "recorded_at": iso(now)})
@@ -1009,11 +1081,80 @@ class PaperEngine:
                 "lastMarkObservedAt": iso(now),
                 "lastMarkMarketAt": quote_ts,     # 공급자 원본 시각(없으면 None 유지)
                 "lastMarkSource": f"{self.provider.name}/{method}"}
+            self._entered_batch.append(row)
             # 💸 다음 후보의 현금 게이트가 보는 값도 실제로 빠진 돈(수수료 포함)이어야 한다.
             cash -= entry_cash_outlay(row, self.config)
             latest.update(self.ledger.latest_by_id())
             actions.append(f"{code} 진입 {qty}주 @{price:,.0f}({method})")
+        self._flush_skip_quotes(signals, analysis_at, now)
         return "PROCESSED"
+
+    # ── 못 산 후보·산 종목의 '같은 잣대' 관측가 (기록 전용 — 매매 행동 영향 0) ──
+    # 왜 필요한가 (2026-08-26 감사 지적 B·C)
+    #   ① 현금이 없어 못 산 후보의 그때 가격이 없으면 "자리가 있었다면 어땠나"를
+    #      나중에 어떤 방법으로도 계산할 수 없다. 이 계좌는 신호 111건 중 91건이
+    #      현금 부족으로 진입조차 못 했으므로, 그 91건이 사실상 표본의 대부분이다.
+    #   ② 진입은 Best Ask, 후보는 현재가라 잣대가 다르다. 그래서 **같은 배치 조회에
+    #      방금 진입한 종목 코드도 끼워 넣어**, 추가 호출 없이 같은 잣대의 값을 남긴다.
+    # ⚠️ 원장(trades.jsonl)은 건드리지 않는다. SKIP 행은 예전과 똑같이 그 자리에서
+    #    append 되고(내구성·순서 불변), 이 파일은 trade_id로 이어 붙는 보조 기록이다.
+    # ⚠️ 시세 조회가 실패하면 아무 것도 쓰지 않고 표시도 남기지 않는다 → 다음 사이클에
+    #    다시 시도한다(실패한 순간을 '기록 완료'로 찍으면 그 배치는 영원히 빈칸이 된다).
+    SKIP_QUOTE_FILE = "skip_quotes.jsonl"
+
+    def _skip_quote_extra(self, code, signals):
+        """전략별로 덧붙일 필드(기본 없음)."""
+        return {}
+
+    def _flush_skip_quotes(self, signals, analysis_at, now):
+        skipped = list(dict.fromkeys(getattr(self, "_skipped_batch", []) or []))
+        entered = list(getattr(self, "_entered_batch", []) or [])
+        if not skipped and not entered:
+            return
+        if self.state.get("lastSkipQuoteBatch") == analysis_at:
+            return                       # 같은 분석 배치는 한 번만 기록한다
+        codes = list(dict.fromkeys(skipped + [r["symbol"] for r in entered]))
+        try:
+            prices = self.provider.get_prices(codes)
+        except pmd.MarketDataUnavailable:
+            return                       # 가격을 추측하지 않는다. 다음 사이클에 재시도.
+        self.state["lastSkipQuoteBatch"] = analysis_at
+        path = os.path.join(self.dir, self.SKIP_QUOTE_FILE)
+        os.makedirs(self.dir, exist_ok=True)
+        base = {"at": iso(now), "business_date": now.strftime("%Y-%m-%d"),
+                "analysis_at": analysis_at,
+                "quote_basis": "LAST_PRICE(같은 배치 1회 조회 — 진입가는 Best Ask라 잣대가 다르다)"}
+        rows = []
+        for code in skipped:
+            sig = signals.get(code) or {}
+            px = prices.get(code) or {}
+            rows.append({**base, "kind": "SKIPPED", "reason": "INSUFFICIENT_CASH",
+                         "trade_id": trade_id_for(self.state["strategyVersion"],
+                                                  code, analysis_at),
+                         "symbol": code, "name": sig.get("name"),
+                         "chief_call": sig.get("call"), "chief_total": sig.get("total"),
+                         "chief_confidence": sig.get("confidence"),
+                         "observed_price": px.get("price"),
+                         "observed_at": px.get("timestamp"),
+                         "note": "자리가 없어 사지 않았다. 이 가격은 '샀다면'을 나중에 "
+                                 "계산할 근거일 뿐이다",
+                         **self._skip_quote_extra(code, signals)})
+        for r in entered:
+            px = prices.get(r["symbol"]) or {}
+            rows.append({**base, "kind": "ENTERED", "reason": "FILLED",
+                         "trade_id": r["trade_id"], "symbol": r["symbol"],
+                         "name": r.get("name"),
+                         "entry_price": r.get("entry_price"),
+                         "entry_method": r.get("entry_method"),
+                         "observed_price": px.get("price"),
+                         "observed_at": px.get("timestamp"),
+                         "note": "같은 배치·같은 잣대(현재가)로 잰 값. 진입 체결가와의 "
+                                 "차이가 곧 두 잣대의 차이다"})
+        with open(path, "a", encoding="utf-8") as f:
+            for row in rows:
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
 
     # ── 전략이 갈아끼울 수 있는 지점(hook) ──
     # ⚠️ 기본 구현은 전부 V1 규칙 그대로다. 하위 전략이 이 세 곳만 덮어쓰면
@@ -1037,6 +1178,13 @@ class PaperEngine:
     def _summary_extra(self):
         """summary.json에 전략별로 덧붙일 블록 — V1은 없다."""
         return {}
+
+    def _account_gated_fields(self):
+        """표본 미달일 때 계좌 단위 성과까지 null로 만들 필드 — V1은 없다.
+
+        V1은 사이트에 싣는 것이 설계라 예전과 똑같이 계좌 숫자를 그대로 낸다.
+        """
+        return ()
 
     # ── 보유 관리/청산 ──
     def _manage_positions(self, signals, now, today_date, in_session, latest, actions):
@@ -1131,6 +1279,8 @@ class PaperEngine:
                       "benchmark_exit_day": bench_exit_day,
                       "benchmark_return_pct": round(bench_ret, 3) if bench_ret is not None else None,
                       "relative_return_pct": round(gross - bench_ret, 3) if bench_ret is not None else None,
+                      # ⏱️ 이 값을 읽는 사람이 한계를 같이 보게 한다(감사 지적 D).
+                      "benchmark_clock_note": BENCHMARK_CLOCK_NOTE,
                       "recorded_at": iso(now)}
             # 💸 팔 때 실제로 나간 비용과 확정 손익(원)을 사실 그대로 남긴다.
             #    옛 기준(무비용) 거래에서는 전부 0·(exit-entry)×수량이라 의미가 같다.
@@ -1269,6 +1419,7 @@ class PaperEngine:
             "benchmarkBasis": "RECOMPUTED_FROM_TRADE_DATES",
             "benchmarkRecomputedCount": len(_rb_ok),
             "benchmarkUnavailableCount": len(_rb) - len(_rb_ok),
+            "benchmarkClockMismatchNote": BENCHMARK_CLOCK_NOTE,
             "benchmarkNoteInternal": (
                 "원장에 남은 benchmark_* 필드는 '탐지 시점에 알 수 있었던 값'이라 "
                 "장중에는 직전 거래일 종가로 후퇴해 있다(진입·청산의 후퇴 폭이 달라 "
@@ -1323,6 +1474,18 @@ class PaperEngine:
             initial_seed=self.config["initial_cash_krw"])
         if val["executedTradeCount"] == 0:
             summary["maxDrawdownPct"] = None
+        # 🔒 계좌 단위 성과까지 막아야 하는 전략(공개하지 않는 Shadow 등)을 위한 게이트.
+        #    V1은 사이트에 싣는 것이 설계라 빈 튜플을 돌려주고 동작이 예전과 같다.
+        #    ⚠️ 수익률만 막고 현금·평가금액을 남기면 소비자가 그 둘로 수익률을 되만든다.
+        #       그래서 되만들 수 있는 값까지 한 묶음으로 막는다.
+        if not evidence_ok:
+            for _k in self._account_gated_fields():
+                if _k in summary:
+                    summary[_k] = None
+            if summary.get("accounting") and self._account_gated_fields():
+                for _k in ("cashIfAllNetKrw", "equityIfAllNetKrw",
+                           "realizedPnlIfAllNetKrw", "portfolioReturnPctIfAllNetPct"):
+                    summary["accounting"][_k] = None
         # 🕳️ 관측 공백 — 거래일인데 기록이 없는 날. 빈 곳을 숫자로 메우지 않고
         #    "여기는 비어 있다"는 사실 자체를 산출물에 싣는다. 화면은 이걸 읽어
         #    MFE/MAE·기록 목록에 한계를 표시한다.

@@ -196,11 +196,12 @@ obs = [json.loads(x) for x in open(os.path.join(tmp_v2, sv.OBS_FILE), encoding="
 check("4a. 보유 중 하루 한 줄만 기록한다(사이클마다 쌓지 않는다)",
       len(obs) == len({o["business_date"] for o in obs}) == 8, str(len(obs)))
 check("4b. 5거래일 관측에 재평가 표시가 붙는다",
-      any(o["horizon_checkpoint"] == 5 and o["holding_trading_days"] == 5 for o in obs),
-      str([(o["holding_trading_days"], o["horizon_checkpoint"]) for o in obs]))
+      any(5 in o["horizon_checkpoints_crossed"] and o["holding_trading_days"] == 5
+          for o in obs),
+      str([(o["holding_trading_days"], o["horizon_checkpoints_crossed"]) for o in obs]))
 check("4c. 재평가 지점은 GAEO가 실제로 채점하는 구간과 같다(5·20·60거래일)",
       sv.HORIZON_CHECKPOINTS == (5, 20, 60))
-o5 = [o for o in obs if o["horizon_checkpoint"] == 5][0]
+o5 = [o for o in obs if 5 in o["horizon_checkpoints_crossed"]][0]
 check("4d. CHIEF·분석가 4인 점수를 함께 기록한다",
       o5["chief_call"] == "HOLD" and o5["chief_total"] == 60 and o5["chief_confidence"] == 70
       and (o5["taro_score"], o5["diana_score"], o5["quant_score"], o5["flow_score"])
@@ -224,7 +225,7 @@ check("5a. 60거래일에 실제로 안전상한 청산이 일어난다",
 check("5b. 청산 기록에 MFE·MAE가 남는다",
       capped[0].get("mfe_pct") is not None and capped[0].get("mae_pct") is not None)
 check("5c. 20거래일 재평가 지점도 기록됐다",
-      any(o["horizon_checkpoint"] == 20 for o in
+      any(20 in o["horizon_checkpoints_crossed"] for o in
           [json.loads(x) for x in open(os.path.join(tmp_v2, sv.OBS_FILE), encoding="utf-8")]))
 shutil.rmtree(tmp_v1)
 shutil.rmtree(tmp_v2)
@@ -278,7 +279,7 @@ sig = {c: "HOLD" for c in codes}
 sig["999999"] = "BUY"
 eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
 still = [r for r in eng.ledger.latest_by_id().values() if r["status"] == "OPEN"]
-swaps = [json.loads(x) for x in open(os.path.join(tmp, sv.SWAP_FILE), encoding="utf-8")]
+swaps = [json.loads(x) for x in open(os.path.join(tmp, sv.SWAP_FILE), encoding="utf-8")]  # noqa
 check("7b. 기존 보유를 팔고 갈아타지 않는다(보유 수 그대로)", len(still) == len(held))
 check("7c. 포기한 후보를 비교 기록으로 남긴다", len(swaps) == 1
       and swaps[0]["kind"] == "PORTFOLIO_FULL_NO_SWAP"
@@ -392,16 +393,27 @@ eng.provider = provider(D[1], quotes)
 sig = {c: "HOLD" for c in codes}
 sig["999999"] = "BUY"
 eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
-skips = [json.loads(x) for x in open(os.path.join(tmp, sv.SKIP_FILE), encoding="utf-8")]
+rowsq = [json.loads(x) for x in open(os.path.join(tmp, sv.SKIP_FILE), encoding="utf-8")]
+skips = [r for r in rowsq if r["kind"] == "SKIPPED"]
+entered = [r for r in rowsq if r["kind"] == "ENTERED"]
 check("10e. 못 산 후보를 그 시점 관측가와 함께 남긴다",
       len(skips) == 1 and skips[0]["symbol"] == "999999"
       and skips[0]["observed_price"] == 43_950.0
-      and skips[0]["reason"] == "INSUFFICIENT_CASH",
+      and skips[0]["reason"] == "INSUFFICIENT_CASH"
+      and skips[0]["taro_score"] == 61,
       json.dumps(skips, ensure_ascii=False)[:220])
+# (C) 진입은 Best Ask, 후보는 현재가라 잣대가 다르다 → 같은 배치에서 진입 종목의
+#     현재가도 함께 남겨 두 잣대의 차이를 나중에 잴 수 있게 한다(추가 호출 0).
+check("10e2. 같은 배치에서 진입 종목의 같은 잣대 가격도 남긴다",
+      len(entered) == 9 and all(r["entry_price"] and r["observed_price"]
+                                and r["entry_method"] == "BEST_ASK" for r in entered),
+      json.dumps(entered[:1], ensure_ascii=False)[:200])
+check("10e3. 두 기록이 같은 조회(같은 잣대)에서 나왔다",
+      len({r["quote_basis"] for r in rowsq}) == 1)
 check("10f. 같은 분석 배치에 대해 중복 기록하지 않는다",
       (eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 11, 10)),
        len([json.loads(x) for x in open(os.path.join(tmp, sv.SKIP_FILE), encoding="utf-8")])
-       == 1)[1])
+       == len(rowsq))[1])
 shutil.rmtree(tmp)
 
 # ═══ ⑪ 짝비교(Layer A) 재료와 2층 비교 안내 ══════════════════════════════════
@@ -411,11 +423,11 @@ eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 
 eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
 run_days(eng, D[1:6], {"005930": "HOLD"}, {"005930": (10_600, 10_500)})
 obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
-cf = [o for o in obs if o.get("counterfactual_exit")]
+cf = [o for o in obs if o.get("counterfactual_exits")]
 check("11a. 5거래일 재평가 지점에 'V1이었다면 여기서 팔았다'를 함께 박아 둔다",
-      len(cf) == 1 and cf[0]["counterfactual_exit"]["rule"] == "V1_MAX_HOLDING_5D",
-      json.dumps([o.get("counterfactual_exit") for o in obs], ensure_ascii=False)[:200])
-ce = cf[0]["counterfactual_exit"]
+      len(cf) == 1 and cf[0]["counterfactual_exits"][0]["rule"] == "V1_MAX_HOLDING_5D",
+      json.dumps([o.get("counterfactual_exits") for o in obs], ensure_ascii=False)[:200])
+ce = cf[0]["counterfactual_exits"][0]
 check("11b. 짝비교 값도 총수익·순수익을 함께 남긴다(순수익이 더 낮다)",
       ce["gross_return_pct"] is not None
       and ce["estimated_net_return_pct"] < ce["gross_return_pct"])
@@ -428,7 +440,7 @@ check("11e. 60거래일 성적을 주장하지 않는다고 못박는다",
       s["horizonPerformanceClaim"] == "NONE" and "상한" in s["horizonClaimNote"])
 check("11f. 60D 성능 지표를 만들지 않는다(요약에 60일 성과 필드 없음)",
       not any("60" in k for k in s.keys()), str([k for k in s if "60" in k]))
-check("11g. 기록 파일 4종이 전부 자기 폴더에만 생긴다",
+check("11g. 기록 파일이 전부 자기 폴더에만 생긴다",
       all(os.path.exists(os.path.join(tmp, f))
           for f in (sv.OBS_FILE, sv.PATH_FILE)) and set(os.listdir(tmp)) <= {
               "trades.jsonl", "state.json", "summary.json", "equity_curve.jsonl",
