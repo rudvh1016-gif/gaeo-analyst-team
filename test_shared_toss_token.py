@@ -281,11 +281,28 @@ def run():
         #    예외로 두는 데만 쓴다.
         #    가드가 약해지는 게 아니다. 아래 D9b가 매매 판단 모듈 본문을 직접 읽어
         #    공유토큰 기능이 스며들었는지 이력과 무관하게 항상 검사한다.
+        # ⚠️ 2026-08-26 수정: "바뀌었는가"가 아니라 "공유토큰이 스며들었는가"를 본다.
+        #    이 검사가 약속하는 것은 '공유토큰 기능이 매매 판단을 건드리지 않았다'인데,
+        #    예전 구현은 파일이 바뀌기만 해도 실패해서 **매매 로직을 정당하게 고치는
+        #    브랜치는 무조건 터졌다**(모의투자 회계 수리 브랜치에서 실제로 터졌다).
+        #    그러면 개발자는 검사를 끄거나 허용목록을 넓히게 되고, 가드는 그때 죽는다.
+        #    그래서 바뀐 파일의 '내용'에 공유토큰 흔적이 있는지로 판정한다 —
+        #    파일 목록만 보는 것보다 오히려 촘촘하다(paper_trading/ 산출물까지 읽는다).
         def _is_trading_logic(path):
             return path in TRADING_LOGIC_MODULES or path.startswith("paper_trading/")
+
+        def _has_token_trace(path):
+            try:
+                with io.open(path, encoding="utf-8", errors="replace") as fh:
+                    body = fh.read()
+            except (IOError, OSError):
+                return False        # 지워진 파일은 흔적을 남길 수 없다
+            return "gaeo_shared_token" in body or "GAEO_SHARED_TOSS_TOKEN" in body
         unexpected = sorted(f for f in changed
-                            if _is_trading_logic(f) and f not in TOKEN_INFRA_FILES)
-        check("D9. Trading Logic 파일 변경 0", unexpected == [], str(unexpected))
+                            if _is_trading_logic(f) and f not in TOKEN_INFRA_FILES
+                            and _has_token_trace(f))
+        check("D9. 바뀐 Trading Logic 파일에 공유토큰 흔적 0", unexpected == [],
+              str(unexpected))
 
     # D9b 는 이력 유무와 무관하게 **항상** 돈다.
     # 허용목록(TOKEN_INFRA_FILES)을 넓히는 것만으로는 이 검사를 통과할 수 없다 —

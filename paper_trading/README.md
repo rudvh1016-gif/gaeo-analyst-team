@@ -15,8 +15,10 @@
 | 청산 | ① 보유 **5거래일** 도달(공식 시장 캘린더 — 주말·휴장 미산입) ② `chief.call`이 SELL로 전환. **Best Bid** 체결. HOLD(보유·관망)는 매도 신호로 해석하지 않음 |
 | 익절/손절 | **없음** — 대신 MFE(최대 평가이익)·MAE(최대 평가손실)를 기록해 3개월 뒤 분포로 연구 |
 | Look-ahead 금지 | 탐지 시각 이후 시세만 사용. 당일 저가 매수·고가 매도 치팅 없음(자동 테스트로 강제) |
-| 비용 | `COST_MODEL_INCOMPLETE` — 수수료·세금 미검증. 순수익을 과장하지 않기 위해 net return은 null. spread는 Ask 매수/Bid 매도로 이미 반영 |
-| 벤치마크 | 종목의 시장(KOSPI/KOSDAQ) 지수를 같은 기간 일 단위 종가로 비교(`market_history.js`). 분 단위 정밀 매칭은 아님(한계) |
+| 비용 | `COST_MODEL_V1_2026H2`(2026-08-21 확인) — 위탁수수료 0.015%(매수·매도 각각) + 매도 시 세금 0.20%. spread는 Ask 매수/Bid 매도로 이미 반영, 대량주문 시장충격은 미모형화 |
+| 회계 | 거래마다 **진입할 때 기준이 정해져 청산까지 안 바뀐다.** 2026-08-27부터 진입한 거래는 비용을 반영하고(`ACCOUNTING_V2_NET`), 그 전 거래는 옛 기준(`ACCOUNTING_V1_GROSS`)으로 남는다. **과거 원장을 다시 쓰지 않는다.** 전환 이전 미반영 비용(2026-08-26 기준 23,874원)은 `summary.accounting.unreflectedCostKrw`로 그대로 공개한다 |
+| 벤치마크 | 원장의 `benchmark_*`는 '탐지 시점에 알 수 있었던 값'이라 장중에는 직전 거래일 종가로 후퇴한다. 후퇴 폭이 진입·청산에서 달라 시장대비가 부풀려졌었다(실측 2.18~5.09%p). 그래서 **보고할 때 실제 진입일·청산일 종가로 다시 계산**하고, 그 날짜 종가가 없으면 값을 만들지 않는다 |
+| 벤치마크 기준 | 종목의 시장(KOSPI/KOSDAQ) 지수를 같은 기간 일 단위 종가로 비교(`market_history.js`). 분 단위 정밀 매칭은 아님(한계) |
 | 시세 | 토스증권 Open API — **Market Data 전용**(prices·orderbook·trades·market-calendar). 계좌 헤더 미사용, 주문 API 미구현. 실패 시 가격을 추측하지 않고 SKIP/보류 |
 | 자금 | 가상 초기금 1,000만원·종목당 100만원 — 시뮬레이션 표기 단위일 뿐 투자 권장 금액이 아님 |
 | Production 영향 | 0 — 독립 워크플로, 어떤 실패도 분석 파이프라인을 멈추지 않음. 결과로 모델을 자동 수정하지 않음 |
@@ -27,7 +29,10 @@
 - `state.json` — 엔진 상태 캐시(기준 상태·거래일 관측·MFE/MAE 관측). **Ledger가 항상 우선**
 - `trades.jsonl` — Signal Ledger(append-only 이벤트 로그). 진입·청산·SKIP 전부 기록
 - `equity_curve.jsonl` — 사이클별 현금/포지션 원가
-- `summary.json` — 지표 요약(표본 20건 미만이면 `INSUFFICIENT_EVIDENCE` 우선 표시)
+- `summary.json` — 지표 요약(표본 20건 미만이면 `INSUFFICIENT_EVIDENCE` 우선 표시).
+  승률·평균수익률·손익비는 기본값이 비용 전(gross) 기준이고, 같은 이름 뒤에 `IfAllNet`이
+  붙은 값이 수수료·세금을 전부 반영한 값이다(실측: 승률 gross 50% → net 40%)
+- `smart_v2/` — 별도 Shadow 전략(PAPER_SMART_V2)의 기록. V1과 섞이지 않는다
 
 ## 알려진 한계 (정직 고지)
 
