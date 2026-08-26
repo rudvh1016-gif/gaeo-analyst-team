@@ -182,7 +182,7 @@ def _candidate_row(item, rank, now_iso, snapshot, sectors):
 
 
 def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGET,
-               now=None):
+               now=None, run_id=None):
     now_iso = guardian.now_kst_iso(now)
     sector_map = sector_map or {"asOf": None, "source": None, "map": {}}
     sectors = sector_map.get("map") or {}
@@ -191,6 +191,7 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
     if not snapshot:
         return {
             "schemaVersion": 1, "generatedAt": now_iso,
+            "runId": guardian.resolve_run_id(run_id),
             "status": "NO_SNAPSHOT",
             "note": "전체시장 snapshot을 읽지 못해 대기 명단을 만들 수 없다. 추측하지 않는다.",
             "sourceSnapshot": None, "snapshotAgeDays": None,
@@ -229,6 +230,7 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
     return {
         "schemaVersion": 1,
         "generatedAt": now_iso,
+        "runId": guardian.resolve_run_id(run_id),
         "status": "SHORTFALL" if shortfall else "READY",
         "note": ("대기 명단일 뿐이다. 여기 있는 종목은 tickers.js에 자동으로 들어가지 "
                  "않는다. 정렬 기준은 시가총액 내림차순 하나뿐이다."),
@@ -256,12 +258,12 @@ def build_pool(*, snapshot, covered_codes, sector_map=None, target=DEFAULT_TARGE
 
 def run(*, snapshot_path=guardian.DEFAULT_SNAPSHOT, tickers_path=guardian.DEFAULT_TICKERS,
         sector_map_path=DEFAULT_SECTOR_MAP, out=DEFAULT_OUT, target=DEFAULT_TARGET,
-        write=True, now=None):
+        write=True, now=None, run_id=None):
     pool = build_pool(
         snapshot=guardian.load_universe_snapshot(snapshot_path),
         covered_codes=guardian.load_configured(tickers_path)["codes"],
         sector_map=load_sector_map(sector_map_path),
-        target=target, now=now)
+        target=target, now=now, run_id=run_id)
     if write:
         guardian.write_json(out, pool)
     return pool
@@ -274,12 +276,13 @@ def main(argv=None):
     p.add_argument("--sector-map", default=DEFAULT_SECTOR_MAP)
     p.add_argument("--out", default=DEFAULT_OUT)
     p.add_argument("--target", type=int, default=DEFAULT_TARGET)
+    p.add_argument("--run-id", default=None)
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args(argv if argv is not None else sys.argv[1:])
 
     pool = run(snapshot_path=args.snapshot, tickers_path=args.tickers,
                sector_map_path=args.sector_map, out=args.out, target=args.target,
-               write=not args.dry_run)
+               write=not args.dry_run, run_id=args.run_id)
     print("[standby] status=%s eligible=%d candidates=%d snapshot=%s (%s일 경과)"
           % (pool["status"], pool["eligibleCount"], pool["candidateCount"],
              pool.get("sourceSnapshot"), pool.get("snapshotAgeDays")))

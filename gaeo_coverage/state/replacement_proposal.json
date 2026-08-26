@@ -1,6 +1,7 @@
 {
  "schemaVersion": 1,
- "generatedAt": "2026-08-25T20:53:49+09:00",
+ "generatedAt": "2026-08-26T09:40:29+09:00",
+ "runId": "local-baseline",
  "appliedToTickers": false,
  "autoApplyPath": false,
  "currentCoverageVersion": "GAEO_COVERAGE_V2_600",

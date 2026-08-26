@@ -60,6 +60,12 @@ TOL_RET = 1e-9
 # ③ 독립 구현 vs ④ gs_quant 는 양쪽 다 반올림을 거치지 않으므로 부동소수 수준까지
 # 좁힌다. 이 축이 4단 중 검출력이 가장 높다(규약 드리프트 전수 포착).
 TOL_EXACT = 1e-9
+# 조기경보선 — 판정을 바꾸지는 않고 '기록만' 한다.
+# ③numpy vs ④gs_quant는 둘 다 반올림을 안 거치므로 정의가 완전히 같으면 차이가
+# 부동소수 잡음(~1e-15) 수준이어야 한다. 1e-11을 넘기 시작했다는 것은 아직
+# TOL_EXACT(1e-9)는 안 넘었어도 어딘가에서 규약이 미세하게 어긋나기 시작했다는
+# 뜻이다. 터지고 나서가 아니라 그 전에 보이게 한다 (2026-08-25 퀀트 재감사 LOW).
+EARLY_WARN_EXACT = 1e-11
 
 DEFAULT_REAL_SAMPLES = 5
 
@@ -344,6 +350,10 @@ def compare_case(case, want_gs):
             "tolerance": tol,
             "exactTolerance": TOL_EXACT,
             "exactVerdict": exact_verdict,
+            "earlyWarnTolerance": EARLY_WARN_EXACT,
+            # 판정에는 쓰지 않는다 — 규약 드리프트 조기 관측용 기록이다.
+            "exactDriftWatch": (None if exact_diff is None
+                                else bool(exact_diff > EARLY_WARN_EXACT)),
             "roundingContractOk": round_ok,
             "roundingVerdict": round_verdict,
             "toleranceVerdict": tol_verdict,
@@ -388,6 +398,10 @@ def build_report(*, cases=None, now=None, analysis_data=DEFAULT_ANALYSIS_DATA,
     #    케이스별 gsError를 실제로 세서, 외부 참조 다리가 한 번이라도 부러졌으면
     #    PASS라고 말하지 않는다.
     gs_error_n = sum(1 for r in results if r.get("gsError"))
+    # 조기경보 — 아직 허용 오차 안이지만 ③numpy vs ④gs_quant 차이가 잡음 수준을
+    # 벗어나기 시작한 항목 수. status를 바꾸지 않고 세어만 둔다.
+    drift_watch_n = sum(1 for r in results for m in r["metrics"].values()
+                        if m.get("exactDriftWatch"))
     gs_leg_n = sum(1 for r in results if "gs_quant" in (r.get("legsUsed") or []))
     legs_used = sorted({leg for r in results for leg in (r.get("legsUsed") or [])})
 
@@ -436,6 +450,11 @@ def build_report(*, cases=None, now=None, analysis_data=DEFAULT_ANALYSIS_DATA,
         "status": status,
         "reason": reason,
         "gsQuant": gs_info,
+        "driftWatchCount": drift_watch_n,
+        "driftWatchTolerance": EARLY_WARN_EXACT,
+        "driftWatchNote": ("판정에는 쓰지 않는 조기경보다. 0이 아니면 아직 허용 오차 "
+                           "안이지만 정의(연율화 계수·표본/모집단 등)가 미세하게 "
+                           "어긋나기 시작했다는 신호다."),
         "independentEngine": independent_engine(),
         # ⚠️ 아래 3개는 **측정치가 아니라 설계 선언**이다(2026-08-25 보안 감사 MEDIUM).
         #    "실제로 패킷을 세어 봤다"가 아니라 "이 모듈에는 네트워크·인증 호출 코드가

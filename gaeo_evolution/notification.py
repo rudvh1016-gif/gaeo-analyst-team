@@ -93,9 +93,18 @@ def _truncate(text, limit=MAX_REASON_LEN):
     return text if len(text) <= limit else text[:limit] + "…(생략)"
 
 
-def decide_level(*, job_failed, status_doc, promotion_cards_doc):
-    """실제 실행 결과만으로 결정론적으로 분류한다. 셋 중 정확히 하나를 돌려준다."""
+def decide_level(*, job_failed, status_doc, promotion_cards_doc,
+                 coverage_unmeasured=False):
+    """실제 실행 결과만으로 결정론적으로 분류한다. 셋 중 정확히 하나를 돌려준다.
+
+    coverage_unmeasured: 이번 Run이 Coverage 산출물을 실제로 만들지 못한 경우.
+        Coverage는 Evolution 연구를 막지 않지만(대표 지시 §4 — 서로 다른 시스템),
+        '측정 못 했는데 지난 숫자로 🟢'가 되는 것도 막아야 한다. 그래서 커밋 경로는
+        건드리지 않고 **보고 등급만** RED로 올린다.
+    """
     if job_failed:
+        return LEVEL_RED
+    if coverage_unmeasured:
         return LEVEL_RED
     # 스키마가 어긋난 입력(dict가 아닌 값)은 '읽지 못함'과 동일하게 취급한다
     # (독립 QA 검토 LOW 대응, 2026-08-23) — 손상된 status.json이 들어와도
@@ -245,11 +254,88 @@ def build_marker(run_id):
     return f"gaeo-evolution-run:{run_id}"
 
 
+# ── Coverage 산출물이 '이번 Run 것'인가 (2026-08-25 보안 재감사 LOW-1·LOW-3) ──
+# 왜 여기서 보나
+#   Coverage 측정 실패가 Evolution 연구 커밋을 막으면 안 된다(대표 지시 §4 — 둘은
+#   서로 다른 시스템이다). 그래서 워크플로우의 Coverage 단계는 무슨 일이 있어도
+#   job을 죽이지 않게 두고, "이번 Run이 실제로 측정했는가"는 **알림을 만드는 이 자리**
+#   에서 판정한다. 커밋 경로는 그대로 두고 보고 등급만 RED로 올리는 방식이다.
+# 왜 날짜가 아니라 Run 식별자인가
+#   상태 파일은 저장소에 커밋되므로 '오늘 날짜' 산출물이 이미 있을 수 있다(같은 날
+#   앞선 run이 성공한 경우). 날짜만 보면 이번 run이 통째로 실패해도 통과한다.
+#   Run 식별자(GITHUB_RUN_ID-ATTEMPT)를 각인해 비교하면 그 구멍이 닫힌다.
+#   로컬 실행처럼 식별자가 없을 때만 날짜로 대신 본다.
+COVERAGE_ARTIFACT_LABELS = {
+    "coverage": "Coverage 관측(coverage_state.json)",
+    "standby": "대기 명단(standby_pool.json)",
+    "proposal": "교체 제안(replacement_proposal.json)",
+}
+
+
+def coverage_freshness(docs, *, expected_run_id=None, today=None):
+    """(측정됨 여부, 사유목록)을 돌려준다. 파일을 읽거나 쓰지 않는 순수 함수다."""
+    reasons = []
+    for key in ("coverage", "standby", "proposal"):
+        label = COVERAGE_ARTIFACT_LABELS[key]
+        doc = docs.get(key) if isinstance(docs, dict) else None
+        if not isinstance(doc, dict):
+            reasons.append(f"{label}: 이번 Run 산출물이 없습니다")
+            continue
+        if expected_run_id:
+            got = doc.get("runId")
+            if str(got or "") != str(expected_run_id):
+                reasons.append(f"{label}: 이번 Run({expected_run_id})이 아니라 "
+                               f"{_truncate(str(got or '식별자 없음'))} 산출물입니다")
+            continue
+        if today:
+            got_day = str(doc.get("generatedAt") or "")[:10]
+            if got_day != str(today)[:10]:
+                reasons.append(f"{label}: 이번 Run 날짜({today})가 아니라 "
+                               f"{got_day or '알 수 없음'} 산출물입니다")
+    return (not reasons), reasons
+
+
+def build_coverage_red_body(*, owner, reasons, run_url):
+    """연구는 정상인데 Coverage만 측정 못 한 경우의 본문.
+
+    기존 RED 본문("안전장치가 정상 연구 완료 처리를 막았습니다")을 그대로 쓰면
+    사실과 다르다. 연구는 끝났고 기록도 커밋됐다. 그래서 문구를 따로 둔다.
+    """
+    lines = [
+        f"@{owner}",
+        "",
+        "Evolution 주간 연구 자체는 끝났지만, 이번 Run에서 **Coverage 실측을 하지 "
+        "못했습니다.**",
+        "",
+        "아래 Coverage 숫자는 이번 주 측정값이 아니거나 아예 없습니다. "
+        "그 숫자를 근거로 판단하지 마세요.",
+        "",
+    ]
+    if reasons:
+        for reason in reasons[:MAX_REASONS_SHOWN]:
+            lines.append(f"- {_truncate(reason)}")
+    else:
+        lines.append("- 사유: 측정값 없음")
+    lines += [
+        "",
+        "- Evolution 연구 기록: 정상 커밋됨 (Coverage 실패가 연구 커밋을 막지 않습니다)",
+        "- Production 자동승격: 없음",
+        "- 종목집합(tickers.js) 자동 변경: 없음",
+        "- 대표 확인 필요: 예",
+        "",
+    ]
+    if run_url:
+        lines.append(f"실행 로그: {run_url}")
+        lines.append("")
+    lines.append("(Secret·토큰·전체 스택트레이스는 이 알림에 포함하지 않습니다.)")
+    return "\n".join(lines)
+
+
 # ── GAEO SYSTEM HEALTH 섹션 (2026-08-25 추가) ────────────────────────────────
 # ⚠️ 이 모듈의 격리 규칙은 그대로다 — gaeo_coverage/gaeo_reference를 import하지
 #    않는다. 두 계층이 **이미 만들어 둔 JSON**을 워크플로우가 읽어서 dict로
 #    넘겨주면, 여기서는 문자열로 옮겨 적기만 한다(계산·판정·쓰기 없음).
-def _coverage_block(doc, today=None):
+def _coverage_block(doc, today=None, expected_run_id=None):
     if not isinstance(doc, dict):
         return ["- 상태: 측정값 없음 (Coverage 관측 결과를 읽지 못함)",
                 "- ⚠️ 이번 Run에서 Coverage를 측정하지 못했습니다. 아래 숫자는 없습니다."]
@@ -258,17 +344,31 @@ def _coverage_block(doc, today=None):
     # ⚠️ 상태 파일은 저장소에 커밋되므로 '지난주 값'이 항상 존재한다. 이번 Run에서
     #    측정이 실패해도 그 숫자가 이번 주 결과처럼 보이면 안 된다
     #    (2026-08-25 보안 감사 MEDIUM — 2026-08-23의 stale→거짓 GREEN과 같은 계열).
-    stale = bool(today) and str(generated or "")[:10] != str(today)[:10]
-    lines.append(f"- 측정 시각: {_fmt(generated)}")
+    if expected_run_id:
+        stale = str(doc.get("runId") or "") != str(expected_run_id)
+        stale_note = (f"- ⚠️ 이번 Run({expected_run_id}) 산출물이 아닙니다"
+                      f"(각인된 값: {_truncate(str(doc.get('runId') or '없음'))}). "
+                      "**이번 주 미측정**이며 아래 숫자는 지난 측정값입니다.")
+    else:
+        stale = bool(today) and str(generated or "")[:10] != str(today)[:10]
+        stale_note = (f"- ⚠️ 이번 Run 날짜({today})와 다릅니다. **이번 주 미측정**이며 "
+                      "아래 숫자는 지난 측정값입니다.")
+    lines.append(f"- 측정 시각: {_fmt(generated)} · Run 식별자: "
+                 f"{_truncate(str(doc.get('runId') or '없음'))}")
     if stale:
-        lines.append(f"- ⚠️ 이번 Run 날짜({today})와 다릅니다. **이번 주 미측정**이며 "
-                     "아래 숫자는 지난 측정값입니다.")
+        lines.append(stale_note)
     cause_counts = doc.get("causeCounts") or {}
     cause_text = ", ".join(f"{_truncate(str(k))} {v}건"
                            for k, v in sorted(cause_counts.items())) or "없음"
     snapshot = doc.get("snapshot") or {}
     independent = doc.get("independentSource") or {}
     rules = doc.get("delistingRules") or {}
+    # RED로 올리지는 않지만 절대 숨기지도 않는다 — 무엇이 몇 건인지 그대로 적는다.
+    attention_counts = doc.get("attentionCauseCounts") or {}
+    attention_text = ""
+    if attention_counts:
+        attention_text = " (" + ", ".join(f"{_truncate(str(k))} {v}건"
+                                          for k, v in sorted(attention_counts.items())) + ")"
     lines += [
         f"- 상태: {doc.get('status', '측정값 없음')}",
         f"- 목표 Universe(targetCoverage): {_fmt_count(doc.get('targetCoverage'), '종목')}"
@@ -289,12 +389,31 @@ def _coverage_block(doc, today=None):
         f"수집 {independent.get('asOf', '측정값 없음')} "
         f"(경과 {_fmt(independent.get('ageDays'), '일')} · "
         f"기준 충족 {independent.get('freshEnough')})",
-        f"- 상장폐지 확정 조건: 서로 다른 날짜 "
-        f"{_fmt_count(rules.get('persistentMissingMinDays'), '일')} 이상 + 경과 "
-        f"{_fmt_count(rules.get('minElapsedTradingDays'), '거래일')} 이상 + 독립 소스 "
-        f"부재 확인 + 시총 상위 "
-        f"{_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖 (하나라도 미충족이면 확정하지 않음)",
+        # ⚠️ 아래 목록은 gaeo_coverage/guardian.py의 classify_missing()이 실제로
+        #    보는 조건과 하나도 빠짐없이 같아야 한다. 알림이 실제보다 헐겁게 적히면
+        #    대표가 "이 정도 조건이면 확정이구나"를 잘못 이해한다
+        #    (2026-08-25 퀀트 재감사 MEDIUM).
+        "- 상장폐지 확정 조건 (아래를 **전부** 만족할 때만 확정, 하나라도 미충족이면 확정하지 않음):",
+        f"  ① 전체시장 snapshot에 없음 + 그 snapshot이 "
+        f"{_fmt_count(rules.get('snapshotMaxAgeDays'), '일')} 이내로 최신",
+        f"  ② **시장 자료에서 그 종목이 안 보인 날**이 서로 다른 날짜로 "
+        f"{_fmt_count(rules.get('persistentMissingMinDays'), '일')} 이상",
+        f"  ③ **시장 자료에서 처음 사라진 날**부터 "
+        f"{_fmt_count(rules.get('minElapsedTradingDays'), '거래일')} 이상 경과 "
+        f"(우리 시세가 안 들어온 기간이 아무리 길어도 이 조건을 대신하지 못함)",
+        f"  ④ 같은 사이클에 "
+        f"{_fmt_count(rules.get('massMissingBlock'), '종목')} 이상이 동시에 빠지지 않음",
+        f"  ⑤ 살아 있을 때 확인해 둔 시가총액 순위가 있고, 그 순위가 상위 "
+        f"{_fmt_count(rules.get('megaCapRankGuard'), '위')} 밖 "
+        f"(순위를 모르면 확정하지 않고 사람 확인으로 넘김)",
+        "  ⑥ 보통주 코드(끝자리 0) — 우선주·종류주는 법인 단위 원장으로 판단할 수 없음",
+        f"  ⑦ 독립 원장(KRX 상장법인목록)에도 없음. 그 원장은 "
+        f"{_fmt_count(rules.get('krxCorplistMinCount'), '법인')} 이상 + "
+        f"{_fmt_count(rules.get('krxCorplistMaxAgeDays'), '일')} 이내 + "
+        f"우리가 시세를 못 받기 시작한 시점 이후에 수집된 것이어야 함",
         f"- 동시 대량 누락 차단(벤더 장애 방어) 발동: {doc.get('massMissingBlockActive')}",
+        f"- 사람 확인이 필요하지만 즉시 위험은 아닌 건: "
+        f"{_fmt_count(doc.get('attentionCount'), '건')}{attention_text}",
         "- Universe 해석: configuredCoverage가 Universe 크기다. "
         "시세·자동분석 숫자가 작다고 Universe가 줄어든 것이 아니다.",
     ]
@@ -302,8 +421,10 @@ def _coverage_block(doc, today=None):
         lines.append(
             f"  · {finding.get('code')} {_truncate(str(finding.get('name')))} "
             f"({finding.get('market') or '시장미상'}) → {finding.get('cause')} "
-            f"(관측 {_fmt_count(finding.get('missingDayCount'), '일')} · 경과 "
+            f"(시세누락 {_fmt_count(finding.get('missingDayCount'), '일')}/경과 "
             f"{_fmt_count(finding.get('elapsedTradingDays'), '거래일')} · "
+            f"시장부재 {_fmt_count(finding.get('absentDayCount'), '일')}/경과 "
+            f"{_fmt_count(finding.get('elapsedAbsentTradingDays'), '거래일')} · "
             f"fingerprint `{finding.get('fingerprint') or '측정값 없음'}`)")
     return lines
 
@@ -379,14 +500,16 @@ def _evolution_block(status_doc, promotion_cards_doc):
 
 def build_system_health_section(*, coverage_doc=None, standby_doc=None,
                                 proposal_doc=None, gs_doc=None, status_doc=None,
-                                promotion_cards_doc=None, today=None):
+                                promotion_cards_doc=None, today=None,
+                                expected_run_id=None):
     """GREEN/ORANGE/RED 본문 끝에 공통으로 붙는 3블록 점검 요약.
 
     이미 만들어진 상태 파일의 값을 그대로 옮겨 적는다. 여기서 숫자를 새로
     계산하거나 상태 파일을 수정하지 않는다(읽기 전용).
     """
     lines = ["## GAEO SYSTEM HEALTH", "", "### Coverage"]
-    lines += _coverage_block(coverage_doc, today=today)
+    lines += _coverage_block(coverage_doc, today=today,
+                             expected_run_id=expected_run_id)
     lines += _standby_proposal_block(standby_doc, proposal_doc)
     lines += ["", "### Goldman Reference Check"]
     lines += _gs_block(gs_doc)
@@ -406,7 +529,7 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
                        status_doc=None, promotion_cards_doc=None,
                        candidate_generation=None, today=None,
                        coverage_doc=None, standby_doc=None, proposal_doc=None,
-                       gs_doc=None):
+                       gs_doc=None, expected_run_id=None):
     """전체 알림(제목·본문·레벨·marker)을 결정론적으로 만든다. 순수 함수."""
     status_doc = _as_dict_or_none(status_doc)
     promotion_cards_doc = _as_dict_or_none(promotion_cards_doc)
@@ -414,12 +537,28 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
     standby_doc = _as_dict_or_none(standby_doc)
     proposal_doc = _as_dict_or_none(proposal_doc)
     gs_doc = _as_dict_or_none(gs_doc)
+    today = today or today_kst()
+    # ⚠️ 등급을 RED로 올리는 게이트는 호출자가 이번 Run 식별자를 넘겼을 때만 켠다.
+    #    Coverage를 아예 쓰지 않는 호출자(기존 계약 테스트 등)까지 RED로 만들면
+    #    "Coverage와 Evolution은 서로 다른 시스템"이라는 분리 원칙에 어긋난다.
+    #    워크플로우의 알림 단계는 항상 --expect-run-id를 넘긴다.
+    gate_armed = bool(expected_run_id)
+    coverage_ok, coverage_reasons = coverage_freshness(
+        {"coverage": coverage_doc, "standby": standby_doc, "proposal": proposal_doc},
+        expected_run_id=expected_run_id, today=today)
+    coverage_unmeasured = gate_armed and not coverage_ok
     level = decide_level(job_failed=job_failed, status_doc=status_doc,
-                         promotion_cards_doc=promotion_cards_doc)
+                         promotion_cards_doc=promotion_cards_doc,
+                         coverage_unmeasured=coverage_unmeasured)
     title = build_title(level, today=today)
     marker = build_marker(run_id)
 
-    if level == LEVEL_RED:
+    if level == LEVEL_RED and not job_failed and coverage_unmeasured and \
+            (status_doc or {}).get("systemHealth") not in ("SAFE_MODE", "DEGRADED"):
+        # 연구는 정상, Coverage만 미측정 — 사실대로 다른 본문을 쓴다.
+        body = build_coverage_red_body(owner=owner, reasons=coverage_reasons,
+                                       run_url=run_url)
+    elif level == LEVEL_RED:
         reasons = []
         note = None
         if status_doc is not None:
@@ -428,6 +567,8 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
             health = status_doc.get("systemHealth")
             if health in ("SAFE_MODE", "DEGRADED") and not failed_step:
                 note = f"시스템 상태: {health}"
+        if coverage_unmeasured:
+            reasons = list(reasons) + list(coverage_reasons)
         body = build_red_body(owner=owner, failed_step=failed_step,
                               reasons=reasons, run_url=run_url, note=note)
     elif level == LEVEL_ORANGE:
@@ -440,7 +581,8 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
     health = build_system_health_section(
         coverage_doc=coverage_doc, standby_doc=standby_doc,
         proposal_doc=proposal_doc, gs_doc=gs_doc, status_doc=status_doc,
-        promotion_cards_doc=promotion_cards_doc, today=(today or today_kst()))
+        promotion_cards_doc=promotion_cards_doc, today=today,
+        expected_run_id=expected_run_id)
     body = f"{body}\n\n{health}\n\n<!-- {marker} -->\n"
     return {"level": level, "title": title, "body": body, "marker": marker}
 
@@ -474,6 +616,8 @@ def main(argv=None):
     b.add_argument("--proposal", default=os.path.join(
         ROOT, "gaeo_coverage", "state", "replacement_proposal.json"))
     b.add_argument("--gs", default="")
+    b.add_argument("--expect-run-id", default="",
+                   help="이번 Run 식별자. Coverage 산출물의 runId와 다르면 RED로 보고한다.")
     b.add_argument("--out", required=True)
     args = parser.parse_args(argv)
 
@@ -498,7 +642,8 @@ def main(argv=None):
         status_doc=status_doc, promotion_cards_doc=cards_doc,
         candidate_generation=candidate_generation,
         coverage_doc=coverage_doc, standby_doc=standby_doc,
-        proposal_doc=proposal_doc, gs_doc=gs_doc)
+        proposal_doc=proposal_doc, gs_doc=gs_doc,
+        expected_run_id=args.expect_run_id or None)
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=1)

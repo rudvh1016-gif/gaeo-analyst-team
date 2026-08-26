@@ -68,49 +68,36 @@ jobs:
           RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
         run: python run_evolution_lab.py
 
-      # ── Coverage Guardian (2026-08-25 추가) ─────────────────────────────────
+      # ── Coverage Guardian (2026-08-25 추가 · 2026-08-25 재감사 LOW-1 수리) ──
       # "600종목이 정말 600종목인가"를 실측만 한다. tickers.js·data.js·
       # auto_analysis.js·coverage_version.py를 읽기만 하고, 종목을 자동으로
       # 교체하는 경로가 코드에 없다. 산출물은 gaeo_coverage/state/*.json 뿐이고
       # 그 경로만 Constitution autoCommitAllowlist에 추가돼 있다.
-      # 실패해도 연구 결과 커밋을 막지 않는다(측정 실패는 알림에서 '측정값 없음').
-      # if: always() — 연구 실행이 실패한 주에도 Coverage 실측은 보고해야 한다.
-      # (이 단계가 성공해도, 앞 단계가 실패하면 allowlist/commit 단계는 기본
-      #  success() 조건 때문에 그대로 건너뛴다 — 커밋 경로가 열리지 않는다.)
-      - name: Coverage Guardian (읽기 전용 실측)
+      #
+      # ⭐ 이 단계는 무슨 일이 있어도 Evolution 연구 커밋을 막지 않는다.
+      #    (대표 지시 §4 — Evolution "모델이 더 좋아질 수 있는가"와 Coverage
+      #     "종목 목록이 건강한가"는 서로 다른 시스템이다. 관측 전용 부속의 버그가
+      #     그 주 연구 기록을 통째로 날려버리면 안 된다.)
+      #    그래서 continue-on-error로 job 상태에 영향을 주지 않게 하고, 뒤따르는
+      #    allowlist·commit 단계가 정상적으로 실행되게 둔다.
+      #
+      # ⚠️ 그렇다고 실패를 삼키는 것은 아니다. 산출물마다 이번 Run 식별자를 각인하고
+      #    (--run-id), 알림 단계가 그 값을 대조해 "이번 Run 미측정"이면 🔴 RED로
+      #    보고한다. 커밋은 보호하고 보고는 정직하게 남기는 구조다.
+      - name: Coverage Guardian (읽기 전용 실측 · 연구 커밋을 막지 않음)
         id: coverage_guard
         if: always()
+        continue-on-error: true
+        env:
+          GAEO_RUN_STAMP: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -uo pipefail
-          # 개별 실패는 삼키지 않고 기록만 한 뒤, 마지막에 '이번 Run이 실제로
-          # 산출물을 만들었는가'를 확인해 못 만들었으면 이 단계를 FAIL시킨다.
-          # (2026-08-25 보안 감사 MEDIUM: 측정 실패인데 지난주 state가 그대로 남아
-          #  이번 주 숫자처럼 🟢 GREEN으로 나가던 문제.)
-          RUN_DAY="$(TZ=Asia/Seoul date +%Y-%m-%d)"
-          python3 -m gaeo_coverage.guardian \
-            || echo "coverage guardian 실패" 1>&2
-          python3 -m gaeo_coverage.standby \
-            || echo "standby pool 실패" 1>&2
-          python3 -m gaeo_coverage.proposal \
-            || echo "replacement proposal 실패" 1>&2
-          RUN_DAY="$RUN_DAY" python3 -c "
-          import json, os, sys
-          day = os.environ['RUN_DAY']
-          bad = []
-          for path in ('gaeo_coverage/state/coverage_state.json',
-                       'gaeo_coverage/state/standby_pool.json',
-                       'gaeo_coverage/state/replacement_proposal.json'):
-              try:
-                  doc = json.load(open(path, encoding='utf-8'))
-              except Exception as e:
-                  bad.append('%s 읽기 실패(%s)' % (path, type(e).__name__)); continue
-              got = str(doc.get('generatedAt') or '')[:10]
-              if got != day:
-                  bad.append('%s 가 이번 Run(%s)이 아니라 %s 자료다' % (path, day, got or '알 수 없음'))
-          if bad:
-              print('Coverage 측정 실패:', '; '.join(bad)); sys.exit(1)
-          print('Coverage 산출물 3종 모두 이번 Run(%s) 기준' % day)
-          "
+          python3 -m gaeo_coverage.guardian --run-id "$GAEO_RUN_STAMP" \
+            || echo "coverage guardian 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
+          python3 -m gaeo_coverage.standby --run-id "$GAEO_RUN_STAMP" \
+            || echo "standby pool 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
+          python3 -m gaeo_coverage.proposal --run-id "$GAEO_RUN_STAMP" \
+            || echo "replacement proposal 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
 
       - name: Enforce commit allowlist (FAIL CLOSED)
         id: allowlist
@@ -210,13 +197,18 @@ jobs:
           OUTCOME_INSTALL_DEPS: ${{ steps.install_deps.outcome }}
           OUTCOME_CONTRACT_TESTS: ${{ steps.contract_tests.outcome }}
           OUTCOME_RUN_LAB: ${{ steps.run_lab.outcome }}
-          OUTCOME_COVERAGE_GUARD: ${{ steps.coverage_guard.outcome }}
           OUTCOME_ALLOWLIST: ${{ steps.allowlist.outcome }}
           OUTCOME_VERIFY_CONFIG: ${{ steps.verify_config.outcome }}
           OUTCOME_COMMIT: ${{ steps.commit.outcome }}
           RUN_ID: ${{ github.run_id }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           OWNER: ${{ github.repository_owner }}
+          # ⭐ Coverage 산출물이 '이번 Run 것'인지 대조할 식별자(재감사 LOW-3).
+          #    날짜만 비교하면 같은 날 앞선 run이 남긴 산출물 때문에 이번 run이
+          #    통째로 실패해도 게이트를 통과한다. Run 식별자면 그 구멍이 닫힌다.
+          #    ⚠️ coverage_guard.outcome은 일부러 실패 판정 체인에 넣지 않는다 —
+          #    Coverage가 Evolution job을 실패로 물들이면 안 되기 때문이다(§4).
+          GAEO_RUN_STAMP: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
           # ⚠️ GitHub Actions 스텝 outcome은 success/failure/cancelled/skipped
@@ -236,8 +228,6 @@ jobs:
             FAILED_STEP="Harness contract tests"
           elif is_bad "$OUTCOME_RUN_LAB"; then
             FAILED_STEP="Run deterministic evolution lab"
-          elif is_bad "$OUTCOME_COVERAGE_GUARD"; then
-            FAILED_STEP="Coverage Guardian"
           elif is_bad "$OUTCOME_ALLOWLIST"; then
             FAILED_STEP="Enforce commit allowlist"
           elif is_bad "$OUTCOME_VERIFY_CONFIG"; then
@@ -260,6 +250,7 @@ jobs:
               --coverage gaeo_coverage/state/coverage_state.json \
               --standby gaeo_coverage/state/standby_pool.json \
               --proposal gaeo_coverage/state/replacement_proposal.json \
+              --expect-run-id "${GAEO_RUN_STAMP:-}" \
               --out /tmp/gaeo_notify.json; then
             :
           else
