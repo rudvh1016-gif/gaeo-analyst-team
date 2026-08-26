@@ -9,6 +9,12 @@
 #   https://gaeoteam.com/research_archive/dart/corp_map.json → HTTP 200
 exclude:
   - research_archive/
+  # 🧪 모의투자 Shadow 전략(PAPER_SMART_V2)의 원기록. 화면에 싣지 않는 전략이라
+  #    사이트 주소로 내보내지 않는다. ⚠️ 이것만으로는 부족하다 — public 저장소라
+  #    raw URL은 그대로 남는다. 그래서 표본 미달 시 계좌 성과 숫자 자체를 비운다
+  #    (paper_smart_v2.SHADOW_ACCOUNT_GATED). V1(paper_trading/ 최상위)은 화면에
+  #    싣는 것이 설계라 제외하지 않는다.
+  - paper_trading/smart_v2/
   - docs/
   - "*.py"
   - "*.command"
