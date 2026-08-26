@@ -1,0 +1,177 @@
+# 개오 Coverage Guardian — KRX 독립 소스(업종 맵) 주간 갱신
+#
+# 왜 있나 (2026-08-26 감사)
+#   Guardian이 "이 종목이 정말 상장폐지됐는가"를 판정할 때 쓰는 유일한 독립 증거가
+#   market_universe/sector_map.json(KRX 상장법인목록)이다. 네이버에서 안 보인다는
+#   사실만으로는 상폐를 확정할 수 없기 때문이다. 그런데 이 파일을 갱신하는 워크플로가
+#   하나도 없었다 — 유일한 생산자인 market-universe-smoke-test는 workflow_dispatch
+#   전용이라 사람이 손으로 눌러야만 돌았다.
+#   Guardian의 신선도 한도는 KRX_CORPLIST_MAX_AGE_DAYS(14일)라, 아무도 누르지 않으면
+#   14일 뒤부터 Guardian이 INDEPENDENT_SOURCE_STALE로 주저앉는다.
+#   이 워크플로가 주 1회 자동으로 갱신해서 그 상태를 막는다.
+#
+# ⭐ 안전 규칙
+#   - tickers.js를 바꾸지 않는다. Coverage Version도 바꾸지 않는다.
+#     상폐가 의심돼도 자동 종목교체는 없다(제안 → 사람 승인까지만).
+#     아래 커밋 단계는 market_universe/ 밖의 파일이 staged 되면 실패한다.
+#   - 검증에 실패한 후보가 last-good을 덮지 않는다. 판정은 probe_sector_source.py가
+#     하고(exit 2 = 승격 거부), 이 워크플로는 그때 아무것도 커밋하지 않는다.
+#   - KRX가 해외 IP로 막히면(exit 1) 네이버 같은 벤더 자료로 대체하지 않는다.
+#     BLOCKED_SOURCE로 정직하게 두고 last-good을 유지한다.
+#   - Evolution Sunday(evolution-lab.yml, 일 08:00 KST) 일정을 건드리지 않는다.
+#     그보다 하루 앞서 돌아 Guardian이 신선한 맵을 보게만 한다.
+#   - 새 Secret을 요구하지 않는다. GITHUB_TOKEN만 쓴다.
+name: sector-source-refresh
+
+on:
+  schedule:
+    # 수요일·토요일 00:00 UTC = 수·토 09:00 KST.
+    #
+    # 왜 주 2회인가 (2026-08-26 QA 지적)
+    #   Guardian의 신선도 한도는 14일이다. 주 1회로만 두면 한 번 실패했을 때
+    #   다음 자동 시도가 7일 뒤라, 그 사이에 만료돼 상폐 판정이 멈춘다.
+    #   실측: 지금 맵은 08-30 만료인데 주 1회(토)면 08-29 단 한 번만 시도한다.
+    #   수요일을 하나 더 둬서 실패해도 만료 전에 두 번째 기회가 있게 한다.
+    #   토요일 회차는 Evolution Sunday(일 08:00 KST)보다 하루 앞서서, Guardian이
+    #   신선한 맵을 보게 한다. Evolution 일정 자체는 건드리지 않는다.
+    #   갱신할 게 없으면 커밋도 안 하므로 주 2회여도 비용은 요청 2번뿐이다.
+    - cron: "0 0 * * 3,6"
+  workflow_dispatch:
+
+permissions:
+  contents: write     # market_universe/ 결과 커밋
+  issues: write       # 소스 차단·승격 거부 알림
+
+concurrency:
+  group: sector-source-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TZ: Asia/Seoul
+      GH_TOKEN: ${{ github.token }}
+      TITLE: "⚠️ [GAEO Coverage] KRX 독립 소스 갱신 실패"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 갱신 전 상태 기록
+        run: |
+          python3 - <<'PY'
+          import json
+          try:
+              d = json.load(open("market_universe/sector_map.json", encoding="utf-8"))
+              print(f"현재 last-good: {d.get('corpCount')}법인 · asOf {d.get('asOf')} "
+                    f"· gate {d.get('crosswalkCoverage', {}).get('gate')}")
+          except Exception as e:
+              print(f"현재 last-good을 읽을 수 없다: {type(e).__name__}: {e}")
+          PY
+
+      - name: KRX 상장법인목록 수집 → 검증 → 승격
+        id: probe
+        # exit 0 승격 완료 / 1 소스 차단(BLOCKED_SOURCE) / 2 검증 실패로 승격 거부.
+        # 1·2 모두 last-good은 그대로다. 여기서 죽이지 않고 아래에서 알린다.
+        run: |
+          set +e
+          python3 probe_sector_source.py 2>&1 | tee /tmp/probe.log
+          code=${PIPESTATUS[0]}
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "프로브 종료 코드: $code"
+
+      - name: 승격됐을 때만 커밋
+        if: steps.probe.outputs.code == '0'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add market_universe
+
+          # 🔒 허용 경로 밖이 staged 되면 커밋하지 않는다. tickers.js·coverage_version.py는
+          #    이 워크플로가 절대 건드리면 안 되는 파일이다(자동 종목교체 금지).
+          BAD=$(git diff --cached --name-only | grep -v '^market_universe/' || true)
+          if [ -n "$BAD" ]; then
+            echo "::error::허용되지 않은 파일이 staged 됐다: $BAD"
+            git reset
+            exit 1
+          fi
+
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋하지 않는다"
+          else
+            git commit -m "coverage: KRX 독립 소스(업종 맵) 주간 갱신 [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin HEAD && break
+              sleep $((2 ** i))
+              git pull --rebase || true
+            done
+          fi
+
+      - name: 실패하면 알림 이슈 생성 또는 갱신
+        if: steps.probe.outputs.code != '0'
+        env:
+          CODE: ${{ steps.probe.outputs.code }}
+        run: |
+          set -euo pipefail
+          if [ "$CODE" = "1" ]; then
+            WHAT="KRX 응답을 받지 못했습니다(BLOCKED_SOURCE). 해외 IP 차단일 수 있습니다."
+          else
+            WHAT="KRX 응답은 받았지만 내용이 검증을 통과하지 못해 **승격을 거부**했습니다."
+          fi
+          {
+            echo "KRX 독립 소스(업종 맵) 주간 갱신이 실패했습니다."
+            echo
+            echo "- 종료 코드: \`${CODE}\`"
+            echo "- 무슨 일인가: ${WHAT}"
+            echo "- **기존 \`market_universe/sector_map.json\`은 그대로입니다**(1바이트도 바뀌지 않았습니다)."
+            echo
+            echo '## 왜 중요한가'
+            echo
+            echo "이 파일은 Guardian이 상장폐지를 확정할 때 쓰는 **유일한 독립 증거**입니다."
+            echo "네이버에서 안 보인다는 사실만으로는 상폐를 확정하지 않기 때문입니다."
+            echo "갱신이 14일 이상 밀리면(\`KRX_CORPLIST_MAX_AGE_DAYS\`) Guardian이"
+            echo "\`INDEPENDENT_SOURCE_STALE\`이 되어 상폐 판정을 아예 멈춥니다."
+            echo "종목 커버리지 자체가 깨지는 건 아니지만, 상폐를 못 잡는 상태가 됩니다."
+            echo
+            echo '## 확인 순서'
+            echo
+            echo "1. 아래 실행 로그에서 거부 사유(\`[probe]   · ...\`)를 봅니다."
+            echo "2. 사유가 \`crosswalk GATE_FAIL\`이면 KRX가 업종명 체계를 바꿨을 수 있습니다."
+            echo "   \`sector_crosswalk.py\`의 \`KSIC_TO_GAEO\`에 새 업종명을 더해야 합니다."
+            echo "3. 사유가 \`법인 수\`면 응답이 잘린 것입니다. 잠시 뒤 수동 재실행하면 대개 풀립니다."
+            echo "4. 소스가 계속 막히면 last-good이 만료되기 전에 사람이 한 번 받아 두면 됩니다."
+            echo
+            echo '## 이 워크플로가 하지 않는 것'
+            echo
+            echo "- 네이버 등 벤더 자료를 독립 증거로 대신 쓰지 않습니다."
+            echo "- \`tickers.js\`·Coverage Version을 자동으로 바꾸지 않습니다."
+            echo
+            echo "> 다음 갱신이 성공하면 이 이슈는 자동으로 닫힙니다."
+          } > /tmp/coverage_alert.md
+
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                --jq "map(select(.title == \"${TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then
+            gh issue comment "$NUM" --body-file /tmp/coverage_alert.md
+          else
+            gh issue create --title "$TITLE" --body-file /tmp/coverage_alert.md
+          fi
+
+      - name: 성공하면 열려 있던 알림 닫기
+        if: steps.probe.outputs.code == '0'
+        run: |
+          set -euo pipefail
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                --jq "map(select(.title == \"${TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then
+            gh issue close "$NUM" --reason completed \
+              --comment "이번 주 갱신이 정상 승격돼 자동으로 닫습니다."
+          else
+            echo "정상: 열린 알림 이슈 없음"
+          fi

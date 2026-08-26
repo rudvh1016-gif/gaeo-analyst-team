@@ -42,8 +42,12 @@ jobs:
 
       # 업종 프로브가 sector_map.json을 만들어야 아래 본 수집이 업종 Breadth를
       # 계산할 수 있다 — 반드시 본 수집보다 먼저 실행.
-      - name: 업종 소스 실검증 + sector_map 생성 (KRX 상장법인목록)
-        run: python3 probe_sector_source.py || echo "업종 소스 차단/실패 — BLOCKED_SOURCE로 기록됨(수집기는 last-good 맵 사용)"
+      # 종료 코드: 0 승격 / 1 소스 차단(BLOCKED_SOURCE) / 2 검증 실패로 승격 거부.
+      # 1·2 어느 쪽이든 기존 sector_map.json은 1바이트도 바뀌지 않는다(fail closed).
+      # 여기서 죽이지 않는 이유는 아래 본 수집이 last-good 맵으로 계속 돌 수 있어서다.
+      # 정기 갱신은 sector-source-refresh.yml(주 1회)이 맡는다.
+      - name: 업종 소스 실검증 + sector_map 승격 (KRX 상장법인목록)
+        run: python3 probe_sector_source.py || echo "업종 맵 갱신 안 됨 — last-good 유지(수집기는 기존 맵 사용)"
 
       - name: 전체 수집·집계 (요청 수십 회, per-stock polling 없음)
         if: ${{ inputs.full }}

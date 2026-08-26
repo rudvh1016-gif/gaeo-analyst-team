@@ -54,7 +54,14 @@ jobs:
       # 두 알림은 성격이 다르므로 제목이 서로 달라야 한다.
       #   FAIL_TITLE   러너는 살아 있는데 사이클이 실패했다
       #   SILENT_TITLE 러너가 오늘 아예 한 번도 실행되지 않았다
-      FAIL_TITLE: "🛑 모의투자 러너 사이클 실패 (집 PC 자동 기록 중단)"
+      # ⚠️ 러너 종류를 제목에 박지 않는다. 활성 러너는 집 Windows PC일 수도
+      #    Oracle Linux VM일 수도 있고(paper_runner_config.json이 정한다),
+      #    제목이 "집 PC"로 고정돼 있으면 Oracle로 넘어간 뒤 이 알림이 엉뚱한 곳을
+      #    가리킨다. 어느 러너인지는 본문의 확인 순서가 알려준다.
+      FAIL_TITLE: "🛑 [GAEO Paper] 모의투자 러너 사이클 실패"
+      # 2026-08-26 이전 제목. 그때 열린 이슈가 아직 떠 있을 수 있어서, 닫을 때는
+      # 옛 제목도 같이 찾는다(안 그러면 영영 안 닫히는 이슈가 하나 남는다).
+      FAIL_TITLE_LEGACY: "🛑 모의투자 러너 사이클 실패 (집 PC 자동 기록 중단)"
       SILENT_TITLE: "🛑 [GAEO Paper] 오늘 모의투자가 실행되지 않았습니다"
     steps:
       - uses: actions/checkout@v4
@@ -175,14 +182,16 @@ jobs:
         if: steps.check.outputs.status == 'OK'
         run: |
           set -euo pipefail
-          NUM=$(gh issue list --state open --limit 100 --json number,title \
-                --jq "map(select(.title == \"${FAIL_TITLE}\")) | .[0].number // empty")
-          if [ -n "$NUM" ]; then
-            gh issue close "$NUM" --comment "오늘 사이클이 정상(CYCLE_OK)으로 확인돼 자동으로 닫습니다." \
-              --reason completed
-          else
-            echo "정상: 열린 알림 이슈 없음"
-          fi
+          # 새 제목과 옛 제목(집 PC 시절) 둘 다 찾아서 닫는다.
+          for T in "$FAIL_TITLE" "$FAIL_TITLE_LEGACY"; do
+            NUM=$(gh issue list --state open --limit 100 --json number,title \
+                  --jq "map(select(.title == \"${T}\")) | .[0].number // empty")
+            if [ -n "$NUM" ]; then
+              gh issue close "$NUM" --comment "오늘 사이클이 정상(CYCLE_OK)으로 확인돼 자동으로 닫습니다." \
+                --reason completed
+            fi
+          done
+          echo "정상 처리 완료"
 
       - name: 다시 돌기 시작하면 미실행 이슈 닫기
         # OK뿐 아니라 FAIL에서도 닫는다 — 실패했다는 건 러너가 실행은 됐다는 뜻이고,

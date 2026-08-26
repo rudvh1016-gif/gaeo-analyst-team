@@ -1,0 +1,95 @@
+# 개오 모의투자 — 주간 Evidence 상태 보고 (성과 숫자 없음)
+#
+# 왜 있나
+#   V1(5거래일 청산)과 Smart V2(5/20/60 재평가)는 같은 BUY 전환에서 출발한다.
+#   두 전략을 나중에 비교하려면 "같은 신호끼리 짝이 몇 개나 쌓였는가"를 꾸준히
+#   봐야 하는데, 그걸 알려면 사람이 매번 원장을 열어봐야 했다. 이 워크플로가
+#   일주일에 한 번 상태만 이슈로 알린다.
+#
+# ⭐ 이 워크플로가 절대 하지 않는 것 (공개 저장소 전제)
+#   - 성과 숫자를 내지 않는다. 수익률·평가액·최대낙폭·현금은 계산조차 하지 않는다.
+#     표본(Evidence)이 기준을 넘기 전에는 paper_pairing.py가 아예 만들지 않는다.
+#   - 승자를 선언하지 않는다. 전략을 자동으로 바꾸지 않는다.
+#   - 인프라 정보(IP·hostname·OCID·Secret·토큰)를 출력하지 않는다.
+#     저장소 파일만 읽으므로 애초에 그런 값에 접근하지 않는다.
+#   - 토스 API를 호출하지 않는다(GitHub 러너 IP는 토스에서 막힌다).
+#   - 저장소에 아무것도 커밋·push 하지 않는다.
+name: paper-evidence-report
+
+on:
+  schedule:
+    # 월요일 00:30 UTC = 09:30 KST. 주 1회면 충분하다(원장은 하루 단위로만 는다).
+    - cron: "30 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read      # checkout 전용(쓰기 없음)
+  issues: write       # 상태 이슈 생성·갱신
+
+concurrency:
+  group: paper-evidence-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    # 포크에서는 돌지 않는다(남의 저장소에 이슈를 만들지 않게).
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Asia/Seoul
+      GH_TOKEN: ${{ github.token }}
+      TITLE: "📄 [GAEO Paper] 주간 Evidence 상태"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 상태 집계 + 성과 유출 검사 (저장소 파일만 읽음)
+        # paper_pairing.py는 성과를 애초에 만들지 않지만, 출력 직전에 스스로 한 번 더
+        # 검사하고 새면 exit 3으로 끝난다(보고서를 내보내지 않는다).
+        #
+        # ⚠️ 금지 목록을 여기 셸에 손으로 적지 않는다. 그러면 엔진의 원본
+        #    (paper_engine.EVIDENCE_GATED_FIELDS)과 어긋나도 아무도 모르고,
+        #    영문 필드명만 보게 되어 "누적 수익률 +12.3%" 같은 한국어 유출을
+        #    통째로 놓친다. 판정은 paper_pairing.performance_leaks가 한다.
+        run: python3 paper_pairing.py > /tmp/paper_evidence.md
+
+      - name: 독립 2차 게이트 (생성기 밖에서 한 번 더)
+        # ⚠️ 위 검사는 보고서를 만드는 그 모듈 안에 있다. 생성기가 새면 검사기도
+        #    같이 샌다. 그래서 프로세스 밖에서 한 겹 더 본다 — 게이트는 두 겹일 때만
+        #    게이트다. 금지어는 여기서도 손으로 적지 않고 엔진 상수에서 뽑아 쓴다.
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import sys
+          from paper_engine import EVIDENCE_GATED_FIELDS
+          from paper_pairing import ACCOUNT_STATE_FIELDS, performance_leaks
+          text = open("/tmp/paper_evidence.md", encoding="utf-8").read()
+          leaks = performance_leaks(text)
+          for f in tuple(EVIDENCE_GATED_FIELDS) + ACCOUNT_STATE_FIELDS:
+              if f in text and f"성과 필드명 노출: {f}" not in leaks:
+                  leaks.append(f"2차 게이트가 잡음: {f}")
+          if leaks:
+              for r in leaks:
+                  print(f"::error::{r}")
+              sys.exit(1)
+          print("2차 게이트 통과 — 성과 유출 없음")
+          PY
+
+      - name: 상태 이슈 생성 또는 갱신
+        run: |
+          set -euo pipefail
+          {
+            echo
+            echo "> 이 이슈는 매주 월요일 09:30 KST에 자동 갱신됩니다."
+            echo "> 저장소 파일만 읽고, 아무것도 커밋하지 않습니다."
+          } >> /tmp/paper_evidence.md
+
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                --jq "map(select(.title == \"${TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then
+            echo "기존 상태 이슈 #$NUM 갱신"
+            gh issue comment "$NUM" --body-file /tmp/paper_evidence.md
+          else
+            echo "새 상태 이슈 생성"
+            gh issue create --title "$TITLE" --body-file /tmp/paper_evidence.md
+          fi
