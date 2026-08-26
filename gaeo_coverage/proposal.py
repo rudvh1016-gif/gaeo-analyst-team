@@ -55,24 +55,35 @@ def market_of(removal):
 def match_by_market(removals, candidates):
     """빠지는 종목과 **같은 시장**에서 시가총액이 가장 큰 후보를 하나씩 배정한다.
 
-    대기 명단은 이미 시가총액 내림차순이므로 앞에서부터 훑으면 그게 최대다.
     같은 시장 후보가 없으면 그 건은 배정하지 않고 unmatched로 돌려준다
     (다른 시장 종목으로 대충 채우지 않는다).
+
+    ⚠️ "앞에서부터 훑으면 그게 최대"라고 가정하지 않는다. eligible_candidates()는
+       본문 목록과 시장별 예비 명단을 이어 붙이므로 합친 결과는 전체 정렬이 아니다.
+       지금은 예비 명단이 본문보다 작은 종목만 남지만, 상류 정렬 규칙이 바뀌면
+       조용히 더 작은 후보를 고르게 된다. 그래서 여기서 직접 최대값을 고른다
+       (2026-08-25 퀀트 재감사 LOW).
     """
+    def _cap(c):
+        v = c.get("marketCap")
+        if v is None:
+            v = c.get("capAtSnapshot")
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            return float("-inf")
+
     used, additions, unmatched = set(), [], []
     for removal in removals:
         market = market_of(removal)
         if not market:
             unmatched.append("시장미상(%s)" % removal.get("code"))
             continue
-        picked = None
-        for c in candidates:
-            if c["code"] in used:
-                continue
-            if str(c.get("market")) != market:
-                continue
-            picked = c
-            break
+        same_market = [c for c in candidates
+                       if c["code"] not in used and str(c.get("market")) == market]
+        # 동점이면 코드 순으로 결정 — 실행마다 결과가 달라지면 안 된다.
+        picked = min(same_market, key=lambda c: (-_cap(c), str(c["code"]))) \
+            if same_market else None
         if picked is None:
             unmatched.append(market)
             continue
@@ -108,7 +119,8 @@ def eligible_candidates(standby_pool):
     return out
 
 
-def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=None):
+def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=None,
+                   run_id=None):
     now_iso = guardian.now_kst_iso(now)
     coverage_report = coverage_report if isinstance(coverage_report, dict) else {}
     standby_pool = standby_pool if isinstance(standby_pool, dict) else {}
@@ -127,6 +139,7 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
     base = {
         "schemaVersion": 1,
         "generatedAt": now_iso,
+        "runId": guardian.resolve_run_id(run_id),
         "appliedToTickers": False,
         "autoApplyPath": False,
         "currentCoverageVersion": coverage_report.get("coverageVersion"),
@@ -215,11 +228,12 @@ def _read_json(path):
 
 
 def run(*, coverage_path=guardian.DEFAULT_REPORT_OUT,
-        standby_path=None, out=DEFAULT_OUT, write=True, now=None):
+        standby_path=None, out=DEFAULT_OUT, write=True, now=None, run_id=None):
     from . import standby as standby_mod
     standby_path = standby_path or standby_mod.DEFAULT_OUT
     doc = build_proposal(coverage_report=_read_json(coverage_path) or {},
-                         standby_pool=_read_json(standby_path) or {}, now=now)
+                         standby_pool=_read_json(standby_path) or {}, now=now,
+                         run_id=run_id)
     if write:
         guardian.write_json(out, doc)
     return doc
@@ -230,11 +244,12 @@ def main(argv=None):
     p.add_argument("--coverage", default=guardian.DEFAULT_REPORT_OUT)
     p.add_argument("--standby", default=None)
     p.add_argument("--out", default=DEFAULT_OUT)
+    p.add_argument("--run-id", default=None)
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args(argv if argv is not None else sys.argv[1:])
 
     doc = run(coverage_path=args.coverage, standby_path=args.standby, out=args.out,
-              write=not args.dry_run)
+              write=not args.dry_run, run_id=args.run_id)
     print("[proposal] status=%s reason=%s" % (doc["status"], doc.get("reason")))
     print("  제거 %d · 추가 %d · 초안버전 %s · tickers.js 반영 %s"
           % (len(doc["removals"]), len(doc["additions"]),
