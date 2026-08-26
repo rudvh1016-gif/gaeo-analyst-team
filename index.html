@@ -1780,10 +1780,11 @@
   .vreport{margin-top:16px;color:var(--t3);font-size:13.5px;line-height:1.85;
     border-left:2px solid var(--line2);padding-left:16px}
   /* 🧭 가격 나침반 — indicators.js의 이동평균·3개월 밴드로 자동 계산한 목표/지지/손절 참고선 */
-  .vlevels{margin-top:12px;padding:14px 18px;background:var(--paper);border:1.5px solid var(--line);
-    border-radius:12px;font-size:13px;color:var(--t2);line-height:1.95}
-  .vlevels .vl-t{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:6px}
-  .vlevels b{font-variant-numeric:tabular-nums;color:var(--navy)}
+  /* 2026-08-26: 여기만 테두리가 1.5px이라 다른 칸들과 굵기가 미묘하게 달랐다.
+     이제 다른 구역과 똑같이 구분선 + 제목 형식으로 맞춘다(#vlevels 규칙 참고). */
+  .vlevels{font-size:13px;color:var(--t2);line-height:1.95}
+  .vlevels .vl-t{font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px}
+  .vlevels b{font-variant-numeric:tabular-nums;color:var(--ink)}
   .vlevels .up{color:var(--green);font-weight:600}
   .vlevels .dn{color:var(--red);font-weight:600}
   .vlevels .vl-note{margin-top:7px;font-size:11px;color:var(--faint);line-height:1.6}
@@ -1796,7 +1797,7 @@
   /* 🌐 MACRO 시장국면 — 변동성 확대 구간에서 확신도를 낮춰 보여줄 때(판단 자체는 불변) */
   .vmacro{margin:12px 0 0;padding:11px 15px;background:var(--navy-soft);border:1px solid var(--line);
     border-radius:12px;font-size:12.5px;color:var(--t2);line-height:1.7}
-  .vmacro b{color:#1D4ED8}
+  .vmacro b{color:var(--ink)}   /* 시장국면은 오름·내림이 아니다 → 파란 강조색 제거(2026-08-26) */
   /* 🎯 애널리스트 개인 통산 적중률 배지 (카드 헤더) */
   .accb{font-size:10px;font-weight:500;color:#7C5A0B;background:#FEF3C7;border:1px solid #FDE68A;
     border-radius:99px;padding:2px 8px;margin-left:6px;white-space:nowrap;cursor:help;flex-shrink:0}
@@ -1926,10 +1927,14 @@
   /* ⚠️ 2026-08-07: grid/flex의 자식 stretch가 이 화면(탭 hidden→표시와 동시에 내용이
      채워지는 타이밍)에서 부모 실제 너비 대신 훨씬 좁은 값으로 깨지는 버그가 재현돼
      %폭 + inline-block으로 우회했다(.vfactors 옆 주석 참고). */
-  .vmetrics{margin-top:20px;font-size:0}
-  .vmetric{display:inline-block;vertical-align:top;width:calc(25% - 7.5px);margin-right:10px;
-    box-sizing:border-box;font-size:14px;background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
-  .vmetric:last-child{margin-right:0}
+  /* 2026-08-26 디자인 통일: 지표 4개를 각각 카드로 두면 「카드 안 카드」가 되고 화면이
+     조각나 보인다. 디자인 시스템의 성적표 규칙(하나의 Summary Grid + 칸 구분선)과 같은
+     형태로, 테두리 하나짜리 패널 안의 칸(cell)으로 바꾼다. */
+  .vmetrics{margin-top:20px}
+  .vmetric-grid{font-size:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .vmetric{display:inline-block;vertical-align:top;width:25%;
+    box-sizing:border-box;font-size:14px;padding:13px 14px;border-left:1px solid var(--line)}
+  .vmetric:first-child{border-left:0}
   .vmetric-label{font-size:11px;color:var(--dim);font-weight:500;margin-bottom:6px}
   .vmetric-value{font-size:19px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
   .vmetric-value small{font-size:11px;font-weight:500;margin-left:3px}
@@ -1989,53 +1994,64 @@
   html.gdark .dart-board,html.gdark .dart-match{background:var(--paper)}
   html.gdark .dart-match{background:rgba(255,255,255,.03)}
   @media(max-width:700px){
-    .vmetric{width:calc(50% - 4px);margin-right:8px;margin-bottom:8px;padding:11px 12px}
-    .vmetric:nth-child(2n){margin-right:0}
+    .vmetric{width:50%;padding:11px 13px}
+    .vmetric:nth-child(2n+1){border-left:0}
+    .vmetric:nth-child(n+3){border-top:1px solid var(--line)}
     .vmetric-value{font-size:17px}
   }
 
-  .vreasons{margin-top:22px}
-  .vsec-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  /* 2026-08-26 디자인 통일: 종합 판단 안의 네 구역(판단 이유 · 긍정/주의 요인 ·
+     주요 가격 구간 · 상세 분석 근거)이 저마다 다른 껍데기(카드/테두리/배경)를 갖고 있어
+     "한 화면에 여러 사람이 만든 것"처럼 보였다. 이제 전부 같은 리듬으로 통일한다 —
+     구분선 하나 + 같은 규격의 제목(.vsec-title) + 같은 여백. 계층은 색이 아니라
+     타이포와 여백으로 만든다(디자인 시스템 2장).
+     ⚠️ id 선택자로 바깥 컨테이너에만 건다. 안쪽에 같은 class를 한 번 더 두면
+        구분선이 두 줄로 겹치므로, 렌더 함수는 wrapper를 만들지 않는다. */
+  #vreasons,#vfactors,#vlevels,#vevidence{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
+  #vreasons:empty,#vfactors:empty,#vlevels:empty,#vevidence:empty{display:none}
+  .vsec-title{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px}
   .vreason-item{display:flex;gap:11px;padding:12px 0;border-top:1px solid var(--line)}
   .vreason-item:first-child{border-top:none}
-  .vreason-num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--sky-soft);color:var(--navy);
-    font-size:11.5px;font-weight:500;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  /* 번호 원은 훑어 읽는 데 도움이 되니 남기되, 색은 뺀다(색은 시장 방향에만). */
+  .vreason-num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy-soft);color:var(--t3);
+    font-size:11.5px;font-weight:500;font-variant-numeric:tabular-nums;
+    display:flex;align-items:center;justify-content:center;margin-top:1px}
   .vreason-body{flex:1;min-width:0}
   .vreason-title{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
-  .vreason-title b{color:var(--navy)}
-  .vreason-desc{font-size:12.5px;line-height:1.65;color:var(--t3);word-break:keep-all}
+  .vreason-title b{color:var(--ink)}
+  .vreason-desc{font-size:12.5px;line-height:1.7;color:var(--t3);word-break:keep-all}
 
   /* ⚠️ 2026-08-07: 이 화면(종합 판단)의 컨테이너는 hidden 속성이 풀리면서(탭 전환) 동시에
      내용이 채워지는데, 이 타이밍에서 display:grid/flex의 자식 stretch(1fr, flex:1)가
      부모의 실제 너비 대신 훨씬 좁은 값으로 계산되는 재현 가능한 버그가 있었다(그리드·플렉스
      둘 다 동일 증상 확인됨 — 순수 % 폭 기반 inline-block으로 바꾸면 정상 동작). 그래서 여기서는
      grid/flex 대신 %폭 + inline-block을 쓴다(자세한 진단은 세션 기록 참고). */
-  .vfactors{margin-top:24px;font-size:0}
-  .vfactor-col{display:inline-block;vertical-align:top;width:calc(50% - 6px);margin-right:12px;
-    box-sizing:border-box;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  /* 2026-08-26: 초록 제목·주황 제목·초록 점·주황 점·연한 색 테두리까지 이 한 블록에만
+     색이 다섯 가지 있었다. 「긍정」/「주의」라는 말 자체가 이미 뜻을 다 전달하므로 색을
+     없애도 정보가 줄지 않는다(색만으로 뜻을 전하지 않는다 = 접근성 기준과도 일치).
+     카드 두 장도 없앤다 — 바깥 종합 판단 카드 안의 또 다른 카드였다. */
+  .vfactors{font-size:0}
+  .vfactor-col{display:inline-block;vertical-align:top;width:calc(50% - 9px);margin-right:18px;
+    box-sizing:border-box;font-size:14px}
   .vfactor-col:last-child{margin-right:0}
-  .vfactor-col.pos{border-color:var(--color-positive-line,var(--line))}
-  .vfactor-col.neg{border-color:var(--color-warning-line,var(--line))}
-  .vfactor-head{font-size:12.5px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-  .vfactor-col.pos .vfactor-head{color:var(--green,#1E8E5A)}
-  .vfactor-col.neg .vfactor-head{color:#B45309}
+  .vfactor-head{font-size:11.5px;font-weight:600;color:var(--dim);letter-spacing:.02em;margin-bottom:7px}
   .vfactor-col ul{margin:0;padding:0;list-style:none}
-  .vfactor-col li{position:relative;padding:4px 0 4px 14px;font-size:12px;line-height:1.6;color:var(--t2);word-break:keep-all}
-  .vfactor-col li::before{content:'';position:absolute;left:1px;top:11px;width:5px;height:5px;border-radius:50%}
-  .vfactor-col.pos li::before{background:var(--green,#1E8E5A)}
-  .vfactor-col.neg li::before{background:#D97706}
-  @media(max-width:700px){ .vfactor-col{width:100%;margin-right:0;margin-bottom:10px} .vfactor-col:last-child{margin-bottom:0} }
+  .vfactor-col li{position:relative;padding:4px 0 4px 13px;font-size:12.5px;line-height:1.7;color:var(--t2);word-break:keep-all}
+  .vfactor-col li::before{content:'';position:absolute;left:1px;top:11.5px;width:4px;height:4px;
+    border-radius:50%;background:var(--line2)}
+  @media(max-width:700px){ .vfactor-col{width:100%;margin-right:0;margin-bottom:16px} .vfactor-col:last-child{margin-bottom:0} }
 
   .vlv-table{width:100%;border-collapse:collapse;margin-top:4px}
-  .vlv-table td{padding:8px 6px;border-top:1px dashed var(--line);font-size:12.5px;vertical-align:middle}
+  .vlv-table td{padding:8px 6px;border-top:1px solid var(--line);font-size:12.5px;vertical-align:middle}
   .vlv-table tr:first-child td{border-top:none}
   .vlv-table .vlv-tag{font-size:10.5px;font-weight:500;color:var(--dim);white-space:nowrap;width:64px}
   .vlv-table .vlv-price{font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
   .vlv-table .vlv-gap{font-size:11px;font-weight:500;white-space:nowrap;padding-left:6px}
   .vlv-table .vlv-mean{color:var(--faint);font-size:11.5px;word-break:keep-all}
-  .vlv-table tr.vlv-now td{background:var(--sky-soft);border-radius:8px}
-  .vlv-table tr.vlv-now .vlv-price{color:var(--navy)}
-  .vlv-upnote{font-size:12.5px;color:var(--green,#1E8E5A);font-weight:600;margin:6px 0 2px}
+  /* 현재가 줄 강조는 '지금 위치'를 알려 주는 것이지 오름·내림이 아니다 → 파란 톤 대신 중립 배경. */
+  .vlv-table tr.vlv-now td{background:var(--navy-soft);border-radius:8px}
+  .vlv-table tr.vlv-now .vlv-price{color:var(--ink)}
+  .vlv-upnote{font-size:12.5px;color:var(--t2);font-weight:500;line-height:1.7;margin:8px 0 2px}
 
   .vevidence{margin-top:22px}
   .vev-item{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden;background:var(--paper)}
@@ -3052,8 +3068,8 @@
   .autonote b,.anote b,.anote .an-t,.vclash b,.vmacro b{color:var(--ink)}
   .vtarget{margin-top:28px;padding:18px 20px;background:var(--bg);border-radius:16px;font-size:14px}
   .vtarget b{color:var(--ink)}
-  .vlevels{margin-top:16px;padding:20px;background:var(--bg);border:0;border-radius:18px;
-    font-size:13.5px;line-height:2}
+  /* 2026-08-26: PC에서도 별도 상자를 만들지 않는다 — 구분선 + 제목으로 통일(#vlevels). */
+  .vlevels{font-size:13.5px;line-height:2}
   .vlevels .vl-t,.vlevels b{color:var(--ink)}
   .vreport{max-width:780px;margin-top:28px;padding:0 0 0 18px;border-left:2px solid var(--line2);
     color:var(--t2);font-size:15px;line-height:1.9}
@@ -3089,7 +3105,7 @@
     .veasy .ve-warn{margin-top:12px;line-height:1.6}
     .autonote,.anote,.vclash,.vmacro{padding:15px 16px;font-size:12.5px;line-height:1.75}
     .vtarget{margin-top:20px;padding:15px 16px;font-size:12.5px;line-height:1.7}
-    .vlevels{padding:16px;font-size:12.5px;line-height:1.8}
+    .vlevels{font-size:12.5px;line-height:1.8}
     #vreport.vreport{margin-top:22px;padding-left:14px;font-size:13.5px;line-height:1.8}
     .viz{padding:28px 20px;gap:24px}
     .viz .vtitle{font-size:20px}
@@ -5233,7 +5249,7 @@ function levelsHTML(code, price, targetText){
   const nowRow=`<tr class="vlv-now"><td class="vlv-tag">현재가</td><td class="vlv-price">${fm(price)}</td><td class="vlv-gap"></td><td class="vlv-mean">기준</td></tr>`;
   const belowRows=below.map(r=>rowHTML(r,'dn')).join('');
   const upNote=noResUp?`<div class="vlv-upnote">▲ 위쪽 참고선 없음 — 3개월 최고가 부근(신고가 구간)이라 막고 있는 윗선이 없어요</div>`:'';
-  return `<div class="vl-t">🧭 주요 가격 구간 <span style="font-weight:600;color:var(--dim)">(이동평균선·3개월 가격범위·컨센서스로 자동 계산)</span></div>`
+  return `<div class="vl-t">주요 가격 구간 <span style="font-weight:500;color:var(--dim)">(이동평균선·3개월 가격범위·컨센서스로 자동 계산)</span></div>`
     + upNote
     + `<table class="vlv-table">${aboveRows}${nowRow}${belowRows}</table>`
     + `<div class="vl-note">※ 컴퓨터가 차트 지표로 계산한 참고선이에요 — 시세가 갱신되면 표도 매일 조금씩 움직여요. 매수·매도 권유가 아닙니다.</div>`;
@@ -11281,8 +11297,11 @@ function verdictMetricGridHTML(v,stock){
         return `<span style="color:${col}">${p>0?'+':''}${p.toFixed(1)}%</span>`;})()
     : '<span style="color:var(--faint)">—</span>';
   const cell=(label,valueHTML)=>`<div class="vmetric"><div class="vmetric-label">${label}</div><div class="vmetric-value">${valueHTML}</div></div>`;
-  return `<div class="vmetrics">`
-    + cell('종합점수', `<span style="color:${v.color}">${v.total}</span><small>점</small>`)
+  return `<div class="vmetric-grid">`
+    // 2026-08-26: 종합점수만 판단색(주황·초록·빨강)으로 칠하면 같은 표 안에서 네 숫자의
+    // 색이 제각각이 된다. BUY/HOLD/SELL 색은 바로 위 Hero의 판단 글자가 이미 갖고 있으니
+    // 여기서는 중립으로 두고 크기·굵기로만 강조한다(색은 시장 방향에만).
+    + cell('종합점수', `${v.total}<small>점</small>`)
     + cell('판단 확신도', `${v.conf}<small>%</small>`)
     + cell('현재가', stock.price?won(stock.price):'—')
     + cell('기준가 대비', gapHTML)
@@ -11327,10 +11346,11 @@ function verdictReasonsHTML(data,v){
     {t:`${worst.label}${josaIGa(worst.label)} 상대적으로 아쉬워요`, d:`「${worst.label}」 ${data[worst.id].score}점 — ${axisEasyPhrase(worst.id,data[worst.id].score)}`},
     {t:`판단 확신도는 ${v.conf}%예요`, d:confDesc+(cl?` 분석가 간 최대 ${cl.spread}점 차이가 나요.`:'')},
   ];
-  return `<div class="vreasons"><div class="vsec-title">🧾 판단 이유</div>`
+  // ⚠️ 바깥 #vreasons가 이미 .vreasons class와 구분선을 갖고 있다 — 여기서 wrapper를
+  //    한 번 더 만들면 구분선이 두 줄로 겹친다(2026-08-26 통일 작업에서 정리).
+  return `<div class="vsec-title">판단 이유</div>`
     + items.map((it,i)=>`<div class="vreason-item"><span class="vreason-num">${i+1}</span>`+
-        `<div class="vreason-body"><div class="vreason-title">${esc(it.t)}</div><div class="vreason-desc">${it.d}</div></div></div>`).join('')
-    + `</div>`;
+        `<div class="vreason-body"><div class="vreason-title">${esc(it.t)}</div><div class="vreason-desc">${it.d}</div></div></div>`).join('');
 }
 // 3. 긍정 요인 / 주의 요인 — 4축의 강세(bull)/약세(bear) 방향과 RISK·확신도·의견갈림을 분리해서 보여준다.
 function verdictFactorsHTML(data,v){
@@ -11346,10 +11366,11 @@ function verdictFactorsHTML(data,v){
   const cl=clashInfo(data);
   if(cl) neg.push(`분석가들 의견이 크게 갈렸어요(최대 ${cl.spread}점 차이)`);
   const list=(arr,empty)=>arr.length?`<ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul>`:`<ul><li>${empty}</li></ul>`;
-  return `<div class="vfactors">`
-    + `<div class="vfactor-col pos"><div class="vfactor-head">✅ 긍정 요인</div>${list(pos,'뚜렷한 긍정 신호가 아직 없어요')}</div>`
-    + `<div class="vfactor-col neg"><div class="vfactor-head">⚠️ 주의 요인</div>${list(neg,'특별히 걸리는 위험 신호는 없어요')}</div>`
-    + `</div>`;
+  // 이 구역만 제목(.vsec-title)이 없어서 다른 구역과 리듬이 어긋났다 → 같은 제목 형식을 붙인다.
+  // 바깥 #vfactors가 이미 class와 구분선을 갖고 있으므로 wrapper는 만들지 않는다.
+  return `<div class="vsec-title">긍정·주의 요인</div>`
+    + `<div class="vfactor-col pos"><div class="vfactor-head">긍정 요인</div>${list(pos,'뚜렷한 긍정 신호가 아직 없어요')}</div>`
+    + `<div class="vfactor-col neg"><div class="vfactor-head">주의 요인</div>${list(neg,'특별히 걸리는 위험 신호는 없어요')}</div>`;
 }
 // ⭐ 2026-08-07: 픽셀 하우스 애니메이션 제거 — 분석가가 "일하러 걸어가는" 연출은 없앴지만
 // 카드가 순차적으로 채워지는 느낌(스태거드 리빌)은 그대로 유지하려고 단순 지연 타이머로 남겨둔다.
@@ -11399,7 +11420,7 @@ async function analyze(){
     });
   });
   const cleanAnalysisCopy=value=>String(value??'')
-    .replace(/(?:🕒|🔎|🎯|🧒|👍|🤔|⚡|🤖|🧠|📝|🧭|🚧|🔍|※)\s*/g,'· ')
+    .replace(/(?:🕒|🔎|🎯|🧒|👍|🤔|⚡|🤖|🧠|📝|🧭|🚧|🔍|📊|📈|📉|✅|⚠️|※)\s*/g,'· ')
     .replace(/\s*[—–]\s*/g,': ');
   // 0. Hero 한 줄 요약 — best/worst 축과 확신도를 조합한 자연어 문장(새 서술 생성 없이 구조화된 값만 조합).
   // 짧은 문장 여러 개로 끊어 쓴다(결론 먼저, 전문용어 뒤 쉬운 설명 원칙).
@@ -11481,7 +11502,8 @@ async function analyze(){
         `<span class="vev-summary-line">RISK 감점·데이터 시점</span>`+
         `<span class="vev-arrow">▾</span></summary>`+
         `<div class="vev-body">${riskBody}</div></details>`;
-    return `<div class="vevidence"><div class="vsec-title">🔎 상세 분석 근거</div>${axesHTML}${dartContextHTML(stock.code)}${narrative}${calcItem}</div>`;
+    // 바깥 #vevidence가 이미 class와 구분선을 갖고 있어 wrapper를 겹치지 않는다(2026-08-26).
+    return `<div class="vsec-title">상세 분석 근거</div>${axesHTML}${dartContextHTML(stock.code)}${narrative}${calcItem}`;
   }
   function runChief(){
     sendToWork(2800,()=>{
