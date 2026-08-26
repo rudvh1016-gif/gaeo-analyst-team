@@ -134,6 +134,58 @@ test('한쪽에만 있는 날짜는 짝이 되지 않는다', () => {
   assert.notStrictEqual(r.status, 'OK', '겹치지 않는 구간까지 짝지었다');
 });
 
+test('중간에 뚫린 구멍 구간은 버린다 (거래정지 후 재개)', () => {
+  // 2026-08-26 퀀트 감사에서 실측한 시나리오. 서로 무관한 두 종목에 정지 후 재개
+  // 구간 하나(A -25% · B -20%)를 그대로 이어 붙이면 상관계수가 0.96으로 뒤집힌다.
+  // 그 하나의 변동폭이 평소의 10배라 분산 기여가 100배가 되기 때문이다.
+  const n = 60;
+  const A = [], B = [];
+  let pa = 100, pb = 100;
+  for (let i = 0; i < n; i++) {
+    pa *= (1 + (rand() - 0.5) * 0.02); pb *= (1 + (rand() - 0.5) * 0.02);
+    A.push(pa); B.push(pb);
+  }
+  const flatA = [], flatB = [];
+  pages(A).forEach(pg => pg.days.forEach(d => flatA.push({ ...d })));
+  pages(B).forEach(pg => pg.days.forEach(d => flatB.push({ ...d })));
+  const wrap = arr => { const o = []; for (let k = 0; k < arr.length; k += 5) o.push({ page: o.length + 1, days: arr.slice(k, k + 5) }); return o; };
+
+  // A만 중간 5일이 빠진다(거래정지). 재개 이후 전 구간을 25% 낮춘 수준으로 옮겨서,
+  // '구멍을 건너뛴 그 한 구간만' -25%가 되게 한다. 이후 구간의 수익률은 그대로다
+  // — 그래야 구멍 구간이 포함됐는지 여부만 순수하게 잰다.
+  const cut = 30;
+  const shifted = flatA.map((d, k) => k >= cut + 5 ? { ...d, close: d.close * 0.75 } : d);
+  const holedA = shifted.filter((_, k) => k < cut || k >= cut + 5);
+
+  const s = makeScope({ A: wrap(holedA), B: wrap(flatB) }, {});
+  const r = s.pfCorrelation('A', 'B');
+  assert.strictEqual(r.status, 'OK');
+
+  // 구멍 구간이 빠졌다면, 같은 데이터에서 그 구간을 빼고 계산한 값과 같아야 한다.
+  // A에서 5일을 뺐으니 구간은 54개, 그중 구멍 구간 1개가 빠져 53개여야 한다.
+  assert.strictEqual(r.obs, holedA.length - 2,
+    `구멍을 건너뛴 구간이 관측치에 남아 있다 — obs=${r.obs}, 기대 ${holedA.length - 2}`);
+
+  // 그리고 그 -25% 한 방이 상관계수를 지배하지 않아야 한다.
+  const clean = makeScope({ A: wrap(flatA), B: wrap(flatB) }, {}).pfCorrelation('A', 'B');
+  assert.ok(Math.abs(r.r - clean.r) < 0.25,
+    `구멍 구간이 상관계수를 흔들었다 — r=${r.r.toFixed(3)} vs 정상 ${clean.r.toFixed(3)}`);
+});
+
+test('구멍을 건너뛴 구간을 하루 수익률로 쓰지 않는다', () => {
+  // A는 매일, B는 하루 걸러 하루만 있는 경우. 겹치는 날짜는 많지만 그중
+  // '양쪽 모두 바로 다음 날'인 구간은 거의 없으므로 관측치가 모자라야 한다.
+  const n = 100;
+  const A = Array.from({ length: n }, () => 100 + rand() * 10);
+  const flatA = []; pages(A).forEach(pg => pg.days.forEach(d => flatA.push(d)));
+  const everyOther = flatA.filter((_, k) => k % 2 === 0);
+  const wrap = arr => { const o = []; for (let k = 0; k < arr.length; k += 5) o.push({ page: o.length + 1, days: arr.slice(k, k + 5) }); return o; };
+  const s = makeScope({ A: wrap(flatA), B: wrap(everyOther.map(d => ({ ...d, close: d.close * 2 }))) }, {});
+  const r = s.pfCorrelation('A', 'B');
+  assert.notStrictEqual(r.status, 'OK',
+    'A쪽에 구멍이 있는 구간을 하루 수익률로 이어 붙였다');
+});
+
 test('배열 순서가 아니라 날짜로 정렬한다', () => {
   const asc = pages(Array.from({ length: N }, (_, i) => 100 + i), 1);
   const shuffled = { A: [...asc].reverse(), B: pages(Array.from({ length: N }, (_, i) => 100 + i), 1) };

@@ -162,6 +162,17 @@ def pairing_status(v1_dir=None, v2_dir=None):
             or v1_ep[i].get("signal_coverage_version") != v2_ep[i].get("signal_coverage_version"))
     ]
 
+    # ⭐ 아직 안 끝난 짝(우측 절단, right-censoring)을 반드시 함께 센다.
+    #
+    # V1은 5거래일에 끊고 V2는 60거래일까지 끈다. 그래서 "양쪽 다 청산"은 사실상
+    # V2가 언제 나오느냐로 정해진다. 그런데 초반에 V2에서 청산되는 건 CHIEF SELL을
+    # 맞은 것들뿐이고, CHIEF SELL은 주가가 나빠진 것과 상관이 있다. 즉 V2의 승자는
+    # 아직 열려 있고 패자만 닫혀서 쌓인다. 이 상태의 표본으로 평균을 내면 V2가
+    # 실제보다 나빠 보인다. 건수만 채웠다고 성과를 논하면 안 되는 이유다.
+    #
+    # 그래서 절단이 남아 있는 동안은 성과 공개 자격을 주지 않는다(fail closed).
+    paired_open = len(paired_ids) - len(paired_closed)
+
     stage = evidence_stage(len(paired_closed), len(paired_days))
     return {
         "schemaVersion": "gaeo_paper_pairing_v1",
@@ -172,17 +183,24 @@ def pairing_status(v1_dir=None, v2_dir=None):
             "pairedEpisodes": len(paired_ids),
             "pairedClosedEpisodes": len(paired_closed),
             "pairedUniqueEntryDates": len(paired_days),
+            "pairedOpenEpisodes": paired_open,
             "pairingStartedAt": paired_days[0] if paired_days else None,
             "conditionMismatchEpisodes": len(condition_mismatch),
             "note": ("양쪽 원장에 같은 source_episode_id로 실제 진입한 것만 센다. "
                      "과거 거래는 짝을 만들지 않는다(LEGACY_UNPAIRED)."),
+            "censoringNote": ("아직 안 끝난 짝은 대부분 V2가 오래 들고 있는 것이다. "
+                              "먼저 닫히는 쪽은 CHIEF SELL을 맞은 거래라 손실 쪽으로 "
+                              "치우친다. 절단이 남아 있으면 평균을 내지 않는다."),
         },
         "evidence": stage,
         "minClosedForEvidence": MIN_CLOSED_FOR_EVIDENCE,
         "minEntryDaysForEvidence": MIN_ENTRY_DAYS_FOR_EVIDENCE,
         # 표본이 차기 전에는 성과를 아예 만들지 않는다. 이 자리에 숫자가 들어가는
         # 경로 자체가 없어야 나중에 실수로 열리지 않는다.
-        "performance": PERFORMANCE_HIDDEN if stage != EVIDENCE_READY else "ELIGIBLE_FOR_REVIEW",
+        # 절단(아직 안 끝난 짝)이 남아 있으면 건수를 채웠어도 자격을 주지 않는다.
+        "performance": ("ELIGIBLE_FOR_REVIEW"
+                        if stage == EVIDENCE_READY and paired_open == 0
+                        else PERFORMANCE_HIDDEN),
         "strategyAutoChange": 0,
         "winnerDeclared": False,
     }
@@ -213,6 +231,7 @@ def render_report(status):
             "### Paired (같은 신호끼리)",
             f"- 짝지어진 Episode: {p['pairedEpisodes']}",
             f"- 그중 양쪽 다 청산 완료: {p['pairedClosedEpisodes']}",
+            f"- 아직 안 끝난 짝(절단): {p['pairedOpenEpisodes']}",
             f"- 짝의 진입일 수: {p['pairedUniqueEntryDates']}",
             f"- Pairing 시작일: {p['pairingStartedAt'] or '아직 시작 안 됨'}",
             f"- 조건(모델·Universe) 불일치 짝: {p['conditionMismatchEpisodes']}",
