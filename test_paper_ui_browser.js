@@ -270,7 +270,11 @@ const BASELINE = {
     { ...OPEN_ONE.recentTrades[0], holding_trading_days: 0, remaining_trading_days: 5 }] });
   const day0Open = await expandAll(page);
   check('진입 당일은 "오늘 진입"으로 표시(상세)', day0Open.text.includes('오늘 진입'));
-  check('진입 당일에 "0거래일째"라고 쓰지 않는다', !/0거래일/.test(day0Open.text));
+  // ⚠️ 2026-08-26: 앞 경계를 안 잡아 화면의 다른 문구("20거래일 -20% 이하 하락",
+  //    반등 후보 설명)까지 걸려 origin/main에서도 실패하고 있었다. 숫자 앞 경계를
+  //    캡처그룹으로 잡는다(이 저장소는 lookbehind 금지 — AGENTS.md 코딩 주의 1번).
+  check('진입 당일에 "0거래일째"라고 쓰지 않는다',
+    !/(^|[^0-9])0거래일/.test(day0Open.text));
   check('진입 당일에도 최대 보유기간은 그대로 표시', day0Open.text.includes('5거래일'));
 
   // ── ⑥-2 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있나"를 바로 답하는가 ──
