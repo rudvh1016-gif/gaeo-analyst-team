@@ -1352,16 +1352,30 @@ def run(*, tickers_path=DEFAULT_TICKERS, data_js_path=DEFAULT_DATA_JS,
         now=now, run_id=run_id)
     obs = report.pop("_observations")
     if write:
-        write_json(observations_path, obs)
+        write_json(observations_path, obs, compact=True)   # 기계 기록 — 위 주석 참조
         write_json(report_out, report)
     return report
 
 
-def write_json(path, doc):
+def write_json(path, doc, compact=False):
+    """원자적 쓰기(임시파일 → os.replace).
+
+    compact=True 는 **사람이 읽지 않는 기계 기록**에만 쓴다.
+    coverage_observations.json은 종목마다 시총 이력을 들고 있어서, indent를 주면
+    2원소 리스트 하나가 네 줄로 펼쳐진다. 실측(597종목 기준):
+        샘플 13개  indent=1  33ms · 545KB   →  compact  7.5ms · 349KB
+    이 파일은 매주 main에 커밋되고 guardian.run()이 호출마다 다시 쓰므로,
+    저장소 크기와 테스트·CI 시간을 동시에 좌우한다.
+    (사람이 보는 coverage_state.json·standby_pool.json·replacement_proposal.json은
+     그대로 indent를 둔다.)
+    """
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(doc, f, ensure_ascii=False, indent=1)
+        if compact:
+            json.dump(doc, f, ensure_ascii=False, separators=(",", ":"))
+        else:
+            json.dump(doc, f, ensure_ascii=False, indent=1)
         f.write("\n")
     os.replace(tmp, path)
 

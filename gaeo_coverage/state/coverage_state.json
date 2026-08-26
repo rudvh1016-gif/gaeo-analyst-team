@@ -1,6 +1,6 @@
 {
  "schemaVersion": 3,
- "generatedAt": "2026-08-26T14:09:04+09:00",
+ "generatedAt": "2026-08-26T14:25:26+09:00",
  "runId": "local-baseline",
  "status": "WARN",
  "statusReasons": [
@@ -50,11 +50,11 @@
    "replaceable": false,
    "missingDayCount": 1,
    "elapsedTradingDays": 0,
-   "firstMissingAt": "2026-08-26T14:09:04+09:00",
+   "firstMissingAt": "2026-08-26T14:25:26+09:00",
    "absentFromMarketData": true,
    "absentDayCount": 1,
    "elapsedAbsentTradingDays": 0,
-   "firstAbsentAt": "2026-08-26T14:09:04+09:00",
+   "firstAbsentAt": "2026-08-26T14:25:26+09:00",
    "capRank": null,
    "safestKnownCapRank": null,
    "safestKnownCap": null,
@@ -67,7 +67,7 @@
    "evidence": [
     "서로 다른 날짜로 1일 관측 (지속 누락 기준 3일)",
     "처음 빠진 날 이후 0거래일 경과 (기준 10거래일)",
-    "snapshot asOf 2026-08-16T01:42:45+00:00 (10.14일 경과)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (10.15일 경과)",
     "전체시장 snapshot에 없음",
     "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
    ],
@@ -81,11 +81,11 @@
    "replaceable": false,
    "missingDayCount": 1,
    "elapsedTradingDays": 0,
-   "firstMissingAt": "2026-08-26T14:09:04+09:00",
+   "firstMissingAt": "2026-08-26T14:25:26+09:00",
    "absentFromMarketData": true,
    "absentDayCount": 1,
    "elapsedAbsentTradingDays": 0,
-   "firstAbsentAt": "2026-08-26T14:09:04+09:00",
+   "firstAbsentAt": "2026-08-26T14:25:26+09:00",
    "capRank": null,
    "safestKnownCapRank": null,
    "safestKnownCap": null,
@@ -98,7 +98,7 @@
    "evidence": [
     "서로 다른 날짜로 1일 관측 (지속 누락 기준 3일)",
     "처음 빠진 날 이후 0거래일 경과 (기준 10거래일)",
-    "snapshot asOf 2026-08-16T01:42:45+00:00 (10.14일 경과)",
+    "snapshot asOf 2026-08-16T01:42:45+00:00 (10.15일 경과)",
     "전체시장 snapshot에 없음",
     "그러나 snapshot이 상장폐지 판정 기준(3일)보다 오래됐거나 신선도 불명이다. 부재를 상장폐지 근거로 쓸 수 없다"
    ],
@@ -134,18 +134,18 @@
   "available": true,
   "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
   "asOf": "2026-08-16T01:41:44+00:00",
-  "ageDays": 10.14,
+  "ageDays": 10.16,
   "listedCount": 2596,
   "minCountRequired": 2000,
   "qualityGate": "GATE_PASS",
   "freshEnough": true,
-  "expiresInDays": 3.86
+  "expiresInDays": 3.84
  },
  "snapshot": {
   "path": "market_universe/full_market_latest.json.gz",
   "available": true,
   "asOf": "2026-08-16T01:42:45+00:00",
-  "ageDays": 10.14,
+  "ageDays": 10.15,
   "freshEnoughForDelisting": false,
   "itemCount": 3922,
   "collectorStatus": "READY",
