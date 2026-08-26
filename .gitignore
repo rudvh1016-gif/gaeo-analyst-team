@@ -26,3 +26,8 @@ secrets.*
 toss_shared_access_token*
 toss_token.lock
 *.dpapi
+
+# GS Reference Lab 산출물 — 검산 결과는 '있으면 좋은' 참고자료다.
+# Production 판단에 안 쓰이고 gs_quant 설치 여부에 따라 내용이 달라지므로
+# 저장소에 커밋하지 않는다(evolution-lab은 RUNNER_TEMP에 쓰고 그 자리에서 읽는다).
+gaeo_reference/state/

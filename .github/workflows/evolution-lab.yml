@@ -68,6 +68,54 @@ jobs:
           RESEARCH_ARCHIVE_KEY: ${{ secrets.RESEARCH_ARCHIVE_KEY }}
         run: python run_evolution_lab.py
 
+      # ── Coverage Guardian (2026-08-25 추가 · 2026-08-25 재감사 LOW-1 수리) ──
+      # "600종목이 정말 600종목인가"를 실측만 한다. tickers.js·data.js·
+      # auto_analysis.js·coverage_version.py를 읽기만 하고, 종목을 자동으로
+      # 교체하는 경로가 코드에 없다. 산출물은 gaeo_coverage/state/*.json 뿐이고
+      # 그 경로만 Constitution autoCommitAllowlist에 추가돼 있다.
+      #
+      # ⭐ 이 단계는 무슨 일이 있어도 Evolution 연구 커밋을 막지 않는다.
+      #    (대표 지시 §4 — Evolution "모델이 더 좋아질 수 있는가"와 Coverage
+      #     "종목 목록이 건강한가"는 서로 다른 시스템이다. 관측 전용 부속의 버그가
+      #     그 주 연구 기록을 통째로 날려버리면 안 된다.)
+      #    그래서 continue-on-error로 job 상태에 영향을 주지 않게 하고, 뒤따르는
+      #    allowlist·commit 단계가 정상적으로 실행되게 둔다.
+      #
+      # ⚠️ 그렇다고 실패를 삼키는 것은 아니다. 산출물마다 이번 Run 식별자를 각인하고
+      #    (--run-id), 알림 단계가 그 값을 대조해 "이번 Run 미측정"이면 🔴 RED로
+      #    보고한다. 커밋은 보호하고 보고는 정직하게 남기는 구조다.
+      # ⚠️ Coverage 계약 테스트는 '연구를 막는' contract_tests와 분리해서 돌린다.
+      #    ① 같은 실행이 gaeo_coverage/state/*.json을 main에 밀어넣으므로, 검증
+      #       없이 진행하면 안 된다(2026-08-26 퀀트 3차 감사 LOW-3).
+      #    ② 그렇다고 Coverage 테스트 실패가 Evolution 연구 기록을 통째로 날리면
+      #       안 된다(대표 지시 §4 — 서로 다른 시스템).
+      #    그래서 실패해도 job은 계속 가되, 산출물을 아예 만들지 않는다. 그러면
+      #    알림 단계가 runId 대조에서 '이번 Run 미측정'으로 보고 🔴를 낸다.
+      - name: Coverage contract tests (실패해도 연구는 계속 · 산출물만 막는다)
+        id: coverage_tests
+        # ⚠️ if: always() 가 없으면 기본이 success() 라서, 앞 단계(contract_tests ·
+        #    run_lab)가 실패한 주에는 이 단계가 skipped 가 되고 그 결과
+        #    coverage_guard 까지 안 돈다. 연구가 실패한 주에도 종목 실측은 보고해야
+        #    한다(대표 지시 §4 — 서로 다른 시스템). 2026-08-26 퀀트 4차 감사 MEDIUM-7.
+        if: always()
+        continue-on-error: true
+        run: python -m unittest test_gaeo_coverage -q
+
+      - name: Coverage Guardian (읽기 전용 실측 · 연구 커밋을 막지 않음)
+        id: coverage_guard
+        if: always() && steps.coverage_tests.outcome == 'success'
+        continue-on-error: true
+        env:
+          GAEO_RUN_STAMP: ${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -uo pipefail
+          python3 -m gaeo_coverage.guardian --run-id "$GAEO_RUN_STAMP" \
+            || echo "coverage guardian 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
+          python3 -m gaeo_coverage.standby --run-id "$GAEO_RUN_STAMP" \
+            || echo "standby pool 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
+          python3 -m gaeo_coverage.proposal --run-id "$GAEO_RUN_STAMP" \
+            || echo "replacement proposal 실패 (알림이 이번 Run 미측정으로 보고한다)" 1>&2
+
       - name: Enforce commit allowlist (FAIL CLOSED)
         id: allowlist
         run: |
@@ -136,8 +184,15 @@ jobs:
           set -euo pipefail
           git config user.name "gaeo-evolution-lab"
           git config user.email "actions@users.noreply.github.com"
+          # ⚠️ gaeo_coverage/state/ 는 디렉터리 통째로 add하면 원자적 쓰기가 남긴
+          #    *.json.tmp 잔재(프로세스가 os.replace 직전에 죽은 경우)까지 커밋된다.
+          #    allowlist는 디렉터리 prefix라 그걸 막아 주지 않는다
+          #    (2026-08-26 보안 재감사 LOW-2). 그래서 여기서만 .json으로 좁힌다.
           for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json; do
             if [ -e "$p" ]; then git add "$p"; fi
+          done
+          for f in gaeo_coverage/state/*.json; do
+            if [ -e "$f" ]; then git add "$f"; fi
           done
           if git diff --cached --quiet; then
             echo "스테이지된 변경 없음 — 정상 no-op"
@@ -172,6 +227,12 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           OWNER: ${{ github.repository_owner }}
+          # ⭐ Coverage 산출물이 '이번 Run 것'인지 대조할 식별자(재감사 LOW-3).
+          #    날짜만 비교하면 같은 날 앞선 run이 남긴 산출물 때문에 이번 run이
+          #    통째로 실패해도 게이트를 통과한다. Run 식별자면 그 구멍이 닫힌다.
+          #    ⚠️ coverage_guard.outcome은 일부러 실패 판정 체인에 넣지 않는다 —
+          #    Coverage가 Evolution job을 실패로 물들이면 안 되기 때문이다(§4).
+          GAEO_RUN_STAMP: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
           # ⚠️ GitHub Actions 스텝 outcome은 success/failure/cancelled/skipped
@@ -210,6 +271,10 @@ jobs:
           if python3 -m gaeo_evolution.notification build \
               --owner "$OWNER" --run-id "$RUN_ID" --run-url "$RUN_URL" \
               --job-failed "$JOB_FAILED" --failed-step "$FAILED_STEP" \
+              --coverage gaeo_coverage/state/coverage_state.json \
+              --standby gaeo_coverage/state/standby_pool.json \
+              --proposal gaeo_coverage/state/replacement_proposal.json \
+              --expect-run-id "${GAEO_RUN_STAMP:-}" \
               --out /tmp/gaeo_notify.json; then
             :
           else
@@ -266,3 +331,65 @@ jobs:
             gh issue create --title "$TITLE" --body-file /tmp/gaeo_notify_body.md --assignee "$OWNER"
             echo "새 알림 이슈 생성 완료(assignee=$OWNER, 본문에 @$OWNER 멘션 포함)"
           fi
+
+  # ── GS Reference Check (2026-08-25 · 별도 job으로 격리) ─────────────────────
+  # 왜 job을 나눴나 (2026-08-25 독립 보안 감사 HIGH)
+  #   · gs-quant는 필수 런타임 의존성이 20개 넘게 딸려 온다(requests·httpx·
+  #     websockets·opentelemetry 등). 그걸 `contents: write`이고 checkout이
+  #     git 자격증명을 남겨 둔 job 안에서 설치하면, 공급망 사고 하나가 곧바로
+  #     저장소 push 권한과 만난다.
+  #   · 그래서 ①버전을 고정하고 ②권한을 읽기로 낮추고 ③persist-credentials를 꺼서
+  #     git 자격증명 자체를 남기지 않는 별도 job으로 뺐다.
+  #   · lab job과 서로 needs 관계가 없다 = 설치가 느리거나 실패해도 연구 실행·커밋·
+  #     알림 어느 것도 지연시키거나 막지 않는다(Production 무영향 최우선).
+  #   · 결과는 이 job의 Job Summary와 로그에 남는다. 주간 Issue의 Goldman 블록은
+  #     "이 job을 보라"고 안내한다(알림 job이 이 산출물을 읽지 않는다).
+  gs-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: gs-quant 설치 (버전 고정 · 실패해도 무시)
+        run: |
+          set -uo pipefail
+          timeout 420 python3 -m pip install --quiet "gs-quant==2.1.4" \
+            || echo "gs-quant 설치 실패 또는 시간초과 — 검산은 N/A로 보고된다" 1>&2
+
+      - name: 위험지표 4단 교차검증 (검산 전용 · 네트워크/인증 호출 없음)
+        run: |
+          set -uo pipefail
+          OUT="${RUNNER_TEMP:-/tmp}/gs_reference.json"
+          python3 -m gaeo_reference.gs_reference --out "$OUT" \
+            || echo "검산 실행 실패 — 결과 없음" 1>&2
+          {
+            echo "## GAEO Reference Check (검산 전용)"
+            echo ""
+            if [ -f "$OUT" ]; then
+              OUT="$OUT" python3 -c "
+          import json, os
+          d = json.load(open(os.environ['OUT'], encoding='utf-8'))
+          print('- 상태:', d.get('status'))
+          print('- 사유:', d.get('reason'))
+          print('- 케이스:', d.get('caseCount'), '· 일치', d.get('checkPass'),
+                '· 불일치', d.get('checkWarn'), '· 미측정', d.get('checkNA'))
+          print('- 외부 계산이 실제로 돈 케이스:', d.get('gsLegRanCases'),
+                '· 계산 실패:', d.get('checkGsError'))
+          print('- 사용한 계산 다리:', ', '.join(d.get('legsUsed') or []) or '없음')
+          print('- 이 검산으로 만든 Candidate:', d.get('candidatesCreated'))
+          print('')
+          print('이 결과는 GAEO 판단(BUY/HOLD/SELL·점수·가중치)에 들어가지 않습니다.')
+          "
+            else
+              echo "- 상태: N/A (산출물이 만들어지지 않음)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
