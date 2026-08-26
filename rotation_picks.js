@@ -4,29 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 09:14",
- "dataCutoff": "2026-08-26 09:14 장중",
+ "generatedAt": "2026-08-26 09:44",
+ "dataCutoff": "2026-08-26 09:44 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "241710",
-   "name": "코스메카코리아",
-   "sector": "화장품·미용",
-   "sectorRank": 1,
-   "why": "20거래일 +69.1% · 20일선 위",
-   "overheat": false,
-   "gapPct": 27.6,
-   "call": "HOLD",
-   "callConflict": false
-  },
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 2,
-   "why": "20거래일 +90.1% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.5,
+   "sectorRank": 4,
+   "why": "20거래일 +98.4% · 20일선 위",
+   "overheat": true,
+   "gapPct": 33.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,10 +23,10 @@ window.ROTATION_PICKS = {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
-   "sectorRank": 4,
-   "why": "20거래일 +69.4% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +72.0% · 20일선 위",
    "overheat": false,
-   "gapPct": 12.0,
+   "gapPct": 13.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,40 +34,51 @@ window.ROTATION_PICKS = {
    "code": "356860",
    "name": "티엘비",
    "sector": "반도체",
-   "sectorRank": 4,
-   "why": "20거래일 +64.9% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +65.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 31.6,
+   "gapPct": 32.4,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "sector": "보험",
+   "sectorRank": 12,
+   "why": "20거래일 +92.9% · 20일선 위",
+   "overheat": true,
+   "gapPct": 44.1,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 64.9,
+  "breadthPct": 66.9,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6744.87,
-    "ma20": 6496.43,
+    "close": 6763.13,
+    "ma20": 6497.35,
     "above": true,
-    "gapPct": 3.82
+    "gapPct": 4.09
    },
    "KOSDAQ": {
-    "close": 827.49,
-    "ma20": 800.6,
+    "close": 825.13,
+    "ma20": 800.49,
     "above": true,
-    "gapPct": 3.36
+    "gapPct": 3.08
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "화장품·미용"
+  "topSector": "반도체"
  },
  "record": {
   "hitRate": 54.8,
