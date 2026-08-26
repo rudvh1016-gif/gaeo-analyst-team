@@ -1350,7 +1350,10 @@ class ThirdAuditRegressionTest(unittest.TestCase):
         self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
         # 원장은 '부재가 시작된 뒤'에 수집됐지만(그 규칙은 통과), 아주 오래됐다.
         # 그래야 나이 가드 하나만 남아서 뮤테이션이 의미를 갖는다.
-        later = NOW + datetime.timedelta(days=60)
+        # ⚠️ 60일 뒤로 두면 부재 관측이 ABSENCE_STALE_RESET_DAYS(30일)보다 오래
+        #    끊긴 것이 되어 부재 시계가 새로 시작한다(그게 옳은 동작이다).
+        #    여기서 보려는 건 '원장 나이' 가드이므로 그 리셋에 걸리지 않게 둔다.
+        later = NOW + datetime.timedelta(days=40)
         write_krx_corplist(fx.krx, fx.krx_listed,
                            as_of=NOW + datetime.timedelta(days=7))
         fx.refresh_sources(later, refresh_krx=False)
@@ -1528,6 +1531,46 @@ class FourthAuditRegressionTest(unittest.TestCase):
         found = [f for f in rep["findings"] if f["code"] == target][0]
         self.assertEqual(found["cause"], guardian.DELISTED_CONFIRMED)
 
+    def test_h7c_cumulative_absence_ratio_is_a_second_line(self):
+        """⭐ 창 밖에서 서서히 늘어난 부재도 일정 비율을 넘으면 차단한다.
+
+        창(21일) 게이트만 있으면 '하루에 하나씩 몇 달에 걸쳐' 사라지는 열화를
+        놓친다. 누적 비율선이 그 두 번째 그물이다.
+        (2026-08-26 독립 QA 감사 MEDIUM-1: 이 선이 무테스트였다 — 0.05를 1.0으로
+         무력화해도 176개 중 한 개도 안 깨졌다.)
+        """
+        target = 600
+        threshold = int(target * guardian.MASS_ABSENCE_TOTAL_RATIO)
+        vanish = synth_codes(threshold + 5)
+        fx, _ = make_fixture(self.tmp, missing=(vanish[0],),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in vanish})
+        fx.guard_days(3)
+        fx.leave_market(vanish)
+        # 창(21일)을 훌쩍 넘겨서 '최근 창' 게이트는 꺼지게 만든다
+        rep = fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        self.assertFalse(rep["massAbsenceNewActive"])      # 창 게이트는 꺼졌다
+        self.assertTrue(rep["massAbsenceTotalActive"])     # 누적선이 잡는다
+        self.assertTrue(rep["massAbsenceBlockActive"])
+        self.assertEqual(rep["findings"][0]["cause"], guardian.PIPELINE_BUG)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_h7d_cumulative_ratio_gate_is_live_code(self):
+        """뮤테이션 — 누적선을 사실상 해제하면 같은 상황이 상폐로 바뀐다."""
+        real = guardian.MASS_ABSENCE_TOTAL_RATIO
+        self.addCleanup(setattr, guardian, "MASS_ABSENCE_TOTAL_RATIO", real)
+        guardian.MASS_ABSENCE_TOTAL_RATIO = 1.0
+        target = 600
+        vanish = synth_codes(int(target * real) + 5)
+        fx, _ = make_fixture(self.tmp, missing=(vanish[0],),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in vanish})
+        fx.guard_days(3)
+        fx.leave_market(vanish)
+        rep = fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        self.assertFalse(rep["massAbsenceTotalActive"])
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
     def test_h7b_simultaneous_disappearance_is_still_blocked(self):
         """반대로 한 무리가 비슷한 시기에 사라지면 여전히 벤더 장애로 본다."""
         vanish = synth_codes(guardian.MASS_ABSENCE_DELISTING_BLOCK)
@@ -1541,6 +1584,131 @@ class FourthAuditRegressionTest(unittest.TestCase):
         self.assertEqual(rep["replaceableCount"], 0)
 
     # ── MEDIUM-3: 과거 날짜로만 채운 위조가 통과했다 ────────────────────
+    # ── 5차 감사 HIGH-8/HIGH-9 ─────────────────────────────────────────
+    def test_h8_chronic_price_gaps_do_not_lock_replacement(self):
+        """⭐ 진짜 상폐가 여러 건 쌓여도 교체가 영구 정지하면 안 된다.
+
+        진짜 상장폐지 종목은 정의상 '시세 누락 + 시장자료 부재'를 **동시에**
+        만족한다. 그래서 부재 쪽에만 창을 씌우고 시세 쪽은 누적으로 두면,
+        시세 가드가 먼저 걸려 아무 효과가 없다(퀀트 5차 감사 HIGH-8:
+        동시 상폐 3종목이면 45거래일이 지나도 안 풀렸다).
+        """
+        # ⚠️ 누적이 임계값(5)에 **닿아야** 이 가드를 실제로 밟는다. 4종목으로 두면
+        #    누적으로 세든 창으로 세든 안 걸려서, 창 제거 뮤테이션이 살아남는다
+        #    (실제로 그렇게 만들었다가 뮤테이션 검증에서 발견했다).
+        old_gone = synth_codes(guardian.MASS_MISSING_DELISTING_BLOCK - 1)
+        target = "000050"
+        fx, _ = make_fixture(self.tmp, missing=tuple(old_gone),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in list(old_gone) + [target]})
+        fx.guard_days(3)
+        fx.leave_market(old_gone)
+        fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        # 한참 뒤 새 종목이 진짜로 상폐된다 (시세·시장자료 둘 다에서 사라짐)
+        write_data_js(fx.data, [c for c in guardian.load_configured(fx.tickers)["codes"]
+                                if c not in set(old_gone) | {target}])
+        fx.leave_market([target])
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=43))
+        self.assertGreaterEqual(len(rep["missingPriceCodes"]),
+                                guardian.MASS_MISSING_DELISTING_BLOCK)  # 누적은 임계 이상
+        self.assertLess(rep["recentlyMissingCount"],
+                        guardian.MASS_MISSING_DELISTING_BLOCK)          # 창 안은 적다
+        self.assertFalse(rep["massMissingBlockActive"])      # 창 밖이라 안 걸린다
+        found = [f for f in rep["findings"] if f["code"] == target][0]
+        self.assertEqual(found["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_h8b_simultaneous_price_gaps_are_still_blocked(self):
+        """반대로 한꺼번에 시세가 끊기면 여전히 벤더 장애로 본다."""
+        codes = synth_codes(guardian.MASS_MISSING_DELISTING_BLOCK)
+        fx, _ = make_fixture(self.tmp, missing=tuple(codes),
+                             snapshot_overrides={c: {"cap": SMALL_CAP} for c in codes})
+        fx.guard_days(6)
+        fx.leave_market(codes)
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        self.assertTrue(rep["massMissingBlockActive"])
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_h9_unverifiable_period_freezes_the_clock_not_resets_it(self):
+        """⭐ '확인 불가'와 '정상으로 보였다'는 다른 사건이다.
+
+        수집기 상태가 한 번만 흔들려도 부재 시계가 0으로 지워지면, 주 1회 실행에서
+        PARTIAL 한 번이 3주치를 날린다(퀀트 5차 감사 HIGH-9).
+        """
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(3)
+        fx.leave_market(["000010"])
+        before = fx.guard_days(5, start=NOW + datetime.timedelta(days=3))
+        kept = before["findings"][0]["absentDayCount"]
+        self.assertGreater(kept, 0)
+        # 수집기가 한 번 흔들린다 = 확인 불가
+        write_universe_state(fx.universe_state, status="PARTIAL")
+        during = fx.guard(now=NOW + datetime.timedelta(days=8))
+        self.assertEqual(during["findings"][0]["cause"],
+                         guardian.MARKET_DATA_UNRELIABLE)
+        self.assertEqual(during["findings"][0]["absentDayCount"], kept)  # 얼렸다
+        # 회복되면 이어서 센다 (지워지지 않았다)
+        write_universe_state(fx.universe_state)
+        after = fx.guard_days(2, start=NOW + datetime.timedelta(days=9))
+        self.assertGreater(after["findings"][0]["absentDayCount"], kept)
+
+    def test_h9b_freeze_is_live_code(self):
+        """뮤테이션 — 얼리기를 지우기로 되돌리면 부재 일수가 0으로 떨어진다."""
+        real = guardian.update_observations
+        self.addCleanup(setattr, guardian, "update_observations", real)
+
+        def always_observable(*a, **kw):
+            kw["absence_observable"] = True          # ③을 ②로 되돌린다
+            return real(*a, **kw)
+
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(3)
+        fx.leave_market(["000010"])
+        fx.guard_days(5, start=NOW + datetime.timedelta(days=3))
+        write_universe_state(fx.universe_state, status="PARTIAL")
+        guardian.update_observations = always_observable
+        during = fx.guard(now=NOW + datetime.timedelta(days=8))
+        self.assertEqual(during["findings"][0]["absentDayCount"], 0)
+
+    def test_h9c_very_long_gap_starts_the_clock_over(self):
+        """너무 오래 끊겼다가 재개되면 옛 부재를 이어 붙이지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(3)
+        fx.leave_market(["000010"])
+        fx.guard_days(5, start=NOW + datetime.timedelta(days=3))
+        far = NOW + datetime.timedelta(days=8 + guardian.ABSENCE_STALE_RESET_DAYS + 5)
+        fx.refresh_sources(far)
+        rep = fx.guard(now=far)
+        self.assertEqual(rep["findings"][0]["absentDayCount"], 1)   # 처음부터 다시
+
+    def test_h9d_absence_only_recovery_leaves_a_record(self):
+        """시세는 정상인데 시장자료에서만 사라졌던 종목도 회복 기록을 남긴다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        original = list(fx.snapshot_items)
+        fx.leave_market(["000020"])                  # 시세는 정상, 시장자료만 부재
+        fx.guard_days(3)
+        fx.snapshot_items = original                 # 돌아왔다
+        rep = fx.guard_days(1, start=NOW + datetime.timedelta(days=3))
+        codes = [r["code"] for r in rep["recoveries"]]
+        self.assertIn("000020", codes)
+        rec = [r for r in rep["recoveries"] if r["code"] == "000020"][0]
+        self.assertGreater(rec["absentDayCount"], 0)
+
+    def test_h9e_notification_shows_when_a_block_is_active(self):
+        """⭐ 차단이 걸려 상폐가 억제되는 중이면 알림이 그 사실을 말한다."""
+        codes = synth_codes(guardian.MASS_ABSENCE_DELISTING_BLOCK)
+        fx, _ = make_fixture(self.tmp, missing=(codes[0],),
+                             snapshot_overrides={c: {"cap": SMALL_CAP} for c in codes})
+        fx.guard_days(3)
+        fx.leave_market(codes)
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=3))
+        self.assertTrue(rep["massAbsenceBlockActive"])
+        body = "\n".join(notification._coverage_block(rep))
+        self.assertIn("시장자료 부재 기준 True", body)
+        self.assertIn("어떤 상장폐지도 확정되지 않습니다", body)
+
     def test_m3d_past_dated_forgery_is_rejected(self):
         """⭐ 과거 날짜로만 채운 상태파일 위조도 첫 실행에 상폐로 이어지지 않는다."""
         fx, _ = make_fixture(self.tmp, missing=("000010",),
@@ -1615,6 +1783,21 @@ class FourthAuditRegressionTest(unittest.TestCase):
                    "2026-08-23": [7, 1.0e12]}}}}
         clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
         self.assertEqual(list(clean["capMemory"]["000010"]["history"]), ["2026-08-23"])
+
+    def test_m3f2_rank_bound_stays_within_a_plausible_market(self):
+        """⭐ 상한이 실제 시장 크기 안에 있어야 한다.
+
+        ⚠️ test_m3f는 위조 순위를 `MAX_PLAUSIBLE_CAP_RANK + 1`로 **계산**하므로
+           상수를 20만 배로 늘려도 그대로 통과한다 — 절대 실패할 수 없는 테스트다
+           (2026-08-26 독립 QA 감사 MEDIUM-3). 고정값 대조군을 함께 둔다.
+        """
+        # 실제 전체 상장상품이 4천 개 남짓이다. 9000위는 어떤 경우에도 말이 안 된다.
+        self.assertLess(guardian.MAX_PLAUSIBLE_CAP_RANK, 9000)
+        doc = {"schemaVersion": 3, "codes": {},
+               "capMemory": {"000010": {"history": {"2026-08-20": [9000, 1.0e12],
+                                                    "2026-08-21": [7, 1.0e12]}}}}
+        clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
+        self.assertEqual(list(clean["capMemory"]["000010"]["history"]), ["2026-08-21"])
 
     # ── MEDIUM-8: 크기 비교가 커지는 방향을 못 잡았다 ───────────────────
     def test_m8_size_mismatch_is_bidirectional(self):
