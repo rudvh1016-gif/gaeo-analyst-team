@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-26 12:43",
+ "generatedAt": "2026-08-26 13:13",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2478,
-   "diana": 0.1295,
-   "nova": 0.2851,
-   "flow": 0.3377
+   "taro": 0.2494,
+   "diana": 0.1297,
+   "nova": 0.2856,
+   "flow": 0.3353
   },
   "acc": {
    "taro": {
-    "n": 1294,
-    "acc": 40.3,
-    "adjustedAcc": 41.1,
+    "n": 1293,
+    "acc": 40.4,
+    "adjustedAcc": 41.3,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,7 +47,7 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 215,
+    "n": 217,
     "acc": 47.0,
     "adjustedAcc": 48.1,
     "days": 5,
@@ -55,27 +55,27 @@ const TEAM_WEIGHTS = {
    },
    "flow": {
     "n": 236,
-    "acc": 52.1,
-    "adjustedAcc": 51.4,
+    "acc": 51.7,
+    "adjustedAcc": 51.1,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 1745,
+  "graded": 1746,
   "team": {
-   "hit": 1065,
-   "miss": 670,
-   "n": 1735,
-   "acc": 61.4
+   "hit": 1071,
+   "miss": 668,
+   "n": 1739,
+   "acc": 61.6
   }
  },
  "sectors": {
   "바이오·제약": {
    "weights": {
-    "taro": 0.2585,
-    "diana": 0.1277,
-    "nova": 0.2786,
-    "flow": 0.3352
+    "taro": 0.2598,
+    "diana": 0.1279,
+    "nova": 0.279,
+    "flow": 0.3333
    },
    "acc": {
     "taro": {
