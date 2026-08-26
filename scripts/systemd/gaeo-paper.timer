@@ -1,0 +1,37 @@
+# GAEO Paper Trading : 평일 09:05~15:05 KST, 30분 간격
+#
+# 설치 위치: /etc/systemd/system/gaeo-paper.timer
+# 켜기: sudo systemctl enable --now gaeo-paper.timer
+# 확인: systemctl list-timers gaeo-paper*
+#
+# ⭐ 시간대 주의 (가장 흔한 사고)
+#    OnCalendar는 "시스템 시간대" 기준으로 해석된다. Oracle Cloud VM은 기본이 UTC라,
+#    시간대를 안 바꾸면 아래 09:05가 UTC 09:05 = KST 18:05가 되어 장이 닫힌 뒤에 돈다.
+#    설치할 때 반드시 먼저:
+#        sudo timedatectl set-timezone Asia/Seoul
+#        timedatectl        (Time zone: Asia/Seoul (KST, +0900) 확인)
+#    systemd 252 미만에서는 OnCalendar 뒤에 시간대 이름을 적을 수 없어서
+#    (예: "Mon-Fri 09:05 Asia/Seoul") 시스템 시간대를 맞추는 방식으로 통일한다.
+#    안전망으로 scripts/paper_cycle.sh가 실행 순간 KST를 다시 확인하고,
+#    평일 08:55~15:35 밖이면 아무 것도 하지 않고 종료한다(잘못된 시각에 매매 0).
+
+[Unit]
+Description=GAEO Paper Trading schedule (weekdays 09:05-15:05 KST, every 30 min)
+Documentation=file:/opt/gaeo-paper/repo/docs/PAPER_TRADING_ORACLE_RUNNER.md
+
+[Timer]
+Unit=gaeo-paper.service
+
+# 09:05, 09:35, 10:05, ... 14:35 (12회)
+OnCalendar=Mon-Fri 09..14:05,35
+# 마지막 사이클 15:05 (집 Windows PC 러너와 같은 시각표)
+OnCalendar=Mon-Fri 15:05
+
+# 놓친 실행을 나중에 몰아서 돌리지 않는다. VM이 꺼져 있었다면 그 시각은 지나간 것이고,
+# 장이 닫힌 뒤에 뒤늦게 도는 것은 도움이 안 된다(그 사실은 paper-health-alert가 알린다).
+Persistent=false
+AccuracySec=30s
+RandomizedDelaySec=0
+
+[Install]
+WantedBy=timers.target
