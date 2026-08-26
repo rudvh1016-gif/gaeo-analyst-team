@@ -11,11 +11,32 @@
  "takeProfitRule": null,
  "stopLossRule": null,
  "costModel": {
-  "status": "COST_MODEL_INCOMPLETE",
-  "note": "수수료·거래세·슬리피지 공식 수치 미검증 — 0으로 가정하지 않으며 net return을 null로 둔다. 검증되면 source/verified_at/value를 여기에 기록",
-  "brokerFee": null,
-  "transactionTax": null,
-  "slippage": null
+  "status": "COST_MODEL_VERIFIED",
+  "version": "COST_MODEL_V1_2026H2",
+  "verifiedAt": "2026-08-21",
+  "brokerFeePct": 0.015,
+  "brokerFeeNote": "토스증권 국내주식 위탁수수료(KRX 체결). 매수·매도 각각 부과",
+  "transactionTaxPct": {"KOSPI": 0.2, "KOSDAQ": 0.2},
+  "transactionTaxNote": "증권거래세+농어촌특별세, 매도 시에만 부과. 코스피 0.05%+0.15%, 코스닥 0.20%(농특세 없음)",
+  "roundTripPct": 0.23,
+  "slippagePct": null,
+  "slippageNote": "체결가가 실측 호가(매수 Best Ask·매도 Best Bid)라 스프레드는 이미 반영돼 있다. 대량주문 시장충격은 모형화하지 않는다",
+  "note": "여기 숫자는 엔진(paper_engine.COMMISSION_PCT·SELL_TAX_PCT)이 실제로 쓰는 값과 같아야 한다. test_paper_accounting_v2.py가 두 값이 어긋나면 실패시킨다",
+  "history": [
+   {
+    "until": "2026-08-21",
+    "status": "COST_MODEL_INCOMPLETE",
+    "note": "요율을 공식 출처로 확인하기 전 기간. 그때는 순수익(net return)을 만들지 않고 null로 두었다. 그 기간 기록의 의미는 그대로다"
+   }
+  ]
+ },
+ "accounting": {
+  "version": "ACCOUNTING_V2_NET",
+  "legacyVersion": "ACCOUNTING_V1_GROSS",
+  "costAccountingFrom": "2026-08-27",
+  "appliesTo": "이 날 0시(KST) 이후 '진입한' 거래부터 새 기준. 한 거래의 기준은 진입할 때 정해져 청산까지 바뀌지 않는다",
+  "note": "2026-08-26까지 진입한 거래는 수수료·거래세를 반영하지 않은 옛 기준(ACCOUNTING_V1_GROSS)으로 남는다. 과거 원장을 다시 쓰지 않기 위해서다. 그 때문에 반영되지 않은 비용은 summary.accounting.unreflectedCostKrw로 그대로 공개한다(2026-08-26 원장 기준 23,874원 = 매수수수료 2,900 + 매도수수료 1,463 + 거래세 19,511)",
+  "measuredAt": "2026-08-26"
  },
  "note": "initial_cash는 시뮬레이션 표기 단위일 뿐 투자 권장 금액이 아니다. Strategy Version 중간에 금액·규칙을 바꾸지 않는다(변경 시 V2 생성)"
 }
