@@ -26,6 +26,10 @@ import paper_history as ph
 #    (재계산 경로 자체는 test_paper_accounting_v2.py가 따로 검증한다)
 ph.set_index_history({})
 
+# 💸 2026-08-26: 거래별 수익률(returnPct)이 확정손익과 같은 장부를 쓴다.
+#    이 파일의 픽스처는 전부 옛 기준(스탬프 없음·전환 이전 날짜)이라 값이 예전과 같다.
+#    비용 반영 거래에서 두 값이 어긋나지 않는지는 test_paper_accounting_v2.py가 본다.
+
 FAILURES = []
 CFG = {"initial_cash_krw": 10_000_000, "maxHoldingTradingDays": 5}
 

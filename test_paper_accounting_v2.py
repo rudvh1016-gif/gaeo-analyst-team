@@ -274,8 +274,10 @@ LEDGER = os.path.join(HERE, "paper_trading", "trades.jsonl")
 raw_lines = [ln for ln in open(LEDGER, "rb").read().split(b"\n") if ln.strip()]
 # 2026-08-26 시점의 원장 121행. 여기에 새 거래가 append 될 수는 있어도
 # 이미 있는 121행은 영원히 그대로여야 한다(수정·재작성 금지).
-FROZEN_ROWS = 121
-FROZEN_SHA = "4c569c5f7b47a09bf8a1a195950c02f9206afec72797a35130afbc26915bc285"
+# 2026-08-26 시점 원장 125행(origin/main과 바이트 동일). 새 거래가 append 될 수는
+# 있어도 이미 있는 125행은 영원히 그대로여야 한다(수정·재작성·소급 스탬프 금지).
+FROZEN_ROWS = 125
+FROZEN_SHA = "3ab03ee3e4cdfc611e5b51602ebfaf4d2396710522a501d7b96a360c6e9fa875"
 check("D1. 원장이 줄어들지 않았다(행 삭제 0)", len(raw_lines) >= FROZEN_ROWS,
       f"{len(raw_lines)} < {FROZEN_ROWS}")
 digest = hashlib.sha256(b"\n".join(raw_lines[:FROZEN_ROWS])).hexdigest()
@@ -665,6 +667,165 @@ check("L3. 예외를 삼키되 사실은 남긴다(조용히 사라지지 않는
 check("L4. 가격을 지어내지 않는다(터진 사이클에서는 한 행도 안 늘어난다)",
       _qlines() == _before, f"{_before} → {_qlines()}")
 shutil.rmtree(tmp)
+
+# ═══ L. 모두가 같은 장부를 쓰는가 (QA HIGH 1·2·3) ═══════════════════════════
+# 시세 변동이 0이어도 NET 거래는 매수수수료만큼 마이너스다. 그때 총계와 종목별이
+# 갈라지면 화면 안에서 두 숫자가 서로를 부정한다(실측 재현된 버그).
+tmp = tempfile.mkdtemp(prefix="pa2l_")
+d = os.path.join(tmp, "paper_trading")
+os.makedirs(d)
+_flat = {"trade_id": "l1", "environment": "LIVE_PAPER", "status": "OPEN",
+         "symbol": "005930", "name": "삼성전자", "market": "KOSPI",
+         "entry_price": ENTRY, "quantity": QTY,
+         "accounting_version": pe.ACCOUNTING_V2_NET,
+         "entry_business_date": "2026-09-01",
+         "simulated_fill_at": "2026-09-01T10:10:00+09:00",
+         "detected_at": "2026-09-01T10:10:00+09:00"}
+with open(os.path.join(d, "trades.jsonl"), "w", encoding="utf-8") as f:
+    f.write(json.dumps(_flat, ensure_ascii=False) + "\n")
+json.dump({"engineStartedAt": "2026-09-01T09:10:00+09:00", "baselineCaptured": True,
+           "lastCycleAt": "2026-09-01T10:10:00+09:00", "lastCycleResult": "CYCLE_OK",
+           "businessDates": ["2026-09-01"],
+           "openMeta": {"l1": {"lastMarkPrice": ENTRY,
+                               "lastMarkObservedAt": "2026-09-01T10:10:00+09:00"}}},
+          open(os.path.join(d, "state.json"), "w"))
+json.dump(CFG_NET, open(os.path.join(d, "config.json"), "w"))
+json.dump({"initialVirtualCash": 10_000_000}, open(os.path.join(d, "summary.json"), "w"))
+_od, _oo = _pp.DIR, _pp.OUT
+_pp.DIR, _pp.OUT = d, os.path.join(tmp, "paper_public.js")
+try:
+    _pp.build()
+    pubL = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*);\s*$",
+                                  open(_pp.OUT, encoding="utf-8").read(), _re2.S).group(1))
+finally:
+    _pp.DIR, _pp.OUT = _od, _oo
+_card = pubL["recentTrades"][0]
+check("L1. 시세 변동 0인 NET 거래의 종목별 평가손익 = -매수수수료(-150원)",
+      _card["unrealized_pnl"] == -150, str(_card.get("unrealized_pnl")))
+check("L2. 종목별 평가손익 합 = 총 평가손익(두 숫자가 서로를 부정하지 않는다)",
+      sum(t.get("unrealized_pnl", 0) for t in pubL["recentTrades"])
+      == round(pubL["unrealizedPnl"]),
+      f'{sum(t.get("unrealized_pnl", 0) for t in pubL["recentTrades"])} vs {pubL["unrealizedPnl"]}')
+check("L3. 카드의 수익률도 같은 분모(실제 나간 돈)를 쓴다",
+      _card["unrealized_return_pct"] == -0.01 and _card["return_basis"] == "NET",
+      f'{_card.get("unrealized_return_pct")} / {_card.get("return_basis")}')
+shutil.rmtree(tmp)
+
+# 왕복비용 구간(0 < gross <= 0.23%)에서 수익률과 금액의 부호가 엇갈리지 않는가
+_thin = {"trade_id": "l2", "environment": "TEST", "status": "CLOSED", "market": "KOSPI",
+         "symbol": "011200", "entry_price": 10_000, "exit_price": 10_022, "quantity": 100,
+         "gross_return_pct": 0.22, "accounting_version": pe.ACCOUNTING_V2_NET,
+         "entry_business_date": "2026-09-01", "exit_business_date": "2026-09-02",
+         "simulated_fill_at": "2026-09-01T10:10:00+09:00"}
+_pct, _basis = pe.trade_return_pct(_thin, CFG_NET)
+_amt = pe.realized_pnl_krw(_thin, CFG_NET)
+check("L4. 총수익 +0.22%인 거래의 실제 금액은 마이너스다(왕복비용 구간)",
+      _amt < 0 and _thin["gross_return_pct"] > 0, f"{_amt}")
+check("L5. 그 거래의 수익률도 마이너스로 나온다(부호 엇갈림 0)",
+      _pct < 0 and _basis == pe.ACCOUNTING_V2_NET, f"{_pct} / {_basis}")
+# 허용오차는 반올림 자릿수(소수 셋째 자리 %)가 금액으로 얼마인지 그대로 계산한다.
+_outlay_thin = pe.entry_cash_outlay(_thin, CFG_NET)
+_tol = _outlay_thin * 0.0005 / 100          # 0.0005%p = 마지막 자리 반올림 폭
+check("L6. 수익률 × 실제 나간 돈 = 확정손익(같은 장부, 반올림 오차 안)",
+      abs(_pct / 100 * _outlay_thin - _amt) <= _tol,
+      f'{_pct / 100 * _outlay_thin} vs {_amt} (허용 {_tol:.2f})')
+_gross_row = {**_thin, "accounting_version": pe.ACCOUNTING_V1_GROSS}
+check("L7. 옛 기준 거래의 수익률은 예전 값 그대로다(gross)",
+      abs(pe.trade_return_pct(_gross_row, CFG_NET)[0] - 0.22) < 0.001,
+      str(pe.trade_return_pct(_gross_row, CFG_NET)[0]))
+# 기록 탭(history.json)도 같은 장부를 쓰는가 — 한 줄 안에서 부호가 엇갈리면 안 된다
+import paper_history as _ph2
+
+_ph2.set_index_history({})
+_sell_net = _ph2.public_sell({**_thin, "name": "HMM", "holding_trading_days": 5,
+                              "exit_at": "2026-09-02T14:20:00+09:00"})
+check("L7b. 기록 탭의 수익률도 확정손익과 부호가 같다",
+      (_sell_net["returnPct"] > 0) == (_sell_net["realizedPnl"] > 0)
+      and _sell_net["returnPct"] < 0 and _sell_net["realizedPnl"] < 0,
+      f'{_sell_net["returnPct"]}% / {_sell_net["realizedPnl"]}원')
+check("L7c. 어느 기준인지 라벨과 총수익 원본을 함께 낸다",
+      _sell_net["returnBasis"] == "NET"
+      and abs(_sell_net["grossReturnPct"] - 0.22) < 0.001,
+      json.dumps(_sell_net, ensure_ascii=False)[:160])
+_sell_gross = _ph2.public_sell({**_gross_row, "name": "HMM", "holding_trading_days": 5,
+                                "exit_at": "2026-09-02T14:20:00+09:00"})
+check("L7d. 대조군 — 옛 기준 거래는 예전 값 그대로(+0.22% · +2,200원)",
+      abs(_sell_gross["returnPct"] - 0.22) < 0.001
+      and _sell_gross["realizedPnl"] == 2_200
+      and _sell_gross["returnBasis"] == "GROSS",
+      json.dumps(_sell_gross, ensure_ascii=False)[:160])
+check("L8. 화면이 화해시킬 숫자(비용 반영 수익률)를 공개 필드로 받는다",
+      "estimated_net_return_pct" in _pp.TRADE_ALLOWED
+      and "return_pct" in _pp.DERIVED_ALLOWED and "return_basis" in _pp.DERIVED_ALLOWED)
+
+# ═══ M. 평가금액 곡선에 '실제 나간 돈'을 남겨야 나중에 재현된다 (QA HIGH 2) ═══
+tmp = tempfile.mkdtemp(prefix="pa2m_")
+eng = pe.PaperEngine(provider(N1, ENTRY, ENTRY - 10), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{N1}T09:05:00+09:00"), now=t(N1, 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{N1}T10:05:00+09:00"), now=t(N1, 10, 10))
+curve = [json.loads(x) for x in
+         open(os.path.join(tmp, "equity_curve.jsonl"), encoding="utf-8") if x.strip()]
+posn = curve[-1]["positions"]["005930"]
+check("M1. 평가금액 곡선의 종목 기록에 실제 나간 돈과 회계 기준이 남는다",
+      abs(posn["outlay"] - FIX_OUTLAY) < 1e-6
+      and posn["basis"] == pe.ACCOUNTING_V2_NET, json.dumps(posn, ensure_ascii=False))
+import paper_history as _ph
+_ph.set_index_history({})
+contrib = _ph._contributions(curve[-1], 10_000_000)
+check("M2. 그 값으로 계산한 종목별 기여 합 = 같은 행의 총 평가손익",
+      sum(c["pnl"] for c in contrib) == round(curve[-1]["unrealizedPnl"]),
+      f'{sum(c["pnl"] for c in contrib)} vs {curve[-1]["unrealizedPnl"]}')
+check("M3. 옛 행은 계산 방식을 라벨로 밝힌다(조용히 섞지 않는다)",
+      _ph._contributions({"positions": {"A": {"qty": 10, "entry": 100.0, "mark": 100.0}}},
+                         10_000_000)[0]["basis"] == "GROSS_LEGACY_ROW")
+shutil.rmtree(tmp)
+
+# ═══ N. 현금이 음수가 되지 않는다 (QA MEDIUM 1) ══════════════════════════════
+tmp = tempfile.mkdtemp(prefix="pa2n_")
+_tight = {**CFG_NET, "initial_cash_krw": 1_000_000}
+eng = pe.PaperEngine(provider(N1, ENTRY, ENTRY - 10), data_dir=tmp, config=_tight,
+                     environment="TEST")
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{N1}T09:05:00+09:00"), now=t(N1, 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{N1}T10:05:00+09:00"), now=t(N1, 10, 10))
+_lat = eng.ledger.latest_by_id()
+_cash = pe.derive_cash(_tight, _lat)
+check("N1. 수수료까지 더하면 모자란 경우 체결하지 않는다(음수 현금 0)",
+      _cash >= 0 and not [r for r in _lat.values() if r["status"] == "OPEN"], str(_cash))
+check("N2. 그 경우도 기존 SKIP 경로로 기록된다",
+      [r["status"] for r in _lat.values()] == ["SKIPPED_INSUFFICIENT_CASH"])
+shutil.rmtree(tmp)
+# 대조군 — 여유가 있으면 예전과 똑같이 체결된다(기존 체결이 바뀌지 않는다)
+tmp = tempfile.mkdtemp(prefix="pa2n2_")
+eng = pe.PaperEngine(provider(N1, ENTRY, ENTRY - 10), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{N1}T09:05:00+09:00"), now=t(N1, 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{N1}T10:05:00+09:00"), now=t(N1, 10, 10))
+check("N3. 대조군 — 여유가 있으면 예전과 똑같이 100주 체결",
+      [(r["status"], r["quantity"]) for r in eng.ledger.latest_by_id().values()]
+      == [("OPEN", 100)])
+shutil.rmtree(tmp)
+
+# ═══ O. 설정을 바꾸면 흔들리는 옛 행이 몇 건인지 밝힌다 (QA MEDIUM 2·L1·L2) ══
+_live_latest = {}
+for r in old_rows:
+    if r.get("environment") == "LIVE_PAPER":
+        _live_latest[r["trade_id"]] = r
+_disc = pe.accounting_disclosure(live_cfg, _live_latest,
+                                 pe.portfolio_valuation(live_cfg, _live_latest, {}),
+                                 evidence_ok=False)
+check("O1. 스탬프 없는 옛 행 20건을 사실대로 센다",
+      _disc["unstampedLegacyTrades"] == 20, str(_disc["unstampedLegacyTrades"]))
+check("O2. 설정을 옮기면 그만큼 과거 숫자가 달라진다는 사실을 적는다",
+      "costAccountingFrom" in _disc["unstampedNote"])
+check("O3. 표본 미달일 때는 IfAllNet 값도 null이라고 안내한다(없는 값 가리키기 금지)",
+      "null" in _disc["ratioBasisWarning"], _disc["ratioBasisWarning"][-60:])
+check("O4. 표본이 차면 그 안내는 붙지 않는다",
+      "null" not in pe.accounting_disclosure(live_cfg, _live_latest, None,
+                                             evidence_ok=True)["ratioBasisWarning"])
+check("O5. 진입 시각 폴백에서 recorded_at을 쓰지 않는다(청산 시각으로 기준 갈아타기 방지)",
+      pe.entry_instant({"recorded_at": "2026-09-30T10:00:00+09:00"}) is None
+      and pe.entry_instant({"detected_at": "2026-09-01T10:00:00+09:00"}) is not None)
 
 print()
 if FAILURES:

@@ -6324,7 +6324,10 @@ function renderPaper(){
     return names.slice(0,cap).join(' · ')+` 외 ${names.length-cap}종목`;
   };
   const sellLines=todaySells.map(r=>{
-    const q=n(r.quantity), rr=n(r.gross_return_pct), rp=n(r.realized_pnl);
+    /* 💸 수익률은 금액(확정손익)과 같은 장부를 쓰는 return_pct를 먼저 본다.
+       옛 스냅샷에는 그 필드가 없으므로 그때만 gross_return_pct로 물러선다. */
+    const q=n(r.quantity), rr=n(r.return_pct)!=null?n(r.return_pct):n(r.gross_return_pct),
+      rp=n(r.realized_pnl);
     const hd=n(r.holding_trading_days);
     return `<div class="pv-td-row"><span class="pv-td-nm">${esc(r.name||r.symbol||'종목')}`
       +`${rr==null?'':`<em class="pv-pos-r${dir(rr)}">${sPct(rr)}</em>`}</span>`
@@ -6374,7 +6377,10 @@ function renderPaper(){
 
   /* ④ 최근 종료 거래 — 진행 중과 절대 섞지 않는다. 내부 사유 코드는 한국어로 바꿔 쓴다. */
   const closedHTML=closes.map(r=>{
-    const ret=n(r.gross_return_pct), hd=n(r.holding_trading_days), pnl=n(r.realized_pnl);
+    /* 💸 여기도 금액과 같은 기준(return_pct)을 먼저 쓴다. 총수익이 왕복비용보다 작은
+       구간에서 "+0.22%"와 "-105원"이 한 줄에 같이 뜨던 모순을 없앤다. */
+    const ret=n(r.return_pct)!=null?n(r.return_pct):n(r.gross_return_pct),
+      hd=n(r.holding_trading_days), pnl=n(r.realized_pnl);
     const qty=n(r.quantity);
     const price=`${won(r.entry_price)} → ${won(r.exit_price)}`;
     const why=exitName[r.exit_reason]||'종료';
@@ -6508,7 +6514,7 @@ function renderPaper(){
   /* 💸 비용 안내 — 러너가 실제로 반영한 요율을 그대로 읽어 쓴다(화면에 숫자를 박지 않는다).
      비용 모델이 아직 없는 옛 스냅샷에서는 예전 문구를 그대로 쓴다. */
   const costLine=(cm&&n(cm.roundTripPct)!=null)
-    ? `표시되는 <b>수익률은 수수료·세금을 빼기 전 값</b>이고, 아래 「검증 상태」의 순수익만 이를 반영합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
+    ? `<b>손익 금액은 수수료·세금을 반영한 값</b>이고, 거래별 수익률도 같은 기준으로 표시합니다. 다만 아래 「검증 상태」의 <b>평균 수익률은 비용을 빼기 전 값</b>이라 옆의 순수익과 함께 봐야 합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
     : `수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중).`;
   /* 💸 회계 기준이 섞여 있으면 그 사실을 숨기지 않는다.
      전환 이전에 산 거래는 수수료·세금이 빠지지 않은 옛 방식으로 남아 있고(지난 기록을
