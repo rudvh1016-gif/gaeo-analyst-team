@@ -499,6 +499,128 @@ check("H5. 공개 payload에 'account' 문자열이 없다(계좌 흔적 차단�
       "account" not in json.dumps(pub, ensure_ascii=False).lower())
 shutil.rmtree(tmp)
 
+# ═══ I. 못 산 후보·산 종목의 '같은 잣대' 관측가 (감사 B·C) ══════════════════
+# V1은 신호 111건 중 91건을 현금 부족으로 못 샀다. 그 순간의 가격이 없으면
+# "자리가 있었다면 어땠나"를 나중에 어떤 방법으로도 계산할 수 없다.
+def prov_multi(day, quotes):
+    return pmd.FixtureMarketDataProvider(
+        prices={c: {"price": (a + b) / 2, "timestamp": f"{day}T10:00:00+09:00"}
+                for c, (a, b) in quotes.items()},
+        orderbooks={c: {"bestAsk": a, "bestBid": b, "timestamp": f"{day}T10:00:00+09:00"}
+                    for c, (a, b) in quotes.items()},
+        calendar=cal(day))
+
+
+def bundle_multi(calls, at):
+    return {"signals": {c: {"call": v, "confidence": 70, "total": 60, "name": c}
+                        for c, v in calls.items()}, "analysisCompletedAt": at}
+
+
+tmp = tempfile.mkdtemp(prefix="pa2i_")
+codes = [f"10{i:04d}" for i in range(1, 10)]
+quotes = {c: (1_000_000, 999_000) for c in codes}
+quotes["777777"] = (33_000, 32_900)
+eng = pe.PaperEngine(prov_multi(N1, quotes), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle_multi({c: "HOLD" for c in codes}, f"{N1}T09:05:00+09:00"),
+              now=t(N1, 9, 10))
+eng.run_cycle(bundle_multi({c: "BUY" for c in codes}, f"{N1}T10:05:00+09:00"),
+              now=t(N1, 10, 10))
+eng.provider = prov_multi(N2, quotes)
+sig = {c: "HOLD" for c in codes}
+sig["777777"] = "BUY"
+calls_before = len(eng.provider.calls)
+eng.run_cycle(bundle_multi(sig, f"{N2}T10:05:00+09:00"), now=t(N2, 10, 10))
+qpath = os.path.join(tmp, pe.PaperEngine.SKIP_QUOTE_FILE)
+rows_q = [json.loads(x) for x in open(qpath, encoding="utf-8")]
+skips = [r for r in rows_q if r["kind"] == "SKIPPED"]
+check("I1. V1도 못 산 후보의 그 시점 관측가를 남긴다",
+      len(skips) == 1 and skips[0]["symbol"] == "777777"
+      and skips[0]["observed_price"] == 32_950.0
+      and skips[0]["reason"] == "INSUFFICIENT_CASH",
+      json.dumps(skips, ensure_ascii=False)[:200])
+check("I2. 원장의 SKIP 행과 trade_id로 이어 붙는다",
+      skips[0]["trade_id"] in {r["trade_id"] for r in eng.ledger.rows
+                               if r.get("status") == "SKIPPED_INSUFFICIENT_CASH"})
+entered_q = [r for r in rows_q if r["kind"] == "ENTERED"]
+check("I3. 진입 종목의 '같은 잣대' 가격도 같은 배치에서 남긴다(감사 C)",
+      len(entered_q) == 9 and all(r["entry_method"] == "BEST_ASK"
+                                  and r["observed_price"] for r in entered_q),
+      str(len(entered_q)))
+check("I4. 두 기록이 같은 잣대(현재가 1회 조회)에서 나왔다",
+      len({r["quote_basis"] for r in rows_q}) == 1
+      and "Best Ask" in rows_q[0]["quote_basis"])
+price_calls = [c for c in eng.provider.calls if c[0] == "prices"]
+check("I5. 배치 조회는 사이클당 1회다(후보마다 부르지 않는다)",
+      len(price_calls) <= 2, str(price_calls)[:120])
+check("I6. 원장은 예전과 같은 자리에서 그대로 기록된다(순서·내구성 불변)",
+      [r.get("status") for r in eng.ledger.rows].count("SKIPPED_INSUFFICIENT_CASH") == 1)
+n_before = len(rows_q)
+eng.run_cycle(bundle_multi(sig, f"{N2}T10:05:00+09:00"), now=t(N2, 11, 10))
+check("I7. 같은 분석 배치는 한 번만 기록한다",
+      len([json.loads(x) for x in open(qpath, encoding="utf-8")]) == n_before)
+shutil.rmtree(tmp)
+# 시세 조회가 실패하면 아무 것도 쓰지 않고 다음 사이클에 다시 시도한다
+tmp = tempfile.mkdtemp(prefix="pa2i2_")
+eng = pe.PaperEngine(prov_multi(N1, quotes), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle_multi({c: "HOLD" for c in codes}, f"{N1}T09:05:00+09:00"),
+              now=t(N1, 9, 10))
+blind = prov_multi(N1, quotes)
+blind.get_prices = lambda symbols: (_ for _ in ()).throw(
+    pmd.MarketDataUnavailable("fixture: 시세 실패"))
+eng.provider = blind
+eng.run_cycle(bundle_multi({c: "BUY" for c in codes}, f"{N1}T10:05:00+09:00"),
+              now=t(N1, 10, 10))
+check("I8. 시세 조회 실패 시 빈 기록을 만들지 않는다",
+      not os.path.exists(os.path.join(tmp, pe.PaperEngine.SKIP_QUOTE_FILE)))
+check("I9. 실패를 '기록 완료'로 찍지 않는다(다음 사이클 재시도 가능)",
+      eng.state.get("lastSkipQuoteBatch") is None)
+shutil.rmtree(tmp)
+
+# ═══ J. 지수 종가는 '확정된 날'만 쓴다 (감사 M3) ═════════════════════════════
+# market_history.js는 불변 파일이 아니다 — update-analysis cron("8,38 1-6 * * 1-5"
+# = KST 10:08~15:38)이 장중에도 그날 값을 덮는다. 그날 값을 쓰면 같은 거래의
+# 시장대비가 나중에 소급해서 바뀐다(paper_history의 불변 계약과 충돌).
+_today = pe.today_kst_date()
+_hist_today = {"2026-08-18": {"KOSPI": 1000.0}, _today: {"KOSPI": 1100.0}}
+check("J1. 오늘 청산한 거래는 확정 전이라 값을 만들지 않는다",
+      pe.recomputed_benchmark({"market": "KOSPI", "entry_business_date": "2026-08-18",
+                               "exit_business_date": _today, "gross_return_pct": 5.0},
+                              _hist_today)["status"] == "PENDING_SETTLEMENT")
+check("J2. 오늘 항목은 아예 읽지 않는다(장중에 덮이는 값)",
+      pe.settled_index_close(_hist_today, "KOSPI", _today) is None
+      and pe.settled_index_close(_hist_today, "KOSPI", "2026-08-18") == 1000.0)
+check("J3. 확정된 두 날 사이만 계산한다",
+      pe.benchmark_window({"2026-08-18": {"KOSPI": 1000.0},
+                           "2026-08-25": {"KOSPI": 1100.0}},
+                          "KOSPI", "2026-08-18", "2026-08-25", 5.0)["benchmarkReturnPct"]
+      == 10.0)
+check("J4. 같은 날이거나 순서가 뒤집히면 값이 없다",
+      pe.benchmark_window({"2026-08-18": {"KOSPI": 1000.0}}, "KOSPI",
+                          "2026-08-18", "2026-08-18", 1.0)["status"] == "NO_SETTLED_WINDOW")
+check("J5. 마지막 확정 거래일을 고를 때도 오늘은 빼고 고른다",
+      pe.latest_settled_index_day(_hist_today, "KOSPI") == "2026-08-18")
+
+# ═══ K. 시계 불일치를 값 옆에 사실로 남긴다 (감사 D) ═════════════════════════
+check("K1. 지수 조회 경로를 새로 만들지 않았다(Market Data 경계 유지)",
+      not any("index" in p or "indices" in p for p in pmd.ALLOWED_PATHS),
+      str(sorted(pmd.ALLOWED_PATHS)))
+tmp = tempfile.mkdtemp(prefix="pa2k_")
+eng = pe.PaperEngine(provider(N1, ENTRY, ENTRY - 10), data_dir=tmp, config=CFG_NET,
+                     environment="TEST")
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{N1}T09:05:00+09:00"), now=t(N1, 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{N1}T10:05:00+09:00"), now=t(N1, 10, 10))
+eng.provider = provider(N2, EXIT_ + 10, EXIT_)
+eng.run_cycle(bundle({"005930": "SELL"}, f"{N2}T10:05:00+09:00"), now=t(N2, 10, 10))
+_cl = [r for r in eng.ledger.latest_by_id().values() if r["status"] == "CLOSED"][0]
+check("K2. 청산 기록에 시계 불일치 한계가 붙는다",
+      "장중" in _cl["benchmark_clock_note"] and "종가" in _cl["benchmark_clock_note"],
+      str(_cl.get("benchmark_clock_note")))
+_sm = json.load(open(os.path.join(tmp, "summary.json"), encoding="utf-8"))
+check("K3. 요약에도 같은 고지가 실린다", bool(_sm.get("benchmarkClockMismatchNote")))
+shutil.rmtree(tmp)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")

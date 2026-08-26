@@ -190,6 +190,28 @@ check("5a. 공개 스냅샷 금지 키워드 목록이 그대로다",
 check("5b. 공개 스냅샷은 V1 원장만 읽는다(Shadow 폴더 미참조)",
       "smart_v2" not in open(os.path.join(HERE, "paper_public.py"), encoding="utf-8").read())
 pub = open(os.path.join(HERE, "paper_public.js"), encoding="utf-8").read().lower()
+cfg = open(os.path.join(HERE, "_config.yml"), encoding="utf-8").read()
+check("5d. Shadow 전략 기록은 사이트 주소로 내보내지 않는다",
+      "paper_trading/smart_v2/" in cfg, cfg[-200:])
+check("5e. V1 기록은 화면에 싣는 설계라 제외하지 않는다",
+      "\n  - paper_trading/\n" not in cfg)
+# ⚠️ exclude만으로는 부족하다(public 저장소라 raw URL이 남는다). 값 자체를 비우는지도 본다.
+_sv2dir = tempfile.mkdtemp(prefix="sfb4_")
+check("5f. 표본 미달 Shadow는 계좌 성과 숫자 자체를 비운다",
+      set(sv.SHADOW_ACCOUNT_GATED) >= {"portfolioReturnPct", "realizedPnl",
+                                       "currentVirtualEquity", "maxDrawdownPct"}
+      # 상수만 있고 엔진이 안 쓰면 아무 것도 막지 못한다 — 실제 연결까지 확인한다.
+      and set(sv.SmartV2Engine(None, data_dir=_sv2dir, environment="TEST")
+              ._account_gated_fields()) == set(sv.SHADOW_ACCOUNT_GATED),
+      str(sv.SHADOW_ACCOUNT_GATED))
+shutil.rmtree(_sv2dir, ignore_errors=True)
+check("5g. V1은 그 게이트를 쓰지 않는다(사이트에 싣는 설계 유지)",
+      pe.PaperEngine(None, data_dir=tempfile.mkdtemp(prefix="sfb3_"),
+                     config={"strategyVersion": "PAPER_BASELINE_V1",
+                             "initial_cash_krw": 10_000_000,
+                             "position_size_krw": 1_000_000,
+                             "maxHoldingTradingDays": 5},
+                     environment="TEST")._account_gated_fields() == ())
 check("5c. 배포된 공개 스냅샷에 계좌·토큰 흔적 0",
       not any(w in pub for w in ("client_id", "client_secret", "authorization",
                                  "account", "secret")))
