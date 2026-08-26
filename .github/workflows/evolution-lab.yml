@@ -167,8 +167,15 @@ jobs:
           set -euo pipefail
           git config user.name "gaeo-evolution-lab"
           git config user.email "actions@users.noreply.github.com"
-          for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json gaeo_coverage/state/; do
+          # ⚠️ gaeo_coverage/state/ 는 디렉터리 통째로 add하면 원자적 쓰기가 남긴
+          #    *.json.tmp 잔재(프로세스가 os.replace 직전에 죽은 경우)까지 커밋된다.
+          #    allowlist는 디렉터리 prefix라 그걸 막아 주지 않는다
+          #    (2026-08-26 보안 재감사 LOW-2). 그래서 여기서만 .json으로 좁힌다.
+          for p in gaeo_evolution/registry/ gaeo_evolution/status/ research_archive/evolution/ gaeo_evolution/production_config.json; do
             if [ -e "$p" ]; then git add "$p"; fi
+          done
+          for f in gaeo_coverage/state/*.json; do
+            if [ -e "$f" ]; then git add "$f"; fi
           done
           if git diff --cached --quiet; then
             echo "스테이지된 변경 없음 — 정상 no-op"

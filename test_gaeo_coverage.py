@@ -1355,19 +1355,93 @@ class ProposalContractTest(unittest.TestCase):
         self.assertIn("coverageUniverseVersion", rep["autoAnalysisStamp"])
 
     def test_23_coverage_problem_is_not_reported_as_model_failure(self):
-        """㉓ Coverage 문제(WARN)가 Evolution 판정(GREEN/ORANGE/RED)을 바꾸지 않는다."""
+        """㉓ Coverage 문제가 Evolution "모델 판정"을 오염시키지 않는다.
+
+        ⚠️ 2026-08-26 수정. 예전 이 테스트는 Coverage가 RED여도 알림 등급이 GREEN
+           이어야 한다고 못박고 있었다(제목엔 WARN이라 써 놓고 픽스처는 RED를
+           넣는 모순도 있었다). 그건 대표 지시 §4를 잘못 읽은 것이다.
+           §4가 금지하는 것은 "Coverage 문제가 Evolution **Candidate/모델 판정**이
+           되는 것"과 "Coverage 실패가 연구 커밋을 막는 것"이지, 보고 등급에서
+           빼라는 뜻이 아니다. 오히려 §5는 "문제가 났는데 Issue에 정상이라고 쓰면
+           절대 안 된다"고 못박는다. 실제로 확정 상장폐지 3건·configuredCoverage
+           540/600 상태에서 제목이 🟢로 나가는 것을 보안 재감사가 CLI로 재현했다.
+        """
         status_doc = {"systemHealth": "OK", "candidateCounts": {}}
-        level_plain = notification.decide_level(
-            job_failed=False, status_doc=status_doc, promotion_cards_doc=None)
-        self.assertEqual(level_plain, notification.LEVEL_GREEN)
+        coverage_red = {"status": "RED", "statusReasons": ["시세 누락 40종목"],
+                        "redCauseCounts": {"PIPELINE_BUG": 40},
+                        "targetCoverage": 600, "configuredCoverage": 600}
+
+        # ① 지켜야 할 진짜 불변식: Coverage는 Evolution 쪽 입력을 건드리지 않는다.
+        before = copy.deepcopy(status_doc)
         note = notification.build_notification(
             owner="o", run_id="r", run_url="u", job_failed=False,
-            status_doc=status_doc,
-            coverage_doc={"status": "RED", "statusReasons": ["누락"],
-                          "targetCoverage": 600, "configuredCoverage": 600},
+            status_doc=status_doc, coverage_doc=coverage_red,
             gs_doc={"status": "WARN"})
-        self.assertEqual(note["level"], notification.LEVEL_GREEN)
+        self.assertEqual(status_doc, before)          # 입력을 변형하지 않는다
         self.assertIn("### Coverage", note["body"])
+        # Coverage 사유가 Evolution 후보/모델 실패로 둔갑하지 않는다
+        self.assertNotIn("Candidate", str(coverage_red))
+        self.assertEqual((status_doc.get("candidateCounts") or {}), {})
+
+        # ② Coverage가 WARN이면 등급을 바꾸지 않는다(경보 피로 방지).
+        warn = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc=dict(coverage_red, status="WARN", redCauseCounts={}),
+            gs_doc={"status": "WARN"})
+        self.assertEqual(warn["level"], notification.LEVEL_GREEN)
+
+        # ③ Coverage가 RED면 등급을 올린다 — 거짓 🟢 금지(§5).
+        self.assertEqual(note["level"], notification.LEVEL_RED)
+        self.assertIn("시세 누락 40종목", note["body"])
+        self.assertIn("종목이 자동으로 교체되지는 않았습니다", note["body"])
+
+    def test_23b_coverage_red_levels_are_graded_by_cause(self):
+        """확정 상폐+제안 대기는 🟠(승인 필요), Universe 어긋남은 🔴(안전 문제)."""
+        status_doc = {"systemHealth": "OK", "candidateCounts": {}}
+
+        approval = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc={"status": "RED", "statusReasons": ["상폐 1건"],
+                          "redCauseCounts": {"DELISTED_CONFIRMED": 1},
+                          "targetCoverage": 600, "configuredCoverage": 600},
+            proposal_doc={"status": proposal.STATUS_AWAITING})
+        self.assertEqual(approval["level"], notification.LEVEL_ORANGE)
+
+        # 같은 상폐인데 제안이 없으면(FAIL_CLOSED 등) 안전 문제로 올린다
+        no_proposal = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc={"status": "RED", "statusReasons": ["상폐 1건"],
+                          "redCauseCounts": {"DELISTED_CONFIRMED": 1},
+                          "targetCoverage": 600, "configuredCoverage": 600},
+            proposal_doc={"status": proposal.STATUS_FAIL_CLOSED})
+        self.assertEqual(no_proposal["level"], notification.LEVEL_RED)
+
+        # Universe 크기가 어긋나면 무조건 안전 문제
+        universe = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc={"status": "RED", "statusReasons": ["Universe 변경"],
+                          "redCauseCounts": {},
+                          "targetCoverage": 600, "configuredCoverage": 540},
+            proposal_doc={"status": proposal.STATUS_AWAITING})
+        self.assertEqual(universe["level"], notification.LEVEL_RED)
+
+    def test_23c_unmeasured_coverage_never_grades_by_stale_numbers(self):
+        """이번 Run에서 측정 못 했으면 지난 숫자로 등급을 매기지 않는다."""
+        status_doc = {"systemHealth": "OK", "candidateCounts": {}}
+        stale_green = {"status": "RED", "runId": "old-1",
+                       "redCauseCounts": {"DELISTED_CONFIRMED": 1},
+                       "targetCoverage": 600, "configuredCoverage": 600}
+        note = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc, coverage_doc=stale_green,
+            expected_run_id="new-1")
+        # 미측정이므로 RED이되, 그 이유가 '지난 숫자'가 아니라 '미측정'이어야 한다
+        self.assertEqual(note["level"], notification.LEVEL_RED)
+        self.assertIn("미측정", note["body"])
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -2096,14 +2170,28 @@ class ParityAndWorkflowTest(unittest.TestCase):
         path = os.path.join(HERE, ".github", "workflows", "evolution-lab.yml")
         active = "\n".join(l for l in open(path, encoding="utf-8").read().splitlines()
                            if not l.lstrip().startswith("#"))
-        m = re.search(r"for p in ([^;]+); do", active)
-        self.assertIsNotNone(m)
         const = json.load(open(
             os.path.join(HERE, "gaeo_evolution", "evolution_constitution.json"),
             encoding="utf-8"))
+        allow = const["autoCommitAllowlist"]
+
+        m = re.search(r"for p in ([^;]+); do", active)
+        self.assertIsNotNone(m)
         for token in m.group(1).split():
-            self.assertIn(token, const["autoCommitAllowlist"], token)
-        self.assertIn("gaeo_coverage/state/", m.group(1))
+            self.assertIn(token, allow, token)
+
+        # Coverage 산출물은 디렉터리 통째가 아니라 *.json 만 스테이지한다.
+        # (원자적 쓰기가 남기는 *.json.tmp 잔재가 allowlist prefix를 타고 커밋되는
+        #  것을 막는다 — 2026-08-26 보안 재감사 LOW-2)
+        g = re.search(r"for f in (\S+); do", active)
+        self.assertIsNotNone(g, "coverage state 전용 add 루프가 없다")
+        glob_pat = g.group(1)
+        self.assertTrue(glob_pat.endswith("*.json"), glob_pat)
+        state_dir = glob_pat[:-len("*.json")]
+        self.assertIn(state_dir, allow, state_dir)
+        self.assertEqual(state_dir, "gaeo_coverage/state/")
+        # 디렉터리 통째 add가 되살아나지 않았는지도 확인한다
+        self.assertNotIn("git add gaeo_coverage/state/\n", active)
 
     def test_43_real_repo_run_is_read_only(self):
         """실제 저장소 데이터로 돌려도 Production 파일이 바뀌지 않는다."""
