@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 13:14",
- "dataCutoff": "2026-08-26 13:14 장중",
+ "generatedAt": "2026-08-26 13:44",
+ "dataCutoff": "2026-08-26 13:44 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,20 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 1,
-   "why": "20거래일 +92.2% · 20일선 위",
-   "overheat": false,
-   "gapPct": 29.9,
+   "why": "20거래일 +92.8% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.3,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "sector": "보험",
+   "sectorRank": 8,
+   "why": "20거래일 +98.6% · 20일선 위",
+   "overheat": true,
+   "gapPct": 48.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,20 +35,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 2,
-   "why": "20거래일 +68.0% · 20일선 위",
+   "why": "20거래일 +67.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 26.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 9,
-   "why": "20거래일 +98.6% · 20일선 위",
-   "overheat": true,
-   "gapPct": 48.0,
+   "gapPct": 26.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,33 +45,33 @@ window.ROTATION_PICKS = {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
-   "sectorRank": 3,
-   "why": "20거래일 +69.6% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +70.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 12.1,
+   "gapPct": 12.4,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 66.6,
+  "breadthPct": 68.2,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6874.96,
-    "ma20": 6502.94,
+    "close": 6884.46,
+    "ma20": 6503.41,
     "above": true,
-    "gapPct": 5.72
+    "gapPct": 5.86
    },
    "KOSDAQ": {
-    "close": 827.23,
-    "ma20": 800.59,
+    "close": 827.78,
+    "ma20": 800.62,
     "above": true,
-    "gapPct": 3.33
+    "gapPct": 3.39
    }
   }
  },
