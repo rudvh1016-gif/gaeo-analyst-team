@@ -1547,13 +1547,53 @@ class FourthAuditRegressionTest(unittest.TestCase):
                                                  for c in vanish})
         fx.guard_days(3)
         fx.leave_market(vanish)
-        # 창(21일)을 훌쩍 넘겨서 '최근 창' 게이트는 꺼지게 만든다
-        rep = fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        # 창을 훌쩍 넘겨서 '최근 창' 게이트는 꺼지게 만든다
+        past_window = guardian.MASS_ABSENCE_WINDOW_DAYS + 10
+        rep = fx.guard_days(past_window, start=NOW + datetime.timedelta(days=3))
         self.assertFalse(rep["massAbsenceNewActive"])      # 창 게이트는 꺼졌다
         self.assertTrue(rep["massAbsenceTotalActive"])     # 누적선이 잡는다
         self.assertTrue(rep["massAbsenceBlockActive"])
         self.assertEqual(rep["findings"][0]["cause"], guardian.PIPELINE_BUG)
         self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_h7e_block_still_active_when_confirmation_first_becomes_possible(self):
+        """⭐ 차단 창은 '상폐가 확정될 수 있게 되는 순간'에 아직 켜져 있어야 한다.
+
+        창이 짧으면, 장애로 사라진 무리가 확정되려는 바로 그때 가드가 이미 꺼져
+        있어서 아무 일도 못 한다.
+
+        ⚠️ 정직하게 적어 둔다 — 이 테스트는 창 ≤10일에서만 깨진다. 즉 예전 값
+           21일도 이 성질 자체는 만족했다. 35일로 넓힌 것은 **증명된 결함을 고친
+           것이 아니라** 주 1회 리듬에서 창 만료와 확정 가능 시점이 가까워지는 것을
+           보고 여유를 둔 예방 조치다(안전한 방향이므로 그대로 둔다).
+           이 테스트가 지키는 것은 "창이 확정 가능 시점을 덮는다"는 관계이지
+           특정 숫자가 아니다.
+
+        상수를 하드코딩하지 않고, 실제로 조건이 충족되는 시점을 찾아 그때의
+        차단 상태를 본다.
+        """
+        vanish = synth_codes(guardian.MASS_ABSENCE_DELISTING_BLOCK)
+        fx, _ = make_fixture(self.tmp, missing=tuple(vanish),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in vanish})
+        first_possible = None
+        for w in range(16):                       # 주 1회 실행 리듬
+            now = NOW + datetime.timedelta(days=7 * w)
+            if w == 2:
+                fx.leave_market(vanish)
+            fx.refresh_sources(now)
+            rep = fx.guard(now=now)
+            f = rep["findings"][0]
+            met = (f["absentDayCount"] >= guardian.PERSISTENT_MISSING_MIN_DAYS
+                   and f["elapsedAbsentTradingDays"]
+                   >= guardian.MIN_ELAPSED_TRADING_DAYS)
+            if met and first_possible is None:
+                first_possible = w
+                # 바로 이 시점에 차단이 켜져 있어야 한다
+                self.assertTrue(rep["massAbsenceBlockActive"],
+                                "확정 가능해진 %d주차에 차단이 꺼져 있다" % w)
+                self.assertEqual(f["cause"], guardian.PIPELINE_BUG)
+        self.assertIsNotNone(first_possible, "확정 가능 시점에 도달하지 못했다")
 
     def test_h7d_cumulative_ratio_gate_is_live_code(self):
         """뮤테이션 — 누적선을 사실상 해제하면 같은 상황이 상폐로 바뀐다."""
@@ -1567,7 +1607,8 @@ class FourthAuditRegressionTest(unittest.TestCase):
                                                  for c in vanish})
         fx.guard_days(3)
         fx.leave_market(vanish)
-        rep = fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        rep = fx.guard_days(guardian.MASS_ABSENCE_WINDOW_DAYS + 10,
+                            start=NOW + datetime.timedelta(days=3))
         self.assertFalse(rep["massAbsenceTotalActive"])
         self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
 
@@ -1603,12 +1644,14 @@ class FourthAuditRegressionTest(unittest.TestCase):
                                                  for c in list(old_gone) + [target]})
         fx.guard_days(3)
         fx.leave_market(old_gone)
-        fx.guard_days(40, start=NOW + datetime.timedelta(days=3))
+        fx.guard_days(guardian.MASS_ABSENCE_WINDOW_DAYS + 10,
+                      start=NOW + datetime.timedelta(days=3))
         # 한참 뒤 새 종목이 진짜로 상폐된다 (시세·시장자료 둘 다에서 사라짐)
         write_data_js(fx.data, [c for c in guardian.load_configured(fx.tickers)["codes"]
                                 if c not in set(old_gone) | {target}])
         fx.leave_market([target])
-        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=43))
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(
+            days=3 + guardian.MASS_ABSENCE_WINDOW_DAYS + 10))
         self.assertGreaterEqual(len(rep["missingPriceCodes"]),
                                 guardian.MASS_MISSING_DELISTING_BLOCK)  # 누적은 임계 이상
         self.assertLess(rep["recentlyMissingCount"],
