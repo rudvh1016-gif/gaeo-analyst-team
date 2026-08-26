@@ -1,0 +1,14 @@
+{
+ "schemaVersion": "gaeo_paper_runner_v1",
+ "activeRunner": "WINDOWS",
+ "knownRunners": ["WINDOWS", "ORACLE"],
+ "updatedAt": "2026-08-26",
+ "why": "모의투자 원장을 쓰는 러너는 언제나 한 곳뿐이어야 한다. 여기 적힌 러너만 매매 계산·기록·push를 한다.",
+ "howToSwitch": [
+  "1) 새 러너에서 scripts/paper_doctor.sh(또는 .ps1)로 준비 상태를 먼저 확인한다.",
+  "2) 이 파일의 activeRunner를 바꿔 main에 커밋한다(러너는 이 파일을 커밋할 수 없다).",
+  "3) 두 러너 모두 다음 사이클에 이 파일을 읽는다. 이전 러너는 자동으로 비활성이 된다.",
+  "4) 이전 러너의 예약 실행(작업 스케줄러·systemd timer)은 그 뒤에 꺼도 된다. 켜져 있어도 기록하지 않는다."
+ ],
+ "note": "러너 자신의 이름은 환경변수 GAEO_PAPER_RUNNER로 선언한다. 선언이 없으면 비활성으로 본다(fail closed). 판정 구현은 paper_single_writer.py."
+}

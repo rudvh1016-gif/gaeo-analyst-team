@@ -39,6 +39,7 @@ import re
 import sys
 
 import paper_market_data as pmd
+import paper_single_writer
 from paper_engine import HERE, PaperEngine
 
 STRATEGY_VERSION = "PAPER_MOMENTUM_V1"
@@ -161,6 +162,9 @@ def run_safe():
     """러너 진입점 — 꺼져 있으면 아무 것도 하지 않고, 어떤 실패도 V1에 영향이 없다."""
     if os.environ.get(ENABLE_ENV) != "1":
         print(f"[momentum] 꺼져 있음 — 아무 것도 하지 않는다 (켜려면 {ENABLE_ENV}=1)")
+        return 0
+    # 🔒 Single Writer — V1과 같은 게이트. 비활성 러너는 시세 조회조차 하지 않는다.
+    if not paper_single_writer.allow("momentum"):
         return 0
     try:
         provider = pmd.TossMarketDataProvider()

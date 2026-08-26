@@ -58,7 +58,10 @@ TOKEN_INFRA_FILES = frozenset({
 #    그래서 사람 손에만 맡기지 않는다 — D9c가 목록이 낡았는지 스스로 찾아낸다.
 TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
                          "paper_public.py", "paper_report.py",
-                         "paper_smart_v2.py", "paper_momentum.py")
+                         "paper_smart_v2.py", "paper_momentum.py",
+                         # Single Writer 게이트 — 매매를 직접 하지는 않지만
+                         # 매매를 할지 말지를 결정하므로 같은 잣대로 검사한다.
+                         "paper_single_writer.py")
 
 #: 목록이 낡았는지 자동으로 찾아내는 기준 — 이 흔적이 있으면 매매 판단 모듈이다.
 #: (PaperEngine 을 쓰거나 원장 파일을 직접 다루면 매매 판단에 관여한다)

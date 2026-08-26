@@ -37,6 +37,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 
 import paper_market_data as pmd
+import paper_single_writer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KST = timezone(timedelta(hours=9))
@@ -1590,6 +1591,11 @@ class PaperEngine:
 
 def run_safe():
     """러너 진입점 — 어떤 실패도 Production을 멈추지 않는다(항상 exit 0)."""
+    # 🔒 Single Writer — 활성 러너가 아니면 여기서 끝난다.
+    #    provider를 만들기 전에 막는 이유: 토스는 client당 유효 토큰이 1개라
+    #    비활성 러너가 토큰을 발급받는 것만으로 활성 러너의 토큰이 무효화된다.
+    if not paper_single_writer.allow("paper"):
+        return 0
     try:
         provider = pmd.TossMarketDataProvider()
         engine = PaperEngine(provider)
