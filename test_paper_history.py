@@ -19,6 +19,13 @@ import sys
 
 import paper_history as ph
 
+# 📉 2026-08-26: 시장대비(벤치마크)는 이제 '실제 진입일·청산일 종가'로 다시 계산한다
+#    (paper_engine.recomputed_benchmark). 이 파일이 검증하는 것은 종합평가 문장 로직이지
+#    지수 파일의 내용이 아니므로, 빈 지수를 주입해 픽스처가 준 benchmark_return_pct를
+#    그대로 쓰게 한다 — 저장소의 market_history.js가 바뀌어도 결과가 흔들리지 않는다.
+#    (재계산 경로 자체는 test_paper_accounting_v2.py가 따로 검증한다)
+ph.set_index_history({})
+
 FAILURES = []
 CFG = {"initial_cash_krw": 10_000_000, "maxHoldingTradingDays": 5}
 

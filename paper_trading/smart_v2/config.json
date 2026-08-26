@@ -1,0 +1,28 @@
+{
+ "schemaVersion": "gaeo_paper_config_v1",
+ "strategyVersion": "PAPER_SMART_V2",
+ "strategyRole": "SHADOW",
+ "baselineStrategy": "PAPER_BASELINE_V1",
+ "forwardStart": null,
+ "initial_cash_krw": 10000000,
+ "position_size_krw": 1000000,
+ "maxHoldingTradingDays": 60,
+ "reevaluationHorizons": [
+  5,
+  20,
+  60
+ ],
+ "signalSource": "auto_analysis.js LIVE_AUTO.stocks[code].chief.call (Production CHIEF)",
+ "entryRule": "BUY 전환(직전 관측 non-BUY → BUY) + 장중 Best Ask, fallback 현재가(사유 기록) — V1과 동일",
+ "exitRule": "chief.call SELL 전환(강한 Exit) 또는 60거래일 안전상한 도달. 5거래일은 청산일이 아니라 재평가일",
+ "takeProfitRule": null,
+ "stopLossRule": null,
+ "replacementRule": null,
+ "accounting": {
+  "version": "ACCOUNTING_V2_NET",
+  "legacyVersion": null,
+  "costAccountingFrom": null,
+  "note": "이 전략은 첫 거래부터 수수료·거래세를 반영한다. 섞인 기준이 없다"
+ },
+ "note": "Shadow 전략. V1을 대체하지 않으며 자동 승격이 없다(대표 승인 전용)"
+}

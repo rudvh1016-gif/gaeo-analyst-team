@@ -71,7 +71,13 @@ EVIDENCE_GATED_FIELDS = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          "avgBenchmarkReturnPct", "avgRelativeReturnPct",
                          "avgMfePct", "avgMaePct",
                          # 순수익도 성과 결론이다 — 표본이 차기 전엔 숫자로 내지 않는다.
-                         "estimatedNetReturnPct")
+                         "estimatedNetReturnPct",
+                         # 💸 '비용 전부 반영' 기준의 같은 결론들도 똑같이 막는다.
+                         #    한쪽만 막으면 소비자가 다른 쪽 숫자로 같은 결론을 얻는다.
+                         "winRatePctIfAllNet", "avgReturnPctIfAllNet",
+                         "medianReturnPctIfAllNet", "avgWinPctIfAllNet",
+                         "avgLossPctIfAllNet", "expectancyPctIfAllNet",
+                         "profitFactorIfAllNet", "winLossRatioIfAllNet")
 
 
 # ── 거래비용 모델 (2026-08-21 확정) ─────────────────────────────────────────
@@ -123,6 +129,218 @@ def cost_model_detail():
     }
 
 
+# ── 회계 버전 (2026-08-26 수리) ─────────────────────────────────────────────
+# 무엇이 고장나 있었나 (실측으로 재현한 뒤 고쳤다)
+#   net_return_pct()는 매수수수료·매도수수료·거래세를 반영하는데, 정작 지갑을
+#   계산하는 derive_cash()와 portfolio_valuation()은 한 푼도 반영하지 않았다.
+#   그래서 같은 화면 안에서 "거래별 순수익"과 "계좌 수익률"이 서로 다른 장부를 썼다.
+#   2026-08-26 원장 실측: 지갑 423,025원 vs 비용 반영 399,151원 (차이 23,874원
+#   = 매수수수료 2,900 + 매도수수료 1,463 + 거래세 19,511).
+#   실현손익도 92,305원 vs 69,882원으로 32% 부풀려져 있었다.
+#
+# 어떻게 고쳤나 — 과거 원장을 다시 쓰지 않는다
+#   이미 기록된 trades.jsonl은 한 행도 고치지 않는다(Backfill 금지 원칙과 같다).
+#   대신 회계 버전을 새로 만들고, 전환 시점(costAccountingFrom) '이후에 진입한'
+#   거래부터 새 기준으로 현금을 계산한다. 한 거래의 기준은 진입할 때 정해져
+#   평생 바뀌지 않는다 — 같은 거래가 중간에 기준을 갈아타면 손익이 왜곡된다.
+#   전환 이전 거래에 반영되지 않은 비용은 숨기지 않고 summary·화면에
+#   unreflectedCostKrw로 그대로 드러낸다(성과를 낮추는 방향이라 부풀림이 아니다).
+ACCOUNTING_V1_GROSS = "ACCOUNTING_V1_GROSS"   # 무비용(현행) — 전환 이전 진입분
+ACCOUNTING_V2_NET = "ACCOUNTING_V2_NET"       # 수수료·거래세 반영 — 전환 이후 진입분
+ACCOUNTING_VERSION = ACCOUNTING_V2_NET        # 지금부터 새로 여는 거래의 기준
+# 전환 시점 — 이 날 0시(KST) 이후 진입한 거래부터 새 기준.
+# 2026-08-26 시점의 미청산 10건은 전부 그 전에 진입해서 옛 기준으로 남는다
+# (거래 도중에 기준이 바뀌는 일이 없도록 다음 날 0시를 경계로 잡았다).
+# ⚠️ 날짜만 쓴다 — 이 파일에 KST 오프셋이 붙은 시각 문자열을 상수로 넣으면
+#    test_paper_session의 "장 시간 하드코딩 없음" 계약이 깨진다(_parse_kst가
+#    날짜만 오면 KST 0시로 읽으므로 의미는 똑같다).
+COST_ACCOUNTING_FROM = "2026-08-27"
+
+
+def _parse_kst(ts):
+    """ISO 시각 또는 YYYY-MM-DD → KST datetime. 못 읽으면 None(추측하지 않는다)."""
+    if not isinstance(ts, str) or not ts.strip():
+        return None
+    s = ts.strip()
+    try:
+        if len(s) == 10 and s[4] == "-" and s[7] == "-":
+            dt = datetime(int(s[:4]), int(s[5:7]), int(s[8:10]), tzinfo=KST)
+        else:
+            dt = datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except (ValueError, IndexError):
+        return None
+    return dt.replace(tzinfo=KST) if dt.tzinfo is None else dt
+
+
+def entry_instant(row):
+    """그 거래가 '언제 진입했는지'. 청산 행에도 진입 시각 필드는 그대로 남아 있다.
+
+    ⚠️ recorded_at은 청산 행에서 '청산 시각'으로 덮여 쓰이므로 맨 뒤에 둔다.
+    """
+    for key in ("simulated_fill_at", "detected_at", "entry_business_date", "recorded_at"):
+        dt = _parse_kst((row or {}).get(key))
+        if dt:
+            return dt
+    return None
+
+
+def accounting_policy(config=None):
+    """(전환 이후 기준, 전환 이전 기준, 전환 시점). config가 없으면 엔진 기본값.
+
+    costAccountingFrom 키가 아예 없으면 전역 기본값(COST_ACCOUNTING_FROM)을 쓰고,
+    명시적으로 null이면 '처음부터 새 기준'이라는 뜻이다(과거가 없는 새 전략용).
+    """
+    acct = (config or {}).get("accounting")
+    acct = acct if isinstance(acct, dict) else {}
+    return (acct.get("version") or ACCOUNTING_VERSION,
+            acct.get("legacyVersion") or ACCOUNTING_V1_GROSS,
+            acct.get("costAccountingFrom", COST_ACCOUNTING_FROM))
+
+
+def accounting_version_for(row, config=None):
+    """이 거래를 어느 회계 기준으로 볼 것인가.
+
+    ① 원장에 찍힌 기준이 언제나 우선한다 — 설정을 나중에 고쳐도 이미 열린 거래의
+       기준은 바뀌지 않는다(그래야 같은 거래가 중간에 장부를 갈아타지 않는다).
+    ② 스탬프가 없는 옛 행은 진입 시각과 전환 시점을 비교해 판정한다.
+    ③ 진입 시각조차 모르면 기준을 바꾸지 않는다(옛 기준 유지). 새로 여는 거래는
+       엔진이 반드시 스탬프를 찍으므로, 이 경로에 걸리는 것은 옛 기록뿐이다.
+    """
+    stamped = (row or {}).get("accounting_version")
+    if stamped in (ACCOUNTING_V1_GROSS, ACCOUNTING_V2_NET):
+        return stamped
+    new_v, old_v, switch = accounting_policy(config)
+    if switch is None:
+        return new_v
+    at, sw = entry_instant(row or {}), _parse_kst(switch)
+    if at is None or sw is None:
+        return old_v
+    return new_v if at >= sw else old_v
+
+
+def _qty_amount(price, qty):
+    return (price or 0) * (qty or 0) if (price and qty) else 0.0
+
+
+def entry_commission_krw(row, config=None):
+    """살 때 실제로 나간 위탁수수료(원). 옛 기준 거래는 0."""
+    if accounting_version_for(row, config) != ACCOUNTING_V2_NET:
+        return 0.0
+    return _qty_amount(row.get("entry_price"), row.get("quantity")) * COMMISSION_PCT / 100.0
+
+
+def exit_cost_krw(row, config=None):
+    """팔 때 나간 위탁수수료 + 증권거래세(원). 옛 기준 거래는 0."""
+    if accounting_version_for(row, config) != ACCOUNTING_V2_NET:
+        return 0.0
+    tax = SELL_TAX_PCT.get(row.get("market"), SELL_TAX_DEFAULT_PCT)
+    return (_qty_amount(row.get("exit_price"), row.get("quantity"))
+            * (COMMISSION_PCT + tax) / 100.0)
+
+
+def entry_cash_outlay(row, config=None):
+    """살 때 지갑에서 실제로 빠진 돈 = 체결금액 + 매수수수료."""
+    return (_qty_amount(row.get("entry_price"), row.get("quantity"))
+            + entry_commission_krw(row, config))
+
+
+def exit_cash_proceeds(row, config=None):
+    """팔 때 지갑에 실제로 들어온 돈 = 체결금액 - 매도수수료 - 거래세."""
+    return (_qty_amount(row.get("exit_price"), row.get("quantity"))
+            - exit_cost_krw(row, config))
+
+
+def realized_pnl_krw(row, config=None):
+    """확정 손익(원) — 들어온 돈 - 나간 돈. 기준이 무엇이든 같은 정의를 쓴다."""
+    return exit_cash_proceeds(row, config) - entry_cash_outlay(row, config)
+
+
+def unreflected_costs(latest, config=None):
+    """옛 기준으로 남아 있는 거래에 '반영되지 않은' 실제 비용을 그대로 센다.
+
+    이 값만큼 지갑이 실제보다 많게 보인다. 과거를 고쳐서 지우지 않고 드러낸다.
+    """
+    buy = sell = tax = 0.0
+    closed_part = 0.0        # 이미 청산된 거래 몫 — 확정손익을 부풀린 부분
+    open_part = 0.0          # 아직 들고 있는 거래 몫 — 지갑만 부풀린 부분
+    n_gross = n_net = 0
+    for r in (latest or {}).values():
+        status = r.get("status")
+        if status not in ("OPEN", "CLOSED"):
+            continue
+        if accounting_version_for(r, config) == ACCOUNTING_V2_NET:
+            n_net += 1
+            continue
+        n_gross += 1
+        qty = r.get("quantity")
+        b = _qty_amount(r.get("entry_price"), qty) * COMMISSION_PCT / 100.0
+        buy += b
+        if status == "CLOSED":
+            amount = _qty_amount(r.get("exit_price"), qty)
+            s = amount * COMMISSION_PCT / 100.0
+            t = amount * SELL_TAX_PCT.get(r.get("market"), SELL_TAX_DEFAULT_PCT) / 100.0
+            sell += s
+            tax += t
+            closed_part += b + s + t
+        else:
+            open_part += b
+    return {"grossBasisTrades": n_gross, "netBasisTrades": n_net,
+            "buyCommissionKrw": round(buy, 2), "sellCommissionKrw": round(sell, 2),
+            "sellTaxKrw": round(tax, 2), "totalKrw": round(buy + sell + tax, 2),
+            "closedTradesKrw": round(closed_part, 2), "openTradesKrw": round(open_part, 2)}
+
+
+def accounting_disclosure(config, latest, val=None):
+    """지갑이 두 기준을 섞고 있다는 사실과 미반영 비용을 그대로 내보낸다.
+
+    ⚠️ 이 블록은 '숨기지 않기 위한' 것이다. 값을 좋게 보이도록 고르지 않는다 —
+       전부 반영했을 때의 (더 나쁜) 숫자를 함께 싣는다.
+    """
+    new_v, old_v, switch = accounting_policy(config)
+    un = unreflected_costs(latest, config)
+    initial = (config or {}).get("initial_cash_krw") or 0
+    cash = derive_cash(config, latest) if latest is not None else None
+    equity = (val or {}).get("currentVirtualEquity")
+    realized = (val or {}).get("realizedPnl")
+    gap = un["totalKrw"]
+    out = {
+        "version": new_v,
+        "legacyVersion": old_v,
+        "costAccountingFrom": switch,
+        "mixedBasis": bool(un["grossBasisTrades"] and un["netBasisTrades"]),
+        "grossBasisTrades": un["grossBasisTrades"],
+        "netBasisTrades": un["netBasisTrades"],
+        "unreflectedCostKrw": gap,
+        "unreflectedCostBreakdownKrw": {
+            "buyCommission": un["buyCommissionKrw"],
+            "sellCommission": un["sellCommissionKrw"],
+            "sellTax": un["sellTaxKrw"]},
+        "cashIfAllNetKrw": round(cash - gap, 2) if cash is not None else None,
+        "equityIfAllNetKrw": round(equity - gap, 2) if equity is not None else None,
+        # ⚠️ 확정손익에서 빼야 하는 건 '청산된 거래 몫'뿐이다. 아직 들고 있는 거래의
+        #    매수수수료는 지갑만 줄일 뿐 확정손익과는 상관이 없다(둘을 섞으면 과대차감).
+        "realizedPnlIfAllNetKrw": (round(realized - un["closedTradesKrw"], 2)
+                                   if realized is not None and un["grossBasisTrades"] else None),
+        "portfolioReturnPctIfAllNetPct": (round(((equity - gap) / initial - 1) * 100, 3)
+                                          if equity is not None and initial else None),
+        "note": ("전환 시점 이전에 진입한 거래는 수수료·거래세를 반영하지 않은 옛 기준으로 "
+                 "남아 있습니다. 과거 기록을 다시 쓰지 않기 위해서이며, 그만큼 지갑이 "
+                 "실제보다 많게 보입니다. 전부 반영했을 때의 값도 함께 싣습니다."),
+        # 🔔 비율지표 경고 — 금액만 IfAllNet을 내고 승률·손익비를 gross로 두면
+        #    소비자는 유리한 쪽 숫자만 본다. 실측: 청산 10건 승률 gross 50% → net 40%.
+        #    그래서 승률·기대값·손익비·Profit Factor에도 IfAllNet 대응값을 함께 내고,
+        #    그래도 남는 한계를 이 문장으로 명시한다(침묵 금지).
+        "ratioBasisWarning": (
+            "승률·평균수익률·손익비·Profit Factor의 기본 값은 수수료·세금을 빼기 전"
+            "(gross) 기준이라 실제보다 유리하게 보입니다. 같은 이름 뒤에 IfAllNet이"
+            " 붙은 값이 비용을 전부 반영한 값입니다."),
+        "maxDrawdownBasis": (
+            "최대 낙폭은 그때그때 기록된 평가금액 곡선에서 계산하므로 전환 이전 구간은"
+            " 옛 기준(무비용)입니다. 소급 재계산하지 않습니다."),
+    }
+    return out
+
+
 # ── 유틸 ────────────────────────────────────────────────────────────────────
 def now_kst():
     return datetime.now(KST)
@@ -171,6 +389,11 @@ def load_production_signals(path=None):
     except OSError:
         pass
     signals = {}
+
+    def _score(row, key):
+        blk = row.get(key)
+        return blk.get("score") if isinstance(blk, dict) else None
+
     for code, row in (d.get("stocks") or {}).items():
         chief = row.get("chief") or {}
         call = chief.get("call")
@@ -178,7 +401,16 @@ def load_production_signals(path=None):
             signals[code] = {"call": call,
                              "confidence": chief.get("confidence"),
                              "total": chief.get("total"),
-                             "name": names.get(code, code)}
+                             "name": names.get(code, code),
+                             # 📒 아래는 Forward 기록(관측)용 보조 정보다.
+                             #    진입·청산 판정에는 쓰지 않는다 — V1 규칙은 그대로다.
+                             #    QUANT의 내부 데이터 키는 호환성 때문에 nova다(AGENTS.md).
+                             "taro": _score(row, "taro"),
+                             "diana": _score(row, "diana"),
+                             "quant": _score(row, "nova"),
+                             "flow": _score(row, "flow"),
+                             "riskScore": chief.get("riskScore"),
+                             "riskGrade": chief.get("riskGrade")}
     return {"signals": signals, "analysisCompletedAt": completed,
             "modelVersion": next(iter(d.get("stocks", {}).values()), {}).get("chief", {}).get("modelVersion")}
 
@@ -213,6 +445,50 @@ def index_value_on_or_before(hist, market, day):
         if d <= day and hist[d].get(market):
             return hist[d][market], d
     return None, None
+
+
+# ── 벤치마크 재계산 (2026-08-26 수리) ───────────────────────────────────────
+# 무엇이 고장나 있었나 (실측)
+#   market_history.js는 '종가' 파일이라 장중에 진입·청산할 때는 그 날 값이 아직 없다.
+#   그래서 index_value_on_or_before()가 직전 거래일로 후퇴하는데, 그 후퇴 폭이
+#   진입과 청산에서 서로 달랐다.
+#     · 진입 2026-08-18(화): 8/17이 대체공휴일이라 8/14(금)까지 2거래일 후퇴
+#     · 청산 2026-08-25: 8/24로 1거래일 후퇴
+#   이 비대칭 때문에 청산 10건의 벤치마크가 KOSPI -4.03%로 기록됐지만
+#   실제 8/18→8/25는 -1.85%였다. 차이 2.18%p(코스닥은 5.09%p)가 전부
+#   '시장 대비 초과수익'이라는 이름으로 전략에 유리하게 붙어 있었다.
+#
+# 어떻게 고쳤나 — 원장을 고치지 않는다
+#   원장의 benchmark_entry_value/day는 '그 순간 알 수 있었던 값'이라는 사실 기록이라
+#   그대로 둔다(Backfill 금지). 벤치마크는 파생값이므로 **보고할 때** 실제
+#   진입일·청산일의 종가로 다시 계산한다 — 그때는 두 날짜의 종가가 이미 존재한다.
+#   ⚠️ 그 날짜의 값이 아직 없으면 근처 날로 대체하지 않고 null이다(추측 금지).
+def recomputed_benchmark(row, idx_hist=None, today=None):
+    """실제 진입일·청산일의 지수로 다시 계산한 벤치마크(파생값).
+
+    반환 status
+      RECOMPUTED                 두 날짜의 종가가 모두 있어 다시 계산했다
+      MISSING_INDEX_ON_TRADE_DAY 한쪽이라도 없다 → 값을 만들지 않는다(null)
+    """
+    hist = idx_hist if idx_hist is not None else load_index_history()
+    market = row.get("market") or "KOSPI"
+    entry_day = row.get("entry_business_date")
+    exit_day = row.get("exit_business_date") or today
+    entry_val = (hist.get(entry_day) or {}).get(market) if entry_day else None
+    exit_val = (hist.get(exit_day) or {}).get(market) if exit_day else None
+    out = {"market": market, "entryDay": entry_day, "exitDay": exit_day,
+           "entryValue": entry_val, "exitValue": exit_val,
+           "benchmarkReturnPct": None, "relativeReturnPct": None}
+    if not entry_val or not exit_val:
+        out["status"] = "MISSING_INDEX_ON_TRADE_DAY"
+        return out
+    bench = (exit_val - entry_val) / entry_val * 100
+    gross = row.get("gross_return_pct")
+    out["status"] = "RECOMPUTED"
+    out["benchmarkReturnPct"] = round(bench, 3)
+    if gross is not None:
+        out["relativeReturnPct"] = round(gross - bench, 3)
+    return out
 
 
 # ── Ledger (Source of Truth) ───────────────────────────────────────────────
@@ -253,13 +529,19 @@ class Ledger:
 
 
 def derive_cash(config, latest):
-    """현금 = 초기금 - 미청산 매수금 + 청산 순손익. Ledger에서 항상 재계산(crash-safe)."""
+    """현금 = 초기금 - 미청산 매수금 + 청산 확정손익. Ledger에서 항상 재계산(crash-safe).
+
+    💸 2026-08-26: 거래별 순수익(net_return_pct)은 비용을 반영하는데 이 지갑만
+       반영하지 않아 두 장부가 갈라져 있었다. 이제 거래마다 자기 회계 기준
+       (accounting_version_for)을 따라 매수수수료·매도수수료·거래세를 반영한다.
+       옛 기준(ACCOUNTING_V1_GROSS) 거래의 결과는 예전과 1원도 달라지지 않는다.
+    """
     cash = config["initial_cash_krw"]
     for r in latest.values():
         if r.get("status") == "OPEN":
-            cash -= r["entry_price"] * r["quantity"]
+            cash -= entry_cash_outlay(r, config)
         elif r.get("status") == "CLOSED":
-            cash += (r["exit_price"] - r["entry_price"]) * r["quantity"]
+            cash += realized_pnl_krw(r, config)
     return cash
 
 
@@ -274,11 +556,15 @@ def portfolio_valuation(config, latest, open_meta):
     cash = derive_cash(config, latest)
     opens = [r for r in latest.values() if r.get("status") == "OPEN"]
     closed = [r for r in latest.values() if r.get("status") == "CLOSED"]
-    realized = sum((r["exit_price"] - r["entry_price"]) * r["quantity"] for r in closed)
+    realized = sum(realized_pnl_krw(r, config) for r in closed)
     # 현재 투자원금 — 미청산 포지션에 실제로 들어가 있는 가상 원금(Σ 체결가 × 수량).
     # 누적 체결금액이 아니라 "지금 들어가 있는 돈"이다. 시세(Mark)와 무관하므로
     # 평가 불가 상태에서도 항상 계산된다. 표시 전용 — 매매 판단에 쓰지 않는다.
     invested = sum(r["entry_price"] * r["quantity"] for r in opens)
+    # 💸 지갑에서 실제로 빠져나간 돈(체결금액 + 매수수수료). 옛 기준 거래에서는
+    #    investedCostBasis와 같은 값이고, 새 기준 거래에서만 수수료만큼 크다.
+    #    회계 항등식(투자원금 = 시작자금 + 실현손익 - 현금)은 이쪽 값으로 성립한다.
+    outlay = sum(entry_cash_outlay(r, config) for r in opens)
 
     marked_value = 0.0
     unrealized = 0.0
@@ -292,7 +578,9 @@ def portfolio_valuation(config, latest, open_meta):
             unmarked += 1
             continue
         marked_value += mark * r["quantity"]
-        unrealized += (mark - r["entry_price"]) * r["quantity"]
+        # 미실현 = 지금 팔면 받을 평가금액 - 실제로 나간 돈(매수수수료 포함).
+        # 팔 때 낼 수수료·세금은 아직 내지 않았으므로 미리 빼지 않는다(추정 금지).
+        unrealized += mark * r["quantity"] - entry_cash_outlay(r, config)
         if meta.get("lastMarkObservedAt"):
             mark_times.append(meta["lastMarkObservedAt"])
         if meta.get("lastMarkMarketAt"):
@@ -314,6 +602,7 @@ def portfolio_valuation(config, latest, open_meta):
         "initialVirtualCash": initial,
         "cash": round(cash, 2),
         "investedCostBasis": round(invested, 2),
+        "investedCashOutlay": round(outlay, 2),
         "markedPositionsValue": round(marked_value, 2) if equity is not None else None,
         "currentVirtualEquity": round(equity, 2) if equity is not None else None,
         "realizedPnl": round(realized, 2),
@@ -662,6 +951,9 @@ class PaperEngine:
                 "signal_at": analysis_at, "detected_at": detected_at,
             }
             if cash < pos_size:
+                # 🪝 자리가 다 찼을 때 무엇을 포기했는지 기록만 하고 싶은 전략을 위한 hook.
+                #    기본 구현은 아무 것도 하지 않는다 — V1 동작은 예전과 완전히 같다.
+                self._on_insufficient_cash(code, signals, latest, analysis_at, now, cash)
                 self.ledger.append({**base, "status": "SKIPPED_INSUFFICIENT_CASH",
                                     "recorded_at": iso(now)})
                 actions.append(f"{code} SKIP(현금 부족)")
@@ -690,17 +982,25 @@ class PaperEngine:
             entry_day = now.strftime("%Y-%m-%d")
             bench, bench_day = index_value_on_or_before(
                 idx_hist, base["market"] or "KOSPI", entry_day)
-            self.ledger.append({**base, "status": "OPEN",
-                                "entry_data_source": self.provider.name,
-                                "entry_method": method,
-                                "entry_quote_at": quote_ts,
-                                "market_data_fetched_at": fetched_at,
-                                "simulated_fill_at": iso(now),
-                                "entry_price": price, "quantity": qty,
-                                "entry_business_date": entry_day,
-                                "benchmark_entry_value": bench,
-                                "benchmark_entry_day": bench_day,
-                                "recorded_at": iso(now)})
+            # 💸 이 거래가 어느 회계 기준으로 살아갈지 진입할 때 못박는다.
+            #    나중에 설정을 고쳐도 이미 열린 거래의 기준은 바뀌지 않는다.
+            acct_version = accounting_version_for(
+                {"simulated_fill_at": iso(now)}, self.config)
+            row = {**base, "status": "OPEN",
+                   "entry_data_source": self.provider.name,
+                   "entry_method": method,
+                   "entry_quote_at": quote_ts,
+                   "market_data_fetched_at": fetched_at,
+                   "simulated_fill_at": iso(now),
+                   "entry_price": price, "quantity": qty,
+                   "entry_business_date": entry_day,
+                   "accounting_version": acct_version,
+                   "cost_model": COST_MODEL_VERSION,
+                   "benchmark_entry_value": bench,
+                   "benchmark_entry_day": bench_day,
+                   "recorded_at": iso(now)}
+            row["entry_commission_krw"] = round(entry_commission_krw(row, self.config), 2)
+            self.ledger.append(row)
             self.state["openMeta"][tid] = {
                 "mfePrice": price, "maePrice": price, "entryBusinessDate": entry_day,
                 # FIX 4: 실측 체결가(Best Ask/현재가)를 최초 Mark로 — 직후 시세 조회가
@@ -709,10 +1009,34 @@ class PaperEngine:
                 "lastMarkObservedAt": iso(now),
                 "lastMarkMarketAt": quote_ts,     # 공급자 원본 시각(없으면 None 유지)
                 "lastMarkSource": f"{self.provider.name}/{method}"}
-            cash -= price * qty
+            # 💸 다음 후보의 현금 게이트가 보는 값도 실제로 빠진 돈(수수료 포함)이어야 한다.
+            cash -= entry_cash_outlay(row, self.config)
             latest.update(self.ledger.latest_by_id())
             actions.append(f"{code} 진입 {qty}주 @{price:,.0f}({method})")
         return "PROCESSED"
+
+    # ── 전략이 갈아끼울 수 있는 지점(hook) ──
+    # ⚠️ 기본 구현은 전부 V1 규칙 그대로다. 하위 전략이 이 세 곳만 덮어쓰면
+    #    체결·회계·기록 코드를 다시 구현하지 않아도 된다(두 전략이 조용히 갈라지는 것 방지).
+    def _exit_reason(self, row, cur_call, holding_days):
+        """청산 사유 판정 — ① CHIEF가 SELL로 전환 ② 최대 보유기간 도달."""
+        if cur_call == "SELL":
+            return "CHIEF_SELL"
+        if holding_days >= self.config.get("maxHoldingTradingDays", 5):
+            return "MAX_HOLDING_5D"
+        return None
+
+    def _observe_position(self, row, price, meta, signals, now, today_date, holding_days):
+        """보유 중 Forward 관측 기록 — V1은 아무 것도 남기지 않는다(no-op)."""
+        return None
+
+    def _on_insufficient_cash(self, code, signals, latest, analysis_at, now, cash):
+        """자리·현금이 없어 못 산 후보 기록 — V1은 아무 것도 남기지 않는다(no-op)."""
+        return None
+
+    def _summary_extra(self):
+        """summary.json에 전략별로 덧붙일 블록 — V1은 없다."""
+        return {}
 
     # ── 보유 관리/청산 ──
     def _manage_positions(self, signals, now, today_date, in_session, latest, actions):
@@ -750,11 +1074,10 @@ class PaperEngine:
             holding_days = sum(1 for d in self.state["businessDates"]
                                if d > r["entry_business_date"] and d <= today_date)
             cur_call = (signals.get(r["symbol"]) or {}).get("call")
-            reason = None
-            if cur_call == "SELL":
-                reason = "CHIEF_SELL"
-            elif holding_days >= self.config.get("maxHoldingTradingDays", 5):
-                reason = "MAX_HOLDING_5D"
+            # 🪝 보유 중 Forward 관측 기록 hook — 기본 구현은 아무 것도 하지 않는다.
+            #    (V1 산출물은 예전과 완전히 같다. 기록이 필요한 전략만 덮어쓴다)
+            self._observe_position(r, px, meta, signals, now, today_date, holding_days)
+            reason = self._exit_reason(r, cur_call, holding_days)
             if not reason:
                 continue
             if not in_session:
@@ -809,6 +1132,16 @@ class PaperEngine:
                       "benchmark_return_pct": round(bench_ret, 3) if bench_ret is not None else None,
                       "relative_return_pct": round(gross - bench_ret, 3) if bench_ret is not None else None,
                       "recorded_at": iso(now)}
+            # 💸 팔 때 실제로 나간 비용과 확정 손익(원)을 사실 그대로 남긴다.
+            #    옛 기준(무비용) 거래에서는 전부 0·(exit-entry)×수량이라 의미가 같다.
+            closed["exit_commission_krw"] = round(
+                _qty_amount(price, r["quantity"]) * COMMISSION_PCT / 100.0
+                if accounting_version_for(closed, self.config) == ACCOUNTING_V2_NET else 0.0, 2)
+            closed["exit_tax_krw"] = round(
+                _qty_amount(price, r["quantity"])
+                * SELL_TAX_PCT.get(r.get("market"), SELL_TAX_DEFAULT_PCT) / 100.0
+                if accounting_version_for(closed, self.config) == ACCOUNTING_V2_NET else 0.0, 2)
+            closed["realized_pnl_krw"] = round(realized_pnl_krw(closed, self.config), 2)
             self.ledger.append(closed)
             self.state["openMeta"].pop(r["trade_id"], None)
             latest[r["trade_id"]] = closed
@@ -859,7 +1192,21 @@ class PaperEngine:
         rets = [r["gross_return_pct"] for r in closed if r.get("gross_return_pct") is not None]
         wins = [x for x in rets if x > 0]
         losses = [x for x in rets if x < 0]
-        rel = [r["relative_return_pct"] for r in closed if r.get("relative_return_pct") is not None]
+        # 💸 같은 지표를 '비용을 전부 반영했을 때' 기준으로도 낸다.
+        #    실측(2026-08-26 원장): 승률이 gross 50% → net 40%로 바뀐다.
+        #    비율지표를 gross만 내보내면 대표가 보는 승률이 실제보다 유리해진다.
+        nets = [r["estimated_net_return_pct"] for r in closed
+                if r.get("estimated_net_return_pct") is not None]
+        nwins = [x for x in nets if x > 0]
+        nlosses = [x for x in nets if x < 0]
+        # 📉 벤치마크는 파생값이라 보고 시점에 실제 진입일·청산일 종가로 다시 계산한다.
+        #    원장에 박제된 값(그 순간 알 수 있었던 값)은 그대로 두고 쓰지 않는다.
+        _idx = load_index_history()
+        _rb = [recomputed_benchmark(r, _idx) for r in closed]
+        _rb_ok = [x for x in _rb if x["status"] == "RECOMPUTED"]
+        bench_ok = [x["benchmarkReturnPct"] for x in _rb_ok
+                    if x["benchmarkReturnPct"] is not None]
+        rel = [x["relativeReturnPct"] for x in _rb_ok if x["relativeReturnPct"] is not None]
         # 🔒 표본의 '건수'와 '독립성'을 따로 센다. 같은 날 담은 종목들은 같은 시장에
         #    같이 노출되므로 서로 독립이 아니다 — 판단일 수가 실질 시행 횟수에 가깝다.
         entry_days = {r.get("entry_business_date") for r in closed
@@ -880,7 +1227,10 @@ class PaperEngine:
             "schemaVersion": "gaeo_paper_summary_v1",
             "strategyVersion": self.state["strategyVersion"],
             "environment": self.environment,
-            "forwardStart": "2026-08-18",
+            # Forward 시작일은 전략마다 다르다 — 설정에 있으면 그 값, 없으면 엔진이
+            # 실제로 처음 돈 날(engineStartedAt)을 쓴다. 날짜를 지어내지 않는다.
+            "forwardStart": (self.config.get("forwardStart")
+                             or (self.state.get("engineStartedAt") or "")[:10] or None),
             "engineStartedAt": self.state.get("engineStartedAt"),
             "generatedAt": iso(now_kst()),
             # 무엇이 모자라는지 구분해 적는다 — "건수"와 "판단일"은 다른 부족이다.
@@ -913,9 +1263,28 @@ class PaperEngine:
                                            if r.get("estimated_net_return_pct") is not None]),
             "costModel": COST_MODEL_VERSION,
             "costModelDetail": cost_model_detail(),
-            "avgBenchmarkReturnPct": _avg([r["benchmark_return_pct"] for r in closed
-                                           if r.get("benchmark_return_pct") is not None]),
+            "avgBenchmarkReturnPct": _avg(bench_ok),
             "avgRelativeReturnPct": _avg(rel),
+            # 어떤 기준으로 계산했는지, 몇 건이 재계산됐는지 함께 밝힌다.
+            "benchmarkBasis": "RECOMPUTED_FROM_TRADE_DATES",
+            "benchmarkRecomputedCount": len(_rb_ok),
+            "benchmarkUnavailableCount": len(_rb) - len(_rb_ok),
+            "benchmarkNoteInternal": (
+                "원장에 남은 benchmark_* 필드는 '탐지 시점에 알 수 있었던 값'이라 "
+                "장중에는 직전 거래일 종가로 후퇴해 있다(진입·청산의 후퇴 폭이 달라 "
+                "시장대비가 부풀려졌다). 이 요약은 실제 진입일·청산일 종가로 다시 "
+                "계산한 값이며, 해당 날짜 종가가 없으면 값을 만들지 않는다."),
+            # 💸 비용을 전부 반영했을 때의 같은 지표들(더 낮은 쪽도 반드시 함께 낸다)
+            "winRatePctIfAllNet": (round(len(nwins) / len(nets) * 100, 1)
+                                   if nets else None),
+            "avgReturnPctIfAllNet": _avg(nets),
+            "medianReturnPctIfAllNet": _median(nets),
+            "avgWinPctIfAllNet": _avg(nwins), "avgLossPctIfAllNet": _avg(nlosses),
+            "expectancyPctIfAllNet": _avg(nets),
+            "profitFactorIfAllNet": (round(sum(nwins) / abs(sum(nlosses)), 2)
+                                     if nwins and nlosses and sum(nlosses) else None),
+            "winLossRatioIfAllNet": (round(abs(_avg(nwins) / _avg(nlosses)), 2)
+                                     if nwins and nlosses and _avg(nlosses) else None),
             "avgHoldingTradingDays": _avg([r.get("holding_trading_days") for r in closed
                                            if r.get("holding_trading_days") is not None]),
             "avgMfePct": _avg([r.get("mfe_pct") for r in closed if r.get("mfe_pct") is not None]),
@@ -937,11 +1306,18 @@ class PaperEngine:
         val = reporting_view(
             portfolio_valuation(self.config, latest, self.state.get("openMeta")))
         summary.update({k: val[k] for k in (
-            "initialVirtualCash", "cash", "investedCostBasis", "markedPositionsValue",
+            "initialVirtualCash", "cash", "investedCostBasis", "investedCashOutlay",
+            "markedPositionsValue",
             "currentVirtualEquity", "realizedPnl",
             "unrealizedPnl", "portfolioReturnPct",
             "valuationObservedAt", "valuationMarketAt", "valuationStatus",
             "executedTradeCount")})
+        # 💸 회계 기준 공개 — 지갑이 두 기준을 섞고 있다는 사실과 전환 이전 미반영
+        #    비용을 숨기지 않고 그대로 싣는다(성과를 낮추는 방향이라 부풀림이 아니다).
+        summary["accounting"] = accounting_disclosure(self.config, latest, val)
+        summary["accountingVersion"] = summary["accounting"]["version"]
+        # 전략별 추가 블록(Shadow 전략의 역할·승격 상태 등). V1은 비어 있다.
+        summary.update(self._summary_extra())
         summary["maxDrawdownPct"] = max_drawdown_from_curve(
             os.path.join(self.dir, "equity_curve.jsonl"),
             initial_seed=self.config["initial_cash_krw"])

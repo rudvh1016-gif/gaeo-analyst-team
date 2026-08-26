@@ -19,6 +19,30 @@ import os
 import re
 from datetime import datetime, timedelta, timezone
 
+# 확정손익 산식은 여기서 다시 만들지 않는다 — 엔진의 회계 함수 하나만 쓴다.
+# (거래마다 자기 회계 기준을 따르므로 옛 기록의 값은 예전과 1원도 다르지 않다)
+from paper_engine import realized_pnl_krw, recomputed_benchmark, load_index_history
+
+# 📉 시장대비(벤치마크)도 여기서 다시 계산하지 않는다 — 엔진 함수를 쓴다.
+#    원장에 박제된 benchmark_* 는 장중 진입·청산 때 직전 거래일로 후퇴한 값이라
+#    진입·청산의 후퇴 폭이 달라 시장대비가 부풀려져 있다(실측 2.18~5.09%p).
+#    지수 종가 파일은 한 번만 읽어 캐시한다(사이클마다 새 프로세스라 캐시가 곧 최신이다).
+_IDX_CACHE = {}
+
+
+def _idx_hist():
+    if "h" not in _IDX_CACHE:
+        _IDX_CACHE["h"] = load_index_history()
+    return _IDX_CACHE["h"]
+
+
+def set_index_history(hist):
+    """지수 종가 주입점(테스트·재현용). None이면 다음 호출 때 파일에서 다시 읽는다."""
+    if hist is None:
+        _IDX_CACHE.pop("h", None)
+    else:
+        _IDX_CACHE["h"] = hist
+
 KST = timezone(timedelta(hours=9))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -168,6 +192,19 @@ SKIP_REASON_KO = {
 }
 
 
+def _benchmark_pct(r):
+    v = recomputed_benchmark(r, _idx_hist()).get("benchmarkReturnPct")
+    return _num(v) if v is not None else _num(r.get("benchmark_return_pct"))
+
+
+def _benchmark_basis(r):
+    ok = recomputed_benchmark(r, _idx_hist()).get("benchmarkReturnPct") is not None
+    if ok:
+        return "RECOMPUTED_FROM_TRADE_DATES"
+    return ("FROZEN_POINT_IN_TIME" if r.get("benchmark_return_pct") is not None
+            else "UNAVAILABLE")
+
+
 def public_sell(r):
     """그날 매도 기록 — 매수가·매도가·확정손익·수익률·보유기간·종료 이유."""
     qty, ep, xp = _num(r.get("quantity")), _num(r.get("entry_price")), _num(r.get("exit_price"))
@@ -175,9 +212,13 @@ def public_sell(r):
         "symbol": r.get("symbol"), "name": r.get("name"), "market": r.get("market"),
         "quantity": qty, "entryPrice": ep, "exitPrice": xp,
         "exitAt": kst_hm(r.get("exit_at")),
-        "realizedPnl": round((xp - ep) * qty) if None not in (qty, ep, xp) else None,
+        "realizedPnl": (round(realized_pnl_krw(r)) if None not in (qty, ep, xp) else None),
         "returnPct": _num(r.get("gross_return_pct")),
-        "benchmarkReturnPct": _num(r.get("benchmark_return_pct")),
+        # 실제 진입일·청산일 종가로 다시 계산한 값을 우선 쓴다.
+        # 그 날짜 종가가 아직 없으면 원장에 남은 '탐지 시점 값'으로 물러서되,
+        # 어느 기준인지 반드시 함께 밝힌다(조용히 섞지 않는다).
+        "benchmarkReturnPct": _benchmark_pct(r),
+        "benchmarkBasis": _benchmark_basis(r),
         "holdingTradingDays": _num(r.get("holding_trading_days")),
         "exitReason": EXIT_REASON_KO.get(r.get("exit_reason"), "종료"),
         "mfePct": _num(r.get("mfe_pct")), "maePct": _num(r.get("mae_pct")),

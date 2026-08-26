@@ -6510,7 +6510,19 @@ function renderPaper(){
   const costLine=(cm&&n(cm.roundTripPct)!=null)
     ? `표시되는 <b>수익률은 수수료·세금을 빼기 전 값</b>이고, 아래 「검증 상태」의 순수익만 이를 반영합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
     : `수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중).`;
-  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록입니다. ${costLine} ${esc(P.benchmarkNote||'')}</p>`;
+  /* 💸 회계 기준이 섞여 있으면 그 사실을 숨기지 않는다.
+     전환 이전에 산 거래는 수수료·세금이 빠지지 않은 옛 방식으로 남아 있고(지난 기록을
+     나중에 고쳐 쓰지 않기 때문), 그만큼 지갑이 실제보다 많게 보인다. 그 차액과
+     "전부 반영하면 얼마인지"를 같이 적는다 — 성과를 낮추는 방향이라 고지에 해당한다. */
+  const mix=P.costBasisMix;
+  let mixLine='';
+  if(mix&&n(mix.unreflectedCostKrw)>0&&n(mix.grossBasisTrades)&&n(mix.cashIfAllNetKrw)!=null){
+    const parts=[`가상현금 ${won(mix.cashIfAllNetKrw)}`];
+    if(n(mix.equityIfAllNetKrw)!=null) parts.push(`현재 가상자산 ${won(mix.equityIfAllNetKrw)}`);
+    if(n(mix.portfolioReturnPctIfAllNet)!=null) parts.push(`수익률 ${sPct(mix.portfolioReturnPctIfAllNet)}`);
+    mixLine=` 다만 ${day(mix.switchAt)} 이전에 산 거래 ${mix.grossBasisTrades}건은 이 비용을 아직 빼지 않은 옛 방식으로 남아 있어요. 이미 남긴 기록을 나중에 고쳐 쓰지 않기 때문입니다. 그만큼(${won(mix.unreflectedCostKrw)}) 위 금액이 실제보다 많아 보이고, 전부 빼면 ${parts.join(' · ')}입니다.`;
+  }
+  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록입니다. ${costLine}${mixLine} ${esc(P.benchmarkNote||'')}</p>`;
 
   /* 자동 재렌더 시 사용자가 펼쳐 둔 설명(details)이 닫히지 않게 상태를 보존한다 */
   const openGloss=[...el.querySelectorAll('.pv-gloss')].map(d=>d.open);
