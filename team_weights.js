@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-26 09:43",
+ "generatedAt": "2026-08-26 10:13",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2393,
+   "taro": 0.2376,
    "diana": 0.1279,
-   "nova": 0.2893,
-   "flow": 0.3435
+   "nova": 0.2828,
+   "flow": 0.3518
   },
   "acc": {
    "taro": {
-    "n": 1298,
-    "acc": 39.4,
-    "adjustedAcc": 40.3,
+    "n": 1299,
+    "acc": 39.2,
+    "adjustedAcc": 40.1,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,68 +47,27 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 215,
-    "acc": 48.4,
-    "adjustedAcc": 49.0,
+    "n": 214,
+    "acc": 47.2,
+    "adjustedAcc": 48.2,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 237,
-    "acc": 53.6,
-    "adjustedAcc": 52.4,
+    "n": 241,
+    "acc": 54.8,
+    "adjustedAcc": 53.2,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 1750,
+  "graded": 1754,
   "team": {
-   "hit": 1081,
-   "miss": 658,
-   "n": 1739,
-   "acc": 62.2
+   "hit": 1090,
+   "miss": 655,
+   "n": 1745,
+   "acc": 62.5
   }
  },
- "sectors": {
-  "바이오·제약": {
-   "weights": {
-    "taro": 0.2508,
-    "diana": 0.1265,
-    "nova": 0.282,
-    "flow": 0.3407
-   },
-   "acc": {
-    "taro": {
-     "n": 149,
-     "acc": 49.0,
-     "adjustedAcc": 49.4,
-     "days": 5,
-     "deadband": 1.0
-    },
-    "diana": {
-     "n": 0,
-     "acc": null,
-     "adjustedAcc": 50.0,
-     "days": 20,
-     "deadband": 3.0
-    },
-    "nova": {
-     "n": 33,
-     "acc": 33.3,
-     "adjustedAcc": 46.4,
-     "days": 5,
-     "deadband": 1.0
-    },
-    "flow": {
-     "n": 18,
-     "acc": 72.2,
-     "adjustedAcc": 52.9,
-     "days": 5,
-     "deadband": 1.0
-    }
-   },
-   "graded": 200,
-   "globalBlend": 0.8
-  }
- }
+ "sectors": {}
 };
