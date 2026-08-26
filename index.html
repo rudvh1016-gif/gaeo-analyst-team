@@ -12366,7 +12366,11 @@ makeCards(false);
     const a=AUTO_AN&&AUTO_AN.stocks&&AUTO_AN.stocks[code], chief=a&&a.chief;
     if(!a||!chief) return null;
     return {date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',total:chief.total,
-      confidence:chief.confidence,taro:a.taro,diana:a.diana,nova:a.nova,flow:a.flow,tier:'auto'};
+      confidence:chief.confidence,taro:a.taro,diana:a.diana,nova:a.nova,flow:a.flow,tier:'auto',
+      // 비교 조건. 이전 판단과 이 두 가지가 다르면 순수한 종목 판단 변화가 아니라
+      // 모델·Universe가 바뀐 효과가 섞인 것이라, conditionChanged()가 걸러낸다.
+      modelVersion:chief.modelVersion||null,
+      coverageVersion:(AUTO_AN&&AUTO_AN.coverageUniverseVersion)||null};
   }
   function signalFor(code){
     const rows=historyRows(code);
@@ -12417,9 +12421,34 @@ makeCards(false);
     const d=Number(signal.latest.total)-Number(signal.previous.total);
     return Number.isFinite(d)?d:0;
   }
+  // 두 판단이 '같은 조건'에서 나왔는가. 모델이나 분석 대상 종목 집합이 그 사이에
+  // 바뀌었으면, 점수가 움직인 게 종목 때문인지 모델 때문인지 구분할 수 없다.
+  // 그런 종목은 '오늘 변화'로 올리지 않는다(무시하는 게 아니라 셈에서 뺀다).
+  function conditionChanged(signal){
+    const a=signal.previous, b=signal.latest;
+    if(!a||!b) return false;
+    // 한쪽이 비어 있으면 '달라졌다'고 단정하지 않는다. 옛 history 항목에는
+    // modelVersion이 아예 없어서, 없는 것을 변화로 읽으면 정상 변화까지 다 사라진다.
+    const differs=(x,y)=>!!(x&&y&&x!==y);
+    return differs(a.modelVersion,b.modelVersion)||differs(a.coverageVersion,b.coverageVersion);
+  }
+  // ⭐ '의미 있는 변화'의 기준은 CHIEF 판단(BUY/HOLD/SELL)이 실제로 바뀐 것 하나뿐이다.
+  //
+  // 예전 기준: callChanged || |종합점수 변화| >= 4 || |개별 분석가 점수 변화| >= 8
+  // 그 4와 8은 설계 문서·테스트·근거가 저장소 어디에도 없었다(2026-08-26 감사).
+  // 점수는 매일 조금씩 흔들리므로, 근거 없는 선을 그으면 "오늘 크게 바뀐 종목"이
+  // 매일 몇 개씩 만들어진다. 실제로는 아무 판단도 바뀌지 않았는데도 그렇다.
+  // 화면이 바빠 보이려고 숫자를 지어내는 셈이라 v1 기준에서 뺐다.
+  //
+  // 점수 변화는 버리지 않는다 — 이미 판단이 바뀐 종목의 '설명'으로 카드 안에 쓴다
+  // (reasonOf·strongestDelta). 선정 기준이 아니라 부가정보라는 뜻이다.
+  //
+  // RISK 등급 변화는 아직 못 쓴다: history.js에 riskGrade가 저장된 적이 없어서
+  // (실측 0건) 이전 등급을 알 방법이 없다. 지금 알고리즘으로 과거 Risk를 다시
+  // 계산해 "그때 등급"이라고 부르는 건 없는 기록을 지어내는 것이다. 앞으로
+  // 저장되기 시작하면 그때부터 Priority 2로 더한다(과거 소급 없음).
   function meaningful(signal){
-    const d=strongestDelta(signal);
-    return callChanged(signal)||Math.abs(totalDelta(signal))>=4||Math.abs(d&&d.delta||0)>=8;
+    return callChanged(signal)&&!conditionChanged(signal);
   }
   function toneOf(signal){
     const d=totalDelta(signal);
@@ -12431,12 +12460,10 @@ makeCards(false);
     });
   }
 
-  function representativeSignals(){
-    const signals=[];
-    MEGA_CAP.forEach(code=>{ const s=signalFor(code); if(s) signals.push(s); });
-    return signals.sort((a,b)=>String(b.latest.date||'').localeCompare(String(a.latest.date||''))||
-      Math.abs(totalDelta(b))-Math.abs(totalDelta(a))).slice(0,5);
-  }
+  // representativeSignals()는 2026-08-26에 제거했다. 변화가 없을 때 시가총액 상위
+  // 종목을 끌어와 같은 '변화 카드'로 그리던 함수인데, 그 종목들은 아무것도 바뀌지
+  // 않았는데 "→" 화살표가 붙어 나와서 보는 사람이 오늘 뭔가 달라졌다고 읽었다.
+  // 없는 변화를 지어내는 자리라 되살리지 않는다(renderChanges 주석 참고).
   // 종목 시세 카드(#quote)의 "최근 종가 흐름" 바로 아래 넣는 "그 종목의 5인 판단 변화" 카드.
   // 새 점수만 보여주지 않고, 이전 판단과 무엇이 달라졌는지 함께 보여준다.
   function judgeCardHTML(signal){
@@ -12496,21 +12523,31 @@ makeCards(false);
     const desc=document.getElementById('homeChangesDesc');
     const count=document.getElementById('homeChangeCount');
     const unit=document.getElementById('homeChangeUnit');
+    // ⭐ 변화가 없으면 없다고 말한다.
+    //
+    // 예전에는 관심종목에도 시장에도 변화가 없을 때 representativeSignals()로
+    // 시가총액 상위 종목을 끌어와 같은 '변화 카드'에 그렸다. 그 종목들은 아무것도
+    // 바뀌지 않았는데 "→" 화살표가 붙은 카드로 나오니, 보는 사람은 오늘 뭔가
+    // 달라졌다고 읽는다. 없는 변화를 있는 것처럼 보이게 하는 자리라 뺐다.
+    //
+    // 시장 변화(marketChanges)를 대신 보여주는 것은 그대로 둔다 — 그건 실제로
+    // 판단이 바뀐 종목이라 거짓이 아니다. 다만 '내 종목 변화'가 아니라는 것을
+    // 문구로 분명히 한다. 둘 다 0이면 빈 상태(아래 change-empty)로 간다.
     if(watchCodes.length){
       count.textContent=changed.length;
       unit.textContent='개 관심종목 변화';
       if(changed.length){
-        desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 중요한 변화부터 보여드려요.`;
+        desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 판단이 바뀐 종목이에요.`;
       }else{
         shown=marketChanges(watchSet).slice(0,3);
-        if(!shown.length) shown=representativeSignals().filter(x=>!watchSet.has(x.code)).slice(0,3);
-        desc.textContent='관심종목 판단은 유지 중이에요. 대신 시장에서 변화가 큰 종목을 보여드려요.';
+        desc.textContent=shown.length
+          ?'관심종목 판단은 그대로예요. 대신 시장에서 판단이 바뀐 종목을 보여드려요.'
+          :'오늘은 관심종목도 시장도 판단이 바뀐 곳이 없어요.';
       }
     }else{
       shown=marketChanges().slice(0,3);
-      if(!shown.length) shown=representativeSignals().slice(0,3);
       count.textContent=shown.length;
-      unit.textContent=shown.some(meaningful)?'개 시장 변화':'개 최근 기록';
+      unit.textContent='개 시장 변화';
       desc.textContent='관심종목을 저장하면 다음 방문부터 내 종목 변화가 먼저 보여요.';
     }
     shown=shown.slice(0,3);
