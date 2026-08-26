@@ -27,6 +27,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "market_universe", "sector_source_probe.json")
 MAP_OUT = os.path.join(HERE, "market_universe", "sector_map.json")
 CROSSWALK_GATE = 0.95   # 법인 수 가중 crosswalk 커버리지 최소선 (미달이면 GATE_FAIL)
+# 업종 칸이 실제로 채워져 있는 행의 비율 최소선. CROSSWALK_GATE와 숫자는 같지만
+# 뜻이 전혀 다르다 — 저쪽은 "업종명이 GAEO 24분류에 매핑되는 비율"이고 이쪽은
+# "업종 칸이 비어 있지 않은 비율"이다. 하나로 묶어 쓰면 crosswalk를 손볼 때
+# 이 게이트가 같이 움직인다(2026-08-26 QA 지적). 그래서 따로 둔다.
+INDUSTRY_FILL_MIN = 0.95
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
 
 # ── 승격 게이트 상수는 새로 만들지 않는다 ────────────────────────────────────
@@ -169,8 +174,8 @@ def validate_candidate(report, candidate, last_good=None):
 
     # 7. 업종 채움 비율 — 코드만 있고 업종이 비면 업종 맵으로서 의미가 없다.
     for name, s in srcs.items():
-        if s.get("status") == "OK" and (s.get("industryFillRatio") or 0) < CROSSWALK_GATE:
-            fails.append(f"{name} 업종 채움 비율 {s.get('industryFillRatio')} < {CROSSWALK_GATE}")
+        if s.get("status") == "OK" and (s.get("industryFillRatio") or 0) < INDUSTRY_FILL_MIN:
+            fails.append(f"{name} 업종 채움 비율 {s.get('industryFillRatio')} < {INDUSTRY_FILL_MIN}")
 
     # 8. crosswalk 게이트 — Guardian이 거부하는 gate 값이면 승격하지 않는다.
     gate = candidate["crosswalkCoverage"]["gate"]
@@ -245,19 +250,37 @@ def main():
     ok = all(s.get("status") == "OK" for s in report["sources"].values())
     report["verdict"] = "SOURCE_AVAILABLE" if ok else "BLOCKED_SOURCE"
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, OUT)
-    print(f"[probe] verdict={report['verdict']} → {OUT}")
+
+    # ⚠️ 프로브 보고서는 sector_map과 함께 움직여야 한다 (2026-08-26 QA 지적).
+    #    예전에는 검증 전에 무조건 덮어써서, 승격이 거부돼도 보고서만 새 것이 됐다.
+    #    그러면 ① 두 파일이 서로 다른 수집분을 가리켜 어긋나고
+    #         ② 거부 사유가 GATE_FAIL일 때 그 히스토그램이 커밋되면서
+    #            test_market_universe의 "실측 crosswalk ≥ 95%" 단정이 저장소
+    #            전체에서 깨진다(스모크 워크플로가 종료 코드와 무관하게 커밋한다).
+    #    그래서 승격이 실제로 일어났을 때만 보고서를 교체한다.
+    def save_report():
+        tmp = OUT + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=1)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, OUT)
+        print(f"[probe] verdict={report['verdict']} → {OUT}")
+
     if not ok:
         # 소스가 막혔다(해외 IP 차단 등). 네이버 같은 벤더 자료로 대체하지 않는다.
         # last-good을 그대로 두고 정직하게 BLOCKED_SOURCE로 끝낸다.
-        print("[probe] BLOCKED_SOURCE — 업종 맵을 건드리지 않는다(last-good 유지)")
+        print(f"[probe] verdict={report['verdict']}")
+        print("[probe] BLOCKED_SOURCE — 업종 맵도 프로브 보고서도 건드리지 않는다"
+              "(last-good 유지)")
         return 1
     # fetch가 됐어도 내용이 온전하지 않으면 승격하지 않는다.
     # 거부는 실패다(exit 2) — 조용히 0으로 끝나면 자동화가 '갱신됐다'고 오해한다.
-    return 0 if write_sector_map(report, code_industry) else 2
+    if not write_sector_map(report, code_industry):
+        print("[probe] 프로브 보고서도 그대로 둔다 — 맵과 보고서가 어긋나지 않게")
+        return 2
+    save_report()
+    return 0
 
 
 if __name__ == "__main__":

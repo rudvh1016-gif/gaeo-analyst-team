@@ -5021,6 +5021,10 @@ window.GaeoFeatures=(()=>{
     calc:['calculators.js'],
     changelog:['changelog.js'],
     history:['history.js','price_history.js'],
+    // 📉 일봉만 필요한 화면(포트폴리오 위험 겹침)용. history 키는 판단 이력
+    //    history.js(13.6MB)까지 같이 받아 합계 42.5MB가 되는데, 상관계수는
+    //    PRICE_HISTORY만 쓴다. 필요 없는 13.6MB를 받게 하지 않으려고 따로 뒀다.
+    priceHistory:['price_history.js'],
     auto:['auto_analysis.js'],
     // 📄 홈 "오늘의 공시" 위젯 전용 소형 스냅샷(수십 KB). auto_analysis.js(3MB)를
     //    홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이라, 첫 화면을 느리게 하지 않는다.
@@ -5670,9 +5674,22 @@ const PF_MIN_PAIR_OBS=40;   // 통계가 흔들리지 않을 최소 짝 관측�
                             // 투자성과를 보고 고른 숫자가 아니며, 수익률을 높이려고
                             // 나중에 자동 튜닝하지 않는다(고정 데이터 품질 기준).
 
+// 같은 종목의 종가를 쌍마다 다시 파싱하지 않는다. N종목이면 pfCloses가
+// N(N-1)번 불리는데(쌍마다 2회), 실제로 필요한 건 N번뿐이다.
+// 실측(2026-08-26 QA): 200종목에서 재계산 761ms → 입력이 눈에 띄게 밀렸다.
+const PF_CLOSES_CACHE={};
+
 /** price_history에서 code의 최근 N거래일 {날짜: 종가}. 없으면 null. */
 function pfCloses(code,limit=PF_CORR_WINDOW+1){
   if(typeof PRICE_HISTORY==='undefined') return null;
+  const ck=code+'@'+limit;
+  if(ck in PF_CLOSES_CACHE) return PF_CLOSES_CACHE[ck];
+  const v=pfClosesUncached(code,limit);
+  PF_CLOSES_CACHE[ck]=v;
+  return v;
+}
+
+function pfClosesUncached(code,limit){
   const pages=PRICE_HISTORY[code];
   if(!Array.isArray(pages)) return null;
   const days=[];
@@ -5774,22 +5791,35 @@ function renderPfRisk(){
   if(typeof PRICE_HISTORY==='undefined'){
     html+=`<div class="pf-risk-head">위험 겹침</div>`+
       `<div class="pf-risk-line pf-mut">담은 종목들이 실제로 따로 움직이는지 확인할 수 있어요.`+
-      `<button type="button" id="pfRiskLoad" class="pf-risk-btn">겹침 확인하기</button></div>`;
+      `<button type="button" id="pfRiskLoad" class="pf-risk-btn">겹침 확인하기</button>`+
+      `<span class="pf-risk-sub">지난 시세 자료를 받아와요(약 29MB). Wi-Fi에서 보시는 걸 권해요.</span></div>`;
     box.innerHTML=html;
     const btn=document.getElementById('pfRiskLoad');
     if(btn) btn.onclick=async()=>{
       btn.disabled=true; btn.textContent='불러오는 중…';
-      try{ await GaeoFeatures.load('history'); renderPfRisk(); }
+      // history 키가 아니라 priceHistory 키를 쓴다 — 판단 이력 13.6MB는 필요 없다.
+      try{ await GaeoFeatures.load('priceHistory'); renderPfRisk(); }
       catch(e){ btn.disabled=false; btn.textContent='다시 시도'; }
     };
     return;
   }
 
   // 사용자가 담은 종목끼리만. 8종목이면 28쌍이라 전부 계산해도 가볍다.
+  // 다만 종목 수가 늘면 쌍은 제곱으로 는다(200종목=19,900쌍, 실측 761ms).
+  // 평가금액 상위 종목으로 잘라서 화면이 멈추지 않게 한다 — 겹침을 보는 목적은
+  // '내 돈이 어디에 몰렸나'이므로 비중이 큰 쪽을 남기는 게 맞다.
+  const PF_MAX_PAIR_CODES=30;
+  let calcCodes=codes;
+  let trimmed=0;
+  if(codes.length>PF_MAX_PAIR_CODES){
+    const val=c=>((+((pf[c]||{}).qty)||0)*(STOCKS[c].price||0))||0;
+    calcCodes=codes.slice().sort((x,y)=>val(y)-val(x)).slice(0,PF_MAX_PAIR_CODES);
+    trimmed=codes.length-calcCodes.length;
+  }
   const pairs=[];
-  for(let i=0;i<codes.length;i++) for(let j=i+1;j<codes.length;j++){
-    const res=pfCorrelation(codes[i],codes[j]);
-    pairs.push({a:codes[i],b:codes[j],res});
+  for(let i=0;i<calcCodes.length;i++) for(let j=i+1;j<calcCodes.length;j++){
+    const res=pfCorrelation(calcCodes[i],calcCodes[j]);
+    pairs.push({a:calcCodes[i],b:calcCodes[j],res});
   }
   const usable=pairs.filter(p=>p.res.status==='OK').sort((x,y)=>y.res.r-x.res.r).slice(0,3);
   const short=pairs.length-pairs.filter(p=>p.res.status==='OK').length;
@@ -5816,6 +5846,7 @@ function renderPfRisk(){
     }
     if(short) html+=`<div class="pf-risk-sub">가격 기록이 모자라 못 잰 조합 ${short}개는 뺐어요.</div>`;
   }
+  if(trimmed) html+=`<div class="pf-risk-sub">담은 종목이 많아 평가금액 상위 ${PF_MAX_PAIR_CODES}개만 비교했어요(${trimmed}개 제외).</div>`;
   html+=`<div class="pf-risk-sub">※ 참고 정보예요. 종목 점수나 매수·매도 판단에는 쓰이지 않아요.</div>`;
   box.innerHTML=html;
 }
@@ -5847,7 +5878,7 @@ function recalcPf(){
   // 가격 이력만 쓴다). 여기서 그냥 return하면 담기만 한 사용자가 못 보게 된다.
   if(held===0){
     sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.';
-    renderPfRisk(); return;
+    schedulePfRisk(); return;
   }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
   const col=v=>v>0?'var(--green)':(v<0?'var(--red)':'var(--ink)');
@@ -5860,7 +5891,16 @@ function recalcPf(){
     <span>오늘 <b style="color:${col(todayGain)}">${todayGain>0?'+':''}${won(Math.round(todayGain))}</b></span>
     <span>연 예상 배당 <b>${won(Math.round(annDiv))}</b></span>
   </div>`;
-  renderPfRisk();
+  schedulePfRisk();
+}
+
+// 위험 겹침은 수량·평단을 한 글자 칠 때마다 다시 계산할 필요가 없다.
+// 상관계수는 입력값과 무관하고(가격 이력만 씀), 업종 비중만 수량을 본다.
+// 타이핑이 멈춘 뒤 한 번만 계산해서 입력이 밀리지 않게 한다.
+let PF_RISK_TIMER=null;
+function schedulePfRisk(){
+  clearTimeout(PF_RISK_TIMER);
+  PF_RISK_TIMER=setTimeout(renderPfRisk,180);
 }
 
 // 입력 저장(이벤트 위임 · #portfolio는 상시 존재) — 숫자(.pf-in) + 메모(.pf-memo)
@@ -12547,7 +12587,9 @@ makeCards(false);
     const rows=(typeof LIVE_HISTORY!=='undefined'&&Array.isArray(LIVE_HISTORY[code]))
       ?LIVE_HISTORY[code].slice():[];
     if(rows.length) return rows.sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
-    const lite=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals&&HOME_BRIEF.signals[code])||null;
+    // HOME_BRIEF는 로드 실패 시 onerror 폴백이 null을 넣는다. typeof는 'object'를
+    // 통과하므로 .signals에서 터진다 — 보드가 통째로 죽는 경로였다(2026-08-26 QA).
+    const lite=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF&&HOME_BRIEF.signals&&HOME_BRIEF.signals[code])||null;
     if(!lite) return [];
     const makeRow=(date,call,total,scores,stances)=>{
       const row={date:date||'',call:call||'HOLD',total};
@@ -12715,7 +12757,7 @@ makeCards(false);
   function marketChanges(exclude){
     const signals=[];
     const source=(typeof LIVE_HISTORY!=='undefined'&&LIVE_HISTORY)||
-      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals)||{});
+      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF&&HOME_BRIEF.signals)||{});
     for(const code in source){
       if(exclude&&exclude.has(code)) continue;
       const signal=signalFor(code);
@@ -12755,14 +12797,22 @@ makeCards(false);
     // 판단이 바뀐 종목이라 거짓이 아니다. 다만 '내 종목 변화'가 아니라는 것을
     // 문구로 분명히 한다. 둘 다 0이면 빈 상태(아래 change-empty)로 간다.
     if(watchCodes.length){
-      count.textContent=changed.length;
-      unit.textContent='개 관심종목 변화';
       if(changed.length){
+        count.textContent=changed.length;
+        unit.textContent='개 관심종목 변화';
         desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 판단이 바뀐 종목이에요.`;
       }else{
+        // ⚠️ 헤더 숫자와 화면 내용이 어긋나면 안 된다. 관심종목 변화가 0건인데
+        //    "0개 관심종목 변화"라고 써 놓고 시장 카드 3장을 그리면, 보는 사람은
+        //    그 3장이 자기 관심종목이라고 읽는다. 지금 화면에 실제로 보이는 것을
+        //    세서 그것의 이름을 붙인다.
+        //    (판정 기준이 'CHIEF 판단 변화'로 좁아지면서 이 분기가 상시 경로가
+        //     됐다 — 실측 598종목 중 판단이 바뀌는 건 하루 60여 건이다.)
         shown=marketChanges(watchSet).slice(0,3);
+        count.textContent=shown.length;
+        unit.textContent=shown.length?'개 시장 변화':'개 변화';
         desc.textContent=shown.length
-          ?'관심종목 판단은 그대로예요. 대신 시장에서 판단이 바뀐 종목을 보여드려요.'
+          ?`관심종목 ${watchCodes.length}개는 판단 그대로예요. 대신 시장에서 판단이 바뀐 종목을 보여드려요.`
           :'오늘은 관심종목도 시장도 판단이 바뀐 곳이 없어요.';
       }
     }else{

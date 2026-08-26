@@ -105,6 +105,50 @@ def _entry_day(row):
     return row.get("entry_business_date") or (row.get("signal_at") or "")[:10]
 
 
+#: Smart V2의 안전상한(거래일). 여기서 새로 정하지 않고 V2 설정 파일에서 읽는다.
+def _v2_max_holding_days(v2_dir=None):
+    path = os.path.join(v2_dir or V2_DIR, "config.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            v = json.load(f).get("maxHoldingTradingDays")
+        return int(v) if v else 60
+    except Exception:
+        return 60
+
+
+V2_MAX_HOLDING_DAYS = _v2_max_holding_days()
+
+
+def _business_days(*row_groups):
+    """원장에 실제로 나타난 거래일 집합. 거래일 달력을 따로 만들지 않는다."""
+    days = set()
+    for rows in row_groups:
+        for r in rows:
+            d = _entry_day(r) or ""
+            if d:
+                days.add(d)
+            x = r.get("exit_business_date")
+            if x:
+                days.add(x)
+    return sorted(days)
+
+
+def _elapsed_trading_days(row, business_days):
+    """진입일부터 지금(원장의 마지막 거래일)까지 지난 거래일 수.
+
+    거래일 달력은 원장이 실제로 본 날짜만 쓴다 — 없는 날을 지어내지 않는다.
+    그래서 이 값은 과소평가될 수 있고, 그 방향은 안전하다(성급히 '기한 초과'로
+    몰지 않는다).
+    """
+    entry = _entry_day(row)
+    if not entry or not business_days:
+        return 0
+    try:
+        return len([d for d in business_days if d > entry])
+    except TypeError:
+        return 0
+
+
 def strategy_state(rows):
     """한 전략의 '상태'만 집계한다. 성과 숫자는 만들지 않는다."""
     latest = latest_by_trade_id(rows)
@@ -146,6 +190,7 @@ def pairing_status(v1_dir=None, v2_dir=None):
     v1_ep = entered_episodes(v1_rows)
     v2_ep = entered_episodes(v2_rows)
     paired_ids = sorted(set(v1_ep) & set(v2_ep))
+    business_days = _business_days(v1_rows, v2_rows)
 
     # 짝이 만들어진 첫 날 = 양쪽에 다 있는 Episode 중 가장 이른 진입일.
     # 이 날 이전은 비교 대상이 아니다(공통 id가 아직 기록되지 않던 기간).
@@ -168,10 +213,21 @@ def pairing_status(v1_dir=None, v2_dir=None):
     # V2가 언제 나오느냐로 정해진다. 그런데 초반에 V2에서 청산되는 건 CHIEF SELL을
     # 맞은 것들뿐이고, CHIEF SELL은 주가가 나빠진 것과 상관이 있다. 즉 V2의 승자는
     # 아직 열려 있고 패자만 닫혀서 쌓인다. 이 상태의 표본으로 평균을 내면 V2가
-    # 실제보다 나빠 보인다. 건수만 채웠다고 성과를 논하면 안 되는 이유다.
+    # 실제보다 나빠 보인다.
     #
-    # 그래서 절단이 남아 있는 동안은 성과 공개 자격을 주지 않는다(fail closed).
+    # ⚠️ 그렇다고 "미청산이 하나라도 있으면 막는다"로 하면 안 된다(2026-08-26 QA).
+    #    진입은 계속 일어나므로 갓 진입한 짝이 늘 하나는 열려 있고, 그러면 게이트가
+    #    영원히 안 열린다. 게다가 판단일 20일 요건은 진입이 계속되기를 요구하므로
+    #    두 조건이 서로를 밀어낸다.
+    #
+    # 그래서 '아직 안 끝나도 이상하지 않은 짝'과 '진작 끝났어야 하는데 안 끝난 짝'을
+    # 가른다. V2의 안전상한(60거래일)을 넘겼는데도 열려 있으면 후자다. 후자가 있으면
+    # 표본이 아직 여물지 않았다는 뜻이라 성과 공개 자격을 주지 않는다(fail closed).
     paired_open = len(paired_ids) - len(paired_closed)
+    overdue = [i for i in paired_ids
+               if not (v1_ep[i].get("status") == "CLOSED"
+                       and v2_ep[i].get("status") == "CLOSED")
+               and _elapsed_trading_days(v2_ep[i], business_days) > V2_MAX_HOLDING_DAYS]
 
     stage = evidence_stage(len(paired_closed), len(paired_days))
     return {
@@ -184,22 +240,27 @@ def pairing_status(v1_dir=None, v2_dir=None):
             "pairedClosedEpisodes": len(paired_closed),
             "pairedUniqueEntryDates": len(paired_days),
             "pairedOpenEpisodes": paired_open,
+            "pairedOverdueEpisodes": len(overdue),
+            "v2MaxHoldingTradingDays": V2_MAX_HOLDING_DAYS,
             "pairingStartedAt": paired_days[0] if paired_days else None,
             "conditionMismatchEpisodes": len(condition_mismatch),
             "note": ("양쪽 원장에 같은 source_episode_id로 실제 진입한 것만 센다. "
                      "과거 거래는 짝을 만들지 않는다(LEGACY_UNPAIRED)."),
             "censoringNote": ("아직 안 끝난 짝은 대부분 V2가 오래 들고 있는 것이다. "
                               "먼저 닫히는 쪽은 CHIEF SELL을 맞은 거래라 손실 쪽으로 "
-                              "치우친다. 절단이 남아 있으면 평균을 내지 않는다."),
+                              f"치우친다. 안전상한({V2_MAX_HOLDING_DAYS}거래일)을 "
+                              "넘겼는데도 안 끝난 짝이 있으면 표본이 아직 여물지 "
+                              "않은 것이라 평균을 내지 않는다. 갓 진입해 열려 있는 "
+                              "짝은 정상이므로 막지 않는다."),
         },
         "evidence": stage,
         "minClosedForEvidence": MIN_CLOSED_FOR_EVIDENCE,
         "minEntryDaysForEvidence": MIN_ENTRY_DAYS_FOR_EVIDENCE,
         # 표본이 차기 전에는 성과를 아예 만들지 않는다. 이 자리에 숫자가 들어가는
         # 경로 자체가 없어야 나중에 실수로 열리지 않는다.
-        # 절단(아직 안 끝난 짝)이 남아 있으면 건수를 채웠어도 자격을 주지 않는다.
+        # 기한을 넘겼는데도 안 끝난 짝이 있으면 건수를 채웠어도 자격을 주지 않는다.
         "performance": ("ELIGIBLE_FOR_REVIEW"
-                        if stage == EVIDENCE_READY and paired_open == 0
+                        if stage == EVIDENCE_READY and not overdue
                         else PERFORMANCE_HIDDEN),
         "strategyAutoChange": 0,
         "winnerDeclared": False,
@@ -231,7 +292,9 @@ def render_report(status):
             "### Paired (같은 신호끼리)",
             f"- 짝지어진 Episode: {p['pairedEpisodes']}",
             f"- 그중 양쪽 다 청산 완료: {p['pairedClosedEpisodes']}",
-            f"- 아직 안 끝난 짝(절단): {p['pairedOpenEpisodes']}",
+            f"- 아직 안 끝난 짝(절단): {p['pairedOpenEpisodes']}"
+            f" (그중 {p['v2MaxHoldingTradingDays']}거래일 기한 초과: "
+            f"{p['pairedOverdueEpisodes']})",
             f"- 짝의 진입일 수: {p['pairedUniqueEntryDates']}",
             f"- Pairing 시작일: {p['pairingStartedAt'] or '아직 시작 안 됨'}",
             f"- 조건(모델·Universe) 불일치 짝: {p['conditionMismatchEpisodes']}",

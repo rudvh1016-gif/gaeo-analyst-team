@@ -46,9 +46,12 @@ const PF_MIN_PAIR_OBS = extractConst('PF_MIN_PAIR_OBS');
 
 // 계산 함수들을 떼어내 PRICE_HISTORY/STOCKS를 주입한 스코프에서 실행한다.
 function makeScope(priceHistory, stocks) {
+  // 캐시는 스코프마다 새로 만든다 — 테스트끼리 같은 종목코드를 써도 섞이지 않는다.
   return new Function('PRICE_HISTORY', 'STOCKS',
     `const PF_CORR_WINDOW=${PF_CORR_WINDOW}, PF_MIN_PAIR_OBS=${PF_MIN_PAIR_OBS};\n` +
-    `${extractFn('pfCloses')}\n${extractFn('pfCorrelation')}\n` +
+    `const PF_CLOSES_CACHE={};\n` +
+    `${extractFn('pfCloses')}\n${extractFn('pfClosesUncached')}\n` +
+    `${extractFn('pfCorrelation')}\n` +
     `${extractFn('pfOverlapLabel')}\n${extractFn('pfSectorConcentration')}\n` +
     `return {pfCloses,pfCorrelation,pfOverlapLabel,pfSectorConcentration};`
   )(priceHistory, stocks);
@@ -308,12 +311,38 @@ test('최대 3개 조합만 보여준다', () => {
 test('28MB 가격 이력을 첫 화면에서 받지 않는다', () => {
   const body = extractFn('renderPfRisk');
   assert.ok(/typeof PRICE_HISTORY==='undefined'/.test(body), '미로딩 분기가 없다');
-  assert.ok(/GaeoFeatures\.load\('history'\)/.test(body), '요청 시 로딩 경로가 없다');
+  assert.ok(/GaeoFeatures\.load\('priceHistory'\)/.test(body), '요청 시 로딩 경로가 없다');
 });
 
 test('새 메뉴를 만들지 않고 기존 포트폴리오 안에 들어간다', () => {
   assert.strictEqual((HTML.match(/id="pfRisk"/g) || []).length, 1);
-  assert.ok(/renderPfRisk\(\);/.test(extractFn('recalcPf')), 'recalcPf가 부르지 않는다');
+  // 키 입력마다 O(N²)를 돌지 않도록 디바운스를 거쳐 부른다.
+  assert.ok(/schedulePfRisk\(\);/.test(extractFn('recalcPf')), 'recalcPf가 부르지 않는다');
+  assert.ok(/renderPfRisk/.test(extractFn('schedulePfRisk')), '디바운스가 렌더를 부르지 않는다');
+});
+
+test('키 입력마다 전체 재계산하지 않는다 (디바운스 + 캐시)', () => {
+  assert.ok(/setTimeout\(renderPfRisk/.test(extractFn('schedulePfRisk')),
+    '타이핑이 멈춘 뒤 한 번만 계산하지 않는다');
+  assert.ok(/PF_CLOSES_CACHE/.test(extractFn('pfCloses')),
+    '같은 종목 종가를 쌍마다 다시 파싱한다');
+});
+
+test('종목이 아주 많아도 쌍 계산에 상한이 있다', () => {
+  const body = extractFn('renderPfRisk');
+  assert.ok(/PF_MAX_PAIR_CODES/.test(body), '쌍 계산 상한이 없다');
+  assert.ok(/상위 \$\{PF_MAX_PAIR_CODES\}개만 비교했어요/.test(body),
+    '잘라낸 사실을 화면에 알리지 않는다');
+});
+
+test('필요 없는 판단 이력(13.6MB)까지 받지 않는다', () => {
+  const body = extractFn('renderPfRisk');
+  assert.ok(/GaeoFeatures\.load\('priceHistory'\)/.test(body),
+    "history 키를 쓰면 필요 없는 history.js까지 42.5MB를 받는다");
+  assert.ok(!/GaeoFeatures\.load\('history'\)/.test(body));
+  assert.ok(/priceHistory:\['price_history\.js'\]/.test(HTML),
+    'priceHistory 전용 번들 키가 없다');
+  assert.ok(/약 29MB/.test(body), '내려받는 용량을 사용자에게 알리지 않는다');
 });
 
 console.log(`\n${process.exitCode ? '실패 있음' : '전체 통과'} — ${passed}건 통과\n`);
