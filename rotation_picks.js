@@ -4,40 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 09:44",
- "dataCutoff": "2026-08-26 09:44 장중",
+ "generatedAt": "2026-08-26 10:14",
+ "dataCutoff": "2026-08-26 10:14 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 4,
-   "why": "20거래일 +98.4% · 20일선 위",
-   "overheat": true,
-   "gapPct": 33.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "323280",
-   "name": "태성",
-   "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +72.0% · 20일선 위",
+   "why": "20거래일 +90.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 13.6,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "356860",
-   "name": "티엘비",
-   "sector": "반도체",
-   "sectorRank": 1,
-   "why": "20거래일 +65.9% · 20일선 위",
-   "overheat": true,
-   "gapPct": 32.4,
+   "gapPct": 28.9,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,40 +23,62 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 12,
-   "why": "20거래일 +92.9% · 20일선 위",
+   "sectorRank": 10,
+   "why": "20거래일 +96.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 44.1,
+   "gapPct": 46.9,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "323280",
+   "name": "태성",
+   "sector": "반도체",
+   "sectorRank": 2,
+   "why": "20거래일 +66.5% · 20일선 위",
+   "overheat": false,
+   "gapPct": 10.1,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "356860",
+   "name": "티엘비",
+   "sector": "반도체",
+   "sectorRank": 2,
+   "why": "20거래일 +63.6% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.7,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 66.9,
+  "breadthPct": 59.7,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6763.13,
-    "ma20": 6497.35,
+    "close": 6739.41,
+    "ma20": 6496.16,
     "above": true,
-    "gapPct": 4.09
+    "gapPct": 3.74
    },
    "KOSDAQ": {
-    "close": 825.13,
-    "ma20": 800.49,
+    "close": 816.57,
+    "ma20": 800.06,
     "above": true,
-    "gapPct": 3.08
+    "gapPct": 2.06
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "반도체"
+  "topSector": "건설·건자재"
  },
  "record": {
   "hitRate": 54.8,
