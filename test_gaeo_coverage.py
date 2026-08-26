@@ -1571,6 +1571,41 @@ class FourthAuditRegressionTest(unittest.TestCase):
         clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
         self.assertEqual(list(clean["capMemory"]["000010"]["history"]), ["2026-08-19"])
 
+    def test_m3g_future_dated_cap_history_is_dropped(self):
+        """미래 날짜로 적힌 시총 이력은 버린다.
+
+        (2026-08-26 독립 QA 감사 H3: 이 필터가 무테스트였다. 지금 구조에서는 위조가
+         '보호를 강화하는 방향'으로만 작동해 악용 경로는 아니지만, 표본 수를
+         부풀려 상폐 확정을 앞당기는 데는 쓰일 수 있으므로 덮어 둔다.)
+        """
+        doc = {"schemaVersion": 3, "codes": {},
+               "capMemory": {"000010": {"history": {
+                   "2099-01-01": [7, 1.0e12],
+                   "2099-01-02": [7, 1.0e12],
+                   "2026-08-20": [7, 1.0e12]}}}}
+        clean = guardian.sanitize_observations(doc, "2026-08-26T09:00:00+09:00")
+        self.assertEqual(list(clean["capMemory"]["000010"]["history"]),
+                         ["2026-08-20"])
+
+    def test_m3h_forged_future_history_cannot_inflate_sample_count(self):
+        """⭐ 미래 날짜로 표본 수를 부풀려 상폐를 앞당길 수 없다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": 1.0e9}})
+        fx.guard_days(1)
+        fx.leave_market(["000010"])
+        obs = json.load(open(fx.observations))
+        # ⚠️ 순위를 '말이 되는' 값으로 둔다. 9000처럼 범위를 벗어나면 값 검사에
+        #    먼저 걸려서, 정작 보려던 '미래 날짜 필터'를 한 줄도 밟지 않는다.
+        future = {("209%d-01-01" % i): [700, 1.0e9] for i in range(5)}
+        obs["capMemory"]["000010"]["history"].update(future)
+        with open(fx.observations, "w", encoding="utf-8") as f:
+            json.dump(obs, f)
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=1))
+        f2 = rep["findings"][0]
+        self.assertLess(f2["capSampleCount"], guardian.CAP_MEMORY_MIN_SAMPLES)
+        self.assertEqual(f2["cause"], guardian.REVIEW_REQUIRED)
+        self.assertEqual(rep["replaceableCount"], 0)
+
     def test_m3f_implausible_rank_is_rejected(self):
         doc = {"schemaVersion": 3, "codes": {},
                "capMemory": {"000010": {"history": {
