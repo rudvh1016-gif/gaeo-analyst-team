@@ -1,12 +1,124 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-26 13:44",
- "priceLabel": "2026-08-26 13:35 장중",
- "count": 283,
+ "generatedAt": "2026-08-26 14:26",
+ "priceLabel": "2026-08-26 14:23 장중",
+ "count": 293,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005380",
+   "name": "현대차",
+   "title": "장래사업ㆍ경영계획(공정공시)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005380",
+   "name": "현대차",
+   "title": "주식소각결정",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004710",
+   "name": "한솔테크닉스",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "086790",
+   "name": "하나금융지주",
+   "title": "[기재정정]주식소각결정",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "086790",
+   "name": "하나금융지주",
+   "title": "[기재정정]주식소각결정",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "029780",
+   "name": "삼성카드",
+   "title": "특수관계인과의수익증권거래",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "[첨부추가]주요사항보고서(중요한자산양수도결정(기타))",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "060370",
+   "name": "LS마린솔루션",
+   "title": "임원ㆍ주요주주특정증권등거래계획보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030200",
+   "name": "KT",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T05:25:09.696750+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -90,14 +202,6 @@ const DART_TODAY = {
   {
    "code": "030610",
    "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T04:43:32.312943+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T04:43:32.312943+00:00",
@@ -152,14 +256,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T03:43:24.305992+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "003530",
    "name": "한화투자증권",
    "title": "투자설명서(일괄신고)",
@@ -173,14 +269,6 @@ const DART_TODAY = {
    "title": "임시주주총회결과",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T03:13:29.669948+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
    "isCorrection": false
   },
   {
@@ -467,14 +555,6 @@ const DART_TODAY = {
    "code": "051600",
    "name": "한전KPS",
    "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T06:41:44.965861+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "086790",
-   "name": "하나금융지주",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260825",
    "detectedAt": "2026-08-25T06:41:44.965861+00:00",
    "isCorrection": false
