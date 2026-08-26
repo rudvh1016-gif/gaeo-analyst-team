@@ -483,7 +483,20 @@ def _coverage_block(doc, today=None, expected_run_id=None):
         f"{_fmt_count(rules.get('krxCorplistMinCount'), '법인')} 이상 + "
         f"{_fmt_count(rules.get('krxCorplistMaxAgeDays'), '일')} 이내 + "
         f"그 종목이 **시장 자료에서 사라진 시점** 이후에 수집된 것이어야 함",
-        f"- 동시 대량 누락 차단(벤더 장애 방어) 발동: {doc.get('massMissingBlockActive')}",
+        # ⚠️ 차단이 걸려 상폐 확정이 전부 억제되는 중인데 대표가 "차단 없음"으로
+        #    읽으면 안 된다. 옛 시세 기준 하나만 찍던 것을 세 가지로 나눠 적는다
+        #    (2026-08-26 독립 QA 감사 MEDIUM-2).
+        f"- 동시 대량 누락 차단(벤더 장애 방어) 발동: "
+        f"시세 기준 {doc.get('massMissingBlockActive')} · "
+        f"시장자료 부재 기준 {doc.get('massAbsenceBlockActive')} "
+        f"(최근 창 {doc.get('massAbsenceNewActive')} · "
+        f"누적 {doc.get('massAbsenceTotalActive')})",
+        f"- 시장 자료에서 사라진 종목: "
+        f"{_fmt_count(doc.get('absentFromMarketDataCount'), '종목')} "
+        f"(그중 최근 창 안 {_fmt_count(doc.get('recentlyAbsentCount'), '종목')})"
+        + ("  ⚠️ 차단이 걸려 있어 이번 주에는 어떤 상장폐지도 확정되지 않습니다."
+           if doc.get('massAbsenceBlockActive') or doc.get('massMissingBlockActive')
+           else ""),
         f"- 사람 확인이 필요하지만 즉시 위험은 아닌 건: "
         f"{_fmt_count(doc.get('attentionCount'), '건')}{attention_text}",
         "- Universe 해석: configuredCoverage가 Universe 크기다. "

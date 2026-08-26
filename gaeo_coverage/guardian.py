@@ -150,6 +150,12 @@ CAP_MEMORY_MIN_SAMPLES = 3
 # 위한 상한이라 넉넉하게 잡되, 말이 되는 범위는 벗어나지 않게 둔다.
 MAX_PLAUSIBLE_CAP_RANK = 5000
 # 한 사이클에 이만큼 이상이 동시에 빠지면 개별 상폐가 아니라 벤더 장애로 본다.
+# ⚠️ 이 값도 **최근 MASS_ABSENCE_WINDOW_DAYS 안에 새로 빠진 종목 수**에 적용한다.
+#    누적으로 세면 정상 운영만으로 임계에 닿아 교체가 영구 정지한다. 진짜 상장폐지
+#    종목은 정의상 '시세 누락 + 시장자료 부재'를 동시에 만족하므로, 부재 쪽에만
+#    창을 씌우면 이쪽이 먼저 걸려서 아무 효과가 없다
+#    (2026-08-26 퀀트 5차 감사 HIGH-8: 실측으로 012510·057050이 이미 2슬롯을 먹어
+#     동시 상폐 3종목이면 45거래일이 지나도 안 풀렸다).
 MASS_MISSING_DELISTING_BLOCK = 5
 # 한 사이클에 이만큼 이상이 동시에 '시장 자료에서' 사라지면 개별 상폐가 아니다.
 # (시세 누락 수를 세던 기존 가드는 부재 시계로 바꾼 뒤 이 사건을 못 센다 —
@@ -170,6 +176,10 @@ MASS_ABSENCE_TOTAL_RATIO = 0.05
 # (창 없이 '이번에 새로 사라진 것'만 세면 다음 날부터 0이 되어 가드가 죽고,
 #  누적으로 세면 정상 운영만으로 임계에 닿아 교체가 영구 정지한다.)
 MASS_ABSENCE_WINDOW_DAYS = 21
+# 부재 관측이 이만큼 오래 끊겼다가 다시 시작되면, 옛 부재 일수를 이어 붙이지 않고
+# 처음부터 다시 센다. '확인 불가' 구간을 얼려 두는 것(HIGH-9 수리)이 무한정 이어져
+# 몇 달 전 부재가 오늘 부재와 한 덩어리로 취급되는 것을 막는다.
+ABSENCE_STALE_RESET_DAYS = 30
 # 전체시장 snapshot이 이보다 적은 종목만 담고 있으면 '부재'를 근거로 쓸 수 없다.
 # 실측 3,922건. 상류에 완만한 열화 게이트가 없어 서서히 잘린 snapshot이 그대로
 # last-good으로 남을 수 있다(2026-08-26 퀀트 3차 감사 HIGH-4).
@@ -651,7 +661,7 @@ def safest_known_size(code, cap_memory):
 
 
 def update_observations(previous, missing_codes, configured_codes, now_iso,
-                        absent_codes=()):
+                        absent_codes=(), absence_observable=True, now=None):
     """누락 관측을 '날짜 단위'로 누적한다.
 
     ⭐ 서로 다른 두 사건을 **따로** 센다. 섞으면 안 된다.
@@ -675,6 +685,18 @@ def update_observations(previous, missing_codes, configured_codes, now_iso,
     absent = set(absent_codes)
     configured = set(configured_codes)
     day = str(now_iso)[:10]
+    now = now or _parse_iso(now_iso) or datetime.datetime.now(KST)
+    # ⭐ 상태는 셋이다 — 둘로 뭉뚱그리면 안 된다(2026-08-26 퀀트 5차 감사 HIGH-9).
+    #   ① 믿을 수 있는 자료에서 **부재**   → 시계 +1
+    #   ② 믿을 수 있는 자료에서 **존재**   → 시계 리셋
+    #   ③ **확인 불가**(자료를 못 믿거나 못 읽음) → 아무것도 하지 않는다(얼린다)
+    # 예전에는 ②와 ③이 같은 분기였다. snapshot이 불신이면 absent_codes가 비므로
+    # "확인 못 했다"가 "정상으로 보였다"로 처리돼, 수집기 상태가 한 번만 흔들려도
+    # 부재 일수가 0으로 지워졌다(주 1회 실행이면 PARTIAL 한 번이 3주를 날린다).
+    carry_absent = set()
+    if not absence_observable:
+        carry_absent = {c for c, e in old.items()
+                        if isinstance(e, dict) and (e.get("absentDays") or [])}
 
     new_codes = {}
     # ⚠️ 추적 대상은 '시세가 안 온 종목'과 '시장 자료에서 사라진 종목'의 합집합이다.
@@ -682,7 +704,7 @@ def update_observations(previous, missing_codes, configured_codes, now_iso,
     #    종목의 부재 시작 시각을 아무도 기록하지 않는다. 그러면 "한 무리가 비슷한
     #    시기에 사라졌는가"(벤더 장애 신호)를 판정할 근거 자체가 없어진다
     #    (2026-08-26 퀀트 4차 감사 HIGH-7 수리 중 발견).
-    for code in sorted(missing | (absent & configured)):
+    for code in sorted(missing | ((absent | carry_absent) & configured)):
         entry = dict(old.get(code) or {})
         if code in missing:
             days = [d for d in (entry.get("missingDays") or []) if d]
@@ -701,29 +723,45 @@ def update_observations(previous, missing_codes, configured_codes, now_iso,
                       "lastMissingAt": None}
         if code in absent:
             adays = [d for d in (entry.get("absentDays") or []) if d]
+            afirst = entry.get("firstAbsentAt")
+            # 부재 관측이 너무 오래 끊겼다가 재개되면 이어 붙이지 않고 새로 센다.
+            if adays and not _within_window(entry.get("lastAbsentAt"), now,
+                                            ABSENCE_STALE_RESET_DAYS):
+                adays, afirst = [], None
             if day not in adays:
                 adays.append(day)
             adays = sorted(set(adays))[-MAX_MISSING_DAYS_KEPT:]
-            afirst = entry.get("firstAbsentAt") or now_iso
+            afirst = afirst or now_iso
             if adays and adays[0] < str(afirst)[:10]:
                 afirst = adays[0] + "T00:00:00+09:00"
             record.update({"absentDays": adays, "firstAbsentAt": afirst,
                            "lastAbsentAt": now_iso})
+        elif not absence_observable:
+            # ③ 확인 불가 — 있던 기록을 그대로 얼린다(늘리지도, 지우지도 않는다).
+            record.update({"absentDays": [d for d in (entry.get("absentDays") or []) if d],
+                           "firstAbsentAt": entry.get("firstAbsentAt"),
+                           "lastAbsentAt": entry.get("lastAbsentAt")})
         else:
-            # 시장 자료에 다시 보였다 = 상장돼 있다는 뜻이다. 부재 시계를 0으로
-            # 되돌린다(끊긴 부재를 이어 붙여 상폐를 앞당기지 않는다).
+            # ② 믿을 수 있는 자료에서 다시 보였다 = 상장돼 있다는 뜻이다.
             record.update({"absentDays": [], "firstAbsentAt": None,
                            "lastAbsentAt": None})
         new_codes[code] = record
 
     for code, entry in old.items():
-        if code in missing or code in absent or code not in configured:
+        if (code in missing or code in absent or code in carry_absent
+                or code not in configured):
             continue
         days = [d for d in ((entry or {}).get("missingDays") or []) if d]
-        if days:
+        adays = [d for d in ((entry or {}).get("absentDays") or []) if d]
+        # ⚠️ 시세는 정상인데 시장 자료에서만 사라졌던 종목이 돌아오면, missingDays가
+        #    비어 있어서 회복 기록이 하나도 안 남았다. 판정은 옳았지만 감사 흔적이
+        #    사라진다(2026-08-26 독립 QA 감사 LOW).
+        if days or adays:
             recoveries.append({"code": code, "recoveredAt": now_iso,
                                "missingDayCount": len(days),
-                               "firstMissingAt": (entry or {}).get("firstMissingAt")})
+                               "absentDayCount": len(adays),
+                               "firstMissingAt": (entry or {}).get("firstMissingAt"),
+                               "firstAbsentAt": (entry or {}).get("firstAbsentAt")})
 
     recoveries = recoveries[-200:]
     return {"schemaVersion": OBSERVATION_SCHEMA, "updatedAt": now_iso,
@@ -791,6 +829,19 @@ def cap_ranks(snapshot, common_only=True):
         items.append((str(i.get("code")), cap))
     items.sort(key=lambda kv: (-kv[1], kv[0]))
     return {code: rank for rank, (code, _) in enumerate(items, start=1)}
+
+
+def _within_window(iso_ts, now, window_days):
+    """그 시각이 지금으로부터 window_days 안인가. 해석 못 하면 False(세지 않는다).
+
+    ⚠️ 여기서 지역변수 이름을 age로 쓰지 말 것 — 호출부에서 snapshot 나이를 담는
+       age를 덮어써서 신선한 자료가 '오래됐다'로 바뀐 사고가 있었다.
+    """
+    first = _parse_iso(iso_ts)
+    if first is None:
+        return False
+    elapsed = (_aware(now) - _aware(first)).total_seconds() / 86400.0
+    return elapsed <= window_days
 
 
 def snapshot_reliability(snapshot, universe_state):
@@ -1060,7 +1111,8 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
                     if (snapshot_by_code and snap_ok) else [])
     observations = sanitize_observations(observations, now_iso)
     new_obs = update_observations(observations, missing_price, configured_codes,
-                                  now_iso, absent_codes=absent_codes)
+                                  now_iso, absent_codes=absent_codes,
+                                  absence_observable=snap_ok, now=now)
     ranks = cap_ranks(snapshot)
     # 살아 있는 동안 크기를 계속 기억해 둔다 — 사라진 뒤엔 이 값만이 근거다.
     new_obs["capMemory"] = update_cap_memory(observations, configured_codes, snapshot,
@@ -1072,23 +1124,21 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
     #     기능이 영구 정지한다(자기강화형 교착 — 퀀트 4차 감사 HIGH-7).
     #   · 반대로 '이번에 새로 사라진 것'만 세면 다음 날부터 0이 되어 가드가 죽는다.
     #  그래서 최근 MASS_ABSENCE_WINDOW_DAYS 안에 사라지기 시작한 종목만 센다.
-    recent_absent = []
-    for code in absent_codes:
-        first = _parse_iso(((new_obs["codes"] or {}).get(code) or {}).get("firstAbsentAt"))
-        if first is None:
-            continue
-        # ⚠️ 변수명을 age로 쓰면 위에서 구한 snapshot 나이를 덮어써서, 신선한
-        #    snapshot이 갑자기 '19일 묵었다'가 된다(실제로 그렇게 깨졌다).
-        absent_age = (_aware(now) - _aware(first)).total_seconds() / 86400.0
-        if absent_age <= MASS_ABSENCE_WINDOW_DAYS:
-            recent_absent.append(code)
+    recent_absent = [c for c in absent_codes
+                     if _within_window(((new_obs["codes"] or {}).get(c) or {})
+                                       .get("firstAbsentAt"), now,
+                                       MASS_ABSENCE_WINDOW_DAYS)]
     mass_absent_new = len(recent_absent) >= MASS_ABSENCE_DELISTING_BLOCK
     mass_absent_total = (bool(target) and
                          len(absent_codes) >= max(MASS_ABSENCE_DELISTING_BLOCK,
                                                   int(target * MASS_ABSENCE_TOTAL_RATIO)))
     mass_absent = mass_absent_new or mass_absent_total
     markets = (market_map or {}).get("map") or {}
-    mass_missing = len(missing_price) >= MASS_MISSING_DELISTING_BLOCK
+    recent_missing = [c for c in missing_price
+                      if _within_window(((new_obs["codes"] or {}).get(c) or {})
+                                        .get("firstMissingAt"), now,
+                                        MASS_ABSENCE_WINDOW_DAYS)]
+    mass_missing = len(recent_missing) >= MASS_MISSING_DELISTING_BLOCK
 
     findings = []
     for code in missing_price:
@@ -1205,6 +1255,7 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
         "massAbsenceTotalActive": mass_absent_total,
         "absentFromMarketDataCount": len(absent_codes),
         "recentlyAbsentCount": len(recent_absent),
+        "recentlyMissingCount": len(recent_missing),
         "snapshotReliable": snap_ok,
         "snapshotReliabilityNote": snap_why,
         "capMemorySize": len(cap_memory),
@@ -1230,6 +1281,9 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
                                       "교체 기능이 영구 정지한다."),
             "massAbsenceTotalRatio": MASS_ABSENCE_TOTAL_RATIO,
             "massAbsenceWindowDays": MASS_ABSENCE_WINDOW_DAYS,
+            "massMissingBlockBasis": ("대량부재와 같은 창을 쓴다. 누적으로 세면 진짜 "
+                                      "상장폐지가 쌓일수록 교체가 막혀 영원히 풀리지 "
+                                      "않는다."),
             "capMemoryMinSamples": CAP_MEMORY_MIN_SAMPLES,
             "megaCapGuardSource": ("현재 snapshot 순위 또는 살아 있을 때 기억해 둔 "
                                    "마지막 순위. 둘 다 없으면 크기 불명으로 보고 "
