@@ -222,6 +222,97 @@ class LeakGuardContract(unittest.TestCase):
         self.assertEqual(s["strategyAutoChange"], 0)
 
 
+class CensoringGateContract(unittest.TestCase):
+    """우측 절단 게이트 — 막아야 할 것만 막고, 정상 진행은 막지 않는다.
+
+    2026-08-26 QA 지적: 처음엔 "미청산이 하나라도 있으면 막는다"로 만들었는데,
+    진입이 계속 일어나므로 갓 진입한 짝이 늘 하나는 열려 있어 게이트가 영원히
+    안 열린다. 게다가 판단일 20일 요건은 진입이 계속되기를 요구하므로 두 조건이
+    서로를 밀어낸다. 그래서 '기한(V2 안전상한)을 넘긴 미청산'만 막는다.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.v1 = os.path.join(self.tmp.name, "v1")
+        self.v2 = os.path.join(self.tmp.name, "v2")
+        c = paper_engine.MIN_CLOSED_FOR_EVIDENCE
+        d = paper_engine.MIN_ENTRY_DAYS_FOR_EVIDENCE
+        self.n = max(c, d)
+        # 안전상한을 확실히 넘길 만큼 넉넉한 거래일 달력을 만든다.
+        span = self.n + pp.V2_MAX_HOLDING_DAYS + 10
+        self.days = [f"2026-{3 + i // 28:02d}-{i % 28 + 1:02d}" for i in range(span)]
+
+    def _pairs(self, count, status="CLOSED", start=0):
+        a, b = [], []
+        for i in range(count):
+            day = self.days[start + i]
+            eid = paper_engine.source_episode_id_for("005930", day + "T09:05:00+09:00")
+            for side, tag in ((a, "a"), (b, "b")):
+                r = _row(f"{tag}{start + i}", status=status, episode=eid,
+                         signal_at=day + "T09:05:00+09:00", entry_day=day)
+                if status == "CLOSED":
+                    r["exit_business_date"] = day
+                side.append(r)
+        return a, b
+
+    def _status(self, a, b):
+        _write(self.v1, a)
+        _write(self.v2, b)
+        return pp.pairing_status(self.v1, self.v2)
+
+    def test_all_closed_opens_the_gate(self):
+        a, b = self._pairs(self.n)
+        s = self._status(a, b)
+        self.assertEqual(s["evidence"], pp.EVIDENCE_READY)
+        self.assertEqual(s["paired"]["pairedOverdueEpisodes"], 0)
+        self.assertEqual(s["performance"], "ELIGIBLE_FOR_REVIEW")
+
+    def test_a_freshly_opened_pair_does_not_block(self):
+        """갓 진입한 짝이 열려 있는 건 정상이다. 이걸 막으면 게이트가 영영 안 열린다."""
+        a, b = self._pairs(self.n)
+        fresh_day = self.days[self.n]      # 달력의 거의 끝 → 아직 기한 안 지남
+        eid = paper_engine.source_episode_id_for("005930", fresh_day + "T09:05:00+09:00")
+        a.append(_row("aN", status="OPEN", episode=eid,
+                      signal_at=fresh_day + "T09:05:00+09:00", entry_day=fresh_day))
+        b.append(_row("bN", status="OPEN", episode=eid,
+                      signal_at=fresh_day + "T09:05:00+09:00", entry_day=fresh_day))
+        s = self._status(a, b)
+        self.assertEqual(s["paired"]["pairedOpenEpisodes"], 1)
+        self.assertEqual(s["paired"]["pairedOverdueEpisodes"], 0)
+        self.assertEqual(s["performance"], "ELIGIBLE_FOR_REVIEW",
+                         "갓 진입한 짝이 게이트를 막았다 — 영영 안 열린다")
+
+    def test_an_overdue_pair_blocks(self):
+        """안전상한을 넘겼는데 안 끝난 짝은 표본이 여물지 않았다는 뜻이다."""
+        a, b = self._pairs(self.n)
+        # 아주 오래된 진입일 + 달력 끝까지 거래일이 있으므로 기한을 넘긴다.
+        old_day = self.days[0]
+        eid = paper_engine.source_episode_id_for("005930", old_day + "T00:00:00+09:00")
+        a.append(_row("aO", status="OPEN", episode=eid,
+                      signal_at=old_day + "T00:00:00+09:00", entry_day=old_day))
+        b.append(_row("bO", status="OPEN", episode=eid,
+                      signal_at=old_day + "T00:00:00+09:00", entry_day=old_day))
+        # 거래일 달력은 원장에 실제로 나타난 날짜만으로 만들어진다. 그러니 기한
+        # 초과를 재려면 원장이 그만큼의 거래일을 실제로 본 상태여야 한다.
+        # 다른 종목의 청산 기록으로 달력을 상한 너머까지 채운다.
+        for k, day in enumerate(self.days[self.n:], start=1):
+            a.append(_row(f"aF{k}", status="CLOSED",
+                          episode=paper_engine.source_episode_id_for("000660", day),
+                          symbol="000660", signal_at=day, entry_day=day))
+            a[-1]["exit_business_date"] = day
+        s = self._status(a, b)
+        self.assertGreaterEqual(s["paired"]["pairedOverdueEpisodes"], 1,
+                                "기한을 넘긴 미청산 짝을 못 찾았다")
+        self.assertEqual(s["performance"], pp.PERFORMANCE_HIDDEN)
+
+    def test_max_holding_comes_from_v2_config(self):
+        """상한을 여기서 새로 정하지 않는다 — V2 설정 파일이 원본이다."""
+        with open(os.path.join(pp.V2_DIR, "config.json"), encoding="utf-8") as f:
+            self.assertEqual(pp.V2_MAX_HOLDING_DAYS,
+                             json.load(f)["maxHoldingTradingDays"])
+
+
 class RealLedgerState(unittest.TestCase):
     def test_real_repo_has_no_backfilled_pairs(self):
         """실제 저장소: 도입 전 거래가 조용히 짝지어지지 않았는지 확인."""
