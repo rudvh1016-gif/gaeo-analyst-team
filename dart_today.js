@@ -1,12 +1,60 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-26 10:44",
- "priceLabel": "2026-08-26 10:42 장중",
- "count": 267,
+ "generatedAt": "2026-08-26 11:14",
+ "priceLabel": "2026-08-26 11:06 장중",
+ "count": 273,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "006400",
+   "name": "삼성SDI",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "007390",
+   "name": "네이처셀",
+   "title": "타법인주식및출자증권취득결정",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "투자판단관련주요경영사항 (뇌전증 신약 후보 물질 Opakalim 등에 대한 라이선스 인 계약)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010950",
+   "name": "S-Oil",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010950",
+   "name": "S-Oil",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
+   "isCorrection": false
+  },
   {
    "code": "006800",
    "name": "미래에셋증권",
