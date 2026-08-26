@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-25 16:13",
- "priceLabel": "2026-08-25 종가 (16:07 수집)",
- "count": 294,
+ "generatedAt": "2026-08-26 09:14",
+ "priceLabel": "2026-08-26 09:10 장중",
+ "count": 262,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "018260",
+   "name": "삼성에스디에스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:13:22.642807+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "126340",
+   "name": "비나텍",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:13:22.642807+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "096770",
+   "name": "SK이노베이션",
+   "title": "증권신고서(합병)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:13:22.642807+00:00",
+   "isCorrection": false
+  },
   {
    "code": "161890",
    "name": "한국콜마",
@@ -2077,286 +2101,6 @@ const DART_TODAY = {
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T00:11:41.071216+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "000720",
-   "name": "현대건설",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "021240",
-   "name": "코웨이",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "316140",
-   "name": "우리금융지주",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "397030",
-   "name": "에이프릴바이오",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "397030",
-   "name": "에이프릴바이오",
-   "title": "[기재정정]최대주주변경",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "028050",
-   "name": "삼성E&A",
-   "title": "[기재정정]단일판매ㆍ공급계약체결",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "083650",
-   "name": "비에이치아이",
-   "title": "[기재정정]단일판매ㆍ공급계약체결",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "010130",
-   "name": "고려아연",
-   "title": "소송등의제기ㆍ신청(경영권분쟁소송)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "096770",
-   "name": "SK이노베이션",
-   "title": "지주회사의자회사편입",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "006120",
-   "name": "SK디스커버리",
-   "title": "주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "034730",
-   "name": "SK",
-   "title": "지주회사의자회사편입(자회사의 주요경영사항)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "034730",
-   "name": "SK",
-   "title": "지주회사의자회사편입(자회사의 주요경영사항)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "051900",
-   "name": "LG생활건강",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "028300",
-   "name": "HLB",
-   "title": "증권발행결과(자율공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T07:25:09.933889+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "021240",
-   "name": "코웨이",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "096770",
-   "name": "SK이노베이션",
-   "title": "지주회사의자회사편입",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "402340",
-   "name": "SK스퀘어",
-   "title": "주요사항보고서(자기주식취득결정)(자회사의 주요경영사항)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "402340",
-   "name": "SK스퀘어",
-   "title": "주식소각결정(자회사의 주요경영사항)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:55:18.573027+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "348370",
-   "name": "엔켐",
-   "title": "[기재정정]주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:25:07.479776+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "092230",
-   "name": "KPX홀딩스",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T06:25:07.479776+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "041510",
-   "name": "에스엠",
-   "title": "주식등의대량보유상황보고서(약식)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T05:54:47.727163+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "086790",
-   "name": "하나금융지주",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T05:26:25.002536+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T05:26:25.002536+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003670",
-   "name": "포스코퓨처엠",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T02:41:06.012715+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "420770",
-   "name": "기가비스",
-   "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T02:41:06.012715+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003850",
-   "name": "보령",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T02:11:02.907451+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "004800",
-   "name": "효성",
-   "title": "[기재정정]반기보고서 (2026.06)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T01:41:03.282380+00:00",
-   "isCorrection": true
-  },
-  {
-   "code": "056190",
-   "name": "SFA",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T01:41:03.282380+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "056190",
-   "name": "SFA",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T01:41:03.282380+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "011930",
-   "name": "신성이엔지",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T01:11:08.507228+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "042700",
-   "name": "한미반도체",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "042700",
-   "name": "한미반도체",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "042700",
-   "name": "한미반도체",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "010780",
-   "name": "아이에스동서",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:41:05.391664+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "000810",
-   "name": "삼성화재",
-   "title": "주식등의대량보유상황보고서(약식)",
-   "receiptDate": "20260819",
-   "detectedAt": "2026-08-19T00:11:02.920720+00:00",
    "isCorrection": false
   }
  ]
