@@ -43,23 +43,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 상태 집계 (저장소 파일만 읽음)
+      - name: 상태 집계 + 성과 유출 검사 (저장소 파일만 읽음)
+        # paper_pairing.py는 성과를 애초에 만들지 않지만, 출력 직전에 스스로 한 번 더
+        # 검사하고 새면 exit 3으로 끝난다(보고서를 내보내지 않는다).
+        #
+        # ⚠️ 금지 목록을 여기 셸에 손으로 적지 않는다. 그러면 엔진의 원본
+        #    (paper_engine.EVIDENCE_GATED_FIELDS)과 어긋나도 아무도 모르고,
+        #    영문 필드명만 보게 되어 "누적 수익률 +12.3%" 같은 한국어 유출을
+        #    통째로 놓친다. 판정은 paper_pairing.performance_leaks가 한다.
         run: python3 paper_pairing.py > /tmp/paper_evidence.md
-
-      - name: 성과 숫자 유출 최종 차단
-        # paper_pairing.py가 이미 만들지 않지만, 보고서를 이슈로 내보내기 직전에
-        # 한 번 더 본다. 게이트는 두 겹일 때만 게이트다.
-        run: |
-          set -euo pipefail
-          for banned in portfolioReturnPct realizedPnl unrealizedPnl \
-                        currentVirtualEquity maxDrawdownPct markedPositionsValue \
-                        sumTradeReturnsPct winRatePct avgReturnPct; do
-            if grep -q "$banned" /tmp/paper_evidence.md; then
-              echo "::error::보고서에 성과 필드($banned)가 들어 있어 발행을 중단한다"
-              exit 1
-            fi
-          done
-          echo "성과 필드 유출 없음 — 발행 진행"
 
       - name: 상태 이슈 생성 또는 갱신
         run: |

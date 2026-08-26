@@ -166,17 +166,55 @@ class EvidenceGateContract(unittest.TestCase):
                          pp.PERFORMANCE_HIDDEN)
 
     def test_report_leaks_no_performance_numbers(self):
-        """보고서 본문에 계좌 성과 용어가 숫자로 등장하면 안 된다."""
+        """실제 보고서가 유출 검사를 통과한다."""
         text = pp.render_report(pp.pairing_status(os.devnull + "x", os.devnull + "y"))
-        for banned in ("portfolioReturnPct", "realizedPnl", "unrealizedPnl",
-                       "currentVirtualEquity", "maxDrawdownPct",
-                       "markedPositionsValue", "sumTradeReturnsPct",
-                       "수익률", "평가액", "최대낙폭"):
-            # 성과를 '숨긴다'고 설명하는 마지막 문장은 예외다.
-            if banned in ("수익률", "평가액", "최대낙폭"):
-                self.assertNotIn(f"{banned}:", text)
-                continue
-            self.assertNotIn(banned, text)
+        self.assertEqual(pp.performance_leaks(text), [])
+
+
+class LeakGuardContract(unittest.TestCase):
+    """발행 직전 게이트 — 원본 상수에서 파생되고 한국어도 잡는가.
+
+    2026-08-26 보안 감사에서 나온 지적: 금지 목록을 워크플로 셸에 손으로 적어 두면
+    ① 엔진 원본과 어긋나도 아무도 모르고 ② 영문 필드명만 봐서 한국어 유출을 놓친다.
+    실제로 "누적 수익률 +12.3% · 평가액 11,230,000원"이 옛 게이트를 그대로 통과했다.
+    """
+
+    def test_banned_list_is_derived_from_engine(self):
+        for field in paper_engine.EVIDENCE_GATED_FIELDS:
+            self.assertTrue(pp.performance_leaks(f"보고서 {field} 12"),
+                            f"{field}가 게이트를 통과했다")
+
+    def test_account_state_fields_are_blocked(self):
+        for field in pp.ACCOUNT_STATE_FIELDS:
+            self.assertTrue(pp.performance_leaks(f"보고서 {field} 12"),
+                            f"{field}가 게이트를 통과했다")
+
+    def test_korean_performance_with_numbers_is_blocked(self):
+        for text in ("누적 수익률 +12.3%",
+                     "평가액 11,230,000원",
+                     "최대낙폭 -8.4%",
+                     "승률 62%",
+                     "평가손익 +1,230,000원"):
+            self.assertTrue(pp.performance_leaks(text), f"통과하면 안 된다: {text}")
+
+    def test_korean_explanation_without_numbers_is_allowed(self):
+        """'수익률을 공개하지 않습니다' 같은 설명까지 막으면 게이트를 못 쓴다."""
+        text = ("표본이 기준을 넘기 전에는 수익률·평가액·최대낙폭 같은 성과 숫자를 "
+                "계산하지도, 공개하지도 않습니다.")
+        self.assertEqual(pp.performance_leaks(text), [])
+
+    def test_safe_status_numbers_are_allowed(self):
+        """건수·진입일 수는 성과가 아니므로 막히면 안 된다."""
+        self.assertEqual(pp.performance_leaks("청산 20건 · 진입일 20일 · 짝 3개"), [])
+
+    def test_main_refuses_to_publish_a_leaking_report(self):
+        """새는 보고서는 조용히 통과하지 않고 실패로 끝난다."""
+        original = pp.render_report
+        pp.render_report = lambda _s: "누적 수익률 +12.3%"
+        try:
+            self.assertEqual(pp.main(), 3)
+        finally:
+            pp.render_report = original
 
     def test_no_winner_and_no_auto_change(self):
         s = pp.pairing_status(os.devnull + "x", os.devnull + "y")
