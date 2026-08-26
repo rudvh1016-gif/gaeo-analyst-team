@@ -1,18 +1,26 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-26 11:44",
- "priceLabel": "2026-08-26 11:40 장중",
- "count": 273,
+ "generatedAt": "2026-08-26 12:14",
+ "priceLabel": "2026-08-26 12:03 장중",
+ "count": 274,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
    "code": "003530",
    "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T02:43:40.144422+00:00",
+   "detectedAt": "2026-08-26T03:13:29.669948+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036810",
+   "name": "에프에스티",
+   "title": "임시주주총회결과",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T03:13:29.669948+00:00",
    "isCorrection": false
   },
   {
