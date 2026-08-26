@@ -1,0 +1,72 @@
+# GAEO Paper Trading : 한 사이클 실행 (가상매매 전용, 시세 조회만)
+#
+# 설치 위치: /etc/systemd/system/gaeo-paper.service
+# 이 파일은 저장소 안의 원본이다. 저장소 파일을 직접 심볼릭 링크하지 말고 복사해서 쓴다
+# (러너가 git pull로 이 파일을 바꾸면 systemd 동작이 예고 없이 바뀔 수 있기 때문).
+#
+# ⚠️ Secret은 이 파일에 절대 넣지 않는다. /etc/gaeo-paper/paper.env(권한 600)만 쓴다.
+#    그 파일은 systemd(PID 1)가 읽어 환경변수로 넘겨준다.
+
+[Unit]
+Description=GAEO Paper Trading cycle (virtual money, market data only)
+Documentation=file:/opt/gaeo-paper/repo/docs/PAPER_TRADING_ORACLE_RUNNER.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+
+# 러너 전용 계정. NOVA 등 다른 서비스와 계정·디렉터리·로그를 완전히 분리한다.
+User=gaeo-paper
+Group=gaeo-paper
+WorkingDirectory=/opt/gaeo-paper/repo
+
+# git이 쓸 HOME(설정·배포키). 러너 계정의 홈을 /opt/gaeo-paper로 만든다.
+Environment=HOME=/opt/gaeo-paper
+Environment=GAEO_PAPER_LOG_DIR=/opt/gaeo-paper/logs
+# 🔒 Single Writer 선언. 실제 활성 러너는 저장소의 paper_runner_config.json이 정하고,
+#    여기 선언과 다르면 엔진이 스스로 아무 것도 하지 않는다(원장 이중 기록 방지).
+Environment=GAEO_PAPER_RUNNER=ORACLE
+Environment=PYTHONUTF8=1
+Environment=PYTHONIOENCODING=utf-8
+
+# 토스 자격증명(TOSS_INVEST_CLIENT_ID · TOSS_INVEST_CLIENT_SECRET).
+# 파일이 없으면 서비스를 시작하지 않는다(앞의 '-'를 붙이지 않는 이유).
+EnvironmentFile=/etc/gaeo-paper/paper.env
+
+ExecStart=/bin/bash /opt/gaeo-paper/repo/scripts/paper_cycle.sh --repo /opt/gaeo-paper/repo
+
+# 한 사이클은 보통 1~3분이다. 멈춘 채 매달려 있지 않도록 상한을 둔다
+# (다음 타이머는 30분 뒤라 겹치지 않는다. systemd는 같은 유닛을 중복 실행하지 않는다).
+TimeoutStartSec=900
+
+# NOVA 같은 다른 서비스가 항상 우선이다. Paper는 뒤로 양보한다.
+Nice=10
+CPUWeight=20
+IOWeight=20
+# ⚠️ 이 VM의 실제 RAM을 확인하지 못했다(Shape·메모리 UNKNOWN).
+#    아래 값은 "다른 서비스를 굶기지 않는다"가 목적인 보수적 상한이다.
+#    메모리가 작은 Shape면 더 낮추고, 이 값 때문에 사이클이 죽으면 로그에
+#    oom-kill이 남으니 그때 조정한다.
+MemoryMax=1G
+
+# 하드닝 : 시세 조회와 자기 폴더 쓰기 말고는 아무 것도 못 하게 한다.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/gaeo-paper
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+RemoveIPC=true
+
+# 로그는 저널에도 남는다(journalctl -u gaeo-paper).
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

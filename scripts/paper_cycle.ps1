@@ -258,6 +258,15 @@ Write-Log "러너 HEAD(동기화 후): $((Invoke-Git rev-parse HEAD).Output)"
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. Paper 엔진 실행 (시세 전용)
 # ─────────────────────────────────────────────────────────────────────────────
+# 🔒 Single Writer — 이 스크립트는 집 Windows PC 전용이므로 자기 이름을 스스로 선언한다.
+#    (사람이 부트스트랩에 환경변수를 넣는 걸 잊어도 러너 이름이 비지 않게 한다.
+#     이미 선언돼 있으면 존중한다 — 수동 시험 실행에서 덮어쓰지 않는다)
+#    실제 활성 러너는 저장소의 paper_runner_config.json이 정하고, 판정은 엔진이 한다.
+#    ⚠️ 여기서 미리 게이트를 걸어 종료하면 안 된다. 원격 동기화(2단계)를 먼저 해야
+#       "내가 활성으로 바뀌었다"는 설정 변경을 러너가 읽을 수 있기 때문이다.
+if ([string]::IsNullOrWhiteSpace($env:GAEO_PAPER_RUNNER)) { $env:GAEO_PAPER_RUNNER = 'WINDOWS' }
+Write-Log "Single Writer 선언: $($env:GAEO_PAPER_RUNNER) (활성 러너는 paper_runner_config.json이 정한다)"
+
 # Windows 콘솔 기본 코드페이지(cp949)에서는 '—' 같은 문자 출력이
 # UnicodeEncodeError로 죽는다. UTF-8 모드를 강제한다.
 $env:PYTHONUTF8 = '1'

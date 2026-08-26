@@ -27,6 +27,7 @@ from paper_engine import accounting_version_for
 from paper_engine import recomputed_benchmark, load_index_history
 from paper_engine import entry_cash_outlay, trade_return_pct, ACCOUNTING_V1_GROSS
 import paper_history
+import paper_single_writer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, "paper_trading")
@@ -424,5 +425,18 @@ def build():
     return 0
 
 
+def main():
+    """러너 진입점 — 비활성 러너는 공개 요약도 다시 만들지 않는다.
+
+    build()가 아니라 여기서 막는 이유 : build()는 테스트가 임시 폴더로 직접 부르는
+    라이브러리 함수라 게이트를 넣으면 계약이 바뀐다. 러너가 실제로 부르는 곳만 막는다.
+    (비활성 러너가 paper_public.js를 다시 만들면 generatedAt이 바뀌어 커밋 대상이 생기고,
+     그러면 "Ledger 변경 0 · push 0"이 깨진다)
+    """
+    if not paper_single_writer.allow("paper_public"):
+        return 0
+    return build()
+
+
 if __name__ == "__main__":
-    sys.exit(build())
+    sys.exit(main())

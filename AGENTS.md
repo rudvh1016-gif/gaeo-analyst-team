@@ -150,8 +150,17 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 자세한 동작 원리는 `docs/ARCHITECTURE.md`와 `docs/WORKFLOW.md` 참고.
 
-## 모의투자(Paper Trading) — 실행 주체는 집 PC 하나뿐 (2026-08-18)
+## 모의투자(Paper Trading) — 실행 주체는 언제나 한 곳뿐 (2026-08-18 · Single Writer 2026-08-26)
 
+- ⭐ **원장을 쓰는 러너는 언제나 한 곳뿐이다(Single Writer, 2026-08-26).**
+  러너는 자기 이름을 환경변수 `GAEO_PAPER_RUNNER`(`WINDOWS`/`ORACLE`)로 선언하고,
+  지금 활성인 러너는 저장소의 `paper_runner_config.json`(`activeRunner`)이 정한다.
+  판정은 `paper_single_writer.py`가 하고 엔진 진입점(`paper_engine`·`paper_smart_v2`·
+  `paper_momentum`·`paper_public`)에서 **시세 조회 전에** 걸린다(토스는 client당 유효
+  토큰이 1개라 비활성 러너의 토큰 발급만으로 활성 러너 토큰이 무효가 된다).
+  비활성이면 매매 계산 0 · 원장 변경 0 · push 0. **선언이 없으면 비활성**(fail closed)이고,
+  `paper_runner_config.json`은 러너 커밋 화이트리스트 **밖**이라 러너가 자기를 켤 수 없다.
+  전환은 사람이 그 파일을 커밋할 때만 일어난다(자동 Failover 없음). 계약: `test_paper_single_writer.py`.
 - **`paper-trading.yml`의 `schedule`은 의도적으로 비활성화돼 있다. 되살리지 말 것.**
   토스증권 Open API는 허용 IP로 접근을 통제하는데 GitHub-hosted 러너(Azure) IP는
   등록할 수 없어 403이 나고, 집 PC와 동시에 돌면 같은 Paper 상태를 두 곳에서 건드린다.
@@ -175,6 +184,16 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
   **자동 승격이 없다**(V1이 Baseline). 5거래일은 청산일이 아니라 재평가일이고
   안전상한은 60거래일이다. 60D 성적·적중률은 어떤 형태로도 주장하지 않는다
   (`docs/gaeo_validation_policy.md`: 60D는 평가 가능한 판단 0건).
+- 🔔 **조용히 죽는 것도 알림 대상이다(2026-08-26).** `paper-health-alert.yml`이 평일 16:30 KST에
+  판정하는데, 판정 로직은 `paper_health_check.py`에 있다(워크플로 안 heredoc이 아니다).
+  "오늘 실패"는 기존 이슈로, **"거래일인데 오늘 기록이 0건"은 별도 제목 이슈**
+  (`🛑 [GAEO Paper] 오늘 모의투자가 실행되지 않았습니다`)로 알린다. 거래일 판정은 러너가 쓰는
+  파일이 아니라 `price_history.js`(GitHub Actions가 갱신하는 일봉)로 하고, 오늘 일봉이 없거나
+  증거를 못 읽으면 **아무 말도 하지 않는다**(공휴일 허위 알림 0건). 계약: `test_paper_health_check.py`.
+- 🐧 **Oracle Cloud Linux 러너 자료는 준비만 돼 있다(2026-08-26).** `scripts/paper_cycle.sh` ·
+  `scripts/paper_doctor.sh` · `scripts/systemd/gaeo-paper.{service,timer}` · 설치 안내
+  `docs/PAPER_TRADING_ORACLE_RUNNER.md`. 아직 전환하지 않았고 **집 Windows 러너를 삭제하지 않는다.**
+  VM Shape·RAM·CPU·Idle 사용량은 확인할 수 없어 전부 UNKNOWN으로 문서에 그대로 적혀 있다.
 - ⚠️ Windows에서 Python 출력이 cp949로 나가면 `—` 같은 문자에서 `UnicodeEncodeError`로 죽는다.
   러너는 `PYTHONUTF8=1`을 강제한다. 또 PowerShell 5.1은 BOM 없는 UTF-8 `.ps1`을 cp949로
   오독하므로 **`scripts/*.ps1`은 BOM 있는 UTF-8로 저장**해야 한다.

@@ -61,6 +61,7 @@ import re
 import sys
 
 import paper_market_data as pmd
+import paper_single_writer
 from paper_engine import (HERE, PaperEngine, ACCOUNTING_V2_NET, COMMISSION_PCT,
                           SELL_TAX_PCT, SELL_TAX_DEFAULT_PCT, iso, net_return_pct,
                           load_index_history, benchmark_window, latest_settled_index_day,
@@ -454,6 +455,9 @@ def run_safe():
     """러너 진입점 — 어떤 실패도 V1과 Production에 영향이 없다(항상 exit 0)."""
     if not enabled():
         print(f"[smart_v2] 꺼져 있음 — 아무 것도 하지 않는다 ({DISABLE_ENV}=0)")
+        return 0
+    # 🔒 Single Writer — V1과 같은 게이트. 비활성 러너는 시세 조회조차 하지 않는다.
+    if not paper_single_writer.allow("smart_v2"):
         return 0
     try:
         provider = pmd.TossMarketDataProvider()
