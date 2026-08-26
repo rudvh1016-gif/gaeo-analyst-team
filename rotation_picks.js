@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 14:26",
- "dataCutoff": "2026-08-26 14:26 장중",
+ "generatedAt": "2026-08-26 14:58",
+ "dataCutoff": "2026-08-26 14:58 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 1,
-   "why": "20거래일 +93.1% · 20일선 위",
+   "why": "20거래일 +94.6% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.4,
+   "gapPct": 31.4,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,10 +23,10 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 3,
-   "why": "20거래일 +101.6% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +102.9% · 20일선 위 · 거래량 평소의 1.4배",
    "overheat": true,
-   "gapPct": 50.1,
+   "gapPct": 51.0,
    "call": "SELL",
    "callConflict": true
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "코스메카코리아",
    "sector": "화장품·미용",
    "sectorRank": 2,
-   "why": "20거래일 +67.4% · 20일선 위",
+   "why": "20거래일 +66.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 26.4,
+   "gapPct": 25.9,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +46,32 @@ window.ROTATION_PICKS = {
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 7,
-   "why": "20거래일 +70.4% · 20일선 위",
+   "why": "20거래일 +70.9% · 20일선 위",
    "overheat": false,
-   "gapPct": 12.6,
+   "gapPct": 12.9,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 67.7,
+  "breadthPct": 69.1,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6848.47,
-    "ma20": 6501.61,
+    "close": 6842.47,
+    "ma20": 6501.31,
     "above": true,
-    "gapPct": 5.33
+    "gapPct": 5.25
    },
    "KOSDAQ": {
-    "close": 824.86,
-    "ma20": 800.47,
+    "close": 826.74,
+    "ma20": 800.57,
     "above": true,
-    "gapPct": 3.05
+    "gapPct": 3.27
    }
   }
  },
