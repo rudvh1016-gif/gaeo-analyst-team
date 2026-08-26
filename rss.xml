@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Tue, 25 Aug 2026 07:51:12 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 26 Aug 2026 07:44:54 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월26일 종가, 건설·원전 급등에 코스피 0.97% 상승, 코스닥은 제자리</title>
+    <link>https://gaeoteam.com/snap/news/56.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/56.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 0.97% 오른 6,808.21로 마감했지만 코스닥은 0.03% 내린 826.87로 제자리걸음이었어요. 미국이 웨스팅하우스 지분을 함께 사자고 제안했다는 소식이 이틀째 이어지면서 한전기술 13.63%, 대우건설 8.40% 등 원전과 건설 종목이 크게 올랐어요. 반대로 SK이노베이션은 적자 자회사 SKIET를 흡수합병한다는 공시에 11.04% 급락했고, 팬오션 등 해운주와 현대차그룹 로봇 테마주도 함께 밀렸어요.</description>
+    <pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월25일 종가, 원전주 랠리에 코스피·코스닥 모처럼 동반 상승</title>
     <link>https://gaeoteam.com/snap/news/55.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/34.html</guid>
     <category>뉴스분석</category>
     <description>호텔신라 2분기 영업이익이 611억원으로 606% 급증했는데, 정작 매출은 5.2% 줄었어요. 적자였던 면세사업부가 어디서 어떻게 흑자로 돌아섰는지 채널별로 자세히 정리했어요.</description>
-    <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</title>
-    <link>https://gaeoteam.com/snap/news/33.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/33.html</guid>
-    <category>뉴스분석</category>
-    <description>애플이 6월 분기 역대 최대 매출을 냈는데도 4분기 가이던스에서 나온 &quot;메모리 공급 제약&quot; 경고에 주가가 시간외 급락했어요. 팀 쿡의 마지막 실적발표와 한국 반도체에 주는 의미를 정리했어요.</description>
     <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
