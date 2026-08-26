@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 10:14",
- "dataCutoff": "2026-08-26 10:14 장중",
+ "generatedAt": "2026-08-26 10:44",
+ "dataCutoff": "2026-08-26 10:44 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 1,
-   "why": "20거래일 +90.7% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.9,
+   "why": "20거래일 +93.1% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.4,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,55 +23,55 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 10,
-   "why": "20거래일 +96.9% · 20일선 위",
+   "sectorRank": 9,
+   "why": "20거래일 +99.3% · 20일선 위",
    "overheat": true,
-   "gapPct": 46.9,
+   "gapPct": 48.5,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "323280",
-   "name": "태성",
-   "sector": "반도체",
-   "sectorRank": 2,
-   "why": "20거래일 +66.5% · 20일선 위",
+   "code": "181710",
+   "name": "NHN",
+   "sector": "인터넷·IT",
+   "sectorRank": 12,
+   "why": "20거래일 +82.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 10.1,
+   "gapPct": 19.4,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "356860",
-   "name": "티엘비",
-   "sector": "반도체",
-   "sectorRank": 2,
-   "why": "20거래일 +63.6% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.7,
+   "code": "241710",
+   "name": "코스메카코리아",
+   "sector": "화장품·미용",
+   "sectorRank": 4,
+   "why": "20거래일 +67.7% · 20일선 위",
+   "overheat": false,
+   "gapPct": 26.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 59.7,
+  "breadthPct": 60.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6739.41,
-    "ma20": 6496.16,
+    "close": 6729.72,
+    "ma20": 6495.68,
     "above": true,
-    "gapPct": 3.74
+    "gapPct": 3.6
    },
    "KOSDAQ": {
-    "close": 816.57,
-    "ma20": 800.06,
+    "close": 815.55,
+    "ma20": 800.01,
     "above": true,
-    "gapPct": 2.06
+    "gapPct": 1.94
    }
   }
  },
