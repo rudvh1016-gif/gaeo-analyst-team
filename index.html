@@ -1023,6 +1023,22 @@
   .pf-sumrow b{color:var(--ink);font-weight:600;font-size:14px}
   .pf-mut{color:var(--dim);font-size:11.5px}
   .pf-note{margin-top:16px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  /* 위험 겹침 — 카드를 새로 만들지 않고 제목·행·구분선·여백으로만 계층을 만든다.
+     상관계수는 시장 방향이 아니므로 빨강·파랑을 쓰지 않는다(디자인 시스템 1절). */
+  .pf-risk{margin:18px 0 4px}
+  .pf-risk-head{font-size:12px;font-weight:600;color:var(--dim);letter-spacing:.02em;
+    padding-bottom:6px;margin-top:14px;border-bottom:1px solid var(--line)}
+  .pf-risk-head:first-child{margin-top:0}
+  .pf-risk-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;
+    padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink)}
+  .pf-risk-line b{font-weight:600}
+  .pf-risk-pair{flex:1 1 auto;min-width:0}
+  .pf-risk-sub{flex:1 0 100%;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .pf-risk-say{padding:10px 0 2px;font-size:13px;color:var(--ink);line-height:1.65}
+  .pf-risk-btn{margin-left:auto;padding:6px 12px;font:inherit;font-size:12.5px;
+    color:var(--ink);background:var(--paper2);border:1px solid var(--line2);
+    border-radius:8px;cursor:pointer}
+  .pf-risk-btn:disabled{color:var(--dim);cursor:default}
   /* 상단 가이드라인 배너 */
   .pf-guide{background:var(--color-bg-soft);color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);
     padding:16px 18px;margin-bottom:16px;font-size:12.5px;line-height:1.85}
@@ -5581,6 +5597,7 @@ function renderPortfolio(){
         <div class="pf-add-hint">이름·업종으로 검색해서 <b>내가 가진 종목만</b> 추가하세요. 추가 후 수량·평단을 넣으면 손익과 맞춤 제안이 나와요.</div>
       </div>
       <div class="pf-sum" id="pfSum"></div>
+      <div class="pf-risk" id="pfRisk"></div>
       <div id="pfList"></div>
       <div class="pf-note">입력값은 이 브라우저에 프로필 「${PF_PROFILE}」로 자동 저장돼요(내 폰에만). · 지지·저항선은 차트 지표(이동평균·3개월 밴드)로 자동 계산 · 분석 의견이며 투자 권유가 아닙니다.</div>`;
     makeAutocomplete(document.getElementById('pfAdd'), document.getElementById('acboxPf'), {
@@ -5627,6 +5644,166 @@ function renderPfHoldings(){
   recalcPf();
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   위험 겹침 — "4종목 가졌으니 분산됐다"는 착각을 막는다.
+
+   사람들은 종목 수만 보고 분산됐다고 생각한다. 그런데 삼성전자와 SK하이닉스를
+   나눠 담아도 둘이 같은 날 같은 방향으로 움직이면 실제로는 한 종목을 두 번 산
+   것에 가깝다. 그래서 두 가지를 따로 보여준다.
+     A. 업종 집중도 — 어디에 몰려 있나
+     B. 실제 가격 움직임 겹침 — 정말 따로 움직이나
+
+   ⭐ 계산 방법은 결과를 보기 전에 고정했다(숫자가 예쁘게 나오는 쪽을 고르지 않는다).
+     · 가격 수준끼리 상관계수를 내지 않는다. 그건 둘 다 우상향이면 무조건 높게 나온다.
+       반드시 일간 단순수익률(오늘종가/어제종가 - 1)로 바꿔서 잰다.
+     · 두 종목에 같은 날짜가 다 있는 관측치만 짝지어 쓴다(날짜 정렬 후 교집합).
+     · Pearson 상관계수를 쓴다. 결과가 마음에 안 든다고 Spearman으로 바꾸지 않는다.
+     · 최근 60거래일. 짝 관측치가 MIN_PAIR_OBS 미만이면 숫자를 만들지 않고
+       "데이터 부족"이라고 말한다. 기간을 늘려 숫자를 만들어내지 않는다.
+
+   ⚠️ 이 값은 정보 제공용이다. CHIEF 점수·BUY/HOLD/SELL 판단·Evolution·모의투자
+      전략에 아무 영향을 주지 않는다. 사용자 보유 종목은 어디로도 전송되지 않는다.
+   ⚠️ 600×600 전체 상관행렬을 만들지 않는다. 사용자가 담은 종목끼리만 계산한다.
+   ───────────────────────────────────────────────────────────────────────────── */
+const PF_CORR_WINDOW=60;    // 최근 60거래일
+const PF_MIN_PAIR_OBS=40;   // 통계가 흔들리지 않을 최소 짝 관측치 수.
+                            // 투자성과를 보고 고른 숫자가 아니며, 수익률을 높이려고
+                            // 나중에 자동 튜닝하지 않는다(고정 데이터 품질 기준).
+
+/** price_history에서 code의 최근 N거래일 {날짜: 종가}. 없으면 null. */
+function pfCloses(code,limit=PF_CORR_WINDOW+1){
+  if(typeof PRICE_HISTORY==='undefined') return null;
+  const pages=PRICE_HISTORY[code];
+  if(!Array.isArray(pages)) return null;
+  const days=[];
+  for(const pg of pages) for(const d of (pg&&pg.days)||[]){
+    if(d&&d.date&&typeof d.close==='number') days.push(d);
+  }
+  if(!days.length) return null;
+  days.sort((a,b)=>String(a.date).localeCompare(String(b.date)));   // 오름차순 고정
+  const out={};
+  for(const d of days.slice(-limit)) out[d.date]=d.close;
+  return out;
+}
+
+/** 두 종목의 같은 날짜만 짝지어 일간 단순수익률 Pearson 상관계수. */
+function pfCorrelation(a,b){
+  const ca=pfCloses(a), cb=pfCloses(b);
+  if(!ca||!cb) return {status:'NO_DATA'};
+  // 두 종목에 모두 존재하는 날짜만, 날짜순으로.
+  const dates=Object.keys(ca).filter(d=>d in cb).sort();
+  if(dates.length<2) return {status:'NO_DATA'};
+  // 수익률은 '연속한 두 거래일' 사이에서만 의미가 있다. 한쪽에 구멍이 있어
+  // 날짜가 건너뛰면 그 구간은 버린다(없는 날을 이어 붙여 만들지 않는다).
+  const ra=[], rb=[];
+  for(let i=1;i<dates.length;i++){
+    const p=dates[i-1], q=dates[i];
+    if(!(ca[p]>0&&cb[p]>0&&ca[q]>0&&cb[q]>0)) continue;
+    ra.push(ca[q]/ca[p]-1); rb.push(cb[q]/cb[p]-1);
+  }
+  const n=ra.length;
+  if(n<PF_MIN_PAIR_OBS) return {status:'INSUFFICIENT',obs:n};
+  const mean=v=>v.reduce((s,x)=>s+x,0)/v.length;
+  const ma=mean(ra), mb=mean(rb);
+  let cov=0, va=0, vb=0;
+  for(let i=0;i<n;i++){
+    const da=ra[i]-ma, db=rb[i]-mb;
+    cov+=da*db; va+=da*da; vb+=db*db;
+  }
+  if(va<=0||vb<=0) return {status:'INSUFFICIENT',obs:n};   // 한쪽이 전혀 안 움직인 경우
+  return {status:'OK', r:cov/Math.sqrt(va*vb), obs:n,
+          from:dates[0], to:dates[dates.length-1]};
+}
+
+/** 사용자에게 보여줄 겹침 등급. UX 설명용 고정 기준이며 모델 점수와 무관하다. */
+function pfOverlapLabel(r){
+  if(r>=0.70) return {key:'high',  text:'움직임 겹침 높음'};
+  if(r>=0.40) return {key:'mid',   text:'움직임 겹침 보통'};
+  if(r>=0)    return {key:'low',   text:'움직임 겹침 낮음'};
+  return              {key:'inv',  text:'최근에는 반대로 움직이는 편'};
+}
+
+/** 업종 집중도. 수량·현재가가 다 있으면 평가금액 기준, 아니면 종목 수 기준. */
+function pfSectorConcentration(codes,pf){
+  const byValue=codes.every(c=>(+((pf[c]||{}).qty)||0)>0&&(STOCKS[c].price||0)>0);
+  const w={}; let total=0;
+  codes.forEach(c=>{
+    const sec=STOCKS[c].sector||'기타';
+    const v=byValue?(+pf[c].qty)*STOCKS[c].price:1;
+    w[sec]=(w[sec]||0)+v; total+=v;
+  });
+  const rows=Object.entries(w).map(([sector,v])=>({sector,pct:total>0?v/total*100:0}))
+    .sort((x,y)=>y.pct-x.pct);
+  return {basis:byValue?'value':'count', rows, total};
+}
+
+// 종목 이름. 화면 다른 곳의 nameOf()는 각자 IIFE 안에 갇혀 있어 여기서 못 쓴다.
+const pfNameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
+
+/** 위험 겹침 블록을 그린다. price_history가 없으면 '보기' 버튼만 둔다. */
+function renderPfRisk(){
+  const box=document.getElementById('pfRisk'); if(!box) return;
+  const pf=loadPortfolio();
+  const codes=Object.keys(pf).filter(c=>STOCKS[c]);
+  if(codes.length<2){ box.innerHTML=''; return; }
+
+  const conc=pfSectorConcentration(codes,pf);
+  const top=conc.rows[0];
+  const basisNote=conc.basis==='value'?'평가금액 기준':'종목 수 기준(수량·평단을 넣으면 평가금액 기준으로 바뀌어요)';
+  let html=`<div class="pf-risk-head">분산 상태</div>`+
+    `<div class="pf-risk-line"><b>${esc(top.sector)}</b> 비중 ${top.pct.toFixed(0)}%`+
+    `<span class="pf-risk-sub">${esc(basisNote)}</span></div>`;
+
+  // 28MB짜리 가격 이력은 사용자가 실제로 볼 때만 내려받는다(첫 화면 무게 유지).
+  if(typeof PRICE_HISTORY==='undefined'){
+    html+=`<div class="pf-risk-head">위험 겹침</div>`+
+      `<div class="pf-risk-line pf-mut">담은 종목들이 실제로 따로 움직이는지 확인할 수 있어요.`+
+      `<button type="button" id="pfRiskLoad" class="pf-risk-btn">겹침 확인하기</button></div>`;
+    box.innerHTML=html;
+    const btn=document.getElementById('pfRiskLoad');
+    if(btn) btn.onclick=async()=>{
+      btn.disabled=true; btn.textContent='불러오는 중…';
+      try{ await GaeoFeatures.load('history'); renderPfRisk(); }
+      catch(e){ btn.disabled=false; btn.textContent='다시 시도'; }
+    };
+    return;
+  }
+
+  // 사용자가 담은 종목끼리만. 8종목이면 28쌍이라 전부 계산해도 가볍다.
+  const pairs=[];
+  for(let i=0;i<codes.length;i++) for(let j=i+1;j<codes.length;j++){
+    const res=pfCorrelation(codes[i],codes[j]);
+    pairs.push({a:codes[i],b:codes[j],res});
+  }
+  const usable=pairs.filter(p=>p.res.status==='OK').sort((x,y)=>y.res.r-x.res.r).slice(0,3);
+  const short=pairs.length-pairs.filter(p=>p.res.status==='OK').length;
+
+  html+=`<div class="pf-risk-head">위험 겹침</div>`;
+  if(!usable.length){
+    html+=`<div class="pf-risk-line pf-mut">가격 기록이 모자라 아직 계산할 수 없어요`+
+      `<span class="pf-risk-sub">최근 ${PF_CORR_WINDOW}거래일 중 두 종목이 함께 있는 날이 ${PF_MIN_PAIR_OBS}일보다 적어요</span></div>`;
+  }else{
+    usable.forEach(p=>{
+      const lab=pfOverlapLabel(p.res.r);
+      html+=`<div class="pf-risk-line"><span class="pf-risk-pair">${esc(pfNameOf(p.a))} ↔ ${esc(pfNameOf(p.b))}</span>`+
+        `<b>${lab.text}</b>`+
+        `<span class="pf-risk-sub">상관계수 ${p.res.r.toFixed(2)} · 관측 ${p.res.obs}일 · ${esc(p.res.from)}~${esc(p.res.to)}</span></div>`;
+    });
+    const worst=usable[0];
+    if(worst.res.r>=0.70){
+      html+=`<div class="pf-risk-say">최근 이 두 종목이 비슷한 방향으로 움직인 날이 많아요.`+
+        ` 나눠 담았어도 분산 효과는 생각보다 작을 수 있어요.</div>`;
+    }else if(worst.res.r>=0.40){
+      html+=`<div class="pf-risk-say">어느 정도 같이 움직이는 편이에요. 완전히 따로 움직이지는 않아요.</div>`;
+    }else{
+      html+=`<div class="pf-risk-say">담은 종목들이 서로 꽤 따로 움직이고 있어요.</div>`;
+    }
+    if(short) html+=`<div class="pf-risk-sub">가격 기록이 모자라 못 잰 조합 ${short}개는 뺐어요.</div>`;
+  }
+  html+=`<div class="pf-risk-sub">※ 참고 정보예요. 종목 점수나 매수·매도 판단에는 쓰이지 않아요.</div>`;
+  box.innerHTML=html;
+}
+
 function recalcPf(){
   const pf=loadPortfolio();
   let totCost=0, totVal=0, held=0, todayGain=0, annDiv=0;
@@ -5650,7 +5827,12 @@ function recalcPf(){
     }
   });
   const sum=document.getElementById('pfSum'); if(!sum) return;
-  if(held===0){ sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.'; return; }
+  // 수량·평단이 없어도 위험 겹침은 잴 수 있다(업종은 종목 수 기준, 상관계수는
+  // 가격 이력만 쓴다). 여기서 그냥 return하면 담기만 한 사용자가 못 보게 된다.
+  if(held===0){
+    sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.';
+    renderPfRisk(); return;
+  }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
   const col=v=>v>0?'var(--green)':(v<0?'var(--red)':'var(--ink)');
   const mood = plPct>5?'🤑':plPct>0?'🙂':plPct<-5?'😱':'😟';
@@ -5662,6 +5844,7 @@ function recalcPf(){
     <span>오늘 <b style="color:${col(todayGain)}">${todayGain>0?'+':''}${won(Math.round(todayGain))}</b></span>
     <span>연 예상 배당 <b>${won(Math.round(annDiv))}</b></span>
   </div>`;
+  renderPfRisk();
 }
 
 // 입력 저장(이벤트 위임 · #portfolio는 상시 존재) — 숫자(.pf-in) + 메모(.pf-memo)
