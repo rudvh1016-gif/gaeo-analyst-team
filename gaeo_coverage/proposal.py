@@ -42,6 +42,10 @@ STATUS_AWAITING = "PROPOSAL_AWAITING_APPROVAL"
 # 숫자를 보지 못한 채 승인하면 Universe 성격이 통째로 바뀔 수 있으므로 눈에 띄게
 # 적어 둔다(2026-08-26 퀀트 3차 감사).
 SIZE_MISMATCH_RATIO = 0.1
+# ⚠️ 양방향으로 본다. 진짜 상장폐지 종목은 대개 초소형이라 실제 교체는 **커지는**
+#    방향이 흔하다(실측: 0.089조 → 0.989조, 11배). 작아지는 쪽만 보면 11배 확대를
+#    "크기 차이가 크지 않습니다"라고 말하게 된다(2026-08-26 퀀트 4차 감사 MEDIUM-8).
+SIZE_MISMATCH_RATIO_UP = 3.0
 
 APPLY_NOTE = ("이 문서는 제안일 뿐이다. tickers.js·main 반영은 대표 승인 후 사람이 "
               "직접 한다. 이 코드에는 자동 반영 경로가 없다.")
@@ -183,6 +187,10 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
                  "sector": f.get("sector"), "cause": f.get("cause"),
                  "market": f.get("market"),
                  "safestKnownCap": f.get("safestKnownCap"),
+                 # 성적 비교에서 "이 종목을 언제부터 없는 것으로 치는가"가 없으면
+                 # 정리매매 구간 급락이 어느 Coverage Version에 귀속되는지 모른 채
+                 # 비교하게 된다(생존편향이 새어 드는 지점 — 퀀트 4차 감사).
+                 "removalEffectiveFrom": f.get("firstAbsentAt"),
                  "safestKnownCapRank": f.get("safestKnownCapRank"),
                  "missingDayCount": f.get("missingDayCount"),
                  "elapsedTradingDays": f.get("elapsedTradingDays"),
@@ -214,7 +222,8 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
         if isinstance(out_cap, (int, float)) and isinstance(in_cap, (int, float)) \
                 and out_cap > 0:
             ratio = float(in_cap) / float(out_cap)
-        mismatch = ratio is not None and ratio < SIZE_MISMATCH_RATIO
+        mismatch = ratio is not None and (ratio < SIZE_MISMATCH_RATIO
+                                          or ratio > SIZE_MISMATCH_RATIO_UP)
         if mismatch:
             mismatch_n += 1
         size_notes.append({
@@ -224,8 +233,13 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
             "addCap": in_cap,
             "capRatio": None if ratio is None else round(ratio, 6),
             "sizeMismatch": mismatch,
-            "note": ("빠지는 종목보다 훨씬 작은 종목이 들어옵니다. 승인하면 Universe "
-                     "성격이 바뀔 수 있습니다." if mismatch else
+            "direction": (None if ratio is None else
+                          "SMALLER" if ratio < 1 else "LARGER"),
+            "note": (("빠지는 종목보다 훨씬 작은 종목이 들어옵니다. 승인하면 감시 "
+                      "대상의 성격이 바뀔 수 있습니다."
+                      if ratio is not None and ratio < SIZE_MISMATCH_RATIO else
+                      "빠지는 종목보다 훨씬 큰 종목이 들어옵니다. 승인하면 감시 "
+                      "대상의 성격이 바뀔 수 있습니다.") if mismatch else
                      "크기 차이가 크지 않습니다." if ratio is not None else
                      "크기를 비교할 수 없습니다(측정값 없음).")})
 
@@ -234,6 +248,7 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
         "sizeComparison": size_notes,
         "sizeMismatchCount": mismatch_n,
         "sizeMismatchRatio": SIZE_MISMATCH_RATIO,
+        "sizeMismatchRatioUp": SIZE_MISMATCH_RATIO_UP,
         "reason": "확정 상장폐지 %d종목에 대한 교체 제안." % len(removals),
         "removals": removals,
         "additions": additions,

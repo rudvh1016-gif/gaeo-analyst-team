@@ -138,12 +138,38 @@ MEGA_CAP_RANK_GUARD = 300
 MEGA_CAP_ABS_FLOOR = 1.0e12          # 1조원
 # 시총 기억을 며칠치까지 보관하나. 이 창 안에서 '가장 안전한 값'을 골라 쓴다.
 CAP_MEMORY_DAYS_KEPT = 90
+# 크기를 근거로 **상폐를 허용하려면** 서로 다른 날짜로 이만큼은 관측돼 있어야 한다.
+# 표본이 1건이면 '가장 안전한 값 고르기'가 아무 일도 하지 않는다(1건의 min/max는
+# 그 1건이다). 즉 하루짜리 이상값 하나가 곧 마지막 기억이 된다
+# (2026-08-26 퀀트 4차 감사 CRITICAL-4: 실제로 저장소의 597종목 전부 이력 1건이었다).
+# ⚠️ 비대칭 규칙이다 — 표본이 얇아도 **보호하는 방향**으로는 그대로 쓴다.
+#    표본이 필요한 것은 보호를 걷어낼 때뿐이다.
+CAP_MEMORY_MIN_SAMPLES = 3
+# 시가총액 순위가 이 값을 넘으면 물리적으로 말이 안 된다. 실측 전체 상장상품이
+# 3,922개이고 보통주만 세면 2,600개 남짓이다. 상태파일이 손상·위조됐을 때 걸러 내기
+# 위한 상한이라 넉넉하게 잡되, 말이 되는 범위는 벗어나지 않게 둔다.
+MAX_PLAUSIBLE_CAP_RANK = 5000
 # 한 사이클에 이만큼 이상이 동시에 빠지면 개별 상폐가 아니라 벤더 장애로 본다.
 MASS_MISSING_DELISTING_BLOCK = 5
 # 한 사이클에 이만큼 이상이 동시에 '시장 자료에서' 사라지면 개별 상폐가 아니다.
 # (시세 누락 수를 세던 기존 가드는 부재 시계로 바꾼 뒤 이 사건을 못 센다 —
 #  2026-08-26 퀀트 3차 감사 HIGH-4)
+# ⚠️ 이 임계값은 **이번 사이클에 새로 사라진** 종목 수에 적용한다. 누적 부재 수에
+#    적용하면 정상 운영만으로도 반드시 임계에 닿는다: 실제 상폐가 확정돼야 제안서가
+#    나오고, 사람이 승인해야 종목이 Universe에서 빠지는데, 확정이 막히면 종목이
+#    안 빠지고 부재 수도 안 줄어 **영원히 풀리지 않는다**(자기강화형 교착).
+#    실측으로 이미 012510·057050이 상시 부재라 여유가 3종목뿐이었다
+#    (2026-08-26 퀀트 4차 감사 HIGH-7).
 MASS_ABSENCE_DELISTING_BLOCK = 5
+# 서서히 늘어나는 부재도 놓치지 않기 위한 두 번째 선. 누적 부재가 Universe의 이
+# 비율을 넘으면 개별 상폐가 아니라 구조적 문제로 본다.
+MASS_ABSENCE_TOTAL_RATIO = 0.05
+# '동시에 사라졌다'로 볼 기간(일). 이 창 안에서 사라지기 시작한 종목만 벤더 장애
+# 판정에 센다. 창이 지속누락 기준(3일 + 10거래일)보다 넉넉해야, 장애로 사라진
+# 무리가 상폐로 확정되려는 바로 그 구간에 가드가 살아 있다.
+# (창 없이 '이번에 새로 사라진 것'만 세면 다음 날부터 0이 되어 가드가 죽고,
+#  누적으로 세면 정상 운영만으로 임계에 닿아 교체가 영구 정지한다.)
+MASS_ABSENCE_WINDOW_DAYS = 21
 # 전체시장 snapshot이 이보다 적은 종목만 담고 있으면 '부재'를 근거로 쓸 수 없다.
 # 실측 3,922건. 상류에 완만한 열화 게이트가 없어 서서히 잘린 snapshot이 그대로
 # last-good으로 남을 수 있다(2026-08-26 퀀트 3차 감사 HIGH-4).
@@ -478,10 +504,33 @@ def sanitize_observations(doc, now_iso):
         seen = m.get("seenAt")
         if isinstance(seen, str) and str(seen)[:10] > today:
             continue
+        # ⚠️ 날짜만 보고 값은 안 보면, 과거 날짜로만 채운 위조가 그대로 통과한다
+        #    (2026-08-26 퀀트 4차 감사 MEDIUM-3에서 실제로 시연됐다).
+        #    순위·시총은 물리적으로 말이 되는 범위 안에 있어야 한다.
+        # ⭐ 앞뒤가 맞는지도 본다. capMemory는 그 종목이 **시장 자료에 있던 날**에만
+        #    적힌다. 그러니 같은 날짜가 '부재한 날'로도 적혀 있으면 그 기록은
+        #    자기모순이다 — 정상 운영에서는 절대 겹칠 수 없다.
+        #    (2026-08-26 퀀트 4차 감사 MEDIUM-3: 과거 날짜로만 채운 위조는 날짜
+        #     검사만으로는 못 걸렀다. 값 범위와 이 정합성 검사가 함께 막는다.)
+        absent_days = set((clean_codes.get(code) or {}).get("absentDays") or [])
+        clean_history = {}
         history = m.get("history")
         if isinstance(history, dict):
-            m["history"] = {d: v for d, v in history.items()
-                            if isinstance(d, str) and len(d) == 10 and d <= today}
+            for d, pair in history.items():
+                if not (isinstance(d, str) and len(d) == 10 and d <= today):
+                    continue
+                if d in absent_days:
+                    continue
+                if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+                    continue
+                try:
+                    rank, cap = int(pair[0]), float(pair[1])
+                except (TypeError, ValueError):
+                    continue
+                if rank < 1 or rank > MAX_PLAUSIBLE_CAP_RANK or cap <= 0:
+                    continue
+                clean_history[d] = [rank, cap]
+        m["history"] = clean_history
         clean_memory[code] = m
 
     out = dict(doc)
@@ -518,7 +567,18 @@ def update_cap_memory(previous, configured_codes, snapshot, ranks, now_iso):
         entry = dict(memory.get(code) or {})
         history = entry.get("history")
         history = dict(history) if isinstance(history, dict) else {}
-        history[day] = [int(rank), float(cap)]
+        # ⚠️ 같은 날 두 번 돌면(워크플로우 재시도 · workflow_dispatch · 로컬 실행)
+        #    나중 값이 앞 값을 덮어써서, 정상 표본이 이상값으로 교체될 수 있다.
+        #    같은 날짜 안에서는 '가장 안전한 쪽'만 남긴다.
+        prev = history.get(day)
+        new_rank, new_cap = int(rank), float(cap)
+        if isinstance(prev, (list, tuple)) and len(prev) == 2:
+            try:
+                new_rank = min(new_rank, int(prev[0]))
+                new_cap = max(new_cap, float(prev[1]))
+            except (TypeError, ValueError):
+                pass
+        history[day] = [new_rank, new_cap]
         for old_day in sorted(history)[:-CAP_MEMORY_DAYS_KEPT]:
             history.pop(old_day, None)
         entry.update({"capRank": rank, "cap": cap,
@@ -549,12 +609,12 @@ def safest_known_size(code, cap_memory):
     """
     remembered = (cap_memory or {}).get(code)
     if not isinstance(remembered, dict):
-        return None, None, ("이 종목의 시가총액을 현재 snapshot에서도, 과거 관측 "
-                            "기록에서도 확인할 수 없다")
-    ranks_seen, caps_seen = [], []
+        return None, None, 0, ("이 종목의 시가총액을 현재 snapshot에서도, 과거 관측 "
+                               "기록에서도 확인할 수 없다")
+    ranks_seen, caps_seen, day_samples = [], [], []
     history = remembered.get("history")
     if isinstance(history, dict):
-        for pair in history.values():
+        for day, pair in history.items():
             try:
                 r, c = int(pair[0]), float(pair[1])
             except (TypeError, ValueError, IndexError, KeyError):
@@ -563,6 +623,8 @@ def safest_known_size(code, cap_memory):
                 ranks_seen.append(r)
             if c > 0:
                 caps_seen.append(c)
+            if r > 0 or c > 0:
+                day_samples.append(day)
     if not ranks_seen and remembered.get("capRank"):
         # 이력이 없는 옛 기록(구버전 상태파일)도 버리지 않고 쓴다.
         try:
@@ -572,17 +634,20 @@ def safest_known_size(code, cap_memory):
     if not caps_seen and isinstance(remembered.get("cap"), (int, float)):
         caps_seen.append(float(remembered["cap"]))
     if not ranks_seen and not caps_seen:
-        return None, None, ("이 종목의 시가총액을 현재 snapshot에서도, 과거 관측 "
-                            "기록에서도 확인할 수 없다")
+        return None, None, 0, ("이 종목의 시가총액을 현재 snapshot에서도, 과거 관측 "
+                               "기록에서도 확인할 수 없다")
     best_rank = min(ranks_seen) if ranks_seen else None
     best_cap = max(caps_seen) if caps_seen else None
-    parts = ["최근 %d일 관측 %d건 중 가장 안전한 값" % (CAP_MEMORY_DAYS_KEPT,
-                                                       len(ranks_seen) or len(caps_seen))]
+    # ⚠️ 표본 수는 **서로 다른 날짜 관측 건수**다. top-level capRank 폴백은 날짜
+    #    근거가 없으므로 표본으로 세지 않는다(그 값은 상태파일 위조에 그대로 노출된
+    #    자리이기도 하다 — 2026-08-26 퀀트 4차 감사 MEDIUM-3).
+    samples = len(day_samples)
+    parts = ["최근 %d일 중 서로 다른 날짜 %d건 관측" % (CAP_MEMORY_DAYS_KEPT, samples)]
     if best_rank is not None:
-        parts.append("최고 시가총액 순위 %d위" % best_rank)
+        parts.append("가장 좋았던 순위 %d위" % best_rank)
     if best_cap is not None:
-        parts.append("최고 시가총액 %.3f조" % (best_cap / 1e12))
-    return best_rank, best_cap, " · ".join(parts)
+        parts.append("가장 컸던 시가총액 %.3f조" % (best_cap / 1e12))
+    return best_rank, best_cap, samples, " · ".join(parts)
 
 
 def update_observations(previous, missing_codes, configured_codes, now_iso,
@@ -612,18 +677,28 @@ def update_observations(previous, missing_codes, configured_codes, now_iso,
     day = str(now_iso)[:10]
 
     new_codes = {}
-    for code in sorted(missing):
+    # ⚠️ 추적 대상은 '시세가 안 온 종목'과 '시장 자료에서 사라진 종목'의 합집합이다.
+    #    시세만 기준으로 추적하면, 시장 자료에서는 사라졌는데 시세는 계속 들어오는
+    #    종목의 부재 시작 시각을 아무도 기록하지 않는다. 그러면 "한 무리가 비슷한
+    #    시기에 사라졌는가"(벤더 장애 신호)를 판정할 근거 자체가 없어진다
+    #    (2026-08-26 퀀트 4차 감사 HIGH-7 수리 중 발견).
+    for code in sorted(missing | (absent & configured)):
         entry = dict(old.get(code) or {})
-        days = [d for d in (entry.get("missingDays") or []) if d]
-        if day not in days:
-            days.append(day)
-        days = sorted(set(days))[-MAX_MISSING_DAYS_KEPT:]
-        first = entry.get("firstMissingAt") or now_iso
-        # 날짜 목록이 더 이른 날을 가리키면 그쪽을 신뢰한다
-        if days and days[0] < str(first)[:10]:
-            first = days[0] + "T00:00:00+09:00"
-        record = {"missingDays": days, "firstMissingAt": first,
-                  "lastMissingAt": now_iso}
+        if code in missing:
+            days = [d for d in (entry.get("missingDays") or []) if d]
+            if day not in days:
+                days.append(day)
+            days = sorted(set(days))[-MAX_MISSING_DAYS_KEPT:]
+            first = entry.get("firstMissingAt") or now_iso
+            # 날짜 목록이 더 이른 날을 가리키면 그쪽을 신뢰한다
+            if days and days[0] < str(first)[:10]:
+                first = days[0] + "T00:00:00+09:00"
+            record = {"missingDays": days, "firstMissingAt": first,
+                      "lastMissingAt": now_iso}
+        else:
+            # 시세는 정상인데 시장 자료에서만 사라진 종목 — 시세 시계는 비워 둔다.
+            record = {"missingDays": [], "firstMissingAt": None,
+                      "lastMissingAt": None}
         if code in absent:
             adays = [d for d in (entry.get("absentDays") or []) if d]
             if day not in adays:
@@ -642,7 +717,7 @@ def update_observations(previous, missing_codes, configured_codes, now_iso,
         new_codes[code] = record
 
     for code, entry in old.items():
-        if code in missing or code not in configured:
+        if code in missing or code in absent or code not in configured:
             continue
         days = [d for d in ((entry or {}).get("missingDays") or []) if d]
         if days:
@@ -767,7 +842,7 @@ def krx_evidence(krx, observation, now):
 def classify_missing(code, *, configured_name=None, snapshot=None, snapshot_age=None,
                      observation=None, now=None, krx=None, cap_rank=None,
                      cap_rank_basis=None, mass_missing=False,
-                     absence_persistent=False, cap_value=None,
+                     absence_persistent=False, cap_value=None, cap_samples=0,
                      mass_absent=False, snapshot_reliable=True,
                      snapshot_unreliable_why=None):
     """누락 원인 1건을 보수적으로 분류한다. (cause, evidence[])를 돌려준다.
@@ -901,6 +976,17 @@ def classify_missing(code, *, configured_name=None, snapshot=None, snapshot_age=
                         "금지한다" % (cap_value / 1e12, MEGA_CAP_ABS_FLOOR / 1e12))
         return PIPELINE_BUG, evidence
 
+    # ⭐ 여기까지 왔다 = "크기가 작아서 보호 대상이 아니다"라는 판단이다.
+    #    그 판단의 근거가 표본 1건뿐이면 믿을 수 없다. 하루짜리 이상값 하나가
+    #    대형주를 소형주로 둔갑시킬 수 있기 때문이다(퀀트 4차 감사 CRITICAL-4).
+    #    보호하는 방향으로는 표본 1건도 그대로 썼다 — 걷어낼 때만 더 요구한다.
+    if cap_samples < CAP_MEMORY_MIN_SAMPLES:
+        evidence.append("크기가 작다는 판단의 근거가 서로 다른 날짜 %d건뿐이다"
+                        "(기준 %d건). 표본 하나가 잘못 들어오면 대형주가 소형주로 "
+                        "보일 수 있으므로 상장폐지로 확정하지 않는다. 사람 확인 필요"
+                        % (cap_samples, CAP_MEMORY_MIN_SAMPLES))
+        return REVIEW_REQUIRED, evidence
+
     if not re.match(r"^\d{6}$", str(code)) or str(code)[-1] != "0":
         evidence.append("보통주 코드(끝자리 0)가 아니다: KRX 상장법인목록은 법인 단위라 "
                         "종류주의 부재를 상장폐지 근거로 쓸 수 없다")
@@ -958,6 +1044,12 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
     # 시장 자료(snapshot)에서 그 종목 자체가 안 보이는가 = 부재.
     # snapshot을 아예 못 읽은 경우엔 전 종목을 부재로 적지 않는다(그건 우리 문제다).
     snapshot_by_code = (snapshot or {}).get("byCode") or {}
+    # ⚠️ 신뢰성 판정을 부재 계산보다 **먼저** 한다. 못 믿는 자료 위에서 부재 일수를
+    #    쌓아 두면 수집이 회복되는 첫날 그 일수가 통째로 인정돼 곧바로 상폐가
+    #    확정된다(2026-08-26 퀀트 4차 감사 HIGH-6: 잘린 snapshot 12거래일 뒤 복구
+    #    당일 DELISTED_CONFIRMED 재현). 정직한 근거는 '믿을 수 있는 자료에서의
+    #    부재'뿐이다.
+    snap_ok, snap_why = snapshot_reliability(snapshot, universe_state)
     # ⚠️ '시세가 안 온 종목 중 snapshot에 없는 것'만 세면 안 된다. 그러면 이 목록이
     #    항상 missing_price의 부분집합이라, 같은 임계값을 쓰는 대량누락 가드가 늘
     #    먼저 걸려 대량부재 가드가 죽은 코드가 된다. 더 중요한 것은, 시장 자료에서
@@ -965,30 +1057,51 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
     #    세게 된다는 점이다(2026-08-26 퀀트 3차 감사 HIGH-4의 실제 시나리오).
     #    그래서 Universe 전체를 기준으로 '시장 자료에서 사라진 종목'을 센다.
     absent_codes = ([c for c in configured_codes if c not in snapshot_by_code]
-                    if snapshot_by_code else [])
+                    if (snapshot_by_code and snap_ok) else [])
     observations = sanitize_observations(observations, now_iso)
     new_obs = update_observations(observations, missing_price, configured_codes,
                                   now_iso, absent_codes=absent_codes)
     ranks = cap_ranks(snapshot)
-    snap_ok, snap_why = snapshot_reliability(snapshot, universe_state)
     # 살아 있는 동안 크기를 계속 기억해 둔다 — 사라진 뒤엔 이 값만이 근거다.
     new_obs["capMemory"] = update_cap_memory(observations, configured_codes, snapshot,
                                              ranks, now_iso)
     cap_memory = new_obs["capMemory"]
+
+    # 벤더 장애는 '한 무리가 비슷한 시기에 사라지는' 사건이다.
+    #   · 오래 부재이던 종목까지 누적으로 세면 정상 운영만으로 임계에 닿아 교체
+    #     기능이 영구 정지한다(자기강화형 교착 — 퀀트 4차 감사 HIGH-7).
+    #   · 반대로 '이번에 새로 사라진 것'만 세면 다음 날부터 0이 되어 가드가 죽는다.
+    #  그래서 최근 MASS_ABSENCE_WINDOW_DAYS 안에 사라지기 시작한 종목만 센다.
+    recent_absent = []
+    for code in absent_codes:
+        first = _parse_iso(((new_obs["codes"] or {}).get(code) or {}).get("firstAbsentAt"))
+        if first is None:
+            continue
+        # ⚠️ 변수명을 age로 쓰면 위에서 구한 snapshot 나이를 덮어써서, 신선한
+        #    snapshot이 갑자기 '19일 묵었다'가 된다(실제로 그렇게 깨졌다).
+        absent_age = (_aware(now) - _aware(first)).total_seconds() / 86400.0
+        if absent_age <= MASS_ABSENCE_WINDOW_DAYS:
+            recent_absent.append(code)
+    mass_absent_new = len(recent_absent) >= MASS_ABSENCE_DELISTING_BLOCK
+    mass_absent_total = (bool(target) and
+                         len(absent_codes) >= max(MASS_ABSENCE_DELISTING_BLOCK,
+                                                  int(target * MASS_ABSENCE_TOTAL_RATIO)))
+    mass_absent = mass_absent_new or mass_absent_total
     markets = (market_map or {}).get("map") or {}
     mass_missing = len(missing_price) >= MASS_MISSING_DELISTING_BLOCK
-    mass_absent = len(absent_codes) >= MASS_ABSENCE_DELISTING_BLOCK
 
     findings = []
     for code in missing_price:
         obs = (new_obs["codes"] or {}).get(code)
-        known_rank, known_cap, rank_basis = safest_known_size(code, cap_memory)
+        known_rank, known_cap, cap_samples, rank_basis = safest_known_size(
+            code, cap_memory)
         cause, evidence = classify_missing(
             code,
             configured_name=configured["names"].get(code),
             snapshot=snapshot, snapshot_age=age, observation=obs, now=now,
             krx=krx, cap_rank=known_rank, cap_rank_basis=rank_basis,
-            cap_value=known_cap, mass_missing=mass_missing,
+            cap_value=known_cap, cap_samples=cap_samples,
+            mass_missing=mass_missing,
             mass_absent=mass_absent,
             snapshot_reliable=snap_ok, snapshot_unreliable_why=snap_why,
             absence_persistent=is_absence_persistent(obs, now))
@@ -1009,6 +1122,7 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
             "capRank": ranks.get(code),
             "safestKnownCapRank": known_rank,
             "safestKnownCap": known_cap,
+            "capSampleCount": cap_samples,
             # 이름을 바꿔도 기존 소비자가 안 깨지게 옛 키를 함께 남긴다.
             "lastKnownCapRank": known_rank,
             "lastKnownCapBasis": rank_basis,
@@ -1087,6 +1201,10 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
         "attentionCount": sum(attention_causes.values()),
         "massMissingBlockActive": mass_missing,
         "massAbsenceBlockActive": mass_absent,
+        "massAbsenceNewActive": mass_absent_new,
+        "massAbsenceTotalActive": mass_absent_total,
+        "absentFromMarketDataCount": len(absent_codes),
+        "recentlyAbsentCount": len(recent_absent),
         "snapshotReliable": snap_ok,
         "snapshotReliabilityNote": snap_why,
         "capMemorySize": len(cap_memory),
@@ -1107,6 +1225,12 @@ def build_report(*, configured, fresh, auto, snapshot, universe_state,
                                  "상위 자리를 먹어 보호 대상이 줄어드는 것을 막는다."),
             "snapshotMinItemCount": SNAPSHOT_MIN_ITEM_COUNT,
             "massAbsenceBlock": MASS_ABSENCE_DELISTING_BLOCK,
+            "massAbsenceBlockBasis": ("이번 사이클에 새로 사라진 종목 수에 적용한다. "
+                                      "누적 부재 수에 걸면 정상 운영만으로 임계에 닿아 "
+                                      "교체 기능이 영구 정지한다."),
+            "massAbsenceTotalRatio": MASS_ABSENCE_TOTAL_RATIO,
+            "massAbsenceWindowDays": MASS_ABSENCE_WINDOW_DAYS,
+            "capMemoryMinSamples": CAP_MEMORY_MIN_SAMPLES,
             "megaCapGuardSource": ("현재 snapshot 순위 또는 살아 있을 때 기억해 둔 "
                                    "마지막 순위. 둘 다 없으면 크기 불명으로 보고 "
                                    "상장폐지로 확정하지 않는다."),

@@ -1,11 +1,11 @@
 {
  "schemaVersion": 1,
- "generatedAt": "2026-08-26T11:04:27+09:00",
+ "generatedAt": "2026-08-26T12:19:47+09:00",
  "runId": "local-baseline",
  "status": "READY",
  "note": "대기 명단일 뿐이다. 여기 있는 종목은 tickers.js에 자동으로 들어가지 않는다. 정렬 기준은 시가총액 내림차순 하나뿐이다.",
  "sourceSnapshot": "2026-08-16T01:42:45+00:00",
- "snapshotAgeDays": 10.02,
+ "snapshotAgeDays": 10.07,
  "sectorMapAsOf": "2026-08-16T01:41:44+00:00",
  "targetRange": [
   30,
@@ -42,7 +42,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "eef91702a6922151"
@@ -59,7 +59,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "797f4dd49c21c569"
@@ -76,7 +76,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "1f0ca40ada83d4ff"
@@ -93,7 +93,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "14030cc1d24183fe"
@@ -110,7 +110,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "a3fd3363c6adcfb4"
@@ -127,7 +127,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "8f59fa5e39ba7e0d"
@@ -144,7 +144,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "8eb2199c3ef0d250"
@@ -161,7 +161,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "dda2e3e6c0986c3c"
@@ -178,7 +178,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "31fc3399529841ec"
@@ -195,7 +195,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "d5192f15cfc6e35f"
@@ -212,7 +212,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "35e6715d41b84000"
@@ -229,7 +229,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "b5121fa4d4d0039a"
@@ -246,7 +246,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "12938bbe70358ed9"
@@ -263,7 +263,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "5ea6fa00bfe27c05"
@@ -280,7 +280,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "3be60313f5a298fc"
@@ -297,7 +297,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "b41364f2991e7005"
@@ -314,7 +314,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "7338e34a1696cf5e"
@@ -331,7 +331,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "d6f5239c3aa9a2db"
@@ -348,7 +348,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "f34baa7594bc5e80"
@@ -365,7 +365,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "fa314a04d78bc4bd"
@@ -384,7 +384,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "c0e9a1bb0bfa71f6"
@@ -401,7 +401,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "27a9c3339348b27e"
@@ -418,7 +418,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "f447e15fd859f5e6"
@@ -435,7 +435,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "b93ae1869025c93c"
@@ -452,7 +452,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "361bfcb7d78dbebb"
@@ -469,7 +469,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "ab055f97d39a6fdd"
@@ -486,7 +486,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "4772db4899972732"
@@ -503,7 +503,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "afcc3c5ab0d329f6"
@@ -520,7 +520,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "508dfa65ae9e13f8"
@@ -537,7 +537,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "0e4a604433565e99"
@@ -554,7 +554,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "6f52cffe87fac43a"
@@ -571,7 +571,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "903e9d8698f064ea"
@@ -588,7 +588,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "3227c68ac872e683"
@@ -605,7 +605,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "3ee42781066fed01"
@@ -622,7 +622,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "90d5ecfab2e87ff0"
@@ -639,7 +639,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "26be2063346b51b8"
@@ -656,7 +656,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "7e5b10e1ce56c178"
@@ -673,7 +673,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "7335b07a0b939fbc"
@@ -690,7 +690,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "adba345c238ed0a3"
@@ -707,7 +707,7 @@
     "tradableStatus": "TRADABLE",
     "instrumentType": "COMMON",
     "basis": "source_stockEndType",
-    "checkedAt": "2026-08-26T11:04:27+09:00",
+    "checkedAt": "2026-08-26T12:19:47+09:00",
     "sourceSnapshot": "2026-08-16T01:42:45+00:00",
     "eligibilityVerdict": "ELIGIBLE_STANDBY",
     "fingerprint": "ff1c07ed89aa1c74"
@@ -727,7 +727,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "eef91702a6922151"
@@ -744,7 +744,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "797f4dd49c21c569"
@@ -761,7 +761,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "1f0ca40ada83d4ff"
@@ -778,7 +778,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "14030cc1d24183fe"
@@ -795,7 +795,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "a3fd3363c6adcfb4"
@@ -812,7 +812,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "8f59fa5e39ba7e0d"
@@ -829,7 +829,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "8eb2199c3ef0d250"
@@ -846,7 +846,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "dda2e3e6c0986c3c"
@@ -863,7 +863,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "31fc3399529841ec"
@@ -880,7 +880,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "d5192f15cfc6e35f"
@@ -897,7 +897,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "35e6715d41b84000"
@@ -914,7 +914,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "b5121fa4d4d0039a"
@@ -931,7 +931,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "12938bbe70358ed9"
@@ -948,7 +948,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "5ea6fa00bfe27c05"
@@ -965,7 +965,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "3be60313f5a298fc"
@@ -982,7 +982,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "b41364f2991e7005"
@@ -999,7 +999,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "7338e34a1696cf5e"
@@ -1016,7 +1016,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "d6f5239c3aa9a2db"
@@ -1033,7 +1033,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "f34baa7594bc5e80"
@@ -1050,7 +1050,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "fa314a04d78bc4bd"
@@ -1067,7 +1067,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "8df93461dc21b42f"
@@ -1084,7 +1084,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "74950207986808f6"
@@ -1101,7 +1101,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "633d38dd92a06d6e"
@@ -1118,7 +1118,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "8cb5ff883bbaa3ba"
@@ -1135,7 +1135,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "c0e9a1bb0bfa71f6"
@@ -1152,7 +1152,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "27a9c3339348b27e"
@@ -1169,7 +1169,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "ad525288ad1538e5"
@@ -1186,7 +1186,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "aed157055d7ad33f"
@@ -1203,7 +1203,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "88935f044802b3a9"
@@ -1220,7 +1220,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "dbbbce2a51dfd2ca"
@@ -1237,7 +1237,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "04cfee35532db830"
@@ -1254,7 +1254,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "1e68d69ce8918a06"
@@ -1271,7 +1271,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "63df316ea38fa3a4"
@@ -1288,7 +1288,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "4f0631ff30645e81"
@@ -1305,7 +1305,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "6a55e85e612d98c8"
@@ -1322,7 +1322,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "ead74345942f792e"
@@ -1339,7 +1339,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "f0dab8db95c686fc"
@@ -1356,7 +1356,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "d4fff3aa06a7777e"
@@ -1373,7 +1373,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "600ec50bda3f68f2"
@@ -1390,7 +1390,7 @@
    "tradableStatus": "TRADABLE",
    "instrumentType": "COMMON",
    "basis": "source_stockEndType",
-   "checkedAt": "2026-08-26T11:04:27+09:00",
+   "checkedAt": "2026-08-26T12:19:47+09:00",
    "sourceSnapshot": "2026-08-16T01:42:45+00:00",
    "eligibilityVerdict": "ELIGIBLE_STANDBY",
    "fingerprint": "ce5949a57009107b"
