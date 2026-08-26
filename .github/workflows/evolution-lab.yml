@@ -84,9 +84,21 @@ jobs:
       # ⚠️ 그렇다고 실패를 삼키는 것은 아니다. 산출물마다 이번 Run 식별자를 각인하고
       #    (--run-id), 알림 단계가 그 값을 대조해 "이번 Run 미측정"이면 🔴 RED로
       #    보고한다. 커밋은 보호하고 보고는 정직하게 남기는 구조다.
+      # ⚠️ Coverage 계약 테스트는 '연구를 막는' contract_tests와 분리해서 돌린다.
+      #    ① 같은 실행이 gaeo_coverage/state/*.json을 main에 밀어넣으므로, 검증
+      #       없이 진행하면 안 된다(2026-08-26 퀀트 3차 감사 LOW-3).
+      #    ② 그렇다고 Coverage 테스트 실패가 Evolution 연구 기록을 통째로 날리면
+      #       안 된다(대표 지시 §4 — 서로 다른 시스템).
+      #    그래서 실패해도 job은 계속 가되, 산출물을 아예 만들지 않는다. 그러면
+      #    알림 단계가 runId 대조에서 '이번 Run 미측정'으로 보고 🔴를 낸다.
+      - name: Coverage contract tests (실패해도 연구는 계속 · 산출물만 막는다)
+        id: coverage_tests
+        continue-on-error: true
+        run: python -m unittest test_gaeo_coverage -q
+
       - name: Coverage Guardian (읽기 전용 실측 · 연구 커밋을 막지 않음)
         id: coverage_guard
-        if: always()
+        if: always() && steps.coverage_tests.outcome == 'success'
         continue-on-error: true
         env:
           GAEO_RUN_STAMP: ${{ github.run_id }}-${{ github.run_attempt }}

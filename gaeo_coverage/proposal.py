@@ -37,6 +37,12 @@ STATUS_NO_PROPOSAL = "NO_PROPOSAL"
 STATUS_FAIL_CLOSED = "FAIL_CLOSED"
 STATUS_AWAITING = "PROPOSAL_AWAITING_APPROVAL"
 
+# 들어오는 후보의 시가총액이 빠지는 종목의 이 비율보다 작으면 "크기가 많이 다르다"고
+# 표시한다. 막지는 않는다 — 어차피 대표 승인이 있어야 반영되기 때문이다. 다만 그
+# 숫자를 보지 못한 채 승인하면 Universe 성격이 통째로 바뀔 수 있으므로 눈에 띄게
+# 적어 둔다(2026-08-26 퀀트 3차 감사).
+SIZE_MISMATCH_RATIO = 0.1
+
 APPLY_NOTE = ("이 문서는 제안일 뿐이다. tickers.js·main 반영은 대표 승인 후 사람이 "
               "직접 한다. 이 코드에는 자동 반영 경로가 없다.")
 
@@ -176,6 +182,8 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
     removals = [{"code": f.get("code"), "name": f.get("name"),
                  "sector": f.get("sector"), "cause": f.get("cause"),
                  "market": f.get("market"),
+                 "safestKnownCap": f.get("safestKnownCap"),
+                 "safestKnownCapRank": f.get("safestKnownCapRank"),
                  "missingDayCount": f.get("missingDayCount"),
                  "elapsedTradingDays": f.get("elapsedTradingDays"),
                  "evidence": f.get("evidence"), "fingerprint": f.get("fingerprint")}
@@ -197,8 +205,35 @@ def build_proposal(*, coverage_report, standby_pool, coverage_history=None, now=
         base["expectedConfiguredCoverage"] = expected
         return base
 
+    # 크기 차이를 계산해 제안서에 박아 둔다(승인 전에 반드시 보이도록).
+    size_notes, mismatch_n = [], 0
+    for removal, addition in zip(removals, additions):
+        out_cap = removal.get("lastKnownCap") or removal.get("safestKnownCap")
+        in_cap = addition.get("marketCap") or addition.get("capAtSnapshot")
+        ratio = None
+        if isinstance(out_cap, (int, float)) and isinstance(in_cap, (int, float)) \
+                and out_cap > 0:
+            ratio = float(in_cap) / float(out_cap)
+        mismatch = ratio is not None and ratio < SIZE_MISMATCH_RATIO
+        if mismatch:
+            mismatch_n += 1
+        size_notes.append({
+            "removeCode": removal.get("code"), "removeName": removal.get("name"),
+            "removeCap": out_cap,
+            "addCode": addition.get("code"), "addName": addition.get("name"),
+            "addCap": in_cap,
+            "capRatio": None if ratio is None else round(ratio, 6),
+            "sizeMismatch": mismatch,
+            "note": ("빠지는 종목보다 훨씬 작은 종목이 들어옵니다. 승인하면 Universe "
+                     "성격이 바뀔 수 있습니다." if mismatch else
+                     "크기 차이가 크지 않습니다." if ratio is not None else
+                     "크기를 비교할 수 없습니다(측정값 없음).")})
+
     base.update({
         "status": STATUS_AWAITING,
+        "sizeComparison": size_notes,
+        "sizeMismatchCount": mismatch_n,
+        "sizeMismatchRatio": SIZE_MISMATCH_RATIO,
         "reason": "확정 상장폐지 %d종목에 대한 교체 제안." % len(removals),
         "removals": removals,
         "additions": additions,
