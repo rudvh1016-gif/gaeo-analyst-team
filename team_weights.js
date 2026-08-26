@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-26 10:43",
+ "generatedAt": "2026-08-26 11:13",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2368,
-   "diana": 0.1279,
-   "nova": 0.288,
-   "flow": 0.3473
+   "taro": 0.2413,
+   "diana": 0.129,
+   "nova": 0.2879,
+   "flow": 0.3418
   },
   "acc": {
    "taro": {
     "n": 1308,
-    "acc": 39.1,
-    "adjustedAcc": 40.0,
+    "acc": 39.4,
+    "adjustedAcc": 40.3,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,16 +47,16 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 214,
-    "acc": 48.1,
-    "adjustedAcc": 48.8,
+    "n": 216,
+    "acc": 47.7,
+    "adjustedAcc": 48.5,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 244,
-    "acc": 54.1,
-    "adjustedAcc": 52.7,
+    "n": 242,
+    "acc": 52.9,
+    "adjustedAcc": 51.9,
     "days": 5,
     "deadband": 1.0
    }
@@ -64,10 +64,51 @@ const TEAM_WEIGHTS = {
   "graded": 1766,
   "team": {
    "hit": 1076,
-   "miss": 667,
-   "n": 1743,
-   "acc": 61.7
+   "miss": 665,
+   "n": 1741,
+   "acc": 61.8
   }
  },
- "sectors": {}
+ "sectors": {
+  "바이오·제약": {
+   "weights": {
+    "taro": 0.2532,
+    "diana": 0.1272,
+    "nova": 0.2806,
+    "flow": 0.339
+   },
+   "acc": {
+    "taro": {
+     "n": 150,
+     "acc": 50.0,
+     "adjustedAcc": 50.0,
+     "days": 5,
+     "deadband": 1.0
+    },
+    "diana": {
+     "n": 0,
+     "acc": null,
+     "adjustedAcc": 50.0,
+     "days": 20,
+     "deadband": 3.0
+    },
+    "nova": {
+     "n": 33,
+     "acc": 33.3,
+     "adjustedAcc": 46.4,
+     "days": 5,
+     "deadband": 1.0
+    },
+    "flow": {
+     "n": 18,
+     "acc": 72.2,
+     "adjustedAcc": 52.9,
+     "days": 5,
+     "deadband": 1.0
+    }
+   },
+   "graded": 201,
+   "globalBlend": 0.799
+  }
+ }
 };
