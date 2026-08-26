@@ -402,6 +402,37 @@ def trade_id_for(strategy, symbol, signal_at):
     return hashlib.sha1(f"{strategy}|{symbol}|{signal_at}".encode()).hexdigest()[:16]
 
 
+# ── 전략과 무관한 '원천 Episode' 식별자 ───────────────────────────────────────
+# 왜 필요한가
+#   V1(5거래일 청산)과 Smart V2(5/20/60 재평가)는 **같은 BUY 전환**에서 출발한다.
+#   그런데 trade_id는 위에서 보듯 strategy 이름을 해시에 넣으므로 두 원장의 id가
+#   서로 다르다. 그래서 "같은 신호를 두 전략이 어떻게 다르게 끌고 갔나"를 기계적으로
+#   맞춰볼 방법이 지금까지 없었다. 종목명과 날짜가 비슷하다는 이유로 사람이 눈으로
+#   짝지으면 그건 재구성이지 측정이 아니다.
+#
+# 무엇으로 만드나 (Forward 정보만)
+#   symbol + signal_at(그 BUY 전환을 만든 Production 분석 배치 시각) 두 가지뿐이다.
+#   둘 다 **진입하는 순간 이미 알고 있는 값**이다. 미래가격·청산정보·성과는 절대
+#   들어가지 않는다(들어가면 look-ahead가 된다).
+#   strategy를 넣지 않기 때문에 V1과 V2가 같은 배치의 같은 종목을 보면 값이 같아진다.
+#
+# ⚠️ modelVersion·coverageVersion을 해시에 넣지 않는 이유
+#   두 엔진은 같은 사이클 안에서 순차 실행되지만 파일을 각자 읽는다. 그 사이에
+#   분석 배치가 갱신되면 두 엔진이 다른 버전 문자열을 볼 수 있고, 그러면 같은
+#   Episode인데 id가 갈라져 짝이 조용히 깨진다. 버전은 해시가 아니라 별도 필드로
+#   나란히 기록해서, 짝은 유지하되 조건 차이는 눈에 보이게 한다(1-4 · 5-7).
+#
+# ⚠️ 과거 기록에는 이 필드가 없다. 소급해서 채우지 않는다(Backfill 금지).
+#    없는 행은 LEGACY_UNPAIRED로 남는다 — 판정은 paper_pairing.py가 한다.
+SOURCE_EPISODE_SCHEMA = "gaeo_source_episode_v1"
+
+
+def source_episode_id_for(symbol, signal_at):
+    """전략 독립 Episode id. 같은 (종목, 분석배치)면 어느 전략에서 불러도 같다."""
+    return hashlib.sha1(
+        f"{SOURCE_EPISODE_SCHEMA}|{symbol}|{signal_at}".encode()).hexdigest()[:16]
+
+
 # ── Production Signal 읽기 (auto_analysis.js — 감사로 확인된 실제 소스) ─────
 def load_production_signals(path=None):
     """LIVE_AUTO에서 {code: {"call","confidence","total","name"}}, analysis_completed_at.
@@ -449,7 +480,10 @@ def load_production_signals(path=None):
                              "riskScore": chief.get("riskScore"),
                              "riskGrade": chief.get("riskGrade")}
     return {"signals": signals, "analysisCompletedAt": completed,
-            "modelVersion": next(iter(d.get("stocks", {}).values()), {}).get("chief", {}).get("modelVersion")}
+            "modelVersion": next(iter(d.get("stocks", {}).values()), {}).get("chief", {}).get("modelVersion"),
+            # Universe(분석 대상 종목 집합) 버전. Episode 해시에는 넣지 않고
+            # 기록에만 남긴다 — 짝은 유지하되 비교 조건 차이는 보이게 하려는 것이다.
+            "coverageVersion": d.get("coverageUniverseVersion")}
 
 
 def load_market_map(path=None):
@@ -988,6 +1022,10 @@ class PaperEngine:
         bundle = signals_bundle or load_production_signals()
         signals = bundle["signals"]
         analysis_at = bundle.get("analysisCompletedAt")
+        # 진입 기록에 함께 남길 '그때의 조건'. 시그니처를 바꾸면 _process_entries를
+        # 재정의한 전략(paper_momentum)이 깨지므로 self에 얹어 전달한다.
+        self._batch_model_version = bundle.get("modelVersion")
+        self._batch_coverage_version = bundle.get("coverageVersion")
 
         # ② 최초 실행 = Baseline 캡처만 (기존 BUY를 소급 매수하지 않는다 — Backfill 금지)
         if not self.state["baselineCaptured"]:
@@ -1052,6 +1090,14 @@ class PaperEngine:
             base = {
                 "trade_id": tid, "environment": self.environment,
                 "strategy_version": self.state["strategyVersion"],
+                # 🔗 전략과 무관한 원천 Episode id. V1과 V2가 같은 BUY 전환을 보면
+                #    같은 값이 되어, 두 원장을 기계적으로 짝지을 수 있다.
+                #    이 필드가 없는 과거 행은 짝을 만들지 않는다(LEGACY_UNPAIRED).
+                "source_episode_id": source_episode_id_for(code, analysis_at),
+                "source_episode_schema": SOURCE_EPISODE_SCHEMA,
+                # 비교 조건. 해시에는 들어가지 않는다(위 주석 참고).
+                "signal_model_version": getattr(self, "_batch_model_version", None),
+                "signal_coverage_version": getattr(self, "_batch_coverage_version", None),
                 "symbol": code, "name": signals[code]["name"],
                 "market": market_map.get(code),
                 "signal": "BUY", "signal_confidence": signals[code]["confidence"],

@@ -27,7 +27,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "market_universe", "sector_source_probe.json")
 MAP_OUT = os.path.join(HERE, "market_universe", "sector_map.json")
 CROSSWALK_GATE = 0.95   # 법인 수 가중 crosswalk 커버리지 최소선 (미달이면 GATE_FAIL)
+# 업종 칸이 실제로 채워져 있는 행의 비율 최소선. CROSSWALK_GATE와 숫자는 같지만
+# 뜻이 전혀 다르다 — 저쪽은 "업종명이 GAEO 24분류에 매핑되는 비율"이고 이쪽은
+# "업종 칸이 비어 있지 않은 비율"이다. 하나로 묶어 쓰면 crosswalk를 손볼 때
+# 이 게이트가 같이 움직인다(2026-08-26 QA 지적). 그래서 따로 둔다.
+INDUSTRY_FILL_MIN = 0.95
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+
+# ── 승격 게이트 상수는 새로 만들지 않는다 ────────────────────────────────────
+# 이 값들은 이미 저장소 다른 곳에서 "이 자료를 믿어도 되는가"를 판정하는 데
+# 쓰이고 있다. 여기서 숫자를 다시 적으면 한쪽만 고쳐졌을 때 두 잣대가 조용히
+# 어긋난다. 그래서 원본에서 가져다 쓴다(Single Source of Truth).
+#   KRX_CORPLIST_MIN_COUNT   Guardian이 상장 증거로 인정하는 최소 법인 수
+#   KRX_CORPLIST_REJECT_GATES Guardian이 거부하는 gate 값
+#   MIN_COVERAGE_RATIO       수집기가 "직전 정상분 대비 급감"을 판정하는 비율
+from gaeo_coverage.guardian import (KRX_CORPLIST_MIN_COUNT,      # noqa: E402
+                                    KRX_CORPLIST_REJECT_GATES)
+from collect_market_universe import MIN_COVERAGE_RATIO           # noqa: E402
 
 
 def fetch(url, referer, tries=2):
@@ -88,19 +104,25 @@ def probe_krx_corplist(market_type, market_name):
             "_codeIndustry": code_industry}
 
 
-def write_sector_map(report, code_industry):
-    """검증된 code→업종명 최소 맵 + crosswalk 커버리지 게이트 판정을 기록한다.
+def load_last_good():
+    """지금 쓰이고 있는 sector_map.json. 없거나 깨졌으면 None(첫 수집으로 본다)."""
+    try:
+        with open(MAP_OUT, encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d.get("map"), dict) else None
+    except Exception:
+        return None
 
-    ⚠️ 게이트(법인 수 가중 crosswalk 커버리지 ≥ 95%) 미달이면 GATE_FAIL로 기록만
-       하고, 수집기(collect_market_universe)가 이 맵을 업종 통계에 쓰지 않는다.
-    """
+
+def build_candidate(report, code_industry):
+    """후보 payload를 메모리에서 만든다. 이 함수는 파일을 쓰지 않는다."""
     merged_hist = {}
     for src in report["sources"].values():
         for ind, n in (src.get("industryHistogram") or {}).items():
             merged_hist[ind] = merged_hist.get(ind, 0) + n
     cov = sector_crosswalk.coverage(merged_hist)
     gate = "GATE_PASS" if cov["ratio"] >= CROSSWALK_GATE else "GATE_FAIL"
-    payload = {
+    return {
         "schemaVersion": "gaeo_sector_map_v1",
         "asOf": report["ranAt"],
         "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
@@ -113,12 +135,105 @@ def write_sector_map(report, code_industry):
         # sector_crosswalk가 수행한다(맵 재수집 없이 crosswalk 개선 가능).
         "map": dict(sorted(code_industry.items())),
     }
+
+
+def validate_candidate(report, candidate, last_good=None):
+    """승격해도 되는 후보인가. 실패 사유 리스트를 돌려준다(빈 리스트 = 통과).
+
+    ⭐ 왜 이 검사가 필요한가 (2026-08-26 감사)
+       예전에는 두 시장의 fetch가 성공하기만 하면 곧바로 sector_map.json을
+       덮어썼다. 그런데 시장 status는 "유효한 6자리 코드가 1건이라도 있으면 OK"라,
+       KRX 응답이 잘려서 3건만 와도 OK가 됐다. 그 상태로 덮어쓰면 2,596법인짜리
+       last-good이 3법인짜리 파일로 파괴되고, Guardian은 상장 증거를 잃는다.
+       crosswalk 게이트도 마찬가지로 '기록만' 하고 쓰기를 막지 않았다.
+       그래서 검증에 실패한 후보가 last-good을 덮는 경로를 여기서 끊는다.
+    """
+    fails = []
+    srcs = report.get("sources") or {}
+
+    # 1·2. 두 시장 모두 정상 응답이어야 한다(한쪽만으로 전체를 대체하지 않는다).
+    for name in ("krx_corplist_KOSPI", "krx_corplist_KOSDAQ"):
+        st = (srcs.get(name) or {}).get("status")
+        if st != "OK":
+            fails.append(f"{name} 상태가 OK가 아니다({st})")
+
+    # 3. 스키마 — 종목코드·업종 컬럼을 실제로 찾았는가.
+    for name, s in srcs.items():
+        if s.get("status") == "SCHEMA_UNEXPECTED":
+            fails.append(f"{name} 스키마가 예상과 다르다(columns={s.get('columns')})")
+
+    # 4·5. 코드 형식과 중복. build_candidate가 dict로 모으므로 중복은 이미
+    #      한 건으로 접히지만, 접히기 전 원자료 건수와 비교해 손실을 드러낸다.
+    bad = [c for c in candidate["map"] if not re.match(r"^\d{6}$", c)]
+    if bad:
+        fails.append(f"6자리가 아닌 코드 {len(bad)}건(예: {bad[:3]})")
+
+    # 6. 최소 법인 수 — Guardian이 상장 증거로 인정하는 하한과 같은 값을 쓴다.
+    if candidate["corpCount"] < KRX_CORPLIST_MIN_COUNT:
+        fails.append(f"법인 수 {candidate['corpCount']}건 < 최소 {KRX_CORPLIST_MIN_COUNT}건")
+
+    # 7. 업종 채움 비율 — 코드만 있고 업종이 비면 업종 맵으로서 의미가 없다.
+    for name, s in srcs.items():
+        if s.get("status") == "OK" and (s.get("industryFillRatio") or 0) < INDUSTRY_FILL_MIN:
+            fails.append(f"{name} 업종 채움 비율 {s.get('industryFillRatio')} < {INDUSTRY_FILL_MIN}")
+
+    # 8. crosswalk 게이트 — Guardian이 거부하는 gate 값이면 승격하지 않는다.
+    gate = candidate["crosswalkCoverage"]["gate"]
+    if gate in KRX_CORPLIST_REJECT_GATES:
+        fails.append(f"crosswalk {gate}"
+                     f" (커버리지 {candidate['crosswalkCoverage']['ratio']:.2%}"
+                     f" < {CROSSWALK_GATE:.0%})")
+
+    # 9. 수집 시각이 해석 가능한가. Guardian이 신선도를 이 값으로 잰다.
+    try:
+        datetime.fromisoformat(str(candidate["asOf"]).replace("Z", "+00:00"))
+    except Exception:
+        fails.append(f"asOf를 해석할 수 없다({candidate.get('asOf')!r})")
+
+    # 10. 직전 정상분 대비 급감 — 수집기가 쓰는 것과 같은 비율을 쓴다.
+    prev = (last_good or {}).get("corpCount") or 0
+    if prev and candidate["corpCount"] < prev * MIN_COVERAGE_RATIO:
+        fails.append(f"법인 수 급감 {prev}건 → {candidate['corpCount']}건"
+                     f" (직전 대비 {candidate['corpCount'] / prev:.1%}"
+                     f" < {MIN_COVERAGE_RATIO:.0%})")
+    return fails
+
+
+def promote(candidate):
+    """검증을 통과한 후보만 last-good 자리에 원자적으로 올린다."""
     tmp = MAP_OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=0)
+        json.dump(candidate, f, ensure_ascii=False, indent=0)
+        f.flush()
+        os.fsync(f.fileno())     # 전원이 끊겨도 반쪽짜리 파일이 남지 않게
     os.replace(tmp, MAP_OUT)
-    print(f"[probe] sector_map: {len(code_industry)}법인 · crosswalk {cov['ratio']:.2%} "
-          f"({gate}) → {MAP_OUT}")
+
+
+def write_sector_map(report, code_industry):
+    """후보 생성 → 검증 → (통과할 때만) 승격. 실패하면 기존 파일은 1바이트도 안 바뀐다.
+
+    반환: 승격했으면 True, 거부했으면 False.
+    """
+    last_good = load_last_good()
+    candidate = build_candidate(report, code_industry)
+    fails = validate_candidate(report, candidate, last_good)
+    cov = candidate["crosswalkCoverage"]
+
+    if fails:
+        print(f"[probe] sector_map 승격 거부 — 기존 파일을 그대로 둔다({MAP_OUT})")
+        for reason in fails:
+            print(f"[probe]   · {reason}")
+        if last_good:
+            print(f"[probe]   유지되는 last-good: {last_good.get('corpCount')}법인 · "
+                  f"asOf {last_good.get('asOf')}")
+        else:
+            print("[probe]   주의: last-good이 없어 업종 맵이 여전히 비어 있다")
+        return False
+
+    promote(candidate)
+    print(f"[probe] sector_map 승격: {candidate['corpCount']}법인 · "
+          f"crosswalk {cov['ratio']:.2%} ({cov['gate']}) → {MAP_OUT}")
+    return True
 
 
 def main():
@@ -135,14 +250,37 @@ def main():
     ok = all(s.get("status") == "OK" for s in report["sources"].values())
     report["verdict"] = "SOURCE_AVAILABLE" if ok else "BLOCKED_SOURCE"
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, OUT)
-    print(f"[probe] verdict={report['verdict']} → {OUT}")
-    if ok:
-        write_sector_map(report, code_industry)
-    return 0 if ok else 1
+
+    # ⚠️ 프로브 보고서는 sector_map과 함께 움직여야 한다 (2026-08-26 QA 지적).
+    #    예전에는 검증 전에 무조건 덮어써서, 승격이 거부돼도 보고서만 새 것이 됐다.
+    #    그러면 ① 두 파일이 서로 다른 수집분을 가리켜 어긋나고
+    #         ② 거부 사유가 GATE_FAIL일 때 그 히스토그램이 커밋되면서
+    #            test_market_universe의 "실측 crosswalk ≥ 95%" 단정이 저장소
+    #            전체에서 깨진다(스모크 워크플로가 종료 코드와 무관하게 커밋한다).
+    #    그래서 승격이 실제로 일어났을 때만 보고서를 교체한다.
+    def save_report():
+        tmp = OUT + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=1)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, OUT)
+        print(f"[probe] verdict={report['verdict']} → {OUT}")
+
+    if not ok:
+        # 소스가 막혔다(해외 IP 차단 등). 네이버 같은 벤더 자료로 대체하지 않는다.
+        # last-good을 그대로 두고 정직하게 BLOCKED_SOURCE로 끝낸다.
+        print(f"[probe] verdict={report['verdict']}")
+        print("[probe] BLOCKED_SOURCE — 업종 맵도 프로브 보고서도 건드리지 않는다"
+              "(last-good 유지)")
+        return 1
+    # fetch가 됐어도 내용이 온전하지 않으면 승격하지 않는다.
+    # 거부는 실패다(exit 2) — 조용히 0으로 끝나면 자동화가 '갱신됐다'고 오해한다.
+    if not write_sector_map(report, code_industry):
+        print("[probe] 프로브 보고서도 그대로 둔다 — 맵과 보고서가 어긋나지 않게")
+        return 2
+    save_report()
+    return 0
 
 
 if __name__ == "__main__":
