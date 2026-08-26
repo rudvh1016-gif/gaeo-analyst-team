@@ -436,6 +436,33 @@ if real_led and real_cur:
           == len({r["trade_id"] for r in real_led
                   if r.get("status") == "OPEN" and r.get("environment") == "LIVE_PAPER"}))
 
+# ── 집계에 두 회계 기준이 섞였다는 사실을 숨기지 않는다 (2026-08-26) ──────────
+# 거래별 returnBasis가 있어도, 그 행들을 평균낸 값에 표시가 없으면 보는 사람은
+# 한 가지 기준으로 잰 값이라고 읽는다. 2026-08-27 전후로 실제로 섞이는 구간이 생긴다.
+def _sell(basis, ret, pnl):
+    return {"symbol": "000000", "name": "테스트", "market": "KOSPI",
+            "quantity": 10, "entryPrice": 1000.0, "exitPrice": 1000.0 + ret * 10,
+            "exitAt": "10:00", "realizedPnl": pnl, "returnPct": ret,
+            "returnBasis": basis, "benchmarkReturnPct": None, "benchmarkBasis": None,
+            "holdingTradingDays": 5, "exitReason": "종료", "mfePct": None, "maePct": None}
+
+
+_mixed = ph._stats([_sell("GROSS", 1.0, 100), _sell("NET", -1.0, -100)])
+check("BM1. 기준이 섞이면 MIXED라고 밝힌다", _mixed["returnBasis"] == "MIXED",
+      str(_mixed.get("returnBasis")))
+check("BM2. 각 기준이 몇 건인지 함께 낸다",
+      _mixed["returnBasisCounts"] == {"GROSS": 1, "NET": 1},
+      str(_mixed.get("returnBasisCounts")))
+check("BM3. 섞였을 때만 설명을 붙인다", bool(_mixed["returnBasisNote"]))
+check("BM4. 그래도 평균 숫자 자체는 고치지 않는다(사실을 적을 뿐)",
+      _mixed["avgReturnPct"] == 0.0, str(_mixed.get("avgReturnPct")))
+
+_pure = ph._stats([_sell("NET", 1.0, 100), _sell("NET", -1.0, -100)])
+check("BM5. 대조군 — 한 기준뿐이면 그 이름을 그대로 낸다",
+      _pure["returnBasis"] == "NET", str(_pure.get("returnBasis")))
+check("BM6. 대조군 — 섞이지 않았으면 설명을 붙이지 않는다",
+      _pure["returnBasisNote"] is None)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")

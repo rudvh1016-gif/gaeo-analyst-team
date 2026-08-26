@@ -509,8 +509,22 @@ def _stats(rows, gated=False):
     # paper_engine.EVIDENCE_GATED_FIELDS와 같은 원칙이다: 일부만 막으면 구멍이 남는다.
     # ⚠️ tradeCount·realizedPnl·avgHoldingTradingDays는 서술 지표라 막지 않는다
     #    (몇 건인지·실제로 얼마를 벌거나 잃었는지는 사실이고, 성과 "결론"이 아니다).
+    # 🧾 이 집계에 들어간 행들이 같은 회계 기준인지 밝힌다.
+    #    2026-08-27 전후로 GROSS 행과 NET 행이 함께 섞이는 구간이 실제로 생긴다.
+    #    행마다 returnBasis가 붙어 있어도, 그 행들을 평균낸 값에 아무 표시가 없으면
+    #    보는 사람은 한 가지 기준으로 잰 값이라고 읽는다. 숫자를 고치지 말고
+    #    "섞였다"는 사실을 그대로 적는다(성과를 유리하게 고르지 않는다).
+    bases = sorted({r.get("returnBasis") for r in rows
+                    if r.get("returnPct") is not None and r.get("returnBasis")})
     return {
         "tradeCount": len(rows),
+        "returnBasis": (bases[0] if len(bases) == 1 else ("MIXED" if bases else None)),
+        "returnBasisCounts": {b: sum(1 for r in rows if r.get("returnBasis") == b)
+                              for b in bases} or None,
+        "returnBasisNote": ("이 평균에는 수수료·세금을 반영한 거래와 반영하지 않은 "
+                            "옛 거래가 함께 들어 있습니다. 과거 기록을 다시 쓰지 않기 "
+                            "때문이며, 거래별 기준은 각 행의 returnBasis에 있습니다."
+                            if len(bases) > 1 else None),
         "winRatePct": None if gated else (round(len(wins) / len(rets) * 100, 1) if rets else None),
         "avgReturnPct": None if gated else avg(rets),
         "medianReturnPct": None if gated else med,
