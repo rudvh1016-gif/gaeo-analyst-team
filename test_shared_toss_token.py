@@ -51,8 +51,12 @@ TOKEN_INFRA_FILES = frozenset({
 })
 
 #: 매매 판단이 들어 있는 모듈. 공유토큰 기능이 여기 스며들면 즉시 실패한다.
+# ⚠️ 새 매매 판단 모듈을 만들면 반드시 여기에 추가한다. 목록에 없으면 D9b가
+#    그 파일을 아예 읽지 않아, 공유토큰이 새로 들어와도 조용히 통과한다.
+#    (2026-08-26: paper_smart_v2.py 신설 — 등록이 빠져 있어 채웠다)
 TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
-                         "paper_public.py", "paper_report.py")
+                         "paper_public.py", "paper_report.py",
+                         "paper_smart_v2.py")
 
 
 def _git(*args):
