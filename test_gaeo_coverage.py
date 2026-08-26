@@ -99,11 +99,33 @@ def snap_item(code, **kw):
     return item
 
 
-def write_snapshot(path, items, as_of):
+def write_snapshot(path, items, as_of, pad_to=None):
+    """전체시장 snapshot 픽스처.
+
+    pad_to=None 이면 기본값(실제와 비슷한 크기)으로 채운다. '잘린 snapshot' 자체를
+    시험할 때만 pad_to=0을 줘서 준 항목만 쓴다.
+    """
+    items = list(items)
+    if pad_to is None:
+        pad_to = REALISTIC_SNAPSHOT_COUNT
+    need = max(0, pad_to - len(items)) if pad_to else 0
     doc = {"schemaVersion": 1, "asOf": as_of, "kstDay": as_of[:10],
-           "source": "test", "rawCount": len(items), "items": items}
-    with gzip.open(path, "wt", encoding="utf-8") as f:
-        json.dump(doc, f, ensure_ascii=False)
+           "source": "test", "rawCount": len(items) + need, "items": items}
+    text = json.dumps(doc, ensure_ascii=False)
+    if need:
+        # 채움 종목은 매번 같다. guard_days()가 하루마다 snapshot을 다시 쓰기
+        # 때문에 3,000개를 매번 직렬화하면 테스트 전체가 몇 배 느려진다.
+        # 직렬화 결과를 캐시해서 문자열로 이어 붙인다.
+        frag = _FILLER_JSON_CACHE.get(need)
+        if frag is None:
+            frag = json.dumps(snapshot_filler_items([i["code"] for i in items], need),
+                              ensure_ascii=False)[1:-1]
+            _FILLER_JSON_CACHE[need] = frag
+        assert text.endswith("]}"), text[-20:]
+        text = text[:-2] + ("," if items else "") + frag + "]}"
+    # compresslevel=1 — 픽스처는 하루마다 다시 쓰므로 압축률보다 속도가 중요하다
+    with gzip.open(path, "wt", encoding="utf-8", compresslevel=1) as f:
+        f.write(text)
 
 
 # 테스트용 기본 업종 — 실제 KRX 업종명 표기를 그대로 쓴다(정상 제조업 / 집합투자기구).
@@ -176,6 +198,40 @@ def write_market_map(path, codes, market="KOSPI"):
 OUTSIDE_ITEMS = [snap_item("%06d" % (900000 + i * 10), cap=1e12 - i)
                  for i in range(1, 6)]
 
+# 실제 전체시장 snapshot은 3,922종목이다. 픽스처가 600종목짜리 snapshot을 쓰면
+# guardian.SNAPSHOT_MIN_ITEM_COUNT("잘린 자료의 '없음'은 부재의 근거가 아니다")
+# 가드에 먼저 걸려, 정작 보려던 시나리오를 한 줄도 못 밟는다. 그래서 Universe·
+# OUTSIDE_ITEMS와 겹치지 않는 아주 작은 종목으로 실제와 비슷한 크기를 만든다.
+# (시총을 작게 두어야 검사 대상 종목의 순위가 픽스처마다 흔들리지 않는다.)
+# 실제는 3,922종목이지만 픽스처는 가드 기준(guardian.SNAPSHOT_MIN_ITEM_COUNT=3000)
+# 바로 위까지만 채운다. guard_days()가 하루마다 snapshot을 다시 쓰기 때문에 실제
+# 크기를 그대로 쓰면 테스트가 10배 느려진다. 가드를 밟는 데 필요한 만큼만 채운다.
+REALISTIC_SNAPSHOT_COUNT = 3005
+SNAPSHOT_FILLER_START = 200000
+_FILLER_CACHE = None
+_FILLER_JSON_CACHE = {}
+
+
+def snapshot_filler_items(exclude, n):
+    """순위·자격에 영향을 주지 않는 아주 작은 채움 종목 n개(생성 결과는 캐시)."""
+    global _FILLER_CACHE
+    if _FILLER_CACHE is None:
+        _FILLER_CACHE = [snap_item("%06d" % (SNAPSHOT_FILLER_START + i * 10),
+                                   cap=1.0e7 - i) for i in range(4500)]
+    ex = set(exclude)
+    picked = [it for it in _FILLER_CACHE if it["code"] not in ex][:n]
+    assert len(picked) == n, "채움 종목이 모자란다"
+    return picked
+
+
+def write_universe_state(path, status="READY", as_of=None):
+    doc = {"status": status,
+           "asOf": (as_of or NOW).isoformat(),
+           "kstDay": str((as_of or NOW).date()),
+           "rawCount": REALISTIC_SNAPSHOT_COUNT}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False)
+
 
 class Fixture:
     """임시 디렉터리에 tickers/data/auto/snapshot 한 벌을 만든다."""
@@ -189,7 +245,9 @@ class Fixture:
         self.sector_map = os.path.join(tmp, "sector_map.json")
         self.krx = os.path.join(tmp, "krx_corplist.json")
         self.market_map = os.path.join(tmp, "krx_list.json")
+        self.universe_state = os.path.join(tmp, "state.json")
         self.snapshot_items = None      # refresh_sources가 다시 쓸 원본
+        self.snapshot_pad = None        # 0으로 두면 '잘린 snapshot'을 그대로 쓴다
         self.krx_listed = []
         self.observations = os.path.join(tmp, "observations.json")
         self.report = os.path.join(tmp, "coverage_state.json")
@@ -199,7 +257,7 @@ class Fixture:
     def guard(self, now=NOW):
         return guardian.run(tickers_path=self.tickers, data_js_path=self.data,
                             auto_js_path=self.auto, snapshot_path=self.snapshot,
-                            universe_state_path=os.path.join(self.tmp, "no_state.json"),
+                            universe_state_path=self.universe_state,
                             krx_corplist_path=self.krx, market_map_path=self.market_map,
                             observations_path=self.observations,
                             report_out=self.report, write=True, now=now)
@@ -213,7 +271,8 @@ class Fixture:
         if self.snapshot_items is None:
             return
         write_snapshot(self.snapshot, self.snapshot_items,
-                       (now - datetime.timedelta(hours=6)).isoformat())
+                       (now - datetime.timedelta(hours=6)).isoformat(),
+                       pad_to=self.snapshot_pad)
         if refresh_krx:
             write_krx_corplist(self.krx, self.krx_listed,
                                as_of=now - datetime.timedelta(hours=6))
@@ -225,10 +284,15 @@ class Fixture:
         '실행 횟수'가 아니라 '날짜'로 세는지 확인하기 위한 헬퍼다.
         """
         report = None
+        # snapshot을 하루도 빠짐없이 다시 쓸 필요는 없다. 상폐 판정이 요구하는
+        # 신선도는 SNAPSHOT_MAX_AGE_DAYS_FOR_DELISTING(3일)이므로 그 주기로만
+        # 갱신해도 판정 결과가 같고, 마지막 날은 반드시 갱신한다.
+        # (매일 다시 쓰면 3,000종목 gzip을 수백 번 만들어 테스트가 몇 배 느려진다.)
+        every = max(1, guardian.SNAPSHOT_MAX_AGE_DAYS_FOR_DELISTING)
         for d in range(days):
             for k in range(per_day):
                 now = start + datetime.timedelta(days=d, minutes=5 * k)
-                if refresh and k == 0:
+                if refresh and k == 0 and (d % every == 0 or d == days - 1):
                     self.refresh_sources(now, refresh_krx=refresh_krx)
                 report = self.guard(now=now)
         return report
@@ -259,7 +323,7 @@ class Fixture:
 def make_fixture(tmp, *, configured=600, missing=(), stale=(), snapshot_as_of=None,
                  snapshot_overrides=None, extra_snapshot_items=(),
                  drop_from_snapshot=(), krx_listed=None, krx_delisted=(),
-                 krx_as_of=None):
+                 krx_as_of=None, default_cap=None):
     """configured개 종목 Universe + 그중 missing만 시세에서 빠진 상태."""
     fx = Fixture(tmp)
     codes = synth_codes(configured)
@@ -270,11 +334,14 @@ def make_fixture(tmp, *, configured=600, missing=(), stale=(), snapshot_as_of=No
 
     overrides = snapshot_overrides or {}
     dropped = set(drop_from_snapshot)
-    items = [snap_item(c, **overrides.get(c, {})) for c in codes if c not in dropped]
+    base = {} if default_cap is None else {"cap": default_cap}
+    items = [snap_item(c, **dict(base, **overrides.get(c, {})))
+             for c in codes if c not in dropped]
     items += list(extra_snapshot_items)
     write_snapshot(fx.snapshot, items,
                    snapshot_as_of or (NOW - datetime.timedelta(hours=6)).isoformat())
     write_sector_map(fx.sector_map, [i["code"] for i in items])
+    write_universe_state(fx.universe_state)
     # 독립 소스에는 기본적으로 Universe 전체가 '상장 중'으로 들어 있다.
     # 상폐 시나리오는 krx_listed 인자로 명시적으로 빼야 한다.
     if krx_listed is not None:
@@ -292,8 +359,12 @@ def make_fixture(tmp, *, configured=600, missing=(), stale=(), snapshot_as_of=No
 
 
 # 시가총액 크기 — 대형주 가드(상위 300위) 안/밖을 확실히 가르는 값.
-SMALL_CAP = 1.0e8            # 600종목 중 꼴찌 → 가드 밖
-MEGA_CAP = 9.9e14            # 1위 → 가드 안
+SMALL_CAP = 1.0e8            # 600종목 중 꼴찌 → 순위·절대크기 둘 다 가드 밖
+MEGA_CAP = 9.9e14            # 1위 + 절대 하한 위 → 두 가드 모두에 걸린다
+# 순위 가드만 따로 시험하기 위한 크기 — 순위는 1위지만 절대 하한(1조)보다 작다.
+# (두 가드가 겹쳐 있으면 하나를 꺼도 다른 하나가 막아서 뮤테이션이 무의미해진다)
+RANK_ONLY_CAP = 6.0e11       # 0.6조
+RANK_ONLY_BASE_CAP = 5.0e11  # 나머지 종목 0.5조
 
 
 def live_then_delisted(tmp, *, code="000010", cap=SMALL_CAP, alive_days=6,
@@ -518,7 +589,12 @@ class GuardianCoreTest(unittest.TestCase):
         self.assertIsNone(guardian.load_krx_corplist(fx.krx))
 
     def test_06f_stale_independent_source_is_rejected(self):
-        """독립 원장이 너무 오래되면 그 부재를 '지금 없다'의 근거로 쓸 수 없다."""
+        """독립 원장을 믿을 수 없으면 상폐로 확정하지 않는다.
+
+        ⚠️ 이 테스트는 '나이 가드'에 도달하기 전에 더 앞선 분기(원장이 부재 시작보다
+           먼저 수집됨)에서 막힌다. 나이 가드(KRX_CORPLIST_MAX_AGE_DAYS) 자체를
+           잠그는 것은 test_low1_m11이다(2026-08-26 독립 QA 감사 지적).
+        """
         fx, rep = live_then_delisted(self.tmp)
         self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
         write_krx_corplist(fx.krx, fx.krx_listed,
@@ -569,10 +645,43 @@ class GuardianCoreTest(unittest.TestCase):
         결과가 그대로면 가드는 아무 일도 하지 않는 죽은 코드라는 뜻이다.
         위 test_06i가 다시 가짜 테스트가 되는 것을 이 테스트가 막는다.
         """
+        # 절대 시총 하한 가드와 겹치지 않는 크기를 쓴다 — 순위는 1위지만 0.6조라
+        # 절대 하한(1조) 아래다. 그래야 '순위 가드'만 껐을 때 결과가 바뀐다.
         real = guardian.MEGA_CAP_RANK_GUARD
         self.addCleanup(setattr, guardian, "MEGA_CAP_RANK_GUARD", real)
+
+        _, blocked = live_then_delisted(self.tmp, cap=RANK_ONLY_CAP,
+                                        default_cap=RANK_ONLY_BASE_CAP)
+        self.assertEqual(blocked["findings"][0]["safestKnownCapRank"], 1)
+        self.assertEqual(blocked["findings"][0]["cause"], guardian.PIPELINE_BUG)
+
         guardian.MEGA_CAP_RANK_GUARD = 0
-        _, rep = live_then_delisted(self.tmp, cap=MEGA_CAP)
+        tmp2 = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp2, True)
+        _, rep = live_then_delisted(tmp2, cap=RANK_ONLY_CAP,
+                                    default_cap=RANK_ONLY_BASE_CAP)
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_06i4_absolute_cap_floor_is_live_code(self):
+        """⭐ 뮤테이션 — 절대 시총 하한을 무한대로 올리면 큰 회사가 상폐로 바뀐다.
+
+        순위 가드는 경계가 칼날처럼 좁다(실측 300위 1.612조 / 301위 1.610조).
+        절대 크기 가드는 그 바로 밖에 있는 회사를 받치는 두 번째 그물이다.
+        """
+        real_floor = guardian.MEGA_CAP_ABS_FLOOR
+        real_rank = guardian.MEGA_CAP_RANK_GUARD
+        self.addCleanup(setattr, guardian, "MEGA_CAP_ABS_FLOOR", real_floor)
+        self.addCleanup(setattr, guardian, "MEGA_CAP_RANK_GUARD", real_rank)
+
+        # 순위 가드는 꺼 두고(=순위로는 안 걸리는 상황) 절대 크기만 남긴다
+        guardian.MEGA_CAP_RANK_GUARD = 0
+        _, blocked = live_then_delisted(self.tmp, cap=MEGA_CAP)
+        self.assertEqual(blocked["findings"][0]["cause"], guardian.PIPELINE_BUG)
+
+        guardian.MEGA_CAP_ABS_FLOOR = float("inf")
+        tmp2 = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp2, True)
+        _, rep = live_then_delisted(tmp2, cap=MEGA_CAP)
         self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
 
     def test_06i3_size_unknown_is_never_delisting(self):
@@ -592,7 +701,12 @@ class GuardianCoreTest(unittest.TestCase):
         self.assertEqual(rep["replaceableCount"], 0)
 
     def test_06j_class_share_absence_is_review_not_delisting(self):
-        """종류주(끝자리 0이 아님)는 KRX 법인목록 부재를 근거로 쓸 수 없다."""
+        """종류주가 섞여 있어도 교체 대상이 되지 않는다.
+
+        ⚠️ 이 픽스처의 종류주는 snapshot에 한 번도 없어서 '크기 불명' 분기에서
+           먼저 멈춘다. 종류주 코드 규칙 가드 자체를 잠그는 것은
+           test_low1_m13이다(2026-08-26 독립 QA 감사 지적).
+        """
         fx, codes = make_fixture(self.tmp, configured=600)
         # 우선주 코드를 하나 끼워 넣는다
         codes2 = list(codes[:-1]) + ["005935"]
@@ -786,20 +900,37 @@ class GuardianCoreTest(unittest.TestCase):
         self.assertEqual(rep["findings"][0]["absentDayCount"], 0)
         self.assertIsNone(rep["findings"][0]["firstAbsentAt"])
 
-    def test_06r4_absence_clock_is_live_code(self):
-        """뮤테이션 — 부재 기준을 0으로 낮추면 하루 부재도 상폐가 된다."""
-        real_days = guardian.PERSISTENT_MISSING_MIN_DAYS
-        real_td = guardian.MIN_ELAPSED_TRADING_DAYS
-        self.addCleanup(setattr, guardian, "PERSISTENT_MISSING_MIN_DAYS", real_days)
-        self.addCleanup(setattr, guardian, "MIN_ELAPSED_TRADING_DAYS", real_td)
+    def test_06r4_delisting_reads_the_absence_clock_not_the_price_clock(self):
+        """⭐ 상폐 판정이 실제로 '부재 시계'를 읽는지 배선 자체를 확인한다.
+
+        ⚠️ 상수를 0으로 내리는 방식은 이 성질을 잠그지 못한다. 두 시계가 같은
+           상수(PERSISTENT_MISSING_MIN_DAYS · MIN_ELAPSED_TRADING_DAYS)를 쓰기
+           때문에, 판정이 시세 시계를 보도록 되돌려 놔도 0이면 그냥 통과한다.
+           실제로 독립 QA 감사가 그 뮤테이션을 걸어 예전 이 테스트가 살아남는 것을
+           보였다(2026-08-26 HIGH-1). 그래서 상수 대신 **부재 시계 함수 자체**를
+           바꿔치기해서, 판정이 그 함수를 따라 움직이는지 직접 본다.
+        """
+        real_fn = guardian.is_absence_persistent
+        self.addCleanup(setattr, guardian, "is_absence_persistent", real_fn)
+
         fx, _ = make_fixture(self.tmp, missing=("000010",),
                              snapshot_overrides={"000010": {"cap": SMALL_CAP}})
-        fx.guard_days(60)
+        fx.guard_days(60)                      # 시세 시계는 이미 한참 지났다
         fx.leave_market(["000010"])
-        guardian.PERSISTENT_MISSING_MIN_DAYS = 0
-        guardian.MIN_ELAPSED_TRADING_DAYS = 0
-        rep = fx.guard_days(1, start=NOW + datetime.timedelta(days=60))
-        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        # 부재 이틀차 — 독립 원장이 '사라진 뒤'에 수집되도록 하루 더 돌린다
+        rep = fx.guard_days(2, start=NOW + datetime.timedelta(days=60))
+        f = rep["findings"][0]
+        self.assertEqual(f["cause"], guardian.UNKNOWN)
+        self.assertLess(f["absentDayCount"], guardian.PERSISTENT_MISSING_MIN_DAYS)
+        # 시세 시계는 진작 충족돼 있다 — 그런데도 위에서 막혔다는 게 핵심이다
+        self.assertGreaterEqual(f["elapsedTradingDays"],
+                                guardian.MIN_ELAPSED_TRADING_DAYS)
+
+        # 부재 시계만 '충족'으로 바꾸면 곧바로 상폐로 간다 = 그 시계를 읽고 있다
+        guardian.is_absence_persistent = lambda observation, now: True
+        flipped = fx.guard(now=NOW + datetime.timedelta(days=61))
+        self.assertEqual(flipped["findings"][0]["cause"],
+                         guardian.DELISTED_CONFIRMED)
 
     def test_06r5_observation_v2_file_migrates_without_losing_cap_memory(self):
         """옛 관측 파일(v2)을 읽어도 capMemory를 잃지 않고 부재 필드가 생긴다."""
@@ -819,6 +950,37 @@ class GuardianCoreTest(unittest.TestCase):
         self.assertEqual(doc["codes"]["000010"]["absentDays"], [])
         # 소급 인정 금지 — 옛 파일의 시세 누락 이력을 부재로 바꿔 세지 않는다
         self.assertIsNone(doc["codes"]["000010"]["firstAbsentAt"])
+
+    def test_06s_large_missing_ratio_is_red_even_without_bad_causes(self):
+        """시세 누락 비율이 기준을 넘으면 원인 분류와 무관하게 RED다.
+
+        (2026-08-26 독립 QA 감사 MEDIUM-1: RED_MISSING_RATIO가 무테스트였다.
+         0.05를 1.0으로 무력화해도 어느 테스트도 깨지지 않았다.)
+        """
+        many = synth_codes(40)                      # 600종목 중 40 = 6.7% > 5%
+        fx, _ = make_fixture(self.tmp, missing=many)
+        rep = fx.guard()
+        self.assertEqual(rep["status"], guardian.STATUS_RED)
+        self.assertTrue(any("목표의" in r for r in rep["statusReasons"]),
+                        rep["statusReasons"])
+        # 원인은 전부 교체 대상이 아닌 분류인데도 RED다
+        self.assertEqual(rep["replaceableCount"], 0)
+
+        # 기준 아래면 RED가 아니다 (경계가 실제로 동작하는지)
+        few = synth_codes(10)                       # 1.7% < 5%
+        fx2, _ = make_fixture(tempfile.mkdtemp(), missing=few)
+        self.addCleanup(shutil.rmtree, fx2.tmp, True)
+        rep2 = fx2.guard()
+        self.assertEqual(rep2["status"], guardian.STATUS_WARN)
+
+    def test_06s2_missing_ratio_gate_is_live_code(self):
+        """뮤테이션 — 비율 게이트를 무력화하면 위 상황이 RED에서 내려온다."""
+        real = guardian.RED_MISSING_RATIO
+        self.addCleanup(setattr, guardian, "RED_MISSING_RATIO", real)
+        guardian.RED_MISSING_RATIO = 1.0
+        fx, _ = make_fixture(self.tmp, missing=synth_codes(40))
+        rep = fx.guard()
+        self.assertEqual(rep["status"], guardian.STATUS_WARN)
 
     def test_06n_delisting_rules_are_reported_for_audit(self):
         tmp = tempfile.mkdtemp()
@@ -961,6 +1123,302 @@ def _write_mode_open_calls(path):
 # ═══════════════════════════════════════════════════════════════════════════
 # 8~15. Standby Pool — 자격 심사 고의 실패 시험
 # ═══════════════════════════════════════════════════════════════════════════
+class ThirdAuditRegressionTest(unittest.TestCase):
+    """2026-08-26 퀀트 3차 감사에서 재현된 경로를 전부 고정한다."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    # ── CRITICAL-3: 하루짜리 잘못된 시총으로 대형주 가드가 무너지던 문제 ──
+    def test_c3_single_bad_cap_sample_cannot_poison_the_guard(self):
+        """⭐ 시총이 하루만 이상값으로 들어와도 대형주 보호가 유지된다.
+
+        상류 collect_market_universe.py는 벤더가 준 시총을 검증 없이 싣는다.
+        단위 오류(원↔백만원) 한 번이면 1,604조가 0.001조가 된다. 예전에는 기억을
+        덮어쓰기만 해서 그 하루로 삼성전자 상폐 확정 + 교체 제안서가 나왔다.
+        """
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": MEGA_CAP}})
+        fx.guard_days(3)
+        # 딱 하루, 시총이 잘못 들어온다
+        fx.snapshot_items = [dict(i, cap=1.0e6) if i["code"] == "000010" else i
+                             for i in fx.snapshot_items]
+        fx.guard_days(1, start=NOW + datetime.timedelta(days=3))
+        fx.leave_market(["000010"])
+        rep = fx.guard_days(20, start=NOW + datetime.timedelta(days=4))
+        f = rep["findings"][0]
+        self.assertEqual(f["safestKnownCapRank"], 1)       # 가장 안전한 값을 쓴다
+        self.assertEqual(f["safestKnownCap"], MEGA_CAP)
+        self.assertEqual(f["cause"], guardian.PIPELINE_BUG)
+        self.assertEqual(rep["replaceableCount"], 0)
+        fx.pool()
+        self.assertEqual(fx.propose()["status"], proposal.STATUS_NO_PROPOSAL)
+
+    def test_c3b_memory_keeps_history_not_just_last_value(self):
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        fx.guard_days(4)
+        mem = json.load(open(fx.observations))["capMemory"]["000010"]
+        self.assertIn("history", mem)
+        self.assertGreaterEqual(len(mem["history"]), 4)
+
+    # ── HIGH-3: 순위에 ETF·우선주가 섞여 보호 대상이 줄던 문제 ────────────
+    def test_h3_rank_counts_common_shares_only(self):
+        snap = {"byCode": {
+            "000010": {"code": "000010", "kind": "COMMON", "cap": 3.0e12},
+            "111110": {"code": "111110", "kind": "ETF", "cap": 9.0e12},
+            "222220": {"code": "222220", "kind": "CLASS_SHARE", "cap": 8.0e12},
+            "333330": {"code": "333330", "kind": "REIT", "cap": 7.0e12},
+        }}
+        self.assertEqual(guardian.cap_ranks(snap), {"000010": 1})
+        # 전체를 세우면 4위로 밀린다 — 그게 예전 동작이었다
+        self.assertEqual(guardian.cap_ranks(snap, common_only=False)["000010"], 4)
+
+    def test_h3b_real_snapshot_top300_would_have_been_diluted(self):
+        """실제 자료로 확인 — 예전 방식은 상위 300에 기업이 244개뿐이었다."""
+        snap = guardian.load_universe_snapshot()
+        if not snap:
+            self.skipTest("전체시장 snapshot이 없다")
+        old = guardian.cap_ranks(snap, common_only=False)
+        top_old = {c for c, r in old.items() if r <= guardian.MEGA_CAP_RANK_GUARD}
+        commons = sum(1 for c in top_old
+                      if (snap["byCode"].get(c) or {}).get("kind") == "COMMON")
+        self.assertLess(commons, guardian.MEGA_CAP_RANK_GUARD)
+        new = guardian.cap_ranks(snap)
+        top_new = {c for c, r in new.items() if r <= guardian.MEGA_CAP_RANK_GUARD}
+        self.assertEqual(len(top_new), guardian.MEGA_CAP_RANK_GUARD)
+        # 새 방식에서는 보호 대상이 전부 보통주다
+        for c in top_new:
+            self.assertEqual((snap["byCode"].get(c) or {}).get("kind"), "COMMON")
+
+    def test_h3c_absolute_floor_catches_stocks_just_outside_the_rank(self):
+        """순위 경계 바로 밖(실측 301위=1.610조)도 절대 하한이 받는다."""
+        self.assertLessEqual(guardian.MEGA_CAP_ABS_FLOOR, 1.612e12)
+        fx, rep = live_then_delisted(self.tmp, cap=guardian.MEGA_CAP_ABS_FLOOR,
+                                     default_cap=9.0e12)   # 다른 종목이 다 더 크다
+        f = rep["findings"][0]
+        self.assertGreater(f["safestKnownCapRank"], guardian.MEGA_CAP_RANK_GUARD)
+        self.assertEqual(f["cause"], guardian.PIPELINE_BUG)
+
+    # ── HIGH-4: snapshot 쪽에는 품질 게이트가 없던 문제 ──────────────────
+    def test_h4_truncated_snapshot_cannot_prove_absence(self):
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(6)
+        fx.leave_market(["000010"])
+        # snapshot이 서서히 잘려 기준 아래로 내려간다
+        fx.snapshot_pad = 0
+        fx.snapshot_items = fx.snapshot_items[:guardian.SNAPSHOT_MIN_ITEM_COUNT - 1]
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        f = rep["findings"][0]
+        self.assertEqual(f["cause"], guardian.MARKET_DATA_UNRELIABLE)
+        self.assertFalse(rep["snapshotReliable"])
+        self.assertEqual(rep["replaceableCount"], 0)
+        fx.pool()
+        self.assertEqual(fx.propose()["status"], proposal.STATUS_NO_PROPOSAL)
+
+    def test_h4b_collector_saying_it_failed_blocks_delisting(self):
+        fx, rep = live_then_delisted(self.tmp)
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        write_universe_state(fx.universe_state, status="SOURCE_ERROR")
+        rep = fx.guard(now=NOW + datetime.timedelta(days=22))
+        self.assertEqual(rep["findings"][0]["cause"],
+                         guardian.MARKET_DATA_UNRELIABLE)
+
+    @staticmethod
+    def _mass_absence_fixture(tmp, count=None):
+        """시세는 1종목만 빠졌는데 시장 자료에서는 여러 종목이 사라진 상황.
+
+        이렇게 해야 '대량누락(시세)' 가드가 먼저 걸리지 않아 '대량부재(시장 자료)'
+        가드만 남는다. 실제로 위험한 것도 이 모양이다 — 시장 자료가 무너졌는데
+        시세는 계속 들어와서 아무도 눈치채지 못하는 경우.
+        """
+        # ⚠️ 개수를 인자로 받는다. 뮤테이션이 상수를 10**9으로 올린 상태에서 이
+        #    상수로 종목을 만들면 10억 개를 만들려다 테스트가 멈춘다.
+        vanish = synth_codes(count or guardian.MASS_ABSENCE_DELISTING_BLOCK)
+        target = vanish[0]
+        fx, _ = make_fixture(tmp, missing=(target,),
+                             snapshot_overrides={c: {"cap": SMALL_CAP}
+                                                 for c in vanish})
+        fx.guard_days(6)
+        fx.leave_market(vanish)
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        return fx, rep
+
+    def test_h4c_mass_absence_is_a_collection_failure_not_delisting(self):
+        fx, rep = self._mass_absence_fixture(self.tmp)
+        self.assertEqual(len(rep["missingPriceCodes"]), 1)      # 시세는 1종목만
+        self.assertFalse(rep["massMissingBlockActive"])         # 옛 가드는 안 걸린다
+        self.assertTrue(rep["massAbsenceBlockActive"])          # 새 가드가 잡는다
+        for f in rep["findings"]:
+            self.assertEqual(f["cause"], guardian.PIPELINE_BUG)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_h4d_min_item_count_gate_is_live_code(self):
+        """뮤테이션 — snapshot 최소 건수 가드를 끄면 잘린 자료로도 상폐가 된다."""
+        real = guardian.SNAPSHOT_MIN_ITEM_COUNT
+        self.addCleanup(setattr, guardian, "SNAPSHOT_MIN_ITEM_COUNT", real)
+        guardian.SNAPSHOT_MIN_ITEM_COUNT = 0
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        fx.guard_days(6)
+        fx.leave_market(["000010"])
+        fx.snapshot_pad = 0
+        fx.snapshot_items = fx.snapshot_items[:1999]
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_h4e_mass_absence_gate_is_live_code(self):
+        """뮤테이션 — 대량부재 가드를 끄면 같은 상황이 상폐로 바뀐다."""
+        real = guardian.MASS_ABSENCE_DELISTING_BLOCK
+        self.addCleanup(setattr, guardian, "MASS_ABSENCE_DELISTING_BLOCK", real)
+        guardian.MASS_ABSENCE_DELISTING_BLOCK = 10 ** 9
+        _, rep = self._mass_absence_fixture(self.tmp, count=real)
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    # ── MEDIUM-3: main에 자동 커밋되는 상태파일을 그대로 믿던 문제 ───────
+    def test_m3_forged_observation_state_is_sanitized(self):
+        forged = {"schemaVersion": 3,
+                  "codes": {"000010": {
+                      "missingDays": ["2099-01-01", "2026-08-20"],
+                      "firstMissingAt": "2000-01-01T00:00:00+09:00",
+                      "absentDays": ["2099-01-01", "2099-01-02", "2099-01-03"],
+                      "firstAbsentAt": "2000-01-01T00:00:00+09:00"}},
+                  "capMemory": {"000010": {"capRank": 1, "seenAt": "2099-01-01T00:00:00+09:00"},
+                                "000020": "not-a-dict"}}
+        clean = guardian.sanitize_observations(forged, "2026-08-26T09:00:00+09:00")
+        e = clean["codes"]["000010"]
+        self.assertEqual(e["missingDays"], ["2026-08-20"])     # 미래 날짜 제거
+        self.assertEqual(e["absentDays"], [])                  # 전부 미래였다
+        self.assertIsNone(e["firstAbsentAt"])                  # 목록이 비면 시각도 없다
+        self.assertEqual(str(e["firstMissingAt"])[:10], "2026-08-20")
+        self.assertNotIn("000010", clean["capMemory"])         # 미래 seenAt 제거
+        self.assertNotIn("000020", clean["capMemory"])         # dict가 아니면 제거
+
+    def test_m3b_forged_state_cannot_confirm_delisting_on_first_run(self):
+        """⭐ 위조된 상태파일을 넣어도 첫 실행에 상폐가 확정되지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             drop_from_snapshot=("000010",),
+                             krx_delisted=("000010",))
+        with open(fx.observations, "w", encoding="utf-8") as f:
+            json.dump({"schemaVersion": 3, "codes": {"000010": {
+                "missingDays": ["2099-01-01"], "absentDays": ["2099-01-01",
+                                                              "2099-01-02",
+                                                              "2099-01-03",
+                                                              "2099-01-04"],
+                "firstAbsentAt": "2000-01-01T00:00:00+09:00",
+                "firstMissingAt": "2000-01-01T00:00:00+09:00"}},
+                "capMemory": {"000010": {"capRank": 9999, "cap": 1.0}}}, f)
+        rep = fx.guard()
+        self.assertNotEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_m3c_v2_migration_discards_forged_absence(self):
+        """v2 파일에 적힌 absentDays는 소급 인정하지 않고 0에서 시작한다."""
+        path = os.path.join(self.tmp, "obs.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"schemaVersion": 2, "codes": {"000010": {
+                "missingDays": ["2026-08-20"],
+                "firstMissingAt": "2026-08-20T09:00:00+09:00",
+                "absentDays": ["2026-07-01", "2026-07-02", "2026-07-03"],
+                "firstAbsentAt": "2026-07-01T00:00:00+09:00"}},
+                "capMemory": {"000010": {"capRank": 7}}}, f)
+        doc = guardian.load_observations(path)
+        self.assertEqual(doc["codes"]["000010"]["absentDays"], [])
+        self.assertIsNone(doc["codes"]["000010"]["firstAbsentAt"])
+        self.assertEqual(doc["capMemory"]["000010"]["capRank"], 7)   # 기억은 보존
+
+    # ── MEDIUM-4: 독립 원장 신선도가 아직 시세 시계를 보던 문제 ──────────
+    def test_m4_independent_source_must_postdate_the_absence(self):
+        krx = {"asOf": "2026-08-12T00:00:00+09:00", "source": "krx_corplist",
+               "codes": set(), "count": 2596}
+        obs = {"firstMissingAt": "2026-08-01T00:00:00+09:00",
+               "firstAbsentAt": "2026-08-14T00:00:00+09:00"}
+        usable, why = guardian.krx_evidence(krx, obs, NOW)
+        self.assertFalse(usable, why)
+        self.assertIn("사라진 시점", why)
+        # 부재 이후에 수집된 원장은 쓸 수 있다
+        krx2 = dict(krx, asOf="2026-08-20T00:00:00+09:00")
+        ok, _ = guardian.krx_evidence(krx2, obs, NOW)
+        self.assertTrue(ok)
+
+    # ── LOW-1: 감사에서 살아남은 뮤턴트 4개를 테스트로 덮는다 ────────────
+    def test_low1_m11_stale_independent_source_guard_is_live(self):
+        real = guardian.KRX_CORPLIST_MAX_AGE_DAYS
+        self.addCleanup(setattr, guardian, "KRX_CORPLIST_MAX_AGE_DAYS", real)
+        fx, rep = live_then_delisted(self.tmp)
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        # 원장은 '부재가 시작된 뒤'에 수집됐지만(그 규칙은 통과), 아주 오래됐다.
+        # 그래야 나이 가드 하나만 남아서 뮤테이션이 의미를 갖는다.
+        later = NOW + datetime.timedelta(days=60)
+        write_krx_corplist(fx.krx, fx.krx_listed,
+                           as_of=NOW + datetime.timedelta(days=7))
+        fx.refresh_sources(later, refresh_krx=False)
+        blocked = fx.guard(now=later)
+        self.assertEqual(blocked["findings"][0]["cause"],
+                         guardian.INDEPENDENT_SOURCE_STALE)
+        guardian.KRX_CORPLIST_MAX_AGE_DAYS = 10 ** 9        # 가드를 끈다
+        leaked = fx.guard(now=later)
+        self.assertEqual(leaked["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_low1_m12_vendor_source_guard_is_live(self):
+        real = guardian.VENDOR_MARKS
+        self.addCleanup(setattr, guardian, "VENDOR_MARKS", real)
+        fx, rep = live_then_delisted(self.tmp)
+        self.assertEqual(rep["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+        write_krx_corplist(fx.krx, fx.krx_listed,
+                           as_of=NOW + datetime.timedelta(days=21),
+                           source="krx_corplist (naver 폴백 혼합)")
+        blocked = fx.guard(now=NOW + datetime.timedelta(days=22))
+        self.assertEqual(blocked["findings"][0]["cause"],
+                         guardian.INDEPENDENT_SOURCE_STALE)
+        guardian.VENDOR_MARKS = ()                           # 가드를 끈다
+        leaked = fx.guard(now=NOW + datetime.timedelta(days=22))
+        self.assertEqual(leaked["findings"][0]["cause"], guardian.DELISTED_CONFIRMED)
+
+    def test_low1_m13_class_share_absence_is_never_delisting(self):
+        """⭐ 종류주(우선주)는 법인 단위 원장의 부재로 판정할 수 없다.
+
+        실측: 우리 600 안의 009155 삼성전기우는 보통주 순위 경계 바로 밖이면서
+        실제 KRX 법인목록에도 없다. 지금 이 종목이 상폐로 안 가는 유일한 이유가
+        이 가드다(2026-08-26 퀀트 3차 감사 LOW-1 M13).
+        """
+        codes = synth_codes(599) + ["005935"]
+        fx = Fixture(self.tmp)
+        write_tickers(fx.tickers, codes)
+        live = [c for c in codes if c != "005935"]
+        write_data_js(fx.data, live)
+        write_auto_js(fx.auto, live)
+        items = [snap_item(c, **({"cap": SMALL_CAP} if c == "005935" else {}))
+                 for c in codes]
+        write_snapshot(fx.snapshot, items,
+                       (NOW - datetime.timedelta(hours=6)).isoformat())
+        write_sector_map(fx.sector_map, [i["code"] for i in items])
+        write_universe_state(fx.universe_state)
+        fx.snapshot_items = items
+        fx.krx_listed = list(codes)
+        write_krx_corplist(fx.krx, fx.krx_listed)
+        write_market_map(fx.market_map, codes)
+        fx.guard_days(6)
+        fx.leave_market(["005935"])           # 시장에서도 원장에서도 사라진다
+        rep = fx.guard_days(16, start=NOW + datetime.timedelta(days=6))
+        f = [x for x in rep["findings"] if x["code"] == "005935"][0]
+        self.assertIsNotNone(f["safestKnownCapRank"])   # 크기는 알고 있다
+        self.assertEqual(f["cause"], guardian.REVIEW_REQUIRED)
+        self.assertEqual(rep["replaceableCount"], 0)
+
+    def test_low1_m19_unreadable_snapshot_never_starts_the_absence_clock(self):
+        """snapshot을 못 읽었다고 전 종목을 '시장에서 사라진 것'으로 적지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        fx.guard_days(3)
+        os.remove(fx.snapshot)
+        rep = fx.guard(now=NOW + datetime.timedelta(days=3), )
+        f = rep["findings"][0]
+        self.assertEqual(f["absentDayCount"], 0)
+        self.assertFalse(f["absentFromMarketData"])
+        self.assertNotEqual(f["cause"], guardian.DELISTED_CONFIRMED)
+
+
 class StandbyScreeningTest(unittest.TestCase):
     def pool_from(self, items, covered=(), sectors=None, target=None):
         """업종 매핑은 기본으로 '정상 제조업'을 채워 준다.
@@ -1428,6 +1886,49 @@ class ProposalContractTest(unittest.TestCase):
                           "targetCoverage": 600, "configuredCoverage": 540},
             proposal_doc={"status": proposal.STATUS_AWAITING})
         self.assertEqual(universe["level"], notification.LEVEL_RED)
+
+    def test_23d_unexplained_coverage_red_still_escalates(self):
+        """원인을 특정하지 못한 RED도 조용히 넘어가지 않는다(FAIL CLOSED).
+
+        (2026-08-26 독립 QA 감사 LOW-1: 등급 분기 두 개가 서로 가려 주고 있어서,
+         어느 경로가 SAFETY를 만들었는지 구분하는 테스트가 없었다.)
+        """
+        status_doc = {"systemHealth": "OK", "candidateCounts": {}}
+        # redCauseCounts가 비어 있고 Universe 크기도 맞는데 status만 RED다
+        note = notification.build_notification(
+            owner="o", run_id="r", run_url="u", job_failed=False,
+            status_doc=status_doc,
+            coverage_doc={"status": "RED", "statusReasons": ["원인 미상"],
+                          "redCauseCounts": {},
+                          "targetCoverage": 600, "configuredCoverage": 600})
+        self.assertEqual(note["level"], notification.LEVEL_RED)
+        self.assertEqual(
+            notification.coverage_alert_level(
+                {"status": "RED", "redCauseCounts": {},
+                 "targetCoverage": 600, "configuredCoverage": 600}),
+            notification.COVERAGE_ALERT_SAFETY)
+
+    def test_23e_each_red_path_is_distinguishable(self):
+        """등급을 올린 경로가 서로를 가려 주지 않는지 하나씩 확인한다."""
+        base = {"status": "RED", "targetCoverage": 600, "configuredCoverage": 600,
+                "redCauseCounts": {}}
+        # ① Universe 크기 어긋남만
+        self.assertEqual(
+            notification.coverage_alert_level(dict(base, configuredCoverage=540)),
+            notification.COVERAGE_ALERT_SAFETY)
+        # ② 상폐 아닌 RED 원인만
+        self.assertEqual(
+            notification.coverage_alert_level(
+                dict(base, redCauseCounts={"PIPELINE_BUG": 3})),
+            notification.COVERAGE_ALERT_SAFETY)
+        # ③ 상폐 + 제안 대기 → 승인 등급
+        self.assertEqual(
+            notification.coverage_alert_level(
+                dict(base, redCauseCounts={"DELISTED_CONFIRMED": 1}),
+                {"status": proposal.STATUS_AWAITING}),
+            notification.COVERAGE_ALERT_APPROVAL)
+        # ④ 아무 것도 아님
+        self.assertIsNone(notification.coverage_alert_level(dict(base, status="WARN")))
 
     def test_23c_unmeasured_coverage_never_grades_by_stale_numbers(self):
         """이번 Run에서 측정 못 했으면 지난 숫자로 등급을 매기지 않는다."""
