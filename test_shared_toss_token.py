@@ -61,7 +61,11 @@ TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
                          "paper_smart_v2.py", "paper_momentum.py",
                          # Single Writer 게이트 — 매매를 직접 하지는 않지만
                          # 매매를 할지 말지를 결정하므로 같은 잣대로 검사한다.
-                         "paper_single_writer.py")
+                         "paper_single_writer.py",
+                         # 원장을 읽어 V1·V2를 짝짓는 집계기. 매매를 하지 않고
+                         # 파일을 쓰지도 않지만, 원장을 다루는 모듈이므로 같은
+                         # 잣대로 검사한다(시세·토큰에 손대면 즉시 실패해야 한다).
+                         "paper_pairing.py")
 
 #: 목록이 낡았는지 자동으로 찾아내는 기준 — 이 흔적이 있으면 매매 판단 모듈이다.
 #: (PaperEngine 을 쓰거나 원장 파일을 직접 다루면 매매 판단에 관여한다)
