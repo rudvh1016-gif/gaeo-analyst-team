@@ -3954,6 +3954,9 @@
                    overflow-y:auto;overscroll-behavior:contain}
     .nav-workspace-inner{max-height:none}
     .global-panel-inner{padding:14px 0 20px}
+    /* 메뉴가 넘칠 때 마지막 줄이 떠 있는 "PC 버전으로 보기" 바에 가리지 않도록
+       끝까지 스크롤할 여백을 둔다. 화면에 보이는 요소가 아니라 스크롤 여유분이다. */
+    .nav-workspace .global-panel-inner{padding-bottom:72px}
     .nav-workspace-head{margin-bottom:12px;gap:10px}
     .nav-workspace-head strong{display:none}
     .nav-workspace-head .nav-panel-label{margin-bottom:0;font-size:13px;font-weight:600;
@@ -3961,8 +3964,8 @@
     .nav-close{min-height:44px;padding:0 14px;font-size:12.5px}
     .nav-workspace .rail{grid-template-columns:1fr}
     .nav-workspace .modes{grid-template-columns:1fr!important;gap:0}
-    .nav-menu-group{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:0;
-      padding:0;border-bottom:0;margin-top:28px}
+    .nav-menu-group{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;row-gap:0;
+      padding:0;border-bottom:0;margin-top:36px}
     .nav-menu-group:first-child{margin-top:0}
     /* 대분류가 항목과 구분되지 않던 문제 (2026-08-27 대표 지적).
        원인은 굵기가 아니라 **크기 역전**이었다 — 제목 12.5px < 항목 14px에 색까지 같은 먹색이라,
@@ -3977,7 +3980,17 @@
        전체 글자는 한 단계 작아진다(항목 14 -> 13px). 터치 영역 44px은 그대로 둔다.
        ⚠️ 390x844 무스크롤 예산은 그대로 지킨다 — 제목 mb를 8->4px로 줄여 그룹 간격
           24->28px 확장분을 상쇄했다(실측 746px 유지). */
-    .nav-menu-title{grid-column:1/-1;border-bottom:0;padding-bottom:0;margin:0 0 4px;
+    /* (2026-08-27 2차) 크기·톤·여백만으로는 "아직 답답하다"는 지적이 남았다.
+       21개 항목이 44px씩 벽처럼 이어지는 게 진짜 원인이라, 디자인시스템 §2가 계층 도구로
+       명시한 여섯 가지 중 **Divider**를 마지막으로 꺼낸다(색은 여전히 추가하지 않는다 —
+       기존 --gaeo-border 토큰 그대로다). PC 전체 메뉴는 원래 이 선을 쓰고 있었고,
+       모바일에서만 걷어냈던 것을 되돌리는 셈이다.
+       선이 그룹을 실제로 끊어 주므로 위아래 여백도 같이 벌린다(28->36px).
+       ⚠️ 이 변경으로 390x844에서는 스크롤이 생긴다. 무스크롤을 지키려고 여백을 조이면
+          "답답하다"는 원래 문제로 되돌아가므로, 여기서는 숨 쉴 틈을 택했다.
+          잘린 게 아니라 더 있다는 것은 .nav-workspace-inner.has-more 의 하단 경계선이 알린다. */
+    .nav-menu-title{grid-column:1/-1;border-bottom:1px solid var(--gaeo-border);
+      padding-bottom:9px;margin:0 0 6px;
       font-size:13.5px;font-weight:600;letter-spacing:-.01em;line-height:1.35;color:var(--ink)}
     .nav-workspace .modebtn,.nav-workspace .nav-menu-link{
       padding:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;
@@ -3990,9 +4003,11 @@
        건드리지 않는다. 375x812는 27px 모자랐는데 이 32px 절약으로 무스크롤이 된다.
        360x740 이하는 21개 x 44px가 물리적으로 안 들어가므로 스크롤이 정상이고,
        대신 아래 .nav-scroll-more로 "더 있다"는 것을 보이게 한다. */
+    /* 낮은 화면에서도 선은 남긴다(선이 계층의 핵심이라 지우면 원래 문제로 돌아간다).
+       대신 선 위아래 여백만 조인다. */
     @media (max-height:840px){
-      .nav-menu-group{margin-top:20px}
-      .nav-menu-title{margin:0 0 3px}
+      .nav-menu-group{margin-top:26px}
+      .nav-menu-title{padding-bottom:7px;margin:0 0 4px}
     }
     /* 스크롤이 남아 있을 때만 하단에 얇은 경계선을 띄워, 잘린 게 아니라
        더 있다는 것을 알린다. 색을 쓰지 않고 기존 구분선 토큰만 쓴다. */
