@@ -1,12 +1,52 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-26 09:14",
- "priceLabel": "2026-08-26 09:10 장중",
- "count": 262,
+ "generatedAt": "2026-08-26 09:44",
+ "priceLabel": "2026-08-26 09:33 장중",
+ "count": 264,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "161890",
+   "name": "한국콜마",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:43:26.155319+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:43:26.155319+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "096770",
+   "name": "SK이노베이션",
+   "title": "장래사업ㆍ경영계획(공정공시)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:43:26.155319+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "[첨부정정]증권신고서(채무증권)",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:43:26.155319+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "027410",
+   "name": "BGF",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260826",
+   "detectedAt": "2026-08-26T00:43:26.155319+00:00",
+   "isCorrection": false
+  },
   {
    "code": "018260",
    "name": "삼성에스디에스",
@@ -147,14 +187,6 @@ const DART_TODAY = {
    "code": "051600",
    "name": "한전KPS",
    "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T06:41:44.965861+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "161890",
-   "name": "한국콜마",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260825",
    "detectedAt": "2026-08-25T06:41:44.965861+00:00",
    "isCorrection": false
@@ -1880,14 +1912,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T06:32:22.322597+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "008770",
    "name": "호텔신라",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -1923,14 +1947,6 @@ const DART_TODAY = {
    "code": "036460",
    "name": "한국가스공사",
    "title": "자원개발진행사항공시(자율공시)",
-   "receiptDate": "20260820",
-   "detectedAt": "2026-08-20T05:11:55.637372+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260820",
    "detectedAt": "2026-08-20T05:11:55.637372+00:00",
    "isCorrection": false
