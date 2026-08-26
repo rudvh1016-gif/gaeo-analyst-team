@@ -93,8 +93,48 @@ def _truncate(text, limit=MAX_REASON_LEN):
     return text if len(text) <= limit else text[:limit] + "…(생략)"
 
 
+# Coverage 측정 결과가 등급에 어떻게 반영되는가 (2026-08-26 보안 재감사 MEDIUM-1).
+COVERAGE_ALERT_NONE = None
+COVERAGE_ALERT_APPROVAL = "APPROVAL"     # 상장폐지 확정 + 교체 제안 대기 → 🟠
+COVERAGE_ALERT_SAFETY = "SAFETY"         # Universe가 예상 밖으로 바뀜·수집 사고 → 🔴
+
+
+def coverage_alert_level(coverage_doc, proposal_doc=None):
+    """측정에 성공한 Coverage 결과가 대표에게 어떤 등급으로 보고돼야 하는가.
+
+    ⚠️ '측정을 못 했다'(coverage_unmeasured)와는 다른 축이다. 이건 **측정에는
+       성공했는데 그 결과가 RED인** 경우다. 예전에는 이 값이 등급에 전혀 반영되지
+       않아, 확정 상장폐지 3건이나 configuredCoverage 540/600 같은 상태에서도
+       제목이 🟢로 나갔다(2026-08-26 보안 재감사 MEDIUM-1에서 CLI로 재현).
+
+    등급을 나누는 이유: 상장폐지가 확인돼 교체 제안이 승인을 기다리는 것은
+    '승인 필요'(🟠)이고, Universe 크기가 어긋났거나 수집 장애(PIPELINE_BUG)는
+    '안전 문제'(🔴)다. 판단이 애매하면 안전한 쪽(🔴)으로 올린다.
+    """
+    if not isinstance(coverage_doc, dict):
+        return COVERAGE_ALERT_NONE
+    if coverage_doc.get("status") != "RED":
+        return COVERAGE_ALERT_NONE
+    red_causes = coverage_doc.get("redCauseCounts")
+    red_causes = red_causes if isinstance(red_causes, dict) else {}
+    target = coverage_doc.get("targetCoverage")
+    configured = coverage_doc.get("configuredCoverage")
+    if isinstance(target, int) and isinstance(configured, int) and target != configured:
+        return COVERAGE_ALERT_SAFETY
+    non_delisting = {k: v for k, v in red_causes.items()
+                     if k != "DELISTED_CONFIRMED" and v}
+    if non_delisting:
+        return COVERAGE_ALERT_SAFETY
+    if red_causes.get("DELISTED_CONFIRMED"):
+        awaiting = (isinstance(proposal_doc, dict)
+                    and proposal_doc.get("status") == "PROPOSAL_AWAITING_APPROVAL")
+        return COVERAGE_ALERT_APPROVAL if awaiting else COVERAGE_ALERT_SAFETY
+    # RED인데 이유를 특정하지 못했다 — 조용히 넘기지 않는다(FAIL CLOSED).
+    return COVERAGE_ALERT_SAFETY
+
+
 def decide_level(*, job_failed, status_doc, promotion_cards_doc,
-                 coverage_unmeasured=False):
+                 coverage_unmeasured=False, coverage_alert=COVERAGE_ALERT_NONE):
     """실제 실행 결과만으로 결정론적으로 분류한다. 셋 중 정확히 하나를 돌려준다.
 
     coverage_unmeasured: 이번 Run이 Coverage 산출물을 실제로 만들지 못한 경우.
@@ -116,10 +156,16 @@ def decide_level(*, job_failed, status_doc, promotion_cards_doc,
     health = status_doc.get("systemHealth")
     if health in ("SAFE_MODE", "DEGRADED"):
         return LEVEL_RED
+    # 측정에 성공한 Coverage 결과도 등급에 반영한다. 연구 커밋은 그대로 두고
+    # (대표 지시 §4) **보고 등급만** 올린다.
+    if coverage_alert == COVERAGE_ALERT_SAFETY:
+        return LEVEL_RED
     qualified_n = (status_doc.get("candidateCounts") or {}).get(
         "QUALIFIED_AWAITING_APPROVAL", 0)
     cards = (promotion_cards_doc or {}).get("cards") or []
     if qualified_n or cards:
+        return LEVEL_ORANGE
+    if coverage_alert == COVERAGE_ALERT_APPROVAL:
         return LEVEL_ORANGE
     return LEVEL_GREEN
 
@@ -369,8 +415,14 @@ def _coverage_block(doc, today=None, expected_run_id=None):
     if attention_counts:
         attention_text = " (" + ", ".join(f"{_truncate(str(k))} {v}건"
                                           for k, v in sorted(attention_counts.items())) + ")"
+    # 왜 그 상태인지까지 적는다 — 상태 글자만 보여 주면 대표가 판단할 수 없다
+    # (2026-08-26 보안 재감사 MEDIUM-1).
+    status_reasons = [str(r) for r in (doc.get("statusReasons") or [])]
     lines += [
-        f"- 상태: {doc.get('status', '측정값 없음')}",
+        f"- 상태: {doc.get('status', '측정값 없음')}",]
+    for reason in status_reasons[:6]:
+        lines.append(f"  · 사유: {_truncate(reason)}")
+    lines += [
         f"- 목표 Universe(targetCoverage): {_fmt_count(doc.get('targetCoverage'), '종목')}"
         f" · Coverage Version {doc.get('coverageVersion', '측정값 없음')}",
         f"- tickers.js 설정(configuredCoverage): "
@@ -547,14 +599,22 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
         {"coverage": coverage_doc, "standby": standby_doc, "proposal": proposal_doc},
         expected_run_id=expected_run_id, today=today)
     coverage_unmeasured = gate_armed and not coverage_ok
+    # 측정에 실패한 경우엔 그 숫자로 등급을 매기지 않는다(지난주 값이기 때문).
+    coverage_alert = (COVERAGE_ALERT_NONE if coverage_unmeasured
+                      else coverage_alert_level(coverage_doc, proposal_doc))
     level = decide_level(job_failed=job_failed, status_doc=status_doc,
                          promotion_cards_doc=promotion_cards_doc,
-                         coverage_unmeasured=coverage_unmeasured)
+                         coverage_unmeasured=coverage_unmeasured,
+                         coverage_alert=coverage_alert)
     title = build_title(level, today=today)
     marker = build_marker(run_id)
 
-    if level == LEVEL_RED and not job_failed and coverage_unmeasured and \
-            (status_doc or {}).get("systemHealth") not in ("SAFE_MODE", "DEGRADED"):
+    # ⚠️ status_doc이 None(파일 손상·부재)이면 "연구는 정상"이라고 말할 근거가 없다.
+    #    (None or {}).get(...)이 None이라 이 분기를 통과해, 읽지도 못한 status를
+    #    "정상 커밋됨"으로 단정하는 오귀속이 있었다(2026-08-26 보안 재감사 MEDIUM-2).
+    if level == LEVEL_RED and not job_failed and coverage_unmeasured \
+            and isinstance(status_doc, dict) \
+            and status_doc.get("systemHealth") not in ("SAFE_MODE", "DEGRADED"):
         # 연구는 정상, Coverage만 미측정 — 사실대로 다른 본문을 쓴다.
         body = build_coverage_red_body(owner=owner, reasons=coverage_reasons,
                                        run_url=run_url)
@@ -569,6 +629,13 @@ def build_notification(*, owner, run_id, run_url, job_failed, failed_step=None,
                 note = f"시스템 상태: {health}"
         if coverage_unmeasured:
             reasons = list(reasons) + list(coverage_reasons)
+        if coverage_alert == COVERAGE_ALERT_SAFETY:
+            reasons = list(reasons) + [
+                "Coverage 실측 결과가 RED입니다: " + _truncate(str(r))
+                for r in ((coverage_doc or {}).get("statusReasons") or [])]
+            if note is None:
+                note = ("종목 목록(Coverage) 쪽 문제입니다. Evolution 연구 기록과는 "
+                        "별개이며, 종목이 자동으로 교체되지는 않았습니다.")
         body = build_red_body(owner=owner, failed_step=failed_step,
                               reasons=reasons, run_url=run_url, note=note)
     elif level == LEVEL_ORANGE:
