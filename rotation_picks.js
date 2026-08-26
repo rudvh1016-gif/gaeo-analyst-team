@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-25 16:13",
- "dataCutoff": "2026-08-25 종가",
+ "generatedAt": "2026-08-26 09:14",
+ "dataCutoff": "2026-08-26 09:14 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "241710",
    "name": "코스메카코리아",
    "sector": "화장품·미용",
-   "sectorRank": 2,
-   "why": "20거래일 +61.3% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +69.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.9,
+   "gapPct": 27.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,62 +23,62 @@ window.ROTATION_PICKS = {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 3,
-   "why": "20거래일 +62.8% · 20일선 위",
-   "overheat": true,
-   "gapPct": 32.6,
-   "call": "SELL",
-   "callConflict": true
-  },
-  {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 7,
-   "why": "20거래일 +64.6% · 20일선 위",
+   "sectorRank": 2,
+   "why": "20거래일 +90.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.7,
+   "gapPct": 28.5,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 9,
-   "why": "20거래일 +77.7% · 20일선 위 · 거래량 평소의 2.2배",
+   "code": "323280",
+   "name": "태성",
+   "sector": "반도체",
+   "sectorRank": 4,
+   "why": "20거래일 +69.4% · 20일선 위",
+   "overheat": false,
+   "gapPct": 12.0,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "356860",
+   "name": "티엘비",
+   "sector": "반도체",
+   "sectorRank": 4,
+   "why": "20거래일 +64.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 51.1,
-   "call": "SELL",
-   "callConflict": true
+   "gapPct": 31.6,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 66.4,
+  "breadthPct": 64.9,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
-  "sectorCount": 4,
+  "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6742.74,
-    "ma20": 6460.37,
+    "close": 6744.87,
+    "ma20": 6496.43,
     "above": true,
-    "gapPct": 4.37
+    "gapPct": 3.82
    },
    "KOSDAQ": {
-    "close": 827.15,
-    "ma20": 794.52,
+    "close": 827.49,
+    "ma20": 800.6,
     "above": true,
-    "gapPct": 4.11
+    "gapPct": 3.36
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "철강·금속"
+  "topSector": "화장품·미용"
  },
  "record": {
   "hitRate": 54.8,
