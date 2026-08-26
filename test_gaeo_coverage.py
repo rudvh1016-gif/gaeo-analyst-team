@@ -1604,6 +1604,67 @@ class FourthAuditRegressionTest(unittest.TestCase):
                          "2026-08-01T00:00:00+09:00")
 
 
+class ProductionCadenceTest(unittest.TestCase):
+    """운영은 **주 1회**(일요일 08:00 KST) 실행이다.
+
+    나머지 테스트는 매일 실행을 가정한다. 날짜로 세는 가드들(관측일수·표본 수·
+    부재 창)은 실행 주기가 바뀌면 의미가 달라지므로, 실제 리듬으로도 한 번
+    끝에서 끝까지 확인한다.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    @staticmethod
+    def _weekly(fx, weeks, start, leave_at=None, codes=()):
+        rep = None
+        for w in range(weeks):
+            now = start + datetime.timedelta(days=7 * w)
+            if leave_at is not None and w == leave_at:
+                fx.leave_market(list(codes))
+            fx.refresh_sources(now)
+            rep = fx.guard(now=now)
+        return rep
+
+    def test_weekly_runs_confirm_genuine_delisting_but_not_too_fast(self):
+        """⭐ 주 1회 리듬에서도 진짜 상폐는 확정되고, 그 전에 서두르지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}},
+                             extra_snapshot_items=OUTSIDE_ITEMS)
+        # 사라진 직후(1주 뒤)에는 아직 확정되지 않는다
+        early = self._weekly(fx, 5, NOW, leave_at=3, codes=("000010",))
+        self.assertNotEqual(early["findings"][0]["cause"],
+                            guardian.DELISTED_CONFIRMED)
+        # 몇 주 더 지나면 확정되고 제안까지 간다
+        late = self._weekly(fx, 4, NOW + datetime.timedelta(days=35),
+                            codes=("000010",))
+        f = late["findings"][0]
+        self.assertEqual(f["cause"], guardian.DELISTED_CONFIRMED)
+        self.assertGreaterEqual(f["capSampleCount"],
+                                guardian.CAP_MEMORY_MIN_SAMPLES)
+        self.assertGreaterEqual(f["absentDayCount"],
+                                guardian.PERSISTENT_MISSING_MIN_DAYS)
+        fx.pool()
+        self.assertEqual(fx.propose()["status"], proposal.STATUS_AWAITING)
+
+    def test_weekly_runs_reach_min_samples_during_warmup(self):
+        """새로 편입된 종목도 몇 주면 표본 기준을 채운다(영구 보류가 아니다)."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",))
+        rep = self._weekly(fx, guardian.CAP_MEMORY_MIN_SAMPLES, NOW,
+                           codes=("000010",))
+        self.assertGreaterEqual(rep["findings"][0]["capSampleCount"],
+                                guardian.CAP_MEMORY_MIN_SAMPLES)
+
+    def test_weekly_runs_do_not_trip_the_mass_absence_window(self):
+        """주 1회 실행이라고 해서 대량부재 창이 잘못 발동하지 않는다."""
+        fx, _ = make_fixture(self.tmp, missing=("000010",),
+                             snapshot_overrides={"000010": {"cap": SMALL_CAP}})
+        rep = self._weekly(fx, 8, NOW, leave_at=1, codes=("000010",))
+        self.assertFalse(rep["massAbsenceBlockActive"])
+        self.assertEqual(rep["absentFromMarketDataCount"], 1)
+
+
 class StandbyScreeningTest(unittest.TestCase):
     def pool_from(self, items, covered=(), sectors=None, target=None):
         """업종 매핑은 기본으로 '정상 제조업'을 채워 준다.
