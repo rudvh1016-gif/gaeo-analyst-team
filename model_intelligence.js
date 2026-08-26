@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-26 15:55",
+ "generatedAt": "2026-08-26 16:25",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
