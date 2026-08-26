@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 56,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-26",
+  "title": "2026년 8월26일 종가, 건설·원전 급등에 코스피 0.97% 상승, 코스닥은 제자리",
+  "featured": false
+ },
+ {
   "id": 55,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "공모주 락업이 뭐길래, 만기 되면 주가가 흔들릴까",
   "featured": false
- },
- {
-  "id": 81,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "시간외 거래, 정규장 끝나고도 주식을 살 수 있다고",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 55,
+ "news": 56,
  "study": 35,
  "lesson": 82,
  "estate": 19,
