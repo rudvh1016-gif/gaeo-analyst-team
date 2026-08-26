@@ -448,6 +448,192 @@ check("11g. 기록 파일이 전부 자기 폴더에만 생긴다",
       str(sorted(os.listdir(tmp))))
 shutil.rmtree(tmp)
 
+# ═══ ⑫ 관측 파일의 시장대비도 요약과 같은 규칙을 쓴다 (감사 HIGH 1) ═════════
+# 예전 버그: 분모는 '진입 시점에 후퇴한 값', 분자는 '오늘 시점에 후퇴한 값'이라
+# 후퇴 폭이 다르면 그 차이가 그대로 초과수익이 됐다. 여기서 그 상황을 재현한다.
+IDX = {"2026-09-01": {"KOSPI": 1000.0},      # 진입일 종가
+       "2026-09-04": {"KOSPI": 1100.0}}      # 마지막 확정 종가(+10%)
+tmp = tempfile.mkdtemp(prefix="sv2bm_")
+eng = make(tmp, provider(D[0], QUOTES))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+eng._idx_hist = IDX
+# 원장에는 '진입 시점에 알 수 있었던 값'(직전 거래일로 후퇴한 800)이 박혀 있다고 치고,
+# 그 값을 분모로 쓰면 안 된다는 것을 확인한다.
+for r in eng.ledger.rows:
+    if r.get("status") == "OPEN":
+        r["benchmark_entry_value"] = 800.0
+        r["benchmark_entry_day"] = "2026-08-28"
+eng.provider = provider(D[4], {"005930": (11_000, 10_990)})   # 2026-09-05 관측
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[4]}T10:05:00+09:00"), now=t(D[4], 10, 10))
+obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+last = obs[-1]
+check("12a. 관측의 시장대비가 실제 진입일·마지막 확정일 종가로 계산된다(+10%)",
+      last["benchmark_status"] == "RECOMPUTED"
+      and abs(last["benchmark_return_pct"] - 10.0) < 0.001,
+      json.dumps({k: last.get(k) for k in ("benchmark_status", "benchmark_return_pct")},
+                 ensure_ascii=False))
+check("12b. 원장에 박제된 후퇴값(800)을 분모로 쓰지 않는다",
+      last["benchmark_entry_value"] == 1000.0, str(last["benchmark_entry_value"]))
+check("12c. 실제로 쓴 두 날짜를 행에 남긴다(행만 봐도 검증 가능)",
+      last["benchmark_entry_day"] == "2026-09-01"
+      and last["benchmark_observed_day"] == "2026-09-04",
+      f'{last["benchmark_entry_day"]} → {last["benchmark_observed_day"]}')
+check("12d. 시계 불일치 한계를 값 옆에 적는다(감사 D)",
+      "지수" in last["benchmark_clock_note"] and "종가" in last["benchmark_clock_note"])
+# 확정 종가가 없으면 값을 만들지 않는다
+eng._idx_hist = {}
+eng.provider = provider(D[5], {"005930": (11_000, 10_990)})
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[5]}T10:05:00+09:00"), now=t(D[5], 10, 10))
+obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+check("12e. 확정 종가가 없으면 시장대비를 지어내지 않는다",
+      obs[-1]["benchmark_return_pct"] is None
+      and obs[-1]["benchmark_status"] in ("NO_SETTLED_WINDOW", "MISSING_INDEX_ON_TRADE_DAY"),
+      str(obs[-1]["benchmark_status"]))
+shutil.rmtree(tmp)
+
+# ═══ ⑬ 러너가 하루 죽어도 짝비교 재료가 사라지지 않는다 (감사 HIGH 2) ════════
+tmp = tempfile.mkdtemp(prefix="sv2gap_")
+eng = make(tmp, provider(D[0], QUOTES))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+run_days(eng, D[1:5], {"005930": "HOLD"}, QUOTES)          # 보유 4거래일까지
+held4 = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")][-1]
+check("13a. 4거래일째에는 아직 체크포인트가 없다",
+      held4["holding_trading_days"] == 4 and held4["horizon_checkpoints_crossed"] == [])
+# 러너가 하루 죽어 5거래일째를 통째로 건너뛴다(businessDates에는 캘린더로 채워진다)
+eng.state["businessDates"] = sorted(set(eng.state["businessDates"]) | {D[5]})
+eng.provider = provider(D[6], QUOTES)
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[6]}T10:05:00+09:00"), now=t(D[6], 10, 10))
+obs = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+late = obs[-1]
+check("13b. 보유일이 4 → 6으로 건너뛰었다(장애 재현)",
+      late["holding_trading_days"] == 6, str(late["holding_trading_days"]))
+check("13c. 그래도 5거래일 체크포인트를 놓치지 않는다(==가 아니라 넘어섰는가)",
+      late["horizon_checkpoints_crossed"] == [5]
+      and late["counterfactual_exits"][0]["checkpoint"] == 5,
+      str(late["horizon_checkpoints_crossed"]))
+check("13d. 늦게 찍혔다는 사실을 숨기지 않는다",
+      late["counterfactual_exits"][0]["recorded_late"] is True
+      and late["counterfactual_exits"][0]["late_by_trading_days"] == 1
+      and late["counterfactual_exits"][0]["holding_trading_days_actual"] == 6,
+      json.dumps(late["counterfactual_exits"][0], ensure_ascii=False)[:200])
+eng.provider = provider(D[7], QUOTES)
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[7]}T10:05:00+09:00"), now=t(D[7], 10, 10))
+obs2 = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+check("13e. 한 번 찍은 체크포인트는 다시 찍지 않는다",
+      obs2[-1]["horizon_checkpoints_crossed"] == [])
+shutil.rmtree(tmp)
+
+# ═══ ⑭ 그날 시세가 늦게 살아나도 관측을 포기하지 않는다 (감사 A) ═════════════
+tmp = tempfile.mkdtemp(prefix="sv2late_")
+eng = make(tmp, provider(D[0], QUOTES))
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+blind = provider(D[1], QUOTES)
+blind.prices = {}                       # 그날 첫 사이클: 시세를 못 본다
+eng.provider = blind
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
+obs_blind = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+check("14a. 가격을 못 본 사이클은 관측을 기록하지 않는다(빈칸 행 금지)",
+      [o["business_date"] for o in obs_blind].count(D[1]) == 0,
+      str([o["business_date"] for o in obs_blind]))
+eng.provider = provider(D[1], {"005930": (10_500, 10_490)})   # 같은 날 다음 사이클
+eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[1]}T10:35:00+09:00"), now=t(D[1], 10, 40))
+obs_late = [json.loads(x) for x in open(os.path.join(tmp, sv.OBS_FILE), encoding="utf-8")]
+same_day = [o for o in obs_late if o["business_date"] == D[1]]
+check("14b. 같은 날 시세가 살아나면 그때 기록한다(하루 한 줄은 유지)",
+      len(same_day) == 1 and same_day[0]["observed_price"] == 10_495.0,
+      str([(o["business_date"], o["observed_price"]) for o in obs_late]))
+check("14c. CHIEF 경로는 실패한 사이클도 남는다(공백이 드러나게)",
+      len([json.loads(x) for x in open(os.path.join(tmp, sv.PATH_FILE), encoding="utf-8")
+           if json.loads(x)["business_date"] == D[1]]) == 2)
+shutil.rmtree(tmp)
+
+# ═══ ⑮ Shadow는 표본 미달이면 계좌 성과도 숫자로 내지 않는다 (감사 HIGH 3) ═══
+def one_closed_summary(engine_cls, tmpdir, **kw):
+    eng = engine_cls(provider(D[0], QUOTES), data_dir=tmpdir, environment=TEST_ENV, **kw)
+    eng.run_cycle(bundle({"005930": "HOLD"}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+    eng.run_cycle(bundle({"005930": "BUY"}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+    eng.provider = provider(D[1], {"005930": (11_010, 11_000)})
+    eng.run_cycle(bundle({"005930": "SELL"}, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
+    return json.load(open(os.path.join(tmpdir, "summary.json"), encoding="utf-8"))
+
+
+tmp = tempfile.mkdtemp(prefix="sv2gate_")
+s_v2 = one_closed_summary(sv.SmartV2Engine, tmp)
+leaked = {k: s_v2.get(k) for k in sv.SHADOW_ACCOUNT_GATED if s_v2.get(k) is not None}
+check("15a. 청산 1건짜리 Shadow는 계좌 성과를 전부 null로 낸다", not leaked,
+      json.dumps(leaked, ensure_ascii=False))
+check("15b. 되만들 수 있는 값(현금·평가금액)까지 함께 막는다",
+      s_v2["cash"] is None and s_v2["markedPositionsValue"] is None
+      and s_v2["currentVirtualEquity"] is None and s_v2["maxDrawdownPct"] is None)
+check("15c. 비용 반영 대체값으로도 새지 않는다",
+      all(s_v2["accounting"][k] is None for k in
+          ("cashIfAllNetKrw", "equityIfAllNetKrw", "realizedPnlIfAllNetKrw",
+           "portfolioReturnPctIfAllNetPct")))
+check("15d. 사실(건수·시작자금)은 그대로 남는다",
+      s_v2["maturedTrades"] == 1 and s_v2["initialVirtualCash"] == 10_000_000)
+check("15e. 무엇을 막았는지 산출물에 밝힌다",
+      set(s_v2["accountMetricsGatedUntilEvidence"]) == set(sv.SHADOW_ACCOUNT_GATED))
+shutil.rmtree(tmp)
+# 대조군 — V1은 사이트에 싣는 게 설계라 예전처럼 숫자를 낸다(동작 불변)
+tmp = tempfile.mkdtemp(prefix="sv1gate_")
+s_v1 = one_closed_summary(
+    pe.PaperEngine, tmp,
+    config={"strategyVersion": "PAPER_BASELINE_V1", "initial_cash_krw": 10_000_000,
+            "position_size_krw": 1_000_000, "maxHoldingTradingDays": 5})
+check("15f. 대조군 — V1의 계좌 지표는 예전 그대로 숫자다",
+      s_v1["portfolioReturnPct"] is not None and s_v1["realizedPnl"] is not None
+      and s_v1["currentVirtualEquity"] is not None,
+      json.dumps({k: s_v1.get(k) for k in ("portfolioReturnPct", "realizedPnl")}))
+shutil.rmtree(tmp)
+
+# ═══ ⑯ 전략 이름 고정·environment 격리 (감사 M1·M2) ══════════════════════════
+tmp = tempfile.mkdtemp(prefix="sv2id_")
+bare = sv.SmartV2Engine(provider(D[0], QUOTES), data_dir=tmp, environment=TEST_ENV,
+                        config={"initial_cash_krw": 10_000_000,
+                                "position_size_krw": 1_000_000,
+                                "maxHoldingTradingDays": 60})   # strategyVersion 없음
+check("16a. config에 전략 이름이 없어도 V1 이름으로 폴백하지 않는다",
+      bare.state["strategyVersion"] == sv.STRATEGY_VERSION,
+      str(bare.state["strategyVersion"]))
+check("16b. 그래서 trade_id가 V1과 절대 같아지지 않는다",
+      pe.trade_id_for(bare.state["strategyVersion"], "005930", "x")
+      != pe.trade_id_for("PAPER_BASELINE_V1", "005930", "x"))
+led = pe.Ledger(os.path.join(tmp, "mixed.jsonl"), "LIVE_PAPER")
+led.append({"trade_id": "mixed1", "environment": "LIVE_PAPER_SMART_V2", "status": "OPEN",
+            "entry_price": 100, "quantity": 1})
+check("16c. known_ids도 environment를 거른다(진입 영구 유실 방지)",
+      led.known_ids() == set() and led.latest_by_id() == {},
+      str(led.known_ids()))
+led2 = pe.Ledger(os.path.join(tmp, "mixed.jsonl"), "LIVE_PAPER_SMART_V2")
+check("16d. 자기 environment 행은 그대로 잡는다", led2.known_ids() == {"mixed1"})
+shutil.rmtree(tmp)
+
+# ═══ ⑰ 판단 없는 보유 종목을 '최강'으로 취급하지 않는다 (감사 M4) ════════════
+tmp = tempfile.mkdtemp(prefix="sv2rank_")
+codes = [f"00{i:04d}" for i in range(1, 10)]
+quotes = {c: (1_000_000, 999_000) for c in codes}
+quotes["999999"] = (44_000, 43_900)
+eng = make(tmp, provider(D[0], quotes))
+eng.run_cycle(bundle({c: "HOLD" for c in codes}, f"{D[0]}T09:05:00+09:00"), now=t(D[0], 9, 10))
+eng.run_cycle(bundle({c: "BUY" for c in codes}, f"{D[0]}T10:05:00+09:00"), now=t(D[0], 10, 10))
+# 보유 9종목 중 3종목은 이번 분석에 판단이 아예 없다
+sig = {c: "HOLD" for c in codes[:6]}
+sig["999999"] = "BUY"
+eng.provider = provider(D[1], quotes)
+eng.run_cycle(bundle(sig, f"{D[1]}T10:05:00+09:00"), now=t(D[1], 10, 10))
+sw = [json.loads(x) for x in open(os.path.join(tmp, sv.SWAP_FILE), encoding="utf-8")][-1]
+check("17a. 판단이 있는 종목 중에서만 최약체를 고른다",
+      sw["weakestHeld"]["symbol"] in codes[:6], str(sw["weakestHeld"]["symbol"]))
+check("17b. 판단이 없는 보유 종목이 있다는 사실을 남긴다",
+      sw["chief_coverage"] == "PARTIAL"
+      and set(sw["positionsWithoutChiefSignal"]) == set(codes[6:]),
+      json.dumps({k: sw.get(k) for k in ("chief_coverage", "positionsWithoutChiefSignal")},
+                 ensure_ascii=False))
+shutil.rmtree(tmp)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
