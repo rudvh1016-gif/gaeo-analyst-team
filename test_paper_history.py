@@ -19,6 +19,17 @@ import sys
 
 import paper_history as ph
 
+# 📉 2026-08-26: 시장대비(벤치마크)는 이제 '실제 진입일·청산일 종가'로 다시 계산한다
+#    (paper_engine.recomputed_benchmark). 이 파일이 검증하는 것은 종합평가 문장 로직이지
+#    지수 파일의 내용이 아니므로, 빈 지수를 주입해 픽스처가 준 benchmark_return_pct를
+#    그대로 쓰게 한다 — 저장소의 market_history.js가 바뀌어도 결과가 흔들리지 않는다.
+#    (재계산 경로 자체는 test_paper_accounting_v2.py가 따로 검증한다)
+ph.set_index_history({})
+
+# 💸 2026-08-26: 거래별 수익률(returnPct)이 확정손익과 같은 장부를 쓴다.
+#    이 파일의 픽스처는 전부 옛 기준(스탬프 없음·전환 이전 날짜)이라 값이 예전과 같다.
+#    비용 반영 거래에서 두 값이 어긋나지 않는지는 test_paper_accounting_v2.py가 본다.
+
 FAILURES = []
 CFG = {"initial_cash_krw": 10_000_000, "maxHoldingTradingDays": 5}
 
@@ -424,6 +435,33 @@ if real_led and real_cur:
           sum(x["buyCount"] for x in hr["days"])
           == len({r["trade_id"] for r in real_led
                   if r.get("status") == "OPEN" and r.get("environment") == "LIVE_PAPER"}))
+
+# ── 집계에 두 회계 기준이 섞였다는 사실을 숨기지 않는다 (2026-08-26) ──────────
+# 거래별 returnBasis가 있어도, 그 행들을 평균낸 값에 표시가 없으면 보는 사람은
+# 한 가지 기준으로 잰 값이라고 읽는다. 2026-08-27 전후로 실제로 섞이는 구간이 생긴다.
+def _sell(basis, ret, pnl):
+    return {"symbol": "000000", "name": "테스트", "market": "KOSPI",
+            "quantity": 10, "entryPrice": 1000.0, "exitPrice": 1000.0 + ret * 10,
+            "exitAt": "10:00", "realizedPnl": pnl, "returnPct": ret,
+            "returnBasis": basis, "benchmarkReturnPct": None, "benchmarkBasis": None,
+            "holdingTradingDays": 5, "exitReason": "종료", "mfePct": None, "maePct": None}
+
+
+_mixed = ph._stats([_sell("GROSS", 1.0, 100), _sell("NET", -1.0, -100)])
+check("BM1. 기준이 섞이면 MIXED라고 밝힌다", _mixed["returnBasis"] == "MIXED",
+      str(_mixed.get("returnBasis")))
+check("BM2. 각 기준이 몇 건인지 함께 낸다",
+      _mixed["returnBasisCounts"] == {"GROSS": 1, "NET": 1},
+      str(_mixed.get("returnBasisCounts")))
+check("BM3. 섞였을 때만 설명을 붙인다", bool(_mixed["returnBasisNote"]))
+check("BM4. 그래도 평균 숫자 자체는 고치지 않는다(사실을 적을 뿐)",
+      _mixed["avgReturnPct"] == 0.0, str(_mixed.get("avgReturnPct")))
+
+_pure = ph._stats([_sell("NET", 1.0, 100), _sell("NET", -1.0, -100)])
+check("BM5. 대조군 — 한 기준뿐이면 그 이름을 그대로 낸다",
+      _pure["returnBasis"] == "NET", str(_pure.get("returnBasis")))
+check("BM6. 대조군 — 섞이지 않았으면 설명을 붙이지 않는다",
+      _pure["returnBasisNote"] is None)
 
 print()
 if FAILURES:

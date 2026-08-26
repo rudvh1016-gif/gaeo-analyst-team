@@ -429,7 +429,12 @@
      한글에서 700은 과하게 무거워 "전부 굵은 보고서" 인상을 만들던 주된 원인이었다.
      GAEO 굵기 체계는 400(본문)·500(라벨·보조)·600(제목·종목명·중요 숫자) 3단계이고,
      브랜드 로고(800)만 예외다. 클래스 규칙이 있으면 그쪽이 우선한다(요소 선택자라 약함). */
-  code,kbd,samp,pre{font-family:var(--mono);font-size:.92em;letter-spacing:0}
+  /* 🔤 공백 없는 긴 식별자(PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM 같은
+     모델·후보 이름)는 줄바꿈할 자리가 없어 폭 360px 화면을 통째로 밀어낸다.
+     실측: 성적표 화면 scrollWidth 426px(화면 360px) → 좌우 스크롤 발생.
+     어디서든 끊어 접게 해서 화면 밖으로 나가지 않게 한다. */
+  code,kbd,samp,pre{font-family:var(--mono);font-size:.92em;letter-spacing:0;
+    overflow-wrap:anywhere;word-break:break-word;max-width:100%}
   b,strong{font-weight:600}
   h1,h2,h3,h4,h5,h6{font-weight:600}
   /* 제목은 줄을 고르게 나눈다 — 마지막 줄에 한 단어만 떨어지는 고아 줄을 막는다.
@@ -6324,7 +6329,10 @@ function renderPaper(){
     return names.slice(0,cap).join(' · ')+` 외 ${names.length-cap}종목`;
   };
   const sellLines=todaySells.map(r=>{
-    const q=n(r.quantity), rr=n(r.gross_return_pct), rp=n(r.realized_pnl);
+    /* 💸 수익률은 금액(확정손익)과 같은 장부를 쓰는 return_pct를 먼저 본다.
+       옛 스냅샷에는 그 필드가 없으므로 그때만 gross_return_pct로 물러선다. */
+    const q=n(r.quantity), rr=n(r.return_pct)!=null?n(r.return_pct):n(r.gross_return_pct),
+      rp=n(r.realized_pnl);
     const hd=n(r.holding_trading_days);
     return `<div class="pv-td-row"><span class="pv-td-nm">${esc(r.name||r.symbol||'종목')}`
       +`${rr==null?'':`<em class="pv-pos-r${dir(rr)}">${sPct(rr)}</em>`}</span>`
@@ -6374,7 +6382,10 @@ function renderPaper(){
 
   /* ④ 최근 종료 거래 — 진행 중과 절대 섞지 않는다. 내부 사유 코드는 한국어로 바꿔 쓴다. */
   const closedHTML=closes.map(r=>{
-    const ret=n(r.gross_return_pct), hd=n(r.holding_trading_days), pnl=n(r.realized_pnl);
+    /* 💸 여기도 금액과 같은 기준(return_pct)을 먼저 쓴다. 총수익이 왕복비용보다 작은
+       구간에서 "+0.22%"와 "-105원"이 한 줄에 같이 뜨던 모순을 없앤다. */
+    const ret=n(r.return_pct)!=null?n(r.return_pct):n(r.gross_return_pct),
+      hd=n(r.holding_trading_days), pnl=n(r.realized_pnl);
     const qty=n(r.quantity);
     const price=`${won(r.entry_price)} → ${won(r.exit_price)}`;
     const why=exitName[r.exit_reason]||'종료';
@@ -6508,9 +6519,21 @@ function renderPaper(){
   /* 💸 비용 안내 — 러너가 실제로 반영한 요율을 그대로 읽어 쓴다(화면에 숫자를 박지 않는다).
      비용 모델이 아직 없는 옛 스냅샷에서는 예전 문구를 그대로 쓴다. */
   const costLine=(cm&&n(cm.roundTripPct)!=null)
-    ? `표시되는 <b>수익률은 수수료·세금을 빼기 전 값</b>이고, 아래 「검증 상태」의 순수익만 이를 반영합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
+    ? `<b>손익 금액은 수수료·세금을 반영한 값</b>이고, 거래별 수익률도 같은 기준으로 표시합니다. 다만 아래 「검증 상태」의 <b>평균 수익률은 비용을 빼기 전 값</b>이라 옆의 순수익과 함께 봐야 합니다. 반영한 비용은 위탁수수료 ${cm.commissionPct}%(살 때·팔 때 각각)와 매도 시 세금 ${cm.sellTaxPct&&cm.sellTaxPct.KOSPI!=null?cm.sellTaxPct.KOSPI:''}%로, 한 번 사고팔면 약 ${cm.roundTripPct}%입니다(${esc(cm.verifiedAt||'')} 확인). 체결가는 실제 호가를 쓰기 때문에 호가 차이는 이미 값에 들어 있고, 큰 주문이 시세를 밀어내는 효과는 계산에 넣지 않았어요.`
     : `수익률·손익은 수수료·세금을 반영하기 전이에요(비용 모델 확인 중).`;
-  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록입니다. ${costLine} ${esc(P.benchmarkNote||'')}</p>`;
+  /* 💸 회계 기준이 섞여 있으면 그 사실을 숨기지 않는다.
+     전환 이전에 산 거래는 수수료·세금이 빠지지 않은 옛 방식으로 남아 있고(지난 기록을
+     나중에 고쳐 쓰지 않기 때문), 그만큼 지갑이 실제보다 많게 보인다. 그 차액과
+     "전부 반영하면 얼마인지"를 같이 적는다 — 성과를 낮추는 방향이라 고지에 해당한다. */
+  const mix=P.costBasisMix;
+  let mixLine='';
+  if(mix&&n(mix.unreflectedCostKrw)>0&&n(mix.grossBasisTrades)&&n(mix.cashIfAllNetKrw)!=null){
+    const parts=[`가상현금 ${won(mix.cashIfAllNetKrw)}`];
+    if(n(mix.equityIfAllNetKrw)!=null) parts.push(`현재 가상자산 ${won(mix.equityIfAllNetKrw)}`);
+    if(n(mix.portfolioReturnPctIfAllNet)!=null) parts.push(`수익률 ${sPct(mix.portfolioReturnPctIfAllNet)}`);
+    mixLine=` 다만 ${day(mix.switchAt)} 이전에 산 거래 ${mix.grossBasisTrades}건은 이 비용을 아직 빼지 않은 옛 방식으로 남아 있어요. 이미 남긴 기록을 나중에 고쳐 쓰지 않기 때문입니다. 그만큼(${won(mix.unreflectedCostKrw)}) 위 금액이 실제보다 많아 보이고, 전부 빼면 ${parts.join(' · ')}입니다.`;
+  }
+  const foot=`<p class="pv-foot"><b>실제 투자 주문은 발생하지 않습니다.</b> 실제 계좌·실제 돈과 연결되지 않은 가상 기록입니다. ${costLine}${mixLine} ${esc(P.benchmarkNote||'')}</p>`;
 
   /* 자동 재렌더 시 사용자가 펼쳐 둔 설명(details)이 닫히지 않게 상태를 보존한다 */
   const openGloss=[...el.querySelectorAll('.pv-gloss')].map(d=>d.open);

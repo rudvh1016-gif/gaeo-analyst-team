@@ -34,7 +34,10 @@ GitHub Actions 러너(Azure)의 IP는 등록할 수 없다(매번 바뀜). 실�
 3. `scripts/paper_cycle.ps1`이 실행되어:
    - 러너 저장소에 예상치 못한 변경이 있으면 **아무것도 고치지 않고 중단**한다.
    - GitHub 최신 `main`을 안전하게(fast-forward 또는 rebase) 반영한다.
-   - `paper_engine.py` → `paper_report.py` → `paper_public.py` 순으로 실행.
+   - `paper_engine.py`(V1) → `paper_momentum.py`(기본 OFF) → `paper_smart_v2.py`(Shadow,
+     기본 ON · `GAEO_PAPER_SMART_V2=0`으로 끔) → `paper_report.py` → `paper_public.py`
+     순으로 실행. V1 외 전략은 실패해도 기록 커밋을 막지 않고, 각자 별도 폴더
+     (`paper_trading/momentum`, `paper_trading/smart_v2`)에만 쓴다.
    - `paper_trading/`과 `paper_public.js` **만** 커밋한다(화이트리스트 검사 통과 필수).
    - 결과 변경이 없으면 커밋도 push도 하지 않고 정상 종료.
    - push가 거부되면 fetch→rebase 후 최대 4회 재시도. 충돌이 나면 **자동 병합하지 않고**

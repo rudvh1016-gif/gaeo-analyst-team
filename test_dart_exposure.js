@@ -136,8 +136,28 @@ function check(name, condition, detail) {
   await ctx.close();
 
   // ── E·F. 종목 화면 매칭 ───────────────────────────────────────────────────
-  //  실리콘투: 유상증자(재무) + 주총·주주명부(수급)  ·  KB금융: 기재정정(리스크)
-  for (const [code, want] of [['257720', ['diana', 'flow']], ['105560', ['risk']]]) {
+  // ⚠️ 2026-08-26: 예전에는 종목코드와 기대 축을 코드에 박아 뒀다
+  //    (실리콘투 → diana·flow / KB금융 → risk). 공시는 **매일 바뀐다** — 그 종목의
+  //    그 공시가 사라지는 순간 검사가 실패하는데, 정작 기능은 멀쩡하다.
+  //    실제로 origin/main에서 3건이 그렇게 실패하고 있었다(실리콘투는 오늘 공시 0건,
+  //    KB금융은 그 사이 수급 축 공시가 새로 붙었다).
+  //    그래서 대상 종목을 **오늘 실제 공시에서 고른다.** 기대 축도 박아넣지 않고
+  //    dartAxisOf()로 그때그때 계산한다 — 그 함수 자체는 위 D1이 고정된 예시로
+  //    이미 검증하므로, 여기서는 "데이터 → 화면 배치"라는 배선만 본다.
+  const tickerCodes = new Set(JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'tickers.js'), 'utf-8')
+      .match(/const\s+TICKERS\s*=\s*(\[[\s\S]*?\])\s*;/)[1]).map(x => x.code));
+  const byCode = new Map();
+  for (const it of (snap ? snap.items : [])) {
+    if (!tickerCodes.has(it.code)) continue;
+    if (!byCode.has(it.code)) byCode.set(it.code, []);
+    byCode.get(it.code).push(it.title);
+  }
+  // 공시가 많이 붙은 종목부터 2개 — 축이 여러 개라 배선을 더 넓게 본다.
+  const targets = [...byCode.entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 2);
+  check('E0. 오늘 공시가 붙은 검사 대상 종목을 찾았다', targets.length > 0,
+    `분석 대상 종목 중 공시 보유 ${byCode.size}개 / 전체 공시 ${(snap ? snap.items.length : 0)}건`);
+  for (const [code, titles] of targets) {
     const c2 = await browser.newContext({ viewport: { width: 390, height: 1200 }, serviceWorkers: 'block' });
     const p2 = await c2.newPage();
     const e2 = [];
@@ -153,10 +173,18 @@ function check(name, condition, detail) {
     const got = await p2.evaluate(() => [...document.querySelectorAll('.dart-match')]
       .map(el => { const card = el.closest('.card'); return card ? card.id.replace('card-', '')
         : ((el.previousElementSibling || {}).id || '').replace('fx-', ''); }));
-    check(`E1.${code} 기대한 분석가 카드에 공시가 붙는다`,
-      want.every(a => got.includes(a)), `기대 ${want} / 실제 ${got}`);
+    // 기대 축 = 오늘 그 종목 공시들의 축 ∩ 이 화면이 실제로 가진 축 슬롯.
+    // 슬롯이 없는 축까지 요구하면 기능이 멀쩡해도 실패한다(그건 검사의 잘못이다).
+    const want = await p2.evaluate(ts => {
+      const slots = new Set([...document.querySelectorAll('[id^="card-"],[id^="fx-"]')]
+        .map(el => el.id.replace(/^card-|^fx-/, '')));
+      return [...new Set(ts.map(t => dartAxisOf(t).axis))].filter(a => slots.has(a));
+    }, titles);
+    check(`E1.${code} 오늘 공시의 축마다 분석가 카드에 실제로 붙는다`,
+      want.length > 0 && want.every(a => got.includes(a)),
+      `공시 ${titles.length}건 / 기대축 ${JSON.stringify(want)} / 실제 ${JSON.stringify(got)}`);
     check(`E2.${code} 관계없는 축에는 붙지 않는다`,
-      got.every(a => want.includes(a)), `실제 ${got}`);
+      got.every(a => want.includes(a)), `기대축 ${JSON.stringify(want)} / 실제 ${JSON.stringify(got)}`);
     check(`E3.${code} 분석가별 근거 탭에서 실제로 보인다`,
       await p2.evaluate(() => {
         const t = [...document.querySelectorAll('[data-analysis-tab]')].find(x => x.dataset.analysisTab === 'agents');

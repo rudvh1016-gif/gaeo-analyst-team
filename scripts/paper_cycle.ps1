@@ -321,6 +321,15 @@ if (Test-Path (Join-Path $RepoPath 'paper_momentum.py')) {
     Invoke-PaperScript 'paper_momentum.py' -ContinueOnError | Out-Null
 }
 
+# 🧪 세 번째 전략(Smart V2 — 5거래일은 청산일이 아니라 재평가일) — 기본 ON.
+#    끄려면 GAEO_PAPER_SMART_V2=0. 스크립트가 스스로 꺼짐을 판단해 즉시 종료하므로
+#    여기서는 조건 없이 부른다(켜고 끄는 데 코드 수정이 필요 없다).
+#    ⚠️ 별도 폴더(paper_trading/smart_v2) + 별도 environment라 V1 기록과 섞이지 않고,
+#       실패해도 기존 전략의 기록 커밋을 막지 않는다.
+if (Test-Path (Join-Path $RepoPath 'paper_smart_v2.py')) {
+    Invoke-PaperScript 'paper_smart_v2.py' -ContinueOnError | Out-Null
+}
+
 # 워크플로와 동일한 의미: report·public 실패는 기록 커밋을 막지 않는다.
 Invoke-PaperScript 'paper_report.py' -ContinueOnError | Out-Null
 Invoke-PaperScript 'paper_public.py' -ContinueOnError | Out-Null
