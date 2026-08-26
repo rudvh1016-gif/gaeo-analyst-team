@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-26 11:14",
- "dataCutoff": "2026-08-26 11:14 장중",
+ "generatedAt": "2026-08-26 11:44",
+ "dataCutoff": "2026-08-26 11:44 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 1,
-   "why": "20거래일 +92.8% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.3,
+   "why": "20거래일 +90.9% · 20일선 위",
+   "overheat": false,
+   "gapPct": 29.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,54 +24,54 @@ window.ROTATION_PICKS = {
    "name": "미래에셋생명",
    "sector": "보험",
    "sectorRank": 9,
-   "why": "20거래일 +99.6% · 20일선 위",
+   "why": "20거래일 +99.3% · 20일선 위",
    "overheat": true,
-   "gapPct": 48.7,
-   "call": "SELL",
-   "callConflict": true
+   "gapPct": 48.5,
+   "call": "HOLD",
+   "callConflict": false
   },
   {
    "code": "241710",
    "name": "코스메카코리아",
    "sector": "화장품·미용",
-   "sectorRank": 3,
-   "why": "20거래일 +68.5% · 20일선 위",
+   "sectorRank": 2,
+   "why": "20거래일 +67.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.2,
+   "gapPct": 26.1,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "181710",
-   "name": "NHN",
-   "sector": "인터넷·IT",
-   "sectorRank": 13,
-   "why": "20거래일 +82.0% · 20일선 위",
+   "code": "323280",
+   "name": "태성",
+   "sector": "반도체",
+   "sectorRank": 5,
+   "why": "20거래일 +69.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 19.0,
+   "gapPct": 12.0,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.5,
+  "breadthPct": 66.6,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6757.14,
-    "ma20": 6497.05,
+    "close": 6829.74,
+    "ma20": 6500.68,
     "above": true,
-    "gapPct": 4.0
+    "gapPct": 5.06
    },
    "KOSDAQ": {
-    "close": 821.68,
-    "ma20": 800.31,
+    "close": 824.11,
+    "ma20": 800.43,
     "above": true,
-    "gapPct": 2.67
+    "gapPct": 2.96
    }
   }
  },
