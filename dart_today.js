@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-27 13:52",
- "priceLabel": "2026-08-27 13:44 장중",
- "count": 296,
+ "generatedAt": "2026-08-27 14:20",
+ "priceLabel": "2026-08-27 14:17 장중",
+ "count": 298,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "232140",
+   "name": "와이씨",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "018670",
+   "name": "SK가스",
+   "title": "[첨부정정]주요사항보고서(회사합병결정)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "isCorrection": false
+  },
   {
    "code": "000720",
    "name": "현대건설",
@@ -466,14 +498,6 @@ const DART_TODAY = {
   {
    "code": "016610",
    "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T07:25:18.487312+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T07:25:18.487312+00:00",
@@ -571,14 +595,6 @@ const DART_TODAY = {
    "code": "005880",
    "name": "대한해운",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:55:06.004872+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T06:55:06.004872+00:00",
    "isCorrection": false
