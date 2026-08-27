@@ -14483,7 +14483,18 @@ window.renderScreener=function(){
   document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
   document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
   document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
-  document.getElementById('mode-rotation').onclick=()=>{setMode('rotation'); SFX.click();};
+  document.getElementById('mode-rotation').onclick=()=>{
+    setMode('rotation'); SFX.click();
+    // ⭐ 2026-08-27 버그수정 — 다른 화면을 스크롤해 내려간 채로 "전체 메뉴" 안의
+    // "순환매" 버튼을 누르면 setMode가 화면 위치를 되돌리지 않아 목록 중간에서
+    // 시작된 것처럼 보였다(대표 실사용 중 신고). data-nav-mode 쪽은 이미 같은
+    // 패턴(closePanels 뒤 setTimeout 스크롤)으로 이 문제가 없어 그대로 따른다 —
+    // 전체 메뉴 오버레이가 클릭 40ms 뒤(아래 전역 리스너)에 닫히므로, 그보다
+    // 늦게 스크롤해야 오버레이가 닫힌 뒤의 실제 레이아웃 기준으로 맞는다.
+    setTimeout(()=>{
+      document.getElementById('rotationView')?.scrollIntoView({behavior:'smooth',block:'start'});
+    },60);
+  };
   document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click();};
   document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
   document.getElementById('mode-paper').onclick=()=>{setMode('paper'); SFX.click();};
