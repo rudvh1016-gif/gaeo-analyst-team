@@ -59,6 +59,14 @@ MAX_NEW_ENTRIES_PER_DAY = 4
 # 시장 폭 게이트: 5거래일 수익률 중앙값 계산에 필요한 최소 종목 수.
 # 이보다 적으면 시장 상태를 추측하지 않고 그날 진입을 보류한다(fail closed).
 MIN_BREADTH_STOCKS = 100
+# 📊 수집 커버리지 하한(2026-08-27 점검에서 추가).
+#    개장 직후에는 오늘 종가가 아직 절반만 수집돼 있다(실측: 08-26 09:14 54.8% →
+#    09:44 99.7%, 08-27 09:13 51.4% → 11:35 99.8%). 그 부분 표본으로 중앙값을 내면
+#    같은 날인데도 값이 크게 달라져(08-27 실측 0.55 vs 0.935, 기준선은 0) 게이트
+#    판정이 뒤집힐 수 있고, 상위 4종목 후보도 달라진다. 절대 종목 수 하한만으로는
+#    308종목짜리 부분 표본이 그냥 통과한다. 수집은 한 사이클 안에 끝나므로,
+#    덜 찬 표본으로 추측하는 대신 다음 사이클을 기다린다(fail closed).
+MIN_BREADTH_COVERAGE = 0.9
 
 EXIT_TAKE_PROFIT = "TAKE_PROFIT"
 EXIT_STOP_LOSS = "STOP_LOSS"
@@ -122,7 +130,9 @@ def scan_candidates(closes_by_code):
     """(참고일, 시장폭 중앙값, 자격 후보 [(ret20 내림차순) (code, ret20)]) 를 계산한다.
 
     참고일 = 데이터에 있는 가장 최근 날짜. look-ahead 없음 — 그날까지의 종가만 쓴다.
-    시장폭 표본이 MIN_BREADTH_STOCKS 미만이면 (ref_day, None, [])로 fail closed.
+    시장폭 표본이 MIN_BREADTH_STOCKS 미만이거나 전체 종목 대비 커버리지가
+    MIN_BREADTH_COVERAGE 미만이면 (ref_day, None, [])로 fail closed —
+    수집이 덜 끝난 부분 표본으로 시장 상태를 판정하지 않는다.
     """
     ref_day = None
     for days in closes_by_code.values():
@@ -147,7 +157,9 @@ def scan_candidates(closes_by_code):
         ret20 = (c / closes[-21] - 1) * 100
         if c > ma20 and c > ma60 and ret20 > 0:
             quals.append((code, ret20))
-    if len(breadth) < MIN_BREADTH_STOCKS:
+    total = len(closes_by_code)
+    if (len(breadth) < MIN_BREADTH_STOCKS
+            or (total and len(breadth) / total < MIN_BREADTH_COVERAGE)):
         return ref_day, None, []
     quals.sort(key=lambda x: (-x[1], x[0]))
     return ref_day, statistics.median(breadth), quals
