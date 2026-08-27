@@ -259,6 +259,25 @@ _, med3, q3 = ps.scan_candidates(small)
 check("9-4. 시장 폭 표본 부족이면 중앙값 None + 후보 없음(fail closed)",
       med3 is None and q3 == [], f"{med3} {len(q3)}")
 
+# ── 10. 공개 스냅샷 연결(2026-08-27 QA 지적 회귀 방지) ───────────────────────
+#    config.json이 디스크에 실제로 생겨야 paper_public이 이 전략을 실데이터로
+#    게시한다 — 안 생기면 V3 탭이 영원히 "준비 중"(PREPARING)에 갇힌다.
+tmp = tempfile.mkdtemp(prefix="sv3_pub_")
+e = engine(tmp, D1)                     # 생성만으로 _load_config가 실행된다
+check("10. 엔진 생성 시 config.json이 디스크에 남는다",
+      os.path.exists(os.path.join(tmp, "config.json")))
+import paper_public as _pp
+_payload, _ctx = _pp.build_payload(tmp, "TEST_SCALP_V3")
+check("10-1. 공개 payload가 전략 이름을 안다(PREPARING 스텁 아님)",
+      _payload.get("strategyVersion") == "PAPER_SCALP_V3"
+      and _payload.get("stage") != "PREPARING",
+      f"{_payload.get('strategyVersion')} {_payload.get('stage')}")
+check("10-2. 진입·청산 규칙 텍스트가 payload에 실린다",
+      bool(_payload.get("entryRule")) and bool(_payload.get("exitRule")))
+check("10-3. 저장소에 초기 config.json이 커밋돼 있다(러너 첫 실행 전에도 스텁 탈출)",
+      os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                  "paper_trading", "scalp_v3", "config.json")))
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
