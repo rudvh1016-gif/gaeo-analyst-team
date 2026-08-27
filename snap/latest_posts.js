@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 59,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-27",
+  "title": "2026년 8월27일 종가, 엔비디아 훈풍에 코스피·코스닥 동반 상승",
+  "featured": false
+ },
+ {
   "id": 58,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-19",
   "title": "2026년 8월19일 종가, 코스피 5.8% 급락하고 24개 업종이 전부 내렸다",
   "featured": false
- },
- {
-  "id": 50,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-19",
-  "title": "외국인은 아직 안 팔았다, 코스피 7주 수급 데이터 해부",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 58,
+ "news": 59,
  "study": 35,
  "lesson": 82,
  "estate": 19,
