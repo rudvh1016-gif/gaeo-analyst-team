@@ -122,9 +122,9 @@ def _read_json(path, default=None):
         return default
 
 
-def _read_ledger():
+def _read_ledger(data_dir=None, environment="LIVE_PAPER"):
     rows = []
-    path = os.path.join(DIR, "trades.jsonl")
+    path = os.path.join(data_dir or DIR, "trades.jsonl")
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             for line in f:
@@ -136,7 +136,10 @@ def _read_ledger():
                         continue
     latest = {}
     for r in rows:
-        if r.get("environment") == "LIVE_PAPER":   # TEST 기록은 절대 공개분에 안 섞는다
+        # TEST 기록은 절대 공개분에 안 섞는다. environment는 전략마다 다르므로
+        # (V1 LIVE_PAPER · V2 LIVE_PAPER_SMART_V2 · V3 LIVE_PAPER_SCALP_V3)
+        # 호출한 쪽이 자기 전략의 이름을 넘긴다 — 다른 전략의 행도 여기서 걸러진다.
+        if r.get("environment") == environment:
             latest[r["trade_id"]] = r
     return latest
 
@@ -215,11 +218,16 @@ def _derived(r, meta, business_dates, today, max_hold, gap_days=(), config=None)
             if k in DERIVED_ALLOWED or k == "holding_trading_days"}
 
 
-def build():
-    summary = _read_json(os.path.join(DIR, "summary.json")) or {}
-    state = _read_json(os.path.join(DIR, "state.json")) or {}
-    config = _read_json(os.path.join(DIR, "config.json")) or {}
-    latest = _read_ledger()
+def build_payload(data_dir, environment="LIVE_PAPER"):
+    """한 전략 폴더의 공개 payload를 만든다(파생 전용 — 원본을 고치지 않는다).
+
+    V1(paper_trading/)이 기본이고, V2(smart_v2/)·V3(scalp_v3/)도 같은 코드로 만든다 —
+    산식이 두 벌 생기면 언젠가 어긋나므로 함수 하나를 폴더만 바꿔 부른다.
+    """
+    summary = _read_json(os.path.join(data_dir, "summary.json")) or {}
+    state = _read_json(os.path.join(data_dir, "state.json")) or {}
+    config = _read_json(os.path.join(data_dir, "config.json")) or {}
+    latest = _read_ledger(data_dir, environment)
 
     opens = [r for r in latest.values() if r.get("status") == "OPEN"]
     closed = [r for r in latest.values() if r.get("status") == "CLOSED"]
@@ -287,7 +295,7 @@ def build():
     #    그 함수를 같은 원장에 대해 호출만 한다. summary.json이 아직 새 필드를 갖고
     #    있지 않아도(러너가 구버전 엔진으로 한 번 더 돌기 전이어도) 화면이 비지 않는다.
     #    근거 파일 자체가 없을 때만 요약에 실려 온 값으로 물러선다.
-    _curve = os.path.join(DIR, "equity_curve.jsonl")
+    _curve = os.path.join(data_dir, "equity_curve.jsonl")
     if os.path.exists(_curve):
         data_gaps = observation_gaps(_curve, business_dates, today_kst)
     else:
@@ -389,6 +397,42 @@ def build():
         for _k in EVIDENCE_GATED_PUBLIC:
             payload[_k] = None
 
+    # 전략 설명(역할·진입·청산 규칙 텍스트) — 버전 탭 화면이 규칙을 지어내지 않고
+    # config에 적힌 그대로 읽게 한다. 없는 전략(V1 등)은 필드 자체를 만들지 않는다.
+    for _k in ("strategyRole", "entryRule", "exitRule", "knownLimits",
+               "takeProfitPct", "stopLossPct"):
+        if config.get(_k):
+            payload[_k] = config[_k]
+
+    return payload, {"config": config, "initial": initial, "stage": stage,
+                     "opens": opens, "closed": closed,
+                     "business_dates": business_dates}
+
+
+def _version_stub(strategy_version):
+    """엔진이 아직 한 번도 돌지 않은 전략의 자리 표시 — 숫자를 지어내지 않는다."""
+    return {"schemaVersion": "gaeo_paper_public_v1",
+            "strategyVersion": strategy_version,
+            "generatedAt": datetime.now(KST).isoformat(timespec="seconds"),
+            "stage": "PREPARING",
+            "initialVirtualCash": 10_000_000, "positionSizeKrw": 1_000_000,
+            "openTrades": 0, "closedTrades": 0, "recentTrades": []}
+
+
+# 사이트에 함께 싣는 추가 전략 버전 — (JS 전역 이름, 폴더, environment, 전략 이름).
+# V2 공개는 2026-08-27 대표 결정(모의투자 버전 탭). V3는 처음부터 공개 설계.
+PUBLIC_VERSIONS = (
+    ("GAEO_PAPER_V2", "smart_v2", "LIVE_PAPER_SMART_V2", "PAPER_SMART_V2"),
+    ("GAEO_PAPER_V3", "scalp_v3", "LIVE_PAPER_SCALP_V3", "PAPER_SCALP_V3"),
+)
+
+
+def build():
+    payload, ctx = build_payload(DIR, "LIVE_PAPER")
+    config, initial = ctx["config"], ctx["initial"]
+    stage, opens, closed = ctx["stage"], ctx["opens"], ctx["closed"]
+    business_dates = ctx["business_dates"]
+
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     low = blob.lower()
     leaked = [w for w in FORBIDDEN_SUBSTRINGS if w in low]
@@ -416,10 +460,31 @@ def build():
     except Exception as e:
         print(f"[paper_public] history 생성 실패(공개 스냅샷은 계속): {type(e).__name__}")
 
+    # 📚 추가 전략 버전(V2·V3) — V1과 같은 함수·같은 검열을 거쳐 같은 파일에 싣는다.
+    #    한 버전이 실패해도 다른 버전과 V1 산출은 계속된다(전략 간 독립 — advisory 원칙).
+    version_lines = []
+    for js_key, sub, env, ver in PUBLIC_VERSIONS:
+        vdir = os.path.join(DIR, sub)
+        try:
+            if os.path.exists(os.path.join(vdir, "config.json")):
+                vpayload, _vctx = build_payload(vdir, env)
+            else:
+                vpayload = _version_stub(ver)
+        except Exception as e:
+            print(f"[paper_public] {ver} payload 실패 — 자리 표시로 대체: {type(e).__name__}")
+            vpayload = _version_stub(ver)
+        vblob = json.dumps(vpayload, ensure_ascii=False, separators=(",", ":"))
+        if any(w in vblob.lower() for w in FORBIDDEN_SUBSTRINGS):
+            print(f"[paper_public] {ver} 차단 — 금지 키워드 감지, 이 버전만 미게시")
+            continue
+        version_lines.append(f"window.{js_key}={vblob};\n")
+
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         f.write("// 자동 생성: paper_public.py — 모의투자 공개 요약(파생 데이터, 원본은 paper_trading/)\n")
         f.write("window.GAEO_PAPER=" + blob + ";\n")
+        for line in version_lines:
+            f.write(line)
     os.replace(tmp, OUT)
     print(f"[paper_public] stage={stage} open={len(opens)} closed={len(closed)} → {OUT}")
     return 0

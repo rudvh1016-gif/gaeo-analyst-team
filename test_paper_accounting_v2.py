@@ -479,8 +479,8 @@ _pp.DIR = d
 _pp.OUT = os.path.join(tmp, "paper_public.js")
 try:
     rc = _pp.build()
-    pub = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*);\s*$",
-                                 open(_pp.OUT, encoding="utf-8").read(), _re2.S).group(1))
+    pub = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*?);\n",
+                                 open(_pp.OUT, encoding="utf-8").read()).group(1))  # V1 줄만
 finally:
     _pp.DIR, _pp.OUT = _od, _oo
 tr = pub["recentTrades"][0]
@@ -695,8 +695,8 @@ _od, _oo = _pp.DIR, _pp.OUT
 _pp.DIR, _pp.OUT = d, os.path.join(tmp, "paper_public.js")
 try:
     _pp.build()
-    pubL = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*);\s*$",
-                                  open(_pp.OUT, encoding="utf-8").read(), _re2.S).group(1))
+    pubL = json.loads(_re2.search(r"window\.GAEO_PAPER=(.*?);\n",
+                                  open(_pp.OUT, encoding="utf-8").read()).group(1))  # V1 줄만
 finally:
     _pp.DIR, _pp.OUT = _od, _oo
 _card = pubL["recentTrades"][0]

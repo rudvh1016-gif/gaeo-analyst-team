@@ -20,6 +20,7 @@
 """
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -149,7 +150,8 @@ try:
                "forwardStart": "2026-08-18"}, open(os.path.join(tmp, "config.json"), "w"))
 
     rc = pp.build()
-    payload = json.loads(open(pp.OUT, encoding="utf-8").read().split("=", 1)[1].strip().rstrip(";"))
+    payload = json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n",
+                                   open(pp.OUT, encoding="utf-8").read()).group(1))  # V1 줄만
     check("공개 스냅샷 생성 성공", rc == 0)
     check("공개 — evidenceStatus가 INSUFFICIENT로 시작",
           str(payload["evidenceStatus"]).startswith("INSUFFICIENT"))

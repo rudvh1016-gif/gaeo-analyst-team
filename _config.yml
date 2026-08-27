@@ -9,12 +9,13 @@
 #   https://gaeoteam.com/research_archive/dart/corp_map.json → HTTP 200
 exclude:
   - research_archive/
-  # 🧪 모의투자 Shadow 전략(PAPER_SMART_V2)의 원기록. 화면에 싣지 않는 전략이라
-  #    사이트 주소로 내보내지 않는다. ⚠️ 이것만으로는 부족하다 — public 저장소라
-  #    raw URL은 그대로 남는다. 그래서 표본 미달 시 계좌 성과 숫자 자체를 비운다
-  #    (paper_smart_v2.SHADOW_ACCOUNT_GATED). V1(paper_trading/ 최상위)은 화면에
-  #    싣는 것이 설계라 제외하지 않는다.
+  # 🧪 모의투자 V2(smart_v2)·V3(scalp_v3)의 원기록(원장·상태 파일).
+  #    화면은 파생 요약(paper_public.js)만 읽으므로 원기록 폴더는 사이트 주소로
+  #    굳이 내보내지 않는다(2026-08-27부터 V2·V3도 버전 탭으로 공개되지만, 공개는
+  #    어디까지나 paper_public.js 경유다). V1(paper_trading/ 최상위)은 화면이
+  #    history.json을 직접 읽는 설계라 제외하지 않는다.
   - paper_trading/smart_v2/
+  - paper_trading/scalp_v3/
   - docs/
   - "*.py"
   - "*.command"
