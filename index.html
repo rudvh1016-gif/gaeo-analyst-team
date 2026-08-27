@@ -11623,6 +11623,27 @@ function sendToWork(dur,onDone){ setTimeout(onDone,dur); }
 async function analyze(){
   if(running)return; running=true;
   SFX.click();
+  /* ⭐ 2026-08-27 버그수정 — 분석을 눌러두고 기다리는 동안 화면을 직접 움직여
+     다른 곳(차트·시황·아래쪽 등)을 보고 있었는데, 분석이 끝나면 아래 종합판단으로
+     화면이 강제로 끌려가 보던 자리를 잃어버렸다(대표 실사용 중 신고).
+     여기서 "기다리는 동안 사용자가 화면을 직접 움직였는지"를 기록해 두고,
+     움직였다면 결과가 나와도 스크롤을 빼앗지 않는다(탭만 종합판단으로 맞춰 둔다).
+     analyze() 안에서 프로그램이 스크롤하는 곳은 맨 끝 두 갈래뿐이라(그 시점엔 이미
+     판정이 끝난 뒤다) 이 감시가 우리 스크롤 때문에 잘못 켜지지 않는다. */
+  let userMovedView=false;
+  const markUserMoved=()=>{ userMovedView=true; };
+  const VIEW_KEYS=new Set(['PageUp','PageDown','Home','End','ArrowUp','ArrowDown',' ']);
+  const onViewKey=event=>{ if(VIEW_KEYS.has(event.key)) userMovedView=true; };
+  window.addEventListener('wheel',markUserMoved,{passive:true});
+  window.addEventListener('touchmove',markUserMoved,{passive:true});
+  window.addEventListener('scroll',markUserMoved,{passive:true});
+  window.addEventListener('keydown',onViewKey);
+  const releaseViewGuard=()=>{
+    window.removeEventListener('wheel',markUserMoved);
+    window.removeEventListener('touchmove',markUserMoved);
+    window.removeEventListener('scroll',markUserMoved);
+    window.removeEventListener('keydown',onViewKey);
+  };
   const stock=resolveStock(document.getElementById('ticker').value);
   window.GaeoCurrentCode=stock.code;
   // 📚 정밀분석 기록 탭 — 이 종목이 정밀분석 대상(LIVE_AN)에 있을 때만 탭을 보여주고,
@@ -11826,9 +11847,12 @@ async function analyze(){
           window.scrollTo(0, Math.max(0, window.scrollY + q.getBoundingClientRect().top - 8));
           de.style.scrollBehavior=prev; }
       } else {
+        // 결과 탭은 어느 경우든 종합판단으로 맞춰 둔다(돌아왔을 때 바로 보이게).
         setAnalysisTab('verdict');
-        document.getElementById('analysisDetails').scrollIntoView({behavior:'smooth',block:'start'});
+        // 기다리는 동안 사용자가 화면을 직접 움직였다면 보던 자리를 그대로 둔다.
+        if(!userMovedView) document.getElementById('analysisDetails').scrollIntoView({behavior:'smooth',block:'start'});
       }
+      releaseViewGuard();
       SFX[v.call.toLowerCase()]();
       document.getElementById('run').disabled=false; running=false;
     });
