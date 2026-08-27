@@ -3,7 +3,7 @@
   "byKind": {
    "detail": 0,
    "financial": 0,
-   "list": 22,
+   "list": 27,
    "mapping": 0,
    "other": 0
   },
@@ -11,35 +11,35 @@
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9978,
-  "requests_today": 22,
-  "runs_today": 4,
+  "remaining": 9973,
+  "requests_today": 27,
+  "runs_today": 5,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 0.22
+  "usage_pct_of_hard_limit": 0.27
  },
  "coverageNote": "NO_OFFICIAL_EVENT_DETECTED는 '뉴스 없음'이 아니다. 일반 언론뉴스 Coverage가 없어서 공식 공시만 본 결과다.",
  "coverageReasons": [],
  "efficiency": {
   "api_errors": 0,
-  "bytes_received": 115396,
+  "bytes_received": 125596,
   "detail_requests": 0,
-  "duplicate_skipped": 29,
+  "duplicate_skipped": 30,
   "list_requests": 5,
   "matched_gaeo_filings": 1,
-  "new_filings_detected": 434,
+  "new_filings_detected": 474,
   "no_data_responses": 0,
   "pages_fetched": 5,
   "processing_duration_sec": null,
   "requests_per_run": 5,
-  "unmatched_filings": 404
+  "unmatched_filings": 443
  },
  "errors": [],
  "eventState": "EVENT_DETECTED",
  "eventsAcknowledged": 1,
  "eventsFound": 1,
  "eventsStored": 1,
- "finishedAt": "2026-08-27T04:01:54.019888+00:00",
+ "finishedAt": "2026-08-27T04:32:06.527929+00:00",
  "hasApiKey": true,
  "kstToday": "2026-08-27",
  "maintenance": [],
@@ -52,8 +52,8 @@
   "total_pages_reported": 5
  },
  "pendingRetryNext": 0,
- "ranAt": "2026-08-27T04:01:43.118592+00:00",
- "seenTotal": 691,
- "startedAt": "2026-08-27T04:01:43.123095+00:00",
+ "ranAt": "2026-08-27T04:31:55.001011+00:00",
+ "seenTotal": 692,
+ "startedAt": "2026-08-27T04:31:55.005356+00:00",
  "status": "OK"
 }
