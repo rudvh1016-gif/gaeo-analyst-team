@@ -2942,8 +2942,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "bear",
-    "score": 43,
+    "stance": "neu",
+    "score": 46,
     "sector": "반도체",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -7359,7 +7359,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "neu",
@@ -16052,7 +16052,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -18886,7 +18886,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "diana": {
     "stance": "neu",
@@ -20217,7 +20217,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -21536,7 +21536,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -22843,7 +22843,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 20
+    "score": 21
    },
    "diana": {
     "stance": "bull",
@@ -25477,7 +25477,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -34710,7 +34710,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -34722,7 +34722,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -38671,7 +38671,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 16
    },
    "diana": {
     "stance": "bull",
@@ -46593,7 +46593,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -47904,7 +47904,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -66410,7 +66410,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "SELL",
-   "total": 39,
+   "total": 40,
    "confidence": 43,
    "base": 111600,
    "baseAt": "2026-08-27 15:14 장중",
@@ -66424,11 +66424,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -71716,7 +71716,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -73023,7 +73023,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -82268,7 +82268,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -96769,7 +96769,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 88
+    "score": 89
    },
    "nova": {
     "stance": "neu",
@@ -107313,11 +107313,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -108636,7 +108636,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 76
+    "score": 77
    },
    "diana": {
     "stance": "bull",
@@ -112593,7 +112593,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -125779,7 +125779,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -125791,7 +125791,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 53,
     "sector": "바이오·제약",
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
@@ -127102,7 +127102,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "diana": {
     "stance": "neu",
@@ -142930,7 +142930,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -148202,11 +148202,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "neu",
@@ -153561,7 +153561,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -156195,7 +156195,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -157514,11 +157514,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 79
    },
    "diana": {
     "stance": "bear",
@@ -161457,7 +161457,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 55,
+   "total": 54,
    "confidence": 37,
    "base": 190200,
    "baseAt": "2026-08-27 15:14 장중",
@@ -161471,7 +161471,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -162790,7 +162790,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -164109,7 +164109,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -164125,7 +164125,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -168066,11 +168066,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -169397,7 +169397,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -170708,7 +170708,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -172009,7 +172009,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "SELL",
-   "total": 42,
+   "total": 43,
    "confidence": 68,
    "base": 9580,
    "baseAt": "2026-08-27 15:14 장중",
@@ -172023,7 +172023,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -175994,7 +175994,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -177285,7 +177285,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 37,
    "base": 222000,
    "baseAt": "2026-08-27 15:14 장중",
@@ -177299,11 +177299,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 24
    },
    "diana": {
     "stance": "bull",
@@ -178618,7 +178618,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 5,
    "taro": {
     "stance": "bull",
@@ -178629,8 +178629,8 @@ const LIVE_HISTORY = {
     "score": 75
    },
    "nova": {
-    "stance": "bear",
-    "score": 43,
+    "stance": "neu",
+    "score": 46,
     "sector": "반도체",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -179953,7 +179953,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -181264,7 +181264,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "nova": {
     "stance": "neu",
@@ -183880,7 +183880,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 60,
    "base": 73000,
    "baseAt": "2026-08-27 15:14 장중",
@@ -183894,7 +183894,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -185213,7 +185213,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -187863,7 +187863,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -198432,11 +198432,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 26
+    "stance": "neu",
+    "score": 50
    },
    "diana": {
     "stance": "neu",
@@ -198444,7 +198444,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 51,
     "sector": "자동차·부품",
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
@@ -205060,7 +205060,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 87
    },
    "diana": {
     "stance": "bull",
@@ -206387,7 +206387,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -207708,9 +207708,9 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 58,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -209025,7 +209025,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -211667,7 +211667,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -215616,7 +215616,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bear",
-    "score": 41
+    "score": 40
    },
    "nova": {
     "stance": "neu",
@@ -216913,7 +216913,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 47,
+   "total": 48,
    "confidence": 37,
    "base": 62800,
    "baseAt": "2026-08-27 15:14 장중",
@@ -216927,19 +216927,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 39
    },
    "diana": {
     "stance": "bull",
     "score": 92
    },
    "nova": {
-    "stance": "neu",
-    "score": 48,
+    "stance": "bear",
+    "score": 32,
     "sector": "유통·소비재",
     "sectorWinRate": 49.8,
     "sectorBlendPct": 75,
@@ -220898,7 +220898,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -224899,7 +224899,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 89
    },
    "diana": {
     "stance": "neu",
@@ -224911,7 +224911,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -235461,7 +235461,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -236770,7 +236770,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -238085,11 +238085,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 55,
    "riskPenalty": 1,
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -238097,7 +238097,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 44,
     "sector": "화장품·미용",
     "sectorWinRate": 49.5,
     "sectorBlendPct": 75,
@@ -246003,7 +246003,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 24
    },
    "diana": {
     "stance": "bull",
@@ -249964,7 +249964,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 80
+    "score": 79
    },
    "nova": {
     "stance": "neu",
@@ -251261,7 +251261,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 55,
+   "total": 56,
    "confidence": 68,
    "base": 51500,
    "baseAt": "2026-08-27 15:14 장중",
@@ -251275,7 +251275,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -255236,7 +255236,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 48
    },
    "diana": {
     "stance": "bull",
@@ -260551,7 +260551,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -261856,11 +261856,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -261868,11 +261868,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 50,
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -263175,7 +263175,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -268455,7 +268455,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -269756,7 +269756,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 50,
    "base": 232000,
    "baseAt": "2026-08-27 15:14 장중",
@@ -269770,11 +269770,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -271103,9 +271103,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 57,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -273727,7 +273727,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 6,
    "taro": {
     "stance": "neu",
@@ -273739,7 +273739,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 48,
     "sector": "반도체",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -276365,7 +276365,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -277684,7 +277684,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -285602,7 +285602,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -286903,7 +286903,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "BUY",
-   "total": 64,
+   "total": 65,
    "confidence": 37,
    "base": 49800,
    "baseAt": "2026-08-27 15:14 장중",
@@ -286917,7 +286917,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 64,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -286929,7 +286929,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -288240,7 +288240,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -290890,7 +290890,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -294845,7 +294845,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -304122,7 +304122,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -305441,7 +305441,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bear",
@@ -310727,7 +310727,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -312048,7 +312048,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -313337,7 +313337,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 54,
    "base": 331500,
    "baseAt": "2026-08-27 15:14 장중",
@@ -313351,11 +313351,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -319960,9 +319960,9 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 58,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -322598,9 +322598,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -323907,7 +323907,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -327875,7 +327875,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 65,
    "base": 10180,
    "baseAt": "2026-08-27 15:14 장중",
@@ -327889,11 +327889,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -330531,7 +330531,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -333179,7 +333179,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -338859,7 +338859,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -344135,7 +344135,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -345454,7 +345454,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 55,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -350716,7 +350716,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 3,
    "taro": {
     "stance": "neu",
@@ -350727,8 +350727,8 @@ const LIVE_HISTORY = {
     "score": 37
    },
    "nova": {
-    "stance": "bear",
-    "score": 43,
+    "stance": "neu",
+    "score": 44,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -352021,7 +352021,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 55,
+   "total": 54,
    "confidence": 67,
    "base": 13920,
    "baseAt": "2026-08-27 15:14 장중",
@@ -352035,7 +352035,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -356008,7 +356008,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -359953,7 +359953,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 84
    },
    "diana": {
     "stance": "bull",
@@ -361272,7 +361272,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 25
    },
    "diana": {
     "stance": "neu",
@@ -362603,7 +362603,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -365211,7 +365211,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 69,
    "base": 5150,
    "baseAt": "2026-08-27 15:14 장중",
@@ -365225,7 +365225,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -365239,9 +365239,9 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 61,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -366530,7 +366530,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 62,
    "base": 8870,
    "baseAt": "2026-08-27 15:14 장중",
@@ -366544,11 +366544,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 53
    },
    "diana": {
     "stance": "bull",
@@ -379720,7 +379720,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 66,
    "base": 22900,
    "baseAt": "2026-08-27 15:14 장중",
@@ -379734,7 +379734,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -379746,7 +379746,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 51,
     "sector": "유통·소비재",
     "sectorWinRate": 49.8,
     "sectorBlendPct": 75,
@@ -388981,9 +388981,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 57,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -391591,7 +391591,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 55,
+   "total": 54,
    "confidence": 65,
    "base": 45550,
    "baseAt": "2026-08-27 15:14 장중",
@@ -391605,7 +391605,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -402254,7 +402254,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -403573,7 +403573,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -404892,7 +404892,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -406211,7 +406211,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -408835,7 +408835,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -408846,8 +408846,8 @@ const LIVE_HISTORY = {
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 40,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -411477,7 +411477,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 64
    },
    "diana": {
     "stance": "bull",
@@ -412806,7 +412806,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -415442,7 +415442,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -427305,7 +427305,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 83
    },
    "diana": {
     "stance": "bull",
@@ -435229,9 +435229,9 @@ const LIVE_HISTORY = {
     "stance": "bull",
     "score": 58,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -437857,7 +437857,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 83
    },
    "diana": {
     "stance": "bull",
@@ -441810,11 +441810,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bull",
-    "score": 63
+    "stance": "neu",
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -441822,7 +441822,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 55,
     "sector": "화학·소재",
     "sectorWinRate": 46.8,
     "sectorBlendPct": 75,
@@ -447100,7 +447100,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -452376,7 +452376,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -458973,7 +458973,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -461603,7 +461603,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 61
+    "score": 60
    },
    "nova": {
     "stance": "neu",
@@ -462928,7 +462928,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -476108,7 +476108,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "neu",
@@ -476120,7 +476120,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -480061,11 +480061,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 86
    },
    "diana": {
     "stance": "bear",
@@ -485341,7 +485341,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 32
    },
    "diana": {
     "stance": "bull",
@@ -491932,19 +491932,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 41,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 15
    },
    "diana": {
     "stance": "bear",
     "score": 37
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 55,
     "sector": "바이오·제약",
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
@@ -493251,7 +493251,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -493263,7 +493263,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 55,
     "sector": "로봇",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 74,
@@ -495905,7 +495905,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -503803,11 +503803,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "diana": {
     "stance": "bear",
@@ -524911,7 +524911,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 37
    },
    "diana": {
     "stance": "bull",
@@ -526226,19 +526226,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "bear",
     "score": 32
    },
    "nova": {
-    "stance": "bull",
-    "score": 58,
+    "stance": "neu",
+    "score": 54,
     "sector": "2차전지",
     "sectorWinRate": 45.7,
     "sectorBlendPct": 75,
@@ -530187,7 +530187,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -539420,7 +539420,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 83
    },
    "diana": {
     "stance": "bear",
@@ -542040,7 +542040,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 59,
+   "total": 58,
    "confidence": 30,
    "base": 20900,
    "baseAt": "2026-08-27 15:14 장중",
@@ -542054,11 +542054,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 61,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 95
+    "score": 94
    },
    "diana": {
     "stance": "neu",
@@ -547334,7 +547334,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -561843,7 +561843,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "bear",
-    "score": 12
+    "score": 11
    },
    "diana": {
     "stance": "bull",
@@ -563174,7 +563174,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -585597,7 +585597,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -586912,7 +586912,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -598775,7 +598775,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 5,
    "taro": {
     "stance": "bear",
-    "score": 28
+    "score": 29
    },
    "diana": {
     "stance": "bear",
@@ -605366,7 +605366,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -605378,11 +605378,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 49,
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -608020,7 +608020,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -613296,7 +613296,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -619891,7 +619891,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -625155,7 +625155,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 16
    },
    "diana": {
     "stance": "bear",
@@ -627789,7 +627789,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -630413,7 +630413,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 45,
    "base": 50700,
    "baseAt": "2026-08-27 15:14 장중",
@@ -630427,7 +630427,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -634395,8 +634395,8 @@ const LIVE_HISTORY = {
     "score": 88
    },
    "nova": {
-    "stance": "bear",
-    "score": 41,
+    "stance": "neu",
+    "score": 46,
     "sector": "전자·부품",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -635715,7 +635715,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 55,
     "sector": "로봇",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 74,
@@ -637009,7 +637009,7 @@ const LIVE_HISTORY = {
    "date": "2026-08-27",
    "call": "HOLD",
    "total": 54,
-   "confidence": 54,
+   "confidence": 55,
    "base": 25600,
    "baseAt": "2026-08-27 15:14 장중",
    "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +87.5% 상승여력)",
@@ -637026,7 +637026,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -650216,7 +650216,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bear",
@@ -651543,11 +651543,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 49,
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "bear",
@@ -654185,7 +654185,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "bear",
@@ -659449,7 +659449,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 76
+    "score": 75
    },
    "diana": {
     "stance": "neu",
@@ -660764,7 +660764,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
@@ -662393,7 +662393,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 52,
+   "total": 53,
    "confidence": 37,
    "base": 13160,
    "baseAt": "2026-08-27 15:14 장중",
@@ -662407,7 +662407,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -662419,7 +662419,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 46,
     "sector": "전력·에너지",
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
@@ -663496,7 +663496,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -663504,7 +663504,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 79
+    "score": 78
    },
    "nova": {
     "stance": "neu",
@@ -664962,9 +664962,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 57,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -666045,7 +666045,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 55
+    "score": 54
    },
    "nova": {
     "stance": "neu",
@@ -667866,7 +667866,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -670044,7 +670044,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -670393,7 +670393,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -670404,8 +670404,8 @@ const LIVE_HISTORY = {
     "score": 64
    },
    "nova": {
-    "stance": "neu",
-    "score": 47,
+    "stance": "bear",
+    "score": 41,
     "sector": "전자·부품",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -670772,7 +670772,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -674753,7 +674753,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 91
+    "score": 90
    },
    "diana": {
     "stance": "neu",
@@ -675461,7 +675461,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 72,
    "base": 11500,
    "baseAt": "2026-08-27 15:14 장중",
@@ -675475,7 +675475,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -677294,7 +677294,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -677639,7 +677639,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 61,
    "base": 4400,
    "baseAt": "2026-08-27 15:14 장중",
@@ -677653,7 +677653,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -678728,7 +678728,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 60,
+   "total": 59,
    "confidence": 61,
    "base": 4790,
    "baseAt": "2026-08-27 15:14 장중",
@@ -678742,7 +678742,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -679119,9 +679119,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 57,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -679831,11 +679831,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 67,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 83
    },
    "diana": {
     "stance": "bull",
@@ -679843,7 +679843,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 45,
     "sector": "금융·증권",
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
@@ -680543,7 +680543,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 80,
    "base": 30650,
    "baseAt": "2026-08-27 15:14 장중",
@@ -680557,7 +680557,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -680571,7 +680571,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 54,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -681287,7 +681287,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 76
    },
    "diana": {
     "stance": "bull",
@@ -682386,9 +682386,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 57,
     "sector": "여행레저",
-    "sectorWinRate": 43.0,
+    "sectorWinRate": 43.1,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.7
+    "baseWinRate": 44.8
    },
    "flow": {
     "stance": "neu",
@@ -683084,7 +683084,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 74,
    "base": 8260,
    "baseAt": "2026-08-27 15:14 장중",
@@ -683098,11 +683098,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 50
+    "score": 51
    },
    "diana": {
     "stance": "bull",
@@ -683461,11 +683461,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -683477,7 +683477,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",
@@ -684201,7 +684201,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 56,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -688529,7 +688529,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-27",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 38,
    "base": 16590,
    "baseAt": "2026-08-27 15:14 장중",
@@ -688543,7 +688543,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 4,
    "taro": {
     "stance": "bull",
@@ -688555,9 +688555,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 50,
     "sector": "식음료",
-    "sectorWinRate": 47.2,
+    "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6
    },
@@ -694351,19 +694351,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 6,
    "taro": {
-    "stance": "bear",
-    "score": 39
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bear",
     "score": 32
    },
    "nova": {
-    "stance": "bull",
-    "score": 60,
+    "stance": "neu",
+    "score": 57,
     "sector": "로봇",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 74,
@@ -694718,7 +694718,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 38
    },
    "diana": {
     "stance": "bear",
@@ -696533,7 +696533,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 5,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 39
    },
    "diana": {
     "stance": "neu",
@@ -697271,7 +697271,7 @@ const LIVE_HISTORY = {
     "sector": "인터넷·IT",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.8
    },
    "flow": {
     "stance": "neu",

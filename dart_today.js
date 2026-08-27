@@ -120,27 +120,27 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "257720",
-   "name": "실리콘투",
-   "title": "주식등의대량보유상황보고서(약식)",
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
    "isCorrection": false
   },
   {
-   "code": "006120",
-   "name": "SK디스커버리",
-   "title": "[첨부정정]주요사항보고서(회사합병결정)(자회사의 주요경영사항)",
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
-   "isCorrection": true
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
   },
   {
    "code": "034730",
    "name": "SK",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
    "isCorrection": false
   },
   {
@@ -148,23 +148,47 @@ const DART_TODAY = {
    "name": "KG스틸",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
    "isCorrection": false
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
+   "code": "095340",
+   "name": "ISC",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
    "isCorrection": false
+  },
+  {
+   "code": "017940",
+   "name": "E1",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "375500",
+   "name": "DL이앤씨",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": true
   },
   {
    "code": "282330",
    "name": "BGF리테일",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:49:08.559224+00:00",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
    "isCorrection": false
   },
   {
@@ -172,7 +196,15 @@ const DART_TODAY = {
    "name": "와이씨",
    "title": "단일판매ㆍ공급계약체결",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "257720",
+   "name": "실리콘투",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
    "isCorrection": false
   },
   {
@@ -180,23 +212,31 @@ const DART_TODAY = {
    "name": "대신증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
    "isCorrection": false
+  },
+  {
+   "code": "006120",
+   "name": "SK디스커버리",
+   "title": "[첨부정정]주요사항보고서(회사합병결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+   "isCorrection": true
   },
   {
    "code": "018670",
    "name": "SK가스",
    "title": "[첨부정정]주요사항보고서(회사합병결정)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
    "isCorrection": true
   },
   {
    "code": "016610",
    "name": "DB증권",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:19:20.162994+00:00",
+   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
    "isCorrection": false
   },
   {
@@ -204,15 +244,7 @@ const DART_TODAY = {
    "name": "현대건설",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "348370",
-   "name": "엔켐",
-   "title": "사채권자집회결의",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "detectedAt": "2026-08-27T05:01:42.293441+00:00",
    "isCorrection": false
   },
   {
@@ -220,7 +252,7 @@ const DART_TODAY = {
    "name": "대신증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "detectedAt": "2026-08-27T05:01:42.293441+00:00",
    "isCorrection": false
   },
   {
@@ -228,7 +260,23 @@ const DART_TODAY = {
    "name": "LS일렉트릭",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "detectedAt": "2026-08-27T05:01:42.293441+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T05:01:42.293441+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "348370",
+   "name": "엔켐",
+   "title": "사채권자집회결의",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T04:31:55.007162+00:00",
    "isCorrection": false
   },
   {
