@@ -1,12 +1,92 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-27 14:33",
- "priceLabel": "2026-08-27 14:02 장중",
- "count": 300,
+ "generatedAt": "2026-08-27 15:03",
+ "priceLabel": "2026-08-27 14:58 장중",
+ "count": 305,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016380",
+   "name": "KG스틸",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "095340",
+   "name": "ISC",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017940",
+   "name": "E1",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "375500",
+   "name": "DL이앤씨",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "282330",
+   "name": "BGF리테일",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -712,25 +792,9 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "034730",
-   "name": "SK",
-   "title": "[기재정정]주요사항보고서(회사합병결정)(자회사의 주요경영사항)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:25:25.957277+00:00",
-   "isCorrection": true
-  },
-  {
    "code": "010780",
    "name": "아이에스동서",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T05:56:45.318135+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T05:56:45.318135+00:00",
    "isCorrection": false
@@ -955,14 +1019,6 @@ const DART_TODAY = {
    "code": "007390",
    "name": "네이처셀",
    "title": "타법인주식및출자증권취득결정",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T02:13:29.857743+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "326030",
-   "name": "SK바이오팜",
-   "title": "투자판단관련주요경영사항 (뇌전증 신약 후보 물질 Opakalim 등에 대한 라이선스 인 계약)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T02:13:29.857743+00:00",
    "isCorrection": false
@@ -1264,14 +1320,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "자기주식처분결과보고서",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T06:11:36.092427+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "031210",
    "name": "서울보증보험",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
@@ -1563,14 +1611,6 @@ const DART_TODAY = {
    "code": "099190",
    "name": "아이센스",
    "title": "전환청구권행사",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T06:58:36.893505+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T06:58:36.893505+00:00",
    "isCorrection": false
