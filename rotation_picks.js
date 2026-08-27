@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 15:21",
- "dataCutoff": "2026-08-27 15:21 장중",
+ "generatedAt": "2026-08-27 15:33",
+ "dataCutoff": "2026-08-27 15:33 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 4,
-   "why": "20거래일 +107.3% · 20일선 위",
+   "why": "20거래일 +106.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.3,
+   "gapPct": 22.1,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +98.5% · 20일선 위 · 거래량 평소의 1.5배",
+   "why": "20거래일 +97.6% · 20일선 위 · 거래량 평소의 1.5배",
    "overheat": true,
-   "gapPct": 32.3,
+   "gapPct": 31.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,10 +34,10 @@ window.ROTATION_PICKS = {
    "code": "006110",
    "name": "삼아알미늄",
    "sector": "화학·소재",
-   "sectorRank": 11,
-   "why": "20거래일 +140.0% · 20일선 위 · 거래량 평소의 1.8배",
+   "sectorRank": 12,
+   "why": "20거래일 +142.2% · 20일선 위 · 거래량 평소의 1.8배",
    "overheat": true,
-   "gapPct": 31.8,
+   "gapPct": 33.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +46,32 @@ window.ROTATION_PICKS = {
    "name": "대한광통신",
    "sector": "통신",
    "sectorRank": 8,
-   "why": "20거래일 +99.3% · 20일선 위 · 거래량 평소의 2.1배",
+   "why": "20거래일 +98.9% · 20일선 위 · 거래량 평소의 2.2배",
    "overheat": false,
-   "gapPct": 22.4,
+   "gapPct": 22.1,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 61.7,
+  "breadthPct": 60.9,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6876.08,
-    "ma20": 6560.24,
+    "close": 6887.52,
+    "ma20": 6560.81,
     "above": true,
-    "gapPct": 4.81
+    "gapPct": 4.98
    },
    "KOSDAQ": {
-    "close": 834.98,
-    "ma20": 809.19,
+    "close": 836.39,
+    "ma20": 809.26,
     "above": true,
-    "gapPct": 3.19
+    "gapPct": 3.35
    }
   }
  },
