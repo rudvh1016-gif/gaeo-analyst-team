@@ -1,12 +1,180 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-27 16:03",
- "priceLabel": "2026-08-27 종가 (15:57 수집)",
- "count": 325,
+ "generatedAt": "2026-08-27 16:33",
+ "priceLabel": "2026-08-27 종가 (16:09 수집)",
+ "count": 341,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "298040",
+   "name": "효성중공업",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003300",
+   "name": "한일홀딩스",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "015760",
+   "name": "한국전력",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003380",
+   "name": "하림지주",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "278470",
+   "name": "에이피알",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004690",
+   "name": "삼천리",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "023530",
+   "name": "롯데쇼핑",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "402340",
+   "name": "SK스퀘어",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "018670",
+   "name": "SK가스",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011790",
+   "name": "SKC",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011790",
+   "name": "SKC",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010120",
+   "name": "LS일렉트릭",
+   "title": "약관에의한금융거래시계열금융회사의거래상대방의공시",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003620",
+   "name": "KG모빌리티",
+   "title": "주요사항보고서(전환사채권발행결정)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "267260",
+   "name": "HD현대일렉트릭",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "267250",
+   "name": "HD현대",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "012630",
+   "name": "HDC",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006360",
+   "name": "GS건설",
+   "title": "[기재정정]타인에대한채무보증결정",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
+   "isCorrection": true
+  },
   {
    "code": "002960",
    "name": "한국쉘석유",
@@ -384,14 +552,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:01:42.293441+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "010120",
    "name": "LS일렉트릭",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -448,14 +608,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "003530",
    "name": "한화투자증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
@@ -491,22 +643,6 @@ const DART_TODAY = {
    "code": "058430",
    "name": "포스코스틸리온",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T02:33:29.023632+00:00",
    "isCorrection": false
@@ -2019,14 +2155,6 @@ const DART_TODAY = {
    "code": "483650",
    "name": "달바글로벌",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T01:41:39.566187+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "010120",
-   "name": "LS일렉트릭",
-   "title": "단일판매ㆍ공급계약체결",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T01:41:39.566187+00:00",
    "isCorrection": false
