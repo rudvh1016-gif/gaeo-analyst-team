@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 14:03",
- "dataCutoff": "2026-08-27 14:03 장중",
+ "generatedAt": "2026-08-27 14:33",
+ "dataCutoff": "2026-08-27 14:33 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,7 +13,7 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +105.8% · 20일선 위",
+   "why": "20거래일 +105.9% · 20일선 위",
    "overheat": false,
    "gapPct": 21.5,
    "call": "HOLD",
@@ -24,54 +24,54 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +99.2% · 20일선 위",
+   "why": "20거래일 +98.8% · 20일선 위 · 거래량 평소의 1.3배",
    "overheat": true,
-   "gapPct": 32.7,
+   "gapPct": 32.5,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "356860",
-   "name": "티엘비",
+   "code": "232140",
+   "name": "와이씨",
    "sector": "반도체",
    "sectorRank": 5,
-   "why": "20거래일 +95.3% · 20일선 위",
+   "why": "20거래일 +96.1% · 20일선 위 · 거래량 평소의 6.3배",
    "overheat": true,
-   "gapPct": 34.3,
+   "gapPct": 40.7,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "323280",
-   "name": "태성",
-   "sector": "반도체",
-   "sectorRank": 5,
-   "why": "20거래일 +93.8% · 20일선 위",
-   "overheat": false,
-   "gapPct": 10.4,
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
+   "sectorRank": 12,
+   "why": "20거래일 +148.5% · 20일선 위 · 거래량 평소의 1.6배",
+   "overheat": true,
+   "gapPct": 36.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 62.4,
+  "breadthPct": 61.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6899.85,
-    "ma20": 6561.43,
+    "close": 6875.13,
+    "ma20": 6560.2,
     "above": true,
-    "gapPct": 5.16
+    "gapPct": 4.8
    },
    "KOSDAQ": {
-    "close": 834.03,
+    "close": 834.13,
     "ma20": 809.14,
     "above": true,
-    "gapPct": 3.08
+    "gapPct": 3.09
    }
   }
  },
