@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-27 11:34",
- "priceLabel": "2026-08-27 11:20 장중",
- "count": 290,
+ "generatedAt": "2026-08-27 12:02",
+ "priceLabel": "2026-08-27 11:55 장중",
+ "count": 293,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "268280",
+   "name": "미원에스씨",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T03:01:40.050457+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017670",
+   "name": "SK텔레콤",
+   "title": "주요사항보고서(자기주식처분결정)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T03:01:40.050457+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "주요사항보고서(자기주식처분결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T03:01:40.050457+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
