@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 58,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-27",
+  "title": "9월 유동성 리스크, 세금·국채·FOMC 몰리는 이유는?",
+  "featured": false
+ },
+ {
   "id": 57,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-19",
   "title": "외국인은 아직 안 팔았다, 코스피 7주 수급 데이터 해부",
   "featured": false
- },
- {
-  "id": 49,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-18",
-  "title": "2026년 8월18일 종가, 코스피 오전 강세 반납하고 코스닥은 3.5% 급락",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 57,
+ "news": 58,
  "study": 35,
  "lesson": 82,
  "estate": 19,
