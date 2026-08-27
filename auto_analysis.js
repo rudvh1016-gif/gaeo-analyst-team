@@ -1070,7 +1070,21 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000474",
-      "detectedAt": "2026-08-27T05:01:42.293441+00:00",
+      "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "특수관계인에대한출자",
+      "rceptNo": "20260827000765",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "약관에의한금융거래시계열금융회사의거래상대방의공시",
+      "rceptNo": "20260827000785",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
@@ -3449,7 +3463,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000551",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -3588,7 +3602,7 @@ const LIVE_AUTO = {
      {
       "name": "기업설명회(IR)개최(안내공시)",
       "rceptNo": "20260827800312",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -7031,14 +7045,14 @@ const LIVE_AUTO = {
      {
       "name": "현금ㆍ현물배당을위한주주명부폐쇄(기준일)결정",
       "rceptNo": "20260827800293",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "현금ㆍ현물배당결정",
       "rceptNo": "20260827800295",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -8089,7 +8103,7 @@ const LIVE_AUTO = {
      {
       "name": "임원ㆍ주요주주특정증권등소유상황보고서",
       "rceptNo": "20260827000488",
-      "detectedAt": "2026-08-27T05:01:42.293441+00:00",
+      "detectedAt": "2026-08-27T04:51:01.123388+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -10282,21 +10296,21 @@ const LIVE_AUTO = {
      {
       "name": "임원ㆍ주요주주특정증권등소유상황보고서",
       "rceptNo": "20260827000588",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "임원ㆍ주요주주특정증권등소유상황보고서",
       "rceptNo": "20260827000606",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "최대주주등소유주식변동신고서",
       "rceptNo": "20260827800303",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -10441,7 +10455,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000583",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -11345,7 +11359,14 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000643",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:49:53.610843+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "특수관계인에대한자금대여",
+      "rceptNo": "20260827000696",
+      "detectedAt": "2026-08-27T06:49:53.610843+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
@@ -13331,7 +13352,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000586",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -14462,7 +14483,7 @@ const LIVE_AUTO = {
      {
       "name": "주식등의대량보유상황보고서(약식)",
       "rceptNo": "20260827000539",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -23490,7 +23511,7 @@ const LIVE_AUTO = {
      {
       "name": "[기재정정]단일판매ㆍ공급계약체결",
       "rceptNo": "20260827800281",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      }
@@ -23997,7 +24018,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000654",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:49:53.610843+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -25392,7 +25413,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000561",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -26029,7 +26050,7 @@ const LIVE_AUTO = {
      {
       "name": "[첨부정정]주요사항보고서(회사합병결정)",
       "rceptNo": "20260827000513",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:19:20.162994+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      },
@@ -28794,7 +28815,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000619",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -32981,7 +33002,7 @@ const LIVE_AUTO = {
      {
       "name": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
       "rceptNo": "20260827800286",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      }
@@ -33113,7 +33134,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000602",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -33502,7 +33523,7 @@ const LIVE_AUTO = {
      {
       "name": "[첨부정정]주요사항보고서(회사합병결정)(자회사의 주요경영사항)",
       "rceptNo": "20260827800238",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      }
@@ -40028,7 +40049,7 @@ const LIVE_AUTO = {
      {
       "name": "주식등의대량보유상황보고서(일반)",
       "rceptNo": "20260827000581",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -41309,7 +41330,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000566",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
@@ -41570,14 +41591,21 @@ const LIVE_AUTO = {
      {
       "name": "투자설명서(일괄신고)",
       "rceptNo": "20260827000534",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
       "rceptNo": "20260827000660",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:49:53.610843+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "투자설명서(일괄신고)",
+      "rceptNo": "20260827000782",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
@@ -45213,14 +45241,14 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000506",
-      "detectedAt": "2026-08-27T05:01:42.293441+00:00",
+      "detectedAt": "2026-08-27T05:19:20.162994+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "투자설명서(일괄신고)",
       "rceptNo": "20260827000545",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:49:08.559224+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -53283,7 +53311,7 @@ const LIVE_AUTO = {
      {
       "name": "단일판매ㆍ공급계약체결",
       "rceptNo": "20260827900217",
-      "detectedAt": "2026-08-27T05:31:45.381720+00:00",
+      "detectedAt": "2026-08-27T05:19:20.162994+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -63443,7 +63471,7 @@ const LIVE_AUTO = {
      {
       "name": "사채권자집회결의",
       "rceptNo": "20260827700184",
-      "detectedAt": "2026-08-27T04:31:55.007162+00:00",
+      "detectedAt": "2026-08-27T04:51:01.123388+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -75845,7 +75873,7 @@ const LIVE_AUTO = {
   "dartCollectionStartedAt": "2026-08-27T07:31:44Z",
   "dartCollectionCompletedAt": "2026-08-27T07:32:11Z",
   "cronScheduledNominal": null,
-  "githubRunId": "33032627956",
+  "githubRunId": "33039577770",
   "githubRunAttempt": "1",
   "note": "workflowStartedAt·priceFetchedAt은 러너 실제 시각. cronScheduledNominal은 예정값이라 데이터 시각으로 쓰지 말 것."
  }
