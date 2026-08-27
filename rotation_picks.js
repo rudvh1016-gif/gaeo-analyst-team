@@ -4,18 +4,29 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 09:12",
- "dataCutoff": "2026-08-27 09:12 장중",
+ "generatedAt": "2026-08-27 11:34",
+ "dataCutoff": "2026-08-27 11:34 장중",
  "horizonDays": 20,
  "picks": [
   {
-   "code": "323280",
-   "name": "태성",
-   "sector": "반도체",
-   "sectorRank": 2,
-   "why": "20거래일 +92.7% · 20일선 위",
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 4,
+   "why": "20거래일 +107.9% · 20일선 위",
    "overheat": false,
-   "gapPct": 9.7,
+   "gapPct": 22.7,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 2,
+   "why": "20거래일 +99.4% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,55 +34,44 @@ window.ROTATION_PICKS = {
    "code": "085620",
    "name": "미래에셋생명",
    "sector": "보험",
-   "sectorRank": 6,
-   "why": "20거래일 +94.9% · 20일선 위 · 거래량 평소의 1.7배",
-   "overheat": true,
-   "gapPct": 45.5,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "002990",
-   "name": "금호건설",
-   "sector": "건설·건자재",
    "sectorRank": 7,
-   "why": "20거래일 +114.9% · 20일선 위",
-   "overheat": false,
-   "gapPct": 26.5,
+   "why": "20거래일 +103.1% · 20일선 위",
+   "overheat": true,
+   "gapPct": 38.4,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "119850",
-   "name": "지엔씨에너지",
-   "sector": "전력·에너지",
-   "sectorRank": 1,
-   "why": "20거래일 +82.2% · 20일선 위",
+   "code": "323280",
+   "name": "태성",
+   "sector": "반도체",
+   "sectorRank": 6,
+   "why": "20거래일 +93.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.8,
-   "call": "SELL",
-   "callConflict": true
+   "gapPct": 10.1,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 68.4,
+  "breadthPct": 64.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6977.9,
-    "ma20": 6565.33,
+    "close": 6941.07,
+    "ma20": 6563.49,
     "above": true,
-    "gapPct": 6.28
+    "gapPct": 5.75
    },
    "KOSDAQ": {
-    "close": 833.59,
-    "ma20": 809.12,
+    "close": 835.89,
+    "ma20": 809.23,
     "above": true,
-    "gapPct": 3.02
+    "gapPct": 3.29
    }
   }
  },
