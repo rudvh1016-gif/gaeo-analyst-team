@@ -409,6 +409,43 @@ def build_payload(data_dir, environment="LIVE_PAPER"):
                      "business_dates": business_dates}
 
 
+def _history_filename(js_key):
+    """GAEO_PAPER_V2 → history_v2.json (V1은 예전부터 쓰던 history.json 그대로 둔다).
+
+    ⚠️ 저장 위치는 언제나 paper_trading/ **최상위**다. 전략 원기록 폴더
+       (smart_v2/·scalp_v3/)는 _config.yml이 사이트 배포에서 제외하므로 그 안에
+       두면 브라우저가 못 읽는다. 최상위는 V1 history.json이 이미 쓰는 경로라
+       사이트도 서빙하고 러너 커밋 화이트리스트(paper_trading)에도 들어간다.
+    """
+    return "history_%s.json" % js_key.rsplit("_", 1)[-1].lower()
+
+
+def _write_history(data_dir, out_path, config, initial, business_dates):
+    """원장 + Equity Curve에서 날짜별 기록(History)을 파생해 저장한다.
+
+    Source of Truth가 아니라 파생물이며, 언제든 원본에서 다시 만들 수 있다.
+    실패해도 공개 스냅샷 생성은 계속된다 — History 고장이 보유화면을 막지 않는다.
+    """
+    try:
+        hist = paper_history.build(
+            paper_history.read_jsonl(os.path.join(data_dir, "trades.jsonl")),
+            paper_history.read_jsonl(os.path.join(data_dir, "equity_curve.jsonl")),
+            {**config, "initial_cash_krw": initial},
+            business_dates=business_dates)
+        hblob = json.dumps(hist, ensure_ascii=False, separators=(",", ":"))
+        if any(w in hblob.lower() for w in FORBIDDEN_SUBSTRINGS):
+            print(f"[paper_public] history 차단 — 금지 키워드 감지, 미생성 {out_path}")
+            return None
+        with open(out_path + ".tmp", "w", encoding="utf-8") as f:
+            f.write(hblob)
+        os.replace(out_path + ".tmp", out_path)
+        print(f"[paper_public] history {len(hist['days'])}일 → {out_path}")
+        return hist
+    except Exception as e:
+        print(f"[paper_public] history 생성 실패(공개 스냅샷은 계속): {type(e).__name__}")
+        return None
+
+
 def _version_stub(strategy_version):
     """엔진이 아직 한 번도 돌지 않은 전략의 자리 표시 — 숫자를 지어내지 않는다."""
     return {"schemaVersion": "gaeo_paper_public_v1",
@@ -441,33 +478,17 @@ def build():
         return 1
     # 📚 날짜별 기록(History) — 원장 + Equity Curve에서만 파생한다.
     #    paper_trading/ 안에 두어 러너가 이미 커밋하는 경로를 그대로 쓴다(러너 변경 0).
-    #    실패해도 공개 스냅샷 생성은 계속된다 — History 고장이 보유화면을 막지 않는다.
-    try:
-        hist = paper_history.build(
-            paper_history.read_jsonl(os.path.join(DIR, "trades.jsonl")),
-            paper_history.read_jsonl(os.path.join(DIR, "equity_curve.jsonl")),
-            {**config, "initial_cash_krw": initial},
-            business_dates=business_dates)
-        hblob = json.dumps(hist, ensure_ascii=False, separators=(",", ":"))
-        if not any(w in hblob.lower() for w in FORBIDDEN_SUBSTRINGS):
-            hp = os.path.join(DIR, "history.json")
-            with open(hp + ".tmp", "w", encoding="utf-8") as f:
-                f.write(hblob)
-            os.replace(hp + ".tmp", hp)
-            print(f"[paper_public] history {len(hist['days'])}일 → {hp}")
-        else:
-            print("[paper_public] history 차단 — 금지 키워드 감지, 미생성")
-    except Exception as e:
-        print(f"[paper_public] history 생성 실패(공개 스냅샷은 계속): {type(e).__name__}")
+    _write_history(DIR, os.path.join(DIR, "history.json"), config, initial, business_dates)
 
     # 📚 추가 전략 버전(V2·V3) — V1과 같은 함수·같은 검열을 거쳐 같은 파일에 싣는다.
     #    한 버전이 실패해도 다른 버전과 V1 산출은 계속된다(전략 간 독립 — advisory 원칙).
     version_lines = []
     for js_key, sub, env, ver in PUBLIC_VERSIONS:
         vdir = os.path.join(DIR, sub)
+        vctx = None
         try:
             if os.path.exists(os.path.join(vdir, "config.json")):
-                vpayload, _vctx = build_payload(vdir, env)
+                vpayload, vctx = build_payload(vdir, env)
             else:
                 vpayload = _version_stub(ver)
         except Exception as e:
@@ -478,6 +499,11 @@ def build():
             print(f"[paper_public] {ver} 차단 — 금지 키워드 감지, 이 버전만 미게시")
             continue
         version_lines.append(f"window.{js_key}={vblob};\n")
+        # 📚 이 버전의 날짜별 기록도 V1과 같은 함수로 만든다(산식이 두 벌 생기지 않게).
+        #    원본은 각 전략 폴더, 산출물은 사이트가 읽는 paper_trading/ 최상위.
+        if vctx:
+            _write_history(vdir, os.path.join(DIR, _history_filename(js_key)),
+                           vctx["config"], vctx["initial"], vctx["business_dates"])
 
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
