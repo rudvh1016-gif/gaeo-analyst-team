@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 57,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-27",
+  "title": "엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까",
+  "featured": false
+ },
+ {
   "id": 56,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-18",
   "title": "2026년 8월18일 종가, 코스피 오전 강세 반납하고 코스닥은 3.5% 급락",
   "featured": false
- },
- {
-  "id": 82,
-  "mode": "lesson",
-  "label": "주식공부",
-  "date": "2026-08-18",
-  "title": "공모주 락업이 뭐길래, 만기 되면 주가가 흔들릴까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 56,
+ "news": 57,
  "study": 35,
  "lesson": 82,
  "estate": 19,
