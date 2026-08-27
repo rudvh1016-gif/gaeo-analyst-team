@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 15:51",
+ "generatedAt": "2026-08-27 16:21",
  "dataCutoff": "2026-08-27 종가",
  "horizonDays": 20,
  "picks": [
@@ -12,7 +12,7 @@ window.ROTATION_PICKS = {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 3,
+   "sectorRank": 4,
    "why": "20거래일 +107.5% · 20일선 위",
    "overheat": false,
    "gapPct": 22.4,
@@ -55,7 +55,7 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.0,
+  "breadthPct": 63.2,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,

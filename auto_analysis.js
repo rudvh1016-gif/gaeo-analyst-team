@@ -2,16 +2,16 @@
 // 모든 종목을 채운다(정밀분석 보유 종목 포함). index.html은 정밀분석이 신선할 때만
 // 정밀을 우선하고, 오래되면(기준가 대비 시세가 벌어지면) 이 자동분석을 표시한다.
 const LIVE_AUTO = {
- "generatedAt": "2026-08-27 15:51",
- "priceLabel": "2026-08-27 종가 (15:48 수집)",
+ "generatedAt": "2026-08-27 16:21",
+ "priceLabel": "2026-08-27 종가 (16:10 수집)",
  "coverageUniverseVersion": "GAEO_COVERAGE_V2_600",
  "coverageUniverseSize": 600,
  "stocks": {
   "080220": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 77700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -131,9 +131,9 @@ const LIVE_AUTO = {
   },
   "005930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 266000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -198,9 +198,9 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 43,
+    "score": 46,
     "available": true,
-    "stance": "bear",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 52(중립) · 20일선 위 · 최근 5일 횡보(-1.8%)",
@@ -277,9 +277,9 @@ const LIVE_AUTO = {
   },
   "000660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1730000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 7,
@@ -422,14 +422,23 @@ const LIVE_AUTO = {
   },
   "402340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1068000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+      "rceptNo": "20260827000815",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 56,
@@ -544,9 +553,9 @@ const LIVE_AUTO = {
   },
   "009150": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1385000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -666,9 +675,9 @@ const LIVE_AUTO = {
   },
   "009155": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 496500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -788,9 +797,9 @@ const LIVE_AUTO = {
   },
   "011070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 597000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -910,9 +919,9 @@ const LIVE_AUTO = {
   },
   "267260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 821000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -956,10 +965,10 @@ const LIVE_AUTO = {
     "score": 52,
     "stance": "neu",
     "findings": [
-     "PER 34.74배 · PBR 13.09배 — 밸류 중립 수준",
+     "PER 34.79배 · PBR 13.1배 — 밸류 중립 수준",
      "ROE 37.7% · EPS 23,602원",
-     "컨센서스 EPS 기준 선행 PER 31.0배 — 실적 성장 확인 필요",
-     "목표주가 1,181,000원 → 현재가 대비 +44.0%"
+     "컨센서스 EPS 기준 선행 PER 31.1배 — 실적 성장 확인 필요",
+     "목표주가 1,181,000원 → 현재가 대비 +43.8%"
     ]
    },
    "nova": {
@@ -1006,7 +1015,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 57,
     "riskPenalty": 0,
-    "riskScore": 15,
+    "riskScore": 16,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -1042,26 +1051,33 @@ const LIVE_AUTO = {
   },
   "010120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 219500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 2,
+    "count": 4,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
      {
-      "name": "단일판매ㆍ공급계약체결",
-      "rceptNo": "20260824800095",
-      "detectedAt": "2026-08-24T01:41:39.566187+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260824"
-     },
-     {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000474",
       "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "특수관계인에대한출자",
+      "rceptNo": "20260827000765",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "약관에의한금융거래시계열금융회사의거래상대방의공시",
+      "rceptNo": "20260827000785",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -1180,9 +1196,9 @@ const LIVE_AUTO = {
   },
   "005380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 398000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -1325,9 +1341,9 @@ const LIVE_AUTO = {
   },
   "042700": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 222000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -1447,9 +1463,9 @@ const LIVE_AUTO = {
   },
   "007660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 112800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -1460,8 +1476,8 @@ const LIVE_AUTO = {
     "score": 91,
     "stance": "bull",
     "findings": [
-     "종가 112,500원이 MA20(92,180원) 대비 +22.0% — 단기 상단 흐름",
-     "MA60(101,602원) 대비 +10.7% — 장기 추세선 상회",
+     "종가 112,800원이 MA20(92,195원) 대비 +22.3% — 단기 상단 흐름",
+     "MA60(101,607원) 대비 +11.0% — 장기 추세선 상회",
      "RSI(14) 63 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.78배 — 거래 강도 보통"
     ],
@@ -1569,9 +1585,9 @@ const LIVE_AUTO = {
   },
   "017670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 99100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -1662,7 +1678,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 43,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 56,
     "riskPenalty": 0,
     "riskScore": 37,
     "riskGrade": "mid",
@@ -1700,9 +1716,9 @@ const LIVE_AUTO = {
   },
   "035420": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 216500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -1719,7 +1735,7 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 49,
+    "score": 50,
     "stance": "neu",
     "findings": [
      "종가 216,500원이 MA20(217,210원) 대비 -0.3% — 단기 하단 흐름",
@@ -1789,13 +1805,13 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 55,
-    "confidence": 68,
-    "confidenceShadow": 68,
+    "confidence": 69,
+    "confidenceShadow": 69,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 55,
     "riskPenalty": 0,
-    "riskScore": 40,
+    "riskScore": 41,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -1831,9 +1847,9 @@ const LIVE_AUTO = {
   },
   "035720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 9,
@@ -1977,9 +1993,9 @@ const LIVE_AUTO = {
   },
   "000270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -2115,9 +2131,9 @@ const LIVE_AUTO = {
   },
   "105560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 168100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -2192,7 +2208,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 1.2,
+    "relPp": 1.1,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -2254,9 +2270,9 @@ const LIVE_AUTO = {
   },
   "247540": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 118000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -2354,7 +2370,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 61,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 15,
     "riskGrade": "mid",
@@ -2392,9 +2408,9 @@ const LIVE_AUTO = {
   },
   "373220": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 370500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -2514,9 +2530,9 @@ const LIVE_AUTO = {
   },
   "032830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 307000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -2524,7 +2540,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 60,
+    "score": 59,
     "stance": "bull",
     "findings": [
      "종가 307,000원이 MA20(293,100원) 대비 +4.7% — 단기 상단 흐름",
@@ -2636,9 +2652,9 @@ const LIVE_AUTO = {
   },
   "207940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1594000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -2758,9 +2774,9 @@ const LIVE_AUTO = {
   },
   "028260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 375500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -2880,22 +2896,15 @@ const LIVE_AUTO = {
   },
   "329180": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 470000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 3,
+    "count": 4,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
-     {
-      "name": "조회공시요구(풍문또는보도)",
-      "rceptNo": "20260821800054",
-      "detectedAt": "2026-08-21T00:17:46.939588+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260821"
-     },
      {
       "name": "조회공시요구(풍문또는보도)에대한답변(미확정)",
       "rceptNo": "20260821800136",
@@ -2909,6 +2918,13 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-24T01:41:39.566187+00:00",
       "isCorrection": false,
       "receiptDate": "20260824"
+     },
+     {
+      "name": "영업(잠정)실적(공정공시)",
+      "rceptNo": "20260827800389",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
@@ -3025,9 +3041,9 @@ const LIVE_AUTO = {
   },
   "055550": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 108800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -3147,9 +3163,9 @@ const LIVE_AUTO = {
   },
   "034020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 85900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -3278,9 +3294,9 @@ const LIVE_AUTO = {
   },
   "012450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1150000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -3400,9 +3416,9 @@ const LIVE_AUTO = {
   },
   "034730": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 556000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -3467,9 +3483,9 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 46,
+    "score": 43,
     "available": true,
-    "stance": "neu",
+    "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 48(중립) · 20일선 위 · 최근 5일 하락(-2.1%)",
@@ -3546,9 +3562,9 @@ const LIVE_AUTO = {
   },
   "012330": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 451500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -3565,14 +3581,14 @@ const LIVE_AUTO = {
      {
       "name": "기업설명회(IR)개최(안내공시)",
       "rceptNo": "20260827800312",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
     ]
    },
    "taro": {
-    "score": 15,
+    "score": 16,
     "stance": "bear",
     "findings": [
      "종가 451,500원이 MA20(495,125원) 대비 -8.8% — 단기 하단 흐름",
@@ -3684,9 +3700,9 @@ const LIVE_AUTO = {
   },
   "068270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 191300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -3829,9 +3845,9 @@ const LIVE_AUTO = {
   },
   "086790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 133600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -3975,9 +3991,9 @@ const LIVE_AUTO = {
   },
   "006400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 569000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -4113,9 +4129,9 @@ const LIVE_AUTO = {
   },
   "066570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 198300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -4235,9 +4251,9 @@ const LIVE_AUTO = {
   },
   "000810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 682000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -4245,7 +4261,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 74,
+    "score": 75,
     "stance": "bull",
     "findings": [
      "종가 682,000원이 MA20(635,450원) 대비 +7.3% — 단기 상단 흐름",
@@ -4315,8 +4331,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 56,
-    "confidence": 54,
-    "confidenceShadow": 54,
+    "confidence": 53,
+    "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 56,
@@ -4357,14 +4373,23 @@ const LIVE_AUTO = {
   },
   "298040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3079000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "기업설명회(IR)개최(안내공시)",
+      "rceptNo": "20260827800426",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 82,
@@ -4479,9 +4504,9 @@ const LIVE_AUTO = {
   },
   "042660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 89600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -4610,9 +4635,9 @@ const LIVE_AUTO = {
   },
   "005490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 339500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -4732,33 +4757,33 @@ const LIVE_AUTO = {
   },
   "009540": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 360500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 4,
+    "count": 6,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
      {
-      "name": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
-      "rceptNo": "20260824800125",
-      "detectedAt": "2026-08-24T01:41:39.566187+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260824"
-     },
-     {
-      "name": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
-      "rceptNo": "20260824800389",
-      "detectedAt": "2026-08-24T06:58:36.893505+00:00",
-      "isCorrection": true,
-      "receiptDate": "20260824"
-     },
-     {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000727",
       "detectedAt": "2026-08-27T06:49:53.610843+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "영업(잠정)실적(공정공시)(자회사의 주요경영사항)",
+      "rceptNo": "20260827800388",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "영업(잠정)실적(공정공시)",
+      "rceptNo": "20260827800390",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -4878,9 +4903,9 @@ const LIVE_AUTO = {
   },
   "006800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 24,
@@ -5024,14 +5049,23 @@ const LIVE_AUTO = {
   },
   "015760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "주주명부폐쇄기간또는기준일설정",
+      "rceptNo": "20260827800391",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 56,
@@ -5084,7 +5118,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
     "baseWinRate": 51.0,
-    "relPp": -0.9,
+    "relPp": -1.0,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -5103,12 +5137,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "BUY",
-    "total": 64,
+    "total": 65,
     "confidence": 38,
-    "confidenceShadow": 50,
+    "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 64,
+    "rawTotal": 65,
     "riskPenalty": 0,
     "riskScore": 54,
     "riskGrade": "mid",
@@ -5146,9 +5180,9 @@ const LIVE_AUTO = {
   },
   "316140": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -5277,9 +5311,9 @@ const LIVE_AUTO = {
   },
   "000150": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1214000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -5399,9 +5433,9 @@ const LIVE_AUTO = {
   },
   "010130": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1372000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -5537,9 +5571,9 @@ const LIVE_AUTO = {
   },
   "010140": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -5659,9 +5693,9 @@ const LIVE_AUTO = {
   },
   "064350": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 138600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -5781,9 +5815,9 @@ const LIVE_AUTO = {
   },
   "138040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 119000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -5903,9 +5937,9 @@ const LIVE_AUTO = {
   },
   "051910": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 274500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -6048,9 +6082,9 @@ const LIVE_AUTO = {
   },
   "011200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -6179,9 +6213,9 @@ const LIVE_AUTO = {
   },
   "033780": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 174500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -6301,9 +6335,9 @@ const LIVE_AUTO = {
   },
   "096770": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 112000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -6447,9 +6481,9 @@ const LIVE_AUTO = {
   },
   "024110": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 20500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -6507,7 +6541,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 1.2,
+    "relPp": 1.1,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -6569,9 +6603,9 @@ const LIVE_AUTO = {
   },
   "079550": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 745000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -6664,7 +6698,7 @@ const LIVE_AUTO = {
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 47,
-    "riskPenalty": 6,
+    "riskPenalty": 5,
     "riskScore": 11,
     "riskGrade": "high",
     "riskApplied": true,
@@ -6701,9 +6735,9 @@ const LIVE_AUTO = {
   },
   "267250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 216000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -6840,9 +6874,9 @@ const LIVE_AUTO = {
   },
   "018260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 234000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -6971,9 +7005,9 @@ const LIVE_AUTO = {
   },
   "003550": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 114500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -6983,14 +7017,14 @@ const LIVE_AUTO = {
      {
       "name": "현금ㆍ현물배당을위한주주명부폐쇄(기준일)결정",
       "rceptNo": "20260827800293",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "현금ㆍ현물배당결정",
       "rceptNo": "20260827800295",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -7109,9 +7143,9 @@ const LIVE_AUTO = {
   },
   "010950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 136700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -7247,9 +7281,9 @@ const LIVE_AUTO = {
   },
   "086280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 203500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -7378,9 +7412,9 @@ const LIVE_AUTO = {
   },
   "047810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 137600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -7423,10 +7457,10 @@ const LIVE_AUTO = {
     "score": 41,
     "stance": "bear",
     "findings": [
-     "PER 75.59배 · PBR 7.05배 — 밸류 부담 존재",
+     "PER 75.65배 · PBR 7.06배 — 밸류 부담 존재",
      "ROE 9.3% · EPS 1,819원",
      "컨센서스 EPS 기준 선행 PER 55.6배 — 실적 성장 확인 필요",
-     "목표주가 188,294원 → 현재가 대비 +36.9%"
+     "목표주가 188,294원 → 현재가 대비 +36.8%"
     ]
    },
    "nova": {
@@ -7509,14 +7543,23 @@ const LIVE_AUTO = {
   },
   "278470": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 434500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "기업설명회(IR)개최(안내공시)",
+      "rceptNo": "20260827800431",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 95,
@@ -7631,9 +7674,9 @@ const LIVE_AUTO = {
   },
   "030200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 53900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -7673,7 +7716,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 79,
+    "score": 80,
     "stance": "bull",
     "findings": [
      "PER 10.48배 · PBR 0.69배 — 이익·자산 대비 저평가 매력",
@@ -7726,7 +7769,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 58,
     "riskPenalty": 0,
-    "riskScore": 78,
+    "riskScore": 79,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -7762,9 +7805,9 @@ const LIVE_AUTO = {
   },
   "272210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 77900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -7884,9 +7927,9 @@ const LIVE_AUTO = {
   },
   "307950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 413500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -8006,9 +8049,9 @@ const LIVE_AUTO = {
   },
   "000720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 129300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -8151,9 +8194,9 @@ const LIVE_AUTO = {
   },
   "005940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 15,
@@ -8296,9 +8339,9 @@ const LIVE_AUTO = {
   },
   "259960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 219500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -8370,7 +8413,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 38,576주 · 기관 순매도 45,084주 · 개인 순매도 6,357주",
      "외국인 보유율 43.45% → 43.69% (상승)",
      "직전 거래일 외국인 -10,663주 · 기관 +1,149주 · 개인 -8,473주",
-     "외국인·기관 동반 매도 우위 · 수급 품질 -39점 · 가격·수급 방향 중립"
+     "외국인·기관 동반 매도 우위 · 수급 품질 -44점 · 가격 하락과 큰손 매도가 함께 가는 하락 확인"
     ]
    },
    "chief": {
@@ -8418,9 +8461,9 @@ const LIVE_AUTO = {
   },
   "323410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -8540,9 +8583,9 @@ const LIVE_AUTO = {
   },
   "006260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 313000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -8671,9 +8714,9 @@ const LIVE_AUTO = {
   },
   "005830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 184000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -8793,9 +8836,9 @@ const LIVE_AUTO = {
   },
   "016360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 88300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 5,
@@ -8938,9 +8981,9 @@ const LIVE_AUTO = {
   },
   "003490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 28200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -9017,12 +9060,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "BUY",
-    "total": 67,
+    "total": 68,
     "confidence": 55,
     "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 67,
+    "rawTotal": 68,
     "riskPenalty": 0,
     "riskScore": 65,
     "riskGrade": "low",
@@ -9060,12 +9103,12 @@ const LIVE_AUTO = {
   },
   "352820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 178500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 2,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -9075,6 +9118,13 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-25T07:11:39.954574+00:00",
       "isCorrection": false,
       "receiptDate": "20260825"
+     },
+     {
+      "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+      "rceptNo": "20260827000770",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
@@ -9191,9 +9241,9 @@ const LIVE_AUTO = {
   },
   "180640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -9313,9 +9363,9 @@ const LIVE_AUTO = {
   },
   "161390": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 65600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -9435,9 +9485,9 @@ const LIVE_AUTO = {
   },
   "443060": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 221000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -9557,33 +9607,33 @@ const LIVE_AUTO = {
   },
   "039490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 279500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 29,
+    "count": 32,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
      {
       "name": "투자설명서(일괄신고)",
-      "rceptNo": "20260827000200",
-      "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260827"
-     },
-     {
-      "name": "투자설명서(일괄신고)",
-      "rceptNo": "20260827000268",
-      "detectedAt": "2026-08-27T02:33:29.023632+00:00",
+      "rceptNo": "20260827000776",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-      "rceptNo": "20260827000338",
-      "detectedAt": "2026-08-27T02:33:29.023632+00:00",
+      "rceptNo": "20260827000817",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "투자설명서(일괄신고)",
+      "rceptNo": "20260827000824",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -9702,9 +9752,9 @@ const LIVE_AUTO = {
   },
   "047050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 52500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -9840,9 +9890,9 @@ const LIVE_AUTO = {
   },
   "028050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -9962,9 +10012,9 @@ const LIVE_AUTO = {
   },
   "003230": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1480000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -10041,12 +10091,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 61,
+    "total": 62,
     "confidence": 43,
     "confidenceShadow": 43,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 61,
+    "rawTotal": 62,
     "riskPenalty": 0,
     "riskScore": 55,
     "riskGrade": "mid",
@@ -10084,9 +10134,9 @@ const LIVE_AUTO = {
   },
   "078930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 123200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -10206,9 +10256,9 @@ const LIVE_AUTO = {
   },
   "090430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 142400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 8,
@@ -10218,21 +10268,21 @@ const LIVE_AUTO = {
      {
       "name": "임원ㆍ주요주주특정증권등소유상황보고서",
       "rceptNo": "20260827000588",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "임원ㆍ주요주주특정증권등소유상황보고서",
       "rceptNo": "20260827000606",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      },
      {
       "name": "최대주주등소유주식변동신고서",
       "rceptNo": "20260827800303",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -10351,9 +10401,9 @@ const LIVE_AUTO = {
   },
   "326030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 88000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -10377,7 +10427,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000583",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -10496,9 +10546,9 @@ const LIVE_AUTO = {
   },
   "021240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 98300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -10634,9 +10684,9 @@ const LIVE_AUTO = {
   },
   "032640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14740,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -10670,10 +10720,10 @@ const LIVE_AUTO = {
     "score": 79,
     "stance": "bull",
     "findings": [
-     "PER 11.85배 · PBR 0.69배 — 이익·자산 대비 저평가 매력",
+     "PER 11.83배 · PBR 0.69배 — 이익·자산 대비 저평가 매력",
      "ROE 5.8% · EPS 1,246원",
      "컨센서스 EPS 기준 선행 PER 8.5배 — 실적 반영 시 저평가",
-     "목표주가 20,139원 → 현재가 대비 +36.4%"
+     "목표주가 20,139원 → 현재가 대비 +36.6%"
     ]
    },
    "nova": {
@@ -10756,9 +10806,9 @@ const LIVE_AUTO = {
   },
   "241560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 61900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -10766,11 +10816,11 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 39,
+    "score": 40,
     "stance": "bear",
     "findings": [
-     "종가 61,700원이 MA20(62,180원) 대비 -0.8% — 단기 하단 흐름",
-     "MA60(63,087원) 대비 -2.2% — 장기 추세선 하회",
+     "종가 61,900원이 MA20(62,190원) 대비 -0.5% — 단기 하단 흐름",
+     "MA60(63,090원) 대비 -1.9% — 장기 추세선 하회",
      "RSI(14) 49 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.52배 — 거래 강도 한산"
     ],
@@ -10804,7 +10854,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 49(중립) · 20일선 아래 · 최근 5일 상승(+4.9%)",
+     "현재 상태: RSI 49(중립) · 20일선 아래 · 최근 5일 상승(+5.3%)",
      "과거에 이런 상태(동일 상태)였던 적이 4013건 있었는데, 그중 1993건이 5거래일 뒤 올랐어요 → 경험적 승률 50% (기계 업종을 70% 반영한 기저 승률 51%보다 -1%p 낮아 상대적 부진)",
      "그 4013건의 5거래일 뒤 등락률 평균은 +0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -10835,12 +10885,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 50,
-    "confidence": 45,
-    "confidenceShadow": 45,
+    "total": 51,
+    "confidence": 46,
+    "confidenceShadow": 46,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 50,
+    "rawTotal": 51,
     "riskPenalty": 0,
     "riskScore": 65,
     "riskGrade": "low",
@@ -10878,9 +10928,9 @@ const LIVE_AUTO = {
   },
   "353200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 111300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -11000,9 +11050,9 @@ const LIVE_AUTO = {
   },
   "004170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 425000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -11131,9 +11181,9 @@ const LIVE_AUTO = {
   },
   "196170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 311500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -11262,9 +11312,9 @@ const LIVE_AUTO = {
   },
   "086520": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 92000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -11407,9 +11457,9 @@ const LIVE_AUTO = {
   },
   "036930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 179100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -11529,9 +11579,9 @@ const LIVE_AUTO = {
   },
   "277810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 471000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -11651,9 +11701,9 @@ const LIVE_AUTO = {
   },
   "240810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 112700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -11661,7 +11711,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 65,
+    "score": 66,
     "stance": "bull",
     "findings": [
      "종가 112,700원이 MA20(103,905원) 대비 +8.5% — 단기 상단 흐름",
@@ -11730,12 +11780,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 48,
-    "confidence": 54,
-    "confidenceShadow": 54,
+    "total": 49,
+    "confidence": 53,
+    "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 51,
+    "rawTotal": 52,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -11773,9 +11823,9 @@ const LIVE_AUTO = {
   },
   "058470": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 66700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -11904,9 +11954,9 @@ const LIVE_AUTO = {
   },
   "319660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 133400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -11914,8 +11964,8 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 57,
-    "stance": "neu",
+    "score": 58,
+    "stance": "bull",
     "findings": [
      "종가 133,400원이 MA20(127,230원) 대비 +4.8% — 단기 상단 흐름",
      "MA60(150,595원) 대비 -11.4% — 장기 추세선 하회",
@@ -11940,10 +11990,10 @@ const LIVE_AUTO = {
     "score": 57,
     "stance": "neu",
     "findings": [
-     "PER 30.84배 · PBR 6.27배 — 밸류 중립 수준",
+     "PER 30.93배 · PBR 6.28배 — 밸류 중립 수준",
      "ROE 20.3% · EPS 4,313원",
      "컨센서스 EPS 기준 선행 PER 24.3배 — 실적 성장 확인 필요",
-     "목표주가 190,000원 → 현재가 대비 +42.9%"
+     "목표주가 190,000원 → 현재가 대비 +42.4%"
     ]
    },
    "nova": {
@@ -11984,8 +12034,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 51,
-    "confidence": 69,
-    "confidenceShadow": 69,
+    "confidence": 68,
+    "confidenceShadow": 68,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 54,
@@ -12026,9 +12076,9 @@ const LIVE_AUTO = {
   },
   "028300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 35450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12148,9 +12198,9 @@ const LIVE_AUTO = {
   },
   "000250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 172800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12191,7 +12241,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 55,
+    "score": 53,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -12200,16 +12250,16 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 3554건 있었는데, 그중 1684건이 5거래일 뒤 올랐어요 → 경험적 승률 47% (바이오·제약 업종을 75% 반영한 기저 승률 46%보다 +2%p 높아 상대적 양호)",
      "그 3554건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 8593,
-    "sampleWin": 4166,
-    "winRate": 48.5,
+    "sampleN": 3554,
+    "sampleWin": 1684,
+    "winRate": 47.4,
     "marketAvgWinRate": 48.7,
     "sector": "바이오·제약",
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
     "baseWinRate": 45.7,
-    "relPp": 2.8,
-    "avgReturn": 0.55,
+    "relPp": 1.7,
+    "avgReturn": 0.66,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -12227,12 +12277,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 49,
-    "confidence": 64,
-    "confidenceShadow": 64,
+    "total": 48,
+    "confidence": 66,
+    "confidenceShadow": 66,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 49,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 10,
     "riskGrade": "mid",
@@ -12270,9 +12320,9 @@ const LIVE_AUTO = {
   },
   "039030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 406500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12280,7 +12330,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 82,
+    "score": 84,
     "stance": "bull",
     "findings": [
      "종가 406,500원이 MA20(363,175원) 대비 +11.9% — 단기 상단 흐름",
@@ -12350,8 +12400,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 53,
-    "confidence": 37,
-    "confidenceShadow": 37,
+    "confidence": 35,
+    "confidenceShadow": 35,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 56,
@@ -12392,9 +12442,9 @@ const LIVE_AUTO = {
   },
   "222800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -12523,9 +12573,9 @@ const LIVE_AUTO = {
   },
   "298380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 76000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12607,7 +12657,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 64,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 44,
+    "rawTotal": 43,
     "riskPenalty": 0,
     "riskScore": 19,
     "riskGrade": "mid",
@@ -12645,9 +12695,9 @@ const LIVE_AUTO = {
   },
   "141080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 99600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12767,9 +12817,9 @@ const LIVE_AUTO = {
   },
   "084370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 138000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -12889,9 +12939,9 @@ const LIVE_AUTO = {
   },
   "403870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13011,9 +13061,9 @@ const LIVE_AUTO = {
   },
   "095610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 146000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13133,9 +13183,9 @@ const LIVE_AUTO = {
   },
   "214450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 432500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13146,8 +13196,8 @@ const LIVE_AUTO = {
     "score": 83,
     "stance": "bull",
     "findings": [
-     "종가 432,000원이 MA20(397,750원) 대비 +8.6% — 단기 상단 흐름",
-     "MA60(346,450원) 대비 +24.7% — 장기 추세선 상회",
+     "종가 432,500원이 MA20(397,775원) 대비 +8.7% — 단기 상단 흐름",
+     "MA60(346,458원) 대비 +24.8% — 장기 추세선 상회",
      "RSI(14) 61 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.38배 — 거래 강도 한산"
     ],
@@ -13169,10 +13219,10 @@ const LIVE_AUTO = {
     "score": 51,
     "stance": "neu",
     "findings": [
-     "PER 30.4배 · PBR 7.17배 — 밸류 중립 수준",
+     "PER 30.44배 · PBR 7.18배 — 밸류 중립 수준",
      "ROE 23.6% · EPS 14,209원",
      "컨센서스 EPS 기준 선행 PER 22.6배 — 실적 성장 확인 필요",
-     "목표주가 512,667원 → 현재가 대비 +18.7%"
+     "목표주가 512,667원 → 현재가 대비 +18.5%"
     ]
    },
    "nova": {
@@ -13255,9 +13305,9 @@ const LIVE_AUTO = {
   },
   "095340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 171200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -13267,7 +13317,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000586",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -13386,9 +13436,9 @@ const LIVE_AUTO = {
   },
   "214150": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13508,9 +13558,9 @@ const LIVE_AUTO = {
   },
   "310210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 167000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13630,9 +13680,9 @@ const LIVE_AUTO = {
   },
   "178320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 41350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13646,7 +13696,7 @@ const LIVE_AUTO = {
      "종가 41,350원이 MA20(36,515원) 대비 +13.2% — 단기 상단 흐름",
      "MA60(47,992원) 대비 -13.8% — 장기 추세선 하회",
      "RSI(14) 55 중립권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 2.30배 — 거래 강도 활발"
+     "거래량은 20일 평균의 2.31배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -13752,9 +13802,9 @@ const LIVE_AUTO = {
   },
   "131290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 253000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -13874,9 +13924,9 @@ const LIVE_AUTO = {
   },
   "145020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 245500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -14020,9 +14070,9 @@ const LIVE_AUTO = {
   },
   "067310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -14036,7 +14086,7 @@ const LIVE_AUTO = {
      "종가 38,750원이 MA20(34,068원) 대비 +13.7% — 단기 상단 흐름",
      "MA60(39,594원) 대비 -2.1% — 장기 추세선 하회",
      "RSI(14) 56 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 0.76배 — 거래 강도 보통"
+     "거래량은 20일 평균의 0.77배 — 거래 강도 보통"
     ],
     "ready": {
      "ma20": true,
@@ -14142,9 +14192,9 @@ const LIVE_AUTO = {
   },
   "064760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 242500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -14264,9 +14314,9 @@ const LIVE_AUTO = {
   },
   "237690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 110900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -14386,9 +14436,9 @@ const LIVE_AUTO = {
   },
   "257720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -14517,9 +14567,9 @@ const LIVE_AUTO = {
   },
   "357780": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 341000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -14639,9 +14689,9 @@ const LIVE_AUTO = {
   },
   "005290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -14770,9 +14820,9 @@ const LIVE_AUTO = {
   },
   "263750": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -14783,8 +14833,8 @@ const LIVE_AUTO = {
     "score": 40,
     "stance": "bear",
     "findings": [
-     "종가 31,600원이 MA20(33,122원) 대비 -4.6% — 단기 하단 흐름",
-     "MA60(35,679원) 대비 -11.4% — 장기 추세선 하회",
+     "종가 31,550원이 MA20(33,120원) 대비 -4.7% — 단기 하단 흐름",
+     "MA60(35,678원) 대비 -11.6% — 장기 추세선 하회",
      "RSI(14) 42 약세권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.69배 — 거래 강도 한산"
     ],
@@ -14818,7 +14868,7 @@ const LIVE_AUTO = {
     "stance": "bull",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 42(약세) · 20일선 아래 · 최근 5일 횡보(-1.4%)",
+     "현재 상태: RSI 42(약세) · 20일선 아래 · 최근 5일 횡보(-1.6%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (게임·엔터 업종을 75% 반영한 기저 승률 44%보다 +4%p 높아 상대적 양호)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -14892,9 +14942,9 @@ const LIVE_AUTO = {
   },
   "098460": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 29150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -15023,9 +15073,9 @@ const LIVE_AUTO = {
   },
   "131970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 83100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -15097,7 +15147,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 24,612주 · 기관 순매도 41,904주 · 개인 순매수 63,112주",
      "외국인 보유율 11.73% → 11.83% (상승)",
      "직전 거래일 외국인 -16,129주 · 기관 +19,029주 · 개인 -2,916주",
-     "외국인·기관 동반 매도 우위 · 수급 품질 -8점 · 가격·수급 방향 중립"
+     "외국인·기관 동반 매도 우위 · 수급 품질 -16점 · 가격은 오르지만 큰손은 파는 분배형 괴리"
     ]
    },
    "chief": {
@@ -15107,7 +15157,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 57,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 52,
+    "rawTotal": 53,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -15145,9 +15195,9 @@ const LIVE_AUTO = {
   },
   "087010": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 188200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -15267,9 +15317,9 @@ const LIVE_AUTO = {
   },
   "290650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -15389,9 +15439,9 @@ const LIVE_AUTO = {
   },
   "003670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 184000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -15535,9 +15585,9 @@ const LIVE_AUTO = {
   },
   "071050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 191400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -15580,7 +15630,7 @@ const LIVE_AUTO = {
    "nova": {
     "score": 51,
     "available": true,
-    "stance": "bear",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 45(중립) · 20일선 아래 · 최근 5일 상승(+2.5%)",
@@ -15657,9 +15707,9 @@ const LIVE_AUTO = {
   },
   "047040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 20000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -15690,7 +15740,7 @@ const LIVE_AUTO = {
      "종가 20,000원이 MA20(16,504원) 대비 +21.2% — 단기 상단 흐름",
      "MA60(17,988원) 대비 +11.2% — 장기 추세선 상회",
      "RSI(14) 63 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 3.31배 — 거래 강도 활발"
+     "거래량은 20일 평균의 3.32배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -15758,7 +15808,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 32,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 56,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -15796,9 +15846,9 @@ const LIVE_AUTO = {
   },
   "064400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -15918,9 +15968,9 @@ const LIVE_AUTO = {
   },
   "000880": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 130200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -16040,9 +16090,9 @@ const LIVE_AUTO = {
   },
   "267270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 140600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -16162,9 +16212,9 @@ const LIVE_AUTO = {
   },
   "001440": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 29800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -16198,10 +16248,10 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "PER -362.2배 · PBR 3.08배 — 밸류 중립 수준",
+     "PER -363.41배 · PBR 3.09배 — 밸류 중립 수준",
      "ROE -0.9% · EPS -82원",
-     "컨센서스 EPS 기준 선행 PER 62.9배 — 실적 성장 확인 필요",
-     "목표주가 42,643원 → 현재가 대비 +43.6%"
+     "컨센서스 EPS 기준 선행 PER 63.1배 — 실적 성장 확인 필요",
+     "목표주가 42,643원 → 현재가 대비 +43.1%"
     ]
    },
    "nova": {
@@ -16222,7 +16272,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
     "baseWinRate": 51.0,
-    "relPp": -0.9,
+    "relPp": -1.0,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -16284,9 +16334,9 @@ const LIVE_AUTO = {
   },
   "062040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 201500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -16406,9 +16456,9 @@ const LIVE_AUTO = {
   },
   "029780": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -16551,9 +16601,9 @@ const LIVE_AUTO = {
   },
   "034220": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9590,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -16564,8 +16614,8 @@ const LIVE_AUTO = {
     "score": 42,
     "stance": "bear",
     "findings": [
-     "종가 9,580원이 MA20(9,624원) 대비 -0.5% — 단기 하단 흐름",
-     "MA60(11,139원) 대비 -14.0% — 장기 추세선 하회",
+     "종가 9,590원이 MA20(9,624원) 대비 -0.4% — 단기 하단 흐름",
+     "MA60(11,139원) 대비 -13.9% — 장기 추세선 하회",
      "RSI(14) 44 약세권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.68배 — 거래 강도 한산"
     ],
@@ -16599,7 +16649,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 44(약세) · 20일선 아래 · 최근 5일 횡보(-0.7%)",
+     "현재 상태: RSI 44(약세) · 20일선 아래 · 최근 5일 횡보(-0.6%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (전자·부품 업종을 75% 반영한 기저 승률 51%보다 -2%p 낮아 상대적 부진)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -16673,9 +16723,9 @@ const LIVE_AUTO = {
   },
   "009830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -16811,9 +16861,9 @@ const LIVE_AUTO = {
   },
   "000100": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 82700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -16942,9 +16992,9 @@ const LIVE_AUTO = {
   },
   "271560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17002,7 +17052,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 1.0,
+    "relPp": 1.1,
     "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -17064,9 +17114,9 @@ const LIVE_AUTO = {
   },
   "036570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 223000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17186,9 +17236,9 @@ const LIVE_AUTO = {
   },
   "000990": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 95400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17308,9 +17358,9 @@ const LIVE_AUTO = {
   },
   "377300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17430,9 +17480,9 @@ const LIVE_AUTO = {
   },
   "128940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 504000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -17569,9 +17619,9 @@ const LIVE_AUTO = {
   },
   "175330": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 28000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17602,7 +17652,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 87,
+    "score": 88,
     "stance": "bull",
     "findings": [
      "PER 7.5배 · PBR 0.88배 — 이익·자산 대비 저평가 매력",
@@ -17629,7 +17679,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 1.2,
+    "relPp": 1.1,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -17655,7 +17705,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 55,
     "riskPenalty": 0,
-    "riskScore": 65,
+    "riskScore": 66,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -17691,9 +17741,9 @@ const LIVE_AUTO = {
   },
   "454910": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 73100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -17813,12 +17863,12 @@ const LIVE_AUTO = {
   },
   "011790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 90100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 3,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -17828,6 +17878,20 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-21T06:15:10.423907+00:00",
       "isCorrection": false,
       "receiptDate": "20260821"
+     },
+     {
+      "name": "임원ㆍ주요주주특정증권등소유상황보고서",
+      "rceptNo": "20260827000791",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+      "rceptNo": "20260827000835",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
@@ -17906,7 +17970,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 63,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 26,
     "riskGrade": "mid",
@@ -17944,12 +18008,12 @@ const LIVE_AUTO = {
   },
   "023530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 104100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 2,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -17959,6 +18023,13 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-21T07:15:15.123721+00:00",
       "isCorrection": false,
       "receiptDate": "20260821"
+     },
+     {
+      "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+      "rceptNo": "20260827000804",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
@@ -18075,9 +18146,9 @@ const LIVE_AUTO = {
   },
   "000500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 211500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18091,7 +18162,7 @@ const LIVE_AUTO = {
      "종가 211,500원이 MA20(156,925원) 대비 +34.8% — 단기 상단 흐름",
      "MA60(186,070원) 대비 +13.7% — 장기 추세선 상회",
      "RSI(14) 64 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 4.55배 — 거래 강도 활발"
+     "거래량은 20일 평균의 4.56배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -18197,9 +18268,9 @@ const LIVE_AUTO = {
   },
   "001040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18319,9 +18390,9 @@ const LIVE_AUTO = {
   },
   "066970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 129800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -18450,9 +18521,9 @@ const LIVE_AUTO = {
   },
   "088350": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5480,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18572,9 +18643,9 @@ const LIVE_AUTO = {
   },
   "052690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 126300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18694,9 +18765,9 @@ const LIVE_AUTO = {
   },
   "002380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 469500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18816,9 +18887,9 @@ const LIVE_AUTO = {
   },
   "082740": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 48300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -18938,9 +19009,9 @@ const LIVE_AUTO = {
   },
   "111770": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 73400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19060,9 +19131,9 @@ const LIVE_AUTO = {
   },
   "018880": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3480,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19120,7 +19191,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": 0.5,
+    "relPp": 0.6,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -19182,9 +19253,9 @@ const LIVE_AUTO = {
   },
   "010060": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 276000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19304,9 +19375,9 @@ const LIVE_AUTO = {
   },
   "051900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 298500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -19442,9 +19513,9 @@ const LIVE_AUTO = {
   },
   "069960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 95200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -19464,8 +19535,8 @@ const LIVE_AUTO = {
     "score": 37,
     "stance": "bear",
     "findings": [
-     "종가 95,500원이 MA20(102,505원) 대비 -6.8% — 단기 하단 흐름",
-     "MA60(146,142원) 대비 -34.7% — 장기 추세선 하회",
+     "종가 95,200원이 MA20(102,490원) 대비 -7.1% — 단기 하단 흐름",
+     "MA60(146,137원) 대비 -34.9% — 장기 추세선 하회",
      "RSI(14) 30 약세권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.71배 — 거래 강도 보통"
     ],
@@ -19499,7 +19570,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 30(약세) · 20일선 아래 · 최근 5일 횡보(+1.1%)",
+     "현재 상태: RSI 30(약세) · 20일선 아래 · 최근 5일 횡보(+0.7%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -19525,7 +19596,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매수 58,197주 · 기관 순매도 119,742주 · 개인 순매수 63,635주",
      "외국인 보유율 28.44% → 28.70% (상승)",
      "직전 거래일 외국인 +26,195주 · 기관 -40,096주 · 개인 +14,304주",
-     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -31점 · 가격은 오르지만 큰손은 파는 분배형 괴리"
+     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -23점 · 가격·수급 방향 중립"
     ]
    },
    "chief": {
@@ -19573,9 +19644,9 @@ const LIVE_AUTO = {
   },
   "004020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19695,9 +19766,9 @@ const LIVE_AUTO = {
   },
   "001450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 48950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19774,14 +19845,14 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "BUY",
-    "total": 63,
+    "total": 64,
     "confidence": 37,
     "confidenceShadow": 50,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 63,
+    "rawTotal": 64,
     "riskPenalty": 0,
-    "riskScore": 52,
+    "riskScore": 51,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -19817,9 +19888,9 @@ const LIVE_AUTO = {
   },
   "103590": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 75100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -19939,9 +20010,9 @@ const LIVE_AUTO = {
   },
   "035250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14540,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -20070,9 +20141,9 @@ const LIVE_AUTO = {
   },
   "336260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 45200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -20192,9 +20263,9 @@ const LIVE_AUTO = {
   },
   "251270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -20314,9 +20385,9 @@ const LIVE_AUTO = {
   },
   "022100": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -20436,12 +20507,12 @@ const LIVE_AUTO = {
   },
   "036460": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 2,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -20451,11 +20522,18 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-25T05:11:51.210852+00:00",
       "isCorrection": false,
       "receiptDate": "20260825"
+     },
+     {
+      "name": "임시주주총회결과",
+      "rceptNo": "20260827800375",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
    "taro": {
-    "score": 81,
+    "score": 80,
     "stance": "bull",
     "findings": [
      "종가 36,900원이 MA20(35,732원) 대비 +3.3% — 단기 상단 흐름",
@@ -20567,9 +20645,9 @@ const LIVE_AUTO = {
   },
   "031210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -20705,9 +20783,9 @@ const LIVE_AUTO = {
   },
   "009420": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 64300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -20827,9 +20905,9 @@ const LIVE_AUTO = {
   },
   "383220": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 63100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -20949,9 +21027,9 @@ const LIVE_AUTO = {
   },
   "011780": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 123600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21071,9 +21149,9 @@ const LIVE_AUTO = {
   },
   "302440": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21193,9 +21271,9 @@ const LIVE_AUTO = {
   },
   "097950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 186300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21253,7 +21331,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -21315,9 +21393,9 @@ const LIVE_AUTO = {
   },
   "139130": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17710,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21358,7 +21436,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 49,
+    "score": 52,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -21375,8 +21453,8 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": -0.4,
-    "avgReturn": 1.01,
+    "relPp": 1.1,
+    "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -21437,9 +21515,9 @@ const LIVE_AUTO = {
   },
   "028670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5620,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21450,8 +21528,8 @@ const LIVE_AUTO = {
     "score": 48,
     "stance": "neu",
     "findings": [
-     "종가 5,610원이 MA20(5,758원) 대비 -2.6% — 단기 하단 흐름",
-     "MA60(5,288원) 대비 +6.1% — 장기 추세선 상회",
+     "종가 5,620원이 MA20(5,758원) 대비 -2.4% — 단기 하단 흐름",
+     "MA60(5,289원) 대비 +6.3% — 장기 추세선 상회",
      "RSI(14) 49 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.77배 — 거래 강도 보통"
     ],
@@ -21473,10 +21551,10 @@ const LIVE_AUTO = {
     "score": 86,
     "stance": "bull",
     "findings": [
-     "PER 8.86배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
+     "PER 8.88배 · PBR 0.48배 — 이익·자산 대비 저평가 매력",
      "ROE 5.4% · EPS 633원",
      "컨센서스 EPS 기준 선행 PER 6.4배 — 실적 반영 시 저평가",
-     "목표주가 7,900원 → 현재가 대비 +40.8%"
+     "목표주가 7,900원 → 현재가 대비 +40.6%"
     ]
    },
    "nova": {
@@ -21559,9 +21637,9 @@ const LIVE_AUTO = {
   },
   "012750": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 85500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21681,9 +21759,9 @@ const LIVE_AUTO = {
   },
   "014680": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 206000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -21803,14 +21881,24 @@ const LIVE_AUTO = {
   },
   "006360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "[기재정정]타인에대한채무보증결정",
+      "rceptNo": "20260827800459",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": true,
+      "receiptDate": "20260827"
+     }
+    ],
+    "correctionCount": 1
    },
    "taro": {
     "score": 90,
@@ -21925,9 +22013,9 @@ const LIVE_AUTO = {
   },
   "017800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 75500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -22047,9 +22135,9 @@ const LIVE_AUTO = {
   },
   "450080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -22169,9 +22257,9 @@ const LIVE_AUTO = {
   },
   "011170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 57400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -22307,9 +22395,9 @@ const LIVE_AUTO = {
   },
   "004800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 167000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -22429,9 +22517,9 @@ const LIVE_AUTO = {
   },
   "005850": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 52600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -22560,9 +22648,9 @@ const LIVE_AUTO = {
   },
   "026960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -22570,7 +22658,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 49,
+    "score": 48,
     "stance": "neu",
     "findings": [
      "종가 25,850원이 MA20(25,958원) 대비 -0.4% — 단기 하단 흐름",
@@ -22603,25 +22691,25 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 52,
+    "score": 56,
     "available": true,
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 51(중립) · 20일선 위 · 최근 5일 횡보(+1.8%)",
-     "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (식음료 업종을 75% 반영한 기저 승률 48%보다 +1%p 높아 상대적 양호)",
-     "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
+     "현재 상태: RSI 50(중립) · 20일선 아래 · 최근 5일 횡보(+1.4%)",
+     "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호)",
+     "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 6185,
-    "sampleWin": 3032,
-    "winRate": 49.0,
+    "sampleN": 6077,
+    "sampleWin": 3098,
+    "winRate": 51.0,
     "marketAvgWinRate": 48.7,
     "sector": "식음료",
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 1.4,
-    "avgReturn": 0.67,
+    "relPp": 3.4,
+    "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -22640,8 +22728,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 52,
-    "confidence": 80,
-    "confidenceShadow": 80,
+    "confidence": 79,
+    "confidenceShadow": 79,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 52,
@@ -22676,28 +22764,21 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 52점(중립). 기술 48·재무 57·퀀트(확률) 56·수급 51 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 77점으로 원점수 52점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 25,950원이 MA20(25,962원) 대비 -0.0% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 27,026주 · 기관 순매수 31,247주 · 개인 순매도 58,619주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (식음료 업종을 75% 반영한 기저 승률 48%보다 +1%p 높아 상대적 양호). 방향 원점수 52점에서 리스크 0점을 반영해 종합 52점 · HOLD · 신뢰도 80%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 25,850원이 MA20(25,958원) 대비 -0.4% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 27,026주 · 기관 순매수 31,247주 · 개인 순매도 58,619주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호). 방향 원점수 52점에서 리스크 0점을 반영해 종합 52점 · HOLD · 신뢰도 79%."
    },
    "shadowChief": null
   },
   "001720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 155200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 8,
+    "count": 9,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
-     {
-      "name": "투자설명서(일괄신고)",
-      "rceptNo": "20260826000548",
-      "detectedAt": "2026-08-26T06:55:06.004872+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260826"
-     },
      {
       "name": "투자설명서(일괄신고)",
       "rceptNo": "20260826000560",
@@ -22709,6 +22790,13 @@ const LIVE_AUTO = {
       "name": "일괄신고추가서류(파생결합증권-주가연계증권)",
       "rceptNo": "20260827000718",
       "detectedAt": "2026-08-27T06:49:53.610843+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "투자설명서(일괄신고)",
+      "rceptNo": "20260827000768",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -22741,7 +22829,7 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 14.16배 · PBR 0.61배 — 이익·자산 대비 저평가 매력",
+     "PER 14.11배 · PBR 0.6배 — 이익·자산 대비 저평가 매력",
      "ROE 4.3% · EPS 11,002원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 119,300 ~ 296,000 참고 · 목표주가 컨센 미제공"
@@ -22827,9 +22915,9 @@ const LIVE_AUTO = {
   },
   "161890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 145800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 6,
@@ -22972,9 +23060,9 @@ const LIVE_AUTO = {
   },
   "085620": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -23056,7 +23144,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 34,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 57,
+    "rawTotal": 58,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -23094,9 +23182,9 @@ const LIVE_AUTO = {
   },
   "483650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 222500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -23240,9 +23328,9 @@ const LIVE_AUTO = {
   },
   "009970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 168100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -23362,9 +23450,9 @@ const LIVE_AUTO = {
   },
   "375500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -23388,7 +23476,7 @@ const LIVE_AUTO = {
      {
       "name": "[기재정정]단일판매ㆍ공급계약체결",
       "rceptNo": "20260827800281",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      }
@@ -23402,7 +23490,7 @@ const LIVE_AUTO = {
      "종가 74,300원이 MA20(69,500원) 대비 +6.9% — 단기 상단 흐름",
      "MA60(67,375원) 대비 +10.3% — 장기 추세선 상회",
      "RSI(14) 60 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 1.65배 — 거래 강도 활발"
+     "거래량은 20일 평균의 1.66배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -23465,12 +23553,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "BUY",
-    "total": 63,
+    "total": 64,
     "confidence": 42,
     "confidenceShadow": 50,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 63,
+    "rawTotal": 64,
     "riskPenalty": 0,
     "riskScore": 42,
     "riskGrade": "mid",
@@ -23508,9 +23596,9 @@ const LIVE_AUTO = {
   },
   "003690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -23630,9 +23718,9 @@ const LIVE_AUTO = {
   },
   "000240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -23761,9 +23849,9 @@ const LIVE_AUTO = {
   },
   "081660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 40800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -23883,9 +23971,9 @@ const LIVE_AUTO = {
   },
   "004990": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 23800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -23978,7 +24066,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 55,
     "riskPenalty": 0,
-    "riskScore": 68,
+    "riskScore": 69,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -24014,9 +24102,9 @@ const LIVE_AUTO = {
   },
   "204320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -24074,7 +24162,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": -2.0,
+    "relPp": -1.9,
     "avgReturn": 0.55,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -24136,9 +24224,9 @@ const LIVE_AUTO = {
   },
   "489790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 51600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -24172,10 +24260,10 @@ const LIVE_AUTO = {
     "score": 65,
     "stance": "bull",
     "findings": [
-     "PER 21.8배 · PBR 2.73배 — 이익·자산 대비 저평가 매력",
+     "PER 21.88배 · PBR 2.74배 — 이익·자산 대비 저평가 매력",
      "ROE 12.5% · EPS 2,358원",
      "컨센서스 EPS 기준 선행 PER 13.6배 — 실적 반영 시 저평가",
-     "목표주가 96,000원 → 현재가 대비 +86.8%"
+     "목표주가 96,000원 → 현재가 대비 +86.0%"
     ]
    },
    "nova": {
@@ -24215,12 +24303,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 55,
+    "total": 56,
     "confidence": 68,
     "confidenceShadow": 68,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 56,
     "riskPenalty": 0,
     "riskScore": 12,
     "riskGrade": "mid",
@@ -24258,9 +24346,9 @@ const LIVE_AUTO = {
   },
   "008930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -24397,9 +24485,9 @@ const LIVE_AUTO = {
   },
   "139480": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -24519,9 +24607,9 @@ const LIVE_AUTO = {
   },
   "073240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7110,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -24579,7 +24667,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": -2.0,
+    "relPp": -1.9,
     "avgReturn": 0.55,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -24641,9 +24729,9 @@ const LIVE_AUTO = {
   },
   "279570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5640,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -24763,9 +24851,9 @@ const LIVE_AUTO = {
   },
   "005440": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12020,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -24894,9 +24982,9 @@ const LIVE_AUTO = {
   },
   "007070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -25016,9 +25104,9 @@ const LIVE_AUTO = {
   },
   "004370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 427000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -25147,9 +25235,9 @@ const LIVE_AUTO = {
   },
   "030000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -25278,9 +25366,9 @@ const LIVE_AUTO = {
   },
   "282330": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 139700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -25409,9 +25497,9 @@ const LIVE_AUTO = {
   },
   "007340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -25469,7 +25557,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": 0.5,
+    "relPp": 0.6,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -25531,9 +25619,9 @@ const LIVE_AUTO = {
   },
   "071970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 53600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -25662,9 +25750,9 @@ const LIVE_AUTO = {
   },
   "051600": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -25731,7 +25819,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
     "baseWinRate": 51.0,
-    "relPp": -0.9,
+    "relPp": -1.0,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -25793,9 +25881,9 @@ const LIVE_AUTO = {
   },
   "462870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -25915,12 +26003,12 @@ const LIVE_AUTO = {
   },
   "018670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 230500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 2,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -25929,6 +26017,13 @@ const LIVE_AUTO = {
       "rceptNo": "20260827000513",
       "detectedAt": "2026-08-27T05:19:20.162994+00:00",
       "isCorrection": true,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+      "rceptNo": "20260827000820",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
       "receiptDate": "20260827"
      }
     ],
@@ -26047,9 +26142,9 @@ const LIVE_AUTO = {
   },
   "008770": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26169,9 +26264,9 @@ const LIVE_AUTO = {
   },
   "192820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 283000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -26300,9 +26395,9 @@ const LIVE_AUTO = {
   },
   "281820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 68700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26336,10 +26431,10 @@ const LIVE_AUTO = {
     "score": 65,
     "stance": "bull",
     "findings": [
-     "PER 16.15배 · PBR 2.36배 — 이익·자산 대비 저평가 매력",
+     "PER 16.13배 · PBR 2.36배 — 이익·자산 대비 저평가 매력",
      "ROE 14.6% · EPS 4,260원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 127,000원 → 현재가 대비 +84.6%"
+     "목표주가 127,000원 → 현재가 대비 +84.9%"
     ]
    },
    "nova": {
@@ -26422,9 +26517,9 @@ const LIVE_AUTO = {
   },
   "457190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 66700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26438,7 +26533,7 @@ const LIVE_AUTO = {
      "종가 66,700원이 MA20(61,995원) 대비 +7.6% — 단기 상단 흐름",
      "MA60(67,036원) 대비 -0.5% — 장기 추세선 하회",
      "RSI(14) 56 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 1.21배 — 거래 강도 보통"
+     "거래량은 20일 평균의 1.22배 — 거래 강도 보통"
     ],
     "ready": {
      "ma20": true,
@@ -26544,9 +26639,9 @@ const LIVE_AUTO = {
   },
   "020150": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 35200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -26577,7 +26672,7 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 76,
+    "score": 77,
     "stance": "bull",
     "findings": [
      "종가 35,200원이 MA20(31,408원) 대비 +12.1% — 단기 상단 흐름",
@@ -26651,7 +26746,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 57,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 58,
+    "rawTotal": 59,
     "riskPenalty": 0,
     "riskScore": 10,
     "riskGrade": "mid",
@@ -26689,9 +26784,9 @@ const LIVE_AUTO = {
   },
   "002790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26725,7 +26820,7 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER 17.43배 · PBR 0.67배 — 이익·자산 대비 저평가 매력",
+     "PER 17.46배 · PBR 0.67배 — 이익·자산 대비 저평가 매력",
      "ROE 3.9% · EPS 1,506원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 19,950 ~ 35,950 참고 · 목표주가 컨센 미제공"
@@ -26737,7 +26832,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 54(중립) · 20일선 위 · 최근 5일 횡보(+1.4%)",
+     "현재 상태: RSI 55(중립) · 20일선 위 · 최근 5일 횡보(+1.5%)",
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (화장품·미용 업종을 75% 반영한 기저 승률 49%보다 -0%p 비슷한 중립 수준)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -26775,7 +26870,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 52,
     "riskPenalty": 0,
-    "riskScore": 67,
+    "riskScore": 68,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -26805,15 +26900,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 52점(중립). 기술 53·재무 58·퀀트(확률) 49·수급 52 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 68점으로 원점수 52점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 26,250원이 MA20(26,170원) 대비 +0.3% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 46,278주 · 기관 순매수 48,433주 · 개인 순매도 94,773주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (화장품·미용 업종을 75% 반영한 기저 승률 49%보다 -0%p 비슷한 중립 수준). 방향 원점수 52점에서 리스크 0점을 반영해 종합 52점 · HOLD · 신뢰도 79%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 26,300원이 MA20(26,172원) 대비 +0.5% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 46,278주 · 기관 순매수 48,433주 · 개인 순매도 94,773주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (화장품·미용 업종을 75% 반영한 기저 승률 49%보다 -0%p 비슷한 중립 수준). 방향 원점수 52점에서 리스크 0점을 반영해 종합 52점 · HOLD · 신뢰도 79%."
    },
    "shadowChief": null
   },
   "439260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26933,9 +27028,9 @@ const LIVE_AUTO = {
   },
   "103140": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 83000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -26946,8 +27041,8 @@ const LIVE_AUTO = {
     "score": 87,
     "stance": "bull",
     "findings": [
-     "종가 83,100원이 MA20(79,380원) 대비 +4.7% — 단기 상단 흐름",
-     "MA60(71,080원) 대비 +16.9% — 장기 추세선 상회",
+     "종가 83,000원이 MA20(79,375원) 대비 +4.6% — 단기 상단 흐름",
+     "MA60(71,078원) 대비 +16.8% — 장기 추세선 상회",
      "RSI(14) 58 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.53배 — 거래 강도 한산"
     ],
@@ -27055,9 +27150,9 @@ const LIVE_AUTO = {
   },
   "007810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 60900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27177,9 +27272,9 @@ const LIVE_AUTO = {
   },
   "001740": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27299,9 +27394,9 @@ const LIVE_AUTO = {
   },
   "000120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 73300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27309,11 +27404,11 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 37,
+    "score": 36,
     "stance": "bear",
     "findings": [
-     "종가 73,400원이 MA20(75,195원) 대비 -2.4% — 단기 하단 흐름",
-     "MA60(76,212원) 대비 -3.7% — 장기 추세선 하회",
+     "종가 73,300원이 MA20(75,190원) 대비 -2.5% — 단기 하단 흐름",
+     "MA60(76,210원) 대비 -3.8% — 장기 추세선 하회",
      "RSI(14) 45 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.71배 — 거래 강도 보통"
     ],
@@ -27347,7 +27442,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 45(중립) · 20일선 아래 · 최근 5일 횡보(-0.1%)",
+     "현재 상태: RSI 45(중립) · 20일선 아래 · 최근 5일 횡보(-0.3%)",
      "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (물류·운송 업종을 72% 반영한 기저 승률 49%보다 +2%p 높아 상대적 양호)",
      "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -27421,9 +27516,9 @@ const LIVE_AUTO = {
   },
   "011210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 59300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27543,9 +27638,9 @@ const LIVE_AUTO = {
   },
   "112610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -27674,9 +27769,9 @@ const LIVE_AUTO = {
   },
   "120110": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 53000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27796,9 +27891,9 @@ const LIVE_AUTO = {
   },
   "001800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -27832,7 +27927,7 @@ const LIVE_AUTO = {
     "score": 64,
     "stance": "bull",
     "findings": [
-     "PER 11.26배 · PBR 0.6배 — 이익·자산 대비 저평가 매력",
+     "PER 11.28배 · PBR 0.6배 — 이익·자산 대비 저평가 매력",
      "ROE 5.3% · EPS 2,243원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 18,360 ~ 31,150 참고 · 목표주가 컨센 미제공"
@@ -27844,7 +27939,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 44(약세) · 20일선 아래 · 최근 5일 횡보(-1.0%)",
+     "현재 상태: RSI 45(약세) · 20일선 아래 · 최근 5일 횡보(-0.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (지주·상사 업종을 75% 반영한 기저 승률 51%보다 -2%p 낮아 상대적 부진)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -27912,15 +28007,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 45점(비중 축소). 기술 31·재무 64·퀀트(확률) 46·수급 49 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 69점으로 원점수 45점에서 0점을 감점했습니다. 분석축 간 편차가 커 신중한 접근이 필요합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 25,250원이 MA20(26,142원) 대비 -3.4% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 51,720주 · 기관 순매수 18,975주 · 개인 순매수 17,866주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (지주·상사 업종을 75% 반영한 기저 승률 51%보다 -2%p 낮아 상대적 부진). 방향 원점수 45점에서 리스크 0점을 반영해 종합 45점 · SELL · 신뢰도 55%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 25,300원이 MA20(26,145원) 대비 -3.2% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 51,720주 · 기관 순매수 18,975주 · 개인 순매수 17,866주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (지주·상사 업종을 75% 반영한 기저 승률 51%보다 -2%p 낮아 상대적 부진). 방향 원점수 45점에서 리스크 0점을 반영해 종합 45점 · SELL · 신뢰도 55%."
    },
    "shadowChief": null
   },
   "023590": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28040,9 +28135,9 @@ const LIVE_AUTO = {
   },
   "097230": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17160,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28162,9 +28257,9 @@ const LIVE_AUTO = {
   },
   "069620": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 124900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -28307,9 +28402,9 @@ const LIVE_AUTO = {
   },
   "006040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28367,7 +28462,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": -2.1,
+    "relPp": -2.0,
     "avgReturn": 0.86,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -28429,9 +28524,9 @@ const LIVE_AUTO = {
   },
   "020560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7530,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28551,9 +28646,9 @@ const LIVE_AUTO = {
   },
   "093370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13060,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28630,12 +28725,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 60,
+    "total": 61,
     "confidence": 47,
     "confidenceShadow": 47,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 63,
+    "rawTotal": 64,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -28673,9 +28768,9 @@ const LIVE_AUTO = {
   },
   "475150": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -28685,7 +28780,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
       "rceptNo": "20260827000619",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -28804,9 +28899,9 @@ const LIVE_AUTO = {
   },
   "006280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 127100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -28926,9 +29021,9 @@ const LIVE_AUTO = {
   },
   "001120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29048,9 +29143,9 @@ const LIVE_AUTO = {
   },
   "229640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 48400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29058,7 +29153,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 65,
+    "score": 64,
     "stance": "bull",
     "findings": [
      "종가 48,400원이 MA20(45,015원) 대비 +7.5% — 단기 상단 흐름",
@@ -29108,7 +29203,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
     "baseWinRate": 51.0,
-    "relPp": -0.9,
+    "relPp": -1.0,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -29128,13 +29223,13 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 50,
-    "confidence": 61,
-    "confidenceShadow": 61,
+    "confidence": 62,
+    "confidenceShadow": 62,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 53,
     "riskPenalty": 3,
-    "riskScore": 10,
+    "riskScore": 11,
     "riskGrade": "high",
     "riskApplied": true,
     "reboundCheck": {
@@ -29170,22 +29265,15 @@ const LIVE_AUTO = {
   },
   "003540": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 26,
+    "count": 27,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
-     {
-      "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-      "rceptNo": "20260827000481",
-      "detectedAt": "2026-08-27T04:51:01.123388+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260827"
-     },
      {
       "name": "투자설명서(일괄신고)",
       "rceptNo": "20260827000521",
@@ -29197,6 +29285,13 @@ const LIVE_AUTO = {
       "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
       "rceptNo": "20260827000675",
       "detectedAt": "2026-08-27T06:49:53.610843+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     },
+     {
+      "name": "투자설명서(일괄신고)",
+      "rceptNo": "20260827000799",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -29253,7 +29348,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 1.2,
+    "relPp": 1.1,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -29315,9 +29410,9 @@ const LIVE_AUTO = {
   },
   "005070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 40750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -29446,9 +29541,9 @@ const LIVE_AUTO = {
   },
   "192080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 57200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29456,7 +29551,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 25,
+    "score": 24,
     "stance": "bear",
     "findings": [
      "종가 57,200원이 MA20(60,055원) 대비 -4.8% — 단기 하단 흐름",
@@ -29489,25 +29584,25 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 42,
+    "score": 58,
     "available": true,
-    "stance": "bear",
+    "stance": "bull",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 40(약세) · 20일선 아래 · 최근 5일 횡보(+1.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (게임·엔터 업종을 75% 반영한 기저 승률 44%보다 +4%p 높아 상대적 양호)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 3341,
-    "sampleWin": 1323,
-    "winRate": 39.6,
+    "sampleN": 7918,
+    "sampleWin": 3855,
+    "winRate": 48.7,
     "marketAvgWinRate": 48.7,
     "sector": "게임·엔터",
     "sectorWinRate": 42.7,
     "sectorBlendPct": 75,
     "baseWinRate": 44.2,
-    "relPp": -4.6,
-    "avgReturn": -1.63,
+    "relPp": 4.5,
+    "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -29524,13 +29619,13 @@ const LIVE_AUTO = {
     ]
    },
    "chief": {
-    "call": "SELL",
-    "total": 46,
+    "call": "HOLD",
+    "total": 50,
     "confidence": 40,
-    "confidenceShadow": 59,
+    "confidenceShadow": 40,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 46,
+    "rawTotal": 50,
     "riskPenalty": 0,
     "riskScore": 64,
     "riskGrade": "low",
@@ -29568,9 +29663,9 @@ const LIVE_AUTO = {
   },
   "322000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 142000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29584,7 +29679,7 @@ const LIVE_AUTO = {
      "종가 142,000원이 MA20(126,480원) 대비 +12.3% — 단기 상단 흐름",
      "MA60(132,223원) 대비 +7.4% — 장기 추세선 상회",
      "RSI(14) 57 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 0.56배 — 거래 강도 한산"
+     "거래량은 20일 평균의 0.57배 — 거래 강도 한산"
     ],
     "ready": {
      "ma20": true,
@@ -29690,9 +29785,9 @@ const LIVE_AUTO = {
   },
   "017960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 23800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29812,9 +29907,9 @@ const LIVE_AUTO = {
   },
   "007310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 326000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -29872,7 +29967,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -29934,9 +30029,9 @@ const LIVE_AUTO = {
   },
   "181710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 70100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30056,9 +30151,9 @@ const LIVE_AUTO = {
   },
   "298020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 333000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30178,9 +30273,9 @@ const LIVE_AUTO = {
   },
   "361610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18220,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30300,12 +30395,12 @@ const LIVE_AUTO = {
   },
   "012630": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 23200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 2,
+    "count": 3,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -30322,6 +30417,13 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-26T05:56:45.318135+00:00",
       "isCorrection": false,
       "receiptDate": "20260826"
+     },
+     {
+      "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+      "rceptNo": "20260827000802",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ],
     "correctionCount": 1
@@ -30333,7 +30435,7 @@ const LIVE_AUTO = {
      "종가 23,200원이 MA20(21,772원) 대비 +6.6% — 단기 상단 흐름",
      "MA60(20,967원) 대비 +10.6% — 장기 추세선 상회",
      "RSI(14) 62 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 1.33배 — 거래 강도 활발"
+     "거래량은 20일 평균의 1.34배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -30439,9 +30541,9 @@ const LIVE_AUTO = {
   },
   "082640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30561,9 +30663,9 @@ const LIVE_AUTO = {
   },
   "089860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 47250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30683,9 +30785,9 @@ const LIVE_AUTO = {
   },
   "032350": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12880,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -30693,7 +30795,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 57,
+    "score": 56,
     "stance": "neu",
     "findings": [
      "종가 12,880원이 MA20(12,800원) 대비 +0.6% — 단기 상단 흐름",
@@ -30719,10 +30821,10 @@ const LIVE_AUTO = {
     "score": 65,
     "stance": "bull",
     "findings": [
-     "PER 19.62배 · PBR 2.75배 — 이익·자산 대비 저평가 매력",
+     "PER 19.46배 · PBR 2.72배 — 이익·자산 대비 저평가 매력",
      "ROE 14.0% · EPS 662원",
-     "컨센서스 EPS 기준 선행 PER 14.2배 — 실적 반영 시 저평가",
-     "목표주가 22,889원 → 현재가 대비 +76.2%"
+     "컨센서스 EPS 기준 선행 PER 14.0배 — 실적 반영 시 저평가",
+     "목표주가 22,889원 → 현재가 대비 +77.7%"
     ]
    },
    "nova": {
@@ -30731,7 +30833,7 @@ const LIVE_AUTO = {
     "stance": "bull",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 49(중립) · 20일선 위 · 최근 5일 횡보(+0.4%)",
+     "현재 상태: RSI 48(중립) · 20일선 위 · 최근 5일 횡보(-0.5%)",
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (여행레저 업종을 70% 반영한 기저 승률 45%보다 +4%p 높아 상대적 양호)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -30805,9 +30907,9 @@ const LIVE_AUTO = {
   },
   "294870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 23000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -30944,9 +31046,9 @@ const LIVE_AUTO = {
   },
   "034230": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9780,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -31075,9 +31177,9 @@ const LIVE_AUTO = {
   },
   "004000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 47200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -31206,9 +31308,9 @@ const LIVE_AUTO = {
   },
   "001820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 108300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -31328,9 +31430,9 @@ const LIVE_AUTO = {
   },
   "001430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 43450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -31450,9 +31552,9 @@ const LIVE_AUTO = {
   },
   "030610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10140,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 46,
@@ -31595,9 +31697,9 @@ const LIVE_AUTO = {
   },
   "003570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -31605,7 +31707,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 51,
+    "score": 50,
     "stance": "neu",
     "findings": [
      "종가 31,150원이 MA20(31,375원) 대비 -0.7% — 단기 하단 흐름",
@@ -31643,7 +31745,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 횡보(+0.3%)",
+     "현재 상태: RSI 46(중립) · 20일선 아래 · 최근 5일 횡보(-0.3%)",
      "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (자동차·부품 업종을 75% 반영한 기저 승률 50%보다 +1%p 비슷한 중립 수준)",
      "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -31655,7 +31757,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": 0.5,
+    "relPp": 0.6,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -31717,9 +31819,9 @@ const LIVE_AUTO = {
   },
   "300720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16330,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -31839,9 +31941,9 @@ const LIVE_AUTO = {
   },
   "077970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -31961,9 +32063,9 @@ const LIVE_AUTO = {
   },
   "000080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15180,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32021,7 +32123,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -32083,9 +32185,9 @@ const LIVE_AUTO = {
   },
   "071840": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6290,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32205,9 +32307,9 @@ const LIVE_AUTO = {
   },
   "003530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 25,
@@ -32351,9 +32453,9 @@ const LIVE_AUTO = {
   },
   "195870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32473,9 +32575,9 @@ const LIVE_AUTO = {
   },
   "003090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17480,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32595,9 +32697,9 @@ const LIVE_AUTO = {
   },
   "280360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 136000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32717,9 +32819,9 @@ const LIVE_AUTO = {
   },
   "185750": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 67100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -32839,9 +32941,9 @@ const LIVE_AUTO = {
   },
   "000210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -32865,7 +32967,7 @@ const LIVE_AUTO = {
      {
       "name": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
       "rceptNo": "20260827800286",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": true,
       "receiptDate": "20260827"
      }
@@ -32985,9 +33087,9 @@ const LIVE_AUTO = {
   },
   "003240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 899000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -32997,7 +33099,7 @@ const LIVE_AUTO = {
      {
       "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
       "rceptNo": "20260827000602",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -33116,9 +33218,9 @@ const LIVE_AUTO = {
   },
   "005300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 97500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -33176,7 +33278,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 1.0,
+    "relPp": 1.1,
     "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -33238,9 +33340,9 @@ const LIVE_AUTO = {
   },
   "009450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 62900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -33360,9 +33462,9 @@ const LIVE_AUTO = {
   },
   "006120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -33420,7 +33522,7 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 5.33배 · PBR 0.25배 — 이익·자산 대비 저평가 매력",
+     "PER 5.32배 · PBR 0.25배 — 이익·자산 대비 저평가 매력",
      "ROE 4.7% · EPS 9,280원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 42,750 ~ 68,300 참고 · 목표주가 컨센 미제공"
@@ -33468,7 +33570,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 44,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 49,
+    "rawTotal": 48,
     "riskPenalty": 0,
     "riskScore": 57,
     "riskGrade": "mid",
@@ -33506,9 +33608,9 @@ const LIVE_AUTO = {
   },
   "192400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 28050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -33628,9 +33730,9 @@ const LIVE_AUTO = {
   },
   "003470": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 7,
@@ -33773,9 +33875,9 @@ const LIVE_AUTO = {
   },
   "006340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14140,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -33918,9 +34020,9 @@ const LIVE_AUTO = {
   },
   "100090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13920,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -34049,9 +34151,9 @@ const LIVE_AUTO = {
   },
   "499790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -34171,9 +34273,9 @@ const LIVE_AUTO = {
   },
   "009240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -34302,9 +34404,9 @@ const LIVE_AUTO = {
   },
   "030190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15530,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -34312,7 +34414,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 78,
+    "score": 79,
     "stance": "bull",
     "findings": [
      "종가 15,530원이 MA20(15,085원) 대비 +2.9% — 단기 상단 흐름",
@@ -34386,7 +34488,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 58,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 60,
+    "rawTotal": 61,
     "riskPenalty": 0,
     "riskScore": 72,
     "riskGrade": "low",
@@ -34424,9 +34526,9 @@ const LIVE_AUTO = {
   },
   "036530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -34546,9 +34648,9 @@ const LIVE_AUTO = {
   },
   "456040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 80100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -34668,9 +34770,9 @@ const LIVE_AUTO = {
   },
   "071320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -34799,9 +34901,9 @@ const LIVE_AUTO = {
   },
   "137310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6040,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -34842,25 +34944,25 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 39,
+    "score": 55,
     "available": true,
-    "stance": "bear",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 44(약세) · 20일선 아래 · 최근 5일 횡보(+1.7%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (바이오·제약 업종을 75% 반영한 기저 승률 46%보다 +3%p 높아 상대적 양호)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 3341,
-    "sampleWin": 1323,
-    "winRate": 39.6,
+    "sampleN": 7918,
+    "sampleWin": 3855,
+    "winRate": 48.7,
     "marketAvgWinRate": 48.7,
     "sector": "바이오·제약",
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
     "baseWinRate": 45.7,
-    "relPp": -6.1,
-    "avgReturn": -1.63,
+    "relPp": 3.0,
+    "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -34883,9 +34985,9 @@ const LIVE_AUTO = {
     "confidenceShadow": 64,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 39,
+    "rawTotal": 43,
     "riskPenalty": 0,
-    "riskScore": 51,
+    "riskScore": 50,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -34921,9 +35023,9 @@ const LIVE_AUTO = {
   },
   "214320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18670,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35043,9 +35145,9 @@ const LIVE_AUTO = {
   },
   "004490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 60100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35053,13 +35155,13 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 91,
+    "score": 92,
     "stance": "bull",
     "findings": [
      "종가 60,100원이 MA20(55,095원) 대비 +9.1% — 단기 상단 흐름",
      "MA60(54,060원) 대비 +11.2% — 장기 추세선 상회",
      "RSI(14) 65 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 1.72배 — 거래 강도 활발"
+     "거래량은 20일 평균의 1.73배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -35123,7 +35225,7 @@ const LIVE_AUTO = {
    "chief": {
     "call": "BUY",
     "total": 66,
-    "confidence": 46,
+    "confidence": 45,
     "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
@@ -35165,9 +35267,9 @@ const LIVE_AUTO = {
   },
   "079160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5370,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35287,9 +35389,9 @@ const LIVE_AUTO = {
   },
   "003850": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35297,7 +35399,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 52,
+    "score": 53,
     "stance": "neu",
     "findings": [
      "종가 8,900원이 MA20(8,838원) 대비 +0.7% — 단기 상단 흐름",
@@ -35323,7 +35425,7 @@ const LIVE_AUTO = {
     "score": 73,
     "stance": "bull",
     "findings": [
-     "PER 6.32배 · PBR 0.83배 — 이익·자산 대비 저평가 매력",
+     "PER 6.33배 · PBR 0.84배 — 이익·자산 대비 저평가 매력",
      "ROE 13.2% · EPS 1,406원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 7,410 ~ 11,350 참고 · 목표주가 컨센 미제공"
@@ -35366,12 +35468,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 53,
+    "total": 54,
     "confidence": 62,
     "confidenceShadow": 62,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 53,
+    "rawTotal": 54,
     "riskPenalty": 0,
     "riskScore": 68,
     "riskGrade": "low",
@@ -35409,9 +35511,9 @@ const LIVE_AUTO = {
   },
   "005690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35531,9 +35633,9 @@ const LIVE_AUTO = {
   },
   "248070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13130,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35615,7 +35717,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 64,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 42,
+    "rawTotal": 41,
     "riskPenalty": 0,
     "riskScore": 45,
     "riskGrade": "mid",
@@ -35653,9 +35755,9 @@ const LIVE_AUTO = {
   },
   "000370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7730,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35775,9 +35877,9 @@ const LIVE_AUTO = {
   },
   "285130": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -35897,9 +35999,9 @@ const LIVE_AUTO = {
   },
   "064960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36019,9 +36121,9 @@ const LIVE_AUTO = {
   },
   "006650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 89500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36141,9 +36243,9 @@ const LIVE_AUTO = {
   },
   "002350": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6420,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36215,7 +36317,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 9,580주 · 기관 순매도 15,816주 · 개인 순매수 26,081주",
      "외국인 보유율 11.04% → 11.04% (상승)",
      "직전 거래일 외국인 +4,152주 · 기관 -3,048주 · 개인 -451주",
-     "외국인·기관 동반 매도 우위 · 수급 품질 -20점 · 가격 하락과 큰손 매도가 함께 가는 하락 확인"
+     "외국인·기관 동반 매도 우위 · 수급 품질 -14점 · 가격·수급 방향 중립"
     ]
    },
    "chief": {
@@ -36227,7 +36329,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 58,
     "riskPenalty": 0,
-    "riskScore": 66,
+    "riskScore": 67,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -36263,9 +36365,9 @@ const LIVE_AUTO = {
   },
   "075580": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10710,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36385,9 +36487,9 @@ const LIVE_AUTO = {
   },
   "000670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 40250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36507,9 +36609,9 @@ const LIVE_AUTO = {
   },
   "093050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 22900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36517,7 +36619,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 71,
+    "score": 70,
     "stance": "bull",
     "findings": [
      "종가 22,900원이 MA20(22,618원) 대비 +1.2% — 단기 상단 흐름",
@@ -36543,7 +36645,7 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 5.94배 · PBR 0.36배 — 이익·자산 대비 저평가 매력",
+     "PER 5.9배 · PBR 0.36배 — 이익·자산 대비 저평가 매력",
      "ROE 6.1% · EPS 3,880원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 17,010 ~ 27,500 참고 · 목표주가 컨센 미제공"
@@ -36559,9 +36661,9 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 8646,
-    "sampleWin": 4324,
-    "winRate": 50.0,
+    "sampleN": 6185,
+    "sampleWin": 3032,
+    "winRate": 49.0,
     "marketAvgWinRate": 48.7,
     "sector": "유통·소비재",
     "sectorWinRate": 49.8,
@@ -36629,9 +36731,9 @@ const LIVE_AUTO = {
   },
   "025540": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36639,7 +36741,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 19,
+    "score": 18,
     "stance": "bear",
     "findings": [
      "종가 55,800원이 MA20(60,085원) 대비 -7.1% — 단기 하단 흐름",
@@ -36689,7 +36791,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": -1.8,
+    "relPp": -1.7,
     "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -36751,9 +36853,9 @@ const LIVE_AUTO = {
   },
   "298050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 171400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36873,9 +36975,9 @@ const LIVE_AUTO = {
   },
   "000400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2080,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -36995,9 +37097,9 @@ const LIVE_AUTO = {
   },
   "108320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37117,9 +37219,9 @@ const LIVE_AUTO = {
   },
   "090460": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17190,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37196,12 +37298,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
+    "total": 52,
     "confidence": 34,
     "confidenceShadow": 34,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 56,
+    "rawTotal": 57,
     "riskPenalty": 5,
     "riskScore": 5,
     "riskGrade": "high",
@@ -37239,9 +37341,9 @@ const LIVE_AUTO = {
   },
   "002960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 498000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -37291,7 +37393,7 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER 12.62배 · PBR 5.26배 — 이익·자산 대비 저평가 매력",
+     "PER 12.64배 · PBR 5.26배 — 이익·자산 대비 저평가 매력",
      "ROE 41.7% · EPS 39,410원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 401,000 ~ 660,000 참고 · 목표주가 컨센 미제공"
@@ -37377,9 +37479,9 @@ const LIVE_AUTO = {
   },
   "114090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9270,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37499,9 +37601,9 @@ const LIVE_AUTO = {
   },
   "001570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37621,9 +37723,9 @@ const LIVE_AUTO = {
   },
   "317450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 45700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37743,9 +37845,9 @@ const LIVE_AUTO = {
   },
   "069260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16170,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37865,9 +37967,9 @@ const LIVE_AUTO = {
   },
   "005090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 62600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -37987,9 +38089,9 @@ const LIVE_AUTO = {
   },
   "002990": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -38119,9 +38221,9 @@ const LIVE_AUTO = {
   },
   "003160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -38241,9 +38343,9 @@ const LIVE_AUTO = {
   },
   "005880": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2115,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -38379,9 +38481,9 @@ const LIVE_AUTO = {
   },
   "010780": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -38517,9 +38619,9 @@ const LIVE_AUTO = {
   },
   "006380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3660,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -38639,9 +38741,9 @@ const LIVE_AUTO = {
   },
   "005180": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 90600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -38761,9 +38863,9 @@ const LIVE_AUTO = {
   },
   "453340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18280,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -38830,7 +38932,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -38849,12 +38951,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 55,
+    "total": 54,
     "confidence": 41,
     "confidenceShadow": 41,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 54,
     "riskPenalty": 0,
     "riskScore": 72,
     "riskGrade": "low",
@@ -38892,9 +38994,9 @@ const LIVE_AUTO = {
   },
   "001680": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17490,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -38902,11 +39004,11 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 44,
-    "stance": "neu",
+    "score": 43,
+    "stance": "bear",
     "findings": [
-     "종가 17,540원이 MA20(17,883원) 대비 -1.9% — 단기 하단 흐름",
-     "MA60(17,692원) 대비 -0.9% — 장기 추세선 하회",
+     "종가 17,490원이 MA20(17,880원) 대비 -2.2% — 단기 하단 흐름",
+     "MA60(17,691원) 대비 -1.1% — 장기 추세선 하회",
      "RSI(14) 47 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 1.28배 — 거래 강도 보통"
     ],
@@ -38928,7 +39030,7 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER -2.11배 · PBR 0.57배 — 이익·자산 대비 저평가 매력",
+     "PER -2.1배 · PBR 0.57배 — 이익·자산 대비 저평가 매력",
      "ROE -27.2% · EPS -8,325원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "목표주가 34,500원 → 현재가 대비 +97.3%"
@@ -38940,7 +39042,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 횡보(-0.2%)",
+     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 횡보(-0.5%)",
      "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호)",
      "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -38952,7 +39054,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -38971,12 +39073,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 52,
-    "confidence": 74,
-    "confidenceShadow": 74,
+    "total": 51,
+    "confidence": 73,
+    "confidenceShadow": 73,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 52,
+    "rawTotal": 51,
     "riskPenalty": 0,
     "riskScore": 67,
     "riskGrade": "low",
@@ -39014,9 +39116,9 @@ const LIVE_AUTO = {
   },
   "007700": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -39024,7 +39126,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 53,
+    "score": 46,
     "stance": "neu",
     "findings": [
      "종가 14,000원이 MA20(14,274원) 대비 -1.9% — 단기 하단 흐름",
@@ -39050,14 +39152,14 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 3.35배 · PBR 0.23배 — 이익·자산 대비 저평가 매력",
+     "PER 3.33배 · PBR 0.23배 — 이익·자산 대비 저평가 매력",
      "ROE 6.9% · EPS 4,209원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 12,800 ~ 23,350 참고 · 목표주가 컨센 미제공"
     ]
    },
    "nova": {
-    "score": 56,
+    "score": 52,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -39066,16 +39168,16 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (식음료 업종을 75% 반영한 기저 승률 48%보다 +1%p 높아 상대적 양호)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 6077,
-    "sampleWin": 3098,
-    "winRate": 51.0,
+    "sampleN": 7918,
+    "sampleWin": 3855,
+    "winRate": 48.7,
     "marketAvgWinRate": 48.7,
     "sector": "식음료",
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
-    "avgReturn": 0.7,
+    "relPp": 1.1,
+    "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -39093,12 +39195,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 55,
-    "confidence": 65,
-    "confidenceShadow": 65,
+    "total": 52,
+    "confidence": 61,
+    "confidenceShadow": 61,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 52,
     "riskPenalty": 0,
     "riskScore": 56,
     "riskGrade": "mid",
@@ -39136,9 +39238,9 @@ const LIVE_AUTO = {
   },
   "033240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 30000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -39267,9 +39369,9 @@ const LIVE_AUTO = {
   },
   "383800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8160,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -39389,9 +39491,9 @@ const LIVE_AUTO = {
   },
   "003620": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2685,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -39458,7 +39560,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": -1.8,
+    "relPp": -1.7,
     "avgReturn": -0.2,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -39520,9 +39622,9 @@ const LIVE_AUTO = {
   },
   "001270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -39642,9 +39744,9 @@ const LIVE_AUTO = {
   },
   "014820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -39764,9 +39866,9 @@ const LIVE_AUTO = {
   },
   "001060": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 27000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -39800,7 +39902,7 @@ const LIVE_AUTO = {
     "score": 74,
     "stance": "bull",
     "findings": [
-     "PER 6.61배 · PBR 1.59배 — 이익·자산 대비 저평가 매력",
+     "PER 6.64배 · PBR 1.59배 — 이익·자산 대비 저평가 매력",
      "ROE 24.0% · EPS 4,067원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 20,700 ~ 39,950 참고 · 목표주가 컨센 미제공"
@@ -39886,9 +39988,9 @@ const LIVE_AUTO = {
   },
   "017940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 97300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -39905,14 +40007,14 @@ const LIVE_AUTO = {
      {
       "name": "주식등의대량보유상황보고서(일반)",
       "rceptNo": "20260827000581",
-      "detectedAt": "2026-08-27T06:01:40.127009+00:00",
+      "detectedAt": "2026-08-27T06:19:29.359732+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
     ]
    },
    "taro": {
-    "score": 89,
+    "score": 90,
     "stance": "bull",
     "findings": [
      "종가 97,300원이 MA20(89,375원) 대비 +8.9% — 단기 상단 흐름",
@@ -40024,9 +40126,9 @@ const LIVE_AUTO = {
   },
   "002840": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 135800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -40155,12 +40257,12 @@ const LIVE_AUTO = {
   },
   "001510": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2615,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 1,
+    "count": 2,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
@@ -40170,6 +40272,13 @@ const LIVE_AUTO = {
       "detectedAt": "2026-08-21T06:45:10.833668+00:00",
       "isCorrection": false,
       "receiptDate": "20260821"
+     },
+     {
+      "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "rceptNo": "20260827000778",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
      }
     ]
    },
@@ -40286,9 +40395,9 @@ const LIVE_AUTO = {
   },
   "002020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -40408,9 +40517,9 @@ const LIVE_AUTO = {
   },
   "006110": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 64400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -40530,9 +40639,9 @@ const LIVE_AUTO = {
   },
   "178920": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19070,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -40540,7 +40649,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 40,
+    "score": 39,
     "stance": "bear",
     "findings": [
      "종가 19,070원이 MA20(19,021원) 대비 +0.3% — 단기 상단 흐름",
@@ -40566,10 +40675,10 @@ const LIVE_AUTO = {
     "score": 75,
     "stance": "bull",
     "findings": [
-     "PER 13.76배 · PBR 1.51배 — 이익·자산 대비 저평가 매력",
+     "PER 13.71배 · PBR 1.5배 — 이익·자산 대비 저평가 매력",
      "ROE 11.0% · EPS 1,391원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 29,500원 → 현재가 대비 +54.1%"
+     "목표주가 29,500원 → 현재가 대비 +54.7%"
     ]
    },
    "nova": {
@@ -40610,8 +40719,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 51,
-    "confidence": 50,
-    "confidenceShadow": 50,
+    "confidence": 49,
+    "confidenceShadow": 49,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 51,
@@ -40652,9 +40761,9 @@ const LIVE_AUTO = {
   },
   "000640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 92200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -40774,9 +40883,9 @@ const LIVE_AUTO = {
   },
   "336370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7810,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -40905,9 +41014,9 @@ const LIVE_AUTO = {
   },
   "100840": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -41036,9 +41145,9 @@ const LIVE_AUTO = {
   },
   "003300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18890,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -41158,9 +41267,9 @@ const LIVE_AUTO = {
   },
   "016380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -41297,9 +41406,9 @@ const LIVE_AUTO = {
   },
   "079900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 40100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -41419,22 +41528,15 @@ const LIVE_AUTO = {
   },
   "001500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8020,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 17,
+    "count": 18,
     "state": "EVENT_DETECTED",
     "stateText": "공식 공시 확인",
     "items": [
-     {
-      "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-      "rceptNo": "20260827000369",
-      "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-      "isCorrection": false,
-      "receiptDate": "20260827"
-     },
      {
       "name": "투자설명서(일괄신고)",
       "rceptNo": "20260827000534",
@@ -41450,9 +41552,9 @@ const LIVE_AUTO = {
       "receiptDate": "20260827"
      },
      {
-      "name": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-      "rceptNo": "20260827000660",
-      "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+      "name": "투자설명서(일괄신고)",
+      "rceptNo": "20260827000782",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
       "isCorrection": false,
       "receiptDate": "20260827"
      }
@@ -41528,12 +41630,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 55,
+    "total": 56,
     "confidence": 65,
     "confidenceShadow": 65,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 55,
+    "rawTotal": 56,
     "riskPenalty": 0,
     "riskScore": 55,
     "riskGrade": "mid",
@@ -41571,9 +41673,9 @@ const LIVE_AUTO = {
   },
   "268280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 130300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -41597,7 +41699,7 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 83,
+    "score": 82,
     "stance": "bull",
     "findings": [
      "종가 130,300원이 MA20(125,435원) 대비 +3.9% — 단기 상단 흐름",
@@ -41667,8 +41769,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 62,
-    "confidence": 52,
-    "confidenceShadow": 52,
+    "confidence": 53,
+    "confidenceShadow": 53,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 62,
@@ -41709,9 +41811,9 @@ const LIVE_AUTO = {
   },
   "009410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1640,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -41831,9 +41933,9 @@ const LIVE_AUTO = {
   },
   "039130": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -41953,9 +42055,9 @@ const LIVE_AUTO = {
   },
   "058650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 133400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42075,9 +42177,9 @@ const LIVE_AUTO = {
   },
   "005810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42197,9 +42299,9 @@ const LIVE_AUTO = {
   },
   "249420": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14360,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42207,7 +42309,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 51,
+    "score": 50,
     "stance": "neu",
     "findings": [
      "종가 14,360원이 MA20(14,635원) 대비 -1.9% — 단기 하단 흐름",
@@ -42276,12 +42378,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 52,
+    "total": 51,
     "confidence": 41,
     "confidenceShadow": 41,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 52,
+    "rawTotal": 51,
     "riskPenalty": 0,
     "riskScore": 24,
     "riskGrade": "mid",
@@ -42319,9 +42421,9 @@ const LIVE_AUTO = {
   },
   "020000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15590,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -42450,9 +42552,9 @@ const LIVE_AUTO = {
   },
   "001530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42572,9 +42674,9 @@ const LIVE_AUTO = {
   },
   "377740": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42694,9 +42796,9 @@ const LIVE_AUTO = {
   },
   "284740": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 22850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42816,9 +42918,9 @@ const LIVE_AUTO = {
   },
   "002240": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17070,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42826,7 +42928,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 57,
+    "score": 56,
     "stance": "neu",
     "findings": [
      "종가 17,070원이 MA20(17,084원) 대비 -0.1% — 단기 하단 흐름",
@@ -42859,25 +42961,25 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 50,
+    "score": 54,
     "available": true,
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 49(중립) · 20일선 위 · 최근 5일 횡보(+1.6%)",
-     "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (철강·금속 업종을 75% 반영한 기저 승률 49%보다 +0%p 비슷한 중립 수준)",
-     "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
+     "현재 상태: RSI 48(중립) · 20일선 아래 · 최근 5일 횡보(+1.3%)",
+     "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (철강·금속 업종을 75% 반영한 기저 승률 49%보다 +2%p 높아 상대적 양호)",
+     "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 6185,
-    "sampleWin": 3032,
-    "winRate": 49.0,
+    "sampleN": 6077,
+    "sampleWin": 3098,
+    "winRate": 51.0,
     "marketAvgWinRate": 48.7,
     "sector": "철강·금속",
     "sectorWinRate": 49.0,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 0.1,
-    "avgReturn": 0.67,
+    "relPp": 2.1,
+    "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -42895,12 +42997,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 54,
+    "total": 55,
     "confidence": 67,
     "confidenceShadow": 67,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 72,
     "riskGrade": "low",
@@ -42932,15 +43034,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 55점(중립). 기술 56·재무 70·퀀트(확률) 54·수급 49 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 72점으로 원점수 55점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 17,120원이 MA20(17,087원) 대비 +0.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 29,698주 · 기관 순매수 1,087주 · 개인 순매수 28,611주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (철강·금속 업종을 75% 반영한 기저 승률 49%보다 +0%p 비슷한 중립 수준). 방향 원점수 54점에서 리스크 0점을 반영해 종합 54점 · HOLD · 신뢰도 67%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 17,070원이 MA20(17,084원) 대비 -0.1% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 29,698주 · 기관 순매수 1,087주 · 개인 순매수 28,611주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (철강·금속 업종을 75% 반영한 기저 승률 49%보다 +2%p 높아 상대적 양호). 방향 원점수 55점에서 리스크 0점을 반영해 종합 55점 · HOLD · 신뢰도 67%."
    },
    "shadowChief": null
   },
   "145990": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 45050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -42981,7 +43083,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 52,
+    "score": 53,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -43060,9 +43162,9 @@ const LIVE_AUTO = {
   },
   "005250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10010,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -43182,9 +43284,9 @@ const LIVE_AUTO = {
   },
   "161000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10640,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -43304,9 +43406,9 @@ const LIVE_AUTO = {
   },
   "008060": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -43426,9 +43528,9 @@ const LIVE_AUTO = {
   },
   "000070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 59600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -43548,9 +43650,9 @@ const LIVE_AUTO = {
   },
   "031430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10460,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -43679,9 +43781,9 @@ const LIVE_AUTO = {
   },
   "003030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 99700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -43801,9 +43903,9 @@ const LIVE_AUTO = {
   },
   "014830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 63300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -43932,9 +44034,9 @@ const LIVE_AUTO = {
   },
   "001200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4340,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 6,
@@ -44077,9 +44179,9 @@ const LIVE_AUTO = {
   },
   "034310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13380,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44199,9 +44301,9 @@ const LIVE_AUTO = {
   },
   "019170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8840,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44235,7 +44337,7 @@ const LIVE_AUTO = {
     "score": 42,
     "stance": "bear",
     "findings": [
-     "PER -590.0배 · PBR 1.71배 — 밸류 부담 존재",
+     "PER -589.33배 · PBR 1.71배 — 밸류 부담 존재",
      "ROE -0.3% · EPS -15원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 6,310 ~ 15,900 참고 · 목표주가 컨센 미제공"
@@ -44321,9 +44423,9 @@ const LIVE_AUTO = {
   },
   "460860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10840,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44354,7 +44456,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 61,
+    "score": 60,
     "stance": "bull",
     "findings": [
      "PER 37.25배 · PBR 0.28배 — 이익·자산 대비 저평가 매력",
@@ -44443,9 +44545,9 @@ const LIVE_AUTO = {
   },
   "072710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 94200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44503,7 +44605,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": -2.1,
+    "relPp": -2.0,
     "avgReturn": 0.86,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -44565,9 +44667,9 @@ const LIVE_AUTO = {
   },
   "004700": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 64000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44578,9 +44680,9 @@ const LIVE_AUTO = {
     "score": 47,
     "stance": "neu",
     "findings": [
-     "종가 64,200원이 MA20(64,055원) 대비 +0.2% — 단기 상단 흐름",
-     "MA60(62,682원) 대비 +2.4% — 장기 추세선 상회",
-     "RSI(14) 52 중립권 · MACD가 시그널을 하회(데드크로스)",
+     "종가 64,000원이 MA20(64,045원) 대비 -0.1% — 단기 하단 흐름",
+     "MA60(62,678원) 대비 +2.1% — 장기 추세선 상회",
+     "RSI(14) 50 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.01배 — 거래 강도 한산"
     ],
     "ready": {
@@ -44601,32 +44703,32 @@ const LIVE_AUTO = {
     "score": 48,
     "stance": "neu",
     "findings": [
-     "PER 42.8배 · PBR 0.37배 — 밸류 중립 수준",
+     "PER 42.67배 · PBR 0.37배 — 밸류 중립 수준",
      "ROE 0.9% · EPS 1,500원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 57,500 ~ 86,100 참고 · 목표주가 컨센 미제공"
     ]
    },
    "nova": {
-    "score": 49,
+    "score": 53,
     "available": true,
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 52(중립) · 20일선 위 · 최근 5일 횡보(+0.0%)",
-     "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준)",
-     "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
+     "현재 상태: RSI 50(중립) · 20일선 아래 · 최근 5일 횡보(-0.3%)",
+     "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 +1%p 높아 상대적 양호)",
+     "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 6185,
-    "sampleWin": 3032,
-    "winRate": 49.0,
+    "sampleN": 6077,
+    "sampleWin": 3098,
+    "winRate": 51.0,
     "marketAvgWinRate": 48.7,
     "sector": "유통·소비재",
     "sectorWinRate": 49.8,
     "sectorBlendPct": 75,
     "baseWinRate": 49.5,
-    "relPp": -0.5,
-    "avgReturn": 0.67,
+    "relPp": 1.4,
+    "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -44644,12 +44746,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 49,
-    "confidence": 85,
-    "confidenceShadow": 85,
+    "total": 50,
+    "confidence": 82,
+    "confidenceShadow": 82,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 49,
+    "rawTotal": 50,
     "riskPenalty": 0,
     "riskScore": 84,
     "riskGrade": "low",
@@ -44681,15 +44783,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 50점(중립). 기술 47·재무 48·퀀트(확률) 53·수급 50 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 84점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 64,200원이 MA20(64,055원) 대비 +0.2% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 31주 · 기관 순매수 424주 · 개인 순매도 394주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준). 방향 원점수 49점에서 리스크 0점을 반영해 종합 49점 · HOLD · 신뢰도 85%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 64,000원이 MA20(64,045원) 대비 -0.1% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 31주 · 기관 순매수 424주 · 개인 순매도 394주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 +1%p 높아 상대적 양호). 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 82%."
    },
    "shadowChief": null
   },
   "003280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1699,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -44809,14 +44911,23 @@ const LIVE_AUTO = {
   },
   "004690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 130900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+      "rceptNo": "20260827000793",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 85,
@@ -44842,7 +44953,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 75,
+    "score": 76,
     "stance": "bull",
     "findings": [
      "PER 3.85배 · PBR 0.25배 — 이익·자산 대비 저평가 매력",
@@ -44931,9 +45042,9 @@ const LIVE_AUTO = {
   },
   "029530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 41200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -45053,9 +45164,9 @@ const LIVE_AUTO = {
   },
   "016610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 31,
@@ -45198,9 +45309,9 @@ const LIVE_AUTO = {
   },
   "003000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4170,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -45329,9 +45440,9 @@ const LIVE_AUTO = {
   },
   "452260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2030,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -45339,11 +45450,11 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 57,
+    "score": 56,
     "stance": "neu",
     "findings": [
-     "종가 2,035원이 MA20(2,000원) 대비 +1.8% — 단기 상단 흐름",
-     "MA60(2,142원) 대비 -5.0% — 장기 추세선 하회",
+     "종가 2,030원이 MA20(2,000원) 대비 +1.5% — 단기 상단 흐름",
+     "MA60(2,142원) 대비 -5.2% — 장기 추세선 하회",
      "RSI(14) 51 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.39배 — 거래 강도 한산"
     ],
@@ -45365,7 +45476,7 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER 15.3배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
+     "PER 15.26배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
      "ROE 3.1% · EPS 133원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 999 ~ 4,120 참고 · 목표주가 컨센 미제공"
@@ -45377,7 +45488,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 51(중립) · 20일선 위 · 최근 5일 횡보(+0.5%)",
+     "현재 상태: RSI 51(중립) · 20일선 위 · 최근 5일 횡보(+0.2%)",
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -45445,15 +45556,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 50점(중립). 기술 56·재무 58·퀀트(확률) 49·수급 42 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 39점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 2,035원이 MA20(2,000원) 대비 +1.8% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 390,690주 · 기관 순매수 6,577주 · 개인 순매수 358,828주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준). 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 69%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 2,030원이 MA20(2,000원) 대비 +1.5% — 단기 상단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매도 390,690주 · 기관 순매수 6,577주 · 개인 순매수 358,828주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (유통·소비재 업종을 75% 반영한 기저 승률 50%보다 -1%p 비슷한 중립 수준). 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 69%."
    },
    "shadowChief": null
   },
   "016590": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -45573,9 +45684,9 @@ const LIVE_AUTO = {
   },
   "015360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 4,
@@ -45656,7 +45767,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.0,
     "sectorBlendPct": 75,
     "baseWinRate": 50.4,
-    "relPp": 0.5,
+    "relPp": 0.6,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -45718,9 +45829,9 @@ const LIVE_AUTO = {
   },
   "403550": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11130,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -45840,9 +45951,9 @@ const LIVE_AUTO = {
   },
   "009900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7990,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -45962,9 +46073,9 @@ const LIVE_AUTO = {
   },
   "017900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7880,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46084,9 +46195,9 @@ const LIVE_AUTO = {
   },
   "005420": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11260,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -46172,12 +46283,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 59,
+    "total": 60,
     "confidence": 41,
     "confidenceShadow": 41,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 59,
+    "rawTotal": 60,
     "riskPenalty": 0,
     "riskScore": 34,
     "riskGrade": "mid",
@@ -46215,9 +46326,9 @@ const LIVE_AUTO = {
   },
   "381970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6210,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46337,9 +46448,9 @@ const LIVE_AUTO = {
   },
   "027410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3910,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -46468,9 +46579,9 @@ const LIVE_AUTO = {
   },
   "006220": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9870,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46484,7 +46595,7 @@ const LIVE_AUTO = {
      "종가 9,870원이 MA20(9,196원) 대비 +7.3% — 단기 상단 흐름",
      "MA60(9,892원) 대비 -0.2% — 장기 추세선 하회",
      "RSI(14) 60 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 9.26배 — 거래 강도 활발"
+     "거래량은 20일 평균의 9.27배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -46590,9 +46701,9 @@ const LIVE_AUTO = {
   },
   "037710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46626,7 +46737,7 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 6.02배 · PBR 0.33배 — 이익·자산 대비 저평가 매력",
+     "PER 6.03배 · PBR 0.33배 — 이익·자산 대비 저평가 매력",
      "ROE 5.5% · EPS 6,231원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 29,450 ~ 62,400 참고 · 목표주가 컨센 미제공"
@@ -46712,9 +46823,9 @@ const LIVE_AUTO = {
   },
   "271940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46722,8 +46833,8 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 40,
-    "stance": "bear",
+    "score": 58,
+    "stance": "bull",
     "findings": [
      "종가 10,750원이 MA20(10,656원) 대비 +0.9% — 단기 상단 흐름",
      "MA60(10,895원) 대비 -1.3% — 장기 추세선 하회",
@@ -46755,7 +46866,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 50,
+    "score": 53,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -46764,16 +46875,16 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (화학·소재 업종을 75% 반영한 기저 승률 47%보다 +2%p 높아 상대적 양호)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 3554,
-    "sampleWin": 1684,
-    "winRate": 47.4,
+    "sampleN": 6185,
+    "sampleWin": 3032,
+    "winRate": 49.0,
     "marketAvgWinRate": 48.7,
     "sector": "화학·소재",
     "sectorWinRate": 46.8,
     "sectorBlendPct": 75,
     "baseWinRate": 47.3,
-    "relPp": 0.1,
-    "avgReturn": 0.66,
+    "relPp": 1.7,
+    "avgReturn": 0.67,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -46791,12 +46902,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 47,
+    "total": 53,
     "confidence": 75,
     "confidenceShadow": 75,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 47,
+    "rawTotal": 53,
     "riskPenalty": 0,
     "riskScore": 46,
     "riskGrade": "mid",
@@ -46834,9 +46945,9 @@ const LIVE_AUTO = {
   },
   "950160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18740,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -46956,9 +47067,9 @@ const LIVE_AUTO = {
   },
   "347850": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 56300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -47087,9 +47198,9 @@ const LIVE_AUTO = {
   },
   "440110": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 64500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47209,9 +47320,9 @@ const LIVE_AUTO = {
   },
   "214370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 53200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47331,9 +47442,9 @@ const LIVE_AUTO = {
   },
   "108490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 255000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47453,9 +47564,9 @@ const LIVE_AUTO = {
   },
   "031980": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 127000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47575,9 +47686,9 @@ const LIVE_AUTO = {
   },
   "319400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47697,9 +47808,9 @@ const LIVE_AUTO = {
   },
   "089970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 60500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -47819,9 +47930,9 @@ const LIVE_AUTO = {
   },
   "226950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 104800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -47950,9 +48061,9 @@ const LIVE_AUTO = {
   },
   "420770": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 108200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48072,9 +48183,9 @@ const LIVE_AUTO = {
   },
   "010170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48151,12 +48262,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
+    "total": 52,
     "confidence": 30,
     "confidenceShadow": 30,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -48194,9 +48305,9 @@ const LIVE_AUTO = {
   },
   "032820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12240,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -48326,9 +48437,9 @@ const LIVE_AUTO = {
   },
   "140860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 271500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48448,14 +48559,23 @@ const LIVE_AUTO = {
   },
   "068760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+      "rceptNo": "20260827000759",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 45,
@@ -48570,9 +48690,9 @@ const LIVE_AUTO = {
   },
   "035900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 39750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48692,9 +48812,9 @@ const LIVE_AUTO = {
   },
   "041510": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48814,9 +48934,9 @@ const LIVE_AUTO = {
   },
   "140410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 66400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -48936,9 +49056,9 @@ const LIVE_AUTO = {
   },
   "183300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -49058,9 +49178,9 @@ const LIVE_AUTO = {
   },
   "058610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 94200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -49071,8 +49191,8 @@ const LIVE_AUTO = {
     "score": 40,
     "stance": "bear",
     "findings": [
-     "종가 94,300원이 MA20(102,980원) 대비 -8.4% — 단기 하단 흐름",
-     "MA60(89,107원) 대비 +5.8% — 장기 추세선 상회",
+     "종가 94,200원이 MA20(102,975원) 대비 -8.5% — 단기 하단 흐름",
+     "MA60(89,105원) 대비 +5.7% — 장기 추세선 상회",
      "RSI(14) 48 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.36배 — 거래 강도 한산"
     ],
@@ -49180,9 +49300,9 @@ const LIVE_AUTO = {
   },
   "089030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 49700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -49311,9 +49431,9 @@ const LIVE_AUTO = {
   },
   "007390": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -49449,9 +49569,9 @@ const LIVE_AUTO = {
   },
   "043260": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16520,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -49581,9 +49701,9 @@ const LIVE_AUTO = {
   },
   "060370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 34450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -49712,9 +49832,9 @@ const LIVE_AUTO = {
   },
   "096530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -49850,9 +49970,9 @@ const LIVE_AUTO = {
   },
   "083650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 64000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -49972,9 +50092,9 @@ const LIVE_AUTO = {
   },
   "030530": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 20250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50094,9 +50214,9 @@ const LIVE_AUTO = {
   },
   "082920": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 29200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50127,7 +50247,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 67,
+    "score": 68,
     "stance": "bull",
     "findings": [
      "PER 18.56배 · PBR 3.66배 — 이익·자산 대비 저평가 매력",
@@ -50216,9 +50336,9 @@ const LIVE_AUTO = {
   },
   "218410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 48800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50338,9 +50458,9 @@ const LIVE_AUTO = {
   },
   "458870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50460,9 +50580,9 @@ const LIVE_AUTO = {
   },
   "127120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 34000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -50482,8 +50602,8 @@ const LIVE_AUTO = {
     "score": 32,
     "stance": "bear",
     "findings": [
-     "종가 34,050원이 MA20(36,000원) 대비 -5.4% — 단기 하단 흐름",
-     "MA60(35,496원) 대비 -4.1% — 장기 추세선 하회",
+     "종가 34,000원이 MA20(35,998원) 대비 -5.5% — 단기 하단 흐름",
+     "MA60(35,495원) 대비 -4.2% — 장기 추세선 하회",
      "RSI(14) 45 약세권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.79배 — 거래 강도 보통"
     ],
@@ -50591,9 +50711,9 @@ const LIVE_AUTO = {
   },
   "078600": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 92500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50713,9 +50833,9 @@ const LIVE_AUTO = {
   },
   "323280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50726,8 +50846,8 @@ const LIVE_AUTO = {
     "score": 95,
     "stance": "bull",
     "findings": [
-     "종가 50,500원이 MA20(45,505원) 대비 +11.0% — 단기 상단 흐름",
-     "MA60(43,224원) 대비 +16.8% — 장기 추세선 상회",
+     "종가 50,600원이 MA20(45,510원) 대비 +11.2% — 단기 상단 흐름",
+     "MA60(43,226원) 대비 +17.1% — 장기 추세선 상회",
      "RSI(14) 58 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.38배 — 거래 강도 한산"
     ],
@@ -50749,7 +50869,7 @@ const LIVE_AUTO = {
     "score": 34,
     "stance": "bear",
     "findings": [
-     "PER 615.85배 · PBR 11.69배 — 밸류 부담 존재",
+     "PER 617.07배 · PBR 11.71배 — 밸류 부담 존재",
      "ROE 1.9% · EPS 82원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 23,000 ~ 94,200 참고 · 목표주가 컨센 미제공"
@@ -50835,9 +50955,9 @@ const LIVE_AUTO = {
   },
   "039200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 35050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50957,9 +51077,9 @@ const LIVE_AUTO = {
   },
   "031330": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8060,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -50967,7 +51087,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 14,
+    "score": 13,
     "stance": "bear",
     "findings": [
      "종가 8,060원이 MA20(9,086원) 대비 -11.3% — 단기 하단 흐름",
@@ -51005,7 +51125,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 41(약세) · 20일선 아래 · 최근 5일 횡보(-0.7%)",
+     "현재 상태: RSI 40(약세) · 20일선 아래 · 최근 5일 횡보(-1.0%)",
      "과거에 이런 상태(동일 상태)였던 적이 7918건 있었는데, 그중 3855건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (전력·에너지 업종을 75% 반영한 기저 승률 51%보다 -2%p 낮아 상대적 부진)",
      "그 7918건의 5거래일 뒤 등락률 평균은 -0.2%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -51079,14 +51199,23 @@ const LIVE_AUTO = {
   },
   "003380": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10560,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+      "rceptNo": "20260827000838",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": false,
+      "receiptDate": "20260827"
+     }
+    ]
    },
    "taro": {
     "score": 49,
@@ -51158,12 +51287,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 54,
+    "total": 55,
     "confidence": 52,
     "confidenceShadow": 52,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 55,
     "riskGrade": "mid",
@@ -51201,9 +51330,9 @@ const LIVE_AUTO = {
   },
   "195940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 43050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51323,9 +51452,9 @@ const LIVE_AUTO = {
   },
   "347700": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 23150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -51454,9 +51583,9 @@ const LIVE_AUTO = {
   },
   "166090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 54000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51576,9 +51705,9 @@ const LIVE_AUTO = {
   },
   "437730": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51698,9 +51827,9 @@ const LIVE_AUTO = {
   },
   "475830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 66800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51820,9 +51949,9 @@ const LIVE_AUTO = {
   },
   "491000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51942,9 +52071,9 @@ const LIVE_AUTO = {
   },
   "204270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -51952,7 +52081,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 95,
+    "score": 94,
     "stance": "bull",
     "findings": [
      "종가 21,000원이 MA20(17,070원) 대비 +23.0% — 단기 상단 흐름",
@@ -52064,9 +52193,9 @@ const LIVE_AUTO = {
   },
   "101490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -52109,7 +52238,7 @@ const LIVE_AUTO = {
    "nova": {
     "score": 46,
     "available": true,
-    "stance": "bear",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 47(중립) · 20일선 위 · 최근 5일 횡보(-2.0%)",
@@ -52186,9 +52315,9 @@ const LIVE_AUTO = {
   },
   "099320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -52324,9 +52453,9 @@ const LIVE_AUTO = {
   },
   "085660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -52446,9 +52575,9 @@ const LIVE_AUTO = {
   },
   "083450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 45100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 6,
@@ -52591,9 +52720,9 @@ const LIVE_AUTO = {
   },
   "293490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8190,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 5,
@@ -52625,7 +52754,7 @@ const LIVE_AUTO = {
     "correctionCount": 1
    },
    "taro": {
-    "score": 45,
+    "score": 46,
     "stance": "neu",
     "findings": [
      "종가 8,190원이 MA20(8,436원) 대비 -2.9% — 단기 하단 흐름",
@@ -52695,8 +52824,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 50,
-    "confidence": 72,
-    "confidenceShadow": 72,
+    "confidence": 73,
+    "confidenceShadow": 73,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 50,
@@ -52737,9 +52866,9 @@ const LIVE_AUTO = {
   },
   "038500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -52859,9 +52988,9 @@ const LIVE_AUTO = {
   },
   "241710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 139000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -52990,9 +53119,9 @@ const LIVE_AUTO = {
   },
   "100790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16180,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53003,8 +53132,8 @@ const LIVE_AUTO = {
     "score": 59,
     "stance": "bull",
     "findings": [
-     "종가 16,140원이 MA20(15,178원) 대비 +6.3% — 단기 상단 흐름",
-     "MA60(20,106원) 대비 -19.7% — 장기 추세선 하회",
+     "종가 16,180원이 MA20(15,180원) 대비 +6.6% — 단기 상단 흐름",
+     "MA60(20,106원) 대비 -19.5% — 장기 추세선 하회",
      "RSI(14) 50 중립권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.68배 — 거래 강도 한산"
     ],
@@ -53026,7 +53155,7 @@ const LIVE_AUTO = {
     "score": 53,
     "stance": "neu",
     "findings": [
-     "PER 15.87배 · PBR 2.1배 — 밸류 중립 수준",
+     "PER 15.91배 · PBR 2.11배 — 밸류 중립 수준",
      "ROE 13.2% · EPS 1,017원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 5,900 ~ 70,700 참고 · 목표주가 컨센 미제공"
@@ -53050,7 +53179,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": 1.2,
+    "relPp": 1.1,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -53112,9 +53241,9 @@ const LIVE_AUTO = {
   },
   "232140": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12490,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -53243,9 +53372,9 @@ const LIVE_AUTO = {
   },
   "036540": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5780,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53259,7 +53388,7 @@ const LIVE_AUTO = {
      "종가 5,780원이 MA20(5,505원) 대비 +5.0% — 단기 상단 흐름",
      "MA60(5,859원) 대비 -1.3% — 장기 추세선 하회",
      "RSI(14) 52 중립권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 0.44배 — 거래 강도 한산"
+     "거래량은 20일 평균의 0.45배 — 거래 강도 한산"
     ],
     "ready": {
      "ma20": true,
@@ -53365,9 +53494,9 @@ const LIVE_AUTO = {
   },
   "090710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53487,9 +53616,9 @@ const LIVE_AUTO = {
   },
   "086450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18640,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53609,9 +53738,9 @@ const LIVE_AUTO = {
   },
   "417200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11740,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -53740,9 +53869,9 @@ const LIVE_AUTO = {
   },
   "281740": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53756,7 +53885,7 @@ const LIVE_AUTO = {
      "종가 12,200원이 MA20(12,210원) 대비 -0.1% — 단기 하단 흐름",
      "MA60(13,389원) 대비 -8.9% — 장기 추세선 하회",
      "RSI(14) 48 중립권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 1.14배 — 거래 강도 보통"
+     "거래량은 20일 평균의 1.15배 — 거래 강도 보통"
     ],
     "ready": {
      "ma20": true,
@@ -53862,9 +53991,9 @@ const LIVE_AUTO = {
   },
   "019210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14530,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -53872,7 +54001,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 12,
+    "score": 11,
     "stance": "bear",
     "findings": [
      "종가 14,530원이 MA20(16,512원) 대비 -12.0% — 단기 하단 흐름",
@@ -53898,7 +54027,7 @@ const LIVE_AUTO = {
     "score": 74,
     "stance": "bull",
     "findings": [
-     "PER 7.22배 · PBR 1.17배 — 이익·자산 대비 저평가 매력",
+     "PER 7.21배 · PBR 1.17배 — 이익·자산 대비 저평가 매력",
      "ROE 16.2% · EPS 2,014원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 4,900 ~ 28,500 참고 · 목표주가 컨센 미제공"
@@ -53984,9 +54113,9 @@ const LIVE_AUTO = {
   },
   "388210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 74800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54106,9 +54235,9 @@ const LIVE_AUTO = {
   },
   "074600": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54228,9 +54357,9 @@ const LIVE_AUTO = {
   },
   "056190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54312,7 +54441,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 44,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 60,
+    "rawTotal": 59,
     "riskPenalty": 0,
     "riskScore": 43,
     "riskGrade": "mid",
@@ -54350,9 +54479,9 @@ const LIVE_AUTO = {
   },
   "388720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 68400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54472,9 +54601,9 @@ const LIVE_AUTO = {
   },
   "381620": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54594,9 +54723,9 @@ const LIVE_AUTO = {
   },
   "065350": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54716,9 +54845,9 @@ const LIVE_AUTO = {
   },
   "328130": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54838,9 +54967,9 @@ const LIVE_AUTO = {
   },
   "122870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 39850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -54960,9 +55089,9 @@ const LIVE_AUTO = {
   },
   "189300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 65700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -55082,9 +55211,9 @@ const LIVE_AUTO = {
   },
   "137400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 30350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -55220,14 +55349,24 @@ const LIVE_AUTO = {
   },
   "213420": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
-    "count": 0,
+    "count": 1,
     "state": "EVENT_DETECTED",
-    "stateText": "공식 공시 없음"
+    "stateText": "공식 공시 확인",
+    "items": [
+     {
+      "name": "[기재정정]타법인주식및출자증권취득결정(종속회사의주요경영사항)",
+      "rceptNo": "20260827900406",
+      "detectedAt": "2026-08-27T07:19:57.777016+00:00",
+      "isCorrection": true,
+      "receiptDate": "20260827"
+     }
+    ],
+    "correctionCount": 1
    },
    "taro": {
     "score": 46,
@@ -55342,9 +55481,9 @@ const LIVE_AUTO = {
   },
   "032500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15360,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -55464,9 +55603,9 @@ const LIVE_AUTO = {
   },
   "356860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 41500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -55595,9 +55734,9 @@ const LIVE_AUTO = {
   },
   "490470": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15740,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -55733,9 +55872,9 @@ const LIVE_AUTO = {
   },
   "445680": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -55855,9 +55994,9 @@ const LIVE_AUTO = {
   },
   "036830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 44000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -55977,9 +56116,9 @@ const LIVE_AUTO = {
   },
   "161580": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 28000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56099,9 +56238,9 @@ const LIVE_AUTO = {
   },
   "032190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 20000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56221,9 +56360,9 @@ const LIVE_AUTO = {
   },
   "033100": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56343,9 +56482,9 @@ const LIVE_AUTO = {
   },
   "041830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 60500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56386,9 +56525,9 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 59,
+    "score": 55,
     "available": true,
-    "stance": "bull",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 52(중립) · 20일선 아래 · 최근 5일 하락(-2.4%)",
@@ -56403,8 +56542,8 @@ const LIVE_AUTO = {
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
     "baseWinRate": 45.7,
-    "relPp": 5.3,
-    "avgReturn": 0.7,
+    "relPp": 2.8,
+    "avgReturn": 0.55,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -56422,12 +56561,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
+    "total": 50,
     "confidence": 62,
     "confidenceShadow": 62,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 53,
+    "rawTotal": 52,
     "riskPenalty": 2,
     "riskScore": 16,
     "riskGrade": "high",
@@ -56465,9 +56604,9 @@ const LIVE_AUTO = {
   },
   "035760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -56596,9 +56735,9 @@ const LIVE_AUTO = {
   },
   "252990": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13330,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56718,9 +56857,9 @@ const LIVE_AUTO = {
   },
   "014620": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 30150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -56850,9 +56989,9 @@ const LIVE_AUTO = {
   },
   "048410": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6430,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -56863,8 +57002,8 @@ const LIVE_AUTO = {
     "score": 16,
     "stance": "bear",
     "findings": [
-     "종가 6,450원이 MA20(6,907원) 대비 -6.6% — 단기 하단 흐름",
-     "MA60(7,562원) 대비 -14.7% — 장기 추세선 하회",
+     "종가 6,430원이 MA20(6,906원) 대비 -6.9% — 단기 하단 흐름",
+     "MA60(7,562원) 대비 -15.0% — 장기 추세선 하회",
      "RSI(14) 42 약세권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 1.18배 — 거래 강도 보통"
     ],
@@ -56972,9 +57111,9 @@ const LIVE_AUTO = {
   },
   "090360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 79900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -57094,9 +57233,9 @@ const LIVE_AUTO = {
   },
   "115180": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 22300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -57216,9 +57355,9 @@ const LIVE_AUTO = {
   },
   "006730": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10930,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -57354,9 +57493,9 @@ const LIVE_AUTO = {
   },
   "466100": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 26650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -57499,9 +57638,9 @@ const LIVE_AUTO = {
   },
   "122640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 28650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -57630,9 +57769,9 @@ const LIVE_AUTO = {
   },
   "399720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 46050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -57752,9 +57891,9 @@ const LIVE_AUTO = {
   },
   "253450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -57883,9 +58022,9 @@ const LIVE_AUTO = {
   },
   "094170": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -57893,7 +58032,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 67,
+    "score": 66,
     "stance": "bull",
     "findings": [
      "종가 32,700원이 MA20(31,505원) 대비 +3.8% — 단기 상단 흐름",
@@ -57957,14 +58096,14 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 73,112주 · 기관 순매수 1,457주 · 개인 순매수 72,213주",
      "외국인 보유율 3.83% → 3.41% (하락)",
      "직전 거래일 외국인 +10,060주 · 기관 -4,353주 · 개인 -5,538주",
-     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -27점 · 가격·수급 방향 중립"
+     "외국인·기관 매수/매도 엇갈림 · 수급 품질 -32점 · 가격 하락과 큰손 매도가 함께 가는 하락 확인"
     ]
    },
    "chief": {
     "call": "HOLD",
     "total": 52,
-    "confidence": 64,
-    "confidenceShadow": 64,
+    "confidence": 65,
+    "confidenceShadow": 65,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 52,
@@ -58005,9 +58144,9 @@ const LIVE_AUTO = {
   },
   "052400": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 39450,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58127,9 +58266,9 @@ const LIVE_AUTO = {
   },
   "050890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9320,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58249,9 +58388,9 @@ const LIVE_AUTO = {
   },
   "093320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 142000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58371,9 +58510,9 @@ const LIVE_AUTO = {
   },
   "112040": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58450,12 +58589,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 48,
+    "total": 47,
     "confidence": 37,
     "confidenceShadow": 37,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 48,
+    "rawTotal": 47,
     "riskPenalty": 0,
     "riskScore": 22,
     "riskGrade": "mid",
@@ -58493,9 +58632,9 @@ const LIVE_AUTO = {
   },
   "397030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19270,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -58631,9 +58770,9 @@ const LIVE_AUTO = {
   },
   "222080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58753,9 +58892,9 @@ const LIVE_AUTO = {
   },
   "053800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 56900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58875,9 +59014,9 @@ const LIVE_AUTO = {
   },
   "023160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -58997,9 +59136,9 @@ const LIVE_AUTO = {
   },
   "102710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 45300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59119,9 +59258,9 @@ const LIVE_AUTO = {
   },
   "053610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 62900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59129,7 +59268,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 55,
+    "score": 54,
     "stance": "neu",
     "findings": [
      "종가 62,900원이 MA20(61,600원) 대비 +2.1% — 단기 상단 흐름",
@@ -59241,9 +59380,9 @@ const LIVE_AUTO = {
   },
   "225570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59251,7 +59390,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 90,
+    "score": 91,
     "stance": "bull",
     "findings": [
      "종가 11,000원이 MA20(9,386원) 대비 +17.2% — 단기 상단 흐름",
@@ -59363,9 +59502,9 @@ const LIVE_AUTO = {
   },
   "037460": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59485,9 +59624,9 @@ const LIVE_AUTO = {
   },
   "044490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 32850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59607,9 +59746,9 @@ const LIVE_AUTO = {
   },
   "383310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -59738,9 +59877,9 @@ const LIVE_AUTO = {
   },
   "046890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9870,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59860,9 +59999,9 @@ const LIVE_AUTO = {
   },
   "376900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 27700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -59982,9 +60121,9 @@ const LIVE_AUTO = {
   },
   "064290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -60120,9 +60259,9 @@ const LIVE_AUTO = {
   },
   "059090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19320,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -60266,9 +60405,9 @@ const LIVE_AUTO = {
   },
   "295310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 48850,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -60388,9 +60527,9 @@ const LIVE_AUTO = {
   },
   "121600": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -60472,7 +60611,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 44,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 57,
+    "rawTotal": 58,
     "riskPenalty": 0,
     "riskScore": 25,
     "riskGrade": "mid",
@@ -60510,9 +60649,9 @@ const LIVE_AUTO = {
   },
   "067160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -60641,9 +60780,9 @@ const LIVE_AUTO = {
   },
   "041960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9240,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -60720,12 +60859,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 58,
+    "total": 59,
     "confidence": 37,
     "confidenceShadow": 37,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 58,
+    "rawTotal": 59,
     "riskPenalty": 0,
     "riskScore": 45,
     "riskGrade": "mid",
@@ -60763,9 +60902,9 @@ const LIVE_AUTO = {
   },
   "171090": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 68300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -60782,11 +60921,11 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 64,
+    "score": 63,
     "stance": "bull",
     "findings": [
-     "종가 68,400원이 MA20(65,685원) 대비 +4.1% — 단기 상단 흐름",
-     "MA60(63,058원) 대비 +8.5% — 장기 추세선 상회",
+     "종가 68,300원이 MA20(65,680원) 대비 +4.0% — 단기 상단 흐름",
+     "MA60(63,057원) 대비 +8.3% — 장기 추세선 상회",
      "RSI(14) 57 상승 모멘텀권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.57배 — 거래 강도 한산"
     ],
@@ -60820,7 +60959,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 횡보(+1.9%)",
+     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 횡보(+1.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 5803건 있었는데, 그중 2645건이 5거래일 뒤 올랐어요 → 경험적 승률 46% (전자·부품 업종을 75% 반영한 기저 승률 51%보다 -5%p 낮아 상대적 부진)",
      "그 5803건의 5거래일 뒤 등락률 평균은 +0.9%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -60894,9 +61033,9 @@ const LIVE_AUTO = {
   },
   "160190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18720,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -60930,7 +61069,7 @@ const LIVE_AUTO = {
     "score": 32,
     "stance": "bear",
     "findings": [
-     "PER -81.41배 · PBR 5.23배 — 밸류 부담 존재",
+     "PER -81.39배 · PBR 5.23배 — 밸류 부담 존재",
      "ROE -6.4% · EPS -230원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 11,000 ~ 91,200 참고 · 목표주가 컨센 미제공"
@@ -61016,9 +61155,9 @@ const LIVE_AUTO = {
   },
   "089890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61095,12 +61234,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 53,
+    "total": 54,
     "confidence": 55,
     "confidenceShadow": 55,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 56,
+    "rawTotal": 57,
     "riskPenalty": 3,
     "riskScore": 5,
     "riskGrade": "high",
@@ -61138,9 +61277,9 @@ const LIVE_AUTO = {
   },
   "102940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61260,9 +61399,9 @@ const LIVE_AUTO = {
   },
   "045100": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 30050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61382,9 +61521,9 @@ const LIVE_AUTO = {
   },
   "251970": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 56600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61504,9 +61643,9 @@ const LIVE_AUTO = {
   },
   "456160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 41250,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -61635,9 +61774,9 @@ const LIVE_AUTO = {
   },
   "052020": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8040,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61645,7 +61784,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 23,
+    "score": 31,
     "stance": "bear",
     "findings": [
      "종가 8,040원이 MA20(8,394원) 대비 -4.2% — 단기 하단 흐름",
@@ -61678,9 +61817,9 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 59,
+    "score": 55,
     "available": true,
-    "stance": "bull",
+    "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
      "현재 상태: RSI 45(중립) · 20일선 아래 · 최근 5일 하락(-4.3%)",
@@ -61695,8 +61834,8 @@ const LIVE_AUTO = {
     "sectorWinRate": 44.7,
     "sectorBlendPct": 75,
     "baseWinRate": 45.7,
-    "relPp": 5.0,
-    "avgReturn": 1.02,
+    "relPp": 2.8,
+    "avgReturn": 0.55,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -61714,12 +61853,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "SELL",
-    "total": 42,
-    "confidence": 49,
+    "total": 43,
+    "confidence": 61,
     "confidenceShadow": 64,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 42,
+    "rawTotal": 43,
     "riskPenalty": 0,
     "riskScore": 20,
     "riskGrade": "mid",
@@ -61757,9 +61896,9 @@ const LIVE_AUTO = {
   },
   "376300": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18790,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -61879,9 +62018,9 @@ const LIVE_AUTO = {
   },
   "170920": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 35600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -62001,9 +62140,9 @@ const LIVE_AUTO = {
   },
   "476060": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14370,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -62123,9 +62262,9 @@ const LIVE_AUTO = {
   },
   "086900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 66900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -62159,10 +62298,10 @@ const LIVE_AUTO = {
     "score": 58,
     "stance": "bull",
     "findings": [
-     "PER 33.91배 · PBR 1.24배 — 이익·자산 대비 저평가 매력",
+     "PER 33.8배 · PBR 1.23배 — 이익·자산 대비 저평가 매력",
      "ROE 3.6% · EPS 1,979원",
-     "컨센서스 EPS 기준 선행 PER 20.7배 — 실적 성장 확인 필요",
-     "목표주가 95,000원 → 현재가 대비 +41.6%"
+     "컨센서스 EPS 기준 선행 PER 20.6배 — 실적 성장 확인 필요",
+     "목표주가 95,000원 → 현재가 대비 +42.0%"
     ]
    },
    "nova": {
@@ -62245,9 +62384,9 @@ const LIVE_AUTO = {
   },
   "358570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8020,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -62367,9 +62506,9 @@ const LIVE_AUTO = {
   },
   "477850": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -62505,9 +62644,9 @@ const LIVE_AUTO = {
   },
   "211050": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -62524,7 +62663,7 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 49,
+    "score": 50,
     "stance": "neu",
     "findings": [
      "종가 10,650원이 MA20(10,536원) 대비 +1.1% — 단기 상단 흐름",
@@ -62557,7 +62696,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 47,
+    "score": 50,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -62566,16 +62705,16 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (금융·증권 업종을 75% 반영한 기저 승률 49%보다 +0%p 비슷한 중립 수준)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 3554,
-    "sampleWin": 1684,
-    "winRate": 47.4,
+    "sampleN": 6185,
+    "sampleWin": 3032,
+    "winRate": 49.0,
     "marketAvgWinRate": 48.7,
     "sector": "금융·증권",
     "sectorWinRate": 48.9,
     "sectorBlendPct": 75,
     "baseWinRate": 48.9,
-    "relPp": -1.5,
-    "avgReturn": 0.66,
+    "relPp": 0.2,
+    "avgReturn": 0.67,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -62593,12 +62732,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 51,
-    "confidence": 65,
-    "confidenceShadow": 65,
+    "total": 53,
+    "confidence": 68,
+    "confidenceShadow": 68,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 51,
+    "rawTotal": 53,
     "riskPenalty": 0,
     "riskScore": 67,
     "riskGrade": "low",
@@ -62636,9 +62775,9 @@ const LIVE_AUTO = {
   },
   "060250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15080,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -62696,8 +62835,8 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
     "baseWinRate": 48.8,
-    "relPp": -3.2,
-    "avgReturn": 0.86,
+    "relPp": -0.3,
+    "avgReturn": 1.01,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -62715,12 +62854,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 59,
+    "total": 61,
     "confidence": 37,
     "confidenceShadow": 37,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 59,
+    "rawTotal": 61,
     "riskPenalty": 0,
     "riskScore": 30,
     "riskGrade": "mid",
@@ -62758,9 +62897,9 @@ const LIVE_AUTO = {
   },
   "126340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 67300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -62896,9 +63035,9 @@ const LIVE_AUTO = {
   },
   "336570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4930,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63018,9 +63157,9 @@ const LIVE_AUTO = {
   },
   "056080": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12080,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63140,9 +63279,9 @@ const LIVE_AUTO = {
   },
   "033640": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 24100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63262,9 +63401,9 @@ const LIVE_AUTO = {
   },
   "348370": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 22800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -63393,9 +63532,9 @@ const LIVE_AUTO = {
   },
   "138930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14970,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63515,9 +63654,9 @@ const LIVE_AUTO = {
   },
   "130660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13070,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -63654,9 +63793,9 @@ const LIVE_AUTO = {
   },
   "004710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6910,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -63785,9 +63924,9 @@ const LIVE_AUTO = {
   },
   "002030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 207000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63871,7 +64010,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 61,
     "riskPenalty": 0,
-    "riskScore": 42,
+    "riskScore": 43,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -63907,9 +64046,9 @@ const LIVE_AUTO = {
   },
   "105630": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8870,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -63940,7 +64079,7 @@ const LIVE_AUTO = {
     ]
    },
    "diana": {
-    "score": 79,
+    "score": 78,
     "stance": "bull",
     "findings": [
      "PER 10.06배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
@@ -64029,9 +64168,9 @@ const LIVE_AUTO = {
   },
   "092230": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 101700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64108,12 +64247,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 60,
+    "total": 61,
     "confidence": 44,
     "confidenceShadow": 44,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 60,
+    "rawTotal": 61,
     "riskPenalty": 0,
     "riskScore": 71,
     "riskGrade": "low",
@@ -64151,9 +64290,9 @@ const LIVE_AUTO = {
   },
   "008730": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16070,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64273,9 +64412,9 @@ const LIVE_AUTO = {
   },
   "145720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64395,9 +64534,9 @@ const LIVE_AUTO = {
   },
   "089590": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4430,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64517,9 +64656,9 @@ const LIVE_AUTO = {
   },
   "005950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11880,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64533,7 +64672,7 @@ const LIVE_AUTO = {
      "종가 11,880원이 MA20(13,250원) 대비 -10.3% — 단기 하단 흐름",
      "MA60(13,164원) 대비 -9.8% — 장기 추세선 하회",
      "RSI(14) 43 약세권 · MACD가 시그널을 하회(데드크로스)",
-     "거래량은 20일 평균의 0.81배 — 거래 강도 보통"
+     "거래량은 20일 평균의 0.82배 — 거래 강도 보통"
     ],
     "ready": {
      "ma20": true,
@@ -64639,9 +64778,9 @@ const LIVE_AUTO = {
   },
   "009160": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64761,9 +64900,9 @@ const LIVE_AUTO = {
   },
   "001940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 27950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -64809,7 +64948,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 60(강세) · 20일선 위 · 최근 5일 횡보(+1.5%)",
+     "현재 상태: RSI 61(강세) · 20일선 위 · 최근 5일 횡보(+1.6%)",
      "과거에 이런 상태(동일 상태)였던 적이 5803건 있었는데, 그중 2645건이 5거래일 뒤 올랐어요 → 경험적 승률 46% (철강·금속 업종을 75% 반영한 기저 승률 49%보다 -3%p 낮아 상대적 부진)",
      "그 5803건의 5거래일 뒤 등락률 평균은 +0.9%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -64847,7 +64986,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 57,
     "riskPenalty": 0,
-    "riskScore": 73,
+    "riskScore": 74,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -64883,9 +65022,9 @@ const LIVE_AUTO = {
   },
   "170900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65005,9 +65144,9 @@ const LIVE_AUTO = {
   },
   "011930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16870,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -65031,7 +65170,7 @@ const LIVE_AUTO = {
      "종가 16,870원이 MA20(15,959원) 대비 +5.7% — 단기 상단 흐름",
      "MA60(17,471원) 대비 -3.4% — 장기 추세선 하회",
      "RSI(14) 53 중립권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 0.61배 — 거래 강도 한산"
+     "거래량은 20일 평균의 0.62배 — 거래 강도 한산"
     ],
     "ready": {
      "ma20": true,
@@ -65075,7 +65214,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 51.7,
     "sectorBlendPct": 75,
     "baseWinRate": 51.0,
-    "relPp": -0.9,
+    "relPp": -1.0,
     "avgReturn": 0.52,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -65137,9 +65276,9 @@ const LIVE_AUTO = {
   },
   "344820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65259,9 +65398,9 @@ const LIVE_AUTO = {
   },
   "060980": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 39700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -65391,9 +65530,9 @@ const LIVE_AUTO = {
   },
   "017810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 2,
@@ -65467,7 +65606,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": -2.1,
+    "relPp": -2.0,
     "avgReturn": 0.86,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -65529,9 +65668,9 @@ const LIVE_AUTO = {
   },
   "306200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 138900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65539,7 +65678,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 79,
+    "score": 81,
     "stance": "bull",
     "findings": [
      "종가 138,900원이 MA20(133,705원) 대비 +3.9% — 단기 상단 흐름",
@@ -65608,12 +65747,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 61,
+    "total": 62,
     "confidence": 44,
     "confidenceShadow": 44,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 61,
+    "rawTotal": 62,
     "riskPenalty": 0,
     "riskScore": 70,
     "riskGrade": "low",
@@ -65651,9 +65790,9 @@ const LIVE_AUTO = {
   },
   "007690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 37600,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65661,8 +65800,8 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 44,
-    "stance": "neu",
+    "score": 43,
+    "stance": "bear",
     "findings": [
      "종가 37,600원이 MA20(38,258원) 대비 -1.7% — 단기 하단 흐름",
      "MA60(36,065원) 대비 +4.3% — 장기 추세선 상회",
@@ -65699,7 +65838,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 50(중립) · 20일선 아래 · 최근 5일 횡보(+1.2%)",
+     "현재 상태: RSI 49(중립) · 20일선 아래 · 최근 5일 횡보(+0.7%)",
      "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (화학·소재 업종을 75% 반영한 기저 승률 47%보다 +4%p 높아 상대적 양호)",
      "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -65725,14 +65864,14 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 164주 · 기관 순매도 5,072주 · 개인 순매수 5,158주",
      "외국인 보유율 19.97% → 20.04% (상승)",
      "직전 거래일 외국인 -1,858주 · 기관 +2,018주 · 개인 -160주",
-     "외국인·기관 동반 매도 우위 · 수급 품질 -11점 · 가격은 오르지만 큰손은 파는 분배형 괴리"
+     "외국인·기관 동반 매도 우위 · 수급 품질 -3점 · 가격·수급 방향 중립"
     ]
    },
    "chief": {
     "call": "HOLD",
     "total": 54,
-    "confidence": 50,
-    "confidenceShadow": 50,
+    "confidence": 49,
+    "confidenceShadow": 49,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 54,
@@ -65773,9 +65912,9 @@ const LIVE_AUTO = {
   },
   "183190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65895,9 +66034,9 @@ const LIVE_AUTO = {
   },
   "029460": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 38650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -65981,7 +66120,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 61,
     "riskPenalty": 0,
-    "riskScore": 41,
+    "riskScore": 40,
     "riskGrade": "mid",
     "riskApplied": true,
     "reboundCheck": {
@@ -66017,9 +66156,9 @@ const LIVE_AUTO = {
   },
   "104700": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -66139,9 +66278,9 @@ const LIVE_AUTO = {
   },
   "005610": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 39700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -66208,7 +66347,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -66270,9 +66409,9 @@ const LIVE_AUTO = {
   },
   "097520": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 20000,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -66392,9 +66531,9 @@ const LIVE_AUTO = {
   },
   "126560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3270,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -66411,7 +66550,7 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 59,
+    "score": 61,
     "stance": "bull",
     "findings": [
      "종가 3,270원이 MA20(3,211원) 대비 +1.8% — 단기 상단 흐름",
@@ -66461,8 +66600,8 @@ const LIVE_AUTO = {
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
     "baseWinRate": 48.8,
-    "relPp": -3.2,
-    "avgReturn": 0.86,
+    "relPp": -0.3,
+    "avgReturn": 1.01,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -66523,9 +66662,9 @@ const LIVE_AUTO = {
   },
   "012030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1473,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -66654,9 +66793,9 @@ const LIVE_AUTO = {
   },
   "002310": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8350,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -66776,9 +66915,9 @@ const LIVE_AUTO = {
   },
   "005720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -66898,9 +67037,9 @@ const LIVE_AUTO = {
   },
   "009290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6330,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67020,9 +67159,9 @@ const LIVE_AUTO = {
   },
   "126720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67142,9 +67281,9 @@ const LIVE_AUTO = {
   },
   "011760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -67204,7 +67343,7 @@ const LIVE_AUTO = {
      "PER 3.43배 · PBR 0.4배 — 이익·자산 대비 저평가 매력",
      "ROE 11.8% · EPS 7,470원",
      "컨센서스 EPS 기준 선행 PER 3.1배 — 실적 반영 시 저평가",
-     "목표주가 37,500원 → 현재가 대비 +46.5%"
+     "목표주가 37,500원 → 현재가 대비 +46.2%"
     ]
    },
    "nova": {
@@ -67287,9 +67426,9 @@ const LIVE_AUTO = {
   },
   "016800": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 27750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67409,9 +67548,9 @@ const LIVE_AUTO = {
   },
   "010690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8020,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67531,9 +67670,9 @@ const LIVE_AUTO = {
   },
   "200880": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12140,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67615,7 +67754,7 @@ const LIVE_AUTO = {
     "confidenceShadow": 57,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 52,
+    "rawTotal": 53,
     "riskPenalty": 0,
     "riskScore": 47,
     "riskGrade": "mid",
@@ -67653,9 +67792,9 @@ const LIVE_AUTO = {
   },
   "004430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11440,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67775,9 +67914,9 @@ const LIVE_AUTO = {
   },
   "192650": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5880,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -67791,7 +67930,7 @@ const LIVE_AUTO = {
      "종가 5,880원이 MA20(4,815원) 대비 +22.1% — 단기 상단 흐름",
      "MA60(4,722원) 대비 +24.5% — 장기 추세선 상회",
      "RSI(14) 68 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 15.36배 — 거래 강도 활발"
+     "거래량은 20일 평균의 15.37배 — 거래 강도 활발"
     ],
     "ready": {
      "ma20": true,
@@ -67897,9 +68036,9 @@ const LIVE_AUTO = {
   },
   "010820": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5950,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68019,9 +68158,9 @@ const LIVE_AUTO = {
   },
   "018250": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11510,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68141,9 +68280,9 @@ const LIVE_AUTO = {
   },
   "026890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68215,7 +68354,7 @@ const LIVE_AUTO = {
      "최근 5거래일 외국인 순매도 17,396주 · 기관 순매수 53,764주 · 개인 순매도 36,348주",
      "외국인 보유율 48.85% → 48.82% (하락)",
      "직전 거래일 외국인 +2,480주 · 기관 +11,445주 · 개인 -13,925주",
-     "외국인·기관 매수/매도 엇갈림 · 수급 품질 +36점 · 가격은 약하지만 큰손 매수는 이어지는 매집형 괴리"
+     "외국인·기관 매수/매도 엇갈림 · 수급 품질 +28점 · 가격·수급 방향 중립"
     ]
    },
    "chief": {
@@ -68263,9 +68402,9 @@ const LIVE_AUTO = {
   },
   "034830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1172,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -68394,9 +68533,9 @@ const LIVE_AUTO = {
   },
   "096760": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4075,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68516,9 +68655,9 @@ const LIVE_AUTO = {
   },
   "025860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6060,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68638,9 +68777,9 @@ const LIVE_AUTO = {
   },
   "024720": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10030,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -68760,9 +68899,9 @@ const LIVE_AUTO = {
   },
   "001390": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -68779,8 +68918,8 @@ const LIVE_AUTO = {
     ]
    },
    "taro": {
-    "score": 67,
-    "stance": "bull",
+    "score": 49,
+    "stance": "neu",
     "findings": [
      "종가 4,400원이 MA20(4,360원) 대비 +0.9% — 단기 상단 흐름",
      "MA60(4,290원) 대비 +2.6% — 장기 추세선 상회",
@@ -68812,7 +68951,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 55,
+    "score": 53,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -68821,16 +68960,16 @@ const LIVE_AUTO = {
      "과거에 이런 상태(동일 상태)였던 적이 6185건 있었는데, 그중 3032건이 5거래일 뒤 올랐어요 → 경험적 승률 49% (화학·소재 업종을 75% 반영한 기저 승률 47%보다 +2%p 높아 상대적 양호)",
      "그 6185건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
-    "sampleN": 8646,
-    "sampleWin": 4324,
-    "winRate": 50.0,
+    "sampleN": 6185,
+    "sampleWin": 3032,
+    "winRate": 49.0,
     "marketAvgWinRate": 48.7,
     "sector": "화학·소재",
     "sectorWinRate": 46.8,
     "sectorBlendPct": 75,
     "baseWinRate": 47.3,
-    "relPp": 2.7,
-    "avgReturn": 0.52,
+    "relPp": 1.7,
+    "avgReturn": 0.67,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
     "periodEnd": "2026-08-20"
@@ -68891,9 +69030,9 @@ const LIVE_AUTO = {
   },
   "108670": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 34900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69013,9 +69152,9 @@ const LIVE_AUTO = {
   },
   "092790": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12590,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69023,7 +69162,7 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 78,
+    "score": 77,
     "stance": "bull",
     "findings": [
      "종가 12,590원이 MA20(11,998원) 대비 +4.9% — 단기 상단 흐름",
@@ -69093,8 +69232,8 @@ const LIVE_AUTO = {
    "chief": {
     "call": "HOLD",
     "total": 57,
-    "confidence": 56,
-    "confidenceShadow": 56,
+    "confidence": 57,
+    "confidenceShadow": 57,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 57,
@@ -69135,9 +69274,9 @@ const LIVE_AUTO = {
   },
   "058430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4760,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -69266,9 +69405,9 @@ const LIVE_AUTO = {
   },
   "272450": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 5900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69388,9 +69527,9 @@ const LIVE_AUTO = {
   },
   "033270": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17720,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69510,9 +69649,9 @@ const LIVE_AUTO = {
   },
   "123890": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2560,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69596,7 +69735,7 @@ const LIVE_AUTO = {
     "confidencePromotionStatus": "SHADOW_ONLY",
     "rawTotal": 67,
     "riskPenalty": 0,
-    "riskScore": 74,
+    "riskScore": 73,
     "riskGrade": "low",
     "riskApplied": true,
     "reboundCheck": {
@@ -69632,9 +69771,9 @@ const LIVE_AUTO = {
   },
   "017390": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 55300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69754,9 +69893,9 @@ const LIVE_AUTO = {
   },
   "003960": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 30400,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69876,9 +70015,9 @@ const LIVE_AUTO = {
   },
   "001230": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 2030,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -69998,9 +70137,9 @@ const LIVE_AUTO = {
   },
   "002900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 6940,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -70129,9 +70268,9 @@ const LIVE_AUTO = {
   },
   "484870": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 15060,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -70260,9 +70399,9 @@ const LIVE_AUTO = {
   },
   "001750": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19670,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -70391,9 +70530,9 @@ const LIVE_AUTO = {
   },
   "298690": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 1558,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -70513,9 +70652,9 @@ const LIVE_AUTO = {
   },
   "003200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 10650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -70635,9 +70774,9 @@ const LIVE_AUTO = {
   },
   "084010": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8330,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -70757,9 +70896,9 @@ const LIVE_AUTO = {
   },
   "286940": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -70879,9 +71018,9 @@ const LIVE_AUTO = {
   },
   "005430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 83300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71001,9 +71140,9 @@ const LIVE_AUTO = {
   },
   "003920": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 42900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71014,8 +71153,8 @@ const LIVE_AUTO = {
     "score": 44,
     "stance": "neu",
     "findings": [
-     "종가 42,850원이 MA20(43,645원) 대비 -1.8% — 단기 하단 흐름",
-     "MA60(42,988원) 대비 -0.3% — 장기 추세선 하회",
+     "종가 42,900원이 MA20(43,648원) 대비 -1.7% — 단기 하단 흐름",
+     "MA60(42,989원) 대비 -0.2% — 장기 추세선 하회",
      "RSI(14) 47 중립권 · MACD가 시그널을 하회(데드크로스)",
      "거래량은 20일 평균의 0.46배 — 거래 강도 한산"
     ],
@@ -71049,7 +71188,7 @@ const LIVE_AUTO = {
     "stance": "neu",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 횡보(+1.7%)",
+     "현재 상태: RSI 47(중립) · 20일선 아래 · 최근 5일 횡보(+1.8%)",
      "과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호)",
      "그 6077건의 5거래일 뒤 등락률 평균은 +0.7%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -71061,7 +71200,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": 3.3,
+    "relPp": 3.4,
     "avgReturn": 0.7,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -71117,15 +71256,15 @@ const LIVE_AUTO = {
     "judgmentWithheld": false,
     "reason": "자동분석 종합 50점(중립). 기술 44·재무 52·퀀트(확률) 56·수급 50 점을 자가 학습 가중치(기술 27%·재무 13%·퀀트 27%·수급 33% — 최근 적중률 기반 자동 조정)로 합산했습니다.  RISK 안정도 77점으로 원점수 50점에서 0점을 감점했습니다. 분석축 간 시각이 대체로 일치합니다.",
     "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
-    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 42,850원이 MA20(43,645원) 대비 -1.8% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 1,406주 · 기관 순매도 2,354주 · 개인 순매수 893주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호). 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 76%."
+    "report": "이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. 기술적으로는 종가 42,900원이 MA20(43,648원) 대비 -1.7% — 단기 하단 흐름, 수급 측면에서는 최근 5거래일 외국인 순매수 1,406주 · 기관 순매도 2,354주 · 개인 순매수 893주. 퀀트(과거 통계) 분석은 과거에 이런 상태(동일 상태)였던 적이 6077건 있었는데, 그중 3098건이 5거래일 뒤 올랐어요 → 경험적 승률 51% (식음료 업종을 75% 반영한 기저 승률 48%보다 +3%p 높아 상대적 양호). 방향 원점수 50점에서 리스크 0점을 반영해 종합 50점 · HOLD · 신뢰도 76%."
    },
    "shadowChief": null
   },
   "002710": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11520,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71245,9 +71384,9 @@ const LIVE_AUTO = {
   },
   "004360": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13500,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71367,9 +71506,9 @@ const LIVE_AUTO = {
   },
   "002320": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 14860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71489,9 +71628,9 @@ const LIVE_AUTO = {
   },
   "122900": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8270,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71611,9 +71750,9 @@ const LIVE_AUTO = {
   },
   "005500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 18330,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71733,9 +71872,9 @@ const LIVE_AUTO = {
   },
   "000430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4260,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -71864,9 +72003,9 @@ const LIVE_AUTO = {
   },
   "003070": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 9900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -71874,12 +72013,12 @@ const LIVE_AUTO = {
     "stateText": "공식 공시 없음"
    },
    "taro": {
-    "score": 84,
+    "score": 85,
     "stance": "bull",
     "findings": [
-     "종가 9,870원이 MA20(9,430원) 대비 +4.7% — 단기 상단 흐름",
-     "MA60(9,285원) 대비 +6.3% — 장기 추세선 상회",
-     "RSI(14) 56 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
+     "종가 9,900원이 MA20(9,432원) 대비 +5.0% — 단기 상단 흐름",
+     "MA60(9,285원) 대비 +6.6% — 장기 추세선 상회",
+     "RSI(14) 57 상승 모멘텀권 · MACD가 시그널을 상회(골든크로스)",
      "거래량은 20일 평균의 0.25배 — 거래 강도 한산"
     ],
     "ready": {
@@ -71900,7 +72039,7 @@ const LIVE_AUTO = {
     "score": 54,
     "stance": "neu",
     "findings": [
-     "PER -2.49배 · PBR 0.35배 — 밸류 중립 수준",
+     "PER -2.5배 · PBR 0.35배 — 밸류 중립 수준",
      "ROE -13.9% · EPS -3,957원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "목표주가 13,000원 → 현재가 대비 +31.3%"
@@ -71912,7 +72051,7 @@ const LIVE_AUTO = {
     "stance": "bear",
     "findings": [
      "📊 QUANT — 지금과 비슷한 상태였던 과거 사례의 실제 결과(추적 600종목 누적 일봉)로 승률을 계산합니다",
-     "현재 상태: RSI 56(강세) · 20일선 위 · 최근 5일 횡보(-1.0%)",
+     "현재 상태: RSI 57(강세) · 20일선 위 · 최근 5일 횡보(-0.7%)",
      "과거에 이런 상태(동일 상태)였던 적이 5803건 있었는데, 그중 2645건이 5거래일 뒤 올랐어요 → 경험적 승률 46% (건설·건자재 업종을 75% 반영한 기저 승률 51%보다 -5%p 낮아 상대적 부진)",
      "그 5803건의 5거래일 뒤 등락률 평균은 +0.9%예요(오른 경우·내린 경우 전부 포함 — 승률과는 다른 숫자) · 과거 통계일 뿐 미래를 보장하진 않아요"
     ],
@@ -71986,9 +72125,9 @@ const LIVE_AUTO = {
   },
   "298000": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 59200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72108,9 +72247,9 @@ const LIVE_AUTO = {
   },
   "034120": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12260,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72230,9 +72369,9 @@ const LIVE_AUTO = {
   },
   "008490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -72275,7 +72414,7 @@ const LIVE_AUTO = {
     "score": 70,
     "stance": "bull",
     "findings": [
-     "PER 6.46배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
+     "PER 6.47배 · PBR 0.47배 — 이익·자산 대비 저평가 매력",
      "ROE 7.3% · EPS 3,384원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 16,000 ~ 33,000 참고 · 목표주가 컨센 미제공"
@@ -72361,9 +72500,9 @@ const LIVE_AUTO = {
   },
   "004980": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8440,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72483,9 +72622,9 @@ const LIVE_AUTO = {
   },
   "475560": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 16560,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72543,7 +72682,7 @@ const LIVE_AUTO = {
     "sectorWinRate": 47.3,
     "sectorBlendPct": 75,
     "baseWinRate": 47.6,
-    "relPp": -0.3,
+    "relPp": -0.2,
     "avgReturn": 0.66,
     "scopeUsed": "동일 상태",
     "periodStart": "2025-11-18",
@@ -72605,9 +72744,9 @@ const LIVE_AUTO = {
   },
   "017860": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 11890,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72641,7 +72780,7 @@ const LIVE_AUTO = {
     "score": 46,
     "stance": "neu",
     "findings": [
-     "PER -17.24배 · PBR 0.77배 — 밸류 중립 수준",
+     "PER -17.26배 · PBR 0.77배 — 밸류 중립 수준",
      "ROE -4.5% · EPS -689원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
      "52주 밴드 9,560 ~ 26,450 참고 · 목표주가 컨센 미제공"
@@ -72727,9 +72866,9 @@ const LIVE_AUTO = {
   },
   "030210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 3925,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72849,9 +72988,9 @@ const LIVE_AUTO = {
   },
   "210980": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 4585,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -72892,7 +73031,7 @@ const LIVE_AUTO = {
     ]
    },
    "nova": {
-    "score": 50,
+    "score": 49,
     "available": true,
     "stance": "neu",
     "findings": [
@@ -72971,9 +73110,9 @@ const LIVE_AUTO = {
   },
   "000490": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 7900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 5,
@@ -73116,9 +73255,9 @@ const LIVE_AUTO = {
   },
   "033500": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17770,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -73195,12 +73334,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 60,
+    "total": 61,
     "confidence": 46,
     "confidenceShadow": 46,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 60,
+    "rawTotal": 61,
     "riskPenalty": 0,
     "riskScore": 55,
     "riskGrade": "mid",
@@ -73238,9 +73377,9 @@ const LIVE_AUTO = {
   },
   "036810": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 25200,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 3,
@@ -73383,9 +73522,9 @@ const LIVE_AUTO = {
   },
   "034950": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 103900,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -73505,9 +73644,9 @@ const LIVE_AUTO = {
   },
   "272290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 21100,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -73593,12 +73732,12 @@ const LIVE_AUTO = {
    },
    "chief": {
     "call": "HOLD",
-    "total": 54,
+    "total": 55,
     "confidence": 47,
     "confidenceShadow": 47,
     "confidenceModelPromoted": false,
     "confidencePromotionStatus": "SHADOW_ONLY",
-    "rawTotal": 54,
+    "rawTotal": 55,
     "riskPenalty": 0,
     "riskScore": 32,
     "riskGrade": "mid",
@@ -73636,9 +73775,9 @@ const LIVE_AUTO = {
   },
   "278280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 40800,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -73672,10 +73811,10 @@ const LIVE_AUTO = {
     "score": 43,
     "stance": "bear",
     "findings": [
-     "PER -7.12배 · PBR 1.11배 — 밸류 부담 존재",
+     "PER -7.15배 · PBR 1.12배 — 밸류 부담 존재",
      "ROE -15.7% · EPS -5,710원",
      "컨센서스 추정 EPS 반영 시 밸류 재계산 필요",
-     "목표주가 41,667원 → 현재가 대비 +2.5%"
+     "목표주가 41,667원 → 현재가 대비 +2.1%"
     ]
    },
    "nova": {
@@ -73758,9 +73897,9 @@ const LIVE_AUTO = {
   },
   "365340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 36750,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -73889,9 +74028,9 @@ const LIVE_AUTO = {
   },
   "099190": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17650,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -74020,9 +74159,9 @@ const LIVE_AUTO = {
   },
   "340570": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 31300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 1,
@@ -74152,9 +74291,9 @@ const LIVE_AUTO = {
   },
   "348210": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33050,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74274,9 +74413,9 @@ const LIVE_AUTO = {
   },
   "215200": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 35700,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74310,10 +74449,10 @@ const LIVE_AUTO = {
     "score": 90,
     "stance": "bull",
     "findings": [
-     "PER 4.51배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
+     "PER 4.52배 · PBR 0.76배 — 이익·자산 대비 저평가 매력",
      "ROE 16.8% · EPS 7,903원",
      "증권사 컨센서스 커버리지 부재 — 선행 지표 산출 제한",
-     "목표주가 60,000원 → 현재가 대비 +68.3%"
+     "목표주가 60,000원 → 현재가 대비 +68.1%"
     ]
    },
    "nova": {
@@ -74396,9 +74535,9 @@ const LIVE_AUTO = {
   },
   "095660": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17970,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74518,9 +74657,9 @@ const LIVE_AUTO = {
   },
   "348340": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 19290,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74534,7 +74673,7 @@ const LIVE_AUTO = {
      "종가 19,290원이 MA20(19,903원) 대비 -3.1% — 단기 하단 흐름",
      "MA60(23,060원) 대비 -16.3% — 장기 추세선 하회",
      "RSI(14) 45 약세권 · MACD가 시그널을 상회(골든크로스)",
-     "거래량은 20일 평균의 0.65배 — 거래 강도 한산"
+     "거래량은 20일 평균의 0.66배 — 거래 강도 한산"
     ],
     "ready": {
      "ma20": true,
@@ -74640,9 +74779,9 @@ const LIVE_AUTO = {
   },
   "060280": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 8860,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74762,9 +74901,9 @@ const LIVE_AUTO = {
   },
   "104830": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33150,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -74884,9 +75023,9 @@ const LIVE_AUTO = {
   },
   "013030": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 33550,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75006,9 +75145,9 @@ const LIVE_AUTO = {
   },
   "460930": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 13760,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75128,9 +75267,9 @@ const LIVE_AUTO = {
   },
   "018290": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 12230,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75250,9 +75389,9 @@ const LIVE_AUTO = {
   },
   "214430": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 62300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75372,9 +75511,9 @@ const LIVE_AUTO = {
   },
   "119850": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 50300,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75494,9 +75633,9 @@ const LIVE_AUTO = {
   },
   "030520": {
    "tier": "auto",
-   "updated": "2026-08-27 15:51",
+   "updated": "2026-08-27 16:21",
    "base": 17670,
-   "baseAt": "2026-08-27 종가 (15:48 수집)",
+   "baseAt": "2026-08-27 종가 (16:10 수집)",
    "events": [],
    "dart": {
     "count": 0,
@@ -75616,8 +75755,8 @@ const LIVE_AUTO = {
   }
  },
  "marketInsight": {
-  "generatedAt": "2026-08-27 15:51",
-  "sourceAsOf": "2026-08-27 종가 (15:48 수집)",
+  "generatedAt": "2026-08-27 16:21",
+  "sourceAsOf": "2026-08-27 종가 (16:10 수집)",
   "calls": {
    "BUY": 39,
    "HOLD": 459,
@@ -75640,7 +75779,7 @@ const LIVE_AUTO = {
   "producesScore": false,
   "note": "DART 공식 공시만 본 결과입니다. 일반 뉴스나 증권사 의견은 포함되지 않습니다.",
   "coverageState": "EVENT_DETECTED",
-  "eventsLoaded": 555
+  "eventsLoaded": 583
  },
  "crossStats": {
   "horizonDays": 20,
@@ -75668,13 +75807,13 @@ const LIVE_AUTO = {
   }
  },
  "runTimestamps": {
-  "workflowStartedAt": "2026-08-27T06:29:59Z",
-  "priceFetchedAt": "2026-08-27T06:49:47Z",
-  "analysisStartedAt": "2026-08-27T15:51:21+09:00",
-  "analysisCompletedAt": "2026-08-27T15:51:29+09:00",
-  "priceLabel": "2026-08-27 종가 (15:48 수집)",
-  "dartCollectionStartedAt": "2026-08-27T06:49:53Z",
-  "dartCollectionCompletedAt": "2026-08-27T06:50:16Z",
+  "workflowStartedAt": "2026-08-27T06:59:59Z",
+  "priceFetchedAt": "2026-08-27T07:19:51Z",
+  "analysisStartedAt": "2026-08-27T16:21:29+09:00",
+  "analysisCompletedAt": "2026-08-27T16:21:36+09:00",
+  "priceLabel": "2026-08-27 종가 (16:10 수집)",
+  "dartCollectionStartedAt": "2026-08-27T07:19:57Z",
+  "dartCollectionCompletedAt": "2026-08-27T07:20:24Z",
   "cronScheduledNominal": null,
   "githubRunId": "33039577770",
   "githubRunAttempt": "1",
