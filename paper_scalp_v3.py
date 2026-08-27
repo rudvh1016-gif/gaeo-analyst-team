@@ -172,7 +172,17 @@ class ScalpV3Engine(PaperEngine):
         path = os.path.join(self.dir, "config.json")
         if os.path.exists(path):
             return json.load(open(path, encoding="utf-8"))
-        return json.loads(json.dumps(DEFAULT_CONFIG))     # 깊은 복사(상수 오염 방지)
+        cfg = json.loads(json.dumps(DEFAULT_CONFIG))      # 깊은 복사(상수 오염 방지)
+        # 🐛 2026-08-27 QA 지적: 공개 스냅샷(paper_public)은 config.json의 존재로
+        #    실데이터/준비중(PREPARING)을 가르는데, 설정을 메모리에만 두면 이 파일을
+        #    아무도 만들지 않아 V3 탭이 영원히 "준비 중"에 갇힌다. 그래서 첫 로드에서
+        #    기본 설정을 디스크에 남긴다. 실패해도 매매는 막지 않는다(advisory).
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(cfg, f, ensure_ascii=False, indent=1)
+        except OSError:
+            pass
+        return cfg
 
     def _load_state(self):
         """🔒 전략 이름을 여기서 못박는다(smart_v2 감사 지적 M1과 동일한 이유).
