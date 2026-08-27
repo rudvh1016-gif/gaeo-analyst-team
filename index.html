@@ -1023,6 +1023,22 @@
   .pf-sumrow b{color:var(--ink);font-weight:600;font-size:14px}
   .pf-mut{color:var(--dim);font-size:11.5px}
   .pf-note{margin-top:16px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  /* 위험 겹침 — 카드를 새로 만들지 않고 제목·행·구분선·여백으로만 계층을 만든다.
+     상관계수는 시장 방향이 아니므로 빨강·파랑을 쓰지 않는다(디자인 시스템 1절). */
+  .pf-risk{margin:18px 0 4px}
+  .pf-risk-head{font-size:12px;font-weight:600;color:var(--dim);letter-spacing:.02em;
+    padding-bottom:6px;margin-top:14px;border-bottom:1px solid var(--line)}
+  .pf-risk-head:first-child{margin-top:0}
+  .pf-risk-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;
+    padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink)}
+  .pf-risk-line b{font-weight:600}
+  .pf-risk-pair{flex:1 1 auto;min-width:0}
+  .pf-risk-sub{flex:1 0 100%;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .pf-risk-say{padding:10px 0 2px;font-size:13px;color:var(--ink);line-height:1.65}
+  .pf-risk-btn{margin-left:auto;padding:6px 12px;font:inherit;font-size:12.5px;
+    color:var(--ink);background:var(--paper2);border:1px solid var(--line2);
+    border-radius:8px;cursor:pointer}
+  .pf-risk-btn:disabled{color:var(--dim);cursor:default}
   /* 상단 가이드라인 배너 */
   .pf-guide{background:var(--color-bg-soft);color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);
     padding:16px 18px;margin-bottom:16px;font-size:12.5px;line-height:1.85}
@@ -5005,6 +5021,10 @@ window.GaeoFeatures=(()=>{
     calc:['calculators.js'],
     changelog:['changelog.js'],
     history:['history.js','price_history.js'],
+    // 📉 일봉만 필요한 화면(포트폴리오 위험 겹침)용. history 키는 판단 이력
+    //    history.js(13.6MB)까지 같이 받아 합계 42.5MB가 되는데, 상관계수는
+    //    PRICE_HISTORY만 쓴다. 필요 없는 13.6MB를 받게 하지 않으려고 따로 뒀다.
+    priceHistory:['price_history.js'],
     auto:['auto_analysis.js'],
     // 📄 홈 "오늘의 공시" 위젯 전용 소형 스냅샷(수십 KB). auto_analysis.js(3MB)를
     //    홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이라, 첫 화면을 느리게 하지 않는다.
@@ -5581,6 +5601,7 @@ function renderPortfolio(){
         <div class="pf-add-hint">이름·업종으로 검색해서 <b>내가 가진 종목만</b> 추가하세요. 추가 후 수량·평단을 넣으면 손익과 맞춤 제안이 나와요.</div>
       </div>
       <div class="pf-sum" id="pfSum"></div>
+      <div class="pf-risk" id="pfRisk"></div>
       <div id="pfList"></div>
       <div class="pf-note">입력값은 이 브라우저에 프로필 「${PF_PROFILE}」로 자동 저장돼요(내 폰에만). · 지지·저항선은 차트 지표(이동평균·3개월 밴드)로 자동 계산 · 분석 의견이며 투자 권유가 아닙니다.</div>`;
     makeAutocomplete(document.getElementById('pfAdd'), document.getElementById('acboxPf'), {
@@ -5627,6 +5648,209 @@ function renderPfHoldings(){
   recalcPf();
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   위험 겹침 — "4종목 가졌으니 분산됐다"는 착각을 막는다.
+
+   사람들은 종목 수만 보고 분산됐다고 생각한다. 그런데 삼성전자와 SK하이닉스를
+   나눠 담아도 둘이 같은 날 같은 방향으로 움직이면 실제로는 한 종목을 두 번 산
+   것에 가깝다. 그래서 두 가지를 따로 보여준다.
+     A. 업종 집중도 — 어디에 몰려 있나
+     B. 실제 가격 움직임 겹침 — 정말 따로 움직이나
+
+   ⭐ 계산 방법은 결과를 보기 전에 고정했다(숫자가 예쁘게 나오는 쪽을 고르지 않는다).
+     · 가격 수준끼리 상관계수를 내지 않는다. 그건 둘 다 우상향이면 무조건 높게 나온다.
+       반드시 일간 단순수익률(오늘종가/어제종가 - 1)로 바꿔서 잰다.
+     · 두 종목에 같은 날짜가 다 있는 관측치만 짝지어 쓴다(날짜 정렬 후 교집합).
+     · Pearson 상관계수를 쓴다. 결과가 마음에 안 든다고 Spearman으로 바꾸지 않는다.
+     · 최근 60거래일. 짝 관측치가 MIN_PAIR_OBS 미만이면 숫자를 만들지 않고
+       "데이터 부족"이라고 말한다. 기간을 늘려 숫자를 만들어내지 않는다.
+
+   ⚠️ 이 값은 정보 제공용이다. CHIEF 점수·BUY/HOLD/SELL 판단·Evolution·모의투자
+      전략에 아무 영향을 주지 않는다. 사용자 보유 종목은 어디로도 전송되지 않는다.
+   ⚠️ 600×600 전체 상관행렬을 만들지 않는다. 사용자가 담은 종목끼리만 계산한다.
+   ───────────────────────────────────────────────────────────────────────────── */
+const PF_CORR_WINDOW=60;    // 최근 60거래일
+const PF_MIN_PAIR_OBS=40;   // 통계가 흔들리지 않을 최소 짝 관측치 수.
+                            // 투자성과를 보고 고른 숫자가 아니며, 수익률을 높이려고
+                            // 나중에 자동 튜닝하지 않는다(고정 데이터 품질 기준).
+
+// 같은 종목의 종가를 쌍마다 다시 파싱하지 않는다. N종목이면 pfCloses가
+// N(N-1)번 불리는데(쌍마다 2회), 실제로 필요한 건 N번뿐이다.
+// 실측(2026-08-26 QA): 200종목에서 재계산 761ms → 입력이 눈에 띄게 밀렸다.
+const PF_CLOSES_CACHE={};
+
+/** price_history에서 code의 최근 N거래일 {날짜: 종가}. 없으면 null. */
+function pfCloses(code,limit=PF_CORR_WINDOW+1){
+  if(typeof PRICE_HISTORY==='undefined') return null;
+  const ck=code+'@'+limit;
+  if(ck in PF_CLOSES_CACHE) return PF_CLOSES_CACHE[ck];
+  const v=pfClosesUncached(code,limit);
+  PF_CLOSES_CACHE[ck]=v;
+  return v;
+}
+
+function pfClosesUncached(code,limit){
+  const pages=PRICE_HISTORY[code];
+  if(!Array.isArray(pages)) return null;
+  const days=[];
+  for(const pg of pages) for(const d of (pg&&pg.days)||[]){
+    if(d&&d.date&&typeof d.close==='number') days.push(d);
+  }
+  if(!days.length) return null;
+  days.sort((a,b)=>String(a.date).localeCompare(String(b.date)));   // 오름차순 고정
+  const out={};
+  for(const d of days.slice(-limit)) out[d.date]=d.close;
+  return out;
+}
+
+/** 두 종목의 같은 날짜만 짝지어 일간 단순수익률 Pearson 상관계수. */
+function pfCorrelation(a,b){
+  const ca=pfCloses(a), cb=pfCloses(b);
+  if(!ca||!cb) return {status:'NO_DATA'};
+  // 두 종목에 모두 존재하는 날짜만, 날짜순으로.
+  const dates=Object.keys(ca).filter(d=>d in cb).sort();
+  if(dates.length<2) return {status:'NO_DATA'};
+  // ⭐ 수익률은 '연속한 두 거래일' 사이에서만 의미가 있다.
+  //
+  // 각 종목이 자기 이력에서 그 두 날짜를 바로 붙어 있는 날로 갖고 있어야 한다.
+  // 한쪽이 거래정지로 며칠 빠졌다면, 그 구멍을 건너뛴 값은 '하루 수익률'이 아니라
+  // 며칠치가 뭉친 값이다. 2026-08-26 감사에서 이걸 실측으로 확인했다: 서로 무관한
+  // 두 종목(r≈0)에 정지 후 재개 구간 하나(A -25% · B -20%)를 그대로 이어 붙였더니
+  // 상관계수가 0.96으로 뒤집혔다. 관측치 하나의 변동폭이 평소의 10배면 분산 기여는
+  // 100배라, 그 하나가 상관계수를 혼자 결정해 버린다.
+  //
+  // 구멍을 어떻게 알아내나: 두 종목 날짜의 합집합을 '거래일 달력'으로 삼는다.
+  // 한 종목이 정지로 빠진 날도 다른 종목에는 남아 있으므로 합집합에는 들어간다.
+  // 그래서 두 날짜가 합집합에서 바로 이웃일 때만 하루치 수익률로 인정한다.
+  //   · 둘 다 없는 날(공휴일)은 합집합에도 없으니 정상 구간으로 남는다. ✅
+  //   · 한쪽만 빠진 날이 있으면 이웃이 아니게 되어 그 구간을 버린다. ✅
+  // 각자의 인덱스만 보면 안 된다 — 빠진 날은 그 종목 목록에서 아예 사라져
+  // 번호가 다시 매겨지므로, 구멍이 있어도 '바로 다음'으로 보인다(실측 확인).
+  const union={}; Object.keys(Object.assign({},ca,cb)).sort().forEach((d,i)=>union[d]=i);
+  const ra=[], rb=[];
+  for(let i=1;i<dates.length;i++){
+    const p=dates[i-1], q=dates[i];
+    if(!(ca[p]>0&&cb[p]>0&&ca[q]>0&&cb[q]>0)) continue;
+    if(union[q]!==union[p]+1) continue;   // 어느 한쪽이라도 빠진 날이 사이에 있으면 버린다
+    ra.push(ca[q]/ca[p]-1); rb.push(cb[q]/cb[p]-1);
+  }
+  const n=ra.length;
+  if(n<PF_MIN_PAIR_OBS) return {status:'INSUFFICIENT',obs:n};
+  const mean=v=>v.reduce((s,x)=>s+x,0)/v.length;
+  const ma=mean(ra), mb=mean(rb);
+  let cov=0, va=0, vb=0;
+  for(let i=0;i<n;i++){
+    const da=ra[i]-ma, db=rb[i]-mb;
+    cov+=da*db; va+=da*da; vb+=db*db;
+  }
+  if(va<=0||vb<=0) return {status:'INSUFFICIENT',obs:n};   // 한쪽이 전혀 안 움직인 경우
+  return {status:'OK', r:cov/Math.sqrt(va*vb), obs:n,
+          from:dates[0], to:dates[dates.length-1]};
+}
+
+/** 사용자에게 보여줄 겹침 등급. UX 설명용 고정 기준이며 모델 점수와 무관하다. */
+function pfOverlapLabel(r){
+  if(r>=0.70) return {key:'high',  text:'움직임 겹침 높음'};
+  if(r>=0.40) return {key:'mid',   text:'움직임 겹침 보통'};
+  if(r>=0)    return {key:'low',   text:'움직임 겹침 낮음'};
+  return              {key:'inv',  text:'최근에는 반대로 움직이는 편'};
+}
+
+/** 업종 집중도. 수량·현재가가 다 있으면 평가금액 기준, 아니면 종목 수 기준. */
+function pfSectorConcentration(codes,pf){
+  const byValue=codes.every(c=>(+((pf[c]||{}).qty)||0)>0&&(STOCKS[c].price||0)>0);
+  const w={}; let total=0;
+  codes.forEach(c=>{
+    const sec=STOCKS[c].sector||'기타';
+    const v=byValue?(+pf[c].qty)*STOCKS[c].price:1;
+    w[sec]=(w[sec]||0)+v; total+=v;
+  });
+  const rows=Object.entries(w).map(([sector,v])=>({sector,pct:total>0?v/total*100:0}))
+    .sort((x,y)=>y.pct-x.pct);
+  return {basis:byValue?'value':'count', rows, total};
+}
+
+// 종목 이름. 화면 다른 곳의 nameOf()는 각자 IIFE 안에 갇혀 있어 여기서 못 쓴다.
+const pfNameOf=code=>(STOCKS[code]&&STOCKS[code].name)||code;
+
+/** 위험 겹침 블록을 그린다. price_history가 없으면 '보기' 버튼만 둔다. */
+function renderPfRisk(){
+  const box=document.getElementById('pfRisk'); if(!box) return;
+  const pf=loadPortfolio();
+  const codes=Object.keys(pf).filter(c=>STOCKS[c]);
+  if(codes.length<2){ box.innerHTML=''; return; }
+
+  const conc=pfSectorConcentration(codes,pf);
+  const top=conc.rows[0];
+  const basisNote=conc.basis==='value'?'평가금액 기준':'종목 수 기준(수량·평단을 넣으면 평가금액 기준으로 바뀌어요)';
+  let html=`<div class="pf-risk-head">분산 상태</div>`+
+    `<div class="pf-risk-line"><b>${esc(top.sector)}</b> 비중 ${top.pct.toFixed(0)}%`+
+    `<span class="pf-risk-sub">${esc(basisNote)}</span></div>`;
+
+  // 28MB짜리 가격 이력은 사용자가 실제로 볼 때만 내려받는다(첫 화면 무게 유지).
+  if(typeof PRICE_HISTORY==='undefined'){
+    html+=`<div class="pf-risk-head">위험 겹침</div>`+
+      `<div class="pf-risk-line pf-mut">담은 종목들이 실제로 따로 움직이는지 확인할 수 있어요.`+
+      `<button type="button" id="pfRiskLoad" class="pf-risk-btn">겹침 확인하기</button>`+
+      `<span class="pf-risk-sub">지난 시세 자료를 받아와요(약 29MB). Wi-Fi에서 보시는 걸 권해요.</span></div>`;
+    box.innerHTML=html;
+    const btn=document.getElementById('pfRiskLoad');
+    if(btn) btn.onclick=async()=>{
+      btn.disabled=true; btn.textContent='불러오는 중…';
+      // history 키가 아니라 priceHistory 키를 쓴다 — 판단 이력 13.6MB는 필요 없다.
+      try{ await GaeoFeatures.load('priceHistory'); renderPfRisk(); }
+      catch(e){ btn.disabled=false; btn.textContent='다시 시도'; }
+    };
+    return;
+  }
+
+  // 사용자가 담은 종목끼리만. 8종목이면 28쌍이라 전부 계산해도 가볍다.
+  // 다만 종목 수가 늘면 쌍은 제곱으로 는다(200종목=19,900쌍, 실측 761ms).
+  // 평가금액 상위 종목으로 잘라서 화면이 멈추지 않게 한다 — 겹침을 보는 목적은
+  // '내 돈이 어디에 몰렸나'이므로 비중이 큰 쪽을 남기는 게 맞다.
+  const PF_MAX_PAIR_CODES=30;
+  let calcCodes=codes;
+  let trimmed=0;
+  if(codes.length>PF_MAX_PAIR_CODES){
+    const val=c=>((+((pf[c]||{}).qty)||0)*(STOCKS[c].price||0))||0;
+    calcCodes=codes.slice().sort((x,y)=>val(y)-val(x)).slice(0,PF_MAX_PAIR_CODES);
+    trimmed=codes.length-calcCodes.length;
+  }
+  const pairs=[];
+  for(let i=0;i<calcCodes.length;i++) for(let j=i+1;j<calcCodes.length;j++){
+    const res=pfCorrelation(calcCodes[i],calcCodes[j]);
+    pairs.push({a:calcCodes[i],b:calcCodes[j],res});
+  }
+  const usable=pairs.filter(p=>p.res.status==='OK').sort((x,y)=>y.res.r-x.res.r).slice(0,3);
+  const short=pairs.length-pairs.filter(p=>p.res.status==='OK').length;
+
+  html+=`<div class="pf-risk-head">위험 겹침</div>`;
+  if(!usable.length){
+    html+=`<div class="pf-risk-line pf-mut">가격 기록이 모자라 아직 계산할 수 없어요`+
+      `<span class="pf-risk-sub">최근 ${PF_CORR_WINDOW}거래일 중 두 종목이 함께 있는 날이 ${PF_MIN_PAIR_OBS}일보다 적어요</span></div>`;
+  }else{
+    usable.forEach(p=>{
+      const lab=pfOverlapLabel(p.res.r);
+      html+=`<div class="pf-risk-line"><span class="pf-risk-pair">${esc(pfNameOf(p.a))} ↔ ${esc(pfNameOf(p.b))}</span>`+
+        `<b>${lab.text}</b>`+
+        `<span class="pf-risk-sub">상관계수 ${p.res.r.toFixed(2)} · 관측 ${p.res.obs}일 · ${esc(p.res.from)}~${esc(p.res.to)}</span></div>`;
+    });
+    const worst=usable[0];
+    if(worst.res.r>=0.70){
+      html+=`<div class="pf-risk-say">최근 이 두 종목이 비슷한 방향으로 움직인 날이 많아요.`+
+        ` 나눠 담았어도 분산 효과는 생각보다 작을 수 있어요.</div>`;
+    }else if(worst.res.r>=0.40){
+      html+=`<div class="pf-risk-say">어느 정도 같이 움직이는 편이에요. 완전히 따로 움직이지는 않아요.</div>`;
+    }else{
+      html+=`<div class="pf-risk-say">담은 종목들이 서로 꽤 따로 움직이고 있어요.</div>`;
+    }
+    if(short) html+=`<div class="pf-risk-sub">가격 기록이 모자라 못 잰 조합 ${short}개는 뺐어요.</div>`;
+  }
+  if(trimmed) html+=`<div class="pf-risk-sub">담은 종목이 많아 평가금액 상위 ${PF_MAX_PAIR_CODES}개만 비교했어요(${trimmed}개 제외).</div>`;
+  html+=`<div class="pf-risk-sub">※ 참고 정보예요. 종목 점수나 매수·매도 판단에는 쓰이지 않아요.</div>`;
+  box.innerHTML=html;
+}
+
 function recalcPf(){
   const pf=loadPortfolio();
   let totCost=0, totVal=0, held=0, todayGain=0, annDiv=0;
@@ -5650,7 +5874,12 @@ function recalcPf(){
     }
   });
   const sum=document.getElementById('pfSum'); if(!sum) return;
-  if(held===0){ sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.'; return; }
+  // 수량·평단이 없어도 위험 겹침은 잴 수 있다(업종은 종목 수 기준, 상관계수는
+  // 가격 이력만 쓴다). 여기서 그냥 return하면 담기만 한 사용자가 못 보게 된다.
+  if(held===0){
+    sum.innerHTML='수량·평단을 입력하면 총 평가액·손익·오늘 손익·예상 배당이 여기 표시돼요.';
+    schedulePfRisk(); return;
+  }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
   const col=v=>v>0?'var(--green)':(v<0?'var(--red)':'var(--ink)');
   const mood = plPct>5?'🤑':plPct>0?'🙂':plPct<-5?'😱':'😟';
@@ -5662,6 +5891,16 @@ function recalcPf(){
     <span>오늘 <b style="color:${col(todayGain)}">${todayGain>0?'+':''}${won(Math.round(todayGain))}</b></span>
     <span>연 예상 배당 <b>${won(Math.round(annDiv))}</b></span>
   </div>`;
+  schedulePfRisk();
+}
+
+// 위험 겹침은 수량·평단을 한 글자 칠 때마다 다시 계산할 필요가 없다.
+// 상관계수는 입력값과 무관하고(가격 이력만 씀), 업종 비중만 수량을 본다.
+// 타이핑이 멈춘 뒤 한 번만 계산해서 입력이 밀리지 않게 한다.
+let PF_RISK_TIMER=null;
+function schedulePfRisk(){
+  clearTimeout(PF_RISK_TIMER);
+  PF_RISK_TIMER=setTimeout(renderPfRisk,180);
 }
 
 // 입력 저장(이벤트 위임 · #portfolio는 상시 존재) — 숫자(.pf-in) + 메모(.pf-memo)
@@ -12348,7 +12587,9 @@ makeCards(false);
     const rows=(typeof LIVE_HISTORY!=='undefined'&&Array.isArray(LIVE_HISTORY[code]))
       ?LIVE_HISTORY[code].slice():[];
     if(rows.length) return rows.sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
-    const lite=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals&&HOME_BRIEF.signals[code])||null;
+    // HOME_BRIEF는 로드 실패 시 onerror 폴백이 null을 넣는다. typeof는 'object'를
+    // 통과하므로 .signals에서 터진다 — 보드가 통째로 죽는 경로였다(2026-08-26 QA).
+    const lite=(typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF&&HOME_BRIEF.signals&&HOME_BRIEF.signals[code])||null;
     if(!lite) return [];
     const makeRow=(date,call,total,scores,stances)=>{
       const row={date:date||'',call:call||'HOLD',total};
@@ -12366,15 +12607,41 @@ makeCards(false);
     const a=AUTO_AN&&AUTO_AN.stocks&&AUTO_AN.stocks[code], chief=a&&a.chief;
     if(!a||!chief) return null;
     return {date:a.updated||AUTO_AN.generatedAt||'',call:chief.call||'HOLD',total:chief.total,
-      confidence:chief.confidence,taro:a.taro,diana:a.diana,nova:a.nova,flow:a.flow,tier:'auto'};
+      confidence:chief.confidence,taro:a.taro,diana:a.diana,nova:a.nova,flow:a.flow,tier:'auto',
+      // 비교 조건. 이전 판단과 이 두 가지가 다르면 순수한 종목 판단 변화가 아니라
+      // 모델·Universe가 바뀐 효과가 섞인 것이라, conditionChanged()가 걸러낸다.
+      modelVersion:chief.modelVersion||null,
+      coverageVersion:(AUTO_AN&&AUTO_AN.coverageUniverseVersion)||null};
   }
+  // 날짜의 '날' 부분만 본다. history는 "2026-08-26", 당일 분석은 "2026-08-26 16:26"
+  // 형식이라, 문자열을 통째로 비교하면 같은 날인데도 당일 값이 항상 더 크게 나온다.
+  const dayOf=v=>String(v||'').slice(0,10);
+  // ⭐ '오늘 변화'는 오늘과 '직전 거래일'을 비교해야 한다.
+  //
+  // 2026-08-26 감사에서 찾은 결함: 예전 코드는 live.date > latest.date를 문자열로
+  // 비교했다. history.js가 로드된 상태에서는 두 값이 같은 날("2026-08-26"과
+  // "2026-08-26 16:26")인데도 live가 항상 이겨서, previous가 '어제'가 아니라
+  // '오늘 자기 자신의 기록'이 됐다. 둘 다 같은 분석 배치에서 나온 값이라 판단이
+  // 늘 같고, 그래서 실제로 64종목의 판단이 바뀐 날에도 변화 0건으로 보였다.
+  //
+  // 지금까지 이게 안 보인 이유는 history.js가 지연 로딩이라 첫 화면에선
+  // HOME_BRIEF의 어제/오늘 쌍으로 폴백했기 때문이다. 하지만 차트나 포트폴리오
+  // 겹침 보기로 history.js가 한 번 로드되면 그때부터 보드가 눈이 멀었다.
   function signalFor(code){
     const rows=historyRows(code);
-    let latest=rows[rows.length-1]||autoRow(code);
+    let latest=rows[rows.length-1]||null;
     let previous=rows.length>1?rows[rows.length-2]:null;
     const live=autoRow(code);
-    if(live&&(!latest||String(live.date||'')>String(latest.date||''))){
-      previous=latest; latest=live;
+    if(live){
+      if(!latest){ latest=live; }
+      else if(dayOf(live.date)>dayOf(latest.date)){
+        // 진짜 새 거래일 — 직전 기록이 비교 대상이 된다.
+        previous=latest; latest=live;
+      }else if(dayOf(live.date)===dayOf(latest.date)){
+        // 같은 날의 더 최신 값. 값만 갈아끼우고 비교 대상(previous)은 그대로 둔다.
+        latest=live;
+      }
+      // live가 더 오래됐으면(캐시 등) 저장된 기록을 그대로 믿는다.
     }
     return latest?{code,latest,previous}:null;
   }
@@ -12417,9 +12684,34 @@ makeCards(false);
     const d=Number(signal.latest.total)-Number(signal.previous.total);
     return Number.isFinite(d)?d:0;
   }
+  // 두 판단이 '같은 조건'에서 나왔는가. 모델이나 분석 대상 종목 집합이 그 사이에
+  // 바뀌었으면, 점수가 움직인 게 종목 때문인지 모델 때문인지 구분할 수 없다.
+  // 그런 종목은 '오늘 변화'로 올리지 않는다(무시하는 게 아니라 셈에서 뺀다).
+  function conditionChanged(signal){
+    const a=signal.previous, b=signal.latest;
+    if(!a||!b) return false;
+    // 한쪽이 비어 있으면 '달라졌다'고 단정하지 않는다. 옛 history 항목에는
+    // modelVersion이 아예 없어서, 없는 것을 변화로 읽으면 정상 변화까지 다 사라진다.
+    const differs=(x,y)=>!!(x&&y&&x!==y);
+    return differs(a.modelVersion,b.modelVersion)||differs(a.coverageVersion,b.coverageVersion);
+  }
+  // ⭐ '의미 있는 변화'의 기준은 CHIEF 판단(BUY/HOLD/SELL)이 실제로 바뀐 것 하나뿐이다.
+  //
+  // 예전 기준: callChanged || |종합점수 변화| >= 4 || |개별 분석가 점수 변화| >= 8
+  // 그 4와 8은 설계 문서·테스트·근거가 저장소 어디에도 없었다(2026-08-26 감사).
+  // 점수는 매일 조금씩 흔들리므로, 근거 없는 선을 그으면 "오늘 크게 바뀐 종목"이
+  // 매일 몇 개씩 만들어진다. 실제로는 아무 판단도 바뀌지 않았는데도 그렇다.
+  // 화면이 바빠 보이려고 숫자를 지어내는 셈이라 v1 기준에서 뺐다.
+  //
+  // 점수 변화는 버리지 않는다 — 이미 판단이 바뀐 종목의 '설명'으로 카드 안에 쓴다
+  // (reasonOf·strongestDelta). 선정 기준이 아니라 부가정보라는 뜻이다.
+  //
+  // RISK 등급 변화는 아직 못 쓴다: history.js에 riskGrade가 저장된 적이 없어서
+  // (실측 0건) 이전 등급을 알 방법이 없다. 지금 알고리즘으로 과거 Risk를 다시
+  // 계산해 "그때 등급"이라고 부르는 건 없는 기록을 지어내는 것이다. 앞으로
+  // 저장되기 시작하면 그때부터 Priority 2로 더한다(과거 소급 없음).
   function meaningful(signal){
-    const d=strongestDelta(signal);
-    return callChanged(signal)||Math.abs(totalDelta(signal))>=4||Math.abs(d&&d.delta||0)>=8;
+    return callChanged(signal)&&!conditionChanged(signal);
   }
   function toneOf(signal){
     const d=totalDelta(signal);
@@ -12431,12 +12723,10 @@ makeCards(false);
     });
   }
 
-  function representativeSignals(){
-    const signals=[];
-    MEGA_CAP.forEach(code=>{ const s=signalFor(code); if(s) signals.push(s); });
-    return signals.sort((a,b)=>String(b.latest.date||'').localeCompare(String(a.latest.date||''))||
-      Math.abs(totalDelta(b))-Math.abs(totalDelta(a))).slice(0,5);
-  }
+  // representativeSignals()는 2026-08-26에 제거했다. 변화가 없을 때 시가총액 상위
+  // 종목을 끌어와 같은 '변화 카드'로 그리던 함수인데, 그 종목들은 아무것도 바뀌지
+  // 않았는데 "→" 화살표가 붙어 나와서 보는 사람이 오늘 뭔가 달라졌다고 읽었다.
+  // 없는 변화를 지어내는 자리라 되살리지 않는다(renderChanges 주석 참고).
   // 종목 시세 카드(#quote)의 "최근 종가 흐름" 바로 아래 넣는 "그 종목의 5인 판단 변화" 카드.
   // 새 점수만 보여주지 않고, 이전 판단과 무엇이 달라졌는지 함께 보여준다.
   function judgeCardHTML(signal){
@@ -12467,7 +12757,7 @@ makeCards(false);
   function marketChanges(exclude){
     const signals=[];
     const source=(typeof LIVE_HISTORY!=='undefined'&&LIVE_HISTORY)||
-      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF.signals)||{});
+      ((typeof HOME_BRIEF!=='undefined'&&HOME_BRIEF&&HOME_BRIEF.signals)||{});
     for(const code in source){
       if(exclude&&exclude.has(code)) continue;
       const signal=signalFor(code);
@@ -12496,21 +12786,39 @@ makeCards(false);
     const desc=document.getElementById('homeChangesDesc');
     const count=document.getElementById('homeChangeCount');
     const unit=document.getElementById('homeChangeUnit');
+    // ⭐ 변화가 없으면 없다고 말한다.
+    //
+    // 예전에는 관심종목에도 시장에도 변화가 없을 때 representativeSignals()로
+    // 시가총액 상위 종목을 끌어와 같은 '변화 카드'에 그렸다. 그 종목들은 아무것도
+    // 바뀌지 않았는데 "→" 화살표가 붙은 카드로 나오니, 보는 사람은 오늘 뭔가
+    // 달라졌다고 읽는다. 없는 변화를 있는 것처럼 보이게 하는 자리라 뺐다.
+    //
+    // 시장 변화(marketChanges)를 대신 보여주는 것은 그대로 둔다 — 그건 실제로
+    // 판단이 바뀐 종목이라 거짓이 아니다. 다만 '내 종목 변화'가 아니라는 것을
+    // 문구로 분명히 한다. 둘 다 0이면 빈 상태(아래 change-empty)로 간다.
     if(watchCodes.length){
-      count.textContent=changed.length;
-      unit.textContent='개 관심종목 변화';
       if(changed.length){
-        desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 중요한 변화부터 보여드려요.`;
+        count.textContent=changed.length;
+        unit.textContent='개 관심종목 변화';
+        desc.textContent=`저장한 관심종목 ${watchCodes.length}개 중 판단이 바뀐 종목이에요.`;
       }else{
+        // ⚠️ 헤더 숫자와 화면 내용이 어긋나면 안 된다. 관심종목 변화가 0건인데
+        //    "0개 관심종목 변화"라고 써 놓고 시장 카드 3장을 그리면, 보는 사람은
+        //    그 3장이 자기 관심종목이라고 읽는다. 지금 화면에 실제로 보이는 것을
+        //    세서 그것의 이름을 붙인다.
+        //    (판정 기준이 'CHIEF 판단 변화'로 좁아지면서 이 분기가 상시 경로가
+        //     됐다 — 실측 598종목 중 판단이 바뀌는 건 하루 60여 건이다.)
         shown=marketChanges(watchSet).slice(0,3);
-        if(!shown.length) shown=representativeSignals().filter(x=>!watchSet.has(x.code)).slice(0,3);
-        desc.textContent='관심종목 판단은 유지 중이에요. 대신 시장에서 변화가 큰 종목을 보여드려요.';
+        count.textContent=shown.length;
+        unit.textContent=shown.length?'개 시장 변화':'개 변화';
+        desc.textContent=shown.length
+          ?`관심종목 ${watchCodes.length}개는 판단 그대로예요. 대신 시장에서 판단이 바뀐 종목을 보여드려요.`
+          :'오늘은 관심종목도 시장도 판단이 바뀐 곳이 없어요.';
       }
     }else{
       shown=marketChanges().slice(0,3);
-      if(!shown.length) shown=representativeSignals().slice(0,3);
       count.textContent=shown.length;
-      unit.textContent=shown.some(meaningful)?'개 시장 변화':'개 최근 기록';
+      unit.textContent='개 시장 변화';
       desc.textContent='관심종목을 저장하면 다음 방문부터 내 종목 변화가 먼저 보여요.';
     }
     shown=shown.slice(0,3);
