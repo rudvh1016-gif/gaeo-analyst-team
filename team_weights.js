@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-27 15:01",
+ "generatedAt": "2026-08-27 15:19",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2682,
-   "diana": 0.1284,
-   "nova": 0.2724,
-   "flow": 0.331
+   "taro": 0.268,
+   "diana": 0.1287,
+   "nova": 0.2681,
+   "flow": 0.3352
   },
   "acc": {
    "taro": {
-    "n": 1702,
-    "acc": 43.6,
-    "adjustedAcc": 44.0,
+    "n": 1706,
+    "acc": 43.5,
+    "adjustedAcc": 43.9,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,35 +47,35 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 290,
-    "acc": 45.5,
-    "adjustedAcc": 46.8,
+    "n": 291,
+    "acc": 44.7,
+    "adjustedAcc": 46.2,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 317,
-    "acc": 51.4,
-    "adjustedAcc": 51.0,
+    "n": 316,
+    "acc": 51.9,
+    "adjustedAcc": 51.4,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 2309,
+  "graded": 2313,
   "team": {
-   "hit": 1453,
-   "miss": 864,
-   "n": 2317,
-   "acc": 62.7
+   "hit": 1457,
+   "miss": 859,
+   "n": 2316,
+   "acc": 62.9
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2657,
-    "diana": 0.1294,
-    "nova": 0.2825,
-    "flow": 0.3224
+    "taro": 0.2651,
+    "diana": 0.1297,
+    "nova": 0.2795,
+    "flow": 0.3257
    },
    "acc": {
     "taro": {
@@ -112,16 +112,16 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2752,
-    "diana": 0.1267,
-    "nova": 0.2646,
-    "flow": 0.3336
+    "taro": 0.2745,
+    "diana": 0.127,
+    "nova": 0.2615,
+    "flow": 0.337
    },
    "acc": {
     "taro": {
      "n": 202,
-     "acc": 48.5,
-     "adjustedAcc": 49.1,
+     "acc": 48.0,
+     "adjustedAcc": 48.8,
      "days": 5,
      "deadband": 1.0
     },

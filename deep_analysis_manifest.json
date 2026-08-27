@@ -1,6 +1,26 @@
 {
-  "generatedFrom": "2026-08-21 09:46",
+  "generatedFrom": "2026-08-27 15:15",
   "records": [
+    {
+      "snapshotId": "002990-2026-08-27-1515",
+      "loc": "https://gaeoteam.com/research/deep-analysis/002990/2026-08-27-1515/",
+      "lastmod": "2026-08-27"
+    },
+    {
+      "snapshotId": "003490-2026-08-27-1515",
+      "loc": "https://gaeoteam.com/research/deep-analysis/003490/2026-08-27-1515/",
+      "lastmod": "2026-08-27"
+    },
+    {
+      "snapshotId": "006730-2026-08-27-1515",
+      "loc": "https://gaeoteam.com/research/deep-analysis/006730/2026-08-27-1515/",
+      "lastmod": "2026-08-27"
+    },
+    {
+      "snapshotId": "195940-2026-08-27-1515",
+      "loc": "https://gaeoteam.com/research/deep-analysis/195940/2026-08-27-1515/",
+      "lastmod": "2026-08-27"
+    },
     {
       "snapshotId": "002990-2026-08-21-0946",
       "loc": "https://gaeoteam.com/research/deep-analysis/002990/2026-08-21-0946/",
@@ -155,18 +175,33 @@
   "archivePages": [
     {
       "loc": "https://gaeoteam.com/research/deep-analysis/",
-      "lastmod": "2026-08-21"
+      "lastmod": "2026-08-27"
     },
     {
       "loc": "https://gaeoteam.com/research/deep-analysis/page/2/",
-      "lastmod": "2026-08-21"
+      "lastmod": "2026-08-27"
     }
   ],
   "stockHubs": [
     {
       "ticker": "002990",
       "loc": "https://gaeoteam.com/research/deep-analysis/002990/",
-      "lastmod": "2026-08-21"
+      "lastmod": "2026-08-27"
+    },
+    {
+      "ticker": "003490",
+      "loc": "https://gaeoteam.com/research/deep-analysis/003490/",
+      "lastmod": "2026-08-27"
+    },
+    {
+      "ticker": "006730",
+      "loc": "https://gaeoteam.com/research/deep-analysis/006730/",
+      "lastmod": "2026-08-27"
+    },
+    {
+      "ticker": "195940",
+      "loc": "https://gaeoteam.com/research/deep-analysis/195940/",
+      "lastmod": "2026-08-27"
     },
     {
       "ticker": "001450",
