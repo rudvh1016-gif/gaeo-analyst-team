@@ -108,7 +108,7 @@ const DART_TODAY = {
    "name": "현대모비스",
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -116,7 +116,15 @@ const DART_TODAY = {
    "name": "태광산업",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "086520",
+   "name": "에코프로",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -124,15 +132,7 @@ const DART_TODAY = {
    "name": "아모레퍼시픽",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -140,7 +140,15 @@ const DART_TODAY = {
    "name": "아모레퍼시픽",
    "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004990",
+   "name": "롯데지주",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -148,15 +156,7 @@ const DART_TODAY = {
    "name": "SK이터닉스",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "326030",
-   "name": "SK바이오팜",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -164,7 +164,7 @@ const DART_TODAY = {
    "name": "LG",
    "title": "현금ㆍ현물배당을위한주주명부폐쇄(기준일)결정",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
   },
   {
@@ -172,39 +172,15 @@ const DART_TODAY = {
    "name": "LG",
    "title": "현금ㆍ현물배당결정",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
-  },
-  {
-   "code": "095340",
-   "name": "ISC",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "017940",
-   "name": "E1",
-   "title": "주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "375500",
-   "name": "DL이앤씨",
-   "title": "[기재정정]단일판매ㆍ공급계약체결",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
-   "isCorrection": true
   },
   {
    "code": "000210",
    "name": "DL",
    "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
    "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:19:29.359732+00:00",
+   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": true
   },
   {
