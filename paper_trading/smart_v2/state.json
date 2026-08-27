@@ -609,6 +609,6 @@
  ],
  "openMeta": {},
  "lastProcessedModelVersion": "baseline-risk-v2",
- "lastCycleAt": "2026-08-27T09:35:08+09:00",
- "lastCycleResult": "BASELINE_CAPTURED — 598종목 기준 상태 기록, 거래 없음"
+ "lastCycleAt": "2026-08-27T10:05:05+09:00",
+ "lastCycleResult": "CYCLE_OK — NO_ACTION"
 }
