@@ -1,6 +1,6 @@
 {
  "schemaVersion": "gaeo_flow_history_v1",
- "updatedAt": "2026-08-26 09:13",
+ "updatedAt": "2026-08-27 09:11",
  "fields": [
   "frgn",
   "org",
@@ -12,17 +12,17 @@
  "source": "analysis_data.json · stocks[code].info.dealTrends (네이버 통합 API)",
  "policy": "APPEND-ONLY · 기록된 (날짜, 종목)은 덮어쓰지도 지우지도 않는다",
  "note": "FLOW 원본 축적용 자료. 화면·점수 계산에는 쓰이지 않는다.",
- "totalDays": 10,
+ "totalDays": 11,
  "start": "2026-08-11",
- "end": "2026-08-25",
+ "end": "2026-08-26",
  "months": [
   {
    "month": "2026-08",
    "file": "2026-08.json",
-   "days": 10,
+   "days": 11,
    "start": "2026-08-11",
-   "end": "2026-08-25",
-   "rows": 5980
+   "end": "2026-08-26",
+   "rows": 6578
   }
  ]
 }
