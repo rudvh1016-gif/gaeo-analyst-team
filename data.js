@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-08-27 종가 (15:36 수집)
+// 자동 생성: update_prices.py · 2026-08-27 종가 (15:48 수집)
 const LIVE_DATA = {
- "date": "2026-08-27 종가 (15:36 수집)",
+ "date": "2026-08-27 종가 (15:48 수집)",
  "indices": {
   "KOSPI": {
    "value": 6912.37,
@@ -380,9 +380,9 @@ const LIVE_DATA = {
   },
   "068270": {
    "name": "셀트리온",
-   "price": 191000,
-   "rate": -1.24,
-   "per": 29.08,
+   "price": 191300,
+   "rate": -1.09,
+   "per": 29.13,
    "pbr": 2.44,
    "roe": 8.4,
    "eps": 6568.0,
@@ -7790,12 +7790,12 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1380.5,
-  "change": -5.5,
-  "rate": -0.4
+  "value": 1381.0,
+  "change": -5.0,
+  "rate": -0.36
  },
  "marketBrief": {
-  "sourceAsOf": "2026-08-27 종가 (15:36 수집)",
+  "sourceAsOf": "2026-08-27 종가 (15:48 수집)",
   "breadth": {
    "total": 598,
    "up": 275,
