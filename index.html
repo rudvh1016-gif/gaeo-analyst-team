@@ -8184,7 +8184,13 @@ renderHomeDeepAnalysis();
     if(toggle&&panel) toggle.onclick=()=>{
       if(!panel.hidden){ closePanel(); return; }
       const mobile=window.matchMedia('(max-width:900px)').matches;
-      if(list) list.innerHTML=mobile?fullMobile:fullDesktop;
+      if(list){
+        list.innerHTML=mobile?fullMobile:fullDesktop;
+        // ⭐ 2026-08-27 버그수정 — 전체 목록은 패널을 열 때가 돼서야 innerHTML로
+        // 채워지므로, box 전체에 한 번만 걸어둔 최초 클릭 바인딩(위 preview용)이
+        // 이 안의 종목 버튼에는 닿지 않았다(눌러도 반응 없음). 채운 직후 다시 건다.
+        list.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock));
+      }
       panel.hidden=false;
       toggle.setAttribute('aria-expanded','true');
       toggle.textContent='BUY 목록 접기 ↑';
