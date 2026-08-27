@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 12:03",
- "dataCutoff": "2026-08-27 12:03 장중",
+ "generatedAt": "2026-08-27 12:32",
+ "dataCutoff": "2026-08-27 12:32 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 3,
-   "why": "20거래일 +107.5% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +108.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.4,
+   "gapPct": 22.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,20 +24,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +99.1% · 20일선 위",
+   "why": "20거래일 +99.4% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.6,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "085620",
-   "name": "미래에셋생명",
-   "sector": "보험",
-   "sectorRank": 7,
-   "why": "20거래일 +97.1% · 20일선 위",
-   "overheat": true,
-   "gapPct": 34.6,
+   "gapPct": 32.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -51,27 +40,38 @@ window.ROTATION_PICKS = {
    "gapPct": 22.0,
    "call": "HOLD",
    "callConflict": false
+  },
+  {
+   "code": "323280",
+   "name": "태성",
+   "sector": "반도체",
+   "sectorRank": 6,
+   "why": "20거래일 +95.4% · 20일선 위",
+   "overheat": false,
+   "gapPct": 11.2,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 64.4,
+  "breadthPct": 63.7,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6942.84,
-    "ma20": 6563.58,
+    "close": 6941.4,
+    "ma20": 6563.51,
     "above": true,
-    "gapPct": 5.78
+    "gapPct": 5.76
    },
    "KOSDAQ": {
-    "close": 833.02,
-    "ma20": 809.09,
+    "close": 837.67,
+    "ma20": 809.32,
     "above": true,
-    "gapPct": 2.96
+    "gapPct": 3.5
    }
   }
  },
