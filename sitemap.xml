@@ -1072,17 +1072,32 @@
   </url>
   <url>
     <loc>https://gaeoteam.com/research/deep-analysis/</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/research/deep-analysis/page/2/</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/research/deep-analysis/002990/</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/003490/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/006730/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/195940/</loc>
+    <lastmod>2026-08-27</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -1194,6 +1209,26 @@
     <loc>https://gaeoteam.com/research/deep-analysis/475150/</loc>
     <lastmod>2026-07-23</lastmod>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/002990/2026-08-27-1515/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/003490/2026-08-27-1515/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/006730/2026-08-27-1515/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/research/deep-analysis/195940/2026-08-27-1515/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/research/deep-analysis/002990/2026-08-21-0946/</loc>
