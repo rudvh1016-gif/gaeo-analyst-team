@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 13:33",
- "dataCutoff": "2026-08-27 13:33 장중",
+ "generatedAt": "2026-08-27 14:03",
+ "dataCutoff": "2026-08-27 14:03 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +108.2% · 20일선 위",
+   "why": "20거래일 +105.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.8,
+   "gapPct": 21.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +99.5% · 20일선 위",
+   "why": "20거래일 +99.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.9,
+   "gapPct": 32.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,7 +34,7 @@ window.ROTATION_PICKS = {
    "code": "356860",
    "name": "티엘비",
    "sector": "반도체",
-   "sectorRank": 6,
+   "sectorRank": 5,
    "why": "20거래일 +95.3% · 20일선 위",
    "overheat": true,
    "gapPct": 34.3,
@@ -45,33 +45,33 @@ window.ROTATION_PICKS = {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
-   "sectorRank": 6,
-   "why": "20거래일 +94.2% · 20일선 위",
+   "sectorRank": 5,
+   "why": "20거래일 +93.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 10.6,
+   "gapPct": 10.4,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.5,
+  "breadthPct": 62.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6923.79,
-    "ma20": 6562.63,
+    "close": 6899.85,
+    "ma20": 6561.43,
     "above": true,
-    "gapPct": 5.5
+    "gapPct": 5.16
    },
    "KOSDAQ": {
-    "close": 836.4,
-    "ma20": 809.26,
+    "close": 834.03,
+    "ma20": 809.14,
     "above": true,
-    "gapPct": 3.35
+    "gapPct": 3.08
    }
   }
  },
