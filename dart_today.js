@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-27 13:02",
- "priceLabel": "2026-08-27 12:54 장중",
- "count": 293,
+ "generatedAt": "2026-08-27 13:52",
+ "priceLabel": "2026-08-27 13:44 장중",
+ "count": 296,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "348370",
+   "name": "엔켐",
+   "title": "사채권자집회결의",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010120",
+   "name": "LS일렉트릭",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260827",
+   "detectedAt": "2026-08-27T04:51:01.123388+00:00",
+   "isCorrection": false
+  },
   {
    "code": "030610",
    "name": "교보증권",
@@ -539,14 +571,6 @@ const DART_TODAY = {
    "code": "005880",
    "name": "대한해운",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:55:06.004872+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T06:55:06.004872+00:00",
    "isCorrection": false

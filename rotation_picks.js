@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 13:03",
- "dataCutoff": "2026-08-27 13:03 장중",
+ "generatedAt": "2026-08-27 13:52",
+ "dataCutoff": "2026-08-27 13:52 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +107.7% · 20일선 위",
+   "why": "20거래일 +107.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.5,
+   "gapPct": 22.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,20 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +99.1% · 20일선 위",
+   "why": "20거래일 +99.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.6,
+   "gapPct": 33.1,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "356860",
+   "name": "티엘비",
+   "sector": "반도체",
+   "sectorRank": 5,
+   "why": "20거래일 +95.6% · 20일선 위",
+   "overheat": true,
+   "gapPct": 34.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,20 +46,9 @@ window.ROTATION_PICKS = {
    "name": "대한광통신",
    "sector": "통신",
    "sectorRank": 8,
-   "why": "20거래일 +98.1% · 20일선 위 · 거래량 평소의 1.8배",
+   "why": "20거래일 +98.3% · 20일선 위 · 거래량 평소의 1.9배",
    "overheat": false,
-   "gapPct": 21.7,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "323280",
-   "name": "태성",
-   "sector": "반도체",
-   "sectorRank": 6,
-   "why": "20거래일 +93.8% · 20일선 위",
-   "overheat": false,
-   "gapPct": 10.4,
+   "gapPct": 21.8,
    "call": "HOLD",
    "callConflict": false
   }
@@ -62,16 +62,16 @@ window.ROTATION_PICKS = {
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6926.69,
-    "ma20": 6562.77,
+    "close": 6913.35,
+    "ma20": 6562.11,
     "above": true,
-    "gapPct": 5.55
+    "gapPct": 5.35
    },
    "KOSDAQ": {
-    "close": 835.77,
-    "ma20": 809.23,
+    "close": 834.4,
+    "ma20": 809.16,
     "above": true,
-    "gapPct": 3.28
+    "gapPct": 3.12
    }
   }
  },
