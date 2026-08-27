@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 26 Aug 2026 07:44:54 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 27 Aug 2026 00:08:07 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</title>
+    <link>https://gaeoteam.com/snap/news/57.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/57.html</guid>
+    <category>뉴스분석</category>
+    <description>엔비디아가 2027 회계연도 2분기 매출 962억 2,000만 달러(약 133조 원)와 EPS 2.22달러로 시장 예상을 넘었어요. 진짜 화제는 CFO가 밝힌 내년 매출 70% 성장 가이던스였는데, 다만 이 숫자엔 중국 매출이 통째로 빠져 있고 최근 4개 분기 연속 「실적은 좋아도 다음날 주가는 빠지는」 전례도 있어서 국내 반도체주 영향까지 함께 짚어봤어요.</description>
+    <pubDate>Thu, 27 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월26일 종가, 건설·원전 급등에 코스피 0.97% 상승, 코스닥은 제자리</title>
     <link>https://gaeoteam.com/snap/news/56.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/35.html</guid>
     <category>뉴스분석</category>
     <description>코스피가 하루 만에 17.91% 폭등하며 6,595선에 마감했어요. 7월 한 달간 -25% 넘게 빠졌던 이유와, 오늘 반도체가 지수를 끌어올린 배경, 8월에 반등이 이어질지까지 정리했어요.</description>
-    <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</title>
-    <link>https://gaeoteam.com/snap/news/34.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/34.html</guid>
-    <category>뉴스분석</category>
-    <description>호텔신라 2분기 영업이익이 611억원으로 606% 급증했는데, 정작 매출은 5.2% 줄었어요. 적자였던 면세사업부가 어디서 어떻게 흑자로 돌아섰는지 채널별로 자세히 정리했어요.</description>
     <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

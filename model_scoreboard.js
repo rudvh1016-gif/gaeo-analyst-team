@@ -6,7 +6,7 @@ const MODEL_SCOREBOARD = {
   "current": "GAEO_COVERAGE_V2_600",
   "note": "500종목 시절(~2026-08-14)과 600종목 구간(2026-08-15~)을 섞지 않고 나눠 집계합니다."
  },
- "generatedAt": "2026-08-26T07:27:03.369915+00:00",
+ "generatedAt": "2026-08-27T00:13:07.723941+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -60,15 +60,15 @@ const MODEL_SCOREBOARD = {
     },
     "GAEO_COVERAGE_V2_600": {
      "actionDistribution": {
-      "BUY": 135,
-      "HOLD": 1472,
-      "SELL": 187
+      "BUY": 143,
+      "HOLD": 1725,
+      "SELL": 234
      },
-     "matured": 1794,
+     "matured": 2102,
      "pending": 0,
-     "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+     "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
      "status": "INSUFFICIENT_EVIDENCE",
-     "uniqueDates": 3
+     "uniqueDates": 4
     }
    },
    "byModelVersion": {
@@ -118,15 +118,15 @@ const MODEL_SCOREBOARD = {
     },
     "base-2026-08-15-parity-hotfix": {
      "actionDistribution": {
-      "BUY": 135,
-      "HOLD": 1472,
-      "SELL": 187
+      "BUY": 143,
+      "HOLD": 1725,
+      "SELL": 234
      },
-     "matured": 1794,
-     "pending": 2990,
-     "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+     "matured": 2102,
+     "pending": 3280,
+     "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
      "status": "INSUFFICIENT_EVIDENCE",
-     "uniqueDates": 3
+     "uniqueDates": 4
     }
    },
    "candidates": [],
@@ -145,16 +145,16 @@ const MODEL_SCOREBOARD = {
     },
     "5": {
      "actionDistribution": {
-      "BUY": 135,
-      "HOLD": 1472,
-      "SELL": 187
+      "BUY": 143,
+      "HOLD": 1725,
+      "SELL": 234
      },
-     "matured": 1794,
+     "matured": 2102,
      "note": "현재 버전(2026-08-15 hotfix 이후) 기록을 축적하는 중입니다",
-     "pending": 2990,
-     "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+     "pending": 3280,
+     "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
      "status": "INSUFFICIENT_EVIDENCE",
-     "uniqueDates": 3
+     "uniqueDates": 4
     },
     "60": {
      "matured": 0,
@@ -166,18 +166,18 @@ const MODEL_SCOREBOARD = {
    "icon": "🟢",
    "id": "base_production",
    "internalVersion": null,
-   "maturedCount": 18251,
+   "maturedCount": 18559,
    "note": "현재 사이트에 실제로 보이는 판단입니다.",
-   "pendingCount": 2998,
+   "pendingCount": 3288,
    "primarySelection": null,
    "probabilityMetrics": {
     "status": "NOT_APPLICABLE"
    },
    "producesProbability": false,
-   "recordCount": 21249,
+   "recordCount": 21847,
    "status": "LIVE_PRODUCTION",
    "statusLabel": "실제 서비스",
-   "uniquePredictionDates": 36,
+   "uniquePredictionDates": 37,
    "usesDart": true,
    "withheldCount": 0
   },
@@ -192,27 +192,27 @@ const MODEL_SCOREBOARD = {
     "20": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 4784,
+     "pending": 5382,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     },
     "5": {
      "actionDistribution": {
-      "BUY_CONSIDER": 71,
-      "HOLD_WATCH": 1262,
-      "SELL_CONSIDER": 30,
-      "WATCH": 431
+      "BUY_CONSIDER": 80,
+      "HOLD_WATCH": 1477,
+      "SELL_CONSIDER": 43,
+      "WATCH": 502
      },
-     "matured": 1794,
-     "pending": 2990,
-     "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+     "matured": 2102,
+     "pending": 3280,
+     "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
      "status": "INSUFFICIENT_EVIDENCE",
-     "uniqueDates": 3
+     "uniqueDates": 4
     },
     "60": {
      "actionDistribution": {},
      "matured": 0,
-     "pending": 4784,
+     "pending": 5382,
      "status": "PENDING_NOT_MATURED",
      "uniqueDates": 0
     }
@@ -227,10 +227,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 4784,
+   "recordCount": 5382,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 8,
+   "uniquePredictionDates": 9,
    "usesDart": false
   },
   {
@@ -242,27 +242,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 131,
-        "HOLD_WATCH": 1152,
-        "SELL_CONSIDER": 114,
-        "WATCH": 397
+        "BUY_CONSIDER": 147,
+        "HOLD_WATCH": 1333,
+        "SELL_CONSIDER": 151,
+        "WATCH": 471
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -274,27 +274,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 91,
-        "HOLD_WATCH": 1249,
-        "SELL_CONSIDER": 89,
-        "WATCH": 365
+        "BUY_CONSIDER": 106,
+        "HOLD_WATCH": 1456,
+        "SELL_CONSIDER": 118,
+        "WATCH": 422
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -306,27 +306,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 138,
-        "HOLD_WATCH": 1080,
-        "SELL_CONSIDER": 99,
-        "WATCH": 477
+        "BUY_CONSIDER": 146,
+        "HOLD_WATCH": 1247,
+        "SELL_CONSIDER": 132,
+        "WATCH": 577
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -338,27 +338,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 71,
-        "HOLD_WATCH": 1262,
-        "SELL_CONSIDER": 30,
-        "WATCH": 431
+        "BUY_CONSIDER": 80,
+        "HOLD_WATCH": 1477,
+        "SELL_CONSIDER": 43,
+        "WATCH": 502
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -373,23 +373,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 19136,
+     "pending": 21528,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     },
     "5": {
-     "matured": 7176,
+     "matured": 8408,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 11960,
+     "pending": 13120,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 19136,
+     "pending": 21528,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     }
    },
    "icon": "🧪",
@@ -402,10 +402,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 4784,
+   "recordCount": 5382,
    "status": "SHADOW_TESTING",
    "statusLabel": "그림자 시험",
-   "uniquePredictionDates": 8,
+   "uniquePredictionDates": 9,
    "usesDart": false
   },
   {
@@ -417,27 +417,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 131,
-        "HOLD_WATCH": 1152,
-        "SELL_CONSIDER": 114,
-        "WATCH": 397
+        "BUY_CONSIDER": 147,
+        "HOLD_WATCH": 1333,
+        "SELL_CONSIDER": 151,
+        "WATCH": 471
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -449,27 +449,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 91,
-        "HOLD_WATCH": 1249,
-        "SELL_CONSIDER": 89,
-        "WATCH": 365
+        "BUY_CONSIDER": 106,
+        "HOLD_WATCH": 1456,
+        "SELL_CONSIDER": 118,
+        "WATCH": 422
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -481,27 +481,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 138,
-        "HOLD_WATCH": 1080,
-        "SELL_CONSIDER": 99,
-        "WATCH": 477
+        "BUY_CONSIDER": 146,
+        "HOLD_WATCH": 1247,
+        "SELL_CONSIDER": 132,
+        "WATCH": 577
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -513,27 +513,27 @@ const MODEL_SCOREBOARD = {
       "20": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       },
       "5": {
        "actionDistribution": {
-        "BUY_CONSIDER": 71,
-        "HOLD_WATCH": 1262,
-        "SELL_CONSIDER": 30,
-        "WATCH": 431
+        "BUY_CONSIDER": 80,
+        "HOLD_WATCH": 1477,
+        "SELL_CONSIDER": 43,
+        "WATCH": 502
        },
-       "matured": 1794,
-       "pending": 2990,
-       "reason": "판단일이 3일뿐입니다(최소 20일 필요)",
+       "matured": 2102,
+       "pending": 3280,
+       "reason": "판단일이 4일뿐입니다(최소 20일 필요)",
        "status": "INSUFFICIENT_EVIDENCE",
-       "uniqueDates": 3
+       "uniqueDates": 4
       },
       "60": {
        "actionDistribution": {},
        "matured": 0,
-       "pending": 4784,
+       "pending": 5382,
        "status": "PENDING_NOT_MATURED",
        "uniqueDates": 0
       }
@@ -548,23 +548,23 @@ const MODEL_SCOREBOARD = {
     "20": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 19136,
+     "pending": 21528,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     },
     "5": {
-     "matured": 7176,
+     "matured": 8408,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 11960,
+     "pending": 13120,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     },
     "60": {
      "matured": 0,
      "note": "대표 후보 없음 — 후보별 성적을 펼쳐 보세요",
-     "pending": 19136,
+     "pending": 21528,
      "status": "CANDIDATES_UNDER_TEST",
-     "uniqueDates": 8
+     "uniqueDates": 9
     }
    },
    "icon": "🧪",
@@ -577,10 +577,10 @@ const MODEL_SCOREBOARD = {
     "status": "CALIBRATION_NOT_VALIDATED"
    },
    "producesProbability": true,
-   "recordCount": 4784,
+   "recordCount": 5382,
    "status": "SHADOW_STARTING",
    "statusLabel": "준비중",
-   "uniquePredictionDates": 8,
+   "uniquePredictionDates": 9,
    "usesDart": true
   },
   {
@@ -636,8 +636,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_a"
   },
@@ -645,8 +645,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -654,8 +654,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -663,8 +663,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -672,8 +672,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   },
@@ -681,8 +681,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -690,8 +690,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -699,8 +699,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -708,8 +708,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "base_production",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   },
@@ -717,8 +717,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -726,8 +726,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -735,8 +735,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -744,8 +744,8 @@ const MODEL_SCOREBOARD = {
    "evidenceStatus": "INSUFFICIENT_EVIDENCE",
    "horizon": "5D",
    "leftModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE",
-   "matchedRows": 1794,
-   "matchedUniqueDates": 3,
+   "matchedRows": 2102,
+   "matchedUniqueDates": 4,
    "note": "차이를 판단하기 이릅니다",
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   }
@@ -760,6 +760,6 @@ const MODEL_SCOREBOARD = {
   "status": "REGIME_DATA_INSUFFICIENT"
  },
  "researchKeyAvailable": true,
- "researchRecordDays": 8,
+ "researchRecordDays": 9,
  "schemaVersion": "gaeo_model_registry_v1"
 };
