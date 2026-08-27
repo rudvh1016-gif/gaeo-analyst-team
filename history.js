@@ -92827,6 +92827,35 @@ const LIVE_HISTORY = {
     "score": 78
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-27 15:15",
+   "call": "BUY",
+   "total": 71,
+   "confidence": 58,
+   "base": 28200,
+   "baseAt": "2026-08-27 15:02",
+   "target": "증권사 평균 목표주가 36,700원(+30.1% 상승여력), 1차 저항은 3개월 고점 30,000원, 지지는 MA20 26,338원",
+   "modelVersion": null,
+   "baseModelVersion": null,
+   "judgmentWithheld": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 80
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 55
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 72
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 78
+   }
   }
  ],
  "352820": [
@@ -395668,6 +395697,35 @@ const LIVE_HISTORY = {
     "score": 42
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-27 15:15",
+   "call": "HOLD",
+   "total": 48,
+   "confidence": 42,
+   "base": 15130,
+   "baseAt": "2026-08-27 15:02",
+   "target": "증권사 평균 목표주가 5,700원(-62.3%)으로 현재 주가를 밑도는 상태, 1차 지지는 MA20 12,372원, 저항은 3개월 고점 17,310원",
+   "modelVersion": null,
+   "baseModelVersion": null,
+   "judgmentWithheld": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 66
+   },
+   "diana": {
+    "stance": "neu",
+    "score": 48
+   },
+   "nova": {
+    "stance": "neu",
+    "score": 45
+   },
+   "flow": {
+    "stance": "bear",
+    "score": 33
+   }
   }
  ],
  "003160": [
@@ -534163,6 +534221,35 @@ const LIVE_HISTORY = {
     "score": 50
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-27 15:15",
+   "call": "BUY",
+   "total": 66,
+   "confidence": 52,
+   "base": 42850,
+   "baseAt": "2026-08-27 15:02",
+   "target": "증권사 평균 목표주가 62,857원(+46.7% 상승여력), 1차 저항은 3개월 고점 45,200원, 지지는 MA20 40,910원",
+   "modelVersion": null,
+   "baseModelVersion": null,
+   "judgmentWithheld": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 72
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 78
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 68
+   },
+   "flow": {
+    "stance": "neu",
+    "score": 48
+   }
   }
  ],
  "347700": [
@@ -597475,6 +597562,35 @@ const LIVE_HISTORY = {
     "score": 53
    },
    "tier": "auto"
+  },
+  {
+   "date": "2026-08-27 15:15",
+   "call": "BUY",
+   "total": 70,
+   "confidence": 60,
+   "base": 10860,
+   "baseAt": "2026-08-27 15:02",
+   "target": "증권사 평균 목표주가 17,429원(+60.5% 상승여력), 1차 저항은 3개월 고점 11,740원, 지지는 MA20 10,541원",
+   "modelVersion": null,
+   "baseModelVersion": null,
+   "judgmentWithheld": null,
+   "reboundCheck": null,
+   "taro": {
+    "stance": "bull",
+    "score": 70
+   },
+   "diana": {
+    "stance": "bull",
+    "score": 76
+   },
+   "nova": {
+    "stance": "bull",
+    "score": 72
+   },
+   "flow": {
+    "stance": "bull",
+    "score": 62
+   }
   }
  ],
  "466100": [
