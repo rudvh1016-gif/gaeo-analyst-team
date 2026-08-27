@@ -3,41 +3,41 @@ const DEEP_ANALYSIS_LATEST = [
  {
   "ticker": "002990",
   "stockName": "금호건설",
+  "analysisCreatedAt": "2026-08-27 15:15",
+  "date": "2026-08-27",
+  "permalink": "/research/deep-analysis/002990/2026-08-27-1515/",
+  "summary": "건설 랠리로 4배 급등, 외국인 대량 이탈"
+ },
+ {
+  "ticker": "003490",
+  "stockName": "대한항공",
+  "analysisCreatedAt": "2026-08-27 15:15",
+  "date": "2026-08-27",
+  "permalink": "/research/deep-analysis/003490/2026-08-27-1515/",
+  "summary": "화물운임 강세에 기관 대량 순매수 동반"
+ },
+ {
+  "ticker": "006730",
+  "stockName": "서부T&D",
+  "analysisCreatedAt": "2026-08-27 15:15",
+  "date": "2026-08-27",
+  "permalink": "/research/deep-analysis/006730/2026-08-27-1515/",
+  "summary": "호텔 흑자전환에 용산 개발 기대 가세"
+ },
+ {
+  "ticker": "195940",
+  "stockName": "HK이노엔",
+  "analysisCreatedAt": "2026-08-27 15:15",
+  "date": "2026-08-27",
+  "permalink": "/research/deep-analysis/195940/2026-08-27-1515/",
+  "summary": "케이캡 이익 급증에도 외국인 매도 지속"
+ },
+ {
+  "ticker": "002990",
+  "stockName": "금호건설",
   "analysisCreatedAt": "2026-08-21 09:46",
   "date": "2026-08-21",
   "permalink": "/research/deep-analysis/002990/2026-08-21-0946/",
   "summary": "컨센서스 목표가 3배 위, 외국인은 순매도"
- },
- {
-  "ticker": "001450",
-  "stockName": "현대해상",
-  "analysisCreatedAt": "2026-08-14 11:50",
-  "date": "2026-08-14",
-  "permalink": "/research/deep-analysis/001450/2026-08-14-1150/",
-  "summary": "실적 서프라이즈로 신고가, 목표주가는 이미 넘어섬"
- },
- {
-  "ticker": "009150",
-  "stockName": "삼성전기",
-  "analysisCreatedAt": "2026-08-14 11:50",
-  "date": "2026-08-14",
-  "permalink": "/research/deep-analysis/009150/2026-08-14-1150/",
-  "summary": "MLCC 수요 기대 지속, 밸류에이션 부담은 더 커짐"
- },
- {
-  "ticker": "088350",
-  "stockName": "한화생명",
-  "analysisCreatedAt": "2026-08-14 11:50",
-  "date": "2026-08-14",
-  "permalink": "/research/deep-analysis/088350/2026-08-14-1150/",
-  "summary": "상반기 순익 96% 급증, 단기 과열 신호도 뚜렷"
- },
- {
-  "ticker": "096770",
-  "stockName": "SK이노베이션",
-  "analysisCreatedAt": "2026-08-14 11:50",
-  "date": "2026-08-14",
-  "permalink": "/research/deep-analysis/096770/2026-08-14-1150/",
-  "summary": "정유·배터리 동반 흑자전환, 3분기 배터리 적자 우려는 여전"
  }
 ];
