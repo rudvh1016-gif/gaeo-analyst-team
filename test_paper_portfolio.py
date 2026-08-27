@@ -180,7 +180,7 @@ def build_public(rows, open_meta, state_extra=None):
     finally:
         paper_public.DIR, paper_public.OUT = old_dir, old_out
         shutil.rmtree(tmp, ignore_errors=True)
-    return rc, json.loads(re.search(r"window\.GAEO_PAPER=(.*);\s*$", blob, re.S).group(1))
+    return rc, json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n", blob).group(1))  # V1 줄만
 
 rc, pub = build_public([open_row("a", "005930", 93700.0, 10),
                         open_row("b", "000660", 12660.0, 78)],

@@ -1453,6 +1453,14 @@
   .pv-tab:hover{color:var(--t2)}
   .pv-tab.on{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
   .pv-tab:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:4px}
+  /* 모의투자 전략 버전 전환(V1/V2/V3) — 장식 없이 테두리·타이포로만 구분(디자인 규칙) */
+  .pv-vers{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap}
+  .pv-ver{appearance:none;cursor:pointer;font:inherit;font-size:13px;color:var(--t2);
+    background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+  .pv-ver:hover{color:var(--ink)}
+  .pv-ver.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+  .pv-ver:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+  .pv-ver-desc{margin:0 0 18px;font-size:13px;line-height:1.6;color:var(--t2)}
   /* 오늘 거래 — 매수/매도 두 묶음. 없을 때도 오류처럼 보이지 않게 문장으로 말한다 */
   .pv-today{border-top:1px solid var(--line)}
   .pv-td-grp{padding:14px 2px;border-bottom:1px solid var(--line)}
@@ -6311,6 +6319,7 @@ if(typeof window!=='undefined') window.RW_SET=v=>{ RW_DATA=v; RW_LOADING=false; 
    자동 재조회(2분)로 다시 그려도 사용자가 펼쳐 둔 것이 닫히지 않게 유지한다. */
 const PV_OPEN=new Set();          // 펼쳐 둔 보유 종목 symbol
 let PV_VIEW='holdings';           // 'holdings' | 'history'
+let PV_VER='v1';                  // 'v1' | 'v2' | 'v3' — 모의투자 전략 버전(각각 별도 가상계좌)
 let PV_DAY=null;                  // 기록에서 열어 둔 날짜(YYYY-MM-DD)
 let PV_HISTORY=undefined;         // undefined=미로드 · null=실패 · object=성공
 let PV_HIST_LOADING=false;
@@ -6365,7 +6374,10 @@ function reboundHTML(){
 function renderPaper(){
   const el=document.getElementById('paperView');
   if(!el) return;
-  const P=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
+  /* 전략 버전 탭 — 각 버전은 완전히 분리된 별도 가상계좌(각 1,000만원)라
+     스냅샷 전역도 따로 온다(paper_public.js가 세 개를 함께 배포). */
+  const PV_SNAPS={v1:'GAEO_PAPER',v2:'GAEO_PAPER_V2',v3:'GAEO_PAPER_V3'};
+  const P=(typeof window!=='undefined'&&window[PV_SNAPS[PV_VER]])?window[PV_SNAPS[PV_VER]]:null;
   /* Hero는 짧게. 긴 원칙 설명은 아래 「어떻게 기록하나요?」로 내린다.
      사용자 화면에는 내부 코드(PAPER_BASELINE_V1·BASELINE_ONLY 등)를 노출하지 않는다. */
   /* 🎯 2026-08-21: 실제 투자 화면의 정보 위계를 따른다 — 돈이 먼저, 설명은 나중.
@@ -6374,10 +6386,26 @@ function renderPaper(){
      여기서는 무엇을 보는 화면인지와 실제 주문이 없다는 고지만 한 줄로 남긴다. */
   const lede=`<h2 class="pv-title">모의투자</h2>
     <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다. <b>실제 주문은 발생하지 않습니다.</b></p>`;
+  /* 버전 안내 — 어떤 계좌를 보고 있는지 한 줄로. 규칙 상세는 아래 「어떻게 기록하나요?」. */
+  const PV_META={
+    v1:{tab:'V1 기본',desc:'GAEO 판단이 「매수 고려」로 바뀐 종목을 그대로 사고, 5거래일 또는 「매도 고려」 전환에 파는 기준 계좌예요.'},
+    v2:{tab:'V2 스마트',desc:'V1과 똑같이 사되, 5거래일이 돼도 판단이 좋으면 계속 들고 가는 비교 계좌예요(안전상한 60거래일).'},
+    v3:{tab:'V3 단타',desc:'시장이 좋은 날에만 단기 상승 흐름 종목을 하루 최대 4개 사고, 익절 +3% · 손절 -2% · 최대 2거래일로 짧게 끊는 단타 실험 계좌예요.'}
+  };
+  const verRow=`<div class="pv-vers" role="tablist" aria-label="모의투자 전략 버전 선택">${
+    ['v1','v2','v3'].map(k=>`<button type="button" class="pv-ver${PV_VER===k?' on':''}" data-pver="${k}"
+      role="tab" aria-selected="${PV_VER===k?'true':'false'}">${PV_META[k].tab}</button>`).join('')}</div>
+    <p class="pv-ver-desc">${PV_META[PV_VER].desc} 세 버전은 같은 크기의 가상자금으로 각각 따로 운영합니다.</p>`;
   // ⛔ Fail closed — 스냅샷을 못 읽으면 0으로 채우지 않고 "비어 있음"을 그대로 말한다.
   if(!P){
-    el.innerHTML=lede+`<div class="pv-empty"><b>기록을 아직 불러오지 못했어요.</b>
+    el.innerHTML=lede+verRow+`<div class="pv-empty"><b>기록을 아직 불러오지 못했어요.</b>
       <p>모의투자 요약 자료를 읽지 못했습니다. 없는 숫자를 임의로 채우지 않기 때문에 이 화면을 비워 둡니다. 다음 갱신 때 다시 표시됩니다.</p></div>`;
+    return;
+  }
+  /* 🆕 아직 한 번도 돌지 않은 버전(V3 첫 배포 직후) — 미리 만든 숫자를 보여주지 않는다. */
+  if(P.stage==='PREPARING'){
+    el.innerHTML=lede+verRow+`<div class="pv-empty"><b>이 버전은 다음 거래일부터 기록을 시작해요.</b>
+      <p>규칙과 가상계좌(1,000만원)는 준비돼 있고, 자동 기록기가 장중에 처음 돌면 여기에 기록이 쌓입니다. 미리 만들어 둔 숫자는 없습니다.</p></div>`;
     return;
   }
   const DASH='—';
@@ -6419,7 +6447,7 @@ function renderPaper(){
     : live ? `자동 기록 진행 중 · 최근 <time>${stamp(P.lastCycleAt)}</time>`
     : paused ? `시세 연결이 끊겨 기록이 멈춰 있어요 · 마지막 시도 <time>${stamp(P.lastCycleAt)}</time>`
     : `최근 시도 <time>${stamp(P.lastCycleAt)}</time>`;
-  const hero=lede+`<p class="pv-status${live?' is-live':''}"><span class="pv-dot" aria-hidden="true"></span>${statusTxt}</p>`
+  const hero=lede+verRow+`<p class="pv-status${live?' is-live':''}"><span class="pv-dot" aria-hidden="true"></span>${statusTxt}</p>`
     +(paused?`<p class="pv-pause">${PAUSE_WHY}</p>`:'');
 
   /* ② 포트폴리오 전체 시야 — "1,000만원 중 얼마가 들어가 있고, 얼마가 남았고,
@@ -6575,7 +6603,11 @@ function renderPaper(){
       ['진입시각', r.detected_at?hm(r.detected_at):DASH],
       ['보유기간', held==null?DASH:(held===0?'오늘 진입':`${held}거래일 경과`)],
       ['남은 최대 보유', left==null?(maxHold?`최대 ${maxHold}거래일`:DASH):`${left}거래일`],
-      ['종료 조건', maxHold?`${maxHold}거래일 도달 또는 판단이 「매도 고려」로 변경`:'판단이 「매도 고려」로 변경'],
+      ['종료 조건', PV_VER==='v3'
+        ?`익절 ${n(P.takeProfitPct)==null?'+3':'+'+P.takeProfitPct}% · 손절 ${n(P.stopLossPct)==null?'-2':P.stopLossPct}% · ${maxHold||2}거래일 도달 · 판단이 「매도 고려」로 변경`
+        :PV_VER==='v2'
+        ?`판단이 「매도 고려」로 변경(안전상한 ${maxHold||60}거래일)`
+        :(maxHold?`${maxHold}거래일 도달 또는 판단이 「매도 고려」로 변경`:'판단이 「매도 고려」로 변경')],
       ['현재가 기준', asOf||'평가 대기']
     ].concat(
       /* 🕳️ 이 종목을 보유한 기간 중 기록이 없던 거래일. 그날 고가·저가는 관측되지
@@ -6598,7 +6630,9 @@ function renderPaper(){
     AWAITING_MARKET_DATA:['시세 연결을 준비하고 있습니다.',PAUSE_WHY]
   }[P.stage]||['첫 검증 신호를 기다리고 있습니다.','새로운 「매수 고려」 판단이 나오면 여기에 종목, 매수가격, 수량, 현재가격, 보유기간과 가상 성과가 자동으로 기록돼요.'];
   /* 종료 사유 코드 → 사람 말 (오늘 거래·종료 거래 두 곳에서 함께 쓴다) */
-  const exitName={CHIEF_SELL:'GAEO 판단이 매도 고려로 변경',MAX_HOLDING_5D:'최대 보유기간 도달'};
+  const exitName={CHIEF_SELL:'GAEO 판단이 매도 고려로 변경',MAX_HOLDING_5D:'최대 보유기간 도달',
+    MAX_HOLDING_SAFETY_CAP:'안전상한(60거래일) 도달',
+    TAKE_PROFIT:'익절 기준 도달',STOP_LOSS:'손절 기준 도달',TIME_EXIT_2D:'최대 보유 2거래일 도달'};
   /* ③-0 오늘 거래 — "오늘 무엇을 사고팔았나"를 보유 목록과 분리해 먼저 답한다.
      ⚠️ 오늘 매수 = 오늘 실제로 진입(ENTRY)한 거래만. 어제 사서 오늘도 들고 있는 종목은
         '보유 중'일 뿐 오늘 매수가 아니다 — entry_business_date로 가른다.
@@ -6748,13 +6782,29 @@ function renderPaper(){
       ${engNote}<dl class="pv-rows">${pr}</dl>${gapNote}${glossHTML()}</section>`;
   }
 
-  /* ⑥ 어떻게 기록하나요 — paper_engine.py의 실제 규칙만. 없는 규칙을 만들지 않는다. */
-  const steps=[
-    'GAEO의 판단이 직전과 달리 <em>새롭게 「매수 고려」로 바뀐</em> 종목을 골라냅니다.',
-    '장이 열려 있는 동안, 그 시점의 <em>실제 시장 가격</em>으로 가상 매수를 기록합니다. 시세를 읽지 못하면 가격을 추측하지 않고 건너뜁니다.',
-    '보유하는 동안 시장 움직임과 GAEO 판단 변화를 자동으로 따라갑니다.',
-    `판단이 <em>「매도 고려」로 바뀌거나 ${maxHold||5}거래일이 지나면</em> 가상 청산하고, 결과를 같은 기간 코스피·코스닥 움직임과 함께 남깁니다.`
-  ].map((t,i)=>`<li><b>${i+1}</b><p>${t}</p></li>`).join('');
+  /* ⑥ 어떻게 기록하나요 — 각 전략 엔진(paper_engine·paper_smart_v2·paper_scalp_v3)의
+     실제 규칙만. 없는 규칙을 만들지 않는다. */
+  const stepsByVer={
+    v1:[
+      'GAEO의 판단이 직전과 달리 <em>새롭게 「매수 고려」로 바뀐</em> 종목을 골라냅니다.',
+      '장이 열려 있는 동안, 그 시점의 <em>실제 시장 가격</em>으로 가상 매수를 기록합니다. 시세를 읽지 못하면 가격을 추측하지 않고 건너뜁니다.',
+      '보유하는 동안 시장 움직임과 GAEO 판단 변화를 자동으로 따라갑니다.',
+      `판단이 <em>「매도 고려」로 바뀌거나 ${maxHold||5}거래일이 지나면</em> 가상 청산하고, 결과를 같은 기간 코스피·코스닥 움직임과 함께 남깁니다.`
+    ],
+    v2:[
+      'GAEO의 판단이 직전과 달리 <em>새롭게 「매수 고려」로 바뀐</em> 종목을 골라냅니다(V1과 동일).',
+      '장이 열려 있는 동안, 그 시점의 <em>실제 시장 가격</em>으로 가상 매수를 기록합니다. 시세를 읽지 못하면 가격을 추측하지 않고 건너뜁니다.',
+      '5거래일이 돼도 팔지 않습니다 — <em>재평가만 하고</em>, 판단이 계속 좋으면 들고 갑니다.',
+      `판단이 <em>「매도 고려」로 바뀌면</em> 가상 청산하고, ${maxHold||60}거래일 안전상한은 넘기지 않습니다.`
+    ],
+    v3:[
+      '시장 전체가 하락 표류 중이면(전 종목 5거래일 수익률의 중앙값이 마이너스) 그날은 <em>사지 않고 관망</em>합니다.',
+      '시장이 괜찮은 날, 20일선·60일선 위에서 <em>단기 상승 흐름</em>이 확인된 종목을 하루 최대 4개까지 실제 시장 가격으로 가상 매수합니다.',
+      `보유 중 약 30분마다 가격을 관측해 <em>익절 ${n(P.takeProfitPct)==null?'+3':'+'+P.takeProfitPct}% · 손절 ${n(P.stopLossPct)==null?'-2':P.stopLossPct}%</em>에 닿으면 가상 청산합니다.`,
+      `닿지 않으면 <em>${maxHold||2}거래일</em>에 시간 청산하고, GAEO 판단이 「매도 고려」로 바뀌면 안전판으로 청산합니다.`
+    ]
+  };
+  const steps=(stepsByVer[PV_VER]||stepsByVer.v1).map((t,i)=>`<li><b>${i+1}</b><p>${t}</p></li>`).join('');
   const how=`<section class="pv-sec" aria-labelledby="pvHowH">
     <h3 class="pv-sec-h" id="pvHowH">어떻게 기록하나요?</h3>
     <ol class="pv-steps">${steps}</ol>
@@ -6775,7 +6825,9 @@ function renderPaper(){
   function detailHTML(){
     const chev='<svg class="pv-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const d=[
-      ['검증 방식', 'GAEO 기본 검증'],
+      ['검증 방식', PV_VER==='v3'?'단타 실험(V3)':PV_VER==='v2'?'스마트 보유 비교(V2)':'GAEO 기본 검증(V1)'],
+      ...(P.entryRule?[['진입 규칙', esc(P.entryRule)]]:[]),
+      ...(P.exitRule?[['청산 규칙', esc(P.exitRule)]]:[]),
       ['검증 시작', day(P.forwardStart)],
       ['한 종목 최대 보유', maxHold?`${maxHold}거래일`:DASH],
       ['한 종목 가상 투자 기준금액', n(P.positionSizeKrw)==null?DASH:won(P.positionSizeKrw)],
@@ -6823,14 +6875,18 @@ function renderPaper(){
   /* 모의투자 안의 두 화면 — 보유 현황 / 기록. 최상위 메뉴는 그대로 '모의투자' 하나다. */
   const tab=(k,label)=>`<button type="button" class="pv-tab${PV_VIEW===k?' on':''}"
     data-pview="${k}" role="tab" aria-selected="${PV_VIEW===k?'true':'false'}">${label}</button>`;
+  /* 기록(날짜별 History) 탭은 V1 전용 — V2·V3는 원장이 따로라 아직 History 파생물이 없다.
+     없는 화면을 흉내내지 않고 탭 자체를 감춘다. */
   const tabs=`<div class="pv-tabs" role="tablist" aria-label="모의투자 화면 선택">
-    ${tab('holdings','보유 현황')}${tab('history','기록')}</div>`;
-  const body=PV_VIEW==='history'
+    ${tab('holdings','보유 현황')}${PV_VER==='v1'?tab('history','기록'):''}</div>`;
+  const body=(PV_VER==='v1'&&PV_VIEW==='history')
     ? paperHistoryHTML()
     /* 🎯 실제 투자 화면 순서: 자산 → 내 보유 종목 → 오늘 거래 → 종료 거래 → 설명.
        예전에는 '오늘 거래'가 보유 종목보다 위에 있어, 거래가 없는 날(대부분)에는
-       "없어요" 두 줄을 지나야 내 종목이 나왔다. */
-    : summary+held+todaySec+closedSec+perf+reboundHTML()+how+foot;
+       "없어요" 두 줄을 지나야 내 종목이 나왔다.
+       반등 후보 관찰(실험 섹션)은 V1 화면에만 둔다 — 버전 계좌와 무관한 공용 실험이라
+       세 탭에 반복해 붙이면 각 계좌의 기록처럼 오해된다. */
+    : summary+held+todaySec+closedSec+perf+(PV_VER==='v1'?reboundHTML():'')+how+foot;
   el.innerHTML=hero+tabs+body;
   el.querySelectorAll('.pv-gloss').forEach((d,i)=>{ if(openGloss[i]) d.open=true; });
 }
@@ -6850,6 +6906,16 @@ function renderPaper(){
       pos.setAttribute('aria-expanded',open_?'true':'false');
       const body=document.getElementById(pos.getAttribute('aria-controls'));
       if(body) body.hidden=!open_;
+      return;
+    }
+    const ver=ev.target.closest('.pv-ver');
+    if(ver){
+      if(ver.dataset.pver&&ver.dataset.pver!==PV_VER){
+        PV_VER=ver.dataset.pver;
+        /* 기록 탭은 V1 전용 — 다른 버전으로 넘어가면 보유 현황으로 되돌린다 */
+        if(PV_VER!=='v1'&&PV_VIEW==='history'){ PV_VIEW='holdings'; PV_DAY=null; }
+        renderPaper();
+      }
       return;
     }
     const tab=ev.target.closest('.pv-tab');
@@ -6909,13 +6975,17 @@ function renderPaper(){
       }
       if(p.status==='fulfilled'&&p.value.ok){
         const t=await p.value.text();
-        const m=t.match(/window\.GAEO_PAPER=({[\s\S]*});/);
-        if(m){
+        /* ⚠️ 파일에 버전별 전역이 여러 줄(GAEO_PAPER · _V2 · _V3) 있다. 예전처럼
+           탐욕([\s\S]*) 매칭을 쓰면 첫 키에서 마지막 };까지 통째로 잡혀 파싱이
+           조용히 깨진다 — payload가 한 줄 JSON이라는 사실을 이용해 줄 단위로 잡는다. */
+        for(const k of ['GAEO_PAPER','GAEO_PAPER_V2','GAEO_PAPER_V3']){
+          const m=t.match(new RegExp('window\\.'+k+'=([^\\n]*);'));
+          if(!m) continue;
           try{
             const snap=JSON.parse(m[1]);
-            const cur=window.GAEO_PAPER;
+            const cur=window[k];
             if(snap&&snap.generatedAt&&(!cur||!cur.generatedAt||snap.generatedAt>cur.generatedAt)){
-              window.GAEO_PAPER=snap; changed=true;
+              window[k]=snap; changed=true;
             }
           }catch(e){/* 파싱 실패 — 기존 값 유지 */}
         }
