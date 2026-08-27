@@ -15,7 +15,21 @@ set -uo pipefail
 REPO_PATH="${GAEO_PAPER_REPO:-/opt/gaeo-paper/repo}"
 ENV_FILE="${GAEO_PAPER_ENV_FILE:-/etc/gaeo-paper/paper.env}"
 SERVICE="${GAEO_PAPER_SERVICE:-gaeo-paper}"
-LOG_DIR="${GAEO_PAPER_LOG_DIR:-$HOME/.local/state/gaeo-paper/logs}"
+# 로그 위치: 서비스가 쓰는 곳(/opt/gaeo-paper/logs)을 먼저 본다.
+# ⚠️ 이 기본값이 왜 두 갈래인가 (2026-08-27 감사)
+#    운영 VM에서는 systemd가 GAEO_PAPER_LOG_DIR=/opt/gaeo-paper/logs 를 넣어주지만,
+#    사람이 문서 안내대로 `sudo bash scripts/paper_doctor.sh` 로 직접 돌리면 그 값이
+#    안 넘어온다. 그때 $HOME 아래만 보면 로그가 멀쩡히 있는데도 [9]번이 늘
+#    "로그 파일이 없습니다"로 나와 진단 정보 하나가 통째로 빈다.
+#    그래서 서비스 경로가 실제로 있으면 그쪽을 쓰고, 없으면 개발용 기본값으로 돌아간다.
+_default_log_dir() {
+    if [ -d /opt/gaeo-paper/logs ]; then
+        printf '%s' /opt/gaeo-paper/logs
+    else
+        printf '%s' "$HOME/.local/state/gaeo-paper/logs"
+    fi
+}
+LOG_DIR="${GAEO_PAPER_LOG_DIR:-$(_default_log_dir)}"
 MARKER_NAME=".gaeo-paper-runner"
 CHECK_REMOTE=1
 
