@@ -106,6 +106,45 @@ finally:
     pp.DIR, pp.OUT = orig_dir, orig_out
     shutil.rmtree(tmp, ignore_errors=True)
 
+# ── 버전별 기록(History) 계약 (2026-08-27 신설) ──────────────────────────────
+#    화면의 기록 탭은 세 버전 모두에서 열린다. 각 버전은 자기 원장에서 파생된
+#    자기 파일을 읽어야 하고, 그 파일은 사이트가 서빙하는 paper_trading/ 최상위에
+#    있어야 한다(전략 원기록 폴더는 _config.yml이 배포에서 제외한다).
+tmp2 = tempfile.mkdtemp(prefix="ppub_ver_")
+orig_dir, orig_out = pp.DIR, pp.OUT
+try:
+    pp.DIR, pp.OUT = tmp2, os.path.join(tmp2, "paper_public.js")
+    json.dump({"strategyVersion": "PAPER_BASELINE_V1", "initial_cash_krw": 10_000_000},
+              open(os.path.join(tmp2, "config.json"), "w"))
+    for sub, ver in (("smart_v2", "PAPER_SMART_V2"), ("scalp_v3", "PAPER_SCALP_V3")):
+        os.makedirs(os.path.join(tmp2, sub), exist_ok=True)
+        json.dump({"strategyVersion": ver, "initial_cash_krw": 10_000_000},
+                  open(os.path.join(tmp2, sub, "config.json"), "w"))
+    rc4 = pp.build()
+    check("버전 기록 — build 성공", rc4 == 0)
+    check("버전 기록 — 파일 이름 규칙(V2/V3는 최상위 history_vN.json)",
+          pp._history_filename("GAEO_PAPER_V2") == "history_v2.json"
+          and pp._history_filename("GAEO_PAPER_V3") == "history_v3.json")
+    for name, label in (("history.json", "V1"), ("history_v2.json", "V2"),
+                        ("history_v3.json", "V3")):
+        path = os.path.join(tmp2, name)
+        exists = os.path.exists(path)
+        check(f"버전 기록 — {label} 기록 파일이 최상위에 생성된다({name})", exists, path)
+        if exists:
+            body = json.load(open(path, encoding="utf-8"))
+            check(f"버전 기록 — {label} 기록에 days 배열이 있다",
+                  isinstance(body.get("days"), list))
+            low = json.dumps(body, ensure_ascii=False).lower()
+            check(f"버전 기록 — {label} 기록에 계좌·토큰 흔적 0",
+                  not any(w in low for w in pp.FORBIDDEN_SUBSTRINGS))
+    # 전략 원기록 폴더 안에는 만들지 않는다(사이트가 못 읽는 자리라 무의미하다)
+    check("버전 기록 — 전략 폴더 안에는 만들지 않는다",
+          not os.path.exists(os.path.join(tmp2, "smart_v2", "history.json"))
+          and not os.path.exists(os.path.join(tmp2, "scalp_v3", "history.json")))
+finally:
+    pp.DIR, pp.OUT = orig_dir, orig_out
+    shutil.rmtree(tmp2, ignore_errors=True)
+
 print()
 if FAILURES:
     print(f"실패 {len(FAILURES)}건: {FAILURES}")
