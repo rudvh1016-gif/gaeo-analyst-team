@@ -347,7 +347,7 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": 0.206
   },
   "diana:nova": {
-   "n": 4177,
+   "n": 4176,
    "errorCorr": -0.088
   },
   "diana:flow": {
@@ -451,7 +451,7 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_high": {
-   "n": 11766,
+   "n": 11765,
    "blend": 0.6,
    "weights": {
     "taro": 0.2295,
@@ -465,7 +465,7 @@ const MODEL_INTELLIGENCE = {
      "adjustedAcc": 40.3
     },
     "diana": {
-     "n": 2829,
+     "n": 2828,
      "adjustedAcc": 64.0
     },
     "nova": {
@@ -566,7 +566,7 @@ const MODEL_INTELLIGENCE = {
    }
   ],
   "analystErrors": {
-   "taro": 1294,
+   "taro": 1297,
    "diana": 0,
    "nova": 58,
    "flow": 207
