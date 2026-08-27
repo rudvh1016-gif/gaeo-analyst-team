@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-27 15:49",
+ "generatedAt": "2026-08-27 16:19",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -347,7 +347,7 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": 0.206
   },
   "diana:nova": {
-   "n": 4176,
+   "n": 4177,
    "errorCorr": -0.088
   },
   "diana:flow": {
@@ -451,7 +451,7 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "down_high": {
-   "n": 11765,
+   "n": 11766,
    "blend": 0.6,
    "weights": {
     "taro": 0.2295,
@@ -465,7 +465,7 @@ const MODEL_INTELLIGENCE = {
      "adjustedAcc": 40.3
     },
     "diana": {
-     "n": 2828,
+     "n": 2829,
      "adjustedAcc": 64.0
     },
     "nova": {
@@ -566,7 +566,7 @@ const MODEL_INTELLIGENCE = {
    }
   ],
   "analystErrors": {
-   "taro": 1297,
+   "taro": 1294,
    "diana": 0,
    "nova": 58,
    "flow": 207
