@@ -3,6 +3,7 @@
 """paper_public.py Sanitization 계약 — 공개 스냅샷에 비밀·계좌·TEST 기록이 못 들어간다."""
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -53,7 +54,7 @@ try:
 
     rc = pp.build()
     out = open(pp.OUT, encoding="utf-8").read()
-    payload = json.loads(out[out.index("=") + 1:].strip().rstrip(";"))
+    payload = json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n", out).group(1))  # V1 줄만(파일에 V2·V3 줄도 있다)
 
     check("생성 성공", rc == 0)
     check("TEST 기록 제외 (Forward만 공개)",
@@ -95,7 +96,8 @@ try:
     shutil.rmtree(tmp)
     os.makedirs(tmp)
     rc3 = pp.build()
-    payload3 = json.loads(open(pp.OUT, encoding="utf-8").read().split("=", 1)[1].strip().rstrip(";"))
+    payload3 = json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n",
+                                    open(pp.OUT, encoding="utf-8").read()).group(1))  # V1 줄만
     check("시작 전 상태 — 거래 0·수익률 null·stage 표기",
           rc3 == 0 and payload3["stage"] == "BEFORE_FORWARD_START"
           and payload3["recentTrades"] == [] and payload3["portfolioReturnPct"] is None

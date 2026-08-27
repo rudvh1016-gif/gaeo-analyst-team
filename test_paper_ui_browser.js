@@ -196,8 +196,13 @@ const BASELINE = {
   }
   const orderUi = await page.evaluate(() => {
     const view = document.getElementById('paperView');
+    /* 2026-08-27 계약 갱신: 버전(V1/V2/V3)·화면(보유/기록) 전환 탭은 화면 내
+       내비게이션이지 주문 UI가 아니다 — data-pver/data-pview 버튼만 제외하고 센다. */
+    const buttons = [...view.querySelectorAll('button')]
+      .filter(b => !b.dataset.pver && !b.dataset.pview).length
+      + view.querySelectorAll('input,form,a[href^="http"]').length;
     return {
-      buttons: view.querySelectorAll('button,input,form,a[href^="http"]').length,
+      buttons,
       order: /지금 매수|주문하기|매수하기|매도하기|실제 매수|자동매매/.test(view.innerText)
     };
   });

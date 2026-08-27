@@ -339,6 +339,15 @@ if (Test-Path (Join-Path $RepoPath 'paper_smart_v2.py')) {
     Invoke-PaperScript 'paper_smart_v2.py' -ContinueOnError | Out-Null
 }
 
+# 🧪 네 번째 전략(Scalp V3 — 시장 폭 게이트 + 단기 모멘텀 + 익절/손절 단타) — 기본 ON.
+#    끄려면 GAEO_PAPER_SCALP_V3=0. 스크립트가 스스로 꺼짐을 판단해 즉시 종료하므로
+#    여기서는 조건 없이 부른다(켜고 끄는 데 코드 수정이 필요 없다).
+#    ⚠️ 별도 폴더(paper_trading/scalp_v3) + 별도 environment라 V1·V2 기록과 섞이지 않고,
+#       실패해도 기존 전략의 기록 커밋을 막지 않는다.
+if (Test-Path (Join-Path $RepoPath 'paper_scalp_v3.py')) {
+    Invoke-PaperScript 'paper_scalp_v3.py' -ContinueOnError | Out-Null
+}
+
 # 워크플로와 동일한 의미: report·public 실패는 기록 커밋을 막지 않는다.
 Invoke-PaperScript 'paper_report.py' -ContinueOnError | Out-Null
 Invoke-PaperScript 'paper_public.py' -ContinueOnError | Out-Null

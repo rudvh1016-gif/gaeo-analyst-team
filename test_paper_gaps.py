@@ -15,6 +15,7 @@
 """
 import json
 import os
+import re
 import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
@@ -269,8 +270,7 @@ json.dump({"initial_cash_krw": 10_000_000, "maxHoldingTradingDays": 5},
 pp.DIR, pp.OUT = tmp4, os.path.join(tmp4, "paper_public.js")
 rc = pp.build()
 blob = open(pp.OUT, encoding="utf-8").read()
-payload = json.loads(blob[blob.index("window.GAEO_PAPER=")
-                          + len("window.GAEO_PAPER="):].rstrip().rstrip(";"))
+payload = json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n", blob).group(1))  # V1 줄만
 check("16-1. 공개 스냅샷 생성 성공", rc == 0)
 check("16-2. 공개 스냅샷에 관측 공백이 실린다",
       [x["businessDate"] for x in (payload.get("dataGaps") or [])] == [D2],

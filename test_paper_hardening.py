@@ -6,6 +6,7 @@ Required Test 1~13(발췌) + 적대적 시나리오. 전부 offline fixture(envi
 """
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -90,7 +91,8 @@ pp.DIR = tmp
 pp.OUT = os.path.join(tmp, "paper_public.js")
 try:
     pp.build()
-    pub = json.loads(open(pp.OUT, encoding="utf-8").read().split("=", 1)[1].strip().rstrip(";"))
+    pub = json.loads(re.search(r"window\.GAEO_PAPER=(.*?);\n",
+                               open(pp.OUT, encoding="utf-8").read()).group(1))  # V1 줄만
     check("RT1e. Public: 평가금 10,000,000 · Return/MDD null · executed 0",
           pub["currentVirtualEquity"] == 10_000_000 and pub["portfolioReturnPct"] is None
           and pub["maxDrawdownPct"] is None and pub["executedTradeCount"] == 0)
