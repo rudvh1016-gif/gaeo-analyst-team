@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 13:52",
- "dataCutoff": "2026-08-27 13:52 장중",
+ "generatedAt": "2026-08-27 14:20",
+ "dataCutoff": "2026-08-27 14:20 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +107.1% · 20일선 위",
+   "why": "20거래일 +106.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.2,
+   "gapPct": 21.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +99.8% · 20일선 위",
+   "why": "20거래일 +98.6% · 20일선 위",
    "overheat": true,
-   "gapPct": 33.1,
+   "gapPct": 32.4,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +46,32 @@ window.ROTATION_PICKS = {
    "name": "대한광통신",
    "sector": "통신",
    "sectorRank": 8,
-   "why": "20거래일 +98.3% · 20일선 위 · 거래량 평소의 1.9배",
+   "why": "20거래일 +99.6% · 20일선 위 · 거래량 평소의 1.9배",
    "overheat": false,
-   "gapPct": 21.8,
+   "gapPct": 22.5,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.2,
+  "breadthPct": 61.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6913.35,
-    "ma20": 6562.11,
+    "close": 6897.4,
+    "ma20": 6561.31,
     "above": true,
-    "gapPct": 5.35
+    "gapPct": 5.12
    },
    "KOSDAQ": {
-    "close": 834.4,
-    "ma20": 809.16,
+    "close": 836.15,
+    "ma20": 809.25,
     "above": true,
-    "gapPct": 3.12
+    "gapPct": 3.32
    }
   }
  },
