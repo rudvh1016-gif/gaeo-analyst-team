@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-27 14:50",
- "dataCutoff": "2026-08-27 14:50 장중",
+ "generatedAt": "2026-08-27 15:21",
+ "dataCutoff": "2026-08-27 15:21 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 3,
-   "why": "20거래일 +106.0% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +107.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 21.6,
+   "gapPct": 22.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 2,
-   "why": "20거래일 +97.6% · 20일선 위 · 거래량 평소의 1.4배",
+   "why": "20거래일 +98.5% · 20일선 위 · 거래량 평소의 1.5배",
    "overheat": true,
-   "gapPct": 31.7,
+   "gapPct": 32.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 11,
-   "why": "20거래일 +143.7% · 20일선 위 · 거래량 평소의 1.6배",
+   "why": "20거래일 +140.0% · 20일선 위 · 거래량 평소의 1.8배",
    "overheat": true,
-   "gapPct": 33.7,
+   "gapPct": 31.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +46,32 @@ window.ROTATION_PICKS = {
    "name": "대한광통신",
    "sector": "통신",
    "sectorRank": 8,
-   "why": "20거래일 +98.8% · 20일선 위 · 거래량 평소의 2.1배",
+   "why": "20거래일 +99.3% · 20일선 위 · 거래량 평소의 2.1배",
    "overheat": false,
-   "gapPct": 22.1,
+   "gapPct": 22.4,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 60.5,
+  "breadthPct": 61.7,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6879.41,
-    "ma20": 6560.41,
+    "close": 6876.08,
+    "ma20": 6560.24,
     "above": true,
-    "gapPct": 4.86
+    "gapPct": 4.81
    },
    "KOSDAQ": {
-    "close": 834.32,
-    "ma20": 809.15,
+    "close": 834.98,
+    "ma20": 809.19,
     "above": true,
-    "gapPct": 3.11
+    "gapPct": 3.19
    }
   }
  },

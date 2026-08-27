@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-27 14:49",
+ "generatedAt": "2026-08-27 15:19",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2678,
-   "diana": 0.1284,
-   "nova": 0.2694,
-   "flow": 0.3345
+   "taro": 0.268,
+   "diana": 0.1287,
+   "nova": 0.2681,
+   "flow": 0.3352
   },
   "acc": {
    "taro": {
-    "n": 1704,
+    "n": 1706,
     "acc": 43.5,
-    "adjustedAcc": 44.0,
+    "adjustedAcc": 43.9,
     "days": 5,
     "deadband": 1.0
    },
@@ -48,34 +48,34 @@ const TEAM_WEIGHTS = {
    },
    "nova": {
     "n": 291,
-    "acc": 45.0,
-    "adjustedAcc": 46.5,
+    "acc": 44.7,
+    "adjustedAcc": 46.2,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 314,
+    "n": 316,
     "acc": 51.9,
     "adjustedAcc": 51.4,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 2309,
+  "graded": 2313,
   "team": {
-   "hit": 1453,
-   "miss": 865,
-   "n": 2318,
-   "acc": 62.7
+   "hit": 1457,
+   "miss": 859,
+   "n": 2316,
+   "acc": 62.9
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2646,
-    "diana": 0.1293,
-    "nova": 0.2801,
-    "flow": 0.3261
+    "taro": 0.2651,
+    "diana": 0.1297,
+    "nova": 0.2795,
+    "flow": 0.3257
    },
    "acc": {
     "taro": {
@@ -101,8 +101,8 @@ const TEAM_WEIGHTS = {
     },
     "flow": {
      "n": 41,
-     "acc": 36.6,
-     "adjustedAcc": 46.6,
+     "acc": 34.1,
+     "adjustedAcc": 46.0,
      "days": 5,
      "deadband": 1.0
     }
@@ -112,16 +112,16 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2751,
-    "diana": 0.1266,
-    "nova": 0.2622,
-    "flow": 0.3361
+    "taro": 0.2745,
+    "diana": 0.127,
+    "nova": 0.2615,
+    "flow": 0.337
    },
    "acc": {
     "taro": {
-     "n": 203,
-     "acc": 48.8,
-     "adjustedAcc": 49.2,
+     "n": 202,
+     "acc": 48.0,
+     "adjustedAcc": 48.8,
      "days": 5,
      "deadband": 1.0
     },
@@ -147,8 +147,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 274,
-   "globalBlend": 0.745
+   "graded": 273,
+   "globalBlend": 0.746
   }
  }
 };
