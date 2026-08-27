@@ -38,6 +38,18 @@ function requireState(condition, message) {
     const panelCount = await page.locator('#hdbBuyPanel .hdb-stock-row').count();
     requireState(previewCount + panelCount === expectedCount,
       `desktop preview(${previewCount}) + panel(${panelCount}) must equal full BUY count(${expectedCount})`);
+    // 2026-08-27 회귀 고정: 패널을 열 때만 innerHTML로 채워지는 4위 이후 종목은
+    // 클릭 바인딩이 그 안까지 다시 걸리지 않으면 눌러도 아무 반응이 없었다(실사용자 신고).
+    if (panelCount > 0) {
+      const firstPanelRow = page.locator('#hdbBuyPanel .hdb-stock-row').first();
+      const targetName = await firstPanelRow.getAttribute('data-hdb-stock');
+      await firstPanelRow.click();
+      await page.waitForTimeout(300);
+      requireState(await page.locator('#ticker').inputValue() === targetName,
+        'clicking a BUY list row beyond the top-3 preview must jump to that stock');
+      requireState(await page.locator('#mode-single').evaluate(el => el.classList.contains('on')),
+        'clicking a BUY list row must switch into single-stock mode');
+    }
     await page.locator('#hdbPanelClose').click();
     requireState(await panel.isHidden(), 'desktop BUY list must close');
   }
