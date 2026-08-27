@@ -88,6 +88,32 @@ const FAM = 'Wanted Sans Variable';
   check('R5. 서브셋이라 전부 받지 않는다(필요한 조각만)', w2.length < refs.length,
     `${w2.length}/${refs.length}`);
 
+  /* 🐛 2026-08-27 수정: '오늘 거래 보조문구'(.pv-td-meta)는 그날 매수·매도가 있을 때만
+     생기는 요소라, 거래가 없는 날에는 querySelector가 null이 되어 이 검사가 항상
+     실패했다(거래 없는 날이 대부분이다). 항상 실패하는 검사는 진짜 회귀를 가린다.
+     → 오늘자 거래가 든 스냅샷을 주입해 요소를 보장하고, 매일 실제로 검사되게 한다.
+     ⚠️ 주입은 화면 렌더 경로만 쓴다(window.GAEO_PAPER + renderPaper) — 원장·네트워크
+        와 무관하고, 아래 기록 탭 검사도 V1 기준 그대로 이어진다. */
+  await page.evaluate(() => {
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+    window.GAEO_PAPER = {
+      schemaVersion: 'gaeo_paper_public_v1', strategyVersion: 'PAPER_BASELINE_V1',
+      stage: 'RUNNING', initialVirtualCash: 10000000, positionSizeKrw: 1000000,
+      maxHoldingTradingDays: 5, lastCycleAt: today + 'T10:00:00+09:00', lastCycleOk: true,
+      investedCostBasis: 980000, availableVirtualCash: 9020000,
+      markedPositionsValue: 980000, currentVirtualEquity: 10000000,
+      openTrades: 1, closedTrades: 0,
+      recentTrades: [{
+        symbol: '005930', name: '삼성전자', status: 'OPEN', market: 'KOSPI',
+        entry_business_date: today, entry_price: 70000, quantity: 14,
+        detected_at: today + 'T10:00:00+09:00', current_price: 70000,
+        market_value: 980000, cost_basis: 980000, holding_trading_days: 0
+      }]
+    };
+    window.renderPaper();
+  });
+  await page.waitForTimeout(300);
+
   // 대표 요소 + 동적 렌더 요소
   const sels = {
     '화면 루트': '#paperView', '제목': '.pv-title', '현재 가상자산': '.pv-port-v',
