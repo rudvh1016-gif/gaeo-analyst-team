@@ -259,6 +259,23 @@ _, med3, q3 = ps.scan_candidates(small)
 check("9-4. 시장 폭 표본 부족이면 중앙값 None + 후보 없음(fail closed)",
       med3 is None and q3 == [], f"{med3} {len(q3)}")
 
+# 🐛 2026-08-27 점검에서 발견: 개장 직후에는 오늘 종가가 절반만 수집돼 있는데
+#    (실측 08-26 09:14 54.8%), 절대 종목 수 하한(100)만으로는 그 부분 표본이 그대로
+#    통과해 시장 판단이 달라졌다(실측 중앙값 0.55 vs 0.935, 기준선 0).
+partial = {}
+for i in range(100):                                       # 오늘 종가 있는 100종목
+    partial[f"NOW{i:03d}"] = series(up)
+for i in range(100):                                       # 아직 수집 안 된 100종목
+    partial[f"OLD{i:03d}"] = series(up[:40])
+_, med4, q4 = ps.scan_candidates(partial)
+check("9-5. 수집 커버리지 미달(50%)이면 종목 수가 하한을 넘어도 보류한다",
+      med4 is None and q4 == [], f"{med4} {len(q4)}")
+for i in range(100):                                       # 커버리지를 90% 위로 채우면
+    partial[f"OLD{i:03d}"] = series(up)                    #   같은 데이터로 판정이 열린다
+_, med5, q5 = ps.scan_candidates(partial)
+check("9-6. 커버리지가 차면 정상 판정한다(과도한 차단 아님)",
+      med5 is not None and len(q5) > 0, f"{med5} {len(q5)}")
+
 # ── 10. 공개 스냅샷 연결(2026-08-27 QA 지적 회귀 방지) ───────────────────────
 #    config.json이 디스크에 실제로 생겨야 paper_public이 이 전략을 실데이터로
 #    게시한다 — 안 생기면 V3 탭이 영원히 "준비 중"(PREPARING)에 갇힌다.
