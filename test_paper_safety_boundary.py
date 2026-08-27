@@ -189,8 +189,14 @@ check("4e. Shadow 전략 산출물이 커밋 화이트리스트 안에 있다",
 check("5a. 공개 스냅샷 금지 키워드 목록이 그대로다",
       set(paper_public.FORBIDDEN_SUBSTRINGS) >= {"client_id", "client_secret", "token",
                                                  "authorization", "account", "secret"})
-check("5b. 공개 스냅샷은 V1 원장만 읽는다(Shadow 폴더 미참조)",
-      "smart_v2" not in open(os.path.join(HERE, "paper_public.py"), encoding="utf-8").read())
+# 2026-08-27 계약 갱신(대표 결정): V2·V3도 사이트 버전 탭에 공개한다. 그래서 이제
+# 지키는 계약은 "미참조"가 아니라 "원장이 섞이지 않는다"다 — V1 payload는 LIVE_PAPER
+# environment만 읽고, V2·V3는 각자 폴더·environment로 별도 전역에 분리 게시된다.
+_ppsrc = open(os.path.join(HERE, "paper_public.py"), encoding="utf-8").read()
+check("5b. 전략 원장이 섞이지 않는다(V1은 LIVE_PAPER만 · V2/V3는 별도 전역)",
+      'build_payload(DIR, "LIVE_PAPER")' in _ppsrc
+      and '("GAEO_PAPER_V2", "smart_v2", "LIVE_PAPER_SMART_V2", "PAPER_SMART_V2")' in _ppsrc
+      and '("GAEO_PAPER_V3", "scalp_v3", "LIVE_PAPER_SCALP_V3", "PAPER_SCALP_V3")' in _ppsrc)
 pub = open(os.path.join(HERE, "paper_public.js"), encoding="utf-8").read().lower()
 cfg = open(os.path.join(HERE, "_config.yml"), encoding="utf-8").read()
 check("5d. Shadow 전략 기록은 사이트 주소로 내보내지 않는다",

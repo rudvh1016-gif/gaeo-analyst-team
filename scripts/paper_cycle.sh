@@ -350,6 +350,11 @@ fi
 #    실패해도 기존 전략의 기록 커밋을 막지 않는다.
 [ -f "$REPO_PATH/paper_smart_v2.py" ] && run_paper_script paper_smart_v2.py 1 || true
 
+# 🧪 네 번째 전략(Scalp V3 — 단타) : 기본 ON. 끄려면 GAEO_PAPER_SCALP_V3=0.
+#    별도 폴더(paper_trading/scalp_v3)라 V1·V2 기록과 섞이지 않고,
+#    실패해도 기존 전략의 기록 커밋을 막지 않는다.
+[ -f "$REPO_PATH/paper_scalp_v3.py" ] && run_paper_script paper_scalp_v3.py 1 || true
+
 # 워크플로와 동일한 의미: report·public 실패는 기록 커밋을 막지 않는다.
 run_paper_script paper_report.py 1 || true
 run_paper_script paper_public.py 1 || true
