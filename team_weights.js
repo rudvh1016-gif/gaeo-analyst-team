@@ -79,9 +79,9 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 183,
-     "acc": 35.5,
-     "adjustedAcc": 41.3,
+     "n": 181,
+     "acc": 35.9,
+     "adjustedAcc": 41.5,
      "days": 5,
      "deadband": 1.0
     },
@@ -107,8 +107,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 242,
-   "globalBlend": 0.768
+   "graded": 240,
+   "globalBlend": 0.769
   },
   "바이오·제약": {
    "weights": {

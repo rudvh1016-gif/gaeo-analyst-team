@@ -335,7 +335,7 @@ const MODEL_INTELLIGENCE = {
  },
  "errorCorrelation": {
   "taro:diana": {
-   "n": 4861,
+   "n": 4860,
    "errorCorr": -0.164
   },
   "taro:nova": {
