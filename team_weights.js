@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-27 14:31",
+ "generatedAt": "2026-08-27 14:49",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,15 +26,15 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2669,
-   "diana": 0.1278,
-   "nova": 0.268,
-   "flow": 0.3373
+   "taro": 0.2678,
+   "diana": 0.1284,
+   "nova": 0.2694,
+   "flow": 0.3345
   },
   "acc": {
    "taro": {
-    "n": 1707,
-    "acc": 43.6,
+    "n": 1704,
+    "acc": 43.5,
     "adjustedAcc": 44.0,
     "days": 5,
     "deadband": 1.0
@@ -47,41 +47,41 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 289,
+    "n": 291,
     "acc": 45.0,
     "adjustedAcc": 46.5,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 320,
-    "acc": 52.5,
-    "adjustedAcc": 51.8,
+    "n": 314,
+    "acc": 51.9,
+    "adjustedAcc": 51.4,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 2316,
+  "graded": 2309,
   "team": {
-   "hit": 1464,
-   "miss": 856,
-   "n": 2320,
-   "acc": 63.1
+   "hit": 1453,
+   "miss": 865,
+   "n": 2318,
+   "acc": 62.7
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2639,
-    "diana": 0.1288,
-    "nova": 0.2789,
-    "flow": 0.3283
+    "taro": 0.2646,
+    "diana": 0.1293,
+    "nova": 0.2801,
+    "flow": 0.3261
    },
    "acc": {
     "taro": {
-     "n": 181,
-     "acc": 35.4,
-     "adjustedAcc": 41.2,
+     "n": 183,
+     "acc": 35.5,
+     "adjustedAcc": 41.3,
      "days": 5,
      "deadband": 1.0
     },
@@ -107,15 +107,15 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 240,
-   "globalBlend": 0.769
+   "graded": 242,
+   "globalBlend": 0.768
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2745,
-    "diana": 0.1262,
-    "nova": 0.2612,
-    "flow": 0.3382
+    "taro": 0.2751,
+    "diana": 0.1266,
+    "nova": 0.2622,
+    "flow": 0.3361
    },
    "acc": {
     "taro": {
