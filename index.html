@@ -8,6 +8,14 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="google-site-verification" content="ZDYAyq63v1JrxuW46ZpgHfO4eNjfDJlM0u5kNNEdt40" />
 <meta name="naver-site-verification" content="060e2fce90fe0b07cf7dca3e5f4497635175afc8" />
+<!-- ⚠️ rotation.css·full-market.css를 지연 로딩으로 옮기지 말 것 (2026-08-28 시도했다가 되돌림).
+     "홈 첫 화면 그리기를 막는 39KB"라 빼려 했는데, 실패한 방법을 여기 남긴다:
+     「홈에서 보이는 요소에 걸리는 규칙이 몇 개인가」로 재면 0개가 나온다. 그런데 이
+     CSS가 홈에서 하는 일의 상당 부분은 **요소를 숨기는 것**이라, 숨겨진 요소는 그
+     계측에 아예 안 잡힌다(자기 자신을 숨긴 규칙은 "안 쓰는 규칙"처럼 보인다).
+     실제로 빼 봤더니 홈에 순환매 탭 버튼(fmTab-rotation)이 드러나면서
+     test_insight_rail_browser·test_full_market_browser 두 계약이 깨졌다.
+     다시 시도한다면 "숨기는 규칙"을 먼저 추려 인라인으로 남긴 뒤에 할 것. -->
 <link rel="stylesheet" href="rotation.css?v=20260821-v20" />
 <link rel="stylesheet" href="full-market.css?v=20260818-v4" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
@@ -6187,7 +6195,11 @@ function paperHistoryHTML(){
      목록이 그냥 이전 날짜에서 끝나 "왜 없는지" 알 수 없던 문제.
      ⚠️ 없는 날짜 행을 만들어 채우지 않는다 — 빠졌다는 사실만 한 줄로 적는다.
      오늘 날짜는 브라우저 시계 대신 서버가 KST로 준 lastCycleAt에서 읽는다. */
-  const PP=(typeof window!=='undefined'&&window.GAEO_PAPER)?window.GAEO_PAPER:null;
+  /* 🐛 2026-08-28 수정: 여기가 버전과 무관하게 늘 window.GAEO_PAPER(V1)를 읽어서,
+     V1이 시세를 못 받은 상태면 손도 안 댄 V2·V3 기록 화면에까지 "OO월 OO일 기록은
+     아직 없어요"가 떴다(세 버전이 같은 사이클을 타서 평소엔 잘 안 드러난다).
+     지금 보고 있는 버전의 스냅샷을 읽는다. */
+  const PP=pvSnap(PV_VER);
   const lastTry=(PP&&PP.lastCycleAt)?String(PP.lastCycleAt).slice(0,10):null;
   const newestDay=H.days.map(d=>d.date).sort().slice(-1)[0];
   const gapNote=(PP&&PP.stage==='AWAITING_MARKET_DATA'&&lastTry&&newestDay&&lastTry>newestDay)
@@ -6348,6 +6360,13 @@ if(typeof window!=='undefined') window.RW_SET=v=>{ RW_DATA=v; RW_LOADING=false; 
 const PV_OPEN=new Set();          // 펼쳐 둔 보유 종목 symbol
 let PV_VIEW='holdings';           // 'holdings' | 'history'
 let PV_VER='v1';                  // 'v1' | 'v2' | 'v3' — 모의투자 전략 버전(각각 별도 가상계좌)
+/* 버전별 공개 스냅샷 전역 이름. renderPaper 안에만 두면 기록 화면(paperHistoryHTML)이
+   못 읽어서, 기록 탭이 어느 버전을 보고 있든 V1 상태만 참조하게 된다(2026-08-28 수정). */
+const PV_SNAPS={v1:'GAEO_PAPER',v2:'GAEO_PAPER_V2',v3:'GAEO_PAPER_V3'};
+function pvSnap(ver){
+  const key=PV_SNAPS[ver||PV_VER];
+  return (typeof window!=='undefined'&&key&&window[key])?window[key]:null;
+}
 let PV_DAY=null;                  // 기록에서 열어 둔 날짜(YYYY-MM-DD)
 const PV_HIST={};                 // 버전별 기록 캐시. 값: undefined=미로드 · null=실패 · object=성공
 let PV_HIST_LOADING=false;
@@ -6404,8 +6423,7 @@ function renderPaper(){
   if(!el) return;
   /* 전략 버전 탭 — 각 버전은 완전히 분리된 별도 가상계좌(각 1,000만원)라
      스냅샷 전역도 따로 온다(paper_public.js가 세 개를 함께 배포). */
-  const PV_SNAPS={v1:'GAEO_PAPER',v2:'GAEO_PAPER_V2',v3:'GAEO_PAPER_V3'};
-  const P=(typeof window!=='undefined'&&window[PV_SNAPS[PV_VER]])?window[PV_SNAPS[PV_VER]]:null;
+  const P=pvSnap(PV_VER);
   /* Hero는 짧게. 긴 원칙 설명은 아래 「어떻게 기록하나요?」로 내린다.
      사용자 화면에는 내부 코드(PAPER_BASELINE_V1·BASELINE_ONLY 등)를 노출하지 않는다. */
   /* 🎯 2026-08-21: 실제 투자 화면의 정보 위계를 따른다 — 돈이 먼저, 설명은 나중.
@@ -14616,36 +14634,70 @@ window.renderScreener=function(){
     if(changelog && window.renderChangelog) window.renderChangelog();
   }
   window.setMode=setMode;   // 딥링크 라우터(?m=...)가 페이지 로드 시 호출
-  document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click();};
-  document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click();};
-  document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click();};
-  document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare();});};
-  document.getElementById('mode-portfolio').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('portfolio'); SFX.click();});};
-  document.getElementById('mode-latest').onclick=()=>{setMode('latest'); SFX.click();};
-  document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click();};
-  document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click();};
-  document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click();};
-  document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click();};
-  document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click();};
-  document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click();};
-  document.getElementById('mode-rotation').onclick=()=>{
-    setMode('rotation'); SFX.click();
-    // ⭐ 2026-08-27 버그수정 — 다른 화면을 스크롤해 내려간 채로 "전체 메뉴" 안의
-    // "순환매" 버튼을 누르면 setMode가 화면 위치를 되돌리지 않아 목록 중간에서
-    // 시작된 것처럼 보였다(대표 실사용 중 신고). data-nav-mode 쪽은 이미 같은
-    // 패턴(closePanels 뒤 setTimeout 스크롤)으로 이 문제가 없어 그대로 따른다 —
-    // 전체 메뉴 오버레이가 클릭 40ms 뒤(아래 전역 리스너)에 닫히므로, 그보다
-    // 늦게 스크롤해야 오버레이가 닫힌 뒤의 실제 레이아웃 기준으로 맞는다.
+
+  /* 🐛 2026-08-28 — 화면을 스크롤해 내려간 채로 메뉴에서 다른 화면을 고르면, 그 화면이
+     목록 중간부터 보이는 문제. 2026-08-27에 「순환매」 하나만 고쳤는데(대표 신고),
+     실측해 보니 나머지 18개 메뉴 항목 전부에 같은 증상이 남아 있었다.
+     예: y=2500에서 「모의투자」를 누르면 제목도 V1/V2/V3 버튼도 안 보이고
+     종료된 거래 목록 한복판이 화면 맨 위에 뜬다.
+     → 항목마다 따로 붙이지 말고 한 곳에서 처리한다. 상단 메뉴(data-nav-mode)와
+       전체 메뉴(.modebtn)가 같은 함수를 쓴다.
+     ⚠️ 60ms 지연은 지우지 말 것 — 전체 메뉴 오버레이가 클릭 40ms 뒤에 닫히므로,
+        그보다 늦게 스크롤해야 오버레이가 닫힌 뒤의 실제 레이아웃 기준으로 맞는다. */
+  const MODE_VIEW_ID={
+    single:'analysisBrowser', compare:'cmpControls', portfolio:'portfolio',
+    watch:'watchView', guide:'guideView', latest:'latestPanel', news:'newsView',
+    study:'studyView', lesson:'lessonView', estate:'estateView', calc:'calcView',
+    screener:'screenerView', rates:'rateView', scorecard:'scorecardView',
+    paper:'paperView', calendar:'calendarView', community:'communityView',
+    changelog:'changelogView',
+    // 순환매는 서브탭(순환매 판단 | 전체시장 흐름)에 따라 보이는 쪽이 달라진다.
+    rotation:['rotationView','fullMarketView']
+  };
+  window.GaeoScrollToMode=function(mode){
+    const pick=()=>{
+      for(const id of [].concat(MODE_VIEW_ID[mode]||[])){
+        const el=document.getElementById(id);
+        // 숨어 있는 쪽(offsetParent===null)으로 스크롤하면 아무 데도 안 간다.
+        if(el&&el.offsetParent!==null) return el;
+      }
+      return null;
+    };
     setTimeout(()=>{
-      document.getElementById('rotationView')?.scrollIntoView({behavior:'smooth',block:'start'});
+      const el=pick();
+      if(!el){ window.scrollTo({top:0,behavior:'smooth'}); return; }  // 못 찾아도 최소한 맨 위로
+      el.scrollIntoView({behavior:'smooth',block:'start'});
+      /* 늦게 그려지는 화면(방명록·기록처럼 자료를 더 받아오는 곳)은 첫 스크롤 뒤에
+         내용이 채워지며 위치가 밀린다. 실측: 커뮤니티가 455px 지나친 자리에서 멈췄다.
+         그래서 조금 뒤 한 번만 다시 확인해, 화면 안쪽으로 들어가 버렸으면 바로잡는다.
+         제자리면 아무 것도 하지 않는다(멀쩡한 화면을 두 번 튀게 만들지 않는다). */
+      setTimeout(()=>{
+        const again=pick();
+        if(again&&again.getBoundingClientRect().top<-8){
+          again.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      },500);
     },60);
   };
-  document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click();};
-  document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click();};
-  document.getElementById('mode-paper').onclick=()=>{setMode('paper'); SFX.click();};
-  document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click();};
-  document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click();};
-  document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click();};
+  document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click(); GaeoScrollToMode('single');};
+  document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click(); GaeoScrollToMode('watch');};
+  document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click(); GaeoScrollToMode('guide');};
+  document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare(); GaeoScrollToMode('compare');});};
+  document.getElementById('mode-portfolio').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('portfolio'); SFX.click(); GaeoScrollToMode('portfolio');});};
+  document.getElementById('mode-latest').onclick=()=>{setMode('latest'); SFX.click(); GaeoScrollToMode('latest');};
+  document.getElementById('mode-news').onclick=()=>{setMode('news'); SFX.click(); GaeoScrollToMode('news');};
+  document.getElementById('mode-study').onclick=()=>{setMode('study'); SFX.click(); GaeoScrollToMode('study');};
+  document.getElementById('mode-lesson').onclick=()=>{setMode('lesson'); SFX.click(); GaeoScrollToMode('lesson');};
+  document.getElementById('mode-estate').onclick=()=>{setMode('estate'); SFX.click(); GaeoScrollToMode('estate');};
+  document.getElementById('mode-calc').onclick=()=>{setMode('calc'); SFX.click(); GaeoScrollToMode('calc');};
+  document.getElementById('mode-screener').onclick=()=>{setMode('screener'); SFX.click(); GaeoScrollToMode('screener');};
+  document.getElementById('mode-rotation').onclick=()=>{setMode('rotation'); SFX.click(); GaeoScrollToMode('rotation');};
+  document.getElementById('mode-rates').onclick=()=>{setMode('rates'); SFX.click(); GaeoScrollToMode('rates');};
+  document.getElementById('mode-scorecard').onclick=()=>{SC_WEEK_OFFSET=0; setMode('scorecard'); SFX.click(); GaeoScrollToMode('scorecard');};
+  document.getElementById('mode-paper').onclick=()=>{setMode('paper'); SFX.click(); GaeoScrollToMode('paper');};
+  document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click(); GaeoScrollToMode('calendar');};
+  document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click(); GaeoScrollToMode('community');};
+  document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click(); GaeoScrollToMode('changelog');};
 
   // ---------- 🌐 순환매 화면 2-tab: 순환매 판단 | 전체시장 흐름 ----------
   // rotation-ui.js·compute_rotation.py는 전혀 건드리지 않는다. 이 블록은 순전히
@@ -15971,12 +16023,9 @@ window.hangulFix=function(str){
       const mode=button.dataset.navMode;
       if(typeof window.setMode==='function') window.setMode(mode);
       closePanels();
-      setTimeout(()=>{
-        const target={single:'analysisBrowser',watch:'watchView',news:'newsView',lesson:'lessonView',calc:'calcView',
-          scorecard:'scorecardView',paper:'paperView',rates:'rateView',calendar:'calendarView',rotation:'rotationView'}[mode];
-        const element=document.getElementById(target);
-        if(element) element.scrollIntoView({behavior:'smooth',block:'start'});
-      },60);
+      // 화면 위치 되돌리기는 전체 메뉴와 같은 함수를 쓴다 — 지도를 두 벌 두면
+      // 새 화면을 추가할 때 한쪽만 고쳐져 다시 어긋난다(2026-08-28 통합).
+      if(typeof window.GaeoScrollToMode==='function') window.GaeoScrollToMode(mode);
     };
   });
 

@@ -217,6 +217,10 @@ jobs:
             timeout 600 node generate_sitemap.js || echo "sitemap 생성 실패"
             # 📡 네이버 서치어드바이저에 제출한 RSS도 함께 갱신 — 새 글을 네이버가 빨리 잡아가게 한다.
             timeout 300 node generate_rss.js || echo "rss 생성 실패"
+            # 🤖 llms.txt — AI 검색엔진(ChatGPT·Perplexity·Claude·구글 AI 개요)용 안내판.
+            #    2026-08-28 점검에서 이것만 자동 생성에 안 걸려 있어 최신 뉴스가 빠져 있었다
+            #    (sitemap·rss는 최신인데 llms.txt만 하루 넘게 뒤처짐). sitemap·rss와 한 묶음으로 돌린다.
+            timeout 300 node generate_llms.js || echo "llms 생성 실패"
             # 🔎 발행물 SEO 게이트(2026-08-16) — advisory. 위반이 있어도 시세 파이프라인은
             #    멈추지 않고 경고만 남긴다. 차단 검사는 test_seo_publishing.py(커밋 전)가 맡는다.
             timeout 120 python3 seo_publish_gate.py || echo "::warning::SEO 발행 게이트 위반 — seo_publish_gate.py 출력 확인"
@@ -242,7 +246,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_picks.js rotation_model.json rotation_archive.json model_scoreboard.js dart_today.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_picks.js rotation_model.json rotation_archive.json model_scoreboard.js dart_today.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml rss.xml llms.txt; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
