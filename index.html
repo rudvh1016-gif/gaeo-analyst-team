@@ -5030,7 +5030,13 @@
   document.write('<scr'+'ipt src="snap/latest_posts.js?v=20260729-activity1" onerror="window.LATEST_POSTS=window.LATEST_POSTS||[]"></scr'+'ipt>');
   w('snap/home_brief.js');
   w('deep_analysis_latest.js');
-  ['analysis.js','indicators.js','radar.js','market_history.js','market_archive.js','dow_stats.js','team_weights.js'].forEach(w);
+  /* 🚀 2026-08-28: 'indicators.js'(1,056KB) → 'indicators_home.js'(79KB).
+     홈이 실제로 읽는 건 indicesTech(1.7KB)와 종목별 tech.last5(71KB)뿐이라는 것을
+     Proxy 계측으로 확인했다(600종목 전수 · 390px·1280px 동일). 나머지 93%
+     (tech 나머지·flow 287KB·risk 44KB)는 종목을 눌러야 쓰이므로 그때 받는다.
+     ⚠️ 여기에 indicators.js를 다시 넣지 말 것 — 홈 전송량이 1MB 늘어난다.
+        전체 지표가 필요한 화면은 GaeoFeatures.load('indicators')를 쓴다. */
+  ['analysis.js','indicators_home.js','radar.js','market_history.js','market_archive.js','dow_stats.js','team_weights.js'].forEach(w);
   document.write('<scr'+'ipt src="model_intelligence.js?v=20260804-v3" onerror="window.MODEL_INTELLIGENCE=window.MODEL_INTELLIGENCE||null"></scr'+'ipt>');
   /* 모델 대시보드 집계(7KB 남짓). 개별 종목 예측 원본은 들어 있지 않다. */
   document.write('<scr'+'ipt src="model_scoreboard.js?v=20260815-v1" onerror="window.MODEL_SCOREBOARD=window.MODEL_SCOREBOARD||null"></scr'+'ipt>');
@@ -5039,6 +5045,28 @@
 </script>
 <script>
 /* 첫 화면에 필요 없는 큰 자료는 사용자가 해당 메뉴를 열 때만 내려받는다. */
+/* 🚀 홈 경량본 접근자 (2026-08-28).
+   홈은 indicators_home.js(79KB)만 받고 전체 indicators.js(1,056KB)는 종목 화면에서
+   받는다. 그래서 홈이 쓰는 두 값은 **경량본을 먼저** 보고, 없을 때만 전체를 본다
+   (전체가 이미 와 있는 화면에서도 값은 같다 — 경량본은 전체에서 뽑아낸 부분집합이다). */
+function indicesTech(name){
+  if(typeof INDICATORS_HOME!=='undefined'&&INDICATORS_HOME&&INDICATORS_HOME.indicesTech){
+    const t=INDICATORS_HOME.indicesTech[name];
+    if(t) return t;
+  }
+  return (typeof INDICATORS!=='undefined'&&INDICATORS&&INDICATORS.indicesTech)
+    ? (INDICATORS.indicesTech[name]||null) : null;
+}
+function homeLast5(code){
+  if(typeof INDICATORS_HOME!=='undefined'&&INDICATORS_HOME&&INDICATORS_HOME.last5){
+    const l=INDICATORS_HOME.last5[code];
+    if(l&&l.length) return l;
+  }
+  const t=(typeof INDICATORS!=='undefined'&&INDICATORS&&INDICATORS.stocks&&INDICATORS.stocks[code])
+    ? INDICATORS.stocks[code].tech : null;
+  return (t&&t.last5&&t.last5.length)?t.last5:null;
+}
+
 window.GaeoFeatures=(()=>{
   const files={
     news:['news_analysis.js'],
@@ -5053,6 +5081,9 @@ window.GaeoFeatures=(()=>{
     //    PRICE_HISTORY만 쓴다. 필요 없는 13.6MB를 받게 하지 않으려고 따로 뒀다.
     priceHistory:['price_history.js'],
     auto:['auto_analysis.js'],
+    // 📊 전체 기술지표(1,056KB) — 홈은 indicators_home.js(79KB)만 받고, 종목 상세·
+    //    포트폴리오처럼 tech 전체·flow·risk가 필요한 화면에서만 이걸 받는다.
+    indicators:['indicators.js'],
     // 📄 홈 "오늘의 공시" 위젯 전용 소형 스냅샷(수십 KB). auto_analysis.js(3MB)를
     //    홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이라, 첫 화면을 느리게 하지 않는다.
     dartToday:['dart_today.js'],
@@ -5093,6 +5124,7 @@ window.GaeoFeatures=(()=>{
         job.status='fulfilled';
         if(key==='auto'&&typeof window.GaeoUseAuto==='function') window.GaeoUseAuto();
         if(key==='archive'&&typeof window.GaeoUseArchive==='function') window.GaeoUseArchive();
+        if(key==='indicators'&&typeof window.GaeoUseIndicators==='function') window.GaeoUseIndicators();
       },()=>{delete jobs[key];});
       jobs[key]=job;
       return job;
@@ -5264,7 +5296,7 @@ function parseTargetInfo(targetText){
    목표가로 "주요 가격 구간" 표를 자동 계산한다. 시세가 갱신되면 표도 함께 움직인다 — AI 비용 0.
    ⭐ 2026-08-07 리디자인: 문장 나열 대신 표(구분/가격/의미)로 정리. 계산 로직은 그대로다. ── */
 function levelsHTML(code, price, targetText){
-  const IND=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)||null;
+  const IND=liveIndAll();
   const T=IND&&IND[code]&&IND[code].tech;
   if(!T||!price) return '';
   const pctOf=v=>{const p=(v-price)/price*100;return (p>0?'+':'')+p.toFixed(1)+'%';};
@@ -5553,7 +5585,7 @@ function targetHTML(code, price){
 
 // ── 포트폴리오 가격 레벨(지지·저항·손절·익절) — INDICATORS(MA·3개월밴드)로 자동 계산 ──
 function pfLevels(code, price){
-  const t=(LIVE_IND[code]||{}).tech; if(!t||!price) return null;
+  const t=(liveInd(code)||{}).tech; if(!t||!price) return null;
   const mas=[t.ma20,t.ma60].filter(x=>typeof x==='number');
   const below=mas.filter(x=>x<price*0.997).sort((a,b)=>b-a);   // 현재가 바로 아래 이동평균
   const above=mas.filter(x=>x>price*1.003).sort((a,b)=>a-b);   // 현재가 바로 위 이동평균
@@ -8553,6 +8585,10 @@ function jumpToStock(name){
   const inp=document.getElementById('ticker'); if(!inp) return;
   const selected=resolveStock(name);
   const mb=document.getElementById('mode-single'); if(mb) mb.click();
+  /* ⚠️ 위 click()은 "메뉴에서 종목분석을 골랐다"와 같은 경로라 화면을 종목분석 맨 위로
+     되돌리려 한다. 여기는 갈 곳(시세 카드)이 따로 있으므로 그 예약을 취소한다.
+     이 줄을 지우면 검색으로 들어올 때마다 "종목을 찾아 분석해 보세요"로 튕긴다. */
+  if(typeof window.GaeoCancelScrollToMode==='function') window.GaeoCancelScrollToMode();
   inp.value=name;
   showQuote(selected);         // 시세 카드(이름·현재가·지표·차트)를 바로 채운다
   window.__gaeoNoAutoScroll=true;        // 이후 종합판단 viz 자동스크롤 억제(시세 카드 유지)
@@ -8887,10 +8923,31 @@ function bioOf(code, sector){
   const b=(typeof STOCK_BIO!=='undefined'&&STOCK_BIO&&STOCK_BIO[code])||(window.STOCK_BIO&&window.STOCK_BIO[code]);
   return b || (sector?`${sector} 업종 종목`:'');
 }
+/* 지금 시세 카드에 떠 있는 종목 — 전체 지표가 늦게 도착했을 때 이 카드만 다시 그린다. */
+let GAEO_QUOTE_STOCK=null;
+/* 전체 지표(indicators.js) 도착 콜백. GaeoFeatures.load('indicators')가 부른다.
+   ⚠️ 이미 그려진 화면을 조용히 갈아끼우는 게 목적이라, 스크롤 위치는 건드리지 않는다. */
+window.GaeoUseIndicators=()=>{
+  const mode=document.body.dataset.mode;
+  if(mode==='single'&&GAEO_QUOTE_STOCK){
+    try{ showQuote(GAEO_QUOTE_STOCK); }catch(e){}
+  }
+  if(mode==='portfolio'&&typeof renderPortfolio==='function'){
+    try{ renderPortfolio(); }catch(e){}
+  }
+};
+
 function showQuote(st){
   if(window.GaeoInsightRail&&typeof window.GaeoInsightRail.recordRecent==='function'){
     window.GaeoInsightRail.recordRecent(st);
   }
+  /* 📊 종목 카드는 전체 지표(indicators.js)가 있어야 이동평균·수급·위험 표를 그린다.
+     홈은 경량본(79KB)만 받으므로 여기서 나머지를 요청한다. 도착 전에는 그 칸이
+     비어 있고(숫자를 지어내지 않는다), 도착하면 GaeoUseIndicators가 다시 그린다.
+     ⚠️ recordRecent보다 뒤에 둔다 — test_insight_rail.js가 showQuote 시작 250자
+        안에 recordRecent가 있는지로 "최근 본 종목 기록이 맨 앞"을 잠그고 있다. */
+  GAEO_QUOTE_STOCK=st;
+  if(typeof ensureIndicators==='function') ensureIndicators();
   document.getElementById('qname').textContent=st.name;
   document.getElementById('qcode').textContent=st.price?st.code:'';
   updateWatchToggle(st.price?st.code:null);
@@ -8965,8 +9022,9 @@ function flatOHLC(code){
   const days=pages.flatMap(p=>p.days).filter(d=>d&&d.date&&typeof d.close==='number')
     .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
   if(days.length>=2) return days;
-  const t=(LIVE_IND[code]||{}).tech;
-  return (t&&t.last5)?t.last5.map(x=>({date:x.d,close:x.c})):[];
+  const t=(liveInd(code)||{}).tech;
+  const l5=homeLast5(code);
+  return l5?l5.map(x=>({date:x.d,close:x.c})):[];
 }
 /* ── 시세 카드 가격 흐름(2026-08-07 개편): 코스피·코스닥 상세와 같은 캔들+이동평균+거래량
    차트(ohlcChartHTML/wireOhlcChart)를 그대로 재사용해 "전문 차트" 수준으로 올렸다.
@@ -9179,7 +9237,22 @@ const MA_BADGE_DEF={
 })();
 
 // ---------- 스파크라인(미니 라인차트) 공통 헬퍼 ----------
-const LIVE_IND=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks:{};
+/* 📊 전체 기술지표 접근자 (2026-08-28).
+   예전에는 `const LIVE_IND = INDICATORS.stocks`로 페이지 파싱 시점에 한 번 붙잡았다.
+   지금은 indicators.js를 종목 화면에서 지연 로딩하므로, 그 시점에 아직 없으면
+   빈 객체가 영구히 박힌다. 그래서 매번 현재 값을 읽는 함수로 바꾼다.
+   ⚠️ 없으면 null을 돌려준다 — 호출부는 전부 이미 `(...)||{}` 형태로 방어하고 있다.
+      숫자를 지어내지 않고 그 칸을 비우는 게 이 저장소의 원칙이다. */
+function liveIndAll(){
+  return (typeof INDICATORS!=='undefined'&&INDICATORS&&INDICATORS.stocks)?INDICATORS.stocks:{};
+}
+function liveInd(code){ return liveIndAll()[code]||null; }
+/* 전체 지표가 필요한 화면이 부르는 진입점. 이미 받았으면 아무 일도 하지 않는다. */
+function ensureIndicators(){
+  if(typeof GaeoFeatures==='undefined') return Promise.resolve();
+  return GaeoFeatures.load('indicators').catch(()=>{});
+}
+window.ensureIndicators=ensureIndicators;
 function flatCloses(code){
   const pages=(LIVE_PH&&LIVE_PH[code])||[];
   // ⚠️ PRICE_HISTORY의 페이지 배열은 시간순이 아닐 수 있다(중간에 과거 페이지가 끼어있음).
@@ -9187,8 +9260,8 @@ function flatCloses(code){
   const days=pages.flatMap(p=>p.days).map(d=>({date:d.date,c:d.close}))
     .sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
   if(days.length>=2) return days;
-  const t=(LIVE_IND[code]||{}).tech;
-  return (t&&t.last5)?t.last5.map(x=>({date:x.d,c:x.c})):[];
+  const l5=homeLast5(code);
+  return l5?l5.map(x=>({date:x.d,c:x.c})):[];
 }
 // 종목 칩·시세 카드용 작은 가격 스파크라인 (등락에 따라 색만 다름)
 function priceSparkSVG(closes,w,h){
@@ -9551,7 +9624,7 @@ function indexSummaryBullets(name,t){
 }
 /* 접힌 요약행 — indicesTech만으로 즉시 렌더(네트워크 추가 요청 없음) */
 function indexPanelRowHTML(name){
-  const t=(typeof INDICATORS!=='undefined'&&INDICATORS.indicesTech)?INDICATORS.indicesTech[name]:null;
+  const t=indicesTech(name);
   const live=(typeof LIVE_DATA!=='undefined'&&LIVE_DATA.indices)?LIVE_DATA.indices[name]:null;
   const meta=IDX_META[name];
   const value=live?live.value:(t&&t.close);
@@ -9582,7 +9655,7 @@ document.getElementById('idxPanels').addEventListener('toggle',e=>{
   const name=det.dataset.idx, body=det.querySelector('[data-idx-body]');
   if(!body||body.dataset.loaded) return;
   body.dataset.loaded='1';
-  const t=(typeof INDICATORS!=='undefined'&&INDICATORS.indicesTech)?INDICATORS.indicesTech[name]:null;
+  const t=indicesTech(name);
   const explain=t?taroMAExplainHTML(t,'p'):'';   // 지수는 '원'이 아니라 포인트(p)
   body.innerHTML=`<div class="idx-chart-slot" id="idxChart-${name}"><p class="idx-loading">차트를 불러오는 중…</p></div>${explain}`;
   // 지수 일별 기록(index_history.js)은 2026-08-06 신설이라, 수집 러너가 한 바퀴 돌기
@@ -9752,7 +9825,7 @@ renderIndexPanels();
 
 // ---------- TARO 기술적 분석 터미널: 실제 종가로 가격·MA·밴드·RSI·MACD를 계산 ----------
 function taroChartHTML(code){
-  const ind=LIVE_IND[code]; const t=ind&&ind.tech; if(!t) return '';
+  const ind=liveInd(code); const t=ind&&ind.tech; if(!t) return '';
   const days=flatCloses(code); if(days.length<2) return '';
   const closes=days.map(d=>d.c), start=Math.max(0,closes.length-60);
   const sma=(arr,n)=>arr.map((_,i)=>i<n-1?null:arr.slice(i-n+1,i+1).reduce((a,b)=>a+b,0)/n);
@@ -10904,7 +10977,7 @@ function macroAdjustConf(conf){
       `BUY/HOLD/SELL 판단 자체는 그대로예요 — 다만 요즘같이 시장 전체가 출렁이는 장에서는 확신도를 에누리해서 보는 게 안전해요.`};
 }
 function riskDecisionOverlay(code){
-  const r=(LIVE_IND[code]||{}).risk;
+  const r=(liveInd(code)||{}).risk;
   if(!r) return {score:null,grade:'unknown',penalty:0,confPenalty:0};
   const score=Math.round(Math.max(5,Math.min(95,100-r.vol20*10-Math.max(0,-r.mdd3m)*0.6)));
   const grade=['low','mid','high'].includes(r.grade)?r.grade:(score<35?'high':score<55?'mid':'low');
@@ -11188,7 +11261,7 @@ function getDianaInterpretation(code,res){
   // (⭐ 2026-08-08 파이프라인 갱신 전에는 그 필드들이 아직 없을 수 있어 없으면 조용히 건너뛴다).
   const S=STOCKS[code];
   if(!S||typeof S.per!=='number') return null;
-  const I=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks[code]:null;
+  const I=liveInd(code);
   const state=dianaStateLabel(res.score);
   const metrics=[];
   const perR=sectorRankInfo(code,'per'), pbrR=sectorRankInfo(code,'pbr');
@@ -11355,7 +11428,7 @@ function parseFlowFromFindings(findings){
   return {days,frgnSum,orgSum,indiSum,holdBefore,holdNow,todayFrgn,todayOrg,todayIndi,qualityScore,divergence};
 }
 function getFlowInterpretation(code,res){
-  const I=(typeof INDICATORS!=='undefined'&&INDICATORS.stocks)?INDICATORS.stocks[code]:null;
+  const I=liveInd(code);
   const fl=(I&&I.flow&&typeof I.flow.frgnSum==='number')?I.flow:parseFlowFromFindings(res.findings);
   if(!fl||typeof fl.frgnSum!=='number'||typeof fl.todayIndi!=='number') return null;
   const state=flowStateLabel(res.score);
@@ -11390,7 +11463,7 @@ function getFlowInterpretation(code,res){
 // ④ RISK — 위험: "이 종목은 얼마나 크게 흔들릴 수 있는가?"
 function riskStateLabel(grade){ return grade==='low'?'위험도 낮음':grade==='high'?'위험도 높음':'위험도 보통'; }
 function getRiskInterpretation(code){
-  const r=(LIVE_IND[code]||{}).risk; if(!r) return null;
+  const r=(liveInd(code)||{}).risk; if(!r) return null;
   const overlay=riskDecisionOverlay(code);
   const state=riskStateLabel(r.grade);
   const swing=(r.vol20*2).toFixed(1);
@@ -11565,7 +11638,7 @@ function fillCard(a,res,code){
 const RISK_COLOR='#a16207';
 function renderRiskCard(code,data){
   const old=document.getElementById('card-risk'); if(old) old.remove();
-  const r=(LIVE_IND[code]||{}).risk; if(!r) return;
+  const r=(liveInd(code)||{}).risk; if(!r) return;
   const gradeKr=r.grade==='low'?'안정':(r.grade==='high'?'위험':'보통');
   const gradeCls=r.grade==='low'?'bull':(r.grade==='high'?'bear':'neu');
   // 안정 점수(높을수록 차분한 종목): 변동성·최대낙폭이 클수록 깎인다
@@ -11762,6 +11835,9 @@ function sendToWork(dur,onDone){ setTimeout(onDone,dur); }
 async function analyze(){
   if(running)return; running=true;
   SFX.click();
+  // 📊 전체 지표(indicators.js)를 먼저 확보한다 — 홈은 경량본만 받기 때문이다.
+  //    이미 받았으면 즉시 통과한다(GaeoFeatures가 같은 약속을 재사용).
+  if(typeof ensureIndicators==='function'){ try{ await ensureIndicators(); }catch(e){} }
   /* ⭐ 2026-08-27 버그수정 — 분석을 눌러두고 기다리는 동안 화면을 직접 움직여
      다른 곳(차트·시황·아래쪽 등)을 보고 있었는데, 분석이 끝나면 아래 종합판단으로
      화면이 강제로 끌려가 보던 자리를 잃어버렸다(대표 실사용 중 신고).
@@ -14614,7 +14690,11 @@ window.renderScreener=function(){
     document.getElementById('fmTabHost').classList.toggle('on',rotation);
     if(typeof window.GaeoSyncFmTabButtons==='function') window.GaeoSyncFmTabButtons(fmSubTab);
     document.getElementById('changelogView').classList.toggle('on',changelog);
-    if(portfolio) renderPortfolio();
+    if(portfolio){
+      // 포트폴리오의 지지·저항·위험 표는 전체 지표를 쓴다(홈 경량본에 없다).
+      if(typeof ensureIndicators==='function') ensureIndicators();
+      renderPortfolio();
+    }
     if(news && window.renderNews) window.renderNews();
     if(study && window.renderStudy) window.renderStudy();
     if(lesson && window.renderLesson) window.renderLesson();
@@ -14654,7 +14734,17 @@ window.renderScreener=function(){
     // 순환매는 서브탭(순환매 판단 | 전체시장 흐름)에 따라 보이는 쪽이 달라진다.
     rotation:['rotationView','fullMarketView']
   };
+  /* 🐛 2026-08-28 회귀수정 — 대표 신고: "종목검색을 누르면 자꾸 검색 화면으로 온다".
+     원인: jumpToStock()은 `mode-single` 버튼을 **코드로** 누른 뒤(8587행) 곧바로
+     시세 카드(#quote)로 화면을 옮긴다. 그런데 위에서 그 버튼에 붙인 되돌리기가
+     60ms 뒤에 실행되면서, 이미 시세 카드로 가 있던 화면을 검색 패널로 끌어왔다
+     (실측: 100ms에 시세카드 top=118 → 300ms에 top=1063으로 화면 밖).
+     → 갈 곳을 이미 정한 쪽이 예약된 되돌리기를 취소할 수 있게 한다.
+        토큰이 바뀌면 예약된 스크롤은 조용히 포기한다(60ms·500ms 둘 다). */
+  let GAEO_SCROLL_SEQ=0;
+  window.GaeoCancelScrollToMode=function(){ GAEO_SCROLL_SEQ++; };
   window.GaeoScrollToMode=function(mode){
+    const my=++GAEO_SCROLL_SEQ;
     const pick=()=>{
       for(const id of [].concat(MODE_VIEW_ID[mode]||[])){
         const el=document.getElementById(id);
@@ -14664,6 +14754,7 @@ window.renderScreener=function(){
       return null;
     };
     setTimeout(()=>{
+      if(my!==GAEO_SCROLL_SEQ) return;       // 그 사이에 갈 곳을 정한 쪽이 있다 — 양보한다
       const el=pick();
       if(!el){ window.scrollTo({top:0,behavior:'smooth'}); return; }  // 못 찾아도 최소한 맨 위로
       el.scrollIntoView({behavior:'smooth',block:'start'});
@@ -14672,6 +14763,7 @@ window.renderScreener=function(){
          그래서 조금 뒤 한 번만 다시 확인해, 화면 안쪽으로 들어가 버렸으면 바로잡는다.
          제자리면 아무 것도 하지 않는다(멀쩡한 화면을 두 번 튀게 만들지 않는다). */
       setTimeout(()=>{
+        if(my!==GAEO_SCROLL_SEQ) return;     // 재정렬도 같은 규칙으로 양보한다
         const again=pick();
         if(again&&again.getBoundingClientRect().top<-8){
           again.scrollIntoView({behavior:'smooth',block:'start'});

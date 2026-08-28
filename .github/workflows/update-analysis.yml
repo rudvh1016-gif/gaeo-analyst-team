@@ -4,7 +4,7 @@
 #   + 장중 매 사이클 짝꿍(update-prices) 상호 감시·소생 + push 마커·cron·Routine 안전망.
 # 2026-07-21: concurrency를 cancel-in-progress:false로 변경(트리거 겹침이 도는 루프를 죽여
 #   체인이 끊기는 사고 방지 — update-prices.yml 주석에 상세 원인 설명).
-# 생성물: price_history.js · index_history.js · analysis_data.json · indicators.json · indicators.js ·
+# 생성물: price_history.js · index_history.js · analysis_data.json · indicators.json · indicators.js · indicators_home.js ·
 #         auto_analysis.js · guestbook_backup.json · krx_list.json
 name: update-analysis
 
@@ -246,7 +246,7 @@ jobs:
             # 덮어쓸 수 있다. 소유권을 명확히 한다 — data.js는 update-prices만, 파생물은 이 잡만.
             # 여기서 되돌려도 이미 위 스크립트들이 최신 시세를 다 읽은 뒤라 결과물엔 영향 없다.
             git checkout HEAD -- data.js analysis.js 2>/dev/null || true
-            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_picks.js rotation_model.json rotation_archive.json model_scoreboard.js dart_today.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml rss.xml llms.txt; do
+            for f in price_history.js index_history.js analysis_data.json indicators.json indicators.js indicators_home.js radar.json radar.js radar_series.js dow_stats.js team_weights.js model_intelligence.js auto_analysis.js history.js market_history.js rotation_snapshot.js rotation_picks.js rotation_model.json rotation_archive.json model_scoreboard.js dart_today.js guestbook_id.json guestbook_backup.json krx_list.json sitemap.xml rss.xml llms.txt; do
               [ -f "$f" ] && { git add "$f" || true; }
             done
             [ -d snap ] && git add snap
