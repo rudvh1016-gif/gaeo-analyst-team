@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-08-28 15:11",
+ "generatedAt": "2026-08-28 15:12",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -351,8 +351,8 @@ const MODEL_INTELLIGENCE = {
    "errorCorr": -0.067
   },
   "diana:flow": {
-   "n": 839,
-   "errorCorr": 0.132
+   "n": 838,
+   "errorCorr": 0.131
   },
   "nova:flow": {
    "n": 1234,
@@ -370,9 +370,9 @@ const MODEL_INTELLIGENCE = {
    "n": 995,
    "blend": 0.554,
    "weights": {
-    "taro": 0.2974,
-    "diana": 0.1068,
-    "nova": 0.2795,
+    "taro": 0.298,
+    "diana": 0.1071,
+    "nova": 0.2786,
     "flow": 0.3163
    },
    "acc": {
@@ -398,9 +398,9 @@ const MODEL_INTELLIGENCE = {
    "n": 6238,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2881,
-    "diana": 0.1139,
-    "nova": 0.3213,
+    "taro": 0.2887,
+    "diana": 0.1143,
+    "nova": 0.3204,
     "flow": 0.2767
    },
    "acc": {
@@ -426,10 +426,10 @@ const MODEL_INTELLIGENCE = {
    "n": 1997,
    "blend": 0.6,
    "weights": {
-    "taro": 0.306,
-    "diana": 0.108,
-    "nova": 0.2918,
-    "flow": 0.2942
+    "taro": 0.3066,
+    "diana": 0.1084,
+    "nova": 0.2909,
+    "flow": 0.2941
    },
    "acc": {
     "taro": {
@@ -454,9 +454,9 @@ const MODEL_INTELLIGENCE = {
    "n": 12115,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2334,
-    "diana": 0.1434,
-    "nova": 0.3301,
+    "taro": 0.2339,
+    "diana": 0.1439,
+    "nova": 0.3291,
     "flow": 0.2931
    },
    "acc": {
@@ -482,10 +482,10 @@ const MODEL_INTELLIGENCE = {
    "n": 3153,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2811,
-    "diana": 0.1338,
-    "nova": 0.2518,
-    "flow": 0.3334
+    "taro": 0.2816,
+    "diana": 0.1342,
+    "nova": 0.2509,
+    "flow": 0.3333
    },
    "acc": {
     "taro": {
@@ -511,11 +511,11 @@ const MODEL_INTELLIGENCE = {
   "key": "up_low",
   "trend": "up",
   "vol": "low",
-  "median5": 4.13,
+  "median5": 4.17,
   "medianAbs1": 1.75,
-  "advanceRatio5": 82.3,
-  "medianRet1": 0.52,
-  "advanceRatio1": 57.5
+  "advanceRatio5": 82.8,
+  "medianRet1": 0.58,
+  "advanceRatio1": 58.0
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -526,15 +526,15 @@ const MODEL_INTELLIGENCE = {
   "days": 39,
   "guardedN": 295,
   "baseline": {
-   "hit": 9812,
-   "miss": 9015,
-   "mid": 742,
+   "hit": 9807,
+   "miss": 9023,
+   "mid": 739,
    "accuracy": 52.1
   },
   "guarded": {
-   "hit": 9807,
-   "miss": 9035,
-   "mid": 727,
+   "hit": 9802,
+   "miss": 9043,
+   "mid": 724,
    "accuracy": 52.0
   },
   "active": false,
@@ -546,42 +546,42 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 5003,
-  "errors": 2198,
+  "errors": 2206,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 2091
+    "count": 2098
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1256
+    "count": 1263
    },
    {
     "label": "고변동성 국면",
-    "count": 674
+    "count": 682
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 70
+    "count": 71
    }
   ],
   "analystErrors": {
-   "taro": 1430,
+   "taro": 1435,
    "diana": 0,
-   "nova": 70,
-   "flow": 252
+   "nova": 71,
+   "flow": 253
   },
   "regimeErrors": {
    "up_low": 1024,
-   "down_high": 674,
+   "down_high": 682,
    "unknown": 322,
    "down_low": 178
   }
  },
  "shadow": {
   "n": 5003,
-  "baselineActionN": 930,
-  "baselineActionPrecision": 46.0,
+  "baselineActionN": 933,
+  "baselineActionPrecision": 45.9,
   "candidateActionN": 0,
   "candidateActionPrecision": null,
   "candidateCoverage": 0.0,
@@ -592,8 +592,8 @@ const MODEL_INTELLIGENCE = {
   },
   "testDays": 9,
   "testRegimes": 3,
-  "candidateAllCallAccuracy": 55.6,
-  "brier": 0.2423,
+  "candidateAllCallAccuracy": 55.5,
+  "brier": 0.2424,
   "rawBrier": 0.2706
  },
  "prospective": {
@@ -725,20 +725,20 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "evaluation": {
-   "n": 930,
+   "n": 933,
    "buyN": 395,
-   "sellN": 535,
+   "sellN": 538,
    "testDays": 9,
    "testRegimes": 3,
    "candidate": {
-    "n": 930,
-    "tierSpreadPp": 23.9,
-    "corr": 0.1643
+    "n": 933,
+    "tierSpreadPp": 23.5,
+    "corr": 0.1617
    },
    "baseline": {
-    "n": 930,
+    "n": 933,
     "tierSpreadPp": 3.5,
-    "corr": 0.0413
+    "corr": 0.0404
    }
   },
   "promotion": {
