@@ -271,9 +271,15 @@ class ScalpV3Engine(PaperEngine):
         # 하루 신규 진입 상한 — 이미 오늘 들어간 수만큼 차감한다.
         entered_today = sum(1 for r in latest.values()
                             if r.get("entry_business_date") == today)
-        room = MAX_NEW_ENTRIES_PER_DAY - entered_today
+        # ⚠️ 2026-08-28: 여기만 모듈 상수를 직접 읽어서 config.json의
+        #    maxNewEntriesPerDay 가 아무 데도 안 쓰이는 장식용 필드였다. 다른 튜너블
+        #    (sectorCap·takeProfitPct·stopLossPct·maxHoldingTradingDays)과 똑같이
+        #    config 우선으로 맞춘다 — 화면도 이 값을 읽어 규칙을 설명하므로,
+        #    엔진과 화면이 같은 한 곳(config)을 보게 해야 둘이 어긋나지 않는다.
+        per_day = self.config.get("maxNewEntriesPerDay") or MAX_NEW_ENTRIES_PER_DAY
+        room = per_day - entered_today
         if room <= 0:
-            actions.append(f"오늘 신규 진입 상한({MAX_NEW_ENTRIES_PER_DAY}종목) 도달 — 추가 진입 없음")
+            actions.append(f"오늘 신규 진입 상한({per_day}종목) 도달 — 추가 진입 없음")
             return "PROCESSED"
 
         # 🧺 업종 흐름 반영 — 같은 업종을 SECTOR_CAP개까지만 담는다.
