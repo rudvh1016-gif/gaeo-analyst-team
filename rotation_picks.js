@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 11:15",
- "dataCutoff": "2026-08-28 11:15 장중",
+ "generatedAt": "2026-08-28 11:46",
+ "dataCutoff": "2026-08-28 11:46 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
-   "sectorRank": 4,
-   "why": "20거래일 +105.8% · 20일선 위",
+   "sectorRank": 5,
+   "why": "20거래일 +107.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.8,
+   "gapPct": 6.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "삼화콘덴서",
    "sector": "전자·부품",
    "sectorRank": 2,
-   "why": "20거래일 +99.8% · 20일선 위 · 거래량 평소의 1.4배",
+   "why": "20거래일 +98.3% · 20일선 위 · 거래량 평소의 1.5배",
    "overheat": false,
-   "gapPct": 26.5,
+   "gapPct": 25.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 10,
-   "why": "20거래일 +143.4% · 20일선 위",
+   "why": "20거래일 +145.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.8,
+   "gapPct": 33.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +46,32 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 3,
-   "why": "20거래일 +97.6% · 20일선 위",
+   "why": "20거래일 +98.5% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.2,
+   "gapPct": 30.8,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 56.2,
+  "breadthPct": 60.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6838.57,
-    "ma20": 6624.31,
+    "close": 6845.3,
+    "ma20": 6624.64,
     "above": true,
-    "gapPct": 3.23
+    "gapPct": 3.33
    },
    "KOSDAQ": {
-    "close": 832.85,
-    "ma20": 818.72,
+    "close": 836.17,
+    "ma20": 818.89,
     "above": true,
-    "gapPct": 1.73
+    "gapPct": 2.11
    }
   }
  },

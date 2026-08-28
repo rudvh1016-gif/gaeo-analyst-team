@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-28 11:15",
- "priceLabel": "2026-08-28 11:09 장중",
- "count": 317,
+ "generatedAt": "2026-08-28 11:46",
+ "priceLabel": "2026-08-28 11:33 장중",
+ "count": 323,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "069960",
+   "name": "현대백화점",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002320",
+   "name": "한진",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "161890",
+   "name": "한국콜마",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003690",
+   "name": "코리안리",
+   "title": "[기재정정]반기보고서 (2026.06)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "104830",
+   "name": "원익머트리얼즈",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "041510",
+   "name": "에스엠",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003920",
+   "name": "남양유업",
+   "title": "소송등의판결ㆍ결정(일정금액이상의청구)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:44:51.059583+00:00",
+   "isCorrection": false
+  },
   {
    "code": "180640",
    "name": "한진칼",
@@ -195,14 +259,6 @@ const DART_TODAY = {
    "code": "001440",
    "name": "대한전선",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T01:14:39.712435+00:00",
    "isCorrection": false
@@ -1773,14 +1829,6 @@ const DART_TODAY = {
    "title": "증권신고서(합병)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T00:13:22.642807+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "161890",
-   "name": "한국콜마",
-   "title": "주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T07:11:39.954574+00:00",
    "isCorrection": false
   },
   {
