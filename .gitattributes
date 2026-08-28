@@ -52,6 +52,7 @@ paper_trading/**/*.json -merge
 paper_trading/**/*.jsonl -merge
 
 # 🗂️ 기록·아카이브
+market_universe/history/*.json -merge
 history.js      -merge
 market_history.js -merge
 analysis_archive.js -merge
