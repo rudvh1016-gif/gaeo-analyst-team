@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Fri, 28 Aug 2026 07:13:25 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 28 Aug 2026 07:44:18 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 8월28일 종가, 지수는 1.79% 빠졌는데 왜 종목은 올랐을까</title>
+    <link>https://gaeoteam.com/snap/news/60.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/60.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 1.79% 내린 6,788.88, 코스닥은 0.09% 오른 838.41로 마감했어요. 삼성전자와 SK하이닉스 같은 덩치 큰 종목이 지수를 혼자 끌어내렸지만, 개오가 보는 598종목 중에서는 384개가 올랐어요. 반도체에서 빠진 돈이 화장품·식음료·화학으로 옮겨간 순환매 장세였어요.</description>
+    <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 8월27일 종가, 엔비디아 훈풍에 코스피·코스닥 동반 상승</title>
     <link>https://gaeoteam.com/snap/news/59.html</link>
@@ -398,14 +406,6 @@
     <category>부동산공부</category>
     <description>디딤돌·보금자리론·신생아특례 생애최초 조건과 한도, 경매 낙찰 시 활용법까지 한 번에 정리했어요.</description>
     <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리</title>
-    <link>https://gaeoteam.com/snap/lesson/60.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/60.html</guid>
-    <category>주식공부</category>
-    <description>공매도가 시장에 존재함으로써 생기는 장점과 단점, 그리고 &quot;공매도가 있어야 오히려 주가가 오른다&quot;는 말의 두 가지 진짜 의미를 초보자 눈높이로 정리했어요.</description>
-    <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
