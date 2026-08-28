@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-28 12:44",
+ "generatedAt": "2026-08-28 13:14",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.278,
-   "diana": 0.1278,
-   "nova": 0.292,
-   "flow": 0.3022
+   "taro": 0.2773,
+   "diana": 0.1272,
+   "nova": 0.2949,
+   "flow": 0.3006
   },
   "acc": {
    "taro": {
-    "n": 2093,
-    "acc": 45.1,
-    "adjustedAcc": 45.4,
+    "n": 2100,
+    "acc": 45.2,
+    "adjustedAcc": 45.5,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,9 +47,9 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 379,
-    "acc": 49.1,
-    "adjustedAcc": 49.3,
+    "n": 376,
+    "acc": 49.7,
+    "adjustedAcc": 49.8,
     "days": 5,
     "deadband": 1.0
    },
@@ -61,21 +61,21 @@ const TEAM_WEIGHTS = {
     "deadband": 1.0
    }
   },
-  "graded": 2863,
+  "graded": 2867,
   "team": {
-   "hit": 1720,
-   "miss": 1170,
-   "n": 2890,
-   "acc": 59.5
+   "hit": 1715,
+   "miss": 1174,
+   "n": 2889,
+   "acc": 59.4
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2782,
-    "diana": 0.1294,
-    "nova": 0.2956,
-    "flow": 0.2968
+    "taro": 0.2777,
+    "diana": 0.1289,
+    "nova": 0.2977,
+    "flow": 0.2957
    },
    "acc": {
     "taro": {
@@ -112,10 +112,10 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2802,
-    "diana": 0.125,
-    "nova": 0.2867,
-    "flow": 0.3081
+    "taro": 0.2795,
+    "diana": 0.1245,
+    "nova": 0.2891,
+    "flow": 0.3068
    },
    "acc": {
     "taro": {
@@ -133,9 +133,9 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 73,
-     "acc": 49.3,
-     "adjustedAcc": 49.7,
+     "n": 72,
+     "acc": 50.0,
+     "adjustedAcc": 50.0,
      "days": 5,
      "deadband": 1.0
     },
@@ -147,8 +147,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 359,
-   "globalBlend": 0.69
+   "graded": 358,
+   "globalBlend": 0.691
   }
  }
 };
