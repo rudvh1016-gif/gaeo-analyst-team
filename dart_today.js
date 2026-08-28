@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-28 10:45",
- "priceLabel": "2026-08-28 10:34 장중",
- "count": 313,
+ "generatedAt": "2026-08-28 11:15",
+ "priceLabel": "2026-08-28 11:09 장중",
+ "count": 317,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "180640",
+   "name": "한진칼",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:14:38.104912+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "178920",
+   "name": "PI첨단소재",
+   "title": "임시주주총회결과",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:14:38.104912+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "456040",
+   "name": "OCI",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:14:38.104912+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "079550",
+   "name": "LIG디펜스앤에어로스페이스",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T02:14:38.104912+00:00",
+   "isCorrection": false
+  },
   {
    "code": "126560",
    "name": "현대퓨처넷",
