@@ -154,6 +154,18 @@ opens_after = [r for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
 check("5-5. 하루 상한(3종목)이 배치를 넘어도 유지된다", len(opens_after) == 3,
       str(len(opens_after)))
 
+# 5-6. 하루 상한을 config.json에서 읽는가 — 2026-08-28 이전에는 이 값만 모듈 상수를
+#      직접 읽어서 config의 maxNewEntriesPerDay가 아무 데도 안 쓰이는 장식이었다.
+#      화면도 이 값을 읽어 규칙을 설명하므로, 엔진이 config를 무시하면 둘이 어긋난다.
+tmp = tempfile.mkdtemp(prefix="sv3_cap_cfg_")
+e = fresh(tmp, D1)
+e.config["maxNewEntriesPerDay"] = 1
+_scan_holder["ret"] = (D1, 1.2, [(s, 10.0 - i) for i, s in enumerate(SYMS)])
+e.run_cycle(bundle({s: "BUY" for s in SYMS}, f"{D1}T10:00:00+09:00"), now=t(D1, 10, 5))
+_cap1 = [r for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
+check("5-6. 하루 상한을 config.json에서 읽는다(1로 낮추면 1종목만)",
+      len(_cap1) == 1, str([r["symbol"] for r in _cap1]))
+
 # ── 6. 익절: 관측가 +3% 도달 → TAKE_PROFIT ──────────────────────────────────
 tmp = tempfile.mkdtemp(prefix="sv3_tp_")
 e = fresh(tmp, D1)
@@ -339,6 +351,12 @@ check("10-2b. 자금·상한 설정이 코드와 config에 같이 반영돼 있�
       and _payload.get("positionSizeKrw") == 2_500_000,
       f"{ps.POSITION_SIZE_KRW} {ps.MAX_NEW_ENTRIES_PER_DAY} {ps.SECTOR_CAP} "
       f"{_payload.get('positionSizeKrw')}")
+# 10-2c. 화면이 규칙 숫자를 손으로 적지 않게, 진입 상한·업종 상한도 payload에 실린다.
+#        (index.html 이 「하루 최대 4개」를 하드코딩해 엔진과 어긋났던 원인)
+check("10-2c. 하루 진입 상한·업종 상한이 payload에 실린다",
+      _payload.get("maxNewEntriesPerDay") == ps.MAX_NEW_ENTRIES_PER_DAY
+      and _payload.get("sectorCap") == ps.SECTOR_CAP,
+      f"{_payload.get('maxNewEntriesPerDay')} {_payload.get('sectorCap')}")
 check("10-3. 저장소에 초기 config.json이 커밋돼 있다(러너 첫 실행 전에도 스텁 탈출)",
       os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                   "paper_trading", "scalp_v3", "config.json")))
