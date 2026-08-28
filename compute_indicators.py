@@ -501,6 +501,32 @@ def main():
         f.write(f"const INDICATORS = {json.dumps({'generatedAt': out['generatedAt'], 'stocks': js_stocks, 'indicesTech': out['indicesTech']}, ensure_ascii=False)};\n")
     print(f"indicators.js 저장 완료 (브라우저용, {len(js_stocks)}종목, 지수 {len(out['indicesTech'])}개)")
 
+    # 🚀 홈 경량본(indicators_home.js) — 2026-08-28 신설.
+    #
+    # 왜: 위 indicators.js가 1MB가 넘는데, 홈 화면이 실제로 읽는 건 두 가지뿐이다.
+    #     Proxy로 계측한 결과(600종목 전수 · 390px·1280px 동일):
+    #       · indicesTech        1.7KB  ← 코스피·코스닥 지수 카드
+    #       · stocks[*].tech.last5 71KB ← 홈 종목 칩 미니 그래프
+    #     나머지 93%(tech 나머지·flow 287KB·risk 44KB)는 **종목을 눌러야** 쓰인다.
+    #     그래서 홈은 이 파일만 즉시 받고, 전체는 종목 화면에서 지연 로딩한다.
+    #
+    # ⚠️ 이 파일에 필드를 더 넣지 말 것. 늘리는 만큼 홈이 다시 느려진다.
+    #    새 필드가 홈에 필요하면 "정말 첫 화면에 필요한가"를 먼저 계측할 것.
+    home_last5 = {code: e["tech"]["last5"]
+                  for code, e in js_stocks.items()
+                  if isinstance(e.get("tech"), dict) and e["tech"].get("last5")}
+    home_path = os.path.join(HERE, "indicators_home.js")
+    with open(home_path, "w", encoding="utf-8") as f:
+        f.write("// 자동 생성: compute_indicators.py · 홈 화면 전용 경량본\n")
+        f.write("// 전체 지표는 indicators.js — 종목 화면에서 지연 로딩한다(index.html GaeoFeatures).\n")
+        f.write("const INDICATORS_HOME = %s;\n" % json.dumps(
+            {"generatedAt": out["generatedAt"], "indicesTech": out["indicesTech"],
+             "last5": home_last5}, ensure_ascii=False))
+    _full = os.path.getsize(js_path)
+    _home = os.path.getsize(home_path)
+    print("indicators_home.js 저장 완료 (%d종목 last5, %.1fKB — 전체의 %.1f%%)"
+          % (len(home_last5), _home / 1024, _home / _full * 100))
+
 
 if __name__ == "__main__":
     main()
