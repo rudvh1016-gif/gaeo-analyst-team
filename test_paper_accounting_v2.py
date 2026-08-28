@@ -689,7 +689,12 @@ json.dump({"engineStartedAt": "2026-09-01T09:10:00+09:00", "baselineCaptured": T
            "openMeta": {"l1": {"lastMarkPrice": ENTRY,
                                "lastMarkObservedAt": "2026-09-01T10:10:00+09:00"}}},
           open(os.path.join(d, "state.json"), "w"))
-json.dump(CFG_NET, open(os.path.join(d, "config.json"), "w"))
+# ⚠️ 이 블록은 V1 슬롯(window.GAEO_PAPER)의 계좌 총계를 검사하므로 전략 이름도
+#    V1이어야 한다. paper_public 의 계좌 게이트(2026-08-28)는 모르는 전략을
+#    기본으로 막기 때문에(fail-closed), 가짜 이름이면 총계가 null이 되어
+#    "회계가 맞는가"를 확인할 수 없다. 회계 설정(CFG_NET)은 그대로 쓴다.
+json.dump({**CFG_NET, "strategyVersion": "PAPER_BASELINE_V1"},
+          open(os.path.join(d, "config.json"), "w"))
 json.dump({"initialVirtualCash": 10_000_000}, open(os.path.join(d, "summary.json"), "w"))
 _od, _oo = _pp.DIR, _pp.OUT
 _pp.DIR, _pp.OUT = d, os.path.join(tmp, "paper_public.js")
