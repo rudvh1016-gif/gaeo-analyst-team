@@ -1,12 +1,124 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-28 09:15",
- "priceLabel": "2026-08-28 09:11 장중",
- "count": 290,
+ "generatedAt": "2026-08-28 09:45",
+ "priceLabel": "2026-08-28 09:35 장중",
+ "count": 297,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "042700",
+   "name": "한미반도체",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "028670",
+   "name": "팬오션",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001230",
+   "name": "동국홀딩스",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017670",
+   "name": "SK텔레콤",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006260",
+   "name": "LS",
+   "title": "지속가능경영보고서등관련사항(자율공시)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "294870",
+   "name": "IPARK현대산업개발",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "007340",
+   "name": "DN오토모티브",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
+   "isCorrection": false
+  },
   {
    "code": "383310",
    "name": "에코프로에이치엔",
@@ -107,14 +219,6 @@ const DART_TODAY = {
    "code": "298040",
    "name": "효성중공업",
    "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T07:31:44.101364+00:00",
    "isCorrection": false
@@ -432,14 +536,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "012330",
    "name": "현대모비스",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -584,14 +680,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T05:31:45.381720+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "232140",
    "name": "와이씨",
    "title": "단일판매ㆍ공급계약체결",
@@ -672,14 +760,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T04:01:43.124878+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "268280",
    "name": "미원에스씨",
    "title": "최대주주등소유주식변동신고서",
@@ -755,14 +835,6 @@ const DART_TODAY = {
    "code": "006800",
    "name": "미래에셋증권",
    "title": "풍문또는보도에대한해명(미확정)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T02:33:29.023632+00:00",
    "isCorrection": false
@@ -1027,14 +1099,6 @@ const DART_TODAY = {
    "code": "000490",
    "name": "대동",
    "title": "타법인주식및출자증권취득결정",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T07:25:18.487312+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T07:25:18.487312+00:00",
    "isCorrection": false
@@ -1963,14 +2027,6 @@ const DART_TODAY = {
    "code": "067160",
    "name": "SOOP",
    "title": "기업설명회(IR)개최",
-   "receiptDate": "20260824",
-   "detectedAt": "2026-08-24T07:28:38.046778+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260824",
    "detectedAt": "2026-08-24T07:28:38.046778+00:00",
    "isCorrection": false
