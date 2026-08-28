@@ -33,7 +33,25 @@ async function waitForServer() {
     await page.goto('http://127.0.0.1:8877/index.html');
     await page.waitForLoadState('networkidle');
 
+    /* 🚀 2026-08-28: 수급(flow)은 indicators.js에 들어 있고, 그 파일은 이제 홈에서
+       받지 않는다(1,056KB → 홈은 경량본 79KB만). 종목 화면을 열 때 받는다.
+       그래서 먼저 "홈에서는 수급을 지어내지 않는다"를 확인하고,
+       그다음 앱과 같은 순서(전체 지표 확보 → 카드 렌더)로 계약을 검사한다. */
+    const atHome = await page.evaluate(() => ({
+      flow: getFlowInterpretation('005930', { score: 24, findings: [] }),
+      indLoaded: typeof INDICATORS !== 'undefined',
+    }));
+    assert.equal(atHome.indLoaded, false, '홈이 전체 지표(1MB)를 다시 받고 있습니다');
+    assert.equal(atHome.flow, null, '자료가 없는데 수급 숫자를 만들어내면 안 됩니다');
+
+    // 앱의 실제 경로: 종목 화면이 열릴 때 전체 지표를 확보한다(analyze()가 await한다).
+    await page.evaluate(() => window.ensureIndicators());
+    await page.waitForFunction(
+      () => typeof INDICATORS !== 'undefined' && !!(INDICATORS && INDICATORS.stocks),
+      { timeout: 15000 });
+
     const flow = await page.evaluate(() => getFlowInterpretation('005930', { score: 24, findings: [] }));
+    assert.ok(flow && flow.rows, '전체 지표가 온 뒤에는 수급 표가 나와야 합니다');
     assert.deepEqual(flow.rows.map(row => row.label), ['외국인', '기관', '개인']);
     // Flow values are live market aggregates, so verify their contract instead
     // of freezing a prior trading day's three account totals.
