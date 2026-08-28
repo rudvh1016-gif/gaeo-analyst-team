@@ -12068,8 +12068,8 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 54,
+   "total": 55,
+   "confidence": 64,
    "base": 812000,
    "baseAt": "2026-08-28 15:04 장중",
    "target": "증권사 평균 목표주가 1,181,000원 (현재가 대비 +45.4% 상승여력)",
@@ -12082,11 +12082,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 76
+    "score": 69
    },
    "diana": {
     "stance": "neu",
@@ -12094,7 +12094,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 48,
     "sector": "전력·에너지",
     "sectorWinRate": 52.0,
     "sectorBlendPct": 75,
@@ -20779,7 +20779,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -65688,7 +65688,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 48
    },
    "diana": {
     "stance": "bull",
@@ -67030,7 +67030,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 50,
+   "total": 49,
    "confidence": 51,
    "base": 175600,
    "baseAt": "2026-08-28 15:04 장중",
@@ -67044,7 +67044,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -67056,7 +67056,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 50,
     "sector": "유통·소비재",
     "sectorWinRate": 50.1,
     "sectorBlendPct": 75,
@@ -69797,7 +69797,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -73860,7 +73860,7 @@ const LIVE_HISTORY = {
    "date": "2026-08-28",
    "call": "HOLD",
    "total": 55,
-   "confidence": 62,
+   "confidence": 61,
    "base": 240500,
    "baseAt": "2026-08-28 15:04 장중",
    "target": "증권사 평균 목표주가 269,786원 (현재가 대비 +12.2% 상승여력)",
@@ -73877,7 +73877,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "neu",
@@ -82037,7 +82037,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -87459,7 +87459,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 37,
    "base": 26500,
    "baseAt": "2026-08-28 15:04 장중",
@@ -87473,11 +87473,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 25
+    "score": 26
    },
    "diana": {
     "stance": "bull",
@@ -90205,7 +90205,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 52,
     "sector": "금융·증권",
     "sectorWinRate": 49.2,
     "sectorBlendPct": 75,
@@ -97026,7 +97026,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 57
+    "score": 56
    },
    "diana": {
     "stance": "neu",
@@ -129666,7 +129666,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 45
    },
    "diana": {
     "stance": "bear",
@@ -133742,7 +133742,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -133753,8 +133753,8 @@ const LIVE_HISTORY = {
     "score": 44
    },
    "nova": {
-    "stance": "neu",
-    "score": 57,
+    "stance": "bull",
+    "score": 59,
     "sector": "바이오·제약",
     "sectorWinRate": 45.0,
     "sectorBlendPct": 75,
@@ -147346,7 +147346,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -161025,7 +161025,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 61
    },
    "diana": {
     "stance": "neu",
@@ -200476,7 +200476,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 61,
+   "total": 60,
    "confidence": 37,
    "base": 471000,
    "baseAt": "2026-08-28 15:04 장중",
@@ -200490,11 +200490,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 76
    },
    "diana": {
     "stance": "bull",
@@ -204566,7 +204566,7 @@ const LIVE_HISTORY = {
    "judgmentWithheld": null,
    "reboundCheck": {
     "active": false,
-    "confirmed": false,
+    "confirmed": true,
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
@@ -205930,11 +205930,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 56,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 71
    },
    "diana": {
     "stance": "neu",
@@ -235933,7 +235933,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -241377,7 +241377,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 22
    },
    "diana": {
     "stance": "bull",
@@ -246813,7 +246813,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -257697,7 +257697,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -261773,7 +261773,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -275406,7 +275406,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 69
    },
    "diana": {
     "stance": "bull",
@@ -282188,8 +282188,8 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "SELL",
-   "total": 44,
-   "confidence": 57,
+   "total": 37,
+   "confidence": 42,
    "base": 66100,
    "baseAt": "2026-08-28 15:04 장중",
    "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +92.1% 상승여력)",
@@ -282198,23 +282198,23 @@ const LIVE_HISTORY = {
    "judgmentWithheld": null,
    "reboundCheck": {
     "active": false,
-    "confirmed": false,
+    "confirmed": true,
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 43,
    "riskPenalty": 6,
    "taro": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 38
    },
    "diana": {
     "stance": "bull",
     "score": 65
    },
    "nova": {
-    "stance": "neu",
-    "score": 47,
+    "stance": "bear",
+    "score": 29,
     "sector": "반도체",
     "sectorWinRate": 52.2,
     "sectorBlendPct": 75,
@@ -306694,7 +306694,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 55,
     "sector": "화학·소재",
     "sectorWinRate": 47.2,
     "sectorBlendPct": 75,
@@ -368373,7 +368373,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 31
    },
    "diana": {
     "stance": "bull",
@@ -376533,7 +376533,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "neu",
@@ -386035,7 +386035,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 62,
+   "total": 61,
    "confidence": 47,
    "base": 95500,
    "baseAt": "2026-08-28 15:04 장중",
@@ -386049,11 +386049,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 73
    },
    "diana": {
     "stance": "bull",
@@ -388765,7 +388765,7 @@ const LIVE_HISTORY = {
    "judgmentWithheld": null,
    "reboundCheck": {
     "active": false,
-    "confirmed": false,
+    "confirmed": true,
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
@@ -392845,7 +392845,7 @@ const LIVE_HISTORY = {
    "judgmentWithheld": null,
    "reboundCheck": {
     "active": false,
-    "confirmed": false,
+    "confirmed": true,
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
@@ -402355,7 +402355,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "SELL",
-   "total": 44,
+   "total": 43,
    "confidence": 43,
    "base": 9900,
    "baseAt": "2026-08-28 15:04 장중",
@@ -402369,7 +402369,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -405093,7 +405093,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "bull",
@@ -410645,7 +410645,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 89
    },
    "diana": {
     "stance": "bull",
@@ -421532,8 +421532,8 @@ const LIVE_HISTORY = {
     "score": 81
    },
    "nova": {
-    "stance": "bear",
-    "score": 40,
+    "stance": "neu",
+    "score": 45,
     "sector": "지주·상사",
     "sectorWinRate": 52.2,
     "sectorBlendPct": 75,
@@ -425605,7 +425605,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -431027,7 +431027,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "SELL",
-   "total": 46,
+   "total": 44,
    "confidence": 30,
    "base": 2562,
    "baseAt": "2026-08-28 15:04 장중",
@@ -431041,11 +431041,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
-   "riskPenalty": 3,
+   "rawTotal": 48,
+   "riskPenalty": 4,
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -436485,7 +436485,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -439187,7 +439187,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "BUY",
-   "total": 66,
+   "total": 65,
    "confidence": 37,
    "base": 32400,
    "baseAt": "2026-08-28 15:04 장중",
@@ -439201,11 +439201,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 66,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 95
+    "score": 94
    },
    "diana": {
     "stance": "bull",
@@ -447347,7 +447347,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 61,
+   "total": 60,
    "confidence": 55,
    "base": 1684,
    "baseAt": "2026-08-28 15:04 장중",
@@ -447361,7 +447361,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -466401,11 +466401,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 58
+    "score": 59
    },
    "diana": {
     "stance": "neu",
@@ -466413,7 +466413,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 51,
     "sector": "식음료",
     "sectorWinRate": 47.7,
     "sectorBlendPct": 75,
@@ -477285,7 +477285,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "bull",
@@ -486805,7 +486805,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -493588,7 +493588,7 @@ const LIVE_HISTORY = {
    "date": "2026-08-28",
    "call": "SELL",
    "total": 43,
-   "confidence": 65,
+   "confidence": 66,
    "base": 7550,
    "baseAt": "2026-08-28 15:04 장중",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
@@ -493605,7 +493605,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 51
    },
    "diana": {
     "stance": "neu",
@@ -496325,7 +496325,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 16
+    "score": 15
    },
    "diana": {
     "stance": "neu",
@@ -505827,7 +505827,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "SELL",
-   "total": 46,
+   "total": 45,
    "confidence": 67,
    "base": 62300,
    "baseAt": "2026-08-28 15:04 장중",
@@ -505842,10 +505842,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 51,
-   "riskPenalty": 5,
+   "riskPenalty": 6,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 51
    },
    "diana": {
     "stance": "neu",
@@ -528961,7 +528961,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 51,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -538485,7 +538485,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "bear",
-    "score": 10
+    "score": 9
    },
    "diana": {
     "stance": "bull",
@@ -569794,7 +569794,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "diana": {
     "stance": "neu",
@@ -590194,7 +590194,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -596990,7 +596990,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -599696,7 +599696,7 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 56,
+   "total": 55,
    "confidence": 30,
    "base": 54500,
    "baseAt": "2026-08-28 15:04 장중",
@@ -599710,7 +599710,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 58,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
@@ -618783,7 +618783,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -658204,8 +658204,8 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-08-28",
-   "call": "HOLD",
-   "total": 51,
+   "call": "SELL",
+   "total": 46,
    "confidence": 53,
    "base": 15330,
    "baseAt": "2026-08-28 15:04 장중",
@@ -658215,11 +658215,11 @@ const LIVE_HISTORY = {
    "judgmentWithheld": null,
    "reboundCheck": {
     "active": false,
-    "confirmed": false,
+    "confirmed": true,
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -658230,8 +658230,8 @@ const LIVE_HISTORY = {
     "score": 70
    },
    "nova": {
-    "stance": "neu",
-    "score": 55,
+    "stance": "bear",
+    "score": 39,
     "sector": "바이오·제약",
     "sectorWinRate": 45.0,
     "sectorBlendPct": 75,
@@ -660939,7 +660939,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -675910,8 +675910,8 @@ const LIVE_HISTORY = {
     "score": 50
    },
    "nova": {
-    "stance": "neu",
-    "score": 55,
+    "stance": "bull",
+    "score": 58,
     "sector": "2차전지",
     "sectorWinRate": 46.1,
     "sectorBlendPct": 75,
@@ -685125,11 +685125,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -689973,11 +689973,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 48
    },
    "diana": {
     "stance": "bull",
@@ -691171,8 +691171,8 @@ const LIVE_HISTORY = {
   {
    "date": "2026-08-28",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 58,
+   "total": 58,
+   "confidence": 59,
    "base": 10110,
    "baseAt": "2026-08-28 15:04 장중",
    "target": "증권사 평균 목표주가 13,100원 (현재가 대비 +29.6% 상승여력)",
@@ -691185,11 +691185,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 78
    },
    "diana": {
     "stance": "neu",
@@ -694821,7 +694821,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -708157,7 +708157,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -716640,8 +716640,8 @@ const LIVE_HISTORY = {
    "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bull",
-    "score": 58
+    "stance": "neu",
+    "score": 57
    },
    "diana": {
     "stance": "neu",
@@ -720677,7 +720677,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
