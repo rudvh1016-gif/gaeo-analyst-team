@@ -306,10 +306,19 @@ else:
         check("기준 시각(priceBaseAt)이 모두 동일", len({e["priceBaseAt"] for e in evs}) == 1)
         check("상태값은 confirmed/provisional 뿐",
               {e["status"] for e in evs} <= {"confirmed", "provisional"})
+        # ⚠️ 이 두 검사가 깨지면 대개 radar.json과 radar.js가 **서로 다른 세대**다.
+        #    compute_radar.py는 둘을 같은 객체에서 함께 쓰므로 생성 시점엔 항상 맞는다.
+        #    실제 사고(2026-08-28): `git merge -X theirs`로 데이터 생성물을 병합할 때
+        #    radar.json은 옛 세대, radar.js는 새 세대가 채택돼 짝이 갈라졌다.
+        #    → 고치는 법: 둘을 같은 커밋에서 함께 되돌리거나, 다음 러너 사이클을 기다린다.
+        _pair = "radar.json과 radar.js가 다른 세대일 수 있다(둘을 같은 커밋에서 맞출 것)"
         check("종목별 대표 신호 목록과 이벤트 종목 수 일치",
-              len(rd.get("stocks", [])) == len({e["code"] for e in evs}))
+              len(rd.get("stocks", [])) == len({e["code"] for e in evs}),
+              f"stocks {len(rd.get('stocks', []))} vs 이벤트 종목 "
+              f"{len({e['code'] for e in evs})} — {_pair}")
         check("'외 N건' 합계가 전체 신호 수와 일치",
-              sum(1 + s["others"] for s in rd["stocks"]) == len(evs))
+              sum(1 + s["others"] for s in rd["stocks"]) == len(evs),
+              f"합계 {sum(1 + s['others'] for s in rd['stocks'])} vs 신호 {len(evs)} — {_pair}")
     else:
         check("신호 0건이어도 구조는 정상", isinstance(rd.get("counts"), dict))
 

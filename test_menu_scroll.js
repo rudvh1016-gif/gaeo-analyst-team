@@ -107,6 +107,48 @@ async function settle(page) {
     await context.close();
   }
 
+  /* 🐛 회귀 잠금 (2026-08-28, 대표 신고) — "종목검색을 누르면 자꾸 검색 화면으로 온다".
+     jumpToStock()은 mode-single 버튼을 코드로 누른 뒤 시세 카드로 화면을 옮기는데,
+     그 버튼에 붙은 되돌리기가 60ms 뒤 실행되며 시세 카드를 밀어냈다
+     (실측: 100ms에 시세카드 top=118 → 300ms에 top=1063으로 화면 밖).
+     갈 곳을 정한 쪽이 GaeoCancelScrollToMode()로 양보받는 것이 계약이다. */
+  for (const [label, viewport] of [['모바일 390', { width: 390, height: 844 }],
+                                   ['PC 1280', { width: 1280, height: 900 }]]) {
+    const ctx = await browser.newContext({ viewport });
+    const page = await ctx.newPage();
+    page.on('pageerror', e => pageErrors.push(`${label}(검색): ${e}`));
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(3000);
+
+    check(`${label} · 되돌리기 취소 함수가 있다`,
+      await page.evaluate(() => typeof window.GaeoCancelScrollToMode === 'function'));
+
+    const name = await page.evaluate(() =>
+      (typeof TICKERS !== 'undefined' && TICKERS[0]) ? (TICKERS[0].name || TICKERS[0][1] || null) : null);
+    await page.evaluate(n => { if (typeof jumpToStock === 'function' && n) jumpToStock(n); }, name);
+
+    // 예약 스크롤(60ms)과 재정렬(500ms)이 지난 뒤에도 시세 카드가 화면에 남아야 한다.
+    const seen = [];
+    for (const ms of [120, 400, 1200, 2500]) {
+      await page.waitForTimeout(ms - (seen.length ? [120, 400, 1200][seen.length - 1] : 0));
+      seen.push(await page.evaluate(() => {
+        const q = document.getElementById('quote');
+        return q && q.offsetParent !== null ? Math.round(q.getBoundingClientRect().top) : null;
+      }));
+    }
+    const inView = seen.every(t => t !== null && t > -200 && t < 700);
+    check(`${label} · 종목 검색으로 들어가면 시세 카드에 머문다`,
+      inView, `시세카드 top 변화: ${seen.join(' → ')} (검색 화면으로 튕겼다)`);
+
+    const panelTop = await page.evaluate(() => {
+      const ab = document.getElementById('analysisBrowser');
+      return ab && ab.offsetParent !== null ? Math.round(ab.getBoundingClientRect().top) : null;
+    });
+    check(`${label} · 검색 패널이 화면을 가로채지 않는다`,
+      panelTop === null || panelTop < -100 || panelTop > 700, `검색패널 top=${panelTop}`);
+    await ctx.close();
+  }
+
   check('JS 예외 없음', pageErrors.length === 0, pageErrors.join(' | '));
 
   await browser.close();
