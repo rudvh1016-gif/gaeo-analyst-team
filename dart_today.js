@@ -1,12 +1,28 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-28 11:46",
- "priceLabel": "2026-08-28 11:33 장중",
- "count": 323,
+ "generatedAt": "2026-08-28 12:15",
+ "priceLabel": "2026-08-28 12:08 장중",
+ "count": 325,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "011170",
+   "name": "롯데케미칼",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T03:14:32.601710+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "483650",
+   "name": "달바글로벌",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T03:14:32.601710+00:00",
+   "isCorrection": false
+  },
   {
    "code": "069960",
    "name": "현대백화점",

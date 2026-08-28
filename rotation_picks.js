@@ -4,18 +4,40 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 11:46",
- "dataCutoff": "2026-08-28 11:46 장중",
+ "generatedAt": "2026-08-28 12:15",
+ "dataCutoff": "2026-08-28 12:15 장중",
  "horizonDays": 20,
  "picks": [
+  {
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
+   "sectorRank": 8,
+   "why": "20거래일 +147.0% · 20일선 위",
+   "overheat": true,
+   "gapPct": 34.6,
+   "call": "HOLD",
+   "callConflict": false
+  },
   {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 5,
-   "why": "20거래일 +107.3% · 20일선 위",
+   "why": "20거래일 +107.5% · 20일선 위",
    "overheat": false,
-   "gapPct": 6.5,
+   "gapPct": 6.6,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 4,
+   "why": "20거래일 +100.4% · 20일선 위",
+   "overheat": true,
+   "gapPct": 31.9,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,54 +46,32 @@ window.ROTATION_PICKS = {
    "name": "삼화콘덴서",
    "sector": "전자·부품",
    "sectorRank": 2,
-   "why": "20거래일 +98.3% · 20일선 위 · 거래량 평소의 1.5배",
+   "why": "20거래일 +97.4% · 20일선 위 · 거래량 평소의 1.5배",
    "overheat": false,
-   "gapPct": 25.6,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "006110",
-   "name": "삼아알미늄",
-   "sector": "화학·소재",
-   "sectorRank": 10,
-   "why": "20거래일 +145.2% · 20일선 위",
-   "overheat": true,
-   "gapPct": 33.7,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "066970",
-   "name": "엘앤에프",
-   "sector": "2차전지",
-   "sectorRank": 3,
-   "why": "20거래일 +98.5% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.8,
+   "gapPct": 25.1,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 60.5,
+  "breadthPct": 60.9,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6845.3,
-    "ma20": 6624.64,
+    "close": 6837.0,
+    "ma20": 6624.23,
     "above": true,
-    "gapPct": 3.33
+    "gapPct": 3.21
    },
    "KOSDAQ": {
-    "close": 836.17,
-    "ma20": 818.89,
+    "close": 835.15,
+    "ma20": 818.84,
     "above": true,
-    "gapPct": 2.11
+    "gapPct": 1.99
    }
   }
  },

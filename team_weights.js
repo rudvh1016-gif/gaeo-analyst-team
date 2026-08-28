@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-28 11:44",
+ "generatedAt": "2026-08-28 12:14",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,16 +26,16 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2788,
-   "diana": 0.1275,
-   "nova": 0.2879,
-   "flow": 0.3059
+   "taro": 0.278,
+   "diana": 0.1276,
+   "nova": 0.2908,
+   "flow": 0.3036
   },
   "acc": {
    "taro": {
     "n": 2087,
-    "acc": 45.3,
-    "adjustedAcc": 45.5,
+    "acc": 45.1,
+    "adjustedAcc": 45.4,
     "days": 5,
     "deadband": 1.0
    },
@@ -47,41 +47,41 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 385,
-    "acc": 48.6,
-    "adjustedAcc": 48.9,
+    "n": 382,
+    "acc": 49.0,
+    "adjustedAcc": 49.2,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 392,
-    "acc": 48.2,
-    "adjustedAcc": 48.6,
+    "n": 391,
+    "acc": 47.8,
+    "adjustedAcc": 48.3,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 2864,
+  "graded": 2860,
   "team": {
-   "hit": 1744,
-   "miss": 1146,
-   "n": 2890,
-   "acc": 60.3
+   "hit": 1739,
+   "miss": 1148,
+   "n": 2887,
+   "acc": 60.2
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2786,
+    "taro": 0.2782,
     "diana": 0.1292,
-    "nova": 0.2927,
-    "flow": 0.2996
+    "nova": 0.2948,
+    "flow": 0.2978
    },
    "acc": {
     "taro": {
-     "n": 222,
-     "acc": 40.5,
-     "adjustedAcc": 43.9,
+     "n": 221,
+     "acc": 40.7,
+     "adjustedAcc": 44.0,
      "days": 5,
      "deadband": 1.0
     },
@@ -107,21 +107,21 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 301,
+   "graded": 300,
    "globalBlend": 0.727
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2804,
-    "diana": 0.1249,
-    "nova": 0.2836,
-    "flow": 0.3112
+    "taro": 0.2794,
+    "diana": 0.125,
+    "nova": 0.2862,
+    "flow": 0.3095
    },
    "acc": {
     "taro": {
-     "n": 254,
-     "acc": 47.6,
-     "adjustedAcc": 48.4,
+     "n": 253,
+     "acc": 47.4,
+     "adjustedAcc": 48.3,
      "days": 5,
      "deadband": 1.0
     },
@@ -133,9 +133,9 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 74,
-     "acc": 48.6,
-     "adjustedAcc": 49.5,
+     "n": 73,
+     "acc": 49.3,
+     "adjustedAcc": 49.7,
      "days": 5,
      "deadband": 1.0
     },
@@ -147,8 +147,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 358,
-   "globalBlend": 0.691
+   "graded": 356,
+   "globalBlend": 0.692
   }
  }
 };
