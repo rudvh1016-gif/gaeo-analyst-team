@@ -55,6 +55,10 @@ PARTIAL = "FULL_MARKET_PARTIAL"
 SOURCE_ERROR = "SOURCE_ERROR"
 HISTORY_ACCUMULATING = "HISTORY_ACCUMULATING"
 
+# 일별 History를 쓰기 시작하는 시각(KST). 정규장 마감 15:30 + 정정 여유 10분.
+# update-analysis.yml의 `compute_rotation --mode close`(1540)와 같은 기준선이다.
+HISTORY_WRITE_AFTER_KST = (15, 40)
+
 # 최소 정상 수집 기준 — 이보다 적으면 last-good을 덮어쓰지 않는다.
 # (2026-07-11 실측 krx_list.json: KOSPI 2,171 · KOSDAQ 1,770)
 MIN_SANE_PER_MARKET = 800
@@ -80,6 +84,51 @@ def _get(url, referer, tries=3):
 
 def _now_iso():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _is_trading_day(day):
+    """KRX 정규장이 열리는 날인가. 저장소 공용 달력(krx_calendar)을 재사용한다.
+
+    달력을 못 읽으면 주말만 제외한다 — gaeo_coverage/guardian.py와 같은 처리다.
+    달력이 놓친 임시 휴장은 아래 _duplicates_previous_day()가 한 겹 더 막는다.
+    """
+    try:
+        from krx_calendar import is_krx_trading_day
+        return is_krx_trading_day(day)
+    except Exception:
+        return day.weekday() < 5
+
+
+def _stats_signature(payload):
+    """그날 집계의 지문. 두 날짜의 지문이 같으면 같은 장을 두 번 적은 것이다."""
+    out = []
+    for scope in ("market", "kospi", "kosdaq"):
+        s = payload.get(scope) or {}
+        out.append((s.get("eligibleCount"), s.get("advancers"), s.get("decliners"),
+                    s.get("equalWeightReturn"), s.get("capWeightedReturn")))
+    return tuple(out)
+
+
+def _duplicates_previous_day(kst_day, payload):
+    """직전에 적재된 다른 날짜의 기록과 집계가 완전히 같은가.
+
+    휴장일에 벤더는 직전 거래일 snapshot을 그대로 돌려준다. 그걸 그대로 적으면
+    직전 거래일 종가가 복제돼 평균·분포가 오염된다(실제로 2026-08-17 광복절
+    대체공휴일 기록이 2026-08-14 종가의 복제였다). 2,400여 종목의 상승 수와
+    소수점 셋째 자리 수익률이 통째로 일치할 확률은 사실상 0이므로,
+    일치하면 "새로운 장이 아니다"로 본다.
+    """
+    try:
+        days = sorted(f[:-5] for f in os.listdir(HISTORY_DIR)
+                      if f.endswith(".json") and f[:-5] < kst_day)
+    except OSError:
+        return None
+    if not days:
+        return None
+    prev = _load_json(os.path.join(HISTORY_DIR, days[-1] + ".json"))
+    if not prev:
+        return None
+    return days[-1] if _stats_signature(prev) == _stats_signature(payload) else None
 
 
 def _atomic_write(path, text):
@@ -499,19 +548,39 @@ def run_full(write_raw=False):
             f.write(gzip.compress(blob, 6))
         os.replace(tmp, RAW_LATEST)
 
-    # 하루 1회(장 마감 후) 소형 집계 History 적재 — intraday 대량 커밋 금지
+    # 하루 1건 소형 집계 History 적재 — 반드시 "그날의 종가" 한 장이어야 한다.
+    #
+    # 🐛 2026-08-28 대표 지적으로 드러난 버그. 위 주석대로 의도는 처음부터 "장 마감 후"였는데
+    #    조건이 `hour_kst >= 15 and not os.path.exists(hist_path)`였다. 정규장 마감은 15:30이라
+    #    15:00~15:29 회차가 먼저 도착해 그날 기록을 선점했고, 한 번 쓰이고 나면 not exists 때문에
+    #    정작 마감 회차가 덮어쓸 수 없었다. 적재된 10일이 전부 15:02~15:29 장중 스냅샷이었다.
+    #    2026-08-28 실측: 상승 1,367종목(15:13) vs 1,490종목(종가) — 123종목이 어긋났다.
+    #
+    # 계약 세 가지
+    #   ① 마감 전에는 절대 쓰지 않는다. HISTORY_WRITE_AFTER_KST(15:40)부터 쓴다.
+    #   ② 매 회차 덮어쓴다 — 그날 마지막 회차(≈16:05)가 남아야 진짜 종가다.
+    #      다른 날짜 파일은 손대지 않으므로 "오늘 것만 갱신"이 그대로 보장된다.
+    #   ③ 휴장일에는 쓰지 않는다(달력 + 직전 거래일 복제 감지 이중 방어).
     hist_path = os.path.join(HISTORY_DIR, f"{kst_day}.json")
-    hour_kst = datetime.now(KST).hour
-    if hour_kst >= 15 and not os.path.exists(hist_path):
-        _atomic_write(hist_path, json.dumps(
-            {"day": kst_day, "asOf": as_of,
-             # 그날의 실제 Universe 구성을 함께 남긴다 — 오늘의 상장목록을 과거로
-             # 소급하는 survivorship bias를 막는 근거 기록이다.
-             "universeSource": "FULL_MARKET", "universeDate": kst_day,
-             "quality": quality,
-             "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats,
-             "sectorBreadth": public["sectorBreadth"]},
-            ensure_ascii=False, indent=1))
+    now_kst = datetime.now(KST)
+    if (now_kst.hour, now_kst.minute) >= HISTORY_WRITE_AFTER_KST:
+        record = {"day": kst_day, "asOf": as_of,
+                  # 마감 이후 스냅샷임을 읽는 쪽이 확인할 수 있게 남긴다.
+                  "closeConfirmed": True,
+                  # 그날의 실제 Universe 구성을 함께 남긴다 — 오늘의 상장목록을 과거로
+                  # 소급하는 survivorship bias를 막는 근거 기록이다.
+                  "universeSource": "FULL_MARKET", "universeDate": kst_day,
+                  "quality": quality,
+                  "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats,
+                  "sectorBreadth": public["sectorBreadth"]}
+        open_day = _is_trading_day(now_kst.date())
+        dup = _duplicates_previous_day(kst_day, record) if open_day else None
+        if not open_day:
+            print(f"[full] {kst_day} 휴장일 — 일별 기록 생략(달력)")
+        elif dup:
+            print(f"[full] {kst_day} 집계가 {dup}와 완전히 같다 — 임시 휴장으로 보고 기록 생략")
+        else:
+            _atomic_write(hist_path, json.dumps(record, ensure_ascii=False, indent=1))
 
     print(f"[full] {status} raw={len(raw)} eligible={len(eligible)} "
           f"(KOSPI {per_market.get('KOSPI')} · KOSDAQ {per_market.get('KOSDAQ')}) "
