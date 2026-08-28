@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 14:43",
- "dataCutoff": "2026-08-28 14:43 장중",
+ "generatedAt": "2026-08-28 15:13",
+ "dataCutoff": "2026-08-28 15:13 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "066970",
    "name": "엘앤에프",
    "sector": "2차전지",
-   "sectorRank": 3,
-   "why": "20거래일 +102.1% · 20일선 위",
+   "sectorRank": 2,
+   "why": "20거래일 +100.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 33.0,
+   "gapPct": 32.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,10 +34,10 @@ window.ROTATION_PICKS = {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
-   "sectorRank": 6,
-   "why": "20거래일 +106.0% · 20일선 위",
+   "sectorRank": 7,
+   "why": "20거래일 +105.2% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.9,
+   "gapPct": 5.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,40 +45,40 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 1,
-   "why": "20거래일 +90.5% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +89.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 26.7,
+   "gapPct": 25.8,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 64.0,
+  "breadthPct": 62.7,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6802.72,
-    "ma20": 6622.52,
+    "close": 6795.98,
+    "ma20": 6622.18,
     "above": true,
-    "gapPct": 2.72
+    "gapPct": 2.62
    },
    "KOSDAQ": {
-    "close": 836.66,
-    "ma20": 818.91,
+    "close": 836.35,
+    "ma20": 818.9,
     "above": true,
-    "gapPct": 2.17
+    "gapPct": 2.13
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "전력·에너지"
+  "topSector": "건설·건자재"
  },
  "record": {
   "hitRate": 54.8,
