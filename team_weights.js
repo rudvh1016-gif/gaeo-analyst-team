@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-28 14:42",
+ "generatedAt": "2026-08-28 15:12",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -26,15 +26,15 @@ const TEAM_WEIGHTS = {
  "method": "role-prior-bayesian-shrinkage-v2",
  "global": {
   "weights": {
-   "taro": 0.2779,
+   "taro": 0.2776,
    "diana": 0.1271,
-   "nova": 0.2938,
-   "flow": 0.3012
+   "nova": 0.293,
+   "flow": 0.3023
   },
   "acc": {
    "taro": {
-    "n": 2104,
-    "acc": 45.3,
+    "n": 2102,
+    "acc": 45.2,
     "adjustedAcc": 45.5,
     "days": 5,
     "deadband": 1.0
@@ -47,41 +47,41 @@ const TEAM_WEIGHTS = {
     "deadband": 3.0
    },
    "nova": {
-    "n": 377,
-    "acc": 49.6,
-    "adjustedAcc": 49.7,
+    "n": 376,
+    "acc": 49.5,
+    "adjustedAcc": 49.6,
     "days": 5,
     "deadband": 1.0
    },
    "flow": {
-    "n": 390,
-    "acc": 47.7,
-    "adjustedAcc": 48.2,
+    "n": 391,
+    "acc": 47.8,
+    "adjustedAcc": 48.3,
     "days": 5,
     "deadband": 1.0
    }
   },
-  "graded": 2871,
+  "graded": 2869,
   "team": {
-   "hit": 1712,
-   "miss": 1178,
-   "n": 2890,
-   "acc": 59.2
+   "hit": 1709,
+   "miss": 1182,
+   "n": 2891,
+   "acc": 59.1
   }
  },
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2772,
+    "taro": 0.2766,
     "diana": 0.1287,
-    "nova": 0.2975,
-    "flow": 0.2965
+    "nova": 0.2968,
+    "flow": 0.2979
    },
    "acc": {
     "taro": {
-     "n": 221,
-     "acc": 40.3,
-     "adjustedAcc": 43.7,
+     "n": 220,
+     "acc": 40.0,
+     "adjustedAcc": 43.5,
      "days": 5,
      "deadband": 1.0
     },
@@ -100,28 +100,28 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "flow": {
-     "n": 50,
-     "acc": 32.0,
-     "adjustedAcc": 44.7,
+     "n": 49,
+     "acc": 32.7,
+     "adjustedAcc": 45.0,
      "days": 5,
      "deadband": 1.0
     }
    },
-   "graded": 298,
-   "globalBlend": 0.729
+   "graded": 296,
+   "globalBlend": 0.73
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.2814,
+    "taro": 0.2805,
     "diana": 0.1244,
-    "nova": 0.287,
-    "flow": 0.3073
+    "nova": 0.2871,
+    "flow": 0.308
    },
    "acc": {
     "taro": {
-     "n": 260,
-     "acc": 48.8,
-     "adjustedAcc": 49.2,
+     "n": 258,
+     "acc": 48.4,
+     "adjustedAcc": 48.9,
      "days": 5,
      "deadband": 1.0
     },
@@ -133,9 +133,9 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 74,
-     "acc": 48.6,
-     "adjustedAcc": 49.5,
+     "n": 73,
+     "acc": 49.3,
+     "adjustedAcc": 49.7,
      "days": 5,
      "deadband": 1.0
     },
@@ -147,8 +147,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 364,
-   "globalBlend": 0.687
+   "graded": 361,
+   "globalBlend": 0.689
   }
  }
 };
