@@ -7,7 +7,7 @@
   ⛔ 원장이 분리된다. environment·전략 이름이 달라 V1·V2 기록과 섞이지 않는다.
   ⛔ 시장 폭 게이트: 중앙값이 음수면 그날은 사지 않는다.
   ⛔ 데이터 신선도: 가격 데이터가 오늘 것이 아니면 사지 않는다.
-  ⛔ 하루 최대 4종목 · SELL 판단 종목 제외 · 당일 재진입 금지.
+  ⛔ 하루 최대 3종목 · 업종당 1종목 · SELL 판단 종목 제외 · 당일 재진입 금지.
   ⛔ 익절 +3% / 손절 -2% / 2거래일 시간청산이 실제로 그 사유 코드로 찍힌다.
   ⛔ 관측 실패 사이클에는 익절/손절을 판정하지 않는다(가격 추측 금지).
 """
@@ -138,10 +138,10 @@ calls[SYMS[1]] = "SELL"                       # 2순위 후보가 SELL 판단
 e.run_cycle(bundle(calls, f"{D1}T10:00:00+09:00"), now=t(D1, 10, 5))
 opens = [r for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
 open_syms = [r["symbol"] for r in opens]
-check("5. 하루 최대 4종목만 진입한다", len(opens) == 4, str(open_syms))
+check("5. 하루 최대 3종목만 진입한다", len(opens) == 3, str(open_syms))
 check("5-1. SELL 판단 종목은 사지 않는다", SYMS[1] not in open_syms, str(open_syms))
-check("5-2. 순위대로 산다(1·3·4·5순위)",
-      open_syms == [SYMS[0], SYMS[2], SYMS[3], SYMS[4]], str(open_syms))
+check("5-2. 순위대로 산다(1·3·4순위 — 2순위는 SELL이라 건너뜀)",
+      open_syms == [SYMS[0], SYMS[2], SYMS[3]], str(open_syms))
 check("5-3. 전략 이름이 원장에 박힌다",
       all(r.get("strategy_version") == "PAPER_SCALP_V3" for r in opens))
 check("5-4. environment가 분리된다",
@@ -151,7 +151,7 @@ check("5-4. environment가 분리된다",
 e2 = engine(tmp, D1)
 e2.run_cycle(bundle({s: "BUY" for s in SYMS}, f"{D1}T11:00:00+09:00"), now=t(D1, 11, 5))
 opens_after = [r for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
-check("5-5. 하루 상한(4종목)이 배치를 넘어도 유지된다", len(opens_after) == 4,
+check("5-5. 하루 상한(3종목)이 배치를 넘어도 유지된다", len(opens_after) == 3,
       str(len(opens_after)))
 
 # ── 6. 익절: 관측가 +3% 도달 → TAKE_PROFIT ──────────────────────────────────
@@ -225,6 +225,48 @@ reopened = [r for r in latest_rows.values() if r.get("status") == "OPEN"]
 check("8-2. 당일 청산 종목은 같은 날 재진입하지 않는다", len(reopened) == 0,
       str([(r.get("status"), r.get("symbol")) for r in latest_rows.values()]))
 
+# ── 8-3. 업종 제한: 같은 업종은 하루 1종목만 (2026-08-28 신설) ────────────────
+_orig_sector = ps.load_sector_map
+tmp = tempfile.mkdtemp(prefix="sv3_sector_")
+# 앞 3종목을 같은 업종으로 묶는다 — 제한이 없으면 셋 다 사야 하고, 있으면 1개만 산다.
+ps.load_sector_map = lambda path=None: {SYMS[0]: "반도체", SYMS[1]: "반도체",
+                                        SYMS[2]: "반도체", SYMS[3]: "바이오",
+                                        SYMS[4]: "화학", SYMS[5]: "금융"}
+e = fresh(tmp, D1)
+_scan_holder["ret"] = (D1, 1.2, [(s_, 10.0 - i) for i, s_ in enumerate(SYMS)])
+e.run_cycle(bundle({s_: "BUY" for s_ in SYMS}, f"{D1}T10:00:00+09:00"), now=t(D1, 10, 5))
+syms = [r["symbol"] for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
+check("8-3. 같은 업종은 하루 1종목만 산다",
+      syms == [SYMS[0], SYMS[3], SYMS[4]], str(syms))
+
+# 업종 맵을 못 읽으면(빈 dict) 제한을 적용하지 않는다 — 업종을 추측하지 않는다
+tmp = tempfile.mkdtemp(prefix="sv3_nosector_")
+ps.load_sector_map = lambda path=None: {}
+e = fresh(tmp, D1)
+_scan_holder["ret"] = (D1, 1.2, [(s_, 10.0 - i) for i, s_ in enumerate(SYMS)])
+e.run_cycle(bundle({s_: "BUY" for s_ in SYMS}, f"{D1}T10:00:00+09:00"), now=t(D1, 10, 5))
+syms = [r["symbol"] for r in ledger_rows(tmp) if r.get("status") == "OPEN"]
+check("8-4. 업종 맵을 못 읽으면 제한 없이 상위 3종목을 산다(추측 금지)",
+      syms == SYMS[:3], str(syms))
+
+# 어제 산 업종에 오늘 또 얹지 않는다(보유 중 업종도 함께 센다)
+tmp = tempfile.mkdtemp(prefix="sv3_heldsector_")
+ps.load_sector_map = lambda path=None: {s_: "반도체" for s_ in SYMS[:2]} | {
+    s_: f"업종{i}" for i, s_ in enumerate(SYMS[2:], start=2)}
+e = fresh(tmp, D1)
+_scan_holder["ret"] = (D1, 1.2, [(SYMS[0], 9.0)])
+e.run_cycle(bundle({SYMS[0]: "BUY"}, f"{D1}T10:00:00+09:00"), now=t(D1, 10, 5))   # 반도체 1개 보유
+_scan_holder["ret"] = (D2, 1.2, [(SYMS[1], 9.0), (SYMS[2], 8.0)])                # 같은 업종 + 다른 업종
+e2 = engine(tmp, D2)
+e2.run_cycle(bundle({SYMS[1]: "BUY", SYMS[2]: "BUY"}, f"{D2}T10:00:00+09:00"), now=t(D2, 10, 5))
+latest = {}
+for r in ledger_rows(tmp):
+    latest[r["trade_id"]] = r
+held_syms = sorted(r["symbol"] for r in latest.values() if r.get("status") == "OPEN")
+check("8-5. 이미 보유 중인 업종에는 다음 날 더 담지 않는다",
+      SYMS[1] not in held_syms and SYMS[2] in held_syms, str(held_syms))
+ps.load_sector_map = _orig_sector
+
 # ── 9. scan_candidates 실계산(합성 시계열) ───────────────────────────────────
 ps.scan_candidates = _orig_scan
 def series(vals, start="2026-01-05"):
@@ -291,6 +333,12 @@ check("10-1. 공개 payload가 전략 이름을 안다(PREPARING 스텁 아님)"
       f"{_payload.get('strategyVersion')} {_payload.get('stage')}")
 check("10-2. 진입·청산 규칙 텍스트가 payload에 실린다",
       bool(_payload.get("entryRule")) and bool(_payload.get("exitRule")))
+check("10-2b. 자금·상한 설정이 코드와 config에 같이 반영돼 있다(250만·3종목·업종1)",
+      ps.POSITION_SIZE_KRW == 2_500_000 and ps.MAX_NEW_ENTRIES_PER_DAY == 3
+      and ps.SECTOR_CAP == 1
+      and _payload.get("positionSizeKrw") == 2_500_000,
+      f"{ps.POSITION_SIZE_KRW} {ps.MAX_NEW_ENTRIES_PER_DAY} {ps.SECTOR_CAP} "
+      f"{_payload.get('positionSizeKrw')}")
 check("10-3. 저장소에 초기 config.json이 커밋돼 있다(러너 첫 실행 전에도 스텁 탈출)",
       os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                   "paper_trading", "scalp_v3", "config.json")))
