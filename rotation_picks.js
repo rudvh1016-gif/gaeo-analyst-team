@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 12:15",
- "dataCutoff": "2026-08-28 12:15 장중",
+ "generatedAt": "2026-08-28 12:45",
+ "dataCutoff": "2026-08-28 12:45 장중",
  "horizonDays": 20,
  "picks": [
   {
-   "code": "006110",
-   "name": "삼아알미늄",
-   "sector": "화학·소재",
-   "sectorRank": 8,
-   "why": "20거래일 +147.0% · 20일선 위",
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 2,
+   "why": "20거래일 +101.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.6,
+   "gapPct": 32.9,
    "call": "HOLD",
    "callConflict": false
   },
@@ -31,47 +31,47 @@ window.ROTATION_PICKS = {
    "callConflict": false
   },
   {
-   "code": "066970",
-   "name": "엘앤에프",
-   "sector": "2차전지",
-   "sectorRank": 4,
-   "why": "20거래일 +100.4% · 20일선 위",
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
+   "sectorRank": 8,
+   "why": "20거래일 +147.7% · 20일선 위",
    "overheat": true,
-   "gapPct": 31.9,
+   "gapPct": 35.0,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "001820",
-   "name": "삼화콘덴서",
-   "sector": "전자·부품",
-   "sectorRank": 2,
-   "why": "20거래일 +97.4% · 20일선 위 · 거래량 평소의 1.5배",
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 1,
+   "why": "20거래일 +88.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 25.1,
+   "gapPct": 25.5,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 60.9,
+  "breadthPct": 62.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6837.0,
-    "ma20": 6624.23,
+    "close": 6844.72,
+    "ma20": 6624.62,
     "above": true,
-    "gapPct": 3.21
+    "gapPct": 3.32
    },
    "KOSDAQ": {
-    "close": 835.15,
-    "ma20": 818.84,
+    "close": 836.9,
+    "ma20": 818.93,
     "above": true,
-    "gapPct": 1.99
+    "gapPct": 2.19
    }
   }
  },
