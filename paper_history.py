@@ -537,7 +537,7 @@ def _stats(rows, gated=False):
     }
 
 
-def build_strategy(all_sells):
+def build_strategy(all_sells, max_hold=5):
     """종료된 거래를 실제 보유기간 bucket으로 묶어 비교한다.
 
     ⚠️ 표본이 MIN_STRATEGY_SAMPLE 미만이면 어떤 bucket도 우승 전략으로 선언하지
@@ -557,7 +557,11 @@ def build_strategy(all_sells):
     buckets = []
     for key, label, desc, lo, hi in STRATEGY_BUCKETS:
         st = _stats(by[key], gated=gated)
+        # 🕳️ 이 전략이 구조적으로 만들 수 없는 구간(보유 상한보다 긴 bucket)은
+        #    "기록 축적 중"으로 두면 언젠가 채워질 것처럼 읽힌다. V3(상한 2거래일)의
+        #    「스윙 3~5거래일」이 정확히 그 상태였다. 채워질 수 없다는 사실을 싣는다.
         buckets.append({"key": key, "label": label, "desc": desc,
+                        "beyondRule": lo > max_hold,
                         "enough": st["tradeCount"] >= MIN_STRATEGY_SAMPLE, **st})
     total = sum(b["tradeCount"] for b in buckets)
     return {
@@ -566,11 +570,14 @@ def build_strategy(all_sells):
         "totalClosed": total,
         "minSample": MIN_STRATEGY_SAMPLE,
         "enough": total >= MIN_STRATEGY_SAMPLE,
-        "maxHoldingTradingDays": 5,
+        # ⚠️ 2026-08-28: 여기가 5로 박혀 있어서 V2(상한 60거래일)·V3(상한 2거래일)의
+        #    기록 탭까지 "최대 5거래일까지만 보유합니다"라고 말했다. 버전마다 다른
+        #    값이므로 호출자가 그 버전의 config에서 읽어 넘긴다.
+        "maxHoldingTradingDays": max_hold,
         # 현재 엔진이 만들 수 없는 구간은 "추후 별도 전략 필요"로만 남긴다
         "unsupported": [{"label": "중기", "desc": "수 주 이상 보유"},
                         {"label": "장기", "desc": "수 개월 이상 보유"}],
-        "note": ("현재 검증 중인 전략은 한 종목을 최대 5거래일까지만 보유합니다. "
+        "note": (f"현재 검증 중인 전략은 한 종목을 최대 {max_hold}거래일까지만 보유합니다. "
                  "그보다 긴 구간의 성과는 이 기록으로 알 수 없습니다."),
     }
 
@@ -713,5 +720,6 @@ def build(ledger, curve, config, today=None, market_daily=None, business_dates=N
         "initialVirtualCash": initial,
         "maxHoldingTradingDays": config.get("maxHoldingTradingDays", 5),
         "days": records,
-        "strategy": build_strategy(all_sells_pub),
+        "strategy": build_strategy(all_sells_pub,
+                                   config.get("maxHoldingTradingDays", 5)),
     }
