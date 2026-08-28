@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 13:45",
- "dataCutoff": "2026-08-28 13:45 장중",
+ "generatedAt": "2026-08-28 14:16",
+ "dataCutoff": "2026-08-28 14:16 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 3,
-   "why": "20거래일 +105.2% · 20일선 위",
+   "why": "20거래일 +104.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.9,
+   "gapPct": 34.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,20 +24,9 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 8,
-   "why": "20거래일 +147.3% · 20일선 위",
+   "why": "20거래일 +144.4% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "000500",
-   "name": "가온전선",
-   "sector": "전력·에너지",
-   "sectorRank": 1,
-   "why": "20거래일 +93.3% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.4,
+   "gapPct": 33.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,32 +35,43 @@ window.ROTATION_PICKS = {
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 7,
-   "why": "20거래일 +107.1% · 20일선 위",
+   "why": "20거래일 +106.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 6.4,
+   "gapPct": 6.1,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 1,
+   "why": "20거래일 +91.9% · 20일선 위",
+   "overheat": false,
+   "gapPct": 27.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.7,
+  "breadthPct": 65.4,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6829.95,
-    "ma20": 6623.88,
+    "close": 6814.94,
+    "ma20": 6623.13,
     "above": true,
-    "gapPct": 3.11
+    "gapPct": 2.9
    },
    "KOSDAQ": {
-    "close": 838.39,
-    "ma20": 819.0,
+    "close": 838.53,
+    "ma20": 819.01,
     "above": true,
-    "gapPct": 2.37
+    "gapPct": 2.38
    }
   }
  },
