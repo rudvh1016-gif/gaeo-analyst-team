@@ -48,7 +48,7 @@ window.ROTATION_PICKS = {
    "sectorRank": 1,
    "why": "20거래일 +89.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 25.8,
+   "gapPct": 26.4,
    "call": "HOLD",
    "callConflict": false
   }

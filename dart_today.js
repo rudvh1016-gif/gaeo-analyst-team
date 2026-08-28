@@ -252,7 +252,7 @@ const DART_TODAY = {
    "name": "현대오토에버",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -260,7 +260,7 @@ const DART_TODAY = {
    "name": "현대로템",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -268,7 +268,7 @@ const DART_TODAY = {
    "name": "코미코",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -276,7 +276,7 @@ const DART_TODAY = {
    "name": "코미코",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -284,7 +284,7 @@ const DART_TODAY = {
    "name": "제일기획",
    "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -292,7 +292,7 @@ const DART_TODAY = {
    "name": "이노션",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -300,7 +300,7 @@ const DART_TODAY = {
    "name": "유진투자증권",
    "title": "증권발행실적보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -308,7 +308,7 @@ const DART_TODAY = {
    "name": "원익QnC",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -316,7 +316,7 @@ const DART_TODAY = {
    "name": "삼성증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -324,7 +324,7 @@ const DART_TODAY = {
    "name": "삼성증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -332,7 +332,7 @@ const DART_TODAY = {
    "name": "사조대림",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -340,7 +340,7 @@ const DART_TODAY = {
    "name": "미래에셋증권",
    "title": "증권발행실적보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -348,7 +348,7 @@ const DART_TODAY = {
    "name": "롯데웰푸드",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -356,7 +356,7 @@ const DART_TODAY = {
    "name": "교보증권",
    "title": "증권발행실적보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -364,7 +364,7 @@ const DART_TODAY = {
    "name": "교보증권",
    "title": "증권발행실적보고서",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -372,7 +372,7 @@ const DART_TODAY = {
    "name": "HK이노엔",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -380,7 +380,7 @@ const DART_TODAY = {
    "name": "GS",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
@@ -388,7 +388,7 @@ const DART_TODAY = {
    "name": "DB하이텍",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
    "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:11:26.660509+00:00",
+   "detectedAt": "2026-08-28T06:12:36.277748+00:00",
    "isCorrection": false
   },
   {
