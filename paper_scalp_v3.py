@@ -22,8 +22,9 @@
       음수면 그날은 관망(최근 60거래일 검증에서 -1.63% → -0.00%로 구제된 핵심).
     · 진입 후보: 종가 > MA20 · 종가 > MA60 · 20거래일 수익률 > 0
       (compute_rotation_picks.py 자격 필터와 동일 — 새 랭킹 발명 금지).
-      20거래일 수익률 상위 순, 하루 최대 4종목. GAEO 판단이 SELL인 종목 제외,
-      보유 중·당일 거래(진입/청산) 종목 재진입 금지.
+      20거래일 수익률 상위 순, 하루 최대 3종목이며 **업종당 1종목**(업종 쏠림 방지).
+      GAEO 판단이 SELL인 종목 제외, 보유 중·당일 거래(진입/청산) 종목 재진입 금지.
+    · 자금: 종목당 250만원(2026-08-28 상향). 하루 최대 노출 750만원.
     · 청산: 익절 +3% · 손절 -2% · 2거래일 시간청산 · CHIEF SELL 전환(안전판).
       익절/손절은 사이클 관측가(약 30분 주기) 기준 판정 — 분봉 극값은 놓친다(한계).
 
@@ -51,11 +52,20 @@ DISABLE_ENV = "GAEO_PAPER_SCALP_V3"          # "0"이면 끈다(기본 ON)
 # 러너의 커밋 화이트리스트가 paper_trading/ 이므로 그 **안에** 둔다(경계를 넓히지 않는다).
 DATA_DIR = os.path.join(HERE, "paper_trading", "scalp_v3")
 INITIAL_CASH_KRW = 10_000_000
-POSITION_SIZE_KRW = 1_000_000
+# 💰 2026-08-28 대표 결정으로 종목당 100만원 → 250만원, 하루 4종목 → 3종목.
+#    하루 최대 노출은 400만원 → 750만원. 근거는 docs/paper_scalp_v3_research.md 7절
+#    (303거래일 포트폴리오 시뮬레이션: 현금·가동률·최대낙폭까지 포함해 재검증).
+#    ⚠️ Forward 전환이다 — 이미 열린 거래는 진입 당시 크기를 그대로 유지한다.
+POSITION_SIZE_KRW = 2_500_000
 MAX_HOLDING_TRADING_DAYS = 2
 TAKE_PROFIT_PCT = 3.0
 STOP_LOSS_PCT = -2.0
-MAX_NEW_ENTRIES_PER_DAY = 4
+MAX_NEW_ENTRIES_PER_DAY = 3
+# 🧺 업종당 최대 보유 수(대표 요청 "업종 흐름 반영"을 데이터가 지지하는 형태로 구현).
+#    종목당 금액이 커질수록 3종목이 한 업종에 몰렸을 때 타격이 커진다. 실측(횡보 60일):
+#    250만원에서 업종 제한 없음 -13.0%(낙폭 -29.2%) → 업종당 1종목 +1.5%(낙폭 -17.4%).
+#    사이즈가 작을 땐 효과가 없다(100만원에서는 -4.9% vs -5.2%) — 큰 사이즈의 짝 규칙이다.
+SECTOR_CAP = 1
 # 시장 폭 게이트: 5거래일 수익률 중앙값 계산에 필요한 최소 종목 수.
 # 이보다 적으면 시장 상태를 추측하지 않고 그날 진입을 보류한다(fail closed).
 MIN_BREADTH_STOCKS = 100
@@ -84,16 +94,37 @@ DEFAULT_CONFIG = {
     "takeProfitPct": TAKE_PROFIT_PCT,
     "stopLossPct": STOP_LOSS_PCT,
     "maxNewEntriesPerDay": MAX_NEW_ENTRIES_PER_DAY,
+    "sectorCap": SECTOR_CAP,
     "signalSource": "price_history.js 종가 (MA20·MA60·20거래일 수익률·시장 폭 중앙값)",
     "entryRule": ("시장 폭 게이트(전 종목 5거래일 수익률 중앙값 >= 0) 통과 시, "
                   "종가>MA20 · 종가>MA60 · 20거래일 수익률>0 종목을 20거래일 수익률 "
-                  "상위 순으로 하루 최대 4종목. 장중 Best Ask 체결(V1과 동일)"),
+                  "상위 순으로 하루 최대 3종목(업종당 1종목). "
+                  "장중 Best Ask 체결(V1과 동일)"),
     "exitRule": ("관측가 기준 익절 +3% 또는 손절 -2%, 2거래일 시간청산, "
                  "CHIEF SELL 전환(안전판). Best Bid 체결(V1과 동일)"),
     "evidence": "docs/paper_scalp_v3_research.md (2026-08-27 사전 검증)",
     "knownLimits": ("익절/손절은 약 30분 관측 주기로 판정 — 분봉 극값은 놓친다. "
                     "판정가(관측가)와 체결가(Best Bid)는 다르다. 슬리피지 미모형화."),
 }
+
+
+def load_sector_map(path=None):
+    """code → 업종명 (tickers.js — 홈 업종 흐름과 같은 소스).
+
+    읽지 못하면 빈 dict를 돌려주고, 그 경우 업종 제한은 자동으로 적용되지 않는다
+    (업종을 추측해 묶지 않는다 — 잘못 묶으면 분산이 아니라 왜곡이 된다).
+    """
+    path = path or os.path.join(HERE, "tickers.js")
+    try:
+        s = open(path, encoding="utf-8").read()
+        m = re.search(r"const TICKERS = (\[.*?\]);", s, re.S)
+        if not m:
+            return {}
+        rows = json.loads(m.group(1))
+    except (OSError, ValueError):
+        return {}
+    return {r["code"]: r.get("sector") or "기타"
+            for r in rows if isinstance(r, dict) and r.get("code")}
 
 
 def load_daily_closes(path=None):
@@ -245,12 +276,29 @@ class ScalpV3Engine(PaperEngine):
             actions.append(f"오늘 신규 진입 상한({MAX_NEW_ENTRIES_PER_DAY}종목) 도달 — 추가 진입 없음")
             return "PROCESSED"
 
+        # 🧺 업종 흐름 반영 — 같은 업종을 SECTOR_CAP개까지만 담는다.
+        #    이미 보유 중인 종목의 업종도 함께 세어, 어제 산 업종에 오늘 또 얹지 않는다.
+        sectors = load_sector_map()
+        cap = self.config.get("sectorCap") or SECTOR_CAP
+        used_sectors = {}
+        if sectors:
+            for r in latest.values():
+                if r.get("status") == "OPEN":
+                    s_ = sectors.get(r.get("symbol"))
+                    if s_:
+                        used_sectors[s_] = used_sectors.get(s_, 0) + 1
+
         candidates = {}
         for rank, (code, _ret20) in enumerate(quals):
             if len(candidates) >= room:
                 break
             if code in held or code in traded_today or code in candidates:
                 continue
+            # 업종 맵을 못 읽었으면(빈 dict) 제한을 적용하지 않는다 — 추측 금지.
+            if sectors:
+                sec = sectors.get(code)
+                if sec and used_sectors.get(sec, 0) >= cap:
+                    continue
             # GAEO 판단이 이미 SELL인 종목은 사지 않는다 — 사면 같은 사이클 ④단계가
             # CHIEF_SELL로 곧바로 되팔아 보유 0일짜리 확정 손실이 남는다(momentum 실측).
             if (signals.get(code) or {}).get("call") == "SELL":
@@ -261,6 +309,10 @@ class ScalpV3Engine(PaperEngine):
             name = (signals.get(code) or {}).get("name") or code
             candidates[code] = {"call": "BUY", "confidence": order, "total": order,
                                 "name": name}
+            if sectors:
+                sec = sectors.get(code)
+                if sec:
+                    used_sectors[sec] = used_sectors.get(sec, 0) + 1
         if not candidates:
             actions.append("자격 후보가 모두 보유·당일거래·매도판단 — 신규 진입 없음")
             return "PROCESSED"
