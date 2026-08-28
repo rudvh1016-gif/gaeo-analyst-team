@@ -644,11 +644,17 @@
   .qchart-t{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.025em}
   .qchart-sub{font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
   .qchart-sub b{color:var(--ink);font-weight:600}
-  .qchart-summary{--trend:#C64C5A;display:grid;
+  /* ⚠️ 등락 색은 반드시 한국식(상승 --krup 빨강 · 하락 --krdn 파랑)을 쓴다.
+     2026-08-28 이전에는 여기만 미국식(up=초록 #25866F · 기본값=빨강 #C64C5A)이라
+     "8.4% 하락"이 빨갛게 나왔다 — 홈에서 파랑=하락으로 배운 초보자가 손실을
+     이익으로 오독하는 방향이라 고쳤다. 보합(flat)은 방향이 없으니 중립색이다.
+     하드코딩 hex를 다시 넣지 말 것 — 변수를 써야 다크모드 대비도 따라온다. */
+  .qchart-summary{--trend:var(--dim);display:grid;
     grid-template-columns:minmax(102px,auto) minmax(190px,1fr) minmax(102px,auto);
     align-items:center;gap:20px;margin-bottom:12px;padding:13px 16px;border:1px solid var(--line);
     border-radius:14px;background:var(--paper)}
-  .qchart-summary[data-trend="up"]{--trend:#25866F}
+  .qchart-summary[data-trend="up"]{--trend:var(--krup)}
+  .qchart-summary[data-trend="down"]{--trend:var(--krdn)}
   .qchart-price{min-width:0}
   .qchart-price:last-child{text-align:right}
   .qchart-price small{display:block;margin-bottom:2px;font-size:9.5px;color:var(--dim)}
@@ -667,15 +673,20 @@
   .qchart-extremes{display:flex;align-items:center;gap:5px 14px;flex-wrap:wrap;font-size:10.5px;color:var(--dim)}
   .qchart-extremes b{margin-left:3px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
   .qchart-cap{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:var(--dim);line-height:1.5}
-  .qchart-cap::before{content:"";width:8px;height:2px;margin-top:7px;border-radius:99px;background:var(--trend,#C64C5A);flex:0 0 auto}
+  /* 캡션 앞 장식 짧은 선 — .qchart-summary 밖이라 --trend를 물려받지 못한다.
+     방향과 무관한 장식이므로 fallback은 중립색이다(예전엔 빨강 #C64C5A였다). */
+  .qchart-cap::before{content:"";width:8px;height:2px;margin-top:7px;border-radius:99px;background:var(--trend,var(--line2));flex:0 0 auto}
   .qchart-cap b{color:var(--ink);font-weight:600}
   /* 시세 카드 "최근 종가 흐름" 바로 아래 — 그 종목의 최근 5인 판단 변화 */
   .qjudge{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
   .qjudge-body{--trend:#607584;display:flex;align-items:center;justify-content:space-between;
     flex-wrap:wrap;gap:8px 14px;padding:13px 16px;border:1px solid var(--line);
     border-radius:14px;background:var(--paper)}
-  .qjudge-body[data-tone="up"]{--trend:#25866F}
-  .qjudge-body[data-tone="down"]{--trend:#C64C5A}
+  /* 종합점수 상승/하락도 홈의 .change-item[data-tone](3594~3595행)과 같은
+     한국식 색을 쓴다 — 한 사이트 안에서 같은 toneOf() 값이 화면마다 다른 색이면
+     안 된다. 기본값(--trend:#607584)은 보합용 중립색이라 그대로 둔다. */
+  .qjudge-body[data-tone="up"]{--trend:var(--krup)}
+  .qjudge-body[data-tone="down"]{--trend:var(--krdn)}
   .qjudge-move{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums}
   .qjudge-move b{font-size:14px;font-weight:600;color:var(--ink)}
   .qjudge-arrow{color:var(--trend);font-size:12px}
@@ -6183,6 +6194,12 @@ function paperHistoryHTML(){
     ? `<p class="pv-pause">${esc(lastTry.slice(5).replace('-','.'))} 기록은 아직 없어요. ${PAUSE_WHY}</p>`
     : '';
 
+  /* 🔒 계좌 성과를 아직 공개하지 않는 버전 — 날짜별 평가금·수익률이 비어 있다.
+     빈칸(—)만 두면 "고장"으로 읽히므로 이유를 한 줄로 밝힌다(2026-08-28). */
+  const hiddenNote=(Array.isArray(H.metricsHiddenUntilEvidence)&&H.metricsHiddenUntilEvidence.length)
+    ? `<p class="pv-pause">이 버전은 판단 근거가 될 만큼 기록이 쌓이기 전까지 날짜별 평가금·수익률을 공개하지 않아요. 무엇을 사고팔았는지는 그대로 볼 수 있어요.</p>`
+    : '';
+
   /* ② 목록 — 월별로 묶고 최근 날짜가 위 */
   const months={};
   H.days.forEach(d=>{ const m=d.date.slice(0,7); (months[m]=months[m]||[]).push(d); });
@@ -6217,8 +6234,12 @@ function paperHistoryHTML(){
 
   /* ③ 전략 인사이트 — 표본이 충분해질 때까지 "누가 최고"라고 말하지 않는다 */
   const S=H.strategy||{};
+  /* ⚠️ 그 전략이 구조적으로 만들 수 없는 구간(보유 상한보다 긴 칸)을 "기록 축적 중"으로
+     쓰면 언젠가 채워질 것처럼 읽힌다 — V3(상한 2거래일)의 「스윙 3~5거래일」이 그랬다.
+     채워질 수 있는 칸과 없는 칸을 말로 구분한다(2026-08-28). */
   const bk=(S.buckets||[]).map(b=>`<div class="pv-row"><dt>${b.label}<small>${b.desc}</small></dt>
-    <dd>${b.tradeCount?`${b.tradeCount}건${b.avgReturnPct==null?'':` · 평균 ${sPct(b.avgReturnPct)}`}${b.winRatePct==null?'':` · 승률 ${b.winRatePct.toFixed(0)}%`}`:'<span class="pv-na">기록 축적 중</span>'}</dd></div>`).join('');
+    <dd>${b.tradeCount?`${b.tradeCount}건${b.avgReturnPct==null?'':` · 평균 ${sPct(b.avgReturnPct)}`}${b.winRatePct==null?'':` · 승률 ${b.winRatePct.toFixed(0)}%`}`
+      :b.beyondRule?'<span class="pv-na">이 버전 규칙에는 없는 구간</span>':'<span class="pv-na">기록 축적 중</span>'}</dd></div>`).join('');
   const stratNote=S.enough
     ? `<p class="pv-sec-d">종료된 거래 ${S.totalClosed}건을 실제 보유기간별로 나눈 결과예요.</p>`
     : `<p class="pv-sec-d">종료된 거래가 <b>${S.totalClosed||0}건</b>이에요. 구간별 성과를 비교하려면
@@ -6231,7 +6252,7 @@ function paperHistoryHTML(){
       ${(S.unsupported||[]).length?`아직 검증 대상이 아닌 구간: ${(S.unsupported||[]).map(u=>esc(u.label)).join(' · ')}.`:''}
       이 비교는 관찰용이며, 결과에 따라 매매 규칙이 자동으로 바뀌지 않습니다.</p>
   </section>`;
-  return `<div class="pv-hs">${gapNote}${monthHTML}${strat}</div>`;
+  return `<div class="pv-hs">${gapNote}${hiddenNote}${monthHTML}${strat}</div>`;
 
   /* ── 날짜 상세 ── */
   function dayDetail(d){
@@ -6393,11 +6414,21 @@ function renderPaper(){
      여기서는 무엇을 보는 화면인지와 실제 주문이 없다는 고지만 한 줄로 남긴다. */
   const lede=`<h2 class="pv-title">모의투자</h2>
     <p class="pv-claim">GAEO의 판단을 실제 시장 흐름으로 확인합니다. <b>실제 주문은 발생하지 않습니다.</b></p>`;
-  /* 버전 안내 — 어떤 계좌를 보고 있는지 한 줄로. 규칙 상세는 아래 「어떻게 기록하나요?」. */
+  /* 버전 안내 — 어떤 계좌를 보고 있는지 한 줄로. 규칙 상세는 아래 「어떻게 기록하나요?」.
+     ⚠️ 규칙 숫자를 여기 손으로 적지 말 것. 2026-08-28 이전에는 V3 설명에 「하루 최대
+        4개」가 박혀 있어서, 엔진을 3종목·업종당 1종목으로 바꾼 뒤에도 화면만 옛 규칙을
+        말했다. 숫자는 전부 스냅샷(=엔진 config)에서 읽어 쓴다. */
+  const pvN=v=>(typeof v==='number'&&isFinite(v))?v:null;
+  const v3PerDay=pvN(P&&P.maxNewEntriesPerDay), v3Cap=pvN(P&&P.sectorCap);
+  const v3Buy=v3PerDay==null
+    ? '하루 정해진 종목 수만큼'
+    : `하루 최대 ${v3PerDay}종목${v3Cap?`(업종당 ${v3Cap}종목)`:''}`;
+  const v3Tp=pvN(P&&P.takeProfitPct), v3Sl=pvN(P&&P.stopLossPct);
+  const v3Hold=pvN(P&&P.maxHoldingTradingDays);
   const PV_META={
     v1:{tab:'V1 기본',desc:'GAEO 판단이 「매수 고려」로 바뀐 종목을 그대로 사고, 5거래일 또는 「매도 고려」 전환에 파는 기준 계좌예요.'},
     v2:{tab:'V2 스마트',desc:'V1과 똑같이 사되, 5거래일이 돼도 판단이 좋으면 계속 들고 가는 비교 계좌예요(안전상한 60거래일).'},
-    v3:{tab:'V3 단타',desc:'시장이 좋은 날에만 단기 상승 흐름 종목을 하루 최대 4개 사고, 익절 +3% · 손절 -2% · 최대 2거래일로 짧게 끊는 단타 실험 계좌예요.'}
+    v3:{tab:'V3 단타',desc:`시장이 좋은 날에만 단기 상승 흐름 종목을 ${v3Buy} 사고, 익절 ${v3Tp==null?'+3':'+'+v3Tp}% · 손절 ${v3Sl==null?'-2':v3Sl}% · 최대 ${v3Hold||2}거래일로 짧게 끊는 단타 실험 계좌예요.`}
   };
   const verRow=`<div class="pv-vers" role="tablist" aria-label="모의투자 전략 버전 선택">${
     ['v1','v2','v3'].map(k=>`<button type="button" class="pv-ver${PV_VER===k?' on':''}" data-pver="${k}"
@@ -6493,7 +6524,15 @@ function renderPaper(){
   const sameDay=vAt&&String(vAt).slice(0,10)===todayKST;
   const asOf=vAt?(sameDay?`${hm(vAt)} 기준`:`${md(vAt)} ${hm(vAt)} 기준`):'';
 
-  const pnlBlock=totalPnl==null
+  /* 숫자가 비는 이유는 세 가지고, 화면은 그 셋을 구분해서 말해야 한다.
+     ① 표본 부족으로 계좌 성과를 아직 공개하지 않는 전략(metricsHiddenUntilEvidence)
+     ② 보유 중인데 일부 종목 시세를 못 받음  ③ 아직 가상 매수가 0건
+     ①을 ②로 말하면 "고장 났다"는 오해를 준다(2026-08-28). */
+  const hidden=Array.isArray(P.metricsHiddenUntilEvidence)&&P.metricsHiddenUntilEvidence.length>0;
+  const pnlBlock=hidden
+    ? `<span class="pv-port-pv pv-port-na">표본 쌓는 중</span>
+       <span class="pv-port-s">판단 근거가 될 만큼 기록이 쌓이기 전에는 계좌 성과를 공개하지 않아요</span>`
+    : totalPnl==null
     ? `<span class="pv-port-pv pv-port-na">${open?'평가 대기':'기록 전'}</span>
        <span class="pv-port-s">${open?'일부 종목 시세를 확인하는 중이에요':'아직 가상 매수 기록이 없어요'}</span>`
     : `<span class="pv-port-pv${dir(totalPnl)}">${sWon(totalPnl)}<i>${sPct(retPct)}</i></span>
@@ -6808,7 +6847,7 @@ function renderPaper(){
     ],
     v3:[
       '시장 전체가 하락 표류 중이면(전 종목 5거래일 수익률의 중앙값이 마이너스) 그날은 <em>사지 않고 관망</em>합니다.',
-      '시장이 괜찮은 날, 20일선·60일선 위에서 <em>단기 상승 흐름</em>이 확인된 종목을 하루 최대 4개까지 실제 시장 가격으로 가상 매수합니다.',
+      `시장이 괜찮은 날, 20일선·60일선 위에서 <em>단기 상승 흐름</em>이 확인된 종목을 ${v3Buy} 실제 시장 가격으로 가상 매수합니다.${v3Cap?' 한 업종에 쏠리지 않게 <em>업종당 '+v3Cap+'종목</em>까지만 담습니다.':''}`,
       `보유 중 약 30분마다 가격을 관측해 <em>익절 ${n(P.takeProfitPct)==null?'+3':'+'+P.takeProfitPct}% · 손절 ${n(P.stopLossPct)==null?'-2':P.stopLossPct}%</em>에 닿으면 가상 청산합니다.`,
       `닿지 않으면 <em>${maxHold||2}거래일</em>에 시간 청산하고, GAEO 판단이 「매도 고려」로 바뀌면 안전판으로 청산합니다.`
     ]
