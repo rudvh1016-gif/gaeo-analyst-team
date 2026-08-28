@@ -59,6 +59,9 @@ TOKEN_INFRA_FILES = frozenset({
 TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
                          "paper_public.py", "paper_report.py",
                          "paper_smart_v2.py", "paper_momentum.py",
+                         # 2026-08-28 추가 — V3 단타 엔진. 8/27 신설 때 여기 등록이
+                         # 빠져 D9c가 열흘 만에 세 번째로 같은 누락을 잡아냈다.
+                         "paper_scalp_v3.py",
                          # Single Writer 게이트 — 매매를 직접 하지는 않지만
                          # 매매를 할지 말지를 결정하므로 같은 잣대로 검사한다.
                          "paper_single_writer.py",

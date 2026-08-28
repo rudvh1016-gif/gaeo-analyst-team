@@ -71,6 +71,34 @@ EVIDENCE_GATED_PUBLIC = ("winRatePct", "avgReturnPct", "medianReturnPct",
                          # 순수익도 성과 결론이다 — 표본 게이트 안쪽에 둔다.
                          "estimatedNetReturnPct")
 
+# 🔒 계좌 단위 성과 게이트(2차 방어선) — 2026-08-28 신설.
+#
+# 왜 필요했나: 엔진에는 이미 전략별 게이트(_account_gated_fields)가 있어서
+# paper_trading/smart_v2/summary.json 의 portfolioReturnPct 는 제대로 null 이었다.
+# 그런데 이 파일은 요약을 읽지 않고 원장에서 다시 계산해 싣기 때문에(위 val[...]),
+# 화면에는 "+1.476% · 평가금 10,147,561원 · 미실현 +147,561원"이 그대로 나갔다.
+# 엔진이 막기로 결정한 것을 화면이 뚫고 있었던 것이다. 1차 방어선(EVIDENCE_GATED_PUBLIC)
+# 은 승률 계열만 덮어서 이 누출을 못 잡았다.
+#
+# ⚠️ 수익률만 막고 현금·평가금액·배분비율을 남기면 소비자가 그 값들로 수익률을
+#    되만든다. 그래서 되만들 수 있는 값까지 한 묶음으로 막는다
+#    (paper_engine.py 의 같은 게이트 주석과 같은 원칙).
+ACCOUNT_GATED_PUBLIC = ("portfolioReturnPct", "realizedPnl", "unrealizedPnl",
+                        "currentVirtualEquity", "maxDrawdownPct",
+                        "markedPositionsValue", "availableVirtualCash",
+                        "realizedVirtualEquity",
+                        "allocationInvestedPct", "allocationCashPct")
+
+#: 표본이 차기 전에도 계좌 숫자를 사이트에 싣는 것이 '설계'인 전략.
+#  여기 없는 전략은 전부 막힌다(fail-closed) — 새 전략 V4를 만들고 이 목록을
+#  깜빡해도 노출되는 쪽이 아니라 가려지는 쪽으로 틀린다.
+#  ⚠️ 이 목록은 각 엔진의 _account_gated_fields() 가 빈 튜플인 전략과 정확히
+#     같아야 한다. test_paper_public.py 가 두 곳이 어긋나면 실패시킨다.
+ACCOUNT_PUBLIC_STRATEGIES = frozenset({
+    "PAPER_BASELINE_V1",   # V1 — 사이트에 싣는 것이 설계(paper_engine.py:1295 주석)
+    "PAPER_SCALP_V3",      # V3 — 엔진이 게이트를 두지 않았다(2026-08-28 현재)
+})
+
 
 def _benchmark_fix(r, idx_hist):
     """청산 거래의 시장대비를 실제 진입일·청산일 종가로 다시 계산해 덮어쓴다.
@@ -396,11 +424,24 @@ def build_payload(data_dir, environment="LIVE_PAPER"):
             or not str(payload.get("evidenceStatus") or "").startswith("SAMPLE_OK")):
         for _k in EVIDENCE_GATED_PUBLIC:
             payload[_k] = None
+        # 🔒 계좌 단위까지 막는 전략(V1·V3 외 전부)은 여기서 한 묶음으로 비운다.
+        #    ⚠️ 라벨이 아니라 위에서 원장을 직접 세어 판정한 결과를 그대로 쓴다.
+        if payload["strategyVersion"] not in ACCOUNT_PUBLIC_STRATEGIES:
+            for _k in ACCOUNT_GATED_PUBLIC:
+                if _k in payload:
+                    payload[_k] = None
+            # 화면이 "왜 숫자가 비었는지"를 설명할 근거. 키 이름에 'account'를
+            # 쓰지 않는다 — FORBIDDEN_SUBSTRINGS 에 걸려 산출물이 통째로 막힌다.
+            payload["metricsHiddenUntilEvidence"] = list(ACCOUNT_GATED_PUBLIC)
 
     # 전략 설명(역할·진입·청산 규칙 텍스트) — 버전 탭 화면이 규칙을 지어내지 않고
     # config에 적힌 그대로 읽게 한다. 없는 전략(V1 등)은 필드 자체를 만들지 않는다.
+    # ⚠️ 2026-08-28 추가 — maxNewEntriesPerDay·sectorCap. 이 둘이 없어서 화면이
+    #    「하루 최대 4개」를 손으로 적어두고 있었고, 엔진을 3종목·업종당1로 바꾼 뒤에도
+    #    문구만 옛 규칙에 남았다. 규칙 숫자는 전부 config에서 흘러나가게 한다.
     for _k in ("strategyRole", "entryRule", "exitRule", "knownLimits",
-               "takeProfitPct", "stopLossPct"):
+               "takeProfitPct", "stopLossPct",
+               "maxNewEntriesPerDay", "sectorCap"):
         if config.get(_k):
             payload[_k] = config[_k]
 
@@ -420,11 +461,37 @@ def _history_filename(js_key):
     return "history_%s.json" % js_key.rsplit("_", 1)[-1].lower()
 
 
-def _write_history(data_dir, out_path, config, initial, business_dates):
+#: 날짜별 기록에서 계좌 게이트가 걸린 전략일 때 비우는 필드.
+#  ⚠️ 보유 화면(paper_public.js)만 막고 기록 탭을 안 막으면 게이트가 무의미하다 —
+#     실제로 history_v2.json 이 날짜마다 "평가금 10,171,852원 · 누적 +1.72%"를
+#     그대로 싣고 있었다(2026-08-28 발견). 두 문을 같은 규칙으로 닫는다.
+HISTORY_ACCOUNT_GATED_DAY = ("equity", "cash", "markedPositionsValue",
+                             "realizedPnl", "unrealizedPnl",
+                             "cumulativeReturnPct", "dailyChangePct")
+
+
+def _gate_history_account(hist):
+    """날짜별 기록에서 계좌 단위 성과를 비운다(무엇을 사고팔았는지는 그대로 남긴다)."""
+    for day in hist.get("days") or []:
+        for _k in HISTORY_ACCOUNT_GATED_DAY:
+            if _k in day:
+                day[_k] = None
+        # 종목별 기여도는 합치면 계좌 손익이 되므로 통째로 뺀다(되만들기 차단).
+        if day.get("contributions"):
+            day["contributions"] = []
+    hist["metricsHiddenUntilEvidence"] = list(HISTORY_ACCOUNT_GATED_DAY)
+    return hist
+
+
+def _write_history(data_dir, out_path, config, initial, business_dates,
+                   account_gated=False):
     """원장 + Equity Curve에서 날짜별 기록(History)을 파생해 저장한다.
 
     Source of Truth가 아니라 파생물이며, 언제든 원본에서 다시 만들 수 있다.
     실패해도 공개 스냅샷 생성은 계속된다 — History 고장이 보유화면을 막지 않는다.
+
+    account_gated=True면 계좌 단위 성과(평가금·수익률 등)를 비운다. 어떤 종목을
+    언제 사고팔았는지는 그대로 남긴다 — 그건 성과 결론이 아니라 기록 그 자체다.
     """
     try:
         hist = paper_history.build(
@@ -432,6 +499,8 @@ def _write_history(data_dir, out_path, config, initial, business_dates):
             paper_history.read_jsonl(os.path.join(data_dir, "equity_curve.jsonl")),
             {**config, "initial_cash_krw": initial},
             business_dates=business_dates)
+        if account_gated:
+            hist = _gate_history_account(hist)
         hblob = json.dumps(hist, ensure_ascii=False, separators=(",", ":"))
         if any(w in hblob.lower() for w in FORBIDDEN_SUBSTRINGS):
             print(f"[paper_public] history 차단 — 금지 키워드 감지, 미생성 {out_path}")
@@ -478,7 +547,9 @@ def build():
         return 1
     # 📚 날짜별 기록(History) — 원장 + Equity Curve에서만 파생한다.
     #    paper_trading/ 안에 두어 러너가 이미 커밋하는 경로를 그대로 쓴다(러너 변경 0).
-    _write_history(DIR, os.path.join(DIR, "history.json"), config, initial, business_dates)
+    # 보유 화면에서 계좌 숫자를 막은 전략은 기록 탭에서도 막는다(같은 규칙, 두 문).
+    _write_history(DIR, os.path.join(DIR, "history.json"), config, initial, business_dates,
+                   account_gated=bool(payload.get("metricsHiddenUntilEvidence")))
 
     # 📚 추가 전략 버전(V2·V3) — V1과 같은 함수·같은 검열을 거쳐 같은 파일에 싣는다.
     #    한 버전이 실패해도 다른 버전과 V1 산출은 계속된다(전략 간 독립 — advisory 원칙).
@@ -503,7 +574,8 @@ def build():
         #    원본은 각 전략 폴더, 산출물은 사이트가 읽는 paper_trading/ 최상위.
         if vctx:
             _write_history(vdir, os.path.join(DIR, _history_filename(js_key)),
-                           vctx["config"], vctx["initial"], vctx["business_dates"])
+                           vctx["config"], vctx["initial"], vctx["business_dates"],
+                           account_gated=bool(vpayload.get("metricsHiddenUntilEvidence")))
 
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
