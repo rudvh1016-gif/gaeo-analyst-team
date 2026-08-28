@@ -1,12 +1,108 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-28 09:45",
- "priceLabel": "2026-08-28 09:35 장중",
- "count": 297,
+ "generatedAt": "2026-08-28 10:15",
+ "priceLabel": "2026-08-28 10:10 장중",
+ "count": 303,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005440",
+   "name": "현대지에프홀딩스",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "259960",
+   "name": "크래프톤",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "024720",
+   "name": "콜마홀딩스",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001440",
+   "name": "대한전선",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "034730",
+   "name": "SK",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "229640",
+   "name": "LS에코에너지",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260828",
+   "detectedAt": "2026-08-28T01:14:39.712435+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -51,22 +147,6 @@ const DART_TODAY = {
    "code": "001230",
    "name": "동국홀딩스",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T00:44:42.462540+00:00",
    "isCorrection": false
@@ -632,14 +712,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "034730",
-   "name": "SK",
-   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:01:40.127009+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "016380",
    "name": "KG스틸",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -771,14 +843,6 @@ const DART_TODAY = {
    "code": "017670",
    "name": "SK텔레콤",
    "title": "주요사항보고서(자기주식처분결정)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T03:01:40.050457+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "034730",
-   "name": "SK",
-   "title": "주요사항보고서(자기주식처분결정)(자회사의 주요경영사항)",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T03:01:40.050457+00:00",
    "isCorrection": false
@@ -1120,14 +1184,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:55:06.004872+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "021240",
    "name": "코웨이",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
@@ -1195,14 +1251,6 @@ const DART_TODAY = {
    "code": "005880",
    "name": "대한해운",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:55:06.004872+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "034730",
-   "name": "SK",
-   "title": "자기주식처분결과보고서",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T06:55:06.004872+00:00",
    "isCorrection": false
