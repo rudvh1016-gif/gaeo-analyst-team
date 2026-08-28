@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 10:15",
- "dataCutoff": "2026-08-28 10:15 장중",
+ "generatedAt": "2026-08-28 10:45",
+ "dataCutoff": "2026-08-28 10:45 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 4,
-   "why": "20거래일 +107.1% · 20일선 위",
+   "why": "20거래일 +105.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 6.4,
+   "gapPct": 5.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,20 +24,9 @@ window.ROTATION_PICKS = {
    "name": "삼화콘덴서",
    "sector": "전자·부품",
    "sectorRank": 2,
-   "why": "20거래일 +100.3% · 20일선 위",
+   "why": "20거래일 +98.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 26.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "222800",
-   "name": "심텍",
-   "sector": "전자·부품",
-   "sectorRank": 2,
-   "why": "20거래일 +98.6% · 20일선 위",
-   "overheat": false,
-   "gapPct": 17.3,
+   "gapPct": 25.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,33 +34,44 @@ window.ROTATION_PICKS = {
    "code": "006110",
    "name": "삼아알미늄",
    "sector": "화학·소재",
-   "sectorRank": 15,
-   "why": "20거래일 +147.3% · 20일선 위",
+   "sectorRank": 13,
+   "why": "20거래일 +144.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.8,
+   "gapPct": 33.5,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 3,
+   "why": "20거래일 +96.6% · 20일선 위",
+   "overheat": false,
+   "gapPct": 29.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 55.5,
+  "breadthPct": 56.5,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6857.28,
-    "ma20": 6625.24,
+    "close": 6832.15,
+    "ma20": 6623.99,
     "above": true,
-    "gapPct": 3.5
+    "gapPct": 3.14
    },
    "KOSDAQ": {
-    "close": 832.6,
-    "ma20": 818.71,
+    "close": 830.88,
+    "ma20": 818.63,
     "above": true,
-    "gapPct": 1.7
+    "gapPct": 1.5
    }
   }
  },
