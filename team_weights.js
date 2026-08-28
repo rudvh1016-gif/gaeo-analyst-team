@@ -3,7 +3,7 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-08-28 15:43",
+ "generatedAt": "2026-08-28 16:11",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -63,10 +63,10 @@ const TEAM_WEIGHTS = {
   },
   "graded": 2871,
   "team": {
-   "hit": 1695,
-   "miss": 1194,
+   "hit": 1694,
+   "miss": 1195,
    "n": 2889,
-   "acc": 58.7
+   "acc": 58.6
   }
  },
  "sectors": {
