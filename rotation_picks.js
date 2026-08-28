@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 15:13",
- "dataCutoff": "2026-08-28 15:13 장중",
+ "generatedAt": "2026-08-28 15:45",
+ "dataCutoff": "2026-08-28 종가",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 8,
-   "why": "20거래일 +138.7% · 20일선 위",
+   "why": "20거래일 +138.0% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.4,
+   "gapPct": 30.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 6,
-   "why": "20거래일 +105.2% · 20일선 위",
+   "why": "20거래일 +105.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.5,
+   "gapPct": 5.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -45,8 +45,8 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +90.1% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +89.1% · 20일선 위",
    "overheat": false,
    "gapPct": 26.4,
    "call": "HOLD",
@@ -55,30 +55,30 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 63.9,
+  "breadthPct": 65.2,
   "shown": 4,
   "allowed": 4,
   "sectorCap": 2,
   "sectorCount": 4,
   "detail": {
    "KOSPI": {
-    "close": 6791.59,
-    "ma20": 6621.96,
+    "close": 6807.9,
+    "ma20": 6622.77,
     "above": true,
-    "gapPct": 2.56
+    "gapPct": 2.8
    },
    "KOSDAQ": {
-    "close": 836.3,
-    "ma20": 818.9,
+    "close": 838.33,
+    "ma20": 819.0,
     "above": true,
-    "gapPct": 2.13
+    "gapPct": 2.36
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "건설·건자재"
+  "topSector": "전력·에너지"
  },
  "record": {
   "hitRate": 54.8,
