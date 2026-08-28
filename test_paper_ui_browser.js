@@ -819,6 +819,158 @@ const BASELINE = {
 
   await renderWith(page, COMPACT);   // 뷰포트 측정 전 보유 현황으로 복귀
 
+  /* ═══ V. 전략 버전 전환(V1/V2/V3) 계약 — 2026-08-28 신설 ══════════════════
+     이번 주 최대 신규 기능인데 브라우저 계약이 한 줄도 없었다. 세 버전이 같은
+     러너 사이클을 타서 평소엔 서로의 값이 섞여도 눈에 잘 안 띈다 — 그래서
+     "V2 화면에 V1 값이 새는" 종류의 버그가 조용히 지나간다. 여기서 잠근다. */
+  async function renderVer(page, ver, snaps, hist) {
+    return page.evaluate(({ ver, snaps, hist }) => {
+      window.GAEO_PAPER = snaps.v1 || null;
+      window.GAEO_PAPER_V2 = snaps.v2 || null;
+      window.GAEO_PAPER_V3 = snaps.v3 || null;
+      window.GAEO_PAPER_LIVE = null;
+      if (typeof PV_VIEW !== 'undefined') { PV_VIEW = 'holdings'; PV_DAY = null; PV_OPEN.clear(); }
+      if (typeof PV_HIST !== 'undefined' && hist) {
+        Object.keys(PV_HIST).forEach(k => delete PV_HIST[k]);
+        Object.keys(hist).forEach(k => { PV_HIST[k] = hist[k]; });
+      }
+      PV_VER = ver;
+      window.setMode('paper');
+      window.renderPaper();
+      const v = document.getElementById('paperView');
+      return { text: v.innerText, html: v.innerHTML };
+    }, { ver, snaps, hist: hist || null });
+  }
+
+  const V2SNAP = { ...COMPACT, strategyVersion: 'PAPER_SMART_V2', maxHoldingTradingDays: 60,
+                   investedCostBasis: 2222222, availableVirtualCash: 7777778 };
+  const V3SNAP = { ...COMPACT, strategyVersion: 'PAPER_SCALP_V3', maxHoldingTradingDays: 2,
+                   maxNewEntriesPerDay: 3, sectorCap: 1, takeProfitPct: 3, stopLossPct: -2,
+                   positionSizeKrw: 2500000,
+                   investedCostBasis: 3333333, availableVirtualCash: 6666667 };
+  const ALL = { v1: COMPACT, v2: V2SNAP, v3: V3SNAP };
+
+  const vTabs = await renderVer(page, 'v1', ALL);
+  check('V1. 세 버전 탭이 모두 뜬다',
+    /V1 기본/.test(vTabs.text) && /V2 스마트/.test(vTabs.text) && /V3 단타/.test(vTabs.text),
+    vTabs.text.slice(0, 120));
+  check('V2. 탭이 3개다(늘거나 줄면 계약 갱신 필요)',
+    (vTabs.html.match(/class="pv-ver[ "]/g) || []).length === 3,
+    String((vTabs.html.match(/class="pv-ver[ "]/g) || []).length));
+
+  // 각 버전은 '자기' 스냅샷만 읽는다 — 옆 버전 숫자가 새면 안 된다.
+  const vv2 = await renderVer(page, 'v2', ALL);
+  check('V3. V2 화면이 V2 스냅샷을 읽는다', vv2.text.includes('2,222,222원'),
+    (vv2.text.match(/[\d,]+원/g) || []).slice(0, 4).join(' '));
+  check('V4. V2 화면에 V1 숫자가 새지 않는다', !vv2.text.includes('2,939,900원'), 'V1 원금 노출');
+  const vv3 = await renderVer(page, 'v3', ALL);
+  check('V5. V3 화면이 V3 스냅샷을 읽는다', vv3.text.includes('3,333,333원'),
+    (vv3.text.match(/[\d,]+원/g) || []).slice(0, 4).join(' '));
+  check('V6. V3 화면에 V1·V2 숫자가 새지 않는다',
+    !vv3.text.includes('2,939,900원') && !vv3.text.includes('2,222,222원'), '옆 버전 원금 노출');
+
+  // 규칙 숫자는 스냅샷에서 읽는다(손으로 적으면 엔진을 바꿔도 화면만 옛말을 한다)
+  check('V7. V3 규칙 문구가 스냅샷의 하루 상한·업종 상한을 쓴다',
+    /하루 최대 3종목/.test(vv3.text) && /업종당 1종목/.test(vv3.text),
+    (vv3.text.match(/하루 최대[^\n]*/g) || []).join(' | '));
+  const vv3b = await renderVer(page, 'v3', { ...ALL, v3: { ...V3SNAP, maxNewEntriesPerDay: 5, sectorCap: 2 } });
+  check('V8. 설정이 바뀌면 문구도 따라 바뀐다(하드코딩 금지)',
+    /하루 최대 5종목/.test(vv3b.text) && /업종당 2종목/.test(vv3b.text),
+    (vv3b.text.match(/하루 최대[^\n]*/g) || []).join(' | '));
+
+  // 각 버전의 보유 상한도 자기 값이어야 한다
+  check('V9. 버전마다 자기 보유 상한을 말한다',
+    /60거래일/.test(vv2.text) && /2거래일/.test(vv3.text),
+    (vv2.text.match(/\d+거래일/g) || []).join(' ') + ' / ' + (vv3.text.match(/\d+거래일/g) || []).join(' '));
+
+  // 아직 안 돈 버전 — 미리 만든 숫자를 보여주지 않는다
+  const vPrep = await renderVer(page, 'v3', { ...ALL, v3: { ...V3SNAP, stage: 'PREPARING' } });
+  check('V10. 준비 중인 버전은 다음 거래일 안내만 한다',
+    vPrep.text.includes('다음 거래일부터') && !vPrep.text.includes('3,333,333원'), vPrep.text.slice(0, 160));
+  const vNone = await renderVer(page, 'v3', { ...ALL, v3: null });
+  check('V11. 스냅샷이 없는 버전은 가짜 숫자 없이 비운다',
+    vNone.text.includes('불러오지 못했') && !/[\d,]{7,}원/.test(vNone.text), vNone.text.slice(0, 160));
+  check('V12. 스냅샷이 없어도 버전 탭은 계속 보인다(다른 버전으로 갈 길이 남는다)',
+    /V1 기본/.test(vNone.text) && /V2 스마트/.test(vNone.text));
+
+  // 표본 미달로 계좌 성과를 가린 버전 — 빈칸만 두지 않고 이유를 밝힌다
+  const vHid = await renderVer(page, 'v2', { ...ALL, v2: { ...V2SNAP,
+    portfolioReturnPct: null, currentVirtualEquity: null, availableVirtualCash: null,
+    markedPositionsValue: null, unrealizedPnl: null, realizedPnl: null,
+    realizedVirtualEquity: null, allocationInvestedPct: null, allocationCashPct: null,
+    metricsHiddenUntilEvidence: ['portfolioReturnPct', 'currentVirtualEquity'] } });
+  check('V13. 계좌 성과를 가린 버전은 이유를 밝힌다',
+    vHid.text.includes('표본 쌓는 중'), vHid.text.slice(0, 200));
+  /* ⚠️ 종목별 수익률(+1.11% 같은 개별 거래 값)은 가리는 대상이 아니다 — 엔진 게이트는
+     계좌 단위만 가린다. 그래서 계좌 요약 블록(.pv-port)만 좁혀서 본다. */
+  const hidPort = await page.evaluate(() => {
+    const el = document.querySelector('#paperView .pv-port');
+    return el ? el.innerText : '(.pv-port 없음)';
+  });
+  check('V14. 가린 버전의 계좌 요약에 수익률·평가금이 안 남는다',
+    !/[+−-]\d+\.\d+%/.test(hidPort) && /—/.test(hidPort), hidPort.replace(/\n/g, ' / '));
+
+  // 기록 탭 — 자기 버전의 기록 파일과 자기 버전의 상태를 읽는다
+  const VHIST = (hold, gated) => ({
+    days: [{ date: '2026-08-19', noRecord: false, lastRecordAt: '15:30', inProgress: false,
+             equity: gated ? null : 10020000, cash: gated ? null : 9000000,
+             investedCostBasis: 1000000, markedPositionsValue: gated ? null : 1020000,
+             realizedPnl: gated ? null : 0, unrealizedPnl: gated ? null : 20000, openCount: 1,
+             cumulativeReturnPct: gated ? null : 0.2, dailyChangePct: gated ? null : 0.2,
+             marketChangePct: null, buyCount: 0, sellCount: 0, buys: [], sells: [], skipped: [],
+             contributions: [] }],
+    maxHoldingTradingDays: hold,
+    metricsHiddenUntilEvidence: gated ? ['equity'] : undefined,
+    strategy: { buckets: [
+        { key: 'same_day', label: '당일형', desc: '진입한 날 바로 종료', beyondRule: 0 > hold, tradeCount: 0 },
+        { key: 'swing', label: '스윙', desc: '3~5거래일 보유', beyondRule: 3 > hold, tradeCount: 0 }],
+      otherCount: 0, totalClosed: 0, minSample: 20, enough: false,
+      maxHoldingTradingDays: hold, unsupported: [],
+      note: `현재 검증 중인 전략은 한 종목을 최대 ${hold}거래일까지만 보유합니다.` }
+  });
+  const HISTS = { v1: VHIST(5, false), v2: VHIST(60, true), v3: VHIST(2, false) };
+  async function openHistory(page) {
+    return page.evaluate(() => {
+      document.querySelector('[data-pview="history"]').click();
+      const v = document.getElementById('paperView');
+      return { text: v.innerText, html: v.innerHTML };
+    });
+  }
+
+  await renderVer(page, 'v3', ALL, HISTS);
+  const h3 = await openHistory(page);
+  check('V15. 기록 탭이 그 버전의 보유 상한을 말한다',
+    h3.text.includes('최대 2거래일') && !h3.text.includes('최대 5거래일'),
+    (h3.text.match(/최대 \d+거래일/g) || []).join(' | '));
+  check('V16. 그 전략이 만들 수 없는 구간은 축적 중이라 하지 않는다',
+    h3.text.includes('이 버전 규칙에는 없는 구간'), (h3.text.match(/스윙[\s\S]{0,40}/) || [''])[0]);
+
+  await renderVer(page, 'v2', ALL, HISTS);
+  const h2 = await openHistory(page);
+  check('V17. 계좌를 가린 버전의 기록에는 평가금·수익률이 없다',
+    !h2.text.includes('10,020,000원') && !h2.text.includes('+0.20%'),
+    (h2.text.match(/[\d,]+원|[+−-][\d.]+%/g) || []).join(' '));
+  check('V18. 기록 탭도 왜 비었는지 밝힌다', h2.text.includes('공개하지 않아요'), h2.text.slice(0, 200));
+
+  /* 🐛 회귀 잠금 — 기록 탭이 버전과 무관하게 V1 상태만 읽던 버그(2026-08-28).
+     V1만 "시세 못 받음"으로 만들어도 V3 기록에는 그 안내가 뜨면 안 된다. */
+  await renderVer(page, 'v3', { ...ALL,
+    v1: { ...COMPACT, stage: 'AWAITING_MARKET_DATA', lastCycleAt: '2026-09-30T15:05:00+09:00' } }, HISTS);
+  const hLeak = await openHistory(page);
+  check('V19. 기록 탭이 옆 버전(V1)의 멈춤 상태를 자기 것처럼 말하지 않는다',
+    !hLeak.text.includes('09.30'), (hLeak.text.match(/\d\d\.\d\d 기록[^\n]*/g) || []).join(' | '));
+
+  // 버전을 바꾸면 열어둔 날짜 상세가 초기화된다(옆 버전에 없는 날짜를 들고 가지 않는다)
+  const vReset = await page.evaluate(() => {
+    PV_VER = 'v3'; PV_VIEW = 'history'; PV_DAY = '2026-08-19'; window.renderPaper();
+    document.querySelector('[data-pver="v2"]').click();
+    return { day: PV_DAY, ver: PV_VER, view: PV_VIEW };
+  });
+  check('V20. 버전을 바꾸면 열어둔 날짜가 초기화된다',
+    vReset.ver === 'v2' && !vReset.day, JSON.stringify(vReset));
+
+  await renderVer(page, 'v1', ALL);   // 뒷 검사를 위해 V1으로 복귀
+
   check('JS 예외 없음', pageErrors.length === 0, pageErrors.join(' | '));
 
   await browser.close();

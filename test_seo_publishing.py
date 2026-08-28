@@ -9,6 +9,7 @@
       ⚠️ 공개 사이트에는 어떤 테스트 글도 남기지 않는다 — 전부 tempdir 안에서만 돈다.
 """
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -126,6 +127,35 @@ try:
           any("noindex여야" in p for p in problems), str(problems[:3]))
 finally:
     shutil.rmtree(root, ignore_errors=True)
+
+
+# ── 색인 안내 파일 3종이 같이 갱신되는가 (2026-08-28 신설) ──────────────────
+#    sitemap.xml · rss.xml 은 자동 갱신되는데 llms.txt 만 파이프라인에 안 걸려 있어서,
+#    최신 뉴스가 llms.txt 에만 하루 넘게 빠져 있었다(2026-08-28 점검에서 발견).
+#    ① 워크플로가 세 개를 다 만들고 다 커밋하는지 ② 실제 파일이 최신 글을 담고 있는지
+#    두 가지를 다 본다 — 하나만 보면 "만들지만 커밋 안 함" 같은 구멍을 놓친다.
+HERE = os.path.dirname(os.path.abspath(__file__))
+_WF = os.path.join(HERE, ".github", "workflows", "update-analysis.yml")
+if os.path.exists(_WF):
+    _wf = open(_WF, encoding="utf-8").read()
+    for _script in ("generate_sitemap.js", "generate_rss.js", "generate_llms.js"):
+        check(f"색인 파일 — 파이프라인이 {_script} 를 실행한다", _script in _wf)
+    _add = [ln for ln in _wf.splitlines() if "for f in" in ln and "git add" not in ln]
+    _addblob = " ".join(_add)
+    for _art in ("sitemap.xml", "rss.xml", "llms.txt"):
+        check(f"색인 파일 — 파이프라인이 {_art} 를 커밋 대상에 넣는다", _art in _addblob,
+              "만들기만 하고 커밋을 안 하면 다음 사이클에 사라진다")
+
+_news = os.path.join(HERE, "news_analysis.js")
+_llms = os.path.join(HERE, "llms.txt")
+if os.path.exists(_news) and os.path.exists(_llms):
+    _ids = [int(m) for m in re.findall(r'"?id"?\s*:\s*(\d+)', open(_news, encoding="utf-8").read())]
+    _body = open(_llms, encoding="utf-8").read()
+    if _ids:
+        _newest = max(_ids)
+        check(f"색인 파일 — llms.txt 에 최신 뉴스(#{_newest})가 들어 있다",
+              f"/news/{_newest}.html" in _body,
+              "node generate_llms.js 를 돌려야 한다")
 
 print()
 if FAILURES:

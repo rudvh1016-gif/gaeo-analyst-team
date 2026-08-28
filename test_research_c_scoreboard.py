@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """COMMIT 3 — 연구모델 C + 모델 대시보드 테스트."""
+import copy
 import json
 import os
 import re
@@ -128,8 +129,22 @@ class DartPointInTime(unittest.TestCase):
 
 
 class Scoreboard(unittest.TestCase):
+    """⚠️ SB.build()는 한 번에 6~7초 걸린다(스코어보드 전체를 다시 만든다).
+
+    예전에는 setUp이라 테스트 11개마다 다시 만들어 이 클래스 하나가 약 73초,
+    저장소 전체 Python 테스트 194초의 38%를 차지했다. 아래 테스트는 전부
+    payload를 읽기만 하므로 클래스당 한 번만 만든다.
+    그래도 테스트끼리 서로 영향을 주지 않게 사본을 준다 — 200KB 미만이라
+    복사 비용은 무시할 수준이고, 나중에 누가 payload를 고치는 테스트를
+    추가해도 옆 테스트가 조용히 깨지지 않는다.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls._payload = SB.build()
+
     def setUp(self):
-        self.payload = SB.build()
+        self.payload = copy.deepcopy(self._payload)
 
     def test_five_models(self):
         self.assertEqual(len(self.payload["models"]), 5)
@@ -181,8 +196,10 @@ class Scoreboard(unittest.TestCase):
 
 
 class ScoreboardUI(unittest.TestCase):
-    def setUp(self):
-        self.html = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
+    # index.html은 1MB가 넘는다. 문자열은 못 바꾸니 한 번만 읽어 공유해도 안전하다.
+    @classmethod
+    def setUpClass(cls):
+        cls.html = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
 
     def test_board_function_present(self):
         self.assertIn("function modelBoardHTML()", self.html)
