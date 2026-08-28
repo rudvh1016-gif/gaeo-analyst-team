@@ -21,7 +21,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
+          # 2026-08-28: fetch-depth 0 → 1.
+          # 이 잡이 돌리는 스크립트(backtest_rotation.py · compute_rotation.py ·
+          # test_rotation*.py)에는 git 호출이 한 줄도 없어서 전체 이력이 필요 없었다.
+          # 그런데 이 저장소는 매일 약 56MB씩 커져서(price_history.js·analysis_data.json
+          # 등 대용량 생성물이 매 사이클 통째로 다시 커밋된다) 매주 GB 단위를 받고 있었다.
+          # 아래 커밋·push는 얕은 클론에서도 된다 — research-archive.yml ·
+          # market-universe-smoke-test.yml · dart-live-smoke-test.yml 이 같은 조합
+          # (fetch-depth 1 + pull --rebase + push)으로 이미 돌고 있다.
+          # 전체 이력이 진짜로 필요한 곳은 compact-history.yml 하나뿐이다(이력 재작성).
+          fetch-depth: 1
 
       - uses: actions/setup-python@v5
         with:
