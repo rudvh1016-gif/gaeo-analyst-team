@@ -22,24 +22,24 @@
  "coverageReasons": [],
  "efficiency": {
   "api_errors": 0,
-  "bytes_received": 339283,
+  "bytes_received": 340331,
   "detail_requests": 0,
   "duplicate_skipped": 138,
   "list_requests": 13,
   "matched_gaeo_filings": 19,
-  "new_filings_detected": 1288,
+  "new_filings_detected": 1292,
   "no_data_responses": 0,
   "pages_fetched": 13,
   "processing_duration_sec": null,
   "requests_per_run": 13,
-  "unmatched_filings": 1131
+  "unmatched_filings": 1135
  },
  "errors": [],
  "eventState": "EVENT_DETECTED",
  "eventsAcknowledged": 19,
  "eventsFound": 19,
  "eventsStored": 19,
- "finishedAt": "2026-08-28T06:12:02.094749+00:00",
+ "finishedAt": "2026-08-28T06:12:49.996412+00:00",
  "hasApiKey": true,
  "kstToday": "2026-08-28",
  "maintenance": [],
@@ -52,8 +52,8 @@
   "total_pages_reported": 13
  },
  "pendingRetryNext": 0,
- "ranAt": "2026-08-28T06:11:26.655518+00:00",
+ "ranAt": "2026-08-28T06:12:36.271124+00:00",
  "seenTotal": 922,
- "startedAt": "2026-08-28T06:11:26.658615+00:00",
+ "startedAt": "2026-08-28T06:12:36.275444+00:00",
  "status": "OK"
 }
