@@ -5,6 +5,7 @@
 V1(paper_engine) · Shadow(paper_smart_v2) · 두 번째 전략(paper_momentum)을 한꺼번에
 검사한다. 새 전략을 추가할 때 이 경계가 조용히 넓어지는 것을 막는 계약이다.
 """
+import glob
 import hashlib
 import io
 import json
@@ -28,7 +29,11 @@ PAPER_MODULES = ("paper_engine.py", "paper_market_data.py", "paper_smart_v2.py",
                  "paper_momentum.py", "paper_public.py", "paper_history.py",
                  "paper_report.py",
                  # 2026-08-26 신설 — 새 모의투자 모듈도 같은 경계 안에 둔다.
-                 "paper_single_writer.py", "paper_health_check.py")
+                 "paper_single_writer.py", "paper_health_check.py",
+                 # 2026-08-28 신설 — 이 명단에 없으면 1a·1b(실주문·계좌 API
+                 # 문자열 0건)가 그 파일을 아예 안 읽는다. 아래 1s 자동 점검이
+                 # 두 파일 모두 빠져 있던 것을 찾아냈다(V3는 8/27, pairing은 8/26 신설).
+                 "paper_scalp_v3.py", "paper_pairing.py")
 
 
 def check(name, cond, detail=""):
@@ -41,6 +46,27 @@ src_all = "".join(open(os.path.join(HERE, f), encoding="utf-8").read()
                   for f in PAPER_MODULES)
 
 # ═══ ① 실주문·계좌 API 0 ═════════════════════════════════════════════════════
+# 1c 를 1a·1b 보다 먼저 둔다 — 명단이 낡았으면 1a·1b 의 "0건"은 검사한 결과가
+# 아니라 읽지도 않은 결과라서, 통과 자체가 거짓이 되기 때문이다.
+#
+# ⚠️ 2026-08-28: paper_scalp_v3.py 가 8/27 신설 때 이 명단에서 빠졌는데도 이
+#    테스트는 조용히 전체 통과했다. 같은 누락을 test_shared_toss_token.py 는
+#    D9c 자동 점검으로 즉시 잡아냈다(그쪽은 세 번째 재발이라 이미 만들어 뒀다).
+#    그래서 이 파일에도 같은 자동 점검을 둔다 — 명단 관리를 사람 기억에 맡기지 않는다.
+PAPER_MODULE_MARKERS = ("PaperEngine", "trades.jsonl")
+_unregistered = []
+for _path in sorted(glob.glob(os.path.join(HERE, "paper_*.py"))):
+    _name = os.path.basename(_path)
+    try:
+        _body = io.open(_path, encoding="utf-8").read()
+    except OSError:
+        continue
+    if not any(m in _body for m in PAPER_MODULE_MARKERS):
+        continue
+    if _name not in PAPER_MODULES:
+        _unregistered.append(_name)
+check("1s. 모의투자 모듈 명단이 최신이다(검사 사각지대 0)", _unregistered == [],
+      str(_unregistered) + " — PAPER_MODULES 에 추가할 것")
 FORBIDDEN_PATHS = ("/api/v1/orders", "conditional-order", "/api/v1/holdings",
                    "/api/v1/accounts", "/api/v1/buying-power",
                    "/api/v1/sellable-quantity", "/api/v1/commissions")
