@@ -4,18 +4,29 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-28 09:15",
- "dataCutoff": "2026-08-28 09:15 장중",
+ "generatedAt": "2026-08-28 09:45",
+ "dataCutoff": "2026-08-28 09:45 장중",
  "horizonDays": 20,
  "picks": [
+  {
+   "code": "222800",
+   "name": "심텍",
+   "sector": "전자·부품",
+   "sectorRank": 2,
+   "why": "20거래일 +104.4% · 20일선 위",
+   "overheat": false,
+   "gapPct": 20.5,
+   "call": "HOLD",
+   "callConflict": false
+  },
   {
    "code": "323280",
    "name": "태성",
    "sector": "반도체",
    "sectorRank": 4,
-   "why": "20거래일 +107.7% · 20일선 위",
+   "why": "20거래일 +106.2% · 20일선 위",
    "overheat": false,
-   "gapPct": 6.7,
+   "gapPct": 6.0,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,54 +35,32 @@ window.ROTATION_PICKS = {
    "name": "티엘비",
    "sector": "반도체",
    "sectorRank": 4,
-   "why": "20거래일 +103.9% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.3,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "066970",
-   "name": "엘앤에프",
-   "sector": "2차전지",
-   "sectorRank": 3,
-   "why": "20거래일 +97.9% · 20일선 위 · 거래량 평소의 1.5배",
-   "overheat": true,
-   "gapPct": 31.9,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "010170",
-   "name": "대한광통신",
-   "sector": "통신",
-   "sectorRank": 8,
-   "why": "20거래일 +102.4% · 20일선 위",
+   "why": "20거래일 +102.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 15.9,
+   "gapPct": 29.5,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 60.7,
-  "shown": 4,
-  "allowed": 4,
+  "breadthPct": 53.8,
+  "shown": 3,
+  "allowed": 3,
   "sectorCap": 2,
-  "sectorCount": 3,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6864.15,
-    "ma20": 6625.59,
+    "close": 6874.1,
+    "ma20": 6626.08,
     "above": true,
-    "gapPct": 3.6
+    "gapPct": 3.74
    },
    "KOSDAQ": {
-    "close": 839.9,
-    "ma20": 819.08,
+    "close": 831.96,
+    "ma20": 818.68,
     "above": true,
-    "gapPct": 2.54
+    "gapPct": 1.62
    }
   }
  },
