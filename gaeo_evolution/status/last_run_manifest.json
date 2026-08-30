@@ -1,13 +1,13 @@
 {
- "runId": "evo-20260823-060855",
+ "runId": "evo-20260830-010510",
  "runType": "deterministic_evolution_lab",
- "startedAt": "2026-08-23T06:08:55+00:00",
- "finishedAt": "2026-08-23T06:08:56+00:00",
- "gitSha": "a9bfe1439e1863bb4bbf7df074e68fd8256ad637",
+ "startedAt": "2026-08-30T01:05:10+00:00",
+ "finishedAt": "2026-08-30T01:05:11+00:00",
+ "gitSha": "1bf18179c1c4c3c9dffdcfdfe8c5514b0a7f66ba",
  "scoringVersion": "grading_v1_2026-08-16",
  "baseModelVersion": "base-2026-08-15-parity-hotfix",
  "candidateVersion": null,
- "decisionCutoff": "2026-08-21",
+ "decisionCutoff": "2026-08-28",
  "priceFetchedAt": null,
  "analysisGeneratedAt": null,
  "stocksRequested": 598,
@@ -23,7 +23,7 @@
  "cachedTokens": 0,
  "costUsd": null,
  "costSource": "not_applicable_no_llm",
- "runtimeSeconds": 0.9,
+ "runtimeSeconds": 1.2,
  "status": "OK",
  "evaluationMeta": {
   "evaluationVersion": "evolution_eval_v2_2026-08-22",
@@ -31,18 +31,18 @@
   "offlineSemantics": "offline_sim_vs_sim_v2",
   "dataWindow": {
    "start": "2026-08-17",
-   "end": "2026-08-21"
+   "end": "2026-08-28"
   },
-  "n": 2990,
-  "uniqueDays": 5,
-  "dataFingerprint": "45a48e52fcff596d6017fefed82d1d9fb029207212c873946f10e30e9bfb3386",
+  "n": 5980,
+  "uniqueDays": 10,
+  "dataFingerprint": "38fe88806a37517c4c93a8d916c692d728c090539cf13f2e4e222a3bc3611076",
   "bootstrap": {
    "unit": "decision_date",
    "rounds": 400,
    "seed": 17,
    "note": "build_model_scoreboard._block_bootstrap_ci 재사용"
   },
-  "generatedAt": "2026-08-23T06:08:56+00:00",
+  "generatedAt": "2026-08-30T01:05:10+00:00",
   "selection": {
    "recordSelection": "forward_record_only_v2",
    "modelVersions": [
@@ -50,7 +50,7 @@
    ],
    "excludedByAuthenticity": {
     "recon_backfill_post_hoc": 5965,
-    "non_auto_tier": 122,
+    "non_auto_tier": 126,
     "model_version_out_of_scope": 10500
    },
    "excludedN": 0,

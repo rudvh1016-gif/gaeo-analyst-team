@@ -116,6 +116,90 @@
     }
    },
    "note": "deterministic evolution lab 자동 기록 · forward-only v2"
+  },
+  {
+   "recordedAt": "2026-08-30T01:05:11+00:00",
+   "day": "2026-08-30",
+   "versions": {
+    "gitSha": "1bf18179c1c4c3c9dffdcfdfe8c5514b0a7f66ba",
+    "teamWeightVersion": "2026-08-28 16:11",
+    "modelIntelligenceVersion": "calibrated-ensemble-v3",
+    "modelIntelligencePromotion": "shadow",
+    "baseModelVersion": "base-2026-08-15-parity-hotfix",
+    "productionWeights": {
+     "taro": 0.2758,
+     "diana": 0.1268,
+     "nova": 0.2976,
+     "flow": 0.2998
+    },
+    "productionWeightsSource": "team_weights.js(global)"
+   },
+   "metrics": {
+    "semantics": "production_call_hit(deadband=1)",
+    "recordSelection": "forward_record_only_v2",
+    "modelVersions": [
+     "base-2026-08-15-parity-hotfix"
+    ],
+    "n": 2990,
+    "uniqueDays": 5,
+    "regimeCount": 2,
+    "buy": {
+     "n": 152,
+     "precisionPct": 53.9
+    },
+    "sell": {
+     "n": 367,
+     "precisionPct": 44.1
+    },
+    "hold": {
+     "n": 2372,
+     "hitPct": 61.1
+    },
+    "actionable": {
+     "n": 519,
+     "precisionPct": 47.0,
+     "precisionCi95": [
+      30.3,
+      63.5
+     ]
+    },
+    "coveragePct": 20.7,
+    "directionSharePct": 70.2,
+    "brier": 0.2541,
+    "largeErrorPct": 11.0,
+    "topErrorSectors": [
+     [
+      "반도체",
+      33
+     ],
+     [
+      "전력·에너지",
+      29
+     ],
+     [
+      "바이오·제약",
+      28
+     ],
+     [
+      "전자·부품",
+      18
+     ],
+     [
+      "지주·상사",
+      17
+     ]
+    ],
+    "cutoffExclusion": {
+     "excludedN": 0,
+     "excludedWhy": {}
+    },
+    "authenticityExclusion": {
+     "recon_backfill_post_hoc": 5965,
+     "non_auto_tier": 126,
+     "model_version_out_of_scope": 10500
+    }
+   },
+   "note": "deterministic evolution lab 자동 기록 · forward-only v2"
   }
  ],
  "previousStable": null
