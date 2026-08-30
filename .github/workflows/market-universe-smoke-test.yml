@@ -1,11 +1,33 @@
-# 개오 애널리스트팀 — FULL MARKET UNIVERSE 소스 검증 ONE-SHOT
+# 개오 애널리스트팀 — FULL MARKET UNIVERSE 소스 검증 + 정기 갱신
 #
 # 목적: 이 원격 개발 세션에서는 네이버 API가 막혀 있어(egress 제약) 실제 응답
 #       스키마를 볼 수 없다. field 이름을 추측해서 구현하는 것은 금지이므로,
 #       러너에서 실제 응답의 field 목록·건수만 확인해 branch에 기록한다.
 #
 # ⚠️ Secret 불필요. 응답 전체를 로그에 쏟지 않는다(스키마 요약 + 건수만).
-# ⚠️ 수동 실행 전용. 600종목 분석 파이프라인과 완전히 분리돼 있다.
+#
+# 왜 schedule을 추가했나 (2026-08-30 GAEO Evolution Issue #464 조사)
+#   Coverage Guardian이 "이 종목이 정말 상장폐지됐는가"를 판정할 때 쓰는 1차 증거가
+#   이 워크플로가 --write-raw로 만드는 market_universe/full_market_latest.json.gz다.
+#   그런데 이 워크플로가 workflow_dispatch 전용이라 사람이 손으로 눌러야만 갱신됐다.
+#   Guardian의 신선도 한도는 SNAPSHOT_MAX_AGE_DAYS_FOR_DELISTING(3일)이라, 마지막
+#   수동 실행(2026-08-16) 이후 아무도 누르지 않아 13.97일까지 방치됐고, 그 사이
+#   실제로 상장폐지된 두 종목(012510 더존비즈온·057050 현대홈쇼핑)을 Guardian이
+#   "확인 근거 없음(UNKNOWN)"으로 멈춰 세웠다(신선도 게이트가 먼저 막아 그 뒤의
+#   대량누락 가드·시가총액 가드·독립소스 대조까지 가지도 못했다).
+#   sector-source-refresh.yml이 독립 소스(KRX 상장법인목록, 신선도 한도 14일)를
+#   주 2회 자동 갱신해 같은 문제를 이미 한 번 고쳤다(2026-08-26 감사) — 이 워크플로의
+#   1차 증거 파일만 그 수리에서 빠져 있었다. 같은 안전 패턴을 여기에도 그대로 적용한다.
+#
+# ⭐ 안전 규칙 (sector-source-refresh.yml과 동일)
+#   - tickers.js·Coverage Version을 이 워크플로에서 절대 바꾸지 않는다.
+#   - 비정상 수집(급감·소스 에러)이면 collect_market_universe.py 자체의 fail-safe가
+#     먼저 막는다 — sane 게이트를 통과 못 하면 --write-raw 단계까지 가지 않고 함수가
+#     조기 반환하므로, market_universe/full_market_latest.json.gz는 1바이트도 안
+#     바뀐다(마지막 정상 snapshot 보존). 이 워크플로는 그 결과를 커밋만 한다.
+#   - 허용 경로(market_universe/) 밖이 staged되면 커밋하지 않는다(방어 한 겹 더).
+#   - Evolution Sunday(evolution-lab.yml, 토 23:00 UTC=일 08:00 KST) 일정을 건드리지
+#     않는다. 그보다 앞서 갱신해 Guardian이 신선한 snapshot을 보게만 한다.
 
 name: market-universe-smoke-test
 
@@ -16,6 +38,14 @@ on:
         description: "스키마 검증 후 전체 수집·집계까지 실행 (기본 true)"
         type: boolean
         default: true
+  schedule:
+    # 수요일·토요일 00:00 UTC = 수·토 09:00 KST — sector-source-refresh.yml과 같은
+    # 요일. 신선도 한도가 3일뿐이라 실패 시 여유가 KRX 목록(14일)보다 훨씬 좁지만,
+    # 토요일 회차가 Evolution Sunday(일 08:00 KST) 직전에 한 번 더 갱신해 주간
+    # 자동 Guardian 실행만큼은 항상 신선한 snapshot을 보게 한다. 그 사이 수동으로
+    # Guardian을 돌리는 경우를 위해서는 이 워크플로를 workflow_dispatch로 먼저
+    # 수동 실행하면 된다.
+    - cron: "0 0 * * 3,6"
 
 permissions:
   contents: write
@@ -26,6 +56,7 @@ concurrency:
 
 jobs:
   smoke:
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -37,6 +68,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: 갱신 전 상태 기록
+        run: |
+          python3 - <<'PY'
+          import gzip, json
+          try:
+              with gzip.open("market_universe/full_market_latest.json.gz", "rt", encoding="utf-8") as f:
+                  d = json.load(f)
+              print(f"현재 last-good: {d.get('rawCount')}건 · asOf {d.get('asOf')}")
+          except Exception as e:
+              print(f"현재 last-good을 읽을 수 없다: {type(e).__name__}: {e}")
+          PY
+
       - name: 스키마 검증 (시장별 1페이지)
         run: python3 collect_market_universe.py --smoke
 
@@ -45,12 +88,14 @@ jobs:
       # 종료 코드: 0 승격 / 1 소스 차단(BLOCKED_SOURCE) / 2 검증 실패로 승격 거부.
       # 1·2 어느 쪽이든 기존 sector_map.json은 1바이트도 바뀌지 않는다(fail closed).
       # 여기서 죽이지 않는 이유는 아래 본 수집이 last-good 맵으로 계속 돌 수 있어서다.
-      # 정기 갱신은 sector-source-refresh.yml(주 1회)이 맡는다.
+      # 정기 갱신은 sector-source-refresh.yml(주 2회)이 맡는다 — 여기서는 덤이다.
       - name: 업종 소스 실검증 + sector_map 승격 (KRX 상장법인목록)
         run: python3 probe_sector_source.py || echo "업종 맵 갱신 안 됨 — last-good 유지(수집기는 기존 맵 사용)"
 
+      # schedule 트리거에는 inputs.full이 없다(workflow_dispatch 전용 입력) —
+      # 그래서 event_name이 schedule이면 항상 돌리고, 수동 실행일 때만 입력을 본다.
       - name: 전체 수집·집계 (요청 수십 회, per-stock polling 없음)
-        if: ${{ inputs.full }}
+        if: ${{ github.event_name == 'schedule' || inputs.full }}
         run: |
           time python3 collect_market_universe.py --write-raw
           echo "── 산출물 크기 ──"
@@ -58,12 +103,23 @@ jobs:
 
       - name: 결과를 이 branch에 커밋
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # market_context.js(공개 스냅샷)는 여기서 커밋하지 않는다 — 휴장일 수동 검증이
           # 사이트의 '기준 시각'을 장이 안 열린 시각으로 덮어쓰던 원인(2026-08-16 사용자 보고).
           # 공개 스냅샷 갱신은 평일 장중 update-analysis 사이클만 담당한다.
           git add market_universe 2>/dev/null || true
+
+          # 🔒 허용 경로 밖이 staged되면 커밋하지 않는다. tickers.js·coverage_version.py는
+          #    이 워크플로가 절대 건드리면 안 되는 파일이다(자동 종목교체 금지).
+          BAD=$(git diff --cached --name-only | grep -v '^market_universe/' || true)
+          if [ -n "$BAD" ]; then
+            echo "::error::허용되지 않은 파일이 staged 됐다: $BAD"
+            git reset
+            exit 1
+          fi
+
           if git diff --cached --quiet; then
             echo "변경 없음"
           else
