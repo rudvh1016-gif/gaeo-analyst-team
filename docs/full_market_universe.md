@@ -65,9 +65,10 @@ GAEO에는 이제 모집단이 2개 있다:
 - `market_universe/sector_source_probe.json` — 업종 소스 검증 보고(컬럼·건수·업종 분포만)
 - `market_universe/source_verify.json` — 러너가 실측한 API field 목록 (이것에 없는 field는 사용 금지)
 - `market_universe/state.json` — 마지막 수집 상태·품질 카운트
+- `market_universe/full_market_latest.json.gz` — Coverage Guardian이 상장폐지 판정 ①번(전체시장 snapshot 신선도) 조건에 쓰는 개별 종목 원장. **주 2회 자동 갱신**(아래 참조)
 - `market_universe/history/YYYY-MM-DD.json` — 거래일 1건 소형 집계, **종가 기준**(약 1.5KB/일). `closeConfirmed: true`가 마감 이후 스냅샷임을 표시한다
 - `market_context.js` — 브라우저용 소형 집계(약 1KB). **개별 종목 목록은 절대 안 내보냄**
-- `.github/workflows/market-universe-smoke-test.yml` — 수동 소스 재검증
+- `.github/workflows/market-universe-smoke-test.yml` — 수동 실행(workflow_dispatch) + 수·토 09:00 KST **자동 갱신**(2026-08-30부터, 아래 「1차 증거 snapshot도 자동 갱신」 참조)
 - `test_market_universe.py` — synthetic 통계·fail-safe 테스트
 - `test_market_history_close.py` — 일별 기록이 종가인지·휴장일을 거르는지 지키는 계약 테스트
 
@@ -120,6 +121,42 @@ KOSPI·KOSDAQ 일간 등락률과 18개 표본 중 17개에서 일치한다(불�
 2026-08-26 코스닥으로, 지수 -0.034% vs 집계 +0.034% — 사실상 보합인 날의 반올림
 차이다). 남는 오차 0.14%p 수준은 시점 차이가 아니라 모집단 차이다
 (전체 상장 보통주 시총가중 vs 지수의 유동시총 방식).
+
+## 1차 증거 snapshot도 자동 갱신 (2026-08-30 수정, GAEO Evolution Issue #464)
+
+Coverage Guardian이 상장폐지를 판정할 때 두 증인을 본다.
+
+1. **전체시장 snapshot**(`market_universe/full_market_latest.json.gz`, 이 문서의 주제) —
+   신선도 한도 `SNAPSHOT_MAX_AGE_DAYS_FOR_DELISTING` **3일**.
+2. **독립 소스**(`market_universe/sector_map.json`, KRX 상장법인목록) —
+   신선도 한도 `KRX_CORPLIST_MAX_AGE_DAYS` **14일**.
+
+②는 2026-08-26 감사로 `sector-source-refresh.yml`(주 2회)이 자동 갱신하게
+고쳐졌는데, **①은 그 수리에서 빠져 있었다.** ①을 만드는 유일한 생산자가
+`market-universe-smoke-test.yml`이었고, 이건 workflow_dispatch 전용이라 사람이
+손으로 눌러야만 갱신됐다. 마지막 수동 실행(08-16) 이후 아무도 누르지 않아
+13.97일까지 방치됐다.
+
+그 사이 실제로 상장폐지된 두 종목(012510 더존비즈온 2026-07-15 · 057050
+현대홈쇼핑 2026-07-20, 둘 다 KRX/KIND 공시로 확인)을 Guardian이 "확인 근거
+없음(UNKNOWN)"으로 세워 뒀다. 신선도 게이트가 맨 앞에서 막아, 그 뒤의
+대량누락 가드·시가총액 가드·독립소스 대조 단계까지 가지도 못한 것이다
+(코드 로직 자체는 설계대로 정확히 동작했다 — 결함은 그 로직이 참조하는 파일을
+자동으로 신선하게 유지해 주는 자동화가 없었다는 파이프라인 공백이다).
+
+고친 내용: `market-universe-smoke-test.yml`에 `sector-source-refresh.yml`과
+같은 요일(수·토 09:00 KST)로 `schedule`을 추가했다. 토요일 회차가 Evolution
+Sunday(일 08:00 KST) 직전에 한 번 더 갱신해, 주간 자동 Guardian 실행만큼은
+항상 신선한 snapshot을 보게 한다. `collect_market_universe.py`의 기존
+fail-safe(비정상 수집 시 last-good 보존)는 그대로이므로, 이 스케줄이 실패해도
+낡은 snapshot을 더 낡은 채로 두거나 last-good을 잘못 덮어쓰지 않는다.
+
+⚠️ 검토했으나 채택하지 않은 방안: "KRX 독립 소스 하나만으로 즉시 자동 상폐"
+같은 지름길. 벤더 한 곳(또는 소스 하나) 누락만으로 상장폐지를 확정하는 구조는
+2026-08-25/26 감사에서 이미 명시적으로 금지됐다(`classify_missing`의 보수성
+규칙 ①~⑦ 전부를 만족해야 `DELISTED_CONFIRMED`). 이번 수정은 그 ①번 조건이
+정상적으로 평가될 수 있게 증거 파일을 신선하게 유지하는 것뿐이며, 조건 자체는
+하나도 완화하지 않았다.
 
 ## 저장 용량 (실측 기반 추정)
 
