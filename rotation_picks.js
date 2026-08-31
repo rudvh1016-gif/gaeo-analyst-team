@@ -3,37 +3,60 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-08-31 10:30",
- "dataCutoff": "2026-08-31 10:30 장중",
+ "status": "ready",
+ "generatedAt": "2026-08-31 11:01",
+ "dataCutoff": "2026-08-31 11:01 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 1,
+   "why": "20거래일 +95.2% · 20일선 위",
+   "overheat": true,
+   "gapPct": 35.9,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 2,
+   "why": "20거래일 +90.1% · 20일선 위",
+   "overheat": true,
+   "gapPct": 31.6,
+   "call": "HOLD",
+   "callConflict": false
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 49.3,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 49.8,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6615.43,
-    "ma20": 6622.82,
-    "above": false,
-    "gapPct": -0.11
+    "close": 6643.18,
+    "ma20": 6624.21,
+    "above": true,
+    "gapPct": 0.29
    },
    "KOSDAQ": {
-    "close": 808.82,
-    "ma20": 823.46,
+    "close": 810.86,
+    "ma20": 823.56,
     "above": false,
-    "gapPct": -1.78
+    "gapPct": -1.54
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "화장품·미용"
+  "topSector": "2차전지"
  },
  "record": {
   "hitRate": 54.5,
