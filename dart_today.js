@@ -1,12 +1,116 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-31 11:01",
- "priceLabel": "2026-08-31 10:57 장중 · ⚠️ 1종목 지연",
- "count": 418,
+ "generatedAt": "2026-08-31 11:32",
+ "priceLabel": "2026-08-31 11:20 장중 · ⚠️ 1종목 지연",
+ "count": 429,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "082740",
+   "name": "한화엔진",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "009830",
+   "name": "한화솔루션",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "489790",
+   "name": "한화비전",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "452260",
+   "name": "한화갤러리아",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005430",
+   "name": "한국공항",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "007810",
+   "name": "코리아써키트",
+   "title": "[기재정정]대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "196170",
+   "name": "알테오젠",
+   "title": "투자판단관련주요경영사항 (ALT-B4 라이선스 계약 파트너사 MSD로부터 판매 마일스톤 수령 예정)",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "068270",
+   "name": "셀트리온",
+   "title": "주요사항보고서(자기주식취득결정)",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000070",
+   "name": "삼양홀딩스",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010140",
+   "name": "삼성중공업",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "207940",
+   "name": "삼성바이오로직스",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "100090",
+   "name": "SK오션플랜트",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "060370",
+   "name": "LS마린솔루션",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T02:30:35.376770+00:00",
+   "isCorrection": true
+  },
   {
    "code": "000370",
    "name": "한화손해보험",
@@ -1826,14 +1930,6 @@ const DART_TODAY = {
   {
    "code": "207940",
    "name": "삼성바이오로직스",
-   "title": "주요사항보고서(유상증자결정)",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T00:14:41.079745+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "207940",
-   "name": "삼성바이오로직스",
    "title": "[기재정정]주요사항보고서(타법인주식및출자증권양수결정)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T00:14:41.079745+00:00",
@@ -3075,14 +3171,6 @@ const DART_TODAY = {
    "code": "293490",
    "name": "카카오게임즈",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260825",
-   "detectedAt": "2026-08-25T07:11:39.954574+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "068270",
-   "name": "셀트리온",
-   "title": "풍문또는보도에대한해명(미확정)",
    "receiptDate": "20260825",
    "detectedAt": "2026-08-25T07:11:39.954574+00:00",
    "isCorrection": false
