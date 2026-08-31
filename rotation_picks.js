@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-31 12:04",
- "dataCutoff": "2026-08-31 12:04 장중",
+ "generatedAt": "2026-08-31 12:35",
+ "dataCutoff": "2026-08-31 12:35 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 1,
-   "why": "20거래일 +95.1% · 20일선 위",
+   "why": "20거래일 +95.8% · 20일선 위 · 거래량 평소의 1.3배",
    "overheat": true,
-   "gapPct": 35.8,
+   "gapPct": 36.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -33,23 +33,23 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 51.2,
+  "breadthPct": 55.3,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6639.87,
-    "ma20": 6624.04,
+    "close": 6722.45,
+    "ma20": 6628.17,
     "above": true,
-    "gapPct": 0.24
+    "gapPct": 1.42
    },
    "KOSDAQ": {
-    "close": 811.9,
-    "ma20": 823.61,
+    "close": 819.97,
+    "ma20": 824.01,
     "above": false,
-    "gapPct": -1.42
+    "gapPct": -0.49
    }
   }
  },
