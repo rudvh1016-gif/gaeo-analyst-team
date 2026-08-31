@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-31 12:35",
- "priceLabel": "2026-08-31 12:31 장중 · ⚠️ 1종목 지연",
- "count": 431,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-08-31 13:07",
+ "priceLabel": "2026-08-31 12:54 장중 · ⚠️ 1종목 지연",
+ "count": 434,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "347700",
+   "name": "스피어",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:05:06.250763+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016360",
+   "name": "삼성증권",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:05:06.250763+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000150",
+   "name": "두산",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:05:06.250763+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000120",
+   "name": "CJ대한통운",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:05:06.250763+00:00",
+   "isCorrection": false
+  },
   {
    "code": "272210",
    "name": "한화시스템",
@@ -1451,14 +1483,6 @@ const DART_TODAY = {
    "code": "018250",
    "name": "애경산업",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T05:14:40.552984+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016360",
-   "name": "삼성증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T05:14:40.552984+00:00",
    "isCorrection": false
