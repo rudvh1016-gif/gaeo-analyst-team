@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-31 13:39",
- "dataCutoff": "2026-08-31 13:39 장중",
+ "generatedAt": "2026-08-31 14:29",
+ "dataCutoff": "2026-08-31 14:29 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,43 +13,65 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 1,
-   "why": "20거래일 +96.6% · 20일선 위 · 거래량 평소의 1.5배",
+   "why": "20거래일 +98.8% · 20일선 위 · 거래량 평소의 1.7배",
    "overheat": true,
-   "gapPct": 36.8,
+   "gapPct": 38.2,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "241710",
-   "name": "코스메카코리아",
-   "sector": "화장품·미용",
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
    "sectorRank": 2,
-   "why": "20거래일 +88.5% · 20일선 위",
+   "why": "20거래일 +124.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 23.5,
+   "gapPct": 28.9,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 3,
+   "why": "20거래일 +88.9% · 20일선 위",
+   "overheat": true,
+   "gapPct": 30.8,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "317400",
+   "name": "자이에스앤디",
+   "sector": "건설·건자재",
+   "sectorRank": 3,
+   "why": "20거래일 +82.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 22.5,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
-  "indexAboveMa20": 1,
-  "breadthPct": 54.8,
-  "shown": 2,
-  "allowed": 2,
-  "sectorCap": 1,
-  "sectorCount": 2,
+  "indexAboveMa20": 2,
+  "breadthPct": 59.0,
+  "shown": 4,
+  "allowed": 4,
+  "sectorCap": 2,
+  "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6689.31,
-    "ma20": 6626.52,
+    "close": 6792.52,
+    "ma20": 6631.68,
     "above": true,
-    "gapPct": 0.95
+    "gapPct": 2.43
    },
    "KOSDAQ": {
-    "close": 821.04,
-    "ma20": 824.07,
-    "above": false,
-    "gapPct": -0.37
+    "close": 830.82,
+    "ma20": 824.56,
+    "above": true,
+    "gapPct": 0.76
    }
   }
  },
