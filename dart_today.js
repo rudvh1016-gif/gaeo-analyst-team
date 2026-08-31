@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-31 11:32",
- "priceLabel": "2026-08-31 11:20 장중 · ⚠️ 1종목 지연",
- "count": 429,
+ "generatedAt": "2026-08-31 12:04",
+ "priceLabel": "2026-08-31 11:56 장중 · ⚠️ 1종목 지연",
+ "count": 431,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "272210",
+   "name": "한화시스템",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T03:01:55.998225+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "010140",
+   "name": "삼성중공업",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T03:01:55.998225+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "002380",
+   "name": "KCC",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T03:01:55.998225+00:00",
+   "isCorrection": false
+  },
   {
    "code": "082740",
    "name": "한화엔진",
@@ -1915,14 +1939,6 @@ const DART_TODAY = {
    "code": "383310",
    "name": "에코프로에이치엔",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T00:14:41.079745+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "010140",
-   "name": "삼성중공업",
-   "title": "기타경영사항(자율공시)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T00:14:41.079745+00:00",
    "isCorrection": false
