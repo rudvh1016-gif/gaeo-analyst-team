@@ -611,36 +611,27 @@
   "2026-08-31"
  ],
  "openMeta": {
-  "c952fb2f73acfc39": {
-   "mfePrice": 68300.0,
-   "maePrice": 65900.0,
-   "entryBusinessDate": "2026-08-31",
-   "lastMarkPrice": 68300.0,
-   "lastMarkObservedAt": "2026-08-31T12:05:10+09:00",
-   "lastMarkMarketAt": "2026-08-31T12:05:11.000+09:00",
-   "lastMarkSource": "TOSS/PRICES"
-  },
   "cc91a4ae65284fd6": {
-   "mfePrice": 143700.0,
+   "mfePrice": 144500.0,
    "maePrice": 142700.0,
    "entryBusinessDate": "2026-08-31",
-   "lastMarkPrice": 143700.0,
-   "lastMarkObservedAt": "2026-08-31T12:05:10+09:00",
-   "lastMarkMarketAt": "2026-08-31T12:05:11.000+09:00",
+   "lastMarkPrice": 144500.0,
+   "lastMarkObservedAt": "2026-08-31T12:35:05+09:00",
+   "lastMarkMarketAt": "2026-08-31T12:35:05.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   },
   "8ab5520360d1d7d7": {
    "mfePrice": 148400.0,
    "maePrice": 146300.0,
    "entryBusinessDate": "2026-08-31",
-   "lastMarkPrice": 148400.0,
-   "lastMarkObservedAt": "2026-08-31T12:05:10+09:00",
-   "lastMarkMarketAt": "2026-08-31T12:05:11.000+09:00",
+   "lastMarkPrice": 147950.0,
+   "lastMarkObservedAt": "2026-08-31T12:35:05+09:00",
+   "lastMarkMarketAt": "2026-08-31T12:35:06.000+09:00",
    "lastMarkSource": "TOSS/PRICES"
   }
  },
  "lastProcessedModelVersion": "baseline-risk-v2",
- "lastCycleAt": "2026-08-31T12:05:10+09:00",
- "lastCycleResult": "CYCLE_OK — 오늘 신규 진입 상한(3종목) 도달 — 추가 진입 없음",
+ "lastCycleAt": "2026-08-31T12:35:05+09:00",
+ "lastCycleResult": "CYCLE_OK — 006110 청산 @68,800 +3.3% (TAKE_PROFIT)",
  "lastSkipQuoteBatch": "2026-08-31T09:58:37+09:00"
 }
