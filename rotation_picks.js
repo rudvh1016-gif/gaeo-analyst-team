@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-31 14:29",
- "dataCutoff": "2026-08-31 14:29 장중",
+ "generatedAt": "2026-08-31 14:57",
+ "dataCutoff": "2026-08-31 14:57 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 1,
-   "why": "20거래일 +98.8% · 20일선 위 · 거래량 평소의 1.7배",
+   "why": "20거래일 +98.0% · 20일선 위 · 거래량 평소의 1.9배",
    "overheat": true,
-   "gapPct": 38.2,
+   "gapPct": 37.7,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 2,
-   "why": "20거래일 +124.3% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.9,
+   "why": "20거래일 +130.9% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.4,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,9 +35,9 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +88.9% · 20일선 위",
+   "why": "20거래일 +88.6% · 20일선 위 · 거래량 평소의 1.3배",
    "overheat": true,
-   "gapPct": 30.8,
+   "gapPct": 30.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -46,9 +46,9 @@ window.ROTATION_PICKS = {
    "name": "자이에스앤디",
    "sector": "건설·건자재",
    "sectorRank": 3,
-   "why": "20거래일 +82.0% · 20일선 위",
+   "why": "20거래일 +80.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 22.5,
+   "gapPct": 21.4,
    "call": "HOLD",
    "callConflict": false
   }
@@ -62,16 +62,16 @@ window.ROTATION_PICKS = {
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6792.52,
-    "ma20": 6631.68,
+    "close": 6774.35,
+    "ma20": 6630.77,
     "above": true,
-    "gapPct": 2.43
+    "gapPct": 2.17
    },
    "KOSDAQ": {
-    "close": 830.82,
-    "ma20": 824.56,
+    "close": 829.57,
+    "ma20": 824.49,
     "above": true,
-    "gapPct": 0.76
+    "gapPct": 0.62
    }
   }
  },
