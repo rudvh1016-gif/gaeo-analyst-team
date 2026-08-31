@@ -1,65 +1,70 @@
 {
  "maintenance": [],
- "observedDays": 6,
- "ranAt": "2026-08-24T20:45:45.206458+00:00",
+ "observedDays": 11,
+ "ranAt": "2026-08-31T23:48:38.011272+00:00",
  "restoreStatus": "ARCHIVE_INTEGRITY_ERROR",
  "restoreTests": [
   {
    "compressed": true,
-   "day": "2026-08-20",
+   "day": "2026-08-27",
    "errors": [],
    "modelVersions": [
     "research_v1.0",
     "research_v1.1"
    ],
    "recordCount": 598,
-   "restoredFrom": "live/2026/08/20.jsonl.gz.enc",
+   "restoredFrom": "live/2026/08/27.jsonl.gz.enc",
    "status": "OK"
   },
   {
    "compressed": true,
-   "day": "2026-08-21",
+   "day": "2026-08-28",
    "errors": [],
    "modelVersions": [
     "research_v1.0",
     "research_v1.1"
    ],
    "recordCount": 598,
-   "restoredFrom": "live/2026/08/21.jsonl.gz.enc",
+   "restoredFrom": "live/2026/08/28.jsonl.gz.enc",
    "status": "OK"
   },
   {
    "compressed": false,
-   "day": "2026-08-24",
+   "day": "2026-08-31",
    "errors": [
     "manifest 없음"
    ],
-   "restoredFrom": "live/2026/08/24.jsonl.enc",
+   "restoredFrom": "live/2026/08/31.jsonl.enc",
    "status": "ARCHIVE_INTEGRITY_ERROR"
   }
  ],
  "storage": {
-  "asof": "2026-08-24",
+  "asof": "2026-08-31",
   "compressedBytesToday": 0,
-  "compressionRatio": 0.0151,
-  "dailyGrowthAverageBytes": 63944,
-  "estimated30dBytes": 1600887,
-  "estimated365dBytes": 19477453,
-  "estimated90dBytes": 4802660,
-  "newRecordsToday": 598,
+  "compressionRatio": 0.0152,
+  "dailyGrowthAverageBytes": 64205,
+  "estimated30dBytes": 1751977,
+  "estimated365dBytes": 21315724,
+  "estimated90dBytes": 5255932,
+  "newRecordsToday": 600,
   "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
-  "observedDays": 6,
-  "projectedDailyBytes": 53363,
-  "rawBytesToday": 64458,
+  "observedDays": 11,
+  "projectedDailyBytes": 58399,
+  "rawBytesToday": 64848,
   "status": "OK",
-  "totalArchiveBytes": 384720
+  "totalArchiveBytes": 708370
  },
- "today": "2026-08-24",
+ "today": "2026-08-31",
  "weeklyRollups": [
   {
    "days": 5,
    "records": 2990,
    "weekId": "2026-W34"
+  },
+  {
+   "days": 5,
+   "records": 2990,
+   "weekId": "2026-W35"
   }
  ]
 }
