@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-08-31 12:35",
- "dataCutoff": "2026-08-31 12:35 장중",
+ "generatedAt": "2026-08-31 13:07",
+ "dataCutoff": "2026-08-31 13:07 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 1,
-   "why": "20거래일 +95.8% · 20일선 위 · 거래량 평소의 1.3배",
+   "why": "20거래일 +97.3% · 20일선 위 · 거래량 평소의 1.4배",
    "overheat": true,
-   "gapPct": 36.3,
+   "gapPct": 37.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,32 +24,32 @@ window.ROTATION_PICKS = {
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 2,
-   "why": "20거래일 +86.8% · 20일선 위",
+   "why": "20거래일 +86.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 29.5,
+   "gapPct": 29.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 55.3,
+  "breadthPct": 55.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6722.45,
-    "ma20": 6628.17,
+    "close": 6686.52,
+    "ma20": 6626.38,
     "above": true,
-    "gapPct": 1.42
+    "gapPct": 0.91
    },
    "KOSDAQ": {
-    "close": 819.97,
-    "ma20": 824.01,
+    "close": 820.95,
+    "ma20": 824.06,
     "above": false,
-    "gapPct": -0.49
+    "gapPct": -0.38
    }
   }
  },
