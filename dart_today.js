@@ -1,12 +1,92 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-31 09:58",
- "priceLabel": "2026-08-31 09:46 장중 · ⚠️ 1종목 지연",
- "count": 396,
+ "generatedAt": "2026-08-31 10:30",
+ "priceLabel": "2026-08-31 10:22 장중 · ⚠️ 1종목 지연",
+ "count": 404,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "008770",
+   "name": "호텔신라",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "012450",
+   "name": "한화에어로스페이스",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "489790",
+   "name": "한화비전",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001800",
+   "name": "오리온홀딩스",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036810",
+   "name": "에프에스티",
+   "title": "임원ㆍ주요주주특정증권등거래계획보고서",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005930",
+   "name": "삼성전자",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "018260",
+   "name": "삼성에스디에스",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "060370",
+   "name": "LS마린솔루션",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017860",
+   "name": "DS단석",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000210",
+   "name": "DL",
+   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T01:28:10.730040+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -2592,14 +2672,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "005930",
-   "name": "삼성전자",
-   "title": "[기재정정]임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T05:56:45.318135+00:00",
-   "isCorrection": true
-  },
-  {
    "code": "096770",
    "name": "SK이노베이션",
    "title": "[기재정정]주요사항보고서(회사합병결정)",
@@ -2741,14 +2813,6 @@ const DART_TODAY = {
    "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T04:13:30.624878+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "036810",
-   "name": "에프에스티",
-   "title": "임시주주총회결과",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T03:13:29.669948+00:00",
    "isCorrection": false
   },
   {
