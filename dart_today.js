@@ -1,12 +1,68 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-08-31 13:07",
- "priceLabel": "2026-08-31 12:54 장중 · ⚠️ 1종목 지연",
- "count": 434,
+ "generatedAt": "2026-08-31 13:39",
+ "priceLabel": "2026-08-31 13:30 장중 · ⚠️ 1종목 지연",
+ "count": 439,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003280",
+   "name": "흥아해운",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "088350",
+   "name": "한화생명",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "018880",
+   "name": "한온시스템",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "009150",
+   "name": "삼성전기",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260831",
+   "detectedAt": "2026-08-31T04:36:50.687696+00:00",
+   "isCorrection": false
+  },
   {
    "code": "347700",
    "name": "스피어",
@@ -1496,14 +1552,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T05:14:40.552984+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "000660",
    "name": "SK하이닉스",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -2051,14 +2099,6 @@ const DART_TODAY = {
    "code": "003380",
    "name": "하림지주",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T07:31:44.101364+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T07:31:44.101364+00:00",
    "isCorrection": false
