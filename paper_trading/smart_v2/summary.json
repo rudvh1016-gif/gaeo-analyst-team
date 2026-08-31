@@ -4,7 +4,7 @@
  "environment": "LIVE_PAPER_SMART_V2",
  "forwardStart": "2026-08-27",
  "engineStartedAt": "2026-08-27T09:35:08+09:00",
- "generatedAt": "2026-08-31T12:05:10+09:00",
+ "generatedAt": "2026-08-31T12:35:05+09:00",
  "evidence": "INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지",
  "totalForwardSignals": 117,
  "openTrades": 10,
@@ -67,8 +67,8 @@
  "realizedPnl": null,
  "unrealizedPnl": null,
  "portfolioReturnPct": null,
- "valuationObservedAt": "2026-08-31T12:05:09+09:00",
- "valuationMarketAt": "2026-08-31T12:01:38.000+09:00",
+ "valuationObservedAt": "2026-08-31T12:35:04+09:00",
+ "valuationMarketAt": "2026-08-31T12:07:34.000+09:00",
  "valuationStatus": "MARKED",
  "executedTradeCount": 10,
  "accounting": {
@@ -122,7 +122,7 @@
  },
  "observationRecords": 30,
  "shadowSwapRecords": 24,
- "chiefPathRecords": 268,
+ "chiefPathRecords": 278,
  "skippedCandidateRecords": 117,
  "accountMetricsGatedUntilEvidence": [
   "portfolioReturnPct",
