@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 61,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-08-31",
+  "title": "2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다",
+  "featured": false
+ },
+ {
   "id": 60,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-21",
   "title": "2026년 8월21일 종가, 코스피 오르고 코스닥 사이드카, 494종목 하락",
   "featured": false
- },
- {
-  "id": 52,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-20",
-  "title": "2026년 8월20일 종가, 코스피 5.89% 반등시킨 SK하이닉스 40조 자사주 소각",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 60,
+ "news": 61,
  "study": 35,
  "lesson": 82,
  "estate": 19,
