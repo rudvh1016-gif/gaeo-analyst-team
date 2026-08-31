@@ -1,6 +1,6 @@
 {
  "day": "2026-08-31",
- "asOf": "2026-08-31T06:57:23+00:00",
+ "asOf": "2026-08-31T07:27:22+00:00",
  "closeConfirmed": true,
  "universeSource": "FULL_MARKET",
  "universeDate": "2026-08-31",
@@ -63,7 +63,7 @@
   "medianReturn": -0.155,
   "equalWeightReturn": 0.058,
   "capWeightedReturn": -0.392,
-  "turnoverTop5Share": 0.1938,
+  "turnoverTop5Share": 0.1937,
   "turnoverTop30Share": 0.4777
  },
  "sectorBreadth": {
