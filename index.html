@@ -348,8 +348,13 @@
     --gold:var(--sky); --gold-deep:var(--navy);
     --sky-ink:#1E3A5F; /* sky-soft 박스 위 본문 글자색(라이트) */
     --green:#2D846E; --red:#C2525B; --amber:#A96D28;
-    --market-up:#2563EB; --market-down:#DC2626;
     --krup:#C74D57; --krdn:#4B77B7;   /* 본문 등락 색: 상승 빨강 · 하락 파랑(한국식) */
+    /* ⚠️ 2026-08-31: --market-up이 파랑(#2563EB)·--market-down이 빨강(#DC2626)이라
+       홈의 '오늘 시장 상승' 배지와 '오늘 평균 등락' KPI가 한국식과 정반대로 나왔다.
+       (상승인데 파랑 · 하락인데 빨강 → 초보자가 손실을 이익으로 오독하는 방향)
+       독립된 색값을 두지 말고 한국식 등락 토큰을 그대로 가리키게 해서, 앞으로
+       등락 색이 두 갈래로 갈라지지 않게 한다. 값은 --krup/--krdn 한 곳에서만 고친다. */
+    --market-up:var(--krup); --market-down:var(--krdn);
     /* GAEO 공통 서체 — Wanted Sans (SIL OFL 1.1, assets/fonts/wanted-sans self-host).
        2026-08-18: 모의투자에만 쓰던 것을 사이트 전체로 넓혔다. 화면마다 서체가 달라
        "만든 사람이 다르다"는 인상을 주던 문제를 없애는 게 목적이다.
@@ -379,8 +384,8 @@
        더 불리한 --paper 배경을 기준으로 4.52:1이 되게 밝혔다(--bg #000 위에서는 5.5:1). */
     --line:#38383A; --line2:#48484A; --dim:#98989F; --faint:#83838A;
     --green:#65B89F; --red:#F07A82; --amber:#E0AE65;
-    --market-up:#60A5FA; --market-down:#F87171;
     --krup:#F07880; --krdn:#7EA3D4;   /* 다크: 상승 빨강 · 하락 파랑(가독 위해 밝게) */
+    --market-up:var(--krup); --market-down:var(--krdn);   /* 라이트와 같은 이유로 한국식에 맞춘다 */
     --t2:#E8E8ED; --t3:#C7C7CC;
     --shadow:0 2px 8px rgba(0,0,0,.45),0 12px 32px rgba(0,0,0,.5);
     --shadow-sm:0 1px 4px rgba(0,0,0,.45);
@@ -407,8 +412,8 @@
   html.gdark .clash-badge{background:#2B271F;border-color:#4A3A14;color:#D9CCB0}
   html.gdark .gb-warn{background:#211B0E;border-color:#4A3A14;color:#F5D98B}
   /* 라이트 전용 파스텔(시장 무드·집계 알약·BUY 칩) → 다크 저채도 틴트 */
-  html.gdark .mood-crash,html.gdark .mood-down{background:rgba(248,113,113,.12);color:var(--market-down)}
-  html.gdark .mood-up,html.gdark .mood-surge{background:rgba(96,165,250,.12);color:var(--market-up)}
+  html.gdark .mood-crash,html.gdark .mood-down{background:rgba(126,163,212,.14);color:var(--market-down)}
+  html.gdark .mood-up,html.gdark .mood-surge{background:rgba(240,120,128,.13);color:var(--market-up)}
   /* 순위 칩·시그널 배지는 v2.0에서 --color-* 토큰만 쓰므로 다크 전용 색 재지정이 필요 없다.
      (예전의 초록/앰버/핑크 3색 분리 오버라이드는 무지개 금지 규칙에 따라 제거됨) */
   html.gdark .mk-buychip{color:#C9CED6}
@@ -557,7 +562,7 @@
     padding:10px 0;font-size:12.5px;letter-spacing:.02em;
     color:var(--t2);box-shadow:var(--shadow-sm)}
   .tape .run{display:inline-block;padding-left:100%;animation:scroll 30s linear infinite;animation-delay:-6s}
-  .tape .up{color:var(--green)} .tape .down{color:var(--red)}
+  .tape .up{color:var(--krup)} .tape .down{color:var(--krdn)}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
   /* ── 헤더 ── */
@@ -580,11 +585,12 @@
   .mood-row{margin:0 0 14px}
   .mood{display:flex;align-items:center;font-size:12.5px;font-weight:600;letter-spacing:.005em;
     padding:11px 16px;border-radius:14px;border:none;background:var(--paper);box-shadow:var(--shadow-sm)}
-  .mood-crash{color:var(--market-down);background:#FEF2F2}
-  .mood-down {color:var(--market-down);background:#FEF2F2}
+  /* 배경 틴트도 글자색과 같은 방향이어야 한다 — 하락은 파랑 계열, 상승은 빨강 계열. */
+  .mood-crash{color:var(--market-down);background:#EFF4FB}
+  .mood-down {color:var(--market-down);background:#EFF4FB}
   .mood-flat {color:var(--dim);background:var(--paper)}
-  .mood-up   {color:var(--market-up);background:#EFF6FF}
-  .mood-surge{color:var(--market-up);background:#EFF6FF}
+  .mood-up   {color:var(--market-up);background:#FDF1F2}
+  .mood-surge{color:var(--market-up);background:#FDF1F2}
   .datawarn{margin:0 0 14px;font-size:12.5px;font-weight:600;color:#B45309;
     background:#FFFBEB;border:none;border-radius:12px;padding:12px 16px;line-height:1.5;box-shadow:var(--shadow-sm)}
 
@@ -593,7 +599,14 @@
   .kpi{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
   .kpi .k{font-size:11px;color:var(--dim);font-weight:500;margin-bottom:6px}
   .kpi .v{font-size:21px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
-  .kpi .v.navy{color:var(--navy)} .kpi .v.bad{color:var(--market-down)} .kpi .v.ok{color:var(--market-up)}
+  /* ⚠️ 등락(방향)과 적중률(품질)은 서로 다른 뜻이라 같은 클래스를 쓰면 안 된다.
+     예전에는 둘 다 .ok/.bad를 써서, 등락 토큰을 한국식으로 바로잡는 순간
+     '적중률 65%'까지 빨갛게(=나쁨처럼) 보이는 부작용이 생겼다.
+       · .up/.dn  = 시장 방향(한국식: 상승 빨강 · 하락 파랑)
+       · .ok/.bad = 품질 판정(좋음 초록 · 나쁨 빨강) — 방향이 아니므로 한국식 대상이 아니다. */
+  .kpi .v.navy{color:var(--navy)}
+  .kpi .v.up{color:var(--krup)} .kpi .v.dn{color:var(--krdn)}
+  .kpi .v.bad{color:var(--red)} .kpi .v.ok{color:var(--green)}
   .kpi .s{font-size:10.5px;color:var(--faint);margin-top:5px}
 
   /* ── 요일별 평균 등락률 ── */
@@ -781,8 +794,11 @@
     transition:border-color .2s,background .2s,transform .12s}
   .chip:hover{color:var(--ink);background:var(--navy-soft);border-color:var(--sky-line);transform:translateY(-1px)}
   .chip b{color:var(--ink);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
-  .chip .up{color:var(--green);font-size:11.5px;font-weight:600}
-  .chip .down{color:var(--red);font-size:11.5px;font-weight:600}
+  /* 종목 칩의 % 는 '어제 대비 오늘 등락률'이다. 화면 안내(꺾은선 범례 아래 '헷갈리기
+     쉬운 점')에서 이미 "이름 옆 % 숫자는 빨강·파랑"이라고 설명하고 있었는데, 실제
+     색은 초록·빨강이라 설명과 코드가 어긋나 있었다(2026-08-31 수정). */
+  .chip .up{color:var(--krup);font-size:11.5px;font-weight:600}
+  .chip .down{color:var(--krdn);font-size:11.5px;font-weight:600}
 
   /* ── 모바일 ── */
   @media(max-width:600px){
@@ -894,13 +910,14 @@
   .fx-flow-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
   .fx-flow-card{background:var(--bg);border-radius:12px;padding:9px 6px;text-align:center;
     border-left:3px solid var(--line)}
-  .fx-flow-card.up{border-left-color:var(--green)}
-  .fx-flow-card.dn{border-left-color:var(--red)}
+  /* 수급 순매수(▲)/순매도(▼)도 시장 방향이라 한국식을 따른다. */
+  .fx-flow-card.up{border-left-color:var(--krup)}
+  .fx-flow-card.dn{border-left-color:var(--krdn)}
   .fx-flow-label{font-size:10px;font-weight:500;color:var(--dim)}
   .fx-flow-val{margin-top:3px;font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
   .fx-flow-dir{margin-top:2px;font-size:10px;font-weight:500}
-  .fx-flow-card.up .fx-flow-dir{color:var(--green)}
-  .fx-flow-card.dn .fx-flow-dir{color:var(--red)}
+  .fx-flow-card.up .fx-flow-dir{color:var(--krup)}
+  .fx-flow-card.dn .fx-flow-dir{color:var(--krdn)}
   .fx-flow-period{margin-top:1px;font-size:9px;color:var(--faint)}
   .fx-sub{margin-top:8px;font-size:10.5px;line-height:1.6;color:var(--dim)}
   .fx-explain{margin-top:12px;font-size:12px;line-height:1.7;color:var(--t3)}
@@ -1828,8 +1845,9 @@
   .vlevels{font-size:13px;color:var(--t2);line-height:1.95}
   .vlevels .vl-t{font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px}
   .vlevels b{font-variant-numeric:tabular-nums;color:var(--ink)}
-  .vlevels .up{color:var(--green);font-weight:600}
-  .vlevels .dn{color:var(--red);font-weight:600}
+  /* 현재가 위 레벨(+%)·아래 레벨(-%) 괴리율 — 부호가 있는 등락 수치다. */
+  .vlevels .up{color:var(--krup);font-weight:600}
+  .vlevels .dn{color:var(--krdn);font-weight:600}
   .vlevels .vl-note{margin-top:7px;font-size:11px;color:var(--faint);line-height:1.6}
   /* ⚡ 의견 갈림 경고 — 4인 점수 편차가 클 때 */
   .vclash{margin:12px 0 0;padding:11px 15px;background:var(--navy-soft);border:1px solid var(--line);
@@ -2636,7 +2654,9 @@
   .tv-quote{text-align:right;font-variant-numeric:tabular-nums}
   .tv-quote strong{display:block;font-size:18px;line-height:1;color:var(--ink)}
   .tv-delta{display:block;margin-top:5px;font-size:10px;font-weight:500}
-  .tv-up{color:#2F8B73}.tv-down{color:#D5535D}.tv-flat{color:var(--dim)}
+  /* TARO 스냅샷 헤더의 전일 대비 등락%와 추세 국면 배지. 하드코딩 hex를 쓰면
+     다크모드 대비가 따라오지 않으므로 반드시 --krup/--krdn 변수를 쓴다. */
+  .tv-up{color:var(--krup)}.tv-down{color:var(--krdn)}.tv-flat{color:var(--dim)}
   .tv-market{padding:14px 16px 12px;border-top:1px solid var(--line);background:linear-gradient(180deg,var(--bg),var(--paper))}
   .tv-chart{width:100%;height:174px;display:block;overflow:visible}
   .tv-legend{display:flex;align-items:center;gap:13px;margin:5px 2px 0;flex-wrap:wrap}
@@ -2664,7 +2684,7 @@
   .tv-note-sub p:first-child{margin-top:0}
   .tv-note-sub b{color:var(--ink);font-weight:600}
   .tv-regime{display:inline-flex;align-items:center;padding:3px 7px;border-radius:99px;font-size:9px;font-weight:500}
-  .tv-regime-up{background:#ECFDF5;color:#2F8B73}.tv-regime-down{background:#FEF2F2;color:#D5535D}
+  .tv-regime-up{background:#FDF1F2;color:var(--krup)}.tv-regime-down{background:#EFF4FB;color:var(--krdn)}
   .tv-regime-neutral{background:var(--paper2);color:var(--dim)}
   @media(max-width:700px){
     .tv-head{padding:15px 14px 12px}.tv-market{padding:12px 9px 10px}.tv-chart{height:150px}
@@ -3863,7 +3883,14 @@
   .home-dashboard .kpi{padding:20px 22px;border-radius:0;border:0;box-shadow:none;background:none}
   .home-dashboard .kpi+.kpi{border-left:1px solid var(--gaeo-border)}
   .home-dashboard .kpi .k{margin-bottom:8px;font-size:10.5px;letter-spacing:.02em}
-  .home-dashboard .kpi .v.ok,.home-dashboard .kpi .v.bad{color:var(--color-text-primary)}
+  /* 홈 요약 스트립은 '값은 무채색, 방향은 작은 점 하나로'가 원래 디자인이다
+     (위 .home-dashboard .mood 규칙 참고). 2026-08-31에 등락 KPI의 클래스를
+     .ok/.bad → .up/.dn 으로 분리하면서, 여기에 .up/.dn 을 안 적어 두면 예전엔
+     무채색이던 '오늘 평균 등락' 숫자에 색이 새로 들어간다. 색을 바로잡는 작업이
+     홈 화면 디자인까지 바꾸면 안 되므로 네 클래스를 모두 무채색으로 유지한다.
+     (색 자체는 --krup/--krdn 으로 이미 한국식이라, 다른 화면에서는 제대로 나온다.) */
+  .home-dashboard .kpi .v.ok,.home-dashboard .kpi .v.bad,
+  .home-dashboard .kpi .v.up,.home-dashboard .kpi .v.dn{color:var(--color-text-primary)}
   .home-dashboard .kpi .v{font-size:24px}
   .home-dashboard .dowbar{margin-bottom:24px;padding:24px 26px;border-radius:var(--gaeo-radius-md)}
   .home-dashboard .rail-r{display:grid!important;grid-template-columns:1fr;gap:16px;
@@ -4384,7 +4411,8 @@
     <h1>Gaeo · 개오 애널리스트팀</h1>
     <p>한국 주식 종목을 매일 분석해 BUY·HOLD·SELL 판단과 그 근거를 공개하는 사이트입니다.
     기술·재무·확률통계·수급 네 가지를 각각 점수로 매긴 뒤 종합 판단을 냅니다.
-    과거 판단이 실제로 맞았는지 적중률을 함께 공개하고, 모의투자 계좌로 성과를 검증합니다.
+    과거 판단이 실제로 맞았는지 적중률을 함께 공개하고, 모의투자 계좌로 성과를 검증하고 있습니다.
+    적중률과 모의투자 성과는 아직 결론을 말할 만큼 기록이 쌓이지 않았습니다 — 지금 보이는 숫자는 진행 중인 중간 기록입니다.
     투자 권유가 아니며 최종 판단과 책임은 투자자 본인에게 있습니다.</p>
     <p>이 화면은 자바스크립트로 그리는 인터랙티브 사이트예요. 자바스크립트 없이 글 내용을 바로 읽으려면
     아래 정적 페이지를 이용해 주세요.</p>
@@ -5275,7 +5303,7 @@ function freshnessHTML(code, curPrice){
   if(!base || !curPrice) return '';
   const pct=(curPrice-base)/base*100;
   const stale=Math.abs(pct)>=STALE_PCT;
-  const col=pct>0?'var(--green)':(pct<0?'var(--red)':'var(--ink)');
+  const col=pct>0?'var(--krup)':(pct<0?'var(--krdn)':'var(--ink)');
   const sign=pct>0?'+':'';
   const bat=analysisBaseAt(code);
   return '<span class="qd-seg">기준가 <b>'+won(base)+'</b>'
@@ -5323,7 +5351,7 @@ function levelsHTML(code, price, targetText){
   above.sort((a,b)=>a.price-b.price);
   below.sort((a,b)=>b.price-a.price);
   const rowHTML=(r,cls)=>`<tr><td class="vlv-tag">${r.tag}</td><td class="vlv-price">${fm(r.price)}</td>`+
-    `<td class="vlv-gap ${cls}" style="color:var(--${cls==='up'?'green':'red'})">${pctOf(r.price)}</td><td class="vlv-mean">${r.mean}</td></tr>`;
+    `<td class="vlv-gap ${cls}" style="color:var(--${cls==='up'?'krup':'krdn'})">${pctOf(r.price)}</td><td class="vlv-mean">${r.mean}</td></tr>`;
   const aboveRows=above.slice().reverse().map(r=>rowHTML(r,'up')).join('');
   const nowRow=`<tr class="vlv-now"><td class="vlv-tag">현재가</td><td class="vlv-price">${fm(price)}</td><td class="vlv-gap"></td><td class="vlv-mean">기준</td></tr>`;
   const belowRows=below.map(r=>rowHTML(r,'dn')).join('');
@@ -5425,7 +5453,7 @@ function priceBlockHTML(code){
     const prev=flat[startFlatIdx+i-1];
     let chg='<span class="pf-mut">—</span>';
     if(prev){
-      const pct=(d.close-prev.close)/prev.close*100, col=pct>0?'var(--green)':(pct<0?'var(--red)':'var(--ink)');
+      const pct=(d.close-prev.close)/prev.close*100, col=pct>0?'var(--krup)':(pct<0?'var(--krdn)':'var(--ink)');
       chg=`<span style="color:${col}">${pct>0?'+':''}${pct.toFixed(1)}%</span>`;
     }
     return `<tr><td class="num">${d.date}</td><td class="num">${won(d.close)}</td><td class="num">${chg}</td></tr>`;
@@ -5524,12 +5552,12 @@ function renderHistory(code, curPrice){
     if(r.base){
       const ev=evalRet(code, r);                       // 판단 후 5거래일 뒤 종가 기준(확정)
       if(ev){
-        const col=ev.pct>0?'var(--green)':(ev.pct<0?'var(--red)':'var(--ink)');
+        const col=ev.pct>0?'var(--krup)':(ev.pct<0?'var(--krdn)':'var(--ink)');
         ret=`<span style="color:${col}" class="tip-r" data-tip="5거래일 뒤(${ev.date}) 종가 기준 확정 수익률">${ev.pct>0?'+':''}${ev.pct.toFixed(1)}%</span>`;
         const s=scoreCall(r.call,ev.pct);
         vHtml=`<span class="hverdict hv-${s} tip-r" data-tip="${VERDICT_TIP[s]}">${VERDICT_LABEL[s]}</span>`;
       } else if(curPrice){                             // 미확정: 현재까지 흐름만 참고 표시
-        const p=(curPrice-r.base)/r.base*100, col=p>0?'var(--green)':(p<0?'var(--red)':'var(--ink)');
+        const p=(curPrice-r.base)/r.base*100, col=p>0?'var(--krup)':(p<0?'var(--krdn)':'var(--ink)');
         ret=`<span style="color:${col}" class="tip-r" data-tip="아직 확정 전 — 현재가 기준 진행 중 수익률">${p>0?'+':''}${p.toFixed(1)}%<span style="color:var(--faint);font-size:10px"> 진행중</span></span>`;
         vHtml=`<span class="hverdict hv-now tip-r" data-tip="${VERDICT_TIP.now}">평가중</span>`;
       }
@@ -5579,7 +5607,7 @@ function parseTarget(code){
 // 목표가까지 거리(현재가 기준) 셀 HTML
 function targetHTML(code, price){
   const t=parseTarget(code); if(!t||!price) return '';
-  const d=(t-price)/price*100, col=d>0?'var(--green)':(d<0?'var(--red)':'var(--ink)');
+  const d=(t-price)/price*100, col=d>0?'var(--krup)':(d<0?'var(--krdn)':'var(--ink)');
   return `<div class="pf-tgt">목표 ${won(t)} <span style="color:${col}">(${d>0?'+':''}${d.toFixed(1)}%)</span></div>`;
 }
 
@@ -5919,7 +5947,7 @@ function recalcPf(){
     const plPct=(avg>0&&price)?(price-avg)/avg*100:0;
     if(plEl){
       if(qty>0&&price){
-        const val=qty*price, pl=val-qty*avg, col=pl>0?'var(--green)':(pl<0?'var(--red)':'var(--ink)');
+        const val=qty*price, pl=val-qty*avg, col=pl>0?'var(--krup)':(pl<0?'var(--krdn)':'var(--ink)');
         plEl.innerHTML=`<span>평가금액 <b>${won(val)}</b></span>`+
           (avg>0?`<span>평가손익 <b style="color:${col}">${pl>0?'+':''}${won(pl)} (${pl>0?'+':''}${plPct.toFixed(1)}%)</b></span>`
                 :`<span class="pf-mut">평단을 넣으면 손익이 계산돼요</span>`);
@@ -5940,7 +5968,7 @@ function recalcPf(){
     schedulePfRisk(); return;
   }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
-  const col=v=>v>0?'var(--green)':(v<0?'var(--red)':'var(--ink)');
+  const col=v=>v>0?'var(--krup)':(v<0?'var(--krdn)':'var(--ink)');
   const mood = plPct>5?'🤑':plPct>0?'🙂':plPct<-5?'😱':'😟';
   sum.innerHTML=`<div class="pf-sumrow">
     <span>${mood} 보유 <b>${held}</b>종목</span>
@@ -6048,10 +6076,13 @@ function leaderboardHTML(){
   });
   return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-sub">각 분석가의 역할에 맞춰 채점합니다. <b>TARO·QUANT·FLOW는 5거래일</b>, 장기 기업가치를 보는 <b>DIANA는 20거래일</b> 뒤 종가를 사용합니다.
+    <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다</b> — 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
+    시장이 통째로 오른 날 방향만 따라 말한 것을 실력으로 세지 않기 위해서예요. 그래서 이 숫자는 예전(그냥 올랐나로 채점하던 때)과 바로 비교할 수 없습니다.
     <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>. 표본이 작을 때 생기는 우연한 급등락은 50% 쪽으로 완화합니다(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
     <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
     ${cards}
-    <div class="lb-note">단기축은 ±1%, DIANA는 ±3% 이내 변동을 평가 보류합니다. MVP는 채점 ${LB_MIN}건 이상부터 표시하며, 발언권은 역할 사전비중과 보정 적중률을 함께 반영합니다.</div></section>`;
+    <div class="lb-note">단기축은 시장 대비 ±1%p, DIANA는 ±3%p 이내 차이를 평가 보류합니다. MVP는 채점 ${LB_MIN}건 이상부터 표시하며, 발언권은 역할 사전비중과 보정 적중률을 함께 반영합니다.
+    ${TW.scoring&&TW.scoring.basis==='market_relative_excess'?`기준선은 개오가 추적하는 전 종목의 중앙값이며, 기준선을 만들 표본이 모자란 경우(${Number(TW.scoring.fallbackToAbsoluteN||0).toLocaleString()}건)에만 예전 방식으로 채점했습니다.`:''}</div></section>`;
 }
 
 /* ============================================================
@@ -6077,7 +6108,7 @@ function scWhy(r){
   return `의견 대부분 중립이었는데 실제로 ${dir}했어요.`;
 }
 function scCallCard(r,kind){
-  const col=r.ret>0?'var(--green)':(r.ret<0?'var(--red)':'var(--dim)');
+  const col=r.ret>0?'var(--krup)':(r.ret<0?'var(--krdn)':'var(--dim)');
   const badgeCls=r.call==='BUY'?'buy':(r.call==='SELL'?'sell':'hold');
   return `<div class="sc-call-card ${kind}">
     <div class="sc-call-nm"><span class="sc-call-badge ${badgeCls}">${esc(r.call)}</span>${esc(r.name)}</div>
@@ -7919,7 +7950,7 @@ function renderCalendar(){
     <span>MVP <b>${mvp?`${mvp.name} ${mvp.acc}%`:'표본 부족'}</b></span>
     <span>최고 콜 <b>${fmtCall(best)}</b></span>
     <span>아쉬운 콜 <b>${(worst&&worst!==best)?fmtCall(worst):'—'}</b></span>
-    ${pCost>0?`<span>내 포트폴리오 <b style="color:${pPl>0?'var(--green)':pPl<0?'var(--red)':'var(--ink)'}">${pPl>0?'+':''}${won(pPl)} (${pPct>0?'+':''}${pPct.toFixed(1)}%)</b></span>`:''}
+    ${pCost>0?`<span>내 포트폴리오 <b style="color:${pPl>0?'var(--krup)':pPl<0?'var(--krdn)':'var(--ink)'}">${pPl>0?'+':''}${won(pPl)} (${pPct>0?'+':''}${pPct.toFixed(1)}%)</b></span>`:''}
   </div></div>`;
   // 달력
   const startDow=new Date(y,m,1).getDay(), dim=new Date(y,m+1,0).getDate();
@@ -8667,7 +8698,7 @@ function renderMarket(){
     const rateTag=d=>{
       const r=d&&typeof d.rate==='number'?d.rate:null;
       if(r==null) return '';
-      const col=r>0?'var(--green)':(r<0?'var(--red)':'var(--dim)');
+      const col=r>0?'var(--krup)':(r<0?'var(--krdn)':'var(--dim)');
       return `<span style="color:${col};font-weight:600">${r>0?'+':''}${r.toFixed(2)}%</span>`;
     };
     const pageButtons=archivePage.totalPages>1
@@ -8769,33 +8800,50 @@ function moodLine(){
   const n=Object.keys(STOCKS).length;
   const sectors=new Set(Object.values(STOCKS).map(d=>d.sector||'기타')).size;
   const sign=MOOD.avg>0?'+':'';
-  const avgCls=MOOD.avg<-0.4?'bad':MOOD.avg>0.4?'ok':'navy';
+  // 등락은 방향 클래스(.up/.dn), 적중률은 품질 클래스(.ok/.bad)를 쓴다 — 위 CSS 주석 참고.
+  const avgCls=MOOD.avg<-0.4?'dn':MOOD.avg>0.4?'up':'navy';
   // 팀 적중률(전체 기간): CHIEF 판단을 "판단 후 5거래일 뒤 종가"로 채점(리더보드·캘린더와 동일 잣대).
   // 아직 5거래일이 안 지난 판단(평가중)은 집계 제외.
+  // ⚠️ 표본 크기는 '건수'가 아니라 '판단일수'로 센다.
+  //    같은 날 600종목을 채점하면 건수는 600배로 부풀지만 서로 독립이 아니다
+  //    (Constitution statisticalPolicy.independenceUnit = "decision_date").
+  //    실제로 2026-08-31 기준 3,463건은 판단일 6일치였다. 건수만 보여주면
+  //    "3천 건이나 검증했다"로 읽히므로 판단일수를 반드시 함께 낸다.
   let hit=0, miss=0;
+  const gradedDays=new Set();
   if(LIVE_HIST) for(const code in LIVE_HIST) LIVE_HIST[code].forEach(e=>{
     if(!e.base) return;
     const ev=evalRet(code, e);
     if(!ev) return;
     const s=scoreCall(e.call, ev.pct);
+    if(s==='hit'||s==='miss') gradedDays.add(String(e.date).slice(0,10));
     if(s==='hit') hit++; else if(s==='miss') miss++;
   });
   // 첫 화면에서는 용량이 큰 history.js/price_history.js를 지연 로드한다.
   // 그때도 적중률이 빈칸이 되지 않도록, 이미 로드된 team_weights.js의 사전 집계값을 사용한다.
   const teamSummary=(typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS&&TEAM_WEIGHTS.global)
     ?TEAM_WEIGHTS.global.team:null;
+  let days=gradedDays.size;
   if(hit+miss===0&&teamSummary&&teamSummary.n>0){
     hit=Number(teamSummary.hit)||0;
     miss=Number(teamSummary.miss)||0;
+    days=Number(teamSummary.uniqueDecisionDays)||0;
   }
   const graded=hit+miss;
   const acc=graded>0?Math.round(hit/graded*100):null;
   const accCls=acc===null?'navy':(acc>=60?'ok':(acc<45?'bad':'navy'));
+  // 결론을 말해도 되는 최소 판단일수 — Evolution 성적표가 쓰는 기준과 같은 값을 쓴다.
+  const minDays=(teamSummary&&Number(teamSummary.minDaysForConclusion))||20;
+  const thin=days>0&&days<minDays;
+  const accSub=graded>0
+    ? `5거래일 뒤 종가 · 판단 ${days}일 · ${graded.toLocaleString()}건`
+      +(thin?`<br><span style="color:var(--amber)">아직 ${minDays}일치가 안 돼 참고용이에요</span>`:'')
+    : '평가 데이터 쌓는 중';
   el.innerHTML=
     `<div class="kpi"><div class="k">추적 종목</div><div class="v navy">${n}</div><div class="s">${sectors}개 업종 폴더</div></div>`+
     `<div class="kpi"><div class="k">오늘 평균 등락</div><div class="v ${avgCls}">${sign}${MOOD.avg.toFixed(1)}%</div><div class="s">시장 ${MOOD.label}</div></div>`+
     `<div class="kpi"><div class="k">상승 / 하락</div><div class="v navy">${MOOD.ups} / ${MOOD.downs}</div><div class="s">${n}종목 기준</div></div>`+
-    `<div class="kpi"><div class="k">팀 적중률</div><div class="v ${accCls}">${acc===null?'—':acc+'%'}</div><div class="s">${graded>0?`5거래일 뒤 종가 · ${graded}건`:'평가 데이터 쌓는 중'}</div></div>`;
+    `<div class="kpi"><div class="k">팀 적중률</div><div class="v ${accCls}">${acc===null?'—':acc+'%'}</div><div class="s">${accSub}</div></div>`;
 })();
 
 /* ---------- 요일별 평균 등락률 (2026) ----------
@@ -10752,9 +10800,20 @@ function gaeoCallNoteHTML(){
       ? 'SELL이 가장 잘 맞아서, 살 종목을 고를 때보다 피할 종목을 거를 때 더 도움이 돼요.'
       : best[0]+' 판단이 지금까지 가장 잘 맞았어요.';
     const cov=COVERAGE_LABEL[covKey]||covKey;
+    /* ⚠️ 여기 나오는 숫자는 "표본이 가장 많이 익은 구간"의 성적이다. 지금 추적 중인
+       구간(600종목)이 아직 결론을 낼 만큼 안 익었으면, 이 숫자를 현재 성적으로
+       읽지 않도록 그 사실을 같은 문장 안에서 밝힌다. 라벨만 붙이고 넘어가면
+       "GAEO 판단 실측 성적 SELL 53.8%"가 오늘의 성적처럼 읽힌다. */
+    let pendingNote='';
+    const curKey=(B.coverage&&(B.coverage.current||B.coverage.id))||'GAEO_COVERAGE_V2_600';
+    const cur=m.byCoverage[curKey];
+    if(curKey!==covKey&&cur&&String(cur.status||'').startsWith('INSUFFICIENT')){
+      pendingNote=' 지금 추적 중인 '+(COVERAGE_LABEL[curKey]||curKey)+'은 아직 판단 '
+        +nf(cur.uniqueDates)+'일치뿐이라 따로 성적을 말하지 않아요.';
+    }
     return '<span class="hdb-call-note"><b>GAEO 판단 실측 성적</b> '+
       'BUY '+pc(d.buy.precision)+'% · HOLD '+pc(d.hold&&d.hold.precision)+'% · SELL '+pc(d.sell.precision)+'%. '+
-      tail+' ('+cov+'에서 '+nf(d.uniqueDates)+'일간 '+nf(d.matured)+'건을 채점한 기록이에요)</span>';
+      tail+' ('+cov+'에서 '+nf(d.uniqueDates)+'일간 '+nf(d.matured)+'건을 채점한 기록이에요)'+pendingNote+'</span>';
   }catch(e){ return ''; }
 }
 window.gaeoCallNoteHTML=gaeoCallNoteHTML;
@@ -11750,7 +11809,7 @@ function axisBestWorst(data){
 function verdictMetricGridHTML(v,stock){
   const base=analysisBase(stock.code);
   const gapHTML=(base&&stock.price)
-    ? (()=>{const p=(stock.price-base)/base*100,col=p>0?'var(--green)':(p<0?'var(--red)':'var(--ink)');
+    ? (()=>{const p=(stock.price-base)/base*100,col=p>0?'var(--krup)':(p<0?'var(--krdn)':'var(--ink)');
         return `<span style="color:${col}">${p>0?'+':''}${p.toFixed(1)}%</span>`;})()
     : '<span style="color:var(--faint)">—</span>';
   const cell=(label,valueHTML)=>`<div class="vmetric"><div class="vmetric-label">${label}</div><div class="vmetric-value">${valueHTML}</div></div>`;
@@ -14521,7 +14580,7 @@ window.renderScreener=function(){
   const rowsHtml=shown.length
     ? shown.map((x,i)=>{
         const rate=x.rate==null?'—':`${x.rate>0?'+':''}${x.rate}%`;
-        const rateColor=x.rate>0?'var(--red)':(x.rate<0?'var(--sky)':'var(--dim)');
+        const rateColor=x.rate>0?'var(--krup)':(x.rate<0?'var(--krdn)':'var(--dim)');
         return `<div class="scr-row" data-nm="${esc(x.name)}">
           <div class="scr-rank">${i+1}</div>
           <div class="scr-main">
