@@ -3,37 +3,60 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-08-31 09:27",
- "dataCutoff": "2026-08-31 09:27 장중",
+ "status": "ready",
+ "generatedAt": "2026-08-31 09:58",
+ "dataCutoff": "2026-08-31 09:58 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 1,
+   "why": "20거래일 +89.2% · 20일선 위",
+   "overheat": true,
+   "gapPct": 31.0,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 2,
+   "why": "20거래일 +96.5% · 20일선 위",
+   "overheat": true,
+   "gapPct": 36.7,
+   "call": "HOLD",
+   "callConflict": false
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 57.3,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 54.2,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6551.02,
-    "ma20": 6619.6,
-    "above": false,
-    "gapPct": -1.04
+    "close": 6695.45,
+    "ma20": 6626.82,
+    "above": true,
+    "gapPct": 1.04
    },
    "KOSDAQ": {
-    "close": 805.2,
-    "ma20": 823.27,
+    "close": 821.38,
+    "ma20": 824.08,
     "above": false,
-    "gapPct": -2.2
+    "gapPct": -0.33
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "2차전지"
+  "topSector": "건설·건자재"
  },
  "record": {
   "hitRate": 54.5,
