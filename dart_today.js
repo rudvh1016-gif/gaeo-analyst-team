@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 11:15",
- "priceLabel": "2026-09-01 11:07 장중 · ⚠️ 1종목 지연",
- "count": 494,
+ "generatedAt": "2026-09-01 11:45",
+ "priceLabel": "2026-09-01 11:42 장중 · ⚠️ 1종목 지연",
+ "count": 495,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "383310",
+   "name": "에코프로에이치엔",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:44:32.286162+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "015360",
+   "name": "INVENI",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:44:32.286162+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "015360",
+   "name": "INVENI",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:44:32.286162+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "015360",
+   "name": "INVENI",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:44:32.286162+00:00",
+   "isCorrection": false
+  },
   {
    "code": "023160",
    "name": "태광",
@@ -3360,14 +3392,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "015360",
-   "name": "INVENI",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T02:33:29.023632+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "012030",
    "name": "DB",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
@@ -3845,22 +3869,6 @@ const DART_TODAY = {
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T04:43:32.312943+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "015360",
-   "name": "INVENI",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T04:13:30.624878+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "015360",
-   "name": "INVENI",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T04:13:30.624878+00:00",
    "isCorrection": false
   },
   {
