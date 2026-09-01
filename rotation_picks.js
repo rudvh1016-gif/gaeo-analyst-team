@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-01 10:15",
- "dataCutoff": "2026-09-01 10:15 장중",
+ "generatedAt": "2026-09-01 10:45",
+ "dataCutoff": "2026-09-01 10:45 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "엘앤에프",
    "sector": "2차전지",
    "sectorRank": 1,
-   "why": "20거래일 +100.3% · 20일선 위",
-   "overheat": true,
-   "gapPct": 33.4,
+   "why": "20거래일 +93.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 28.9,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,32 +24,32 @@ window.ROTATION_PICKS = {
    "name": "삼아알미늄",
    "sector": "화학·소재",
    "sectorRank": 2,
-   "why": "20거래일 +105.7% · 20일선 위",
-   "overheat": true,
-   "gapPct": 30.2,
+   "why": "20거래일 +100.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 26.8,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 56.0,
+  "breadthPct": 53.5,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6838.81,
-    "ma20": 6662.12,
+    "close": 6806.58,
+    "ma20": 6660.51,
     "above": true,
-    "gapPct": 2.65
+    "gapPct": 2.19
    },
    "KOSDAQ": {
-    "close": 826.49,
-    "ma20": 829.19,
+    "close": 821.05,
+    "ma20": 828.91,
     "above": false,
-    "gapPct": -0.33
+    "gapPct": -0.95
    }
   }
  },
