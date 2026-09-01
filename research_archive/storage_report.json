@@ -5,14 +5,14 @@
  "compressionRatio": 0.0152,
  "dailyGrowthAverageBytes": 64173,
  "estimated30dBytes": 1768060,
- "estimated365dBytes": 21511397,
- "estimated90dBytes": 5304180,
+ "estimated365dBytes": 21511400,
+ "estimated90dBytes": 5304181,
  "integrityErrors": [],
  "newRecordsToday": 600,
  "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
  "observedDays": 12,
  "projectedDailyBytes": 58935,
- "rawBytesToday": 63817,
+ "rawBytesToday": 63822,
  "status": "OK",
- "totalArchiveBytes": 772187
+ "totalArchiveBytes": 772192
 }

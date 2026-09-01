@@ -1,12 +1,52 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 13:45",
- "priceLabel": "2026-09-01 13:38 장중 · ⚠️ 1종목 지연",
- "count": 502,
+ "generatedAt": "2026-09-01 14:15",
+ "priceLabel": "2026-09-01 14:04 장중 · ⚠️ 1종목 지연",
+ "count": 503,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "195870",
+   "name": "해성디에스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "268280",
+   "name": "미원에스씨",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
+   "isCorrection": false
+  },
   {
    "code": "214320",
    "name": "이노션",
@@ -1035,14 +1075,6 @@ const DART_TODAY = {
    "code": "268280",
    "name": "미원에스씨",
    "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T05:27:36.043732+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "증권발행실적보고서",
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T05:27:36.043732+00:00",
    "isCorrection": false
@@ -3752,22 +3784,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:25:25.957277+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T06:25:25.957277+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "099320",
    "name": "쎄트렉아이",
    "title": "주주명부폐쇄기간또는기준일설정",
@@ -3891,14 +3907,6 @@ const DART_TODAY = {
    "code": "397030",
    "name": "에이프릴바이오",
    "title": "주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T04:43:32.312943+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "268280",
-   "name": "미원에스씨",
-   "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T04:43:32.312943+00:00",
    "isCorrection": false
