@@ -1,12 +1,52 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 10:15",
- "priceLabel": "2026-09-01 10:09 장중 · ⚠️ 1종목 지연",
- "count": 488,
+ "generatedAt": "2026-09-01 10:45",
+ "priceLabel": "2026-09-01 10:44 장중 · ⚠️ 1종목 지연",
+ "count": 491,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "060280",
+   "name": "큐렉소",
+   "title": "주주총회소집공고",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011170",
+   "name": "롯데케미칼",
+   "title": "[기재정정]타인에대한채무보증결정",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "004990",
+   "name": "롯데지주",
+   "title": "[기재정정]타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
+   "isCorrection": true
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -688,14 +728,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T05:55:55.540676+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "042660",
    "name": "한화오션",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -1349,14 +1381,6 @@ const DART_TODAY = {
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T01:28:10.730040+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T00:56:51.119329+00:00",
    "isCorrection": false
   },
   {
