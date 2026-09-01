@@ -4,81 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-01 09:16",
- "dataCutoff": "2026-09-01 09:16 장중",
+ "generatedAt": "2026-09-01 09:45",
+ "dataCutoff": "2026-09-01 09:45 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "066970",
-   "name": "엘앤에프",
-   "sector": "2차전지",
-   "sectorRank": 1,
-   "why": "20거래일 +100.1% · 20일선 위 · 거래량 평소의 2.1배",
-   "overheat": true,
-   "gapPct": 39.1,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "002990",
-   "name": "금호건설",
-   "sector": "건설·건자재",
-   "sectorRank": 3,
-   "why": "20거래일 +83.3% · 20일선 위",
-   "overheat": false,
-   "gapPct": 22.0,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "241710",
-   "name": "코스메카코리아",
-   "sector": "화장품·미용",
-   "sectorRank": 4,
-   "why": "20거래일 +86.4% · 20일선 위",
-   "overheat": false,
-   "gapPct": 19.7,
-   "call": "HOLD",
-   "callConflict": false
-  },
   {
    "code": "006110",
    "name": "삼아알미늄",
    "sector": "화학·소재",
-   "sectorRank": 6,
-   "why": "20거래일 +105.5% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +109.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 30.1,
+   "gapPct": 32.6,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "066970",
+   "name": "엘앤에프",
+   "sector": "2차전지",
+   "sectorRank": 3,
+   "why": "20거래일 +99.2% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.7,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
-  "indexAboveMa20": 2,
-  "breadthPct": 59.7,
-  "shown": 4,
-  "allowed": 4,
-  "sectorCap": 2,
-  "sectorCount": 4,
+  "indexAboveMa20": 1,
+  "breadthPct": 57.3,
+  "shown": 2,
+  "allowed": 2,
+  "sectorCap": 1,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6766.99,
-    "ma20": 6658.53,
+    "close": 6785.02,
+    "ma20": 6659.43,
     "above": true,
-    "gapPct": 1.63
+    "gapPct": 1.89
    },
    "KOSDAQ": {
-    "close": 829.51,
-    "ma20": 829.34,
-    "above": true,
-    "gapPct": 0.02
+    "close": 821.68,
+    "ma20": 828.94,
+    "above": false,
+    "gapPct": -0.88
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "2차전지"
+  "topSector": "화학·소재"
  },
  "record": {
   "hitRate": 54.5,
