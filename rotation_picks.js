@@ -4,59 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-01 11:15",
- "dataCutoff": "2026-09-01 11:15 장중",
+ "generatedAt": "2026-09-01 11:45",
+ "dataCutoff": "2026-09-01 11:45 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "006110",
-   "name": "삼아알미늄",
-   "sector": "화학·소재",
-   "sectorRank": 1,
-   "why": "20거래일 +99.4% · 20일선 위",
-   "overheat": false,
-   "gapPct": 26.5,
-   "call": "HOLD",
-   "callConflict": false
-  },
   {
    "code": "066970",
    "name": "엘앤에프",
    "sector": "2차전지",
-   "sectorRank": 2,
-   "why": "20거래일 +93.0% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +87.9% · 20일선 위",
    "overheat": false,
-   "gapPct": 28.9,
+   "gapPct": 25.7,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
+   "sectorRank": 2,
+   "why": "20거래일 +98.6% · 20일선 위",
+   "overheat": false,
+   "gapPct": 26.0,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 52.7,
+  "breadthPct": 51.3,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6790.69,
-    "ma20": 6659.71,
+    "close": 6783.43,
+    "ma20": 6659.35,
     "above": true,
-    "gapPct": 1.97
+    "gapPct": 1.86
    },
    "KOSDAQ": {
-    "close": 819.76,
-    "ma20": 828.85,
+    "close": 818.31,
+    "ma20": 828.78,
     "above": false,
-    "gapPct": -1.1
+    "gapPct": -1.26
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스닥",
-  "topSector": "화학·소재"
+  "topSector": "2차전지"
  },
  "record": {
   "hitRate": 54.5,
