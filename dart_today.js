@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 13:15",
- "priceLabel": "2026-09-01 13:03 장중 · ⚠️ 1종목 지연",
- "count": 499,
+ "generatedAt": "2026-09-01 13:45",
+ "priceLabel": "2026-09-01 13:38 장중 · ⚠️ 1종목 지연",
+ "count": 502,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "214320",
+   "name": "이노션",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T04:44:31.609600+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T04:44:31.609600+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000120",
+   "name": "CJ대한통운",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T04:44:31.609600+00:00",
+   "isCorrection": false
+  },
   {
    "code": "137400",
    "name": "피엔티",
