@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 62,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-01",
+  "title": "2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나",
+  "featured": false
+ },
+ {
   "id": 61,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-24",
   "title": "2026년 8월24일 종가, 삼성전자 8.7% 급락에도 429종목은 올랐다",
   "featured": false
- },
- {
-  "id": 53,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-21",
-  "title": "2026년 8월21일 종가, 코스피 오르고 코스닥 사이드카, 494종목 하락",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 61,
+ "news": 62,
  "study": 35,
  "lesson": 82,
  "estate": 19,
