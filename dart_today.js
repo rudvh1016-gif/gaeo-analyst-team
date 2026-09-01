@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 10:45",
- "priceLabel": "2026-09-01 10:44 장중 · ⚠️ 1종목 지연",
- "count": 491,
+ "generatedAt": "2026-09-01 11:15",
+ "priceLabel": "2026-09-01 11:07 장중 · ⚠️ 1종목 지연",
+ "count": 494,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "023160",
+   "name": "태광",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:14:35.761851+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "023160",
+   "name": "태광",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:14:35.761851+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "047040",
+   "name": "대우건설",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T02:14:35.761851+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
