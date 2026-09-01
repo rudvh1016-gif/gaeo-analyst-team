@@ -1,12 +1,20 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 11:45",
- "priceLabel": "2026-09-01 11:42 장중 · ⚠️ 1종목 지연",
- "count": 495,
+ "generatedAt": "2026-09-01 12:15",
+ "priceLabel": "2026-09-01 12:05 장중 · ⚠️ 1종목 지연",
+ "count": 496,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "271560",
+   "name": "오리온",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T03:14:39.385262+00:00",
+   "isCorrection": false
+  },
   {
    "code": "383310",
    "name": "에코프로에이치엔",
