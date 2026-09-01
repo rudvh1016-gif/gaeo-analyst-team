@@ -1,18 +1,58 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 09:45",
- "priceLabel": "2026-09-01 09:34 장중 · ⚠️ 1종목 지연",
- "count": 484,
+ "generatedAt": "2026-09-01 10:15",
+ "priceLabel": "2026-09-01 10:09 장중 · ⚠️ 1종목 지연",
+ "count": 488,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "042660",
+   "name": "한화오션",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
+   "isCorrection": false
+  },
+  {
    "code": "381970",
    "name": "케이카",
-   "title": "최대주주변경",
+   "title": "독립이사의선임ㆍ해임또는중도퇴임에관한신고",
    "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T00:44:42.631923+00:00",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "381970",
+   "name": "케이카",
+   "title": "최대주주등소유주식변동신고서(최대주주변경시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "381970",
+   "name": "케이카",
+   "title": "대표이사(대표집행임원)변경(안내공시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "009150",
+   "name": "삼성전기",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T01:14:26.289686+00:00",
    "isCorrection": false
   },
   {
@@ -1366,14 +1406,6 @@ const DART_TODAY = {
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T00:56:51.119329+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T00:25:48.900545+00:00",
-   "isCorrection": false
   },
   {
    "code": "161390",
