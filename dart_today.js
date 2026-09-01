@@ -1,12 +1,164 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 15:08",
- "priceLabel": "2026-09-01 15:03 장중 · ⚠️ 1종목 지연",
- "count": 506,
+ "generatedAt": "2026-09-01 15:38",
+ "priceLabel": "2026-09-01 종가 (15:36 수집) · ⚠️ 1종목 지연",
+ "count": 520,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "489790",
+   "name": "한화비전",
+   "title": "[기재정정]대규모기업집단현황공시[분기별공시(개별회사용)]",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "003240",
+   "name": "태광산업",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "214150",
+   "name": "클래시스",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039030",
+   "name": "이오테크닉스",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "007660",
+   "name": "이수페타시스",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "226950",
+   "name": "올릭스",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "222800",
+   "name": "심텍",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "178320",
+   "name": "서진시스템",
+   "title": "[기재정정]주요사항보고서(전환사채권발행결정)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "002840",
+   "name": "미원상사",
+   "title": "자기주식취득결과보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "032350",
+   "name": "롯데관광개발",
+   "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "348340",
+   "name": "뉴로메카",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017670",
+   "name": "SK텔레콤",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017670",
+   "name": "SK텔레콤",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "017670",
+   "name": "SK텔레콤",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "294870",
+   "name": "IPARK현대산업개발",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "012630",
+   "name": "HDC",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "375500",
+   "name": "DL이앤씨",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T06:37:31.166223+00:00",
+   "isCorrection": false
+  },
   {
    "code": "039130",
    "name": "하나투어",
@@ -440,14 +592,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T07:25:53.398166+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "085620",
    "name": "미래에셋생명",
    "title": "[기재정정]반기보고서 (2026.06)",
@@ -614,14 +758,6 @@ const DART_TODAY = {
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T06:55:55.524366+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T06:55:55.524366+00:00",
-   "isCorrection": false
   },
   {
    "code": "003530",
@@ -2928,14 +3064,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "017670",
-   "name": "SK텔레콤",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T00:44:42.462540+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "006260",
    "name": "LS",
    "title": "지속가능경영보고서등관련사항(자율공시)",
@@ -3464,14 +3592,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "017670",
-   "name": "SK텔레콤",
-   "title": "주요사항보고서(자기주식처분결정)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T03:01:40.050457+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "003670",
    "name": "포스코퓨처엠",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -3859,14 +3979,6 @@ const DART_TODAY = {
    "code": "001390",
    "name": "KG케미칼",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260826",
-   "detectedAt": "2026-08-26T05:56:45.318135+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "012630",
-   "name": "HDC",
-   "title": "주식등의대량보유상황보고서(약식)",
    "receiptDate": "20260826",
    "detectedAt": "2026-08-26T05:56:45.318135+00:00",
    "isCorrection": false
