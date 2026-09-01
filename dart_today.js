@@ -1,12 +1,36 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-01 09:16",
- "priceLabel": "2026-09-01 09:11 장중 · ⚠️ 1종목 지연",
- "count": 481,
+ "generatedAt": "2026-09-01 09:45",
+ "priceLabel": "2026-09-01 09:34 장중 · ⚠️ 1종목 지연",
+ "count": 484,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "381970",
+   "name": "케이카",
+   "title": "최대주주변경",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T00:44:42.631923+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036530",
+   "name": "SNT홀딩스",
+   "title": "주요사항보고서(회사합병결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T00:44:42.631923+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "064960",
+   "name": "SNT모티브",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260901",
+   "detectedAt": "2026-09-01T00:44:42.631923+00:00",
+   "isCorrection": false
+  },
   {
    "code": "161890",
    "name": "한국콜마",
