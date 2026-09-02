@@ -24,7 +24,10 @@ const ymd = d => (/^\d{4}-\d{2}-\d{2}$/.test(String(d || '')) ? d : today);
 const urls = [{ loc: BASE, prio: '1.0', mod: today }, { loc: BASE + 'snap/index.html', prio: '0.5', mod: today },
   { loc: BASE + 'about.html', prio: '0.4', mod: today }, { loc: BASE + 'contact.html', prio: '0.3', mod: today },
   { loc: BASE + 'privacy.html', prio: '0.3', mod: today },
-  { loc: BASE + 'changelog.html', prio: '0.4', mod: today }];
+  // 2026-09-02: 이용약관·면책·데이터 출처 페이지(신뢰성 페이지)를 색인 대상에 넣는다.
+  { loc: BASE + 'disclaimer.html', prio: '0.3', mod: today }];
+// changelog.html은 8/14 이후 갱신이 멈춘 과거 버전 정적 페이지라(최신 기록은 사이트 안 메뉴)
+// noindex로 돌리고 sitemap에서도 뺀다 — 검색 가치가 낮은 stale 페이지를 색인 후보에 두지 않는다.
 // 자바스크립트를 실행하지 않는 검색봇도 읽을 수 있는 정적 스냅샷(/snap/...)을 sitemap에 올린다.
 // sitemap, 스냅샷 canonical, 관련 글 내부 링크가 모두 같은 정적 URL을 가리키도록 유지한다.
 // lastmod는 매번 "오늘"로 찍으면 구글이 신뢰하지 않고 무시하므로, 각 글의 실제 작성일을 쓴다.
