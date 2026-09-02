@@ -123,18 +123,31 @@ GitHub는 "아직 시작 못 한 run"을 한 이름으로 부르지 않는다. *
 "멀쩡한 run을 죽이지 않는다" 쪽도 같은 무게로 테스트한다. `ci.yml`이 `test_*.py`를 자동
 수집하므로 별도 등록은 필요 없고, 워크플로 자신도 조치 전에 이 테스트를 먼저 돌린다.
 
-## ⚠️ 아직 남은 일 — 매시 Routine 프롬프트 교체 (사람이 해야 함)
+## ⑤ 매시 Routine도 교체 완료 (2026-09-02 12:17 KST)
 
-⑤번 Routine("gaeo 장중 매시 kickoff 안전망")은 **여전히 `data.js`만 본다.** 이 Routine은
-다른 세션에 묶여 있어 도구로 프롬프트를 못 고친다 — **Claude Routines 화면에서 직접
-아래 내용으로 교체**해야 한다. (⑥번 워치독이 15분 간격으로 같은 일을 더 자주 하므로
-급하진 않지만, 안전망은 겹칠수록 좋다.)
+⑤번 Routine("gaeo 장중 매시 kickoff 안전망")은 **`data.js`만 보던** 옛 버전이었다. 다른 세션에
+묶여 있어 프롬프트를 도구로 직접 고칠 수는 없었지만, **같은 세션·같은 시간표로 v2를 새로
+만들고 옛것은 비활성화**하는 방식으로 교체했다.
+
+| | 옛 버전 | v2 |
+|---|---|---|
+| Routine ID | `trig_01ALdQDazgSf94NeMRggG2Ly` | `trig_017mixUrhABrNowJ9VtLY7B9` |
+| 상태 | **비활성**(이름 앞에 `[비활성 · v2로 교체됨]` 표시) | 활성 |
+| 시간표 | 평일 매시 정각 09~16시 KST | 동일 |
+| 묶인 세션 | `session_01PEqgu2zcGmwP5vMeFmna9x` | 동일 |
+| 감시 대상 | `data.js` 하나 | **`data.js` + `auto_analysis.js` 각각** |
+| 좀비 판정 | "run이 있는가" | **"산출물이 갱신되는가"** |
+| 유예 | 없음 | **러너를 잡은 시각(job `started_at`)부터 60분**, 개장 전 기동은 08:58부터 |
+
+v2 프롬프트 전문은 아래에 그대로 남겨 둔다 — 나중에 Routine을 다시 만들거나 손볼 때 이 문서가
+원본(Source of Truth)이다. ⑥번 워치독이 15분 간격으로 같은 일을 먼저 하므로, v2는 그 워치독까지
+멈춘 경우를 대비한 뒷단이다.
 
 <details>
-<summary>교체할 프롬프트 전문 (복붙용)</summary>
+<summary>v2 Routine 프롬프트 전문</summary>
 
 ```
-지금은 평일 장중(KST 09~16시) 매시 정각 안전망 점검 시간이야. 저장소: rudvh1016-gif/gaeo-analyst-team (기본 브랜치 main). 배경은 저장소 루트 AGENTS.md의 "데이터 파이프라인" 절과 docs/ARCHITECTURE.md의 6중 안전망 설명(⑤번이 바로 이 Routine, ⑥번이 pipeline-watchdog.yml)을 참고해.
+지금은 평일 장중(KST 09~16시) 매시 정각 안전망 점검 시간이야. 저장소: rudvh1016-gif/gaeo-analyst-team (기본 브랜치 main). 배경은 저장소 루트 AGENTS.md의 "데이터 파이프라인" 절과 docs/PIPELINE_WATCHDOG.md(2026-09-02 사고 기록), docs/ARCHITECTURE.md의 6중 안전망 설명(⑤번이 바로 이 Routine, ⑥번이 pipeline-watchdog.yml)을 참고해.
 
 ## 임무: 두 파이프라인(update-prices.yml · update-analysis.yml)을 각각 따로 점검해서, 멈춘 쪽을 되살린다.
 
@@ -143,20 +156,20 @@ GitHub는 "아직 시작 못 한 run"을 한 이름으로 부르지 않는다. *
 1. `git fetch origin main`으로 최신을 받는다. 두 산출물의 신선도를 각각 계산한다:
    - 시세: `git show origin/main:data.js | head -5`의 "date" 라벨 시각 → 지금과의 간격. 임계 25분.
    - 자동분석: `git show origin/main:auto_analysis.js | sed -n '5p'`의 "generatedAt" 시각 → 지금과의 간격. 임계 70분.
-   (참고: 저장소의 `python3 check_pipeline.py`가 이 두 값을 그대로 계산해준다. fetch 후에 쓸 것.)
+   (참고: 로컬을 origin/main에 맞춘 뒤 `python3 pipeline_watchdog.py`를 돌리면 이 두 값을 그대로 계산해 준다. 토큰 없이 돌리면 판정만 하고 조치는 안 한다.)
 2. 둘 다 임계 미만이면 정상이니 조용히 종료한다(보고 생략).
 3. 어느 한쪽이라도 임계를 넘겼으면, 넘긴 쪽 워크플로만 대상으로 아래를 수행한다. 시세가 멀쩡하면 update-prices는 건드리지 말고, 자동분석만 멈췄으면 update-analysis만 처리한다.
-   - 그 워크플로의 최근 run 상태를 확인한다(mcp__github__actions_list → list_workflow_runs).
-   - in_progress인 run이 있는데도 산출물이 임계를 넘게 갱신 안 됐다면 그 run은 좀비(hang)다. cancel-in-progress: false라 새 트리거가 밀어내지 못하고 pending으로 대기만 한다(AGENTS.md 123번). ⚠️ "run이 in_progress다 = 살아있다"로 판단하지 마라 — 그게 정확히 이 사고를 2시간 놓친 이유다. 판단 기준은 오직 산출물이 갱신되고 있는지다.
+   - 그 워크플로의 최근 run 상태를 GitHub Actions에서 확인한다(mcp__github__actions_list → list_workflow_runs, 그리고 list_workflow_jobs로 job의 started_at도 본다).
+   - in_progress인 run이 있는데도 산출물이 임계를 넘게 갱신 안 됐다면 그 run은 좀비(hang)다. cancel-in-progress: false라 새 트리거가 밀어내지 못하고 pending으로 대기만 한다(AGENTS.md 데이터 파이프라인 절). ⚠️ "run이 in_progress다 = 살아있다"로 판단하지 마라 — 그게 정확히 이 사고를 2시간 놓친 이유다. 판단 기준은 오직 산출물이 갱신되고 있는지다.
    - 같은 워크플로에 pending/queued run이 함께 있으면 그건 좀비 뒤에 줄 서 있다는 확실한 신호다. 좀비를 취소하면 그 대기분이 자동으로 시작되므로, 이 경우 별도 kickoff은 필요 없다.
+   - ⚠️ 유예: 러너를 실제로 잡은 시각(job의 started_at, run의 run_started_at이 아님 — 그건 큐에 들어간 시각이다)부터 60분 안이면 아직 첫 사이클을 못 끝냈을 수 있으니 취소하지 마라. 개장 전(08:58 이전)에 뜬 run은 08:58까지 자도록 설계돼 있으니 "돈 시간"은 max(러너 잡은 시각, 오늘 08:58)부터 세라. (실측: 수집창이 열린 뒤 첫 자동분석 커밋까지 14~29분.)
    - 조치: mcp__github__actions_run_trigger의 cancel_workflow_run으로 좀비 run을 취소한다. 그 뒤 대기 중인 run이 하나도 없을 때만 4번 kickoff을 한다.
    - 실행 중인 run이 아예 없으면(완전히 죽은 상태) 바로 4번 kickoff.
-   - ⚠️ 방금(60분 이내) 시작된 run은 아직 첫 사이클을 못 끝냈을 수 있으니 취소하지 마라. 특히 개장 전(08:58 이전)에 뜬 run은 08:58까지 자도록 설계돼 있으니, "돈 시간"은 max(run 시작 시각, 오늘 08:58)부터 세라.
 4. kickoff: `.analyst-refresh` 파일에 현재 시각(KST)과 무엇을 되살리는지를 한 줄 추가하고 main에 직접 커밋·푸시한다(이 파일 경로 push가 두 워크플로우의 공통 트리거 조건). 별도 브랜치·PR 불필요.
 5. 5~10분 후(가능하면 Actions API로) 새 run이 시작됐는지 한 번만 가볍게 확인한다. 여러 번 폴링하거나 sleep으로 대기하지 않는다.
-6. 결과가 "둘 다 정상"이면 아무 것도 보고하지 않는다. 실제로 취소·kickoff을 했을 때만 사용자에게 한두 문장으로 짧게 보고한다 — 어느 쪽(시세/자동분석)이 몇 분째 멈춰 있었는지를 반드시 포함할 것.
+6. 결과가 "둘 다 정상"이면 아무 것도 보고하지 않는다. 실제로 취소·kickoff을 했을 때만 사용자에게 한두 문장으로 짧게 보고한다 — 어느 쪽(시세/자동분석)이 몇 분째 멈춰 있었는지를 반드시 포함할 것. 보고는 CLAUDE.md 규칙대로 초등학생도 알아듣는 쉬운 말로.
 
-주의: 이 Routine은 안전망일 뿐이다 — analysis.js의 개별 종목 정밀분석이나 다른 콘텐츠 파일은 절대 건드리지 않는다. `.analyst-refresh` 외 다른 파일을 수정하지 않는다.
+주의: 이 Routine은 안전망일 뿐이다 — analysis.js의 개별 종목 정밀분석이나 다른 콘텐츠 파일은 절대 건드리지 않는다. `.analyst-refresh` 외 다른 파일을 수정하지 않는다. 같은 일을 15분 간격으로 하는 pipeline-watchdog.yml이 이미 돌고 있으므로, 이 Routine은 그 워치독까지 멈춘 경우를 대비한 뒷단 안전망이다.
 ```
 
 </details>
