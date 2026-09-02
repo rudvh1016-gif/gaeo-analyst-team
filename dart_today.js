@@ -1,24 +1,56 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-02 13:33",
- "priceLabel": "2026-09-02 13:25 장중 · ⚠️ 1종목 지연",
- "count": 506,
+ "generatedAt": "2026-09-02 14:03",
+ "priceLabel": "2026-09-02 14:01 장중 · ⚠️ 1종목 지연",
+ "count": 509,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "code": "131290",
+   "name": "티에스이",
+   "title": "기업설명회(IR)개최",
    "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
    "isCorrection": false
   },
   {
    "code": "039490",
    "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
    "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "290650",
+   "name": "엘앤씨바이오",
+   "title": "[기재정정]주요사항보고서(유무상증자결정)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "247540",
+   "name": "에코프로비엠",
+   "title": "유상증자1차발행가액결정",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T04:32:41.276611+00:00",
    "isCorrection": false
@@ -147,14 +179,6 @@ const DART_TODAY = {
    "code": "137400",
    "name": "피엔티",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
