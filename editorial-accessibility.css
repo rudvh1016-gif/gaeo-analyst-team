@@ -1,0 +1,331 @@
+/* GAEO editorial expansion and WCAG 2.2 AA support.
+   Loaded last so it can refine legacy screens without changing data or models. */
+:root{
+  --editorial-page:#f7f7f5;
+  --editorial-paper:#ffffff;
+  --editorial-ink:#15171a;
+  --editorial-body:#2d3137;
+  --editorial-subtle:#606873;
+  --editorial-rule:#dfe2e5;
+  --editorial-rule-strong:#afb5bc;
+  --editorial-link:#245a70;
+  --editorial-focus:#087ea4;
+  --editorial-warning:#744b00;
+  color-scheme:light;
+}
+
+html.gdark{
+  --editorial-page:#0d0e10;
+  --editorial-paper:#15171a;
+  --editorial-ink:#f4f5f7;
+  --editorial-body:#d8dce1;
+  --editorial-subtle:#aab1ba;
+  --editorial-rule:#383d43;
+  --editorial-rule-strong:#68717b;
+  --editorial-link:#9ed8ec;
+  --editorial-focus:#72d5f5;
+  --editorial-warning:#f0c66d;
+  color-scheme:dark;
+}
+
+html.about-page{
+  --editorial-page:#070808;
+  --editorial-paper:#111313;
+  --editorial-ink:#f4f5f5;
+  --editorial-body:#d7dada;
+  --editorial-subtle:#a8aeae;
+  --editorial-rule:#292d2d;
+  --editorial-rule-strong:#5b6363;
+  --editorial-link:#91caed;
+  --editorial-focus:#7bd5f5;
+  --text-muted:#8b8b94;
+  color-scheme:dark;
+}
+
+@media (prefers-color-scheme: dark){
+  html:not(.glight){
+    --editorial-page:#0d0e10;
+    --editorial-paper:#15171a;
+    --editorial-ink:#f4f5f7;
+    --editorial-body:#d8dce1;
+    --editorial-subtle:#aab1ba;
+    --editorial-rule:#383d43;
+    --editorial-rule-strong:#68717b;
+    --editorial-link:#9ed8ec;
+    --editorial-focus:#72d5f5;
+    --editorial-warning:#f0c66d;
+    color-scheme:dark;
+  }
+}
+
+html{scroll-padding-top:96px}
+body{background:var(--editorial-page);color:var(--editorial-body)}
+h1,h2,h3,h4,h5,h6{color:var(--editorial-ink)}
+a{overflow-wrap:anywhere}
+
+/* Solid editorial surfaces: navigation and overlays must not read as glass. */
+body :where(.global-nav,.refresh-notice,.analysis-tabs-wrap){
+  background:var(--editorial-paper)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+body :where(.daypop-bg,.pc-toggle){
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+:where(button,input,select,textarea,summary,[role="button"],[role="tab"]){font:inherit}
+:where(button,input,select,textarea,[role="button"],[role="tab"]){min-height:45px!important}
+body :where(button,input,select,textarea,[role="button"],[role="tab"]){min-height:45px!important}
+:where(.cta,.contact-link,.related a,.rows a,.da-index-row,.da-back,.da-pager a,.toc a,.global-link,.modebtn){min-height:44px}
+body .global-link{min-width:44px!important}
+body .hda-more{display:inline-flex;align-items:center;min-height:44px}
+body .chip .auto-dot{font-size:12px!important;letter-spacing:0!important;vertical-align:baseline}
+
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:3px solid var(--editorial-focus)!important;
+  outline-offset:3px!important;
+  box-shadow:none!important;
+}
+
+.skip-link{
+  position:fixed!important;
+  z-index:10000!important;
+  top:8px!important;
+  left:8px!important;
+  width:auto!important;
+  min-height:44px!important;
+  padding:11px 16px!important;
+  transform:translateY(-160%)!important;
+  border:2px solid var(--editorial-focus)!important;
+  border-radius:4px!important;
+  background:var(--editorial-paper)!important;
+  color:var(--editorial-ink)!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  text-decoration:none!important;
+}
+.skip-link:focus{transform:translateY(0)!important}
+
+/* Public editorial articles */
+body>div.wrap{max-width:760px;padding:24px 24px 72px}
+body>div.wrap>.top{margin:0;padding:0 0 20px;border-bottom:1px solid var(--editorial-rule)}
+body>div.wrap>main.card{
+  overflow:visible;
+  padding:42px 0 0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body>div.wrap>main.card h1{max-width:700px;font-size:clamp(30px,5vw,46px);line-height:1.2;letter-spacing:-.035em}
+body>div.wrap>main.card .tag{
+  margin:0 0 14px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--editorial-link);
+  letter-spacing:.04em;
+}
+body>div.wrap>main.card .meta{margin:14px 0 24px;color:var(--editorial-subtle);font-variant-numeric:tabular-nums}
+body>div.wrap>main.card .summary{margin:0 0 30px;padding:0 0 26px;color:var(--editorial-body);font-size:16px;line-height:1.8}
+body>div.wrap>main.card .daum-wm-content{font-size:16px;line-height:1.82}
+body>div.wrap>main.card .daum-wm-content h2{margin-top:38px;font-size:21px}
+body>div.wrap>main.card .archive-notice,
+body>div.wrap>main.card .trust{
+  padding:15px 0;
+  border-top:1px solid var(--editorial-rule);
+  border-bottom:1px solid var(--editorial-rule);
+  border-radius:0;
+  background:transparent;
+  color:var(--editorial-subtle);
+}
+body>div.wrap>main.card .cta{
+  display:inline-flex;
+  align-items:center;
+  margin-top:28px;
+  padding:10px 0;
+  border-bottom:2px solid currentColor;
+  border-radius:0;
+  background:transparent;
+  color:var(--editorial-link);
+}
+body>div.wrap>main.card .related a{display:flex;align-items:center;border-bottom:1px solid var(--editorial-rule);color:var(--editorial-body)}
+body>div.wrap>main.card .sources,
+body>div.wrap>main.card .disc{color:var(--editorial-subtle)}
+
+/* Research hub and deep-analysis publication pages */
+body>main.shell,
+body>main.da-shell{background:transparent}
+body>main.da-shell{--muted:var(--editorial-subtle)}
+body>main.shell .brand,
+body>main.da-shell .da-brand{border-color:var(--editorial-rule)}
+body>main.shell .sec,
+body>main.da-shell .da-section{border-color:var(--editorial-rule)}
+body>main.shell :where(.rows a,.toc a),
+body>main.da-shell :where(.da-index-row,.da-back,.da-pager a){display:flex;align-items:center}
+body>main.shell :where(.brand a,.more,.entry),
+body>main.da-shell :where(.da-brand a,.da-hub-chip){display:inline-flex;align-items:center;min-height:44px}
+
+/* About: one calm editorial column with an identity reference rail. */
+body .about-card,
+body .identity-panel{
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body .about-card{padding:38px 0;border-top:1px solid var(--editorial-rule)}
+body .back-link{display:inline-flex;align-items:center;min-height:44px}
+body .about-stack>.about-card:first-child{border-top-color:var(--editorial-rule-strong)}
+body .about-card :where(.fact-item,.analyst-card){
+  border:0;
+  border-top:1px solid var(--editorial-rule);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body .about-card :where(.fact-item,.analyst-card):first-child{border-top:0}
+body .identity-panel{border-top:1px solid var(--editorial-rule-strong)}
+
+/* Interactive app: retain boundaries only where they explain controls or data. */
+body .analysis-browser,
+body .quote,
+body .analysis-tabs-wrap,
+body .change-board,
+body .newsView>.sc-block,
+body .latest-panel,
+body .paperView,
+body .rotation-view>.rot-shell,
+body .fullmarket-view>.fm-shell{
+  border-color:var(--editorial-rule);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body .cards>.card,
+body .analyst-panel,
+body .verdict,
+body .risk-card,
+body .rr-panel{
+  border:0!important;
+  border-top:1px solid var(--editorial-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body .cards>.card h3>span:first-child,
+body .cards>.card .score{color:var(--editorial-ink)!important}
+body .cards>.card .eval-rule{
+  border:1px solid var(--editorial-rule-strong)!important;
+  border-radius:6px!important;
+  background:transparent!important;
+  color:var(--editorial-subtle)!important;
+}
+
+/* Dense research screens use dividers and a plot boundary, not card stacks. */
+body .rotation-view .rot-card,
+body .rotation-view .rot-panel,
+body .rotation-view .rot-summary,
+body .fullmarket-view .fm-panel,
+body .fullmarket-view .fm-status{
+  border:0!important;
+  border-top:1px solid var(--editorial-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body .rotation-view .rot-map-panel{border:1px solid var(--editorial-rule)!important}
+body .rotation-view :where(.rot-evidence-item,.rot-stock,.rot-history-grid>div,.rot-change-reasons,.rot-change-pending,.rot-history-value,.rot-view-factors>div,.rot-similar-summary>div,.rot-view-summary>div,.rot-performance-card,.rot-method,.rot-accumulation-note,.rot-score-note,.rot-direction-conclusion,.rot-last-line),
+body .fullmarket-view :where(.fm-feel-grid>*,.fm-conc-grid>*,.fm-sector-detail-grid>*,.fm-empty,.fm-empty-inline){
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body .fullmarket-view :where(.fm-feel-grid>*,.fm-conc-grid>*,.fm-sector-detail-grid>*){border-top:1px solid var(--editorial-rule)!important}
+body .analysis-tabs,
+body .analyst-tabs{border-radius:8px;background:transparent}
+body :where(.analysis-tab,.analyst-tab,.fm-tab){border-radius:6px}
+body :where(.analysis-tab.on,.analyst-tab.on){box-shadow:none}
+body :where(.qmetrics,.vmetrics,.rot-kpis,.fm-overview-grid){font-variant-numeric:tabular-nums lining-nums}
+body :where(.rot-table-wrap,.fm-table-wrap,.pv-ledger){border:1px solid var(--editorial-rule);border-radius:0;background:var(--editorial-paper)}
+body :where(table,[role="table"]){font-variant-numeric:tabular-nums lining-nums}
+body :where(th,[role="columnheader"],[role="rowheader"]){color:var(--editorial-subtle);font-weight:600;text-align:left}
+body :where(.datawarn,.warning,.error,[role="alert"],.analysis-tab-empty,.activity-empty,.hda-empty,.change-empty){
+  border-color:var(--editorial-rule-strong);
+  border-radius:0;
+  background:transparent;
+  color:var(--editorial-body);
+}
+body :where(.trust-strip,.activity-board,.eval-pop,.hdb-sheet){border-radius:12px;background:var(--editorial-paper);color:var(--editorial-body)}
+body .foot{border-top:1px solid var(--editorial-rule);color:var(--editorial-subtle)}
+body .foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;padding:14px 0 28px;font-size:12.5px}
+body .foot-links a{display:inline-flex;align-items:center;min-width:24px;min-height:44px;padding-inline:3px;color:var(--editorial-subtle)!important;font-weight:600;text-decoration:none}
+body .context-title{max-width:1180px;margin:34px auto 8px;color:var(--editorial-ink);font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.15;letter-spacing:-.04em}
+body .fm-mode-title{display:none}
+body .cat-card,
+body .nw-head{width:100%;border:0;background:transparent;color:inherit;text-align:left}
+body .cat-card>span,
+body .nw-head>.nw-meta,
+body .nw-head>.nw-title{display:block}
+html:not(.gdark):not(.about-page){--krdn:#335f9e;--amber:#79501f}
+body .share-fab{background:#245a70;color:#fff;font-size:11px;font-weight:600}
+html.gdark body .share-fab{background:#9ed8ec;color:#0d0e10}
+body :where(.home-lead>header,.hero-copy,.hero-title,.tagline,.hero-intro){max-width:100%;min-width:0;overflow:visible}
+body .hero-title{white-space:normal!important;overflow-wrap:anywhere}
+body :where(.global-icon-btn,.global-menu-btn,.analysis-tab,.analyst-tab,.fm-tab,.rot-horizon,.rot-help,.rot-rank,.fm-sector-row,.nw-search input){min-width:44px!important;min-height:44px!important}
+body .nw-pg{min-width:44px!important}
+body :where(.trust-close,.activity-close,.hdb-panel-close,.eval-pop-close){width:45px!important;height:45px!important;min-width:45px!important;min-height:45px!important}
+body .nav-search-error{grid-column:1/-1;color:var(--editorial-body);font-size:12px;font-weight:500}
+body .rotation-view :where(p,small,dt,dd,li,summary,label,button,em,span,strong,b,a){font-size:12px!important}
+body .fullmarket-view :where(p,small,dt,dd,li,summary,label,button,em,span,strong,b,a){font-size:12px!important}
+body .rotation-view :where(div,h4,th,td){font-size:12px!important}
+body .fullmarket-view :where(div,h4,th,td){font-size:12px!important}
+body .rotation-view svg text{font-size:12px!important}
+body .rotation-view :where(.rot-card-primary,.rot-card-today-value){font-size:18px!important}
+body .rotation-view :where(.rot-rank-score,.rot-detail-score strong){font-size:14px!important}
+body .rotation-view .rot-detail-title>strong{font-size:22px!important}
+body .rotation-view .rot-factor-value b{font-size:16px!important}
+body .rotation-view .rot-history-grid strong{font-size:15px!important}
+body .rotation-view .rot-history-value strong{font-size:25px!important}
+body .rotation-view .rot-performance-card strong{font-size:16px!important}
+body .fullmarket-view .fm-tab{font-size:13px!important}
+body .fullmarket-view :where(.fm-participation-counts strong,.fm-rate-line strong,.fm-feel-grid strong,.fm-conc-grid strong){font-size:16px!important}
+body .fullmarket-view .fm-asof strong{font-size:14px!important}
+body .fullmarket-view :where(.fm-pick b,.fm-history-grid strong){font-size:12.5px!important}
+
+@media (max-width: 760px){
+  body>div.wrap{padding-inline:18px}
+  body>div.wrap>main.card{padding-top:30px}
+  body>div.wrap>main.card h1{font-size:clamp(28px,9vw,38px)}
+  body .about-card{padding:30px 0}
+  body :where(.rot-table-wrap,.fm-table-wrap,.pv-ledger){max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+}
+
+@media (max-width: 320px){
+  html{font-size:100%}
+  body>div.wrap,
+  body>main.shell,
+  body>main.da-shell{width:100%;padding-inline:16px}
+  h1{overflow-wrap:anywhere;text-wrap:pretty}
+  :where(button,input,select,textarea){max-width:100%}
+  body .hero-title{font-size:34px}
+  body .global-utilities{gap:0}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    transition-delay:0ms!important;
+  }
+}
+
+@media print{
+  .skip-link{display:none!important}
+  body{background:#fff;color:#111}
+}
