@@ -7,9 +7,13 @@ const { chromium } = require('./test_playwright');
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseUrl).origin });
   const page = await context.newPage();
   const writes = [];
+  const measurementRequests = [];
   const errors = [];
   page.on('request', request => {
     if (request.method() !== 'GET') writes.push(`${request.method()} ${request.url()}`);
+    if (/googletagmanager\.com\/gtag\/js|google-analytics\.com\/g\/collect|kvdb\.io\//.test(request.url())) {
+      measurementRequests.push(request.url());
+    }
   });
   page.on('pageerror', error => errors.push(String(error)));
   await page.addInitScript(() => {
@@ -19,12 +23,25 @@ const { chromium } = require('./test_playwright');
 
   await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.locator('.consent-prompt').waitFor();
+  await page.waitForTimeout(500);
   if (!(await page.locator('.consent-prompt').isVisible())) throw new Error('동의 선택창이 첫 방문에 보이지 않는다.');
+  if (measurementRequests.length) throw new Error('동의 전 분석·KVdb 요청이 발생했다: ' + measurementRequests.join(' | '));
   await page.getByRole('button', { name: '필수 기능만' }).click();
   if (await page.evaluate(() => localStorage.getItem('gaeo_analytics_consent_v1')) !== 'denied') {
     throw new Error('통계 거부 선택이 저장되지 않았다.');
   }
-  if (writes.some(row => row.includes('kvdb.io'))) throw new Error('동의 전 KVdb 쓰기가 발생했다: ' + writes.join(' | '));
+  await page.waitForTimeout(300);
+  if (measurementRequests.length) throw new Error('통계 거부 뒤 분석·KVdb 요청이 발생했다: ' + measurementRequests.join(' | '));
+
+  await page.getByRole('button', { name: '개인정보 설정' }).click();
+  await page.getByRole('button', { name: '익명 통계 허용' }).click();
+  await page.waitForTimeout(700);
+  if (!measurementRequests.some(url => url.includes('googletagmanager.com/gtag/js'))) {
+    throw new Error('통계 허용 뒤 Google Analytics 로더 요청이 시작되지 않았다.');
+  }
+  if (!measurementRequests.some(url => url.includes('kvdb.io/'))) {
+    throw new Error('통계 허용 뒤 자체 집계 읽기가 시작되지 않았다.');
+  }
 
   await page.evaluate(() => window.setMode('community'));
   await page.getByText('안전한 서버 인증을 갖출 때까지 읽기 전용입니다').waitFor();

@@ -136,11 +136,11 @@ async function main() {
     const ctx = makeContext(m.fetch, null);
     vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
     const v = await ctx.window.GaeoMetrics.startVisit();
-    assert.equal(v.total, 980, '동의 전에도 공개된 기존 합계는 읽어 표시한다');
+    assert.equal(v.total, 939, '동의 전에는 네트워크 대신 내장 최소값을 표시한다');
     assert.equal(
-      m.calls.filter(c => ['PATCH', 'PUT', 'POST', 'DELETE'].includes(c.options.method || 'GET')).length,
+      m.calls.length,
       0,
-      '동의 전에는 KVdb 쓰기 요청이 없어야 한다'
+      '동의 전에는 KVdb 설정 조회를 포함한 어떠한 네트워크 요청도 없어야 한다'
     );
     assert.equal(ctx.localStorage.getItem('gaeo_first_seen'), null,
       '동의 전에 새 기기 식별용 로컬 상태를 만들지 않는다');

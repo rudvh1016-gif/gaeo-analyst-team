@@ -103,8 +103,8 @@
       return counterValue((await r.text()).trim());
     }
     async function request(name,increment=false){
+      if(!window.GaeoReleaseSafety.hasMeasurementConsent(localStorage)) return finish(name,0);
       if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
-      if(increment&&!window.GaeoReleaseSafety.hasMeasurementConsent(localStorage)) increment=false;
       const base=await metricsBase(), key=keyPath(name);
       if(increment){
         try{                                    // ① 원자 증가가 되면 그게 가장 좋다
@@ -142,10 +142,15 @@
     }
     async function startVisit(onUpdate){
       const canCollect=window.GaeoReleaseSafety.hasMeasurementConsent(localStorage);
+      const fallback=visitSnapshot();
+      if(!canCollect){
+        const visit={...fallback,exactTotal:false,exactToday:false};
+        if(typeof onUpdate==='function') onUpdate(visit);
+        return visit;
+      }
       const totalDone=sessionStorage.getItem('gaeo_view_counted')==='1';
       const dailyFlag=`gaeo_daily_counted_${dayKey()}`;
       const dailyDone=sessionStorage.getItem(dailyFlag)==='1';
-      const fallback=visitSnapshot();
       if(canCollect&&!totalDone) sessionStorage.setItem('gaeo_view_counted','1');
       if(canCollect&&!dailyDone) sessionStorage.setItem(dailyFlag,'1');
       const settle=async(promise,value)=>{
@@ -177,7 +182,7 @@
         exactTotal:values[0].exact,
         exactToday:values[1].exact&&values[1].value>0
       };
-      saveVisitSnapshot(visit);
+      if(canCollect) saveVisitSnapshot(visit);
       return visit;
     }
     async function series(name,days=7){
@@ -286,8 +291,17 @@
   if(gaeoConsentRequired||gaeoStoredConsent){
     gtag('consent','default',{analytics_storage:gaeoInitialConsent});
   }
-  gtag('js', new Date());
-  gtag('config', 'G-D6PYQ4TXY4');
+  let gaeoAnalyticsLoader=null;
+  function gaeoLoadAnalytics(){
+    if(gaeoAnalyticsLoader) return gaeoAnalyticsLoader;
+    gtag('js',new Date());
+    gtag('config','G-D6PYQ4TXY4');
+    gaeoAnalyticsLoader=document.createElement('script');
+    gaeoAnalyticsLoader.async=true;
+    gaeoAnalyticsLoader.src='https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4';
+    document.head.appendChild(gaeoAnalyticsLoader);
+    return gaeoAnalyticsLoader;
+  }
   window.GaeoAnalytics=window.GaeoProductAnalytics.createAnalytics({
     gtag:typeof gtag==='function'?gtag:null,
     consentRequired:gaeoConsentRequired,
@@ -297,6 +311,10 @@
     const state=window.GaeoAnalytics.setConsent(next);
     try{ localStorage.setItem('gaeo_analytics_consent_v1',state); }catch(e){}
     try{ gtag('consent','update',{analytics_storage:state}); }catch(e){}
+    if(state==='granted'){
+      gaeoLoadAnalytics();
+      window.dispatchEvent(new Event('gaeo:measurement-consent-granted'));
+    }
     return state;
   };
   window.gaeoTrack=function(name,params,options){
@@ -320,8 +338,8 @@
     document.body.appendChild(prompt); document.body.appendChild(settings);
     if(gaeoStoredConsent) close();
   });
+  if(gaeoInitialConsent==='granted') gaeoLoadAnalytics();
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4"></script>
 <script>
   // 모바일에서 "PC 버전으로 보기"를 저장해둔 경우, 그리기 전에 미리 뷰포트를 넓혀서
   // 모바일 레이아웃이 잠깐 보였다가 데스크톱으로 바뀌는 깜빡임을 막는다.
@@ -15275,18 +15293,22 @@ window.renderScreener=function(){
   const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
     ?LATEST_POSTS.slice(0,5):[];
   renderPopular(posts.map(post=>({post,count:0})));
-  window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
-    posts.map(post=>({post,count:0}))
-  ));
   let currentVisit=window.GaeoMetrics.visitSnapshot();
   renderVisit(currentVisit);
-  window.GaeoMetrics.startVisit(patch=>{
-    currentVisit={...currentVisit,...patch};
-    renderVisit(currentVisit);
-  }).then(visit=>{
-    currentVisit=visit;
-    renderVisit(currentVisit);
-  }).catch(()=>{});
+  function refreshMeasurement(){
+    window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
+      posts.map(post=>({post,count:0}))
+    ));
+    window.GaeoMetrics.startVisit(patch=>{
+      currentVisit={...currentVisit,...patch};
+      renderVisit(currentVisit);
+    }).then(visit=>{
+      currentVisit=visit;
+      renderVisit(currentVisit);
+    }).catch(()=>{});
+  }
+  refreshMeasurement();
+  window.addEventListener('gaeo:measurement-consent-granted',refreshMeasurement);
 
   const briefBtn=document.getElementById('activityBrief');
   if(briefBtn) briefBtn.onclick=()=>{

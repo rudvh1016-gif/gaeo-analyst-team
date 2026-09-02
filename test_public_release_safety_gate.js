@@ -54,6 +54,10 @@ assert.ok(consentFlag >= 0 && consentFlag < analyticsLoader,
   '제품 분석 동의 필요 플래그가 로더보다 먼저 설정되지 않았다.');
 assert.match(html, /GaeoReleaseSafety\.hasMeasurementConsent\(localStorage\)/,
   '자체 집계 증가가 제품 분석 동의 상태를 확인하지 않는다.');
+assert.doesNotMatch(html, /<script[^>]+src=["']https:\/\/www\.googletagmanager\.com\/gtag\/js/i,
+  'Google Analytics 로더가 동의 전에 정적으로 로드된다.');
+assert.match(html, /function gaeoLoadAnalytics\(\)/,
+  '동의 뒤에만 Google Analytics를 불러오는 로더가 없다.');
 
 const serviceWorker = fs.readFileSync('sw.js', 'utf8');
 assert.match(serviceWorker, /['"]\.\/public_release_safety\.js['"]/,
