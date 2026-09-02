@@ -16,6 +16,15 @@ name: pipeline-watchdog
 
 on:
   workflow_dispatch:
+  # 2026-09-02 13:00 첫 실전에서 확인 — 매시 Routine이 새 세션으로 다시 묶이면 그 세션엔 GitHub
+  # 도구(mcp__github__*)가 없어서 workflow_dispatch 호출을 못 한다. 그래서 git만 있으면 되는
+  # 경로를 하나 더 둔다: 아래 표식 파일에 한 줄 덧붙여 main에 push하면 이 워크플로가 깨어난다.
+  # 좀비 취소·재기동은 여기(GITHUB_TOKEN, actions: write)가 하므로 깨우는 쪽은 권한이 필요 없다.
+  # .analyst-refresh(러너 재기동 마커)도 포함 — 재기동 직후 한 번 점검하는 건 공짜 안전장치다.
+  push:
+    paths:
+      - ".pipeline-watchdog-ping"
+      - ".analyst-refresh"
   schedule:
     # 0-7 UTC = 09~16시 KST. 평일 15분 간격(GitHub cron은 best-effort라 지연될 수 있다 —
     # 이건 5중 안전망에 하나를 더 얹는 것이지, 이것만 믿는 구조가 아니다).
