@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-02 15:03",
- "priceLabel": "2026-09-02 15:01 장중 · ⚠️ 1종목 지연",
- "count": 512,
+ "generatedAt": "2026-09-02 15:33",
+ "priceLabel": "2026-09-02 15:28 장중 · ⚠️ 1종목 지연",
+ "count": 515,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "002790",
+   "name": "아모레퍼시픽홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005290",
+   "name": "동진쎄미켐",
+   "title": "신탁계약해지결과보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000640",
+   "name": "동아쏘시오홀딩스",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000640",
+   "name": "동아쏘시오홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -115,14 +179,6 @@ const DART_TODAY = {
    "code": "030610",
    "name": "교보증권",
    "title": "증권발행실적보고서",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": false
@@ -627,14 +683,6 @@ const DART_TODAY = {
    "code": "034020",
    "name": "두산에너빌리티",
    "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T07:07:37.348995+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "증권발행실적보고서",
    "receiptDate": "20260901",
    "detectedAt": "2026-09-01T07:07:37.348995+00:00",
    "isCorrection": false
@@ -1275,22 +1323,6 @@ const DART_TODAY = {
    "code": "454910",
    "name": "두산로보틱스",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T07:25:53.398166+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T07:25:53.398166+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "증권발행실적보고서",
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T07:25:53.398166+00:00",
    "isCorrection": false
@@ -3179,14 +3211,6 @@ const DART_TODAY = {
    "code": "286940",
    "name": "롯데이노베이트",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T04:44:35.387932+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "000640",
-   "name": "동아쏘시오홀딩스",
-   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T04:44:35.387932+00:00",
    "isCorrection": false
