@@ -64,6 +64,7 @@ const BASELINE = {
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const pageErrors = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
 

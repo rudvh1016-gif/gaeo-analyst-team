@@ -65,6 +65,7 @@ const FAM = 'Wanted Sans Variable';
   // ── ② 런타임 실측 ────────────────────────────────────────────────────────
   const browser = await chromium.launch({ headless: true });
   const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
+  await ctx.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const page = await ctx.newPage();
   const resp = [];
   page.on('response', r => { if (/wanted-sans/.test(r.url())) resp.push({ s: r.status(), u: r.url().split('/').pop() }); });
@@ -165,6 +166,7 @@ const FAM = 'Wanted Sans Variable';
 
   // ── ③ 폰트를 못 받는 상황(fallback) ──────────────────────────────────────
   const ctx2 = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
+  await ctx2.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const p2 = await ctx2.newPage();
   const errs2 = [];
   p2.on('pageerror', e => errs2.push(String(e).slice(0, 120)));
@@ -187,6 +189,7 @@ const FAM = 'Wanted Sans Variable';
   // ── ④ 뷰포트별 (폰트 적용 상태) ──────────────────────────────────────────
   for (const w of [320, 360, 390, 430, 1280, 1440]) {
     const c = await browser.newContext({ viewport: { width: w, height: 900 }, serviceWorkers: 'block' });
+    await c.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     const p = await c.newPage();
     await p.goto(BASE + '?m=paper', { waitUntil: 'load' });
     await p.evaluate(() => document.fonts.ready);

@@ -325,18 +325,62 @@
   document.addEventListener('DOMContentLoaded',function(){
     const prompt=document.createElement('section');
     prompt.className='consent-prompt';
-    prompt.setAttribute('aria-label','익명 이용 통계 선택');
-    prompt.innerHTML='<p><b>익명 이용 통계</b><br>허용하면 검색어·연락처·포트폴리오 값 없이 이용 흐름만 집계해 서비스를 개선합니다. 선택하지 않아도 모든 콘텐츠를 이용할 수 있어요. <a href="privacy.html">자세히 보기</a></p><div><button type="button" data-consent="denied">필수 기능만</button><button type="button" class="primary" data-consent="granted">익명 통계 허용</button></div>';
+    prompt.setAttribute('role','dialog');
+    prompt.setAttribute('aria-modal','true');
+    prompt.setAttribute('aria-labelledby','consentTitle');
+    prompt.innerHTML='<p><b id="consentTitle">익명 이용 통계</b><br>허용하면 검색어·연락처·포트폴리오 값 없이 이용 흐름만 집계해 서비스를 개선합니다. 선택하지 않아도 모든 콘텐츠를 이용할 수 있어요. <a href="privacy.html">자세히 보기</a></p><div><button type="button" data-consent="denied">필수 기능만</button><button type="button" class="primary" data-consent="granted">익명 통계 허용</button></div>';
     const settings=document.createElement('button');
     settings.type='button'; settings.className='consent-settings'; settings.textContent='개인정보 설정';
-    const open=()=>{ prompt.hidden=false; };
-    const close=()=>{ prompt.hidden=true; };
+    settings.setAttribute('aria-haspopup','dialog');
+    settings.setAttribute('aria-controls','gaeoConsentPrompt');
+    settings.setAttribute('aria-expanded','false');
+    prompt.id='gaeoConsentPrompt';
+    const focusableSelector='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    let consentOpen=false;
+    const setBackgroundInert=active=>{
+      consentOpen=active;
+      [...document.body.children].forEach(element=>{
+        if(element!==prompt) element.inert=active;
+      });
+    };
+    const backgroundObserver=new MutationObserver(records=>{
+      if(!consentOpen) return;
+      records.forEach(record=>record.addedNodes.forEach(node=>{
+        if(node instanceof HTMLElement&&node!==prompt) node.inert=true;
+      }));
+    });
+    backgroundObserver.observe(document.body,{childList:true});
+    prompt.addEventListener('keydown',event=>{
+      if(event.key!=='Tab'||prompt.hidden) return;
+      const focusable=[...prompt.querySelectorAll(focusableSelector)]
+        .filter(element=>element.getClientRects().length&&!element.hidden);
+      if(!focusable.length){ event.preventDefault(); prompt.focus(); return; }
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(event.shiftKey&&(document.activeElement===first||!prompt.contains(document.activeElement))){
+        event.preventDefault(); last.focus();
+      }else if(!event.shiftKey&&document.activeElement===last){
+        event.preventDefault(); first.focus();
+      }
+    });
+    const open=()=>{
+      prompt.hidden=false;
+      settings.setAttribute('aria-expanded','true');
+      setBackgroundInert(true);
+      requestAnimationFrame(()=>prompt.querySelector('[data-consent]')?.focus());
+    };
+    const close=()=>{
+      prompt.hidden=true;
+      settings.setAttribute('aria-expanded','false');
+      setBackgroundInert(false);
+      requestAnimationFrame(()=>settings.focus());
+    };
     prompt.querySelectorAll('[data-consent]').forEach(btn=>btn.onclick=()=>{
       window.gaeoSetAnalyticsConsent(btn.dataset.consent); close();
     });
     settings.onclick=open;
     document.body.appendChild(prompt); document.body.appendChild(settings);
-    if(gaeoStoredConsent) close();
+    if(gaeoStoredConsent){ prompt.hidden=true; }
+    else open();
   });
   if(gaeoInitialConsent==='granted') gaeoLoadAnalytics();
 </script>
@@ -3866,8 +3910,8 @@
   .home-daily-brief .hdb-head{display:block;min-height:0;margin-bottom:2px;padding:0;
     border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
   .home-daily-brief .hdb-head::before,.home-daily-brief .hdb-head::after{content:none}
-  /* 홈에서 가장 먼저 읽는 제목이라 굵기를 한 단계 더 준다(사용자 지정). */
-  .home-daily-brief #briefTitle{font-weight:700}
+  /* 제목은 공통 편집형 굵기 600을 쓴다. 800 예외는 브랜드와 대표 히어로뿐이다. */
+  .home-daily-brief #briefTitle{font-weight:600}
   .home-daily-brief .hdb-title-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
   .home-daily-brief .hdb-title-row h2{margin:0}
   .home-daily-brief .hdb-date{flex:none;color:var(--color-text-secondary);font-size:12px;font-weight:500;white-space:nowrap}
@@ -4521,6 +4565,7 @@
   }
 </style>
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
+<link rel="stylesheet" href="editorial-foundation.css?v=20260903-v1">
 </head>
 <body>
 <!-- 자바스크립트를 실행하지 않고 원본 HTML만 읽는 크롤러(특히 AI 답변엔진)가 홈에서
@@ -4603,9 +4648,9 @@
         <strong>관심종목과 화면 설정을 이 기기에 저장해요.</strong>
       </div>
       <div class="nav-profile-row">
-        <button class="theme-toggle" id="trustInfoToggle" type="button" title="판단보다 먼저, 기준을 공개해요">📐<span>기준</span></button>
+        <button class="theme-toggle" id="trustInfoToggle" type="button" title="판단보다 먼저, 기준을 공개해요" aria-haspopup="dialog" aria-controls="trustStrip" aria-expanded="false">📐<span>기준</span></button>
         <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-        <button class="views" id="viewsBadge" type="button" title="탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b><span class="views-go" aria-hidden="true">›</span></button>
+        <button class="views" id="viewsBadge" type="button" title="탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요" aria-haspopup="dialog" aria-controls="activityBoard" aria-expanded="false"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b><span class="views-go" aria-hidden="true">›</span></button>
         <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
       </div>
     </div>
@@ -4625,7 +4670,7 @@
 </nav>
 <div class="refresh-notice" id="refreshNotice" role="note">주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다. 꼭 자주 새로고침을 진행해주세요!</div>
 <div class="trust-backdrop" id="gaeoBackdrop" hidden></div>
-<section class="trust-strip" id="trustStrip" aria-labelledby="trustTitle" hidden>
+<section class="trust-strip" id="trustStrip" role="dialog" aria-modal="true" aria-labelledby="trustTitle" tabindex="-1" hidden>
   <button class="trust-close" id="trustClose" type="button" aria-label="닫기">✕</button>
   <div>
     <h2 id="trustTitle">판단보다 먼저, 기준을 공개해요</h2>
@@ -4643,7 +4688,7 @@
     <a href="privacy.html">개인정보</a>
   </div>
 </section>
-<section class="activity-board" id="activityBoard" aria-labelledby="activityTitle" hidden>
+<section class="activity-board" id="activityBoard" role="dialog" aria-modal="true" aria-labelledby="activityTitle" tabindex="-1" hidden>
   <button class="activity-close" id="activityClose" type="button" aria-label="닫기">✕</button>
   <div class="activity-main">
     <div class="activity-head">
@@ -4710,19 +4755,19 @@
             <span class="hero-brand" id="siteTitle" data-edit="title">Gaeo</span>
             <button type="button" class="pwa-btn" id="pwaAddBtn">앱처럼 설치</button>
           </div>
-          <h1 class="hero-title">달라진 흐름만 빠르게</h1>
-          <p class="tagline" data-edit="tagline"><span class="tagline-line">5가지 관점으로 오늘 판단을 살펴보고,</span><span class="tagline-line">어제와 달라진 이유를 쉬운 말로 확인하세요</span></p>
-          <p class="hero-intro">Gaeo(개오)는 코스피·코스닥 주요 종목을 매일 같은 규칙으로 분석해 BUY·HOLD·SELL 판단과 그 근거를 공개하는 리서치 사이트입니다. 기술·재무·확률통계·수급 네 관점의 점수를 종합하고, 어제와 달라진 판단은 이유와 함께 기록합니다. 과거 판단이 실제로 맞았는지는 성적표와 모의투자 기록으로 검증하며, 모든 내용은 투자 권유가 아닙니다. <a href="about.html">사이트 소개</a> · <a href="disclaimer.html">데이터 출처와 면책</a> · <a href="snap/index.html">전체 글 목록</a></p>
+          <h1 class="hero-title">한국 주식, 달라진 판단부터</h1>
+          <p class="tagline" data-edit="tagline"><span class="tagline-line">코스피·코스닥 약 600종목의 최근 거래일 판단 변화를 살펴봅니다.</span></p>
+          <p class="hero-intro">판단이 달라진 근거와 기준 시각을 함께 공개합니다. 모든 종목은 같은 규칙으로 자동분석하고, 일부 지정 정밀 리서치만 AI 보조로 작성합니다. 실제 결과와 비교해 기록 중이며 투자 권유가 아닙니다. <a href="about.html">사이트 소개</a> · <a href="disclaimer.html">데이터 출처와 면책</a> · <a href="snap/index.html">전체 글 목록</a></p>
           <div class="hero-actions">
-            <button class="hero-action primary" id="heroLatestBtn" type="button">최신 자료 확인하기</button>
-            <button class="hero-action" id="heroChangesBtn" type="button">가이드북 보기</button>
+            <button class="hero-action" id="heroLatestBtn" type="button">최근 분석 10개 보기</button>
+            <button class="hero-action" id="heroChangesBtn" type="button">분석 기준 보기</button>
           </div>
           <span class="badge" id="hbadge">시세 확인 중</span>
         </div>
       </header>
       <article class="hero-search-card">
         <span class="start-kicker">먼저</span>
-        <h2>내 종목 찾기</h2>
+        <h2>회사 이름으로 바로 찾기</h2>
         <div class="home-search-panel" id="homeSearchPanel">
           <div class="home-search-row">
             <div class="ac-wrap">
@@ -4731,7 +4776,7 @@
             </div>
             <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
           </div>
-          <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부만 입력해도 후보가 나와요.</p>
+          <p class="home-search-help" id="homeSearchHelp" aria-live="polite">회사 이름 일부나 업종을 입력하면 바로 분석으로 이동합니다.</p>
         </div>
         <div class="home-watch">
           <span class="home-watch-label" id="homeWatchLabel">★ 관심종목</span>
@@ -16109,23 +16154,62 @@ window.hangulFix=function(str){
     {toggle:document.getElementById('viewsBadge'),panel:document.getElementById('activityBoard'),
       close:document.getElementById('activityClose')}
   ];
-  function closeInfoModals(){
-    infoModals.forEach(m=>{ if(m.panel) m.panel.hidden=true; });
+  let activeInfoModal=null;
+  const infoReturnTarget=document.getElementById('navProfileToggle');
+  const infoFocusableSelector='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  function setInfoBackgroundInert(active,panel=null){
+    [...document.body.children].forEach(element=>{
+      const containsPanel=panel&&(element===panel||element.contains(panel));
+      if(element===gaeoBackdrop||containsPanel) return;
+      element.inert=active;
+    });
+  }
+  function closeInfoModals(restoreFocus=true){
+    const hadOpen=infoModals.some(m=>m.panel&&!m.panel.hidden);
+    infoModals.forEach(m=>{
+      if(m.panel) m.panel.hidden=true;
+      if(m.toggle) m.toggle.setAttribute('aria-expanded','false');
+    });
     if(gaeoBackdrop) gaeoBackdrop.hidden=true;
+    setInfoBackgroundInert(false);
+    activeInfoModal=null;
+    if(restoreFocus&&hadOpen) requestAnimationFrame(()=>infoReturnTarget?.focus());
   }
   infoModals.forEach(m=>{
     if(!m.toggle||!m.panel) return;
-    m.toggle.onclick=()=>{ closePanels(); closeInfoModals(); m.panel.hidden=false; if(gaeoBackdrop) gaeoBackdrop.hidden=false; };
+    m.toggle.onclick=()=>{
+      closePanels();
+      closeInfoModals(false);
+      m.panel.hidden=false;
+      m.toggle.setAttribute('aria-expanded','true');
+      if(gaeoBackdrop) gaeoBackdrop.hidden=false;
+      activeInfoModal=m;
+      setInfoBackgroundInert(true,m.panel);
+      requestAnimationFrame(()=>{ if(m.close) m.close.focus(); else m.panel.focus(); });
+    };
     if(m.close) m.close.onclick=closeInfoModals;
   });
   if(gaeoBackdrop) gaeoBackdrop.onclick=closeInfoModals;
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeInfoModals(); });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&activeInfoModal){ e.preventDefault(); closeInfoModals(); return; }
+    if(e.key!=='Tab'||!activeInfoModal) return;
+    const panel=activeInfoModal.panel;
+    const focusable=[...panel.querySelectorAll(infoFocusableSelector)]
+      .filter(element=>element.getClientRects().length&&!element.hidden);
+    if(!focusable.length){ e.preventDefault(); panel.focus(); return; }
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(e.shiftKey&&(document.activeElement===first||!panel.contains(document.activeElement))){
+      e.preventDefault(); last.focus();
+    }else if(!e.shiftKey&&document.activeElement===last){
+      e.preventDefault(); first.focus();
+    }
+  });
   // 「오늘 시장부터/내 종목 확인/금액 직접 계산」이나 인기 글을 누르면, 이동을 보여주기 위해 모달부터 닫는다.
   const activityBoardEl=document.getElementById('activityBoard');
   if(activityBoardEl){
     activityBoardEl.addEventListener('click',e=>{
       if(e.target.closest('.activity-path-item')||e.target.closest('.activity-popular-item')){
-        setTimeout(closeInfoModals,60);
+        setTimeout(()=>closeInfoModals(false),60);
       }
     });
   }

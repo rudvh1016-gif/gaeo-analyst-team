@@ -37,10 +37,9 @@ function check(name, condition, detail) {
   if (!condition) failures.push(name);
 }
 
-// 브랜드 로고·히어로 타이틀은 굵기 예외를 허용한다(디자인 계약과 동일 기준).
-// briefTitle(홈 「현재 기준 브리핑」)은 2026-08-18 사용자 지정으로 700을 쓴다.
+// 브랜드 로고·대표 히어로 타이틀만 굵기 예외를 허용한다(디자인 계약과 동일 기준).
 const WEIGHT_EXEMPT = ['global-brand-word', 'hero-brand', 'hero-title'];
-const WEIGHT_EXEMPT_IDS = ['briefTitle'];
+const WEIGHT_EXEMPT_IDS = [];
 
 async function auditMode(page, mode, width) {
   await page.evaluate(m => { try { window.setMode(m); } catch (e) {} }, mode);

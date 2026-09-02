@@ -1,5 +1,7 @@
 const { chromium } = require('./test_playwright');
+const fs = require('fs');
 let browser;
+const SHELL_CACHE = /const CACHE\s*=\s*['"]([^'"]+)['"]/.exec(fs.readFileSync('sw.js', 'utf8'))?.[1];
 
 function check(condition, message) {
   if (!condition) throw new Error(message);
@@ -36,6 +38,7 @@ async function head(page) {
     check(await page.locator('.archive-notice').isVisible(), 'old lesson archive notice visible');
 
     await page.addInitScript(() => {
+      localStorage.setItem('gaeo_analytics_consent_v1', 'granted');
       Object.defineProperty(navigator, 'share', { configurable: true, value: async (data) => { window.__shared = data; } });
     });
     await page.goto(`${base}/?m=news&id=63`, { waitUntil: 'networkidle' });
@@ -108,14 +111,33 @@ async function head(page) {
       check(calculatorEvents.start === 1 && calculatorEvents.complete === 1, 'calculator analytics event counts');
       check(!Object.keys(calculatorEvents.completeParams).some(key => /amount|income|salary|principal|query|search/i.test(key)), 'calculator analytics includes personal inputs');
 
-      const swState = await page.evaluate(async () => {
+      // 서비스워커는 외부 요청 차단용 page.route와 분리한 새 context에서 확인한다.
+      // Playwright routing이 서비스워커 등록을 가로막는 환경 차이를 제품 실패로 오인하지 않는다.
+      const swContext = await browser.newContext({ serviceWorkers: 'allow' });
+      const swPage = await swContext.newPage();
+      await swPage.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
+      await swPage.goto(`${base}/`, { waitUntil: 'load' });
+      const swState = await swPage.evaluate(async () => {
         const registration = await Promise.race([
           navigator.serviceWorker.ready,
-          new Promise(resolve => setTimeout(() => resolve(null), 5000)),
+          new Promise(resolve => setTimeout(() => resolve(null), 10000)),
         ]);
-        return { active: Boolean(registration && registration.active), caches: await caches.keys() };
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        return {
+          active: Boolean(registration && registration.active),
+          caches: await caches.keys(),
+          isSecureContext,
+          registrations: registrations.map(item => ({
+            scope: item.scope,
+            installing: item.installing?.state || null,
+            waiting: item.waiting?.state || null,
+            active: item.active?.state || null,
+          })),
+        };
       });
-      check(swState.active && swState.caches.includes('gaeo-shell-v16'), 'service worker current shell cache');
+      await swContext.close();
+      check(swState.active && swState.caches.includes(SHELL_CACHE),
+        `service worker current shell cache expected=${SHELL_CACHE} state=${JSON.stringify(swState)}`);
     }
     await page.close();
   }

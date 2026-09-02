@@ -59,6 +59,7 @@ function baseFixture(overrides) {
   // 문제를 실측으로 확인함). 테스트 컨텍스트는 항상 SW를 꺼서 라우트 mock이 실제로 먹히게 한다.
   async function newTestPage(browser, viewport) {
     const context = await browser.newContext({ serviceWorkers: 'block', viewport });
+    await context.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     return context.newPage();
   }
 
