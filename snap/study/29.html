@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">반도체 파운드리 · AI 반도체 · 대만 · 뉴욕증권거래소(ADR)</span>
     <h1 class="daum-wm-title">TSMC</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">TSMC(대만반도체)는 애플·엔비디아 등이 설계한 반도체를 대신 생산하는 세계 1위 파운드리(위탁생산) 기업이에요. 2026년 2분기 매출·이익이 모두 역대 최대치를 새로 썼고 미국 애리조나 공장에 1,000억 달러를 추가 투자했지만, 실적 발표 다음 날 주가는 약 7% 급락하며 기대치 부담을 드러냈어요. AI 반도체 슈퍼사이클과 2나노 공정 독주가 호재로, 밸류에이션 부담과 삼성전자의 추격이 관전 포인트로 꼽혀요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -88,7 +91,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>TSMC는 특정 스마트폰이나 AI 회사가 아니라, 그 뒤에서 실제 칩을 만들어주는 「반도체 생산의 심장」 같은 존재라는 점을 기억하세요.</li><li>실적이 아무리 좋아도 이미 주가에 기대감이 많이 반영돼 있으면, 발표 다음 날 오히려 주가가 빠질 수 있다는 점을 이번 2분기 사례로 확인할 수 있어요.</li><li>미국 주식(ADR)이라 원/달러 환율 변동도 원화 환산 수익률에 함께 영향을 준다는 점을 잊지 마세요.</li><li>삼성전자 파운드리와 자주 비교되는 종목이니, 두 회사의 수율·고객사 확보 소식을 함께 챙겨보면 업종 이해에 도움이 돼요.</li><li>결론적으로, TSMC는 AI 시대의 핵심 인프라를 쥔 기업이지만 이미 높아진 기대치와 지정학적 변수를 함께 고려하며 지켜볼 필요가 있는 종목이에요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=29" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=29&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://v.daum.net/v/20260716152750281?f=p" rel="nofollow">다음(종합) — TSMC, 2분기 실적도 날았다…시장 전망 웃돌며 사상 최대(종합)</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/tsmc-q2-2026-earnings-record-112109987.html" rel="nofollow">Yahoo Finance — TSMC Q2 2026 earnings: Record profit, 100 billion dollar Arizona investment</a></li><li><a href="https://mlq.ai/news/tsmc-adds-100b-arizona-investment-as-q2-profit-surges-77-to-record-22b/" rel="nofollow">MLQ News — TSMC Adds 100B Dollar Arizona Investment as Q2 Profit Surges 77% to Record 22B Dollar</a></li><li><a href="https://www.investing.com/equities/taiwan-semicond.manufacturing-co" rel="nofollow">Investing.com — Taiwan Semiconductor Stock Price Today (NYSE: TSM)</a></li><li><a href="https://www.g-enews.com/article/Global-Biz/2026/05/202605121802018659fbbec65dfb_1" rel="nofollow">글로벌이코노믹 — 2나노 수율 1%가 수조 원… TSMC 독식 막을 기업은 나오나(4편)</a></li></ul></div>

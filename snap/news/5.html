@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">암호화폐 · 비트코인 · 이더리움 · 알트코인</span>
     <h1 class="daum-wm-title">비트코인·이더리움·알트코인이 뭐길래? — 탄생부터 최근 하락까지 아주 쉽게</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-17 · 수정 2026-07-17</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 17일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">2009년 「은행 구제금융에 대한 반발」로 태어난 비트코인, 2015년 비탈릭 부테린이 만든 「계약까지 실행하는」 이더리움, 그리고 둘을 뺀 나머지 전부를 뜻하는 알트코인. 최근(2026년 7월) 비트코인은 6월 말 21개월 만의 최저치(약 5만8000달러)를 찍은 뒤 6만~6만3000달러대, 이더리움은 1600~1800달러대에서 약세를 이어가고 있어요. 왜 태어났고, 채굴·반감기·스마트 컨트랙트가 뭔지, 왜 가치가 있다는 건지, 최근엔 왜 떨어졌는지, 앞으로는 어떨지까지 예시와 숫자를 곁들여 아주 쉽게 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -81,7 +84,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>✅ <strong>비트코인</strong> = 2008년 금융위기에 대한 반발로 만들어진, 발행량이 2100만개로 정해진 「디지털 금」. 채굴 경쟁으로 장부를 검증하고, 4년마다 반감기로 공급이 준다.</li><li>✅ <strong>이더리움</strong> = 송금뿐 아니라 계약까지 자동 실행하는 「스마트 블록체인」(2015년, 비탈릭 부테린). 디파이·NFT·스테이블코인이 이 위에서 돌아간다.</li><li>✅ <strong>알트코인</strong> = 비트코인을 뺀 나머지 모든 코인(리플·솔라나·도지 등). 대체로 변동성이 더 크고 위험하다.</li><li>✅ 가치의 근거(희소성·탈중앙화·기관 자금 유입)와 회의론(내재가치 없음·심리에 좌우) <strong>둘 다</strong> 존재한다는 걸 알아두기.</li><li>✅ 최근 하락은 ETF 자금 이탈·금리인하 기대 축소·대형 매도가 <strong>겹친</strong> 결과이지, 어느 한 가지 원인만으로 단정할 수 없다는 것.</li><li>암호화폐는 코스피·코스닥 상장주식과 달리 <strong>가격제한폭(상하한가)도, 거래시간 제한도 없어</strong> 하루 사이 수십 % 등락, 주말 밤사이 폭락도 드물지 않은 자산이에요. 「누가 얼마 벌었다더라」는 소문만 믿고 뛰어들기보다, 왜 오르고 왜 내리는지 원리부터 이해하고 본인이 감당할 수 있는 만큼만 접근하는 게 좋아요. (이 글은 공부·참고용이며, 특정 코인을 사라/팔라는 권유가 아니에요.)</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=5" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=5&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/31.html">SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까</a><a href="https://gaeoteam.com/snap/news/7.html">오픈AI·앤트로픽·키미 3파전 — 세계는 왜 이 세 회사에 열광할까? (feat. HBM 이야기)</a><a href="https://gaeoteam.com/snap/news/6.html">양자역학·양자컴퓨터가 뭐길래? — 원리부터 관련주·먼 미래까지 아주 쉽게</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://intellectia.ai/blog/bitcoin-crash-july-2026-etf-outflows" rel="nofollow">intellectia.ai — Bitcoin Crash July 2026: ETF Outflows Explained</a></li><li><a href="https://www.tradingkey.com/analysis/cryptocurrencies/btc/261945885-crypto-bitcoin-btc-price-crashing-usd-strategy-fed-tradingkey" rel="nofollow">TradingKey — Crypto: Bitcoin(BTC) Price Crashing, USD·Strategy·Fed</a></li><li><a href="https://finance.yahoo.com/personal-finance/investing/article/bitcoin-and-ethereum-prices-today-tuesday-july-14-2026-123022806.html" rel="nofollow">Yahoo Finance — Bitcoin and Ethereum Prices Today, Tuesday July 14 2026</a></li><li><a href="https://bitcoinfoundation.org/news/altcoins/bitcoin-crashed-to-58k-what-happens-next-to-btc-and-altcoins-in-july/" rel="nofollow">bitcoinfoundation.org — Bitcoin Crashed to $58K: What Happens Next to BTC and Altcoins in July</a></li><li><a href="https://beincrypto.com/crypto-2026-outlook-bear-market-signals/" rel="nofollow">BeInCrypto — Crypto 2026 Outlook: Bear Market Signals</a></li><li><a href="https://bitcoinfoundation.org/news/ethereum/ethereum-price-prediction-2026/" rel="nofollow">bitcoinfoundation.org — Ethereum Price Prediction 2026</a></li><li><a href="https://m.upbitcare.com/academy/research/38" rel="nofollow">업비트 투자자보호센터 — 이더리움이란 무엇인가</a></li><li><a href="https://news.nate.com/view/20260630n23475" rel="nofollow">네이트뉴스 — 사토시 나카모토와 비트코인 제네시스 블록</a></li></ul></div>

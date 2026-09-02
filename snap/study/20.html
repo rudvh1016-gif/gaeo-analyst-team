@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">2차전지 · ESS · 전고체 배터리 · 전기차</span>
     <h1 class="daum-wm-title">삼성SDI</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">삼성SDI는 전기차용 배터리와 ESS(에너지저장장치), 소형전지, 전자재료를 만드는 국내 2차전지 대표 기업이예요. 2026년 2분기는 증권가 추정 기준 7개 분기 만의 영업이익 흑자 전환이 기대되는 가운데, 전기차 수요 둔화 우려로 최근 주가는 조정을 받아 7월 24일 종가 42만8000원(-8.35%)까지 밀렸어요. AI 데이터센터용 ESS 수주 확대와 2027년 전고체 배터리 양산이 중장기 관전 포인트예요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>삼성SDI는 전기차 배터리와 ESS를 주력으로 하는 회사라 「전기차 시장 분위기」와 「AI 데이터센터 전력 수요」 뉴스를 함께 살펴보면 이해가 쉬워요.</li><li>최근 실적은 적자에서 흑자로 넘어가는 「전환점」 구간에 있어서, 분기 실적 발표 때마다 숫자가 크게 흔들릴 수 있다는 점을 감안해야 해요.</li><li>PER처럼 흔히 쓰는 지표가 지금은 적자 때문에 왜곡돼 있을 수 있으니, PBR·ROE 같은 다른 지표도 함께 봐야 해요.</li><li>52주 주가 밴드가 18만원대부터 82만원대까지로 매우 넓은 만큼, 변동성이 큰 종목이라는 점을 항상 염두에 둬야 해요.</li><li><strong>한 줄로 정리하면, 삼성SDI는 「적자 탈출을 시도하는 2차전지 대표주」로, ESS·전고체 배터리 같은 성장 스토리와 전기차 수요 회복 여부를 함께 지켜봐야 하는 종목이예요.</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=20" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=20&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.smarttoday.co.kr/ko-kr/articles/109664" rel="nofollow">스마트투데이 — 삼성SDI, 2분기 영업이익 흑자 전망..7개 분기만-신영</a></li><li><a href="https://www.etoday.co.kr/news/view/2602983" rel="nofollow">이투데이 — [특징주] 삼성SDI, 9%대 급등, AI 배전망 ESS 수주에 하반기 흑자전환 기대</a></li><li><a href="https://m.finance.daum.net/quotes/A365340/news/stock/20260311120003878" rel="nofollow">다음 금융 — [인터배터리 '26] 삼성SDI 전기차 넘어 ESS·로봇</a></li><li><a href="https://www.press9.kr/news/articleView.html?idxno=72733" rel="nofollow">PRESS9 — 삼성SDI 목표주가 39% 상향…ESS가 이끌 2026년 실적 개선-KB증권</a></li><li><a href="https://rudvh1016-gif.github.io/gaeo-analyst-team/data.js" rel="nofollow">gaeoteam.com data.js — 2026-07-24 종가 시세 데이터</a></li></ul></div>

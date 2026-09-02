@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">건설 · 공공주택·토목 · 코스피</span>
     <h1 class="daum-wm-title">금호건설</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-16 · 수정 2026-07-16</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 16일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">금호건설은 아파트·도로·공항 같은 걸 짓는 종합건설회사예요. 최근 정부의 반도체 메가프로젝트 발표에 수혜주로 묶이며 6천원대이던 주가가 2주 만에 19,380원(52주 신고가)까지 3배 넘게 뛰었다가, 거래소 투자경고·매매정지를 거쳐 다시 급락하는 극심한 롤러코스터를 탔어요. 어떤 회사인지, 왜 이렇게 출렁였는지, 본업(건설)과 옛 계열사 아시아나항공 지분 문제는 어떤 상태인지, 그리고 이런 급등락 뒤에 회복 가능성을 어떻게 따져봐야 하는지 쉽고 구체적으로 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -85,7 +88,7 @@ li{margin-bottom:6px;font-size:15px}
 <p><strong>&quot;금호건설은 본업(건설) 자체는 실적이 개선되고 있지만, 최근 급등은 정책 테마 기대감이 만든 단기 과열 성격이 강했고 거래소도 투자경고·매매정지로 그렇게 판단했어요. 지금은 그 급등분이 되돌려지는 구간으로 보이고, 아시아나항공 지분·부채비율 같은 기존 약점도 남아 있어요. '회복하느냐 마느냐'는 결국 다음 분기 실적과 메가프로젝트가 실제 수주로 이어지는지에 달려 있으니, 숫자로 확인될 때까지는 성급한 판단보다 공시와 실적을 함께 지켜보는 게 안전해요.&quot;</strong></p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=2" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=2&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://news.bizwatch.co.kr/article/real_estate/2026/05/22/0014" rel="nofollow">'중동 리스크'에 금호건설 재무 건전성 휘청인 까닭 (비즈워치)</a></li><li><a href="https://www.ebn.co.kr/news/articleView.html?idxno=1702789" rel="nofollow">금호건설 재무 트리거 된 '아시아나항공 지분' (EBN뉴스)</a></li><li><a href="https://biz.heraldcorp.com/article/10738921" rel="nofollow">금호건설, 1분기 수익성 개선…영업익 두 배 (헤럴드경제)</a></li><li><a href="https://www.news1.kr/finance/market-exr/6212350" rel="nofollow">호남 반도체 메가프로젝트 수혜 기대…금호건설 강세 (뉴스1)</a></li><li><a href="https://www.economicsignal.co.kr/news/articleView.html?idxno=927" rel="nofollow">금호건설 급등 배경과 과천 공공하수처리시설 수주 (경제시그널)</a></li><li><a href="https://v.daum.net/v/20260707201802031?f=p" rel="nofollow">금호건설 투자경고종목 지정 이후 매매거래정지 (다음)</a></li></ul></div>

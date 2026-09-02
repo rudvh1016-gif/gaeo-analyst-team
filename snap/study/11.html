@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">빅테크 · 아이폰·서비스 · 나스닥 · 세계 시총 최상위</span>
     <h1 class="daum-wm-title">애플</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-21 · 수정 2026-07-21</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 21일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">애플은 아이폰·맥·에어팟에 앱스토어·아이클라우드 같은 서비스까지 묶어 파는, 세계에서 가장 값비싼 기업 중 하나예요. 1976년 차고에서 시작해 파산 직전까지 갔다가 아이폰으로 세상을 바꿨고, 지금은 시가총액 약 4.5조 달러로 5조 달러를 넘보고 있어요. 2026년 9월엔 팀 쿡이 물러나고 존 터너스가 새 CEO가 될 예정이라 'AI 시대의 애플'이 시험대에 올랐어요. 과거·현재·미래와 주가 흐름을 한 번에 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -85,7 +88,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li><strong>애플은 '기기 제조사'라기보다 '아이폰 생태계 위에서 서비스로 돈 버는 회사'</strong> 라는 관점으로 보면 이해가 쉬워요.</li><li><strong>9월 CEO 교체(팀 쿡 → 존 터너스)</strong> 와 <strong>AI 전략 성과</strong>가 앞으로의 핵심 관전 포인트예요.</li><li>PER 37배의 <strong>밸류에이션 부담</strong>을 늘 염두에 두세요 — 좋은 회사라도 너무 비싼 값에 사면 수익이 안 날 수 있어요.</li><li>※ 애플은 미국(나스닥) 상장 주식이라, 원화가 아닌 <strong>달러로 거래</strong>되고 <strong>환율(원/달러)</strong> 도 내 수익률에 영향을 줘요.</li><li>한 줄 결론: <strong>&quot;애플은 아이폰 생태계 위에 서비스라는 안정적 수익을 얹어 세계 시총 최상위에 오른 기업이에요. 실적은 견조하지만 PER 37배의 비싼 몸값·AI 경쟁·9월 CEO 교체라는 변수가 함께 있어요 — 화려한 이름값만 보지 말고, AI 성과와 서비스 성장이 그 몸값을 정당화하는지를 지켜보는 게 좋아요.&quot;</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=11" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=11&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://ko.wikipedia.org/wiki/%EC%95%A0%ED%94%8C%EC%9D%98_%EC%97%AD%EC%82%AC" rel="nofollow">위키백과 — 애플의 역사(1976 창업·시총 마일스톤)</a></li><li><a href="https://www.cnbc.com/2026/04/30/apple-aapl-q2-2026-earnings-report.html" rel="nofollow">CNBC — Apple Q2 2026 실적(매출 1,112억 달러·아이폰 +22%)</a></li><li><a href="https://www.fool.com/investing/2026/07/11/prediction-apple-will-be-worth-5-trillion-or-more/" rel="nofollow">Motley Fool — Apple $5조 달러 전망(2026)</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/apple-inc-q2-2026-earnings-001809281.html" rel="nofollow">Yahoo Finance — 팀 쿡 9/1 퇴임·존 터너스 승계, AI 전환기</a></li><li><a href="https://www.kmib.co.kr/article/view.asp?arcid=0012574505" rel="nofollow">국민일보 — 애플 시총 1조 달러 달성의 역사(잡스·쿡)</a></li></ul></div>

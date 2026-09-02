@@ -1,59 +1,173 @@
-// sitemap.xml 재생성 스크립트 — 뉴스분석/종목공부/주식공부/부동산공부에 글이 늘어날 때마다
-// `node generate_sitemap.js`로 다시 실행해 최신 목록을 반영한다.
+// Canonical-only sitemap generator. Dates come from stored production/content data or Git.
+// There is deliberately no "today" fallback: a missing date is either omitted or an error.
 const fs = require('fs');
-
-// 글의 id와 실제 작성일을 함께 읽는다 — lastmod에 글의 진짜 날짜를 써야 구글이 신뢰한다.
-function entries(file, varname) {
-  try {
-    const arr = new Function(fs.readFileSync(file, 'utf8') + ';return ' + varname + ';')();
-    return Array.isArray(arr) ? arr.map(x => ({ id: x.id, date: x.updated || x.date })) : [];
-  } catch (e) { return []; }
-}
-
-function readDeepAnalysisManifest() {
-  try {
-    const value = JSON.parse(fs.readFileSync('deep_analysis_manifest.json', 'utf8'));
-    if (!value || typeof value !== 'object') return { records: [], archivePages: [], stockHubs: [] };
-    return { records: [], archivePages: [], stockHubs: [], ...value };
-  } catch (e) { return { records: [], archivePages: [], stockHubs: [] }; }
-}
+const path = require('path');
+const childProcess = require('child_process');
+const { contentUrl } = require('./growth_urls.js');
 
 const BASE = 'https://gaeoteam.com/';
-const today = new Date().toISOString().slice(0, 10);
-const ymd = d => (/^\d{4}-\d{2}-\d{2}$/.test(String(d || '')) ? d : today);
-const urls = [{ loc: BASE, prio: '1.0', mod: today }, { loc: BASE + 'snap/index.html', prio: '0.5', mod: today },
-  { loc: BASE + 'about.html', prio: '0.4', mod: today }, { loc: BASE + 'contact.html', prio: '0.3', mod: today },
-  { loc: BASE + 'privacy.html', prio: '0.3', mod: today },
-  // 2026-09-02: 이용약관·면책·데이터 출처 페이지(신뢰성 페이지)를 색인 대상에 넣는다.
-  { loc: BASE + 'disclaimer.html', prio: '0.3', mod: today }];
-// changelog.html은 8/14 이후 갱신이 멈춘 과거 버전 정적 페이지라(최신 기록은 사이트 안 메뉴)
-// noindex로 돌리고 sitemap에서도 뺀다 — 검색 가치가 낮은 stale 페이지를 색인 후보에 두지 않는다.
-// 자바스크립트를 실행하지 않는 검색봇도 읽을 수 있는 정적 스냅샷(/snap/...)을 sitemap에 올린다.
-// sitemap, 스냅샷 canonical, 관련 글 내부 링크가 모두 같은 정적 URL을 가리키도록 유지한다.
-// lastmod는 매번 "오늘"로 찍으면 구글이 신뢰하지 않고 무시하므로, 각 글의 실제 작성일을 쓴다.
-const add = (m, folder, list, prio) => list.forEach(x =>
-  urls.push({ loc: BASE + 'snap/' + folder + '/' + x.id + '.html', prio, mod: ymd(x.date) }));
-add('news', 'news', entries('news_analysis.js', 'NEWS_ANALYSIS'), '0.7');
-add('study', 'study', entries('stock_study.js', 'STOCK_STUDY'), '0.6');
-add('lesson', 'lesson', entries('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
-add('estate', 'estate', entries('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
-// 계산기 스냅샷은 도구 착지 페이지라 본문이 200~460단어로 짧다(설명은 있음). 글(뉴스·공부·정밀분석)이
-// 더 가치 있는 색인 대상이므로 우선순위를 한 단계 낮춘다 — 색인은 유지, 순서만 뒤로.
-add('calc', 'calc', entries('calculators.js', 'CALCULATORS'), '0.5');
-const deepManifest = readDeepAnalysisManifest();
-deepManifest.archivePages.forEach(x => urls.push({ loc: x.loc, prio: '0.7', mod: ymd(x.lastmod) }));
-// 종목별 대표 페이지가 "종목명 주가 전망" 검색의 착지점이다. 같은 종목의 날짜별
-// 스냅샷보다 우선순위를 높게 줘서, 구글이 옛 기록 대신 대표 페이지를 고르게 한다.
-deepManifest.stockHubs.forEach(x => urls.push({ loc: x.loc, prio: '0.9', mod: ymd(x.lastmod) }));
-deepManifest.records.forEach(x => urls.push({ loc: x.loc, prio: '0.8', mod: ymd(x.lastmod) }));
-// 개별 종목 자동분석 스냅샷(snap/stock/<code>.html, tickers.js 전체)은 룰엔진이 숫자만 바꿔 찍어내는
-// 템플릿 페이지라 구글 애드센스 품질심사에서 "가치가 별로 없는 콘텐츠"로 잡힐 위험이 커서
-// sitemap·색인 대상에서 제외한다(generate_snapshots.js에서 noindex 메타도 함께 넣음).
-// 사이트 내부 링크(?m=single&code=)로는 계속 접근 가능하며, 검색엔진 색인만 빠진다.
+const HUMAN_SOURCES = [
+  { file: 'news_analysis.js', variable: 'NEWS_ANALYSIS', mode: 'news', priority: '0.7' },
+  { file: 'stock_study.js', variable: 'STOCK_STUDY', mode: 'study', priority: '0.6' },
+  { file: 'stock_lessons.js', variable: 'STOCK_LESSONS', mode: 'lesson', priority: '0.6' },
+  { file: 'estate_lessons.js', variable: 'ESTATE_LESSONS', mode: 'estate', priority: '0.6' },
+  { file: 'calculators.js', variable: 'CALCULATORS', mode: 'calc', priority: '0.5' },
+];
 
-const body = urls.map(u =>
-  '  <url>\n    <loc>' + u.loc.replace(/&/g, '&amp;') + '</loc>\n    <lastmod>' + u.mod + '</lastmod>\n    <priority>' + u.prio + '</priority>\n  </url>'
-).join('\n');
-const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + '\n</urlset>\n';
-fs.writeFileSync('sitemap.xml', xml);
-console.log('sitemap.xml 갱신 완료 —', urls.length, '개 URL');
+function requireDate(value, label) {
+  const text = String(value == null ? '' : value);
+  if (!text) throw new Error(`${label}: missing lastmod date`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) throw new Error(`${label}: invalid lastmod date "${text}"`);
+  const [year, month, day] = text.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) {
+    throw new Error(`${label}: invalid lastmod date "${text}"`);
+  }
+  return text;
+}
+
+function humanLastmod(item, label) {
+  return requireDate(item.updated || item.date, label);
+}
+
+function productionDate(value, label) {
+  const match = /^(\d{4}-\d{2}-\d{2})(?:\s|$)/.exec(String(value == null ? '' : value));
+  if (!match) throw new Error(`${label}: invalid production date "${value || ''}"`);
+  return requireDate(match[1], label);
+}
+
+function loadValue(root, file, variable) {
+  const full = path.join(root, file);
+  try {
+    return new Function(`${fs.readFileSync(full, 'utf8')}; return ${variable};`)();
+  } catch (error) {
+    throw new Error(`${file}: could not load ${variable}: ${error.message}`);
+  }
+}
+
+function loadArray(root, source) {
+  const value = loadValue(root, source.file, source.variable);
+  if (!Array.isArray(value)) throw new Error(`${source.file}: ${source.variable} must be an array`);
+  return value;
+}
+
+function readManifest(root) {
+  const file = path.join(root, 'deep_analysis_manifest.json');
+  let value;
+  try { value = JSON.parse(fs.readFileSync(file, 'utf8')); }
+  catch (error) { throw new Error(`deep_analysis_manifest.json: ${error.message}`); }
+  if (!value || typeof value !== 'object') throw new Error('deep_analysis_manifest.json: expected an object');
+  return { records: [], archivePages: [], stockHubs: [], ...value };
+}
+
+function gitLastmod(root, file, warn) {
+  try {
+    const value = childProcess.execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
+      cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (value) return requireDate(value, file);
+  } catch (_) {}
+  warn(`${file}: reliable Git modified date unavailable; omitting lastmod`);
+  return null;
+}
+
+function maxDate(values) {
+  const present = values.filter(Boolean);
+  return present.length ? present.sort().at(-1) : null;
+}
+
+function validateUrls(urls) {
+  const seen = new Set();
+  for (const entry of urls) {
+    let parsed;
+    try { parsed = new URL(entry.loc); } catch (_) { throw new Error(`invalid URL: ${entry.loc}`); }
+    if (parsed.origin !== 'https://gaeoteam.com') throw new Error(`off-site URL: ${entry.loc}`);
+    if (parsed.search) throw new Error(`query URL is not allowed in sitemap: ${entry.loc}`);
+    if (parsed.pathname.startsWith('/snap/stock/')) throw new Error(`noindex URL is not allowed in sitemap: ${entry.loc}`);
+    if (seen.has(entry.loc)) throw new Error(`duplicate URL in sitemap: ${entry.loc}`);
+    seen.add(entry.loc);
+  }
+  return urls;
+}
+
+function validateLocalFiles(root, urls) {
+  for (const entry of urls) {
+    const parsed = new URL(entry.loc);
+    let relative = decodeURIComponent(parsed.pathname).replace(/^\//, '') || 'index.html';
+    if (relative.endsWith('/')) relative += 'index.html';
+    if (!fs.existsSync(path.join(root, relative))) throw new Error(`missing sitemap target: ${entry.loc}`);
+  }
+}
+
+function xmlEscape(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderSitemap(urls) {
+  const body = urls.map((entry) => {
+    const lastmod = entry.mod ? `\n    <lastmod>${requireDate(entry.mod, entry.loc)}</lastmod>` : '';
+    return `  <url>\n    <loc>${xmlEscape(entry.loc)}</loc>${lastmod}\n    <priority>${entry.prio}</priority>\n  </url>`;
+  }).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+}
+
+function buildUrls(root, warn = console.warn) {
+  const live = loadValue(root, 'data.js', 'LIVE_DATA') || {};
+  const homeDate = productionDate(live.date, 'data.js LIVE_DATA.date');
+  const urls = [{ loc: BASE, prio: '1.0', mod: homeDate }];
+  const humanDates = [];
+
+  for (const source of HUMAN_SOURCES) {
+    for (const item of loadArray(root, source)) {
+      const label = `${source.mode}#${item.id}`;
+      const mod = humanLastmod(item, label);
+      const loc = contentUrl(source.mode, item.id);
+      if (!loc) throw new Error(`${label}: invalid content id`);
+      humanDates.push(mod);
+      urls.push({ loc, prio: source.priority, mod });
+    }
+  }
+
+  const deepManifest = readManifest(root);
+  const deepDates = [];
+  const deepGroups = [
+    ['archivePages', deepManifest.archivePages, '0.7'],
+    ['stockHubs', deepManifest.stockHubs, '0.9'],
+    ['records', deepManifest.records, '0.8'],
+  ];
+  for (const [group, items, priority] of deepGroups) {
+    for (const item of items) {
+      const mod = requireDate(item.lastmod, `deep ${group} ${item.loc || '(missing URL)'}`);
+      deepDates.push(mod);
+      urls.push({ loc: item.loc, prio: priority, mod });
+    }
+  }
+
+  urls.splice(1, 0, {
+    loc: `${BASE}snap/index.html`, prio: '0.5', mod: maxDate([...humanDates, ...deepDates]),
+  });
+  for (const [file, priority] of [
+    ['about.html', '0.4'], ['contact.html', '0.3'], ['privacy.html', '0.3'], ['disclaimer.html', '0.3'],
+  ]) {
+    urls.push({ loc: `${BASE}${file}`, prio: priority, mod: gitLastmod(root, file, warn) });
+  }
+  validateUrls(urls);
+  validateLocalFiles(root, urls);
+  return urls;
+}
+
+function main() {
+  try {
+    const root = __dirname;
+    const urls = buildUrls(root, (message) => console.warn(`sitemap warning: ${message}`));
+    fs.writeFileSync(path.join(root, 'sitemap.xml'), renderSitemap(urls));
+    console.log('sitemap.xml 갱신 완료:', urls.length, 'canonical URL');
+    return 0;
+  } catch (error) {
+    console.error(`sitemap generation failed: ${error.message}`);
+    return 1;
+  }
+}
+
+module.exports = { requireDate, productionDate, humanLastmod, gitLastmod, maxDate, validateUrls, validateLocalFiles, renderSitemap, buildUrls };
+if (require.main === module) process.exitCode = main();

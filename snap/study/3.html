@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">전력기기 · 변압기·배전반 · 코스피</span>
     <h1 class="daum-wm-title">HD현대일렉트릭</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-16 · 수정 2026-07-16</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 16일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">HD현대일렉트릭은 초고압 변압기·배전반 같은 전력설비를 만들어 미국 등 해외에 수출하는 회사예요. AI데이터센터·북미 전력망 투자 붐을 타고 올해 5월 한때 142만원까지 치솟았던 주가가 지금은 78만원대까지 45% 넘게 밀렸어요. 무슨 일을 하는 회사인지, 왜 이렇게 많이 올랐다가 떨어졌는지, 실적과 수주는 실제로 어떤지, 앞으로 회복 여지가 있는지를 지금까지의 5인 분석과 최신 뉴스를 바탕으로 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li><strong>다음 분기(2분기) 실적 발표</strong> — 정확한 날짜는 아직 확정되지 않았어요. 발표 전 증권사 프리뷰나 공시로 재확인하는 게 안전해요.</li><li><strong>증권사 목표주가 조정 여부</strong> — 이번 급락을 반영한 새 리포트가 나오는지 지켜보면, 지금 주가 수준이 싼지 비싼지 판단하는 데 도움이 돼요.</li><li><strong>20일선(90만 8,700원대)·60일선(107만원대) 회복 여부</strong> — 이 선들을 다시 넘어서는지가 추세 전환의 기술적 신호가 될 수 있어요.</li><li>한 줄 결론: <strong>&quot;HD현대일렉트릭은 실적과 수주라는 본업 자체는 여전히 견조하지만, 주가는 5월 고점이 만든 과열이 서서히 풀리는 긴 조정 구간에 있어요. 회복 여부는 결국 다음 분기 실적이 지금의 높은 기대(밸류에이션)를 뒷받침하는지에 달려 있으니, 성급히 판단하기보다 실적 발표와 증권사 리포트를 함께 지켜보는 게 안전해요.&quot;</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=3" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=3&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://news.jkn.co.kr/post/937833" rel="nofollow">HD현대일렉, 실적 전망 정정 공시 속 장중 약세 (재경일보)</a></li><li><a href="https://www.topstarnews.net/news/articleView.html?idxno=16122247" rel="nofollow">HD현대일렉트릭 주가, 7월 3일 장중 5.16% 하락 (톱스타뉴스)</a></li><li><a href="https://www.huffingtonpost.kr/article/257871" rel="nofollow">HD현대일렉트릭 2분기도 실적·수주 모두 호조, 유안타증권 (허핑턴포스트코리아)</a></li><li><a href="https://www.g-enews.com/article/Industry/2026/07/2026070215111126753084322ec9_1" rel="nofollow">빅테크가 찜한 K-변압기…HD현대일렉트릭, 1.1조 북미 데이터센터 수주 (글로벌이코노믹)</a></li><li><a href="https://news.nate.com/view/20260507n24070" rel="nofollow">HD현대일렉, 1730억 규모 초고압 변압기 공급 계약 (네이트뉴스)</a></li></ul></div>

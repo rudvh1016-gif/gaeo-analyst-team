@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">빅테크 · AI · 클라우드 · 나스닥</span>
     <h1 class="daum-wm-title">알파벳</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">알파벳은 구글 검색·유튜브·구글클라우드를 거느린 세계 3위권 시가총액의 빅테크 기업이에요. 2026년 2분기 매출이 24% 늘고 구글클라우드가 82% 성장하며 실적은 예상을 크게 웃돌았지만, 설비투자 전망치를 1,950억~2,050억 달러로 늘린다는 소식과 제미나이 3.5 프로 출시 지연 이슈가 겹치며 주가는 실적 발표 이후 300달러 후반대에서 310달러대로 밀렸어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>알파벳은 검색·유튜브 광고로 안정적으로 돈을 벌면서, 구글클라우드와 AI로 새로운 성장을 노리는 회사라는 큰 그림을 기억해요.</li><li>최근 실적은 매출·이익 모두 예상을 웃돌았지만, 급증한 설비투자와 제미나이 모델 출시 지연 이슈 때문에 오히려 주가가 하락했다는 「실적은 좋은데 주가는 빠진」 상황을 이해해 두면 좋아요.</li><li>PER 같은 밸류에이션 지표를 볼 때는 일회성 이익이 섞인 TTM 수치보다 포워드(예상) 수치를 함께 참고하는 습관을 들여요.</li><li>애플리테이션(성적표)만 보지 말고, 설비투자 규모나 잉여현금흐름처럼 「미래를 위해 얼마나 많은 돈을 쓰고 있는지」도 함께 살펴보는 게 빅테크 기업을 이해하는 핵심 포인트예요.</li><li>한 줄 결론: 알파벳은 광고라는 튼튼한 본업과 클라우드·AI라는 새로운 성장엔진을 동시에 갖춘 회사지만, 지금은 「막대한 AI 투자 부담」과 「제미나이 경쟁력 우려」라는 두 가지 숙제를 함께 짊어지고 주가의 방향을 시험받고 있는 시기예요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=25" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=25&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.cnbc.com/2026/07/22/google-earnings-q2-goog-live-updates.html" rel="nofollow">CNBC — Alphabet earnings takeaways: Q2 revenue beats, GOOGL stock sinks on 2026 capex hike</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/alphabet-q2-2026-earnings-revenue-203058727.html" rel="nofollow">Yahoo Finance — Alphabet Q2 2026 earnings: revenue up 24%, Cloud surges 82%</a></li><li><a href="https://www.etoday.co.kr/news/view/2606402" rel="nofollow">이투데이 — 구글 알파벳, 2분기 실적 기대 상회⋯시간외서 주가 4%대 약세 [마켓핫]</a></li><li><a href="https://kr.benzinga.com/news/usa/trading/%EC%95%8C%ED%8C%8C%EB%B2%B3-%EA%B5%AC%EA%B8%80-%EC%A0%9C%EB%AF%B8%EB%82%98%EC%9D%B4-%EC%B6%9C%EC%8B%9C-%EC%97%B0%EA%B8%B0-%EB%B3%B4%EB%8F%84%EC%97%90-%EC%A3%BC%EA%B0%80-4-%ED%95%98%EB%9D%BD/" rel="nofollow">Benzinga Korea — 알파벳, 구글 제미나이 출시 연기 보도에 주가 4% 하락</a></li><li><a href="https://www.macrotrends.net/stocks/charts/GOOGL/alphabet/market-cap" rel="nofollow">MacroTrends — Alphabet Market Cap 2012-2026 (GOOGL)</a></li></ul></div>

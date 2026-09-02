@@ -5,6 +5,7 @@
 // 새 글을 등록할 때마다 `node generate_snapshots.js`로 다시 실행한다(generate_sitemap.js와 세트).
 const fs = require('fs');
 const path = require('path');
+const { contentUrl, interactiveContentUrl } = require('./growth_urls.js');
 
 const HERE = __dirname;
 const BASE = 'https://gaeoteam.com/';
@@ -20,6 +21,23 @@ function load(file, varname) {
   try {
     return new Function(fs.readFileSync(path.join(HERE, file), 'utf8') + ';return ' + varname + ';')();
   } catch (e) { return []; }
+}
+
+function productionDate(value, label) {
+  const match = /^(\d{4}-\d{2}-\d{2})(?:\s|$)/.exec(String(value == null ? '' : value));
+  if (!match) throw new Error(`${label}: YYYY-MM-DD production date is required`);
+  return match[1];
+}
+
+const SITE_AS_OF = productionDate((load('data.js', 'LIVE_DATA') || {}).date, 'data.js LIVE_DATA.date');
+const ARCHIVE_AFTER_DAYS = 30;
+
+function archiveNotice(date) {
+  const published = productionDate(date, 'human content date');
+  const ageDays = Math.floor((Date.parse(`${SITE_AS_OF}T00:00:00Z`) - Date.parse(`${published}T00:00:00Z`)) / 86400000);
+  if (ageDays < ARCHIVE_AFTER_DAYS) return '';
+  const [year, month, day] = published.split('-');
+  return `<div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 ${year}년 ${month}월 ${day}일 당시 정보와 자료를 기준으로 작성됐습니다.</div>`;
 }
 
 function esc(s) {
@@ -70,7 +88,7 @@ function bodyToHtml(raw) {
   return html;
 }
 
-function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml, noindex }) {
+function page({ canonicalUrl, title, desc, date, updated, articleType, bodyHtml, backHref, sourcesHtml, tag, relatedHtml, noindex, archiveHtml }) {
   const modified = updated || date;
   // 검색엔진에 보내는 설명은 잘리지 않게 줄이고, 화면에 보이는 요약(.summary)은 원문 그대로 쓴다.
   const sdesc = metaDesc(desc);
@@ -120,15 +138,17 @@ ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="ca
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -149,17 +169,18 @@ li{margin-bottom:6px;font-size:15px}
 <div class="wrap">
   <div class="top"><a href="${BASE}">← ${esc(SITE_NAME)} 홈</a></div>
   <div class="card">
-    ${tag ? '<span class="tag">' + esc(tag) + '</span>' : ''}
+${tag ? '    <span class="tag">' + esc(tag) + '</span>' : ''}
     <h1 class="daum-wm-title">${esc(title)}</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 ${esc(date)} · 수정 ${esc(modified)}</div>
+${archiveHtml ? '    ' + archiveHtml : ''}
     <div class="summary">${esc(desc)}</div>
     <div class="daum-wm-content">
     ${bodyHtml}
     </div>
     <a class="cta" href="${esc(backHref)}" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
-    ${relatedHtml || ''}
-    ${sourcesHtml || ''}
+${relatedHtml ? '    ' + relatedHtml : ''}
+${sourcesHtml ? '    ' + sourcesHtml : ''}
     <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="${BASE}disclaimer.html">데이터 출처·면책조항</a> · <a href="${BASE}about.html">사이트 소개</a></div>
   </div>
 </div>
@@ -193,8 +214,9 @@ const index = [];
 function build(list, kind, folder, titleKey, tagPrefix) {
   for (const item of list) {
     const title = item[titleKey] || item.title || item.name;
-    const canonicalUrl = `${BASE}snap/${folder}/${item.id}.html`;
-    const interactiveUrl = `${BASE}?m=${kind}&id=${item.id}`;
+    const canonicalUrl = contentUrl(kind, item.id);
+    const interactiveUrl = interactiveContentUrl(kind, item.id, { entry: 'snapshot' });
+    if (!canonicalUrl || !interactiveUrl) throw new Error(`${kind}#${item.id}: invalid public URL fields`);
     const html = page({
       canonicalUrl,
       title,
@@ -206,11 +228,12 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       backHref: interactiveUrl,
       sourcesHtml: sourcesToHtml(item.sources),
       tag: item.tag,
+      archiveHtml: archiveNotice(item.date),
       relatedHtml: relatedToHtml([
         ...list.filter(x => x.id !== item.id && item.cat && x.cat === item.cat),
         ...list.filter(x => x.id !== item.id && (!item.cat || x.cat !== item.cat))
       ].slice(0, 3).map(x => ({
-        url: `${BASE}snap/${folder}/${x.id}.html`,
+        url: contentUrl(kind, x.id),
         title: x[titleKey] || x.title || x.name
       }))),
     });
@@ -227,7 +250,7 @@ build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '�
 build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '🏠 부동산공부');
 build(load('calculators.js', 'CALCULATORS'), 'calc', 'calc', 'name', '🧮 계산기');
 
-// ── 💰 500종목 정밀/자동분석 스냅샷 — "OO 전망/주가" 검색 유입을 노리는 개별 종목 랜딩페이지 ──
+// ── 600종목 규칙 기반 자동분석 스냅샷. 검색 색인에서는 제외하고 앱 호환용으로만 유지한다. ──
 // 뉴스·공부 콘텐츠와 달리 매일 시세·분석이 바뀌므로, 러너(update-analysis.yml)가 매 사이클
 // generate_snapshots.js를 다시 실행해 자동 갱신한다(토큰 0 — 이미 계산된 데이터를 템플릿에 채울 뿐).
 function stockFindingsHtml(block) {
@@ -333,12 +356,13 @@ function buildStocks() {
     if (!block || !block.chief) continue;
     const sd = stocksData[code] || {};
     const chief = block.chief;
-    const tierLabel = isPrecision ? '🧠 정밀분석' : '🤖 자동분석';
+    const tierLabel = isPrecision ? 'AI 보조 정밀분석' : '규칙 기반 자동분석';
     const callKr = { BUY: '매수', HOLD: '보유', SELL: '매도' }[chief.call] || chief.call || '—';
-    const priceDate = (DATA.date || '').slice(0, 10) || new Date().toISOString().slice(0, 10);
-    const analysisDate = (block.updated || block.baseAt || AUTO.generatedAt || '').slice(0, 10) || priceDate;
+    const priceDate = productionDate(DATA.date, 'data.js LIVE_DATA.date');
+    const analysisRaw = block.updated || block.baseAt || AUTO.generatedAt || '';
+    const analysisDate = analysisRaw ? productionDate(analysisRaw, `${code} analysis date`) : priceDate;
     const date = priceDate; // JSON-LD·메타에는 더 최신인 시세 기준일을 쓴다
-    const title = `${name}(${code}) 주가 전망: 오늘 개오팀 판단 ${callKr}(${chief.call || '—'})`;
+    const title = `${name}(${code}) 주가: ${tierLabel} 판단 ${callKr}(${chief.call || '—'})`;
     const priceLine = sd.price ? `현재가 ${sd.price.toLocaleString('ko-KR')}원 (${sd.rate > 0 ? '+' : ''}${sd.rate}%)` : '';
     const desc = `${name}(${code}) ${priceLine}. ${tierLabel} 종합판단 ${chief.call || '—'}(${chief.total ?? '—'}점, 확신도 ${chief.confidence ?? '—'}%). ${(chief.reason || '').slice(0, 80)}`;
     let bodyHtml = '';
@@ -371,7 +395,7 @@ function buildStocks() {
           .map(x => ({ url: `${BASE}snap/stock/${x.code}.html`, title: `${x.name} 주가와 오늘 판단 보기` })),
         { url: `${BASE}snap/index.html`, title: `${t.sector || '시장'} 관련 최신 뉴스 보기` }
       ]),
-      // 500종목 자동/정밀 스냅샷은 룰엔진이 숫자만 바꿔 찍어내는 템플릿 페이지라
+      // 600종목 자동/정밀 스냅샷은 룰엔진이 숫자만 바꿔 찍어내는 템플릿 페이지라
       // 구글 애드센스가 "가치가 별로 없는 콘텐츠(자동 생성)"로 판단할 위험이 커서 색인 제외한다.
       // 뉴스분석·주식공부·부동산공부·종목공부·계산기처럼 사람이 직접 쓴 글만 색인되게 유지.
       noindex: true,
@@ -624,4 +648,4 @@ ${archiveListHtml}
 `;
 fs.writeFileSync(path.join(HERE, 'snap/index.html'), indexPage);
 
-console.log(`스냅샷 생성 완료 — ${index.length}건 (news_analysis/stock_study/stock_lessons/estate_lessons) + snap/index.html`);
+console.log(`스냅샷 생성 완료 — ${index.length}건 (news_analysis/stock_study/stock_lessons/estate_lessons/calculators) + snap/index.html`);

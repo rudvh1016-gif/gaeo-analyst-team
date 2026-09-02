@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">IT부품 · MLCC · AI서버 · FC-BGA</span>
     <h1 class="daum-wm-title">삼성전기</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">삼성전기는 카메라모듈로 잘 알려진 삼성그룹 전자부품 계열사로, 최근에는 AI 서버용 MLCC와 FC-BGA 기판 수요 확대에 힘입어 사업 성격이 빠르게 바뀌고 있어요. 2026년 1분기 사상 첫 분기 매출 3조 원 돌파에 이어 2분기도 컨센서스를 웃도는 실적이 예상되지만, 주가는 상반기 급등 이후 7월 들어 하루 7~18%씩 오르내리는 극심한 변동성을 보이고 있어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -97,7 +100,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>삼성전기는 스마트폰 카메라모듈 회사에서 AI 서버 부품(MLCC·FC-BGA) 회사로 사업 성격이 빠르게 바뀌고 있는 중이라는 점을 이해하고 접근해요.</li><li>최근 몇 달간 주가가 몇 배로 뛰었다가 다시 크게 흔들리는 등 변동성이 매우 큰 종목이라는 사실을 반드시 감안해요.</li><li>PER·PBR 등 밸류에이션 지표가 이미 높은 수준이라는 점, 즉 앞으로의 성장 기대가 주가에 많이 선반영돼 있다는 점을 놓치지 말아요.</li><li>분기 실적 발표일과 대형 공급계약 뉴스처럼 주가를 크게 움직이는 이벤트 일정을 스스로 챙겨보는 습관을 들이는 게 좋아요.</li><li>한 줄로 정리하면, 삼성전기는 「AI라는 큰 성장 스토리와 이미 크게 오른 주가·높은 변동성이라는 부담이 함께 공존하는 종목」이라고 할 수 있어요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=14" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=14&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.etnews.com/20260430000212" rel="nofollow">전자신문 — 삼성전기, 2026년 1분기 영업이익 2806억원…전년比 40%↑</a></li><li><a href="https://www.fnnews.com/news/202607241044154380" rel="nofollow">파이낸셜뉴스 — 株토피아: 올해 주가 5배 뛴 삼성전기, 300만원까지 더 오를 것</a></li><li><a href="https://www.cbci.co.kr/news/articleView.html?idxno=591584" rel="nofollow">CBC뉴스 — 삼성전기, 주가 130만원대로 후퇴…양대지수 급락 속 약세</a></li><li><a href="https://www.financialpost.co.kr/news/articleView.html?idxno=265143" rel="nofollow">financialpost — 삼성전기, 2분기 영업이익 4110억원 전망…컨센 상회</a></li><li><a href="https://v.daum.net/v/1RJEuXGhX3" rel="nofollow">다음뉴스 — [특징주] 삼성전기, 글로벌 기업과 공급계약 체결에 7%대 급등</a></li></ul></div>

@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 8월25일 종가, 원전주 랠리에 코스피·코스닥 모처럼 동반 상승</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-25 · 수정 2026-08-25</div>
+
     <div class="summary">코스피는 0.68%, 코스닥은 1.70% 올라 오랜만에 두 지수가 함께 웃었어요. 미국의 원전 공급망 투자 기대에 한전기술이 20% 넘게 뛰고 현대건설·두산에너빌리티도 함께 올랐어요. HBM 기대감에 반도체 장비주도 강세였고, 어제 상한가를 쳤던 한미약품·한미사이언스는 오늘 차익실현 매물에 크게 밀렸어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -84,7 +87,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>8월 27일: 한국은행 금융통화위원회, 현재 기준금리는 연 2.75%예요</li><li>이번 주: 미국 엔비디아 실적 발표, 잭슨홀 연례 회의 예정</li><li>9월 11일: 미국 8월 소비자물가지수(CPI) 발표</li><li>확인할 것: 한전기술·현대건설 등 원전주가 오늘 상승분을 지키는지</li><li>확인할 것: 한미사이언스·신풍제약 등 어제 급등주의 조정이 어디서 멈추는지</li><li>확인할 것: 코스피·코스닥이 오랜만에 함께 오른 흐름이 다음 날도 이어지는지</li><li>한 줄 결론: 지수 등락폭(+0.68%, +1.70%)만 보면 평범해 보이지만, 속을 들여다보면 원전·반도체 장비주가 새로 뜨고 어제 급등했던 바이오·2차전지가 쉬어가는, 순환매가 활발했던 하루였어요</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=55" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=55&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.imaeil.com/page/view/2026082510313286447" rel="nofollow">매일신문, 원전株 동반 강세 한전기술 10%·현대건설 9%↑</a></li><li><a href="https://www.newsis.com/view/NISX20260825_0003761414" rel="nofollow">뉴시스, 한화 인적분할 후 재상장 첫날 20%대 급등</a></li><li><a href="https://news.mtn.co.kr/news-detail/2026082511255884385" rel="nofollow">머니투데이방송, 인적분할 후 거래 재개한 한화 급등 복합기업 디스카운트 해소</a></li><li><a href="https://www.imaeil.com/page/view/2026082413392124623" rel="nofollow">매일신문, 한미약품 3.5조 규모 비만 신약 기술이전 소식에 상한가</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/stock-market-midday-aug-24-163502736.html" rel="nofollow">Yahoo Finance, Stock Market Midday Aug 24 Dow Edges Higher as Chip Weakness Pressures Nasdaq</a></li></ul></div>

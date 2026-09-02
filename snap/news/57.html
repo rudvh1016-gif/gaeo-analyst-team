@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">엔비디아 실적 · HBM4 · 베라 루빈</span>
     <h1 class="daum-wm-title">엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-27 · 수정 2026-08-27</div>
+
     <div class="summary">엔비디아가 2027 회계연도 2분기 매출 962억 2,000만 달러(약 133조 원)와 EPS 2.22달러로 시장 예상을 넘었어요. 진짜 화제는 CFO가 밝힌 내년 매출 70% 성장 가이던스였는데, 다만 이 숫자엔 중국 매출이 통째로 빠져 있고 최근 4개 분기 연속 「실적은 좋아도 다음날 주가는 빠지는」 전례도 있어서 국내 반도체주 영향까지 함께 짚어봤어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -85,7 +88,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>한 줄로 정리하면, 이번 엔비디아 실적의 진짜 핵심은 「얼마나 벌었나」가 아니라 「얼마나 자신 있게 더 벌 거라고 말했나」였어요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=57" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=57&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a><a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a><a href="https://gaeoteam.com/snap/news/32.html">SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.cnbc.com/2026/08/26/nvidia-nvda-earnings-report-q2-2027-live-updates.html" rel="nofollow">CNBC — Nvidia earnings takeaways: Huang forecasts 70% fiscal 2028 revenue growth, far above estimates</a></li><li><a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2026" rel="nofollow">NVIDIA Newsroom — NVIDIA Announces Financial Results for Second Quarter Fiscal 2027</a></li><li><a href="https://www.fool.com/investing/2026/08/25/nvidia-could-grow-revenue-97-and-still-disappoint/" rel="nofollow">The Motley Fool — Nvidia Could Grow Revenue 97% and Still Disappoint Wall Street on Aug. 26</a></li><li><a href="https://www.mt.co.kr/world/2026/08/25/2026082518434315717" rel="nofollow">머니투데이 — 엔비디아, 실적 기대 높은데 주가 기대 낮아…저평가 탈출 조건은?</a></li><li><a href="https://news.tf.co.kr/read/economy/2357535.htm" rel="nofollow">더팩트 — 엔비디아 실적 D-1, '삼전·하닉' 주가 가를 진짜 변수는 컨콜</a></li></ul></div>

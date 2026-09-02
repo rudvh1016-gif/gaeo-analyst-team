@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">은행 · 투자은행·자산관리 · 제이미다이먼 · 뉴욕증권거래소</span>
     <h1 class="daum-wm-title">JP모간체이스</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">JP모간체이스는 소비자금융부터 투자은행·자산관리까지 아우르는 세계 최대 규모의 은행이에요. 2026년 2분기 트레이딩·투자은행 수수료 호황에 비자(Visa) 지분 매각 이익까지 더해져 순이익 211억 달러로 사상 최대치를 찍었고, 주가도 급등하며 시가총액이 1조 달러에 근접했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -96,7 +99,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>JP모간체이스는 소비자금융·투자은행·자산관리를 함께 하는 세계 최대 규모의 종합 은행이에요.</li><li>2026년 2분기에 트레이딩·투자은행 수수료 호황과 비자 지분 매각 이익이 겹치며 역대급 실적을 냈어요.</li><li>실적 발표 후 주가가 단기간에 크게 올라 52주 최고가 부근, 시가총액 1조 달러 근처까지 도달했어요.</li><li>PER 15~16배, PBR 2.4배 안팎으로 은행주 치고는 밸류에이션이 낮지 않은 편이라는 점도 함께 봐야 해요.</li><li>제이미 다이먼 CEO의 후계 구도, 향후 금리·경기 흐름이 앞으로 주가를 좌우할 핵심 변수예요.</li><li>한 줄로 정리하면, JP모간체이스는 「역대급 실적으로 주가가 빛나는 세계 1위 은행이지만, 그만큼 기대치도 높아져 있어 앞으로의 흐름을 차분히 지켜볼 필요가 있는 회사」예요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=33" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=33&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a><a href="https://gaeoteam.com/snap/study/30.html">테슬라</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://finance.yahoo.com/markets/stocks/articles/jpmorgan-chase-q2-2026-earnings-115434127.html" rel="nofollow">Yahoo Finance — JPMorgan Chase Q2 2026 earnings: Record profit on trading surge</a></li><li><a href="https://www.bloomberg.com/news/articles/2026-07-14/jpmorgan-notches-record-profit-on-6-billion-stock-trading-haul" rel="nofollow">Bloomberg — JPMorgan Earnings: Record Profit on $6 Billion Stock-Trading Haul</a></li><li><a href="https://www.techtimes.com/articles/320473/20260714/jpmorgan-shatters-profit-record-spacex-ipo-surge-visa-gain-did-heavy-lifting.htm" rel="nofollow">TechTimes — JPMorgan Shatters Profit Record on SpaceX IPO Surge, but Visa Gain Did Heavy Lifting</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/jpmorgan-q2-2026-record-profit-134803724.html" rel="nofollow">Yahoo Finance — JPMorgan Chase market cap nears $1 trillion after record profit in Q2 2026</a></li></ul></div>

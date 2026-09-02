@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">지주회사 · 보험·철도·에너지 · 워런버핏 · 뉴욕증권거래소</span>
     <h1 class="daum-wm-title">버크셔해서웨이</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">버크셔해서웨이는 워런 버핏이 키운 미국 최대급 지주회사로, 보험·철도(BNSF)·에너지 사업과 애플 등 주식 포트폴리오를 함께 굴려요. 2026년 그렉 에이벨 신임 CEO 체제 첫 분기 영업이익은 18% 늘었지만 현금이 사상 최대 3,970억 달러까지 쌓이며 주가는 최근 1년간 S&amp;P500 대비 부진한 흐름을 보였어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -94,7 +97,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>버크셔는 한 종목에 투자해도 보험·철도·에너지·주식 포트폴리오 등 여러 사업에 동시에 분산 투자하는 효과가 있는 독특한 회사예요.</li><li>배당금을 주지 않기 때문에, 정기적인 현금 배당을 기대하는 투자자보다는 장기 자산가치 성장을 기대하는 투자자에게 더 맞는 성격의 주식이에요.</li><li>워런 버핏에서 그렉 에이벨로의 세대교체가 진행 중인 만큼, 새 경영진의 의사결정을 관심 있게 지켜볼 필요가 있어요.</li><li>순이익 숫자만 보고 「실적이 두 배로 좋아졌다/나빠졌다」고 오해하지 말고, 보유 주식 평가손익을 뺀 「영업이익」이 실제 사업 흐름을 더 잘 보여준다는 점을 기억해두면 좋아요.</li><li><strong>한마디로, 버크셔해서웨이는 화려하진 않지만 보험·철도·에너지라는 튼튼한 본업과 막대한 현금을 무기로 다음 기회를 기다리고 있는, 「거북이처럼 천천히 그러나 꾸준히」를 지향하는 초대형 지주회사예요.</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=31" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=31&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/30.html">테슬라</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.indexbox.io/blog/berkshire-hathaway-q1-2026-results-record-cash-reserves-under-new-ceo-greg-abel/" rel="nofollow">IndexBox — Berkshire Hathaway Q1 2026 Results: Record Cash Reserves Under New CEO Greg Abel</a></li><li><a href="https://www.cnn.com/2026/05/02/business/berkshire-hathaway-earnings-buffett" rel="nofollow">CNN Business — Here's how Berkshire Hathaway did in its first quarter without Warren Buffett as CEO</a></li><li><a href="https://www.insurancebusinessmag.com/us/news/breaking-news/berkshire-hathaway-q1-profit-jumps-as-operating-earnings-climb-18-573857.aspx" rel="nofollow">Insurance Business — Berkshire Hathaway Q1 profit jumps as operating earnings climb 18%</a></li><li><a href="https://www.forbes.com/sites/bill_stone/2026/05/10/berkshire-hathaway-q1-2026-earnings-as-greg-abel-takes-the-wheel/" rel="nofollow">Forbes — Berkshire Hathaway Q1 2026 Earnings As Greg Abel Takes The Wheel</a></li></ul></div>
