@@ -1,12 +1,164 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-02 14:33",
- "priceLabel": "2026-09-02 14:24 장중 · ⚠️ 1종목 지연",
- "count": 511,
+ "generatedAt": "2026-09-02 15:03",
+ "priceLabel": "2026-09-02 15:01 장중 · ⚠️ 1종목 지연",
+ "count": 512,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "290650",
+   "name": "엘앤씨바이오",
+   "title": "투자설명서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "247540",
+   "name": "에코프로비엠",
+   "title": "[기재정정]주요사항보고서(유상증자결정)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "247540",
+   "name": "에코프로비엠",
+   "title": "[발행조건확정]증권신고서(지분증권)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "247540",
+   "name": "에코프로비엠",
+   "title": "투자설명서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "086520",
+   "name": "에코프로",
+   "title": "[기재정정]유상증자결정(종속회사의주요경영사항)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "000640",
+   "name": "동아쏘시오홀딩스",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -50,22 +202,6 @@ const DART_TODAY = {
   {
    "code": "030610",
    "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T05:32:40.179010+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T05:32:40.179010+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T05:32:40.179010+00:00",
@@ -78,14 +214,6 @@ const DART_TODAY = {
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T05:32:40.179010+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T05:32:40.179010+00:00",
-   "isCorrection": false
   },
   {
    "code": "060980",
@@ -128,14 +256,6 @@ const DART_TODAY = {
    "isCorrection": true
   },
   {
-   "code": "247540",
-   "name": "에코프로비엠",
-   "title": "유상증자1차발행가액결정",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "003530",
    "name": "한화투자증권",
    "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
@@ -144,22 +264,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "001200",
    "name": "유진투자증권",
    "title": "투자설명서(일괄신고)",
@@ -171,14 +275,6 @@ const DART_TODAY = {
    "code": "001200",
    "name": "유진투자증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "290650",
-   "name": "엘앤씨바이오",
-   "title": "유상증자1차발행가액결정",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T04:32:41.276611+00:00",
    "isCorrection": false
@@ -280,14 +376,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "247540",
-   "name": "에코프로비엠",
-   "title": "효력발생안내( 2026.8.18. 제출 증권신고서(지분증권) )",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "086520",
    "name": "에코프로",
    "title": "주식등의대량보유상황보고서(일반)",
@@ -371,38 +459,6 @@ const DART_TODAY = {
    "code": "100840",
    "name": "SNT에너지",
    "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
@@ -874,14 +930,6 @@ const DART_TODAY = {
   {
    "code": "003470",
    "name": "유안타증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T05:14:17.915872+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260901",
    "detectedAt": "2026-09-01T05:14:17.915872+00:00",
@@ -1005,14 +1053,6 @@ const DART_TODAY = {
    "title": "단일판매ㆍ공급계약체결",
    "receiptDate": "20260901",
    "detectedAt": "2026-09-01T02:14:35.761851+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T01:44:31.878228+00:00",
    "isCorrection": false
   },
   {
@@ -2256,14 +2296,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T00:25:48.900545+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "000670",
    "name": "영풍",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
@@ -3032,14 +3064,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "247540",
-   "name": "에코프로비엠",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T05:42:27.719437+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "089860",
    "name": "롯데렌탈",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -3752,14 +3776,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T07:01:43.989341+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "068760",
    "name": "셀트리온제약",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -3842,14 +3858,6 @@ const DART_TODAY = {
   {
    "code": "003240",
    "name": "태광산업",
-   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "086520",
-   "name": "에코프로",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T06:31:40.204233+00:00",

@@ -1,32 +1,32 @@
 {
  "status": "READY",
- "asOf": "2026-09-02T05:33:43+00:00",
+ "asOf": "2026-09-02T06:03:44+00:00",
  "kstDay": "2026-09-02",
- "rawCount": 3920,
- "eligibleCount": 2420,
+ "rawCount": 3919,
+ "eligibleCount": 2421,
  "requestCount": 44,
  "quality": {
   "expectedCount": 4307,
   "receivedCount": 4307,
-  "rawCount": 3920,
-  "eligibleCount": 2420,
+  "rawCount": 3919,
+  "eligibleCount": 2421,
   "kospiCount": 2485,
   "kosdaqCount": 1822,
   "duplicateCount": 2,
-  "invalidCodeCount": 385,
+  "invalidCodeCount": 386,
   "missingPriceCount": 0,
   "suspendedCount": 112,
   "excludedCounts": {
    "CLASS_SHARE": 90,
-   "ETF": 864,
+   "ETF": 862,
    "REIT": 21,
    "ETN": 373,
    "SPAC": 40
   },
   "classificationUnknownCount": 0,
   "typeHistogram": {
-   "stock": 2683,
-   "etf": 864,
+   "stock": 2684,
+   "etf": 862,
    "etn": 373
   },
   "coverageRatio": 1.0
