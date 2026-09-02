@@ -1,10 +1,10 @@
 {
- "ranAt": "2026-08-30T03:08:34+00:00",
+ "ranAt": "2026-09-02T01:37:09+00:00",
  "mode": "smoke",
  "markets": {
   "KOSPI": {
    "status": "OK",
-   "totalCount": 2482,
+   "totalCount": 2485,
    "pageRows": 100,
    "topLevelKeys": [
     "localOpenTimeDesc",
@@ -19,39 +19,39 @@
    "stockFields": {
     "accumulatedTradingValue": {
      "nonNullRatio": 1.0,
-     "sample": "3,819,820"
+     "sample": "1,176,758"
     },
     "accumulatedTradingValueKrwHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "3조 8,198억원"
+     "sample": "1조 1,768억원"
     },
     "accumulatedTradingValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "3819820000000"
+     "sample": "1176758000000"
     },
     "accumulatedTradingVolume": {
      "nonNullRatio": 1.0,
-     "sample": "14,698,877"
+     "sample": "4,641,128"
     },
     "accumulatedTradingVolumeRaw": {
      "nonNullRatio": 1.0,
-     "sample": "14698877"
+     "sample": "4641128"
     },
     "closePrice": {
      "nonNullRatio": 1.0,
-     "sample": "257,000"
+     "sample": "253,000"
     },
     "closePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "257000"
+     "sample": "253000"
     },
     "compareToPreviousClosePrice": {
      "nonNullRatio": 1.0,
-     "sample": "-9,000"
+     "sample": "-8,000"
     },
     "compareToPreviousClosePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "-9000"
+     "sample": "-8000"
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
@@ -63,7 +63,7 @@
     },
     "fluctuationsRatio": {
      "nonNullRatio": 1.0,
-     "sample": "-3.38"
+     "sample": "-3.07"
     },
     "itemCode": {
      "nonNullRatio": 1.0,
@@ -79,23 +79,23 @@
     },
     "localTradedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-08-28T16:10:19+09:00"
+     "sample": "2026-09-02T10:37:00+09:00"
     },
     "marketStatus": {
      "nonNullRatio": 1.0,
-     "sample": "CLOSE"
+     "sample": "OPEN"
     },
     "marketValue": {
      "nonNullRatio": 1.0,
-     "sample": "15,024,936"
+     "sample": "14,791,085"
     },
     "marketValueHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "1,502조 4,936억원"
+     "sample": "1,479조 1,085억원"
     },
     "marketValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "1502493602256000"
+     "sample": "1479108487824000"
     },
     "nav": {
      "nonNullRatio": 1.0,
@@ -107,7 +107,7 @@
     },
     "overMarketPriceInfo": {
      "nonNullRatio": 0.82,
-     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
+     "sample": "{'tradingSessionType': 'REGULAR_MARKET',"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -151,7 +151,7 @@
     },
     "tradableStatusUpdatedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-08-28T08:01:23.37+09:00"
+     "sample": "2026-09-02T08:01:30.098+09:00"
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,
@@ -161,7 +161,7 @@
   },
   "KOSDAQ": {
    "status": "OK",
-   "totalCount": 1823,
+   "totalCount": 1822,
    "pageRows": 100,
    "topLevelKeys": [
     "localOpenTimeDesc",
@@ -176,39 +176,39 @@
    "stockFields": {
     "accumulatedTradingValue": {
      "nonNullRatio": 1.0,
-     "sample": "195,516"
+     "sample": "132,918"
     },
     "accumulatedTradingValueKrwHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "1,955억원"
+     "sample": "1,329억원"
     },
     "accumulatedTradingValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "195516000000"
+     "sample": "132918000000"
     },
     "accumulatedTradingVolume": {
      "nonNullRatio": 1.0,
-     "sample": "615,333"
+     "sample": "427,944"
     },
     "accumulatedTradingVolumeRaw": {
      "nonNullRatio": 1.0,
-     "sample": "615333"
+     "sample": "427944"
     },
     "closePrice": {
      "nonNullRatio": 1.0,
-     "sample": "320,000"
+     "sample": "312,000"
     },
     "closePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "320000"
+     "sample": "312000"
     },
     "compareToPreviousClosePrice": {
      "nonNullRatio": 1.0,
-     "sample": "8,500"
+     "sample": "11,000"
     },
     "compareToPreviousClosePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "8500"
+     "sample": "11000"
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
@@ -220,7 +220,7 @@
     },
     "fluctuationsRatio": {
      "nonNullRatio": 1.0,
-     "sample": "2.73"
+     "sample": "3.65"
     },
     "itemCode": {
      "nonNullRatio": 1.0,
@@ -236,23 +236,23 @@
     },
     "localTradedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-08-28T16:10:16+09:00"
+     "sample": "2026-09-02T10:37:00+09:00"
     },
     "marketStatus": {
      "nonNullRatio": 1.0,
-     "sample": "CLOSE"
+     "sample": "OPEN"
     },
     "marketValue": {
      "nonNullRatio": 1.0,
-     "sample": "222,896"
+     "sample": "217,324"
     },
     "marketValueHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "22조 2,896억원"
+     "sample": "21조 7,324억원"
     },
     "marketValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "22289642560000"
+     "sample": "21732401496000"
     },
     "nav": {
      "nonNullRatio": 1.0,
@@ -264,7 +264,7 @@
     },
     "overMarketPriceInfo": {
      "nonNullRatio": 0.71,
-     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
+     "sample": "{'tradingSessionType': 'REGULAR_MARKET',"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -308,7 +308,7 @@
     },
     "tradableStatusUpdatedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-08-28T08:02:03.569+09:00"
+     "sample": "2026-09-02T08:02:11.53+09:00"
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,
