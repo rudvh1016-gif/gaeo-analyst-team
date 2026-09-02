@@ -16,6 +16,7 @@ function shotPath(name) {
     headless: true,
   });
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const pageErrors = [];
   const failedRequests = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
@@ -128,6 +129,7 @@ function shotPath(name) {
   const mobileRequests = [];
   mobile.on('request', request => mobileRequests.push(request.url()));
   await mobile.addInitScript(() => {
+    localStorage.setItem('gaeo_analytics_consent_v1', 'denied');
     localStorage.setItem('gaeo-insight-panel-open', 'true');
     localStorage.setItem('gaeo-insight-panel-tab', 'rotation');
   });

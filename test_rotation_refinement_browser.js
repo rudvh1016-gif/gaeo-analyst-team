@@ -35,6 +35,7 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
     headless: true,
   });
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const pageErrors = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
   await page.route('**/*', route => {

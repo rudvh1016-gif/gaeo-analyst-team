@@ -10,6 +10,7 @@ function requireState(condition, message) {
     headless: true,
   });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
 

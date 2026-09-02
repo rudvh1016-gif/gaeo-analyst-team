@@ -58,6 +58,7 @@ function check(name, condition, detail) {
   //    그래서 "안 받는다"가 아니라 **그걸 기다리지 않고도 공시가 뜬다**가 진짜 계약이다.
   //    아래에서 auto_analysis.js를 아예 막아 두고도 위젯이 뜨는지 확인한다.
   const ctx = await browser.newContext({ viewport: { width: 390, height: 1000 }, serviceWorkers: 'block' });
+  await ctx.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const page = await ctx.newPage();
   const errs = [], snapReq = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
@@ -159,6 +160,7 @@ function check(name, condition, detail) {
     `분석 대상 종목 중 공시 보유 ${byCode.size}개 / 전체 공시 ${(snap ? snap.items.length : 0)}건`);
   for (const [code, titles] of targets) {
     const c2 = await browser.newContext({ viewport: { width: 390, height: 1200 }, serviceWorkers: 'block' });
+    await c2.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     const p2 = await c2.newPage();
     const e2 = [];
     p2.on('pageerror', e => e2.push(String(e).slice(0, 160)));
@@ -212,6 +214,7 @@ function check(name, condition, detail) {
   })() : null;
   if (noneCode) {
     const c3 = await browser.newContext({ viewport: { width: 390, height: 1200 }, serviceWorkers: 'block' });
+    await c3.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     const p3 = await c3.newPage();
     await p3.goto(`${BASE}/index.html?m=single&code=${noneCode}`, { waitUntil: 'load' });
     await p3.evaluate(() => document.fonts.ready);

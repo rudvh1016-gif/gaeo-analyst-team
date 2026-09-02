@@ -90,17 +90,14 @@ check("SF Pro 폰트 파일 0건", not sf, str(sf))
 import re as _re
 _weights = _re.findall(r"font-weight:(\d{3})", html)
 _allowed = {"400", "500", "600", "800"}
-# 700은 홈 「현재 기준 브리핑」 제목 한 곳만 예외로 둔다(2026-08-18 사용자 지정 —
-# 홈에서 가장 먼저 읽는 제목이라 한 단계 더 굵게). 다른 데 700이 새로 생기면 잡힌다.
-_BRIEF_BOLD = ".home-daily-brief #briefTitle{font-weight:700}"
-_allowed_once = {"700": (1 if _BRIEF_BOLD in html else 0)}
+# 편집형 foundation부터 700 예외도 없앤다. 제목은 600, 브랜드와 대표 히어로만 800이다.
+_allowed_once = {}
 _bad = sorted(set(w for w in _weights
                   if w not in _allowed and _weights.count(w) > _allowed_once.get(w, 0)))
-check("font-weight는 3단계 tier + 브랜드 800만(브리핑 제목 700 1곳 예외)", not _bad,
+check("font-weight는 3단계 tier + 브랜드·대표 히어로 800만", not _bad,
       f"허용 외: {_bad}")
-check("700은 브리핑 제목 한 곳뿐", _weights.count("700") <= 1,
+check("font-weight 700 없음", _weights.count("700") == 0,
       f"700이 {_weights.count('700')}곳")
-check("그 700이 실제로 브리핑 제목 규칙이다", _weights.count("700") == 0 or _BRIEF_BOLD in html)
 check("브랜드 예외(800)는 소수(≤5)", _weights.count("800") <= 5,
       f"800이 {_weights.count('800')}곳")
 check("font-weight:900 없음", "font-weight:900" not in html)

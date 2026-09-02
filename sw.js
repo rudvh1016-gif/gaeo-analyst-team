@@ -1,8 +1,8 @@
-// ⚠️ SHELL에 tickers.js가 들어 있다. 종목 목록이 바뀌면(500 → 600) 이 버전을 올려야
-//    오프라인 상태에서 쓰이는 precache 사본도 새 목록으로 교체된다.
+// ⚠️ SHELL에 tickers.js와 화면 CSS가 들어 있다. 종목 목록이나 shell asset이 바뀌면
+//    버전을 올려야 오프라인 상태에서 쓰이는 precache 사본도 새 파일로 교체된다.
 //    (온라인에서는 아래 changesOften 규칙이 .js를 network-first로 받으므로 문제없다.
 //     그래서 캐시를 매번 깨지 않고, 목록이 실제로 바뀔 때만 버전을 올린다.)
-const CACHE = 'gaeo-shell-v17';
+const CACHE = 'gaeo-shell-v18';
 const SHELL = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const SHELL = [
   './public_release_safety.js',
   './product_analytics.js',
   './insight-rail.css',
+  './editorial-foundation.css',
   './insight-rail.js',
   './manifest.json',
   // 화면이 실제로 쓰는 축소본만 미리 받는다. 원본(910x882 · PNG 1.2MB / WebP 737KB)은
