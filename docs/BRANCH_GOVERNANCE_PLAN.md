@@ -1,7 +1,7 @@
 # GAEO main 브랜치 거버넌스 도입 계획
 
-감사일: 2026-09-02 KST  
-감사 기준: `origin/main` `3704c7e1c77c893e049814f04183d0eab659f57b`  
+감사일: 2026-09-02 KST
+감사 기준: `origin/main` `3704c7e1c77c893e049814f04183d0eab659f57b`
 상태: 계획만 작성함. 저장소 설정은 변경하지 않음.
 
 ## 1. 현재 상태
@@ -61,7 +61,7 @@ Pages 배포 -> main 코드 + data-live 최신 데이터 -> 배포 artifact
 
 ## 4. 권장 ruleset
 
-Ruleset 이름: `main-release-safety`  
+Ruleset 이름: `main-release-safety`
 대상: 기본 브랜치 `main`
 
 1. 첫 주에는 `Evaluate`로 만들고 위반 기록만 관찰한다.
@@ -161,4 +161,3 @@ GitHub의 ruleset은 여러 규칙을 함께 적용하고 evaluate 상태에서 
 10. 전환과 shadow 검증이 끝난 뒤 Enforcement status를 `Active`로 변경한다.
 
 브랜치 보호는 force push 허용과 삭제 허용을 별도로 제어한다. 공식 설명: [protected branches 관리](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
-

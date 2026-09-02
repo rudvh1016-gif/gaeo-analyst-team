@@ -30,4 +30,3 @@
 
   return {CONSENT_KEY,hasMeasurementConsent,buildPublishRequest};
 });
-
