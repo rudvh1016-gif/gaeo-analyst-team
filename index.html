@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="full-market.css?v=20260818-v4" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
+<script src="public_release_safety.js?v=20260902-p0"></script>
 <script>
   // 정적 사이트용 익명 활동 집계. 사람을 식별하지 않고 브라우저 세션 단위의
   // 방문·콘텐츠 이용 신호만 저장한다.
@@ -102,6 +103,7 @@
       return counterValue((await r.text()).trim());
     }
     async function request(name,increment=false){
+      if(!window.GaeoReleaseSafety.hasMeasurementConsent(localStorage)) return finish(name,0);
       if(PREVIEW_HOST) increment=false; // 로컬 검사 화면이 실제 운영 숫자를 올리지 않게 한다.
       const base=await metricsBase(), key=keyPath(name);
       if(increment){
@@ -129,6 +131,7 @@
     const dailyName=(name,offset=0)=>`d-${dayKey(offset)}-${name}`;
     async function event(name,options){
       options=options||{};
+      if(!window.GaeoReleaseSafety.hasMeasurementConsent(localStorage)) return null;
       const once=options.onceKey&&`gaeo_metric_${dayKey()}_${options.onceKey}`;
       if(once&&sessionStorage.getItem(once)==='1') return read(dailyName(name));
       try{
@@ -138,29 +141,35 @@
       }catch(e){ return null; }
     }
     async function startVisit(onUpdate){
+      const canCollect=window.GaeoReleaseSafety.hasMeasurementConsent(localStorage);
+      const fallback=visitSnapshot();
+      if(!canCollect){
+        const visit={...fallback,exactTotal:false,exactToday:false};
+        if(typeof onUpdate==='function') onUpdate(visit);
+        return visit;
+      }
       const totalDone=sessionStorage.getItem('gaeo_view_counted')==='1';
       const dailyFlag=`gaeo_daily_counted_${dayKey()}`;
       const dailyDone=sessionStorage.getItem(dailyFlag)==='1';
-      const fallback=visitSnapshot();
-      if(!totalDone) sessionStorage.setItem('gaeo_view_counted','1');
-      if(!dailyDone) sessionStorage.setItem(dailyFlag,'1');
+      if(canCollect&&!totalDone) sessionStorage.setItem('gaeo_view_counted','1');
+      if(canCollect&&!dailyDone) sessionStorage.setItem(dailyFlag,'1');
       const settle=async(promise,value)=>{
         try{ return {value:await promise,exact:true}; }
         catch(e){ return {value,exact:false}; }
       };
       const notify=patch=>{ if(typeof onUpdate==='function') onUpdate(patch); };
-      const totalPromise=settle(request(TOTAL_KEY,!totalDone),fallback.total).then(result=>{
+      const totalPromise=settle(request(TOTAL_KEY,canCollect&&!totalDone),fallback.total).then(result=>{
         notify({total:Math.max(VERIFIED_TOTAL_FLOOR,result.value),exactTotal:result.exact});
         return result;
       });
-      const todayPromise=settle(request(dailyName('visits'),!dailyDone),fallback.today).then(result=>{
+      const todayPromise=settle(request(dailyName('visits'),canCollect&&!dailyDone),fallback.today).then(result=>{
         notify({today:Math.max(1,result.value),exactToday:result.exact&&result.value>0});
         return result;
       });
       let firstSeen=false;
-      try{ firstSeen=!!localStorage.getItem('gaeo_first_seen'); }catch(e){}
+      if(canCollect){ try{ firstSeen=!!localStorage.getItem('gaeo_first_seen'); }catch(e){} }
       let newDevicePromise;
-      if(!firstSeen){
+      if(canCollect&&!firstSeen){
         try{ localStorage.setItem('gaeo_first_seen',new Date().toISOString()); }catch(e){}
         newDevicePromise=request(dailyName('new-device'),true);
       }else newDevicePromise=read(dailyName('new-device'));
@@ -173,7 +182,7 @@
         exactTotal:values[0].exact,
         exactToday:values[1].exact&&values[1].value>0
       };
-      saveVisitSnapshot(visit);
+      if(canCollect) saveVisitSnapshot(visit);
       return visit;
     }
     async function series(name,days=7){
@@ -188,6 +197,7 @@
       })));
     }
     function contentView(mode,id,element){
+      if(!window.GaeoReleaseSafety.hasMeasurementConsent(localStorage)) return;
       const once=`content-${mode}-${id}`;
       const flag=`gaeo_content_open_${mode}_${id}`;
       if(sessionStorage.getItem(flag)==='1') return;
@@ -266,8 +276,8 @@
 </script>
 <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script>
 <script src="growth_urls.js?v=20260902-p0"></script>
+<script>window.GAEO_ANALYTICS_CONSENT_REQUIRED=true;</script>
 <script src="product_analytics.js?v=20260902-p0"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -281,8 +291,17 @@
   if(gaeoConsentRequired||gaeoStoredConsent){
     gtag('consent','default',{analytics_storage:gaeoInitialConsent});
   }
-  gtag('js', new Date());
-  gtag('config', 'G-D6PYQ4TXY4');
+  let gaeoAnalyticsLoader=null;
+  function gaeoLoadAnalytics(){
+    if(gaeoAnalyticsLoader) return gaeoAnalyticsLoader;
+    gtag('js',new Date());
+    gtag('config','G-D6PYQ4TXY4');
+    gaeoAnalyticsLoader=document.createElement('script');
+    gaeoAnalyticsLoader.async=true;
+    gaeoAnalyticsLoader.src='https://www.googletagmanager.com/gtag/js?id=G-D6PYQ4TXY4';
+    document.head.appendChild(gaeoAnalyticsLoader);
+    return gaeoAnalyticsLoader;
+  }
   window.GaeoAnalytics=window.GaeoProductAnalytics.createAnalytics({
     gtag:typeof gtag==='function'?gtag:null,
     consentRequired:gaeoConsentRequired,
@@ -292,6 +311,10 @@
     const state=window.GaeoAnalytics.setConsent(next);
     try{ localStorage.setItem('gaeo_analytics_consent_v1',state); }catch(e){}
     try{ gtag('consent','update',{analytics_storage:state}); }catch(e){}
+    if(state==='granted'){
+      gaeoLoadAnalytics();
+      window.dispatchEvent(new Event('gaeo:measurement-consent-granted'));
+    }
     return state;
   };
   window.gaeoTrack=function(name,params,options){
@@ -299,6 +322,23 @@
     if(sent&&name==='stock_search_submit'&&window.GaeoMetrics) window.GaeoMetrics.event('search').catch(()=>{});
     return sent;
   };
+  document.addEventListener('DOMContentLoaded',function(){
+    const prompt=document.createElement('section');
+    prompt.className='consent-prompt';
+    prompt.setAttribute('aria-label','익명 이용 통계 선택');
+    prompt.innerHTML='<p><b>익명 이용 통계</b><br>허용하면 검색어·연락처·포트폴리오 값 없이 이용 흐름만 집계해 서비스를 개선합니다. 선택하지 않아도 모든 콘텐츠를 이용할 수 있어요. <a href="privacy.html">자세히 보기</a></p><div><button type="button" data-consent="denied">필수 기능만</button><button type="button" class="primary" data-consent="granted">익명 통계 허용</button></div>';
+    const settings=document.createElement('button');
+    settings.type='button'; settings.className='consent-settings'; settings.textContent='개인정보 설정';
+    const open=()=>{ prompt.hidden=false; };
+    const close=()=>{ prompt.hidden=true; };
+    prompt.querySelectorAll('[data-consent]').forEach(btn=>btn.onclick=()=>{
+      window.gaeoSetAnalyticsConsent(btn.dataset.consent); close();
+    });
+    settings.onclick=open;
+    document.body.appendChild(prompt); document.body.appendChild(settings);
+    if(gaeoStoredConsent) close();
+  });
+  if(gaeoInitialConsent==='granted') gaeoLoadAnalytics();
 </script>
 <script>
   // 모바일에서 "PC 버전으로 보기"를 저장해둔 경우, 그리기 전에 미리 뷰포트를 넓혀서
@@ -2452,6 +2492,22 @@
   .gb-actions button:hover{color:var(--ink);background:var(--sky-soft)}
   .gb-editbox{width:100%;min-height:60px;border:1px solid var(--sky);border-radius:10px;
     padding:9px 11px;font:inherit;font-size:13px;box-sizing:border-box;resize:vertical}
+  .cm-guest a{color:var(--sky);font-weight:600}
+
+  .consent-prompt{position:fixed;left:16px;right:16px;bottom:16px;z-index:140;max-width:620px;
+    margin:0 auto;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--paper);
+    color:var(--ink);box-shadow:0 14px 40px rgba(0,0,0,.18);display:flex;gap:16px;align-items:center}
+  .consent-prompt[hidden]{display:none}
+  .consent-prompt p{flex:1;margin:0;font-size:12.5px;line-height:1.65;color:var(--t2)}
+  .consent-prompt p b{color:var(--ink)}
+  .consent-prompt p a{color:var(--sky)}
+  .consent-prompt div{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+  .consent-prompt button,.consent-settings{border:1px solid var(--line);border-radius:9px;padding:8px 11px;
+    background:var(--paper2);color:var(--ink);font:inherit;font-size:11.5px;font-weight:600;cursor:pointer}
+  .consent-prompt button.primary{border-color:var(--navy);background:var(--navy);color:#fff}
+  .consent-settings{position:fixed;right:12px;bottom:12px;z-index:80;padding:6px 9px;color:var(--dim);
+    background:var(--paper);box-shadow:var(--shadow-sm)}
+  @media(max-width:620px){.consent-prompt{align-items:stretch;flex-direction:column}.consent-prompt div{justify-content:stretch}.consent-prompt button{flex:1}}
 
   /* ── 비밀번호 입력 모달 (●●● 마스킹) ── */
   .pwm{position:fixed;inset:0;z-index:200;background:rgba(8,47,82,.45);
@@ -4631,7 +4687,7 @@
       <span>투자 가이드 <b id="activityGuides">—</b>개</span>
       <span>계산기 <b id="activityCalcs">—</b>개</span>
       <span>최근 데이터 <b id="activityUpdated">확인 중</b></span>
-      <span class="activity-count-note" id="activityCountNote">+ 표시는 집계 연결 중 확인된 최소 횟수예요.</span>
+      <span class="activity-count-note" id="activityCountNote">공개 익명 카운터의 대략적인 값이며 검증된 순사용자 수가 아니에요. + 표시는 확인된 최소 횟수예요.</span>
     </div>
   </div>
   <div class="activity-popular">
@@ -7769,7 +7825,7 @@ function renderScorecard(){
     const bestA=ranked[0], worstA=ranked[ranked.length-1];
     const team=TW.global.team;
     const teamNote=(team&&team.acc!=null)
-      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}도 ${bestA.acc}%인데, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 한 명의 관점만 따르는 것보다 서로 다른 관점을 종합할 때 더 정확해진다는 뜻이에요.</div>`
+      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}는 ${bestA.acc}%이고, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 같은 기록 구간에서 관측된 값이며, 여러 관점을 합치는 방식이 앞으로도 더 정확하다는 증명은 아니에요.</div>`
       : '';
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};
@@ -15205,13 +15261,13 @@ window.renderScreener=function(){
     const totalEl=document.getElementById('activityTotal');
     todayEl.innerHTML=`${todayText}<small>회</small>`;
     totalEl.innerHTML=`${totalText}<small>회</small>`;
-    todayEl.title=todayExact?'오늘 방문 실시간 집계':'오늘 확인된 최소 방문 횟수';
-    totalEl.title=totalExact?'누적 방문 실시간 집계':'마지막으로 확인된 최소 누적 방문 횟수';
-    document.getElementById('activityCountNote').hidden=todayExact&&totalExact;
+    todayEl.title=todayExact?'공개 익명 카운터의 오늘 값':'오늘 확인된 최소 카운터 값';
+    totalEl.title=totalExact?'공개 익명 카운터의 누적 값':'마지막으로 확인된 최소 누적 카운터 값';
+    document.getElementById('activityCountNote').hidden=false;
     if(profile){
       document.getElementById('profileTotal').textContent=totalText;
       profile.title='탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요 ('+
-        (totalExact?'누적 방문 '+totalText+'회':'최소 누적 방문 '+totalText+'회')+')';
+        (totalExact?'공개 카운터 '+totalText+'회':'최소 공개 카운터 '+totalText+'회')+')';
       profile.style.removeProperty('display');
       profile.classList.add('on');
     }
@@ -15237,18 +15293,22 @@ window.renderScreener=function(){
   const posts=(typeof LATEST_POSTS!=='undefined'&&Array.isArray(LATEST_POSTS))
     ?LATEST_POSTS.slice(0,5):[];
   renderPopular(posts.map(post=>({post,count:0})));
-  window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
-    posts.map(post=>({post,count:0}))
-  ));
   let currentVisit=window.GaeoMetrics.visitSnapshot();
   renderVisit(currentVisit);
-  window.GaeoMetrics.startVisit(patch=>{
-    currentVisit={...currentVisit,...patch};
-    renderVisit(currentVisit);
-  }).then(visit=>{
-    currentVisit=visit;
-    renderVisit(currentVisit);
-  }).catch(()=>{});
+  function refreshMeasurement(){
+    window.GaeoMetrics.contentCounts(posts).then(renderPopular).catch(()=>renderPopular(
+      posts.map(post=>({post,count:0}))
+    ));
+    window.GaeoMetrics.startVisit(patch=>{
+      currentVisit={...currentVisit,...patch};
+      renderVisit(currentVisit);
+    }).then(visit=>{
+      currentVisit=visit;
+      renderVisit(currentVisit);
+    }).catch(()=>{});
+  }
+  refreshMeasurement();
+  window.addEventListener('gaeo:measurement-consent-granted',refreshMeasurement);
 
   const briefBtn=document.getElementById('activityBrief');
   if(briefBtn) briefBtn.onclick=()=>{
@@ -15349,215 +15409,47 @@ window.hangulFix=function(str){
 };
 
 /* ============================================================
-   커뮤니티 — community.js(관리자 게시판) + 방문자 자유게시판.
-   방문자 게시판: 깃허브 계정 없이 이름+비밀번호로 글 작성.
-   · 글은 무료 JSON 저장소(jsonblob)에 실시간 저장 — 주소는 심부름꾼
-     (GitHub Actions)이 guestbook_id.json에 자동 개설·기록한다.
-   · 비밀번호는 해시로만 저장, 본인 글 수정·삭제에 사용.
-   · 심부름꾼이 10분마다 guestbook_backup.json으로 백업한다.
+   커뮤니티 — Git으로 검토·발행한 community.js만 표시한다.
+   인증 없는 외부 저장소의 방문자 쓰기·수정·삭제는 공개 배포에서 닫혀 있다.
    ============================================================ */
 (function(){
   function effective(){
     try{
       const o=JSON.parse(localStorage.getItem('gaeo_admin_overrides'))||{};
-      if(o.community) return o.community;                    // 관리자 미리보기
+      if(o.community) return o.community;                    // 이 브라우저의 로컬 초안
     }catch(e){}
     return (typeof COMMUNITY!=='undefined'?COMMUNITY:{notice:'',posts:[]});
   }
   const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const isAdmin=()=>sessionStorage.getItem('gaeo_admin_ok')==='1';
-
-  /* ---- 방문자 게시판 저장소 ---- */
-  const hash=s=>{ // cyrb53 — 게시판용 경량 해시
-    let h1=0xdeadbeef^7, h2=0x41c6ce57^7;
-    for(let i=0;i<s.length;i++){ const ch=s.charCodeAt(i);
-      h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
-    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
-    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
-    return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
-  };
-  const pwh=p=>{                               // 모바일 자모 분리·분해형 입력까지 동일 해시로 흡수
-    let t=String(p||''); try{ t=t.normalize('NFC'); }catch(e){}
-    t=t.trim(); if(typeof hangulFix==='function') t=hangulFix(t);
-    return hash('gaeo|'+t);
-  };
-  /* 게시판 저장소: kvdb.io (글 1개 = 키 1개, post:<id>)
-     · 이전 jsonblob은 브라우저 교차접속(CORS) 미지원 + 24시간 만료라 교체됨
-     · 심부름꾼(GitHub Actions)이 버킷을 자동 개설하고 10분마다 백업한다 */
-  let GBBASE=null;
-  async function gbBase(){
-    if(GBBASE!==null) return GBBASE;
-    try{
-      const r=await fetch('guestbook_id.json?t='+Date.now(),{cache:'no-store'});
-      let u=r.ok?(((await r.json())||{}).url||''):'';
-      if(u.indexOf('jsonblob')>=0) u='';        // 구버전 저장소 무시(교체 대기)
-      GBBASE=u.replace(/\/+$/,'');
-    }catch(e){ GBBASE=''; }
-    return GBBASE;
-  }
-  async function gbList(){
-    const b=await gbBase(); if(!b) return null;
-    try{
-      const r=await fetch(b+'/?values=true&format=json',{cache:'no-store'});
-      if(r.status===404) return [];             // 빈 버킷
-      if(!r.ok) throw 0;
-      const arr=await r.json(); const posts=[];
-      (Array.isArray(arr)?arr:[]).forEach(pair=>{
-        const k=String(pair[0]||'');
-        if(k.slice(0,5)==='post:'){
-          try{ const p=JSON.parse(pair[1]); p.id=k.slice(5); posts.push(p); }catch(e){}
-        }
-      });
-      return posts;
-    }catch(e){ return null; }
-  }
-  async function gbPut(id,post){
-    const b=await gbBase(); if(!b) throw new Error('no-base');
-    const r=await fetch(b+'/post:'+id,{method:'PUT',body:JSON.stringify(post)});
-    if(!r.ok) throw new Error('put-fail');
-  }
-  async function gbDel(id){
-    const b=await gbBase(); if(!b) throw new Error('no-base');
-    const r=await fetch(b+'/post:'+id,{method:'DELETE'});
-    if(!r.ok) throw new Error('del-fail');
-  }
-  const now=()=>{ const d=new Date(),p=n=>String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
-  const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-
-  async function gbRefresh(){
-    const list=document.getElementById('gbList'); if(!list) return;
-    const b=await gbBase();
-    if(!b){ list.innerHTML='<div class="cm-empty">게시판 개설 준비 중이에요 — 잠시 후(최대 10분) 다시 열어주세요.</div>'; return; }
-    const posts=await gbList();
-    if(posts===null){ list.innerHTML='<div class="cm-empty">게시판 서버에 연결하지 못했어요 — 새로고침 후 다시 시도해주세요.</div>'; return; }
-    posts.sort((a,b2)=>(b2.ts||0)-(a.ts||0));
-    list.innerHTML=posts.length?posts.map(p=>`
-      <div class="cm-post">
-        <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span>
-          <span class="cm-date">${esc(p.date||'')}${p.edited?' · 수정됨':''}</span>
-          <span class="gb-actions"><button data-gbe="${esc(p.id)}">✏️ 수정</button><button data-gbd="${esc(p.id)}">🗑 삭제</button></span></div>
-        <div class="cm-text" id="gbt-${esc(p.id)}">${esc(p.text)}</div>
-      </div>`).join(''):'<div class="cm-empty">아직 글이 없어요 — 첫 글을 남겨보세요!</div>';
-
-    const byId=id=>posts.find(x=>String(x.id)===String(id));
-    // 본인 확인: 비밀번호(마스킹 모달) 또는 관리자
-    async function verify(post){
-      if(isAdmin()) return true;
-      const v=await askPass('글 비밀번호를 입력하세요');
-      if(v===null) return false;
-      if(pwh(v)!==post.pw){ alert('비밀번호가 달라요.'); return false; }
-      return true;
-    }
-    list.querySelectorAll('[data-gbd]').forEach(btn=>btn.onclick=async()=>{
-      const p=byId(btn.dataset.gbd); if(!p) return gbRefresh();
-      if(!await verify(p)) return;
-      if(!confirm('이 글을 삭제할까요?')) return;
-      try{ await gbDel(p.id); }catch(e){ return alert('삭제 실패 — 다시 시도해주세요.'); }
-      // 저장소 반영이 1~3초 지연되므로: 화면에서 먼저 지우고(낙관적), 새로고침은 늦춰서
-      const card=btn.closest('.cm-post'); if(card) card.remove();
-      setTimeout(gbRefresh, 2500);
-    });
-    list.querySelectorAll('[data-gbe]').forEach(btn=>btn.onclick=async()=>{
-      const p=byId(btn.dataset.gbe); if(!p) return gbRefresh();
-      if(!await verify(p)) return;
-      const box=document.getElementById('gbt-'+p.id); if(!box) return;
-      box.innerHTML=`<textarea class="gb-editbox" maxlength="500">${esc(p.text)}</textarea>
-        <div style="margin-top:6px"><button class="gb-btn" style="margin-top:0;padding:8px 16px;font-size:12.5px" id="gbeS-${p.id}">저장</button>
-        <button class="gb-btn" style="margin-top:0;padding:8px 16px;font-size:12.5px;background:var(--paper2);color:var(--dim)" id="gbeC-${p.id}">취소</button></div>`;
-      document.getElementById('gbeC-'+p.id).onclick=()=>gbRefresh();
-      document.getElementById('gbeS-'+p.id).onclick=async()=>{
-        const t=box.querySelector('textarea').value.trim();
-        if(!t) return alert('내용을 입력하세요.');
-        const upd={name:p.name,date:p.date,ts:p.ts,text:t.slice(0,500),pw:p.pw,edited:true};
-        try{ await gbPut(p.id,upd); }catch(e){ return alert('저장 실패 — 다시 시도해주세요.'); }
-        // 화면에 먼저 반영(낙관적), 저장소 새로고침은 반영 지연 후
-        box.innerHTML=esc(upd.text);
-        setTimeout(gbRefresh, 2500);
-      };
-    });
-  }
 
   window.renderCommunity=function(){
     const box=document.getElementById('communityView'); if(!box) return;
     const cm=effective();
     const posts=(cm.posts||[]).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0) || (b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
     let h='';
-    // 2026-09-02 디자인 통일: 섹션 제목 emoji 제거(.vsec-title 등 사이트 표준과 통일),
-    // 안내 박스의 고정 "📢 " 접두어 제거(cm.notice 문구 자체가 이미 emoji로 시작해 중복 표시됐었다).
     if(cm.notice) h+=`<div class="cm-notice">${esc(cm.notice)}</div>`;
     h+=`<div class="cm-sec">게시판</div>`;
     h+=posts.length
       ? posts.map(p=>`<div class="cm-post${p.pin?' pin':''}" id="cm-post-${esc(p.id)}">
-          <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span><span class="cm-date">${esc(p.date)||''}</span>${p.pin?'<span class="cm-pin">고정</span>':''}</div>
+          <div class="cm-head"><span class="cm-name">${esc(p.name)||'개오'}</span><span class="cm-date">${esc(p.date)||''}</span>${p.pin?'<span class="cm-pin">고정</span>':''}</div>
           <div class="cm-text">${esc(p.text)}</div></div>`).join('')
       : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
-    h+=`<div class="cm-sec">방문자 자유게시판</div>
-      <div class="cm-guest">
-        <p class="cm-hint">누구나 글을 남길 수 있어요. 비밀번호는 나중에 내 글을 <b>수정·삭제</b>할 때 필요해요.</p>
-        <div class="cm-form">
-          <input id="gbName" maxlength="20" placeholder="이름">
-          <input id="gbPw" type="password" maxlength="30" autocomplete="off" placeholder="비밀번호 (수정·삭제용)">
-        </div>
-        <textarea id="gbText" maxlength="500" placeholder="내용을 적어주세요 (500자까지)"></textarea>
-        <button class="gb-btn" id="gbAdd">✍️ 글 남기기</button>
-        <div class="gb-status" id="gbStatus"></div>
-        <div id="gbList" style="margin-top:14px"><div class="cm-empty">불러오는 중…</div></div>
-      </div>`;
+    h+=`<div class="cm-sec">방문자 의견</div>
+      <div class="cm-guest"><p class="cm-hint">공개 방문자 게시판은 안전한 서버 인증을 갖출 때까지 읽기 전용입니다. 질문이나 수정 요청은 <a href="contact.html">문의하기</a>로 보내주세요.</p></div>`;
     box.innerHTML=h;
-
-    const st=document.getElementById('gbStatus');
-    document.getElementById('gbAdd').onclick=async()=>{
-      const name=document.getElementById('gbName').value.trim();
-      const pw=document.getElementById('gbPw').value;
-      const text=document.getElementById('gbText').value.trim();
-      if(!name){ st.textContent='⚠️ 이름을 입력해주세요.'; return; }
-      if(!pw){ st.textContent='⚠️ 비밀번호를 정해주세요 (수정·삭제할 때 써요).'; return; }
-      if(!text){ st.textContent='⚠️ 내용을 입력해주세요.'; return; }
-      st.textContent='⏳ 올리는 중…';
-      const post={name:name.slice(0,20),date:now(),ts:Date.now(),text:text.slice(0,500),pw:pwh(pw)};
-      try{ await gbPut(newId(),post); }catch(e){ st.textContent='❌ 올리기 실패 — 잠시 후 다시 시도해주세요.'; return; }
-      document.getElementById('gbText').value='';
-      st.textContent='✅ 올렸어요! (목록에 잠시 후 나타나요)';
-      // 저장소 반영 지연을 감안해 조금 늦게 새로고침 (그 사이 화면에 즉시 추가)
-      const listEl=document.getElementById('gbList');
-      if(listEl){
-        const empty=listEl.querySelector('.cm-empty'); if(empty) empty.remove();
-        listEl.insertAdjacentHTML('afterbegin',`<div class="cm-post">
-          <div class="cm-head"><span class="cm-name">${esc(post.name)}</span><span class="cm-date">${esc(post.date)}</span></div>
-          <div class="cm-text">${esc(post.text)}</div></div>`);
-      }
-      setTimeout(gbRefresh, 2500);
-    };
-    // 비밀번호 칸: 맥/iOS의 한글 입력기 차단을 피하기 위해 text + CSS 마스킹(●●●)으로 전환
-    try{
-      const pwIn=document.getElementById('gbPw');
-      if(pwIn && window.CSS && CSS.supports && CSS.supports('-webkit-text-security','disc')){
-        pwIn.type='text'; pwIn.style.webkitTextSecurity='disc';
-      }
-    }catch(e){}
-    gbRefresh();
   };
-  // 🔄 자동 새로고침 — 커뮤니티 탭이 열려 있는 동안 30초마다 다른 방문자의 새 글을 끌어온다.
-  //    (모든 방문자가 같은 kvdb 버킷을 읽으므로, 누가 올리든 새로고침 없이도 곧 보인다)
-  const gbVisible=()=>{ const v=document.getElementById('communityView');
-    return v && v.style.display!=='none' && v.offsetParent!==null && !document.hidden; };
-  setInterval(()=>{ if(gbVisible()) gbRefresh(); }, 30000);
-  document.addEventListener('visibilitychange',()=>{ if(gbVisible()) gbRefresh(); });
 })();
 
 /* ============================================================
-   관리자 편집 모드 v2 — 제목을 5번 연속 터치(3초 안에) 또는 #admin
+   로컬 초안 모드 — 제목을 5번 연속 터치(3초 안에) 또는 #admin
    · [문구]   파란 점선 박스 직접 수정 + 행간/글자 크기
    · [디자인] 테마 프리셋 + 포인트/배경 색상
    · [커뮤니티] 공지·게시글 작성/고정/삭제
-   · [발행]   GitHub 토큰으로 site_config.js·community.js를 직접 커밋
-              → 1~2분 뒤 모든 방문자에게 반영. 토큰이 없으면 "Claude 요청문 복사".
-   미리보기(저장)는 이 브라우저에만, 발행은 모두에게 적용된다.
+   · [발행 요청] 변경 파일을 검토 가능한 PR 작업 요청으로 복사
+   저장과 미리보기는 이 브라우저에만 적용되며 운영 권한 인증이 아니다.
    ============================================================ */
 (function(){
-  const KEY='gaeo_admin_overrides', TKEY='gaeo_gh_token';
-  const REPO='rudvh1016-gif/gaeo-analyst-team', BRANCH='main';
+  const KEY='gaeo_admin_overrides';
   const EDITS=()=>Array.from(document.querySelectorAll('[data-edit]'));
 
   /* ---- 테마 프리셋 ---- */
@@ -15615,7 +15507,7 @@ window.hangulFix=function(str){
     return o;
   }
 
-  /* ---- 발행: GitHub Contents API로 두 파일을 main에 커밋 ---- */
+  /* ---- 발행 요청용 파일 초안 ---- */
   function fileConfig(o){
     const d=Object.assign({},SC.design||{},o.design||{});
     const texts={}; EDITS().forEach(el=>texts[el.dataset.edit]=el.innerHTML);
@@ -15624,13 +15516,13 @@ window.hangulFix=function(str){
     const cfg={updated:new Date().toISOString().slice(0,16).replace('T',' '),
       texts, notes,
       design:{preset:d.preset||'navy',accent:d.accent||null,accent2:d.accent2||null,bg:d.bg||null,lh:d.lh||null,fs:d.fs||null}};
-    return '// 개오 애널리스트팀 — 사이트 전역 설정 (모든 방문자에게 적용)\n'
-      +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
+    return '// 개오 애널리스트팀 — 사이트 전역 설정 (PR 검토 뒤 적용)\n'
+      +'// 로컬 초안 모드가 만든 발행 요청 파일입니다.\n'
       +'const SITE_CONFIG = '+JSON.stringify(cfg,null,1)+';\n';
   }
   function fileTickers(list){
     return '// 개오 애널리스트팀 — 대상 종목 단일 소스(Single Source of Truth)\n'
-      +'// 관리자 모드 [📊 종목관리]에서 발행하면 이 파일이 갱신된다.\n'
+      +'// 로컬 초안 모드 [📊 종목관리]의 요청을 PR로 병합하면 갱신된다.\n'
       +'// 새 종목의 시세는 다음 자동 수집(평일 장중 10분 간격)부터, 팀 분석은 재분석 요청 시 생성된다.\n'
       +'// (배열 부분은 유효한 JSON — 파이썬 스크립트도 그대로 파싱하므로 키는 큰따옴표 유지)\n'
       +'const TICKERS = [\n'
@@ -15646,21 +15538,9 @@ window.hangulFix=function(str){
   }
   function fileCommunity(o){
     const cm=(o.community)||((typeof COMMUNITY!=='undefined')?COMMUNITY:{notice:'',posts:[]});
-    return '// 개오 애널리스트팀 — 커뮤니티 게시글 (모든 방문자에게 보임)\n'
-      +'// 관리자 모드 [🌍 모두에게 발행]이 자동 생성한 파일입니다.\n'
+    return '// 개오 애널리스트팀 — 커뮤니티 게시글 (PR 검토 뒤 공개)\n'
+      +'// 로컬 초안 모드가 만든 발행 요청 파일입니다.\n'
       +'const COMMUNITY = '+JSON.stringify({notice:cm.notice||'',posts:cm.posts||[]},null,1)+';\n';
-  }
-  async function ghPut(path, content, token){
-    const api='https://api.github.com/repos/'+REPO+'/contents/'+path;
-    const head={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'};
-    let sha=null;
-    const g=await fetch(api+'?ref='+BRANCH,{headers:head});
-    if(g.ok) sha=(await g.json()).sha;
-    const body={message:'관리자 발행: '+path+' 갱신',branch:BRANCH,
-      content:btoa(unescape(encodeURIComponent(content)))};
-    if(sha) body.sha=sha;
-    const p=await fetch(api,{method:'PUT',headers:head,body:JSON.stringify(body)});
-    if(!p.ok){ const t=await p.text(); throw new Error('GitHub '+p.status+' — '+t.slice(0,120)); }
   }
 
   /* ---- 패널 ---- */
@@ -15718,7 +15598,7 @@ window.hangulFix=function(str){
   }
   function renderBar(tab){
     const o=cmState(); const d=Object.assign({},SC.design||{},o.design||{});
-    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['ops','📈 운영·광고'],['notes','👑 종목메모'],['stocks','📊 종목관리'],['community','💬 커뮤니티'],['publish','🌍 발행']];
+    const tabs=[['text','📝 문구'],['design','🎨 디자인'],['ops','📈 운영·광고'],['notes','👑 종목메모'],['stocks','📊 종목관리'],['community','💬 커뮤니티'],['publish','📋 발행 요청']];
     let body='';
     if(tab==='text'){
       body=`<div class="ab-hint" style="margin-top:0">파란 점선 박스(제목·소개글·하단 안내)를 터치하면 바로 고칠 수 있어요.</div>
@@ -15730,7 +15610,7 @@ window.hangulFix=function(str){
       <div class="ab-row"><label>포인트색</label><input type="color" id="abAccent" value="${d.accent||'#0EA5E9'}"><button class="ab-mini" id="abAccentX">↺</button></div>
       <div class="ab-row"><label>제목색</label><input type="color" id="abAccent2" value="${d.accent2||'#0B4171'}"><button class="ab-mini" id="abAccent2X">↺</button></div>
       <div class="ab-row"><label>배경색</label><input type="color" id="abBg" value="${d.bg||'#F8FAFC'}"><button class="ab-mini" id="abBgX">↺</button></div>
-      <div class="ab-hint">고르는 즉시 화면에 미리보기 돼요. 💾 저장=이 브라우저 · 🌍 발행=모두에게.</div>`;
+      <div class="ab-hint">고르는 즉시 화면에 미리보기 돼요. 저장은 이 브라우저에만 남고, 공개 반영은 PR 검토가 필요합니다.</div>`;
     }else if(tab==='ops'){
       body=`<div class="ab-ops-head"><div><strong>오늘의 운영·광고 신호</strong>
         <span>방문 → 이용 → 광고 도달 흐름</span></div>
@@ -15751,7 +15631,7 @@ window.hangulFix=function(str){
         `<div class="ab-item"><span class="ab-item-t">👑 ${t.name} · ${h(String(notes[t.code]).slice(0,20))}${String(notes[t.code]).length>20?'…':''}</span></div>`).join('')
         :'<div class="ab-hint">작성된 메모가 없어요.</div>'}</div>
       <div class="ab-hint">메모는 <b>단일 분석</b>의 판정 카드 위와 <b>종목 비교</b> 결과 아래에 "📝 추가 메모"로 표시돼요.
-      💾 저장=이 브라우저 미리보기 · <b>🌍 발행해야 모두에게</b> 보여요.</div>`;
+      저장은 이 브라우저 미리보기이며, <b>PR을 병합해야 모두에게</b> 보여요.</div>`;
     }else if(tab==='stocks'){
       const draft=o.tickersDraft||((typeof TICKERS!=='undefined')?TICKERS.map(t=>({...t})):[]);
       body=`<div class="ab-row"><label>검색</label><input id="abTFind" class="ab-in" list="krxDL" placeholder="회사 이름으로 검색 (예: 카카오)"><datalist id="krxDL"></datalist></div>
@@ -15761,8 +15641,8 @@ window.hangulFix=function(str){
         `<div class="ab-item"><span class="ab-item-t">${h(t.name)} <span style="opacity:.6">${h(t.code)} · ${h(t.sector||'기타')}</span></span>
          <button class="ab-mini" data-tdel="${h(t.code)}" title="목록에서 제거">🗑</button></div>`).join('')}</div>
       <div class="ab-hint" id="abTHint">이름을 몇 글자만 쳐도 자동완성이 떠요(코드는 몰라도 됨).
-      <b>🌍 발행해야</b> 실제 종목 목록(tickers.js)이 바뀌고, 시세는 다음 자동 수집(평일 장중 10분 내)부터 채워져요.
-      새 종목의 팀 분석은 발행 후 Claude에게 "재분석해줘"라고 요청하면 생겨요.</div>`;
+      <b>PR을 병합해야</b> 실제 종목 목록(tickers.js)이 바뀌고, 시세는 다음 자동 수집(평일 장중 10분 내)부터 채워져요.
+      새 종목의 팀 분석은 병합 후 별도 재분석 작업을 요청하면 생겨요.</div>`;
     }else if(tab==='community'){
       const posts=(o.community.posts||[]);
       body=`<div class="ab-row"><label>공지</label><input type="text" id="abNotice" class="ab-in" placeholder="상단 공지 (비우면 숨김)" value="${h(o.community.notice||'')}"></div>
@@ -15773,24 +15653,15 @@ window.hangulFix=function(str){
         `<div class="ab-item"><span class="ab-item-t">${p.pin?'📌 ':''}${h(p.name)} · ${h((p.text||'').slice(0,22))}${(p.text||'').length>22?'…':''}</span>
          <button class="ab-mini" data-pin="${p.id}" title="고정 토글">📌</button>
          <button class="ab-mini" data-del="${p.id}" title="삭제">🗑</button></div>`).join(''):'<div class="ab-hint">게시글이 없어요.</div>'}</div>
-      <div class="ab-hint">여기 글은 <b>발행</b>해야 모두에게 보여요. 방문자 자유게시판 글은 실시간 공개되고,
-      관리자 상태에선 커뮤니티 화면에서 비밀번호 없이 🗑 삭제할 수 있어요 (10분마다 자동 백업).</div>`;
+      <div class="ab-hint">여기 글은 로컬 초안입니다. 발행 요청을 별도 작업 환경에서 검토하고 PR로 병합해야 모두에게 보여요. 공개 방문자 쓰기는 현재 닫혀 있습니다.</div>`;
     }else{
-      const tk=localStorage.getItem(TKEY)||'';
-      body=`<div class="ab-row"><label>토큰</label><input type="password" id="abToken" class="ab-in" placeholder="GitHub 토큰 (ghp_… / github_pat_…)" value="${h(tk)}"></div>
-      <div class="ab-btns">
-        <button class="ab-save" id="abPub">🌍 모두에게 발행</button>
-        <button class="ab-reset" id="abCopy">📋 Claude 요청문 복사</button>
-      </div>
+      body=`<div class="ab-btns"><button class="ab-save" id="abCopy">📋 PR 발행 요청 복사</button></div>
       <div class="ab-status" id="abStatus"></div>
-      <div class="ab-hint">발행 = 문구·디자인·종목메모·종목목록·커뮤니티를 GitHub에 직접 저장 → 1~2분 뒤 모든 방문자에게 반영.<br>
-      ⚠️ <b>이 토큰은 지금 쓰는 브라우저에 저장돼요 — PC방·회사 공용 컴퓨터에서는 절대 입력하지 마세요.</b>
-      (공용 기기에서 입력하면 다음 사용자가 내 사이트를 고칠 수 있어요. 내 폰/내 컴퓨터에서만!)<br>
-      토큰 만들기: github.com → Settings → Developer settings → <b>Fine-grained tokens</b> → 이 저장소만 선택 → Contents <b>Read and write</b> 권한.<br>
-      토큰이 없으면 [Claude 요청문 복사] 내용을 Claude Code에 붙여넣어 반영을 부탁하세요.</div>`;
+      <div class="ab-hint"><b>이 화면은 운영 권한 인증이 아니라 이 브라우저의 로컬 초안 도구입니다.</b><br>
+      공개 페이지는 토큰을 받거나 저장하지 않고 저장소를 직접 수정하지 않습니다. 복사한 요청은 별도 작업 환경에서 브랜치, 계약 테스트, PR, CI 검토를 거쳐야 반영됩니다.</div>`;
     }
     bar.innerHTML=`
-      <div class="ab-title">🔧 관리자 모드 <button class="ab-x" title="닫기">✕</button></div>
+      <div class="ab-title">🔧 로컬 초안 모드 <button class="ab-x" title="닫기">✕</button></div>
       <div class="ab-tabs">${tabs.map(([k,l])=>`<button class="ab-tab${k===tab?' on':''}" data-tab="${k}">${l}</button>`).join('')}</div>
       ${body}
       ${tab==='ops'?'':`<div class="ab-btns">
@@ -15915,32 +15786,16 @@ window.hangulFix=function(str){
         const o2=cmState(); const p=o2.community.posts.find(p=>String(p.id)===b.dataset.pin);
         if(p){ p.pin=!p.pin; save(o2); renderBar('community'); if(window.renderCommunity) renderCommunity(); }
       });
-    }else{ /* publish */
+    }else{ /* publish request */
       const st=bar.querySelector('#abStatus');
-      bar.querySelector('#abToken').onchange=e=>localStorage.setItem(TKEY,e.target.value.trim());
-      bar.querySelector('#abPub').onclick=async()=>{
-        const token=(bar.querySelector('#abToken').value||'').trim();
-        if(!token){ st.textContent='⚠️ 토큰을 먼저 입력하세요 (없으면 아래 복사 버튼을 쓰세요).'; return; }
-        localStorage.setItem(TKEY,token);
-        if(!confirm('문구·디자인·종목메모·종목목록·커뮤니티를 지금 모든 방문자에게 발행할까요?')) return;
-        const o2=cmState();
-        st.textContent='⏳ 발행 중…';
-        try{
-          await ghPut('site_config.js', fileConfig(o2), token);
-          await ghPut('community.js', fileCommunity(o2), token);
-          const tk=tickersChanged(o2);
-          if(tk) await ghPut('tickers.js', fileTickers(tk), token);
-          st.textContent='✅ 발행 완료! 1~2분 뒤 사이트에 반영돼요.'+(tk?' (새 종목 시세는 다음 자동 수집부터)':'');
-        }catch(e){ st.textContent='❌ 실패: '+e.message+' (토큰 권한: 이 저장소 Contents Read/write 필요)'; }
-      };
       bar.querySelector('#abCopy').onclick=()=>{
         const o2=cmState();
         const tk=tickersChanged(o2);
-        const payload='아래 내용으로 개오 사이트의 site_config.js와 community.js'+(tk?'와 tickers.js':'')+'를 갱신하고 main에 반영해줘.\n\n'
-          +'--- site_config.js ---\n'+fileConfig(o2)+'\n--- community.js ---\n'+fileCommunity(o2)
-          +(tk?'\n--- tickers.js ---\n'+fileTickers(tk):'');
+        const files={'site_config.js':fileConfig(o2),'community.js':fileCommunity(o2)};
+        if(tk) files['tickers.js']=fileTickers(tk);
+        const payload=window.GaeoReleaseSafety.buildPublishRequest(files);
         (navigator.clipboard?navigator.clipboard.writeText(payload):Promise.reject()).then(
-          ()=>{ st.textContent='📋 복사됨! Claude Code에 붙여넣으세요.'; },
+          ()=>{ st.textContent='📋 복사됨! 별도 작업 환경에 붙여넣어 PR 발행을 요청하세요.'; },
           ()=>{ prompt('아래 내용을 복사하세요', payload); });
       };
     }
@@ -15956,37 +15811,16 @@ window.hangulFix=function(str){
     EDITS().forEach(el=>{ el.contentEditable='false'; el.classList.remove('admin-on'); });
   }
 
-  // 진입: 제목 5번 연속 터치(3초) 또는 주소 뒤에 #admin — 비밀번호(●●● 마스킹) 필요
-  // 되돌릴 수 없는 해시(cyrb53 변형)만 저장 — 코드에 평문이 남지 않는다.
-  const PWHASH='z5zr3dzet8';
-  const pwHash=p=>{
-    let h1=0xdeadbeef^7, h2=0x41c6ce57^7;
-    const s='gaeo-admin|'+p;
-    for(let i=0;i<s.length;i++){ const ch=s.charCodeAt(i);
-      h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
-    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
-    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
-    return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
-  };
-  async function unlock(){
-    if(sessionStorage.getItem('gaeo_admin_ok')==='1') return true;
-    const v=await askPass('관리자 비밀번호를 입력하세요');
-    if(v===null) return false;
-    const base=String(v).normalize?String(v).normalize('NFC').trim():String(v).trim();
-    const ok=pwHash(base)===PWHASH;
-    if(ok){ sessionStorage.setItem('gaeo_admin_ok','1'); return true; }
-    alert('비밀번호가 틀렸어요. 👁 버튼으로 입력값을 확인해보세요.');
-    return false;
-  }
+  // 진입 동작은 숨겨진 로컬 초안 도구를 열 뿐이며 운영 권한 인증이 아니다.
   let taps=0, tapTimer=null;
   const title=document.getElementById('siteTitle');
   if(title) title.addEventListener('click',()=>{
     taps++;
     if(tapTimer) clearTimeout(tapTimer);
     tapTimer=setTimeout(()=>{ taps=0; },3000);
-    if(taps>=5){ taps=0; unlock().then(ok=>{ if(ok) on(); }); }
+    if(taps>=5){ taps=0; on(); }
   });
-  if(location.hash==='#admin') unlock().then(ok=>{ if(ok) on(); });
+  if(location.hash==='#admin') on();
 })();
 
 // ---------- PC 버전 강제보기 토글 (물리적으로 작은 화면: 휴대폰·태블릿) ----------

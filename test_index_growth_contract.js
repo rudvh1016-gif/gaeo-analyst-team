@@ -2,9 +2,9 @@ const assert = require('assert');
 const fs = require('fs');
 
 const html = fs.readFileSync('index.html', 'utf8');
-assert.strictEqual((html.match(/googletagmanager\.com\/gtag\/js/g) || []).length, 1, 'one GA loader');
-assert.strictEqual((html.match(/gtag\('config', 'G-D6PYQ4TXY4'\)/g) || []).length, 1, 'one GA config');
-assert.match(html, /growth_urls\.js[^]*product_analytics\.js[^]*googletagmanager\.com\/gtag\/js/);
+assert.strictEqual((html.match(/googletagmanager\.com\/gtag\/js/g) || []).length, 1, 'one deferred GA loader');
+assert.strictEqual((html.match(/gtag\('config',\s*'G-D6PYQ4TXY4'\)/g) || []).length, 1, 'one GA config');
+assert.match(html, /growth_urls\.js[^]*product_analytics\.js[^]*function gaeoLoadAnalytics\(\)[^]*googletagmanager\.com\/gtag\/js/);
 assert.match(html, /GAEO_ANALYTICS_CONSENT_REQUIRED/);
 assert.match(html, /gaeoSetAnalyticsConsent/);
 assert.match(html, /if\(sent&&name==='stock_search_submit'/);
