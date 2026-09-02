@@ -13,20 +13,20 @@
 - [x] 최신 main SHA, clean tree, 기존 CI, 산출물 수와 크기를 기록한다.
 - [x] 로컬과 실제 프로덕션을 여섯 viewport에서 렌더하고 before evidence를 보관한다.
 - [x] 제품·디자인·성장, 엔지니어링·접근성·보안, SEO·주장·데이터 세 관점의 독립 사전 검토를 수행한다.
-- [ ] 편집형 토큰·홈 구조·카피 계약을 먼저 실패시키는 테스트를 추가한다.
-- [ ] rollback 가능한 별도 foundation CSS와 최소 HTML 변경으로 홈을 평탄화한다.
-- [ ] 핵심 검색, 메뉴, 모달, 관심종목, 동의, ID와 분석 이벤트 계약을 보존한다.
-- [ ] 같은 여섯 viewport의 after evidence와 비교 문서를 `docs/reviews/editorial_foundation/`에 남긴다.
-- [ ] 세 독립 최종 검토, 전체 Python/Node/브라우저 계약, diff·secret·generated 검사를 통과한다.
-- [ ] `codex/editorial-foundation`을 push하고 PR, CI, 병합, 프로덕션을 확인한다.
+- [x] 편집형 토큰·홈 구조·카피 계약을 먼저 실패시키는 테스트를 추가한다.
+- [x] rollback 가능한 별도 foundation CSS와 최소 HTML 변경으로 홈을 평탄화한다.
+- [x] 핵심 검색, 메뉴, 모달, 관심종목, 동의, ID와 분석 이벤트 계약을 보존한다.
+- [x] 같은 여섯 viewport의 after evidence와 비교 문서를 `docs/reviews/editorial_foundation/`에 남긴다.
+- [x] 세 독립 최종 검토, 전체 Python/Node/브라우저 계약, diff·secret·generated 검사를 통과한다.
+- [x] `codex/editorial-foundation`을 push하고 PR, CI, 병합, 프로덕션을 확인한다.
 
 ### PR 2: Editorial expansion과 accessibility
 
-- [ ] 실제 최신 main에서 `codex/editorial-accessibility`를 만든다.
-- [ ] AGENTS.md와 CLAUDE.md를 다시 읽고 전 화면 사전 검토 A/B/C를 수행한다.
-- [ ] Research, 종목분석, 비교, 스크리너, 순환매, 등락률, 내 종목, 포트폴리오, 모의투자, 학습, 뉴스, 계산기, 성적표, 커뮤니티, 개발 기록에 편집 문법을 확장한다.
-- [ ] skip link, landmarks, heading order, label/name/description, keyboard, focus, dialog/drawer, reduced motion, zoom/reflow, contrast를 WCAG 2.2 AA에 맞춘다.
-- [ ] axe 또는 동등한 자동 감사와 Playwright keyboard/zoom/reflow 테스트를 추가한다.
+- [x] 실제 최신 main에서 `codex/editorial-accessibility`를 만든다.
+- [x] AGENTS.md와 CLAUDE.md를 다시 읽고 전 화면 사전 검토 A/B/C를 수행한다.
+- [x] Research, 종목분석, 비교, 스크리너, 순환매, 등락률, 내 종목, 포트폴리오, 모의투자, 학습, 뉴스, 계산기, 성적표, 커뮤니티, 개발 기록에 편집 문법을 확장한다.
+- [x] skip link, landmarks, heading order, label/name/description, keyboard, focus, dialog/drawer, reduced motion, zoom/reflow, contrast를 WCAG 2.2 AA에 맞춘다.
+- [x] axe 또는 동등한 자동 감사와 Playwright keyboard/zoom/reflow 테스트를 추가한다.
 - [ ] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다.
 
 ### PR 3: Performance와 maintainability
@@ -40,7 +40,7 @@
 
 ### PR 4: Trust, residual SEO, growth와 retention
 
-- [ ] 실제 최신 main에서 `codex/research-trust-growth`를 만든다.
+- [ ] 실제 최신 main에서 `codex/trust-seo-growth`를 만든다.
 - [ ] 판단 기록, 성과 산식, 표본, baseline, 비용·slippage, survivorship/look-ahead/selection bias를 감사한다.
 - [ ] methodology와 공개 claim을 증거 범위에 맞추고 법적 경계를 재검증한다.
 - [ ] `gaeo_seo_publishing_rules.md`의 robots 문서 충돌을 실제 정책과 맞춘다.
@@ -50,7 +50,7 @@
 
 ### PR 5: Repository governance readiness
 
-- [ ] 실제 최신 main에서 `codex/repository-governance-readiness`를 만든다.
+- [ ] 실제 최신 main에서 `codex/governance-readiness`를 만든다.
 - [ ] 모든 workflow와 main writer, concurrency, permission, failure mode를 inventory한다.
 - [ ] 즉시 가능한 code-level guard, validation, artifact discipline을 추가한다.
 - [ ] compact-history와 data-live 분리 준비도를 증거 기반으로 결론낸다.

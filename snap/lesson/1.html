@@ -56,11 +56,13 @@ li{margin-bottom:6px;font-size:15px}
 .sources a{color:var(--t2)}
 .disc{margin-top:20px;font-size:12px;color:var(--t2)}
 </style>
+<link rel="stylesheet" href="/editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
 <div class="wrap">
   <div class="top"><a href="https://gaeoteam.com/">← Gaeo · 개오 애널리스트팀 홈</a></div>
-  <div class="card">
+  <main class="card" id="main-content" tabindex="-1">
     <span class="tag">주식공부 · 차트 기초</span>
     <h1 class="daum-wm-title">차트·캔들 보는 법 (왕초보 기초)</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-16 · 수정 2026-07-16</div>
@@ -74,9 +76,9 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>캔들 하나 = 정해진 시간 동안의 가격 기록 요약이에요. 일봉이라면 「하루 동안 이 주식이 얼마에 시작해서, 얼마까지 올랐다가, 얼마까지 떨어졌다가, 얼마로 끝났는가」를 막대기 하나로 압축한 거예요.</li><li>그래서 캔들 하나에는 반드시 <strong>네 가지 가격</strong>이 들어 있어요: ① <strong>시가</strong>(장이 열리고 처음 거래된 가격) ② <strong>고가</strong>(그 시간 동안 가장 높았던 가격) ③ <strong>저가</strong>(가장 낮았던 가격) ④ <strong>종가</strong>(마지막 가격).</li><li>비유하면 캔들은 <strong>하루치 일기</strong>예요. 일기 한 편만 읽으면 그 사람을 다 알 수 없지만, 한 달치를 이어 읽으면 성격이 보이죠. 캔들도 똑같아요 — 한 개가 아니라 <strong>여러 개를 이어서</strong> 읽는 거예요.</li></ul>
 <h2>몸통과 꼬리 — 캔들의 두 부분</h2>
 <p>캔들은 <strong>두툼한 몸통</strong>과 위아래로 삐져나온 <strong>가는 선(꼬리)</strong> 으로 이뤄져 있어요.</p>
-<p class="cap">🖼️ 캔들의 구조 — 양봉(빨강)은 올라서, 음봉(파랑)은 내려서 마감한 거예요</p>
+<p class="cap">캔들의 구조 — 양봉(빨강)은 올라서, 음봉(파랑)은 내려서 마감한 거예요</p>
 <ul><li><strong>몸통</strong> = 시가와 종가 사이의 구간이에요. 몸통이 길수록 「시작 가격과 끝 가격의 차이가 컸다」, 즉 그 시간 동안 한쪽 방향으로 힘 있게 움직였다는 뜻이에요. 몸통이 짧으면 결국 시작가 근처로 돌아왔다는 뜻이라 「힘겨루기가 팽팽했다」로 읽어요.</li><li><strong>꼬리(그림자)</strong> = 몸통 밖으로 나간 고가·저가의 흔적이에요. 「장중에 거기까지 가봤지만, 끝내 그 가격을 지키지 못하고 되돌아왔다」는 기록이에요.</li><li><strong>윗꼬리가 길다</strong> = 장중에 크게 올랐다가 밀려 내려왔다는 뜻이에요. 위에서 <strong>파는 사람들이 많았다</strong>(저항이 있었다)는 신호로 읽어요. 고점 부근에서 긴 윗꼬리가 자주 나오면 「위가 무겁구나」 하고 참고해요.</li><li><strong>아랫꼬리가 길다</strong> = 장중에 크게 빠졌다가 다시 끌어올려졌다는 뜻이에요. 아래에서 <strong>사주는 사람들이 있었다</strong>(지지가 있었다)는 신호예요. 바닥 부근의 긴 아랫꼬리는 「이 가격엔 사려는 사람이 있구나」로 읽어요.</li><li>꼬리만 길고 몸통이 아주 짧은 십자(+) 모양 캔들은 「도지」라고 불러요. 산 쪽과 판 쪽의 힘이 딱 맞섰다는 뜻이라, 추세가 바뀌는 길목에서 자주 등장하는 참고 신호예요.</li></ul>
-<p class="cap">🖼️ 꼬리가 말해주는 것 — 갔다가 되돌아온 흔적을 읽어요</p>
+<p class="cap">꼬리가 말해주는 것 — 갔다가 되돌아온 흔적을 읽어요</p>
 <h2>빨간 캔들과 파란 캔들 — 색의 뜻</h2>
 <ul><li>우리나라 차트에서 <strong>빨간 캔들(양봉)</strong> 은 종가가 시가보다 <strong>높게</strong> 끝난 것 — 「시작보다 오르며 마쳤다」예요. <strong>파란 캔들(음봉)</strong> 은 종가가 시가보다 <strong>낮게</strong> 끝난 것 — 「시작보다 내리며 마쳤다」예요.</li><li>주의할 점 하나: 양봉이라고 어제보다 오른 게 아닐 수 있어요! 양봉/음봉은 <strong>어제와의 비교가 아니라 그날 시가와의 비교</strong>예요. 어제보다 크게 떨어져서 시작했다가 조금만 회복해도 빨간 양봉이 될 수 있어요.</li><li>참고로 미국 차트는 색이 반대(초록=상승, 빨강=하락)라서, 해외 차트를 볼 땐 헷갈리지 않게 조심하세요.</li></ul>
 <h2>1분봉·10분봉·일봉·주봉 — 뭘로 봐야 하나요?</h2>
@@ -90,12 +92,12 @@ li{margin-bottom:6px;font-size:15px}
 <p><strong>「캔들의 몸통은 시가~종가(그날의 승부 결과), 꼬리는 갔다가 되돌아온 흔적(싸움의 과정)이에요. 초보자는 분봉 말고 주봉으로 숲을, 일봉으로 나무를 보세요. 캔들은 미래를 알려주는 마법이 아니라 과거를 정직하게 기록한 일기이니, 흐름·지지/저항·거래량을 읽는 용도로만 쓰고 최종 판단은 실적·뉴스까지 함께 보고 내리는 거예요.」</strong></p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=1&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=1&amp;entry=snapshot" rel="nofollow">인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/81.html">시간외 거래, 정규장 끝나고도 주식을 살 수 있다고</a><a href="https://gaeoteam.com/snap/lesson/78.html">동시호가와 VI, 장 시작·마감에 가격이 튀는 이유</a><a href="https://gaeoteam.com/snap/lesson/61.html">일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편</a></div>
-    <div class="sources">📎 출처<ul><li><a href="https://www.investopedia.com/articles/technical/02/091802.asp" rel="nofollow">Investopedia — Understanding Basic Candlestick Charts</a></li><li><a href="https://www.investopedia.com/terms/c/candlestick.asp" rel="nofollow">Investopedia — Candlestick Chart Definition</a></li></ul></div>
-    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="https://gaeoteam.com/disclaimer.html">데이터 출처·면책조항</a> · <a href="https://gaeoteam.com/about.html">사이트 소개</a></div>
-  </div>
+    <div class="sources"><strong>출처</strong><ul><li><a href="https://www.investopedia.com/articles/technical/02/091802.asp" rel="nofollow">Investopedia — Understanding Basic Candlestick Charts</a></li><li><a href="https://www.investopedia.com/terms/c/candlestick.asp" rel="nofollow">Investopedia — Candlestick Chart Definition</a></li></ul></div>
+    <footer class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="https://gaeoteam.com/disclaimer.html">데이터 출처·면책조항</a> · <a href="https://gaeoteam.com/about.html">사이트 소개</a></footer>
+  </main>
 </div>
 </body>
 </html>

@@ -98,6 +98,7 @@ async function auditMode(page, mode, width) {
     const fams = new Set(), weights = {};
     const tall = [], orphans = [], wrapped = [], huge = [], genericMono = [];
     view.querySelectorAll('*').forEach(el => {
+      if (el.closest('.sr-only')) return;                    // 보조기술 전용 텍스트는 의도적으로 화면 밖에 둔다
       if (el.children.length !== 0) return;
       const t = (el.textContent || '').trim();
       if (!t) return;
@@ -142,6 +143,7 @@ async function auditMode(page, mode, width) {
     const bad = [];
     view.querySelectorAll('*').forEach(el => {
       if (typeof el.className !== 'string') return;          // SVG 등 제외
+      if (el.closest('.sr-only')) return;                    // 시각적 clipping 계약의 검사 대상이 아님
       if (el.children.length !== 0) return;                   // 글자를 직접 가진 요소만
       const t = (el.textContent || '').trim();
       if (!t) return;

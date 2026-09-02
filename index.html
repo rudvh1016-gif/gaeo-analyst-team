@@ -337,20 +337,27 @@
     prompt.id='gaeoConsentPrompt';
     const focusableSelector='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
     let consentOpen=false;
+    const consentOwnedInert=new Set();
     const setBackgroundInert=active=>{
       consentOpen=active;
-      [...document.body.children].forEach(element=>{
-        if(element!==prompt) element.inert=active;
-      });
+      if(active){
+        [...document.body.children].forEach(element=>{
+          if(element!==prompt&&!element.inert){ element.inert=true; consentOwnedInert.add(element); }
+        });
+      }else{
+        consentOwnedInert.forEach(element=>{ element.inert=false; });
+        consentOwnedInert.clear();
+      }
     };
     const backgroundObserver=new MutationObserver(records=>{
       if(!consentOpen) return;
       records.forEach(record=>record.addedNodes.forEach(node=>{
-        if(node instanceof HTMLElement&&node!==prompt) node.inert=true;
+        if(node instanceof HTMLElement&&node!==prompt&&!node.inert){ node.inert=true; consentOwnedInert.add(node); }
       }));
     });
     backgroundObserver.observe(document.body,{childList:true});
     prompt.addEventListener('keydown',event=>{
+      if(event.key==='Escape'&&!prompt.hidden){ event.preventDefault(); close(); return; }
       if(event.key!=='Tab'||prompt.hidden) return;
       const focusable=[...prompt.querySelectorAll(focusableSelector)]
         .filter(element=>element.getClientRects().length&&!element.hidden);
@@ -374,6 +381,9 @@
       setBackgroundInert(false);
       requestAnimationFrame(()=>settings.focus());
     };
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape'&&consentOpen&&!prompt.hidden){ event.preventDefault(); close(); }
+    },true);
     prompt.querySelectorAll('[data-consent]').forEach(btn=>btn.onclick=()=>{
       window.gaeoSetAnalyticsConsent(btn.dataset.consent); close();
     });
@@ -970,7 +980,7 @@
   .qtop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   /* ⭐ 2026-08-10: 볼드체가 너무 많아 무겁고 안 모던해 보인다는 피드백 → 굵기·크기를
      한 단계씩 줄여 애플 스펙시트 느낌의 절제된 타이포로 다듬었다. */
-  .qname{font-size:19px;font-weight:600;letter-spacing:-.02em}
+  .qname{margin:0;font-size:19px;font-weight:600;letter-spacing:-.02em}
   .qcaprank{font-size:11px;font-weight:600;color:var(--dim);
     padding:3px 9px;border-radius:99px;background:var(--navy-soft);border:1px solid var(--line)}
   .qcode{font-size:11.5px;font-weight:500;color:var(--faint);margin-left:auto;
@@ -2795,7 +2805,7 @@
   .gloss-pop.on{opacity:1;transform:none;pointer-events:auto}
   .gp-term{font-weight:600;color:var(--navy);font-size:13.5px;margin:0 22px 6px 0;
     display:flex;align-items:center;gap:6px}
-  .gp-term::before{content:"💡";font-size:13px}
+  .gp-term::before{content:""}
   .gp-def{color:var(--t2);word-break:keep-all}
   .gp-x{position:absolute;top:10px;right:10px;border:none;background:var(--bg);color:var(--dim);
     width:22px;height:22px;border-radius:50%;font-size:12px;cursor:pointer;line-height:1}
@@ -4566,6 +4576,7 @@
 </style>
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v1">
+<link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
 <!-- 자바스크립트를 실행하지 않고 원본 HTML만 읽는 크롤러(특히 AI 답변엔진)가 홈에서
@@ -4590,7 +4601,7 @@
     </ul>
   </div>
 </noscript>
-<a class="skip-link" href="#homeDashboard">본문으로 건너뛰기</a>
+<a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
 <nav class="global-nav" id="globalNav" aria-label="Gaeo 주요 메뉴">
   <div class="global-nav-inner">
     <button class="global-brand" id="globalHome" type="button" aria-label="Gaeo 홈으로 이동">
@@ -4613,7 +4624,7 @@
       <button class="global-link" type="button" data-nav-mode="scorecard">성적표</button>
     </div>
     <div class="global-utilities">
-      <button class="global-icon-btn" id="navSearchToggle" type="button" aria-expanded="false" aria-controls="navSearchPanel">
+      <button class="global-icon-btn" id="navSearchToggle" type="button" aria-label="종목 검색 열기" aria-expanded="false" aria-controls="navSearchPanel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21"/></svg>
         <span>검색</span>
       </button>
@@ -4621,11 +4632,11 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 8a7.5 7.5 0 1 0 .2 7.5"/><path d="M19 3v5h-5"/></svg>
         <span>새로고침</span>
       </button>
-      <button class="global-icon-btn profile" id="navProfileToggle" type="button" aria-expanded="false" aria-controls="navProfilePanel">
+      <button class="global-icon-btn profile" id="navProfileToggle" type="button" aria-label="프로필과 화면 설정 열기" aria-expanded="false" aria-controls="navProfilePanel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg>
         <span>프로필</span>
       </button>
-      <button class="global-menu-btn" id="navMenuToggle" type="button" aria-expanded="false" aria-controls="navWorkspace">
+      <button class="global-menu-btn" id="navMenuToggle" type="button" aria-label="전체 메뉴 열기" aria-expanded="false" aria-controls="navWorkspace">
         <span class="global-menu-lines" aria-hidden="true"></span>
         <span>전체 메뉴</span>
       </button>
@@ -4635,10 +4646,11 @@
     <div class="global-panel-inner nav-search-inner">
       <span class="nav-panel-label">종목 바로 찾기</span>
       <div class="ac-wrap">
-        <input id="navTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름, 종목 코드, 업종을 검색해 보세요">
+        <input id="navTicker" type="search" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" aria-describedby="navSearchError" placeholder="회사 이름, 종목 코드, 업종을 검색해 보세요">
         <div class="acbox" id="navAcbox" role="listbox"></div>
       </div>
       <button class="nav-search-go" id="navSearchRun" type="button">분석 보기</button>
+      <span class="nav-search-error" id="navSearchError" role="alert" hidden>일치하는 종목을 찾지 못했습니다. 회사 이름이나 종목 코드를 다시 확인해 주세요.</span>
     </div>
   </div>
   <div class="global-panel nav-profile-panel" id="navProfilePanel" hidden>
@@ -4648,9 +4660,9 @@
         <strong>관심종목과 화면 설정을 이 기기에 저장해요.</strong>
       </div>
       <div class="nav-profile-row">
-        <button class="theme-toggle" id="trustInfoToggle" type="button" title="판단보다 먼저, 기준을 공개해요" aria-haspopup="dialog" aria-controls="trustStrip" aria-expanded="false">📐<span>기준</span></button>
-        <button class="theme-toggle" id="siteTheme" title="사이트 화면 테마 전환 (다크/라이트)"></button>
-        <button class="views" id="viewsBadge" type="button" title="탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요" aria-haspopup="dialog" aria-controls="activityBoard" aria-expanded="false"><span class="views-eye" aria-hidden="true">👁</span> 조회 <b id="profileTotal">939+</b><span class="views-go" aria-hidden="true">›</span></button>
+        <button class="theme-toggle" id="trustInfoToggle" type="button" title="판단보다 먼저, 기준을 공개해요" aria-haspopup="dialog" aria-controls="trustStrip" aria-expanded="false"><span>기준</span></button>
+        <button class="theme-toggle" id="siteTheme" type="button" aria-label="사이트 화면 테마 전환" title="사이트 화면 테마 전환 (다크/라이트)"></button>
+        <button class="views" id="viewsBadge" type="button" title="탭하면 오늘의 Gaeo 방문 현황과 인기 글을 볼 수 있어요" aria-haspopup="dialog" aria-controls="activityBoard" aria-expanded="false">조회 <b id="profileTotal">939+</b><span class="views-go" aria-hidden="true">›</span></button>
         <button class="nav-profile-action" id="navInstall" type="button">앱 설치 안내</button>
       </div>
     </div>
@@ -4745,7 +4757,8 @@
     </div>
   </div>
 </section>
-<div class="wrap">
+<main id="main-content" class="wrap" tabindex="-1">
+  <div class="context-title" id="contextTitle" role="heading" aria-level="1" tabindex="-1" hidden>종목 분석</div>
 
   <section class="home-dashboard" id="homeDashboard" aria-label="Gaeo 홈 대시보드">
     <div class="home-lead">
@@ -4771,7 +4784,7 @@
         <div class="home-search-panel" id="homeSearchPanel">
           <div class="home-search-row">
             <div class="ac-wrap">
-              <input id="homeTicker" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
+              <input id="homeTicker" type="search" autocomplete="off" inputmode="search" aria-label="회사 이름 또는 업종 검색" placeholder="회사 이름 또는 업종 검색">
               <div class="acbox" id="homeAcbox" role="listbox"></div>
             </div>
             <button class="home-search-go" id="homeRun" type="button">분석 보기</button>
@@ -4950,22 +4963,22 @@
 
   <div class="controls">
     <div class="ac-wrap">
-      <input id="ticker" autocomplete="off" placeholder="한글로 검색 (예: 삼성, 카카오, 반도체…)" />
+      <input id="ticker" type="search" autocomplete="off" aria-label="분석할 회사 이름 또는 업종 검색" placeholder="한글로 검색 (예: 삼성, 카카오, 반도체…)" />
       <div class="acbox" id="acbox" role="listbox"></div>
     </div>
     <button id="run">분석 시작 ▶</button>
   </div>
   <div class="cmp-controls" id="cmpControls" style="display:none">
-    <div class="ac-wrap"><input id="cmpA" autocomplete="off" placeholder="종목 A — 한글로 검색" /><div class="acbox" id="acboxA"></div></div>
+    <div class="ac-wrap"><input id="cmpA" type="search" autocomplete="off" aria-label="비교할 첫 번째 종목 검색" placeholder="종목 A — 한글로 검색" /><div class="acbox" id="acboxA"></div></div>
     <span class="vs">VS</span>
-    <div class="ac-wrap"><input id="cmpB" autocomplete="off" placeholder="종목 B — 한글로 검색" /><div class="acbox" id="acboxB"></div></div>
+    <div class="ac-wrap"><input id="cmpB" type="search" autocomplete="off" aria-label="비교할 두 번째 종목 검색" placeholder="종목 B — 한글로 검색" /><div class="acbox" id="acboxB"></div></div>
     <button id="cmpRun">비교 ▶</button>
   </div>
 
   <div class="chips" id="chips"></div>
   </aside>
 
-  <main class="main">
+  <div class="main">
   <section class="analysis-browser" id="analysisBrowser" aria-labelledby="analysisBrowserTitle">
     <div class="analysis-browser-head">
       <h2 id="analysisBrowserTitle">종목을 찾아 분석해 보세요</h2>
@@ -4981,7 +4994,7 @@
   </section>
   <div class="quote" id="quote">
     <div class="qtop">
-      <span class="qname" id="qname">—</span>
+      <h2 class="qname" id="qname" role="heading" aria-level="1" tabindex="-1" aria-hidden="true">—</h2>
       <span class="qcaprank" id="qcaprank" style="display:none"></span>
       <span class="qprice" id="qprice"></span>
       <span class="qrate" id="qrate"></span>
@@ -5000,21 +5013,21 @@
         <strong>종목분석을 나눠서 확인하세요</strong>
       </div>
       <div class="analysis-tabs" id="analysisTabs" role="tablist" aria-label="종목분석 항목 선택">
-        <button class="analysis-tab on" id="analysisTabOverview" type="button" role="tab" aria-selected="true" aria-controls="analysisPanelOverview" data-analysis-tab="overview">가격 흐름</button>
-        <button class="analysis-tab" id="analysisTabAgents" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelAgents" data-analysis-tab="agents">분석가별 근거</button>
-        <button class="analysis-tab" id="analysisTabVerdict" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelVerdict" data-analysis-tab="verdict">종합 판단</button>
-        <button class="analysis-tab" id="analysisTabRadar" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelRadar" data-analysis-tab="radar">레이더 변화</button>
-        <button class="analysis-tab" id="analysisTabArchive" type="button" role="tab" aria-selected="false" aria-controls="analysisPanelArchive" data-analysis-tab="archive" style="display:none">정밀분석 기록</button>
+        <button class="analysis-tab on" id="analysisTabOverview" type="button" role="tab" tabindex="0" aria-selected="true" aria-controls="analysisPanelOverview" data-analysis-tab="overview">가격 흐름</button>
+        <button class="analysis-tab" id="analysisTabAgents" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="analysisPanelAgents" data-analysis-tab="agents">분석가별 근거</button>
+        <button class="analysis-tab" id="analysisTabVerdict" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="analysisPanelVerdict" data-analysis-tab="verdict">종합 판단</button>
+        <button class="analysis-tab" id="analysisTabRadar" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="analysisPanelRadar" data-analysis-tab="radar">레이더 변화</button>
+        <button class="analysis-tab" id="analysisTabArchive" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="analysisPanelArchive" data-analysis-tab="archive" style="display:none">정밀분석 기록</button>
       </div>
     </div>
     <div class="analysis-panels">
-      <section class="analysis-tab-panel on" id="analysisPanelOverview" role="tabpanel" aria-labelledby="analysisTabOverview" data-analysis-panel="overview">
+      <section class="analysis-tab-panel on" id="analysisPanelOverview" role="tabpanel" tabindex="0" aria-labelledby="analysisTabOverview" data-analysis-panel="overview">
         <div class="qchart" id="qchartWrap" style="display:none"></div>
         <div class="qjudge" id="qjudgeWrap" style="display:none"></div>
         <div class="tab-checking" id="overviewChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
       </section>
 
-      <section class="analysis-tab-panel" id="analysisPanelAgents" role="tabpanel" aria-labelledby="analysisTabAgents" data-analysis-panel="agents" hidden>
+      <section class="analysis-tab-panel" id="analysisPanelAgents" role="tabpanel" tabindex="0" aria-labelledby="analysisTabAgents" data-analysis-panel="agents" hidden>
         <div class="analysis-section-head" id="modeSectionHead">
           <span id="modeSectionEyebrow">왜 이런 판단일까요?</span>
           <h2 id="modeSectionTitle">분석가별 근거</h2>
@@ -5033,7 +5046,7 @@
         <div class="viz" id="viz"></div>
       </section>
 
-      <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
+      <section class="analysis-tab-panel" id="analysisPanelVerdict" role="tabpanel" tabindex="0" aria-labelledby="analysisTabVerdict" data-analysis-panel="verdict" hidden>
         <div class="tab-checking" id="verdictChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="verdict" id="verdict">
           <div class="analysis-eyebrow">개오팀 종합 판단 <button type="button" class="eval-rule" data-eval-rule="chief" aria-haspopup="dialog" aria-expanded="false">4인 보정 가중합 · RISK 감점 후 최종</button></div>
@@ -5078,7 +5091,7 @@
         </div>
       </section>
 
-      <section class="analysis-tab-panel" id="analysisPanelRadar" role="tabpanel" aria-labelledby="analysisTabRadar" data-analysis-panel="radar" hidden>
+      <section class="analysis-tab-panel" id="analysisPanelRadar" role="tabpanel" tabindex="0" aria-labelledby="analysisTabRadar" data-analysis-panel="radar" hidden>
         <div class="tab-checking" id="radarChecking"><span class="tc-spin" aria-hidden="true"></span><span>분석 확인 중···</span></div>
         <div class="radar-detail" id="radarDetail"></div>
         <div class="analysis-tab-empty">최근 레이더에서 새롭게 포착된 변화가 없어요. 판단 근거는 다른 탭에서 그대로 확인할 수 있어요.</div>
@@ -5089,7 +5102,7 @@
            "직접 정밀분석 요청한 내용을 나중엔 다시 못 본다"는 피드백이 있어서, 신선도와
            무관하게 이 종목에 대해 실제로 정밀분석했던 기록 전부를 시간순으로 다시 읽을 수
            있는 탭을 별도로 둔다. LIVE_AN[code]가 있는 종목에서만 탭 자체가 보인다. -->
-      <section class="analysis-tab-panel" id="analysisPanelArchive" role="tabpanel" aria-labelledby="analysisTabArchive" data-analysis-panel="archive" hidden>
+      <section class="analysis-tab-panel" id="analysisPanelArchive" role="tabpanel" tabindex="0" aria-labelledby="analysisTabArchive" data-analysis-panel="archive" hidden>
         <div class="analysis-section-head">
           <span>지난 정밀분석 다시 읽기</span>
           <h2>정밀분석 기록</h2>
@@ -5178,16 +5191,15 @@
   </section>
   <div class="guideView" id="guideView"></div>
   <div class="newsView" id="changelogView"></div>
-  </main>
+  </div>
 
   </div><!-- /.layout -->
 
-  <div class="foot" data-edit="foot">
+  <footer class="foot" data-edit="foot">
     <b>Gaeo</b> · TARO·DIANA·QUANT·FLOW·CHIEF는 기술·재무·확률통계·수급·리스크를 구분하는 분석 역할 체계입니다.<br>
     시세·지표는 평일 장중 자동으로 갱신되며, 공휴일·장 마감 뒤에는 마지막 거래일 값이 표시될 수 있어요.
     각 분석의 기준 시각과 데이터 상태를 함께 표시하니 투자 판단 전에 꼭 확인해 주세요.
-  </div>
-  <div style="text-align:center;padding:14px 0 28px;font-size:12.5px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+  <nav class="foot-links" aria-label="사이트 정보">
     <a href="about.html" style="color:var(--dim);font-weight:600">소개</a>
     <!-- GAEO Research(/snap/index.html)는 발행 글 전체로 이어지는 정적 리서치 허브다.
          이 링크가 noscript 안에만 있으면 자바스크립트를 실행하는 검색봇에는 보이지 않아
@@ -5198,10 +5210,14 @@
     <a href="contact.html" style="color:var(--dim);font-weight:600">문의하기</a>
     <a href="privacy.html" style="color:var(--dim);font-weight:600">개인정보처리방침</a>
     <a href="disclaimer.html" style="color:var(--dim);font-weight:600">이용약관·면책</a>
-  </div>
-</div>
+  </nav>
+  </footer>
+</main>
 
 <script>
+window.GaeoMotionBehavior=function(){
+  return window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+};
 // ⭐ 2026-08-11: data.js·indicators.js 등은 파이프라인이 10~30분마다 새로 커밋하는데,
 // 캐시버스터(?v=)가 2026-07-31로 고정돼 있어서 브라우저가 며칠 전 캐시를 계속 재사용하는
 // 사고가 있었다(수급 카드가 8/11에도 8/7 데이터를 보여주는 식). 10분 단위로 값이 바뀌는
@@ -5851,7 +5867,7 @@ function renderPortfolio(){
         </ol>
       </div>
       <div class="pf-add">
-        <div class="ac-wrap"><input id="pfAdd" autocomplete="off" placeholder="🔎 담고 싶은 종목을 한글로 검색해 추가 (예: 삼성전자, 반도체)"><div class="acbox" id="acboxPf"></div></div>
+        <div class="ac-wrap"><input id="pfAdd" autocomplete="off" placeholder="담고 싶은 종목을 한글로 검색해 추가 (예: 삼성전자, 반도체)"><div class="acbox" id="acboxPf"></div></div>
         <div class="pf-add-hint">이름·업종으로 검색해서 <b>내가 가진 종목만</b> 추가하세요. 추가 후 수량·평단을 넣으면 손익과 맞춤 제안이 나와요.</div>
       </div>
       <div class="pf-sum" id="pfSum"></div>
@@ -5862,7 +5878,7 @@ function renderPortfolio(){
       onPick:x=>{
         const pf=loadPortfolio(); pf[x.code]=pf[x.code]||{}; pf[x.code].added=true; savePortfolio(pf);
         document.getElementById('pfAdd').value=''; renderPfHoldings();
-        setTimeout(()=>{const c=document.getElementById('pf-card-'+x.code); if(c) c.scrollIntoView({behavior:'smooth',block:'center'});},60);
+        setTimeout(()=>{const c=document.getElementById('pf-card-'+x.code); if(c) c.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});},60);
       }
     });
     PF_SHELL=true;
@@ -5875,7 +5891,7 @@ function renderPfHoldings(){
   const pf=loadPortfolio();
   const codes=Object.keys(pf).filter(c=>STOCKS[c]);
   if(!codes.length){
-    list.innerHTML=`<div class="pf-empty">아직 담은 종목이 없어요.<br>위 검색창에서 <b>내가 가진 종목</b>을 추가해보세요! 🔎</div>`;
+    list.innerHTML=`<div class="pf-empty">아직 담은 종목이 없어요.<br>위 검색창에서 <b>내가 가진 종목</b>을 추가해보세요.</div>`;
     if(sum) sum.style.display='none';
     return;
   }
@@ -6120,7 +6136,7 @@ function recalcPf(){
                 :`<span class="pf-mut">평단을 넣으면 손익이 계산돼요</span>`);
       } else plEl.innerHTML=`<span class="pf-mut">수량을 넣으면 평가금액·손익이 나와요</span>`;
     }
-    if(noteEl) noteEl.innerHTML='💡 '+pfGuideText(code, price, avg, qty);
+    if(noteEl) noteEl.innerHTML=pfGuideText(code, price, avg, qty);
     if(qty>0&&price){
       totVal+=qty*price; totCost+=qty*avg; held++;
       if(typeof d.rate==='number'){const prev=price/(1+d.rate/100); todayGain+=qty*(price-prev);}
@@ -6136,7 +6152,7 @@ function recalcPf(){
   }
   const pl=totVal-totCost, plPct=totCost>0?pl/totCost*100:0;
   const col=v=>v>0?'var(--krup)':(v<0?'var(--krdn)':'var(--ink)');
-  const mood = plPct>5?'🤑':plPct>0?'🙂':plPct<-5?'😱':'😟';
+  const mood = plPct>5?'매우 양호':plPct>0?'양호':plPct<-5?'주의':'관찰';
   sum.innerHTML=`<div class="pf-sumrow">
     <span>${mood} 보유 <b>${held}</b>종목</span>
     <span>매입 <b>${won(totCost)}</b></span>
@@ -7602,7 +7618,7 @@ function modelBoardHTML(){
     }).join('');
     return `<div class="mb-row${m.status==='ARCHIVED_FAILED_EXPERIMENT'?' mb-archived':''}">
       <button class="mb-head" type="button" aria-expanded="false" data-mb="${i}">
-        <span class="mb-name"><span class="mb-icon">${esc(m.icon||'')}</span>${esc(m.displayName)}</span>
+        <span class="mb-name">${esc(m.displayName)}</span>
         <span class="mb-status">${esc(m.statusLabel||'')}</span>
         <span class="mb-h">${cell(m.horizons&&m.horizons['5'])}</span>
         <span class="mb-h mb-h-wide">${cell(m.horizons&&m.horizons['20'])}</span>
@@ -7995,7 +8011,7 @@ function goToGuideSection(anchorId){
     const sec=document.getElementById(anchorId);
     if(!sec) return;
     sec.open=true;
-    sec.scrollIntoView({behavior:'smooth',block:'start'});
+    sec.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
   });
 }
 
@@ -8085,7 +8101,7 @@ function upcomingScheduleHTML(){
       `<span class="rr-body"><span class="rr-name">${esc(e.name)}</span>`+
       `<span class="rr-sub">${esc(e.title)}</span></span></div>`;
   }).join(''):'<div class="rr-empty">예정된 일정이 없습니다.</div>';
-  return `<div class="rr-panel cal-upcoming"><div class="rr-title">📅 다가오는 일정<span class="rr-cnt">${evs.length}</span></div>${body}</div>`;
+  return `<div class="rr-panel cal-upcoming"><div class="rr-title">다가오는 일정<span class="rr-cnt">${evs.length}</span></div>${body}</div>`;
 }
 function renderCalendar(){
   const el=document.getElementById('calendarView'); if(!el) return;
@@ -8110,7 +8126,7 @@ function renderCalendar(){
   const pf=loadPortfolio(); let pCost=0,pVal=0;
   Object.entries(STOCKS).forEach(([c,d])=>{const h=pf[c]||{},q=+h.qty||0,av=+h.avg||0; if(q>0&&d.price&&av>0){pVal+=q*d.price;pCost+=q*av;}});
   const pPl=pVal-pCost, pPct=pCost>0?pPl/pCost*100:0;
-  const fmtCall=x=>x?`${x.name} ${x.call} → ${x.r>0?'+':''}${x.r.toFixed(1)}% ${x.vind>0?'✅':'✕'}`:'—';
+  const fmtCall=x=>x?`${x.name} ${x.call} → ${x.r>0?'+':''}${x.r.toFixed(1)}% · ${x.vind>0?'검증':'미검증'}`:'—';
   const report=`<div class="cal-report"><h3>${mLabel} 성적표</h3><div class="cal-rgrid">
     <span>분석한 날 <b>${days.size}</b>일 · 기록 <b>${ents.length}</b>건${pending?` (⏳평가중 ${pending})`:''}</span>
     <span>팀 적중률 <b>${acc===null?'—':acc+'%'}</b> <span style="font-size:10px;color:var(--faint)">5거래일 뒤 종가 기준</span></span>
@@ -8133,7 +8149,7 @@ function renderCalendar(){
     grid+=`<div class="cal-cell ${st} ${ds===todayStr?'today':''} ${hasEv?'has-ev':''}" ${hasEv?`data-ds="${ds}"`:''}><span class="cal-dnum">${d}</span>${evHtml}${hasEv?'<span class="cal-more">터치해서 보기</span>':''}</div>`;
   }
   const undated=collectEvents().filter(e=>!e.date);
-  const issues=undated.length?`<div class="cal-issues"><h4>📌 주요 이슈 (날짜 미정)</h4>`+
+  const issues=undated.length?`<div class="cal-issues"><h4>주요 이슈 (날짜 미정)</h4>`+
     undated.map(e=>`<div class="cal-issue"><span class="ci-stock">${esc(e.name)}</span> ${esc(e.title)}</div>`).join('')+`</div>`:'';
   // 💰 배당 캘린더 — 개별 종목의 정확한 배당락일 데이터는 없어서(과장·오류 방지),
   // ①국내 상장사 배당 시기에 대한 일반 사실 안내 + ②data.js의 실측 배당수익률(div) 상위 종목만 정직하게 보여준다.
@@ -8174,7 +8190,7 @@ function showDayPopup(ds, evs){
     ? evs.map(e=>`<div class="dp-ev"><b>${esc(e.name)}</b> — ${esc(e.title)}</div>`).join('')
     : '<div class="dp-empty">이날 등록된 종목 일정이 없어요.</div>';
   const [y,m,d]=ds.split('-');
-  bg.innerHTML=`<div class="daypop"><h4>📅 ${+m}월 ${+d}일</h4>
+  bg.innerHTML=`<div class="daypop"><h4>${+m}월 ${+d}일</h4>
     <div class="dp-stance">${stLabel}</div>${items}
     <button class="dp-close" onclick="document.getElementById('daypopBg').classList.remove('on')">닫기</button></div>`;
   bg.classList.add('on');
@@ -8307,7 +8323,7 @@ renderHomeWatchlist();
   // 히어로 버튼·좌측 탭이 함께 쓰는 진입점 — 별도 화면으로 전환한 뒤 맨 위에서 보여준다.
   window.openGaeoLatestPanel=function(){
     setMode('latest');
-    const move=()=>window.scrollTo({top:0,behavior:'smooth'});
+    const move=()=>window.scrollTo({top:0,behavior:window.GaeoMotionBehavior()});
     requestAnimationFrame(move);
     setTimeout(move,300);   // 홈 대시보드가 사라지며 높이가 바뀐 뒤 한 번 더 맞춘다
   };
@@ -8325,7 +8341,7 @@ renderHomeWatchlist();
   const homeBtn=document.getElementById('latestPanelClose');
   if(homeBtn) homeBtn.onclick=()=>{
     setMode('single');
-    window.scrollTo({top:0,behavior:'smooth'});
+    window.scrollTo({top:0,behavior:window.GaeoMotionBehavior()});
   };
 })();
 
@@ -8493,6 +8509,7 @@ renderHomeDeepAnalysis();
   function renderHomeBriefDecision(){
     const box=document.getElementById('hdbDecisionBody');
     if(!box) return;
+    if(typeof window.GaeoHdbSheetCleanup==='function') window.GaeoHdbSheetCleanup();
     document.body.classList.remove('hdb-sheet-open');
     const persistentBackdrop=document.getElementById('hdbSheetBackdrop');
     if(persistentBackdrop) persistentBackdrop.hidden=true;
@@ -8520,7 +8537,7 @@ renderHomeDeepAnalysis();
         ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>판단 확신도순</span></div><div class="hdb-preview">${preview}</div>`+
           `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
           `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
-          `<section class="hdb-buy-panel" id="hdbBuyPanel" hidden><div class="hdb-panel-head"><strong>BUY 전체 ${model.buy.length}종목</strong>`+
+          `<section class="hdb-buy-panel" id="hdbBuyPanel" aria-labelledby="hdbBuyPanelTitle" hidden><div class="hdb-panel-head"><strong id="hdbBuyPanelTitle">BUY 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
         :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
 
@@ -8529,7 +8546,7 @@ renderHomeDeepAnalysis();
       try{ await window.ensureAutoAnalysis(); }catch(e){}
       SCR.sector='__all__'; SCR.call=button.dataset.hdbCall; SCR.sort='score_desc';
       if(window.setMode) window.setMode('screener');
-      document.getElementById('screenerView')?.scrollIntoView({behavior:'smooth',block:'start'});
+      document.getElementById('screenerView')?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
     const toggle=document.getElementById('hdbBuyToggle');
     const panel=document.getElementById('hdbBuyPanel');
@@ -8537,6 +8554,45 @@ renderHomeDeepAnalysis();
     const backdrop=document.getElementById('hdbSheetBackdrop');
     const close=document.getElementById('hdbPanelClose');
     const toggleLabel=`BUY 전체 ${model.buy.length}종목 보기 →`;
+    const sheetFocusable='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    const sheetInerted=new Set();
+    let sheetOpen=false;
+    const markSheetInert=element=>{
+      if(element instanceof HTMLElement&&!element.inert){
+        element.inert=true;
+        element.dataset.hdbSheetInert='true';
+        sheetInerted.add(element);
+      }
+    };
+    const sheetObserver=new MutationObserver(records=>{
+      if(!sheetOpen) return;
+      records.forEach(record=>record.addedNodes.forEach(node=>{
+        if(node instanceof HTMLElement&&!node.contains(panel)&&!panel.contains(node)) markSheetInert(node);
+      }));
+    });
+    sheetObserver.observe(document.body,{childList:true,subtree:true});
+    const setSheetBackgroundInert=active=>{
+      if(active){
+        sheetOpen=true;
+        let branch=panel;
+        while(branch&&branch!==document.body){
+          const parent=branch.parentElement;
+          if(!parent) break;
+          [...parent.children].forEach(sibling=>{ if(sibling!==branch) markSheetInert(sibling); });
+          branch=parent;
+        }
+        document.querySelectorAll(sheetFocusable).forEach(element=>{
+          if(!panel.contains(element)) markSheetInert(element);
+        });
+      }else{
+        sheetOpen=false;
+        sheetInerted.forEach(element=>{
+          element.inert=false;
+          delete element.dataset.hdbSheetInert;
+        });
+        sheetInerted.clear();
+      }
+    };
     const closePanel=()=>{
       if(!panel) return;
       panel.hidden=true;
@@ -8544,6 +8600,7 @@ renderHomeDeepAnalysis();
       if(toggle) toggle.textContent=toggleLabel;
       if(backdrop) backdrop.hidden=true;
       document.body.classList.remove('hdb-sheet-open');
+      setSheetBackgroundInert(false);
       toggle?.focus();
     };
     // ⭐ 2026-08-14 사용자 지정 — 닫기(×) 버튼뿐 아니라 여는 데 썼던 "BUY 전체 보기"
@@ -8565,7 +8622,28 @@ renderHomeDeepAnalysis();
       panel.setAttribute('aria-modal',mobile?'true':'false');
       if(backdrop) backdrop.hidden=!mobile;
       document.body.classList.toggle('hdb-sheet-open',mobile);
+      setSheetBackgroundInert(mobile);
       close?.focus();
+    };
+    panel?.addEventListener('keydown',event=>{
+      if(event.key==='Escape'&&!panel.hidden){ event.preventDefault(); closePanel(); return; }
+      if(event.key!=='Tab'||panel.hidden||panel.getAttribute('aria-modal')!=='true') return;
+      const focusable=[...panel.querySelectorAll(sheetFocusable)]
+        .filter(element=>element.getClientRects().length&&!element.hidden&&!element.inert);
+      if(!focusable.length){ event.preventDefault(); panel.focus(); return; }
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(event.shiftKey&&document.activeElement===first){ event.preventDefault(); last.focus(); }
+      else if(!event.shiftKey&&document.activeElement===last){ event.preventDefault(); first.focus(); }
+    });
+    const enforceSheetFocus=event=>{
+      if(sheetOpen&&panel.getAttribute('aria-modal')==='true'&&!panel.contains(event.target)) close?.focus();
+    };
+    document.addEventListener('focusin',enforceSheetFocus);
+    window.GaeoHdbSheetCleanup=()=>{
+      setSheetBackgroundInert(false);
+      sheetObserver.disconnect();
+      document.removeEventListener('focusin',enforceSheetFocus);
+      window.GaeoHdbSheetCleanup=null;
     };
     if(close) close.onclick=closePanel;
     if(backdrop) backdrop.onclick=closePanel;
@@ -8655,7 +8733,7 @@ renderHomeDeepAnalysis();
     try{ await window.ensureAutoAnalysis(); }catch(e){}
     SCR.sector=sector; SCR.call='__all__'; SCR.sort='rate_desc';
     setMode('screener');
-    document.getElementById('screenerView').scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('screenerView').scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
   };
   document.getElementById('briefNewsBtn').onclick=async()=>{
     gaeoTrack('select_content',{content_type:'news_category',item_id:'market'});
@@ -8692,7 +8770,7 @@ renderHomeDeepAnalysis();
     beginGuideTutorial('home_dashboard');
     document.getElementById('mode-guide').click();
     const guide=document.getElementById('guideView');
-    const move=()=>guide.scrollIntoView({behavior:'smooth',block:'start'});
+    const move=()=>guide.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     requestAnimationFrame(move);
     // 가이드 렌더링으로 높이가 바뀐 뒤 한 번 더 위치를 맞춘다.
     setTimeout(move,300);
@@ -8794,6 +8872,7 @@ function jumpToStock(name){
     window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 8));
     de.style.scrollBehavior=prev; };
   scrollNow(); requestAnimationFrame(scrollNow);   // 레이아웃 정착 후 한 번 더(모드전환 반영)
+  requestAnimationFrame(()=>document.getElementById('qname')?.focus({preventScroll:true}));
   analyze();
 }
 /* ---------- 🌐 MACRO 시장국면 판독 (토큰 0 · 규칙 기반 · CHIEF 확신도 보정) ----------
@@ -8940,11 +9019,11 @@ function computeMood(){
 const MOOD=computeMood();
 // 무드별 캐릭터 대사 풀
 const MOOD_LINES={
-  crash:['😱 오늘 왜 이래…','📉 지지선 뚫렸어','🥶 물렸다…','🫠 존버 각','😨 손절해야 하나','🙏 제발 반등…'],
-  down:['😮‍💨 오늘 좀 빠지네','🔻 조정인가?','🤔 저가매수 각?','😐 관망하자','📉 눌림목 보자'],
-  flat:['😌 잔잔하네','☕ 커피나 마시자','📊 눈치 장세','🙂 오늘 무난','🤷 방향 없네'],
-  up:['🙂 살살 오르네','🔺 기분 좋다','📈 흐름 좋아','😄 가보자','👍 순항 중'],
-  surge:['🚀 가즈아!','🎉 떡상이다!','🤑 오늘 잭팟','🔥 불장이야!','😆 이 맛에 투자','🥳 신난다!']
+  crash:['오늘 왜 이래…','지지선 뚫렸어','물렸다…','존버 각','손절해야 하나','제발 반등…'],
+  down:['오늘 좀 빠지네','조정인가?','저가매수 각?','관망하자','눌림목 보자'],
+  flat:['잔잔하네','커피나 마시자','눈치 장세','오늘 무난','방향 없네'],
+  up:['살살 오르네','기분 좋다','흐름 좋아','가보자','순항 중'],
+  surge:['가즈아!','떡상이다!','오늘 잭팟','불장이야!','이 맛에 투자','신난다!']
 };
 function moodLine(){
   const pool=MOOD_LINES[MOOD.key]||[];
@@ -9089,7 +9168,7 @@ function moodLine(){
       `<div class="dow-meta">표본 ${r.n}일</div></div>`;
   }).join('');
   el.innerHTML=
-    `<div class="dow-h"><span class="dow-h-txt"><b>📅 요일별 평균 등락률</b>`+
+    `<div class="dow-h"><span class="dow-h-txt"><b>요일별 평균 등락률</b>`+
     `<span class="dow-sub">2026년 · 개오 추적 ${uni}종목 평균 · ${from}~${to} (${days}거래일)</span></span></div>`+
     `<div class="dow-grid">${cells}</div>`+
     `<div class="dow-foot">추적 종목들의 하루 등락률을 요일별로 평균 낸 값이에요. <b style="color:var(--krup)">빨강=오른 요일</b>·<b style="color:var(--krdn)">파랑=내린 요일</b>. 표본이 쌓일수록 정확해지는 <b>참고용 통계</b>예요(특정 요일 매매를 권하는 게 아니에요).</div>`;
@@ -9166,7 +9245,10 @@ function showQuote(st){
         안에 recordRecent가 있는지로 "최근 본 종목 기록이 맨 앞"을 잠그고 있다. */
   GAEO_QUOTE_STOCK=st;
   if(typeof ensureIndicators==='function') ensureIndicators();
-  document.getElementById('qname').textContent=st.name;
+  const stockHeading=document.getElementById('qname');
+  stockHeading.textContent=st.name;
+  stockHeading.removeAttribute('aria-hidden');
+  document.querySelector('.hero-title')?.setAttribute('aria-hidden','true');
   document.getElementById('qcode').textContent=st.price?st.code:'';
   updateWatchToggle(st.price?st.code:null);
   const qcr=document.getElementById('qcaprank');
@@ -9332,8 +9414,9 @@ function findingMark(text){
   return {sym:'·',cls:'fmk-dot'};
 }
 function findingLi(f){
-  const mk=findingMark(f);
-  return `<li><span class="fmk ${mk.cls}" aria-hidden="true">${mk.sym}</span><span>${SIGNUM(wrapGloss(f))}</span></li>`;
+  const copy=String(f??'').replace(/[\p{Extended_Pictographic}\uFE0F]/gu,'').trim();
+  const mk=findingMark(copy);
+  return `<li><span class="fmk ${mk.cls}" aria-hidden="true">${mk.sym}</span><span>${SIGNUM(wrapGloss(copy))}</span></li>`;
 }
 // 📚 "정밀분석 기록" 탭 — 신선도와 무관하게 그 종목을 실제로 정밀분석했던 시점의 원문을
 // 시간순으로 다시 읽는다(analysis_archive.js, archive_analysis.py가 매 재분석 때 누적).
@@ -9736,7 +9819,7 @@ function maComboHTML(t,unit){
   if(missing.length) lines.push(`<span class="ma-combo-mut">${missing.map(p=>MA_META[p].label).join('·')}은 아직 거래일이 모자라 이번 해석에서 빠졌어요.</span>`);
 
   // ⭐ 가독성 개선(2026-08-06): 각 줄 앞에 · 각주를, 결론 줄엔 ★ 각주를 달아 훑어 읽기 쉽게 한다.
-  return `<div class="ma-combo"><div class="ma-combo-head">🧭 TARO 조합 해석</div><ul>${lines.map((l,i)=>`<li class="${i===conclIdx?'ma-combo-star':'ma-combo-dot'}">${l}</li>`).join('')}</ul></div>`;
+  return `<div class="ma-combo"><div class="ma-combo-head">TARO 조합 해석</div><ul>${lines.map((l,i)=>`<li class="${i===conclIdx?'ma-combo-star':'ma-combo-dot'}">${l}</li>`).join('')}</ul></div>`;
 }
 function maRiskChipsHTML(t){
   const chips=[];
@@ -9757,7 +9840,7 @@ function taroMAExplainHTML(t,unit){
   const risk=maRiskChipsHTML(t);
   const provisional=[120,200].filter(p=>Number.isFinite(t['ma'+p])&&!t['ma'+p+'Full']);
   const note=provisional.length?`<div class="ma-insufficient-note">📏 ${provisional.map(p=>MA_META[p].label).join('·')}은 아직 정식 기간이 다 안 쌓여 확보된 ${t.daysAvail||0}거래일만으로 대신 계산한 「약식」 값이에요. 실제보다 부풀리거나 줄이지 않고, 확보된 만큼만 정직하게 평균 낸 숫자예요 — 기간이 다 채워지면 자동으로 정식 값으로 바뀌어요.</div>`:'';
-  return `<div class="ma-explain"><div class="ma-explain-head">📐 이동평균선으로 보는 추세</div>`+
+  return `<div class="ma-explain"><div class="ma-explain-head">이동평균선으로 보는 추세</div>`+
     `<div class="ma-explain-sub">5·20·60·120·200일 이동평균으로 지금 가격이 단기·중기·장기 흐름의 어디쯤 있는지 살펴봐요.</div>`+
     `<div class="ma-cards">${cards}</div>${combo}${risk}${note}</div>`;
 }
@@ -10123,7 +10206,7 @@ function taroChartHTML(code){
   const mDots=`<circle cx="${mLastX}" cy="${my(m[m.length-1]).toFixed(1)}" r="2.8" fill="#13A8B8" stroke="var(--paper)" stroke-width="1.2"/><circle cx="${mLastX}" cy="${my(s[s.length-1]).toFixed(1)}" r="2.8" fill="#E58A32" stroke="var(--paper)" stroke-width="1.2"/>`;
   const macdSvg=`<svg class="tv-macd-chart" viewBox="0 0 ${mW} ${mH}" role="img" aria-label="MACD ${fmtM(officialMacd)}, 시그널 ${fmtM(officialSignal)} 추세, 현재 ${diff>=0?'골든크로스':'데드크로스'} 상태"><line x1="${mPad}" y1="${mZero}" x2="${mW-mPad}" y2="${mZero}" stroke="var(--line2)"/>${bars}<path d="${mPath(m)}" fill="none" stroke="#13A8B8" stroke-width="1.7"/><path d="${mPath(s)}" fill="none" stroke="#E58A32" stroke-width="1.4"/>${mDots}<text x="${mPad}" y="76" fill="var(--faint)" font-size="9">히스토그램(MACD−시그널)</text><text x="${mW-mPad}" y="76" text-anchor="end" fill="var(--faint)" font-size="9">MACD ${fmtM(officialMacd)} · 시그널 ${fmtM(officialSignal)}</text></svg>`;
   const indicators=`<div class="tv-indicators"><div class="tv-indicator"><div class="tv-ind-head"><strong>${term('RSI')} · 14일</strong><span style="color:${rc}">${r.toFixed(1)}</span></div>${rsiSvg}<div class="tv-note">30 이하는 과매도, 70 이상은 과매수 구간입니다.</div></div>`+
-    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub"><p>🧭 MACD와 시그널을 <b>왜 봐야 하냐면</b> — 이 둘의 위치가 뒤바뀌는 순간이 상승 힘과 하락 힘의 우세가 바뀌는 지점이라, 많은 투자자가 추세 전환을 미리 눈치채는 힌트로 참고하기 때문이에요(다만 신호가 자주 뒤집히기도 해서 이것만으로 매매 시점을 단정하진 않아요).</p><p>💡 MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요.</p><p><b>MACD</b>는 "최근 <b>12일 평균</b> 주가"에서 "최근 <b>26일 평균</b> 주가"를 뺀 값이고, <b>시그널</b>은 그 MACD 값을 다시 <b>9일</b> 동안 부드럽게 한 번 더 평균 낸 값이라 MACD보다 느리게 움직여요. 그래서 이 둘을 비교하면 추세가 바뀌는 순간을 잡아낼 수 있어요.</p><p>지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 높다</b>`:`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 낮다</b>`}는 뜻이에요. (부호가 ${officialMacd>=0?'+':'−'}인 이유예요.)</p><p>종목마다 주가 크기가 달라서 숫자 크기 자체보다 <b>두 선 중 어느 게 위에 있는지</b>가 더 중요해요.</p></div></div></div>`;
+    `<div class="tv-indicator"><div class="tv-ind-head"><strong>${term('MACD')} 모멘텀</strong><span class="${diff>=0?'tv-up':'tv-down'}">${cross}</span></div>${macdSvg}<div class="tv-note">청록 MACD선이 주황 ${term('시그널선')}보다 ${diff>=0?`위에 있어 ${term('골든크로스')} 상태, 상승 힘이 우세합니다.`:`아래에 있어 ${term('데드크로스')} 상태, 하락 힘이 우세합니다.`}</div><div class="tv-note tv-note-sub"><p>MACD와 시그널을 <b>왜 봐야 하냐면</b> — 이 둘의 위치가 뒤바뀌는 순간이 상승 힘과 하락 힘의 우세가 바뀌는 지점이라, 많은 투자자가 추세 전환을 미리 눈치채는 힌트로 참고하기 때문이에요(다만 신호가 자주 뒤집히기도 해서 이것만으로 매매 시점을 단정하진 않아요).</p><p>MACD ${fmtM(officialMacd)}·시그널 ${fmtM(officialSignal)}, 이 숫자들도 원(₩) 단위가 맞아요.</p><p><b>MACD</b>는 "최근 <b>12일 평균</b> 주가"에서 "최근 <b>26일 평균</b> 주가"를 뺀 값이고, <b>시그널</b>은 그 MACD 값을 다시 <b>9일</b> 동안 부드럽게 한 번 더 평균 낸 값이라 MACD보다 느리게 움직여요. 그래서 이 둘을 비교하면 추세가 바뀌는 순간을 잡아낼 수 있어요.</p><p>지금은 ${officialMacd>=0?`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 높다</b>`:`12일 평균이 26일 평균보다 <b>${fmtM(Math.abs(officialMacd))}원 더 낮다</b>`}는 뜻이에요. (부호가 ${officialMacd>=0?'+':'−'}인 이유예요.)</p><p>종목마다 주가 크기가 달라서 숫자 크기 자체보다 <b>두 선 중 어느 게 위에 있는지</b>가 더 중요해요.</p></div></div></div>`;
   return `<div class="taro-viz"><div class="tv-head"><div class="tv-title"><span class="tv-kicker">TECHNICAL SNAPSHOT · ${viewDays.length}D</span><strong>가격 구조와 모멘텀</strong></div><div class="tv-quote"><strong>${Math.round(current).toLocaleString('ko-KR')}원</strong><span class="tv-delta ${change>0?'tv-up':change<0?'tv-down':'tv-flat'}">${change>0?'▲':change<0?'▼':'-'} ${Math.abs(change).toFixed(2)}% · <b class="tv-regime tv-regime-${regime[1]}">${regime[0]}</b></span></div></div><div class="tv-market">${priceSvg}${legend}</div>${stats}${indicators}${taroMAExplainHTML(t)}</div>`;
 }
 
@@ -10640,14 +10723,14 @@ function getRadarSummaryParts(S){
 function getRadarSummary(S){
   const parts=getRadarSummaryParts(S);
   if(!parts) return '';
-  return `<div class="rd-summary"><div class="rd-summary-t">📌 현재 흐름</div><p>${esc(parts.head)} ${esc(parts.body)}</p></div>`;
+  return `<div class="rd-summary"><div class="rd-summary-t">현재 흐름</div><p>${esc(parts.head)} ${esc(parts.body)}</p></div>`;
 }
 // ⑥-2 최종 종합의견 — 위 개별 신호·비교 카드를 다 본 뒤, 화면 맨 아래에서 한 번 더 정리해준다.
 // (내용은 위 "현재 흐름" 카드와 같은 근거를 쓰되, 다 읽고 난 뒤의 "그래서 결론은?" 자리라 문구를 다르게 짠다.)
 function radarFinalOpinionHTML(S){
   const parts=getRadarSummaryParts(S);
   if(!parts) return '';
-  return `<div class="rd-summary rd-final"><div class="rd-summary-t">🧭 최종 종합의견</div>`+
+  return `<div class="rd-summary rd-final"><div class="rd-summary-t">최종 종합의견</div>`+
     `<p>${esc(parts.head)} ${esc(parts.body)}</p>`+
     `<p class="rd-final-note">여러 지표를 기계적으로 모은 참고용 해석일 뿐, 매수·매도를 권유하지 않아요.</p></div>`;
 }
@@ -10729,13 +10812,13 @@ function renderRadarDetail(code){
   // ⭐ 2026-08-07: "MACD−시그널: -63 → 7" 숫자만 보고는 무슨 뜻인지 알기 어렵다는 피드백 →
   // MACD 관련 신호가 하나라도 있으면 그 값이 뭘 뺀 건지 아주 작은 글씨로 설명을 붙인다.
   const macdNote=events.some(e=>radarDef(e.type).metric==='MACD−시그널')
-    ? `<p style="margin:4px 0 0;font-size:9.5px;line-height:1.5;color:var(--gaeo-muted)">💡 MACD−시그널은 MACD값에서 시그널값을 뺀 차이(히스토그램)예요. 음수(−)에서 양수(+)로 바뀌면 MACD선이 시그널선을 아래에서 위로 넘었다는 뜻(골든크로스), 반대로 바뀌면 데드크로스예요.</p>`
+    ? `<p style="margin:4px 0 0;font-size:9.5px;line-height:1.5;color:var(--gaeo-muted)">MACD−시그널은 MACD값에서 시그널값을 뺀 차이(히스토그램)예요. 음수(−)에서 양수(+)로 바뀌면 MACD선이 시그널선을 아래에서 위로 넘었다는 뜻(골든크로스), 반대로 바뀌면 데드크로스예요.</p>`
     : '';
   // ⭐ 2026-08-07: "레이더 변화가 뭔데?"부터 막히지 않도록, 기능 자체의 목적을 먼저 짧게 설명한다.
-  const intro=`<p class="rd-intro">📡 레이더는 이동평균선 교차, 거래량 급증, 볼린저밴드 돌파, RSI 변화처럼 `+
+  const intro=`<p class="rd-intro">레이더는 이동평균선 교차, 거래량 급증, 볼린저밴드 돌파, RSI 변화처럼 `+
     `최근 새로 발생한 기술적 변화를 자동으로 찾아 보여줘요. 신호 하나만으로 매수·매도를 정하기보다, `+
     `여러 지표가 같은 방향을 가리키는지 함께 확인하는 것이 좋아요.</p>`;
-  const head=`<div class="rd-head"><h3>📡 레이더 포착 변화 ${events.length}건</h3>`+
+  const head=`<div class="rd-head"><h3>레이더 포착 변화 ${events.length}건</h3>`+
     `<span class="rd-asof">시세 기준 ${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}<br>`+
     `레이더 생성 ${esc(RADAR.generatedAt||'-')} · <span class="gr-status ${st}">${esc(radarStatusText())}</span></span></div>`+
     intro+`<div class="rd-sigs">${sigs}</div>${macdNote}`;
@@ -11272,7 +11355,7 @@ function setAnalysisTab(tab,options){
   window.GaeoAnalysisTab=tab;
   const activePanel=document.querySelector(`[data-analysis-panel="${tab}"]`);
   if(options&&options.scroll&&activePanel){
-    activePanel.scrollIntoView({behavior:'smooth',block:'start'});
+    activePanel.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
   }
 }
 (function wireAnalysisTabs(){
@@ -11763,7 +11846,7 @@ function analystCardBodyHTML(id,code,res,color){
   const scope=I.scope?`<div class="fx-scope">비교 범위: ${esc(I.scope)}</div>`:'';
   const explain=I.explain?`<div class="fx-explain"><b>초보자용 해석</b><p>${esc(I.explain)}</p></div>`:'';
   const guide=I.guide?`<div class="fx-explain"><p>${esc(I.guide)}</p></div>`:'';
-  const check=I.check?`<div class="fx-check"><b>✅ 체크할 점</b><p>${esc(I.check)}</p></div>`:'';
+  const check=I.check?`<div class="fx-check"><b>체크할 점</b><p>${esc(I.check)}</p></div>`:'';
   const details=`<details class="fx-details"><summary>자세히 보기</summary><ul>${res.findings.map(findingLi).join('')}</ul></details>`;
   // 🔎 QUANT 카드 맨 아래에만 붙는, 눌러야 펼쳐지는 아주 작은 글씨의 계산 방식 각주.
   const method=I.methodNote?`<details class="fx-method"><summary>이 계산은 어떻게 나온 건가요?</summary><p>${esc(I.methodNote)}</p></details>`:'';
@@ -11851,7 +11934,7 @@ function fillCard(a,res,code){
   if(a.id==='nova'&&Array.isArray(res.sources)&&res.sources.length){
     const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const holder=document.createElement('div'); holder.className='nova-src';
-    holder.innerHTML='<span class="ns-t">📰 근거 기사</span>'+res.sources.map(s=>
+    holder.innerHTML='<span class="ns-t">근거 기사</span>'+res.sources.map(s=>
       ` · ${esc(s.t)} <span class="ns-meta">(${esc(s.p||'')}${s.d?' · '+esc(s.d):''})</span>`).join('');
     fx.after(holder);
   }
@@ -12294,7 +12377,7 @@ async function analyze(){
         // 결과 탭은 어느 경우든 종합판단으로 맞춰 둔다(돌아왔을 때 바로 보이게).
         setAnalysisTab('verdict');
         // 기다리는 동안 사용자가 화면을 직접 움직였다면 보던 자리를 그대로 둔다.
-        if(!userMovedView) document.getElementById('analysisDetails').scrollIntoView({behavior:'smooth',block:'start'});
+        if(!userMovedView) document.getElementById('analysisDetails').scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       }
       releaseViewGuard();
       SFX[v.call.toLowerCase()]();
@@ -12327,6 +12410,20 @@ const isChosungQuery=q=>/^[ㄱ-ㅎ]{2,}$/.test(q);
 function makeAutocomplete(inp, box, opts){
   if(!inp||!box) return;
   opts=opts||{};
+  if(!box.id) box.id=`${inp.id||'gaeo-search'}-listbox`;
+  box.setAttribute('role','listbox');
+  inp.setAttribute('role','combobox');
+  inp.setAttribute('aria-autocomplete','list');
+  inp.setAttribute('aria-controls',box.id);
+  inp.setAttribute('aria-expanded','false');
+  if(!inp.getAttribute('aria-label')&&!inp.getAttribute('aria-labelledby')){
+    inp.setAttribute('aria-label',inp.placeholder||'종목 검색');
+  }
+  const closeList=()=>{
+    box.classList.remove('on');
+    inp.setAttribute('aria-expanded','false');
+    inp.removeAttribute('aria-activedescendant');
+  };
   // 검색 대상: tickers 순서대로(칩과 동일), 이름·코드·업종·사업소개를 키워드로
   const ALL=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)?TICKERS:Object.keys(STOCKS).map(c=>({code:c})))
     .map(t=>{const s=STOCKS[t.code]||{}; return {
@@ -12339,19 +12436,22 @@ function makeAutocomplete(inp, box, opts){
   const hl=(text,q)=>{ if(!q) return esc(text); const i=text.toLowerCase().indexOf(q.toLowerCase());
     return i<0?esc(text):esc(text.slice(0,i))+'<span class="ac-mark">'+esc(text.slice(i,i+q.length))+'</span>'+esc(text.slice(i+q.length)); };
   function render(list,q){
-    if(!list.length){ box.innerHTML='<div class="ac-empty">일치하는 종목이 없어요. 이름 일부만 입력해보세요.</div>'; box.classList.add('on'); return; }
+    if(!list.length){ box.innerHTML='<div class="ac-empty" role="status">일치하는 종목이 없어요. 이름 일부만 입력해보세요.</div>'; box.classList.add('on'); inp.setAttribute('aria-expanded','true'); inp.removeAttribute('aria-activedescendant'); return; }
     box.innerHTML=list.map((x,i)=>{
       const pr=(typeof x.price==='number')?`<span class="ac-pr">${x.price.toLocaleString()} <span class="${x.rate>0?'up':'down'}">${x.rate>0?'+':''}${(x.rate||0).toFixed(1)}%</span></span>`:`<span class="ac-pr">시세 대기</span>`;
-      return `<div class="ac-item${i===sel?' sel':''}" role="option" data-code="${x.code}" data-name="${esc(x.name)}">`+
+      return `<div class="ac-item${i===sel?' sel':''}" id="${box.id}-option-${i}" role="option" aria-selected="${i===sel?'true':'false'}" data-code="${x.code}" data-name="${esc(x.name)}">`+
         `<span class="ac-nm">${hl(x.name,q)}</span>`+
         (x.sector?`<span class="ac-sec">${esc(x.sector)}</span>`:'')+
         `<span class="ac-bio">${esc(x.bio||'')}</span>${pr}</div>`;
     }).join('');
     box.classList.add('on');
+    inp.setAttribute('aria-expanded','true');
+    if(sel>=0) inp.setAttribute('aria-activedescendant',`${box.id}-option-${sel}`);
+    else inp.removeAttribute('aria-activedescendant');
   }
   function search(q){
     q=(q||'').trim();
-    if(!q){ box.classList.remove('on'); cur=[]; return; }
+    if(!q){ closeList(); cur=[]; return; }
     const ql=q.toLowerCase();
     // 우선순위: 이름 시작 > 이름 포함 > 업종/사업 포함. 초성만 입력하면 초성검색.
     const starts=[],incl=[],other=[];
@@ -12372,24 +12472,24 @@ function makeAutocomplete(inp, box, opts){
   }
   function choose(x){
     if(!x) return;
-    inp.value=x.name; box.classList.remove('on'); sel=-1;
+    inp.value=x.name; closeList(); sel=-1;
     if(opts.onPick) opts.onPick(x);
   }
   inp.addEventListener('input',()=>search(inp.value));
-  inp.addEventListener('focus',()=>{ if(inp.value.trim()&&cur.length) box.classList.add('on'); });
+  inp.addEventListener('focus',()=>{ if(inp.value.trim()&&cur.length){ box.classList.add('on'); inp.setAttribute('aria-expanded','true'); } });
   inp.addEventListener('keydown',e=>{
     if(!box.classList.contains('on')||!cur.length){ if(e.key==='Enter'&&opts.onEnter) opts.onEnter(); return; }
     if(e.key==='ArrowDown'){ e.preventDefault(); sel=(sel+1)%cur.length; render(cur,inp.value.trim()); }
     else if(e.key==='ArrowUp'){ e.preventDefault(); sel=(sel-1+cur.length)%cur.length; render(cur,inp.value.trim()); }
-    else if(e.key==='Enter'){ e.preventDefault(); if(sel>=0) choose(cur[sel]); else { box.classList.remove('on'); if(opts.onEnter) opts.onEnter(); } }
-    else if(e.key==='Escape'){ box.classList.remove('on'); }
+    else if(e.key==='Enter'){ e.preventDefault(); if(sel>=0) choose(cur[sel]); else { closeList(); if(opts.onEnter) opts.onEnter(); } }
+    else if(e.key==='Escape'){ closeList(); }
   });
   box.addEventListener('mousedown',e=>{   // mousedown: blur보다 먼저 처리
     const it=e.target.closest('.ac-item'); if(!it) return;
     e.preventDefault();
     choose(ALL.find(x=>x.code===it.dataset.code)||{name:it.dataset.name});
   });
-  document.addEventListener('click',e=>{ if(!inp.parentElement.contains(e.target)) box.classList.remove('on'); });
+  document.addEventListener('click',e=>{ if(!inp.parentElement.contains(e.target)) closeList(); });
 }
 makeAutocomplete(document.getElementById('ticker'), document.getElementById('acbox'), {
   onPick:x=>{ showQuote(resolveStock(x.name)); analyze(); },
@@ -12401,9 +12501,14 @@ function runHomeSearch(){
   const stock=resolveStock(homeTicker.value);
   if(!stock.price){
     homeSearchHelp.textContent='검색 결과에서 회사 이름을 선택해 주세요.';
+    homeSearchHelp.setAttribute('role','alert');
+    homeTicker.setAttribute('aria-invalid','true');
+    homeTicker.setAttribute('aria-describedby','homeSearchHelp');
     homeTicker.focus();
     return;
   }
+  homeSearchHelp.setAttribute('role','status');
+  homeTicker.removeAttribute('aria-invalid');
   homeSearchHelp.textContent=`${stock.name} 분석으로 이동합니다.`;
   requestAnimationFrame(()=>jumpToStock(stock.name));
 }
@@ -12839,6 +12944,13 @@ function renderGuide(){
   실제 결과는 성적표에서 확인할 수 있고, 과거 적중률도 미래 수익을 보장하지 않아요.
   가격·재무·수급·시장 상황을 함께 확인한 뒤 자신의 기준으로 결정하세요. 어떤 내용도 특정 종목의 매수·매도를 권유하지 않습니다.</div>
   <div id="guideCompleteMarker" aria-hidden="true" style="height:1px"></div>`;
+  el.querySelectorAll('.gb-table').forEach((table,index)=>{
+    const caption=document.createElement('caption');
+    caption.className='sr-only';
+    caption.textContent=(table.closest('details')?.querySelector('.gb-t')?.textContent||`이용 안내 ${index+1}`)+' 표';
+    table.prepend(caption);
+    table.querySelectorAll('th').forEach(th=>th.setAttribute('scope','row'));
+  });
   watchGuideCompletion();
 }
 
@@ -12899,14 +13011,14 @@ function endGuideTutorial(){
       const willOpen=!sec.classList.contains('open');
       wrap.querySelectorAll('.sector.open').forEach(s=>{ if(s!==sec) s.classList.remove('open'); });
       sec.classList.toggle('open', willOpen);
-      if(willOpen) sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+      if(willOpen) sec.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'nearest'});
     };
     const body=document.createElement('div'); body.className='sector-body';
     g.items.forEach(d=>{
       const el=document.createElement('span'); el.className='chip';
       const closes=flatCloses(d.code).map(x=>x.c);
       const spark=closes.length>=2?priceSparkSVG(closes,52,20):'';
-      const autoMark=(analysisTier(d.code)==='auto')?'<span class="auto-dot" title="자동분석 종목">🤖</span>':'';
+      const autoMark=(analysisTier(d.code)==='auto')?'<span class="auto-dot" title="자동분석 종목">자동</span>':'';
       // 새로 추가돼 아직 시세가 수집 전인 종목은 가격 대신 '시세 대기'로 (null 안전)
       const hasP=(typeof d.price==='number');
       const valHtml=hasP
@@ -12925,7 +13037,7 @@ makeCards(false);
 (function(){
   const qn=document.getElementById('qname'); if(qn) qn.textContent='';
   const qd=document.getElementById('qdate');
-  if(qd) qd.innerHTML='<span class="qd-seg" style="color:var(--dim)">🔎 위 검색창에서 종목을 골라 «분석 시작 ▶»을 눌러보세요</span>';
+  if(qd) qd.innerHTML='<span class="qd-seg" style="color:var(--dim)">위 검색창에서 종목을 골라 «분석 시작 ▶»을 눌러보세요</span>';
 })();
 
 /* ---------- 헤더 축소 · 히어로 진입 · 뷰 전환 모션 (§21·§22·§27) ---------- */
@@ -13306,7 +13418,7 @@ makeCards(false);
       const btn=document.getElementById('emptyChangeSearch');
       if(btn) btn.onclick=()=>{
         const input=document.getElementById('homeTicker');
-        input.scrollIntoView({behavior:'smooth',block:'center'});
+        input.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
         setTimeout(()=>input.focus(),320);
       };
     }
@@ -13362,7 +13474,7 @@ const ESTATE_CATS=[
  {key:'rent',emoji:'📜',label:'전월세·임대차 보호',desc:'전세사기 예방, 임대차 3법.'},
  {key:'loan',emoji:'🏦',label:'대출·금융',desc:'근저당·LTV·DTI·DSR·상환방식.'},
  {key:'auction',emoji:'🔨',label:'경매·공매 시리즈',desc:'부동산 경매 기초부터 실전까지.'},
- {key:'strategy',emoji:'💡',label:'투자 전략',desc:'재건축·갭투자 등 투자 접근법.'},
+ {key:'strategy',emoji:'',label:'투자 전략',desc:'재건축·갭투자 등 투자 접근법.'},
  {key:'tax',emoji:'🧾',label:'부동산 세금',desc:'양도소득세 등 사고팔 때 마주치는 세금.'},
 ];
 const CALC_CATS=[
@@ -13379,12 +13491,12 @@ function catPickerHTML(cats, list, opts){
   const counts={};
   list.forEach(x=>{ const c=x.cat||'etc'; counts[c]=(counts[c]||0)+1; });
   const cards=cats.map(c=>
-    `<div class="cat-card" data-cat="${c.key}">
-       <div class="cat-emoji">${c.ico?`<svg class="cat-ico" viewBox="0 0 24 24" aria-hidden="true">${c.ico}</svg>`:c.emoji}</div>
-       <div class="cat-label">${c.label}</div>
-       <div class="cat-desc">${c.desc}</div>
-       ${showCount?`<div class="cat-count">${counts[c.key]||0}개 글</div>`:''}
-     </div>`).join('');
+    `<button type="button" class="cat-card" data-cat="${c.key}">
+       <span class="cat-emoji" aria-hidden="true">${c.ico?`<svg class="cat-ico" viewBox="0 0 24 24" aria-hidden="true">${c.ico}</svg>`:''}</span>
+       <span class="cat-label">${c.label}</span>
+       <span class="cat-desc">${c.desc}</span>
+       ${showCount?`<span class="cat-count">${counts[c.key]||0}개 글</span>`:''}
+     </button>`).join('');
   return `<div class="cat-grid">${cards}</div>
     <button type="button" class="cat-allbtn" data-cat="__all__">${allLabel} (${list.length}건) →</button>`;
 }
@@ -13397,7 +13509,7 @@ function catBackHTML(cats, sel){
 }
 // 뉴스분석·종목공부·주식공부·부동산공부 공통 검색창 HTML + 이벤트 연결(입력 중 포커스 유지)
 function searchBoxHTML(id, q, esc){
-  return `<div class="nw-search"><input type="search" id="${id}" placeholder="제목으로 검색..." value="${esc(q)}"></div>`;
+  return `<div class="nw-search"><input type="search" id="${id}" aria-label="현재 자료에서 제목 검색" placeholder="제목으로 검색..." value="${esc(q)}"></div>`;
 }
 function wireSearchInput(box, id, onChange){
   const inp=box.querySelector('#'+id); if(!inp) return;
@@ -13406,6 +13518,12 @@ function wireSearchInput(box, id, onChange){
     const ni=box.querySelector('#'+id);
     if(ni){ ni.focus(); const v=ni.value; ni.setSelectionRange(v.length, v.length); }
   };
+}
+function focusContentHeading(box){
+  requestAnimationFrame(()=>{
+    const heading=box.querySelector('.nw-hero h2');
+    if(heading){ heading.tabIndex=-1; heading.focus({preventScroll:true}); }
+  });
 }
 
 // 본문 광고는 SPA가 글 HTML을 동적으로 만든 뒤 생긴다. AdFit의 일반 초기 스캔에는 잡히지
@@ -13467,6 +13585,10 @@ window.GaeoContentAd=(function(){
   let page=1;
   let newsCatSel=null; // null=카테고리 선택 화면, '__all__'=전체, 그 외=해당 cat만
   let newsSearchQ='';
+  const focusNewsHeading=box=>requestAnimationFrame(()=>{
+    const heading=box.querySelector('.nw-hero h2');
+    if(heading){ heading.tabIndex=-1; heading.focus({preventScroll:true}); }
+  });
   const escN=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const inline=s=>SIGNUM(escN(s)
     .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
@@ -13522,7 +13644,8 @@ window.GaeoContentAd=(function(){
       wireSearchInput(box, 'newsSearchInput', v=>{ newsSearchQ=v; page=1; window.renderNews(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         newsCatSel=el.dataset.cat; page=1; window.renderNews();
-        box.scrollIntoView({behavior:'smooth',block:'start'});
+        focusNewsHeading(box);
+        box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       });
       return;
     }
@@ -13531,7 +13654,7 @@ window.GaeoContentAd=(function(){
       ? all.filter(a=>(a.title||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q))
       : (newsCatSel==='__all__'?all:all.filter(x=>x.cat===newsCatSel));
     const backHtml=searching
-      ? `<button type="button" class="cat-back" id="newsSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(newsSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      ? `<button type="button" class="cat-back" id="newsSearchClear">← 검색 지우기</button><div class="cat-current">"${escN(newsSearchQ)}" 검색결과 ${filtered.length}건</div>`
       : catBackHTML(NEWS_CATS, newsCatSel);
     const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(page>pages) page=pages; if(page<1) page=1;
@@ -13539,12 +13662,12 @@ window.GaeoContentAd=(function(){
     let h=hero+backHtml;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="nw-${a.id}">
-          <div class="nw-head" data-nw="${a.id}">
-            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
-            <div class="nw-title">${escN(a.title||'')} <span class="nw-arrow">▸</span></div>
-          </div>
-          <div class="nw-body">${nwBodyHTML(a.body)}
-            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 기사<br>`+
+          <button type="button" class="nw-head" data-nw="${a.id}" aria-expanded="false" aria-controls="nw-body-${a.id}">
+            <span class="nw-meta"><span class="nw-date">${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</span>
+            <span class="nw-title">${escN(a.title||'')} <span class="nw-arrow" aria-hidden="true">▸</span></span>
+          </button>
+          <div class="nw-body" id="nw-body-${a.id}">${nwBodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">참고 기사<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 개오팀의 분석 의견이며 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있어요.</div>
           </div>
@@ -13560,15 +13683,15 @@ window.GaeoContentAd=(function(){
     wireSearchInput(box, 'newsSearchInput', v=>{ newsSearchQ=v; page=1; window.renderNews(); });
     if(searching){
       const clearBtn=box.querySelector('#newsSearchClear');
-      if(clearBtn) clearBtn.onclick=()=>{ newsSearchQ=''; page=1; window.renderNews(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(clearBtn) clearBtn.onclick=()=>{ newsSearchQ=''; page=1; window.renderNews(); focusNewsHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     } else {
       const backBtn=box.querySelector('.cat-back');
-      if(backBtn) backBtn.onclick=()=>{ newsCatSel=null; page=1; window.renderNews(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(backBtn) backBtn.onclick=()=>{ newsCatSel=null; page=1; window.renderNews(); focusNewsHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     }
     // 제목 클릭 → 본문 펼침/접힘
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('nw-'+el.dataset.nw);
-      if(item){ const open=item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open'); el.setAttribute('aria-expanded',String(open));
         if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('news',el.dataset.nw,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=news&id='+el.dataset.nw):location.pathname); }
@@ -13578,12 +13701,13 @@ window.GaeoContentAd=(function(){
       const p=parseInt(b.dataset.pg,10);
       if(!p||p===page||b.disabled) return;
       page=p; renderNews();
-      box.scrollIntoView({behavior:'smooth',block:'start'});
+      focusContentHeading(box);
+      box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
     // 최신 1건은 처음부터 펼쳐서 보여준다(검색 중엔 자동으로 펼치지 않음)
     if(!searching&&page===1&&slice.length){
       const first=document.getElementById('nw-'+slice[0].id);
-      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+      if(first){ first.classList.add('open'); first.querySelector('.nw-head')?.setAttribute('aria-expanded','true'); window.GaeoContentAd.mount(first); }
     }
   };
   // 딥링크(?m=news&id=N) — 카테고리 화면을 건너뛰고 해당 글의 카테고리·페이지로 바로 이동해 펼치고 스크롤
@@ -13600,9 +13724,10 @@ window.GaeoContentAd=(function(){
     const el=document.getElementById('nw-'+id);
     if(el){
       el.classList.add('open');
+      el.querySelector('.nw-head')?.setAttribute('aria-expanded','true');
       window.GaeoContentAd.mount(el);
       window.GaeoMetrics.contentView('news',id,el);
-      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      setTimeout(()=>el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),80);
     }
   };
   window.openNewsCategory=function(cat){
@@ -13611,7 +13736,7 @@ window.GaeoContentAd=(function(){
     page=1;
     window.renderNews();
     const box=document.getElementById('newsView');
-    if(box) setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),60);
+    if(box) setTimeout(()=>box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),60);
   };
 })();
 
@@ -13894,8 +14019,11 @@ window.GaeoContentAd=(function(){
       if(!t){ flushP(); flushL(); return; }
       const im=t.match(/^\[\[img:([a-z0-9-]+)(?:\|([^\]]*))?\]\]$/);   // 도해 토큰
       if(im){ flushP(); flushL();
-        if(LESSON_ART[im[1]]) html+='<figure class="ls-fig">'+LESSON_ART[im[1]]
-          +(im[2]?'<figcaption>'+inline(im[2])+'</figcaption>':'')+'</figure>';
+        if(LESSON_ART[im[1]]){
+          const label=escN(im[2]||'주식 학습');
+          const art=LESSON_ART[im[1]].replace('<svg ','<svg aria-label="'+label+' 도해" ');
+          html+='<figure class="ls-fig">'+art+(im[2]?'<figcaption>'+inline(im[2])+'</figcaption>':'')+'</figure>';
+        }
         return; }
       if(t.indexOf('## ')===0){ flushP(); flushL(); html+='<h4>'+inline(t.slice(3))+'</h4>'; return; }
       if(t.indexOf('- ')===0){ flushP(); if(!list) list=[]; list.push(t.slice(2)); return; }
@@ -13933,7 +14061,8 @@ window.GaeoContentAd=(function(){
       wireSearchInput(box, 'stSearchInput', v=>{ stSearchQ=v; page=1; window.renderStudy(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         stCatSel=el.dataset.cat; page=1; window.renderStudy();
-        box.scrollIntoView({behavior:'smooth',block:'start'});
+        focusContentHeading(box);
+        box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       });
       return;
     }
@@ -13942,7 +14071,7 @@ window.GaeoContentAd=(function(){
       ? all.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q)||(a.code||'').toLowerCase().includes(q))
       : (stCatSel==='__all__'?all:all.filter(x=>x.cat===stCatSel));
     const backHtml=searching
-      ? `<button type="button" class="cat-back" id="stSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(stSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      ? `<button type="button" class="cat-back" id="stSearchClear">← 검색 지우기</button><div class="cat-current">"${escN(stSearchQ)}" 검색결과 ${filtered.length}건</div>`
       : catBackHTML(STUDY_CATS, stCatSel);
     const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(page>pages) page=pages; if(page<1) page=1;
@@ -13950,13 +14079,13 @@ window.GaeoContentAd=(function(){
     let h=hero+backHtml;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="st-${a.id}">
-          <div class="nw-head" data-st="${a.id}">
-            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
-            <div class="nw-title">📚 ${escN(a.name||'')}${a.code?` <span style="color:var(--faint);font-weight:600">(${escN(a.code)})</span>`:''} <span class="nw-arrow">▸</span></div>
-          </div>
-          <div class="nw-body">${bodyHTML(a.body)}
+          <button type="button" class="nw-head" data-st="${a.id}" aria-expanded="false" aria-controls="st-body-${a.id}">
+            <span class="nw-meta"><span class="nw-date">${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</span>
+            <span class="nw-title">${escN(a.name||'')}${a.code?` <span style="color:var(--faint);font-weight:600">(${escN(a.code)})</span>`:''} <span class="nw-arrow" aria-hidden="true">▸</span></span>
+          </button>
+          <div class="nw-body" id="st-body-${a.id}">${bodyHTML(a.body)}
             ${studyStockLinkHTML(a)}
-            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 회사 이해를 돕기 위한 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
           </div>
@@ -13972,14 +14101,14 @@ window.GaeoContentAd=(function(){
     wireSearchInput(box, 'stSearchInput', v=>{ stSearchQ=v; page=1; window.renderStudy(); });
     if(searching){
       const clearBtn=box.querySelector('#stSearchClear');
-      if(clearBtn) clearBtn.onclick=()=>{ stSearchQ=''; page=1; window.renderStudy(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(clearBtn) clearBtn.onclick=()=>{ stSearchQ=''; page=1; window.renderStudy(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     } else {
       const stBack=box.querySelector('.cat-back');
-      if(stBack) stBack.onclick=()=>{ stCatSel=null; page=1; window.renderStudy(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(stBack) stBack.onclick=()=>{ stCatSel=null; page=1; window.renderStudy(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     }
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('st-'+el.dataset.st);
-      if(item){ const open=item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open'); el.setAttribute('aria-expanded',String(open));
         if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('study',el.dataset.st,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=study&id='+el.dataset.st):location.pathname); }
@@ -13988,7 +14117,8 @@ window.GaeoContentAd=(function(){
       const p=parseInt(b.dataset.pg,10);
       if(!p||p===page||b.disabled) return;
       page=p; renderStudy();
-      box.scrollIntoView({behavior:'smooth',block:'start'});
+      focusContentHeading(box);
+      box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
     // 페이지 전체를 다시 부르지 않고 그 자리에서 단일 분석 화면으로 전환한다
     // (href는 새 탭·링크 복사용 fallback으로 그대로 둔다).
@@ -14000,7 +14130,7 @@ window.GaeoContentAd=(function(){
     });
     if(!searching&&page===1&&slice.length){
       const first=document.getElementById('st-'+slice[0].id);
-      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+      if(first){ first.classList.add('open'); first.querySelector('.nw-head')?.setAttribute('aria-expanded','true'); window.GaeoContentAd.mount(first); }
     }
   };
   window.openStudyId=function(id){
@@ -14014,9 +14144,10 @@ window.GaeoContentAd=(function(){
     const el=document.getElementById('st-'+id);
     if(el){
       el.classList.add('open');
+      el.querySelector('.nw-head')?.setAttribute('aria-expanded','true');
       window.GaeoContentAd.mount(el);
       window.GaeoMetrics.contentView('study',id,el);
-      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      setTimeout(()=>el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),80);
     }
   };
 
@@ -14029,7 +14160,7 @@ window.GaeoContentAd=(function(){
     window.GaeoContentAd.park();
     const all=(typeof STOCK_LESSONS!=='undefined'&&Array.isArray(STOCK_LESSONS))?STOCK_LESSONS.slice():[];
     all.sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
-    const hero=`<div class="nw-hero"><h2>🎓 주식공부</h2>
+    const hero=`<div class="nw-hero"><h2>주식공부</h2>
       <p>차트 보는 법, 캔들 읽는 법 같은 <b>투자 기초 지식</b>을 초보자 눈높이로 하나씩 배워요.
       카테고리를 먼저 골라보세요. 제목을 누르면 전체 내용이 펼쳐져요.</p>
       ${searchBoxHTML('lsSearchInput', lsSearchQ, escN)}</div>`;
@@ -14039,7 +14170,8 @@ window.GaeoContentAd=(function(){
       wireSearchInput(box, 'lsSearchInput', v=>{ lsSearchQ=v; lsPage=1; window.renderLesson(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         lsCatSel=el.dataset.cat; lsPage=1; window.renderLesson();
-        box.scrollIntoView({behavior:'smooth',block:'start'});
+        focusContentHeading(box);
+        box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       });
       return;
     }
@@ -14048,7 +14180,7 @@ window.GaeoContentAd=(function(){
       ? all.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q))
       : (lsCatSel==='__all__'?all:all.filter(x=>x.cat===lsCatSel));
     const backHtml=searching
-      ? `<button type="button" class="cat-back" id="lsSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(lsSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      ? `<button type="button" class="cat-back" id="lsSearchClear">← 검색 지우기</button><div class="cat-current">"${escN(lsSearchQ)}" 검색결과 ${filtered.length}건</div>`
       : catBackHTML(LESSON_CATS, lsCatSel);
     const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(lsPage>pages) lsPage=pages; if(lsPage<1) lsPage=1;
@@ -14056,12 +14188,12 @@ window.GaeoContentAd=(function(){
     let h=hero+backHtml;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="ls-${a.id}">
-          <div class="nw-head" data-ls="${a.id}">
-            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
-            <div class="nw-title">🎓 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
-          </div>
-          <div class="nw-body">${bodyHTML(a.body)}
-            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+          <button type="button" class="nw-head" data-ls="${a.id}" aria-expanded="false" aria-controls="ls-body-${a.id}">
+            <span class="nw-meta"><span class="nw-date">${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</span>
+            <span class="nw-title">${escN(a.name||'')} <span class="nw-arrow" aria-hidden="true">▸</span></span>
+          </button>
+          <div class="nw-body" id="ls-body-${a.id}">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 투자 기초를 익히는 공부 자료예요. 투자 권유가 아니며, 투자 판단과 책임은 본인에게 있어요.</div>
           </div>
@@ -14077,14 +14209,14 @@ window.GaeoContentAd=(function(){
     wireSearchInput(box, 'lsSearchInput', v=>{ lsSearchQ=v; lsPage=1; window.renderLesson(); });
     if(searching){
       const clearBtn=box.querySelector('#lsSearchClear');
-      if(clearBtn) clearBtn.onclick=()=>{ lsSearchQ=''; lsPage=1; window.renderLesson(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(clearBtn) clearBtn.onclick=()=>{ lsSearchQ=''; lsPage=1; window.renderLesson(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     } else {
       const lsBack=box.querySelector('.cat-back');
-      if(lsBack) lsBack.onclick=()=>{ lsCatSel=null; lsPage=1; window.renderLesson(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(lsBack) lsBack.onclick=()=>{ lsCatSel=null; lsPage=1; window.renderLesson(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     }
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('ls-'+el.dataset.ls);
-      if(item){ const open=item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open'); el.setAttribute('aria-expanded',String(open));
         if(open){ window.GaeoContentAd.mount(item); window.GaeoMetrics.contentView('lesson',el.dataset.ls,item); }
         else if(window.GaeoContentAd.isInside(item)) window.GaeoContentAd.park();
         history.replaceState(null,'', open?('?m=lesson&id='+el.dataset.ls):location.pathname); }
@@ -14093,11 +14225,12 @@ window.GaeoContentAd=(function(){
       const p=parseInt(b.dataset.pg,10);
       if(!p||p===lsPage||b.disabled) return;
       lsPage=p; window.renderLesson();
-      box.scrollIntoView({behavior:'smooth',block:'start'});
+      focusContentHeading(box);
+      box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
     if(!searching&&lsPage===1&&slice.length){
       const first=document.getElementById('ls-'+slice[0].id);
-      if(first){ first.classList.add('open'); window.GaeoContentAd.mount(first); }
+      if(first){ first.classList.add('open'); first.querySelector('.nw-head')?.setAttribute('aria-expanded','true'); window.GaeoContentAd.mount(first); }
     }
   };
   window.openLessonId=function(id){
@@ -14111,9 +14244,10 @@ window.GaeoContentAd=(function(){
     const el=document.getElementById('ls-'+id);
     if(el){
       el.classList.add('open');
+      el.querySelector('.nw-head')?.setAttribute('aria-expanded','true');
       window.GaeoContentAd.mount(el);
       window.GaeoMetrics.contentView('lesson',id,el);
-      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      setTimeout(()=>el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),80);
     }
   };
 
@@ -14143,7 +14277,8 @@ window.GaeoContentAd=(function(){
       wireSearchInput(box, 'esSearchInput', v=>{ esSearchQ=v; esPage=1; window.renderEstate(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         esCatSel=el.dataset.cat; esPage=1; window.renderEstate();
-        box.scrollIntoView({behavior:'smooth',block:'start'});
+        focusContentHeading(box);
+        box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       });
       return;
     }
@@ -14152,7 +14287,7 @@ window.GaeoContentAd=(function(){
       ? all.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q))
       : (esCatSel==='__all__'?all:all.filter(x=>x.cat===esCatSel));
     const backHtml=searching
-      ? `<button type="button" class="cat-back" id="esSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(esSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      ? `<button type="button" class="cat-back" id="esSearchClear">← 검색 지우기</button><div class="cat-current">"${escN(esSearchQ)}" 검색결과 ${filtered.length}건</div>`
       : catBackHTML(ESTATE_CATS, esCatSel);
     const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(esPage>pages) esPage=pages; if(esPage<1) esPage=1;
@@ -14160,12 +14295,12 @@ window.GaeoContentAd=(function(){
     let h=hero+backHtml;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="es-${a.id}">
-          <div class="nw-head" data-es="${a.id}">
-            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
-            <div class="nw-title">🏠 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
-          </div>
-          <div class="nw-body">${bodyHTML(a.body)}
-            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+          <button type="button" class="nw-head" data-es="${a.id}" aria-expanded="false" aria-controls="es-body-${a.id}">
+            <span class="nw-meta"><span class="nw-date">${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</span>
+            <span class="nw-title">${escN(a.name||'')} <span class="nw-arrow" aria-hidden="true">▸</span></span>
+          </button>
+          <div class="nw-body" id="es-body-${a.id}">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
             <div class="nw-disc">※ 부동산 기초를 익히는 공부 자료예요. 투자·매매 권유가 아니며, 판단과 책임은 본인에게 있어요.</div>
           </div>
@@ -14181,14 +14316,14 @@ window.GaeoContentAd=(function(){
     wireSearchInput(box, 'esSearchInput', v=>{ esSearchQ=v; esPage=1; window.renderEstate(); });
     if(searching){
       const clearBtn=box.querySelector('#esSearchClear');
-      if(clearBtn) clearBtn.onclick=()=>{ esSearchQ=''; esPage=1; window.renderEstate(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(clearBtn) clearBtn.onclick=()=>{ esSearchQ=''; esPage=1; window.renderEstate(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     } else {
       const esBack=box.querySelector('.cat-back');
-      if(esBack) esBack.onclick=()=>{ esCatSel=null; esPage=1; window.renderEstate(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(esBack) esBack.onclick=()=>{ esCatSel=null; esPage=1; window.renderEstate(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     }
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('es-'+el.dataset.es);
-      if(item){ const open=item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open'); el.setAttribute('aria-expanded',String(open));
         if(open) window.GaeoMetrics.contentView('estate',el.dataset.es,item);
         history.replaceState(null,'', open?('?m=estate&id='+el.dataset.es):location.pathname); }
     });
@@ -14196,9 +14331,10 @@ window.GaeoContentAd=(function(){
       const p=parseInt(b.dataset.pg,10);
       if(!p||p===esPage||b.disabled) return;
       esPage=p; window.renderEstate();
-      box.scrollIntoView({behavior:'smooth',block:'start'});
+      focusContentHeading(box);
+      box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
-    if(!searching&&esPage===1&&slice.length){ const first=document.getElementById('es-'+slice[0].id); if(first) first.classList.add('open'); }
+    if(!searching&&esPage===1&&slice.length){ const first=document.getElementById('es-'+slice[0].id); if(first){ first.classList.add('open'); first.querySelector('.nw-head')?.setAttribute('aria-expanded','true'); } }
   };
   window.openEstateId=function(id){
     const all=(typeof ESTATE_LESSONS!=='undefined'&&Array.isArray(ESTATE_LESSONS))?ESTATE_LESSONS.slice():[];
@@ -14211,8 +14347,9 @@ window.GaeoContentAd=(function(){
     const el=document.getElementById('es-'+id);
     if(el){
       el.classList.add('open');
+      el.querySelector('.nw-head')?.setAttribute('aria-expanded','true');
       window.GaeoMetrics.contentView('estate',id,el);
-      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      setTimeout(()=>el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),80);
     }
   };
 })();
@@ -14252,7 +14389,7 @@ window.GaeoContentAd=(function(){
     const p=k=>`c${item.id}-${k}`;
     if(item.calcType==='stockbreakeven'){
       return `<div class="calc-wrap">
-        <div class="calc-title">📈 주식 손익분기·순손익 계산</div>
+        <div class="calc-title">주식 손익분기·순손익 계산</div>
         <div class="calc-row"><label>시장</label><select id="${p('market')}"><option value="kospi">KOSPI 주식</option><option value="kosdaq">KOSDAQ 주식</option><option value="etf">ETF·ETN</option><option value="custom">직접 설정</option></select></div>
         <div class="calc-row"><label>평균 매수가</label><input type="number" id="${p('buyPrice')}" value="50000" min="0" step="1"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>보유수량</label><input type="number" id="${p('qty')}" value="100" min="1" step="1"><span class="calc-unit">주</span></div>
@@ -14269,7 +14406,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='ipoallocation'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧾 공모주 균등·비례 배정 계산</div>
+        <div class="calc-title">공모주 균등·비례 배정 계산</div>
         <div class="calc-row"><label>공모가</label><input type="number" id="${p('offerPrice')}" value="20000" min="1" step="1"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>내 청약주수</label><input type="number" id="${p('appliedShares')}" value="1000" min="1" step="1"><span class="calc-unit">주</span></div>
         <div class="calc-row"><label>청약 증거금률</label><input type="number" id="${p('marginRate')}" value="50" min="0.01" max="100" step="0.1"><span class="calc-unit">%</span></div>
@@ -14286,7 +14423,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='avgprice'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 평단가 계산기</div>
+        <div class="calc-title">평단가 계산기</div>
         <div class="calc-row"><label>기존 보유수량</label><input type="number" id="${p('q1')}" placeholder="10" min="0"><span class="calc-unit">주</span></div>
         <div class="calc-row"><label>기존 평단가</label><input type="number" id="${p('p1')}" placeholder="50000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>추가매수 수량</label><input type="number" id="${p('q2')}" placeholder="10" min="0"><span class="calc-unit">주</span></div>
@@ -14299,7 +14436,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='capitalgainstax'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 해외주식 양도소득세 계산기</div>
+        <div class="calc-title">해외주식 양도소득세 계산기</div>
         <div class="calc-row"><label>총 매도금액</label><input type="number" id="${p('sell')}" placeholder="15000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>총 매수금액</label><input type="number" id="${p('buy')}" placeholder="10000000" min="0"><span class="calc-unit">원</span></div>
         <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
@@ -14309,7 +14446,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='compound'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 복리 계산기</div>
+        <div class="calc-title">복리 계산기</div>
         <div class="calc-row"><label>원금</label><input type="number" id="${p('principal')}" placeholder="5000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>매월 추가납입</label><input type="number" id="${p('monthly')}" placeholder="300000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>연 수익률</label><input type="number" id="${p('rate')}" placeholder="7" min="-50" max="100" step="0.1"><span class="calc-unit">%</span></div>
@@ -14320,7 +14457,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='loanpayment'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 대출 원리금상환 계산기</div>
+        <div class="calc-title">대출 원리금상환 계산기</div>
         <div class="calc-row"><label>대출원금</label><input type="number" id="${p('principal')}" placeholder="300000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>연이자율</label><input type="number" id="${p('rate')}" placeholder="4.5" min="0" max="30" step="0.01"><span class="calc-unit">%</span></div>
         <div class="calc-row"><label>대출기간</label><input type="number" id="${p('years')}" placeholder="30" min="1" max="50"><span class="calc-unit">년</span></div>
@@ -14331,7 +14468,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='balancepayment'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 부동산 잔금·대출 계산기</div>
+        <div class="calc-title">부동산 잔금·대출 계산기</div>
         <div class="calc-row"><label>매매가</label><input type="number" id="${p('price')}" placeholder="500000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>계약금</label><input type="number" id="${p('down')}" placeholder="50000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>중도금</label><input type="number" id="${p('interim')}" placeholder="0" min="0"><span class="calc-unit">원</span></div>
@@ -14345,7 +14482,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='dividendtax'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 배당소득세 계산기</div>
+        <div class="calc-title">배당소득세 계산기</div>
         <div class="calc-row"><label>세전 배당금</label><input type="number" id="${p('div')}" placeholder="1000000" min="0"><span class="calc-unit">원</span></div>
         <button type="button" class="calc-btn" id="${p('btn')}">계산하기</button>
         <div class="calc-result" id="${p('result')}" style="display:none"></div>
@@ -14354,7 +14491,7 @@ window.GaeoContentAd=(function(){
     }
     if(item.calcType==='dsrltv'){
       return `<div class="calc-wrap">
-        <div class="calc-title">🧮 DSR·LTV 계산기</div>
+        <div class="calc-title">DSR·LTV 계산기</div>
         <div class="calc-row"><label>주택가격</label><input type="number" id="${p('house')}" placeholder="1000000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>대출희망금액</label><input type="number" id="${p('loan')}" placeholder="600000000" min="0"><span class="calc-unit">원</span></div>
         <div class="calc-row"><label>연이자율</label><input type="number" id="${p('rate')}" placeholder="4.5" min="0" max="30" step="0.01"><span class="calc-unit">%</span></div>
@@ -14369,7 +14506,7 @@ window.GaeoContentAd=(function(){
     if(item.calcType==='etfplan') return `<div class="calc-wrap"><div class="calc-title">📦 ETF 적립식·분배금</div><div class="calc-row"><label>초기 투자금</label><input type="number" id="${p('principal')}" placeholder="5000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월 적립금</label><input type="number" id="${p('monthly')}" placeholder="300000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>연 기대수익률</label><input type="number" id="${p('rate')}" placeholder="7" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>연 분배율</label><input type="number" id="${p('yield')}" placeholder="4" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>세율 가정</label><input type="number" id="${p('tax')}" value="15.4" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>기간</label><input type="number" id="${p('years')}" placeholder="10" min="1"><span class="calc-unit">년</span></div><button type="button" class="calc-btn" id="${p('btn')}">계산하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">수익률은 분배금을 포함한 총수익률 가정입니다. 분배금은 현재 평가액 기준의 참고 추정치예요.</div></div>`;
     if(item.calcType==='taxsavings') return `<div class="calc-wrap"><div class="calc-title">💸 ISA·연금저축 절세 예상</div><div class="calc-row"><label>연금저축·IRP 납입액</label><input type="number" id="${p('pension')}" placeholder="6000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>세액공제 대상 한도</label><input type="number" id="${p('pensionLimit')}" placeholder="공식 한도 입력" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>내 적용 공제율</label><input type="number" id="${p('credit')}" placeholder="공식 공제율" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>ISA 예상 순이익</label><input type="number" id="${p('isaGain')}" placeholder="3000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>ISA 비과세 한도</label><input type="number" id="${p('isaFree')}" placeholder="공식 한도 입력" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>ISA 초과분 세율</label><input type="number" id="${p('isaReduced')}" placeholder="공식 세율" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>일반계좌 비교 세율</label><input type="number" id="${p('isaTax')}" value="15.4" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><button type="button" class="calc-btn" id="${p('btn')}">계산하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">한도·세율은 자동 확정하지 않습니다. 올해 공식 자료에서 확인한 본인 적용값을 입력하세요.</div></div>`;
     if(item.calcType==='youthasset') return `<div class="calc-wrap"><div class="calc-title">🧾 청년 자산형성 만기 예상</div><div class="calc-row"><label>월 납입액</label><input type="number" id="${p('monthly')}" placeholder="500000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월 지원금/기여금</label><input type="number" id="${p('support')}" placeholder="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>연 금리 가정</label><input type="number" id="${p('rate')}" placeholder="4" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>가입 기간</label><input type="number" id="${p('months')}" placeholder="60" min="1"><span class="calc-unit">개월</span></div><button type="button" class="calc-btn" id="${p('btn')}">계산하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">지원금·금리는 공식 공고의 본인 적용값을 넣으세요.</div></div>`;
-    if(item.calcType==='rentvsjeonse') return `<div class="calc-wrap"><div class="calc-title">🏠 전세 vs 월세</div><div class="calc-row"><label>전세 보증금</label><input type="number" id="${p('jeonse')}" placeholder="200000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세 대출금</label><input type="number" id="${p('loan')}" placeholder="100000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세대출 금리</label><input type="number" id="${p('loanRate')}" placeholder="4" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>월세 보증금</label><input type="number" id="${p('deposit')}" placeholder="10000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세</label><input type="number" id="${p('rent')}" placeholder="800000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>내 돈 기회비용률</label><input type="number" id="${p('opp')}" value="3" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>전세 월 관리비</label><input type="number" id="${p('jMgmt')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세 월 관리비</label><input type="number" id="${p('rMgmt')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세 일회성 비용</label><input type="number" id="${p('jCost')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세 일회성 비용</label><input type="number" id="${p('rCost')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>계약기간</label><input type="number" id="${p('months')}" value="24" min="1"><span class="calc-unit">개월</span></div><button type="button" class="calc-btn" id="${p('btn')}">비교하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">대출 원금상환은 비용이 아니라 자산 이동으로 보고 제외했어요. 보증금 반환 위험·세액공제는 별도 판단이 필요해요.</div></div>`;
+    if(item.calcType==='rentvsjeonse') return `<div class="calc-wrap"><div class="calc-title">전세 vs 월세</div><div class="calc-row"><label>전세 보증금</label><input type="number" id="${p('jeonse')}" placeholder="200000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세 대출금</label><input type="number" id="${p('loan')}" placeholder="100000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세대출 금리</label><input type="number" id="${p('loanRate')}" placeholder="4" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>월세 보증금</label><input type="number" id="${p('deposit')}" placeholder="10000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세</label><input type="number" id="${p('rent')}" placeholder="800000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>내 돈 기회비용률</label><input type="number" id="${p('opp')}" value="3" min="0" max="100" step="0.1"><span class="calc-unit">%</span></div><div class="calc-row"><label>전세 월 관리비</label><input type="number" id="${p('jMgmt')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세 월 관리비</label><input type="number" id="${p('rMgmt')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>전세 일회성 비용</label><input type="number" id="${p('jCost')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월세 일회성 비용</label><input type="number" id="${p('rCost')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>계약기간</label><input type="number" id="${p('months')}" value="24" min="1"><span class="calc-unit">개월</span></div><button type="button" class="calc-btn" id="${p('btn')}">비교하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">대출 원금상환은 비용이 아니라 자산 이동으로 보고 제외했어요. 보증금 반환 위험·세액공제는 별도 판단이 필요해요.</div></div>`;
     if(item.calcType==='severance') return `<div class="calc-wrap"><div class="calc-title">💼 퇴직금·퇴사 후 현금흐름</div><div class="calc-row"><label>최근 3개월 임금 합계</label><input type="number" id="${p('wage')}" placeholder="9000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>산정기간 총일수</label><input type="number" id="${p('days')}" value="92" min="1"><span class="calc-unit">일</span></div><div class="calc-row"><label>계속 근로일수</label><input type="number" id="${p('workdays')}" placeholder="730" min="1"><span class="calc-unit">일</span></div><div class="calc-row"><label>주 평균 근로시간</label><input type="number" id="${p('weeklyHours')}" value="40" min="0" max="168" step="0.5"><span class="calc-unit">시간</span></div><div class="calc-row"><label>연차수당 등 추가 정산</label><input type="number" id="${p('extra')}" value="0" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>보유 현금</label><input type="number" id="${p('cash')}" placeholder="10000000" min="0"><span class="calc-unit">원</span></div><div class="calc-row"><label>월 필수지출</label><input type="number" id="${p('expense')}" placeholder="2000000" min="1"><span class="calc-unit">원</span></div><button type="button" class="calc-btn" id="${p('btn')}">계산하기</button><div class="calc-result" id="${p('result')}" style="display:none"></div><div class="calc-note">세전 추정치입니다. 퇴직연금·세금·평균임금 포함항목은 반영하지 않았어요.</div></div>`;
     return '';
   }
@@ -14377,6 +14514,24 @@ window.GaeoContentAd=(function(){
   function wireCalcWidget(item){
     const p=k=>document.getElementById(`c${item.id}-${k}`);
     const btn=p('btn'); if(!btn) return;
+    const widget=btn.closest('.calc-wrap');
+    const result=p('result');
+    if(widget){
+      widget.querySelectorAll('.calc-row').forEach((row,index)=>{
+        const control=row.querySelector('input,select,textarea');
+        const label=row.querySelector('label');
+        const unit=row.querySelector('.calc-unit');
+        if(control&&label){ label.htmlFor=control.id; }
+        if(control&&unit){
+          if(!unit.id) unit.id=`${control.id}-unit`;
+          const described=(control.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);
+          if(!described.includes(unit.id)) described.push(unit.id);
+          control.setAttribute('aria-describedby',described.join(' '));
+        }
+        if(control&&!control.id) control.id=`calc-${item.id}-field-${index}`;
+      });
+    }
+    if(result){ result.setAttribute('role','status'); result.setAttribute('aria-live','polite'); result.tabIndex=-1; }
     if(item.calcType==='stockbreakeven'){
       const market=p('market');
       market.onchange=()=>{
@@ -14601,7 +14756,28 @@ window.GaeoContentAd=(function(){
     if(btn.onclick){
       const calculate=btn.onclick;
       btn.onclick=e=>{
+        const controls=widget?[...widget.querySelectorAll('input,select,textarea')]:[];
+        controls.forEach(control=>{
+          control.removeAttribute('aria-invalid');
+          const ids=(control.getAttribute('aria-describedby')||'').split(/\s+/).filter(id=>id&&id!==result?.id);
+          if(ids.length) control.setAttribute('aria-describedby',ids.join(' '));
+          else control.removeAttribute('aria-describedby');
+        });
         calculate.call(btn,e);
+        if(result){
+          const invalid=Boolean(result.querySelector('.cr-sub'))&&!result.querySelector('.cr-main');
+          result.setAttribute('role',invalid?'alert':'status');
+          const nativeInvalid=controls.filter(control=>typeof control.checkValidity==='function'&&!control.checkValidity());
+          const emptyInvalid=controls.filter(control=>control.tagName!=='SELECT'&&String(control.value).trim()==='');
+          const invalidControls=nativeInvalid.length?nativeInvalid:emptyInvalid;
+          if(invalid) invalidControls.forEach(control=>{
+            control.setAttribute('aria-invalid','true');
+            const ids=(control.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);
+            if(!ids.includes(result.id)) ids.push(result.id);
+            control.setAttribute('aria-describedby',ids.join(' '));
+          });
+          result.focus({preventScroll:true});
+        }
         window.GaeoMetrics.event('calculator-run').catch(()=>{});
         gaeoTrack('calculator_complete',{calculator_id:String(item.id),content_type:'calculator',content_id:String(item.id)});
       };
@@ -14618,11 +14794,12 @@ window.GaeoContentAd=(function(){
       ${searchBoxHTML('calcSearchInput', calcSearchQ, escN)}</div>`;
     const q=calcSearchQ.trim().toLowerCase();
     if(!q && !calcCatSel){
-      box.innerHTML=hero+catPickerHTML(CALC_CATS, all, {noCount:true, allLabel:'🧮 전체 계산기 한 번에 보기'});
+      box.innerHTML=hero+catPickerHTML(CALC_CATS, all, {noCount:true, allLabel:'전체 계산기 한 번에 보기'});
       wireSearchInput(box, 'calcSearchInput', v=>{ calcSearchQ=v; calcPage=1; window.renderCalc(); });
       box.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{
         calcCatSel=el.dataset.cat; calcPage=1; window.renderCalc();
-        box.scrollIntoView({behavior:'smooth',block:'start'});
+        focusContentHeading(box);
+        box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       });
       return;
     }
@@ -14631,7 +14808,7 @@ window.GaeoContentAd=(function(){
       ? all.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.tag||'').toLowerCase().includes(q))
       : (calcCatSel==='__all__'?all:all.filter(x=>x.cat===calcCatSel));
     const backHtml=searching
-      ? `<button type="button" class="cat-back" id="calcSearchClear">← 검색 지우기</button><div class="cat-current">🔍 "${escN(calcSearchQ)}" 검색결과 ${filtered.length}건</div>`
+      ? `<button type="button" class="cat-back" id="calcSearchClear">← 검색 지우기</button><div class="cat-current">"${escN(calcSearchQ)}" 검색결과 ${filtered.length}건</div>`
       : catBackHTML(CALC_CATS, calcCatSel);
     const pages=Math.max(1, Math.ceil(filtered.length/PAGE_SIZE));
     if(calcPage>pages) calcPage=pages; if(calcPage<1) calcPage=1;
@@ -14639,14 +14816,14 @@ window.GaeoContentAd=(function(){
     let h=hero+backHtml;
     h+=slice.length
       ? slice.map(a=>`<div class="nw-item" id="calc-${a.id}">
-          <div class="nw-head" data-calc="${a.id}">
-            <div class="nw-meta"><span class="nw-date">📅 ${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</div>
-            <div class="nw-title">🧮 ${escN(a.name||'')} <span class="nw-arrow">▸</span></div>
-          </div>
-          <div class="nw-body">${bodyHTML(a.body)}
-            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">📎 참고 자료<br>`+
+          <button type="button" class="nw-head" data-calc="${a.id}" aria-expanded="false" aria-controls="calc-body-${a.id}">
+            <span class="nw-meta"><span class="nw-date">${escN(a.date||'')}</span>${a.tag?`<span class="nw-tag">${escN(a.tag)}</span>`:''}</span>
+            <span class="nw-title">${escN(a.name||'')} <span class="nw-arrow" aria-hidden="true">▸</span></span>
+          </button>
+          <div class="nw-body" id="calc-body-${a.id}">${bodyHTML(a.body)}
+            ${Array.isArray(a.sources)&&a.sources.length?`<div class="nw-src">참고 자료<br>`+
               a.sources.map(s=>`· <a href="${escN(s.url)}" target="_blank" rel="noopener">${escN(s.name||s.url)}</a>`).join('<br>')+`</div>`:''}
-            ${calcWidgetHTML(a)}
+            ${calcWidgetHTML(a).replace(/[📦💸🧾💼]/gu,'')}
             <div class="nw-disc">※ 참고용 계산 도구예요. 투자·세무 판단과 책임은 본인에게 있으며, 정확한 세액은 전문가와 함께 확인하세요.</div>
           </div>
         </div>`).join('')
@@ -14661,14 +14838,14 @@ window.GaeoContentAd=(function(){
     wireSearchInput(box, 'calcSearchInput', v=>{ calcSearchQ=v; calcPage=1; window.renderCalc(); });
     if(searching){
       const clearBtn=box.querySelector('#calcSearchClear');
-      if(clearBtn) clearBtn.onclick=()=>{ calcSearchQ=''; calcPage=1; window.renderCalc(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(clearBtn) clearBtn.onclick=()=>{ calcSearchQ=''; calcPage=1; window.renderCalc(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     } else {
       const backBtn=box.querySelector('.cat-back');
-      if(backBtn) backBtn.onclick=()=>{ calcCatSel=null; calcPage=1; window.renderCalc(); box.scrollIntoView({behavior:'smooth',block:'start'}); };
+      if(backBtn) backBtn.onclick=()=>{ calcCatSel=null; calcPage=1; window.renderCalc(); focusContentHeading(box); box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); };
     }
     box.querySelectorAll('.nw-head').forEach(el=>el.onclick=()=>{
       const item=document.getElementById('calc-'+el.dataset.calc);
-      if(item){ const open=item.classList.toggle('open');
+      if(item){ const open=item.classList.toggle('open'); el.setAttribute('aria-expanded',String(open));
         if(open){
           window.GaeoMetrics.contentView('calc',el.dataset.calc,item);
           gaeoTrack('calculator_start',{calculator_id:String(el.dataset.calc),content_type:'calculator',content_id:String(el.dataset.calc)});
@@ -14679,12 +14856,13 @@ window.GaeoContentAd=(function(){
       const pg=parseInt(b.dataset.pg,10);
       if(!pg||pg===calcPage||b.disabled) return;
       calcPage=pg; window.renderCalc();
-      box.scrollIntoView({behavior:'smooth',block:'start'});
+      focusContentHeading(box);
+      box.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
     });
     // 위젯 이벤트는 실제로 화면에 그려진 항목에 대해서만 연결
     slice.forEach(a=>wireCalcWidget(a));
     const requestedCalcId=new URLSearchParams(location.search).get('id');
-    if(!searching&&!requestedCalcId&&calcPage===1&&slice.length){ const first=document.getElementById('calc-'+slice[0].id); if(first) first.classList.add('open'); }
+    if(!searching&&!requestedCalcId&&calcPage===1&&slice.length){ const first=document.getElementById('calc-'+slice[0].id); if(first){ first.classList.add('open'); first.querySelector('.nw-head')?.setAttribute('aria-expanded','true'); } }
   };
   window.openCalcId=function(id){
     const all=(typeof CALCULATORS!=='undefined'&&Array.isArray(CALCULATORS))?CALCULATORS.slice():[];
@@ -14697,8 +14875,9 @@ window.GaeoContentAd=(function(){
     const el=document.getElementById('calc-'+id);
     if(el){
       el.classList.add('open');
+      el.querySelector('.nw-head')?.setAttribute('aria-expanded','true');
       window.GaeoMetrics.contentView('calc',id,el);
-      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      setTimeout(()=>el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),80);
     }
   };
 })();
@@ -14767,7 +14946,7 @@ window.renderScreener=function(){
     : `<div class="scr-empty">조건에 맞는 종목이 없어요. 필터를 바꿔보세요.</div>`;
 
   const scrAsOf = (AUTO_AN && (AUTO_AN.priceLabel || AUTO_AN.generatedAt)) || SNAP_DATE || '';
-  el.innerHTML=`<div class="nw-hero"><h2>🔍 종목 스크리너</h2>
+  el.innerHTML=`<div class="nw-hero"><h2>종목 스크리너</h2>
     <p>업종·개오팀 판단으로 걸러내고, 원하는 기준으로 정렬해서 조건에 맞는 종목을 찾아보세요.
     종목을 누르면 바로 상세 분석으로 이동해요.</p>
     ${scrAsOf?`<p style="color:var(--red);font-weight:600;margin-top:6px">⏱ 기준일시: ${esc(scrAsOf)}</p>`:''}</div>
@@ -14778,7 +14957,7 @@ window.renderScreener=function(){
     </div>
     <div class="scr-count">조건에 맞는 종목 ${rows.length.toLocaleString('ko-KR')}개 중 상위 ${shown.length}개 표시</div>
     <div class="scr-list">${rowsHtml}</div>
-    <div class="nw-disc" style="margin-top:12px">※ 개오팀 판단은 대부분 🤖 자동분석(규칙 기반) 기준이며, 투자 권유가 아니에요. PER·PBR·배당수익률은 최근 갱신된 시세 기준값이에요.</div>`;
+    <div class="nw-disc" style="margin-top:12px">※ 개오팀 판단은 대부분 자동분석(규칙 기반) 기준이며, 투자 권유가 아니에요. PER·PBR·배당수익률은 최근 갱신된 시세 기준값이에요.</div>`;
 
   document.getElementById('scrSector').onchange=e=>{ SCR.sector=e.target.value; window.renderScreener(); };
   document.getElementById('scrCall').onchange=e=>{ SCR.call=e.target.value; window.renderScreener(); };
@@ -14864,6 +15043,23 @@ window.renderScreener=function(){
     const copy=(mode==='rotation'&&typeof window.GaeoFmHeaderCopy==='function')
       ?window.GaeoFmHeaderCopy(fmSubTab)
       :(sectionCopy[mode]||sectionCopy.single);
+    const contextTitles={single:'종목 분석',watch:'내 종목 관리',guide:'사이트 이용 안내',compare:'종목 비교',
+      portfolio:'포트폴리오',latest:'최근 뉴스·공부 자료',news:'뉴스 분석',study:'종목 공부',lesson:'주식 공부',
+      estate:'부동산 공부',calc:'금융 계산기',screener:'종목 스크리너',rotation:'순환매',rates:'등락률 확인',
+      scorecard:'개오 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록'};
+    const contextTitle=document.getElementById('contextTitle');
+    if(contextTitle){ contextTitle.textContent=contextTitles[mode]||copy[1]; contextTitle.hidden=single; }
+    const stockHeading=document.getElementById('qname');
+    const hasStockHeading=Boolean(single&&stockHeading&&stockHeading.textContent.trim());
+    if(stockHeading){
+      if(hasStockHeading) stockHeading.removeAttribute('aria-hidden');
+      else stockHeading.setAttribute('aria-hidden','true');
+    }
+    const heroTitle=document.querySelector('.hero-title');
+    if(heroTitle){
+      if(single&&!hasStockHeading) heroTitle.removeAttribute('aria-hidden');
+      else heroTitle.setAttribute('aria-hidden','true');
+    }
     document.getElementById('modeSectionEyebrow').textContent=copy[0];
     document.getElementById('modeSectionTitle').textContent=copy[1];
     document.getElementById('modeSectionDesc').textContent=copy[2];
@@ -14977,6 +15173,10 @@ window.renderScreener=function(){
   window.GaeoCancelScrollToMode=function(){ GAEO_SCROLL_SEQ++; };
   window.GaeoScrollToMode=function(mode){
     const my=++GAEO_SCROLL_SEQ;
+    if(mode!=='single') setTimeout(()=>{
+      const heading=document.getElementById('contextTitle');
+      if(heading&&!heading.hidden) heading.focus({preventScroll:true});
+    },100);
     const pick=()=>{
       for(const id of [].concat(MODE_VIEW_ID[mode]||[])){
         const el=document.getElementById(id);
@@ -14988,8 +15188,8 @@ window.renderScreener=function(){
     setTimeout(()=>{
       if(my!==GAEO_SCROLL_SEQ) return;       // 그 사이에 갈 곳을 정한 쪽이 있다 — 양보한다
       const el=pick();
-      if(!el){ window.scrollTo({top:0,behavior:'smooth'}); return; }  // 못 찾아도 최소한 맨 위로
-      el.scrollIntoView({behavior:'smooth',block:'start'});
+      if(!el){ window.scrollTo({top:0,behavior:window.GaeoMotionBehavior()}); return; }  // 못 찾아도 최소한 맨 위로
+      el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
       /* 늦게 그려지는 화면(방명록·기록처럼 자료를 더 받아오는 곳)은 첫 스크롤 뒤에
          내용이 채워지며 위치가 밀린다. 실측: 커뮤니티가 455px 지나친 자리에서 멈췄다.
          그래서 조금 뒤 한 번만 다시 확인해, 화면 안쪽으로 들어가 버렸으면 바로잡는다.
@@ -14998,7 +15198,7 @@ window.renderScreener=function(){
         if(my!==GAEO_SCROLL_SEQ) return;     // 재정렬도 같은 규칙으로 양보한다
         const again=pick();
         if(again&&again.getBoundingClientRect().top<-8){
-          again.scrollIntoView({behavior:'smooth',block:'start'});
+          again.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
         }
       },500);
     },60);
@@ -15022,6 +15222,13 @@ window.renderScreener=function(){
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click(); GaeoScrollToMode('calendar');};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click(); GaeoScrollToMode('community');};
   document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click(); GaeoScrollToMode('changelog');};
+  document.querySelector('.modes')?.addEventListener('click',event=>{
+    if(!event.target.closest('.modebtn')) return;
+    setTimeout(()=>{
+      const heading=document.getElementById('contextTitle');
+      if(heading&&!heading.hidden) heading.focus({preventScroll:true});
+    },100);
+  });
 
   // ---------- 🌐 순환매 화면 2-tab: 순환매 판단 | 전체시장 흐름 ----------
   // rotation-ui.js·compute_rotation.py는 전혀 건드리지 않는다. 이 블록은 순전히
@@ -15046,12 +15253,14 @@ window.renderScreener=function(){
         if(fmEl) fmEl.textContent=copy[i];
         if(alsoSection){ const secEl=document.getElementById(pair[1]); if(secEl) secEl.textContent=copy[i]; }
       });
+      const contextTitle=document.getElementById('contextTitle');
+      if(alsoSection&&contextTitle) contextTitle.textContent=copy[1];
     }
     function syncFmTabButtons(subTab){
       applyFmHeader(subTab);
       const rBtn=document.getElementById('fmTab-rotation'), fBtn=document.getElementById('fmTab-fullmarket');
-      if(rBtn){ rBtn.classList.toggle('on',subTab!=='fullmarket'); rBtn.setAttribute('aria-selected',String(subTab!=='fullmarket')); }
-      if(fBtn){ fBtn.classList.toggle('on',subTab==='fullmarket'); fBtn.setAttribute('aria-selected',String(subTab==='fullmarket')); }
+      if(rBtn){ const active=subTab!=='fullmarket'; rBtn.classList.toggle('on',active); rBtn.setAttribute('aria-selected',String(active)); rBtn.tabIndex=active?0:-1; }
+      if(fBtn){ const active=subTab==='fullmarket'; fBtn.classList.toggle('on',active); fBtn.setAttribute('aria-selected',String(active)); fBtn.tabIndex=active?0:-1; }
       const desc=document.getElementById('fmSegDesc');
       if(desc) desc.innerHTML=subTab==='fullmarket'
         ?'<b>현재 선택 · 전체시장 흐름</b> — KOSPI·KOSDAQ 전체 적격기업의 실제 상승·하락 참여도를 집계한 시장 관찰 화면입니다.'
@@ -15071,6 +15280,17 @@ window.renderScreener=function(){
     const rBtn=document.getElementById('fmTab-rotation'), fBtn=document.getElementById('fmTab-fullmarket');
     if(rBtn) rBtn.onclick=()=>{ setFmSubTab('rotation'); SFX.click(); };
     if(fBtn) fBtn.onclick=()=>{ setFmSubTab('fullmarket'); SFX.click(); };
+    const fmTabBar=document.getElementById('fmTabBar');
+    if(fmTabBar) fmTabBar.addEventListener('keydown',event=>{
+      if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      const tabs=[rBtn,fBtn].filter(Boolean);
+      const current=Math.max(0,tabs.indexOf(document.activeElement));
+      const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:
+        (current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+      event.preventDefault();
+      tabs[next].click();
+      tabs[next].focus();
+    });
     // 홈 "전체시장 흐름 보기 →"에서 호출 — 순환매 모드 진입 + 전체시장 탭 선택을 한 번에 한다.
     window.openFullMarket=function(){
       window.GaeoFmSubTab='fullmarket';
@@ -15102,7 +15322,7 @@ window.renderScreener=function(){
     if(window.renderCommunity) window.renderCommunity();
     setTimeout(()=>{
       const el=document.getElementById('cm-post-'+postId);
-      if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); el.classList.add('flash');
+      if(el){ el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}); el.classList.add('flash');
         setTimeout(()=>el.classList.remove('flash'),1700); }
     },80);
   };
@@ -15213,7 +15433,7 @@ window.renderScreener=function(){
       easyExplain(A,B,vA,vB,sA,sB,ca,cb)+
       noteBlock(A,ca)+noteBlock(B,cb);
     el.classList.add('on');
-    el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'nearest'});
     SFX.ding();
   };
 
@@ -15358,20 +15578,20 @@ window.renderScreener=function(){
   const briefBtn=document.getElementById('activityBrief');
   if(briefBtn) briefBtn.onclick=()=>{
     gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'market-brief'});
-    document.querySelector('.start-step-summary')?.scrollIntoView({behavior:'smooth',block:'center'});
+    document.querySelector('.start-step-summary')?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
   };
   const stockBtn=document.getElementById('activityStock');
   if(stockBtn) stockBtn.onclick=()=>{
     const ticker=document.getElementById('homeTicker');
     gaeoTrack('search_open',{search_location:'activity-board'});
-    ticker?.scrollIntoView({behavior:'smooth',block:'center'});
+    ticker?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
     setTimeout(()=>ticker?.focus(),320);
   };
   const calcBtn=document.getElementById('activityCalc');
   if(calcBtn) calcBtn.onclick=()=>{
     gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'calculator'});
     if(window.setMode) window.setMode('calc');
-    setTimeout(()=>document.getElementById('calcView')?.scrollIntoView({behavior:'smooth',block:'start'}),180);
+    setTimeout(()=>document.getElementById('calcView')?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),180);
   };
 })();
 
@@ -15888,7 +16108,7 @@ window.hangulFix=function(str){
     } else {
       metaVp.setAttribute('content','width=device-width, initial-scale=1.0');
       document.documentElement.classList.remove('force-desktop');
-      btn.innerHTML='🖥️ PC 버전으로 보기';
+      btn.textContent='PC 버전으로 보기';
     }
     try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){}
   }
@@ -15989,8 +16209,8 @@ window.hangulFix=function(str){
     gaeoTrack('share_generate',{method,...context});
   }
   const btn=document.createElement('button');
-  btn.className='share-fab'; btn.type='button'; btn.title='이 화면 공유하기';
-  btn.innerHTML='📤';
+  btn.className='share-fab'; btn.type='button'; btn.title='이 화면 공유하기'; btn.setAttribute('aria-label','현재 화면 공유하기');
+  btn.innerHTML='<span aria-hidden="true">공유</span>';
   document.body.appendChild(btn);
   btn.onclick=async()=>{
     const publicUrl=window.GaeoUrls.shareUrl(location.href);
@@ -16216,9 +16436,13 @@ window.hangulFix=function(str){
 
   function goHome(target){
     if(typeof window.setMode==='function') window.setMode('single');
+    const contextTitle=document.getElementById('contextTitle');
+    if(contextTitle) contextTitle.hidden=true;
+    document.getElementById('qname')?.setAttribute('aria-hidden','true');
+    document.querySelector('.hero-title')?.removeAttribute('aria-hidden');
     closePanels();
     const element=target||document.getElementById('homeDashboard');
-    setTimeout(()=>element&&element.scrollIntoView({behavior:'smooth',block:'start'}),40);
+    setTimeout(()=>element&&element.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),40);
   }
   document.getElementById('globalHome').onclick=()=>goHome();
   document.querySelectorAll('[data-nav-home]').forEach(b=>b.onclick=()=>goHome());
@@ -16227,10 +16451,19 @@ window.hangulFix=function(str){
     closePanels();
     setTimeout(()=>{
       const market=document.getElementById('marketBox');
-      if(market) market.scrollIntoView({behavior:'smooth',block:'center'});
+      if(market) market.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
     },40);
   }
   ['navMarket','navMarketPanel'].forEach(id=>{const b=document.getElementById(id); if(b) b.onclick=goMarket;});
+  workspaceBody?.addEventListener('click',event=>{
+    const modeButton=event.target.closest('.modebtn');
+    if(!modeButton) return;
+    closePanels();
+    setTimeout(()=>{
+      const target=document.getElementById('contextTitle');
+      if(target&&!target.hidden) target.focus({preventScroll:true});
+    },100);
+  });
   document.querySelectorAll('[data-nav-mode]').forEach(button=>{
     button.onclick=()=>{
       const mode=button.dataset.navMode;
@@ -16239,21 +16472,32 @@ window.hangulFix=function(str){
       // 화면 위치 되돌리기는 전체 메뉴와 같은 함수를 쓴다 — 지도를 두 벌 두면
       // 새 화면을 추가할 때 한쪽만 고쳐져 다시 어긋난다(2026-08-28 통합).
       if(typeof window.GaeoScrollToMode==='function') window.GaeoScrollToMode(mode);
+      setTimeout(()=>{
+        const target=document.getElementById('contextTitle');
+        if(target&&!target.hidden) target.focus({preventScroll:true});
+      },100);
     };
   });
 
   const navTicker=document.getElementById('navTicker');
+  const navSearchError=document.getElementById('navSearchError');
   function runNavSearch(){
     const stock=resolveStock(navTicker.value);
     if(!stock.price){
       navTicker.setAttribute('aria-invalid','true');
+      if(navSearchError) navSearchError.hidden=false;
       navTicker.focus();
       return;
     }
     navTicker.removeAttribute('aria-invalid');
+    if(navSearchError) navSearchError.hidden=true;
     closePanels();
     jumpToStock(stock.name);
   }
+  navTicker.addEventListener('input',()=>{
+    navTicker.removeAttribute('aria-invalid');
+    if(navSearchError) navSearchError.hidden=true;
+  });
   makeAutocomplete(navTicker,document.getElementById('navAcbox'),{
     onPick:x=>{closePanels();requestAnimationFrame(()=>jumpToStock(x.name));},
     onEnter:runNavSearch

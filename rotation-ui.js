@@ -124,7 +124,8 @@
     const nodeMarkup=nodes.map(item=>{
       const active=item.sector.name===selected?' on':'';
       const css=nodeClass(item.period);
-      return `<g class="rot-node ${css}${active}" role="button" tabindex="0" data-sector="${escapeHtml(item.sector.name)}" transform="translate(${item.x.toFixed(1)} ${item.y.toFixed(1)})" aria-label="${escapeHtml(item.sector.name)} ${number(item.period.score).toFixed(1)}점">
+      return `<g class="rot-node ${css}${active}" role="button" tabindex="0" aria-pressed="${item.sector.name===selected}" data-sector="${escapeHtml(item.sector.name)}" transform="translate(${item.x.toFixed(1)} ${item.y.toFixed(1)})" aria-label="${escapeHtml(item.sector.name)} ${number(item.period.score).toFixed(1)}점">
+        <rect class="rot-node-hit" x="-52" y="-52" width="104" height="104" fill="transparent" pointer-events="all"></rect>
         <circle r="${layout.nodeRadius}"></circle>
         <text y="-2">${escapeHtml(truncate(item.sector.name))}</text>
         <text class="rot-node-score" y="12">${number(item.period.score).toFixed(1)}점</text>
@@ -143,11 +144,11 @@
       </svg>
     </div>`;
   }
-  function renderRank(data,horizon){
+  function renderRank(data,horizon,selected){
     return (data.sectors||[]).slice().sort((a,b)=>number(sectorPeriod(b,horizon).score)-number(sectorPeriod(a,horizon).score)).slice(0,8).map((sector,index)=>{
       const period=sectorPeriod(sector,horizon);
       const today=todayView(sector);
-      return `<button class="rot-rank" type="button" data-sector="${escapeHtml(sector.name)}"><span class="rot-rank-no">${String(index+1).padStart(2,'0')}</span><span class="rot-rank-name">${escapeHtml(sector.name)}<small>오늘 ${todayPercent(today,'returnValue')} · ${escapeHtml(today.state)}</small></span><span class="rot-rank-score">${number(period.score).toFixed(1)}<small>${horizon}일</small></span></button>`;
+      return `<button class="rot-rank" type="button" aria-pressed="${sector.name===selected}" data-sector="${escapeHtml(sector.name)}"><span class="rot-rank-no">${String(index+1).padStart(2,'0')}</span><span class="rot-rank-name">${escapeHtml(sector.name)}<small>오늘 ${todayPercent(today,'returnValue')} · ${escapeHtml(today.state)}</small></span><span class="rot-rank-score">${number(period.score).toFixed(1)}<small>${horizon}일</small></span></button>`;
     }).join('');
   }
   function renderDetail(data,sector,horizon){
@@ -271,7 +272,7 @@
   }
   function renderTable(data,horizon){
     const rows=(data.sectors||[]).slice().sort((a,b)=>number(sectorPeriod(b,horizon).score)-number(sectorPeriod(a,horizon).score));
-    return `<table class="rot-sr-table"><caption>${horizon}거래일 업종 순위</caption><thead><tr><th>순위</th><th>업종</th><th>점수</th><th>신호</th></tr></thead><tbody>${rows.map((sector,index)=>{const period=sectorPeriod(sector,horizon);return `<tr><td>${index+1}</td><td>${escapeHtml(sector.name)}</td><td>${number(period.score).toFixed(1)}</td><td>${signalLabel(period.signal)}</td></tr>`;}).join('')}</tbody></table>`;
+    return `<table class="rot-sr-table"><caption>${horizon}거래일 업종 순위</caption><thead><tr><th scope="col">순위</th><th scope="col">업종</th><th scope="col">점수</th><th scope="col">신호</th></tr></thead><tbody>${rows.map((sector,index)=>{const period=sectorPeriod(sector,horizon);return `<tr><td>${index+1}</td><th scope="row">${escapeHtml(sector.name)}</th><td>${number(period.score).toFixed(1)}</td><td>${signalLabel(period.signal)}</td></tr>`;}).join('')}</tbody></table>`;
   }
   /* 🔽 접이식 심화 섹션 (2026-08-20)
      대표 지적: "박스가 너무 많고 한눈에 정보가 너무 많아 보기 불편하다."
@@ -346,8 +347,8 @@
         <article class="rot-card"><span class="rot-card-context">시장 국면 · 최근 ${regimeDays}거래일</span><strong class="rot-card-primary">${escapeHtml(regime.direction||'확인 중')} · ${escapeHtml(regime.volatility||'확인 중')}</strong><p class="rot-card-secondary">${escapeHtml(regime.leadership||'시장')} 중심</p>${meta([metaBlock(`최근 ${breadthDays}거래일 상승 종목 비율`,`${number(regime.breadthRate).toFixed(1)}%`),metaBlock('계산기간',regimeRange||'확인 중')])}</article>
         <article class="rot-card"><span class="rot-card-context">권장 관찰 기간</span><strong class="rot-card-primary">${recommended.horizon?recommended.horizon+'거래일':'축적 중'}</strong><p class="rot-card-secondary">${recommendedObservation}</p>${meta([metaBlock('검증기간',validationRange||'확인 중'),metaBlock('종합 평가',recommendedPerformance.sampleCount!=null?`${number(recommendedPerformance.sampleCount)}회`:'축적 중')])}</article>
       </section>
-      <div class="rot-workspace"><div class="rot-primary"><section class="rot-panel rot-map-panel"><div class="rot-panel-head"><div><h3>업종 순환 지도</h3><p>가까울수록 종합 점수가 높습니다. 업종을 누르면 근거가 열립니다.</p></div><div><div class="rot-period-label">성과 관찰 기간</div><div class="rot-horizons" role="tablist" aria-label="성과 관찰 기간">${[1,3,5,20].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" role="tab" aria-selected="${value===horizon}" data-horizon="${value}">${value}일${value===number(recommended.horizon)?'<small>권장</small>':''}</button>`).join('')}</div><div class="rot-period-label trend">장기 추세 참고</div><div class="rot-horizons rot-trend-horizons">${[60,120,200].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" data-horizon="${value}">${value}일</button>`).join('')}</div></div></div>${renderMap(data,horizon,selected.name)}<div class="rot-map-legend"><span><i class="lead"></i>강한 흐름</span><span><i class="watch"></i>관찰</span><span><i class="weak"></i>약한 흐름</span></div>${renderTable(data,horizon)}</section></div>
-      <aside class="rot-side"><section class="rot-panel rot-rank-panel"><div class="rot-panel-head"><div><h3>${horizon}거래일 업종 순위</h3><p>점수는 8개 신호를 한꺼번에 반영합니다.</p></div></div><div class="rot-rank-list">${renderRank(data,horizon)}</div></section><section class="rot-panel rot-detail" aria-live="polite">${renderDetail(data,selected,horizon)}</section></aside></div>
+      <div class="rot-workspace"><div class="rot-primary"><section class="rot-panel rot-map-panel"><div class="rot-panel-head"><div><h3>업종 순환 지도</h3><p>가까울수록 종합 점수가 높습니다. 업종을 누르면 근거가 열립니다.</p></div><div><div class="rot-period-label">성과 관찰 기간</div><div class="rot-horizons" role="tablist" aria-label="성과 관찰 기간">${[1,3,5,20].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" role="tab" tabindex="${value===horizon?'0':'-1'}" aria-selected="${value===horizon}" data-horizon="${value}">${value}일${value===number(recommended.horizon)?'<small>권장</small>':''}</button>`).join('')}</div><div class="rot-period-label trend">장기 추세 참고</div><div class="rot-horizons rot-trend-horizons">${[60,120,200].map(value=>`<button class="rot-horizon${value===horizon?' on':''}" type="button" data-horizon="${value}">${value}일</button>`).join('')}</div></div></div>${renderMap(data,horizon,selected.name)}<div class="rot-map-legend"><span><i class="lead"></i>강한 흐름</span><span><i class="watch"></i>관찰</span><span><i class="weak"></i>약한 흐름</span></div>${renderTable(data,horizon)}</section></div>
+      <aside class="rot-side"><section class="rot-panel rot-rank-panel"><div class="rot-panel-head"><div><h3>${horizon}거래일 업종 순위</h3><p>점수는 8개 신호를 한꺼번에 반영합니다.</p></div></div><div class="rot-rank-list">${renderRank(data,horizon,selected.name)}</div></section><section class="rot-panel rot-detail" aria-live="polite">${renderDetail(data,selected,horizon)}</section></aside></div>
       <div class="rot-analysis-grid">${renderCandidates(selected)}${fold('score','점수가 왜 바뀌었나요?',renderScoreHistory(data,selected,horizon),open.has('score'))}${fold('evidence','이 흐름은 어디에서 왔나요?',`<section class="rot-panel rot-evidence rot-analysis">${renderEvidence(data,selected.name,horizon)}</section>`,open.has('evidence'))}${fold('how','어떻게 봐야 하나요?',renderHowToView(data,selected,horizon),open.has('how'))}${fold('current','지금 종합하면 어떤가요?',renderCurrentView(data,selected,horizon),open.has('current'))}${fold('performance','과거에는 얼마나 맞았나요?',renderPerformance(data),open.has('performance'))}</div>
       ${fold('note','‘축적 중’은 무슨 뜻인가요?',renderAccumulationNote(),open.has('note'))}<details class="rot-method"><summary>계산 방법과 주의사항 보기</summary><div class="rot-method-body"><div><strong>표본 보정</strong>작은 업종이 우연히 과장되지 않도록 전체 시장 쪽으로 보수적으로 보정합니다.</div><div><strong>미래 정보 차단</strong>각 날짜에서 당시 알 수 있던 자료만 사용하고 최근 30일은 유사 국면 비교에서 제외합니다.</div><div><strong>신뢰도 잠금</strong>과거 검증에서 높은 신뢰도가 중간 신뢰도를 실제로 앞설 때만 높은 단계가 열립니다.</div></div></details>
     </div>`;
@@ -359,7 +360,10 @@
     // open은 모듈 스코프 Set을 공유한다 — 다시 마운트해도 펼쳐 둔 것이 유지된다.
     const state={horizon:defaultHorizon,selected:(data.sectors&&data.sectors[0]&&data.sectors[0].name)||'',
       open:OPEN_FOLDS};
-    const draw=()=>{ element.innerHTML=renderView(data,state); };
+    const draw=focusSelector=>{
+      element.innerHTML=renderView(data,state);
+      if(focusSelector){ const target=element.querySelector(focusSelector); if(target) target.focus({preventScroll:true}); }
+    };
     element.onclick=event=>{
       // 🔽 접이식 섹션 — 브라우저가 스스로 여닫으므로 여기서는 상태만 기록한다.
       //    다시 그리면(draw) 방금 연 것이 도로 닫히므로 draw를 부르지 않는다.
@@ -370,16 +374,34 @@
         return;
       }
       const horizon=event.target.closest&&event.target.closest('[data-horizon]');
-      if(horizon){state.horizon=number(horizon.dataset.horizon);draw();return;}
+      if(horizon){state.horizon=number(horizon.dataset.horizon);draw(`[data-horizon="${state.horizon}"]`);return;}
       const sector=event.target.closest&&event.target.closest('[data-sector]');
-      if(sector){state.selected=sector.dataset.sector;draw();}
+      if(sector){
+        state.selected=sector.dataset.sector;
+        const kind=sector.classList.contains('rot-rank')?'.rot-rank':sector.classList.contains('rot-node')?'.rot-node':'';
+        draw(`${kind}[data-sector="${CSS.escape(state.selected)}"]`);
+      }
       const stock=event.target.closest&&event.target.closest('[data-stock-name]');
       if(stock&&typeof global.jumpToStock==='function'){global.jumpToStock(stock.dataset.stockName);}
     };
     element.onkeydown=event=>{
       const sector=event.target.closest&&event.target.closest('[data-sector]');
-      if(sector&&(event.key==='Enter'||event.key===' ')){event.preventDefault();state.selected=sector.dataset.sector;draw();}
-      if(event.key==='Escape'){state.selected=(data.sectors&&data.sectors[0]&&data.sectors[0].name)||'';draw();}
+      if(sector&&(event.key==='Enter'||event.key===' ')){
+        event.preventDefault();state.selected=sector.dataset.sector;
+        const kind=sector.classList.contains('rot-rank')?'.rot-rank':sector.classList.contains('rot-node')?'.rot-node':'';
+        draw(`${kind}[data-sector="${CSS.escape(state.selected)}"]`);
+      }
+      const horizonTab=event.target.closest&&event.target.closest('[role="tab"][data-horizon]');
+      if(horizonTab&&['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){
+        const tabs=[...element.querySelectorAll('[role="tab"][data-horizon]')];
+        const current=Math.max(0,tabs.indexOf(horizonTab));
+        const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:
+          (current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+        event.preventDefault();
+        state.horizon=number(tabs[next].dataset.horizon);
+        draw(`[role="tab"][data-horizon="${state.horizon}"]`);
+      }
+      if(sector&&event.key==='Escape'){state.selected=(data.sectors&&data.sectors[0]&&data.sectors[0].name)||'';draw(`[data-sector="${CSS.escape(state.selected)}"]`);}
     };
     draw();
     return true;

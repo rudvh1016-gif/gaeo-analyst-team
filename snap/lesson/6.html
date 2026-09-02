@@ -56,11 +56,13 @@ li{margin-bottom:6px;font-size:15px}
 .sources a{color:var(--t2)}
 .disc{margin-top:20px;font-size:12px;color:var(--t2)}
 </style>
+<link rel="stylesheet" href="/editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
 <div class="wrap">
   <div class="top"><a href="https://gaeoteam.com/">← Gaeo · 개오 애널리스트팀 홈</a></div>
-  <div class="card">
+  <main class="card" id="main-content" tabindex="-1">
     <span class="tag">주식공부 · 지수 기초</span>
     <h1 class="daum-wm-title">코스피 6500·코스닥 750은 대체 무슨 단위예요? — 지수 완전정복</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-21 · 수정 2026-07-21</div>
@@ -76,7 +78,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>말로만 하면 헷갈리니, 회사가 딱 3개뿐인 아주 작은 시장을 가정해볼게요(실제 수치가 아니라 이해를 돕기 위한 <strong>가상의 예시</strong>예요).</p>
 <ul><li>회사 A(시가총액 60조) + 회사 B(30조) + 회사 C(10조) = 합계 <strong>100조</strong>. 이 날을 기준으로 지수를 <strong>100</strong>이라고 정해요.</li><li>다음 날 회사 A만 10% 올라 66조가 되고 B·C는 그대로면, 합계는 <strong>106조</strong>가 돼요. 지수 = 106조 ÷ 100조 × 100 = <strong>106</strong>.</li><li>즉 「지수가 6포인트 올랐다」는 건 「상장 회사들의 몸값 합계가 6% 늘었다」는 뜻이에요. 개별 회사의 주가 등락이 아니라 <strong>전체 덩치의 변화</strong>를 보는 거예요.</li></ul>
 <h2>왜 삼성전자·SK하이닉스 뉴스만 나오면 코스피가 크게 흔들릴까?</h2>
-<p class="cap">🖼️ 같은 +10% 상승이어도, 시가총액이 큰 회사(A)가 지수에 주는 영향이 작은 회사(C)보다 훨씬 커요</p>
+<p class="cap">같은 +10% 상승이어도, 시가총액이 큰 회사(A)가 지수에 주는 영향이 작은 회사(C)보다 훨씬 커요</p>
 <ul><li>코스피는 <strong>시가총액이 큰 회사일수록 지수에 더 큰 영향</strong>을 주는 방식(시가총액 가중)이에요. 위 가상 예시에서도 A(60조)가 10% 오르면 6조가 늘지만, C(10조)가 10% 올라봐야 1조밖에 안 늘죠? 지수에 미치는 영향도 딱 그만큼 차이 나요.</li><li>삼성전자·SK하이닉스는 코스피에서 시가총액이 손꼽히게 큰 회사들이에요. 그래서 이 두 회사의 주가가 크게 움직이면, 다른 수백 개 회사가 가만히 있어도 코스피 전체가 출렁여요 — 우리 시장분석에 이 두 회사 이름이 자주 등장하는 이유예요.</li></ul>
 <h2>코스닥은 왜 숫자가 훨씬 작아요? — 「천스닥」 이야기</h2>
 <ul><li>코스닥지수는 <strong>1996년 7월 1일을 기준으로, 그날을 1,000</strong>으로 놓고 계산해요(정확히는 처음엔 100이었다가, 2004년 1월 정부가 옛 자료까지 소급해서 1,000 기준으로 새로 발표했어요).</li><li>그래서 지금 코스닥이 753이라는 건 「1996년 기준의 약 75% 수준」이라는 뜻이에요. 코스피(6500~8000대)와 숫자 크기를 그대로 비교하면 안 되는 이유가 바로 <strong>기준점 자체가 다르기 때문</strong>이에요.</li><li>그래서 뉴스에서 코스닥이 1,000을 넘느냐 마느냐를 「<strong>천스닥</strong>」이라고 부르며 큰 사건처럼 다뤄요. 코스닥 종합지수가 2004년 재조정 이후 기준점인 1,000선을 다시 넘어서느냐가 그만큼 상징적인 숫자이기 때문이에요.</li></ul>
@@ -87,12 +89,12 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>✅ 코스피·코스닥·S&amp;P500·나스닥은 <strong>시가총액 가중</strong> — 큰 회사가 지수를 더 많이 움직여요.</li><li>✅ 다우존스만 예외로 <strong>가격가중</strong> — 회사 크기가 아니라 주가 자체가 큰 회사가 지수를 더 많이 움직여요.</li><li>✅ 코스피·코스닥·S&amp;P500·나스닥의 숫자는 <strong>원(₩)이나 달러($)가 아니라 기준 연도 대비 비율</strong>이에요. 서로 기준 연도가 달라서, 지수 숫자 크기만 보고 시장이 크다·작다를 비교하면 안 돼요.</li><li><strong>한 줄 결론</strong>: 「지수는 시장 전체의 몸무게를 재는 저울이지, 종목 하나의 가격표가 아니에요. 숫자가 커졌다는 건 상장 회사들의 몸값 합계가 그만큼 불어났다는 뜻이니, 다음에 「코스피 6500 돌파!」 같은 뉴스를 보면 「아, 시장 전체 덩치가 1980년의 65배가 됐구나」라고 읽으면 돼요.」</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=6&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=6&amp;entry=snapshot" rel="nofollow">인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/81.html">시간외 거래, 정규장 끝나고도 주식을 살 수 있다고</a><a href="https://gaeoteam.com/snap/lesson/78.html">동시호가와 VI, 장 시작·마감에 가격이 튀는 이유</a><a href="https://gaeoteam.com/snap/lesson/61.html">일목균형표·스토캐스틱·OBV 완전정복: 보조지표 심화편</a></div>
-    <div class="sources">📎 출처<ul><li><a href="https://www.index.go.kr/unity/potal/main/EachDtlPageDetail.do?idx_cd=1080" rel="nofollow">e-나라지표 — 주가지수(코스피·코스닥 종합지수)</a></li><li><a href="https://ko.wikipedia.org/wiki/%EC%BD%94%EC%8A%A4%EB%8B%A5_%EC%A7%80%EC%88%98" rel="nofollow">위키백과 — 코스닥 지수(1996년 기준일·2004년 1,000 상향)</a></li><li><a href="https://www.spglobal.com/spdji/en/indices/equity/dow-jones-industrial-average/" rel="nofollow">S&amp;P Dow Jones Indices — Dow Jones Industrial Average (가격가중 방식)</a></li><li><a href="https://blog.koreainvestment.com/%EB%82%98%EC%8A%A4%EB%8B%A5-%EB%8B%A4%EC%9A%B0%EC%A1%B4%EC%8A%A4-sp500-%EC%B0%A8%EC%9D%B4-%EB%AF%B8%EA%B5%AD-3%EB%8C%80-%EC%A7%80%EC%88%98/" rel="nofollow">한국투자증권 블로그 — 나스닥·다우존스·S&amp;P500 차이</a></li></ul></div>
-    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="https://gaeoteam.com/disclaimer.html">데이터 출처·면책조항</a> · <a href="https://gaeoteam.com/about.html">사이트 소개</a></div>
-  </div>
+    <div class="sources"><strong>출처</strong><ul><li><a href="https://www.index.go.kr/unity/potal/main/EachDtlPageDetail.do?idx_cd=1080" rel="nofollow">e-나라지표 — 주가지수(코스피·코스닥 종합지수)</a></li><li><a href="https://ko.wikipedia.org/wiki/%EC%BD%94%EC%8A%A4%EB%8B%A5_%EC%A7%80%EC%88%98" rel="nofollow">위키백과 — 코스닥 지수(1996년 기준일·2004년 1,000 상향)</a></li><li><a href="https://www.spglobal.com/spdji/en/indices/equity/dow-jones-industrial-average/" rel="nofollow">S&amp;P Dow Jones Indices — Dow Jones Industrial Average (가격가중 방식)</a></li><li><a href="https://blog.koreainvestment.com/%EB%82%98%EC%8A%A4%EB%8B%A5-%EB%8B%A4%EC%9A%B0%EC%A1%B4%EC%8A%A4-sp500-%EC%B0%A8%EC%9D%B4-%EB%AF%B8%EA%B5%AD-3%EB%8C%80-%EC%A7%80%EC%88%98/" rel="nofollow">한국투자증권 블로그 — 나스닥·다우존스·S&amp;P500 차이</a></li></ul></div>
+    <footer class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="https://gaeoteam.com/disclaimer.html">데이터 출처·면책조항</a> · <a href="https://gaeoteam.com/about.html">사이트 소개</a></footer>
+  </main>
 </div>
 </body>
 </html>

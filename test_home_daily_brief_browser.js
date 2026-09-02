@@ -9,6 +9,7 @@ function requireState(condition, message) {
     headless: true,
   });
   const page = await browser.newPage({ viewport: { width: 1024, height: 900 } });
+  await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
   const pageErrors = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
   await page.goto('http://127.0.0.1:8877/index.html');

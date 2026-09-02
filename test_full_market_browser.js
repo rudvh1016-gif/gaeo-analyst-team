@@ -107,7 +107,8 @@ function baseFixture(overrides) {
     requireState(await page.evaluate(() => !document.getElementById('rotationView').classList.contains('on')), 'Home 진입 후 순환매 판단 뷰가 여전히 보임(전체시장 탭과 동시 표시)');
     // Header Sync — 홈 direct navigation의 최종 상태는 처음부터 전체시장 Header여야 한다.
     requireState((await page.locator('#modeSectionTitle').innerText()).trim() === '전체시장 흐름', 'Home 진입 후 상단 Section Title이 전체시장 흐름이 아님');
-    requireState(await page.evaluate(() => { const el = document.getElementById('fmModeTitle'); return !!el.offsetParent && el.textContent.trim() === '전체시장 흐름'; }), 'Home 진입 후 보이는 상단 헤더(fmModeTitle)가 전체시장 흐름이 아니거나 안 보임');
+    requireState(await page.evaluate(() => { const el = document.getElementById('contextTitle'); return !!el.offsetParent && el.textContent.trim() === '전체시장 흐름'; }), 'Home 진입 후 보이는 문맥 제목(contextTitle)이 전체시장 흐름이 아니거나 안 보임');
+    requireState(await page.evaluate(() => !document.getElementById('fmModeTitle').offsetParent), '전체시장 내부 중복 제목(fmModeTitle)이 숨겨지지 않음');
     requireState((await page.locator('#modeSectionDesc').innerText()).includes('KOSPI·KOSDAQ 전체 적격기업'), 'Home 진입 후 상단 Description이 전체시장 설명이 아님');
     requireState((await page.locator('#fmSegDesc').innerText()).includes('현재 선택 · 전체시장 흐름'), 'selector 아래 현재 선택 설명이 전체시장으로 안 바뀜');
 

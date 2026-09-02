@@ -32,6 +32,7 @@ async function waitForServer() {
     });
 
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     const pageErrors = [];
     const failedLocalRequests = [];
     page.on('pageerror', error => pageErrors.push(String(error)));
@@ -54,6 +55,7 @@ async function waitForServer() {
     assert.equal(await page.locator('#mkHistBody .mk-day').count(), 4, '두 번째 페이지도 시장분석 4건이어야 합니다');
 
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await mobile.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     await mobile.goto('http://127.0.0.1:8877/index.html');
     await mobile.waitForLoadState('networkidle');
     assert.equal(await mobile.locator('#marketBox .mk-an').count(), 0, '모바일에 현재 시장분석 본문이 노출됐습니다');

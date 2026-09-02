@@ -113,8 +113,9 @@
     ];
     return `<section class="fm-panel fm-compare"><h3>코스피 · 코스닥 비교</h3>
       <div class="fm-table-wrap"><table class="fm-compare-table">
-        <thead><tr><th></th><th>KOSPI</th><th>KOSDAQ</th></tr></thead>
-        <tbody>${rows.map(([label,a,b])=>`<tr><th>${label}</th><td>${a}</td><td>${b}</td></tr>`).join('')}</tbody>
+        <caption>코스피와 코스닥의 시장 참여도 비교</caption>
+        <thead><tr><th scope="col">지표</th><th scope="col">KOSPI</th><th scope="col">KOSDAQ</th></tr></thead>
+        <tbody>${rows.map(([label,a,b])=>`<tr><th scope="row">${label}</th><td>${a}</td><td>${b}</td></tr>`).join('')}</tbody>
       </table></div>
     </section>`;
   }
@@ -201,13 +202,14 @@
 
   function renderSectorRow(sector,expanded){
     const upPct=isNum(sector.advanceRatio)?sector.advanceRatio*100:0;
+    const detailId=`fm-sector-${encodeURIComponent(sector.name).replace(/%/g,'')}`;
     return `<div class="fm-sector-item">
-      <button class="fm-sector-row" type="button" aria-expanded="${expanded?'true':'false'}" data-sector="${escapeHtml(sector.name)}">
+      <button class="fm-sector-row" type="button" aria-expanded="${expanded?'true':'false'}" aria-controls="${detailId}" data-sector="${escapeHtml(sector.name)}">
         <div class="fm-sector-head"><span class="fm-sector-name">${escapeHtml(sector.name)}</span><span class="fm-sector-rate">${pct1(sector.advanceRatio)}</span></div>
         <div class="fm-sector-bar"><div class="fm-sector-bar-fill" style="width:${upPct.toFixed(1)}%"></div></div>
         <div class="fm-sector-sub">${count0(sector.advancers)}상승 · ${count0(sector.decliners)}하락<span class="fm-dot">·</span>중앙값 ${ret2(sector.medianReturn)}<span class="fm-dot">·</span>${count0(sector.count)}종목</div>
       </button>
-      ${expanded?renderSectorDetail(sector):''}
+      ${expanded?`<div id="${detailId}" role="region" aria-label="${escapeHtml(sector.name)} 상세">${renderSectorDetail(sector)}</div>`:''}
     </div>`;
   }
 
@@ -267,7 +269,10 @@
     if(!element) return false;
     if(!data){ element.innerHTML=renderEmpty(); return false; }
     const state={sortKey:'advanceRatio',expanded:null};
-    const draw=()=>{ element.innerHTML=renderView(data,state); };
+    const draw=focusSelector=>{
+      element.innerHTML=renderView(data,state);
+      if(focusSelector){ const target=element.querySelector(focusSelector); if(target) target.focus({preventScroll:true}); }
+    };
     element.onclick=event=>{
       const pick=event.target.closest&&event.target.closest('[data-fm-stock]');
       if(pick){
@@ -278,13 +283,13 @@
       if(row){
         const name=row.dataset.sector;
         state.expanded=state.expanded===name?null:name;
-        draw();
+        draw(`[data-sector="${CSS.escape(name)}"]`);
       }
     };
     element.onchange=event=>{
       if(event.target&&event.target.id==='fmSortSelect'){
         state.sortKey=event.target.value;
-        draw();
+        draw('#fmSortSelect');
       }
     };
     draw();

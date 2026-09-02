@@ -30,6 +30,7 @@ async function waitForServer() {
       headless: true,
     });
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    await page.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
     await page.goto('http://127.0.0.1:8877/index.html');
     await page.waitForLoadState('networkidle');
 

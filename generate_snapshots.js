@@ -20,7 +20,9 @@ const TITLE_SUFFIX = 'Gaeo';
 function load(file, varname) {
   try {
     return new Function(fs.readFileSync(path.join(HERE, file), 'utf8') + ';return ' + varname + ';')();
-  } catch (e) { return []; }
+  } catch (error) {
+    throw new Error(`${file} ${varname} load failed: ${error.message}`);
+  }
 }
 
 function productionDate(value, label) {
@@ -43,6 +45,10 @@ function archiveNotice(date) {
 function esc(s) {
   return String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function safeJson(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
 // 검색결과 설명문(meta description)용으로만 요약을 줄인다.
@@ -77,7 +83,7 @@ function bodyToHtml(raw) {
     if (/^\[\[img:/.test(line)) {
       flushList(); flushPara();
       const m = line.match(/^\[\[img:[^|]+\|(.+?)\]\]$/);
-      if (m) html += '<p class="cap">🖼️ ' + inline(m[1]) + '</p>\n';
+      if (m) html += '<p class="cap">' + inline(m[1]) + '</p>\n';
       continue;
     }
     if (line.startsWith('## ')) { flushList(); flushPara(); html += '<h2>' + inline(line.slice(3)) + '</h2>\n'; continue; }
@@ -131,7 +137,7 @@ ${noindex ? '<meta name="robots" content="noindex,follow">\n' : ''}<link rel="ca
 <meta name="twitter:description" content="${esc(sdesc)}">
 <meta name="twitter:image" content="${SHARE_IMAGE}">
 <meta name="twitter:image:alt" content="${SHARE_ALT}">
-<script type="application/ld+json">${JSON.stringify(ld)}</script>
+<script type="application/ld+json">${safeJson(ld)}</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3152692263439634"
      crossorigin="anonymous"></script>
 <style>
@@ -164,11 +170,13 @@ li{margin-bottom:6px;font-size:15px}
 .sources a{color:var(--t2)}
 .disc{margin-top:20px;font-size:12px;color:var(--t2)}
 </style>
+<link rel="stylesheet" href="/editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
 <div class="wrap">
   <div class="top"><a href="${BASE}">← ${esc(SITE_NAME)} 홈</a></div>
-  <div class="card">
+  <main class="card" id="main-content" tabindex="-1">
 ${tag ? '    <span class="tag">' + esc(tag) + '</span>' : ''}
     <h1 class="daum-wm-title">${esc(title)}</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 ${esc(date)} · 수정 ${esc(modified)}</div>
@@ -177,12 +185,12 @@ ${archiveHtml ? '    ' + archiveHtml : ''}
     <div class="daum-wm-content">
     ${bodyHtml}
     </div>
-    <a class="cta" href="${esc(backHref)}" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="${esc(backHref)}" rel="nofollow">인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
 ${relatedHtml ? '    ' + relatedHtml : ''}
 ${sourcesHtml ? '    ' + sourcesHtml : ''}
-    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="${BASE}disclaimer.html">데이터 출처·면책조항</a> · <a href="${BASE}about.html">사이트 소개</a></div>
-  </div>
+    <footer class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="${BASE}disclaimer.html">데이터 출처·면책조항</a> · <a href="${BASE}about.html">사이트 소개</a></footer>
+  </main>
 </div>
 </body>
 </html>
@@ -196,7 +204,7 @@ function sourcesToHtml(sources) {
     const nm = s.t ? (s.t + (s.p ? ', ' + s.p : '') + (s.d ? ' (' + s.d + ')' : '')) : (s.name || '');
     return '<li>' + esc(nm) + '</li>';
   }).join('');
-  return '<div class="sources">📎 출처<ul>' + items + '</ul></div>';
+  return '<div class="sources"><strong>출처</strong><ul>' + items + '</ul></div>';
 }
 
 function relatedToHtml(items) {
@@ -244,18 +252,19 @@ function build(list, kind, folder, titleKey, tagPrefix) {
   }
 }
 
-build(load('news_analysis.js', 'NEWS_ANALYSIS'), 'news', 'news', 'title', '📰 뉴스분석');
-build(load('stock_study.js', 'STOCK_STUDY'), 'study', 'study', 'name', '📚 종목공부');
-build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '🎓 주식공부');
-build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '🏠 부동산공부');
-build(load('calculators.js', 'CALCULATORS'), 'calc', 'calc', 'name', '🧮 계산기');
+build(load('news_analysis.js', 'NEWS_ANALYSIS'), 'news', 'news', 'title', '뉴스분석');
+build(load('stock_study.js', 'STOCK_STUDY'), 'study', 'study', 'name', '종목공부');
+build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '주식공부');
+build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '부동산공부');
+build(load('calculators.js', 'CALCULATORS'), 'calc', 'calc', 'name', '계산기');
+if (index.length < 213) throw new Error(`human-authored snapshot count below baseline: ${index.length} < 213`);
 
 // ── 600종목 규칙 기반 자동분석 스냅샷. 검색 색인에서는 제외하고 앱 호환용으로만 유지한다. ──
 // 뉴스·공부 콘텐츠와 달리 매일 시세·분석이 바뀌므로, 러너(update-analysis.yml)가 매 사이클
 // generate_snapshots.js를 다시 실행해 자동 갱신한다(토큰 0 — 이미 계산된 데이터를 템플릿에 채울 뿐).
 function stockFindingsHtml(block) {
   if (!block) return '';
-  const names = { taro: '📈 TARO(기술)', diana: '💰 DIANA(재무)', nova: '🔮 QUANT(확률·통계)', flow: '🌊 FLOW(수급)' };
+  const names = { taro: 'TARO(기술)', diana: 'DIANA(재무)', nova: 'QUANT(확률·통계)', flow: 'FLOW(수급)' };
   let html = '';
   for (const k of ['taro', 'diana', 'nova', 'flow']) {
     const a = block[k];
@@ -367,7 +376,7 @@ function buildStocks() {
     const desc = `${name}(${code}) ${priceLine}. ${tierLabel} 종합판단 ${chief.call || '—'}(${chief.total ?? '—'}점, 확신도 ${chief.confidence ?? '—'}%). ${(chief.reason || '').slice(0, 80)}`;
     let bodyHtml = '';
     bodyHtml += '<p>' + esc(`${tierLabel} · ${t.sector || ''} 업종`) + '</p>\n';
-    bodyHtml += '<p>' + esc(`🕒 시세 기준 ${priceDate}${analysisDate !== priceDate ? ' · 🔎 분석 기준 ' + analysisDate : ''}`) + '</p>\n';
+    bodyHtml += '<p>' + esc(`시세 기준 ${priceDate}${analysisDate !== priceDate ? ' · 분석 기준 ' + analysisDate : ''}`) + '</p>\n';
     if (priceLine) bodyHtml += '<p><strong>' + esc(priceLine) + '</strong></p>\n';
     const metrics = [];
     if (sd.per) metrics.push('PER ' + sd.per + '배');
@@ -375,10 +384,10 @@ function buildStocks() {
     if (sd.roe) metrics.push('ROE ' + sd.roe + '%');
     if (sd.cap) metrics.push('시가총액 ' + sd.cap);
     if (metrics.length) bodyHtml += '<p>' + esc(metrics.join(' · ')) + '</p>\n';
-    bodyHtml += '<h2>🧭 개오팀 종합 판단</h2>\n';
+    bodyHtml += '<h2>개오팀 종합 판단</h2>\n';
     bodyHtml += '<p><strong>' + esc(`${chief.call || '—'} (종합 ${chief.total ?? '—'}점 · 확신도 ${chief.confidence ?? '—'}%)`) + '</strong></p>\n';
     if (chief.reason) bodyHtml += '<p>' + esc(chief.reason) + '</p>\n';
-    if (chief.target) bodyHtml += '<p>🎯 ' + esc(chief.target) + '</p>\n';
+    if (chief.target) bodyHtml += '<p>' + esc(chief.target) + '</p>\n';
     if (chief.report) bodyHtml += '<p>' + esc(chief.report) + '</p>\n';
     bodyHtml += stockFindingsHtml(block);
     const canonicalUrl = `${BASE}snap/stock/${code}.html`;
@@ -404,6 +413,7 @@ function buildStocks() {
     n++;
   }
   console.log(`종목 스냅샷 생성 완료 — ${n}건 (snap/stock/*.html)`);
+  if (n < 600) throw new Error(`stock snapshot count below baseline: ${n} < 600`);
 }
 buildStocks();
 
@@ -584,9 +594,11 @@ header.hero{padding-top:30px}
 .sec{grid-template-columns:1fr;gap:16px;padding:30px 0}
 }
 </style>
+<link rel="stylesheet" href="/editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
-<main class="shell">
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
+<main class="shell" id="main-content" tabindex="-1">
   <header class="brand"><a href="${BASE}">GAEO</a><span>Research</span></header>
   <header class="hero">
     <h1>GAEO Research</h1>
