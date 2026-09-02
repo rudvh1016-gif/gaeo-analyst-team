@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 02 Sep 2026 07:34:22 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 02 Sep 2026 10:39:30 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</title>
+    <link>https://gaeoteam.com/snap/news/63.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/63.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 3.99% 내린 6,562.72, 코스닥은 2.10% 내린 803.98로 마감하며 두 지수가 동반 급락했어요. 미국과 이란의 무력 충돌이 다시 격화되면서 국제유가가 급등했고, 뉴욕증시가 3거래일 연속 내린 여파가 국내 증시로 이어졌어요. 특히 삼성전자·SK하이닉스 같은 반도체 대형주와 현대차·기아 같은 자동차 대형주의 낙폭이 커서, 개별 종목보다 지수가 더 크게 떨어지는 하루였어요.</description>
+    <pubDate>Wed, 02 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</title>
     <link>https://gaeoteam.com/snap/news/62.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/63.html</guid>
     <category>주식공부</category>
     <description>금리가 오르내릴 때 주가가 왜 흔들리는지, 2026년 한미 기준금리 현황과 실제 사례로 알아봐요.</description>
-    <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>레버리지·인버스 ETF, 지수가 원위치해도 내 계좌는 왜 마이너스일까</title>
-    <link>https://gaeoteam.com/snap/lesson/62.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/62.html</guid>
-    <category>주식공부</category>
-    <description>지수가 정확히 원래 자리로 돌아와도 레버리지·인버스 ETF는 손실이 나요. 그 이유를 직접 계산으로 확인해봐요.</description>
     <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

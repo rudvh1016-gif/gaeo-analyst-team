@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 63,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-02",
+  "title": "2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락",
+  "featured": false
+ },
+ {
   "id": 62,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-25",
   "title": "2026년 8월25일 종가, 원전주 랠리에 코스피·코스닥 모처럼 동반 상승",
   "featured": false
- },
- {
-  "id": 54,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-24",
-  "title": "2026년 8월24일 종가, 삼성전자 8.7% 급락에도 429종목은 올랐다",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 62,
+ "news": 63,
  "study": 35,
  "lesson": 82,
  "estate": 19,
