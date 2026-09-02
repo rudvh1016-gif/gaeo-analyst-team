@@ -96,9 +96,19 @@ CHIEF의 최종 BUY/HOLD/SELL은 4개 분석가(TARO/DIANA/QUANT/FLOW) 점수를
   판단을 `history.js`에 하루 1건씩 누적한다.
 두 워크플로 모두 **GitHub의 기본 cron이 이 저장소에서 불안정하다는 걸 겪은 뒤** 만들어진
 "자가 반복 루프 + 종료 시 자기 재기동(workflow_dispatch 재호출) 체인" 구조다. 안전망이
-5중으로 겹쳐 있다: ① 워크플로 자체의 자가 루프 ② 체인 재기동 ③ `.analyst-refresh` 파일을
+6중으로 겹쳐 있다: ① 워크플로 자체의 자가 루프 ② 체인 재기동 ③ `.analyst-refresh` 파일을
 건드리는 push 마커 ④ cron(best-effort) ⑤ Claude Routine("gaeo 장중 매시 kickoff 안전망" —
-평일 매시, data.js 커밋이 25분 이상 끊기면 마커를 push해 러너를 되살림).
+평일 매시, 시세·자동분석 **양쪽** 산출물 신선도를 각각 재고 멈춘 쪽 run을 취소·재기동)
+⑥ `pipeline-watchdog.yml`(평일 장중 15분 간격, 2026-09-02 신설).
+
+⑥번이 왜 따로 필요한가 — ①~⑤는 전부 **"run이 돌고 있으면 건강하다"** 는 가정 위에 있었다.
+2026-09-02에 update-analysis가 hang에 빠졌을 때, 그 좀비는 계속 `in_progress`였고 뒤에 밀린
+새 run은 `queued`였다. 그래서 update-prices의 짝꿍 상호 감시(`alive()`)는 매 사이클 "살아있다"고
+답했고, 매시 Routine은 `data.js`만 보고 있어서(시세는 멀쩡했다) 아무도 이상을 못 느꼈다.
+결과적으로 시세는 10분마다 갱신되는데 자동분석만 전날 종가에 얼어붙은 채 아침이 다 갔다.
+⑥은 유일하게 **산출물 타임스탬프**(`data.js`의 `date` · `auto_analysis.js`의 `generatedAt`)로
+판정하고, 두 파이프라인을 독립적으로 본다. 판정기는 순수 함수라 `test_pipeline_watchdog.py`가
+사고 상황을 그대로 재현해 회귀를 막는다. 자세한 근거는 `pipeline_watchdog.py` 상단 주석.
 
 **트리거는 `workflow_dispatch` / 특정 경로 `push` / `schedule`뿐이며, 외부 Pull Request로는
 절대 실행되지 않는다** — 즉 다른 사람이 PR을 올린다고 이 워크플로가 자동으로 도는 구조가

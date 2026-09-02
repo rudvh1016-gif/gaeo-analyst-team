@@ -1,0 +1,57 @@
+# 개오 파이프라인 좀비 감시 (2026-09-02 신설)
+#
+# 왜 별도 워크플로인가 —
+#   update-prices.yml / update-analysis.yml은 "건드리지 말고 이해만 할 것"(AGENTS.md) 대상이라
+#   그 안의 긴 수집 루프를 고치는 건 위험하다. 이 워크플로는 **더하기만 하는 감시자**다.
+#   두 러너의 파일을 전혀 건드리지 않고, 밖에서 산출물 신선도만 보고 좀비를 치운다.
+#
+# 무엇이 기존 감시와 다른가 —
+#   기존 상호 감시(update-prices의 alive())는 "queued/in_progress run이 있는가"만 본다.
+#   멈춘 run도 in_progress고 그 뒤에 밀린 run도 queued라서 **좀비가 항상 살아있다고 나온다**.
+#   여기서는 run의 존재가 아니라 **산출물(data.js·auto_analysis.js)이 실제로 갱신되고 있는지**로
+#   판정한다. 판정 규칙과 오판 방지(유예) 근거는 pipeline_watchdog.py 주석 참조.
+#
+# 비용: 한 번에 20~30초짜리 잡이다. 장중에만 15분 간격으로 돈다.
+name: pipeline-watchdog
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 0-7 UTC = 09~16시 KST. 평일 15분 간격(GitHub cron은 best-effort라 지연될 수 있다 —
+    # 이건 5중 안전망에 하나를 더 얹는 것이지, 이것만 믿는 구조가 아니다).
+    - cron: "*/15 0-7 * * 1-5"
+
+# 감시자 자신은 절대 쌓이면 안 된다. 이전 판정이 아직 돌고 있으면 그건 버리고 최신만 남긴다
+# (감시자가 좀비가 되면 감시할 사람이 없다).
+concurrency:
+  group: pipeline-watchdog
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write        # 좀비 run 취소 + 러너 재기동 dispatch
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TZ: Asia/Seoul
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main       # 산출물 신선도는 항상 main 최신본으로 판정한다
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 판정 로직이 깨진 채로 run을 취소하면 멀쩡한 파이프라인을 죽인다.
+      # 0.01초짜리라 매번 돌려도 부담이 없다 — 통과해야만 실제 조치로 넘어간다.
+      - name: 판정 계약 테스트
+        run: python3 -m unittest test_pipeline_watchdog -q
+
+      - name: 좀비 감시 · 소생
+        run: python3 pipeline_watchdog.py --apply | tee -a "$GITHUB_STEP_SUMMARY"
