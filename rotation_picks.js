@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-02 16:04",
+ "generatedAt": "2026-09-02 16:34",
  "dataCutoff": "2026-09-02 종가",
  "horizonDays": 20,
  "picks": [],
