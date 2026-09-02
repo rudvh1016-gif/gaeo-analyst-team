@@ -72,7 +72,7 @@ git push                         # 강제 아님, 평범한 push
 
 ## 4. 시각적 변경 검증 (Playwright)
 
-index.html의 화면(CSS·레이아웃·인라인 JS)을 바꿨다면, 배포 전에 Playwright
+index.html·app-shell.css·app.js의 화면(CSS·레이아웃·동작)을 바꿨다면, 배포 전에 Playwright
 (`/opt/pw-browsers/chromium`)로 다음 3개 뷰포트를 확인하는 게 관례다:
 
 - 데스크톱 1680px

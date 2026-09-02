@@ -1,7 +1,8 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 
 // Compact screens should use a consistent two-column radar category grid,
 // with smaller one-line controls instead of a tall, ragged flex layout.

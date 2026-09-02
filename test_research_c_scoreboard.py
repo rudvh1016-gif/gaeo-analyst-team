@@ -199,7 +199,8 @@ class ScoreboardUI(unittest.TestCase):
     # index.html은 1MB가 넘는다. 문자열은 못 바꾸니 한 번만 읽어 공유해도 안전하다.
     @classmethod
     def setUpClass(cls):
-        cls.html = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
+        from app_test_source import read_app_document
+        cls.html = read_app_document(HERE)
 
     def test_board_function_present(self):
         self.assertIn("function modelBoardHTML()", self.html)

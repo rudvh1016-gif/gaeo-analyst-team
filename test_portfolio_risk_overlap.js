@@ -16,8 +16,9 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { readAppDocument } = require('./app_test_source');
 
-const HTML = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+const HTML = readAppDocument(__dirname);
 
 let passed = 0;
 function test(name, fn) {

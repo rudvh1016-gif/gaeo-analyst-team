@@ -1,8 +1,9 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 const sectionStart = html.indexOf('/* ---------- 요일별 평균 등락률 (2026) ----------');
 assert.notEqual(sectionStart, -1, '요일별 등락률 렌더링 영역이 있어야 합니다.');
 

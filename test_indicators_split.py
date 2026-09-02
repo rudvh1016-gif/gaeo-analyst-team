@@ -22,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+from app_test_source import read_app_document
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FAILURES = []
@@ -33,7 +34,7 @@ def check(name, cond, detail=""):
         FAILURES.append(name)
 
 
-html = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
+html = read_app_document(HERE)
 
 # ── ① 홈 즉시 로드 목록 ────────────────────────────────────────────────────
 m = re.search(r"\['analysis\.js',([^\]]*)\]\.forEach\(w\)", html)

@@ -1,7 +1,8 @@
 const assert = require('assert');
 const fs = require('fs');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 assert.strictEqual((html.match(/googletagmanager\.com\/gtag\/js/g) || []).length, 1, 'one deferred GA loader');
 assert.strictEqual((html.match(/gtag\('config',\s*'G-D6PYQ4TXY4'\)/g) || []).length, 1, 'one GA config');
 assert.match(html, /growth_urls\.js[^]*product_analytics\.js[^]*function gaeoLoadAnalytics\(\)[^]*googletagmanager\.com\/gtag\/js/);

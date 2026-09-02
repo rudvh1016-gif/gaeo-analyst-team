@@ -7,6 +7,7 @@
 ⑤ 과거 500 스냅샷 소급 금지(하드코딩 모집단 문구 없음)
 """
 import sys
+from app_test_source import read_app_document
 
 FAILURES = []
 
@@ -17,7 +18,7 @@ def check(name, cond, detail=""):
         FAILURES.append(name)
 
 
-html = open("index.html", encoding="utf-8").read()
+html = read_app_document()
 
 # ── ① 확신도 ≠ 확률 ─────────────────────────────────────────────────────────
 check("확신도 microcopy가 '상승 확률이 아니'라고 명시", "상승 확률이 아니에요" in html)

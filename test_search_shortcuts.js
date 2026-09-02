@@ -3,8 +3,9 @@
 // - 단축키는 '/'와 ESC만: J/K 내비게이션 금지, 입력 중 가로채기 금지 조건 존재
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 
 // ── 초성검색 코어가 존재 ──
 assert.match(html, /function chosungKey\(/, '초성 변환 함수가 있어야 합니다.');

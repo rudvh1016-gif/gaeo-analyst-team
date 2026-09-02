@@ -1,0 +1,25 @@
+{
+  "measurement": {
+    "profile": "Chromium mobile 390x844, three-run median, third-party requests blocked",
+    "classification": "lab-only",
+    "fieldCwvClaim": false
+  },
+  "assets": {
+    "indexHtmlRawBytes": 90000,
+    "appCssRawBytes": 320000,
+    "appJsRawBytes": 820000,
+    "maxInlineStyleBytes": 8192,
+    "maxInlineScriptBytes": 16384,
+    "serviceWorkerShellEntries": 32
+  },
+  "routes": [
+    { "name": "home", "path": "/", "requests": 58, "transferBytes": 1000000, "localRawTransferBytes": 3000000, "domNodes": 6800, "lcpMs": 2500, "interactionMs": 500, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "stock-search", "path": "/?m=single&code=005930", "requests": 62, "transferBytes": 1500000, "localRawTransferBytes": 8000000, "domNodes": 7800, "lcpMs": 2500, "interactionMs": 1000, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "research-hub", "path": "/snap/index.html", "requests": 30, "transferBytes": 650000, "localRawTransferBytes": 700000, "domNodes": 1300, "lcpMs": 2500, "interactionMs": 500, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "research-article", "path": "/snap/news/63.html", "requests": 25, "transferBytes": 500000, "localRawTransferBytes": 550000, "domNodes": 250, "lcpMs": 2500, "interactionMs": 500, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "calculator", "path": "/?m=calc&id=14", "requests": 62, "transferBytes": 1200000, "localRawTransferBytes": 3200000, "domNodes": 7000, "lcpMs": 2500, "interactionMs": 1000, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "rotation", "path": "/?m=rotation", "requests": 62, "transferBytes": 1300000, "localRawTransferBytes": 3600000, "domNodes": 7700, "lcpMs": 2500, "interactionMs": 1000, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "full-market", "path": "/?m=rotation", "action": "open-full-market-tab", "requests": 66, "transferBytes": 1600000, "localRawTransferBytes": 7000000, "domNodes": 8100, "lcpMs": 2500, "interactionMs": 1200, "tbtProxyMs": 500, "cls": 0.1 },
+    { "name": "about", "path": "/about.html", "requests": 28, "transferBytes": 650000, "localRawTransferBytes": 700000, "domNodes": 400, "lcpMs": 2500, "interactionMs": 500, "tbtProxyMs": 500, "cls": 0.1 }
+  ]
+}

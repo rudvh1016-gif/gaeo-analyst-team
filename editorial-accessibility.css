@@ -1,5 +1,18 @@
 /* GAEO editorial expansion and WCAG 2.2 AA support.
    Loaded last so it can refine legacy screens without changing data or models. */
+@font-face{
+  font-family:"GAEO Snapshot Fallback";
+  src:local("Malgun Gothic");
+  size-adjust:90%;
+}
+
+/* Generated reading pages used a wider system fallback while Wanted Sans loaded,
+   moving the entire article by about 93px at 390px. Match only that static-page
+   fallback's glyph width; the app shell and the final Wanted Sans face are unchanged. */
+body:has(>div.wrap>main.card){
+  font-family:"Wanted Sans Variable","GAEO Snapshot Fallback","Apple SD Gothic Neo",system-ui,sans-serif;
+}
+
 :root{
   --editorial-page:#f7f7f5;
   --editorial-paper:#ffffff;

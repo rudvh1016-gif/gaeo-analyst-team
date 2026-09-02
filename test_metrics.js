@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
 const vm = require('node:vm');
 const releaseSafety = require('./public_release_safety.js');
+const { readAppDocument } = require('./app_test_source');
 
 function storage() {
   const values = new Map();
@@ -12,9 +12,13 @@ function storage() {
 }
 
 async function main() {
-  const html = fs.readFileSync('index.html', 'utf8');
-  const source = html.match(/<script>\s*([\s\S]*?window\.GaeoMetrics[\s\S]*?\n\s*\}\)\(\);)/);
-  assert.ok(source, 'GaeoMetrics inline script should exist');
+  const html = readAppDocument();
+  const metricsScript = Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))
+    .map(match => match[1])
+    .find(script => script.includes('window.GaeoMetrics'));
+  assert.ok(metricsScript, 'GaeoMetrics script should exist');
+  const source = metricsScript.match(/window\.GaeoMetrics=\(function\(\)\{[\s\S]*?\n  \}\)\(\);/)?.[0];
+  assert.ok(source, 'GaeoMetrics module should exist');
 
   // kvdb를 흉내내는 가짜 버킷. mode로 실패 상황을 갈아끼운다.
   //   'patch'   - PATCH +1이 정상 동작 (원래 가정)
@@ -71,7 +75,7 @@ async function main() {
     };
   };
   const context = makeContext(fetch);
-  vm.runInNewContext(source[1], context, { filename: 'index.html' });
+  vm.runInNewContext(source, context, { filename: 'index.html' });
 
   const visit = await context.window.GaeoMetrics.startVisit();
   assert.equal(visit.total, 940, 'the first migrated visit should build on the verified 939 total');
@@ -98,7 +102,7 @@ async function main() {
   {
     const m = makeFetch('no-patch');
     const ctx = makeContext(m.fetch);
-    vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
+    vm.runInNewContext(source, ctx, { filename: 'index.html' });
     const v = await ctx.window.GaeoMetrics.startVisit();
     assert.equal(v.total, 940, 'PATCH가 막혀도 PUT 폴백으로 증가해야 한다');
     assert.equal(v.exactTotal, true, '폴백으로 성공했으면 정확한 값으로 표시해야 한다');
@@ -113,7 +117,7 @@ async function main() {
   {
     const m = makeFetch('no-patch', { 'metrics:site-visits': '41' });
     const ctx = makeContext(m.fetch);
-    vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
+    vm.runInNewContext(source, ctx, { filename: 'index.html' });
     const v = await ctx.window.GaeoMetrics.startVisit();
     assert.equal(v.total, 981, '939 + (41 + 1) 이어야 한다');
     assert.equal(m.store.get('metrics:site-visits'), '42');
@@ -124,7 +128,7 @@ async function main() {
   {
     const m = makeFetch('read-only', { 'metrics:site-visits': '41' });
     const ctx = makeContext(m.fetch);
-    vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
+    vm.runInNewContext(source, ctx, { filename: 'index.html' });
     const v = await ctx.window.GaeoMetrics.startVisit();
     assert.equal(v.total, 980, '증가에 실패해도 저장된 값(939+41)은 읽어야 한다');
     assert.equal(v.exactTotal, true, '읽기에 성공했으면 939+ 폴백으로 떨어지면 안 된다');
@@ -134,7 +138,7 @@ async function main() {
   {
     const m = makeFetch('patch', { 'metrics:site-visits': '41' });
     const ctx = makeContext(m.fetch, null);
-    vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
+    vm.runInNewContext(source, ctx, { filename: 'index.html' });
     const v = await ctx.window.GaeoMetrics.startVisit();
     assert.equal(v.total, 939, '동의 전에는 네트워크 대신 내장 최소값을 표시한다');
     assert.equal(

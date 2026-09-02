@@ -7,9 +7,9 @@
 
 | 단계 | 브랜치 | 상태 | 핵심 evidence |
 |---|---|---|---|
-| PR 1 Editorial foundation | `codex/editorial-foundation` | 로컬 구현·검증 및 최종 A/B/C PASS | 자동 렌더 캡처 110장·측정 record 74개에서 대표 30장 보존; Node 32/32; browser 15/15 |
-| PR 2 Editorial accessibility | 예정 | 대기 | PR 1 병합 후 최신 main에서 시작 |
-| PR 3 Performance | 예정 | 대기 | PR 2 병합 후 측정 |
+| PR 1 Editorial foundation | `codex/editorial-foundation` | PR #484 병합·배포 확인 | merge `914457f37023`; 최종 A/B/C PASS |
+| PR 2 Editorial accessibility | `codex/editorial-accessibility` | PR #485 병합·배포 확인 | merge `77f108d6e9b8`; Node 33/33, Python 52/57(+기존 Windows 5), browser 16/16, A/B/C PASS |
+| PR 3 Performance | `codex/performance-maintainability` | 구현·검증 중 | `docs/PERFORMANCE_BASELINE.md`; HTML −93.0%, 종목 raw transfer −87.2%, 딥링크 CLS ≤0.10 |
 | PR 4 Trust/SEO/Growth | 예정 | 대기 | 실제 claim·검색 evidence 기반 |
 | PR 5 Governance | 예정 | 대기 | 실제 workflow/branch evidence 기반 |
 

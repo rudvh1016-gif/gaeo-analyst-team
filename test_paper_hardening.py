@@ -172,7 +172,8 @@ check("AB6. Market Timestamp 역행 → regression 카운트 기록(관측 순�
 shutil.rmtree(tmp)
 
 # ── RT9/공개 계약: 벤치마크 라벨 정확성 ─────────────────────────────────────
-html = open("index.html", encoding="utf-8").read()
+from app_test_source import read_app_document
+html = read_app_document()
 check("RT9. UI 라벨 '종료거래 평균 시장대비' 사용(광의의 '시장 대비' 단독 금지)",
       "'종료거래 평균 시장대비'" in html and "${stat(rel,'시장 대비')}" not in html)
 check("RT9c. 벤치마크 설명 microcopy(개별 거래 평균임을 명시)",
