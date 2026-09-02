@@ -77,6 +77,9 @@
   footer a{color:var(--text-secondary);text-decoration:none;margin:0 8px}
   footer a:hover{color:var(--text)}
   @media(max-width:600px){ .era{padding:20px 17px} .era li{font-size:13.5px} }
+  /* 2026-09-02: 'TARO(기술)·DIANA(재무)·…'처럼 띄어쓰기 없는 긴 굵은 글씨가 390px 화면을 넘겨
+     가로 스크롤을 만들었다(396px). 넘칠 때만 어디서든 줄을 바꾸게 한다 — 평소 줄바꿈은 그대로. */
+  main b, main strong, main code{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
