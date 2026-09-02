@@ -37,7 +37,9 @@ add('news', 'news', entries('news_analysis.js', 'NEWS_ANALYSIS'), '0.7');
 add('study', 'study', entries('stock_study.js', 'STOCK_STUDY'), '0.6');
 add('lesson', 'lesson', entries('stock_lessons.js', 'STOCK_LESSONS'), '0.6');
 add('estate', 'estate', entries('estate_lessons.js', 'ESTATE_LESSONS'), '0.6');
-add('calc', 'calc', entries('calculators.js', 'CALCULATORS'), '0.7');
+// 계산기 스냅샷은 도구 착지 페이지라 본문이 200~460단어로 짧다(설명은 있음). 글(뉴스·공부·정밀분석)이
+// 더 가치 있는 색인 대상이므로 우선순위를 한 단계 낮춘다 — 색인은 유지, 순서만 뒤로.
+add('calc', 'calc', entries('calculators.js', 'CALCULATORS'), '0.5');
 const deepManifest = readDeepAnalysisManifest();
 deepManifest.archivePages.forEach(x => urls.push({ loc: x.loc, prio: '0.7', mod: ymd(x.lastmod) }));
 // 종목별 대표 페이지가 "종목명 주가 전망" 검색의 착지점이다. 같은 종목의 날짜별
