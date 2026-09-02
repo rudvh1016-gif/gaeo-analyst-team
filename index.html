@@ -2409,9 +2409,11 @@
     padding:10px 12px;font:inherit;font-size:13px;background:var(--bg);resize:vertical;
     box-sizing:border-box;outline:none}
   .cm-guest textarea:focus{border-color:var(--sky)}
+  /* 2026-09-02 디자인 통일: 사이트의 다른 주요 버튼(.home-search-go · .hero-action.primary)은
+     전부 단색이다. 이 버튼만 gradient였던 걸 맞춘다(장식 gradient 금지 규칙). */
   .gb-btn{margin-top:8px;border:none;border-radius:10px;padding:11px 22px;font:inherit;
     font-weight:600;font-size:13.5px;color:#fff;cursor:pointer;
-    background:linear-gradient(180deg,#125388,var(--navy))}
+    background:var(--navy)}
   .gb-status{font-size:12px;color:var(--dim);margin-top:7px;min-height:1em}
   .gb-actions{margin-left:auto;display:flex;gap:4px;flex-shrink:0}
   .gb-actions button{border:none;background:var(--bg);border-radius:7px;padding:4px 8px;
@@ -3310,10 +3312,13 @@
   .nav-refresh-btn:disabled{cursor:wait;opacity:.65}
   .nav-refresh-btn.is-refreshing svg{animation:navRefreshSpin .65s linear infinite}
   @keyframes navRefreshSpin{to{transform:rotate(360deg)}}
+  /* 2026-09-02 디자인 통일: 이 띠는 시세 갱신 주기를 알리는 일반 안내문이라 상승/하락과
+     무관한데, 예전엔 배경·테두리에 시장 상승색(#E5484D)을 틴트로 섞어 썼다(등락 색 계약
+     위반 — 색은 시장 방향에만). 옆 .global-panel과 같은 중립 배경으로 맞춘다. */
   .refresh-notice{position:fixed;z-index:999;top:var(--gaeo-nav-h);left:0;right:0;
     min-height:var(--gaeo-notice-h);display:flex;align-items:center;justify-content:center;
-    box-sizing:border-box;padding:5px 18px;border-bottom:1px solid color-mix(in srgb,#E5484D 18%,var(--gaeo-border));
-    background:color-mix(in srgb,var(--paper) 96%,#E5484D 4%);color:var(--gaeo-muted);
+    box-sizing:border-box;padding:5px 18px;border-bottom:1px solid var(--gaeo-border);
+    background:var(--paper);color:var(--gaeo-muted);
     font-size:10.5px;font-weight:500;line-height:1.35;text-align:center;
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   .global-menu-lines{width:17px;height:12px;position:relative;border-top:1.8px solid currentColor;
@@ -15440,14 +15445,16 @@ window.hangulFix=function(str){
     const cm=effective();
     const posts=(cm.posts||[]).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0) || (b.date||'').localeCompare(a.date||'') || (b.id||0)-(a.id||0));
     let h='';
-    if(cm.notice) h+=`<div class="cm-notice">📢 ${esc(cm.notice)}</div>`;
-    h+=`<div class="cm-sec">📌 게시판</div>`;
+    // 2026-09-02 디자인 통일: 섹션 제목 emoji 제거(.vsec-title 등 사이트 표준과 통일),
+    // 안내 박스의 고정 "📢 " 접두어 제거(cm.notice 문구 자체가 이미 emoji로 시작해 중복 표시됐었다).
+    if(cm.notice) h+=`<div class="cm-notice">${esc(cm.notice)}</div>`;
+    h+=`<div class="cm-sec">게시판</div>`;
     h+=posts.length
       ? posts.map(p=>`<div class="cm-post${p.pin?' pin':''}" id="cm-post-${esc(p.id)}">
           <div class="cm-head"><span class="cm-name">${esc(p.name)||'익명'}</span><span class="cm-date">${esc(p.date)||''}</span>${p.pin?'<span class="cm-pin">고정</span>':''}</div>
           <div class="cm-text">${esc(p.text)}</div></div>`).join('')
       : `<div class="cm-post"><div class="cm-empty">아직 게시글이 없어요.</div></div>`;
-    h+=`<div class="cm-sec">✍️ 방문자 자유게시판</div>
+    h+=`<div class="cm-sec">방문자 자유게시판</div>
       <div class="cm-guest">
         <p class="cm-hint">누구나 글을 남길 수 있어요. 비밀번호는 나중에 내 글을 <b>수정·삭제</b>할 때 필요해요.</p>
         <div class="cm-form">
