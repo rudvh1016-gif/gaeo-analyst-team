@@ -111,6 +111,35 @@ class Test건강한_run을_죽이지_않는다(unittest.TestCase):
         self.assertEqual(d["cancel"], [])
 
 
+class Test큐대기_시각_오판(unittest.TestCase):
+    """2026-09-02, 이 워치독의 첫 실전 실행에서 건강한 run을 죽인 사고의 재현."""
+
+    def test_큐에서_2시간_기다린_run은_기다린_시간을_빼고_센다(self):
+        # run 513: 09:28에 큐 진입 → 좀비 뒤에서 2시간 대기 → 11:28에야 러너를 잡음.
+        # started_at에 "러너를 잡은 시각"(11:28)이 들어오면 11:44엔 16분밖에 안 됐으므로
+        # 살려둬야 한다. 큐 진입 시각(09:28)을 넣으면 136분으로 보여 죽인다 — 그게 사고였다.
+        healthy = decide(ANALYSIS, 1176,
+                         [run(513, "in_progress", at(11, 28))], at(11, 44))
+        self.assertEqual(healthy["action"], "ok",
+                         "러너를 잡은 지 16분밖에 안 된 run을 죽이면 안 된다")
+
+        # 같은 run을 큐 진입 시각으로 재면 좀비로 오판한다 — 이게 왜 job 시각을 써야 하는지다.
+        misjudged = decide(ANALYSIS, 1176,
+                           [run(513, "in_progress", at(9, 28))], at(11, 44))
+        self.assertEqual(misjudged["action"], "revive")
+
+    def test_취소_재큐_반복_루프가_생기지_않는다(self):
+        # 취소된 run의 대체분이 큐에서 얼마나 오래 기다렸든, 러너를 잡은 뒤 10분 시점엔
+        # 유예 안이라 다시 죽지 않는다. 이 성질이 깨지면 워치독이 취소 → 재큐 → 또 취소를
+        # 반복하며 파이프라인을 영원히 못 돌게 만든다.
+        for 큐대기 in (5, 60, 120):
+            러너확보 = at(11, 28)
+            d = decide(ANALYSIS, 1176, [run(999, "in_progress", 러너확보)],
+                       러너확보 + datetime.timedelta(minutes=10))
+            self.assertEqual(d["action"], "ok",
+                             f"러너 확보 10분 뒤인데 죽었다(큐에서 {큐대기}분 기다린 경우)")
+
+
 class Test완전정지(unittest.TestCase):
     def test_run이_하나도_없으면_재기동한다(self):
         d = decide(ANALYSIS, 200, [], at(11, 30))
