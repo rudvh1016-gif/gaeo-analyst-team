@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">삼성전기 실적 : MLCC·FCBGA : 밸류에이션 부담</span>
     <h1 class="daum-wm-title">삼성전기 2분기 영업이익 107% 급증인데 주가는 왜 11% 넘게 빠졌을까</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-30 · 수정 2026-07-30</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 30일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">삼성전기가 2분기 매출 3조 4,572억 원, 영업이익 4,404억 원으로 증권가 전망치까지 넘겼는데 주가는 오히려 11.86% 급락했어요. AI 서버·전장 부품이라는 성장 축과 PER 85배 밸류에이션 부담, 레버리지 ETF 수급 문제를 함께 짚었어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -95,7 +98,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>삼성전기 사례는 &quot;실적이 좋으면 주가도 오른다&quot;는 생각이 왜 위험할 수 있는지 보여줘요. 영업이익이 두 배 넘게 늘고 시장 기대치까지 넘겼는데도 주가는 두 자릿수로 빠졌어요. 주가에는 이미 미래 기대가 들어가 있고, 여기에 ETF 같은 기계적 수급까지 얽히면 실적 발표는 오히려 &quot;기대를 확인하고 정리하는 날&quot;이 되기도 해요. 좋은 회사인지와 지금 사기 좋은 가격인지는 다른 질문이라는 점, 그리고 PER처럼 기대가 얼마나 반영됐는지 알려주는 지표를 함께 보는 습관이 이런 장에서 특히 도움이 돼요. 참고로 이 글은 투자 권유가 아니라 공부용 정리예요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=29" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=29&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/57.html">엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</a><a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a><a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.newspim.com/news/view/20260730000778" rel="nofollow">뉴스핌 - 삼성전기, 2분기 영업익 4404억원…AI·전장 수요에 107% 급증</a></li><li><a href="https://www.newsis.com/view/NISX20260729_0003728345" rel="nofollow">뉴시스 - 삼성전자, 오늘 2Q '메모리 효자' 확정실적 공개…삼성전기도 실적 발표</a></li><li><a href="https://www.hankyung.com/article/202607244627i" rel="nofollow">한국경제 - 급등락하는 삼성전기, 30일 실적발표 앞두고 'PER 73배' 부각된 이유</a></li><li><a href="https://www.fnnews.com/news/202607200951492795" rel="nofollow">파이낸셜뉴스 - 개인들, 본주 34조 담더니…'삼전닉스' 레버리지 ETF에도 5.6조 베팅</a></li><li><a href="https://www.sedaily.com/article/20050939" rel="nofollow">서울경제 - '삼전닉스' 담겠다던 반도체ETF, 삼성전기가 비중 장악</a></li><li><a href="https://biz.heraldcorp.com/article/10809978" rel="nofollow">헤럴드경제 - 역대급 실적에도 '삼전닉스' 급등락, 해외 투자은행들이 지목한 변동성 원인</a></li><li><a href="https://www.cbci.co.kr/news/articleView.html?idxno=588676" rel="nofollow">CBC뉴스 - 삼성전기, 2분기 수익성 전망과 장중 주가 흐름 엇갈려</a></li></ul></div>

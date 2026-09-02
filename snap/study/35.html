@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">화장품 · K뷰티·코스알엑스 · 코스피</span>
     <h1 class="daum-wm-title">아모레퍼시픽</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-29 · 수정 2026-07-29</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 29일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">아모레퍼시픽은 설화수·라네즈·이니스프리에 최근 인수한 코스알엑스까지 여러 화장품 브랜드를 보유한 국내 대표 뷰티기업이에요. 오랫동안 발목을 잡던 중국 매출은 여전히 줄고 있지만, 미국·유럽에서 코스알엑스와 더마 브랜드가 크게 성장하면서 성장축이 중국에서 미주·유럽으로 옮겨가고 있어요. 주가는 4월 14만원대에서 6월 초 10만원대까지 조정받았고, 1분기 실적은 컨센서스에 대체로 부합했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -87,7 +90,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li><strong>2분기 실적 발표</strong> — 중국 매출 감소폭이 줄어드는지, 미주·유럽 성장세가 이어지는지가 핵심이에요.</li><li><strong>코스알엑스 관련 매출 비중 공개 여부</strong> — 인수 효과가 얼마나 실적에 기여하는지 가늠할 수 있어요.</li><li><strong>증권사 목표주가 최신 리포트</strong> — 목표가와 실제 주가 괴리가 큰 만큼, 최근 발간된 리포트로 다시 확인하는 게 안전해요.</li><li>한 줄 결론: <strong>&quot;아모레퍼시픽은 오랜 약점이던 중국 리스크를 미국·유럽·코스알엑스로 상쇄해가는 전환기의 회사예요. 4월 고점 이후 조정을 거친 지금, 다음 분기 실적에서 이 전환이 숫자로 확인되는지가 중요한 갈림길이 될 거예요.&quot;</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=35" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=35&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a><a href="https://gaeoteam.com/snap/study/21.html">NAVER</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://stories.amorepacific.com/%EC%95%84%EB%AA%A8%EB%A0%88%ED%8D%BC%EC%8B%9C%ED%94%BD-%EA%B7%B8%EB%A3%B9-2026%EB%85%84-1%EB%B6%84%EA%B8%B0-%EA%B2%BD%EC%98%81%EC%8B%A4%EC%A0%81-%EB%B0%9C%ED%91%9C/" rel="nofollow">아모레퍼시픽 그룹, 2026년 1분기 경영실적 발표 (아모레퍼시픽 스토리)</a></li><li><a href="https://www.apgroup.com/int/ko/news/2026-04-29-1.html" rel="nofollow">아모레퍼시픽 그룹, 2026년 1분기 경영실적 발표 (아모레퍼시픽 공식 IR)</a></li><li><a href="https://www.lawissue.co.kr/view.php?ud=202604291921519951204ead0791_12" rel="nofollow">아모레퍼시픽 그룹 1분기 매출 1조 2227억...전년比 5% 증가 (로이슈)</a></li><li><a href="https://www.sks.co.kr/data1/research/qna_file/20260429171847829_0_ko.pdf" rel="nofollow">아모레퍼시픽 (090430/KS) 다변화되는 브랜드와 채널 (SK증권 리포트)</a></li><li><a href="https://www.hanwhawm.com/main/common/common_file/fileView.cmd?category=2&amp;depth3_id=anls1&amp;key1=65725&amp;key2=1&amp;bldid=bbs10031" rel="nofollow">2026년 04월 08일 기업분석 아모레퍼시픽(090430) 순항 중입니다 (한화투자증권 리포트)</a></li><li><a href="https://www.newspim.com/news/view/20260413000187" rel="nofollow">[리포트 브리핑]아모레퍼시픽, '1Q26 Preview' 목표가 180,000원 - NH투자증권 (뉴스핌)</a></li><li><a href="https://m.thinkpool.com/breakingNews/cont/255098" rel="nofollow">아모레퍼시픽, '2026년 대장주의 귀환' 목표가 173,000원 - 메리츠증권 (씽크풀)</a></li><li><a href="https://www.topdaily.kr/articles/84108" rel="nofollow">'중국' 부진에 실적 흔들리는 아모레퍼시픽, 2% 북미 시장 성장 시급 (톱데일리)</a></li><li><a href="https://www.newspim.com/news/view/20240509001189" rel="nofollow">잘나가던 이니스프리, 아모레 발목잡는 이유 (뉴스핌)</a></li></ul></div>

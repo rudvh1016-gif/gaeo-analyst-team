@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">수급분석 · 코스피 · 외국인</span>
     <h1 class="daum-wm-title">외국인은 아직 안 팔았다, 코스피 7주 수급 데이터 해부</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-19 · 수정 2026-08-19</div>
+
     <div class="summary">코스피가 6월 말 8,476.48에서 8월 18일 6,869.83으로 18.95% 내렸는데, 정작 외국인이 판 물량은 자기 보유분의 0.4%뿐이었어요. 외국인 보유비중은 38.81%로 2004년 역대 최고치에 가깝고, 8월 들어서는 기관이 방어를 멈춰 개인 혼자 시장을 받치고 있어요. 7월 1일부터 8월 18일까지 확정된 33거래일 수급을 직접 계산해서 지금 어디쯤 와 있는지 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -92,7 +95,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li><strong>딱지 값이 많이 떨어졌어요.</strong> 6월 말에 8,476원이던 게 8월 18일에 6,869원이 됐어요. 100원짜리가 81원이 된 셈이에요.</li><li><strong>딱지를 사고파는 사람은 크게 세 무리예요.</strong> 우리 같은 학생(개인), 외국에서 온 큰 손님(외국인), 그리고 동네 큰 가게 사장님들(기관)이에요.</li><li><strong>7월에는 외국 손님이 딱지를 엄청 팔았어요.</strong> 그때는 가게 사장님들이 대신 사줘서 값이 덜 떨어졌어요. 8월에는 외국 손님이 잠깐 다시 사기도 했어요.</li><li><strong>그런데 8월에는 사장님들도 팔기 시작했어요.</strong> 지금 딱지를 사주는 사람은 우리 학생들뿐이에요. 학생 용돈은 정해져 있어서 계속 사줄 수는 없어요.</li><li><strong>여기가 가장 중요해요.</strong> 외국 손님이 딱지를 많이 판 것 같지만, 사실 자기가 가진 딱지의 100장 중 딱 0.4장만 팔았어요. 아직 99장 넘게 그대로 갖고 있어요. 그러니까 「외국 손님은 이제 다 팔았으니 안심해도 된다」는 말은 사실이 아니에요.</li><li><strong>학생들은 값이 떨어질 때 사고 오를 때 팔았어요.</strong> 학생들이 딱지를 왕창 산 날 9번이 전부 값이 떨어진 날이었어요. 사고 싶어서 참기 힘든 날이 오히려 조심할 날이었던 거예요.</li><li><strong>그래서 뭘 보면 될까요.</strong> 외국 손님이 오늘 딱지를 샀는지 팔았는지만 봐도 그날 값이 오를지 내릴지 열 번 중 아홉 번은 맞아요. 어른들이 어려운 말로 설명해도, 이거 하나만 매일 확인하면 돼요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=50" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=50&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://biz.heraldcorp.com/article/10845206" rel="nofollow">헤럴드경제, 삼전닉스의 힘 코스피 상장사 상반기 영업익 254%·순익 333% 급증</a></li><li><a href="https://www.fnnews.com/news/202608191003481843" rel="nofollow">파이낸셜뉴스, 미국채 금리 급등에 코스피 하락 매도 사이드카 발동</a></li><li><a href="https://biz.heraldcorp.com/article/10844799" rel="nofollow">헤럴드경제, 코스피 5~6%대 급락 매도 사이드카 발동 올 들어 48번째</a></li><li><a href="https://www.fnnews.com/news/202608110320444627" rel="nofollow">파이낸셜뉴스, 8월 조정 거쳐 9월 반등 온다 증시 뒤집을 재료 3가지는</a></li><li><a href="https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020503" rel="nofollow">한국거래소 정보데이터시스템, 외국인 보유량 추이</a></li></ul></div>

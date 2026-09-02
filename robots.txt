@@ -6,11 +6,9 @@ Disallow: /*.command$
 Disallow: /.claude/
 Disallow: /.github/
 Disallow: /docs/
-# 자동생성 종목 스냅샷 598건. 룰엔진이 숫자만 바꿔 찍어내는 템플릿 페이지라
-# 애드센스 품질심사에서 한 번 반려된 이력이 있고, 구글의 대량 자동생성 콘텐츠
-# 정책에도 걸릴 위험이 있어 색인에서 제외한다. 사람이 직접 지정해 깊게 본 종목은
-# /research/deep-analysis/<종목코드>/ 대표 페이지로 따로 발행하며 색인 대상이다.
-Disallow: /snap/stock/
+# 자동생성 종목 스냅샷은 각 HTML의 noindex,follow로 색인에서 제외한다.
+# robots.txt에서 이 경로를 막으면 검색봇이 noindex를 읽을 수 없으므로 반드시 접근을 허용한다.
+# 사람에게 필요한 앱 링크는 유지하며 sitemap에는 넣지 않는다.
 # Research Raw Archive — 사이트가 쓰지 않는 연구용 원본이라 색인하지 않는다.
 Disallow: /research_archive/
 

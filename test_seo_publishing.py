@@ -50,7 +50,6 @@ SITEMAP = """<?xml version="1.0" encoding="UTF-8"?>
 
 ROBOTS = """User-agent: *
 Allow: /
-Disallow: /snap/stock/
 Sitemap: https://gaeoteam.com/sitemap.xml
 """
 
@@ -113,6 +112,13 @@ run_sim("sitemap이 없는 파일을 가리키면 차단", False, "존재하지 
         sitemap=SITEMAP.replace("news/1.html", "news/999.html"))
 run_sim("robots가 발행 글 경로를 막으면 차단", False, "/snap/news",
         robots=ROBOTS + "Disallow: /snap/news\n")
+
+run_sim("robots가 noindex 종목 경로를 막으면 차단", False, "/snap/stock",
+        robots=ROBOTS + "Disallow: /snap/stock/\n")
+
+run_sim("사람이 쓴 글에 noindex가 붙으면 차단", False, "사람이 쓴",
+        post_html=GOOD_POST.replace("</head>",
+                                    '<meta name="robots" content="noindex,follow"></head>'))
 
 # 자동 종목 페이지 noindex 계약
 root = build_fixture()

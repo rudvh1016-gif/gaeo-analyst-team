@@ -135,6 +135,8 @@ def check_page(root, rel, min_body, require_sitemap, locs, problems,
     is_noindex = "noindex" in robots
     if expect_noindex and not is_noindex:
         problems.append(f"{where}: 자동 종목 페이지는 noindex여야 합니다")
+    if require_sitemap and is_noindex:
+        problems.append(f"{where}: 사람이 쓴 색인 대상 발행 글에 noindex가 있습니다")
 
     text = _visible_text(html)
     if not is_noindex and min_body and len(text) < min_body:
@@ -227,8 +229,8 @@ def check_repo(root="."):
         robots = _read(robots_path)
         if "Sitemap:" not in robots:
             problems.append("robots.txt: Sitemap 선언이 없습니다")
-        if not re.search(r"Disallow:\s*/snap/stock/", robots):
-            problems.append("robots.txt: 자동 종목 페이지(/snap/stock/) 차단이 빠졌습니다")
+        if re.search(r"Disallow:\s*/snap/stock/", robots):
+            problems.append("robots.txt: /snap/stock/을 차단하면 페이지의 noindex를 읽을 수 없습니다")
         for good in ["/snap/news", "/snap/study", "/snap/lesson", "/snap/estate"]:
             if re.search(rf"Disallow:\s*{re.escape(good)}", robots):
                 problems.append(f"robots.txt: 발행 글 경로 {good}를 차단하고 있습니다")

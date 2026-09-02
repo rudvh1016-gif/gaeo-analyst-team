@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">증권 · SK하이닉스</span>
     <h1 class="daum-wm-title">SK하이닉스 1주 하한가, NXT 프리마켓은 왜 자꾸 흔들릴까?</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-06 · 수정 2026-08-06</div>
+
     <div class="summary">SK하이닉스가 국내 대체거래소 넥스트레이드(NXT) 프리마켓에서 단 11주 거래로 또 하한가를 기록했어요. 지난달 28일에도 같은 방식의 왜곡이 벌어져 해외 가상자산 파생상품 시장에서 826억원 규모 강제청산이 터졌는데, 그 반복되는 구조적 문제를 짚어봐요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -84,7 +87,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>9월 14일: 넥스트레이드 정적 변동성완화장치 도입 예정일이에요. 이날 전후로 비슷한 왜곡 사건이 또 나오는지 지켜볼 필요가 있어요.</li><li>매일 오전 8시~8시 50분: NXT 프리마켓 운영시간이에요. 이 시간대 호가창의 가격은 정규장보다 왜곡될 가능성이 크다는 점을 기억해두세요.</li><li>보유 종목이 NXT에서 거래되는 종목이라면, 프리마켓 시간대의 급락·급등 알림만 보고 성급하게 매매 결정을 내리지 않는 게 좋아요.</li><li>해외 가상자산 파생상품에 투자하고 있다면, 그 상품이 어떤 자산과 연동돼 있고 오라클이 어떻게 가격을 반영하는지 한 번쯤 확인해보는 것도 좋은 습관이에요.</li><li>한 줄 결론: NXT 프리마켓의 구조적 허점은 이미 여러 차례 확인된 「알려진 위험」이라, 9월 제도 개선 전까지는 프리마켓 시간대 가격 변동을 곧이곧대로 믿지 않는 신중함이 필요해요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=40" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=40&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/15.html">이재명 대통령 美 빅테크 CEO 연쇄 회동: SK·엔비디아 5,000억 달러 파트너십까지</a><a href="https://gaeoteam.com/snap/news/8.html">삼성전자 로봇사업 본격 시동 — 레인보우로보틱스는 왜 하루 만에 +23%까지 뛰었나</a><a href="https://gaeoteam.com/snap/news/2.html">삼성전자·SK하이닉스 레버리지 상품, 증시에 약(藥)일까 독(毒)일까?</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.etoday.co.kr/news/view/2611681" rel="nofollow">이투데이 · NXT 프리마켓서 SK하이닉스 또 하한가, 11주 거래에 시초가 왜곡</a></li><li><a href="https://www.news1.kr/finance/general-stock/6243794" rel="nofollow">뉴스1 · SK하닉 1주 하한가 탓 해외 800억 강제청산, 韓 넥스트장 황당</a></li><li><a href="https://www.asiae.co.kr/article/2026073014435134205" rel="nofollow">아시아경제 · SK하이닉스 1주에 800억원? 가상자산 강제 청산 사고</a></li><li><a href="https://www.newsis.com/view/NISX20260730_0003730134" rel="nofollow">뉴시스 · SK하닉 단 1주에 800억원 청산, 현물시장 오류 온체인으로 번져</a></li><li><a href="https://v.daum.net/v/20260218175306778?f=p" rel="nofollow">뉴스1 · 단독 변동성 큰 넥스트레이드, 하루에 한 번꼴 시초가 상하한가</a></li></ul></div>

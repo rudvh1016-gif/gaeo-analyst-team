@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 7월27일 종가 코스피·코스닥 분석: 이란 완화 기대와 SK-엔비디아 빅딜이 가른 업종별 희비</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-27 · 수정 2026-07-27</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 27일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">코스피가 +0.97%, 코스닥이 +2.22%로 마감하며 지난주 급락분을 상당 부분 되돌렸어요. 이란 이슈 완화 기대에 따른 유가 급락은 신재생에너지·방산주엔 악재로, SK-엔비디아 5,000억 달러 파트너십은 반도체·IT엔 호재로 작용하며 업종별 희비가 뚜렷하게 갈렸어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -92,7 +95,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>이렇게 하루 안에서도 업종별로 정반대 결과가 나올 수 있다는 걸 기억해두면 좋아요 — 「오늘 코스피가 올랐다」는 한 줄만 보고 모든 종목이 다 좋았을 거라 생각하면 안 돼요. 내가 들고 있거나 관심 있는 종목이 오늘 강세를 보인 업종인지 약세를 보인 업종인지 먼저 확인하는 습관이 실전에서 훨씬 도움이 돼요. 그리고 이번 주부터는 실적 발표 시즌이 본격 시작되니, 이제는 「어떤 재료가 나왔나」뿐 아니라 「그 회사가 실제로 얼마나 잘 벌었나」도 함께 챙겨봐야 하는 시기라는 점, 꼭 기억해두세요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=17" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=17&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.tokenpost.kr/news/economy/372653" rel="nofollow">TokenPost — 한화에어로스페이스 약세…미·이란 종전 기대에 방산주 차익실현</a></li><li><a href="https://www.sedaily.com/article/20072317" rel="nofollow">서울경제 — 유가 하락 속 두산퓨얼셀 '下'…신재생에너지株 일제히 약세</a></li><li><a href="https://www.news1.kr/finance/general-stock/6239811" rel="nofollow">뉴스1 — SK이터닉스 20%↓…국제유가 하락 신재생에너지 약세</a></li><li><a href="https://www.news1.kr/finance/general-stock/6239966" rel="nofollow">뉴스1 — '2분기 어닝쇼크' 현대로템, 18% 급락…방산주 약세</a></li><li><a href="https://www.news1.kr/finance/market-exr/6239703" rel="nofollow">뉴스1 — 네이버 12% 급등에도 코스피 혼조…삼성전자 3%대 강세</a></li><li><a href="https://www.cbci.co.kr/news/articleView.html?idxno=592177" rel="nofollow">CBC뉴스 — OCI홀딩스 주가 16%대 급락…실적 우려에 투자심리 위축</a></li></ul></div>

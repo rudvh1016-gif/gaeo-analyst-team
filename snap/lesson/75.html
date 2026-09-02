@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">투자 기초 · 복리 · 72의 법칙</span>
     <h1 class="daum-wm-title">복리와 72의 법칙, 장기투자가 강력한 진짜 이유</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-18 · 수정 2026-08-18</div>
+
     <div class="summary">복리는 원금뿐 아니라 이자에도 이자가 붙는 방식이에요. 72를 연 수익률로 나누면 원금이 2배 되는 데 걸리는 기간을 암산으로 알 수 있고, 같은 적립액도 투자 기간이 길수록 최종 금액 차이가 기하급수적으로 벌어져요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -99,7 +102,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>지금 내가 투자하는 상품의 대략적인 연 수익률을 72로 나눠서 원금이 2배 되는 데 걸리는 기간을 가늠해 보세요.</li><li>배당금·이자를 받으면 곧바로 쓰지 않고 재투자하는 습관이 복리 효과를 극대화해요.</li><li>한 줄 결론: 복리는 시간이 갈수록 눈덩이처럼 불어나는 이자 계산법이고, 72의 법칙은 그 눈덩이가 2배로 커지는 데 걸리는 시간을 암산으로 알려주는 도구예요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=75" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=75&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/79.html">물타기와 불타기, 평단가 관리는 정말 좋은 전략일까</a><a href="https://gaeoteam.com/snap/lesson/76.html">우선주와 보통주, 같은 회사인데 가격은 왜 다를까</a><a href="https://gaeoteam.com/snap/lesson/74.html">액면분할과 액면병합, 주식 수만 바뀌는데 왜 반응할까</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.fss.or.kr" rel="nofollow">금융감독원 금융교육센터, 복리와 단리의 차이 설명 자료</a></li></ul></div>

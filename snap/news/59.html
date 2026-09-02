@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 8월27일 종가, 엔비디아 훈풍에 코스피·코스닥 동반 상승</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-27 · 수정 2026-08-27</div>
+
     <div class="summary">코스피는 1.53% 오른 6,912.37, 코스닥은 1.30% 오른 837.65로 두 지수 모두 올랐어요. 엔비디아의 화끈한 실적 전망과 트럼프 대통령의 전력비상사태 선포가 반도체·전력기기·2차전지를 끌어올린 반면, 한국은행의 두 달 연속 금리 인상은 상승폭을 눌렀어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -82,7 +85,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>한 줄 결론: 오늘은 엔비디아 실적과 트럼프의 전력비상사태 선포가 반도체·전력·2차전지로 돈을 몰아준 하루였지만, 금리 인상과 개인 매도세가 상승폭을 눌렀고 바이오·내수주는 소외됐어요. 지수만 보지 말고 내가 가진 종목이 오늘의 '자리바꿈' 중 어느 쪽에 있었는지 확인해보세요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=59" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=59&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.ajunews.com/view/20260827153508146" rel="nofollow">아주경제, [속보] 코스피, 104.16p(1.53%) 오른 6912.37 마감</a></li><li><a href="https://www.fnnews.com/news/202608271559481033" rel="nofollow">파이낸셜뉴스, 코스피, 엔비디아 호실적 vs 금리 인상에 1%대 오른 6912선 마감</a></li><li><a href="https://www.mt.co.kr/economy/2026/08/27/2026082709114417494" rel="nofollow">머니투데이, [속보] 한국은행, 기준금리 연 3.0%…2회 연속 인상</a></li><li><a href="http://www.opinionnews.co.kr/news/articleView.html?idxno=143663" rel="nofollow">오피니언뉴스, 코스피, 1.5% 오른 6912 마감…트럼프 전력비상사태 선포에 효성重 등 강세</a></li><li><a href="https://www.hankyung.com/article/2026082776871" rel="nofollow">한국경제, 中 때린 트럼프 덕에 웃었다…주가 급등 반전 쓴 한국 회사</a></li><li><a href="https://www.mt.co.kr/world/2026/08/27/2026082713383715947" rel="nofollow">머니투데이, AI 고점론 잠재운 엔비디아, 칩 수요 가속화…랠리 시동거나</a></li></ul></div>

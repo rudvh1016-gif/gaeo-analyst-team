@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 8월4일 종가, 반도체 대신 바이오·방산·통신이 오른 날</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-04 · 수정 2026-08-04</div>
+
     <div class="summary">코스피는 1.62%, 코스닥은 5.88% 올라 동반 상승했지만 정작 삼성전자·SK하이닉스는 거의 안 움직였어요. 반도체에 쏠렸던 매수세가 바이오·방산·통신·건설로 퍼지면서 코스닥은 사흘 연속 매수 사이드카가 뜰 정도로 뜨거웠어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -84,7 +87,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>[ ] 8월12일 미국 7월 CPI 발표 결과와 그 여파</li><li>[ ] 코스닥 매수 사이드카가 다음 거래일에도 이어지는지 (4거래일 연속이면 이례적인 수준이에요)</li><li>[ ] 삼성전자·SK하이닉스 등 반도체 대형주가 다시 움직이기 시작하는지</li><li>[ ] 개인 나홀로 매수 구도가 기관·외국인 참여로 확대되는지</li><li>한 줄 결론: <strong>오늘은 코스피·코스닥이 같이 올랐지만, 정작 지수를 이끈 건 반도체가 아니라 방산·바이오·통신 같은 다른 업종이었어요. 쏠림이 풀린 건 반갑지만, 개인 혼자 사고 3일 연속 사이드카가 뜬 만큼 이 반등이 며칠이나 이어질지는 좀 더 지켜봐야 해요.</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=38" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=38&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.ajunews.com/view/20260804153408657" rel="nofollow">아주경제 — [마감시황] 코스피 6300선 회복…코스닥은 5%대 급등 마감</a></li><li><a href="https://www.mt.co.kr/amp/stock/2026/08/04/2026080415154089277" rel="nofollow">머니투데이 — 코스피 6300·코스닥 780 회복…非메모리 순환매에 웃었다</a></li><li><a href="https://www.dailian.co.kr/news/view/1674396" rel="nofollow">데일리안 — 간만에 웃는 코스닥…3일 연속 매수 사이드카에 6%↑</a></li><li><a href="https://www.hankyung.com/article/2026080443336" rel="nofollow">한국경제 — 코스피, 삼전닉스 주춤해도 1%대 강세…코스닥선 바이오주 불기둥</a></li><li><a href="https://www.sedaily.com/article/20075606" rel="nofollow">서울경제 — 하락 대비 상승이 8배… 코스피 뒷심에 코스닥 3연 사이드카 상승 마감</a></li></ul></div>

@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">실적발표 · SK하이닉스 · HBM4 · 반도체</span>
     <h1 class="daum-wm-title">SK하이닉스 2분기 영업이익 60.5조 '역대 최대'인데 컨센서스는 못 넘겼다 — 어제 폭락 이후 반등까지</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-29 · 수정 2026-07-29</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 29일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">SK하이닉스가 2분기 영업이익 60조 5,426억 원이라는 역대 최대 실적을 냈지만 컨센서스에는 못 미쳤어요. 어제 서킷브레이커까지 부른 폭락 다음 날 나온 실적이라 더 주목받았고, 개장 전 여진 이후 정규장에서 반등했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -88,7 +91,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>오늘 SK하이닉스 실적은 &quot;역대 최대 실적 = 무조건 주가 호재&quot;라는 단순한 공식이 항상 통하지 않는다는 걸 잘 보여준 사례예요. 실적 자체는 사상 최대였지만, 시장이 미리 기대했던 눈높이(컨센서스)에는 못 미쳐서 &quot;실망 매물&quot;이 나올 법한 상황이었어요. 그런데 하필 전날 시장 전체가 패닉에 가까운 폭락을 겪은 뒤라, 오히려 저가 매수세와 컨퍼런스콜의 긍정적 가이던스가 맞물려 반등하는 모습을 보였고요. 이렇게 「실적의 절대적 크기」·「컨센서스 대비 상회·하회」·「그날그날의 시장 분위기」가 함께 작용해서 주가가 움직인다는 걸 기억해두면, 앞으로 실적 시즌 뉴스를 볼 때 훨씬 입체적으로 이해할 수 있을 거예요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=21" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=21&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/57.html">엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</a><a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a><a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://zdnet.co.kr/view/?no=20260729075046" rel="nofollow">ZDNet Korea — SK하이닉스, 2분기 영업익 60.5조 '사상 최대'…이익률 76%</a></li><li><a href="https://www.fnnews.com/news/202607290808202664" rel="nofollow">파이낸셜뉴스 — '60.5조' SK하이닉스, 2분기 영업이익 신기록…상반기 100조 육박 (종합)</a></li><li><a href="https://www.hankookilbo.com/news/article/A2026072906270004345" rel="nofollow">한국일보 — SK하이닉스 2분기 영업익 60.5조…예상치 밑돌아</a></li><li><a href="https://www.newspim.com/news/view/20260729000286" rel="nofollow">뉴스핌 — [컨콜] SK하이닉스 &quot;하반기 HBM4 판매 본격화…출하·가격 동반 개선&quot;</a></li><li><a href="https://www.newspim.com/news/view/20260729000049" rel="nofollow">뉴스핌 — [특징주] 역대급 실적에도 SK하이닉스 프리마켓서 7% 하락</a></li><li><a href="https://www.mt.co.kr/stock/2026/07/28/2026072816251241828" rel="nofollow">머니투데이 — 하루에 11% 빠진 '검은 화요일'…SK하이닉스 실적 '분위기 반전카드?'</a></li><li><a href="https://www.newspim.com/news/view/20260729000180" rel="nofollow">뉴스핌 — [개장시황] 삼성전자·SK하이닉스 반등…코스피 6100선 회복</a></li><li><a href="https://kr.investing.com/news/stock-market-news/article-2012629" rel="nofollow">EBN(investing.com) — SK하이닉스 목표가 185만~420만원…AI 낙관론·피크아웃론 '정면 충돌'</a></li></ul></div>

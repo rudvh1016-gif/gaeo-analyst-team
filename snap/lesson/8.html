@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">주식공부 · 경제사 · 금융위기</span>
     <h1 class="daum-wm-title">2008년 리먼브라더스 사태 — 세계 경제를 무너뜨린 '썩은 사과' 이야기</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-21 · 수정 2026-07-21</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 21일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">158년 역사의 미국 4위 투자은행 리먼브라더스가 2008년 9월 15일 파산하며 시작된 세계 금융위기를 초등학생도 이해할 수 있게 정리했어요. 서브프라임 모기지가 뭔지, 왜 은행 하나가 망했는데 전 세계가 흔들렸는지, 한국 코스피·환율은 어떻게 됐는지, 그리고 이 사건이 지금 우리에게 주는 교훈까지 담았어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>이 이야기는 <strong>「자본주의 EP1 — 돈은 빚이다」의 후속편</strong>이에요. 신용창조·서브프라임 개념이 헷갈리면 그 글을 먼저 읽어보세요.</li><li>뉴스에서 &quot;금융위기&quot;, &quot;리스크&quot;, &quot;레버리지&quot; 같은 말이 나오면, 오늘 배운 <strong>&quot;썩은 사과 + 도미노&quot;</strong> 그림을 떠올려 보세요.</li><li>한 줄 결론: <strong>&quot;리먼 사태는 신용 낮은 대출(서브프라임)을 안전한 상품처럼 포장해 전 세계에 팔았다가, 집값이 꺾이자 썩은 사과가 드러나며 금융 도미노가 무너진 사건이에요. 158년 은행도 과한 빚 앞엔 하루아침에 무너졌고, 그 충격은 바다 건너 한국까지 덮쳤어요 — '안전하다는 말'과 '과한 빚'을 늘 조심하라는 게 이 역사의 교훈이에요.&quot;</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=8" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=8&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/70.html">상장폐지 완전정복: 거래정지부터 정리매매까지</a><a href="https://gaeoteam.com/snap/lesson/54.html">2000년 닷컴버블, 인터넷 신화가 무너진 날</a><a href="https://gaeoteam.com/snap/lesson/50.html">2026년, 벌써 8번째 서킷브레이커 — 코스피는 왜 자꾸 멈출까</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://ko.wikipedia.org/wiki/%EB%A6%AC%EB%A8%BC_%EB%B8%8C%EB%9D%BC%EB%8D%94%EC%8A%A4%EC%9D%98_%ED%8C%8C%EC%82%B0" rel="nofollow">위키백과 — 리먼 브라더스의 파산</a></li><li><a href="https://ko.wikipedia.org/wiki/%EC%84%9C%EB%B8%8C%ED%94%84%EB%9D%BC%EC%9E%84_%EB%AA%A8%EA%B8%B0%EC%A7%80_%EC%82%AC%ED%83%9C" rel="nofollow">위키백과 — 서브프라임 모기지 사태</a></li><li><a href="http://www.casenews.co.kr/news/articleView.html?idxno=16358" rel="nofollow">사례뉴스 — 리먼 브라더스 파산: 2008년 금융위기의 도화선과 교훈</a></li><li><a href="https://www.mt.co.kr/society/2025/09/15/2025091210451327882" rel="nofollow">머니투데이 — 리먼 700조 파산, 한국이 빚 떠안을 뻔</a></li></ul></div>

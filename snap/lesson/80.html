@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">투자 기초 · 인적분할 · 물적분할</span>
     <h1 class="daum-wm-title">인적분할과 물적분할, 왜 물적분할에 주가가 빠질까</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-18 · 수정 2026-08-18</div>
+
     <div class="summary">인적분할은 주주가 두 회사 주식을 지분율대로 나눠 받고, 물적분할은 새 회사 주식을 모회사가 그대로 가져가요. 알짜 사업부가 자회사로 빠지고 나중에 쪼개기 상장까지 이어질 수 있어 물적분할엔 주가가 하락하는 경우가 많아요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -93,10 +96,10 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>분할 공시를 보면 인적분할인지 물적분할인지부터 구분하세요.</li><li>물적분할이라면 어떤 사업부가 빠져나가는지, 그 사업부가 회사 실적에서 차지하는 비중을 확인하세요.</li><li>한 줄 결론: 인적분할은 주주가 두 회사 주식을 나눠 갖는 것이고, 물적분할은 알짜 사업부가 모회사 소유의 자회사로 빠져나가는 것이라 주주 입장에서 받아들이는 무게가 서로 달라요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=80" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=lesson&amp;id=80&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/lesson/82.html">공모주 락업이 뭐길래, 만기 되면 주가가 흔들릴까</a><a href="https://gaeoteam.com/snap/lesson/77.html">자사주 매입과 소각, 회사가 제 주식을 사는 이유</a><a href="https://gaeoteam.com/snap/lesson/60.html">공매도가 있어야 주가가 오른다는 말, 진짜일까: 장단점 쉽게 정리</a></div>
-    
+
     <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="https://gaeoteam.com/disclaimer.html">데이터 출처·면책조항</a> · <a href="https://gaeoteam.com/about.html">사이트 소개</a></div>
   </div>
 </div>

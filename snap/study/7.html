@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">면세점 · 호텔·레저 · 코스피</span>
     <h1 class="daum-wm-title">호텔신라</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-18 · 수정 2026-07-18</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 18일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">호텔신라는 삼성그룹 계열의 관광기업으로, 이부진 사장이 이끄는 회사예요. '신라호텔'로 유명하지만 사실 매출의 대부분은 면세점(신라면세점)에서 나와요. 코로나 이후 중국 보따리상(따이궁)에 의존하던 면세점이 큰 적자에 시달렸는데, 2026년 들어 개별관광객(FIT) 중심으로 체질이 바뀌고 중국인 무비자 정책까지 겹치며 7개 분기 만에 면세점이 흑자로 돌아섰어요. 이 회사가 무슨 사업을 하는지, 면세업 자체는 어떻게 바뀌고 있는지, 그리고 2026~2028년을 어떻게 볼지 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -89,7 +92,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li><strong>분기별 면세(TR)부문 영업이익</strong> — 흑자 흐름이 이어지는지가 이 회사의 핵심이에요.</li><li><strong>방한 외국인·중국인 관광객 수, 무비자 정책 연장 여부</strong> — 인바운드 경기가 곧 면세점 실적이에요.</li><li><strong>송객수수료·할인율 추이</strong> — 낮아질수록 수익성이 좋아져요.</li><li>국내 종목(008770)이라 이 사이트에서 시세가 갱신되지만, 투자 판단 전엔 최신 실적·공시를 함께 확인하세요.</li><li>한 줄 결론: <strong>&quot;호텔신라는 '따이궁 의존'이라는 낡은 옷을 벗고 '개별관광객 중심'으로 갈아입으며 면세점을 7개 분기 만에 흑자로 돌려세운 턴어라운드 종목이에요. 무비자·인바운드 회복이라는 순풍은 분명하지만, 중국 리스크와 경쟁, 그리고 '회복 속도'라는 변수가 남아 있으니 분기 실적으로 개선세가 이어지는지 확인하며 접근하는 게 좋아요.&quot;</strong></li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=7" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=7&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/34.html">한화에어로스페이스</a><a href="https://gaeoteam.com/snap/study/35.html">아모레퍼시픽</a><a href="https://gaeoteam.com/snap/study/22.html">카카오</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.biztribune.co.kr/news/articleView.html?idxno=352446" rel="nofollow">호텔신라, 면세점 적자 털고 2분기 흑자 전환 '가시권' (비즈트리뷴)</a></li><li><a href="https://v.daum.net/v/20260427081449682?f=p" rel="nofollow">IBK證 &quot;호텔신라, 면세점 안정화·호텔 실적 상향…목표가↑&quot; (다음뉴스)</a></li><li><a href="https://newsway.co.kr/news/view?ud=2026070109031066193" rel="nofollow">外人 872만명에도 면세점 제자리…호텔신라 목표가 조정 (뉴스웨이)</a></li><li><a href="https://newsway.co.kr/news/view?ud=2026050811290427961" rel="nofollow">中 단체관광 사라져도 웃었다…면세업계 부활 이끈 'FIT' 전환 (뉴스웨이)</a></li><li><a href="https://www.viva100.com/article/20260310500836" rel="nofollow">이재명 정부 '중국인 무비자' 정책…유통가 외국인 특수 (브릿지경제)</a></li><li><a href="https://ko.wikipedia.org/wiki/%ED%98%B8%ED%85%94%EC%8B%A0%EB%9D%BC" rel="nofollow">호텔신라 - 위키백과 (연혁·사업부문)</a></li></ul></div>

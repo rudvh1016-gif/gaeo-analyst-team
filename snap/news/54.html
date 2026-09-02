@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 8월24일 종가, 삼성전자 8.7% 급락에도 429종목은 올랐다</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-24 · 수정 2026-08-24</div>
+
     <div class="summary">코스피는 3.12% 내린 6,696.96으로 마감했지만 598종목 중 429종목이 올랐어요. 금요일과 정확히 반대예요. 지수를 끌어내린 건 삼성전자 한 종목으로, 주주환원 발표가 기대에 못 미치며 8.70% 떨어졌어요. 좋은 소식에 왜 주가가 내렸는지 숫자로 풀어봤어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -94,7 +97,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>8월 27일: 한국은행 금융통화위원회, 현재 기준금리는 연 2.75%예요</li><li>9월 11일: 미국 8월 소비자물가지수(CPI) 발표</li><li>확인할 것: 삼성전자가 257,000원에서 어디까지 되돌리는지</li><li>확인할 것: 오른 종목 수와 내린 종목 수. 오늘은 429 대 150이었어요</li><li>확인할 것: 코스닥이 800선 위를 지키는지. 오늘 종가는 813.33이에요</li><li>한 줄 결론: 지수가 크게 내린 날이라도 내 종목은 올랐을 수 있고 그 반대도 있어요. 이틀 연속 그 일이 방향만 바꿔 일어났으니, 지수 숫자 하나로 오늘을 좋은 날인지 나쁜 날인지 단정하지 않는 게 오히려 정확해요</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=54" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=54&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=03043846645550600" rel="nofollow">이데일리, 코스피, 삼성전자 8%대 급락에 3%대 하락 6700선 무너져</a></li><li><a href="https://www.sedaily.com/article/20082553" rel="nofollow">서울경제, 코스피, 삼전 8%대 급락에 낙폭 확대, SK하닉도 하락 전환</a></li><li><a href="https://www.etoday.co.kr/news/view/2617427" rel="nofollow">이투데이, 삼성전자 급락에 코스피 6700선 공방, 코스닥은 상승</a></li><li><a href="https://www.asiae.co.kr/article/2026082409424151189" rel="nofollow">아시아경제, 코스피 6700선 후퇴, 삼성전자 주주환원에도 6% 하락</a></li></ul></div>

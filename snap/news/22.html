@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">미국 금리 발표와 삼성전자 실적 컨콜이 겹치는 날, 초보자를 위한 완벽 정리</span>
     <h1 class="daum-wm-title">새벽엔 파월 대신 워시, 아침엔 삼성전자 — 7월 30일 하루에 다 몰린 이유</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-29 · 수정 2026-07-29</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 29일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">7월 30일 한국시간 새벽에는 미국 FOMC 금리 결정과 새 연준 의장 케빈 워시의 기자회견이, 정규장에는 삼성전자 2분기 확정 실적 컨퍼런스콜이 예정돼 있어요. 전날 코스피 서킷브레이커와 SK하이닉스의 컨센서스 하회 실적까지 겹치면서 하루 만에 시장 분위기가 크게 흔들릴 수 있는 배경을 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -91,7 +94,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>투자를 처음 시작하신 분들이 꼭 기억하실 점은 두 가지예요. 첫째, &quot;실적이 역대 최고&quot;라는 헤드라인만 보고 주가가 오를 거라 단정하면 안 된다는 것, SK하이닉스 사례처럼 시장의 눈높이(컨센서스) 대비 결과가 어땠는지가 더 중요할 수 있어요. 둘째, 새벽에 나오는 미국 금리 뉴스는 다음날 아침 우리 증시 개장가에 곧바로 반영되는 경우가 많으니, 하루이틀 정도는 평소보다 지수와 개별 종목의 등락폭이 커질 수 있다는 점을 미리 마음의 준비로 해두시면 좋아요. 확정되지 않은 예측성 수치나 소문에 너무 흔들리기보다는, 실제 발표된 사실과 컨퍼런스콜에서 나온 공식 코멘트를 차분히 확인하고 판단하시는 걸 권해드려요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=22" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=22&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/57.html">엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</a><a href="https://gaeoteam.com/snap/news/34.html">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</a><a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.cmelitegroup.com/knowledge-hub/fomc-meeting-fed-decision-day/" rel="nofollow">FOMC Meeting July 28-29: What to Know About Fed Decision Day</a></li><li><a href="https://www.forbes.com/sites/simonmoore/2026/07/23/markets-see-chance-fed-hikes-next-week-at-july-meeting/" rel="nofollow">Markets Price In Rising Odds Of July Fed Rate Hike (Forbes)</a></li><li><a href="https://www.cnbc.com/2026/05/13/kevin-warsh-wins-senate-confirmation-as-the-next-federal-reserve-chair.html" rel="nofollow">Kevin Warsh wins Senate confirmation as the next Federal Reserve chair (CNBC)</a></li><li><a href="https://www.hankookilbo.com/news/article/A2026070707400004305" rel="nofollow">삼성전자 2분기 영업익 89.4조 원… 엔비디아도 넘었다 (한국일보)</a></li><li><a href="https://bullstory.io/blog/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90-%EC%9E%A0%EC%A0%95%EC%8B%A4%EC%A0%81-%EB%B0%9C%ED%91%9C%EC%9D%BC-2026%EB%85%84-2%EB%B6%84%EA%B8%B0-%EC%8B%A4%EC%A0%81%EB%B0%9C%ED%91%9C-%EC%BB%A8%ED%8D%BC%EB%9F%B0%EC%8A%A4%EC%BD%9C-%EC%9D%BC%EC%A0%95%EC%9D%80" rel="nofollow">삼성전자 잠정실적 발표일: 2026년 2분기 실적발표 컨퍼런스콜 일정은? (불스토리)</a></li><li><a href="https://www.sedaily.com/article/20073077" rel="nofollow">[속보] SK하이닉스, 2분기 영업이익 예상치 4조 하회…60조 5426억 원 기록 (서울경제)</a></li><li><a href="https://www.fnnews.com/news/202607281840063710" rel="nofollow">코스피 10% 폭락… 정부, 레버리지 칼뺐다 [증시 '검은 화요일'] (파이낸셜뉴스)</a></li><li><a href="https://www.mt.co.kr/stock/2026/07/28/2026072810375040625" rel="nofollow">&quot;465% 폭등&quot; 창신메모리 쇼크...코스피 8% 급락, 또 '서킷브레이커' (머니투데이)</a></li><li><a href="https://www.etoday.co.kr/news/view/2608579" rel="nofollow">코스피, 전날 급락 딛고 2%대 강세…SK하이닉스는 3%대 상승 (이투데이)</a></li></ul></div>

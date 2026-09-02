@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">원자재 · 유가 · 지정학</span>
     <h1 class="daum-wm-title">국제유가 급등 — 미·이란 갈등이 내 기름값·주식에 미치는 영향</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-23 · 수정 2026-07-23</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 23일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">미·이란 군사 충돌이 6일째 이어지며 국제유가가 이번 주 약 12% 급등했어요(브렌트유 94.07달러·WTI 86.83달러). 호르무즈 해협·홍해 항로 봉쇄 우려가 배경이고, 국내는 2~3주 뒤 기름값 인상이 예상돼요. 오늘 코스피 급등장에서 전력·에너지 업종이 최고 상승률(+11.65%)을 기록한 배경이기도 해요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -92,7 +95,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=11" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=11&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/58.html">9월 유동성 리스크, 세금·국채·FOMC 몰리는 이유는?</a><a href="https://gaeoteam.com/snap/news/47.html">美 7월 CPI 예상대로 나왔다, 9월 금리인상 공포 한풀 꺾인 이유</a><a href="https://gaeoteam.com/snap/news/37.html">한국판 IRA 국내생산세액공제, 반도체·2차전지엔 뭐가 달라지나</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.newspim.com/news/view/20260713000523" rel="nofollow">뉴스핌 — 미국-이란 재충돌에 국제유가 70달러 웃돌아…국내 석유가격 영향은?</a></li><li><a href="https://biz.heraldcorp.com/article/10817006" rel="nofollow">헤럴드경제 — 미·이란 충돌 격화에 브렌트유 94달러 돌파</a></li><li><a href="https://www.newspim.com/news/view/20260717000204" rel="nofollow">뉴스핌 — 美·이란 군사 충돌 6일째…호르무즈 봉쇄에 국제유가 12% 급등</a></li><li><a href="http://www.koreatimes.com/article/20260719/1622028" rel="nofollow">미주 한국일보 — 미·이란 충돌 격화에 국제유가 급등…브렌트유 90달러 재돌파</a></li><li><a href="https://v.daum.net/v/20260301200001506" rel="nofollow">다음뉴스 — 호르무즈 해협 봉쇄에 유가 초비상…韓 원유 70% 중동에 의존</a></li><li><a href="https://www.kmib.co.kr/article/view_amp.asp?arcid=1772612390" rel="nofollow">국민일보 — '호르무즈 해협 봉쇄' 장기화 땐… 유가 최대 120달러까지 뛸 수도</a></li></ul></div>

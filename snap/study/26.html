@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">이커머스 · 클라우드(AWS) · AI 투자 · 나스닥</span>
     <h1 class="daum-wm-title">아마존</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-25 · 수정 2026-07-25</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 25일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">아마존은 세계 최대 온라인 쇼핑몰이자 클라우드 1위 업체 AWS를 함께 운영하는 회사로, 2026년 1분기 AWS가 15분기 만의 최고 성장률(28%)을 기록하며 실적 호조를 보였어요. 다만 7월 들어 대규모 AI 설비투자 부담과 미 상원의 중국 영향력 조사 이슈가 겹치며 주가가 7월 23일 하루 만에 약 4% 급락하는 등 2분기 실적 발표(7월 30일)를 앞두고 변동성이 커진 상태예요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>아마존은 온라인 쇼핑몰과 AWS 클라우드, 두 가지 성격이 다른 사업을 함께 보는 회사라는 점을 기억해요. 실적을 볼 때 전체 매출뿐 아니라 AWS의 성장률과 이익률을 따로 확인하는 습관을 들이면 좋아요.</li><li>최근 순이익에는 앤트로픽 지분 평가이익처럼 「본업과 무관한 일회성 이익」이 섞여 있을 수 있으니, 헤드라인 숫자만 보지 말고 영업이익 같은 본업 지표를 함께 살펴보는 게 좋아요.</li><li>막대한 설비투자로 잉여현금흐름이 줄어든 상태라, 앞으로 이 투자가 실제 매출·이익으로 이어지는지 분기마다 확인하는 자세가 필요해요.</li><li>미 상원 조사 같은 규제 이슈는 초기 단계라 결과를 예단하기 어려우니, 뉴스 헤드라인에 일희일비하기보다 진행 상황을 차분히 지켜보는 태도가 중요해요.</li><li>결론적으로, 아마존은 AWS라는 강력한 이익 엔진과 막대한 AI 투자 부담이 공존하는 회사이니, 투자를 고민한다면 실적 발표와 AWS 성장률 흐름을 꾸준히 확인하며 판단하는 태도가 필요해요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=26" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=study&amp;id=26&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/study/33.html">JP모간체이스</a><a href="https://gaeoteam.com/snap/study/32.html">비자</a><a href="https://gaeoteam.com/snap/study/31.html">버크셔해서웨이</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://247wallst.com/investing/2026/07/23/amazon-falls-4-as-senate-china-probe-and-ai-spending-jitters-weigh-ahead-of-earnings/" rel="nofollow">24/7 Wall St. — Amazon Falls 4% as Senate China Probe and AI-Spending Jitters Weigh Ahead of Earnings</a></li><li><a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262026432-amazon-amzn-stock-forecast-july-2026-aws-28-percent-capex-q2-earnings-tradingkey" rel="nofollow">TradingKey — Amazon (AMZN) Stock Forecast: AWS Hit Its Fastest Growth in 15 Quarters</a></li><li><a href="https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-First-Quarter-Results/default.aspx" rel="nofollow">Amazon IR — Amazon.com Announces First Quarter Results (Q1 2026)</a></li><li><a href="https://finance.yahoo.com/markets/stocks/articles/amazon-q1-2026-earnings-beat-203149838.html" rel="nofollow">Yahoo Finance — Amazon Q1 2026 earnings beat as AWS growth hits 15-quarter high</a></li><li><a href="https://stockanalysis.com/stocks/amzn/statistics/" rel="nofollow">stockanalysis.com — Amazon.com (AMZN) Statistics &amp; Valuation</a></li></ul></div>

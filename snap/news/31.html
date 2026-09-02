@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">넥스트레이드 이상거래 : 하이퍼리퀴드 청산 : 오라클 리스크</span>
     <h1 class="daum-wm-title">SK하이닉스 1주가 부른 826억 원 청산 사고, 무슨 일이었을까</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-30 · 수정 2026-07-30</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 30일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">넥스트레이드 프리마켓에서 SK하이닉스 1주가 하한가에 체결된 이상거래가 해외 코인 파생상품 오라클에 그대로 반영되면서, 826억 원 규모의 강제 청산 사고로 번졌어요. 실제 주식은 멀쩡했는데 왜 이런 일이 벌어졌는지 쉽게 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -86,7 +89,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>이번 사건은 &quot;내가 산 주식 자체는 멀쩡한데, 완전히 다른 시장에서 그 가격을 잘못 가져다 써서 다른 사람들이 피해를 봤다&quot;는 특이한 케이스예요. 요즘 해외에서는 이렇게 실제 주식·자산의 가격을 그대로 따라가는 코인 파생상품(흔히 RWA, 실물자산 연계 상품이라고 불러요)이 늘고 있는데, 그 가격을 어디서 어떻게 가져오는지(오라클)가 부실하면 이번처럼 엉뚱한 곳에서 큰 손실이 날 수 있어요. 내가 직접 이런 해외 코인 파생상품을 쓰지 않더라도, &quot;새로 생긴 시장·상품일수록 거래량이 적어 가격이 왜곡되기 쉽다&quot;는 점, 그리고 그 왜곡이 예상 못 한 곳으로 전염될 수 있다는 점은 투자자로서 기억해둘 만해요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=31" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=31&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/7.html">오픈AI·앤트로픽·키미 3파전 — 세계는 왜 이 세 회사에 열광할까? (feat. HBM 이야기)</a><a href="https://gaeoteam.com/snap/news/6.html">양자역학·양자컴퓨터가 뭐길래? — 원리부터 관련주·먼 미래까지 아주 쉽게</a><a href="https://gaeoteam.com/snap/news/5.html">비트코인·이더리움·알트코인이 뭐길래? — 탄생부터 최근 하락까지 아주 쉽게</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.etoday.co.kr/news/view/2609275" rel="nofollow">이투데이 - SK하이닉스 1주 하한가, NXT 이상 거래에 800억원대 파생 상품 청산</a></li><li><a href="https://www.hankyung.com/article/202607289555i" rel="nofollow">한국경제 - 넥스트레이드 프리마켓서 SK하이닉스 하한가 해프닝</a></li><li><a href="https://biz.sbs.co.kr/article/20000325667" rel="nofollow">SBS Biz - SK하이닉스 1주 하한가에 해외 파생상품 800억원 청산</a></li><li><a href="https://www.wikitree.co.kr/articles/1149048" rel="nofollow">위키트리 - SK하이닉스 이상거래에 하이퍼리퀴드 무기한선물 20% 급락</a></li><li><a href="https://www.fnnews.com/news/202607301144207360" rel="nofollow">파이낸셜뉴스 - 하이닉스 1주 하한가에 가상자산 파생상품 800억대 청산 쓰나미</a></li><li><a href="https://www.theguru.co.kr/news/article.html?no=105092" rel="nofollow">더구루 - SK하이닉스 이상거래로 가상자산 시장 충격, 6000만 달러 규모 투자 강제 청산</a></li><li><a href="https://news.nate.com/view/20260730n27317" rel="nofollow">네이트뉴스 - SK하이닉스 1주가 부른 800억원대 청산, 주식 연계 무기한선물 허점</a></li></ul></div>

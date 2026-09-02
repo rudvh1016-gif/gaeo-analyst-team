@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">시황 · 코스피 · 코스닥</span>
     <h1 class="daum-wm-title">2026년 8월7일 종가, 어제 급락 딛고 낙폭 줄인 코스피·코스닥</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-08-07 · 수정 2026-08-07</div>
+
     <div class="summary">어제 반도체 대형주 급락으로 -4.58% 빠졌던 코스피가 오늘은 -0.60%로 낙폭을 크게 줄였어요. 개인·기관은 사들였지만 외국인이 코스피에서만 8,562억원을 순매도하며 지수를 끌어내렸고, SK하이닉스는 오늘도 추가로 흔들렸어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -84,7 +87,7 @@ li{margin-bottom:6px;font-size:15px}
 <ul><li>8월 12일: 미국 7월 소비자물가지수(CPI) 발표.</li><li>8월 말: 잭슨홀 미팅(파월 의장 통화정책 발언 주목).</li><li>외국인의 코스피 순매도가 며칠 더 이어지는지(반등 속도를 가늠하는 핵심 신호).</li><li>SK하이닉스가 낙폭을 회복하는지(반도체 불안 진정 여부를 보여주는 지표).</li><li>국제유가(WTI·브렌트유) 추가 상승 여부(물가·금리 부담으로 이어질 수 있는 변수).</li><li>한 줄 결론: 오늘은 어제 급락의 충격이 크게 줄어든 하루였지만, 외국인 매도와 SK하이닉스 약세가 아직 완전히 가시지 않은 만큼 반도체 대형주와 수급 흐름을 계속 지켜보는 게 좋아요.</li></ul>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=42" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=42&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/63.html">2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락</a><a href="https://gaeoteam.com/snap/news/62.html">2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나</a><a href="https://gaeoteam.com/snap/news/61.html">2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.gukjenews.com/news/articleView.html?idxno=3658854" rel="nofollow">국제뉴스 · 코스피 0.60% 내린 6258.71 마감 원달러 환율 1416.1원</a></li><li><a href="http://www.opinionnews.co.kr/news/articleView.html?idxno=142778" rel="nofollow">오피니언뉴스 · 코스피 외인 매도에 0.6% 내린 6258.77 마감 상장사 60% 올라</a></li><li><a href="https://segye.com/newsView/20260807509867" rel="nofollow">세계일보 · 코스피 코스닥 상승 출발했지만 동반 하락 외국인 팔자에 반락</a></li><li><a href="https://www.newspim.com/news/view/20260807000061" rel="nofollow">뉴스핌 · 모닝 리포트 반도체 약세 선반영 코스피 반등 시도</a></li><li><a href="https://www.newspim.com/news/view/20260807000019" rel="nofollow">뉴스핌 · 뉴욕증시 유가 금리 부담에 하락 다우 5거래일 랠리 마침표</a></li></ul></div>

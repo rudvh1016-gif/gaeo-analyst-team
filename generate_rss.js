@@ -8,10 +8,11 @@
 //
 // 실행: node generate_rss.js  (generate_sitemap.js와 같은 타이밍에 함께 돌린다)
 const fs = require('fs');
+const { contentUrl } = require('./growth_urls.js');
 
 const BASE = 'https://gaeoteam.com/';
 const SITE_NAME = 'Gaeo · 개오 애널리스트팀';
-const SITE_DESC = '한국 주식 500종목의 오늘 판단과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.';
+const SITE_DESC = '한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.';
 const MAX_ITEMS = 50; // 네이버 권장 범위. 너무 많으면 오히려 수집이 느려진다.
 
 function load(file, varname) {
@@ -32,7 +33,11 @@ function esc(s) {
 // 한국시간 09:00로 고정해 UTC로 변환한다(순서만 정확하면 되므로 시각 자체는 중요치 않다).
 function rfc822(dateStr) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr || ''));
-  const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], 0, 0, 0)) : new Date();
+  if (!m) throw new Error(`RSS item has invalid publication date: "${dateStr || ''}"`);
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], 0, 0, 0));
+  if (d.getUTCFullYear() !== +m[1] || d.getUTCMonth() + 1 !== +m[2] || d.getUTCDate() !== +m[3]) {
+    throw new Error(`RSS item has invalid publication date: "${dateStr}"`);
+  }
   return d.toUTCString();
 }
 
@@ -51,7 +56,7 @@ for (const s of SOURCES) {
     if (!title) continue;
     items.push({
       title,
-      link: `${BASE}snap/${s.folder}/${x.id}.html`,
+      link: contentUrl(s.folder, x.id),
       desc: x.summary || '',
       date: x.updated || x.date,
       cat: s.cat,
@@ -62,6 +67,9 @@ for (const s of SOURCES) {
 // 최신 글이 위로. 같은 날짜면 순서는 상관없다.
 items.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
 const picked = items.slice(0, MAX_ITEMS);
+for (const item of picked) {
+  if (!item.link) throw new Error(`RSS item has invalid canonical fields: ${item.cat}`);
+}
 
 const body = picked.map(it => `  <item>
     <title>${esc(it.title)}</title>
@@ -79,7 +87,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <link>${BASE}</link>
   <description>${esc(SITE_DESC)}</description>
   <language>ko</language>
-  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+  <lastBuildDate>${picked.length ? rfc822(picked[0].date) : 'Thu, 01 Jan 1970 00:00:00 GMT'}</lastBuildDate>
   <atom:link href="${BASE}rss.xml" rel="self" type="application/rss+xml" />
 ${body}
 </channel>

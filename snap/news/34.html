@@ -30,15 +30,17 @@
 :root{--bg:#F4FAFC;--ink:#13242C;--t2:#607782;--sky:#286B83;--soft:#CCE9F3;--card:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#101A1F;--ink:#F3F8FA;--t2:#A5BBC5;--sky:#9CD5E8;--soft:#193742;--card:#17252C}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Wanted Sans Variable","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}/* 브라우저 기본 굵기(bold=700)로 새는 것을 막는다 — 사이트 전체가 400/500/600 세 단계다. */b,strong{font-weight:600}h1,h2,h3,h4,h5,h6{font-weight:600;text-wrap:balance}th{font-weight:600}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
 .top{font-size:13px;margin-bottom:18px}
 .top a{color:var(--sky);text-decoration:none;font-weight:600}
-.card{background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card{min-width:0;overflow:hidden;background:var(--card);border-radius:16px;padding:26px 24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 h1{font-size:22px;margin:0 0 8px;line-height:1.4}
 .meta{color:var(--t2);font-size:13px;margin-bottom:18px}
 .tag{display:inline-block;background:rgba(0,113,227,.1);color:var(--sky);font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:10px}
 .summary{color:var(--t2);font-size:14.5px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(128,128,128,.2)}
+.archive-notice{margin:0 0 20px;padding:13px 15px;border-radius:12px;background:var(--soft);color:var(--t2);font-size:13px}
+.archive-notice strong{display:block;color:var(--ink);margin-bottom:2px}
 h2{font-size:17px;margin:22px 0 8px}
 p{margin:0 0 12px;font-size:15px}
 p.cap{color:var(--t2);font-style:italic;font-size:13.5px}
@@ -62,6 +64,7 @@ li{margin-bottom:6px;font-size:15px}
     <span class="tag">호텔신라 실적 · 면세점 · 따이공</span>
     <h1 class="daum-wm-title">호텔신라 2분기 영업이익 606% 급증, 밑지던 면세점이 흑자로 돌아선 이유</h1>
     <div class="meta daum-wm-datetime">작성: 개오 애널리스트팀 · 발행 2026-07-31 · 수정 2026-07-31</div>
+    <div class="archive-notice"><strong>과거 시점의 기록</strong>이 글은 2026년 07월 31일 당시 정보와 자료를 기준으로 작성됐습니다.</div>
     <div class="summary">호텔신라 2분기 영업이익이 611억원으로 606% 급증했는데, 정작 매출은 5.2% 줄었어요. 적자였던 면세사업부가 어디서 어떻게 흑자로 돌아섰는지 채널별로 자세히 정리했어요.</div>
     <div class="daum-wm-content">
     <h2>딱 3줄 요약</h2>
@@ -91,7 +94,7 @@ li{margin-bottom:6px;font-size:15px}
 <p>오늘 호텔신라 실적을 한 문장으로 정리하면 &quot;몸집은 줄이고 알맹이는 키운 분기&quot;예요. 매출이 줄었다고 무조건 나쁜 실적은 아니라는 걸 보여준 사례이기도 해요. 손해 보던 매장을 정리하고 마진 좋은 채널에 집중하면, 외형은 작아져도 실제로 남는 돈은 훨씬 커질 수 있어요. 앞으로 어떤 회사 실적을 볼 때 매출 증감률만 보지 말고, &quot;어디서 팔았고 얼마나 남겼는지&quot;까지 함께 확인하는 습관을 들이면 회사를 이해하는 깊이가 달라질 거예요.</p>
 
     </div>
-    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=34" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
+    <a class="cta" href="https://gaeoteam.com/?m=news&amp;id=34&amp;entry=snapshot" rel="nofollow">📊 인터랙티브 화면에서 이 글 보기 →</a>
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     <div class="related"><h2>이어서 볼 자료</h2><a href="https://gaeoteam.com/snap/news/57.html">엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까</a><a href="https://gaeoteam.com/snap/news/33.html">애플 팀 쿡의 마지막 실적발표, 역대급 매출에도 주가가 급락한 이유</a><a href="https://gaeoteam.com/snap/news/32.html">SK하이닉스 목표주가 470만원 vs 148만원, 같은 실적 보고 왜 갈렸을까</a></div>
     <div class="sources">📎 출처<ul><li><a href="https://www.etoday.co.kr/news/view/2609794" rel="nofollow">이투데이 - 호텔신라, 2분기 영업익 611억원 '깜짝실적'…전년비 606%↑</a></li><li><a href="https://www.alphabiz.co.kr/news/articleView.html?idxno=162497" rel="nofollow">알파경제 - 호텔신라, 면세 사업부 흑자전환에 호텔 객실 단가 상승</a></li><li><a href="https://www.viva100.com/article/20250921500527" rel="nofollow">브릿지경제 - 호텔신라, 인천공항 DF1 권역 철수, 롯데면세점 재도전 가능성 주목</a></li><li><a href="https://www.segye.com/newsView/20250918518861" rel="nofollow">세계일보 - 황금알 낳는다던 인천공항 면세점, 호텔신라 철수 왜</a></li><li><a href="https://www.s-journal.co.kr/news/articleView.html?idxno=30844" rel="nofollow">S저널 - 호텔신라, 2분기 실적 컨센서스 부합, 목표주가 5만4000원</a></li><li><a href="https://news.bizwatch.co.kr/article/consumer/2026/05/14/0033" rel="nofollow">비즈워치 - 얼마 만이냐, 대기업 면세점 첫 동반 흑자</a></li></ul></div>
