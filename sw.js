@@ -1,11 +1,14 @@
 // ⚠️ SHELL에 tickers.js와 화면 CSS가 들어 있다. 종목 목록이나 shell asset이 바뀌면
 //    버전을 올려야 오프라인 상태에서 쓰이는 precache 사본도 새 파일로 교체된다.
-//    (온라인에서는 아래 changesOften 규칙이 .js를 network-first로 받으므로 문제없다.
+//    app.js/app-shell.css는 문서의 ?v= 버전과 이 CACHE 버전으로 갱신한다. 아래 '목록'은 이 두 파일을 포함한 전체 SHELL이다.
 //     그래서 캐시를 매번 깨지 않고, 목록이 실제로 바뀔 때만 버전을 올린다.)
-const CACHE = 'gaeo-shell-v19';
+const CACHE = 'gaeo-shell-v20';
+// 위 버전은 종목 목록뿐 아니라 app.js/app-shell.css를 포함한 SHELL 항목이 바뀌어도 함께 올린다.
 const SHELL = [
   './',
   './index.html',
+  './app-shell.css?v=20260903-p3',
+  './app.js?v=20260903-p3',
   './growth_urls.js',
   './public_release_safety.js',
   './product_analytics.js',
@@ -52,6 +55,26 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== location.origin) return;
+
+  // ?v= 버전과 CACHE 버전으로 교체되는 대형 앱 자산은 제어된 재방문에서 재사용한다.
+  const versionedAppShell = url.searchParams.has('v') &&
+    (url.pathname.endsWith('/app.js') || url.pathname.endsWith('/app-shell.css'));
+  if (versionedAppShell) {
+    event.respondWith(
+      caches.match(request).then(cached => {
+        if (cached) return cached;
+        return fetch(request)
+          .then(response => {
+            if (!response.ok) throw new Error(`versioned asset ${response.status}`);
+            const copy = response.clone();
+            caches.open(CACHE).then(cache => cache.put(request, copy));
+            return response;
+          })
+          .catch(() => caches.match(request, { ignoreSearch: true }));
+      })
+    );
+    return;
+  }
 
   const freshRequest = new Request(request, { cache: 'no-store' });
 

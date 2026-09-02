@@ -137,7 +137,8 @@ check("T5b. Entry가로 몰래 Reset 안 함(unrealized도 None)", val5["unreali
 val6 = pe.portfolio_valuation(CFG, {}, {})
 check("T6. 거래 0 → Equity=초기 1,000만·Return 0.0(현금 그대로)·NO_OPEN_POSITIONS",
       val6["currentVirtualEquity"] == 10_000_000 and val6["valuationStatus"] == "NO_OPEN_POSITIONS")
-html = open("index.html", encoding="utf-8").read()
+from app_test_source import read_app_document
+html = read_app_document()
 # 2026-08-18: 모의투자가 성적표 하위 블록(paperBlockHTML)에서 독립 화면(renderPaper)으로
 # 분리되면서 표현식이 바뀌었다. 검사 대상은 그대로 — "MDD가 없으면 0.0%가 아니라 '기록 대기'".
 _paper_ui = html[html.index("function renderPaper("):]

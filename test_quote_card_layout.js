@@ -1,7 +1,8 @@
 const fs = require('fs');
 const assert = require('assert');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 
 assert.match(html, /\.qrate\.up\{color:var\(--krup\)\}\s*\.qrate\.down\{color:var\(--krdn\)\}/,
   '상승은 빨강, 하락은 파랑이어야 합니다.');

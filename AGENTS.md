@@ -54,7 +54,7 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 
 | 파일 | 역할 | 수정 주체 |
 |---|---|---|
-| `index.html` | 화면 전부(CSS+JS 인라인, ~5,000줄+) | AI 에이전트가 직접 편집 |
+| `index.html` / `app-shell.css` / `app.js` | 정적 화면 셸 / 공통 앱 스타일 / 공통 앱 동작. 빌드 없이 이 순서로 직접 로드 | AI 에이전트가 직접 편집 |
 | `tickers.js` | 종목 목록 단일 소스(600종목, code·name·sector). ⚠️ 배열은 순수 JSON이어야 한다 — 배열 안에 주석 금지(compute_rotation.py가 주석을 못 거른다) | 사람 / AI 에이전트 |
 | `data.js` | 현재가·PER 등 시세 스냅샷 + 홈 숫자 브리핑(`marketBrief`) | `update_prices.py` (GitHub Actions 자동) |
 | `analysis.js` | 5인 **정밀분석**(`LIVE_ANALYSIS`, 14종목+date/market 키) | AI 에이전트가 재분석 시 Write — 절차는 `.claude/skills/종목분석 스킬/SKILL.md` 참고(Codex는 이 파일을 일반 문서로 읽고 그대로 따르면 됨) |
@@ -64,7 +64,7 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 | `stock_study.js` | 📚 종목공부(`STOCK_STUDY`, 회사별 소개 프로필) | AI 에이전트 |
 | `stock_lessons.js` | 🎓 주식공부(`STOCK_LESSONS`, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | AI 에이전트 |
 | `estate_lessons.js` | 🏠 부동산공부(`ESTATE_LESSONS`, 근저당·대출규제·청약 등, 주식공부와 형식·헬퍼 동일) | AI 에이전트 |
-| `calculators.js` | 🧮 계산기(`CALCULATORS`, 7종). body는 SEO용 설명 글이고, 실제 계산 로직은 `index.html`의 `calcWidgetHTML`/`wireCalcWidget`이 `calcType`별로 담당 | AI 에이전트 |
+| `calculators.js` | 🧮 계산기(`CALCULATORS`, 7종). body는 SEO용 설명 글이고, 실제 계산 로직은 `app.js`의 `calcWidgetHTML`/`wireCalcWidget`이 `calcType`별로 담당 | AI 에이전트 |
 | `history.js` | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 종목 하루 1건, `tier:"auto"` 표식·정밀 우선·`HIST_CAP=80`) | **`archive_analysis.py`만 — 직접 편집 금지.** 러너가 `--auto`로 매 사이클 호출 |
 | `market_history.js` | 날짜별 시장분석 누적 | `archive_analysis.py` |
 | `price_history.js` | 일별 종가(5거래일=1페이지) | `update_price_history.py` |
@@ -93,16 +93,16 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 
 ## ⭐ 카테고리(`cat` 필드) 철칙
 
-`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 다섯 파일 모두 각 글에 `cat` 필드가 있고, `index.html`이 모드 진입 시 이 값으로 "대>중>소" 중카테고리 선택 화면(카드 그리드)을 그린다. **새 글을 추가할 때 반드시 기존 중카테고리 중 하나와 정확히 일치하는 키를 `cat`에 넣는다** — 안 넣거나 새 값을 지어내면 그 글이 어떤 카테고리 카드에도 안 잡혀서 "전체 글 보기"로만 찾을 수 있게 된다(사실상 묻힌다).
+`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 다섯 파일 모두 각 글에 `cat` 필드가 있고, `app.js`가 모드 진입 시 이 값으로 "대>중>소" 중카테고리 선택 화면(카드 그리드)을 그린다. **새 글을 추가할 때 반드시 기존 중카테고리 중 하나와 정확히 일치하는 키를 `cat`에 넣는다** — 안 넣거나 새 값을 지어내면 그 글이 어떤 카테고리 카드에도 안 잡혀서 "전체 글 보기"로만 찾을 수 있게 된다(사실상 묻힌다).
 
-현재 중카테고리 키(index.html의 `NEWS_CATS`/`STUDY_CATS`/`LESSON_CATS`/`ESTATE_CATS`/`CALC_CATS` 참조):
+현재 중카테고리 키(`app.js`의 `NEWS_CATS`/`STUDY_CATS`/`LESSON_CATS`/`ESTATE_CATS`/`CALC_CATS` 참조):
 - 뉴스분석: `market`(코스피·코스닥 시황) · `earnings`(기업 실적발표) · `global`(글로벌 이슈·매크로) · `crypto`(코인·신기술) · `domestic`(국내 기업 이슈)
 - 종목공부: `kr`(국내기업) · `global`(해외기업)
 - 주식공부: `chart`(차트·기술적분석) · `capitalism`(EBS 다큐 자본주의) · `crisis`(경제위기의 역사) · `tax`(세금·절세계좌) · `product`(투자상품) · `macro`(시장을 움직이는 손) · `industry`(산업·기업분석)
 - 부동산공부: `buy`(내집마련기초) · `rent`(전월세·임대차보호) · `loan`(대출·금융) · `auction`(경매·공매시리즈) · `strategy`(투자전략)
 - 계산기: `stock`(주식 계산기) · `tax`(세금 계산기) · `finance`(재테크 계산기)
 
-어느 카테고리에도 안 맞는 완전히 새로운 주제라면, 새 `cat` 키를 쓰기 전에 `index.html`의 해당 `*_CATS` 배열에도 카드를 함께 추가한다. 계산기를 새로 추가할 때는 `cat` 외에 `calcType`도 `index.html`의 `calcWidgetHTML`/`wireCalcWidget`에 해당 타입의 실제 계산 로직을 함께 추가해야 위젯이 동작한다(데이터만 추가하면 설명 글만 뜨고 계산기는 비어있게 된다).
+어느 카테고리에도 안 맞는 완전히 새로운 주제라면, 새 `cat` 키를 쓰기 전에 `app.js`의 해당 `*_CATS` 배열에도 카드를 함께 추가한다. 계산기를 새로 추가할 때는 `cat` 외에 `calcType`도 `app.js`의 `calcWidgetHTML`/`wireCalcWidget`에 해당 타입의 실제 계산 로직을 함께 추가해야 위젯이 동작한다(데이터만 추가하면 설명 글만 뜨고 계산기는 비어있게 된다).
 
 ## ⭐ 콘텐츠 발행 철칙
 
@@ -217,13 +217,13 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 1. **정규식 lookbehind `(?<!)` 금지** — iOS 16.4 미만 Safari에서 그 줄 하나로 스크립트 블록 전체가 죽는다. 앞 경계는 `(^|[^A-Za-z0-9])` 캡처그룹으로 대체할 것. (`??`·`?.`는 기존 코드가 이미 사용 — ES2020 기준선 OK)
 2. **PRICE_HISTORY 페이지는 시간순이 아닐 수 있다** — flatMap 후 반드시 날짜로 정렬(`flatCloses` 참조).
-3. `index.html`의 JS는 `document.getElementById` 위주라 HTML 래핑(aside/main 추가)에 안전하지만, `.wrap` 직계 자식 순서에 기대는 CSS(`.layout` 그리드)가 있으니 마크업 이동 시 확인.
+3. `app.js`는 `document.getElementById` 위주라 HTML 래핑(aside/main 추가)에 안전하지만, `app-shell.css`에는 `.wrap` 직계 자식 순서에 기대는 규칙(`.layout` 그리드)이 있으니 마크업 이동 시 확인.
 4. **시각 변경 후엔 반드시 실제 브라우저로 데스크톱(1680)·초와이드(1920)·모바일(390, iPhone 13 프로필) 스크린샷을 찍고 콘솔 에러(pageerror)가 없는지 확인한다.** (Claude Code 세션의 구체적인 브라우저 실행 경로는 `CLAUDE.md` 참고.)
-5. `base`/`updated` 등 `analysis.js` 필드 규격은 `index.html`이 전부 파싱한다 — 구조 변경 금지(스킬 문서 참조).
+5. `base`/`updated` 등 `analysis.js` 필드 규격은 `app.js`가 전부 파싱한다 — 구조 변경 금지(스킬 문서 참조).
 6. **테마 시스템(🍎 애플 감성)**: 기본은 라이트(#F5F5F7 캔버스·흰 카드·#1D1D1F 잉크·애플 블루 #0071E3 단일 액센트). `html.gdark` = 애플 다크(순검정 배경·#1C1C1E 카드·#0A84FF 블루). **본문 텍스트 색은 반드시 변수(`--ink`/`--t2`/`--t3`/`--dim`)로** — 하드코딩 slate hex는 다크에서 안 보인다. 새 배경 요소를 만들면 `html.gdark` 개별 오버라이드를 함께 추가할 것.
 7. **본문 등락 색(한국식)**: `SIGNUM(html)` 전역 헬퍼가 이스케이프된 HTML에서 「부호+숫자+단위(%·%p·포인트·원)」만 골라 상승(+)=빨강(`.sgn-u`/`--krup`)·하락(−)=파랑(`.sgn-d`/`--krdn`)으로 감싼다. 새 텍스트도 자동 반영되니 별도 처리 불필요.
-8. **보안 — 게시판(`community.js`) 관련**: 방문자 자유게시판은 `kvdb.io` 외부 저장소를 직접 fetch로 읽고 쓴다. 수정·삭제 비밀번호 확인은 **브라우저 쪽에서만** 이뤄지고 저장소 자체는 검증하지 않으니, 이 부분을 손댈 땐 "누구나 그 kvdb 주소를 알면 우회해서 쓸 수 있다"는 전제를 유지할 것 — 별도 서버 없이는 완전한 인증을 걸 수 없는 구조다.
-9. **보안 — 관리자 모드**: "🌍 모두에게 발행" 기능은 사용자가 자신의 GitHub 개인 액세스 토큰을 브라우저에 직접 입력해 `api.github.com`에 커밋한다. 이 토큰은 `localStorage`에 저장된다 — 코드를 고칠 때 이 토큰을 어디에도 로그로 남기거나 다른 곳에 전송하는 코드를 추가하지 말 것.
+8. **보안 — 게시판(`community.js`) 관련**: 공개 방문자 쓰기는 닫혀 있다. 브라우저에서 KVdb에 게시글을 직접 쓰거나 비밀번호를 인증처럼 다루는 경로를 다시 추가하지 않는다.
+9. **보안 — 관리자 초안**: 브라우저 관리자 도구는 이 기기의 초안과 PR 요청문만 만든다. GitHub PAT 입력·저장, `api.github.com` 직접 커밋, 정적 비밀번호 인증을 다시 추가하지 않는다. 실제 공개 반영은 별도 브랜치·계약 테스트·PR·CI로 수행한다.
 10. ⭐ **em dash(—) 사용 금지 (2026-07-30 사용자 지정, 고정 규칙).** 뉴스분석·종목공부·주식공부·부동산공부·계산기 본문, 제목, summary, tag, 출처명, analysis.js의 findings·report·text, index.html이 화면에 그리는 모든 문장 등 사용자가 실제로 읽는 텍스트에는 절대 em dash를 쓰지 않는다. 이 부호가 들어가면 "AI가 썼다"는 티가 나서 독자가 피로감을 느낀다는 게 이유다. 대신 문장 구조에 맞게 쉼표·마침표·콜론(:)·괄호로 자연스럽게 풀어 쓸 것. (코드 주석처럼 사용자에게 노출되지 않는 부분은 해당 없음.)
 11. ⭐ **모바일 글자 잘림 방지: 콘텐츠 컨테이너는 `overflow-wrap:anywhere` 필수 (2026-08-03 실제 사고).** 뉴스분석·종목공부·주식공부·부동산공부·계산기가 전부 공유하는 `.nw-title`/`.nw-sum`/`.nw-body`에 `overflow-wrap:anywhere`가 걸려 있다 — 이게 없으면 `word-break:keep-all`(한국어 어절 단위 줄바꿈, 이 파일 다른 곳에도 적용된 규칙) 때문에 공백 없이 `·`로 죽 이어붙인 나열("로봇(+7.79%)·통신(+3.84%)·바이오제약(+3.63%)·..."처럼)이 줄바꿈될 자리를 못 찾고 뷰포트 밖으로 그냥 넘쳐서 모바일 화면에서 글자가 잘려 보인다(실제로 8/3 시장분석 기사에서 발생). `.nw-*` 계열 CSS를 고칠 때 이 속성을 빼지 말 것. 그리고 새 글을 쓸 때 `·`로 여러 항목을 나열하려면 **양옆에 공백을 넣는 게 원칙**이다(`"A(+1%) · B(+2%) · C(+3%)"`, 사이트 기존 관례와도 일치) — CSS가 넘침 자체는 막아주지만, 무공백으로 붙이면 그 줄바꿈이 단어 중간에서 뚝 끊겨 보기 나쁘다.
 12. ⭐ **분석 카드 근거(findings) 문장은 한 줄에 들어오게 짧게 쓴다 (2026-08-05 사용자 지정).** `.card ul li` 근거 목록은 항목마다 구분선(border-top)이 있는 짧은 리스트 디자인이라, 문장이 2줄로 넘어가면 답답해 보인다는 지적을 받았다. 특히 DIANA(재무)의 목표주가 문장처럼 "증권사 평균 목표주가 X원 · 현재가 대비 +Y% 여력"류로 큰 숫자(백만원대)와 %가 같이 들어가는 문장이 잘 넘친다 — `analyze_auto.py`의 `diana_eval()`을 "목표주가 X원 → 현재가 대비 +Y%"로 압축한 게 실제 수정 사례(불필요한 "증권사 평균"·"여력" 같은 수식어부터 뺀다). 새 finding 문장을 쓰거나 고칠 때는 모바일 폭(390px, 폰트 12~12.5px)에서 한 줄에 들어가는지를 기준으로 잡고, 숫자가 큰 종목(100만원 이상)·퍼센트가 세 자리(±100%대)인 경우까지 감안해서 여유 있게 짧게 쓴다.

@@ -5,10 +5,11 @@
 
 ## 한 줄 요약
 
-**빌드 과정이 없는 순수 정적 사이트**다. `index.html` 하나에 CSS·JS가 인라인으로 들어있고
-(약 6,400줄), 데이터는 각각 별도의 `.js`/`.json` 파일로 분리돼 있다. 서버도, 데이터베이스도,
-빌드 파이프라인도 없다 — GitHub Actions가 주기적으로 데이터 파일을 커밋하고, GitHub Pages가
-그 정적 파일을 그대로 서빙한다.
+**빌드 과정이 없는 순수 정적 사이트**다. `index.html`은 문서·탐색 셸,
+`app-shell.css`는 공통 앱 스타일, `app.js`는 공통 앱 동작을 맡고 데이터는 각각 별도의
+`.js`/`.json` 파일로 분리돼 있다. 서버도, 데이터베이스도, 빌드 파이프라인도 없다 —
+GitHub Actions가 주기적으로 데이터 파일을 커밋하고, GitHub Pages가 그 정적 파일을 그대로
+서빙한다.
 
 ## 화면 셸과 Home Master Design
 
@@ -24,7 +25,7 @@
 ## 전체 구조
 
 ```
-브라우저(index.html)
+브라우저(index.html → app-shell.css + app.js)
    ├─ tickers.js       600종목 마스터 목록(단일 소스)
    ├─ data.js          시세 스냅샷 + 홈 숫자 브리핑 ← update_prices.py (10분마다)
    ├─ analysis.js      정밀분석 14종목 ← Claude가 직접 Write (비정기)
@@ -142,8 +143,8 @@ Storage에 일부러 넣은 뒤 일반 새로고침으로 최신 데이터가 �
 ## 콘텐츠 5종과 카테고리(cat) 규칙
 
 `news_analysis.js` · `stock_study.js` · `stock_lessons.js` · `estate_lessons.js` ·
-`calculators.js` 각각의 모든 글에는 `cat` 필드가 있고, index.html이 모드 진입 시 이 값으로
-대분류 카드 화면을 그린다. **새 글의 `cat`은 반드시 index.html의 `NEWS_CATS`/`STUDY_CATS`/
+`calculators.js` 각각의 모든 글에는 `cat` 필드가 있고, `app.js`가 모드 진입 시 이 값으로
+대분류 카드 화면을 그린다. **새 글의 `cat`은 반드시 `app.js`의 `NEWS_CATS`/`STUDY_CATS`/
 `LESSON_CATS`/`ESTATE_CATS`/`CALC_CATS`에 이미 정의된 키와 정확히 일치해야 한다** — 안
 그러면 그 글은 어떤 카테고리 카드에도 안 잡혀 "전체 글 보기"로만 찾을 수 있다(사실상
 묻힌다). 정확한 키 목록은 AGENTS.md와 CLAUDE.md에 있다.

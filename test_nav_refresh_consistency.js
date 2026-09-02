@@ -1,7 +1,8 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 const refreshId = html.indexOf('id="navRefresh"');
 const start = html.lastIndexOf('<button', refreshId);
 const end = html.indexOf('</button>', refreshId);

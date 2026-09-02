@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { readAppDocument } = require('./app_test_source');
 
 const ROOT = __dirname;
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -8,7 +9,7 @@ const check = (condition, message) => {
   console.log(`[PASS] ${message}`);
 };
 
-const index = read('index.html');
+const index = readAppDocument(ROOT);
 const about = read('about.html');
 const snapshots = read('generate_snapshots.js');
 const deep = read('deep_analysis_publish.js');

@@ -6,6 +6,7 @@ docs/gaeo_design_system.md의 규칙 중 기계로 강제할 수 있는 것만 �
 """
 import re
 import sys
+from app_test_source import read_app_document
 
 FAILURES = []
 
@@ -16,7 +17,7 @@ def check(name, cond, detail=""):
         FAILURES.append(name)
 
 
-html = open("index.html", encoding="utf-8").read()
+html = read_app_document()
 
 # ── §45 종료 실험이 '평가 중'처럼 보이면 안 된다 ─────────────────────────────
 # model_registry 기준 legacy_shadow_v3(=종합판단 v3)는 ARCHIVED_FAILED_EXPERIMENT.

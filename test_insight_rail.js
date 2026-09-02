@@ -1,6 +1,7 @@
 const fs = require('fs');
 const assert = require('assert');
 const vm = require('vm');
+const { readAppDocument } = require('./app_test_source');
 
 const source = fs.readFileSync('insight-rail.js', 'utf8');
 const moduleSource = `${source}\n;globalThis.__tested = GaeoInsightRailCore;`;
@@ -66,7 +67,7 @@ assert.deepStrictEqual(JSON.parse(JSON.stringify(recent.map(item => item.code)))
 assert.strictEqual(core.marketFlowLabel(new Date('2026-08-12T01:00:00Z')), '실시간');
 assert.strictEqual(core.marketFlowLabel(new Date('2026-08-12T08:00:00Z')), '마감 흐름');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 const css = fs.readFileSync('insight-rail.css', 'utf8');
 assert(html.includes('insight-rail.css'));
 assert(html.includes('insight-rail.js'));

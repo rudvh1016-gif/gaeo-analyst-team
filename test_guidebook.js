@@ -10,8 +10,9 @@
 //   - 자동승격이 없다고 설명하는가
 const fs = require('fs');
 const assert = require('assert');
+const { readAppDocument } = require('./app_test_source');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const html = readAppDocument();
 
 // ── 1. 12개 섹션 순서 ────────────────────────────────────────────────────────
 const ORDER = [

@@ -348,9 +348,9 @@ check("9c. 가장 먼 연구 Horizon이 60D다(그 밖은 근거 0)",
       _research["horizons"] == ["5D", "20D", "60D"])
 check("9d. 상한 60은 그 Horizon을 그대로 쓴 값이다(임의의 숫자가 아니다)",
       sv.MAX_HOLDING_TRADING_DAYS == 60 == int(_research["horizons"][-1].rstrip("D")))
+from app_test_source import read_app_document
 check("9e. 사용자 화면도 이 구간을 '거래일'이라고 설명한다(단위 일치)",
-      "5D · 20D · 60D는 달력일이 아니라" in open(os.path.join(HERE, "index.html"),
-                                                encoding="utf-8").read())
+      "5D · 20D · 60D는 달력일이 아니라" in read_app_document(HERE))
 _cfg = json.load(open(os.path.join(sv.DATA_DIR, "config.json"), encoding="utf-8"))
 check("9f. 저장된 config.json이 모듈 상수와 완전히 같다(둘이 갈라지지 않게)",
       _cfg == sv.DEFAULT_CONFIG, json.dumps(_cfg, ensure_ascii=False)[:200])

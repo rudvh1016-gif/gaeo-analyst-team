@@ -27,15 +27,15 @@
 - [x] Research, 종목분석, 비교, 스크리너, 순환매, 등락률, 내 종목, 포트폴리오, 모의투자, 학습, 뉴스, 계산기, 성적표, 커뮤니티, 개발 기록에 편집 문법을 확장한다.
 - [x] skip link, landmarks, heading order, label/name/description, keyboard, focus, dialog/drawer, reduced motion, zoom/reflow, contrast를 WCAG 2.2 AA에 맞춘다.
 - [x] axe 또는 동등한 자동 감사와 Playwright keyboard/zoom/reflow 테스트를 추가한다.
-- [ ] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다.
+- [x] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다.
 
 ### PR 3: Performance와 maintainability
 
-- [ ] 실제 최신 main에서 `codex/performance-maintainability`를 만든다.
-- [ ] cold/warm load, DOM, request, JS/CSS/image payload, LCP/CLS/long task, service worker 기준선을 측정한다.
-- [ ] offscreen rendering, static assets, cache policy, script loading을 측정 결과 우선순위대로 개선한다.
-- [ ] 대형 index에서 안정된 영역만 작은 모듈로 분리하고 전역 동작·생성 파이프라인을 유지한다.
-- [ ] 명시적 성능 budget과 회귀 테스트를 추가한다.
+- [x] 실제 최신 main에서 `codex/performance-maintainability`를 만든다.
+- [x] cold/warm load, DOM, request, JS/CSS/image payload, LCP/CLS/long task, service worker 기준선을 측정한다.
+- [x] offscreen rendering, static assets, cache policy, script loading을 측정 결과 우선순위대로 개선한다.
+- [x] 대형 index에서 안정된 영역만 작은 모듈로 분리하고 전역 동작·생성 파이프라인을 유지한다.
+- [x] 명시적 성능 budget과 회귀 테스트를 추가한다.
 - [ ] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다.
 
 ### PR 4: Trust, residual SEO, growth와 retention

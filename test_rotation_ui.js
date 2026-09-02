@@ -2,9 +2,10 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { readAppDocument } = require('./app_test_source');
 
 const root = __dirname;
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = readAppDocument(root);
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 
 // 캐시 버전은 배포마다 올라간다. 특정 숫자를 못박으면 버전을 올릴 때마다 테스트가

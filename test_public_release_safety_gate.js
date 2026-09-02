@@ -9,6 +9,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const safety = require('./public_release_safety.js');
+const { readAppDocument } = require('./app_test_source');
 
 function storage(value) {
   return { getItem: key => key === 'gaeo_analytics_consent_v1' ? value : null };
@@ -31,7 +32,9 @@ assert.match(request, /CI/);
 assert.match(request, /site_config\.js/);
 assert.doesNotMatch(request, /(?:ghp_|github_pat_|Authorization|Bearer)/i);
 
-const html = fs.readFileSync('index.html', 'utf8');
+// Production app logic is split into app.js; inspect the assembled public source so
+// moving code out of index.html cannot create a static-safety blind spot.
+const html = readAppDocument();
 
 // 공개 산출물에서 다시 생기면 실제 원격 쓰기 권한이 생기는 경로들이다.
 const forbidden = [
