@@ -155,6 +155,36 @@ class Gh:
             body = r.read()
             return r.status, (json.loads(body) if body else {})
 
+    @staticmethod
+    def _ts(value):
+        """GitHub의 UTC 문자열 → KST datetime (못 읽으면 None)."""
+        try:
+            return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ") \
+                .replace(tzinfo=datetime.timezone.utc).astimezone(KST)
+        except (TypeError, ValueError):
+            return None
+
+    def job_started_at(self, run_id):
+        """이 run이 **실제로 러너를 잡은** 시각(가장 이른 job의 started_at).
+
+        ⚠️ 2026-09-02, 이 워치독의 첫 실전 실행에서 드러난 문제 —
+        run의 `run_started_at`은 "큐에 들어간 시각"이지 "일을 시작한 시각"이 아니다.
+        그날 run 513은 09:28에 큐에 들어가 좀비 뒤에서 2시간을 기다린 뒤 11:28에야
+        러너를 잡았는데, run_started_at으로 재면 "136분째 일하는데 결과가 없다"가 되어
+        **16분째 정상 수집 중이던 건강한 run을 좀비로 오판해 죽였다.**
+
+        하필 이 워치독이 잡으라고 만든 상황(동시성에 오래 막힘)이 정확히 이 오판을
+        만든다 — 고치지 않으면 취소 → 재큐 → 또 취소가 반복될 수 있다.
+        """
+        url = f"https://api.github.com/repos/{self.repo}/actions/runs/{run_id}/jobs?per_page=50"
+        try:
+            _, data = self._req(url)
+        except (urllib.error.URLError, OSError, ValueError) as e:
+            print(f"   [경고] run {run_id} job 시각 조회 실패: {e}")
+            return None
+        times = [t for t in (self._ts(j.get("started_at")) for j in data.get("jobs", [])) if t]
+        return min(times) if times else None
+
     def active_runs(self, workflow):
         """main 브랜치에서 아직 끝나지 않은 run들."""
         out = []
@@ -166,11 +196,13 @@ class Gh:
                 print(f"   [경고] {workflow} {status} 조회 실패: {e}")
                 continue
             for run in data.get("workflow_runs", []):
-                started = run.get("run_started_at") or run.get("created_at")
-                try:
-                    ts = datetime.datetime.strptime(started, "%Y-%m-%dT%H:%M:%SZ") \
-                        .replace(tzinfo=datetime.timezone.utc).astimezone(KST)
-                except (TypeError, ValueError):
+                ts = self._ts(run.get("run_started_at") or run.get("created_at"))
+                if status == "in_progress":
+                    # 취소 후보는 이 run들뿐이므로, 여기서만 job 시각을 한 번 더 확인한다.
+                    # 조회에 실패하면 run_started_at으로 물러서되, 그 경우 유예를 넉넉히
+                    # 잡은 쪽(더 늦은 시각)이 안전하므로 기존 값을 그대로 쓴다.
+                    ts = self.job_started_at(run["id"]) or ts
+                if ts is None:
                     continue
                 out.append({"id": run["id"], "status": status, "started_at": ts})
         return out
