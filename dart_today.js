@@ -1,12 +1,124 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-02 13:04",
- "priceLabel": "2026-09-02 13:02 장중 · ⚠️ 1종목 지연",
- "count": 501,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-02 13:33",
+ "priceLabel": "2026-09-02 13:25 장중 · ⚠️ 1종목 지연",
+ "count": 506,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "290650",
+   "name": "엘앤씨바이오",
+   "title": "유상증자1차발행가액결정",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "196170",
+   "name": "알테오젠",
+   "title": "투자판단관련주요경영사항 (재조합 인간 히알루로니다제 제품 ALT-B4 독점적 옵션·라이선스 계약 체결)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "055550",
+   "name": "신한지주",
+   "title": "증권신고서(채무증권)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "036530",
+   "name": "SNT홀딩스",
+   "title": "주식소각결정(자회사의 주요경영사항)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "100840",
+   "name": "SNT에너지",
+   "title": "주식소각결정",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
+   "isCorrection": false
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -35,30 +147,6 @@ const DART_TODAY = {
    "code": "137400",
    "name": "피엔티",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
@@ -154,14 +242,6 @@ const DART_TODAY = {
   {
    "code": "006800",
    "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
@@ -179,14 +259,6 @@ const DART_TODAY = {
    "code": "336260",
    "name": "두산퓨얼셀",
    "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
@@ -968,14 +1040,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T00:14:55.072788+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "043260",
    "name": "성호전자",
    "title": "주요사항보고서(전환사채권발행결정)",
@@ -1003,14 +1067,6 @@ const DART_TODAY = {
    "code": "298020",
    "name": "효성티앤씨",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T07:25:53.398166+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "증권발행실적보고서",
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T07:25:53.398166+00:00",
    "isCorrection": false
@@ -1046,14 +1102,6 @@ const DART_TODAY = {
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T07:25:53.398166+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T07:25:53.398166+00:00",
-   "isCorrection": false
   },
   {
    "code": "004170",
@@ -1502,14 +1550,6 @@ const DART_TODAY = {
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T05:55:55.540676+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T05:55:55.540676+00:00",
-   "isCorrection": false
   },
   {
    "code": "326030",
