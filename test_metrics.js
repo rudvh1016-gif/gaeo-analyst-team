@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
+const releaseSafety = require('./public_release_safety.js');
 
 function storage() {
   const values = new Map();
@@ -49,22 +50,26 @@ async function main() {
   const calls = primary.calls;
   const fetch = primary.fetch;
 
-  const makeContext = f => ({
-    window: {},
-    location: { hostname: 'gaeoteam.com' },
-    localStorage: storage(),
-    sessionStorage: storage(),
-    fetch: f,
-    Date,
-    Map,
-    Math,
-    JSON,
-    Number,
-    Promise,
-    String,
-    setTimeout,
-    clearTimeout,
-  });
+  const makeContext = (f, consent = 'granted') => {
+    const local = storage();
+    if (consent) local.setItem(releaseSafety.CONSENT_KEY, consent);
+    return {
+      window: { GaeoReleaseSafety: releaseSafety },
+      location: { hostname: 'gaeoteam.com' },
+      localStorage: local,
+      sessionStorage: storage(),
+      fetch: f,
+      Date,
+      Map,
+      Math,
+      JSON,
+      Number,
+      Promise,
+      String,
+      setTimeout,
+      clearTimeout,
+    };
+  };
   const context = makeContext(fetch);
   vm.runInNewContext(source[1], context, { filename: 'index.html' });
 
@@ -123,6 +128,22 @@ async function main() {
     const v = await ctx.window.GaeoMetrics.startVisit();
     assert.equal(v.total, 980, '증가에 실패해도 저장된 값(939+41)은 읽어야 한다');
     assert.equal(v.exactTotal, true, '읽기에 성공했으면 939+ 폴백으로 떨어지면 안 된다');
+  }
+
+  // ④ 명시적 동의가 없으면 기존 합계를 읽을 수는 있어도 증가 요청은 보내지 않는다.
+  {
+    const m = makeFetch('patch', { 'metrics:site-visits': '41' });
+    const ctx = makeContext(m.fetch, null);
+    vm.runInNewContext(source[1], ctx, { filename: 'index.html' });
+    const v = await ctx.window.GaeoMetrics.startVisit();
+    assert.equal(v.total, 980, '동의 전에도 공개된 기존 합계는 읽어 표시한다');
+    assert.equal(
+      m.calls.filter(c => ['PATCH', 'PUT', 'POST', 'DELETE'].includes(c.options.method || 'GET')).length,
+      0,
+      '동의 전에는 KVdb 쓰기 요청이 없어야 한다'
+    );
+    assert.equal(ctx.localStorage.getItem('gaeo_first_seen'), null,
+      '동의 전에 새 기기 식별용 로컬 상태를 만들지 않는다');
   }
 }
 
