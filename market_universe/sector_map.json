@@ -1,6 +1,6 @@
 {
 "schemaVersion": "gaeo_sector_map_v1",
-"asOf": "2026-09-02T01:37:12+00:00",
+"asOf": "2026-09-02T02:41:58+00:00",
 "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
 "corpCount": 2595,
 "crosswalkCoverage": {
