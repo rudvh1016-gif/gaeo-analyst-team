@@ -160,7 +160,7 @@ li{margin-bottom:6px;font-size:15px}
     <div class="trust"><strong>자료를 읽기 전에</strong>시세 기준과 분석 기준을 구분해 표시하며, 자동분석은 규칙 기반 참고자료예요. 투자 권유가 아닙니다.</div>
     ${relatedHtml || ''}
     ${sourcesHtml || ''}
-    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</div>
+    <div class="disc">이 글은 개오팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="${BASE}disclaimer.html">데이터 출처·면책조항</a> · <a href="${BASE}about.html">사이트 소개</a></div>
   </div>
 </div>
 </body>
@@ -617,7 +617,7 @@ ${archiveListHtml}
     </ul></div>
   </section>
 
-  <footer class="foot">개오 애널리스트팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다.</footer>
+  <footer class="foot">개오 애널리스트팀의 분석 의견이며 투자 권유가 아니에요. 투자 판단과 그 책임은 투자자 본인에게 있습니다. <a href="${BASE}disclaimer.html">데이터 출처·면책조항</a> · <a href="${BASE}about.html">사이트 소개</a> · <a href="${BASE}privacy.html">개인정보처리방침</a></footer>
 </main>
 </body>
 </html>
