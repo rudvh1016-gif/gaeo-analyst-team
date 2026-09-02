@@ -95,8 +95,8 @@ class Test건강한_run을_죽이지_않는다(unittest.TestCase):
         self.assertEqual(d["action"], "ok")
 
     def test_유예를_넘기면_그_때_좀비로_본다(self):
-        # 같은 run이 09:45까지도(실질 47분) 아무것도 못 만들었으면 그건 hang이다.
-        d = decide(ANALYSIS, 1155, [run(512, "in_progress", at(8, 10))], at(9, 45))
+        # 같은 run이 10:00까지도(실질 62분) 아무것도 못 만들었으면 그건 hang이다.
+        d = decide(ANALYSIS, 1170, [run(512, "in_progress", at(8, 10))], at(10, 0))
         self.assertEqual(d["action"], "revive")
 
     def test_queued만_있으면_기다린다(self):
@@ -156,8 +156,13 @@ class Test임계값(unittest.TestCase):
         # 시세 10분 주기 · 자동분석 30분 주기 → 각각 두 사이클을 놓쳐야 이상으로 본다.
         self.assertEqual(PRICES["stale_min"], 25)
         self.assertEqual(ANALYSIS["stale_min"], 70)
-        # 유예는 한 사이클 실측(시세 ~2분 · 자동분석 12~20분)보다 넉넉해야 한다.
-        self.assertGreater(ANALYSIS["grace_min"], 20)
+        # 유예는 실측 최악값보다 넉넉해야 한다. 2026-08-25~09-01 6거래일 실측에서
+        # 수집창이 열린 뒤 첫 커밋까지 최악이 29분이었다(14·15·16·17·18·29).
+        # 오판 한 번의 대가(취소→재큐→또 취소 루프)가 hang 감지 지연보다 훨씬 크므로
+        # 최악값의 2배 이상을 유지한다.
+        관측최악 = 29
+        self.assertGreaterEqual(ANALYSIS["grace_min"], 관측최악 * 2,
+                                "유예가 실측 최악값의 2배 미만이면 건강한 run을 죽일 위험이 크다")
 
     def test_자동분석_임계는_SessionStart_훅과_같다(self):
         # check_pipeline.py가 쓰는 70분과 달라지면 두 감시가 서로 다른 진단을 낸다.

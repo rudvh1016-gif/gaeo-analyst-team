@@ -3,60 +3,37 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "ready",
- "generatedAt": "2026-09-01 16:08",
- "dataCutoff": "2026-09-01 종가",
+ "status": "hold",
+ "generatedAt": "2026-09-02 12:06",
+ "dataCutoff": "2026-09-02 12:06 장중",
  "horizonDays": 20,
- "picks": [
-  {
-   "code": "066970",
-   "name": "엘앤에프",
-   "sector": "2차전지",
-   "sectorRank": 1,
-   "why": "20거래일 +80.5% · 20일선 위 · 거래량 평소의 2.0배",
-   "overheat": false,
-   "gapPct": 21.0,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "006110",
-   "name": "삼아알미늄",
-   "sector": "화학·소재",
-   "sectorRank": 2,
-   "why": "20거래일 +103.7% · 20일선 위",
-   "overheat": false,
-   "gapPct": 29.0,
-   "call": "HOLD",
-   "callConflict": false
-  }
- ],
+ "picks": [],
  "gate": {
-  "indexAboveMa20": 1,
-  "breadthPct": 56.8,
-  "shown": 2,
-  "allowed": 2,
+  "indexAboveMa20": 0,
+  "breadthPct": 42.5,
+  "shown": 0,
+  "allowed": 0,
   "sectorCap": 1,
-  "sectorCount": 2,
+  "sectorCount": 0,
   "detail": {
    "KOSPI": {
-    "close": 6835.8,
-    "ma20": 6661.97,
-    "above": true,
-    "gapPct": 2.61
+    "close": 6638.78,
+    "ma20": 6675.96,
+    "above": false,
+    "gapPct": -0.56
    },
    "KOSDAQ": {
-    "close": 821.25,
-    "ma20": 828.92,
+    "close": 814.68,
+    "ma20": 830.62,
     "above": false,
-    "gapPct": -0.93
+    "gapPct": -1.92
    }
   }
  },
  "regime": {
   "direction": "횡보",
-  "leadership": "코스닥",
-  "topSector": "2차전지"
+  "leadership": "중립",
+  "topSector": "화학·소재"
  },
  "record": {
   "hitRate": 54.5,
