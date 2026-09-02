@@ -1,12 +1,84 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-02 15:33",
- "priceLabel": "2026-09-02 15:28 장중 · ⚠️ 1종목 지연",
- "count": 515,
+ "generatedAt": "2026-09-02 16:03",
+ "priceLabel": "2026-09-02 종가 (15:51 수집) · ⚠️ 1종목 지연",
+ "count": 518,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "031980",
+   "name": "피에스케이홀딩스",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "031980",
+   "name": "피에스케이홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "021240",
+   "name": "코웨이",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260902",
+   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
+   "isCorrection": false
+  },
   {
    "code": "002790",
    "name": "아모레퍼시픽홀딩스",
@@ -74,14 +146,6 @@ const DART_TODAY = {
   {
    "code": "003530",
    "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
@@ -192,14 +256,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "016610",
    "name": "DB증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
@@ -283,14 +339,6 @@ const DART_TODAY = {
    "code": "131290",
    "name": "티에스이",
    "title": "기업설명회(IR)개최",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T05:02:37.276711+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T05:02:37.276711+00:00",
    "isCorrection": false
@@ -3192,14 +3240,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T04:44:35.387932+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "038500",
    "name": "삼표시멘트",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
@@ -3883,22 +3923,6 @@ const DART_TODAY = {
    "code": "003240",
    "name": "태광산업",
    "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260827",
-   "detectedAt": "2026-08-27T06:31:40.204233+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260827",
    "detectedAt": "2026-08-27T06:31:40.204233+00:00",
    "isCorrection": false
