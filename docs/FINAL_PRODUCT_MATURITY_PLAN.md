@@ -9,7 +9,7 @@
 |---|---|---|---|
 | PR 1 Editorial foundation | `codex/editorial-foundation` | PR #484 병합·배포 확인 | merge `914457f37023`; 최종 A/B/C PASS |
 | PR 2 Editorial accessibility | `codex/editorial-accessibility` | PR #485 병합·배포 확인 | merge `77f108d6e9b8`; Node 33/33, Python 52/57(+기존 Windows 5), browser 16/16, A/B/C PASS |
-| PR 3 Performance | `codex/performance-maintainability` | 구현·검증 중 | `docs/PERFORMANCE_BASELINE.md`; HTML −93.0%, 종목 raw transfer −87.2%, 딥링크 CLS ≤0.10 |
+| PR 3 Performance | `codex/performance-maintainability` | PR #486 병합·배포 확인 | merge `a54dc9b404f9`; PR CI `contract-tests` success; 프로덕션 `app-shell.css?v=20260903-p3` 200(305,327B)·홈이 `app.js?v=20260903-p3` 참조; `docs/PERFORMANCE_BASELINE.md`; HTML −93.0%, 종목 raw transfer −87.2%, 딥링크 CLS ≤0.10 |
 | PR 4 Trust/SEO/Growth | 예정 | 대기 | 실제 claim·검색 evidence 기반 |
 | PR 5 Governance | 예정 | 대기 | 실제 workflow/branch evidence 기반 |
 
