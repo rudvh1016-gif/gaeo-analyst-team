@@ -14,21 +14,26 @@ function requireState(condition, message) {
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
 
+  // 2026-09-03 소유자 지시: 홈에는 최근 정밀분석이 없고, 전체 메뉴 '최근 정밀분석'(?m=deep) 화면에서 본다.
   await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+  requireState(await page.locator('.home-dashboard #homeDeepAnalysis').count() === 0, 'home must not embed the recent deep-analysis section');
+  requireState(!(await page.locator('#homeDeepAnalysis').isVisible()), 'recent deep-analysis section must stay hidden on home');
+
+  await page.goto(`${base}/?m=deep`, { waitUntil: 'networkidle' });
   const homeRows = page.locator('#homeDeepAnalysis .hda-row');
   await homeRows.first().waitFor({ state: 'visible' });
-  requireState(await homeRows.count() === 5, 'home must show exactly five recent analyses');
-  requireState((await homeRows.first().getAttribute('href') || '').startsWith('/research/deep-analysis/'), 'home row must use a permanent URL');
-  requireState(await page.locator('#homeDeepAnalysis').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'desktop home list must not overflow');
+  requireState(await homeRows.count() === 5, 'deep view must show exactly five recent analyses');
+  requireState((await homeRows.first().getAttribute('href') || '').startsWith('/research/deep-analysis/'), 'deep view row must use a permanent URL');
+  requireState(await page.locator('#homeDeepAnalysis').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'desktop deep view list must not overflow');
+  requireState(await page.locator('#mode-deep').getAttribute('aria-current') === 'page', 'menu must mark 최근 정밀분석 as the current screen');
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'networkidle' });
-  // 모바일(≤900px)은 2026-08-14 설계대로 접힘 상태로 시작한다. 접힘을 확인한 뒤
-  // 헤더를 눌러 펼치고 나서 목록을 검증한다.
-  requireState(await page.locator('#hdaToggle').getAttribute('aria-expanded') === 'false', 'mobile deep-analysis section must start collapsed');
-  await page.locator('#hdaToggle').click();
+  // 별도 화면에서는 모바일에서도 접지 않고 바로 펼쳐 보여준다(홈 브리핑 안에 있을 때만 접혔다).
+  requireState(await page.locator('#hdaToggle').getAttribute('aria-expanded') === 'true', 'deep view must start expanded on mobile');
   await homeRows.first().waitFor({ state: 'visible' });
-  requireState(await page.locator('#homeDeepAnalysis').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'mobile home list must not overflow');
+  requireState(await homeRows.count() === 5, 'mobile deep view must show exactly five recent analyses');
+  requireState(await page.locator('#homeDeepAnalysis').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'mobile deep view list must not overflow');
 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(`${base}/research/deep-analysis/index.html`, { waitUntil: 'networkidle' });

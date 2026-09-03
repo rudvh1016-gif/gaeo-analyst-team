@@ -12,7 +12,8 @@
 | PR 3 Performance | `codex/performance-maintainability` | PR #486 병합·배포 확인 | merge `a54dc9b404f9`; PR CI `contract-tests` success; 프로덕션 `app-shell.css?v=20260903-p3` 200(305,327B)·홈이 `app.js?v=20260903-p3` 참조; `docs/PERFORMANCE_BASELINE.md`; HTML −93.0%, 종목 raw transfer −87.2%, 딥링크 CLS ≤0.10 |
 | PR 4 Trust/SEO/Growth | 예정 | 대기 | 실제 claim·검색 evidence 기반 |
 | PR 5 Governance | 예정 | 대기 | 실제 workflow/branch evidence 기반 |
-| 핫픽스 About 테마 (PR 3 이후) | `claude/auto-analysis-failure-prevention-94we7m` | PR #487 생성 · **소유자 시각 승인 대기(병합 금지)** | About만 밝은 화면에서도 `#070808` 강제 다크 → 편집형 토큰(`#F7F7F5`/`#0D0E10`)으로 통일; `docs/reviews/about_theme_hotfix/` |
+| 핫픽스 About 테마 (PR 3 이후) | `claude/auto-analysis-failure-prevention-94we7m` | PR #487 병합 완료(`95d02afb`, 소유자 "ㅇㅋ 병합 ㄱㄱ" 승인) · 프로덕션 확인 | About만 밝은 화면에서도 `#070808` 강제 다크 → 편집형 토큰으로 통일; 소유자 지시로 밝은 바탕은 사이트 전체 순백 `#FFFFFF`(초안 `#F7F7F5` 폐기) + 홈 히어로 글자 1·2차 축소 + 신뢰 링크 별도 문단; `docs/reviews/about_theme_hotfix/` |
+| 홈 정리 3차 (PR 3 이후) | `claude/auto-analysis-failure-prevention-94we7m` | PR 생성 · **소유자 시각 승인 대기(병합 금지)** | 소유자 지시 3건: (A) 전체 글자 크기 3차 축소(본문 최소 12px 유지), (B) '공유'·'PC 버전으로 보기'를 화면 고정(fixed) 대신 푸터 `.foot-tools` 정적 버튼으로, (C) '시장 분석'(`#marketBox`)·'최근 정밀분석'(`#homeDeepAnalysis`)을 홈에서 빼고 전체 메뉴 `오늘 시장`(`?m=market`)·`최근 정밀분석`(`?m=deep`) 화면으로 이동; `docs/reviews/home_menu_relocation/` |
 
 ## 보호 계약
 

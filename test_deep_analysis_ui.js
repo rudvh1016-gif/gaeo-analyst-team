@@ -24,12 +24,20 @@ assert.match(html, /'deep_analysis_latest\.js':'window\.DEEP_ANALYSIS_LATEST=win
 assert.match(html, /w\('deep_analysis_latest\.js'\)/);
 assert.match(html, /archive:\['analysis_archive\.js'\]/, '전체 원문 Archive는 계속 지연 로드한다');
 
+// 2026-09-03 소유자 지시: '최근 정밀분석'은 홈 브리핑에서 빠지고, 전체 메뉴의 별도 화면(#deepView, ?m=deep)에서 본다.
 const contextStart = html.indexOf('<div class="hdb-context">');
 const contextEnd = html.indexOf('</div>\n          <aside class="hdb-decisions"', contextStart);
 const contextMarkup = html.slice(contextStart, contextEnd);
-assert.match(contextMarkup, /id="briefActions"[\s\S]*id="homeDeepAnalysis"/);
-assert.match(contextMarkup, /최근 정밀분석/);
-assert.match(contextMarkup, /직접 지정해 더 깊게 확인한 종목이에요/);
+assert.match(contextMarkup, /id="briefActions"/);
+assert.doesNotMatch(contextMarkup, /id="homeDeepAnalysis"/, '홈 브리핑 안에 최근 정밀분석 섹션을 다시 넣지 않는다');
+const deepStart = html.indexOf('id="deepView"');
+assert.notEqual(deepStart, -1, '최근 정밀분석 화면(#deepView)이 있어야 한다');
+const deepMarkup = html.slice(deepStart, deepStart + 2000);
+assert.match(deepMarkup, /id="homeDeepAnalysis"/);
+assert.match(deepMarkup, /최근 정밀분석/);
+assert.match(deepMarkup, /직접 지정해 더 깊게 확인한 종목이에요/);
+assert.match(html, /id="mode-deep"/, '전체 메뉴에 최근 정밀분석 항목이 있어야 한다');
+assert.match(html, /\.deepView \.hda-list\{display:flex;flex-direction:column/, '별도 화면에서도 목록 문법을 유지한다');
 
 assert.match(html, /function renderHomeDeepAnalysis\(/);
 assert.match(html, /class="hda-row" href="\$\{esc\(item\.permalink\)\}"/);

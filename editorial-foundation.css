@@ -387,3 +387,44 @@ html.gdark .gr-chip[aria-pressed="true"]{color:var(--editorial-control-fg)}
   .hero-anim{opacity:1;animation:none}
   .home-dashboard *{transition:none!important}
 }
+
+/* ── 2026-09-03 소유자 지시(3차): 전체 글자 크기를 더 줄인다. 최소 12px은 지킨다. ── */
+.hero-title{font-size:clamp(32px,3vw,40px)}
+.home-dashboard .tagline{font-size:15px}
+.hero-search-card h2{font-size:22px}
+.hero-search-card>p{font-size:13px}
+.home-daily-brief #briefTitle{font-size:24px}
+.home-dashboard .kpi .v{font-size:22px}
+.home-dashboard .brief-line{font-size:13px}
+.home-dashboard .start-step h2{font-size:18px}
+.home-dashboard .start-step p{font-size:12.5px}
+.analysis-browser-head h2{font-size:20px}
+.analysis-browser-head p{font-size:12.5px}
+.hrp-title{font-size:16px}
+.context-title{font-size:26px}
+.qprice{font-size:28px}
+.rot-card-primary,.rot-card-secondary{font-size:16px}
+@media(max-width:900px){
+  .hero-title{font-size:clamp(26px,6vw,30px)}
+  .home-dashboard .tagline{font-size:14px}
+  .home-daily-brief #briefTitle{font-size:21px}
+  .context-title{font-size:24px}
+}
+@media(max-width:620px){
+  .hero-title{font-size:24px}
+  .home-dashboard .tagline{font-size:13.5px}
+  .home-dashboard .hero-intro{font-size:14px;line-height:1.55}
+  .home-dashboard .hero-trust{font-size:12px}
+  .hero-search-card h2{font-size:18px}
+  .home-daily-brief #briefTitle{font-size:19px}
+  .home-dashboard .kpi .v{font-size:20px}
+  .home-dashboard .brief-line{font-size:12.5px}
+  .home-dashboard .start-step h2{font-size:17px}
+  .analysis-browser-head h2{font-size:18px}
+  .analysis-browser-head p{font-size:12px}
+  .hrp-title{font-size:15px}
+  .context-title{font-size:22px}
+  .qprice{font-size:26px}
+  .rot-card-primary,.rot-card-secondary{font-size:15px}
+  .cat-label{font-size:13px}
+}
