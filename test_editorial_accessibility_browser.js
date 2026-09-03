@@ -237,7 +237,9 @@ async function audit(page, name, width) {
     });
     check(darkRatios.body >= 4.5 && darkRatios.subtle >= 4.5, 'dark mode 편집 텍스트 대비가 4.5:1 이상임');
     await app.goto(BASE + '/about.html', { waitUntil: 'domcontentloaded' });
-    await app.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() === '#8b8b94');
+    // About은 다른 화면과 같은 편집형 밝은 토큰을 기본으로 쓴다(--editorial-subtle #606873).
+    // 예전 값 #8b8b94는 About만 강제 다크로 두던 html.about-page 오버라이드의 흔적이었다.
+    await app.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() === '#606873');
     const aboutMutedRatio = await app.evaluate(() => {
       const parse = value => {
         const hex = value.trim().replace('#', '');

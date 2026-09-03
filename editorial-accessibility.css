@@ -41,19 +41,9 @@ html.gdark{
   color-scheme:dark;
 }
 
-html.about-page{
-  --editorial-page:#070808;
-  --editorial-paper:#111313;
-  --editorial-ink:#f4f5f5;
-  --editorial-body:#d7dada;
-  --editorial-subtle:#a8aeae;
-  --editorial-rule:#292d2d;
-  --editorial-rule-strong:#5b6363;
-  --editorial-link:#91caed;
-  --editorial-focus:#7bd5f5;
-  --text-muted:#8b8b94;
-  color-scheme:dark;
-}
+/* About(about.html)은 별도 강제 다크 팔레트 없이 위 :root / html.gdark / OS 다크 토큰을
+   다른 화면과 똑같이 따른다. (예전 html.about-page 오버라이드는 밝은 화면 요청을 무시하고
+   About만 #070808로 칠해 홈과 어긋났다 — 2026-09-03 핫픽스로 제거) */
 
 @media (prefers-color-scheme: dark){
   html:not(.glight){
