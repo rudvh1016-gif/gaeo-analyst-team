@@ -12,6 +12,7 @@
 | PR 3 Performance | `codex/performance-maintainability` | PR #486 병합·배포 확인 | merge `a54dc9b404f9`; PR CI `contract-tests` success; 프로덕션 `app-shell.css?v=20260903-p3` 200(305,327B)·홈이 `app.js?v=20260903-p3` 참조; `docs/PERFORMANCE_BASELINE.md`; HTML −93.0%, 종목 raw transfer −87.2%, 딥링크 CLS ≤0.10 |
 | PR 4 Trust/SEO/Growth | 예정 | 대기 | 실제 claim·검색 evidence 기반 |
 | PR 5 Governance | 예정 | 대기 | 실제 workflow/branch evidence 기반 |
+| 핫픽스 About 테마 (PR 3 이후) | `claude/auto-analysis-failure-prevention-94we7m` | PR #487 생성 · **소유자 시각 승인 대기(병합 금지)** | About만 밝은 화면에서도 `#070808` 강제 다크 → 편집형 토큰(`#F7F7F5`/`#0D0E10`)으로 통일; `docs/reviews/about_theme_hotfix/` |
 
 ## 보호 계약
 
