@@ -491,7 +491,7 @@
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.77.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.78.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
-<link rel="stylesheet" href="app-shell.css?v=20260903-p5">
+<link rel="stylesheet" href="app-shell.css?v=20260903-p6">
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v3">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
@@ -531,7 +531,7 @@
     </button>
     <div class="global-primary" aria-label="주요 서비스">
       <button class="global-link on" type="button" data-nav-home>홈</button>
-      <button class="global-link" id="navMarket" type="button" data-nav-alias="market">오늘 시장</button>
+      <button class="global-link" id="navMarket" type="button" data-nav-alias="market disclosure">오늘 시장</button>
       <button class="global-link" type="button" data-nav-mode="single"   data-nav-alias="compare screener rates deep">종목 분석</button>
       <button class="global-link" type="button" data-nav-mode="rotation">순환매</button>
       <button class="global-link" type="button" data-nav-mode="paper"    data-nav-alias="watch portfolio">모의투자</button>
@@ -733,6 +733,10 @@
             <div class="brief-market" id="briefMarket" aria-label="현재 시장 지표" aria-live="polite">
               코스피·코스닥·환율을 불러오는 중이에요.
             </div>
+            <!-- 2026-09-03 소유자 지시: 코스피·코스닥 상세(펼치면 이동평균·차트) 패널을 위 숫자
+                 바로 아래로 옮긴다. 예전에는 페이지 한참 아래(업종 흐름 다음)에 따로 있어서,
+                 같은 코스피·코스닥 숫자가 화면에 두 번(브리핑 + 이 패널) 흩어져 보였다. -->
+            <section class="idx-panels" id="idxPanels" aria-label="코스피·코스닥 지수 상세"></section>
             <div class="brief-lines" id="homeBrief"><p>오늘 시세를 정리하고 있어요.</p></div>
             <div class="brief-meta" id="briefMeta"></div>
             <div class="brief-actions" id="briefActions">
@@ -788,8 +792,10 @@
 
     <!-- 📈 코스피·코스닥 펼치기 패널(TARO 이동평균 시스템 3단계, 2026-08-06) — 접힌 요약행은
          이미 로드된 indicators.js(indicesTech)만으로 즉시 그리고, 실제 캔들차트는 펼칠 때만
-         index_history.js를 지연 로드한다(성능 원칙 — 무거운 자료를 먼저 안 내려받는다). -->
-    <section class="idx-panels" id="idxPanels" aria-label="코스피·코스닥 지수 상세"></section>
+         index_history.js를 지연 로드한다(성능 원칙 — 무거운 자료를 먼저 안 내려받는다).
+         2026-09-03: 실제 #idxPanels 요소는 위 「현재 기준 브리핑」 숫자 바로 아래로 옮겼다(소유자
+         지시 — 코스피·코스닥 숫자를 페이지 두 곳에 흩어 보여주지 않기 위해). renderIndexPanels()는
+         DOM 위치와 무관하게 id로 찾아 그리므로 여기 있던 자리는 지운다. -->
 
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
@@ -807,22 +813,8 @@
       </div>
     </section>
 
-    <!-- 📄 오늘의 공시 — DART(금융감독원 전자공시)에서 자동 수집한 추적 종목의 오늘 공시.
-         홈에서는 "무슨 공시가 있었는지" 제목만 훑고, 자세한 내용은 해당 종목분석
-         화면(분석가별 근거 · 종합 판단)에서 확인하는 구조다. 한 장에 5건씩 넘겨 본다. -->
-    <section class="dart-board" id="dartBoard" aria-labelledby="dartBoardTitle" hidden>
-      <div class="db-head">
-        <h2 class="db-title" id="dartBoardTitle">오늘의 공시<span class="db-kicker">DART 자동 수집</span></h2>
-        <span class="db-count" id="dartBoardCount"></span>
-      </div>
-      <ol class="db-list" id="dartBoardList" aria-live="polite"></ol>
-      <div class="db-pager" id="dartBoardPager" hidden>
-        <button class="db-pg" id="dartPrev" type="button" aria-label="이전 공시 목록">‹ 이전</button>
-        <span class="db-page" id="dartPageLabel" aria-live="polite"></span>
-        <button class="db-pg" id="dartNext" type="button" aria-label="다음 공시 목록">다음 ›</button>
-      </div>
-      <p class="db-note">금융감독원 전자공시(DART)에서 자동으로 모은 원문 제목이에요. 공시는 참고 정보이며 매수·매도 판단을 바꾸는 점수로는 쓰지 않습니다.</p>
-    </section>
+    <!-- 📄 오늘의 공시 — 2026-09-03 소유자 지시로 홈에서 빼고 전체 메뉴 '오늘의 공시'
+         (#mode-disclosure, #disclosureView)로 옮겼다. 실제 #dartBoard 마크업은 그 화면 안에 있다. -->
     <div class="ad-slot ad-slot-home">
       <span class="ad-label">광고</span>
       <span class="ad-status">광고를 불러오는 중이에요.</span>
@@ -843,6 +835,7 @@
       <button class="modebtn" id="mode-market" type="button">오늘 시장</button>
       <button class="modebtn on" id="mode-single" type="button">종목 분석</button>
       <button class="modebtn" id="mode-deep" type="button">최근 정밀분석</button>
+      <button class="modebtn" id="mode-disclosure" type="button">오늘의 공시</button>
       <button class="modebtn" id="mode-compare" type="button">종목 비교</button>
       <button class="modebtn" id="mode-screener" type="button">스크리너</button>
       <button class="modebtn" id="mode-rotation" type="button">순환매</button>
@@ -1107,6 +1100,24 @@
   <section class="newsView marketView" id="marketView" aria-label="오늘 시장 분석">
     <div class="market" id="marketBox" style="display:none"></div>
   </section>
+  <section class="newsView disclosureView" id="disclosureView" aria-label="오늘의 공시">
+    <!-- 📄 오늘의 공시 — DART(금융감독원 전자공시)에서 자동 수집한 추적 종목의 오늘 공시.
+         제목과 쉬운 말 설명을 함께 보여주고, 자세한 내용은 DART 원문 링크로 이동해서 본다.
+         종목분석 화면(분석가별 근거)에서의 매칭 표시는 그대로 유지한다(이 화면과 무관). -->
+    <section class="dart-board" id="dartBoard" aria-labelledby="dartBoardTitle" hidden>
+      <div class="db-head">
+        <h2 class="db-title" id="dartBoardTitle">오늘의 공시<span class="db-kicker">DART 자동 수집</span></h2>
+        <span class="db-count" id="dartBoardCount"></span>
+      </div>
+      <ol class="db-list" id="dartBoardList" aria-live="polite"></ol>
+      <div class="db-pager" id="dartBoardPager" hidden>
+        <button class="db-pg" id="dartPrev" type="button" aria-label="이전 공시 목록">‹ 이전</button>
+        <span class="db-page" id="dartPageLabel" aria-live="polite"></span>
+        <button class="db-pg" id="dartNext" type="button" aria-label="다음 공시 목록">다음 ›</button>
+      </div>
+      <p class="db-note">금융감독원 전자공시(DART)에서 자동으로 모은 공시예요. 참고 정보이며 매수·매도 판단을 바꾸는 점수로는 쓰지 않습니다. 자세한 내용은 항목의 「DART 원문 보기」를 눌러 확인하세요.</p>
+    </section>
+  </section>
   <section class="newsView deepView" id="deepView" aria-label="최근 정밀분석">
     <section class="hda" id="homeDeepAnalysis" aria-labelledby="homeDeepAnalysisTitle">
       <button class="hda-head" id="hdaToggle" type="button" aria-expanded="true" aria-controls="homeDeepAnalysisList">
@@ -1269,7 +1280,7 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260903-p5" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="app.js?v=20260903-p6" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){

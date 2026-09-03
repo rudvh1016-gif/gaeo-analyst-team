@@ -1,0 +1,107 @@
+{
+ "home-light-desktop-1440": {
+  "idxNestedInBrief": true,
+  "idxAfterRotationPicks": true,
+  "dartInHomeDashboard": false,
+  "dartVisible": false,
+  "idxRows": 2,
+  "idxPos": {
+   "top": 710,
+   "h": 139
+  },
+  "briefMarketPos": {
+   "top": 665,
+   "h": 45
+  },
+  "homeBriefPos": {
+   "top": 856,
+   "h": 183
+  },
+  "expandedBodyText": "종가/캔들5일20일60일120일200일9,787.627,911.496,035.374,159.242,283.1105-3001-1609-03이동평균"
+ },
+ "home-light-mobile-390": {
+  "idxNestedInBrief": true,
+  "idxAfterRotationPicks": true,
+  "dartInHomeDashboard": false,
+  "dartVisible": false,
+  "idxRows": 2,
+  "idxPos": {
+   "top": 897,
+   "h": 132
+  },
+  "briefMarketPos": {
+   "top": 809,
+   "h": 88
+  },
+  "homeBriefPos": {
+   "top": 1037,
+   "h": 186
+  },
+  "expandedBodyText": "종가/캔들5일20일60일120일200일9,787.627,911.496,035.374,159.242,283.1105-3001-1609-03이동평균"
+ },
+ "home-dark-mobile-390": {
+  "idxNestedInBrief": true,
+  "idxAfterRotationPicks": true,
+  "dartInHomeDashboard": false,
+  "dartVisible": false,
+  "idxRows": 2,
+  "idxPos": {
+   "top": 897,
+   "h": 132
+  },
+  "briefMarketPos": {
+   "top": 809,
+   "h": 88
+  },
+  "homeBriefPos": {
+   "top": 1037,
+   "h": 186
+  },
+  "expandedBodyText": "종가/캔들5일20일60일120일200일9,787.627,911.496,035.374,159.242,283.1105-3001-1609-03이동평균"
+ },
+ "disclosure-mobile-390": {
+  "mode": "disclosure",
+  "contextTitle": "오늘의 공시",
+  "menuCurrent": "page",
+  "count": 5,
+  "sample": [
+   {
+    "nm": "현대차증권",
+    "tt": "임원ㆍ주요주주특정증권등소유상황보고서",
+    "explain": "회사 임원이나 주요 주주가 가진 주식 수가 바뀌었다는 신고예요. 사고팔 때마다 신고할 의무가 있어요.",
+    "hasLink": false
+   },
+   {
+    "nm": "코오롱글로벌",
+    "tt": "[기재정정]단일판매ㆍ공급계약체결 · 정정",
+    "explain": "다른 회사와 물건이나 서비스를 팔거나 공급하는 큰 계약을 맺었다는 공시예요. 회사 매출에 영향을 줄 수 있어요.",
+    "hasLink": false
+   }
+  ]
+ },
+ "disclosure-desktop-1440": {
+  "mode": "disclosure",
+  "contextTitle": "오늘의 공시",
+  "menuCurrent": "page",
+  "count": 5,
+  "sample": [
+   {
+    "nm": "현대차증권",
+    "tt": "임원ㆍ주요주주특정증권등소유상황보고서",
+    "explain": "회사 임원이나 주요 주주가 가진 주식 수가 바뀌었다는 신고예요. 사고팔 때마다 신고할 의무가 있어요.",
+    "hasLink": false
+   },
+   {
+    "nm": "코오롱글로벌",
+    "tt": "[기재정정]단일판매ㆍ공급계약체결 · 정정",
+    "explain": "다른 회사와 물건이나 서비스를 팔거나 공급하는 큰 계약을 맺었다는 공시예요. 회사 매출에 영향을 줄 수 있어요.",
+    "hasLink": false
+   }
+  ]
+ },
+ "menu-click": {
+  "mode": "disclosure",
+  "viewOn": true,
+  "items": 5
+ }
+}
