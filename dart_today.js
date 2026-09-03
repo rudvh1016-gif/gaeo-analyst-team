@@ -1,12 +1,28 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 09:48",
- "priceLabel": "2026-09-03 09:45 장중 · ⚠️ 1종목 지연",
- "count": 472,
+ "generatedAt": "2026-09-03 10:18",
+ "priceLabel": "2026-09-03 10:08 장중 · ⚠️ 1종목 지연",
+ "count": 474,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000810",
+   "name": "삼성화재",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T01:16:53.125785+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "032830",
+   "name": "삼성생명",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T01:16:53.125785+00:00",
+   "isCorrection": false
+  },
   {
    "code": "087010",
    "name": "펩트론",
