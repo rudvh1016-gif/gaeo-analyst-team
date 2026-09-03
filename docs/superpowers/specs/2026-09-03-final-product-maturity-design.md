@@ -28,7 +28,7 @@ Variant B인 `GAEO Editorial Ledger`를 채택한다. 문서와 데이터가 먼
 
 ### 밝은 화면
 
-- canvas: `#F7F7F5`
+- canvas: `#FFFFFF` (2026-09-03 소유자 결정: 사이트 전체 밝은 바탕은 순백. 초안의 `#F7F7F5`는 폐기)
 - surface: `#FFFFFF`
 - heading: `#111214`
 - text: `#24262B`

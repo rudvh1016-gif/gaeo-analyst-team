@@ -156,8 +156,11 @@ async function audit(page, name, width) {
     check(await app.locator('#analysisTabAgents').evaluate(element => document.activeElement === element), '분석 tablist가 오른쪽 화살표를 지원함');
     check(await app.locator('#analysisTabAgents').getAttribute('tabindex') === '0', '선택된 분석 tab의 tabindex가 0으로 동기화됨');
     await app.waitForFunction(() => document.querySelector('#card-nova')?.classList.contains('on'), null, { timeout: 15000 });
+    // 근거 줄 앞의 신호 표시(·/!/★, class fmk, aria-hidden="true")는 접근성 트리 밖의 장식 마커라
+    // 콘텐츠 emoji 검사 대상이 아니다. 어떤 종목의 근거 문장에 '급등·신고가' 같은 키워드가 있는 날만
+    // ★가 렌더돼 이 검사가 데이터에 따라 흔들렸다(2026-09-03 확인). aria-hidden 요소는 제외한다.
     const findingEmoji = await app.locator('#analysisPanelAgents').evaluate(panel => [...panel.querySelectorAll('*')]
-      .filter(element => !element.children.length && element.getClientRects().length)
+      .filter(element => !element.children.length && element.getClientRects().length && !element.closest('[aria-hidden="true"]'))
       .map(element => (element.textContent || '').replace(/⚠️|▶/gu, ''))
       .filter(text => /[\p{Extended_Pictographic}]/u.test(text)));
     check(findingEmoji.length === 0, `분석 근거에 장식용 emoji가 없음: ${findingEmoji.join(' | ')}`);
@@ -237,7 +240,9 @@ async function audit(page, name, width) {
     });
     check(darkRatios.body >= 4.5 && darkRatios.subtle >= 4.5, 'dark mode 편집 텍스트 대비가 4.5:1 이상임');
     await app.goto(BASE + '/about.html', { waitUntil: 'domcontentloaded' });
-    await app.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() === '#8b8b94');
+    // About은 다른 화면과 같은 편집형 밝은 토큰을 기본으로 쓴다(--editorial-subtle #606873).
+    // 예전 값 #8b8b94는 About만 강제 다크로 두던 html.about-page 오버라이드의 흔적이었다.
+    await app.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() === '#606873');
     const aboutMutedRatio = await app.evaluate(() => {
       const parse = value => {
         const hex = value.trim().replace('#', '');

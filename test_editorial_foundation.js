@@ -34,7 +34,7 @@ for (const id of [
 }
 
 for (const token of [
-  '--editorial-canvas:#F7F7F5', '--editorial-surface:#FFFFFF',
+  '--editorial-canvas:#FFFFFF', '--editorial-surface:#FFFFFF',
   '--editorial-heading:#111214', '--editorial-text:#24262B',
   '--editorial-secondary:#555B66', '--editorial-muted:#6B7280',
   '--editorial-divider:#E4E6EA', '--editorial-control-radius:8px',
