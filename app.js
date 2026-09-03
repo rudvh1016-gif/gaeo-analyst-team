@@ -5548,6 +5548,43 @@ const DART_AXIS_RULES=[
    re:/보고서|실적|결산|배당|증자|사채|합병|분할|양수도|취득|처분|투자판단|공급계약|수주|설명회|IR|기업가치|임상|승인/}
 ];
 const DART_AXIS_NAME={diana:'재무',flow:'수급',risk:'리스크'};
+/* 2026-09-03 소유자 지시 — "공시내용을 훨씬 구체적으로": DART 제목은 법률 용어라
+   "임원ㆍ주요주주특정증권등소유상황보고서" 같은 제목만 봐선 무슨 뜻인지 알기 어렵다.
+   본문 전체를 새로 가져오는 건 오늘 범위 밖(DART 원문 문서를 종목마다 내려받아 파싱해야
+   해서 별도 파이프라인·예산 검토가 필요)이라, 대신 ① 제목 패턴을 쉬운 한 줄 설명으로
+   바꾸고 ② 항목마다 DART 공식 원문 링크(rceptNo 있을 때만)를 붙여 "더 구체적으로" 요청을
+   충족한다. dartAxisOf와 같은 스타일로, 위에서부터 먼저 맞는 규칙을 쓴다. */
+const DART_EXPLAIN_RULES=[
+  {re:/자기주식.*(신탁|처분)|자사주.*(신탁|처분)/, text:'회사가 갖고 있던 자기 주식을 다시 팔거나, 증권사에 사달라고 신탁 계약을 맺었다는 공시예요.'},
+  {re:/자기주식|자사주/, text:'회사가 자기 회사 주식을 사들이기로 했다는 공시예요. 흔히 주가를 방어하려는 신호로 읽혀요.'},
+  {re:/임원.*소유상황|특정증권등소유상황/, text:'회사 임원이나 주요 주주가 가진 주식 수가 바뀌었다는 신고예요. 사고팔 때마다 신고할 의무가 있어요.'},
+  {re:/대량보유상황/, text:"이 회사 주식을 5% 넘게 가진 주주의 지분이 바뀌었다는 신고예요(이른바 '5%룰')."},
+  {re:/최대주주.*변경|경영권.*변경/, text:'이 회사의 최대주주(가장 많은 지분을 가진 주주)가 바뀌었다는 공시예요.'},
+  {re:/단일판매|공급계약|수주/, text:'다른 회사와 물건이나 서비스를 팔거나 공급하는 큰 계약을 맺었다는 공시예요. 회사 매출에 영향을 줄 수 있어요.'},
+  {re:/유상증자/, text:'회사가 새 주식을 발행해서 투자자에게 돈을 받고 팔기로 했다는 공시예요(유상증자). 전체 주식 수가 늘어나요.'},
+  {re:/무상증자/, text:'주주들에게 공짜로 새 주식을 나눠주기로 했다는 공시예요(무상증자). 회사에 새 돈이 들어오지는 않아요.'},
+  {re:/전환사채|신주인수권부사채|교환사채/, text:'나중에 주식으로 바꿀 수 있는 채권(빌린 돈 증서)을 발행해서 자금을 조달했다는 공시예요.'},
+  {re:/타법인.*취득|출자증권.*취득/, text:'다른 회사의 주식이나 지분을 사들이기로 했다는 공시예요(투자 또는 인수).'},
+  {re:/영업양수도|자산양수도/, text:'회사의 사업이나 자산 일부를 사고팔기로 했다는 공시예요.'},
+  {re:/합병/, text:'다른 회사와 합치기로(합병) 했다는 공시예요.'},
+  {re:/분할/, text:'회사를 둘 이상으로 나누기로(분할) 했다는 공시예요.'},
+  {re:/감사보고서/, text:'회계법인이 이 회사 재무제표를 검사한 결과를 담은 보고서예요.'},
+  {re:/사업보고서/, text:'회사가 1년 치 사업 내용과 재무 상태를 정리해 낸 정기 보고서예요.'},
+  {re:/분기보고서|반기보고서/, text:'회사가 분기나 반기마다 내는 실적·재무 정기 보고서예요.'},
+  {re:/영업\(잠정\)실적|매출액.*손익구조/, text:'회사의 매출이나 이익이 크게 바뀌었다는 실적 공시예요.'},
+  {re:/현금.*배당|현물.*배당|배당결정/, text:'주주에게 회사 이익을 나눠주는 배당을 하기로 했다는 공시예요.'},
+  {re:/주주총회/, text:'주주들이 모여 회사의 중요한 일을 결정하는 주주총회 관련 공시예요.'},
+  {re:/풍문|보도.*해명/, text:'떠도는 소문이나 언론 보도 내용이 사실인지 회사가 직접 밝힌 공시예요.'},
+  {re:/조회공시/, text:'거래소가 소문·보도가 사실인지 회사에 물어본 데 대한 답변 공시예요.'},
+  {re:/소송/, text:'이 회사가 소송을 당했거나 소송을 냈다는 공시예요.'},
+  {re:/정정|기재정정/, text:'전에 낸 공시 내용 중 일부를 고쳐서 다시 낸 정정 공시예요.'},
+  {re:/기업설명회|IR/i, text:'투자자에게 회사 사업을 설명하는 자리(기업설명회)를 연다는 공시예요.'},
+];
+function dartExplain(title){
+  const t=String(title||'');
+  for(const r of DART_EXPLAIN_RULES) if(r.re.test(t)) return r.text;
+  return '금융감독원에 제출한 공식 공시예요. 자세한 내용은 DART 원문에서 확인할 수 있어요.';
+}
 /* 한국어 조사 — 받침이 있으면 '과', 없으면 '와'. ('수급와' 같은 어색한 표기를 막는다) */
 function josaGwa(word){
   const ch=String(word||'').trim().slice(-1);
@@ -5570,7 +5607,10 @@ function dartTodayItems(){
       const ax=dartAxisOf(it.title);
       return {code:it.code, name:it.name||it.code, title:it.title,
         receiptDate:it.receiptDate||'', isCorrection:!!it.isCorrection,
-        detectedAt:it.detectedAt||'', axis:ax.axis, axisLabel:ax.label};
+        detectedAt:it.detectedAt||'', axis:ax.axis, axisLabel:ax.label,
+        // 2026-09-03: rceptNo는 analyze_auto.py가 다음 자동 수집부터 채운다. 옛 스냅샷에는
+        // 없을 수 있어 빈 문자열로 안전하게 받는다(렌더 쪽에서 없으면 원문 링크를 그냥 생략).
+        rceptNo:it.rceptNo||''};
     });
   }
   // ② 스냅샷이 아직 없으면(구버전 배포 등) 이미 받아 둔 자동분석에서 직접 만든다.
@@ -5643,10 +5683,16 @@ function renderDartBoard(){
   list.innerHTML=page.map(it=>{
     const r=String(it.receiptDate||'');
     const day=r.length===8?`${r.slice(4,6)}.${r.slice(6,8)}`:'';
+    // 2026-09-03 소유자 지시: 법률 용어 제목만으로는 뭔지 알기 어려워 쉬운 말 설명을 한 줄 더 붙이고,
+    // rceptNo가 있으면(다음 자동 수집부터 채워짐) DART 공식 원문으로 가는 링크를 함께 보여준다.
+    const dartUrl=it.rceptNo?`https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${encodeURIComponent(it.rceptNo)}`:'';
     return `<li class="db-item" data-go="${esc(it.name)}" data-code="${esc(it.code)}" tabindex="0" role="link"`
       +` aria-label="${esc(it.name)} 공시: ${esc(it.title)} — 종목분석으로 이동">`
       +`<span class="db-main"><span class="db-nm">${esc(it.name)}</span>`
-      +`<span class="db-tt">${esc(it.title)}${it.isCorrection?' <span class="db-fix">· 정정</span>':''}</span></span>`
+      +`<span class="db-tt">${esc(it.title)}${it.isCorrection?' <span class="db-fix">· 정정</span>':''}</span>`
+      +`<span class="db-explain">${esc(dartExplain(it.title))}</span>`
+      +(dartUrl?`<a class="db-orig" href="${esc(dartUrl)}" target="_blank" rel="noopener noreferrer" data-dart-orig>DART 원문 보기 ↗</a>`:'')
+      +`</span>`
       +`<span class="db-meta">${esc(day)}<span class="db-axis">${esc(it.axisLabel)}</span></span></li>`;
   }).join('');
   if(pager){
@@ -5664,13 +5710,20 @@ function renderDartBoard(){
   const list=document.getElementById('dartBoardList');
   // 이동은 사이트의 기존 방식(jumpToStock)을 그대로 쓴다 — 종목명으로 검색창을 채우고
   // 단일 분석 모드로 넘어가는 동작이라 다른 위젯(캘린더·변화 보드)과 완전히 같다.
-  const go=el=>{ const row=el&&el.closest?el.closest('.db-item'):null;
+  const go=el=>{
+    // 2026-09-03: "DART 원문 보기" 링크 클릭은 종목분석 이동과 별개다 — 링크의 기본 동작(새 탭 열기)만
+    // 하게 두고, 여기서 jumpToStock까지 같이 실행되지 않도록 막는다.
+    if(el&&el.closest&&el.closest('[data-dart-orig]')) return;
+    const row=el&&el.closest?el.closest('.db-item'):null;
     const name=row&&row.dataset.go;
     if(!name) return;
     try{ jumpToStock(name); if(typeof SFX!=='undefined') SFX.click(); }catch(e){ console.warn('dart go', e); } };
   if(list){
     list.addEventListener('click', e=>go(e.target));
-    list.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(e.target); } });
+    list.addEventListener('keydown', e=>{
+      if(e.target.closest&&e.target.closest('[data-dart-orig]')) return; // 링크는 기본 Enter 동작 그대로
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(e.target); }
+    });
   }
 })();
 window.renderDartBoard=renderDartBoard;
@@ -9675,10 +9728,11 @@ window.renderScreener=function(){
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
           latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog',
-          paper=mode==='paper', market=mode==='market', deep=mode==='deep';
+          paper=mode==='paper', market=mode==='market', deep=mode==='deep', disclosure=mode==='disclosure';
     const sectionCopy={
       market:['코스피·코스닥을 한눈에','오늘 시장','시장국면과 날짜별 시장 분석 기록을 확인해 보세요. 지수 수치는 홈 브리핑과 같은 기준이에요.'],
       deep:['직접 지정해 더 깊게 본 종목','최근 정밀분석','팀이 직접 지정해 더 깊게 확인한 종목의 최신 정밀분석 5건과 전체 기록으로 가는 길이에요.'],
+      disclosure:['금융감독원에 오늘 올라온 공시','오늘의 공시','추적 종목이 오늘 낸 공식 공시를 쉬운 말 설명과 함께 확인해 보세요.'],
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       watch:['내 종목에서 달라진 것만','내 종목 관리','저장한 관심종목의 오늘 판단 변화와 점수를 한곳에서 확인하세요.'],
       guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
@@ -9710,7 +9764,7 @@ window.renderScreener=function(){
       portfolio:'포트폴리오',latest:'최근 뉴스·공부 자료',news:'뉴스 분석',study:'종목 공부',lesson:'주식 공부',
       estate:'부동산 공부',calc:'금융 계산기',screener:'종목 스크리너',rotation:'순환매',rates:'등락률 확인',
       scorecard:'개오 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록',
-      market:'오늘 시장',deep:'최근 정밀분석'};
+      market:'오늘 시장',deep:'최근 정밀분석',disclosure:'오늘의 공시'};
     const contextTitle=document.getElementById('contextTitle');
     if(contextTitle){ contextTitle.textContent=contextTitles[mode]||copy[1]; contextTitle.hidden=single; }
     const stockHeading=document.getElementById('qname');
@@ -9748,6 +9802,7 @@ window.renderScreener=function(){
     document.getElementById('mode-changelog').classList.toggle('on',changelog);
     document.getElementById('mode-market')?.classList.toggle('on',market);
     document.getElementById('mode-deep')?.classList.toggle('on',deep);
+    document.getElementById('mode-disclosure')?.classList.toggle('on',disclosure);
     document.getElementById('guideView').classList.toggle('on',guide);
     window.GaeoCurrentMode=mode;
     if(guide){
@@ -9786,7 +9841,9 @@ window.renderScreener=function(){
     document.getElementById('changelogView').classList.toggle('on',changelog);
     document.getElementById('marketView')?.classList.toggle('on',market);
     document.getElementById('deepView')?.classList.toggle('on',deep);
+    document.getElementById('disclosureView')?.classList.toggle('on',disclosure);
     if(market&&typeof renderMarket==='function') renderMarket();
+    if(disclosure&&typeof renderDartBoard==='function') renderDartBoard();
     if(portfolio){
       // 포트폴리오의 지지·저항·위험 표는 전체 지표를 쓴다(홈 경량본에 없다).
       if(typeof ensureIndicators==='function') ensureIndicators();
@@ -9828,8 +9885,8 @@ window.renderScreener=function(){
     screener:'screenerView', rates:'rateView', scorecard:'scorecardView',
     paper:'paperView', calendar:'calendarView', community:'communityView',
     changelog:'changelogView',
-    // 2026-09-03 소유자 지시: 시장 분석·최근 정밀분석은 홈에서 빠져 별도 화면이 됐다.
-    market:'marketView', deep:'deepView',
+    // 2026-09-03 소유자 지시: 시장 분석·최근 정밀분석·오늘의 공시는 홈에서 빠져 별도 화면이 됐다.
+    market:'marketView', deep:'deepView', disclosure:'disclosureView',
     // 순환매는 서브탭(순환매 판단 | 전체시장 흐름)에 따라 보이는 쪽이 달라진다.
     rotation:['rotationView','fullMarketView']
   };
@@ -9896,6 +9953,7 @@ window.renderScreener=function(){
   // 2026-09-03 소유자 지시: '오늘 시장'(시장 분석)·'최근 정밀분석'은 홈이 아니라 전체 메뉴의 별도 화면에서 본다.
   document.getElementById('mode-market').onclick=()=>{setMode('market'); SFX.click(); GaeoScrollToMode('market');};
   document.getElementById('mode-deep').onclick=()=>{setMode('deep'); SFX.click(); GaeoScrollToMode('deep');};
+  document.getElementById('mode-disclosure').onclick=()=>{setMode('disclosure'); SFX.click(); GaeoScrollToMode('disclosure');};
   document.querySelector('.modes')?.addEventListener('click',event=>{
     if(!event.target.closest('.modebtn')) return;
     setTimeout(()=>{
@@ -10883,8 +10941,8 @@ function gaeoFootTools(){
     else if(['compare','portfolio','screener','calendar','community'].includes(m)){
       window.setMode(m);
     }
-    // 2026-09-03: 홈에서 빠진 '오늘 시장'(?m=market)·'최근 정밀분석'(?m=deep) 화면 딥링크.
-    else if(m==='market'||m==='deep'){ window.setMode(m); }
+    // 2026-09-03: 홈에서 빠진 '오늘 시장'(?m=market)·'최근 정밀분석'(?m=deep)·'오늘의 공시'(?m=disclosure) 화면 딥링크.
+    else if(m==='market'||m==='deep'||m==='disclosure'){ window.setMode(m); }
     if(['news','study','lesson','estate','calc'].includes(m)&&id) syncContentMetadata(m,id);
     // 동적 글자 조각까지 준비된 뒤 보이면 폰트 swap으로 줄바꿈이 바뀌지 않는다.
     try{await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,1200))]);}catch(e){}

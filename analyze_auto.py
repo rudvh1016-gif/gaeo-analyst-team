@@ -1256,6 +1256,7 @@ def main():
                 name = item.get("name")
                 if not name or name in ("N/A", "-", ""):
                     continue
+                rcept_no = item.get("rceptNo") or ""
                 dart_rows.append({
                     "code": code,
                     "name": ticker_names.get(code) or code,
@@ -1263,6 +1264,16 @@ def main():
                     "receiptDate": item.get("receiptDate") or "",
                     "detectedAt": item.get("detectedAt") or "",
                     "isCorrection": bool(item.get("isCorrection")),
+                    # 2026-09-03 소유자 지시("공시내용을 훨씬 구체적으로"): 본문 전체를 새로 가져오는
+                    # 대신, 이미 갖고 있던 접수번호로 DART 공식 원문 링크를 만들 수 있게 실어 보낸다.
+                    # dart_context_loader.public_event_summary()가 이미 rceptNo를 채워 두므로
+                    # 새 네트워크 호출은 없다. N/A(공개 안 됨)면 빈 문자열로 둔다 — 화면(app.js
+                    # dartTodayItems/renderDartBoard)이 빈 값이면 원문 링크를 그냥 생략한다.
+                    # ⚠️ "NOT_AVAILABLE"은 DART 수집 쪽 공용 상수와 같은 값이다(리터럴로 비교).
+                    #    이 파일은 그 모듈을 직접 import하지 않고 dart_context_loader를 통해서만
+                    #    쓴다 — 이 파일 소스 어디에도(주석 포함) DART 원본 수집 모듈 이름이 직접
+                    #    등장하면 안 된다는 계약이 별도 테스트로 고정돼 있다.
+                    "rceptNo": rcept_no if rcept_no and rcept_no != "NOT_AVAILABLE" else "",
                 })
         # 최신 탐지 순 → 같으면 종목명 순. 화면에서 다시 정렬하지 않아도 되게 여기서 확정한다.
         dart_rows.sort(key=lambda r: (r["detectedAt"], r["name"]), reverse=True)

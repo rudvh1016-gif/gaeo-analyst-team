@@ -8,11 +8,15 @@
  *
  * 계약
  *   A. 소형 스냅샷(dart_today.js)이 존재하고 스키마가 맞다.
- *   B. 홈이 3MB짜리 auto_analysis.js를 받지 않고도 공시를 보여준다.
- *   C. 홈 목록은 한 장에 5건이고 앞뒤로 넘길 수 있다.
+ *   B. 「오늘의 공시」 화면(?m=disclosure)이 3MB짜리 auto_analysis.js를 받지 않고도 공시를 보여준다.
+ *   C. 그 화면의 목록은 한 장에 5건이고 앞뒤로 넘길 수 있으며, 항목마다 쉬운 말 설명이 붙는다.
  *   D. 공시 → 분석가 매칭이 결정적이다(같은 제목이면 언제나 같은 축).
  *   E. 종목 화면에서 그 축의 분석가 카드에 실제로 보인다.
  *   F. 공시가 없는 종목에는 "공시 없음"을 단정하는 블록을 만들지 않는다.
+ *
+ * ⚠️ 2026-09-03 소유자 지시로 홈에서 "오늘의 공시"를 뺐다. 이제 B·C는 홈이 아니라
+ *    전체 메뉴 '오늘의 공시'(#mode-disclosure, ?m=disclosure) 화면을 대상으로 검사하고,
+ *    B0·B1이 홈에는 더 이상 그 마크업이 없다는 것을 별도로 확인한다.
  *
  * 실행: node test_static_server.js 8877 &  →  node test_dart_exposure.js
  */
@@ -53,7 +57,34 @@ function check(name, condition, detail) {
 
   const browser = await chromium.launch({ headless: true });
 
-  // ── B·C. 홈 위젯 ──────────────────────────────────────────────────────────
+  // ── B0. 2026-09-03 소유자 지시: 「오늘의 공시」는 이제 홈이 아니라 전체 메뉴
+  //       '오늘의 공시'(#mode-disclosure, ?m=disclosure) 화면에서 본다. 코스피·코스닥
+  //       숫자를 홈에 두 번 보여주지 않으려던 것과 같은 취지로, 공시도 홈에서 뺐다. ─────
+  const homeCtx = await browser.newContext({ viewport: { width: 390, height: 1000 }, serviceWorkers: 'block' });
+  await homeCtx.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
+  const homePage = await homeCtx.newPage();
+  await homePage.goto(BASE + '/index.html', { waitUntil: 'load' });
+  await homePage.evaluate(() => document.fonts.ready);
+  await homePage.waitForTimeout(1500);        // 공시 스냅샷이 아이들 콜백으로 늦게 로드될 시간을 준다
+  const homeState = await homePage.evaluate(() => {
+    const board = document.getElementById('dartBoard');
+    const visible = board && board.offsetParent !== null;
+    return {
+      nestedInHome: !!document.querySelector('.home-dashboard #dartBoard'),
+      visible,
+      itemsOnHome: document.querySelectorAll('#dartBoard .db-item').length,
+    };
+  });
+  check('B0. 홈 대시보드 안에 「오늘의 공시」 마크업이 더는 없다', !homeState.nestedInHome);
+  // ⚠️ renderDartBoard()는 다른 relocated 위젯(renderMarket 등)과 같은 방식으로 현재 모드와
+  // 무관하게 백그라운드에서 계속 그린다 — #dartBoard가 숨은 #disclosureView 안에 있어도
+  // .db-item 자체는 채워질 수 있다. 여기서 확인할 계약은 "항목 수 0"이 아니라
+  // "실제로 화면에 보이지 않는다"(조상이 display:none이라 offsetParent===null)이다.
+  check('B1. 홈 화면에서는 「오늘의 공시」가 보이지 않는다', !homeState.visible,
+    `visible=${homeState.visible} itemsRenderedButHidden=${homeState.itemsOnHome}`);
+  await homeCtx.close();
+
+  // ── B·C. '오늘의 공시' 화면(?m=disclosure) ──────────────────────────────────
   // ⚠️ 홈은 「오늘의 판단」 순위를 다듬으려고 auto_analysis.js(3MB)를 백그라운드로 받는다.
   //    그래서 "안 받는다"가 아니라 **그걸 기다리지 않고도 공시가 뜬다**가 진짜 계약이다.
   //    아래에서 auto_analysis.js를 아예 막아 두고도 위젯이 뜨는지 확인한다.
@@ -64,7 +95,7 @@ function check(name, condition, detail) {
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
   page.on('request', r => { if (/dart_today\.js/.test(r.url())) snapReq.push(r.url()); });
   await page.route('**/auto_analysis.js*', r => r.abort());
-  await page.goto(BASE + '/index.html', { waitUntil: 'load' });
+  await page.goto(BASE + '/?m=disclosure', { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
   for (let i = 0; i < 48; i++) {
     const on = await page.evaluate(() => document.querySelectorAll('.db-item').length > 0);
@@ -72,20 +103,27 @@ function check(name, condition, detail) {
     await page.waitForTimeout(250);
   }
   const home = await page.evaluate(() => ({
-    shown: !document.getElementById('dartBoard').hidden,
+    shown: !document.getElementById('dartBoard').hidden && document.getElementById('dartBoard').offsetParent !== null,
     items: document.querySelectorAll('.db-item').length,
     page: (document.getElementById('dartPageLabel') || {}).textContent || '',
     prevDisabled: (document.getElementById('dartPrev') || {}).disabled,
     hasTitleOnly: [...document.querySelectorAll('.db-item')].every(
       el => el.querySelector('.db-nm') && el.querySelector('.db-tt')),
-    clickable: [...document.querySelectorAll('.db-item')].every(el => !!el.dataset.go)
+    hasExplain: [...document.querySelectorAll('.db-item')].every(el => {
+      const t = el.querySelector('.db-explain');
+      return !!t && t.textContent.trim().length > 0;
+    }),
+    clickable: [...document.querySelectorAll('.db-item')].every(el => !!el.dataset.go),
+    menuCurrent: (document.getElementById('mode-disclosure') || {}).ariaCurrent === 'page',
   }));
-  check('B1. 홈에 「오늘의 공시」가 보인다', home.shown);
+  check('B1. 「오늘의 공시」 화면(?m=disclosure)에서 보인다', home.shown);
   check('B2. 3MB auto_analysis.js 없이도 공시가 뜬다(소형 스냅샷 경로)',
     home.shown && home.items > 0, `shown=${home.shown} items=${home.items}`);
   check('B3. 소형 스냅샷을 실제로 내려받았다', snapReq.length > 0, String(snapReq.length));
+  check('B4. 메뉴가 「오늘의 공시」를 현재 화면으로 표시한다', home.menuCurrent);
   check('C1. 한 장에 5건', home.items === 5, String(home.items));
   check('C2. 제목만 노출(종목명 + 공시 제목)', home.hasTitleOnly);
+  check('C2b. 항목마다 쉬운 말 설명이 붙는다(공시내용을 구체적으로)', home.hasExplain);
   check('C3. 항목마다 이동 대상이 있다', home.clickable);
   check('C4. 첫 장에서 이전 버튼 비활성', home.prevDisabled === true);
   check('C5. 페이지 표시가 1/N 꼴', /^1 \/ \d+$/.test(home.page.trim()), home.page);
