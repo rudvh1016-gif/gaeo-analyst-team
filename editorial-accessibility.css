@@ -266,7 +266,8 @@ body :where(.trust-strip,.activity-board,.eval-pop,.hdb-sheet){border-radius:12p
 body .foot{border-top:1px solid var(--editorial-rule);color:var(--editorial-subtle)}
 body .foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;padding:14px 0 28px;font-size:12.5px}
 body .foot-links a{display:inline-flex;align-items:center;min-width:24px;min-height:44px;padding-inline:3px;color:var(--editorial-subtle)!important;font-weight:600;text-decoration:none}
-body .context-title{max-width:1180px;margin:34px auto 8px;color:var(--editorial-ink);font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.15;letter-spacing:-.04em}
+/* 2026-09-03 소유자 지시(3차 글자 축소): 화면 제목 clamp(30px,4vw,46px) → clamp(24px,3vw,30px) */
+body .context-title{max-width:1180px;margin:34px auto 8px;color:var(--editorial-ink);font-size:clamp(24px,3vw,30px);font-weight:600;line-height:1.15;letter-spacing:-.04em}
 body .fm-mode-title{display:none}
 body .cat-card,
 body .nw-head{width:100%;border:0;background:transparent;color:inherit;text-align:left}
@@ -287,7 +288,13 @@ body .fullmarket-view :where(p,small,dt,dd,li,summary,label,button,em,span,stron
 body .rotation-view :where(div,h4,th,td){font-size:12px!important}
 body .fullmarket-view :where(div,h4,th,td){font-size:12px!important}
 body .rotation-view svg text{font-size:12px!important}
-body .rotation-view :where(.rot-card-primary,.rot-card-today-value){font-size:18px!important}
+body .rotation-view :where(.rot-card-primary,.rot-card-today-value){font-size:16px!important}
+/* 2026-09-03 소유자 지시(3차 글자 축소): 작은 화면의 화면 제목·순환매 카드·순환매 머리글 */
+@media(max-width:620px){
+  body .context-title{font-size:22px}
+  body .rotation-view :where(.rot-card-primary,.rot-card-today-value){font-size:15px!important}
+  body .rot-hero h2{font-size:17px}
+}
 body .rotation-view :where(.rot-rank-score,.rot-detail-score strong){font-size:14px!important}
 body .rotation-view .rot-detail-title>strong{font-size:22px!important}
 body .rotation-view .rot-factor-value b{font-size:16px!important}

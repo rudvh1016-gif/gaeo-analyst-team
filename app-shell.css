@@ -2521,25 +2521,25 @@
   }
 
   /* ── 모바일: PC 버전 강제보기 토글 (물리적으로 작은 화면에서만 JS가 노출) ── */
-  .pc-toggle{position:fixed;right:12px;bottom:12px;z-index:500;
-    background:rgba(8,47,82,.88);color:#fff;border:none;border-radius:99px;
-    padding:7px 11px;font-size:10.5px;font-weight:500;letter-spacing:.01em;
-    box-shadow:0 5px 16px -4px rgba(0,0,0,.4);cursor:pointer;font-family:inherit;
-    display:flex;align-items:center;gap:4px;transition:transform .15s,filter .15s;
-    backdrop-filter:blur(3px)}
+  /* 2026-09-03 소유자 지시: 화면을 따라다니지 않는다 — 푸터 도구 줄(.foot-tools)의 정적 버튼 */
+  .foot-tools{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+  .pc-toggle{position:static;
+    background:var(--editorial-control-bg,#15171B);color:var(--editorial-control-fg,#fff);border:none;border-radius:99px;
+    min-height:36px;padding:0 14px;font-size:12px;font-weight:500;letter-spacing:.01em;
+    box-shadow:none;cursor:pointer;font-family:inherit;
+    display:inline-flex;align-items:center;gap:4px;transition:filter .15s}
   .pc-toggle:hover{filter:brightness(1.15)}
   .pc-toggle:active{transform:scale(.96)}
   html.force-desktop .pc-toggle{background:var(--sky)}
 
   /* ── 공유 버튼 (모든 화면 공통, 좌측 하단 원형 · pc-toggle과 자리 겹치지 않게) ── */
-  .share-fab{position:fixed;left:12px;bottom:12px;z-index:500;
-    width:44px;height:44px;border-radius:50%;border:none;
-    background:var(--sky);color:#fff;font-size:19px;cursor:pointer;
-    box-shadow:0 5px 16px -4px rgba(0,0,0,.4);transition:transform .15s,filter .15s;
-    display:flex;align-items:center;justify-content:center}
+  .share-fab{position:static;
+    min-height:36px;padding:0 14px;border-radius:99px;border:none;
+    background:var(--sky);color:#fff;font-size:12px;font-weight:600;cursor:pointer;
+    box-shadow:none;transition:filter .15s;font-family:inherit;
+    display:inline-flex;align-items:center;justify-content:center}
   .share-fab:hover{filter:brightness(1.1)}
-  .share-fab:active{transform:scale(.92)}
-  @media (min-width:1280px){.share-fab{left:78px}}
+  .share-fab:active{transform:scale(.98)}
 
   /* ── 마이크로 인터랙션 폴리시 ── */
   html{scroll-behavior:smooth}
@@ -3485,12 +3485,33 @@
   .home-daily-brief .hda-empty{padding:12px 0;color:var(--color-text-tertiary);font-size:11px}
   .home-daily-brief .hda-more{display:inline-block;margin-top:10px;color:var(--color-text-secondary);font-size:11px;font-weight:600;text-decoration:none}
   .home-daily-brief .hda-more:hover,.home-daily-brief .hda-more:focus-visible{color:var(--color-accent)}
+  /* 2026-09-03: '최근 정밀분석' 화면(#deepView) — 홈 브리핑과 같은 목록 문법 */
+  .deepView .hda{max-width:720px}
+  .deepView .hda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;width:100%;margin:0;padding:0 0 10px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:default}
+  .deepView .hda-title{font-size:15px;font-weight:600;letter-spacing:-.025em}
+  .deepView .hda-desc{margin:4px 0 0;color:var(--color-text-secondary);font-size:12px;line-height:1.5}
+  .deepView .hda-list{display:flex;flex-direction:column}
+  .deepView .hda-chevron{display:none}
+  /* 화면 제목(#contextTitle)이 이미 '최근 정밀분석'이라 섹션 제목은 보조기기에만 남기고 설명만 보인다 */
+  .deepView .hda-title{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .deepView .hda-desc{margin:0}
+  .deepView .hda-row{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-bottom:1px solid var(--color-border);color:inherit;text-decoration:none}
+  .deepView .hda-row:first-child{border-top:1px solid var(--color-border)}
+  .deepView .hda-row:hover .hda-name,.deepView .hda-row:focus-visible .hda-name{color:var(--color-accent)}
+  .deepView .hda-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center}
+  .deepView .hda-name{min-width:0;overflow:hidden;font-weight:600;font-size:13px;text-overflow:ellipsis;white-space:nowrap}
+  .deepView .hda-date{color:var(--color-text-tertiary);font-size:12px;font-variant-numeric:tabular-nums}
+  .deepView .hda-summary{color:var(--color-text-secondary);font-size:12px;font-weight:400;line-height:1.55}
+  .deepView .hda-empty{padding:12px 0;color:var(--color-text-tertiary);font-size:12px}
+  .deepView .hda-more{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--color-text-secondary);font-size:12px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+  .deepView .hda-more:hover,.deepView .hda-more:focus-visible{color:var(--color-accent)}
+  .marketView .market{display:block}
   .home-daily-brief .hdb-decision-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
   .home-daily-brief .hdb-decision-head strong{font-size:15px;letter-spacing:-.025em}
   .home-daily-brief .hdb-decision-head span{color:var(--color-text-secondary);font-size:11px;font-weight:500}
   .home-daily-brief .hdb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
   .home-daily-brief .hdb-stat{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:0;border:0;background:none;color:var(--color-text-primary);text-align:left;cursor:pointer}
-  .home-daily-brief .hdb-stat strong{font-size:30px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+  .home-daily-brief .hdb-stat strong{font-size:26px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.05em}
   .home-daily-brief .hdb-stat span{color:var(--color-text-secondary);font-size:10.5px;font-weight:600;letter-spacing:.08em}
   .home-daily-brief .hdb-stat:hover strong,.home-daily-brief .hdb-stat:focus-visible strong{color:var(--color-accent)}
   .home-daily-brief .hdb-distribution{display:flex;height:3px;margin:13px 0 10px;overflow:hidden;background:var(--color-bg-subtle)}
@@ -3534,7 +3555,7 @@
     .home-daily-brief .hdb-title-row{align-items:flex-start;flex-direction:column;gap:4px}
     .home-daily-brief .hdb-context{padding-right:0}
     .home-daily-brief .hdb-decisions{margin-top:24px;padding:22px 0 0;border-top:1px solid var(--color-border);border-left:0}
-    .home-daily-brief .hdb-stat strong{font-size:27px}
+    .home-daily-brief .hdb-stat strong{font-size:23px}
     .home-daily-brief .brief-line{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 0}
     .home-daily-brief .brief-line::before{font-size:12px;line-height:1.45}
     .home-daily-brief .brief-line span{font-size:13px;line-height:1.58}
