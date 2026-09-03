@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 13:18",
- "priceLabel": "2026-09-03 13:13 장중 · ⚠️ 1종목 지연",
- "count": 479,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-03 13:48",
+ "priceLabel": "2026-09-03 13:36 장중 · ⚠️ 1종목 지연",
+ "count": 481,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "171090",
+   "name": "선익시스템",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "171090",
+   "name": "선익시스템",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -320,22 +384,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "021240",
    "name": "코웨이",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
@@ -405,14 +453,6 @@ const DART_TODAY = {
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T06:32:41.450472+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": false
   },
   {
@@ -491,14 +531,6 @@ const DART_TODAY = {
    "code": "005940",
    "name": "NH투자증권",
    "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": false
@@ -590,14 +622,6 @@ const DART_TODAY = {
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T05:02:37.276711+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
   },
   {
    "code": "001200",
@@ -779,14 +803,6 @@ const DART_TODAY = {
    "code": "100840",
    "name": "SNT에너지",
    "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
