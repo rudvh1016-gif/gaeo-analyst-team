@@ -1,12 +1,60 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 14:18",
- "priceLabel": "2026-09-03 14:07 장중 · ⚠️ 1종목 지연",
- "count": 482,
+ "generatedAt": "2026-09-03 14:43",
+ "priceLabel": "2026-09-03 14:31 장중 · ⚠️ 1종목 지연",
+ "count": 484,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005380",
+   "name": "현대차",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005380",
+   "name": "현대차",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001230",
+   "name": "동국홀딩스",
+   "title": "타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "460860",
+   "name": "동국제강",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:42:36.696754+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -75,14 +123,6 @@ const DART_TODAY = {
    "code": "171090",
    "name": "선익시스템",
    "title": "기업설명회(IR)개최",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
    "receiptDate": "20260903",
    "detectedAt": "2026-09-03T04:47:09.447486+00:00",
    "isCorrection": false
@@ -552,14 +592,6 @@ const DART_TODAY = {
    "isCorrection": false
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
-  },
-  {
    "code": "001500",
    "name": "현대차증권",
    "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
@@ -851,14 +883,6 @@ const DART_TODAY = {
    "code": "001450",
    "name": "현대해상",
    "title": "주식등의대량보유상황보고서(일반)",
-   "receiptDate": "20260901",
-   "detectedAt": "2026-09-01T07:07:37.348995+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005380",
-   "name": "현대차",
-   "title": "영업(잠정)실적(공정공시)",
    "receiptDate": "20260901",
    "detectedAt": "2026-09-01T07:07:37.348995+00:00",
    "isCorrection": false
@@ -3381,14 +3405,6 @@ const DART_TODAY = {
    "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T05:42:27.719437+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "005380",
-   "name": "현대차",
-   "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T05:14:40.552984+00:00",
    "isCorrection": false
   },
   {
