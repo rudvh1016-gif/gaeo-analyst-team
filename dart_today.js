@@ -1,12 +1,100 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 15:43",
- "priceLabel": "2026-09-03 종가 (15:40 수집) · ⚠️ 1종목 지연",
- "count": 492,
+ "generatedAt": "2026-09-03 16:14",
+ "priceLabel": "2026-09-03 종가 (16:03 수집) · ⚠️ 1종목 지연",
+ "count": 501,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "003070",
+   "name": "코오롱글로벌",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "002020",
+   "name": "코오롱",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "085660",
+   "name": "차바이오텍",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "204270",
+   "name": "제이앤티씨",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "085620",
+   "name": "미래에셋생명",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002710",
+   "name": "TCC스틸",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002710",
+   "name": "TCC스틸",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "002710",
+   "name": "TCC스틸",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005490",
+   "name": "POSCO홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "005490",
+   "name": "POSCO홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T07:13:01.837202+00:00",
+   "isCorrection": false
+  },
   {
    "code": "052690",
    "name": "한전기술",
@@ -781,14 +869,6 @@ const DART_TODAY = {
    "title": "주식소각결정",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false
   },
   {
@@ -2867,14 +2947,6 @@ const DART_TODAY = {
    "code": "021240",
    "name": "코웨이",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T07:11:16.882196+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003070",
-   "name": "코오롱글로벌",
-   "title": "자기주식처분결과보고서",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T07:11:16.882196+00:00",
    "isCorrection": false

@@ -5807,11 +5807,11 @@ const INDEX_HISTORY = {
     },
     {
      "date": "2026-09-03",
-     "close": 790.28,
+     "close": 790.21,
      "open": 814.31,
      "high": 815.79,
      "low": 782.87,
-     "volume": 554262
+     "volume": 554329
     }
    ],
    "start": "2026-08-31",
