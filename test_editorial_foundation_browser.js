@@ -100,7 +100,8 @@ function contrast(foreground, background) {
         probe.remove();
         return resolved;
       }, result.editorialText);
-      check(result.introFontSize >= 15, `${viewport.width}: key hero explanation below 15px`);
+      // 2026-09-03 소유자 지시(3차 글자 축소)로 모바일 히어로 설명은 14px. 본문 최소선 12px은 그대로 지킨다.
+      check(result.introFontSize >= 14, `${viewport.width}: key hero explanation below 14px`);
       check(result.introColor === expectedText,
         `${viewport.width}: key hero explanation uses secondary color (${result.introColor} != ${expectedText})`);
     }

@@ -491,9 +491,9 @@
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.77.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.78.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
-<link rel="stylesheet" href="app-shell.css?v=20260903-p3">
+<link rel="stylesheet" href="app-shell.css?v=20260903-p4">
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
-<link rel="stylesheet" href="editorial-foundation.css?v=20260903-v2">
+<link rel="stylesheet" href="editorial-foundation.css?v=20260903-v3">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
 </head>
 <body>
@@ -531,8 +531,8 @@
     </button>
     <div class="global-primary" aria-label="주요 서비스">
       <button class="global-link on" type="button" data-nav-home>홈</button>
-      <button class="global-link" id="navMarket" type="button">오늘 시장</button>
-      <button class="global-link" type="button" data-nav-mode="single"   data-nav-alias="compare screener rates">종목 분석</button>
+      <button class="global-link" id="navMarket" type="button" data-nav-alias="market">오늘 시장</button>
+      <button class="global-link" type="button" data-nav-mode="single"   data-nav-alias="compare screener rates deep">종목 분석</button>
       <button class="global-link" type="button" data-nav-mode="rotation">순환매</button>
       <button class="global-link" type="button" data-nav-mode="paper"    data-nav-alias="watch portfolio">모의투자</button>
       <button class="global-link" type="button" data-nav-mode="lesson"   data-nav-alias="study estate">주식공부</button>
@@ -740,14 +740,6 @@
               <button class="brief-link" id="briefNewsBtn" type="button">관련 뉴스 보기</button>
               <button class="brief-link" id="briefFullMarketBtn" type="button">전체시장 흐름 보기 →</button>
             </div>
-            <section class="hda" id="homeDeepAnalysis" aria-labelledby="homeDeepAnalysisTitle">
-              <button class="hda-head" id="hdaToggle" type="button" aria-expanded="true" aria-controls="homeDeepAnalysisList">
-                <div><strong class="hda-title" id="homeDeepAnalysisTitle">최근 정밀분석</strong><p class="hda-desc">직접 지정해 더 깊게 확인한 종목이에요</p></div>
-                <svg class="hda-chevron mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="hda-list" id="homeDeepAnalysisList"><div class="hda-empty">최근 정밀분석이 아직 없습니다.</div></div>
-              <a href="/research/deep-analysis/" class="hda-more">정밀분석 전체 보기 →</a>
-            </section>
           </div>
           <aside class="hdb-decisions" id="homeBriefDecision" aria-live="polite">
             <div id="hdbDecisionBody"><div class="hdb-decision-loading">오늘의 판단을 정리하고 있어요.</div></div>
@@ -799,7 +791,6 @@
          index_history.js를 지연 로드한다(성능 원칙 — 무거운 자료를 먼저 안 내려받는다). -->
     <section class="idx-panels" id="idxPanels" aria-label="코스피·코스닥 지수 상세"></section>
 
-    <div class="market" id="marketBox" style="display:none"></div>
     <div class="mood-row"><span class="mood" id="moodbadge"></span></div>
     <div class="datawarn" id="datawarn" style="display:none"></div>
     <div class="kpis" id="kpis"></div>
@@ -849,8 +840,9 @@
   <div class="modes">
     <div class="nav-menu-group">
       <h3 class="nav-menu-title">분석</h3>
-      <button class="nav-menu-link" id="navMarketPanel" type="button">오늘 시장</button>
+      <button class="modebtn" id="mode-market" type="button">오늘 시장</button>
       <button class="modebtn on" id="mode-single" type="button">종목 분석</button>
+      <button class="modebtn" id="mode-deep" type="button">최근 정밀분석</button>
       <button class="modebtn" id="mode-compare" type="button">종목 비교</button>
       <button class="modebtn" id="mode-screener" type="button">스크리너</button>
       <button class="modebtn" id="mode-rotation" type="button">순환매</button>
@@ -1111,6 +1103,20 @@
   </section>
   <div class="guideView" id="guideView"></div>
   <div class="newsView" id="changelogView"></div>
+  <!-- 2026-09-03 소유자 지시: '시장 분석'과 '최근 정밀분석'은 홈에서 빼고 메뉴(오늘 시장 · 최근 정밀분석)에서 골라 본다. -->
+  <section class="newsView marketView" id="marketView" aria-label="오늘 시장 분석">
+    <div class="market" id="marketBox" style="display:none"></div>
+  </section>
+  <section class="newsView deepView" id="deepView" aria-label="최근 정밀분석">
+    <section class="hda" id="homeDeepAnalysis" aria-labelledby="homeDeepAnalysisTitle">
+      <button class="hda-head" id="hdaToggle" type="button" aria-expanded="true" aria-controls="homeDeepAnalysisList">
+        <div><strong class="hda-title" id="homeDeepAnalysisTitle">최근 정밀분석</strong><p class="hda-desc">직접 지정해 더 깊게 확인한 종목이에요</p></div>
+        <svg class="hda-chevron mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="hda-list" id="homeDeepAnalysisList"><div class="hda-empty">최근 정밀분석이 아직 없습니다.</div></div>
+      <a href="/research/deep-analysis/" class="hda-more">정밀분석 전체 보기 →</a>
+    </section>
+  </section>
   </div>
 
   </div><!-- /.layout -->
@@ -1263,7 +1269,7 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260903-p3" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="app.js?v=20260903-p4" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){

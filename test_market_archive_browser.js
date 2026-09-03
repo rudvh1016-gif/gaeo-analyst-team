@@ -43,7 +43,13 @@ async function waitForServer() {
     });
     await page.goto('http://127.0.0.1:8877/index.html');
     await page.waitForLoadState('networkidle');
+    // 2026-09-03 소유자 지시: 시장 분석은 홈에서 빠지고 전체 메뉴 '오늘 시장'(?m=market) 화면에서 본다.
+    assert.equal(await page.locator('.home-dashboard #marketBox').count(), 0, '홈에 시장분석 상자가 다시 들어갔습니다');
+    assert.equal(await page.locator('#marketBox').isVisible(), false, '홈에서 시장분석 상자가 보이면 안 됩니다');
+    await page.goto('http://127.0.0.1:8877/?m=market');
+    await page.waitForLoadState('networkidle');
     await page.locator('#marketBox').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#mode-market').getAttribute('aria-current'), 'page', '메뉴에 현재 화면(오늘 시장) 표시가 있어야 합니다');
 
     assert.equal(await page.locator('#marketBox .mk-an').count(), 0, '현재 시장분석 본문이 메인에 노출됐습니다');
     await page.locator('#mkHistBtn').click();
@@ -56,8 +62,9 @@ async function waitForServer() {
 
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await mobile.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
-    await mobile.goto('http://127.0.0.1:8877/index.html');
+    await mobile.goto('http://127.0.0.1:8877/?m=market');
     await mobile.waitForLoadState('networkidle');
+    await mobile.locator('#marketBox').waitFor({ state: 'visible' });
     assert.equal(await mobile.locator('#marketBox .mk-an').count(), 0, '모바일에 현재 시장분석 본문이 노출됐습니다');
     await mobile.locator('#mkHistBtn').click();
     assert.equal(await mobile.locator('#mkHistBody .mk-day').count(), 4, '모바일 첫 페이지는 시장분석 4건이어야 합니다');

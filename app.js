@@ -3024,9 +3024,12 @@ renderHomeDeepAnalysis();
   const toggle=document.getElementById('hdaToggle');
   if(!hda||!toggle) return;
   const isMobile=()=>window.matchMedia('(max-width:900px)').matches;
-  if(isMobile()){ hda.classList.add('is-collapsed'); toggle.setAttribute('aria-expanded','false'); }
+  // 2026-09-03: 이 블록은 홈 브리핑 밖 '최근 정밀분석' 화면(#deepView)으로 옮겨져 항상 펼쳐 둔다.
+  //             (홈 브리핑 안에 있을 때만 모바일 접힘을 적용한다.)
+  const inBrief=!!hda.closest('.home-daily-brief');
+  if(inBrief&&isMobile()){ hda.classList.add('is-collapsed'); toggle.setAttribute('aria-expanded','false'); }
   toggle.onclick=()=>{
-    if(!isMobile()) return;   // PC에서는 클릭해도 항상 펼쳐진 상태 유지(토글 없음)
+    if(!inBrief||!isMobile()) return;   // PC·별도 화면에서는 클릭해도 항상 펼쳐진 상태 유지(토글 없음)
     const collapsed=hda.classList.toggle('is-collapsed');
     toggle.setAttribute('aria-expanded', collapsed?'false':'true');
   };
@@ -9672,8 +9675,10 @@ window.renderScreener=function(){
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
           latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog',
-          paper=mode==='paper';
+          paper=mode==='paper', market=mode==='market', deep=mode==='deep';
     const sectionCopy={
+      market:['코스피·코스닥을 한눈에','오늘 시장','시장국면과 날짜별 시장 분석 기록을 확인해 보세요. 지수 수치는 홈 브리핑과 같은 기준이에요.'],
+      deep:['직접 지정해 더 깊게 본 종목','최근 정밀분석','팀이 직접 지정해 더 깊게 확인한 종목의 최신 정밀분석 5건과 전체 기록으로 가는 길이에요.'],
       single:['왜 이런 판단일까요?','분석가별 근거','기술·재무·확률통계·수급·리스크를 같은 순서로 차분하게 확인해 보세요.'],
       watch:['내 종목에서 달라진 것만','내 종목 관리','저장한 관심종목의 오늘 판단 변화와 점수를 한곳에서 확인하세요.'],
       guide:['처음 오셨나요?','사이트 이용 안내','종목 검색부터 결과 읽는 법까지, 처음 이용하는 분도 순서대로 따라갈 수 있어요.'],
@@ -9704,7 +9709,8 @@ window.renderScreener=function(){
     const contextTitles={single:'종목 분석',watch:'내 종목 관리',guide:'사이트 이용 안내',compare:'종목 비교',
       portfolio:'포트폴리오',latest:'최근 뉴스·공부 자료',news:'뉴스 분석',study:'종목 공부',lesson:'주식 공부',
       estate:'부동산 공부',calc:'금융 계산기',screener:'종목 스크리너',rotation:'순환매',rates:'등락률 확인',
-      scorecard:'개오 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록'};
+      scorecard:'개오 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록',
+      market:'오늘 시장',deep:'최근 정밀분석'};
     const contextTitle=document.getElementById('contextTitle');
     if(contextTitle){ contextTitle.textContent=contextTitles[mode]||copy[1]; contextTitle.hidden=single; }
     const stockHeading=document.getElementById('qname');
@@ -9740,6 +9746,8 @@ window.renderScreener=function(){
     document.getElementById('mode-calendar').classList.toggle('on',calendar);
     document.getElementById('mode-community').classList.toggle('on',community);
     document.getElementById('mode-changelog').classList.toggle('on',changelog);
+    document.getElementById('mode-market')?.classList.toggle('on',market);
+    document.getElementById('mode-deep')?.classList.toggle('on',deep);
     document.getElementById('guideView').classList.toggle('on',guide);
     window.GaeoCurrentMode=mode;
     if(guide){
@@ -9776,6 +9784,9 @@ window.renderScreener=function(){
     document.getElementById('fmTabHost').classList.toggle('on',rotation);
     if(typeof window.GaeoSyncFmTabButtons==='function') window.GaeoSyncFmTabButtons(fmSubTab);
     document.getElementById('changelogView').classList.toggle('on',changelog);
+    document.getElementById('marketView')?.classList.toggle('on',market);
+    document.getElementById('deepView')?.classList.toggle('on',deep);
+    if(market&&typeof renderMarket==='function') renderMarket();
     if(portfolio){
       // 포트폴리오의 지지·저항·위험 표는 전체 지표를 쓴다(홈 경량본에 없다).
       if(typeof ensureIndicators==='function') ensureIndicators();
@@ -9817,6 +9828,8 @@ window.renderScreener=function(){
     screener:'screenerView', rates:'rateView', scorecard:'scorecardView',
     paper:'paperView', calendar:'calendarView', community:'communityView',
     changelog:'changelogView',
+    // 2026-09-03 소유자 지시: 시장 분석·최근 정밀분석은 홈에서 빠져 별도 화면이 됐다.
+    market:'marketView', deep:'deepView',
     // 순환매는 서브탭(순환매 판단 | 전체시장 흐름)에 따라 보이는 쪽이 달라진다.
     rotation:['rotationView','fullMarketView']
   };
@@ -9880,6 +9893,9 @@ window.renderScreener=function(){
   document.getElementById('mode-calendar').onclick=()=>{setMode('calendar'); SFX.click(); GaeoScrollToMode('calendar');};
   document.getElementById('mode-community').onclick=()=>{setMode('community'); SFX.click(); GaeoScrollToMode('community');};
   document.getElementById('mode-changelog').onclick=()=>{setMode('changelog'); SFX.click(); GaeoScrollToMode('changelog');};
+  // 2026-09-03 소유자 지시: '오늘 시장'(시장 분석)·'최근 정밀분석'은 홈이 아니라 전체 메뉴의 별도 화면에서 본다.
+  document.getElementById('mode-market').onclick=()=>{setMode('market'); SFX.click(); GaeoScrollToMode('market');};
+  document.getElementById('mode-deep').onclick=()=>{setMode('deep'); SFX.click(); GaeoScrollToMode('deep');};
   document.querySelector('.modes')?.addEventListener('click',event=>{
     if(!event.target.closest('.modebtn')) return;
     setTimeout(()=>{
@@ -10751,6 +10767,16 @@ window.hangulFix=function(str){
 // 요청" 기능만으로는 폭이 부족해 안 켜질 수 있다. 그래서 뷰포트 meta를 직접 늘려
 // 강제로 데스크톱 그리드를 띄우는 자체 토글을 둔다. screen.width/height는 뷰포트를
 // 넓혀도 안 변하는 실제 물리 화면 크기라, 이 버튼을 노출할지 여부를 판단하는 데 쓴다.
+// 2026-09-03 소유자 지시: '공유'·'PC 버전으로 보기'는 화면을 따라다니지 않고 페이지 맨 아래(푸터) 도구 줄에 둔다.
+function gaeoFootTools(){
+  let row=document.querySelector('.foot-tools');
+  if(row) return row;
+  row=document.createElement('div'); row.className='foot-tools';
+  const foot=document.querySelector('footer.foot');
+  if(foot){ const links=foot.querySelector('.foot-links'); foot.insertBefore(row, links||null); }
+  else document.body.appendChild(row);
+  return row;
+}
 (function(){
   const KEY='gaeo_pcview';
   const isSmallDevice=Math.min(window.screen.width||9999, window.screen.height||9999)<820;
@@ -10770,7 +10796,7 @@ window.hangulFix=function(str){
     }
     try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){}
   }
-  document.body.appendChild(btn);
+  gaeoFootTools().appendChild(btn);
   apply(document.documentElement.classList.contains('force-desktop'));
   btn.onclick=()=>{ apply(!document.documentElement.classList.contains('force-desktop')); SFX.click(); };
 })();
@@ -10857,6 +10883,8 @@ window.hangulFix=function(str){
     else if(['compare','portfolio','screener','calendar','community'].includes(m)){
       window.setMode(m);
     }
+    // 2026-09-03: 홈에서 빠진 '오늘 시장'(?m=market)·'최근 정밀분석'(?m=deep) 화면 딥링크.
+    else if(m==='market'||m==='deep'){ window.setMode(m); }
     if(['news','study','lesson','estate','calc'].includes(m)&&id) syncContentMetadata(m,id);
     // 동적 글자 조각까지 준비된 뒤 보이면 폰트 swap으로 줄바꿈이 바뀌지 않는다.
     try{await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,1200))]);}catch(e){}
@@ -10889,7 +10917,7 @@ window.hangulFix=function(str){
   const btn=document.createElement('button');
   btn.className='share-fab'; btn.type='button'; btn.title='이 화면 공유하기'; btn.setAttribute('aria-label','현재 화면 공유하기');
   btn.innerHTML='<span aria-hidden="true">공유</span>';
-  document.body.appendChild(btn);
+  gaeoFootTools().appendChild(btn);
   btn.onclick=async()=>{
     const publicUrl=window.GaeoUrls.shareUrl(location.href);
     window.GaeoShareUrl=publicUrl;
@@ -11125,11 +11153,13 @@ window.hangulFix=function(str){
   document.getElementById('globalHome').onclick=()=>goHome();
   document.querySelectorAll('[data-nav-home]').forEach(b=>b.onclick=()=>goHome());
   function goMarket(){
-    if(typeof window.setMode==='function') window.setMode('single');
+    // 2026-09-03 소유자 지시: 시장 분석은 홈이 아니라 '오늘 시장' 화면(모드)에서 본다.
+    if(typeof window.setMode==='function') window.setMode('market');
     closePanels();
     setTimeout(()=>{
-      const market=document.getElementById('marketBox');
-      if(market) market.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
+      const title=document.getElementById('contextTitle');
+      if(title&&!title.hidden) title.focus({preventScroll:true});
+      window.scrollTo({top:0,behavior:window.GaeoMotionBehavior()});
     },40);
   }
   ['navMarket','navMarketPanel'].forEach(id=>{const b=document.getElementById(id); if(b) b.onclick=goMarket;});
