@@ -1,18 +1,50 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 10:48",
- "priceLabel": "2026-09-03 10:43 장중 · ⚠️ 1종목 지연",
- "count": 474,
+ "generatedAt": "2026-09-03 11:18",
+ "priceLabel": "2026-09-03 11:06 장중 · ⚠️ 1종목 지연",
+ "count": 478,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "[기재정정]투자설명서(일괄신고)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "006220",
+   "name": "제주은행",
+   "title": "일괄신고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "072710",
+   "name": "농심홀딩스",
+   "title": "[기재정정]주요사항보고서(자기주식처분결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "004370",
+   "name": "농심",
+   "title": "[기재정정]주요사항보고서(자기주식처분결정)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
+   "isCorrection": true
+  },
+  {
    "code": "030610",
    "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
    "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T01:47:00.249904+00:00",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
    "isCorrection": false
   },
   {
@@ -20,7 +52,15 @@ const DART_TODAY = {
    "name": "교보증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T01:47:00.249904+00:00",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "114090",
+   "name": "GKL",
+   "title": "영업(잠정)실적(공정공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
    "isCorrection": false
   },
   {
@@ -542,14 +582,6 @@ const DART_TODAY = {
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T05:02:37.276711+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T04:32:41.276611+00:00",
-   "isCorrection": false
   },
   {
    "code": "001200",
