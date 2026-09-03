@@ -36,7 +36,7 @@
 - [x] offscreen rendering, static assets, cache policy, script loading을 측정 결과 우선순위대로 개선한다.
 - [x] 대형 index에서 안정된 영역만 작은 모듈로 분리하고 전역 동작·생성 파이프라인을 유지한다.
 - [x] 명시적 성능 budget과 회귀 테스트를 추가한다.
-- [ ] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다.
+- [x] 전체 검증, 최종 A/B/C, PR, CI, 병합, 프로덕션 확인을 완료한다. (PR #486 `contract-tests` success → merge `a54dc9b404f9` 2026-09-03 08:04 KST → 프로덕션 `https://gaeoteam.com/app-shell.css?v=20260903-p3` 200, 305,327B 및 홈 문서가 `app.js?v=20260903-p3`를 참조함을 2026-09-03 09:40 KST 확인)
 
 ### PR 4: Trust, residual SEO, growth와 retention
 
