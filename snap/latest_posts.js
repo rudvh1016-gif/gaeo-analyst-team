@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 64,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-03",
+  "title": "2026년 9월3일 종가, 자사주가 떠받친 코스피 0.26% 반등, 코스닥은 800 반납",
+  "featured": false
+ },
+ {
   "id": 63,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-26",
   "title": "2026년 8월26일 종가, 건설·원전 급등에 코스피 0.97% 상승, 코스닥은 제자리",
   "featured": false
- },
- {
-  "id": 55,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-25",
-  "title": "2026년 8월25일 종가, 원전주 랠리에 코스피·코스닥 모처럼 동반 상승",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 63,
+ "news": 64,
  "study": 35,
  "lesson": 82,
  "estate": 19,
