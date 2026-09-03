@@ -1,12 +1,76 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 15:13",
- "priceLabel": "2026-09-03 15:05 장중 · ⚠️ 1종목 지연",
- "count": 485,
+ "generatedAt": "2026-09-03 15:43",
+ "priceLabel": "2026-09-03 종가 (15:40 수집) · ⚠️ 1종목 지연",
+ "count": 492,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "052690",
+   "name": "한전기술",
+   "title": "[기재정정]주주총회소집결의",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "051600",
+   "name": "한전KPS",
+   "title": "지속가능경영보고서등관련사항(자율공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "004710",
+   "name": "한솔테크닉스",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "047050",
+   "name": "포스코인터내셔널",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "192820",
+   "name": "코스맥스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "020150",
+   "name": "롯데에너지머티리얼즈",
+   "title": "[기재정정]타법인주식및출자증권처분결정",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "034310",
+   "name": "NICE",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T06:42:36.169620+00:00",
+   "isCorrection": false
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -590,14 +654,6 @@ const DART_TODAY = {
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": true
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false
   },
   {
    "code": "000640",
