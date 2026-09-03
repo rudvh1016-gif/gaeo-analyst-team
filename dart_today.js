@@ -1,12 +1,44 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 09:18",
- "priceLabel": "2026-09-03 09:10 장중 · ⚠️ 1종목 지연",
- "count": 470,
+ "generatedAt": "2026-09-03 09:48",
+ "priceLabel": "2026-09-03 09:45 장중 · ⚠️ 1종목 지연",
+ "count": 472,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "087010",
+   "name": "펩트론",
+   "title": "[기재정정]신규시설투자등",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T00:47:04.747026+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "207940",
+   "name": "삼성바이오로직스",
+   "title": "[기재정정]기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T00:47:04.747026+00:00",
+   "isCorrection": true
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T00:47:04.747026+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T00:47:04.747026+00:00",
+   "isCorrection": false
+  },
   {
    "code": "042660",
    "name": "한화오션",
@@ -2522,14 +2554,6 @@ const DART_TODAY = {
   {
    "code": "006340",
    "name": "대원전선",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T00:25:48.900545+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "006340",
-   "name": "대원전선",
    "title": "최대주주등소유주식변동신고서",
    "receiptDate": "20260831",
    "detectedAt": "2026-08-31T00:25:48.900545+00:00",
@@ -3299,14 +3323,6 @@ const DART_TODAY = {
    "code": "018250",
    "name": "애경산업",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T05:14:40.552984+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "207940",
-   "name": "삼성바이오로직스",
-   "title": "기업설명회(IR)개최(안내공시)",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T05:14:40.552984+00:00",
    "isCorrection": false
