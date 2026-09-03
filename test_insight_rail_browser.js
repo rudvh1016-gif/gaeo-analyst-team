@@ -99,6 +99,21 @@ function shotPath(name) {
   await page.evaluate(() => showQuote(resolveStock('삼성전자')));
   await page.locator('.gir-content').getByText('삼성전자', { exact: true }).waitFor();
   if (await page.locator('.gir-content').getByText('삼성전자', { exact: true }).count() < 1) throw new Error('standard quote path not recorded');
+  // ⚠️ 2026-09-03 버그 수정 계약(대표 신고: "해당 뉴스를 누르면 뉴스화면으로 이동 안 함"):
+  // 뉴스 탭의 각 기사 행은 눌렀을 때 (1) 뉴스 화면으로 실제 이동하고 (2) 그 기사가 펼쳐지고
+  // (3) 패널이 저절로 닫혀 화면 전환이 눈에 보여야 한다.
+  await page.locator('[data-gir-tab="news"]').click();
+  await page.locator('.gir-news-row').first().waitFor();
+  const newsId = await page.locator('.gir-news-row').first().getAttribute('data-gir-news-id');
+  if (!newsId) throw new Error('news rows must carry a specific article id (data-gir-news-id)');
+  await page.locator('.gir-news-row').first().click();
+  await page.waitForTimeout(600);
+  if (await page.evaluate(() => document.body.dataset.mode) !== 'news') throw new Error('clicking a news row must switch to news mode');
+  if (await page.locator('.gir-panel').getAttribute('aria-hidden') !== 'true') throw new Error('clicking a news row must close the insight panel');
+  const article = page.locator(`#nw-${newsId}`);
+  if (!(await article.evaluate(element => element.classList.contains('open')))) throw new Error('clicking a news row must open that specific article');
+  if (!(await article.isVisible())) throw new Error('the opened article must actually be visible after the panel closes');
+
   await page.locator('[data-gir-tab="changes"]').click();
   if (await page.locator('.gir-content .gir-price').count() < 1) throw new Error('today changes rows must show current prices');
   await page.locator('[data-gir-tab="live"]').click();

@@ -1,0 +1,38 @@
+{
+ "home-brief-mobile-390": {
+  "idxFirst": true,
+  "idxText": "코스피·코스닥 상세 눌러서 이동평균·차트를 펼쳐보세요KR 코스피6,579.48▲ 16.76 (+0.26%)중",
+  "briefMarketText": "원/달러1,356.40원▼ 0.29%09-03 16:03 반영",
+  "hasKospiInBriefMarket": false,
+  "hasKosdaqInBriefMarket": false,
+  "hasFxInBriefMarket": true,
+  "idxPos": {
+   "top": 809,
+   "h": 132
+  },
+  "briefMarketPos": {
+   "top": 955,
+   "h": 62
+  }
+ },
+ "home-brief-desktop-1440": {
+  "idxFirst": true,
+  "idxText": "코스피·코스닥 상세 눌러서 이동평균·차트를 펼쳐보세요KR 코스피6,579.48▲ 16.76 (+0.26%)중",
+  "briefMarketText": "원/달러1,356.40원▼ 0.29%09-03 16:03 반영",
+  "hasKospiInBriefMarket": false,
+  "hasKosdaqInBriefMarket": false,
+  "hasFxInBriefMarket": true,
+  "idxPos": {
+   "top": 665,
+   "h": 139
+  },
+  "briefMarketPos": {
+   "top": 817,
+   "h": 45
+  }
+ },
+ "news-rail-click": {
+  "mode": "news",
+  "panelOpen": false
+ }
+}

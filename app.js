@@ -3143,7 +3143,7 @@ renderHomeDeepAnalysis();
     const box=document.getElementById('briefMarket'), market=state.market;
     if(!box) return;
     if(!market){
-      box.textContent='코스피·코스닥·환율을 불러오는 중이에요.';
+      box.textContent='환율을 불러오는 중이에요.';
       return;
     }
     const value=(n,suffix)=>typeof n==='number'
@@ -3159,8 +3159,9 @@ renderHomeDeepAnalysis();
     const asof=stamp(market.sourceAsOf);
     const asofLabel=asof.date&&asof.time?`${asof.date.slice(5)} ${asof.time} 반영`:
       `${asof.short||'기준 시각 확인 중'} 반영`;
-    box.innerHTML=item('코스피',market.indices.KOSPI)+
-      item('코스닥',market.indices.KOSDAQ)+item('원/달러',market.fx,'원')+
+    // 2026-09-03 소유자 지시(2차): 코스피·코스닥은 바로 위 #idxPanels에 이미 나오므로
+    // 여기서는 그 패널에 없는 원/달러(환율)만 보여준다(위아래 중복 제거).
+    box.innerHTML=item('원/달러',market.fx,'원')+
       `<span class="brief-market-asof">${esc(asofLabel)}</span>`;
   }
   function renderHomeBriefDecision(){
