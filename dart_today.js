@@ -1,18 +1,42 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-03 13:48",
- "priceLabel": "2026-09-03 13:36 장중 · ⚠️ 1종목 지연",
- "count": 481,
+ "generatedAt": "2026-09-03 14:18",
+ "priceLabel": "2026-09-03 14:07 장중 · ⚠️ 1종목 지연",
+ "count": 482,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:16:52.915368+00:00",
+   "isCorrection": false
+  },
+  {
    "code": "039490",
    "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
+   "detectedAt": "2026-09-03T05:16:52.915368+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:16:52.915368+00:00",
+   "isCorrection": false
+  },
+  {
+   "code": "011780",
+   "name": "금호석유화학",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260903",
+   "detectedAt": "2026-09-03T05:16:52.915368+00:00",
    "isCorrection": false
   },
   {
@@ -251,14 +275,6 @@ const DART_TODAY = {
    "code": "005380",
    "name": "현대차",
    "title": "생산재개(자율공시)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T07:32:48.929649+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260902",
    "detectedAt": "2026-09-02T07:32:48.929649+00:00",
    "isCorrection": false
@@ -3059,14 +3075,6 @@ const DART_TODAY = {
    "code": "298690",
    "name": "에어부산",
    "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260828",
-   "detectedAt": "2026-08-28T06:43:10.181682+00:00",
-   "isCorrection": false
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "증권발행실적보고서",
    "receiptDate": "20260828",
    "detectedAt": "2026-08-28T06:43:10.181682+00:00",
    "isCorrection": false
