@@ -5,7 +5,7 @@
 // 오른 날 방향만 맞춘 것을 실력으로 세지 않기 위해서다(global.scoring 참고).
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-03 11:16",
+ "generatedAt": "2026-09-03 11:46",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -37,20 +37,20 @@ const TEAM_WEIGHTS = {
  "global": {
   "version": "tw-2026-08-31-market-relative",
   "weights": {
-   "taro": 0.3106,
-   "diana": 0.1168,
-   "nova": 0.2379,
-   "flow": 0.3347
+   "taro": 0.3102,
+   "diana": 0.1167,
+   "nova": 0.2386,
+   "flow": 0.3345
   },
   "acc": {
    "taro": {
-    "n": 3549,
+    "n": 3552,
     "acc": 52.1,
-    "adjustedAcc": 52.1,
+    "adjustedAcc": 52.0,
     "days": 5,
     "deadband": 1.0,
-    "absoluteAcc": 47.8,
-    "absoluteN": 3631
+    "absoluteAcc": 47.9,
+    "absoluteN": 3628
    },
    "diana": {
     "n": 0,
@@ -62,13 +62,13 @@ const TEAM_WEIGHTS = {
     "absoluteN": 0
    },
    "nova": {
-    "n": 786,
-    "acc": 44.8,
-    "adjustedAcc": 45.5,
+    "n": 788,
+    "acc": 44.9,
+    "adjustedAcc": 45.6,
     "days": 5,
     "deadband": 1.0,
-    "absoluteAcc": 47.3,
-    "absoluteN": 809
+    "absoluteAcc": 47.2,
+    "absoluteN": 807
    },
    "flow": {
     "n": 637,
@@ -76,16 +76,16 @@ const TEAM_WEIGHTS = {
     "adjustedAcc": 54.6,
     "days": 5,
     "deadband": 1.0,
-    "absoluteAcc": 47.8,
-    "absoluteN": 647
+    "absoluteAcc": 47.7,
+    "absoluteN": 646
    }
   },
-  "graded": 4972,
+  "graded": 4977,
   "team": {
    "basis": "absolute_return",
-   "hit": 3241,
-   "miss": 1959,
-   "n": 5200,
+   "hit": 3237,
+   "miss": 1960,
+   "n": 5197,
    "uniqueDecisionDays": 9,
    "minDaysForConclusion": 20,
    "acc": 62.3
@@ -94,10 +94,10 @@ const TEAM_WEIGHTS = {
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2862,
-    "diana": 0.1184,
-    "nova": 0.2774,
-    "flow": 0.318
+    "taro": 0.2859,
+    "diana": 0.1183,
+    "nova": 0.2778,
+    "flow": 0.3179
    },
    "acc": {
     "taro": {
@@ -134,10 +134,10 @@ const TEAM_WEIGHTS = {
   },
   "전자·부품": {
    "weights": {
-    "taro": 0.3064,
-    "diana": 0.118,
-    "nova": 0.2417,
-    "flow": 0.334
+    "taro": 0.3061,
+    "diana": 0.1179,
+    "nova": 0.2422,
+    "flow": 0.3338
    },
    "acc": {
     "taro": {
@@ -174,10 +174,10 @@ const TEAM_WEIGHTS = {
   },
   "전력·에너지": {
    "weights": {
-    "taro": 0.3078,
-    "diana": 0.118,
-    "nova": 0.2453,
-    "flow": 0.3289
+    "taro": 0.3075,
+    "diana": 0.1179,
+    "nova": 0.2458,
+    "flow": 0.3288
    },
    "acc": {
     "taro": {
@@ -214,16 +214,16 @@ const TEAM_WEIGHTS = {
   },
   "금융·증권": {
    "weights": {
-    "taro": 0.3083,
-    "diana": 0.1171,
-    "nova": 0.2448,
-    "flow": 0.3297
+    "taro": 0.3082,
+    "diana": 0.117,
+    "nova": 0.2453,
+    "flow": 0.3295
    },
    "acc": {
     "taro": {
-     "n": 179,
-     "acc": 50.8,
-     "adjustedAcc": 50.5,
+     "n": 180,
+     "acc": 51.1,
+     "adjustedAcc": 50.7,
      "days": 5,
      "deadband": 1.0
     },
@@ -249,15 +249,15 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 227,
-   "globalBlend": 0.779
+   "graded": 228,
+   "globalBlend": 0.778
   },
   "2차전지": {
    "weights": {
-    "taro": 0.3177,
-    "diana": 0.1155,
-    "nova": 0.2468,
-    "flow": 0.32
+    "taro": 0.3174,
+    "diana": 0.1154,
+    "nova": 0.2473,
+    "flow": 0.3199
    },
    "acc": {
     "taro": {
@@ -294,16 +294,16 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.3138,
-    "diana": 0.117,
-    "nova": 0.2222,
-    "flow": 0.347
+    "taro": 0.3124,
+    "diana": 0.1168,
+    "nova": 0.2243,
+    "flow": 0.3465
    },
    "acc": {
     "taro": {
      "n": 446,
-     "acc": 53.4,
-     "adjustedAcc": 52.7,
+     "acc": 53.1,
+     "adjustedAcc": 52.5,
      "days": 5,
      "deadband": 1.0
     },
@@ -316,8 +316,8 @@ const TEAM_WEIGHTS = {
     },
     "nova": {
      "n": 164,
-     "acc": 32.9,
-     "adjustedAcc": 40.1,
+     "acc": 34.1,
+     "adjustedAcc": 40.8,
      "days": 5,
      "deadband": 1.0
     },
@@ -334,16 +334,16 @@ const TEAM_WEIGHTS = {
   },
   "지주·상사": {
    "weights": {
-    "taro": 0.3199,
-    "diana": 0.1178,
-    "nova": 0.2379,
-    "flow": 0.3243
+    "taro": 0.3191,
+    "diana": 0.1179,
+    "nova": 0.2386,
+    "flow": 0.3244
    },
    "acc": {
     "taro": {
      "n": 235,
-     "acc": 56.6,
-     "adjustedAcc": 54.4,
+     "acc": 56.2,
+     "adjustedAcc": 54.1,
      "days": 5,
      "deadband": 1.0
     },
@@ -374,14 +374,14 @@ const TEAM_WEIGHTS = {
   },
   "화학·소재": {
    "weights": {
-    "taro": 0.3138,
-    "diana": 0.1179,
-    "nova": 0.2502,
-    "flow": 0.3181
+    "taro": 0.3135,
+    "diana": 0.1178,
+    "nova": 0.2508,
+    "flow": 0.3179
    },
    "acc": {
     "taro": {
-     "n": 271,
+     "n": 273,
      "acc": 53.1,
      "adjustedAcc": 52.2,
      "days": 5,
@@ -409,21 +409,21 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 316,
-   "globalBlend": 0.717
+   "graded": 318,
+   "globalBlend": 0.716
   },
   "유통·소비재": {
    "weights": {
-    "taro": 0.3127,
-    "diana": 0.1178,
-    "nova": 0.2473,
-    "flow": 0.3222
+    "taro": 0.3119,
+    "diana": 0.1177,
+    "nova": 0.2483,
+    "flow": 0.322
    },
    "acc": {
     "taro": {
-     "n": 168,
-     "acc": 53.0,
-     "adjustedAcc": 51.7,
+     "n": 167,
+     "acc": 52.7,
+     "adjustedAcc": 51.6,
      "days": 5,
      "deadband": 1.0
     },
@@ -435,9 +435,9 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 43,
-     "acc": 48.8,
-     "adjustedAcc": 49.7,
+     "n": 44,
+     "acc": 50.0,
+     "adjustedAcc": 50.0,
      "days": 5,
      "deadband": 1.0
     },
@@ -454,16 +454,16 @@ const TEAM_WEIGHTS = {
   },
   "게임·엔터": {
    "weights": {
-    "taro": 0.3124,
+    "taro": 0.3127,
     "diana": 0.116,
-    "nova": 0.2423,
+    "nova": 0.2422,
     "flow": 0.3292
    },
    "acc": {
     "taro": {
-     "n": 104,
-     "acc": 58.7,
-     "adjustedAcc": 54.0,
+     "n": 103,
+     "acc": 59.2,
+     "adjustedAcc": 54.3,
      "days": 5,
      "deadband": 1.0
     },
@@ -476,8 +476,8 @@ const TEAM_WEIGHTS = {
     },
     "nova": {
      "n": 97,
-     "acc": 48.5,
-     "adjustedAcc": 49.3,
+     "acc": 47.4,
+     "adjustedAcc": 48.8,
      "days": 5,
      "deadband": 1.0
     },
@@ -489,7 +489,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 217,
+   "graded": 216,
    "globalBlend": 0.787
   }
  }
