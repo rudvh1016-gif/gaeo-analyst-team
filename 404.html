@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  // 사이트 공통 테마 토글(index.html과 동일 로직). 첫 페인트 전에 클래스를 붙여 번쩍임(FOUC)을 막는다.
+  try{
+    if(localStorage.getItem('gaeo_theme')==='dark')
+      document.documentElement.classList.add('gdark');
+  }catch(e){}
+</script>
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D0E10" media="(prefers-color-scheme: dark)">
 <title>페이지를 찾을 수 없어요 · Gaeo</title>
 <!-- GitHub Pages가 존재하지 않는 경로에 이 파일을 HTTP 404 상태와 함께 서빙한다.
      404는 색인 대상이 아니므로 noindex를 명시한다(soft 404 방지). -->
@@ -10,12 +19,27 @@
 <meta name="description" content="요청하신 페이지가 없습니다. 개오 애널리스트팀 홈이나 전체 글 목록에서 원하는 내용을 찾아보세요.">
 <link rel="stylesheet" href="/assets/fonts/wanted-sans/WantedSansVariable.css">
 <style>
+  /* 2026-09-03 소유자 결정: 사이트 전체 밝은 바탕은 순백. 홈과 같은 편집형 토큰을 쓰고,
+     사이트 토글(html.gdark) 또는 OS 다크에서만 어두운 팔레트로 바뀐다. (예전엔 404만 항상 #090909 다크였다) */
   :root{
-    --background:#090909; --surface:#141414; --border:#242424;
-    --text:#F5F5F5; --text-secondary:#A1A1AA; --text-muted:#71717A;
+    --background:#FFFFFF; --surface:#FFFFFF; --border:#E4E6EA;
+    --text:#111214; --text-secondary:#555B66; --text-muted:#606873;
+    color-scheme:light;
+  }
+  html.gdark{
+    --background:#0D0E10; --surface:#14161A; --border:#2B2F35;
+    --text:#F4F5F7; --text-secondary:#B2B8C2; --text-muted:#AAB1BA;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not(.glight){
+      --background:#0D0E10; --surface:#14161A; --border:#2B2F35;
+      --text:#F4F5F7; --text-secondary:#B2B8C2; --text-muted:#AAB1BA;
+      color-scheme:dark;
+    }
   }
   *{box-sizing:border-box}
-  html{background:var(--background);color-scheme:dark}
+  html{background:var(--background)}
   body{
     margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
     background:var(--background);color:var(--text);
@@ -31,7 +55,7 @@
     display:block;padding:13px 18px;border:1px solid var(--border);border-radius:14px;
     background:var(--surface);color:var(--text);text-decoration:none;font-weight:600;font-size:14.5px;
   }
-  nav a:hover{border-color:#303030}
+  nav a:hover{border-color:var(--text-muted)}
   nav a small{display:block;font-weight:400;font-size:12.5px;color:var(--text-muted);margin-top:2px}
 </style>
 </head>

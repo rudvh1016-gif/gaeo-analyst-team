@@ -3,7 +3,8 @@
  * warnings, ads and overlays keep explicit functional boundaries.
  */
 :root{
-  --editorial-canvas:#F7F7F5;
+  /* 2026-09-03 소유자 결정: 밝은 화면 바탕은 사이트 전체가 순백(#FFFFFF)이다. (설계 초안의 #F7F7F5 폐기) */
+  --editorial-canvas:#FFFFFF;
   --editorial-surface:#FFFFFF;
   --editorial-heading:#111214;
   --editorial-text:#24262B;

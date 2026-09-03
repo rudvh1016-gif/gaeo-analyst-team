@@ -14,7 +14,8 @@ body:has(>div.wrap>main.card){
 }
 
 :root{
-  --editorial-page:#f7f7f5;
+  /* 2026-09-03 소유자 결정: 밝은 화면 바탕은 사이트 전체가 순백(#ffffff)이다. */
+  --editorial-page:#ffffff;
   --editorial-paper:#ffffff;
   --editorial-ink:#15171a;
   --editorial-body:#2d3137;

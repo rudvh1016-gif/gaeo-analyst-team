@@ -156,8 +156,11 @@ async function audit(page, name, width) {
     check(await app.locator('#analysisTabAgents').evaluate(element => document.activeElement === element), '분석 tablist가 오른쪽 화살표를 지원함');
     check(await app.locator('#analysisTabAgents').getAttribute('tabindex') === '0', '선택된 분석 tab의 tabindex가 0으로 동기화됨');
     await app.waitForFunction(() => document.querySelector('#card-nova')?.classList.contains('on'), null, { timeout: 15000 });
+    // 근거 줄 앞의 신호 표시(·/!/★, class fmk, aria-hidden="true")는 접근성 트리 밖의 장식 마커라
+    // 콘텐츠 emoji 검사 대상이 아니다. 어떤 종목의 근거 문장에 '급등·신고가' 같은 키워드가 있는 날만
+    // ★가 렌더돼 이 검사가 데이터에 따라 흔들렸다(2026-09-03 확인). aria-hidden 요소는 제외한다.
     const findingEmoji = await app.locator('#analysisPanelAgents').evaluate(panel => [...panel.querySelectorAll('*')]
-      .filter(element => !element.children.length && element.getClientRects().length)
+      .filter(element => !element.children.length && element.getClientRects().length && !element.closest('[aria-hidden="true"]'))
       .map(element => (element.textContent || '').replace(/⚠️|▶/gu, ''))
       .filter(text => /[\p{Extended_Pictographic}]/u.test(text)));
     check(findingEmoji.length === 0, `분석 근거에 장식용 emoji가 없음: ${findingEmoji.join(' | ')}`);

@@ -6,7 +6,7 @@
   "id": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F4FAFC",
+  "background_color": "#FFFFFF",
   "theme_color": "#88CDE7",
   "lang": "ko",
   "categories": ["finance", "education", "news"],

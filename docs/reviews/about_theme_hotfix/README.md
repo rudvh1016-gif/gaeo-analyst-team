@@ -1,4 +1,30 @@
-# About 페이지 테마 핫픽스 검토 기록
+# 사이트 전체 순백 바탕 + About 테마 핫픽스 검토 기록
+
+> **2026-09-03 소유자 지시(2차)**: "바탕이 아예 하얀색이어야 해, 사이트 모든 부분 전체 다."
+> 설계 초안의 밝은 캔버스 `#F7F7F5`를 폐기하고 밝은 화면의 바탕을 **사이트 전체 순백 `#FFFFFF`** 로 바꿨다.
+> 어두운 화면(사이트 토글·OS 다크)은 그대로 `#0D0E10`이다.
+>
+> 바뀐 곳: `editorial-foundation.css`(`--editorial-canvas`), `editorial-accessibility.css`(`--editorial-page`),
+> `about.html`, `404.html`(강제 다크 제거 + 같은 토큰), `manifest.json`(`background_color`),
+> `generate_snapshots.js`(생성기 원본 팔레트 `--bg`; 발행된 스냅샷은 공통 CSS가 body를 이미 덮으므로 재생성 없이 순백),
+> 설계 문서 `docs/superpowers/specs/2026-09-03-final-product-maturity-design.md`, 고정 테스트 `test_editorial_foundation.js`.
+>
+> 실측(computed `body` background, 밝은 화면): 홈 데스크톱/390 · About 390/데스크톱 · 기사 스냅샷 390 · 404 390 ·
+> 순환매 390 · 계산기 390 · 전체 글 목록 390 · 종목 390 → **전부 `rgb(255, 255, 255)`**, `html`도 `#FFFFFF`
+> (스냅샷은 html transparent 위에 body 순백). 어두운 화면 홈/About 390 → `#0D0E10`. pageerror 0, 가로 넘침 0.
+> 남긴 것(바탕이 아닌 UI 요소): 입력창·칩·작은 안내 패널의 연회색(`#F0F1EF`, `#f7f8fa` 등)과 순환매 화면 선택 토글.
+> 원하면 다음 단계에서 흰색으로 맞출 수 있다.
+>
+> 순백 적용 후 검증: `test_editorial_foundation.js`·`test_editorial_accessibility.js`·`test_design_contract.py`·`test_brand_assets.js` PASS,
+> `test_editorial_foundation_browser.js` 전체 통과, `test_editorial_accessibility_browser.js` 전체 통과(312 PASS, About 보조 텍스트 대비 5.638:1),
+> CI 동일 회귀 Python 57/57 · Node 34/34 PASS, `git diff --check` PASS.
+> 접근성 브라우저 테스트의 "분석 근거에 장식용 emoji 없음" 검사는 근거 줄 앞 신호 마커(`<span class="fmk fmk-key" aria-hidden="true">★</span>`)를
+> 콘텐츠로 세어, 그날 근거 문장에 '급등·신고가' 같은 키워드가 있는 종목이면 데이터에 따라 실패했다(같은 트리에서 1차 통과·2차 실패로 확인).
+> `aria-hidden` 요소를 제외하도록 테스트 필터만 바로잡았다(앱 마크업·데이터 무변경).
+>
+> 스크린샷 `after/`는 순백 적용 후로 교체했다(`404-*`, `rotation-*`, `calc-*`, `snapindex-*`, `stock-*` 추가).
+> 아래 1차 기록(About 전용 핫픽스)은 그대로 둔다 — 표의 "수정 후 `#F7F7F5`"는 1차 기준이며 현재는 `#FFFFFF`다.
+
 
 날짜: 2026-09-03 (KST)
 브랜치: `claude/auto-analysis-failure-prevention-94we7m` (병합된 옛 PR과 무관한 새 작업 — 세션 지정 브랜치를 최신 `origin/main`에서 다시 시작)
