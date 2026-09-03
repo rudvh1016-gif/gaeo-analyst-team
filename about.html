@@ -43,8 +43,14 @@
      crossorigin="anonymous"></script>
 <style>
   /* 편집형 공통 토큰(editorial-foundation.css / editorial-accessibility.css)과 같은 값을 쓴다.
-     밝은 화면이 기본이고, 사이트 토글(html.gdark) 또는 OS 다크(.glight로 끄지 않은 경우)에서만
-     어두운 팔레트로 바뀐다 — 홈과 같은 규칙. (2026-09-03 핫픽스: 예전엔 About만 항상 #090909 다크였다) */
+     밝은 화면이 기본이고, 사이트 토글(html.gdark)을 켰을 때만 어두운 팔레트로 바뀐다 — 홈(index.html)의
+     app-shell.css/.gdark와 같은 규칙. (2026-09-03 핫픽스: 예전엔 About만 항상 #090909 다크였다)
+     ⚠️ 2026-09-03 2차 핫픽스: 예전엔 여기 OS(prefers-color-scheme) 다크도 별도로 자동 적용했는데,
+     그건 .glight를 실제로 붙이는 코드가 어디에도 없는 죽은 탈출구였다. 홈의 핵심 화면 색(app-shell.css
+     --bg/--ink/--paper)은 OS를 안 보고 .gdark 토글만 본다 — 그런데 이 파일과 editorial-accessibility.css는
+     OS도 따로 봤다. 그래서 "OS는 다크인데 사이트 토글은 라이트"인 방문자(대표 포함)는 배경만 어둡게
+     바뀌고 글자색은 라이트용 어두운 색 그대로 남아 다크 위에 다크 글자 = 거의 안 보이는 화면이 됐다.
+     원인·재현 스크린샷은 커밋 메시지에 남겨뒀다. */
   :root{
     --background:#FFFFFF;        /* editorial canvas — 순백(소유자 결정 2026-09-03) */
     --surface:#FFFFFF;           /* editorial surface */
@@ -77,22 +83,10 @@
     color-scheme:dark;
   }
 
-  @media (prefers-color-scheme: dark){
-    html:not(.glight){
-      --background:#0D0E10;
-      --surface:#14161A;
-      --surface-subtle:#1B1E22;
-      --border:#2B2F35;
-      --border-strong:#3B414A;
-      --text:#F4F5F7;
-      --text-secondary:#B2B8C2;
-      --text-muted:#AAB1BA;
-      --accent:#9ED8EC;
-      --accent-soft:rgba(158,216,236,.12);
-      --hover:rgba(255,255,255,.05);
-      color-scheme:dark;
-    }
-  }
+  /* 2026-09-03 제거: 위 OS(prefers-color-scheme) 다크 자동 적용 블록 — html.gdark와 똑같은 값을
+     OS 설정만 보고 따로 켰다. .glight로 끄는 코드가 없어서, "OS는 다크·사이트 토글은 라이트"인
+     방문자는 배경(--background)만 어두워지고 글자색(--text)은 라이트용 어두운 색 그대로 남아
+     다크 배경 위에 다크 글자 = 거의 안 보이는 화면이 됐다. 지금은 html.gdark 토글 하나만 본다. */
 
   *{box-sizing:border-box;}
 

@@ -42,25 +42,21 @@ html.gdark{
   color-scheme:dark;
 }
 
-/* About(about.html)은 별도 강제 다크 팔레트 없이 위 :root / html.gdark / OS 다크 토큰을
+/* About(about.html)은 별도 강제 다크 팔레트 없이 위 :root / html.gdark 토큰을
    다른 화면과 똑같이 따른다. (예전 html.about-page 오버라이드는 밝은 화면 요청을 무시하고
-   About만 #070808로 칠해 홈과 어긋났다 — 2026-09-03 핫픽스로 제거) */
+   About만 #070808로 칠해 홈과 어긋났다 — 2026-09-03 핫픽스로 제거)
 
-@media (prefers-color-scheme: dark){
-  html:not(.glight){
-    --editorial-page:#0d0e10;
-    --editorial-paper:#15171a;
-    --editorial-ink:#f4f5f7;
-    --editorial-body:#d8dce1;
-    --editorial-subtle:#aab1ba;
-    --editorial-rule:#383d43;
-    --editorial-rule-strong:#68717b;
-    --editorial-link:#9ed8ec;
-    --editorial-focus:#72d5f5;
-    --editorial-warning:#f0c66d;
-    color-scheme:dark;
-  }
-}
+   ⚠️ 2026-09-03 2차 핫픽스(버그 리포트): 여기 있던 "@media (prefers-color-scheme: dark){
+   html:not(.glight){ …html.gdark와 같은 값… } }" 블록을 지웠다. .glight를 실제로 붙이는
+   코드가 어디에도 없어서(죽은 탈출구), 이 블록은 사실상 "OS가 다크면 사이트 토글 상태와
+   상관없이 무조건 어둡게" 였다. 반면 앱 셸의 진짜 화면 색(app-shell.css의 --bg/--ink/--paper,
+   카드·버튼·배지 등 대부분의 UI가 이걸 쓴다)은 OS를 보지 않고 html.gdark 토글만 본다.
+   그래서 "OS는 다크·사이트 토글은 라이트(기본값)"인 방문자(대표 포함, Windows 다크 모드)는
+   body 배경만 이 파일 때문에 어두워지고, 글자·카드 색은 라이트용 어두운 색 그대로 남아
+   다크 배경 위에 다크 글자 = 사이트 전체가 거의 안 보이는 화면이 됐다. 프로필 메뉴 안에 있는
+   다크/라이트 전환 버튼(#siteTheme)도 같은 이유로 안 보였다 — 그 버튼을 여는 상단 프로필
+   아이콘 자체가 다크 위에 다크로 칠해져 안 보였을 뿐, 버튼 자체는 멀쩡했다.
+   지금은 html.gdark 토글 하나만 본다(위 :root / html.gdark와 완전히 동일하게 동작). */
 
 html{scroll-padding-top:96px}
 body{background:var(--editorial-page);color:var(--editorial-body)}

@@ -2752,7 +2752,15 @@
   .latest-post-title{font-size:10.5px;font-weight:500;line-height:1.4;display:-webkit-box;
     -webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
   .watch-toggle{border:1px solid var(--line2);background:var(--paper);color:var(--ink);
-    border-radius:99px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+    border-radius:99px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;
+    display:inline-flex;align-items:center;justify-content:center;
+    /* 2026-09-03 버그 리포트: editorial-accessibility.css가 모든 button에 min-height:45px!important를
+       강제하는데, 이 버튼은 align-items를 안 정해놔서 짧은 글자가 45px 박스 위쪽에 붙고 아래는
+       빈 여백 — "테두리(여백)가 너무 크다"는 신고가 그 모습이었다. 여기서 align-items:center로
+       세로 중앙 정렬하고, min-height도 옆 종목코드 배지(.qcode, 약 24px)에 맞춰 32px로 줄였다
+       (WCAG 2.2 최소 터치 크기 24px는 여전히 넉넉히 넘긴다). 클래스 선택자라 :where(button…)보다
+       우선순위가 높아 !important 없이도 이긴다 — 다만 그쪽도 !important라 여기도 붙여 확실히 한다. */
+    min-height:32px!important}
   .watch-toggle.on{background:var(--navy-soft);color:var(--ink);border-color:var(--line2)}
   @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
   @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}
