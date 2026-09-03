@@ -38,21 +38,21 @@ const check = (condition, message) => {
 
     const shell = await page.evaluate(async () => {
       const keys = await caches.keys();
-      const key = keys.find(value => value === 'gaeo-shell-v23');
+      const key = keys.find(value => value === 'gaeo-shell-v24');
       const cache = key ? await caches.open(key) : null;
       const requests = cache ? await cache.keys() : [];
       return { key, paths: requests.map(request => new URL(request.url).pathname) };
     });
-    check(shell.key === 'gaeo-shell-v23', 'service worker v23 shell이 활성화됨');
+    check(shell.key === 'gaeo-shell-v24', 'service worker v24 shell이 활성화됨');
     check(shell.paths.includes('/app.js') && shell.paths.includes('/app-shell.css'),
       '분리된 앱 JS/CSS가 last-good shell에 저장됨');
     check(shell.paths.length <= budgets.assets.serviceWorkerShellEntries,
       `precache ${shell.paths.length}개 ≤ ${budgets.assets.serviceWorkerShellEntries}개`);
 
     const versionUpdate = await page.evaluate(async () => {
-      const cache = await caches.open('gaeo-shell-v23');
+      const cache = await caches.open('gaeo-shell-v24');
       const staleUrl = new URL('/app.js?v=stale-contract', location.origin).href;
-      const nextUrl = new URL('/app.js?v=20260903-p7-contract', location.origin).href;
+      const nextUrl = new URL('/app.js?v=20260903-p8-contract', location.origin).href;
       await cache.put(staleUrl, new Response('STALE_V20_SENTINEL', {
         headers: { 'Content-Type': 'text/javascript' },
       }));

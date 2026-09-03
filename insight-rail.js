@@ -125,7 +125,11 @@ var GaeoInsightRailCore=(function(){
     if(!all.length)return empty('표시할 뉴스가 없습니다','기존 뉴스 데이터가 갱신되면 표시됩니다.');
     const top=new Set((((brief()||{}).marketInsight||{}).ranked||[]).map(x=>x.code));
     const rows=all.map((x,i)=>({x,n:(x.stocks||[]).filter(c=>top.has(c)).length*10+Math.max(0,20-i)})).sort((a,b)=>b.n-a.n).slice(0,8);
-    return`<p class="gir-caption">시장 흐름과 주요 종목을 다룬 최신 분석이에요.</p><div class="gir-list">${rows.map(({x})=>`<button class="gir-row gir-news-row gir-article-row" type="button" data-gir-page="news"><span class="gir-row-main"><small>${esc(x.tag||x.cat||'시장')} · ${esc(core.formatPanelTime(x.date,'recent')||x.date||'')}</small><b>${esc(x.title)}</b><span>${esc(x.summary||'').slice(0,105)}</span></span></button>`).join('')}</div>`;
+    // ⚠️ 2026-09-03 버그 수정: data-gir-news-id로 "이 기사"를 특정한다. 예전에는 모든 행이
+    // data-gir-page="news"만 갖고 있어 어떤 기사를 눌러도 뉴스 목록 화면(전체 보기와 동일)으로만
+    // 이동하고, 누른 그 기사는 절대 펼쳐지지 않았다(대표 신고: "해당 뉴스를 누르면 뉴스화면으로
+    // 이동 안 함").
+    return`<p class="gir-caption">시장 흐름과 주요 종목을 다룬 최신 분석이에요.</p><div class="gir-list">${rows.map(({x})=>`<button class="gir-row gir-news-row gir-article-row" type="button" data-gir-news-id="${esc(x.id)}" aria-label="${esc(x.title)} 기사 보기"><span class="gir-row-main"><small>${esc(x.tag||x.cat||'시장')} · ${esc(core.formatPanelTime(x.date,'recent')||x.date||'')}</small><b>${esc(x.title)}</b><span>${esc(x.summary||'').slice(0,105)}</span></span></button>`).join('')}</div>`;
   }
   function live(){
     const r=typeof GAEO_RADAR!=='undefined'?GAEO_RADAR:null,l=typeof LIVE_DATA!=='undefined'?LIVE_DATA:null,events=r&&r.events?r.events.slice(0,18):[],indices=l&&l.indices?Object.entries(l.indices).slice(0,2):[];
@@ -153,7 +157,12 @@ var GaeoInsightRailCore=(function(){
   }
   function page(mode){const b=document.getElementById('mode-'+mode);if(b)b.click()}
   function bind(){
-    root.addEventListener('click',e=>{const t=e.target.closest('[data-gir-tab]');if(t){state=core.nextPanelState(state,t.dataset.girTab);sync();return}if(e.target.closest('[data-gir-close]')){state.open=false;sync(false);return}const s=e.target.closest('[data-gir-stock]');if(s){jumpToStock(s.dataset.girName||s.dataset.girStock);return}const p=e.target.closest('[data-gir-page]');if(p){page(p.dataset.girPage);return}const d=e.target.closest('[data-gir-delete]');if(d){saveRecent(recent().filter(x=>String(x.code)!==d.dataset.girDelete));render();return}if(e.target.closest('[data-gir-clear]')){saveRecent([]);render()}});
+    root.addEventListener('click',e=>{const t=e.target.closest('[data-gir-tab]');if(t){state=core.nextPanelState(state,t.dataset.girTab);sync();return}if(e.target.closest('[data-gir-close]')){state.open=false;sync(false);return}const s=e.target.closest('[data-gir-stock]');if(s){jumpToStock(s.dataset.girName||s.dataset.girStock);return}
+      // ⚠️ 2026-09-03 버그 수정(대표 신고: "해당 뉴스를 누르면 뉴스화면으로 이동 안 함"): 뉴스 행은
+      // data-gir-news-id를 먼저 확인해 그 기사를 펼치고, data-gir-page 처리보다 패널부터 닫는다
+      // (닫지 않으면 화면은 바뀌어도 패널에 가려 안 바뀐 것처럼 보였다).
+      const n=e.target.closest('[data-gir-news-id]');if(n){state.open=false;sync(false);page('news');window.openNewsId&&window.openNewsId(n.dataset.girNewsId);return}
+      const p=e.target.closest('[data-gir-page]');if(p){state.open=false;sync(false);page(p.dataset.girPage);return}const d=e.target.closest('[data-gir-delete]');if(d){saveRecent(recent().filter(x=>String(x.code)!==d.dataset.girDelete));render();return}if(e.target.closest('[data-gir-clear]')){saveRecent([]);render()}});
     root.addEventListener('keydown',e=>{const current=e.target.closest('[data-gir-tab]');if(!current||!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;e.preventDefault();const index=tabs.indexOf(current.dataset.girTab);const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:e.key==='ArrowDown'?(index+1)%tabs.length:(index-1+tabs.length)%tabs.length;state={open:true,tab:tabs[next]};sync();root.querySelector(`[data-gir-tab="${state.tab}"]`).focus()});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.open){state.open=false;sync(false);root.querySelector(`[data-gir-tab="${state.tab}"]`).focus()}});
     window.addEventListener('gaeo:recent-changed',()=>{if(state.open&&state.tab==='recent')render()});

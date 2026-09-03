@@ -40,10 +40,10 @@ assert.doesNotMatch(html, /cdn\.jsdelivr\.net\/gh\/orioncactus\/pretendard/,
   '중복 Pretendard CDN이 남아 있다. self-host Wanted Sans만 사용한다.');
 
 for (const asset of ['./app-shell.css', './app.js']) {
-  assert.ok(sw.includes(`'${asset}?v=20260903-p6'`),
+  assert.ok(sw.includes(`'${asset}?v=20260903-p7'`),
     `${asset}가 문서와 같은 정확한 버전 URL로 오프라인 shell에 없다.`);
 }
-assert.match(sw, /gaeo-shell-v23/, 'shell asset 변경 시 service worker cache 버전을 올려야 한다.');
+assert.match(sw, /gaeo-shell-v24/, 'shell asset 변경 시 service worker cache 버전을 올려야 한다.');
 const versionedShellPolicy = sw.match(/if \(versionedAppShell\) \{([\s\S]*?)\n  \}\n\n  const freshRequest/);
 assert.match(sw, /url\.searchParams\.has\('v'\)[\s\S]*app\.js[\s\S]*app-shell\.css/,
   '재방문 cache-first는 버전 쿼리가 있는 앱 JS/CSS로만 한정해야 한다.');
