@@ -97,7 +97,7 @@ a:focus-visible,[tabindex]:focus-visible{
 }
 .global-panel{background:var(--editorial-surface);box-shadow:none}
 .global-nav-inner,.global-panel-inner,.wrap{max-width:1480px}
-.refresh-notice{font-size:12px}
+.refresh-notice{font-size:9.5px}
 
 /* Home lead: one editorial spread, not two rounded cards. */
 .home-dashboard{margin-top:28px}
@@ -357,7 +357,7 @@ html.gdark .gr-chip[aria-pressed="true"]{color:var(--editorial-control-fg)}
 
 @media(max-width:620px){
   .global-nav-inner,.global-panel-inner,.wrap{width:calc(100% - 32px)}
-  .refresh-notice{padding-right:14px;padding-left:14px;font-size:12px}
+  .refresh-notice{padding-right:14px;padding-left:14px;font-size:9.5px}
   .home-dashboard>.home-lead>header{padding-top:24px}
   .home-hero-top{margin-bottom:15px}
   .hero-title{font-size:26px;line-height:1.16}
@@ -372,7 +372,7 @@ html.gdark .gr-chip[aria-pressed="true"]{color:var(--editorial-control-fg)}
   .home-dashboard .home-search-row input,.home-dashboard .home-search-go{min-height:48px}
   .home-dashboard .start-step{padding:30px 0}
   .home-daily-brief #briefTitle{font-size:22px}
-  .home-daily-brief .brief-line span{font-size:14px}
+  .home-daily-brief .brief-line span{font-size:12px}
   .home-dashboard .kpi{padding:18px 14px}
   .home-dashboard .kpi .k,.home-dashboard .kpi .s{font-size:12px}
   .home-dashboard .mood{font-size:12px}

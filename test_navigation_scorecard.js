@@ -78,7 +78,9 @@ const refreshAt = html.indexOf('id="navRefresh"');
 const profileAt = html.indexOf('id="navProfileToggle"');
 assert.ok(searchAt >= 0 && searchAt < refreshAt && refreshAt < profileAt);
 assert.match(html, /id="refreshNotice"/);
-assert.ok(html.includes('주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다. 꼭 자주 새로고침을 진행해주세요!'));
+// 2026-09-04 소유자 지시: 글자 크기 축소 + 마침표 제거 + "꼭 자주"부터 별도 줄(<br>)로.
+assert.ok(html.includes('주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다<br>꼭 자주 새로고침을 진행해주세요!'));
+assert.ok(!html.includes('갱신됩니다. 꼭 자주'), 'refresh-notice 문장 사이 마침표는 제거되어야 한다.');
 assert.match(html, /window\.location\.reload\(\)/);
 
 // Navigation is consolidated and weekday statistics live in their own view.
