@@ -246,7 +246,15 @@ assert.match(css, /\.rot-summary\{[^}]*grid-template-columns:1\.3fr repeat\(5,mi
 assert.match(css, /\.rot-card-context\{[^}]*font-size:11px[^}]*font-weight:600/);
 // 2026-08-18 sweep: 굵기 단계를 400/500/600 세 가지로 통일했다(650 폐지).
 assert.match(css, /\.rot-card-primary\{[^}]*font-size:20px[^}]*font-weight:600/);
-assert.match(css, /\.rot-card-secondary\{[^}]*font-size:12px[^}]*font-weight:400/);
+/* ⭐ 2026-09-04: 예전에는 rotation.css에 font-size:12px가 있는지만 봤다. 그런데 그 값은
+   화면에 한 번도 적용된 적이 없다 — editorial-foundation.css가 나중에 읽히면서 같은
+   선택자에 16px(모바일 15px)를 주기 때문이다. 즉 이 테스트는 "화면에 없는 값"을
+   지키고 있었다. 이제 굵기는 rotation.css에서, 크기는 실제로 이기는 파일에서 확인한다.
+   (죽은 선언 탐지는 test_css_layering.py가 맡는다.) */
+assert.match(css, /\.rot-card-secondary\{[^}]*font-weight:400/);
+const editorialCss = fs.readFileSync('editorial-foundation.css', 'utf8');
+assert.match(editorialCss, /\.rot-card-secondary\{font-size:16px\}/,
+  '순환매 보조 텍스트의 실제 크기는 editorial-foundation.css가 정한다');
 assert.match(css, /\.rot-meta-block\+\.rot-meta-block\{[^}]*margin-top:12px/);
 assert.match(css, /\.rot-meta dt\{[^}]*font-size:11px[^}]*font-weight:600/);
 assert.match(css, /\.rot-meta dd\{[^}]*font-size:11px[^}]*font-weight:400/);
