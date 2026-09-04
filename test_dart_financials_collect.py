@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""연간 재무 수집 경로 계약 테스트 (2026-09-04 신설).
+
+핵심 계약:
+  - API 예산을 넘지 않는다(600종목 × 3년 = 1,800회를 한 번에 부르면 안 된다).
+  - 이미 받은 (회사, 연도)는 다시 부르지 않는다.
+  - 키가 없거나 매핑이 없으면 조용히 건너뛴다(빈 값을 만들지 않는다).
+  - 예산이 빠듯하면 멈춘다(financial은 OPTIONAL 등급).
+"""
+import json
+import os
+import shutil
+import tempfile
+import unittest
+
+import collect_dart_financials as C
+import dart_client
+import dart_pipeline as P
+
+
+def fake_payload(assets=2000):
+    return {"status": "000", "list": [
+        {"account_id": "ifrs-full_Assets", "sj_div": "BS", "thstrm_amount": str(assets)},
+        {"account_id": "ifrs-full_Liabilities", "sj_div": "BS", "thstrm_amount": "800"},
+        {"account_id": "ifrs-full_Equity", "sj_div": "BS", "thstrm_amount": "1200"},
+        {"account_id": "ifrs-full_CurrentAssets", "sj_div": "BS", "thstrm_amount": "900"},
+        {"account_id": "ifrs-full_CurrentLiabilities", "sj_div": "BS", "thstrm_amount": "300"},
+        {"account_id": "ifrs-full_NoncurrentLiabilities", "sj_div": "BS", "thstrm_amount": "500"},
+        {"account_id": "ifrs-full_IssuedCapital", "sj_div": "BS", "thstrm_amount": "100"},
+        {"account_id": "ifrs-full_Revenue", "sj_div": "IS", "thstrm_amount": "1000"},
+        {"account_id": "ifrs-full_CostOfSales", "sj_div": "IS", "thstrm_amount": "600"},
+        {"account_id": "ifrs-full_GrossProfit", "sj_div": "IS", "thstrm_amount": "400"},
+        {"account_id": "ifrs-full_ProfitLoss", "sj_div": "IS", "thstrm_amount": "100"},
+        {"account_id": "dart_OperatingIncomeLoss", "sj_div": "IS", "thstrm_amount": "200"},
+        {"account_id": "ifrs-full_CashFlowsFromUsedInOperatingActivities",
+         "sj_div": "CF", "thstrm_amount": "150"},
+        {"account_id": "ifrs-full_CashFlowsFromUsedInInvestingActivities",
+         "sj_div": "CF", "thstrm_amount": "-50"},
+    ]}
+
+
+class FakeClient:
+    def __init__(self, has_key=True, empty_for=()):
+        self._has_key = has_key
+        self.calls = []
+        self.empty_for = set(empty_for)
+
+    def has_key(self):
+        return self._has_key
+
+    def financial_statement(self, corp_code, year, reprt_code, fs_div="CFS"):
+        self.calls.append((corp_code, year, fs_div))
+        if (corp_code, year) in self.empty_for:
+            return {"status": dart_client.OK, "data": {"status": "013", "list": []}}
+        return {"status": dart_client.OK, "data": fake_payload()}
+
+
+class FakeBudget:
+    def __init__(self, allow_n=999):
+        self.allow_n = allow_n
+        self.spent = 0
+
+    def allow(self, kind):
+        return self.spent < self.allow_n
+
+    def spend(self, kind):
+        self.spent += 1
+
+
+def corp_map(n=5):
+    return {"mapped": {f"{i:06d}": {"corp_code": f"C{i:06d}", "company_name": f"회사{i}",
+                                    "sector": "반도체"} for i in range(1, n + 1)}}
+
+
+class CollectorContract(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self._orig = C.STORE_DIR
+        C.STORE_DIR = self.tmp
+
+    def tearDown(self):
+        C.STORE_DIR = self._orig
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_respects_call_ceiling(self):
+        """⭐ 한 번에 유니버스를 다 받으면 예산이 터진다."""
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(50), budget=FakeBudget(),
+                        max_companies=40, max_calls=12, today="2026-09-04")
+        self.assertLessEqual(out["apiCalls"], 12)
+        self.assertLessEqual(len(cl.calls), 12)
+
+    def test_does_not_refetch_stored_years(self):
+        """연간 재무는 1년에 한 번만 바뀐다. 이미 받은 해를 또 부르면 예산 낭비다."""
+        cl = FakeClient()
+        C.collect(cl, corp_map(2), budget=FakeBudget(), max_companies=2,
+                  max_calls=99, today="2026-09-04")
+        first = len(cl.calls)
+        self.assertGreater(first, 0)
+        cl2 = FakeClient()
+        out2 = C.collect(cl2, corp_map(2), budget=FakeBudget(), max_companies=2,
+                         max_calls=99, today="2026-09-04")
+        self.assertEqual(len(cl2.calls), 0, "이미 받은 연도를 다시 불렀다")
+        self.assertEqual(out2["yearsStored"], 0)
+
+    def test_stops_when_budget_says_no(self):
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(10), budget=FakeBudget(allow_n=0),
+                        max_companies=10, max_calls=99, today="2026-09-04")
+        self.assertTrue(out["budgetStopped"])
+        self.assertEqual(out["apiCalls"], 0)
+
+    def test_skips_without_key(self):
+        out = C.collect(FakeClient(has_key=False), corp_map(3), budget=FakeBudget())
+        self.assertEqual(out["status"], C.SKIPPED_NO_KEY)
+
+    def test_skips_without_mapping(self):
+        out = C.collect(FakeClient(), {"mapped": {}}, budget=FakeBudget())
+        self.assertEqual(out["status"], C.SKIPPED_NO_MAPPING)
+
+    def test_no_data_year_is_remembered(self):
+        """자료가 없는 해를 매번 다시 묻지 않는다."""
+        cm = corp_map(1)
+        code = cm["mapped"]["000001"]["corp_code"]
+        cl = FakeClient(empty_for=[(code, 2023)])
+        C.collect(cl, cm, budget=FakeBudget(), max_companies=1, max_calls=99,
+                  today="2026-09-04")
+        doc = C.load_company("000001")
+        self.assertEqual(doc["years"]["2023"]["status"], "NO_DATA")
+        cl2 = FakeClient(empty_for=[(code, 2023)])
+        C.collect(cl2, cm, budget=FakeBudget(), max_companies=1, max_calls=99,
+                  today="2026-09-04")
+        self.assertEqual(len(cl2.calls), 0, "NO_DATA로 확인된 해를 다시 불렀다")
+
+    def test_collects_three_fiscal_years(self):
+        """Piotroski는 회계연도 3개가 필요하다."""
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(1), budget=FakeBudget(), max_companies=1,
+                        max_calls=99, today="2026-09-04")
+        self.assertEqual(len(out["targetYears"]), C.YEARS_NEEDED)
+        doc = C.load_company("000001")
+        ok_years = [y for y, v in doc["years"].items() if v["status"] == "OK"]
+        self.assertEqual(len(ok_years), 3)
+
+    def test_stored_values_feed_piotroski(self):
+        """수집 결과가 실제로 F-Score 계산에 그대로 들어가야 한다."""
+        import piotroski as PF
+        cl = FakeClient()
+        C.collect(cl, corp_map(1), budget=FakeBudget(), max_companies=1,
+                  max_calls=99, today="2026-09-04")
+        doc = C.load_company("000001")
+        ys = sorted((y for y, v in doc["years"].items() if v["status"] == "OK"), reverse=True)
+        out = PF.compute(doc["years"][ys[0]], doc["years"][ys[1]], doc["years"][ys[2]])
+        self.assertTrue(out["complete"], f"수집값으로 9개 신호를 못 채웠다: {out['missing']}")
+        self.assertIsNotNone(out["score"])
+
+
+class YearSelection(unittest.TestCase):
+    def test_before_april_uses_one_year_earlier(self):
+        """사업보고서는 회계연도 종료 뒤 3개월 안에 나온다. 1~3월에는 작년치가 없다."""
+        self.assertEqual(C.target_years("2026-02-10")[0], 2024)
+        self.assertEqual(C.target_years("2026-05-10")[0], 2025)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

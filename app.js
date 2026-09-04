@@ -2583,7 +2583,8 @@ function renderScorecard(){
     const bc=(team&&team.byCall)||{};
     const bcRows=['BUY','HOLD','SELL'].map(c=>{
       const r=bc[c]; if(!r||r.acc==null) return '';
-      return `<tr><td>${c}</td><td class="num">${Number(r.n).toLocaleString()}건</td><td class="num">${r.acc}%</td><td class="num">${esc(String(r.band||''))}</td></tr>`;
+      const ex=r.excludedPct==null?'—':r.excludedPct+'%';
+      return `<tr><td>${c}</td><td class="num">${Number(r.n).toLocaleString()}건</td><td class="num">${r.acc}%</td><td class="num">${esc(String(r.band||''))}</td><td class="num">${ex}</td></tr>`;
     }).filter(Boolean).join('');
     const teamNote=(team&&team.acc!=null)
       ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}는 ${bestA.acc}%이고, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건).`
@@ -2591,8 +2592,10 @@ function renderScorecard(){
           ? ` 다만 <b>같은 기록을 전부 HOLD로만 채점하면 ${team.holdBaselineAcc}%</b>가 나와요. 즉 지금 팀 판단이 아무것도 안 한 기준선보다 앞선 폭은 <b>${team.liftVsHoldPp>0?'+':''}${team.liftVsHoldPp}%p</b>뿐이에요.`
           : '')
         +` 같은 기록 구간에서 관측된 값이며, 여러 관점을 합치는 방식이 앞으로도 더 정확하다는 증명은 아니에요.</div>`
-        +(bcRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">채점</th><th class="num">적중률</th><th class="num">채점 잣대</th></tr></thead><tbody>${bcRows}</tbody></table></div>`
-          +`<div class="sc-foot-note">채점 잣대가 판단마다 달라요. BUY·SELL은 방향이 ±1%를 넘어야 맞은 걸로 세고, HOLD는 ±5% 안에 머무르면 맞은 걸로 세요. 잣대가 느슨한 HOLD가 전체 채점의 대부분이라, 위 합계 적중률 하나만 보면 실제보다 잘한 것처럼 보여요.</div>`:'')
+        +(bcRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">채점</th><th class="num">적중률</th><th class="num">채점 잣대</th><th class="num">채점 제외</th></tr></thead><tbody>${bcRows}</tbody></table></div>`
+          +`<div class="sc-foot-note">채점 잣대가 판단마다 달라요. BUY·SELL은 방향이 ±1%를 넘어야 맞은 걸로 세고, HOLD는 ±5% 안에 머무르면 맞은 걸로 세요. 잣대가 느슨한 HOLD가 전체 채점의 대부분이라, 위 합계 적중률 하나만 보면 실제보다 잘한 것처럼 보여요.
+        「채점 제외」는 ±1% 안쪽이라 방향을 가릴 수 없어 빠진 비율이에요. BUY·SELL만 빠지고 HOLD는 하나도 안 빠져서, 판단 종류마다 실제로 채점된 표본의 크기가 달라요.
+        빠진 구간이 한쪽으로 치우쳤는지도 따로 재봤는데, 우리에게 유리한 쪽으로 기울지는 않았어요. 자세한 실측 수치는 저장소 문서에 남겨 뒀어요.</div>`:'')
       : '';
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};

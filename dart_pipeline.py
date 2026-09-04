@@ -404,7 +404,38 @@ FINANCIAL_TARGETS = {
         "names": ["이자비용", "금융원가", "이자비용(금융원가)"],
         "sjDiv": ["IS", "CIS"],
         "for": ["OperatingProfitability"]},
+    # 📚 2026-09-04 추가 — Piotroski(2000, JAR) F-Score 9개 신호 중 지금 계정이 없어
+    #    아예 계산할 수 없던 세 가지(유동성·차입금·증자)를 위해 수집 목록을 늘린다.
+    #    ⚠️ 2026-08-21과 같은 원칙: **수집만 늘린다. 점수는 여기서 만들지 않는다.**
+    #    ⚠️ 계정을 못 찾으면 기존과 같이 NOT_AVAILABLE로 남는다(0으로 만들지 않는다).
+    #       실제 응답에 있는지는 dart_smoke_test.py로 확인해야 확정된다.
+    #    ⚠️ 유동자산·유동부채는 유동/비유동 구분을 하지 않는 재무제표(금융업 등)에는
+    #       원래 없다. 그런 경우도 결측이 아니라 '개념 부재'로 다뤄야 한다.
+    "currentAssets": {
+        "ids": ["ifrs-full_CurrentAssets"],
+        "names": ["유동자산"],
+        "sjDiv": ["BS"],
+        "for": ["Piotroski.dLiquidity"]},
+    "currentLiabilities": {
+        "ids": ["ifrs-full_CurrentLiabilities"],
+        "names": ["유동부채"],
+        "sjDiv": ["BS"],
+        "for": ["Piotroski.dLiquidity"]},
+    "nonCurrentLiabilities": {
+        "ids": ["ifrs-full_NoncurrentLiabilities"],
+        "names": ["비유동부채"],
+        "sjDiv": ["BS"],
+        "for": ["Piotroski.dLeverage"]},
+    "issuedCapital": {
+        "ids": ["ifrs-full_IssuedCapital"],
+        "names": ["자본금"],
+        "sjDiv": ["BS"],
+        "for": ["Piotroski.equityOffer"]},
 }
+
+# 유동/비유동을 나누지 않는 재무제표에는 원래 없는 항목이다(금융업이 대표적).
+# '결측'과 구분해 NOT_APPLICABLE로 다룬다.
+NON_CURRENT_SPLIT_ACCOUNTS = ("currentAssets", "currentLiabilities", "nonCurrentLiabilities")
 
 # 금융업은 매출원가·매출총이익 개념이 없고 부채의 의미도 다르다(요구 20번).
 # 일반기업 공식에 억지로 넣지 않기 위한 표시.
@@ -484,7 +515,8 @@ def extract_financials(payload, sector=None):
                     break
         if hit is None:
             # 금융업에서 원래 존재하지 않는 항목은 '결측'과 구분한다.
-            if financial_sector and key in ("costOfSales", "grossProfit", "revenue"):
+            if financial_sector and key in ("costOfSales", "grossProfit", "revenue",
+                                            *NON_CURRENT_SPLIT_ACCOUNTS):
                 out[key] = NOT_APPLICABLE_FINANCIAL_SECTOR
                 not_applicable.append(key)
             else:

@@ -191,7 +191,7 @@ def main():
     hold_miss = 0
     # 판단 종류별로도 따로 센다 — 잣대(±1% vs ±5%)가 달라서 한 칸에 합쳐 보여주면
     # 서로 다른 시험의 점수를 평균한 셈이 된다.
-    by_call = {c: {"hit": 0, "miss": 0} for c in ("BUY", "HOLD", "SELL")}
+    by_call = {c: {"hit": 0, "miss": 0, "mid": 0} for c in ("BUY", "HOLD", "SELL")}
     # Constitution statisticalPolicy: "같은 날 600종목은 서로 독립이 아니다.
     # 표본 크기는 raw N이 아니라 unique decision days 기준으로 판단한다."
     # 화면이 "3,463건"만 보여 주면 6일치를 3천 건처럼 보이게 하므로 날짜도 함께 낸다.
@@ -239,10 +239,11 @@ def main():
             elif team_score == "miss":
                 team_miss += 1
                 team_days.add(day)
-            if team_score in ("hit", "miss"):
+            if team_score in ("hit", "miss", "mid"):
                 _call = e.get("call")
                 if _call in by_call:
                     by_call[_call][team_score] += 1
+            if team_score in ("hit", "miss"):
                 # 같은 기록을 "전부 HOLD였다면"으로 다시 채점한 기준선.
                 _hold = score_call("HOLD", team_ret)
                 if _hold == "hit":
@@ -377,11 +378,21 @@ def main():
                     c: {"n": v["hit"] + v["miss"],
                         "acc": round(v["hit"] / (v["hit"] + v["miss"]) * 100, 1)
                         if v["hit"] + v["miss"] else None,
-                        "band": ("±1%" if c in ("BUY", "SELL") else "±5%")}
+                        "band": ("±1%" if c in ("BUY", "SELL") else "±5%"),
+                        # ⭐ 2026-09-04 편향 감사: 채점에서 빠지는 비율이 판단 종류마다
+                        #    다르다. BUY·SELL은 ±1% 안쪽이면 '애매'로 빠지지만 HOLD는
+                        #    빠지는 게 없다. 이 사실을 안 밝히면 합친 적중률이 서로 다른
+                        #    크기의 표본을 섞은 값이라는 걸 알 수 없다.
+                        "excludedMid": v["mid"],
+                        "excludedPct": round(
+                            v["mid"] / (v["hit"] + v["miss"] + v["mid"]) * 100, 1)
+                        if v["hit"] + v["miss"] + v["mid"] else None}
                     for c, v in by_call.items()
                 },
                 "bandNote": ("BUY·SELL은 ±1%, HOLD는 ±5% 기준으로 채점한다. "
-                             "잣대가 다르므로 합친 적중률 하나만 보고 판단하면 안 된다."),
+                             "또 BUY·SELL만 ±1% 안쪽이 '애매'로 채점에서 빠진다"
+                             "(HOLD는 빠지는 게 없다). 잣대와 제외율이 모두 다르므로 "
+                             "합친 적중률 하나만 보고 판단하면 안 된다."),
             },
         },
         "sectors": sectors_out,

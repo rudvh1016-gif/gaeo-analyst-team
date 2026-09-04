@@ -1,5 +1,20 @@
 # Growth Foundation P0 기준선 감사
 
+> ## ⚠️ 이 문서는 "고치기 전" 기준선이다 (2026-09-04 재확인)
+>
+> 아래 내용은 **수정 전 상태를 기록한 역사 문서**다. 할 일 목록으로 읽으면 안 된다.
+> 2026-09-04에 로컬 서버 + Chromium으로 다시 실측해 확인한 현재 상태는 이렇다.
+>
+> | 기준선 결론 | 현재 상태 (2026-09-04 실측) |
+> |---|---|
+> | 2. stock noindex가 robots 차단 때문에 충돌 | **해결.** `robots.txt`에 `/snap/stock/` 차단이 없다. `/snap/stock/005930.html`이 `noindex,follow` + self canonical로 응답한다 |
+> | 3. query 글 canonical과 OG/title 불일치 | **해결.** `/?m=news&id=63`이 canonical·og:url 모두 `…/snap/news/63.html`이고 title/og:title이 글 제목과 일치한다 |
+> | 4. 앱 전용 query가 홈페이지로 canonical | **해결.** `/?m=single&code=005930`·`/?m=guide`·`/?m=rotation` 모두 canonical 없이 `noindex,follow`만 쓴다. 종목 query는 title/og도 종목명으로 바뀐다 |
+> | 5. sitemap이 "오늘"을 만들어 거짓 신선도 | **해결.** `generate_sitemap.js` 2행에 "There is deliberately no 'today' fallback"이 명시돼 있고, 날짜가 없으면 `lastmod`를 생략하거나 오류를 낸다 |
+>
+> 대부분 커밋 `77386167 fix: harden growth foundation contracts`에서 처리됐다.
+> 남은 항목(6번 제품 문구, 7번 analytics 계약)은 별도로 다룬다.
+
 기준 시점은 2026-09-02이며, 시작 커밋은 `d016195cfcd229b54869b27fd791444bcb1e6380`이다. 이 문서는 수정 전 저장소와 운영 사이트 `https://gaeoteam.com`을 직접 조사한 결과다.
 
 ## 조사 방법
