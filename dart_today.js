@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-04 09:41",
- "priceLabel": "2026-09-04 09:35 장중 · ⚠️ 1종목 지연",
- "count": 362,
+ "generatedAt": "2026-09-04 10:12",
+ "priceLabel": "2026-09-04 10:10 장중 · ⚠️ 1종목 지연",
+ "count": 363,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "319660",
+   "name": "피에스케이",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:11:08.347830+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904900080"
+  },
   {
    "code": "018880",
    "name": "한온시스템",
