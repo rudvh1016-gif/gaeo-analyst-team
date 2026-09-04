@@ -310,12 +310,40 @@ function baseFixture(overrides) {
     await mountFixture(page, baseFixture());   // history = 'HISTORY_ACCUMULATING'
     const text = await page.locator('#fullMarketView').innerText();
     requireState(text.includes('시장 흐름 추세'), 'History 섹션 제목(시장 흐름 추세) 없음');
-    requireState(text.includes('최근 5거래일') && text.includes('최근 20거래일'), '5거래일/20거래일 기간 분리 표시 없음');
-    requireState((text.match(/데이터 기록 중/g) || []).length >= 2, '기간별 "데이터 기록 중" 표시가 2개 미만');
-    requireState(text.includes('아직 충분한 기록이 없어'), '평균/추세 미표시 사유 설명 없음');
+    /* ⭐ 2026-09-04: history가 문자열이면 아직 집계 자체가 시작되지 않은 상태다.
+       (일별 기록은 쌓이는데 합산 코드가 없어 계속 이 상태로 머물던 것이 원래 버그였다.) */
+    requireState(text.includes('아직 기록이 시작되지 않았습니다'), '집계 미시작 사유 설명 없음');
     for (const banned of ['5일선', '20일선', '5일 평균', '20일 평균', '5일 / 20일 흐름']) {
       requireState(!text.includes(banned), `금지 문구 발견: "${banned}"`);
     }
+
+    /* ⭐ 2026-09-04 신설 — 실제 집계가 들어왔을 때의 계약.
+       ① 기간별로 나눠 보여준다  ② 라벨에 "무엇의 평균인지"가 들어간다
+       ③ 날짜가 모자란 기간은 평균을 지어내지 않고 남은 일수를 그대로 말한다 */
+    await mountFixture(page, Object.assign(baseFixture(), { history: {
+      schemaVersion: 'gaeo_market_history_v1', totalDaysCollected: 14,
+      firstDay: '2026-08-18', lastDay: '2026-09-04',
+      today: { advanceRatioPct: 67.63, medianReturnPct: 0.74 },
+      windows: {
+        '5': { days: 5, daysCollected: 5, daysNeeded: 5, daysRemaining: 0, available: true,
+               periodStart: '2026-08-31', periodEnd: '2026-09-04',
+               metrics: { advanceRatioPct: { label: '최근 5거래일 상승 종목 비율 평균', unit: '%', average: 41.4, sampleDays: 5 },
+                          medianReturnPct: { label: '최근 5거래일 구성 종목 중앙값 등락 평균', unit: '%', average: -0.34, sampleDays: 5 } } },
+        '20': { days: 20, daysCollected: 14, daysNeeded: 20, daysRemaining: 6, available: false, metrics: {} },
+      } } }));
+    const ready = await page.locator('#fullMarketView').innerText();
+    requireState(ready.includes('최근 5거래일 상승 종목 비율 평균'),
+      '무엇의 평균인지가 라벨에 없다');
+    requireState(ready.includes('41.4%'), '집계된 평균값이 화면에 없다');
+    requireState(ready.includes('6거래일 더 필요') && ready.includes('14일'),
+      '기간이 모자란 창에서 남은 일수를 밝히지 않았다');
+    requireState(!/최근 20거래일 상승 종목 비율 평균/.test(ready),
+      '표본이 모자란 기간의 평균을 지어냈다');
+    requireState(ready.includes('이동평균선이 아닙니다'), '이동평균선 오해 방지 문구 없음');
+    for (const banned of ['5일선', '20일선', '5일 평균', '20일 평균']) {
+      requireState(!ready.includes(banned), `금지 문구 발견: "${banned}"`);
+    }
+    await mountFixture(page, baseFixture());
     // 기준시각 명시(2026-08-16): fixture의 dataAsOf는 일요일 10:42 KST(휴장 시간).
     // '수집' 표기와 '마지막 거래일 기준' 안내가 함께 나와야 한다(현재시각 위장 금지).
     const asof = await page.locator('.fm-asof').innerText();

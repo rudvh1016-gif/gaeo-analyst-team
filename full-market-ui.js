@@ -231,19 +231,48 @@
   }
 
   function renderHistoryNote(data){
-    // history가 아직 문자열 상태(HISTORY_ACCUMULATING)면 축적 중 안내만 조용히 보여준다.
-    // 나중에 실제 집계 객체로 바뀌면 그때 별도 작업으로 붙인다 — 여기서 미리 만들지 않는다.
-    // 그때의 Label은 반드시 측정 대상까지 포함해야 한다(예: "최근 5거래일 상승 참여율 평균").
-    // "5일선/20일선"(이동평균선 오해)·정의 없는 "5일 평균/20일 평균"은 금지.
-    const ready=data.history&&typeof data.history==='object';
-    if(ready) return '';
+    /* ⭐ 2026-09-04: 예전에는 history가 객체가 되면 이 섹션을 통째로 숨겼고(return ''),
+       객체가 아니면 "데이터 기록 중"만 계속 보여줬다. 그런데 일별 기록은 2026-08-18부터
+       매일 쌓이고 있었다 — 합산해서 보여주는 코드가 없었을 뿐이다. 이제 실제 값을 낸다.
+
+       ⚠️ 라벨에 "무엇의 평균인지"를 반드시 담는다. 대상이 빠진 "5일 평균"이나
+          이동평균선으로 오해되는 "5일선"은 쓰지 않는다.
+       ⚠️ 날짜가 모자란 기간은 평균을 지어내지 않고, 며칠 남았는지 그대로 보여준다. */
+    const h=data.history;
+    if(!h||typeof h!=='object'){
+      return `<section class="fm-panel fm-history"><h3>시장 흐름 추세</h3>
+        <p class="fm-sub">전체시장 기록이 쌓이면 단기와 중기 흐름을 기간별로 비교할 수 있습니다.</p>
+        <p class="fm-history-copy">아직 기록이 시작되지 않았습니다.</p>
+      </section>`;
+    }
+    const windows=h.windows||{};
+    const today=h.today||{};
+    const fmt=(v,unit)=>v==null?'—':`${v>0&&unit==='%'&&v!==0?'':''}${v}${unit||''}`;
+    const cells=['5','20'].map(key=>{
+      const w=windows[key];
+      if(!w) return '';
+      if(!w.available){
+        return `<div class="fm-history-cell"><span>최근 ${w.days}거래일</span>
+          <strong>${w.daysRemaining}거래일 더 필요</strong>
+          <small>지금까지 ${w.daysCollected}일 모았어요</small></div>`;
+      }
+      const m=w.metrics||{};
+      const adv=m.advanceRatioPct||{}, med=m.medianReturnPct||{};
+      const now=today.advanceRatioPct;
+      const gap=(now!=null&&adv.average!=null)?Math.round((now-adv.average)*10)/10:null;
+      return `<div class="fm-history-cell"><span>최근 ${w.days}거래일 상승 종목 비율 평균</span>
+        <strong>${fmt(adv.average,'%')}</strong>
+        <small>구성 종목 중앙값 등락 평균 ${fmt(med.average,'%')}<br>
+        ${escapeHtml(String(w.periodStart||''))} ~ ${escapeHtml(String(w.periodEnd||''))}
+        ${gap!=null?`<br>오늘은 이 평균보다 ${gap>0?'+':''}${gap}%p`:''}</small></div>`;
+    }).filter(Boolean).join('');
+    const ready=['5','20'].some(k=>windows[k]&&windows[k].available);
     return `<section class="fm-panel fm-history"><h3>시장 흐름 추세</h3>
-      <p class="fm-sub">전체시장 기록이 쌓이면 단기와 중기 흐름을 기간별로 비교할 수 있습니다.</p>
-      <div class="fm-history-grid">
-        <div><span>최근 5거래일</span><strong>데이터 기록 중</strong></div>
-        <div><span>최근 20거래일</span><strong>데이터 기록 중</strong></div>
-      </div>
-      <p class="fm-history-copy">아직 충분한 기록이 없어 평균값이나 추세를 표시하지 않습니다.</p>
+      <p class="fm-sub">전체시장의 하루 집계를 기간별로 평균해 지금이 평소보다 강한지 봅니다. 이동평균선이 아닙니다.</p>
+      <div class="fm-history-grid">${cells}</div>
+      <p class="fm-history-copy">${ready
+        ? `${escapeHtml(String(h.firstDay||''))}부터 ${h.totalDaysCollected}거래일치를 모았습니다. 기간이 모자란 칸은 평균을 만들지 않고 남은 일수만 표시합니다.`
+        : '아직 충분한 기록이 없어 평균값이나 추세를 표시하지 않습니다.'}</p>
     </section>`;
   }
 

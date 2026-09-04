@@ -9,6 +9,10 @@
 .rot-hero-note{margin-top:4px!important;color:var(--rot-g6,#3f4650)!important;font-weight:600}
 .rot-asof{text-align:right;color:var(--rot-g18,#6d727c);font-size:10px;line-height:1.65;white-space:nowrap}
 .rot-asof strong{display:block;color:var(--rot-g1,#1d1d1f);font-size:11px}
+/* ⭐ 2026-09-04: 카드마다 반복되던 "권장 N거래일 기준 · 계산기간"을 위로 뺀 한 줄.
+   공통 전제는 한 번만 쓰고, 카드는 각자 다른 것만 담는다. */
+.rot-summary-basis{margin:0 0 10px;color:var(--rot-g13,#606670);font-size:12px;line-height:1.55}
+.rot-summary-basis b{color:inherit;font-weight:600}
 .rot-summary{display:grid;grid-template-columns:1.3fr repeat(5,minmax(0,1fr));gap:8px;margin-bottom:18px}
 .rot-card{min-height:228px;padding:22px 18px;border:1px solid #e3e5e8;border-radius:14px;background:#fff;box-sizing:border-box}
 .rot-card-context{display:block;min-height:2.8em;color:var(--rot-g18,#6d727c);font-size:11px;font-weight:600;line-height:1.4;letter-spacing:-.015em}

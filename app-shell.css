@@ -2223,7 +2223,7 @@
   .tly b{font-weight:600}
   .tly.buy{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
   .tly.buy::before{background:var(--color-positive)}
-  .tly.hold{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
+  .tly.hold{background:transparent;border-color:var(--color-warning-line);color:#755B2E}
   .tly.hold::before{background:var(--color-warning)}
   .tly.sell{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
   .tly.sell::before{background:var(--color-negative)}
@@ -2424,7 +2424,7 @@
   html.gdark .ma-badge-info::after{background:rgba(255,255,255,.24)}
   .ma-badge.above{background:var(--color-positive-soft);border-color:var(--color-positive-line);color:#126B4D}
   .ma-badge.below{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
-  .ma-badge.near{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
+  .ma-badge.near{background:transparent;border-color:var(--color-warning-line);color:#755B2E}
   .ma-badge.insufficient{background:var(--color-bg-subtle);border:1px solid var(--color-border);color:var(--color-text-tertiary)}
   html.gdark .ma-badge.above{color:#7FD9BC} html.gdark .ma-badge.below{color:#F0A6A6} html.gdark .ma-badge.near{color:#E0C088}
   .ma-card-val{font-size:12.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:4px}
@@ -2454,7 +2454,7 @@
   .card .ma-combo li.ma-combo-star{padding-left:19px}
   .ma-risk-row{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
   .ma-risk-chip{font-size:10.5px;font-weight:500;padding:4px 10px;border-radius:99px;border:1px solid transparent}
-  .ma-risk-chip.warn{background:var(--color-warning-soft);border-color:var(--color-warning-line);color:#755B2E}
+  .ma-risk-chip.warn{background:transparent;border-color:var(--color-warning-line);color:#755B2E}
   .ma-risk-chip.bad{background:var(--color-negative-soft);border-color:var(--color-negative-line);color:#B63D3D}
   html.gdark .ma-risk-chip.warn{color:#E0C088} html.gdark .ma-risk-chip.bad{color:#F0A6A6}
   .ma-insufficient-note{margin-top:11px;font-size:10.5px;color:var(--color-text-tertiary);line-height:1.55;
@@ -2912,7 +2912,11 @@
     --color-border:#E8E9EC; --color-border-strong:#D9DCE1;
     /* GAEO 액센트(잉크 블랙) — 넓은 면적에 쓰지 않고 강조에만 쓴다.
        (2026-08-06 사용자 지정: 딥그린 대신 검정. 참고 시안의 검정 CTA와 일치) */
-    --color-accent:#111318; --color-accent-hover:#000000; --color-accent-soft:#F3F3F0;
+    /* ⭐ 2026-09-04 소유자 지시: 이 옅은 배경이 휴대폰 화면에서 누렇게(황토색으로) 보인다.
+       #F3F3F0은 파랑(240)이 빨강(243)보다 낮아 따뜻한 쪽으로 기운 회색이라 그렇다.
+       세 값을 같게 맞춰 완전한 중성 회색으로 바꾼다. 밝기는 그대로라 배치는 안 바뀐다.
+       이 토큰 하나가 --gaeo-50으로도 쓰여 24곳에 퍼져 있어, 여기만 고치면 전부 사라진다. */
+    --color-accent:#111318; --color-accent-hover:#000000; --color-accent-soft:#F2F2F2;
     /* 금융 의미색 — 장식용 금지, 실제 상태일 때만 */
     --color-positive:#14815C; --color-positive-soft:#EAF6F1; --color-positive-line:#D5EBE2;
     --color-negative:#D84A4A; --color-negative-soft:#FCEEEE; --color-negative-line:#F2D9D9;

@@ -67,7 +67,18 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
       return { height: element.getBoundingClientRect().height, lineHeight: parseFloat(style.lineHeight) };
     });
     requireState(leadType.height <= leadType.lineHeight * 2.25, `${width}px lead title exceeds two lines: ${JSON.stringify(leadType)}`);
-    requireState(await page.locator('.rot-summary .rot-meta-block').count() >= 10, `${width}px summary metadata was removed`);
+    /* ⭐ 2026-09-04 소유자 지시(가독성): "권장 N거래일 기준"과 계산기간이 카드 6개에
+       각각 반복돼 있었다. 공통 전제는 위 한 줄로 모으고 카드에는 고유한 것만 남겼다.
+       계약의 뜻은 그대로다 — 근거를 지우지 않는다. 다만 같은 근거를 여러 번 쓰지 않는다.
+       그래서 개수(10개)가 아니라 "공통 줄 + 고유 근거"가 모두 있는지로 확인한다. */
+    const basisText = await page.locator('.rot-summary-basis').innerText();
+    requireState(/거래일 기준/.test(basisText) && basisText.includes('계산기간'),
+      `${width}px summary basis line lost the horizon or calculation period: ${basisText.slice(0, 80)}`);
+    requireState(await page.locator('.rot-summary .rot-meta-block').count() >= 6,
+      `${width}px card-specific metadata was removed`);
+    requireState(await page.locator('.rot-summary .rot-meta-block dt').evaluateAll(
+      nodes => nodes.filter(n => n.textContent.trim() === '계산기간').length) === 0,
+      `${width}px calculation period is repeated inside cards again`);
     requireState(await page.locator('.rot-workspace').count() === 1 && await page.locator('.rot-analysis-grid').count() === 1 && await page.locator('.rot-method').count() === 1, `${width}px lower rotation sections changed`);
 
     if (width > 920) {
@@ -128,7 +139,9 @@ const leaderTodayText = `${leaderReturn > 0 ? '+' : ''}${leaderReturn.toFixed(1)
   await page.locator('[data-horizon="5"]').first().click();
   requireState((await page.locator('.rot-rank-panel h3').innerText()).startsWith('5거래일'), 'ranking did not follow selected horizon');
   requireState((await page.locator('.rot-detail-sub').innerText()).includes('선택 5거래일'), 'detail mislabeled selected horizon as recommendation');
-  requireState((await page.locator('.rot-summary').innerText()).includes('권장 20거래일 기준'), 'recommended horizon changed when selecting a reference tab');
+  /* 권장 기간 표기는 2026-09-04부터 카드가 아니라 요약 위 공통 줄(.rot-summary-basis)에 있다.
+     계약의 뜻은 그대로다 — 참고용 기간 탭을 눌러도 '권장' 기간은 흔들리면 안 된다. */
+  requireState((await page.locator('.rot-summary-basis').innerText()).includes('권장 20거래일 기준'), 'recommended horizon changed when selecting a reference tab');
   const resourceUrls = await page.evaluate(() => performance.getEntriesByType('resource').map(entry => entry.name));
   // 2026-08-18 Typography Sweep에서 v13 → v14, 2026-08-20 접이식 심화 섹션에서 v15로 올렸다.
   // ⚠️ 캐시 버전이 박혀 있는 곳이 여기 말고 test_rotation_ui.js에도 있다. 올릴 때 둘 다
