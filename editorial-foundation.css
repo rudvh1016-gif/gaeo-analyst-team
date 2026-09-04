@@ -112,6 +112,9 @@ a:focus-visible,[tabindex]:focus-visible{
   box-shadow:none}
 .home-hero-top{margin-bottom:22px}
 .hero-brand{font-size:19px;font-weight:800;letter-spacing:-.04em}
+/* ⭐ 2026-09-04 소유자 지시(밑줄 제거): 로고 옆 작은 보조 동작이라 테두리까지 두면
+   시선을 너무 끈다. 밑줄만 빼고 굵기로 눌러지는 것임을 알린다.
+   마우스·키보드로 만질 때만 밑줄을 보여준다. */
 .home-dashboard .pwa-btn{
   min-height:36px;
   padding:0;
@@ -120,6 +123,11 @@ a:focus-visible,[tabindex]:focus-visible{
   background:transparent;
   color:var(--editorial-secondary);
   font-size:12px;
+  font-weight:600;
+  text-decoration:none}
+.home-dashboard .pwa-btn:hover,
+.home-dashboard .pwa-btn:focus-visible{
+  color:var(--editorial-heading);
   text-decoration:underline;
   text-underline-offset:4px}
 .hero-title{
@@ -155,21 +163,42 @@ a:focus-visible,[tabindex]:focus-visible{
   font-size:13px;
   font-weight:400;
   line-height:1.6}
-.home-dashboard .hero-trust a{color:var(--editorial-text);font-weight:500;text-decoration:underline;text-underline-offset:4px}
-.hero-actions{gap:18px;margin-top:18px}
+/* ⭐ 2026-09-04 소유자 지시: 첫 화면에 밑줄 친 글자가 여러 줄 겹쳐 보여 눈이 아프다.
+   밑줄을 없애되 "눌러지는 것"이라는 신호는 유지해야 한다. 그래서 방향을 바꾼다.
+     - 동작 버튼(최근 분석·분석 기준·앱처럼 설치)은 얇은 테두리 칩으로 바꾼다.
+       사이트가 이미 쓰는 --editorial-control-radius(8px)와 divider 색을 그대로 쓴다.
+     - 신뢰 링크(사이트 소개·데이터 출처와 면책·전체 글 목록)는 글자 굵기와 색으로만
+       구분한다. 이 줄은 링크만 · 로 이어 놓은 줄이라 본문과 섞이지 않는다.
+     - 다만 마우스를 올리거나 키보드로 이동했을 때는 밑줄을 다시 보여준다.
+       평소엔 조용하고, 만질 때만 분명해지도록 한다(접근성 유지). */
+.home-dashboard .hero-trust a{
+  color:var(--editorial-text);
+  font-weight:600;
+  text-decoration:none}
+.home-dashboard .hero-trust a:hover,
+.home-dashboard .hero-trust a:focus-visible{
+  color:var(--editorial-heading);
+  text-decoration:underline;
+  text-underline-offset:4px}
+.hero-actions{gap:10px;margin-top:18px;flex-wrap:wrap}
 .hero-action,.hero-action.primary{
+  display:inline-flex;
+  align-items:center;
   min-height:44px;
-  padding:0;
-  border:0;
-  border-radius:0;
+  padding:0 14px;
+  border:1px solid var(--editorial-divider-strong);
+  border-radius:var(--editorial-control-radius);
   background:transparent;
   box-shadow:none;
   color:var(--editorial-text);
   font-size:13px;
-  font-weight:500;
-  text-decoration:underline;
-  text-underline-offset:5px}
-.hero-action:hover,.hero-action.primary:hover{background:transparent;color:var(--editorial-heading);transform:none}
+  font-weight:600;
+  text-decoration:none}
+.hero-action:hover,.hero-action.primary:hover{
+  border-color:var(--editorial-heading);
+  background:transparent;
+  color:var(--editorial-heading);
+  transform:none}
 
 .hero-search-card{
   min-height:0;

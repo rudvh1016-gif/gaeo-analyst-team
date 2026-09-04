@@ -3200,19 +3200,23 @@
   .home-dashboard .tagline-line+.tagline-line{margin-top:8px}
   .home-dashboard .hero-intro{position:relative;z-index:1;margin:14px 0 0;letter-spacing:-.006em}
   .home-dashboard .hero-intro a{text-decoration:underline;text-underline-offset:2px}
-  .hero-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap}
-  .hero-action{display:inline-flex;align-items:center;justify-content:center;
+  .hero-actions{position:relative;z-index:1;display:flex}
+  .hero-action{justify-content:center;
     font:inherit;cursor:pointer}
   .hero-action.primary{border-color:var(--gaeo-900)}
-  .hero-action:hover,.hero-action:focus-visible{transform:translateY(-1px);outline:2px solid transparent;
+  /* ⭐ 2026-09-04: transform:translateY(-1px)는 editorial-foundation.css가 transform:none으로
+     덮어써서 실제로는 적용된 적이 없다(칩형으로 바뀌면서 뜨는 효과를 없앴다). 지운다.
+     focus-visible의 outline·box-shadow는 그대로 살아 있으므로 남긴다. */
+  .hero-action:hover,.hero-action:focus-visible{outline:2px solid transparent;
     box-shadow:0 6px 18px rgba(31,90,111,.12)}
   html.gdark .hero-action.primary{border-color:var(--gaeo-900);background:var(--gaeo-900);color:#fff}
   .home-dashboard header .badge{display:none}
-  /* ⭐ 2026-08-14: 옆에 있던 "판단 변화 기록" 칩을 지우면서 이 버튼만 남았다 —
-     테두리 없이 회색 배경만 있으면 버튼처럼 안 보인다는 피드백이라 얇은 테두리를 살리고,
-     혼자 남은 만큼 크기는 살짝 줄였다(패딩·글자 축소). */
-  .home-dashboard .pwa-btn{border:1px solid var(--gaeo-border);border-radius:10px;background:var(--gaeo-50);color:var(--gaeo-700);
-    padding:6px 10px;font-size:11px;font-weight:500;box-shadow:none}
+  /* ⭐ 2026-08-14에 "테두리 없이 회색 배경만 있으면 버튼처럼 안 보인다"는 피드백으로
+     얇은 테두리 + 회색 배경을 넣었다. 그 뒤 editorial-foundation.css가 같은 선택자를
+     전부 덮어써서 이 값들은 화면에 나온 적이 없다.
+     ⭐ 2026-09-04 소유자 지시(밑줄 제거)로 editorial 쪽을 "테두리 없이 굵은 글자"로
+     확정했으므로, 여기 남아 있던 죽은 선언을 지운다. box-shadow만 실제로 적용된다. */
+  .home-dashboard .pwa-btn{box-shadow:none}
   /* 히어로 검색 카드 — 하늘색 패널을 걷어내고 흰 종이 + 얇은 선으로(v2.0) */
   .hero-search-card{display:flex;flex-direction:column;min-height:100%;padding:28px 26px;
     border:1px solid var(--color-border);border-radius:var(--gaeo-radius-lg);
@@ -4076,13 +4080,15 @@
   .rd-head .rd-asof{font-size:10.5px;color:var(--gaeo-muted);text-align:right;line-height:1.5}
   .rd-intro{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--gaeo-canvas);
     font-size:11.5px;line-height:1.7;color:var(--gaeo-muted);word-break:keep-all}
-  .rd-sigs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .rd-sig{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--gaeo-100);
-    border-radius:11px;background:var(--gaeo-50);color:var(--gaeo-950);font-size:12px;font-weight:500}
-  html.gdark .rd-sig{color:var(--gaeo-ink)}
-  /* 📌 현재 흐름 종합 해석 카드 */
+  /* ⭐ 2026-09-04 소유자 지시로 .rd-sigs/.rd-sig(중복 요약 칩 줄)를 화면에서 뺐다.
+     app.js의 renderRadarDetail도 더 이상 만들지 않는다. 되살리지 말 것 —
+     아래 .rd-event-card가 같은 내용을 설명까지 붙여 이미 보여준다. */
+  /* 📌 현재 흐름 종합 해석 카드
+     ⭐ 2026-09-04 소유자 지시: 이 상자의 옅은 황토색 배경(#F3F3F0)이 화면에서
+        누렇게 보인다는 지적을 받았다. 배경을 없애고 테두리와 여백만으로 구분한다
+        (디자인 규칙: 계층은 색이 아니라 타이포와 여백으로). */
   .rd-summary{margin-top:14px;padding:14px 16px;border:1px solid var(--gaeo-100);border-radius:14px;
-    background:var(--gaeo-50);word-break:keep-all}
+    background:transparent;word-break:keep-all}
   html.gdark .rd-summary{background:var(--gaeo-canvas);border-color:var(--gaeo-border)}
   .rd-summary-t{font-size:11.5px;font-weight:500;color:var(--gaeo-700);margin-bottom:4px}
   .rd-summary p{margin:0;font-size:12.5px;line-height:1.75;color:var(--gaeo-ink)}

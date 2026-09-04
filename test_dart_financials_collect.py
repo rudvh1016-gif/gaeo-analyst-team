@@ -57,15 +57,17 @@ class FakeClient:
 
 
 class FakeBudget:
-    def __init__(self, allow_n=999):
+    def __init__(self, allow_n=999, financial_today=0):
         self.allow_n = allow_n
         self.spent = 0
+        self.counts = {"financial": financial_today}
 
     def allow(self, kind):
         return self.spent < self.allow_n
 
     def spend(self, kind):
         self.spent += 1
+        self.counts[kind] = self.counts.get(kind, 0) + 1
 
 
 def corp_map(n=5):
@@ -156,11 +158,81 @@ class CollectorContract(unittest.TestCase):
         self.assertIsNotNone(out["score"])
 
 
+class OncePerDayGate(unittest.TestCase):
+    """⭐ 워크플로는 장중 30분마다 돈다. 게이트가 없으면 하루 2,100호출이 되는데
+       일일 목표는 500호출이다. 연간 재무는 하루 한 번이면 충분하다."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self._orig = C.STORE_DIR
+        C.STORE_DIR = self.tmp
+
+    def tearDown(self):
+        C.STORE_DIR = self._orig
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_second_run_of_the_day_is_skipped(self):
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(3), budget=FakeBudget(financial_today=12),
+                        once_per_day=True, today="2026-09-04")
+        self.assertEqual(out["status"], C.SKIPPED_ALREADY_TODAY)
+        self.assertEqual(len(cl.calls), 0)
+
+    def test_first_run_of_the_day_proceeds(self):
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(1), budget=FakeBudget(financial_today=0),
+                        once_per_day=True, max_companies=1, max_calls=99,
+                        today="2026-09-04")
+        self.assertEqual(out["status"], C.OK)
+        self.assertGreater(len(cl.calls), 0)
+
+    def test_gate_is_opt_in(self):
+        """게이트를 안 켜면 예전처럼 그대로 돈다(수동 실행·백필용)."""
+        cl = FakeClient()
+        out = C.collect(cl, corp_map(1), budget=FakeBudget(financial_today=99),
+                        max_companies=1, max_calls=99, today="2026-09-04")
+        self.assertEqual(out["status"], C.OK)
+
+
 class YearSelection(unittest.TestCase):
     def test_before_april_uses_one_year_earlier(self):
         """사업보고서는 회계연도 종료 뒤 3개월 안에 나온다. 1~3월에는 작년치가 없다."""
         self.assertEqual(C.target_years("2026-02-10")[0], 2024)
         self.assertEqual(C.target_years("2026-05-10")[0], 2025)
+
+
+class WorkflowWiring(unittest.TestCase):
+    """워크플로 연결 계약 — 예산을 지키는 형태로만 연결돼야 한다."""
+
+    WF = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      ".github", "workflows", "update-analysis.yml")
+
+    def setUp(self):
+        if not os.path.exists(self.WF):
+            self.skipTest("워크플로 파일 없음")
+        with open(self.WF, encoding="utf-8") as f:
+            self.text = f.read()
+
+    def test_collector_is_wired(self):
+        self.assertIn("collect_dart_financials.py", self.text,
+                      "재무 수집이 워크플로에 연결되지 않았다")
+
+    def test_once_per_day_flag_is_present(self):
+        """⭐ 이 플래그가 빠지면 하루 2,100호출이 된다(목표는 500회)."""
+        self.assertRegex(
+            self.text, r"collect_dart_financials\.py\s+--once-per-day",
+            "--once-per-day가 빠졌다. 장중 30분마다 도는 워크플로라 예산이 터진다.")
+
+    def test_failure_does_not_stop_the_pipeline(self):
+        """재무 수집이 실패해도 시세·판단 파이프라인은 계속 돌아야 한다."""
+        idx = self.text.index("collect_dart_financials.py")
+        tail = self.text[idx:idx + 260]
+        self.assertIn("||", tail,
+                      "재무 수집 실패가 파이프라인 전체를 멈추면 안 된다")
+
+    def test_collected_data_is_committed(self):
+        self.assertIn("git add dart_financials", self.text,
+                      "받은 재무 자료가 커밋되지 않으면 다음 실행에서 또 받는다")
 
 
 if __name__ == "__main__":

@@ -5537,9 +5537,9 @@ function renderRadarDetail(code){
   const events=radarEventsOf(code);
   if(!RADAR||!events.length){ el.classList.remove('on'); el.innerHTML=''; return; }
   const st=RADAR.status==='provisional'?'is-provisional':'is-confirmed';
-  const sigs=events.map(e=>{const d=radarDef(e.type);
-    return `<span class="rd-sig"><span aria-hidden="true">${esc(d.icon)}</span>${esc(d.label)} `+
-      `<span style="font-weight:600;color:var(--gaeo-muted)">${esc(radarValueText(e))}</span></span>`;}).join('');
+  /* ⭐ 2026-09-04 소유자 지시: 같은 신호가 위(칩 줄)와 아래(설명 카드)에 두 번 나와서
+     "설명이 이중으로 나온다"는 지적을 받았다. 칩 줄은 아래 카드의 제목·수치를 그대로
+     반복할 뿐 새 정보가 없으므로 지운다. 카드가 아이콘·이름·수치·설명을 모두 담고 있다. */
   // ⭐ 2026-08-07: "MACD−시그널: -63 → 7" 숫자만 보고는 무슨 뜻인지 알기 어렵다는 피드백 →
   // MACD 관련 신호가 하나라도 있으면 그 값이 뭘 뺀 건지 아주 작은 글씨로 설명을 붙인다.
   const macdNote=events.some(e=>radarDef(e.type).metric==='MACD−시그널')
@@ -5552,7 +5552,7 @@ function renderRadarDetail(code){
   const head=`<div class="rd-head"><h3>레이더 포착 변화 ${events.length}건</h3>`+
     `<span class="rd-asof">시세 기준 ${esc(String(RADAR.priceLabel||'').replace(' 수집',''))}<br>`+
     `레이더 생성 ${esc(RADAR.generatedAt||'-')} · <span class="gr-status ${st}">${esc(radarStatusText())}</span></span></div>`+
-    intro+`<div class="rd-sigs">${sigs}</div>${macdNote}`;
+    intro+macdNote;
   const eventsHTML=`<div class="rd-events">${events.map(e=>radarEventCardHTML(e,null)).join('')}</div>`;
   const note='<p class="rd-note">'+esc(RADAR.disclaimer||'')+'</p>';
   el.innerHTML=head+eventsHTML+'<p class="rd-hint" style="margin-top:16px;font-size:11px;color:var(--gaeo-muted)">차트를 불러오는 중이에요…</p>'+note;

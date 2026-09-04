@@ -175,6 +175,14 @@ jobs:
             #    Graceful Failure: 실패해도 나머지 파이프라인을 절대 중단시키지 않는다.
             export GAEO_DART_COLLECTION_STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             python3 collect_dart.py || echo "DART 수집 실패 — 나머지는 계속 진행"
+            # 📊 연간 재무제표 수집 — DIANA v2.0 / Piotroski F-Score 준비(2026-09-04).
+            #    ⚠️ --once-per-day 필수. 이 워크플로는 장중 30분마다(하루 14회 안팎) 도는데
+            #       한 번에 150호출이면 하루 2,100호출이 된다(일일 목표는 500회).
+            #       연간 재무는 1년에 한 번만 바뀌므로 하루 한 번이면 충분하다.
+            #    ⚠️ 아직 점수·화면에 반영하지 않는다. 자료만 쌓는다.
+            #    Graceful Failure: 실패해도 나머지 파이프라인을 절대 중단시키지 않는다.
+            python3 collect_dart_financials.py --once-per-day \
+              || echo "재무 수집 실패 — 나머지는 계속 진행"
             export GAEO_DART_COLLECTION_COMPLETED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             # 🌐 FULL MARKET UNIVERSE(2026-08-16) — KOSPI+KOSDAQ 전체 가벼운 관찰.
             #    bulk 페이지네이션 44요청/사이클, 종목별 polling 없음. 정밀분석과
@@ -259,6 +267,9 @@ jobs:
             [ -d flow_history ] && git add flow_history
             # Research·DART Archive(날짜별 Segment + manifest). 사이트가 읽지 않는 자료다.
             [ -d research_archive ] && git add research_archive
+            # 📊 연간 재무제표(회사별 JSON). 하루 한 번, 40개사씩 늘어난다.
+            #    사이트가 읽지 않고 DIANA v2.0 준비용으로만 쌓는다.
+            [ -d dart_financials ] && git add dart_financials
             git add analysis_archive.js deep_analysis_latest.js deep_analysis_manifest.json 2>/dev/null || true
             [ -d research/deep-analysis ] && git add research/deep-analysis
             if git diff --cached --quiet; then
