@@ -4,29 +4,29 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-04 15:43",
+ "generatedAt": "2026-09-04 16:13",
  "dataCutoff": "2026-09-04 종가",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 40.8,
+  "breadthPct": 40.7,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
   "sectorCount": 0,
   "detail": {
    "KOSPI": {
-    "close": 6690.72,
-    "ma20": 6690.94,
+    "close": 6687.21,
+    "ma20": 6690.76,
     "above": false,
-    "gapPct": -0.0
+    "gapPct": -0.05
    },
    "KOSDAQ": {
-    "close": 813.85,
-    "ma20": 830.23,
+    "close": 813.5,
+    "ma20": 830.21,
     "above": false,
-    "gapPct": -1.97
+    "gapPct": -2.01
    }
   }
  },
