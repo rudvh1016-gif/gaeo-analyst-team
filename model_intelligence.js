@@ -1,379 +1,379 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-09-04 09:11",
+ "generatedAt": "2026-09-04 09:41",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
    "50": {
-    "n": 1857,
-    "up": 965,
-    "raw": 0.5197,
-    "uncalibratedPUp": 0.5189,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 1968,
+    "up": 1061,
+    "raw": 0.5391,
+    "uncalibratedPUp": 0.5383,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "20": {
-    "n": 1004,
-    "up": 482,
-    "raw": 0.4801,
-    "uncalibratedPUp": 0.4799,
-    "base": 0.4743,
-    "pUp": 0.4524
+    "n": 1009,
+    "up": 485,
+    "raw": 0.4807,
+    "uncalibratedPUp": 0.4808,
+    "base": 0.4853,
+    "pUp": 0.4572
    },
    "40": {
-    "n": 2236,
-    "up": 1136,
-    "raw": 0.5081,
-    "uncalibratedPUp": 0.5076,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 2292,
+    "up": 1183,
+    "raw": 0.5161,
+    "uncalibratedPUp": 0.5157,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "30": {
-    "n": 2551,
-    "up": 1125,
-    "raw": 0.441,
-    "uncalibratedPUp": 0.4414,
-    "base": 0.4743,
-    "pUp": 0.4524
+    "n": 2582,
+    "up": 1155,
+    "raw": 0.4473,
+    "uncalibratedPUp": 0.4478,
+    "base": 0.4853,
+    "pUp": 0.4572
    },
    "70": {
-    "n": 670,
-    "up": 323,
-    "raw": 0.4821,
-    "uncalibratedPUp": 0.4818,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 749,
+    "up": 384,
+    "raw": 0.5127,
+    "uncalibratedPUp": 0.5116,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "80": {
-    "n": 513,
-    "up": 208,
-    "raw": 0.4055,
-    "uncalibratedPUp": 0.4093,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 579,
+    "up": 242,
+    "raw": 0.418,
+    "uncalibratedPUp": 0.4213,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "60": {
-    "n": 1405,
-    "up": 717,
-    "raw": 0.5103,
-    "uncalibratedPUp": 0.5096,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 1518,
+    "up": 805,
+    "raw": 0.5303,
+    "uncalibratedPUp": 0.5294,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "10": {
-    "n": 3166,
-    "up": 1419,
-    "raw": 0.4482,
-    "uncalibratedPUp": 0.4484,
-    "base": 0.4743,
-    "pUp": 0.4487
+    "n": 3191,
+    "up": 1444,
+    "raw": 0.4525,
+    "uncalibratedPUp": 0.4528,
+    "base": 0.4853,
+    "pUp": 0.4531
    },
    "90": {
-    "n": 154,
-    "up": 54,
-    "raw": 0.3506,
-    "uncalibratedPUp": 0.3708,
-    "base": 0.4743,
-    "pUp": 0.4973
+    "n": 168,
+    "up": 62,
+    "raw": 0.369,
+    "uncalibratedPUp": 0.3867,
+    "base": 0.4853,
+    "pUp": 0.5131
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.4743,
-    "base": 0.4743,
-    "pUp": 0.4487
+    "uncalibratedPUp": 0.4853,
+    "base": 0.4853,
+    "pUp": 0.4531
    }
   },
   "diana": {
    "40": {
     "n": 2030,
-    "up": 1227,
-    "raw": 0.6044,
-    "uncalibratedPUp": 0.6045,
-    "base": 0.6117,
-    "pUp": 0.6045
+    "up": 1228,
+    "raw": 0.6049,
+    "uncalibratedPUp": 0.605,
+    "base": 0.6124,
+    "pUp": 0.605
    },
    "70": {
     "n": 2246,
     "up": 1380,
     "raw": 0.6144,
     "uncalibratedPUp": 0.6144,
-    "base": 0.6117,
-    "pUp": 0.6196
+    "base": 0.6124,
+    "pUp": 0.6201
    },
    "50": {
     "n": 2670,
     "up": 1630,
     "raw": 0.6105,
     "uncalibratedPUp": 0.6105,
-    "base": 0.6117,
+    "base": 0.6124,
     "pUp": 0.6105
    },
    "80": {
     "n": 2449,
-    "up": 1569,
-    "raw": 0.6407,
-    "uncalibratedPUp": 0.6403,
-    "base": 0.6117,
-    "pUp": 0.6209
+    "up": 1573,
+    "raw": 0.6423,
+    "uncalibratedPUp": 0.6419,
+    "base": 0.6124,
+    "pUp": 0.6225
    },
    "30": {
     "n": 1394,
-    "up": 808,
-    "raw": 0.5796,
-    "uncalibratedPUp": 0.5803,
-    "base": 0.6117,
-    "pUp": 0.5814
+    "up": 809,
+    "raw": 0.5803,
+    "uncalibratedPUp": 0.581,
+    "base": 0.6124,
+    "pUp": 0.5821
    },
    "90": {
     "n": 562,
-    "up": 301,
-    "raw": 0.5356,
-    "uncalibratedPUp": 0.5394,
-    "base": 0.6117,
-    "pUp": 0.6209
+    "up": 302,
+    "raw": 0.5374,
+    "uncalibratedPUp": 0.5412,
+    "base": 0.6124,
+    "pUp": 0.6225
    },
    "60": {
     "n": 2198,
-    "up": 1374,
-    "raw": 0.6251,
-    "uncalibratedPUp": 0.6249,
-    "base": 0.6117,
-    "pUp": 0.6196
+    "up": 1376,
+    "raw": 0.626,
+    "uncalibratedPUp": 0.6258,
+    "base": 0.6124,
+    "pUp": 0.6201
    },
    "20": {
     "n": 2,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.5735,
-    "base": 0.6117,
-    "pUp": 0.5814
+    "uncalibratedPUp": 0.5741,
+    "base": 0.6124,
+    "pUp": 0.5821
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.6117,
-    "base": 0.6117,
-    "pUp": 0.5814
+    "uncalibratedPUp": 0.6124,
+    "base": 0.6124,
+    "pUp": 0.5821
    },
    "10": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.6117,
-    "base": 0.6117,
-    "pUp": 0.5814
+    "uncalibratedPUp": 0.6124,
+    "base": 0.6124,
+    "pUp": 0.5821
    }
   },
   "nova": {
    "50": {
-    "n": 1753,
-    "up": 665,
-    "raw": 0.3793,
-    "uncalibratedPUp": 0.3809,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "n": 1992,
+    "up": 848,
+    "raw": 0.4257,
+    "uncalibratedPUp": 0.4266,
+    "base": 0.4853,
+    "pUp": 0.4463
    },
    "40": {
-    "n": 3826,
-    "up": 1493,
-    "raw": 0.3902,
-    "uncalibratedPUp": 0.3909,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "n": 4041,
+    "up": 1665,
+    "raw": 0.412,
+    "uncalibratedPUp": 0.4126,
+    "base": 0.4853,
+    "pUp": 0.4463
    },
    "30": {
-    "n": 3460,
-    "up": 1468,
-    "raw": 0.4243,
-    "uncalibratedPUp": 0.4247,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "n": 3502,
+    "up": 1503,
+    "raw": 0.4292,
+    "uncalibratedPUp": 0.4297,
+    "base": 0.4853,
+    "pUp": 0.4463
    },
    "70": {
     "n": 53,
     "up": 7,
     "raw": 0.1321,
-    "uncalibratedPUp": 0.2558,
-    "base": 0.4743,
-    "pUp": 0.6491
+    "uncalibratedPUp": 0.2597,
+    "base": 0.4853,
+    "pUp": 0.6496
    },
    "60": {
     "n": 2575,
     "up": 1723,
     "raw": 0.6691,
-    "uncalibratedPUp": 0.6669,
-    "base": 0.4743,
-    "pUp": 0.6491
+    "uncalibratedPUp": 0.667,
+    "base": 0.4853,
+    "pUp": 0.6496
    },
    "20": {
-    "n": 1884,
-    "up": 1073,
-    "raw": 0.5695,
-    "uncalibratedPUp": 0.568,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "n": 1888,
+    "up": 1075,
+    "raw": 0.5694,
+    "uncalibratedPUp": 0.5681,
+    "base": 0.4853,
+    "pUp": 0.4463
    },
    "90": {
     "n": 1,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.459,
-    "base": 0.4743,
-    "pUp": 0.6491
+    "uncalibratedPUp": 0.4696,
+    "base": 0.4853,
+    "pUp": 0.6496
    },
    "80": {
     "n": 4,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.4185,
-    "base": 0.4743,
-    "pUp": 0.6491
+    "uncalibratedPUp": 0.4282,
+    "base": 0.4853,
+    "pUp": 0.6496
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.4743,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "uncalibratedPUp": 0.4853,
+    "base": 0.4853,
+    "pUp": 0.4463
    },
    "10": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.4743,
-    "base": 0.4743,
-    "pUp": 0.4309
+    "uncalibratedPUp": 0.4853,
+    "base": 0.4853,
+    "pUp": 0.4463
    }
   },
   "flow": {
    "50": {
-    "n": 8686,
-    "up": 4216,
-    "raw": 0.4854,
-    "uncalibratedPUp": 0.4853,
-    "base": 0.4743,
-    "pUp": 0.4853
+    "n": 9001,
+    "up": 4450,
+    "raw": 0.4944,
+    "uncalibratedPUp": 0.4944,
+    "base": 0.4853,
+    "pUp": 0.4944
    },
    "70": {
-    "n": 178,
-    "up": 100,
-    "raw": 0.5618,
-    "uncalibratedPUp": 0.5492,
-    "base": 0.4743,
-    "pUp": 0.5345
+    "n": 186,
+    "up": 105,
+    "raw": 0.5645,
+    "uncalibratedPUp": 0.5535,
+    "base": 0.4853,
+    "pUp": 0.5442
    },
    "40": {
-    "n": 3598,
-    "up": 1599,
-    "raw": 0.4444,
-    "uncalibratedPUp": 0.4447,
-    "base": 0.4743,
-    "pUp": 0.4447
+    "n": 3742,
+    "up": 1721,
+    "raw": 0.4599,
+    "uncalibratedPUp": 0.4601,
+    "base": 0.4853,
+    "pUp": 0.4601
    },
    "30": {
-    "n": 412,
-    "up": 154,
-    "raw": 0.3738,
-    "uncalibratedPUp": 0.3806,
-    "base": 0.4743,
-    "pUp": 0.4041
+    "n": 426,
+    "up": 167,
+    "raw": 0.392,
+    "uncalibratedPUp": 0.3982,
+    "base": 0.4853,
+    "pUp": 0.4197
    },
    "60": {
-    "n": 593,
-    "up": 322,
-    "raw": 0.543,
-    "uncalibratedPUp": 0.5397,
-    "base": 0.4743,
-    "pUp": 0.5345
+    "n": 610,
+    "up": 338,
+    "raw": 0.5541,
+    "uncalibratedPUp": 0.5509,
+    "base": 0.4853,
+    "pUp": 0.5442
    },
    "20": {
-    "n": 80,
-    "up": 34,
-    "raw": 0.425,
-    "uncalibratedPUp": 0.4384,
-    "base": 0.4743,
-    "pUp": 0.4041
+    "n": 82,
+    "up": 36,
+    "raw": 0.439,
+    "uncalibratedPUp": 0.4514,
+    "base": 0.4853,
+    "pUp": 0.4197
    },
    "80": {
     "n": 5,
     "up": 0,
     "raw": 0.0,
-    "uncalibratedPUp": 0.4065,
-    "base": 0.4743,
-    "pUp": 0.5345
+    "uncalibratedPUp": 0.4159,
+    "base": 0.4853,
+    "pUp": 0.5442
    },
    "10": {
     "n": 4,
     "up": 4,
     "raw": 1.0,
-    "uncalibratedPUp": 0.5361,
-    "base": 0.4743,
-    "pUp": 0.4041
+    "uncalibratedPUp": 0.5458,
+    "base": 0.4853,
+    "pUp": 0.4197
    },
    "0": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.4743,
-    "base": 0.4743,
-    "pUp": 0.4041
+    "uncalibratedPUp": 0.4853,
+    "base": 0.4853,
+    "pUp": 0.4197
    },
    "90": {
     "n": 0,
     "up": 0,
     "raw": null,
-    "uncalibratedPUp": 0.4743,
-    "base": 0.4743,
-    "pUp": 0.5345
+    "uncalibratedPUp": 0.4853,
+    "base": 0.4853,
+    "pUp": 0.5442
    }
   }
  },
  "errorCorrelation": {
   "taro:diana": {
-   "n": 6233,
+   "n": 6237,
    "errorCorr": -0.144
   },
   "taro:nova": {
-   "n": 7563,
-   "errorCorr": 0.182
+   "n": 7599,
+   "errorCorr": 0.186
   },
   "taro:flow": {
-   "n": 1583,
-   "errorCorr": 0.239
+   "n": 1643,
+   "errorCorr": 0.252
   },
   "diana:nova": {
-   "n": 5640,
+   "n": 5641,
    "errorCorr": -0.062
   },
   "diana:flow": {
-   "n": 1031,
-   "errorCorr": 0.128
+   "n": 1034,
+   "errorCorr": 0.125
   },
   "nova:flow": {
-   "n": 1389,
-   "errorCorr": -0.1
+   "n": 1398,
+   "errorCorr": -0.091
   }
  },
  "redundancyFactor": {
-  "taro": 0.9927,
+  "taro": 0.9917,
   "diana": 1,
-  "nova": 0.9981,
-  "flow": 0.9947
+  "nova": 0.9978,
+  "flow": 0.9939
  },
  "regimes": {
   "up_high": {
    "n": 4246,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3378,
-    "diana": 0.105,
-    "nova": 0.1843,
-    "flow": 0.3728
+    "taro": 0.3383,
+    "diana": 0.1049,
+    "nova": 0.1847,
+    "flow": 0.3721
    },
    "acc": {
     "taro": {
@@ -395,30 +395,30 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "up_low": {
-   "n": 2748,
+   "n": 3219,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3403,
-    "diana": 0.105,
-    "nova": 0.2319,
-    "flow": 0.3228
+    "taro": 0.3441,
+    "diana": 0.1081,
+    "nova": 0.2315,
+    "flow": 0.3163
    },
    "acc": {
     "taro": {
-     "n": 1057,
-     "adjustedAcc": 64.4
+     "n": 1408,
+     "adjustedAcc": 62.8
     },
     "diana": {
-     "n": 871,
-     "adjustedAcc": 48.1
+     "n": 870,
+     "adjustedAcc": 48.5
     },
     "nova": {
-     "n": 630,
-     "adjustedAcc": 55.7
+     "n": 675,
+     "adjustedAcc": 53.1
     },
     "flow": {
-     "n": 190,
-     "adjustedAcc": 53.6
+     "n": 266,
+     "adjustedAcc": 49.7
     }
    }
   },
@@ -426,10 +426,10 @@ const MODEL_INTELLIGENCE = {
    "n": 12441,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2655,
-    "diana": 0.1347,
-    "nova": 0.2691,
-    "flow": 0.3308
+    "taro": 0.2658,
+    "diana": 0.1344,
+    "nova": 0.2696,
+    "flow": 0.3301
    },
    "acc": {
     "taro": {
@@ -454,10 +454,10 @@ const MODEL_INTELLIGENCE = {
    "n": 5233,
    "blend": 0.6,
    "weights": {
-    "taro": 0.323,
-    "diana": 0.1097,
-    "nova": 0.2559,
-    "flow": 0.3114
+    "taro": 0.3234,
+    "diana": 0.1095,
+    "nova": 0.2563,
+    "flow": 0.3108
    },
    "acc": {
     "taro": {
@@ -482,10 +482,10 @@ const MODEL_INTELLIGENCE = {
    "n": 3473,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3098,
-    "diana": 0.1276,
-    "nova": 0.1988,
-    "flow": 0.3638
+    "taro": 0.3103,
+    "diana": 0.1274,
+    "nova": 0.1992,
+    "flow": 0.3632
    },
    "acc": {
     "taro": {
@@ -511,11 +511,11 @@ const MODEL_INTELLIGENCE = {
   "key": "down_low",
   "trend": "down",
   "vol": "low",
-  "median5": -2.29,
-  "medianAbs1": 1.07,
-  "advanceRatio5": 23.0,
-  "medianRet1": 0.9,
-  "advanceRatio1": 74.5
+  "median5": -2.15,
+  "medianAbs1": 1.34,
+  "advanceRatio5": 25.5,
+  "medianRet1": 0.97,
+  "advanceRatio1": 68.6
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -526,15 +526,15 @@ const MODEL_INTELLIGENCE = {
   "days": 44,
   "guardedN": 295,
   "baseline": {
-   "hit": 11724,
-   "miss": 10005,
-   "mid": 822,
+   "hit": 11725,
+   "miss": 10000,
+   "mid": 826,
    "accuracy": 54.0
   },
   "guarded": {
-   "hit": 11720,
-   "miss": 10024,
-   "mid": 807,
+   "hit": 11721,
+   "miss": 10019,
+   "mid": 811,
    "accuracy": 53.9
   },
   "active": false,
@@ -545,16 +545,16 @@ const MODEL_INTELLIGENCE = {
   }
  },
  "audit": {
-  "matured": 6484,
-  "errors": 2451,
+  "matured": 5980,
+  "errors": 2161,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 2297
+    "count": 2008
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1382
+    "count": 1199
    },
    {
     "label": "고변동성 국면",
@@ -562,40 +562,40 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 87
+    "count": 75
    }
   ],
   "analystErrors": {
-   "taro": 1370,
+   "taro": 1135,
    "diana": 0,
-   "nova": 159,
-   "flow": 296
+   "nova": 156,
+   "flow": 271
   },
   "regimeErrors": {
    "down_high": 696,
-   "up_low": 627,
    "down_low": 408,
    "side_low": 398,
+   "up_low": 337,
    "unknown": 322
   }
  },
  "shadow": {
-  "n": 6484,
-  "baselineActionN": 1206,
-  "baselineActionPrecision": 55.2,
+  "n": 5980,
+  "baselineActionN": 1101,
+  "baselineActionPrecision": 56.0,
   "candidateActionN": 0,
   "candidateActionPrecision": null,
   "candidateCoverage": 0.0,
   "candidateCalls": {
    "BUY": 0,
-   "HOLD": 6484,
+   "HOLD": 5980,
    "SELL": 0
   },
-  "testDays": 11,
+  "testDays": 10,
   "testRegimes": 4,
-  "candidateAllCallAccuracy": 60.9,
-  "brier": 0.249,
-  "rawBrier": 0.262
+  "candidateAllCallAccuracy": 62.5,
+  "brier": 0.2499,
+  "rawBrier": 0.2583
  },
  "prospective": {
   "n": 4500,
@@ -642,112 +642,112 @@ const MODEL_INTELLIGENCE = {
   "calibration": {
    "BUY": {
     "65": {
-     "n": 307,
-     "hit": 135,
-     "raw": 0.4397,
-     "uncalibratedAcc": 0.4394,
-     "base": 0.4346,
-     "calibratedAcc": 0.4394
+     "n": 317,
+     "hit": 140,
+     "raw": 0.4416,
+     "uncalibratedAcc": 0.4411,
+     "base": 0.4331,
+     "calibratedAcc": 0.4411
     },
     "60": {
-     "n": 230,
-     "hit": 95,
-     "raw": 0.413,
-     "uncalibratedAcc": 0.4148,
-     "base": 0.4346,
-     "calibratedAcc": 0.4148
+     "n": 249,
+     "hit": 102,
+     "raw": 0.4096,
+     "uncalibratedAcc": 0.4114,
+     "base": 0.4331,
+     "calibratedAcc": 0.4114
     },
     "70": {
-     "n": 124,
+     "n": 125,
      "hit": 56,
-     "raw": 0.4516,
-     "uncalibratedAcc": 0.4492,
-     "base": 0.4346,
-     "calibratedAcc": 0.4492
+     "raw": 0.448,
+     "uncalibratedAcc": 0.4459,
+     "base": 0.4331,
+     "calibratedAcc": 0.4459
     },
     "75": {
      "n": 4,
      "hit": 3,
      "raw": 0.75,
-     "uncalibratedAcc": 0.4872,
-     "base": 0.4346,
-     "calibratedAcc": 0.4872
+     "uncalibratedAcc": 0.4859,
+     "base": 0.4331,
+     "calibratedAcc": 0.4859
     }
    },
    "SELL": {
     "40": {
-     "n": 2177,
-     "hit": 1208,
-     "raw": 0.5549,
-     "uncalibratedAcc": 0.5549,
-     "base": 0.5508,
-     "calibratedAcc": 0.5549
+     "n": 2231,
+     "hit": 1211,
+     "raw": 0.5428,
+     "uncalibratedAcc": 0.5428,
+     "base": 0.5376,
+     "calibratedAcc": 0.5428
     },
     "45": {
-     "n": 1059,
-     "hit": 512,
-     "raw": 0.4835,
-     "uncalibratedAcc": 0.4847,
-     "base": 0.5508,
-     "calibratedAcc": 0.4847
+     "n": 1090,
+     "hit": 517,
+     "raw": 0.4743,
+     "uncalibratedAcc": 0.4755,
+     "base": 0.5376,
+     "calibratedAcc": 0.4755
     },
     "35": {
-     "n": 1375,
-     "hit": 856,
-     "raw": 0.6225,
-     "uncalibratedAcc": 0.6215,
-     "base": 0.5508,
-     "calibratedAcc": 0.581
+     "n": 1410,
+     "hit": 858,
+     "raw": 0.6085,
+     "uncalibratedAcc": 0.6075,
+     "base": 0.5376,
+     "calibratedAcc": 0.5644
     },
     "30": {
-     "n": 501,
+     "n": 524,
      "hit": 272,
-     "raw": 0.5429,
-     "uncalibratedAcc": 0.5432,
-     "base": 0.5508,
-     "calibratedAcc": 0.581
+     "raw": 0.5191,
+     "uncalibratedAcc": 0.5198,
+     "base": 0.5376,
+     "calibratedAcc": 0.5644
     },
     "25": {
-     "n": 71,
+     "n": 75,
      "hit": 17,
-     "raw": 0.2394,
-     "uncalibratedAcc": 0.3079,
-     "base": 0.5508,
-     "calibratedAcc": 0.581
+     "raw": 0.2267,
+     "uncalibratedAcc": 0.2921,
+     "base": 0.5376,
+     "calibratedAcc": 0.5644
     },
     "20": {
      "n": 28,
      "hit": 6,
      "raw": 0.2143,
-     "uncalibratedAcc": 0.3545,
-     "base": 0.5508,
-     "calibratedAcc": 0.581
+     "uncalibratedAcc": 0.349,
+     "base": 0.5376,
+     "calibratedAcc": 0.5644
     },
     "15": {
      "n": 1,
      "hit": 0,
      "raw": 0.0,
-     "uncalibratedAcc": 0.5246,
-     "base": 0.5508,
-     "calibratedAcc": 0.581
+     "uncalibratedAcc": 0.512,
+     "base": 0.5376,
+     "calibratedAcc": 0.5644
     }
    }
   },
   "evaluation": {
-   "n": 1206,
-   "buyN": 329,
-   "sellN": 877,
-   "testDays": 11,
+   "n": 1101,
+   "buyN": 261,
+   "sellN": 840,
+   "testDays": 10,
    "testRegimes": 4,
    "candidate": {
-    "n": 1206,
-    "tierSpreadPp": 19.9,
-    "corr": 0.1489
+    "n": 1101,
+    "tierSpreadPp": 18.8,
+    "corr": 0.0956
    },
    "baseline": {
-    "n": 1206,
-    "tierSpreadPp": 5.0,
-    "corr": 0.0477
+    "n": 1101,
+    "tierSpreadPp": 4.9,
+    "corr": 0.0418
    }
   },
   "promotion": {

@@ -1,12 +1,30 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-04 09:12",
- "priceLabel": "2026-09-04 장전 (전일 종가 · 08:59 수집) · ⚠️ 1종목 지연",
- "count": 361,
+ "generatedAt": "2026-09-04 09:41",
+ "priceLabel": "2026-09-04 09:35 장중 · ⚠️ 1종목 지연",
+ "count": 362,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "018880",
+   "name": "한온시스템",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T00:41:06.068988+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904800063"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T00:41:06.068988+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000018"
+  },
   {
    "code": "000720",
    "name": "현대건설",
@@ -357,15 +375,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-03T05:16:52.915368+00:00",
    "isCorrection": false,
    "rceptNo": "20260903800246"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000082"
   },
   {
    "code": "039490",
