@@ -95,6 +95,12 @@ The combined cold gzip model is approximately neutral (+1.0%). The evidence-back
 
 The route budgets are intentionally ceilings rather than claimed targets: Home live transfer ≤1.0MB; Stock initial live transfer ≤1.5MB; Research hub ≤650KB; article ≤500KB; Calculator ≤1.2MB; Rotation ≤1.3MB; Full market ≤1.6MB; About ≤650KB. Every route has lab LCP ≤2.5s and CLS ≤0.10. Budgets must be updated only with a recorded baseline and reason, never merely to make a regression pass.
 
+### Recorded budget changes
+
+| Date | Budget | Before → After | Measured `app.js` | Reason |
+|---|---|---|---|---|
+| 2026-09-04 | `assets.appJsRawBytes` | 820,000 → 828,000 | 812,475B → 820,128B (+7,653B, +0.94%) | Analyst-accuracy honesty pass. `leaderboardHTML`, the scorecard deep dive, and the model-lab weight rows now render the evidence that `team_weights.js` began emitting: unique decision days, the day-block bootstrap interval, the always-bull/always-bear baseline with its lift interval, and the actual push in points next to each weight. Dead code was removed in the same change (`LB_MIN`, `LB_RULES`, and the badge block that called a leaderboard helper deleted by 8f23094a), and the added strings were compacted before the budget was raised; 7,653B of net growth remained. The new ceiling keeps roughly the same headroom the budget had when it was introduced (7,525B). No route transfer, DOM, LCP, or CLS budget changed, and `test_performance_budget_browser.js` route numbers were unaffected. |
+
 ## Post-merge acceptance
 
 After Pages deploys, rerun the live probe and compare live-to-live. Required gates are: all routes return 200; Home preserves the light brief; Stock opens without `history.js`/`price_history.js`; the history button still loads the long chart; deep-link CLS is ≤0.10; canonical/consent/timestamps remain present; the service worker controls a repeat visit and serves the last-good shell offline. The deployed values should be appended to the next program PR if a new commit is required after PR3 is already merged.

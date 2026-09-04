@@ -857,11 +857,8 @@ document.getElementById('portfolio').addEventListener('click',e=>{
    history.js의 종목별 기록(taro/diana/nova/flow의 stance) + 현재가로 계산.
    ============================================================ */
 const LB_IDS=['taro','diana','nova','flow'];
-const LB_MIN=3; // MVP 인정 최소 표본
-const LB_RULES={
-  taro:{days:5,deadband:1}, diana:{days:20,deadband:3},
-  nova:{days:5,deadband:1}, flow:{days:5,deadband:1}
-};
+/* LB_MIN(채점 3건이면 MVP)·LB_RULES는 2026-09-04에 제거했다. MVP는 이제 판단일 수와
+   「한 방향만 말하기」 기준선을 넘었는지로 판정한다(leaderboardHTML). */
 // stance vs 이후 수익률 → 'hit'/'miss'/'mid'(±1% 이내 평가보류)/null(neu 등 집계제외)
 function scoreStance(stance, ret, deadband=1){
   if(stance==='bull') return ret>deadband?'hit':(ret<-deadband?'miss':'mid');
@@ -877,8 +874,18 @@ function scorecardAnalystRows(teamWeights,agents){
     const stat=global.acc[id];
     if(!stat) return null;
     const agent=(agents||[]).find(item=>item.id===id)||{name:id,role:'',color:'#999'};
+    /* 2026-09-04: team_weights.js가 싣기 시작한 근거(판단일 수, 신뢰구간, '한 방향만
+       말했을 때'의 기준선, 그 차이)를 화면까지 들고 온다. 없으면 null. */
     return {id,name:agent.name,role:agent.role,color:agent.color,n:Number(stat.n)||0,
-      acc:stat.acc==null?null:Number(stat.acc),weight:weights[id]==null?null:Number(weights[id])};
+      acc:stat.acc==null?null:Number(stat.acc),weight:weights[id]==null?null:Number(weights[id]),
+      days:stat.uniqueDecisionDays==null?null:Number(stat.uniqueDecisionDays),
+      minDays:stat.minDaysForConclusion==null?null:Number(stat.minDaysForConclusion),
+      accCi:Array.isArray(stat.acc95)?stat.acc95:null,
+      liftCi:Array.isArray(stat.lift95)?stat.lift95:null,
+      baseline:stat.bestFixedDirectionAcc==null?null:Number(stat.bestFixedDirectionAcc),
+      lift:stat.liftVsFixedPp==null?null:Number(stat.liftVsFixedPp),
+      status:stat.skillStatus||null,
+      voice:stat.voice||null};
   }).filter(Boolean).sort((a,b)=>{
     if(a.acc===null&&b.acc===null) return b.n-a.n;
     if(a.acc===null) return 1;
@@ -891,34 +898,68 @@ function leaderboardHTML(){
   if(!TW) return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-empty">성적 자료를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</div></section>`;
   const rows=scorecardAnalystRows(TW,typeof AGENTS!=='undefined'?AGENTS:[]);
-  const mvpEligible=rows[0]&&rows[0].acc!==null&&rows[0].n>=LB_MIN;
+  /* ⭐ 2026-09-04: MVP는 "적중률이 제일 높은 사람"이 아니라 "한 방향만 말한 것보다
+     확실히 낫다고 확인된 사람"일 때만 붙인다. 예전에는 채점 3건만 넘으면 1등에게
+     붙었는데, 실측에서 1등(FLOW)의 적중률은 같은 행에서 계속 약세라고만 말했을 때와
+     차이가 없었다. 근거 없이 왕관을 씌우지 않는다. */
+  const proven=r=>r.status==='PROVEN_ABOVE'&&r.days!==null&&r.minDays!==null&&r.days>=r.minDays;
+  const mvpRow=rows.find(proven)||null;
+  const STATUS_TEXT={
+    NOT_GRADED_YET:{label:'아직 채점 전',color:'var(--dim)'},
+    BELOW_FIXED_BASELINE:{label:'기준선보다 낮음',color:'var(--red)'},
+    NOT_PROVEN:{label:'실력 확인 아직 안 됨',color:'var(--dim)'},
+    PROVEN_ABOVE:{label:'기준선보다 높음(확인됨)',color:'var(--green)'}
+  };
   let cards='';
   rows.forEach((r,i)=>{
-    const isMvp=mvpEligible&&i===0;
+    const isMvp=mvpRow!==null&&mvpRow.id===r.id;
+    const st=STATUS_TEXT[r.status]||{label:'',color:'var(--dim)'};
+    /* 적중률 색은 숫자의 높낮이가 아니라 '기준선을 넘었는지'로 정한다.
+       기준선을 못 넘은 높은 숫자를 초록으로 칠하면 화면이 근거보다 세게 말하게 된다. */
     const accHtml=r.acc===null
       ? '<span class="lb-acc" style="color:var(--dim)">—</span>'
-      : `<span class="lb-acc" style="color:${r.acc>=60?'var(--green)':(r.acc<45?'var(--red)':'var(--amber)')}">${r.acc}%</span>`;
+      : `<span class="lb-acc" style="color:${st.color}">${r.acc}%</span>`;
     const wHtml=r.weight!==null
-      ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 주는 발언권 — 최근 적중률에 비례해 자동 조정돼요">발언권 ${(r.weight*100).toFixed(0)}%</span>`
+      ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 곱하는 계수예요. 실제로 종합점수를 움직이는 힘은 이 계수에 '그 분석가 점수가 50에서 얼마나 떨어졌나'를 곱한 값이에요.">발언권 ${(r.weight*100).toFixed(0)}%</span>`
       : '';
+    const pushHtml=(r.voice&&r.voice.meanPushPoints!=null)
+      ? `<div class="lb-push">평소 종합점수를 움직이는 힘 <b>${r.voice.meanPushPoints}점</b>${r.voice.neutralPct!=null?` · 의견 없이 중립인 비율 ${r.voice.neutralPct}%`:''}</div>`
+      : '';
+    const baseHtml=(r.baseline!==null&&r.lift!==null)
+      ? `<div class="lb-base">한 방향만 말해도 <b>${r.baseline}%</b> · 차이 <b>${r.lift>0?'+':''}${r.lift}%p</b>${r.liftCi?` (범위 ${r.liftCi[0]>0?'+':''}${r.liftCi[0]} ~ ${r.liftCi[1]>0?'+':''}${r.liftCi[1]}%p)`:''}</div>`
+      : (r.status==='NOT_GRADED_YET'
+        ? '<div class="lb-base">채점 기간(20거래일)이 아직 안 지나 성적이 없어요. 발언권은 역할에 따른 출발값이에요.</div>'
+        : '');
+    const markPct=(r.baseline===null)?null:Math.max(0,Math.min(100,r.baseline));
     cards+=`<div class="lb-card ${isMvp?'mvp':''}">
       <div class="lb-rank">${i+1}</div>
       <div class="lb-who">
         <div class="lb-nm"><span class="lb-dot" style="color:${r.color}">●</span>${r.name}${isMvp?'<span class="lb-mvp-tag">이달의 MVP</span>':''}${wHtml}</div>
         <div class="lb-role">${r.role}</div>
-        <div class="lb-bar"><i style="width:${r.acc===null?0:r.acc}%"></i></div>
+        <div class="lb-bar" title="막대는 적중률이고, 세로선은 아무 실력 없이 한 방향으로만 말했을 때 나오는 값이에요."><i style="width:${r.acc===null?0:r.acc}%"></i>${markPct===null?'':`<span class="lb-base-mark" style="left:${markPct}%"></span>`}</div>
+        ${baseHtml}${pushHtml}
       </div>
-      <div class="lb-stat">${accHtml}<div class="lb-rec">채점 ${r.n.toLocaleString()}건</div></div>
+      <div class="lb-stat">${accHtml}<div class="lb-rec">${st.label}</div>
+        <div class="lb-rec">판단 ${r.days===null?'—':r.days+'일'} · 채점 ${r.n.toLocaleString()}건${r.accCi?` · 범위 ${r.accCi[0]}~${r.accCi[1]}%`:''}</div></div>
     </div>`;
   });
+  /* 2026-09-04 정직성: 적중률만 크게 보여 주면 "이 사람이 잘 맞힌다"로 읽힌다. 문장은
+     team_weights.js 상태값으로 만들고 숫자를 박아 넣지 않는다(publicClaimPolicy). */
+  const graded=rows.filter(r=>r.status&&r.status!=='NOT_GRADED_YET');
+  const provenN=graded.filter(proven).length;
+  const belowN=graded.filter(r=>r.status==='BELOW_FIXED_BASELINE').length;
+  const minDaysAll=rows.reduce((v,r)=>r.minDays!==null?r.minDays:v,null);
+  const daysNow=rows.reduce((v,r)=>r.days!==null&&r.days>v?r.days:v,0);
+  const honestyNote=graded.length?`<div class="lb-honesty"><b>이 숫자를 어떻게 읽어야 하나요.</b> 적중률이 높다고 실력이 증명된 건 아니에요. 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그 기준선을 넘었는지가 진짜 확인이에요. 지금까지 기준선을 확실히 넘은 분석가는 <b>${provenN}명</b>이고, 기준선보다 확실히 낮은 분석가는 <b>${belowN}명</b>이에요. 판단 기록도 아직 <b>${daysNow}일</b>치라서${minDaysAll?`(결론을 내려면 ${minDaysAll}일 필요)`:''} 참고용으로만 봐주세요.</div>`:'';
   return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-sub">각 분석가의 역할에 맞춰 채점합니다. <b>TARO·QUANT·FLOW는 5거래일</b>, 장기 기업가치를 보는 <b>DIANA는 20거래일</b> 뒤 종가를 사용합니다.
     <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다</b> — 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
     시장이 통째로 오른 날 방향만 따라 말한 것을 실력으로 세지 않기 위해서예요. 그래서 이 숫자는 예전(그냥 올랐나로 채점하던 때)과 바로 비교할 수 없습니다.
-    <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>. 표본이 작을 때 생기는 우연한 급등락은 50% 쪽으로 완화합니다(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
+    <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
     <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
+    ${honestyNote}
     ${cards}
-    <div class="lb-note">단기축은 시장 대비 ±1%p, DIANA는 ±3%p 이내 차이를 평가 보류합니다. MVP는 채점 ${LB_MIN}건 이상부터 표시하며, 발언권은 역할 사전비중과 보정 적중률을 함께 반영합니다.
+    <div class="lb-note">단기축은 시장 대비 ±1%p, DIANA는 ±3%p 이내 차이를 평가 보류합니다. 「이달의 MVP」는 적중률 1등이 아니라 <b>한 방향만 말한 기준선보다 확실히 낫다고 확인됐을 때만</b> 붙습니다.${mvpRow?'':' 지금은 확인된 분석가가 없어 아무에게도 붙지 않습니다.'}
     ${TW.scoring&&TW.scoring.basis==='market_relative_excess'?`기준선은 개오가 추적하는 전 종목의 중앙값이며, 기준선을 만들 표본이 모자란 경우(${Number(TW.scoring.fallbackToAbsoluteN||0).toLocaleString()}건)에만 예전 방식으로 채점했습니다.`:''}</div></section>`;
 }
 
@@ -1998,8 +2039,16 @@ function modelLabHTML(){
       const w=TW.global.weights[k];
       const st=(TW.global.acc||{})[k]||{};
       if(w==null) return '';
+      /* 2026-09-04: 채점 0건인 DIANA가 "보정 적중 50.0%"로 나왔다. 그 50%는 측정값이
+         아니라 출발값이다. 이제 null이 오면 "아직 채점 전"이라고 적는다. */
+      const gradedTxt=st.adjustedAcc!=null
+        ? `보정 적중 ${st.adjustedAcc}% · 채점 ${st.n!=null?Number(st.n).toLocaleString()+'건':'—'}`
+        : '아직 채점 전(성적 없음)';
+      const dayTxt=st.uniqueDecisionDays!=null?` · 판단 ${st.uniqueDecisionDays}일`:'';
+      const pushTxt=(st.voice&&st.voice.meanPushPoints!=null)
+        ? ` · 실제로 미는 힘 ${st.voice.meanPushPoints}점`:'';
       return `<span class="ml-wn">${NAME[k]}</span><span class="ml-wv">${(w*100).toFixed(1)}%</span><span class="ml-meter" aria-hidden="true"><i style="width:${Math.min(100,w/0.4*100).toFixed(0)}%"></i></span>`
-        +`<span></span><span></span><span class="ml-wsub">보정 적중 ${st.adjustedAcc!=null?st.adjustedAcc+'%':'—'} · 채점 ${st.n!=null?Number(st.n).toLocaleString()+'건':'—'} · ${st.days!=null?st.days+'거래일 기준':''}</span>`;
+        +`<span></span><span></span><span class="ml-wsub">${gradedTxt}${dayTxt} · ${st.days!=null?st.days+'거래일 기준':''}${pushTxt}</span>`;
     }).join('')+'</div>';
     weightSub=`<p class="ml-note">${esc(TW.generatedAt||'')} 계산 · 총 채점 ${Number(TW.global.graded||0).toLocaleString()}건 · 업종별 오버라이드 ${Object.keys(TW.sectors||{}).length}개 업종</p>`;
   }
@@ -2053,8 +2102,10 @@ function modelLabHTML(){
       <p>TARO 30% · DIANA 12% · QUANT 28% · FLOW 30% — 단, 이것은 최종 발언권이 아니라 역할에 따른 출발점입니다. DIANA가 상대적으로 작은 이유는 재무·밸류가 단기 주가 방향을 맞히는 역할이 아니라 기업 품질을 보는 중기 성격이 강하기 때문입니다.</p>
       <h4>각자 다른 시험을 봅니다</h4>
       <p>TARO ${hdays('taro')}거래일 · QUANT ${hdays('nova')}거래일 · FLOW ${hdays('flow')}거래일 · DIANA ${hdays('diana')}거래일 기준으로 채점합니다. 재무분석가에게 “내일 주가가 올랐는지”를 묻는 것은 불공정하기 때문에, 각 분석가가 맡은 역할에 맞는 기간으로 성적을 평가합니다.</p>
-      <h4>작은 표본은 믿지 않습니다</h4>
-      <p>“10번 중 9번 맞았다”고 바로 천재라고 판단하지 않습니다. 표본이 적으면 우연일 가능성이 있으므로 50% 쪽으로 보수적으로 줄여 평가합니다. <span class="ml-note">(Bayesian shrinkage)</span></p>
+      <h4>작은 표본은 믿지 않습니다 (다만 지금은 그 장치가 거의 작동하지 않습니다)</h4>
+      <p>“10번 중 9번 맞았다”고 바로 천재라고 판단하지 않습니다. 표본이 적으면 우연일 가능성이 있으므로 50% 쪽으로 줄여서 평가합니다. <span class="ml-note">(Bayesian shrinkage)</span></p>
+      <p><b>그런데 2026년 9월 4일 점검에서 이 장치가 사실상 꺼져 있다는 걸 확인했습니다.</b> 줄이는 기준을 “채점 건수”로 세는데, 같은 날 600종목이 한꺼번에 채점돼 건수가 수천 건으로 불어납니다. 서로 다른 판단일은 훨씬 적은데도 표본이 많은 것처럼 취급돼, 실제로 깎이는 폭이 1%p도 되지 않습니다.</p>
+      <p>그래서 “판단일 수를 표본으로 세면 발언권이 어떻게 되는지”를 <b>같이 계산해서 기록만</b> 해 둡니다(team_weights.js의 dayBasedShadow). 근거가 모이기 전에 계산 방식을 바꾸면 좋아진 건지 우연인지 구분할 수 없어서, 실제 판단에는 아직 반영하지 않습니다.</p>
       <h4>현재 실제 발언권</h4>
       ${weightRows}${weightSub}
       <h4>업종마다 발언권도 달라질 수 있습니다</h4>
@@ -2568,11 +2619,23 @@ function renderScorecard(){
   if(TW){
     const acc=TW.global.acc, ids=['taro','diana','nova','flow'];
     const ranked=ids.map(id=>Object.assign({id},acc[id])).sort((a,b)=>(b.acc||0)-(a.acc||0));
-    const bars=ranked.map(r=>`<div class="sc-bar-row">
+    /* 2026-09-04: 막대 안에 「한 방향만 말했을 때의 기준선」을 세로선으로 같이 그린다.
+       막대가 길어도 세로선을 못 넘었으면 실력의 증거가 아니다. */
+    const SC_STATUS={NOT_GRADED_YET:'아직 채점 전',BELOW_FIXED_BASELINE:'기준선보다 낮음',
+      NOT_PROVEN:'실력 확인 아직 안 됨',PROVEN_ABOVE:'기준선보다 높음(확인됨)'};
+    const bars=ranked.map(r=>{
+      const mark=r.bestFixedDirectionAcc==null?'':
+        `<span class="sc-bar-base" style="left:${Math.max(0,Math.min(100,r.bestFixedDirectionAcc))}%"></span>`;
+      return `<div class="sc-bar-row">
         <div class="sc-bar-nm">${SC_NAME[r.id]}<small>${SC_ROLE[r.id]}</small></div>
-        <div class="sc-bar-track"><i style="width:${r.acc||0}%"></i></div>
+        <div class="sc-bar-track" title="세로선은 아무 실력 없이 한 방향으로만 말했을 때 나오는 값이에요."><i style="width:${r.acc||0}%"></i>${mark}</div>
         <div class="sc-bar-acc">${r.acc==null?'—':r.acc+'%'}</div>
-      </div>`).join('');
+      </div><div class="sc-bar-note">${r.acc==null?'채점 기간이 아직 안 지나 성적이 없어요.'
+        :`한 방향만 말해도 ${r.bestFixedDirectionAcc==null?'—':r.bestFixedDirectionAcc+'%'}`
+         +`${r.liftVsFixedPp==null?'':` · 차이 ${r.liftVsFixedPp>0?'+':''}${r.liftVsFixedPp}%p`}`
+         +`${Array.isArray(r.lift95)?` (범위 ${r.lift95[0]>0?'+':''}${r.lift95[0]} ~ ${r.lift95[1]>0?'+':''}${r.lift95[1]}%p)`:''}`
+         +`${r.uniqueDecisionDays==null?'':` · 판단 ${r.uniqueDecisionDays}일`}`}${r.skillStatus?` · <b>${SC_STATUS[r.skillStatus]||''}</b>`:''}</div>`;
+    }).join('');
     const bestA=ranked[0], worstA=ranked[ranked.length-1];
     const team=TW.global.team;
     /* ⭐ 2026-09-04 정직성 수정: 팀 적중률만 크게 적어 두면 "62%나 맞혔다"로 읽힌다.
@@ -2587,7 +2650,9 @@ function renderScorecard(){
       return `<tr><td>${c}</td><td class="num">${Number(r.n).toLocaleString()}건</td><td class="num">${r.acc}%</td><td class="num">${esc(String(r.band||''))}</td><td class="num">${ex}</td></tr>`;
     }).filter(Boolean).join('');
     const teamNote=(team&&team.acc!=null)
-      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}는 ${bestA.acc}%이고, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건).`
+      ? `<div class="sc-team-note">개별 분석가 중 숫자가 가장 높은 건 ${SC_NAME[bestA.id]}(${bestA.acc==null?'—':bestA.acc+'%'})인데, `
+        +`${bestA.skillStatus==='PROVEN_ABOVE'?'이 숫자는 한 방향만 말한 기준선을 확실히 넘었어요.':'이 숫자는 같은 판단을 한 방향으로만 말했을 때와 견줘 확실히 낫다고 아직 확인되지 않았어요.'} `
+        +`<b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건).`
         +(team.holdBaselineAcc!=null
           ? ` 다만 <b>같은 기록을 전부 HOLD로만 채점하면 ${team.holdBaselineAcc}%</b>가 나와요. 즉 지금 팀 판단이 아무것도 안 한 기준선보다 앞선 폭은 <b>${team.liftVsHoldPp>0?'+':''}${team.liftVsHoldPp}%p</b>뿐이에요.`
           : '')
@@ -2617,10 +2682,11 @@ function renderScorecard(){
     deepDive=`<div class="sc-block">
       <h3>분석가 열전: 왜 어떤 분석가는 더 잘 맞을까</h3>
       <p class="sc-sub">역할별 기간으로 채점한 실측 적중률이에요. TARO·QUANT·FLOW는 5거래일, DIANA는 20거래일을 봅니다(표본 ${(TW.global.graded||0).toLocaleString()}건, ${esc(TW.generatedAt||'')} 기준 자동 계산).</p>
+      <p class="sc-explain"><b>적중률만 보면 안 되는 이유.</b> 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그래서 막대 안에 그 기준선을 세로선으로 같이 그렸어요. 세로선을 확실히 넘어야 실력이라고 말할 수 있어요.</p>
       <div class="sc-bars">${bars}</div>
       <p class="sc-explain">재무·기본적 분석은 단기 타이밍보다 기업의 중장기 품질을 보는 도구입니다. 그래서 DIANA는 20거래일 뒤 ±3% 기준으로 따로 채점하고, 종합점수 기본 발언권도 12%로 제한했습니다. 다른 분석가는 5거래일 뒤 ±1% 기준입니다. 표본이 작은 업종 성적은 전역 성적과 섞어 과대평가를 줄입니다.</p>
       ${teamNote}
-      ${chips?`<div class="sc-chip-head">업종별로는 승자가 달라요 (표본 100건 이상만 집계)</div><div class="sc-chips">${chips}</div>`:''}
+      ${chips?`<div class="sc-chip-head">업종별로는 승자가 달라요 (표본 100건 이상만 집계 · 업종 성적에는 아직 기준선 비교를 붙이지 않았으니 참고용으로만 봐주세요)</div><div class="sc-chips">${chips}</div>`:''}
       <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
     </div>`;
   }
@@ -2839,7 +2905,7 @@ function renderCalendar(){
   const report=`<div class="cal-report"><h3>${mLabel} 성적표</h3><div class="cal-rgrid">
     <span>분석한 날 <b>${days.size}</b>일 · 기록 <b>${ents.length}</b>건${pending?` (⏳평가중 ${pending})`:''}</span>
     <span>팀 적중률 <b>${acc===null?'—':acc+'%'}</b> <span style="font-size:10px;color:var(--faint)">5거래일 뒤 종가 기준</span></span>
-    <span>MVP <b>${mvp?`${mvp.name} ${mvp.acc}%`:'표본 부족'}</b></span>
+    <span>그달 최다 적중 <b>${mvp?`${mvp.name} ${mvp.acc}%`:'표본 부족'}</b> <span style="font-size:10px;color:var(--faint)">참고용 · 실력 확인 아님</span></span>
     <span>최고 콜 <b>${fmtCall(best)}</b></span>
     <span>아쉬운 콜 <b>${(worst&&worst!==best)?fmtCall(worst):'—'}</b></span>
     ${pCost>0?`<span>내 포트폴리오 <b style="color:${pPl>0?'var(--krup)':pPl<0?'var(--krdn)':'var(--ink)'}">${pPl>0?'+':''}${won(pPl)} (${pPct>0?'+':''}${pPct.toFixed(1)}%)</b></span>`:''}
@@ -6669,18 +6735,10 @@ function makeCards(isLive){
        </div>`);
   });
   setAnalystTab(window.GaeoAnalystTab||'taro');
-  // 🎯 개인 통산 적중률 배지 — 역할별 기간으로 채점한 리더보드 성적을 카드 헤더에도 표시
-  try{
-    computeLeaderboard().forEach(r=>{
-      const el=document.getElementById('acc-'+r.id);
-      if(!el||r.acc===null) return;
-      const rule=LB_RULES[r.id]||{days:5,deadband:1};
-      el.textContent=`통산 적중 ${r.acc}%`;
-      el.title=`${r.name}의 통산 적중률 ${r.acc}% — 지금까지 모든 종목에서 낸 강세/약세 판단 ${r.n}개를 "판단 후 ${rule.days}거래일 뒤 종가"와 ±${rule.deadband}% 기준으로 채점한 성적이에요.`
-        +(r.pending?` (⏳평가중 ${r.pending}건은 별도)`:'');
-      el.style.display='';
-    });
-  }catch(e){}
+  /* 카드 헤더의 「통산 적중」 배지는 2026-09-04에 제거했다. ① 부르던 리더보드 집계
+     함수가 앱 셸 분리(8f23094a) 때 사라져 try/catch 안에서 조용히 실패하고 있었다.
+     ② 적중률만 단독으로 붙이면 기준선이 없어 근거보다 세게 말하는 표시가 된다.
+     근거를 갖춘 성적은 leaderboardHTML이 판단일·신뢰구간·기준선과 함께 보여준다. */
 }
 // 숫자 카운트업(0 → 목표값, ease-out) — 모션 최소화 설정이면 즉시 표시
 function countUp(el,target,dur){
