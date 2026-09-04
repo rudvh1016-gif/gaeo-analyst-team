@@ -126,6 +126,11 @@
 .fm-history-grid span{display:block;color:#7a8089;font-size:10px;line-height:1.45}
 .fm-history-grid strong{display:block;margin-top:5px;font-size:16px;font-weight:600;color:var(--color-text-primary,#111214)}
 .fm-history-cell small{display:block;margin-top:6px;color:#72777f;font-size:10.5px;line-height:1.55;font-weight:400}
+/* ⭐ 2026-09-04: 숫자 밑에 붙는 "쉽게 말하면" 설명. 본문보다 조금 작지만
+   회색 각주보다는 읽히게 — 이 문장이 이 칸의 핵심 안내다. */
+.fm-history-plain{margin:12px 0 0;padding:12px 14px;border-left:2px solid var(--color-border,#e4e6ea);
+  color:var(--color-text-secondary,#555b66);font-size:12px;line-height:1.7;word-break:keep-all}
+.fm-history-plain b{color:var(--color-text-primary,#111214);font-weight:600}
 .fm-history-copy{margin:10px 0 0;color:#72777f;font-size:10.5px;line-height:1.5}
 
 /* ---------- Dark mode (html.gdark — rotation.css와 동일한 토글) ---------- */
@@ -160,6 +165,8 @@ html.gdark .fm-history-grid>div{background:transparent;border-color:#343841}
 html.gdark .fm-history-grid span{color:#9da1aa}
 html.gdark .fm-history-grid strong{color:#f2f3f5}
 html.gdark .fm-history-cell small{color:#aeb3bb}
+html.gdark .fm-history-plain{border-left-color:#343841;color:#c8cbd1}
+html.gdark .fm-history-plain b{color:#f2f3f5}
 html.gdark .fm-empty,html.gdark .fm-empty-inline{background:#242427;color:#aeb3bb}
 html.gdark .fm-sort select{background:#1c1c1e;border-color:#424248;color:#f5f5f7}
 html.gdark .fm-sort label{color:#aeb3bb}

@@ -340,6 +340,17 @@ function baseFixture(overrides) {
     requireState(!/최근 20거래일 상승 종목 비율 평균/.test(ready),
       '표본이 모자란 기간의 평균을 지어냈다');
     requireState(ready.includes('이동평균선이 아닙니다'), '이동평균선 오해 방지 문구 없음');
+    /* ⭐ 2026-09-04 소유자 지시: 숫자만 있으면 "그래서 뭐가 어떻다는 건지" 모른다.
+       처음 보는 사람을 위한 한두 문장이 숫자 아래에 있어야 한다.
+       ⚠️ 다만 앞으로 오른다·내린다로 해석해 주면 안 된다(예측 화면이 아니다). */
+    requireState(ready.includes('쉽게 말하면'), '초보자용 보충 설명이 없다');
+    requireState(ready.includes('50%면') && ready.includes('반반'),
+      '기준값(50%)이 무슨 뜻인지 설명하지 않았다');
+    requireState(ready.includes('앞으로 오른다·내린다는 뜻은 아니고'),
+      '예측이 아니라는 선긋기가 없다');
+    for (const banned of ['오를 것', '상승할 것', '매수', '매도']) {
+      requireState(!ready.includes(banned), `예측·권유로 읽히는 표현 발견: "${banned}"`);
+    }
     for (const banned of ['5일선', '20일선', '5일 평균', '20일 평균']) {
       requireState(!ready.includes(banned), `금지 문구 발견: "${banned}"`);
     }

@@ -267,9 +267,28 @@
         ${gap!=null?`<br>오늘은 이 평균보다 ${gap>0?'+':''}${gap}%p`:''}</small></div>`;
     }).filter(Boolean).join('');
     const ready=['5','20'].some(k=>windows[k]&&windows[k].available);
+    /* ⭐ 2026-09-04 소유자 지시: 숫자만 있으면 "그래서 뭐가 어떻다는 건지" 알 수 없다.
+       숫자 아래에 처음 보는 사람도 알 수 있는 한두 문장을 붙인다.
+       ⚠️ 오늘 값이 평균보다 높다/낮다는 사실만 말한다. 앞으로 오른다/내린다로
+          해석해 주지 않는다(예측이 아니라 관찰 화면이다). */
+    const w5=windows['5']||{};
+    const nowAdv=today.advanceRatioPct;
+    const avgAdv=((w5.metrics||{}).advanceRatioPct||{}).average;
+    let plain='';
+    if(w5.available&&nowAdv!=null&&avgAdv!=null){
+      const gap=Math.round((nowAdv-avgAdv)*10)/10;
+      const wide=Math.abs(gap)>=10;
+      plain=`<p class="fm-history-plain"><b>쉽게 말하면</b> — 이 숫자는 "전체 시장에서 오른 종목이 몇 %였나"를 그 기간 동안 평균 낸 값이에요. 50%면 오른 종목과 내린 종목이 반반이라는 뜻이고, 높을수록 여러 종목이 함께 올랐다는 뜻이에요.<br>
+        오늘은 ${nowAdv}%라서 최근 5거래일 평균(${avgAdv}%)보다 ${gap>0?'높아요':'낮아요'}. ${gap>0
+          ? `평소보다 ${wide?'훨씬 ':''}많은 종목이 함께 오른 날이에요.`
+          : `평소보다 ${wide?'훨씬 ':''}적은 종목만 오른 날이에요.`} 앞으로 오른다·내린다는 뜻은 아니고, 오늘 시장 분위기가 평소와 얼마나 달랐는지를 보는 값이에요.</p>`;
+    } else {
+      plain=`<p class="fm-history-plain"><b>쉽게 말하면</b> — 이 칸은 "전체 시장에서 오른 종목이 몇 %였나"를 여러 날 평균 내서, 오늘이 평소보다 뜨거운 날인지 조용한 날인지 비교해 보는 곳이에요. 아직 날짜가 모자란 기간은 평균을 지어내지 않고 며칠 더 필요한지만 보여줘요.</p>`;
+    }
     return `<section class="fm-panel fm-history"><h3>시장 흐름 추세</h3>
       <p class="fm-sub">전체시장의 하루 집계를 기간별로 평균해 지금이 평소보다 강한지 봅니다. 이동평균선이 아닙니다.</p>
       <div class="fm-history-grid">${cells}</div>
+      ${plain}
       <p class="fm-history-copy">${ready
         ? `${escapeHtml(String(h.firstDay||''))}부터 ${h.totalDaysCollected}거래일치를 모았습니다. 기간이 모자란 칸은 평균을 만들지 않고 남은 일수만 표시합니다.`
         : '아직 충분한 기록이 없어 평균값이나 추세를 표시하지 않습니다.'}</p>
