@@ -1,12 +1,48 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-04 10:41",
- "priceLabel": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
- "count": 365,
+ "generatedAt": "2026-09-04 11:12",
+ "priceLabel": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+ "count": 366,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T02:11:11.852529+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000061"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T02:11:11.852529+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000064"
+  },
+  {
+   "code": "115180",
+   "name": "큐리언트",
+   "title": "주요사항보고서(유상증자결정)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T02:11:11.852529+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000072"
+  },
+  {
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T02:11:11.852529+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904800123"
+  },
   {
    "code": "032350",
    "name": "롯데관광개발",
@@ -413,15 +449,6 @@ const DART_TODAY = {
    "rceptNo": "20260903000122"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T05:16:52.915368+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000111"
-  },
-  {
    "code": "001720",
    "name": "신영증권",
    "title": "증권발행실적보고서",
@@ -438,15 +465,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-03T05:16:52.915368+00:00",
    "isCorrection": false,
    "rceptNo": "20260903800246"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T04:47:09.447486+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000098"
   },
   {
    "code": "001200",
@@ -1158,15 +1176,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-02T03:04:49.816633+00:00",
    "isCorrection": false,
    "rceptNo": "20260902000080"
-  },
-  {
-   "code": "336260",
-   "name": "두산퓨얼셀",
-   "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T03:04:49.816633+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260902800020"
   },
   {
    "code": "035250",
