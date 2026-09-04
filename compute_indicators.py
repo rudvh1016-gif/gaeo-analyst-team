@@ -267,6 +267,10 @@ def _fmt_bizdate(bd):
 
 
 def flow_summary(deal_trends, daily=None, days=6):
+    # ⭐ 2026-09-04 참고: days 기본값은 6이지만 원본 dealTrends는 전 종목이 정확히
+    #    5행이라 운영에서는 항상 5일 창이다. 기본값을 5로 낮추면 6행을 넘기는
+    #    호출자의 동작이 조용히 바뀌므로 그대로 둔다. 실제로 몇 일을 썼는지는
+    #    반환값의 "days"(= len(dt))가 이미 정확히 보고한다.
     dt = deal_trends[:days]
     if not dt:
         return None
@@ -293,14 +297,16 @@ def flow_summary(deal_trends, daily=None, days=6):
     organ_buy_days = sum(1 for value in org_rows if value > 0)
     daily = daily or []
     last_volume = float((daily[-1] if daily else {}).get("volume") or 0)
-    # ⚠️ 기존 근사치: 마지막 하루 거래량 × 일수. 거래량이 들쭉날쭉한 종목에서 크게 틀린다.
-    #    호환성을 위해 flowRatioPct는 그대로 두고, 아래에 **같은 날짜끼리 맞춘**
-    #    실제 기간 거래량 합계를 따로 계산해 정규화 후보(A1)가 쓰게 한다.
-    flow_ratio = (frgn + org) / (last_volume * len(dt)) * 100 if last_volume and dt else None
 
-    # ── 실제 기간 거래량 (요구 7-1) ──────────────────────────────────────────
-    # dealTrends의 bizdate(YYYYMMDD)와 daily의 date(YYYY-MM-DD)를 **정확히 같은
-    # 날짜끼리** 맞춘다. 근사(last_volume × days)를 쓰지 않는다.
+    # ── 실제 기간 거래량 ─────────────────────────────────────────────────────
+    # ⭐ 2026-09-04 결함 수정 (분자·분모 기간 불일치)
+    #    예전에는 분자(frgn·org)는 dt 전체(5일)를 더하면서, 분모(period_volume)는
+    #    dealTrends의 bizdate와 일봉(daily)의 date가 **맞아떨어진 날만** 더했다.
+    #    그런데 통과 기준이 coverage >= 0.6(5일 중 3일)이어서, 5일치 순매수를
+    #    3일치 거래량으로 나누는 일이 허용됐다 — 최대 1.67배 부풀려진 비율이다.
+    #    이제는 같은 dealTrends 행에 이미 들어 있는 accumulatedTradingVolume을
+    #    분모로 쓴다. 분자와 분모가 물리적으로 같은 행에서 나오므로 기간 불일치가
+    #    구조적으로 불가능해진다. 일봉 매칭은 교차검증 용도로만 남긴다.
     volume_by_date = {}
     for row in daily:
         d = str(row.get("date") or "").replace("-", "")
@@ -308,24 +314,72 @@ def flow_summary(deal_trends, daily=None, days=6):
         if len(d) == 8 and v:
             volume_by_date[d] = float(v)
     matched_dates = []
-    period_volume = 0.0
+    daily_matched_volume = 0.0
     for row in dt:
         d = str(row.get("bizdate") or "").strip()
         if d in volume_by_date:
-            period_volume += volume_by_date[d]
+            daily_matched_volume += volume_by_date[d]
             matched_dates.append(d)
-    # 며칠이 실제로 매칭됐는지 남긴다. 절반도 못 맞췄으면 정규화를 쓰지 않는다.
     volume_match_days = len(matched_dates)
-    volume_coverage = volume_match_days / len(dt) if dt else 0.0
-    if period_volume > 0 and volume_coverage >= 0.6:
-        # 같은 기간 순매수 ÷ 같은 기간 실제 총거래량. 종목 규모에 자동으로 맞춰진다.
-        frgn_ratio = frgn / period_volume * 100
-        org_ratio = org / period_volume * 100
+
+    # 분자와 분모를 반드시 같은 날짜 집합에서 뽑는다. 1순위는 같은 행에 이미 들어
+    # 있는 accumulatedTradingVolume(운영 데이터에는 전 종목 100% 존재), 없으면
+    # 일봉에서 날짜가 맞은 날만 쓰되 **분자도 그 날짜로만 제한**한다.
+    # 어느 쪽이든 분자와 분모의 기간이 항상 같아지는 것이 이 수정의 핵심이다.
+    same_row_days = 0
+    period_volume = 0.0
+    frgn_same_row = 0.0
+    org_same_row = 0.0
+    volume_basis = "SAME_ROW"
+    for row in dt:
+        v = num(row.get("accumulatedTradingVolume"))
+        if not v or v <= 0:
+            continue
+        same_row_days += 1
+        period_volume += float(v)
+        frgn_same_row += num(row.get("foreignerPureBuyQuant")) or 0
+        org_same_row += num(row.get("organPureBuyQuant")) or 0
+    if same_row_days == 0 and volume_match_days:
+        # 같은 행에 거래량이 없는 경우(과거 스냅샷·테스트 픽스처)에만 일봉으로
+        # 되돌아간다. 이때도 분자를 매칭된 날짜로만 제한해 기간을 일치시킨다.
+        volume_basis = "DAILY_MATCHED"
+        matched = set(matched_dates)
+        for row in dt:
+            if str(row.get("bizdate") or "").strip() not in matched:
+                continue
+            same_row_days += 1
+            frgn_same_row += num(row.get("foreignerPureBuyQuant")) or 0
+            org_same_row += num(row.get("organPureBuyQuant")) or 0
+        period_volume = daily_matched_volume
+    # 창의 4/5 이상이 채워져야 비율을 만든다(예전 3/5 → 4/5로 상향).
+    volume_coverage = same_row_days / len(dt) if dt else 0.0
+    if period_volume > 0 and volume_coverage >= 0.8:
+        # 같은 행의 순매수 ÷ 같은 행의 총거래량. 기간이 정의상 일치한다.
+        frgn_ratio = frgn_same_row / period_volume * 100
+        org_ratio = org_same_row / period_volume * 100
         volume_state = "PERIOD_VOLUME_MATCHED"
     else:
         frgn_ratio = org_ratio = None
         volume_state = ("PERIOD_VOLUME_PARTIAL" if period_volume > 0
                         else "PERIOD_VOLUME_NOT_AVAILABLE")
+    # ⭐ 2026-09-04 결함 수정 (엉터리 분모)
+    #    flowRatioPct는 예전에 "마지막 하루 거래량 × 일수"라는 근사 분모를 썼다.
+    #    코드 주석 스스로 "거래량이 들쭉날쭉한 종목에서 크게 틀린다"고 인정한 값인데,
+    #    그 값이 아래 qualityScore의 ±20점 항으로 들어가고 그 품질점수는 화면에
+    #    "수급 품질"로 노출된다. 틀린 줄 아는 숫자를 사용자에게 보여주고 있었다.
+    #    이제 같은 행에서 뽑은 실제 기간 거래량을 분모로 쓴다. 그 값이 없을 때만
+    #    예전 근사로 되돌리고, 어느 쪽을 썼는지 flowRatioBasis에 남겨 뜻이 조용히
+    #    바뀌지 않게 한다.
+    if period_volume > 0:
+        flow_ratio = (frgn_same_row + org_same_row) / period_volume * 100
+        flow_ratio_basis = "PERIOD_VOLUME_SAME_ROW"
+    elif last_volume and dt:
+        flow_ratio = (frgn + org) / (last_volume * len(dt)) * 100
+        flow_ratio_basis = "LAST_DAY_VOLUME_APPROX"
+    else:
+        flow_ratio = None
+        flow_ratio_basis = "NOT_AVAILABLE"
+
     price_ret5 = None
     if len(daily) >= 6 and daily[-6].get("close"):
         price_ret5 = (daily[-1]["close"] / daily[-6]["close"] - 1) * 100
@@ -351,6 +405,17 @@ def flow_summary(deal_trends, daily=None, days=6):
         "frgnSum": int(frgn), "orgSum": int(org), "indiSum": int(indi),
         "holdNow": num(dt[0].get("foreignerHoldRatio")),
         "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
+        # ⭐ 2026-09-04 결함 기록 (기간 불일치)
+        #    holdBefore는 가장 오래된 날의 '장 종료 후' 보유율이다. 그래서
+        #    holdNow - holdBefore는 그 날의 거래가 이미 반영된 뒤부터 재므로
+        #    실제로는 dt[0..-2], 즉 (일수-1)일치 변화만 담는다. 반면 frgnSum은
+        #    dt 전체(일수)를 더한다. 두 값이 서로 다른 기간을 재고 있다.
+        #    보유율은 원본이 소수 2자리 반올림이라 창을 늘려 맞출 수도 없다.
+        #    지금은 사실을 명시만 하고 점수 산식은 바꾸지 않는다 — 산식 변경은
+        #    docs/FLOW_SCORING_DESIGN.md의 검증 절차를 거친 뒤에 한다.
+        "holdWindowDays": max(0, len(dt) - 1),
+        "holdWindowMismatch": True,
+        "flowWindowDays": len(dt),
         "todayFrgn": int(num(today.get("foreignerPureBuyQuant")) or 0),
         "todayOrg": int(num(today.get("organPureBuyQuant")) or 0),
         "todayIndi": int(num(today.get("individualPureBuyQuant")) or 0),
@@ -358,9 +423,14 @@ def flow_summary(deal_trends, daily=None, days=6):
         "jointBuyDays": joint_buy, "jointSellDays": joint_sell,
         "acceleration": round(acceleration),
         "flowRatioPct": round(flow_ratio, 3) if flow_ratio is not None else None,
+        "flowRatioBasis": flow_ratio_basis,
         # 정규화 후보(A1) 전용 — 같은 날짜끼리 맞춘 실제 기간 거래량 기준
         "periodVolume": int(period_volume) if period_volume else None,
         "volumeMatchDays": volume_match_days,
+        "volumeSameRowDays": same_row_days,
+        "volumeBasis": volume_basis,
+        # 일봉으로 맞춘 값과의 교차검증(진단용). 크게 어긋나면 원자료를 의심한다.
+        "dailyMatchedVolume": int(daily_matched_volume) if daily_matched_volume else None,
         "volumeState": volume_state,
         "frgnRatioPct": round(frgn_ratio, 4) if frgn_ratio is not None else None,
         "orgRatioPct": round(org_ratio, 4) if org_ratio is not None else None,
