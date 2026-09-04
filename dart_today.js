@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-04 10:12",
- "priceLabel": "2026-09-04 10:10 장중 · ⚠️ 1종목 지연",
- "count": 363,
+ "generatedAt": "2026-09-04 10:41",
+ "priceLabel": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+ "count": 365,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "032350",
+   "name": "롯데관광개발",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000042"
+  },
+  {
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260904800110"
+  },
+  {
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260904800112"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000049"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000051"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000054"
+  },
   {
    "code": "319660",
    "name": "피에스케이",
@@ -755,15 +809,6 @@ const DART_TODAY = {
    "rceptNo": "20260902000230"
   },
   {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T07:02:45.692734+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260902000221"
-  },
-  {
    "code": "002790",
    "name": "아모레퍼시픽홀딩스",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
@@ -816,15 +861,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-02T06:32:41.450472+00:00",
    "isCorrection": false,
    "rceptNo": "20260902000200"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:32:41.450472+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260902000217"
   },
   {
    "code": "003470",
@@ -897,15 +933,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": false,
    "rceptNo": "20260902800289"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260902000192"
   },
   {
    "code": "001500",
@@ -2580,15 +2607,6 @@ const DART_TODAY = {
    "detectedAt": "2026-08-31T05:27:36.043732+00:00",
    "isCorrection": false,
    "rceptNo": "20260831000925"
-  },
-  {
-   "code": "336260",
-   "name": "두산퓨얼셀",
-   "title": "대규모기업집단현황공시[분기별공시(개별회사용)]",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T05:27:36.043732+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260831000867"
   },
   {
    "code": "131970",
