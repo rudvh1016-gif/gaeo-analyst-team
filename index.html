@@ -393,7 +393,15 @@
       window.gaeoSetAnalyticsConsent(btn.dataset.consent); close();
     });
     settings.onclick=open;
-    document.body.appendChild(prompt); document.body.appendChild(settings);
+    document.body.appendChild(prompt);
+    // ⭐ 2026-09-04 소유자 지시: 이 버튼은 예전에 position:fixed로 화면 우측 하단에 계속 떠
+    //    있었는데, 실측 결과 데스크톱 1440px 첫 화면에서 홈 "오늘의 판단" BUY 상위 종목의
+    //    점수 숫자와 좌표가 겹쳐 그 숫자를 가리고 있었다(스크롤을 내리지 않아도 가려짐).
+    //    GAEO의 핵심 산출물인 판단 점수를 가리는 것이라, 고정을 풀고 푸터 「사이트 정보」
+    //    줄로 옮긴다 — 개인정보 재설정 접근권은 그대로 유지된다(푸터는 개인정보·쿠키 설정
+    //    링크의 표준 위치다). 다시 document.body로 옮기거나 position:fixed로 되돌리지 말 것.
+    const footLinks=document.querySelector('.foot-links');
+    if(footLinks) footLinks.appendChild(settings); else document.body.appendChild(settings);
     if(gaeoStoredConsent){ prompt.hidden=true; }
     else open();
   });
@@ -491,7 +499,7 @@
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.77.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.78.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
-<link rel="stylesheet" href="app-shell.css?v=20260903-p8">
+<link rel="stylesheet" href="app-shell.css?v=20260904-p9">
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v4">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
@@ -1281,7 +1289,7 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260903-p8" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="app.js?v=20260904-p9" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){
