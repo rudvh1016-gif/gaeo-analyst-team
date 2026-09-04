@@ -2092,8 +2092,13 @@
   .consent-prompt button,.consent-settings{border:1px solid var(--line);border-radius:9px;padding:8px 11px;
     background:var(--paper2);color:var(--ink);font:inherit;font-size:11.5px;font-weight:600;cursor:pointer}
   .consent-prompt button.primary{border-color:var(--navy);background:var(--navy);color:#fff}
-  .consent-settings{position:fixed;right:12px;bottom:12px;z-index:80;padding:6px 9px;color:var(--dim);
-    background:var(--paper);box-shadow:var(--shadow-sm)}
+  /* ⭐ 2026-09-04 소유자 지시 — 고정(fixed) 해제. 예전에는 우측 하단에 계속 떠 있어서
+     홈 "오늘의 판단" BUY 상위 종목 점수를 실제로 가렸다(데스크톱 1440px 첫 화면에서
+     버튼 y:943~988 vs 점수 y:931.8~950.5로 겹침이 실측됨). 지금은 index.html이 이
+     버튼을 푸터 .foot-links 안으로 넣으므로 흐름(static) 배치면 충분하다.
+     ⚠️ 다시 position:fixed로 되돌리지 말 것 — 같은 가림 사고가 재발한다. */
+  .consent-settings{display:inline-flex;align-items:center;min-height:44px;padding:6px 11px;
+    color:var(--dim);background:var(--paper)}
   @media(max-width:620px){.consent-prompt{align-items:stretch;flex-direction:column}.consent-prompt div{justify-content:stretch}.consent-prompt button{flex:1}}
 
   /* ── 비밀번호 입력 모달 (●●● 마스킹) ── */
@@ -2767,10 +2772,13 @@
     /* 2026-09-03 버그 리포트: editorial-accessibility.css가 모든 button에 min-height:45px!important를
        강제하는데, 이 버튼은 align-items를 안 정해놔서 짧은 글자가 45px 박스 위쪽에 붙고 아래는
        빈 여백 — "테두리(여백)가 너무 크다"는 신고가 그 모습이었다. 여기서 align-items:center로
-       세로 중앙 정렬하고, min-height도 옆 종목코드 배지(.qcode, 약 24px)에 맞춰 32px로 줄였다
-       (WCAG 2.2 최소 터치 크기 24px는 여전히 넉넉히 넘긴다). 클래스 선택자라 :where(button…)보다
-       우선순위가 높아 !important 없이도 이긴다 — 다만 그쪽도 !important라 여기도 붙여 확실히 한다. */
-    min-height:32px!important}
+       세로 중앙 정렬하고, min-height도 32px로 줄였었다.
+       ⭐ 2026-09-04 정정: 진짜 원인은 높이가 아니라 위쪽 정렬(align-items 미지정)이었고 그건 위
+       줄에서 이미 고쳐졌다. 32px는 과교정이라 이 사이트 자체 기준(터치 대상 44px)과 자체 검사
+       도구(test_editorial_accessibility_browser.js, 43.5px 미만이면 실패)를 계속 어기고 있었다.
+       세로 중앙 정렬이 살아 있으므로 44px로 되돌려도 글자가 위로 붙지 않는다. 다시 44px 밑으로
+       줄이지 말 것 — 관심종목은 재방문의 입구라 손가락으로 정확히 눌려야 한다. */
+    min-height:44px!important}
   .watch-toggle.on{background:var(--navy-soft);color:var(--ink);border-color:var(--line2)}
   @media(max-width:1179px){.start-board{grid-template-columns:1fr 1fr}.start-step-summary{grid-column:1/-1;grid-row:1}}
   @media(max-width:620px){.start-board{grid-template-columns:1fr;gap:8px}.start-step-summary{grid-column:auto;grid-row:auto}

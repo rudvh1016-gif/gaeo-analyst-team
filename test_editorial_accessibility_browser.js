@@ -261,8 +261,21 @@ async function audit(page, name, width) {
     const radar = await browser.newPage({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' });
     await radar.route(/^https?:\/\/(?!127\.0\.0\.1).*/, request => request.abort());
     await radar.addInitScript(() => localStorage.setItem('gaeo_analytics_consent_v1', 'denied'));
-    await radar.goto(BASE + '/?m=single&code=000270', { waitUntil: 'domcontentloaded' });
-    await radar.waitForFunction(() => document.querySelector('#qname')?.textContent.includes('기아'), null, { timeout: 15000 });
+    // ⚠️ 2026-09-04 수정: 예전에는 기아(000270)를 하드코딩하고 "이 종목엔 늘 레이더 신호가 있다"고
+    //    가정했다. 레이더는 그날 새로 경계를 통과한 종목만 잡아내므로 신호 종목은 매일 바뀐다.
+    //    실제로 2026-09-04에는 기아에 신호가 없어 .rd-head가 아예 안 그려졌고, 이 검사가 날짜에
+    //    따라 무작위로 실패하는 상태였다(그동안은 앞의 watch-toggle 실패에 가려 드러나지 않았다).
+    //    이 검사의 계약은 "비어 있지 않은 레이더 결과에 장식용 emoji가 없음"이므로, 오늘 실제로
+    //    신호가 있는 종목을 GAEO_RADAR에서 골라 쓴다. 특정 종목을 다시 하드코딩하지 말 것.
+    await radar.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+    const radarTarget = await radar.waitForFunction(
+      () => (typeof GAEO_RADAR !== 'undefined' && GAEO_RADAR.stocks && GAEO_RADAR.stocks.length)
+        ? { code: GAEO_RADAR.stocks[0].code, name: GAEO_RADAR.stocks[0].name }
+        : null,
+      null, { timeout: 15000 }).then(handle => handle.jsonValue());
+    await radar.goto(`${BASE}/?m=single&code=${radarTarget.code}`, { waitUntil: 'domcontentloaded' });
+    await radar.waitForFunction(name => document.querySelector('#qname')?.textContent.includes(name),
+      radarTarget.name, { timeout: 15000 });
     await radar.locator('#analysisTabRadar').click();
     await radar.locator('#analysisPanelRadar .rd-head').waitFor({ state: 'visible', timeout: 15000 });
     const radarEmoji = await radar.locator('#analysisPanelRadar').evaluate(panel => [...panel.querySelectorAll('*')]
