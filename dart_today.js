@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-04 13:11",
- "priceLabel": "2026-09-04 13:07 장중 · ⚠️ 1종목 지연",
- "count": 367,
+ "generatedAt": "2026-09-04 13:41",
+ "priceLabel": "2026-09-04 13:30 장중 · ⚠️ 1종목 지연",
+ "count": 368,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000113"
+  },
+  {
+   "code": "240810",
+   "name": "원익IPS",
+   "title": "임시주주총회결과",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904900170"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000107"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000108"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904000110"
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260904",
+   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260904800176"
+  },
   {
    "code": "064760",
    "name": "티씨케이",
@@ -368,15 +422,6 @@ const DART_TODAY = {
    "rceptNo": "20260903000166"
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T06:12:48.594935+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000158"
-  },
-  {
    "code": "036570",
    "name": "NC",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -546,24 +591,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-03T02:16:52.005104+00:00",
    "isCorrection": true,
    "rceptNo": "20260903000038"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000045"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T02:16:52.005104+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000047"
   },
   {
    "code": "114090",
@@ -888,15 +915,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-02T06:32:41.450472+00:00",
    "isCorrection": false,
    "rceptNo": "20260902000200"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260902000179"
   },
   {
    "code": "003470",
@@ -3264,15 +3282,6 @@ const DART_TODAY = {
    "detectedAt": "2026-08-31T00:25:48.900545+00:00",
    "isCorrection": false,
    "rceptNo": "20260831000061"
-  },
-  {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "효력발생안내( 2026.8.19. 제출 증권신고서(채무증권) )",
-   "receiptDate": "20260831",
-   "detectedAt": "2026-08-31T00:25:48.900545+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260819100002"
   },
   {
    "code": "105560",

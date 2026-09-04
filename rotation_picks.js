@@ -3,30 +3,53 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-09-04 13:12",
- "dataCutoff": "2026-09-04 13:11 장중",
+ "status": "ready",
+ "generatedAt": "2026-09-04 13:42",
+ "dataCutoff": "2026-09-04 13:42 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 2,
+   "why": "20거래일 +66.7% · 20일선 위",
+   "overheat": false,
+   "gapPct": 10.8,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "006110",
+   "name": "삼아알미늄",
+   "sector": "화학·소재",
+   "sectorRank": 4,
+   "why": "20거래일 +65.7% · 20일선 위",
+   "overheat": false,
+   "gapPct": 19.6,
+   "call": "HOLD",
+   "callConflict": false
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 41.2,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 39.7,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6668.65,
-    "ma20": 6689.83,
-    "above": false,
-    "gapPct": -0.32
+    "close": 6709.57,
+    "ma20": 6691.88,
+    "above": true,
+    "gapPct": 0.26
    },
    "KOSDAQ": {
-    "close": 812.92,
-    "ma20": 830.18,
+    "close": 814.18,
+    "ma20": 830.24,
     "above": false,
-    "gapPct": -2.08
+    "gapPct": -1.93
    }
   }
  },
