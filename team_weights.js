@@ -3,9 +3,11 @@
 // 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.
 // 2026-08-31부터 채점 기준은 '시장 중앙값 대비 초과수익'이다 — 시장이 통째로
 // 오른 날 방향만 맞춘 것을 실력으로 세지 않기 위해서다(global.scoring 참고).
+// 2026-09-04부터 분석가마다 판단일 수·신뢰구간·'한 방향만 말하기' 기준선을
+// 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-04 12:46",
+ "generatedAt": "2026-09-04 17:40",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -47,40 +49,192 @@ const TEAM_WEIGHTS = {
     "n": 3912,
     "acc": 52.1,
     "adjustedAcc": 52.0,
+    "adjustedAccUsedInWeights": 52.0,
+    "gatedToPrior": false,
     "days": 5,
     "deadband": 1.0,
     "absoluteAcc": 47.2,
-    "absoluteN": 4021
+    "absoluteN": 4021,
+    "uniqueDecisionDays": 10,
+    "minDaysForConclusion": 20,
+    "alwaysBullAcc": 49.4,
+    "alwaysBearAcc": 50.6,
+    "bestFixedDirectionAcc": 50.6,
+    "liftVsFixedPp": 1.5,
+    "acc95": [
+     50.3,
+     54.6
+    ],
+    "lift95": [
+     -0.2,
+     4.1
+    ],
+    "skillStatus": "NOT_PROVEN",
+    "voice": {
+     "records": 8980,
+     "neutralPct": 19.5,
+     "bullPct": 54.3,
+     "bearPct": 26.2,
+     "meanAbsDeviation": 19.28,
+     "medianAbsDeviation": 17.0,
+     "meanPushPoints": 5.98,
+     "medianPushPoints": 5.27
+    }
    },
    "diana": {
     "n": 0,
     "acc": null,
-    "adjustedAcc": 50.0,
+    "adjustedAcc": null,
+    "adjustedAccUsedInWeights": 50.0,
+    "gatedToPrior": false,
     "days": 20,
     "deadband": 3.0,
     "absoluteAcc": null,
-    "absoluteN": 0
+    "absoluteN": 0,
+    "uniqueDecisionDays": 0,
+    "minDaysForConclusion": 20,
+    "alwaysBullAcc": null,
+    "alwaysBearAcc": null,
+    "bestFixedDirectionAcc": null,
+    "liftVsFixedPp": null,
+    "acc95": null,
+    "lift95": null,
+    "skillStatus": "NOT_GRADED_YET",
+    "voice": {
+     "records": 8980,
+     "neutralPct": 24.9,
+     "bullPct": 61.0,
+     "bearPct": 14.1,
+     "meanAbsDeviation": 17.52,
+     "medianAbsDeviation": 16.0,
+     "meanPushPoints": 2.04,
+     "medianPushPoints": 1.87
+    }
    },
    "nova": {
     "n": 863,
     "acc": 45.0,
     "adjustedAcc": 45.6,
+    "adjustedAccUsedInWeights": 45.6,
+    "gatedToPrior": false,
     "days": 5,
     "deadband": 1.0,
     "absoluteAcc": 47.2,
-    "absoluteN": 904
+    "absoluteN": 904,
+    "uniqueDecisionDays": 10,
+    "minDaysForConclusion": 20,
+    "alwaysBullAcc": 47.9,
+    "alwaysBearAcc": 52.1,
+    "bestFixedDirectionAcc": 52.1,
+    "liftVsFixedPp": -7.1,
+    "acc95": [
+     41.5,
+     48.6
+    ],
+    "lift95": [
+     -11.9,
+     -3.1
+    ],
+    "skillStatus": "BELOW_FIXED_BASELINE",
+    "voice": {
+     "records": 8980,
+     "neutralPct": 82.5,
+     "bullPct": 8.7,
+     "bearPct": 8.8,
+     "meanAbsDeviation": 4.32,
+     "medianAbsDeviation": 4.0,
+     "meanPushPoints": 1.03,
+     "medianPushPoints": 0.95
+    }
    },
    "flow": {
     "n": 688,
     "acc": 55.4,
     "adjustedAcc": 54.6,
+    "adjustedAccUsedInWeights": 54.6,
+    "gatedToPrior": false,
     "days": 5,
     "deadband": 1.0,
     "absoluteAcc": 47.9,
-    "absoluteN": 701
+    "absoluteN": 701,
+    "uniqueDecisionDays": 10,
+    "minDaysForConclusion": 20,
+    "alwaysBullAcc": 44.3,
+    "alwaysBearAcc": 55.7,
+    "bestFixedDirectionAcc": 55.7,
+    "liftVsFixedPp": -0.3,
+    "acc95": [
+     52.5,
+     59.6
+    ],
+    "lift95": [
+     -2.9,
+     3.2
+    ],
+    "skillStatus": "NOT_PROVEN",
+    "voice": {
+     "records": 8980,
+     "neutralPct": 86.9,
+     "bullPct": 3.9,
+     "bearPct": 9.2,
+     "meanAbsDeviation": 3.15,
+     "medianAbsDeviation": 1.0,
+     "meanPushPoints": 1.05,
+     "medianPushPoints": 0.33
+    }
    }
   },
   "graded": 5463,
+  "dayBasedShadow": {
+   "applied": false,
+   "appliedNote": "기록 전용이다. 실제 판단은 global.weights로만 이뤄진다. 적용하려면 WEIGHT_MATURITY_GATE를 사람이 켜야 하고, 그 전에 사전등록 검증을 통과해야 한다.",
+   "reason": "현재 축소는 채점 '건수'를 독립 시행으로 센다. 같은 날 600종목이 한꺼번에 들어오므로 부풀려진 표본이고, 그래서 축소가 실제로 깎는 폭이 1%p도 안 된다. Constitution statisticalPolicy는 독립 단위를 decision_date로 정해 두고 있다.",
+   "nEffective": {
+    "taro": 10,
+    "diana": 0,
+    "nova": 10,
+    "flow": 10
+   },
+   "minDaysForConclusion": 20,
+   "priorDays20": {
+    "adjustedAcc": {
+     "taro": 50.7,
+     "diana": 50.0,
+     "nova": 48.3,
+     "flow": 51.8
+    },
+    "weights": {
+     "taro": 0.3035,
+     "diana": 0.1189,
+     "nova": 0.2639,
+     "flow": 0.3137
+    }
+   },
+   "priorDays120": {
+    "adjustedAcc": {
+     "taro": 50.2,
+     "diana": 50.0,
+     "nova": 49.6,
+     "flow": 50.4
+    },
+    "weights": {
+     "taro": 0.3009,
+     "diana": 0.1198,
+     "nova": 0.2762,
+     "flow": 0.3032
+    }
+   },
+   "maturityGate": {
+    "enabled": false,
+    "weights": {
+     "taro": 0.3,
+     "diana": 0.12,
+     "nova": 0.28,
+     "flow": 0.3
+    },
+    "note": "판단일이 기준 미만인 분석가는 역할 사전비중을 그대로 쓴다. 2026-09-14부터 DIANA 채점이 시작되는데, 지금 구조에서는 하루치 결과만으로 DIANA 발언권이 크게 흔들릴 수 있다."
+   }
+  },
   "team": {
    "basis": "absolute_return",
    "hit": 3606,
@@ -131,13 +285,17 @@ const TEAM_WEIGHTS = {
      "n": 397,
      "acc": 43.1,
      "adjustedAcc": 44.7,
+     "adjustedAccUsedInWeights": 44.7,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -145,6 +303,8 @@ const TEAM_WEIGHTS = {
      "n": 94,
      "acc": 63.8,
      "adjustedAcc": 56.1,
+     "adjustedAccUsedInWeights": 56.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -152,6 +312,8 @@ const TEAM_WEIGHTS = {
      "n": 82,
      "acc": 47.6,
      "adjustedAcc": 49.0,
+     "adjustedAccUsedInWeights": 49.0,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -171,13 +333,17 @@ const TEAM_WEIGHTS = {
      "n": 188,
      "acc": 46.8,
      "adjustedAcc": 48.1,
+     "adjustedAccUsedInWeights": 48.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -185,6 +351,8 @@ const TEAM_WEIGHTS = {
      "n": 39,
      "acc": 33.3,
      "adjustedAcc": 45.9,
+     "adjustedAccUsedInWeights": 45.9,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -192,6 +360,8 @@ const TEAM_WEIGHTS = {
      "n": 69,
      "acc": 55.1,
      "adjustedAcc": 51.9,
+     "adjustedAccUsedInWeights": 51.9,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -211,13 +381,17 @@ const TEAM_WEIGHTS = {
      "n": 206,
      "acc": 47.1,
      "adjustedAcc": 48.2,
+     "adjustedAccUsedInWeights": 48.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -225,6 +399,8 @@ const TEAM_WEIGHTS = {
      "n": 34,
      "acc": 41.2,
      "adjustedAcc": 48.1,
+     "adjustedAccUsedInWeights": 48.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -232,6 +408,8 @@ const TEAM_WEIGHTS = {
      "n": 57,
      "acc": 54.4,
      "adjustedAcc": 51.4,
+     "adjustedAccUsedInWeights": 51.4,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -251,13 +429,17 @@ const TEAM_WEIGHTS = {
      "n": 155,
      "acc": 42.6,
      "adjustedAcc": 45.8,
+     "adjustedAccUsedInWeights": 45.8,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -265,6 +447,8 @@ const TEAM_WEIGHTS = {
      "n": 33,
      "acc": 78.8,
      "adjustedAcc": 56.2,
+     "adjustedAccUsedInWeights": 56.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -272,6 +456,8 @@ const TEAM_WEIGHTS = {
      "n": 31,
      "acc": 67.7,
      "adjustedAcc": 53.6,
+     "adjustedAccUsedInWeights": 53.6,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -291,13 +477,17 @@ const TEAM_WEIGHTS = {
      "n": 201,
      "acc": 53.7,
      "adjustedAcc": 52.3,
+     "adjustedAccUsedInWeights": 52.3,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -305,6 +495,8 @@ const TEAM_WEIGHTS = {
      "n": 5,
      "acc": 20.0,
      "adjustedAcc": 48.8,
+     "adjustedAccUsedInWeights": 48.8,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -312,6 +504,8 @@ const TEAM_WEIGHTS = {
      "n": 47,
      "acc": 57.4,
      "adjustedAcc": 52.1,
+     "adjustedAccUsedInWeights": 52.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -331,13 +525,17 @@ const TEAM_WEIGHTS = {
      "n": 185,
      "acc": 60.5,
      "adjustedAcc": 56.4,
+     "adjustedAccUsedInWeights": 56.4,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -345,6 +543,8 @@ const TEAM_WEIGHTS = {
      "n": 34,
      "acc": 61.8,
      "adjustedAcc": 52.6,
+     "adjustedAccUsedInWeights": 52.6,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -352,6 +552,8 @@ const TEAM_WEIGHTS = {
      "n": 9,
      "acc": 22.2,
      "adjustedAcc": 48.1,
+     "adjustedAccUsedInWeights": 48.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -371,13 +573,17 @@ const TEAM_WEIGHTS = {
      "n": 487,
      "acc": 53.0,
      "adjustedAcc": 52.4,
+     "adjustedAccUsedInWeights": 52.4,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -385,6 +591,8 @@ const TEAM_WEIGHTS = {
      "n": 185,
      "acc": 34.6,
      "adjustedAcc": 40.7,
+     "adjustedAccUsedInWeights": 40.7,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -392,6 +600,8 @@ const TEAM_WEIGHTS = {
      "n": 72,
      "acc": 66.7,
      "adjustedAcc": 56.2,
+     "adjustedAccUsedInWeights": 56.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -411,13 +621,17 @@ const TEAM_WEIGHTS = {
      "n": 259,
      "acc": 56.8,
      "adjustedAcc": 54.6,
+     "adjustedAccUsedInWeights": 54.6,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -425,6 +639,8 @@ const TEAM_WEIGHTS = {
      "n": 65,
      "acc": 30.8,
      "adjustedAcc": 43.2,
+     "adjustedAccUsedInWeights": 43.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -432,6 +648,8 @@ const TEAM_WEIGHTS = {
      "n": 23,
      "acc": 52.2,
      "adjustedAcc": 50.3,
+     "adjustedAccUsedInWeights": 50.3,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -451,13 +669,17 @@ const TEAM_WEIGHTS = {
      "n": 307,
      "acc": 53.1,
      "adjustedAcc": 52.2,
+     "adjustedAccUsedInWeights": 52.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -465,6 +687,8 @@ const TEAM_WEIGHTS = {
      "n": 13,
      "acc": 46.2,
      "adjustedAcc": 49.6,
+     "adjustedAccUsedInWeights": 49.6,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -472,6 +696,8 @@ const TEAM_WEIGHTS = {
      "n": 35,
      "acc": 37.1,
      "adjustedAcc": 47.1,
+     "adjustedAccUsedInWeights": 47.1,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -491,13 +717,17 @@ const TEAM_WEIGHTS = {
      "n": 186,
      "acc": 50.5,
      "adjustedAcc": 50.3,
+     "adjustedAccUsedInWeights": 50.3,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -505,6 +735,8 @@ const TEAM_WEIGHTS = {
      "n": 46,
      "acc": 47.8,
      "adjustedAcc": 49.4,
+     "adjustedAccUsedInWeights": 49.4,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -512,6 +744,8 @@ const TEAM_WEIGHTS = {
      "n": 12,
      "acc": 16.7,
      "adjustedAcc": 47.0,
+     "adjustedAccUsedInWeights": 47.0,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -531,13 +765,17 @@ const TEAM_WEIGHTS = {
      "n": 139,
      "acc": 65.5,
      "adjustedAcc": 58.3,
+     "adjustedAccUsedInWeights": 58.3,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -545,6 +783,8 @@ const TEAM_WEIGHTS = {
      "n": 41,
      "acc": 34.1,
      "adjustedAcc": 46.0,
+     "adjustedAccUsedInWeights": 46.0,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -552,6 +792,8 @@ const TEAM_WEIGHTS = {
      "n": 33,
      "acc": 39.4,
      "adjustedAcc": 47.7,
+     "adjustedAccUsedInWeights": 47.7,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }
@@ -571,13 +813,17 @@ const TEAM_WEIGHTS = {
      "n": 110,
      "acc": 60.9,
      "adjustedAcc": 55.2,
+     "adjustedAccUsedInWeights": 55.2,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
     "diana": {
      "n": 0,
      "acc": null,
-     "adjustedAcc": 50.0,
+     "adjustedAcc": null,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 20,
      "deadband": 3.0
     },
@@ -585,6 +831,8 @@ const TEAM_WEIGHTS = {
      "n": 106,
      "acc": 50.0,
      "adjustedAcc": 50.0,
+     "adjustedAccUsedInWeights": 50.0,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     },
@@ -592,6 +840,8 @@ const TEAM_WEIGHTS = {
      "n": 17,
      "acc": 76.5,
      "adjustedAcc": 53.3,
+     "adjustedAccUsedInWeights": 53.3,
+     "gatedToPrior": false,
      "days": 5,
      "deadband": 1.0
     }

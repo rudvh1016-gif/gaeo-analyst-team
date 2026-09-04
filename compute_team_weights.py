@@ -19,7 +19,7 @@
 실행: python3 compute_team_weights.py  →  team_weights.js
 (워크플로우에서 analyze_auto.py보다 먼저 실행)
 """
-import json, re, os, datetime, math
+import json, re, os, datetime, math, random
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ANALYSTS = ["taro", "diana", "nova", "flow"]   # nova = QUANT (내부 id는 호환성 위해 유지)
@@ -27,6 +27,24 @@ MIN_N_SECTOR = 200      # 업종 오버라이드 최소 표본
 BAYES_PRIOR_N = 120     # 작은 표본을 50% 쪽으로 축소하는 가상 표본
 SECTOR_SHRINK_N = 800   # 업종값과 전역값을 섞는 강도
 SKILL_SENSITIVITY = 3.0
+
+# ⭐ 2026-09-04 분석가 전수 재검증에서 확인된 사실 — 이 상수들은 그 사실을 '기록'하기
+#    위한 것이지 가중치를 바꾸지 않는다(WEIGHT_MATURITY_GATE 참고).
+#
+#    BAYES_PRIOR_N=120은 "채점 120건"을 사전표본으로 쓴다. 그런데 채점 건수는
+#    같은 날 600종목이 한꺼번에 들어와 부풀려진 값이다. 실측(2026-09-04): 채점
+#    3,912건이지만 서로 다른 판단일은 10일뿐이다. 그래서 축소가 실제로 깎는 폭은
+#    TARO +0.1%p · QUANT -0.6%p · FLOW +0.8%p로 사실상 0이다. Constitution
+#    statisticalPolicy(independenceUnit = decision_date)와 어긋나는 지점이다.
+#
+#    아래 두 값은 "판단일 단위로 세면 어떻게 되는지"를 그림자(shadow)로 계산해
+#    payload에 남기는 데만 쓴다. 실제 적용은 판단일 20일이 쌓인 뒤 사전등록된
+#    검증(docs/gaeo_validation_policy.md)을 통과했을 때 사람이 켠다.
+MIN_DAYS_FOR_WEIGHT_LEARNING = 20   # Evolution minEvalDays와 같은 값
+WEIGHT_MATURITY_GATE = False        # ⚠️ 승인 전 켜지 않는다 — 켜면 실제 판단이 바뀐다
+
+BOOTSTRAP_ROUNDS = 1000
+BOOTSTRAP_SEED = 20260904   # 고정 — 같은 기록이면 항상 같은 신뢰구간이 나오게 한다
 
 # 시장 대비 채점 설정 (2026-08-31 신설)
 #   기준선(benchmark)은 "같은 기간 전 종목 수익률의 중앙값"이다. 지수(KOSPI)가 아니라
@@ -118,6 +136,64 @@ def score_call(call, ret):
     return "hit" if abs(ret) <= 5 else "miss"
 
 
+def _pct(hit, miss):
+    n = hit + miss
+    return (hit / n * 100.0) if n else None
+
+
+def _block_bootstrap(day_counts, stat_fn, rounds=BOOTSTRAP_ROUNDS, seed=BOOTSTRAP_SEED):
+    """판단일 단위 블록 부트스트랩 95% 구간.
+
+    ⭐ 왜 날짜 단위인가: 같은 날 600종목은 같은 시장 충격을 공유하므로 독립 시행이
+    아니다(Constitution statisticalPolicy.independenceUnit = "decision_date").
+    건수 단위로 재추출하면 구간이 실제보다 훨씬 좁게 나온다.
+
+    day_counts: {판단일: {"own": [hit, miss], "bull": [...], "bear": [...]}}
+    재추출은 '날짜를 통째로' 뽑는 것이므로, 날짜별 적중/빗나감 개수만 미리 세어 두면
+    행을 다시 훑지 않고 같은 결과를 얻는다(수치적으로 동일하며 훨씬 빠르다).
+
+    ⚠️ 판단일이 적으면(지금 10일) 이 구간 자체가 불안정하다. 구간이 좁게 나왔다고
+    해서 확실하다는 뜻이 아니다 — 판단일 수를 항상 같이 봐야 한다.
+    """
+    days = sorted(day_counts)
+    if len(days) < 3:
+        return None
+    rng = random.Random(seed)
+    keys = ("own", "bull", "bear")
+    vals = []
+    for _ in range(rounds):
+        agg = {k: [0, 0] for k in keys}
+        for _ in days:
+            block = day_counts[rng.choice(days)]
+            for k in keys:
+                agg[k][0] += block[k][0]
+                agg[k][1] += block[k][1]
+        v = stat_fn(agg)
+        if v is not None:
+            vals.append(v)
+    if len(vals) < 20:
+        return None
+    vals.sort()
+    return [round(vals[int(len(vals) * 0.025)], 1), round(vals[int(len(vals) * 0.975)], 1)]
+
+
+def _stat_own(agg):
+    return _pct(*agg["own"])
+
+
+def _stat_lift(agg):
+    """본인 적중률 − 같은 행에서 '한 방향만 계속 말했을 때'의 더 좋은 쪽 적중률.
+
+    팀 적중률에 '전부 HOLD였다면' 기준선이 있는 것과 같은 이치의 분석가판 기준선이다.
+    이 값이 0보다 확실히 크지 않으면, 그 분석가의 적중률은 방향을 고른 실력이 아니라
+    그 구간에서 자기가 고른 종목들이 어느 쪽으로 움직였는지를 잰 것이다.
+    """
+    own, bull, bear = _pct(*agg["own"]), _pct(*agg["bull"]), _pct(*agg["bear"])
+    if own is None or bull is None or bear is None:
+        return None
+    return round(own - max(bull, bear), 2)
+
+
 # 🏷️ 점수 의미(semantics)가 바뀐 버전끼리 섞어 학습하지 않는다(요구 7-8).
 #    2026-08-15 hotfix로 QUANT의 RSI·5일수익률 정의가 바뀌었고 TARO가 미성숙 지표를
 #    빼기 시작했다. 그 이전 점수로 학습한 가중치를 새 점수에 이어 붙이면
@@ -199,6 +275,17 @@ def main():
     # 절대 기준으로 채점하면 결과가 어떻게 달라지는지 나란히 기록해 둔다.
     # (가중치에는 쓰지 않는다. 이 변경이 실제로 무엇을 바꿨는지 보이게 하는 용도다.)
     g_abs = {a: {"hit": 0, "miss": 0} for a in ANALYSTS}
+    # ⭐ 2026-09-04 분석가 전수 재검증: 분석가 적중률도 팀 적중률과 똑같이
+    #    "판단일 수"와 "아무 실력 없이 나왔을 기준선"을 함께 내야 뜻이 통한다.
+    #    a_days[분석가][판단일] = {"own":[적중,빗나감], "bull":[...], "bear":[...]}
+    #      own  = 실제로 낸 의견의 성적
+    #      bull = 같은 행에서 "항상 강세"라고만 했을 때의 성적
+    #      bear = 같은 행에서 "항상 약세"라고만 했을 때의 성적
+    a_days = {a: {} for a in ANALYSTS}
+    # 얼마나 자주 말하고(중립 비율) 얼마나 세게 미는지(|점수-50|).
+    # 발언권 33%인데 실제로 점수를 미는 힘은 1점도 안 되는 상황을 화면이 알 수 있게 한다.
+    a_voice = {a: {"present": 0, "neu": 0, "bull": 0, "bear": 0, "devs": []}
+               for a in ANALYSTS}
     market_missing = 0     # 시장 기준선을 못 구해 절대 기준으로 되돌린 건수
     version_counts = {}
     # 어떤 버전으로 학습할지 먼저 정한다. 새 버전 표본이 충분하면 새 버전만,
@@ -255,6 +342,15 @@ def main():
                 if not isinstance(ana, dict):
                     continue
                 rule = RULES[a]
+                # 목소리 통계는 채점 가능 여부와 무관하다("얼마나 자주·세게 말하나").
+                voice = a_voice[a]
+                voice["present"] += 1
+                stance = ana.get("stance")
+                if stance in ("bull", "bear", "neu"):
+                    voice[stance] += 1
+                raw_score = ana.get("score")
+                if isinstance(raw_score, (int, float)):
+                    voice["devs"].append(abs(float(raw_score) - 50.0))
                 ret = eval_ret(code, day, base, rule["days"])
                 if ret is None:
                     continue
@@ -282,19 +378,48 @@ def main():
                 elif s == "miss":
                     g[a]["miss"] += 1
                     sec.setdefault(sname, zero())[a]["miss"] += 1
+                # 판단일 단위 집계 + 같은 행의 '한 방향만 말하기' 기준선.
+                # 방향 의견을 낸 행만 대상이다(중립은 애초에 채점 대상이 아니다).
+                if stance in ("bull", "bear"):
+                    blk = a_days[a].setdefault(
+                        day, {"own": [0, 0], "bull": [0, 0], "bear": [0, 0]})
+                    for key, forced in (("own", stance), ("bull", "bull"), ("bear", "bear")):
+                        vv = score_stance(forced, scored_ret, rule["deadband"])
+                        if vv == "hit":
+                            blk[key][0] += 1
+                        elif vv == "miss":
+                            blk[key][1] += 1
 
-    def weights_from(acc_tbl):
-        """역할 사전비중 × 베이지안 보정 적중률로 안정적인 가중치를 계산."""
+    def weights_from(acc_tbl, decision_days=None):
+        """역할 사전비중 × 베이지안 보정 적중률로 안정적인 가중치를 계산.
+
+        decision_days: {분석가: 서로 다른 판단일 수}. WEIGHT_MATURITY_GATE가 켜져
+        있을 때만 쓰인다 — 판단일이 MIN_DAYS_FOR_WEIGHT_LEARNING 미만인 분석가는
+        학습값 대신 50%(=역할 사전비중 그대로)를 쓴다. 기본값은 꺼짐이라 동작 불변.
+        """
         raw = {}
         stat = {}
         for a in ANALYSTS:
             n = acc_tbl[a]["hit"] + acc_tbl[a]["miss"]
             acc = (acc_tbl[a]["hit"] / n * 100) if n else None
             adjusted = (acc_tbl[a]["hit"] + BAYES_PRIOR_N * 0.5) / (n + BAYES_PRIOR_N)
+            gated = False
+            if WEIGHT_MATURITY_GATE and decision_days is not None:
+                if decision_days.get(a, 0) < MIN_DAYS_FOR_WEIGHT_LEARNING:
+                    adjusted = 0.5
+                    gated = True
             stat[a] = {
                 "n": n,
                 "acc": round(acc, 1) if acc is not None else None,
-                "adjustedAcc": round(adjusted * 100, 1),
+                # ⭐ 2026-09-04: n=0이면 이 값은 실측이 아니라 사전값(50%)이다.
+                #    예전에는 그대로 "50.0"을 실어 보내 화면이 "DIANA 보정 적중 50%"로
+                #    그렸고, 읽는 사람은 동전 던지기 수준으로 측정됐다고 오해했다.
+                #    계산에는 계속 0.5를 쓰되, 밖으로는 null을 내보내 구분한다.
+                "adjustedAcc": round(adjusted * 100, 1) if n else None,
+                "adjustedAccUsedInWeights": round(adjusted * 100, 1),
+                "gatedToPrior": gated,
+                # ⚠️ 이 days는 '채점 지평'(며칠 뒤 종가로 채점하나)이지 판단일 수가 아니다.
+                #    판단일 수는 uniqueDecisionDays로 따로 싣는다.
                 "days": RULES[a]["days"],
                 "deadband": RULES[a]["deadband"],
             }
@@ -302,7 +427,10 @@ def main():
         tot = sum(raw.values())
         return {a: round(raw[a] / tot, 4) for a in ANALYSTS}, stat
 
-    gw, gstat = weights_from(g)
+    # 분석가별 '서로 다른 판단일 수' — Constitution statisticalPolicy의 독립 단위.
+    a_decision_days = {a: len(a_days[a]) for a in ANALYSTS}
+
+    gw, gstat = weights_from(g, a_decision_days)
     graded_total = sum(v["n"] for v in gstat.values())
 
     # 절대 기준으로 채점했을 때의 적중률을 같은 표에 덧붙인다(참고용, 가중치 미반영).
@@ -311,11 +439,119 @@ def main():
         gstat[a]["absoluteAcc"] = round(g_abs[a]["hit"] / n_abs * 100, 1) if n_abs else None
         gstat[a]["absoluteN"] = n_abs
 
+    # ⭐ 2026-09-04 분석가 전수 재검증 — 적중률 하나만 내보내면 뜻이 통하지 않는다.
+    #    ① 판단일 수(같은 날 600종목은 독립 시행이 아니다)
+    #    ② 판단일 단위 블록 부트스트랩 95% 구간
+    #    ③ 같은 행에서 '한 방향만 계속 말했을 때'의 기준선과 그 차이(실력 폭)
+    #    ④ 얼마나 자주 말하는지(중립 비율)와 실제로 점수를 미는 힘
+    #    실측 결과 네 명 모두 ③의 신뢰구간이 0을 포함하거나(=실력 미확인) 음수였다.
+    #    그 사실을 숨기지 않고 그대로 싣는다.
+    for a in ANALYSTS:
+        st = gstat[a]
+        blocks = a_days[a]
+        st["uniqueDecisionDays"] = a_decision_days[a]
+        st["minDaysForConclusion"] = MIN_DAYS_FOR_WEIGHT_LEARNING
+        tot_bull = [sum(b["bull"][i] for b in blocks.values()) for i in (0, 1)]
+        tot_bear = [sum(b["bear"][i] for b in blocks.values()) for i in (0, 1)]
+        ab, ar = _pct(*tot_bull), _pct(*tot_bear)
+        st["alwaysBullAcc"] = round(ab, 1) if ab is not None else None
+        st["alwaysBearAcc"] = round(ar, 1) if ar is not None else None
+        best_fixed = max(x for x in (ab, ar) if x is not None) if (ab is not None) else None
+        st["bestFixedDirectionAcc"] = round(best_fixed, 1) if best_fixed is not None else None
+        st["liftVsFixedPp"] = (round(st["acc"] - best_fixed, 1)
+                               if (st["acc"] is not None and best_fixed is not None) else None)
+        st["acc95"] = _block_bootstrap(blocks, _stat_own) if blocks else None
+        st["lift95"] = _block_bootstrap(blocks, _stat_lift) if blocks else None
+        # 화면이 스스로 판정하지 않도록 결론 라벨을 여기서 정한다.
+        #   NOT_GRADED_YET      아직 채점된 판단이 없다(DIANA — 20거래일이 안 익었다)
+        #   BELOW_FIXED_BASELINE 한 방향만 말한 것보다 확실히 나빴다
+        #   NOT_PROVEN          기준선보다 낫다는 게 아직 증명되지 않았다
+        #   PROVEN_ABOVE        기준선보다 확실히 낫다
+        if not st["n"]:
+            st["skillStatus"] = "NOT_GRADED_YET"
+        elif st["lift95"] and st["lift95"][1] < 0:
+            st["skillStatus"] = "BELOW_FIXED_BASELINE"
+        elif st["lift95"] and st["lift95"][0] > 0:
+            st["skillStatus"] = "PROVEN_ABOVE"
+        else:
+            st["skillStatus"] = "NOT_PROVEN"
+        voice = a_voice[a]
+        present = voice["present"] or 0
+        devs = voice["devs"]
+        devs_sorted = sorted(devs)
+        mean_dev = (sum(devs) / len(devs)) if devs else None
+        med_dev = None
+        if devs_sorted:
+            k = len(devs_sorted)
+            med_dev = (devs_sorted[k // 2] if k % 2
+                       else (devs_sorted[k // 2 - 1] + devs_sorted[k // 2]) / 2)
+        st["voice"] = {
+            "records": present,
+            "neutralPct": round(voice["neu"] / present * 100, 1) if present else None,
+            "bullPct": round(voice["bull"] / present * 100, 1) if present else None,
+            "bearPct": round(voice["bear"] / present * 100, 1) if present else None,
+            # 발언권(가중치)은 '곱하는 계수'일 뿐이다. 실제로 종합점수를 움직이는 힘은
+            # 계수 × (그 분석가 점수가 50에서 떨어진 정도)다. 그래서 둘을 같이 낸다.
+            # 화면에 나란히 뜨는 두 숫자가 서로 안 맞으면 안 되므로(3.15 × 0.3347을
+            # 손으로 곱해 보는 사람이 있다) 반올림한 값으로 곱한다.
+            "meanAbsDeviation": round(mean_dev, 2) if mean_dev is not None else None,
+            "medianAbsDeviation": round(med_dev, 2) if med_dev is not None else None,
+            "meanPushPoints": (round(round(mean_dev, 2) * gw[a], 2)
+                               if mean_dev is not None else None),
+            "medianPushPoints": (round(round(med_dev, 2) * gw[a], 2)
+                                 if med_dev is not None else None),
+        }
+
+    # ── 그림자 계산: 판단일을 유효표본으로 쓰면 가중치가 어떻게 되나 ─────────
+    #    적용하지 않는다. 기록만 남겨 사전등록 검증에서 비교할 수 있게 한다.
+    def _weights_from_adjusted(adj):
+        raw = {a: RULES[a]["prior"] * math.exp(SKILL_SENSITIVITY * (adj[a] - 0.5))
+               for a in ANALYSTS}
+        tot = sum(raw.values()) or 1
+        return {a: round(raw[a] / tot, 4) for a in ANALYSTS}
+
+    def _day_based(prior_days):
+        """하루를 한 번의 독립 시행으로 보고, prior_days일치 사전표본으로 축소한다."""
+        adj = {}
+        for a in ANALYSTS:
+            n_eff = a_decision_days[a]
+            acc = gstat[a]["acc"]
+            h_eff = (acc / 100.0 * n_eff) if (acc is not None and n_eff) else 0.0
+            adj[a] = (h_eff + prior_days * 0.5) / (n_eff + prior_days)
+        return {"adjustedAcc": {a: round(adj[a] * 100, 1) for a in ANALYSTS},
+                "weights": _weights_from_adjusted(adj)}
+
+    _d20 = _day_based(MIN_DAYS_FOR_WEIGHT_LEARNING)
+    _d120 = _day_based(BAYES_PRIOR_N)
+    _gate_adj = {a: (0.5 if a_decision_days[a] < MIN_DAYS_FOR_WEIGHT_LEARNING
+                     else gstat[a]["adjustedAccUsedInWeights"] / 100.0) for a in ANALYSTS}
+    day_based_shadow = {
+        "applied": False,
+        "appliedNote": ("기록 전용이다. 실제 판단은 global.weights로만 이뤄진다. "
+                        "적용하려면 WEIGHT_MATURITY_GATE를 사람이 켜야 하고, "
+                        "그 전에 사전등록 검증을 통과해야 한다."),
+        "reason": ("현재 축소는 채점 '건수'를 독립 시행으로 센다. 같은 날 600종목이 "
+                   "한꺼번에 들어오므로 부풀려진 표본이고, 그래서 축소가 실제로 깎는 "
+                   "폭이 1%p도 안 된다. Constitution statisticalPolicy는 독립 단위를 "
+                   "decision_date로 정해 두고 있다."),
+        "nEffective": dict(a_decision_days),
+        "minDaysForConclusion": MIN_DAYS_FOR_WEIGHT_LEARNING,
+        "priorDays20": _d20,
+        "priorDays120": _d120,
+        "maturityGate": {
+            "enabled": WEIGHT_MATURITY_GATE,
+            "weights": _weights_from_adjusted(_gate_adj),
+            "note": ("판단일이 기준 미만인 분석가는 역할 사전비중을 그대로 쓴다. "
+                     "2026-09-14부터 DIANA 채점이 시작되는데, 지금 구조에서는 "
+                     "하루치 결과만으로 DIANA 발언권이 크게 흔들릴 수 있다."),
+        },
+    }
+
     sectors_out = {}
     for sname, tbl in sec.items():
         n_sec = sum(tbl[a]["hit"] + tbl[a]["miss"] for a in ANALYSTS)
         if n_sec >= MIN_N_SECTOR:
-            local_w, sstat = weights_from(tbl)
+            local_w, sstat = weights_from(tbl, a_decision_days)
             blend = min(0.75, n_sec / (n_sec + SECTOR_SHRINK_N))
             sw = {a: round(gw[a] * (1 - blend) + local_w[a] * blend, 4) for a in ANALYSTS}
             norm = sum(sw.values()) or 1
@@ -350,6 +586,13 @@ def main():
             "weights": gw,
             "acc": gstat,
             "graded": graded_total,
+            # ⭐ 2026-09-04 그림자 계산 — 적용하지 않는다(applied: false).
+            #    지금 축소(BAYES_PRIOR_N=120)는 "채점 건수"를 독립 시행으로 센다.
+            #    같은 날 600종목이 한꺼번에 들어오므로 이건 부풀린 표본이다.
+            #    판단일 수를 유효표본으로 쓰면 가중치가 어떻게 되는지 나란히 남겨,
+            #    9월 하순 사전등록 검증에서 두 방식을 같은 잣대로 비교할 수 있게 한다.
+            #    이 블록은 기록일 뿐이고 실제 판단은 위 weights로만 이뤄진다.
+            "dayBasedShadow": day_based_shadow,
             # 팀 적중률은 화면에 그대로 노출되는 숫자라 뜻이 조용히 바뀌면 안 된다.
             # 그래서 절대 기준(score_call)을 유지한다 — 분석가 발언권 학습만 상대 기준.
             "team": {
@@ -404,17 +647,30 @@ def main():
         "// 작은 표본은 50%로 축소해 우연한 적중률 급등락을 억제한다.\n"
         "// 2026-08-31부터 채점 기준은 '시장 중앙값 대비 초과수익'이다 — 시장이 통째로\n"
         "// 오른 날 방향만 맞춘 것을 실력으로 세지 않기 위해서다(global.scoring 참고).\n"
+        "// 2026-09-04부터 분석가마다 판단일 수·신뢰구간·'한 방향만 말하기' 기준선을\n"
+        "// 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.\n"
         "// analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.\n"
     )
     with open(os.path.join(HERE, "team_weights.js"), "w", encoding="utf-8") as f:
         f.write(header + "const TEAM_WEIGHTS = " + body + ";\n")
 
-    wtxt = " · ".join(f"{a} {gw[a]*100:.0f}%(보정 {gstat[a]['adjustedAcc']}%·n{gstat[a]['n']})" for a in ANALYSTS)
+    def _fmt_adj(a):
+        v = gstat[a]["adjustedAcc"]
+        return f"{v}%" if v is not None else "채점전"
+    wtxt = " · ".join(f"{a} {gw[a]*100:.0f}%(보정 {_fmt_adj(a)}·n{gstat[a]['n']})" for a in ANALYSTS)
     basis = "시장대비(초과수익)" if MARKET_RELATIVE else "절대수익률"
     absxt = " · ".join(f"{a} 절대 {gstat[a]['absoluteAcc']}%" for a in ANALYSTS)
     print(f"team_weights.js 저장 - 채점 기준 {basis} · {graded_total}건 · 전역 가중치: {wtxt}"
           f" · 업종 오버라이드 {len(sectors_out)}개")
     print(f"  참고(가중치 미반영) {absxt} · 기준선 부재로 절대 채점한 건수 {market_missing}")
+    for a in ANALYSTS:
+        st = gstat[a]
+        print(f"  {a}: 판단일 {st['uniqueDecisionDays']}일 · 적중 "
+              f"{st['acc'] if st['acc'] is not None else '—'}% "
+              f"(구간 {st['acc95'] or '—'}) · 한방향 기준선 "
+              f"{st['bestFixedDirectionAcc'] if st['bestFixedDirectionAcc'] is not None else '—'}% "
+              f"· 실력폭 {st['liftVsFixedPp'] if st['liftVsFixedPp'] is not None else '—'}%p "
+              f"(구간 {st['lift95'] or '—'}) → {st['skillStatus']}")
     return 0
 
 
