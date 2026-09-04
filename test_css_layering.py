@@ -21,9 +21,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import css_layer_audit as AUDIT
 
-# 2026-09-04 실측 기준선. 195개를 제거한 뒤 남은 값이다.
+# 2026-09-04 실측 기준선. 195개를 제거한 뒤 51개였고, 같은 날 홈 화면 밑줄 제거
+# 작업에서 죽은 선언 7개를 더 정리해 44개가 됐다.
 # 남은 것은 선택자가 여러 개인 규칙이라 일부만 죽어 통째로 지울 수 없는 경우다.
-BASELINE = 51
+# ⚠️ 이 숫자는 내려가기만 해야 한다. 올려서 통과시키지 말 것.
+BASELINE = 44
 
 
 class CssLayering(unittest.TestCase):

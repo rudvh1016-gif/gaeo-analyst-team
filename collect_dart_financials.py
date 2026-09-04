@@ -42,7 +42,21 @@ DEFAULT_MAX_CALLS = 150
 SKIPPED_NO_KEY = "SKIPPED_NO_KEY"
 SKIPPED_NO_MAPPING = "SKIPPED_NO_MAPPING"
 SKIPPED_BUDGET = "SKIPPED_BUDGET"
+SKIPPED_ALREADY_TODAY = "SKIPPED_ALREADY_TODAY"
 OK = "OK"
+
+
+def already_ran_today(budget):
+    """오늘 이미 재무를 받았으면 True.
+
+    ⚠️ 이 게이트가 없으면 예산이 터진다. update-analysis 워크플로는 장중 30분마다,
+       하루 14회 안팎 돈다. 한 번에 150호출이면 하루 2,100호출이 되는데
+       `dart_budget.NORMAL_TARGET_PER_DAY`는 500이다.
+       연간 재무는 1년에 한 번만 바뀌므로 하루 한 번이면 충분하다.
+       별도 마커 파일을 만들지 않고 이미 있는 예산 카운터를 쓴다
+       (같은 날짜 기준·같은 파일이라 어긋날 일이 없다).
+    """
+    return bool(budget) and (budget.counts.get("financial") or 0) > 0
 
 
 def target_years(today=None):
@@ -100,8 +114,12 @@ def pick_companies(corp_map, years, limit):
 
 
 def collect(client, corp_map, budget=None, max_companies=DEFAULT_MAX_COMPANIES,
-            max_calls=DEFAULT_MAX_CALLS, today=None):
+            max_calls=DEFAULT_MAX_CALLS, today=None, once_per_day=False):
     started = dart_time.iso_now()
+    if once_per_day and already_ran_today(budget):
+        return {"status": SKIPPED_ALREADY_TODAY, "startedAt": started,
+                "financialCallsToday": budget.counts.get("financial"),
+                "reason": "오늘 이미 재무를 받았다. 연간 재무는 하루 한 번이면 충분하다."}
     if not client.has_key():
         return {"status": SKIPPED_NO_KEY, "startedAt": started,
                 "reason": "OPEN_DART_API_KEY가 없어 재무 수집을 건너뛴다."}
@@ -216,6 +234,8 @@ def main():
     ap.add_argument("--max-calls", type=int, default=DEFAULT_MAX_CALLS)
     ap.add_argument("--readiness", action="store_true",
                     help="수집 없이 현재 준비 상태만 출력한다")
+    ap.add_argument("--once-per-day", action="store_true",
+                    help="오늘 이미 받았으면 건너뛴다(30분마다 도는 워크플로에서 쓴다)")
     args = ap.parse_args()
     if args.readiness:
         print(json.dumps(universe_readiness(), ensure_ascii=False, indent=1))
@@ -224,7 +244,8 @@ def main():
     budget = dart_budget.DailyBudget(os.path.join(HERE, "dart_store", "api_budget.json"))
     corp_map = P.load_corp_map()
     result = collect(client, corp_map, budget=budget,
-                     max_companies=args.max_companies, max_calls=args.max_calls)
+                     max_companies=args.max_companies, max_calls=args.max_calls,
+                     once_per_day=args.once_per_day)
     budget.save() if hasattr(budget, "save") else None
     os.makedirs(STORE_DIR, exist_ok=True)
     with open(STATUS_PATH, "w", encoding="utf-8") as f:
