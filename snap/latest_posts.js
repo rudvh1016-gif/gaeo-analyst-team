@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 65,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-04",
+  "title": "2026년 9월4일 종가, 로봇·반도체가 이끈 코스피 1.64%·코스닥 2.95% 랠리",
+  "featured": false
+ },
+ {
   "id": 64,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-27",
   "title": "엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까",
   "featured": false
- },
- {
-  "id": 56,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-26",
-  "title": "2026년 8월26일 종가, 건설·원전 급등에 코스피 0.97% 상승, 코스닥은 제자리",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 64,
+ "news": 65,
  "study": 35,
  "lesson": 82,
  "estate": 19,

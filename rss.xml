@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Thu, 03 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 04 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월4일 종가, 로봇·반도체가 이끈 코스피 1.64%·코스닥 2.95% 랠리</title>
+    <link>https://gaeoteam.com/snap/news/65.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/65.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 1.64% 오른 6,687.21, 코스닥은 2.95% 오른 813.50으로 마감했어요. 미국 금리동결 기대감과 한국 경상수지 역대급 흑자 소식에 로봇·반도체 업종이 랠리를 이끌었는데, 로보티즈는 하루 만에 22.54% 급등했어요. 다만 개인은 오히려 팔았고 보험 업종은 홀로 무너진 만큼, 무엇을 더 지켜봐야 할지 초보자 눈높이로 정리했어요.</description>
+    <pubDate>Fri, 04 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월3일 종가, 자사주가 떠받친 코스피 0.26% 반등, 코스닥은 800 반납</title>
     <link>https://gaeoteam.com/snap/news/64.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/estate/19.html</guid>
     <category>부동산공부</category>
     <description>집을 팔 때 양도세가 생기는 구조, 1세대1주택 비과세, 장기보유특별공제, 필요경비와 신고기한을 사례로 설명해요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>주택청약통장 완전정복: 가입·납입·1순위·소득공제</title>
-    <link>https://gaeoteam.com/snap/estate/18.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/estate/18.html</guid>
-    <category>부동산공부</category>
-    <description>주택청약종합저축 가입부터 국민·민영주택 당첨 기준, 월 납입 인정액, 청년 통장과 소득공제까지 한 번에 정리했어요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
