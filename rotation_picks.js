@@ -4,35 +4,35 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-03 16:14",
- "dataCutoff": "2026-09-03 종가",
+ "generatedAt": "2026-09-04 09:12",
+ "dataCutoff": "2026-09-04 09:12 장중",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 37.3,
+  "breadthPct": 37.7,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
   "sectorCount": 0,
   "detail": {
    "KOSPI": {
-    "close": 6579.48,
-    "ma20": 6671.22,
+    "close": 6672.43,
+    "ma20": 6690.02,
     "above": false,
-    "gapPct": -1.38
+    "gapPct": -0.26
    },
    "KOSDAQ": {
-    "close": 790.21,
-    "ma20": 829.62,
+    "close": 802.36,
+    "ma20": 829.65,
     "above": false,
-    "gapPct": -4.75
+    "gapPct": -3.29
    }
   }
  },
  "regime": {
   "direction": "횡보",
-  "leadership": "중립",
+  "leadership": "코스피",
   "topSector": "보험"
  },
  "record": {
