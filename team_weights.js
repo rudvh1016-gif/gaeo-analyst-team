@@ -5,7 +5,7 @@
 // 오른 날 방향만 맞춘 것을 실력으로 세지 않기 위해서다(global.scoring 참고).
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-04 16:11",
+ "generatedAt": "2026-09-04 09:36",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -88,7 +88,28 @@ const TEAM_WEIGHTS = {
    "n": 5778,
    "uniqueDecisionDays": 10,
    "minDaysForConclusion": 20,
-   "acc": 62.4
+   "acc": 62.4,
+   "holdBaselineAcc": 61.2,
+   "holdBaselineN": 5778,
+   "liftVsHoldPp": 1.2,
+   "byCall": {
+    "BUY": {
+     "n": 258,
+     "acc": 46.9,
+     "band": "±1%"
+    },
+    "HOLD": {
+     "n": 4683,
+     "acc": 64.1,
+     "band": "±5%"
+    },
+    "SELL": {
+     "n": 837,
+     "acc": 57.9,
+     "band": "±1%"
+    }
+   },
+   "bandNote": "BUY·SELL은 ±1%, HOLD는 ±5% 기준으로 채점한다. 잣대가 다르므로 합친 적중률 하나만 보고 판단하면 안 된다."
   }
  },
  "sectors": {

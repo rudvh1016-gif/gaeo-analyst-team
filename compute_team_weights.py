@@ -182,6 +182,16 @@ def main():
     sec = {}
     team_hit = 0
     team_miss = 0
+    # ⭐ 2026-09-04 정직성 보강: 팀 적중률 62.4% 같은 숫자는 그 자체로는 잘한 건지
+    #    알 수 없다. score_call은 BUY·SELL을 ±1%로, HOLD를 ±5%로 채점하는데 실제
+    #    판단의 대부분이 HOLD라서, "아무 생각 없이 전부 HOLD"라고만 해도 비슷한
+    #    점수가 나온다. 그래서 똑같은 기록·똑같은 채점규칙으로 "전부 HOLD" 기준선을
+    #    같이 계산해 화면에 나란히 낸다. 기준선을 못 넘으면 못 넘는 대로 밝힌다.
+    hold_hit = 0
+    hold_miss = 0
+    # 판단 종류별로도 따로 센다 — 잣대(±1% vs ±5%)가 달라서 한 칸에 합쳐 보여주면
+    # 서로 다른 시험의 점수를 평균한 셈이 된다.
+    by_call = {c: {"hit": 0, "miss": 0} for c in ("BUY", "HOLD", "SELL")}
     # Constitution statisticalPolicy: "같은 날 600종목은 서로 독립이 아니다.
     # 표본 크기는 raw N이 아니라 unique decision days 기준으로 판단한다."
     # 화면이 "3,463건"만 보여 주면 6일치를 3천 건처럼 보이게 하므로 날짜도 함께 낸다.
@@ -229,6 +239,16 @@ def main():
             elif team_score == "miss":
                 team_miss += 1
                 team_days.add(day)
+            if team_score in ("hit", "miss"):
+                _call = e.get("call")
+                if _call in by_call:
+                    by_call[_call][team_score] += 1
+                # 같은 기록을 "전부 HOLD였다면"으로 다시 채점한 기준선.
+                _hold = score_call("HOLD", team_ret)
+                if _hold == "hit":
+                    hold_hit += 1
+                elif _hold == "miss":
+                    hold_miss += 1
             for a in ANALYSTS:
                 ana = e.get(a)
                 if not isinstance(ana, dict):
@@ -343,6 +363,25 @@ def main():
                 "minDaysForConclusion": 20,
                 "acc": round(team_hit / (team_hit + team_miss) * 100, 1)
                 if team_hit + team_miss else None,
+                # ⭐ 정직성: 같은 기록을 "전부 HOLD"로만 채점한 기준선. 팀 적중률이
+                #    이 값을 못 넘으면 그 숫자는 실력의 증거가 아니다.
+                "holdBaselineAcc": round(hold_hit / (hold_hit + hold_miss) * 100, 1)
+                if hold_hit + hold_miss else None,
+                "holdBaselineN": hold_hit + hold_miss,
+                "liftVsHoldPp": round(
+                    team_hit / (team_hit + team_miss) * 100
+                    - hold_hit / (hold_hit + hold_miss) * 100, 1)
+                if (team_hit + team_miss) and (hold_hit + hold_miss) else None,
+                # 판단 종류별 성적. BUY·SELL은 ±1%, HOLD는 ±5% 잣대라 뜻이 다르다.
+                "byCall": {
+                    c: {"n": v["hit"] + v["miss"],
+                        "acc": round(v["hit"] / (v["hit"] + v["miss"]) * 100, 1)
+                        if v["hit"] + v["miss"] else None,
+                        "band": ("±1%" if c in ("BUY", "SELL") else "±5%")}
+                    for c, v in by_call.items()
+                },
+                "bandNote": ("BUY·SELL은 ±1%, HOLD는 ±5% 기준으로 채점한다. "
+                             "잣대가 다르므로 합친 적중률 하나만 보고 판단하면 안 된다."),
             },
         },
         "sectors": sectors_out,

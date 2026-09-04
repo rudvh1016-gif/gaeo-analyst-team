@@ -108,6 +108,19 @@ def _entry_from(a, when):
     if isinstance(shadow, dict) and shadow.get("call"):
         entry["shadow"] = {key: shadow.get(key) for key in (
             "call", "total", "confidence", "probabilityUp", "modelVersion", "regime")}
+    # ⭐ 2026-09-04 정직성 — 진짜 앞을 보는(prospective) 검증 시계를 시작한다.
+    #    그동안 확신도 후보값(confidenceShadow)은 analyze_auto.py가 매 회차 계산해
+    #    auto_analysis.js에 덮어쓰기만 했고 어디에도 보존되지 않았다. 그래서
+    #    compute_model_intelligence.py는 매번 "지금 기록을 70:30으로 다시 잘라"
+    #    뒤쪽에서 채점할 수밖에 없었고(RETROSPECTIVE_RESPLIT), 승격 기준인
+    #    "검증 40거래일"은 앞으로 쌓이는 시계가 아니었다.
+    #    여기서 그날 그 순간의 후보값을 기록에 못 박아 두면, 나중에 "그날 미리
+    #    말해 둔 값이 실제로 맞았나"를 재적합 없이 채점할 수 있다.
+    #    ⛔ 값이 없으면 키를 만들지 않는다(APPEND-ONLY: 과거 기록 모양 보존).
+    if chief.get("confidenceShadow") is not None:
+        entry["confidenceShadow"] = chief["confidenceShadow"]
+        if chief.get("confidenceModelVersion"):
+            entry["confidenceShadowVersion"] = chief["confidenceModelVersion"]
     return entry
 
 

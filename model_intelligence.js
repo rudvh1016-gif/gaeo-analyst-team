@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-09-04 16:11",
+ "generatedAt": "2026-09-04 09:57",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -593,7 +593,10 @@ const MODEL_INTELLIGENCE = {
   },
   "testDays": 10,
   "testRegimes": 4,
-  "candidateAllCallAccuracy": 62.4,
+  "candidateAllCallAccuracy": null,
+  "candidateAllCallBasis": "BUY·SELL은 ±1%, HOLD는 ±5%로 채점한 값이라 BUY·SELL 정밀도와 같은 잣대가 아니다.",
+  "candidateAllCallSuppressed": true,
+  "candidateAllCallSuppressedReason": "후보가 실행 가능한 판단(BUY·SELL)을 한 건도 내지 않아, 이 값은 HOLD 판정폭(±5%)만 반영한다.",
   "brier": 0.25,
   "rawBrier": 0.2589
  },
@@ -742,19 +745,89 @@ const MODEL_INTELLIGENCE = {
    "candidate": {
     "n": 1101,
     "tierSpreadPp": 18.5,
-    "corr": 0.0967
+    "corr": 0.0967,
+    "ci95": {
+     "lowPp": -15.2,
+     "highPp": 35.4,
+     "includesZero": true,
+     "decisionDays": 10,
+     "draws": 1000
+    }
    },
    "baseline": {
     "n": 1101,
     "tierSpreadPp": 4.4,
-    "corr": 0.0378
+    "corr": 0.0378,
+    "ci95": {
+     "lowPp": -6.4,
+     "highPp": 15.1,
+     "includesZero": true,
+     "decisionDays": 10,
+     "draws": 1000
+    }
+   },
+   "directionConfound": {
+    "candidateRangeBuy": [
+     52,
+     54
+    ],
+    "candidateRangeSell": [
+     56,
+     62
+    ],
+    "rangesOverlap": false,
+    "candidateWithinBuy": {
+     "n": 261,
+     "tierSpreadPp": 12.6
+    },
+    "candidateWithinSell": {
+     "n": 840,
+     "tierSpreadPp": 10.7
+    },
+    "baselineWithinBuy": {
+     "n": 261,
+     "tierSpreadPp": -17.2
+    },
+    "baselineWithinSell": {
+     "n": 840,
+     "tierSpreadPp": 3.9
+    },
+    "note": "합친 표의 스프레드는 BUY·SELL 자체의 적중률 차이만으로도 커질 수 있다. 같은 방향 안에서 다시 잰 값이 진짜 판별력이다."
    }
+  },
+  "evaluationDesign": {
+   "type": "RETROSPECTIVE_RESPLIT",
+   "note": "매 실행마다 전체 기록을 날짜순 70:30으로 다시 자르고 학습 구간에서 교정표를 새로 만든다. testDays는 앞으로 하루씩 쌓이는 누적 검증일이 아니라, 지금 기록의 뒤쪽 30% 중 BUY·SELL 채점이 가능한 날짜 수다.",
+   "totalDecisionDays": 49,
+   "trainDays": 29,
+   "embargoDays": 5,
+   "holdoutDays": 15,
+   "holdoutSharePct": 30.6,
+   "estimatedTotalDaysForGate": 196,
+   "isProspective": false
+  },
+  "prospective": {
+   "type": "PROSPECTIVE_ARCHIVED",
+   "note": "그날 미리 기록해 둔 확신도 후보값만으로 채점한다. 나중에 만든 교정표를 과거에 적용하지 않으므로 검증일이 실제로 하루씩 쌓인다.",
+   "n": 0,
+   "testDays": 0,
+   "firstDay": null,
+   "lastDay": null,
+   "buyN": 0,
+   "sellN": 0,
+   "tierSpreadPp": null,
+   "tierSpreadWithinBuyPp": null,
+   "tierSpreadWithinSellPp": null,
+   "clockStarted": false,
+   "daysRemainingToGate": 40
   },
   "promotion": {
    "qualified": false,
    "status": "shadow",
    "reasons": [
-    "검증일 40거래일 미만"
+    "검증일 40거래일 미만",
+    "후보 판별력 95% 구간(-15.2~35.4pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
+    "사전 기록 기반 검증일 0일 / 40일 (기록 시작 전)"
    ],
    "minimums": {
     "testDays": 40,

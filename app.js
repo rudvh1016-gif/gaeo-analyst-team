@@ -2455,19 +2455,55 @@ function renderScorecard(){
     const ev=CM.evaluation, cand=ev.candidate||{}, base=ev.baseline||{};
     const q=(CM.promotion||{}).qualified;
     const reasons=(CM.promotion||{}).reasons||[];
+    /* ⭐ 2026-09-04 정직성 수정 — 예전 화면의 두 가지 문제를 고친다.
+       ① "18.5pp vs 4.4pp"처럼 점 추정 두 개만 크게 띄우면 후보가 확실히 낫다고 읽힌다.
+          실제로는 날짜 블록 부트스트랩 95% 범위가 -15.2~35.4pp로 0을 포함한다.
+          즉 우연으로도 이만큼 나올 수 있다. 범위를 반드시 같이 낸다.
+       ② "검증 거래일 10일 (최소 40일 필요)"은 매일 하루씩 차오르는 시계처럼 읽히지만,
+          이 값은 매 실행마다 전체 기록을 70:30으로 다시 잘라 뒤쪽 30%에서 세는 값이다.
+          지금 비율이면 40일을 채우는 데 전체 판단일이 196일쯤 필요하다. 그 사실을 쓴다. */
+    const dsn=CM.evaluationDesign||{};
+    const pr=CM.prospective||null;
+    const ci=x=>x&&x.ci95?`${x.ci95.lowPp>0?'+':''}${x.ci95.lowPp} ~ ${x.ci95.highPp>0?'+':''}${x.ci95.highPp}pp`:'범위 계산 불가';
+    const zeroIn=(cand.ci95&&cand.ci95.includesZero);
+    const dc=ev.directionConfound||{};
+    const wb=(dc.candidateWithinBuy||{}).tierSpreadPp, ws=(dc.candidateWithinSell||{}).tierSpreadPp;
+    const bb=(dc.baselineWithinBuy||{}).tierSpreadPp, bs=(dc.baselineWithinSell||{}).tierSpreadPp;
     confModelShadow=`<div class="sc-block">
       <h3>확신도 공식 재검증</h3>
       <p class="sc-sub">지금 확신도는 분석가 4인의 의견이 얼마나 가까운지만 재요. 대신 <b>「이 점수대 판단이 실제로 몇 % 맞았는가」</b>를 확신도로 쓰는
-      후보를 만들어, 계산에 전혀 쓰지 않은 구간(검증 구간)에서 어느 쪽이 적중 여부를 더 잘 가르는지 매 분석 주기 확인합니다.</p>
+      후보를 만들어, 계산에 전혀 쓰지 않은 구간에서 어느 쪽이 적중 여부를 더 잘 가르는지 비교합니다.</p>
       <div class="sc-stat-row">
-        <div class="sc-stat"><b>${base.tierSpreadPp==null?'—':base.tierSpreadPp+'pp'}</b><span>기존 확신도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
-        <div class="sc-stat"><b>${cand.tierSpreadPp==null?'—':cand.tierSpreadPp+'pp'}</b><span>후보 확신도<br>상위 1/3과 하위 1/3 적중률 차이</span></div>
-        <div class="sc-stat"><b>${ev.testDays||0}일</b><span>검증 거래일<br>(최소 40일 필요)</span></div>
-        <div class="sc-stat"><b class="sc-stat-txt">${q?'승격':'그림자'}</b><span>${q?'화면 확신도에 반영 중':'화면엔 아직 미반영'}</span></div>
+        <div class="sc-stat"><b>${base.tierSpreadPp==null?'—':base.tierSpreadPp+'pp'}</b><span>기존 확신도 판별력<br>95% 범위 ${esc(ci(base))}</span></div>
+        <div class="sc-stat"><b>${cand.tierSpreadPp==null?'—':cand.tierSpreadPp+'pp'}</b><span>후보 확신도 판별력<br>95% 범위 ${esc(ci(cand))}</span></div>
+        <div class="sc-stat"><b>${ev.testDays||0}일</b><span>지금 검증에 쓰인 날<br>전체 판단 ${dsn.totalDecisionDays||'—'}일 중</span></div>
+        <div class="sc-stat"><b class="sc-stat-txt">${q?'승격':'미승격'}</b><span>${q?'화면 확신도에 반영 중':'화면엔 아직 미반영'}</span></div>
       </div>
+      ${zeroIn?`<p class="sc-sub" style="margin-top:12px"><b>아직 후보가 더 낫다고 말할 수 없어요.</b>
+        후보의 판별력 ${cand.tierSpreadPp}pp는 겉보기엔 크지만, 같은 자료를 날짜 단위로 다시 뽑아 재보면 ${esc(ci(cand))} 사이 어디든 나올 수 있어요.
+        이 범위가 0을 지나가면 "그냥 운이었을 가능성"을 지울 수 없다는 뜻이라, 화면 확신도는 바꾸지 않습니다.</p>`:''}
+      ${(wb!=null&&ws!=null)?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>다시 잰 방식</th><th class="num">기존 확신도</th><th class="num">후보 확신도</th></tr></thead><tbody>
+        <tr><td>BUY 안에서만</td><td class="num">${bb==null?'—':bb+'pp'}</td><td class="num">${wb}pp</td></tr>
+        <tr><td>SELL 안에서만</td><td class="num">${bs==null?'—':bs+'pp'}</td><td class="num">${ws}pp</td></tr>
+      </tbody></table></div>
+      <div class="sc-foot-note">후보 확신도는 BUY일 때 ${dc.candidateRangeBuy?dc.candidateRangeBuy.join('~'):'—'}, SELL일 때 ${dc.candidateRangeSell?dc.candidateRangeSell.join('~'):'—'} 범위에 몰려 있어 <b>두 범위가 서로 겹치지 않아요</b>.
+        그래서 합쳐 놓은 표에서 "확신도 높은 쪽"을 고르는 일이 사실은 "SELL을 고르는 일"이 돼요. SELL이 BUY보다 잘 맞는 구간에서는 확신도에 아무 정보가 없어도 차이가 커 보입니다.
+        위 표는 그 착시를 빼고 같은 방향 안에서만 다시 잰 값이에요.</div>`:''}
       <div class="sc-foot-note">${q?'검증을 통과해 실제 확신도 계산에 쓰이고 있습니다.':
         '아직 승격 기준 미달: '+esc(reasons.join(' · ')||'표본 부족')+'. 데이터가 더 쌓일 때까지 화면 확신도는 기존 방식 그대로입니다.'}
-        상위 1/3과 하위 1/3의 적중률 차이가 클수록, 그 확신도 값이 잘 맞는 판단과 못 맞는 판단을 실제로 잘 구분한다는 뜻이에요. 후보 값이 음수라면 오히려 반대로 작동한다는 뜻이라 승격되지 않습니다.</div>
+        판별력(pp)은 확신도 상위 1/3과 하위 1/3의 적중률 차이예요. 클수록 그 확신도가 맞을 판단과 틀릴 판단을 실제로 잘 갈라낸다는 뜻이고, 음수면 오히려 거꾸로 작동한다는 뜻이에요.</div>
+      ${dsn.type==='RETROSPECTIVE_RESPLIT'?`<div class="sc-foot-note"><b>이 검증일 수는 매일 하나씩 쌓이는 숫자가 아니에요.</b>
+        분석을 돌릴 때마다 전체 기록(${dsn.totalDecisionDays||'—'}일)을 날짜순으로 70:30으로 다시 잘라서, 뒤쪽 ${dsn.holdoutSharePct==null?'—':dsn.holdoutSharePct+'%'}만 검증에 씁니다.
+        어제 검증에 쓰인 날짜가 오늘은 학습에 쓰일 수도 있어요. 그래서 승격 기준인 40일을 채우려면 전체 판단일이 ${dsn.estimatedTotalDaysForGate?'대략 '+dsn.estimatedTotalDaysForGate+'일은':'훨씬 더'} 쌓여야 합니다.
+        "40일 중 ${ev.testDays||0}일 왔다"로 읽으면 안 돼요.</div>`:''}
+      ${pr?`<div class="sc-explain"><b>그래서 진짜 시계를 따로 켰어요 (${pr.testDays||0} / 40일)</b>
+        <p>위 숫자가 못 미더운 이유는 "시험 문제를 매번 다시 뽑아서" 채점하기 때문이에요. 그래서 <b>판단하는 날 그 자리에서 후보 확신도를 미리 적어 두고,
+        5거래일 뒤에 그 적어 둔 값만으로 채점하는</b> 방식을 따로 켰습니다. 미리 적어 둔 답안지를 나중에 고칠 수 없으니, 이 날짜는 진짜로 하루씩 쌓여요.</p>
+        <p>${pr.clockStarted
+          ? `${esc(String(pr.firstDay||''))}부터 ${esc(String(pr.lastDay||''))}까지 ${pr.testDays}일치(${Number(pr.n||0).toLocaleString()}건)를 모았어요. 40일까지 ${pr.daysRemainingToGate}일 남았습니다.`
+          : `아직 <b>0일</b>이에요. 오늘 기록을 시작했으니, 다음 분석부터 하루씩 쌓입니다. 그전까지 "40일 검증을 통과했다"는 말은 쓰지 않습니다.`}</p>
+        ${pr.tierSpreadPp!=null?`<p>지금까지 모인 것으로 잰 판별력은 ${pr.tierSpreadPp}pp예요(BUY 안에서 ${pr.tierSpreadWithinBuyPp==null?'—':pr.tierSpreadWithinBuyPp+'pp'} · SELL 안에서 ${pr.tierSpreadWithinSellPp==null?'—':pr.tierSpreadWithinSellPp+'pp'}). 40일이 차기 전에는 참고용입니다.</p>`:''}
+      </div>`:''}
     </div>`;
   }
 
@@ -2539,8 +2575,24 @@ function renderScorecard(){
       </div>`).join('');
     const bestA=ranked[0], worstA=ranked[ranked.length-1];
     const team=TW.global.team;
+    /* ⭐ 2026-09-04 정직성 수정: 팀 적중률만 크게 적어 두면 "62%나 맞혔다"로 읽힌다.
+       실제로는 판단의 대부분이 HOLD이고 HOLD는 ±5%, BUY·SELL은 ±1%로 채점하기 때문에
+       "전부 HOLD"라고만 해도 비슷한 점수가 나온다. 그래서 같은 기록·같은 규칙으로
+       계산한 기준선(holdBaselineAcc)과 판단 종류별 성적(byCall)을 반드시 함께 낸다.
+       숫자가 우리에게 불리해도 그대로 보여준다. */
+    const bc=(team&&team.byCall)||{};
+    const bcRows=['BUY','HOLD','SELL'].map(c=>{
+      const r=bc[c]; if(!r||r.acc==null) return '';
+      return `<tr><td>${c}</td><td class="num">${Number(r.n).toLocaleString()}건</td><td class="num">${r.acc}%</td><td class="num">${esc(String(r.band||''))}</td></tr>`;
+    }).filter(Boolean).join('');
     const teamNote=(team&&team.acc!=null)
-      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}는 ${bestA.acc}%이고, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건). 같은 기록 구간에서 관측된 값이며, 여러 관점을 합치는 방식이 앞으로도 더 정확하다는 증명은 아니에요.</div>`
+      ? `<div class="sc-team-note">개별 분석가 중 가장 높은 ${SC_NAME[bestA.id]}는 ${bestA.acc}%이고, <b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건).`
+        +(team.holdBaselineAcc!=null
+          ? ` 다만 <b>같은 기록을 전부 HOLD로만 채점하면 ${team.holdBaselineAcc}%</b>가 나와요. 즉 지금 팀 판단이 아무것도 안 한 기준선보다 앞선 폭은 <b>${team.liftVsHoldPp>0?'+':''}${team.liftVsHoldPp}%p</b>뿐이에요.`
+          : '')
+        +` 같은 기록 구간에서 관측된 값이며, 여러 관점을 합치는 방식이 앞으로도 더 정확하다는 증명은 아니에요.</div>`
+        +(bcRows?`<div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">채점</th><th class="num">적중률</th><th class="num">채점 잣대</th></tr></thead><tbody>${bcRows}</tbody></table></div>`
+          +`<div class="sc-foot-note">채점 잣대가 판단마다 달라요. BUY·SELL은 방향이 ±1%를 넘어야 맞은 걸로 세고, HOLD는 ±5% 안에 머무르면 맞은 걸로 세요. 잣대가 느슨한 HOLD가 전체 채점의 대부분이라, 위 합계 적중률 하나만 보면 실제보다 잘한 것처럼 보여요.</div>`:'')
       : '';
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};
@@ -3733,12 +3785,26 @@ function moodLine(){
   }
   const graded=hit+miss;
   const acc=graded>0?Math.round(hit/graded*100):null;
-  const accCls=acc===null?'navy':(acc>=60?'ok':(acc<45?'bad':'navy'));
+  /* ⭐ 2026-09-04 정직성 수정: 예전에는 적중률이 60% 이상이면 무조건 초록(잘함)으로
+     칠했다. 그런데 이 채점은 BUY·SELL을 ±1%, HOLD를 ±5%로 재고 실제 판단의 81%가
+     HOLD라서, "전부 HOLD"라고만 해도 61.2%가 나온다. 즉 62%라는 숫자 자체는 실력의
+     증거가 아니다. 그래서 색은 절대값이 아니라 '아무것도 안 한 기준선보다 얼마나
+     나은가(liftVsHoldPp)'로 정한다. 기준선을 3%p 넘게 앞설 때만 초록이다. */
+  const holdBase=teamSummary&&teamSummary.holdBaselineAcc!=null?Number(teamSummary.holdBaselineAcc):null;
+  /* 차이(lift)는 반올림한 표시값(62%)이 아니라 사전 집계된 정확한 값(62.4%)으로 잰다.
+     그러지 않으면 성적표의 +1.2%p와 홈의 +0.8%p가 어긋나 같은 숫자가 두 개로 보인다. */
+  const accExact=(teamSummary&&teamSummary.acc!=null&&hit+miss===Number(teamSummary.n))
+    ?Number(teamSummary.acc):(graded>0?hit/graded*100:null);
+  const lift=(accExact!=null&&holdBase!=null)?Math.round((accExact-holdBase)*10)/10:null;
+  const accCls=acc===null?'navy'
+    :(lift==null?(acc>=60?'ok':(acc<45?'bad':'navy'))
+      :(lift>=3?'ok':(lift<=0?'bad':'navy')));
   // 결론을 말해도 되는 최소 판단일수 — Evolution 성적표가 쓰는 기준과 같은 값을 쓴다.
   const minDays=(teamSummary&&Number(teamSummary.minDaysForConclusion))||20;
   const thin=days>0&&days<minDays;
   const accSub=graded>0
     ? `5거래일 뒤 종가 · 판단 ${days}일 · ${graded.toLocaleString()}건`
+      +(holdBase!=null?`<br>전부 HOLD만 해도 ${holdBase}% · 차이 ${lift>0?'+':''}${lift}%p`:'')
       +(thin?`<br><span style="color:var(--amber)">아직 ${minDays}일치가 안 돼 참고용이에요</span>`:'')
     : '평가 데이터 쌓는 중';
   el.innerHTML=
