@@ -2,13 +2,13 @@
 //    버전을 올려야 오프라인 상태에서 쓰이는 precache 사본도 새 파일로 교체된다.
 //    app.js/app-shell.css는 문서의 ?v= 버전과 이 CACHE 버전으로 갱신한다. 아래 '목록'은 이 두 파일을 포함한 전체 SHELL이다.
 //     그래서 캐시를 매번 깨지 않고, 목록이 실제로 바뀔 때만 버전을 올린다.)
-const CACHE = 'gaeo-shell-v24';
+const CACHE = 'gaeo-shell-v25';
 // 위 버전은 종목 목록뿐 아니라 app.js/app-shell.css를 포함한 SHELL 항목이 바뀌어도 함께 올린다.
 const SHELL = [
   './',
   './index.html',
-  './app-shell.css?v=20260903-p7',
-  './app.js?v=20260903-p7',
+  './app-shell.css?v=20260903-p8',
+  './app.js?v=20260903-p8',
   './growth_urls.js',
   './public_release_safety.js',
   './product_analytics.js',

@@ -1,0 +1,32 @@
+{
+ "refreshNotice": {
+  "html": "주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다<br>꼭 자주 새로고침을 진행해주세요!",
+  "text": "주가는 장중 약 10분마다, 자동 분석은 약 30분마다 갱신됩니다꼭 자주 새로고침을 진행해주세요!",
+  "hasPeriodBetweenSentences": false,
+  "hasBr": true,
+  "fontSize": "9.5px",
+  "lineHeight": "12.825px",
+  "height": 38
+ },
+ "briefLines": [
+  {
+   "label": "시장",
+   "labelFontSize": "12px",
+   "spanFontSize": "12px",
+   "text": "코스피 +1.50%, 코스닥 +1.95%로 움직이고 있어요."
+  },
+  {
+   "label": "확산",
+   "labelFontSize": "12px",
+   "spanFontSize": "12px",
+   "text": "600종목 중 상승 447개 · 하락 124개 · 보합 29개예요."
+  },
+  {
+   "label": "업종",
+   "labelFontSize": "12px",
+   "spanFontSize": "12px",
+   "text": "집계된 24개 업종 중 23개는 오르고 1개는 내렸어요. 가장 강한 업종은 로봇(+5.25%)이고, 가장 약한 업종은 보험(-"
+  }
+ ],
+ "pageErrors": []
+}

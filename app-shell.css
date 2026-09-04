@@ -3002,7 +3002,7 @@
     min-height:var(--gaeo-notice-h);display:flex;align-items:center;justify-content:center;
     box-sizing:border-box;padding:5px 18px;border-bottom:1px solid var(--gaeo-border);
     background:var(--paper);color:var(--gaeo-muted);
-    font-size:10.5px;font-weight:500;line-height:1.35;text-align:center;
+    font-size:9.5px;font-weight:500;line-height:1.35;text-align:center;
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   .global-menu-lines{width:17px;height:12px;position:relative;border-top:1.8px solid currentColor;
     border-bottom:1.8px solid currentColor}
@@ -3590,7 +3590,7 @@
     .home-daily-brief .hdb-stat strong{font-size:23px}
     .home-daily-brief .brief-line{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 0}
     .home-daily-brief .brief-line::before{font-size:12px;line-height:1.45}
-    .home-daily-brief .brief-line span{font-size:13px;line-height:1.58}
+    .home-daily-brief .brief-line span{font-size:12px;line-height:1.58}
     .home-daily-brief .hdb-sheet-backdrop{position:fixed;inset:0;z-index:520;background:rgba(15,20,28,.42)}
     .home-daily-brief .hdb-buy-panel{position:fixed;right:0;bottom:0;left:0;z-index:521;max-height:78vh;margin:0;padding:18px 18px max(18px,env(safe-area-inset-bottom));overflow:hidden;border:0;border-radius:20px 20px 0 0;background:var(--color-surface);box-shadow:0 -12px 30px rgba(15,20,28,.14)}
     .home-daily-brief .hdb-buy-list{max-height:calc(78vh - 72px)}
@@ -3865,7 +3865,7 @@
       top:var(--gaeo-nav-h);background:rgba(15,20,28,.32);z-index:900}
     .nav-workspace .chips{grid-column:auto}
     .wrap{padding-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 16px)}
-    .refresh-notice{padding:5px 12px;font-size:9.5px;line-height:1.35}
+    .refresh-notice{padding:5px 12px;font-size:8.5px;line-height:1.35}
     .home-lead{grid-template-columns:1fr}
     .hero-search-card{min-height:0}
     /* 좁은 화면에서도 세로 목록을 유지하고, 제목만 두 줄까지 접어 보여준다 */
