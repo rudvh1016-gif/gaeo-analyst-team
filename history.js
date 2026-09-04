@@ -1673,10 +1673,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 36,
-   "confidence": 34,
-   "base": 69700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 37,
+   "confidence": 35,
+   "base": 70600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -1688,10 +1688,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 40,
-   "riskPenalty": 4,
+   "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 15
    },
    "diana": {
     "stance": "bull",
@@ -1703,7 +1703,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -3412,7 +3412,7 @@ const LIVE_HISTORY = {
    "total": 41,
    "confidence": 37,
    "base": 254250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 487,045원 (현재가 대비 +91.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -3439,7 +3439,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "bear",
@@ -5122,9 +5122,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 42,
    "confidence": 30,
-   "base": 1639000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 3,279,565원 (현재가 대비 +100.1% 상승여력)",
+   "base": 1633000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 3,279,565원 (현재가 대비 +100.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -5150,7 +5150,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "bear",
@@ -6835,9 +6835,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 30,
-   "base": 1001000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,938,333원 (현재가 대비 +93.6% 상승여력)",
+   "base": 1005000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,938,333원 (현재가 대비 +92.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -6863,7 +6863,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -8571,11 +8571,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 68,
-   "base": 1383000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +70.0% 상승여력)",
+   "total": 47,
+   "confidence": 69,
+   "base": 1372000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +71.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -8585,11 +8585,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 53
    },
    "diana": {
     "stance": "neu",
@@ -8597,11 +8597,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -10284,11 +10284,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 66,
-   "base": 505000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +365.4% 상승여력)",
+   "total": 50,
+   "confidence": 68,
+   "base": 500000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 2,350,500원 (현재가 대비 +370.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -10298,11 +10298,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 52,
    "riskPenalty": 2,
    "taro": {
-    "stance": "bull",
-    "score": 59
+    "stance": "neu",
+    "score": 57
    },
    "diana": {
     "stance": "neu",
@@ -10312,9 +10312,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -11998,10 +11998,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 42,
-   "confidence": 49,
-   "base": 554000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,125,789원 (현재가 대비 +103.2% 상승여력)",
+   "confidence": 48,
+   "base": 552000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,125,789원 (현재가 대비 +103.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -12015,7 +12015,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 35
    },
    "diana": {
     "stance": "bull",
@@ -12025,9 +12025,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -13710,9 +13710,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 39,
    "confidence": 50,
-   "base": 710000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,181,000원 (현재가 대비 +66.3% 상승여력)",
+   "base": 711000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,181,000원 (현재가 대비 +66.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -15401,7 +15401,7 @@ const LIVE_HISTORY = {
    "total": 43,
    "confidence": 37,
    "base": 383000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 701,600원 (현재가 대비 +83.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -15426,7 +15426,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -17066,10 +17066,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 73,
-   "base": 226500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 380,000원 (현재가 대비 +67.8% 상승여력)",
+   "confidence": 75,
+   "base": 226000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 380,000원 (현재가 대비 +68.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -17083,7 +17083,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 59
    },
    "diana": {
     "stance": "neu",
@@ -17095,7 +17095,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -18733,10 +18733,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 67,
-   "base": 193000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 297,500원 (현재가 대비 +54.1% 상승여력)",
+   "confidence": 66,
+   "base": 192900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 297,500원 (현재가 대비 +54.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -18750,7 +18750,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 30
    },
    "diana": {
     "stance": "neu",
@@ -20401,9 +20401,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 34,
-   "base": 109100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 176,667원 (현재가 대비 +61.9% 상승여력)",
+   "base": 109000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 176,667원 (현재가 대비 +62.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -20427,9 +20427,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 43,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -22066,11 +22066,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 42,
+   "total": 43,
    "confidence": 63,
-   "base": 92200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 121,400원 (현재가 대비 +31.7% 상승여력)",
+   "base": 92900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 121,400원 (현재가 대비 +30.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -22080,11 +22080,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "neu",
@@ -22096,7 +22096,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "bear",
@@ -23632,10 +23632,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 62,
-   "base": 210500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 325,783원 (현재가 대비 +54.8% 상승여력)",
+   "confidence": 63,
+   "base": 212000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 325,783원 (현재가 대비 +53.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -23648,8 +23648,8 @@ const LIVE_HISTORY = {
    "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -23659,9 +23659,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -25195,12 +25195,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 64,
-   "base": 35800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 55,053원 (현재가 대비 +53.8% 상승여력)",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 73,
+   "base": 36000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 55,053원 (현재가 대비 +52.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -25210,11 +25210,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "neu",
@@ -25222,11 +25222,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -26764,7 +26764,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 37,
    "base": 126400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 216,000원 (현재가 대비 +70.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -26779,7 +26779,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -26789,7 +26789,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -28326,10 +28326,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 61,
+   "total": 61,
+   "confidence": 58,
    "base": 173300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 224,889원 (현재가 대비 +29.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -28340,11 +28340,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 74
    },
    "diana": {
     "stance": "bull",
@@ -28352,7 +28352,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 46,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -29891,11 +29891,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
-   "confidence": 59,
-   "base": 105900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 172,386원 (현재가 대비 +62.8% 상승여력)",
+   "total": 41,
+   "confidence": 66,
+   "base": 106600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 172,386원 (현재가 대비 +61.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -29905,11 +29905,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 4,
    "taro": {
-    "stance": "bear",
-    "score": 38
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bear",
@@ -29917,7 +29917,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 57,
+    "score": 53,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -31457,10 +31457,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 58,
-   "confidence": 66,
-   "base": 363000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 515,778원 (현재가 대비 +42.1% 상승여력)",
+   "confidence": 67,
+   "base": 360500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 515,778원 (현재가 대비 +43.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -31474,7 +31474,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -31482,7 +31482,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 55,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -33022,10 +33022,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 46,
-   "confidence": 56,
-   "base": 301000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 402,538원 (현재가 대비 +33.7% 상승여력)",
+   "confidence": 55,
+   "base": 298500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 402,538원 (현재가 대비 +34.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -33043,7 +33043,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "nova": {
     "stance": "neu",
@@ -34589,7 +34589,7 @@ const LIVE_HISTORY = {
    "total": 45,
    "confidence": 58,
    "base": 1455000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 1,997,143원 (현재가 대비 +37.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -36152,10 +36152,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 62,
-   "base": 359000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 500,714원 (현재가 대비 +39.5% 상승여력)",
+   "confidence": 61,
+   "base": 360500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 500,714원 (현재가 대비 +38.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -36177,7 +36177,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -37718,9 +37718,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 440500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 871,059원 (현재가 대비 +97.7% 상승여력)",
+   "base": 438500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 871,059원 (현재가 대비 +98.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -37734,7 +37734,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -39281,10 +39281,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 54,
    "base": 111800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 137,000원 (현재가 대비 +22.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -39295,7 +39295,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -39307,7 +39307,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -40846,11 +40846,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 42,
+   "total": 43,
    "confidence": 80,
-   "base": 78700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 129,000원 (현재가 대비 +63.9% 상승여력)",
+   "base": 79400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 129,000원 (현재가 대비 +62.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -40860,11 +40860,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 41
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bear",
@@ -42414,7 +42414,7 @@ const LIVE_HISTORY = {
    "total": 47,
    "confidence": 59,
    "base": 1043000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 1,658,889원 (현재가 대비 +59.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -42439,7 +42439,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -43978,9 +43978,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 38,
-   "base": 557000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 850,800원 (현재가 대비 +52.7% 상승여력)",
+   "base": 555000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 850,800원 (현재가 대비 +53.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -43994,7 +43994,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 57
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -45543,9 +45543,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 42,
    "confidence": 37,
-   "base": 422500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 735,200원 (현재가 대비 +74.0% 상승여력)",
+   "base": 422000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 735,200원 (현재가 대비 +74.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -45569,7 +45569,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -47107,10 +47107,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 68,
-   "base": 187500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 274,621원 (현재가 대비 +46.5% 상승여력)",
+   "confidence": 69,
+   "base": 188300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 274,621원 (현재가 대비 +45.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -47124,11 +47124,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "neu",
-    "score": 54
+    "score": 53
    },
    "nova": {
     "stance": "bull",
@@ -48670,12 +48670,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
+   "call": "BUY",
+   "total": 63,
    "confidence": 50,
-   "base": 137000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 165,263원 (현재가 대비 +20.6% 상승여력)",
+   "base": 137200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 165,263원 (현재가 대비 +20.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -48685,11 +48685,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -50238,9 +50238,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 34,
-   "base": 549000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 699,600원 (현재가 대비 +27.4% 상승여력)",
+   "base": 550000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 699,600원 (현재가 대비 +27.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -51804,7 +51804,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 80,
    "base": 201500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 233,235원 (현재가 대비 +15.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -51829,9 +51829,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -53367,10 +53367,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 56,
-   "confidence": 60,
-   "base": 659000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 778,125원 (현재가 대비 +18.1% 상승여력)",
+   "confidence": 59,
+   "base": 660000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 778,125원 (현재가 대비 +17.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -53384,11 +53384,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "bull",
-    "score": 65
+    "score": 58
    },
    "nova": {
     "stance": "neu",
@@ -54932,10 +54932,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 41,
-   "confidence": 63,
-   "base": 2693500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 4,254,286원 (현재가 대비 +57.9% 상승여력)",
+   "confidence": 64,
+   "base": 2705000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 4,254,286원 (현재가 대비 +57.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -54949,7 +54949,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 27
+    "score": 28
    },
    "diana": {
     "stance": "neu",
@@ -56496,11 +56496,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 61,
-   "base": 86800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 141,050원 (현재가 대비 +62.5% 상승여력)",
+   "total": 55,
+   "confidence": 60,
+   "base": 86600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 141,050원 (현재가 대비 +62.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -56510,7 +56510,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -56522,7 +56522,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 51,
     "sector": "조선",
     "sectorWinRate": 47.1,
     "sectorBlendPct": 75,
@@ -58061,11 +58061,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 52,
-   "base": 338500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 510,222원 (현재가 대비 +50.7% 상승여력)",
+   "total": 59,
+   "confidence": 64,
+   "base": 338000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 510,222원 (현재가 대비 +51.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -58075,11 +58075,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -58087,11 +58087,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -59628,9 +59628,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 37,
-   "base": 346500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 563,231원 (현재가 대비 +62.5% 상승여력)",
+   "base": 346000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 563,231원 (현재가 대비 +62.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -59644,7 +59644,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -61192,10 +61192,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 42,
-   "base": 33900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 55,438원 (현재가 대비 +63.5% 상승여력)",
+   "confidence": 43,
+   "base": 34200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 55,438원 (현재가 대비 +62.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -61209,7 +61209,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 39
    },
    "diana": {
     "stance": "bull",
@@ -62756,11 +62756,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
+   "total": 50,
    "confidence": 37,
-   "base": 32150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 50,667원 (현재가 대비 +57.6% 상승여력)",
+   "base": 32250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 50,667원 (현재가 대비 +57.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -62770,11 +62770,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -62782,7 +62782,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 49,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -64350,10 +64350,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 70,
-   "confidence": 51,
+   "total": 71,
+   "confidence": 48,
    "base": 33800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 43,778원 (현재가 대비 +29.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -64364,11 +64364,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 70,
+   "rawTotal": 71,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 76
    },
    "diana": {
     "stance": "bull",
@@ -64376,7 +64376,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 46,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -65915,11 +65915,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
-   "confidence": 72,
-   "base": 1128000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 2,115,833원 (현재가 대비 +87.6% 상승여력)",
+   "total": 39,
+   "confidence": 54,
+   "base": 1125000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 2,115,833원 (현재가 대비 +88.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -65929,11 +65929,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 39,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 19
    },
    "diana": {
     "stance": "neu",
@@ -67482,9 +67482,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 63,
-   "base": 1207000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,558,833원 (현재가 대비 +29.1% 상승여력)",
+   "base": 1211000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,558,833원 (현재가 대비 +28.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -67510,7 +67510,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -69047,9 +69047,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 63,
-   "base": 20975,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 38,579원 (현재가 대비 +83.9% 상승여력)",
+   "base": 21050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 38,579원 (현재가 대비 +83.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -70612,9 +70612,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 41,
    "confidence": 37,
-   "base": 126500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 268,688원 (현재가 대비 +112.4% 상승여력)",
+   "base": 126700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 268,688원 (현재가 대비 +112.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -70628,7 +70628,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 17
    },
    "diana": {
     "stance": "bull",
@@ -70636,9 +70636,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -72177,9 +72177,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 67,
    "confidence": 43,
-   "base": 135900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 153,333원 (현재가 대비 +12.8% 상승여력)",
+   "base": 135600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 153,333원 (현재가 대비 +13.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -73741,10 +73741,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 68,
-   "base": 281500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 383,769원 (현재가 대비 +36.3% 상승여력)",
+   "confidence": 69,
+   "base": 280500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 383,769원 (현재가 대비 +36.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -73758,7 +73758,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -75308,7 +75308,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 53,
    "base": 21200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 24,818원 (현재가 대비 +17.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -76869,12 +76869,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 45,
-   "base": 173200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 240,000원 (현재가 대비 +38.6% 상승여력)",
+   "call": "HOLD",
+   "total": 49,
+   "confidence": 53,
+   "base": 174200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 240,000원 (현재가 대비 +37.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -76884,23 +76884,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 37
    },
    "diana": {
     "stance": "bull",
-    "score": 73
+    "score": 72
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -78466,9 +78466,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 71,
    "confidence": 39,
-   "base": 138800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 174,750원 (현재가 대비 +25.9% 상승여력)",
+   "base": 138400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 174,750원 (현재가 대비 +26.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -78486,7 +78486,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 58
+    "score": 59
    },
    "nova": {
     "stance": "neu",
@@ -80031,9 +80031,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 64,
    "confidence": 53,
-   "base": 20700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 27,286원 (현재가 대비 +31.8% 상승여력)",
+   "base": 20800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 27,286원 (현재가 대비 +31.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -80047,7 +80047,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 65
    },
    "diana": {
     "stance": "bull",
@@ -81594,11 +81594,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 35,
-   "confidence": 39,
-   "base": 652000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,150,938원 (현재가 대비 +76.5% 상승여력)",
+   "total": 34,
+   "confidence": 40,
+   "base": 656000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,150,938원 (현재가 대비 +75.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -81608,7 +81608,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 38,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
@@ -81620,9 +81620,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -83160,10 +83160,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 64,
-   "confidence": 40,
-   "base": 233000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 324,000원 (현재가 대비 +39.1% 상승여력)",
+   "confidence": 41,
+   "base": 236500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 324,000원 (현재가 대비 +37.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -83177,11 +83177,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 83
    },
    "diana": {
     "stance": "bull",
-    "score": 90
+    "score": 89
    },
    "nova": {
     "stance": "neu",
@@ -84725,10 +84725,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 78,
-   "base": 234500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 275,133원 (현재가 대비 +17.3% 상승여력)",
+   "confidence": 77,
+   "base": 235000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 275,133원 (현재가 대비 +17.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -84742,7 +84742,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "neu",
@@ -84752,9 +84752,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -86291,9 +86291,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 61,
    "confidence": 41,
-   "base": 121200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 139,222원 (현재가 대비 +14.9% 상승여력)",
+   "base": 120800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 139,222원 (현재가 대비 +15.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -87855,10 +87855,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 66,
-   "confidence": 50,
-   "base": 162900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 172,857원 (현재가 대비 +6.1% 상승여력)",
+   "confidence": 49,
+   "base": 163200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 172,857원 (현재가 대비 +5.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -87872,11 +87872,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "bull",
-    "score": 76
+    "score": 75
    },
    "nova": {
     "stance": "neu",
@@ -89422,7 +89422,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 53,
    "base": 206000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 322,000원 (현재가 대비 +56.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -89437,7 +89437,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 50
+    "score": 51
    },
    "diana": {
     "stance": "bull",
@@ -90984,11 +90984,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 38,
-   "confidence": 52,
-   "base": 125900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 188,294원 (현재가 대비 +49.6% 상승여력)",
+   "total": 37,
+   "confidence": 53,
+   "base": 126200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 188,294원 (현재가 대비 +49.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -90998,7 +90998,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 38,
+   "rawTotal": 37,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -91010,9 +91010,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -92550,10 +92550,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 81,
-   "base": 395250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 534,737원 (현재가 대비 +35.3% 상승여력)",
+   "confidence": 82,
+   "base": 396000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 534,737원 (현재가 대비 +35.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -92567,7 +92567,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "neu",
@@ -94116,9 +94116,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 58,
    "confidence": 55,
-   "base": 53700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 74,632원 (현재가 대비 +39.0% 상승여력)",
+   "base": 54000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 74,632원 (현재가 대비 +38.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -94132,7 +94132,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -94144,7 +94144,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "neu",
@@ -95680,10 +95680,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 40,
-   "confidence": 56,
-   "base": 68400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +60.8% 상승여력)",
+   "confidence": 57,
+   "base": 68500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +60.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -95705,9 +95705,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -97245,9 +97245,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 40,
-   "confidence": 48,
+   "confidence": 49,
    "base": 393500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 570,625원 (현재가 대비 +45.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -97262,7 +97262,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 16
+    "score": 17
    },
    "diana": {
     "stance": "bear",
@@ -97272,9 +97272,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -98808,12 +98808,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 69,
-   "base": 117800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 165,947원 (현재가 대비 +40.9% 상승여력)",
+   "call": "HOLD",
+   "total": 53,
+   "confidence": 50,
+   "base": 119400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 165,947원 (현재가 대비 +39.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -98823,11 +98823,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
-   "riskPenalty": 3,
+   "rawTotal": 55,
+   "riskPenalty": 2,
    "taro": {
-    "stance": "neu",
-    "score": 53
+    "stance": "bull",
+    "score": 72
    },
    "diana": {
     "stance": "neu",
@@ -98839,7 +98839,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -100375,10 +100375,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 42,
-   "base": 26350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 41,500원 (현재가 대비 +57.5% 상승여력)",
+   "confidence": 47,
+   "base": 26550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 41,500원 (현재가 대비 +56.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -100392,15 +100392,15 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
-    "score": 91
+    "score": 87
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -101939,11 +101939,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 37,
-   "base": 215500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 361,667원 (현재가 대비 +67.8% 상승여력)",
+   "base": 217500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 361,667원 (현재가 대비 +66.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -101953,11 +101953,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 27
    },
    "diana": {
     "stance": "bull",
@@ -103504,11 +103504,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 71,
-   "base": 21800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +35.3% 상승여력)",
+   "total": 60,
+   "confidence": 70,
+   "base": 22000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +34.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -103518,11 +103518,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -105070,10 +105070,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 45,
-   "confidence": 51,
-   "base": 299500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 563,400원 (현재가 대비 +88.1% 상승여력)",
+   "confidence": 50,
+   "base": 298000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 563,400원 (현재가 대비 +89.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -105087,7 +105087,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 31
    },
    "diana": {
     "stance": "bull",
@@ -105095,7 +105095,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -106636,9 +106636,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 63,
    "confidence": 41,
-   "base": 197100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 235,533원 (현재가 대비 +19.5% 상승여력)",
+   "base": 196100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 235,533원 (현재가 대비 +20.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -108201,9 +108201,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 53,
    "confidence": 37,
-   "base": 86500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 149,625원 (현재가 대비 +73.0% 상승여력)",
+   "base": 87100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 149,625원 (현재가 대비 +71.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -108217,7 +108217,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 41
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -108225,7 +108225,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -109793,11 +109793,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 72,
-   "confidence": 40,
-   "base": 30000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 36,700원 (현재가 대비 +22.3% 상승여력)",
+   "total": 69,
+   "confidence": 41,
+   "base": 30100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 36,700원 (현재가 대비 +21.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -109807,19 +109807,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 72,
+   "rawTotal": 69,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 95
+    "score": 89
    },
    "diana": {
     "stance": "bear",
-    "score": 43
+    "score": 42
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 45,
     "sector": "물류·운송",
     "sectorWinRate": 49.0,
     "sectorBlendPct": 72,
@@ -111358,11 +111358,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 69,
-   "base": 175800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 325,250원 (현재가 대비 +85.0% 상승여력)",
+   "total": 54,
+   "confidence": 72,
+   "base": 178500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 325,250원 (현재가 대비 +82.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -111372,11 +111372,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 50
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "neu",
@@ -111384,7 +111384,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bull",
-    "score": 61,
+    "score": 58,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -112925,8 +112925,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 37,
-   "base": 142900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 144700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -114490,9 +114490,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 37,
-   "base": 65200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 89,824원 (현재가 대비 +37.8% 상승여력)",
+   "base": 65300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 89,824원 (현재가 대비 +37.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -114506,7 +114506,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 27
    },
    "diana": {
     "stance": "bull",
@@ -114516,7 +114516,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -116053,11 +116053,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 74,
-   "base": 210500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 314,200원 (현재가 대비 +49.3% 상승여력)",
+   "total": 49,
+   "confidence": 75,
+   "base": 209500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 314,200원 (현재가 대비 +50.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -116067,11 +116067,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bull",
-    "score": 61
+    "stance": "bear",
+    "score": 43
    },
    "diana": {
     "stance": "neu",
@@ -117620,9 +117620,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 53,
    "confidence": 37,
-   "base": 269000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 441,250원 (현재가 대비 +64.0% 상승여력)",
+   "base": 272000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 441,250원 (현재가 대비 +62.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -117636,7 +117636,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -119183,11 +119183,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 64,
-   "confidence": 47,
-   "base": 55900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 89,692원 (현재가 대비 +60.5% 상승여력)",
+   "total": 63,
+   "confidence": 48,
+   "base": 55600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 89,692원 (현재가 대비 +61.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -119197,11 +119197,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 64,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -120750,9 +120750,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 45,
-   "base": 45300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 68,619원 (현재가 대비 +51.5% 상승여력)",
+   "base": 45450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 68,619원 (현재가 대비 +51.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -120766,7 +120766,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -120778,7 +120778,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "bear",
@@ -122313,11 +122313,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 74,
-   "base": 1392000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,856,429원 (현재가 대비 +33.4% 상승여력)",
+   "base": 1403000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,856,429원 (현재가 대비 +32.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -122327,11 +122327,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -122341,9 +122341,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -123880,9 +123880,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 43,
-   "base": 126400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 145,600원 (현재가 대비 +15.2% 상승여력)",
+   "base": 126900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 145,600원 (현재가 대비 +14.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -125444,10 +125444,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 55,
-   "confidence": 70,
-   "base": 141400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 179,588원 (현재가 대비 +27.0% 상승여력)",
+   "confidence": 69,
+   "base": 142500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 179,588원 (현재가 대비 +26.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -125461,7 +125461,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "neu",
@@ -127009,10 +127009,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 66,
-   "base": 86000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 144,688원 (현재가 대비 +68.2% 상승여력)",
+   "confidence": 67,
+   "base": 86600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 144,688원 (현재가 대비 +67.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -127026,7 +127026,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -128575,9 +128575,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 50,
-   "base": 99400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +32.5% 상승여력)",
+   "base": 100000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +31.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -128591,7 +128591,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -128601,9 +128601,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 44,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -130140,9 +130140,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 58,
-   "base": 14750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 20,139원 (현재가 대비 +36.5% 상승여력)",
+   "base": 14800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 20,139원 (현재가 대비 +36.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -130168,7 +130168,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "neu",
@@ -131705,9 +131705,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 49,
-   "base": 62700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 92,583원 (현재가 대비 +47.7% 상승여력)",
+   "base": 62600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 92,583원 (현재가 대비 +47.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -133270,9 +133270,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 41,
    "confidence": 41,
-   "base": 98100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 197,692원 (현재가 대비 +101.5% 상승여력)",
+   "base": 98500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 197,692원 (현재가 대비 +100.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -133296,9 +133296,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -134835,9 +134835,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 43,
-   "base": 376500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 733,824원 (현재가 대비 +94.9% 상승여력)",
+   "base": 379500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 733,824원 (현재가 대비 +93.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -134861,9 +134861,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -136400,9 +136400,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 38,
    "confidence": 51,
-   "base": 285500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 485,000원 (현재가 대비 +69.9% 상승여력)",
+   "base": 287500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 485,000원 (현재가 대비 +68.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -136416,7 +136416,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "neu",
@@ -137965,8 +137965,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 49,
-   "base": 81700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 81900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -139529,10 +139529,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 49,
-   "confidence": 54,
-   "base": 173600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 205,000원 (현재가 대비 +18.1% 상승여력)",
+   "confidence": 52,
+   "base": 175000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 205,000원 (현재가 대비 +17.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -139546,11 +139546,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 64
    },
    "diana": {
     "stance": "bear",
-    "score": 39
+    "score": 38
    },
    "nova": {
     "stance": "neu",
@@ -139558,7 +139558,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -141095,9 +141095,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 59,
-   "base": 455000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 650,000원 (현재가 대비 +42.9% 상승여력)",
+   "base": 454500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 650,000원 (현재가 대비 +43.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -142659,10 +142659,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 62,
-   "base": 110000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 154,714원 (현재가 대비 +40.6% 상승여력)",
+   "confidence": 67,
+   "base": 111600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 154,714원 (현재가 대비 +38.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -142672,15 +142672,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
-   "riskPenalty": 3,
+   "rawTotal": 52,
+   "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 56
+    "score": 57
    },
    "diana": {
-    "stance": "bull",
-    "score": 62
+    "stance": "neu",
+    "score": 51
    },
    "nova": {
     "stance": "neu",
@@ -142688,7 +142688,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -144222,12 +144222,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 50,
-   "confidence": 80,
-   "base": 65700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 103,500원 (현재가 대비 +57.5% 상승여력)",
+   "call": "SELL",
+   "total": 46,
+   "confidence": 73,
+   "base": 66000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 103,500원 (현재가 대비 +56.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -144237,11 +144237,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 48
+    "stance": "bear",
+    "score": 41
    },
    "diana": {
     "stance": "neu",
@@ -144249,11 +144249,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 45,
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -145790,9 +145790,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 65,
-   "base": 124700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 190,000원 (현재가 대비 +52.4% 상승여력)",
+   "base": 124800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 190,000원 (현재가 대비 +52.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -145818,7 +145818,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -147354,9 +147354,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 28,
-   "confidence": 39,
-   "base": 33850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 40,
+   "base": 34000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -147371,7 +147371,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 13
+    "score": 14
    },
    "diana": {
     "stance": "bear",
@@ -148919,9 +148919,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 40,
-   "base": 155600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 41,
+   "base": 157500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -148936,7 +148936,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 15
    },
    "diana": {
     "stance": "bear",
@@ -150483,11 +150483,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
+   "total": 60,
    "confidence": 37,
-   "base": 439500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 532,500원 (현재가 대비 +21.2% 상승여력)",
+   "base": 437000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 532,500원 (현재가 대비 +21.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -150497,11 +150497,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 94
+    "score": 93
    },
    "diana": {
     "stance": "bear",
@@ -150513,7 +150513,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -152049,10 +152049,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 55,
-   "base": 113500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 176,250원 (현재가 대비 +55.3% 상승여력)",
+   "confidence": 54,
+   "base": 114200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 176,250원 (현재가 대비 +54.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -152066,7 +152066,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -152076,9 +152076,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -153615,8 +153615,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 39,
-   "base": 68900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 70200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -155178,11 +155178,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 39,
-   "base": 91200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 223,333원 (현재가 대비 +144.9% 상승여력)",
+   "total": 40,
+   "confidence": 40,
+   "base": 92300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 223,333원 (현재가 대비 +142.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -155192,11 +155192,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 13
+    "score": 14
    },
    "diana": {
     "stance": "neu",
@@ -156743,11 +156743,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 75,
-   "base": 130100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 180,000원 (현재가 대비 +38.4% 상승여력)",
+   "total": 52,
+   "confidence": 76,
+   "base": 131200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 180,000원 (현재가 대비 +37.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -156757,15 +156757,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "neu",
-    "score": 56
+    "score": 55
    },
    "nova": {
     "stance": "neu",
@@ -156773,7 +156773,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -158309,10 +158309,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 61,
-   "confidence": 43,
-   "base": 49500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 67,800원 (현재가 대비 +37.0% 상승여력)",
+   "confidence": 41,
+   "base": 50100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 67,800원 (현재가 대비 +35.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -158326,7 +158326,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 86
    },
    "diana": {
     "stance": "neu",
@@ -158338,7 +158338,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "bull",
@@ -159875,9 +159875,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 71,
-   "base": 140700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 215,286원 (현재가 대비 +53.0% 상승여력)",
+   "base": 142100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 215,286원 (현재가 대비 +51.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -159891,7 +159891,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 51
    },
    "diana": {
     "stance": "neu",
@@ -159903,7 +159903,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -161439,10 +161439,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 58,
-   "base": 387500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 518,750원 (현재가 대비 +33.9% 상승여력)",
+   "confidence": 59,
+   "base": 389000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 518,750원 (현재가 대비 +33.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -161456,7 +161456,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -163005,9 +163005,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 30,
-   "base": 176700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 220,429원 (현재가 대비 +24.7% 상승여력)",
+   "base": 177900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 220,429원 (현재가 대비 +23.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -163021,7 +163021,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 91
+    "score": 92
    },
    "diana": {
     "stance": "bear",
@@ -163033,7 +163033,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -164568,11 +164568,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 41,
+   "total": 40,
    "confidence": 37,
-   "base": 31150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 61,313원 (현재가 대비 +96.8% 상승여력)",
+   "base": 31550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 61,313원 (현재가 대비 +94.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -164582,15 +164582,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 41,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 13
+    "score": 14
    },
    "diana": {
     "stance": "bull",
-    "score": 76
+    "score": 70
    },
    "nova": {
     "stance": "neu",
@@ -166133,10 +166133,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 36,
-   "confidence": 39,
-   "base": 147100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 37,
+   "confidence": 41,
+   "base": 149900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -166147,11 +166147,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 20
+    "score": 22
    },
    "diana": {
     "stance": "bear",
@@ -167698,11 +167698,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 25,
-   "confidence": 42,
-   "base": 33250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 63,500원 (현재가 대비 +91.0% 상승여력)",
+   "total": 26,
+   "confidence": 43,
+   "base": 33750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 63,500원 (현재가 대비 +88.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -167713,10 +167713,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 31,
-   "riskPenalty": 6,
+   "riskPenalty": 5,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 15
    },
    "diana": {
     "stance": "neu",
@@ -167726,9 +167726,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -169265,9 +169265,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 52,
-   "base": 229000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 380,000원 (현재가 대비 +65.9% 상승여력)",
+   "base": 232500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 380,000원 (현재가 대비 +63.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -169293,7 +169293,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -170830,9 +170830,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 51,
-   "base": 241750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 393,333원 (현재가 대비 +62.7% 상승여력)",
+   "base": 241000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 393,333원 (현재가 대비 +63.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -172395,9 +172395,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 30,
-   "base": 34750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 64,333원 (현재가 대비 +85.1% 상승여력)",
+   "base": 34850,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 64,333원 (현재가 대비 +84.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -172423,7 +172423,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -173958,11 +173958,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 32,
-   "base": 247500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 316,429원 (현재가 대비 +27.9% 상승여력)",
+   "total": 57,
+   "confidence": 31,
+   "base": 250000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 316,429원 (현재가 대비 +26.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -173972,11 +173972,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 90
    },
    "diana": {
     "stance": "bear",
@@ -173988,7 +173988,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -175523,11 +175523,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 39,
-   "base": 99000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 184,385원 (현재가 대비 +86.2% 상승여력)",
+   "total": 40,
+   "confidence": 40,
+   "base": 99800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 184,385원 (현재가 대비 +84.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -175537,11 +175537,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 43,
+   "rawTotal": 44,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 20
+    "score": 21
    },
    "diana": {
     "stance": "neu",
@@ -177167,11 +177167,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 57,
-   "base": 47600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 59,000원 (현재가 대비 +23.9% 상승여력)",
+   "total": 57,
+   "confidence": 53,
+   "base": 48400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 59,000원 (현재가 대비 +21.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -177181,19 +177181,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 1,
    "taro": {
-    "stance": "neu",
-    "score": 54
+    "stance": "bull",
+    "score": 61
    },
    "diana": {
     "stance": "bull",
-    "score": 70
+    "score": 69
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 44,
     "sector": "화장품·미용",
     "sectorWinRate": 49.7,
     "sectorBlendPct": 75,
@@ -178734,9 +178734,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 66,
-   "base": 319500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 493,429원 (현재가 대비 +54.4% 상승여력)",
+   "base": 321500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 493,429원 (현재가 대비 +53.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -178762,7 +178762,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -180299,8 +180299,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 37,
-   "base": 39700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 39900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -180327,7 +180327,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -181862,11 +181862,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 36,
-   "base": 34200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 52,800원 (현재가 대비 +54.4% 상승여력)",
+   "total": 62,
+   "confidence": 40,
+   "base": 35050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 52,800원 (현재가 대비 +50.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -181876,19 +181876,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 64,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 64
+    "score": 74
    },
    "diana": {
     "stance": "bull",
-    "score": 92
+    "score": 88
    },
    "nova": {
-    "stance": "bull",
-    "score": 60,
+    "stance": "neu",
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -183429,9 +183429,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 71,
-   "base": 28000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,786원 (현재가 대비 +56.4% 상승여력)",
+   "base": 28100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,786원 (현재가 대비 +55.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -183457,7 +183457,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -184993,10 +184993,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 41,
-   "confidence": 66,
-   "base": 74500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 151,500원 (현재가 대비 +103.4% 상승여력)",
+   "confidence": 67,
+   "base": 75300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 151,500원 (현재가 대비 +101.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -185010,7 +185010,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "neu",
@@ -185022,7 +185022,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -186557,10 +186557,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 44,
-   "base": 151800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 40,
+   "confidence": 45,
+   "base": 153900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -186571,11 +186571,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 19
    },
    "diana": {
     "stance": "bear",
@@ -188124,8 +188124,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 59,
-   "base": 47000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 47500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -189689,9 +189689,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 30,
-   "base": 185100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 205,625원 (현재가 대비 +11.1% 상승여력)",
+   "base": 184100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 205,625원 (현재가 대비 +11.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -189705,7 +189705,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 91
+    "score": 90
    },
    "diana": {
     "stance": "bear",
@@ -191252,11 +191252,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 37,
-   "base": 189400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 319,267원 (현재가 대비 +68.6% 상승여력)",
+   "total": 57,
+   "confidence": 41,
+   "base": 189900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 319,267원 (현재가 대비 +68.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -191266,11 +191266,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 53
    },
    "diana": {
     "stance": "bull",
@@ -191278,7 +191278,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 53,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -192817,11 +192817,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 33,
+   "total": 34,
    "confidence": 50,
-   "base": 16670,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 22,912원 (현재가 대비 +37.4% 상승여력)",
+   "base": 16870,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 22,912원 (현재가 대비 +35.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -192831,11 +192831,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 35,
+   "rawTotal": 36,
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 35
+    "score": 36
    },
    "diana": {
     "stance": "neu",
@@ -192847,7 +192847,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "bear",
@@ -194382,11 +194382,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 61,
-   "base": 73800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 98,667원 (현재가 대비 +33.7% 상승여력)",
+   "total": 58,
+   "confidence": 68,
+   "base": 74700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 98,667원 (현재가 대비 +32.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -194396,23 +194396,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 48
+    "stance": "bull",
+    "score": 67
    },
    "diana": {
     "stance": "bull",
-    "score": 72
+    "score": 66
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 50,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -195949,9 +195949,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 30,
-   "base": 135300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 172,667원 (현재가 대비 +27.6% 상승여력)",
+   "base": 136100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 172,667원 (현재가 대비 +26.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -197515,7 +197515,7 @@ const LIVE_HISTORY = {
    "total": 61,
    "confidence": 44,
    "base": 141000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 204,667원 (현재가 대비 +45.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -199077,11 +199077,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 43,
-   "confidence": 76,
-   "base": 27100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,357원 (현재가 대비 +60.0% 상승여력)",
+   "total": 44,
+   "confidence": 78,
+   "base": 27200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,357원 (현재가 대비 +59.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -199091,11 +199091,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 43,
+   "rawTotal": 44,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 40
+    "stance": "neu",
+    "score": 47
    },
    "diana": {
     "stance": "neu",
@@ -199103,7 +199103,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 45,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -200642,11 +200642,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 46,
-   "base": 191900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 285,000원 (현재가 대비 +48.5% 상승여력)",
+   "total": 50,
+   "confidence": 55,
+   "base": 191400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 285,000원 (현재가 대비 +48.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -200656,19 +200656,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 52,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 66
    },
    "diana": {
     "stance": "neu",
     "score": 53
    },
    "nova": {
-    "stance": "bear",
-    "score": 42,
+    "stance": "neu",
+    "score": 47,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -202207,11 +202207,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 41,
-   "base": 46100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 66,500원 (현재가 대비 +44.3% 상승여력)",
+   "total": 57,
+   "confidence": 50,
+   "base": 46500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 66,500원 (현재가 대비 +43.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -202221,11 +202221,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 40
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -202233,7 +202233,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 53,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -203774,9 +203774,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 38,
    "confidence": 53,
-   "base": 9140,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 15,786원 (현재가 대비 +72.7% 상승여력)",
+   "base": 9130,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 15,786원 (현재가 대비 +72.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -203800,9 +203800,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -205339,9 +205339,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 53,
-   "base": 30450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 46,076원 (현재가 대비 +51.3% 상승여력)",
+   "base": 30400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 46,076원 (현재가 대비 +51.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -206904,9 +206904,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 75,
-   "base": 81100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 122,333원 (현재가 대비 +50.8% 상승여력)",
+   "base": 81500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 122,333원 (현재가 대비 +50.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -208468,10 +208468,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 54,
-   "confidence": 56,
-   "base": 126200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 179,750원 (현재가 대비 +42.4% 상승여력)",
+   "confidence": 58,
+   "base": 126700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 179,750원 (현재가 대비 +41.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -208485,11 +208485,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 49
    },
    "diana": {
     "stance": "bull",
-    "score": 80
+    "score": 79
    },
    "nova": {
     "stance": "neu",
@@ -210032,11 +210032,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
+   "total": 49,
    "confidence": 37,
-   "base": 218500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 366,176원 (현재가 대비 +67.6% 상승여력)",
+   "base": 220000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 366,176원 (현재가 대비 +66.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -210046,19 +210046,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 25
+    "score": 27
    },
    "diana": {
     "stance": "bull",
     "score": 92
    },
    "nova": {
-    "stance": "bull",
-    "score": 61,
+    "stance": "neu",
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -211598,10 +211598,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 49,
-   "confidence": 47,
-   "base": 88700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 170,000원 (현재가 대비 +91.7% 상승여력)",
+   "confidence": 46,
+   "base": 88600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 170,000원 (현재가 대비 +91.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -211615,7 +211615,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 36
    },
    "diana": {
     "stance": "bull",
@@ -211627,7 +211627,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -213162,11 +213162,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 47,
-   "base": 46850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 65,250원 (현재가 대비 +39.3% 상승여력)",
+   "total": 59,
+   "confidence": 43,
+   "base": 47900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 65,250원 (현재가 대비 +36.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -213176,23 +213176,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 86
    },
    "diana": {
     "stance": "neu",
-    "score": 45
+    "score": 44
    },
    "nova": {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -214727,11 +214727,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 69,
-   "base": 459500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 660,556원 (현재가 대비 +43.8% 상승여력)",
+   "total": 55,
+   "confidence": 70,
+   "base": 465500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 660,556원 (현재가 대비 +41.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -214741,15 +214741,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 61
    },
    "diana": {
     "stance": "bull",
-    "score": 63
+    "score": 62
    },
    "nova": {
     "stance": "neu",
@@ -216292,11 +216292,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 67,
-   "confidence": 45,
-   "base": 30850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,533원 (현재가 대비 +21.7% 상승여력)",
+   "total": 68,
+   "confidence": 43,
+   "base": 31300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,533원 (현재가 대비 +19.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -216306,11 +216306,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 67,
+   "rawTotal": 68,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -217859,8 +217859,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 45,
-   "base": 67900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 68100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -219424,9 +219424,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 49,
    "confidence": 80,
-   "base": 84000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 99,000원 (현재가 대비 +17.9% 상승여력)",
+   "base": 83900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 99,000원 (현재가 대비 +18.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -220987,11 +220987,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
+   "total": 50,
    "confidence": 47,
-   "base": 104900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 180,357원 (현재가 대비 +71.9% 상승여력)",
+   "base": 107600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 180,357원 (현재가 대비 +67.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -221001,11 +221001,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 55,
    "riskPenalty": 5,
    "taro": {
-    "stance": "neu",
-    "score": 51
+    "stance": "bull",
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -221013,11 +221013,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 50,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -222553,10 +222553,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 58,
-   "confidence": 33,
-   "base": 212000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 290,000원 (현재가 대비 +36.8% 상승여력)",
+   "confidence": 32,
+   "base": 212500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 290,000원 (현재가 대비 +36.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -222570,7 +222570,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "neu",
@@ -224117,11 +224117,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 66,
-   "base": 126300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 207,818원 (현재가 대비 +64.5% 상승여력)",
+   "total": 48,
+   "confidence": 69,
+   "base": 128700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 207,818원 (현재가 대비 +61.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -224131,11 +224131,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 41
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -224143,7 +224143,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -225682,11 +225682,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 39,
-   "base": 119300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 176,286원 (현재가 대비 +47.8% 상승여력)",
+   "total": 56,
+   "confidence": 31,
+   "base": 120200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 176,286원 (현재가 대비 +46.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -225696,11 +225696,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 59,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -225708,7 +225708,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 50,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -227276,11 +227276,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 68,
-   "confidence": 30,
-   "base": 5780,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 6,327원 (현재가 대비 +9.5% 상승여력)",
+   "total": 69,
+   "confidence": 37,
+   "base": 5870,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 6,327원 (현재가 대비 +7.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -227291,10 +227291,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 69,
-   "riskPenalty": 1,
+   "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 90
    },
    "diana": {
     "stance": "bull",
@@ -228841,11 +228841,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 48,
-   "base": 106100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 177,500원 (현재가 대비 +67.3% 상승여력)",
+   "total": 50,
+   "confidence": 46,
+   "base": 107000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 177,500원 (현재가 대비 +65.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -228855,11 +228855,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 4,
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 73
    },
    "diana": {
     "stance": "bear",
@@ -230408,9 +230408,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 63,
    "confidence": 37,
-   "base": 478000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 681,800원 (현재가 대비 +42.6% 상승여력)",
+   "base": 479500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 681,800원 (현재가 대비 +42.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -230424,7 +230424,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -230436,7 +230436,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -231972,10 +231972,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 46,
-   "confidence": 56,
-   "base": 45500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 91,143원 (현재가 대비 +100.3% 상승여력)",
+   "confidence": 55,
+   "base": 45450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 91,143원 (현재가 대비 +100.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -231989,7 +231989,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 35
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -233536,11 +233536,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
+   "total": 45,
    "confidence": 37,
-   "base": 74100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 122,857원 (현재가 대비 +65.8% 상승여력)",
+   "base": 74700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 122,857원 (현재가 대비 +64.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -233550,11 +233550,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -233564,9 +233564,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -235103,9 +235103,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 74,
-   "base": 3510,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 4,608원 (현재가 대비 +31.3% 상승여력)",
+   "base": 3505,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 4,608원 (현재가 대비 +31.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -235129,7 +235129,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -236668,9 +236668,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 45,
-   "base": 232000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 430,000원 (현재가 대비 +85.3% 상승여력)",
+   "base": 231500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 430,000원 (현재가 대비 +85.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -238232,10 +238232,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 46,
-   "confidence": 74,
-   "base": 288000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 321,786원 (현재가 대비 +11.7% 상승여력)",
+   "confidence": 76,
+   "base": 291500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 321,786원 (현재가 대비 +10.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -238249,7 +238249,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 41
    },
    "diana": {
     "stance": "neu",
@@ -239795,12 +239795,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
+   "call": "HOLD",
+   "total": 47,
    "confidence": 37,
-   "base": 95200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 185,941원 (현재가 대비 +95.3% 상승여력)",
+   "base": 96600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 185,941원 (현재가 대비 +92.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -239810,11 +239810,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -239824,9 +239824,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 34,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -241362,10 +241362,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 61,
-   "confidence": 44,
-   "base": 31750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,783원 (현재가 대비 +37.9% 상승여력)",
+   "confidence": 45,
+   "base": 31650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,783원 (현재가 대비 +38.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -241379,11 +241379,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 88
    },
    "diana": {
     "stance": "neu",
-    "score": 50
+    "score": 51
    },
    "nova": {
     "stance": "neu",
@@ -241391,7 +241391,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -242958,7 +242958,7 @@ const LIVE_HISTORY = {
    "total": 60,
    "confidence": 37,
    "base": 51200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 56,867원 (현재가 대비 +11.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -244522,9 +244522,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 53,
-   "base": 68100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 117,750원 (현재가 대비 +72.9% 상승여력)",
+   "base": 68200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 117,750원 (현재가 대비 +72.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -246085,11 +246085,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 57,
-   "base": 14670,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 19,444원 (현재가 대비 +32.5% 상승여력)",
+   "base": 14740,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 19,444원 (현재가 대비 +31.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -246099,11 +246099,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 64
    },
    "diana": {
     "stance": "bull",
@@ -246115,7 +246115,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -247652,9 +247652,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 41,
    "confidence": 54,
-   "base": 39750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 58,167원 (현재가 대비 +46.3% 상승여력)",
+   "base": 40100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 58,167원 (현재가 대비 +45.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -247671,8 +247671,8 @@ const LIVE_HISTORY = {
     "score": 55
    },
    "diana": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "nova": {
     "stance": "neu",
@@ -249215,11 +249215,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 37,
-   "base": 36150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 55,500원 (현재가 대비 +53.5% 상승여력)",
+   "base": 36450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 55,500원 (현재가 대비 +52.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -249229,11 +249229,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -250780,11 +250780,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
-   "confidence": 66,
-   "base": 21050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 27,000원 (현재가 대비 +28.3% 상승여력)",
+   "total": 56,
+   "confidence": 64,
+   "base": 21150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 27,000원 (현재가 대비 +27.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -250794,11 +250794,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 62
    },
    "diana": {
     "stance": "bear",
@@ -250808,9 +250808,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "bull",
@@ -252347,9 +252347,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 40,
-   "base": 35100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 49,714원 (현재가 대비 +41.6% 상승여력)",
+   "base": 35000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 49,714원 (현재가 대비 +42.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -253911,10 +253911,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 54,
-   "base": 43650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 56,000원 (현재가 대비 +28.3% 상승여력)",
+   "confidence": 60,
+   "base": 44000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 56,000원 (현재가 대비 +27.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -253928,11 +253928,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 69
    },
    "diana": {
     "stance": "bull",
-    "score": 77
+    "score": 71
    },
    "nova": {
     "stance": "bear",
@@ -255475,11 +255475,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 41,
-   "confidence": 47,
-   "base": 53400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 85,500원 (현재가 대비 +60.1% 상승여력)",
+   "total": 44,
+   "confidence": 59,
+   "base": 54800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 85,500원 (현재가 대비 +56.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -255489,19 +255489,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
-   "riskPenalty": 3,
+   "rawTotal": 46,
+   "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 28
+    "score": 37
    },
    "diana": {
     "stance": "neu",
     "score": 44
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -257040,11 +257040,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 41,
-   "base": 65400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 99,125원 (현재가 대비 +51.6% 상승여력)",
+   "base": 66900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 99,125원 (현재가 대비 +48.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -257054,11 +257054,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -257068,9 +257068,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -258607,9 +258607,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 64,
    "confidence": 51,
-   "base": 129700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 175,750원 (현재가 대비 +35.5% 상승여력)",
+   "base": 128900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 175,750원 (현재가 대비 +36.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -258623,7 +258623,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 77
    },
    "diana": {
     "stance": "bull",
@@ -260171,10 +260171,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 60,
-   "base": 37700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +6.1% 상승여력)",
+   "confidence": 58,
+   "base": 38000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +5.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -260188,11 +260188,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "nova": {
     "stance": "neu",
@@ -261735,11 +261735,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 53,
-   "base": 183500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 278,462원 (현재가 대비 +51.8% 상승여력)",
+   "total": 48,
+   "confidence": 60,
+   "base": 184300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 278,462원 (현재가 대비 +51.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -261749,11 +261749,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "bull",
@@ -261761,7 +261761,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 50,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -263300,11 +263300,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 66,
-   "confidence": 50,
-   "base": 18280,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 24,133원 (현재가 대비 +32.0% 상승여력)",
+   "total": 67,
+   "confidence": 53,
+   "base": 18510,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 24,133원 (현재가 대비 +30.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -263314,11 +263314,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 66,
+   "rawTotal": 67,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 83
    },
    "diana": {
     "stance": "bull",
@@ -263326,7 +263326,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -264918,12 +264918,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
+   "call": "BUY",
+   "total": 63,
    "confidence": 49,
-   "base": 5950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,900원 (현재가 대비 +32.8% 상승여력)",
+   "base": 5980,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,900원 (현재가 대비 +32.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -264933,11 +264933,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 58
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -266485,10 +266485,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 78,
-   "base": 79200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 93,750원 (현재가 대비 +18.4% 상승여력)",
+   "confidence": 79,
+   "base": 79400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 93,750원 (현재가 대비 +18.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -266502,7 +266502,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -266512,9 +266512,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -268051,9 +268051,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 37,
-   "base": 190700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 343,000원 (현재가 대비 +79.9% 상승여력)",
+   "base": 190900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 343,000원 (현재가 대비 +79.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -269614,11 +269614,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 67,
-   "base": 34200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,571원 (현재가 대비 +18.6% 상승여력)",
+   "total": 52,
+   "confidence": 68,
+   "base": 34450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,571원 (현재가 대비 +17.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -269628,15 +269628,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 51
    },
    "diana": {
     "stance": "bull",
-    "score": 63
+    "score": 62
    },
    "nova": {
     "stance": "neu",
@@ -269644,7 +269644,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -271179,11 +271179,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
+   "total": 60,
    "confidence": 53,
-   "base": 74950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 95,000원 (현재가 대비 +26.8% 상승여력)",
+   "base": 75300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 95,000원 (현재가 대비 +26.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -271193,11 +271193,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 76
+    "score": 77
    },
    "diana": {
     "stance": "bull",
@@ -272746,8 +272746,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 39,
    "confidence": 53,
-   "base": 35450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 35550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -274311,9 +274311,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 58,
    "confidence": 70,
-   "base": 60900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 90,636원 (현재가 대비 +48.8% 상승여력)",
+   "base": 60200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 90,636원 (현재가 대비 +50.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -275876,9 +275876,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 52,
    "confidence": 37,
-   "base": 158100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 215,000원 (현재가 대비 +36.0% 상승여력)",
+   "base": 158200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 215,000원 (현재가 대비 +35.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -275900,7 +275900,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -277438,12 +277438,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
+   "call": "HOLD",
+   "total": 47,
    "confidence": 37,
-   "base": 50900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 83,667원 (현재가 대비 +64.4% 상승여력)",
+   "base": 51000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 83,667원 (현재가 대비 +64.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -277453,11 +277453,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 22
    },
    "diana": {
     "stance": "bull",
@@ -277467,7 +277467,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -279003,11 +279003,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 63,
-   "base": 25300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 70,
+   "base": 25550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -279018,11 +279018,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "neu",
@@ -279030,7 +279030,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 50,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -280570,9 +280570,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 47,
-   "confidence": 57,
-   "base": 149900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 58,
+   "base": 151000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -280587,7 +280587,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "bull",
@@ -282136,9 +282136,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 60,
-   "base": 144000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 169,684원 (현재가 대비 +17.8% 상승여력)",
+   "base": 146400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 169,684원 (현재가 대비 +15.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -283699,10 +283699,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 37,
-   "confidence": 55,
-   "base": 19890,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 38,
+   "confidence": 58,
+   "base": 19960,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -283713,11 +283713,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 41,
+   "rawTotal": 42,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 29
+    "score": 32
    },
    "diana": {
     "stance": "neu",
@@ -285266,9 +285266,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 37,
-   "base": 185600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 303,438원 (현재가 대비 +63.5% 상승여력)",
+   "base": 186800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 303,438원 (현재가 대비 +62.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -286829,10 +286829,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 42,
+   "total": 43,
    "confidence": 37,
-   "base": 169400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 169700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -286843,11 +286843,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -288394,11 +288394,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 41,
-   "base": 73300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 93,421원 (현재가 대비 +27.5% 상승여력)",
+   "base": 74100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 93,421원 (현재가 대비 +26.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -288408,11 +288408,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 61
    },
    "diana": {
     "stance": "bull",
@@ -288424,7 +288424,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "bear",
@@ -289959,11 +289959,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 52,
-   "base": 14740,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +22.1% 상승여력)",
+   "total": 52,
+   "confidence": 53,
+   "base": 14760,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +22.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -289973,15 +289973,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bull",
-    "score": 69
+    "stance": "neu",
+    "score": 51
    },
    "diana": {
     "stance": "bull",
-    "score": 79
+    "score": 78
    },
    "nova": {
     "stance": "bear",
@@ -291524,11 +291524,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 44,
-   "base": 24400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 31,000원 (현재가 대비 +27.0% 상승여력)",
+   "total": 54,
+   "confidence": 57,
+   "base": 24450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 31,000원 (현재가 대비 +26.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -291538,11 +291538,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 36
+    "stance": "neu",
+    "score": 53
    },
    "diana": {
     "stance": "bull",
@@ -293091,9 +293091,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 40,
-   "base": 40550,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 63,833원 (현재가 대비 +57.4% 상승여력)",
+   "base": 41200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 63,833원 (현재가 대비 +54.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -293107,11 +293107,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 26
    },
    "diana": {
     "stance": "bull",
-    "score": 91
+    "score": 87
    },
    "nova": {
     "stance": "neu",
@@ -294654,11 +294654,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 54,
-   "base": 24700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 34,667원 (현재가 대비 +40.4% 상승여력)",
+   "total": 60,
+   "confidence": 52,
+   "base": 24850,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 34,667원 (현재가 대비 +39.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -294668,11 +294668,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 81
    },
    "diana": {
     "stance": "neu",
@@ -296221,9 +296221,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 37,
-   "base": 47900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 69,174원 (현재가 대비 +44.4% 상승여력)",
+   "base": 48050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 69,174원 (현재가 대비 +44.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -296247,7 +296247,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -297786,9 +297786,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 59,
-   "base": 48850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 96,000원 (현재가 대비 +96.5% 상승여력)",
+   "base": 48950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 96,000원 (현재가 대비 +96.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -297812,7 +297812,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -299351,8 +299351,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 56,
-   "base": 52000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 52400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -300915,10 +300915,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 49,
-   "confidence": 73,
-   "base": 73200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 109,083원 (현재가 대비 +49.0% 상승여력)",
+   "confidence": 74,
+   "base": 73900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 109,083원 (현재가 대비 +47.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -300932,7 +300932,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -300940,11 +300940,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -302480,10 +302480,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 56,
-   "confidence": 39,
-   "base": 7030,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 8,600원 (현재가 대비 +22.3% 상승여력)",
+   "confidence": 41,
+   "base": 7060,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 8,600원 (현재가 대비 +21.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -302497,17 +302497,17 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bull",
-    "score": 90
+    "score": 89
    },
    "nova": {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -304044,11 +304044,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 72,
-   "base": 5590,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,200원 (현재가 대비 +28.8% 상승여력)",
+   "total": 55,
+   "confidence": 69,
+   "base": 5620,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,200원 (현재가 대비 +28.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -304058,11 +304058,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 54
+    "stance": "bull",
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -304070,7 +304070,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -305611,9 +305611,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 42,
-   "base": 11910,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +51.1% 상승여력)",
+   "base": 12000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +50.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -307174,11 +307174,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
-   "confidence": 37,
-   "base": 24500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +42.9% 상승여력)",
+   "total": 46,
+   "confidence": 38,
+   "base": 24900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +40.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -307188,23 +307188,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 25
+    "score": 27
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 74
    },
    "nova": {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -308768,11 +308768,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 63,
-   "base": 423500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 564,615원 (현재가 대비 +33.3% 상승여력)",
+   "base": 425000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 564,615원 (현재가 대비 +32.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -308782,11 +308782,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -310334,10 +310334,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 51,
-   "base": 18870,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 25,136원 (현재가 대비 +33.2% 상승여력)",
+   "confidence": 52,
+   "base": 18960,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 25,136원 (현재가 대비 +32.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -310351,7 +310351,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -310361,9 +310361,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -311900,9 +311900,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 55,
    "confidence": 55,
-   "base": 144500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 186,625원 (현재가 대비 +29.2% 상승여력)",
+   "base": 145000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 186,625원 (현재가 대비 +28.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -311916,7 +311916,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -311926,9 +311926,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -313465,9 +313465,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 33,
-   "base": 45350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 69,500원 (현재가 대비 +53.3% 상승여력)",
+   "base": 45400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 69,500원 (현재가 대비 +53.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -313491,7 +313491,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -315030,9 +315030,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 37,
-   "base": 49800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 111,200원 (현재가 대비 +123.3% 상승여력)",
+   "base": 50000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 111,200원 (현재가 대비 +122.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -315046,7 +315046,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -316594,10 +316594,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 47,
-   "confidence": 56,
-   "base": 45350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 64,700원 (현재가 대비 +42.7% 상승여력)",
+   "confidence": 58,
+   "base": 45650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 64,700원 (현재가 대비 +41.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -316611,11 +316611,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "nova": {
     "stance": "neu",
@@ -318159,10 +318159,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 51,
-   "base": 31800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,833원 (현재가 대비 +37.8% 상승여력)",
+   "confidence": 53,
+   "base": 32150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,833원 (현재가 대비 +36.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -318176,7 +318176,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -319725,9 +319725,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 49,
-   "base": 242000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 347,500원 (현재가 대비 +43.6% 상승여력)",
+   "base": 241500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 347,500원 (현재가 대비 +43.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -319741,7 +319741,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -321288,11 +321288,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 68,
-   "base": 42000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 69,846원 (현재가 대비 +66.3% 상승여력)",
+   "total": 47,
+   "confidence": 73,
+   "base": 42450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 69,846원 (현재가 대비 +64.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -321302,23 +321302,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "neu",
     "score": 54
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 55,
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -322854,10 +322854,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 61,
-   "base": 269500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 298,778원 (현재가 대비 +10.9% 상승여력)",
+   "confidence": 62,
+   "base": 274000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 298,778원 (현재가 대비 +9.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -322875,7 +322875,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 61
+    "score": 60
    },
    "nova": {
     "stance": "neu",
@@ -324419,10 +324419,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 44,
-   "confidence": 52,
-   "base": 64800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +96.0% 상승여력)",
+   "confidence": 53,
+   "base": 65400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +94.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -324436,7 +324436,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -324448,7 +324448,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -325985,8 +325985,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 68,
-   "base": 62900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 63200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -326001,7 +326001,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bear",
@@ -327548,11 +327548,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 54,
-   "base": 36100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 56,143원 (현재가 대비 +55.5% 상승여력)",
+   "total": 55,
+   "confidence": 45,
+   "base": 36400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 56,143원 (현재가 대비 +54.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -327562,11 +327562,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 57,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 76
    },
    "diana": {
     "stance": "neu",
@@ -327574,7 +327574,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 53,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -329113,10 +329113,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
+   "total": 51,
    "confidence": 74,
-   "base": 25900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 26200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -329127,11 +329127,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 49
    },
    "diana": {
     "stance": "bull",
@@ -330678,10 +330678,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
+   "total": 48,
    "confidence": 37,
    "base": 46300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 107,375원 (현재가 대비 +131.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -330692,11 +330692,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -332245,9 +332245,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 53,
    "confidence": 51,
-   "base": 79600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 108,000원 (현재가 대비 +35.7% 상승여력)",
+   "base": 79900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 108,000원 (현재가 대비 +35.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -332273,7 +332273,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -333810,9 +333810,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 35,
    "confidence": 30,
-   "base": 49900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 92,500원 (현재가 대비 +85.4% 상승여력)",
+   "base": 50500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 92,500원 (현재가 대비 +83.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -333836,9 +333836,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -335375,9 +335375,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 37,
-   "base": 6280,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 9,833원 (현재가 대비 +56.6% 상승여력)",
+   "base": 6340,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 9,833원 (현재가 대비 +55.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -335391,7 +335391,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 15
    },
    "diana": {
     "stance": "bull",
@@ -336938,11 +336938,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 40,
-   "base": 73400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 114,364원 (현재가 대비 +55.8% 상승여력)",
+   "base": 73700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 114,364원 (현재가 대비 +55.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -336952,11 +336952,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -338505,9 +338505,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 37,
-   "base": 57100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 87,429원 (현재가 대비 +53.1% 상승여력)",
+   "base": 57600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 87,429원 (현재가 대비 +51.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -338521,7 +338521,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 24
    },
    "diana": {
     "stance": "bull",
@@ -338531,7 +338531,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -340068,11 +340068,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 70,
-   "base": 47150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 75,900원 (현재가 대비 +61.0% 상승여력)",
+   "total": 53,
+   "confidence": 64,
+   "base": 47500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 75,900원 (현재가 대비 +59.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -340082,19 +340082,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 54
+    "stance": "bull",
+    "score": 63
    },
    "diana": {
     "stance": "bull",
     "score": 62
    },
    "nova": {
-    "stance": "neu",
-    "score": 47,
+    "stance": "bear",
+    "score": 42,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -341635,9 +341635,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 55,
-   "base": 57200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 106,167원 (현재가 대비 +85.6% 상승여력)",
+   "base": 57000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 106,167원 (현재가 대비 +86.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -343199,10 +343199,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 54,
-   "base": 25350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 33,000원 (현재가 대비 +30.2% 상승여력)",
+   "confidence": 57,
+   "base": 25500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 33,000원 (현재가 대비 +29.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -343216,15 +343216,15 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 40
    },
    "diana": {
     "stance": "bull",
-    "score": 72
+    "score": 71
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -344763,10 +344763,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 54,
-   "base": 38400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 52,
+   "confidence": 55,
+   "base": 38700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -344777,11 +344777,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -344789,11 +344789,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 53,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -346330,9 +346330,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 37,
-   "base": 16050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,000원 (현재가 대비 +130.5% 상승여력)",
+   "base": 16130,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,000원 (현재가 대비 +129.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -346346,7 +346346,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -347893,11 +347893,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
+   "total": 50,
    "confidence": 37,
-   "base": 116200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 203,333원 (현재가 대비 +75.0% 상승여력)",
+   "base": 117100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 203,333원 (현재가 대비 +73.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -347907,11 +347907,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 27
+    "score": 28
    },
    "diana": {
     "stance": "bull",
@@ -349458,11 +349458,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
-   "confidence": 45,
-   "base": 37750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 55,667원 (현재가 대비 +47.5% 상승여력)",
+   "total": 57,
+   "confidence": 44,
+   "base": 38050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 55,667원 (현재가 대비 +46.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -349472,11 +349472,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -349484,7 +349484,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 47,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -351025,8 +351025,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 61,
    "confidence": 40,
-   "base": 8010,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 8060,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -352589,10 +352589,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 62,
-   "base": 12490,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +60.1% 상승여력)",
+   "confidence": 61,
+   "base": 12540,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +59.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -352606,7 +352606,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -354208,10 +354208,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 38,
-   "confidence": 71,
-   "base": 52300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 57,250원 (현재가 대비 +9.5% 상승여력)",
+   "confidence": 72,
+   "base": 51800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 57,250원 (현재가 대비 +10.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -354225,11 +354225,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 39
    },
    "diana": {
     "stance": "bear",
-    "score": 31
+    "score": 32
    },
    "nova": {
     "stance": "neu",
@@ -355773,10 +355773,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 71,
-   "base": 126800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 185,385원 (현재가 대비 +46.2% 상승여력)",
+   "confidence": 73,
+   "base": 127800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 185,385원 (현재가 대비 +45.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -355790,11 +355790,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "bull",
-    "score": 60
+    "score": 59
    },
    "nova": {
     "stance": "neu",
@@ -357337,11 +357337,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 63,
-   "confidence": 51,
-   "base": 40050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 57,333원 (현재가 대비 +43.2% 상승여력)",
+   "total": 64,
+   "confidence": 49,
+   "base": 40450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 57,333원 (현재가 대비 +41.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -357351,15 +357351,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 64,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 84
    },
    "diana": {
     "stance": "bull",
-    "score": 81
+    "score": 80
    },
    "nova": {
     "stance": "neu",
@@ -358904,9 +358904,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 81,
-   "base": 44950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 70,778원 (현재가 대비 +57.5% 상승여력)",
+   "base": 45300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 70,778원 (현재가 대비 +56.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -358920,7 +358920,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "neu",
@@ -360469,9 +360469,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 58,
    "confidence": 49,
-   "base": 26400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 41,000원 (현재가 대비 +55.3% 상승여력)",
+   "base": 26500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 41,000원 (현재가 대비 +54.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -360485,7 +360485,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -362033,10 +362033,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 75,
-   "base": 38600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +24.4% 상승여력)",
+   "confidence": 76,
+   "base": 38550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +24.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -362049,8 +362049,8 @@ const LIVE_HISTORY = {
    "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "neu",
@@ -363599,9 +363599,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 40,
-   "base": 57200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 83,000원 (현재가 대비 +45.1% 상승여력)",
+   "base": 57400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 83,000원 (현재가 대비 +44.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -365162,11 +365162,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 45,
-   "base": 136900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 267,500원 (현재가 대비 +95.4% 상승여력)",
+   "total": 59,
+   "confidence": 43,
+   "base": 139900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 267,500원 (현재가 대비 +91.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -365176,11 +365176,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 61,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -365188,7 +365188,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 48,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -366729,9 +366729,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 37,
-   "base": 22400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 51,000원 (현재가 대비 +127.7% 상승여력)",
+   "base": 22650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 51,000원 (현재가 대비 +125.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -366745,7 +366745,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -368293,9 +368293,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 71,
-   "base": 333000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 70,
+   "base": 334000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -368310,7 +368310,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -368318,7 +368318,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 51,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -369859,9 +369859,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 73,
-   "base": 67400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 72,091원 (현재가 대비 +7.0% 상승여력)",
+   "base": 67800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 72,091원 (현재가 대비 +6.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -369885,9 +369885,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -371424,9 +371424,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 64,
    "confidence": 48,
-   "base": 347000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 543,333원 (현재가 대비 +56.6% 상승여력)",
+   "base": 348000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 543,333원 (현재가 대비 +56.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -372990,7 +372990,7 @@ const LIVE_HISTORY = {
    "total": 51,
    "confidence": 46,
    "base": 16330,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 15,875원 (현재가 대비 -2.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -374552,10 +374552,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 56,
-   "base": 22600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 59,
+   "confidence": 53,
+   "base": 22650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -374566,11 +374566,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 58
+    "score": 76
    },
    "diana": {
     "stance": "bull",
@@ -376124,7 +376124,7 @@ const LIVE_HISTORY = {
    "total": 50,
    "confidence": 63,
    "base": 8250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -377690,7 +377690,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 60,
    "base": 49950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 50,200원 (현재가 대비 +0.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -377715,9 +377715,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 44,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -379252,11 +379252,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 66,
-   "base": 12630,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 22,222원 (현재가 대비 +75.9% 상승여력)",
+   "base": 12750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 22,222원 (현재가 대비 +74.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -379266,11 +379266,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -379282,7 +379282,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -380819,9 +380819,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 47,
-   "base": 23225,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 30,125원 (현재가 대비 +29.7% 상승여력)",
+   "base": 23325,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 30,125원 (현재가 대비 +29.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -380835,7 +380835,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -380847,7 +380847,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -382382,11 +382382,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 55,
-   "base": 9960,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 17,100원 (현재가 대비 +71.7% 상승여력)",
+   "base": 10100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 17,100원 (현재가 대비 +69.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -382396,11 +382396,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 56
+    "stance": "bull",
+    "score": 59
    },
    "diana": {
     "stance": "bull",
@@ -382412,7 +382412,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -383947,11 +383947,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 42,
-   "base": 45550,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 67,286원 (현재가 대비 +47.7% 상승여력)",
+   "total": 53,
+   "confidence": 43,
+   "base": 45750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 67,286원 (현재가 대비 +47.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -383961,11 +383961,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -385543,9 +385543,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 39,
-   "base": 110300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +15.1% 상승여력)",
+   "base": 110100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 127,000원 (현재가 대비 +15.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -385569,9 +385569,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 43,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -387107,10 +387107,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 55,
-   "confidence": 65,
-   "base": 42800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 56,264원 (현재가 대비 +31.5% 상승여력)",
+   "confidence": 66,
+   "base": 43300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 56,264원 (현재가 대비 +29.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -387124,11 +387124,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 65
    },
    "diana": {
     "stance": "bull",
-    "score": 66
+    "score": 65
    },
    "nova": {
     "stance": "neu",
@@ -387136,7 +387136,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -388671,10 +388671,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 59,
-   "base": 10000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 51,
+   "confidence": 60,
+   "base": 10070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -388685,11 +388685,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -388697,7 +388697,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 53,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -390238,9 +390238,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 28400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 77,000원 (현재가 대비 +171.1% 상승여력)",
+   "base": 28550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 77,000원 (현재가 대비 +169.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -390254,7 +390254,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 19
    },
    "diana": {
     "stance": "bull",
@@ -390264,7 +390264,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -391802,10 +391802,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 63,
-   "confidence": 46,
-   "base": 16430,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +21.7% 상승여력)",
+   "confidence": 45,
+   "base": 16630,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +20.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -391819,7 +391819,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -391831,7 +391831,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -393368,9 +393368,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 23350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 75,500원 (현재가 대비 +223.3% 상승여력)",
+   "base": 23400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 75,500원 (현재가 대비 +222.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -393384,7 +393384,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -394933,9 +394933,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 60,
    "confidence": 63,
-   "base": 15500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 24,000원 (현재가 대비 +54.8% 상승여력)",
+   "base": 15570,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 24,000원 (현재가 대비 +54.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -394949,7 +394949,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -396900,10 +396900,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 63,
-   "confidence": 44,
-   "base": 5070,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 65,
+   "confidence": 43,
+   "base": 5180,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -396914,11 +396914,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -396926,7 +396926,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -398465,11 +398465,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
+   "total": 43,
    "confidence": 37,
-   "base": 49000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 77,364원 (현재가 대비 +57.9% 상승여력)",
+   "base": 49400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 77,364원 (현재가 대비 +56.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -398479,11 +398479,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 16
+    "score": 15
    },
    "diana": {
     "stance": "bull",
@@ -398495,7 +398495,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -400032,8 +400032,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 52,
-   "base": 16820,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 16970,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -401595,10 +401595,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 46,
    "base": 145500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 172,500원 (현재가 대비 +18.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -401610,7 +401610,7 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 61,
-   "riskPenalty": 1,
+   "riskPenalty": 0,
    "taro": {
     "stance": "bull",
     "score": 79
@@ -403160,11 +403160,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 61,
-   "base": 67700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 101,250원 (현재가 대비 +49.6% 상승여력)",
+   "base": 67900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 101,250원 (현재가 대비 +49.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -403174,7 +403174,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
@@ -404725,11 +404725,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 65,
-   "confidence": 42,
-   "base": 53600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 82,000원 (현재가 대비 +53.0% 상승여력)",
+   "total": 66,
+   "confidence": 40,
+   "base": 54000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 82,000원 (현재가 대비 +51.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -404739,11 +404739,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 65,
+   "rawTotal": 66,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 90
    },
    "diana": {
     "stance": "bull",
@@ -406292,8 +406292,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 68,
-   "base": 918000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 919000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -407855,11 +407855,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
+   "total": 57,
    "confidence": 62,
-   "base": 97600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 148,333원 (현재가 대비 +52.0% 상승여력)",
+   "base": 98550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 148,333원 (현재가 대비 +50.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -407869,11 +407869,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 59
    },
    "diana": {
     "stance": "bull",
@@ -409422,9 +409422,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 37,
-   "base": 60700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +81.2% 상승여력)",
+   "base": 61100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +80.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -409438,7 +409438,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 27
    },
    "diana": {
     "stance": "bull",
@@ -410985,10 +410985,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 68,
-   "base": 53000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 60,
+   "confidence": 67,
+   "base": 53400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -410999,11 +410999,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -412552,9 +412552,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 52,
-   "base": 27650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +26.6% 상승여력)",
+   "base": 27700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +26.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -412578,9 +412578,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 44,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -414115,10 +414115,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 64,
-   "base": 4690,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 60,
+   "confidence": 54,
+   "base": 4750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -414129,11 +414129,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 77
    },
    "diana": {
     "stance": "bull",
@@ -414141,7 +414141,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 46,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -415681,9 +415681,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 66,
-   "base": 12650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 68,
+   "base": 12760,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -415698,7 +415698,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 1,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 35
    },
    "diana": {
     "stance": "bear",
@@ -417245,11 +417245,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 41,
+   "total": 42,
    "confidence": 47,
-   "base": 13680,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 21,875원 (현재가 대비 +59.9% 상승여력)",
+   "base": 13610,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 21,875원 (현재가 대비 +60.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -417259,7 +417259,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 41,
+   "rawTotal": 42,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -418811,10 +418811,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 60,
-   "confidence": 64,
-   "base": 42150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 71,000원 (현재가 대비 +68.4% 상승여력)",
+   "confidence": 61,
+   "base": 43150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 71,000원 (현재가 대비 +64.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -418828,7 +418828,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 71
+    "score": 74
    },
    "diana": {
     "stance": "bull",
@@ -418836,7 +418836,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 54,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -420376,10 +420376,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 45,
-   "confidence": 74,
-   "base": 37450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 48,500원 (현재가 대비 +29.5% 상승여력)",
+   "confidence": 75,
+   "base": 37650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 48,500원 (현재가 대비 +28.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -420393,7 +420393,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "neu",
@@ -420405,7 +420405,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -421942,9 +421942,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 53,
-   "base": 16230,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +23.2% 상승여력)",
+   "base": 16260,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +23.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -421968,9 +421968,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -423507,9 +423507,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 40,
-   "base": 45250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 83,000원 (현재가 대비 +83.4% 상승여력)",
+   "base": 45200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 83,000원 (현재가 대비 +83.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -423523,7 +423523,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 29
+    "score": 28
    },
    "diana": {
     "stance": "bull",
@@ -425072,9 +425072,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 67,
-   "base": 79700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 149,333원 (현재가 대비 +87.4% 상승여력)",
+   "base": 79600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 149,333원 (현재가 대비 +87.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -426637,9 +426637,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 37,
-   "base": 75500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +74.4% 상승여력)",
+   "base": 75600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 131,667원 (현재가 대비 +74.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -428202,8 +428202,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 71,
-   "base": 6190,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 6230,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -429767,9 +429767,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 40,
-   "base": 18680,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 25,125원 (현재가 대비 +34.5% 상승여력)",
+   "base": 18710,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 25,125원 (현재가 대비 +34.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -429783,7 +429783,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -429793,9 +429793,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -431332,8 +431332,8 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 68,
    "confidence": 41,
-   "base": 66400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 65800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -432895,11 +432895,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 76,
-   "base": 5330,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 6,550원 (현재가 대비 +22.9% 상승여력)",
+   "total": 51,
+   "confidence": 74,
+   "base": 5380,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 6,550원 (현재가 대비 +21.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -432909,23 +432909,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 54
    },
    "diana": {
     "stance": "neu",
-    "score": 48
+    "score": 47
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 57,
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -434460,10 +434460,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 62,
-   "base": 9040,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 9010,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -434474,7 +434474,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -434486,7 +434486,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 55,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -436027,9 +436027,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 37,
-   "base": 10430,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 18,500원 (현재가 대비 +77.4% 상승여력)",
+   "base": 10490,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 18,500원 (현재가 대비 +76.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -437590,11 +437590,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
-   "confidence": 47,
-   "base": 12640,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 22,000원 (현재가 대비 +74.1% 상승여력)",
+   "total": 41,
+   "confidence": 48,
+   "base": 12730,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 22,000원 (현재가 대비 +72.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -437604,11 +437604,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 41,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 19
    },
    "diana": {
     "stance": "neu",
@@ -437618,9 +437618,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -439155,11 +439155,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 67,
-   "confidence": 39,
-   "base": 8400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 8,788원 (현재가 대비 +4.6% 상승여력)",
+   "total": 66,
+   "confidence": 42,
+   "base": 8570,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 8,788원 (현재가 대비 +2.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -439169,11 +439169,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 67,
+   "rawTotal": 66,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -440721,10 +440721,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 63,
-   "confidence": 49,
-   "base": 55400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 74,000원 (현재가 대비 +33.6% 상승여력)",
+   "confidence": 50,
+   "base": 56000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 74,000원 (현재가 대비 +32.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -440738,7 +440738,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 86
    },
    "diana": {
     "stance": "neu",
@@ -442288,7 +442288,7 @@ const LIVE_HISTORY = {
    "total": 49,
    "confidence": 40,
    "base": 26600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 41,333원 (현재가 대비 +55.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -442313,7 +442313,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -443850,11 +443850,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 59,
    "confidence": 44,
-   "base": 96000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 170,000원 (현재가 대비 +77.1% 상승여력)",
+   "base": 95800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 170,000원 (현재가 대비 +77.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -443864,11 +443864,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -445417,9 +445417,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 40,
-   "base": 6050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 9,433원 (현재가 대비 +55.9% 상승여력)",
+   "base": 6070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 9,433원 (현재가 대비 +55.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -445443,7 +445443,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -446980,11 +446980,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 50,
    "confidence": 41,
-   "base": 10220,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 18,500원 (현재가 대비 +81.0% 상승여력)",
+   "base": 10230,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 18,500원 (현재가 대비 +80.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -446994,7 +446994,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -448545,10 +448545,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 65,
-   "base": 39500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 39800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -448559,11 +448559,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -448575,7 +448575,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -450110,10 +450110,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 50,
-   "base": 21900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 58,
+   "base": 22300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -450124,11 +450124,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -450136,11 +450136,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -451676,9 +451676,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 39,
+   "confidence": 40,
    "base": 55300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 90,000원 (현재가 대비 +62.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -451693,7 +451693,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -451703,7 +451703,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -453240,11 +453240,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
+   "total": 60,
    "confidence": 60,
-   "base": 173000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 245,000원 (현재가 대비 +41.6% 상승여력)",
+   "base": 174100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 245,000원 (현재가 대비 +40.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -453254,11 +453254,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -453266,7 +453266,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 53,
     "sector": "화학·소재",
     "sectorWinRate": 47.0,
     "sectorBlendPct": 75,
@@ -454805,10 +454805,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
-   "confidence": 60,
-   "base": 2050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 56,
+   "confidence": 59,
+   "base": 2070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -454819,19 +454819,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 70
    },
    "diana": {
     "stance": "neu",
     "score": 46
    },
    "nova": {
-    "stance": "bear",
-    "score": 42,
+    "stance": "neu",
+    "score": 44,
     "sector": "보험",
     "sectorWinRate": 53.7,
     "sectorBlendPct": 72,
@@ -456372,9 +456372,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 37,
-   "base": 35750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 51,500원 (현재가 대비 +44.1% 상승여력)",
+   "base": 36100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 51,500원 (현재가 대비 +42.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -456400,7 +456400,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -457935,11 +457935,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
+   "total": 60,
    "confidence": 30,
-   "base": 20900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 32,167원 (현재가 대비 +53.9% 상승여력)",
+   "base": 21600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 32,167원 (현재가 대비 +48.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -457949,11 +457949,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 92
    },
    "diana": {
     "stance": "bull",
@@ -457963,9 +457963,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -459500,10 +459500,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 72,
-   "base": 502000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 71,
+   "base": 501000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -459514,11 +459514,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -461065,11 +461065,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
+   "total": 59,
    "confidence": 56,
-   "base": 9460,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 13,143원 (현재가 대비 +38.9% 상승여력)",
+   "base": 9520,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 13,143원 (현재가 대비 +38.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -461079,11 +461079,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -461095,7 +461095,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -462633,7 +462633,7 @@ const LIVE_HISTORY = {
    "total": 46,
    "confidence": 43,
    "base": 9900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -464197,8 +464197,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 52,
    "confidence": 54,
-   "base": 44700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 44850,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -465760,11 +465760,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 56,
-   "base": 16190,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 25,667원 (현재가 대비 +58.5% 상승여력)",
+   "total": 61,
+   "confidence": 54,
+   "base": 16250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 25,667원 (현재가 대비 +58.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -465774,11 +465774,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 75
    },
    "diana": {
     "stance": "bull",
@@ -465786,7 +465786,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "화학·소재",
     "sectorWinRate": 47.0,
     "sectorBlendPct": 75,
@@ -467324,12 +467324,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 65,
-   "base": 54300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 81,667원 (현재가 대비 +50.4% 상승여력)",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 68,
+   "base": 55200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 81,667원 (현재가 대비 +47.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -467339,11 +467339,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 1,
    "taro": {
-    "stance": "bear",
-    "score": 41
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "neu",
@@ -469003,9 +469003,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 52,
-   "base": 15900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 51,
+   "base": 15935,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 5,700원 (현재가 대비 -64.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -469020,7 +469020,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 69
    },
    "diana": {
     "stance": "neu",
@@ -469032,7 +469032,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -470567,11 +470567,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 62,
-   "confidence": 34,
-   "base": 30450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,333원 (현재가 대비 +32.5% 상승여력)",
+   "total": 58,
+   "confidence": 39,
+   "base": 31300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,333원 (현재가 대비 +28.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -470581,23 +470581,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 64,
+   "rawTotal": 60,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 81
    },
    "diana": {
     "stance": "neu",
-    "score": 55
+    "score": 54
    },
    "nova": {
-    "stance": "neu",
-    "score": 46,
+    "stance": "bear",
+    "score": 42,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -472134,9 +472134,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 53,
    "confidence": 43,
-   "base": 2090,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 2,620원 (현재가 대비 +25.4% 상승여력)",
+   "base": 2100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 2,620원 (현재가 대비 +24.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -473699,9 +473699,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 30,
-   "base": 15600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 33,667원 (현재가 대비 +115.8% 상승여력)",
+   "base": 15740,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 33,667원 (현재가 대비 +113.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -473715,7 +473715,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -473727,7 +473727,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -475265,7 +475265,7 @@ const LIVE_HISTORY = {
    "total": 44,
    "confidence": 43,
    "base": 3660,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -476826,12 +476826,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "BUY",
-   "total": 63,
+   "call": "HOLD",
+   "total": 62,
    "confidence": 42,
-   "base": 90500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 120,000원 (현재가 대비 +32.6% 상승여력)",
+   "base": 92000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 120,000원 (현재가 대비 +30.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -476841,7 +476841,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 64,
+   "rawTotal": 63,
    "riskPenalty": 1,
    "taro": {
     "stance": "bull",
@@ -476849,7 +476849,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 77
+    "score": 71
    },
    "nova": {
     "stance": "neu",
@@ -478392,11 +478392,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 45,
-   "base": 18320,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 25,667원 (현재가 대비 +40.1% 상승여력)",
+   "total": 55,
+   "confidence": 47,
+   "base": 18530,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 25,667원 (현재가 대비 +38.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -478406,11 +478406,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 48
    },
    "diana": {
     "stance": "bull",
@@ -478418,7 +478418,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 54,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -479958,10 +479958,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 64,
-   "confidence": 49,
-   "base": 19230,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +82.0% 상승여력)",
+   "confidence": 47,
+   "base": 19470,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +79.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -479975,7 +479975,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 88
    },
    "diana": {
     "stance": "bull",
@@ -481524,8 +481524,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 55,
    "confidence": 68,
-   "base": 14080,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 14200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -481540,7 +481540,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 59
+    "score": 60
    },
    "diana": {
     "stance": "bull",
@@ -483089,9 +483089,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 40,
-   "base": 30350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 62,000원 (현재가 대비 +104.3% 상승여력)",
+   "base": 30700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 62,000원 (현재가 대비 +102.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -483105,7 +483105,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -483115,7 +483115,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -484652,11 +484652,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 51,
-   "base": 8130,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 12,000원 (현재가 대비 +47.6% 상승여력)",
+   "total": 54,
+   "confidence": 47,
+   "base": 8190,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 12,000원 (현재가 대비 +46.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -484666,19 +484666,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 57
    },
    "diana": {
     "stance": "bull",
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 41,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -486219,8 +486219,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 46,
-   "base": 2645,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 2655,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -486245,7 +486245,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -487783,9 +487783,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 44,
-   "confidence": 51,
-   "base": 51800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 54,
+   "base": 52700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -487800,7 +487800,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 27
    },
    "diana": {
     "stance": "bull",
@@ -489349,8 +489349,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 52,
    "confidence": 71,
-   "base": 21750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 21700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -490914,8 +490914,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 58,
-   "base": 26950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 27250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -490930,7 +490930,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 51
    },
    "diana": {
     "stance": "bull",
@@ -492476,12 +492476,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
-   "confidence": 47,
-   "base": 98100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +47.8% 상승여력)",
+   "call": "BUY",
+   "total": 63,
+   "confidence": 46,
+   "base": 98600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +47.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -492491,11 +492491,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "diana": {
     "stance": "bull",
@@ -494043,9 +494043,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 68,
-   "base": 129100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 69,
+   "base": 129600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -494060,7 +494060,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -495607,10 +495607,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 57,
-   "base": 2415,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 50,
+   "confidence": 59,
+   "base": 2450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -495621,11 +495621,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 4,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bull",
@@ -497171,11 +497171,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 47,
-   "confidence": 70,
-   "base": 25000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "SELL",
+   "total": 46,
+   "confidence": 74,
+   "base": 25500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -497186,7 +497186,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -497198,7 +497198,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 51,
     "sector": "화학·소재",
     "sectorWinRate": 47.0,
     "sectorBlendPct": 75,
@@ -498739,8 +498739,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 52,
    "confidence": 40,
-   "base": 70400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 70700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -500302,11 +500302,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 48,
-   "base": 18850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +56.5% 상승여력)",
+   "total": 50,
+   "confidence": 49,
+   "base": 18910,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 29,500원 (현재가 대비 +56.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -500316,11 +500316,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 39
    },
    "diana": {
     "stance": "bull",
@@ -501869,9 +501869,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 47,
-   "base": 93300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +55.4% 상승여력)",
+   "base": 93600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 145,000원 (현재가 대비 +54.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -503434,9 +503434,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 65,
-   "base": 7440,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 15,000원 (현재가 대비 +101.6% 상승여력)",
+   "base": 7490,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 15,000원 (현재가 대비 +100.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -503450,7 +503450,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 53
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -504996,12 +504996,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
+   "call": "BUY",
+   "total": 63,
    "confidence": 30,
-   "base": 31925,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 52,000원 (현재가 대비 +62.9% 상승여력)",
+   "base": 32300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 52,000원 (현재가 대비 +61.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -505011,11 +505011,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 64,
+   "rawTotal": 65,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 91
+    "score": 93
    },
    "diana": {
     "stance": "bull",
@@ -506564,8 +506564,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 50,
-   "base": 18650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 18700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -508127,11 +508127,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
-   "confidence": 46,
-   "base": 5590,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,600원 (현재가 대비 +36.0% 상승여력)",
+   "total": 54,
+   "confidence": 47,
+   "base": 5620,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,600원 (현재가 대비 +35.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -508141,11 +508141,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -508153,11 +508153,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -509694,9 +509694,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 31,
-   "base": 41350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +16.1% 상승여력)",
+   "base": 41200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +16.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -509722,7 +509722,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -511257,10 +511257,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 52,
-   "base": 7840,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 54,
+   "confidence": 63,
+   "base": 7950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -511271,11 +511271,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 37
+    "stance": "neu",
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -511283,7 +511283,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 53,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -512824,8 +512824,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 59,
-   "base": 132000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 131700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -514387,10 +514387,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 56,
-   "base": 1674,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 59,
+   "confidence": 52,
+   "base": 1691,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -514401,23 +514401,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 74
    },
    "diana": {
     "stance": "bull",
     "score": 78
    },
    "nova": {
-    "stance": "neu",
-    "score": 46,
+    "stance": "bear",
+    "score": 42,
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -515953,10 +515953,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 60,
-   "confidence": 56,
-   "base": 32550,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 47,750원 (현재가 대비 +46.7% 상승여력)",
+   "confidence": 57,
+   "base": 32750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 47,750원 (현재가 대비 +45.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -515970,11 +515970,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 66
    },
    "diana": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "nova": {
     "stance": "neu",
@@ -515982,7 +515982,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -517519,9 +517519,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 47,
-   "base": 134400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 196,500원 (현재가 대비 +46.2% 상승여력)",
+   "base": 134100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 196,500원 (현재가 대비 +46.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -519083,10 +519083,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 52,
-   "base": 37500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 50,250원 (현재가 대비 +34.0% 상승여력)",
+   "confidence": 53,
+   "base": 37550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 50,250원 (현재가 대비 +33.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -519104,7 +519104,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 82
+    "score": 81
    },
    "nova": {
     "stance": "neu",
@@ -519112,7 +519112,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -520649,9 +520649,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 30,
-   "base": 14710,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +76.8% 상승여력)",
+   "base": 14940,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +74.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -520665,15 +520665,15 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 61
    },
    "diana": {
     "stance": "bull",
     "score": 80
    },
    "nova": {
-    "stance": "bull",
-    "score": 60,
+    "stance": "neu",
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -522213,10 +522213,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 39,
-   "base": 15340,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 28,833원 (현재가 대비 +88.0% 상승여력)",
+   "confidence": 40,
+   "base": 15490,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 28,833원 (현재가 대비 +86.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -522230,7 +522230,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -522240,9 +522240,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -523778,10 +523778,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 62,
-   "confidence": 49,
-   "base": 26850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +49.0% 상승여력)",
+   "confidence": 47,
+   "base": 27150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +47.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -523795,7 +523795,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 86
    },
    "diana": {
     "stance": "neu",
@@ -525342,10 +525342,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 70,
-   "base": 4740,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 50,
+   "confidence": 72,
+   "base": 4760,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -525356,11 +525356,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "neu",
@@ -526908,9 +526908,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 61,
-   "confidence": 52,
-   "base": 23300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 51,
+   "base": 23500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -526925,7 +526925,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 81
    },
    "diana": {
     "stance": "bull",
@@ -526935,9 +526935,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 44,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -528473,9 +528473,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 56,
-   "confidence": 67,
-   "base": 17170,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 68,
+   "base": 17240,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -528498,11 +528498,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -530037,10 +530037,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 60,
-   "base": 46750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 58,
+   "confidence": 59,
+   "base": 47000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -530051,11 +530051,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 75
    },
    "diana": {
     "stance": "neu",
@@ -530063,7 +530063,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 50,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -531602,10 +531602,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 43,
-   "confidence": 71,
-   "base": 9770,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 44,
+   "confidence": 80,
+   "base": 9860,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -531616,11 +531616,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 43,
+   "rawTotal": 44,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 41
    },
    "diana": {
     "stance": "neu",
@@ -531628,7 +531628,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -533168,9 +533168,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 61,
-   "confidence": 44,
-   "base": 10440,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 43,
+   "base": 10560,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -533185,7 +533185,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -534733,9 +534733,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 43,
-   "confidence": 43,
-   "base": 14260,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 42,
+   "base": 14320,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -534750,7 +534750,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 21
    },
    "diana": {
     "stance": "bull",
@@ -534760,9 +534760,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -536297,10 +536297,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 79,
-   "base": 60500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 51,
+   "confidence": 78,
+   "base": 60800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -536311,11 +536311,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "neu",
@@ -537862,11 +537862,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 51,
-   "base": 10310,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +94.0% 상승여력)",
+   "total": 51,
+   "confidence": 52,
+   "base": 10395,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 20,000원 (현재가 대비 +92.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -537876,11 +537876,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -537890,9 +537890,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -539429,9 +539429,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 53,
    "confidence": 77,
-   "base": 102500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 167,500원 (현재가 대비 +63.4% 상승여력)",
+   "base": 103400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 167,500원 (현재가 대비 +62.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -539445,7 +539445,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -539457,7 +539457,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -540994,9 +540994,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 61,
    "confidence": 52,
-   "base": 64200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 87,167원 (현재가 대비 +35.8% 상승여력)",
+   "base": 64400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 87,167원 (현재가 대비 +35.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -542557,10 +542557,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 64,
-   "base": 4330,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 59,
+   "confidence": 66,
+   "base": 4370,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -542571,11 +542571,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 49
+    "stance": "bull",
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -544124,8 +544124,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 67,
-   "base": 12630,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 12700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -544150,9 +544150,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -545689,8 +545689,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 30,
-   "base": 9870,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 10050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -545705,7 +545705,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "bear",
@@ -547251,12 +547251,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
-   "confidence": 42,
-   "base": 10650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 14,500원 (현재가 대비 +36.2% 상승여력)",
+   "call": "BUY",
+   "total": 63,
+   "confidence": 41,
+   "base": 10710,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 14,500원 (현재가 대비 +35.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -547266,11 +547266,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -547282,7 +547282,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -548817,10 +548817,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 62,
+   "total": 53,
+   "confidence": 64,
    "base": 93600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -548831,11 +548831,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 57
+    "score": 49
    },
    "diana": {
     "stance": "bull",
@@ -548843,7 +548843,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 51,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -550385,7 +550385,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 85,
    "base": 64800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -550410,9 +550410,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -551949,8 +551949,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 59,
-   "base": 1716,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 1725,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -551965,7 +551965,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "neu",
@@ -553512,11 +553512,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 40,
-   "base": 135000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +18.5% 상승여력)",
+   "total": 59,
+   "confidence": 52,
+   "base": 135700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +17.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -553526,19 +553526,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 74
    },
    "nova": {
     "stance": "bear",
-    "score": 20,
+    "score": 42,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -555079,8 +555079,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 61,
-   "base": 40100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 40200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -556642,10 +556642,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 51,
-   "base": 9870,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 62,
+   "confidence": 49,
+   "base": 10010,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -556656,11 +556656,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 80
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -558207,10 +558207,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
-   "confidence": 58,
-   "base": 4025,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 42,
+   "confidence": 64,
+   "base": 4075,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -558221,19 +558221,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 42,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 40
    },
    "diana": {
     "stance": "neu",
     "score": 44
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -559774,8 +559774,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 37,
-   "base": 2270,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 2280,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -559790,7 +559790,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "diana": {
     "stance": "bull",
@@ -559800,9 +559800,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "bear",
@@ -561338,9 +561338,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 61,
-   "confidence": 55,
-   "base": 10540,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 54,
+   "base": 10570,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -561355,7 +561355,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -562904,8 +562904,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 65,
-   "base": 14120,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 14140,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -562930,7 +562930,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -564467,11 +564467,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 56,
-   "base": 11180,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 16,000원 (현재가 대비 +43.1% 상승여력)",
+   "total": 59,
+   "confidence": 55,
+   "base": 11260,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 16,000원 (현재가 대비 +42.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -564481,11 +564481,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 79
    },
    "diana": {
     "stance": "neu",
@@ -564495,9 +564495,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -566033,9 +566033,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 64,
-   "confidence": 33,
-   "base": 8700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 32,
+   "base": 8680,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -566050,7 +566050,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 1,
    "taro": {
     "stance": "bull",
-    "score": 93
+    "score": 94
    },
    "diana": {
     "stance": "bull",
@@ -566060,7 +566060,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -567598,9 +567598,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 42,
-   "confidence": 58,
-   "base": 6910,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 60,
+   "base": 7020,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -567615,7 +567615,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 33
    },
    "diana": {
     "stance": "neu",
@@ -567627,7 +567627,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -569164,8 +569164,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 76,
-   "base": 10360,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 10390,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -569180,7 +569180,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bear",
@@ -570727,10 +570727,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 46,
-   "confidence": 70,
-   "base": 6270,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 45,
+   "confidence": 71,
+   "base": 6290,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -570741,11 +570741,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 45,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "neu",
@@ -570753,11 +570753,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -572292,11 +572292,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 40,
-   "base": 3850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 6,000원 (현재가 대비 +55.8% 상승여력)",
+   "total": 49,
+   "confidence": 41,
+   "base": 3870,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 6,000원 (현재가 대비 +55.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -572306,11 +572306,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 35
    },
    "diana": {
     "stance": "bull",
@@ -572320,9 +572320,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -573857,10 +573857,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 56,
-   "base": 10010,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 58,
+   "confidence": 57,
+   "base": 10120,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -573871,11 +573871,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 77
    },
    "diana": {
     "stance": "neu",
@@ -573883,7 +573883,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -575424,8 +575424,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 35250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 35450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -575440,7 +575440,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -575450,9 +575450,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -576988,9 +576988,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 48,
-   "confidence": 78,
-   "base": 10630,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 79,
+   "base": 10710,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -577005,7 +577005,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "neu",
@@ -578552,11 +578552,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 37,
+   "total": 38,
    "confidence": 48,
-   "base": 16800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 280,000원 (현재가 대비 +1566.7% 상승여력)",
+   "base": 17070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 280,000원 (현재가 대비 +1540.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -578567,7 +578567,7 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 41,
-   "riskPenalty": 4,
+   "riskPenalty": 3,
    "taro": {
     "stance": "bear",
     "score": 29
@@ -580119,8 +580119,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 33,
    "confidence": 31,
-   "base": 48500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 49100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -581683,10 +581683,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 49,
-   "confidence": 79,
-   "base": 63100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 115,000원 (현재가 대비 +82.3% 상승여력)",
+   "confidence": 75,
+   "base": 63800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 115,000원 (현재가 대비 +80.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -581700,7 +581700,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 54
    },
    "diana": {
     "stance": "neu",
@@ -581708,11 +581708,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -583249,8 +583249,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 37,
-   "base": 43600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 44350,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -584814,9 +584814,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 62,
    "confidence": 30,
-   "base": 296000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 392,286원 (현재가 대비 +32.5% 상승여력)",
+   "base": 295500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 392,286원 (현재가 대비 +32.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -586379,9 +586379,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 61,
    "confidence": 31,
-   "base": 138700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 195,000원 (현재가 대비 +40.6% 상승여력)",
+   "base": 140500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 195,000원 (현재가 대비 +38.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -586407,7 +586407,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -587944,8 +587944,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 33,
    "confidence": 44,
-   "base": 21850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 21900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -587970,9 +587970,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "bear",
@@ -589509,9 +589509,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 30,
-   "base": 51800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 121,667원 (현재가 대비 +134.9% 상승여력)",
+   "base": 52000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 121,667원 (현재가 대비 +134.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -589535,9 +589535,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -591072,10 +591072,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 31,
-   "confidence": 32,
-   "base": 93500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 32,
+   "confidence": 33,
+   "base": 95100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -591086,11 +591086,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 37,
+   "rawTotal": 38,
    "riskPenalty": 6,
    "taro": {
     "stance": "bear",
-    "score": 13
+    "score": 14
    },
    "diana": {
     "stance": "bear",
@@ -592637,11 +592637,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 35,
+   "total": 34,
    "confidence": 44,
-   "base": 100000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 191,250원 (현재가 대비 +91.3% 상승여력)",
+   "base": 101100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 191,250원 (현재가 대비 +89.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -592652,7 +592652,7 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 39,
-   "riskPenalty": 4,
+   "riskPenalty": 5,
    "taro": {
     "stance": "bear",
     "score": 15
@@ -592667,7 +592667,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -594202,10 +594202,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 35,
-   "confidence": 60,
-   "base": 12690,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 36,
+   "confidence": 59,
+   "base": 12940,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -594216,11 +594216,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 38,
+   "rawTotal": 39,
    "riskPenalty": 3,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 47
    },
    "diana": {
     "stance": "bear",
@@ -594232,7 +594232,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "bear",
@@ -595767,10 +595767,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 29,
+   "total": 30,
    "confidence": 59,
-   "base": 10360,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 10470,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -595781,11 +595781,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 29,
+   "rawTotal": 30,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 23
    },
    "diana": {
     "stance": "bear",
@@ -597332,11 +597332,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
-   "confidence": 72,
-   "base": 253500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 358,625원 (현재가 대비 +41.5% 상승여력)",
+   "total": 45,
+   "confidence": 73,
+   "base": 256000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 358,625원 (현재가 대비 +40.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -597346,11 +597346,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 39
    },
    "diana": {
     "stance": "bear",
@@ -597362,7 +597362,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -598897,11 +598897,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 60,
-   "base": 40800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 61,000원 (현재가 대비 +49.5% 상승여력)",
+   "total": 49,
+   "confidence": 70,
+   "base": 41050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 61,000원 (현재가 대비 +48.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -598911,19 +598911,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 41
    },
    "diana": {
     "stance": "neu",
     "score": 55
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -600462,11 +600462,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 38,
-   "base": 38950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 67,389원 (현재가 대비 +73.0% 상승여력)",
+   "total": 52,
+   "confidence": 42,
+   "base": 39250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 67,389원 (현재가 대비 +71.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -600476,7 +600476,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
@@ -600484,7 +600484,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 82
    },
    "nova": {
     "stance": "bull",
@@ -602027,11 +602027,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 63,
-   "confidence": 52,
-   "base": 76800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 113,412원 (현재가 대비 +47.7% 상승여력)",
+   "total": 65,
+   "confidence": 48,
+   "base": 78600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 113,412원 (현재가 대비 +44.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -602041,19 +602041,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 85
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 74
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -603594,8 +603594,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 48,
    "confidence": 61,
-   "base": 63600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 63400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -603610,7 +603610,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 48
    },
    "diana": {
     "stance": "bear",
@@ -605159,9 +605159,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 66,
-   "base": 24450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +63.6% 상승여력)",
+   "base": 24800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +61.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -605175,7 +605175,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 57
    },
    "diana": {
     "stance": "bull",
@@ -605187,7 +605187,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -606724,9 +606724,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 67,
-   "base": 93900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 129,667원 (현재가 대비 +38.1% 상승여력)",
+   "base": 95300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 129,667원 (현재가 대비 +36.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -606739,20 +606739,20 @@ const LIVE_HISTORY = {
    "rawTotal": 46,
    "riskPenalty": 2,
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bear",
-    "score": 39
+    "score": 38
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -608289,8 +608289,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 42,
    "confidence": 66,
-   "base": 46500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 46550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -608317,7 +608317,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -609854,8 +609854,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 55,
-   "base": 24150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 24350,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -611419,9 +611419,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 33,
    "confidence": 30,
-   "base": 15540,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 70,000원 (현재가 대비 +350.5% 상승여력)",
+   "base": 15860,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 70,000원 (현재가 대비 +341.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -611445,9 +611445,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -612983,10 +612983,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 47,
-   "confidence": 72,
-   "base": 29950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,000원 (현재가 대비 +43.6% 상승여력)",
+   "confidence": 74,
+   "base": 30450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,000원 (현재가 대비 +41.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -613000,11 +613000,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 40
    },
    "diana": {
     "stance": "neu",
-    "score": 51
+    "score": 50
    },
    "nova": {
     "stance": "neu",
@@ -614547,11 +614547,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 71,
-   "base": 31500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 45,500원 (현재가 대비 +44.4% 상승여력)",
+   "total": 55,
+   "confidence": 73,
+   "base": 31750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 45,500원 (현재가 대비 +43.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -614561,11 +614561,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 53
    },
    "diana": {
     "stance": "bull",
@@ -614573,7 +614573,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 56,
+    "score": 57,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -616112,11 +616112,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 71,
-   "base": 59100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +86.1% 상승여력)",
+   "base": 59400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 110,000원 (현재가 대비 +85.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -616126,11 +616126,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 56
    },
    "diana": {
     "stance": "bull",
@@ -616138,7 +616138,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 53,
     "sector": "조선",
     "sectorWinRate": 47.1,
     "sectorBlendPct": 75,
@@ -617679,8 +617679,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 57,
-   "base": 19620,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 19310,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -619242,11 +619242,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 30,
-   "confidence": 30,
-   "base": 28250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +32.7% 상승여력)",
+   "total": 36,
+   "confidence": 37,
+   "base": 28800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +30.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -619256,23 +619256,23 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 36,
+   "rawTotal": 42,
    "riskPenalty": 6,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 25
    },
    "diana": {
     "stance": "bull",
     "score": 66
    },
    "nova": {
-    "stance": "bear",
-    "score": 32,
+    "stance": "neu",
+    "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -620809,9 +620809,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 68,
-   "base": 46600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 101,000원 (현재가 대비 +116.7% 상승여력)",
+   "base": 47400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 101,000원 (현재가 대비 +113.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -620825,7 +620825,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -620837,7 +620837,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "bear",
@@ -622372,11 +622372,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 58,
-   "base": 20700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,750원 (현재가 대비 +111.4% 상승여력)",
+   "total": 50,
+   "confidence": 65,
+   "base": 22250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,750원 (현재가 대비 +96.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -622386,19 +622386,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 37
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
     "score": 64
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 55,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -623937,10 +623937,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 44,
-   "base": 29950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 40,
+   "confidence": 48,
+   "base": 31700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -623951,11 +623951,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 16
+    "score": 20
    },
    "diana": {
     "stance": "bear",
@@ -625503,10 +625503,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 41,
-   "confidence": 61,
-   "base": 84000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 153,000원 (현재가 대비 +82.1% 상승여력)",
+   "confidence": 62,
+   "base": 84400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 153,000원 (현재가 대비 +81.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -625520,7 +625520,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 37
    },
    "diana": {
     "stance": "neu",
@@ -627069,8 +627069,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 63,
-   "base": 43300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 43650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -627097,7 +627097,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -628632,11 +628632,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 58,
-   "base": 35550,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 67,000원 (현재가 대비 +88.5% 상승여력)",
+   "total": 54,
+   "confidence": 62,
+   "base": 36350,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 67,000원 (현재가 대비 +84.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -628646,11 +628646,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -630198,9 +630198,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 41,
-   "confidence": 32,
-   "base": 7830,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 33,
+   "base": 7900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -630215,7 +630215,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 7,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -631762,11 +631762,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 48,
-   "base": 10960,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 16,500원 (현재가 대비 +50.5% 상승여력)",
+   "total": 56,
+   "confidence": 44,
+   "base": 11180,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 16,500원 (현재가 대비 +47.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -631776,19 +631776,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 48
+    "stance": "bull",
+    "score": 59
    },
    "diana": {
     "stance": "bull",
     "score": 82
    },
    "nova": {
-    "stance": "neu",
-    "score": 45,
+    "stance": "bear",
+    "score": 41,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -633356,11 +633356,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
-   "confidence": 57,
-   "base": 41600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 62,857원 (현재가 대비 +51.1% 상승여력)",
+   "total": 54,
+   "confidence": 58,
+   "base": 41850,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 62,857원 (현재가 대비 +50.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -633370,11 +633370,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 49
    },
    "diana": {
     "stance": "bull",
@@ -634923,9 +634923,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 40,
    "confidence": 38,
-   "base": 19770,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 50,000원 (현재가 대비 +152.9% 상승여력)",
+   "base": 19860,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 50,000원 (현재가 대비 +151.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -636488,9 +636488,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 39,
    "confidence": 30,
-   "base": 48600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 82,667원 (현재가 대비 +70.1% 상승여력)",
+   "base": 48950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 82,667원 (현재가 대비 +68.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -636504,11 +636504,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 13
+    "score": 15
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 69
    },
    "nova": {
     "stance": "neu",
@@ -636516,7 +636516,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -638051,10 +638051,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 37,
-   "confidence": 55,
-   "base": 31600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 41,
+   "confidence": 60,
+   "base": 32300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -638065,11 +638065,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 37,
+   "rawTotal": 41,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 27
    },
    "diana": {
     "stance": "bear",
@@ -638077,9 +638077,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -639616,10 +639616,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 38,
-   "confidence": 40,
-   "base": 53900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 39,
+   "confidence": 41,
+   "base": 55200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -639631,10 +639631,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 42,
-   "riskPenalty": 4,
+   "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 22
    },
    "diana": {
     "stance": "bear",
@@ -641181,11 +641181,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 36,
-   "confidence": 42,
-   "base": 33950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 90,000원 (현재가 대비 +165.1% 상승여력)",
+   "total": 40,
+   "confidence": 54,
+   "base": 35200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 90,000원 (현재가 대비 +155.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -641195,11 +641195,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 44,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 32
    },
    "diana": {
     "stance": "neu",
@@ -641207,7 +641207,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -642748,9 +642748,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 69,
-   "base": 18300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +42.1% 상승여력)",
+   "base": 18410,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +41.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -642768,15 +642768,15 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 49
+    "score": 48
    },
    "nova": {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "bear",
@@ -644312,9 +644312,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 42,
-   "confidence": 40,
-   "base": 39650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 41,
+   "base": 40050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -644329,7 +644329,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -644341,7 +644341,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -645875,12 +645875,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 42,
-   "confidence": 52,
-   "base": 70300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +127.6% 상승여력)",
+   "call": "HOLD",
+   "total": 49,
+   "confidence": 79,
+   "base": 71700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 160,000원 (현재가 대비 +123.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -645890,11 +645890,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 20
+    "stance": "neu",
+    "score": 46
    },
    "diana": {
     "stance": "neu",
@@ -645902,9 +645902,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -647442,9 +647442,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 44,
-   "base": 8010,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 50,
+   "base": 8100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -647459,15 +647459,15 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 20
    },
    "diana": {
     "stance": "neu",
     "score": 44
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 55,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -649008,9 +649008,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 42050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 65,000원 (현재가 대비 +54.6% 상승여력)",
+   "base": 42200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 65,000원 (현재가 대비 +54.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -649036,7 +649036,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -650570,12 +650570,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
-   "confidence": 57,
-   "base": 8940,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 9,175원 (현재가 대비 +2.6% 상승여력)",
+   "call": "BUY",
+   "total": 65,
+   "confidence": 45,
+   "base": 9120,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 9,175원 (현재가 대비 +0.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -650585,19 +650585,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 65,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 75
+    "score": 86
    },
    "diana": {
     "stance": "neu",
-    "score": 47
+    "score": 46
    },
    "nova": {
-    "stance": "bull",
-    "score": 60,
+    "stance": "neu",
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -652136,10 +652136,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
-   "confidence": 45,
-   "base": 7110,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 41,
+   "confidence": 47,
+   "base": 7180,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -652150,11 +652150,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 41,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -652166,7 +652166,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -653703,9 +653703,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 69,
-   "base": 131200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 134,667원 (현재가 대비 +2.6% 상승여력)",
+   "base": 134900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 134,667원 (현재가 대비 -0.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -653719,11 +653719,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 1,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 45
    },
    "diana": {
     "stance": "neu",
-    "score": 53
+    "score": 52
    },
    "nova": {
     "stance": "neu",
@@ -655266,10 +655266,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 35,
-   "confidence": 31,
-   "base": 14200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 42,
+   "confidence": 49,
+   "base": 14530,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -655280,11 +655280,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
-   "riskPenalty": 5,
+   "rawTotal": 46,
+   "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 16
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -656831,11 +656831,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 47,
-   "base": 11500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 17,500원 (현재가 대비 +52.2% 상승여력)",
+   "total": 49,
+   "confidence": 46,
+   "base": 11590,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 17,500원 (현재가 대비 +51.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -656845,11 +656845,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 70
    },
    "diana": {
     "stance": "neu",
@@ -656857,11 +656857,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "bear",
@@ -658397,10 +658397,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 47,
-   "confidence": 64,
-   "base": 5530,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 9,500원 (현재가 대비 +71.8% 상승여력)",
+   "confidence": 66,
+   "base": 5600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 9,500원 (현재가 대비 +69.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -658414,7 +658414,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 42
    },
    "diana": {
     "stance": "neu",
@@ -658426,7 +658426,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -659962,9 +659962,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 37,
-   "confidence": 41,
-   "base": 6220,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 42,
+   "base": 6300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -659979,7 +659979,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bear",
@@ -661526,11 +661526,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 33,
-   "base": 21100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 30,000원 (현재가 대비 +42.2% 상승여력)",
+   "total": 61,
+   "confidence": 30,
+   "base": 21650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 30,000원 (현재가 대비 +38.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -661540,15 +661540,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
-   "riskPenalty": 2,
+   "rawTotal": 62,
+   "riskPenalty": 1,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 91
    },
    "diana": {
     "stance": "bull",
-    "score": 74
+    "score": 73
    },
    "nova": {
     "stance": "neu",
@@ -663092,9 +663092,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 47,
-   "base": 10790,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 48,
+   "base": 10920,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -663109,7 +663109,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bear",
@@ -664657,9 +664657,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 37,
-   "confidence": 43,
-   "base": 11020,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 44,
+   "base": 11130,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -664674,7 +664674,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 16
    },
    "diana": {
     "stance": "bear",
@@ -666223,8 +666223,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 38,
    "confidence": 30,
-   "base": 13990,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 14080,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -667786,11 +667786,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 65,
-   "base": 74500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 123,750원 (현재가 대비 +66.1% 상승여력)",
+   "base": 75300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 123,750원 (현재가 대비 +64.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -667800,11 +667800,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 52
+    "score": 53
    },
    "diana": {
     "stance": "bull",
@@ -667814,9 +667814,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -669353,9 +669353,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 37,
-   "base": 25300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 41,667원 (현재가 대비 +64.7% 상승여력)",
+   "base": 25600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 41,667원 (현재가 대비 +62.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -669369,7 +669369,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 19
    },
    "diana": {
     "stance": "bull",
@@ -669381,7 +669381,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -670916,11 +670916,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 59,
-   "base": 23750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +57.9% 상승여력)",
+   "total": 53,
+   "confidence": 55,
+   "base": 23950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +56.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -670930,11 +670930,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 51
+    "score": 52
    },
    "diana": {
     "stance": "bull",
@@ -670942,11 +670942,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -672483,8 +672483,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 46,
    "confidence": 55,
-   "base": 65900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 66300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -672499,7 +672499,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 35
    },
    "diana": {
     "stance": "bear",
@@ -674045,11 +674045,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 45,
-   "confidence": 51,
-   "base": 5820,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 58,
+   "base": 5880,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -674060,11 +674060,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 27
+    "score": 35
    },
    "diana": {
     "stance": "bear",
@@ -674072,7 +674072,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bull",
-    "score": 61,
+    "score": 62,
     "sector": "로봇",
     "sectorWinRate": 42.2,
     "sectorBlendPct": 74,
@@ -675611,10 +675611,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 67,
-   "base": 30350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 53,
+   "confidence": 73,
+   "base": 30950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -675625,11 +675625,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 39
+    "stance": "bull",
+    "score": 59
    },
    "diana": {
     "stance": "neu",
@@ -675637,7 +675637,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 57,
+    "score": 54,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -677176,10 +677176,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 37,
-   "confidence": 41,
-   "base": 8650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 38,
+   "confidence": 43,
+   "base": 8820,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -677190,11 +677190,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 37,
+   "rawTotal": 38,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 17
    },
    "diana": {
     "stance": "bear",
@@ -678741,11 +678741,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 66,
-   "base": 41500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 61,000원 (현재가 대비 +47.0% 상승여력)",
+   "total": 60,
+   "confidence": 57,
+   "base": 41900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 61,000원 (현재가 대비 +45.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -678755,19 +678755,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 75
    },
    "diana": {
     "stance": "bull",
-    "score": 66
+    "score": 65
    },
    "nova": {
-    "stance": "bull",
-    "score": 60,
+    "stance": "neu",
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -680306,11 +680306,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 31,
-   "base": 62300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 131,400원 (현재가 대비 +110.9% 상승여력)",
+   "total": 37,
+   "confidence": 33,
+   "base": 63500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 131,400원 (현재가 대비 +106.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -680320,11 +680320,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
-   "riskPenalty": 3,
+   "rawTotal": 41,
+   "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -680332,11 +680332,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 46,
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "neu",
@@ -681871,11 +681871,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 53,
-   "base": 29500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +35.6% 상승여력)",
+   "base": 29700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +34.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -681885,11 +681885,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -683436,11 +683436,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 37,
-   "base": 30800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 57,300원 (현재가 대비 +86.0% 상승여력)",
+   "total": 51,
+   "confidence": 47,
+   "base": 32350,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 57,300원 (현재가 대비 +77.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -683450,11 +683450,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -683464,9 +683464,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -685002,10 +685002,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 39,
-   "confidence": 53,
-   "base": 14360,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 43,500원 (현재가 대비 +202.9% 상승여력)",
+   "confidence": 54,
+   "base": 14580,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 43,500원 (현재가 대비 +198.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -685019,7 +685019,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 19
    },
    "diana": {
     "stance": "neu",
@@ -685031,7 +685031,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "neu",
@@ -686566,11 +686566,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 60,
-   "base": 35700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 58,375원 (현재가 대비 +63.5% 상승여력)",
+   "total": 53,
+   "confidence": 58,
+   "base": 36350,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 58,375원 (현재가 대비 +60.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -686580,11 +686580,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 65
+    "score": 67
    },
    "diana": {
     "stance": "bull",
@@ -686596,7 +686596,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -688131,11 +688131,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
-   "confidence": 66,
-   "base": 14000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 23,000원 (현재가 대비 +64.3% 상승여력)",
+   "total": 40,
+   "confidence": 60,
+   "base": 14280,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 23,000원 (현재가 대비 +61.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -688146,10 +688146,10 @@ const LIVE_HISTORY = {
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
    "rawTotal": 44,
-   "riskPenalty": 0,
+   "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 32
    },
    "diana": {
     "stance": "neu",
@@ -688161,7 +688161,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -689698,8 +689698,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 54,
-   "base": 46950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 47600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -689714,7 +689714,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "neu",
-    "score": 50
+    "score": 51
    },
    "diana": {
     "stance": "bear",
@@ -691263,8 +691263,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 61,
    "confidence": 31,
-   "base": 43250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 43550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -692828,8 +692828,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 38,
    "confidence": 52,
-   "base": 25050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 25400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -692854,9 +692854,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -694391,10 +694391,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
+   "total": 62,
    "confidence": 53,
-   "base": 20300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 20400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -694405,11 +694405,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 60
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -694419,9 +694419,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -695957,9 +695957,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 45,
-   "confidence": 51,
-   "base": 44350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 52,
+   "base": 44600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -695974,7 +695974,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 31
    },
    "diana": {
     "stance": "bull",
@@ -697521,11 +697521,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 63,
-   "base": 60000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 85,333원 (현재가 대비 +42.2% 상승여력)",
+   "total": 53,
+   "confidence": 67,
+   "base": 60700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 85,333원 (현재가 대비 +40.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -697535,15 +697535,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 45
    },
    "diana": {
     "stance": "bull",
-    "score": 64
+    "score": 63
    },
    "nova": {
     "stance": "bull",
@@ -699086,11 +699086,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 68,
-   "base": 32950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 50,897원 (현재가 대비 +54.5% 상승여력)",
+   "total": 52,
+   "confidence": 70,
+   "base": 33200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 50,897원 (현재가 대비 +53.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -699100,11 +699100,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -700651,11 +700651,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
-   "confidence": 52,
-   "base": 13040,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 22,500원 (현재가 대비 +72.5% 상승여력)",
+   "total": 46,
+   "confidence": 56,
+   "base": 13430,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 22,500원 (현재가 대비 +67.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -700665,11 +700665,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 38
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -700681,7 +700681,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -702218,9 +702218,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 63,
    "confidence": 33,
-   "base": 30100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 44,333원 (현재가 대비 +47.3% 상승여력)",
+   "base": 30300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 44,333원 (현재가 대비 +46.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -703783,8 +703783,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 37,
    "confidence": 38,
-   "base": 5830,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 5980,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -705348,8 +705348,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 49,
    "confidence": 57,
-   "base": 76900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 77800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -706912,9 +706912,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 33,
-   "confidence": 37,
-   "base": 18970,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 36,
+   "base": 19020,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -706929,7 +706929,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 5,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 17
    },
    "diana": {
     "stance": "bear",
@@ -708505,11 +708505,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 63,
-   "confidence": 44,
-   "base": 11340,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 17,429원 (현재가 대비 +53.7% 상승여력)",
+   "total": 64,
+   "confidence": 46,
+   "base": 11450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 17,429원 (현재가 대비 +52.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -708519,11 +708519,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 64,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 85
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -708531,11 +708531,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -710071,9 +710071,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 34,
-   "confidence": 34,
-   "base": 23850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 35,
+   "base": 24050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -710088,7 +710088,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bear",
@@ -711637,9 +711637,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 65,
-   "base": 27050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 46,000원 (현재가 대비 +70.1% 상승여력)",
+   "base": 27400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 46,000원 (현재가 대비 +67.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -711665,7 +711665,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -713200,10 +713200,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 38,
-   "confidence": 55,
-   "base": 40800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 39,
+   "confidence": 57,
+   "base": 41500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -713214,11 +713214,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 38,
+   "rawTotal": 39,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 21
    },
    "diana": {
     "stance": "bear",
@@ -713230,7 +713230,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -714765,11 +714765,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 48,
-   "base": 21450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 36,083원 (현재가 대비 +68.2% 상승여력)",
+   "total": 52,
+   "confidence": 56,
+   "base": 21800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 36,083원 (현재가 대비 +65.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -714779,11 +714779,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -716330,10 +716330,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 36,
-   "confidence": 45,
-   "base": 28600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 37,
+   "confidence": 47,
+   "base": 28900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -716344,11 +716344,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 21
    },
    "diana": {
     "stance": "neu",
@@ -716360,7 +716360,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -717897,9 +717897,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 37,
-   "base": 37500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 63,500원 (현재가 대비 +69.3% 상승여력)",
+   "base": 38250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 63,500원 (현재가 대비 +66.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -717913,7 +717913,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 23
+    "score": 26
    },
    "diana": {
     "stance": "bull",
@@ -717923,9 +717923,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -719460,11 +719460,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
+   "total": 41,
    "confidence": 37,
-   "base": 8360,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 30,000원 (현재가 대비 +258.9% 상승여력)",
+   "base": 8490,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 30,000원 (현재가 대비 +253.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -719474,11 +719474,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 41,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 16
    },
    "diana": {
     "stance": "bull",
@@ -719490,7 +719490,7 @@ const LIVE_HISTORY = {
     "sector": "통신",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 65,
-    "baseWinRate": 50.1
+    "baseWinRate": 50.2
    },
    "flow": {
     "stance": "neu",
@@ -721025,10 +721025,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 43,
-   "confidence": 54,
-   "base": 133800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 45,
+   "confidence": 66,
+   "base": 136700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -721039,11 +721039,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 46,
    "riskPenalty": 1,
    "taro": {
     "stance": "bear",
-    "score": 29
+    "score": 38
    },
    "diana": {
     "stance": "neu",
@@ -721051,11 +721051,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -722590,10 +722590,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
-   "confidence": 37,
-   "base": 14930,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 42,
+   "confidence": 30,
+   "base": 15150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -722604,11 +722604,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
-   "riskPenalty": 0,
+   "rawTotal": 45,
+   "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 24
    },
    "diana": {
     "stance": "bull",
@@ -724157,9 +724157,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 33,
    "confidence": 31,
-   "base": 17240,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +248.0% 상승여력)",
+   "base": 17460,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +243.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -725720,10 +725720,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 43,
-   "confidence": 56,
-   "base": 7540,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 44,
+   "confidence": 58,
+   "base": 7600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -725734,11 +725734,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 43,
+   "rawTotal": 44,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -725750,7 +725750,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -727285,10 +727285,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 66,
-   "base": 57300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 50,
+   "confidence": 68,
+   "base": 58100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -727299,11 +727299,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 44
+    "score": 46
    },
    "diana": {
     "stance": "bull",
@@ -727313,9 +727313,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -728850,11 +728850,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 63,
+   "total": 64,
    "confidence": 37,
-   "base": 25750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 47,333원 (현재가 대비 +83.8% 상승여력)",
+   "base": 26100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 47,333원 (현재가 대비 +81.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -728864,11 +728864,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 64,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 86
    },
    "diana": {
     "stance": "bull",
@@ -728878,9 +728878,9 @@ const LIVE_HISTORY = {
     "stance": "bear",
     "score": 43,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -730415,11 +730415,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
+   "total": 46,
    "confidence": 37,
-   "base": 41450,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 65,500원 (현재가 대비 +58.0% 상승여력)",
+   "base": 42000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 65,500원 (현재가 대비 +56.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -730429,11 +730429,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 24
    },
    "diana": {
     "stance": "bull",
@@ -731983,7 +731983,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 42,
    "base": 60200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -732010,7 +732010,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -733544,11 +733544,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "BUY",
-   "total": 63,
+   "call": "HOLD",
+   "total": 61,
    "confidence": 37,
-   "base": 11240,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 11480,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -733559,11 +733559,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 63,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 93
+    "score": 86
    },
    "diana": {
     "stance": "bear",
@@ -735112,8 +735112,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 37,
-   "base": 29900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 30300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -735128,7 +735128,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 19
    },
    "diana": {
     "stance": "bull",
@@ -735138,9 +735138,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -736675,10 +736675,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 56,
-   "base": 31850,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 53,
+   "confidence": 54,
+   "base": 32050,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -736689,11 +736689,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 68
    },
    "diana": {
     "stance": "neu",
@@ -738242,8 +738242,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 42,
-   "base": 22500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 22700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -739806,10 +739806,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 77,
-   "base": 9630,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 9,500원 (현재가 대비 -1.3% 상승여력)",
+   "confidence": 76,
+   "base": 9690,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 9,500원 (현재가 대비 -2.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -739823,7 +739823,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 54
+    "score": 55
    },
    "diana": {
     "stance": "neu",
@@ -739833,9 +739833,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -741372,8 +741372,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 37,
    "confidence": 50,
-   "base": 24400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 24750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -742937,9 +742937,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 56,
    "confidence": 34,
-   "base": 38500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 69,000원 (현재가 대비 +79.2% 상승여력)",
+   "base": 39950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 69,000원 (현재가 대비 +72.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -742965,7 +742965,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -744500,10 +744500,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
+   "total": 46,
    "confidence": 75,
-   "base": 17580,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 17860,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -744514,11 +744514,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
-   "riskPenalty": 3,
+   "rawTotal": 48,
+   "riskPenalty": 2,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 48
    },
    "diana": {
     "stance": "neu",
@@ -744530,7 +744530,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -746066,10 +746066,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 44,
-   "confidence": 54,
-   "base": 46800,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 102,000원 (현재가 대비 +117.9% 상승여력)",
+   "confidence": 56,
+   "base": 47700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 102,000원 (현재가 대비 +113.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -746083,7 +746083,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 35
    },
    "diana": {
     "stance": "neu",
@@ -747631,9 +747631,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 46,
-   "confidence": 71,
-   "base": 46750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 72,
+   "base": 47000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -747648,7 +747648,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 39
+    "score": 40
    },
    "diana": {
     "stance": "neu",
@@ -749197,9 +749197,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 55,
    "confidence": 37,
-   "base": 38300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 58,500원 (현재가 대비 +52.7% 상승여력)",
+   "base": 38600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 58,500원 (현재가 대비 +51.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -749213,7 +749213,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -750761,9 +750761,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 54,
-   "confidence": 44,
-   "base": 9560,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 43,
+   "base": 9660,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -750778,7 +750778,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 1,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "bear",
@@ -752325,11 +752325,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
+   "total": 49,
    "confidence": 79,
-   "base": 64600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 112,000원 (현재가 대비 +73.4% 상승여력)",
+   "base": 66300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 112,000원 (현재가 대비 +68.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -752339,11 +752339,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 51
    },
    "diana": {
     "stance": "neu",
@@ -752353,9 +752353,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -753891,9 +753891,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 40,
-   "confidence": 51,
-   "base": 17390,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 52,
+   "base": 17560,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -753908,7 +753908,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 30
+    "score": 31
    },
    "diana": {
     "stance": "bear",
@@ -755457,9 +755457,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 39,
    "confidence": 30,
-   "base": 21400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +124.3% 상승여력)",
+   "base": 21600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 48,000원 (현재가 대비 +122.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -755473,7 +755473,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -755485,7 +755485,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -757020,10 +757020,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 54,
-   "confidence": 43,
-   "base": 14600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 51,
+   "base": 14910,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -757034,11 +757034,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 54,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 36
    },
    "diana": {
     "stance": "bull",
@@ -757046,7 +757046,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "bull",
-    "score": 79,
+    "score": 59,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -758585,10 +758585,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
-   "confidence": 38,
-   "base": 29000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 46,
+   "confidence": 46,
+   "base": 29300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -758599,11 +758599,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 34
    },
    "diana": {
     "stance": "bull",
@@ -758611,11 +758611,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 46,
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -760150,11 +760150,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 62,
-   "base": 53700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 74,000원 (현재가 대비 +37.8% 상승여력)",
+   "total": 49,
+   "confidence": 63,
+   "base": 54600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 74,000원 (현재가 대비 +35.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -760164,11 +760164,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 1,
    "taro": {
     "stance": "neu",
-    "score": 46
+    "score": 49
    },
    "diana": {
     "stance": "bull",
@@ -761715,10 +761715,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 42,
-   "confidence": 55,
-   "base": 36050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 43,
+   "confidence": 59,
+   "base": 36950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -761729,11 +761729,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 2,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 37
    },
    "diana": {
     "stance": "bear",
@@ -763280,10 +763280,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
+   "total": 45,
    "confidence": 57,
-   "base": 7990,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 8070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -763294,11 +763294,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 35
    },
    "diana": {
     "stance": "bear",
@@ -764845,11 +764845,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
+   "total": 48,
    "confidence": 37,
-   "base": 17830,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 32,222원 (현재가 대비 +80.7% 상승여력)",
+   "base": 18150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 32,222원 (현재가 대비 +77.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -764859,11 +764859,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 22
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -766411,10 +766411,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 41,
-   "confidence": 50,
-   "base": 34000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 71,500원 (현재가 대비 +110.3% 상승여력)",
+   "confidence": 51,
+   "base": 34450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 71,500원 (현재가 대비 +107.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -766428,7 +766428,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 37
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -767975,11 +767975,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 33,
-   "base": 16290,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 21,000원 (현재가 대비 +28.9% 상승여력)",
+   "total": 61,
+   "confidence": 32,
+   "base": 16480,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 21,000원 (현재가 대비 +27.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -767989,11 +767989,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 90
+    "score": 91
    },
    "diana": {
     "stance": "neu",
@@ -769542,9 +769542,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 50,
    "confidence": 70,
-   "base": 68900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 85,000원 (현재가 대비 +23.4% 상승여력)",
+   "base": 69400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 85,000원 (현재가 대비 +22.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -771106,9 +771106,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 34,
-   "confidence": 37,
-   "base": 7620,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 39,
+   "base": 7740,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -771123,7 +771123,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 5,
    "taro": {
     "stance": "bear",
-    "score": 18
+    "score": 20
    },
    "diana": {
     "stance": "bear",
@@ -772672,8 +772672,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 37,
    "confidence": 48,
-   "base": 22950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 23100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -772698,9 +772698,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 53,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -774235,10 +774235,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 61,
-   "base": 10630,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 58,
+   "confidence": 64,
+   "base": 10880,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -774249,11 +774249,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 46
+    "stance": "bull",
+    "score": 66
    },
    "diana": {
     "stance": "bull",
@@ -775799,12 +775799,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 57,
-   "confidence": 44,
-   "base": 15780,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 19,600원 (현재가 대비 +24.2% 상승여력)",
+   "call": "BUY",
+   "total": 63,
+   "confidence": 33,
+   "base": 16070,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 19,600원 (현재가 대비 +22.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -775814,11 +775814,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 65,
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 72
+    "score": 91
    },
    "diana": {
     "stance": "bull",
@@ -775828,9 +775828,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -777367,9 +777367,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 36,
    "confidence": 35,
-   "base": 58500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 177,000원 (현재가 대비 +202.6% 상승여력)",
+   "base": 58700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 177,000원 (현재가 대비 +201.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -778930,11 +778930,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 52,
-   "base": 4845,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 8,000원 (현재가 대비 +65.1% 상승여력)",
+   "total": 53,
+   "confidence": 56,
+   "base": 4905,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 8,000원 (현재가 대비 +63.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -778944,11 +778944,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 50
    },
    "diana": {
     "stance": "bull",
@@ -778956,7 +778956,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "화장품·미용",
     "sectorWinRate": 49.7,
     "sectorBlendPct": 75,
@@ -780496,9 +780496,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 40,
-   "confidence": 41,
-   "base": 11300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 42,
+   "base": 11420,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -780513,7 +780513,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bear",
@@ -782061,10 +782061,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 59,
-   "base": 21300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +87.8% 상승여력)",
+   "confidence": 58,
+   "base": 21400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 40,000원 (현재가 대비 +86.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -782078,7 +782078,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 66
+    "score": 67
    },
    "diana": {
     "stance": "neu",
@@ -782090,7 +782090,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -783625,10 +783625,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 42,
+   "total": 43,
    "confidence": 67,
-   "base": 20600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 20750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -783639,11 +783639,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 4,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "bear",
@@ -784790,9 +784790,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 49,
    "confidence": 82,
-   "base": 6330,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,700원 (현재가 대비 +21.6% 상승여력)",
+   "base": 6340,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,700원 (현재가 대비 +21.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -784816,9 +784816,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 51,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -785397,11 +785397,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 49,
-   "base": 15400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 23,531원 (현재가 대비 +52.8% 상승여력)",
+   "total": 62,
+   "confidence": 52,
+   "base": 15610,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 23,531원 (현재가 대비 +50.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -785411,11 +785411,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 65
    },
    "diana": {
     "stance": "bull",
@@ -785423,7 +785423,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 52,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -786006,10 +786006,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 58,
-   "base": 11820,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 53,
+   "confidence": 57,
+   "base": 11900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -786020,11 +786020,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bear",
@@ -786032,7 +786032,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 47,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -786616,9 +786616,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 58,
-   "confidence": 39,
-   "base": 8510,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 37,
+   "base": 8710,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -786633,7 +786633,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 81
+    "score": 83
    },
    "diana": {
     "stance": "bear",
@@ -786643,9 +786643,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -787224,10 +787224,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 43,
+   "total": 60,
+   "confidence": 41,
    "base": 207000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -787238,11 +787238,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -787835,9 +787835,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 58,
    "confidence": 57,
-   "base": 9180,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 12,143원 (현재가 대비 +32.3% 상승여력)",
+   "base": 9220,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 12,143원 (현재가 대비 +31.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -787851,7 +787851,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 63
    },
    "diana": {
     "stance": "bull",
@@ -787861,9 +787861,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -788444,8 +788444,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 55,
    "confidence": 48,
-   "base": 99000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 98700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -789053,8 +789053,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 48,
-   "base": 16140,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 16160,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -789660,11 +789660,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
+   "total": 48,
    "confidence": 37,
-   "base": 37400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 66,000원 (현재가 대비 +76.5% 상승여력)",
+   "base": 37450,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 66,000원 (현재가 대비 +76.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -789674,19 +789674,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 28
+    "score": 29
    },
    "diana": {
     "stance": "bull",
     "score": 82
    },
    "nova": {
-    "stance": "bull",
-    "score": 59,
+    "stance": "neu",
+    "score": 55,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -790269,11 +790269,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 51,
-   "base": 4745,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 5,600원 (현재가 대비 +18.0% 상승여력)",
+   "total": 62,
+   "confidence": 48,
+   "base": 4725,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 5,600원 (현재가 대비 +18.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -790283,15 +790283,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 84
    },
    "diana": {
     "stance": "neu",
-    "score": 46
+    "score": 47
    },
    "nova": {
     "stance": "neu",
@@ -790299,7 +790299,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -790878,10 +790878,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 34,
+   "total": 35,
    "confidence": 30,
-   "base": 11210,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 11410,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -790892,11 +790892,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 38,
+   "rawTotal": 39,
    "riskPenalty": 4,
    "taro": {
     "stance": "bear",
-    "score": 7
+    "score": 8
    },
    "diana": {
     "stance": "bull",
@@ -791487,10 +791487,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
-   "confidence": 66,
-   "base": 5050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 58,
+   "confidence": 53,
+   "base": 5080,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -791501,19 +791501,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 69
+    "score": 77
    },
    "diana": {
     "stance": "bull",
     "score": 64
    },
    "nova": {
-    "stance": "neu",
-    "score": 47,
+    "stance": "bear",
+    "score": 42,
     "sector": "기계",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 70,
@@ -792097,10 +792097,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 47,
-   "confidence": 65,
-   "base": 26300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +42.6% 상승여력)",
+   "confidence": 66,
+   "base": 26400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +42.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -792118,7 +792118,7 @@ const LIVE_HISTORY = {
    },
    "diana": {
     "stance": "neu",
-    "score": 57
+    "score": 56
    },
    "nova": {
     "stance": "neu",
@@ -792126,7 +792126,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -792706,10 +792706,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 63,
-   "base": 36650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 55,000원 (현재가 대비 +50.1% 상승여력)",
+   "confidence": 64,
+   "base": 37000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 55,000원 (현재가 대비 +48.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -792723,7 +792723,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 41
+    "score": 42
    },
    "diana": {
     "stance": "bull",
@@ -793315,10 +793315,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 75,
-   "base": 16170,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 27,000원 (현재가 대비 +67.0% 상승여력)",
+   "confidence": 73,
+   "base": 16300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 27,000원 (현재가 대비 +65.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -793332,7 +793332,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 57
    },
    "diana": {
     "stance": "neu",
@@ -793923,10 +793923,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 50,
-   "confidence": 72,
-   "base": 25050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 51,
+   "confidence": 71,
+   "base": 25150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -793937,11 +793937,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 50,
+   "rawTotal": 51,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 58
+    "score": 59
    },
    "diana": {
     "stance": "neu",
@@ -793953,7 +793953,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -794532,11 +794532,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 48,
-   "base": 39600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +51.5% 상승여력)",
+   "total": 53,
+   "confidence": 51,
+   "base": 39750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +50.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -794546,11 +794546,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 48
    },
    "diana": {
     "stance": "bull",
@@ -794558,7 +794558,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 49,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -795141,11 +795141,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 49,
-   "base": 9500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 15,667원 (현재가 대비 +64.9% 상승여력)",
+   "base": 9540,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 15,667원 (현재가 대비 +64.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -795155,11 +795155,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -795751,10 +795751,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 65,
-   "confidence": 51,
-   "base": 144200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 199,500원 (현재가 대비 +38.3% 상승여력)",
+   "confidence": 52,
+   "base": 145300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 199,500원 (현재가 대비 +37.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -795768,11 +795768,11 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 85
    },
    "diana": {
     "stance": "bull",
-    "score": 86
+    "score": 85
    },
    "nova": {
     "stance": "neu",
@@ -795780,7 +795780,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -796359,11 +796359,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 58,
-   "base": 39350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 51,500원 (현재가 대비 +30.9% 상승여력)",
+   "base": 39600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 51,500원 (현재가 대비 +30.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -796373,11 +796373,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 71
    },
    "diana": {
     "stance": "bull",
@@ -796968,11 +796968,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 44,
-   "base": 10510,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 15,667원 (현재가 대비 +49.1% 상승여력)",
+   "total": 62,
+   "confidence": 42,
+   "base": 10650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 15,667원 (현재가 대비 +47.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -796982,11 +796982,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -796998,7 +796998,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -797577,10 +797577,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
-   "confidence": 57,
-   "base": 37250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 60,
+   "confidence": 42,
+   "base": 37700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -797591,11 +797591,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 60,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -797607,7 +797607,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -798187,10 +798187,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 79,
-   "base": 9810,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 13,100원 (현재가 대비 +33.5% 상승여력)",
+   "confidence": 80,
+   "base": 9800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 13,100원 (현재가 대비 +33.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -798204,7 +798204,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 46
    },
    "diana": {
     "stance": "neu",
@@ -798216,7 +798216,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -798795,10 +798795,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 64,
-   "base": 40650,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 57,
+   "confidence": 57,
+   "base": 40750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -798809,11 +798809,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 57,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 77
    },
    "diana": {
     "stance": "neu",
@@ -798821,7 +798821,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -799403,11 +799403,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 46,
-   "base": 18890,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 48,
+   "base": 19020,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -799418,11 +799418,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -799432,9 +799432,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -800013,10 +800013,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 57,
-   "base": 3360,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 59,
+   "confidence": 58,
+   "base": 3380,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -800027,11 +800027,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "neu",
@@ -800039,11 +800039,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 46,
+    "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -800622,10 +800622,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
+   "total": 52,
    "confidence": 52,
    "base": 1487,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -800636,11 +800636,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 57
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "bull",
@@ -801230,11 +801230,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 62,
-   "confidence": 49,
-   "base": 8570,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "BUY",
+   "total": 63,
+   "confidence": 48,
+   "base": 8620,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -801245,11 +801245,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 62,
+   "rawTotal": 63,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 85
    },
    "diana": {
     "stance": "bull",
@@ -801843,7 +801843,7 @@ const LIVE_HISTORY = {
    "total": 48,
    "confidence": 52,
    "base": 5980,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -801868,7 +801868,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 52,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -802449,10 +802449,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
-   "confidence": 69,
-   "base": 6240,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 53,
+   "confidence": 70,
+   "base": 6310,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -802463,11 +802463,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 48
+    "score": 51
    },
    "diana": {
     "stance": "bull",
@@ -803058,10 +803058,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 49,
-   "base": 21000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 48,
+   "confidence": 56,
+   "base": 21150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -803072,11 +803072,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 48,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 41
    },
    "diana": {
     "stance": "bull",
@@ -803084,7 +803084,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 45,
     "sector": "전력·에너지",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 75,
@@ -803669,9 +803669,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 54,
    "confidence": 45,
-   "base": 26300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +42.6% 상승여력)",
+   "base": 26200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 37,500원 (현재가 대비 +43.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -804276,10 +804276,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 61,
-   "base": 26950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 50,
+   "confidence": 62,
+   "base": 27000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -804290,11 +804290,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -804304,9 +804304,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -804885,11 +804885,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
+   "total": 43,
    "confidence": 37,
-   "base": 7770,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 10,500원 (현재가 대비 +35.1% 상승여력)",
+   "base": 7780,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 10,500원 (현재가 대비 +35.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -804899,11 +804899,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 43,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 19
+    "score": 20
    },
    "diana": {
     "stance": "bull",
@@ -804911,9 +804911,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -805494,10 +805494,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 48,
-   "confidence": 44,
-   "base": 11490,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 51,
+   "base": 11580,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -805508,11 +805508,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 48,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 32
+    "score": 39
    },
    "diana": {
     "stance": "bull",
@@ -805520,9 +805520,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -806104,9 +806104,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 65,
-   "confidence": 58,
-   "base": 12020,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 57,
+   "base": 12060,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -806121,7 +806121,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 78
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -806713,10 +806713,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 59,
-   "confidence": 32,
-   "base": 6180,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,500원 (현재가 대비 +21.4% 상승여력)",
+   "confidence": 38,
+   "base": 6310,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,500원 (현재가 대비 +18.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -806730,19 +806730,19 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 89
+    "score": 86
    },
    "diana": {
     "stance": "neu",
     "score": 47
    },
    "nova": {
-    "stance": "bear",
-    "score": 43,
+    "stance": "neu",
+    "score": 46,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -807322,9 +807322,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 42,
-   "confidence": 48,
-   "base": 5560,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 50,
+   "base": 5630,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -807339,7 +807339,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 21
+    "score": 23
    },
    "diana": {
     "stance": "bull",
@@ -807347,9 +807347,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -807930,10 +807930,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 49,
-   "confidence": 77,
-   "base": 11520,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 55,
+   "confidence": 68,
+   "base": 11740,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -807944,11 +807944,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 49,
+   "rawTotal": 55,
    "riskPenalty": 0,
    "taro": {
-    "stance": "neu",
-    "score": 49
+    "stance": "bull",
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -807956,7 +807956,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 47,
+    "score": 48,
     "sector": "화장품·미용",
     "sectorWinRate": 49.7,
     "sectorBlendPct": 75,
@@ -808540,9 +808540,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 83,
-   "base": 8350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 84,
+   "base": 8400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -808557,7 +808557,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 50
    },
    "diana": {
     "stance": "neu",
@@ -809148,11 +809148,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 54,
-   "base": 1158,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 1,800원 (현재가 대비 +55.4% 상승여력)",
+   "total": 61,
+   "confidence": 52,
+   "base": 1167,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 1,800원 (현재가 대비 +54.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -809162,11 +809162,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -809174,7 +809174,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 46,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -809759,8 +809759,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 59,
    "confidence": 51,
-   "base": 4135,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 4140,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -810367,9 +810367,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 62,
-   "confidence": 50,
-   "base": 6440,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 49,
+   "base": 6470,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -810384,7 +810384,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 86
+    "score": 87
    },
    "diana": {
     "stance": "neu",
@@ -810976,9 +810976,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 50,
-   "confidence": 60,
-   "base": 9880,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 59,
+   "base": 10000,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -810993,7 +810993,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 45
+    "score": 47
    },
    "diana": {
     "stance": "bull",
@@ -811001,7 +811001,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 45,
+    "score": 44,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
@@ -811584,10 +811584,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
-   "confidence": 64,
-   "base": 4490,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 62,
+   "confidence": 55,
+   "base": 4495,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -811598,11 +811598,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 70
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -811610,7 +811610,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "화학·소재",
     "sectorWinRate": 47.0,
     "sectorBlendPct": 75,
@@ -812193,11 +812193,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 60,
+   "total": 61,
    "confidence": 44,
-   "base": 35750,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 45,667원 (현재가 대비 +27.7% 상승여력)",
+   "base": 35950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 45,667원 (현재가 대비 +27.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -812207,11 +812207,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 60,
+   "rawTotal": 61,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 79
    },
    "diana": {
     "stance": "bull",
@@ -812223,7 +812223,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -812802,10 +812802,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 44,
-   "base": 12950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 59,
+   "confidence": 42,
+   "base": 13170,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -812816,11 +812816,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 84
+    "score": 86
    },
    "diana": {
     "stance": "neu",
@@ -812832,7 +812832,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "bear",
@@ -813412,10 +813412,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 73,
-   "base": 4620,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 5,090원 (현재가 대비 +10.2% 상승여력)",
+   "confidence": 75,
+   "base": 4690,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 5,090원 (현재가 대비 +8.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -813429,19 +813429,19 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 55
+    "score": 56
    },
    "diana": {
     "stance": "bull",
-    "score": 61
+    "score": 60
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 50,
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -814022,9 +814022,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 64,
    "confidence": 42,
-   "base": 6040,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 7,750원 (현재가 대비 +28.3% 상승여력)",
+   "base": 6060,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 7,750원 (현재가 대비 +27.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -814050,7 +814050,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -814629,11 +814629,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "BUY",
-   "total": 65,
+   "total": 66,
    "confidence": 53,
-   "base": 18320,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +41.9% 상승여력)",
+   "base": 18400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 26,000원 (현재가 대비 +41.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -814643,11 +814643,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 65,
+   "rawTotal": 66,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 77
+    "score": 78
    },
    "diana": {
     "stance": "bull",
@@ -815240,9 +815240,9 @@ const LIVE_HISTORY = {
    "call": "BUY",
    "total": 64,
    "confidence": 51,
-   "base": 2595,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 3,650원 (현재가 대비 +40.7% 상승여력)",
+   "base": 2605,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 3,650원 (현재가 대비 +40.1% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -815848,9 +815848,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 70,
-   "base": 55250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 69,
+   "base": 55300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -815865,7 +815865,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 67
+    "score": 68
    },
    "diana": {
     "stance": "bull",
@@ -816456,10 +816456,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 81,
-   "base": 30300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 78,
+   "base": 30500,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -816470,11 +816470,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 43
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "neu",
@@ -816482,7 +816482,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 50,
+    "score": 54,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -817065,10 +817065,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 56,
-   "confidence": 59,
-   "base": 2010,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 62,
+   "confidence": 47,
+   "base": 2030,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -817079,11 +817079,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 82
    },
    "diana": {
     "stance": "bull",
@@ -817673,11 +817673,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 56,
-   "confidence": 58,
-   "base": 7240,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "BUY",
+   "total": 64,
+   "confidence": 44,
+   "base": 7340,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -817688,11 +817688,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 56,
+   "rawTotal": 64,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 62
+    "score": 87
    },
    "diana": {
     "stance": "bull",
@@ -818282,12 +818282,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
+   "call": "HOLD",
+   "total": 47,
    "confidence": 48,
-   "base": 16570,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 32,000원 (현재가 대비 +93.1% 상승여력)",
+   "base": 16700,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 32,000원 (현재가 대비 +91.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -818297,11 +818297,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 53,
    "riskPenalty": 6,
    "taro": {
     "stance": "neu",
-    "score": 53
+    "score": 54
    },
    "diana": {
     "stance": "bull",
@@ -818309,9 +818309,9 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 49,
+    "score": 52,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -818892,10 +818892,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 53,
+   "total": 54,
    "confidence": 64,
-   "base": 19350,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 19380,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -818906,11 +818906,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 53,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 49
+    "score": 55
    },
    "diana": {
     "stance": "bull",
@@ -818918,7 +818918,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 49,
     "sector": "금융·증권",
     "sectorWinRate": 48.8,
     "sectorBlendPct": 75,
@@ -819503,8 +819503,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 55,
    "confidence": 61,
-   "base": 1540,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 1545,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -819531,7 +819531,7 @@ const LIVE_HISTORY = {
     "sector": "여행레저",
     "sectorWinRate": 43.5,
     "sectorBlendPct": 70,
-    "baseWinRate": 44.9
+    "baseWinRate": 45.0
    },
    "flow": {
     "stance": "neu",
@@ -820110,10 +820110,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 47,
-   "confidence": 48,
-   "base": 10330,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 49,
+   "confidence": 55,
+   "base": 10390,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -820124,11 +820124,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -820136,11 +820136,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -820719,11 +820719,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 52,
-   "base": 8490,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 11,300원 (현재가 대비 +33.1% 상승여력)",
+   "total": 59,
+   "confidence": 50,
+   "base": 8540,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 11,300원 (현재가 대비 +32.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -820733,11 +820733,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 81
    },
    "diana": {
     "stance": "neu",
@@ -820749,7 +820749,7 @@ const LIVE_HISTORY = {
     "sector": "철강·금속",
     "sectorWinRate": 48.7,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.7
+    "baseWinRate": 48.6
    },
    "flow": {
     "stance": "neu",
@@ -821329,10 +821329,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 59,
-   "base": 18490,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 27,167원 (현재가 대비 +46.9% 상승여력)",
+   "confidence": 62,
+   "base": 18640,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 27,167원 (현재가 대비 +45.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -821346,19 +821346,19 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
-    "score": 47
+    "score": 49
    },
    "diana": {
     "stance": "bull",
-    "score": 76
+    "score": 75
    },
    "nova": {
     "stance": "neu",
-    "score": 53,
+    "score": 50,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -821936,11 +821936,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 38,
-   "base": 79900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 45,
+   "base": 80400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -821951,11 +821951,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 26
+    "score": 33
    },
    "diana": {
     "stance": "bull",
@@ -821963,7 +821963,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 48,
     "sector": "물류·운송",
     "sectorWinRate": 49.0,
     "sectorBlendPct": 72,
@@ -822546,10 +822546,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 82,
+   "total": 50,
+   "confidence": 84,
    "base": 43250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -822560,7 +822560,7 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 50,
    "riskPenalty": 0,
    "taro": {
     "stance": "neu",
@@ -822572,7 +822572,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 54,
+    "score": 50,
     "sector": "식음료",
     "sectorWinRate": 47.8,
     "sectorBlendPct": 75,
@@ -823156,9 +823156,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 57,
-   "confidence": 43,
-   "base": 11110,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 41,
+   "base": 11190,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -823173,7 +823173,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 83
+    "score": 85
    },
    "diana": {
     "stance": "bear",
@@ -823764,10 +823764,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 59,
-   "confidence": 59,
-   "base": 13460,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 58,
+   "confidence": 60,
+   "base": 13470,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -823778,11 +823778,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 59,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 73
    },
    "diana": {
     "stance": "bull",
@@ -824372,12 +824372,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 44,
-   "confidence": 66,
-   "base": 14780,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 19,000원 (현재가 대비 +28.6% 상승여력)",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 73,
+   "base": 14870,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 19,000원 (현재가 대비 +27.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -824387,11 +824387,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 31
+    "score": 38
    },
    "diana": {
     "stance": "neu",
@@ -824399,7 +824399,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 48,
+    "score": 53,
     "sector": "물류·운송",
     "sectorWinRate": 49.0,
     "sectorBlendPct": 72,
@@ -824985,7 +824985,7 @@ const LIVE_HISTORY = {
    "total": 54,
    "confidence": 50,
    "base": 8130,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 13,000원 (현재가 대비 +59.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -825010,9 +825010,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 44,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -825591,10 +825591,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 58,
-   "base": 18700,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 62,
+   "confidence": 57,
+   "base": 18800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -825605,11 +825605,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 79
+    "score": 80
    },
    "diana": {
     "stance": "bull",
@@ -825617,7 +825617,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 52,
+    "score": 56,
     "sector": "바이오·제약",
     "sectorWinRate": 43.7,
     "sectorBlendPct": 75,
@@ -826201,9 +826201,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "BUY",
    "total": 63,
-   "confidence": 42,
-   "base": 4385,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 41,
+   "base": 4405,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -826218,7 +826218,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 88
+    "score": 89
    },
    "diana": {
     "stance": "bull",
@@ -826228,7 +826228,7 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 45,
     "sector": "자동차·부품",
-    "sectorWinRate": 49.3,
+    "sectorWinRate": 49.4,
     "sectorBlendPct": 75,
     "baseWinRate": 49.1
    },
@@ -826810,9 +826810,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 46,
-   "confidence": 69,
+   "confidence": 70,
    "base": 9420,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 13,000원 (현재가 대비 +38.0% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -826827,7 +826827,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "neu",
@@ -826839,7 +826839,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -827418,10 +827418,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
+   "total": 40,
    "confidence": 30,
-   "base": 54600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 55300,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -827432,11 +827432,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 42,
+   "rawTotal": 43,
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 16
    },
    "diana": {
     "stance": "bull",
@@ -828030,7 +828030,7 @@ const LIVE_HISTORY = {
    "total": 53,
    "confidence": 77,
    "base": 12190,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "증권사 평균 목표주가 17,500원 (현재가 대비 +43.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -828637,9 +828637,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 43,
-   "confidence": 33,
-   "base": 21200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 34,
+   "base": 21250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -828654,7 +828654,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 25
+    "score": 26
    },
    "diana": {
     "stance": "bull",
@@ -829245,10 +829245,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 57,
+   "total": 58,
    "confidence": 65,
-   "base": 8290,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 8370,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -829259,11 +829259,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 57,
+   "rawTotal": 58,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 68
+    "score": 70
    },
    "diana": {
     "stance": "bull",
@@ -829275,7 +829275,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -829856,8 +829856,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 43,
    "confidence": 69,
-   "base": 15430,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 15530,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -830462,11 +830462,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
+   "call": "HOLD",
+   "total": 52,
    "confidence": 73,
-   "base": 11680,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 11720,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -830477,11 +830477,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 39
+    "stance": "bull",
+    "score": 58
    },
    "diana": {
     "stance": "neu",
@@ -831072,10 +831072,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 55,
+   "total": 56,
    "confidence": 64,
-   "base": 3935,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 3950,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -831086,11 +831086,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 55,
+   "rawTotal": 56,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 61
+    "score": 62
    },
    "diana": {
     "stance": "bull",
@@ -831683,8 +831683,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 47,
-   "base": 4155,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 4200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -832291,9 +832291,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 58,
-   "confidence": 37,
-   "base": 8280,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 36,
+   "base": 8310,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -832308,7 +832308,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 1,
    "taro": {
     "stance": "bull",
-    "score": 87
+    "score": 88
    },
    "diana": {
     "stance": "neu",
@@ -832900,10 +832900,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 52,
-   "confidence": 41,
-   "base": 16910,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 33,500원 (현재가 대비 +98.1% 상승여력)",
+   "confidence": 42,
+   "base": 17120,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 33,500원 (현재가 대비 +95.7% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -832917,7 +832917,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 42
+    "score": 43
    },
    "diana": {
     "stance": "bull",
@@ -833509,9 +833509,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 51,
-   "confidence": 43,
-   "base": 25500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 42,
+   "base": 25650,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -833526,7 +833526,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bull",
-    "score": 73
+    "score": 74
    },
    "diana": {
     "stance": "bear",
@@ -833538,7 +833538,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -834119,8 +834119,8 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 57,
    "confidence": 60,
-   "base": 104000,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 103900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -834728,9 +834728,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 47,
    "confidence": 37,
-   "base": 20250,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +72.8% 상승여력)",
+   "base": 20400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 35,000원 (현재가 대비 +71.6% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -834744,7 +834744,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -834754,9 +834754,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 50,
     "sector": "전자·부품",
-    "sectorWinRate": 50.8,
+    "sectorWinRate": 50.9,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.2
+    "baseWinRate": 50.3
    },
    "flow": {
     "stance": "neu",
@@ -835335,11 +835335,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 58,
-   "confidence": 55,
-   "base": 39300,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 41,667원 (현재가 대비 +6.0% 상승여력)",
+   "total": 59,
+   "confidence": 45,
+   "base": 39750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 41,667원 (현재가 대비 +4.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -835349,19 +835349,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 58,
+   "rawTotal": 59,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 74
+    "score": 83
    },
    "diana": {
-    "stance": "neu",
-    "score": 44
+    "stance": "bear",
+    "score": 43
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 50,
     "sector": "2차전지",
     "sectorWinRate": 45.6,
     "sectorBlendPct": 75,
@@ -835945,10 +835945,10 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "HOLD",
    "total": 53,
-   "confidence": 64,
-   "base": 36600,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 52,500원 (현재가 대비 +43.4% 상승여력)",
+   "confidence": 63,
+   "base": 36900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 52,500원 (현재가 대비 +42.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -835962,7 +835962,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 2,
    "taro": {
     "stance": "bull",
-    "score": 63
+    "score": 64
    },
    "diana": {
     "stance": "neu",
@@ -836553,11 +836553,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 44,
-   "confidence": 53,
-   "base": 16190,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 36,000원 (현재가 대비 +122.4% 상승여력)",
+   "total": 45,
+   "confidence": 55,
+   "base": 16370,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 36,000원 (현재가 대비 +119.9% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -836567,11 +836567,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 44,
+   "rawTotal": 45,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 26
    },
    "diana": {
     "stance": "neu",
@@ -837162,11 +837162,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 39,
-   "base": 29150,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 47,534원 (현재가 대비 +63.1% 상승여력)",
+   "total": 52,
+   "confidence": 41,
+   "base": 29750,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 47,534원 (현재가 대비 +59.8% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -837176,11 +837176,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 36
+    "score": 38
    },
    "diana": {
     "stance": "bull",
@@ -837771,11 +837771,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 39,
-   "confidence": 50,
-   "base": 29950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 50,000원 (현재가 대비 +66.9% 상승여력)",
+   "total": 40,
+   "confidence": 52,
+   "base": 30800,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 50,000원 (현재가 대비 +62.3% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -837785,11 +837785,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 39,
+   "rawTotal": 40,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 15
+    "score": 17
    },
    "diana": {
     "stance": "neu",
@@ -837801,7 +837801,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -838379,12 +838379,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "HOLD",
-   "total": 47,
+   "call": "SELL",
+   "total": 46,
    "confidence": 40,
-   "base": 35200,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +70.5% 상승여력)",
+   "base": 35600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 60,000원 (현재가 대비 +68.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -838394,11 +838394,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 47,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 24
+    "score": 25
    },
    "diana": {
     "stance": "bull",
@@ -838406,11 +838406,11 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 51,
+    "score": 47,
     "sector": "유통·소비재",
-    "sectorWinRate": 49.9,
+    "sectorWinRate": 50.0,
     "sectorBlendPct": 75,
-    "baseWinRate": 49.5
+    "baseWinRate": 49.6
    },
    "flow": {
     "stance": "neu",
@@ -838989,11 +838989,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 52,
+   "total": 54,
    "confidence": 40,
-   "base": 17640,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 26,714원 (현재가 대비 +51.4% 상승여력)",
+   "base": 17880,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 26,714원 (현재가 대비 +49.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -839003,19 +839003,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 52,
+   "rawTotal": 54,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 41
    },
    "diana": {
     "stance": "bull",
     "score": 91
    },
    "nova": {
-    "stance": "bull",
-    "score": 61,
+    "stance": "neu",
+    "score": 57,
     "sector": "게임·엔터",
     "sectorWinRate": 42.4,
     "sectorBlendPct": 75,
@@ -839600,8 +839600,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 33,
    "confidence": 30,
-   "base": 16530,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 16550,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -840207,10 +840207,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 40,
-   "confidence": 38,
-   "base": 8050,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 41,
+   "confidence": 40,
+   "base": 8150,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -840221,11 +840221,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 40,
+   "rawTotal": 41,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 14
+    "score": 16
    },
    "diana": {
     "stance": "bear",
@@ -840818,9 +840818,9 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 45,
    "confidence": 37,
-   "base": 30900,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 60,667원 (현재가 대비 +96.3% 상승여력)",
+   "base": 31200,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 60,667원 (현재가 대비 +94.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -840834,7 +840834,7 @@ const LIVE_HISTORY = {
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 17
+    "score": 18
    },
    "diana": {
     "stance": "bull",
@@ -840846,7 +840846,7 @@ const LIVE_HISTORY = {
     "sector": "반도체",
     "sectorWinRate": 51.1,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.4
+    "baseWinRate": 50.5
    },
    "flow": {
     "stance": "neu",
@@ -841425,10 +841425,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 61,
-   "confidence": 45,
-   "base": 34100,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 62,
+   "confidence": 47,
+   "base": 34400,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -841439,19 +841439,19 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 61,
+   "rawTotal": 62,
    "riskPenalty": 0,
    "taro": {
     "stance": "bull",
-    "score": 82
+    "score": 84
    },
    "diana": {
     "stance": "bull",
     "score": 73
    },
    "nova": {
-    "stance": "bear",
-    "score": 42,
+    "stance": "neu",
+    "score": 46,
     "sector": "기계",
     "sectorWinRate": 51.4,
     "sectorBlendPct": 70,
@@ -842034,10 +842034,10 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "SELL",
-   "total": 45,
-   "confidence": 57,
-   "base": 13130,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "total": 46,
+   "confidence": 64,
+   "base": 13240,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -842048,11 +842048,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 45,
+   "rawTotal": 46,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 29
+    "score": 36
    },
    "diana": {
     "stance": "neu",
@@ -842060,7 +842060,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 55,
+    "score": 51,
     "sector": "조선",
     "sectorWinRate": 47.1,
     "sectorBlendPct": 75,
@@ -842642,12 +842642,12 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 50,
-   "base": 12280,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +46.6% 상승여력)",
+   "call": "HOLD",
+   "total": 47,
+   "confidence": 52,
+   "base": 12460,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 18,000원 (현재가 대비 +44.5% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -842657,15 +842657,15 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 47,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 40
+    "score": 41
    },
    "diana": {
     "stance": "bull",
-    "score": 75
+    "score": 74
    },
    "nova": {
     "stance": "neu",
@@ -843253,9 +843253,9 @@ const LIVE_HISTORY = {
    "date": "2026-09-04",
    "call": "SELL",
    "total": 43,
-   "confidence": 59,
-   "base": 59500,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "confidence": 60,
+   "base": 59900,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -843270,17 +843270,17 @@ const LIVE_HISTORY = {
    "riskPenalty": 3,
    "taro": {
     "stance": "bear",
-    "score": 34
+    "score": 35
    },
    "diana": {
     "stance": "neu",
-    "score": 53
+    "score": 47
    },
    "nova": {
     "stance": "neu",
     "score": 53,
     "sector": "방산",
-    "sectorWinRate": 48.8,
+    "sectorWinRate": 48.9,
     "sectorBlendPct": 70,
     "baseWinRate": 48.7
    },
@@ -843863,8 +843863,8 @@ const LIVE_HISTORY = {
    "call": "SELL",
    "total": 44,
    "confidence": 58,
-   "base": 43400,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "base": 43600,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -844470,11 +844470,11 @@ const LIVE_HISTORY = {
   {
    "date": "2026-09-04",
    "call": "HOLD",
-   "total": 51,
-   "confidence": 46,
-   "base": 17380,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 31,875원 (현재가 대비 +83.4% 상승여력)",
+   "total": 52,
+   "confidence": 48,
+   "base": 17590,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 31,875원 (현재가 대비 +81.2% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -844484,11 +844484,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 51,
+   "rawTotal": 52,
    "riskPenalty": 0,
    "taro": {
-    "stance": "bear",
-    "score": 42
+    "stance": "neu",
+    "score": 44
    },
    "diana": {
     "stance": "bull",
@@ -844498,9 +844498,9 @@ const LIVE_HISTORY = {
     "stance": "neu",
     "score": 49,
     "sector": "인터넷·IT",
-    "sectorWinRate": 48.3,
+    "sectorWinRate": 48.4,
     "sectorBlendPct": 75,
-    "baseWinRate": 48.3
+    "baseWinRate": 48.4
    },
    "flow": {
     "stance": "neu",
@@ -844679,9 +844679,9 @@ const LIVE_HISTORY = {
    "call": "HOLD",
    "total": 51,
    "confidence": 50,
-   "base": 11230,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
-   "target": "증권사 평균 목표주가 14,000원 (현재가 대비 +24.7% 상승여력)",
+   "base": 11250,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
+   "target": "증권사 평균 목표주가 14,000원 (현재가 대비 +24.4% 상승여력)",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
    "judgmentWithheld": null,
@@ -844707,7 +844707,7 @@ const LIVE_HISTORY = {
     "sector": "건설·건자재",
     "sectorWinRate": 51.3,
     "sectorBlendPct": 75,
-    "baseWinRate": 50.5
+    "baseWinRate": 50.6
    },
    "flow": {
     "stance": "neu",
@@ -844883,11 +844883,11 @@ const LIVE_HISTORY = {
   },
   {
    "date": "2026-09-04",
-   "call": "SELL",
-   "total": 46,
-   "confidence": 48,
-   "base": 21950,
-   "baseAt": "2026-09-04 10:33 장중 · ⚠️ 1종목 지연",
+   "call": "HOLD",
+   "total": 49,
+   "confidence": 55,
+   "base": 22100,
+   "baseAt": "2026-09-04 11:09 장중 · ⚠️ 1종목 지연",
    "target": "컨센서스 목표주가 미제공 — 기술적 지지·저항선 참고",
    "modelVersion": "baseline-risk-v2",
    "baseModelVersion": "base-2026-08-15-parity-hotfix",
@@ -844898,11 +844898,11 @@ const LIVE_HISTORY = {
     "sellThreshold": 47,
     "reason": "반등 레짐 확인 조건에 해당하지 않습니다."
    },
-   "rawTotal": 46,
+   "rawTotal": 49,
    "riskPenalty": 0,
    "taro": {
     "stance": "bear",
-    "score": 33
+    "score": 40
    },
    "diana": {
     "stance": "bull",
@@ -844910,7 +844910,7 @@ const LIVE_HISTORY = {
    },
    "nova": {
     "stance": "neu",
-    "score": 44,
+    "score": 49,
     "sector": "지주·상사",
     "sectorWinRate": 51.9,
     "sectorBlendPct": 75,
