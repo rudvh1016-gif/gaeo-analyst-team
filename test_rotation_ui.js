@@ -114,8 +114,17 @@ assert.match(rendered, /현재 반도체에 힘이 모입니다\./);
 assert.match(rendered, /예측 화면이 아니라 현재 흐름 참고 화면입니다\./);
 assert.match(rendered, /class="rot-hero-summary"[^>]*>현재 반도체에 힘이 모입니다\.<\/p>\s*<p class="rot-hero-score-note"[^>]*>종합점수 61점은 업종 간 상대 위치이며 확률이 아닙니다\.<\/p>/);
 assert.doesNotMatch(rendered, /모델 rotation-shadow-v2/);
-assert.match(rendered, /현재 1위 업종 · 권장 20거래일 기준/);
-assert.match(rendered, /다음 관찰 후보 · 권장 20거래일 기준/);
+/* ⭐ 2026-09-04 소유자 지시(가독성): "권장 20거래일 기준"과 계산기간이 카드 6개에
+   각각 반복돼 여섯 칸이 거의 같은 글자로 찼다. 공통 전제를 위 한 줄로 모았다.
+   계약은 그대로다 — 어느 기간 기준인지와 계산기간은 반드시 화면에 있어야 한다.
+   다만 카드마다 반복하지 않고 한 번만 쓴다. */
+assert.match(rendered, /class="rot-summary-basis"[^>]*>[^<]*<b>권장 20거래일 기준<\/b>/,
+  '요약이 어느 기간 기준인지 공통 줄에 밝혀야 한다');
+assert.match(rendered, /rot-summary-basis[\s\S]{0,200}계산기간[\s\S]{0,60}<b>[^<]+<\/b>/,
+  '계산기간을 공통 줄에 밝혀야 한다');
+assert.match(rendered, /<span class="rot-card-context">현재 1위 업종<\/span>/,
+  '카드 라벨은 반복 문구 없이 짧아야 한다');
+assert.match(rendered, /<span class="rot-card-context">다음 관찰 후보<\/span>/);
 for (const className of ['rot-card-context','rot-card-primary','rot-card-secondary','rot-card-measure','rot-meta','rot-meta-block']) {
   assert.match(rendered, new RegExp(`class="[^"]*${className}`), `${className} summary hierarchy is required`);
 }
@@ -123,19 +132,23 @@ assert.match(rendered, /class="rot-card rot-card-lead"[\s\S]*?<strong class="rot
 assert.match(rendered, /class="rot-card rot-card-today"[\s\S]*?<strong class="rot-card-primary rot-card-subject">반도체<\/strong>[\s\S]*?-1\.2% · 약화/);
 assert.match(rendered, /구성 종목 중앙값 등락 · 표본 보정/);
 assert.doesNotMatch(rendered, /-1\.2% · 약화<\/strong><small>반도체/);
-assert.match(rendered, /<dt>계산기간<\/dt><dd>2026\.01\.02~2026\.01\.22<\/dd>/);
+assert.match(rendered, /rot-summary-basis[\s\S]*?계산기간은 <b>2026\.01\.02~2026\.01\.22<\/b>/);
 assert.match(rendered, /<dt>예상 관찰기간<\/dt><dd>2026\.08\.12~2026\.09\.09/);
 assert.match(rendered, /<dt>검증기간<\/dt><dd>2025\.07\.02~2026\.07\.10<\/dd>/);
 assert.match(rendered, /<dt>종합 평가<\/dt><dd>251회<\/dd>/);
 assert.match(rendered, /<dt>단기 참고<\/dt><dd>5거래일 1위 · 화장품·미용<small>2026\.01\.17~2026\.01\.22<\/small><\/dd>/);
-assert.match(rendered, /<dt>최근 5거래일 상승 종목 비율<\/dt><dd>90\.2%<\/dd>/);
+/* 시장 국면 카드의 상승 종목 비율은 별도 <dt>/<dd> 대신 한 줄로 합쳤다(가독성).
+   숫자와 기간 표기는 그대로 남아야 한다. */
+assert.match(rendered, /최근 5거래일 상승 종목 90\.2%/);
 assert.match(rendered, /<dt>예상 관찰기간<\/dt><dd>2026\.08\.12~2026\.09\.09<small>20거래일 · 휴장일 제외<\/small><\/dd>/);
 assert.doesNotMatch(rendered, /1위 전환 예상일/);
-assert.match(rendered, /<dt>계산기간<\/dt><dd>2026\.01\.02~2026\.01\.22<\/dd>/);
+assert.match(rendered, /rot-summary-basis[\s\S]*?계산기간은 <b>2026\.01\.02~2026\.01\.22<\/b>/);
 assert.match(rendered, /<dt>단기 참고<\/dt><dd>5거래일 1위 · 화장품·미용/);
 assert.match(rendered, /<span class="rot-card-context">시장 국면 · 최근 20거래일<\/span><strong class="rot-card-primary">하락 · 확대<\/strong>/);
 assert.doesNotMatch(rendered, /시장 국면 · 방향·변동성·주도시장/);
-assert.match(rendered, /<dt>최근 5거래일 상승 종목 비율<\/dt><dd>90\.2%<\/dd>/);
+/* 시장 국면 카드의 상승 종목 비율은 별도 <dt>/<dd> 대신 한 줄로 합쳤다(가독성).
+   숫자와 기간 표기는 그대로 남아야 한다. */
+assert.match(rendered, /최근 5거래일 상승 종목 90\.2%/);
 assert.doesNotMatch(rendered, /상승 폭/);
 assert.match(rendered, /점수는 확률이 아닙니다/);
 assert.match(rendered, /61\.0점은 반도체가 오를 확률 61\.0%라는 뜻이 아닙니다/);

@@ -131,6 +131,107 @@ def _duplicates_previous_day(kst_day, payload):
     return days[-1] if _stats_signature(prev) == _stats_signature(payload) else None
 
 
+# ⭐ 2026-09-04 신설 — "시장 흐름 추세"가 계속 "데이터 기록 중"으로만 뜨던 원인 수정.
+#    일별 기록(market_universe/history/*.json)은 2026-08-18부터 매일 잘 쌓이고 있었는데,
+#    그걸 기간별로 합산하는 코드가 아예 없어서 public 파일에 문자열
+#    "HISTORY_ACCUMULATING"만 넣고 있었다. 즉 재료는 모으는데 요리를 안 하고 있었다.
+#
+#    ⚠️ 없는 기간을 채워 넣지 않는다. 창(5·20거래일)에 필요한 날짜가 모자라면
+#       available=False로 두고 며칠이 모자란지 그대로 보고한다.
+#    ⚠️ 라벨에 반드시 "무엇의 평균인지"를 담는다. "5일 평균"처럼 대상이 빠진 이름이나
+#       이동평균선으로 오해되는 "5일선"은 쓰지 않는다(기존 코드 주석의 지시).
+HISTORY_WINDOWS = (5, 20)
+
+# 무엇을 평균 내는지 이름에 그대로 담는다.
+HISTORY_METRICS = {
+    "advanceRatioPct": {
+        "label": "상승 종목 비율 평균",
+        "unit": "%",
+        "path": ("market", "advanceRatio"),
+        "scale": 100.0,
+    },
+    "medianReturnPct": {
+        "label": "구성 종목 중앙값 등락 평균",
+        "unit": "%",
+        "path": ("market", "medianReturn"),
+        "scale": 1.0,
+    },
+}
+
+
+def _history_days(before_or_on=None):
+    """저장된 일별 기록을 날짜 오름차순으로 읽는다. 깨진 파일은 조용히 건너뛴다."""
+    try:
+        names = sorted(f[:-5] for f in os.listdir(HISTORY_DIR) if f.endswith(".json"))
+    except OSError:
+        return []
+    rows = []
+    for day in names:
+        if before_or_on and day > before_or_on:
+            continue
+        doc = _load_json(os.path.join(HISTORY_DIR, day + ".json"))
+        if isinstance(doc, dict) and isinstance(doc.get("market"), dict):
+            rows.append(doc)
+    return rows
+
+
+def _metric_value(doc, spec):
+    node = doc
+    for key in spec["path"]:
+        node = (node or {}).get(key)
+    if not isinstance(node, (int, float)):
+        return None
+    return float(node) * spec["scale"]
+
+
+def build_history_summary(kst_day=None):
+    """기간별 평균을 만든다. 날짜가 모자란 창은 만들지 않고 모자란 사실만 보고한다."""
+    rows = _history_days(kst_day)
+    total_days = len(rows)
+    windows = {}
+    for size in HISTORY_WINDOWS:
+        recent = rows[-size:]
+        entry = {
+            "days": size,
+            "daysCollected": len(recent),
+            "daysNeeded": size,
+            "daysRemaining": max(0, size - len(recent)),
+            "available": len(recent) >= size,
+            "metrics": {},
+        }
+        if entry["available"]:
+            entry["periodStart"] = recent[0].get("day")
+            entry["periodEnd"] = recent[-1].get("day")
+            for key, spec in HISTORY_METRICS.items():
+                values = [v for v in (_metric_value(d, spec) for d in recent) if v is not None]
+                entry["metrics"][key] = {
+                    "label": f"최근 {size}거래일 {spec['label']}",
+                    "unit": spec["unit"],
+                    "average": round(sum(values) / len(values), 2) if values else None,
+                    "sampleDays": len(values),
+                } if values else {"label": f"최근 {size}거래일 {spec['label']}",
+                                  "unit": spec["unit"], "average": None, "sampleDays": 0}
+        windows[str(size)] = entry
+    # 오늘 값과 기간 평균을 비교해 "지금이 평소보다 강한가"를 보여준다.
+    latest = rows[-1] if rows else None
+    today = {}
+    if latest:
+        for key, spec in HISTORY_METRICS.items():
+            value = _metric_value(latest, spec)
+            if value is not None:
+                today[key] = round(value, 2)
+    return {
+        "schemaVersion": "gaeo_market_history_v1",
+        "totalDaysCollected": total_days,
+        "firstDay": rows[0].get("day") if rows else None,
+        "lastDay": rows[-1].get("day") if rows else None,
+        "today": today,
+        "windows": windows,
+        "note": ("일별 전체시장 집계를 기간별로 평균한 값이다. 이동평균선이 아니다. "
+                 "날짜가 모자란 기간은 평균을 만들지 않고 모자란 일수를 그대로 보고한다."),
+    }
+
+
 def _atomic_write(path, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
@@ -524,7 +625,7 @@ def run_full(write_raw=False):
         "sourceStatus": status,
         "quality": quality,
         "market": stats, "kospi": kospi_stats, "kosdaq": kosdaq_stats,
-        "history": HISTORY_ACCUMULATING,
+        "history": build_history_summary(kst_day),
         "sectorBreadth": sector_breadth(eligible),
         "note": ("KOSPI·KOSDAQ 전체시장 가벼운 관찰용 집계. "
                  "GAEO 600종목 정밀분석과 별개의 모집단이다."),
