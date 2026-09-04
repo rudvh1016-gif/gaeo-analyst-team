@@ -10,6 +10,7 @@ import datetime
 import json
 import math
 import os
+import random
 import re
 import statistics
 
@@ -313,26 +314,95 @@ def evaluate_confidence_model(test_rows, calibration, regimes):
                       "candidate": confidence_candidate(calibration, call, row.get("total")),
                       "baseline": row.get("confidence")})
 
+    def _spread_of(vals):
+        """상위 1/3 적중률 - 하위 1/3 적중률 (%p). vals = [(확신도, 적중 0/1), ...]"""
+        if len(vals) < 20:
+            return None
+        ordered = sorted(vals, key=lambda x: x[0])
+        third = max(1, len(ordered) // 3)
+        low, high = ordered[:third], ordered[-third:]
+        return (sum(v[1] for v in high) / len(high) - sum(v[1] for v in low) / len(low)) * 100
+
+    def _block_bootstrap_ci(rows, draws=1000, seed=20260904):
+        """⭐ 2026-09-04 정직성 보강 — 스프레드 숫자 하나만 크게 내면 "확실히 더 낫다"로
+        읽힌다. 같은 날 수백 종목은 서로 독립이 아니므로(같은 시장을 함께 겪는다),
+        날짜 단위로 통째로 다시 뽑는 블록 부트스트랩으로 95% 범위를 구한다.
+        범위가 0을 포함하면 "우연일 수도 있다"는 뜻이고, 그 사실을 반드시 함께 낸다.
+        rows = [(날짜, 확신도, 적중 0/1), ...]"""
+        by_day = {}
+        for day, value, hit in rows:
+            by_day.setdefault(day, []).append((value, hit))
+        days = sorted(by_day)
+        if len(days) < 5:
+            return None
+        rng = random.Random(seed)
+        sims = []
+        for _ in range(draws):
+            sample = []
+            for _ in range(len(days)):
+                sample += by_day[days[rng.randrange(len(days))]]
+            value = _spread_of(sample)
+            if value is not None:
+                sims.append(value)
+        if len(sims) < draws * .5:
+            return None
+        sims.sort()
+        low = round(sims[int(.025 * len(sims))], 1)
+        high = round(sims[min(len(sims) - 1, int(.975 * len(sims)))], 1)
+        return {"lowPp": low, "highPp": high, "includesZero": low <= 0 <= high,
+                "decisionDays": len(days), "draws": len(sims)}
+
     def tier_spread(key):
         vals = [(p[key], p["hit"]) for p in pairs if p[key] is not None]
         if len(vals) < 20:
-            return {"n": len(vals), "tierSpreadPp": None, "corr": None}
-        vals.sort(key=lambda x: x[0])
-        third = max(1, len(vals) // 3)
-        low, high = vals[:third], vals[-third:]
-        low_acc = sum(v[1] for v in low) / len(low) * 100
-        high_acc = sum(v[1] for v in high) / len(high) * 100
+            return {"n": len(vals), "tierSpreadPp": None, "corr": None, "ci95": None}
+        spread = _spread_of(vals)
         corr = pearson([v[0] for v in vals], [v[1] for v in vals])
-        return {"n": len(vals), "tierSpreadPp": round(high_acc - low_acc, 1), "corr": round(corr, 4)}
+        ci = _block_bootstrap_ci([(p["day"], p[key], p["hit"]) for p in pairs if p[key] is not None])
+        return {"n": len(vals), "tierSpreadPp": round(spread, 1), "corr": round(corr, 4),
+                "ci95": ci}
 
     buy_n = sum(1 for p in pairs if p["call"] == "BUY")
     sell_n = sum(1 for p in pairs if p["call"] == "SELL")
     test_days = len({p["day"] for p in pairs})
     test_regimes = len({(regimes.get(p["day"]) or {}).get("key") for p in pairs if regimes.get(p["day"])})
+
+    # ⭐ 2026-09-04 정직성 보강 — "방향 되짚기(direction relabeling)" 검사.
+    #    후보 확신도는 BUY 구간과 SELL 구간의 값 범위가 거의 겹치지 않는다. 그러면
+    #    "확신도가 높은 판단"을 고르는 일이 사실은 "SELL을 고르는 일"이 되고, SELL이
+    #    BUY보다 잘 맞는 구간에서는 아무 정보가 없어도 스프레드가 크게 나온다.
+    #    그래서 BUY 안에서만·SELL 안에서만 다시 재본다. 방향 안에서도 여전히 잘 가르면
+    #    진짜 정보이고, 방향 안에서 사라지면 그건 방향을 바꿔 말한 것뿐이다.
+    def tier_spread_within(key, call):
+        vals = [(p[key], p["hit"]) for p in pairs if p[key] is not None and p["call"] == call]
+        if len(vals) < 20:
+            return {"n": len(vals), "tierSpreadPp": None}
+        vals.sort(key=lambda x: x[0])
+        third = max(1, len(vals) // 3)
+        low, high = vals[:third], vals[-third:]
+        return {"n": len(vals), "tierSpreadPp": round(
+            sum(v[1] for v in high) / len(high) * 100 - sum(v[1] for v in low) / len(low) * 100, 1)}
+
+    def value_range(key, call):
+        vals = [p[key] for p in pairs if p[key] is not None and p["call"] == call]
+        return [round(min(vals), 1), round(max(vals), 1)] if vals else None
+
+    buy_rng, sell_rng = value_range("candidate", "BUY"), value_range("candidate", "SELL")
+    overlaps = bool(buy_rng and sell_rng and buy_rng[0] <= sell_rng[1] and sell_rng[0] <= buy_rng[1])
     return {
         "n": len(pairs), "buyN": buy_n, "sellN": sell_n,
         "testDays": test_days, "testRegimes": test_regimes,
         "candidate": tier_spread("candidate"), "baseline": tier_spread("baseline"),
+        "directionConfound": {
+            "candidateRangeBuy": buy_rng, "candidateRangeSell": sell_rng,
+            "rangesOverlap": overlaps,
+            "candidateWithinBuy": tier_spread_within("candidate", "BUY"),
+            "candidateWithinSell": tier_spread_within("candidate", "SELL"),
+            "baselineWithinBuy": tier_spread_within("baseline", "BUY"),
+            "baselineWithinSell": tier_spread_within("baseline", "SELL"),
+            "note": ("합친 표의 스프레드는 BUY·SELL 자체의 적중률 차이만으로도 커질 수 있다. "
+                     "같은 방향 안에서 다시 잰 값이 진짜 판별력이다."),
+        },
     }
 
 
@@ -443,6 +513,15 @@ def evaluate(rows, calibration, weights, redundancy, regime_table, regimes):
             candidate_actions[0] += int((candidate_call == "BUY" and ret > 1) or (candidate_call == "SELL" and ret < -1))
     def ratio(pair):
         return round(pair[0] / pair[1] * 100, 1) if pair[1] else None
+    # ⭐ 2026-09-04 정직성 수정: candidateAllCallAccuracy는 call_hit으로 계산하는데
+    #    call_hit은 BUY·SELL을 ±1%, HOLD를 ±5%로 채점한다. 후보가 실제로는 전부 HOLD만
+    #    내는 상태(candidateActionN = 0)에서도 이 값은 60%대로 나오고, 바로 옆의
+    #    "BUY·SELL 정밀도"와 나란히 놓이면 같은 잣대의 점수처럼 읽힌다. 실제로는
+    #    "아무 판단도 안 했다"는 뜻이므로, 실행 가능한 판단이 하나도 없으면 숫자를
+    #    내지 않고(None) 이유를 함께 남긴다. 불리한 사실을 숨기는 게 아니라, 잣대가
+    #    다른 숫자를 같은 줄에 세워 잘한 것처럼 보이게 하는 것을 막는 것이다.
+    all_call_acc = ratio(candidate_all)
+    all_call_suppressed = candidate_actions[1] == 0 and evaluated > 0
     return {
         "n": evaluated,
         "baselineActionN": baseline_actions[1], "baselineActionPrecision": ratio(baseline_actions),
@@ -450,9 +529,68 @@ def evaluate(rows, calibration, weights, redundancy, regime_table, regimes):
         "candidateCoverage": round(candidate_actions[1] / evaluated * 100, 1) if evaluated else 0,
         "candidateCalls": candidate_calls,
         "testDays": len(evaluated_days), "testRegimes": len(evaluated_regimes),
-        "candidateAllCallAccuracy": ratio(candidate_all),
+        "candidateAllCallAccuracy": None if all_call_suppressed else all_call_acc,
+        "candidateAllCallBasis": ("BUY·SELL은 ±1%, HOLD는 ±5%로 채점한 값이라 "
+                                  "BUY·SELL 정밀도와 같은 잣대가 아니다."),
+        "candidateAllCallSuppressed": all_call_suppressed,
+        "candidateAllCallSuppressedReason": ("후보가 실행 가능한 판단(BUY·SELL)을 한 건도 내지 "
+                                             "않아, 이 값은 HOLD 판정폭(±5%)만 반영한다."
+                                             if all_call_suppressed else None),
         "brier": round(brier / evaluated, 4) if evaluated else None,
         "rawBrier": round(raw_brier / evaluated, 4) if evaluated else None,
+    }
+
+
+def evaluate_prospective_confidence(rows):
+    """⭐ 2026-09-04 — 진짜 앞을 보는(prospective) 확신도 검증.
+
+    evaluate_confidence_model()은 매 실행마다 기록을 70:30으로 다시 잘라 뒤쪽에서
+    채점한다(재적합). 그래서 "검증 40거래일"이 앞으로 차오르는 시계가 아니었다.
+    이 함수는 반대로, 그날 실제 파이프라인이 미리 기록해 둔 후보값
+    (archive_analysis.py가 저장한 confidenceShadow)만 쓴다. 나중에 만든 교정표를
+    과거에 적용하지 않으므로, 여기서 세는 날짜는 실제로 하루씩 쌓인다.
+
+    기록이 없으면 0일로 정직하게 보고한다 — 없는 진행률을 지어내지 않는다.
+    """
+    pairs = []
+    for row in rows:
+        call = row.get("call")
+        if call not in ("BUY", "SELL"):
+            continue
+        value = row.get("archivedConfidenceShadow")
+        ret = row.get("ret5")
+        if value is None or ret is None:
+            continue
+        verdict = call_hit(call, ret)
+        if verdict is None:
+            continue
+        pairs.append({"day": row["day"], "call": call, "value": float(value), "hit": verdict})
+
+    def spread(subset):
+        if len(subset) < 20:
+            return None
+        ordered = sorted(subset, key=lambda p: p["value"])
+        third = max(1, len(ordered) // 3)
+        low, high = ordered[:third], ordered[-third:]
+        return round((sum(p["hit"] for p in high) / len(high)
+                      - sum(p["hit"] for p in low) / len(low)) * 100, 1)
+
+    days = sorted({p["day"] for p in pairs})
+    return {
+        "type": "PROSPECTIVE_ARCHIVED",
+        "note": ("그날 미리 기록해 둔 확신도 후보값만으로 채점한다. 나중에 만든 교정표를 "
+                 "과거에 적용하지 않으므로 검증일이 실제로 하루씩 쌓인다."),
+        "n": len(pairs),
+        "testDays": len(days),
+        "firstDay": days[0] if days else None,
+        "lastDay": days[-1] if days else None,
+        "buyN": sum(1 for p in pairs if p["call"] == "BUY"),
+        "sellN": sum(1 for p in pairs if p["call"] == "SELL"),
+        "tierSpreadPp": spread(pairs),
+        "tierSpreadWithinBuyPp": spread([p for p in pairs if p["call"] == "BUY"]),
+        "tierSpreadWithinSellPp": spread([p for p in pairs if p["call"] == "SELL"]),
+        "clockStarted": bool(pairs),
+        "daysRemainingToGate": max(0, 40 - len(days)),
     }
 
 
@@ -584,7 +722,10 @@ def main():
             row = {"code": code, "day": day, "call": entry.get("call"),
                    "total": entry.get("total"), "confidence": entry.get("confidence"),
                    "ret5": forward_return(code, day, base, 5),
-                   "archivedShadow": entry.get("shadow")}
+                   "archivedShadow": entry.get("shadow"),
+                   # ⭐ 2026-09-04: 그날 미리 기록해 둔 확신도 후보값(재적합 없음).
+                   "archivedConfidenceShadow": entry.get("confidenceShadow"),
+                   "archivedConfidenceShadowVersion": entry.get("confidenceShadowVersion")}
             for analyst in ANALYSTS:
                 item = entry.get(analyst) or {}
                 ret = forward_return(code, day, base, RULES[analyst]["days"])
@@ -665,11 +806,63 @@ def main():
     elif cand_stat["tierSpreadPp"] < max(5.0, base_stat["tierSpreadPp"]):
         conf_reasons.append("후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족"
                              f"(후보 {cand_stat['tierSpreadPp']}pp vs 기존 {base_stat['tierSpreadPp']}pp)")
+    # ⭐ 2026-09-04: 점 추정 하나로 승격을 판정하지 않는다. 날짜 블록 부트스트랩 95%
+    #    범위가 0을 포함하면 "우연으로도 이만큼 나올 수 있다"는 뜻이므로 승격 불가다.
+    _ci = cand_stat.get("ci95")
+    if _ci is None:
+        conf_reasons.append("불확실성 구간을 계산할 표본이 모자람")
+    elif _ci.get("includesZero"):
+        conf_reasons.append(f"후보 판별력 95% 구간({_ci['lowPp']}~{_ci['highPp']}pp)이 0을 포함해 "
+                            f"우연일 가능성을 배제하지 못함")
+    # 방향(BUY/SELL)을 바꿔 말한 것만으로 스프레드가 커지는 경우를 걸러낸다.
+    _dc = confidence_eval.get("directionConfound") or {}
+    _wb = (_dc.get("candidateWithinBuy") or {}).get("tierSpreadPp")
+    _ws = (_dc.get("candidateWithinSell") or {}).get("tierSpreadPp")
+    if _dc.get("rangesOverlap") is False and (_wb is None or _ws is None):
+        conf_reasons.append("BUY·SELL 확신도 범위가 겹치지 않는데 방향별 재검증 표본이 모자람")
+    elif _wb is not None and _ws is not None and min(_wb, _ws) < 5.0:
+        conf_reasons.append(f"같은 방향 안에서 다시 재면 판별력이 약함"
+                            f"(BUY {_wb}pp · SELL {_ws}pp)")
+    # ⭐ 2026-09-04 — 승격의 진짜 관문은 "그날 미리 말해 둔 값이 맞았나"다.
+    #    재적합 홀드아웃(70:30 재분할)만으로는 아무리 좋아 보여도 승격시키지 않는다.
+    _prosp = evaluate_prospective_confidence(rows)
+    if _prosp["testDays"] < 40:
+        conf_reasons.append(f"사전 기록 기반 검증일 {_prosp['testDays']}일 / 40일 "
+                            f"({'기록 시작 전' if not _prosp['clockStarted'] else '누적 중'})")
     confidence_qualified = not conf_reasons
+    # ⭐ 2026-09-04 정직성 보강: 화면이 testDays를 "검증 거래일 (최소 40일 필요)"로만
+    #    보여주면, 매일 하루씩 쌓여 40일에 도달하는 시계처럼 읽힌다. 실제 구조는 다르다.
+    #    - 매 실행마다 전체 기록을 날짜순으로 다시 70:30으로 자르고, 학습 구간에서
+    #      교정표를 처음부터 다시 만든다(재적합). 어제 검증일이었던 날짜가 오늘은
+    #      학습일이 될 수 있다.
+    #    - 그래서 testDays는 "앞으로 쌓인 검증일 수"가 아니라 "지금 기록의 뒤쪽 30% 중
+    #      BUY·SELL 채점이 가능한 날짜 수"다. 40일에 닿으려면 전체 판단일이 대략
+    #      testDays / (전체 대비 검증 비율)만큼 필요하다.
+    #    이 사실을 데이터에 명시해 화면이 진행률처럼 오해시키지 않게 한다.
+    _total_days = len(unique_days)
+    _test_share = (len(test_days) / _total_days) if _total_days else 0.0
+    _eff_share = (confidence_eval["testDays"] / _total_days) if _total_days else 0.0
     confidence_model = {
         "version": "calibrated-accuracy-v1",
         "calibration": confidence_calibration,
         "evaluation": confidence_eval,
+        "evaluationDesign": {
+            "type": "RETROSPECTIVE_RESPLIT",
+            "note": ("매 실행마다 전체 기록을 날짜순 70:30으로 다시 자르고 학습 구간에서 "
+                     "교정표를 새로 만든다. testDays는 앞으로 하루씩 쌓이는 누적 검증일이 "
+                     "아니라, 지금 기록의 뒤쪽 30% 중 BUY·SELL 채점이 가능한 날짜 수다."),
+            "totalDecisionDays": _total_days,
+            "trainDays": len(train_days),
+            "embargoDays": 5,
+            "holdoutDays": len(test_days),
+            "holdoutSharePct": round(_test_share * 100, 1),
+            # 40일 기준을 채우려면 전체 판단일이 대략 얼마나 필요한지(현재 비율 기준 추정).
+            "estimatedTotalDaysForGate": (round(40 / _eff_share) if _eff_share > 0 else None),
+            "isProspective": False,
+        },
+        # 진짜 앞을 보는 시계. 오늘부터 기록이 쌓이며, 여기 testDays가 40에 닿아야
+        # "40거래일 검증"이라는 말을 정직하게 쓸 수 있다.
+        "prospective": _prosp,
         "promotion": {"qualified": confidence_qualified,
                       "status": "qualified" if confidence_qualified else "shadow",
                       "reasons": conf_reasons,

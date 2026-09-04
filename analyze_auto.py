@@ -846,9 +846,19 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
     report = (f"이 종목은 GAEO 자동 분석이 수집된 지표만으로 판단한 결과입니다. "
               f"기술적으로는 {taro['findings'][0]}, 수급 측면에서는 {flow['findings'][0]}. "
               f"퀀트(과거 통계) 분석은 {nova['findings'][2] if len(nova['findings'])>2 else '표본 수집 중'}. "
-              f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · 신뢰도 {conf}%.")
+              # ⭐ 2026-09-04 정직성: 화면(app.js)은 이 값을 "확신도"라고 부르는데 여기서만
+              #    "신뢰도"라고 써서, 같은 숫자가 두 이름으로 돌아다녔다. 게다가 이 값은
+              #    확률이 아니라 "분석가 4인의 의견이 얼마나 모였나"라서 %를 붙이면
+              #    "맞을 확률 N%"로 오해된다. 이름을 화면과 통일하고 %를 뗀다.
+              f"방향 원점수 {raw_total}점에서 리스크 {risk['penalty']}점을 반영해 종합 {total}점 · {call} · "
+              f"확신도 {conf}(분석가 의견 일치도이며 적중 확률이 아닙니다).")
     result = {"call": call, "total": total, "confidence": conf,
               "confidenceShadow": conf_shadow, "confidenceModelPromoted": False,
+              # ⭐ 2026-09-04: 후보값이 어느 교정표(버전)로 나온 값인지 같이 남긴다.
+              #    archive_analysis.py가 이걸 기록에 못 박아야, 나중에 "그날 미리 말해 둔
+              #    값"을 같은 버전끼리만 모아 정직하게 채점할 수 있다.
+              "confidenceModelVersion": ((confidence_model or {}).get("version")
+                                         if conf_candidate is not None else None),
               "confidencePromotionStatus": ("PROMOTION_REVIEW_AVAILABLE" if conf_review
                                             else "SHADOW_ONLY"),
               "rawTotal": raw_total, "riskPenalty": risk["penalty"],

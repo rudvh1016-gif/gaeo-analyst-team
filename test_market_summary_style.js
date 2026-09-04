@@ -25,7 +25,13 @@ assert.match(html, /\.mood-down\s*\{color:var\(--market-down\)/);
 assert.match(html, /\.kpi \.v\.up\{color:var\(--krup\)\} \.kpi \.v\.dn\{color:var\(--krdn\)\}/);
 assert.match(html, /\.kpi \.v\.bad\{color:var\(--red\)\} \.kpi \.v\.ok\{color:var\(--green\)\}/);
 assert.match(html, /const avgCls=MOOD\.avg<-0\.4\?'dn':MOOD\.avg>0\.4\?'up':'navy';/);
-assert.match(html, /const accCls=acc===null\?'navy':\(acc>=60\?'ok':\(acc<45\?'bad':'navy'\)\);/);
+// ⭐ 2026-09-04: 적중률 색은 절대값이 아니라 "아무것도 안 한 기준선보다 얼마나 나은가"로
+// 정한다. 이 채점은 HOLD를 ±5%, BUY·SELL을 ±1%로 재고 판단의 대부분이 HOLD라서,
+// "전부 HOLD"만 해도 61%가 나온다. 62%를 초록으로 칠하면 실력처럼 보이게 만든다.
+// 방향(.up/.dn)과 품질(.ok/.bad) 클래스가 분리돼 있어야 한다는 원래 계약은 그대로다.
+assert.match(html, /const lift=\(accExact!=null&&holdBase!=null\)\?Math\.round\(\(accExact-holdBase\)\*10\)\/10:null;/);
+assert.match(html, /lift>=3\?'ok':\(lift<=0\?'bad':'navy'\)/);
+assert.match(html, /teamSummary&&teamSummary\.holdBaselineAcc!=null/);
 
 // Desktop keeps all seven quote metrics together; compact screens retain
 // the full-width 52-week range for readability.
