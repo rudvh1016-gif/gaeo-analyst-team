@@ -3,16 +3,16 @@
  "compressedBytesToday": 0,
  "compressedToday": [],
  "compressionRatio": 0.0151,
- "dailyGrowthAverageBytes": 64363,
- "estimated30dBytes": 1805573,
- "estimated365dBytes": 21967810,
- "estimated90dBytes": 5416720,
+ "dailyGrowthAverageBytes": 64370,
+ "estimated30dBytes": 1805577,
+ "estimated365dBytes": 21967848,
+ "estimated90dBytes": 5416730,
  "integrityErrors": [],
  "newRecordsToday": 600,
  "note": "보관기간·용량 한계는 실측값을 보고 정한다. 임의 상수를 두지 않는다.",
  "observedDays": 15,
  "projectedDailyBytes": 60186,
- "rawBytesToday": 63623,
+ "rawBytesToday": 63727,
  "status": "OK",
- "totalArchiveBytes": 967565
+ "totalArchiveBytes": 967669
 }

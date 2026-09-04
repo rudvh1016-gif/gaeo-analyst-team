@@ -4,29 +4,29 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-04 13:42",
- "dataCutoff": "2026-09-04 13:42 장중",
+ "generatedAt": "2026-09-04 14:43",
+ "dataCutoff": "2026-09-04 14:42 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 2,
-   "why": "20거래일 +66.7% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +66.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 10.8,
+   "gapPct": 10.6,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "006110",
-   "name": "삼아알미늄",
-   "sector": "화학·소재",
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
    "sectorRank": 4,
-   "why": "20거래일 +65.7% · 20일선 위",
+   "why": "20거래일 +63.0% · 20일선 위",
    "overheat": false,
-   "gapPct": 19.6,
+   "gapPct": 22.2,
    "call": "HOLD",
    "callConflict": false
   }
@@ -40,16 +40,16 @@ window.ROTATION_PICKS = {
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6709.57,
-    "ma20": 6691.88,
+    "close": 6727.36,
+    "ma20": 6692.77,
     "above": true,
-    "gapPct": 0.26
+    "gapPct": 0.52
    },
    "KOSDAQ": {
-    "close": 814.18,
+    "close": 814.13,
     "ma20": 830.24,
     "above": false,
-    "gapPct": -1.93
+    "gapPct": -1.94
    }
   }
  },
