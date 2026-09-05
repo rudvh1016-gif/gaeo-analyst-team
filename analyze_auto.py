@@ -763,6 +763,60 @@ def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
     }
 
 
+# ⭐ 2026-09-05 급등 후 매수 경고 (표시 전용 · 판단을 바꾸지 않는다)
+#
+#    BUY 실적 감사(docs/BUY_OVERHEAT_WARNING_20260905.md)에서 나온 실측이다.
+#    지금까지 낸 BUY 1,474건을 "판단 직전에 이미 얼마나 올라 있었나"로 나눠 보니
+#    결과가 한 방향으로 갈렸다.
+#
+#      직전 5거래일 -5% 이하(하락 중) → 이후 5거래일 평균 +4.54% · 폭락(-5%↓) 17.5%
+#      직전 5거래일 +15% 이상(폭등)   → 이후 5거래일 평균 -2.48% · 폭락(-5%↓) 36.0%
+#
+#    이건 BUY만의 문제가 아니라 시장 전체에서 관찰되는 단기 되돌림이다(전 종목으로
+#    같은 표를 만들어 대조 확인했다). 문제는 **BUY가 하필 그 구간에 몰려서 나간다**는
+#    것이다. 직전 5거래일 +7% 이상에서 나온 BUY가 전체의 48.2%인데, 시장 전체에서
+#    그 구간이 차지하는 비중은 20.2%다.
+#
+#    아래 두 조건 중 하나라도 걸리면 경고를 붙인다(둘을 OR로 묶은 조합이 가장 잘 갈랐다).
+#      · 폭락률 37.8%(경고) vs 20.8%(경고 없음) — 차이 +17.0%p, 판단일 블록 부트스트랩
+#        95% 구간 +11.6~+22.5%p, 신·구버전 두 구간 모두 같은 방향
+#
+#    ⚠️ 이 값은 call을 절대 바꾸지 않는다. 판단을 바꾸는 것은 산식 변경이고,
+#       그건 판단일 20일이 쌓인 뒤 사전등록 검증을 통과해야 한다
+#       (docs/gaeo_validation_policy.md). 지금은 "같이 알려주기"까지만 한다.
+OVERHEAT_RET5_PCT = 10.0     # 직전 5거래일 상승률 기준
+OVERHEAT_RET20_PCT = 25.0    # 직전 20거래일 상승률 기준
+OVERHEAT_VERSION = "overheat-2026-09-05"
+
+
+def overheat_flag(e):
+    """급등 후 매수 경고 신호. 판단(call)에는 쓰이지 않는 표시 전용 값이다.
+
+    지표가 없으면 경고를 지어내지 않고 available=False로 돌려준다
+    (데이터 없음을 '안전함'으로 바꿔 말하지 않는다).
+    """
+    tech = (e or {}).get("tech") or {}
+    r5, r20 = tech.get("ret5"), tech.get("ret20")
+    have = [v for v in (r5, r20) if isinstance(v, (int, float))]
+    if not have:
+        return {"available": False, "warn": False, "ret5": None, "ret20": None,
+                "triggers": [], "version": OVERHEAT_VERSION,
+                "note": "최근 상승률 자료가 없어 과열 여부를 판정하지 않았습니다."}
+    triggers = []
+    if isinstance(r5, (int, float)) and r5 >= OVERHEAT_RET5_PCT:
+        triggers.append("ret5")
+    if isinstance(r20, (int, float)) and r20 >= OVERHEAT_RET20_PCT:
+        triggers.append("ret20")
+    return {"available": True, "warn": bool(triggers),
+            "ret5": round(r5, 1) if isinstance(r5, (int, float)) else None,
+            "ret20": round(r20, 1) if isinstance(r20, (int, float)) else None,
+            "thresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT},
+            "triggers": triggers, "version": OVERHEAT_VERSION,
+            "note": ("최근 많이 오른 뒤에 나온 매수 신호입니다. 과거 같은 조건에서 "
+                     "5거래일 안에 5% 넘게 빠진 비율이 그렇지 않을 때보다 높았습니다."
+                     if triggers else "최근 급등 뒤 매수 조건에는 해당하지 않습니다.")}
+
+
 # 사용 가능한 분석축이 이보다 적으면 억지로 판단하지 않는다.
 # ⚠️ 데이터 부족은 중립 신호가 아니다. 모르면 모른다고 해야 한다.
 MIN_AVAILABLE_ANALYSTS = 2
@@ -870,6 +924,8 @@ def chief_eval(e, taro, diana, nova, flow, weights=BASE_W, learned=False, guard_
               "available": sorted(usable), "availableCount": len(usable),
               "weightRenormalized": len(usable) < 4,
               "judgmentWithheld": False,
+              # 급등 후 매수 경고 — 위 call·total 계산에 전혀 관여하지 않는다(표시 전용).
+              "overheat": overheat_flag(e),
               "reason": reason, "target": tgt, "report": report}
     # 🏷️ Evolution override가 활성일 때만 남긴다(additive — 없으면 기존 기록 모양 그대로).
     #    나중에 "어느 모델(구성)이 만든 판단인가"를 정확히 채점하기 위한 각인.

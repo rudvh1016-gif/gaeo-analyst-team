@@ -821,6 +821,12 @@
   /* 「한 방향만 말했을 때」의 기준선. 막대가 이 선을 넘어야 실력의 증거다. */
   .lb-base-mark{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--color-border-strong)}
   .lb-base,.lb-push{font-size:11px;color:var(--dim);line-height:1.55;margin-top:5px}
+  /* 급등 후 매수 경고 — 장식이 아니라 읽어야 하는 정보다. 시장 방향색(빨강·파랑)은
+     쓰지 않고, 왼쪽 굵은 선과 굵은 첫 문장으로만 눈에 띄게 한다. */
+  .voverheat{margin:8px 0 2px;padding:10px 12px;font-size:12px;line-height:1.65;
+    color:var(--ink);background:var(--color-bg-subtle);
+    border:1px solid var(--color-border);border-left:3px solid var(--amber);
+    border-radius:var(--radius-md)}
   .lb-honesty{font-size:12px;color:var(--ink);line-height:1.7;margin:0 0 14px;
     padding:12px 14px;border:1px solid var(--color-border);border-radius:var(--radius-md);
     background:var(--color-bg-subtle)}

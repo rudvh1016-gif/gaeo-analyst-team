@@ -2662,6 +2662,25 @@ function renderScorecard(){
         「채점 제외」는 ±1% 안쪽이라 방향을 가릴 수 없어 빠진 비율이에요. BUY·SELL만 빠지고 HOLD는 하나도 안 빠져서, 판단 종류마다 실제로 채점된 표본의 크기가 달라요.
         빠진 구간이 한쪽으로 치우쳤는지도 따로 재봤는데, 우리에게 유리한 쪽으로 기울지는 않았어요. 자세한 실측 수치는 저장소 문서에 남겨 뒀어요.</div>`:'')
       : '';
+    /* ⭐ 2026-09-05 BUY 실적 정직 공개.
+       소유자가 "매일 뜨는 BUY는 그래도 쓸데없는 걸 추천하진 않은 것 같다"고 했는데
+       실제로 대조해 보니 반대였다. 적중률은 물론이고 "5거래일 안에 크게 빠진 비율"까지
+       같이 낸다. 숫자는 team_weights.js가 매 사이클 다시 계산한 값을 그대로 읽는다. */
+    const bo=team&&team.buyOutcome;
+    let buyNote='';
+    if(bo&&bo.allTime&&bo.allTime.acc!=null){
+      const at=bo.allTime, cur=bo.currentVersion, oh=bo.overheatAllTime;
+      const worst=(bo.worst||[]).map(w=>`${esc(w.name)} ${w.ret5}%`).join(' · ');
+      buyNote=`<div class="sc-team-note"><b>「매수 우위(BUY)」가 실제로 어떻게 끝났는지도 밝힐게요.</b>
+        지금까지 낸 매수 판단 ${at.n.toLocaleString()}건 중 방향을 맞힌 비율은 <b>${at.acc}%</b>예요(판단 ${at.uniqueDecisionDays}일).
+        더 중요한 건 이거예요. <b>${at.crashPct}%</b>는 5거래일 안에 기준가보다 ${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요.
+        ${cur&&cur.acc!=null?`요즘 방식으로 좁혀 보면 적중 <b>${cur.acc}%</b> · 크게 빠진 비율 <b>${cur.crashPct}%</b>예요(판단 ${cur.uniqueDecisionDays}일).`:''}
+        ${worst?`가장 나빴던 사례는 ${worst}였어요.`:''}</div>`
+        +(oh&&oh.enoughSample?`<div class="sc-foot-note">그래서 <b>이미 많이 오른 뒤에 나온 매수 신호</b>에는 종목 화면에 경고를 붙였어요.
+        같은 기록으로 재보니, 그런 매수는 <b>${oh.warn.crashPct}%</b>가 크게 빠졌고 그렇지 않은 매수는 <b>${oh.calm.crashPct}%</b>였어요${oh.crashGapCi95?` (차이의 있을 수 있는 범위 ${oh.crashGapCi95[0]}~${oh.crashGapCi95[1]}%p)`:''}.
+        전체 매수 판단의 <b>${oh.warnSharePct}%</b>가 여기에 걸려요. 경고는 알려만 주고 판단 자체는 바꾸지 않아요.
+        판단을 바꾸는 건 산식을 고치는 일이라, 근거가 더 쌓인 뒤 사전에 정해 둔 검증을 통과해야 해요.</div>`:'');
+    }
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};
     if(TW.sectors){
@@ -2685,7 +2704,7 @@ function renderScorecard(){
       <p class="sc-explain"><b>적중률만 보면 안 되는 이유.</b> 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그래서 막대 안에 그 기준선을 세로선으로 같이 그렸어요. 세로선을 확실히 넘어야 실력이라고 말할 수 있어요.</p>
       <div class="sc-bars">${bars}</div>
       <p class="sc-explain">재무·기본적 분석은 단기 타이밍보다 기업의 중장기 품질을 보는 도구입니다. 그래서 DIANA는 20거래일 뒤 ±3% 기준으로 따로 채점하고, 종합점수 기본 발언권도 12%로 제한했습니다. 다른 분석가는 5거래일 뒤 ±1% 기준입니다. 표본이 작은 업종 성적은 전역 성적과 섞어 과대평가를 줄입니다.</p>
-      ${teamNote}
+      ${teamNote}${buyNote}
       ${chips?`<div class="sc-chip-head">업종별로는 승자가 달라요 (표본 100건 이상만 집계 · 업종 성적에는 아직 기준선 비교를 붙이지 않았으니 참고용으로만 봐주세요)</div><div class="sc-chips">${chips}</div>`:''}
       <div class="sc-foot-note">※ 위 수치는 team_weights.js가 매 사이클 자동으로 재계산하는 실측값이에요. 투자 권유가 아니라 각 분석가의 관점이 어떤 상황에 강한지 참고하는 용도로만 봐주세요.</div>
     </div>`;
@@ -7066,6 +7085,30 @@ async function analyze(){
     if(v.call==='SELL') return `<b>${worst.label}</b>${josaIGa(worst.label)} 부담으로 작용하고 있어요. ${confTail} 위험 요인을 먼저 확인하는 편이 좋아요.`;
     return `<b>${best.label}</b>${josaEunNeun(best.label)} 양호하지만 <b>${worst.label}</b>${josaIGa(worst.label)} 걸려 있어요. 지금은 관망하며 추가 확인이 필요해요.`;
   }
+  /* ⭐ 2026-09-05 급등 후 매수 경고 — 판단(BUY/HOLD/SELL)은 그대로 두고, "이미 많이
+     오른 뒤에 나온 매수 신호"라는 사실만 같이 알린다.
+     BUY 실적 감사에서, 직전에 많이 오른 뒤 나온 BUY는 5거래일 안에 크게 빠지는 비율이
+     그렇지 않은 BUY보다 뚜렷하게 높았다(docs/BUY_OVERHEAT_WARNING_20260905.md).
+     숫자는 team_weights.js가 매 사이클 다시 계산한 실측값을 읽는다(하드코딩 금지). */
+  function overheatNoticeHTML(code, call){
+    if(call!=='BUY') return '';
+    const auto=(typeof window.GaeoUseAuto==='function')?window.GaeoUseAuto():null;
+    const oh=(((auto&&auto.stocks?auto.stocks[code]:null)||{}).chief||{}).overheat;
+    if(!oh||!oh.available||!oh.warn) return '';
+    const bo=((((typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS)||{}).global||{}).team||{}).buyOutcome;
+    const st=bo&&bo.overheatAllTime&&bo.overheatAllTime.enoughSample?bo.overheatAllTime:null;
+    const why=[];
+    if(oh.triggers.indexOf('ret20')>=0&&oh.ret20!=null) why.push(`최근 20거래일 <b>${oh.ret20}%</b>`);
+    if(oh.triggers.indexOf('ret5')>=0&&oh.ret5!=null) why.push(`최근 5거래일 <b>${oh.ret5}%</b>`);
+    const evid=st
+      ? `지금까지 이런 조건에서 나온 매수 판단은 <b>${st.warn.crashPct}%</b>가 5거래일 안에 `
+        +`${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요. 그렇지 않은 매수 판단은 <b>${st.calm.crashPct}%</b>였어요`
+        +`${st.crashGapCi95?` (차이의 있을 수 있는 범위 ${st.crashGapCi95[0]}~${st.crashGapCi95[1]}%p)`:''}.`
+      : '아직 이 조건의 과거 기록이 충분히 쌓이지 않아 수치는 보여드리지 않아요.';
+    return `<div class="voverheat"><b>급등 뒤에 나온 매수 신호예요.</b> `
+      +`${why.join(' · ')} 올랐어요. ${evid} `
+      +`판단 자체는 바꾸지 않았어요. 크게 물릴 수도 있다는 사실을 같이 알려드리는 거예요.</div>`;
+  }
   const EVID_LABEL={taro:'기술적 근거',diana:'재무 근거',nova:'확률·통계 근거',flow:'수급 근거'};
   /* 📄 최근 공식 공시 (DART) — 러너가 판단 시각 기준(Point-in-Time)으로 요약한
      dart 필드를 그대로 보여준다. 점수에 가산되지 않는 '정보 전용' 맥락이고,
@@ -7147,6 +7190,8 @@ async function analyze(){
       document.getElementById('vdot').style.background=v.color;
       const call=document.getElementById('vcall'); call.textContent=v.call; call.style.color=v.color;
       document.getElementById('vheroline').innerHTML=verdictHeadline(v,data);
+      const vOh=document.getElementById('voverheat');
+      if(vOh) vOh.innerHTML=overheatNoticeHTML(stock.code, v.call);
       const tierBadge=v.tier==='auto'
         ? '<span class="tier-badge tier-auto" title="자동분석: 수집된 가격·재무·수급 지표를 정해진 규칙으로 해석한 결과예요. 개별 뉴스는 반영하지 않아요.">자동분석</span>'
         : (v.tier==='deep'?'<span class="tier-badge tier-deep" title="정밀분석: 가격·재무·수급과 함께 뉴스·공시까지 살펴본 결과예요.">정밀분석</span>':'');

@@ -7,7 +7,7 @@
 // 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-04 17:40",
+ "generatedAt": "2026-09-05 02:56",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -268,6 +268,101 @@ const TEAM_WEIGHTS = {
      "excludedMid": 139,
      "excludedPct": 14.2
     }
+   },
+   "buyOutcome": {
+    "basis": "call_hit_5d_pm1pct",
+    "crashThresholdPct": -5.0,
+    "overheatThresholds": {
+     "ret5": 10.0,
+     "ret20": 25.0
+    },
+    "currentVersion": {
+     "n": 316,
+     "graded": 258,
+     "acc": 46.9,
+     "crashPct": 19.0,
+     "meanRet": -0.0,
+     "uniqueDecisionDays": 10
+    },
+    "allTime": {
+     "n": 1474,
+     "graded": 1257,
+     "acc": 40.1,
+     "crashPct": 27.5,
+     "meanRet": -1.07,
+     "uniqueDecisionDays": 43
+    },
+    "overheatCurrent": {
+     "enoughSample": true,
+     "warn": {
+      "n": 134,
+      "graded": 118,
+      "acc": 50.8,
+      "crashPct": 25.4,
+      "meanRet": 0.31,
+      "uniqueDecisionDays": 10
+     },
+     "calm": {
+      "n": 182,
+      "graded": 140,
+      "acc": 43.6,
+      "crashPct": 14.3,
+      "meanRet": -0.24,
+      "uniqueDecisionDays": 10
+     },
+     "crashGapPp": 11.1,
+     "crashGapCi95": [
+      0.0,
+      18.5
+     ],
+     "warnSharePct": 42.4
+    },
+    "overheatAllTime": {
+     "enoughSample": true,
+     "warn": {
+      "n": 585,
+      "graded": 522,
+      "acc": 35.2,
+      "crashPct": 37.8,
+      "meanRet": -2.31,
+      "uniqueDecisionDays": 42
+     },
+     "calm": {
+      "n": 889,
+      "graded": 735,
+      "acc": 43.5,
+      "crashPct": 20.8,
+      "meanRet": -0.26,
+      "uniqueDecisionDays": 43
+     },
+     "crashGapPp": 17.0,
+     "crashGapCi95": [
+      11.4,
+      23.2
+     ],
+     "warnSharePct": 39.7
+    },
+    "worst": [
+     {
+      "code": "122640",
+      "name": "예스티",
+      "date": "2026-07-01",
+      "ret5": -37.1
+     },
+     {
+      "code": "002990",
+      "name": "금호건설",
+      "date": "2026-07-09",
+      "ret5": -37.0
+     },
+     {
+      "code": "002990",
+      "name": "금호건설",
+      "date": "2026-07-10",
+      "ret5": -35.4
+     }
+    ],
+    "note": "BUY 판단이 5거래일 뒤 어떻게 끝났는지 그대로 센 값이다. 적중률은 ±1% 기준이고, 폭락률은 기준가 대비 5% 넘게 빠진 비율이다."
    },
    "bandNote": "BUY·SELL은 ±1%, HOLD는 ±5% 기준으로 채점한다. 또 BUY·SELL만 ±1% 안쪽이 '애매'로 채점에서 빠진다(HOLD는 빠지는 게 없다). 잣대와 제외율이 모두 다르므로 합친 적중률 하나만 보고 판단하면 안 된다."
   }
