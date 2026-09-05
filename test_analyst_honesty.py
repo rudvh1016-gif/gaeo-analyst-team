@@ -36,6 +36,10 @@ import json
 import os
 import re
 import unittest
+import contextlib
+import io
+import shutil
+import tempfile
 
 import compute_team_weights as W
 
@@ -84,17 +88,17 @@ class TestBlockBootstrap(unittest.TestCase):
 
     def test_identical_days_give_a_point_interval(self):
         # 모든 날이 똑같으면 어떤 날을 뽑아도 결과가 같다 → 구간이 한 점이어야 한다.
-        ci = W._block_bootstrap(self._days(5, (6, 4), (6, 4), (4, 6)), W._stat_own)
+        ci = W._block_bootstrap(self._days(10, (6, 4), (6, 4), (4, 6)), W._stat_own)
         self.assertEqual(ci, [60.0, 60.0])
 
     def test_lift_is_own_minus_best_fixed_direction(self):
         # 본인 60% · 항상bull 60% · 항상bear 40% → 더 좋은 고정방향은 60% → 차이 0.
-        ci = W._block_bootstrap(self._days(5, (6, 4), (6, 4), (4, 6)), W._stat_lift)
+        ci = W._block_bootstrap(self._days(10, (6, 4), (6, 4), (4, 6)), W._stat_lift)
         self.assertEqual(ci, [0.0, 0.0])
 
     def test_lift_detects_real_skill(self):
         # 본인 90% · 항상bull 50% · 항상bear 50% → 차이 +40%p.
-        ci = W._block_bootstrap(self._days(5, (9, 1), (5, 5), (5, 5)), W._stat_lift)
+        ci = W._block_bootstrap(self._days(10, (9, 1), (5, 5), (5, 5)), W._stat_lift)
         self.assertEqual(ci, [40.0, 40.0])
 
     def test_too_few_days_returns_none(self):
@@ -112,8 +116,8 @@ class TestBlockBootstrap(unittest.TestCase):
     def test_variation_widens_the_interval(self):
         # 날마다 성적이 크게 다르면 구간이 넓어져야 한다.
         blocks = {}
-        for i in range(10):
-            hit = 10 if i % 2 else 0
+        for i in range(20):
+            hit = 10 if i >= 10 else 0
             blocks[f"2026-09-{i+1:02d}"] = {"own": [hit, 10 - hit],
                                             "bull": [5, 5], "bear": [5, 5]}
         ci = W._block_bootstrap(blocks, W._stat_own)
@@ -126,10 +130,20 @@ class TestGeneratedPayload(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        path = os.path.join(HERE, "team_weights.js")
-        if not os.path.exists(path):
-            raise unittest.SkipTest("team_weights.js 없음 — 파이프라인 미실행 환경")
-        cls.tw = W.load_js_object(path, "TEAM_WEIGHTS")
+        # Exercise the generator, not a committed payload from before this PR.
+        # All writes stay in a disposable directory, including on Windows.
+        with tempfile.TemporaryDirectory() as folder:
+            for name in ("history.js", "analysis_data.json", "tickers.js"):
+                shutil.copyfile(os.path.join(HERE, name), os.path.join(folder, name))
+            previous = W.HERE
+            try:
+                W.HERE = folder
+                with contextlib.redirect_stdout(io.StringIO()):
+                    if W.main() != 0:
+                        raise RuntimeError("team weights generator failed")
+                cls.tw = W.load_js_object(os.path.join(folder, "team_weights.js"), "TEAM_WEIGHTS")
+            finally:
+                W.HERE = previous
         cls.acc = cls.tw["global"]["acc"]
 
     def test_every_analyst_carries_its_evidence(self):
@@ -177,7 +191,7 @@ class TestGeneratedPayload(unittest.TestCase):
                 continue
             self.assertAlmostEqual(st["liftVsFixedPp"],
                                    round(st["acc"] - st["bestFixedDirectionAcc"], 1),
-                                   places=1)
+                                   delta=0.11)  # displayed inputs are independently rounded
 
     def test_skill_status_agrees_with_the_interval(self):
         """라벨이 구간과 어긋나면 안 된다 — 화면이 그 라벨만 보고 색을 칠한다."""
@@ -189,7 +203,7 @@ class TestGeneratedPayload(unittest.TestCase):
             elif ci and ci[1] < 0:
                 self.assertEqual(st["skillStatus"], "BELOW_FIXED_BASELINE")
             elif ci and ci[0] > 0:
-                self.assertEqual(st["skillStatus"], "PROVEN_ABOVE")
+                self.assertEqual(st["skillStatus"], "ABOVE_FIXED_BASELINE" if st.get("evidenceStatus") else "PROVEN_ABOVE")
             else:
                 self.assertEqual(st["skillStatus"], "NOT_PROVEN")
 
@@ -245,11 +259,11 @@ class TestScreenTellsTheTruth(unittest.TestCase):
         self._has("한 방향만 말해도", "리더보드에서 기준선 설명이 사라졌다.")
         self._has("lb-base-mark", "막대의 기준선 표시가 사라졌다.")
         # 카드 위 안내에도 기준선 개념이 남아 있어야 한다.
-        self._has("그 기준선을 넘었는지가 진짜 확인이에요",
+        self._has("그 기준선과 비교하되 독립된 새 기록으로도 확인해야 해요",
                   "리더보드 안내에서 기준선 설명이 사라졌다.")
 
     def test_leaderboard_shows_decision_days(self):
-        self._has("판단 ${r.days===null?'—':r.days+'일'}",
+        self._has("판단 ${r.days===null?'자료 없음':r.days+'일'}",
                   "리더보드가 판단일 수를 보여주지 않는다. 채점 건수만 보이면 "
                   "10일치가 수천 건처럼 읽힌다.")
 

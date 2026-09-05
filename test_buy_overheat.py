@@ -1,37 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""급등 후 매수 경고 + BUY 실적 공개 계약 테스트 (2026-09-05 신설)
-
-왜 이 테스트가 있나
-────────────────────
-소유자가 "사이트에 매일 뜨는 BUY 추천은 그래도 쓸데없는 걸 추천하진 않은 것 같다"고
-했다. 실제로 대조해 보니 반대였다(docs/BUY_OVERHEAT_WARNING_20260905.md).
-
-  · 지금까지 낸 BUY 1,474건의 적중률 40.1% (동전 던지기보다 낮다)
-  · 27.5%는 5거래일 안에 기준가보다 5% 넘게 빠졌다
-  · 최악: 예스티 -37.1%, 금호건설 -37.0%, GS건설 -35.3%
-
-원인을 찾다가 훨씬 강한 규칙성이 나왔다. **판단 직전에 이미 많이 오른 뒤에 나온
-BUY일수록 크게 물리는 비율이 높다.**
-
-  직전 5거래일 -5% 이하(하락 중) → 이후 5거래일 평균 +4.54% · 폭락 17.5%
-  직전 5거래일 +15% 이상(폭등)   → 이후 5거래일 평균 -2.48% · 폭락 36.0%
-
-이건 BUY만의 문제가 아니라 시장 전체의 단기 되돌림이다(전 종목으로 같은 표를 만들어
-대조했다). 문제는 **BUY가 하필 그 구간에 몰려서 나간다**는 것이다. 직전 5거래일
-+7% 이상에서 나온 BUY가 전체의 48.2%인데, 시장 전체에서 그 구간의 비중은 20.2%다.
-
-소유자가 낸 가설("며칠 연속 BUY면 위험")은 데이터가 반대로 말했다. 연속 BUY가 길수록
-오히려 폭락률이 낮았고(1일차 31.5% vs 6일차 이상 20.1%), 두 모델 버전 구간에서
-방향도 일치하지 않았다. 첫 BUY가 급등 직후에 나오는 경우가 많아서다
-(1일차 직전 5거래일 평균 +8.71% vs 6일차 이상 +4.47%).
-
-이 파일이 지키는 것
-────────────────────
-① 경고는 판단(call)을 절대 바꾸지 않는다.
-② 경고 기준이 파이프라인 두 곳에서 갈라지지 않는다(갈라지면 화면 설명이 거짓이 된다).
-③ 화면은 성과 숫자를 하드코딩하지 않고 러너가 계산한 값을 읽는다.
-④ 자료가 없으면 "안전하다"가 아니라 "판정하지 않았다"로 나간다.
+"""Display-only BUY context, provenance, and numerical disclosure contracts.
+Empirical performance may reverse; tests must never enforce a desired outcome.
 """
 import io
 import json
@@ -80,7 +50,7 @@ class TestOverheatFlag(unittest.TestCase):
 
     def test_boundary_is_inclusive(self):
         self.assertTrue(A.overheat_flag(self.entry(ret5=A.OVERHEAT_RET5_PCT))["warn"])
-        self.assertFalse(A.overheat_flag(self.entry(ret5=A.OVERHEAT_RET5_PCT - 0.1))["warn"])
+        self.assertFalse(A.overheat_flag(self.entry(ret5=A.OVERHEAT_RET5_PCT - 0.1))["available"])
         self.assertTrue(A.overheat_flag(self.entry(ret20=A.OVERHEAT_RET20_PCT))["warn"])
 
     def test_missing_data_is_not_called_safe(self):
@@ -96,39 +66,27 @@ class TestOverheatFlag(unittest.TestCase):
         self.assertTrue(r["warn"])
         self.assertIsNone(r["ret5"])
 
-    # ── 2026-09-05 2차: 변동성(vol20)과 2단계 판정 ──────────────────────
-    def test_volatility_alone_triggers_caution(self):
-        """원래 크게 출렁이는 종목도 급등과 거의 같은 크기로 폭락을 예고했다."""
-        r = A.overheat_flag({"tech": {"ret5": 1.0, "ret20": 2.0}, "risk": {"vol20": 5.0}})
-        self.assertEqual(r["triggers"], ["vol20"])
-        self.assertEqual(r["level"], "caution")
-
-    def test_both_kinds_make_it_strong(self):
-        """급등(시점 위험)과 변동성(성격 위험)은 다른 것을 잡아낸다.
-
-        실측 2×2: 둘 다 아님 17.9% · 급등만 29.7% · 변동성만 30.5% · 둘 다 41.8%.
-        """
-        r = A.overheat_flag({"tech": {"ret5": 12.0, "ret20": 2.0}, "risk": {"vol20": 5.0}})
-        self.assertEqual(r["level"], "strong")
-        self.assertIn("vol20", r["triggers"])
-        self.assertIn("ret5", r["triggers"])
-
-    def test_two_price_triggers_are_still_one_kind(self):
-        """ret5·ret20은 둘 다 '급등'이므로 합쳐도 caution이다(강한 경고가 아니다)."""
-        r = A.overheat_flag({"tech": {"ret5": 12.0, "ret20": 30.0}, "risk": {"vol20": 1.0}})
-        self.assertEqual(r["level"], "caution")
-
-    def test_calm_and_steady_is_not_flagged(self):
-        r = A.overheat_flag({"tech": {"ret5": 2.0, "ret20": 5.0}, "risk": {"vol20": 2.0}})
-        self.assertEqual(r["level"], "none")
+    def test_volatility_is_context_only(self):
+        r = A.overheat_flag({"tech": {"ret5": 1., "ret20": 2.}, "risk": {"vol20": 9.}})
         self.assertFalse(r["warn"])
+        self.assertEqual(r["triggers"], [])
+        self.assertEqual(r["vol20"], 9.)
 
-    def test_volatility_boundary_is_inclusive(self):
-        base = {"tech": {"ret5": 0.0, "ret20": 0.0}}
-        hi = dict(base, risk={"vol20": A.OVERHEAT_VOL20_PCT})
-        lo = dict(base, risk={"vol20": A.OVERHEAT_VOL20_PCT - 0.01})
-        self.assertTrue(A.overheat_flag(hi)["warn"])
-        self.assertFalse(A.overheat_flag(lo)["warn"])
+    def test_volatility_does_not_escalate_surge(self):
+        r = A.overheat_flag({"tech": {"ret5": 12., "ret20": 2.}, "risk": {"vol20": 9.}})
+        self.assertEqual(r["level"], "caution")
+        self.assertEqual(r["triggers"], ["ret5"])
+
+    def test_unknown_input_does_not_mean_safe(self):
+        for value in (None, float('nan'), float('inf'), True, '12'):
+            r = A.overheat_flag({"tech": {"ret5": 0., "ret20": value}})
+            self.assertFalse(r["available"])
+            self.assertEqual(r["level"], "unknown")
+
+    def test_volatility_alone_is_insufficient(self):
+        r = A.overheat_flag({"risk": {"vol20": 9.}})
+        self.assertFalse(r["available"])
+        self.assertFalse(r["warn"])
 
 
 class TestWarningNeverChangesTheCall(unittest.TestCase):
@@ -196,7 +154,12 @@ class TestGeneratedPayload(unittest.TestCase):
         p = os.path.join(HERE, "team_weights.js")
         if not os.path.exists(p):
             raise unittest.SkipTest("team_weights.js 없음")
-        cls.bo = (W.load_js_object(p, "TEAM_WEIGHTS")["global"]["team"] or {}).get("buyOutcome")
+        with open(os.path.join(HERE, "analysis_data.json"), encoding="utf-8") as f:
+            stocks = json.load(f)["stocks"]
+        closes = {c: sorted(v["daily"], key=lambda r:r["date"]) for c,v in stocks.items() if v.get("daily")}
+        hist = W.load_js_object(os.path.join(HERE, "history.js"), "LIVE_HISTORY")
+        cls.bo = W.buy_outcome_stats(hist, closes, W.load_names(), {W.BASE_MODEL_VERSION}, W.record_base_version)
+
 
     def test_buy_outcome_exists(self):
         self.assertIsNotNone(self.bo, "BUY 실적이 team_weights.js에 없다 — 화면이 숫자를 지어내게 된다.")
@@ -233,22 +196,23 @@ class TestGeneratedPayload(unittest.TestCase):
 
     def test_caution_matrix_covers_every_buy(self):
         cm = self.bo["cautionMatrix"]
-        total = sum(cm[lv]["n"] for lv in ("none", "caution", "strong") if cm[lv])
+        total = sum(cm[lv]["n"] for lv in ("none", "caution", "unknown") if cm[lv])
         self.assertEqual(total, self.bo["allTime"]["n"],
                          "단계별 합이 전체와 다르다 — 어떤 판단이 어느 칸에도 안 들어갔다.")
 
-    def test_stronger_caution_means_worse_outcome(self):
-        """단계가 올라갈수록 폭락률이 높아야 라벨이 뜻을 가진다."""
-        cm = self.bo["cautionMatrix"]
-        if not all(cm.get(lv) for lv in ("none", "caution", "strong")):
-            self.skipTest("표본 부족")
-        self.assertLess(cm["none"]["crashPct"], cm["caution"]["crashPct"])
-        self.assertLess(cm["caution"]["crashPct"], cm["strong"]["crashPct"])
+    def test_warning_is_exploratory_regardless_of_outcome(self):
+        self.assertEqual(self.bo["evidenceStatus"], "EXPLORATORY_NOT_VALIDATED")
+        self.assertEqual(self.bo["crashBasis"], "fifth_session_close_return")
+        self.assertEqual(self.bo["schemaVersion"], 2)
+
+    def test_reconstructed_and_manual_records_are_separated(self):
+        self.assertEqual(self.bo["legacyMixed"]["n"], self.bo["allTime"]["n"]
+                         + self.bo["reconstructed"]["n"] + self.bo["nonAuto"]["n"])
 
     def test_thresholds_are_stamped_in_the_output(self):
         self.assertEqual(self.bo["overheatThresholds"]["ret5"], W.OVERHEAT_RET5_PCT)
         self.assertEqual(self.bo["overheatThresholds"]["ret20"], W.OVERHEAT_RET20_PCT)
-        self.assertEqual(self.bo["overheatThresholds"]["vol20"], W.OVERHEAT_VOL20_PCT)
+        self.assertNotIn("vol20", self.bo["overheatThresholds"])
 
     def test_worst_cases_are_named(self):
         for w in self.bo["worst"]:
@@ -285,13 +249,13 @@ class TestScreen(unittest.TestCase):
 
     def test_random_baseline_is_on_screen(self):
         self._has("bo.randomBaseline", "성적표가 무작위 기준선을 읽지 않는다.")
-        self._has("아무 종목이나 골랐으면 어땠을까요",
+        self._has("같은 날짜의 자동판단 기록과 비교하면 어땠을까요",
                   "무작위 기준선 공개 문구가 사라졌다.")
-        self._has("나은 결과를 내지 못했어요",
+        self._has("부진의 원인이 한 가지라고 결론 내릴 수 없어요",
                   "불리한 결론을 화면에서 뺐다.")
 
     def test_warning_uses_the_matching_cell(self):
-        self._has("cm[oh.level]",
+        self._has("bo.warningVersion===oh.version",
                   "경고가 단계에 맞는 실측 숫자가 아니라 아무 숫자나 쓰고 있다.")
 
     def test_buy_record_is_disclosed(self):

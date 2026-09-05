@@ -121,6 +121,10 @@ def _entry_from(a, when):
         entry["confidenceShadow"] = chief["confidenceShadow"]
         if chief.get("confidenceModelVersion"):
             entry["confidenceShadowVersion"] = chief["confidenceModelVersion"]
+    # Preserve the actual display signal and its version for prospective audits.
+    # Existing historical rows are not backfilled with today's feature values.
+    if isinstance(chief.get("overheat"), dict):
+        entry["overheat"] = dict(chief["overheat"])
     return entry
 
 
