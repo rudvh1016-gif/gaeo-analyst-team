@@ -784,37 +784,77 @@ def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
 #    ⚠️ 이 값은 call을 절대 바꾸지 않는다. 판단을 바꾸는 것은 산식 변경이고,
 #       그건 판단일 20일이 쌓인 뒤 사전등록 검증을 통과해야 한다
 #       (docs/gaeo_validation_policy.md). 지금은 "같이 알려주기"까지만 한다.
+#    ⭐ 2026-09-05 2차 — 낙폭 방어 후보 22개를 같은 잣대로 비교해 하나를 더 찾았다.
+#    "원래 많이 출렁이는 종목"(최근 20거래일 일간 등락 표준편차 vol20)도 급등과
+#    거의 같은 크기로 폭락을 예고했고, 둘은 서로 다른 것을 잡아낸다.
+#
+#      급등도 변동성도 아님 → 폭락 17.9% (n=677)   ← 가장 안전
+#      급등만                → 폭락 29.7% (n=195)
+#      변동성만              → 폭락 30.5% (n=213)
+#      둘 다                 → 폭락 41.6% (n=389)   ← 가장 위험
+#
+#    과최적화 검증: 옛 구간(구버전)만 보고 후보를 고른 뒤 새 구간(신버전)에 그대로
+#    적용했더니 폭락률이 19.0% → 11.5%로 내려갔다(+7.5%p, 처음 보는 자료에서).
+#    임계값도 vol20 3.0~6.0 어디서나 같은 방향이라 특정 숫자에 맞춘 값이 아니다.
+#
+#    ⚠️ 필드 이름은 먼저 배포한 overheat를 그대로 쓴다. 지금은 "급등"만이 아니라
+#       "이 매수 신호를 조심해야 할 이유"를 담는다(급등 = 시점 위험, 변동성 = 종목
+#       성격 위험). 이름을 바꾸면 이미 나간 기록·문서·테스트가 함께 갈라진다.
 OVERHEAT_RET5_PCT = 10.0     # 직전 5거래일 상승률 기준
 OVERHEAT_RET20_PCT = 25.0    # 직전 20거래일 상승률 기준
-OVERHEAT_VERSION = "overheat-2026-09-05"
+OVERHEAT_VOL20_PCT = 4.0     # 최근 20거래일 일간 등락 표준편차(하루 평균 출렁임)
+OVERHEAT_VERSION = "overheat-2026-09-05b"
 
 
 def overheat_flag(e):
-    """급등 후 매수 경고 신호. 판단(call)에는 쓰이지 않는 표시 전용 값이다.
+    """매수 주의 신호. 판단(call)에는 쓰이지 않는 표시 전용 값이다.
+
+    두 가지를 따로 본다.
+      · 급등(ret5·ret20) — "지금 사기엔 이미 많이 올랐다"는 시점 위험
+      · 변동성(vol20)    — "이 종목은 원래 크게 출렁인다"는 성격 위험
+    둘 다 걸리면 level이 strong이다(실측 폭락률 41.6%로 가장 위험한 칸).
 
     지표가 없으면 경고를 지어내지 않고 available=False로 돌려준다
     (데이터 없음을 '안전함'으로 바꿔 말하지 않는다).
     """
     tech = (e or {}).get("tech") or {}
+    risk = (e or {}).get("risk") or {}
     r5, r20 = tech.get("ret5"), tech.get("ret20")
-    have = [v for v in (r5, r20) if isinstance(v, (int, float))]
-    if not have:
-        return {"available": False, "warn": False, "ret5": None, "ret20": None,
+    vol = risk.get("vol20") if isinstance(risk, dict) else None
+    num = lambda v: v if isinstance(v, (int, float)) else None
+    r5, r20, vol = num(r5), num(r20), num(vol)
+    if r5 is None and r20 is None and vol is None:
+        return {"available": False, "warn": False, "level": "none",
+                "ret5": None, "ret20": None, "vol20": None,
                 "triggers": [], "version": OVERHEAT_VERSION,
-                "note": "최근 상승률 자료가 없어 과열 여부를 판정하지 않았습니다."}
+                "note": "최근 상승률·변동성 자료가 없어 주의 여부를 판정하지 않았습니다."}
     triggers = []
-    if isinstance(r5, (int, float)) and r5 >= OVERHEAT_RET5_PCT:
+    if r5 is not None and r5 >= OVERHEAT_RET5_PCT:
         triggers.append("ret5")
-    if isinstance(r20, (int, float)) and r20 >= OVERHEAT_RET20_PCT:
+    if r20 is not None and r20 >= OVERHEAT_RET20_PCT:
         triggers.append("ret20")
-    return {"available": True, "warn": bool(triggers),
-            "ret5": round(r5, 1) if isinstance(r5, (int, float)) else None,
-            "ret20": round(r20, 1) if isinstance(r20, (int, float)) else None,
-            "thresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT},
-            "triggers": triggers, "version": OVERHEAT_VERSION,
-            "note": ("최근 많이 오른 뒤에 나온 매수 신호입니다. 과거 같은 조건에서 "
-                     "5거래일 안에 5% 넘게 빠진 비율이 그렇지 않을 때보다 높았습니다."
-                     if triggers else "최근 급등 뒤 매수 조건에는 해당하지 않습니다.")}
+    if vol is not None and vol >= OVERHEAT_VOL20_PCT:
+        triggers.append("vol20")
+    hot = any(t in ("ret5", "ret20") for t in triggers)
+    swing = "vol20" in triggers
+    level = "strong" if (hot and swing) else ("caution" if (hot or swing) else "none")
+    notes = {
+        "strong": ("최근 많이 오른 데다 원래 크게 출렁이는 종목입니다. "
+                   "과거 이 두 가지가 같이 걸린 매수 신호는 5거래일 안에 크게 빠진 "
+                   "비율이 가장 높았습니다."),
+        "caution": ("과거 같은 조건에서 나온 매수 신호는 5거래일 안에 크게 빠진 비율이 "
+                    "그렇지 않을 때보다 높았습니다."),
+        "none": "급등·변동성 주의 조건에는 해당하지 않습니다.",
+    }
+    return {"available": True, "warn": bool(triggers), "level": level,
+            "ret5": round(r5, 1) if r5 is not None else None,
+            "ret20": round(r20, 1) if r20 is not None else None,
+            "vol20": round(vol, 2) if vol is not None else None,
+            "thresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT,
+                           "vol20": OVERHEAT_VOL20_PCT},
+            "triggers": triggers, "version": OVERHEAT_VERSION, "note": notes[level]}
+
+
 
 
 # 사용 가능한 분석축이 이보다 적으면 억지로 판단하지 않는다.

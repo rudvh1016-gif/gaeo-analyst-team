@@ -96,6 +96,40 @@ class TestOverheatFlag(unittest.TestCase):
         self.assertTrue(r["warn"])
         self.assertIsNone(r["ret5"])
 
+    # ── 2026-09-05 2차: 변동성(vol20)과 2단계 판정 ──────────────────────
+    def test_volatility_alone_triggers_caution(self):
+        """원래 크게 출렁이는 종목도 급등과 거의 같은 크기로 폭락을 예고했다."""
+        r = A.overheat_flag({"tech": {"ret5": 1.0, "ret20": 2.0}, "risk": {"vol20": 5.0}})
+        self.assertEqual(r["triggers"], ["vol20"])
+        self.assertEqual(r["level"], "caution")
+
+    def test_both_kinds_make_it_strong(self):
+        """급등(시점 위험)과 변동성(성격 위험)은 다른 것을 잡아낸다.
+
+        실측 2×2: 둘 다 아님 17.9% · 급등만 29.7% · 변동성만 30.5% · 둘 다 41.8%.
+        """
+        r = A.overheat_flag({"tech": {"ret5": 12.0, "ret20": 2.0}, "risk": {"vol20": 5.0}})
+        self.assertEqual(r["level"], "strong")
+        self.assertIn("vol20", r["triggers"])
+        self.assertIn("ret5", r["triggers"])
+
+    def test_two_price_triggers_are_still_one_kind(self):
+        """ret5·ret20은 둘 다 '급등'이므로 합쳐도 caution이다(강한 경고가 아니다)."""
+        r = A.overheat_flag({"tech": {"ret5": 12.0, "ret20": 30.0}, "risk": {"vol20": 1.0}})
+        self.assertEqual(r["level"], "caution")
+
+    def test_calm_and_steady_is_not_flagged(self):
+        r = A.overheat_flag({"tech": {"ret5": 2.0, "ret20": 5.0}, "risk": {"vol20": 2.0}})
+        self.assertEqual(r["level"], "none")
+        self.assertFalse(r["warn"])
+
+    def test_volatility_boundary_is_inclusive(self):
+        base = {"tech": {"ret5": 0.0, "ret20": 0.0}}
+        hi = dict(base, risk={"vol20": A.OVERHEAT_VOL20_PCT})
+        lo = dict(base, risk={"vol20": A.OVERHEAT_VOL20_PCT - 0.01})
+        self.assertTrue(A.overheat_flag(hi)["warn"])
+        self.assertFalse(A.overheat_flag(lo)["warn"])
+
 
 class TestWarningNeverChangesTheCall(unittest.TestCase):
     """② 경고는 표시 전용이다 — call·total에 손대지 않는다."""
@@ -141,6 +175,7 @@ class TestThresholdsStayInSync(unittest.TestCase):
     def test_analyze_and_weights_use_the_same_thresholds(self):
         self.assertEqual(A.OVERHEAT_RET5_PCT, W.OVERHEAT_RET5_PCT)
         self.assertEqual(A.OVERHEAT_RET20_PCT, W.OVERHEAT_RET20_PCT)
+        self.assertEqual(A.OVERHEAT_VOL20_PCT, W.OVERHEAT_VOL20_PCT)
 
     def test_indicator_lookback_matches_the_20day_threshold(self):
         import indicator_math
@@ -185,9 +220,35 @@ class TestGeneratedPayload(unittest.TestCase):
         self.assertAlmostEqual(oh["crashGapPp"],
                                round(oh["warn"]["crashPct"] - oh["calm"]["crashPct"], 1), places=1)
 
+    def test_random_baseline_is_reported(self):
+        """적중률만 내면 잘한 건지 못한 건지 알 수 없다. '아무거나 골랐다면'을 같이 낸다.
+
+        실측에서 우리 BUY(40.1%)는 무작위(46.4%)보다 낮았다. 불리해도 그대로 낸다.
+        """
+        rb = self.bo["randomBaseline"]
+        for f in ("n", "acc", "crashPct", "meanRet", "uniqueDecisionDays"):
+            self.assertIn(f, rb)
+        self.assertGreater(rb["n"], self.bo["allTime"]["n"],
+                           "무작위 기준선의 표본이 BUY보다 작다 — 전 종목을 안 세고 있다.")
+
+    def test_caution_matrix_covers_every_buy(self):
+        cm = self.bo["cautionMatrix"]
+        total = sum(cm[lv]["n"] for lv in ("none", "caution", "strong") if cm[lv])
+        self.assertEqual(total, self.bo["allTime"]["n"],
+                         "단계별 합이 전체와 다르다 — 어떤 판단이 어느 칸에도 안 들어갔다.")
+
+    def test_stronger_caution_means_worse_outcome(self):
+        """단계가 올라갈수록 폭락률이 높아야 라벨이 뜻을 가진다."""
+        cm = self.bo["cautionMatrix"]
+        if not all(cm.get(lv) for lv in ("none", "caution", "strong")):
+            self.skipTest("표본 부족")
+        self.assertLess(cm["none"]["crashPct"], cm["caution"]["crashPct"])
+        self.assertLess(cm["caution"]["crashPct"], cm["strong"]["crashPct"])
+
     def test_thresholds_are_stamped_in_the_output(self):
         self.assertEqual(self.bo["overheatThresholds"]["ret5"], W.OVERHEAT_RET5_PCT)
         self.assertEqual(self.bo["overheatThresholds"]["ret20"], W.OVERHEAT_RET20_PCT)
+        self.assertEqual(self.bo["overheatThresholds"]["vol20"], W.OVERHEAT_VOL20_PCT)
 
     def test_worst_cases_are_named(self):
         for w in self.bo["worst"]:
@@ -221,6 +282,17 @@ class TestScreen(unittest.TestCase):
     def test_warning_says_it_did_not_change_the_call(self):
         self._has("판단 자체는 바꾸지 않았어요",
                   "경고가 '판단을 바꾸지 않았다'는 사실을 안 밝힌다.")
+
+    def test_random_baseline_is_on_screen(self):
+        self._has("bo.randomBaseline", "성적표가 무작위 기준선을 읽지 않는다.")
+        self._has("아무 종목이나 골랐으면 어땠을까요",
+                  "무작위 기준선 공개 문구가 사라졌다.")
+        self._has("나은 결과를 내지 못했어요",
+                  "불리한 결론을 화면에서 뺐다.")
+
+    def test_warning_uses_the_matching_cell(self):
+        self._has("cm[oh.level]",
+                  "경고가 단계에 맞는 실측 숫자가 아니라 아무 숫자나 쓰고 있다.")
 
     def test_buy_record_is_disclosed(self):
         self._has("team.buyOutcome", "성적표가 BUY 실적을 읽지 않는다.")
