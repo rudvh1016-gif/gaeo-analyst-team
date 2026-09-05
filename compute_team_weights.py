@@ -431,7 +431,7 @@ def main():
                         elif vv == "miss":
                             blk[key][1] += 1
 
-    def weights_from(acc_tbl, decision_days=None):
+    def weights_from(acc_tbl, decision_days):
         """역할 사전비중 × 베이지안 보정 적중률로 안정적인 가중치를 계산.
 
         ⭐ 2026-09-05부터 축소(shrinkage)의 표본 단위는 '채점 건수'가 아니라
@@ -453,14 +453,15 @@ def main():
             n = acc_tbl[a]["hit"] + acc_tbl[a]["miss"]
             acc = (acc_tbl[a]["hit"] / n * 100) if n else None
             row_adjusted = (acc_tbl[a]["hit"] + BAYES_PRIOR_N * 0.5) / (n + BAYES_PRIOR_N)
-            n_days = int((decision_days or {}).get(a, 0) or 0) if n else 0
+            # decision_days는 필수다. 빠지면 판단일 0 → 모두 사전값이 되어 조용히 틀리므로 기본값을 두지 않는다.
+            n_days = int(decision_days.get(a, 0) or 0) if n else 0
             if WEIGHT_SHRINKAGE_UNIT == "decision_day":
                 h_eff = (acc / 100.0 * n_days) if (acc is not None and n_days) else 0.0
                 adjusted = (h_eff + DAY_PRIOR_N * 0.5) / (n_days + DAY_PRIOR_N)
             else:
                 adjusted = row_adjusted
             gated = False
-            if WEIGHT_MATURITY_GATE and decision_days is not None:
+            if WEIGHT_MATURITY_GATE:
                 if decision_days.get(a, 0) < MIN_DAYS_FOR_WEIGHT_LEARNING:
                     adjusted = 0.5
                     gated = True
@@ -564,8 +565,9 @@ def main():
                                  if med_dev is not None else None),
         }
 
-    # ── 그림자 계산: 판단일을 유효표본으로 쓰면 가중치가 어떻게 되나 ─────────
-    #    적용하지 않는다. 기록만 남겨 사전등록 검증에서 비교할 수 있게 한다.
+    # ── 판단일 단위 축소의 나란한 계산(priorDays20/120)과 옛 건수 단위(rowBasedLegacy) ──
+    #    2026-09-05부터 priorDays20이 실제 global.weights와 같은 식이다(위 weights_from).
+    #    120일 사전표본 변형과 옛 방식은 비교용 기록이다.
     def _weights_from_adjusted(adj):
         raw = {a: RULES[a]["prior"] * math.exp(SKILL_SENSITIVITY * (adj[a] - 0.5))
                for a in ANALYSTS}
@@ -576,8 +578,9 @@ def main():
         """하루를 한 번의 독립 시행으로 보고, prior_days일치 사전표본으로 축소한다."""
         adj = {}
         for a in ANALYSTS:
-            n_eff = a_decision_days[a]
             _n = g[a]["hit"] + g[a]["miss"]
+            # weights_from과 같은 보호: 채점 0건이면 판단일도 0으로 본다(방향 의견만 있고 전부 ±deadband 안일 때).
+            n_eff = a_decision_days[a] if _n else 0
             acc = (g[a]["hit"] / _n * 100.0) if _n else None
             h_eff = (acc / 100.0 * n_eff) if (acc is not None and n_eff) else 0.0
             adj[a] = (h_eff + prior_days * 0.5) / (n_eff + prior_days)
@@ -641,7 +644,7 @@ def main():
         "evalDays": 5,
         "horizons": {a: {"days": RULES[a]["days"], "deadband": RULES[a]["deadband"]}
                      for a in ANALYSTS},
-        "method": "role-prior-bayesian-shrinkage-v3-market-relative",
+        "method": "role-prior-bayesian-shrinkage-v4-decision-day-market-relative",
         # 채점 기준을 명시적으로 남긴다. Evolution 매니페스트가 teamWeightVersion으로
         # 이 값을 집어가므로, 기준이 바뀐 가중치가 예전 기준 기록과 섞이지 않는다.
         # ⚠️ 이것은 Constitution의 scoringVersion(= build_model_scoreboard.py ·
@@ -658,17 +661,17 @@ def main():
                      "사용자에게 계속 같은 뜻으로 보여야 하므로 절대 기준을 유지한다."),
         },
         "global": {
-            "version": ("tw-2026-08-31-market-relative" if MARKET_RELATIVE
-                        else "tw-2026-08-15-absolute"),
+            # ⭐ 버전 문자열은 가중치의 '계산 기준'이 바뀔 때 함께 올린다. Evolution 매니페스트가
+            #    teamWeightVersion으로 옛 기준과 새 기준 기록을 섞지 않게 하기 위해서다.
+            #    2026-09-05: 축소 단위 채점 건수 → 판단일(§14). 'market-relative' 부분 문자열은 계약 테스트가 본다.
+            "version": ("tw-2026-09-05-day-shrinkage-market-relative" if MARKET_RELATIVE
+                        else "tw-2026-09-05-day-shrinkage-absolute"),
             "weights": gw,
             "acc": gstat,
             "graded": graded_total,
-            # ⭐ 2026-09-04 그림자 계산 — 적용하지 않는다(applied: false).
-            #    지금 축소(BAYES_PRIOR_N=120)는 "채점 건수"를 독립 시행으로 센다.
-            #    같은 날 600종목이 한꺼번에 들어오므로 이건 부풀린 표본이다.
-            #    판단일 수를 유효표본으로 쓰면 가중치가 어떻게 되는지 나란히 남겨,
-            #    9월 하순 사전등록 검증에서 두 방식을 같은 잣대로 비교할 수 있게 한다.
-            #    이 블록은 기록일 뿐이고 실제 판단은 위 weights로만 이뤄진다.
+            # ⭐ 2026-09-04에 그림자(applied: false)로 먼저 공개했고, 2026-09-05부터 실제 적용(applied: true).
+            #    priorDays20이 위 weights와 같은 식이다. rowBasedLegacy가 옛 건수 단위 값이다.
+            #    블록 이름은 옛 소비자(문서·테스트) 호환을 위해 그대로 둔다.
             "dayBasedShadow": day_based_shadow,
             # 팀 적중률은 화면에 그대로 노출되는 숫자라 뜻이 조용히 바뀌면 안 된다.
             # 그래서 절대 기준(score_call)을 유지한다 — 분석가 발언권 학습만 상대 기준.

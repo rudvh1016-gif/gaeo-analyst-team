@@ -29,8 +29,10 @@
    수천 건으로 불어난다. 실제로 깎이는 폭은 1%p도 안 된다. Constitution
    statisticalPolicy는 독립 단위를 decision_date로 정해 두고 있다.
 
-이 파일은 위 상태로 되돌아가지 못하게 막는다. 산식·가중치는 바꾸지 않았고
-(판단일 10일 < 20일, docs/gaeo_validation_policy.md), 그 사실도 함께 고정한다.
+이 파일은 위 상태로 되돌아가지 못하게 막는다. 2026-09-04에는 산식·가중치를 바꾸지 않았고
+(판단일 10일 < 20일), 2026-09-05에 소유자 위임으로 축소 단위만 '판단일'로 바꿔 실제 적용했다
+(docs/gaeo_validation_policy.md §14). 이 파일은 그 두 사실을 함께 고정한다: 학습 상수·역할
+사전비중·성숙 게이트(꺼짐)는 그대로이고, 축소 단위는 decision_day이며 건수 단위는 그림자다.
 """
 import json
 import os
@@ -52,14 +54,15 @@ def _app_source():
 
 
 class TestNoSilentProductionChange(unittest.TestCase):
-    """① 이번 변경은 표시·기록만 바꾼다. 실제 판단을 조용히 바꾸지 않는다."""
+    """① 실제 판단을 조용히 바꾸지 않는다. 학습 상수·역할 사전비중·성숙 게이트는 그대로다.
+    (2026-09-05의 축소 단위 전환은 문서 §14와 아래 TestGeneratedPayload가 명시적으로 고정한다.)"""
 
     def test_maturity_gate_is_off(self):
         self.assertFalse(
             W.WEIGHT_MATURITY_GATE,
             "WEIGHT_MATURITY_GATE가 켜져 있다. 켜면 판단일이 기준 미만인 분석가가 "
             "역할 사전비중으로 되돌아가 실제 BUY/HOLD/SELL이 바뀐다. "
-            "판단일 20일이 쌓이고 사전등록 검증을 통과한 뒤 사람이 켜야 한다.",
+            "판단일 단위 축소가 같은 목적을 절벽 없이 달성하므로 이 게이트는 켜지 않는다(§14).",
         )
 
     def test_learning_knobs_untouched(self):
@@ -298,8 +301,16 @@ class TestScreenTellsTheTruth(unittest.TestCase):
                   "채점 0건인 분석가를 '아직 채점 전'으로 밝히지 않는다.")
 
     def test_shrinkage_claim_is_qualified(self):
-        self._has("그 장치가 거의 작동하지 않습니다",
-                  "'작은 표본은 50%로 줄인다'는 설명이 실제와 다른데 그대로 남아 있다.")
+        """모델 실험실의 축소(shrinkage) 설명은 실제 산식과 같은 시제여야 한다.
+        2026-09-04: '거의 작동하지 않는다'가 사실이었다. 2026-09-05부터 판단일 단위가 적용돼
+        그 문장은 거짓이 됐고(QA 건강검진에서 소제목만 옛 문구로 남은 것을 잡음), 지금은
+        '판단일 수로 셉니다'가 사실이다."""
+        self._lacks("그 장치가 거의 작동하지 않습니다",
+                    "축소가 실제로 적용되는데 '작동하지 않는다'는 옛 소제목이 남아 있다.")
+        self._has("2026년 9월 5일부터 판단일 수로 셉니다",
+                  "축소 단위가 판단일로 바뀐 사실을 모델 실험실 소제목이 말하지 않는다.")
+        self._has("판단일 수를 표본으로 세어",
+                  "축소 방식 설명 본문이 사라졌다.")
 
     def test_dead_accuracy_badge_is_gone(self):
         self._lacks("computeLeaderboard(",

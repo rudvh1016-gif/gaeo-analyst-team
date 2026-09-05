@@ -99,7 +99,11 @@ class Evidence(unittest.TestCase):
         original={'chief':{'call':'BUY','overheat':B.overheat_flag({'tech':{'ret5':11,'ret20':2}})}}
         prior=deepcopy(original)
         record=archive._entry_from(original,'2026-09-05')
-        self.assertEqual(record['overheat'],original['chief']['overheat'])
+        # 2026-09-05: 파일 크기 때문에 필요한 키만 저장한다. 사전등록·성적표가 읽는 값은 전부 남아야 한다.
+        for key in ('version','available','warn','triggers','ret5','ret20','vol20'):
+            self.assertEqual(record['overheat'][key],original['chief']['overheat'][key],key)
+        self.assertEqual(set(record['overheat']),set(archive.OVERHEAT_ARCHIVE_KEYS)&set(original['chief']['overheat']))
+        self.assertNotIn('note',record['overheat']); self.assertNotIn('thresholds',record['overheat'])
         self.assertEqual(original,prior)
         self.assertNotIn('overheat',archive._entry_from({'chief':{'call':'BUY'}},'2026-09-05'))
 

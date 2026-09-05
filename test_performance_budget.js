@@ -40,10 +40,18 @@ assert.doesNotMatch(html, /cdn\.jsdelivr\.net\/gh\/orioncactus\/pretendard/,
   '중복 Pretendard CDN이 남아 있다. self-host Wanted Sans만 사용한다.');
 
 for (const asset of ['./app-shell.css', './app.js']) {
-  assert.ok(sw.includes(`'${asset}?v=20260904-p13'`),
+  assert.ok(sw.includes(`'${asset}?v=20260905-p14'`),
     `${asset}가 문서와 같은 정확한 버전 URL로 오프라인 shell에 없다.`);
 }
-assert.match(sw, /gaeo-shell-v28/, 'shell asset 변경 시 service worker cache 버전을 올려야 한다.');
+assert.match(sw, /gaeo-shell-v29/, 'shell asset 변경 시 service worker cache 버전을 올려야 한다.');
+// 2026-09-05 건강검진: app.js/app-shell.css가 6번 바뀌는 동안 ?v=가 그대로여서 재방문자가 옛 화면을 봤다.
+// 문서(index.html)의 ?v=와 service worker의 ?v=가 같은지만 보던 검사에, "문서의 ?v= 날짜가
+// app.js·app-shell.css의 마지막 커밋보다 오래되지 않았는가"까지 CI(fetch-depth 2)에서 잡기는 어렵다.
+// 대신 두 파일의 ?v=가 index.html에서 읽은 값과 항상 일치하도록 하나의 출처로 묶는다.
+const docVersions = [...html.matchAll(/(?:app-shell\.css|app\.js)\?v=([0-9]{8}-p[0-9]+)/g)].map(m => m[1]);
+assert.ok(docVersions.length >= 2 && new Set(docVersions).size === 1,
+  `index.html의 app.js/app-shell.css ?v=가 서로 다르다: ${docVersions.join(', ')}`);
+assert.ok(sw.includes(`?v=${docVersions[0]}'`), 'service worker의 ?v=가 index.html과 다르다.');
 const versionedShellPolicy = sw.match(/if \(versionedAppShell\) \{([\s\S]*?)\n  \}\n\n  const freshRequest/);
 assert.match(sw, /url\.searchParams\.has\('v'\)[\s\S]*app\.js[\s\S]*app-shell\.css/,
   '재방문 cache-first는 버전 쿼리가 있는 앱 JS/CSS로만 한정해야 한다.');

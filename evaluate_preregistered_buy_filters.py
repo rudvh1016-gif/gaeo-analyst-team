@@ -44,13 +44,22 @@ REGISTRATION = {
     "document": "docs/PREREGISTRATION_BUY_FILTERS_20260905.md",
     "registeredOn": "2026-09-05",
     "windowStart": "2026-09-07",           # 등록 뒤 첫 거래일. 이전 기록은 이미 본 자료.
-    "baseModelVersion": W.BASE_MODEL_VERSION,
-    "warningVersion": OVERHEAT_VERSION,
+    # ⚠️ 아래 다섯 값은 등록 시점의 운영 상수를 '리터럴'로 얼린 것이다. 운영 코드의 상수를 그대로
+    #    참조하면 나중에 상수가 바뀔 때 등록이 조용히 따라가 버린다(code-review 2026-09-05).
+    #    test_prereg_buy_filters가 "리터럴 == 현재 운영 상수"를 검사하므로, 운영 상수가 바뀌면
+    #    테스트가 크게 실패해 "등록이 깨진다"는 사실이 드러난다.
+    "baseModelVersion": "base-2026-08-15-parity-hotfix",
+    "warningVersion": "surge-only-2026-09-05c",
     "horizonSessions": 5,
-    "crashThresholdPct": BUY_CRASH_PCT,    # 5번째 거래일 종가 수익률 ≤ -5%
-    "surgeThresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT},
-    "vol20Cut": OVERHEAT_VOL20_PCT,        # H2 고변동 경계(판단 당시 기록값)
+    "crashThresholdPct": -5.0,             # 5번째 거래일 종가 수익률 ≤ -5%
+    "surgeThresholds": {"ret5": 10.0, "ret20": 25.0},
+    "vol20Cut": 4.0,                       # H2 고변동 경계(판단 당시 기록값)
     "minDecisionDays": 20,
+    # ⚠️ 2026-09-05 건강검진(창 열기 전 수정): 판단일 20~26일에서 5일 블록은 독립 묶음이 4~5개뿐이어서
+    #    명목 5%의 실제 오탐률이 13~27%로 추정됐다(합성 자료 500회 시뮬레이션). 그래서 산식을 바꾸는
+    #    후속(H1)은 40판단일에서 다시 PASS여야 적용한다. 20~39일에서의 PASS는 PASS_PROVISIONAL(기록만).
+    "minDecisionDaysForFormulaChange": 40,
+    "formulaChangingHypotheses": ["H1_crash"],
     "minGroupRows": 30,
     "minGroupDays": 10,
     "blockLength": 5,
@@ -77,6 +86,7 @@ HYPOTHESES = {
     "H1_crash": ("급등 조건(ret5≥10% 또는 ret20≥25%)에 걸린 BUY의 손실 비율이 걸리지 않은 BUY보다 높다(통계량 = 급등 − 비급등)",
                  +1,
                  {"PASS": "급등 조건에 걸린 BUY를 HOLD로 내리는 산식 변경을 PR·CI·병합까지 적용한다(화면에 '급등 뒤라 관망' 사유 표시). 소유자 위임(2026-09-05).",
+                  "PASS_PROVISIONAL": "20~39판단일에서 통과했다. 오탐률이 높은 구간이라 기록만 남기고, 40판단일이 익은 뒤 같은 명령으로 다시 PASS여야 산식을 바꾼다(2026-11-16 Routine).",
                   "SIGNIFICANT_BUT_SMALL": "유의하지만 손실 비율 차이가 5%p 미만이다. 산식·표시를 바꾸지 않고 기록만 남긴다.",
                   "FAIL_REVERSED": "급등 경고가 오히려 반대로 맞았다. 종목 화면의 급등 경고 표시를 제거하는 PR을 병합한다."}),
     "H2_crash": ("판단 당시 vol20≥4%인 BUY의 손실 비율이 그 미만인 BUY보다 높다(통계량 = 고변동 − 저변동). 노출 가설이며 예측력 가설이 아니다",
@@ -126,8 +136,15 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
             continue
         prices = closes.get(code)
         if not prices:
-            dropped["noPriceSeries"] += sum(1 for e in entries if isinstance(e, dict)
-                                            and str(e.get("date", ""))[:10] >= start)
+            # 시세가 없는 종목: 창 안 실제 자동 판단은 noPriceSeries, 나머지(창 밖·재구성·정밀)는
+            # noPriceSeriesOutOfScope로 센다. 제외 합계 + 남은 행 = 기록 전체가 항상 성립해야 한다.
+            for e in entries:
+                if not isinstance(e, dict):
+                    dropped["notADict"] += 1
+                    continue
+                d = str(e.get("date", ""))[:10]
+                in_scope = start <= d <= as_of and e.get("tier") == "auto" and not e.get("recon")
+                dropped["noPriceSeries" if in_scope else "noPriceSeriesOutOfScope"] += 1
             continue
         # 보관 상한에 닿았고 남은 첫 기록이 창 시작보다 늦으면 창 안 기록이 밀려났을 수 있다.
         if len(entries) >= cap:
@@ -137,6 +154,7 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
         dates = [r["date"] for r in prices]
         for e in entries:
             if not isinstance(e, dict):
+                dropped["notADict"] += 1
                 continue
             day = str(e.get("date", ""))[:10]
             if not day or day < start:
@@ -183,8 +201,9 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
                    "warn": warn, "vol": vol, "featureRecorded": recorded}
             key = (code, day)
             if key in observed:
+                # 첫 충돌이면 먼저 들어온 행도 함께 버려지므로 2건으로 센다(제외 합계 = 후보 행 수).
+                dropped["duplicateCodeDate"] += 2 if observed[key] is not None else 1
                 observed[key] = None
-                dropped["duplicateCodeDate"] += 1
             else:
                 observed[key] = row
     rows = [r for r in observed.values() if r is not None]
@@ -230,10 +249,14 @@ def moving_block_bootstrap(day_map, stat_fn, block_length, rounds, seed):
             "pTwoSided": round(p, 4), "valid": N}
 
 
-def holm_adjust(pvalues):
-    """Holm 단계적 보정. {이름: p} → {이름: 보정 p}. None은 건너뛴다."""
+def holm_adjust(pvalues, m_total=None):
+    """Holm 단계적 보정. {이름: p} → {이름: 보정 p}.
+
+    m_total: 등록된 가설 가족의 크기(기본 4). None인 p(표본 부족)는 기각 못 하는 가설(p=1)로 두고
+    가족 크기는 그대로 유지한다. 그렇지 않으면 H1·H2가 표본 부족일 때 H0의 문턱이 느슨해진다
+    (code-review 2026-09-05)."""
     items = [(k, v) for k, v in pvalues.items() if v is not None]
-    m = len(items)
+    m = m_total if m_total is not None else len(items)
     items.sort(key=lambda kv: kv[1])
     adjusted, running = {}, 0.0
     for i, (k, p) in enumerate(items):
@@ -260,8 +283,8 @@ def _group_test(rows, flag_fn, expected_sign, reg, name):
     a = [r for r in eligible if flag_fn(r)]
     b = [r for r in eligible if not flag_fn(r)]
     out = {"hypothesis": name, "description": HYPOTHESES[name][0], "expectedSign": expected_sign,
-           "flagged": _describe(a), "other": _describe(b),
-           "kept": _describe(b),  # '걸린 것을 빼고 남긴 BUY 목록'의 실적
+           "flagged": _describe(a),
+           "other": _describe(b),   # = 걸린 것을 빼고 남긴 BUY 목록의 실적
            "allBuy": _describe(rows)}
     ok = (len(a) >= reg["minGroupRows"] and len(b) >= reg["minGroupRows"]
           and len({r["day"] for r in a}) >= reg["minGroupDays"]
@@ -390,7 +413,7 @@ def evaluate(hist, closes, as_of, reg=REGISTRATION):
         "H1_crash": _p(h1.get("crashGapBootstrap")) if h1.get("status") == "TESTED" else None,
         "H2_crash": _p(h2.get("crashGapBootstrap")) if h2.get("status") == "TESTED" else None,
     }
-    holm = holm_adjust(raw_p)
+    holm = holm_adjust(raw_p, m_total=len(reg["primaryFamily"]))
     verdicts = {
         "H0_crash": _verdict(base.get("H0_crash", {}).get("statPp") if base.get("status") == "TESTED" else None,
                              base.get("H0_crash", {}).get("bootstrap") if base.get("status") == "TESTED" else None,
@@ -403,8 +426,15 @@ def evaluate(hist, closes, as_of, reg=REGISTRATION):
         "H2_crash": _verdict(h2.get("crashGapPp"), h2.get("crashGapBootstrap"), +1, holm.get("H2_crash"),
                              reg["alpha"], reg["minActionEffectPp"]),
     }
+    # 산식을 바꾸는 후속은 40판단일 재확인 뒤에만. 그 전의 PASS는 잠정(기록만).
+    for h in reg["formulaChangingHypotheses"]:
+        if verdicts.get(h) == "PASS" and len(days) < reg["minDecisionDaysForFormulaChange"]:
+            verdicts[h] = "PASS_PROVISIONAL"
     report.update({
         "status": "EVALUATED",
+        "independentBlocks": len(days) // reg["blockLength"],
+        "sizeCaveat": ("판단일 20~26일에서 5일 블록은 독립 묶음이 4~5개뿐이어서 명목 5%의 실제 오탐률이 "
+                       "13~27%로 추정된다(2026-09-05 합성 시뮬레이션). 산식을 바꾸는 후속은 40판단일 재확인 뒤에만 적용한다."),
         "baseline": base, "H1": h1, "H2": h2,
         "rawP": raw_p, "holmP": holm, "verdicts": verdicts,
         "preRegisteredConsequences": {k: HYPOTHESES[k][2].get(v, "변경 없음. 표시·공개 유지.") for k, v in verdicts.items()},
