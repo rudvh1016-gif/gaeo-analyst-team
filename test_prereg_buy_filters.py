@@ -2,7 +2,7 @@
 
 검사하는 것
 - 등록 상수가 실제 경고·집계 코드의 상수와 같다(문서와 코드가 갈라지지 않는다)
-- 창 시작 전 기록·재구성·정밀분석·보류·중복·다른 모델 버전·아직 안 익은 판단은 제외되고 그 수가 보고된다
+- 창 시작 전 기록·재구성·정밀분석·보류·중복·다른 모델 버전·아직 안 익은 판단·휴장일 유령 판단일은 제외되고 그 수가 보고된다
 - 특징(급등·vol20)은 판단 당시 기록(버전 일치)만 쓴다. 없으면 '미기록'이다
 - 판단일 20일 미만이면 효과 크기를 계산하지 않는다
 - 결과가 가설 방향이면 PASS, 반대로 유의하면 FAIL_REVERSED로 그대로 보고한다
@@ -15,12 +15,14 @@ import buy_warning as B
 import buy_warning_evidence as E
 import compute_team_weights as W
 import evaluate_preregistered_buy_filters as P
+from krx_calendar import is_krx_trading_day
 
 
 def candles(values, start=datetime.date(2026, 9, 1)):
+    """합성 일봉. 실제 KRX 달력을 따른다(주말·휴장일 없음) — 유령 판단일 제외 규칙과 어긋나지 않게."""
     out, d = [], start
     for v in values:
-        while d.weekday() >= 5:
+        while not is_krx_trading_day(d):
             d += datetime.timedelta(days=1)
         out.append({"date": d.isoformat(), "close": v})
         d += datetime.timedelta(days=1)
@@ -73,6 +75,9 @@ class Registration(unittest.TestCase):
         self.assertEqual((r["crashThresholdPct"], r["surgeThresholds"], r["vol20Cut"]), (-5.0, {"ret5": 10.0, "ret20": 25.0}, 4.0))
         self.assertEqual(r["minDecisionDaysForFormulaChange"], 40)
         self.assertEqual(r["formulaChangingHypotheses"], ["H1_crash"])
+        # 2026-09-05 창 열기 전 수정(§10 8항): 휴장일 유령 판단일은 판단일이 아니다.
+        self.assertIs(r["excludeNonTradingDecisionDays"], True)
+        self.assertEqual(r["tradingCalendar"], "krx_calendar.KRX_HOLIDAYS")
 
 
 class Sampling(unittest.TestCase):
@@ -95,11 +100,16 @@ class Sampling(unittest.TestCase):
             "000007": [entry(self.in_window[-1])],                      # 아직 안 익음
             "000008": [entry(day)],                                    # 정상
             "000009": [entry(before), entry(day, recon=True), entry(day)],  # 시세 없는 종목
+            "000010": [entry("2026-09-24")],                            # 창 안 평일 휴장일(유령 판단일)
+            "000011": [entry(day)],                                    # 그 종목 일봉에 판단일 종가 없음
         }
         closes = {c: self.rows for c in hist if c != "000009"}
+        closes["000011"] = [r for r in self.rows if r["date"] != day]
         rows, dropped, truncated = P.collect_rows(hist, closes, self.in_window[-1])
         self.assertEqual(dropped["noPriceSeries"], 1, "시세 없는 종목의 창 안 실제 자동 판단")
         self.assertEqual(dropped["noPriceSeriesOutOfScope"], 2, "시세 없는 종목의 창 밖·재구성 기록")
+        self.assertEqual(dropped["notTradingDay"], 1, "휴장일 기록은 달력으로 걸러 판단일에서 뺀다")
+        self.assertEqual(dropped["noDecisionSessionCandle"], 1, "판단일 종가가 없는 종목은 2차 방어로 뺀다")
         self.assertEqual([r["code"] for r in rows], ["000008"])
         self.assertEqual(dropped["beforeWindow"], 1)
         self.assertEqual(dropped["reconstructed"], 1)
@@ -112,6 +122,19 @@ class Sampling(unittest.TestCase):
         # 제외 사유 합계 + 남은 행 = 기록 전체(조용히 버리는 행이 없다).
         total_entries = sum(len(v) for v in hist.values())
         self.assertEqual(sum(dropped.values()) + len(rows), total_entries)
+
+    def test_phantom_holiday_rows_never_count_as_decision_days(self):
+        """2026-08-17형 유령 판단일: 창 안 휴장일 기록은 행에서도 판단일 수에서도 빠지고, 날짜가 보고된다."""
+        day = self.in_window[0]
+        holiday = "2026-09-24"
+        self.assertFalse(is_krx_trading_day(datetime.date.fromisoformat(holiday)))
+        self.assertNotIn(holiday, self.dates, "합성 일봉도 실제 달력을 따라야 한다")
+        hist = {f"{i:06d}": [entry(day), entry(holiday)] for i in range(3)}
+        report = P.evaluate(hist, {c: self.rows for c in hist}, self.in_window[-1])
+        self.assertEqual(report["sample"]["decisionDays"], 1)
+        self.assertEqual(report["sample"]["rows"], 3)
+        self.assertEqual(report["sample"]["excluded"]["notTradingDay"], 3)
+        self.assertEqual(report["sample"]["nonTradingDecisionDates"], [holiday])
 
     def test_outcome_is_fifth_session_close_and_respects_as_of(self):
         rows = candles([100] * 30 + [90, 91, 92, 93, 80, 120] + [100] * 20)
