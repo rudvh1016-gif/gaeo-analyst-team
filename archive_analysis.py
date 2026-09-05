@@ -19,6 +19,9 @@ import research_store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HIST_CAP = 80   # 가벼운 채점 히스토리만 최근 80건 유지. 정밀분석 원문은 영구 보존한다.
+# history.js에 남기는 급등 경고(chief.overheat) 키. 사전등록 검증(evaluate_preregistered_buy_filters.py)이
+# 읽는 version·available·warn·vol20과 화면·감사가 읽는 triggers·ret5·ret20만 남긴다. 설명 문장·임계값은 뺀다.
+OVERHEAT_ARCHIVE_KEYS = ("version", "available", "warn", "triggers", "ret5", "ret20", "vol20")
 
 def load_js_object(path, varname):
     """`const VAR = {...};` 형태의 JS 파일에서 객체만 파싱해 dict로 반환."""
@@ -123,8 +126,13 @@ def _entry_from(a, when):
             entry["confidenceShadowVersion"] = chief["confidenceModelVersion"]
     # Preserve the actual display signal and its version for prospective audits.
     # Existing historical rows are not backfilled with today's feature values.
+    # ⭐ 2026-09-05 건강검진: 전체 dict(설명 문장·임계값·level 등)는 history.js 들여쓰기 기준 행당 ≈457B,
+    #    필요한 키만 남기면 ≈199B다. 보관 상한(80건/종목) 도달 시 정상상태 ≈55MB → ≈43MB.
+    #    사전등록 검증과 성적표가 실제로 읽는 값(version·available·warn·triggers·ret5·ret20·vol20)만 남긴다.
+    #    상수(임계값)는 buy_warning.py가, 설명 문장은 auto_analysis.js가 가진다.
     if isinstance(chief.get("overheat"), dict):
-        entry["overheat"] = dict(chief["overheat"])
+        src = chief["overheat"]
+        entry["overheat"] = {k: src[k] for k in OVERHEAT_ARCHIVE_KEYS if k in src}
     return entry
 
 

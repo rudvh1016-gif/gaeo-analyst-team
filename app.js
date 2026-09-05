@@ -935,7 +935,7 @@ function leaderboardHTML(){
     cards+=`<div class="lb-card ${isMvp?'mvp':''}">
       <div class="lb-rank">${i+1}</div>
       <div class="lb-who">
-        <div class="lb-nm"><span class="lb-dot" style="color:${r.color}">●</span>${r.name}${isMvp?'<span class="lb-mvp-tag">이달의 MVP</span>':''}${wHtml}</div>
+        <div class="lb-nm">${r.name}${isMvp?'<span class="lb-mvp-tag">이달의 MVP</span>':''}${wHtml}</div>
         <div class="lb-role">${r.role}</div>
         <div class="lb-bar" title="막대는 적중률이고, 세로선은 아무 실력 없이 한 방향으로만 말했을 때 나오는 값이에요."><i style="width:${r.acc===null?0:r.acc}%"></i>${markPct===null?'':`<span class="lb-base-mark" style="left:${markPct}%"></span>`}</div>
         ${baseHtml}${pushHtml}
@@ -2103,7 +2103,7 @@ function modelLabHTML(){
       <p>TARO 30% · DIANA 12% · QUANT 28% · FLOW 30% — 단, 이것은 최종 발언권이 아니라 역할에 따른 출발점입니다. DIANA가 상대적으로 작은 이유는 재무·밸류가 단기 주가 방향을 맞히는 역할이 아니라 기업 품질을 보는 중기 성격이 강하기 때문입니다.</p>
       <h4>각자 다른 시험을 봅니다</h4>
       <p>TARO ${hdays('taro')}거래일 · QUANT ${hdays('nova')}거래일 · FLOW ${hdays('flow')}거래일 · DIANA ${hdays('diana')}거래일 기준으로 채점합니다. 재무분석가에게 “내일 주가가 올랐는지”를 묻는 것은 불공정하기 때문에, 각 분석가가 맡은 역할에 맞는 기간으로 성적을 평가합니다.</p>
-      <h4>작은 표본은 믿지 않습니다 (다만 지금은 그 장치가 거의 작동하지 않습니다)</h4>
+      <h4>작은 표본은 믿지 않습니다 (2026년 9월 5일부터 판단일 수로 셉니다)</h4>
       <p>“10번 중 9번 맞았다”고 바로 천재라고 판단하지 않습니다. 표본이 적으면 우연일 가능성이 있으므로 50% 쪽으로 줄여서 평가합니다. <span class="ml-note">(Bayesian shrinkage)</span></p>
       <p><b>그런데 2026년 9월 4일 점검에서 이 장치가 사실상 꺼져 있다는 걸 확인했습니다.</b> 줄이는 기준을 “채점 건수”로 세는데, 같은 날 600종목이 한꺼번에 채점돼 건수가 수천 건으로 불어납니다. 서로 다른 판단일은 훨씬 적은데도 표본이 많은 것처럼 취급돼, 실제로 깎이는 폭이 1%p도 되지 않습니다.</p>
       <p>그래서 2026년 9월 5일부터는 <b>판단일 수를 표본으로 세어</b> 발언권을 계산합니다(가상 판단일 20일을 50%로 두고 섞는 방식). 같은 날 600종목은 한 번의 시행으로 봅니다. 예전처럼 건수로 셀 때의 값은 team_weights.js의 dayBasedShadow.rowBasedLegacy에 비교용으로만 남깁니다. 판단일이 쌓일수록 사전값의 힘은 저절로 줄어듭니다.</p>

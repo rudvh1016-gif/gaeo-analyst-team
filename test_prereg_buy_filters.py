@@ -61,6 +61,18 @@ class Registration(unittest.TestCase):
         self.assertEqual(adj["a"], 0.03)   # 3 × 0.01
         self.assertEqual(adj["c"], 0.06)   # max(0.03, 2 × 0.03)
         self.assertEqual(adj["b"], 0.06)   # max(0.06, 1 × 0.04)
+        # 가족 크기를 4로 고정하면 표본 부족(None)이 있어도 H0의 문턱이 느슨해지지 않는다.
+        fixed = P.holm_adjust({"H0_crash": 0.02, "H0_mean": None, "H1_crash": None, "H2_crash": None}, m_total=4)
+        self.assertEqual(fixed["H0_crash"], 0.08)
+
+    def test_literals_are_frozen_and_match_production_today(self):
+        """등록 상수는 리터럴이다. 운영 상수가 나중에 바뀌면 이 테스트가 크게 실패해 '등록이 깨진다'가 드러난다."""
+        r = P.REGISTRATION
+        self.assertEqual(r["baseModelVersion"], "base-2026-08-15-parity-hotfix")
+        self.assertEqual(r["warningVersion"], "surge-only-2026-09-05c")
+        self.assertEqual((r["crashThresholdPct"], r["surgeThresholds"], r["vol20Cut"]), (-5.0, {"ret5": 10.0, "ret20": 25.0}, 4.0))
+        self.assertEqual(r["minDecisionDaysForFormulaChange"], 40)
+        self.assertEqual(r["formulaChangingHypotheses"], ["H1_crash"])
 
 
 class Sampling(unittest.TestCase):
@@ -82,18 +94,24 @@ class Sampling(unittest.TestCase):
             "000006": [entry(day), entry(day, call="SELL")],           # 중복 종목일
             "000007": [entry(self.in_window[-1])],                      # 아직 안 익음
             "000008": [entry(day)],                                    # 정상
+            "000009": [entry(before), entry(day, recon=True), entry(day)],  # 시세 없는 종목
         }
-        closes = {c: self.rows for c in hist}
+        closes = {c: self.rows for c in hist if c != "000009"}
         rows, dropped, truncated = P.collect_rows(hist, closes, self.in_window[-1])
+        self.assertEqual(dropped["noPriceSeries"], 1, "시세 없는 종목의 창 안 실제 자동 판단")
+        self.assertEqual(dropped["noPriceSeriesOutOfScope"], 2, "시세 없는 종목의 창 밖·재구성 기록")
         self.assertEqual([r["code"] for r in rows], ["000008"])
         self.assertEqual(dropped["beforeWindow"], 1)
         self.assertEqual(dropped["reconstructed"], 1)
         self.assertEqual(dropped["nonAuto"], 1)
         self.assertEqual(dropped["withheldOrUnknownCall"], 1)
         self.assertEqual(dropped["otherModelVersion"], 1)
-        self.assertEqual(dropped["duplicateCodeDate"], 1)
+        self.assertEqual(dropped["duplicateCodeDate"], 2, "중복 쌍은 두 행 모두 제외되므로 2건으로 센다")
         self.assertEqual(dropped["pendingOutcome"], 1)
         self.assertEqual(truncated, [])
+        # 제외 사유 합계 + 남은 행 = 기록 전체(조용히 버리는 행이 없다).
+        total_entries = sum(len(v) for v in hist.values())
+        self.assertEqual(sum(dropped.values()) + len(rows), total_entries)
 
     def test_outcome_is_fifth_session_close_and_respects_as_of(self):
         rows = candles([100] * 30 + [90, 91, 92, 93, 80, 120] + [100] * 20)
@@ -168,10 +186,17 @@ class Gating(unittest.TestCase):
         hist, closes, as_of = self._synthetic(22)
         report = P.evaluate(hist, closes, as_of)
         self.assertEqual(report["status"], "EVALUATED")
-        self.assertEqual(report["verdicts"]["H1_crash"], "PASS")
+        # 22판단일: 산식을 바꾸는 H1은 잠정 통과(기록만), 표시만 바꾸는 H2는 통과.
+        self.assertEqual(report["verdicts"]["H1_crash"], "PASS_PROVISIONAL")
         self.assertEqual(report["verdicts"]["H2_crash"], "PASS")
+        self.assertEqual(report["independentBlocks"], 4)
         self.assertEqual(report["H1"]["crashGapPp"], 100.0)
-        self.assertIn("HOLD로 내리는 산식 변경을 PR·CI·병합까지 적용", report["preRegisteredConsequences"]["H1_crash"])
+        self.assertIn("40판단일", report["preRegisteredConsequences"]["H1_crash"])
+        self.assertNotIn("kept", report["H1"])
+        hist40, closes40, as_of40 = self._synthetic(40)
+        report40 = P.evaluate(hist40, closes40, as_of40)
+        self.assertEqual(report40["verdicts"]["H1_crash"], "PASS")
+        self.assertIn("HOLD로 내리는 산식 변경을 PR·CI·병합까지 적용", report40["preRegisteredConsequences"]["H1_crash"])
         # 실질 효과 조건: 유의하지만 5%p 미만이면 산식을 바꾸지 않는다(자료를 보기 전에 고정).
         self.assertEqual(P.REGISTRATION["minActionEffectPp"], 5.0)
         self.assertEqual(P._verdict(3.0, {"ci95": [1, 5]}, +1, 0.01, 0.05, 5.0), "SIGNIFICANT_BUT_SMALL")
