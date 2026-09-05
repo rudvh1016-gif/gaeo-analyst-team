@@ -22,6 +22,10 @@
 
 RSI_PERIOD = 14
 RET_LOOKBACK = 5
+# ⭐ 2026-09-05: 중기 과열 판정용 기준(20거래일 ≈ 한 달). BUY 실적 감사에서
+#    "직전 20거래일 +25% 이상 오른 뒤 나온 BUY"의 폭락률이 나머지보다 16.3%p 높았다
+#    (docs/BUY_OVERHEAT_WARNING_20260905.md). ret5와 같은 ret_n 식을 그대로 쓴다.
+RET_LOOKBACK_MID = 20
 
 
 def wilder_rsi(closes, period=RSI_PERIOD):

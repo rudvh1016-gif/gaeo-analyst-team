@@ -145,6 +145,8 @@ def indicators_for(daily):
     #    같은 날짜인데도 값이 달라져 엉뚱한 과거 사례와 매칭된다(2026-08-15 발견).
     rsi = indicator_math.wilder_rsi(closes)
     ret5 = indicator_math.ret_n(closes, indicator_math.RET_LOOKBACK)
+    # 20거래일 수익률 — 중기 과열(급등 후 매수) 경고 판정용. 방향점수에는 쓰지 않는다.
+    ret20 = indicator_math.ret_n(closes, indicator_math.RET_LOOKBACK_MID)
     e12, e26 = ema_series(closes, 12), ema_series(closes, 26)
     macd = [a - b for a, b in zip(e12, e26)]
     sig = ema_series(macd[25:], 9)[-1] if len(macd) > 25 else ema_series(macd, 9)[-1]
@@ -172,8 +174,11 @@ def indicators_for(daily):
         # 5거래일 '간격' 수익률. last5 배열로 다시 계산하지 말고 이 값을 쓸 것.
         # (last5는 종가 5개라 간격이 4일이다. 과거 통계는 5일 간격이라 정의가 어긋난다)
         "ret5": (round(ret5, 4) if ret5 is not None else None),
+        # 20거래일 수익률. 과열 경고(analyze_auto.overheat_flag)만 읽는다.
+        "ret20": (round(ret20, 4) if ret20 is not None else None),
         "rsi14Ready": rsi is not None,
         "ret5Ready": ret5 is not None,
+        "ret20Ready": ret20 is not None,
         "macd": round(macd[-1]), "macdSignal": round(sig),
         "volRatio": round(vol_ratio, 2) if vol_ratio else None,
         # ⚠️ daily가 이제 ~10개월치라, min/max(closes) 전체를 쓰면 "3개월 최저/최고"라는
