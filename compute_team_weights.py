@@ -28,8 +28,7 @@ BAYES_PRIOR_N = 120     # 작은 표본을 50% 쪽으로 축소하는 가상 표
 SECTOR_SHRINK_N = 800   # 업종값과 전역값을 섞는 강도
 SKILL_SENSITIVITY = 3.0
 
-# ⭐ 2026-09-04 분석가 전수 재검증에서 확인된 사실 — 이 상수들은 그 사실을 '기록'하기
-#    위한 것이지 가중치를 바꾸지 않는다(WEIGHT_MATURITY_GATE 참고).
+# ⭐ 2026-09-04 분석가 전수 재검증에서 확인된 사실
 #
 #    BAYES_PRIOR_N=120은 "채점 120건"을 사전표본으로 쓴다. 그런데 채점 건수는
 #    같은 날 600종목이 한꺼번에 들어와 부풀려진 값이다. 실측(2026-09-04): 채점
@@ -37,11 +36,22 @@ SKILL_SENSITIVITY = 3.0
 #    TARO +0.1%p · QUANT -0.6%p · FLOW +0.8%p로 사실상 0이다. Constitution
 #    statisticalPolicy(independenceUnit = decision_date)와 어긋나는 지점이다.
 #
-#    아래 두 값은 "판단일 단위로 세면 어떻게 되는지"를 그림자(shadow)로 계산해
-#    payload에 남기는 데만 쓴다. 실제 적용은 판단일 20일이 쌓인 뒤 사전등록된
-#    검증(docs/gaeo_validation_policy.md)을 통과했을 때 사람이 켠다.
+# ⭐ 2026-09-05 결정: 축소의 표본 단위를 '서로 다른 판단일'로 바꿔 실제 적용한다.
+#    소유자가 "결정을 맡기지 말고 최선의 판단으로 진행"하라고 위임했고, DIANA의
+#    20거래일 채점이 시작되는 2026-09-14 **전에** 정했다(DIANA 결과를 보고 고른 것이 아니다).
+#    이유:
+#      1) Constitution의 독립 단위(decision_date)와 구현을 맞춘다.
+#      2) 건수 단위로는 DIANA 첫 채점일에 600건이 한꺼번에 들어와 하루치 성적만으로
+#         발언권이 ±20% 넘게 뛸 수 있다(적중 60%면 ×1.28, 40%면 ×0.78). 판단일 단위면
+#         첫날 이동은 ±1.5% 안이고 20일에 걸쳐 서서히 반영된다.
+#      3) 방향이 보수적이다(사전비중 쪽으로). 판단일이 쌓이면 스스로 옛 값에 수렴한다.
+#    옛 건수 단위 값은 rowBasedAdjustedAcc / dayBasedShadow.rowBasedLegacy에 비교용으로 남긴다.
+#    WEIGHT_MATURITY_GATE(판단일 20일 미만이면 통째로 사전값)는 절벽을 20일째로 옮길 뿐이라
+#    켜지 않는다.
 MIN_DAYS_FOR_WEIGHT_LEARNING = 20   # Evolution minEvalDays와 같은 값
-WEIGHT_MATURITY_GATE = False        # ⚠️ 승인 전 켜지 않는다 — 켜면 실제 판단이 바뀐다
+WEIGHT_MATURITY_GATE = False        # 거친 장치. 판단일 단위 축소가 같은 목적을 절벽 없이 달성한다
+WEIGHT_SHRINKAGE_UNIT = "decision_day"      # "graded_row"가 2026-09-05 이전 방식
+DAY_PRIOR_N = MIN_DAYS_FOR_WEIGHT_LEARNING   # 판단일 단위 사전표본(가상 판단일 20일 = 50%)
 
 BOOTSTRAP_ROUNDS = 1000
 BOOTSTRAP_SEED = 20260904   # 고정 — 같은 기록이면 항상 같은 신뢰구간이 나오게 한다
@@ -284,6 +294,7 @@ def main():
         return {a: {"hit": 0, "miss": 0} for a in ANALYSTS}
     g = zero()
     sec = {}
+    sec_days = {}   # {업종: {분석가: set(판단일)}} — 업종 가중치도 판단일 단위로 축소
     team_hit = 0
     team_miss = 0
     # ⭐ 2026-09-04 정직성 보강: 팀 적중률 62.4% 같은 숫자는 그 자체로는 잘한 건지
@@ -406,6 +417,8 @@ def main():
                 elif s == "miss":
                     g[a]["miss"] += 1
                     sec.setdefault(sname, zero())[a]["miss"] += 1
+                if s in ("hit", "miss"):
+                    sec_days.setdefault(sname, {x: set() for x in ANALYSTS})[a].add(day)
                 # 판단일 단위 집계 + 같은 행의 '한 방향만 말하기' 기준선.
                 # 방향 의견을 낸 행만 대상이다(중립은 애초에 채점 대상이 아니다).
                 if stance in ("bull", "bear"):
@@ -421,16 +434,31 @@ def main():
     def weights_from(acc_tbl, decision_days=None):
         """역할 사전비중 × 베이지안 보정 적중률로 안정적인 가중치를 계산.
 
-        decision_days: {분석가: 서로 다른 판단일 수}. WEIGHT_MATURITY_GATE가 켜져
-        있을 때만 쓰인다 — 판단일이 MIN_DAYS_FOR_WEIGHT_LEARNING 미만인 분석가는
-        학습값 대신 50%(=역할 사전비중 그대로)를 쓴다. 기본값은 꺼짐이라 동작 불변.
+        ⭐ 2026-09-05부터 축소(shrinkage)의 표본 단위는 '채점 건수'가 아니라
+        '서로 다른 판단일'이다(Constitution statisticalPolicy.independenceUnit =
+        decision_date). 같은 날 600종목은 같은 시장 충격을 받은 한 번의 시행이다.
+          adjusted = (적중률 × 판단일수 + DAY_PRIOR_N × 0.5) / (판단일수 + DAY_PRIOR_N)
+        판단일이 0이면 0.5(역할 사전비중 그대로)다. 판단일이 쌓일수록 사전값의 힘은
+        자연히 줄어든다(20일이면 절반, 60일이면 1/4). 옛 방식(건수 단위)은
+        rowBasedAdjustedAcc로 같이 실어 비교할 수 있게 한다.
+
+        decision_days: {분석가: 서로 다른 판단일 수}. 전역이면 전체 판단일, 업종이면
+        그 업종에서 채점된 판단일이다. WEIGHT_MATURITY_GATE(기본 꺼짐)는 판단일이
+        MIN_DAYS_FOR_WEIGHT_LEARNING 미만인 분석가를 통째로 0.5로 되돌리는 더 거친
+        장치인데, 판단일 단위 축소가 같은 목적을 절벽 없이 달성하므로 켜지 않는다.
         """
         raw = {}
         stat = {}
         for a in ANALYSTS:
             n = acc_tbl[a]["hit"] + acc_tbl[a]["miss"]
             acc = (acc_tbl[a]["hit"] / n * 100) if n else None
-            adjusted = (acc_tbl[a]["hit"] + BAYES_PRIOR_N * 0.5) / (n + BAYES_PRIOR_N)
+            row_adjusted = (acc_tbl[a]["hit"] + BAYES_PRIOR_N * 0.5) / (n + BAYES_PRIOR_N)
+            n_days = int((decision_days or {}).get(a, 0) or 0) if n else 0
+            if WEIGHT_SHRINKAGE_UNIT == "decision_day":
+                h_eff = (acc / 100.0 * n_days) if (acc is not None and n_days) else 0.0
+                adjusted = (h_eff + DAY_PRIOR_N * 0.5) / (n_days + DAY_PRIOR_N)
+            else:
+                adjusted = row_adjusted
             gated = False
             if WEIGHT_MATURITY_GATE and decision_days is not None:
                 if decision_days.get(a, 0) < MIN_DAYS_FOR_WEIGHT_LEARNING:
@@ -445,6 +473,10 @@ def main():
                 #    계산에는 계속 0.5를 쓰되, 밖으로는 null을 내보내 구분한다.
                 "adjustedAcc": round(adjusted * 100, 1) if n else None,
                 "adjustedAccUsedInWeights": round(adjusted * 100, 1),
+                "rowBasedAdjustedAcc": round(row_adjusted * 100, 1) if n else None,
+                "shrinkageUnit": WEIGHT_SHRINKAGE_UNIT,
+                "shrinkagePriorDays": DAY_PRIOR_N,
+                "nEffectiveDays": n_days,
                 "gatedToPrior": gated,
                 # ⚠️ 이 days는 '채점 지평'(며칠 뒤 종가로 채점하나)이지 판단일 수가 아니다.
                 #    판단일 수는 uniqueDecisionDays로 따로 싣는다.
@@ -545,7 +577,8 @@ def main():
         adj = {}
         for a in ANALYSTS:
             n_eff = a_decision_days[a]
-            acc = gstat[a]["acc"]
+            _n = g[a]["hit"] + g[a]["miss"]
+            acc = (g[a]["hit"] / _n * 100.0) if _n else None
             h_eff = (acc / 100.0 * n_eff) if (acc is not None and n_eff) else 0.0
             adj[a] = (h_eff + prior_days * 0.5) / (n_eff + prior_days)
         return {"adjustedAcc": {a: round(adj[a] * 100, 1) for a in ANALYSTS},
@@ -560,12 +593,14 @@ def main():
     buy_outcome = buy_outcome_stats(hist, closes, load_names(), learn_versions,
                                     record_base_version)
 
+    _row_adj = {a: (g[a]["hit"] + BAYES_PRIOR_N * 0.5) / (g[a]["hit"] + g[a]["miss"] + BAYES_PRIOR_N)
+                for a in ANALYSTS}
     day_based_shadow = {
-        "applied": False,
-        "appliedNote": ("기록 전용이다. 실제 판단은 global.weights로만 이뤄진다. "
-                        "적용하려면 WEIGHT_MATURITY_GATE를 사람이 켜야 하고, "
-                        "그 전에 사전등록 검증을 통과해야 한다."),
-        "reason": ("현재 축소는 채점 '건수'를 독립 시행으로 센다. 같은 날 600종목이 "
+        "applied": WEIGHT_SHRINKAGE_UNIT == "decision_day",
+        "appliedNote": ("2026-09-05부터 실제 global.weights가 판단일 단위 축소(priorDays20와 같은 식)로 "
+                        "계산된다. 옛 건수 단위 값은 rowBasedLegacy에 비교용으로만 남긴다. "
+                        "소유자가 2026-09-05 결정을 위임했고, DIANA 채점 시작(2026-09-14) 전에 정했다."),
+        "reason": ("건수 단위 축소는 채점 '건수'를 독립 시행으로 센다. 같은 날 600종목이 "
                    "한꺼번에 들어오므로 부풀려진 표본이고, 그래서 축소가 실제로 깎는 "
                    "폭이 1%p도 안 된다. Constitution statisticalPolicy는 독립 단위를 "
                    "decision_date로 정해 두고 있다."),
@@ -573,12 +608,18 @@ def main():
         "minDaysForConclusion": MIN_DAYS_FOR_WEIGHT_LEARNING,
         "priorDays20": _d20,
         "priorDays120": _d120,
+        "rowBasedLegacy": {
+            "adjustedAcc": {a: (round(_row_adj[a] * 100, 1) if (g[a]["hit"] + g[a]["miss"]) else None)
+                            for a in ANALYSTS},
+            "weights": _weights_from_adjusted(_row_adj),
+            "note": "2026-09-05 이전 실제 산식(채점 건수 단위, 가상표본 120건). 비교용 기록이다.",
+        },
         "maturityGate": {
             "enabled": WEIGHT_MATURITY_GATE,
             "weights": _weights_from_adjusted(_gate_adj),
-            "note": ("판단일이 기준 미만인 분석가는 역할 사전비중을 그대로 쓴다. "
-                     "2026-09-14부터 DIANA 채점이 시작되는데, 지금 구조에서는 "
-                     "하루치 결과만으로 DIANA 발언권이 크게 흔들릴 수 있다."),
+            "note": ("판단일이 기준 미만인 분석가를 통째로 역할 사전비중으로 되돌리는 거친 장치. "
+                     "절벽을 20일째로 옮기기만 하므로 켜지 않는다. 판단일 단위 축소가 "
+                     "2026-09-14 DIANA 채점 시작의 하루치 급변을 대신 막는다."),
         },
     }
 
@@ -586,7 +627,8 @@ def main():
     for sname, tbl in sec.items():
         n_sec = sum(tbl[a]["hit"] + tbl[a]["miss"] for a in ANALYSTS)
         if n_sec >= MIN_N_SECTOR:
-            local_w, sstat = weights_from(tbl, a_decision_days)
+            local_w, sstat = weights_from(
+                tbl, {a: len(sec_days.get(sname, {}).get(a, ())) for a in ANALYSTS})
             blend = min(0.75, n_sec / (n_sec + SECTOR_SHRINK_N))
             sw = {a: round(gw[a] * (1 - blend) + local_w[a] * blend, 4) for a in ANALYSTS}
             norm = sum(sw.values()) or 1
