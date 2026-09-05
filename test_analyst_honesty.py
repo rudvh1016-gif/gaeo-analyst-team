@@ -285,6 +285,16 @@ class TestScreenTellsTheTruth(unittest.TestCase):
                     "적중률 색이 다시 숫자 높낮이로 정해지고 있다.")
         self._has("STATUS_TEXT[r.status]", "상태 라벨로 색을 정하는 코드가 사라졌다.")
 
+    def test_placeholder_text_never_leaks_into_prose(self):
+        """'자료 없음'은 값이 비었을 때만 쓰는 표시다(2026-09-05 PR #504가 대시(—)를
+        일괄 치환하면서 리더보드 안내문 한가운데에 '자료 없음'이 박혔던 회귀).
+        문장 중간(공백 뒤)에 나오면 치환 누수다. 값 표시는 따옴표나 태그 바로 뒤에 온다."""
+        leaks = [self.src[m.start() - 40:m.end() + 20].replace("\n", " ")
+                 for m in re.finditer(r"(?<=\s)자료 없음", self.src)]
+        self.assertEqual(leaks, [], f"'자료 없음'이 문장 중간에 끼어 있다: {leaks}")
+        self._has("「시장보다 잘했나」로 채점합니다.</b> 같은 기간",
+                  "리더보드 채점 설명 문장이 끊겨 있다.")
+
     def test_no_hardcoded_performance_numbers_in_new_text(self):
         """새로 넣은 문장에 성과 숫자를 박아 넣지 않았는가(publicClaimPolicy)."""
         body = re.sub(r"/\*[\s\S]*?\*/", "", self.src)
