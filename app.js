@@ -954,7 +954,7 @@ function leaderboardHTML(){
   const honestyNote=graded.length?`<div class="lb-honesty"><b>이 숫자를 어떻게 읽어야 하나요.</b> 적중률이 높다고 실력이 증명된 건 아니에요. 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그 기준선과 비교하되 독립된 새 기록으로도 확인해야 해요. 독립 검증으로 기준선 초과가 확인된 분석가는 <b>${provenN}명</b>이고, 이 표본에서 기준선보다 낮게 관측된 분석가는 <b>${belowN}명</b>이에요. 판단 기록도 아직 <b>${daysNow}일</b>치라서${minDaysAll?`(결론을 내려면 ${minDaysAll}일이 최소 조건이며 충분성은 별도 확인)`:''} 참고용으로만 봐주세요.</div>`:'';
   return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-sub">각 분석가의 역할에 맞춰 채점합니다. <b>TARO·QUANT·FLOW는 5거래일</b>, 장기 기업가치를 보는 <b>DIANA는 20거래일</b> 뒤 종가를 사용합니다.
-    <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다</b> 자료 없음 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
+    <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다.</b> 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
     시장이 통째로 오른 날 방향만 따라 말한 것을 실력으로 세지 않기 위해서예요. 그래서 이 숫자는 예전(그냥 올랐나로 채점하던 때)과 바로 비교할 수 없습니다.
     <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
     <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
@@ -965,14 +965,14 @@ function leaderboardHTML(){
 }
 
 /* ============================================================
-   🧾 개오 성적표 자료 없음 주간 자동 채점 + 분석가 열전
+   🧾 개오 성적표: 주간 자동 채점 + 분석가 열전
    history.js·price_history.js(판단 채점) + team_weights.js(분석가별 실측 적중률)만으로
    렌더링한다. 새 글을 쓰지 않고 저장된 stance·적중률을 그대로 요약해 보여준다
    (AI 토큰 0원, 서버가 매 사이클 다시 계산할 때마다 이 화면도 자동으로 갱신됨).
    ============================================================ */
 const SC_NAME={taro:'TARO',diana:'DIANA',nova:'QUANT',flow:'FLOW'};
 const SC_ROLE={taro:'기술적 분석가',diana:'재무·기본적 분석가',nova:'확률·통계 분석가',flow:'수급 분석가'};
-// 판단 당시 4인의 stance를 그대로 요약해 "왜 이 방향이었는지" 한 줄로 보여준다 자료 없음 새로 해석을 붙이지 않고
+// 판단 당시 4인의 stance를 그대로 요약해 "왜 이 방향이었는지" 한 줄로 보여준다. 새로 해석을 붙이지 않고
 // 이미 기록된 사실(누가 강세/약세였는지, 결과가 어느 쪽이었는지)만 문장으로 옮긴다.
 function scWhy(r){
   const ids=['taro','diana','nova','flow'];
@@ -7121,8 +7121,8 @@ async function analyze(){
     const compatible=bo&&bo.schemaVersion===2&&bo.warningVersion===oh.version;
     const evidence=compatible?bo.overheatAllTime:null;
     const why=[];
-    if(t.indexOf('ret20')>=0&&Number.isFinite(oh.ret20)) why.push(`최근 20거래일 상승률 <b>${oh.ret20}%</b>`);
-    if(t.indexOf('ret5')>=0&&Number.isFinite(oh.ret5)) why.push(`최근 5거래일 상승률 <b>${oh.ret5}%</b>`);
+    if(t.indexOf('ret20')>=0&&Number.isFinite(oh.ret20)) why.push(`최근 20거래일 상승률 <b>${oh.ret20.toFixed(1)}%</b>`);
+    if(t.indexOf('ret5')>=0&&Number.isFinite(oh.ret5)) why.push(`최근 5거래일 상승률 <b>${oh.ret5.toFixed(1)}%</b>`);
     if(!why.length) return '';
     const evid=evidence&&evidence.enoughSample
       ? `과거 해당 조건의 자동 BUY 중 <b>${evidence.warn.crashPct}%</b>는 5번째 거래일 종가가 기준가보다 `
