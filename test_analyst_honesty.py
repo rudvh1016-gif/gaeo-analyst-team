@@ -223,15 +223,41 @@ class TestGeneratedPayload(unittest.TestCase):
                     round(voice["meanAbsDeviation"] * self.tw["global"]["weights"][a], 2),
                     places=2)
 
-    def test_day_based_shadow_is_recorded_but_not_applied(self):
+    def test_day_based_shrinkage_is_applied_and_row_based_is_the_shadow(self):
+        """2026-09-05 결정: 축소 단위는 판단일이다. 실제 가중치가 priorDays20 계산과 같아야 하고,
+        옛 건수 단위 값은 rowBasedLegacy에 비교용으로만 남는다. 성숙 게이트는 여전히 꺼져 있다."""
         sh = self.tw["global"]["dayBasedShadow"]
-        self.assertFalse(sh["applied"], "그림자 계산이 실제로 적용됐다.")
+        self.assertTrue(sh["applied"], "판단일 단위 축소가 실제 가중치에 적용되지 않았다.")
+        self.assertEqual(W.WEIGHT_SHRINKAGE_UNIT, "decision_day")
+        self.assertEqual(W.DAY_PRIOR_N, W.MIN_DAYS_FOR_WEIGHT_LEARNING)
         self.assertFalse(sh["maturityGate"]["enabled"])
-        for block in ("priorDays20", "priorDays120"):
+        self.assertEqual(self.tw["global"]["weights"], sh["priorDays20"]["weights"],
+                         "실제 가중치와 판단일 단위 계산이 다르다.")
+        for block in ("priorDays20", "priorDays120", "rowBasedLegacy"):
             s = sum(sh[block]["weights"].values())
             self.assertAlmostEqual(s, 1.0, places=2)
         self.assertEqual(sh["nEffective"],
                          {a: self.acc[a]["uniqueDecisionDays"] for a in W.ANALYSTS})
+        for a in W.ANALYSTS:
+            st = self.acc[a]
+            self.assertEqual(st["shrinkageUnit"], "decision_day")
+            self.assertEqual(st["nEffectiveDays"], st["uniqueDecisionDays"])
+            if st["n"] == 0:
+                self.assertIsNone(st["rowBasedAdjustedAcc"])
+                self.assertEqual(st["adjustedAccUsedInWeights"], 50.0)
+            else:
+                # 판단일 단위는 건수 단위보다 50%에 더 가깝거나 같아야 한다(더 보수적).
+                self.assertLessEqual(abs(st["adjustedAcc"] - 50.0),
+                                     abs(st["rowBasedAdjustedAcc"] - 50.0) + 0.05)
+
+    def test_first_graded_day_cannot_move_a_weight_by_more_than_a_sliver(self):
+        """DIANA 첫 채점일 시나리오: 판단일 1일·600건·적중 60%(또는 40%)가 들어와도
+        판단일 단위 축소면 보정 적중률은 50.5%(49.5%) 안이다. 건수 단위면 58.3%(41.7%)였다."""
+        for acc in (0.60, 0.40):
+            day_adj = (acc * 1 + W.DAY_PRIOR_N * 0.5) / (1 + W.DAY_PRIOR_N)
+            row_adj = (acc * 600 + W.BAYES_PRIOR_N * 0.5) / (600 + W.BAYES_PRIOR_N)
+            self.assertLess(abs(day_adj - 0.5), 0.005)
+            self.assertGreater(abs(row_adj - 0.5), 0.08)
 
 
 class TestScreenTellsTheTruth(unittest.TestCase):

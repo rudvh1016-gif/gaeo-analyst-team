@@ -58,26 +58,32 @@ REGISTRATION = {
     "bootstrapSeed": 20260905,
     "alpha": 0.05,
     "primaryFamily": ["H0_crash", "H0_mean", "H1_crash", "H2_crash"],
+    # 실질 효과 조건(H1·H2에만): 유의해도 손실 비율 차이가 이보다 작으면 산식·표시를 바꾸지 않는다.
+    "minActionEffectPp": 5.0,
+    # 소유자 위임(2026-09-05): 통과하면 미리 정한 후속 조치를 평가 세션이 PR·병합까지 적용한다.
+    "consequenceMode": "APPLY_PREDEFINED_CHANGE_VIA_PR",
 }
 
 HYPOTHESES = {
     # 이름: (설명, 기대 방향(+1이면 통계량 > 0 이 가설 방향), 통과·반전 시 미리 정한 후속)
     "H0_crash": ("BUY의 종가 -5% 손실 비율이 같은 날짜 자동기록 기준선보다 낮다(통계량 = 기준선 − BUY)",
                  +1,
-                 {"PASS": "BUY 목록이 같은 날 아무 종목보다 크게 물리는 일이 적었다는 첫 독립 근거. 산식 변경 없음.",
-                  "FAIL_REVERSED": "BUY가 기준선보다 더 많이 크게 물렸다. 성적표 공개 유지, 산식 재설계 논의를 소유자에게 올린다."}),
+                 {"PASS": "BUY 목록이 같은 날 아무 종목보다 크게 물리는 일이 적었다는 첫 독립 근거. 성적표에 기록. 산식 변경 없음.",
+                  "FAIL_REVERSED": "BUY가 기준선보다 더 많이 크게 물렸다. 성적표에 그대로 공개. BUY 문턱은 만지지 않고 다음 등록에서 'BUY 문턱 상향' 가설을 새로 등록한다."}),
     "H0_mean": ("BUY의 평균 5거래일 종가 수익률이 같은 날짜 자동기록 기준선보다 높다(통계량 = BUY − 기준선)",
                 +1,
-                {"PASS": "BUY의 평균 수익이 기준선을 넘었다는 첫 독립 근거. 산식 변경 없음.",
-                 "FAIL_REVERSED": "BUY 평균 수익이 기준선에 못 미쳤다. 성적표 공개 유지, 산식 재설계 논의를 소유자에게 올린다."}),
+                {"PASS": "BUY의 평균 수익이 기준선을 넘었다는 첫 독립 근거. 성적표에 기록. 산식 변경 없음.",
+                 "FAIL_REVERSED": "BUY 평균 수익이 기준선에 못 미쳤다. 성적표에 그대로 공개. 다음 등록에서 'BUY 문턱 상향' 가설을 새로 등록한다."}),
     "H1_crash": ("급등 조건(ret5≥10% 또는 ret20≥25%)에 걸린 BUY의 손실 비율이 걸리지 않은 BUY보다 높다(통계량 = 급등 − 비급등)",
                  +1,
-                 {"PASS": "급등 BUY를 BUY에서 빼는 산식 변경안을 소유자 승인용 PR로 준비한다. 자동 적용 금지.",
-                  "FAIL_REVERSED": "급등 경고가 오히려 반대로 맞았다. 종목 화면의 급등 경고 표시를 제거한다."}),
+                 {"PASS": "급등 조건에 걸린 BUY를 HOLD로 내리는 산식 변경을 PR·CI·병합까지 적용한다(화면에 '급등 뒤라 관망' 사유 표시). 소유자 위임(2026-09-05).",
+                  "SIGNIFICANT_BUT_SMALL": "유의하지만 손실 비율 차이가 5%p 미만이다. 산식·표시를 바꾸지 않고 기록만 남긴다.",
+                  "FAIL_REVERSED": "급등 경고가 오히려 반대로 맞았다. 종목 화면의 급등 경고 표시를 제거하는 PR을 병합한다."}),
     "H2_crash": ("판단 당시 vol20≥4%인 BUY의 손실 비율이 그 미만인 BUY보다 높다(통계량 = 고변동 − 저변동). 노출 가설이며 예측력 가설이 아니다",
                  +1,
-                 {"PASS": "고변동 BUY에 '손실 노출 큼' 표시 또는 제외 여부를 소유자에게 올린다. 정규화 진단이 0 근처면 예측력이 아니라 노출 차이로만 설명한다.",
-                  "FAIL_REVERSED": "고변동 BUY가 덜 물렸다. 변동성 기반 제외안을 폐기한다."}),
+                 {"PASS": "고변동 BUY에 '손실 노출 큼' 표시를 추가하는 PR을 병합한다(판단은 바꾸지 않는다). 정규화 진단이 0 근처면 예측력이 아니라 노출 차이로만 설명한다.",
+                  "SIGNIFICANT_BUT_SMALL": "유의하지만 손실 비율 차이가 5%p 미만이다. 표시를 추가하지 않고 기록만 남긴다.",
+                  "FAIL_REVERSED": "고변동 BUY가 덜 물렸다. 변동성 기반 제외안을 폐기하고 문서에 기록한다."}),
 }
 
 
@@ -331,11 +337,16 @@ def _baseline_test(buy, pool, reg):
     return out
 
 
-def _verdict(stat, boot, expected_sign, holm_p, alpha):
+def _verdict(stat, boot, expected_sign, holm_p, alpha, min_effect=None):
+    """min_effect가 있으면(H1·H2) 유의하고 방향이 맞아도 |효과| < min_effect면 SIGNIFICANT_BUT_SMALL."""
     if stat is None or boot is None or holm_p is None:
         return "INSUFFICIENT"
     if holm_p < alpha:
-        return "PASS" if (stat * expected_sign) > 0 else "FAIL_REVERSED"
+        if (stat * expected_sign) <= 0:
+            return "FAIL_REVERSED"
+        if min_effect is not None and abs(stat) < min_effect:
+            return "SIGNIFICANT_BUT_SMALL"
+        return "PASS"
     return "NOT_SIGNIFICANT"
 
 
@@ -387,16 +398,18 @@ def evaluate(hist, closes, as_of, reg=REGISTRATION):
         "H0_mean": _verdict(base.get("H0_mean", {}).get("statPct") if base.get("status") == "TESTED" else None,
                             base.get("H0_mean", {}).get("bootstrap") if base.get("status") == "TESTED" else None,
                             +1, holm.get("H0_mean"), reg["alpha"]),
-        "H1_crash": _verdict(h1.get("crashGapPp"), h1.get("crashGapBootstrap"), +1, holm.get("H1_crash"), reg["alpha"]),
-        "H2_crash": _verdict(h2.get("crashGapPp"), h2.get("crashGapBootstrap"), +1, holm.get("H2_crash"), reg["alpha"]),
+        "H1_crash": _verdict(h1.get("crashGapPp"), h1.get("crashGapBootstrap"), +1, holm.get("H1_crash"),
+                             reg["alpha"], reg["minActionEffectPp"]),
+        "H2_crash": _verdict(h2.get("crashGapPp"), h2.get("crashGapBootstrap"), +1, holm.get("H2_crash"),
+                             reg["alpha"], reg["minActionEffectPp"]),
     }
     report.update({
         "status": "EVALUATED",
         "baseline": base, "H1": h1, "H2": h2,
         "rawP": raw_p, "holmP": holm, "verdicts": verdicts,
         "preRegisteredConsequences": {k: HYPOTHESES[k][2].get(v, "변경 없음. 표시·공개 유지.") for k, v in verdicts.items()},
-        "note": ("사전등록 창 안의 새 기록만 평가했다. 통과해도 자동 적용하지 않으며 소유자 승인이 필요하다. "
-                 "이 결과를 보고 임계값·가설·절차를 바꾸면 이 등록은 소멸하고 새 등록이 필요하다."),
+        "note": ("사전등록 창 안의 새 기록만 평가했다. 후속 조치는 §3 표에 미리 정한 것만 그대로 적용한다"
+                 "(소유자 위임 2026-09-05). 이 결과를 보고 임계값·가설·절차를 바꾸면 이 등록은 소멸하고 새 등록이 필요하다."),
     })
     return report
 
