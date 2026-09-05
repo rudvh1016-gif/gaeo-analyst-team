@@ -1,0 +1,3773 @@
+{
+  "startingCommit": "3cf45061d7c56e61d843c683882cd1e043ae4c49",
+  "sourceSHA256": {
+    "history.js": "3bfaeef7149fd8e35f16d2735b43becdd7fb770fe6b4ca29a79122db60901105",
+    "analysis_data.json": "c0dcd85f33823a3fb302081ce6990e8e604a55b9addc4c44f5965b5fce627e3f",
+    "tickers.js": "5eeea83ec8028f5bdf4911d072abf90ffcbd69ac20586fa2fbd8065d178d7d49"
+  },
+  "sourceFetchedAt": "2026-09-04 16:00",
+  "inference": "RETROSPECTIVE_EXPLORATORY_NOT_OOS",
+  "legacyMixed": {
+    "buy": {
+      "n": 1474,
+      "days": 43,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 504,
+      "graded": 1257,
+      "acc": 40.095,
+      "positivePct": 41.18,
+      "mean": -1.0735,
+      "crash": 27.544,
+      "pathCrash": 39.62,
+      "intradayLowCrash": 56.038
+    },
+    "pool": {
+      "n": 22551,
+      "days": 44,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 9197,
+      "graded": 19827,
+      "acc": 46.386,
+      "positivePct": 46.158,
+      "mean": -0.1637,
+      "crash": 27.178,
+      "pathCrash": 41.399,
+      "intradayLowCrash": 56.068
+    },
+    "baseCloseMismatch": 97,
+    "noDecisionCandle": 93,
+    "sessionOnly": {
+      "n": 1381,
+      "days": 41,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 479,
+      "graded": 1181,
+      "acc": 40.559,
+      "positivePct": 41.564,
+      "mean": -1.0539,
+      "crash": 27.516,
+      "pathCrash": 38.74,
+      "intradayLowCrash": 54.743
+    },
+    "cohorts": {
+      "reconstructed": {
+        "n": 462,
+        "days": 12,
+        "first": "2026-07-01",
+        "last": "2026-07-16",
+        "hit": 134,
+        "graded": 403,
+        "acc": 33.251,
+        "positivePct": 35.065,
+        "mean": -2.6007,
+        "crash": 33.55,
+        "pathCrash": 44.372,
+        "intradayLowCrash": 62.121
+      },
+      "manual": {
+        "n": 11,
+        "days": 6,
+        "first": "2026-07-10",
+        "last": "2026-08-27",
+        "hit": 6,
+        "graded": 11,
+        "acc": 54.545,
+        "positivePct": 54.545,
+        "mean": -3.4632,
+        "crash": 18.182,
+        "pathCrash": 27.273,
+        "intradayLowCrash": 36.364
+      },
+      "current": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "old": {
+        "n": 1158,
+        "days": 34,
+        "first": "2026-07-01",
+        "last": "2026-08-27",
+        "hit": 383,
+        "graded": 999,
+        "acc": 38.338,
+        "positivePct": 39.551,
+        "mean": -1.3653,
+        "crash": 29.879,
+        "pathCrash": 40.846,
+        "intradayLowCrash": 57.772
+      }
+    },
+    "warnings": {
+      "surge": {
+        "kept": {
+          "n": 889,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 320,
+          "graded": 735,
+          "acc": 43.537,
+          "positivePct": 44.319,
+          "mean": -0.262,
+          "crash": 20.81,
+          "pathCrash": 30.596,
+          "intradayLowCrash": 47.807
+        },
+        "fixed": {
+          "gap": 16.968,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 37.778,
+          "otherPct": 20.81,
+          "ciDay": [
+            11.594,
+            22.579
+          ],
+          "ci5Days": [
+            10.159,
+            26.946
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            10.159,
+            26.946
+          ]
+        },
+        "normalized": {
+          "gap": 4.352,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 14.701,
+          "otherPct": 10.349,
+          "ciDay": [
+            0.403,
+            8.461
+          ],
+          "ci5Days": [
+            -0.993,
+            10.616
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.993,
+            10.616
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": 4.289,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 14.188,
+          "otherPct": 9.899,
+          "ciDay": [
+            0.327,
+            8.337
+          ],
+          "ci5Days": [
+            -0.77,
+            10.305
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.77,
+            10.305
+          ]
+        },
+        "normalizedLog": {
+          "gap": 6.075,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 17.436,
+          "otherPct": 11.361,
+          "ciDay": [
+            1.304,
+            11.233
+          ],
+          "ci5Days": [
+            -0.022,
+            14.434
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.022,
+            14.434
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.667,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 46.838,
+              "otherPct": 32.171,
+              "ciDay": [
+                8.571,
+                21.308
+              ],
+              "ci5Days": [
+                6.696,
+                26.036
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                6.696,
+                26.036
+              ]
+            },
+            "-5": {
+              "gap": 16.968,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 37.778,
+              "otherPct": 20.81,
+              "ciDay": [
+                11.594,
+                22.579
+              ],
+              "ci5Days": [
+                10.159,
+                26.946
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                10.159,
+                26.946
+              ]
+            },
+            "-10": {
+              "gap": 12.82,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 17.094,
+              "otherPct": 4.274,
+              "ciDay": [
+                8.024,
+                18.198
+              ],
+              "ci5Days": [
+                6.121,
+                21.476
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                6.121,
+                21.476
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 19.091,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 50.096,
+              "otherPct": 31.005,
+              "ciDay": [
+                13.87,
+                24.634
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                11.078,
+                36.798
+              ]
+            },
+            "-5": {
+              "gap": 22.516,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 43.595,
+              "otherPct": 21.078,
+              "ciDay": [
+                17.032,
+                28.428
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                13.482,
+                42.583
+              ]
+            },
+            "-10": {
+              "gap": 16.258,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 22.753,
+              "otherPct": 6.495,
+              "ciDay": [
+                11.935,
+                20.976
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                8.082,
+                28.731
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 23.796,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 50.368,
+              "otherPct": 26.572,
+              "ciDay": [
+                14.161,
+                33.021
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 22.325,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 43.015,
+              "otherPct": 20.69,
+              "ciDay": [
+                14.415,
+                30.38
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 21.425,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 30.147,
+              "otherPct": 8.722,
+              "ciDay": [
+                12.154,
+                29.945
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "volatility": {
+        "kept": {
+          "n": 872,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 300,
+          "graded": 710,
+          "acc": 42.254,
+          "positivePct": 42.661,
+          "mean": -0.4287,
+          "crash": 20.528,
+          "pathCrash": 30.275,
+          "intradayLowCrash": 46.904
+        },
+        "fixed": {
+          "gap": 17.18,
+          "flagN": 602,
+          "otherN": 872,
+          "flagPct": 37.708,
+          "otherPct": 20.528,
+          "ciDay": [
+            11.696,
+            22.846
+          ],
+          "ci5Days": [
+            8.015,
+            23.89
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            8.015,
+            23.89
+          ]
+        },
+        "normalized": {
+          "gap": -2.161,
+          "flagN": 602,
+          "otherN": 872,
+          "flagPct": 10.797,
+          "otherPct": 12.959,
+          "ciDay": [
+            -6.931,
+            3.482
+          ],
+          "ci5Days": [
+            -9.882,
+            2.951
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -9.882,
+            2.951
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": -2.201,
+          "flagN": 602,
+          "otherN": 872,
+          "flagPct": 10.299,
+          "otherPct": 12.5,
+          "ciDay": [
+            -7.031,
+            3.387
+          ],
+          "ci5Days": [
+            -10.01,
+            3.04
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -10.01,
+            3.04
+          ]
+        },
+        "normalizedLog": {
+          "gap": -0.255,
+          "flagN": 602,
+          "otherN": 872,
+          "flagPct": 13.621,
+          "otherPct": 13.876,
+          "ciDay": [
+            -5.58,
+            5.888
+          ],
+          "ci5Days": [
+            -8.966,
+            5.947
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -8.966,
+            5.947
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.682,
+              "flagN": 602,
+              "otherN": 872,
+              "flagPct": 46.678,
+              "otherPct": 31.995,
+              "ciDay": [
+                8.498,
+                21.129
+              ],
+              "ci5Days": [
+                5.576,
+                21.382
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.576,
+                21.382
+              ]
+            },
+            "-5": {
+              "gap": 17.18,
+              "flagN": 602,
+              "otherN": 872,
+              "flagPct": 37.708,
+              "otherPct": 20.528,
+              "ciDay": [
+                11.696,
+                22.846
+              ],
+              "ci5Days": [
+                8.015,
+                23.89
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                8.015,
+                23.89
+              ]
+            },
+            "-10": {
+              "gap": 12.815,
+              "flagN": 602,
+              "otherN": 872,
+              "flagPct": 16.944,
+              "otherPct": 4.128,
+              "ciDay": [
+                8.247,
+                18.225
+              ],
+              "ci5Days": [
+                5.548,
+                18.399
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.548,
+                18.399
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 14.49,
+              "flagN": 561,
+              "otherN": 778,
+              "flagPct": 46.881,
+              "otherPct": 32.391,
+              "ciDay": [
+                8.974,
+                20.538
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                6.049,
+                23.59
+              ]
+            },
+            "-5": {
+              "gap": 17.613,
+              "flagN": 561,
+              "otherN": 778,
+              "flagPct": 40.107,
+              "otherPct": 22.494,
+              "ciDay": [
+                11.869,
+                24.161
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                5.972,
+                28.519
+              ]
+            },
+            "-10": {
+              "gap": 15.627,
+              "flagN": 561,
+              "otherN": 778,
+              "flagPct": 21.925,
+              "otherPct": 6.298,
+              "ciDay": [
+                10.187,
+                21.91
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                4.504,
+                27.732
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 17.708,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 45.819,
+              "otherPct": 28.112,
+              "ciDay": [
+                7.806,
+                28.557
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 21.634,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 41.806,
+              "otherPct": 20.172,
+              "ciDay": [
+                11.827,
+                32.421
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 17.648,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 27.09,
+              "otherPct": 9.442,
+              "ciDay": [
+                8.588,
+                27.745
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "union": {
+        "kept": {
+          "n": 677,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 239,
+          "graded": 541,
+          "acc": 44.177,
+          "positivePct": 44.609,
+          "mean": -0.2193,
+          "crash": 17.873,
+          "pathCrash": 25.849,
+          "intradayLowCrash": 42.688
+        },
+        "fixed": {
+          "gap": 17.886,
+          "flagN": 797,
+          "otherN": 677,
+          "flagPct": 35.759,
+          "otherPct": 17.873,
+          "ciDay": [
+            13.408,
+            22.548
+          ],
+          "ci5Days": [
+            11.394,
+            24.385
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            11.394,
+            24.385
+          ]
+        },
+        "normalized": {
+          "gap": 0.206,
+          "flagN": 797,
+          "otherN": 677,
+          "flagPct": 12.171,
+          "otherPct": 11.965,
+          "ciDay": [
+            -3.567,
+            4.554
+          ],
+          "ci5Days": [
+            -5.641,
+            4.897
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -5.641,
+            4.897
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": 0.147,
+          "flagN": 797,
+          "otherN": 677,
+          "flagPct": 11.669,
+          "otherPct": 11.521,
+          "ciDay": [
+            -3.683,
+            4.524
+          ],
+          "ci5Days": [
+            -5.705,
+            4.852
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -5.705,
+            4.852
+          ]
+        },
+        "normalizedLog": {
+          "gap": 1.431,
+          "flagN": 797,
+          "otherN": 677,
+          "flagPct": 14.429,
+          "otherPct": 12.999,
+          "ciDay": [
+            -2.92,
+            6.372
+          ],
+          "ci5Days": [
+            -4.796,
+            7.059
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -4.796,
+            7.059
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 15.9,
+              "flagN": 797,
+              "otherN": 677,
+              "flagPct": 45.295,
+              "otherPct": 29.394,
+              "ciDay": [
+                10.508,
+                21.684
+              ],
+              "ci5Days": [
+                8.383,
+                23.232
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                8.383,
+                23.232
+              ]
+            },
+            "-5": {
+              "gap": 17.886,
+              "flagN": 797,
+              "otherN": 677,
+              "flagPct": 35.759,
+              "otherPct": 17.873,
+              "ciDay": [
+                13.408,
+                22.548
+              ],
+              "ci5Days": [
+                11.394,
+                24.385
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                11.394,
+                24.385
+              ]
+            },
+            "-10": {
+              "gap": 11.305,
+              "flagN": 797,
+              "otherN": 677,
+              "flagPct": 14.555,
+              "otherPct": 3.25,
+              "ciDay": [
+                7.232,
+                16.027
+              ],
+              "ci5Days": [
+                5.469,
+                16.919
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.469,
+                16.919
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 16.858,
+              "flagN": 728,
+              "otherN": 611,
+              "flagPct": 46.154,
+              "otherPct": 29.296,
+              "ciDay": [
+                11.034,
+                22.628
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                8.902,
+                28.339
+              ]
+            },
+            "-5": {
+              "gap": 20.026,
+              "flagN": 728,
+              "otherN": 611,
+              "flagPct": 39.011,
+              "otherPct": 18.985,
+              "ciDay": [
+                14.876,
+                25.788
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                10.188,
+                31.973
+              ]
+            },
+            "-10": {
+              "gap": 14.294,
+              "flagN": 728,
+              "otherN": 611,
+              "flagPct": 19.368,
+              "otherPct": 5.074,
+              "ciDay": [
+                9.421,
+                19.772
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                5.537,
+                23.66
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 21.007,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 45.55,
+              "otherPct": 24.543,
+              "ciDay": [
+                10.435,
+                32.066
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 21.774,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 39.529,
+              "otherPct": 17.755,
+              "ciDay": [
+                12.816,
+                31.328
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 18.082,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 25.393,
+              "otherPct": 7.311,
+              "ciDay": [
+                9.347,
+                27.118
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      }
+    },
+    "controls": {
+      "unmatched": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": -0.9098,
+        "crashGap": 0.3657,
+        "meanCi5Days": [
+          -1.822,
+          0.963
+        ],
+        "crashCi5Days": [
+          -8.78,
+          5.943
+        ],
+        "cells": [
+          {
+            "stratum": [],
+            "buyN": 1474,
+            "poolN": 22551,
+            "buyMean": -1.0735,
+            "poolMean": -0.1637,
+            "buyCrash": 27.544,
+            "poolCrash": 27.178
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.1135,
+        "crashGap": -4.2158,
+        "meanCi5Days": [
+          -2.265,
+          1.418
+        ],
+        "crashCi5Days": [
+          -7.984,
+          1.571
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "r5": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.1851,
+        "crashGap": -2.4812,
+        "meanCi5Days": [
+          -0.695,
+          1.957
+        ],
+        "crashCi5Days": [
+          -10.457,
+          2.713
+        ],
+        "cells": [
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 40,
+            "poolN": 5928,
+            "buyMean": 4.5373,
+            "poolMean": 2.4831,
+            "buyCrash": 17.5,
+            "poolCrash": 26.889
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 138,
+            "poolN": 5388,
+            "buyMean": 1.5604,
+            "poolMean": -0.4743,
+            "buyCrash": 11.594,
+            "poolCrash": 23.088
+          },
+          {
+            "stratum": [
+              5
+            ],
+            "buyN": 239,
+            "poolN": 1768,
+            "buyMean": -2.4762,
+            "poolMean": -1.9184,
+            "buyCrash": 35.983,
+            "poolCrash": 35.973
+          },
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 365,
+            "poolN": 3088,
+            "buyMean": -1.3082,
+            "poolMean": -1.4515,
+            "buyCrash": 24.658,
+            "poolCrash": 27.72
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 220,
+            "poolN": 3600,
+            "buyMean": -0.6877,
+            "poolMean": -1.1622,
+            "buyCrash": 22.273,
+            "poolCrash": 23.694
+          },
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 472,
+            "poolN": 2779,
+            "buyMean": -1.6071,
+            "poolMean": -1.3668,
+            "buyCrash": 33.475,
+            "poolCrash": 34.041
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": -1.2197,
+        "crashGap": 5.5032,
+        "meanCi5Days": [
+          -2.106,
+          0.602
+        ],
+        "crashCi5Days": [
+          -2.163,
+          10.521
+        ],
+        "cells": [
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 298,
+            "poolN": 9721,
+            "buyMean": -3.1923,
+            "poolMean": -0.8661,
+            "buyCrash": 43.96,
+            "poolCrash": 39.307
+          },
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 304,
+            "poolN": 3766,
+            "buyMean": -0.846,
+            "poolMean": -0.2935,
+            "buyCrash": 31.579,
+            "poolCrash": 29.448
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 390,
+            "poolN": 4036,
+            "buyMean": -0.742,
+            "poolMean": 0.1999,
+            "buyCrash": 26.41,
+            "poolCrash": 20.466
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 380,
+            "poolN": 3554,
+            "buyMean": -0.6542,
+            "poolMean": 1.0227,
+            "buyCrash": 19.211,
+            "poolCrash": 9.398
+          },
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 102,
+            "poolN": 1474,
+            "buyMean": 1.6091,
+            "poolMean": 0.9443,
+            "buyCrash": 2.941,
+            "poolCrash": 2.646
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5": {
+        "matched": 1474,
+        "sparseNonBuyN": 12,
+        "meanGap": 1.1447,
+        "crashGap": -6.4587,
+        "meanCi5Days": [
+          -0.419,
+          2.128
+        ],
+        "crashCi5Days": [
+          -10.886,
+          -0.237
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.2766,
+        "crashGap": -0.1179,
+        "meanCi5Days": [
+          -0.776,
+          0.934
+        ],
+        "crashCi5Days": [
+          -3.267,
+          4.233
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 283,
+        "meanGap": 0.603,
+        "crashGap": -1.1363,
+        "meanCi5Days": [
+          -0.147,
+          1.106
+        ],
+        "crashCi5Days": [
+          -3.689,
+          1.838
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol+sector": {
+        "matched": 1474,
+        "sparseNonBuyN": 1367,
+        "meanGap": -0.1377,
+        "crashGap": 1.3964,
+        "meanCi5Days": [
+          -0.426,
+          0.11
+        ],
+        "crashCi5Days": [
+          -0.23,
+          2.851
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      }
+    },
+    "split": {
+      "overlapDecisionDates": [
+        "2026-08-27"
+      ],
+      "oldLabelsNotAvailableAtTestStart": 357,
+      "testStart": "2026-08-17",
+      "purgedTrain": {
+        "n": 801,
+        "days": 28,
+        "first": "2026-07-01",
+        "last": "2026-08-07",
+        "hit": 301,
+        "graded": 695,
+        "acc": 43.309,
+        "positivePct": 44.07,
+        "mean": -1.0518,
+        "crash": 26.717,
+        "pathCrash": 36.954,
+        "intradayLowCrash": 54.182
+      },
+      "test": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "keptTest": {
+        "surge": {
+          "n": 182,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 61,
+          "graded": 140,
+          "acc": 43.571,
+          "positivePct": 43.407,
+          "mean": -0.2376,
+          "crash": 14.286,
+          "pathCrash": 26.923,
+          "intradayLowCrash": 44.505
+        },
+        "union": {
+          "n": 131,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 42,
+          "graded": 92,
+          "acc": 45.652,
+          "positivePct": 43.511,
+          "mean": -0.1904,
+          "crash": 11.45,
+          "pathCrash": 20.611,
+          "intradayLowCrash": 35.115
+        }
+      }
+    }
+  },
+  "knownBaseMixed": {
+    "buy": {
+      "n": 1474,
+      "days": 43,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 504,
+      "graded": 1257,
+      "acc": 40.095,
+      "positivePct": 41.18,
+      "mean": -1.0735,
+      "crash": 27.544,
+      "pathCrash": 39.62,
+      "intradayLowCrash": 56.038
+    },
+    "pool": {
+      "n": 22551,
+      "days": 44,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 9197,
+      "graded": 19827,
+      "acc": 46.386,
+      "positivePct": 46.158,
+      "mean": -0.1637,
+      "crash": 27.178,
+      "pathCrash": 41.399,
+      "intradayLowCrash": 56.068
+    },
+    "baseCloseMismatch": 97,
+    "noDecisionCandle": 93,
+    "sessionOnly": {
+      "n": 1381,
+      "days": 41,
+      "first": "2026-07-01",
+      "last": "2026-08-28",
+      "hit": 479,
+      "graded": 1181,
+      "acc": 40.559,
+      "positivePct": 41.564,
+      "mean": -1.0539,
+      "crash": 27.516,
+      "pathCrash": 38.74,
+      "intradayLowCrash": 54.743
+    },
+    "cohorts": {
+      "reconstructed": {
+        "n": 462,
+        "days": 12,
+        "first": "2026-07-01",
+        "last": "2026-07-16",
+        "hit": 134,
+        "graded": 403,
+        "acc": 33.251,
+        "positivePct": 35.065,
+        "mean": -2.6007,
+        "crash": 33.55,
+        "pathCrash": 44.372,
+        "intradayLowCrash": 62.121
+      },
+      "manual": {
+        "n": 11,
+        "days": 6,
+        "first": "2026-07-10",
+        "last": "2026-08-27",
+        "hit": 6,
+        "graded": 11,
+        "acc": 54.545,
+        "positivePct": 54.545,
+        "mean": -3.4632,
+        "crash": 18.182,
+        "pathCrash": 27.273,
+        "intradayLowCrash": 36.364
+      },
+      "current": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "old": {
+        "n": 1158,
+        "days": 34,
+        "first": "2026-07-01",
+        "last": "2026-08-27",
+        "hit": 383,
+        "graded": 999,
+        "acc": 38.338,
+        "positivePct": 39.551,
+        "mean": -1.3653,
+        "crash": 29.879,
+        "pathCrash": 40.846,
+        "intradayLowCrash": 57.772
+      }
+    },
+    "warnings": {
+      "surge": {
+        "kept": {
+          "n": 889,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 320,
+          "graded": 735,
+          "acc": 43.537,
+          "positivePct": 44.319,
+          "mean": -0.262,
+          "crash": 20.81,
+          "pathCrash": 30.596,
+          "intradayLowCrash": 47.807
+        },
+        "fixed": {
+          "gap": 16.968,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 37.778,
+          "otherPct": 20.81,
+          "ciDay": [
+            11.594,
+            22.579
+          ],
+          "ci5Days": [
+            10.159,
+            26.946
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            10.159,
+            26.946
+          ]
+        },
+        "normalized": {
+          "gap": 4.352,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 14.701,
+          "otherPct": 10.349,
+          "ciDay": [
+            0.403,
+            8.461
+          ],
+          "ci5Days": [
+            -0.993,
+            10.616
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.993,
+            10.616
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": 4.289,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 14.188,
+          "otherPct": 9.899,
+          "ciDay": [
+            0.327,
+            8.337
+          ],
+          "ci5Days": [
+            -0.77,
+            10.305
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.77,
+            10.305
+          ]
+        },
+        "normalizedLog": {
+          "gap": 6.075,
+          "flagN": 585,
+          "otherN": 889,
+          "flagPct": 17.436,
+          "otherPct": 11.361,
+          "ciDay": [
+            1.304,
+            11.233
+          ],
+          "ci5Days": [
+            -0.022,
+            14.434
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -0.022,
+            14.434
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.667,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 46.838,
+              "otherPct": 32.171,
+              "ciDay": [
+                8.571,
+                21.308
+              ],
+              "ci5Days": [
+                6.696,
+                26.036
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                6.696,
+                26.036
+              ]
+            },
+            "-5": {
+              "gap": 16.968,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 37.778,
+              "otherPct": 20.81,
+              "ciDay": [
+                11.594,
+                22.579
+              ],
+              "ci5Days": [
+                10.159,
+                26.946
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                10.159,
+                26.946
+              ]
+            },
+            "-10": {
+              "gap": 12.82,
+              "flagN": 585,
+              "otherN": 889,
+              "flagPct": 17.094,
+              "otherPct": 4.274,
+              "ciDay": [
+                8.024,
+                18.198
+              ],
+              "ci5Days": [
+                6.121,
+                21.476
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                6.121,
+                21.476
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 19.091,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 50.096,
+              "otherPct": 31.005,
+              "ciDay": [
+                13.87,
+                24.634
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                11.078,
+                36.798
+              ]
+            },
+            "-5": {
+              "gap": 22.516,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 43.595,
+              "otherPct": 21.078,
+              "ciDay": [
+                17.032,
+                28.428
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                13.482,
+                42.583
+              ]
+            },
+            "-10": {
+              "gap": 16.258,
+              "flagN": 523,
+              "otherN": 816,
+              "flagPct": 22.753,
+              "otherPct": 6.495,
+              "ciDay": [
+                11.935,
+                20.976
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                8.082,
+                28.731
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 23.796,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 50.368,
+              "otherPct": 26.572,
+              "ciDay": [
+                14.161,
+                33.021
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 22.325,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 43.015,
+              "otherPct": 20.69,
+              "ciDay": [
+                14.415,
+                30.38
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 21.425,
+              "flagN": 272,
+              "otherN": 493,
+              "flagPct": 30.147,
+              "otherPct": 8.722,
+              "ciDay": [
+                12.154,
+                29.945
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "volatility": {
+        "kept": {
+          "n": 874,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 300,
+          "graded": 711,
+          "acc": 42.194,
+          "positivePct": 42.563,
+          "mean": -0.4322,
+          "crash": 20.481,
+          "pathCrash": 30.206,
+          "intradayLowCrash": 46.911
+        },
+        "fixed": {
+          "gap": 17.353,
+          "flagN": 600,
+          "otherN": 874,
+          "flagPct": 37.833,
+          "otherPct": 20.481,
+          "ciDay": [
+            11.921,
+            22.996
+          ],
+          "ci5Days": [
+            8.231,
+            23.949
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            8.231,
+            23.949
+          ]
+        },
+        "normalized": {
+          "gap": -2.096,
+          "flagN": 600,
+          "otherN": 874,
+          "flagPct": 10.833,
+          "otherPct": 12.929,
+          "ciDay": [
+            -6.834,
+            3.549
+          ],
+          "ci5Days": [
+            -9.752,
+            2.974
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -9.752,
+            2.974
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": -2.138,
+          "flagN": 600,
+          "otherN": 874,
+          "flagPct": 10.333,
+          "otherPct": 12.471,
+          "ciDay": [
+            -6.999,
+            3.461
+          ],
+          "ci5Days": [
+            -9.897,
+            3.08
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -9.897,
+            3.08
+          ]
+        },
+        "normalizedLog": {
+          "gap": -0.178,
+          "flagN": 600,
+          "otherN": 874,
+          "flagPct": 13.667,
+          "otherPct": 13.844,
+          "ciDay": [
+            -5.494,
+            5.98
+          ],
+          "ci5Days": [
+            -8.829,
+            6.002
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -8.829,
+            6.002
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.63,
+              "flagN": 600,
+              "otherN": 874,
+              "flagPct": 46.667,
+              "otherPct": 32.037,
+              "ciDay": [
+                8.598,
+                21.066
+              ],
+              "ci5Days": [
+                5.637,
+                21.163
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.637,
+                21.163
+              ]
+            },
+            "-5": {
+              "gap": 17.353,
+              "flagN": 600,
+              "otherN": 874,
+              "flagPct": 37.833,
+              "otherPct": 20.481,
+              "ciDay": [
+                11.921,
+                22.996
+              ],
+              "ci5Days": [
+                8.231,
+                23.949
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                8.231,
+                23.949
+              ]
+            },
+            "-10": {
+              "gap": 12.881,
+              "flagN": 600,
+              "otherN": 874,
+              "flagPct": 17.0,
+              "otherPct": 4.119,
+              "ciDay": [
+                8.276,
+                18.274
+              ],
+              "ci5Days": [
+                5.581,
+                18.399
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.581,
+                18.399
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 14.741,
+              "flagN": 559,
+              "otherN": 780,
+              "flagPct": 47.048,
+              "otherPct": 32.308,
+              "ciDay": [
+                9.27,
+                20.811
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                6.473,
+                23.59
+              ]
+            },
+            "-5": {
+              "gap": 17.815,
+              "flagN": 559,
+              "otherN": 780,
+              "flagPct": 40.25,
+              "otherPct": 22.436,
+              "ciDay": [
+                12.047,
+                24.296
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                6.325,
+                28.519
+              ]
+            },
+            "-10": {
+              "gap": 15.722,
+              "flagN": 559,
+              "otherN": 780,
+              "flagPct": 22.004,
+              "otherPct": 6.282,
+              "ciDay": [
+                10.259,
+                22.052
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                4.63,
+                27.732
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 17.708,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 45.819,
+              "otherPct": 28.112,
+              "ciDay": [
+                7.806,
+                28.557
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 21.634,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 41.806,
+              "otherPct": 20.172,
+              "ciDay": [
+                11.827,
+                32.421
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 17.648,
+              "flagN": 299,
+              "otherN": 466,
+              "flagPct": 27.09,
+              "otherPct": 9.442,
+              "ciDay": [
+                8.588,
+                27.745
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "union": {
+        "kept": {
+          "n": 678,
+          "days": 43,
+          "first": "2026-07-01",
+          "last": "2026-08-28",
+          "hit": 239,
+          "graded": 541,
+          "acc": 44.177,
+          "positivePct": 44.543,
+          "mean": -0.2198,
+          "crash": 17.847,
+          "pathCrash": 25.811,
+          "intradayLowCrash": 42.625
+        },
+        "fixed": {
+          "gap": 17.957,
+          "flagN": 796,
+          "otherN": 678,
+          "flagPct": 35.804,
+          "otherPct": 17.847,
+          "ciDay": [
+            13.444,
+            22.582
+          ],
+          "ci5Days": [
+            11.535,
+            24.385
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            11.535,
+            24.385
+          ]
+        },
+        "normalized": {
+          "gap": 0.239,
+          "flagN": 796,
+          "otherN": 678,
+          "flagPct": 12.186,
+          "otherPct": 11.947,
+          "ciDay": [
+            -3.535,
+            4.554
+          ],
+          "ci5Days": [
+            -5.532,
+            4.915
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -5.532,
+            4.915
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": 0.179,
+          "flagN": 796,
+          "otherN": 678,
+          "flagPct": 11.683,
+          "otherPct": 11.504,
+          "ciDay": [
+            -3.645,
+            4.558
+          ],
+          "ci5Days": [
+            -5.602,
+            4.852
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -5.602,
+            4.852
+          ]
+        },
+        "normalizedLog": {
+          "gap": 1.468,
+          "flagN": 796,
+          "otherN": 678,
+          "flagPct": 14.447,
+          "otherPct": 12.979,
+          "ciDay": [
+            -2.845,
+            6.39
+          ],
+          "ci5Days": [
+            -4.709,
+            7.059
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -4.709,
+            7.059
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 16.001,
+              "flagN": 796,
+              "otherN": 678,
+              "flagPct": 45.352,
+              "otherPct": 29.351,
+              "ciDay": [
+                10.623,
+                21.787
+              ],
+              "ci5Days": [
+                8.637,
+                23.234
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                8.637,
+                23.234
+              ]
+            },
+            "-5": {
+              "gap": 17.957,
+              "flagN": 796,
+              "otherN": 678,
+              "flagPct": 35.804,
+              "otherPct": 17.847,
+              "ciDay": [
+                13.444,
+                22.582
+              ],
+              "ci5Days": [
+                11.535,
+                24.385
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                11.535,
+                24.385
+              ]
+            },
+            "-10": {
+              "gap": 11.328,
+              "flagN": 796,
+              "otherN": 678,
+              "flagPct": 14.573,
+              "otherPct": 3.245,
+              "ciDay": [
+                7.241,
+                16.055
+              ],
+              "ci5Days": [
+                5.506,
+                16.929
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.506,
+                16.929
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 16.969,
+              "flagN": 727,
+              "otherN": 612,
+              "flagPct": 46.217,
+              "otherPct": 29.248,
+              "ciDay": [
+                11.133,
+                22.685
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                9.165,
+                28.339
+              ]
+            },
+            "-5": {
+              "gap": 20.11,
+              "flagN": 727,
+              "otherN": 612,
+              "flagPct": 39.065,
+              "otherPct": 18.954,
+              "ciDay": [
+                14.956,
+                25.842
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                10.403,
+                31.973
+              ]
+            },
+            "-10": {
+              "gap": 14.329,
+              "flagN": 727,
+              "otherN": 612,
+              "flagPct": 19.395,
+              "otherPct": 5.065,
+              "ciDay": [
+                9.474,
+                19.784
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                5.609,
+                23.66
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 21.007,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 45.55,
+              "otherPct": 24.543,
+              "ciDay": [
+                10.435,
+                32.066
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 21.774,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 39.529,
+              "otherPct": 17.755,
+              "ciDay": [
+                12.816,
+                31.328
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 18.082,
+              "flagN": 382,
+              "otherN": 383,
+              "flagPct": 25.393,
+              "otherPct": 7.311,
+              "ciDay": [
+                9.347,
+                27.118
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      }
+    },
+    "controls": {
+      "unmatched": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": -0.9098,
+        "crashGap": 0.3657,
+        "meanCi5Days": [
+          -1.822,
+          0.963
+        ],
+        "crashCi5Days": [
+          -8.78,
+          5.943
+        ],
+        "cells": [
+          {
+            "stratum": [],
+            "buyN": 1474,
+            "poolN": 22551,
+            "buyMean": -1.0735,
+            "poolMean": -0.1637,
+            "buyCrash": 27.544,
+            "poolCrash": 27.178
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.1135,
+        "crashGap": -4.2158,
+        "meanCi5Days": [
+          -2.265,
+          1.418
+        ],
+        "crashCi5Days": [
+          -7.984,
+          1.571
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "r5": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.1851,
+        "crashGap": -2.4812,
+        "meanCi5Days": [
+          -0.695,
+          1.957
+        ],
+        "crashCi5Days": [
+          -10.457,
+          2.713
+        ],
+        "cells": [
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 40,
+            "poolN": 5928,
+            "buyMean": 4.5373,
+            "poolMean": 2.4831,
+            "buyCrash": 17.5,
+            "poolCrash": 26.889
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 138,
+            "poolN": 5388,
+            "buyMean": 1.5604,
+            "poolMean": -0.4743,
+            "buyCrash": 11.594,
+            "poolCrash": 23.088
+          },
+          {
+            "stratum": [
+              5
+            ],
+            "buyN": 239,
+            "poolN": 1768,
+            "buyMean": -2.4762,
+            "poolMean": -1.9184,
+            "buyCrash": 35.983,
+            "poolCrash": 35.973
+          },
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 365,
+            "poolN": 3088,
+            "buyMean": -1.3082,
+            "poolMean": -1.4515,
+            "buyCrash": 24.658,
+            "poolCrash": 27.72
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 220,
+            "poolN": 3600,
+            "buyMean": -0.6877,
+            "poolMean": -1.1622,
+            "buyCrash": 22.273,
+            "poolCrash": 23.694
+          },
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 472,
+            "poolN": 2779,
+            "buyMean": -1.6071,
+            "poolMean": -1.3668,
+            "buyCrash": 33.475,
+            "poolCrash": 34.041
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": -1.2182,
+        "crashGap": 5.5247,
+        "meanCi5Days": [
+          -2.105,
+          0.609
+        ],
+        "crashCi5Days": [
+          -2.163,
+          10.569
+        ],
+        "cells": [
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 298,
+            "poolN": 9744,
+            "buyMean": -3.1923,
+            "poolMean": -0.8634,
+            "buyCrash": 43.96,
+            "poolCrash": 39.255
+          },
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 302,
+            "poolN": 3756,
+            "buyMean": -0.8387,
+            "poolMean": -0.1999,
+            "buyCrash": 31.788,
+            "poolCrash": 29.42
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 391,
+            "poolN": 4027,
+            "buyMean": -0.7361,
+            "poolMean": 0.1886,
+            "buyCrash": 26.087,
+            "poolCrash": 20.487
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 381,
+            "poolN": 3552,
+            "buyMean": -0.6667,
+            "poolMean": 0.9691,
+            "buyCrash": 19.423,
+            "poolCrash": 9.431
+          },
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 102,
+            "poolN": 1472,
+            "buyMean": 1.6091,
+            "poolMean": 0.8636,
+            "buyCrash": 2.941,
+            "poolCrash": 2.649
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5": {
+        "matched": 1474,
+        "sparseNonBuyN": 12,
+        "meanGap": 1.1447,
+        "crashGap": -6.4587,
+        "meanCi5Days": [
+          -0.419,
+          2.128
+        ],
+        "crashCi5Days": [
+          -10.886,
+          -0.237
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 0,
+        "meanGap": 0.2622,
+        "crashGap": -0.093,
+        "meanCi5Days": [
+          -0.779,
+          0.896
+        ],
+        "crashCi5Days": [
+          -3.188,
+          4.232
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol": {
+        "matched": 1474,
+        "sparseNonBuyN": 283,
+        "meanGap": 0.5377,
+        "crashGap": -1.0611,
+        "meanCi5Days": [
+          -0.192,
+          0.994
+        ],
+        "crashCi5Days": [
+          -3.494,
+          1.852
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol+sector": {
+        "matched": 1474,
+        "sparseNonBuyN": 1367,
+        "meanGap": -0.1238,
+        "crashGap": 1.3162,
+        "meanCi5Days": [
+          -0.396,
+          0.123
+        ],
+        "crashCi5Days": [
+          -0.329,
+          2.775
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      }
+    },
+    "split": {
+      "overlapDecisionDates": [
+        "2026-08-27"
+      ],
+      "oldLabelsNotAvailableAtTestStart": 357,
+      "testStart": "2026-08-17",
+      "purgedTrain": {
+        "n": 801,
+        "days": 28,
+        "first": "2026-07-01",
+        "last": "2026-08-07",
+        "hit": 301,
+        "graded": 695,
+        "acc": 43.309,
+        "positivePct": 44.07,
+        "mean": -1.0518,
+        "crash": 26.717,
+        "pathCrash": 36.954,
+        "intradayLowCrash": 54.182
+      },
+      "test": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "keptTest": {
+        "surge": {
+          "n": 182,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 61,
+          "graded": 140,
+          "acc": 43.571,
+          "positivePct": 43.407,
+          "mean": -0.2376,
+          "crash": 14.286,
+          "pathCrash": 26.923,
+          "intradayLowCrash": 44.505
+        },
+        "union": {
+          "n": 131,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 42,
+          "graded": 92,
+          "acc": 45.652,
+          "positivePct": 43.511,
+          "mean": -0.1904,
+          "crash": 11.45,
+          "pathCrash": 20.611,
+          "intradayLowCrash": 35.115
+        }
+      }
+    }
+  },
+  "observedAuto": {
+    "buy": {
+      "n": 1001,
+      "days": 31,
+      "first": "2026-07-17",
+      "last": "2026-08-28",
+      "hit": 364,
+      "graded": 843,
+      "acc": 43.179,
+      "positivePct": 43.856,
+      "mean": -0.3423,
+      "crash": 24.875,
+      "pathCrash": 37.562,
+      "intradayLowCrash": 53.447
+    },
+    "pool": {
+      "n": 16472,
+      "days": 31,
+      "first": "2026-07-17",
+      "last": "2026-08-28",
+      "hit": 7662,
+      "graded": 14476,
+      "acc": 52.929,
+      "positivePct": 51.949,
+      "mean": 1.1684,
+      "crash": 22.748,
+      "pathCrash": 35.776,
+      "intradayLowCrash": 50.656
+    },
+    "baseCloseMismatch": 90,
+    "noDecisionCandle": 93,
+    "sessionOnly": {
+      "n": 908,
+      "days": 29,
+      "first": "2026-07-20",
+      "last": "2026-08-28",
+      "hit": 339,
+      "graded": 767,
+      "acc": 44.198,
+      "positivePct": 44.714,
+      "mean": -0.2377,
+      "crash": 24.559,
+      "pathCrash": 36.013,
+      "intradayLowCrash": 51.211
+    },
+    "cohorts": {
+      "reconstructed": null,
+      "manual": null,
+      "current": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "old": {
+        "n": 685,
+        "days": 21,
+        "first": "2026-07-17",
+        "last": "2026-08-14",
+        "hit": 243,
+        "graded": 585,
+        "acc": 41.538,
+        "positivePct": 42.336,
+        "mean": -0.4985,
+        "crash": 27.591,
+        "pathCrash": 38.686,
+        "intradayLowCrash": 55.182
+      }
+    },
+    "warnings": {
+      "surge": {
+        "kept": {
+          "n": 614,
+          "days": 31,
+          "first": "2026-07-17",
+          "last": "2026-08-28",
+          "hit": 233,
+          "graded": 497,
+          "acc": 46.881,
+          "positivePct": 46.906,
+          "mean": 0.2356,
+          "crash": 18.567,
+          "pathCrash": 29.153,
+          "intradayLowCrash": 45.44
+        },
+        "fixed": {
+          "gap": 16.317,
+          "flagN": 387,
+          "otherN": 614,
+          "flagPct": 34.884,
+          "otherPct": 18.567,
+          "ciDay": [
+            9.518,
+            23.62
+          ],
+          "ci5Days": [
+            8.205,
+            32.695
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            8.205,
+            32.695
+          ]
+        },
+        "normalized": {
+          "gap": 1.98,
+          "flagN": 387,
+          "otherN": 614,
+          "flagPct": 12.403,
+          "otherPct": 10.423,
+          "ciDay": [
+            -1.734,
+            6.531
+          ],
+          "ci5Days": [
+            -2.529,
+            12.244
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -2.529,
+            12.244
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": 2.21,
+          "flagN": 387,
+          "otherN": 614,
+          "flagPct": 12.145,
+          "otherPct": 9.935,
+          "ciDay": [
+            -1.549,
+            6.662
+          ],
+          "ci5Days": [
+            -2.129,
+            12.263
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -2.129,
+            12.263
+          ]
+        },
+        "normalizedLog": {
+          "gap": 3.749,
+          "flagN": 387,
+          "otherN": 614,
+          "flagPct": 14.987,
+          "otherPct": 11.238,
+          "ciDay": [
+            -0.785,
+            9.419
+          ],
+          "ci5Days": [
+            -1.553,
+            17.162
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -1.553,
+            17.162
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.87,
+              "flagN": 387,
+              "otherN": 614,
+              "flagPct": 44.186,
+              "otherPct": 29.316,
+              "ciDay": [
+                7.557,
+                22.772
+              ],
+              "ci5Days": [
+                5.371,
+                33.385
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                5.371,
+                33.385
+              ]
+            },
+            "-5": {
+              "gap": 16.317,
+              "flagN": 387,
+              "otherN": 614,
+              "flagPct": 34.884,
+              "otherPct": 18.567,
+              "ciDay": [
+                9.518,
+                23.62
+              ],
+              "ci5Days": [
+                8.205,
+                32.695
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                8.205,
+                32.695
+              ]
+            },
+            "-10": {
+              "gap": 8.331,
+              "flagN": 387,
+              "otherN": 614,
+              "flagPct": 12.403,
+              "otherPct": 4.072,
+              "ciDay": [
+                3.516,
+                13.649
+              ],
+              "ci5Days": [
+                2.855,
+                20.679
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                2.855,
+                20.679
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 14.709,
+              "flagN": 326,
+              "otherN": 543,
+              "flagPct": 39.571,
+              "otherPct": 24.862,
+              "ciDay": [
+                9.321,
+                20.506
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                8.978,
+                29.345
+              ]
+            },
+            "-5": {
+              "gap": 16.861,
+              "flagN": 326,
+              "otherN": 543,
+              "flagPct": 33.436,
+              "otherPct": 16.575,
+              "ciDay": [
+                10.801,
+                22.789
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                10.999,
+                33.347
+              ]
+            },
+            "-10": {
+              "gap": 11.286,
+              "flagN": 326,
+              "otherN": 543,
+              "flagPct": 14.417,
+              "otherPct": 3.131,
+              "ciDay": [
+                7.251,
+                15.574
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                5.646,
+                17.741
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 14.934,
+              "flagN": 78,
+              "otherN": 222,
+              "flagPct": 32.051,
+              "otherPct": 17.117,
+              "ciDay": [
+                4.783,
+                27.839
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 14.692,
+              "flagN": 78,
+              "otherN": 222,
+              "flagPct": 28.205,
+              "otherPct": 13.514,
+              "ciDay": [
+                3.018,
+                25.845
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 3.049,
+              "flagN": 78,
+              "otherN": 222,
+              "flagPct": 10.256,
+              "otherPct": 7.207,
+              "ciDay": [
+                -4.825,
+                10.775
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "volatility": {
+        "kept": {
+          "n": 612,
+          "days": 31,
+          "first": "2026-07-17",
+          "last": "2026-08-28",
+          "hit": 221,
+          "graded": 496,
+          "acc": 44.556,
+          "positivePct": 44.118,
+          "mean": -0.0767,
+          "crash": 19.608,
+          "pathCrash": 29.902,
+          "intradayLowCrash": 44.281
+        },
+        "fixed": {
+          "gap": 13.554,
+          "flagN": 389,
+          "otherN": 612,
+          "flagPct": 33.162,
+          "otherPct": 19.608,
+          "ciDay": [
+            7.015,
+            20.7
+          ],
+          "ci5Days": [
+            4.462,
+            25.037
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            4.462,
+            25.037
+          ]
+        },
+        "normalized": {
+          "gap": -4.425,
+          "flagN": 389,
+          "otherN": 612,
+          "flagPct": 8.483,
+          "otherPct": 12.908,
+          "ciDay": [
+            -8.999,
+            1.031
+          ],
+          "ci5Days": [
+            -11.62,
+            5.884
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -11.62,
+            5.884
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": -4.192,
+          "flagN": 389,
+          "otherN": 612,
+          "flagPct": 8.226,
+          "otherPct": 12.418,
+          "ciDay": [
+            -9.004,
+            1.292
+          ],
+          "ci5Days": [
+            -11.543,
+            5.905
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -11.543,
+            5.905
+          ]
+        },
+        "normalizedLog": {
+          "gap": -2.672,
+          "flagN": 389,
+          "otherN": 612,
+          "flagPct": 11.054,
+          "otherPct": 13.725,
+          "ciDay": [
+            -8.012,
+            3.437
+          ],
+          "ci5Days": [
+            -11.076,
+            9.985
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -11.076,
+            9.985
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 12.445,
+              "flagN": 389,
+              "otherN": 612,
+              "flagPct": 42.674,
+              "otherPct": 30.229,
+              "ciDay": [
+                5.457,
+                19.801
+              ],
+              "ci5Days": [
+                2.662,
+                23.645
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                2.662,
+                23.645
+              ]
+            },
+            "-5": {
+              "gap": 13.554,
+              "flagN": 389,
+              "otherN": 612,
+              "flagPct": 33.162,
+              "otherPct": 19.608,
+              "ciDay": [
+                7.015,
+                20.7
+              ],
+              "ci5Days": [
+                4.462,
+                25.037
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                4.462,
+                25.037
+              ]
+            },
+            "-10": {
+              "gap": 8.254,
+              "flagN": 389,
+              "otherN": 612,
+              "flagPct": 12.339,
+              "otherPct": 4.085,
+              "ciDay": [
+                4.208,
+                13.256
+              ],
+              "ci5Days": [
+                3.288,
+                18.008
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                3.288,
+                18.008
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 9.24,
+              "flagN": 348,
+              "otherN": 521,
+              "flagPct": 35.92,
+              "otherPct": 26.679,
+              "ciDay": [
+                4.669,
+                13.731
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                4.749,
+                15.754
+              ]
+            },
+            "-5": {
+              "gap": 10.692,
+              "flagN": 348,
+              "otherN": 521,
+              "flagPct": 29.31,
+              "otherPct": 18.618,
+              "ciDay": [
+                5.698,
+                16.032
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                4.036,
+                20.176
+              ]
+            },
+            "-10": {
+              "gap": 7.367,
+              "flagN": 348,
+              "otherN": 521,
+              "flagPct": 11.782,
+              "otherPct": 4.415,
+              "ciDay": [
+                4.257,
+                11.006
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                3.415,
+                13.425
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 12.445,
+              "flagN": 91,
+              "otherN": 209,
+              "flagPct": 29.67,
+              "otherPct": 17.225,
+              "ciDay": [
+                0.319,
+                22.556
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 12.976,
+              "flagN": 91,
+              "otherN": 209,
+              "flagPct": 26.374,
+              "otherPct": 13.397,
+              "ciDay": [
+                1.92,
+                21.104
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": -0.442,
+              "flagN": 91,
+              "otherN": 209,
+              "flagPct": 7.692,
+              "otherPct": 8.134,
+              "ciDay": [
+                -6.537,
+                4.986
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      },
+      "union": {
+        "kept": {
+          "n": 480,
+          "days": 31,
+          "first": "2026-07-17",
+          "last": "2026-08-28",
+          "hit": 177,
+          "graded": 376,
+          "acc": 47.074,
+          "positivePct": 46.458,
+          "mean": 0.1226,
+          "crash": 16.875,
+          "pathCrash": 25.625,
+          "intradayLowCrash": 39.792
+        },
+        "fixed": {
+          "gap": 15.371,
+          "flagN": 521,
+          "otherN": 480,
+          "flagPct": 32.246,
+          "otherPct": 16.875,
+          "ciDay": [
+            10.046,
+            20.65
+          ],
+          "ci5Days": [
+            9.2,
+            25.739
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            9.2,
+            25.739
+          ]
+        },
+        "normalized": {
+          "gap": -1.719,
+          "flagN": 521,
+          "otherN": 480,
+          "flagPct": 10.365,
+          "otherPct": 12.083,
+          "ciDay": [
+            -5.329,
+            2.654
+          ],
+          "ci5Days": [
+            -6.747,
+            6.135
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -6.747,
+            6.135
+          ]
+        },
+        "normalizedSampleSD": {
+          "gap": -1.686,
+          "flagN": 521,
+          "otherN": 480,
+          "flagPct": 9.981,
+          "otherPct": 11.667,
+          "ciDay": [
+            -5.245,
+            2.705
+          ],
+          "ci5Days": [
+            -6.811,
+            6.135
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -6.811,
+            6.135
+          ]
+        },
+        "normalizedLog": {
+          "gap": -0.441,
+          "flagN": 521,
+          "otherN": 480,
+          "flagPct": 12.476,
+          "otherPct": 12.917,
+          "ciDay": [
+            -4.691,
+            4.489
+          ],
+          "ci5Days": [
+            -5.917,
+            9.237
+          ],
+          "intervalBlockLength": 5,
+          "ciHorizonDays": [
+            -5.917,
+            9.237
+          ]
+        },
+        "sensitivity": {
+          "5": {
+            "-3": {
+              "gap": 14.935,
+              "flagN": 521,
+              "otherN": 480,
+              "flagPct": 42.226,
+              "otherPct": 27.292,
+              "ciDay": [
+                9.321,
+                20.758
+              ],
+              "ci5Days": [
+                7.217,
+                26.062
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                7.217,
+                26.062
+              ]
+            },
+            "-5": {
+              "gap": 15.371,
+              "flagN": 521,
+              "otherN": 480,
+              "flagPct": 32.246,
+              "otherPct": 16.875,
+              "ciDay": [
+                10.046,
+                20.65
+              ],
+              "ci5Days": [
+                9.2,
+                25.739
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                9.2,
+                25.739
+              ]
+            },
+            "-10": {
+              "gap": 7.607,
+              "flagN": 521,
+              "otherN": 480,
+              "flagPct": 10.94,
+              "otherPct": 3.333,
+              "ciDay": [
+                3.805,
+                12.045
+              ],
+              "ci5Days": [
+                3.524,
+                17.153
+              ],
+              "intervalBlockLength": 5,
+              "ciHorizonDays": [
+                3.524,
+                17.153
+              ]
+            }
+          },
+          "10": {
+            "-3": {
+              "gap": 11.703,
+              "flagN": 453,
+              "otherN": 416,
+              "flagPct": 35.982,
+              "otherPct": 24.279,
+              "ciDay": [
+                6.253,
+                16.697
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                7.511,
+                19.381
+              ]
+            },
+            "-5": {
+              "gap": 13.494,
+              "flagN": 453,
+              "otherN": 416,
+              "flagPct": 29.36,
+              "otherPct": 15.865,
+              "ciDay": [
+                8.346,
+                18.284
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                7.86,
+                22.416
+              ]
+            },
+            "-10": {
+              "gap": 7.672,
+              "flagN": 453,
+              "otherN": 416,
+              "flagPct": 11.038,
+              "otherPct": 3.365,
+              "ciDay": [
+                4.599,
+                10.804
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 10,
+              "ciHorizonDays": [
+                4.131,
+                11.349
+              ]
+            }
+          },
+          "20": {
+            "-3": {
+              "gap": 10.657,
+              "flagN": 112,
+              "otherN": 188,
+              "flagPct": 27.679,
+              "otherPct": 17.021,
+              "ciDay": [
+                0.334,
+                21.62
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-5": {
+              "gap": 10.809,
+              "flagN": 112,
+              "otherN": 188,
+              "flagPct": 24.107,
+              "otherPct": 13.298,
+              "ciDay": [
+                0.66,
+                19.29
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            },
+            "-10": {
+              "gap": 0.057,
+              "flagN": 112,
+              "otherN": 188,
+              "flagPct": 8.036,
+              "otherPct": 7.979,
+              "ciDay": [
+                -6.481,
+                5.227
+              ],
+              "ci5Days": null,
+              "intervalBlockLength": 20,
+              "ciHorizonDays": null
+            }
+          }
+        }
+      }
+    },
+    "controls": {
+      "unmatched": {
+        "matched": 1001,
+        "sparseNonBuyN": 0,
+        "meanGap": -1.5107,
+        "crashGap": 2.1274,
+        "meanCi5Days": [
+          -2.855,
+          0.845
+        ],
+        "crashCi5Days": [
+          -9.538,
+          10.471
+        ],
+        "cells": [
+          {
+            "stratum": [],
+            "buyN": 1001,
+            "poolN": 16472,
+            "buyMean": -0.3423,
+            "poolMean": 1.1684,
+            "buyCrash": 24.875,
+            "poolCrash": 22.748
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day": {
+        "matched": 1001,
+        "sparseNonBuyN": 0,
+        "meanGap": -0.533,
+        "crashGap": -2.363,
+        "meanCi5Days": [
+          -4.081,
+          1.287
+        ],
+        "crashCi5Days": [
+          -7.688,
+          4.471
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "r5": {
+        "matched": 1001,
+        "sparseNonBuyN": 0,
+        "meanGap": -0.0545,
+        "crashGap": -2.0071,
+        "meanCi5Days": [
+          -1.297,
+          2.0
+        ],
+        "crashCi5Days": [
+          -12.129,
+          5.544
+        ],
+        "cells": [
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 256,
+            "poolN": 2317,
+            "buyMean": -1.0412,
+            "poolMean": -1.0422,
+            "buyCrash": 21.875,
+            "poolCrash": 26.543
+          },
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 27,
+            "poolN": 3900,
+            "buyMean": 7.2359,
+            "poolMean": 5.4495,
+            "buyCrash": 3.704,
+            "poolCrash": 18.59
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 157,
+            "poolN": 2707,
+            "buyMean": -0.1871,
+            "poolMean": -0.6281,
+            "buyCrash": 21.656,
+            "poolCrash": 21.278
+          },
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 316,
+            "poolN": 2173,
+            "buyMean": -1.4893,
+            "poolMean": -0.4299,
+            "buyCrash": 34.81,
+            "poolCrash": 31.937
+          },
+          {
+            "stratum": [
+              5
+            ],
+            "buyN": 142,
+            "poolN": 1487,
+            "buyMean": -0.5143,
+            "poolMean": -0.1422,
+            "buyCrash": 29.577,
+            "poolCrash": 30.868
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 103,
+            "poolN": 3888,
+            "buyMean": 2.9274,
+            "poolMean": 0.8366,
+            "buyCrash": 5.825,
+            "poolCrash": 17.438
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "vol": {
+        "matched": 1001,
+        "sparseNonBuyN": 0,
+        "meanGap": -1.5417,
+        "crashGap": 6.5796,
+        "meanCi5Days": [
+          -2.878,
+          0.813
+        ],
+        "crashCi5Days": [
+          -3.817,
+          14.105
+        ],
+        "cells": [
+          {
+            "stratum": [
+              4
+            ],
+            "buyN": 190,
+            "poolN": 7102,
+            "buyMean": -1.2609,
+            "poolMean": 1.1047,
+            "buyCrash": 37.895,
+            "poolCrash": 33.075
+          },
+          {
+            "stratum": [
+              3
+            ],
+            "buyN": 199,
+            "poolN": 2490,
+            "buyMean": -0.2822,
+            "poolMean": 1.3976,
+            "buyCrash": 28.643,
+            "poolCrash": 24.578
+          },
+          {
+            "stratum": [
+              2
+            ],
+            "buyN": 247,
+            "poolN": 2776,
+            "buyMean": -0.2004,
+            "poolMean": 1.0898,
+            "buyCrash": 23.887,
+            "poolCrash": 17.903
+          },
+          {
+            "stratum": [
+              1
+            ],
+            "buyN": 271,
+            "poolN": 2799,
+            "buyMean": -0.5642,
+            "poolMean": 1.3094,
+            "buyCrash": 21.402,
+            "poolCrash": 9.146
+          },
+          {
+            "stratum": [
+              0
+            ],
+            "buyN": 94,
+            "poolN": 1305,
+            "buyMean": 1.6537,
+            "poolMean": 0.9419,
+            "buyCrash": 3.191,
+            "poolCrash": 2.529
+          }
+        ],
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5": {
+        "matched": 1001,
+        "sparseNonBuyN": 2,
+        "meanGap": 0.4839,
+        "crashGap": -5.1864,
+        "meanCi5Days": [
+          -1.577,
+          1.879
+        ],
+        "crashCi5Days": [
+          -11.476,
+          3.019
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+vol": {
+        "matched": 1001,
+        "sparseNonBuyN": 0,
+        "meanGap": -0.0203,
+        "crashGap": 0.8887,
+        "meanCi5Days": [
+          -1.428,
+          0.91
+        ],
+        "crashCi5Days": [
+          -3.946,
+          5.846
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol": {
+        "matched": 1001,
+        "sparseNonBuyN": 163,
+        "meanGap": 0.2117,
+        "crashGap": -0.4135,
+        "meanCi5Days": [
+          -0.743,
+          0.887
+        ],
+        "crashCi5Days": [
+          -3.968,
+          3.498
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      },
+      "day+r5+vol+sector": {
+        "matched": 1001,
+        "sparseNonBuyN": 918,
+        "meanGap": -0.2882,
+        "crashGap": 1.2607,
+        "meanCi5Days": [
+          -0.635,
+          -0.03
+        ],
+        "crashCi5Days": [
+          -0.833,
+          3.322
+        ],
+        "cells": null,
+        "intervalCaveat": "For pooled strata, benchmark fixed at observed pool; use date-matched controls for paired date bootstrap."
+      }
+    },
+    "split": {
+      "overlapDecisionDates": [],
+      "oldLabelsNotAvailableAtTestStart": 349,
+      "testStart": "2026-08-17",
+      "purgedTrain": {
+        "n": 336,
+        "days": 16,
+        "first": "2026-07-17",
+        "last": "2026-08-07",
+        "hit": 167,
+        "graded": 289,
+        "acc": 57.785,
+        "positivePct": 56.845,
+        "mean": 1.2432,
+        "crash": 16.964,
+        "pathCrash": 26.19,
+        "intradayLowCrash": 42.857
+      },
+      "test": {
+        "n": 316,
+        "days": 10,
+        "first": "2026-08-17",
+        "last": "2026-08-28",
+        "hit": 121,
+        "graded": 258,
+        "acc": 46.899,
+        "positivePct": 47.152,
+        "mean": -0.0039,
+        "crash": 18.987,
+        "pathCrash": 35.127,
+        "intradayLowCrash": 49.684
+      },
+      "keptTest": {
+        "surge": {
+          "n": 182,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 61,
+          "graded": 140,
+          "acc": 43.571,
+          "positivePct": 43.407,
+          "mean": -0.2376,
+          "crash": 14.286,
+          "pathCrash": 26.923,
+          "intradayLowCrash": 44.505
+        },
+        "union": {
+          "n": 131,
+          "days": 10,
+          "first": "2026-08-17",
+          "last": "2026-08-28",
+          "hit": 42,
+          "graded": 92,
+          "acc": 45.652,
+          "positivePct": 43.511,
+          "mean": -0.1904,
+          "crash": 11.45,
+          "pathCrash": 20.611,
+          "intradayLowCrash": 35.115
+        }
+      }
+    }
+  },
+  "analysts": {
+    "new": {
+      "taro": {
+        "n": 3912,
+        "days": 10,
+        "reconstructedGradedN": 0,
+        "acc": 52.0961145194274,
+        "lift": 1.51,
+        "legacyCi": [
+          -0.2,
+          4.1
+        ],
+        "movingCi": [
+          -0.1,
+          3.2
+        ]
+      },
+      "diana": {
+        "n": 0,
+        "days": 0,
+        "reconstructedGradedN": 0,
+        "acc": null,
+        "lift": null,
+        "legacyCi": null,
+        "movingCi": null
+      },
+      "nova": {
+        "n": 863,
+        "days": 10,
+        "reconstructedGradedN": 0,
+        "acc": 44.95944380069525,
+        "lift": -7.18,
+        "legacyCi": [
+          -11.9,
+          -3.1
+        ],
+        "movingCi": [
+          -9.8,
+          -7.0
+        ]
+      },
+      "flow": {
+        "n": 688,
+        "days": 10,
+        "reconstructedGradedN": 0,
+        "acc": 55.377906976744185,
+        "lift": -0.29,
+        "legacyCi": [
+          -2.9,
+          3.2
+        ],
+        "movingCi": [
+          -3.1,
+          2.7
+        ]
+      }
+    },
+    "old": {
+      "taro": {
+        "n": 12148,
+        "days": 36,
+        "reconstructedGradedN": 4362,
+        "acc": 50.543299308528155,
+        "lift": -1.62,
+        "legacyCi": [
+          -4.5,
+          1.2
+        ],
+        "movingCi": [
+          -7.7,
+          2.1
+        ]
+      },
+      "diana": {
+        "n": 8217,
+        "days": 28,
+        "reconstructedGradedN": 3539,
+        "acc": 47.99805281732993,
+        "lift": -3.31,
+        "legacyCi": [
+          -6.3,
+          -0.2
+        ],
+        "movingCi": null
+      },
+      "nova": {
+        "n": 8894,
+        "days": 36,
+        "reconstructedGradedN": 3002,
+        "acc": 51.472903080728585,
+        "lift": -0.26,
+        "legacyCi": [
+          -4.5,
+          4.2
+        ],
+        "movingCi": [
+          -5.0,
+          4.1
+        ]
+      },
+      "flow": {
+        "n": 2216,
+        "days": 36,
+        "reconstructedGradedN": 750,
+        "acc": 52.79783393501805,
+        "lift": 1.04,
+        "legacyCi": [
+          -4.1,
+          3.6
+        ],
+        "movingCi": [
+          -9.0,
+          3.5
+        ]
+      }
+    },
+    "oldObservedAuto": {
+      "taro": {
+        "n": 7713,
+        "days": 21,
+        "reconstructedGradedN": 0,
+        "acc": 46.86892259821081,
+        "lift": -3.72,
+        "legacyCi": [
+          -9.8,
+          0.4
+        ],
+        "movingCi": [
+          -15.3,
+          2.2
+        ]
+      },
+      "diana": {
+        "n": 4616,
+        "days": 15,
+        "reconstructedGradedN": 0,
+        "acc": 44.54072790294627,
+        "lift": -7.43,
+        "legacyCi": [
+          -9.8,
+          -4.7
+        ],
+        "movingCi": null
+      },
+      "nova": {
+        "n": 5806,
+        "days": 21,
+        "reconstructedGradedN": 0,
+        "acc": 51.171202204615916,
+        "lift": 0.52,
+        "legacyCi": [
+          -4.7,
+          4.8
+        ],
+        "movingCi": [
+          -8.9,
+          4.8
+        ]
+      },
+      "flow": {
+        "n": 1387,
+        "days": 21,
+        "reconstructedGradedN": 0,
+        "acc": 49.31506849315068,
+        "lift": -1.73,
+        "legacyCi": [
+          -9.7,
+          0.1
+        ],
+        "movingCi": [
+          -17.4,
+          -1.1
+        ]
+      }
+    }
+  }
+}

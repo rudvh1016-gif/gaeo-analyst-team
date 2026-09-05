@@ -763,98 +763,10 @@ def rebound_regime_confirmation(e, taro, nova, risk, guard_policy=None):
     }
 
 
-# ⭐ 2026-09-05 급등 후 매수 경고 (표시 전용 · 판단을 바꾸지 않는다)
-#
-#    BUY 실적 감사(docs/BUY_OVERHEAT_WARNING_20260905.md)에서 나온 실측이다.
-#    지금까지 낸 BUY 1,474건을 "판단 직전에 이미 얼마나 올라 있었나"로 나눠 보니
-#    결과가 한 방향으로 갈렸다.
-#
-#      직전 5거래일 -5% 이하(하락 중) → 이후 5거래일 평균 +4.54% · 폭락(-5%↓) 17.5%
-#      직전 5거래일 +15% 이상(폭등)   → 이후 5거래일 평균 -2.48% · 폭락(-5%↓) 36.0%
-#
-#    이건 BUY만의 문제가 아니라 시장 전체에서 관찰되는 단기 되돌림이다(전 종목으로
-#    같은 표를 만들어 대조 확인했다). 문제는 **BUY가 하필 그 구간에 몰려서 나간다**는
-#    것이다. 직전 5거래일 +7% 이상에서 나온 BUY가 전체의 48.2%인데, 시장 전체에서
-#    그 구간이 차지하는 비중은 20.2%다.
-#
-#    아래 두 조건 중 하나라도 걸리면 경고를 붙인다(둘을 OR로 묶은 조합이 가장 잘 갈랐다).
-#      · 폭락률 37.8%(경고) vs 20.8%(경고 없음) — 차이 +17.0%p, 판단일 블록 부트스트랩
-#        95% 구간 +11.6~+22.5%p, 신·구버전 두 구간 모두 같은 방향
-#
-#    ⚠️ 이 값은 call을 절대 바꾸지 않는다. 판단을 바꾸는 것은 산식 변경이고,
-#       그건 판단일 20일이 쌓인 뒤 사전등록 검증을 통과해야 한다
-#       (docs/gaeo_validation_policy.md). 지금은 "같이 알려주기"까지만 한다.
-#    ⭐ 2026-09-05 2차 — 낙폭 방어 후보 22개를 같은 잣대로 비교해 하나를 더 찾았다.
-#    "원래 많이 출렁이는 종목"(최근 20거래일 일간 등락 표준편차 vol20)도 급등과
-#    거의 같은 크기로 폭락을 예고했고, 둘은 서로 다른 것을 잡아낸다.
-#
-#      급등도 변동성도 아님 → 폭락 17.9% (n=677)   ← 가장 안전
-#      급등만                → 폭락 29.7% (n=195)
-#      변동성만              → 폭락 30.5% (n=213)
-#      둘 다                 → 폭락 41.6% (n=389)   ← 가장 위험
-#
-#    과최적화 검증: 옛 구간(구버전)만 보고 후보를 고른 뒤 새 구간(신버전)에 그대로
-#    적용했더니 폭락률이 19.0% → 11.5%로 내려갔다(+7.5%p, 처음 보는 자료에서).
-#    임계값도 vol20 3.0~6.0 어디서나 같은 방향이라 특정 숫자에 맞춘 값이 아니다.
-#
-#    ⚠️ 필드 이름은 먼저 배포한 overheat를 그대로 쓴다. 지금은 "급등"만이 아니라
-#       "이 매수 신호를 조심해야 할 이유"를 담는다(급등 = 시점 위험, 변동성 = 종목
-#       성격 위험). 이름을 바꾸면 이미 나간 기록·문서·테스트가 함께 갈라진다.
-OVERHEAT_RET5_PCT = 10.0     # 직전 5거래일 상승률 기준
-OVERHEAT_RET20_PCT = 25.0    # 직전 20거래일 상승률 기준
-OVERHEAT_VOL20_PCT = 4.0     # 최근 20거래일 일간 등락 표준편차(하루 평균 출렁임)
-OVERHEAT_VERSION = "overheat-2026-09-05b"
-
-
-def overheat_flag(e):
-    """매수 주의 신호. 판단(call)에는 쓰이지 않는 표시 전용 값이다.
-
-    두 가지를 따로 본다.
-      · 급등(ret5·ret20) — "지금 사기엔 이미 많이 올랐다"는 시점 위험
-      · 변동성(vol20)    — "이 종목은 원래 크게 출렁인다"는 성격 위험
-    둘 다 걸리면 level이 strong이다(실측 폭락률 41.6%로 가장 위험한 칸).
-
-    지표가 없으면 경고를 지어내지 않고 available=False로 돌려준다
-    (데이터 없음을 '안전함'으로 바꿔 말하지 않는다).
-    """
-    tech = (e or {}).get("tech") or {}
-    risk = (e or {}).get("risk") or {}
-    r5, r20 = tech.get("ret5"), tech.get("ret20")
-    vol = risk.get("vol20") if isinstance(risk, dict) else None
-    num = lambda v: v if isinstance(v, (int, float)) else None
-    r5, r20, vol = num(r5), num(r20), num(vol)
-    if r5 is None and r20 is None and vol is None:
-        return {"available": False, "warn": False, "level": "none",
-                "ret5": None, "ret20": None, "vol20": None,
-                "triggers": [], "version": OVERHEAT_VERSION,
-                "note": "최근 상승률·변동성 자료가 없어 주의 여부를 판정하지 않았습니다."}
-    triggers = []
-    if r5 is not None and r5 >= OVERHEAT_RET5_PCT:
-        triggers.append("ret5")
-    if r20 is not None and r20 >= OVERHEAT_RET20_PCT:
-        triggers.append("ret20")
-    if vol is not None and vol >= OVERHEAT_VOL20_PCT:
-        triggers.append("vol20")
-    hot = any(t in ("ret5", "ret20") for t in triggers)
-    swing = "vol20" in triggers
-    level = "strong" if (hot and swing) else ("caution" if (hot or swing) else "none")
-    notes = {
-        "strong": ("최근 많이 오른 데다 원래 크게 출렁이는 종목입니다. "
-                   "과거 이 두 가지가 같이 걸린 매수 신호는 5거래일 안에 크게 빠진 "
-                   "비율이 가장 높았습니다."),
-        "caution": ("과거 같은 조건에서 나온 매수 신호는 5거래일 안에 크게 빠진 비율이 "
-                    "그렇지 않을 때보다 높았습니다."),
-        "none": "급등·변동성 주의 조건에는 해당하지 않습니다.",
-    }
-    return {"available": True, "warn": bool(triggers), "level": level,
-            "ret5": round(r5, 1) if r5 is not None else None,
-            "ret20": round(r20, 1) if r20 is not None else None,
-            "vol20": round(vol, 2) if vol is not None else None,
-            "thresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT,
-                           "vol20": OVERHEAT_VOL20_PCT},
-            "triggers": triggers, "version": OVERHEAT_VERSION, "note": notes[level]}
-
-
+# Display-only recent surge context. Volatility is not a warning trigger.
+# Historical performance is exploratory; see docs/ADVERSARIAL_BUY_AUDIT_20260905.md.
+from buy_warning import (overheat_flag, OVERHEAT_RET5_PCT, OVERHEAT_RET20_PCT,
+                         OVERHEAT_VOL20_PCT, OVERHEAT_VERSION)
 
 
 # 사용 가능한 분석축이 이보다 적으면 억지로 판단하지 않는다.

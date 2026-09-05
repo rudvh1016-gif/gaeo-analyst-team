@@ -88,12 +88,10 @@ def load_names():
         return {}
 
 
-# ⭐ 2026-09-05 BUY 실적 정직 공개 + 급등 후 매수 경고의 실측 근거
-#    analyze_auto.overheat_flag와 같은 기준을 쓴다(둘이 갈라지면 화면 설명이 거짓이 된다).
-OVERHEAT_RET5_PCT = 10.0
-OVERHEAT_RET20_PCT = 25.0
-OVERHEAT_VOL20_PCT = 4.0   # 최근 20거래일 일간 등락 표준편차(하루 평균 출렁임)
-BUY_CRASH_PCT = -5.0     # "5거래일 안에 이만큼 빠졌으면 크게 물린 것"으로 센다
+# Display evidence is separate from the unchanged learning / score path.
+from buy_warning import (OVERHEAT_RET5_PCT, OVERHEAT_RET20_PCT,
+                         OVERHEAT_VOL20_PCT, vol20_at)
+from buy_warning_evidence import BUY_CRASH_PCT
 
 
 def market_median(closes, day, days):
@@ -159,7 +157,7 @@ def _pct(hit, miss):
     return (hit / n * 100.0) if n else None
 
 
-def _block_bootstrap(day_counts, stat_fn, rounds=BOOTSTRAP_ROUNDS, seed=BOOTSTRAP_SEED):
+def _block_bootstrap(day_counts, stat_fn, rounds=BOOTSTRAP_ROUNDS, seed=BOOTSTRAP_SEED, block_length=5):
     """판단일 단위 블록 부트스트랩 95% 구간.
 
     ⭐ 왜 날짜 단위인가: 같은 날 600종목은 같은 시장 충격을 공유하므로 독립 시행이
@@ -167,22 +165,28 @@ def _block_bootstrap(day_counts, stat_fn, rounds=BOOTSTRAP_ROUNDS, seed=BOOTSTRA
     건수 단위로 재추출하면 구간이 실제보다 훨씬 좁게 나온다.
 
     day_counts: {판단일: {"own": [hit, miss], "bull": [...], "bear": [...]}}
-    재추출은 '날짜를 통째로' 뽑는 것이므로, 날짜별 적중/빗나감 개수만 미리 세어 두면
+    연속 block_length개 판단일을 묶어 재추출한다. 5D/20D 수익률 중첩을 고려하며,
+    이는 여전히 사후 탐색 구간이고 다중비교 보정이나 독립 검증을 대신하지 않는다.
+    날짜별 적중/빗나감 개수만 미리 세어 두면
     행을 다시 훑지 않고 같은 결과를 얻는다(수치적으로 동일하며 훨씬 빠르다).
 
     ⚠️ 판단일이 적으면(지금 10일) 이 구간 자체가 불안정하다. 구간이 좁게 나왔다고
     해서 확실하다는 뜻이 아니다 — 판단일 수를 항상 같이 봐야 한다.
     """
     days = sorted(day_counts)
-    if len(days) < 3:
+    if len(days) < max(3, 2 * block_length):
         return None
     rng = random.Random(seed)
     keys = ("own", "bull", "bear")
     vals = []
     for _ in range(rounds):
         agg = {k: [0, 0] for k in keys}
-        for _ in days:
-            block = day_counts[rng.choice(days)]
+        picked = []
+        while len(picked) < len(days):
+            start = rng.randrange(len(days) - block_length + 1)
+            picked.extend(days[start:start + block_length])
+        for day in picked[:len(days)]:
+            block = day_counts[day]
             for k in keys:
                 agg[k][0] += block[k][0]
                 agg[k][1] += block[k][1]
@@ -213,176 +217,9 @@ def _stat_lift(agg):
 
 
 def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
-    """BUY 판단이 실제로 어떻게 끝났는지 + 매수 주의 신호의 실측 근거.
-
-    ⭐ 2026-09-05 신설, 같은 날 2차 보강. 소유자가 "사이트에 매일 뜨는 BUY는 그래도
-    쓸데없는 걸 추천하진 않은 것 같다"고 했는데 대조해 보니 반대였다. 그 사실을 화면이
-    스스로 말하게 하려고 화면이 쓸 숫자를 여기서 매 사이클 다시 계산한다
-    (문구에 숫자를 박아 넣지 않는다 — Constitution publicClaimPolicy).
-
-    2차에서 가장 중요한 것을 하나 더 넣었다. **무작위 기준선**이다.
-    "같은 날 아무 종목이나 골랐다면 어땠나"를 같이 내지 않으면, 적중률 40%가 잘한
-    건지 못한 건지 알 수가 없다(분석가 적중률에 붙인 기준선과 같은 이치다).
-    """
-    date_index = {c: [r["date"] for r in rows] for c, rows in closes.items()}
-
-    def ret_at(code, day, base, days):
-        rows = closes.get(code)
-        if not rows or not base:
-            return None
-        j = bisect.bisect_right(date_index[code], day) + days - 1
-        return (rows[j]["close"] - base) / base * 100.0 if j < len(rows) else None
-
-    def back_at(code, day, base, days):
-        """판단 시점 기준가가 그 전 days거래일 종가 대비 몇 % 올라 있었나."""
-        rows = closes.get(code)
-        if not rows or not base:
-            return None
-        i = bisect.bisect_right(date_index[code], day) - 1
-        j = i - days
-        if j < 0 or i < 0:
-            return None
-        prev = rows[j]["close"]
-        return (base - prev) / prev * 100.0 if prev else None
-
-    def vol20_at(code, day):
-        """판단 시점까지의 일봉만으로 vol20을 복원한다(미래 데이터 사용 금지).
-
-        정의는 compute_indicators.risk_for와 같다 — 최근 20거래일 일간 등락률의
-        표준편차(%). 화면 설명과 산출 기준이 갈라지면 안 된다.
-        """
-        rows = closes.get(code)
-        if not rows:
-            return None
-        i = bisect.bisect_right(date_index[code], day) - 1
-        if i < 6:
-            return None
-        cl = [r["close"] for r in rows[:i + 1]]
-        rets = [(cl[k] / cl[k - 1] - 1) * 100 for k in range(1, len(cl)) if cl[k - 1]]
-        if not rets:
-            return None
-        tail = rets[-20:] if len(rets) >= 20 else rets
-        mean = sum(tail) / len(tail)
-        return (sum((r - mean) ** 2 for r in tail) / len(tail)) ** 0.5
-
-    rows_all, market_rows = [], []
-    for code, lst in hist.items():
-        if not re.match(r"^\d{6}$", str(code)) or not isinstance(lst, list):
-            continue
-        for e in lst:
-            if e.get("judgmentWithheld"):
-                continue
-            base, day = e.get("base"), str(e.get("date", ""))[:10]
-            if not base or not day:
-                continue
-            ret5 = ret_at(code, day, base, 5)
-            if ret5 is None:
-                continue          # 아직 5거래일이 안 지난 판단은 세지 않는다
-            # 무작위 기준선 — 판단 종류를 가리지 않고 전부 담는다.
-            # "같은 날들에 아무 종목이나 골랐다면"에 해당한다.
-            market_rows.append({"day": day, "ret5": ret5})
-            if e.get("call") != "BUY":
-                continue
-            r5 = back_at(code, day, base, 5)
-            r20 = back_at(code, day, base, 20)
-            vol = vol20_at(code, day)
-            hot = ((r5 is not None and r5 >= OVERHEAT_RET5_PCT)
-                   or (r20 is not None and r20 >= OVERHEAT_RET20_PCT))
-            swing = vol is not None and vol >= OVERHEAT_VOL20_PCT
-            rows_all.append({"code": code, "day": day, "ret5": ret5,
-                             "warn": bool(hot or swing), "hot": hot, "swing": swing,
-                             "level": ("strong" if (hot and swing)
-                                       else ("caution" if (hot or swing) else "none")),
-                             "version": record_version(e)})
-
-    def block(rows):
-        if not rows:
-            return None
-        hit = sum(1 for r in rows if score_call("BUY", r["ret5"]) == "hit")
-        miss = sum(1 for r in rows if score_call("BUY", r["ret5"]) == "miss")
-        crash = sum(1 for r in rows if r["ret5"] <= BUY_CRASH_PCT)
-        return {"n": len(rows), "graded": hit + miss,
-                "acc": round(_pct(hit, miss), 1) if hit + miss else None,
-                "crashPct": round(crash / len(rows) * 100, 1),
-                "meanRet": round(sum(r["ret5"] for r in rows) / len(rows), 2),
-                "uniqueDecisionDays": len({r["day"] for r in rows})}
-
-    def gap_ci(rows, flag):
-        """판단일 블록 부트스트랩 — 같은 날 종목은 독립이 아니다."""
-        by_day = {}
-        for r in rows:
-            by_day.setdefault(r["day"], []).append(r)
-        days = sorted(by_day)
-        if len(days) < 3:
-            return None
-        rng = random.Random(BOOTSTRAP_SEED)
-        vals = []
-        for _ in range(BOOTSTRAP_ROUNDS):
-            picked = [x for d in (rng.choice(days) for _ in days) for x in by_day[d]]
-            a = [x for x in picked if flag(x)]
-            b = [x for x in picked if not flag(x)]
-            if len(a) < 10 or len(b) < 10:
-                continue
-            vals.append(sum(1 for x in a if x["ret5"] <= BUY_CRASH_PCT) / len(a) * 100
-                        - sum(1 for x in b if x["ret5"] <= BUY_CRASH_PCT) / len(b) * 100)
-        if len(vals) < 20:
-            return None
-        vals.sort()
-        return [round(vals[int(len(vals) * 0.025)], 1),
-                round(vals[int(len(vals) * 0.975)], 1)]
-
-    def overheat_block(rows):
-        warn = [r for r in rows if r["warn"]]
-        calm = [r for r in rows if not r["warn"]]
-        if len(warn) < 10 or len(calm) < 10:
-            return {"enoughSample": False, "warnN": len(warn), "calmN": len(calm)}
-        wc = sum(1 for r in warn if r["ret5"] <= BUY_CRASH_PCT) / len(warn) * 100
-        cc = sum(1 for r in calm if r["ret5"] <= BUY_CRASH_PCT) / len(calm) * 100
-        return {"enoughSample": True, "warn": block(warn), "calm": block(calm),
-                "crashGapPp": round(wc - cc, 1),
-                "crashGapCi95": gap_ci(rows, lambda r: r["warn"]),
-                "warnSharePct": round(len(warn) / len(rows) * 100, 1)}
-
-    current = [r for r in rows_all if r["version"] in learn_versions]
-    worst = sorted(rows_all, key=lambda r: r["ret5"])[:3]
-
-    # 무작위 기준선 — 같은 날들에 아무 종목이나 골랐다면.
-    mh = sum(1 for r in market_rows if score_call("BUY", r["ret5"]) == "hit")
-    mm = sum(1 for r in market_rows if score_call("BUY", r["ret5"]) == "miss")
-    random_baseline = {
-        "n": len(market_rows),
-        "acc": round(_pct(mh, mm), 1) if mh + mm else None,
-        "crashPct": round(sum(1 for r in market_rows if r["ret5"] <= BUY_CRASH_PCT)
-                          / len(market_rows) * 100, 1) if market_rows else None,
-        "meanRet": round(sum(r["ret5"] for r in market_rows) / len(market_rows), 2)
-        if market_rows else None,
-        "uniqueDecisionDays": len({r["day"] for r in market_rows}),
-        "note": ("판단 종류를 가리지 않고 같은 날 추적 중이던 모든 종목을 같은 규칙으로 "
-                 "채점한 값이다. '아무 종목이나 골랐다면'에 해당한다."),
-    }
-
-    # 주의 단계별 2×2 — 화면이 정확한 칸의 숫자를 보여주기 위한 표.
-    caution_matrix = {lv: block([r for r in rows_all if r["level"] == lv])
-                      for lv in ("none", "caution", "strong")}
-
-    return {
-        "basis": "call_hit_5d_pm1pct",
-        "crashThresholdPct": BUY_CRASH_PCT,
-        "overheatThresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT,
-                               "vol20": OVERHEAT_VOL20_PCT},
-        "currentVersion": block(current),
-        "allTime": block(rows_all),
-        "randomBaseline": random_baseline,
-        "cautionMatrix": caution_matrix,
-        "overheatCurrent": overheat_block(current),
-        "overheatAllTime": overheat_block(rows_all),
-        "worst": [{"code": r["code"], "name": names.get(r["code"], r["code"]),
-                   "date": r["day"], "ret5": round(r["ret5"], 1)} for r in worst],
-        "note": ("BUY 판단이 5거래일 뒤 어떻게 끝났는지 그대로 센 값이다. "
-                 "적중률은 ±1% 기준이고, 폭락률은 기준가 대비 5% 넘게 빠진 비율이다."),
-    }
-
-
+    from buy_warning_evidence import compute
+    # Current model disclosure must not be relabelled with a fallback learning version.
+    return compute(hist, closes, names, {BASE_MODEL_VERSION}, record_version)
 
 
 # 🏷️ 점수 의미(semantics)가 바뀐 버전끼리 섞어 학습하지 않는다(요구 7-8).
@@ -649,10 +486,12 @@ def main():
         st["alwaysBearAcc"] = round(ar, 1) if ar is not None else None
         best_fixed = max(x for x in (ab, ar) if x is not None) if (ab is not None) else None
         st["bestFixedDirectionAcc"] = round(best_fixed, 1) if best_fixed is not None else None
-        st["liftVsFixedPp"] = (round(st["acc"] - best_fixed, 1)
+        st["liftVsFixedPp"] = (round(100.0 * g[a]["hit"] / st["n"] - best_fixed, 1)
                                if (st["acc"] is not None and best_fixed is not None) else None)
-        st["acc95"] = _block_bootstrap(blocks, _stat_own) if blocks else None
-        st["lift95"] = _block_bootstrap(blocks, _stat_lift) if blocks else None
+        st["acc95"] = _block_bootstrap(blocks, _stat_own, block_length=RULES[a]["days"]) if blocks else None
+        st["lift95"] = _block_bootstrap(blocks, _stat_lift, block_length=RULES[a]["days"]) if blocks else None
+        st["evidenceStatus"] = "EXPLORATORY_NOT_VALIDATED"
+        st["intervalBlockDays"] = RULES[a]["days"]
         # 화면이 스스로 판정하지 않도록 결론 라벨을 여기서 정한다.
         #   NOT_GRADED_YET      아직 채점된 판단이 없다(DIANA — 20거래일이 안 익었다)
         #   BELOW_FIXED_BASELINE 한 방향만 말한 것보다 확실히 나빴다
@@ -663,7 +502,7 @@ def main():
         elif st["lift95"] and st["lift95"][1] < 0:
             st["skillStatus"] = "BELOW_FIXED_BASELINE"
         elif st["lift95"] and st["lift95"][0] > 0:
-            st["skillStatus"] = "PROVEN_ABOVE"
+            st["skillStatus"] = "ABOVE_FIXED_BASELINE"  # descriptive, not proof
         else:
             st["skillStatus"] = "NOT_PROVEN"
         voice = a_voice[a]

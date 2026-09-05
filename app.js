@@ -902,13 +902,14 @@ function leaderboardHTML(){
      확실히 낫다고 확인된 사람"일 때만 붙인다. 예전에는 채점 3건만 넘으면 1등에게
      붙었는데, 실측에서 1등(FLOW)의 적중률은 같은 행에서 계속 약세라고만 말했을 때와
      차이가 없었다. 근거 없이 왕관을 씌우지 않는다. */
-  const proven=r=>r.status==='PROVEN_ABOVE'&&r.days!==null&&r.minDays!==null&&r.days>=r.minDays;
+  const proven=r=>TW.global.acc[r.id]?.evidenceStatus==='INDEPENDENTLY_VALIDATED'&&r.status==='PROVEN_ABOVE'&&r.days!==null&&r.minDays!==null&&r.days>=r.minDays;
   const mvpRow=rows.find(proven)||null;
   const STATUS_TEXT={
     NOT_GRADED_YET:{label:'아직 채점 전',color:'var(--dim)'},
-    BELOW_FIXED_BASELINE:{label:'기준선보다 낮음',color:'var(--red)'},
+    BELOW_FIXED_BASELINE:{label:'기준선보다 낮음 · 탐색',color:'var(--red)'},
     NOT_PROVEN:{label:'실력 확인 아직 안 됨',color:'var(--dim)'},
-    PROVEN_ABOVE:{label:'기준선보다 높음(확인됨)',color:'var(--green)'}
+    ABOVE_FIXED_BASELINE:{label:'표본에서 기준선보다 높음 · 탐색',color:'var(--dim)'},
+    PROVEN_ABOVE:{label:'기준선보다 높음 · 독립 검증 필요',color:'var(--dim)'}
   };
   let cards='';
   rows.forEach((r,i)=>{
@@ -917,7 +918,7 @@ function leaderboardHTML(){
     /* 적중률 색은 숫자의 높낮이가 아니라 '기준선을 넘었는지'로 정한다.
        기준선을 못 넘은 높은 숫자를 초록으로 칠하면 화면이 근거보다 세게 말하게 된다. */
     const accHtml=r.acc===null
-      ? '<span class="lb-acc" style="color:var(--dim)">—</span>'
+      ? '<span class="lb-acc" style="color:var(--dim)">자료 없음</span>'
       : `<span class="lb-acc" style="color:${st.color}">${r.acc}%</span>`;
     const wHtml=r.weight!==null
       ? `<span class="lb-weight" title="CHIEF가 최종 판단을 합산할 때 이 분석가의 점수에 곱하는 계수예요. 실제로 종합점수를 움직이는 힘은 이 계수에 '그 분석가 점수가 50에서 얼마나 떨어졌나'를 곱한 값이에요.">발언권 ${(r.weight*100).toFixed(0)}%</span>`
@@ -940,7 +941,7 @@ function leaderboardHTML(){
         ${baseHtml}${pushHtml}
       </div>
       <div class="lb-stat">${accHtml}<div class="lb-rec">${st.label}</div>
-        <div class="lb-rec">판단 ${r.days===null?'—':r.days+'일'} · 채점 ${r.n.toLocaleString()}건${r.accCi?` · 범위 ${r.accCi[0]}~${r.accCi[1]}%`:''}</div></div>
+        <div class="lb-rec">판단 ${r.days===null?'자료 없음':r.days+'일'} · 채점 ${r.n.toLocaleString()}건${r.accCi?` · 범위 ${r.accCi[0]}~${r.accCi[1]}%`:''}</div></div>
     </div>`;
   });
   /* 2026-09-04 정직성: 적중률만 크게 보여 주면 "이 사람이 잘 맞힌다"로 읽힌다. 문장은
@@ -950,10 +951,10 @@ function leaderboardHTML(){
   const belowN=graded.filter(r=>r.status==='BELOW_FIXED_BASELINE').length;
   const minDaysAll=rows.reduce((v,r)=>r.minDays!==null?r.minDays:v,null);
   const daysNow=rows.reduce((v,r)=>r.days!==null&&r.days>v?r.days:v,0);
-  const honestyNote=graded.length?`<div class="lb-honesty"><b>이 숫자를 어떻게 읽어야 하나요.</b> 적중률이 높다고 실력이 증명된 건 아니에요. 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그 기준선을 넘었는지가 진짜 확인이에요. 지금까지 기준선을 확실히 넘은 분석가는 <b>${provenN}명</b>이고, 기준선보다 확실히 낮은 분석가는 <b>${belowN}명</b>이에요. 판단 기록도 아직 <b>${daysNow}일</b>치라서${minDaysAll?`(결론을 내려면 ${minDaysAll}일 필요)`:''} 참고용으로만 봐주세요.</div>`:'';
+  const honestyNote=graded.length?`<div class="lb-honesty"><b>이 숫자를 어떻게 읽어야 하나요.</b> 적중률이 높다고 실력이 증명된 건 아니에요. 같은 판단을 두고 계속 「오른다」고만, 또는 계속 「내린다」고만 말해도 어느 정도 점수는 나와요. 그 기준선과 비교하되 독립된 새 기록으로도 확인해야 해요. 독립 검증으로 기준선 초과가 확인된 분석가는 <b>${provenN}명</b>이고, 이 표본에서 기준선보다 낮게 관측된 분석가는 <b>${belowN}명</b>이에요. 판단 기록도 아직 <b>${daysNow}일</b>치라서${minDaysAll?`(결론을 내려면 ${minDaysAll}일이 최소 조건이며 충분성은 별도 확인)`:''} 참고용으로만 봐주세요.</div>`:'';
   return `<section class="leaderboard on"><div class="lb-head"><h3>애널리스트 성적</h3></div>
     <div class="lb-sub">각 분석가의 역할에 맞춰 채점합니다. <b>TARO·QUANT·FLOW는 5거래일</b>, 장기 기업가치를 보는 <b>DIANA는 20거래일</b> 뒤 종가를 사용합니다.
-    <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다</b> — 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
+    <b>2026년 8월 31일부터 이 적중률은 「시장보다 잘했나」로 채점합니다</b> 자료 없음 같은 기간 전 종목 등락률의 한가운데 값(중앙값)을 빼고 남은 차이로 맞고 틀림을 가립니다.
     시장이 통째로 오른 날 방향만 따라 말한 것을 실력으로 세지 않기 위해서예요. 그래서 이 숫자는 예전(그냥 올랐나로 채점하던 때)과 바로 비교할 수 없습니다.
     <b>CHIEF 발언권은 역할 기본비중과 보정 적중률을 함께 반영합니다</b>(채점 ${(TW.global.graded||0).toLocaleString()}건 기반, 업종별 보정 ${Object.keys(TW.sectors||{}).length}개).
     <span style="color:var(--faint)">※ 초기 기록 일부는 과거 가격으로 되살린 <b>재구성(백테스트)</b> 판단이 포함돼 있어요(히스토리 표에 「재구성」 표시). 앞으로는 매일 실시간 판단이 쌓입니다.</span></div>
@@ -964,14 +965,14 @@ function leaderboardHTML(){
 }
 
 /* ============================================================
-   🧾 개오 성적표 — 주간 자동 채점 + 분석가 열전
+   🧾 개오 성적표 자료 없음 주간 자동 채점 + 분석가 열전
    history.js·price_history.js(판단 채점) + team_weights.js(분석가별 실측 적중률)만으로
    렌더링한다. 새 글을 쓰지 않고 저장된 stance·적중률을 그대로 요약해 보여준다
    (AI 토큰 0원, 서버가 매 사이클 다시 계산할 때마다 이 화면도 자동으로 갱신됨).
    ============================================================ */
 const SC_NAME={taro:'TARO',diana:'DIANA',nova:'QUANT',flow:'FLOW'};
 const SC_ROLE={taro:'기술적 분석가',diana:'재무·기본적 분석가',nova:'확률·통계 분석가',flow:'수급 분석가'};
-// 판단 당시 4인의 stance를 그대로 요약해 "왜 이 방향이었는지" 한 줄로 보여준다 — 새로 해석을 붙이지 않고
+// 판단 당시 4인의 stance를 그대로 요약해 "왜 이 방향이었는지" 한 줄로 보여준다 자료 없음 새로 해석을 붙이지 않고
 // 이미 기록된 사실(누가 강세/약세였는지, 결과가 어느 쪽이었는지)만 문장으로 옮긴다.
 function scWhy(r){
   const ids=['taro','diana','nova','flow'];
@@ -2621,8 +2622,8 @@ function renderScorecard(){
     const ranked=ids.map(id=>Object.assign({id},acc[id])).sort((a,b)=>(b.acc||0)-(a.acc||0));
     /* 2026-09-04: 막대 안에 「한 방향만 말했을 때의 기준선」을 세로선으로 같이 그린다.
        막대가 길어도 세로선을 못 넘었으면 실력의 증거가 아니다. */
-    const SC_STATUS={NOT_GRADED_YET:'아직 채점 전',BELOW_FIXED_BASELINE:'기준선보다 낮음',
-      NOT_PROVEN:'실력 확인 아직 안 됨',PROVEN_ABOVE:'기준선보다 높음(확인됨)'};
+    const SC_STATUS={NOT_GRADED_YET:'아직 채점 전',BELOW_FIXED_BASELINE:'기준선보다 낮음 · 탐색',
+      NOT_PROVEN:'실력 확인 아직 안 됨',ABOVE_FIXED_BASELINE:'표본에서 기준선보다 높음 · 탐색',PROVEN_ABOVE:'기준선보다 높음 · 독립 검증 필요'};
     const bars=ranked.map(r=>{
       const mark=r.bestFixedDirectionAcc==null?'':
         `<span class="sc-bar-base" style="left:${Math.max(0,Math.min(100,r.bestFixedDirectionAcc))}%"></span>`;
@@ -2651,7 +2652,7 @@ function renderScorecard(){
     }).filter(Boolean).join('');
     const teamNote=(team&&team.acc!=null)
       ? `<div class="sc-team-note">개별 분석가 중 숫자가 가장 높은 건 ${SC_NAME[bestA.id]}(${bestA.acc==null?'—':bestA.acc+'%'})인데, `
-        +`${bestA.skillStatus==='PROVEN_ABOVE'?'이 숫자는 한 방향만 말한 기준선을 확실히 넘었어요.':'이 숫자는 같은 판단을 한 방향으로만 말했을 때와 견줘 확실히 낫다고 아직 확인되지 않았어요.'} `
+        +`이 비교는 같은 표본에서 더 잘 맞은 고정방향을 고른 사후 참고 기준이에요. 독립 검증으로 실력이 확인된 것은 아니에요. `
         +`<b>4인의 점수를 CHIEF가 가중 합산한 팀 판단(BUY/HOLD/SELL)의 적중률은 ${team.acc}%</b>예요(채점 ${team.n.toLocaleString()}건).`
         +(team.holdBaselineAcc!=null
           ? ` 다만 <b>같은 기록을 전부 HOLD로만 채점하면 ${team.holdBaselineAcc}%</b>가 나와요. 즉 지금 팀 판단이 아무것도 안 한 기준선보다 앞선 폭은 <b>${team.liftVsHoldPp>0?'+':''}${team.liftVsHoldPp}%p</b>뿐이에요.`
@@ -2668,25 +2669,36 @@ function renderScorecard(){
        같이 낸다. 숫자는 team_weights.js가 매 사이클 다시 계산한 값을 그대로 읽는다. */
     const bo=team&&team.buyOutcome;
     let buyNote='';
-    if(bo&&bo.allTime&&bo.allTime.acc!=null){
-      const at=bo.allTime, cur=bo.currentVersion, oh=bo.overheatAllTime;
-      const rb=bo.randomBaseline, cm=bo.cautionMatrix;
+    if(bo&&bo.allTime){
+      const at=bo.allTime, cur=bo.currentVersion, revised=bo.schemaVersion===2;
+      const rb=revised?bo.randomBaseline:null, oh=revised?bo.overheatAllTime:null;
+      const currentBaseline=revised?bo.currentRandomBaseline:null;
       const worst=(bo.worst||[]).map(w=>`${esc(w.name)} ${w.ret5}%`).join(' · ');
       buyNote=`<div class="sc-team-note"><b>「매수 우위(BUY)」가 실제로 어떻게 끝났는지도 밝힐게요.</b>
-        지금까지 낸 매수 판단 ${at.n.toLocaleString()}건 중 방향을 맞힌 비율은 <b>${at.acc}%</b>예요(판단 ${at.uniqueDecisionDays}일).
-        더 중요한 건 이거예요. <b>${at.crashPct}%</b>는 5거래일 안에 기준가보다 ${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요.
-        ${cur&&cur.acc!=null?`요즘 방식으로 좁혀 보면 적중 <b>${cur.acc}%</b> · 크게 빠진 비율 <b>${cur.crashPct}%</b>예요(판단 ${cur.uniqueDecisionDays}일).`:''}
-        ${worst?`가장 나빴던 사례는 ${worst}였어요.`:''}</div>`
-        +(rb&&rb.acc!=null?`<div class="sc-team-note"><b>그럼 아무 종목이나 골랐으면 어땠을까요.</b>
-        같은 날들에 추적 중이던 전 종목을 똑같은 규칙으로 채점해 봤어요. 오를 확률 <b>${rb.acc}%</b> · 크게 빠진 비율 <b>${rb.crashPct}%</b> · 평균 <b>${rb.meanRet}%</b>였어요(${rb.n.toLocaleString()}건).
-        즉 <b>지금까지의 매수 우위 목록은 아무 종목이나 고른 것보다 나은 결과를 내지 못했어요.</b>
-        다만 「직전에 얼마나 올랐나」가 같은 종목끼리만 견주면 차이가 거의 없어서, 종목을 고르는 눈이 나쁘다기보다 <b>고르는 자리가 나빴다</b>는 쪽에 가까워요.</div>`:'')
-        +(oh&&oh.enoughSample?`<div class="sc-foot-note">그래서 <b>이미 많이 오른 뒤에 나온 매수 신호</b>에는 종목 화면에 경고를 붙였어요.
-        같은 기록으로 재보니, 그런 매수는 <b>${oh.warn.crashPct}%</b>가 크게 빠졌고 그렇지 않은 매수는 <b>${oh.calm.crashPct}%</b>였어요${oh.crashGapCi95?` (차이의 있을 수 있는 범위 ${oh.crashGapCi95[0]}~${oh.crashGapCi95[1]}%p)`:''}.
-        전체 매수 판단의 <b>${oh.warnSharePct}%</b>가 여기에 걸려요.
-        ${cm&&cm.none&&cm.strong?`단계별로 보면 아무 조건도 안 걸린 매수는 <b>${cm.none.crashPct}%</b>, 한 가지 걸린 매수는 <b>${cm.caution.crashPct}%</b>, 두 가지 다 걸린 매수는 <b>${cm.strong.crashPct}%</b>가 크게 빠졌어요.`:''}
-        경고는 알려만 주고 판단 자체는 바꾸지 않아요.
-        판단을 바꾸는 건 산식을 고치는 일이라, 근거가 더 쌓인 뒤 사전에 정해 둔 검증을 통과해야 해요.</div>`:'');
+        ${revised?'사후 재구성과 정밀분석을 제외한 실제 자동판단 기록':'이전 집계에는 사후 재구성과 정밀분석이 섞여 있어 실제 자동판단 실적으로 해석할 수 없어요. 재계산 전 참고 기록'}
+        ${at.n.toLocaleString()}건, 판단 날짜 ${at.uniqueDecisionDays}일이에요.
+        방향 적중률은 <b>${at.acc==null?'자료 없음':at.acc+'%'}</b>예요.
+        ${at.graded!=null?`이 숫자의 분모는 전체 건수가 아니라 방향을 채점한 ${at.graded.toLocaleString()}건이에요.`:''}
+        ${at.positivePct!=null?`전체 기록 중 종가가 오른 비율은 ${at.positivePct}%예요.`:''}
+        <b>${at.crashPct}%</b>는 5번째 거래일 종가가 기준가보다 ${Math.abs(bo.crashThresholdPct)}% 이상 낮았어요.
+        기간 중 최대 손실과 거래비용은 반영하지 않았어요. 평균 종가 수익률은 ${at.meanRet}%예요.
+        ${cur&&cur.acc!=null?`현재 버전의 방향 적중률은 <b>${cur.acc}%</b>, 같은 종가 손실 기준에 해당한 비율은 <b>${cur.crashPct}%</b>예요(판단 날짜 ${cur.uniqueDecisionDays}일).`:''}
+        ${worst?`종가 수익률이 가장 낮았던 사례는 ${worst}였어요.`:''}</div>`
+        +(rb?`<div class="sc-team-note"><b>같은 날짜의 자동판단 기록과 비교하면 어땠을까요.</b>
+        ${esc(rb.note||'')} 방향 적중률 <b>${rb.acc==null?'자료 없음':rb.acc+'%'}</b>, 같은 종가 손실 기준에 해당한 비율 <b>${rb.crashPct}%</b>, 평균 종가 수익률 <b>${rb.meanRet}%</b>예요.
+        비교에 사용한 종목·날짜 기록은 ${rb.n.toLocaleString()}건이에요.
+        ${currentBaseline?`현재 버전과 같은 날짜의 참고 기준선은 방향 적중 ${currentBaseline.acc}%, 종가 손실 기준 해당 ${currentBaseline.crashPct}%, 평균 ${currentBaseline.meanRet}%예요.`:''}
+        상승률·변동성·날짜 등 비교 조건에 따라 결과가 달라져요. 종목 선택 능력이 좋거나 나쁘다거나, 부진의 원인이 한 가지라고 결론 내릴 수 없어요.</div>`:'')
+        +(revised&&bo.legacyMixed?`<details class="sc-foot-note"><summary>이전 혼합 집계와 제외 기록</summary>
+        사후 재구성과 정밀분석을 포함한 이전 범위는 ${bo.legacyMixed.n.toLocaleString()}건, 방향 적중률 ${bo.legacyMixed.acc}%, 종가 손실 기준 해당 ${bo.legacyMixed.crashPct}%였어요.
+        재구성 ${bo.reconstructed?bo.reconstructed.n:0}건과 정밀분석 등 ${bo.nonAuto?bo.nonAuto.n:0}건을 실제 자동판단 실적에서 분리했어요.
+        ${bo.provenance?`실제 자동 BUY 중 판단 날짜의 일봉이 없는 기록은 ${bo.provenance.noDecisionCandleBuyN}건이에요. 휴장일의 시세 재사용 등으로 실행 시점을 완전히 복원하지 못하는 한계가 있어요.`:''}</details>`:'')
+        +(oh&&oh.enoughSample?`<div class="sc-foot-note"><b>최근 많이 오른 매수 신호에는 상승률 조건을 표시해요.</b>
+        과거 해당 조건의 BUY는 <b>${oh.warn.crashPct}%</b>, 조건에 해당하지 않은 BUY는 <b>${oh.calm.crashPct}%</b>가 같은 종가 손실 기준에 해당했어요.
+        전체 실제 자동 BUY의 ${oh.warnSharePct}%가 상승률 조건에 해당했고, 조건 판정 자료가 부족한 기록은 ${oh.unknownN}건이에요.
+        ${oh.crashGapCi95?`연속 날짜 묶음으로 다시 계산한 차이의 참고 구간은 ${oh.crashGapCi95[0]}~${oh.crashGapCi95[1]}%p예요.`:''}
+        같은 과거 자료에서 후보를 고른 탐색 결과예요. 변동성으로 보정한 뒤에도 하락을 예측하는지, 앞으로 손실을 줄이는지는 아직 확인되지 않았어요.
+        변동성 자체는 기존 위험 정보에서 볼 수 있어요. 경고는 알려만 주고 판단 자체는 바꾸지 않아요.</div>`:'');
     }
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
     const sectorBest={};
@@ -7101,24 +7113,24 @@ async function analyze(){
     if(call!=='BUY') return '';
     const auto=(typeof window.GaeoUseAuto==='function')?window.GaeoUseAuto():null;
     const oh=(((auto&&auto.stocks?auto.stocks[code]:null)||{}).chief||{}).overheat;
-    if(!oh||!oh.available||!oh.warn) return '';
+    if(!oh) return '';
+    // Old cached vol-only/strong payloads must not restore the retired warning.
+    const t=(oh.triggers||[]).filter(k=>k==='ret5'||k==='ret20');
+    if(!t.length) return '';
     const bo=((((typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS)||{}).global||{}).team||{}).buyOutcome;
-    const cm=bo&&bo.cautionMatrix, cell=cm&&cm[oh.level], safe=cm&&cm.none;
-    const t=oh.triggers||[];
+    const compatible=bo&&bo.schemaVersion===2&&bo.warningVersion===oh.version;
+    const evidence=compatible?bo.overheatAllTime:null;
     const why=[];
-    if(t.indexOf('ret20')>=0&&oh.ret20!=null) why.push(`최근 20거래일 <b>${oh.ret20}%</b> 올랐고`);
-    if(t.indexOf('ret5')>=0&&oh.ret5!=null) why.push(`최근 5거래일 <b>${oh.ret5}%</b> 올랐어요`);
-    if(t.indexOf('vol20')>=0&&oh.vol20!=null) why.push(`하루 평균 <b>${oh.vol20}%</b>씩 출렁이는 종목이에요`);
-    const head=oh.level==='strong'
-      ? '많이 오른 데다 원래 크게 출렁이는 종목이에요.'
-      : '조심해서 볼 매수 신호예요.';
-    const evid=(cell&&safe&&cell.crashPct!=null&&safe.crashPct!=null)
-      ? `지금까지 이런 종목에 나온 매수 판단은 <b>${cell.crashPct}%</b>가 5거래일 안에 `
-        +`${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요. 아무 조건도 안 걸린 매수 판단은 <b>${safe.crashPct}%</b>였어요.`
-      : '아직 이 조건의 과거 기록이 충분히 쌓이지 않아 수치는 보여드리지 않아요.';
-    return `<div class="voverheat${oh.level==='strong'?' strong':''}"><b>${head}</b> `
-      +`${why.join(' · ')}. ${evid} `
-      +`판단 자체는 바꾸지 않았어요. 크게 물릴 수도 있다는 사실을 같이 알려드리는 거예요.</div>`;
+    if(t.indexOf('ret20')>=0&&Number.isFinite(oh.ret20)) why.push(`최근 20거래일 상승률 <b>${oh.ret20}%</b>`);
+    if(t.indexOf('ret5')>=0&&Number.isFinite(oh.ret5)) why.push(`최근 5거래일 상승률 <b>${oh.ret5}%</b>`);
+    if(!why.length) return '';
+    const evid=evidence&&evidence.enoughSample
+      ? `과거 해당 조건의 자동 BUY 중 <b>${evidence.warn.crashPct}%</b>는 5번째 거래일 종가가 기준가보다 `
+        +`${Math.abs(bo.crashThresholdPct)}% 이상 낮았어요. 조건에 해당하지 않은 BUY는 <b>${evidence.calm.crashPct}%</b>였어요. `
+      : '';
+    return `<div class="voverheat"><b>최근 많이 오른 매수 신호예요.</b> `
+      +`${why.join(' · ')}. ${evid}`
+      +`이후 하락이나 손실 방어 효과가 검증된 것은 아니에요. 판단 자체는 바꾸지 않았어요.</div>`;
   }
 
   const EVID_LABEL={taro:'기술적 근거',diana:'재무 근거',nova:'확률·통계 근거',flow:'수급 근거'};
