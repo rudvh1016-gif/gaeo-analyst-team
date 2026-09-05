@@ -7,7 +7,7 @@
 // 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-05 02:56",
+ "generatedAt": "2026-09-05 03:46",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -274,7 +274,8 @@ const TEAM_WEIGHTS = {
     "crashThresholdPct": -5.0,
     "overheatThresholds": {
      "ret5": 10.0,
-     "ret20": 25.0
+     "ret20": 25.0,
+     "vol20": 4.0
     },
     "currentVersion": {
      "n": 316,
@@ -292,55 +293,89 @@ const TEAM_WEIGHTS = {
      "meanRet": -1.07,
      "uniqueDecisionDays": 43
     },
+    "randomBaseline": {
+     "n": 22551,
+     "acc": 46.4,
+     "crashPct": 27.2,
+     "meanRet": -0.16,
+     "uniqueDecisionDays": 44,
+     "note": "판단 종류를 가리지 않고 같은 날 추적 중이던 모든 종목을 같은 규칙으로 채점한 값이다. '아무 종목이나 골랐다면'에 해당한다."
+    },
+    "cautionMatrix": {
+     "none": {
+      "n": 677,
+      "graded": 541,
+      "acc": 44.2,
+      "crashPct": 17.9,
+      "meanRet": -0.22,
+      "uniqueDecisionDays": 43
+     },
+     "caution": {
+      "n": 407,
+      "graded": 363,
+      "acc": 39.1,
+      "crashPct": 30.0,
+      "meanRet": -0.76,
+      "uniqueDecisionDays": 41
+     },
+     "strong": {
+      "n": 390,
+      "graded": 353,
+      "acc": 34.8,
+      "crashPct": 41.8,
+      "meanRet": -2.88,
+      "uniqueDecisionDays": 39
+     }
+    },
     "overheatCurrent": {
      "enoughSample": true,
      "warn": {
-      "n": 134,
-      "graded": 118,
-      "acc": 50.8,
-      "crashPct": 25.4,
-      "meanRet": 0.31,
+      "n": 185,
+      "graded": 166,
+      "acc": 47.6,
+      "crashPct": 24.3,
+      "meanRet": 0.13,
       "uniqueDecisionDays": 10
      },
      "calm": {
-      "n": 182,
-      "graded": 140,
-      "acc": 43.6,
-      "crashPct": 14.3,
-      "meanRet": -0.24,
+      "n": 131,
+      "graded": 92,
+      "acc": 45.7,
+      "crashPct": 11.5,
+      "meanRet": -0.19,
       "uniqueDecisionDays": 10
      },
-     "crashGapPp": 11.1,
+     "crashGapPp": 12.9,
      "crashGapCi95": [
-      0.0,
-      18.5
+      6.8,
+      18.2
      ],
-     "warnSharePct": 42.4
+     "warnSharePct": 58.5
     },
     "overheatAllTime": {
      "enoughSample": true,
      "warn": {
-      "n": 585,
-      "graded": 522,
-      "acc": 35.2,
-      "crashPct": 37.8,
-      "meanRet": -2.31,
-      "uniqueDecisionDays": 42
-     },
-     "calm": {
-      "n": 889,
-      "graded": 735,
-      "acc": 43.5,
-      "crashPct": 20.8,
-      "meanRet": -0.26,
+      "n": 797,
+      "graded": 716,
+      "acc": 37.0,
+      "crashPct": 35.8,
+      "meanRet": -1.8,
       "uniqueDecisionDays": 43
      },
-     "crashGapPp": 17.0,
+     "calm": {
+      "n": 677,
+      "graded": 541,
+      "acc": 44.2,
+      "crashPct": 17.9,
+      "meanRet": -0.22,
+      "uniqueDecisionDays": 43
+     },
+     "crashGapPp": 17.9,
      "crashGapCi95": [
-      11.4,
-      23.2
+      13.5,
+      22.7
      ],
-     "warnSharePct": 39.7
+     "warnSharePct": 54.1
     },
     "worst": [
      {

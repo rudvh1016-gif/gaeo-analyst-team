@@ -2670,15 +2670,22 @@ function renderScorecard(){
     let buyNote='';
     if(bo&&bo.allTime&&bo.allTime.acc!=null){
       const at=bo.allTime, cur=bo.currentVersion, oh=bo.overheatAllTime;
+      const rb=bo.randomBaseline, cm=bo.cautionMatrix;
       const worst=(bo.worst||[]).map(w=>`${esc(w.name)} ${w.ret5}%`).join(' · ');
       buyNote=`<div class="sc-team-note"><b>「매수 우위(BUY)」가 실제로 어떻게 끝났는지도 밝힐게요.</b>
         지금까지 낸 매수 판단 ${at.n.toLocaleString()}건 중 방향을 맞힌 비율은 <b>${at.acc}%</b>예요(판단 ${at.uniqueDecisionDays}일).
         더 중요한 건 이거예요. <b>${at.crashPct}%</b>는 5거래일 안에 기준가보다 ${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요.
         ${cur&&cur.acc!=null?`요즘 방식으로 좁혀 보면 적중 <b>${cur.acc}%</b> · 크게 빠진 비율 <b>${cur.crashPct}%</b>예요(판단 ${cur.uniqueDecisionDays}일).`:''}
         ${worst?`가장 나빴던 사례는 ${worst}였어요.`:''}</div>`
+        +(rb&&rb.acc!=null?`<div class="sc-team-note"><b>그럼 아무 종목이나 골랐으면 어땠을까요.</b>
+        같은 날들에 추적 중이던 전 종목을 똑같은 규칙으로 채점해 봤어요. 오를 확률 <b>${rb.acc}%</b> · 크게 빠진 비율 <b>${rb.crashPct}%</b> · 평균 <b>${rb.meanRet}%</b>였어요(${rb.n.toLocaleString()}건).
+        즉 <b>지금까지의 매수 우위 목록은 아무 종목이나 고른 것보다 나은 결과를 내지 못했어요.</b>
+        다만 「직전에 얼마나 올랐나」가 같은 종목끼리만 견주면 차이가 거의 없어서, 종목을 고르는 눈이 나쁘다기보다 <b>고르는 자리가 나빴다</b>는 쪽에 가까워요.</div>`:'')
         +(oh&&oh.enoughSample?`<div class="sc-foot-note">그래서 <b>이미 많이 오른 뒤에 나온 매수 신호</b>에는 종목 화면에 경고를 붙였어요.
         같은 기록으로 재보니, 그런 매수는 <b>${oh.warn.crashPct}%</b>가 크게 빠졌고 그렇지 않은 매수는 <b>${oh.calm.crashPct}%</b>였어요${oh.crashGapCi95?` (차이의 있을 수 있는 범위 ${oh.crashGapCi95[0]}~${oh.crashGapCi95[1]}%p)`:''}.
-        전체 매수 판단의 <b>${oh.warnSharePct}%</b>가 여기에 걸려요. 경고는 알려만 주고 판단 자체는 바꾸지 않아요.
+        전체 매수 판단의 <b>${oh.warnSharePct}%</b>가 여기에 걸려요.
+        ${cm&&cm.none&&cm.strong?`단계별로 보면 아무 조건도 안 걸린 매수는 <b>${cm.none.crashPct}%</b>, 한 가지 걸린 매수는 <b>${cm.caution.crashPct}%</b>, 두 가지 다 걸린 매수는 <b>${cm.strong.crashPct}%</b>가 크게 빠졌어요.`:''}
+        경고는 알려만 주고 판단 자체는 바꾸지 않아요.
         판단을 바꾸는 건 산식을 고치는 일이라, 근거가 더 쌓인 뒤 사전에 정해 둔 검증을 통과해야 해요.</div>`:'');
     }
     // 업종별 최고 성적(표본 100건 이상) — 분석가마다 잘 맞는 업종이 다르다는 걸 실측으로 보여준다
@@ -7096,19 +7103,24 @@ async function analyze(){
     const oh=(((auto&&auto.stocks?auto.stocks[code]:null)||{}).chief||{}).overheat;
     if(!oh||!oh.available||!oh.warn) return '';
     const bo=((((typeof TEAM_WEIGHTS!=='undefined'&&TEAM_WEIGHTS)||{}).global||{}).team||{}).buyOutcome;
-    const st=bo&&bo.overheatAllTime&&bo.overheatAllTime.enoughSample?bo.overheatAllTime:null;
+    const cm=bo&&bo.cautionMatrix, cell=cm&&cm[oh.level], safe=cm&&cm.none;
+    const t=oh.triggers||[];
     const why=[];
-    if(oh.triggers.indexOf('ret20')>=0&&oh.ret20!=null) why.push(`최근 20거래일 <b>${oh.ret20}%</b>`);
-    if(oh.triggers.indexOf('ret5')>=0&&oh.ret5!=null) why.push(`최근 5거래일 <b>${oh.ret5}%</b>`);
-    const evid=st
-      ? `지금까지 이런 조건에서 나온 매수 판단은 <b>${st.warn.crashPct}%</b>가 5거래일 안에 `
-        +`${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요. 그렇지 않은 매수 판단은 <b>${st.calm.crashPct}%</b>였어요`
-        +`${st.crashGapCi95?` (차이의 있을 수 있는 범위 ${st.crashGapCi95[0]}~${st.crashGapCi95[1]}%p)`:''}.`
+    if(t.indexOf('ret20')>=0&&oh.ret20!=null) why.push(`최근 20거래일 <b>${oh.ret20}%</b> 올랐고`);
+    if(t.indexOf('ret5')>=0&&oh.ret5!=null) why.push(`최근 5거래일 <b>${oh.ret5}%</b> 올랐어요`);
+    if(t.indexOf('vol20')>=0&&oh.vol20!=null) why.push(`하루 평균 <b>${oh.vol20}%</b>씩 출렁이는 종목이에요`);
+    const head=oh.level==='strong'
+      ? '많이 오른 데다 원래 크게 출렁이는 종목이에요.'
+      : '조심해서 볼 매수 신호예요.';
+    const evid=(cell&&safe&&cell.crashPct!=null&&safe.crashPct!=null)
+      ? `지금까지 이런 종목에 나온 매수 판단은 <b>${cell.crashPct}%</b>가 5거래일 안에 `
+        +`${Math.abs(bo.crashThresholdPct)}% 넘게 빠졌어요. 아무 조건도 안 걸린 매수 판단은 <b>${safe.crashPct}%</b>였어요.`
       : '아직 이 조건의 과거 기록이 충분히 쌓이지 않아 수치는 보여드리지 않아요.';
-    return `<div class="voverheat"><b>급등 뒤에 나온 매수 신호예요.</b> `
-      +`${why.join(' · ')} 올랐어요. ${evid} `
+    return `<div class="voverheat${oh.level==='strong'?' strong':''}"><b>${head}</b> `
+      +`${why.join(' · ')}. ${evid} `
       +`판단 자체는 바꾸지 않았어요. 크게 물릴 수도 있다는 사실을 같이 알려드리는 거예요.</div>`;
   }
+
   const EVID_LABEL={taro:'기술적 근거',diana:'재무 근거',nova:'확률·통계 근거',flow:'수급 근거'};
   /* 📄 최근 공식 공시 (DART) — 러너가 판단 시각 기준(Point-in-Time)으로 요약한
      dart 필드를 그대로 보여준다. 점수에 가산되지 않는 '정보 전용' 맥락이고,

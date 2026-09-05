@@ -92,6 +92,7 @@ def load_names():
 #    analyze_auto.overheat_flag와 같은 기준을 쓴다(둘이 갈라지면 화면 설명이 거짓이 된다).
 OVERHEAT_RET5_PCT = 10.0
 OVERHEAT_RET20_PCT = 25.0
+OVERHEAT_VOL20_PCT = 4.0   # 최근 20거래일 일간 등락 표준편차(하루 평균 출렁임)
 BUY_CRASH_PCT = -5.0     # "5거래일 안에 이만큼 빠졌으면 크게 물린 것"으로 센다
 
 
@@ -212,19 +213,16 @@ def _stat_lift(agg):
 
 
 def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
-    """BUY 판단이 실제로 어떻게 끝났는지 + 급등 후 매수 경고의 실측 근거.
+    """BUY 판단이 실제로 어떻게 끝났는지 + 매수 주의 신호의 실측 근거.
 
-    ⭐ 2026-09-05 신설. 소유자가 "사이트에 매일 뜨는 BUY는 그래도 쓸데없는 걸
-    추천하진 않은 것 같다"고 했는데, 실제로 대조해 보니 반대였다. 그 사실을 화면이
-    스스로 말하게 하려고, 화면이 쓸 숫자를 여기서 매 사이클 다시 계산한다
+    ⭐ 2026-09-05 신설, 같은 날 2차 보강. 소유자가 "사이트에 매일 뜨는 BUY는 그래도
+    쓸데없는 걸 추천하진 않은 것 같다"고 했는데 대조해 보니 반대였다. 그 사실을 화면이
+    스스로 말하게 하려고 화면이 쓸 숫자를 여기서 매 사이클 다시 계산한다
     (문구에 숫자를 박아 넣지 않는다 — Constitution publicClaimPolicy).
 
-    같이 내는 것:
-      · 적중률(score_call ±1%)과 '5거래일 안에 BUY_CRASH_PCT 밑으로 빠진 비율'
-      · 급등 후 매수(경고 대상) vs 나머지의 폭락률 차이와 판단일 블록 부트스트랩 구간
-      · 최악 사례 몇 건(종목명·날짜·수익률)
-    현재 버전 구간과 전체 기간을 나눠서 낸다. 채점 규칙(score_call)은 버전과 무관하게
-    같으므로 둘 다 같은 뜻의 숫자이고, 표본 크기만 다르다.
+    2차에서 가장 중요한 것을 하나 더 넣었다. **무작위 기준선**이다.
+    "같은 날 아무 종목이나 골랐다면 어땠나"를 같이 내지 않으면, 적중률 40%가 잘한
+    건지 못한 건지 알 수가 없다(분석가 적중률에 붙인 기준선과 같은 이치다).
     """
     date_index = {c: [r["date"] for r in rows] for c, rows in closes.items()}
 
@@ -247,12 +245,32 @@ def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
         prev = rows[j]["close"]
         return (base - prev) / prev * 100.0 if prev else None
 
-    rows_all = []
+    def vol20_at(code, day):
+        """판단 시점까지의 일봉만으로 vol20을 복원한다(미래 데이터 사용 금지).
+
+        정의는 compute_indicators.risk_for와 같다 — 최근 20거래일 일간 등락률의
+        표준편차(%). 화면 설명과 산출 기준이 갈라지면 안 된다.
+        """
+        rows = closes.get(code)
+        if not rows:
+            return None
+        i = bisect.bisect_right(date_index[code], day) - 1
+        if i < 6:
+            return None
+        cl = [r["close"] for r in rows[:i + 1]]
+        rets = [(cl[k] / cl[k - 1] - 1) * 100 for k in range(1, len(cl)) if cl[k - 1]]
+        if not rets:
+            return None
+        tail = rets[-20:] if len(rets) >= 20 else rets
+        mean = sum(tail) / len(tail)
+        return (sum((r - mean) ** 2 for r in tail) / len(tail)) ** 0.5
+
+    rows_all, market_rows = [], []
     for code, lst in hist.items():
         if not re.match(r"^\d{6}$", str(code)) or not isinstance(lst, list):
             continue
         for e in lst:
-            if e.get("call") != "BUY" or e.get("judgmentWithheld"):
+            if e.get("judgmentWithheld"):
                 continue
             base, day = e.get("base"), str(e.get("date", ""))[:10]
             if not base or not day:
@@ -260,11 +278,21 @@ def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
             ret5 = ret_at(code, day, base, 5)
             if ret5 is None:
                 continue          # 아직 5거래일이 안 지난 판단은 세지 않는다
+            # 무작위 기준선 — 판단 종류를 가리지 않고 전부 담는다.
+            # "같은 날들에 아무 종목이나 골랐다면"에 해당한다.
+            market_rows.append({"day": day, "ret5": ret5})
+            if e.get("call") != "BUY":
+                continue
             r5 = back_at(code, day, base, 5)
             r20 = back_at(code, day, base, 20)
-            warn = ((r5 is not None and r5 >= OVERHEAT_RET5_PCT)
-                    or (r20 is not None and r20 >= OVERHEAT_RET20_PCT))
-            rows_all.append({"code": code, "day": day, "ret5": ret5, "warn": warn,
+            vol = vol20_at(code, day)
+            hot = ((r5 is not None and r5 >= OVERHEAT_RET5_PCT)
+                   or (r20 is not None and r20 >= OVERHEAT_RET20_PCT))
+            swing = vol is not None and vol >= OVERHEAT_VOL20_PCT
+            rows_all.append({"code": code, "day": day, "ret5": ret5,
+                             "warn": bool(hot or swing), "hot": hot, "swing": swing,
+                             "level": ("strong" if (hot and swing)
+                                       else ("caution" if (hot or swing) else "none")),
                              "version": record_version(e)})
 
     def block(rows):
@@ -279,6 +307,30 @@ def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
                 "meanRet": round(sum(r["ret5"] for r in rows) / len(rows), 2),
                 "uniqueDecisionDays": len({r["day"] for r in rows})}
 
+    def gap_ci(rows, flag):
+        """판단일 블록 부트스트랩 — 같은 날 종목은 독립이 아니다."""
+        by_day = {}
+        for r in rows:
+            by_day.setdefault(r["day"], []).append(r)
+        days = sorted(by_day)
+        if len(days) < 3:
+            return None
+        rng = random.Random(BOOTSTRAP_SEED)
+        vals = []
+        for _ in range(BOOTSTRAP_ROUNDS):
+            picked = [x for d in (rng.choice(days) for _ in days) for x in by_day[d]]
+            a = [x for x in picked if flag(x)]
+            b = [x for x in picked if not flag(x)]
+            if len(a) < 10 or len(b) < 10:
+                continue
+            vals.append(sum(1 for x in a if x["ret5"] <= BUY_CRASH_PCT) / len(a) * 100
+                        - sum(1 for x in b if x["ret5"] <= BUY_CRASH_PCT) / len(b) * 100)
+        if len(vals) < 20:
+            return None
+        vals.sort()
+        return [round(vals[int(len(vals) * 0.025)], 1),
+                round(vals[int(len(vals) * 0.975)], 1)]
+
     def overheat_block(rows):
         warn = [r for r in rows if r["warn"]]
         calm = [r for r in rows if not r["warn"]]
@@ -286,40 +338,42 @@ def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
             return {"enoughSample": False, "warnN": len(warn), "calmN": len(calm)}
         wc = sum(1 for r in warn if r["ret5"] <= BUY_CRASH_PCT) / len(warn) * 100
         cc = sum(1 for r in calm if r["ret5"] <= BUY_CRASH_PCT) / len(calm) * 100
-        # 판단일 블록 부트스트랩 — 같은 날 종목은 독립이 아니다.
-        by_day = {}
-        for r in rows:
-            by_day.setdefault(r["day"], []).append(r)
-        days = sorted(by_day)
-        gap_ci = None
-        if len(days) >= 3:
-            rng = random.Random(BOOTSTRAP_SEED)
-            vals = []
-            for _ in range(BOOTSTRAP_ROUNDS):
-                picked = [x for d in (rng.choice(days) for _ in days) for x in by_day[d]]
-                w = [x for x in picked if x["warn"]]
-                c = [x for x in picked if not x["warn"]]
-                if len(w) < 10 or len(c) < 10:
-                    continue
-                vals.append(sum(1 for x in w if x["ret5"] <= BUY_CRASH_PCT) / len(w) * 100
-                            - sum(1 for x in c if x["ret5"] <= BUY_CRASH_PCT) / len(c) * 100)
-            if len(vals) >= 20:
-                vals.sort()
-                gap_ci = [round(vals[int(len(vals) * 0.025)], 1),
-                          round(vals[int(len(vals) * 0.975)], 1)]
-        return {"enoughSample": True,
-                "warn": block(warn), "calm": block(calm),
-                "crashGapPp": round(wc - cc, 1), "crashGapCi95": gap_ci,
+        return {"enoughSample": True, "warn": block(warn), "calm": block(calm),
+                "crashGapPp": round(wc - cc, 1),
+                "crashGapCi95": gap_ci(rows, lambda r: r["warn"]),
                 "warnSharePct": round(len(warn) / len(rows) * 100, 1)}
 
     current = [r for r in rows_all if r["version"] in learn_versions]
     worst = sorted(rows_all, key=lambda r: r["ret5"])[:3]
+
+    # 무작위 기준선 — 같은 날들에 아무 종목이나 골랐다면.
+    mh = sum(1 for r in market_rows if score_call("BUY", r["ret5"]) == "hit")
+    mm = sum(1 for r in market_rows if score_call("BUY", r["ret5"]) == "miss")
+    random_baseline = {
+        "n": len(market_rows),
+        "acc": round(_pct(mh, mm), 1) if mh + mm else None,
+        "crashPct": round(sum(1 for r in market_rows if r["ret5"] <= BUY_CRASH_PCT)
+                          / len(market_rows) * 100, 1) if market_rows else None,
+        "meanRet": round(sum(r["ret5"] for r in market_rows) / len(market_rows), 2)
+        if market_rows else None,
+        "uniqueDecisionDays": len({r["day"] for r in market_rows}),
+        "note": ("판단 종류를 가리지 않고 같은 날 추적 중이던 모든 종목을 같은 규칙으로 "
+                 "채점한 값이다. '아무 종목이나 골랐다면'에 해당한다."),
+    }
+
+    # 주의 단계별 2×2 — 화면이 정확한 칸의 숫자를 보여주기 위한 표.
+    caution_matrix = {lv: block([r for r in rows_all if r["level"] == lv])
+                      for lv in ("none", "caution", "strong")}
+
     return {
         "basis": "call_hit_5d_pm1pct",
         "crashThresholdPct": BUY_CRASH_PCT,
-        "overheatThresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT},
+        "overheatThresholds": {"ret5": OVERHEAT_RET5_PCT, "ret20": OVERHEAT_RET20_PCT,
+                               "vol20": OVERHEAT_VOL20_PCT},
         "currentVersion": block(current),
         "allTime": block(rows_all),
+        "randomBaseline": random_baseline,
+        "cautionMatrix": caution_matrix,
         "overheatCurrent": overheat_block(current),
         "overheatAllTime": overheat_block(rows_all),
         "worst": [{"code": r["code"], "name": names.get(r["code"], r["code"]),
@@ -327,6 +381,8 @@ def buy_outcome_stats(hist, closes, names, learn_versions, record_version):
         "note": ("BUY 판단이 5거래일 뒤 어떻게 끝났는지 그대로 센 값이다. "
                  "적중률은 ±1% 기준이고, 폭락률은 기준가 대비 5% 넘게 빠진 비율이다."),
     }
+
+
 
 
 # 🏷️ 점수 의미(semantics)가 바뀐 버전끼리 섞어 학습하지 않는다(요구 7-8).
