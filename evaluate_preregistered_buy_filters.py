@@ -11,6 +11,8 @@
 원칙
 - 2026-09-07 이전 판단은 이미 본 자료이므로 절대 포함하지 않는다.
 - 실제 자동판단(tier=auto)만 쓴다. 재구성(recon)·정밀분석·판단 보류·중복 종목일은 제외한다.
+- 판단일이 KRX 거래일이 아니거나(예: 2026-08-17 광복절 대체휴일에 러너가 8/14 종가를 그날 판단으로
+  기록) 그 종목 일봉에 판단일 종가가 없으면 판단일로 세지 않는다(notTradingDay · noDecisionSessionCandle).
 - 급등·변동성 특징은 판단 당시 아카이브가 기록한 chief.overheat(버전 일치)만 쓴다.
   과거 일봉으로 되살리지 않는다(시점 누수 방지). 기록이 없으면 '미기록'으로 세고 제외한다.
 - 결과는 판단일 뒤 5번째 거래일 종가 기준 수익률이다. 5번째 거래일이 평가일(--as-of)
@@ -33,6 +35,7 @@ import sys
 from pathlib import Path
 
 import compute_team_weights as W
+from krx_calendar import is_krx_trading_day
 from buy_warning import (OVERHEAT_RET5_PCT, OVERHEAT_RET20_PCT, OVERHEAT_VERSION,
                          OVERHEAT_VOL20_PCT, finite_number)
 from buy_warning_evidence import BUY_CRASH_PCT
@@ -44,6 +47,12 @@ REGISTRATION = {
     "document": "docs/PREREGISTRATION_BUY_FILTERS_20260905.md",
     "registeredOn": "2026-09-05",
     "windowStart": "2026-09-07",           # 등록 뒤 첫 거래일. 이전 기록은 이미 본 자료.
+    # ⚠️ 2026-09-05 창 열기 전 수정(§10 8항): 러너는 평일이면 휴장일에도 돌아 직전 종가를 그날 판단으로
+    #    기록한다(실측 2026-08-17 광복절 대체휴일 598건 = 8/14 종가 복제). 그런 날은 판단일이 아니다.
+    #    달력(krx_calendar.KRX_HOLIDAYS)과 "그 종목 일봉에 판단일 종가가 있는가"로 이중 방어한다.
+    #    창 안 평일 휴장일: 2026-09-24 · 09-25 · 10-05 · 10-09.
+    "excludeNonTradingDecisionDays": True,
+    "tradingCalendar": "krx_calendar.KRX_HOLIDAYS",
     # ⚠️ 아래 다섯 값은 등록 시점의 운영 상수를 '리터럴'로 얼린 것이다. 운영 코드의 상수를 그대로
     #    참조하면 나중에 상수가 바뀔 때 등록이 조용히 따라가 버린다(code-review 2026-09-05).
     #    test_prereg_buy_filters가 "리터럴 == 현재 운영 상수"를 검사하므로, 운영 상수가 바뀌면
@@ -124,6 +133,35 @@ def _hist_cap():
         return 80
 
 
+def _is_trading_day(day):
+    """판단일이 KRX 거래일인가. 날짜 형식이 깨진 값은 거래일로 보지 않는다."""
+    try:
+        return is_krx_trading_day(datetime.date.fromisoformat(str(day)[:10]))
+    except ValueError:
+        return False
+
+
+def _has_candle(dates, day):
+    """정렬된 일봉 날짜 목록에 판단일 종가가 있는가(미등록 휴장·거래정지·수집 결손 2차 방어)."""
+    i = bisect.bisect_left(dates, day)
+    return i < len(dates) and dates[i] == day
+
+
+def _non_trading_decision_dates(hist, start, as_of):
+    """창 안에서 자동 기록은 있으나 KRX 거래일이 아닌 판단 날짜 목록(보고서에 그대로 남긴다)."""
+    out = set()
+    for entries in hist.values():
+        if not isinstance(entries, list):
+            continue
+        for e in entries:
+            if not isinstance(e, dict):
+                continue
+            d = str(e.get("date", ""))[:10]
+            if d and start <= d <= as_of and e.get("tier") == "auto" and not _is_trading_day(d):
+                out.add(d)
+    return sorted(out)
+
+
 def collect_rows(hist, closes, as_of, reg=REGISTRATION):
     """평가 대상 행을 고른다. 제외 사유는 모두 센다(조용히 버리지 않는다)."""
     start, horizon = reg["windowStart"], reg["horizonSessions"]
@@ -180,6 +218,14 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
             if version != reg["baseModelVersion"]:
                 dropped["otherModelVersion"] += 1
                 continue
+            if reg["excludeNonTradingDecisionDays"]:
+                # 휴장일 유령 판단일(2026-08-17형): 달력 → 그 종목 일봉 순서로 이중 방어. 둘 다 건수로 남긴다.
+                if not _is_trading_day(day):
+                    dropped["notTradingDay"] += 1
+                    continue
+                if not _has_candle(dates, day):
+                    dropped["noDecisionSessionCandle"] += 1
+                    continue
             j = bisect.bisect_right(dates, day) + horizon - 1
             if j >= len(prices) or prices[j]["date"] > as_of:
                 dropped["pendingOutcome"] += 1
@@ -394,6 +440,8 @@ def evaluate(hist, closes, as_of, reg=REGISTRATION):
             "buyHighVol": sum(1 for r in buy if r["vol"] is not None and r["vol"] >= reg["vol20Cut"]),
             "excluded": dropped,
             "retentionTruncatedCodes": truncated,
+            # 창 안에 기록은 있지만 거래일이 아닌 날짜(휴장일 유령 판단일). 비어 있어야 정상이다.
+            "nonTradingDecisionDates": _non_trading_decision_dates(hist, reg["windowStart"], as_of),
         },
     }
     if len(days) < reg["minDecisionDays"]:
