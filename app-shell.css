@@ -63,7 +63,7 @@
   html.gdark .nav-workspace .modebtn:hover,
   html.gdark .nav-workspace .modebtn.on{background:transparent;color:var(--ink);box-shadow:none}
   html.gdark .pf-guide,html.gdark .nw-hero,html.gdark .gb-hero{background:var(--color-surface-soft);border-color:var(--color-border)}
-  html.gdark .lb-mvp-tag,html.gdark .pwm-ok,html.gdark .tv-pos,html.gdark .nw-pg.on{
+  html.gdark .lb-mvp-tag,html.gdark .tv-pos,html.gdark .nw-pg.on{
     background:#48484A;border-color:#48484A}
   html.gdark .nw-pg.on{color:#F5F5F7}
   /* 파스텔 알약(라이트 전용 hex) → 다크용 저채도 틴트로 */
@@ -2117,25 +2117,6 @@
   .consent-settings{display:inline-flex;align-items:center;min-height:44px;padding:6px 11px;
     color:var(--dim);background:var(--paper)}
   @media(max-width:620px){.consent-prompt{align-items:stretch;flex-direction:column}.consent-prompt div{justify-content:stretch}.consent-prompt button{flex:1}}
-
-  /* ── 비밀번호 입력 모달 (●●● 마스킹) ── */
-  .pwm{position:fixed;inset:0;z-index:200;background:rgba(8,47,82,.45);
-    display:flex;align-items:center;justify-content:center;padding:20px}
-  .pwm-box{background:var(--paper);border-radius:16px;padding:20px;box-shadow:var(--shadow);
-    width:100%;max-width:320px}
-  .pwm-t{font-size:14px;font-weight:600;color:var(--navy);margin:0 0 12px}
-  .pwm-inrow{display:flex;gap:8px;align-items:center}
-  .pwm-box input{flex:1;width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;
-    padding:12px 14px;font:inherit;font-size:16px;letter-spacing:.2em;outline:none;min-width:0}
-  .pwm-box input:focus{border-color:var(--sky)}
-  .pwm-eye{flex-shrink:0;border:1px solid var(--line2);background:var(--bg);border-radius:10px;
-    width:44px;height:44px;font-size:17px;cursor:pointer}
-  .pwm-eye:active{background:var(--sky-soft)}
-  .pwm-btns{display:flex;gap:8px;margin-top:12px}
-  .pwm-btns button{flex:1;border:none;border-radius:10px;padding:11px;font:inherit;
-    font-weight:600;font-size:13.5px;cursor:pointer}
-  .pwm-ok{background:var(--navy);color:#fff}
-  .pwm-no{background:var(--paper2);color:var(--dim)}
 
   /* ── 관리자 편집 모드 ── */
   [data-edit].admin-on{outline:2px dashed var(--sky);outline-offset:3px;border-radius:6px;

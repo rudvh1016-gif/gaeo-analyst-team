@@ -2484,14 +2484,15 @@ function renderScorecard(){
   const confRowsAll=confTable(allBS,[0,55,60,65,70]);
   const confRowsBuy=confTable(allBS.filter(r=>r.call==='BUY'),[0,40,45,50,55,60]);
   const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
-  /* ⚠️ 비중은 계산해서 넣는다(2026-09-06). "약 88%"가 문자열로 박혀 있었는데 그건 2026-08-14 값이고
-     같은 화면의 표는 82.6%였다 — 정직성 화면에서 문장과 표가 다르면 그 자체가 신뢰를 깎는다. */
-  const sellShare=allBS.length?Math.round(allBS.filter(r=>r.call==='SELL').length/allBS.length*100):null;
+  /* ⚠️ 비중은 계산해 넣는다(2026-09-06). "약 88%"가 박혀 있었는데 2026-08-14 값이고 표는 82.6%였다 —
+     문장과 표가 다르면 그 자체가 신뢰를 깎는다. 분모는 표와 같은 기준(확신도 기록된 행)으로 맞춘다. */
+  const confScored=allBS.filter(r=>typeof r.conf==='number');
+  const sellShare=confScored.length?Math.round(confScored.filter(r=>r.call==='SELL').length/confScored.length*100):null;
   const confHead=`<thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>`;
   const confBlock=confRowsAll?`<div class="sc-block">
     <h3>확신도가 높을수록 잘 맞을까 (전체 누적)</h3>
     <p class="sc-sub">개오팀이 스스로 매긴 판단 확신도를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
-      <b>합친 표는 착시가 있어요.</b> ${sellShare===null?'표본을 SELL 판단이 크게 차지해서':`표본의 ${sellShare}%를 SELL 판단이 차지해서`}, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
+      ${sellShare!==null&&sellShare>=60?`<b>합친 표는 착시가 있어요.</b> 표본의 ${sellShare}%를 SELL 판단이 차지해서, `:''}아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsAll}</tbody></table></div>
     ${confRowsBuy?`<p class="sc-sub" style="margin-top:16px"><b>BUY만 떼어 보면</b>, 확신도가 올라가도 성적이 합친 표만큼 뚜렷이 좋아지지 않아요.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsBuy}</tbody></table></div>`:''}
@@ -10147,9 +10148,9 @@ window.renderScreener=function(){
         }
       },500);
     },60);
-    /* ⭐ 2026-09-06 — 성적표처럼 큰 자료를 3~5초 받아오는 화면은 위 500ms 재확인으로는 못 잡는다.
-       다 그려지는 순간 홈이 숨겨져 문서가 줄고 스크롤만 남아, 첫 진입이 성적표 중간에 착지했다
-       (390px 실측 −4,650px). "다 그렸다" 신호를 한 번만 듣고 위로 벗어났을 때만 다시 맞춘다. */
+    /* ⭐ 2026-09-06 — 큰 자료를 3~5초 받는 화면은 위 500ms 재확인으로 못 잡는다. 다 그려지는 순간 홈이
+       숨겨져 문서가 줄고 스크롤만 남아 첫 진입이 중간에 착지했다(390px 실측 −4,650px). "다 그렸다"
+       신호를 한 번만 듣고 위로 벗어났을 때만 맞춘다. */
     let readyTimer=0;
     const onModeReady=event=>{
       if(!event.detail||event.detail.mode!==mode) return;
@@ -10163,7 +10164,9 @@ window.renderScreener=function(){
       });
     };
     window.addEventListener('gaeo:mode-ready',onModeReady);
-    readyTimer=setTimeout(()=>window.removeEventListener('gaeo:mode-ready',onModeReady),30000);
+    // 청소 상한은 넉넉히 — 성적표 지연 자료가 gzip 4.8MB라 1Mbps면 38초다(30초로 두면 느린 회선에서만
+    // 보정이 조용히 빠진다, 검수 실측). 남은 리스너는 seq 가드 때문에 무해하다.
+    readyTimer=setTimeout(()=>window.removeEventListener('gaeo:mode-ready',onModeReady),180000);
   };
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click(); GaeoScrollToMode('single');};
   document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click(); GaeoScrollToMode('watch');};
@@ -10558,42 +10561,6 @@ window.renderScreener=function(){
   };
 })();
 
-/* ============================================================
-   비밀번호 입력 모달 — prompt() 대신 ●●● 마스킹 입력.
-   관리자 진입과 방문자 글 수정·삭제에 공용으로 쓴다.
-   · 👁 버튼: 마스킹을 잠시 풀어 입력값을 눈으로 확인 (모바일 오타 자가진단)
-   ============================================================ */
-window.askPass=function(title){
-  return new Promise(res=>{
-    const ov=document.createElement('div'); ov.className='pwm';
-    ov.innerHTML=`<div class="pwm-box"><p class="pwm-t">${title}</p>
-      <div class="pwm-inrow"><input type="password" autocomplete="off" placeholder="비밀번호">
-      <button class="pwm-eye" type="button" title="입력값 보기/가리기">👁</button></div>
-      <div class="pwm-btns"><button class="pwm-no">취소</button><button class="pwm-ok">확인</button></div></div>`;
-    document.body.appendChild(ov);
-    const inp=ov.querySelector('input');
-    // 맥/iOS 사파리는 type=password에서 한글 입력기(IME)를 차단한다 —
-    // 지원 브라우저에선 text + CSS 마스킹(●●●)으로 바꿔 한글 타이핑을 허용.
-    let masked=true;
-    const canCssMask=(()=>{ try{ return window.CSS&&CSS.supports&&CSS.supports('-webkit-text-security','disc'); }catch(e){ return false; } })();
-    function applyMask(){
-      if(canCssMask){ inp.type='text'; inp.style.webkitTextSecurity=masked?'disc':'none'; }
-      else inp.type=masked?'password':'text';
-    }
-    applyMask();
-    ov.querySelector('.pwm-eye').onclick=()=>{ masked=!masked; applyMask(); inp.focus(); };
-    const done=v=>{ ov.remove(); res(v); };
-    ov.querySelector('.pwm-ok').onclick=()=>done(inp.value);
-    ov.querySelector('.pwm-no').onclick=()=>done(null);
-    ov.onclick=e=>{ if(e.target===ov) done(null); };
-    inp.onkeydown=e=>{
-      if(e.isComposing||e.keyCode===229) return;          // 한글 조합 중 엔터는 무시(미완성 입력 방지)
-      if(e.key==='Enter') done(inp.value);
-      if(e.key==='Escape') done(null);
-    };
-    setTimeout(()=>inp.focus(),50);
-  });
-};
 
 /* 공용 텍스트 이스케이프 (운영자 메모 등 표시용) */
 window.escNote=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
