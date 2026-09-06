@@ -7029,6 +7029,9 @@ function verdictFactorsHTML(data,v){
 // 카드가 순차적으로 채워지는 느낌(스태거드 리빌)은 그대로 유지하려고 단순 지연 타이머로 남겨둔다.
 function sendToWork(dur,onDone){ setTimeout(onDone,dur); }
 async function analyze(){
+  // 계측 진입 경로는 어떤 await보다 먼저, 그리고 running 가드보다 먼저 소비한다(2026-09-06).
+  // 안 그러면 두 번째 클릭이 먼저 것의 라벨을 덮어쓰거나, 가드에 막힌 호출의 라벨이 다음 검색에 남는다.
+  const entryCluster=window.__gaeoStockEntry||'search'; window.__gaeoStockEntry=null;
   if(running)return; running=true;
   SFX.click();
   // 📊 전체 지표(indicators.js)를 먼저 확보한다 — 홈은 경량본만 받기 때문이다.
@@ -7071,7 +7074,6 @@ async function analyze(){
   document.getElementById('analysisDetails').hidden=false;
   setAnalysisTab('overview');
   // 계측(2026-09-06): jumpToStock 경로(홈 BUY 목록·순환매 등)는 검색이 아니므로 stock_search_submit을 쏘지 않는다(예전엔 함께 쏴 검색 수가 부풀었다).
-  const entryCluster=window.__gaeoStockEntry||'search'; window.__gaeoStockEntry=null;
   if(entryCluster==='search') gaeoTrack('stock_search_submit',{stock_code:stock.code||'',page_type:'stock_analysis'});
   gaeoTrack('stock_analysis_open',{stock_code:stock.code||'',page_type:'stock_analysis',entry_cluster:entryCluster});
   try{ await window.ensureAutoAnalysis(); }catch(e){}
