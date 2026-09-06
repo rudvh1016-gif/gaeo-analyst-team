@@ -7033,6 +7033,8 @@ async function analyze(){
   // 안 그러면 두 번째 클릭이 먼저 것의 라벨을 덮어쓰거나, 가드에 막힌 호출의 라벨이 다음 검색에 남는다.
   const entryCluster=window.__gaeoStockEntry||'search'; window.__gaeoStockEntry=null;
   if(running)return; running=true;
+  // 종목도 라벨과 같은 시점에 잡는다 — 아래 await 사이에 다른 경로가 입력값을 바꾸면 종목·라벨이 어긋난다(검수 F3).
+  const stock=resolveStock(document.getElementById('ticker').value);
   SFX.click();
   // 📊 전체 지표(indicators.js)를 먼저 확보한다 — 홈은 경량본만 받기 때문이다.
   //    이미 받았으면 즉시 통과한다(GaeoFeatures가 같은 약속을 재사용).
@@ -7058,7 +7060,6 @@ async function analyze(){
     window.removeEventListener('scroll',markUserMoved);
     window.removeEventListener('keydown',onViewKey);
   };
-  const stock=resolveStock(document.getElementById('ticker').value);
   window.GaeoCurrentCode=stock.code;
   // 📚 정밀분석 기록 탭 — 이 종목이 정밀분석 대상(LIVE_AN)에 있을 때만 탭을 보여주고,
   // 종목이 바뀌었으니 이전 종목의 렌더링 캐시는 지운다.
@@ -9928,8 +9929,9 @@ window.renderScreener=function(){
       });
       return;
     }
-    if(mode==='scorecard'){
-      // 계측(2026-09-06): 성적표 열람. 지연 로딩 재호출 경로는 위 return을 지나 여기로 한 번만 오므로 1회씩 잡힌다.
+    if(mode==='scorecard'&&window.GaeoCurrentMode!=='scorecard'){
+      // 계측(2026-09-06): 성적표 열람. "다른 화면 → 성적표"로 바뀌는 순간에만 센다. 딥링크 라우터는 setMode를
+      // 두 번 부르고, 로딩 중 더블클릭은 .then 재진입이 두 번 오므로(검수 F1) 현재 모드 검사가 없으면 2회 찍힌다.
       const entry=window.__gaeoScorecardEntry||'nav'; window.__gaeoScorecardEntry=null;
       gaeoTrack('scorecard_view',{page_type:'scorecard',content_type:'scorecard',entry_cluster:entry});
     }
@@ -11106,7 +11108,7 @@ function gaeoFootTools(){
       calendar:'history',scorecard:'history',leaderboard:'history',screener:'auto',rotation:'rotation',
       changelog:'changelog'}[m];
     if(routeFeature){
-      if(m==='scorecard'||m==='leaderboard') SC_WEEK_OFFSET=0;
+      if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.__gaeoScorecardEntry='deeplink'; }  // 계측: 공유 링크 진입
       window.setMode(m);
     }
     try{
@@ -11226,7 +11228,10 @@ function gaeoFootTools(){
         gaeoTrack('return_visit',{...params,visit_gap_bucket:bucket},{dedupeKey:'return-visit'});
       }
       else localStorage.setItem(key,new Date().toISOString());
-      localStorage.setItem(lastKey,new Date(now).toISOString());
+      // 마지막 방문 시각은 통계에 동의한 브라우저에만 남긴다(거부한 사용자 저장소에 새 흔적을 만들지 않는다, 검수 F5).
+      if(window.GaeoAnalytics&&typeof window.GaeoAnalytics.getConsent==='function'&&window.GaeoAnalytics.getConsent()==='granted'){
+        localStorage.setItem(lastKey,new Date(now).toISOString());
+      }
     }catch(e){}
     if(route.pageType==='content_query'&&new URLSearchParams(location.search).get('entry')==='snapshot'){
       gaeoTrack('content_to_product_click',{...params,entry_cluster:'snapshot'},
