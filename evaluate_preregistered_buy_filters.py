@@ -13,6 +13,8 @@
 - 실제 자동판단(tier=auto)만 쓴다. 재구성(recon)·정밀분석·판단 보류·중복 종목일은 제외한다.
 - 판단일이 KRX 거래일이 아니거나(예: 2026-08-17 광복절 대체휴일에 러너가 8/14 종가를 그날 판단으로
   기록) 그 종목 일봉에 판단일 종가가 없으면 판단일로 세지 않는다(notTradingDay · noDecisionSessionCandle).
+- 판단일 일봉 종가가 기록 base와 2% 넘게 다르면(수정주가 소급·자료 불일치) 제외한다(baseMismatchCandle).
+  일봉은 수정주가인데 base는 판단 당시 미조정 가격이라, 둘을 섞은 ret5는 뜻이 없다.
 - 급등·변동성 특징은 판단 당시 아카이브가 기록한 chief.overheat(버전 일치)만 쓴다.
   과거 일봉으로 되살리지 않는다(시점 누수 방지). 기록이 없으면 '미기록'으로 세고 제외한다.
 - 결과는 판단일 뒤 5번째 거래일 종가 기준 수익률이다. 5번째 거래일이 평가일(--as-of)
@@ -50,9 +52,14 @@ REGISTRATION = {
     # ⚠️ 2026-09-05 창 열기 전 수정(§10 8항): 러너는 평일이면 휴장일에도 돌아 직전 종가를 그날 판단으로
     #    기록한다(실측 2026-08-17 광복절 대체휴일 598건 = 8/14 종가 복제). 그런 날은 판단일이 아니다.
     #    달력(krx_calendar.KRX_HOLIDAYS)과 "그 종목 일봉에 판단일 종가가 있는가"로 이중 방어한다.
-    #    창 안 평일 휴장일: 2026-09-24 · 09-25 · 10-05 · 10-09.
+    #    창 안(11/16 재확인까지) 평일 휴장일: 2026-09-24 · 09-25 · 10-05 · 10-09 (12/25·12/31은 그 뒤).
     "excludeNonTradingDecisionDays": True,
     "tradingCalendar": "krx_calendar.KRX_HOLIDAYS",
+    # ⚠️ 2026-09-06 창 열기 전 수정(§10 9항, 검수 권고): analysis_data.json 일봉은 수정주가라 기업행동(분할·증자 등)
+    #    종목은 과거 종가가 소급 조정되는데, 기록의 base는 판단 당시 미조정 가격이다. 둘을 섞은 ret5는 가짜가 된다
+    #    (실측: 183300 −52%, 210980 −36%, 000880 +41~61%). 판단일 일봉 종가가 base와 이 비율(%) 넘게 다르면 제외한다.
+    #    실측 분포(2026-09-04까지 18,375행): 2% 초과 129행, 그중 10% 초과 70행은 전부 기업행동 종목.
+    "baseCandleTolerancePct": 2.0,
     # ⚠️ 아래 다섯 값은 등록 시점의 운영 상수를 '리터럴'로 얼린 것이다. 운영 코드의 상수를 그대로
     #    참조하면 나중에 상수가 바뀔 때 등록이 조용히 따라가 버린다(code-review 2026-09-05).
     #    test_prereg_buy_filters가 "리터럴 == 현재 운영 상수"를 검사하므로, 운영 상수가 바뀌면
@@ -225,6 +232,13 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
                     continue
                 if not _has_candle(dates, day):
                     dropped["noDecisionSessionCandle"] += 1
+                    continue
+                # 3차 방어: 판단일 일봉 종가가 기록 base와 허용오차 넘게 다르면(수정주가 소급·자료 불일치)
+                #          ret5가 뜻을 잃으므로 제외한다. 결과를 보지 않는 기계적 규칙이며 건수로 남긴다.
+                day_close = finite_number(prices[bisect.bisect_left(dates, day)].get("close"))
+                if (day_close is None or day_close <= 0
+                        or abs(day_close / base - 1.0) * 100.0 > reg["baseCandleTolerancePct"]):
+                    dropped["baseMismatchCandle"] += 1
                     continue
             j = bisect.bisect_right(dates, day) + horizon - 1
             if j >= len(prices) or prices[j]["date"] > as_of:
@@ -500,6 +514,9 @@ def plain_summary(report):
              f"제외: {s['excluded']}"]
     if s["retentionTruncatedCodes"]:
         lines.append(f"⚠️ 보관 상한으로 창 안 기록이 밀려났을 수 있는 종목 {len(s['retentionTruncatedCodes'])}개")
+    if s.get("nonTradingDecisionDates"):
+        lines.append("⚠️ 창 안 비거래(휴장일) 자동 판단 날짜 — 판단일로 세지 않음: "
+                     + ", ".join(s["nonTradingDecisionDates"]))
     if report["status"] != "EVALUATED":
         lines.append(report.get("note", ""))
         return "\n".join(lines)
