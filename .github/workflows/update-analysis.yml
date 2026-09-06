@@ -10,6 +10,11 @@ name: update-analysis
 
 on:
   workflow_dispatch:
+    inputs:
+      force_collect:
+        description: "휴장일 달력을 무시하고 강제 실행(임시 개장·달력 오류 대비). 체인 재기동에는 전달되지 않는다."
+        type: boolean
+        default: false
   push:
     paths:
       - ".analyst-refresh"
@@ -42,6 +47,7 @@ jobs:
       GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
       GH_AUTH: "Authorization: Bearer ${{ github.token }}"
       IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
+      FORCE_COLLECT: ${{ inputs.force_collect && '1' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -90,9 +96,26 @@ jobs:
           # ---------- 시간대 판정 ----------
           now=$(date +%s); dow=$(date +%u)
           open=$(date -d "08:58" +%s); close=$(date -d "16:05" +%s)
-          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+          # ⭐ 2026-09-06 — 짝꿍(update-prices)과 같은 가드. 요일만 보면 공휴일에도 분석이 돌아
+          #    직전 종가 기준 판단이 그날 판단으로 기록된다(2026-08-17 유령 판단일 598건).
+          #    ⚠️ fail-closed 반전 금지: python3가 없거나 달력 모듈이 깨졌을 때 "휴장일"로 읽으면
+          #    멀쩡한 거래일이 통째로 조용히 쉬어 버린다(초록 체크로 남아 아무도 모른다).
+          #    거래일 / 휴장일 / 판정불가 3값으로 나눠, 판정불가는 종전(요일 기준) 동작으로 폴백한다.
+          rc=0
+          python3 -c "import datetime,sys; from krx_calendar import is_krx_trading_day; sys.exit(0 if is_krx_trading_day(datetime.date.today()) else 9)" || rc=$?
+          trading=1
+          if [ "$rc" -eq 9 ]; then
+            trading=""
+            if [ "$dow" -le 5 ]; then echo "오늘은 KRX 휴장일(공휴일) — 분석하지 않고 체인만 유지한다"; else echo "주말 — 분석 없음"; fi
+          elif [ "$rc" -ne 0 ]; then
+            echo "::warning::휴장일 달력 판정 실패(exit $rc) — 요일 기준 종전 동작으로 진행한다"
+          fi
+          if [ -z "$trading" ] && [ -n "$FORCE_COLLECT" ]; then
+            trading=1; echo "::warning::force_collect 입력 — 휴장일 달력을 무시하고 분석한다"
+          fi
+          if [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
             echo "장중 기동 — 바로 수집 시작"
-          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+          elif [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
             echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
             sleep $((open - now))
           else

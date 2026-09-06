@@ -18,6 +18,11 @@ name: update-prices
 
 on:
   workflow_dispatch:
+    inputs:
+      force_collect:
+        description: "휴장일 달력을 무시하고 강제 실행(임시 개장·달력 오류 대비). 체인 재기동에는 전달되지 않는다."
+        type: boolean
+        default: false
   push:
     paths:
       - ".analyst-refresh"
@@ -49,6 +54,7 @@ jobs:
       GH_API: https://api.github.com/repos/${{ github.repository }}/actions/workflows
       GH_AUTH: "Authorization: Bearer ${{ github.token }}"
       IS_MAIN: ${{ github.ref_name == 'main' && '1' || '' }}
+      FORCE_COLLECT: ${{ inputs.force_collect && '1' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -96,9 +102,28 @@ jobs:
           # 담기 위해 16:00까지 10분 주기를 유지한다(사용자 요구: 평일 9~16시 10분마다).
           now=$(date +%s); dow=$(date +%u)
           open=$(date -d "08:58" +%s); close=$(date -d "16:00" +%s)
-          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+          # ⭐ 2026-09-06 — 요일만 보면 공휴일에도 수집이 돌아, 벤더가 주는 직전 거래일 종가를
+          #    "오늘 종가"로 기록한다(실측 2026-08-17 광복절 대체휴일: 8/14 종가가 8/17 판단의
+          #    기준가로 598건 복제됐다). krx_calendar.py의 휴장일 달력을 함께 본다. 휴장일이면
+          #    아래 '장외' 분기로 흘러 수집 없이 체인만 잇는다(다음 거래일에 정상 재개).
+          #    ⚠️ fail-closed 반전 금지: python3가 없거나 달력 모듈이 깨졌을 때 "휴장일"로 읽으면
+          #    멀쩡한 거래일이 통째로 조용히 쉬어 버린다(초록 체크로 남아 아무도 모른다).
+          #    거래일 / 휴장일 / 판정불가 3값으로 나눠, 판정불가는 종전(요일 기준) 동작으로 폴백한다.
+          rc=0
+          python3 -c "import datetime,sys; from krx_calendar import is_krx_trading_day; sys.exit(0 if is_krx_trading_day(datetime.date.today()) else 9)" || rc=$?
+          trading=1
+          if [ "$rc" -eq 9 ]; then
+            trading=""
+            if [ "$dow" -le 5 ]; then echo "오늘은 KRX 휴장일(공휴일) — 수집하지 않고 체인만 유지한다"; else echo "주말 — 수집 없음"; fi
+          elif [ "$rc" -ne 0 ]; then
+            echo "::warning::휴장일 달력 판정 실패(exit $rc) — 요일 기준 종전 동작으로 진행한다"
+          fi
+          if [ -z "$trading" ] && [ -n "$FORCE_COLLECT" ]; then
+            trading=1; echo "::warning::force_collect 입력 — 휴장일 달력을 무시하고 수집한다"
+          fi
+          if [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
             echo "장중 기동 — 바로 수집 시작"
-          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+          elif [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
             echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
             sleep $((open - now))
           else

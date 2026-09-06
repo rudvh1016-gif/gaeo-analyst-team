@@ -18,6 +18,12 @@ import os
 import re
 import sys
 
+try:
+    from krx_calendar import is_krx_trading_day
+except Exception:      # 달력 모듈이 깨져도 세션 시작을 막지 않는다(위 docstring의 "어떤 경우에도 exit 0").
+    def is_krx_trading_day(day):
+        return day.weekday() < 5
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 KST = datetime.timezone(datetime.timedelta(hours=9))
 
@@ -89,7 +95,10 @@ def check_paper_cycle(now, in_window):
 
 def main():
     now = datetime.datetime.now(KST)
-    in_window = now.weekday() < 5 and ("09:10" <= now.strftime("%H:%M") < "16:00")
+    # 휴장일(공휴일)은 러너가 안 도는 게 정상이라 점검하지 않는다 — 요일만 보면 9/24 같은 날
+    # "며칠 전 갱신됨" 거짓 경고가 뜬다(2026-09-06 추가, pipeline_watchdog.in_window와 같은 달력).
+    in_window = (now.weekday() < 5 and is_krx_trading_day(now.date())
+                 and "09:10" <= now.strftime("%H:%M") < "16:00")
 
     # 라벨 값 전체를 잡아 read_stamp가 "날짜 + 첫 HH:MM"으로 해석하게 한다.
     # (data.js "date"는 장중/종가/장전/주말 네 형태가 있어 뒤쪽 모양이 제각각이다 — read_stamp 주석 참조)

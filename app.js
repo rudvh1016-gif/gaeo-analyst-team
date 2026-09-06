@@ -9902,9 +9902,14 @@ window.renderScreener=function(){
   makeAutocomplete(selB, document.getElementById('acboxB'), {onPick:cmpPicked, onEnter:()=>runCompare()});
   const COL_A='#2a78d6', COL_B='#e0842f';
 
+  /* 가장 최근에 사용자가 요청한 화면(2026-09-06). 성적표처럼 자료를 3~5초 받아오는 화면은
+     그 사이 사용자가 홈이나 다른 메뉴를 눌러도, 늦게 끝난 쪽이 .then에서 자기 화면을 다시 켜
+     보던 화면을 빼앗았다(실측: 홈을 눌러도 최종 화면이 성적표). 요청이 바뀌었으면 물러난다. */
+  let GAEO_MODE_REQUEST=null;
   function normalizeGaeoMode(mode){ return mode==='leaderboard'?'scorecard':mode; }
   function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'scorecard' | 'calendar' | 'community'
     mode=normalizeGaeoMode(mode);
+    GAEO_MODE_REQUEST=mode;   // 자료를 받는 동안 사용자가 마음을 바꿨는지 아래 .then이 이걸로 판단한다
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
       calendar:'history',screener:'auto',scorecard:'history',rotation:'rotation',changelog:'changelog'}[mode];
     if(feature&&!GaeoFeatures.ready(feature)){
@@ -9921,8 +9926,21 @@ window.renderScreener=function(){
           .forEach(other=>{ if(other!==view) other.classList.remove('on'); });
         view.classList.add('on');
         view.innerHTML='<div class="nw-empty">자료를 불러오는 중이에요…</div>';
+        /* ⭐ 2026-09-06 — 홈을 지금 접는다. 예전엔 자료가 다 온 뒤에야 body[data-mode]가 바뀌어
+           홈이 접혔다. 그동안 "불러오는 중" 안내는 홈 아래(y≈4,700)에 있었고, 스크롤이 거기까지
+           내려갔다가 홈이 접히는 순간 위로 되돌아왔다(실측: 아래로 갔다가 1.9~3.7초 뒤 복귀).
+           ⚠️ body.dataset.mode를 직접 쓰지 않는다 — 그 값의 유일한 출처는 "어느 모드 버튼이 켜져
+           있나"이고(syncMode + MutationObserver), 직접 쓰면 홈으로 돌아갈 때 버튼이 이미 single이라
+           변화가 없어 syncMode가 안 돌고 홈이 숨은 채로 남는다(실측으로 겪음). 버튼을 켜서
+           평소 경로를 그대로 태운다. */
+        const lazyBtn=document.getElementById('mode-'+mode);
+        if(lazyBtn&&!lazyBtn.classList.contains('on')){
+          document.querySelectorAll('.modes .modebtn.on').forEach(b=>b.classList.remove('on'));
+          lazyBtn.classList.add('on');
+        }
       }
       GaeoFeatures.load(feature).then(()=>{
+        if(GAEO_MODE_REQUEST!==mode) return;   // 기다리는 동안 다른 화면을 골랐다 — 빼앗지 않는다
         if(feature==='history'){
           LIVE_HIST=(typeof LIVE_HISTORY!=='undefined')?LIVE_HISTORY:null;
           LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
@@ -9931,6 +9949,7 @@ window.renderScreener=function(){
         // 다 그렸다고 알린다(2026-09-06) — 이때 홈이 접히며 문서가 줄어 스크롤을 다시 맞춰야 한다(GaeoScrollToMode).
         try{ window.dispatchEvent(new CustomEvent('gaeo:mode-ready',{detail:{mode}})); }catch(e){}
       }).catch(()=>{
+        if(GAEO_MODE_REQUEST!==mode) return;
         if(view) view.innerHTML='<div class="nw-empty">자료를 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.</div>';
       });
       return;

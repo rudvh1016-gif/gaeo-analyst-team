@@ -13,6 +13,8 @@ index.html이 data.js를 읽어 화면의 모든 시세를 갱신한다.
 """
 import json, urllib.request, datetime, os, sys, time, re
 
+from krx_calendar import is_krx_trading_day
+
 # 종목 목록은 tickers.js(TICKERS)에서 읽는다. 아래는 그 파일을 못 읽을 때의 안전망.
 FALLBACK_CODES = {
     '080220': '제주반도체',
@@ -280,6 +282,10 @@ def main():
     ymd = now.strftime('%Y-%m-%d'); hm = now.strftime('%H:%M')
     if now.weekday() >= 5:                 # 토·일
         date_label = f'{ymd} 종가 (주말 · 최근 종가 {hm} 수집)'
+    elif not is_krx_trading_day(now.date()):
+        # 공휴일 — 벤더가 직전 거래일 종가를 그대로 주므로 "오늘 종가"라고 쓰면 거짓말이 된다
+        # (2026-08-17 광복절 대체휴일에 8/14 종가가 '8/17 종가'로 기록됐다). 주말과 같은 형식으로 밝힌다.
+        date_label = f'{ymd} 종가 (휴장일 · 최근 종가 {hm} 수집)'
     elif mins >= 15 * 60 + 30:             # 15:30 이후 → 종가 확정
         date_label = f'{ymd} 종가 ({hm} 수집)'
     elif mins < 9 * 60:                    # 09:00 이전 → 전일 종가

@@ -169,7 +169,10 @@ python3 evaluate_preregistered_buy_filters.py --as-of 2026-10-19 --output docs/a
    그래서 평가에서 **판단일이 KRX 거래일이 아니면 `notTradingDay`, 그 종목 일봉에 판단일 종가가 없으면
    `noDecisionSessionCandle`**로 세어 제외하고, 창 안 비거래 판단 날짜를 보고서 `nonTradingDecisionDates`에 남긴다.
    임계값·가설·블록·α·최소 표본은 바꾸지 않았다. 과거 8/17 기록은 재구성 금지 원칙대로 삭제하지 않는다(평가에서만 제외).
-   수집 단계에서 유령 기록이 만들어지지 않게 하는 파이프라인 가드는 별도 작업이다(첫 재발일 9/24 전).
+   수집 단계에서 유령 기록이 만들어지지 않게 하는 파이프라인 가드는 2026-09-06에 별도로 넣었다
+   (`update-prices.yml`·`update-analysis.yml`·`update_prices.py` 라벨·`archive_analysis.archive_auto`·
+   `pipeline_watchdog.in_window`·`check_pipeline` 다섯 곳이 같은 달력을 본다, 계약 `test_holiday_guard.py`).
+   따라서 창 안에서는 유령 판단일이 새로 생기지 않아야 하고, 평가의 제외 규칙은 그 확인용으로 남는다.
    2차 방어가 필요한 실증(검수 2026-09-06): 2026-07-17(금)은 `krx_calendar`에 없는데 600종목·지수 일봉이 모두 없고
    그날 10:52 자동 기록 500건 중 7/16 기록이 있는 499건 전부 기준가가 7/16 기록과 같다(그날 시장이 열리지 않았다는 뜻이지만 이 세션은 외부 확인이
    불가해 원인은 NOT VERIFIED, 달력 추가는 확인 뒤). 또 082640(동양생명) 8/31~9/4 5건은 거래일이지만 일봉이 8/28에서
