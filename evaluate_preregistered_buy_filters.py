@@ -233,13 +233,15 @@ def collect_rows(hist, closes, as_of, reg=REGISTRATION):
                 if not _has_candle(dates, day):
                     dropped["noDecisionSessionCandle"] += 1
                     continue
-                # 3차 방어: 판단일 일봉 종가가 기록 base와 허용오차 넘게 다르면(수정주가 소급·자료 불일치)
-                #          ret5가 뜻을 잃으므로 제외한다. 결과를 보지 않는 기계적 규칙이며 건수로 남긴다.
-                day_close = finite_number(prices[bisect.bisect_left(dates, day)].get("close"))
-                if (day_close is None or day_close <= 0
-                        or abs(day_close / base - 1.0) * 100.0 > reg["baseCandleTolerancePct"]):
-                    dropped["baseMismatchCandle"] += 1
-                    continue
+            # 3차 방어(휴장일 플래그와 독립): 판단일 일봉 종가가 기록 base와 허용오차 넘게 다르면
+            #   (수정주가 소급·자료 불일치) ret5가 뜻을 잃으므로 제외한다. 결과를 보지 않는 기계적 규칙이며 건수로 남긴다.
+            #   판단일 일봉이 없으면(위에서 안 걸렸을 때) 종가를 읽을 수 없으므로 같은 사유로 센다.
+            k = bisect.bisect_left(dates, day)
+            day_close = finite_number(prices[k].get("close")) if k < len(dates) and dates[k] == day else None
+            if (day_close is None or day_close <= 0
+                    or abs(day_close / base - 1.0) * 100.0 > reg["baseCandleTolerancePct"]):
+                dropped["baseMismatchCandle"] += 1
+                continue
             j = bisect.bisect_right(dates, day) + horizon - 1
             if j >= len(prices) or prices[j]["date"] > as_of:
                 dropped["pendingOutcome"] += 1
