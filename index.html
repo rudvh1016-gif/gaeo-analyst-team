@@ -499,7 +499,7 @@
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.77.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.78.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
-<link rel="stylesheet" href="app-shell.css?v=20260906-p17">
+<link rel="stylesheet" href="app-shell.css?v=20260907-p18">
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v4">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
@@ -1234,7 +1234,10 @@ window.GaeoFeatures=(()=>{
     estate:['estate_lessons.js'],
     calc:['calculators.js'],
     changelog:['changelog.js'],
-    history:['history.js','price_history.js'],
+    // ⚠️ 성적표 화면 코드(scorecard-ui.js)도 이 키로 함께 받는다. 성적표는 history.js·
+    //    price_history.js가 있어야 그릴 수 있어서 늘 한 묶음이고, 월간 캘린더도 같은 키를 쓴다.
+    //    별도 키로 나누면 GaeoFeatures가 키마다 따로 기억해 같은 파일을 두 번 받는다.
+    history:['history.js','price_history.js','scorecard-ui.js?v=20260907-v1'],
     // 📉 일봉만 필요한 화면(포트폴리오 위험 겹침)용. history 키는 판단 이력
     //    history.js(13.6MB)까지 같이 받아 합계 42.5MB가 되는데, 상관계수는
     //    PRICE_HISTORY만 쓴다. 필요 없는 13.6MB를 받게 하지 않으려고 따로 뒀다.
@@ -1291,7 +1294,7 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260906-p17" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="app.js?v=20260907-p18" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){

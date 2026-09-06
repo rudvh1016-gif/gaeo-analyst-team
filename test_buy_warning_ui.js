@@ -1,6 +1,9 @@
 // Execute the actual renderer with stale, revised, and adversarial payloads.
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const source=fs.readFileSync('app.js','utf8');
+// ⚠️ 화면 코드 전체(app.js + 지연 로딩 *-ui.js). 성적표·BUY 경고 렌더가
+//    2026-09-06에 scorecard-ui.js로 옮겨가서, app.js만 읽으면 잘라낼 조각이 없다.
+const { LAZY_UI }=require('./app_test_source');
+const source=['app.js',...LAZY_UI].filter(f=>fs.existsSync(f)).map(f=>fs.readFileSync(f,'utf8')).join('\n');
 const warning=source.slice(source.indexOf('  function overheatNoticeHTML('),source.indexOf('\n  const EVID_LABEL'));
 const evidence={schemaVersion:2,warningVersion:'surge-only-2026-09-05c',crashThresholdPct:-5,
   overheatAllTime:{enoughSample:true,warn:{crashPct:12.3},calm:{crashPct:45.6}}};

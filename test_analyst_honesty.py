@@ -44,13 +44,15 @@ import shutil
 import tempfile
 
 import compute_team_weights as W
+from app_test_source import read_app_scripts
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def _app_source():
-    with open(os.path.join(HERE, "app.js"), encoding="utf-8") as fh:
-        return fh.read()
+    # ⚠️ app.js만 읽으면 안 된다. 2026-09-06에 성적표·리더보드 화면 코드가
+    #    scorecard-ui.js(지연 로딩)로 옮겨갔다. 화면 코드 전체를 봐야 정직성 계약이 유지된다.
+    return read_app_scripts(HERE)
 
 
 class TestNoSilentProductionChange(unittest.TestCase):

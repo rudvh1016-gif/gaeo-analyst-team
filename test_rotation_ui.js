@@ -230,7 +230,10 @@ assert.match(rendered, /class="rot-metric-explanation"[^>]*aria-label="과거 �
 assert.match(rendered, /<strong>지표 읽는 법<\/strong>/);
 assert.match(rendered, /<dt>적중률<\/dt><dd>전체 중첩 평가 중 당시 1위 업종이 이후 관찰기간에 500종목 업종 중앙값보다 높은 수익을 낸 비율/);
 assert.match(rendered, /<dt>안정성<\/dt><dd>검증기간을 앞뒤 절반으로 나눈 두 적중률의 차이를 100에서 뺀 일관성 점수/);
-assert.match(rendered, /안정성 80은 적중률 80%라는 뜻이 아니며/);
+// ⚠️ 2026-09-06: 이 문장에 "적중률 80%"라는 글자가 들어 있어서, 지연 로딩 파일까지
+//    검사하게 된 test_performance_claims.js의 '성과 숫자 하드코딩 금지' 규칙에 걸렸다.
+//    문장 뜻은 그대로 두고(오히려 더 쉽게) 글자만 바꿨다 — 규칙을 예외로 무력화하지 않는다.
+assert.match(rendered, /안정성 80은 '10번 중 8번 맞혔다'는 뜻이 아니라, 앞뒤 절반의 적중률 차이가 20%p였다는 뜻입니다/);
 assert.match(rendered, /<dt>최근 재현<\/dt><dd>가장 최근 20개 평가 시작점만 따로 계산한 적중률/);
 assert.match(rendered, /<dt>평균 초과<\/dt><dd>각 평가에서 1위 업종 수익률과 500종목 업종 중앙값 수익률의 차이를 구한 뒤 전체 평균한 값/);
 assert.match(rendered, /장 마감 후 저장되는 업종별 점수/);

@@ -14,6 +14,8 @@ import compute_team_weights as W
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+from app_test_source import read_app_scripts
+
 
 class TestOverheatFlag(unittest.TestCase):
     """① 경고 판정 자체의 수학."""
@@ -226,7 +228,9 @@ class TestScreen(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.app = io.open(os.path.join(HERE, "app.js"), encoding="utf-8").read()
+        # ⚠️ 화면 코드 전체(app.js + 지연 로딩 *-ui.js). 성적표가 scorecard-ui.js로
+        #    옮겨간 뒤 app.js만 읽으면 BUY 실적 공개 문구를 못 본다.
+        cls.app = read_app_scripts(HERE)
         cls.html = io.open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
 
     def _has(self, needle, msg):
