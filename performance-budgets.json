@@ -7,7 +7,7 @@
   "assets": {
     "indexHtmlRawBytes": 90000,
     "appCssRawBytes": 320000,
-    "appJsRawBytes": 828000,
+    "appJsRawBytes": 832000,
     "maxInlineStyleBytes": 8192,
     "maxInlineScriptBytes": 16384,
     "serviceWorkerShellEntries": 32

@@ -3073,7 +3073,7 @@ function renderWatchChange(codes){
   box.innerHTML=`<strong>${period} · ${movement}</strong>${detail}`;
   box.style.display='block';
   box.querySelectorAll('[data-watch-change]').forEach(btn=>btn.onclick=()=>{
-    const s=STOCKS[btn.dataset.watchChange]; if(s) jumpToStock(s.name);
+    const s=STOCKS[btn.dataset.watchChange]; if(s) jumpToStock(s.name,'watchlist');
   });
   try{
     localStorage.setItem(WATCH_SNAPSHOT_KEY,JSON.stringify({date:current.date,baseline,current:current.stocks}));
@@ -3098,7 +3098,7 @@ function renderHomeWatchlist(){
 }
 document.getElementById('homeWatchlist').addEventListener('click',e=>{
   const chip=e.target.closest('[data-watch-code]'); if(!chip) return;
-  const s=STOCKS[chip.dataset.watchCode]; if(s) jumpToStock(s.name);
+  const s=STOCKS[chip.dataset.watchCode]; if(s) jumpToStock(s.name,'watchlist');
 });
 document.getElementById('watchToggle').onclick=()=>{
   const btn=document.getElementById('watchToggle'), code=btn.dataset.code; if(!STOCKS[code]) return;
@@ -3123,7 +3123,6 @@ renderHomeWatchlist();
   // 이 목록이 비어 있어도 "지금 많이 보는 글" 등 다른 목록이 글을 열 수 있어야 하므로
   // openGaeoPost는 목록 렌더링 성공 여부와 무관하게 항상 먼저 정의한다.
   window.openGaeoPost=async function(mode,id,button){
-    gaeoTrack('select_content',{content_type:mode,item_id:id});
     if(button) button.disabled=true;
     try{
       await GaeoFeatures.load(mode);
@@ -3350,6 +3349,7 @@ renderHomeDeepAnalysis();
       ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
       gaeoCallNoteHTML()+
+      `<button class="hdb-score-link" type="button" data-hdb-scorecard>성적표에서 실제 성적 자세히 보기 →</button>`+
       (model.buy.length
         ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>판단 확신도순</span></div><div class="hdb-preview">${preview}</div>`+
           `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
@@ -3358,7 +3358,14 @@ renderHomeDeepAnalysis();
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
         :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
 
-    box.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock));
+    box.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock,'home_buy_list'));
+    // 성적표 진입 링크(2026-09-06): 이 상자는 5분마다 다시 그려지므로 로드 시 1회 걸리는 data-nav-mode 바인딩 대신 직접 건다.
+    const scoreLink=box.querySelector('[data-hdb-scorecard]');
+    if(scoreLink) scoreLink.onclick=()=>{
+      window.__gaeoScorecardEntry='home_note';
+      if(typeof window.setMode==='function') window.setMode('scorecard');
+      if(typeof window.GaeoScrollToMode==='function') window.GaeoScrollToMode('scorecard');
+    };
     box.querySelectorAll('[data-hdb-call]').forEach(button=>button.onclick=async()=>{
       try{ await window.ensureAutoAnalysis(); }catch(e){}
       SCR.sector='__all__'; SCR.call=button.dataset.hdbCall; SCR.sort='score_desc';
@@ -3430,7 +3437,7 @@ renderHomeDeepAnalysis();
         // ⭐ 2026-08-27 버그수정 — 전체 목록은 패널을 열 때가 돼서야 innerHTML로
         // 채워지므로, box 전체에 한 번만 걸어둔 최초 클릭 바인딩(위 preview용)이
         // 이 안의 종목 버튼에는 닿지 않았다(눌러도 반응 없음). 채운 직후 다시 건다.
-        list.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock));
+        list.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock,'home_buy_list'));
       }
       panel.hidden=false;
       toggle.setAttribute('aria-expanded','true');
@@ -3546,20 +3553,17 @@ renderHomeDeepAnalysis();
   document.getElementById('briefSectorBtn').onclick=async()=>{
     const sector=document.getElementById('briefSectorBtn').dataset.sector;
     if(!sector) return;
-    gaeoTrack('select_content',{content_type:'sector',item_id:sector});
     try{ await window.ensureAutoAnalysis(); }catch(e){}
     SCR.sector=sector; SCR.call='__all__'; SCR.sort='rate_desc';
     setMode('screener');
     document.getElementById('screenerView').scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
   };
   document.getElementById('briefNewsBtn').onclick=async()=>{
-    gaeoTrack('select_content',{content_type:'news_category',item_id:'market'});
     await GaeoFeatures.load('news');
     setMode('news');
     if(window.openNewsCategory) window.openNewsCategory('market');
   };
   document.getElementById('briefFullMarketBtn').onclick=()=>{
-    gaeoTrack('select_content',{content_type:'full_market',item_id:'home_brief'});
     if(window.openFullMarket) window.openFullMarket();
   };
   // 푸터 "개발 기록" 링크 — 예전엔 별도 정적 페이지(changelog.html)로만 이동했는데,
@@ -3568,7 +3572,6 @@ renderHomeDeepAnalysis();
   const footChangelogLink=document.getElementById('footChangelogLink');
   if(footChangelogLink) footChangelogLink.onclick=e=>{
     e.preventDefault();
-    gaeoTrack('select_content',{content_type:'home_section',item_id:'changelog'});
     setMode('changelog');
   };
 
@@ -3576,14 +3579,12 @@ renderHomeDeepAnalysis();
   // (종목 검색은 바로 아래 "내 종목 찾기" 카드가 이미 맡고 있어 중복을 덜었다)
   const heroLatestBtn=document.getElementById('heroLatestBtn');
   if(heroLatestBtn) heroLatestBtn.onclick=()=>{
-    gaeoTrack('select_content',{content_type:'home_section',item_id:'latest_posts'});
     if(window.openGaeoLatestPanel) window.openGaeoLatestPanel();
   };
   // "3분 가이드" 카드를 없애면서, 그 카드의 가이드북 진입 버튼(구 #startGuide) 역할을
   // 히어로의 두 번째 버튼(구 "오늘의 변화 보기")이 그대로 이어받는다.
   const heroChangesBtn=document.getElementById('heroChangesBtn');
   if(heroChangesBtn) heroChangesBtn.onclick=()=>{
-    gaeoTrack('select_content',{content_type:'home_section',item_id:'guide'});
     beginGuideTutorial('home_dashboard');
     document.getElementById('mode-guide').click();
     const guide=document.getElementById('guideView');
@@ -3672,8 +3673,9 @@ function homeBriefDecisionModel(tally){
 }
 // 종목 이동 공통: 어디서든(사이드바 칩·BUY 칩·우측 레일) 종목을 누르면
 // 단일분석 모드로 전환 + 시세 카드 즉시 표시·이동, 분석은 아래서 채워짐
-function jumpToStock(name){
+function jumpToStock(name,entry){
   const inp=document.getElementById('ticker'); if(!inp) return;
+  window.__gaeoStockEntry=entry||'internal_link';   // analyze()가 읽어 stock_analysis_open.entry_cluster에 실음(검색 아님)
   const selected=resolveStock(name);
   const mb=document.getElementById('mode-single'); if(mb) mb.click();
   /* ⚠️ 위 click()은 "메뉴에서 종목분석을 골랐다"와 같은 경로라 화면을 종목분석 맨 위로
@@ -5917,10 +5919,12 @@ window.renderDartBoard=renderDartBoard;
       model_scoreboard.js를 런타임에 읽는다. 하드코딩하면 화면만 옛 숫자를 말하게 된다.
    ⚠️ 어느 집계 구간의 숫자인지 반드시 함께 밝힌다. 지금 성숙한 표본은 500종목을
       추적하던 구간뿐이라, 그 사실을 숨기면 "지금 598종목 성적"으로 오해된다. */
-const COVERAGE_LABEL={GAEO_COVERAGE_V1_500:'500종목을 추적하던 구간',
-                      GAEO_COVERAGE_V2_600:'600종목 추적 구간'};
 function gaeoCallNoteHTML(){
   try{
+    /* ⚠️ 함수 안에 둔다(2026-09-06). 최상위 const였을 때는 홈 「오늘의 판단」 IIFE가 로드 중 동기로 그려
+       TDZ ReferenceError → 아래 catch가 ''를 돌려줘 첫 화면에 성적 문장이 빠졌다(5분 뒤 재렌더 때만 보임). */
+    const COVERAGE_LABEL={GAEO_COVERAGE_V1_500:'500종목을 추적하던 구간',
+                          GAEO_COVERAGE_V2_600:'600종목 추적 구간'};
     /* ⚠️ model_scoreboard.js는 const로 선언한다. 최상위 const는 window의 속성이
        되지 않으므로 window.MODEL_SCOREBOARD로는 절대 안 잡힌다(실측으로 확인).
        저장소의 다른 사용처(6436·6670·11025행)와 같이 맨 식별자로 읽는다. */
@@ -6058,7 +6062,7 @@ window.renderRotationPicks=renderRotationPicks;
 document.addEventListener('click',ev=>{
   const b=ev.target.closest&&ev.target.closest('[data-hrp-stock]');
   if(!b) return;
-  if(typeof jumpToStock==='function') jumpToStock(b.dataset.hrpStock);
+  if(typeof jumpToStock==='function') jumpToStock(b.dataset.hrpStock,'rotation_list');
 });
 (function(){
   const draw=()=>{ try{ renderRotationPicks(); }catch(e){ console.warn('rotation picks render', e); } };
@@ -7025,7 +7029,12 @@ function verdictFactorsHTML(data,v){
 // 카드가 순차적으로 채워지는 느낌(스태거드 리빌)은 그대로 유지하려고 단순 지연 타이머로 남겨둔다.
 function sendToWork(dur,onDone){ setTimeout(onDone,dur); }
 async function analyze(){
+  // 계측 진입 경로는 어떤 await보다 먼저, 그리고 running 가드보다 먼저 소비한다(2026-09-06).
+  // 안 그러면 두 번째 클릭이 먼저 것의 라벨을 덮어쓰거나, 가드에 막힌 호출의 라벨이 다음 검색에 남는다.
+  const entryCluster=window.__gaeoStockEntry||'search'; window.__gaeoStockEntry=null;
   if(running)return; running=true;
+  // 종목도 라벨과 같은 시점에 잡는다 — 아래 await 사이에 다른 경로가 입력값을 바꾸면 종목·라벨이 어긋난다(검수 F3).
+  const stock=resolveStock(document.getElementById('ticker').value);
   SFX.click();
   // 📊 전체 지표(indicators.js)를 먼저 확보한다 — 홈은 경량본만 받기 때문이다.
   //    이미 받았으면 즉시 통과한다(GaeoFeatures가 같은 약속을 재사용).
@@ -7051,7 +7060,6 @@ async function analyze(){
     window.removeEventListener('scroll',markUserMoved);
     window.removeEventListener('keydown',onViewKey);
   };
-  const stock=resolveStock(document.getElementById('ticker').value);
   window.GaeoCurrentCode=stock.code;
   // 📚 정밀분석 기록 탭 — 이 종목이 정밀분석 대상(LIVE_AN)에 있을 때만 탭을 보여주고,
   // 종목이 바뀌었으니 이전 종목의 렌더링 캐시는 지운다.
@@ -7066,8 +7074,9 @@ async function analyze(){
   window.GaeoAnalysisReady=true;
   document.getElementById('analysisDetails').hidden=false;
   setAnalysisTab('overview');
-  gaeoTrack('stock_search_submit',{stock_code:stock.code||'',page_type:'stock_analysis'});
-  gaeoTrack('stock_analysis_open',{stock_code:stock.code||'',page_type:'stock_analysis'});
+  // 계측(2026-09-06): jumpToStock 경로(홈 BUY 목록·순환매 등)는 검색이 아니므로 stock_search_submit을 쏘지 않는다(예전엔 함께 쏴 검색 수가 부풀었다).
+  if(entryCluster==='search') gaeoTrack('stock_search_submit',{stock_code:stock.code||'',page_type:'stock_analysis'});
+  gaeoTrack('stock_analysis_open',{stock_code:stock.code||'',page_type:'stock_analysis',entry_cluster:entryCluster});
   try{ await window.ensureAutoAnalysis(); }catch(e){}
   document.getElementById('run').disabled=true; vEl.classList.remove('on');
   document.getElementById('viz').classList.remove('on');
@@ -7421,12 +7430,12 @@ function runHomeSearch(){
   homeSearchHelp.setAttribute('role','status');
   homeTicker.removeAttribute('aria-invalid');
   homeSearchHelp.textContent=`${stock.name} 분석으로 이동합니다.`;
-  requestAnimationFrame(()=>jumpToStock(stock.name));
+  requestAnimationFrame(()=>jumpToStock(stock.name,'search'));
 }
 makeAutocomplete(homeTicker, document.getElementById('homeAcbox'), {
   onPick:x=>{
     homeSearchHelp.textContent=`${x.name} 분석으로 이동합니다.`;
-    requestAnimationFrame(()=>jumpToStock(x.name));
+    requestAnimationFrame(()=>jumpToStock(x.name,'search'));
   },
   onEnter:runHomeSearch
 });
@@ -9873,7 +9882,7 @@ window.renderScreener=function(){
   document.getElementById('scrSector').onchange=e=>{ SCR.sector=e.target.value; window.renderScreener(); };
   document.getElementById('scrCall').onchange=e=>{ SCR.call=e.target.value; window.renderScreener(); };
   document.getElementById('scrSort').onchange=e=>{ SCR.sort=e.target.value; window.renderScreener(); };
-  el.querySelectorAll('.scr-row').forEach(r=>r.onclick=()=>jumpToStock(r.dataset.nm));
+  el.querySelectorAll('.scr-row').forEach(r=>r.onclick=()=>jumpToStock(r.dataset.nm,'screener'));
 };
 
 // ---------- 종목 비교 모드 ----------
@@ -9919,6 +9928,12 @@ window.renderScreener=function(){
         if(view) view.innerHTML='<div class="nw-empty">자료를 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.</div>';
       });
       return;
+    }
+    if(mode==='scorecard'&&window.GaeoCurrentMode!=='scorecard'){
+      // 계측(2026-09-06): 성적표 열람. "다른 화면 → 성적표"로 바뀌는 순간에만 센다. 딥링크 라우터는 setMode를
+      // 두 번 부르고, 로딩 중 더블클릭은 .then 재진입이 두 번 오므로(검수 F1) 현재 모드 검사가 없으면 2회 찍힌다.
+      const entry=window.__gaeoScorecardEntry||'nav'; window.__gaeoScorecardEntry=null;
+      gaeoTrack('scorecard_view',{page_type:'scorecard',content_type:'scorecard',entry_cluster:entry});
     }
     const single=mode==='single', watch=mode==='watch', compare=mode==='compare', portfolio=mode==='portfolio',
           calendar=mode==='calendar', community=mode==='community',
@@ -10284,7 +10299,6 @@ window.renderScreener=function(){
       installPrompt=null;
       return;
     }
-    gaeoTrack('select_content',{content_type:'install_guide',item_id:'pwa'});
     window.openCommunityPost(2);
   };
 
@@ -10506,7 +10520,6 @@ window.renderScreener=function(){
 
   const briefBtn=document.getElementById('activityBrief');
   if(briefBtn) briefBtn.onclick=()=>{
-    gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'market-brief'});
     document.querySelector('.start-step-summary')?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'center'});
   };
   const stockBtn=document.getElementById('activityStock');
@@ -10518,7 +10531,6 @@ window.renderScreener=function(){
   };
   const calcBtn=document.getElementById('activityCalc');
   if(calcBtn) calcBtn.onclick=()=>{
-    gaeoTrack('select_content',{content_type:'home_shortcut',item_id:'calculator'});
     if(window.setMode) window.setMode('calc');
     setTimeout(()=>document.getElementById('calcView')?.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'}),180);
   };
@@ -11096,7 +11108,7 @@ function gaeoFootTools(){
       calendar:'history',scorecard:'history',leaderboard:'history',screener:'auto',rotation:'rotation',
       changelog:'changelog'}[m];
     if(routeFeature){
-      if(m==='scorecard'||m==='leaderboard') SC_WEEK_OFFSET=0;
+      if(m==='scorecard'||m==='leaderboard'){ SC_WEEK_OFFSET=0; window.__gaeoScorecardEntry='deeplink'; }  // 계측: 공유 링크 진입
       window.setMode(m);
     }
     try{
@@ -11110,7 +11122,7 @@ function gaeoFootTools(){
     else if(m==='single'&&code){
       const s=STOCKS[code];
       if(s&&s.name){
-        await jumpToStock(s.name);
+        await jumpToStock(s.name,'deeplink');
         const stockTitle=`${s.name}(${code}) 종목 분석 · Gaeo`;
         document.title=stockTitle;
         const ogTitle=document.querySelector('meta[property="og:title"]'); if(ogTitle) ogTitle.content=stockTitle.replace(' · Gaeo','');
@@ -11207,9 +11219,19 @@ function gaeoFootTools(){
     const {route,params}=routeParams();
     gaeoTrack('landing_view',params,{dedupeKey:'landing:'+location.pathname+location.search});
     try{
-      const key='gaeo_product_analytics_seen_v1';
-      if(localStorage.getItem(key)) gaeoTrack('return_visit',params,{dedupeKey:'return-visit'});
+      const key='gaeo_product_analytics_seen_v1', lastKey='gaeo_product_analytics_last_v1';
+      const now=Date.now(), last=Date.parse(localStorage.getItem(lastKey)||'');
+      if(localStorage.getItem(key)){
+        // 계측(2026-09-06): 재방문까지 며칠 걸렸는지 구간으로만 보낸다(정확한 시각·횟수는 보내지 않는다).
+        const days=Number.isFinite(last)?(now-last)/86400000:NaN;
+        const bucket=!Number.isFinite(days)?'unknown':days<1?'same_day':days<2?'1d':days<8?'2-7d':days<31?'8-30d':'30d+';
+        gaeoTrack('return_visit',{...params,visit_gap_bucket:bucket},{dedupeKey:'return-visit'});
+      }
       else localStorage.setItem(key,new Date().toISOString());
+      // 마지막 방문 시각은 통계에 동의한 브라우저에만 남긴다(거부한 사용자 저장소에 새 흔적을 만들지 않는다, 검수 F5).
+      if(window.GaeoAnalytics&&typeof window.GaeoAnalytics.getConsent==='function'&&window.GaeoAnalytics.getConsent()==='granted'){
+        localStorage.setItem(lastKey,new Date(now).toISOString());
+      }
     }catch(e){}
     if(route.pageType==='content_query'&&new URLSearchParams(location.search).get('entry')==='snapshot'){
       gaeoTrack('content_to_product_click',{...params,entry_cluster:'snapshot'},
@@ -11455,14 +11477,14 @@ function gaeoFootTools(){
     navTicker.removeAttribute('aria-invalid');
     if(navSearchError) navSearchError.hidden=true;
     closePanels();
-    jumpToStock(stock.name);
+    jumpToStock(stock.name,'search');
   }
   navTicker.addEventListener('input',()=>{
     navTicker.removeAttribute('aria-invalid');
     if(navSearchError) navSearchError.hidden=true;
   });
   makeAutocomplete(navTicker,document.getElementById('navAcbox'),{
-    onPick:x=>{closePanels();requestAnimationFrame(()=>jumpToStock(x.name));},
+    onPick:x=>{closePanels();requestAnimationFrame(()=>jumpToStock(x.name,'search'));},
     onEnter:runNavSearch
   });
   document.getElementById('navSearchRun').onclick=runNavSearch;

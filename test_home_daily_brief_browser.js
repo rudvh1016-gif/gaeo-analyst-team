@@ -24,6 +24,19 @@ function requireState(condition, message) {
   requireState(await page.locator('.home-daily-brief .tly').count() === 0, 'legacy signal pills must not remain');
   requireState(await page.locator('.home-daily-brief .brief-line').count() === 3, 'three editorial context rows must render');
   requireState(await page.locator('.home-daily-brief .hdb-preview .hdb-stock-row').count() <= 3, 'BUY preview must be capped at three');
+  // 2026-09-06 회귀 고정: 정직 성적 각주는 첫 로드 직후부터 보여야 한다. 예전엔 COVERAGE_LABEL이
+  // 최상위 const라 첫 렌더에서 TDZ ReferenceError → 빈 문자열이 되어 5분 뒤 재렌더 때만 나타났다.
+  requireState(await page.locator('.home-daily-brief .hdb-call-note').count() === 1, 'call note must render on first paint');
+  requireState(await page.locator('.home-daily-brief .hdb-score-link').count() === 1, 'scorecard entry link must render once');
+  const noteFont = await page.locator('.home-daily-brief .hdb-call-note').evaluate(el => parseFloat(getComputedStyle(el).fontSize));
+  requireState(noteFont >= 12.5, `call note font must be at least 12.5px (got ${noteFont})`);
+  await page.locator('.home-daily-brief .hdb-score-link').click();
+  await page.waitForTimeout(300);
+  requireState(await page.locator('#scorecardView').evaluate(el => el.classList.contains('on')),
+    'scorecard link must open the scorecard view');
+  await page.goto('http://127.0.0.1:8877/index.html');
+  await page.waitForLoadState('networkidle');
+  await card.waitFor({ state: 'visible' });
 
   let toggle = page.locator('#hdbBuyToggle');
   if (await toggle.count()) {

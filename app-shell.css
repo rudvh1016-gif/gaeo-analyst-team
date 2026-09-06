@@ -3572,9 +3572,12 @@
   .home-daily-brief .hdb-distribution{display:flex;height:3px;margin:13px 0 10px;overflow:hidden;background:var(--color-bg-subtle)}
   /* 판단 3종의 실측 성적 각주. SELL이 가장 정확하다는 사실을 목록을 보기 전에 읽게 한다.
      ⚠️ span+display:block인 이유는 .home-dashboard .start-step p가 p를 이기기 때문. */
-  .home-daily-brief .hdb-call-note{display:block;margin:0 0 18px;color:var(--color-text-secondary);
-    font-size:11px;font-weight:400;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+  .home-daily-brief .hdb-call-note{display:block;margin:0 0 4px;color:var(--color-text-secondary);
+    font-size:12.5px;font-weight:400;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
   .home-daily-brief .hdb-call-note b{color:var(--color-text-primary);font-weight:500}
+  /* 2026-09-06 성적표 진입 링크 — 정직 성적 문장 바로 아래 텍스트 링크 1개(새 색·배지 없음, 터치 44px). */
+  .home-daily-brief .hdb-score-link{display:block;margin:0 0 12px;padding:8px 0;min-height:44px;border:0;background:none;
+    color:var(--color-text-primary);font:inherit;font-size:12.5px;font-weight:600;text-align:left;cursor:pointer}
   .home-daily-brief .hdb-distribution i{display:block;height:100%;min-width:0}
   .home-daily-brief .hdb-distribution .buy{background:var(--green)}
   .home-daily-brief .hdb-distribution .hold{background:var(--color-border-strong)}

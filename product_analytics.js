@@ -10,11 +10,13 @@
     'landing_view', 'stock_search_submit', 'stock_analysis_open', 'evidence_expand',
     'source_click', 'watchlist_add', 'calculator_start', 'calculator_complete',
     'content_to_product_click', 'share_generate', 'return_visit', 'stale_data_warning_seen',
+    'scorecard_view',   // 2026-09-06: 성적표 열람(entry_cluster로 진입 경로 구분). 성적표에는 그동안 계측이 0개였다.
   ]);
   const PARAMETERS = new Set([
     'page_type', 'content_type', 'content_id', 'entry_cluster', 'stock_code', 'topic',
     'referrer_group', 'data_age_bucket', 'utm_source', 'utm_medium', 'utm_campaign',
     'utm_content', 'experiment_id', 'variant', 'method', 'calculator_id',
+    'visit_gap_bucket', // 2026-09-06: 재방문 간격 구간(same_day/1d/2-7d/8-30d/30d+/unknown)만. 시각·횟수는 보내지 않는다.
   ]);
   const PII_LIKE = /(?:^|_)(?:name|email|e_mail|phone|mobile|address|ip|search_term|query|salary|income|principal|amount|token|secret)(?:_|$)/i;
   const SAFE_TEXT = /^[a-zA-Z0-9가-힣_-]{1,100}$/;
