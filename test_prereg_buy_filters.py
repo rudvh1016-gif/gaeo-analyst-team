@@ -2,7 +2,8 @@
 
 검사하는 것
 - 등록 상수가 실제 경고·집계 코드의 상수와 같다(문서와 코드가 갈라지지 않는다)
-- 창 시작 전 기록·재구성·정밀분석·보류·중복·다른 모델 버전·아직 안 익은 판단·휴장일 유령 판단일은 제외되고 그 수가 보고된다
+- 창 시작 전 기록·재구성·정밀분석·보류·중복·다른 모델 버전·아직 안 익은 판단·휴장일 유령 판단일·
+  판단일 종가와 base가 2% 넘게 다른 기록(수정주가 소급)은 제외되고 그 수가 보고된다
 - 특징(급등·vol20)은 판단 당시 기록(버전 일치)만 쓴다. 없으면 '미기록'이다
 - 판단일 20일 미만이면 효과 크기를 계산하지 않는다
 - 결과가 가설 방향이면 PASS, 반대로 유의하면 FAIL_REVERSED로 그대로 보고한다
@@ -78,6 +79,8 @@ class Registration(unittest.TestCase):
         # 2026-09-05 창 열기 전 수정(§10 8항): 휴장일 유령 판단일은 판단일이 아니다.
         self.assertIs(r["excludeNonTradingDecisionDays"], True)
         self.assertEqual(r["tradingCalendar"], "krx_calendar.KRX_HOLIDAYS")
+        # 2026-09-06 창 열기 전 수정(§10 9항): 수정주가 소급으로 base와 판단일 종가가 어긋난 기록은 제외.
+        self.assertEqual(r["baseCandleTolerancePct"], 2.0)
 
 
 class Sampling(unittest.TestCase):
@@ -90,6 +93,7 @@ class Sampling(unittest.TestCase):
     def test_pre_window_and_non_live_records_are_excluded_and_counted(self):
         day = self.in_window[0]
         before = [d for d in self.dates if d < self.start][-1]
+        day_close = next(r["close"] for r in self.rows if r["date"] == day)
         hist = {
             "000001": [entry(before)],                                # 창 이전
             "000002": [entry(day, recon=True)],                        # 재구성
@@ -102,6 +106,8 @@ class Sampling(unittest.TestCase):
             "000009": [entry(before), entry(day, recon=True), entry(day)],  # 시세 없는 종목
             "000010": [entry("2026-09-24")],                            # 창 안 평일 휴장일(유령 판단일)
             "000011": [entry(day)],                                    # 그 종목 일봉에 판단일 종가 없음
+            "000012": [entry(day, base=day_close * 1.5)],               # 판단일 종가 ≠ base(수정주가 소급형)
+            "000013": [entry(day, base=day_close * 1.01)],              # 1% 차이(장중 스냅샷)는 허용오차 안
         }
         closes = {c: self.rows for c in hist if c != "000009"}
         closes["000011"] = [r for r in self.rows if r["date"] != day]
@@ -110,7 +116,8 @@ class Sampling(unittest.TestCase):
         self.assertEqual(dropped["noPriceSeriesOutOfScope"], 2, "시세 없는 종목의 창 밖·재구성 기록")
         self.assertEqual(dropped["notTradingDay"], 1, "휴장일 기록은 달력으로 걸러 판단일에서 뺀다")
         self.assertEqual(dropped["noDecisionSessionCandle"], 1, "판단일 종가가 없는 종목은 2차 방어로 뺀다")
-        self.assertEqual([r["code"] for r in rows], ["000008"])
+        self.assertEqual(dropped["baseMismatchCandle"], 1, "판단일 종가와 base가 2% 넘게 다르면 3차 방어로 뺀다")
+        self.assertEqual(sorted(r["code"] for r in rows), ["000008", "000013"])
         self.assertEqual(dropped["beforeWindow"], 1)
         self.assertEqual(dropped["reconstructed"], 1)
         self.assertEqual(dropped["nonAuto"], 1)
