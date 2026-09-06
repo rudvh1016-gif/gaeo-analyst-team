@@ -2484,11 +2484,14 @@ function renderScorecard(){
   const confRowsAll=confTable(allBS,[0,55,60,65,70]);
   const confRowsBuy=confTable(allBS.filter(r=>r.call==='BUY'),[0,40,45,50,55,60]);
   const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
+  /* ⚠️ 비중은 계산해서 넣는다(2026-09-06). "약 88%"가 문자열로 박혀 있었는데 그건 2026-08-14 값이고
+     같은 화면의 표는 82.6%였다 — 정직성 화면에서 문장과 표가 다르면 그 자체가 신뢰를 깎는다. */
+  const sellShare=allBS.length?Math.round(allBS.filter(r=>r.call==='SELL').length/allBS.length*100):null;
   const confHead=`<thead><tr><th>구간</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>`;
   const confBlock=confRowsAll?`<div class="sc-block">
     <h3>확신도가 높을수록 잘 맞을까 (전체 누적)</h3>
     <p class="sc-sub">개오팀이 스스로 매긴 판단 확신도를 기준으로 잘라서 채점했어요. 지금까지 쌓인 전체 기록으로 집계합니다(주간 표본은 수십 건뿐이라 우연에 흔들려요).
-      <b>합친 표는 착시가 있어요.</b> 표본의 대부분(약 88%)을 SELL 판단이 차지해서, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
+      <b>합친 표는 착시가 있어요.</b> ${sellShare===null?'표본을 SELL 판단이 크게 차지해서':`표본의 ${sellShare}%를 SELL 판단이 차지해서`}, 아래 BUY·SELL을 나눈 표를 함께 봐야 정확합니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsAll}</tbody></table></div>
     ${confRowsBuy?`<p class="sc-sub" style="margin-top:16px"><b>BUY만 떼어 보면</b>, 확신도가 올라가도 성적이 합친 표만큼 뚜렷이 좋아지지 않아요.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsBuy}</tbody></table></div>`:''}
@@ -9924,6 +9927,8 @@ window.renderScreener=function(){
           LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
         }
         setMode(mode);
+        // 다 그렸다고 알린다(2026-09-06) — 이때 홈이 접히며 문서가 줄어 스크롤을 다시 맞춰야 한다(GaeoScrollToMode).
+        try{ window.dispatchEvent(new CustomEvent('gaeo:mode-ready',{detail:{mode}})); }catch(e){}
       }).catch(()=>{
         if(view) view.innerHTML='<div class="nw-empty">자료를 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.</div>';
       });
@@ -10142,6 +10147,23 @@ window.renderScreener=function(){
         }
       },500);
     },60);
+    /* ⭐ 2026-09-06 — 성적표처럼 큰 자료를 3~5초 받아오는 화면은 위 500ms 재확인으로는 못 잡는다.
+       다 그려지는 순간 홈이 숨겨져 문서가 줄고 스크롤만 남아, 첫 진입이 성적표 중간에 착지했다
+       (390px 실측 −4,650px). "다 그렸다" 신호를 한 번만 듣고 위로 벗어났을 때만 다시 맞춘다. */
+    let readyTimer=0;
+    const onModeReady=event=>{
+      if(!event.detail||event.detail.mode!==mode) return;
+      window.removeEventListener('gaeo:mode-ready',onModeReady);
+      clearTimeout(readyTimer);
+      if(my!==GAEO_SCROLL_SEQ) return;          // 그 사이 다른 화면으로 갔다 — 양보한다
+      requestAnimationFrame(()=>{
+        if(my!==GAEO_SCROLL_SEQ) return;
+        const el=pick();
+        if(el&&el.getBoundingClientRect().top<-8) el.scrollIntoView({behavior:window.GaeoMotionBehavior(),block:'start'});
+      });
+    };
+    window.addEventListener('gaeo:mode-ready',onModeReady);
+    readyTimer=setTimeout(()=>window.removeEventListener('gaeo:mode-ready',onModeReady),30000);
   };
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click(); GaeoScrollToMode('single');};
   document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click(); GaeoScrollToMode('watch');};
