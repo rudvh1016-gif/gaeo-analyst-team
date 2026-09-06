@@ -499,7 +499,7 @@
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.77.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/wanted-sans/woff2/WantedSansVariable.split.78.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/wanted-sans/WantedSansVariable.css">
-<link rel="stylesheet" href="app-shell.css?v=20260907-p19">
+<link rel="stylesheet" href="app-shell.css?v=20260907-p20">
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v4">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
@@ -967,6 +967,10 @@
 
           <!-- 1. 종합 판단 Hero -->
           <div class="vhero">
+            <!-- ⭐ 2026-09-06: 종목명·현재가를 맨 위로 올렸다. 예전에는 큰 글씨 "BUY"가 먼저 나오고
+                 어느 종목인지·얼마인지는 그 아래에 있어서, 화면을 열면 판단부터 눈에 들어왔다.
+                 순서를 "무슨 종목인가 → 무슨 판단인가 → 그 판단이 그동안 얼마나 맞았나"로 바꾼다. -->
+            <span class="conf" id="vconf"></span>
             <div class="top">
               <span class="dot" id="vdot"></span>
               <span class="call" id="vcall"></span>
@@ -974,7 +978,9 @@
             <p class="vheroline" id="vheroline"></p>
             <!-- 급등 후 매수 경고 (app.js overheatNoticeHTML) — 판단은 안 바뀐다 -->
             <div id="voverheat"></div>
-            <span class="conf" id="vconf"></span>
+            <!-- 이 판단 종류가 그동안 실제로 얼마나 맞았는지 한 줄. 홈과 **같은 함수**
+                 (gaeoCallNoteHTML)를 쓴다 — 두 화면이 서로 다른 성적을 말하지 않게. -->
+            <div class="vrecord" id="vrecord"></div>
             <div class="vasof" id="vasof"></div>
           </div>
 
@@ -1294,7 +1300,7 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260907-p19" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="app.js?v=20260907-p20" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){

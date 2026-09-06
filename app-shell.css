@@ -1589,7 +1589,7 @@
     padding:12px 16px;margin:0 0 18px;font-size:13px;line-height:1.7;color:var(--t2)}
   .anote b{color:var(--ink)}
   .anote .an-t{font-weight:600;font-size:12.5px;margin-bottom:4px;color:var(--t3)}
-  .verdict .call{font-size:34px;font-weight:600;letter-spacing:.01em;color:var(--navy)}
+  .verdict .call{font-size:30px;font-weight:600;letter-spacing:.01em;color:var(--navy)}
   .verdict .conf{color:var(--dim);font-size:13px}
   .verdict p{margin:14px 0 0;color:var(--t2);font-size:14.5px;line-height:1.75}
   .vtarget{margin-top:16px;padding:14px 18px;background:var(--navy-soft);border:none;
@@ -1741,7 +1741,13 @@
   .vheroline b{color:var(--ink)}
   /* #vconf가 .top(flex) 밖으로 나와 Hero 아래 별도 메타줄이 됐다 — id 선택자로
      기존 .verdict .conf의 flex-item 전용 margin-left를 확실히 무효화한다. */
-  #vconf{display:block;margin:9px 0 0;margin-left:0}
+  /* ⭐ 2026-09-06: #vconf(종목명·현재가)가 Hero 맨 위 첫 줄로 올라갔다. 예전에는 큰 글씨
+     "BUY" 아래 메타줄이었다. 이제 "무슨 종목인가"가 먼저 읽히도록 본문 크기·진한 색으로
+     올리고, 큰 판단 글자는 30~32px로 낮춘다(예전 34~48px). 색·배지는 늘리지 않는다. */
+  #vconf{display:block;margin:0 0 10px;margin-left:0;font-size:15px;line-height:1.6;
+    font-weight:600;color:var(--navy)}
+  .verdict .vrecord{margin:12px 0 0;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .verdict .vrecord .hdb-call-note{display:block}
 
   /* ⚠️ 2026-08-07: grid/flex의 자식 stretch가 이 화면(탭 hidden→표시와 동시에 내용이
      채워지는 타이밍)에서 부모 실제 너비 대신 훨씬 좁은 값으로 깨지는 버그가 재현돼
@@ -2889,7 +2895,7 @@
   .verdict::before{display:none}
   .analysis-eyebrow{color:var(--sky);font-size:12px;font-weight:500;margin-bottom:12px}
   .verdict .top{gap:12px;align-items:center}
-  .verdict .call{font-size:48px;line-height:1;letter-spacing:-.035em}
+  .verdict .call{font-size:32px;line-height:1.05;letter-spacing:-.02em}
   .verdict .conf{flex:1 0 100%;margin-left:22px;font-size:13.5px;line-height:1.7;color:var(--dim)}
   .verdict .live{background:var(--paper2);color:var(--dim);border-radius:7px}
   .tier-badge,.tier-auto,.tier-deep{background:var(--paper2);border:0;color:var(--dim);
@@ -2939,7 +2945,7 @@
     .card ul{font-size:12px}
     .verdict{margin-top:24px;border-radius:24px;padding:26px 18px}
     .verdict .top{align-items:flex-start}
-    .verdict .call{font-size:38px}
+    .verdict .call{font-size:30px}
     .verdict .conf{margin-left:14px;font-size:11.5px;line-height:1.65}
     .gauges{grid-template-columns:1fr;gap:12px;margin-top:24px}
     #vtext{font-size:13.5px;line-height:1.8;margin-top:22px}

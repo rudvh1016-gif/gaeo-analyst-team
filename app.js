@@ -11,6 +11,25 @@ const STOCKS={};
 //    사이트 여기저기가 낡은 숫자로 남았다. 이제 아래 두 상수만 쓴다.
 const COVERAGE_N=(typeof TICKERS!=='undefined'&&Array.isArray(TICKERS)&&TICKERS.length)||0;
 const COVERAGE_TXT=COVERAGE_N?COVERAGE_N+'종목':'분석 대상 종목';
+
+// ⚠️ 이 블록은 **파일 맨 앞**에 있어야 한다. renderClock()이 app.js가 실행되는 도중
+//    (아래쪽 GaeoBrief 초기화에서) 동기로 호출되는데, const는 선언 줄에 도달하기 전까지
+//    TDZ라서 뒤쪽에 두면 'Cannot access before initialization'으로 앱 전체가 죽는다.
+//    실제로 2026-09-06에 신선도 가드 옆에 뒀다가 첫 화면이 통째로 멈췄다
+//    (같은 함정: COVERAGE_LABEL, 2026-09-05).
+/* 🇰🇷 KRX 휴장일 — krx_calendar.py의 KRX_HOLIDAYS와 **같은 목록**이어야 한다.
+   ⚠️ 2026-09-06부터 러너가 휴장일에 아예 안 돈다. 그 전에는 휴장일에도 수집이 돌아
+      data.js에 그날 날짜가 찍혔기 때문에 화면이 휴장일을 몰라도 아무 일이 없었지만,
+      이제는 모르면 공휴일마다 "마지막 갱신은 N일 전입니다" 경고와 "새 시세 확인 중"이
+      뜬다. 그건 고장이 아니라 정상이다(시장이 안 열린 날이다).
+   ⚠️ 두 목록이 어긋나면 test_krx_calendar_sync.py가 실패한다. 한쪽만 고치지 말 것.
+   ⚠️ 목록이 끝나는 해가 지나면 요일 판정으로 조용히 되돌아간다 —
+      test_holiday_guard.py의 만료 계약이 미리 알려준다. */
+const GAEO_KRX_HOLIDAYS='2026-01-01 2026-02-16 2026-02-17 2026-02-18 2026-03-02 2026-05-01 2026-05-05 2026-05-25 2026-06-03 2026-08-17 2026-09-24 2026-09-25 2026-10-05 2026-10-09 2026-12-25 2026-12-31';
+const gaeoIsKrxHoliday=iso=>GAEO_KRX_HOLIDAYS.indexOf(iso)>=0;
+const gaeoIsoDay=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const gaeoIsTradingDay=d=>d.getDay()>0&&d.getDay()<6&&!gaeoIsKrxHoliday(gaeoIsoDay(d));
+
 // 코스피 초대형 우량주(시총 상위권) 화이트리스트 — 우측 레일 "최근 팀 판단"에서 쓴다.
 // 분석 종목 전부를 노출하면 낯선 중소형주가 섞여 신뢰가 떨어져 대표 종목만 추린다.
 const MEGA_CAP=new Set([
@@ -2274,10 +2293,14 @@ renderHomeDeepAnalysis();
   function renderClock(now){
     const clock=kstParts(now), source=stamp(state.brief&&state.brief.sourceAsOf);
     const weekend=clock.weekday==='토'||clock.weekday==='일';
+    /* 공휴일은 주말과 똑같이 "시장이 안 열린 날"이다. 2026-09-06부터 러너가 휴장일에
+       안 돌기 때문에, 이걸 모르면 공휴일마다 "· 새 시세 확인 중"이 하루 종일 떠 있다. */
+    const holiday=!weekend&&gaeoIsKrxHoliday(clock.date);
+    const closed=weekend||holiday;
     const insightAt=stamp(state.insight&&state.insight.generatedAt);
     const insightTime=insightAt.date&&insightAt.time
       ?new Date(`${insightAt.date}T${insightAt.time}:00+09:00`).getTime():0;
-    const delayed=!weekend&&insightAt.date===clock.date&&insightTime&&
+    const delayed=!closed&&insightAt.date===clock.date&&insightTime&&
       ((now||new Date()).getTime()-insightTime)>45*60*1000;
     document.getElementById('briefKicker').textContent='DAILY BRIEF';
     document.getElementById('briefTitle').textContent='현재 기준 브리핑';
@@ -2286,12 +2309,12 @@ renderHomeDeepAnalysis();
     // ⭐ 2026-08-14 사용자 지정 — 장중(평일 09:00~16:00)에도 무조건 "시장 마감"이라고 떠서
     // 헷갈린다는 신고. 장중에는 실제 브리핑 기준 시각(예: "10:52 기준")을 보여주고,
     // 장이 실제로 끝난 뒤(또는 주말)에만 "시장 마감"/"최근 시장"을 쓴다.
-    const marketHours=!weekend&&clock.minutes>=540&&clock.minutes<960;
-    const statusLabel=weekend?'최근 시장':(marketHours?`${source.time||clock.time} 기준`:'시장 마감');
+    const marketHours=!closed&&clock.minutes>=540&&clock.minutes<960;
+    const statusLabel=weekend?'최근 시장':(holiday?'휴장일 · 최근 시장':(marketHours?`${source.time||clock.time} 기준`:'시장 마감'));
     if(dateEl) dateEl.textContent=dateParts.length===3
       ?`${Number(dateParts[1])}월 ${Number(dateParts[2])}일 · ${statusLabel}`
       :'시장 마감 기준';
-    const waiting=!weekend&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
+    const waiting=!closed&&clock.minutes>=540&&clock.minutes<930&&source.date!==clock.date;
     document.getElementById('briefMeta').innerHTML=
       '<span class="brief-live-dot"></span><span>시세 '+esc(source.short)+' 기준</span>'+
       (waiting?'<span>· 새 시세 확인 중</span>':'')+
@@ -2343,7 +2366,7 @@ renderHomeDeepAnalysis();
     // 덮는 시트라 미리보기가 가려지므로 1등부터 전체를 그대로 보여준다.
     const fullMobile=model.buy.map(stockRow).join('');
     const fullDesktop=model.buy.slice(3).map((row,i)=>stockRow(row,i+3)).join('')||
-      '<div class="hdb-empty">4위 아래 BUY 종목이 없어요.</div>';
+      '<div class="hdb-empty">4위 아래 매수 우위 판단 종목이 없어요.</div>';
     box.innerHTML=`<div class="hdb-decision-head"><strong>오늘의 판단</strong><span>${model.total.toLocaleString('ko-KR')}종목</span></div>`+
       `<div class="hdb-stats" aria-label="오늘의 판단 분포">`+
       ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
@@ -2351,10 +2374,10 @@ renderHomeDeepAnalysis();
       gaeoCallNoteHTML()+
       `<button class="hdb-score-link" type="button" data-hdb-scorecard>성적표에서 실제 성적 자세히 보기 →</button>`+
       (model.buy.length
-        ?`<div class="hdb-preview-head"><strong>BUY 상위 종목</strong><span>판단 확신도순</span></div><div class="hdb-preview">${preview}</div>`+
+        ?`<div class="hdb-preview-head"><strong>매수 우위(BUY) 판단</strong><span>확신도순 · 추천이 아니라 참고예요</span></div><div class="hdb-preview">${preview}</div>`+
           `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
-          `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">BUY 전체 ${model.buy.length}종목 보기 →</button>`+
-          `<section class="hdb-buy-panel" id="hdbBuyPanel" aria-labelledby="hdbBuyPanelTitle" hidden><div class="hdb-panel-head"><strong id="hdbBuyPanelTitle">BUY 전체 ${model.buy.length}종목</strong>`+
+          `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">매수 우위 판단 전체 ${model.buy.length}종목 보기 →</button>`+
+          `<section class="hdb-buy-panel" id="hdbBuyPanel" aria-labelledby="hdbBuyPanelTitle" hidden><div class="hdb-panel-head"><strong id="hdbBuyPanelTitle">매수 우위(BUY) 판단 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
         :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
 
@@ -3014,11 +3037,18 @@ function snapshotStaleDays(){
   const m=String(SNAP_DATE).match(/(\d{4})-(\d{2})-(\d{2})/);
   if(!m) return 0;
   const dataDay=new Date(+m[1],+m[2]-1,+m[3]); dataDay.setHours(0,0,0,0);
-  const now=new Date(), dow=now.getDay(); // 0=일 … 6=토
+  const now=new Date();
   const exp=new Date(now); exp.setHours(0,0,0,0);
-  if(dow===0) exp.setDate(exp.getDate()-2);              // 일 → 금
-  else if(dow===6) exp.setDate(exp.getDate()-1);         // 토 → 금
-  else if(now.getHours()<9) exp.setDate(exp.getDate()-(dow===1?3:1)); // 평일 장전 → 직전 거래일
+  /* "지금 기대할 수 있는 가장 최근 거래일"까지 거슬러 올라간다. 오늘이 거래일이 아니거나
+     아직 개장 전(09시)이면 한 칸 뒤로 물러난 뒤, 거래일이 나올 때까지 계속 물러난다.
+     ⭐ 예전에는 토·일과 평일 장전만 봤다. 공휴일을 몰라서 9/24(목·추석) 11시에
+        "마지막 갱신은 2026-09-23입니다 (약 1일 전)" 경고가 떴다 — 그날은 시장이
+        안 열린 게 정상이다. 대상일: 9/24 · 9/25 · 10/5 · 10/9 · 12/25 · 12/31.
+     안전장치: 최대 14칸까지만 물러난다(달력이 이상해도 무한 반복하지 않는다). */
+  let steps=0;
+  while(steps<14&&(!gaeoIsTradingDay(exp)||(steps===0&&now.getHours()<9))){
+    exp.setDate(exp.getDate()-1); steps++;
+  }
   const diff=Math.round((exp-dataDay)/86400000);
   return diff>0?diff:0;
 }
@@ -6232,6 +6262,22 @@ async function analyze(){
         `${stock.name}${stock.price?'('+stock.code+')':''}`+
         (stock.price?` · 현재가 ${won(stock.price)} (${SNAP_DATE})`:'')+
         (v.live?'<span class="live">LIVE</span>':' · mock')+tierBadge;
+      /* 판단 아래에 "그동안 얼마나 맞았나" 한 줄. 홈 브리핑과 같은 gaeoCallNoteHTML을
+         그대로 쓴다 — 함수가 하나여야 두 화면이 서로 다른 성적을 말하지 않는다.
+         성적표 링크는 홈의 [data-hdb-scorecard]와 같은 동작이다. */
+      const vRec=document.getElementById('vrecord');
+      if(vRec){
+        const note=(typeof gaeoCallNoteHTML==='function')?gaeoCallNoteHTML():'';
+        vRec.innerHTML=note
+          ? note+'<button class="hdb-score-link" type="button" data-v-scorecard>성적표에서 실제 성적 자세히 보기 →</button>'
+          : '';
+        const link=vRec.querySelector('[data-v-scorecard]');
+        if(link) link.onclick=()=>{
+          window.__gaeoScorecardEntry='stock_hero';
+          if(typeof window.setMode==='function') window.setMode('scorecard');
+          if(typeof window.GaeoScrollToMode==='function') window.GaeoScrollToMode('scorecard');
+        };
+      }
       const aof=analysisAsOf(stock.code);
       const fresh=freshnessHTML(stock.code, stock.price).replace(/^　·　/,'');
       document.getElementById('vasof').innerHTML=
