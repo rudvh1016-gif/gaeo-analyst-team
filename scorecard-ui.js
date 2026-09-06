@@ -214,6 +214,39 @@ function scTally(list, key, holdStrict){
   const dec=hit+miss;
   return {n:list.length, hit, miss, mid, acc:dec?Math.round(hit/dec*1000)/10:null};
 }
+/* 📏 "이 적중률을 얼마나 믿어도 되나" — 판단일 블록 부트스트랩 95% 구간.
+   ⚠️ 채점 건수를 독립 시행으로 세면 안 된다. 같은 날 600종목이 한꺼번에 채점되므로
+      건수 기준 구간은 실제보다 훨씬 좁게(=실력이 확실한 것처럼) 나온다. Constitution의
+      statisticalPolicy.independenceUnit = decision_date와 정책 §14가 정한 대로 **판단일**을
+      통째로 뽑아 다시 세는 방식을 쓴다(compute_team_weights.py의 5일 블록 부트스트랩과 같은 취지).
+   반환: {lo, hi, days} · 판단일이 너무 적으면 null(그때는 화면에서 구간을 말하지 않는다). */
+function scDayBootstrapCI(rows, key, holdStrict, iters){
+  const byDay={};
+  rows.forEach(r=>{ const d=String(r.date).slice(0,10); if(d) (byDay[d]=byDay[d]||[]).push(r); });
+  const days=Object.keys(byDay);
+  if(days.length<10) return null;                     // 판단일 10일 미만이면 구간을 말하지 않는다
+  /* ⚠️ Math.random을 쓰면 같은 자료인데도 다시 그릴 때마다 구간이 조금씩 달라져서,
+     읽는 사람에게는 숫자가 흔들리는 것처럼 보인다(주 넘기기·모델 탭마다 재렌더된다).
+     자료에서 뽑은 씨앗으로 매번 같은 난수열을 쓴다 — 자료가 바뀌면 구간도 바뀐다. */
+  let seed=(days.length*2654435761)>>>0;
+  days.forEach(d=>{ for(let i=0;i<d.length;i++) seed=(seed*31+d.charCodeAt(i))>>>0; });
+  const rnd=()=>{ seed=(seed+0x6D2B79F5)>>>0; let t=seed;
+    t=Math.imul(t^(t>>>15), t|1); t^=t+Math.imul(t^(t>>>7), t|61);
+    return ((t^(t>>>14))>>>0)/4294967296; };
+  const N=iters||400, out=[];
+  for(let i=0;i<N;i++){
+    let hit=0, dec=0;
+    for(let k=0;k<days.length;k++){
+      const t=scTally(byDay[days[(rnd()*days.length)|0]], key, holdStrict);
+      hit+=t.hit; dec+=t.hit+t.miss;
+    }
+    if(dec) out.push(hit/dec*100);
+  }
+  if(out.length<N*0.9) return null;
+  out.sort((a,b)=>a-b);
+  const at=q=>out[Math.min(out.length-1, Math.max(0, Math.round(q*(out.length-1))))];
+  return {lo:Math.round(at(0.025)*10)/10, hi:Math.round(at(0.975)*10)/10, days:days.length};
+}
 // offset주 전의 "채점일 기준 7일 구간" — 0이면 오늘까지 최근 7일, 1이면 그 이전 7일 …
 function scWeekRange(offset){
   const end=new Date(Date.now()-offset*7*24*3600*1000);
@@ -572,7 +605,10 @@ function modelBoardHTML(){
   return `<div class="sc-block model-board">
     <h3>모델 검증</h3>
     <p class="sc-sub">지금 화면에 쓰는 모델 하나와, 뒤에서 조용히 시험 중인 모델들을 나란히 둡니다. 시험 모델은 화면 판단을 바꾸지 않고, 기록이 충분해지기 전에는 순위를 매기지 않아요.</p>
-    <div class="mb-legend"><span>모델</span><span>상태</span><span>5일</span><span class="mb-h-wide">20일</span><span class="mb-h-wide">60일</span></div>
+    <!-- 좁은 화면에서는 5·20·60일 성적이 아래 .mb-mobile-h로 내려가므로 머리글 셋을 함께 숨긴다.
+         (2026-09-06 이전에는 "5일"만 안 숨겨서, 모바일 3열 격자의 16px짜리 화살표 칸에 얹혀 있었다.
+          11px일 땐 우연히 들어맞았지만 글자를 12.5px로 올리자 잘렸다.) -->
+    <div class="mb-legend"><span>모델</span><span>상태</span><span class="mb-h-wide">5일</span><span class="mb-h-wide">20일</span><span class="mb-h-wide">60일</span></div>
     ${rows}
     ${pairs?`<div class="mb-pairs"><b>공정 비교 — 같은 날짜·같은 종목에서만</b><ul>${pairs}</ul></div>`:''}
     <div class="mb-foot">
@@ -696,6 +732,27 @@ function renderScorecard(){
       `<td class="num">${sub.length.toLocaleString()}<small style="color:var(--faint)"> (${share}%)</small></td>`+
       `<td class="num">${a.acc===null?'—':a.acc+'%'}</td><td class="num">${e.acc===null?'—':e.acc+'%'}</td></tr>`;
   }).filter(Boolean).join('');
+  /* 🧾 핵심 3줄 — 표를 못 읽어도 "그래서 결론이 뭔데"를 먼저 알 수 있게 한다.
+     새로 만든 숫자는 없다. 아래 표에 이미 있는 값을 문장으로 옮기고, 거기에 "얼마나 믿어도
+     되는지"(판단일 블록 부트스트랩 구간)만 덧붙인다. 하드코딩된 성과 숫자는 한 개도 없다. */
+  const cumBS=allBS.filter(r=>r.exc!==null);
+  const cumExc=scTally(cumBS,'exc',true);
+  const cumCI=cumExc.acc===null?null:scDayBootstrapCI(cumBS,'exc',true);
+  const ledeWeek=wk.total
+    ? `이번 주는 판단 <b>${wk.total.toLocaleString()}건</b>의 채점이 끝났고, 그중 <b>${wk.hitN.toLocaleString()}건</b>이 맞았어요${wk.acc===null?'':` (적중률 <b>${wk.acc}%</b>)`}.`
+    : '이번 주는 아직 채점이 끝난 판단이 없어요. 판단한 날로부터 5거래일이 지나야 채점되기 때문에, 주 초반에는 비어 있을 수 있어요.';
+  const ledeMarket=bsExc.acc===null
+    ? '시장이 오르내린 몫을 걷어낸 이번 주 성적은 표본이 없어서 아직 낼 수 없어요.'
+    : `시장이 통째로 오르내린 몫을 빼면 이번 주 사고팔기(BUY·SELL) 판단은 <b>${bsExc.acc}%</b> 맞혔어요. 50%는 동전 던지기와 같다는 뜻이에요.`;
+  const ledeTrust=cumExc.acc===null
+    ? '채점이 끝난 사고팔기 판단이 아직 없어서, 실력인지 운인지 말하기 이릅니다.'
+    : (cumCI
+        ? `지금까지 쌓인 사고팔기 판단 <b>${(cumExc.hit+cumExc.miss).toLocaleString()}건</b> (판단일 ${cumCI.days}일)의 시장 대비 성적은 <b>${cumExc.acc}%</b>인데, 운으로 흔들릴 수 있는 폭까지 넣으면 <b>${cumCI.lo}~${cumCI.hi}%</b> 사이예요. `+
+          (cumCI.lo>50?'이 폭이 통째로 50%보다 위라서, 운만으로 보기는 어려워요.'
+           :(cumCI.hi<50?'이 폭이 통째로 50%보다 아래라서, 아직 시장을 이기지 못하고 있어요.'
+             :'이 폭 안에 50%가 들어 있어서, 아직 「실력」이라고 말할 수 없어요.'))
+        : `지금까지 쌓인 사고팔기 판단 <b>${(cumExc.hit+cumExc.miss).toLocaleString()}건</b>의 시장 대비 성적은 <b>${cumExc.acc}%</b>예요. 아직 판단한 날 수가 적어서 믿어도 되는 폭을 계산하지 않았어요.`);
+
   const confRowsAll=confTable(allBS,[0,55,60,65,70]);
   const confRowsBuy=confTable(allBS.filter(r=>r.call==='BUY'),[0,40,45,50,55,60]);
   const confRowsSell=confTable(allBS.filter(r=>r.call==='SELL'),[0,45,50,55,60,65,70]);
@@ -975,25 +1032,51 @@ function renderScorecard(){
     </div>`;
   }
 
-  el.innerHTML=`<div class="sc-block">
-    <h3>개오 성적표</h3>
-    <p class="sc-sub">판단 후 5거래일 뒤 종가로 채점이 끝난 주간 결과예요. 채점 기록이 쌓인 만큼 계속 과거 주로 넘겨볼 수 있어요. 좋은 결과든 아니든 그대로 보여드려요.</p>
-    ${weekNav}
-    ${statRow}
-    ${weeklyEmpty}
+  /* 📂 세 묶음으로 접는다. 예전에는 11개 블록이 한 줄로 늘어서서, 첫 화면에서 "그래서 결론이
+     뭔데"를 알 수 없었다. 숫자는 하나도 지우지 않고 「핵심 3줄 + 펼쳐보기」로만 바꾼다.
+     열고 닫은 상태는 SC_GROUP_OPEN에 남아, 주 넘기기·모델 탭 전환으로 다시 그려도 유지된다. */
+  const group=(id,title,hint,body)=>body.trim()?`<details class="sc-group" data-sc-group="${id}"${SC_GROUP_OPEN.has(id)?' open':''}>
+    <summary><b>${title}</b><span class="sc-group-hint">${hint}</span></summary>
+    <div class="sc-group-body">${body}</div>
+  </details>`:'';
+
+  el.innerHTML=`<div class="sc-block sc-lede">
+    <h3>한눈에 보는 결론</h3>
+    <p class="sc-lede-line">${ledeWeek}</p>
+    <p class="sc-lede-line">${ledeMarket}</p>
+    <p class="sc-lede-line">${ledeTrust}</p>
+    <p class="sc-sub">판단한 날로부터 5거래일 뒤 종가로 채점해요. 좋은 결과든 아니든 그대로 보여드리고, 아래에서 원래 숫자를 전부 펼쳐 볼 수 있어요.</p>
   </div>
-  ${callBlock}
-  ${confBlock}
-  ${confModelShadow}
-  ${leaderboardHTML()}
-  ${weeklyExamples}
-  ${versionHtml}
-  ${deepDive}
-  ${modelLabHTML()}
-  ${modelBoardHTML()}
-  ${modelDive}
-  ${rotationShadow}`;
+  ${group('week','이번 주 성적 자세히','주간 집계 · 판단 종류별 · 이번 주 사례',`
+    <div class="sc-block">
+      ${weekNav}
+      ${statRow}
+      ${weeklyEmpty}
+    </div>
+    ${callBlock}
+    ${weeklyExamples}`)}
+  ${group('cumulative','누적 성적 자세히','확신도 구간 · 분석가 열전 · 모델 버전별',`
+    ${confBlock}
+    ${leaderboardHTML()}
+    ${versionHtml}
+    ${deepDive}`)}
+  ${group('research','연구 기록','모델 실험실 · 모델 대결 · 그림자 검증',`
+    ${confModelShadow}
+    ${modelLabHTML()}
+    ${modelBoardHTML()}
+    ${modelDive}
+    ${rotationShadow}`)}`;
 }
+/* 펼침 상태 기억. renderScorecard는 주 넘기기·모델 탭 전환 때마다 innerHTML을 통째로 다시
+   쓰므로, 이걸 안 남기면 사용자가 펼쳐 둔 묶음이 클릭 한 번에 도로 접힌다(ML_OPEN과 같은 이유).
+   기본값은 '이번 주'만 열림 — 첫 화면은 핵심 3줄 + 이번 주 숫자까지만 보이고 나머지는 접힌다. */
+const SC_GROUP_OPEN=new Set(['week']);
+// details의 toggle 이벤트는 버블링하지 않는다 → capture 단계에서 받는다.
+document.getElementById('scorecardView').addEventListener('toggle', e=>{
+  const d=e.target;
+  if(!d||!d.matches||!d.matches('details.sc-group')) return;
+  if(d.open) SC_GROUP_OPEN.add(d.dataset.scGroup); else SC_GROUP_OPEN.delete(d.dataset.scGroup);
+}, true);
 // 주간 페이저(이전 주/다음 주) — el은 매번 새로 그려지지만 컨테이너 자체는 그대로라
 // 이벤트 위임으로 한 번만 걸어둔다(vhistory·priceBlockHTML 페이저와 같은 방식).
 document.getElementById('scorecardView').addEventListener('click', e=>{

@@ -76,8 +76,11 @@ check("상단 글로벌 내비게이션에 모의투자",
       bool(re.search(r'data-nav-mode="paper"[^>]*>모의투자</button>', html)))
 check("?m=paper 딥링크 라우팅 존재", "m==='paper'" in html)
 check("성적표 렌더에 모의투자 블록이 섞여 있지 않음", "paperBlockHTML()" not in html)
-sc = html[html.index("el.innerHTML=`<div class=\"sc-block\">\n    <h3>개오 성적표</h3>"):]
-sc = sc[:sc.index("`;", 10)]
+# 2026-09-06: 성적표가 「핵심 3줄 + 접이식 3묶음」으로 바뀌면서 조립부의 첫 줄이
+# `<div class="sc-block sc-lede">` + `<h3>한눈에 보는 결론</h3>`이 됐다. 조립부 전체
+# (요약 카드 + 세 묶음)를 한 덩어리로 떠서 검사한다 — 접힌 묶음 안도 같이 본다.
+sc = html[html.index('el.innerHTML=`<div class="sc-block sc-lede">'):]
+sc = sc[:sc.index("`;\n}")]
 check("성적표 조립부에 모의투자 흔적 0", "paper" not in sc.lower() and "모의투자" not in sc)
 # 사용자 화면 주요 명칭은 한국어 '모의투자' — 'Paper Trading'을 제목으로 노출하지 않는다.
 for bad in ("<h3>GAEO 모의투자", "Paper Trading</", ">Paper Trading<"):
