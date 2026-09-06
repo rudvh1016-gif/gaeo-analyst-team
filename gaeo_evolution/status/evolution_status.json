@@ -1,18 +1,18 @@
 {
  "schemaVersion": 1,
- "generatedAt": "2026-08-30T01:05:11+00:00",
+ "generatedAt": "2026-09-06T00:35:24+00:00",
  "mode": "BOOTSTRAP_SHADOW",
  "productionVersion": "base-2026-08-15-parity-hotfix",
- "lastEvaluationAt": "2026-08-30T01:05:11+00:00",
+ "lastEvaluationAt": "2026-09-06T00:35:24+00:00",
  "baselineSummary": {
-  "n": 2990,
-  "uniqueDays": 5,
-  "regimeCount": 2,
-  "coveragePct": 20.7,
-  "brier": 0.2541,
-  "actionablePrecisionPct": 47.0,
-  "buyPrecisionPct": 53.9,
-  "sellPrecisionPct": 44.1,
+  "n": 5975,
+  "uniqueDays": 10,
+  "regimeCount": 4,
+  "coveragePct": 21.6,
+  "brier": 0.2547,
+  "actionablePrecisionPct": 55.2,
+  "buyPrecisionPct": 46.9,
+  "sellPrecisionPct": 57.8,
   "recordSelection": "forward_record_only_v2",
   "modelVersions": [
    "base-2026-08-15-parity-hotfix"
@@ -21,18 +21,18 @@
  },
  "candidateCounts": {},
  "memory": {
-  "total": 19,
+  "total": 21,
   "byStatus": {
-   "candidate": 19,
+   "candidate": 21,
    "validated": 0,
    "stale": 0,
    "deprecated": 0
   },
   "schemaVersion": 1,
   "detailStored": true,
-  "note": "19건 암호화 저장"
+  "note": "21건 암호화 저장"
  },
- "failureClusterCount": 19,
+ "failureClusterCount": 20,
  "researchNeeded": false,
  "lastPromotion": null,
  "lastRollback": null,
@@ -43,8 +43,8 @@
  "costKnown": false,
  "claim": "GAEO는 실제 결과를 지속적으로 평가하고, 검증된 개선만 반영하도록 설계되어 있다. 적중률이 저절로 오른다는 보장은 없다.",
  "notes": [
-  "데이터 기준일 2026-08-28",
-  "Offline 연구용 데이터 부족 — Shadow 축적 필요 (실전 판단일 10/30일)",
+  "데이터 기준일 2026-09-04",
+  "Offline 연구용 데이터 부족 — Shadow 축적 필요 (실전 판단일 15/30일)",
   "실험 누계: 0회",
   "cheap filter: 생성 0 → 생존 0 · 탈락 0",
   "shadow 활성 후보 0개",

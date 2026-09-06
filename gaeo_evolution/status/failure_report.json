@@ -1,7 +1,7 @@
 {
- "maturedN": 2990,
- "wrongActionN": 275,
- "uniqueDays": 5,
+ "maturedN": 5975,
+ "wrongActionN": 491,
+ "uniqueDays": 10,
  "minSupport": {
   "rows": 8,
   "days": 5
@@ -10,18 +10,18 @@
   {
    "key": "call_outcome:HOLD_big_move",
    "label": "call_outcome=HOLD_big_move",
-   "rawN": 354,
-   "uniqueDays": 5,
-   "avgRet5Pct": 3.46,
+   "rawN": 580,
+   "uniqueDays": 10,
+   "avgRet5Pct": 2.18,
    "exampleCodes": [
     "000150",
+    "000210",
+    "000250",
     "000430",
     "000500",
     "000660",
     "000670",
-    "000720",
-    "000880",
-    "000990"
+    "000720"
    ],
    "kind": "call_outcome",
    "shareOfWrongPct": null
@@ -29,123 +29,123 @@
   {
    "key": "analyst:taro",
    "label": "analyst=taro",
-   "rawN": 205,
-   "uniqueDays": 5,
-   "avgRet5Pct": 2.47,
+   "rawN": 355,
+   "uniqueDays": 10,
+   "avgRet5Pct": 2.05,
    "exampleCodes": [
+    "000100",
     "000150",
     "000240",
+    "000430",
+    "000640",
     "000810",
     "001040",
-    "001060",
-    "001430",
-    "001800",
-    "002380"
+    "001060"
    ],
    "kind": "analyst",
-   "shareOfWrongPct": 74.5
+   "shareOfWrongPct": 72.3
   },
   {
    "key": "boundary:boundary_total_wrong",
    "label": "boundary=boundary_total_wrong",
-   "rawN": 194,
-   "uniqueDays": 5,
-   "avgRet5Pct": 3.15,
+   "rawN": 334,
+   "uniqueDays": 10,
+   "avgRet5Pct": 2.81,
    "exampleCodes": [
+    "000100",
     "000150",
     "000240",
+    "000430",
     "000500",
+    "000640",
     "000810",
-    "000990",
-    "001060",
-    "001430",
-    "001440"
+    "000990"
    ],
    "kind": "boundary",
-   "shareOfWrongPct": 70.5
+   "shareOfWrongPct": 68.0
   },
   {
    "key": "analyst:diana",
    "label": "analyst=diana",
-   "rawN": 104,
-   "uniqueDays": 5,
-   "avgRet5Pct": -0.69,
+   "rawN": 191,
+   "uniqueDays": 10,
+   "avgRet5Pct": -0.32,
    "exampleCodes": [
     "000150",
     "000250",
+    "000430",
     "000500",
+    "000640",
     "001060",
-    "001430",
-    "001820",
-    "002380",
-    "002900"
+    "001230",
+    "001430"
    ],
    "kind": "analyst",
-   "shareOfWrongPct": 37.8
+   "shareOfWrongPct": 38.9
   },
   {
    "key": "analyst:flow",
    "label": "analyst=flow",
-   "rawN": 97,
-   "uniqueDays": 5,
-   "avgRet5Pct": 4.65,
+   "rawN": 173,
+   "uniqueDays": 10,
+   "avgRet5Pct": 4.52,
    "exampleCodes": [
+    "001230",
     "001440",
     "002990",
     "003490",
     "003620",
     "005290",
     "005690",
-    "005930",
-    "005940"
+    "005880"
    ],
    "kind": "analyst",
-   "shareOfWrongPct": 35.3
+   "shareOfWrongPct": 35.2
   },
   {
    "key": "analyst_pair:diana+taro",
    "label": "analyst_pair=diana+taro",
-   "rawN": 65,
-   "uniqueDays": 5,
-   "avgRet5Pct": -3.01,
+   "rawN": 113,
+   "uniqueDays": 10,
+   "avgRet5Pct": -2.68,
    "exampleCodes": [
     "000150",
+    "000430",
+    "000640",
     "001060",
     "001430",
     "002380",
-    "002900",
-    "003550",
-    "003690",
-    "003850"
+    "002840",
+    "002900"
    ],
    "kind": "analyst_pair",
-   "shareOfWrongPct": 23.6
+   "shareOfWrongPct": 23.0
   },
   {
    "key": "confidence:high_confidence_wrong",
    "label": "confidence=high_confidence_wrong",
-   "rawN": 59,
-   "uniqueDays": 5,
-   "avgRet5Pct": 8.3,
+   "rawN": 109,
+   "uniqueDays": 10,
+   "avgRet5Pct": 8.32,
    "exampleCodes": [
     "000150",
     "000250",
     "000500",
     "001440",
     "001800",
-    "005290",
-    "009155",
-    "009240"
+    "002020",
+    "003490",
+    "004710"
    ],
    "kind": "confidence",
-   "shareOfWrongPct": 21.5
+   "shareOfWrongPct": 22.2
   },
   {
    "key": "call_outcome:SELL_big_rise",
    "label": "call_outcome=SELL_big_rise",
-   "rawN": 46,
-   "uniqueDays": 5,
-   "avgRet5Pct": 17.11,
+   "rawN": 80,
+   "uniqueDays": 10,
+   "avgRet5Pct": 17.52,
    "exampleCodes": [
     "000150",
     "000500",
@@ -154,7 +154,7 @@
     "001820",
     "002990",
     "003490",
-    "007810"
+    "004710"
    ],
    "kind": "call_outcome",
    "shareOfWrongPct": null
@@ -162,47 +162,85 @@
   {
    "key": "analyst_pair:flow+taro",
    "label": "analyst_pair=flow+taro",
-   "rawN": 43,
-   "uniqueDays": 5,
-   "avgRet5Pct": 6.39,
+   "rawN": 68,
+   "uniqueDays": 10,
+   "avgRet5Pct": 6.22,
    "exampleCodes": [
     "003490",
     "003620",
     "005690",
     "005940",
+    "005950",
     "006360",
-    "009410",
-    "010780",
-    "014620"
+    "006400",
+    "009410"
    ],
    "kind": "analyst_pair",
-   "shareOfWrongPct": 15.6
+   "shareOfWrongPct": 13.8
   },
   {
    "key": "sector:반도체",
    "label": "sector=반도체",
-   "rawN": 33,
-   "uniqueDays": 5,
-   "avgRet5Pct": 2.25,
+   "rawN": 67,
+   "uniqueDays": 10,
+   "avgRet5Pct": 4.33,
    "exampleCodes": [
     "000990",
     "005290",
     "005930",
-    "045100",
-    "053610",
-    "056190",
-    "058470",
-    "064290"
+    "036540",
+    "036810",
+    "036930",
+    "042700",
+    "045100"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 12.0
+   "shareOfWrongPct": 13.6
+  },
+  {
+   "key": "analyst_pair:diana+flow",
+   "label": "analyst_pair=diana+flow",
+   "rawN": 55,
+   "uniqueDays": 10,
+   "avgRet5Pct": -0.1,
+   "exampleCodes": [
+    "001230",
+    "005880",
+    "005930",
+    "005950",
+    "006340",
+    "006360",
+    "010170",
+    "011200"
+   ],
+   "kind": "analyst_pair",
+   "shareOfWrongPct": 11.2
+  },
+  {
+   "key": "sector:바이오·제약",
+   "label": "sector=바이오·제약",
+   "rawN": 55,
+   "uniqueDays": 9,
+   "avgRet5Pct": 1.47,
+   "exampleCodes": [
+    "000100",
+    "000250",
+    "000640",
+    "001060",
+    "003090",
+    "003850",
+    "005690",
+    "008930"
+   ],
+   "kind": "sector",
+   "shareOfWrongPct": 11.2
   },
   {
    "key": "sector:전력·에너지",
    "label": "sector=전력·에너지",
-   "rawN": 29,
-   "uniqueDays": 5,
-   "avgRet5Pct": 9.37,
+   "rawN": 52,
+   "uniqueDays": 10,
+   "avgRet5Pct": 7.99,
    "exampleCodes": [
     "000500",
     "001440",
@@ -214,88 +252,90 @@
     "031330"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 10.5
+   "shareOfWrongPct": 10.6
   },
   {
-   "key": "analyst_pair:diana+flow",
-   "label": "analyst_pair=diana+flow",
-   "rawN": 27,
-   "uniqueDays": 5,
-   "avgRet5Pct": -0.05,
+   "key": "analyst:nova",
+   "label": "analyst=nova",
+   "rawN": 43,
+   "uniqueDays": 7,
+   "avgRet5Pct": 7.97,
    "exampleCodes": [
-    "005930",
-    "005950",
-    "006340",
-    "010170",
-    "011200",
-    "028670",
-    "032820",
-    "034020"
+    "001040",
+    "001440",
+    "001820",
+    "002020",
+    "002990",
+    "004170",
+    "005290",
+    "005930"
    ],
-   "kind": "analyst_pair",
-   "shareOfWrongPct": 9.8
+   "kind": "analyst",
+   "shareOfWrongPct": 8.8
   },
   {
    "key": "sector:전자·부품",
    "label": "sector=전자·부품",
-   "rawN": 18,
-   "uniqueDays": 5,
-   "avgRet5Pct": 6.54,
+   "rawN": 40,
+   "uniqueDays": 10,
+   "avgRet5Pct": 8.15,
    "exampleCodes": [
     "001820",
+    "004710",
     "007810",
+    "008060",
     "009150",
     "009155",
     "011070",
-    "023160",
-    "034220",
-    "066570"
+    "023160"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 6.5
+   "shareOfWrongPct": 8.1
   },
   {
    "key": "sector:지주·상사",
    "label": "sector=지주·상사",
-   "rawN": 17,
-   "uniqueDays": 5,
-   "avgRet5Pct": 2.63,
+   "rawN": 29,
+   "uniqueDays": 10,
+   "avgRet5Pct": 3.91,
    "exampleCodes": [
     "000150",
     "000240",
     "001040",
+    "001230",
     "001800",
     "003550",
     "004800",
-    "006260",
-    "009970"
+    "006260"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 6.2
+   "shareOfWrongPct": 5.9
   },
   {
    "key": "sector:화학·소재",
    "label": "sector=화학·소재",
-   "rawN": 15,
-   "uniqueDays": 5,
-   "avgRet5Pct": -10.66,
+   "rawN": 24,
+   "uniqueDays": 9,
+   "avgRet5Pct": -5.42,
    "exampleCodes": [
+    "001530",
+    "002020",
+    "002840",
+    "004000",
     "005950",
     "010950",
     "011780",
-    "096770",
-    "102710",
-    "298000"
+    "014830"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 5.5
+   "shareOfWrongPct": 4.9
   },
   {
    "key": "sector:건설·건자재",
    "label": "sector=건설·건자재",
-   "rawN": 14,
-   "uniqueDays": 5,
-   "avgRet5Pct": 6.86,
+   "rawN": 23,
+   "uniqueDays": 10,
+   "avgRet5Pct": 3.75,
    "exampleCodes": [
     "002380",
     "002990",
@@ -307,67 +347,50 @@
     "375500"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 5.1
+   "shareOfWrongPct": 4.7
   },
   {
    "key": "sector:물류·운송",
    "label": "sector=물류·운송",
-   "rawN": 12,
-   "uniqueDays": 5,
-   "avgRet5Pct": 4.28,
+   "rawN": 23,
+   "uniqueDays": 10,
+   "avgRet5Pct": 1.31,
    "exampleCodes": [
     "003490",
+    "005880",
     "011200",
     "020560",
     "028670",
     "086280"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 4.4
+   "shareOfWrongPct": 4.7
   },
   {
    "key": "sector:조선",
    "label": "sector=조선",
-   "rawN": 12,
-   "uniqueDays": 5,
-   "avgRet5Pct": 8.92,
+   "rawN": 23,
+   "uniqueDays": 10,
+   "avgRet5Pct": 6.06,
    "exampleCodes": [
     "010140",
     "014620",
     "033500",
+    "060370",
     "071970",
     "077970",
     "100090",
-    "439260",
-    "460930"
+    "100840"
    ],
    "kind": "sector",
-   "shareOfWrongPct": 4.4
-  },
-  {
-   "key": "call_outcome:BUY_big_drop",
-   "label": "call_outcome=BUY_big_drop",
-   "rawN": 11,
-   "uniqueDays": 5,
-   "avgRet5Pct": -14.84,
-   "exampleCodes": [
-    "005850",
-    "096770",
-    "102710",
-    "105630",
-    "204320",
-    "298000",
-    "439260"
-   ],
-   "kind": "call_outcome",
-   "shareOfWrongPct": null
+   "shareOfWrongPct": 4.7
   }
  ],
- "droppedSmallClusters": 22,
+ "droppedSmallClusters": 9,
  "note": "발견은 연구 입력일 뿐이다. Production 규칙은 이 파일로 바뀌지 않는다.",
  "dataSplit": {
   "sufficient": false,
-  "uniqueDays": 10,
+  "uniqueDays": 15,
   "requiredDays": 30,
   "verdict": "Offline 연구용 데이터 부족 — Shadow 축적 필요"
  },
