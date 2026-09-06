@@ -253,7 +253,14 @@ def main():
 
     now = datetime.datetime.now(KST)
     if not (in_window(now) or args.force_window):
-        print(f"[파이프라인 감시] 수집 창 밖({now:%Y-%m-%d %H:%M} KST) — 점검 생략")
+        # ⭐ 사유를 밝힌다. 예전엔 휴장일에도 "수집 창 밖"이라고만 찍혀서, 이 로그를 읽는
+        #    안전망 Routine이 "아직 아무 조치도 안 됐다"로 읽고 잠자는 체인 run을 좀비로
+        #    오인해 취소할 수 있었다(2026-09-06 PR #513 검수 F1).
+        if now.weekday() < 5 and not is_krx_trading_day(now.date()):
+            why = "오늘은 KRX 휴장일 — 감시 생략(수집이 안 도는 게 정상이다)"
+        else:
+            why = "수집 창 밖 — 점검 생략"
+        print(f"[파이프라인 감시] {now:%Y-%m-%d %H:%M} KST · {why}")
         return 0
 
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""

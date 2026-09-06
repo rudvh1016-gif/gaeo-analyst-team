@@ -18,7 +18,11 @@ import os
 import re
 import sys
 
-from krx_calendar import is_krx_trading_day
+try:
+    from krx_calendar import is_krx_trading_day
+except Exception:      # 달력 모듈이 깨져도 세션 시작을 막지 않는다(위 docstring의 "어떤 경우에도 exit 0").
+    def is_krx_trading_day(day):
+        return day.weekday() < 5
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KST = datetime.timezone(datetime.timedelta(hours=9))

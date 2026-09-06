@@ -148,8 +148,58 @@ def _is_trading_day(day):
     """
     try:
         return is_krx_trading_day(datetime.date.fromisoformat(str(day)[:10]))
-    except ValueError:
+    except (ValueError, TypeError):
         return False
+
+
+# ⭐ 2026-09-06 — 달력과 '독립인' 2차 신호. 아래 _is_trading_day는 krx_calendar.py의 명단만
+#    보므로, 명단이 비어 있는 날(실측 2026-07-17: 실제 휴장인데 KRX_HOLIDAYS에 없음)은 그대로
+#    통과한다. 워크플로·워치독·평가기까지 전부 같은 명단을 보기 때문에 '5겹'이 아니라 '1겹을
+#    5군데 복사'인 셈이다. 그래서 명단을 전혀 보지 않는 두 번째 눈을 둔다.
+#    원리: 장이 안 열린 날 벤더는 직전 거래일 종가를 그대로 돌려준다 → 종목 기준가가 한 곳도
+#    안 움직인다. 실측(history.js 601종목):
+#        정상 거래일 2026-08-14 2.6% · 08-18 2.3% · 07-16 3.0% · 07-20 1.2% · 09-03 3.2% · 09-04 4.8%
+#        유령 판단일 2026-08-17 99.4% · 2026-07-17 99.8%
+#    두 무리 사이가 4.8% ↔ 99.4%로 완전히 갈라져 있어 90%는 어느 쪽에도 닿지 않는 안전한 선이다.
+STALE_QUOTE_SHARE_MAX = 0.90    # 이 비율 이상이 '직전 기록일과 같은 기준가'면 유령 판단일로 본다
+STALE_QUOTE_MIN_SAMPLE = 100    # 비교 가능한 종목이 이만큼은 있어야 판정한다(신규 종목만 있는 날 오판 방지)
+
+
+def _stale_quote_share(hist, stocks, day):
+    """`day` 판단의 기준가가 '그 종목의 직전 기록일'과 같은 비율과 비교 표본 수."""
+    same = tot = 0
+    for code, a in stocks.items():
+        cur = a.get("base")
+        if not isinstance(cur, (int, float)) or cur <= 0:
+            continue
+        prev_day = prev_base = None
+        for row in hist.get(code) or []:
+            d = str(row.get("date", ""))[:10]
+            if d and d < day and (prev_day is None or d > prev_day):
+                prev_day, prev_base = d, row.get("base")
+        if not isinstance(prev_base, (int, float)) or prev_base <= 0:
+            continue
+        tot += 1
+        if abs(cur - prev_base) < 1e-9:
+            same += 1
+    return (same / tot if tot else 0.0), tot
+
+
+def _frozen_quote_days(hist, stocks, gen):
+    """기록하려는 날짜 중 '시세가 통째로 얼어붙은' 날을 찾는다(달력 미등재 휴장일 탐지)."""
+    frozen = {}
+    by_day = {}
+    for code, a in stocks.items():
+        if not isinstance(a, dict) or not a.get("chief") or not a.get("base"):
+            continue
+        day = (str(a.get("baseAt") or a.get("updated") or gen)[:10]) or gen
+        if day:
+            by_day.setdefault(day, {})[code] = a
+    for day, subset in by_day.items():
+        share, n = _stale_quote_share(hist, subset, day)
+        if n >= STALE_QUOTE_MIN_SAMPLE and share >= STALE_QUOTE_SHARE_MAX:
+            frozen[day] = (share, n)
+    return frozen
 
 
 def archive_auto(hist):
@@ -166,6 +216,8 @@ def archive_auto(hist):
     gen = str(auto.get("generatedAt", ""))[:10]
     a_add, a_upd = 0, 0
     skipped_days = {}
+    frozen = _frozen_quote_days(hist, stocks, gen)
+    frozen_days = {}
     for code, a in stocks.items():
         if not isinstance(a, dict) or not a.get("chief") or not a.get("base"):
             continue
@@ -174,6 +226,9 @@ def archive_auto(hist):
             continue
         if not _is_trading_day(day):
             skipped_days[day] = skipped_days.get(day, 0) + 1
+            continue
+        if day in frozen:
+            frozen_days[day] = frozen_days.get(day, 0) + 1
             continue
         entry = _entry_from(a, day)
         entry["tier"] = "auto"
@@ -193,6 +248,11 @@ def archive_auto(hist):
     print(f"자동분석 아카이브 — 신규 {a_add}건 · 갱신 {a_upd}건 (대상 {len(stocks)}종목)")
     for day, n in sorted(skipped_days.items()):
         print(f"  ⛔ {day}는 KRX 거래일이 아니라 기록하지 않았다 — {n}건 건너뜀(유령 판단일 방지)")
+    for day, n in sorted(frozen_days.items()):
+        share, sample = frozen[day]
+        print(f"  ⛔⛔ {day}는 달력엔 거래일이지만 기준가가 통째로 얼어붙었다 — 비교 {sample}종목 중 "
+              f"{share*100:.1f}%가 직전 기록일과 같은 값. {n}건 건너뜀. "
+              f"krx_calendar.KRX_HOLIDAYS에 이 날짜가 빠졌는지 확인할 것(실측 선례 2026-07-17).")
     return a_add, a_upd
 
 
