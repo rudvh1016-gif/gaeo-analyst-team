@@ -90,9 +90,14 @@ jobs:
           # ---------- 시간대 판정 ----------
           now=$(date +%s); dow=$(date +%u)
           open=$(date -d "08:58" +%s); close=$(date -d "16:05" +%s)
-          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+          # ⭐ 2026-09-06 — 짝꿍(update-prices)과 같은 가드. 요일만 보면 공휴일에도 분석이 돌아
+          #    직전 종가 기준 판단이 그날 판단으로 기록된다(2026-08-17 유령 판단일 598건).
+          trading=1
+          python3 -c "import datetime,sys; from krx_calendar import is_krx_trading_day; sys.exit(0 if is_krx_trading_day(datetime.date.today()) else 1)" || trading=""
+          [ -n "$trading" ] || echo "오늘은 KRX 휴장일 — 분석하지 않고 체인만 유지한다"
+          if [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
             echo "장중 기동 — 바로 수집 시작"
-          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+          elif [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
             echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
             sleep $((open - now))
           else

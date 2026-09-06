@@ -96,9 +96,16 @@ jobs:
           # 담기 위해 16:00까지 10분 주기를 유지한다(사용자 요구: 평일 9~16시 10분마다).
           now=$(date +%s); dow=$(date +%u)
           open=$(date -d "08:58" +%s); close=$(date -d "16:00" +%s)
-          if [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
+          # ⭐ 2026-09-06 — 요일만 보면 공휴일에도 수집이 돌아, 벤더가 주는 직전 거래일 종가를
+          #    "오늘 종가"로 기록한다(실측 2026-08-17 광복절 대체휴일: 8/14 종가가 8/17 판단의
+          #    기준가로 598건 복제됐다). krx_calendar.py의 휴장일 달력을 함께 본다. 휴장일이면
+          #    아래 '장외' 분기로 흘러 수집 없이 체인만 잇는다(다음 거래일에 정상 재개).
+          trading=1
+          python3 -c "import datetime,sys; from krx_calendar import is_krx_trading_day; sys.exit(0 if is_krx_trading_day(datetime.date.today()) else 1)" || trading=""
+          [ -n "$trading" ] || echo "오늘은 KRX 휴장일 — 수집하지 않고 체인만 유지한다"
+          if [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -ge "$open" ] && [ "$now" -lt "$close" ]; then
             echo "장중 기동 — 바로 수집 시작"
-          elif [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
+          elif [ -n "$trading" ] && [ "$dow" -le 5 ] && [ "$now" -lt "$open" ] && [ $((open - now)) -le $((330*60)) ]; then
             echo "개장 전 기동 — $((open - now))s 대기 후 수집 시작"
             sleep $((open - now))
           else

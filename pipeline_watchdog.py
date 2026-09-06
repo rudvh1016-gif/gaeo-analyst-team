@@ -40,6 +40,7 @@ import urllib.error
 import urllib.request
 
 from check_pipeline import KST, read_stamp   # 라벨 파싱은 훅과 같은 코드를 쓴다(해석이 갈리면 안 된다)
+from krx_calendar import is_krx_trading_day
 
 # 수집 창 — update-prices.yml / update-analysis.yml의 open/close와 같은 값을 쓴다.
 WINDOW_OPEN = "08:58"
@@ -83,8 +84,16 @@ PIPELINES = {
 
 
 def in_window(now):
-    """평일 수집 창 안인가. 장외·주말엔 산출물이 낡은 게 정상이라 감시하지 않는다."""
-    return now.weekday() < 5 and WINDOW_OPEN <= now.strftime("%H:%M") < WINDOW_CLOSE
+    """거래일 수집 창 안인가. 장외·주말·휴장일엔 산출물이 낡은 게 정상이라 감시하지 않는다.
+
+    ⚠️ 2026-09-06: 예전엔 요일만 봤다. 그러면 공휴일(예: 2026-08-17 광복절 대체휴일)에
+       산출물이 안 갱신되는 걸 고장으로 읽고 러너를 깨운다. 그런데 러너도 요일만 보고
+       돌던 터라, 깨어난 러너가 직전 종가를 '오늘 시세'로 다시 기록해 유령 판단일을
+       만들었다(실측 598건 = 8/14 종가 복제). 감시가 사고의 방아쇠였던 셈이라,
+       러너 쪽 가드와 **같은 달력**을 봐야 한다.
+    """
+    return (now.weekday() < 5 and is_krx_trading_day(now.date())
+            and WINDOW_OPEN <= now.strftime("%H:%M") < WINDOW_CLOSE)
 
 
 def window_open_at(now):

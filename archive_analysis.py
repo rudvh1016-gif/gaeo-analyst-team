@@ -16,6 +16,7 @@ import re, json, os, datetime, sys
 import append_only_guard
 import research_crypto
 import research_store
+from krx_calendar import is_krx_trading_day
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HIST_CAP = 80   # 가벼운 채점 히스토리만 최근 80건 유지. 정밀분석 원문은 영구 보존한다.
@@ -136,6 +137,21 @@ def _entry_from(a, when):
     return entry
 
 
+def _is_trading_day(day):
+    """판단 날짜가 KRX 거래일인가. 날짜 형식이 깨졌으면 거래일로 보지 않는다.
+
+    ⚠️ 2026-09-06 신설 — 2차 방어. 러너 워크플로가 요일만 보고 돌던 시절, 휴장일에도
+       직전 종가를 '오늘 시세'로 받아 판단을 만들고 여기서 그대로 기록했다(실측
+       2026-08-17 광복절 대체휴일 598건, 그중 500건이 8/14 종가 복제). 워크플로 쪽에도
+       달력 가드를 넣었지만, 수동 실행·달력 누락 대비로 기록 직전에 한 번 더 막는다.
+       과거 기록은 재구성 금지 원칙대로 지우지 않는다 — 앞으로 새로 쌓지 않을 뿐이다.
+    """
+    try:
+        return is_krx_trading_day(datetime.date.fromisoformat(str(day)[:10]))
+    except ValueError:
+        return False
+
+
 def archive_auto(hist):
     """🤖 자동분석(auto_analysis.js LIVE_AUTO) 전 종목 판단을 '하루 1건'으로 히스토리에 누적.
     - 500종목 각각 매일 판단이 나오지만 어디에도 기록되지 않아 적중률·트랙레코드에서 빠져 있었다.
@@ -149,11 +165,15 @@ def archive_auto(hist):
     stocks = auto["stocks"]
     gen = str(auto.get("generatedAt", ""))[:10]
     a_add, a_upd = 0, 0
+    skipped_days = {}
     for code, a in stocks.items():
         if not isinstance(a, dict) or not a.get("chief") or not a.get("base"):
             continue
         day = (str(a.get("baseAt") or a.get("updated") or gen)[:10]) or gen
         if not day:
+            continue
+        if not _is_trading_day(day):
+            skipped_days[day] = skipped_days.get(day, 0) + 1
             continue
         entry = _entry_from(a, day)
         entry["tier"] = "auto"
@@ -171,6 +191,8 @@ def archive_auto(hist):
             continue
         lst.append(entry); a_add += 1
     print(f"자동분석 아카이브 — 신규 {a_add}건 · 갱신 {a_upd}건 (대상 {len(stocks)}종목)")
+    for day, n in sorted(skipped_days.items()):
+        print(f"  ⛔ {day}는 KRX 거래일이 아니라 기록하지 않았다 — {n}건 건너뜀(유령 판단일 방지)")
     return a_add, a_upd
 
 
