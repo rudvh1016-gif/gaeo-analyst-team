@@ -312,7 +312,7 @@ jobs:
               for i in 1 2 3; do
                 timeout 60 git push && break
                 echo "push 거부/지연 — 원격 반영 후 재시도 ($i/3)"
-                timeout 120 git fetch origin "${{ github.ref_name }}"
+                timeout 120 git fetch origin "${{ github.ref_name }}" || { echo "fetch 시간초과 — 이번 사이클 포기"; break; }
                 # ⚠️ 2026-07-22 사고: git pull --rebase가 auto_analysis.js 등 생성 파일에서
                 # 충돌하면(겹치는 사이클 사이의 타이밍 차) 리베이스가 멈춰 스크립트가 그대로
                 # 실패했고, 실패 지점이 루프 안이라 이번 실행의 chain() 재기동 줄까지 못 가서

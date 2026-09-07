@@ -167,7 +167,7 @@ jobs:
               for i in 1 2 3; do
                 timeout 60 git push && break
                 echo "push 거부/지연 — 원격 반영 후 재시도 ($i/3)"
-                timeout 120 git fetch origin "${{ github.ref_name }}"
+                timeout 120 git fetch origin "${{ github.ref_name }}" || { echo "fetch 시간초과 — 이번 사이클 포기"; break; }
                 # ⚠️ 2026-07-22 사고(update-analysis.yml에서 실측): git pull --rebase가 생성
                 # 파일 충돌로 멈추면 스크립트가 실패하고, 실패 지점이 루프 안이라 chain()
                 # 재기동 줄까지 못 가 체인이 죽는다. data.js는 "방금 수집한 게 항상 최신"인

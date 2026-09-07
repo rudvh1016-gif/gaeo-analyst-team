@@ -130,5 +130,42 @@ class TradingDayStep(unittest.TestCase):
                              f"{name}에 달력 판정이 두 곳에 있다 — 전용 스텝 한 곳에만 있어야 한다.")
 
 
+class PushRetryNeverKillsTheChain(unittest.TestCase):
+    """push 재시도 경로의 어떤 명령도 스텝을 죽이면 안 된다 (2026-09-07 실측 사고).
+
+    실제로 벌어진 일: 25분짜리 분석 사이클이 **전부 성공**해 600종목 판단을 만들고
+    커밋까지 했는데, 마지막 `git push`가 거부됐다(그 사이 main이 움직였다).
+    재시도 경로로 들어가 `timeout 120 git fetch`가 시간을 넘겼고, GitHub Actions의
+    bash는 `set -e`라 **그 자리에서 스텝 전체가 죽었다**(exit 124).
+
+    그러면 루프 끝의 `chain()`(자기 재기동) 줄에 도달하지 못한다 —
+    2026-07-22에 `git pull --rebase`로 똑같이 체인을 죽였던 그 구조다.
+    그때는 rebase만 고쳤고 fetch는 무방비였다.
+
+    규칙: 재시도 경로의 명령에는 전부 `|| { … break; }` 같은 탈출구가 있어야 한다.
+    이번 사이클 결과를 잃는 건 괜찮다(다음 사이클이 다시 만든다).
+    체인이 끊기는 건 괜찮지 않다(아무도 다시 안 켜준다).
+    """
+
+    def test_재시도_경로의_fetch가_스텝을_죽이지_않는다(self):
+        for name in ("update-prices.yml", "update-analysis.yml"):
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            for line in body.splitlines():
+                if "git fetch" in line and "timeout" in line and "--quiet" not in line:
+                    self.assertIn("||", line,
+                                  f"{name}: push 재시도 경로의 fetch에 탈출구가 없다 — "
+                                  f"시간을 넘기면 스텝이 죽고 자기 재기동(chain)에 못 간다.\n  {line.strip()}")
+
+    def test_재시도_실패시_포기하고_계속_간다(self):
+        for name in ("update-prices.yml", "update-analysis.yml"):
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertIn("merge -X ours", body,
+                          f"{name}: 생성 파일 충돌을 사람 개입 없이 푸는 경로가 사라졌다.")
+            self.assertIn("이번 사이클", body,
+                          f"{name}: 재시도 포기 시 '이번 사이클만 포기'한다는 표시가 없다.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
