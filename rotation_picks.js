@@ -3,44 +3,67 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-09-04 16:13",
- "dataCutoff": "2026-09-04 종가",
+ "status": "ready",
+ "generatedAt": "2026-09-07 10:04",
+ "dataCutoff": "2026-09-07 10:04 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "031980",
+   "name": "피에스케이홀딩스",
+   "sector": "반도체",
+   "sectorRank": 1,
+   "why": "20거래일 +74.1% · 20일선 위",
+   "overheat": true,
+   "gapPct": 37.0,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "002990",
+   "name": "금호건설",
+   "sector": "건설·건자재",
+   "sectorRank": 2,
+   "why": "20거래일 +65.3% · 20일선 위",
+   "overheat": false,
+   "gapPct": 8.8,
+   "call": "SELL",
+   "callConflict": true
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 40.7,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 46.7,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6687.21,
-    "ma20": 6690.76,
-    "above": false,
-    "gapPct": -0.05
+    "close": 6883.56,
+    "ma20": 6722.0,
+    "above": true,
+    "gapPct": 2.4
    },
    "KOSDAQ": {
-    "close": 813.5,
-    "ma20": 830.21,
+    "close": 827.38,
+    "ma20": 831.64,
     "above": false,
-    "gapPct": -2.01
+    "gapPct": -0.51
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "보험"
+  "topSector": "반도체"
  },
  "record": {
-  "hitRate": 54.5,
+  "hitRate": 53.2,
   "excessMean": 0.93,
-  "sampleCount": 264,
+  "sampleCount": 269,
   "periodStart": "2025-07-02",
-  "periodEnd": "2026-07-30",
+  "periodEnd": "2026-08-06",
   "benchmark": "500종목 업종 중앙값"
  }
 };
