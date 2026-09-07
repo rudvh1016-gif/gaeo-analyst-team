@@ -119,6 +119,15 @@ def decide(cfg, output_age_min, runs, now):
     if output_age_min <= cfg["stale_min"]:
         return {"action": "ok", "cancel": [], "reason": f"{output_age_min}분 전 갱신 — 정상"}
 
+    if runs is None:
+        # ⚠️ "run 목록을 확인하지 못했다"는 "run이 없다"가 아니다. 없다고 단정하면
+        #    재기동을 시도하는데, 워크플로 파일이 무효인 경우엔 그 dispatch도 거부되어
+        #    영원히 실패한다(2026-09-07). 사람이 볼 수 있게 사유를 밝히고 멈춘다.
+        return {"action": "ok", "cancel": [],
+                "reason": (f"{output_age_min}분째 갱신 없음 — 그런데 run 목록을 **조회하지 못했다**. "
+                           f"정상이라는 뜻이 아니다. check_workflow_health.py로 워크플로 파일이 "
+                           f"유효한지 먼저 확인할 것")}
+
     running = [r for r in runs if r["status"] == "in_progress"]
     queued = [r for r in runs if r["status"] in WAITING]
 
@@ -202,14 +211,23 @@ class Gh:
         return min(times) if times else None
 
     def active_runs(self, workflow):
-        """main 브랜치에서 아직 끝나지 않은 run들."""
+        """main 브랜치에서 아직 끝나지 않은 run들.
+
+        ⚠️ 조회에 한 번이라도 실패하면 **None**을 돌려준다(빈 리스트가 아니다).
+           빈 리스트는 "확인했는데 없다", None은 "확인하지 못했다"로 뜻이 다르다.
+           2026-09-07 사고 때 이 둘을 같게 취급해 "실행 중인 run 없음 — 재기동"이라고
+           단정했는데, 실제로는 워크플로 파일이 무효라 dispatch 자체가 거부되는
+           상태였다. 없다고 단정하면 영원히 실패하는 조치를 계속 반복하게 된다.
+        """
         out = []
+        failed = False
         for status in ("in_progress",) + WAITING:
             url = f"{self.base}/{workflow}/runs?branch=main&status={status}&per_page=20"
             try:
                 _, data = self._req(url)
             except (urllib.error.URLError, OSError, ValueError) as e:
                 print(f"   [경고] {workflow} {status} 조회 실패: {e}")
+                failed = True
                 continue
             for run in data.get("workflow_runs", []):
                 ts = self._ts(run.get("run_started_at") or run.get("created_at"))
@@ -221,7 +239,7 @@ class Gh:
                 if ts is None:
                     continue
                 out.append({"id": run["id"], "status": status, "started_at": ts})
-        return out
+        return None if failed else out
 
     def cancel(self, run_id):
         url = f"https://api.github.com/repos/{self.repo}/actions/runs/{run_id}/cancel"
@@ -272,7 +290,8 @@ def main():
     for name, cfg in PIPELINES.items():
         stamp = read_stamp(cfg["output"], cfg["pattern"])
         age = None if stamp is None else int((now - stamp).total_seconds() // 60)
-        runs = gh.active_runs(cfg["workflow"]) if gh else []
+        # 토큰이 없으면 빈 리스트가 아니라 None — "확인 못 함"과 "없음"을 구분한다.
+        runs = gh.active_runs(cfg["workflow"]) if gh else None
         d = decide(cfg, age, runs, now)
         print(f"[{cfg['label']}] {cfg['output']} — {d['reason']}")
 

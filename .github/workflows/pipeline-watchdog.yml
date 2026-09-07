@@ -62,5 +62,15 @@ jobs:
       - name: 판정 계약 테스트
         run: python3 -m unittest test_pipeline_watchdog -q
 
+      # ⭐ 2026-09-07 사고 이후 추가 — 산출물 신선도보다 **먼저** 본다.
+      #    워크플로 파일이 무효면 job이 하나도 안 생기고 자기 재기동(dispatch)까지 거부된다.
+      #    그 상태에서는 아래 좀비 감시가 "재기동" 조치를 내려도 영원히 실패한다.
+      #    그래서 "왜 안 도는가"를 먼저 말해주는 감시를 앞에 둔다.
+      #    continue-on-error: 이 검사가 실패해도 아래 좀비 감시는 계속 돌게 한다
+      #    (감시자가 감시를 막으면 안 된다). 대신 ::error::로 크게 남는다.
+      - name: 워크플로 유효성 감시 (파일이 무효면 아무 job도 안 생긴다)
+        continue-on-error: true
+        run: python3 check_workflow_health.py | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: 좀비 감시 · 소생
         run: python3 pipeline_watchdog.py --apply | tee -a "$GITHUB_STEP_SUMMARY"
