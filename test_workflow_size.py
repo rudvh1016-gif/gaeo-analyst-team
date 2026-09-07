@@ -193,23 +193,61 @@ class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
     # push로 기동하면 저장소에 커밋을 만들거나 run을 취소·재기동하는 워크플로들
     WRITES_TO_REPO = ("update-prices.yml", "update-analysis.yml", "pipeline-watchdog.yml")
 
-    def _push_trigger(self, name):
-        import yaml
+    def _push_branches(self, name):
+        """`on:` → `push:` → `branches:` 목록을 돌려준다(없으면 None).
+
+        ⚠️ PyYAML을 쓰지 않는다 — CI 러너에는 설치돼 있지 않다(`cryptography`만 깐다).
+        내 컴퓨터에서 되는 것이 CI에서 된다는 뜻이 아니다: 이 테스트의 첫 판이
+        `import yaml`로 CI에서만 ModuleNotFoundError를 냈다.
+        """
         with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
-            doc = yaml.safe_load(fh)
-        # YAML 1.1에서 `on:`은 불리언 True로 파싱된다.
-        triggers = doc.get("on", doc.get(True))
-        self.assertIsInstance(triggers, dict, f"{name}: on: 블록을 읽지 못했다.")
-        return triggers.get("push")
+            lines = fh.read().splitlines()
+
+        def indent_of(line):
+            return len(line) - len(line.lstrip())
+
+        def block_under(src, key, key_indent):
+            """`key:` 줄을 찾아 그보다 깊게 들여쓴 줄들을 돌려준다."""
+            out, inside = [], False
+            for line in src:
+                stripped = line.strip()
+                if not inside:
+                    if stripped == key and indent_of(line) == key_indent:
+                        inside = True
+                    continue
+                if not stripped or stripped.startswith("#"):
+                    continue
+                if indent_of(line) <= key_indent:
+                    break
+                out.append(line)
+            return out
+
+        on_block = block_under(lines, "on:", 0)
+        push_block = block_under(on_block, "push:", 2)
+        if not push_block:
+            return None
+
+        for n, line in enumerate(push_block):
+            stripped = line.strip()
+            if not stripped.startswith("branches:"):
+                continue
+            inline = stripped[len("branches:"):].strip()
+            if inline:                       # branches: [main] 같은 한 줄 표기
+                return [v.strip().strip("'\"") for v in inline.strip("[]").split(",") if v.strip()]
+            items = []                       # 여러 줄 표기
+            for follow in push_block[n + 1:]:
+                fs = follow.strip()
+                if not fs.startswith("- "):
+                    break
+                items.append(fs[2:].strip().strip("'\""))
+            return items
+        return None
 
     def test_수집_워크플로는_main에서만_push로_기동한다(self):
         for name in self.WRITES_TO_REPO:
-            push = self._push_trigger(name)
-            self.assertIsInstance(
-                push, dict,
-                f"{name}: push 트리거가 사라졌거나 형태가 바뀌었다.")
+            branches = self._push_branches(name)
             self.assertEqual(
-                push.get("branches"), ["main"],
+                branches, ["main"],
                 f"{name}: push 트리거에 branches:[main]이 없다 — 이게 없으면 "
                 f"아무 브랜치에나 이 파일을 고쳐 올리는 순간 진짜 수집기가 "
                 f"그 브랜치에서 돌기 시작한다(2026-09-07 실측: 35커밋 오염).")
