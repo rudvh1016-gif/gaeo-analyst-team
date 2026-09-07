@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-07 11:04",
- "dataCutoff": "2026-09-07 11:04 장중",
+ "generatedAt": "2026-09-07 11:34",
+ "dataCutoff": "2026-09-07 11:34 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "피에스케이홀딩스",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +68.5% · 20일선 위",
+   "why": "20거래일 +68.1% · 20일선 위",
    "overheat": true,
-   "gapPct": 32.9,
+   "gapPct": 32.5,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,33 +23,33 @@ window.ROTATION_PICKS = {
    "code": "336260",
    "name": "두산퓨얼셀",
    "sector": "전력·에너지",
-   "sectorRank": 3,
-   "why": "20거래일 +67.3% · 20일선 위 · 거래량 평소의 2.0배",
+   "sectorRank": 2,
+   "why": "20거래일 +66.6% · 20일선 위 · 거래량 평소의 2.2배",
    "overheat": false,
-   "gapPct": 25.6,
+   "gapPct": 25.1,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 47.0,
+  "breadthPct": 47.2,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6889.7,
-    "ma20": 6722.31,
+    "close": 6891.39,
+    "ma20": 6722.39,
     "above": true,
-    "gapPct": 2.49
+    "gapPct": 2.51
    },
    "KOSDAQ": {
-    "close": 826.73,
+    "close": 826.56,
     "ma20": 831.6,
     "above": false,
-    "gapPct": -0.59
+    "gapPct": -0.61
    }
   }
  },

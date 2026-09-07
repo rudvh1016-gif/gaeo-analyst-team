@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-07 11:04",
- "priceLabel": "2026-09-07 10:57 장중 · ⚠️ 1종목 지연",
- "count": 257,
+ "generatedAt": "2026-09-07 11:34",
+ "priceLabel": "2026-09-07 11:32 장중 · ⚠️ 1종목 지연",
+ "count": 261,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "058610",
+   "name": "에스피지",
+   "title": "중간(분기)배당을위한주주명부폐쇄(기준일)결정",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900150"
+  },
+  {
+   "code": "058610",
+   "name": "에스피지",
+   "title": "현금ㆍ현물배당결정 (중간배당)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900152"
+  },
+  {
+   "code": "112610",
+   "name": "씨에스윈드",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800143"
+  },
+  {
+   "code": "268280",
+   "name": "미원에스씨",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800158"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000076"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000078"
+  },
   {
    "code": "045100",
    "name": "한양이엔지",
@@ -708,24 +762,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T01:41:00.695517+00:00",
    "isCorrection": true,
    "rceptNo": "20260904800112"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000051"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T01:41:00.695517+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000054"
   },
   {
    "code": "319660",
