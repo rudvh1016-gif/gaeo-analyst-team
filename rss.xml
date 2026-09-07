@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Fri, 04 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 07 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월7일 종가, 코스피 4.61% 급등했는데 왜 내 종목은 조용했나</title>
+    <link>https://gaeoteam.com/snap/news/66.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/66.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 4.61% 오른 6,995.39로 7,000선을 4.61포인트 남기고 마감했어요. 오픈AI의 새 모델 공개로 메모리 반도체 기대가 커지자 외국인이 하루 만에 매수로 돌아서며 삼성전자 5.68%·SK하이닉스 8.26%가 올랐어요. 그런데 600종목의 중간값은 +0.60%뿐이었어요. 지수만 크게 오르고 대부분의 종목은 조용했던 이유를 초보자 눈높이로 풀었어요.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월4일 종가, 로봇·반도체가 이끈 코스피 1.64%·코스닥 2.95% 랠리</title>
     <link>https://gaeoteam.com/snap/news/65.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/64.html</guid>
     <category>주식공부</category>
     <description>해외주식 거래 신청, 원화 입금과 환전, 종목 검색, 주문, 결제와 세금까지 첫 미국주식 매수 과정을 순서대로 안내해요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>부동산 양도소득세 완전정복: 계산부터 신고까지</title>
-    <link>https://gaeoteam.com/snap/estate/19.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/estate/19.html</guid>
-    <category>부동산공부</category>
-    <description>집을 팔 때 양도세가 생기는 구조, 1세대1주택 비과세, 장기보유특별공제, 필요경비와 신고기한을 사례로 설명해요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

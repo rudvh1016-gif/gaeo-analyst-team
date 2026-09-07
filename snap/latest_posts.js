@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 66,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-07",
+  "title": "2026년 9월7일 종가, 코스피 4.61% 급등했는데 왜 내 종목은 조용했나",
+  "featured": false
+ },
+ {
   "id": 65,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-27",
   "title": "9월 유동성 리스크, 세금·국채·FOMC 몰리는 이유는?",
   "featured": false
- },
- {
-  "id": 57,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-27",
-  "title": "엔비디아 2분기 실적 매출 133조 원, 가이던스는 얼마나 셌을까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 65,
+ "news": 66,
  "study": 35,
  "lesson": 82,
  "estate": 19,
