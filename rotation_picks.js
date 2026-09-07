@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-07 10:04",
- "dataCutoff": "2026-09-07 10:04 장중",
+ "generatedAt": "2026-09-07 10:34",
+ "dataCutoff": "2026-09-07 10:34 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "피에스케이홀딩스",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +74.1% · 20일선 위",
-   "overheat": true,
-   "gapPct": 37.0,
+   "why": "20거래일 +64.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 29.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,33 +23,33 @@ window.ROTATION_PICKS = {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 2,
-   "why": "20거래일 +65.3% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +64.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 8.8,
+   "gapPct": 8.5,
    "call": "SELL",
    "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 46.7,
+  "breadthPct": 46.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6883.56,
-    "ma20": 6722.0,
+    "close": 6885.2,
+    "ma20": 6722.08,
     "above": true,
-    "gapPct": 2.4
+    "gapPct": 2.43
    },
    "KOSDAQ": {
-    "close": 827.38,
-    "ma20": 831.64,
+    "close": 824.32,
+    "ma20": 831.48,
     "above": false,
-    "gapPct": -0.51
+    "gapPct": -0.86
    }
   }
  },
