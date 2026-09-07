@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-07 10:34",
- "dataCutoff": "2026-09-07 10:34 장중",
+ "generatedAt": "2026-09-07 11:04",
+ "dataCutoff": "2026-09-07 11:04 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,43 +13,43 @@ window.ROTATION_PICKS = {
    "name": "피에스케이홀딩스",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +64.0% · 20일선 위",
-   "overheat": false,
-   "gapPct": 29.6,
+   "why": "20거래일 +68.5% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.9,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "002990",
-   "name": "금호건설",
-   "sector": "건설·건자재",
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "sector": "전력·에너지",
    "sectorRank": 3,
-   "why": "20거래일 +64.8% · 20일선 위",
+   "why": "20거래일 +67.3% · 20일선 위 · 거래량 평소의 2.0배",
    "overheat": false,
-   "gapPct": 8.5,
-   "call": "SELL",
-   "callConflict": true
+   "gapPct": 25.6,
+   "call": "HOLD",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 46.0,
+  "breadthPct": 47.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6885.2,
-    "ma20": 6722.08,
+    "close": 6889.7,
+    "ma20": 6722.31,
     "above": true,
-    "gapPct": 2.43
+    "gapPct": 2.49
    },
    "KOSDAQ": {
-    "close": 824.32,
-    "ma20": 831.48,
+    "close": 826.73,
+    "ma20": 831.6,
     "above": false,
-    "gapPct": -0.86
+    "gapPct": -0.59
    }
   }
  },
