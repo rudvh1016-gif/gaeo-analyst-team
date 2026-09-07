@@ -130,5 +130,136 @@ class TradingDayStep(unittest.TestCase):
                              f"{name}에 달력 판정이 두 곳에 있다 — 전용 스텝 한 곳에만 있어야 한다.")
 
 
+class PushRetryNeverKillsTheChain(unittest.TestCase):
+    """push 재시도 경로의 어떤 명령도 스텝을 죽이면 안 된다 (2026-09-07 실측 사고).
+
+    실제로 벌어진 일: 25분짜리 분석 사이클이 **전부 성공**해 600종목 판단을 만들고
+    커밋까지 했는데, 마지막 `git push`가 거부됐다(그 사이 main이 움직였다).
+    재시도 경로로 들어가 `timeout 120 git fetch`가 시간을 넘겼고, GitHub Actions의
+    bash는 `set -e`라 **그 자리에서 스텝 전체가 죽었다**(exit 124).
+
+    그러면 루프 끝의 `chain()`(자기 재기동) 줄에 도달하지 못한다 —
+    2026-07-22에 `git pull --rebase`로 똑같이 체인을 죽였던 그 구조다.
+    그때는 rebase만 고쳤고 fetch는 무방비였다.
+
+    규칙: 재시도 경로의 명령에는 전부 `|| { … break; }` 같은 탈출구가 있어야 한다.
+    이번 사이클 결과를 잃는 건 괜찮다(다음 사이클이 다시 만든다).
+    체인이 끊기는 건 괜찮지 않다(아무도 다시 안 켜준다).
+    """
+
+    def test_재시도_경로의_fetch가_스텝을_죽이지_않는다(self):
+        for name in ("update-prices.yml", "update-analysis.yml"):
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            for line in body.splitlines():
+                if "git fetch" in line and "timeout" in line and "--quiet" not in line:
+                    self.assertIn("||", line,
+                                  f"{name}: push 재시도 경로의 fetch에 탈출구가 없다 — "
+                                  f"시간을 넘기면 스텝이 죽고 자기 재기동(chain)에 못 간다.\n  {line.strip()}")
+
+    def test_재시도_실패시_포기하고_계속_간다(self):
+        for name in ("update-prices.yml", "update-analysis.yml"):
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertIn("merge -X ours", body,
+                          f"{name}: 생성 파일 충돌을 사람 개입 없이 푸는 경로가 사라졌다.")
+            self.assertIn("이번 사이클", body,
+                          f"{name}: 재시도 포기 시 '이번 사이클만 포기'한다는 표시가 없다.")
+
+
+class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
+    """수집 워크플로는 main의 push로만 기동해야 한다 (2026-09-07 실측 사고 2번째).
+
+    ## 무슨 일이 있었나
+
+    `push:` 트리거에 `paths:`만 있고 `branches:`가 없었다. 그래서 **PR 브랜치에
+    워크플로 파일을 고쳐 올리자 진짜 수집기 두 개가 그 브랜치에서 기동했다.**
+    3시간 동안 돌면서 자동 생성물(data.js·auto_analysis.js·history.js·indicators…)을
+    브랜치에 35커밋 쌓았고, PR은 645파일 충돌 상태가 됐다.
+
+    `chain()`은 `IS_MAIN`으로 막혀 있었지만 그건 **자기 재기동만** 막는다.
+    수집 루프 자체(최대 350분)는 브랜치에서도 그대로 돈다 —
+    "브랜치에서는 체인을 안 잇는다"가 "브랜치에서는 수집을 안 한다"가 아니었다.
+
+    이게 그동안 안 터진 이유: 직전 PR들에서는 같은 브랜치 run이 **워크플로 파일이
+    무효라서** 즉시 실패했다(job 0개). 파일을 고치자마자 처음으로 진짜로 돌았다.
+
+    ## 규칙
+
+    push로 기동하는 워크플로에는 `branches: [main]`이 있어야 한다.
+    브랜치에서 워크플로를 시험할 때는 `workflow_dispatch`로 ref를 지정한다.
+    """
+
+    # push로 기동하면 저장소에 커밋을 만들거나 run을 취소·재기동하는 워크플로들
+    WRITES_TO_REPO = ("update-prices.yml", "update-analysis.yml", "pipeline-watchdog.yml")
+
+    def _push_branches(self, name):
+        """`on:` → `push:` → `branches:` 목록을 돌려준다(없으면 None).
+
+        ⚠️ PyYAML을 쓰지 않는다 — CI 러너에는 설치돼 있지 않다(`cryptography`만 깐다).
+        내 컴퓨터에서 되는 것이 CI에서 된다는 뜻이 아니다: 이 테스트의 첫 판이
+        `import yaml`로 CI에서만 ModuleNotFoundError를 냈다.
+        """
+        with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+            lines = fh.read().splitlines()
+
+        def indent_of(line):
+            return len(line) - len(line.lstrip())
+
+        def block_under(src, key, key_indent):
+            """`key:` 줄을 찾아 그보다 깊게 들여쓴 줄들을 돌려준다."""
+            out, inside = [], False
+            for line in src:
+                stripped = line.strip()
+                if not inside:
+                    if stripped == key and indent_of(line) == key_indent:
+                        inside = True
+                    continue
+                if not stripped or stripped.startswith("#"):
+                    continue
+                if indent_of(line) <= key_indent:
+                    break
+                out.append(line)
+            return out
+
+        on_block = block_under(lines, "on:", 0)
+        push_block = block_under(on_block, "push:", 2)
+        if not push_block:
+            return None
+
+        for n, line in enumerate(push_block):
+            stripped = line.strip()
+            if not stripped.startswith("branches:"):
+                continue
+            inline = stripped[len("branches:"):].strip()
+            if inline:                       # branches: [main] 같은 한 줄 표기
+                return [v.strip().strip("'\"") for v in inline.strip("[]").split(",") if v.strip()]
+            items = []                       # 여러 줄 표기
+            for follow in push_block[n + 1:]:
+                fs = follow.strip()
+                if not fs.startswith("- "):
+                    break
+                items.append(fs[2:].strip().strip("'\""))
+            return items
+        return None
+
+    def test_수집_워크플로는_main에서만_push로_기동한다(self):
+        for name in self.WRITES_TO_REPO:
+            branches = self._push_branches(name)
+            self.assertEqual(
+                branches, ["main"],
+                f"{name}: push 트리거에 branches:[main]이 없다 — 이게 없으면 "
+                f"아무 브랜치에나 이 파일을 고쳐 올리는 순간 진짜 수집기가 "
+                f"그 브랜치에서 돌기 시작한다(2026-09-07 실측: 35커밋 오염).")
+
+    def test_경위_주석이_남아있다(self):
+        """다음 사람이 '왜 branches가 있지?' 하고 지우지 않도록."""
+        for name in self.WRITES_TO_REPO:
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertIn("branches를 반드시 남겨둘 것", body,
+                          f"{name}: branches 가드의 경위 주석이 사라졌다.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
