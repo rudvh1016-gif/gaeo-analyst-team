@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-07 13:34",
- "priceLabel": "2026-09-07 13:29 장중 · ⚠️ 1종목 지연",
- "count": 273,
+ "generatedAt": "2026-09-07 14:04",
+ "priceLabel": "2026-09-07 13:59 장중 · ⚠️ 1종목 지연",
+ "count": 278,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "주주총회소집공고",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000112"
+  },
+  {
+   "code": "009150",
+   "name": "삼성전기",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800230"
+  },
+  {
+   "code": "032830",
+   "name": "삼성생명",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000110"
+  },
+  {
+   "code": "089860",
+   "name": "롯데렌탈",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800211"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000121"
+  },
+  {
+   "code": "060370",
+   "name": "LS마린솔루션",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T05:03:29.257329+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900233"
+  },
   {
    "code": "052690",
    "name": "한전기술",
@@ -168,15 +222,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T02:33:37.380217+00:00",
    "isCorrection": false,
    "rceptNo": "20260907800158"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000078"
   },
   {
    "code": "045100",
