@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-07 10:34",
- "priceLabel": "2026-09-07 10:22 장중 · ⚠️ 1종목 지연",
- "count": 253,
+ "generatedAt": "2026-09-07 11:04",
+ "priceLabel": "2026-09-07 10:57 장중 · ⚠️ 1종목 지연",
+ "count": 257,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "045100",
+   "name": "한양이엔지",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900137"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000074"
+  },
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "[기재정정]주주총회소집결의 (임시주주총회)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260907900132"
+  },
+  {
+   "code": "112610",
+   "name": "씨에스윈드",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800138"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000069"
+  },
+  {
+   "code": "010130",
+   "name": "고려아연",
+   "title": "소송등의판결ㆍ결정",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T02:03:40.090917+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800121"
+  },
   {
    "code": "004020",
    "name": "현대제철",
@@ -476,15 +530,6 @@ const DART_TODAY = {
    "rceptNo": "20260904000245"
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T06:11:54.046471+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000223"
-  },
-  {
    "code": "079550",
    "name": "LIG디펜스앤에어로스페이스",
    "title": "[기재정정]주요사항보고서(유상증자결정)",
@@ -618,15 +663,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T04:11:03.047268+00:00",
    "isCorrection": false,
    "rceptNo": "20260904900155"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T02:11:11.852529+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000064"
   },
   {
    "code": "115180",
