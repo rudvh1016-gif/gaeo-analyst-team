@@ -16,6 +16,14 @@ on:
         type: boolean
         default: false
   push:
+    # ⚠️ branches를 반드시 남겨둘 것 (2026-09-07 실측 사고).
+    # 이게 없으면 **어느 브랜치에 이 파일을 고쳐 올리든** 진짜 수집기가 그 브랜치에서
+    # 기동한다. 실제로 PR 브랜치에서 두 수집기가 3시간 동안 돌며 자동 생성물 35커밋을
+    # 브랜치에 쌓았다 — PR이 충돌 상태가 되고, main 러너와 같은 소스를 이중으로 긁었다.
+    # (chain()은 IS_MAIN으로 막혀 있었지만, 그건 "재기동"만 막을 뿐 수집 루프는 돈다.)
+    # 브랜치에서 워크플로를 시험하려면 workflow_dispatch로 ref를 지정해 돌린다.
+    branches:
+      - main
     paths:
       - ".analyst-refresh"
       - ".github/workflows/update-analysis.yml"

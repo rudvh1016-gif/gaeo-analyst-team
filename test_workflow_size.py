@@ -167,5 +167,61 @@ class PushRetryNeverKillsTheChain(unittest.TestCase):
                           f"{name}: 재시도 포기 시 '이번 사이클만 포기'한다는 표시가 없다.")
 
 
+class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
+    """수집 워크플로는 main의 push로만 기동해야 한다 (2026-09-07 실측 사고 2번째).
+
+    ## 무슨 일이 있었나
+
+    `push:` 트리거에 `paths:`만 있고 `branches:`가 없었다. 그래서 **PR 브랜치에
+    워크플로 파일을 고쳐 올리자 진짜 수집기 두 개가 그 브랜치에서 기동했다.**
+    3시간 동안 돌면서 자동 생성물(data.js·auto_analysis.js·history.js·indicators…)을
+    브랜치에 35커밋 쌓았고, PR은 645파일 충돌 상태가 됐다.
+
+    `chain()`은 `IS_MAIN`으로 막혀 있었지만 그건 **자기 재기동만** 막는다.
+    수집 루프 자체(최대 350분)는 브랜치에서도 그대로 돈다 —
+    "브랜치에서는 체인을 안 잇는다"가 "브랜치에서는 수집을 안 한다"가 아니었다.
+
+    이게 그동안 안 터진 이유: 직전 PR들에서는 같은 브랜치 run이 **워크플로 파일이
+    무효라서** 즉시 실패했다(job 0개). 파일을 고치자마자 처음으로 진짜로 돌았다.
+
+    ## 규칙
+
+    push로 기동하는 워크플로에는 `branches: [main]`이 있어야 한다.
+    브랜치에서 워크플로를 시험할 때는 `workflow_dispatch`로 ref를 지정한다.
+    """
+
+    # push로 기동하면 저장소에 커밋을 만들거나 run을 취소·재기동하는 워크플로들
+    WRITES_TO_REPO = ("update-prices.yml", "update-analysis.yml", "pipeline-watchdog.yml")
+
+    def _push_trigger(self, name):
+        import yaml
+        with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+            doc = yaml.safe_load(fh)
+        # YAML 1.1에서 `on:`은 불리언 True로 파싱된다.
+        triggers = doc.get("on", doc.get(True))
+        self.assertIsInstance(triggers, dict, f"{name}: on: 블록을 읽지 못했다.")
+        return triggers.get("push")
+
+    def test_수집_워크플로는_main에서만_push로_기동한다(self):
+        for name in self.WRITES_TO_REPO:
+            push = self._push_trigger(name)
+            self.assertIsInstance(
+                push, dict,
+                f"{name}: push 트리거가 사라졌거나 형태가 바뀌었다.")
+            self.assertEqual(
+                push.get("branches"), ["main"],
+                f"{name}: push 트리거에 branches:[main]이 없다 — 이게 없으면 "
+                f"아무 브랜치에나 이 파일을 고쳐 올리는 순간 진짜 수집기가 "
+                f"그 브랜치에서 돌기 시작한다(2026-09-07 실측: 35커밋 오염).")
+
+    def test_경위_주석이_남아있다(self):
+        """다음 사람이 '왜 branches가 있지?' 하고 지우지 않도록."""
+        for name in self.WRITES_TO_REPO:
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertIn("branches를 반드시 남겨둘 것", body,
+                          f"{name}: branches 가드의 경위 주석이 사라졌다.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
