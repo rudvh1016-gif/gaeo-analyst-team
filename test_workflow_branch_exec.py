@@ -55,7 +55,11 @@ sleep(){ FAKE_EPOCH=$(( FAKE_EPOCH + $1 )); export FAKE_EPOCH; _sync; echo "[STU
 chain(){ echo "[STUB chain]"; }
 dispatch(){ echo "[STUB dispatch $1]"; }
 IS_MAIN=1
-source "$1"
+# 실제 러너에서는 앞 스텝이 $GITHUB_ENV에 TRADING을 적고, 다음 스텝이 그걸 env로 받는다.
+export GITHUB_ENV="$(mktemp)"
+source "$2"                      # 거래일 판정 스텝
+set -a; . "$GITHUB_ENV"; set +a  # 그 결과를 env로 넘김
+source "$1"                      # 시간대 판정 분기
 echo "[COLLECT LOOP ENTERED]"
 '''
 
@@ -70,6 +74,24 @@ SITECUSTOMIZE = (
     "            return _real.fromisoformat(_f)\n"
     "    datetime.date = _D\n"
 )
+
+
+def gate_source(workflow):
+    """'거래일 판정' 전용 스텝의 run: 블록을 떼어낸다 (2026-09-07 분리).
+
+    이 판정은 원래 아래 큰 블록 안에 있었는데, 그러다 블록이 GitHub의 UTF-8 21,000바이트
+    한도를 넘어 워크플로 파일 전체가 무효가 됐다(자동분석 65시간 중단). 이제 별도 스텝이
+    판정해 $GITHUB_ENV로 TRADING만 넘긴다 — 그래서 여기서도 두 조각을 이어서 실행한다.
+    """
+    with open(os.path.join(HERE, ".github", "workflows", workflow), encoding="utf-8") as fh:
+        body = fh.read()
+    m = re.search(r"\n      - name: 거래일 판정[^\n]*\n        run: \|\n((?:          .*\n|\n)*)", body)
+    if not m:
+        raise AssertionError(f"{workflow}: '거래일 판정' 스텝을 찾지 못했다")
+    return "".join(
+        (line[10:] if line.startswith(" " * 10) else line) + "\n"
+        for line in m.group(1).rstrip("\n").split("\n")
+    )
 
 
 def branch_source(workflow):
@@ -108,12 +130,16 @@ class WorkflowBranchExecution(unittest.TestCase):
         with open(stub, "w", encoding="utf-8") as fh:
             fh.write("#!/bin/sh\nexit 127\n")
         os.chmod(stub, 0o755)
-        cls.blocks = {}
+        cls.blocks, cls.gates = {}, {}
         for name in WORKFLOWS:
             path = os.path.join(d, name.replace(".yml", ".sh"))
             with open(path, "w", encoding="utf-8") as fh:
                 fh.write(branch_source(name))
             cls.blocks[name] = path
+            gate = os.path.join(d, name.replace(".yml", ".gate.sh"))
+            with open(gate, "w", encoding="utf-8") as fh:
+                fh.write(gate_source(name))
+            cls.gates[name] = gate
 
     @classmethod
     def tearDownClass(cls):
@@ -136,7 +162,7 @@ class WorkflowBranchExecution(unittest.TestCase):
         if no_python:
             env["PATH"] = self.nopy + os.pathsep + env.get("PATH", "")
         out = subprocess.run(
-            ["bash", self.harness, self.blocks[workflow]],
+            ["bash", self.harness, self.blocks[workflow], self.gates[workflow]],
             capture_output=True, text=True, env=env, timeout=120,
         )
         text = out.stdout + out.stderr
