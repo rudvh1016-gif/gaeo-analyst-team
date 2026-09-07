@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-07 11:34",
- "priceLabel": "2026-09-07 11:32 장중 · ⚠️ 1종목 지연",
- "count": 261,
+ "generatedAt": "2026-09-07 12:04",
+ "priceLabel": "2026-09-07 11:55 장중 · ⚠️ 1종목 지연",
+ "count": 267,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "115180",
+   "name": "큐리언트",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900175"
+  },
+  {
+   "code": "066570",
+   "name": "LG전자",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800165"
+  },
+  {
+   "code": "034220",
+   "name": "LG디스플레이",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000090"
+  },
+  {
+   "code": "028300",
+   "name": "HLB",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000092"
+  },
+  {
+   "code": "375500",
+   "name": "DL이앤씨",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260907800162"
+  },
+  {
+   "code": "000210",
+   "name": "DL",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T03:03:26.833724+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260907800167"
+  },
   {
    "code": "058610",
    "name": "에스피지",
