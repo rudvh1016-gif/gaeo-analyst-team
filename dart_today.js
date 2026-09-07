@@ -1,12 +1,39 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-07 12:34",
- "priceLabel": "2026-09-07 12:30 장중 · ⚠️ 1종목 지연",
- "count": 267,
+ "generatedAt": "2026-09-07 13:04",
+ "priceLabel": "2026-09-07 12:54 장중 · ⚠️ 1종목 지연",
+ "count": 269,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "252990",
+   "name": "샘씨엔에스",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T04:03:35.825539+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907900184"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T04:03:35.825539+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907000097"
+  },
+  {
+   "code": "006360",
+   "name": "GS건설",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260907",
+   "detectedAt": "2026-09-07T04:03:35.825539+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260907800182"
+  },
   {
    "code": "005940",
    "name": "NH투자증권",
@@ -105,15 +132,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T02:33:37.380217+00:00",
    "isCorrection": false,
    "rceptNo": "20260907800158"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T02:33:37.380217+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000076"
   },
   {
    "code": "005940",
