@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 09:14",
- "priceLabel": "2026-09-08 09:10 장중 · ⚠️ 1종목 지연",
- "count": 212,
+ "generatedAt": "2026-09-08 09:43",
+ "priceLabel": "2026-09-08 09:32 장중 · ⚠️ 1종목 지연",
+ "count": 215,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003070",
+   "name": "코오롱글로벌",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800083"
+  },
+  {
+   "code": "002020",
+   "name": "코오롱",
+   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800102"
+  },
+  {
+   "code": "006400",
+   "name": "삼성SDI",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800099"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000027"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000028"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T00:43:00.585025+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000030"
+  },
   {
    "code": "001200",
    "name": "유진투자증권",
@@ -276,24 +330,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T05:33:18.374183+00:00",
    "isCorrection": false,
    "rceptNo": "20260907800254"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T05:33:18.374183+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000130"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T05:33:18.374183+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000131"
   },
   {
    "code": "397030",
@@ -825,15 +861,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T06:41:58.095326+00:00",
    "isCorrection": false,
    "rceptNo": "20260904800336"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "[발행조건확정]증권신고서(채무증권)",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T06:41:58.095326+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000272"
   },
   {
    "code": "001500",
