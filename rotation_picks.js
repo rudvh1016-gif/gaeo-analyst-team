@@ -4,59 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-08 09:14",
- "dataCutoff": "2026-09-08 09:14 장중",
+ "generatedAt": "2026-09-08 09:44",
+ "dataCutoff": "2026-09-08 09:43 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "336260",
-   "name": "두산퓨얼셀",
-   "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +63.3% · 20일선 위 · 거래량 평소의 3.1배",
-   "overheat": false,
-   "gapPct": 22.8,
-   "call": "HOLD",
-   "callConflict": false
-  },
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 3,
-   "why": "20거래일 +82.2% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +75.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.9,
+   "gapPct": 2.3,
    "call": "SELL",
    "callConflict": true
+  },
+  {
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 3,
+   "why": "20거래일 +65.9% · 20일선 위",
+   "overheat": false,
+   "gapPct": 18.5,
+   "call": "BUY",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 50.3,
+  "breadthPct": 47.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7047.91,
-    "ma20": 6765.0,
+    "close": 7067.04,
+    "ma20": 6765.96,
     "above": true,
-    "gapPct": 4.18
+    "gapPct": 4.45
    },
    "KOSDAQ": {
-    "close": 825.65,
-    "ma20": 829.94,
+    "close": 825.53,
+    "ma20": 829.93,
     "above": false,
-    "gapPct": -0.52
+    "gapPct": -0.53
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "보험"
+  "topSector": "건설·건자재"
  },
  "record": {
   "hitRate": 53.2,
