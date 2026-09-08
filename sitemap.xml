@@ -7,8 +7,13 @@
   </url>
   <url>
     <loc>https://gaeoteam.com/snap/index.html</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://gaeoteam.com/snap/news/67.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/snap/news/66.html</loc>
@@ -1402,22 +1407,22 @@
   </url>
   <url>
     <loc>https://gaeoteam.com/about.html</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/contact.html</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/privacy.html</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://gaeoteam.com/disclaimer.html</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <priority>0.3</priority>
   </url>
 </urlset>

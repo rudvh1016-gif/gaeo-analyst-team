@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 67,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-08",
+  "title": "2026년 9월8일 종가, 장중 7171까지 갔다가 반납, 4곳 중 3곳이 내렸다",
+  "featured": false
+ },
+ {
   "id": 66,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-27",
   "title": "2026년 8월27일 종가, 엔비디아 훈풍에 코스피·코스닥 동반 상승",
   "featured": false
- },
- {
-  "id": 58,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-27",
-  "title": "9월 유동성 리스크, 세금·국채·FOMC 몰리는 이유는?",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 66,
+ "news": 67,
  "study": 35,
  "lesson": 82,
  "estate": 19,
