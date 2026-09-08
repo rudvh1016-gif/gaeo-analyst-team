@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-08 15:38",
- "dataCutoff": "2026-09-08 15:38 장중",
+ "generatedAt": "2026-09-08 16:08",
+ "dataCutoff": "2026-09-08 종가",
  "horizonDays": 20,
  "picks": [
   {
@@ -23,7 +23,7 @@ window.ROTATION_PICKS = {
    "code": "000880",
    "name": "한화",
    "sector": "지주·상사",
-   "sectorRank": 3,
+   "sectorRank": 4,
    "why": "20거래일 +65.0% · 20일선 위",
    "overheat": false,
    "gapPct": 17.9,
@@ -33,23 +33,23 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 41.0,
+  "breadthPct": 39.8,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6952.65,
-    "ma20": 6760.24,
+    "close": 6954.52,
+    "ma20": 6760.33,
     "above": true,
-    "gapPct": 2.85
+    "gapPct": 2.87
    },
    "KOSDAQ": {
-    "close": 813.05,
-    "ma20": 829.31,
+    "close": 811.88,
+    "ma20": 829.25,
     "above": false,
-    "gapPct": -1.96
+    "gapPct": -2.09
    }
   }
  },
