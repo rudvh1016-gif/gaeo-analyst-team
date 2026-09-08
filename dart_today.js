@@ -1,20 +1,83 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 14:13",
+ "generatedAt": "2026-09-08 14:37",
  "priceLabel": "2026-09-08 14:02 장중 · ⚠️ 1종목 지연",
- "count": 234,
+ "count": 240,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "008770",
+   "name": "호텔신라",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000167"
+  },
+  {
    "code": "001500",
    "name": "현대차증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "title": "투자설명서(일괄신고)",
    "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
    "isCorrection": false,
-   "rceptNo": "20260908000136"
+   "rceptNo": "20260908000166"
+  },
+  {
+   "code": "086280",
+   "name": "현대글로비스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800252"
+  },
+  {
+   "code": "000100",
+   "name": "유한양행",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800264"
+  },
+  {
+   "code": "232140",
+   "name": "와이씨",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908900247"
+  },
+  {
+   "code": "020560",
+   "name": "아시아나항공",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000174"
+  },
+  {
+   "code": "089970",
+   "name": "브이엠",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000168"
+  },
+  {
+   "code": "089970",
+   "name": "브이엠",
+   "title": "중간(분기)배당을위한주주명부폐쇄(기준일)결정",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T05:37:00.463646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908900248"
   },
   {
    "code": "001500",
@@ -78,15 +141,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-08T05:12:50.832317+00:00",
    "isCorrection": false,
    "rceptNo": "20260908900226"
-  },
-  {
-   "code": "089970",
-   "name": "브이엠",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000157"
   },
   {
    "code": "089970",
