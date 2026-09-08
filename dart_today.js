@@ -1,12 +1,39 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 14:37",
+ "generatedAt": "2026-09-08 15:07",
  "priceLabel": "2026-09-08 14:02 장중 · ⚠️ 1종목 지연",
- "count": 240,
+ "count": 241,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "226950",
+   "name": "올릭스",
+   "title": "[기재정정]투자판단관련주요경영사항(임상시험계획승인신청) (안드로겐성 탈모가 있는 건강한 남성을 대상으로 OLX72021의 안전성과 유효성을 평가하기 위한 다기관, 무작위 배정, 이중 눈가림, 위약 대조, 다중 상승 용량 제1b/2a상 임상시험 계획 승인신청)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:06:55.096257+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260908900218"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:06:55.096257+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000189"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:06:55.096257+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000196"
+  },
   {
    "code": "008770",
    "name": "호텔신라",
@@ -150,15 +177,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-08T05:12:50.832317+00:00",
    "isCorrection": false,
    "rceptNo": "20260908000163"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합증권-주식워런트증권)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000131"
   },
   {
    "code": "006800",
@@ -510,15 +528,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T06:33:30.597855+00:00",
    "isCorrection": true,
    "rceptNo": "20260907000171"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T06:33:30.597855+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000179"
   },
   {
    "code": "030610",
