@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 11:13",
- "priceLabel": "2026-09-08 11:02 장중 · ⚠️ 1종목 지연",
+ "generatedAt": "2026-09-08 11:43",
+ "priceLabel": "2026-09-08 11:36 장중 · ⚠️ 1종목 지연",
  "count": 222,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T02:42:58.246354+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000102"
+  },
   {
    "code": "045100",
    "name": "한양이엔지",
@@ -960,15 +969,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T06:41:58.095326+00:00",
    "isCorrection": false,
    "rceptNo": "20260904800336"
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T06:11:54.046471+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000215"
   },
   {
    "code": "012330",
