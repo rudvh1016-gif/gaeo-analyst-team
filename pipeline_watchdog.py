@@ -123,7 +123,7 @@ def decide(cfg, output_age_min, runs, now):
         # ⚠️ "run 목록을 확인하지 못했다"는 "run이 없다"가 아니다. 없다고 단정하면
         #    재기동을 시도하는데, 워크플로 파일이 무효인 경우엔 그 dispatch도 거부되어
         #    영원히 실패한다(2026-09-07). 사람이 볼 수 있게 사유를 밝히고 멈춘다.
-        return {"action": "ok", "cancel": [],
+        return {"action": "ok", "cancel": [], "unknown": True,
                 "reason": (f"{output_age_min}분째 갱신 없음 — 그런데 run 목록을 **조회하지 못했다**. "
                            f"정상이라는 뜻이 아니다. check_workflow_health.py로 워크플로 파일이 "
                            f"유효한지 먼저 확인할 것")}
@@ -287,6 +287,7 @@ def main():
         print("[파이프라인 감시] --apply 인데 GH_TOKEN·GITHUB_REPOSITORY가 없다 — 판정만 수행")
 
     problems = []
+    unknowns = []   # 조치 대상은 아니지만 "정상"이라고 말해서도 안 되는 것 (판정 보류)
     for name, cfg in PIPELINES.items():
         stamp = read_stamp(cfg["output"], cfg["pattern"])
         age = None if stamp is None else int((now - stamp).total_seconds() // 60)
@@ -296,6 +297,11 @@ def main():
         print(f"[{cfg['label']}] {cfg['output']} — {d['reason']}")
 
         if d["action"] == "ok":
+            # ⚠️ action이 "ok"라고 전부 "정상"인 것은 아니다. 조회를 못 해 판정을 보류한
+            #    경우도 여기로 온다(2026-09-08 실측: 요약 줄이 그걸 "모두 정상"이라고 말했다).
+            #    조치를 안 하는 것과 정상이라고 단언하는 것은 다른 일이다.
+            if d.get("unknown"):
+                unknowns.append(cfg["label"])
             continue
         problems.append(cfg["label"])
         if gh is None:
@@ -310,7 +316,14 @@ def main():
             print(f"   → {cfg['workflow']} 재기동 dispatch {'성공' if ok else '실패'}")
 
     if problems:
-        print(f"[파이프라인 감시] 조치 대상: {' · '.join(problems)}")
+        line = f"조치 대상: {' · '.join(problems)}"
+        if unknowns:
+            line += f" · 판정 보류(확인 못 함): {' · '.join(unknowns)}"
+        print(f"[파이프라인 감시] {line}")
+    elif unknowns:
+        # "모른다"를 "괜찮다"로 바꾸지 않는다 — 이 저장소의 반복된 교훈이다.
+        print(f"[파이프라인 감시] 판정 보류(확인 못 함): {' · '.join(unknowns)} "
+              f"— **정상이라는 뜻이 아니다.** 조치는 하지 않았다")
     else:
         print("[파이프라인 감시] 두 파이프라인 모두 정상 — 조치 없음")
     return 0

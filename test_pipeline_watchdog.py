@@ -173,5 +173,62 @@ class Test임계값(unittest.TestCase):
         self.assertEqual(ANALYSIS["stale_min"], 70)
 
 
+class Test모른다를_괜찮다로_바꾸지_않는다(unittest.TestCase):
+    """조회를 못 했을 때 요약 줄이 "정상"이라고 말하면 안 된다 (2026-09-08 실측).
+
+    ## 무슨 일이 있었나
+
+    PR #518에서 `active_runs`가 조회 실패 시 `None`을 돌려주게 고쳤고, `decide`도
+    그것을 판정 보류로 다루게 했다. 종목별 줄은 정직하게 찍혔다.
+
+        [자동분석] auto_analysis.js — 1051분째 갱신 없음 — 그런데 run 목록을
+        **조회하지 못했다**. 정상이라는 뜻이 아니다.
+
+    그런데 **바로 다음 줄**이 이렇게 나왔다.
+
+        [파이프라인 감시] 두 파이프라인 모두 정상 — 조치 없음
+
+    `decide`가 판정 보류에도 `action: "ok"`를 돌려주기 때문이다(조치를 안 하는 것은
+    맞다). `main`은 그 "ok"를 전부 정상으로 세어 요약을 만들었다.
+
+    **조치를 안 하는 것과 정상이라고 단언하는 것은 다른 일이다.** 요약 줄만 읽는
+    사람에게는 정반대의 사실이 전달된다. 이 저장소가 반복해서 배운 교훈이 마지막
+    한 줄에서 다시 새어나온 것이다.
+    """
+
+    def test_조회_실패는_unknown으로_표시된다(self):
+        d = decide(ANALYSIS, 1051, None, at(11, 0))
+        self.assertEqual(d["action"], "ok", "조회를 못 했으면 조치하지 않는 것이 맞다")
+        self.assertTrue(d.get("unknown"),
+                        "조치를 안 한다고 정상인 것은 아니다 — unknown 표시가 있어야 "
+                        "요약 줄이 '모두 정상'이라고 말하지 않는다.")
+
+    def test_정상일_때는_unknown이_아니다(self):
+        d = decide(ANALYSIS, 5, [], at(11, 0))
+        self.assertEqual(d["action"], "ok")
+        self.assertFalse(d.get("unknown"), "진짜 정상까지 판정 보류로 흐리면 안 된다")
+
+    def test_요약_줄이_판정_보류를_정상이라고_말하지_않는다(self):
+        """main()을 실제로 돌려 출력 문장을 확인한다."""
+        import io as _io, contextlib, sys
+        import pipeline_watchdog as pw
+
+        orig_stamp, orig_argv = pw.read_stamp, sys.argv
+        # 산출물은 낡았고(1051분), 토큰이 없어 run 조회는 불가능한 상태를 만든다.
+        pw.read_stamp = lambda *a, **k: datetime.datetime.now(KST) - datetime.timedelta(minutes=1051)
+        sys.argv = ['pipeline_watchdog.py', '--force-window']
+        try:
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                pw.main()
+            out = buf.getvalue()
+        finally:
+            pw.read_stamp, sys.argv = orig_stamp, orig_argv
+
+        self.assertIn("판정 보류", out, f"판정 보류를 밝히지 않았다:\n{out}")
+        self.assertNotIn("두 파이프라인 모두 정상", out,
+                         f"조회를 못 했는데 '모두 정상'이라고 말했다:\n{out}")
+
+
 if __name__ == "__main__":
     unittest.main()
