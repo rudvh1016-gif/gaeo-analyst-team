@@ -167,6 +167,93 @@ class PushRetryNeverKillsTheChain(unittest.TestCase):
                           f"{name}: 재시도 포기 시 '이번 사이클만 포기'한다는 표시가 없다.")
 
 
+class CollectorWithdrawsWhenItCannotSave(unittest.TestCase):
+    """저장을 못 하는 러너는 스스로 물러나야 한다 (2026-09-08 실측 사고).
+
+    ## 무슨 일이 있었나
+
+    러너가 origin과의 통신을 잃었다. 그런데 **수집(네이버 API)은 계속 성공했다.**
+    그래서 매 사이클이 이렇게 흘렀다.
+
+        data.js 갱신 완료 (2026-09-08 14:14 장중)   ← 600종목 수집 성공
+        push 거부/지연 — 원격 반영 후 재시도 (1/3)
+        fetch 시간초과 — 이번 사이클 포기            ← timeout 120 정확히 소진
+        다음 갱신까지 10분 대기...
+        [경고] fetch 실패 — 로컬 data.js 기준으로 진행
+        data.js 갱신 완료 (2026-09-08 14:29 장중)   ← 또 성공, 또 저장 실패
+        ...
+
+    14:14~15:16의 **5사이클(약 62분) 동안 수집은 전부 성공하고 저장은 전부 실패**해
+    산출물이 하나도 안 나왔다. 다음 사이클의 `git checkout origin/... -- data.js`가
+    직전 결과를 덮으므로, 그 62분의 일은 전부 버려졌다.
+
+    ## 왜 아무도 못 잡았나
+
+    - run은 `in_progress`였다 → 감시(워치독·Routine)는 "돌고 있다"고 봤다.
+    - 산출물은 멈춰 있었다 → 사람은 "죽었다"고 보고 취소했다.
+
+    **양쪽 다 틀렸다.** 러너는 살아 있었지만 쓸모가 없었다. 이 상태를 아는 것은
+    러너 자신뿐이다 — 자기 push가 연속으로 실패한다는 사실을 아는 건 자기밖에 없다.
+
+    ## 규칙
+
+    연속으로 저장에 실패하면 루프를 빠져나와 `chain()`으로 새 러너에게 넘긴다.
+    `chain()`의 dispatch까지 실패해도 괜찮다 — run이 **끝나기만** 하면
+    `pipeline-watchdog.yml`이 "도는 run 없음"을 보고 새로 띄운다.
+    저장에 성공하면 카운터를 반드시 되돌린다(정상 러너가 물러나면 안 된다).
+    """
+
+    def _big_run_block(self, name):
+        with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_연속_저장_실패를_센다(self):
+        body = self._big_run_block("update-prices.yml")
+        self.assertTrue("failed_pushes=0" in body,
+                        "update-prices.yml: 연속 저장 실패 카운터가 없다 — "
+                        "저장을 못 하는 러너가 마감까지 헛돈다.")
+        self.assertTrue("MAX_FAILED_PUSHES" in body,
+                        "update-prices.yml: 물러날 기준(MAX_FAILED_PUSHES)이 없다.")
+
+    def test_push_성공을_실제로_확인한다(self):
+        """`git push && break`만으로는 성공/포기를 구분할 수 없다 — 플래그가 있어야 한다."""
+        body = self._big_run_block("update-prices.yml")
+        self.assertTrue(
+            "timeout 60 git push && { pushed=1; break; }" in body,
+            "update-prices.yml: push 성공 지점에 플래그가 없다. for 루프의 break는 "
+            "성공 break와 포기 break를 구분하지 못하므로, 플래그 없이 센 실패 횟수는 "
+            "틀린 숫자다 — 멀쩡한 러너가 물러나거나, 죽은 러너가 안 물러난다.")
+
+    def test_저장에_성공하면_카운터를_되돌린다(self):
+        """정상 러너가 어쩌다 한 번 실패했다고 물러나면 안 된다."""
+        body = self._big_run_block("update-prices.yml")
+        idx = body.find('if [ -n "$pushed" ]; then')
+        self.assertNotEqual(idx, -1,
+                            "update-prices.yml: push 성공 분기가 없다.")
+        after = body[idx:idx + 200]
+        self.assertTrue("failed_pushes=0" in after,
+                        "update-prices.yml: 저장에 성공했는데 카운터를 되돌리지 않는다 — "
+                        "실패가 누적되어 멀쩡한 러너가 물러나게 된다.")
+
+    def test_물러날_때_루프를_빠져나가_chain으로_간다(self):
+        """`exit`이 아니라 `break`여야 한다 — 루프 뒤의 chain()에 도달해야 새 러너가 뜬다."""
+        body = self._big_run_block("update-prices.yml")
+        idx = body.find("연속 저장 실패")
+        self.assertNotEqual(idx, -1, "update-prices.yml: 연속 저장 실패 안내가 없다.")
+        block = body[idx:idx + 400]
+        self.assertTrue("break" in block,
+                        "update-prices.yml: 물러날 때 break로 루프를 빠져나가지 않는다.")
+        self.assertFalse("exit 1" in block,
+                         "update-prices.yml: exit으로 죽으면 루프 뒤의 chain()에 못 가 "
+                         "새 러너가 안 뜬다. break로 빠져나와야 한다.")
+
+    def test_경위_주석이_남아있다(self):
+        body = self._big_run_block("update-prices.yml")
+        self.assertIn("2026-09-08", body,
+                      "update-prices.yml: 왜 이 카운터가 있는지 적힌 주석이 사라졌다 — "
+                      "다음 사람이 '쓸데없어 보인다'며 지운다.")
+
+
 class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
     """수집 워크플로는 main의 push로만 기동해야 한다 (2026-09-07 실측 사고 2번째).
 

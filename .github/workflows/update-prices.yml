@@ -158,6 +158,14 @@ jobs:
           # ---------- 장중 수집 루프 ----------
           hard=$(( $(date +%s) + 330*60 ))
           limit=$close; [ "$hard" -lt "$limit" ] && limit=$hard
+          # ⚠️ 2026-09-08 실측 사고 — 저장을 못 하는 러너는 살아 있어도 쓸모가 없다.
+          # 러너가 origin과의 통신을 잃으면 수집은 계속 성공하는데 push만 전부 실패한다.
+          # 그날 14:14~15:16의 5사이클(약 62분) 동안 600종목 수집은 매번 성공했고 push는
+          # 매번 실패해 산출물이 하나도 안 나왔다. 그런데도 run은 in_progress라 감시는
+          # "돌고 있다"고 봤고, 사람은 "멈췄다"고 봐서 취소했다 — 양쪽 다 진상을 몰랐다.
+          # 이제 연속으로 저장에 실패하면 스스로 물러나 새 러너에게 넘긴다.
+          failed_pushes=0
+          MAX_FAILED_PUSHES=3   # 사이클 약 15분 × 3 ≈ 45분. 이 이상 못 저장하면 러너 교체.
           while :; do
             # 같은 계열의 문제(2026-07-31 수정): 이 잡도 checkout 한 번 + 최대 330분 대기 구조라
             # 로컬 data.js가 낡을 수 있다. update_prices.py는 "수집 실패한 종목의 이전 값"을 기존
@@ -172,8 +180,9 @@ jobs:
               echo "변경 없음 — 커밋 생략"
             else
               git commit -m "자동 시세 갱신 (GitHub Actions) [skip ci]"
+              pushed=""
               for i in 1 2 3; do
-                timeout 60 git push && break
+                timeout 60 git push && { pushed=1; break; }
                 echo "push 거부/지연 — 원격 반영 후 재시도 ($i/3)"
                 timeout 120 git fetch origin "${{ github.ref_name }}" || { echo "fetch 시간초과 — 이번 사이클 포기"; break; }
                 # ⚠️ 2026-07-22 사고(update-analysis.yml에서 실측): git pull --rebase가 생성
@@ -188,6 +197,19 @@ jobs:
                 }
                 sleep 3
               done
+              # 저장에 성공했으면 카운터를 되돌리고, 실패가 연속으로 쌓이면 러너를 교체한다.
+              # chain()이 dispatch에 실패해도 상관없다 — run이 끝나기만 하면
+              # pipeline-watchdog.yml이 "도는 run 없음"을 보고 새로 띄운다.
+              if [ -n "$pushed" ]; then
+                failed_pushes=0
+              else
+                failed_pushes=$((failed_pushes + 1))
+                echo "연속 저장 실패 $failed_pushes/$MAX_FAILED_PUSHES"
+                if [ "$failed_pushes" -ge "$MAX_FAILED_PUSHES" ]; then
+                  echo "origin에 $failed_pushes사이클 연속 저장 실패 — 이 러너는 물러나고 새 러너에게 넘긴다"
+                  break
+                fi
+              fi
             fi
             # 상호 감시: 짝꿍 분석 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
             if [ -n "$IS_MAIN" ] && ! alive update-analysis.yml; then
