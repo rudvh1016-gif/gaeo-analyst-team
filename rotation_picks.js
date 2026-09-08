@@ -4,52 +4,52 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-08 10:13",
- "dataCutoff": "2026-09-08 10:13 장중",
+ "generatedAt": "2026-09-08 10:43",
+ "dataCutoff": "2026-09-08 10:43 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "403870",
-   "name": "HPSP",
-   "sector": "반도체",
-   "sectorRank": 1,
-   "why": "20거래일 +48.8% · 20일선 위",
-   "overheat": false,
-   "gapPct": 16.6,
-   "call": "BUY",
-   "callConflict": false
-  },
   {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
    "sectorRank": 2,
-   "why": "20거래일 +74.3% · 20일선 위",
+   "why": "20거래일 +75.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 1.5,
+   "gapPct": 2.4,
    "call": "SELL",
    "callConflict": true
+  },
+  {
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 3,
+   "why": "20거래일 +66.7% · 20일선 위",
+   "overheat": false,
+   "gapPct": 19.0,
+   "call": "BUY",
+   "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 45.5,
+  "breadthPct": 48.8,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7082.91,
-    "ma20": 6766.75,
+    "close": 7091.71,
+    "ma20": 6767.19,
     "above": true,
-    "gapPct": 4.67
+    "gapPct": 4.8
    },
    "KOSDAQ": {
-    "close": 822.2,
-    "ma20": 829.76,
+    "close": 825.61,
+    "ma20": 829.93,
     "above": false,
-    "gapPct": -0.91
+    "gapPct": -0.52
    }
   }
  },

@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 10:13",
- "priceLabel": "2026-09-08 10:06 장중 · ⚠️ 1종목 지연",
- "count": 215,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-08 10:43",
+ "priceLabel": "2026-09-08 10:40 장중 · ⚠️ 1종목 지연",
+ "count": 219,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000069"
+  },
+  {
+   "code": "161890",
+   "name": "한국콜마",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800125"
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000073"
+  },
+  {
+   "code": "347850",
+   "name": "디앤디파마텍",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000070"
+  },
+  {
+   "code": "347850",
+   "name": "디앤디파마텍",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000072"
+  },
+  {
+   "code": "011200",
+   "name": "HMM",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T01:42:50.095411+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800128"
+  },
   {
    "code": "003070",
    "name": "코오롱글로벌",
@@ -944,15 +998,6 @@ const DART_TODAY = {
    "rceptNo": "20260904800245"
   },
   {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T05:41:51.532042+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000199"
-  },
-  {
    "code": "000240",
    "name": "한국앤컴퍼니",
    "title": "생산재개(자율공시)",
@@ -1284,15 +1329,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-03T06:42:36.169620+00:00",
    "isCorrection": false,
    "rceptNo": "20260903000231"
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260903",
-   "detectedAt": "2026-09-03T06:12:48.594935+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260903000154"
   },
   {
    "code": "036570",
