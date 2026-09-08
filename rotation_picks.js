@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-07 15:34",
- "dataCutoff": "2026-09-07 15:34 장중",
+ "generatedAt": "2026-09-08 09:14",
+ "dataCutoff": "2026-09-08 09:14 장중",
  "horizonDays": 20,
  "picks": [
   {
-   "code": "031980",
-   "name": "피에스케이홀딩스",
-   "sector": "반도체",
-   "sectorRank": 1,
-   "why": "20거래일 +64.9% · 20일선 위 · 거래량 평소의 1.8배",
-   "overheat": true,
-   "gapPct": 30.2,
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "sector": "전력·에너지",
+   "sectorRank": 2,
+   "why": "20거래일 +63.3% · 20일선 위 · 거래량 평소의 3.1배",
+   "overheat": false,
+   "gapPct": 22.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,40 +23,40 @@ window.ROTATION_PICKS = {
    "code": "002990",
    "name": "금호건설",
    "sector": "건설·건자재",
-   "sectorRank": 2,
-   "why": "20거래일 +64.8% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +82.2% · 20일선 위",
    "overheat": false,
-   "gapPct": 8.5,
+   "gapPct": 5.9,
    "call": "SELL",
    "callConflict": true
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 49.2,
+  "breadthPct": 50.3,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6973.42,
-    "ma20": 6726.49,
+    "close": 7047.91,
+    "ma20": 6765.0,
     "above": true,
-    "gapPct": 3.67
+    "gapPct": 4.18
    },
    "KOSDAQ": {
-    "close": 822.61,
-    "ma20": 831.4,
+    "close": 825.65,
+    "ma20": 829.94,
     "above": false,
-    "gapPct": -1.06
+    "gapPct": -0.52
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "반도체"
+  "topSector": "보험"
  },
  "record": {
   "hitRate": 53.2,
