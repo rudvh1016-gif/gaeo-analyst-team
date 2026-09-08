@@ -1,12 +1,93 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 15:07",
- "priceLabel": "2026-09-08 14:02 장중 · ⚠️ 1종목 지연",
- "count": 241,
+ "generatedAt": "2026-09-08 15:37",
+ "priceLabel": "2026-09-08 종가 (15:30 수집) · ⚠️ 1종목 지연",
+ "count": 244,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000209"
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000225"
+  },
+  {
+   "code": "043260",
+   "name": "성호전자",
+   "title": "증권발행결과(자율공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908900348"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000220"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000224"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000236"
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000211"
+  },
+  {
+   "code": "181710",
+   "name": "NHN",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800310"
+  },
+  {
+   "code": "002380",
+   "name": "KCC",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T06:36:58.847580+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000207"
+  },
   {
    "code": "226950",
    "name": "올릭스",
@@ -15,15 +96,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-08T06:06:55.096257+00:00",
    "isCorrection": true,
    "rceptNo": "20260908900218"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T06:06:55.096257+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000189"
   },
   {
    "code": "030610",
@@ -145,15 +217,6 @@ const DART_TODAY = {
   {
    "code": "003470",
    "name": "유안타증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000137"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260908",
    "detectedAt": "2026-09-08T05:12:50.832317+00:00",
@@ -177,24 +240,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-08T05:12:50.832317+00:00",
    "isCorrection": false,
    "rceptNo": "20260908000163"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000153"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합증권-주식워런트증권)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T05:12:50.832317+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908000155"
   },
   {
    "code": "011780",
@@ -1117,15 +1162,6 @@ const DART_TODAY = {
   {
    "code": "003540",
    "name": "대신증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T06:41:58.095326+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000301"
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
    "title": "[발행조건확정]증권신고서(채무증권)",
    "receiptDate": "20260904",
    "detectedAt": "2026-09-04T06:41:58.095326+00:00",
@@ -1284,15 +1320,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T05:41:51.532042+00:00",
    "isCorrection": false,
    "rceptNo": "20260904800186"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T04:41:04.196470+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904000113"
   },
   {
    "code": "240810",
