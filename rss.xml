@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Mon, 07 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월8일 종가, 장중 7171까지 갔다가 반납, 4곳 중 3곳이 내렸다</title>
+    <link>https://gaeoteam.com/snap/news/67.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/67.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 0.58% 내린 6,954.52로 마감했어요. 아침에 7,171까지 올랐다가 어제 급등분을 챙기려는 매물에 밀렸고, 개인이 3조333억원을 팔았어요. 그런데 지수보다 종목이 훨씬 나빴어요. 600종목 중 오른 건 24.8%뿐이고 가운데 종목은 -1.01%였어요. 어제와 방향은 정반대인데 지수가 내 계좌를 못 알려준 건 똑같습니다.</description>
+    <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월7일 종가, 코스피 4.61% 급등했는데 왜 내 종목은 조용했나</title>
     <link>https://gaeoteam.com/snap/news/66.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/65.html</guid>
     <category>주식공부</category>
     <description>주문창의 가격·수량·매수·매도를 실수 없이 입력하고, 시장가와 지정가·미체결·정정취소를 이해하는 실전 안내예요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>미국주식 사는 법: 계좌 개설부터 첫 매수까지</title>
-    <link>https://gaeoteam.com/snap/lesson/64.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/64.html</guid>
-    <category>주식공부</category>
-    <description>해외주식 거래 신청, 원화 입금과 환전, 종목 검색, 주문, 결제와 세금까지 첫 미국주식 매수 과정을 순서대로 안내해요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
