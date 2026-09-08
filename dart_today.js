@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-08 13:13",
- "priceLabel": "2026-09-08 13:06 장중 · ⚠️ 1종목 지연",
- "count": 223,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-08 13:43",
+ "priceLabel": "2026-09-08 13:39 장중 · ⚠️ 1종목 지연",
+ "count": 227,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "247540",
+   "name": "에코프로비엠",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T04:42:59.638642+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000125"
+  },
+  {
+   "code": "086520",
+   "name": "에코프로",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T04:42:59.638642+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908000124"
+  },
+  {
+   "code": "490470",
+   "name": "세미파이브",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T04:42:59.638642+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908900184"
+  },
+  {
+   "code": "001440",
+   "name": "대한전선",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T04:42:59.638642+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260908800194"
+  },
+  {
+   "code": "003920",
+   "name": "남양유업",
+   "title": "[기재정정]횡령ㆍ배임혐의발생",
+   "receiptDate": "20260908",
+   "detectedAt": "2026-09-08T04:42:59.638642+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260908800186"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -1770,15 +1815,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-02T06:02:39.523421+00:00",
    "isCorrection": false,
    "rceptNo": "20260902000178"
-  },
-  {
-   "code": "247540",
-   "name": "에코프로비엠",
-   "title": "[기재정정]주요사항보고서(유상증자결정)",
-   "receiptDate": "20260902",
-   "detectedAt": "2026-09-02T06:02:39.523421+00:00",
-   "isCorrection": true,
-   "rceptNo": "20260902000156"
   },
   {
    "code": "247540",
