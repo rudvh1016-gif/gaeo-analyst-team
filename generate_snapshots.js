@@ -214,12 +214,12 @@ function relatedToHtml(items) {
     '</div>';
 }
 
-const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/calc', 'snap/stock'];
+const outDirs = ['snap/news', 'snap/study', 'snap/lesson', 'snap/estate', 'snap/calc', 'snap/stock', 'snap/report'];
 for (const d of outDirs) fs.mkdirSync(path.join(HERE, d), { recursive: true });
 
 const index = [];
 
-function build(list, kind, folder, titleKey, tagPrefix) {
+function build(list, kind, folder, titleKey, tagPrefix, opts = {}) {
   for (const item of list) {
     const title = item[titleKey] || item.title || item.name;
     const canonicalUrl = contentUrl(kind, item.id);
@@ -233,7 +233,7 @@ function build(list, kind, folder, titleKey, tagPrefix) {
       updated: item.updated || item.date,
       articleType: 'Article',
       bodyHtml: bodyToHtml(item.body),
-      backHref: interactiveUrl,
+      backHref: opts.backHref || interactiveUrl,
       sourcesHtml: sourcesToHtml(item.sources),
       tag: item.tag,
       archiveHtml: archiveNotice(item.date),
@@ -257,7 +257,14 @@ build(load('stock_study.js', 'STOCK_STUDY'), 'study', 'study', 'name', '종목�
 build(load('stock_lessons.js', 'STOCK_LESSONS'), 'lesson', 'lesson', 'name', '주식공부');
 build(load('estate_lessons.js', 'ESTATE_LESSONS'), 'estate', 'estate', 'name', '부동산공부');
 build(load('calculators.js', 'CALCULATORS'), 'calc', 'calc', 'name', '계산기');
+// 성적표 정기 공개 보고서. 다른 콘텐츠와 달리 앱에 1:1 대응하는 상세 화면이 없다 —
+// 앱에는 숫자를 매번 다시 계산하는 '성적표' 화면 하나가 있을 뿐이다. 그래서 되돌아가는
+// 링크는 ?mode=report&id=N 이 아니라 기존 성적표 화면으로 보낸다(없는 화면으로 보내면
+// 앱이 빈 화면을 띄운다). 첫 호는 2026-10-19 예정이라 지금은 목록이 비어 있고,
+// 비어 있어도 아래 baseline 검사에 걸리지 않게 build를 baseline 뒤에 두지 않는다.
 if (index.length < 213) throw new Error(`human-authored snapshot count below baseline: ${index.length} < 213`);
+build(load('scorecard_reports.js', 'SCORECARD_REPORTS'), 'report', 'report', 'title', '성적표',
+      { backHref: BASE + '?mode=scorecard' });
 
 // ── 600종목 규칙 기반 자동분석 스냅샷. 검색 색인에서는 제외하고 앱 호환용으로만 유지한다. ──
 // 뉴스·공부 콘텐츠와 달리 매일 시세·분석이 바뀌므로, 러너(update-analysis.yml)가 매 사이클
