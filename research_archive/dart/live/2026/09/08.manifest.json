@@ -1,0 +1,29 @@
+{
+ "archiveVersion": "1.0",
+ "compressedBytes": 3267,
+ "compression": "gzip",
+ "compressionRatio": 0.0692,
+ "createdAt": "2026-09-09T00:15:46.678960+00:00",
+ "encryption": "AES-256-GCM",
+ "featureVersions": [],
+ "firstPredictionTimestamp": "2026-09-08T00:13:07.516744+00:00",
+ "labelVersions": [],
+ "lastPredictionTimestamp": "2026-09-08T07:06:59.979753+00:00",
+ "modelVersions": [],
+ "period": {
+  "id": "2026-09-08",
+  "type": "day"
+ },
+ "plaintextSha256": "0317ded58546c82cb45551c913020af0385742c4abba0a2345f9d29865f16b6a",
+ "rawBytes": 47204,
+ "recordCount": 80,
+ "recordType": "dart_event",
+ "schemaVersion": "research_archive_v1",
+ "sha256": {
+  "08.jsonl.gz.enc": "235dea3e2166737b7010dd0bb1077b8d2c988434c6d822f7f4bd562c4624efab"
+ },
+ "sourceFiles": [
+  "live/2026/09/08.jsonl.gz.enc"
+ ],
+ "status": "CLOSED_COMPRESSED"
+}
