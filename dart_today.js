@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-09 10:16",
- "priceLabel": "2026-09-09 10:10 장중 · ⚠️ 1종목 지연",
- "count": 215,
+ "generatedAt": "2026-09-09 10:47",
+ "priceLabel": "2026-09-09 10:45 장중 · ⚠️ 1종목 지연",
+ "count": 220,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "088350",
+   "name": "한화생명",
+   "title": "기타경영사항(자율공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T01:45:56.792145+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800135"
+  },
+  {
+   "code": "450080",
+   "name": "에코프로머티",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T01:45:56.792145+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909000075"
+  },
+  {
+   "code": "278470",
+   "name": "에이피알",
+   "title": "회사합병결정(종속회사의주요경영사항)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T01:45:56.792145+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800113"
+  },
+  {
+   "code": "278470",
+   "name": "에이피알",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T01:45:56.792145+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800116"
+  },
+  {
+   "code": "032190",
+   "name": "다우데이타",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T01:45:56.792145+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909000065"
+  },
   {
    "code": "042700",
    "name": "한미반도체",
