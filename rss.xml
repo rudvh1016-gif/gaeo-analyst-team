@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 09 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월9일 종가, 33거래일 만에 7000선 회복, 기관이 9005억 샀다</title>
+    <link>https://gaeoteam.com/snap/news/68.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/68.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 97.12포인트(1.40%) 오른 7,051.64로 마감하며 33거래일 만에 종가 기준 7,000선을 되찾았습니다. 코스닥도 2.28% 올랐습니다. 기관이 코스피에서 9,005억원을 순매수하며 5거래일 연속 사들인 것이 가장 큰 힘이었고, 2차전지와 화학이 시장을 끌어올렸습니다. 다만 지수만큼 모든 종목이 오른 것은 아니라는 점을 숫자로 확인해 봅니다.</description>
+    <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월8일 종가, 장중 7171까지 갔다가 반납, 4곳 중 3곳이 내렸다</title>
     <link>https://gaeoteam.com/snap/news/67.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/66.html</guid>
     <category>주식공부</category>
     <description>두 미국 대표지수의 편입 기준, 업종 집중도, 변동성, ETF 선택 기준을 비교해 내 목적에 맞게 고르는 법이에요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>주식 주문 넣는 법: 시장가·지정가부터 체결까지</title>
-    <link>https://gaeoteam.com/snap/lesson/65.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/65.html</guid>
-    <category>주식공부</category>
-    <description>주문창의 가격·수량·매수·매도를 실수 없이 입력하고, 시장가와 지정가·미체결·정정취소를 이해하는 실전 안내예요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
