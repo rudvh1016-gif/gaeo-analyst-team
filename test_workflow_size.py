@@ -179,13 +179,11 @@ class CollectorWithdrawsWhenItCannotSave(unittest.TestCase):
         push 거부/지연 — 원격 반영 후 재시도 (1/3)
         fetch 시간초과 — 이번 사이클 포기            ← timeout 120 정확히 소진
         다음 갱신까지 10분 대기...
-        [경고] fetch 실패 — 로컬 data.js 기준으로 진행
         data.js 갱신 완료 (2026-09-08 14:29 장중)   ← 또 성공, 또 저장 실패
         ...
 
     14:14~15:16의 **5사이클(약 62분) 동안 수집은 전부 성공하고 저장은 전부 실패**해
-    산출물이 하나도 안 나왔다. 다음 사이클의 `git checkout origin/... -- data.js`가
-    직전 결과를 덮으므로, 그 62분의 일은 전부 버려졌다.
+    산출물이 하나도 안 나왔다. 다음 사이클이 직전 결과를 덮으므로 그 62분은 전부 버려졌다.
 
     ## 왜 아무도 못 잡았나
 
@@ -193,7 +191,7 @@ class CollectorWithdrawsWhenItCannotSave(unittest.TestCase):
     - 산출물은 멈춰 있었다 → 사람은 "죽었다"고 보고 취소했다.
 
     **양쪽 다 틀렸다.** 러너는 살아 있었지만 쓸모가 없었다. 이 상태를 아는 것은
-    러너 자신뿐이다 — 자기 push가 연속으로 실패한다는 사실을 아는 건 자기밖에 없다.
+    러너 자신뿐이다 — 자기 push가 연속으로 실패한다는 사실은 자기만 안다.
 
     ## 규칙
 
@@ -201,57 +199,128 @@ class CollectorWithdrawsWhenItCannotSave(unittest.TestCase):
     `chain()`의 dispatch까지 실패해도 괜찮다 — run이 **끝나기만** 하면
     `pipeline-watchdog.yml`이 "도는 run 없음"을 보고 새로 띄운다.
     저장에 성공하면 카운터를 반드시 되돌린다(정상 러너가 물러나면 안 된다).
+
+    ## 임계가 파일마다 다른 이유
+
+    벽시계 시간을 맞춘 것이다. 시세는 10분 주기라 3회면 약 45분, 자동분석은 30분
+    주기라 2회면 약 60분 — 둘 다 워치독의 stale 임계(각 25분·70분)에 걸리기 전이거나
+    그 언저리에서 스스로 물러난다. 물러나는 비용은 거의 0이다: 저장에 실패한 사이클의
+    산출물은 어차피 다음 사이클이 덮어쓰므로, **취소와 달리 버릴 결과가 없다.**
     """
 
-    def _big_run_block(self, name):
+    # 파일 → 연속 실패 몇 회에 물러나는가
+    COLLECTORS = {"update-prices.yml": 3, "update-analysis.yml": 2}
+
+    def _body(self, name):
         with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
             return fh.read()
 
     def test_연속_저장_실패를_센다(self):
-        body = self._big_run_block("update-prices.yml")
-        self.assertTrue("failed_pushes=0" in body,
-                        "update-prices.yml: 연속 저장 실패 카운터가 없다 — "
-                        "저장을 못 하는 러너가 마감까지 헛돈다.")
-        self.assertTrue("MAX_FAILED_PUSHES" in body,
-                        "update-prices.yml: 물러날 기준(MAX_FAILED_PUSHES)이 없다.")
+        for name, limit in self.COLLECTORS.items():
+            body = self._body(name)
+            self.assertTrue("failed_pushes=0" in body,
+                            f"{name}: 연속 저장 실패 카운터가 없다 — "
+                            "저장을 못 하는 러너가 마감까지 헛돈다.")
+            self.assertTrue(f"MAX_FAILED_PUSHES={limit}" in body,
+                            f"{name}: 물러날 기준이 MAX_FAILED_PUSHES={limit}가 아니다. "
+                            "바꾸려면 사이클 주기 × 횟수가 워치독 stale 임계 안에 드는지 "
+                            "먼저 따지고, 이 테스트의 COLLECTORS도 같이 고쳐라.")
 
     def test_push_성공을_실제로_확인한다(self):
         """`git push && break`만으로는 성공/포기를 구분할 수 없다 — 플래그가 있어야 한다."""
-        body = self._big_run_block("update-prices.yml")
-        self.assertTrue(
-            "timeout 60 git push && { pushed=1; break; }" in body,
-            "update-prices.yml: push 성공 지점에 플래그가 없다. for 루프의 break는 "
-            "성공 break와 포기 break를 구분하지 못하므로, 플래그 없이 센 실패 횟수는 "
-            "틀린 숫자다 — 멀쩡한 러너가 물러나거나, 죽은 러너가 안 물러난다.")
+        for name in self.COLLECTORS:
+            body = self._body(name)
+            self.assertTrue(
+                "timeout 60 git push && { pushed=1; break; }" in body,
+                f"{name}: push 성공 지점에 플래그가 없다. for 루프의 break는 "
+                "성공 break와 포기 break를 구분하지 못하므로, 플래그 없이 센 실패 횟수는 "
+                "틀린 숫자다 — 멀쩡한 러너가 물러나거나, 죽은 러너가 안 물러난다.")
 
     def test_저장에_성공하면_카운터를_되돌린다(self):
         """정상 러너가 어쩌다 한 번 실패했다고 물러나면 안 된다."""
-        body = self._big_run_block("update-prices.yml")
-        idx = body.find('if [ -n "$pushed" ]; then')
-        self.assertNotEqual(idx, -1,
-                            "update-prices.yml: push 성공 분기가 없다.")
-        after = body[idx:idx + 200]
-        self.assertTrue("failed_pushes=0" in after,
-                        "update-prices.yml: 저장에 성공했는데 카운터를 되돌리지 않는다 — "
-                        "실패가 누적되어 멀쩡한 러너가 물러나게 된다.")
+        for name in self.COLLECTORS:
+            body = self._body(name)
+            idx = body.find('if [ -n "$pushed" ]; then')
+            self.assertNotEqual(idx, -1, f"{name}: push 성공 분기가 없다.")
+            self.assertTrue("failed_pushes=0" in body[idx:idx + 200],
+                            f"{name}: 저장에 성공했는데 카운터를 되돌리지 않는다 — "
+                            "실패가 누적되어 멀쩡한 러너가 물러나게 된다.")
 
     def test_물러날_때_루프를_빠져나가_chain으로_간다(self):
         """`exit`이 아니라 `break`여야 한다 — 루프 뒤의 chain()에 도달해야 새 러너가 뜬다."""
-        body = self._big_run_block("update-prices.yml")
-        idx = body.find("연속 저장 실패")
-        self.assertNotEqual(idx, -1, "update-prices.yml: 연속 저장 실패 안내가 없다.")
-        block = body[idx:idx + 400]
-        self.assertTrue("break" in block,
-                        "update-prices.yml: 물러날 때 break로 루프를 빠져나가지 않는다.")
-        self.assertFalse("exit 1" in block,
-                         "update-prices.yml: exit으로 죽으면 루프 뒤의 chain()에 못 가 "
-                         "새 러너가 안 뜬다. break로 빠져나와야 한다.")
+        for name in self.COLLECTORS:
+            body = self._body(name)
+            idx = body.find("연속 저장 실패")
+            self.assertNotEqual(idx, -1, f"{name}: 연속 저장 실패 안내가 없다.")
+            block = body[idx:idx + 400]
+            self.assertTrue("break" in block,
+                            f"{name}: 물러날 때 break로 루프를 빠져나가지 않는다.")
+            self.assertFalse("exit 1" in block,
+                             f"{name}: exit으로 죽으면 루프 뒤의 chain()에 못 가 "
+                             "새 러너가 안 뜬다. break로 빠져나와야 한다.")
 
     def test_경위_주석이_남아있다(self):
-        body = self._big_run_block("update-prices.yml")
-        self.assertIn("2026-09-08", body,
-                      "update-prices.yml: 왜 이 카운터가 있는지 적힌 주석이 사라졌다 — "
-                      "다음 사람이 '쓸데없어 보인다'며 지운다.")
+        for name in self.COLLECTORS:
+            body = self._body(name)
+            self.assertTrue("2026-09-08" in body,
+                            f"{name}: 왜 이 카운터가 있는지 적힌 주석이 사라졌다 — "
+                            "다음 사람이 '쓸데없어 보인다'며 지운다.")
+
+
+class SharedHelpersLiveInOneFile(unittest.TestCase):
+    """dispatch()·alive()·chain()은 파일 하나에 있고 두 워크플로가 source한다 (2026-09-09).
+
+    ## 왜 이렇게 됐나
+
+    `run:` 블록 하나의 UTF-8 21,000바이트 한도에 두 번 부딪혔다. 2026-09-07에는 실제로
+    넘겨서 **파일 전체가 무효**가 됐고(job 0개 + dispatch 거부), 그 뒤로도 자동분석의 큰
+    블록은 20,220B(안전선의 98.6%)로 꽉 차 있어 2026-09-08 사고의 안전장치조차 못 넣었다.
+
+    두 워크플로에 **똑같이 복사돼 있던** 이 함수들을 `.github/scripts/gaeo-chain.sh`로
+    옮겨 큰 블록에 약 1.5KB를 벌었다. 덤으로 복사본이 갈라질 일도 없어졌다.
+
+    ## 지켜야 할 것
+
+    - **별도 스텝이 아니라 같은 스텝에서 `source`** 해야 한다. 셸 함수는 스텝을 넘지 못한다.
+      (거래일 판정처럼 `$GITHUB_ENV`로 넘길 수 있는 건 '값'뿐이다.)
+    - `chain()`은 자기 워크플로를 다시 띄워야 하므로 파일명을 `$SELF_WORKFLOW`로 받는다.
+      이 env가 빠지면 체인이 **엉뚱한 워크플로를 띄우거나 아무것도 못 띄운다.**
+    """
+
+    SCRIPT = os.path.join(WORKFLOW_DIR, "..", "scripts", "gaeo-chain.sh")
+    COLLECTORS = ("update-prices.yml", "update-analysis.yml")
+
+    def test_공용_스크립트가_존재한다(self):
+        self.assertTrue(os.path.isfile(self.SCRIPT),
+                        ".github/scripts/gaeo-chain.sh가 없다 — 두 수집 워크플로가 "
+                        "이 파일을 source하므로, 없으면 set -e로 스텝이 즉시 죽는다.")
+
+    def test_세_함수가_모두_정의돼_있다(self):
+        with open(self.SCRIPT, encoding="utf-8") as fh:
+            src = fh.read()
+        for fn in ("dispatch()", "alive()", "chain()"):
+            self.assertTrue(fn in src, f"gaeo-chain.sh에 {fn}가 없다.")
+        self.assertTrue('"$SELF_WORKFLOW"' in src,
+                        "chain()이 $SELF_WORKFLOW를 쓰지 않는다 — 두 워크플로가 같은 "
+                        "파일을 공유하므로 자기 이름을 env로 받아야 한다.")
+
+    def test_두_워크플로가_같은_스텝에서_source한다(self):
+        for name in self.COLLECTORS:
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertTrue(". .github/scripts/gaeo-chain.sh" in body,
+                            f"{name}: 공용 함수 파일을 source하지 않는다.")
+            self.assertFalse("\n          dispatch() {" in body,
+                             f"{name}: 공용 함수가 다시 인라인으로 복사됐다 — "
+                             "블록 크기가 도로 불어나고 두 복사본이 갈라진다.")
+
+    def test_SELF_WORKFLOW가_자기_파일명으로_설정돼_있다(self):
+        for name in self.COLLECTORS:
+            with open(os.path.join(WORKFLOW_DIR, name), encoding="utf-8") as fh:
+                body = fh.read()
+            self.assertTrue(f"SELF_WORKFLOW: {name}" in body,
+                            f"{name}: env에 SELF_WORKFLOW가 자기 파일명으로 없다 — "
+                            "체인이 엉뚱한 워크플로를 띄우거나 아무것도 못 띄운다.")
 
 
 class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
