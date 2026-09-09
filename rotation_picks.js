@@ -4,70 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-09 10:17",
- "dataCutoff": "2026-09-09 10:17 장중",
+ "generatedAt": "2026-09-09 10:47",
+ "dataCutoff": "2026-09-09 10:47 장중",
  "horizonDays": 20,
  "picks": [
+  {
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 1,
+   "why": "20거래일 +72.4% · 20일선 위 · 거래량 평소의 1.9배",
+   "overheat": true,
+   "gapPct": 42.0,
+   "call": "SELL",
+   "callConflict": true
+  },
   {
    "code": "403870",
    "name": "HPSP",
    "sector": "반도체",
-   "sectorRank": 1,
+   "sectorRank": 2,
    "why": "20거래일 +48.2% · 20일선 위",
    "overheat": false,
    "gapPct": 18.5,
    "call": "BUY",
    "callConflict": false
-  },
-  {
-   "code": "336260",
-   "name": "두산퓨얼셀",
-   "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +65.6% · 20일선 위 · 거래량 평소의 1.3배",
-   "overheat": true,
-   "gapPct": 38.0,
-   "call": "HOLD",
-   "callConflict": false
-  },
-  {
-   "code": "000500",
-   "name": "가온전선",
-   "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +61.1% · 20일선 위",
-   "overheat": true,
-   "gapPct": 33.3,
-   "call": "HOLD",
-   "callConflict": false
   }
  ],
  "gate": {
-  "indexAboveMa20": 2,
-  "breadthPct": 47.0,
-  "shown": 3,
-  "allowed": 3,
-  "sectorCap": 2,
+  "indexAboveMa20": 1,
+  "breadthPct": 45.2,
+  "shown": 2,
+  "allowed": 2,
+  "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7042.9,
-    "ma20": 6795.2,
+    "close": 7061.8,
+    "ma20": 6796.15,
     "above": true,
-    "gapPct": 3.65
+    "gapPct": 3.91
    },
    "KOSDAQ": {
-    "close": 828.62,
-    "ma20": 827.79,
-    "above": true,
-    "gapPct": 0.1
+    "close": 827.52,
+    "ma20": 827.73,
+    "above": false,
+    "gapPct": -0.03
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "반도체"
+  "topSector": "전력·에너지"
  },
  "record": {
   "hitRate": 53.2,
