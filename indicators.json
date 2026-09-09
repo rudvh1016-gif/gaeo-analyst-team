@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-09-09 15:50",
- "priceLabel": "2026-09-09 종가 (15:39 수집) · ⚠️ 1종목 지연",
+ "generatedAt": "2026-09-09 16:20",
+ "priceLabel": "2026-09-09 종가 (16:02 수집) · ⚠️ 1종목 지연",
  "indices": {
   "KOSPI": {
    "value": 7051.64,
@@ -76,7 +76,7 @@
     "ret20Ready": true,
     "macd": -1408,
     "macdSignal": -1341,
-    "volRatio": 0.49,
+    "volRatio": 0.5,
     "low3m": 50100,
     "high3m": 134000,
     "last5": [
@@ -10139,7 +10139,7 @@
     "ret20Ready": true,
     "macd": 983,
     "macdSignal": 686,
-    "volRatio": 1.07,
+    "volRatio": 1.08,
     "low3m": 24650,
     "high3m": 30350,
     "last5": [
@@ -10581,7 +10581,7 @@
     "ret20Ready": true,
     "macd": -1086,
     "macdSignal": -734,
-    "volRatio": 0.71,
+    "volRatio": 0.72,
     "low3m": 59900,
     "high3m": 76700,
     "last5": [
@@ -11173,7 +11173,7 @@
     "ret20Ready": true,
     "macd": 479,
     "macdSignal": 250,
-    "volRatio": 1.11,
+    "volRatio": 1.12,
     "low3m": 39200,
     "high3m": 56700,
     "last5": [
@@ -14861,7 +14861,7 @@
     "ret20Ready": true,
     "macd": 901,
     "macdSignal": -1216,
-    "volRatio": 0.87,
+    "volRatio": 0.88,
     "low3m": 100000,
     "high3m": 217500,
     "last5": [
@@ -16043,7 +16043,7 @@
     "ret20Ready": true,
     "macd": -50,
     "macdSignal": -82,
-    "volRatio": 0.76,
+    "volRatio": 0.77,
     "low3m": 24750,
     "high3m": 56800,
     "last5": [
@@ -17961,7 +17961,7 @@
     "ret20Ready": true,
     "macd": 509,
     "macdSignal": 323,
-    "volRatio": 1.87,
+    "volRatio": 1.88,
     "low3m": 11200,
     "high3m": 27450,
     "last5": [
@@ -19145,7 +19145,7 @@
     "ret20Ready": true,
     "macd": -426,
     "macdSignal": 36,
-    "volRatio": 1.21,
+    "volRatio": 1.22,
     "low3m": 22850,
     "high3m": 42200,
     "last5": [
@@ -44618,7 +44618,7 @@
     "ret20Ready": true,
     "macd": -494,
     "macdSignal": -143,
-    "volRatio": 13.27,
+    "volRatio": 13.28,
     "low3m": 147,
     "high3m": 3660,
     "last5": [
@@ -45645,7 +45645,7 @@
     "ret20Ready": true,
     "macd": -43,
     "macdSignal": -47,
-    "volRatio": 0.5,
+    "volRatio": 0.51,
     "low3m": 2600,
     "high3m": 3255,
     "last5": [
@@ -45791,7 +45791,7 @@
     "ret20Ready": true,
     "macd": -1004,
     "macdSignal": -460,
-    "volRatio": 8.39,
+    "volRatio": 8.51,
     "low3m": 47550,
     "high3m": 63900,
     "last5": [
@@ -66039,7 +66039,7 @@
     "ret20Ready": true,
     "macd": -165,
     "macdSignal": -193,
-    "volRatio": 11.98,
+    "volRatio": 11.99,
     "low3m": 5270,
     "high3m": 9700,
     "last5": [
@@ -69703,7 +69703,7 @@
     "ret20Ready": true,
     "macd": 1959,
     "macdSignal": 629,
-    "volRatio": 1.19,
+    "volRatio": 1.2,
     "low3m": 22200,
     "high3m": 51800,
     "last5": [
@@ -70729,7 +70729,7 @@
     "ret20Ready": true,
     "macd": 768,
     "macdSignal": 285,
-    "volRatio": 1.14,
+    "volRatio": 1.15,
     "low3m": 12150,
     "high3m": 28100,
     "last5": [

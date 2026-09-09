@@ -1,6 +1,6 @@
 {
  "day": "2026-09-09",
- "asOf": "2026-09-09T06:51:33+00:00",
+ "asOf": "2026-09-09T07:21:34+00:00",
  "closeConfirmed": true,
  "universeSource": "FULL_MARKET",
  "universeDate": "2026-09-09",
@@ -52,7 +52,7 @@
   "equalWeightReturn": 0.577,
   "capWeightedReturn": 1.462,
   "turnoverTop5Share": 0.5688,
-  "turnoverTop30Share": 0.7451
+  "turnoverTop30Share": 0.745
  },
  "kosdaq": {
   "eligibleCount": 1643,
@@ -63,7 +63,7 @@
   "medianReturn": 0.23,
   "equalWeightReturn": 0.931,
   "capWeightedReturn": 2.428,
-  "turnoverTop5Share": 0.2809,
+  "turnoverTop5Share": 0.281,
   "turnoverTop30Share": 0.597
  },
  "sectorBreadth": {
