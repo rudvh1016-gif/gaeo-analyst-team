@@ -271,6 +271,33 @@ def _fmt_bizdate(bd):
     return f"{int(s[4:6])}/{int(s[6:8])}" if len(s) == 8 else None
 
 
+def _iso_bizdate(bd):
+    """bizdate(YYYYMMDD) → 'YYYY-MM-DD'. 위 _fmt_bizdate('9/8')는 연도가 없어 소비자가 기준일을
+    공식 거래일과 비교할 수 없었다(2026-09-09 GAEO Private 재현). 같은 원본 값을 형식만 바꿔 싣는다."""
+    s = str(bd or "").strip()
+    if len(s) != 8 or not s.isdigit():
+        return None
+    try:
+        return datetime.date(int(s[:4]), int(s[4:6]), int(s[6:8])).isoformat()
+    except ValueError:
+        return None
+
+
+def last_bar_date(daily):
+    """일봉 배열의 마지막 봉 날짜('YYYY-MM-DD'). 지표(ma20·bb·high3m)가 어느 거래일까지의 봉으로
+    계산됐는지 밝히는 '기준일'이다. 계산 시각(generatedAt)으로는 이것을 알 수 없다 — 수집이 실패해
+    옛 봉을 다시 계산한 파일도 generatedAt 은 새것이기 때문이다. 날짜가 없으면 None(지어내지 않음)."""
+    if not daily:
+        return None
+    value = (daily[-1] or {}).get("date")
+    if not isinstance(value, str) or len(value) != 10:
+        return None
+    try:
+        return datetime.date.fromisoformat(value).isoformat()
+    except ValueError:
+        return None
+
+
 def flow_summary(deal_trends, daily=None, days=6):
     # ⭐ 2026-09-04 참고: days 기본값은 6이지만 원본 dealTrends는 전 종목이 정확히
     #    5행이라 운영에서는 항상 5일 창이다. 기본값을 5로 낮추면 6행을 넘기는
@@ -407,6 +434,8 @@ def flow_summary(deal_trends, daily=None, days=6):
     return {
         "days": len(dt),
         "periodStart": period_start, "periodEnd": period_end,
+        # 확정 기준일(ISO). periodEnd 와 같은 bizdate 에서 왔고 연도까지 있다.
+        "periodEndDate": _iso_bizdate(dt[0].get("bizdate")),
         "frgnSum": int(frgn), "orgSum": int(org), "indiSum": int(indi),
         "holdNow": num(dt[0].get("foreignerHoldRatio")),
         "holdBefore": num(dt[-1].get("foreignerHoldRatio")),
@@ -472,6 +501,10 @@ def main():
     sectors = load_sectors()
     out = {
         "generatedAt": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
+        # 일봉·수급 원본(analysis_data.json)을 네이버에서 수집하기 시작한 시각(KST, collect_analyst_data.py).
+        # generatedAt 은 '계산한 시각'이라 관측시각이 아니다. 소비자(GAEO Private)는 이 값이 없으면
+        # 지표 관측시각을 모르는 것으로 처리한다(2026-09-09: 600종목 전부 판단 불가였던 원인).
+        "analysisDataFetchedAt": raw.get("fetchedAt") if isinstance(raw.get("fetchedAt"), str) else None,
         "priceLabel": live.get("date"),
         "indices": live.get("indices"),
         "stocks": {},
@@ -508,6 +541,8 @@ def main():
                 entry["fwdPer"] = round(entry["price"] / entry["cnsEps"], 1)
             daily = s.get("daily") or []
             entry["tech"] = indicators_for(daily) if len(daily) >= 2 else None
+            if entry["tech"]:
+                entry["tech"]["lastBarDate"] = last_bar_date(daily)   # 지표 기준일(마지막 봉 날짜)
             entry["flow"] = flow_summary(info.get("dealTrends") or [], daily)
             entry["risk"] = risk_for(daily, d)   # 🛡️ RISK 카드용(브라우저가 직접 읽음)
             entry["sector"] = sectors.get(code, "기타")
