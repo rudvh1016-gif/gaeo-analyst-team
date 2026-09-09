@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 68,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-09",
+  "title": "2026년 9월9일 종가, 33거래일 만에 7000선 회복, 기관이 9005억 샀다",
+  "featured": false
+ },
+ {
   "id": 67,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-28",
   "title": "2026년 8월28일 종가, 지수는 1.79% 빠졌는데 왜 종목은 올랐을까",
   "featured": false
- },
- {
-  "id": 59,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-27",
-  "title": "2026년 8월27일 종가, 엔비디아 훈풍에 코스피·코스닥 동반 상승",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 67,
+ "news": 68,
  "study": 35,
  "lesson": 82,
  "estate": 19,
