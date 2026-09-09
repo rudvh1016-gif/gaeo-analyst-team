@@ -4,29 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-09 11:17",
- "dataCutoff": "2026-09-09 11:17 장중",
+ "generatedAt": "2026-09-09 11:46",
+ "dataCutoff": "2026-09-09 11:46 장중",
  "horizonDays": 20,
  "picks": [
-  {
-   "code": "403870",
-   "name": "HPSP",
-   "sector": "반도체",
-   "sectorRank": 1,
-   "why": "20거래일 +47.4% · 20일선 위",
-   "overheat": false,
-   "gapPct": 17.9,
-   "call": "BUY",
-   "callConflict": false
-  },
   {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +68.9% · 20일선 위 · 거래량 평소의 2.2배",
+   "sectorRank": 1,
+   "why": "20거래일 +71.8% · 20일선 위 · 거래량 평소의 2.3배",
    "overheat": true,
-   "gapPct": 39.3,
+   "gapPct": 41.5,
    "call": "SELL",
    "callConflict": true
   },
@@ -34,40 +23,51 @@ window.ROTATION_PICKS = {
    "code": "336260",
    "name": "두산퓨얼셀",
    "sector": "전력·에너지",
-   "sectorRank": 2,
-   "why": "20거래일 +53.2% · 20일선 위 · 거래량 평소의 2.0배",
+   "sectorRank": 1,
+   "why": "20거래일 +54.1% · 20일선 위 · 거래량 평소의 2.1배",
    "overheat": false,
-   "gapPct": 28.4,
+   "gapPct": 29.0,
    "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "403870",
+   "name": "HPSP",
+   "sector": "반도체",
+   "sectorRank": 2,
+   "why": "20거래일 +47.8% · 20일선 위",
+   "overheat": false,
+   "gapPct": 18.2,
+   "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 45.8,
+  "breadthPct": 46.0,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7068.48,
-    "ma20": 6796.48,
+    "close": 7083.74,
+    "ma20": 6797.24,
     "above": true,
-    "gapPct": 4.0
+    "gapPct": 4.21
    },
    "KOSDAQ": {
-    "close": 829.08,
-    "ma20": 827.81,
+    "close": 828.53,
+    "ma20": 827.78,
     "above": true,
-    "gapPct": 0.15
+    "gapPct": 0.09
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "반도체"
+  "topSector": "전력·에너지"
  },
  "record": {
   "hitRate": 53.2,
