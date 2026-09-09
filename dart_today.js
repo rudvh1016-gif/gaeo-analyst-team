@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-09 13:46",
- "priceLabel": "2026-09-09 13:41 장중 · ⚠️ 1종목 지연",
- "count": 226,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-09 14:21",
+ "priceLabel": "2026-09-09 14:09 장중 · ⚠️ 1종목 지연",
+ "count": 231,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260909800203"
+  },
+  {
+   "code": "489790",
+   "name": "한화비전",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800205"
+  },
+  {
+   "code": "161890",
+   "name": "한국콜마",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800230"
+  },
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "영업(잠정)실적(공정공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800206"
+  },
+  {
+   "code": "000080",
+   "name": "하이트진로",
+   "title": "생산중단(자율공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800221"
+  },
+  {
+   "code": "055550",
+   "name": "신한지주",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T05:20:18.103812+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800210"
+  },
   {
    "code": "006400",
    "name": "삼성SDI",
@@ -1653,15 +1707,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-04T00:41:06.068988+00:00",
    "isCorrection": false,
    "rceptNo": "20260904800063"
-  },
-  {
-   "code": "000720",
-   "name": "현대건설",
-   "title": "중대재해발생",
-   "receiptDate": "20260904",
-   "detectedAt": "2026-09-04T00:11:07.829594+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260904800020"
   },
   {
    "code": "010130",
