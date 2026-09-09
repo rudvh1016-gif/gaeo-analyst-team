@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-09 10:47",
- "priceLabel": "2026-09-09 10:45 장중 · ⚠️ 1종목 지연",
- "count": 220,
+ "generatedAt": "2026-09-09 11:16",
+ "priceLabel": "2026-09-09 11:08 장중 · ⚠️ 1종목 지연",
+ "count": 221,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "014830",
+   "name": "유니드",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T02:15:49.907682+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800139"
+  },
   {
    "code": "088350",
    "name": "한화생명",
