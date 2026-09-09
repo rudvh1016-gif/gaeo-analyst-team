@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-09 12:46",
- "priceLabel": "2026-09-09 12:42 장중 · ⚠️ 1종목 지연",
- "count": 225,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-09 13:16",
+ "priceLabel": "2026-09-09 13:06 장중 · ⚠️ 1종목 지연",
+ "count": 226,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "006400",
+   "name": "삼성SDI",
+   "title": "금전대여결정",
+   "receiptDate": "20260909",
+   "detectedAt": "2026-09-09T04:15:38.252037+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260909800178"
+  },
   {
    "code": "336570",
    "name": "원텍",
