@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-09 13:16",
- "dataCutoff": "2026-09-09 13:16 장중",
+ "generatedAt": "2026-09-09 13:46",
+ "dataCutoff": "2026-09-09 13:46 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 1,
-   "why": "20거래일 +67.6% · 20일선 위 · 거래량 평소의 2.7배",
+   "why": "20거래일 +67.9% · 20일선 위 · 거래량 평소의 2.8배",
    "overheat": true,
-   "gapPct": 38.4,
+   "gapPct": 38.6,
    "call": "SELL",
    "callConflict": true
   },
@@ -24,32 +24,32 @@ window.ROTATION_PICKS = {
    "name": "HPSP",
    "sector": "반도체",
    "sectorRank": 2,
-   "why": "20거래일 +44.5% · 20일선 위",
+   "why": "20거래일 +45.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 15.8,
+   "gapPct": 16.2,
    "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 45.2,
+  "breadthPct": 46.7,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7037.57,
-    "ma20": 6794.94,
+    "close": 7048.02,
+    "ma20": 6795.46,
     "above": true,
-    "gapPct": 3.57
+    "gapPct": 3.72
    },
    "KOSDAQ": {
-    "close": 824.82,
-    "ma20": 827.6,
+    "close": 827.34,
+    "ma20": 827.72,
     "above": false,
-    "gapPct": -0.34
+    "gapPct": -0.05
    }
   }
  },
