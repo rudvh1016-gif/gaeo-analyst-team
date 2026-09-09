@@ -7,7 +7,7 @@
     대신 "발행물 한 편이 갖춰야 할 최소 조건"을 기계적으로 검사한다.
 
     검사 대상은 검색엔진이 실제로 읽는 정적 산출물이다:
-      - snap/{news,study,lesson,estate,calc}/*.html  (발행 글 스냅샷)
+      - snap/{news,study,lesson,estate,calc,report}/*.html  (발행 글 스냅샷)
       - snap/stock/*.html                            (자동 종목 페이지 — noindex 계약)
       - snap/index.html                              (정적 허브)
       - research/deep-analysis/**/index.html         (정밀분석 영구 페이지)
@@ -41,6 +41,8 @@ POST_DIRS = {
     "snap/lesson": 800,
     "snap/estate": 800,
     "snap/calc": 300,      # 도구 페이지 — 목적·사용법 설명이 있으면 충분
+    # 성적표 보고서 — 숫자와 방법을 같이 적어야 하므로 뉴스분석과 같은 기준.
+    "snap/report": 800,
 }
 DEEP_DETAIL_MIN = 600      # 정밀분석 상세(개별 종목·시점 페이지)
 PLACEHOLDER_TOKENS = [
@@ -231,7 +233,7 @@ def check_repo(root="."):
             problems.append("robots.txt: Sitemap 선언이 없습니다")
         if re.search(r"Disallow:\s*/snap/stock/", robots):
             problems.append("robots.txt: /snap/stock/을 차단하면 페이지의 noindex를 읽을 수 없습니다")
-        for good in ["/snap/news", "/snap/study", "/snap/lesson", "/snap/estate"]:
+        for good in ["/snap/news", "/snap/study", "/snap/lesson", "/snap/estate", "/snap/report"]:
             if re.search(rf"Disallow:\s*{re.escape(good)}", robots):
                 problems.append(f"robots.txt: 발행 글 경로 {good}를 차단하고 있습니다")
     else:
