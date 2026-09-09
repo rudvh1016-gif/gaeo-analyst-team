@@ -12,6 +12,8 @@ const HUMAN_SOURCES = [
   { file: 'stock_lessons.js', variable: 'STOCK_LESSONS', mode: 'lesson', priority: '0.6' },
   { file: 'estate_lessons.js', variable: 'ESTATE_LESSONS', mode: 'estate', priority: '0.6' },
   { file: 'calculators.js', variable: 'CALCULATORS', mode: 'calc', priority: '0.5' },
+  // 성적표 정기 공개 보고서 — 검증 기록이라 색인 우선순위를 뉴스분석과 같게 둔다.
+  { file: 'scorecard_reports.js', variable: 'SCORECARD_REPORTS', mode: 'report', priority: '0.7' },
 ];
 
 function requireDate(value, label) {

@@ -6,7 +6,9 @@
   'use strict';
 
   const BASE = 'https://gaeoteam.com/';
-  const CONTENT_MODES = Object.freeze(['news', 'study', 'lesson', 'estate', 'calc']);
+  // 'report' = 성적표 정기 공개 보고서(scorecard_reports.js). 앱의 성적표 화면은
+  // 숫자를 매번 다시 계산하지만 이 글은 발행 시점 숫자를 동결해 영구 주소에 박는다.
+  const CONTENT_MODES = Object.freeze(['news', 'study', 'lesson', 'estate', 'calc', 'report']);
   const MODE_SET = new Set(CONTENT_MODES);
   const UTM_KEYS = Object.freeze(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']);
   const SAFE_CAMPAIGN_VALUE = /^[a-zA-Z0-9가-힣_-]{1,80}$/;
@@ -65,7 +67,7 @@
       return { pageType: 'app_query', mode };
     }
 
-    const content = /^\/snap\/(news|study|lesson|estate|calc)\/(\d{1,6})\.html$/.exec(url.pathname);
+    const content = /^\/snap\/(news|study|lesson|estate|calc|report)\/(\d{1,6})\.html$/.exec(url.pathname);
     if (content && validContentId(content[2])) {
       return { pageType: 'content_snapshot', mode: content[1], id: content[2] };
     }

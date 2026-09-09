@@ -4,59 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-09 09:16",
- "dataCutoff": "2026-09-09 09:16 장중",
+ "generatedAt": "2026-09-09 09:46",
+ "dataCutoff": "2026-09-09 09:46 장중",
  "horizonDays": 20,
  "picks": [
   {
-   "code": "000880",
-   "name": "한화",
-   "sector": "지주·상사",
-   "sectorRank": 2,
-   "why": "20거래일 +65.0% · 20일선 위",
-   "overheat": false,
-   "gapPct": 17.9,
-   "call": "BUY",
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 1,
+   "why": "20거래일 +59.7% · 20일선 위",
+   "overheat": true,
+   "gapPct": 32.2,
+   "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "336260",
-   "name": "두산퓨얼셀",
-   "sector": "전력·에너지",
-   "sectorRank": 5,
-   "why": "20거래일 +47.7% · 20일선 위",
+   "code": "403870",
+   "name": "HPSP",
+   "sector": "반도체",
+   "sectorRank": 3,
+   "why": "20거래일 +46.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 18.9,
-   "call": "HOLD",
+   "gapPct": 17.3,
+   "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 42.5,
+  "breadthPct": 45.8,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6987.07,
-    "ma20": 6792.41,
+    "close": 7000.24,
+    "ma20": 6793.07,
     "above": true,
-    "gapPct": 2.87
+    "gapPct": 3.05
    },
    "KOSDAQ": {
-    "close": 820.79,
-    "ma20": 827.4,
+    "close": 821.2,
+    "ma20": 827.42,
     "above": false,
-    "gapPct": -0.8
+    "gapPct": -0.75
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "보험"
+  "topSector": "전력·에너지"
  },
  "record": {
   "hitRate": 53.2,

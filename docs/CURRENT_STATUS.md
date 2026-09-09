@@ -107,9 +107,28 @@ main HEAD는 `1fffe377`. 전체 테스트 1,079건 통과.
 4. `test_workflow_size.CollectorWithdrawsWhenItCannotSave`의 대상에
    `update-analysis.yml`을 추가한다(지금은 `update-prices.yml`만 검사한다).
 
-**② Task #52 — 성적표 정적 URL 발행 파이프라인**
+**② Task #52 — 성적표 정적 URL 발행 파이프라인** → **2026-09-09 배관 완료.**
 
-첫 호가 **10/19 사전등록 결과 공개 글**이므로 그 전까지만 하면 된다. 급하지 않다.
+앱의 성적표 화면은 숫자를 매번 다시 계산해서 링크로 남길 수도, 인용할 수도 없다.
+그래서 발행 시점 숫자를 **동결해** 영구 주소에 박는 경로를 새로 깔았다.
+
+| 무엇 | 어디 |
+|---|---|
+| 주소 | `https://gaeoteam.com/snap/report/<id>.html` (새 `report` 모드) |
+| 데이터 | `scorecard_reports.js` — append-only, `frozen` 블록에 동결 숫자 |
+| 동결 | `publish_scorecard_report.py` — 평가 리포트에서 뽑아 초안을 찍는다 |
+| 계약 | `test_scorecard_report_pipeline.js`(8건) · `test_scorecard_report_publish.py`(7건) |
+
+되돌아가는 링크는 `?mode=report&id=N`이 아니라 **앱의 기존 성적표 화면**(`?mode=scorecard`)이다
+— 앱에 그 상세 화면이 없어서 보내면 빈 화면이 뜬다.
+
+**아직 발행하지 않았다.** 첫 호는 10/19 사전등록 확정 평가이고, 그 전에 결과를 글로
+내보내면 등록이 소멸한다. 평가 스크립트가 판단일 20일 미만이면 효과 크기를 안 내주고,
+`publish_scorecard_report.py`도 `status != EVALUATED`면 초안 자체를 거부한다(문이 두 겹).
+
+10/19에 할 일: `python3 publish_scorecard_report.py --draft` → 나온 뼈대를
+`scorecard_reports.js`에 붙여 넣고 **본문만** 사람이 쓴다(숫자는 `frozen`에 있는 것만).
+→ `python3 seo_publish_gate.py` 통과 확인 → PR.
 
 **③ Task #26 — 커뮤니티 Cloudflare 글쓰기 재개**
 
