@@ -172,8 +172,10 @@ in_progress run"은 좀비 **후보**일 뿐이다. 실제 상태는 셋으로 �
 이 상태를 아는 것은 러너 자신뿐이므로, 이제 `update-prices.yml`이 **연속 저장 실패를 세어
 3사이클(약 45분)이면 스스로 물러나** `chain()`으로 새 러너에게 넘긴다
 (계약 테스트 `test_workflow_size.CollectorWithdrawsWhenItCannotSave`).
-⚠️ `update-analysis.yml`에는 아직 같은 장치가 없다 — 큰 `run:` 블록에 여유가 280바이트뿐이라
-블록을 쪼갠 뒤에 넣어야 한다. 경위는 `docs/PIPELINE_WATCHDOG.md`의 2026-09-08 절.
+`update-analysis.yml`에도 2026-09-09에 같은 장치를 넣었다(임계 2회 ≈ 60분 — 30분 주기라
+70분 stale 임계보다 먼저 물러난다). 자리는 두 워크플로의 공용 함수를
+`.github/scripts/gaeo-chain.sh`로 빼서 만들었다. 경위는 `docs/PIPELINE_WATCHDOG.md`의
+2026-09-08 절.
 
 ⛑️ **⑦ 워크플로 유효성 감시 (2026-09-07 신설).** 위 여섯 겹은 전부 "러너가 돌고 있는가 ·
 산출물이 갱신되는가"를 본다. 그런데 **워크플로 파일 자체가 무효가 되면** 그 질문들이
