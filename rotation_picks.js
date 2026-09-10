@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-10 12:12",
- "dataCutoff": "2026-09-10 12:12 장중",
+ "generatedAt": "2026-09-10 12:42",
+ "dataCutoff": "2026-09-10 12:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,10 +13,10 @@ window.ROTATION_PICKS = {
    "name": "HPSP",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +50.6% · 20일선 위",
+   "why": "20거래일 +55.0% · 20일선 위",
    "overheat": false,
-   "gapPct": 18.9,
-   "call": "BUY",
+   "gapPct": 22.2,
+   "call": "HOLD",
    "callConflict": false
   },
   {
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "피에스케이홀딩스",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +49.9% · 20일선 위",
-   "overheat": false,
-   "gapPct": 28.5,
+   "why": "20거래일 +53.4% · 20일선 위",
+   "overheat": true,
+   "gapPct": 31.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -34,33 +34,33 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 7,
-   "why": "20거래일 +53.4% · 20일선 위",
+   "sectorRank": 6,
+   "why": "20거래일 +54.3% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.5,
+   "gapPct": 28.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 40.8,
+  "breadthPct": 45.0,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6980.0,
-    "ma20": 6815.69,
+    "close": 6995.96,
+    "ma20": 6816.49,
     "above": true,
-    "gapPct": 2.41
+    "gapPct": 2.63
    },
    "KOSDAQ": {
-    "close": 828.86,
-    "ma20": 826.37,
+    "close": 836.7,
+    "ma20": 826.76,
     "above": true,
-    "gapPct": 0.3
+    "gapPct": 1.2
    }
   }
  },
