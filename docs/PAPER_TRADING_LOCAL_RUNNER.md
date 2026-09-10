@@ -99,7 +99,7 @@ Oracle Cloud Linux VM으로 옮길 준비 자료는 `docs/PAPER_TRADING_ORACLE_R
 | 3 | 브랜치가 main이 아님 등 상태 이상 |
 | 4 | 예상치 못한 변경이 있어 안전 중단 |
 | 5 | 네트워크/fetch 실패로 사이클 건너뜀 |
-| 6 | 동기화(ff/rebase) 실패 — 수동 확인 필요 |
+| 6 | 동기화(ff/rebase) 실패 — 수동 확인 필요. 원격 이력이 재작성돼 공통 조상이 없는데 **로컬에 아직 안 올린 기록이 있을 때**도 이 코드다(9절) |
 | 7 | Paper 엔진 비정상 |
 | 8 | 화이트리스트 위반 등 커밋 단계 실패 |
 | 9 | push 실패(기록은 로컬 커밋으로 보존됨) |
@@ -146,3 +146,21 @@ powershell -ExecutionPolicy Bypass -File scripts\paper_doctor.ps1
 
 PC는 켜두고 **Windows 로그인 상태**여야 한다(작업이 "사용자가 로그온할 때만 실행"이라서).
 화면만 꺼지는 건 상관없다.
+
+## 9. 원격 이력이 재작성됐을 때 (2026-09-02 실제 사고 · 2026-09-10 대응)
+
+2026-09-02 08:25 KST `compact-history` 워크플로가 main의 과거 커밋을 전부 새 번호로 바꿔 썼다(force push).
+러너 전용 저장소는 옛 번호를 HEAD로 갖고 있어서 origin/main과 **공통 조상이 없어졌고**, 동기화 코드는
+"갈라짐 → rebase → 충돌 → abort → exit 6"만 매 사이클 반복했다. 엔진은 한 번도 돌지 않아 거래일 8일이 비었다.
+
+2026-09-10부터 `paper_cycle.ps1`·`paper_cycle.sh`는 이 상황을 따로 알아본다.
+
+| 상황 | 동작 |
+|---|---|
+| 공통 조상 없음 + 로컬에 안 올린 Paper 기록 없음(`paper_trading` 트리가 같거나 `state.json`의 `lastCycleAt`이 원격과 같거나 원격이 더 새로움) | 옛 HEAD를 `refs/gaeo-backup/head-<시각>`에 남기고 `git checkout -B main origin/main`으로 재기준한 뒤 **정상 진행** |
+| 공통 조상 없음 + 로컬에 아직 안 올린 더 새로운 회차 기록 있음 | 자동으로 버리지 않는다. exit 6으로 멈추고 아래 수동 절차를 안내 |
+
+수동 절차(위 두 번째 경우, 또는 고친 코드가 러너에 아직 도착하기 전): `docs/operations/HOME_PC_CHECKLIST.md` 3절.
+핵심은 `paper_trading` 폴더를 먼저 복사해 보관한 뒤 `git checkout -B main origin/main` 하는 것이다.
+`git reset --hard`·`git push --force`는 여전히 쓰지 않는다. 계약 테스트: `test_paper_runner_sync.py`
+(실제 임시 저장소에서 재작성을 재현해 sh를 실행하고, ps1은 같은 경로가 있는지 정적으로 대조한다).

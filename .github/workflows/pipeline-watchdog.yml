@@ -82,3 +82,11 @@ jobs:
 
       - name: 좀비 감시 · 소생
         run: python3 pipeline_watchdog.py --apply | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # ⭐ 2026-09-10 추가 — 통합 상태 요약(LLM 호출 0). 시세·자동분석·관측 종목 수·지표 출처·공시·
+      #    모의투자·Evolution·예정 시험·워크플로 유효성을 한 표로 적는다(ops_status.py, 계약 test_ops_status).
+      #    판정만 하고 아무것도 고치지 않는다. 장애가 있으면 exit 1이지만 감시자 자신을 실패시키지 않는다
+      #    (continue-on-error). "확인 못 함"은 "정상"으로 적히지 않는다.
+      - name: 통합 상태 요약 (판정만 · 조치 없음)
+        continue-on-error: true
+        run: python3 ops_status.py --github | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,9 @@
+# 생성 파일 — sync_agent_compat.py 가 .claude/agents/gaeo-qa.md 에서 만든다. 손으로 고치지 않는다.
+# ⚠️ 형식 미확인: Codex 설치본이 이 파일을 어떤 스키마로 읽는지 이 세션에서 공식 문서로 확인하지 못했다(2026-09-10).
+#    참고용이다. 확인되면 sync_agent_compat.py 의 agent_toml() 을 그 스키마로 고치고 다시 생성한다.
+#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.
+name = "gaeo-qa"
+description = "GAEO 저장소의 버그를 찾고 재현하고 회귀 테스트를 돌리는 검사원. 방금 만든 기능이 제대로 되는지, 기존 기능이 망가지지 않았는지 확인할 때, 또는 사이트에서 이상 증상이 보고됐을 때 원인 재현을 위해 사용한다."
+instructions_file = ".claude/agents/gaeo-qa.md"
+tools = ["Read", "Grep", "Glob", "Bash"]
+read_only = true
