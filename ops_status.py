@@ -394,7 +394,7 @@ def check_workflows_github():
 #   마지막 run 실패(권한·문법·실행 오류) · 잘못된 ref 를 구분한다. "run 이 돌고 있다"를 건강 신호로 쓰지 않는다 — 산출물은 별도 항목이 잰다.
 SCHEDULED_WORKFLOWS = {
     "pipeline-watchdog.yml": {"label": "워치독", "intervalMin": 15, "windowOnly": True},
-    "ops-daily.yml": {"label": "일일 점검·예정 시험 실행기", "dailyAtHM": (17, 5), "weekdaysOnly": True},
+    "ops-daily.yml": {"label": "일일 점검·예정 시험 실행기", "dailyAtHM": (17, 5), "weekdaysOnly": True},   # 예비 발화 17:37·18:11 은 유예(180분) 안
 }
 SCHEDULED_GRACE_MIN = 180        # GitHub cron 지연 허용(무료 러너 실측: 수십 분~2시간). 일일형은 예정 시각+유예, 간격형은 (지금-간격)-유예 가 기준
 
