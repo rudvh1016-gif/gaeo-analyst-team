@@ -1,12 +1,39 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 14:12",
+ "generatedAt": "2026-09-10 14:31",
  "priceLabel": "2026-09-10 14:07 장중 · ⚠️ 1종목 지연",
- "count": 256,
+ "count": 257,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:30:16.533099+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000208"
+  },
+  {
+   "code": "016360",
+   "name": "삼성증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:30:16.533099+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000201"
+  },
+  {
+   "code": "210980",
+   "name": "SK디앤디",
+   "title": "[기재정정]타인에대한채무보증결정",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:30:16.533099+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260910800206"
+  },
   {
    "code": "039130",
    "name": "하나투어",
@@ -60,15 +87,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-10T04:41:32.245204+00:00",
    "isCorrection": true,
    "rceptNo": "20260910800167"
-  },
-  {
-   "code": "016360",
-   "name": "삼성증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000148"
   },
   {
    "code": "016360",
@@ -393,15 +411,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T07:20:19.989105+00:00",
    "isCorrection": false,
    "rceptNo": "20260909000382"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T07:20:19.989105+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000395"
   },
   {
    "code": "014680",

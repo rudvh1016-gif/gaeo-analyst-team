@@ -1,6 +1,6 @@
 {
  "status": "READY",
- "asOf": "2026-09-10T05:12:17+00:00",
+ "asOf": "2026-09-10T05:31:14+00:00",
  "kstDay": "2026-09-10",
  "rawCount": 3918,
  "eligibleCount": 2426,
@@ -12,8 +12,8 @@
   "eligibleCount": 2426,
   "kospiCount": 2483,
   "kosdaqCount": 1823,
-  "duplicateCount": 2,
-  "invalidCodeCount": 386,
+  "duplicateCount": 1,
+  "invalidCodeCount": 387,
   "missingPriceCount": 0,
   "suspendedCount": 107,
   "excludedCounts": {

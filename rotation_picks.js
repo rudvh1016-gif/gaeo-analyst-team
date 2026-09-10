@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-10 14:12",
- "dataCutoff": "2026-09-10 14:12 장중",
+ "generatedAt": "2026-09-10 14:31",
+ "dataCutoff": "2026-09-10 14:31 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "064290",
    "name": "인텍플러스",
    "sector": "반도체",
-   "sectorRank": 2,
-   "why": "20거래일 +47.7% · 20일선 위",
+   "sectorRank": 1,
+   "why": "20거래일 +50.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 34.2,
+   "gapPct": 36.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,10 +23,10 @@ window.ROTATION_PICKS = {
    "code": "403870",
    "name": "HPSP",
    "sector": "반도체",
-   "sectorRank": 2,
-   "why": "20거래일 +46.4% · 20일선 위 · 거래량 평소의 1.7배",
+   "sectorRank": 1,
+   "why": "20거래일 +47.2% · 20일선 위 · 거래량 평소의 1.8배",
    "overheat": false,
-   "gapPct": 15.8,
+   "gapPct": 16.4,
    "call": "BUY",
    "callConflict": false
   },
@@ -34,40 +34,40 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 6,
-   "why": "20거래일 +53.7% · 20일선 위 · 거래량 평소의 1.3배",
+   "sectorRank": 7,
+   "why": "20거래일 +54.3% · 20일선 위 · 거래량 평소의 1.4배",
    "overheat": false,
-   "gapPct": 27.8,
+   "gapPct": 28.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 49.0,
+  "breadthPct": 50.7,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 7047.51,
-    "ma20": 6819.06,
+    "close": 7039.82,
+    "ma20": 6818.68,
     "above": true,
-    "gapPct": 3.35
+    "gapPct": 3.24
    },
    "KOSDAQ": {
-    "close": 832.5,
-    "ma20": 826.55,
+    "close": 834.3,
+    "ma20": 826.64,
     "above": true,
-    "gapPct": 0.72
+    "gapPct": 0.93
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "지주·상사"
+  "topSector": "반도체"
  },
  "record": {
   "hitRate": 53.2,
