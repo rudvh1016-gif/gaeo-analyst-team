@@ -90,3 +90,18 @@ git log --oneline -1
 1. 1단계 로그의 해당 세 줄(있으면) 또는 없다는 사실
 2. 2단계 진단 결과의 `===== 진단 결과 =====` 아래 부분
 3. 4단계 로그의 마지막 5줄
+
+## 8. 개발용 저장소(`Desktop\gaeo-analyst-team`)도 한 번 맞추기 (9/2 이력 재작성 뒤)
+
+러너 저장소만이 아니라 **개발용 저장소**도 9/2 재작성 전 커밋을 HEAD 로 갖고 있으면 `git pull` 이 "관련 없는 이력" 오류로 실패한다.
+PowerShell 에서 개발용 폴더로 가서:
+
+```powershell
+git status --porcelain          # 뭔가 나오면 먼저 다른 폴더에 복사해 보관(지우지 말 것)
+git fetch origin main
+git update-ref refs/gaeo-backup/dev-20260910 HEAD    # 옛 HEAD 보존(지우지 않음)
+git checkout -B main origin/main
+```
+
+앞으로는 이런 재작성이 **자동으로 일어나지 않는다**(2026-09-10 부터 `compact-history` 는 사람이 confirm 을 쳐야 돌고, 돌면 옛→새 SHA 지도를 남긴다 —
+`docs/HISTORY_PRESERVATION.md`).

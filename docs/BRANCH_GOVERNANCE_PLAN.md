@@ -95,6 +95,8 @@ GitHub의 ruleset은 여러 규칙을 함께 적용하고 evaluate 상태에서 
 
 ### 2단계: 파괴적 이력 변경 제거
 
+> 2026-09-10 진행: `compact-history.yml` 의 예약 실행을 **제거**했다(수동 confirm + 사전 점검 + SHA 지도만). 용량 대안과 실측은 `docs/HISTORY_PRESERVATION.md`. Block force pushes 는 아직 켜지 않는다(수동 압축이 `--force-with-lease` 를 쓴다).
+
 - `compact-history.yml` 예약 실행을 멈추기 전에 저장소 용량 대안을 확정
 - 이미 서비스 중인 최신 파일은 보존
 - 신규 생성 원본을 Git 이력 밖 artifact 또는 별도 데이터 저장소로 옮기는 방안을 검증
