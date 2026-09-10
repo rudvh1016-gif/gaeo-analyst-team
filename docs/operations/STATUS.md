@@ -22,7 +22,7 @@
 | 2 통합 건강검진 | 완료(코드·연결) · 실제 작동은 병합 뒤 워치독 run에서 확인 | check_pipeline·pipeline_watchdog·check_workflow_health·paper_health_check·evolution status(각각 따로 봄) | `ops_status.py`(LLM 0, 어휘 6종, 달력·유예·회차창, 예정시험 지연 감지, 서명 기반 수리요청서 `--repair-request`) · `pipeline-watchdog.yml` 마지막 스텝에 요약 추가(`--github`, continue-on-error) · Evolution 🟢 주간 이슈 고정 제목 1개로 통합 + 옛 날짜 이슈 자동 정리(`gaeo_evolution/notification.py`, `evolution-lab.yml`) · `docs/PIPELINE_WATCHDOG.md` 절 추가 | `test_ops_status.py` 16건(격리: 금지 모듈 0·기본 실행 네트워크 0·차단 시 확인 불가 / 판정 10건 / CLI 종료코드) PASS · `test_gaeo_evolution` 195건 · `test_workflow_size`·`test_workflow_branch_exec`·`test_pipeline_watchdog`·`test_paper_health_check`·`test_holiday_guard` PASS | 이 브랜치 | 사이트 전달(`--probe-pages`)은 이 세션에서 egress 차단이라 실제 확인 못 함(확인 불가로 종료하는 것만 검증). 공개 화면 표시는 이번에 바꾸지 않음. Claude Routine: 매시 안전망 v6는 워치독 cron 지연을 메우는 dispatch 역할이라 **유지**, 금요 Health 제안은 일일 ops 점검(구간 5 워크플로) 가동 뒤 중지 후보 |
 | 3 하네스 | 완료 | GAEO_HARNESS.md(Evolution용)·AGENTS.md 45.7KB(Codex 32KiB 한도 초과)·CLAUDE.md·스킬 8개 | `docs/HARNESS.md`(시작·검사·배포·복구·중단 한 장) · `gaeo_check.py`(preflight/quick/pipeline/paper/investment-contract/schedule/compatibility/premerge/postdeploy/browser) · `AGENTS.md`에 🧭 작업 지도(절대규칙 8줄+읽을 것/검사 표) 신설, 세부 절 5개를 `docs/rules/*.md`로 **원문 그대로 이동**(45.7KB→28.5KB) · `docs/agent/RULES_MAP.md` 대응표 · `CLAUDE.md` 시작 순서·Routine 항목 갱신 | `test_gaeo_check.py`(묶음 전수·없는 파일 FAIL·실패 전파) · `test_rules_map.py`(원문 이동 앵커·32KiB·지도 링크·중복 없음) · `python3 gaeo_check.py compatibility`/`quick` PASS · AGENTS.md를 읽는 기존 테스트(deep_analysis_pipeline·gaeo_evolution·design_contract·secret_hygiene) PASS | 이 브랜치 | Codex 32KiB 기본값은 설치본에서 재확인 필요(문서화). 브라우저 smoke는 목록만 제공(실행은 확인된 환경에서) |
 | 4 오케스트레이션 | 완료 | 스킬 공통 규칙("항상 3명 review"·"health 기본 4명"·"build 마지막 항상 qa"·"strategy 4명 동시") · 팀 문서와 AGENTS의 배포 승인 규칙 충돌 | 8개 스킬 공통 절 개정(정상 점검 0명·메인 1명·동시 2명 이내·관점 순서대로·읽기 전용은 지침) · review/health/build/bug/strategy 개별 절 개정 · `/gaeo-maintain` 신설(STATUS→ops_status→수리요청서, 요청한 수정은 서버 정상이어도 수행) · `docs/gaeo_team_system.md` 개정 절 · 배포 승인 공통 기준(`HARNESS.md` §3) | 스킬 파일은 문서(정적). `test_rules_map.py`가 대응표를 잠금 | 이 브랜치 | 모델 지정 없음 확인(역할 파일에 `model:` 0건). Codex 순차 수행은 미확인 |
-| 5 일정 실행기 | 미착수 | 없음(Claude Routine만) | | | | |
+| 5 일정 실행기 | 완료(코드·워크플로·검사) · 실제 작동은 병합 뒤 첫 run에서 확인 | 없음(Claude Routine만) | `run_validation_schedule.py`(계획/실행/원장/동결 입력/`--replay`/후속 명세/수리 요청서, 재확인 상한 RECHECK_LIMIT·실패 3회 ESCALATED·anomalyRules→ANOMALY) · `check_team_weights_transition.py`(9/15 DIANA 전환: 직전 판 git/API 비교, ±1.5%/5%) · `check_flow_validation_readiness.py`(9/23 FLOW 표본 조건만, 채점 없음) · `config/validation_schedule.json`(모든 단계 available, `runner` 블록, `anomalyRules`) · `.github/workflows/ops-daily.yml`(평일 17:05 KST: `gaeo_check schedule` → `ops_status --deep --github` → 실행기 → 허용 경로 3곳만 커밋 → 이슈 2종 제목 고정) · `render_validation_schedule.py` 실행기 절 · `gaeo_check` schedule 묶음 확장 | `test_validation_runner.py` 42건(계획 규칙·allowlist·판정·임시 저장소 실제 실행·원장 append-only 바이트 비교·동결/재현·워크플로 정적) · `test_validation_checks.py` 19건(임시 git 저장소 2판 비교·FLOW 합성 표본) · `gaeo_check schedule`/`quick` PASS · `test_workflow_size`·`test_ci_parity`·`test_secret_hygiene`·`test_rules_map`·`test_workflow_health` PASS | 이 브랜치 | 실제 due 시험은 9/15가 첫 회. Claude Routine 4건은 **병합 뒤** `update_trigger`로 "GitHub 원장 확인 + §3 후속만"으로 재작성(원장이 실제 due 시험을 기록하는 것을 본 뒤 끄기). 실행기의 ANOMALY/FAILED는 수리 요청서만 쓰고 산식을 건드리지 않음 |
 | 6 Codex 호환 | 미착수 | `.claude/` 전용. `.agents/`·`.codex/` 없음 | | | | |
 | 7 투자검증 GAP | 미착수 | 사전등록·Evolution·Forward 분리·음성대조 일부 | | | | |
 | 8 이력 보존 | 미착수 | `compact-history.yml` 월 1회 force push(실행 1회: 2026-09-02 08:25 KST) | | | | 다음 예약 실행 2026-10-02 06:30 KST — 사전등록 창 안이다 |
@@ -54,10 +54,10 @@
 
 | ID | 이름 | 일정 | 상태 | 이 작업에서의 처리 |
 |---|---|---|---|---|
-| trig_016K7aG2LNfyo6mK4APHnTeK | DIANA 채점 시작 전환 확인 | 2026-09-15 17:00 KST 1회 | 활성 | 구간 5 GitHub 일정으로 이관 대상(`VS-20260915-DIANA-SHRINKAGE-CHECK`) |
-| trig_015MuVabAYTLDXistNBJ8wE4 | FLOW 산식 검증 + BUY 표본 점검 | 매년 9/23 17:00 KST(cron), 새 세션 생성 | 활성 | 이관 대상(`VS-20260923-FLOW-READINESS-PREREG-SAMPLE`). 6-arm 채점은 정의 미완료 |
-| trig_015gDtdaSXyuJnnU76PYcdDA | BUY 필터 사전등록 확정 평가 | 2026-10-19 17:00 KST 1회 | 활성 | 이관 대상(`VS-20261019-PREREG-BUY-EVAL`) |
-| trig_018TwrTbybyiLUdjr4gUHzm8 | H1 40판단일 재확인 | 2026-11-16 17:00 KST 1회 | 활성 | 이관 대상(`VS-20261116-PREREG-H1-RECONFIRM`) |
+| trig_016K7aG2LNfyo6mK4APHnTeK | DIANA 채점 시작 전환 확인 | 2026-09-15 17:00 KST 1회 | 활성 | GitHub 실행기 준비 완료(`VS-20260915-DIANA-SHRINKAGE-CHECK`, 브랜치). 병합 뒤 프롬프트를 "ops-daily 원장 확인 + 미리 정한 후속만"으로 재작성 |
+| trig_015MuVabAYTLDXistNBJ8wE4 | FLOW 산식 검증 + BUY 표본 점검 | 매년 9/23 17:00 KST(cron), 새 세션 생성 | 활성 | GitHub 실행기 준비 완료(`VS-20260923-FLOW-READINESS-PREREG-SAMPLE`: 표본 조건만 자동, 6-arm 채점은 정의 미완료라 NOT_RUN). 병합 뒤 재작성 |
+| trig_015gDtdaSXyuJnnU76PYcdDA | BUY 필터 사전등록 확정 평가 | 2026-10-19 17:00 KST 1회 | 활성 | GitHub 실행기 준비 완료(`VS-20261019-PREREG-BUY-EVAL`, 동결 입력+followup 명세). 병합 뒤 재작성 |
+| trig_018TwrTbybyiLUdjr4gUHzm8 | H1 40판단일 재확인 | 2026-11-16 17:00 KST 1회 | 활성 | GitHub 실행기 준비 완료(`VS-20261116-PREREG-H1-RECONFIRM`). 병합 뒤 재작성 |
 | trig_019ZqRJzaM1upVRoQEfGkFzz | 장중 매시 kickoff 안전망 v6 | 평일 매시 09~16 KST | 활성(9/9 16:04 성공) | 구간 2에서 코드 감시 인수 확인 뒤 중지 검토(먼저 끄지 않는다) |
 | trig_019pCrEkMQwuqxdEWCnzxZfk | 매일 시장분석 자동 발행 | 평일 16:30 KST | 활성 | 콘텐츠 발행(LLM 필요). 범위 밖 |
 | trig_01JiZ2PJFkB65o1XbELP1MeC | 월요 Strategy 제안 | 월 09:00 KST | 활성 | 범위 밖(제안만) |
@@ -71,4 +71,5 @@
 
 1. ~~구간 1 원격 몫~~ 완료. 집 PC 몫은 `HOME_PC_CHECKLIST.md`.
 2. ~~구간 2~~ 완료.
-3. ~~구간 3·4~~ 완료. 다음: 구간 5(일정 실행기 + 일일 ops 워크플로) → 6 → 7 → 8 → 9. 각 구간 끝에 이 표를 갱신하고 commit·push.
+3. ~~구간 3·4~~ 완료.
+4. ~~구간 5~~ 완료(코드). 병합 뒤: `ops-daily` 를 `workflow_dispatch`(apply=false)로 한 번 돌려 계획 출력 확인 → Claude Routine 4건 프롬프트 재작성(`update_trigger`). 다음: 구간 6 → 7 → 8 → 9. 각 구간 끝에 이 표를 갱신하고 commit·push.

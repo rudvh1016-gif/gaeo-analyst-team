@@ -19,7 +19,7 @@
 | `.claude/agents/seo-*.md` (외부 SEO 에이전트) | 보존만 | 외부 자료. 복제하지 않는다 | - | - | - |
 | 역할 파일의 `tools:`(Edit/Write 제외 = 읽기 전용) | 수동 확인 필요 | Codex에 그대로 적용된다고 가정하지 않는다. 읽기 전용은 **지침**이며 Bash가 있으면 기술적으로 쓸 수 있다. Codex는 sandbox 모드(read-only 등)로 대응 — 설치본에서 확인 | 문서화 완료 | - | 미확인 |
 | 역할 파일의 모델 지정 | 해당 없음 | 어느 역할 파일에도 `model:`이 없다(2026-09-10 확인). 세션 기본값 상속 유지. 자동 배정·라우터 없음 | 확인 완료 | 구간 6 검사에 포함 | - |
-| Claude Routine 15건(예약 실행) | 공용화(일정) / 미지원(실행) | 예정 시험 4건 → `config/validation_schedule.json` + GitHub 일정 실행기(구간 5). 매시 안전망 v6·매일 시황 발행·주간 제안은 Claude 세션 전용 기능(Codex에 예약 실행 없음) — `docs/operations/STATUS.md` Routine 표에 상태 기록 | 일정 완료 / 실행기 구간 5 | `test_validation_schedule.py` | 해당 없음 |
+| Claude Routine 15건(예약 실행) | 공용화(일정+실행) / 미지원(채팅 제안) | 예정 시험 4건 → `config/validation_schedule.json` + GitHub 실행기 `run_validation_schedule.py` + `.github/workflows/ops-daily.yml`(평일 17:05 KST, allowlist·하루 1회·append-only 원장·동결 입력 재현). 매시 안전망 v6·매일 시황 발행·주간 제안은 Claude 세션 전용(Codex에 예약 실행 없음) — `docs/operations/STATUS.md` Routine 표에 상태 기록 | 완료(구간 5) | `test_validation_schedule.py`·`test_validation_runner.py`·`test_validation_checks.py` | 병합 뒤 첫 `ops-daily` run(dispatch apply=false = 계획 출력)으로 확인. 실제 due 시험 기록은 9/15 이후 |
 | Routine 안의 `mcp__github__*` 도구 호출 | 미지원 | GitHub Actions(`GITHUB_TOKEN`)가 같은 일을 한다(워치독·일정 실행기). 채팅 세션 밖에서는 MCP를 쓰지 않는다 | 완료 | - | - |
 | 이 원격 세션 환경 특이사항(네이버 403·gaeoteam.com 403·Chromium 경로·NODE_PATH) | 수동 확인 필요 | `CLAUDE.md`에 남긴다. Codex 실행 환경(앱/로컬/클라우드)마다 다르므로 "이 환경에서만"이라고 표시. 도구·네트워크 접근이 같다고 가정하지 않는다 | 문서화 완료 | - | 미확인 |
 | `docs/gaeo_team_system.md`의 Agent Team 병렬 호출 방식 | 공용화 | 2026-09-10 절약형 개정: 메인 1명·동시 2명 이내·관점 순서대로. Codex는 서브에이전트 없이 순차 수행하면 같은 결과 | 완료 | - | - |

@@ -98,6 +98,8 @@ def render(cfg, ledger):
                 L.append(f"  - {g}")
         if s.get("onInsufficient"):
             L.append(f"- 표본 부족 시: {json.dumps(s['onInsufficient'], ensure_ascii=False)}")
+        if s.get("anomalyRules"):
+            L.append(f"- 이상 규칙(ANOMALY + 수리 요청서): {', '.join(f'`{x}`' for x in s['anomalyRules'])}")
         if s.get("followupNote"):
             L.append(f"- 후속 범위: {s['followupNote']}")
         if s.get("legacyClaudeTrigger"):
@@ -115,6 +117,18 @@ def render(cfg, ledger):
         st = c["status"] + (f" ({c.get('plannedIn')})" if c.get("plannedIn") else "")
         L.append(f"| `{name}` | `{argv}` | {st} | {c.get('description', '')} |")
     L.append("")
+    if cfg.get("runner"):
+        r = cfg["runner"]
+        L.append("## 실행기 (GitHub Actions — Claude 세션 없이 돈다)")
+        L.append("")
+        L.append(f"- 스크립트 `{r.get('script')}` · 워크플로 `{r.get('workflow')}` · 일정 `{r.get('cron')}`")
+        L.append(f"- 중복 방지: {r.get('dailyDedupe')} · 실행 실패 상한 {r.get('maxFailedRuns')}회 · 표본 부족 재확인 기본 상한 {r.get('maxRechecksDefault', 3)}회")
+        if r.get("needsHuman"):
+            L.append(f"- 사람 확인 필요 상태: {r['needsHuman']}")
+        for k, v in (r.get("anomalyRules") or {}).items():
+            L.append(f"- 이상 규칙 `{k}`: {v}")
+        L.append(f"- 재현: `{r.get('replay')}`")
+        L.append("")
     L.append("## 이 일정표 밖의 운영 Routine (Claude 예약, 2026-09-10 조회)")
     L.append("")
     for r in cfg.get("operationalRoutinesNotInThisSchedule", []):

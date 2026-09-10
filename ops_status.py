@@ -550,10 +550,14 @@ def main(argv=None):
         if rr:
             os.makedirs(args.repair_request, exist_ok=True)
             path = os.path.join(args.repair_request, f"{rr[0]}.md")
-            with open(path, "w", encoding="utf-8") as fh:
-                fh.write(rr[1])
+            # 같은 사고(같은 서명)의 요청서가 이미 있으면 다시 쓰지 않는다 — 매일 시각만 바뀐 파일이 커밋으로 쌓이지 않게.
+            marker = f"gaeo-ops-signature:{report['signature']}"
+            exists_same = os.path.exists(path) and marker in open(path, encoding="utf-8").read()
+            if not exists_same:
+                with open(path, "w", encoding="utf-8") as fh:
+                    fh.write(rr[1])
             if not args.quiet:
-                print(f"수리 요청서: {path}")
+                print(f"수리 요청서: {path}{' (기존 동일 사고 유지)' if exists_same else ''}")
     if not args.quiet:
         print(summarize(report))
     return 1 if report["faults"] else (2 if report["unknowns"] else 0)

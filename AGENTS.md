@@ -61,7 +61,7 @@ Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙�
 3. 자동 생성 파일(`data.js`·`history.js`·`auto_analysis.js` 등)은 손으로 고치지 않는다. 산식·가중치·사전등록 상수는 결과를 보고 바꾸지 않는다.
 4. 데이터 파이프라인 워크플로의 트리거·`branches: [main]`·`run:` 블록 크기 한도(21,000B)를 지킨다.
 5. Secret·토큰·계좌 정보·봉인 시험자료를 저장소·로그·화면에 넣지 않는다. force push·이력 재작성 금지.
-6. 정상 점검·요약·예정 시험은 일반 프로그램이 한다(`ops_status.py`·`gaeo_check.py`·`validation-schedule`). LLM 호출 0.
+6. 정상 점검·요약·예정 시험은 일반 프로그램이 한다(`ops_status.py`·`gaeo_check.py`·`run_validation_schedule.py`/`ops-daily`). LLM 호출 0.
 7. "확인하지 못했다"를 "정상"으로 적지 않는다. "run이 돌고 있다"를 건강 신호로 쓰지 않는다.
 8. 새 유료 API·서버·크레딧 금지. 무료 한도가 부족하면 중단·자료 부족으로 표시한다.
 

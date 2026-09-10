@@ -58,7 +58,7 @@ GROUPS = {
         "test_rebound_watch.py", "test_piotroski.py", "test_scorecard_report_publish.py", "test_product_semantics.py",
         "test_paper_evidence_guard.py", "test_gaeo_coverage.py",
     ],
-    "schedule": ["test_validation_schedule.py"],
+    "schedule": ["test_validation_schedule.py", "test_validation_runner.py", "test_validation_checks.py"],
     "compatibility": ["test_rules_map.py", "test_ci_parity.py", "test_secret_hygiene.py", "test_design_contract.py",
                       "test_gaeo_check.py", "test_css_layering.py"],
 }

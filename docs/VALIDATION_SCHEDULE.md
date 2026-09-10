@@ -42,6 +42,7 @@
   - DIANA 가중치의 하루 이동폭 ≤ 1.5% (판단일 단위). 5% 초과면 수리 요청서
   - prereg_evaluate: buyFeatureUnrecorded == 0 (0이 아니면 러너의 overheat 기록 누락 → 수리 요청서). 판단일 20일 미만이라 INSUFFICIENT가 정상
 - 표본 부족 시: {"rule": "report_only"}
+- 이상 규칙(ANOMALY + 수리 요청서): `team_weights_anomaly`, `buy_feature_unrecorded`
 - 후속 범위: 이 시험은 이미 적용된 동작의 확인이다. 새 가중치 최적화가 아니다. 산식·임계값·사전비중은 바꾸지 않는다.
 - 기존 Claude 예약: `trig_016K7aG2LNfyo6mK4APHnTeK` (세션 session_01Ng1xLMndUQQiSYMcjHY4TJ) · 이관 상태 PENDING
 
@@ -60,6 +61,7 @@
   - 시장국면 3종의 정의 출처(compute_model_intelligence.build_market_regimes의 trend×vol 4종 중 어떤 3종인지) 미확정.
   - flow_history 공통 날짜 밖 A0 표본 처리 규칙(공통 날짜로만 제한)은 문서에 있으나 A0 재계산 코드가 없다.
 - 표본 부족 시: {"rule": "report_and_wait", "note": "표본이 부족하면 검증하지 않는다. 표본이 찰 것으로 보이는 날짜를 다음 확인 시점으로 기록한다."}
+- 이상 규칙(ANOMALY + 수리 요청서): `buy_feature_unrecorded`
 - 후속 범위: 6-arm 채점(A0·N·B1·B2·C1·R, 5판단일 블록 부트스트랩·Holm)은 정의 확정 뒤 별도 코드로 등록한다. 결과를 보고 산식을 고르는 것은 이 시험 범위 밖이며 새 등록이 필요하다.
 - 기존 Claude 예약: `trig_015MuVabAYTLDXistNBJ8wE4` (세션 새 세션 생성형) · 이관 상태 PENDING
 
@@ -94,9 +96,18 @@
 | `prereg_contract_tests` | `python3 -m unittest test_prereg_buy_filters -q` | available | 사전등록 상수·절차가 깨지지 않았는지 계약 테스트 |
 | `prereg_evaluate` | `python3 evaluate_preregistered_buy_filters.py --as-of {cutoffDate} --json` | available | 사전등록 BUY 필터 검증. 판단일 20일 미만이면 스크립트가 효과 크기를 내지 않고 표본 수만 낸다(INSUFFICIENT). |
 | `honesty_contract_tests` | `python3 -m unittest test_analyst_honesty -q` | available | 가중치 축소(판단일 단위)·기준선 공개 계약 테스트 |
-| `team_weights_transition_check` | `python3 check_team_weights_transition.py --json --as-of {cutoffDate}` | planned (구간 5) | team_weights.js의 DIANA n·uniqueDecisionDays·가중치와 직전 커밋 대비 하루 이동폭(판단일 단위면 ±1.5% 안)을 숫자로 낸다. 산식은 바꾸지 않는다. |
-| `flow_validation_readiness` | `python3 check_flow_validation_readiness.py --json --as-of {cutoffDate}` | planned (구간 5) | FLOW 산식 6-arm 검증의 표본 조건(실제 자동 판단일 20일 이상·시장국면 3종 각 4일 이상·flow_history 공통 날짜 수)만 센다. arm 채점 자체는 하지 않는다. |
+| `team_weights_transition_check` | `python3 check_team_weights_transition.py --json --as-of {cutoffDate}` | available | team_weights.js의 DIANA n·uniqueDecisionDays·가중치와 직전 커밋 대비 하루 이동폭(판단일 단위면 ±1.5% 안)을 숫자로 낸다. 산식은 바꾸지 않는다. |
+| `flow_validation_readiness` | `python3 check_flow_validation_readiness.py --json --as-of {cutoffDate}` | available | FLOW 산식 6-arm 검증의 표본 조건(실제 자동 판단일 20일 이상·시장국면 3종 각 4일 이상·flow_history 공통 날짜 수)만 센다. arm 채점 자체는 하지 않는다. |
 | `dart_financials_readiness` | `python3 collect_dart_financials.py --readiness` | available | 재무 자료(3개 회계연도) 준비 상태 집계. 수집하지 않고 저장소 파일만 읽는다. |
+
+## 실행기 (GitHub Actions — Claude 세션 없이 돈다)
+
+- 스크립트 `run_validation_schedule.py` · 워크플로 `.github/workflows/ops-daily.yml` · 일정 `5 8 * * 1-5 (UTC) = 평일 17:05 KST(GitHub cron은 지연될 수 있다)`
+- 중복 방지: 같은 일정은 하루 1회 · 실행 실패 상한 3회 · 표본 부족 재확인 기본 상한 3회
+- 사람 확인 필요 상태: ESCALATED(실행 실패 3회) · RECHECK_LIMIT(표본 부족 재확인 상한 소진) — 자동 재시도 중단, 이슈로 보고
+- 이상 규칙 `team_weights_anomaly`: team_weights_transition_check 결과 status=ANOMALY(DIANA 하루 이동폭 5% 초과 또는 method/shrinkageUnit 불일치) → ANOMALY + 수리 요청서
+- 이상 규칙 `buy_feature_unrecorded`: prereg_evaluate sample.buyFeatureUnrecorded > 0(러너가 BUY에 overheat 특징을 안 남김) → ANOMALY + 수리 요청서
+- 재현: `python3 run_validation_schedule.py --replay <inputs.json.gz> --result <result.json>`
 
 ## 이 일정표 밖의 운영 Routine (Claude 예약, 2026-09-10 조회)
 
