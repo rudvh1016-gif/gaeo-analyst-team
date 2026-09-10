@@ -422,9 +422,20 @@ def _expected_last_fire(spec, now):
     return None
 
 
-def _judge_scheduled(wf, spec, state, runs, now):
-    """(status, code, detail, extra) — 워크플로 하나."""
-    extra = {"state": state, "lastRunAt": None, "lastConclusion": None, "lastEvent": None, "expectedBy": None}
+def _judge_scheduled(wf, spec, state, runs, now, created_at=None):
+    """(status, code, detail, extra) — 워크플로 하나.
+
+    미실행 판정의 근거는 **schedule 이벤트 run** 뿐이다(2026-09-10 별도 검토 P1-1). 수동(dispatch)·마커 push 로 뜬 run 은
+    "일은 됐다"는 뜻이지 "예약이 떴다"는 뜻이 아니고, 워치독 안에서 이 판정이 돌 때는 워치독 자기 run 이 항상 runs[0] 이라
+    runs[0] 을 보면 cron 공백을 영원히 못 본다. schedule 발화가 한 번도 없으면 워크플로 생성 시각(created_at)을 "마지막 발화"로
+    본다 — 생성 뒤 예정 시각+유예가 지났는데도 발화가 없으면 미실행이고, 예정 시각 전에 생겼으면 아직 첫 발화 전(정상 대기)이다.
+    간격형은 창이 열린 시각을 하한으로 잡아(P1-2) 아침 첫 슬롯 전에 전날 마지막 run 을 미실행으로 오판하지 않는다.
+    모르는 값(state 없음·시각 파싱 실패)은 확인 불가다 — 정상으로도 비활성으로도 적지 않는다(P2-2).
+    """
+    extra = {"state": state, "lastRunAt": None, "lastConclusion": None, "lastEvent": None, "expectedBy": None,
+             "lastScheduleRunAt": None, "lateMin": None, "manualRunAfterExpected": None}
+    if not state:
+        return UNKNOWN, "SCHEDULED_STATE_UNKNOWN", f"{wf}: 워크플로 상태(state)를 읽지 못했다 — 모른다를 비활성으로 적지 않는다", extra
     if state != "active":
         return FAULT, "WORKFLOW_DISABLED", f"{wf}: 워크플로가 비활성({state}) — cron 이 아예 돌지 않는다(60일 비활성 자동 끔·수동 끔)", extra
     sched = [r for r in runs if r.get("event") == "schedule"]
@@ -436,29 +447,58 @@ def _judge_scheduled(wf, spec, state, runs, now):
     extra["expectedBy"] = expected.isoformat() if expected else None
     if not runs:
         return FAULT, "SCHEDULED_NEVER_RAN", f"{wf}: 실행 기록이 하나도 없다", extra
-    if last.get("head_branch") not in (None, "main"):
-        return FAULT, "SCHEDULED_WRONG_REF", f"{wf}: 마지막 run 이 main 이 아닌 ref({last.get('head_branch')})에서 돌았다", extra
-    last_at = _parse_iso(last.get("created_at"))
-    if last.get("status") == "completed" and last.get("conclusion") not in ("success", "skipped", None):
-        return FAULT, "SCHEDULED_LAST_RUN_FAILED", f"{wf}: 마지막 run 이 {last.get('conclusion')} — 권한·문법·실행 오류일 수 있다(run 로그 확인)", extra
+    last_sched = sched[0] if sched else None
+    if last_sched:
+        anchor = _parse_iso(last_sched.get("created_at"))
+        extra["lastScheduleRunAt"] = last_sched.get("created_at")
+        if last_sched.get("head_branch") not in (None, "main"):
+            return FAULT, "SCHEDULED_WRONG_REF", f"{wf}: 마지막 schedule run 이 main 이 아닌 ref({last_sched.get('head_branch')})에서 돌았다", extra
+        if last_sched.get("status") == "completed" and last_sched.get("conclusion") not in ("success", "skipped", None):
+            return FAULT, "SCHEDULED_LAST_RUN_FAILED", f"{wf}: 마지막 schedule run 이 {last_sched.get('conclusion')} — 권한·문법·실행 오류일 수 있다(run 로그 확인)", extra
+    else:
+        anchor = _parse_iso(created_at) if created_at else None
+    if anchor is None:
+        return UNKNOWN, "SCHEDULED_TIME_UNPARSED", f"{wf}: 마지막 schedule run 또는 워크플로 생성 시각을 읽지 못했다(모른다를 정상으로 적지 않는다)", extra
     grace = datetime.timedelta(minutes=SCHEDULED_GRACE_MIN)
-    if expected and last_at and last_at < expected:
-        late = int((now - last_at).total_seconds() // 60)
-        if spec.get("intervalMin"):
-            overdue = expected - last_at > grace          # 간격형: 마지막으로 돌았어야 할 시각보다 유예 넘게 오래된 run
+    since = lambda t: int((now - t).total_seconds() // 60)
+    manual_after = [r for r in runs if r.get("event") != "schedule" and expected is not None
+                    and (_parse_iso(r.get("created_at")) or anchor) >= expected]
+    extra["manualRunAfterExpected"] = manual_after[0].get("created_at") if manual_after else None
+    manual_note = (f" · 수동/이벤트 run {str(manual_after[0].get('created_at'))[:16]} 은 있다(일은 됐을 수 있으나 예약은 안 떴다)"
+                   if manual_after else "")
+    origin_note = "마지막 schedule run" if last_sched else "워크플로 생성(schedule 발화 0회)"
+    if spec.get("intervalMin"):
+        interval = datetime.timedelta(minutes=spec["intervalMin"])
+        open_h, open_m = (int(x) for x in PW.WINDOW_OPEN.split(":"))
+        if PW.in_window(now):
+            start = max(anchor, PW.window_open_at(now))
+            overdue = now - start > interval + grace
         else:
-            overdue = now >= expected + grace             # 일일형: 예정 시각 뒤 유예까지 지났는데도 run 이 없다
+            day_open = datetime.datetime.combine(expected.date(), datetime.time(open_h, open_m), KST)
+            start = max(anchor, day_open)
+            overdue = expected - start > grace
         if overdue:
             return FAULT, "SCHEDULED_RUN_MISSED", (f"{wf}: 돌았어야 할 시각({expected:%m-%d %H:%M})을 {SCHEDULED_GRACE_MIN}분 넘게 지났는데 "
-                                                   f"마지막 run 은 {late}분 전 — GitHub cron 지연/건너뜀(무료 러너) 또는 다른 원인"), extra
-        if not spec.get("intervalMin"):
-            return IDLE, "SCHEDULED_PENDING", (f"{wf}: 예정 시각({expected:%m-%d %H:%M})은 지났고 cron 발화를 {SCHEDULED_GRACE_MIN}분까지 기다리는 중"
-                                               f"(마지막 run {late}분 전) — 유예가 지나면 미실행으로 적는다"), extra
+                                                   f"{origin_note}은 {since(anchor)}분 전 — GitHub cron 지연/건너뜀(무료 러너) 또는 다른 원인{manual_note}"), extra
+        if not sched:
+            return IDLE, "SCHEDULED_ONLY_MANUAL", f"{wf}: schedule 발화가 아직 없다(최근 run {len(runs)}건은 전부 수동/이벤트) — 정상으로 적지 않는다", extra
+        if not PW.in_window(now):
+            return IDLE, "SCHEDULED_OUT_OF_WINDOW", f"{wf}: 지금은 예약 실행 시간이 아니다(마지막 schedule run {str(last_sched.get('created_at'))[:16]}, 창 안에서는 제때 돌았다)", extra
+        return OK, "SCHEDULED_ON_TIME", f"{wf}: 마지막 schedule run {str(last_sched.get('created_at'))[:16]} ({last_sched.get('conclusion') or last_sched.get('status')})", extra
+    # 일일형
+    if expected is None:
+        return IDLE, "SCHEDULED_OUT_OF_WINDOW", f"{wf}: 지금은 예약 실행 시간이 아니다", extra
+    if anchor < expected:
+        if now >= expected + grace:
+            return FAULT, "SCHEDULED_RUN_MISSED", (f"{wf}: 예정 시각({expected:%m-%d %H:%M}) 뒤 {SCHEDULED_GRACE_MIN}분이 지나도록 schedule 발화가 없다 — "
+                                                   f"{origin_note}은 {since(anchor)}분 전. GitHub cron 지연/건너뜀(무료 러너) 또는 다른 원인{manual_note}"), extra
+        return IDLE, "SCHEDULED_PENDING", (f"{wf}: 예정 시각({expected:%m-%d %H:%M})은 지났고 cron 발화를 {SCHEDULED_GRACE_MIN}분까지 기다리는 중"
+                                           f"({origin_note} {since(anchor)}분 전) — 유예가 지나면 미실행으로 적는다"), extra
+    extra["lateMin"] = int((anchor - expected).total_seconds() // 60)
     if not sched:
-        return IDLE, "SCHEDULED_ONLY_MANUAL", f"{wf}: 최근 run {len(runs)}건이 전부 수동/이벤트 실행 — schedule 발화가 이 안에 없다(정상으로 적지 않는다)", extra
-    if expected is None or (spec.get("windowOnly") and not PW.in_window(now)):
-        return IDLE, "SCHEDULED_OUT_OF_WINDOW", f"{wf}: 지금은 예약 실행 시간이 아니다(마지막 run {str(last.get('created_at'))[:16]}, 창 안에서는 제때 돌았다)", extra
-    return OK, "SCHEDULED_ON_TIME", f"{wf}: 마지막 run {str(last.get('created_at'))[:16]} ({last.get('event')}, {last.get('conclusion') or last.get('status')})", extra
+        return IDLE, "SCHEDULED_ONLY_MANUAL", f"{wf}: 워크플로가 예정 시각 뒤에 생겨 아직 첫 schedule 발화 전(최근 run {len(runs)}건은 수동/이벤트) — 정상으로 적지 않는다", extra
+    late_note = f", 예정보다 {extra['lateMin']}분 늦게" if extra["lateMin"] > 0 else ""
+    return OK, "SCHEDULED_ON_TIME", f"{wf}: 마지막 schedule run {str(last_sched.get('created_at'))[:16]} ({last_sched.get('conclusion') or last_sched.get('status')}{late_note})", extra
 
 
 def check_scheduled_runs(now=None):
@@ -480,7 +520,7 @@ def check_scheduled_runs(now=None):
         except Exception as e:                   # noqa: BLE001 — 조회 실패는 '확인 불가'
             per[wf] = {"status": UNKNOWN, "code": "SCHEDULED_QUERY_FAILED", "detail": f"{wf}: 조회 실패 {type(e).__name__}"}
             continue
-        st, code, detail, extra = _judge_scheduled(wf, spec, str(meta.get("state", "")), runs, now)
+        st, code, detail, extra = _judge_scheduled(wf, spec, str(meta.get("state") or ""), runs, now, created_at=meta.get("created_at"))
         per[wf] = {"status": st, "code": code, "detail": detail, **extra}
     faults = [v["detail"] for v in per.values() if v["status"] == FAULT]
     unknowns = [v["detail"] for v in per.values() if v["status"] == UNKNOWN]
@@ -543,7 +583,7 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
         counts[c["status"]] += 1
     faults = sorted(k for k, c in comps.items() if c["status"] == FAULT)
     unknowns = sorted(k for k, c in comps.items() if c["status"] == UNKNOWN)
-    sig_src = "|".join(f"{k}:{comps[k]['code']}" for k in faults + unknowns)
+    sig_src = _signature_source(comps, faults, unknowns)
     report = {
         "schemaVersion": SCHEMA,
         "checkedAt": now.isoformat(),
@@ -559,6 +599,14 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
         "overall": FAULT if faults else (UNKNOWN if unknowns else (OK if counts[OK] and not counts[INSUFF] else IDLE)),
     }
     return report
+
+
+def _signature_source(comps, faults, unknowns):
+    """수리 요청서·이슈의 서명 원문. 예약 실행 실측(scheduled)은 GitHub cron 발화 여부에 따라 날마다 뒤집히는 만성 항목이라,
+    다른 장애·확인 불가가 있으면 서명에서 뺀다(2026-09-10 검토 P2-6) — 같은 PAPER 사고가 서명별로 다른 INC 파일로 갈리지 않게.
+    scheduled 만 문제일 때는 그대로 서명이 된다(코드가 고정이라 흔들리지 않는다)."""
+    keys = [k for k in faults + unknowns if k != "scheduled"] or list(faults + unknowns)
+    return "|".join(f"{k}:{comps[k]['code']}" for k in keys)
 
 
 def _git_sha(root):

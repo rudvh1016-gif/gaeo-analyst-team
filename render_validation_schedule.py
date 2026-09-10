@@ -121,7 +121,8 @@ def render(cfg, ledger):
         r = cfg["runner"]
         L.append("## 실행기 (GitHub Actions — Claude 세션 없이 돈다)")
         L.append("")
-        L.append(f"- 스크립트 `{r.get('script')}` · 워크플로 `{r.get('workflow')}` · 일정 `{r.get('cron')}`")
+        L.append(f"- 스크립트 `{r.get('script')}` · 워크플로 `{r.get('workflow')}` · 일정 `{r.get('cron')}`"
+                 + (f" · 예비 발화 `{'` · `'.join(r['backupCron'])}`(UTC)" if r.get("backupCron") else ""))
         L.append(f"- 중복 방지: {r.get('dailyDedupe')} · 실행 실패 상한 {r.get('maxFailedRuns')}회 · 표본 부족 재확인 기본 상한 {r.get('maxRechecksDefault', 3)}회")
         if r.get("needsHuman"):
             L.append(f"- 사람 확인 필요 상태: {r['needsHuman']}")

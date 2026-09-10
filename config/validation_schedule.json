@@ -409,6 +409,8 @@
     "script": "run_validation_schedule.py",
     "workflow": ".github/workflows/ops-daily.yml",
     "cron": "5 8 * * 1-5 (UTC) = 평일 17:05 KST(GitHub cron은 지연될 수 있다)",
+    "backupCron": ["37 8 * * 1-5", "11 9 * * 1-5"],
+    "backupCronNote": "예비 발화 17:37·18:11 KST(2026-09-10 첫 예정일 발화 0회 실측). 실행기는 일정당 하루 1회, 워크플로 체크아웃은 시작 시점 브랜치 끝(ref) — 겹쳐 떠도 같은 시험을 다시 돌리지 않는다. 보장이 아니라 확률이며, 원장에 줄이 없으면 사람이 ops-daily 를 apply=true 로 1회 dispatch",
     "dailyDedupe": "같은 일정은 하루 1회",
     "maxFailedRuns": 3,
     "replay": "python3 run_validation_schedule.py --replay <inputs.json.gz> --result <result.json>",

@@ -26,6 +26,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -883,6 +884,25 @@ class WorkflowContract(unittest.TestCase):
         cron = " ".join(runner["cron"].split()[:5])
         self.assertIn(f'cron: "{cron}"', self.body)
         self.assertEqual(cron, "5 8 * * 1-5", "평일 17:05 KST")
+
+    def test_예비_cron은_설정_원본과_같다(self):
+        # 워크플로의 모든 cron 이 config runner.cron ∪ runner.backupCron 안에 있어야 한다(2026-09-10 검토 P2-4 — 원본 하나).
+        runner = self.cfg["runner"]
+        crons = [m.group(1) for m in re.finditer(r'cron: "([^"]+)"', self.body)]
+        allowed = {" ".join(runner["cron"].split()[:5])} | set(runner.get("backupCron", []))
+        self.assertGreaterEqual(len(crons), 1)
+        self.assertLessEqual(set(crons), allowed, (crons, allowed))
+        self.assertEqual(sorted(runner.get("backupCron", [])), sorted(c for c in crons if c != " ".join(runner["cron"].split()[:5])))
+
+    def test_체크아웃은_고정_SHA가_아니라_브랜치_끝을_본다(self):
+        # 2026-09-10 별도 검토 P0-1: 예비 cron 이 원본 지연과 겹치면 뒤 run 이 run 생성 시점의 github.sha 를 받아 앞 run 의 원장 커밋을
+        # 못 보고 같은 시험을 다시 돈다(원장 충돌). ref 를 명시하면 체크아웃 시점의 브랜치 끝을 받는다(concurrency 로 직렬화).
+        lines = self.body.splitlines()
+        idx = [i for i, l in enumerate(lines) if "uses: actions/checkout@v4" in l]
+        self.assertEqual(len(idx), 1, idx)
+        window = "\n".join(lines[idx[0]:idx[0] + 3])
+        self.assertIn("ref: ${{ github.ref }}", window)
+        self.assertIn("cancel-in-progress: false", self.body)
 
     def test_실행기와_점검을_부른다(self):
         for needle in ("python3 gaeo_check.py schedule", "run_validation_schedule.py $args --runner-name github-actions",
