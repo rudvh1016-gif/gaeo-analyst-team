@@ -50,89 +50,41 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 
 ---
 
+## 🧭 작업 지도 (2026-09-10 — 어느 에이전트든 여기부터)
+
+이 문서는 **전역 안전규칙과 지도**다. 세부 규칙은 아래 표의 문서를 "그 일을 할 때" 읽는다.
+Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙의 끝이 잘리지 않게 이 문서를 그 안에 유지한다(`test_rules_map.py`가 잠근다).
+
+**절대규칙 (요약 — 본문은 각 절)**
+1. 기존 기능·콘텐츠·데이터 연결을 보존한다. 사용자 명시 승인 없는 삭제·축소·대체 금지.
+2. 실제 주문·계좌 자금 이동 코드는 영구 금지. 모의투자 원장은 한 곳만 쓰고 과거 원장을 다시 쓰지 않는다.
+3. 자동 생성 파일(`data.js`·`history.js`·`auto_analysis.js` 등)은 손으로 고치지 않는다. 산식·가중치·사전등록 상수는 결과를 보고 바꾸지 않는다.
+4. 데이터 파이프라인 워크플로의 트리거·`branches: [main]`·`run:` 블록 크기 한도(21,000B)를 지킨다.
+5. Secret·토큰·계좌 정보·봉인 시험자료를 저장소·로그·화면에 넣지 않는다. force push·이력 재작성 금지.
+6. 정상 점검·요약·예정 시험은 일반 프로그램이 한다(`ops_status.py`·`gaeo_check.py`·`validation-schedule`). LLM 호출 0.
+7. "확인하지 못했다"를 "정상"으로 적지 않는다. "run이 돌고 있다"를 건강 신호로 쓰지 않는다.
+8. 새 유료 API·서버·크레딧 금지. 무료 한도가 부족하면 중단·자료 부족으로 표시한다.
+
+| 지금 하려는 일 | 먼저 읽을 것 | 검사 |
+|---|---|---|
+| 아무 작업이든 시작 | `docs/HARNESS.md` → `docs/operations/STATUS.md` | `python3 gaeo_check.py preflight` |
+| 자동 생성 파일이 무엇인지 | `docs/rules/FILE_MAP.md` | - |
+| 뉴스분석·공부·계산기 글 | `docs/rules/CONTENT_PUBLISHING_RULES.md` | `python3 seo_publish_gate.py` |
+| 화면·디자인 | `docs/rules/INDEX_HTML_STRUCTURE.md` · `docs/rules/DESIGN_RULES.md` · `docs/gaeo_design_system.md` | `python3 test_design_contract.py` · Playwright smoke |
+| 모의투자 | `docs/rules/PAPER_TRADING_RULES.md` · `docs/PAPER_TRADING_LOCAL_RUNNER.md` | `python3 gaeo_check.py paper` |
+| 파이프라인·워크플로 | 이 문서 「데이터 파이프라인」 · `docs/PIPELINE_WATCHDOG.md` | `python3 gaeo_check.py pipeline` |
+| 투자검증·사전등록·Evolution | `docs/gaeo_validation_policy.md` · `docs/PREREGISTRATION_BUY_FILTERS_20260905.md` · `docs/GAEO_HARNESS.md` | `python3 gaeo_check.py investment-contract` |
+| 예정 시험 일정 | `docs/VALIDATION_SCHEDULE.md`(원본 `config/validation_schedule.json`) | `python3 gaeo_check.py schedule` |
+| Claude/Codex 역할·스킬 | `docs/agent/MIGRATION_MAP.md` · `docs/agent/RULES_MAP.md` | `python3 gaeo_check.py compatibility` |
+| 병합 전 | - | `python3 gaeo_check.py premerge` (= CI) |
+
 ## 파일 맵 — 누가 무엇을 관리하는가
 
-| 파일 | 역할 | 수정 주체 |
-|---|---|---|
-| `index.html` / `app-shell.css` / `app.js` | 정적 화면 셸 / 공통 앱 스타일 / 공통 앱 동작. 빌드 없이 이 순서로 직접 로드 | AI 에이전트가 직접 편집 |
-| `tickers.js` | 종목 목록 단일 소스(600종목, code·name·sector). ⚠️ 배열은 순수 JSON이어야 한다 — 배열 안에 주석 금지(compute_rotation.py가 주석을 못 거른다) | 사람 / AI 에이전트 |
-| `data.js` | 현재가·PER 등 시세 스냅샷 + 홈 숫자 브리핑(`marketBrief`) | `update_prices.py` (GitHub Actions 자동) |
-| `analysis.js` | 5인 **정밀분석**(`LIVE_ANALYSIS`, 14종목+date/market 키) | AI 에이전트가 재분석 시 Write — 절차는 `.claude/skills/종목분석 스킬/SKILL.md` 참고(Codex는 이 파일을 일반 문서로 읽고 그대로 따르면 됨) |
-| `auto_analysis.js` | 5인 **자동분석**(`LIVE_AUTO`, 규칙 기반, 토큰 0 · DART 공식공시 맥락 `dart` 블록 포함) + 홈 보강 브리핑(`marketInsight`) | `analyze_auto.py` (자동) |
-| `news_analysis.js` | 📰 뉴스분석 보고서 누적(`NEWS_ANALYSIS`, 최신이 배열 앞, 10건=1페이지) | AI 에이전트 — 절차·품질 기준은 `.claude/skills/뉴스분석 스킬/SKILL.md` 참고 |
-| `snap/latest_posts.js` | 첫 화면에 표시할 최신 콘텐츠 5개의 제목·날짜·종류 | `generate_snapshots.js` (콘텐츠 발행·러너 실행 시 자동) |
-| `stock_study.js` | 📚 종목공부(`STOCK_STUDY`, 회사별 소개 프로필) | AI 에이전트 |
-| `stock_lessons.js` | 🎓 주식공부(`STOCK_LESSONS`, 차트·캔들 등 투자 기초 강의, `[[img:key\|캡션]]`=인라인 SVG 도해) | AI 에이전트 |
-| `estate_lessons.js` | 🏠 부동산공부(`ESTATE_LESSONS`, 근저당·대출규제·청약 등, 주식공부와 형식·헬퍼 동일) | AI 에이전트 |
-| `calculators.js` | 🧮 계산기(`CALCULATORS`, 7종). body는 SEO용 설명 글이고, 실제 계산 로직은 `app.js`의 `calcWidgetHTML`/`wireCalcWidget`이 `calcType`별로 담당 | AI 에이전트 |
-| `history.js` | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 종목 하루 1건, `tier:"auto"` 표식·정밀 우선·`HIST_CAP=80`) | **`archive_analysis.py`만 — 직접 편집 금지.** 러너가 `--auto`로 매 사이클 호출 |
-| `market_history.js` | 날짜별 시장분석 누적 | `archive_analysis.py` |
-| `price_history.js` | 일별 종가(5거래일=1페이지) | `update_price_history.py` |
-| `flow_history/YYYY-MM.json` · `flow_history/index.json` | 종목별 일별 수급(외국인·기관·개인 순매수·거래량·종가·시총추정) 영구 기록. 네이버가 최근 5거래일치만 주므로 지금부터 쌓는 원본이고, **APPEND-ONLY**(기록된 날짜·종목은 덮어쓰기·삭제 금지) | `update_flow_history.py` (update-analysis.yml이 매 사이클 실행) |
-| `analysis_data.json` | 분석용 원천 데이터(일봉·수급·컨센서스) | `collect_analyst_data.py` |
-| `indicators.json` / `indicators.js` | 사전계산 지표(RSI·MACD·이동평균·볼린저밴드 등, 분석 시 토큰 절약용) / 브라우저용 축약본 | `compute_indicators.py` |
-| `radar_signals.py` | 📡 GAEO 레이더 신호 계산·판정 공용 모듈(임계값 상수·볼린저밴드·RSI·MACD·교차 판정). `compute_indicators.py`도 볼린저밴드를 여기서 가져다 쓴다 | AI 에이전트 |
-| `radar.json` / `radar.js` / `radar_series.js` | 📡 레이더 전체 기록 / 홈 화면용 축약본 / 신호 종목의 최근 60거래일 차트 데이터(지연 로딩) | `compute_radar.py` (자동) |
-| `dow_stats.js` | 요일별 평균 등락률 사전계산 | `compute_dow_stats.py` (자동) |
-| `rotation_engine.py` / `compute_rotation.py` | 분석 종목을 24업종으로 집계하는 순환매 계산 엔진 / 현재 스냅샷·마감 아카이브 생성 | AI 에이전트 / `update-analysis.yml` (자동) |
-| `rotation_snapshot.js` / `rotation_archive.json` | 순환매 화면용 현재 자료 / 거래일별 마감 기록 | **`compute_rotation.py`만, 직접 편집 금지.** |
-| `rotation_backtest.py` / `backtest_rotation.py` / `rotation_model.json` | 미래 정보 차단형 Lead-Lag·유사 국면·Walk-forward 검증 / 주간 모델 산출물 | `rotation-maintenance.yml` (자동) |
-| `compute_rotation_picks.py` / `rotation_picks.js` | 홈 「업종 흐름에서 고른 종목」용 2KB 경량 요약(시장 게이트·상위 4종목·성적). 홈이 421KB짜리 `rotation_snapshot.js`를 받지 않게 하려고 분리했다. ⚠️ z점수 클램프를 고치기 전에 `zscores()` 주석의 측정 결과를 읽을 것 | `compute_rotation_picks.py`만, 직접 편집 금지. 계약은 `test_rotation_picks.py` |
-| `rotation-ui.js` / `rotation.css` | `?m=rotation` 전용 지연 로딩 화면과 반응형 디자인 | AI 에이전트가 직접 편집 |
-| `team_weights.js` | 자가 학습 CHIEF 가중치 | `compute_team_weights.py` (자동) |
-| `model_intelligence.js` | 확률교정·오답 중복·시장국면·AUDIT·그림자 승격 판정 | `compute_model_intelligence.py` (자동) |
-| `generate_sitemap.js` | `sitemap.xml` 재생성 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
-| `generate_llms.js` | `llms.txt` 재생성. AI 답변엔진(ChatGPT·Perplexity 등)이 읽을 사이트 안내판 | 콘텐츠 추가 시 AI 에이전트가 직접 실행 |
-| `generate_snapshots.js` | `/snap/{news,study,lesson,estate,calc}/{id}.html` 정적 스냅샷 + `/snap/stock/<code>.html` 종목별 랜딩페이지 생성 | 콘텐츠는 AI 에이전트가 실행 · 종목 스냅샷은 러너가 매 사이클 자동 재생성 |
-| `indexnow_submit.js` · `<32자hex>.txt` | `sitemap.xml`의 URL을 빙·네이버에 즉시 제출 | 러너가 `.indexnow_hash`로 변경 감지해 자동 제출 |
-| `site_config.js` / `community.js` | 사이트 문구 오버라이드 / 커뮤니티 공지·고정글 | 관리자 모드 발행 기능이 생성 |
-| `stock_bios.js` | 종목별 한줄 소개 | AI 에이전트 |
-| `krx_list.json` | 코스피·코스닥 전체 종목 목록(신규 종목 발굴용) | `fetch_krx_list.py` |
+→ `docs/rules/FILE_MAP.md` 로 옮겼다(2026-09-10, 원문 그대로). 자동 생성 파일을 손으로 고치기 전에 반드시 그 표를 본다.
 
----
+## ⭐ 콘텐츠 발행 철칙 (카테고리 `cat` · 스냅샷 4종 실행 · 제목 길이)
 
-## ⭐ 카테고리(`cat` 필드) 철칙
-
-`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 다섯 파일 모두 각 글에 `cat` 필드가 있고, `app.js`가 모드 진입 시 이 값으로 "대>중>소" 중카테고리 선택 화면(카드 그리드)을 그린다. **새 글을 추가할 때 반드시 기존 중카테고리 중 하나와 정확히 일치하는 키를 `cat`에 넣는다** — 안 넣거나 새 값을 지어내면 그 글이 어떤 카테고리 카드에도 안 잡혀서 "전체 글 보기"로만 찾을 수 있게 된다(사실상 묻힌다).
-
-현재 중카테고리 키(`app.js`의 `NEWS_CATS`/`STUDY_CATS`/`LESSON_CATS`/`ESTATE_CATS`/`CALC_CATS` 참조):
-- 뉴스분석: `market`(코스피·코스닥 시황) · `earnings`(기업 실적발표) · `global`(글로벌 이슈·매크로) · `crypto`(코인·신기술) · `domestic`(국내 기업 이슈)
-- 종목공부: `kr`(국내기업) · `global`(해외기업)
-- 주식공부: `chart`(차트·기술적분석) · `capitalism`(EBS 다큐 자본주의) · `crisis`(경제위기의 역사) · `tax`(세금·절세계좌) · `product`(투자상품) · `macro`(시장을 움직이는 손) · `industry`(산업·기업분석)
-- 부동산공부: `buy`(내집마련기초) · `rent`(전월세·임대차보호) · `loan`(대출·금융) · `auction`(경매·공매시리즈) · `strategy`(투자전략)
-- 계산기: `stock`(주식 계산기) · `tax`(세금 계산기) · `finance`(재테크 계산기)
-
-어느 카테고리에도 안 맞는 완전히 새로운 주제라면, 새 `cat` 키를 쓰기 전에 `app.js`의 해당 `*_CATS` 배열에도 카드를 함께 추가한다. 계산기를 새로 추가할 때는 `cat` 외에 `calcType`도 `app.js`의 `calcWidgetHTML`/`wireCalcWidget`에 해당 타입의 실제 계산 로직을 함께 추가해야 위젯이 동작한다(데이터만 추가하면 설명 글만 뜨고 계산기는 비어있게 된다).
-
-## ⭐ 콘텐츠 발행 철칙
-
-`news_analysis.js`·`stock_study.js`·`stock_lessons.js`·`estate_lessons.js`·`calculators.js` 중 **어느 파일이든 글을 추가/수정할 때마다** `node generate_snapshots.js` · `node generate_sitemap.js` · `node generate_rss.js` · `node generate_llms.js` **4개를 반드시 함께 실행**한다(안 하면 검색엔진·AI 크롤러가 새 글을 못 찾거나 못 읽는다). `generate_llms.js`는 AI 답변엔진용 `/llms.txt` 안내판을 다시 만든다. 이 4개 실행만으로 네이버·구글·빙·다음(카카오) 4개 검색엔진 + IndexNow(빙·네이버) + 네이버 서치어드바이저 RSS + AI 크롤러(정적 스냅샷)까지 전부 자동으로 커버된다. `sitemap.xml`만 갱신해서 push하면 IndexNow 제출은 러너가 다음 사이클(30분 이내)에 자동으로 해준다.
-
-**그다음 `python3 seo_publish_gate.py`를 실행해 0건 위반을 확인한다** (2026-08-16, AdSense 'Low value content' 대응). 글 단위 최소 계약(고유 제목·H1 1개·설명·canonical 자기참조·placeholder 없음·noindex/sitemap 모순 없음)을 기계 검사한다. 상세 규칙·체크리스트는 `docs/gaeo_seo_publishing_rules.md`. **게이트가 실패하면 filler로 채우지 말고 발행을 보류**하고 내용을 고친다.
-
-### ⭐ 제목·요약 길이 기준 (2026-08-03 사용자 지정, 신규 글 전부 적용)
-
-검색결과에서 제목·설명이 중간에 잘려 뜻이 끊기는 걸 막기 위한 기준이다. **글을 새로 쓸 때 이 기준으로 쓰고, 다 쓴 뒤 아래 검증 스크립트로 확인한다.**
-
-**자동으로 처리되니 신경 쓰지 않아도 되는 것** (`generate_snapshots.js`가 이미 해줌 — 이 동작을 되돌리지 말 것):
-- `<title>` 뒤 브랜드 꼬리표는 `TITLE_SUFFIX = 'Gaeo'`(7자)로 짧게 붙는다. 예전엔 사이트명 전체(19자)가 붙어서 멀쩡한 제목까지 30건이 잘렸다.
-- `meta description`은 `metaDesc()`가 155자 이내로, **문장 끝(`요.`/`다.`) → 어절** 순으로 자연스러운 지점을 찾아 끊는다. 화면에 보이는 요약(`.summary`)은 원문 그대로 나가므로 **글 내용은 절대 바뀌지 않는다.**
-
-**글 쓸 때 지켜야 하는 것**:
-- **제목(`title`/`name`)은 53자 이내**로 쓴다(꼬리표 ` · Gaeo` 7자를 더해 60자 이내가 되게). 넘어가면 늘어지는 연결어구(`~까지`, `무슨 일이 벌어지고 있나`, `~해야 할까` 등)부터 줄인다. **고유명사·숫자·날짜·시리즈 표기는 절대 빼지 않는다** — 줄이려고 정보를 버리느니 조금 긴 제목이 낫다.
-- **`summary`의 앞 150자만 읽어도 말이 되게** 쓴다. 그 앞부분이 그대로 검색결과 설명문이 되기 때문이다. 뒤쪽에 결론을 몰아두면 검색결과에선 도입부만 보이고 끝난다. 전체 길이 자체는 제한 없다(화면엔 원문 전체가 나온다).
-- em dash(`—`)는 제목·요약·본문 어디에도 쓰지 않는다(이 문서 상단 규칙). 구분이 필요하면 `:` 나 `,` 를 쓴다.
-
-**발행 전 확인** (스냅샷 생성 후 실행):
-```bash
-node -e "const fs=require('fs'),p=require('path');const un=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'\"');
-let t=0,d=0;for(const dir of ['snap/news','snap/study','snap/lesson','snap/estate','snap/calc'])
-for(const f of fs.readdirSync(dir)){const h=fs.readFileSync(p.join(dir,f),'utf8');
-if(un((h.match(/<title>([^<]*)<\/title>/)||[])[1]||'').length>60)t++;
-if(un((h.match(/<meta name=\"description\" content=\"([^\"]*)\"/)||[])[1]||'').length>160)d++;}
-console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
-```
-설명은 **항상 0건**이어야 한다(0이 아니면 `metaDesc()`가 깨진 것). 제목은 2026-08-03 기준 9건이 남아 있는데, 전부 시리즈명·기업명·날짜가 든 기존 글이라 의도적으로 둔 것이다 — **새 글 때문에 이 숫자가 늘면 그 제목을 줄인다.**
+→ `docs/rules/CONTENT_PUBLISHING_RULES.md` 로 옮겼다(2026-09-10, 원문 그대로). 뉴스분석·종목공부·주식공부·부동산공부·계산기 글을 추가·수정할 때 **반드시** 읽는다.
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개) — 건드리지 말고 이해만 할 것
 
@@ -151,67 +103,13 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 자세한 동작 원리는 `docs/ARCHITECTURE.md`와 `docs/WORKFLOW.md` 참고.
 
-## 모의투자(Paper Trading) — 실행 주체는 언제나 한 곳뿐 (2026-08-18 · Single Writer 2026-08-26)
+## 모의투자(Paper Trading) — 실행 주체는 언제나 한 곳뿐
 
-- ⭐ **원장을 쓰는 러너는 언제나 한 곳뿐이다(Single Writer, 2026-08-26).**
-  러너는 자기 이름을 환경변수 `GAEO_PAPER_RUNNER`(`WINDOWS`/`ORACLE`)로 선언하고,
-  지금 활성인 러너는 저장소의 `paper_runner_config.json`(`activeRunner`)이 정한다.
-  판정은 `paper_single_writer.py`가 하고 엔진 진입점(`paper_engine`·`paper_smart_v2`·
-  `paper_momentum`·`paper_public`)에서 **시세 조회 전에** 걸린다(토스는 client당 유효
-  토큰이 1개라 비활성 러너의 토큰 발급만으로 활성 러너 토큰이 무효가 된다).
-  비활성이면 매매 계산 0 · 원장 변경 0 · push 0. **선언이 없으면 비활성**(fail closed)이고,
-  `paper_runner_config.json`은 러너 커밋 화이트리스트 **밖**이라 러너가 자기를 켤 수 없다.
-  전환은 사람이 그 파일을 커밋할 때만 일어난다(자동 Failover 없음). 계약: `test_paper_single_writer.py`.
-- **`paper-trading.yml`의 `schedule`은 의도적으로 비활성화돼 있다. 되살리지 말 것.**
-  토스증권 Open API는 허용 IP로 접근을 통제하는데 GitHub-hosted 러너(Azure) IP는
-  등록할 수 없어 403이 나고, 집 PC와 동시에 돌면 같은 Paper 상태를 두 곳에서 건드린다.
-- 단일 실행 주체: 집 Windows PC의 작업 스케줄러 **"GAEO Paper Trading"**
-  → `scripts/paper_cycle.ps1` (평일 KST 09:05~15:05, 30분 간격).
-  부트스트랩은 `%LOCALAPPDATA%\GAEO\run-paper.ps1`(저장소 밖, Secret은 DPAPI 암호화).
-- 러너는 **개발용 저장소를 절대 쓰지 않는다.** 전용 clone(`%LOCALAPPDATA%\GAEO\paper-runner\repo`)에서만
-  돌고, 러너 루트의 `.gaeo-paper-runner` 마커가 없으면 실행을 거부한다.
-- 러너가 커밋하는 파일은 `paper_trading/`과 `paper_public.js` **뿐**이다(화이트리스트 강제).
-  `git add .`·force push·`reset --hard`·자동 충돌 해결은 어느 경로에도 없다.
-- Toss는 **시세(Market Data)만** 쓴다. 계좌·보유·주문 API 호출 0, `POST`는 토큰 발급 하나뿐.
-  실주문 코드를 새로 만들지 말 것. 상세: `docs/PAPER_TRADING_LOCAL_RUNNER.md`.
-- ⭐ **회계 기준은 거래마다 진입할 때 원장에 박제된다(2026-08-26).** 2026-08-27부터
-  진입한 거래는 수수료·거래세를 반영하고(`ACCOUNTING_V2_NET`), 그 전 거래는 옛 기준
-  (`ACCOUNTING_V1_GROSS`)으로 남는다. **과거 원장(trades.jsonl)을 다시 쓰지 않는다.**
-  전환 이전 미반영 비용은 `summary.accounting.unreflectedCostKrw`로 그대로 공개한다.
-  시장대비(벤치마크)는 원장 값이 아니라 **보고 시점에 실제 진입일·청산일 종가로
-  재계산**한다(원장의 `benchmark_*`는 탐지 시점 기록이라 손대지 않는다).
-- 🧪 세 번째 전략 `paper_smart_v2.py`(PAPER_SMART_V2)는 **Shadow**다. 별도 폴더
-  (`paper_trading/smart_v2`)·별도 environment를 쓰고 공개 화면에 나가지 않으며,
-  **자동 승격이 없다**(V1이 Baseline). 5거래일은 청산일이 아니라 재평가일이고
-  안전상한은 60거래일이다. 60D 성적·적중률은 어떤 형태로도 주장하지 않는다
-  (`docs/gaeo_validation_policy.md`: 60D는 평가 가능한 판단 0건).
-- 🔔 **조용히 죽는 것도 알림 대상이다(2026-08-26).** `paper-health-alert.yml`이 평일 16:30 KST에
-  판정하는데, 판정 로직은 `paper_health_check.py`에 있다(워크플로 안 heredoc이 아니다).
-  "오늘 실패"는 기존 이슈로, **"거래일인데 오늘 기록이 0건"은 별도 제목 이슈**
-  (`🛑 [GAEO Paper] 오늘 모의투자가 실행되지 않았습니다`)로 알린다. 거래일 판정은 러너가 쓰는
-  파일이 아니라 `price_history.js`(GitHub Actions가 갱신하는 일봉)로 하고, 오늘 일봉이 없거나
-  증거를 못 읽으면 **아무 말도 하지 않는다**(공휴일 허위 알림 0건). 계약: `test_paper_health_check.py`.
-- 🐧 **Oracle Cloud Linux 러너 자료는 준비만 돼 있다(2026-08-26).** `scripts/paper_cycle.sh` ·
-  `scripts/paper_doctor.sh` · `scripts/systemd/gaeo-paper.{service,timer}` · 설치 안내
-  `docs/PAPER_TRADING_ORACLE_RUNNER.md`. 아직 전환하지 않았고 **집 Windows 러너를 삭제하지 않는다.**
-  VM Shape·RAM·CPU·Idle 사용량은 확인할 수 없어 전부 UNKNOWN으로 문서에 그대로 적혀 있다.
-- ⚠️ Windows에서 Python 출력이 cp949로 나가면 `—` 같은 문자에서 `UnicodeEncodeError`로 죽는다.
-  러너는 `PYTHONUTF8=1`을 강제한다. 또 PowerShell 5.1은 BOM 없는 UTF-8 `.ps1`을 cp949로
-  오독하므로 **`scripts/*.ps1`은 BOM 있는 UTF-8로 저장**해야 한다.
+→ `docs/rules/PAPER_TRADING_RULES.md` 로 옮겼다(2026-09-10, 원문 그대로). 절대규칙만 여기 남긴다: 원장을 쓰는 러너는 한 곳뿐(`paper_runner_config.json`) · 실주문 코드 금지 · 과거 원장 재작성 금지 · `paper-trading.yml`의 schedule을 되살리지 말 것. 러너 복구·이력 재작성 대응은 `docs/PAPER_TRADING_LOCAL_RUNNER.md` §9.
 
-## index.html 구조 (2026-07-28 Home Master Design 반영)
+## index.html 구조
 
-- 상단 고정 글로벌 네비게이션(`.global-nav`): 로고·주요 메뉴·종목 검색·프로필·전체 메뉴 구조. 모바일에서는 주요 메뉴를 접고 아이콘과 전체 메뉴 버튼으로 전환한다.
-- 기존 사이드바 DOM(`.rail`)은 삭제하거나 복제하지 않고 `#navWorkspace` 안으로 이동한다. 따라서 모드 토글·검색·업종 폴더(24개)·광고의 기존 id와 이벤트는 그대로 유지된다.
-- Home Dashboard(`.home-dashboard`)는 Emerald 계열의 독립 디자인 시스템을 쓰며, PC는 화면 좌우 32px 이상 여백을 둔 최대 1840px 와이드 레이아웃, 모바일은 1열 플로우다.
-- 우측 레일 `#railR`의 다가오는 일정·최근 팀 판단은 Home Dashboard 하단의 반응형 정보 카드로 이동한다(`MEGA_CAP` 화이트리스트 기준은 그대로).
-- 검색 자동완성(`makeAutocomplete`)은 상단 검색·홈 검색·단일분석·종목비교 A/B가 공유한다. 📖 가이드북 탭(`renderGuide`)은 초보용 사용법+단어장이다.
-- 모드 전환은 `setMode()`가 display 토글 — 요소가 다시 나타날 때 `viewIn` 애니메이션 재생.
-- 스파크라인: `flatCloses(code)`(price_history 평탄화) + `priceSparkSVG()`.
-- TARO 미니차트: `taroChartHTML(code)` — `indicators.js`(`INDICATORS`)에서 가격/MA/RSI/MACD를 읽어 `fillCard('taro')`가 삽입.
-- 📡 GAEO 레이더: 홈은 `#gaeoRadar` 카드(`renderGaeoRadar()`, `radar.js`의 `GAEO_RADAR`를 읽음 — 분류 칩 클릭 → 종목 목록 → 클릭 시 `jumpToStock`). 종목 상세는 기존 분석 화면 안 `#radarDetail` 카드(`renderRadarDetail(code)`가 `runChief()` 끝에서 호출)로, `GaeoFeatures.load('radar')`로 `radar_series.js`를 그때 내려받아 가격+볼린저밴드·RSI·거래량·(접이식)MACD 차트와 어제/오늘 비교표를 그린다.
-- 용어 설명: `GLOSSARY` + `wrapGloss()`가 findings 속 용어를 `.gterm`으로 감싸고 클릭 시 `.gloss-pop` 팝업.
-- PC 버전 토글: 물리 화면 최소변 <820px에서만 우측 하단 노출.
+→ `docs/rules/INDEX_HTML_STRUCTURE.md` 로 옮겼다(2026-09-10, 원문 그대로). 화면(`index.html`·`app.js`·`app-shell.css`)을 만지기 전에 읽는다.
 
 ## ⚠️ 코딩 시 주의 (실제 겪은 함정 — 어떤 에이전트든 반드시 지킬 것)
 
@@ -230,44 +128,11 @@ console.log('제목 60자 초과:',t,'/ 설명 160자 초과:',d);"
 
 ## ⭐ 디자인 — 새 화면을 만들기 전에 읽을 것
 
-**`docs/gaeo_design_system.md`를 먼저 읽으세요.** 기능을 추가할 때마다 새 색·새 배지·새 카드를
-얹다 보니 화면이 조용한 금융 리포트가 아니라 알록달록한 AI 대시보드처럼 변해 갔습니다.
-핵심 규칙 여덟 줄만 옮겨 둡니다.
-
-1. **분석가별 고유색 금지** — QUANT 주황·FLOW 초록 식으로 색을 배정하지 않는다. 이름과 역할로 구분한다.
-2. **장식용 그라데이션 금지** (neon·glass·glow도 마찬가지)
-3. **섹션 제목마다 장식 emoji 붙이지 않기**
-4. **모든 상태를 배지(pill)로 만들지 않기** — 가능하면 평범한 secondary text
-5. **빨강·파랑은 시장 방향에만** (주가 등락·실제 수익률·BUY/SELL). 카드 배경까지 칠하지 않는다
-6. **계층은 색이 아니라 타이포·크기·굵기·여백·구분선으로**
-7. **Apple 감성 Editorial 금융 리포트** — 화려함보다 읽히는 것
-8. **모바일 우선 가독성** — 360·375·390·430px에서 가로 넘침 0
-
-정보를 삭제하기보다 재배치·접기를 쓴다. 모바일이라고 내용을 빼지 않는다.
-
-### 2026-08-18 전체 sweep으로 못박은 것 (되돌리지 말 것)
-
-- **글꼴은 사이트 전체가 하나다.** `Wanted Sans Variable`(저장소 self-host,
-  SIL OFL 1.1) → 예비 Pretendard → 시스템 글꼴. index뿐 아니라 `about.html` ·
-  `404.html` · `generate_snapshots.js`(snap 787개) · `deep_analysis_publish.js`
-  (정밀분석 31개)가 **전부 같은 스택**이다. 생성기를 고쳤으면 **재생성까지** 해야
-  한다(`node generate_snapshots.js` · `node generate_deep_analysis.js`).
-- **굵기는 3단계뿐이다.** 본문 `400` · 라벨 `500` · 제목·강조 `600`.
-  브랜드 로고/히어로만 `800`(전체 3곳). `650` `700` `720` `760` `900` 금지.
-  `<b>` `<strong>` `<h1~h6>` `<th>`는 선언을 빠뜨리면 브라우저 기본 700으로
-  새므로, 화면 CSS 맨 앞의 기본 굵기 정규화 규칙을 지운다면 안 된다.
-- **"가로 스크롤 0"은 합격 기준이 아니다.** 제목 3줄 붕괴 · 고아 줄바꿈 ·
-  탭 2줄 접힘 · 좁은 칸의 과대 글자도 전부 불합격이다. 고치는 순서는
-  ① 문구를 짧게 ② 칸 폭 확보 ③ **마지막에만** 크기 미세 조정.
-  줄바꿈을 없애려고 글자를 무조건 작게 하는 해결은 금지.
-- 검사: `python3 test_design_contract.py` · `node test_typography_quality.js`
-  (15화면 × 360·390·1280px) · `node test_paper_font.js`(웹폰트 실제 로드 실측).
-
----
+→ `docs/rules/DESIGN_RULES.md`(요약 8줄 + 2026-08-18 sweep 고정 사항, 원문 그대로) 와 `docs/gaeo_design_system.md`(원본)를 읽는다. 분석가별 고유색 금지 · 장식 그라데이션/emoji/배지 자제 · 빨강파랑은 시장 방향에만 · 계층은 타이포와 여백으로.
 
 ## GAEO TEAM — 저장소 개발·점검을 돕는 Agent/Skill 체계 (Claude Code 전용)
 
-이 저장소를 개발·점검·성장시키는 작업(사용자에게 보여줄 종목 판단이 아니라 이 서비스 자체를 다루는 작업)을 돕는 8개 Agent + 8개 `gaeo-` Skill이 `.claude/agents/gaeo-*.md`·`.claude/skills/gaeo-*/SKILL.md`에 있다. Claude Code에서 `/gaeo-strategy`(방향 제안, 읽기 전용)·`/gaeo-design`(디자인 점검, 읽기 전용)·`/gaeo-build`(구현)·`/gaeo-review`(배포 전 검수)·`/gaeo-bug`(버그 수정)·`/gaeo-quant`(분석력 실증 검증)·`/gaeo-growth`(유입·성장 검토)·`/gaeo-health`(전체 점검, 읽기 전용)로 호출한다. 전체 구조·안전 규칙·주간 자동 제안(Routine) 방식은 `docs/gaeo_team_system.md`에 정리돼 있다. Codex 등 다른 에이전트는 이 체계를 직접 호출할 수 없지만, 같은 절차를 텍스트 그대로 따라 하면 동일한 결과를 낼 수 있다.
+이 저장소를 개발·점검·성장시키는 작업(사용자에게 보여줄 종목 판단이 아니라 이 서비스 자체를 다루는 작업)을 돕는 8개 Agent + 8개 `gaeo-` Skill이 `.claude/agents/gaeo-*.md`·`.claude/skills/gaeo-*/SKILL.md`에 있다. Claude Code에서 `/gaeo-strategy`(방향 제안, 읽기 전용)·`/gaeo-design`(디자인 점검, 읽기 전용)·`/gaeo-build`(구현)·`/gaeo-review`(배포 전 검수)·`/gaeo-bug`(버그 수정)·`/gaeo-quant`(분석력 실증 검증)·`/gaeo-growth`(유입·성장 검토)·`/gaeo-health`(전체 점검, 읽기 전용)·`/gaeo-maintain`(유지보수 진입점: STATUS·통합 점검·수리 요청서부터 읽음, 2026-09-10 신설)로 호출한다. 2026-09-10부터 기본은 메인 작업자 1명·동시 2명 이내이며 정상 점검에는 AI를 쓰지 않는다(`docs/gaeo_team_system.md` 개정 절). 전체 구조·안전 규칙·주간 자동 제안(Routine) 방식은 `docs/gaeo_team_system.md`에 정리돼 있다. Codex 등 다른 에이전트는 이 체계를 직접 호출할 수 없지만, 같은 절차를 텍스트 그대로 따라 하면 동일한 결과를 낼 수 있다.
 
 ## GAEO Evolution Harness (2026-08-21 신설 — gaeo_evolution/)
 
