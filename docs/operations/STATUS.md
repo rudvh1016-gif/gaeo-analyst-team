@@ -3,6 +3,60 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-11 00:20 KST — 집 PC PAPER 복구 **완료** (집 PC 실측 세션)
+
+> 이 절이 아래 「확정된 사실」 1번(“PAPER 마지막 회차 = 2026-09-01”)을 **대체한다.**
+> 실행 위치: 집 Windows PC(`DESKTOP-24KN8TP`) 직접 세션. 원격 세션이 아니다.
+
+**현재 상태 — 복구 끝. 중간에 끊긴 작업 없음. 미커밋 작업 없음.**
+
+| 항목 | 결과 | 근거 |
+|---|---|---|
+| 9/2 정지 원인 | **확정** — 사실 3+4 가설이 맞았다 | `paper-2026-09-02.log`: `remote sync: 로컬/원격이 갈라짐` → `rebase 충돌 — abort했다` → `최종 exit code: 6`. 9/2·3·4·7·8·10 각 13회차 전부 exit 6 |
+| 집 PC에만 있던 기록 | **없음** | 복구 도구 check = **exit 10 / COVERED**(로컬 27파일 = 원격 27파일, 전 바이트 동일). 별도 교차검증: `paper_trading`·`smart_v2`·`scalp_v3` **tree 해시 3개 모두 원격과 일치**, `paper_public.js` blob 일치 |
+| 장부 보존 | **완료** | 백업 `%LOCALAPPDATA%\GAEO\backups\prerepoint-20260911T001714\`(manifest 검증 통과) · 옛 HEAD `refs/gaeo-backup/head-20260911T001714` → `dbd9d86e4e` · 거래 줄 수 372/224/20 **복구 전후 동일**, 기존 줄 바이트 무변경(소급 수정 0) |
+| 러너 저장소 재기준 | **완료** | `paper_recover.ps1 -Mode apply` **exit 0**. HEAD `dbd9d86e4e` → `8d4ff6a233`(=origin/main), 작업트리 깨끗 |
+| 개발용 저장소 재기준 | **완료** | 옛 HEAD `da99ce79c3` → `refs/gaeo-backup/dev-20260911` 보존 후 `checkout -B main origin/main`. 옛 HEAD 내용은 새 이력 `2188a3f2b8`에 tree 동일로 이미 보존돼 있었다(손실 0) |
+| 실제 PAPER 1회차 | **완료(성공)** | 작업 스케줄러 `GAEO Paper Trading` 실행 → `remote sync: 이미 최신` → engine/momentum/smart_v2/scalp_v3/report/public **전부 exit 0** → `최종 exit code: 0` |
+| GitHub 새 기록 | **완료** | 커밋 `a7cb305160` push 성공, `origin/main` 반영 확인. 화이트리스트 밖 파일 0건. 세 장부 `lastCycleAt` 전부 `2026-09-11T00:20` |
+| 관측 공백 정직성 | **정상 설계대로** | `backfilledBusinessDates = [08-19, 09-02, 09-03, 09-04, 09-07, 09-08, 09-09, 09-10]`. 보유 10건은 `MAX_HOLDING_5D — 장외`로 **청산 대기**(다음 개장 회차 처리). **소급 체결 0건** |
+| 다음 거래일 자동 실행 | **준비됨** | 작업 스케줄러 Ready·Enabled, Mon–Fri 09:05 + 30분 간격 6시간, `NextRunTime = 2026-09-11 09:05`. `paper_doctor.ps1` 전 항목 `[O]`, exit 0. `paper_health_check.py` → `status=OK reason=CYCLE_OK` |
+
+**이번에 새로 밝혀진 별개 원인 (9/2 git 문제와 무관)**
+
+- **9/9(수)만 로그가 아예 없다.** 작업 스케줄러는 13회 전부 발화했지만 **이벤트 332 ×13**으로 전부 차단됐다:
+  「시작 조건이 충족되었을 때 "DESKTOP-24KN8TP\개오" 사용자가 로그온한 상태가 아니므로 …」.
+  그날 06:21~06:24 Windows Update(TrustedInstaller)가 재부팅했고 로그온이 안 된 상태였다.
+  작업이 `LogonType=Interactive`(사용자 로그온 시에만 실행)라서 생긴 구조적 위험이며 **아직 안 고쳤다**
+  (고치려면 계정 비밀번호 저장이 필요 → 자격증명 작업이라 이번 승인 범위 밖).
+
+**다음 첫 명령 (사용량 회복 후 이 순서로)**
+
+```powershell
+# 1) 9/11 09:05~ 자연 회차가 실제로 돌았는지 (가장 먼저)
+Get-Content "$env:LOCALAPPDATA\GAEO\logs\paper-2026-09-11.log" | Select-String "최종 exit code"
+# 2) 보유 10건이 MAX_HOLDING_5D 로 실제 청산됐는지 + GitHub 새 커밋
+cd C:\Users\개오\Desktop\gaeo-analyst-team; git pull --ff-only; git log --oneline -5 origin/main
+python paper_health_check.py
+# 3) Issue #481 이 16:30 KST paper-health-alert 로 자동으로 닫혔는지 (사람이 닫지 말 것)
+gh issue view 481 --json state,updatedAt
+```
+
+**절대 하지 말 것 (이어받는 세션용)**
+
+- Issue #481을 **사람이 직접 닫지 않는다.** 16:30 KST `paper-health-alert`가 오늘 `CYCLE_OK`를 보고 자동으로 닫는다.
+- 9/2~9/10 공백을 **과거 날짜 거래로 메우지 않는다.** `backfilledBusinessDates`에 공백으로 남기는 것이 설계된 정상 동작이다.
+- 보유 10건을 **손으로 청산 처리하지 않는다.** 다음 개장 회차가 `MAX_HOLDING_5D`로 처리하며, `holding_trading_days`가 5보다 크게 찍히는 건 지연 청산이라 정상이다.
+- `git reset --hard` · `git clean` · force push · `--allow-unrelated-histories` · 백업 폴더/`refs/gaeo-backup/*` 삭제 금지.
+- 산식·가중치·BUY/HOLD/SELL 기준·사전등록 조건·`tickers.js`·`activeRunner`(=`WINDOWS` 유지) 변경 금지.
+- **Oracle 이전을 아직 시작하지 않는다.** 조건은 "Windows PAPER가 실제 장중 회차를 최소 1회 정상 기록"이며, 이번에 돈 건 **장외 회차**다. 9/11 09:05~15:05 장중 회차를 확인한 뒤에 검토한다.
+
+**남은 위험 (해결 안 됨)**
+
+1. 9/9형 사고 재발 — PC가 재부팅되고 아무도 로그인하지 않으면 그날 PAPER는 통째로 안 돈다. (사용자 조치: 평일 장중 PC를 켜고 로그인 상태로 두기)
+2. 토스 공유 토큰 경고 — 매 회차 `GAEO_SHARED_TOSS_TOKEN 가 꺼져 있습니다 … Gateway의 토큰이 끊깁니다`가 뜬다. PAPER 자체는 정상이지만 Gateway와 함께 쓰면 충돌 가능. 이번 범위 밖이라 손대지 않았다.
+3. 장중 실거래 회차 미검증 — 시세 조회(토스 403 여부)는 **장중에만** 진짜로 확인된다.
+
 ## 기준 (2026-09-10 09:00 KST 시작)
 
 - `origin/main` = `a003e02bda` (PR #529, indicators.json 출처 필드 보완). 열린 PR 0건.
