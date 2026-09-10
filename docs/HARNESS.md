@@ -19,7 +19,7 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 | 모의투자 | `python3 gaeo_check.py paper` | 원장 회계·게이트·Single Writer·러너 동기화(이력 재작성 재현)·공백·토스 시세 경계 |
 | 투자 계약 | `python3 gaeo_check.py investment-contract` | 사전등록 상수·가중치 축소·시장 상대 채점·Evolution·성적표. 봉인 결과는 열지 않는다 |
 | 예정 시험 | `python3 gaeo_check.py schedule` | 일정 원본↔문서 동기·allowlist·원장 형식 · 실행기 계약(조기 실행 금지·하루 1회·원장 append-only·재확인 상한·동결 입력 재현·`ops-daily.yml` 정적 검사) · 확인 도구 계약(team_weights 전환·FLOW 표본 조건) |
-| 호환성 | `python3 gaeo_check.py compatibility` | 규칙 대응표·CI 동등성·Secret 위생·디자인 계약 (+ 구간 6 Codex 파일 검사) |
+| 호환성 | `python3 gaeo_check.py compatibility` | 규칙 대응표·CI 동등성·Secret 위생·디자인 계약 · Claude↔공용 진입점 동기(`test_agent_compat.py`: `.agents/skills`·`.codex/agents`·`docs/agent/ROLES.md`가 `sync_agent_compat.py` 출력과 같은가) |
 | 병합 전 필수 | `python3 gaeo_check.py premerge` | `ci.yml`과 같은 것: `test_*.py` 전부 + Playwright 없는 `test_*.js` 전부 |
 | 배포 후 확인 | `python3 gaeo_check.py postdeploy [--expect-sha SHA]` | `ops_status.py --github --probe-pages` 로 실제 증거를 읽어 정상/장애/확인 불가를 낸다 |
 | 화면 smoke | `python3 gaeo_check.py browser` | Playwright 테스트 목록만 보여준다(실행은 확인된 환경에서 `NODE_PATH=/opt/node22/lib/node_modules node …`) |
@@ -68,4 +68,4 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 - 계획·진도: `docs/operations/MASTER_PLAN.md` · `docs/operations/STATUS.md` · 집 PC 할 일: `docs/operations/HOME_PC_CHECKLIST.md`
 - 감시·복구: `docs/PIPELINE_WATCHDOG.md` · `docs/ARCHITECTURE.md`(6중 안전망) · 모의투자: `docs/PAPER_TRADING_LOCAL_RUNNER.md`
 - 예정 시험: `docs/VALIDATION_SCHEDULE.md`(원본 `config/validation_schedule.json`, 실행기 `run_validation_schedule.py` + `.github/workflows/ops-daily.yml`, 기록 `docs/audits/validation_runs/`) · 투자검증: `docs/gaeo_validation_policy.md` · `docs/PREREGISTRATION_BUY_FILTERS_20260905.md`
-- Claude/Codex 공용화: `docs/agent/MIGRATION_MAP.md` · 유지보수 진입점: `.claude/skills/gaeo-maintain/SKILL.md`
+- Claude/Codex 공용화: `docs/agent/MIGRATION_MAP.md` · 역할표 `docs/agent/ROLES.md` · Codex 확인 시나리오 `docs/agent/CODEX_SCENARIOS.md` · 생성기 `sync_agent_compat.py` · 유지보수 진입점: `.claude/skills/gaeo-maintain/SKILL.md`(공용 진입점 `.agents/skills/gaeo-maintain/SKILL.md`)

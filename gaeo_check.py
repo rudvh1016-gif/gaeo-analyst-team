@@ -60,7 +60,7 @@ GROUPS = {
     ],
     "schedule": ["test_validation_schedule.py", "test_validation_runner.py", "test_validation_checks.py"],
     "compatibility": ["test_rules_map.py", "test_ci_parity.py", "test_secret_hygiene.py", "test_design_contract.py",
-                      "test_gaeo_check.py", "test_css_layering.py"],
+                      "test_gaeo_check.py", "test_css_layering.py", "test_agent_compat.py"],
 }
 # 묶음에 넣을 곳이 없는 검사도 "어디에도 없음"은 허용하지 않는다 — 이 목록에 명시적으로 적는다.
 UNGROUPED_BUT_KNOWN = []

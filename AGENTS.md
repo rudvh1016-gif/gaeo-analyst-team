@@ -75,7 +75,7 @@ Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙�
 | 파이프라인·워크플로 | 이 문서 「데이터 파이프라인」 · `docs/PIPELINE_WATCHDOG.md` | `python3 gaeo_check.py pipeline` |
 | 투자검증·사전등록·Evolution | `docs/gaeo_validation_policy.md` · `docs/PREREGISTRATION_BUY_FILTERS_20260905.md` · `docs/GAEO_HARNESS.md` | `python3 gaeo_check.py investment-contract` |
 | 예정 시험 일정 | `docs/VALIDATION_SCHEDULE.md`(원본 `config/validation_schedule.json`) | `python3 gaeo_check.py schedule` |
-| Claude/Codex 역할·스킬 | `docs/agent/MIGRATION_MAP.md` · `docs/agent/RULES_MAP.md` | `python3 gaeo_check.py compatibility` |
+| Claude/Codex 역할·스킬 | `docs/agent/MIGRATION_MAP.md` · `docs/agent/RULES_MAP.md` · `docs/agent/ROLES.md` (공용 진입점 `.agents/skills/`는 `sync_agent_compat.py`가 생성) | `python3 gaeo_check.py compatibility` |
 | 병합 전 | - | `python3 gaeo_check.py premerge` (= CI) |
 
 ## 파일 맵 — 누가 무엇을 관리하는가

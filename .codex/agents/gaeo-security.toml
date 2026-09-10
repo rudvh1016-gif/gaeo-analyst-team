@@ -1,0 +1,9 @@
+# 생성 파일 — sync_agent_compat.py 가 .claude/agents/gaeo-security.md 에서 만든다. 손으로 고치지 않는다.
+# ⚠️ 형식 미확인: Codex 설치본이 이 파일을 어떤 스키마로 읽는지 이 세션에서 공식 문서로 확인하지 못했다(2026-09-10).
+#    참고용이다. 확인되면 sync_agent_compat.py 의 agent_toml() 을 그 스키마로 고치고 다시 생성한다.
+#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.
+name = "gaeo-security"
+description = "GAEO의 보안 취약점을 점검하는 담당. 개인정보·계좌정보·Toss 연동·API 키·인증·권한이 걸린 기능을 만들거나 바꿀 때, 또는 정기 점검(gaeo-health)에서 보안 구멍이 없는지 확인할 때 사용한다."
+instructions_file = ".claude/agents/gaeo-security.md"
+tools = ["Read", "Grep", "Glob", "Bash"]
+read_only = true

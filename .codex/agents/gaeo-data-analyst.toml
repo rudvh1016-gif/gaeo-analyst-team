@@ -1,0 +1,9 @@
+# 생성 파일 — sync_agent_compat.py 가 .claude/agents/gaeo-data-analyst.md 에서 만든다. 손으로 고치지 않는다.
+# ⚠️ 형식 미확인: Codex 설치본이 이 파일을 어떤 스키마로 읽는지 이 세션에서 공식 문서로 확인하지 못했다(2026-09-10).
+#    참고용이다. 확인되면 sync_agent_compat.py 의 agent_toml() 을 그 스키마로 고치고 다시 생성한다.
+#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.
+name = "gaeo-data-analyst"
+description = "GAEO 과거 판단이 실제로 맞았는지 데이터로 검증하는 애널리스트. 적중률, 기간별(1주/1개월/3개월) 실제 성과, 전략·산식 변경 전후 비교, 모의투자(paper) 성과 분석이 필요할 때 사용한다. gaeo-quant-research가 설계한 가설을 실제 과거 데이터로 검증하는 짝 역할."
+instructions_file = ".claude/agents/gaeo-data-analyst.md"
+tools = ["Read", "Grep", "Glob", "Bash"]
+read_only = true
