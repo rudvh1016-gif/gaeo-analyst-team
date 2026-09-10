@@ -50,10 +50,23 @@ import argparse, json, os, sys
 ap = argparse.ArgumentParser()
 ap.add_argument("--as-of"); ap.add_argument("--fail", action="store_true"); ap.add_argument("--prereg", action="store_true")
 ap.add_argument("--flow", action="store_true"); ap.add_argument("--tw", action="store_true")
+ap.add_argument("--count", action="store_true"); ap.add_argument("--touch", action="store_true")
+ap.add_argument("--nojson", action="store_true"); ap.add_argument("--prereg-file")
 a = ap.parse_args()
 if a.fail:
     print("boom", file=sys.stderr); sys.exit(3)
 knobs = json.load(open("knobs.json")) if os.path.exists("knobs.json") else {}
+if a.touch:
+    open("executed.txt", "a").write(a.as_of or "-"); print(json.dumps({"status": "OK", "asOf": a.as_of})); sys.exit(0)
+if a.nojson:
+    print("done, no json here"); sys.exit(0)
+if a.prereg_file:
+    print(open(a.prereg_file, encoding="utf-8").read()); sys.exit(0)
+if a.count:
+    days = int(knobs.get("days", 12))
+    print(json.dumps({"status": "COUNTED", "evaluated": False, "asOf": a.as_of,
+                      "sample": {"decisionDays": days, "rows": days * 4, "buy": days * 2, "excluded": {},
+                                 "buyFeatureUnrecorded": int(knobs.get("unrecorded", 0))}})); sys.exit(0)
 if a.prereg:
     days = int(knobs.get("days", 12))
     doc = {"status": "EVALUATED" if days >= 20 else "INSUFFICIENT", "asOf": a.as_of,
@@ -63,7 +76,7 @@ if a.prereg:
         doc["holmP"] = {}; doc["preRegisteredConsequences"] = {}
     print(json.dumps(doc)); sys.exit(0)
 if a.flow:
-    print(json.dumps({"status": knobs.get("flow", "NOT_READY"), "commonDays": 12, "conditions": {"minCommonDays": 20},
+    print(json.dumps({"status": knobs.get("flow", "NOT_READY"), "asOf": a.as_of, "commonDays": 12, "conditions": {"minCommonDays": 20},
                       "regimeKindsMeetingMin": [], "expectedReadyDateIfNoGaps": knobs.get("expected", "2026-10-01")})); sys.exit(0)
 if a.tw:
     print(json.dumps({"status": knobs.get("tw", "OK"), "note": "가짜 team_weights 확인"})); sys.exit(0)
@@ -88,8 +101,15 @@ def base_config():
             "bad_placeholder": {"argv": ["python3", "fake_step.py", "{other}"], "status": "available"},
             "not_python": {"argv": ["bash", "-c", "echo"], "status": "available"},
             "prereg_evaluate": {"argv": ["python3", "fake_step.py", "--prereg", "--as-of", "{cutoffDate}"], "status": "available"},
-            "flow_validation_readiness": {"argv": ["python3", "fake_step.py", "--flow"], "status": "available"},
+            "prereg_sample_count": {"argv": ["python3", "fake_step.py", "--count", "--as-of", "{cutoffDate}"], "status": "available",
+                                    "expectJson": True, "requiredFields": ["status", "sample.decisionDays", "sample.buyFeatureUnrecorded"]},
+            "flow_validation_readiness": {"argv": ["python3", "fake_step.py", "--flow", "--as-of", "{cutoffDate}"], "status": "available"},
             "team_weights_transition_check": {"argv": ["python3", "fake_step.py", "--tw"], "status": "available"},
+            "touch_step": {"argv": ["python3", "fake_step.py", "--touch", "--as-of", "{cutoffDate}"], "status": "available"},
+            "nojson_step": {"argv": ["python3", "fake_step.py", "--nojson"], "status": "available", "expectJson": True},
+            "thin_json_step": {"argv": ["python3", "fake_step.py", "--as-of", "{cutoffDate}"], "status": "available",
+                               "expectJson": True, "requiredFields": ["status", "sample.decisionDays"]},
+            "prereg_evaluate_from_file": {"argv": ["python3", "fake_step.py", "--prereg-file", "cli_prereg.json"], "status": "available"},
         },
         "schedules": [],
     }
@@ -156,7 +176,8 @@ class TempRoot(unittest.TestCase):
 class PlanRules(unittest.TestCase):
     def setUp(self):
         self.cfg = base_config()
-        self.cfg["schedules"] = [schedule()]
+        # 재확인 규칙(recheck)이 있는 일정. report_only 는 표본 부족 뒤 재확인하지 않는다(별도 테스트).
+        self.cfg["schedules"] = [schedule(onInsufficient={"rule": "recheck", "everyDays": 7})]
 
     def one(self, ledger, now):
         rows = R.plan(self.cfg, ledger, kst(now))
@@ -220,6 +241,24 @@ class PlanRules(unittest.TestCase):
     def test_과거_완료_일정은_건드리지_않는다(self):
         self.cfg["schedules"][0]["status"] = "PAST_COMPLETED"
         self.assertEqual(self.one([], "2027-01-01T17:05:00+09:00")["action"], "DONE")
+
+    def test_실제_원본은_구조_가드를_통과하고_확인_시험은_표본_수만_센다(self):
+        cfg = R.load_config(HERE)
+        self.assertEqual(R.structural_problems(cfg), [])
+        by_id = {s["scheduleId"]: s for s in cfg["schedules"]}
+        for sid in ("VS-20260915-DIANA-SHRINKAGE-CHECK", "VS-20260923-FLOW-READINESS-PREREG-SAMPLE"):
+            self.assertIn("prereg_sample_count", by_id[sid]["steps"]); self.assertNotIn("prereg_evaluate", by_id[sid]["steps"])
+        for sid in ("VS-20261019-PREREG-BUY-EVAL", "VS-20261116-PREREG-H1-RECONFIRM"):
+            self.assertIn("prereg_evaluate", by_id[sid]["steps"])
+            self.assertTrue(by_id[sid]["inputFreeze"]["freezeRequired"])
+            self.assertTrue(by_id[sid]["onInsufficient"]["cutoffAdvances"])
+        cnt = cfg["commands"]["prereg_sample_count"]
+        self.assertEqual(cnt["argv"][1], "prereg_sample_count.py"); self.assertTrue(cnt["expectJson"])
+        for name in ("prereg_evaluate", "team_weights_transition_check", "flow_validation_readiness", "dart_financials_readiness"):
+            self.assertTrue(cfg["commands"][name].get("expectJson"), name)
+            self.assertTrue(cfg["commands"][name].get("requiredFields"), name)
+        for name in ("prereg_contract_tests", "honesty_contract_tests"):
+            self.assertFalse(cfg["commands"][name].get("expectJson"), name)
 
     def test_실제_원본은_기준일_2026_09_10에_실행할_것이_없다(self):
         cfg = R.load_config(HERE)
@@ -292,6 +331,23 @@ class StatusDecision(unittest.TestCase):
         s = schedule(kind="EVALUATION", minSample={"decisionDays": 20})
         self.assertEqual(R.decide_status(s, {"prereg_evaluate": step(0, {"status": "EVALUATED"})})[0], "FAILED")
 
+    def test_표본_수_확인_결과의_기록_누락도_이상으로_잡는다(self):
+        s = schedule(anomalyRules=["buy_feature_unrecorded"])
+        cnt = {"status": "COUNTED", "evaluated": False, "sample": {"decisionDays": 3, "buyFeatureUnrecorded": 2}}
+        st, note = R.decide_status(s, {"prereg_sample_count": step(0, cnt)})
+        self.assertEqual(st, "ANOMALY"); self.assertIn("2건", note)
+        cnt["sample"]["buyFeatureUnrecorded"] = 0
+        self.assertEqual(R.decide_status(s, {"prereg_sample_count": step(0, cnt)})[0], "COMPLETED")
+
+    def test_결과_형식_오류는_exit0이어도_FAILED(self):
+        st, note = R.decide_status(schedule(), {"a": dict(step(0, None), schemaError="결과 JSON 없음")})
+        self.assertEqual(st, "FAILED"); self.assertIn("결과 형식 오류", note)
+        self.assertEqual(R.schema_error({"expectJson": True, "requiredFields": ["sample.decisionDays"]}, 0, {"sample": {}}),
+                         "결과 JSON 에 필수 필드 없음: sample.decisionDays")
+        self.assertIsNone(R.schema_error({"expectJson": True, "requiredFields": ["sample.decisionDays"]}, 0, {"sample": {"decisionDays": 0}}))
+        self.assertIsNone(R.schema_error({"expectJson": False}, 0, None))
+        self.assertIsNone(R.schema_error({"expectJson": True}, 3, None), "exit 가 0 이 아니면 형식이 아니라 실패로 잡는다")
+
     def test_FLOW_표본_미충족은_INSUFFICIENT(self):
         s = schedule(kind="SAMPLE_CHECK")
         flow = {"status": "NOT_READY", "commonDays": 12, "conditions": {"minCommonDays": 20}, "regimeKindsMeetingMin": []}
@@ -343,40 +399,217 @@ class ExecuteInTempRoot(TempRoot):
         rows = R.plan(self.cfg, self.ledger(), kst("2026-09-16T17:05:00+09:00"))
         self.assertEqual(rows[0]["action"], "DONE")
 
-    def test_원장은_덧붙이기만_한다(self):
-        self.save(schedule(kind="EVALUATION", minSample={"decisionDays": 20}, steps=("prereg_evaluate",),
-                           onInsufficient={"rule": "recheck", "everyDays": 7, "maxRechecks": 3}))
-        self.knobs(days=12)
-        self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 0)
+    def _synthetic_root(self, n_days):
+        hist, closes, as_of = synthetic(n_days=n_days)
+        with open(os.path.join(self.root, "history.js"), "w", encoding="utf-8") as fh:
+            fh.write("// 자동 생성\nconst LIVE_HISTORY = " + json.dumps(hist, ensure_ascii=False) + ";\n")
+        with open(os.path.join(self.root, "analysis_data.json"), "w", encoding="utf-8") as fh:
+            json.dump({"fetchedAt": "2026-10-19 16:00", "stocks": {c: {"daily": rows} for c, rows in closes.items()}}, fh)
+        return hist, closes, as_of
+
+    def _cli_file(self, hist, closes, as_of, mutate=None):
+        rep = E.evaluate(hist, closes, as_of)
+        if mutate:
+            mutate(rep)
+        with open(os.path.join(self.root, "cli_prereg.json"), "w", encoding="utf-8") as fh:
+            json.dump(rep, fh)
+        return rep
+
+    def _eval_schedule(self, cutoff, **over):
+        self.cfg["commands"]["prereg_evaluate"] = {"argv": ["python3", "fake_step.py", "--prereg-file", "cli_prereg.json"], "status": "available",
+                                                   "expectJson": True, "requiredFields": ["status", "sample.decisionDays"]}
+        return schedule(kind="EVALUATION", minSample={"decisionDays": 20}, steps=("prereg_evaluate",),
+                        due=f"{cutoff}T17:00:00+09:00", cutoff=cutoff,
+                        onInsufficient={"rule": "recheck", "everyDays": 7, "maxRechecks": 3},
+                        inputFreeze={"inputs": ["history.js", "analysis_data.json"], "freezeRequired": True}, **over)
+
+    def test_원장은_덧붙이기만_한다_확정_평가는_동결_입력이_공식이고_재확인_기준일은_전진한다(self):
+        # 합성 입력(진짜 history.js 아님). 12판단일 → INSUFFICIENT → 재확인(기준일 전진) → … → 20일 이상이면 COMPLETED.
+        hist, closes, as_of12 = self._synthetic_root(12)
+        self.save(self._eval_schedule(as_of12))
+        self._cli_file(hist, closes, as_of12)
+        self.assertEqual(self.run_main("--now", f"{as_of12}T17:05:00+09:00", "--apply"), 0)
         first = self.ledger_bytes()
-        self.assertEqual(self.ledger()[0]["status"], "INSUFFICIENT")
-        self.assertEqual(self.ledger()[0]["nextCheckAt"], "2026-09-22T17:00:00+09:00")
-        # 다음 날: 기다린다(아무것도 쓰지 않는다)
-        self.assertEqual(self.run_main("--now", "2026-09-16T17:05:00+09:00", "--apply"), 0)
-        self.assertEqual(self.ledger_bytes(), first)
-        # 재확인일: 두 번째 줄이 붙고 첫 줄은 그대로
-        self.knobs(days=22)
-        self.assertEqual(self.run_main("--now", "2026-09-22T17:05:00+09:00", "--apply"), 0)
-        second = self.ledger_bytes()
-        self.assertTrue(second.startswith(first), "원장의 이전 줄이 바뀌었다")
         led = self.ledger()
-        self.assertEqual([r["status"] for r in led], ["INSUFFICIENT", "COMPLETED"])
-        self.assertEqual(len({r["resultPath"] for r in led}), 2, "결과 파일은 새 파일로만")
+        self.assertEqual(led[0]["status"], "INSUFFICIENT")
+        result = json.load(open(os.path.join(self.root, led[0]["resultPath"]), encoding="utf-8"))
+        self.assertEqual(result["officialSource"], "frozen_inputs")
+        self.assertEqual(result["official"]["status"], "INSUFFICIENT")
+        self.assertTrue(result["inputsPath"] and os.path.exists(os.path.join(self.root, result["inputsPath"])), "동결 추출본은 INSUFFICIENT 여도 남긴다")
+        # 다음 날: 기다린다(아무것도 쓰지 않는다)
+        nxt = led[0]["nextCheckAt"]
+        self.assertEqual(self.run_main("--now", f"{as_of12}T18:05:00+09:00", "--apply"), 0)
+        self.assertEqual(self.run_main("--now", (kst(nxt) - datetime.timedelta(days=1)).isoformat(), "--apply"), 0)
+        self.assertEqual(self.ledger_bytes(), first)
+        # 재확인: 표본이 자란 새 입력(40판단일) + 전진한 기준일(nextCheckAt 날짜). 20일이 익을 때까지 미리 정한 주기로만 다시 본다.
+        hist, closes, _ = self._synthetic_root(40)
+        statuses = ["INSUFFICIENT"]
+        for n in range(1, 4):
+            cutoff = nxt[:10]
+            rep = self._cli_file(hist, closes, cutoff)
+            self.assertEqual(self.run_main("--now", (kst(nxt) + datetime.timedelta(minutes=5)).isoformat(), "--apply"), 0)
+            led = self.ledger()
+            self.assertTrue(self.ledger_bytes().startswith(first), "원장의 이전 줄이 바뀌었다")
+            self.assertEqual((led[-1]["cutoffDate"], led[-1]["recheckId"]), (cutoff, f"VS-TEST-R{n}"))
+            statuses.append(led[-1]["status"])
+            if led[-1]["status"] == "COMPLETED":
+                self.assertEqual(rep["status"], "EVALUATED")
+                break
+            nxt = led[-1]["nextCheckAt"]
+        self.assertEqual(statuses[-1], "COMPLETED", statuses)
+        self.assertTrue(len(statuses) >= 3, "기준일이 전진해야 표본이 큰다 — 고정 기준일이면 영원히 INSUFFICIENT 다")
+        self.assertEqual(len({r["resultPath"] for r in led}), len(led), "결과 파일은 새 파일로만")
         self.assertTrue(all(os.path.exists(os.path.join(self.root, r["resultPath"])) for r in led))
-        # 후속 명세는 EVALUATED 결과에만, 코드 변경 없이
+        last = json.load(open(os.path.join(self.root, led[-1]["resultPath"]), encoding="utf-8"))
+        self.assertEqual(last["evaluationDate"], led[-1]["cutoffDate"]); self.assertEqual(last["scheduledAt"], f"{as_of12}T17:00:00+09:00")
+        # 후속 명세는 EVALUATED 결과에만, 코드 변경 없이 · 공식 판정 출처가 적힌다
         followup = [f for f in self.docs_files() if f.endswith(".followup.md")]
         self.assertEqual(len(followup), 1)
-        self.assertIn("코드 변경은 하지 않았다", open(os.path.join(self.root, followup[0]), encoding="utf-8").read())
+        body = open(os.path.join(self.root, followup[0]), encoding="utf-8").read()
+        self.assertIn("코드 변경은 하지 않았다", body); self.assertIn("frozen_inputs", body)
+        # 재현: 동결 추출본 + 결과 파일 → 같은 판정
+        self.assertEqual(R.main(["--replay", os.path.join(self.root, last["inputsPath"]), "--result", os.path.join(self.root, last["resultPath"])]), 0)
+        # 최종 기록 뒤에는 DONE
+        self.assertEqual(R.plan(self.cfg, self.ledger(), kst(nxt) + datetime.timedelta(days=30))[0]["action"], "DONE")
 
-    def test_계획만_모드는_아무것도_쓰지_않는다(self):
-        self.save(schedule())
+    def test_확정_평가에서_CLI_결과가_동결_판정과_다르면_FAILED(self):
+        hist, closes, as_of = self._synthetic_root(12)
+        self.save(self._eval_schedule(as_of))
+        def tamper(rep):
+            rep["sample"]["rows"] = rep["sample"]["rows"] + 1
+        self._cli_file(hist, closes, as_of, mutate=tamper)
+        self.assertEqual(self.run_main("--now", f"{as_of}T17:05:00+09:00", "--apply"), 1)
+        led = self.ledger()
+        self.assertEqual(led[0]["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, led[0]["resultPath"]), encoding="utf-8"))
+        self.assertIn("다르다", result["note"]); self.assertIn("sample", result["note"])
+        self.assertTrue(os.path.exists(os.path.join(self.root, "docs", "operations", "repair_requests", "INC-VS-VS-TEST.md")))
+
+    def test_계획만_모드는_아무것도_실행하지_않고_쓰지도_않는다(self):
+        # C1: 예전에는 계획 모드도 단계를 실행하고 파일만 안 썼다(외부 호출·부작용). 이제 실행 자체가 0 이다.
+        self.save(schedule(steps=("touch_step",)))
         code = self.run_main("--now", "2026-09-15T17:05:00+09:00", "--json", os.path.join(self.root, "out.json"))
         self.assertEqual(code, 0)
         self.assertEqual(self.docs_files(), [])
+        self.assertFalse(os.path.exists(os.path.join(self.root, "executed.txt")), "계획 모드에서 단계가 실행됐다")
         out = json.load(open(os.path.join(self.root, "out.json"), encoding="utf-8"))
         self.assertFalse(out["apply"])
         self.assertEqual(out["plan"][0]["action"], "RUN")
-        self.assertIn("VS-TEST", out["results"], "계획 모드도 결과(메모리)는 낸다 — 파일만 안 쓴다")
+        self.assertEqual(out["results"], {}, "계획 모드는 결과를 내지 않는다(실행 0)")
+        self.assertFalse(out["notify"])
+        # --apply 면 실제로 실행된다
+        self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 0)
+        self.assertTrue(os.path.exists(os.path.join(self.root, "executed.txt")))
+
+    def test_미래_시각_리허설은_운영_루트에서_거부된다(self):
+        # C1: 실제 저장소 루트(HERE)에서 미래 --now 는 계획 모드여도 거부(exit 2). 임시 루트에서는 허용(합성 입력).
+        self.assertEqual(R.main(["--now", "2099-01-01T17:05:00+09:00"]), 2)
+        self.assertEqual(R.main(["--now", "2099-01-01T17:05:00+09:00", "--apply"]), 2)
+        self.save(schedule())
+        self.assertEqual(self.run_main("--now", "2099-01-01T17:05:00+09:00"), 0)
+
+    def test_구조_가드_확인_시험에_확정_평가_명령이_있으면_아무것도_실행하지_않는다(self):
+        # C1: 9/15·9/23 같은 확인 시험(CONFIRMATION·SAMPLE_CHECK)에 prereg_evaluate 가 들어가면 exit 2, 파일 0, 실행 0.
+        self.save(schedule(kind="CONFIRMATION", steps=("prereg_evaluate", "touch_step")))
+        code = self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply", "--json", os.path.join(self.root, "out.json"))
+        self.assertEqual(code, 2)
+        self.assertEqual(self.docs_files(), [])
+        self.assertFalse(os.path.exists(os.path.join(self.root, "executed.txt")))
+        out = json.load(open(os.path.join(self.root, "out.json"), encoding="utf-8"))
+        self.assertTrue(out["structuralProblems"])
+        self.assertTrue(out["notify"])
+        self.assertTrue(R.structural_problems({"schedules": [schedule(kind="SAMPLE_CHECK", steps=("prereg_evaluate",))], "commands": self.cfg["commands"]}))
+        self.assertFalse(R.structural_problems({"schedules": [schedule(kind="SAMPLE_CHECK", steps=("prereg_sample_count",))], "commands": self.cfg["commands"]}))
+        self.assertTrue(R.structural_problems({"schedules": [schedule(kind="EVALUATION", steps=("ok_step",))], "commands": self.cfg["commands"]}),
+                        "확정 평가에 prereg_evaluate 가 없어도 구조 문제다")
+
+    def test_결과_JSON이_없거나_필드가_빠지면_exit0이어도_FAILED(self):
+        # C2
+        self.save(schedule(steps=("nojson_step",)))
+        self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 1)
+        led = self.ledger()
+        self.assertEqual(led[0]["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, led[0]["resultPath"]), encoding="utf-8"))
+        self.assertIn("결과 JSON 없음", result["note"])
+        self.assertEqual(result["steps"]["nojson_step"]["exit"], 0)
+        # 필드 누락
+        self.save(schedule(sid="VS-THIN", steps=("thin_json_step",)))
+        self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 1)
+        row = [r for r in self.ledger() if r["scheduleId"] == "VS-THIN"][0]
+        self.assertEqual(row["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, row["resultPath"]), encoding="utf-8"))
+        self.assertIn("sample.decisionDays", result["note"])
+
+    def test_필수_입력_파일이_없으면_FAILED(self):
+        self.save(schedule(inputFreeze={"inputs": ["history.js"]}))
+        self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 1)
+        self.assertEqual(self.ledger()[0]["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, self.ledger()[0]["resultPath"]), encoding="utf-8"))
+        self.assertIn("history.js", result["note"])
+
+    def test_확정_평가는_동결_실패면_FAILED_로_기록하고_공식_결과를_내지_않는다(self):
+        # C2: 임시 루트에 history.js·analysis_data.json 이 없다 → 동결 실패 → FAILED + 수리 요청서. CLI 가 EVALUATED 를 내도 소용없다.
+        self.save(schedule(kind="EVALUATION", minSample={"decisionDays": 20}, steps=("prereg_evaluate",),
+                           onInsufficient={"rule": "recheck", "everyDays": 7, "maxRechecks": 3}))
+        self.knobs(days=25)
+        self.assertEqual(self.run_main("--now", "2026-10-19T17:05:00+09:00", "--apply"), 1)
+        led = self.ledger()
+        self.assertEqual(led[0]["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, led[0]["resultPath"]), encoding="utf-8"))
+        self.assertIn("동결 실패", result["note"])
+        self.assertIsNone(result["official"])
+        self.assertIsNone(result["followupPath"], "공식 결과가 없으면 후속 명세도 없다")
+        self.assertTrue(os.path.exists(os.path.join(self.root, "docs", "operations", "repair_requests", "INC-VS-VS-TEST.md")))
+
+    def test_실행기_크래시도_FAILED_로_기록돼_실패_횟수에_들어간다(self):
+        # C3
+        self.save(schedule())
+        orig = R.run_step
+        R.run_step = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("실행기 내부 오류 흉내"))
+        try:
+            code = self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply")
+        finally:
+            R.run_step = orig
+        self.assertEqual(code, 1)
+        led = self.ledger()
+        self.assertEqual(led[0]["status"], "FAILED")
+        result = json.load(open(os.path.join(self.root, led[0]["resultPath"]), encoding="utf-8"))
+        self.assertIn("크래시", result["note"]); self.assertIn("실행기 내부 오류 흉내", result["crash"])
+        inc = open(os.path.join(self.root, "docs", "operations", "repair_requests", "INC-VS-VS-TEST.md"), encoding="utf-8").read()
+        self.assertIn("실행기 오류", inc)
+        # 같은 날 다시 불러도 두 번 기록하지 않는다(중복 요청)
+        self.assertEqual(self.run_main("--now", "2026-09-15T18:05:00+09:00", "--apply"), 0)
+        self.assertEqual(len(self.ledger()), 1)
+
+    def test_재확인_기준일은_미리_적어_둔_다음_확인_날짜로_전진한다(self):
+        # C4: 고정 기준일이면 표본이 영원히 크지 않는다. report_and_wait 는 nextCheckAt 날짜를 새 기준일로 쓴다.
+        self.save(schedule(kind="SAMPLE_CHECK", steps=("flow_validation_readiness", "ok_step"), due="2026-09-23T17:00:00+09:00",
+                           cutoff="2026-09-23", onInsufficient={"rule": "report_and_wait"}))
+        self.knobs(flow="NOT_READY", expected="2026-10-01")
+        self.assertEqual(self.run_main("--now", "2026-09-23T17:05:00+09:00", "--apply"), 0)
+        first = self.ledger()[0]
+        self.assertEqual((first["status"], first["cutoffDate"], first["recheckId"]), ("INSUFFICIENT", "2026-09-23", None))
+        rows = R.plan(self.cfg, self.ledger(), kst("2026-10-01T17:05:00+09:00"))
+        self.assertEqual((rows[0]["action"], rows[0]["cutoffDate"], rows[0]["recheckId"]), ("RUN", "2026-10-01", "VS-TEST-R1"))
+        self.knobs(flow="READY")
+        self.assertEqual(self.run_main("--now", "2026-10-02T17:05:00+09:00", "--apply"), 0)   # 하루 늦어도 기준일은 10/1
+        second = self.ledger()[1]
+        self.assertEqual((second["status"], second["cutoffDate"], second["recheckId"]), ("COMPLETED", "2026-10-01", "VS-TEST-R1"))
+        result = json.load(open(os.path.join(self.root, second["resultPath"]), encoding="utf-8"))
+        self.assertEqual(result["steps"]["ok_step"]["json"]["asOf"], "2026-10-01", "명령에도 전진한 기준일이 들어간다")
+        self.assertEqual(result["evaluationDate"], "2026-10-01"); self.assertEqual(result["scheduledAt"], "2026-09-23T17:00:00+09:00")
+        # 고정을 명시하면(cutoffAdvances=false) 기준일이 그대로다
+        self.save(schedule(sid="VS-FIXED", kind="SAMPLE_CHECK", steps=("flow_validation_readiness",), due="2026-09-23T17:00:00+09:00",
+                           cutoff="2026-09-23", onInsufficient={"rule": "report_and_wait", "cutoffAdvances": False}))
+        led = [ledger_row("VS-FIXED", "2026-09-23T17:05:00+09:00", "INSUFFICIENT", nextCheckAt="2026-10-01T17:00:00+09:00")]
+        row = R.plan(self.cfg, led, kst("2026-10-01T17:05:00+09:00"))[0]
+        self.assertEqual(row["cutoffDate"], "2026-09-23")
+
+    def test_report_only_는_표본_부족_뒤_재확인하지_않는다(self):
+        self.save(schedule(kind="CONFIRMATION", steps=("prereg_sample_count",), minSample={"decisionDays": 20},
+                           onInsufficient={"rule": "report_only"}))
+        led = [ledger_row("VS-TEST", "2026-09-15T17:05:00+09:00", "INSUFFICIENT", nextCheckAt="2026-09-22T17:00:00+09:00")]
+        self.assertEqual(R.plan(self.cfg, led, kst("2026-09-22T17:05:00+09:00"))[0]["action"], "DONE")
 
     def test_조용한_날은_notify가_false(self):
         self.save(schedule())
@@ -401,7 +634,7 @@ class ExecuteInTempRoot(TempRoot):
         self.assertEqual(self.ledger()[0]["status"], "BLOCKED")
 
     def test_이상이면_수리요청서를_쓰고_최종_상태로_기록한다(self):
-        self.save(schedule(steps=("team_weights_transition_check", "prereg_evaluate"),
+        self.save(schedule(steps=("team_weights_transition_check", "prereg_sample_count"),
                            anomalyRules=["team_weights_anomaly", "buy_feature_unrecorded"]))
         self.knobs(tw="ANOMALY")
         self.assertEqual(self.run_main("--now", "2026-09-15T17:05:00+09:00", "--apply"), 1)
@@ -443,6 +676,82 @@ class ExecuteInTempRoot(TempRoot):
         self.assertEqual(code, 1)
         self.assertTrue(json.load(open(os.path.join(self.root, "out.json"), encoding="utf-8"))["notify"])
         self.assertEqual(len(self.ledger()), 3, "사람에게 넘긴 뒤에는 더 쓰지 않는다")
+
+
+# ------------------------------------------------------------------ 저장 실패 회수 · 복원 (임시 git 저장소)
+
+def _git(cwd, *args):
+    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True)
+    if r.returncode != 0:
+        raise AssertionError(f"git {' '.join(args)}: {r.stdout}{r.stderr}")
+    return r.stdout.strip()
+
+
+class InboxAndRestore(TempRoot):
+    def setUp(self):
+        super().setUp()
+        self.origin = os.path.join(self.root, "..", os.path.basename(self.root) + "-origin.git")
+        _git(self.root, "init", "-q"); _git(self.root, "checkout", "-q", "-b", "main")
+        _git(self.root, "config", "user.name", "t"); _git(self.root, "config", "user.email", "t@example.com")
+        _git(self.root, "init", "-q", "--bare", self.origin)
+        _git(self.root, "remote", "add", "origin", self.origin)
+        self.save(schedule())
+        _git(self.root, "add", "-A"); _git(self.root, "commit", "-q", "-m", "base"); _git(self.root, "push", "-q", "origin", "main")
+
+    def tearDown(self):
+        shutil.rmtree(self.origin, ignore_errors=True)
+        super().tearDown()
+
+    def _result(self, sid="VS-TEST", stamp="20260915T170500", status="COMPLETED"):
+        rel = f"docs/audits/validation_runs/{sid}/{stamp}.json"
+        return rel, {"schemaVersion": "gaeo_validation_run_v1", "scheduleId": sid, "kind": "CONFIRMATION", "dueAt": "2026-09-15T17:00:00+09:00",
+                     "scheduledAt": "2026-09-15T17:00:00+09:00", "cutoffDate": "2026-09-15", "evaluationDate": "2026-09-15",
+                     "runAt": "2026-09-15T17:05:00+09:00", "runner": "github-actions", "lateHours": 0, "recheckNo": 0, "recheckId": None,
+                     "gitSha": None, "inputs": {}, "steps": {}, "status": status, "note": "ok", "nextCheckAt": None,
+                     "resultPath": rel, "inputsPath": None, "followupPath": None}
+
+    def test_inbox_브랜치의_같은_결과를_회수하고_두_번_회수해도_원장은_한_줄(self):
+        # 지난 run 이 push 에 실패해 inbox 브랜치에만 남긴 결과를 흉내낸다(같은 커밋을 다른 브랜치로 올린 것)
+        rel, result = self._result()
+        _git(self.root, "checkout", "-q", "-b", "validation-inbox-111")
+        os.makedirs(os.path.join(self.root, os.path.dirname(rel)), exist_ok=True)
+        json.dump(result, open(os.path.join(self.root, rel), "w", encoding="utf-8"))
+        with open(os.path.join(self.root, "docs", "audits", "validation_runs", "ledger.jsonl"), "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(R._ledger_row(schedule(), result, "github-actions")) + "\n")
+        _git(self.root, "add", "-A"); _git(self.root, "commit", "-q", "-m", "ops-daily: 기록"); _git(self.root, "push", "-q", "origin", "validation-inbox-111")
+        _git(self.root, "checkout", "-q", "main")
+        shutil.rmtree(os.path.join(self.root, "docs"), ignore_errors=True)
+        self.assertEqual(self.ledger(), [])
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertTrue(rec["ok"]); self.assertEqual(rec["branches"], ["validation-inbox-111"])
+        self.assertEqual(rec["files"], [rel]); self.assertEqual(rec["ledgerRows"], 1)
+        self.assertEqual(self.ledger()[0]["resultPath"], rel)
+        self.assertEqual(json.load(open(os.path.join(self.root, rel), encoding="utf-8"))["status"], "COMPLETED")
+        # 두 번째 회수: 아무것도 더하지 않는다(재발행은 한 번)
+        rec2 = R.reconcile_inbox(self.cfg, self.root)
+        self.assertEqual((rec2["files"], rec2["ledgerRows"]), ([], 0)); self.assertEqual(len(self.ledger()), 1)
+        # 회수된 기록은 일정 계획에 그대로 반영된다(같은 시험을 새 시세로 다시 채점하지 않는다)
+        self.assertEqual(R.plan(self.cfg, self.ledger(), kst("2026-09-16T17:05:00+09:00"))[0]["action"], "DONE")
+        self.assertEqual(self.run_main("--reconcile-inbox"), 0)
+
+    def test_보관본에서_같은_결과를_복원하고_재채점하지_않는다(self):
+        rel, result = self._result(stamp="20260915T170501")
+        saved = os.path.join(self.root, "..", "saved-result.json")
+        json.dump(result, open(saved, "w", encoding="utf-8"))
+        try:
+            self.assertEqual(self.run_main("--restore-result", saved), 0)
+            self.assertTrue(os.path.exists(os.path.join(self.root, rel)))
+            self.assertEqual([r["resultPath"] for r in self.ledger()], [rel])
+            self.assertEqual(self.run_main("--restore-result", saved), 0)
+            self.assertEqual(len(self.ledger()), 1, "두 번 복원해도 원장은 한 줄")
+            self.assertEqual(R.plan(self.cfg, self.ledger(), kst("2026-09-16T17:05:00+09:00"))[0]["action"], "DONE")
+            # 형식이 아닌 파일은 거부
+            bad = os.path.join(self.root, "..", "bad.json"); json.dump({"x": 1}, open(bad, "w"))
+            self.assertEqual(self.run_main("--restore-result", bad), 2)
+        finally:
+            for f in (saved, os.path.join(self.root, "..", "bad.json")):
+                if os.path.exists(f):
+                    os.remove(f)
 
 
 # ------------------------------------------------------------------ 동결 입력 · 재현
@@ -615,6 +924,21 @@ class WorkflowContract(unittest.TestCase):
             self.assertIn(f'.title == \\"${{{title_var}}}\\"', self.body, f"{title_var} 로 열린 이슈를 먼저 찾는다")
         self.assertIn("gaeo-ops-signature:", self.body, "같은 사고는 서명으로 중복을 막는다")
         self.assertIn("steps.ops.outputs.code != '2'", self.body, "확인 못 함(2)은 정상으로도 장애로도 적지 않는다")
+
+    def test_저장_실패_보존과_알림은_앞_스텝이_죽어도_돈다(self):
+        # C3: inbox 회수 → 실행기 → 커밋(continue-on-error) → inbox 보존 → artifact → 저장 확인 → 이슈(always) → 판정(always)
+        for needle in ("run_validation_schedule.py --reconcile-inbox", "id: commit", "continue-on-error: true",
+                       "steps.commit.outcome == 'failure'", "validation-inbox-${GITHUB_RUN_ID}", "actions/upload-artifact@v4",
+                       "retention-days: 90", "git ls-remote origin refs/heads/main", "저장 확인", "원격 저장",
+                       "if: always() && env.APPLY == 'true' && (steps.vs.outputs.notify == 'true'",
+                       "if: always() && env.APPLY == 'true' && steps.ops.outputs.code != '2'",
+                       'COMMIT_OUTCOME: ${{ steps.commit.outcome }}'):
+            self.assertIn(needle, self.body, needle)
+        order = [self.body.index(k) for k in ("--reconcile-inbox", "run_validation_schedule.py $args", "id: commit",
+                                              "id: inboxsave", "upload-artifact", "id: saved", "예정 시험 이슈 갱신", "결과 판정")]
+        self.assertEqual(order, sorted(order), "스텝 순서: 회수 → 실행 → 커밋 → 보존 → artifact → 저장 확인 → 이슈 → 판정")
+        # inbox 브랜치 삭제는 main 저장이 확인된 뒤에만
+        self.assertIn('if [ "$P" = "true" ] && [ -s "$RUNNER_TEMP/inbox_branches.txt" ]', self.body)
 
     def test_LLM_호출이_없다(self):
         for bad in ("anthropic", "openai", "claude", "gpt", "api.openai", "messages.create"):
