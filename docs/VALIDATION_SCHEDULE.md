@@ -107,7 +107,7 @@
 
 ## 실행기 (GitHub Actions — Claude 세션 없이 돈다)
 
-- 스크립트 `run_validation_schedule.py` · 워크플로 `.github/workflows/ops-daily.yml` · 일정 `5 8 * * 1-5 (UTC) = 평일 17:05 KST(GitHub cron은 지연될 수 있다)`
+- 스크립트 `run_validation_schedule.py` · 워크플로 `.github/workflows/ops-daily.yml` · 일정 `5 8 * * 1-5 (UTC) = 평일 17:05 KST(GitHub cron은 지연될 수 있다)` · 예비 발화 `37 8 * * 1-5` · `11 9 * * 1-5`(UTC)
 - 중복 방지: 같은 일정은 하루 1회 · 실행 실패 상한 3회 · 표본 부족 재확인 기본 상한 3회
 - 사람 확인 필요 상태: ESCALATED(실행 실패 3회) · RECHECK_LIMIT(표본 부족 재확인 상한 소진) — 자동 재시도 중단, 이슈로 보고
 - 이상 규칙 `team_weights_anomaly`: team_weights_transition_check 결과 status=ANOMALY(DIANA 하루 이동폭 5% 초과 또는 method/shrinkageUnit 불일치) → ANOMALY + 수리 요청서

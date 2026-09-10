@@ -6,7 +6,7 @@ description: GAEO 운영 유지보수 진입점. STATUS·통합 점검·수리 �
 # gaeo-maintain
 
 사람이 개발 AI(Claude Code / Codex)를 켰을 때의 **첫 행동 순서**다. 평소 점검에는 AI가 상주하지 않는다 —
-`pipeline-watchdog.yml`(장중 15분)·`ops-daily`(평일 17:15 KST)·`paper-health-alert`(16:30)가 LLM 호출 0으로 돌고,
+`pipeline-watchdog.yml`(장중 15분)·`ops-daily`(평일 17:05 KST, 예비 17:37·18:11)·`paper-health-alert`(16:30)가 LLM 호출 0으로 돌고,
 이 스킬을 부르는 순간부터 구독 사용량이 든다. Codex는 이 문서를 일반 절차서로 읽고 그대로 따른다(`docs/agent/MIGRATION_MAP.md`).
 
 ## 0. 읽을 것 (이 순서, 이것만)

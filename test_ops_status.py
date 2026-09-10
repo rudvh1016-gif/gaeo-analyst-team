@@ -232,5 +232,197 @@ class CommandLine(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+
+YDAY_OPS = 17 * 60 + 40      # 목요일 11:00 기준 "어제 17:20" — 17:05 예정 뒤에 실제로 돈 run
+
+
+class ScheduledRunsReality(unittest.TestCase):
+    """예약 실행 실측(--github): cron 지연 vs 비활성 vs 실패 vs 잘못된 ref 를 구분하고, 조회 실패는 '확인 불가'다(2026-09-10 구간 D)."""
+
+    def setUp(self):
+        import check_workflow_health as CW
+        self.CW = CW
+        self.orig_get = CW._get
+        self.env = {k: os.environ.get(k) for k in ("GH_TOKEN", "GITHUB_TOKEN", "GITHUB_REPOSITORY")}
+        os.environ["GH_TOKEN"] = "x"; os.environ["GITHUB_REPOSITORY"] = "o/r"
+        self.now = datetime.datetime(2026, 9, 10, 11, 0, tzinfo=KST)      # 목요일 장중
+
+    def tearDown(self):
+        self.CW._get = self.orig_get
+        for k, v in self.env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+    def fake(self, states, runs, created=None):
+        created = created or {}
+        def _get(url, token):
+            wf = url.split("/actions/workflows/")[1].split("/")[0].split("?")[0]
+            if url.endswith("/runs?per_page=10"):
+                return {"workflow_runs": runs.get(wf, [])}
+            meta = {"state": states.get(wf, "active"), "name": wf}
+            meta["created_at"] = created[wf] if wf in created else "2026-09-01T00:00:00Z"     # 기본: 오래전에 만들어진 워크플로
+            return meta
+        self.CW._get = _get
+
+    def run_at(self, minutes_ago, event="schedule", conclusion="success", branch="main", status="completed", now=None):
+        at = ((now or self.now) - datetime.timedelta(minutes=minutes_ago)).astimezone(datetime.timezone.utc)
+        return {"created_at": at.strftime("%Y-%m-%dT%H:%M:%SZ"), "event": event, "conclusion": conclusion,
+                "status": status, "head_branch": branch}
+
+    def test_제때_돌았으면_정상(self):
+        self.fake({}, {"pipeline-watchdog.yml": [self.run_at(10)], "ops-daily.yml": [self.run_at(YDAY_OPS)]})   # 어제 17:20
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["status"], OS.OK, c["detail"])
+
+    def test_cron이_건너뛰면_지연_미실행으로_장애(self):
+        t1300 = datetime.datetime(2026, 9, 10, 13, 0, tzinfo=KST)        # 마지막 schedule run 09:00 → 창 열린 뒤 240분 공백
+        self.fake({}, {"pipeline-watchdog.yml": [self.run_at(240, now=t1300)], "ops-daily.yml": [self.run_at(YDAY_OPS, now=t1300)]})
+        c = OS.check_scheduled_runs(t1300)
+        self.assertEqual(c["status"], OS.FAULT)
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_RUN_MISSED")
+        self.assertIn("cron 지연", c["detail"])
+
+    def test_비활성_워크플로는_지연이_아니라_비활성으로_장애(self):
+        self.fake({"ops-daily.yml": "disabled_inactivity"}, {"pipeline-watchdog.yml": [self.run_at(10)], "ops-daily.yml": [self.run_at(YDAY_OPS)]})
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["status"], OS.FAULT)
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "WORKFLOW_DISABLED")
+        self.assertIn("비활성", c["detail"])
+
+    def test_마지막_run_실패는_실패로_구분(self):
+        self.fake({}, {"pipeline-watchdog.yml": [self.run_at(10, conclusion="failure")], "ops-daily.yml": [self.run_at(YDAY_OPS)]})
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_LAST_RUN_FAILED")
+        self.assertIn("권한·문법", c["detail"])
+
+    def test_잘못된_ref는_따로_구분(self):
+        self.fake({}, {"pipeline-watchdog.yml": [self.run_at(10, branch="feature-x")], "ops-daily.yml": [self.run_at(YDAY_OPS)]})
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_WRONG_REF")
+
+    def test_장외_시간에는_워치독이_안_도는_게_정상_대기(self):
+        night = datetime.datetime(2026, 9, 10, 22, 0, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(6 * 60, now=night)], "ops-daily.yml": [self.run_at(295, now=night)]}   # 워치독 16:00 · ops 17:05
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(night)
+        self.assertNotEqual(c["status"], OS.FAULT, c["detail"])
+        self.assertIn(c["workflows"]["pipeline-watchdog.yml"]["code"], ("SCHEDULED_ON_TIME", "SCHEDULED_OUT_OF_WINDOW"))
+
+    def test_수동_실행만_있고_schedule_발화가_없으면_정상으로_적지_않는다(self):
+        runs = {"pipeline-watchdog.yml": [self.run_at(10)],
+                "ops-daily.yml": [self.run_at(60, event="workflow_dispatch"), self.run_at(120, event="workflow_dispatch"), self.run_at(180, event="workflow_dispatch")]}
+        # 워크플로가 9/1 에 생겼는데 어제 17:05 예정이 지나도록 schedule 발화 0회 → 수동 run 이 있어도 미실행(장애)
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "SCHEDULED_RUN_MISSED")
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["status"], OS.FAULT)
+        self.assertIsNotNone(c["workflows"]["ops-daily.yml"]["manualRunAfterExpected"])
+        # 워크플로가 예정 시각(어제 17:05) 뒤인 오늘 10:00 에 생겼으면 아직 첫 발화 전 → 정상 대기(정상 아님)
+        self.fake({}, runs, created={"ops-daily.yml": "2026-09-10T01:00:00Z"})
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "SCHEDULED_ONLY_MANUAL")
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["status"], OS.IDLE)
+
+    def test_수동_run이_예정_뒤에_있어도_schedule_미발화면_미실행(self):
+        # 2026-09-10 검토 P1-1: 목 20:30, 어제 17:20 schedule 뒤 오늘은 17:40 dispatch 뿐 → 예약은 안 떴다
+        t2030 = datetime.datetime(2026, 9, 10, 20, 30, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(4 * 60 + 25, now=t2030)],
+                "ops-daily.yml": [self.run_at(170, event="workflow_dispatch", now=t2030), self.run_at(27 * 60 + 10, now=t2030)]}
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(t2030)
+        w = c["workflows"]["ops-daily.yml"]
+        self.assertEqual(w["code"], "SCHEDULED_RUN_MISSED", w)
+        self.assertIsNotNone(w["manualRunAfterExpected"])
+        self.assertIn("수동/이벤트 run", w["detail"])
+
+    def test_워치독_자기_run이_최신이어도_schedule_공백은_미실행(self):
+        # 화 12:30 장중: 방금 dispatch 로 뜬 자기 run 이 runs[0], 마지막 schedule 은 09:06 → 204분 공백
+        t1230 = datetime.datetime(2026, 9, 8, 12, 30, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(0, event="workflow_dispatch", status="in_progress", conclusion=None, now=t1230),
+                                          self.run_at(204, now=t1230)],
+                "ops-daily.yml": [self.run_at(19 * 60 + 25, now=t1230)]}
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(t1230)
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_RUN_MISSED", c["workflows"]["pipeline-watchdog.yml"])
+
+    def test_창_열린_직후에는_전날_마지막_run으로_오탐하지_않는다(self):
+        # 2026-09-10 검토 P1-2: 월 09:10, 마지막 schedule run 금 16:49 → 창(08:58)이 하한이라 12분 공백일 뿐
+        mon = datetime.datetime(2026, 9, 14, 9, 10, tzinfo=KST)
+        fri_1649 = datetime.datetime(2026, 9, 11, 16, 49, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(int((mon - fri_1649).total_seconds() // 60), now=mon)],
+                "ops-daily.yml": [self.run_at(int((mon - datetime.datetime(2026, 9, 11, 17, 20, tzinfo=KST)).total_seconds() // 60), now=mon)]}
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(mon)
+        self.assertNotEqual(c["status"], OS.FAULT, c["detail"])
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_ON_TIME")
+
+    def test_상태나_시각을_못_읽으면_확인_불가(self):
+        # 2026-09-10 검토 P2-2: state 없음 → 비활성이 아니라 확인 불가 · schedule 발화 0회 + 생성 시각 없음 → 확인 불가
+        runs = {"pipeline-watchdog.yml": [self.run_at(10)], "ops-daily.yml": [self.run_at(60, event="workflow_dispatch")]}
+        self.fake({"pipeline-watchdog.yml": ""}, runs, created={"ops-daily.yml": None})
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["status"], OS.UNKNOWN)
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_STATE_UNKNOWN")
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "SCHEDULED_TIME_UNPARSED")
+
+    def test_늦게라도_발화하면_지연분을_남긴다(self):
+        # 2026-09-10 검토 P2-5: 예비 발화(17:37)로 돈 경우 정상이되 lateMin=32
+        t1800 = datetime.datetime(2026, 9, 10, 18, 0, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(115, now=t1800)], "ops-daily.yml": [self.run_at(23, now=t1800)]}
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(t1800)
+        w = c["workflows"]["ops-daily.yml"]
+        self.assertEqual(w["code"], "SCHEDULED_ON_TIME"); self.assertEqual(w["lateMin"], 32)
+
+    def test_서명은_만성_항목_scheduled를_다른_장애가_있을_때_뺀다(self):
+        comps = {"paper": {"status": OS.FAULT, "code": "NO_CYCLE_TODAY"}, "scheduled": {"status": OS.FAULT, "code": "SCHEDULED_RUNS_FAULT"}}
+        self.assertEqual(OS._signature_source(comps, ["paper", "scheduled"], []), "paper:NO_CYCLE_TODAY")
+        self.assertEqual(OS._signature_source({"scheduled": comps["scheduled"]}, ["scheduled"], []), "scheduled:SCHEDULED_RUNS_FAULT")
+
+    def test_일일_예약은_유예_안이면_대기_유예가_지나면_미실행(self):
+        # 목요일 17:30: 오늘 17:05 예정이 지났지만 아직 유예(180분) 안 → 정상 대기. 20:10: 유예까지 지남 → 미실행(장애)
+        t1730 = datetime.datetime(2026, 9, 10, 17, 30, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(10, now=t1730)], "ops-daily.yml": [self.run_at(24 * 60 + 10, now=t1730)]}   # 어제 17:20
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(t1730)
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "SCHEDULED_PENDING")
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["status"], OS.IDLE)
+        self.assertNotEqual(c["status"], OS.FAULT, c["detail"])
+        t2010 = datetime.datetime(2026, 9, 10, 20, 10, tzinfo=KST)
+        runs = {"pipeline-watchdog.yml": [self.run_at(4 * 60 + 8, now=t2010)], "ops-daily.yml": [self.run_at(26 * 60 + 50, now=t2010)]}   # 워치독 16:02 · ops 어제 17:20
+        self.fake({}, runs)
+        c = OS.check_scheduled_runs(t2010)
+        self.assertEqual(c["workflows"]["ops-daily.yml"]["code"], "SCHEDULED_RUN_MISSED")
+        self.assertEqual(c["workflows"]["pipeline-watchdog.yml"]["code"], "SCHEDULED_OUT_OF_WINDOW", c["workflows"]["pipeline-watchdog.yml"])
+        self.assertEqual(c["status"], OS.FAULT)
+
+    def test_조회_실패는_확인_불가지_정상이_아니다(self):
+        def boom(url, token):
+            raise OSError("no network")
+        self.CW._get = boom
+        c = OS.check_scheduled_runs(self.now)
+        self.assertEqual(c["status"], OS.UNKNOWN)
+        os.environ.pop("GH_TOKEN", None); os.environ.pop("GITHUB_TOKEN", None)
+        self.assertEqual(OS.check_scheduled_runs(self.now)["status"], OS.UNKNOWN)
+
+    def test_예정_시험_항목은_마지막_원장_기록을_따로_적는다(self):
+        tmp = tempfile.mkdtemp(prefix="ops_led_")
+        try:
+            os.makedirs(os.path.join(tmp, "config")); os.makedirs(os.path.join(tmp, "docs", "audits", "validation_runs", "VS-X"))
+            json.dump({"ledgerPath": "docs/audits/validation_runs/ledger.jsonl", "schedules": [
+                {"scheduleId": "VS-X", "dueAt": "2026-09-09T17:00:00+09:00", "cutoffDate": "2026-09-09"}]},
+                      open(os.path.join(tmp, "config", "validation_schedule.json"), "w", encoding="utf-8"))
+            with open(os.path.join(tmp, "docs", "audits", "validation_runs", "ledger.jsonl"), "w", encoding="utf-8") as fh:
+                fh.write(json.dumps({"scheduleId": "VS-X", "runAt": "2026-09-09T17:05:00+09:00", "status": "COMPLETED",
+                                     "resultPath": "docs/audits/validation_runs/VS-X/20260909T170500.json"}) + "\n")
+            c = OS.check_validation_schedule(tmp, self.now)
+            self.assertEqual(c["lastLedger"]["status"], "COMPLETED")
+            self.assertFalse(c["lastLedger"]["resultFileExists"], "원장 줄은 있는데 결과 파일이 없으면 저장 확인이 거짓이어야 한다")
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
