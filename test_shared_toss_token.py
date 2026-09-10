@@ -68,7 +68,10 @@ TRADING_LOGIC_MODULES = ("paper_engine.py", "paper_history.py",
                          # 원장을 읽어 V1·V2를 짝짓는 집계기. 매매를 하지 않고
                          # 파일을 쓰지도 않지만, 원장을 다루는 모듈이므로 같은
                          # 잣대로 검사한다(시세·토큰에 손대면 즉시 실패해야 한다).
-                         "paper_pairing.py")
+                         "paper_pairing.py",
+                         # 2026-09-10 추가 — 러너 장부 포함성 판정·백업 모듈(구간 A). 원장을
+                         # 읽어 "원격에 다 있는가"를 판정할 뿐 시세·토큰에 손대면 안 된다.
+                         "paper_ledger_inclusion.py")
 
 #: 목록이 낡았는지 자동으로 찾아내는 기준 — 이 흔적이 있으면 매매 판단 모듈이다.
 #: (PaperEngine 을 쓰거나 원장 파일을 직접 다루면 매매 판단에 관여한다)

@@ -153,14 +153,32 @@ PC는 켜두고 **Windows 로그인 상태**여야 한다(작업이 "사용자�
 러너 전용 저장소는 옛 번호를 HEAD로 갖고 있어서 origin/main과 **공통 조상이 없어졌고**, 동기화 코드는
 "갈라짐 → rebase → 충돌 → abort → exit 6"만 매 사이클 반복했다. 엔진은 한 번도 돌지 않아 거래일 8일이 비었다.
 
-2026-09-10부터 `paper_cycle.ps1`·`paper_cycle.sh`는 이 상황을 따로 알아본다.
+2026-09-10부터 `paper_cycle.ps1`·`paper_cycle.sh`는 이 상황(공통 조상 없음)을 따로 알아본다. 첫 판은 `state.json`의 `lastCycleAt`이
+같거나 원격이 더 새로우면 "원격이 다 가졌다"고 봤는데, 시각은 거래·수량·현금·보유·다른 계좌(smart_v2·scalp_v3) 기록이 들어 있다는 증거가
+아니라서 같은 날 구간 A에서 **내용 검증**으로 바꿨다(`paper_ledger_inclusion.py`; `test_paper_runner_sync.py` B2 기대값 0→6 정정 — 완화가 아니라 강화).
 
 | 상황 | 동작 |
 |---|---|
-| 공통 조상 없음 + 로컬에 안 올린 Paper 기록 없음(`paper_trading` 트리가 같거나 `state.json`의 `lastCycleAt`이 원격과 같거나 원격이 더 새로움) | 옛 HEAD를 `refs/gaeo-backup/head-<시각>`에 남기고 `git checkout -B main origin/main`으로 재기준한 뒤 **정상 진행** |
-| 공통 조상 없음 + 로컬에 아직 안 올린 더 새로운 회차 기록 있음 | 자동으로 버리지 않는다. exit 6으로 멈추고 아래 수동 절차를 안내 |
+| 공통 조상 없음 + `paper_ledger_inclusion.py check`가 **COVERED**(모든 장부 파일 바이트 동일, 또는 이벤트 원장(jsonl) 줄 전부 원격에 포함 + 원격이 더 뒤 회차 + 보유 투영 증명(로컬 OPEN 거래가 전부 원격 원장에 있고 양쪽 보유 목록이 각자 원장과 일치)) | ① 백업 `%LOCALAPPDATA%\GAEO\backups\prerepoint-<시각>\` (paper_trading 복사 + 옛 HEAD bundle + sha256 manifest, 만든 뒤 검증) → ② 옛 HEAD를 `refs/gaeo-backup/head-<시각>`에 보존 → ③ `git checkout -B main origin/main` → **정상 진행** |
+| 공통 조상 없음 + **NOT_COVERED**(로컬에만 있는 거래·이벤트 줄, 같은 회차인데 내용이 다름, 로컬이 더 새로움, 로컬에만 있는 파일·계좌) 또는 **UNDETERMINED**(빈·깨진 파일, `lastCycleAt`·`openMeta` 없음, 보유 목록 불일치, 판정 모듈 없음) | 자동으로 버리지 않는다. exit 6으로 멈추고 복구 도구 검사 모드를 안내한다 |
+| 얕은 복제(shallow clone) · `merge-base` 조회 오류 · 재기준 전 백업 실패 · 다른 실행이 잠금을 쥠 | 재기준하지 않는다(exit 6, 잠금은 exit 3) |
 
-수동 절차(위 두 번째 경우, 또는 고친 코드가 러너에 아직 도착하기 전): `docs/operations/HOME_PC_CHECKLIST.md` 3절.
-핵심은 `paper_trading` 폴더를 먼저 복사해 보관한 뒤 `git checkout -B main origin/main` 하는 것이다.
-`git reset --hard`·`git push --force`는 여전히 쓰지 않는다. 계약 테스트: `test_paper_runner_sync.py`
-(실제 임시 저장소에서 재작성을 재현해 sh를 실행하고, ps1은 같은 경로가 있는지 정적으로 대조한다).
+옛 HEAD 작업트리(2026-09-10 이전 clone)에는 판정 모듈이 없으므로 러너는 `origin/main`에서 `paper_ledger_inclusion.py`를 꺼내 쓴다.
+파이썬은 동기화 전에 먼저 찾는다(없으면 exit 7, 아무것도 바꾸지 않은 상태).
+
+백업의 실제 크기(별도 검토자 지적, 2026-09-10): 공통 조상이 없으면 `--not origin/main`은 아무것도 빼지 못해 bundle이 **옛 이력 전체**가 된다.
+집 PC 러너 clone은 9/2 압축 전 전체 이력이라 수 GB가 될 수 있으므로, 저장소 객체가 상한(`GAEO_PAPER_BUNDLE_MAX_MB`, 기본 512)을 넘거나
+디스크 여유가 모자라면 bundle을 **만들지 않고** manifest에 그렇게 적는다(장부 복사본과 sha256 manifest는 항상 만든다). 옛 커밋은 저장소 안
+`refs/gaeo-backup/head-<시각>`이 GC에서 지켜 준다. 백업 도중 실패한 폴더는 `<이름>.failed`로 이름이 바뀐다(정상 백업으로 오인 방지).
+잠금은 러너 루트(마커 옆)의 `cycle.lock`(sh) / 이름 있는 뮤텍스 `GAEO-Paper-Cycle`(ps1)이라 로그 폴더 위치와 무관하게 사이클·복구 도구가 서로를 본다.
+
+**복구 도구**(2026-09-10 구간 A 신설): `scripts/paper_recover.ps1`(집 PC) / `scripts/paper_recover.sh`(Linux). 기본은 검사 모드(아무것도
+바꾸지 않음, fetch만), `-Mode apply`가 실행 모드다. 실행 모드도 위 표의 COVERED일 때만 재기준하고, 아니면 미전송 기록을
+`backups\unsent-<시각>\`에 따로 보존한 뒤 exit 11로 멈춘다. 종료코드: 0 할 일 없음(또는 apply 완료) · 10 재기준 가능(check) ·
+11 수동 확인 · 2 저장소/마커/원격 주소/브랜치 불일치(다른 저장소에서는 절대 돌지 않는다) · 3 잠금 · 5 fetch 실패 · 6 apply 단계 실패 · 7 파이썬 없음.
+집 PC 절차는 `docs/operations/HOME_PC_CHECKLIST.md` 3절.
+
+`git reset --hard`·`git push --force`·`git clean`·`git stash`·`--allow-unrelated-histories`는 어느 경로에도 없다. 계약 테스트:
+`test_paper_ledger_inclusion.py`(합성 장부로 판정·백업), `test_paper_runner_sync.py`(임시 저장소에서 재작성을 재현해 sh를 실제 실행 E1~E10,
+ps1은 정적 대조), `test_paper_recover.py`(복구 도구 R1~R12). ⚠️ ps1 두 파일의 **실제 Windows 실행 검증은 2026-09-10 원격 세션에서는
+하지 못했다**(PowerShell 없음). 집 PC 첫 실행이 곧 실검증이므로 반드시 검사 모드부터 돌린다.

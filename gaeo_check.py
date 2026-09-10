@@ -48,6 +48,7 @@ GROUPS = {
         "test_paper_health_check.py", "test_paper_history.py", "test_paper_momentum.py", "test_paper_pairing.py",
         "test_paper_portfolio.py", "test_paper_public.py", "test_paper_safety_boundary.py", "test_paper_scalp_v3.py",
         "test_paper_session.py", "test_paper_single_writer.py", "test_paper_smart_v2.py", "test_paper_runner_sync.py",
+        "test_paper_ledger_inclusion.py", "test_paper_recover.py",
         "test_toss_guard.py", "test_shared_toss_token.py", "test_shared_token_hardening.py", "test_toss_market_data_smoke.py",
     ],
     "investment-contract": [

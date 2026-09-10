@@ -29,10 +29,11 @@
 #  exit code (paper_cycle.ps1과 동일)
 #      0 정상(변경 없어 커밋 안 한 경우·실행 시간대가 아닌 경우 포함)
 #      2 러너 저장소·마커 문제
-#      3 브랜치가 main이 아님 등 상태 이상
+#      3 브랜치가 main이 아님 등 상태 이상(다른 사이클·복구 도구가 잠금을 쥐고 있을 때 포함)
 #      4 예상치 못한 변경이 있어 안전 중단
 #      5 네트워크/fetch 실패로 사이클 건너뜀
 #      6 동기화(ff/rebase) 실패. 수동 확인 필요
+#        (원격 이력 재작성 뒤 로컬 장부 포함을 증명 못 함 · 얕은 복제 · 재기준 전 백업 실패 포함)
 #      7 Paper 엔진 비정상(파이썬 없음 포함)
 #      8 화이트리스트 위반 등 커밋 단계 실패
 #      9 push 실패(기록은 로컬 커밋으로 보존됨)
@@ -44,6 +45,10 @@ BRANCH="main"
 LOG_DIR="${GAEO_PAPER_LOG_DIR:-$HOME/.local/state/gaeo-paper/logs}"
 LOG_RETENTION_DAYS=30
 IGNORE_WINDOW="${GAEO_PAPER_IGNORE_WINDOW:-0}"
+# 재기준(원격 이력 재작성) 전 백업 폴더 : 클라우드 동기화가 안 되는 로컬 경로여야 한다.
+BACKUP_DIR="${GAEO_PAPER_BACKUP_DIR:-$HOME/.local/state/gaeo-paper/backups}"
+# 겹쳐 돌기 방지 잠금(사이클·복구 도구가 같은 잠금을 쓴다). 기본은 러너 루트(마커 옆)의 cycle.lock.
+LOCK_DIR="${GAEO_PAPER_LOCK_DIR:-}"
 
 WHITELIST_DIR="paper_trading"
 WHITELIST_FILE="paper_public.js"
@@ -62,6 +67,8 @@ GAEO Paper Trading Linux 사이클 러너
   --branch NAME        대상 브랜치 (기본 main)
   --log-dir PATH       로그 디렉터리 (기본 ~/.local/state/gaeo-paper/logs)
   --retention-days N   로그 보존 일수 (기본 30)
+  --backup-dir PATH    재기준 전 백업 폴더 (기본 ~/.local/state/gaeo-paper/backups, 환경변수 GAEO_PAPER_BACKUP_DIR)
+  --lock-dir PATH      겹쳐 돌기 방지 잠금 폴더 (기본 <러너 루트>/cycle.lock, 환경변수 GAEO_PAPER_LOCK_DIR)
   --ignore-window      실행 시간대(평일 KST 08:55~15:35) 검사를 건너뛴다(수동 시험용)
   -h, --help           이 도움말
 USAGE
@@ -73,6 +80,8 @@ while [ $# -gt 0 ]; do
         --branch)         BRANCH="${2:-}"; shift 2 ;;
         --log-dir)        LOG_DIR="${2:-}"; shift 2 ;;
         --retention-days) LOG_RETENTION_DAYS="${2:-}"; shift 2 ;;
+        --backup-dir)     BACKUP_DIR="${2:-}"; shift 2 ;;
+        --lock-dir)       LOCK_DIR="${2:-}"; shift 2 ;;
         --ignore-window)  IGNORE_WINDOW=1; shift ;;
         -h|--help)        usage; exit 0 ;;
         *) echo "알 수 없는 인자: $1" >&2; usage; exit 2 ;;
@@ -145,19 +154,117 @@ git_ok() {   # git_ok "무엇" -> 직전 git_run 결과 판정
     return 0
 }
 
-# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 판정한다(2026-09-10).
-#   ① paper_trading 트리 해시가 같으면 확실히 포함.
-#   ② 다르면 state.json 의 lastCycleAt 을 비교해 원격이 같거나 더 새로우면 포함으로 본다.
-#   ③ 그 밖(파일 없음·해석 실패)은 전부 "모름" = 포함 아님(fail closed → 사이클은 exit 6).
+# ─────────────────────────────────────────────────────────────────────────────
+# 겹쳐 돌기 방지 잠금 : 사이클과 복구 도구(paper_recover.sh)가 같은 잠금을 쓴다.
+#   mkdir 은 원자적이다. 잠금 폴더 안 pid 가 죽은 프로세스면 오래된 잠금으로 보고 넘겨받는다.
+# ─────────────────────────────────────────────────────────────────────────────
+LOCK_HELD=0
+lock_pid_alive() {   # lock_pid_alive DIR -> 0 이면 잠금을 쥔 실행이 살아 있다(또는 아직 판정할 수 없다)
+    local pid age now mtime
+    if [ ! -f "$1/pid" ]; then
+        # mkdir 직후 pid 를 쓰기 전의 짧은 창일 수 있다 — 30초 안 된 잠금은 살아 있는 것으로 본다(빼앗지 않는다).
+        mtime="$(stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0)"
+        now="$(date +%s)"; age=$((now - mtime))
+        [ "$age" -lt 30 ]
+        return
+    fi
+    pid="$(tr -cd '0-9' < "$1/pid" 2>/dev/null)"
+    [ -n "$pid" ] || return 1
+    # kill -0 은 권한이 없어도(다른 사용자 프로세스) 실패하므로 /proc 도 본다 — 모르면 살아 있는 쪽으로.
+    kill -0 "$pid" 2>/dev/null || [ -d "/proc/$pid" ]
+}
+acquire_lock() {
+    # 기본 잠금 위치는 러너 루트(마커 옆) — 로그 폴더와 무관하게 사이클·복구 도구가 같은 잠금을 본다.
+    [ -n "$LOCK_DIR" ] || LOCK_DIR="$RUNNER_ROOT/cycle.lock"
+    mkdir -p "$(dirname "$LOCK_DIR")" 2>/dev/null || true
+    if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+        if lock_pid_alive "$LOCK_DIR"; then
+            stop_cycle "다른 사이클(또는 복구 도구)이 실행 중이다(잠금: $LOCK_DIR, pid $(cat "$LOCK_DIR/pid" 2>/dev/null)). 겹쳐 돌지 않는다" 3
+        fi
+        log "오래된 잠금(죽은 프로세스)을 넘겨받는다: $LOCK_DIR" WARN
+        rm -rf "$LOCK_DIR" 2>/dev/null
+        mkdir "$LOCK_DIR" 2>/dev/null || stop_cycle "잠금을 만들 수 없다: $LOCK_DIR" 3
+    fi
+    printf '%s\n' "$$" > "$LOCK_DIR/pid" 2>/dev/null || true
+    LOCK_HELD=1
+}
+release_lock() {
+    if [ "$LOCK_HELD" = "1" ] && [ -d "$LOCK_DIR" ]; then
+        rm -rf "$LOCK_DIR" 2>/dev/null || true
+        LOCK_HELD=0
+    fi
+    [ -n "${INCLUSION_MODULE_TMP:-}" ] && rm -f "$INCLUSION_MODULE_TMP" 2>/dev/null
+    return 0
+}
+trap release_lock EXIT
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 파이썬 : 엔진뿐 아니라 2단계(원격 이력 재작성 판정)에도 필요하므로 동기화 전에 찾는다.
+# ─────────────────────────────────────────────────────────────────────────────
+PY=""
+find_python() {
+    local candidate
+    for candidate in python3 python; do
+        if command -v "$candidate" >/dev/null 2>&1; then PY="$candidate"; return 0; fi
+    done
+    return 1
+}
+
+# 장부 포함성 모듈(paper_ledger_inclusion.py)을 찾는다. 옛 HEAD 작업트리(2026-09-10 이전 clone)에는 없으므로
+# 그때는 origin/$BRANCH 에서 꺼내 임시 파일로 쓴다(러너는 어차피 동기화 뒤 저장소의 파이썬을 실행한다 — 같은 신뢰 수준).
+INCLUSION_MODULE=""
+INCLUSION_MODULE_TMP=""
+resolve_inclusion_module() {
+    if [ -f "$REPO_PATH/paper_ledger_inclusion.py" ]; then
+        INCLUSION_MODULE="$REPO_PATH/paper_ledger_inclusion.py"; return 0
+    fi
+    INCLUSION_MODULE_TMP="$(mktemp "${TMPDIR:-/tmp}/gaeo-paper-inclusion-XXXXXX")" || return 1
+    if git show "origin/$BRANCH:paper_ledger_inclusion.py" > "$INCLUSION_MODULE_TMP" 2>/dev/null && [ -s "$INCLUSION_MODULE_TMP" ]; then
+        INCLUSION_MODULE="$INCLUSION_MODULE_TMP"; return 0
+    fi
+    rm -f "$INCLUSION_MODULE_TMP"; INCLUSION_MODULE_TMP=""
+    return 1
+}
+
+# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 **내용으로** 판정한다(2026-09-10 구간 A).
+#   paper_ledger_inclusion.py check 가 이벤트 원장 줄(거래 ID·수량·가격·현금)·state 보유 투영·다른 계좌 폴더까지
+#   대조한다. 종료코드 0(COVERED)일 때만 포함. 1(NOT_COVERED)·2(UNDETERMINED = 빈 파일·해석 불가·모듈 없음)는
+#   전부 "증명 못 함" = 포함 아님(fail closed → 사이클은 exit 6). 시각(lastCycleAt) 비교 fallback 은 없다 —
+#   시각이 같거나 새롭다는 것은 거래·수량·현금·보유가 들어 있다는 증거가 아니다.
+INCLUSION_VERDICT="UNDETERMINED"
+INCLUSION_REPORT=""
 local_ledger_covered_by_remote() {
-    local lt rt la ra
-    lt="$(git rev-parse "HEAD:$WHITELIST_DIR" 2>/dev/null)" || return 1
-    rt="$(git rev-parse "origin/$BRANCH:$WHITELIST_DIR" 2>/dev/null)" || return 1
-    [ -n "$lt" ] && [ "$lt" = "$rt" ] && return 0
-    la="$(git show "HEAD:$WHITELIST_DIR/state.json" 2>/dev/null | sed -n 's/.*"lastCycleAt": *"\([^"]*\)".*/\1/p' | head -1)"
-    ra="$(git show "origin/$BRANCH:$WHITELIST_DIR/state.json" 2>/dev/null | sed -n 's/.*"lastCycleAt": *"\([^"]*\)".*/\1/p' | head -1)"
-    [ -n "$la" ] && [ -n "$ra" ] || return 1
-    [ "$ra" \> "$la" ] || [ "$ra" = "$la" ]
+    local code
+    if ! resolve_inclusion_module; then
+        INCLUSION_REPORT="포함성 모듈(paper_ledger_inclusion.py)을 작업트리·origin/$BRANCH 어디서도 찾지 못했다"
+        INCLUSION_VERDICT="UNDETERMINED"; return 1
+    fi
+    INCLUSION_REPORT="$("$PY" "$INCLUSION_MODULE" check --repo "$REPO_PATH" --local HEAD --remote "origin/$BRANCH" 2>&1)"
+    code=$?
+    # 판정 헤더가 없는 출력은 모듈 자체의 오류(traceback 등)다 — exit 1 이라도 NOT_COVERED 로 표기하지 않는다.
+    case "$INCLUSION_REPORT" in *"[장부 포함성]"*) ;; *) [ "$code" -eq 0 ] || code=2 ;; esac
+    case "$code" in
+        0) INCLUSION_VERDICT="COVERED" ;;
+        1) INCLUSION_VERDICT="NOT_COVERED" ;;
+        *) INCLUSION_VERDICT="UNDETERMINED" ;;
+    esac
+    [ "$code" -eq 0 ]
+}
+
+# 재기준 전 백업 : 작업트리 paper_trading 복사(바이트 대조) + 옛 HEAD bundle(verify) + sha256 manifest.
+#   실패하면 재기준하지 않는다. 옛 커밋이 원격에 이미 다 있으면 bundle 은 만들지 않고 manifest 에 그렇게 적는다.
+BACKUP_TARGET=""
+backup_before_repoint() {
+    local out code
+    out="$("$PY" "$INCLUSION_MODULE" backup --repo "$REPO_PATH" --dest "$BACKUP_DIR" \
+            --label "prerepoint-$(kst_date '+%Y%m%dT%H%M%S')" --not-ref "origin/$BRANCH" --json 2>&1)"
+    code=$?
+    if [ "$code" -ne 0 ]; then
+        log "백업 출력: $out" ERROR
+        return 1
+    fi
+    BACKUP_TARGET="$(printf '%s' "$out" | sed -n 's/^ *"dir": *"\(.*\)",\{0,1\}$/\1/p' | head -1)"
+    return 0
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -199,6 +306,12 @@ git_run rev-parse --is-inside-work-tree
 if [ "$GIT_CODE" -ne 0 ] || [ "$GIT_OUT" != "true" ]; then
     stop_cycle "git 저장소가 아니다: $REPO_PATH" 2
 fi
+
+# 🔒 겹쳐 돌기 방지 : 다른 사이클·복구 도구가 돌고 있으면 아무것도 하지 않는다.
+acquire_lock
+
+# 파이썬은 엔진(3단계)뿐 아니라 2단계 판정에도 필요하다. 없으면 여기서 멈춘다(아무것도 바꾸지 않은 상태).
+find_python || stop_cycle 'Python 실행기를 찾을 수 없다(python3·python 모두 없음)' 7
 
 # 분리된 HEAD·다른 브랜치에서는 절대 자동 실행하지 않는다.
 git_run symbolic-ref --short -q HEAD
@@ -298,24 +411,43 @@ elif [ "$LOCAL_SHA" = "$BASE_SHA" ]; then
     log "remote sync: fast-forward 완료 → $GIT_OUT"
 elif [ "$REMOTE_SHA" = "$BASE_SHA" ]; then
     log 'remote sync: 로컬에 아직 push되지 않은 Paper 커밋이 있다(뒤에서 push 시도)'
+elif [ "${BASE_CODE:-1}" -ne 0 ] && [ "${BASE_CODE:-1}" -ne 1 ]; then
+    # merge-base 가 1 이 아닌 오류(128 등)로 끝났다 = "공통 조상 없음"이 아니라 조회 실패. 모른다를 고장으로도
+    # 괜찮다로도 바꾸지 않는다 — 아무것도 옮기지 않고 멈춘다.
+    stop_cycle "merge-base 조회 실패(exit $BASE_CODE). 재작성인지 알 수 없어 재기준하지 않는다: $BASE_SHA" 6
 elif [ "${BASE_CODE:-1}" -ne 0 ] || [ -z "$BASE_SHA" ]; then
     # 🧭 공통 조상 없음 = 원격 이력이 재작성됐다(예: compact-history 의 filter-branch + force push,
     #    2026-09-02 08:25 KST 실측). 이 상태에서 rebase 는 저장소 첫 커밋부터 전부 다시 적용하려다
     #    반드시 충돌하고, 사이클은 매번 exit 6 으로 끝나며 엔진은 한 번도 돌지 않는다
     #    (2026-09-02 부터 집 PC 러너가 8거래일 침묵한 경위 — docs/operations/STATUS.md).
-    #    로컬에 아직 안 올린 Paper 기록이 없을 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
-    #    옛 HEAD 는 refs/gaeo-backup/ 에 남긴다(삭제가 아니라 보존). 작업트리는 1단계에서 깨끗함을 확인했다.
+    #    로컬 장부가 원격에 **내용으로** 전부 들어 있음이 증명될 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
+    #    순서: ① 얕은 복제 아님 확인 → ② 포함성 판정(paper_ledger_inclusion.py) → ③ 백업(복사·bundle·manifest 검증)
+    #          → ④ 옛 HEAD 를 refs/gaeo-backup/ 에 보존 → ⑤ 브랜치 포인터만 옮김. 어느 단계든 실패하면 재기준하지 않는다.
     #    "reset --hard 금지" 원칙과 충돌하지 않는다 — 깨끗한 트리에서 브랜치 포인터만 옮기고 옛 포인터를 보존한다.
+    git_run rev-parse --is-shallow-repository
+    if [ "$GIT_CODE" -ne 0 ] || [ "$GIT_OUT" = "true" ]; then
+        stop_cycle "얕은 복제(shallow clone)이거나 판정 불가($GIT_OUT)라 공통 조상 없음을 재작성으로 단정할 수 없다. 재기준하지 않는다. 수동: git fetch --unshallow origin 뒤 다시 실행" 6
+    fi
+    git_run remote get-url origin
+    log "remote sync: 공통 조상 없음. origin=$GIT_OUT 로컬=$LOCAL_SHA 원격=$REMOTE_SHA" WARN
     if local_ledger_covered_by_remote; then
+        log "장부 포함성 판정: $INCLUSION_VERDICT"
+        while IFS= read -r line; do [ -n "${line//[[:space:]]/}" ] && log "  $line"; done <<< "$INCLUSION_REPORT"
+        if ! backup_before_repoint; then
+            stop_cycle "재기준 전 백업 실패(백업 폴더: $BACKUP_DIR). 재기준하지 않고 중단한다. 수동 확인: bash scripts/paper_recover.sh --repo $REPO_PATH --mode check" 6
+        fi
+        log "재기준 전 백업 완료(복사·bundle·manifest 검증 통과): $BACKUP_TARGET"
         backup_ref="refs/gaeo-backup/head-$(kst_date '+%Y%m%dT%H%M%S')"
         git_run update-ref "$backup_ref" HEAD
         git_ok 'git update-ref(옛 HEAD 백업)' || stop_cycle '옛 HEAD 백업 실패. 재기준하지 않고 중단' 6
         git_run checkout -B "$BRANCH" "origin/$BRANCH"
-        git_ok 'git checkout -B(재기준)' || stop_cycle "원격 이력 재작성 뒤 재기준 실패. $GIT_OUT" 6
+        git_ok 'git checkout -B(재기준)' || stop_cycle "원격 이력 재작성 뒤 재기준 실패. $GIT_OUT (옛 HEAD: $backup_ref, 백업: $BACKUP_TARGET)" 6
         git_run rev-parse HEAD
-        log "remote sync: 원격 이력 재작성 감지(공통 조상 없음). 로컬에 안 올린 Paper 기록이 없어 origin/$BRANCH 로 재기준했다 → $GIT_OUT (옛 HEAD 보존: $backup_ref)" WARN
+        log "remote sync: 원격 이력 재작성 감지(공통 조상 없음). 로컬 장부가 원격에 전부 포함됨을 내용으로 확인해 origin/$BRANCH 로 재기준했다 → $GIT_OUT (옛 HEAD 보존: $backup_ref, 백업: $BACKUP_TARGET)" WARN
     else
-        stop_cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬에 아직 올리지 못한 Paper 기록이 있다. 자동으로 버리지 않는다. 수동 확인 필요: paper_trading/ 을 따로 보관한 뒤 git checkout -B $BRANCH origin/$BRANCH (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
+        log "장부 포함성 판정: $INCLUSION_VERDICT" ERROR
+        while IFS= read -r line; do [ -n "${line//[[:space:]]/}" ] && log "  $line" ERROR; done <<< "$INCLUSION_REPORT"
+        stop_cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬 장부가 원격에 전부 들어 있음을 증명하지 못했다(판정 $INCLUSION_VERDICT). 자동으로 버리지 않는다. 수동 확인 필요: bash scripts/paper_recover.sh --repo $REPO_PATH --mode check (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
     fi
 else
     # 갈라짐 : Paper 커밋을 최신 main 위로 재적용(자동 충돌 해결 금지)
@@ -339,11 +471,7 @@ log "러너 HEAD(동기화 후): $GIT_OUT"
 export PYTHONUTF8=1
 export PYTHONIOENCODING=utf-8
 
-PY=""
-for candidate in python3 python; do
-    if command -v "$candidate" >/dev/null 2>&1; then PY="$candidate"; break; fi
-done
-[ -n "$PY" ] || stop_cycle 'Python 실행기를 찾을 수 없다(python3·python 모두 없음)' 7
+# (파이썬 실행기는 0단계에서 이미 찾았다: $PY)
 
 run_paper_script() {   # run_paper_script 파일 [continue_on_error]
     local script="$1" cont="${2:-0}" out code line

@@ -33,7 +33,10 @@ PAPER_MODULES = ("paper_engine.py", "paper_market_data.py", "paper_smart_v2.py",
                  # 2026-08-28 신설 — 이 명단에 없으면 1a·1b(실주문·계좌 API
                  # 문자열 0건)가 그 파일을 아예 안 읽는다. 아래 1s 자동 점검이
                  # 두 파일 모두 빠져 있던 것을 찾아냈다(V3는 8/27, pairing은 8/26 신설).
-                 "paper_scalp_v3.py", "paper_pairing.py")
+                 "paper_scalp_v3.py", "paper_pairing.py",
+                 # 2026-09-10 신설 — 러너 장부 포함성 판정·재기준 전 백업(구간 A). 매매를
+                 # 하지 않고 원장을 읽기만 하지만, 원장을 다루는 모듈이므로 같은 경계 안에 둔다.
+                 "paper_ledger_inclusion.py")
 
 
 def check(name, cond, detail=""):
