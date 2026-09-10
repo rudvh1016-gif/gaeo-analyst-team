@@ -4,7 +4,7 @@
  "environment": "LIVE_PAPER_SCALP_V3",
  "forwardStart": "2026-08-28",
  "engineStartedAt": "2026-08-28T09:35:17+09:00",
- "generatedAt": "2026-09-01T15:05:12+09:00",
+ "generatedAt": "2026-09-11T00:20:11+09:00",
  "evidence": "INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지",
  "totalForwardSignals": 10,
  "openTrades": 0,
@@ -42,8 +42,8 @@
  "avgBenchmarkReturnPct": null,
  "avgRelativeReturnPct": null,
  "benchmarkBasis": "RECOMPUTED_FROM_TRADE_DATES",
- "benchmarkRecomputedCount": 1,
- "benchmarkUnavailableCount": 9,
+ "benchmarkRecomputedCount": 3,
+ "benchmarkUnavailableCount": 7,
  "benchmarkClockMismatchNote": "종목은 장중 체결가, 지수는 일 종가라 시계가 다르다. 체결 순간의 지수 레벨은 시세 경로에 없어 기록하지 않는다.",
  "benchmarkNoteInternal": "원장에 남은 benchmark_* 필드는 '탐지 시점에 알 수 있었던 값'이라 장중에는 직전 거래일 종가로 후퇴해 있다(진입·청산의 후퇴 폭이 달라 시장대비가 부풀려졌다). 이 요약은 실제 진입일·청산일 종가로 다시 계산한 값이며, 해당 날짜 종가가 없으면 값을 만들지 않는다.",
  "winRatePctIfAllNet": null,
@@ -96,7 +96,43 @@
  },
  "accountingVersion": "ACCOUNTING_V2_NET",
  "maxDrawdownPct": -4.485,
- "dataGaps": [],
+ "dataGaps": [
+  {
+   "businessDate": "2026-09-02",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-03",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-04",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-07",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-08",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-09",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-10",
+   "kind": "NO_RECORD",
+   "observations": 0
+  }
+ ],
  "sourceAnalysisCompletedAt": "2026-09-01T14:38:39+09:00",
  "sourceModelVersion": "baseline-risk-v2",
  "sourceCommitSha": null

@@ -4,7 +4,7 @@
  "environment": "LIVE_PAPER_SMART_V2",
  "forwardStart": "2026-08-27",
  "engineStartedAt": "2026-08-27T09:35:08+09:00",
- "generatedAt": "2026-09-01T15:05:11+09:00",
+ "generatedAt": "2026-09-11T00:20:07+09:00",
  "evidence": "INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지",
  "totalForwardSignals": 223,
  "openTrades": 10,
@@ -42,8 +42,8 @@
  "avgBenchmarkReturnPct": null,
  "avgRelativeReturnPct": null,
  "benchmarkBasis": "RECOMPUTED_FROM_TRADE_DATES",
- "benchmarkRecomputedCount": 0,
- "benchmarkUnavailableCount": 1,
+ "benchmarkRecomputedCount": 1,
+ "benchmarkUnavailableCount": 0,
  "benchmarkClockMismatchNote": "종목은 장중 체결가, 지수는 일 종가라 시계가 다르다. 체결 순간의 지수 레벨은 시세 경로에 없어 기록하지 않는다.",
  "benchmarkNoteInternal": "원장에 남은 benchmark_* 필드는 '탐지 시점에 알 수 있었던 값'이라 장중에는 직전 거래일 종가로 후퇴해 있다(진입·청산의 후퇴 폭이 달라 시장대비가 부풀려졌다). 이 요약은 실제 진입일·청산일 종가로 다시 계산한 값이며, 해당 날짜 종가가 없으면 값을 만들지 않는다.",
  "winRatePctIfAllNet": null,
@@ -67,8 +67,8 @@
  "realizedPnl": null,
  "unrealizedPnl": null,
  "portfolioReturnPct": null,
- "valuationObservedAt": "2026-09-01T15:05:10+09:00",
- "valuationMarketAt": "2026-09-01T15:04:42.000+09:00",
+ "valuationObservedAt": "2026-09-11T00:20:03+09:00",
+ "valuationMarketAt": "2026-09-10T17:30:30.000+09:00",
  "valuationStatus": "MARKED",
  "executedTradeCount": 11,
  "accounting": {
@@ -120,9 +120,9 @@
   "requiresApprovalBy": "대표",
   "note": "V1을 대체하지 않는다. 성적이 좋아도 자동 승격 없음"
  },
- "observationRecords": 41,
+ "observationRecords": 51,
  "shadowSwapRecords": 41,
- "chiefPathRecords": 458,
+ "chiefPathRecords": 468,
  "skippedCandidateRecords": 223,
  "accountMetricsGatedUntilEvidence": [
   "portfolioReturnPct",
@@ -152,7 +152,43 @@
  "horizonClaimNote": "60거래일은 무한보유를 막는 상한이지 성능 구간이 아니다. 이 전략은 60D 성적·적중률을 어떤 형태로도 주장하지 않는다.",
  "publicSnapshot": false,
  "maxDrawdownPct": null,
- "dataGaps": [],
+ "dataGaps": [
+  {
+   "businessDate": "2026-09-02",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-03",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-04",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-07",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-08",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-09",
+   "kind": "NO_RECORD",
+   "observations": 0
+  },
+  {
+   "businessDate": "2026-09-10",
+   "kind": "NO_RECORD",
+   "observations": 0
+  }
+ ],
  "sourceAnalysisCompletedAt": "2026-09-01T14:38:39+09:00",
  "sourceModelVersion": "baseline-risk-v2",
  "sourceCommitSha": null
