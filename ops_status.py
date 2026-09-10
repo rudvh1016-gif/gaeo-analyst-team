@@ -330,7 +330,12 @@ def check_validation_schedule(root, now):
             pending_today.append(s["scheduleId"])
         else:
             upcoming.append(f"{s['scheduleId']}({due:%m-%d})")
-    extra = {"overdue": overdue, "dueNow": pending_today, "upcoming": upcoming, "done": done}
+    last_rec = ledger[-1] if ledger else None
+    extra = {"overdue": overdue, "dueNow": pending_today, "upcoming": upcoming, "done": done,
+             "lastLedger": ({"scheduleId": last_rec.get("scheduleId"), "runAt": last_rec.get("runAt"), "status": last_rec.get("status"),
+                             "resultPath": last_rec.get("resultPath"),
+                             "resultFileExists": bool(last_rec.get("resultPath")) and os.path.exists(os.path.join(root, str(last_rec.get("resultPath"))))}
+                            if last_rec else None)}
     if overdue:
         return component(FAULT, "SCHEDULE_OVERDUE", "예정 시험이 실행 기록 없이 지났다: " + "; ".join(overdue), **extra)
     if pending_today:
@@ -384,6 +389,110 @@ def check_workflows_github():
     return component(OK, "WORKFLOWS_VALID", "핵심 워크플로 전부 유효", **extra)
 
 
+# 예약 실행(GitHub cron) 실측 — "돌았어야 할 시각에 실제로 돌았나"를 워크플로마다 따로 잰다(2026-09-10 구간 D).
+#   cron 지연/미실행(GitHub 무료 러너는 수십 분 밀리거나 건너뛰기도 한다) · 워크플로 비활성(60일 비활성·수동 끔) ·
+#   마지막 run 실패(권한·문법·실행 오류) · 잘못된 ref 를 구분한다. "run 이 돌고 있다"를 건강 신호로 쓰지 않는다 — 산출물은 별도 항목이 잰다.
+SCHEDULED_WORKFLOWS = {
+    "pipeline-watchdog.yml": {"label": "워치독", "intervalMin": 15, "windowOnly": True},
+    "ops-daily.yml": {"label": "일일 점검·예정 시험 실행기", "dailyAtHM": (17, 5), "weekdaysOnly": True},
+}
+SCHEDULED_GRACE_MIN = 180        # GitHub cron 지연 허용(무료 러너 실측: 수십 분~2시간). 일일형은 예정 시각+유예, 간격형은 (지금-간격)-유예 가 기준
+
+
+def _expected_last_fire(spec, now):
+    """이 워크플로가 지금까지 **마지막으로 돌았어야 할 시각**. 없으면 None(지금은 돌 시간이 아니다)."""
+    if spec.get("windowOnly"):
+        # 장중 15분 간격: 거래일 창 안이면 now - interval, 창 밖이면 마지막 거래일의 창 끝(pipeline_watchdog.WINDOW_CLOSE)
+        if PW.in_window(now):
+            return now - datetime.timedelta(minutes=spec["intervalMin"])
+        close_h, close_m = (int(x) for x in PW.WINDOW_CLOSE.split(":"))
+        if is_krx_trading_day(now.date()) and now.strftime("%H:%M") >= PW.WINDOW_CLOSE:
+            day = now.date()
+        else:
+            day = last_trading_day(now.date() - datetime.timedelta(days=1))
+        return datetime.datetime.combine(day, datetime.time(close_h, close_m), KST)
+    hh, mm = spec["dailyAtHM"]
+    day = now.date()
+    for _ in range(10):
+        candidate = datetime.datetime.combine(day, datetime.time(hh, mm), KST)
+        weekday_ok = (day.weekday() < 5) if spec.get("weekdaysOnly") else True
+        if weekday_ok and candidate <= now:
+            return candidate
+        day -= datetime.timedelta(days=1)
+    return None
+
+
+def _judge_scheduled(wf, spec, state, runs, now):
+    """(status, code, detail, extra) — 워크플로 하나."""
+    extra = {"state": state, "lastRunAt": None, "lastConclusion": None, "lastEvent": None, "expectedBy": None}
+    if state != "active":
+        return FAULT, "WORKFLOW_DISABLED", f"{wf}: 워크플로가 비활성({state}) — cron 이 아예 돌지 않는다(60일 비활성 자동 끔·수동 끔)", extra
+    sched = [r for r in runs if r.get("event") == "schedule"]
+    last = runs[0] if runs else None
+    if last:
+        extra.update({"lastRunAt": last.get("created_at"), "lastConclusion": last.get("conclusion"), "lastEvent": last.get("event"),
+                      "lastBranch": last.get("head_branch")})
+    expected = _expected_last_fire(spec, now)
+    extra["expectedBy"] = expected.isoformat() if expected else None
+    if not runs:
+        return FAULT, "SCHEDULED_NEVER_RAN", f"{wf}: 실행 기록이 하나도 없다", extra
+    if last.get("head_branch") not in (None, "main"):
+        return FAULT, "SCHEDULED_WRONG_REF", f"{wf}: 마지막 run 이 main 이 아닌 ref({last.get('head_branch')})에서 돌았다", extra
+    last_at = _parse_iso(last.get("created_at"))
+    if last.get("status") == "completed" and last.get("conclusion") not in ("success", "skipped", None):
+        return FAULT, "SCHEDULED_LAST_RUN_FAILED", f"{wf}: 마지막 run 이 {last.get('conclusion')} — 권한·문법·실행 오류일 수 있다(run 로그 확인)", extra
+    grace = datetime.timedelta(minutes=SCHEDULED_GRACE_MIN)
+    if expected and last_at and last_at < expected:
+        late = int((now - last_at).total_seconds() // 60)
+        if spec.get("intervalMin"):
+            overdue = expected - last_at > grace          # 간격형: 마지막으로 돌았어야 할 시각보다 유예 넘게 오래된 run
+        else:
+            overdue = now >= expected + grace             # 일일형: 예정 시각 뒤 유예까지 지났는데도 run 이 없다
+        if overdue:
+            return FAULT, "SCHEDULED_RUN_MISSED", (f"{wf}: 돌았어야 할 시각({expected:%m-%d %H:%M})을 {SCHEDULED_GRACE_MIN}분 넘게 지났는데 "
+                                                   f"마지막 run 은 {late}분 전 — GitHub cron 지연/건너뜀(무료 러너) 또는 다른 원인"), extra
+        if not spec.get("intervalMin"):
+            return IDLE, "SCHEDULED_PENDING", (f"{wf}: 예정 시각({expected:%m-%d %H:%M})은 지났고 cron 발화를 {SCHEDULED_GRACE_MIN}분까지 기다리는 중"
+                                               f"(마지막 run {late}분 전) — 유예가 지나면 미실행으로 적는다"), extra
+    if not sched:
+        return IDLE, "SCHEDULED_ONLY_MANUAL", f"{wf}: 최근 run {len(runs)}건이 전부 수동/이벤트 실행 — schedule 발화가 이 안에 없다(정상으로 적지 않는다)", extra
+    if expected is None or (spec.get("windowOnly") and not PW.in_window(now)):
+        return IDLE, "SCHEDULED_OUT_OF_WINDOW", f"{wf}: 지금은 예약 실행 시간이 아니다(마지막 run {str(last.get('created_at'))[:16]}, 창 안에서는 제때 돌았다)", extra
+    return OK, "SCHEDULED_ON_TIME", f"{wf}: 마지막 run {str(last.get('created_at'))[:16]} ({last.get('event')}, {last.get('conclusion') or last.get('status')})", extra
+
+
+def check_scheduled_runs(now=None):
+    """--github 전용. 워치독·ops-daily 가 실제로 돌았는지를 워크플로마다 따로 판정한다(cron 지연 vs 비활성 vs 실패 vs 잘못된 ref)."""
+    now = now or datetime.datetime.now(KST)
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
+    if not repo or not token:
+        return component(UNKNOWN, "SCHEDULED_NO_TOKEN", "GITHUB_REPOSITORY·토큰이 없어 예약 실행 여부를 확인하지 못했다")
+    try:
+        import check_workflow_health as CW
+    except ImportError:
+        return component(UNKNOWN, "SCHEDULED_CHECK_FAILED", "check_workflow_health 모듈 없음")
+    per = {}
+    for wf, spec in SCHEDULED_WORKFLOWS.items():
+        try:
+            meta = CW._get(f"https://api.github.com/repos/{repo}/actions/workflows/{wf}", token)
+            runs = CW._get(f"https://api.github.com/repos/{repo}/actions/workflows/{wf}/runs?per_page=10", token).get("workflow_runs", [])
+        except Exception as e:                   # noqa: BLE001 — 조회 실패는 '확인 불가'
+            per[wf] = {"status": UNKNOWN, "code": "SCHEDULED_QUERY_FAILED", "detail": f"{wf}: 조회 실패 {type(e).__name__}"}
+            continue
+        st, code, detail, extra = _judge_scheduled(wf, spec, str(meta.get("state", "")), runs, now)
+        per[wf] = {"status": st, "code": code, "detail": detail, **extra}
+    faults = [v["detail"] for v in per.values() if v["status"] == FAULT]
+    unknowns = [v["detail"] for v in per.values() if v["status"] == UNKNOWN]
+    if faults:
+        return component(FAULT, "SCHEDULED_RUNS_FAULT", " / ".join(faults), workflows=per)
+    if unknowns:
+        return component(UNKNOWN, "SCHEDULED_RUNS_UNKNOWN", " / ".join(unknowns), workflows=per)
+    if all(v["status"] == IDLE for v in per.values()):
+        return component(IDLE, "SCHEDULED_RUNS_IDLE", " / ".join(v["detail"] for v in per.values()), workflows=per)
+    return component(OK, "SCHEDULED_RUNS_OK", " / ".join(v["detail"] for v in per.values()), workflows=per)
+
+
 def probe_pages(local_prices, now, url="https://gaeoteam.com/data.js", timeout=15):
     """사이트(GitHub Pages)가 실제로 최신 시세를 내보내는지. 실패는 '확인 불가'다."""
     try:
@@ -426,6 +535,7 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
         comps["prereg"] = check_prereg_recording(root, now)
     if github:
         comps["workflows"] = check_workflows_github()
+        comps["scheduled"] = check_scheduled_runs(now)
     if pages:
         comps["pages"] = probe_pages(comps["prices"], now)
     counts = {k: 0 for k in LABELS}
@@ -461,7 +571,7 @@ def _git_sha(root):
 
 NAMES = {"prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
          "paper": "모의투자(PAPER)", "evolution": "Evolution", "schedule": "예정 시험", "prereg": "사전등록 기록",
-         "workflows": "워크플로 유효성", "pages": "사이트 전달"}
+         "workflows": "워크플로 유효성", "scheduled": "예약 실행 실측(워치독·일일 점검)", "pages": "사이트 전달"}
 
 
 def summarize(report):
@@ -497,6 +607,7 @@ REPAIR_HINTS = {
     "SCHEDULE_OVERDUE": ["ops-daily(validation schedule) 워크플로 최근 run", "docs/audits/validation_runs/ledger.jsonl", "config/validation_schedule.json 의 dueAt·steps"],
     "PREREG_FEATURE_UNRECORDED": ["archive_analysis.py 의 chief.overheat 기록 경로", "buy_warning.py OVERHEAT_VERSION 일치 여부"],
     "WORKFLOWS_BROKEN": ["python3 check_workflow_health.py (토큰 필요)", "python3 -m unittest test_workflow_size"],
+    "SCHEDULED_RUNS_FAULT": ["GitHub Actions 탭에서 해당 워크플로의 state(비활성이면 Enable) · 마지막 run 로그", "cron 지연이면 기다리되 산출물(시세·자동분석·원장)이 따로 정상인지 확인", "잘못된 ref 면 워크플로 파일의 branches·on 블록"],
     "PAGES_LAG": ["pages-build-deployment 워크플로 최근 run", "GitHub Pages 설정(main 브랜치 루트)"],
     "COVERAGE_COLLAPSED": ["analyze_auto.py 실행 로그(update-analysis run)", "collect_analyst_data.py 원천 응답"],
 }
