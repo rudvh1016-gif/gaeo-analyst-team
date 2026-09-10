@@ -1,12 +1,39 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 10:42",
- "priceLabel": "2026-09-10 10:40 장중 · ⚠️ 1종목 지연",
+ "generatedAt": "2026-09-10 11:12",
+ "priceLabel": "2026-09-10 11:03 장중 · ⚠️ 1종목 지연",
  "count": 242,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T02:11:22.938772+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000087"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T02:11:22.938772+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000100"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T02:11:22.938772+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000101"
+  },
   {
    "code": "310210",
    "name": "보로노이",
@@ -564,15 +591,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T06:50:20.057943+00:00",
    "isCorrection": false,
    "rceptNo": "20260909000291"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:50:20.057943+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000312"
   },
   {
    "code": "030610",
@@ -1473,24 +1491,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T06:33:30.597855+00:00",
    "isCorrection": true,
    "rceptNo": "20260907000181"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T06:33:30.597855+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000163"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T06:33:30.597855+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000165"
   },
   {
    "code": "005940",
