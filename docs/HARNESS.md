@@ -45,7 +45,7 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 |---|---|---|---|
 | 좀비 run 취소·재기동 | 산출물 임계 초과 + run 유예 경과(시세 25분·자동분석 60분) | 워치독 run 1회당 1회, 장중 15분 간격 | `pipeline_watchdog.py --apply` |
 | 수집기 자진 사퇴 | 연속 저장(push) 실패 3회(시세)·2회(분석) | 사이클마다 판정 | `.github/workflows/update-prices.yml`·`.github/workflows/update-analysis.yml` + `.github/scripts/gaeo-chain.sh` |
-| 러너 재기준(이력 재작성) | 공통 조상 없음 + 안 올린 Paper 기록 없음 | 사이클당 1회, 옛 HEAD 백업 | `scripts/paper_cycle.{sh,ps1}` |
+| 러너 재기준(이력 재작성) | 공통 조상 없음 + 로컬 장부가 원격에 전부 포함됨을 **내용으로** 증명(`paper_ledger_inclusion.py check` = COVERED) + 재기준 전 백업 검증 통과 | 사이클당 1회, 백업 폴더 + 옛 HEAD ref | `scripts/paper_cycle.{sh,ps1}` · 복구 도구 `scripts/paper_recover.{sh,ps1}` |
 | Paper push 재시도 | push 거부 | 4회, 충돌이면 abort·보존 | 같은 스크립트 |
 | 알림 이슈 재사용·자동 닫기 | 제목/서명 동일 | 하루 1회(paper)·주 1회(evolution) | `.github/workflows/paper-health-alert.yml`·`.github/workflows/evolution-lab.yml` |
 | 예정 시험 실행·기록 | `dueAt` 도래 + 오늘 기록 없음 + allowlist 명령 + 계약 테스트 통과 | 일정당 하루 1회 · 실행 실패 3회면 ESCALATED · 표본 부족 재확인 상한(기본 3)이면 RECHECK_LIMIT → 사람 | `.github/workflows/ops-daily.yml`(평일 17:05 KST) → `run_validation_schedule.py --apply` |

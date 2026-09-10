@@ -13,8 +13,13 @@
       성공(exit 0)으로 끝나는 경로는 존재하면 안 된다.
     · 자동 충돌 해결 금지 · force push 금지 · reset --hard 금지.
     · 상태가 예상과 다르면 "최신화보다 데이터 보존" — 엔진을 돌리지 않고 멈춘다.
+    · 원격 이력이 재작성돼 공통 조상이 없어도, 로컬 장부가 원격에 전부 들어 있음을 **내용으로**
+      증명(paper_ledger_inclusion.py)하고 백업(복사·bundle·manifest)까지 검증한 뒤에만 재기준한다.
+      시각(lastCycleAt) 비교로 판단하지 않는다(2026-09-10 구간 A).
 
   Secret 없음 / 개인 경로 하드코딩 없음 — 공개 저장소에 있어도 안전한 스크립트.
+  ⚠️ 이 파일의 실제 Windows 실행 검증은 2026-09-10 원격 세션에서는 하지 못했다(PowerShell 없음).
+     test_paper_runner_sync.py 가 같은 경로·문구·순서를 정적으로 대조하고, sh 판은 실제로 실행해 검증한다.
 #>
 
 [CmdletBinding()]
@@ -30,7 +35,10 @@ param(
     [string]$Branch = 'main',
 
     # 로그 보존 일수
-    [int]$LogRetentionDays = 30
+    [int]$LogRetentionDays = 30,
+
+    # 재기준(원격 이력 재작성) 전 백업 폴더 — 클라우드 동기화가 안 되는 로컬 경로여야 한다
+    [string]$BackupDir = (Join-Path $env:LOCALAPPDATA 'GAEO\backups')
 )
 
 # 네이티브 명령의 stderr가 예외로 승격되지 않게 한다(PS 5.1 NativeCommandError 회피)
@@ -113,6 +121,16 @@ function Invoke-Git {
     return [pscustomobject]@{ Code = $code; Output = $text.TrimEnd() }
 }
 
+# stdout 만 필요한 git 명령(예: show 로 파일 내용을 꺼낼 때). stderr 경고가 파일 내용에 섞이면 안 된다.
+function Invoke-GitStdout {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArgs)
+    $raw = & git @GitArgs 2>$null
+    $code = $LASTEXITCODE
+    $text = ''
+    if ($null -ne $raw) { $text = (($raw | ForEach-Object { $_.ToString() }) -join "`n") }
+    return [pscustomobject]@{ Code = $code; Output = $text.TrimEnd() }
+}
+
 function Test-GitOk {
     param($Result, [string]$What)
     if ($Result.Code -ne 0) {
@@ -123,37 +141,131 @@ function Test-GitOk {
 }
 
 $script:ExitCode = 0
+function Release-CycleMutex {
+    if ($script:CycleMutex) { try { $script:CycleMutex.ReleaseMutex() } catch { } ; try { $script:CycleMutex.Dispose() } catch { } ; $script:CycleMutex = $null }
+}
 function Stop-Cycle {
     param([string]$Reason, [int]$Code, [string]$Level = 'ERROR')
     Write-Log $Reason $Level
     Write-Log "최종 exit code: $Code"
+    Release-CycleMutex   # ISE·dot-source 로 시험할 때 호스트가 뮤텍스를 계속 쥐지 않게
     exit $Code
 }
 
-# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 판정한다(2026-09-10).
-#   ① paper_trading 트리 해시가 같으면 확실히 포함.
-#   ② 다르면 state.json 의 lastCycleAt 을 비교해 원격이 같거나 더 새로우면 포함으로 본다.
-#   ③ 그 밖(파일 없음·해석 실패)은 전부 "모름" = 포함 아님(fail closed → 사이클은 exit 6).
-#   JSON 파싱 대신 정규식을 쓴다 — cp949 콘솔에서 한글이 깨져도 ASCII 시각 값은 안전하다.
+# ─────────────────────────────────────────────────────────────────────────────
+# 겹쳐 돌기 방지 — 사이클과 복구 도구(paper_recover.ps1)가 같은 이름의 뮤텍스를 쓴다.
+#   프로세스가 죽으면 OS 가 뮤텍스를 풀어 주므로 오래된 잠금이 남지 않는다.
+# ─────────────────────────────────────────────────────────────────────────────
+$script:CycleMutex = $null
+function Lock-Cycle {
+    try {
+        try { $script:CycleMutex = New-Object System.Threading.Mutex($false, 'Global\GAEO-Paper-Cycle') }
+        catch [System.UnauthorizedAccessException] { $script:CycleMutex = New-Object System.Threading.Mutex($false, 'Local\GAEO-Paper-Cycle') }
+        $got = $false
+        try { $got = $script:CycleMutex.WaitOne(0) }
+        catch [System.Threading.AbandonedMutexException] { $got = $true }
+        if (-not $got) {
+            Stop-Cycle '다른 사이클(또는 복구 도구)이 실행 중이다(뮤텍스 Global\GAEO-Paper-Cycle) — 겹쳐 돌지 않는다' 3
+        }
+    }
+    catch {
+        Stop-Cycle "잠금을 만들 수 없다: $($_.Exception.Message)" 3
+    }
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 파이썬 — 엔진(3단계)뿐 아니라 2단계(원격 이력 재작성 판정)에도 필요하므로 동기화 전에 찾는다.
+#   py 런처 우선, 없으면 python. 못 찾으면 exit 7 (아무것도 바꾸지 않은 상태에서 멈춘다).
+# ─────────────────────────────────────────────────────────────────────────────
+$script:PyExe = $null; $script:PyPre = @()
+function Resolve-Python {
+    if (Get-Command 'py' -ErrorAction SilentlyContinue) { $script:PyExe = 'py'; $script:PyPre = @('-3'); return $true }
+    if (Get-Command 'python' -ErrorAction SilentlyContinue) { $script:PyExe = 'python'; $script:PyPre = @(); return $true }
+    return $false
+}
+
+function Invoke-Python {   # Invoke-Python 파일 인자… -> @{ Code; Output }
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$PyArgs)
+    $callArgs = @()
+    if ($script:PyPre.Count -gt 0) { $callArgs += $script:PyPre }
+    $callArgs += $PyArgs
+    $raw = & $script:PyExe @callArgs 2>&1
+    $code = $LASTEXITCODE
+    $text = ''
+    if ($null -ne $raw) { $text = (($raw | ForEach-Object { $_.ToString() }) -join "`n") }
+    return [pscustomobject]@{ Code = $code; Output = $text.TrimEnd() }
+}
+
+# 장부 포함성 모듈(paper_ledger_inclusion.py)을 찾는다. 옛 HEAD 작업트리(2026-09-10 이전 clone)에는 없으므로
+# 그때는 origin/$Branch 에서 꺼내 임시 파일로 쓴다(러너는 어차피 동기화 뒤 저장소의 파이썬을 실행한다 — 같은 신뢰 수준).
+$script:InclusionModule = $null
+$script:InclusionModuleTmp = $null
+function Resolve-InclusionModule {
+    $inTree = Join-Path $RepoPath 'paper_ledger_inclusion.py'
+    if (Test-Path $inTree) { $script:InclusionModule = $inTree; return $true }
+    $show = Invoke-GitStdout show "origin/${Branch}:paper_ledger_inclusion.py"
+    if ($show.Code -ne 0 -or [string]::IsNullOrWhiteSpace($show.Output)) { return $false }
+    $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("gaeo-paper-inclusion-" + [guid]::NewGuid().ToString('N') + ".py")
+    try { [System.IO.File]::WriteAllText($tmp, $show.Output, (New-Object System.Text.UTF8Encoding($false))) } catch { return $false }
+    $script:InclusionModuleTmp = $tmp
+    $script:InclusionModule = $tmp
+    return $true
+}
+function Remove-InclusionModuleTmp {
+    if ($script:InclusionModuleTmp -and (Test-Path $script:InclusionModuleTmp)) {
+        Remove-Item -Force -ErrorAction SilentlyContinue $script:InclusionModuleTmp
+    }
+}
+
+# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 **내용으로** 판정한다(2026-09-10 구간 A).
+#   paper_ledger_inclusion.py check 가 이벤트 원장 줄(거래 ID·수량·가격·현금)·state 보유 투영·다른 계좌 폴더까지
+#   대조한다. 종료코드 0(COVERED)일 때만 포함. 1(NOT_COVERED)·2(UNDETERMINED = 빈 파일·해석 불가·모듈 없음)는
+#   전부 "증명 못 함" = 포함 아님(fail closed → 사이클은 exit 6). 시각(lastCycleAt) 비교 fallback 은 없다 —
+#   시각이 같거나 새롭다는 것은 거래·수량·현금·보유가 들어 있다는 증거가 아니다.
+$script:InclusionVerdict = 'UNDETERMINED'
+$script:InclusionReport = ''
 function Test-LocalLedgerCoveredByRemote {
-    $lt = Invoke-Git rev-parse "HEAD:$WHITELIST_DIR"
-    $rt = Invoke-Git rev-parse "origin/${Branch}:$WHITELIST_DIR"
-    if ($lt.Code -ne 0 -or $rt.Code -ne 0) { return $false }
-    if ($lt.Output -eq $rt.Output) { return $true }
-    $ls = Invoke-Git show "HEAD:$WHITELIST_DIR/state.json"
-    $rs = Invoke-Git show "origin/${Branch}:$WHITELIST_DIR/state.json"
-    if ($ls.Code -ne 0 -or $rs.Code -ne 0) { return $false }
-    $rx = '"lastCycleAt":\s*"([^"]*)"'
-    $lm = [regex]::Match($ls.Output, $rx); $rm = [regex]::Match($rs.Output, $rx)
-    if (-not $lm.Success -or -not $rm.Success) { return $false }
-    $la = $lm.Groups[1].Value; $ra = $rm.Groups[1].Value
-    if ([string]::IsNullOrWhiteSpace($la) -or [string]::IsNullOrWhiteSpace($ra)) { return $false }
-    return ([string]::CompareOrdinal($ra, $la) -ge 0)
+    if (-not (Resolve-InclusionModule)) {
+        $script:InclusionReport = "포함성 모듈(paper_ledger_inclusion.py)을 작업트리·origin/$Branch 어디서도 찾지 못했다"
+        $script:InclusionVerdict = 'UNDETERMINED'
+        return $false
+    }
+    $r = Invoke-Python $script:InclusionModule 'check' '--repo' $RepoPath '--local' 'HEAD' '--remote' "origin/$Branch"
+    $script:InclusionReport = $r.Output
+    $code = $r.Code
+    # 판정 헤더가 없는 출력은 모듈 자체의 오류(traceback 등)다 — exit 1 이라도 NOT_COVERED 로 표기하지 않는다.
+    if ($code -ne 0 -and -not ($r.Output -like '*[장부 포함성]*')) { $code = 2 }
+    switch ($code) {
+        0 { $script:InclusionVerdict = 'COVERED' }
+        1 { $script:InclusionVerdict = 'NOT_COVERED' }
+        default { $script:InclusionVerdict = 'UNDETERMINED' }
+    }
+    return ($code -eq 0)
+}
+
+# 재기준 전 백업 — 작업트리 paper_trading 복사(바이트 대조) + 옛 HEAD bundle(verify) + sha256 manifest.
+#   실패하면 재기준하지 않는다. 옛 커밋이 원격에 이미 다 있으면 bundle 은 만들지 않고 manifest 에 그렇게 적는다.
+$script:BackupTarget = ''
+function Backup-BeforeRepoint {
+    $label = 'prerepoint-' + (Get-KstNow).ToString('yyyyMMddTHHmmss')
+    $r = Invoke-Python $script:InclusionModule 'backup' '--repo' $RepoPath '--dest' $BackupDir '--label' $label '--not-ref' "origin/$Branch" '--json'
+    if ($r.Code -ne 0) {
+        Write-Log "백업 출력: $($r.Output)" 'ERROR'
+        return $false
+    }
+    $m = [regex]::Match($r.Output, '"dir":\s*"([^"]*)"')
+    if ($m.Success) { $script:BackupTarget = $m.Groups[1].Value.Replace('\\', '\') }
+    return $true
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 0. 준비 · 안전 가드
 # ─────────────────────────────────────────────────────────────────────────────
+# 파이썬 출력·캡처를 UTF-8 로 고정한다 — 2단계(포함성 판정·모듈 추출)도 3단계처럼 한글을 다루기 때문에 잠금보다 먼저 둔다.
+$env:PYTHONUTF8 = '1'
+$env:PYTHONIOENCODING = 'utf-8'
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
+
 Initialize-Log
 Write-Log '===== GAEO Paper Trading 사이클 시작 ====='
 
@@ -174,6 +286,12 @@ $inside = Invoke-Git rev-parse --is-inside-work-tree
 if ($inside.Code -ne 0 -or $inside.Output -ne 'true') {
     Stop-Cycle "git 저장소가 아니다: $RepoPath" 2
 }
+
+# 🔒 겹쳐 돌기 방지 — 다른 사이클·복구 도구가 돌고 있으면 아무것도 하지 않는다.
+Lock-Cycle
+
+# 파이썬은 엔진(3단계)뿐 아니라 2단계 판정에도 필요하다. 없으면 여기서 멈춘다(아무것도 바꾸지 않은 상태).
+if (-not (Resolve-Python)) { Stop-Cycle 'Python 실행기를 찾을 수 없다(py·python 모두 없음)' 7 }
 
 # 분리된 HEAD·다른 브랜치에서는 절대 자동 실행하지 않는다.
 $cur = Invoke-Git symbolic-ref --short -q HEAD
@@ -264,24 +382,47 @@ elseif ($localSha -eq $baseSha) {
 elseif ($remoteSha -eq $baseSha) {
     Write-Log 'remote sync: 로컬에 아직 push되지 않은 Paper 커밋이 있다(뒤에서 push 시도)'
 }
+elseif ($mbRes.Code -ne 0 -and $mbRes.Code -ne 1) {
+    # merge-base 가 1 이 아닌 오류(128 등)로 끝났다 = "공통 조상 없음"이 아니라 조회 실패. 모른다를 고장으로도
+    # 괜찮다로도 바꾸지 않는다 — 아무것도 옮기지 않고 멈춘다.
+    Stop-Cycle "merge-base 조회 실패(exit $($mbRes.Code)) — 재작성인지 알 수 없어 재기준하지 않는다: $baseSha" 6
+}
 elseif ($mbRes.Code -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
     # 🧭 공통 조상 없음 = 원격 이력이 재작성됐다(예: compact-history 의 filter-branch + force push,
     #    2026-09-02 08:25 KST 실측). 이 상태에서 rebase 는 저장소 첫 커밋부터 전부 다시 적용하려다
     #    반드시 충돌하고, 사이클은 매번 exit 6 으로 끝나며 엔진은 한 번도 돌지 않는다
     #    (2026-09-02 부터 집 PC 러너가 8거래일 침묵한 경위 — docs/operations/STATUS.md).
-    #    로컬에 아직 안 올린 Paper 기록이 없을 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
-    #    옛 HEAD 는 refs/gaeo-backup/ 에 남긴다(삭제가 아니라 보존). 작업트리는 1단계에서 깨끗함을 확인했다.
+    #    로컬 장부가 원격에 **내용으로** 전부 들어 있음이 증명될 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
+    #    순서: ① 얕은 복제 아님 확인 → ② 포함성 판정(paper_ledger_inclusion.py) → ③ 백업(복사·bundle·manifest 검증)
+    #          → ④ 옛 HEAD 를 refs/gaeo-backup/ 에 보존 → ⑤ 브랜치 포인터만 옮김. 어느 단계든 실패하면 재기준하지 않는다.
     #    "reset --hard 금지" 원칙과 충돌하지 않는다 — 깨끗한 트리에서 브랜치 포인터만 옮기고 옛 포인터를 보존한다.
+    $shallow = Invoke-Git rev-parse --is-shallow-repository
+    if ($shallow.Code -ne 0 -or $shallow.Output -eq 'true') {
+        Stop-Cycle "얕은 복제(shallow clone)이거나 판정 불가($($shallow.Output))라 공통 조상 없음을 재작성으로 단정할 수 없다 — 재기준하지 않는다. 수동: git fetch --unshallow origin 뒤 다시 실행" 6
+    }
+    $originUrl = (Invoke-Git remote get-url origin).Output
+    Write-Log "remote sync: 공통 조상 없음 — origin=$originUrl 로컬=$localSha 원격=$remoteSha" 'WARN'
     if (Test-LocalLedgerCoveredByRemote) {
+        Write-Log "장부 포함성 판정: $($script:InclusionVerdict)"
+        foreach ($l in ($script:InclusionReport -split "`n")) { if (-not [string]::IsNullOrWhiteSpace($l)) { Write-Log "  $l" } }
+        if (-not (Backup-BeforeRepoint)) {
+            Remove-InclusionModuleTmp
+            Stop-Cycle "재기준 전 백업 실패(백업 폴더: $BackupDir) — 재기준하지 않고 중단한다. 수동 확인: powershell -ExecutionPolicy Bypass -File scripts\paper_recover.ps1 -RepoPath `"$RepoPath`" -Mode check" 6
+        }
+        Write-Log "재기준 전 백업 완료(복사·bundle·manifest 검증 통과): $($script:BackupTarget)"
         $backupRef = "refs/gaeo-backup/head-$((Get-KstNow).ToString('yyyyMMddTHHmmss'))"
         $b = Invoke-Git update-ref $backupRef HEAD
-        if (-not (Test-GitOk $b 'git update-ref(옛 HEAD 백업)')) { Stop-Cycle '옛 HEAD 백업 실패 — 재기준하지 않고 중단' 6 }
+        if (-not (Test-GitOk $b 'git update-ref(옛 HEAD 백업)')) { Remove-InclusionModuleTmp; Stop-Cycle '옛 HEAD 백업 실패 — 재기준하지 않고 중단' 6 }
         $co = Invoke-Git checkout -B $Branch "origin/$Branch"
-        if (-not (Test-GitOk $co 'git checkout -B(재기준)')) { Stop-Cycle "원격 이력 재작성 뒤 재기준 실패 — $($co.Output)" 6 }
-        Write-Log "remote sync: 원격 이력 재작성 감지(공통 조상 없음) — 로컬에 안 올린 Paper 기록이 없어 origin/$Branch 로 재기준했다 → $((Invoke-Git rev-parse HEAD).Output) (옛 HEAD 보존: $backupRef)" 'WARN'
+        if (-not (Test-GitOk $co 'git checkout -B(재기준)')) { Remove-InclusionModuleTmp; Stop-Cycle "원격 이력 재작성 뒤 재기준 실패 — $($co.Output) (옛 HEAD: $backupRef, 백업: $($script:BackupTarget))" 6 }
+        Remove-InclusionModuleTmp
+        Write-Log "remote sync: 원격 이력 재작성 감지(공통 조상 없음) — 로컬 장부가 원격에 전부 포함됨을 내용으로 확인해 origin/$Branch 로 재기준했다 → $((Invoke-Git rev-parse HEAD).Output) (옛 HEAD 보존: $backupRef, 백업: $($script:BackupTarget))" 'WARN'
     }
     else {
-        Stop-Cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬에 아직 올리지 못한 Paper 기록이 있다 — 자동으로 버리지 않는다. 수동 확인 필요: paper_trading\ 를 따로 보관한 뒤 git checkout -B $Branch origin/$Branch (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
+        Write-Log "장부 포함성 판정: $($script:InclusionVerdict)" 'ERROR'
+        foreach ($l in ($script:InclusionReport -split "`n")) { if (-not [string]::IsNullOrWhiteSpace($l)) { Write-Log "  $l" 'ERROR' } }
+        Remove-InclusionModuleTmp
+        Stop-Cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬 장부가 원격에 전부 들어 있음을 증명하지 못했다(판정 $($script:InclusionVerdict)) — 자동으로 버리지 않는다. 수동 확인 필요: powershell -ExecutionPolicy Bypass -File scripts\paper_recover.ps1 -RepoPath `"$RepoPath`" -Mode check (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
     }
 }
 else {
@@ -318,14 +459,8 @@ $env:PYTHONIOENCODING = 'utf-8'
 # 캡처 인코딩도 UTF-8로 맞춘다.
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
 
-# 파이썬 실행기 결정 — py 런처 우선, 없으면 python
-$pyExe = 'py'; $pyPre = @('-3')
-if (-not (Get-Command 'py' -ErrorAction SilentlyContinue)) {
-    $pyExe = 'python'; $pyPre = @()
-    if (-not (Get-Command 'python' -ErrorAction SilentlyContinue)) {
-        Stop-Cycle 'Python 실행기를 찾을 수 없다(py·python 모두 없음)' 7
-    }
-}
+# 파이썬 실행기는 0단계(Resolve-Python)에서 이미 정했다: $script:PyExe / $script:PyPre
+$pyExe = $script:PyExe; $pyPre = $script:PyPre
 
 function Invoke-PaperScript {
     param([string]$Script, [switch]$ContinueOnError)
@@ -425,6 +560,7 @@ if ($staged.Count -eq 0) {
             Write-Log 'commit 생성 여부: 없음 (Paper 결과 변경 없음) — push 없이 정상 종료'
             Write-Log '최종 exit code: 0'
             Write-Log '===== 사이클 종료 ====='
+            Release-CycleMutex
             exit 0
         }
         Write-Log "commit 생성 여부: 없음, 다만 push 안 된 커밋 ${ahead}건이 있어 push를 진행한다" 'WARN'
@@ -469,4 +605,5 @@ if (-not $pushed) {
 Write-Log "push 결과: 성공 ($Branch) → $((Invoke-Git rev-parse HEAD).Output)"
 Write-Log '최종 exit code: 0'
 Write-Log '===== 사이클 종료 ====='
+Release-CycleMutex
 exit 0
