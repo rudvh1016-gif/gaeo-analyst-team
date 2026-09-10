@@ -18,7 +18,7 @@
 | 구간 | 상태 | 이미 있던 것 | 이번 실제 변경 | 검사 | 커밋/PR | 남은 위험·다음 행동 |
 |---|---|---|---|---|---|---|
 | 0 최신 사실·일정 보존 | 완료 | 예약시험 4건은 Claude Routine에만 있었음. `docs/CURRENT_STATUS.md`에 문장으로만 기록 | `docs/operations/MASTER_PLAN.md`·`STATUS.md`, `config/validation_schedule.json`(원본) + `docs/VALIDATION_SCHEDULE.md`(생성) + `render_validation_schedule.py` + `test_validation_schedule.py` | `test_validation_schedule.py` 7건 PASS | 이 브랜치 | 일정 실행기(구간 5) 전까지는 Claude Routine이 유일한 실행 경로다 |
-| 1 PAPER 복구 | 진행 | Single Writer·doctor·health-alert·Oracle 자료 전부 있음 | (아래 "확정된 사실"·"유력 원인" 참고) | - | - | 집 PC 접근 없이는 실제 재가동 불가. 원격에서 할 수 있는 것: 러너 스크립트의 이력 재작성 내성, 집 PC 체크리스트 |
+| 1 PAPER 복구 | 부분 완료(원격 몫 완료 · 집 PC 적용 대기) | Single Writer·doctor·health-alert·Oracle 자료 전부 있음 | `scripts/paper_cycle.sh`·`.ps1`: 공통 조상 없음(원격 이력 재작성) 분기 추가 — 안 올린 기록 없으면 옛 HEAD를 `refs/gaeo-backup/`에 남기고 `checkout -B main origin/main`, 있으면 exit 6 유지. `docs/operations/HOME_PC_CHECKLIST.md`(집에서 할 일 7단계), `docs/PAPER_TRADING_LOCAL_RUNNER.md` §9 | `test_paper_runner_sync.py` 6건(sh 실제 실행 A/B/B2/C/C2 + ps1 정적 대조) PASS · `test_paper_safety_boundary`·`test_paper_single_writer`·`test_secret_hygiene`·`test_ci_parity` PASS | 이 브랜치 | 러너 clone은 동기화가 막혀 고친 코드를 못 받는다 → 집에서 한 번 `checkout -B main origin/main` 필요(체크리스트 3절). Oracle 전환 보류(조건 미충족). 끊긴 기간 장부: 보유 10건 지연 청산(MAX_HOLDING_5D)·dataGaps 자동 기록이 설계된 정상 동작, 소급 체결 0 |
 | 2 통합 건강검진 | 미착수 | check_pipeline·pipeline_watchdog·check_workflow_health·paper_health_check·evolution status | | | | |
 | 3 하네스 | 미착수 | GAEO_HARNESS.md(Evolution용)·AGENTS.md·CLAUDE.md·스킬 8개 | | | | |
 | 4 오케스트레이션 | 미착수 | 스킬 공통 규칙("항상 3명 review"·"health 기본 4명") | | | | |
@@ -69,6 +69,6 @@
 
 ## 다음 행동 (정확히)
 
-1. 구간 1: `scripts/paper_cycle.ps1`·`.sh`에 "공통 조상 없음 + 로컬에 안 올린 Paper 커밋 없음"일 때만 `origin/main`으로 재기준하는 안전 경로 추가 + 계약 테스트. 집 PC 체크리스트를 `docs/operations/HOME_PC_CHECKLIST.md`로.
+1. ~~구간 1 원격 몫~~ 완료. 집 PC 몫은 `HOME_PC_CHECKLIST.md`.
 2. 구간 2: `ops_status.py`(LLM 0) + 격리 검사 + 주간 Evolution 이슈 단일화.
 3. 이후 구간 순서대로. 각 구간 끝에 이 표를 갱신하고 commit·push.

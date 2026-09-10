@@ -130,6 +130,27 @@ function Stop-Cycle {
     exit $Code
 }
 
+# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 판정한다(2026-09-10).
+#   ① paper_trading 트리 해시가 같으면 확실히 포함.
+#   ② 다르면 state.json 의 lastCycleAt 을 비교해 원격이 같거나 더 새로우면 포함으로 본다.
+#   ③ 그 밖(파일 없음·해석 실패)은 전부 "모름" = 포함 아님(fail closed → 사이클은 exit 6).
+#   JSON 파싱 대신 정규식을 쓴다 — cp949 콘솔에서 한글이 깨져도 ASCII 시각 값은 안전하다.
+function Test-LocalLedgerCoveredByRemote {
+    $lt = Invoke-Git rev-parse "HEAD:$WHITELIST_DIR"
+    $rt = Invoke-Git rev-parse "origin/${Branch}:$WHITELIST_DIR"
+    if ($lt.Code -ne 0 -or $rt.Code -ne 0) { return $false }
+    if ($lt.Output -eq $rt.Output) { return $true }
+    $ls = Invoke-Git show "HEAD:$WHITELIST_DIR/state.json"
+    $rs = Invoke-Git show "origin/${Branch}:$WHITELIST_DIR/state.json"
+    if ($ls.Code -ne 0 -or $rs.Code -ne 0) { return $false }
+    $rx = '"lastCycleAt":\s*"([^"]*)"'
+    $lm = [regex]::Match($ls.Output, $rx); $rm = [regex]::Match($rs.Output, $rx)
+    if (-not $lm.Success -or -not $rm.Success) { return $false }
+    $la = $lm.Groups[1].Value; $ra = $rm.Groups[1].Value
+    if ([string]::IsNullOrWhiteSpace($la) -or [string]::IsNullOrWhiteSpace($ra)) { return $false }
+    return ([string]::CompareOrdinal($ra, $la) -ge 0)
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 0. 준비 · 안전 가드
 # ─────────────────────────────────────────────────────────────────────────────
@@ -226,7 +247,8 @@ if ($fetch.Code -ne 0) {
 
 $localSha  = (Invoke-Git rev-parse HEAD).Output
 $remoteSha = (Invoke-Git rev-parse "origin/$Branch").Output
-$baseSha   = (Invoke-Git merge-base HEAD "origin/$Branch").Output
+$mbRes     = Invoke-Git merge-base HEAD "origin/$Branch"
+$baseSha   = $mbRes.Output
 
 if ($localSha -eq $remoteSha) {
     Write-Log 'remote sync: 이미 최신(동일 커밋)'
@@ -241,6 +263,26 @@ elseif ($localSha -eq $baseSha) {
 }
 elseif ($remoteSha -eq $baseSha) {
     Write-Log 'remote sync: 로컬에 아직 push되지 않은 Paper 커밋이 있다(뒤에서 push 시도)'
+}
+elseif ($mbRes.Code -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
+    # 🧭 공통 조상 없음 = 원격 이력이 재작성됐다(예: compact-history 의 filter-branch + force push,
+    #    2026-09-02 08:25 KST 실측). 이 상태에서 rebase 는 저장소 첫 커밋부터 전부 다시 적용하려다
+    #    반드시 충돌하고, 사이클은 매번 exit 6 으로 끝나며 엔진은 한 번도 돌지 않는다
+    #    (2026-09-02 부터 집 PC 러너가 8거래일 침묵한 경위 — docs/operations/STATUS.md).
+    #    로컬에 아직 안 올린 Paper 기록이 없을 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
+    #    옛 HEAD 는 refs/gaeo-backup/ 에 남긴다(삭제가 아니라 보존). 작업트리는 1단계에서 깨끗함을 확인했다.
+    #    "reset --hard 금지" 원칙과 충돌하지 않는다 — 깨끗한 트리에서 브랜치 포인터만 옮기고 옛 포인터를 보존한다.
+    if (Test-LocalLedgerCoveredByRemote) {
+        $backupRef = "refs/gaeo-backup/head-$((Get-KstNow).ToString('yyyyMMddTHHmmss'))"
+        $b = Invoke-Git update-ref $backupRef HEAD
+        if (-not (Test-GitOk $b 'git update-ref(옛 HEAD 백업)')) { Stop-Cycle '옛 HEAD 백업 실패 — 재기준하지 않고 중단' 6 }
+        $co = Invoke-Git checkout -B $Branch "origin/$Branch"
+        if (-not (Test-GitOk $co 'git checkout -B(재기준)')) { Stop-Cycle "원격 이력 재작성 뒤 재기준 실패 — $($co.Output)" 6 }
+        Write-Log "remote sync: 원격 이력 재작성 감지(공통 조상 없음) — 로컬에 안 올린 Paper 기록이 없어 origin/$Branch 로 재기준했다 → $((Invoke-Git rev-parse HEAD).Output) (옛 HEAD 보존: $backupRef)" 'WARN'
+    }
+    else {
+        Stop-Cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬에 아직 올리지 못한 Paper 기록이 있다 — 자동으로 버리지 않는다. 수동 확인 필요: paper_trading\ 를 따로 보관한 뒤 git checkout -B $Branch origin/$Branch (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
+    }
 }
 else {
     # 갈라짐 — Paper 커밋을 최신 main 위로 재적용(자동 충돌 해결 금지)
