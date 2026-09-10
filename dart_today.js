@@ -1,12 +1,39 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 13:42",
- "priceLabel": "2026-09-10 13:41 장중 · ⚠️ 1종목 지연",
- "count": 255,
+ "generatedAt": "2026-09-10 14:12",
+ "priceLabel": "2026-09-10 14:07 장중 · ⚠️ 1종목 지연",
+ "count": 256,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039130",
+   "name": "하나투어",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:11:29.032640+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000184"
+  },
+  {
+   "code": "016360",
+   "name": "삼성증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:11:29.032640+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000193"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T05:11:29.032640+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000191"
+  },
   {
    "code": "039490",
    "name": "키움증권",
@@ -492,15 +519,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T07:20:19.989105+00:00",
    "isCorrection": false,
    "rceptNo": "20260909800404"
-  },
-  {
-   "code": "016360",
-   "name": "삼성증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T07:20:19.989105+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000397"
   },
   {
    "code": "085620",
@@ -1608,15 +1626,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-07T06:33:30.597855+00:00",
    "isCorrection": true,
    "rceptNo": "20260907000181"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260907",
-   "detectedAt": "2026-09-07T06:33:30.597855+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260907000177"
   },
   {
    "code": "033780",
