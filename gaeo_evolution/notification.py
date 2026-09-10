@@ -177,8 +177,16 @@ def decide_level(*, job_failed, status_doc, promotion_cards_doc,
     return LEVEL_GREEN
 
 
+#: 🟢 정상 완료 알림은 날짜 없는 **고정 제목** 하나를 쓴다(2026-09-10). 그 전에는 제목에 날짜가 들어가
+#: 매주 새 이슈가 열리고 아무도 닫지 않아 쌓였다(#436·#464·#509). 같은 상태는 같은 이슈에 댓글로 갱신한다.
+#: 🟠 승인 필요 · 🔴 점검 필요는 드물고 사람이 봐야 하므로 날짜 제목을 유지한다.
+GREEN_TITLE = f"{_EMOJI[LEVEL_GREEN]} [GAEO Evolution] 주간 연구 상태"
+
+
 def build_title(level, today=None):
     today = today or today_kst()
+    if level == LEVEL_GREEN:
+        return GREEN_TITLE
     return f"{_EMOJI[level]} [GAEO Evolution] {_TITLE_LABEL[level]} — {today}"
 
 

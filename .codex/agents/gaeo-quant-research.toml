@@ -1,0 +1,9 @@
+# 생성 파일 — sync_agent_compat.py 가 .claude/agents/gaeo-quant-research.md 에서 만든다. 손으로 고치지 않는다.
+# ⚠️ 형식 미확인: Codex 설치본이 이 파일을 어떤 스키마로 읽는지 이 세션에서 공식 문서로 확인하지 못했다(2026-09-10).
+#    참고용이다. 확인되면 sync_agent_compat.py 의 agent_toml() 을 그 스키마로 고치고 다시 생성한다.
+#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.
+name = "gaeo-quant-research"
+description = "GAEO의 주식 분석 로직(GAEO Score, 재무·수급·기술·밸류·모멘텀 지표, 종합 판단 산식)을 연구·검토하는 애널리스트. 새 지표 추가, 점수 산식 변경, 신호 품질 검토, 백테스트 방향 설계가 필요할 때 사용한다. 실제 성과 검증(적중률 계산 등)은 gaeo-data-analyst와 짝을 이룬다. 이 Agent는 \"무엇을 측정할지·왜 그게 타당한지\"를 설계하고, 실제 과거 데이터로 맞았는지 확인하는 건 gaeo-data-analyst가 한다."
+instructions_file = ".claude/agents/gaeo-quant-research.md"
+tools = ["Read", "Grep", "Glob", "Bash", "WebSearch"]
+read_only = true

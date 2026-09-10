@@ -1,82 +1,126 @@
-# 개오 애널리스트팀 — 저장소 용량 관리(오래된 데이터 스냅샷 이력 자동 정리)
+# 개오 애널리스트팀 — 저장소 이력 압축 (⚠️ 2026-09-10 부터 수동 전용 · 가드 포함)
 #
-# 배경: analysis_data.json·history.js·price_history.js 같은 자동 생성 파일은 장중 10분마다
-# 통째로 다시 커밋된다(update-analysis.yml/update-prices.yml). 화면에는 항상 "지금 이 순간의
-# 최신 버전"만 쓰이고 3주 전 스냅샷을 다시 볼 일은 없는데, git은 기본적으로 모든 버전을
-# 영원히 기억하기 때문에 이 스냅샷들이 계속 쌓여 저장소 용량이 끝없이 불어난다
-# (실측: 저장소 생성 1개월 만에 500MB 이상, 이 페이스면 자산군을 늘릴수록 더 빨리 불어난다).
+# 배경: analysis_data.json·history.js·price_history.js 같은 자동 생성 파일은 장중 10~30분마다 통째로 다시 커밋된다
+# (update-analysis.yml/update-prices.yml). git 은 모든 버전을 기억하므로 저장소가 계속 불어난다(2026-09-10 실측: GitHub 집계 1.88 GiB,
+# 최근 7일 이력 객체 542.7 MB ≈ 2.3 GB/월).
 #
-# 이 워크플로우가 하는 일: 한 달에 한 번, "30일보다 오래된 커밋들"을 하나의 커밋으로
-# 합쳐서 그 이전 스냅샷들의 무게만 덜어낸다. main 브랜치에 지금 보이는 화면·글(뉴스분석·
-# 정밀분석·공부 콘텐츠 등)은 전혀 바뀌지 않는다 — HEAD(가장 최신 상태)의 파일 내용은
-# 정리 전후로 완전히 동일하다(로컬에서 md5sum으로 직접 검증함). 오직 "과거 버전들을
-# 얼마나 세세하게 git이 따로따로 기억하고 있느냐"만 줄어드는 것뿐이다.
+# 기법: git replace --graft(특정 커밋을 부모 없는 시작점으로) + git filter-branch(연결 끊기를 반영) + git gc. HEAD 의 파일 내용은
+# 정리 전후로 같다. ⚠️ 그러나 **뿌리 뒤 모든 커밋의 SHA 가 바뀐다** — 커밋 번호로 가리키던 참조(PR·문서·검증 원장 gitSha·다른 clone 의 HEAD)가
+# 전부 끊긴다.
 #
-# 기법: git replace --graft(특정 커밋을 "부모 없는 시작점"으로 만듦 — diff를 다시 적용하는
-# 게 아니라 트리 내용은 그대로 두고 연결만 끊는 방식이라 병합 커밋이 섞여 있어도 절대
-# 충돌이 안 난다) + git filter-branch(그 연결 끊기를 실제로 반영해 이전 버전 데이터를
-# 커밋 그래프에서 떼어냄) + git gc(떼어낸 데이터를 실제로 디스크에서 비움).
-# ⚠️ main 브랜치만 건드린다(-- main으로 범위 한정) — 다른 브랜치·태그는 손대지 않는다.
+# 2026-09-02 08:25 KST 첫 실행에서 실제로 벌어진 일: 커밋 3,151개 번호가 바뀌었고, 모의투자 러너 clone 이 공통 조상을 잃어 매 사이클
+# exit 6 으로 8거래일 기록이 비었다(docs/PAPER_TRADING_LOCAL_RUNNER.md §9). 다음 예약(2026-10-02 06:30 KST)은 사전등록 검증 창 안이었다.
 #
-# 실행 시각(매달 1일 21:30 UTC = 한국시간 매달 2일 06:30)은 국내 주식시장은 물론
-# 미국 주식시장(정규장 기준 한국시간 약 22:30~05:00, 서머타임 시 21:30~04:00)도 이미
-# 끝난 뒤의 새벽으로 골랐다 — 나중에 미국 주식을 10분 간격으로 자동 수집하는 파이프라인이
-# 추가돼도, update-analysis.yml/update-prices.yml이 국내·미국 정규장 시간에 main에
-# 커밋하는 것과 시간이 겹쳐 충돌할 걱정이 없다.
-
+# 그래서 2026-09-10 에 바꾼 것 (docs/HISTORY_PRESERVATION.md):
+#   - 예약(schedule) 제거 → 사람이 workflow_dispatch 로 confirm 문구를 쳐야만 돈다.
+#   - 재작성 전 사전 점검(check_history_evidence.py --precheck): 얕은 clone·수집 시간대·러너 활동·검증 원장 증거 손실이면 거부.
+#   - 재작성 뒤 옛→새 SHA 지도를 docs/audits/history_rewrites/ 에 커밋한 다음에만 push(지도 검산 실패 시 push 안 함).
+#   - push 는 --force-with-lease 만. main 브랜치만(-- main).
+#   - 끝나면 이슈로 알린다(다른 clone 이 재기준해야 한다).
 name: compact-history
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "30 21 1 * *"
+    inputs:
+      confirm:
+        description: "정말 main 이력을 다시 쓰려면 COMPACT-MAIN-HISTORY 라고 입력 (docs/HISTORY_PRESERVATION.md 를 읽은 뒤)"
+        type: string
+        default: ""
+      keep_days:
+        description: "이 일수보다 오래된 커밋을 하나로 합친다"
+        type: string
+        default: "30"
+      allow_evidence_loss:
+        description: "검증 원장이 가리키는 커밋이 사라져도 진행 (기본 false — 사전 점검이 거부한다)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
+  issues: write
+
+concurrency:
+  group: compact-history
+  cancel-in-progress: false
 
 jobs:
   compact:
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team' && inputs.confirm == 'COMPACT-MAIN-HISTORY'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
+    env:
+      TZ: Asia/Seoul
+      PYTHONUTF8: "1"
+      GH_TOKEN: ${{ github.token }}
+      KEEP_DAYS: ${{ inputs.keep_days }}
+      ALLOW_LOSS: ${{ inputs.allow_evidence_loss }}
+      ISSUE_TITLE: "🧹 [GAEO History] main 이력 압축 기록 — 다른 clone 은 재기준 필요"
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
 
-      - name: 30일보다 오래된 기록을 하나로 합치기
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 계약 테스트 (이력 보존 도구가 깨져 있으면 재작성하지 않는다)
+        run: python3 -m unittest test_history_preservation -q
+
+      - name: 사전 점검 (거부되면 여기서 끝 · 아무것도 바뀌지 않음)
+        run: |
+          extra=""
+          [ "$ALLOW_LOSS" = "true" ] && extra="--allow-evidence-loss"
+          python3 check_history_evidence.py --precheck --cutoff-days "$KEEP_DAYS" $extra --json | tee "$RUNNER_TEMP/precheck.json"
+          python3 -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1]))["ok"] else 1)' "$RUNNER_TEMP/precheck.json"
+
+      - name: 오래된 기록을 하나로 합치고 SHA 지도를 남긴 뒤 push
         env:
           FILTER_BRANCH_SQUELCH_WARNING: "1"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          echo "── 정리 전 저장소 용량 ──"
-          git count-objects -vH
-
-          CUTOFF=$(git log --before="30 days ago" -1 --format=%H main || true)
-          if [ -z "$CUTOFF" ]; then
-            echo "30일보다 오래된 커밋이 없음 — 정리할 게 없어 종료"
-            exit 0
-          fi
-          # 이미 그 지점이 부모 없는 루트면(=지난달에 이미 여기까지 정리했으면) 또 할 필요 없다.
+          echo "── 정리 전 ──"; git count-objects -vH
+          CUTOFF=$(git log --before="${KEEP_DAYS} days ago" -1 --format=%H main || true)
+          if [ -z "$CUTOFF" ]; then echo "${KEEP_DAYS}일보다 오래된 커밋이 없음 — 종료"; exit 0; fi
           PARENTS=$(git rev-list --parents -n1 "$CUTOFF" | cut -s -d' ' -f2-)
-          if [ -z "$PARENTS" ]; then
-            echo "기준 커밋이 이미 정리된 시작점 — 종료"
-            exit 0
-          fi
-
-          echo "기준 커밋: $CUTOFF ($(git log -1 --format=%ai "$CUTOFF"))"
-          echo "이 시점 이전 기록을 하나로 합칩니다(화면에 보이는 내용은 안 바뀜)."
-
+          if [ -z "$PARENTS" ]; then echo "기준 커밋이 이미 정리된 시작점 — 종료"; exit 0; fi
+          OLD_HEAD=$(git rev-parse main)
+          echo "기준 커밋: $CUTOFF ($(git log -1 --format=%ai "$CUTOFF")) · 옛 HEAD $OLD_HEAD"
           git replace --graft "$CUTOFF"
           git filter-branch -f -- main
-
+          git replace -d "$CUTOFF" || true
+          # 옛→새 커밋 지도. tree·author-time 검산에 실패하면 여기서 죽고 push 하지 않는다(원격은 그대로).
+          STAMP=$(date '+%Y%m%d-%H%M%S')
+          MAP="docs/audits/history_rewrites/${STAMP}.json"
+          python3 check_history_evidence.py --sha-map refs/original/refs/heads/main main --out "$MAP" --cutoff-days "$KEEP_DAYS"
+          git add "$MAP"
+          git commit -q -m "history: main 이력 압축 SHA 지도 ${STAMP} (옛 HEAD ${OLD_HEAD:0:10})"
           rm -rf .git/refs/original/
           git reflog expire --expire=now --all
           git gc --prune=now
-
-          echo "── 정리 후 저장소 용량 ──"
-          git count-objects -vH
-
+          echo "── 정리 후 ──"; git count-objects -vH
           git push --force-with-lease origin main
+          NEW_HEAD=$(git rev-parse main)
+          {
+            echo "map=$MAP"; echo "old_head=$OLD_HEAD"; echo "new_head=$NEW_HEAD"; echo "cutoff=$CUTOFF"
+          } >> "$GITHUB_ENV"
+
+      - name: 재기준 안내 이슈 (제목 고정 1개)
+        if: env.new_head != ''
+        run: |
+          {
+            echo "main 이력을 다시 썼습니다 ($(date '+%Y-%m-%d %H:%M') KST, run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})."
+            echo ""
+            echo "- 기준 커밋(새 뿌리): \`${cutoff}\` · 옛 HEAD \`${old_head}\` → 새 HEAD \`${new_head}\`"
+            echo "- 옛→새 SHA 지도: \`${map}\` (\`python3 check_history_evidence.py --translate <옛 SHA>\`)"
+            echo ""
+            echo "## 다른 clone 이 할 일"
+            echo "- 개발용 PC 저장소: 로컬 변경을 먼저 보관(stash/복사) → \`git fetch origin && git checkout -B main origin/main\`"
+            echo "- 모의투자 러너(집 PC): 안 올린 기록이 없으면 다음 사이클에 스스로 재기준한다(옛 HEAD 는 \`refs/gaeo-backup/\`). 있으면 exit 6 — \`docs/operations/HOME_PC_CHECKLIST.md\` 3절"
+            echo "- 문서·원장이 가리키는 옛 SHA 는 지도로 번역한다. 지도에 없는 SHA 는 새 뿌리 이전 커밋이라 사라진 것이다."
+          } > "$RUNNER_TEMP/body.md"
+          NUM=$(gh issue list --state open --limit 100 --json number,title --jq "map(select(.title == \"${ISSUE_TITLE}\")) | .[0].number // empty")
+          if [ -n "$NUM" ]; then gh issue comment "$NUM" --body-file "$RUNNER_TEMP/body.md"
+          else gh issue create --title "$ISSUE_TITLE" --body-file "$RUNNER_TEMP/body.md"; fi

@@ -328,8 +328,24 @@ jobs:
           if [ -n "$EXISTING" ]; then
             echo "이미 같은 Run(${MARKER})의 알림 이슈 #$EXISTING 존재 — 새로 만들지 않음"
           else
-            gh issue create --title "$TITLE" --body-file /tmp/gaeo_notify_body.md --assignee "$OWNER"
-            echo "새 알림 이슈 생성 완료(assignee=$OWNER, 본문에 @$OWNER 멘션 포함)"
+            # 2026-09-10: 🟢 정상 완료는 고정 제목 하나를 재사용한다(매주 새 이슈가 쌓이지 않게).
+            #   열린 같은 제목 이슈가 있으면 댓글로 갱신하고, 없을 때만 새로 만든다.
+            #   옛 날짜 제목(🟢 … 주간 연구 정상 완료 — YYYY-MM-DD)으로 열려 있던 이슈는 한 번 정리해 닫는다.
+            SAME=$(gh issue list --state open --limit 100 --json number,title \
+              --jq "map(select(.title == \"${TITLE}\")) | .[0].number // empty")
+            if [ -n "$SAME" ]; then
+              gh issue comment "$SAME" --body-file /tmp/gaeo_notify_body.md
+              echo "같은 제목의 열린 이슈 #$SAME 에 댓글로 갱신"
+            else
+              gh issue create --title "$TITLE" --body-file /tmp/gaeo_notify_body.md --assignee "$OWNER"
+              echo "새 알림 이슈 생성 완료(assignee=$OWNER, 본문에 @$OWNER 멘션 포함)"
+            fi
+            for OLD in $(gh issue list --state open --limit 100 --json number,title \
+                --jq 'map(select(.title | startswith("🟢 [GAEO Evolution] 주간 연구 정상 완료 — "))) | .[].number'); do
+              gh issue close "$OLD" --reason completed \
+                --comment "주간 정상 완료 알림은 2026-09-10부터 고정 제목 이슈 하나에 댓글로 갱신합니다. 이 날짜 이슈는 정리합니다."
+              echo "옛 날짜 제목 이슈 #$OLD 닫음"
+            done
           fi
 
   # ── GS Reference Check (2026-08-25 · 별도 job으로 격리) ─────────────────────

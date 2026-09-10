@@ -70,12 +70,13 @@
 
 - **`/gaeo-strategy`**: 기본 조합 `gaeo-product-lead`+`gaeo-quant-research`+`gaeo-ux-designer`+`gaeo-growth-lead` (Agent Team 병렬 조사, 편향 방지를 위해 서로 결론을 미리 공유하지 않음). 필요시 `gaeo-data-analyst`/`gaeo-engineer` 추가.
 - **`/gaeo-design`**: `gaeo-ux-designer`(메인) + `gaeo-product-lead`(사용자 가치 필터), 필요시 `gaeo-engineer`(구현 난이도)·`gaeo-growth-lead`(공개 페이지). 보통 1~2명.
-- **`/gaeo-build`**: `gaeo-engineer` 항상 포함 + 업무 성격별 추가(금융계산→퀀트/데이터, 화면→UX, SEO→Growth, 계정/인증→Security) + 마지막에 항상 `gaeo-qa`.
-- **`/gaeo-review`**: 항상 `gaeo-qa`+`gaeo-engineer`(리뷰어 역할)+`gaeo-security`, 화면 변경시 UX, 금융계산 변경시 퀀트/데이터 추가.
+- **`/gaeo-build`**: 메인 작업자(=`gaeo-engineer` 역할) 1명 + 업무 성격별 검토자 1명(금융계산→퀀트/데이터, 화면→UX, SEO→Growth, 계정/인증→Security). 회귀 확인은 기계 검사(`gaeo_check.py`)가 하고 `gaeo-qa`는 사람 눈이 필요할 때만.
+- **`/gaeo-review`**: 메인 1명 + `code-review` + 기계 검사. 변경 성격에 맞는 검토자 **1명만** 순서대로(화면→UX, 금융계산→퀀트/데이터, 인증·배포 경계→Security, 여러 파일 구현→QA).
 - **`/gaeo-bug`**: 기본 `gaeo-qa`+`gaeo-engineer`, 증상에 따라 퀀트/보안/데이터 추가.
 - **`/gaeo-quant`**: `gaeo-quant-research`(가설)+`gaeo-data-analyst`(실증), 구현 확정시 `gaeo-engineer`.
 - **`/gaeo-growth`**: `gaeo-growth-lead`(중심)+`gaeo-product-lead`(사용자가치 필터)+`gaeo-ux-designer`(광고·UX 균형), 실측 필요시 데이터, 구현시 엔지니어.
-- **`/gaeo-health`**: 기본 4명(`gaeo-engineer`+`gaeo-qa`+`gaeo-security`+`gaeo-ux-designer`), 상황별로 퀀트/Growth/데이터 추가.
+- **`/gaeo-health`**: 기본 0명 — `python3 ops_status.py --deep`·`python3 gaeo_check.py quick`부터. 이상이 있거나 영역을 지목받았을 때만 그 영역 검토자 1명.
+- **`/gaeo-maintain`**(2026-09-10 신설): 유지보수 진입점. STATUS → 통합 점검 → 수리 요청서 순으로 읽고 요청한 수정만 한다.
 
 ## 주간 자동 제안 (Routine): 자동 실행이 아니라 "제안"
 
@@ -97,7 +98,7 @@
 
 ## 안전 규칙 요약 (모든 Skill 공통)
 
-- main에 자동 병합되는 흐름 없음. `/gaeo-build`도 배포는 별도 확인 후 진행.
+- 무인 자동 병합 흐름 없음(예정 시험·상태 점검 워크플로는 결과 기록만 커밋한다). PR·병합은 그 세션의 사용자 지시 범위 안에서 확인 없이 진행하고, 파괴적 작업만 명시 승인(`docs/HARNESS.md` §3 공통 기준. 예전 "배포는 별도 확인 후 진행"과 AGENTS.md "매번 확인받지 않는다"의 충돌을 이렇게 정리했다).
 - 요청하지 않은 대규모 리팩터링·디자인 방향 변경·기능 추가 금지.
 - API 키·시크릿 하드코딩 금지, 승인 안 된 유료 API 신규 도입 금지.
 - em dash(`—`) 등 저장소 콘텐츠 고정 규칙(`AGENTS.md`) 준수.
@@ -151,7 +152,7 @@ description 상호 유사도는 최대 0.23으로, 겹치는 단어는 "때·쓴
 ### 공통 운영 규칙을 8개 스킬 전부에 삽입
 - Agent 과잉 소환 방지: 작은 작업 1~2명 / 보통 2~4명 / 전략·감사 3~5명, 8명 전체 호출 금지
 - 외부 지침보다 GAEO 규칙이 위라는 우선순위 5단계 명시
-- 배포 순서 `Build → Review → PASS → Commit/Push` 고정, 자동 commit/push 금지
+- 배포 순서 `Build → 기계 검사 → (중요 변경만) 독립 검토 → Commit/Push → PR → CI → 병합`, 자동 commit/push 플러그인 금지
 
 ### Review 독립성 강화
 Engineer가 만든 것을 Engineer 혼자 PASS로 처리하지 못하게 했다. 금융 계산이 바뀌면
@@ -161,3 +162,14 @@ Quant/Data, 화면이 바뀌면 UX, 인증·계좌가 얽히면 Security의 독�
 `gaeo-product-lead`에 「하지 않는 것」을 신설했고(직접 구현·금융 판단·디자인 세부 금지),
 `gaeo-ux-designer`에 외부 디자인 스킬이 GAEO 브랜드를 바꾸지 못하게 하는 가드를 넣었으며,
 `gaeo-security`에 기본 제공 `security-review`는 보조 경보기일 뿐 대체재가 아니라고 못박았다.
+
+## 2026-09-10 절약형 개정 (운영 안정화 구간 4)
+
+- **정상 점검에는 AI 0명.** `ops_status.py`(통합 상태)·`gaeo_check.py`(검사 입구)·`validation-schedule`(예정 시험)이 LLM 호출 0으로 돈다.
+- **기본은 메인 작업자 1명, 동시 2명 이내.** "review 항상 3명"·"health 기본 4명"·"build 마지막에 항상 qa"·"strategy 4명 동시" 규칙을 없앴다.
+  독립 판단이 필요한 대목(보안·원장·투자 성적 의미·배포 경계)에만 관점별 검토자 1명을 **순서대로** 부른다.
+- 수정하는 작업자는 하나. 검토자는 findings와 근거만 돌려주고 같은 파일을 동시에 고치지 않는다. 자식 Agent 재귀 생성 금지.
+- 역할 파일의 "읽기 전용"은 지침이다. Bash가 있으면 기술적으로 쓸 수 있으므로 "물리적 차단"이라 말하지 않는다.
+- 모델 지정(`model:`)은 어느 역할 파일에도 두지 않는다. 세션 기본값을 상속한다. 자동 배정·승급표·비용 라우터를 만들지 않는다.
+- 유지보수 진입점 `/gaeo-maintain` 신설. "정상이면 종료"는 점검 요청에만 적용되고, 사용자가 요청한 기능 변경은 서버가 정상이어도 수행한다.
+- 주간 제안 Routine(월요 Strategy·금요 Health)은 제안일 뿐이다. 금요 Health 제안은 일일 통합 점검이 대체할 수 있어 중지 후보다.

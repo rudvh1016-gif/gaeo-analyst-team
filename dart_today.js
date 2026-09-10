@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 10:12",
- "priceLabel": "2026-09-10 10:06 장중 · ⚠️ 1종목 지연",
- "count": 240,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-10 10:42",
+ "priceLabel": "2026-09-10 10:40 장중 · ⚠️ 1종목 지연",
+ "count": 242,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "310210",
+   "name": "보로노이",
+   "title": "[기재정정]주식매수선택권부여에관한신고",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260910000072"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000074"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000078"
+  },
+  {
+   "code": "280360",
+   "name": "롯데웰푸드",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800086"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000076"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000077"
+  },
   {
    "code": "161890",
    "name": "한국콜마",
@@ -602,33 +656,6 @@ const DART_TODAY = {
    "rceptNo": "20260909900327"
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:20:17.079691+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000281"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:20:17.079691+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000287"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:20:17.079691+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000269"
-  },
-  {
    "code": "003550",
    "name": "LG",
    "title": "기업설명회(IR)개최(안내공시)",
@@ -636,15 +663,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T06:20:17.079691+00:00",
    "isCorrection": false,
    "rceptNo": "20260909800306"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:20:17.079691+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000292"
   },
   {
    "code": "138930",

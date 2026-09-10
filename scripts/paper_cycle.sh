@@ -145,6 +145,21 @@ git_ok() {   # git_ok "무엇" -> 직전 git_run 결과 판정
     return 0
 }
 
+# 원격 이력이 재작성됐을 때 "로컬 장부가 원격에 전부 들어 있는가"를 판정한다(2026-09-10).
+#   ① paper_trading 트리 해시가 같으면 확실히 포함.
+#   ② 다르면 state.json 의 lastCycleAt 을 비교해 원격이 같거나 더 새로우면 포함으로 본다.
+#   ③ 그 밖(파일 없음·해석 실패)은 전부 "모름" = 포함 아님(fail closed → 사이클은 exit 6).
+local_ledger_covered_by_remote() {
+    local lt rt la ra
+    lt="$(git rev-parse "HEAD:$WHITELIST_DIR" 2>/dev/null)" || return 1
+    rt="$(git rev-parse "origin/$BRANCH:$WHITELIST_DIR" 2>/dev/null)" || return 1
+    [ -n "$lt" ] && [ "$lt" = "$rt" ] && return 0
+    la="$(git show "HEAD:$WHITELIST_DIR/state.json" 2>/dev/null | sed -n 's/.*"lastCycleAt": *"\([^"]*\)".*/\1/p' | head -1)"
+    ra="$(git show "origin/$BRANCH:$WHITELIST_DIR/state.json" 2>/dev/null | sed -n 's/.*"lastCycleAt": *"\([^"]*\)".*/\1/p' | head -1)"
+    [ -n "$la" ] && [ -n "$ra" ] || return 1
+    [ "$ra" \> "$la" ] || [ "$ra" = "$la" ]
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 0. 준비 · 안전 가드
 # ─────────────────────────────────────────────────────────────────────────────
@@ -269,7 +284,7 @@ fi
 
 git_run rev-parse HEAD;                  LOCAL_SHA="$GIT_OUT"
 git_run rev-parse "origin/$BRANCH";      REMOTE_SHA="$GIT_OUT"
-git_run merge-base HEAD "origin/$BRANCH"; BASE_SHA="$GIT_OUT"
+git_run merge-base HEAD "origin/$BRANCH"; BASE_SHA="$GIT_OUT"; BASE_CODE="$GIT_CODE"
 
 if [ "$LOCAL_SHA" = "$REMOTE_SHA" ]; then
     log 'remote sync: 이미 최신(동일 커밋)'
@@ -283,6 +298,25 @@ elif [ "$LOCAL_SHA" = "$BASE_SHA" ]; then
     log "remote sync: fast-forward 완료 → $GIT_OUT"
 elif [ "$REMOTE_SHA" = "$BASE_SHA" ]; then
     log 'remote sync: 로컬에 아직 push되지 않은 Paper 커밋이 있다(뒤에서 push 시도)'
+elif [ "${BASE_CODE:-1}" -ne 0 ] || [ -z "$BASE_SHA" ]; then
+    # 🧭 공통 조상 없음 = 원격 이력이 재작성됐다(예: compact-history 의 filter-branch + force push,
+    #    2026-09-02 08:25 KST 실측). 이 상태에서 rebase 는 저장소 첫 커밋부터 전부 다시 적용하려다
+    #    반드시 충돌하고, 사이클은 매번 exit 6 으로 끝나며 엔진은 한 번도 돌지 않는다
+    #    (2026-09-02 부터 집 PC 러너가 8거래일 침묵한 경위 — docs/operations/STATUS.md).
+    #    로컬에 아직 안 올린 Paper 기록이 없을 때만 origin/main 으로 재기준한다: 잃을 것이 없다.
+    #    옛 HEAD 는 refs/gaeo-backup/ 에 남긴다(삭제가 아니라 보존). 작업트리는 1단계에서 깨끗함을 확인했다.
+    #    "reset --hard 금지" 원칙과 충돌하지 않는다 — 깨끗한 트리에서 브랜치 포인터만 옮기고 옛 포인터를 보존한다.
+    if local_ledger_covered_by_remote; then
+        backup_ref="refs/gaeo-backup/head-$(kst_date '+%Y%m%dT%H%M%S')"
+        git_run update-ref "$backup_ref" HEAD
+        git_ok 'git update-ref(옛 HEAD 백업)' || stop_cycle '옛 HEAD 백업 실패. 재기준하지 않고 중단' 6
+        git_run checkout -B "$BRANCH" "origin/$BRANCH"
+        git_ok 'git checkout -B(재기준)' || stop_cycle "원격 이력 재작성 뒤 재기준 실패. $GIT_OUT" 6
+        git_run rev-parse HEAD
+        log "remote sync: 원격 이력 재작성 감지(공통 조상 없음). 로컬에 안 올린 Paper 기록이 없어 origin/$BRANCH 로 재기준했다 → $GIT_OUT (옛 HEAD 보존: $backup_ref)" WARN
+    else
+        stop_cycle "원격 이력이 재작성됐고(공통 조상 없음) 로컬에 아직 올리지 못한 Paper 기록이 있다. 자동으로 버리지 않는다. 수동 확인 필요: paper_trading/ 을 따로 보관한 뒤 git checkout -B $BRANCH origin/$BRANCH (docs/PAPER_TRADING_LOCAL_RUNNER.md 9절)" 6
+    fi
 else
     # 갈라짐 : Paper 커밋을 최신 main 위로 재적용(자동 충돌 해결 금지)
     log 'remote sync: 로컬/원격이 갈라짐. Paper 커밋을 최신 main 위로 rebase 시도'
