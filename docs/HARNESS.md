@@ -21,7 +21,7 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 | 예정 시험 | `python3 gaeo_check.py schedule` | 일정 원본↔문서 동기·allowlist·원장 형식 · 실행기 계약(조기 실행 금지·하루 1회·원장 append-only·재확인 상한·동결 입력 재현·`ops-daily.yml` 정적 검사) · 확인 도구 계약(team_weights 전환·FLOW 표본 조건) |
 | 호환성 | `python3 gaeo_check.py compatibility` | 규칙 대응표·CI 동등성·Secret 위생·디자인 계약 · Claude↔공용 진입점 동기(`test_agent_compat.py`: `.agents/skills`·`.codex/agents`·`docs/agent/ROLES.md`가 `sync_agent_compat.py` 출력과 같은가) |
 | 병합 전 필수 | `python3 gaeo_check.py premerge` | `ci.yml`과 같은 것: `test_*.py` 전부 + Playwright 없는 `test_*.js` 전부 |
-| 배포 후 확인 | `python3 gaeo_check.py postdeploy [--expect-sha SHA]` | `ops_status.py --github --probe-pages` 로 실제 증거를 읽어 정상/장애/확인 불가를 낸다 |
+| 배포 후 확인 | `python3 gaeo_check.py postdeploy [--expect-sha SHA]` | `ops_status.py --github --probe-pages` 로 실제 증거를 읽어 정상/장애/확인 불가를 낸다. `--github` 에는 「예약 실행 실측」(워치독·ops-daily 가 실제로 발화했는가, 2026-09-10 구간 D)이 포함된다 |
 | 화면 smoke | `python3 gaeo_check.py browser` | Playwright 테스트 목록만 보여준다(실행은 확인된 환경에서 `NODE_PATH=/opt/node22/lib/node_modules node …`) |
 
 출력은 임시 폴더(`gaeo-check/*.txt`)에 남고 화면에는 PASS/FAIL 한 줄만 나온다. 실패 파일만 연다.
@@ -48,7 +48,7 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 | 러너 재기준(이력 재작성) | 공통 조상 없음 + 로컬 장부가 원격에 전부 포함됨을 **내용으로** 증명(`paper_ledger_inclusion.py check` = COVERED) + 재기준 전 백업 검증 통과 | 사이클당 1회, 백업 폴더 + 옛 HEAD ref | `scripts/paper_cycle.{sh,ps1}` · 복구 도구 `scripts/paper_recover.{sh,ps1}` |
 | Paper push 재시도 | push 거부 | 4회, 충돌이면 abort·보존 | 같은 스크립트 |
 | 알림 이슈 재사용·자동 닫기 | 제목/서명 동일 | 하루 1회(paper)·주 1회(evolution) | `.github/workflows/paper-health-alert.yml`·`.github/workflows/evolution-lab.yml` |
-| 예정 시험 실행·기록 | `dueAt` 도래 + 오늘 기록 없음 + allowlist 명령 + 계약 테스트 통과 | 일정당 하루 1회 · 실행 실패 3회면 ESCALATED · 표본 부족 재확인 상한(기본 3)이면 RECHECK_LIMIT → 사람 | `.github/workflows/ops-daily.yml`(평일 17:05 KST) → `run_validation_schedule.py --apply` |
+| 예정 시험 실행·기록 | `dueAt` 도래 + 오늘 기록 없음 + allowlist 명령 + 계약 테스트 통과 | 일정당 하루 1회 · 실행 실패 3회면 ESCALATED · 표본 부족 재확인 상한(기본 3)이면 RECHECK_LIMIT → 사람 · 저장 실패는 inbox 브랜치+artifact 보존 후 다음 run 회수 | `.github/workflows/ops-daily.yml`(평일 17:05 KST, 예비 발화 17:37·18:11 — **GitHub cron 은 미발화할 수 있다**, 2026-09-10 실측 0회. 미발화면 사람이 `apply=true` 로 1회 dispatch) → `run_validation_schedule.py --apply` |
 | 일일 통합 점검 이슈 | `ops_status.py --deep --github` 장애(exit 1) | 같은 서명은 1회만 · 정상이면 자동 닫기 · 확인 못 함(exit 2)은 침묵 | 같은 워크플로 |
 | 저장소 이력 압축 | **자동 없음.** 사람이 `compact-history` 를 confirm 으로 dispatch + `check_history_evidence.py --precheck` 통과(얕은 clone·수집 시간대·러너 활동·원장 증거 손실 거부) | 실행 뒤 옛→새 SHA 지도 커밋, 검산 실패면 push 안 함 | `.github/workflows/compact-history.yml` · `docs/HISTORY_PRESERVATION.md` |
 
@@ -63,6 +63,7 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 - 사용량·세션 한도가 가까우면 `docs/operations/STATUS.md`(진도·커밋·다음 행동)부터 저장한다.
 - 같은 입력·같은 방법의 실패 재시도는 최대 2회. 권한·관찰기간에 막힌 구간은 "막힘"으로 두고 독립 작업을 계속한다.
 - 밤새 채팅으로 상태를 조회하며 기다리지 않는다. 자연 실행의 증거는 워치독 Step Summary·`ops-daily` 실행·이슈가 남긴다.
+- Claude Routine(예약 채팅)은 세션·구독에 묶인 보조 수단이다(2026-09-15 구독 종료 뒤 소멸). 일정·실행·기록의 원본은 항상 GitHub(`config/validation_schedule.json`·`ops-daily.yml`·원장)이며, 9/15 이후 의존성 표는 `docs/operations/STATUS.md`.
 
 ## 7. 문서 지도
 - 안전 규칙: `AGENTS.md`(작업 지도 + 전역 규칙) · 세부 규칙: `docs/rules/*.md` · 대응표: `docs/agent/RULES_MAP.md`
