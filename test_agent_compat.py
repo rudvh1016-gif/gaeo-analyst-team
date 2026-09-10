@@ -6,7 +6,9 @@
   · `.agents/skills/<name>/SKILL.md`(공용) 은 `sync_agent_compat.py` 가 만든 그대로다(손으로 고친 흔적·원본 변경 뒤 미갱신을 잡는다).
   · 공용 진입점의 name/description 은 원본 `.claude/skills/<name>/SKILL.md` 와 같고, 원본 경로가 존재하며, 같은 이름이 두 번 노출되지 않는다.
   · 공용 진입점은 절차를 **복제하지 않는다**(원본을 읽으라는 안내 + 대응표만).
-  · `.codex/agents/*.toml` 은 TOML 로 읽히고 name 이 파일명과 같고 "형식 미확인" 표시가 있다(확인된 것처럼 보이지 않게).
+  · `.codex/agents/*.toml` 은 TOML 로 읽히고 키가 정확히 name·description·developer_instructions·sandbox_mode 넷이며(미지원 키 0),
+    name 이 파일명과 같고, developer_instructions 에 원본 상대 경로와 원문이 들어 있고, "실제 앱 확인 미확인" 표시가 있다(확인된 것처럼 보이지 않게).
+  · 읽기 전용 역할은 sandbox_mode=read-only, 쓰기 역할(gaeo-engineer)만 workspace-write. 역할 이름은 소문자·숫자·하이픈이고 중복이 없다.
   · GAEO 소유 역할 파일 13+개에 `model:` 지정이 없다(외부 seo-* 는 범위 밖). `docs/agent/ROLES.md` 가 전부를 싣는다.
   · GAEO 스킬 원본이 참조하는 저장소 파일 경로(백틱 안의 docs/…·scripts/… 등)가 실제로 있다.
 
@@ -94,7 +96,7 @@ class RoleFiles(unittest.TestCase):
             self.assertNotIn("model", meta, f"{name}: 역할 파일에 model 지정 — 자동 배정·라우터를 만들지 않는다")
             self.assertEqual(meta.get("name"), name)
 
-    def test_codex_toml은_읽히고_형식_미확인_표시가_있다(self):
+    def test_codex_toml은_공식_키_넷만_쓰고_원문을_싣고_앱_미확인_표시가_있다(self):
         names = S.gaeo_agent_names()
         files = sorted(os.listdir(S.CODEX_AGENTS))
         self.assertEqual(files, sorted(n + ".toml" for n in names))
@@ -102,17 +104,46 @@ class RoleFiles(unittest.TestCase):
             path = os.path.join(S.CODEX_AGENTS, f)
             text = read(path)
             doc = tomllib.loads(text)
+            self.assertEqual(set(doc), set(S.CODEX_TOML_KEYS), f"{f}: 미지원 키가 있거나 필수 키가 빠졌다")
             self.assertEqual(doc["name"], f[:-5])
-            self.assertTrue(os.path.exists(os.path.join(HERE, doc["instructions_file"])))
-            self.assertIn(S.FORMAT_UNVERIFIED, text, "확인되지 않은 형식을 확인된 것처럼 두지 않는다")
-            self.assertNotIn("model", doc, "TOML 에도 모델 키 없음")
-            self.assertIsInstance(doc["read_only"], bool)
+            self.assertTrue(doc["description"].strip(), f"{f}: description 비어 있음")
+            self.assertIn(doc["sandbox_mode"], (S.SANDBOX_READ_ONLY, S.SANDBOX_WRITE))
+            self.assertIn(f".claude/agents/{f[:-5]}.md", doc["developer_instructions"], "원본 상대 경로")
+            src_meta, src_body = S.parse_frontmatter(read(os.path.join(S.CLAUDE_AGENTS, f[:-5] + ".md")))
+            self.assertIn(src_body.strip(), doc["developer_instructions"], f"{f}: 원문이 그대로 들어 있어야 한다")
+            self.assertEqual(doc["description"], src_meta.get("description"))
+            for bad in ("instructions_file", "tools", "read_only", "model", "reasoning"):
+                self.assertNotIn(bad, doc, f"{f}: 미지원·금지 키 {bad}")
+            self.assertIn(S.APP_UNVERIFIED, text, "확인되지 않은 것을 확인된 것처럼 두지 않는다")
+            self.assertIn("독립 검토가 아니다", doc["developer_instructions"])
+            self.assertIn("메인 포함 2개 이내", doc["developer_instructions"])
 
-    def test_읽기_전용_판정은_tools의_쓰기_도구_유무다(self):
+    def test_sandbox_mode는_쓰기_도구_유무로_정해진다(self):
         eng = tomllib.loads(read(os.path.join(S.CODEX_AGENTS, "gaeo-engineer.toml")))
         qa = tomllib.loads(read(os.path.join(S.CODEX_AGENTS, "gaeo-qa.toml")))
-        self.assertFalse(eng["read_only"])
-        self.assertTrue(qa["read_only"])
+        self.assertEqual(eng["sandbox_mode"], S.SANDBOX_WRITE)
+        self.assertEqual(qa["sandbox_mode"], S.SANDBOX_READ_ONLY)
+        writers = [n for n in S.gaeo_agent_names()
+                   if tomllib.loads(read(os.path.join(S.CODEX_AGENTS, n + ".toml")))["sandbox_mode"] == S.SANDBOX_WRITE]
+        self.assertEqual(writers, ["gaeo-engineer"], "쓰기 권한은 gaeo-engineer 한 명뿐")
+
+    def test_생성기는_이름_중복_규격_원본_없음을_거부한다(self):
+        with self.assertRaises(ValueError):
+            S.validate([("gaeo-qa", {"name": "gaeo-qa", "description": "x"}), ("gaeo-qa", {"name": "gaeo-qa", "description": "x"})])
+        with self.assertRaises(ValueError):
+            S.validate([("Bad Name", {"name": "Bad Name", "description": "x"})])
+        with self.assertRaises(ValueError):
+            S.validate([("gaeo-qa", {"name": "other", "description": "x"})])
+        with self.assertRaises(ValueError):
+            S.validate([("gaeo-nope", {"name": "gaeo-nope", "description": "x"})])
+        S.validate([("gaeo-qa", {"name": "gaeo-qa", "description": "x"})])
+        for n in S.gaeo_agent_names():
+            self.assertRegex(n, S.AGENT_NAME_RE.pattern)
+
+    def test_toml_다중행_문자열은_구분자를_안전하게_다룬다(self):
+        self.assertEqual(tomllib.loads("x = " + S.toml_multiline("a\nb"))["x"], "a\nb")
+        tricky = "has " + "'" * 3 + " inside and \\ backslash and " + '"' * 3 + " too"
+        self.assertEqual(tomllib.loads("x = " + S.toml_multiline(tricky))["x"], tricky)
 
     def test_ROLES_문서가_모든_역할을_싣고_원본_경로가_있다(self):
         doc = read(S.ROLES_DOC)
@@ -121,6 +152,14 @@ class RoleFiles(unittest.TestCase):
             self.assertIn(f".claude/agents/{name}.md", doc)
         self.assertIn("모델 지정(`model:`)이 없다", doc)
         self.assertIn("seo-*", doc, "외부 에이전트는 범위 밖이라고 적는다")
+        self.assertIn("sandbox_mode", doc)
+        self.assertIn("독립 검토가 아니다", doc)
+
+    def test_스킬_진입점_대응표가_독립_검토와_동시_실행_규칙을_바로_적는다(self):
+        for name in S.GAEO_SKILLS:
+            body = read(os.path.join(S.AGENTS_SKILLS, name, "SKILL.md"))
+            self.assertIn("독립 검토가 아니다", body, name)
+            self.assertIn("메인 포함 2개 이내", body, name)
 
 
 class SkillsHaveNoModelRouting(unittest.TestCase):

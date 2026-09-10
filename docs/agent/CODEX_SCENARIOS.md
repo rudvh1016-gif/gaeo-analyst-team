@@ -11,7 +11,8 @@
 1. 저장소 최신 `main` 을 받는다. 시작 순서: `AGENTS.md` 「작업 지도」 → `docs/HARNESS.md` → `docs/operations/STATUS.md`.
 2. `python3 gaeo_check.py preflight` 가 돈다(fetch 실패는 실패로 표시된다 — "확인 불가"를 정상으로 읽지 않는다).
 3. 도구가 `.agents/skills/` 를 스킬로 인식하는지 본다. 인식하지 않아도 **같은 파일을 텍스트로 열어 읽으면** 절차는 같다(진입점이 원본 경로를 안내한다).
-4. 도구가 `.codex/agents/*.toml` 을 읽는지 본다. 이 파일들은 **형식 미확인**(참고용)이다 — 읽지 못해도 `docs/agent/ROLES.md` 와 `.claude/agents/*.md` 를 읽으면 같은 역할 정보를 얻는다.
+4. 도구가 `.codex/agents/*.toml` 을 프로젝트 커스텀 에이전트로 읽는지 본다(공식 스펙 키 `name`·`description`·`developer_instructions`·`sandbox_mode` — 2026-09-10 지시서 기준, 공식 문서 직접 대조는 egress 차단으로 미확인). 읽지 못해도 `docs/agent/ROLES.md` 와 `.claude/agents/*.md` 를 읽으면 같은 역할 정보를 얻는다(TOML 의 developer_instructions 가 그 원문이다). 읽기 전용 역할(`sandbox_mode = "read-only"`)이 실제로 파일을 못 고치는지도 이때 확인한다.
+   동시 실행 AI 는 메인 포함 2개 이내. 같은 Codex 세션이 역할만 바꿔 검토하는 것은 독립 검토로 적지 않는다(별도 세션·사람·기계 검사만 독립 검토).
 5. 새 유료 API·서버·크레딧을 쓰지 않는다. 무료 한도가 부족하면 "중단 · 자료 부족"으로 적고 끝낸다.
 
 ## 1. 읽기 전용 유지보수 (진단만)

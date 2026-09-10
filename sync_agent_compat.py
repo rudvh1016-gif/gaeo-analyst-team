@@ -10,8 +10,11 @@
 
 생성물 (손으로 고치지 않는다 — test_agent_compat.py 가 잠근다)
   .agents/skills/<name>/SKILL.md   GAEO 소유 스킬 13개의 얇은 진입점
-  .codex/agents/<name>.toml        GAEO 소유 역할 13개의 요약 (⚠️ 형식 미확인 — Codex 설치본에서 확인 전까지 참고용)
-  docs/agent/ROLES.md              역할 13개 요약표(도구·쓰기 권한·원본 경로). 모델 지정 없음.
+  .codex/agents/<name>.toml        GAEO 소유 역할 14개 — Codex 프로젝트 커스텀 에이전트 형식(2026-09-10 지시서 기준 공식 스펙):
+                                   필수 name · description · developer_instructions, 지원 설정 sandbox_mode(read-only / workspace-write).
+                                   developer_instructions 에 원본 역할 지침 원문을 그대로 싣는다(Codex 는 .claude/ 를 자동으로 읽지 않는다).
+                                   ⚠️ 실제 앱 확인 미확인: 공식 문서는 이 세션 egress 에 막혀 읽지 못했고 Codex 설치본에서 인식을 확인하지 못했다.
+  docs/agent/ROLES.md              역할 14개 요약표(도구·쓰기 권한·sandbox_mode·원본 경로). 모델 지정 없음.
 
 범위 밖(복제하지 않는다): 외부 스킬(seo-*, impeccable, taste-skill, ui-ux-pro-max, accessibility, best-practices,
   core-web-vitals, performance, web-quality-audit) · 외부 SEO 에이전트(seo-*.md). 라이선스 파일 포함 원본 그대로 보존.
@@ -20,6 +23,7 @@
     python3 sync_agent_compat.py --check    # 생성물이 원본과 같은지만 확인 (0 = 최신, 1 = 다시 생성 필요)
 """
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,7 +43,13 @@ GAEO_ANALYST_AGENTS = ["chief-pm", "taro-technical", "diana-fundamental", "nova-
 GAEO_AGENTS = GAEO_DEV_AGENTS + GAEO_ANALYST_AGENTS
 # 이것 외에 .claude/agents 에 있는 gaeo-*.md 도 GAEO 소유로 본다(예: gaeo-product-analytics)
 WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit"}
-FORMAT_UNVERIFIED = "형식 미확인"
+APP_UNVERIFIED = "실제 앱 확인 미확인"
+FORMAT_UNVERIFIED = APP_UNVERIFIED          # 옛 이름(호환)
+SANDBOX_READ_ONLY, SANDBOX_WRITE = "read-only", "workspace-write"
+CODEX_TOML_KEYS = ("name", "description", "developer_instructions", "sandbox_mode")   # 이 넷만 쓴다 — 미지원 키(tools·read_only·instructions_file·model) 없음
+AGENT_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+TQ = "'" * 3
+DQ = '"' * 3
 
 
 def read(path):
@@ -94,38 +104,75 @@ description: {meta.get('description', '')}
 
 | 원본 표현 | Codex / 사람이 할 일 |
 |---|---|
-| Agent 도구로 `<역할>` 호출 (병렬) | `.claude/agents/<역할>.md` 를 읽고 그 관점으로 **순차** 수행. 동시 2개 이내·정상 점검 0명 규칙은 그대로 |
+| Agent 도구로 `<역할>` 호출 (병렬) | `.claude/agents/<역할>.md`(Codex 면 `.codex/agents/<역할>.toml` 의 developer_instructions 에 같은 원문)를 읽고 그 관점으로 **순차** 수행. 동시 실행 AI 는 **메인 포함 2개 이내**·정상 점검 0명 규칙은 그대로 |
+| 검토자 Agent 를 불러 독립 검토 | 같은 AI(같은 세션)가 역할만 바꿔 보는 것은 **독립 검토가 아니다**. 독립 검토 = 별도 세션의 검토자 1명(사람 또는 별도 AI 세션) 또는 기계 검사(`test_*`·`gaeo_check.py`) |
 | `/gaeo-*` 스킬 호출 | 해당 `.claude/skills/<이름>/SKILL.md` 를 읽고 따른다 |
 | `mcp__github__*` 도구 | `gh` CLI 또는 GitHub 웹 화면(권한이 있을 때만). 못 보면 "확인 불가"로 적는다 — 정상으로 적지 않는다 |
 | Routine(예약 실행) | GitHub Actions(`.github/workflows/ops-daily.yml`)가 맡는다. 새 예약을 만들지 않는다 |
-| 역할의 `tools:` 에 Write/Edit 이 없음(읽기 전용) | **지침**이다 — 파일을 고치지 않는다. 가능하면 sandbox 를 읽기 전용으로 |
+| 역할의 `tools:` 에 Write/Edit 이 없음(읽기 전용) | **지침**이다 — 파일을 고치지 않는다. Codex 에서는 `.codex/agents/<역할>.toml` 의 `sandbox_mode = "read-only"` 가 강제한다(설치본 인식은 미확인). Claude 식 `tools`·`read_only` 키가 Codex 에서 강제된다고 가정하지 않는다 |
 | 모델 지정 | 없다. 세션 기본값을 그대로 쓴다(자동 배정·라우터 없음) |
 """
 
 
-def agent_toml(name, meta):
-    src = f".claude/agents/{name}.md"
+def sandbox_mode_of(meta):
     tools = [t.strip() for t in meta.get("tools", "").split(",") if t.strip()]
-    read_only = not (set(tools) & WRITE_TOOLS)
-    tools_toml = "[" + ", ".join(toml_str(t) for t in tools) + "]"
-    return f"""# 생성 파일 — sync_agent_compat.py 가 {src} 에서 만든다. 손으로 고치지 않는다.
-# ⚠️ {FORMAT_UNVERIFIED}: Codex 설치본이 이 파일을 어떤 스키마로 읽는지 이 세션에서 공식 문서로 확인하지 못했다(2026-09-10).
-#    참고용이다. 확인되면 sync_agent_compat.py 의 agent_toml() 을 그 스키마로 고치고 다시 생성한다.
-#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.
-name = {toml_str(meta.get('name', name))}
-description = {toml_str(meta.get('description', ''))}
-instructions_file = {toml_str(src)}
-tools = {tools_toml}
-read_only = {'true' if read_only else 'false'}
-"""
+    return SANDBOX_WRITE if (set(tools) & WRITE_TOOLS) else SANDBOX_READ_ONLY
+
+
+def toml_multiline(text):
+    """TOML 다중 행 문자열. 이스케이프가 없는 리터럴(작은따옴표 3개)을 쓰고, 본문에 그 구분자가 있으면 기본 문자열로 바꾼다."""
+    if TQ not in text:
+        return TQ + "\n" + text + TQ
+    return DQ + "\n" + text.replace("\\", "\\\\").replace(DQ, '\\"\\"\\"') + DQ
+
+
+def developer_instructions(name, meta, body):
+    """Codex 가 읽는 역할 지침 — 원본(.claude/agents/<name>.md) 본문을 그대로 싣고, 공통 규칙을 앞에 둔다."""
+    src = f".claude/agents/{name}.md"
+    mode = sandbox_mode_of(meta)
+    if mode == SANDBOX_READ_ONLY:
+        write_rule = ("이 역할은 읽기 전용이다 — 파일을 고치지 않는다(sandbox_mode = read-only 가 강제한다). "
+                      "원본의 tools 목록은 Claude 전용 표기이며 Codex 에서 그대로 적용된다고 가정하지 않는다.")
+    else:
+        write_rule = ("이 역할은 작업트리 안에서만 쓴다(sandbox_mode = workspace-write). 산식·가중치·사전등록 상수·과거 원장·"
+                      "자동 생성 파일은 고치지 않는다(docs/rules/FILE_MAP.md). 커밋·push 는 docs/HARNESS.md 절차대로만.")
+    head = [
+        f"[GAEO 역할 {name}] 원본 지침: {src} (저장소 루트 기준 상대 경로). 아래 원문을 그대로 따른다. "
+        "원문이 바뀌면 sync_agent_compat.py 가 이 파일을 다시 만든다(손으로 고치지 않는다).",
+        "공통 시작 순서: AGENTS.md → docs/HARNESS.md → docs/operations/STATUS.md. 검사는 python3 gaeo_check.py <묶음>.",
+        write_rule,
+        "독립 검토: 같은 AI(같은 세션)가 역할만 바꿔 검토하는 것은 독립 검토가 아니다. 독립 검토 = 별도 세션의 검토자 1명"
+        "(사람 또는 별도 AI 세션) 또는 기계 검사(test_*·gaeo_check.py).",
+        "동시 실행 AI 는 메인 포함 2개 이내. 자식 에이전트 재귀 생성 금지. 모델 지정 없음(세션 기본값 상속, 자동 배정·라우터 없음). "
+        "새 유료 서비스·실주문·Secret 노출 0.",
+        "",
+        "----- 원문 시작 -----",
+        body.strip(),
+        "----- 원문 끝 -----",
+    ]
+    return "\n".join(head) + "\n"
+
+
+def agent_toml(name, meta, body=""):
+    src = f".claude/agents/{name}.md"
+    return (f"# 생성 파일 — sync_agent_compat.py 가 {src} 에서 만든다. 손으로 고치지 않는다.\n"
+            "# Codex 프로젝트 커스텀 에이전트 형식(필수 name · description · developer_instructions, 설정 sandbox_mode)에 맞췄다(2026-09-10 지시서 기준 공식 스펙).\n"
+            f"# ⚠️ {APP_UNVERIFIED}: 공식 문서(developers.openai.com/codex/subagents)는 이 세션의 egress 정책에 막혀 직접 읽지 못했고,\n"
+            "#    Codex 설치본에서 이 파일의 인식·실행을 확인하지 못했다. 미지원 키(tools·read_only·instructions_file·model)는 넣지 않는다.\n"
+            "#    model 키가 없는 것은 의도다 — 세션 기본값 상속, 자동 배정·라우터 없음.\n"
+            f"name = {toml_str(meta.get('name', name))}\n"
+            f"description = {toml_str(meta.get('description', ''))}\n"
+            f"sandbox_mode = {toml_str(sandbox_mode_of(meta))}\n"
+            f"developer_instructions = {toml_multiline(developer_instructions(name, meta, body))}\n")
 
 
 def roles_md(agent_metas):
     L = ["# GAEO 역할(Agent) 요약표 — 도구 무관 (자동 생성)", "",
          "> `sync_agent_compat.py` 가 `.claude/agents/*.md`(원본)에서 만든다. 손으로 고치지 않는다(`test_agent_compat.py`).",
          "> 원본 지침 전문은 각 행의 파일을 읽는다. Codex 등 서브에이전트가 없는 도구는 필요한 역할 파일을 읽고 그 관점으로 **순차** 수행한다.",
-         "> 어느 역할에도 모델 지정(`model:`)이 없다 — 세션 기본값 상속. 읽기 전용은 **지침**이며(Bash 가 있으면 기술적으로는 쓸 수 있다), 도구 쪽 sandbox 로 보강한다.",
-         "", "## 개발·점검 (GAEO TEAM)", "", "| 역할 | 하는 일 | 도구 | 쓰기 | 원본 |", "|---|---|---|---|---|"]
+         "> 어느 역할에도 모델 지정(`model:`)이 없다 — 세션 기본값 상속. 읽기 전용은 **지침**이며(Bash 가 있으면 기술적으로는 쓸 수 있다), Codex 에서는 `.codex/agents/<역할>.toml` 의 `sandbox_mode` 가 강제한다(설치본 인식 미확인).",
+         "> 독립 검토: 같은 AI(같은 세션)가 역할만 바꿔 보는 것은 독립 검토가 아니다 — 별도 세션의 검토자 1명(사람·별도 AI 세션) 또는 기계 검사(`test_*`·`gaeo_check.py`)가 독립 검토다. 동시 실행 AI 는 메인 포함 2개 이내.",
+         "", "## 개발·점검 (GAEO TEAM)", "", "| 역할 | 하는 일 | 도구 | 쓰기 | sandbox_mode | 원본 |", "|---|---|---|---|---|---|"]
 
     def row(name, meta):
         tools = [t.strip() for t in meta.get("tools", "").split(",") if t.strip()]
@@ -133,18 +180,19 @@ def roles_md(agent_metas):
         desc = meta.get("description", "").replace("|", "／")
         if len(desc) > 110:
             desc = desc[:110] + "…"
-        return f"| `{name}` | {desc} | {', '.join(tools) or '(미지정 = 세션 기본)'} | {write} | `.claude/agents/{name}.md` |"
+        return f"| `{name}` | {desc} | {', '.join(tools) or '(미지정 = 세션 기본)'} | {write} | `{sandbox_mode_of(meta)}` | `.claude/agents/{name}.md` |"
 
     for name, meta in agent_metas:
         if name not in GAEO_ANALYST_AGENTS:
             L.append(row(name, meta))
-    L += ["", "## 정밀분석 5인 (종목분석 스킬 안에서 쓰인다)", "", "| 역할 | 하는 일 | 도구 | 쓰기 | 원본 |", "|---|---|---|---|---|"]
+    L += ["", "## 정밀분석 5인 (종목분석 스킬 안에서 쓰인다)", "", "| 역할 | 하는 일 | 도구 | 쓰기 | sandbox_mode | 원본 |", "|---|---|---|---|---|---|"]
     for name, meta in agent_metas:
         if name in GAEO_ANALYST_AGENTS:
             L.append(row(name, meta))
     L += ["", "## 범위 밖", "",
           "- `.claude/agents/seo-*.md` 는 외부 SEO 스킬 묶음의 에이전트(보존만). 원본 그대로 두며(일부에 `model: sonnet` 이 원문에 있음) 여기 표와 검사 범위에서 뺀다.",
-          "- 부르는 규칙(정상 점검 0명 · 메인 1명 · 동시 2개 이내 · 관점 순서대로)은 `docs/gaeo_team_system.md` 「2026-09-10 절약형 개정」.", ""]
+          "- 부르는 규칙(정상 점검 0명 · 메인 1명 · 메인 포함 동시 2개 이내 · 관점 순서대로)은 `docs/gaeo_team_system.md` 「2026-09-10 절약형 개정」.",
+          "- Codex 형식 `.codex/agents/<역할>.toml`(name · description · developer_instructions · sandbox_mode)은 2026-09-10 지시서 기준 공식 스펙에 맞췄고, 공식 문서 직접 확인·설치본 인식은 미확인이다(`docs/agent/MIGRATION_MAP.md`).", ""]
     return "\n".join(L)
 
 
@@ -157,16 +205,43 @@ def render_all(root=HERE):
     metas = []
     for name in gaeo_agent_names():
         src = os.path.join(root, ".claude", "agents", name + ".md")
-        meta, _ = parse_frontmatter(read(src))
+        meta, body = parse_frontmatter(read(src))
         metas.append((name, meta))
-        out[os.path.join(root, ".codex", "agents", name + ".toml")] = agent_toml(name, meta)
+        out[os.path.join(root, ".codex", "agents", name + ".toml")] = agent_toml(name, meta, body)
+    validate(metas)
     out[os.path.join(root, "docs", "agent", "ROLES.md")] = roles_md(metas)
     return out
 
 
+def validate(metas):
+    """이름 중복·규격·필수 필드·원본 경로. 하나라도 어긋나면 생성하지 않는다(ValueError)."""
+    seen = set()
+    problems = []
+    for name, meta in metas:
+        if not AGENT_NAME_RE.match(name):
+            problems.append(f"{name}: 역할 이름은 소문자·숫자·하이픈만(파일명 = name)")
+        if meta.get("name") != name:
+            problems.append(f"{name}: frontmatter name 이 파일명과 다르다({meta.get('name')})")
+        if not meta.get("description"):
+            problems.append(f"{name}: description 이 비어 있다")
+        if name in seen:
+            problems.append(f"{name}: 같은 이름이 두 번")
+        seen.add(name)
+        if not os.path.exists(os.path.join(HERE, ".claude", "agents", name + ".md")):
+            problems.append(f"{name}: 원본 .claude/agents/{name}.md 없음")
+    if len(set(GAEO_SKILLS)) != len(GAEO_SKILLS):
+        problems.append("스킬 이름 중복")
+    if problems:
+        raise ValueError("역할·스킬 정의 오류:\n  " + "\n  ".join(problems))
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    files = render_all()
+    try:
+        files = render_all()
+    except ValueError as e:
+        print(e)
+        return 2
     if "--check" in argv:
         stale = [os.path.relpath(p, HERE) for p, body in files.items()
                  if not os.path.exists(p) or read(p) != body]
