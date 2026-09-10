@@ -1,12 +1,48 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 12:42",
- "priceLabel": "2026-09-10 12:33 장중 · ⚠️ 1종목 지연",
- "count": 247,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-10 13:12",
+ "priceLabel": "2026-09-10 13:07 장중 · ⚠️ 1종목 지연",
+ "count": 249,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:11:28.606352+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000132"
+  },
+  {
+   "code": "139480",
+   "name": "이마트",
+   "title": "영업(잠정)실적(공정공시)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:11:28.606352+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800150"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:11:28.606352+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000134"
+  },
+  {
+   "code": "006360",
+   "name": "GS건설",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:11:28.606352+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800149"
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -105,15 +141,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-10T01:41:22.801543+00:00",
    "isCorrection": true,
    "rceptNo": "20260910000072"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000074"
   },
   {
    "code": "006800",
@@ -501,15 +528,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T06:50:20.057943+00:00",
    "isCorrection": false,
    "rceptNo": "20260909800381"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:50:20.057943+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000370"
   },
   {
    "code": "263750",
