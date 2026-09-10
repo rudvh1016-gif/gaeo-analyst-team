@@ -1,12 +1,102 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-10 13:12",
- "priceLabel": "2026-09-10 13:07 장중 · ⚠️ 1종목 지연",
- "count": 249,
+ "generatedAt": "2026-09-10 13:42",
+ "priceLabel": "2026-09-10 13:41 장중 · ⚠️ 1종목 지연",
+ "count": 255,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000141"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000159"
+  },
+  {
+   "code": "003070",
+   "name": "코오롱글로벌",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자율공시)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260910800167"
+  },
+  {
+   "code": "016360",
+   "name": "삼성증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000148"
+  },
+  {
+   "code": "016360",
+   "name": "삼성증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000164"
+  },
+  {
+   "code": "002840",
+   "name": "미원상사",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000157"
+  },
+  {
+   "code": "001440",
+   "name": "대한전선",
+   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910000167"
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "신규시설투자등",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800161"
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "신규시설투자등(자율공시)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800163"
+  },
+  {
+   "code": "009540",
+   "name": "HD한국조선해양",
+   "title": "신규시설투자등(자회사의 주요경영사항)",
+   "receiptDate": "20260910",
+   "detectedAt": "2026-09-10T04:41:32.245204+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260910800164"
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -410,24 +500,6 @@ const DART_TODAY = {
    "receiptDate": "20260909",
    "detectedAt": "2026-09-09T07:20:19.989105+00:00",
    "isCorrection": false,
-   "rceptNo": "20260909000380"
-  },
-  {
-   "code": "016360",
-   "name": "삼성증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T07:20:19.989105+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000385"
-  },
-  {
-   "code": "016360",
-   "name": "삼성증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T07:20:19.989105+00:00",
-   "isCorrection": false,
    "rceptNo": "20260909000397"
   },
   {
@@ -546,15 +618,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T06:50:20.057943+00:00",
    "isCorrection": true,
    "rceptNo": "20260909000308"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:50:20.057943+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000351"
   },
   {
    "code": "259960",
@@ -708,15 +771,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-09T06:20:17.079691+00:00",
    "isCorrection": false,
    "rceptNo": "20260909000270"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260909",
-   "detectedAt": "2026-09-09T06:20:17.079691+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260909000282"
   },
   {
    "code": "241710",
