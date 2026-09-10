@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-10 11:12",
- "dataCutoff": "2026-09-10 11:12 장중",
+ "generatedAt": "2026-09-10 11:42",
+ "dataCutoff": "2026-09-10 11:42 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "인텍플러스",
    "sector": "반도체",
    "sectorRank": 1,
-   "why": "20거래일 +49.2% · 20일선 위",
+   "why": "20거래일 +48.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 35.5,
+   "gapPct": 34.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,33 +23,33 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 5,
-   "why": "20거래일 +51.2% · 20일선 위",
+   "sectorRank": 6,
+   "why": "20거래일 +52.2% · 20일선 위",
    "overheat": false,
-   "gapPct": 25.8,
+   "gapPct": 26.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 38.7,
+  "breadthPct": 40.3,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6947.61,
-    "ma20": 6814.07,
+    "close": 6966.48,
+    "ma20": 6815.01,
     "above": true,
-    "gapPct": 1.96
+    "gapPct": 2.22
    },
    "KOSDAQ": {
-    "close": 819.19,
-    "ma20": 825.89,
+    "close": 821.49,
+    "ma20": 826.0,
     "above": false,
-    "gapPct": -0.81
+    "gapPct": -0.55
    }
   }
  },
