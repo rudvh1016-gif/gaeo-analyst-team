@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 69,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-10",
+  "title": "2026년 9월10일 종가, 네 마녀의 날 외국인 2.7조 팔아도 7000선은 지켰다",
+  "featured": false
+ },
+ {
   "id": 68,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-08-31",
   "title": "2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다",
   "featured": false
- },
- {
-  "id": 60,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-28",
-  "title": "2026년 8월28일 종가, 지수는 1.79% 빠졌는데 왜 종목은 올랐을까",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 68,
+ "news": 69,
  "study": 35,
  "lesson": 82,
  "estate": 19,
