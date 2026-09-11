@@ -1,0 +1,33 @@
+# 개오 애널리스트팀 — KIND 종목 식별값 확인 ONE-SHOT
+#
+# 시장조치 결과표에 종목코드가 없다. 회사명으로 종목을 맞추면 동명이 그대로 오판이 된다.
+# 화면이 실제로 쓰는 식별 경로를 찾아 repIsuSrtCd 의 값을 확인하고, 그 값으로 종목별 조회를 보낸다.
+# 해석하지 않는다. 오류·초기 화면을 0건으로 읽지 않는다.
+# 루프·자기재기동·sleep 없음. 인증·키 없음. 모델 호출 0.
+
+name: kind-corp-probe
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kind-corp-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: KIND 종목 식별값과 종목별 조회를 확인
+        run: python3 kind_corp_probe.py
