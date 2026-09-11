@@ -8,6 +8,7 @@
 빈 화면·초기 화면·오류 안내문을 '결과 0건' 으로 읽지 않는다 — 그 판정 자체를 하지 않는다.
 """
 import json
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -21,9 +22,22 @@ UA = 'Mozilla/5.0 (X11; Linux x86_64)'
 MARKERS = ('searchDetails', 'repIsuSrtCd', 'fromDate', 'toDate', 'paging', 'tbody', 'no_data', '조회된')
 
 
+def form_fields(text):
+    """화면에 실제로 있는 입력 칸·폼 동작 이름만 뽑는다 — **추측이 아니라 추출이다.**
+
+    다음 사람이 검색 요청 인자를 지어내지 않도록, 있는 그대로의 이름만 남긴다.
+    값은 남기지 않는다(화면에 박힌 기본값이 실제 조회 조건인지 알 수 없다).
+    """
+    names = re.findall(r'<(?:input|select|textarea)[^>]*\bname\s*=\s*["\']([^"\']+)', text, re.I)
+    actions = re.findall(r'<form[^>]*\baction\s*=\s*["\']([^"\']+)', text, re.I)
+    methods = re.findall(r'\bmethod\s*=\s*["\'](search[A-Za-z]+)', text)
+    return {'inputNames': sorted(set(names))[:60], 'formActions': sorted(set(actions))[:10],
+            'methodValues': sorted(set(methods))[:20]}
+
+
 def probe(name, url, timeout=20):
     out = {'name': name, 'url': url, 'httpStatus': None, 'ok': False,
-           'bytes': None, 'contentType': None, 'markers': [], 'error': None}
+           'bytes': None, 'contentType': None, 'markers': [], 'form': None, 'error': None}
     try:
         request = urllib.request.Request(url, headers={'User-Agent': UA})
         with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -33,6 +47,7 @@ def probe(name, url, timeout=20):
         out['bytes'] = len(body)
         text = body.decode('utf-8', 'replace')
         out['markers'] = [m for m in MARKERS if m in text]
+        out['form'] = form_fields(text)
         out['ok'] = True
     except urllib.error.HTTPError as error:
         out['httpStatus'] = error.code
