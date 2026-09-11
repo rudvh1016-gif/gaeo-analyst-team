@@ -46,10 +46,32 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(out['unresolvedHistorical'], 0)
 
     def test_a_relevant_filing_is_reported_and_counted_unresolved(self):
-        out = run(FakeClient([page([filing('R2', '무상증자 결정')])]))
+        out = run(FakeClient([page([filing('R2', '주요사항보고서(무상증자결정)')])]))
         self.assertEqual([f['id'] for f in out['findings']], ['R2'])
-        self.assertEqual(out['findings'][0]['terms'], ['무상증자'])
         self.assertEqual(out['unresolvedHistorical'], 1)
+        self.assertEqual(out['eventCounts']['openSelf'], 1)
+
+    def test_documents_are_not_counted_as_events(self):
+        # 정정은 같은 사건이다. 공시 3건이 사건 1건으로 세어져야 한다.
+        rows = [filing('R1', '주요사항보고서(감자결정)'),
+                filing('R2', '[기재정정]주요사항보고서(감자결정)'),
+                filing('R3', '[첨부정정]주요사항보고서(감자결정)')]
+        out = run(FakeClient([page(rows)]))
+        self.assertEqual(out['eventCounts'], {'openSelf': 1, 'subsidiary': 0,
+                                              'documents': 3, 'needsDocument': 0})
+        self.assertEqual(out['unresolvedHistorical'], 1)
+
+    def test_a_subsidiary_filing_does_not_block_this_stock(self):
+        out = run(FakeClient([page([filing('R9', '유상증자결정(종속회사의주요경영사항)')])]))
+        self.assertEqual(out['unresolvedHistorical'], 0)
+        self.assertEqual(out['eventCounts']['subsidiary'], 1)
+        self.assertEqual(len(out['findings']), 1)          # 발견은 그대로 보존한다
+
+    def test_a_title_needing_the_document_is_not_counted_as_interpreted(self):
+        out = run(FakeClient([page([filing('R8', '매매거래정지및정지해제(중요내용공시)')])]))
+        self.assertGreaterEqual(out['uninterpreted'], 1)
+        self.assertTrue(out['listClassified'])
+        self.assertFalse(out['documentsInterpreted'])
 
     def test_no_data_is_zero_only_for_that_query(self):
         empty = {'status': dart_client.OK, 'error': None, 'noData': True,

@@ -29,12 +29,13 @@ import json
 import os
 import sys
 
+import corporate_action_classify as classify
 import dart_client
 import dart_pipeline
 
 #: 이 수집기가 만드는 증거의 계약 버전. Private 이 이 이름으로 계약을 확인한다.
 CONTRACT_VERSION = 'corporate-action-evidence-v1'
-PARSER_VERSION = 'opendart-list-json-v1'
+PARSER_VERSION = 'opendart-list-json-v2-events'
 SOURCE = 'OPENDART_API'
 RETRIEVAL_PATH = 'opendart:list.json?corp_code'
 IDENTITY_BASIS = 'corp_code_map'
@@ -76,7 +77,8 @@ def collect_one(client, ticker, corp_code, bgn_de, end_de, budget):
         'tickerMatched': True, 'structureVerified': False, 'ok': False,
         'apiStatus': None, 'httpStatus': None,
         'pagesExpected': None, 'pagesCollected': 0, 'totalCount': None,
-        'collectedIds': [], 'findings': [], 'uninterpreted': 0,
+        'collectedIds': [], 'findings': [], 'events': [], 'eventCounts': None,
+        'listClassified': False, 'documentsInterpreted': False, 'uninterpreted': 0,
         'historicalBackfillComplete': False, 'unresolvedHistorical': 0,
         'responseRef': None, 'error': None}
     if budget['left'] <= 0:
@@ -139,10 +141,17 @@ def collect_one(client, ticker, corp_code, bgn_de, end_de, budget):
                              'receivedOn': str(row.get('rcept_dt') or '')})
     base['collectedIds'] = ids
     base['findings'] = findings
-    base['uninterpreted'] = uninterpreted
-    # 적용 완료를 문서로 확인하지 못했으므로, 찾은 관련 공시는 전부 '아직 유효'로 센다.
-    # 이것이 안전한 방향이다 — 해소 판정은 다음 단계(본문·시장조치 확인)의 일이다.
-    base['unresolvedHistorical'] = len(findings)
+    # 공시 건수를 사건 수로 세지 않는다. 정정은 같은 사건이고, 종속회사 사안은 이 주식의 사건이 아니다.
+    summary = classify.summarize(findings)
+    base['events'] = summary['events']
+    base['eventCounts'] = {'openSelf': summary['openSelf'], 'subsidiary': summary['subsidiary'],
+                           'documents': len(findings), 'needsDocument': summary['needsDocument']}
+    # 목록 분류는 끝났지만 본문 확인이 필요한 건은 '해석 완료' 가 아니다 — 소비자가 보류하게 한다.
+    base['uninterpreted'] = uninterpreted + summary['needsDocument']
+    base['listClassified'] = True
+    base['documentsInterpreted'] = False      # 본문은 아직 한 건도 읽지 않았다
+    # 이 회사 자신의 사건만, 사건 단위로 센다. 거래소 반영 확인 경로가 없어 종료보고서가 있어도 연다고 하지 않는다.
+    base['unresolvedHistorical'] = summary['openSelf']
     base['historicalBackfillComplete'] = True
     base['responseRef'] = 'sha256:' + digest.hexdigest()
     base['ok'] = True
@@ -206,7 +215,10 @@ def main(argv=None):
     with open(OUT_FILE, 'w', encoding='utf-8') as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=1, sort_keys=True)
     summary = {k: payload[k] for k in ('attempted', 'succeeded', 'requestsUsed', 'universeMapped')}
-    summary['withFindings'] = sum(1 for t in done if evidence[t]['findings'])
+    summary['withDocuments'] = sum(1 for t in done if evidence[t]['findings'])
+    summary['withOpenEvent'] = sum(1 for t in done if evidence[t]['unresolvedHistorical'])
+    summary['subsidiaryOnly'] = sum(1 for t in done if evidence[t]['findings']
+                                    and not evidence[t]['unresolvedHistorical'])
     summary['clean'] = sum(1 for t in done if not evidence[t]['findings'])
     summary['failed'] = len(todo) - len(done)
     print(json.dumps(summary, ensure_ascii=False))
