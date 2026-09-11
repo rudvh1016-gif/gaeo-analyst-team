@@ -1,0 +1,32 @@
+# 개오 애널리스트팀 — KIND 접근 확인 ONE-SHOT
+#
+# 응답을 받을 수 있는지만 본다. 파서가 아니고 아무것도 해석하지 않는다.
+# 빈 화면·초기 화면·오류 안내문을 '결과 0건' 으로 읽지 않는다 — 그 판정 자체를 하지 않는다.
+# 루프도 자기재기동도 sleep 도 없다. 한 번 돌고 끝난다. 인증·키를 쓰지 않는다.
+
+name: kind-probe
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kind-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: KIND 응답 여부만 확인
+        run: python3 kind_probe.py
