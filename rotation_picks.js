@@ -4,26 +4,26 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 13:48",
- "dataCutoff": "2026-09-11 13:48 장중",
+ "generatedAt": "2026-09-11 14:14",
+ "dataCutoff": "2026-09-11 14:14 장중",
  "horizonDays": 20,
  "picks": [
   {
-   "code": "052690",
-   "name": "한전기술",
+   "code": "000500",
+   "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 6,
-   "why": "20거래일 +52.7% · 20일선 위 · 거래량 평소의 1.4배",
-   "overheat": true,
-   "gapPct": 32.5,
-   "call": "SELL",
-   "callConflict": true
+   "sectorRank": 4,
+   "why": "20거래일 +52.1% · 20일선 위",
+   "overheat": false,
+   "gapPct": 27.5,
+   "call": "HOLD",
+   "callConflict": false
   },
   {
    "code": "000880",
    "name": "한화",
    "sector": "지주·상사",
-   "sectorRank": 3,
+   "sectorRank": 1,
    "why": "20거래일 +36.1% · 20일선 위",
    "overheat": false,
    "gapPct": 11.2,
@@ -33,30 +33,30 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 47.2,
+  "breadthPct": 47.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6886.21,
-    "ma20": 6822.03,
+    "close": 6874.28,
+    "ma20": 6821.43,
     "above": true,
-    "gapPct": 0.94
+    "gapPct": 0.77
    },
    "KOSDAQ": {
-    "close": 820.44,
-    "ma20": 824.73,
+    "close": 819.5,
+    "ma20": 824.68,
     "above": false,
-    "gapPct": -0.52
+    "gapPct": -0.63
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "건설·건자재"
+  "topSector": "지주·상사"
  },
  "record": {
   "hitRate": 53.2,
