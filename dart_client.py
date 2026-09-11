@@ -170,6 +170,21 @@ class DartClient:
             params["corp_cls"] = corp_cls
         return self.call("list.json", params)
 
+    def list_issuer_filings(self, corp_code, bgn_de, end_de, page_no=1, page_count=100,
+                            last_reprt_at="N", sort="date", sort_mth="asc"):
+        """회사 한 곳의 기간 전체 공시 목록.
+
+        ⚠️ list_filings(전체 신규공시)와 목적이 다르다. 전체 목록에 그 종목이 안 보였다는 것은
+           '그 종목에 공시가 없었다'의 증거가 되지 못한다. 부재를 증명하려면 회사별로 조회하고
+           페이지를 끝까지 받아 건수를 대조해야 한다. 그래서 corp_code 를 반드시 넘긴다.
+           호출량이 늘어나므로 부르는 쪽이 예산을 관리한다.
+        정렬을 고정하는 이유: 수집 도중 목록이 밀리면 페이지가 겹치거나 빠진다.
+        """
+        return self.call("list.json", {
+            "corp_code": corp_code, "bgn_de": bgn_de, "end_de": end_de,
+            "page_no": page_no, "page_count": page_count,
+            "last_reprt_at": last_reprt_at, "sort": sort, "sort_mth": sort_mth})
+
     def corp_code_zip(self):
         """전체 기업 corp_code 매핑 원본(zip). Mapping Table 생성용."""
         return self.call("corpCode.xml", {}, raw=True)
