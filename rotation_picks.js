@@ -3,30 +3,53 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-09-11 09:18",
- "dataCutoff": "2026-09-11 09:18 장중",
+ "status": "ready",
+ "generatedAt": "2026-09-11 09:48",
+ "dataCutoff": "2026-09-11 09:48 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 4,
+   "why": "20거래일 +47.9% · 20일선 위",
+   "overheat": false,
+   "gapPct": 24.2,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "064290",
+   "name": "인텍플러스",
+   "sector": "반도체",
+   "sectorRank": 6,
+   "why": "20거래일 +55.8% · 20일선 위",
+   "overheat": true,
+   "gapPct": 35.9,
+   "call": "HOLD",
+   "callConflict": false
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 48.3,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 45.3,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6811.51,
-    "ma20": 6818.29,
-    "above": false,
-    "gapPct": -0.1
+    "close": 6871.05,
+    "ma20": 6821.27,
+    "above": true,
+    "gapPct": 0.73
    },
    "KOSDAQ": {
-    "close": 817.33,
-    "ma20": 824.57,
+    "close": 822.59,
+    "ma20": 824.84,
     "above": false,
-    "gapPct": -0.88
+    "gapPct": -0.27
    }
   }
  },
