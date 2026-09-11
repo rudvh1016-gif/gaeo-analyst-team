@@ -53,6 +53,9 @@ MAX_PAGES_PER_TICKER = 40
 REQUEST_PAUSE_SECONDS = 0.4
 
 
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
+
 def _now():
     return datetime.datetime.now(datetime.timezone.utc)
 
@@ -111,7 +114,8 @@ def payload_for(ticker, bgn, end, page):
 
 
 def collect_one(ticker, bgn, end, budget, cookie=None, sleep=time.sleep):
-    record = blank_record(ticker, bgn, end, _now())
+    queried_at = _now()
+    record = blank_record(ticker, bgn, end, queried_at)
     if budget['left'] <= 0:
         record['error'] = 'REQUEST_BUDGET_EXHAUSTED'
         return record
@@ -177,7 +181,10 @@ def collect_one(ticker, bgn, end, budget, cookie=None, sleep=time.sleep):
                  'title': row.get('title') or '', 'filer': row.get('filer') or ''} for row in rows]
     # 시장조치는 기업행사 분류기로 세지 않는다. 공매도 과열 지정 같은 것은 기준가격도 주식 수도
     # 바꾸지 않으므로 '미해결 기업행사' 로 세면 멀쩡한 종목이 영원히 막힌다.
-    summary = mk.summarize(findings)
+    # as_of 는 이 요청을 실제로 보낸 KST 날짜로 명시한다 — classify 모듈의 기본값(호출 시점의
+    # 시스템 시계)에 맡기면 UTC/KST 경계(예: 23:30 UTC = 다음날 08:30 KST)에서 하루형(PRICE_BASIS)
+    # 판정이 하루 어긋날 수 있다.
+    summary = mk.summarize(findings, as_of=queried_at.astimezone(KST).date())
     record['findings'] = findings
     record['collectedIds'] = sorted({f['id'] for f in findings if f['id']})
     record['events'] = summary['openEffects']
