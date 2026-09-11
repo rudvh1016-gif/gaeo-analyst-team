@@ -1,0 +1,75 @@
+# 개오 애널리스트팀 — KIND 시장조치 수집 (GAEO Private 판정부의 두 번째 경로)
+#
+# 조회하고 대조하고 증거를 남길 뿐, 판정하지 않는다.
+# 실패 화면은 LOOKUP_FAILED 이고 절대 0건이 아니다. 0건은 '조회된 결과값이 없습니다' 화면을
+# 실제로 봤을 때만 적는다. 한 쪽 15건 고정이고 건수가 어긋나면 COUNT_MISMATCH 로 막는다.
+# 인증·키를 쓰지 않는다(공개 화면이다). 루프·자기재기동·sleep 루프 없음. 모델 호출 0.
+
+name: kind-market-action
+
+on:
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: "이번 회차에 볼 종목 수 상한"
+        default: "40"
+      requests:
+        description: "이번 회차 요청 수 상한"
+        default: "200"
+      commit:
+        description: "증거를 main 에 커밋 (기본 true)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kind-market-action
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 오프라인 불변식 시험 (실패가 0건으로 바뀌지 않는지)
+        run: |
+          python3 -m unittest test_kind_result_reader test_kind_market_action_classify test_kind_market_action_collect
+
+      - name: 실제 수집
+        run: python3 collect_kind_market_action.py --tickers "${{ inputs.tickers }}" --requests "${{ inputs.requests }}"
+
+      - name: 증거 커밋
+        if: ${{ inputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gaeo_coverage/kind_market_action_evidence.json || true
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "KIND 시장조치 증거 수집 (GitHub Actions) [skip ci]"
+            for i in 1 2 3 4; do
+              git push origin main && break
+              sleep $((2 ** i))
+              git pull --rebase origin main || true
+            done
+          fi
+
+      - name: 증거 아티팩트
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kind-market-action-evidence
+          path: gaeo_coverage/kind_market_action_evidence.json
+          if-no-files-found: warn
