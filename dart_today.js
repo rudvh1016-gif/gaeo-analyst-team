@@ -1,12 +1,138 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-11 15:14",
- "priceLabel": "2026-09-11 15:08 장중 · ⚠️ 1종목 지연",
- "count": 256,
+ "generatedAt": "2026-09-11 15:44",
+ "priceLabel": "2026-09-11 종가 (15:42 수집) · ⚠️ 1종목 지연",
+ "count": 266,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000382"
+  },
+  {
+   "code": "034950",
+   "name": "한국기업평가",
+   "title": "주주총회소집결의 (임시주주총회)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911900381"
+  },
+  {
+   "code": "034950",
+   "name": "한국기업평가",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911900407"
+  },
+  {
+   "code": "086790",
+   "name": "하나금융지주",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000352"
+  },
+  {
+   "code": "189300",
+   "name": "인텔리안테크",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911900310"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000340"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000355"
+  },
+  {
+   "code": "001510",
+   "name": "SK증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000348"
+  },
+  {
+   "code": "001510",
+   "name": "SK증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000359"
+  },
+  {
+   "code": "001510",
+   "name": "SK증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000389"
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000383"
+  },
+  {
+   "code": "030200",
+   "name": "KT",
+   "title": "자기주식취득결과보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000358"
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "일괄신고추가서류",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000385"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000334"
+  },
   {
    "code": "000720",
    "name": "현대건설",
@@ -512,24 +638,6 @@ const DART_TODAY = {
    "rceptNo": "20260911000113"
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000197"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000198"
-  },
-  {
    "code": "139130",
    "name": "iM금융지주",
    "title": "효력발생안내( 2026.9.1. 제출 증권신고서(채무증권) )",
@@ -681,24 +789,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-10T06:30:14.643588+00:00",
    "isCorrection": false,
    "rceptNo": "20260910000286"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T06:30:14.643588+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000288"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T06:00:07.621036+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000217"
   },
   {
    "code": "002030",
