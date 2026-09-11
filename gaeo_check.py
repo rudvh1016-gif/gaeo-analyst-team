@@ -39,6 +39,7 @@ GROUPS = {
         "test_indicators_split.py", "test_indicator_provenance.py", "test_flow_history.py", "test_flow_period_consistency.py", "test_flow_summary.py",
         "test_dart_pipeline.py", "test_dart_context_loader.py", "test_dart_financials_collect.py", "test_dart_live_hardening.py",
         "test_corporate_action_evidence.py", "test_corporate_action_classify.py",
+        "test_kind_result_reader.py",
         "test_sector_source_promotion.py", "test_ops_status.py", "test_content_freshness.py", "test_seo_publishing.py",
         "test_deep_analysis_pipeline.py", "test_archive_security.py", "test_research_store.py", "test_shared_toss_token.py",
         "test_shared_token_hardening.py", "test_toss_guard.py", "test_toss_market_data_smoke.py",
