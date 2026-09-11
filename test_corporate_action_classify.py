@@ -58,14 +58,43 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(out['openSelf'], 0)
         self.assertEqual(out['subsidiary'], 1)
 
-    def test_a_completion_report_never_clears_the_exchange_side(self):
-        # 회사의 합병 완료와 거래소의 변경상장·거래재개 완료는 다른 사실이다.
+    def test_e003_closes_the_company_step_only(self):
+        # E003 는 '회사 차원 절차 진행 중' 만 닫는다. 거래재개·변경상장·기준가격·주식수는 아니다.
         out = cc.summarize([self.finding('R1', '주요사항보고서(회사합병결정)'),
                             self.finding('R2', '합병등종료보고서(합병)')])
         event = out['events'][0]
         self.assertTrue(event['companyCompleted'])
         self.assertFalse(event['exchangeConfirmed'])
-        self.assertTrue(event['open'])            # 거래소 반영이 미확인이므로 계속 막는다
+        self.assertEqual(event['effectStates'][cc.CORPORATE_EVENT], cc.RESOLVED_CONFIRMED)
+        # 합병이 선언하는 영향은 PRICE·SHARES·LISTING 이다. 선언하지 않은 영향까지 만들어 내지 않는다.
+        for effect in (cc.LISTING, 'PRICE_BASIS', 'SHARE_COUNT'):
+            self.assertEqual(event['effectStates'].get(effect), cc.NEEDS_EXCHANGE, effect)
+        self.assertNotIn(cc.TRADABLE, event['effectStates'])
+        self.assertTrue(event['open'])            # 거래소 확인이 남아 계속 막는다
+        self.assertEqual(out['companyDoneAwaitingExchange'], 1)
+        self.assertEqual(out['fullyResolved'], 0)
+
+    def test_a_title_alone_never_closes_the_share_count(self):
+        # E003 제목이 있다는 이유로 장부 주식수 반영을 완료 처리하지 않는다.
+        out = cc.summarize([self.finding('R1', '주요사항보고서(무상증자결정)'),
+                            self.finding('R2', '합병등종료보고서(합병)')])
+        share = [e for e in out['events'] if 'SHARE_COUNT' in e['effectStates']]
+        self.assertTrue(share)
+        for event in share:
+            self.assertEqual(event['effectStates']['SHARE_COUNT'], cc.NEEDS_EXCHANGE)
+
+    def test_a_withdrawal_closes_the_company_step_too(self):
+        out = cc.summarize([self.finding('R1', '주요사항보고서(유상증자결정)'),
+                            self.finding('R2', '유상증자결정 철회')])
+        event = out['events'][0]
+        self.assertIn(cc.WITHDRAWN, event['stages'])
+        self.assertEqual(event['effectStates'][cc.CORPORATE_EVENT], cc.RESOLVED_CONFIRMED)
+
+    def test_an_event_with_no_exchange_effect_can_be_fully_resolved(self):
+        out = cc.summarize([self.finding('R1', '공개매수신고서'),
+                            self.finding('R2', '합병등종료보고서(자산양수도)')])
+        # 공개매수는 SHARES 영향이라 SHARE_COUNT 가 남는다 — 완전 해소가 아니다.
+        self.assertEqual(out['fullyResolved'], 0)
 
     def test_different_families_are_different_events(self):
         out = cc.summarize([self.finding('R1', '주요사항보고서(감자결정)'),

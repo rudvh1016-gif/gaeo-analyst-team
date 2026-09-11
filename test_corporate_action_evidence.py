@@ -57,8 +57,9 @@ class CollectorTests(unittest.TestCase):
                 filing('R2', '[기재정정]주요사항보고서(감자결정)'),
                 filing('R3', '[첨부정정]주요사항보고서(감자결정)')]
         out = run(FakeClient([page(rows)]))
-        self.assertEqual(out['eventCounts'], {'openSelf': 1, 'subsidiary': 0,
-                                              'documents': 3, 'needsDocument': 0})
+        self.assertEqual(out['eventCounts'], {'openSelf': 1, 'subsidiary': 0, 'documents': 3,
+                                              'needsDocument': 0, 'companyDoneAwaitingExchange': 0,
+                                              'fullyResolved': 0, 'events': 1})
         self.assertEqual(out['unresolvedHistorical'], 1)
 
     def test_a_subsidiary_filing_does_not_block_this_stock(self):
