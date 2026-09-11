@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 11:18",
- "dataCutoff": "2026-09-11 11:18 장중",
+ "generatedAt": "2026-09-11 11:48",
+ "dataCutoff": "2026-09-11 11:48 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 3,
-   "why": "20거래일 +47.6% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +49.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 23.9,
+   "gapPct": 25.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -23,33 +23,33 @@ window.ROTATION_PICKS = {
    "code": "000880",
    "name": "한화",
    "sector": "지주·상사",
-   "sectorRank": 2,
-   "why": "20거래일 +36.4% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +36.5% · 20일선 위",
    "overheat": false,
-   "gapPct": 11.4,
+   "gapPct": 11.5,
    "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 45.8,
+  "breadthPct": 47.8,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6853.79,
-    "ma20": 6820.41,
+    "close": 6849.18,
+    "ma20": 6820.18,
     "above": true,
-    "gapPct": 0.49
+    "gapPct": 0.43
    },
    "KOSDAQ": {
-    "close": 822.7,
-    "ma20": 824.84,
+    "close": 822.47,
+    "ma20": 824.83,
     "above": false,
-    "gapPct": -0.26
+    "gapPct": -0.29
    }
   }
  },
