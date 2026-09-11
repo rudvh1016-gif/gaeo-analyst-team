@@ -22,6 +22,7 @@ import urllib.request
 BASE = 'https://kind.krx.co.kr'
 MKTACT = BASE + '/disclosure/detailsExt.do?ext=y&method=searchDetailsMktactMainExt'
 AKC_JS = BASE + '/js/akc.js?version=20251024'
+COMMON_JS = BASE + '/js/common.js'
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
 #: 이 저장소의 공개 증거 파일에 이미 들어 있는 종목이다(000020 부터 순서대로 훑은 목록).
 #: 보유·추적 목록과 무관하므로 새로 드러나는 정보가 없다.
@@ -114,63 +115,56 @@ def main():
         if name:
             hidden[name.group(1)] = value.group(1) if value else ''
 
-    # 1) 회사명 검색을 실제로 하는 스크립트에서 주소와 인자 이름을 **추출**한다.
-    meta, akc = call('GET akc.js', AKC_JS, cookie=jar(), referer=MKTACT)
-    found = {'doUrls': [], 'paramNames': [], 'context': None}
-    if akc:
-        found['doUrls'] = sorted(set(re.findall(r'[\w/.-]*searchcorpname[\w.]*\.do', akc, re.I)))[:6]
-        found['paramNames'] = sorted(set(re.findall(r'["\'](\w{3,20})["\']\s*:\s*', akc)))[:30]
-        found['context'] = slice_around(akc, 'searchcorpname', 900, 400) or slice_around(akc, 'CorpName', 700, 300)
-    report['steps'].append({'step': 'GET akc.js', 'http': meta, 'found': found})
-
-    # 2) 회사명 검색을 실제로 보낸다. 후보 인자 이름을 하나씩 시험하고 응답 원문을 그대로 남긴다.
-    lookup_url = BASE + '/common/searchcorpname.do'
-    lookups = []
-    for label, payload in (
-        ('searchCorpName', {'searchCorpName': SAMPLE_NAME, 'searchCodeType': 'char'}),
-        ('AKCKwd', {'AKCKwd': SAMPLE_NAME, 'searchCodeType': 'char'}),
-        ('comnm', {'comnm': SAMPLE_NAME}),
-    ):
-        meta, body = call('회사명 검색:' + label, lookup_url, data=payload, cookie=jar(), referer=MKTACT)
+    # 1) 회사명 검색을 실제로 만드는 자리를 찾는다. akc.js 는 parent 로 넘길 뿐이었다(1회차 실측).
+    for label, url in (('akc.js', AKC_JS), ('common.js', COMMON_JS)):
+        meta, js = call('GET ' + label, url, cookie=jar(), referer=MKTACT)
         if meta is None:
             break
-        entry = {'step': '회사명 검색', 'param': label, 'http': meta,
-                 'raw': (' '.join(body.split()))[:RAW] if body else None,
-                 'repisusrtcdSeen': sorted(set(re.findall(r'repisusrtcd["\']?\s*[:=]\s*["\']?(\w{4,12})', body or '', re.I)))[:5]}
-        report['steps'].append(entry)
-        lookups.append(entry)
-        if entry['repisusrtcdSeen']:
+        found = {'doUrls': [], 'context': None}
+        if js:
+            found['doUrls'] = sorted(set(re.findall(r'[\w/.-]*searchcorpname[\w.]*\.do', js, re.I)))[:6]
+            found['context'] = slice_around(js, 'searchcorpname', 1400, 700)
+        report['steps'].append({'step': 'GET ' + label, 'http': meta, 'found': found})
+
+    # 2) 이름 조회 경로가 막혀 있다. 그래서 식별값을 **직접 시험한다.**
+    #    repIsuSrtCd 에 종목코드를 넣고 보냈을 때 결과가 그 회사 하나로 좁혀지면 그것이 증거다.
+    #    좁혀지지 않으면 '종목코드가 아니다' 라고 적는다 — 어느 쪽이든 결과를 그대로 남긴다.
+    payload = dict(hidden)
+    payload.update({'method': 'searchDetailsMktactSubExt', 'forward': 'details_mktact_sub_ext',
+                    'currentPageSize': '15', 'pageIndex': '1', 'searchCodeType': 'char',
+                    'repIsuSrtCd': SAMPLE_TICKER, 'searchCorpName': '', 'searchCorpNameTmp': ''})
+    for label, window in (('종목지정_최근1년', ('2025-09-11', '2026-09-11')),
+                          ('종목지정_하루', ('2026-09-11', '2026-09-11')),
+                          ('대조_종목미지정_하루', ('2026-09-11', '2026-09-11'))):
+        body_payload = dict(payload)
+        body_payload['fromData'], body_payload['toData'] = window
+        if label.startswith('대조'):
+            body_payload['repIsuSrtCd'] = ''
+        meta, body = call(label, BASE + '/disclosure/detailsExt.do',
+                          data=body_payload, cookie=jar(), referer=MKTACT)
+        if meta is None:
             break
+        names = re.findall(r'<font title="([^"]+)"><img', body or '')
+        observed = {
+            'countPhrases': re.findall(r'(?:총|전체)\s*[^<>]{0,20}?([0-9,]+)\s*건', strip_tags(body or ''))[:3],
+            'pageInfo': slice_around(body or '', 'info type-00', 200),
+            'companyNamesInRows': sorted(set(names))[:8],
+            'rowCompanyCount': len(names),
+            'hasErrorPage': '페이지 오류' in (body or ''),
+            'text': strip_tags(body or '')[:300],
+            'rawAroundTable': slice_around(body or '', '<table class="list', 900),
+        }
+        report['steps'].append({'step': label, 'window': window, 'repIsuSrtCd': body_payload['repIsuSrtCd'],
+                                'http': meta, 'observed': observed})
 
-    code = next((e['repisusrtcdSeen'][0] for e in lookups if e['repisusrtcdSeen']), None)
-    report['identifier'] = {'repIsuSrtCd': code, 'comparedWith': SAMPLE_TICKER,
-                            'matchesTicker': (code == SAMPLE_TICKER) if code else None,
-                            'note': '못 찾았으면 None 이다. 추측한 값을 넣지 않는다. '
-                                    'matchesTicker 가 참이어야 repIsuSrtCd 를 종목코드로 읽을 수 있다.'}
-
-    # 3) 찾은 식별값으로 종목별 시장조치 조회를 실제로 보낸다.
-    if code:
-        payload = dict(hidden)
-        payload.update({'method': 'searchDetailsMktactSubExt', 'forward': 'details_mktact_sub_ext',
-                        'currentPageSize': '15', 'pageIndex': '1', 'searchCodeType': 'char',
-                        'repIsuSrtCd': code, 'searchCorpName': SAMPLE_NAME, 'searchCorpNameTmp': SAMPLE_NAME})
-        for label, window in (('종목별_최근1년', ('2025-09-11', '2026-09-11')),
-                              ('종목별_하루', ('2026-09-11', '2026-09-11'))):
-            body_payload = dict(payload)
-            body_payload['fromData'], body_payload['toData'] = window
-            meta, body = call(label, BASE + '/disclosure/detailsExt.do',
-                              data=body_payload, cookie=jar(), referer=MKTACT)
-            if meta is None:
-                break
-            observed = {
-                'countPhrases': re.findall(r'(?:총|전체)\s*[^<>]{0,20}?([0-9,]+)\s*건', strip_tags(body or ''))[:3],
-                'rowCount': len(re.findall(r'<tr[^>]*>\s*<td[^>]*class="first', body or '', re.I)),
-                'hasErrorPage': '페이지 오류' in (body or ''),
-                'text': strip_tags(body or '')[:400],
-                'rawAroundTable': slice_around(body or '', '<table', 1200),
-                'rawAroundPaging': slice_around(body or '', 'paging-group', 900, 200),
-            }
-            report['steps'].append({'step': label, 'window': window, 'http': meta, 'observed': observed})
+    scoped = next((s2 for s2 in report['steps'] if s2.get('step') == '종목지정_최근1년'), None)
+    names = (scoped or {}).get('observed', {}).get('companyNamesInRows') or []
+    report['identifier'] = {
+        'tried': SAMPLE_TICKER,
+        'rowsNarrowedToOneCompany': (len(names) == 1) if names else None,
+        'companySeen': names[0] if len(names) == 1 else None,
+        'note': '행이 한 회사로 좁혀졌을 때만 repIsuSrtCd 를 종목코드로 읽는다. '
+                '좁혀지지 않았거나 행이 없으면 아직 모르는 것이다 — 그렇게 적는다.'}
 
     report['stillUnverified'] = ['확인한 것만 위에 있다. 없는 것은 없는 것이다.']
     print(json.dumps(report, ensure_ascii=False, indent=1))
