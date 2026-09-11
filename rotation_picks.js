@@ -4,52 +4,52 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 13:18",
- "dataCutoff": "2026-09-11 13:18 장중",
+ "generatedAt": "2026-09-11 13:48",
+ "dataCutoff": "2026-09-11 13:48 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "052690",
    "name": "한전기술",
    "sector": "전력·에너지",
-   "sectorRank": 4,
-   "why": "20거래일 +50.5% · 20일선 위",
+   "sectorRank": 6,
+   "why": "20거래일 +52.7% · 20일선 위 · 거래량 평소의 1.4배",
    "overheat": true,
-   "gapPct": 30.7,
+   "gapPct": 32.5,
    "call": "SELL",
    "callConflict": true
   },
   {
-   "code": "000370",
-   "name": "한화손해보험",
-   "sector": "보험",
-   "sectorRank": 2,
-   "why": "20거래일 +34.6% · 20일선 위",
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 3,
+   "why": "20거래일 +36.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 8.5,
-   "call": "HOLD",
+   "gapPct": 11.2,
+   "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 46.5,
+  "breadthPct": 47.2,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6851.28,
-    "ma20": 6820.28,
+    "close": 6886.21,
+    "ma20": 6822.03,
     "above": true,
-    "gapPct": 0.45
+    "gapPct": 0.94
    },
    "KOSDAQ": {
-    "close": 818.01,
-    "ma20": 824.61,
+    "close": 820.44,
+    "ma20": 824.73,
     "above": false,
-    "gapPct": -0.8
+    "gapPct": -0.52
    }
   }
  },
