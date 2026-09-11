@@ -1,12 +1,147 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-11 14:44",
- "priceLabel": "2026-09-11 14:34 장중 · ⚠️ 1종목 지연",
- "count": 248,
+ "generatedAt": "2026-09-11 15:14",
+ "priceLabel": "2026-09-11 15:08 장중 · ⚠️ 1종목 지연",
+ "count": 256,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000720",
+   "name": "현대건설",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911800322"
+  },
+  {
+   "code": "161390",
+   "name": "한국타이어앤테크놀로지",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000321"
+  },
+  {
+   "code": "089590",
+   "name": "제주항공",
+   "title": "[기재정정]유형자산처분결정",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260911800332"
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000305"
+  },
+  {
+   "code": "046890",
+   "name": "서울반도체",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911900314"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000315"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000331"
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000303"
+  },
+  {
+   "code": "006340",
+   "name": "대원전선",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911800311"
+  },
+  {
+   "code": "000270",
+   "name": "기아",
+   "title": "특수관계인으로부터기타유가증권매수",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000318"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000327"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000290"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911000309"
+  },
+  {
+   "code": "003620",
+   "name": "KG모빌리티",
+   "title": "유상증자또는주식관련사채등의발행결과(자율공시)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911800341"
+  },
+  {
+   "code": "175330",
+   "name": "JB금융지주",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260911",
+   "detectedAt": "2026-09-11T06:13:13.882762+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260911800327"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -199,15 +334,6 @@ const DART_TODAY = {
   {
    "code": "001200",
    "name": "유진투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000109"
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260911",
    "detectedAt": "2026-09-11T05:13:16.176649+00:00",
@@ -388,15 +514,6 @@ const DART_TODAY = {
   {
    "code": "030610",
    "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000174"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
    "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260911",
    "detectedAt": "2026-09-11T05:13:16.176649+00:00",
@@ -447,24 +564,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T05:13:16.176649+00:00",
    "isCorrection": false,
    "rceptNo": "20260911000212"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000071"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000076"
   },
   {
    "code": "005940",
@@ -728,15 +827,6 @@ const DART_TODAY = {
    "rceptNo": "20260910800130"
   },
   {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합증권-상장지수증권)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T02:41:21.258608+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000117"
-  },
-  {
    "code": "067160",
    "name": "SOOP",
    "title": "주식등의대량보유상황보고서(약식)",
@@ -771,15 +861,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-10T01:41:22.801543+00:00",
    "isCorrection": true,
    "rceptNo": "20260910000072"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260910",
-   "detectedAt": "2026-09-10T01:41:22.801543+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260910000078"
   },
   {
    "code": "280360",
@@ -1464,15 +1545,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-08T07:06:59.979753+00:00",
    "isCorrection": false,
    "rceptNo": "20260908000279"
-  },
-  {
-   "code": "000720",
-   "name": "현대건설",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260908",
-   "detectedAt": "2026-09-08T07:06:59.979753+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260908800440"
   },
   {
    "code": "257720",

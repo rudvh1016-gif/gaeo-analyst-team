@@ -4,52 +4,52 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 14:44",
- "dataCutoff": "2026-09-11 14:44 장중",
+ "generatedAt": "2026-09-11 15:14",
+ "dataCutoff": "2026-09-11 15:14 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "052690",
    "name": "한전기술",
    "sector": "전력·에너지",
-   "sectorRank": 4,
-   "why": "20거래일 +51.6% · 20일선 위 · 거래량 평소의 1.8배",
+   "sectorRank": 5,
+   "why": "20거래일 +53.0% · 20일선 위 · 거래량 평소의 2.0배",
    "overheat": true,
-   "gapPct": 31.6,
+   "gapPct": 32.7,
    "call": "SELL",
    "callConflict": true
   },
   {
-   "code": "064290",
-   "name": "인텍플러스",
-   "sector": "반도체",
-   "sectorRank": 8,
-   "why": "20거래일 +50.9% · 20일선 위",
-   "overheat": true,
-   "gapPct": 31.9,
-   "call": "HOLD",
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 2,
+   "why": "20거래일 +36.7% · 20일선 위",
+   "overheat": false,
+   "gapPct": 11.7,
+   "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 46.5,
+  "breadthPct": 48.7,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6876.27,
-    "ma20": 6821.53,
+    "close": 6921.37,
+    "ma20": 6823.79,
     "above": true,
-    "gapPct": 0.8
+    "gapPct": 1.43
    },
    "KOSDAQ": {
-    "close": 819.61,
-    "ma20": 824.69,
+    "close": 821.73,
+    "ma20": 824.79,
     "above": false,
-    "gapPct": -0.62
+    "gapPct": -0.37
    }
   }
  },
