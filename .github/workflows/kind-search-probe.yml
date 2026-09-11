@@ -1,0 +1,32 @@
+# 개오 애널리스트팀 — KIND 실제 검색 요청 ONE-SHOT
+#
+# 검색 요청을 실제로 보내고 **결과 화면의 겉모양만** 기록한다. 파서가 아니다.
+# 행이 보이지 않아도 '기업행사 0건' 으로 적지 않는다 — 그 판정 자체를 하지 않는다.
+# 루프·자기재기동·sleep 없음. 한 번 돌고 끝난다. 인증·키를 쓰지 않는다. 모델 호출 0.
+
+name: kind-search-probe
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kind-search-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: KIND 검색 요청을 보내고 화면의 겉모양을 기록
+        run: python3 kind_search_probe.py
