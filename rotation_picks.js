@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 12:18",
- "dataCutoff": "2026-09-11 12:18 장중",
+ "generatedAt": "2026-09-11 12:48",
+ "dataCutoff": "2026-09-11 12:48 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 4,
-   "why": "20거래일 +51.8% · 20일선 위",
+   "why": "20거래일 +49.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 27.2,
+   "gapPct": 25.6,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,32 +24,32 @@ window.ROTATION_PICKS = {
    "name": "한화손해보험",
    "sector": "보험",
    "sectorRank": 1,
-   "why": "20거래일 +33.9% · 20일선 위",
+   "why": "20거래일 +34.8% · 20일선 위",
    "overheat": false,
-   "gapPct": 7.9,
+   "gapPct": 8.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 46.7,
+  "breadthPct": 45.5,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6854.78,
-    "ma20": 6820.46,
+    "close": 6834.12,
+    "ma20": 6819.42,
     "above": true,
-    "gapPct": 0.5
+    "gapPct": 0.22
    },
    "KOSDAQ": {
-    "close": 821.24,
-    "ma20": 824.77,
+    "close": 817.53,
+    "ma20": 824.58,
     "above": false,
-    "gapPct": -0.43
+    "gapPct": -0.86
    }
   }
  },
