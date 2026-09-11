@@ -35,7 +35,7 @@ import dart_pipeline
 
 #: 이 수집기가 만드는 증거의 계약 버전. Private 이 이 이름으로 계약을 확인한다.
 CONTRACT_VERSION = 'corporate-action-evidence-v1'
-PARSER_VERSION = 'opendart-list-json-v2-events'
+PARSER_VERSION = 'opendart-list-json-v3-effects'
 SOURCE = 'OPENDART_API'
 RETRIEVAL_PATH = 'opendart:list.json?corp_code'
 IDENTITY_BASIS = 'corp_code_map'
@@ -145,7 +145,10 @@ def collect_one(client, ticker, corp_code, bgn_de, end_de, budget):
     summary = classify.summarize(findings)
     base['events'] = summary['events']
     base['eventCounts'] = {'openSelf': summary['openSelf'], 'subsidiary': summary['subsidiary'],
-                           'documents': len(findings), 'needsDocument': summary['needsDocument']}
+                           'documents': len(findings), 'needsDocument': summary['needsDocument'],
+                           'companyDoneAwaitingExchange': summary['companyDoneAwaitingExchange'],
+                           'fullyResolved': summary['fullyResolved'],
+                           'events': len(summary['events'])}
     # 목록 분류는 끝났지만 본문 확인이 필요한 건은 '해석 완료' 가 아니다 — 소비자가 보류하게 한다.
     base['uninterpreted'] = uninterpreted + summary['needsDocument']
     base['listClassified'] = True
