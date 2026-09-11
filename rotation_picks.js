@@ -4,59 +4,59 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 10:18",
- "dataCutoff": "2026-09-11 10:18 장중",
+ "generatedAt": "2026-09-11 10:49",
+ "dataCutoff": "2026-09-11 10:49 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 5,
-   "why": "20거래일 +50.6% · 20일선 위",
+   "sectorRank": 3,
+   "why": "20거래일 +47.5% · 20일선 위",
    "overheat": false,
-   "gapPct": 26.3,
+   "gapPct": 23.8,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "064290",
-   "name": "인텍플러스",
-   "sector": "반도체",
-   "sectorRank": 7,
-   "why": "20거래일 +51.7% · 20일선 위",
-   "overheat": true,
-   "gapPct": 32.6,
-   "call": "HOLD",
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 2,
+   "why": "20거래일 +36.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 11.1,
+   "call": "BUY",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 42.8,
+  "breadthPct": 45.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6865.75,
-    "ma20": 6821.0,
+    "close": 6853.78,
+    "ma20": 6820.41,
     "above": true,
-    "gapPct": 0.66
+    "gapPct": 0.49
    },
    "KOSDAQ": {
-    "close": 821.86,
-    "ma20": 824.8,
+    "close": 821.98,
+    "ma20": 824.81,
     "above": false,
-    "gapPct": -0.36
+    "gapPct": -0.34
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "지주·상사"
+  "topSector": "건설·건자재"
  },
  "record": {
   "hitRate": 53.2,
