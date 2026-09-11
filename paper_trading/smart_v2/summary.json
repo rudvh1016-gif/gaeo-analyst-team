@@ -4,15 +4,15 @@
  "environment": "LIVE_PAPER_SMART_V2",
  "forwardStart": "2026-08-27",
  "engineStartedAt": "2026-08-27T09:35:08+09:00",
- "generatedAt": "2026-09-11T00:20:07+09:00",
+ "generatedAt": "2026-09-11T09:05:07+09:00",
  "evidence": "INSUFFICIENT_EVIDENCE — 청산 표본이 적어 성과 결론 금지",
- "totalForwardSignals": 223,
+ "totalForwardSignals": 255,
  "openTrades": 10,
  "maturedTrades": 1,
  "closedEntryDays": 1,
  "minClosedForEvidence": 20,
  "minEntryDaysForEvidence": 20,
- "skippedSignals": 212,
+ "skippedSignals": 244,
  "winRatePct": null,
  "avgReturnPct": null,
  "medianReturnPct": null,
@@ -67,8 +67,8 @@
  "realizedPnl": null,
  "unrealizedPnl": null,
  "portfolioReturnPct": null,
- "valuationObservedAt": "2026-09-11T00:20:03+09:00",
- "valuationMarketAt": "2026-09-10T17:30:30.000+09:00",
+ "valuationObservedAt": "2026-09-11T09:05:06+09:00",
+ "valuationMarketAt": "2026-09-11T09:04:59.000+09:00",
  "valuationStatus": "MARKED",
  "executedTradeCount": 11,
  "accounting": {
@@ -121,9 +121,9 @@
   "note": "V1을 대체하지 않는다. 성적이 좋아도 자동 승격 없음"
  },
  "observationRecords": 51,
- "shadowSwapRecords": 41,
- "chiefPathRecords": 468,
- "skippedCandidateRecords": 223,
+ "shadowSwapRecords": 42,
+ "chiefPathRecords": 478,
+ "skippedCandidateRecords": 255,
  "accountMetricsGatedUntilEvidence": [
   "portfolioReturnPct",
   "realizedPnl",
@@ -189,7 +189,7 @@
    "observations": 0
   }
  ],
- "sourceAnalysisCompletedAt": "2026-09-01T14:38:39+09:00",
+ "sourceAnalysisCompletedAt": "2026-09-10T15:31:20+09:00",
  "sourceModelVersion": "baseline-risk-v2",
  "sourceCommitSha": null
 }
