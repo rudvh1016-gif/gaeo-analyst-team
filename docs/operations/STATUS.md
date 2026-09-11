@@ -3,6 +3,38 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-12 01:10 KST — Oracle 이전 검토 → **중단(WINDOWS 유지)** · Private 무변경
+
+> 전문: `docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md`
+> **Oracle 서버에 설치·수정·삭제 0건(읽기 전용 조사만).** `activeRunner=WINDOWS` 그대로.
+
+**판정: C — PRIVATE 안전을 위해 Oracle 이전을 하지 않는다.** fail-closed 설계대로의 정상 결과다.
+
+Private 기준점(조사 전후 동일, 아무것도 안 바꿨으므로): `gaeo-gateway`·`gaeo-intelligence-bridge`·
+`gaeo-mcp` 전부 active **재시작 0회** · NOVA healthy(`/health/live` 200, `/health/ready` 200) ·
+최근 24h **401/403/token 오류 0건** · failed unit 0건.
+
+**토큰 발급자 = `gaeo-gateway` 하나** (`toss/token_manager.py` 단독, Toss 자격증명을 가진 유닛도 그것뿐).
+Bridge는 `ExistingTokenReader`로 **읽기만** 하고 없으면 실패한다. 이 불변조건은 이번에 바뀌지 않았다.
+
+중단 사유 3개 (하나만 걸려도 중단 — 셋 다 걸렸다):
+
+| # | 사유 | 근거 |
+|---|---|---|
+| 1 | **토큰 발급자가 늘어난다**(§6 위반) | 토스는 client 1개당 유효 토큰 1개. Team과 Gateway가 **같은 client 자격증명**을 쓴다(집 PC 로그가 매 회차 "지금 토큰을 발급하면 Gateway 토큰이 끊깁니다"라고 경고). Team이 발급하면 Private 즉시 중단, 공유 저장소를 주면 Team이 발급 가능 주체가 된다 |
+| 2 | **Bridge로 Team 데이터 공급 불가 → 늘리려면 Private 수정**(§9) | Bridge `/v1/market`은 임의 조회가 아니라 **고정 범위 수집기**(`max_candidates=50`, 시드는 Private의 holdings+GAEO30+랭킹, `coverage.fullMarket=False`). Team 유니버스는 **600종목** + 종목 지정 호가 필요. 새 엔드포인트 추가 = Private 운영 서비스 변경(§3 금지) + Team 트래픽이 Private 토큰을 타고 나가 rate limit(수치 미공표) 위험 |
+| 3 | **같은 root disk 압박**(§14) | Oracle `/` 여유 **14G**. `.git` **2.0GB**, 이력 **월 ~2.3GB** 증가(7일 459커밋) → **4~5개월이면 고갈**. 같은 디스크에 Private SQLite·NOVA가 있다. 얕은 복제 우회는 복구 도구가 exit 11로 거부 |
+
+참고 제약(결정적이진 않음): **CPU 1개·swap 0** 환경을 Gateway·Bridge·NOVA·runner 2개와 공유.
+
+데이터 대조 결과: 달력 **AVAILABLE**(`/v1/calendar`) · 호가/현재가/메타 **부분**(50종목 한도) ·
+`/api/v1/trades` 는 Team 코드에 **호출부가 없어 요구사항 아님**(주석·allowlist에만 존재).
+
+**다시 검토하려면(선행 조건)**: ① 저장소 비대 해결(구간 8 소유자 결정) ② Private/NOVA와 **다른 볼륨**
+③ **Team 전용 Toss client 분리**(가장 유망 — 차단 1·2를 동시에 없애고 Bridge를 안 고쳐도 된다)
+④ 또는 Private이 자기 필요로 범용 조회를 갖게 될 때.
+남은 UNKNOWN: 토스가 한 계정에 복수 client 발급을 허용하는지(개발자센터 확인 필요) · OCI 무료 블록스토리지 잔여.
+
 ## 2026-09-11 00:20 KST — 집 PC PAPER 복구 **완료** (집 PC 실측 세션)
 
 > 이 절이 아래 「확정된 사실」 1번(“PAPER 마지막 회차 = 2026-09-01”)을 **대체한다.**
