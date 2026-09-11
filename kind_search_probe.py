@@ -118,7 +118,18 @@ def look(text):
         'hasNoDataWord': any(w in text for w in ('조회된 결과', '조회된 자료', '검색된 결과', 'no_data', '없습니다')),
         'looksLikeLoginOrError': any(w in text for w in ('로그인', '오류가 발생', 'Error', '서비스 점검')),
         'textSnippet': strip_tags(text)[:SNIPPET],
+        # 파서는 **실제 마크업**을 보고 쓴다. 겉으로 읽은 글자만으로 쓰면 열 순서를 지어내게 된다.
+        # 그래서 결과표와 페이지 이동 자리의 원문을 그대로 한 토막씩 남긴다(값은 공개 화면의 것이다).
+        'rawAroundFirstTable': _slice(text, '<table', 4000),
+        'rawAroundPaging': _slice(text, 'fnPageGo', 1200, back=600),
     }
+
+
+def _slice(text, needle, span, back=0):
+    at = text.find(needle)
+    if at < 0:
+        return None
+    return ' '.join(text[max(0, at - back): at + span].split())
 
 
 def search(case, url, payload, cookie, posts):
