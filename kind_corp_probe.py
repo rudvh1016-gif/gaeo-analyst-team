@@ -32,6 +32,9 @@ SAMPLE_TICKER = '000020'
 #: 2026-09-11 에 시장조치가 **실제로 있었던** 회사다(대조 조회 화면에서 이름을 그대로 봤다).
 #: 조치가 없는 종목만 시험하면 '0건' 이 '인자가 먹었다' 인지 '인자가 무시됐다' 인지 구분되지 않는다.
 KNOWN_ACTION_TICKER = '036930'
+#: 결과 행이 그 회사를 부를 때 쓰던 값이다: companysummary_open('03693').
+#: 종목코드에서 끝자리를 뺀 모양으로 보였지만 규칙이라고 단정하지 않는다 — 그래서 시험한다.
+KNOWN_ACTION_ALT = '03693'
 KNOWN_ACTION_NAME = '주성엔지니어링'
 KNOWN_ACTION_DAY = '2026-09-11'
 MAX_REQUESTS = 12
@@ -162,29 +165,37 @@ def main():
         report['steps'].append({'step': label, 'window': window, 'repIsuSrtCd': body_payload['repIsuSrtCd'],
                                 'http': meta, 'observed': observed})
 
-    # 조치가 있었던 종목으로도 보낸다. 이것이 인자가 실제로 먹는지 가르는 시험이다.
-    known = dict(payload)
-    known.update({'repIsuSrtCd': KNOWN_ACTION_TICKER,
-                  'fromData': KNOWN_ACTION_DAY, 'toData': KNOWN_ACTION_DAY})
-    meta, body = call('조치있는종목_하루', BASE + '/disclosure/detailsExt.do',
-                      data=known, cookie=jar(), referer=MKTACT)
-    if meta is not None:
+    # 조치가 있었던 종목으로 **여러 형태의 식별값**을 차례로 시험한다.
+    # 그 회사의 행만 돌아오는 형태가 있으면 그것이 답이다. 없으면 '아직 모른다' 로 적는다.
+    report['identifierTests'] = []
+    for label, value in (('여섯자리', KNOWN_ACTION_TICKER),
+                         ('다섯자리', KNOWN_ACTION_ALT),
+                         ('A접두', 'A' + KNOWN_ACTION_TICKER)):
+        known = dict(payload)
+        known.update({'repIsuSrtCd': value,
+                      'fromData': KNOWN_ACTION_DAY, 'toData': KNOWN_ACTION_DAY})
+        meta, body = call('조치있는종목:' + label, BASE + '/disclosure/detailsExt.do',
+                          data=known, cookie=jar(), referer=MKTACT)
+        if meta is None:
+            break
         names = re.findall(r'<font title="([^"]+)"><img', body or '')
-        report['steps'].append({'step': '조치있는종목_하루', 'repIsuSrtCd': KNOWN_ACTION_TICKER,
-                                'http': meta,
-                                'observed': {
-                                    'countPhrases': re.findall(r'(?:총|전체)\s*[^<>]{0,20}?([0-9,]+)\s*건',
-                                                               strip_tags(body or ''))[:3],
-                                    'companyNamesInRows': sorted(set(names))[:8],
-                                    'rowCompanyCount': len(names),
-                                    'hasErrorPage': '페이지 오류' in (body or ''),
-                                    'text': strip_tags(body or '')[:300]}})
-        report['identifierTest'] = {
-            'ticker': KNOWN_ACTION_TICKER, 'expectedCompany': KNOWN_ACTION_NAME,
-            'namesReturned': sorted(set(names))[:8],
-            'onlyExpectedCompany': (set(names) == {KNOWN_ACTION_NAME}) if names else False,
-            'note': 'onlyExpectedCompany 가 참일 때만 repIsuSrtCd 를 종목코드로 읽는다. '
-                    '행이 없으면 인자가 먹은 것인지 무시된 것인지 아직 모른다.'}
+        counts = re.findall(r'(?:총|전체)\s*[^<>]{0,20}?([0-9,]+)\s*건', strip_tags(body or ''))[:3]
+        outcome = {'form': label, 'value': value, 'bytes': meta.get('bytes'),
+                   'countPhrases': counts, 'namesReturned': sorted(set(names))[:8],
+                   'rowCompanyCount': len(names),
+                   'onlyExpectedCompany': (set(names) == {KNOWN_ACTION_NAME}) if names else False,
+                   'hasErrorPage': '페이지 오류' in (body or '')}
+        report['identifierTests'].append(outcome)
+        report['steps'].append({'step': '조치있는종목:' + label, 'http': meta, 'observed': outcome})
+        if outcome['onlyExpectedCompany']:
+            break
+
+    winners = [t for t in report['identifierTests'] if t['onlyExpectedCompany']]
+    report['identifierConclusion'] = {
+        'expectedCompany': KNOWN_ACTION_NAME,
+        'formThatWorked': winners[0]['form'] if winners else None,
+        'valueThatWorked': winners[0]['value'] if winners else None,
+        'note': '먹는 형태가 하나도 없으면 아직 모르는 것이다. 그렇게 적고 파서를 쓰지 않는다.'}
 
     scoped = next((s2 for s2 in report['steps'] if s2.get('step') == '종목지정_최근1년'), None)
     names = (scoped or {}).get('observed', {}).get('companyNamesInRows') or []
