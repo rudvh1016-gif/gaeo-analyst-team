@@ -131,49 +131,106 @@ def search(case, url, payload, cookie, posts):
     return record
 
 
+def assets(text):
+    """화면이 실제로 불러오는 것들. 검색 요청을 만드는 코드는 이 안에 있다."""
+    return {
+        'scriptSrc': sorted(set(re.findall(r'<script[^>]*\bsrc\s*=\s*["\']([^"\']+)', text, re.I)))[:20],
+        'frameSrc': sorted(set(re.findall(r'<(?:iframe|frame)[^>]*\bsrc\s*=\s*["\']([^"\']+)', text, re.I)))[:10],
+        'doUrls': sorted(set(re.findall(r'[\w/.-]+\.do(?:\?[^"\'\s<>]*)?', text)))[:25],
+        'methodStrings': sorted(set(re.findall(r'method\s*[=:]\s*["\']?([A-Za-z]{4,40})', text)))[:25],
+        'forwardStrings': sorted(set(re.findall(r'forward\s*[=:]\s*["\']([A-Za-z_]{3,40})', text)))[:25],
+    }
+
+
+def around(text, needle, span=160, limit=4):
+    """낱말 주변을 그대로 보여 준다 — 해석하지 않고 원문을 옮긴다."""
+    out = []
+    for match in list(re.finditer(re.escape(needle), text))[:limit]:
+        chunk = text[max(0, match.start() - span):match.end() + span]
+        out.append(' '.join(chunk.split()))
+    return out
+
+
 def main():
-    report = {'note': '여기 적힌 것은 관찰 기록이다. 건수 판정이 아니다.', 'steps': []}
+    report = {'note': '관찰 기록이다. 건수 판정이 아니다. 추측한 요청이 오류 화면을 받으면 그 사실을 그대로 적는다.',
+              'steps': []}
+    cookies = {}
+
+    def jar():
+        return '; '.join('%s=%s' % kv for kv in cookies.items()) or None
+
+    def remember(meta):
+        raw = meta.get('setCookie') or ''
+        for part in raw.split(', '):
+            head = part.split(';')[0].strip()
+            if '=' in head:
+                name, value = head.split('=', 1)
+                cookies[name] = value
 
     meta, text = http(MKTACT)
-    cookie = None
-    if meta.get('setCookie'):
-        cookie = '; '.join(part.split(';')[0] for part in meta['setCookie'].split(', ') if '=' in part)
-    page = {'step': 'GET 시장조치 초기화면', 'http': meta,
-            'formActions': form_actions(text), 'methodValues': method_values(text),
-            'hiddenDefaults': hidden_defaults(text)}
+    remember(meta)
+    page = {'step': 'GET 시장조치 초기화면', 'http': meta, 'formActions': form_actions(text),
+            'methodValues': method_values(text), 'hiddenDefaults': hidden_defaults(text),
+            'assets': assets(text), 'searchContext': around(text, 'searchDetails', 120, 3)}
     report['steps'].append(page)
     if not text:
         print(json.dumps(report, ensure_ascii=False, indent=1))
         return 0
 
-    action = page['formActions'][0] if page['formActions'] else '/disclosure/detailsExt.do'
-    post_url = urllib.parse.urljoin(BASE, action.split('?')[0])
-    base_payload = dict(page['hiddenDefaults'])
-    base_payload.setdefault('method', 'searchDetailsMktactSub')
-    base_payload.setdefault('currentPageSize', '15')
-    base_payload.setdefault('pageIndex', '1')
-    base_payload.setdefault('forward', 'detailsExt_sub')
+    # 화면이 부르는 스크립트에서 **실제 요청 만드는 자리**를 찾는다. 이름을 지어내지 않기 위해서다.
+    found_methods, found_urls, snippets = list(page['assets']['methodStrings']), list(page['assets']['doUrls']), {}
+    for src in page['assets']['scriptSrc'][:6]:
+        if not src.endswith('.js'):
+            continue
+        url = urllib.parse.urljoin(MKTACT, src)
+        js_meta, js_text = http(url, cookie=jar(), referer=MKTACT)
+        entry = {'url': url, 'http': js_meta}
+        if js_text:
+            entry['assets'] = assets(js_text)
+            entry['searchContext'] = around(js_text, 'searchDetails', 200, 3) or around(js_text, '.do', 120, 2)
+            found_methods += entry['assets']['methodStrings']
+            found_urls += entry['assets']['doUrls']
+            snippets[url] = entry.get('searchContext')
+        report['steps'].append({'step': '스크립트 확인', **entry})
+
+    # 프레임이 있으면 진짜 검색 화면은 그 안이다.
+    for src in page['assets']['frameSrc'][:3]:
+        url = urllib.parse.urljoin(MKTACT, src)
+        f_meta, f_text = http(url, cookie=jar(), referer=MKTACT)
+        remember(f_meta)
+        entry = {'step': '프레임 확인', 'url': url, 'http': f_meta}
+        if f_text:
+            entry['hiddenDefaults'] = hidden_defaults(f_text)
+            entry['formActions'] = form_actions(f_text)
+            entry['assets'] = assets(f_text)
+            found_methods += entry['assets']['methodStrings']
+            found_urls += entry['assets']['doUrls']
+        report['steps'].append(entry)
+
+    candidates = [m for m in dict.fromkeys(found_methods) if m.lower().startswith('search')][:4]
+    report['methodCandidates'] = candidates
+    report['urlCandidates'] = [u for u in dict.fromkeys(found_urls) if 'detail' in u.lower()][:6]
 
     posts = {'n': 0}
-    cases = [
-        ('A_최근한달_시장전체', {'fromDate': '2026-08-11', 'toDate': '2026-09-11'}),
-        ('B_하루_공휴일추정', {'fromDate': '2026-01-01', 'toDate': '2026-01-01'}),
-        ('C_긴기간_여러페이지기대', {'fromDate': '2026-01-01', 'toDate': '2026-09-11', 'currentPageSize': '100'}),
-        ('D_잘못된날짜_예상외응답', {'fromDate': '9999-99-99', 'toDate': '9999-99-99'}),
-    ]
-    for name, extra in cases:
-        payload = dict(base_payload)
-        payload.update(extra)
-        report['steps'].append(search(name, post_url, payload, cookie, posts))
-
-    # 같은 조건의 2페이지 — 페이지 이동 인자 이름이 실제로 먹히는지 본다(이름 확인이 목적).
-    payload = dict(base_payload)
-    payload.update({'fromDate': '2026-01-01', 'toDate': '2026-09-11', 'currentPageSize': '100', 'pageIndex': '2'})
-    report['steps'].append(search('E_2페이지_인자확인', post_url, payload, cookie, posts))
+    base_payload = dict(page['hiddenDefaults'])
+    base_payload.update({'currentPageSize': '15', 'pageIndex': '1',
+                         'fromDate': '2026-08-11', 'toDate': '2026-09-11'})
+    for name in candidates:
+        payload = dict(base_payload, method=name)
+        report['steps'].append(search('요청시도:' + name, urljoin_do(report['urlCandidates']), payload, jar(), posts))
 
     report['postsSent'] = posts['n']
+    report['unverified'] = ['결과표 머리글·열 순서', '전체건수 표시', '페이지 이동 인자',
+                            '표본 4종(시장조치 있음·0건·여러 페이지·실패)']
     print(json.dumps(report, ensure_ascii=False, indent=1))
     return 0
+
+
+def urljoin_do(urls):
+    for candidate in urls or []:
+        if candidate.endswith('.do') or '.do?' in candidate:
+            return urllib.parse.urljoin(BASE, candidate.split('?')[0])
+    return BASE + '/disclosure/detailsExt.do'
 
 
 if __name__ == '__main__':
