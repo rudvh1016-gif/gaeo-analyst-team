@@ -29,6 +29,11 @@ UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 SAMPLE_NAME = '동화약품'
 #: 되돌려받은 식별값이 이 종목코드와 같은지 **대조**한다 — 같으면 repIsuSrtCd 가 종목코드라는 증거다.
 SAMPLE_TICKER = '000020'
+#: 2026-09-11 에 시장조치가 **실제로 있었던** 회사다(대조 조회 화면에서 이름을 그대로 봤다).
+#: 조치가 없는 종목만 시험하면 '0건' 이 '인자가 먹었다' 인지 '인자가 무시됐다' 인지 구분되지 않는다.
+KNOWN_ACTION_TICKER = '036930'
+KNOWN_ACTION_NAME = '주성엔지니어링'
+KNOWN_ACTION_DAY = '2026-09-11'
 MAX_REQUESTS = 12
 RAW = 1800
 
@@ -156,6 +161,30 @@ def main():
         }
         report['steps'].append({'step': label, 'window': window, 'repIsuSrtCd': body_payload['repIsuSrtCd'],
                                 'http': meta, 'observed': observed})
+
+    # 조치가 있었던 종목으로도 보낸다. 이것이 인자가 실제로 먹는지 가르는 시험이다.
+    known = dict(payload)
+    known.update({'repIsuSrtCd': KNOWN_ACTION_TICKER,
+                  'fromData': KNOWN_ACTION_DAY, 'toData': KNOWN_ACTION_DAY})
+    meta, body = call('조치있는종목_하루', BASE + '/disclosure/detailsExt.do',
+                      data=known, cookie=jar(), referer=MKTACT)
+    if meta is not None:
+        names = re.findall(r'<font title="([^"]+)"><img', body or '')
+        report['steps'].append({'step': '조치있는종목_하루', 'repIsuSrtCd': KNOWN_ACTION_TICKER,
+                                'http': meta,
+                                'observed': {
+                                    'countPhrases': re.findall(r'(?:총|전체)\s*[^<>]{0,20}?([0-9,]+)\s*건',
+                                                               strip_tags(body or ''))[:3],
+                                    'companyNamesInRows': sorted(set(names))[:8],
+                                    'rowCompanyCount': len(names),
+                                    'hasErrorPage': '페이지 오류' in (body or ''),
+                                    'text': strip_tags(body or '')[:300]}})
+        report['identifierTest'] = {
+            'ticker': KNOWN_ACTION_TICKER, 'expectedCompany': KNOWN_ACTION_NAME,
+            'namesReturned': sorted(set(names))[:8],
+            'onlyExpectedCompany': (set(names) == {KNOWN_ACTION_NAME}) if names else False,
+            'note': 'onlyExpectedCompany 가 참일 때만 repIsuSrtCd 를 종목코드로 읽는다. '
+                    '행이 없으면 인자가 먹은 것인지 무시된 것인지 아직 모른다.'}
 
     scoped = next((s2 for s2 in report['steps'] if s2.get('step') == '종목지정_최근1년'), None)
     names = (scoped or {}).get('observed', {}).get('companyNamesInRows') or []
