@@ -204,19 +204,37 @@ def main():
         return 0
 
     post_url = BASE + '/disclosure/detailsExt.do'
-    base_payload = dict(page['hiddenDefaults'])
+    base_payload = {name: '' for name in page['allFieldNames']}
+    base_payload.update(page['hiddenDefaults'])
+    base_payload.update(dict(recipe.get('valAssignments') or []))
     base_payload.update({'method': method, 'currentPageSize': '15', 'pageIndex': '1'})
     if forward:
         base_payload['forward'] = forward
 
+    # 날짜 칸 이름을 **화면에서 읽는다.** 직전 판은 fromDate·toDate 로 보냈지만 이 화면의 이름은
+    # fromData·toData 였다 — 있지도 않은 칸을 보내고 정작 필요한 칸을 비워 두었으니 오류가 맞다.
+    names = page['allFieldNames']
+    start_field = next((n for n in names if n.lower().startswith('from')), None)
+    end_field = next((n for n in names if n.lower().startswith('to')), None)
+    report['dateFields'] = {'start': start_field, 'end': end_field}
+    if not (start_field and end_field):
+        report['blocked'] = 'DATE_FIELDS_NOT_FOUND'
+        print(json.dumps(report, ensure_ascii=False, indent=1))
+        return 0
+
+    def dates(start, end, **extra):
+        payload = {start_field: start, end_field: end}
+        payload.update(extra)
+        return payload
+
     posts = {'n': 0}
     cases = [
-        ('A_최근한달_붙임표날짜', {'fromDate': '2026-08-11', 'toDate': '2026-09-11'}),
-        ('B_최근한달_숫자날짜', {'fromDate': '20260811', 'toDate': '20260911'}),
-        ('C_하루_공휴일추정', {'fromDate': '2026-01-01', 'toDate': '2026-01-01'}),
-        ('D_긴기간_여러페이지기대', {'fromDate': '2026-01-01', 'toDate': '2026-09-11', 'currentPageSize': '100'}),
-        ('E_2페이지', {'fromDate': '2026-01-01', 'toDate': '2026-09-11', 'currentPageSize': '100', 'pageIndex': '2'}),
-        ('F_잘못된날짜', {'fromDate': '9999-99-99', 'toDate': '9999-99-99'}),
+        ('A_최근한달_붙임표날짜', dates('2026-08-11', '2026-09-11')),
+        ('B_최근한달_숫자날짜', dates('20260811', '20260911')),
+        ('C_하루_공휴일추정', dates('2026-01-01', '2026-01-01')),
+        ('D_긴기간_여러페이지기대', dates('2026-01-01', '2026-09-11', currentPageSize='100')),
+        ('E_2페이지', dates('2026-01-01', '2026-09-11', currentPageSize='100', pageIndex='2')),
+        ('F_잘못된날짜', dates('9999-99-99', '9999-99-99')),
     ]
     for name, extra in cases:
         payload = dict(base_payload)
