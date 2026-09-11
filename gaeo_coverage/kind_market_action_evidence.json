@@ -1,0 +1,3135 @@
+{
+ "attempted": 40,
+ "contractVersion": "corporate-action-evidence-v1",
+ "cursor": "000640",
+ "evidence": {
+  "000020": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260323001043"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 1,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:05.539505+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260323001043",
+     "receivedOn": "20260323",
+     "title": "배당락 기준가격 안내"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:05.539505+00:00",
+   "responseRef": "sha256:934a34e0dad2160e3a3b6b8d8dac0af867822d49a2b41d188a747846ed2b2878",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000020",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 1,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000040": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260626000202",
+    "20260723000110",
+    "20260727000458",
+    "20260828000820",
+    "20260904000568",
+    "20260904000569",
+    "20260908000120",
+    "20260908000446",
+    "20260908000668",
+    "20260909000529"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 10,
+    "forecasts": 0,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 3
+   },
+   "events": [
+    "LISTING",
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:06.256390+00:00",
+   "findings": [
+    {
+     "filer": "시장감시위원회",
+     "id": "20260909000529",
+     "receivedOn": "20260909",
+     "title": "[투자주의]소수계좌 거래집중 종목"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260908000668",
+     "receivedOn": "20260908",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260908000446",
+     "receivedOn": "20260908",
+     "title": "[투자주의]소수계좌 거래집중 종목"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260908000120",
+     "receivedOn": "20260908",
+     "title": "추가상장(국내CB전환)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260904000568",
+     "receivedOn": "20260904",
+     "title": "매매거래정지및정지해제"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260904000569",
+     "receivedOn": "20260904",
+     "title": "관리종목지정"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260828000820",
+     "receivedOn": "20260828",
+     "title": "투자유의안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260727000458",
+     "receivedOn": "20260727",
+     "title": "액면병합 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260723000110",
+     "receivedOn": "20260723",
+     "title": "변경상장(액면병합)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260626000202",
+     "receivedOn": "20260626",
+     "title": "매매거래정지및정지해제(주식병합)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:06.256390+00:00",
+   "responseRef": "sha256:75e82b3f900224818ceaf828a3349ae4d44694381a9131a701687052eebbdeda",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000040",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 10,
+   "uninterpreted": 3,
+   "unresolvedHistorical": 2
+  },
+  "000050": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251215001439",
+    "20251215001492"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 2,
+    "openCount": 1,
+    "openEffects": [
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:07.033812+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251215001492",
+     "receivedOn": "20251215",
+     "title": "(예고)단기과열종목 지정예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251215001439",
+     "receivedOn": "20251215",
+     "title": "[투자주의]투자경고종목 지정예고"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:07.033812+00:00",
+   "responseRef": "sha256:e2248ce39493e543dcd44b05af4bbe9a7e114d0828b4f2bb1b6f9969cb2fa6c0",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000050",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000070": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251023000001",
+    "20251119000070",
+    "20251121000436"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 3,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "LISTING"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING"
+   ],
+   "expiresAt": "2026-09-12T11:27:07.703988+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251121000436",
+     "receivedOn": "20251121",
+     "title": "회사분할로 인한 변경상장 기준가격결정방법 안내(분할존속법인)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251119000070",
+     "receivedOn": "20251119",
+     "title": "변경상장(회사분할(존속))"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251023000001",
+     "receivedOn": "20251023",
+     "title": "매매거래정지및정지해제(회사분할에 따른 전자등록 변경, 말소)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:07.703988+00:00",
+   "responseRef": "sha256:e927cb35b9fd542a31d64d2e4d650fd46228e8294e114d78b221ea4b51dfbebc",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000070",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 3,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000080": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:08.831944+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:08.831944+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000080",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000087": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:09.494881+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:09.494881+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000087",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000100": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260202000151",
+    "20260825000168"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "LISTING"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING"
+   ],
+   "expiresAt": "2026-09-12T11:27:10.192154+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260825000168",
+     "receivedOn": "20260825",
+     "title": "변경상장(주식소각(보통주/1우선주))"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260202000151",
+     "receivedOn": "20260202",
+     "title": "변경상장(주식소각)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:10.192154+00:00",
+   "responseRef": "sha256:4df572c2fd9e82fa6cb1902556e9a9d4041277a5832bf0f6ce0e9a24e1733392",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000100",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000105": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:10.865819+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:10.865819+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000105",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000120": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260120000512",
+    "20260205001042"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 1,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:11.540411+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260205001042",
+     "receivedOn": "20260205",
+     "title": "불성실공시법인지정"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260120000512",
+     "receivedOn": "20260120",
+     "title": "불성실공시법인지정예고"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:11.540411+00:00",
+   "responseRef": "sha256:eaf8f6784a26b7ec7a58a953a56a7aa0e640a27ded1cc7bd6715edfa104cc821",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000120",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000140": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251230000629",
+    "20260630000512"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:12.208561+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260630000512",
+     "receivedOn": "20260630",
+     "title": "저유동성종목 단일가매매(30분단위) 해제(하이트진로홀딩스우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251230000629",
+     "receivedOn": "20251230",
+     "title": "저유동성종목 단일가매매(30분단위) 적용(하이트진로홀딩스우)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:12.208561+00:00",
+   "responseRef": "sha256:4fea82086410929b7656668931cf53df482c00a446fd58c57b9fb4bb3c901aeb",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000140",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000145": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:12.934899+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:12.934899+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000145",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000150": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20250924000400",
+    "20251015000394",
+    "20251016000473",
+    "20251029000523",
+    "20251029000524",
+    "20251030000710",
+    "20251125000171",
+    "20260223001226",
+    "20260227002219",
+    "20260312001576",
+    "20260401000938",
+    "20260401000940",
+    "20260401000943",
+    "20260409001210",
+    "20260410001018",
+    "20260410001019",
+    "20260428000814",
+    "20260511000511",
+    "20260511000513",
+    "20260511000514",
+    "20260601001859",
+    "20260602000873",
+    "20260612001076",
+    "20260805000491",
+    "20260805000492",
+    "20260805000495"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 26,
+    "forecasts": 2,
+    "openCount": 3,
+    "openEffects": [
+     "HALT",
+     "LISTING",
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 1
+   },
+   "events": [
+    "HALT",
+    "LISTING",
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:13.600507+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260805000495",
+     "receivedOn": "20260805",
+     "title": "중간(분기)배당락 기준가격 안내(두산2우B)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260805000492",
+     "receivedOn": "20260805",
+     "title": "중간(분기)배당락 기준가격 안내(두산우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260805000491",
+     "receivedOn": "20260805",
+     "title": "중간(분기)배당락 기준가격 안내"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260612001076",
+     "receivedOn": "20260612",
+     "title": "[투자주의]종가급변 종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260602000873",
+     "receivedOn": "20260602",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목(두산우)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260601001859",
+     "receivedOn": "20260601",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목(두산우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260511000514",
+     "receivedOn": "20260511",
+     "title": "중간(분기)배당락 기준가격 안내(두산2우B)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260511000513",
+     "receivedOn": "20260511",
+     "title": "중간(분기)배당락 기준가격 안내(두산우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260511000511",
+     "receivedOn": "20260511",
+     "title": "중간(분기)배당락 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260428000814",
+     "receivedOn": "20260428",
+     "title": "업종변경"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260410001019",
+     "receivedOn": "20260410",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260410001018",
+     "receivedOn": "20260410",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목(두산우)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260409001210",
+     "receivedOn": "20260409",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260401000943",
+     "receivedOn": "20260401",
+     "title": "배당락 기준가격 안내(두산2우B)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260401000940",
+     "receivedOn": "20260401",
+     "title": "배당락 기준가격 안내(두산우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260401000938",
+     "receivedOn": "20260401",
+     "title": "배당락 기준가격 안내"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260312001576",
+     "receivedOn": "20260312",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260227002219",
+     "receivedOn": "20260227",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260223001226",
+     "receivedOn": "20260223",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251125000171",
+     "receivedOn": "20251125",
+     "title": "변경상장(주식소각)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251030000710",
+     "receivedOn": "20251030",
+     "title": "[투자주의]투자경고종목 지정해제 및 재지정 예고(두산2우B)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251029000523",
+     "receivedOn": "20251029",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251029000524",
+     "receivedOn": "20251029",
+     "title": "매매거래정지 예고(두산2우B)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251016000473",
+     "receivedOn": "20251016",
+     "title": "투자경고종목 지정(두산2우B)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251015000394",
+     "receivedOn": "20251015",
+     "title": "[투자주의]투자경고종목 지정예고(두산2우B)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20250924000400",
+     "receivedOn": "20250924",
+     "title": "[투자주의]투자경고종목 지정해제 및 재지정 예고(두산우)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 2,
+   "pagesExpected": 2,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:13.600507+00:00",
+   "responseRef": "sha256:7522c70d8319409036d180fce33e9f82cb1cd8f8b09482cb35052b97b461b4d4",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000150",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 26,
+   "uninterpreted": 1,
+   "unresolvedHistorical": 3
+  },
+  "000155": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:15.085595+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:15.085595+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000155",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000157": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:15.765554+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:15.765554+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000157",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000180": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260401000168",
+    "20260422000170",
+    "20260424000581"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 3,
+    "forecasts": 0,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING",
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:16.496793+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260424000581",
+     "receivedOn": "20260424",
+     "title": "액면병합 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260422000170",
+     "receivedOn": "20260422",
+     "title": "변경상장(액면병합)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260401000168",
+     "receivedOn": "20260401",
+     "title": "매매거래정지및정지해제(주식병합)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:16.496793+00:00",
+   "responseRef": "sha256:e43a31075c990281eddf131201d19bcd6eaa8f8bbe701060e5cd28ce8d887856",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000180",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 3,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 2
+  },
+  "000210": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20250922000099",
+    "20260320001639"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:17.384479+00:00",
+   "findings": [
+    {
+     "filer": "시장감시위원회",
+     "id": "20260320001639",
+     "receivedOn": "20260320",
+     "title": "[투자주의]소수계좌 거래집중 종목(DL우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20250922000099",
+     "receivedOn": "20250922",
+     "title": "조회공시 요구(풍문 또는 보도)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:17.384479+00:00",
+   "responseRef": "sha256:0e4c7e62ca0d5debd85972fb7354bfab500630e70b4574ca76dc9bdf11929252",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000210",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000215": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:18.095384+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:18.095384+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000215",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000220": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251230000632",
+    "20260629000427"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING",
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:18.852871+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260629000427",
+     "receivedOn": "20260629",
+     "title": "변경상장(주식소각(보통주/2우선주(신형)))"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251230000632",
+     "receivedOn": "20251230",
+     "title": "저유동성종목 단일가매매(30분단위) 적용(유유제약2우B)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:18.852871+00:00",
+   "responseRef": "sha256:f180e57bfd02808273fca50b6ab7e88761d17af28a20b74544dd251df2b62799",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000220",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 2
+  },
+  "000225": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:19.544396+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:19.544396+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000225",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000227": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:20.250272+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:20.250272+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000227",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000230": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:20.917735+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:20.917735+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000230",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000240": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260304001769",
+    "20260819000347"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:21.637888+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260819000347",
+     "receivedOn": "20260819",
+     "title": "중간(분기)배당락 기준가격 안내"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260304001769",
+     "receivedOn": "20260304",
+     "title": "[투자주의]소수계좌 거래집중 종목"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:21.637888+00:00",
+   "responseRef": "sha256:6cf6391e0f3c803f8fb946f5fe4e3b48db21fb00f05e2babe831a169438df74f",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000240",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000250": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260129000977",
+    "20260130001190",
+    "20260202001955",
+    "20260203001041",
+    "20260204001199",
+    "20260204001205",
+    "20260209001612",
+    "20260209001625",
+    "20260211001401",
+    "20260331004628",
+    "20260331004755",
+    "20260401001640",
+    "20260402001177",
+    "20260420000903",
+    "20260720000716",
+    "20260721001486",
+    "20260722000917"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 17,
+    "forecasts": 3,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:22.306019+00:00",
+   "findings": [
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260722000917",
+     "receivedOn": "20260722",
+     "title": "공매도 과열종목 연장(공매도 거래 금지 연장)"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260721001486",
+     "receivedOn": "20260721",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260720000716",
+     "receivedOn": "20260720",
+     "title": "[투자주의]소수계좌 거래집중 종목"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260420000903",
+     "receivedOn": "20260420",
+     "title": "불성실공시법인지정(공시불이행)"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260402001177",
+     "receivedOn": "20260402",
+     "title": "공매도 과열종목 연장(공매도 거래 금지 연장)"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260401001640",
+     "receivedOn": "20260401",
+     "title": "공매도 과열종목 연장(공매도 거래 금지 연장)"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260331004628",
+     "receivedOn": "20260331",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260331004755",
+     "receivedOn": "20260331",
+     "title": "불성실공시법인지정예고(공시불이행)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260211001401",
+     "receivedOn": "20260211",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260209001612",
+     "receivedOn": "20260209",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260209001625",
+     "receivedOn": "20260209",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260204001205",
+     "receivedOn": "20260204",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260204001199",
+     "receivedOn": "20260204",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260203001041",
+     "receivedOn": "20260203",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260202001955",
+     "receivedOn": "20260202",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260130001190",
+     "receivedOn": "20260130",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260129000977",
+     "receivedOn": "20260129",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 2,
+   "pagesExpected": 2,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:22.306019+00:00",
+   "responseRef": "sha256:d0b5f352a5b6d503dd3bd18ec2e1105cbe3402fced285fa604423c602910d5ee",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000250",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 17,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000270": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251125000059",
+    "20260323001031"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING",
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:23.671375+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260323001031",
+     "receivedOn": "20260323",
+     "title": "배당락 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251125000059",
+     "receivedOn": "20251125",
+     "title": "변경상장(주식소각)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:23.671375+00:00",
+   "responseRef": "sha256:08331dec1ef84d0eacb779c4744f2bd3cda5d7a42edd203adfd24eb5fa0d3c98",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000270",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 2
+  },
+  "000300": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251125000056",
+    "20260109000086",
+    "20260113000540",
+    "20260413000106",
+    "20260421000773",
+    "20260519000713",
+    "20260611000897",
+    "20260709000761"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 8,
+    "forecasts": 0,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 4
+   },
+   "events": [
+    "LISTING",
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:24.337820+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260709000761",
+     "receivedOn": "20260709",
+     "title": "기타시장안내(개선기간 부여 결정)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260611000897",
+     "receivedOn": "20260611",
+     "title": "기타시장안내(상장폐지 이의신청서 제출)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260519000713",
+     "receivedOn": "20260519",
+     "title": "기타시장안내((주)디에이치오토넥스 상장적격성 실질심사 결과 안내)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260421000773",
+     "receivedOn": "20260421",
+     "title": "기타시장안내(개선계획 이행 여부 심의 요청)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260413000106",
+     "receivedOn": "20260413",
+     "title": "기타시장안내(개선기간 종료 및 향후 절차 안내)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260113000540",
+     "receivedOn": "20260113",
+     "title": "[정정] 자본감소에 따른 기준가격결정방법 안내(제3자배정 유상증자 반영)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260109000086",
+     "receivedOn": "20260109",
+     "title": "변경상장(감자(주식병합))"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251125000056",
+     "receivedOn": "20251125",
+     "title": "상장안내(유상증자(제3자배정)/감자(주식병합))"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:24.337820+00:00",
+   "responseRef": "sha256:a4361ac7b1d0a807240401630571e42f808ee4afd9786610a3c162b956c47d22",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000300",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 8,
+   "uninterpreted": 4,
+   "unresolvedHistorical": 2
+  },
+  "000320": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251230000634",
+    "20260630000509"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:25.050265+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260630000509",
+     "receivedOn": "20260630",
+     "title": "저유동성종목 단일가매매(30분단위) 해제(노루홀딩스우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251230000634",
+     "receivedOn": "20251230",
+     "title": "저유동성종목 단일가매매(30분단위) 적용(노루홀딩스우)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:25.050265+00:00",
+   "responseRef": "sha256:f360fdaaadc86788ebd94dce19fdcc00cfe61f3889678527b690c5e6a7a1222f",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000320",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000325": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:25.759299+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:25.759299+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000325",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000370": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:26.417652+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:26.417652+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000370",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000390": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251219000710",
+    "20260210000993",
+    "20260210000995",
+    "20260211001421",
+    "20260427000665"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 5,
+    "forecasts": 2,
+    "openCount": 2,
+    "openEffects": [
+     "LISTING",
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "LISTING",
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:27.086422+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260427000665",
+     "receivedOn": "20260427",
+     "title": "변경상장(상호변경)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260211001421",
+     "receivedOn": "20260211",
+     "title": "[투자주의]단일계좌 거래량 상위종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260210000995",
+     "receivedOn": "20260210",
+     "title": "[투자주의]단일계좌 거래량 상위종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260210000993",
+     "receivedOn": "20260210",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251219000710",
+     "receivedOn": "20251219",
+     "title": "(예고)단기과열종목 지정예고"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:27.086422+00:00",
+   "responseRef": "sha256:b14c0a3493a8fe8ac1b9864a49b4cc5455f8abd25c6bf9b9e9d065ee1e478597",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000390",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 5,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 2
+  },
+  "000400": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260223001303",
+    "20260224001369"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 1,
+    "openCount": 1,
+    "openEffects": [
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:27.842865+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260224001369",
+     "receivedOn": "20260224",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260223001303",
+     "receivedOn": "20260223",
+     "title": "(예고)단기과열종목 지정예고"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:27.842865+00:00",
+   "responseRef": "sha256:99812a40d056ecdd4933343a6a590640ca6cebbf628a32250cd46f49de192482",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000400",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000430": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260401000947",
+    "20260610001014",
+    "20260611000895"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 3,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:28.595761+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260611000895",
+     "receivedOn": "20260611",
+     "title": "공매도 과열종목 연장(공매도 거래 금지 연장)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260610001014",
+     "receivedOn": "20260610",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260401000947",
+     "receivedOn": "20260401",
+     "title": "배당락 기준가격 안내"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:28.595761+00:00",
+   "responseRef": "sha256:1a9642f8d707695e2bb8b0b7f381be8f02ef21c61293a857182f5be321799958",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000430",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 3,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000440": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260304001751",
+    "20260309001111"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 2,
+    "openCount": 1,
+    "openEffects": [
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:29.257559+00:00",
+   "findings": [
+    {
+     "filer": "코스닥시장본부",
+     "id": "20260309001111",
+     "receivedOn": "20260309",
+     "title": "(예고)단기과열종목 지정예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260304001751",
+     "receivedOn": "20260304",
+     "title": "[투자주의]투자경고종목 지정예고"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:29.257559+00:00",
+   "responseRef": "sha256:89832132787b47e00a82f74994d13d30ff792d24996b5c57fb3e675e4c8813b1",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000440",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000480": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260720000439"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 1,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:29.963568+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260720000439",
+     "receivedOn": "20260720",
+     "title": "중간(분기)배당락 기준가격 안내"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:29.963568+00:00",
+   "responseRef": "sha256:b30d22b49d77b67c9ead7eadd889c14096673c349123f96ef41876564df319f5",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000480",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 1,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000490": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251231000071",
+    "20260115000053"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 2,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 2
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:30.649593+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260115000053",
+     "receivedOn": "20260115",
+     "title": "추가상장(유상증자(제3자배정))"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251231000071",
+     "receivedOn": "20251231",
+     "title": "추가상장(국내CB전환)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:30.649593+00:00",
+   "responseRef": "sha256:fc8ede50e4d0429b24aae8750d44ef65fb3af21616ae53a1b4a5910956cf43f9",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000490",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 2,
+   "uninterpreted": 2,
+   "unresolvedHistorical": 0
+  },
+  "000500": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20251104000363",
+    "20260413001004",
+    "20260423000960",
+    "20260424000952",
+    "20260427001003",
+    "20260430001550",
+    "20260504000784",
+    "20260506001056",
+    "20260506001058",
+    "20260506001059",
+    "20260508001204",
+    "20260508001206",
+    "20260526000917",
+    "20260616000506",
+    "20260629000820",
+    "20260701000922",
+    "20260720000135"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 17,
+    "forecasts": 6,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 1
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:31.378546+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260720000135",
+     "receivedOn": "20260720",
+     "title": "추가상장(무상증자)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260701000922",
+     "receivedOn": "20260701",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260629000820",
+     "receivedOn": "20260629",
+     "title": "권리락 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260616000506",
+     "receivedOn": "20260616",
+     "title": "매매거래정지 및 정지해제(중요내용공시)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260526000917",
+     "receivedOn": "20260526",
+     "title": "투자위험종목 지정해제"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260508001206",
+     "receivedOn": "20260508",
+     "title": "투자위험종목 지정"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260508001204",
+     "receivedOn": "20260508",
+     "title": "매매거래 정지 및 재개(투자위험종목 최초지정)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260506001058",
+     "receivedOn": "20260506",
+     "title": "매매거래정지 예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260506001056",
+     "receivedOn": "20260506",
+     "title": "매매거래 정지 및 재개(투자경고종목 지정중)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260506001059",
+     "receivedOn": "20260506",
+     "title": "투자위험종목 지정예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260504000784",
+     "receivedOn": "20260504",
+     "title": "매매거래정지 예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260430001550",
+     "receivedOn": "20260430",
+     "title": "매매거래정지 예고"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260427001003",
+     "receivedOn": "20260427",
+     "title": "투자경고종목 지정"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260424000952",
+     "receivedOn": "20260424",
+     "title": "[투자주의]15일간 상승종목의 당일 소수계좌 매수관여 과다종목"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260423000960",
+     "receivedOn": "20260423",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260413001004",
+     "receivedOn": "20260413",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20251104000363",
+     "receivedOn": "20251104",
+     "title": "[투자주의]특정계좌(군) 매매관여 과다종목"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 2,
+   "pagesExpected": 2,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:31.378546+00:00",
+   "responseRef": "sha256:9796938965b56a1e8a80585b0527d9803efc0e1e1edb7618198ea7eab567a5d7",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000500",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 17,
+   "uninterpreted": 1,
+   "unresolvedHistorical": 1
+  },
+  "000520": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:32.783971+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:32.783971+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000520",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000540": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20250915000586",
+    "20250918000338",
+    "20250923000430",
+    "20250926000642",
+    "20251001000706",
+    "20251013000458",
+    "20251016000512",
+    "20251021000430",
+    "20251024000507",
+    "20251029000546",
+    "20251103000682",
+    "20251106000596",
+    "20251111000576",
+    "20251114002734",
+    "20251119000407",
+    "20251124000510",
+    "20251127000798",
+    "20251202000513",
+    "20251205000540",
+    "20251210000647",
+    "20251215001493",
+    "20251218000612",
+    "20251223000798",
+    "20251229000925",
+    "20260105000564",
+    "20260108000653",
+    "20260113000543",
+    "20260116000760",
+    "20260121000814",
+    "20260126000984",
+    "20260129000885",
+    "20260203001001",
+    "20260206002767",
+    "20260211001514",
+    "20260219000852",
+    "20260223001231",
+    "20260223001301",
+    "20260224001371",
+    "20260312001936",
+    "20260323001704",
+    "20260326002530",
+    "20260331004374",
+    "20260403001478",
+    "20260408001317",
+    "20260413000741",
+    "20260416000733",
+    "20260421000603",
+    "20260424000998",
+    "20260429001163",
+    "20260506001112",
+    "20260511000958",
+    "20260514001648",
+    "20260519000734",
+    "20260522000991",
+    "20260528001139",
+    "20260602000895",
+    "20260608001009",
+    "20260611000855",
+    "20260616000742",
+    "20260619001034",
+    "20260624000902",
+    "20260629001114",
+    "20260702000779",
+    "20260707000700",
+    "20260710000774",
+    "20260715000745",
+    "20260721001282",
+    "20260724000772",
+    "20260729001012",
+    "20260803000862",
+    "20260806000466",
+    "20260811000733",
+    "20260814003168",
+    "20260820000533",
+    "20260825000530",
+    "20260901000721",
+    "20260902000479",
+    "20260907000536",
+    "20260910000526"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 79,
+    "forecasts": 4,
+    "openCount": 1,
+    "openEffects": [
+     "SINGLE"
+    ],
+    "uninterpreted": 0
+   },
+   "events": [
+    "SINGLE"
+   ],
+   "expiresAt": "2026-09-12T11:27:33.447533+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260910000526",
+     "receivedOn": "20260910",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260907000536",
+     "receivedOn": "20260907",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260902000479",
+     "receivedOn": "20260902",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260901000721",
+     "receivedOn": "20260901",
+     "title": "(예고)단기과열종목(가격괴리율) 지정예고(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260825000530",
+     "receivedOn": "20260825",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260820000533",
+     "receivedOn": "20260820",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260814003168",
+     "receivedOn": "20260814",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260811000733",
+     "receivedOn": "20260811",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260806000466",
+     "receivedOn": "20260806",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260803000862",
+     "receivedOn": "20260803",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260729001012",
+     "receivedOn": "20260729",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260724000772",
+     "receivedOn": "20260724",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260721001282",
+     "receivedOn": "20260721",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260715000745",
+     "receivedOn": "20260715",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260710000774",
+     "receivedOn": "20260710",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260707000700",
+     "receivedOn": "20260707",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260702000779",
+     "receivedOn": "20260702",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260629001114",
+     "receivedOn": "20260629",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260624000902",
+     "receivedOn": "20260624",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260619001034",
+     "receivedOn": "20260619",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260616000742",
+     "receivedOn": "20260616",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260611000855",
+     "receivedOn": "20260611",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260608001009",
+     "receivedOn": "20260608",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260602000895",
+     "receivedOn": "20260602",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260528001139",
+     "receivedOn": "20260528",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260522000991",
+     "receivedOn": "20260522",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260519000734",
+     "receivedOn": "20260519",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260514001648",
+     "receivedOn": "20260514",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260511000958",
+     "receivedOn": "20260511",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260506001112",
+     "receivedOn": "20260506",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260429001163",
+     "receivedOn": "20260429",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260424000998",
+     "receivedOn": "20260424",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260421000603",
+     "receivedOn": "20260421",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260416000733",
+     "receivedOn": "20260416",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260413000741",
+     "receivedOn": "20260413",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260408001317",
+     "receivedOn": "20260408",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260403001478",
+     "receivedOn": "20260403",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260331004374",
+     "receivedOn": "20260331",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260326002530",
+     "receivedOn": "20260326",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260323001704",
+     "receivedOn": "20260323",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260312001936",
+     "receivedOn": "20260312",
+     "title": "(예고)단기과열종목(가격괴리율) 지정예고(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260224001371",
+     "receivedOn": "20260224",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    },
+    {
+     "filer": "시장감시위원회",
+     "id": "20260223001231",
+     "receivedOn": "20260223",
+     "title": "[투자주의]투자경고종목 지정예고"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260223001301",
+     "receivedOn": "20260223",
+     "title": "(예고)단기과열종목 지정예고"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260219000852",
+     "receivedOn": "20260219",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260211001514",
+     "receivedOn": "20260211",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260206002767",
+     "receivedOn": "20260206",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260203001001",
+     "receivedOn": "20260203",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260129000885",
+     "receivedOn": "20260129",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260126000984",
+     "receivedOn": "20260126",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260121000814",
+     "receivedOn": "20260121",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260116000760",
+     "receivedOn": "20260116",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260113000543",
+     "receivedOn": "20260113",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260108000653",
+     "receivedOn": "20260108",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260105000564",
+     "receivedOn": "20260105",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251229000925",
+     "receivedOn": "20251229",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251223000798",
+     "receivedOn": "20251223",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251218000612",
+     "receivedOn": "20251218",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251215001493",
+     "receivedOn": "20251215",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251210000647",
+     "receivedOn": "20251210",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251205000540",
+     "receivedOn": "20251205",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251202000513",
+     "receivedOn": "20251202",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251127000798",
+     "receivedOn": "20251127",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251124000510",
+     "receivedOn": "20251124",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251119000407",
+     "receivedOn": "20251119",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251114002734",
+     "receivedOn": "20251114",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251111000576",
+     "receivedOn": "20251111",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251106000596",
+     "receivedOn": "20251106",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251103000682",
+     "receivedOn": "20251103",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251029000546",
+     "receivedOn": "20251029",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251024000507",
+     "receivedOn": "20251024",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251021000430",
+     "receivedOn": "20251021",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251016000512",
+     "receivedOn": "20251016",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251013000458",
+     "receivedOn": "20251013",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20251001000706",
+     "receivedOn": "20251001",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20250926000642",
+     "receivedOn": "20250926",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20250923000430",
+     "receivedOn": "20250923",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20250918000338",
+     "receivedOn": "20250918",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20250915000586",
+     "receivedOn": "20250915",
+     "title": "단기과열종목(가격괴리율, 3거래일 단일가매매) 지정 연장(흥국화재우)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 6,
+   "pagesExpected": 6,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:33.447533+00:00",
+   "responseRef": "sha256:1dd6117ffd21341afccc2e2c6c69bdeb7802f0ef7bafbd859d2324e1ba5adb47",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000540",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 79,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 1
+  },
+  "000545": {
+   "apiStatus": "EMPTY",
+   "collectedIds": [],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 0,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 0,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:37.936147+00:00",
+   "findings": [],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:37.936147+00:00",
+   "responseRef": "sha256:91ef886c473c8379fd98dba9c3e963f14c0cc42d7caafee7d650ecb2575d2714",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000545",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 0,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000590": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260304001799"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 1,
+    "forecasts": 0,
+    "openCount": 0,
+    "openEffects": [],
+    "uninterpreted": 0
+   },
+   "events": [],
+   "expiresAt": "2026-09-12T11:27:38.608438+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260304001799",
+     "receivedOn": "20260304",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:38.608438+00:00",
+   "responseRef": "sha256:52556216030e285bd61f8f6536792d418b69aaced0d6cc982da48ce964537c0e",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000590",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 1,
+   "uninterpreted": 0,
+   "unresolvedHistorical": 0
+  },
+  "000640": {
+   "apiStatus": "ROWS",
+   "collectedIds": [
+    "20260304001798",
+    "20260310001108",
+    "20260410000154",
+    "20260729000736"
+   ],
+   "contractVersion": "corporate-action-evidence-v1",
+   "documentsInterpreted": false,
+   "error": null,
+   "eventCounts": {
+    "caution": 1,
+    "classifierVersion": "kind-mktact-titles-v1",
+    "documents": 4,
+    "forecasts": 0,
+    "openCount": 1,
+    "openEffects": [
+     "PRICE_BASIS"
+    ],
+    "uninterpreted": 1
+   },
+   "events": [
+    "PRICE_BASIS"
+   ],
+   "expiresAt": "2026-09-12T11:27:39.409946+00:00",
+   "findings": [
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260729000736",
+     "receivedOn": "20260729",
+     "title": "중간(분기)배당락 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260410000154",
+     "receivedOn": "20260410",
+     "title": "추가상장(주식배당)"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260310001108",
+     "receivedOn": "20260310",
+     "title": "배당락 기준가격 안내"
+    },
+    {
+     "filer": "유가증권시장본부",
+     "id": "20260304001798",
+     "receivedOn": "20260304",
+     "title": "공매도 과열종목 지정(공매도 거래 금지 적용)"
+    }
+   ],
+   "from": "2025-09-11",
+   "historicalBackfillComplete": true,
+   "httpStatus": 200,
+   "identityBasis": "repIsuSrtCd",
+   "listClassified": true,
+   "ok": true,
+   "pagesCollected": 1,
+   "pagesExpected": 1,
+   "parserVersion": "kind-mktact-list-v1",
+   "queriedAt": "2026-09-11T15:27:39.409946+00:00",
+   "responseRef": "sha256:811d4c969e66fd624362530a2d59a71105a521378398dc5169b8d5653bef21d4",
+   "retrievalPath": "KRX_KIND_WEB",
+   "source": "KRX",
+   "structureVerified": true,
+   "ticker": "000640",
+   "tickerMatched": true,
+   "to": "2026-09-11",
+   "totalCount": 4,
+   "uninterpreted": 1,
+   "unresolvedHistorical": 1
+  }
+ },
+ "generatedAt": "2026-09-11T15:27:05.539385+00:00",
+ "requestsUsed": 48,
+ "retrievalPath": "KRX_KIND_WEB",
+ "succeeded": 40,
+ "universe": 3941,
+ "window": {
+  "days": 365,
+  "from": "2025-09-11",
+  "to": "2026-09-11"
+ }
+}
