@@ -7,7 +7,7 @@
 // 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-11 15:43",
+ "generatedAt": "2026-09-11 16:13",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -81,9 +81,9 @@ const TEAM_WEIGHTS = {
      "neutralPct": 20.4,
      "bullPct": 51.1,
      "bearPct": 28.5,
-     "meanAbsDeviation": 18.97,
+     "meanAbsDeviation": 18.96,
      "medianAbsDeviation": 17.0,
-     "meanPushPoints": 5.79,
+     "meanPushPoints": 5.78,
      "medianPushPoints": 5.18
     }
    },

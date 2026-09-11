@@ -1,6 +1,6 @@
 {
  "day": "2026-09-11",
- "asOf": "2026-09-11T06:44:17+00:00",
+ "asOf": "2026-09-11T07:14:11+00:00",
  "closeConfirmed": true,
  "universeSource": "FULL_MARKET",
  "universeDate": "2026-09-11",
@@ -40,7 +40,7 @@
   "equalWeightReturn": -0.247,
   "capWeightedReturn": -1.721,
   "turnoverTop5Share": 0.4063,
-  "turnoverTop30Share": 0.5953
+  "turnoverTop30Share": 0.5952
  },
  "kospi": {
   "eligibleCount": 782,

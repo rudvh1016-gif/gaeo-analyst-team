@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-11 15:44",
+ "generatedAt": "2026-09-11 16:14",
  "dataCutoff": "2026-09-11 종가",
  "horizonDays": 20,
  "picks": [
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "한전기술",
    "sector": "전력·에너지",
    "sectorRank": 5,
-   "why": "20거래일 +52.5% · 20일선 위 · 거래량 평소의 2.1배",
+   "why": "20거래일 +52.3% · 20일선 위 · 거래량 평소의 2.1배",
    "overheat": true,
-   "gapPct": 32.3,
+   "gapPct": 32.2,
    "call": "SELL",
    "callConflict": true
   },
@@ -33,20 +33,20 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 47.2,
+  "breadthPct": 46.8,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6909.92,
+    "close": 6909.91,
     "ma20": 6823.21,
     "above": true,
     "gapPct": 1.27
    },
    "KOSDAQ": {
-    "close": 820.6,
+    "close": 820.64,
     "ma20": 824.74,
     "above": false,
     "gapPct": -0.5
