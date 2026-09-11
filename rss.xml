@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Thu, 10 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 11 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월11일 종가, 유가·금리 겹악재에 코스피 1.76%·코스닥 1.95% 급락</title>
+    <link>https://gaeoteam.com/snap/news/70.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/70.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 124.01포인트(1.76%) 내린 6,909.91로, 코스닥은 16.28포인트(1.95%) 내린 820.64로 마감했습니다. 국제유가가 100달러를 다시 넘고 미국 생산자물가(PPI)와 국채금리가 치솟으면서 간밤 미국 반도체주가 급락했고, 그 충격이 삼성전자·SK하이닉스로 이어졌습니다. 개인 매수와 오후 반등에도 개오 600종목 중 356개가 내린 하루를 숫자로 정리합니다.</description>
+    <pubDate>Fri, 11 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월10일 종가, 네 마녀의 날 외국인 2.7조 팔아도 7000선은 지켰다</title>
     <link>https://gaeoteam.com/snap/news/69.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/68.html</guid>
     <category>주식공부</category>
     <description>전자공시에서 회사와 보고서를 찾고, 사업·재무·위험·주주 정보를 빠르게 읽는 순서를 초보자 눈높이로 설명해요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>재무제표 보는 법: 손익·재무상태·현금흐름 연결하기</title>
-    <link>https://gaeoteam.com/snap/lesson/67.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/67.html</guid>
-    <category>주식공부</category>
-    <description>세 가지 재무제표가 어떻게 이어지는지 이해하고, 30분 안에 기업의 성장·수익성·안전성·현금창출력을 점검하는 법이에요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

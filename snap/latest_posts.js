@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 70,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-11",
+  "title": "2026년 9월11일 종가, 유가·금리 겹악재에 코스피 1.76%·코스닥 1.95% 급락",
+  "featured": false
+ },
+ {
   "id": 69,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-01",
   "title": "2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나",
   "featured": false
- },
- {
-  "id": 61,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-08-31",
-  "title": "2026년 8월31일 종가, 지수를 올린 건 회사가 산 자기 주식이었다",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 69,
+ "news": 70,
  "study": 35,
  "lesson": 82,
  "estate": 19,
