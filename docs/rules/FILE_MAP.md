@@ -21,6 +21,7 @@
 | `estate_lessons.js` | 🏠 부동산공부(`ESTATE_LESSONS`, 근저당·대출규제·청약 등, 주식공부와 형식·헬퍼 동일) | AI 에이전트 |
 | `calculators.js` | 🧮 계산기(`CALCULATORS`, 7종). body는 SEO용 설명 글이고, 실제 계산 로직은 `app.js`의 `calcWidgetHTML`/`wireCalcWidget`이 `calcType`별로 담당 | AI 에이전트 |
 | `history.js` | CHIEF 판단 누적(정밀=분단위 여러 건 + 🤖자동=전 종목 하루 1건, `tier:"auto"` 표식·정밀 우선·`HIST_CAP=80`) | **`archive_analysis.py`만 — 직접 편집 금지.** 러너가 `--auto`로 매 사이클 호출 |
+| `research_archive/decisions/` | 실제 자동판단 회차별 불변 원본·manifest, 별도 월별 결과·공시 관찰·검증 요약 | **`decision_records.py`만 — 직접 편집 금지.** `archive_analysis.py --auto` 보존 후 `build_model_scoreboard.py`가 결과·공개 `decisionTrace` 연결. 상세 `docs/DECISION_RECORDS.md` |
 | `market_history.js` | 날짜별 시장분석 누적 | `archive_analysis.py` |
 | `price_history.js` | 일별 종가(5거래일=1페이지) | `update_price_history.py` |
 | `flow_history/YYYY-MM.json` · `flow_history/index.json` | 종목별 일별 수급(외국인·기관·개인 순매수·거래량·종가·시총추정) 영구 기록. 네이버가 최근 5거래일치만 주므로 지금부터 쌓는 원본이고, **APPEND-ONLY**(기록된 날짜·종목은 덮어쓰기·삭제 금지) | `update_flow_history.py` (update-analysis.yml이 매 사이클 실행) |

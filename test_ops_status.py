@@ -35,10 +35,18 @@ def fixture(tmp, *, price_at, auto_at, paper_at, paper_result="CYCLE_OK — NO_A
     os.makedirs(os.path.join(tmp, "gaeo_evolution", "status"))
     os.makedirs(os.path.join(tmp, "config"))
     os.makedirs(os.path.join(tmp, "docs", "audits", "validation_runs"))
+    os.makedirs(os.path.join(tmp, "research_archive", "decisions"))
     w = lambda rel, body: open(os.path.join(tmp, rel), "w", encoding="utf-8").write(body)
     w("data.js", f'const LIVE_DATA = {{\n "date": "{price_at} 장중",\n "stocks": {{}}\n}};\n')
     stocks = {c: {"chief": {"call": "HOLD"}} for c in ("000001", "000002", "000003")}
     w("auto_analysis.js", f'const LIVE_AUTO = {json.dumps({"generatedAt": auto_at, "stocks": stocks})};\n')
+    import decision_records as decisions
+    w("price_history.js", 'const PRICE_HISTORY = {};')
+    archive=decisions.Path(tmp)/'research_archive'/'decisions'
+    decisions.capture({'generatedAt':auto_at,'stocks':{
+        c:dict(row,tier='auto',base=100) for c,row in stocks.items()}},archive)
+    trace=decisions.refresh(archive,tmp,now=auto_at)
+    w("model_scoreboard.js", 'const MODEL_SCOREBOARD = '+json.dumps({'decisionTrace':trace})+';')
     w("tickers.js", 'const TICKERS = [{"code":"000001"},{"code":"000002"},{"code":"000003"}];\n')
     w("indicators.json", json.dumps({"generatedAt": auto_at, "stocks": {"000001": {"tech": {}, "flow": {}}}}))
     w("dart_today.js", f'const DART_TODAY = {json.dumps({"generatedAt": auto_at, "count": 3, "coverageState": "EVENT_DETECTED"})};\n')

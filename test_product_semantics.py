@@ -68,19 +68,25 @@ check("거래 0건 상태 문구 존재", "첫 검증 신호를 기다리고 있
       and "가상으로 보유 중인 종목이 아직 없어요" in html)
 check("실제 주문 없음을 명시", "실제 투자 주문은 발생하지 않습니다" in html)
 
-# ── ⑦ 모의투자는 성적표 하위가 아니라 독립 최상위 화면 (2026-08-18) ─────────
+# ── ⑦ 공개 진입은 검증 성적표, 기존 모의투자 뷰·직접 기록 주소는 보존 ───────
 check("모의투자 전용 뷰 컨테이너 존재", 'id="paperView"' in html)
-check("좌측/전체 메뉴에 모의투자 최상위 항목", 'id="mode-paper"' in html)
-# 2026-08-19: 상단 메뉴 버튼에 data-nav-alias(하위 모드 묶음)가 붙을 수 있어 속성 뒤를 열어 둔다.
-check("상단 글로벌 내비게이션에 모의투자",
-      bool(re.search(r'data-nav-mode="paper"[^>]*>모의투자</button>', html)))
+paper_button = re.search(r'<button\b[^>]*id="mode-paper"[^>]*>', html)
+check("기존 PAPER 메뉴 버튼은 보존하되 공개 화면에서 숨김",
+      bool(paper_button and re.search(r'\bhidden(?:\s|>)', paper_button.group())
+           and 'aria-hidden="true"' in paper_button.group()
+           and 'tabindex="-1"' in paper_button.group()))
+check("상단 글로벌 내비게이션의 PAPER 새 진입 없음",
+      not bool(re.search(r'<button\b[^>]*data-nav-mode="paper"', html)))
+check("상단 글로벌 내비게이션에 검증 성적표",
+      bool(re.search(r'data-nav-mode="scorecard"[^>]*>검증 성적표</button>', html)))
 check("?m=paper 딥링크 라우팅 존재", "m==='paper'" in html)
 check("성적표 렌더에 모의투자 블록이 섞여 있지 않음", "paperBlockHTML()" not in html)
-# 2026-09-06: 성적표가 「핵심 3줄 + 접이식 3묶음」으로 바뀌면서 조립부의 첫 줄이
-# `<div class="sc-block sc-lede">` + `<h3>한눈에 보는 결론</h3>`이 됐다. 조립부 전체
-# (요약 카드 + 세 묶음)를 한 덩어리로 떠서 검사한다 — 접힌 묶음 안도 같이 본다.
-sc = html[html.index('el.innerHTML=`<div class="sc-block sc-lede">'):]
-sc = sc[:sc.index("`;\n}")]
+# 2026-09-13: 실제 판단 연결이 기존 요약 앞에 추가됐다. 특정 innerHTML 접두부에
+# 묶지 않고 렌더 함수 전체를 검사해 원래 접이식 내용도 확인한다.
+sc = html[html.index('function renderScorecard(){'):]
+sc = sc[:sc.index("\n}\n")]
+check("성적표가 실제 판단 연결과 기존 기록을 함께 렌더", "decisionTraceHTML(" in sc
+      and 'sc-block sc-lede' in sc and "group('week'" in sc)
 check("성적표 조립부에 모의투자 흔적 0", "paper" not in sc.lower() and "모의투자" not in sc)
 # 사용자 화면 주요 명칭은 한국어 '모의투자' — 'Paper Trading'을 제목으로 노출하지 않는다.
 for bad in ("<h3>GAEO 모의투자", "Paper Trading</", ">Paper Trading<"):

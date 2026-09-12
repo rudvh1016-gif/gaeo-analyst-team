@@ -34,6 +34,7 @@ import json
 import os
 import random
 import re
+import sys
 
 import coverage_version
 import model_registry
@@ -569,14 +570,45 @@ def build(store=None, prices=None, hist=None):
     return payload
 
 
-def main():
-    payload = build()
+def write_decision_trace(repo=HERE):
+    """Refresh production trace without reading or changing sealed research results."""
+    import decision_records
+    path = os.path.join(repo, 'model_scoreboard.js')
+    payload = load_js_object(path, 'MODEL_SCOREBOARD')
+    if not isinstance(payload, dict):
+        raise decision_records.IntegrityError('Existing model scoreboard unreadable')
+    payload['decisionTrace'] = decision_records.refresh(
+        root=os.path.join(repo, 'research_archive', 'decisions'), repo=repo)
+    _write_payload(payload, path)
+    return payload
+
+
+def _write_payload(payload, path=OUT_JS):
+    import decision_records
     body = json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True)
     js = ("// 자동 생성: build_model_scoreboard.py · 모델 대시보드용 집계\n"
           "// ⚠️ 집계 숫자만 담는다. 개별 종목 Research Prediction 원본은 들어가지 않는다.\n"
           "const MODEL_SCOREBOARD = " + body + ";\n")
-    with open(OUT_JS, "w", encoding="utf-8") as f:
+    tmp = path + '.tmp'
+    with open(tmp, "w", encoding="utf-8", newline='\n') as f:
         f.write(js)
+        f.flush()
+        os.fsync(f.fileno())
+    if load_js_object(tmp, 'MODEL_SCOREBOARD') != payload:
+        raise decision_records.IntegrityError('Public scoreboard readback mismatch')
+    os.replace(tmp, path)
+    if load_js_object(path, 'MODEL_SCOREBOARD') != payload:
+        raise decision_records.IntegrityError('Saved scoreboard readback mismatch')
+
+
+def main():
+    if '--decision-trace-only' in sys.argv:
+        payload = write_decision_trace()
+    else:
+        import decision_records
+        payload = build()
+        payload['decisionTrace'] = decision_records.refresh()
+        _write_payload(payload)
     size = os.path.getsize(OUT_JS)
     base = next(m for m in payload["models"] if m["id"] == "base_production")
     print(f"model_scoreboard.js 저장 — 모델 {len(payload['models'])}개 · {size:,}B · "

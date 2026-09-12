@@ -560,6 +560,41 @@ def probe_pages(local_prices, now, url="https://gaeoteam.com/data.js", timeout=1
 
 # ---------------------------------------------------------------- 종합
 
+def check_decisions(root, now):
+    doc = _read_json(os.path.join(root, 'research_archive', 'decisions', 'status.json'))
+    if not isinstance(doc, dict) or not doc.get('lastVerifiedAt'):
+        return component(UNKNOWN, 'DECISIONS_UNREADABLE', '판단 원본 저장·채점 연결을 확인하지 못했다')
+    h = (doc.get('horizons') or {}).get('5') or {}
+    if any(not isinstance(h.get(k), int) for k in ('evaluated','pending','blocked','withheld')):
+        return component(FAULT, 'DECISIONS_INVALID', '판단 결과 상태별 개수가 없거나 올바르지 않다')
+    if sum(h[k] for k in ('evaluated','pending','blocked','withheld')) != doc.get('dailyRecordCount'):
+        return component(FAULT, 'DECISIONS_COUNT_MISMATCH', '저장된 일별 판단 수와 결과 상태별 개수가 다르다')
+    try:
+        import decision_records as decisions
+        archive = decisions.Path(root) / 'research_archive' / 'decisions'
+        actual = decisions.summarize(decisions.read_records(archive), decisions.load_outcomes(archive),
+                                     current_model=doc.get('currentModelVersion'))
+        fields = ('rawRecordCount','dailyRecordCount','latestDecisionAt','horizons','byModelVersion')
+        if any(actual.get(k) != doc.get(k) for k in fields):
+            raise ValueError('Stored evidence differs from its summary')
+        board = _load_js(os.path.join(root, 'model_scoreboard.js'), 'MODEL_SCOREBOARD')
+        if not board or board.get('decisionTrace') != doc:
+            raise ValueError('Public scoreboard is disconnected')
+    except (OSError, ValueError, KeyError, TypeError, EOFError):
+        return component(FAULT, 'DECISIONS_STORAGE_MISMATCH', '판단 원본·저장된 결과·공개 성적표가 연결되지 않거나 내용 검증에 실패했다')
+    auto = _load_js(os.path.join(root, 'auto_analysis.js'), 'LIVE_AUTO')
+    if auto and str(auto.get('generatedAt') or '') > str(doc.get('latestDecisionAt') or ''):
+        return component(FAULT, 'DECISIONS_NOT_SAVED', '최신 자동분석이 원본 보존·성적표에 아직 연결되지 않았다')
+    checked = _parse_iso(doc.get('lastVerifiedAt'))
+    expected = last_trading_day(now.date()) if now.hour >= 17 else previous_trading_day(now.date())
+    if not checked or checked.astimezone(KST).date() < expected:
+        return component(FAULT, 'DECISIONS_NOT_EVALUATED', '예정된 판단 결과 저장·집계 갱신을 확인하지 못했다')
+    detail = f"원본 {doc.get('rawRecordCount')}건 · 평가 {h['evaluated']} · 미래 대기 {h['pending']} · 자료 부족 {h['blocked']} · 판단 보류 {h['withheld']}"
+    status = INSUFF if h['blocked'] else IDLE if h['pending'] or not doc.get('rawRecordCount') else OK
+    return component(status, 'DECISIONS_VERIFIED', detail, counts=h,
+                     latestDecisionAt=doc.get('latestDecisionAt'), lastVerifiedAt=doc.get('lastVerifiedAt'))
+
+
 def collect(root=HERE, now=None, deep=False, github=False, pages=False):
     now = now or datetime.datetime.now(KST)
     comps = {}
@@ -570,6 +605,7 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
     comps["dart"] = check_dart(root, now)
     comps["paper"] = check_paper(root, now)
     comps["evolution"] = check_evolution(root, now)
+    comps["decisions"] = check_decisions(root, now)
     comps["schedule"] = check_validation_schedule(root, now)
     if deep:
         comps["prereg"] = check_prereg_recording(root, now)
@@ -617,7 +653,7 @@ def _git_sha(root):
         return None
 
 
-NAMES = {"prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
+NAMES = {"decisions": "판단 원본·결과 연결", "prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
          "paper": "모의투자(PAPER)", "evolution": "Evolution", "schedule": "예정 시험", "prereg": "사전등록 기록",
          "workflows": "워크플로 유효성", "scheduled": "예약 실행 실측(워치독·일일 점검)", "pages": "사이트 전달"}
 

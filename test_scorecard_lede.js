@@ -35,7 +35,8 @@ const hardcoded = [...ledeBlock.matchAll(/(적중률|맞혔|성적은|성적이)
 assert.equal(hardcoded.length, 0,
   `핵심 3줄에 성과 숫자가 글자로 박혀 있다: ${hardcoded.map(m => m[0]).join(' | ')}`);
 // "50%는 동전 던지기"는 성과 주장이 아니라 기준선 설명이므로 위 정규식에 안 걸린다.
-assert.ok(ledeBlock.includes('동전 던지기'), '기준선(50%)이 무슨 뜻인지 설명하는 문장이 사라졌다.');
+assert.ok(ledeBlock.includes('비교 기준'), '비교 기준을 확인하기 전 성적을 단정할 수 없다는 설명이 없다.');
+assert.ok(!ledeBlock.includes('동전 던지기'), '검증되지 않은 50% 기준선이 실력 판단으로 돌아왔다.');
 
 // ② 신뢰 구간은 판단일 블록 부트스트랩이고, 결과가 흔들리지 않는다
 assert.ok(ui.includes('function scDayBootstrapCI('), '신뢰 구간 계산기가 없다.');
