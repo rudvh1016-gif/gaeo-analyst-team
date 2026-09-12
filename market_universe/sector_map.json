@@ -1,12 +1,12 @@
 {
 "schemaVersion": "gaeo_sector_map_v1",
-"asOf": "2026-09-09T02:54:42+00:00",
+"asOf": "2026-09-12T01:46:20+00:00",
 "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
-"corpCount": 2595,
+"corpCount": 2594,
 "crosswalkCoverage": {
-"total": 2631,
-"mapped": 2558,
-"ratio": 0.9723,
+"total": 2630,
+"mapped": 2557,
+"ratio": 0.9722,
 "gateMin": 0.95,
 "gate": "GATE_PASS",
 "unknownIndustries": {
@@ -2515,7 +2515,6 @@
 "469750": "특수 목적용 기계 제조업",
 "469900": "금융 지원 서비스업",
 "471820": "기타 식품 제조업",
-"472220": "금융 지원 서비스업",
 "472230": "금융 지원 서비스업",
 "472850": "섬유, 의복, 신발 및 가죽제품 소매업",
 "473000": "금융 지원 서비스업",

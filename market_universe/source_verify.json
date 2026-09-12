@@ -1,10 +1,10 @@
 {
- "ranAt": "2026-09-09T01:46:02+00:00",
+ "ranAt": "2026-09-12T01:46:17+00:00",
  "mode": "smoke",
  "markets": {
   "KOSPI": {
    "status": "OK",
-   "totalCount": 2483,
+   "totalCount": 2477,
    "pageRows": 100,
    "topLevelKeys": [
     "localOpenTimeDesc",
@@ -19,43 +19,43 @@
    "stockFields": {
     "accumulatedTradingValue": {
      "nonNullRatio": 1.0,
-     "sample": "1,553,043"
+     "sample": "3,605,063"
     },
     "accumulatedTradingValueKrwHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "1조 5,530억원"
+     "sample": "3조 6,051억원"
     },
     "accumulatedTradingValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "1553043000000"
+     "sample": "3605063000000"
     },
     "accumulatedTradingVolume": {
      "nonNullRatio": 1.0,
-     "sample": "5,730,926"
+     "sample": "13,938,673"
     },
     "accumulatedTradingVolumeRaw": {
      "nonNullRatio": 1.0,
-     "sample": "5730926"
+     "sample": "13938673"
     },
     "closePrice": {
      "nonNullRatio": 1.0,
-     "sample": "272,750"
+     "sample": "259,500"
     },
     "closePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "272750"
+     "sample": "259500"
     },
     "compareToPreviousClosePrice": {
      "nonNullRatio": 1.0,
-     "sample": "3,250"
+     "sample": "-9,500"
     },
     "compareToPreviousClosePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "3250"
+     "sample": "-9500"
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
-     "sample": "{'code': '2', 'text': '상승', 'name': 'RIS"
+     "sample": "{'code': '5', 'text': '하락', 'name': 'FAL"
     },
     "endUrl": {
      "nonNullRatio": 1.0,
@@ -63,7 +63,7 @@
     },
     "fluctuationsRatio": {
      "nonNullRatio": 1.0,
-     "sample": "1.21"
+     "sample": "-3.53"
     },
     "itemCode": {
      "nonNullRatio": 1.0,
@@ -79,23 +79,23 @@
     },
     "localTradedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-09-09T10:46:01+09:00"
+     "sample": "2026-09-11T16:10:21+09:00"
     },
     "marketStatus": {
      "nonNullRatio": 1.0,
-     "sample": "OPEN"
+     "sample": "CLOSE"
     },
     "marketValue": {
      "nonNullRatio": 1.0,
-     "sample": "15,945,725"
+     "sample": "15,171,093"
     },
     "marketValueHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "1,594조 5,725억원"
+     "sample": "1,517조 1,093억원"
     },
     "marketValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "1594572490332000"
+     "sample": "1517109298776000"
     },
     "nav": {
      "nonNullRatio": 1.0,
@@ -107,7 +107,7 @@
     },
     "overMarketPriceInfo": {
      "nonNullRatio": 0.82,
-     "sample": "{'tradingSessionType': 'REGULAR_MARKET',"
+     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -151,7 +151,7 @@
     },
     "tradableStatusUpdatedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-09-09T08:01:27.284+09:00"
+     "sample": "2026-09-11T08:01:30.351+09:00"
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,
@@ -176,43 +176,43 @@
    "stockFields": {
     "accumulatedTradingValue": {
      "nonNullRatio": 1.0,
-     "sample": "79,096"
+     "sample": "118,287"
     },
     "accumulatedTradingValueKrwHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "791억원"
+     "sample": "1,183억원"
     },
     "accumulatedTradingValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "79096000000"
+     "sample": "118287000000"
     },
     "accumulatedTradingVolume": {
      "nonNullRatio": 1.0,
-     "sample": "288,623"
+     "sample": "442,647"
     },
     "accumulatedTradingVolumeRaw": {
      "nonNullRatio": 1.0,
-     "sample": "288623"
+     "sample": "442647"
     },
     "closePrice": {
      "nonNullRatio": 1.0,
-     "sample": "278,500"
+     "sample": "268,000"
     },
     "closePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "278500"
+     "sample": "268000"
     },
     "compareToPreviousClosePrice": {
      "nonNullRatio": 1.0,
-     "sample": "1,500"
+     "sample": "-9,000"
     },
     "compareToPreviousClosePriceRaw": {
      "nonNullRatio": 1.0,
-     "sample": "1500"
+     "sample": "-9000"
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
-     "sample": "{'code': '2', 'text': '상승', 'name': 'RIS"
+     "sample": "{'code': '5', 'text': '하락', 'name': 'FAL"
     },
     "endUrl": {
      "nonNullRatio": 1.0,
@@ -220,7 +220,7 @@
     },
     "fluctuationsRatio": {
      "nonNullRatio": 1.0,
-     "sample": "0.54"
+     "sample": "-3.25"
     },
     "itemCode": {
      "nonNullRatio": 1.0,
@@ -236,23 +236,23 @@
     },
     "localTradedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-09-09T10:46:03+09:00"
+     "sample": "2026-09-11T16:10:16+09:00"
     },
     "marketStatus": {
      "nonNullRatio": 1.0,
-     "sample": "OPEN"
+     "sample": "CLOSE"
     },
     "marketValue": {
      "nonNullRatio": 1.0,
-     "sample": "193,990"
+     "sample": "186,676"
     },
     "marketValueHangeul": {
      "nonNullRatio": 1.0,
-     "sample": "19조 3,990억원"
+     "sample": "18조 6,676억원"
     },
     "marketValueRaw": {
      "nonNullRatio": 1.0,
-     "sample": "19398954540500"
+     "sample": "18667575644000"
     },
     "nav": {
      "nonNullRatio": 1.0,
@@ -263,8 +263,8 @@
      "sample": "https://stock.naver.com/domestic/stock/1"
     },
     "overMarketPriceInfo": {
-     "nonNullRatio": 0.71,
-     "sample": "{'tradingSessionType': 'REGULAR_MARKET',"
+     "nonNullRatio": 0.72,
+     "sample": "{'tradingSessionType': 'AFTER_MARKET', '"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -308,7 +308,7 @@
     },
     "tradableStatusUpdatedAt": {
      "nonNullRatio": 1.0,
-     "sample": "2026-09-09T08:02:08.68+09:00"
+     "sample": "2026-09-11T08:02:12.576+09:00"
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,

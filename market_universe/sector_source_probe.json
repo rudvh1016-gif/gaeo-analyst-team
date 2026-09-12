@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-09-09T02:54:42+00:00",
+ "ranAt": "2026-09-12T01:46:20+00:00",
  "purpose": "full-market sector source verification (no guessing)",
  "sources": {
   "krx_corplist_KOSPI": {
@@ -166,8 +166,8 @@
     "지역"
    ],
    "rowCount": 1841,
-   "validCodeCount": 1788,
-   "industryFilled": 1788,
+   "validCodeCount": 1787,
+   "industryFilled": 1787,
    "industryFillRatio": 1.0,
    "distinctIndustries": 136,
    "industryHistogram": {
@@ -182,7 +182,7 @@
     "통신 및 방송 장비 제조업": 59,
     "자동차 신품 부품 제조업": 56,
     "기초 의약물질 제조업": 43,
-    "금융 지원 서비스업": 43,
+    "금융 지원 서비스업": 42,
     "일반 목적용 기계 제조업": 38,
     "기타 금융업": 33,
     "컴퓨터 프로그래밍, 시스템 통합 및 관리업": 31,
