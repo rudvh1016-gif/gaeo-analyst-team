@@ -2358,7 +2358,7 @@ renderHomeDeepAnalysis();
     const stockRow=(row,index)=>`<button class="hdb-stock-row" type="button" data-hdb-stock="${esc(row.name)}">`+
       `<span class="hdb-rank">${String(index+1).padStart(2,'0')}</span>`+
       `<span class="hdb-stock-main"><span class="hdb-stock-name">${esc(row.name)}</span>`+
-      `<span class="hdb-stock-call">BUY · 종합점수</span></span>`+
+      `<span class="hdb-stock-call">${gaeoJudgmentDisplay('BUY').label} · 종합점수</span></span>`+
       `<span class="hdb-stock-score">${Number(row.total)||0}점</span></button>`;
     const preview=model.preview.map(stockRow).join('');
     // ⭐ 2026-08-14 사용자 지정 — PC(넓은 화면)는 미리보기 위 1~3등이 계속 보이는 상태로
@@ -2366,20 +2366,20 @@ renderHomeDeepAnalysis();
     // 덮는 시트라 미리보기가 가려지므로 1등부터 전체를 그대로 보여준다.
     const fullMobile=model.buy.map(stockRow).join('');
     const fullDesktop=model.buy.slice(3).map((row,i)=>stockRow(row,i+3)).join('')||
-      '<div class="hdb-empty">4위 아래 매수 우위 판단 종목이 없어요.</div>';
+      '<div class="hdb-empty">4위 아래 매수 검토 판단 종목이 없어요.</div>';
     box.innerHTML=`<div class="hdb-decision-head"><strong>오늘의 판단</strong><span>${model.total.toLocaleString('ko-KR')}종목</span></div>`+
       `<div class="hdb-stats" aria-label="오늘의 판단 분포">`+
-      ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${call} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${call}</span></button>`).join('')+
+      ['BUY','HOLD','SELL'].map(call=>`<button class="hdb-stat" type="button" data-hdb-call="${call}" aria-label="${gaeoJudgmentDisplay(call).label} ${model.counts[call]}종목"><strong>${model.counts[call]}</strong><span>${gaeoJudgmentDisplay(call).label}</span></button>`).join('')+
       `</div><div class="hdb-distribution" aria-hidden="true"><i class="buy" style="width:${width('BUY')}%"></i><i class="hold" style="width:${width('HOLD')}%"></i><i class="sell" style="width:${width('SELL')}%"></i></div>`+
-      gaeoCallNoteHTML()+
-      `<button class="hdb-score-link" type="button" data-hdb-scorecard>성적표에서 실제 성적 자세히 보기 →</button>`+
+      gaeoJudgmentLegendHTML()+gaeoCallNoteHTML()+
+      `<button class="hdb-score-link" type="button" data-hdb-scorecard>검증 성적표에서 판단 기록 보기 →</button>`+
       (model.buy.length
-        ?`<div class="hdb-preview-head"><strong>매수 우위(BUY) 판단</strong><span>확신도순 · 추천이 아니라 참고예요</span></div><div class="hdb-preview">${preview}</div>`+
+        ?`<div class="hdb-preview-head"><strong>${gaeoJudgmentDisplay('BUY').label} (BUY) 판단</strong><span>확신도순 · 추천이 아니라 참고예요</span></div><div class="hdb-preview">${preview}</div>`+
           `<span class="hdb-rank-note">· 판단 확신도가 높은 순으로 정렬했고, 같으면 종합점수 순이에요. 확신도는 지금 판단이 얼마나 또렷한지, 신뢰도는 과거 검증에서 쌓아온 기록이에요.</span>`+
-          `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">매수 우위 판단 전체 ${model.buy.length}종목 보기 →</button>`+
-          `<section class="hdb-buy-panel" id="hdbBuyPanel" aria-labelledby="hdbBuyPanelTitle" hidden><div class="hdb-panel-head"><strong id="hdbBuyPanelTitle">매수 우위(BUY) 판단 전체 ${model.buy.length}종목</strong>`+
+          `<button class="hdb-buy-toggle" id="hdbBuyToggle" type="button" aria-expanded="false" aria-controls="hdbBuyPanel">매수 검토 판단 전체 ${model.buy.length}종목 보기 →</button>`+
+          `<section class="hdb-buy-panel" id="hdbBuyPanel" aria-labelledby="hdbBuyPanelTitle" hidden><div class="hdb-panel-head"><strong id="hdbBuyPanelTitle">${gaeoJudgmentDisplay('BUY').label} (BUY) 판단 전체 ${model.buy.length}종목</strong>`+
           `<button class="hdb-panel-close" id="hdbPanelClose" type="button" aria-label="목록 닫기">×</button></div><div class="hdb-buy-list" id="hdbBuyList"></div></section>`
-        :'<div class="hdb-empty">현재 BUY 판단 종목이 없어요. 불확실한 종목은 HOLD로 남겨 두었어요.</div>');
+        :'<div class="hdb-empty">현재 매수 검토 판단 종목이 없어요. 지켜보기와 자료가 부족한 판단 보류는 서로 다른 상태예요.</div>');
 
     box.querySelectorAll('[data-hdb-stock]').forEach(row=>row.onclick=()=>jumpToStock(row.dataset.hdbStock,'home_buy_list'));
     // 성적표 진입 링크(2026-09-06): 이 상자는 5분마다 다시 그려지므로 로드 시 1회 걸리는 data-nav-mode 바인딩 대신 직접 건다.
@@ -4944,6 +4944,45 @@ window.renderDartBoard=renderDartBoard;
   else setTimeout(load,1200);
 })();
 
+// Public labels explain the saved decision; internal calls and scoring stay unchanged.
+function gaeoJudgmentDisplay(call){
+  const labels={
+    BUY:{label:'매수 검토',explanation:'긍정 신호가 우세하다는 뜻이며, 가격과 위험을 더 확인한 뒤 매수를 검토하는 판단이에요.'},
+    HOLD:{label:'지켜보기',explanation:'긍정·부정 신호가 섞여 방향을 정하기 어려우니, 새 근거가 나올 때까지 지켜보는 판단이에요.'},
+    SELL:{label:'매도 검토',explanation:'부정 신호가 우세하다는 뜻이며, 보유 중이라면 위험과 매도 여부를 다시 검토하는 판단이에요.'}
+  };
+  return Object.prototype.hasOwnProperty.call(labels,call)?labels[call]:{label:'판단 보류',explanation:'판단에 필요한 자료나 근거가 부족해 매수·매도 방향을 정하지 못한 상태예요.'};
+}
+function gaeoJudgmentLegendHTML(){
+  return '<div class="judgment-guide">'+['BUY','HOLD','SELL','JUDGMENT_WITHHELD'].map(call=>{
+    const d=gaeoJudgmentDisplay(call);
+    return `<p><b>${d.label}${call==='JUDGMENT_WITHHELD'?'':' ('+call+')'}</b> · ${d.explanation}</p>`;
+  }).join('')+'</div>';
+}
+function gaeoBeginnerEvidenceHTML(stock){
+  const I=liveInd(stock.code)||{},t=I.tech||{},r=I.risk||{},f=I.flow||{};
+  const num=(v,unit='')=>typeof v==='number'&&Number.isFinite(v)?v.toLocaleString('ko-KR')+unit:'자료 확인 중';
+  const row=(name,value,explain)=>`<div class="beginner-evidence-row"><b>${name} · ${esc(value)}</b><p>${explain}</p></div>`;
+  const flowValue='외국인 '+num(f.frgnSum,'주')+' · 기관 '+num(f.orgSum,'주');
+  const flowPeriod=f.periodStart&&f.periodEnd?`${esc(f.periodStart)}~${esc(f.periodEndDate||f.periodEnd)}`:esc(f.periodEndDate||f.periodEnd||'자료 확인 중');
+  const technicalAt=' 가격 기록 기준 '+esc(t.lastBarDate||'자료 확인 중')+'예요.';
+  return '<section class="beginner-evidence"><div class="vsec-title">숫자를 이렇게 읽어요</div>'+
+    row('RSI',t.rsi14Ready===false?'자료 확인 중 · 가격 기록 부족':num(t.rsi14??t.rsi),'최근 상승과 하락 중 어느 힘이 더 컸는지 0~100으로 보여줘요. 70 위·30 아래라는 이유만으로 다음 방향이 정해지지는 않아요.'+technicalAt)+
+    row('PER',typeof stock.per==='number'&&stock.per>0?num(stock.per,'배'):'자료 확인 중 · 이익 기준 확인 필요','주가가 회사의 1주당 이익의 몇 배인지예요. 이익이 없거나 적자이면 일반적인 비교가 어려워요.')+
+    row('PBR',typeof stock.pbr==='number'&&stock.pbr>0?num(stock.pbr,'배'):'자료 확인 중 · 자산 기준 확인 필요','주가가 1주당 장부상 순자산의 몇 배인지예요. 낮다는 이유만으로 싸거나 안전하다고 단정할 수 없어요.')+
+    row('변동성',num(r.vol20,'%'),'최근 20거래일의 하루 수익률이 얼마나 흔들렸는지 나타내요. 앞으로 움직일 최대 폭이나 손실 한도는 아니에요.'+technicalAt)+
+    row('수급',flowValue,`산 주식 수에서 판 주식 수를 뺀 값이에요. 집계 기간 ${flowPeriod}의 장마감 확정치이며, 장중 실시간 자료가 아니에요.`)+
+    row('이동평균 (MA20)',num(t.ma20,'원')+(t.ma20Full===false?' · 20거래일 자료 미충족':''),'최근 20거래일 종가의 평균이에요. 현재가와 비교해 흐름을 보는 참고선이며, 이 가격에서 반드시 멈추지는 않아요.'+technicalAt)+
+    '<p class="beginner-evidence-note">PER·PBR은 현재 표시된 시세 자료의 값이며, 재무 원자료 기준 시점은 자료 확인 중이에요. 시점이 확인되지 않은 숫자를 현재 상황과 같다고 보지 마세요.</p>'+gaeoDisclosureEvidenceHTML(stock.code)+'</section>';
+}
+function gaeoDisclosureEvidenceHTML(code){
+  const B=typeof MODEL_SCOREBOARD!=='undefined'?MODEL_SCOREBOARD:null;
+  const d=B&&B.decisionTrace&&B.decisionTrace.disclosure;
+  const labels={event_found:'기업 사건 발견',checked_no_event:'확인 범위 내 사건 없음',unavailable:'확인 불가',needs_review:'추가 검토 필요'};
+  const state=d&&d.byCode&&d.byCode[code];
+  return '<div class="beginner-evidence-row"><b>현재 공시 확인 · '+(labels[state]||'확인 불가')+'</b><p>확인 시각 '+esc(d&&d.observedAt||'자료 확인 중')+' · '+esc(d&&d.scope||'확인 범위 자료 확인 중')+'</p><p>현재 보관된 자료를 확인한 상태예요. 분석 당시 이 사건을 알았다는 뜻은 아니며, 조회 범위 밖의 사건이나 투자 안전을 보증하지 않아요.</p></div>';
+}
+
 /* 홈 「오늘의 판단」 각주 — BUY/HOLD/SELL이 실제로 얼마나 맞았는지.
    ⚠️ 숫자를 하드코딩하지 않는다. build_model_scoreboard.py가 매일 다시 만드는
       model_scoreboard.js를 런타임에 읽는다. 하드코딩하면 화면만 옛 숫자를 말하게 된다.
@@ -4959,6 +4998,12 @@ function gaeoCallNoteHTML(){
        되지 않으므로 window.MODEL_SCOREBOARD로는 절대 안 잡힌다(실측으로 확인).
        저장소의 다른 사용처(6436·6670·11025행)와 같이 맨 식별자로 읽는다. */
     const B=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
+    const trace=B&&B.decisionTrace;
+    if(trace&&trace.schemaVersion===1){
+      const n=(x,unit='')=>typeof x==='number'&&Number.isFinite(x)?x.toLocaleString('ko-KR')+unit:'자료 확인 중';
+      const h=trace.horizons&&trace.horizons['5']||{};
+      return '<span class="hdb-call-note"><b>판단 기록과 결과</b> 원본 '+n(trace.rawRecordCount,'건')+' · 종목·판단일로 묶은 '+n(trace.dailyRecordCount,'건')+' · 판단일 '+n(trace.uniqueDecisionDays,'일')+'. 채점 완료 '+n(h.evaluated,'건')+' · 결과 기다리는 중 '+n(h.pending,'건')+' · 자료 부족으로 평가 보류 '+n(h.blocked,'건')+'. 같은 날의 기록은 서로 독립된 시험이 아니에요.</span>';
+    }
     if(!B||!Array.isArray(B.models)) return '';
     const m=B.models.find(x=>x.id==='base_production')||B.models[0]; if(!m||!m.byCoverage) return '';
     // 성숙한 표본이 가장 많은 구간을 쓴다(현재 coverage는 아직 안 익었을 수 있다).
@@ -4971,9 +5016,7 @@ function gaeoCallNoteHTML(){
     const best=[['BUY',d.buy],['HOLD',d.hold],['SELL',d.sell]]
       .filter(r=>r[1]&&r[1].precision!=null).sort((a,b)=>b[1].precision-a[1].precision)[0];
     if(!best) return '';
-    const tail=best[0]==='SELL'
-      ? 'SELL이 가장 잘 맞아서, 살 종목을 고를 때보다 피할 종목을 거를 때 더 도움이 돼요.'
-      : best[0]+' 판단이 지금까지 가장 잘 맞았어요.';
+    const tail='이전 일별 이력의 중간 집계이며, 현재 판단의 성공 확률이나 인증된 투자 성과는 아니에요.';
     const cov=COVERAGE_LABEL[covKey]||covKey;
     /* ⚠️ 여기 나오는 숫자는 "표본이 가장 많이 익은 구간"의 성적이다. 지금 추적 중인
        구간(600종목)이 아직 결론을 낼 만큼 안 익었으면, 이 숫자를 현재 성적으로
@@ -4986,8 +5029,8 @@ function gaeoCallNoteHTML(){
       pendingNote=' 지금 추적 중인 '+(COVERAGE_LABEL[curKey]||curKey)+'은 아직 판단 '
         +nf(cur.uniqueDates)+'일치뿐이라 따로 성적을 말하지 않아요.';
     }
-    return '<span class="hdb-call-note"><b>GAEO 판단 실측 성적</b> '+
-      'BUY '+pc(d.buy.precision)+'% · HOLD '+pc(d.hold&&d.hold.precision)+'% · SELL '+pc(d.sell.precision)+'%. '+
+    return '<span class="hdb-call-note"><b>이전 판단의 저장 기록</b> '+
+      gaeoJudgmentDisplay('BUY').label+' '+pc(d.buy.precision)+'% · '+gaeoJudgmentDisplay('HOLD').label+' '+pc(d.hold&&d.hold.precision)+'% · '+gaeoJudgmentDisplay('SELL').label+' '+pc(d.sell.precision)+'%. '+
       tail+' ('+cov+'에서 '+nf(d.uniqueDates)+'일간 '+nf(d.matured)+'건을 채점한 기록이에요)'+pendingNote+'</span>';
   }catch(e){ return ''; }
 }
@@ -5083,7 +5126,7 @@ function renderRotationPicks(){
   if(noteEl&&rec.periodStart){
     const ym=d=>{const m=String(d).match(/^(\d{4})-(\d{2})/); return m?(m[1]+'년 '+Number(m[2])+'월'):d;};
     noteEl.textContent=ym(rec.periodStart)+'부터 '+ym(rec.periodEnd)+'까지 업종 중앙값과 비교해 채점한 기록이에요. '+
-      '적중률 '+rec.hitRate+'%는 동전 던지기(50%)보다 조금 나은 정도이고, 업종을 맞혔는지 잰 성적이지 위 종목 하나하나의 성적은 아니에요.';
+      '적중률 '+rec.hitRate+'%는 업종 신호를 채점한 값이에요. 위 종목 하나하나의 성적과는 다르며, 같은 조건의 비교 기준을 확인해야 의미를 판단할 수 있어요.';
   }
   box.hidden=false;
 }
@@ -5984,11 +6027,12 @@ function verdictMetricGridHTML(v,stock){
     // 2026-08-26: 종합점수만 판단색(주황·초록·빨강)으로 칠하면 같은 표 안에서 네 숫자의
     // 색이 제각각이 된다. BUY/HOLD/SELL 색은 바로 위 Hero의 판단 글자가 이미 갖고 있으니
     // 여기서는 중립으로 두고 크기·굵기로만 강조한다(색은 시장 방향에만).
-    + cell('종합점수', `${v.total}<small>점</small>`)
-    + cell('판단 확신도', `${v.conf}<small>%</small>`)
+    + cell('종합점수', v.total==null?'자료 확인 중':`${v.total}<small>점</small>`)
+    + cell('판단 확신도', v.conf==null?'자료 확인 중':`${v.conf}<small>%</small>`)
     + cell('현재가', stock.price?won(stock.price):'—')
-    + cell('기준가 대비', gapHTML)
+    + cell('분석 기준가 대비', gapHTML)
     + `</div>`
+    + '<p class="vmetric-note">분석 기준가 '+(base?won(base):'자료 확인 중')+' · 기준가 시점 '+esc(analysisBaseAt(stock.code)||'자료 확인 중')+'예요. 현재가와 분석을 만들 때 사용한 가격은 서로 다를 수 있어요. 종합점수는 근거를 합친 방향 점수이며 성공 확률이 아니에요.</p>'
     + confReliabilityNoteHTML(v);
 }
 /* 확신도 ≠ 신뢰도 — 확신도는 chief_eval 실제 산식(네 분석축 점수 일치도에서 리스크를
@@ -5997,12 +6041,13 @@ function verdictMetricGridHTML(v,stock){
    검증 적중률이 실측되기 전에는 숫자 없이 '기록 축적 중'으로만 쓴다. */
 function baseReliabilityState(){
   const SB=(typeof MODEL_SCOREBOARD!=='undefined'&&MODEL_SCOREBOARD)?MODEL_SCOREBOARD:null;
-  const base=SB&&Array.isArray(SB.models)?SB.models.find(m=>m.id==='base_production'):null;
+  const base=SB&&SB.decisionTrace;
   if(!base) return {kind:'UNKNOWN'};
   const cur=base.currentModelVersion;
-  const v=cur?((base.byModelVersion||{})[cur]||null):null;
-  if(v&&typeof v.accuracy==='number')
-    return {kind:'MEASURED',acc:v.accuracy,ci:Array.isArray(v.accuracyCI95)?v.accuracyCI95:null};
+  const version=cur?((base.byModelVersion||{})[cur]||null):null;
+  const v=version&&version.horizons&&version.horizons['5'];
+  if(v&&typeof v.accuracy==='number'&&Number.isFinite(v.accuracy))
+    return {kind:'MEASURED',acc:v.accuracy,ci:null};
   return {kind:'ACCUMULATING'};
 }
 function confReliabilityNoteHTML(v){
@@ -6010,10 +6055,10 @@ function confReliabilityNoteHTML(v){
   const r=baseReliabilityState();
   // 신뢰도 상태줄 — 숫자를 발명하지 않는다: 실측 적중률이 있으면 그 이름 그대로,
   // 없으면 '기록 축적 중'. confidence 복사·재명명 금지.
-  const relState=r.kind==='MEASURED'?'검증 기록 확보'
+  const relState=r.kind==='MEASURED'?'판단 추적 기록 집계'
     :(r.kind==='ACCUMULATING'?'기록 축적 중':'상태 확인 불가');
   const rel=r.kind==='MEASURED'
-    ?`현행 판단 방식의 5거래일 검증 적중률은 ${r.acc}%${r.ci?` (범위 ${r.ci[0]}~${r.ci[1]}%)`:''}예요.`
+    ?`현행 판단 방식의 5거래일 추적 적중률은 ${r.acc}%${r.ci?` (범위 ${r.ci[0]}~${r.ci[1]}%)`:''}예요. 기록의 중간 집계이며 투자 성과의 인증은 아니에요.`
     :(r.kind==='ACCUMULATING'
       ?'현행 판단 방식은 새 검증 기록을 쌓는 중이라 아직 신뢰도 수치가 없어요(0%가 아니라 표본 대기예요).'
       :'검증 기록 상태를 불러오지 못했어요.');
@@ -6182,6 +6227,7 @@ async function analyze(){
     const d=row?row.dart:null;
     if(!d) return '';
     let stateText=d.stateText||'';
+    if(d.count===0) stateText='확인 범위의 공시 0건 · 종목별 확인 범위 검토 필요';
     if(d.state==='EVENT_DATA_ERROR') stateText='공시 데이터를 불러오지 못했어요';
     const items=(d.items||[]).slice(-2).reverse().map(it=>{
       const day=String(it.receiptDate||'').length===8
@@ -6191,7 +6237,7 @@ async function analyze(){
     return `<div class="dart-context">
       <div class="dart-head"><span>최근 공식 공시</span><small>${esc(stateText)}${d.count>2?` · 최근 ${d.count}건 중 2건`:''}</small></div>
       ${items}
-      <p class="dart-note">공시는 최신 공식 정보를 확인하기 위한 참고 근거이며, 현재 DIANA 점수에 직접 가산되지 않습니다.</p>
+      <p class="dart-note">조회한 기간과 범위 안의 공시만 보여요. 0건이거나 자료를 못 불러왔다고 기업 사건이 없거나 안전하다는 뜻은 아니에요. 공시는 참고 근거이며 현재 DIANA 점수에 직접 가산되지 않습니다.</p>
     </div>`;
   }
   // 6. 상세 분석 근거 — 4축 findings를 아코디언으로(닫힌 상태엔 요약 1줄+점수만), v.text/v.report
@@ -6251,8 +6297,9 @@ async function analyze(){
       const v=decide(data,stock.code);
       // 1. Hero
       document.getElementById('vdot').style.background=v.color;
-      const call=document.getElementById('vcall'); call.textContent=v.call; call.style.color=v.color;
-      document.getElementById('vheroline').innerHTML=verdictHeadline(v,data);
+      const display=gaeoJudgmentDisplay(v.call);
+      const call=document.getElementById('vcall'); call.textContent=display.label; call.style.color=v.color;
+      document.getElementById('vheroline').innerHTML='<span class="judgment-explanation">'+display.explanation+'</span>'+(['BUY','HOLD','SELL'].includes(v.call)?verdictHeadline(v,data):'');
       const vOh=document.getElementById('voverheat');
       if(vOh) vOh.innerHTML=overheatNoticeHTML(stock.code, v.call);
       const tierBadge=v.tier==='auto'
@@ -6269,8 +6316,8 @@ async function analyze(){
       if(vRec){
         const note=(typeof gaeoCallNoteHTML==='function')?gaeoCallNoteHTML():'';
         vRec.innerHTML=note
-          ? note+'<button class="hdb-score-link" type="button" data-v-scorecard>성적표에서 실제 성적 자세히 보기 →</button>'
-          : '';
+          ? note+'<button class="hdb-score-link" type="button" data-v-scorecard>검증 성적표에서 판단 기록 보기 →</button>'
+          : '<button class="hdb-score-link" type="button" data-v-scorecard>검증 성적표에서 판단 기록 보기 →</button>';
         const link=vRec.querySelector('[data-v-scorecard]');
         if(link) link.onclick=()=>{
           window.__gaeoScorecardEntry='stock_hero';
@@ -6282,10 +6329,10 @@ async function analyze(){
       const fresh=freshnessHTML(stock.code, stock.price).replace(/^　·　/,'');
       document.getElementById('vasof').innerHTML=
         (stock.price?'<span>· 시세 기준 <b>'+priceAsOf()+'</b></span>':'')+
-        '<span>· 분석 기준 <b>'+(aof||'현재 제공 데이터')+'</b></span>'+
+        '<span>· 분석 생성 <b>'+(aof||'자료 확인 중')+'</b></span>'+
         (fresh?'<span>'+cleanAnalysisCopy(fresh)+'</span>':'');
       // 2. 핵심 지표 요약
-      document.getElementById('vmetrics').innerHTML=verdictMetricGridHTML(v,stock);
+      document.getElementById('vmetrics').innerHTML=verdictMetricGridHTML(v,stock)+gaeoBeginnerEvidenceHTML(stock);
       // 3. 판단 이유 3가지
       document.getElementById('vreasons').innerHTML=verdictReasonsHTML(data,v);
       // 4. 긍정 요인 / 주의 요인
@@ -6694,9 +6741,9 @@ function renderGuide(){
       <table class="gb-table"><tbody>
         <tr><th>적중</th><td>매수라고 했는데 올랐거나, 매도라고 했는데 내린 경우</td></tr>
         <tr><th>빗나감</th><td>반대로 간 경우</td></tr>
-        <tr><th>보유(HOLD)</th><td>크게 움직이지 않았으면 맞은 것으로 봐요</td></tr>
-        <tr><th>시장 대비</th><td>그날 전체 종목의 중간값을 뺀 값. 시장이 통째로 오른 덕은 빼고
-          <b>종목을 잘 골랐는지</b>만 남긴 숫자예요</td></tr>
+        <tr><th>지켜보기(HOLD)</th><td>기존 성적표는 ±5% 안의 움직임을 적중으로 채점해요. 이것은 채점 정의이며, 지켜보기 판단 자체의 뜻은 아니에요</td></tr>
+        <tr><th>시장 대비</th><td>그날 분석 종목 수익률의 중간값을 뺀 별도 채점이에요.
+          실제 시장 지수나 투자 수익률과는 다르며, 비교 기준과 함께 읽어야 해요</td></tr>
         <tr><th>5일 / 20일 / 60일</th><td>판단한 날부터 며칠 뒤 결과로 채점했는지</td></tr>
         <tr><th>평가 대기</th><td>아직 그만큼 시간이 안 지난 판단이에요</td></tr>
       </tbody></table>
@@ -6740,10 +6787,10 @@ function renderGuide(){
       그래서 「종목을 잘 골랐는지」가 아니라 「시장이 어디로 갔는지」를 재고 있었던 거예요.<br><br>
       이제 성적표에 표 두 개를 추가해 이걸 있는 그대로 보여줍니다.<br>
       ${sign('var(--sky-soft)','var(--navy)','판단 종류별 성적','BUY·HOLD·SELL을 <b>합치지 않고 따로</b> 보여줘요. 합친 숫자는 어느 판단이 잘 맞고 어느 판단이 망가졌는지를 가려버리기 때문이에요. HOLD도 ±5%를 벗어나면 정직하게 빗나감으로 셉니다.')}
-      ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 분석 종목 전체의 수익률 <b>중앙값을 뺀</b> 값이에요. 시장이 통째로 움직인 효과를 걷어내서 「시장보다 잘 골랐나」만 남긴 진짜 종목 선별력이에요. 50%면 「시장 흐름을 빼면 동전 던지기와 같다」는 뜻이라, 이 숫자가 절대 적중률보다 낮게 나오는 게 정상이에요.')}
+      ${sign('var(--sky-soft)','var(--navy)','시장 대비','그날 분석 종목 전체의 수익률 <b>중앙값을 뺀</b> 값이에요. 실제 시장 지수나 투자 수익률과는 달라요. 이 적중률을 평가하려면 같은 기록과 채점 규칙으로 만든 비교 기준을 함께 확인해야 해요.')}
       ${sign('var(--sky-soft)','var(--navy)','판단 확신도 구간별(BUY·SELL 분리)','판단 확신도가 높다고 표시한 판단만 골라서 다시 채점한 표예요. BUY와 SELL을 나눠서 보여드려요.')}
       <div class="gb-tip"><b>여기서 제일 중요한 것! (2026년 8월 14일 다시 확인)</b> 개오팀은 분석 종목 전부를 잘 맞히지는 못해요.
-      전체 BUY·SELL 판단의 시장 대비 적중률은 동전 던지기와 크게 다르지 않아요.
+      전체 BUY·SELL 판단의 시장 대비 적중률 하나만으로 실력을 단정할 수는 없어요.
       <b>판단 확신도가 높을수록 성적이 좋아지는 건 SELL 판단에서만 뚜렷해요.</b> 예전엔 BUY·SELL을 합쳐서 보여드려서
       이 개선이 전체에 고르게 적용되는 것처럼 보였는데, 다시 확인해 보니 BUY 판단은 확신도가 높아져도 성적이
       뚜렷이 좋아지지 않았어요. 그래서 지금 확신도 계산 방식(분석가 4인의 의견이 얼마나 가까운지만 재는 식)을
@@ -9026,7 +9073,7 @@ window.renderScreener=function(){
       screener:['조건에 맞는 종목 찾기','종목 스크리너','원하는 기준을 골라 '+COVERAGE_N+'개 추적 종목 가운데 조건에 맞는 종목을 찾아보세요.'],
       rotation:['업종의 힘이 어디로 움직일까요?','순환매','현재 '+COVERAGE_N+'개의 GAEO 추적 종목을 기준으로 업종의 흐름과 관찰 후보를 확인해 보세요.'],
       rates:['요일별 흐름을 한눈에','등락률 확인','추적 종목의 하루 등락률을 요일별로 모아 시장의 반복 흐름을 참고해 보세요.'],
-      scorecard:['우리 판단을 우리가 채점해요','개오 성적표','판단 후 5거래일 뒤 종가로 채점한 실측 데이터로 이번 주 성적과, 분석가마다 왜 적중률이 다른지를 그대로 보여드려요.'],
+      scorecard:['판단을 기록하고 결과를 확인해요','검증 성적표','실제 공개한 판단과 이후 가격의 연결 상태를 보여드려요. 채점 완료·기한 대기·근거 확인 필요를 구분하고, 이전 일별 기록도 함께 보관해요.'],
       paper:['실제 주문 없이, 실제 시세로','모의투자','GAEO가 「매수 고려」로 전환한 시점부터 실제 시장 시세로 결과를 기록하는 공개 검증이에요. 실제 계좌·실제 돈과는 무관합니다.'],
       calendar:['날짜별 기록을 한눈에','월간 분석 캘린더','분석이 나온 날과 결과를 달력에서 골라 날짜별 흐름을 확인해 보세요.'],
       community:['함께 묻고 나누는 공간','커뮤니티','앱 설치 안내와 운영 공지를 확인하고, 자유게시판에 의견과 질문을 남겨주세요.'],
@@ -9042,7 +9089,7 @@ window.renderScreener=function(){
     const contextTitles={single:'종목 분석',watch:'내 종목 관리',guide:'사이트 이용 안내',compare:'종목 비교',
       portfolio:'포트폴리오',latest:'최근 뉴스·공부 자료',news:'뉴스 분석',study:'종목 공부',lesson:'주식 공부',
       estate:'부동산 공부',calc:'금융 계산기',screener:'종목 스크리너',rotation:'순환매',rates:'등락률 확인',
-      scorecard:'개오 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록',
+      scorecard:'검증 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록',
       market:'오늘 시장',deep:'최근 정밀분석',disclosure:'오늘의 공시'};
     const contextTitle=document.getElementById('contextTitle');
     if(contextTitle){ contextTitle.textContent=contextTitles[mode]||copy[1]; contextTitle.hidden=single; }

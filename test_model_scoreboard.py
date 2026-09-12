@@ -5,6 +5,7 @@
 전부 오프라인 synthetic fixture. 네트워크·암호화 Key 불필요.
 """
 import sys
+import json
 
 import build_model_scoreboard as sb
 import model_registry
@@ -186,8 +187,17 @@ finally:
 import os, re as _re
 if os.path.exists("model_scoreboard.js"):
     s = open("model_scoreboard.js", encoding="utf-8").read()
+    public = sb.load_js_object("model_scoreboard.js", "MODEL_SCOREBOARD")
+    trace = public.pop("decisionTrace", None)
     check("§60: 집계 파일에 개별 종목코드 예측 없음",
-          not _re.search(r'"code"\s*:\s*"\d{6}"', s))
+          not _re.search(r'"code"\s*:\s*"\d{6}"', json.dumps(public)))
+    if trace is not None:
+        check("공개 원본 연결은 실제 자동판단 예시 최대 3건뿐",
+              trace.get("source") == "actual_auto" and len(trace.get("examples", [])) <= 3)
+        check("공개 원본 예시에 연구 입력·후보 원문 없음",
+              all(set(r) <= {"recordId", "code", "decisionAt", "call", "base", "baseAt",
+                             "status", "reason", "sourcePath", "outcomePath"}
+                  for r in trace.get("examples", [])))
     check("§60: secret/key 흔적 없음",
           "RESEARCH_ARCHIVE_KEY" not in s and "OPEN_DART" not in s)
     check("§29: 집계 파일 < 100KB", os.path.getsize("model_scoreboard.js") < 100_000)

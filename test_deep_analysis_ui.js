@@ -26,7 +26,9 @@ assert.match(html, /archive:\['analysis_archive\.js'\]/, '전체 원문 Archive�
 
 // 2026-09-03 소유자 지시: '최근 정밀분석'은 홈 브리핑에서 빠지고, 전체 메뉴의 별도 화면(#deepView, ?m=deep)에서 본다.
 const contextStart = html.indexOf('<div class="hdb-context">');
-const contextEnd = html.indexOf('</div>\n          <aside class="hdb-decisions"', contextStart);
+const contextBoundary = html.slice(contextStart).match(/<\/div>\s*<aside class="hdb-decisions"/);
+assert.ok(contextBoundary, '홈 브리핑 본문과 판단 패널 사이 경계를 찾을 수 있어야 한다');
+const contextEnd = contextStart + contextBoundary.index;
 const contextMarkup = html.slice(contextStart, contextEnd);
 assert.match(contextMarkup, /id="briefActions"/);
 assert.doesNotMatch(contextMarkup, /id="homeDeepAnalysis"/, '홈 브리핑 안에 최근 정밀분석 섹션을 다시 넣지 않는다');

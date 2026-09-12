@@ -84,7 +84,7 @@ assert.ok(!html.includes('갱신됩니다. 꼭 자주'), 'refresh-notice 문장 
 assert.match(html, /window\.location\.reload\(\)/);
 
 // Navigation is consolidated and weekday statistics live in their own view.
-assert.match(html, /data-nav-mode="scorecard">성적표<\/button>/);
+assert.match(html, /data-nav-mode="scorecard">검증 성적표<\/button>/);
 assert.doesNotMatch(html, /id="mode-leaderboard"/);
 assert.match(html, /id="mode-rates"[^>]*>[\s\S]*?등락률 확인<\/button>/);
 assert.match(html, /id="rateView"[\s\S]*?id="dowbar"/);

@@ -510,6 +510,11 @@ def main():
 
     # 🤖 자동분석 전 종목도 '하루 1건'으로 누적(--auto 또는 ARCHIVE_AUTO=1일 때만 — 러너에서 켠다)
     if with_auto:
+        # Preserve every actual round and verify it before publishing rolling history.
+        # This never reconstructs past inputs or adds precise analysis to auto results.
+        import decision_records
+        decision_records.capture(load_js_object(os.path.join(HERE, "auto_analysis.js"), "LIVE_AUTO"),
+                                 root=os.path.join(HERE, "research_archive", "decisions"))
         archive_auto(hist)
 
     # 🧪 Research Shadow는 별도 파일에 누적한다(사이트 자료와 완전 분리).

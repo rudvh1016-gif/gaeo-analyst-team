@@ -54,6 +54,7 @@ GROUPS = {
         "test_toss_guard.py", "test_shared_toss_token.py", "test_shared_token_hardening.py", "test_toss_market_data_smoke.py",
     ],
     "investment-contract": [
+        "test_decision_records.py",
         "test_prereg_buy_filters.py", "test_analyst_honesty.py", "test_team_weights_market_relative.py", "test_buy_overheat.py",
         "test_buy_warning_evidence.py", "test_gaeo_evolution.py", "test_model_intelligence.py", "test_model_scoreboard.py",
         "test_base_candidates.py", "test_base_model_fixes.py", "test_research_c_scoreboard.py", "test_research_engine.py",

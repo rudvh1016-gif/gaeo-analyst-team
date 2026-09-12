@@ -42,6 +42,11 @@ RECORD_RESEARCH = "research_prediction"
 RECORD_DART = "dart_event"
 
 RECORD_SPECS = {
+    "production_decision": {
+        "versionBlocks": (), "versionField": None,
+        "timestampField": "decisionAt", "keyFields": ("recordId",),
+        "requiredFields": ("recordId", "code", "source", "decisionAt", "scoringVersion"),
+    },
     RECORD_RESEARCH: {
         "versionBlocks": ("research", "researchV11"),
         "versionField": "modelVersion",

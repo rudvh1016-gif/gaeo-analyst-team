@@ -311,7 +311,7 @@ jobs:
                 # 체인 전체가 죽었다(575분 무갱신 사고). 이 파일들은 전부 "방금 만든 게 항상
                 # 최신"인 자동 생성물이므로, 리베이스 대신 merge -X ours로 충돌을 사람 개입
                 # 없이 항상 우리(방금 생성분) 쪽으로 자동 해결한다.
-                git merge -X ours --no-edit "origin/${{ github.ref_name }}" || {
+                python3 decision_records.py --merge-ref "origin/${{ github.ref_name }}" || {
                   echo "[경고] merge -X ours도 실패 — 이번 사이클 push는 포기하고 계속 진행(다음 사이클에 재시도)"
                   git merge --abort 2>/dev/null || true
                   break
@@ -364,3 +364,16 @@ jobs:
             sleep "$wait"
           done
           chain
+      - name: Preserve unpublished decision evidence
+        if: always()
+        id: decision-recovery
+        run: python3 decision_records.py --recovery-bundle "$RUNNER_TEMP/gaeo-decision-recovery.tar.gz" >> "$GITHUB_OUTPUT"
+
+      - name: Save decision recovery artifact
+        if: always() && steps.decision-recovery.outputs.pending == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gaeo-decision-recovery-${{ github.run_id }}
+          path: ${{ runner.temp }}/gaeo-decision-recovery.tar.gz
+          retention-days: 14
+          if-no-files-found: error

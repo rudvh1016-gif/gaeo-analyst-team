@@ -48,13 +48,13 @@ assert.match(record, /__gaeoScorecardEntry='stock_hero'/,
   '어디서 들어온 성적표인지 계측 라벨이 없다.');
 
 // ④ 홈 BUY 목록은 '추천'이 아니라 '참고'라고 말한다 (전략 검토 재포지셔닝)
-assert.match(app, /<strong>매수 우위\(BUY\) 판단<\/strong>/,
-  "홈 BUY 목록 이름표가 '매수 우위(BUY) 판단'이 아니다.");
+assert.ok(app.includes("<strong>${gaeoJudgmentDisplay('BUY').label} (BUY) 판단</strong>"),
+  '홈 BUY 목록도 공유 판단 표시 이름을 사용해야 한다.');
 assert.match(app, /추천이 아니라 참고예요/,
   'BUY 목록이 추천이 아니라는 안내가 없다.');
 // 소유자 지정 기능은 지우지 않는다 — 확신도순 정렬과 전체 보기는 그대로 있어야 한다
 assert.match(app, /확신도순/, '확신도순 정렬 안내가 사라졌다(소유자 지정 기능).');
-assert.match(app, /id="hdbBuyToggle"[^>]*>매수 우위 판단 전체 \$\{model\.buy\.length\}종목 보기/,
+assert.match(app, /id="hdbBuyToggle"[^>]*>매수 검토 판단 전체 \$\{model\.buy\.length\}종목 보기/,
   "'전체 보기' 버튼이 사라졌다(소유자 지정 기능).");
 
 console.log('stock hero contract passed');

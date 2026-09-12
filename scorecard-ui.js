@@ -668,6 +668,39 @@ function computeWeeklyScorecard(offset){
     hasOlder, rows:scored};
 }
 
+function decisionTraceHTML(trace){
+  const n=(v,unit='')=>typeof v==='number'&&Number.isFinite(v)&&v>=0?v.toLocaleString('ko-KR')+unit:'자료 확인 중';
+  const status={evaluated:'채점 완료',pending:'결과 기다리는 중',blocked:'자료 부족으로 평가 보류',withheld:'판단 보류',hit:'적중',miss:'빗나감',neutral:'중립'};
+  const reasons={future_session:'거래일 경과 대기',missing_price:'가격 자료 미확인',non_trading_day:'거래일 확인 필요',price_basis_unverified:'기준 가격 확인 필요',corporate_action_unverified:'분할·합병 등 확인 필요',corporate_action_event:'분할·합병 등 사건 확인',invalid_record:'판단 기록 확인 필요',judgment_withheld:'판단 보류',benchmark_unavailable:'비교 기준 미확인'};
+  const date=v=>v?esc(v):'자료 확인 중';
+  // The producer verifies these public archive paths; reject external/traversal links.
+  const archiveLink=(path,label)=>typeof path==='string'&&/^research_archive\/decisions\/(?:originals\/\d{4}\/\d{2}\/\d{2}\/[a-f0-9]{24}\.jsonl(?:\.gz)?|outcomes\/\d{4}-\d{2}\.json)$/.test(path)?`<a href="https://github.com/rudvh1016-gif/gaeo-analyst-team/blob/main/${path}" target="_blank" rel="noopener">${label}</a>`:'';
+  if(!trace||trace.schemaVersion!==1) return '<section class="sc-block decision-trace"><h3>판단 기록과 결과</h3><p>자료 확인 중 · 실제로 공개한 판단의 저장 기록과 이후 가격을 연결해 확인하고 있어요.</p>'+gaeoJudgmentLegendHTML()+'</section>';
+  const horizon=h=>{
+    h=h||{};
+    const counts=Object.keys(status).map(key=>`<div><span>${status[key]}</span><b>${n(h[key])}</b></div>`).join('');
+    const denominator=typeof h.hit==='number'&&typeof h.miss==='number'?`${n(h.hit)} ÷ (${n(h.hit)} + ${n(h.miss)})`:'자료 확인 중';
+    const reasonRows=Object.entries(h.reasons||{}).map(([key,value])=>`<li>${reasons[key]||'자료 확인 필요'} · ${n(value,'건')}</li>`).join('');
+    const accuracy=h.accuracy==null?(h.evidenceStatus==='RECORDS_ACCUMULATING'?'기록을 더 모으는 중':'자료 확인 중'):n(h.accuracy,'%');
+    return `<div class="decision-counts">${counts}</div><p><b>적중률 · ${accuracy}</b> · 적중 ÷ (적중 + 빗나감) = ${denominator}</p>`+
+      `<p>적중률 분모 ${n(h.accuracyDenominator,'건')} · 채점한 서로 다른 판단일 ${n(h.evaluatedDecisionDays,'일')}. 중립은 가격 움직임이 채점 경계 안쪽인 결과이며, 판단 보류와 함께 분모에서 제외해요. ${h.minUniqueDecisionDays==null?'기존 판단일 공개 기준을 채우기 전에는':n(h.minUniqueDecisionDays,'일')+'의 판단일을 채우기 전에는'} 적중률을 표시하지 않아요. 기록의 중간 집계이며, 투자 성과를 인증하는 숫자는 아니에요.</p>`+
+      (reasonRows?`<div class="decision-reasons"><b>대기·확인 필요 사유</b><ul>${reasonRows}</ul></div>`:'<p>대기·확인 필요 사유: 자료 확인 중</p>');
+  };
+  const versions=Object.entries(trace.byModelVersion||{}).sort(([a],[b])=>(a===trace.currentModelVersion?-1:b===trace.currentModelVersion?1:0)).map(([version,row])=>
+    `<details class="decision-version"><summary>${version===trace.currentModelVersion?'현재 모델':'과거 모델'} · 판단일 ${n(row.uniqueDecisionDays,'일')}</summary><p>모델 식별자 ${esc(version)} · 원본 ${n(row.rawRecordCount,'건')} / 일별 묶음 ${n(row.dailyRecordCount,'건')}</p>${horizon(row.horizons&&row.horizons['5'])}</details>`).join('');
+  const disclosure=trace.disclosure&&trace.disclosure.statuses||{};
+  const examples=(trace.examples||[]).slice(0,3).map(row=>`<li><b>${esc(row.code||'종목 확인 중')} · ${gaeoJudgmentDisplay(row.call).label}</b><p>판단 생성 ${date(row.decisionAt)} · 분석 기준가 ${n(row.base,'원')} · 기준가 시점 ${date(row.baseAt)}</p><p>${status[row.status]||'자료 확인 필요'}${row.reason?' · '+(reasons[row.reason]||'자료 확인 필요'):''} · 기록 ID ${esc(row.recordId||'자료 확인 중')}</p><p>${[archiveLink(row.sourcePath,'당시 원본 기록'),archiveLink(row.outcomePath,'결과 확인 기록')].filter(Boolean).join(' · ')}</p></li>`).join('');
+  const traceState={NO_RECORDS:'기록을 더 모으는 중',DATA_INSUFFICIENT:'자료 부족으로 평가 보류',WAITING:'결과 기다리는 중',PROCESSED:'저장 결과 확인 완료'}[trace.status]||'자료 확인 중';
+  return `<section class="sc-block decision-trace"><h3>판단 기록과 결과</h3><p><b>${traceState}</b> · 실제 공개 자동분석의 판단을 저장하고, 판단 이후 5거래일 가격과 연결한 기록이에요.</p>`+
+    `<div class="decision-counts"><div><span>원본 저장 기록</span><b>${n(trace.rawRecordCount)}</b></div><div><span>종목·판단일로 묶은 기록</span><b>${n(trace.dailyRecordCount)}</b></div><div><span>서로 다른 판단일</span><b>${n(trace.uniqueDecisionDays)}</b></div></div>`+
+    '<p>원본은 같은 날 여러 번 저장한 기록을 포함해요. 일별 집계는 한 종목을 판단일마다 한 번 세며, 같은 날의 여러 종목을 서로 독립적인 시험으로 보지 않아요.</p>'+
+    `<p>최근 판단 생성 ${date(trace.latestDecisionAt)}<br>결과 확인 ${date(trace.lastVerifiedAt)}</p>${horizon(trace.horizons&&trace.horizons['5'])}`+
+    `${versions||'<p>현재·과거 모델 구분: 자료 확인 중</p>'}`+
+    `<details class="decision-version"><summary>공시 확인 범위와 기록 예시</summary><p>사건 발견 ${n(disclosure.event_found,'건')} · 확인 범위 내 사건 없음 ${n(disclosure.checked_no_event,'건')} · 확인 불가 ${n(disclosure.unavailable,'건')} · 추가 검토 ${n(disclosure.needs_review,'건')}</p><p>공시 조회가 끝난 범위만 확인한 결과예요. 공시 0건이나 확인 불가를 안전하다는 뜻으로 읽지 마세요.</p>${examples?'<ul class="decision-examples">'+examples+'</ul>':'<p>연결 가능한 기록 예시: 자료 확인 중</p>'}</details>`+
+    (trace.limitations&&trace.limitations.length?'<ul class="decision-limitations">'+trace.limitations.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'')+
+    gaeoJudgmentLegendHTML()+'</section>';
+}
+
 function renderScorecard(){
   const el=document.getElementById('scorecardView'); if(!el) return;
   const wk=computeWeeklyScorecard(SC_WEEK_OFFSET);
@@ -699,7 +732,7 @@ function renderScorecard(){
     if(!sub.length) return '';
     const abs=scTally(sub,'ret',true), exc=scTally(sub.filter(r=>r.exc!==null),'exc',true);
     const cls=c==='BUY'?'buy':(c==='SELL'?'sell':'hold');
-    return `<tr><td><span class="sc-call-badge ${cls}">${c}</span></td>`+
+    return `<tr><td><span class="sc-call-badge ${cls}">${gaeoJudgmentDisplay(c).label} (${c})</span><p class="sc-call-explanation">${gaeoJudgmentDisplay(c).explanation}</p></td>`+
       `<td class="num">${sub.length.toLocaleString()}</td>`+
       `<td class="num">${abs.acc===null?'—':abs.acc+'%'}</td>`+
       `<td class="num">${exc.acc===null?'—':exc.acc+'%'}</td></tr>`;
@@ -709,12 +742,12 @@ function renderScorecard(){
   const callBlock=R.length?`<div class="sc-block">
     <h3>이번 주 판단 종류별 성적</h3>
     <p class="sc-sub">하나로 합친 적중률은 어느 판단이 잘 맞고 어느 판단이 틀리는지 가려버립니다. 위 주간 구간과 같은 기간을 BUY·HOLD·SELL로 나눠서 그대로 보여드려요.
-      <b>시장 대비</b>는 같은 날 분석 종목 전체의 수익률 중앙값을 뺀 값이라, 시장이 통째로 오르내린 효과를 걷어낸 「진짜 종목 선별력」이에요.</p>
+      <b>시장 대비</b>는 같은 날 분석 종목 전체의 수익률 중앙값을 뺀 별도 채점이에요. 실제 시장 지수나 투자 수익률과는 다르며, 이 값만으로 종목 선별 실력이 입증되지는 않아요.</p>
     <div class="tbl-scroll"><table class="sc-table"><thead><tr><th>판단</th><th class="num">건수</th><th class="num">적중률</th><th class="num">시장 대비</th></tr></thead>
     <tbody>${callRows}<tr class="sc-total-row"><td><b>BUY+SELL</b></td><td class="num">${bsRows.length.toLocaleString()}</td>
       <td class="num"><b>${bsAbs.acc===null?'—':bsAbs.acc+'%'}</b></td><td class="num"><b>${bsExc.acc===null?'—':bsExc.acc+'%'}</b></td></tr></tbody></table></div>
-    <div class="sc-foot-note">HOLD는 「크게 안 움직인다」는 예측이라 ±5%를 벗어나면 빗나감으로 셉니다(예전에는 중립으로 빼서 항상 100%로 나왔어요).
-      BUY·SELL은 ±1% 기준입니다. 시장 대비 50%는 「시장 흐름을 걷어내면 동전 던지기와 같다」는 뜻이에요.</div>
+    <div class="sc-foot-note">기존 성적표는 HOLD를 ±5% 안이면 적중, 밖이면 빗나감으로 채점해요. 이 채점 정의가 「지켜보기」 판단의 뜻은 아니에요.
+      BUY·SELL은 ±1% 기준입니다. 적중률의 좋고 나쁨은 같은 기록·같은 규칙으로 평가한 비교 기준과 함께 확인해야 해요.</div>
   </div>`:'';
 
   /* 확신도 표는 주간 표본(수십 건)으로는 노이즈가 커서 판단이 안 된다 — "우리가 매긴 확신도가
@@ -743,14 +776,12 @@ function renderScorecard(){
     : '이번 주는 아직 채점이 끝난 판단이 없어요. 판단한 날로부터 5거래일이 지나야 채점되기 때문에, 주 초반에는 비어 있을 수 있어요.';
   const ledeMarket=bsExc.acc===null
     ? '시장이 오르내린 몫을 걷어낸 이번 주 성적은 표본이 없어서 아직 낼 수 없어요.'
-    : `시장이 통째로 오르내린 몫을 빼면 이번 주 사고팔기(BUY·SELL) 판단은 <b>${bsExc.acc}%</b> 맞혔어요. 50%는 동전 던지기와 같다는 뜻이에요.`;
+    : `같은 날 분석 종목 수익률의 중앙값을 뺀 이번 주 매수·매도 검토(BUY·SELL) 판단의 적중률은 <b>${bsExc.acc}%</b>예요. 비교 기준을 검증하기 전에는 이 숫자를 실력으로 단정할 수 없어요.`;
   const ledeTrust=cumExc.acc===null
     ? '채점이 끝난 사고팔기 판단이 아직 없어서, 실력인지 운인지 말하기 이릅니다.'
     : (cumCI
         ? `지금까지 쌓인 사고팔기 판단 <b>${(cumExc.hit+cumExc.miss).toLocaleString()}건</b> (판단일 ${cumCI.days}일)의 시장 대비 성적은 <b>${cumExc.acc}%</b>인데, 운으로 흔들릴 수 있는 폭까지 넣으면 <b>${cumCI.lo}~${cumCI.hi}%</b> 사이예요. `+
-          (cumCI.lo>50?'이 폭이 통째로 50%보다 위라서, 운만으로 보기는 어려워요.'
-           :(cumCI.hi<50?'이 폭이 통째로 50%보다 아래라서, 아직 시장을 이기지 못하고 있어요.'
-             :'이 폭 안에 50%가 들어 있어서, 아직 「실력」이라고 말할 수 없어요.'))
+          '이 범위는 판단일끼리의 흔들림을 보여줘요. 같은 기록과 채점 규칙으로 만든 비교 기준이 있어야 성적의 우열을 말할 수 있어요.'
         : `지금까지 쌓인 사고팔기 판단 <b>${(cumExc.hit+cumExc.miss).toLocaleString()}건</b>의 시장 대비 성적은 <b>${cumExc.acc}%</b>예요. 아직 판단한 날 수가 적어서 믿어도 되는 폭을 계산하지 않았어요.`);
 
   const confRowsAll=confTable(allBS,[0,55,60,65,70]);
@@ -770,7 +801,7 @@ function renderScorecard(){
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsBuy}</tbody></table></div>`:''}
     ${confRowsSell?`<p class="sc-sub" style="margin-top:16px"><b>SELL만 떼어 보면</b>, 위 개선 대부분이 여기서 나옵니다.</p>
     <div class="tbl-scroll"><table class="sc-table">${confHead}<tbody>${confRowsSell}</tbody></table></div>`:''}
-    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다(HOLD 제외). 확신도가 낮은 판단까지 전부 따라가기보다, 확신이 높다고 표시된 판단을 중심으로 보시는 편이 좋습니다. 투자 권유가 아닙니다.</div>
+    <div class="sc-foot-note">BUY·SELL 판단만 집계합니다(HOLD 제외). 확신도는 분석 신호의 일치도를 나타내는 점수이며, 맞을 확률이 아니에요. 확신도 구간별 실제 성적과 표본 수를 따로 확인하세요.</div>
   </div>`:'';
 
   /* 🧪 2026-08-14: 확신도 자체를 「분석가 의견 일치도」가 아니라 「판단 종류·점수 구간별
@@ -1040,8 +1071,10 @@ function renderScorecard(){
     <div class="sc-group-body">${body}</div>
   </details>`:'';
 
-  el.innerHTML=`<div class="sc-block sc-lede">
-    <h3>한눈에 보는 결론</h3>
+  const traceBoard=typeof MODEL_SCOREBOARD!=='undefined'?MODEL_SCOREBOARD:null;
+  el.innerHTML=decisionTraceHTML(traceBoard&&traceBoard.decisionTrace)+`<div class="sc-block sc-lede">
+    <h3>이전에 저장한 일별 기록</h3>
+    <p class="sc-sub">아래는 기존 일별 이력으로 만든 성적표예요. 당시 원본·가격 기준·기업 사건 확인 범위에 한계가 있어, 위의 판단 추적 기록과 구분해서 봐야 해요. 독립적으로 인증된 투자 성과는 아니에요.</p>
     <p class="sc-lede-line">${ledeWeek}</p>
     <p class="sc-lede-line">${ledeMarket}</p>
     <p class="sc-lede-line">${ledeTrust}</p>
