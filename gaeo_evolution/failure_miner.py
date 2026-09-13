@@ -37,11 +37,11 @@ def _cluster(rows, key, label, extra=None):
     return out
 
 
-def mine(rows, closes=None):
+def mine(rows, closes=None, sectors=None):
     """성숙(결과 확정) 행에서 실패 군집을 뽑는다. 반환은 공개-안전한 집계."""
     matured = [r for r in rows if r.get("ret5") is not None and r.get("call")]
     regimes = build_market_regimes(closes) if closes else {}
-    sectors = load_sectors()
+    sectors = load_sectors() if sectors is None else sectors
     wrong = [r for r in matured
              if r["call"] in ("BUY", "SELL") and call_hit(r["call"], r["ret5"]) == 0]
 

@@ -267,9 +267,16 @@ def main():
     ap.add_argument("--apply", action="store_true", help="실제로 취소·재기동한다(기본은 판정만)")
     ap.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     ap.add_argument("--force-window", action="store_true", help="수집 창 밖에서도 판정한다(테스트용)")
+    ap.add_argument('--receipt', help='기존 복구의 판정·실행 결과를 기록할 JSON 파일')
     args = ap.parse_args()
 
     now = datetime.datetime.now(KST)
+    receipt = {'checkedAt': now.isoformat(), 'owner': 'pipeline_watchdog.py',
+               'applyRequested': args.apply, 'pipelines': {}, 'verifiedRecovered': False}
+    def save_receipt():
+        if args.receipt:
+            from decision_records import _atomic_json
+            _atomic_json(args.receipt, receipt)
     if not (in_window(now) or args.force_window):
         # ⭐ 사유를 밝힌다. 예전엔 휴장일에도 "수집 창 밖"이라고만 찍혀서, 이 로그를 읽는
         #    안전망 Routine이 "아직 아무 조치도 안 됐다"로 읽고 잠자는 체인 run을 좀비로
@@ -279,6 +286,8 @@ def main():
         else:
             why = "수집 창 밖 — 점검 생략"
         print(f"[파이프라인 감시] {now:%Y-%m-%d %H:%M} KST · {why}")
+        receipt['state'] = 'OUT_OF_WINDOW'
+        save_receipt()
         return 0
 
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
@@ -294,6 +303,9 @@ def main():
         # 토큰이 없으면 빈 리스트가 아니라 None — "확인 못 함"과 "없음"을 구분한다.
         runs = gh.active_runs(cfg["workflow"]) if gh else None
         d = decide(cfg, age, runs, now)
+        observed = {'decision': d, 'attempts': [], 'outputAt': stamp.isoformat() if stamp else None,
+                    'runLookupVerified': runs is not None}
+        receipt['pipelines'][name] = observed
         print(f"[{cfg['label']}] {cfg['output']} — {d['reason']}")
 
         if d["action"] == "ok":
@@ -310,9 +322,11 @@ def main():
 
         for rid in d["cancel"]:
             ok = gh.cancel(rid)
+            observed['attempts'].append({'action': 'cancel', 'runId': rid, 'success': ok})
             print(f"   → run {rid} 취소 {'성공' if ok else '실패'}")
         if d["action"] == "kickoff" or d.get("need_dispatch"):
             ok = gh.dispatch(cfg["workflow"])
+            observed['attempts'].append({'action': 'dispatch', 'workflow': cfg['workflow'], 'success': ok})
             print(f"   → {cfg['workflow']} 재기동 dispatch {'성공' if ok else '실패'}")
 
     if problems:
@@ -326,6 +340,8 @@ def main():
               f"— **정상이라는 뜻이 아니다.** 조치는 하지 않았다")
     else:
         print("[파이프라인 감시] 두 파이프라인 모두 정상 — 조치 없음")
+    receipt['state'] = 'OBSERVED'
+    save_receipt()
     return 0
 
 

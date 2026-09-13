@@ -8,7 +8,7 @@ vm.createContext(ctx);
 const shared=app.slice(app.indexOf('function gaeoJudgmentDisplay('),app.indexOf('/* 홈 「오늘의 판단」 각주'));
 assert.ok(shared.length,'Shared display helper is missing');
 vm.runInContext(shared,ctx);
-const traceCode=ui.slice(ui.indexOf('function decisionTraceHTML('),ui.indexOf('function renderScorecard('));
+const traceCode=ui.slice(ui.indexOf('function decisionQualityHTML('),ui.indexOf('function renderScorecard('));
 vm.runInContext(traceCode,ctx);
 for(const [call,label] of [['BUY','매수 검토'],['HOLD','지켜보기'],['SELL','매도 검토'],['JUDGMENT_WITHHELD','판단 보류'],['???','판단 보류'],['constructor','판단 보류'],['__proto__','판단 보류']]){
   assert.equal(ctx.gaeoJudgmentDisplay(call).label,label);
@@ -91,4 +91,12 @@ ctx.MODEL_SCOREBOARD={decisionTrace:{currentModelVersion:'v-now',byModelVersion:
 assert.equal(ctx.baseReliabilityState().kind,'ACCUMULATING');
 ctx.MODEL_SCOREBOARD.decisionTrace.byModelVersion['v-now'].horizons['5'].accuracy=61.2;
 assert.equal(ctx.baseReliabilityState().acc,61.2);
+// Real generated observations render inside the original trace; sparse bins
+// never manufacture a percentage, and internal state names stay internal.
+const board=fs.readFileSync(__dirname+'/model_scoreboard.js','utf8');
+const qualityContext={};vm.createContext(qualityContext);
+vm.runInContext(board+';this.trace=MODEL_SCOREBOARD.decisionTrace;',qualityContext);
+const qualityHTML=ctx.decisionQualityHTML(qualityContext.trace.quality);
+for(const text of ['전체 종목 중 실제로 판단할 수 있었던 비율','자료가 부족한 종목을 억지로','점수가 높은 판단','판단보류','지켜보기(HOLD)','상승 확률 80%라고 읽으면 안']) assert.ok(qualityHTML.includes(text),text);
+assert.doesNotMatch(qualityHTML,/Calibration|Coverage|Drift|Orchestrator|Shadow|NaN|undefined/);
 console.log('beginner judgment render tests passed');

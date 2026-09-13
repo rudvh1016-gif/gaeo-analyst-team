@@ -395,6 +395,7 @@ def check_workflows_github():
 SCHEDULED_WORKFLOWS = {
     "pipeline-watchdog.yml": {"label": "워치독", "intervalMin": 15, "windowOnly": True},
     "ops-daily.yml": {"label": "일일 점검·예정 시험 실행기", "dailyAtHM": (17, 5), "weekdaysOnly": True},   # 예비 발화 17:37·18:11 은 유예(180분) 안
+    "evolution-lab.yml": {"label": "주간 연구", "dailyAtHM": (8, 0), "weeklyDay": 6},
 }
 SCHEDULED_GRACE_MIN = 180        # GitHub cron 지연 허용(무료 러너 실측: 수십 분~2시간). 일일형은 예정 시각+유예, 간격형은 (지금-간격)-유예 가 기준
 
@@ -415,7 +416,7 @@ def _expected_last_fire(spec, now):
     day = now.date()
     for _ in range(10):
         candidate = datetime.datetime.combine(day, datetime.time(hh, mm), KST)
-        weekday_ok = (day.weekday() < 5) if spec.get("weekdaysOnly") else True
+        weekday_ok = day.weekday() == spec['weeklyDay'] if 'weeklyDay' in spec else ((day.weekday() < 5) if spec.get("weekdaysOnly") else True)
         if weekday_ok and candidate <= now:
             return candidate
         day -= datetime.timedelta(days=1)
@@ -442,10 +443,15 @@ def _judge_scheduled(wf, spec, state, runs, now, created_at=None):
     last = runs[0] if runs else None
     if last:
         extra.update({"lastRunAt": last.get("created_at"), "lastConclusion": last.get("conclusion"), "lastEvent": last.get("event"),
-                      "lastBranch": last.get("head_branch")})
+                      "lastBranch": last.get("head_branch"), "lastRunId": last.get('id'),
+                      "lastRunStatus": last.get('status'), "lastRunStartedAt": last.get('run_started_at'),
+                      "lastRunUpdatedAt": last.get('updated_at')})
     expected = _expected_last_fire(spec, now)
     extra["expectedBy"] = expected.isoformat() if expected else None
     if not runs:
+        created = _parse_iso(created_at)
+        if 'weeklyDay' in spec and created and expected and (created > expected or now < expected + datetime.timedelta(minutes=SCHEDULED_GRACE_MIN)):
+            return IDLE, 'SCHEDULED_PENDING', f'{wf}: 첫 주간 예약 또는 기존 예약 지연 유예를 기다리는 중', extra
         return FAULT, "SCHEDULED_NEVER_RAN", f"{wf}: 실행 기록이 하나도 없다", extra
     last_sched = sched[0] if sched else None
     if last_sched:
@@ -501,7 +507,7 @@ def _judge_scheduled(wf, spec, state, runs, now, created_at=None):
     return OK, "SCHEDULED_ON_TIME", f"{wf}: 마지막 schedule run {str(last_sched.get('created_at'))[:16]} ({last_sched.get('conclusion') or last_sched.get('status')}{late_note})", extra
 
 
-def check_scheduled_runs(now=None):
+def check_scheduled_runs(now=None, root=HERE):
     """--github 전용. 워치독·ops-daily 가 실제로 돌았는지를 워크플로마다 따로 판정한다(cron 지연 vs 비활성 vs 실패 vs 잘못된 ref)."""
     now = now or datetime.datetime.now(KST)
     repo = os.environ.get("GITHUB_REPOSITORY", "")
@@ -514,6 +520,11 @@ def check_scheduled_runs(now=None):
         return component(UNKNOWN, "SCHEDULED_CHECK_FAILED", "check_workflow_health 모듈 없음")
     per = {}
     for wf, spec in SCHEDULED_WORKFLOWS.items():
+        if wf == 'evolution-lab.yml':
+            definition = check_evolution_schedule(root)
+            if definition['status'] != OK:
+                per[wf] = definition
+                continue
         try:
             meta = CW._get(f"https://api.github.com/repos/{repo}/actions/workflows/{wf}", token)
             runs = CW._get(f"https://api.github.com/repos/{repo}/actions/workflows/{wf}/runs?per_page=10", token).get("workflow_runs", [])
@@ -531,6 +542,60 @@ def check_scheduled_runs(now=None):
     if all(v["status"] == IDLE for v in per.values()):
         return component(IDLE, "SCHEDULED_RUNS_IDLE", " / ".join(v["detail"] for v in per.values()), workflows=per)
     return component(OK, "SCHEDULED_RUNS_OK", " / ".join(v["detail"] for v in per.values()), workflows=per)
+
+
+def check_evolution_schedule(root):
+    """The declared weekly schedule must still exist; never infer it from age."""
+    try:
+        with open(os.path.join(root, '.github/workflows/evolution-lab.yml'), encoding='utf-8') as fh:
+            text = fh.read()
+    except OSError:
+        return component(FAULT, 'EVOLUTION_SCHEDULE_MISSING', '주간 연구 예약 파일이 없다')
+    active = '\n'.join(line for line in text.splitlines() if not line.lstrip().startswith('#'))
+    if not re.search(r'^  schedule:\s*$', active, re.M) or not re.search(r'^\s+- cron:', active, re.M):
+        return component(FAULT, 'EVOLUTION_SCHEDULE_MISSING', '주간 연구 예약이 삭제됐다')
+    if not re.search(r'''cron:\s*["']0 23 \* \* 6["']''', active):
+        return component(UNKNOWN, 'EVOLUTION_SCHEDULE_CHANGED', '주간 연구 예약이 변경되어 감시 시각 대조가 필요하다')
+    return component(OK, 'EVOLUTION_SCHEDULE_PRESENT', '기존 일요일 08:00 KST 주간 예약 존재')
+
+
+def check_evolution_liveness(root, now, scheduled=None):
+    definition = check_evolution_schedule(root)
+    if definition['status'] != OK:
+        return definition
+    doc = _read_json(os.path.join(root, 'gaeo_evolution/status/evolution_status.json'))
+    run = _read_json(os.path.join(root, 'gaeo_evolution/status/last_run_manifest.json'))
+    if not isinstance(doc, dict) or not isinstance(run, dict):
+        return component(UNKNOWN, 'EVOLUTION_EXECUTION_UNVERIFIED', '실제 연구 실행·저장 증거를 읽지 못했다')
+    if run.get('status') not in ('OK', 'RUNNING') or doc.get('mode') == 'SAFE_MODE':
+        return component(FAULT, 'EVOLUTION_EXECUTION_FAILED', '연구 실행이 성공하지 않았거나 안전 정지 상태다')
+    finished, generated = _parse_iso(run.get('finishedAt')), _parse_iso(doc.get('generatedAt'))
+    if run.get('status') == 'RUNNING' or not finished or not generated:
+        return component(UNKNOWN, 'EVOLUTION_COMPLETION_UNVERIFIED', '연구 프로그램 종료와 파일 저장을 확인해야 한다')
+    if doc.get('lastEvaluationAt') != doc.get('generatedAt') or generated > finished:
+        return component(FAULT, 'EVOLUTION_OUTPUT_MISMATCH', '연구 평가 시각·상태 파일·실행 완료 기록이 일치하지 않는다')
+    live = ((scheduled or {}).get('workflows') or {}).get('evolution-lab.yml') or {}
+    if live.get('status') == FAULT:
+        return component(FAULT, live['code'], live['detail'])
+    # A successful GitHub job and a fresh-looking old JSON are separate facts.
+    if live.get('lastRunStatus') == 'completed' and live.get('lastConclusion') == 'success':
+        start = _parse_iso(live.get('lastRunStartedAt') or live.get('lastRunAt'))
+        actual_start = _parse_iso(run.get('startedAt'))
+        if start and (not actual_start or actual_start < start):
+            return component(FAULT, 'EVOLUTION_OUTPUT_NOT_UPDATED', '연구 실행은 성공했지만 이번 실행의 결과 파일이 저장되지 않았다')
+        if run.get('githubRunId') and str(run['githubRunId']) != str(live.get('lastRunId')):
+            return component(FAULT, 'EVOLUTION_RUN_ID_MISMATCH', '연구 결과가 마지막 실제 실행과 다른 회차다')
+    inputs = run.get('inputEvidence') or {}
+    evaluated = run.get('evaluationMeta') or {}
+    if inputs and (not evaluated.get('dataFingerprint') or evaluated.get('uniqueDays') is None):
+        return component(FAULT, 'EVOLUTION_EVALUATION_MISSING', '입력 자료를 읽었지만 실제 평가 결과가 기록되지 않았다')
+    extra = dict(schedulePresent=True, programStatus=run.get('status'), generatedAt=doc.get('generatedAt'),
+                 runId=run.get('runId'), evaluationFingerprint=evaluated.get('dataFingerprint'),
+                 inputEvidence=inputs, scheduledEvidence=live,
+                 evaluationPerformed=bool(evaluated.get('dataFingerprint')))
+    if not live or live.get('status') == UNKNOWN:
+        return component(UNKNOWN, 'EVOLUTION_LOCAL_EVIDENCE_ONLY', '로컬 실행·산출물은 확인했고 예약 실행 여부는 별도 확인이 필요하다', **extra)
+    return component(OK, 'EVOLUTION_EXECUTION_VERIFIED', '예약·실행 종료·결과 저장·평가 흔적을 각각 확인했다', **extra)
 
 
 def probe_pages(local_prices, now, url="https://gaeoteam.com/data.js", timeout=15):
@@ -579,6 +644,8 @@ def check_decisions(root, now):
         fields = ('rawRecordCount','dailyRecordCount','latestDecisionAt','horizons','byModelVersion')
         if any(actual.get(k) != doc.get(k) for k in fields):
             raise ValueError('Stored evidence differs from its summary')
+        if doc.get('quality') is not None and doc['quality'] != actual.get('quality'):
+            raise ValueError('Quality observation differs from protected outcomes')
         if doc.get('comparison'):
             originals={r['recordId']:r for r in records};cache={}
             def evidence(ref):
@@ -628,7 +695,7 @@ def check_decisions(root, now):
                      latestDecisionAt=doc.get('latestDecisionAt'), lastVerifiedAt=doc.get('lastVerifiedAt'))
 
 
-def collect(root=HERE, now=None, deep=False, github=False, pages=False):
+def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog_receipt=None):
     now = now or datetime.datetime.now(KST)
     comps = {}
     comps["prices"] = check_pipeline_output(root, now, "prices")
@@ -644,7 +711,9 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
         comps["prereg"] = check_prereg_recording(root, now)
     if github:
         comps["workflows"] = check_workflows_github()
-        comps["scheduled"] = check_scheduled_runs(now)
+        comps["scheduled"] = check_scheduled_runs(now, root=root)
+    # Additive liveness evidence, also checked offline for a removed schedule.
+    comps['evolutionLiveness'] = check_evolution_liveness(root, now, comps.get('scheduled'))
     if pages:
         comps["pages"] = probe_pages(comps["prices"], now)
     counts = {k: 0 for k in LABELS}
@@ -667,6 +736,10 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False):
         "signature": hashlib.sha1(sig_src.encode("utf-8")).hexdigest()[:10] if sig_src else "clean",
         "overall": FAULT if faults else (UNKNOWN if unknowns else (OK if counts[OK] and not counts[INSUFF] else IDLE)),
     }
+    import performance_orchestrator
+    if watchdog_receipt:
+        report['watchdogExecution'] = watchdog_receipt
+    report['performanceOrchestration'] = performance_orchestrator.observe(root, report)
     return report
 
 
@@ -709,6 +782,13 @@ def summarize(report):
         lines.append(f"결론: 장애 없음 · 자료 부족 {counts[INSUFF]}건은 판단하지 않은 것이지 고장이 아니다 · {tally}")
     else:
         lines.append(f"결론: 장애·확인 불가 없음 · {tally}")
+    perf = report.get('performanceOrchestration') or {}
+    if perf:
+        lines.append('운영·개선 순서: ' + perf['label'])
+        actions = [i for i in perf['issues'] if i['actionableNow'] and i['state'] != 'RESOLVED']
+        if actions:
+            lines.append('지금 1순위: ' + actions[0]['title'] + ' (' + actions[0]['id'] + ')')
+        lines.append('연구 필요성: ' + perf['researchFocus']['status'] + ' · 전략 직접 변경 없음')
     return "\n".join(lines)
 
 
@@ -767,9 +847,16 @@ def main(argv=None):
     ap.add_argument("--json", help="상태 JSON 을 쓸 경로")
     ap.add_argument("--repair-request", help="장애가 있을 때 INC-… 수리 요청서를 쓸 디렉터리")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument('--save-performance-state', action='store_true', help='기존 허용된 운영 기록 경로에 개선 상태 저장')
+    ap.add_argument('--watchdog-receipt', help='이번 실행에서 기존 워치독이 남긴 복구 결과')
     args = ap.parse_args(argv)
     now = _parse_iso(args.now) if args.now else None
-    report = collect(args.root, now=now, deep=args.deep, github=args.github, pages=args.probe_pages)
+    receipt = _read_json(args.watchdog_receipt) if args.watchdog_receipt else None
+    report = collect(args.root, now=now, deep=args.deep, github=args.github, pages=args.probe_pages,
+                     watchdog_receipt=receipt)
+    if args.save_performance_state:
+        import performance_orchestrator
+        performance_orchestrator.save_state(args.root, report['performanceOrchestration'])
     if args.json:
         with open(args.json, "w", encoding="utf-8") as fh:
             json.dump(report, fh, ensure_ascii=False, indent=1)
