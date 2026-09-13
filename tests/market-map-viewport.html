@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시장지도 화면 검사</title>
+<style>
+  body{margin:16px;background:#e8eaed;color:#20242b;font:14px system-ui,sans-serif}
+  nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+  button{padding:8px 12px;font:inherit;cursor:pointer}
+  #stage{position:relative;margin:auto}iframe{border:0;transform-origin:top left;background:white}
+  pre{white-space:pre-wrap;font-size:13px;overflow-wrap:anywhere}
+</style>
+<nav aria-label="화면 검사 설정">
+  <button data-width="390">모바일 390px</button>
+  <button data-width="1680">PC 1680px</button>
+  <button data-width="1920">PC 1920px</button>
+  <button id="measure">현재 화면 측정</button>
+  <output id="size"></output>
+</nav>
+<div id="stage"><iframe title="GAEO 실제 서비스 화면" src="../?m=marketmap"></iframe></div>
+<pre id="result" aria-label="화면 측정 결과"></pre>
+<script>
+  const frame=document.querySelector('iframe'),stage=document.querySelector('#stage');
+  function resize(width){
+    const height=width===390?900:1800,scale=Math.min(1,(innerWidth-32)/width);
+    frame.style.width=width+'px';frame.style.height=height+'px';frame.style.transform=`scale(${scale})`;
+    stage.style.width=width*scale+'px';stage.style.height=height*scale+'px';
+    document.querySelector('#size').textContent=width+' × '+height;
+  }
+  document.querySelectorAll('[data-width]').forEach(b=>b.onclick=()=>resize(Number(b.dataset.width)));
+  document.querySelector('#measure').onclick=()=>{
+    const doc=frame.contentDocument,w=frame.contentWindow;
+    const tiles=Array.from(doc.querySelectorAll('.mm-tile')),labels=Array.from(doc.querySelectorAll('.mm-tile:not(.mm-small) .mm-rate'));
+    const nav=Array.from(doc.querySelectorAll('.global-link')).filter(e=>e.offsetWidth>0);
+    const result={width:w.innerWidth,pageWidth:doc.documentElement.scrollWidth,
+      tiles:tiles.length,sectors:doc.querySelectorAll('.mm-sector').length,
+      smallTiles:doc.querySelectorAll('.mm-small').length,
+      clippedRates:labels.filter(e=>e.scrollWidth>e.clientWidth||e.scrollHeight>e.clientHeight).length,
+      smallTextVisible:Array.from(doc.querySelectorAll('.mm-small span')).some(e=>e.offsetWidth>0),
+      minRateFont:labels.length?Math.min(...labels.map(e=>parseFloat(w.getComputedStyle(e).fontSize))):null,
+      navOverlap:nav.some((e,i)=>i&&e.getBoundingClientRect().left<nav[i-1].getBoundingClientRect().right-1),
+      theme:doc.documentElement.classList.contains('gdark')?'dark':'light',
+      counts:doc.querySelector('#mmCounts')?.innerText,
+      source:doc.querySelector('#mmSource')?.innerText};
+    document.querySelector('#result').textContent=JSON.stringify(result,null,2);
+  };
+  resize(1680);
+</script>
+</html>

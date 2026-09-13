@@ -8998,6 +8998,7 @@ window.renderScreener=function(){
   function normalizeGaeoMode(mode){ return mode==='leaderboard'?'scorecard':mode; }
   function setMode(mode){ // 'single' | 'watch' | 'guide' | 'compare' | 'portfolio' | 'news' | 'study' | 'lesson' | 'scorecard' | 'calendar' | 'community'
     mode=normalizeGaeoMode(mode);
+    if(mode!=='marketmap') window.GaeoMarketMap?.unmount();
     GAEO_MODE_REQUEST=mode;   // 자료를 받는 동안 사용자가 마음을 바꿨는지 아래 .then이 이걸로 판단한다
     const feature={news:'news',study:'study',lesson:'lesson',estate:'estate',calc:'calc',
       calendar:'history',screener:'auto',scorecard:'history',rotation:'rotation',changelog:'changelog'}[mode];
@@ -9011,7 +9012,7 @@ window.renderScreener=function(){
         //    그래서 직전 화면의 .on을 여기서 직접 걷어내지 않으면, 자료를 받는 몇 초 동안
         //    이전 화면과 "불러오는 중" 안내가 같이 보이는 잔상이 생긴다(2026-08-18 수정).
         document.querySelectorAll('.newsView.on,.paperView.on,.calendarView.on,.communityView.on,'
-          +'.rotation-view.on,.fullmarket-view.on,.latest-panel.on,.compare.on,.portfolio.on,.watchView.on')
+          +'.rotation-view.on,.market-map-view.on,.fullmarket-view.on,.latest-panel.on,.compare.on,.portfolio.on,.watchView.on')
           .forEach(other=>{ if(other!==view) other.classList.remove('on'); });
         view.classList.add('on');
         view.innerHTML='<div class="nw-empty">자료를 불러오는 중이에요…</div>';
@@ -9054,8 +9055,9 @@ window.renderScreener=function(){
           guide=mode==='guide', news=mode==='news', study=mode==='study', lesson=mode==='lesson',
           estate=mode==='estate', calc=mode==='calc', screener=mode==='screener', rates=mode==='rates', rotation=mode==='rotation',
           latest=mode==='latest', scorecard=mode==='scorecard', changelog=mode==='changelog',
-          paper=mode==='paper', market=mode==='market', deep=mode==='deep', disclosure=mode==='disclosure';
+          paper=mode==='paper', market=mode==='market', marketmap=mode==='marketmap', deep=mode==='deep', disclosure=mode==='disclosure';
     const sectionCopy={
+      marketmap:['','600종목 시장지도','색이 진할수록 오늘 움직임이 큽니다.'],
       market:['코스피·코스닥을 한눈에','오늘 시장','시장국면과 날짜별 시장 분석 기록을 확인해 보세요. 지수 수치는 홈 브리핑과 같은 기준이에요.'],
       deep:['직접 지정해 더 깊게 본 종목','최근 정밀분석','팀이 직접 지정해 더 깊게 확인한 종목의 최신 정밀분석 5건과 전체 기록으로 가는 길이에요.'],
       disclosure:['금융감독원에 오늘 올라온 공시','오늘의 공시','추적 종목이 오늘 낸 공식 공시를 쉬운 말 설명과 함께 확인해 보세요.'],
@@ -9090,7 +9092,7 @@ window.renderScreener=function(){
       portfolio:'포트폴리오',latest:'최근 뉴스·공부 자료',news:'뉴스 분석',study:'종목 공부',lesson:'주식 공부',
       estate:'부동산 공부',calc:'금융 계산기',screener:'종목 스크리너',rotation:'순환매',rates:'등락률 확인',
       scorecard:'검증 성적표',paper:'모의투자',calendar:'월간 분석 캘린더',community:'커뮤니티',changelog:'개발 기록',
-      market:'오늘 시장',deep:'최근 정밀분석',disclosure:'오늘의 공시'};
+      market:'오늘 시장',marketmap:'600종목 시장지도',deep:'최근 정밀분석',disclosure:'오늘의 공시'};
     const contextTitle=document.getElementById('contextTitle');
     if(contextTitle){ contextTitle.textContent=contextTitles[mode]||copy[1]; contextTitle.hidden=single; }
     const stockHeading=document.getElementById('qname');
@@ -9127,6 +9129,7 @@ window.renderScreener=function(){
     document.getElementById('mode-community').classList.toggle('on',community);
     document.getElementById('mode-changelog').classList.toggle('on',changelog);
     document.getElementById('mode-market')?.classList.toggle('on',market);
+    document.getElementById('mode-marketmap')?.classList.toggle('on',marketmap);
     document.getElementById('mode-deep')?.classList.toggle('on',deep);
     document.getElementById('mode-disclosure')?.classList.toggle('on',disclosure);
     document.getElementById('guideView').classList.toggle('on',guide);
@@ -9166,6 +9169,18 @@ window.renderScreener=function(){
     if(typeof window.GaeoSyncFmTabButtons==='function') window.GaeoSyncFmTabButtons(fmSubTab);
     document.getElementById('changelogView').classList.toggle('on',changelog);
     document.getElementById('marketView')?.classList.toggle('on',market);
+    document.getElementById('marketMapView')?.classList.toggle('on',marketmap);
+    if(marketmap&&window.GaeoMarketMap) window.GaeoMarketMap.mount(document.getElementById('marketMapView'),{
+      tickers:TICKERS,live:LIVE_DATA,
+      onStock:code=>jumpToStock(STOCKS[code].name,'marketmap'),
+      loadJudgments:()=>window.ensureAutoAnalysis(),
+      getJudgment:code=>{
+        const entry=analysisEntry(code);
+        if(!entry?.chief) return null;
+        const data=runAnalysis(STOCKS[code]);
+        return data._live?{call:decide(data,code).call,at:entry.updated||''}:null;
+      }
+    });
     document.getElementById('deepView')?.classList.toggle('on',deep);
     document.getElementById('disclosureView')?.classList.toggle('on',disclosure);
     if(market&&typeof renderMarket==='function') renderMarket();
@@ -9213,7 +9228,7 @@ window.renderScreener=function(){
     paper:'paperView', calendar:'calendarView', community:'communityView',
     changelog:'changelogView',
     // 2026-09-03 소유자 지시: 시장 분석·최근 정밀분석·오늘의 공시는 홈에서 빠져 별도 화면이 됐다.
-    market:'marketView', deep:'deepView', disclosure:'disclosureView',
+    market:'marketView', marketmap:'marketMapView', deep:'deepView', disclosure:'disclosureView',
     // 순환매는 서브탭(순환매 판단 | 전체시장 흐름)에 따라 보이는 쪽이 달라진다.
     rotation:['rotationView','fullMarketView']
   };
@@ -9278,6 +9293,7 @@ window.renderScreener=function(){
     readyTimer=setTimeout(()=>window.removeEventListener('gaeo:mode-ready',onModeReady),180000);
   };
   document.getElementById('mode-single').onclick=()=>{setMode('single'); SFX.click(); GaeoScrollToMode('single');};
+  document.getElementById('mode-marketmap').onclick=()=>{setMode('marketmap'); GaeoScrollToMode('marketmap');};
   document.getElementById('mode-watch').onclick=()=>{setMode('watch'); SFX.click(); GaeoScrollToMode('watch');};
   document.getElementById('mode-guide').onclick=()=>{setMode('guide'); SFX.click(); GaeoScrollToMode('guide');};
   document.getElementById('mode-compare').onclick=()=>{window.ensureAutoAnalysis().finally(()=>{setMode('compare'); SFX.click(); runCompare(); GaeoScrollToMode('compare');});};
@@ -10249,7 +10265,7 @@ function gaeoFootTools(){
       window.setMode(m);
     }
     // 2026-09-03: 홈에서 빠진 '오늘 시장'(?m=market)·'최근 정밀분석'(?m=deep)·'오늘의 공시'(?m=disclosure) 화면 딥링크.
-    else if(m==='market'||m==='deep'||m==='disclosure'){ window.setMode(m); }
+    else if(m==='market'||m==='marketmap'||m==='deep'||m==='disclosure'){ window.setMode(m); }
     if(['news','study','lesson','estate','calc'].includes(m)&&id) syncContentMetadata(m,id);
     // 동적 글자 조각까지 준비된 뒤 보이면 폰트 swap으로 줄바꿈이 바뀌지 않는다.
     try{await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,1200))]);}catch(e){}
@@ -10618,3 +10634,4 @@ function gaeoFootTools(){
 
 // index.html의 부트 watchdog이 느린 경로 번들을 app.js 실패로 오인하지 않게 한다.
 window.__GAEO_APP_EXECUTED__=true;
+window.GaeoMarketMap?.preview(document.getElementById('homeMarketPreview'),TICKERS,LIVE_DATA);
