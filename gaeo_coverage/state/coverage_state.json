@@ -1,7 +1,7 @@
 {
  "schemaVersion": 3,
- "generatedAt": "2026-09-06T09:36:34+09:00",
- "runId": "34001666660-1",
+ "generatedAt": "2026-09-13T09:38:46+09:00",
+ "runId": "34728435516-1",
  "status": "WARN",
  "statusReasons": [
   "시세 누락 1종목 (원인: UNKNOWN 1)"
@@ -34,7 +34,7 @@
  "recentlyAbsentCount": 1,
  "recentlyMissingCount": 1,
  "snapshotReliable": true,
- "snapshotReliabilityNote": "전체시장 snapshot 3924종목 · 수집기 상태 READY",
+ "snapshotReliabilityNote": "전체시장 snapshot 3912종목 · 수집기 상태 READY",
  "capMemorySize": 599,
  "findings": [
   {
@@ -43,12 +43,12 @@
    "sector": "보험",
    "cause": "UNKNOWN",
    "replaceable": false,
-   "missingDayCount": 1,
-   "elapsedTradingDays": 0,
+   "missingDayCount": 2,
+   "elapsedTradingDays": 5,
    "firstMissingAt": "2026-09-06T09:36:34+09:00",
    "absentFromMarketData": true,
-   "absentDayCount": 1,
-   "elapsedAbsentTradingDays": 0,
+   "absentDayCount": 2,
+   "elapsedAbsentTradingDays": 5,
    "firstAbsentAt": "2026-09-06T09:36:34+09:00",
    "capRank": null,
    "safestKnownCapRank": 276,
@@ -60,9 +60,9 @@
    "market": "KOSPI",
    "inAutoAnalysis": true,
    "evidence": [
-    "서로 다른 날짜로 1일 관측 (지속 누락 기준 3일)",
-    "처음 빠진 날 이후 0거래일 경과 (기준 10거래일)",
-    "snapshot asOf 2026-09-05T01:37:24+00:00 (0.96일 경과)",
+    "서로 다른 날짜로 2일 관측 (지속 누락 기준 3일)",
+    "처음 빠진 날 이후 5거래일 경과 (기준 10거래일)",
+    "snapshot asOf 2026-09-12T01:47:15+00:00 (0.95일 경과)",
     "전체시장 snapshot에 없음",
     "snapshot은 충분히 최신이지만 지속 누락 기준(날짜 3일 + 경과 10거래일)을 아직 못 채웠다"
    ],
@@ -97,26 +97,26 @@
   "path": "market_universe/sector_map.json",
   "available": true,
   "source": "krx_corplist (kind.krx.co.kr 상장법인목록 공식 업종 컬럼)",
-  "asOf": "2026-09-05T02:47:04+00:00",
-  "ageDays": 0.91,
-  "listedCount": 2595,
+  "asOf": "2026-09-12T02:58:02+00:00",
+  "ageDays": 0.9,
+  "listedCount": 2594,
   "minCountRequired": 2000,
   "qualityGate": "GATE_PASS",
   "freshEnough": true,
-  "expiresInDays": 13.09
+  "expiresInDays": 13.1
  },
  "snapshot": {
   "path": "market_universe/full_market_latest.json.gz",
   "available": true,
-  "asOf": "2026-09-05T01:37:24+00:00",
-  "ageDays": 0.96,
+  "asOf": "2026-09-12T01:47:15+00:00",
+  "ageDays": 0.95,
   "freshEnoughForDelisting": true,
-  "itemCount": 3924,
+  "itemCount": 3912,
   "collectorStatus": "READY",
-  "collectorAsOf": "2026-09-05T01:37:24+00:00"
+  "collectorAsOf": "2026-09-12T01:47:15+00:00"
  },
- "priceAsOf": "2026-09-04 종가 (16:03 수집) · ⚠️ 1종목 지연",
- "autoAnalysisGeneratedAt": "2026-09-04 16:13",
+ "priceAsOf": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
+ "autoAnalysisGeneratedAt": "2026-09-11 16:14",
  "autoAnalysisStamp": {
   "coverageUniverseVersion": "GAEO_COVERAGE_V2_600",
   "coverageUniverseSize": 600
