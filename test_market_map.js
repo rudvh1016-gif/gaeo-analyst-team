@@ -70,5 +70,9 @@ assert.ok(html.includes('id="marketMapView"'));
 assert.ok(app.includes("m==='marketmap'"));
 assert.ok(app.includes("onStock:code=>jumpToStock(STOCKS[code].name,'marketmap')"));
 assert.ok(app.includes("if(mode!=='marketmap') window.GaeoMarketMap?.unmount()"));
+const sw=fs.readFileSync('sw.js','utf8');
+const changesOften=sw.match(/const changesOften = (\/.*\/).test\(url.pathname\)/)[1];
+assert.ok(vm.runInNewContext(changesOften).test('/market_universe/full_market_latest.json.gz'),
+  'compressed market metadata must refresh online, not stay in the image cache');
 console.log('PASS market map: 600 rows, source colors, sector averages, filters, missing data, layout, immutable inputs, existing routes');
 console.log(JSON.stringify({counts:s.counts,sectors:s.sectors.length,KOSPI:kospi.length,KOSDAQ:kosdaq.length,unknown:rows.filter(r=>!r.market).length,strong:s.strong.name,weak:s.weak.name}));
