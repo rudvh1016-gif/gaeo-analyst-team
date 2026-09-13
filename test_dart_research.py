@@ -97,6 +97,15 @@ class TimeSafety(unittest.TestCase):
         self.assertNotIn('공급계약', text)
         self.assertFalse(r['checkStatus'] == 'OK')
 
+    def test_unreadable_prior_day_row_cannot_become_absence(self):
+        for e in (event(fetched_at=None), event(rcept_dt=None), event(report_name='')):
+            r = receipt([e])
+            self.assertEqual(r['checkStatus'], 'INCOMPLETE')
+            self.assertEqual(R.exposure('005930', DAY, CUTOFF, r['filings'], r)['status'], 'UNKNOWN')
+        # A date-only same-day filing is outside the fixed prior-day comparison.
+        r = receipt([event(rcept_dt='20260914')])
+        self.assertEqual(R.exposure('005930', DAY, CUTOFF, r['filings'], r)['status'], 'ABSENT')
+
     def test_existing_collector_keeps_duplicate_query_evidence(self):
         import dart_pipeline as P
         from test_dart_live_hardening import FakeClient, DART_ROWS, UNIVERSE, _filing

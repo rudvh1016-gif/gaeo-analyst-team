@@ -79,6 +79,8 @@ def event_at(event, cutoff):
     code = str(event.get('ticker') or '')
     if not no.isdigit() or len(no) != 14 or not code.isdigit() or len(code) != 6:
         return None, 'IDENTITY_UNCERTAIN'
+    if not str(event.get('report_name') or '').strip():
+        return None, 'CLASSIFICATION_UNCERTAIN'
     return {'ticker': code, 'receiptId': no, 'receivedOn': received,
             'category': category(event.get('report_name', '')),
             'detectedAt': detected.isoformat(), 'fetchedAt': fetched.isoformat(),
@@ -149,7 +151,10 @@ def collection_receipt(status, events, mapped_codes, run_id, errors=()):
             excluded[reason] += 1
     complete = (status.get('eventState') in ('EVENT_DETECTED', 'NO_OFFICIAL_EVENT_DETECTED')
                 and (status.get('pagination') or {}).get('coverage_complete') is True
-                and not status.get('errors') and not status.get('pendingRetryNext') and not errors)
+                and not status.get('errors') and not status.get('pendingRetryNext') and not errors
+                # Same-day clock gaps are outside the primary prior-day window.
+                # Any other uninterpretable query row prevents an absence claim.
+                and not any(reason != 'SAME_DAY_TIME_UNCERTAIN' for reason in excluded))
     return {'version': VERSION, 'runId': str(run_id or ''), 'checkedAt': cutoff,
             'queryWindow': status.get('queryWindow'), 'checkStatus': 'OK' if complete else 'INCOMPLETE',
             'sourceStatus': status.get('status') or status.get('eventState'),
