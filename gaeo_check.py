@@ -38,6 +38,7 @@ GROUPS = {
         "test_gaeo_coverage.py", "test_market_history_close.py", "test_market_history_summary.py", "test_market_universe.py",
         "test_indicators_split.py", "test_indicator_provenance.py", "test_flow_history.py", "test_flow_period_consistency.py", "test_flow_summary.py",
         "test_dart_pipeline.py", "test_dart_context_loader.py", "test_dart_financials_collect.py", "test_dart_live_hardening.py",
+        "test_dart_research.py",
         "test_corporate_action_evidence.py", "test_corporate_action_classify.py",
         "test_kind_result_reader.py", "test_kind_market_action_classify.py", "test_kind_market_action_collect.py",
         "test_sector_source_promotion.py", "test_ops_status.py", "test_content_freshness.py", "test_seo_publishing.py",
