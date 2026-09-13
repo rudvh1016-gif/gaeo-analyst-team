@@ -96,7 +96,7 @@ self.addEventListener('fetch', event => {
 
   // HTML·스타일·데이터·기능 스크립트는 온라인일 때 항상 서버 원본을 먼저 확인한다.
   // 네트워크가 끊긴 경우에만 마지막 정상본을 사용해, 오래된 화면이 계속 남는 일을 막는다.
-  const changesOften = /\.(?:html|css|js|json|json\.gz)$/.test(url.pathname);
+  const changesOften = /\.(?:html|css|js|json)$/.test(url.pathname) || /\.json\.gz$/.test(url.pathname);
 
   if (changesOften) {
     event.respondWith(
