@@ -595,6 +595,7 @@ def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=No
              "duplicate_skipped": 0, "unmatched_filings": 0,
              "pages_fetched": 0, "list_requests": 0}
     events, errors = [], []
+    observed_filings = []  # This query's matched rows, including already stored receipts.
     total_pages_reported = None
     coverage_complete = True
     incomplete_reasons = []
@@ -635,6 +636,7 @@ def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=No
             if entry is None:
                 stats["unmatched_filings"] += 1
                 continue          # 우리 유니버스 밖 — 저장하지 않는다
+            observed_filings.append(normalize_filing(row, entry, detected_at, source_mode))
             if not seen.is_new(rcept_no):
                 stats["duplicate_skipped"] += 1
                 continue
@@ -663,6 +665,7 @@ def collect_new_filings(client, corp_map, bgn_de=None, end_de=None, max_pages=No
         incomplete_reasons.append(PAGE_LIMIT_REACHED)
 
     return {"events": events, "stats": stats, "errors": errors,
+            "researchObservedFilings": observed_filings,
             "registry": seen, "seenTotal": len(seen.seen),
             "pendingTotal": seen.pending_count(),
             "pagination": {

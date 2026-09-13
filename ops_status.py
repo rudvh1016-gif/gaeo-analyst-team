@@ -533,6 +533,23 @@ def check_scheduled_runs(now=None, root=HERE):
             continue
         st, code, detail, extra = _judge_scheduled(wf, spec, str(meta.get("state") or ""), runs, now, created_at=meta.get("created_at"))
         per[wf] = {"status": st, "code": code, "detail": detail, **extra}
+        if wf == 'ops-daily.yml':
+            # Reuse this schedule check, no additional cron. A completed run
+            # and its exact state on main are separate pieces of evidence.
+            import performance_orchestrator as PO
+            acceptance = {'status': 'PENDING_NATURAL_RUN'}
+            saved = _read_json(os.path.join(root, PO.STATE_PATH)) or {}
+            receipt = saved.get('executionReceipt') or {}
+            run = next((r for r in runs if str(r.get('id')) == receipt.get('runId')), None)
+            if receipt.get('event') == 'schedule' and run:
+                try:
+                    import base64
+                    remote = CW._get(f'https://api.github.com/repos/{repo}/contents/{PO.STATE_PATH}?ref=main', token)
+                    committed = json.loads(base64.b64decode(remote['content']))
+                    acceptance = PO.verify_natural_run(saved, run, committed)
+                except Exception:
+                    acceptance['reason'] = 'main_copy_unverified'
+            per[wf]['performanceNaturalRun'] = acceptance
     faults = [v["detail"] for v in per.values() if v["status"] == FAULT]
     unknowns = [v["detail"] for v in per.values() if v["status"] == UNKNOWN]
     if faults:

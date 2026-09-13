@@ -631,6 +631,9 @@ def main():
         payload = build()
         payload['decisionTrace'] = decision_records.refresh()
         _write_payload(payload)
+        # Separate internal study; neither the scorecard denominator nor calls change.
+        import dart_research
+        dart_research.refresh_safely(HERE)
     size = os.path.getsize(OUT_JS)
     base = next(m for m in payload["models"] if m["id"] == "base_production")
     print(f"model_scoreboard.js 저장 — 모델 {len(payload['models'])}개 · {size:,}B · "

@@ -165,6 +165,11 @@ def main():
     report = failure_miner.mine(mining_rows, closes)
     report["dataSplit"] = split_note
     report['orchestrationFocus'] = research_focus(report, const)
+    # DART only supplies a research question. No CandidateSpec, weights or vote.
+    import dart_research
+    dart_evidence = dart_research.refresh_safely(HERE, historical_rows=rows,
+                      policy=offline_policy, output_path=dart_research.REPORT)
+    report['dartResearchFocus'] = dart_evidence['researchFocus']
     report['sourceEvidence'] = {'runId': run['runId'],
                                 'evaluationFingerprint': eval_meta['dataFingerprint']}
     if not split_note["sufficient"]:

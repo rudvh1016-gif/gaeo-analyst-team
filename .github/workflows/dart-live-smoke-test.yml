@@ -1,8 +1,8 @@
 # 개오 애널리스트팀 — OpenDART 실연결 ONE-SHOT 점검
 #
 # 목적: Secret 하나 확인하려고 30분짜리 update-analysis 워크플로를 돌리지 않는다.
-#       이 워크플로는 수동 실행 전용이고, 루프도 자기재기동도 sleep도 없다.
-#       한 번 돌고 끝난다.
+#       실연결은 수동 실행 전용. 연구 코드 main 반영 시에는 기존 암호화 자료만
+#       한 번 읽어 연구표를 갱신한다. 새 API 수집이나 예약 실행은 하지 않는다.
 #
 # 하는 일:
 #   1. Secret 존재 여부   2. corpCode.xml 연결   3. list.json 연결
@@ -16,6 +16,9 @@
 name: dart-live-smoke-test
 
 on:
+  push:
+    branches: [main]
+    paths: ['dart_research.py']
   workflow_dispatch:
     inputs:
       financial:
@@ -56,6 +59,7 @@ jobs:
         run: python3 -m pip install --quiet --upgrade cryptography
 
       - name: Secret 존재 여부만 확인 (값은 출력하지 않음)
+        if: github.event_name == 'workflow_dispatch'
         run: |
           if [ -n "$OPEN_DART_API_KEY" ]; then
             echo "secretPresent: true"   # 길이조차 출력하지 않는다 — configured/missing만
@@ -65,12 +69,14 @@ jobs:
           fi
 
       - name: 오프라인 불변식 테스트
+        if: github.event_name == 'workflow_dispatch'
         run: |
           python3 test_dart_pipeline.py
           python3 test_dart_live_hardening.py
           python3 test_research_store.py
 
       - name: OpenDART 실연결 점검
+        if: github.event_name == 'workflow_dispatch'
         run: |
           if [ "${{ inputs.financial }}" = "true" ]; then
             python3 dart_smoke_test.py --financial
@@ -79,7 +85,11 @@ jobs:
           fi
 
       - name: Raw Archive 공개 노출 확인
+        if: github.event_name == 'workflow_dispatch'
         run: python3 check_pages_exposure.py || echo "노출 확인 실패 — 계속 진행"
+
+      - name: 당시 공시와 실제 오답 비교 (기존 저장자료만, API 호출 0)
+        run: python3 dart_research.py
 
       - name: v1.x 동결 확인
         run: |
@@ -87,7 +97,7 @@ jobs:
             && echo "research_v1.0 / v1.1 불변 확인"
 
       - name: 리포트 커밋
-        if: ${{ inputs.commit }}
+        if: github.event_name == 'push' || inputs.commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -96,11 +106,13 @@ jobs:
             echo "변경 없음 — 커밋 생략"
           else
             git commit -m "DART 실연결 점검 리포트 (GitHub Actions) [skip ci]"
+            pushed=false
             for i in 1 2 3 4; do
-              git push origin main && break
+              git push origin main && { pushed=true; break; }
               sleep $((2 ** i))
               git pull --rebase origin main || true
             done
+            [ "$pushed" = true ] || { echo "::error::연구 결과 main 저장 실패, artifact 확인 필요"; exit 1; }
           fi
 
       - name: 리포트 아티팩트
@@ -108,5 +120,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dart-smoke-report
-          path: research_archive/dart/smoke_report.json
+          path: |
+            research_archive/dart/smoke_report.json
+            research_archive/decisions/dart_research/status.json
           if-no-files-found: warn
