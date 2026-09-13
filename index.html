@@ -503,6 +503,7 @@
 <link rel="stylesheet" href="insight-rail.css?v=20260818-v2">
 <link rel="stylesheet" href="editorial-foundation.css?v=20260903-v4">
 <link rel="stylesheet" href="editorial-accessibility.css?v=20260903-v1">
+<link rel="stylesheet" href="market-map.css?v=20260913-map1">
 </head>
 <body>
 <!-- 자바스크립트를 실행하지 않고 원본 HTML만 읽는 크롤러(특히 AI 답변엔진)가 홈에서
@@ -540,6 +541,7 @@
     <div class="global-primary" aria-label="주요 서비스">
       <button class="global-link on" type="button" data-nav-home>홈</button>
       <button class="global-link" id="navMarket" type="button" data-nav-alias="market disclosure">오늘 시장</button>
+      <button class="global-link" type="button" data-nav-mode="marketmap">시장지도</button>
       <button class="global-link" type="button" data-nav-mode="single"   data-nav-alias="compare screener rates deep">종목 분석</button>
       <button class="global-link" type="button" data-nav-mode="rotation">순환매</button>
       <button class="global-link" type="button" data-nav-mode="watch" data-nav-alias="portfolio">내 종목 관리</button>
@@ -727,6 +729,8 @@
       </article>
     </div>
 
+    <section class="home-market-preview" id="homeMarketPreview" aria-label="시장 한눈에 보기"></section>
+
     <section class="start-board" aria-label="오늘 브리핑과 이용 안내">
       <article class="start-step start-step-summary home-daily-brief">
         <header class="hdb-head">
@@ -842,6 +846,7 @@
     <div class="nav-menu-group">
       <h3 class="nav-menu-title">분석</h3>
       <button class="modebtn" id="mode-market" type="button">오늘 시장</button>
+      <button class="modebtn" id="mode-marketmap" type="button">시장지도</button>
       <button class="modebtn on" id="mode-single" type="button">종목 분석</button>
       <button class="modebtn" id="mode-deep" type="button">최근 정밀분석</button>
       <button class="modebtn" id="mode-disclosure" type="button">오늘의 공시</button>
@@ -1082,6 +1087,7 @@
     </div>
     <p class="fm-seg-desc" id="fmSegDesc" aria-live="polite"><b>현재 선택 · 순환매 판단</b> — GAEO 추적 종목을 기준으로 계산한 기존 순환매 판단입니다.</p>
   </div>
+  <section class="market-map-view" id="marketMapView" aria-label="600종목 시장지도"></section>
   <section class="rotation-view" id="rotationView" aria-label="업종 순환매 분석"></section>
   <!-- 🌐 전체시장 흐름 — GAEO 600 순환매(rotationView)와 별도 모집단의 관찰용 통계 화면.
        window.GAEO_MARKET_CONTEXT(market_context.js)만 읽는 READ-ONLY 화면이며
@@ -1300,7 +1306,8 @@ window.GaeoFeatures=(()=>{
   };
 })();
 </script>
-<script src="app.js?v=20260913-p21" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
+<script src="market-map.js?v=20260913-map1"></script>
+<script src="app.js?v=20260913-map1" onerror="document.documentElement.classList.remove('route-pending');document.documentElement.classList.add('app-load-failed')"></script>
 <script>
   // 외부 app.js가 로드됐지만 실행 중 멈춘 경우에도 딥링크를 영구 빈 화면으로 두지 않는다.
   setTimeout(()=>{if(!window.__GAEO_APP_EXECUTED__&&document.documentElement.classList.contains('route-pending')){
