@@ -1,15 +1,15 @@
 {
-  "calibratedThrough": "2026-09-04",
+  "calibratedThrough": "2026-09-11",
   "calibration": {
-    "evaluations": 269,
+    "evaluations": 291,
     "groups": {
       "high": {
-        "count": 248,
-        "successRate": 0.5484
+        "count": 261,
+        "successRate": 0.5057
       },
       "moderate": {
-        "count": 21,
-        "successRate": 0.3333
+        "count": 30,
+        "successRate": 0.4333
       }
     },
     "highOutperformsModerate": false,
@@ -19,71 +19,71 @@
   },
   "horizonPerformance": {
     "1": {
-      "averageExcessReturn": 0.11,
+      "averageExcessReturn": 0.08,
       "benchmark": "500종목 업종 중앙값",
       "definition": "직전 1거래일 1위 업종이 이후 1거래일 업종 중앙값을 초과하면 적중",
-      "hitRate": 45.9,
+      "hitRate": 45.5,
       "horizon": 1,
       "maximumAdverseExcursion": -5.69,
-      "medianExcessReturn": -0.15,
-      "periodEnd": "2026-09-03",
+      "medianExcessReturn": -0.18,
+      "periodEnd": "2026-09-10",
       "periodStart": "2025-06-04",
-      "recentReproduction": 40.0,
-      "sampleCount": 307,
-      "stability": 95.1,
+      "recentReproduction": 25.0,
+      "sampleCount": 312,
+      "stability": 94.9,
       "status": "ready",
-      "top3Rate": 22.1,
+      "top3Rate": 21.8,
       "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
     },
     "20": {
-      "averageExcessReturn": 0.93,
+      "averageExcessReturn": 0.83,
       "benchmark": "500종목 업종 중앙값",
       "definition": "직전 20거래일 1위 업종이 이후 20거래일 업종 중앙값을 초과하면 적중",
-      "hitRate": 53.2,
+      "hitRate": 52.6,
       "horizon": 20,
       "maximumAdverseExcursion": -23.6,
-      "medianExcessReturn": 0.99,
-      "periodEnd": "2026-08-06",
+      "medianExcessReturn": 0.91,
+      "periodEnd": "2026-08-13",
       "periodStart": "2025-07-02",
-      "recentReproduction": 50.0,
-      "sampleCount": 269,
-      "stability": 81.8,
+      "recentReproduction": 30.0,
+      "sampleCount": 274,
+      "stability": 81.0,
       "status": "ready",
-      "top3Rate": 21.9,
+      "top3Rate": 21.5,
       "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
     },
     "3": {
-      "averageExcessReturn": 0.06,
+      "averageExcessReturn": 0.04,
       "benchmark": "500종목 업종 중앙값",
       "definition": "직전 3거래일 1위 업종이 이후 3거래일 업종 중앙값을 초과하면 적중",
-      "hitRate": 45.9,
+      "hitRate": 46.1,
       "horizon": 3,
       "maximumAdverseExcursion": -13.12,
-      "medianExcessReturn": -0.19,
-      "periodEnd": "2026-09-01",
+      "medianExcessReturn": -0.17,
+      "periodEnd": "2026-09-08",
       "periodStart": "2025-06-09",
-      "recentReproduction": 35.0,
-      "sampleCount": 303,
-      "stability": 96.4,
+      "recentReproduction": 40.0,
+      "sampleCount": 308,
+      "stability": 96.1,
       "status": "ready",
-      "top3Rate": 22.8,
+      "top3Rate": 22.4,
       "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
     },
     "5": {
-      "averageExcessReturn": -0.24,
+      "averageExcessReturn": -0.29,
       "benchmark": "500종목 업종 중앙값",
       "definition": "직전 5거래일 1위 업종이 이후 5거래일 업종 중앙값을 초과하면 적중",
-      "hitRate": 45.2,
+      "hitRate": 44.4,
       "horizon": 5,
       "maximumAdverseExcursion": -14.76,
-      "medianExcessReturn": -0.37,
-      "periodEnd": "2026-08-28",
+      "medianExcessReturn": -0.41,
+      "periodEnd": "2026-09-04",
       "periodStart": "2025-06-11",
-      "recentReproduction": 55.0,
-      "sampleCount": 299,
-      "stability": 95.0,
+      "recentReproduction": 40.0,
+      "sampleCount": 304,
+      "stability": 91.4,
       "status": "ready",
-      "top3Rate": 18.4,
+      "top3Rate": 18.1,
       "warning": "일별 신호가 겹치는 중첩 표본이므로 독립 시행 확률로 해석하지 않습니다."
     }
   },
@@ -235,23 +235,23 @@
     }
   },
   "metrics": {
-    "historyEnd": "2026-09-04",
+    "historyEnd": "2026-09-11",
     "historyStart": "2025-06-04",
-    "tradingDays": 308,
-    "walkForwardEvaluations": 269
+    "tradingDays": 313,
+    "walkForwardEvaluations": 291
   },
   "recommendedHorizon": {
     "evidence": {
-      "averageExcessReturn": 0.93,
-      "compositeScore": 62.68,
-      "hitRate": 53.2,
-      "medianExcessReturn": 0.99,
-      "recentReproduction": 50.0,
-      "sampleCount": 269,
-      "stability": 81.8
+      "averageExcessReturn": 0.04,
+      "compositeScore": 59.14,
+      "hitRate": 46.1,
+      "medianExcessReturn": -0.17,
+      "recentReproduction": 40.0,
+      "sampleCount": 308,
+      "stability": 96.1
     },
-    "horizon": 20,
-    "reason": "표본 269회에서 적중률·평균/중앙 초과수익·안정성·최근 재현을 함께 비교한 결과입니다.",
+    "horizon": 3,
+    "reason": "표본 308회에서 적중률·평균/중앙 초과수익·안정성·최근 재현을 함께 비교한 결과입니다.",
     "regimeMatchStatus": "accumulating",
     "status": "ready"
   },
@@ -259,1606 +259,1606 @@
   "similarMarkets": {
     "bySector": {
       "2차전지": {
-        "averageExcessReturn": -4.14,
+        "averageExcessReturn": 2.79,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -0.88,
-            "sectorReturn": -10.61,
-            "similarity": 73.5,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -0.83,
+            "sectorReturn": -1.41,
+            "similarity": 77.5,
             "success": false
           },
           {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.98,
-            "sectorReturn": -16.69,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 4.98,
-            "sectorReturn": -2.1,
-            "similarity": 72.6,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 0.06,
+            "sectorReturn": 6.76,
+            "similarity": 76.9,
             "success": true
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -3.28,
-            "sectorReturn": -12.3,
-            "similarity": 71.7,
-            "success": false
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 4.31,
+            "sectorReturn": 9.69,
+            "similarity": 75.9,
+            "success": true
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -20.55,
-            "sectorReturn": -32.0,
-            "similarity": 71.2,
-            "success": false
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 9.33,
+            "sectorReturn": 18.21,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 1.09,
+            "sectorReturn": 2.2,
+            "similarity": 75.3,
+            "success": true
           }
         ],
-        "currentSimilarity": 73.5,
-        "failureCount": 4,
-        "horizon": 20,
-        "medianExcessReturn": -0.98,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 20.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 1,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "건설·건자재": {
-        "averageExcessReturn": 5.67,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 6.59,
-            "sectorReturn": -3.14,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 12.91,
-            "sectorReturn": -2.8,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 1.96,
-            "sectorReturn": -5.12,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 11.98,
-            "sectorReturn": 2.96,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -5.11,
-            "sectorReturn": -16.56,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
         "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 6.59,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": 1.09,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 80.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "건설·건자재": {
+        "averageExcessReturn": 2.64,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -2.77,
+            "sectorReturn": -3.35,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 5.19,
+            "sectorReturn": 11.89,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 3.44,
+            "sectorReturn": 8.82,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 3.65,
+            "sectorReturn": 12.53,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 3.69,
+            "sectorReturn": 4.8,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 1,
+        "horizon": 3,
+        "medianExcessReturn": 3.65,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 80.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 4,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "게임·엔터": {
-        "averageExcessReturn": -0.32,
+        "averageExcessReturn": -0.09,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -2.9,
-            "sectorReturn": -12.63,
-            "similarity": 73.5,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -3.64,
+            "sectorReturn": -4.22,
+            "similarity": 77.5,
             "success": false
           },
           {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -1.65,
-            "sectorReturn": -17.36,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 1.54,
-            "sectorReturn": -5.54,
-            "similarity": 72.6,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 4.84,
+            "sectorReturn": 11.54,
+            "similarity": 76.9,
             "success": true
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -4.84,
-            "sectorReturn": -13.86,
-            "similarity": 71.7,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -3.53,
+            "sectorReturn": 1.85,
+            "similarity": 75.9,
             "success": false
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 6.26,
-            "sectorReturn": -5.19,
-            "similarity": 71.2,
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -1.41,
+            "sectorReturn": 7.47,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 3.27,
+            "sectorReturn": 4.38,
+            "similarity": 75.3,
             "success": true
           }
         ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
         "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -1.65,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": -1.41,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 40.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "금융·증권": {
-        "averageExcessReturn": -2.15,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -0.65,
-            "sectorReturn": -10.38,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -4.67,
-            "sectorReturn": -20.38,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -2.33,
-            "sectorReturn": -9.41,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -3.86,
-            "sectorReturn": -12.88,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 0.75,
-            "sectorReturn": -10.7,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 4,
-        "horizon": 20,
-        "medianExcessReturn": -2.33,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 20.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 1,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "기계": {
-        "averageExcessReturn": 2.61,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 1.96,
-            "sectorReturn": -7.77,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 3.52,
-            "sectorReturn": -12.19,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 3.44,
-            "sectorReturn": -3.64,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 2.78,
-            "sectorReturn": -6.24,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 1.37,
-            "sectorReturn": -10.08,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 0,
-        "horizon": 20,
-        "medianExcessReturn": 2.78,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 100.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 5,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "로봇": {
-        "averageExcessReturn": -11.04,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -9.08,
-            "sectorReturn": -18.81,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -10.71,
-            "sectorReturn": -26.42,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -3.19,
-            "sectorReturn": -10.27,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -12.47,
-            "sectorReturn": -21.49,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -19.74,
-            "sectorReturn": -31.19,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 5,
-        "horizon": 20,
-        "medianExcessReturn": -10.71,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 0.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 0,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "물류·운송": {
-        "averageExcessReturn": -0.39,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -3.06,
-            "sectorReturn": -12.79,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -1.75,
-            "sectorReturn": -17.46,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 1.55,
-            "sectorReturn": -5.53,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -4.19,
-            "sectorReturn": -13.21,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 5.52,
-            "sectorReturn": -5.93,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -1.75,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 40.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "바이오·제약": {
-        "averageExcessReturn": -2.13,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -1.27,
-            "sectorReturn": -11.0,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.87,
-            "sectorReturn": -16.58,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -0.91,
-            "sectorReturn": -7.99,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -3.54,
-            "sectorReturn": -12.56,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -4.04,
-            "sectorReturn": -15.49,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 5,
-        "horizon": 20,
-        "medianExcessReturn": -1.27,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 0.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 0,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "반도체": {
         "averageExcessReturn": -0.67,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 12.1,
-            "sectorReturn": 2.37,
-            "similarity": 73.5,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 1.68,
+            "sectorReturn": 1.1,
+            "similarity": 77.5,
             "success": true
           },
           {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 8.3,
-            "sectorReturn": -7.41,
-            "similarity": 73.1,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 0.37,
+            "sectorReturn": 7.07,
+            "similarity": 76.9,
             "success": true
           },
           {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 1.67,
-            "sectorReturn": -5.41,
-            "similarity": 72.6,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -3.55,
+            "sectorReturn": 1.83,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -2.07,
+            "sectorReturn": 6.81,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.2,
+            "sectorReturn": 1.31,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 2,
+        "horizon": 3,
+        "medianExcessReturn": 0.2,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 60.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 3,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "기계": {
+        "averageExcessReturn": -0.69,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.05,
+            "sectorReturn": -0.53,
+            "similarity": 77.5,
             "success": true
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 6.98,
-            "sectorReturn": -2.04,
-            "similarity": 71.7,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -0.05,
+            "sectorReturn": 6.65,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -1.99,
+            "sectorReturn": 3.39,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -1.8,
+            "sectorReturn": 7.08,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.34,
+            "sectorReturn": 1.45,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 3,
+        "horizon": 3,
+        "medianExcessReturn": -0.05,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 40.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 2,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "로봇": {
+        "averageExcessReturn": 6.04,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -3.98,
+            "sectorReturn": -4.56,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 0.95,
+            "sectorReturn": 7.65,
+            "similarity": 76.9,
             "success": true
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -32.4,
-            "sectorReturn": -43.85,
-            "similarity": 71.2,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 13.91,
+            "sectorReturn": 19.29,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 19.43,
+            "sectorReturn": 28.31,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -0.13,
+            "sectorReturn": 0.98,
+            "similarity": 75.3,
             "success": false
           }
         ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
+        "failureCount": 2,
+        "horizon": 3,
+        "medianExcessReturn": 0.95,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 60.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 3,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "물류·운송": {
+        "averageExcessReturn": -2.01,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.27,
+            "sectorReturn": -0.31,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -2.88,
+            "sectorReturn": 3.82,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -2.13,
+            "sectorReturn": 3.25,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -3.15,
+            "sectorReturn": 5.73,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -2.14,
+            "sectorReturn": -1.03,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 4,
+        "horizon": 3,
+        "medianExcessReturn": -2.14,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 20.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 1,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "바이오·제약": {
+        "averageExcessReturn": 1.92,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -1.92,
+            "sectorReturn": -2.5,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 0.71,
+            "sectorReturn": 7.41,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 4.21,
+            "sectorReturn": 9.59,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 6.45,
+            "sectorReturn": 15.33,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.13,
+            "sectorReturn": 1.24,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
         "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 6.98,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": 0.71,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 80.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "반도체": {
+        "averageExcessReturn": 4.46,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 3.25,
+            "sectorReturn": 2.67,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -1.54,
+            "sectorReturn": 5.16,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 2.4,
+            "sectorReturn": 7.78,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 17.76,
+            "sectorReturn": 26.64,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.44,
+            "sectorReturn": 1.55,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 1,
+        "horizon": 3,
+        "medianExcessReturn": 2.4,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 80.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 4,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "방산": {
-        "averageExcessReturn": -1.98,
+        "averageExcessReturn": 4.54,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 8.56,
-            "sectorReturn": -1.17,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 0.84,
-            "sectorReturn": -14.87,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -7.68,
-            "sectorReturn": -14.76,
-            "similarity": 72.6,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -1.23,
+            "sectorReturn": -1.81,
+            "similarity": 77.5,
             "success": false
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 3.49,
-            "sectorReturn": -5.53,
-            "similarity": 71.7,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 3.09,
+            "sectorReturn": 9.79,
+            "similarity": 76.9,
             "success": true
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -15.11,
-            "sectorReturn": -26.56,
-            "similarity": 71.2,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 10.34,
+            "sectorReturn": 15.72,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 13.57,
+            "sectorReturn": 22.45,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -3.06,
+            "sectorReturn": -1.95,
+            "similarity": 75.3,
             "success": false
           }
         ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
         "failureCount": 2,
-        "horizon": 20,
-        "medianExcessReturn": 0.84,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": 3.09,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 60.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 3,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "보험": {
-        "averageExcessReturn": 0.43,
+        "averageExcessReturn": -4.12,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 2.32,
-            "sectorReturn": -7.41,
-            "similarity": 73.5,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 2.65,
+            "sectorReturn": 2.07,
+            "similarity": 77.5,
             "success": true
           },
           {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -4.99,
-            "sectorReturn": -20.7,
-            "similarity": 73.1,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -6.84,
+            "sectorReturn": -0.14,
+            "similarity": 76.9,
             "success": false
           },
           {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -1.84,
-            "sectorReturn": -8.92,
-            "similarity": 72.6,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -5.28,
+            "sectorReturn": 0.1,
+            "similarity": 75.9,
             "success": false
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 1.15,
-            "sectorReturn": -7.87,
-            "similarity": 71.7,
-            "success": true
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -8.29,
+            "sectorReturn": 0.59,
+            "similarity": 75.5,
+            "success": false
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 5.5,
-            "sectorReturn": -5.95,
-            "similarity": 71.2,
-            "success": true
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -2.86,
+            "sectorReturn": -1.75,
+            "similarity": 75.3,
+            "success": false
           }
         ],
-        "currentSimilarity": 73.5,
-        "failureCount": 2,
-        "horizon": 20,
-        "medianExcessReturn": 1.15,
-        "periodEnd": "2026-09-04",
+        "currentSimilarity": 77.5,
+        "failureCount": 4,
+        "horizon": 3,
+        "medianExcessReturn": -5.28,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
-        "reproductionRate": 60.0,
+        "reproductionRate": 20.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
-        "successCount": 3,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successCount": 1,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "식음료": {
-        "averageExcessReturn": 2.23,
+        "averageExcessReturn": -2.65,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -2.44,
-            "sectorReturn": -12.17,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 2.04,
-            "sectorReturn": -13.67,
-            "similarity": 73.1,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.33,
+            "sectorReturn": -0.25,
+            "similarity": 77.5,
             "success": true
           },
           {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -2.45,
-            "sectorReturn": -9.53,
-            "similarity": 72.6,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -1.91,
+            "sectorReturn": 4.79,
+            "similarity": 76.9,
             "success": false
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -1.15,
-            "sectorReturn": -10.17,
-            "similarity": 71.7,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -4.86,
+            "sectorReturn": 0.52,
+            "similarity": 75.9,
             "success": false
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 15.15,
-            "sectorReturn": 3.7,
-            "similarity": 71.2,
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -7.64,
+            "sectorReturn": 1.24,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.82,
+            "sectorReturn": 1.93,
+            "similarity": 75.3,
             "success": true
           }
         ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
         "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -1.15,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": -1.91,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 40.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       },
       "여행레저": {
-        "averageExcessReturn": -0.53,
+        "averageExcessReturn": -4.47,
         "benchmark": "500종목 업종 중앙값",
         "cases": [
           {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -5.72,
-            "sectorReturn": -15.45,
-            "similarity": 73.5,
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -0.9,
+            "sectorReturn": -1.48,
+            "similarity": 77.5,
             "success": false
           },
           {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.36,
-            "sectorReturn": -16.07,
-            "similarity": 73.1,
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -5.04,
+            "sectorReturn": 1.66,
+            "similarity": 76.9,
             "success": false
           },
           {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 2.92,
-            "sectorReturn": -4.16,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -3.89,
-            "sectorReturn": -12.91,
-            "similarity": 71.7,
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -4.58,
+            "sectorReturn": 0.8,
+            "similarity": 75.9,
             "success": false
           },
           {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 4.42,
-            "sectorReturn": -7.03,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -0.36,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 40.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "유통·소비재": {
-        "averageExcessReturn": 2.49,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 0.9,
-            "sectorReturn": -8.83,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 5.58,
-            "sectorReturn": -10.13,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -1.64,
-            "sectorReturn": -8.72,
-            "similarity": 72.6,
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -7.56,
+            "sectorReturn": 1.32,
+            "similarity": 75.5,
             "success": false
           },
           {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 2.26,
-            "sectorReturn": -6.76,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 5.37,
-            "sectorReturn": -6.08,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 2.26,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 80.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "인터넷·IT": {
-        "averageExcessReturn": 0.24,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -0.85,
-            "sectorReturn": -10.58,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.04,
-            "sectorReturn": -15.75,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 0.29,
-            "sectorReturn": -6.79,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -1.76,
-            "sectorReturn": -10.78,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 3.55,
-            "sectorReturn": -7.9,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -0.04,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 40.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "자동차·부품": {
-        "averageExcessReturn": -0.22,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 0.29,
-            "sectorReturn": -9.44,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.04,
-            "sectorReturn": -15.75,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 5.38,
-            "sectorReturn": -1.7,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -1.77,
-            "sectorReturn": -10.79,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -4.94,
-            "sectorReturn": -16.39,
-            "similarity": 71.2,
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -4.27,
+            "sectorReturn": -3.16,
+            "similarity": 75.3,
             "success": false
           }
         ],
-        "currentSimilarity": 73.5,
-        "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -0.04,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 40.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "전력·에너지": {
-        "averageExcessReturn": 1.32,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 6.22,
-            "sectorReturn": -3.51,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 5.64,
-            "sectorReturn": -10.07,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -0.3,
-            "sectorReturn": -7.38,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 5.55,
-            "sectorReturn": -3.47,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -10.52,
-            "sectorReturn": -21.97,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 2,
-        "horizon": 20,
-        "medianExcessReturn": 5.55,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 60.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 3,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "전자·부품": {
-        "averageExcessReturn": -1.22,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 8.57,
-            "sectorReturn": -1.16,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 6.64,
-            "sectorReturn": -9.07,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 0.89,
-            "sectorReturn": -6.19,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 6.15,
-            "sectorReturn": -2.87,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -28.33,
-            "sectorReturn": -39.78,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 6.15,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 80.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "조선": {
-        "averageExcessReturn": 2.46,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 7.38,
-            "sectorReturn": -2.35,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 0.04,
-            "sectorReturn": -15.67,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 12.16,
-            "sectorReturn": 5.08,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 3.87,
-            "sectorReturn": -5.15,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -11.13,
-            "sectorReturn": -22.58,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 3.87,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 80.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "지주·상사": {
-        "averageExcessReturn": 3.06,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 3.91,
-            "sectorReturn": -5.82,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 3.97,
-            "sectorReturn": -11.74,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -2.66,
-            "sectorReturn": -9.74,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 4.68,
-            "sectorReturn": -4.34,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 5.38,
-            "sectorReturn": -6.07,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 1,
-        "horizon": 20,
-        "medianExcessReturn": 3.97,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 80.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 4,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "철강·금속": {
-        "averageExcessReturn": 0.1,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -0.29,
-            "sectorReturn": -10.02,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 0.98,
-            "sectorReturn": -14.73,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -3.57,
-            "sectorReturn": -10.65,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 1.97,
-            "sectorReturn": -7.05,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 1.43,
-            "sectorReturn": -10.02,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 2,
-        "horizon": 20,
-        "medianExcessReturn": 0.98,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 60.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 3,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "통신": {
-        "averageExcessReturn": 12.31,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": 28.81,
-            "sectorReturn": 19.08,
-            "similarity": 73.5,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": 25.44,
-            "sectorReturn": 9.73,
-            "similarity": 73.1,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -0.94,
-            "sectorReturn": -8.02,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": 26.48,
-            "sectorReturn": 17.46,
-            "similarity": 71.7,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -18.24,
-            "sectorReturn": -29.69,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 2,
-        "horizon": 20,
-        "medianExcessReturn": 25.44,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 60.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 3,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "화장품·미용": {
-        "averageExcessReturn": 0.31,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -8.47,
-            "sectorReturn": -18.2,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -0.92,
-            "sectorReturn": -16.63,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": 4.09,
-            "sectorReturn": -2.99,
-            "similarity": 72.6,
-            "success": true
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -6.08,
-            "sectorReturn": -15.1,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": 12.92,
-            "sectorReturn": 1.47,
-            "similarity": 71.2,
-            "success": true
-          }
-        ],
-        "currentSimilarity": 73.5,
-        "failureCount": 3,
-        "horizon": 20,
-        "medianExcessReturn": -0.92,
-        "periodEnd": "2026-09-04",
-        "periodStart": "2025-06-04",
-        "reproductionRate": 40.0,
-        "sampleCount": 5,
-        "sampleReliability": "낮음",
-        "status": "ready",
-        "successCount": 2,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
-      },
-      "화학·소재": {
-        "averageExcessReturn": -1.67,
-        "benchmark": "500종목 업종 중앙값",
-        "cases": [
-          {
-            "benchmarkReturn": -9.73,
-            "date": "2026-02-13",
-            "excessReturn": -1.35,
-            "sectorReturn": -11.08,
-            "similarity": 73.5,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -15.71,
-            "date": "2026-02-20",
-            "excessReturn": -1.3,
-            "sectorReturn": -17.01,
-            "similarity": 73.1,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -7.08,
-            "date": "2025-07-21",
-            "excessReturn": -1.58,
-            "sectorReturn": -8.66,
-            "similarity": 72.6,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -9.02,
-            "date": "2026-02-19",
-            "excessReturn": -3.4,
-            "sectorReturn": -12.42,
-            "similarity": 71.7,
-            "success": false
-          },
-          {
-            "benchmarkReturn": -11.45,
-            "date": "2026-06-30",
-            "excessReturn": -0.74,
-            "sectorReturn": -12.19,
-            "similarity": 71.2,
-            "success": false
-          }
-        ],
-        "currentSimilarity": 73.5,
+        "currentSimilarity": 77.5,
         "failureCount": 5,
-        "horizon": 20,
-        "medianExcessReturn": -1.35,
-        "periodEnd": "2026-09-04",
+        "horizon": 3,
+        "medianExcessReturn": -4.58,
+        "periodEnd": "2026-09-11",
         "periodStart": "2025-06-04",
         "reproductionRate": 0.0,
         "sampleCount": 5,
         "sampleReliability": "낮음",
         "status": "ready",
         "successCount": 0,
-        "successDefinition": "향후 20거래일 업종수익률 > 500종목 업종 중앙값",
-        "tradingDays": 308
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "유통·소비재": {
+        "averageExcessReturn": -2.26,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.75,
+            "sectorReturn": 0.17,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -1.76,
+            "sectorReturn": 4.94,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -4.97,
+            "sectorReturn": 0.41,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -6.21,
+            "sectorReturn": 2.67,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.88,
+            "sectorReturn": 1.99,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 3,
+        "horizon": 3,
+        "medianExcessReturn": -1.76,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 40.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 2,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "인터넷·IT": {
+        "averageExcessReturn": 0.32,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.83,
+            "sectorReturn": 0.25,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -1.13,
+            "sectorReturn": 5.57,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -0.53,
+            "sectorReturn": 4.85,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 1.63,
+            "sectorReturn": 10.51,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 0.79,
+            "sectorReturn": 1.9,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 2,
+        "horizon": 3,
+        "medianExcessReturn": 0.79,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 60.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 3,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "자동차·부품": {
+        "averageExcessReturn": -0.5,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -1.77,
+            "sectorReturn": -2.35,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -0.88,
+            "sectorReturn": 5.82,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 0.24,
+            "sectorReturn": 5.62,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 1.06,
+            "sectorReturn": 9.94,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -1.13,
+            "sectorReturn": -0.02,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 3,
+        "horizon": 3,
+        "medianExcessReturn": -0.88,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 40.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 2,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "전력·에너지": {
+        "averageExcessReturn": 4.59,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.51,
+            "sectorReturn": -0.07,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 6.69,
+            "sectorReturn": 13.39,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 5.84,
+            "sectorReturn": 11.22,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 10.94,
+            "sectorReturn": 19.82,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -1.01,
+            "sectorReturn": 0.1,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 1,
+        "horizon": 3,
+        "medianExcessReturn": 5.84,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 80.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 4,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "전자·부품": {
+        "averageExcessReturn": 4.34,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -2.18,
+            "sectorReturn": -2.76,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 1.08,
+            "sectorReturn": 7.78,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 3.92,
+            "sectorReturn": 9.3,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 17.77,
+            "sectorReturn": 26.65,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 1.1,
+            "sectorReturn": 2.21,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 1,
+        "horizon": 3,
+        "medianExcessReturn": 1.1,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 80.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 4,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "조선": {
+        "averageExcessReturn": 0.87,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -1.11,
+            "sectorReturn": -1.69,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 3.22,
+            "sectorReturn": 9.92,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 3.34,
+            "sectorReturn": 8.72,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 1.57,
+            "sectorReturn": 10.45,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -2.68,
+            "sectorReturn": -1.57,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 2,
+        "horizon": 3,
+        "medianExcessReturn": 1.57,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 60.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 3,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "지주·상사": {
+        "averageExcessReturn": -1.57,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.46,
+            "sectorReturn": -0.12,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -0.99,
+            "sectorReturn": 5.71,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -1.93,
+            "sectorReturn": 3.45,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -3.98,
+            "sectorReturn": 4.9,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -1.4,
+            "sectorReturn": -0.29,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 4,
+        "horizon": 3,
+        "medianExcessReturn": -1.4,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 20.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 1,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "철강·금속": {
+        "averageExcessReturn": -0.94,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -0.04,
+            "sectorReturn": -0.62,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -1.35,
+            "sectorReturn": 5.35,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -0.28,
+            "sectorReturn": 5.1,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -2.75,
+            "sectorReturn": 6.13,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -0.27,
+            "sectorReturn": 0.84,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 5,
+        "horizon": 3,
+        "medianExcessReturn": -0.28,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 0.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 0,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "통신": {
+        "averageExcessReturn": 4.05,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": -3.73,
+            "sectorReturn": -4.31,
+            "similarity": 77.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": -3.63,
+            "sectorReturn": 3.07,
+            "similarity": 76.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 10.92,
+            "sectorReturn": 16.3,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": 20.86,
+            "sectorReturn": 29.74,
+            "similarity": 75.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -4.19,
+            "sectorReturn": -3.08,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 3,
+        "horizon": 3,
+        "medianExcessReturn": -3.63,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 40.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 2,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "화장품·미용": {
+        "averageExcessReturn": 2.17,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.96,
+            "sectorReturn": 0.38,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 6.42,
+            "sectorReturn": 13.12,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": 1.87,
+            "sectorReturn": 7.25,
+            "similarity": 75.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -1.12,
+            "sectorReturn": 7.76,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": 2.74,
+            "sectorReturn": 3.85,
+            "similarity": 75.3,
+            "success": true
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 1,
+        "horizon": 3,
+        "medianExcessReturn": 1.87,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 80.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 4,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
+      },
+      "화학·소재": {
+        "averageExcessReturn": 0.27,
+        "benchmark": "500종목 업종 중앙값",
+        "cases": [
+          {
+            "benchmarkReturn": -0.58,
+            "date": "2026-07-09",
+            "excessReturn": 0.65,
+            "sectorReturn": 0.07,
+            "similarity": 77.5,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 6.7,
+            "date": "2026-06-26",
+            "excessReturn": 2.2,
+            "sectorReturn": 8.9,
+            "similarity": 76.9,
+            "success": true
+          },
+          {
+            "benchmarkReturn": 5.38,
+            "date": "2026-07-31",
+            "excessReturn": -0.23,
+            "sectorReturn": 5.15,
+            "similarity": 75.9,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 8.88,
+            "date": "2026-07-30",
+            "excessReturn": -1.06,
+            "sectorReturn": 7.82,
+            "similarity": 75.5,
+            "success": false
+          },
+          {
+            "benchmarkReturn": 1.11,
+            "date": "2026-06-25",
+            "excessReturn": -0.21,
+            "sectorReturn": 0.9,
+            "similarity": 75.3,
+            "success": false
+          }
+        ],
+        "currentSimilarity": 77.5,
+        "failureCount": 3,
+        "horizon": 3,
+        "medianExcessReturn": -0.21,
+        "periodEnd": "2026-09-11",
+        "periodStart": "2025-06-04",
+        "reproductionRate": 40.0,
+        "sampleCount": 5,
+        "sampleReliability": "낮음",
+        "status": "ready",
+        "successCount": 2,
+        "successDefinition": "향후 3거래일 업종수익률 > 500종목 업종 중앙값",
+        "tradingDays": 313
       }
     },
     "cases": [
       {
-        "benchmarkReturn": -9.73,
-        "date": "2026-02-13",
-        "distance": 1.3245,
+        "benchmarkReturn": -0.58,
+        "date": "2026-07-09",
+        "distance": 1.1254,
         "outcome": {
-          "days": 20,
+          "days": 3,
+          "leader": "반도체",
+          "return": 2.67
+        },
+        "sectorOutcomes": {
+          "2차전지": -1.41,
+          "건설·건자재": -3.35,
+          "게임·엔터": -4.22,
+          "금융·증권": 1.1,
+          "기계": -0.53,
+          "로봇": -4.56,
+          "물류·운송": -0.31,
+          "바이오·제약": -2.5,
+          "반도체": 2.67,
+          "방산": -1.81,
+          "보험": 2.07,
+          "식음료": -0.25,
+          "여행레저": -1.48,
+          "유통·소비재": 0.17,
+          "인터넷·IT": 0.25,
+          "자동차·부품": -2.35,
+          "전력·에너지": -0.07,
+          "전자·부품": -2.76,
+          "조선": -1.69,
+          "지주·상사": -0.12,
+          "철강·금속": -0.62,
+          "통신": -4.31,
+          "화장품·미용": 0.38,
+          "화학·소재": 0.07
+        }
+      },
+      {
+        "benchmarkReturn": 6.7,
+        "date": "2026-06-26",
+        "distance": 1.1552,
+        "outcome": {
+          "days": 3,
+          "leader": "전력·에너지",
+          "return": 13.39
+        },
+        "sectorOutcomes": {
+          "2차전지": 6.76,
+          "건설·건자재": 11.89,
+          "게임·엔터": 11.54,
+          "금융·증권": 7.07,
+          "기계": 6.65,
+          "로봇": 7.65,
+          "물류·운송": 3.82,
+          "바이오·제약": 7.41,
+          "반도체": 5.16,
+          "방산": 9.79,
+          "보험": -0.14,
+          "식음료": 4.79,
+          "여행레저": 1.66,
+          "유통·소비재": 4.94,
+          "인터넷·IT": 5.57,
+          "자동차·부품": 5.82,
+          "전력·에너지": 13.39,
+          "전자·부품": 7.78,
+          "조선": 9.92,
+          "지주·상사": 5.71,
+          "철강·금속": 5.35,
+          "통신": 3.07,
+          "화장품·미용": 13.12,
+          "화학·소재": 8.9
+        }
+      },
+      {
+        "benchmarkReturn": 5.38,
+        "date": "2026-07-31",
+        "distance": 1.2033,
+        "outcome": {
+          "days": 3,
+          "leader": "로봇",
+          "return": 19.29
+        },
+        "sectorOutcomes": {
+          "2차전지": 9.69,
+          "건설·건자재": 8.82,
+          "게임·엔터": 1.85,
+          "금융·증권": 1.83,
+          "기계": 3.39,
+          "로봇": 19.29,
+          "물류·운송": 3.25,
+          "바이오·제약": 9.59,
+          "반도체": 7.78,
+          "방산": 15.72,
+          "보험": 0.1,
+          "식음료": 0.52,
+          "여행레저": 0.8,
+          "유통·소비재": 0.41,
+          "인터넷·IT": 4.85,
+          "자동차·부품": 5.62,
+          "전력·에너지": 11.22,
+          "전자·부품": 9.3,
+          "조선": 8.72,
+          "지주·상사": 3.45,
+          "철강·금속": 5.1,
+          "통신": 16.3,
+          "화장품·미용": 7.25,
+          "화학·소재": 5.15
+        }
+      },
+      {
+        "benchmarkReturn": 8.88,
+        "date": "2026-07-30",
+        "distance": 1.2251,
+        "outcome": {
+          "days": 3,
           "leader": "통신",
-          "return": 19.08
+          "return": 29.74
         },
         "sectorOutcomes": {
-          "2차전지": -10.61,
-          "건설·건자재": -3.14,
-          "게임·엔터": -12.63,
-          "금융·증권": -10.38,
-          "기계": -7.77,
-          "로봇": -18.81,
-          "물류·운송": -12.79,
-          "바이오·제약": -11.0,
-          "반도체": 2.37,
-          "방산": -1.17,
-          "보험": -7.41,
-          "식음료": -12.17,
-          "여행레저": -15.45,
-          "유통·소비재": -8.83,
-          "인터넷·IT": -10.58,
-          "자동차·부품": -9.44,
-          "전력·에너지": -3.51,
-          "전자·부품": -1.16,
-          "조선": -2.35,
-          "지주·상사": -5.82,
-          "철강·금속": -10.02,
-          "통신": 19.08,
-          "화장품·미용": -18.2,
-          "화학·소재": -11.08
+          "2차전지": 18.21,
+          "건설·건자재": 12.53,
+          "게임·엔터": 7.47,
+          "금융·증권": 6.81,
+          "기계": 7.08,
+          "로봇": 28.31,
+          "물류·운송": 5.73,
+          "바이오·제약": 15.33,
+          "반도체": 26.64,
+          "방산": 22.45,
+          "보험": 0.59,
+          "식음료": 1.24,
+          "여행레저": 1.32,
+          "유통·소비재": 2.67,
+          "인터넷·IT": 10.51,
+          "자동차·부품": 9.94,
+          "전력·에너지": 19.82,
+          "전자·부품": 26.65,
+          "조선": 10.45,
+          "지주·상사": 4.9,
+          "철강·금속": 6.13,
+          "통신": 29.74,
+          "화장품·미용": 7.76,
+          "화학·소재": 7.82
         }
       },
       {
-        "benchmarkReturn": -15.71,
-        "date": "2026-02-20",
-        "distance": 1.3443,
+        "benchmarkReturn": 1.11,
+        "date": "2026-06-25",
+        "distance": 1.2359,
         "outcome": {
-          "days": 20,
-          "leader": "통신",
-          "return": 9.73
+          "days": 3,
+          "leader": "건설·건자재",
+          "return": 4.8
         },
         "sectorOutcomes": {
-          "2차전지": -16.69,
-          "건설·건자재": -2.8,
-          "게임·엔터": -17.36,
-          "금융·증권": -20.38,
-          "기계": -12.19,
-          "로봇": -26.42,
-          "물류·운송": -17.46,
-          "바이오·제약": -16.58,
-          "반도체": -7.41,
-          "방산": -14.87,
-          "보험": -20.7,
-          "식음료": -13.67,
-          "여행레저": -16.07,
-          "유통·소비재": -10.13,
-          "인터넷·IT": -15.75,
-          "자동차·부품": -15.75,
-          "전력·에너지": -10.07,
-          "전자·부품": -9.07,
-          "조선": -15.67,
-          "지주·상사": -11.74,
-          "철강·금속": -14.73,
-          "통신": 9.73,
-          "화장품·미용": -16.63,
-          "화학·소재": -17.01
-        }
-      },
-      {
-        "benchmarkReturn": -7.08,
-        "date": "2025-07-21",
-        "distance": 1.3708,
-        "outcome": {
-          "days": 20,
-          "leader": "조선",
-          "return": 5.08
-        },
-        "sectorOutcomes": {
-          "2차전지": -2.1,
-          "건설·건자재": -5.12,
-          "게임·엔터": -5.54,
-          "금융·증권": -9.41,
-          "기계": -3.64,
-          "로봇": -10.27,
-          "물류·운송": -5.53,
-          "바이오·제약": -7.99,
-          "반도체": -5.41,
-          "방산": -14.76,
-          "보험": -8.92,
-          "식음료": -9.53,
-          "여행레저": -4.16,
-          "유통·소비재": -8.72,
-          "인터넷·IT": -6.79,
-          "자동차·부품": -1.7,
-          "전력·에너지": -7.38,
-          "전자·부품": -6.19,
-          "조선": 5.08,
-          "지주·상사": -9.74,
-          "철강·금속": -10.65,
-          "통신": -8.02,
-          "화장품·미용": -2.99,
-          "화학·소재": -8.66
-        }
-      },
-      {
-        "benchmarkReturn": -9.02,
-        "date": "2026-02-19",
-        "distance": 1.4155,
-        "outcome": {
-          "days": 20,
-          "leader": "통신",
-          "return": 17.46
-        },
-        "sectorOutcomes": {
-          "2차전지": -12.3,
-          "건설·건자재": 2.96,
-          "게임·엔터": -13.86,
-          "금융·증권": -12.88,
-          "기계": -6.24,
-          "로봇": -21.49,
-          "물류·운송": -13.21,
-          "바이오·제약": -12.56,
-          "반도체": -2.04,
-          "방산": -5.53,
-          "보험": -7.87,
-          "식음료": -10.17,
-          "여행레저": -12.91,
-          "유통·소비재": -6.76,
-          "인터넷·IT": -10.78,
-          "자동차·부품": -10.79,
-          "전력·에너지": -3.47,
-          "전자·부품": -2.87,
-          "조선": -5.15,
-          "지주·상사": -4.34,
-          "철강·금속": -7.05,
-          "통신": 17.46,
-          "화장품·미용": -15.1,
-          "화학·소재": -12.42
-        }
-      },
-      {
-        "benchmarkReturn": -11.45,
-        "date": "2026-06-30",
-        "distance": 1.4394,
-        "outcome": {
-          "days": 20,
-          "leader": "식음료",
-          "return": 3.7
-        },
-        "sectorOutcomes": {
-          "2차전지": -32.0,
-          "건설·건자재": -16.56,
-          "게임·엔터": -5.19,
-          "금융·증권": -10.7,
-          "기계": -10.08,
-          "로봇": -31.19,
-          "물류·운송": -5.93,
-          "바이오·제약": -15.49,
-          "반도체": -43.85,
-          "방산": -26.56,
-          "보험": -5.95,
-          "식음료": 3.7,
-          "여행레저": -7.03,
-          "유통·소비재": -6.08,
-          "인터넷·IT": -7.9,
-          "자동차·부품": -16.39,
-          "전력·에너지": -21.97,
-          "전자·부품": -39.78,
-          "조선": -22.58,
-          "지주·상사": -6.07,
-          "철강·금속": -10.02,
-          "통신": -29.69,
-          "화장품·미용": 1.47,
-          "화학·소재": -12.19
+          "2차전지": 2.2,
+          "건설·건자재": 4.8,
+          "게임·엔터": 4.38,
+          "금융·증권": 1.31,
+          "기계": 1.45,
+          "로봇": 0.98,
+          "물류·운송": -1.03,
+          "바이오·제약": 1.24,
+          "반도체": 1.55,
+          "방산": -1.95,
+          "보험": -1.75,
+          "식음료": 1.93,
+          "여행레저": -3.16,
+          "유통·소비재": 1.99,
+          "인터넷·IT": 1.9,
+          "자동차·부품": -0.02,
+          "전력·에너지": 0.1,
+          "전자·부품": 2.21,
+          "조선": -1.57,
+          "지주·상사": -0.29,
+          "철강·금속": 0.84,
+          "통신": -3.08,
+          "화장품·미용": 3.85,
+          "화학·소재": 0.9
         }
       }
     ],
     "embargoDays": 30,
-    "horizon": 20,
+    "horizon": 3,
     "status": "ready"
   },
   "similarityScores": {
@@ -1869,10 +1869,10 @@
       "5": 45
     },
     "건설·건자재": {
-      "1": 45,
-      "20": 45,
-      "3": 45,
-      "5": 45
+      "1": 51,
+      "20": 51,
+      "3": 51,
+      "5": 51
     },
     "게임·엔터": {
       "1": 45,
@@ -1893,10 +1893,10 @@
       "5": 45
     },
     "로봇": {
-      "1": 45,
-      "20": 45,
-      "3": 45,
-      "5": 45
+      "1": 51,
+      "20": 51,
+      "3": 51,
+      "5": 51
     },
     "물류·운송": {
       "1": 45,
@@ -1911,10 +1911,10 @@
       "5": 45
     },
     "반도체": {
-      "1": 45,
-      "20": 45,
-      "3": 45,
-      "5": 45
+      "1": 51,
+      "20": 51,
+      "3": 51,
+      "5": 51
     },
     "방산": {
       "1": 45,
@@ -1929,10 +1929,10 @@
       "5": 45
     },
     "식음료": {
-      "1": 51,
-      "20": 51,
-      "3": 51,
-      "5": 51
+      "1": 45,
+      "20": 45,
+      "3": 45,
+      "5": 45
     },
     "여행레저": {
       "1": 45,
@@ -1959,10 +1959,10 @@
       "5": 45
     },
     "전력·에너지": {
-      "1": 45,
-      "20": 45,
-      "3": 45,
-      "5": 45
+      "1": 51,
+      "20": 51,
+      "3": 51,
+      "5": 51
     },
     "전자·부품": {
       "1": 45,
@@ -1971,10 +1971,10 @@
       "5": 45
     },
     "조선": {
-      "1": 51,
-      "20": 51,
-      "3": 51,
-      "5": 51
+      "1": 45,
+      "20": 45,
+      "3": 45,
+      "5": 45
     },
     "지주·상사": {
       "1": 45,
@@ -1989,10 +1989,10 @@
       "5": 45
     },
     "통신": {
-      "1": 63,
-      "20": 63,
-      "3": 63,
-      "5": 63
+      "1": 51,
+      "20": 51,
+      "3": 51,
+      "5": 51
     },
     "화장품·미용": {
       "1": 45,
