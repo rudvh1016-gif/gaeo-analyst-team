@@ -571,12 +571,45 @@ def check_decisions(root, now):
         return component(FAULT, 'DECISIONS_COUNT_MISMATCH', '저장된 일별 판단 수와 결과 상태별 개수가 다르다')
     try:
         import decision_records as decisions
+        import comparison_evidence as comparison
         archive = decisions.Path(root) / 'research_archive' / 'decisions'
-        actual = decisions.summarize(decisions.read_records(archive), decisions.load_outcomes(archive),
+        records=decisions.read_records(archive);outcomes=decisions.load_outcomes(archive)
+        actual = decisions.summarize(records, outcomes,
                                      current_model=doc.get('currentModelVersion'))
         fields = ('rawRecordCount','dailyRecordCount','latestDecisionAt','horizons','byModelVersion')
         if any(actual.get(k) != doc.get(k) for k in fields):
             raise ValueError('Stored evidence differs from its summary')
+        if doc.get('comparison'):
+            originals={r['recordId']:r for r in records};cache={}
+            def evidence(ref):
+                if not isinstance(ref,str) or not re.fullmatch(r'research_archive/decisions/comparisons/[a-f0-9]{24}\.json\.gz',ref):
+                    raise ValueError('Invalid comparison evidence path')
+                if ref not in cache:
+                    rows=comparison.read_comparisons(decisions.Path(root)/ref)
+                    cache[ref]={r['recordId']:r for r in rows}
+                    if len(rows)!=len(cache[ref]): raise ValueError('Duplicate comparison identity')
+                    for item in rows:
+                        if item['originalRecordHash']!=decisions._hash(originals[item['recordId']]):
+                            raise ValueError('Comparison original binding mismatch')
+                        if item.get('priceProofId'):
+                            if not re.fullmatch(r'[a-f0-9]{64}',str(item['priceProofId'])):
+                                raise ValueError('Invalid price proof identity')
+                            path=archive/'price_proofs'/(item['priceProofId']+'.json')
+                            proof=_read_json(str(path))
+                            if not proof or decisions._hash(proof)!=item['priceProofId']:
+                                raise ValueError('Price proof missing or changed')
+                return cache[ref]
+            latest=evidence(doc['comparison'].get('evidenceRef'))
+            counts={s:0 for s in ('comparable','adjustment_required','unknown','review_required')}
+            if set(latest)!={r['recordId'] for r in decisions.daily_records(records)}:
+                raise ValueError('Comparison coverage mismatch')
+            for item in latest.values(): counts[item['state']]+=1
+            if counts!=doc['comparison'].get('states'): raise ValueError('Comparison count mismatch')
+            for outcome in outcomes.values():
+                if outcome.get('comparisonState'):
+                    item=evidence(outcome.get('comparisonEvidenceRef'))[outcome['recordId']]
+                    if item['state']!=outcome['comparisonState']:
+                        raise ValueError('Outcome comparison mismatch')
         board = _load_js(os.path.join(root, 'model_scoreboard.js'), 'MODEL_SCOREBOARD')
         if not board or board.get('decisionTrace') != doc:
             raise ValueError('Public scoreboard is disconnected')

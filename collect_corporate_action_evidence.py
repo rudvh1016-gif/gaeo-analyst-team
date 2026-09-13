@@ -30,6 +30,7 @@ import os
 import sys
 
 import corporate_action_classify as classify
+import comparison_evidence as comparison
 import dart_client
 import dart_pipeline
 
@@ -80,7 +81,8 @@ def collect_one(client, ticker, corp_code, bgn_de, end_de, budget):
         'collectedIds': [], 'findings': [], 'events': [], 'eventCounts': None,
         'listClassified': False, 'documentsInterpreted': False, 'uninterpreted': 0,
         'historicalBackfillComplete': False, 'unresolvedHistorical': 0,
-        'responseRef': None, 'error': None}
+        'responseRef': None, 'error': None,
+        'comparisonScopeVersion': comparison.SCOPE_VERSION, 'comparisonFindings': []}
     if budget['left'] <= 0:
         base['error'] = 'REQUEST_BUDGET_EXHAUSTED'
         return base
@@ -135,6 +137,10 @@ def collect_one(client, ticker, corp_code, bgn_de, end_de, budget):
             uninterpreted += 1
             continue
         ids.append(rcept)
+        # Reuse the same response for result safety; preserve all existing Private fields.
+        if comparison.relevant(title):
+            base['comparisonFindings'].append({'id': rcept, 'title': title,
+                                               'receivedOn': str(row.get('rcept_dt') or '')})
         hit = _relevant(title)
         if hit:
             findings.append({'id': rcept, 'title': title, 'terms': hit,

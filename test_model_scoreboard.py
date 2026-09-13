@@ -196,7 +196,8 @@ if os.path.exists("model_scoreboard.js"):
               trace.get("source") == "actual_auto" and len(trace.get("examples", [])) <= 3)
         check("공개 원본 예시에 연구 입력·후보 원문 없음",
               all(set(r) <= {"recordId", "code", "decisionAt", "call", "base", "baseAt",
-                             "status", "reason", "sourcePath", "outcomePath"}
+                             "status", "reason", "sourcePath", "outcomePath",
+                             "comparisonState", "comparisonReason", "comparisonPath"}
                   for r in trace.get("examples", [])))
     check("§60: secret/key 흔적 없음",
           "RESEARCH_ARCHIVE_KEY" not in s and "OPEN_DART" not in s)

@@ -37,6 +37,16 @@ def run(client, budget=50):
 
 
 class CollectorTests(unittest.TestCase):
+    def test_price_comparison_scope_is_additive_without_extra_requests(self):
+        client = FakeClient([page([filing('20260901000001', '현금·현물배당 결정'),
+                                  filing('20260901000002', '주식병합 안내')])])
+        out = run(client)
+        self.assertEqual(out['comparisonScopeVersion'], 'price-comparison-v1')
+        self.assertEqual(len(out['comparisonFindings']), 2)
+        self.assertEqual(out['findings'], [])
+        self.assertEqual(out['unresolvedHistorical'], 0)
+        self.assertEqual(client.calls, 1)
+
     def test_a_clean_company_reports_zero_with_full_reconciliation(self):
         out = run(FakeClient([page([filing('R1', '현금·현물배당 결정')])]))
         self.assertTrue(out['ok'])
