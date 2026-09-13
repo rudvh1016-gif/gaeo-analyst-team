@@ -62,6 +62,16 @@ for(const width of [390,1348,1680,1920]){
 const cells=map.layout(rows.map(row=>({row,weight:1})),0,0,1600,1100,1.8);
 assert.equal(cells.length,600);
 assert.ok(cells.every(c=>Math.abs(c.w*c.h-1600*1100/600)<1e-8),'same stock weights have equal areas');
+for(const width of [1168,1550,1790]){
+  const height=600*3600/width+s.sectors.length*5;
+  const tiles=map.layout(s.sectors,0,0,width,height).flatMap(b=>map.stockCells(b.item.stocks,b.w-10,b.h-36));
+  assert.equal(tiles.length,600);
+  assert.ok(tiles.filter(c=>c.w>=60&&c.h>=39).length>500,'desktop names must remain readable');
+  for(const sector of s.sectors){
+    const equal=map.stockCells(sector.stocks,350,500);
+    assert.ok(equal.every(c=>Math.abs(c.w*c.h-350*500/sector.stocks.length)<1e-8));
+  }
+}
 assert.equal(JSON.stringify({tickers,live}),saved,'presentation must not modify its inputs');
 const html=fs.readFileSync('index.html','utf8'),app=fs.readFileSync('app.js','utf8');
 assert.ok(html.includes('data-nav-mode="marketmap"'));
