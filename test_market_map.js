@@ -80,6 +80,16 @@ assert.ok(html.includes('id="marketMapView"'));
 assert.ok(app.includes("m==='marketmap'"));
 assert.ok(app.includes("onStock:code=>jumpToStock(STOCKS[code].name,'marketmap')"));
 assert.ok(app.includes("if(mode!=='marketmap') window.GaeoMarketMap?.unmount()"));
+// The existing stock dictionary has no code field; the popup adapter must pass
+// the selected code to the existing analysis function without mutating quotes.
+const adapterSource=app.match(/getJudgment:(code=>\{[\s\S]*?\n      \})\n    \}\);/)[1];
+const quote={name:'삼성전자',price:259500};
+const getJudgment=vm.runInNewContext('('+adapterSource+')',{
+  STOCKS:{'005930':quote},analysisEntry:()=>({chief:{call:'HOLD'},updated:'2026-09-11 16:14'}),
+  runAnalysis:stock=>{assert.equal(stock.code,'005930');return {_live:true};},decide:()=>({call:'HOLD'})
+});
+assert.equal(getJudgment('005930').call,'HOLD');
+assert.equal(quote.code,undefined);
 const sw=fs.readFileSync('sw.js','utf8');
 const changesOften=sw.match(/const changesOften = ([^;]+);/)[1];
 assert.ok(vm.runInNewContext(changesOften,{url:{pathname:'/market_universe/full_market_latest.json.gz'}}),
