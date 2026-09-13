@@ -513,8 +513,11 @@ def main():
         # Preserve every actual round and verify it before publishing rolling history.
         # This never reconstructs past inputs or adds precise analysis to auto results.
         import decision_records
-        decision_records.capture(load_js_object(os.path.join(HERE, "auto_analysis.js"), "LIVE_AUTO"),
+        actual_payload = load_js_object(os.path.join(HERE, "auto_analysis.js"), "LIVE_AUTO")
+        actual_records = decision_records.capture(actual_payload,
                                  root=os.path.join(HERE, "research_archive", "decisions"))
+        import dart_research
+        print('DART forward evidence: ' + dart_research.capture_forward(actual_payload, actual_records, HERE))
         archive_auto(hist)
 
     # 🧪 Research Shadow는 별도 파일에 누적한다(사이트 자료와 완전 분리).

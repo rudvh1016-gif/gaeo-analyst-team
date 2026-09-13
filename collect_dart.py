@@ -45,9 +45,14 @@ def _dart_store():
 
 
 def write_status(payload):
+    payload = dict(payload)
+    observed = payload.pop('_researchObservedFilings', None)
     os.makedirs(DART_ROOT, exist_ok=True)
     with open(STATUS_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1, sort_keys=True)
+    # Optional research evidence; a failed DART check never stops price analysis.
+    import dart_research
+    print('DART research receipt: ' + dart_research.preserve_collection(payload, HERE, observed))
 
 
 def refresh_corp_map(client, budget=None):
@@ -85,7 +90,12 @@ def collect(client, corp_map, budget=None):
        저장 전에 '봤다'고 확정하면, 저장이 실패한 공시가 영원히 사라진다.
     """
     started = _now_iso()
-    result = P.collect_new_filings(client, corp_map, budget=budget)
+    # Reuse the same bounded collector. Re-query yesterday so an entire prior
+    # receipt day, including after-close filings, can have an absence proof.
+    today = dart_time.today_kst()
+    prior = (datetime.date.fromisoformat(today) - datetime.timedelta(days=1)).isoformat()
+    result = P.collect_new_filings(client, corp_map, bgn_de=prior.replace('-', ''),
+                                  end_de=today.replace('-', ''), budget=budget)
     events = result["events"]
     registry = result["registry"]
     pagination = result["pagination"]
@@ -127,6 +137,8 @@ def collect(client, corp_map, budget=None):
     finished = _now_iso()
     return {
         "startedAt": started, "finishedAt": finished,
+        "queryWindow": {"start": prior, "end": today},
+        "_researchObservedFilings": result.get('researchObservedFilings'),
         "eventState": state, "coverageReasons": reasons,
         "coverageNote": P.COVERAGE_NOTE,
         "pagination": pagination,

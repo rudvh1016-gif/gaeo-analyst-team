@@ -52,7 +52,7 @@ def _issue(key, scope, priority, status, title, evidence, *, fault=False, action
 
 
 def build(operations, decisions, evolution, failures, manifest, constitution, previous=None,
-          source_errors=None):
+          source_errors=None, dart_research=None):
     previous = previous or {}
     now = operations['checkedAt']
     issues, verified_scopes = [], set()
@@ -140,6 +140,29 @@ def build(operations, decisions, evolution, failures, manifest, constitution, pr
                              '연구 가능 조건 확인: '+focus['reason'], focus))
     else:
         verified_scopes.add('evolution:research')
+    # Optional DART evidence is separate from required price/decision inputs.
+    # Failure raises a data repair task; it cannot stop Production analysis.
+    dart = dart_research or {}
+    dart_focus = dart.get('researchFocus') or {}
+    if dart.get('status') == 'DATA_ERROR':
+        issues.append(_issue('DART_RESEARCH_DATA_ERROR', 'dart:research', 0, 'ACTIONABLE',
+            '공시 연구자료 확인 오류', {'status': 'DATA_ERROR'}, actionable=True))
+    elif dart:
+        verified_scopes.add('dart:research')
+        if dart.get('status') == 'RESEARCH_SIGNAL_FOUND' and dart_focus.get('researchRecommended'):
+            verified_scopes.add('dart:evidence')
+            issues.append(_issue('DART_RESEARCH_SIGNAL', 'dart:signal', 4,
+                'BLOCKED' if integrity_fault else 'ACTIONABLE', '공시와 반복 오답의 관계를 추가 연구할 근거',
+                {'cohorts': dart_focus.get('signalCohorts'),
+                 'checks': {k: v.get('confirmatoryChecks') for k, v in (dart.get('cohorts') or {}).items()}},
+                actionable=not integrity_fault))
+        elif dart.get('status') == 'INSUFFICIENT_EVIDENCE':
+            issues.append(_issue('DART_EVIDENCE', 'dart:evidence', 4, 'WAITING_EVIDENCE',
+                '당시 공시 확인 자료와 성숙한 비교 판단일을 기다리는 중',
+                {'cohorts': {k: {f: v.get(f) for f in ('rawRows', 'uniqueDecisionDays', 'comparableDecisionDays')}
+                             for k, v in (dart.get('cohorts') or {}).items()}}))
+        elif dart.get('status') == 'NO_RESEARCH_SIGNAL':
+            verified_scopes.update(('dart:signal', 'dart:evidence'))
     # Resolve only on positive evidence from the same scope. A missing file,
     # absent/new model, immature period or truncated failure list is not a fix.
     prior = {i['id']: i for i in previous.get('issues', [])}
@@ -201,6 +224,8 @@ def build(operations, decisions, evolution, failures, manifest, constitution, pr
     return {'schemaVersion': SCHEMA, 'checkedAt': now, 'llmCalls': 0, 'state': state, 'label': LABELS[state],
             'issues': ranked, 'topPriority': actions[0]['id'] if actions else None,
             'researchFocus': focus, 'progress': progress, 'eligibleRunsWithoutProgress': no_progress,
+            'dartResearch': {'status': dart.get('status', 'INSUFFICIENT_EVIDENCE'),
+                             'researchFocus': dart_focus, 'productionChangesAllowed': False},
             'observations': {'actualSource': quality.get('source'), 'cohort': active_key,
                 'latestJudgmentRange': quality.get('latestRound'), 'actualOutcomes': outcome,
                 'actualByAction': cohort.get('actions'), 'confidenceBins': (cohort.get('bins') or {}).get('confidence'),
@@ -249,7 +274,57 @@ def observe(root, operations):
     except (OSError, ValueError, constitution.ConstitutionError):
         const = {}
         errors['constitution'] = 'unverified_constitution'
-    return build(operations, decisions, evolution, failures, manifest, const, previous, errors)
+    import dart_research
+    dart_reports = []
+    for path in (dart_research.DAILY_REPORT, dart_research.REPORT):
+        if not (root/path).exists():
+            continue
+        try:
+            value = json.loads((root/path).read_text(encoding='utf-8'))
+            if value.get('version') != dart_research.VERSION or value.get('productionChangesAllowed') is not False:
+                raise ValueError('unverified DART observation')
+            dart_reports.append(value)
+        except (OSError, ValueError, AttributeError):
+            dart_reports = [{'status': 'DATA_ERROR'}]; break
+    dart = max(dart_reports, key=lambda r: r.get('generatedAt', '')) if dart_reports else {}
+    result = build(operations, decisions, evolution, failures, manifest, const, previous, errors, dart)
+    result['naturalRunAcceptance'] = (((operations.get('components') or {}).get('scheduled') or {})
+        .get('workflows') or {}).get('ops-daily.yml', {}).get('performanceNaturalRun',
+        {'status': 'PENDING_NATURAL_RUN'})
+    result['executionReceipt'] = execution_receipt(result)
+    return result
+
+
+def execution_receipt(state, environ=None):
+    """Evidence only; producing a file is not proof that it reached main."""
+    if environ is None:
+        import os
+        environ = os.environ
+    return {'event': environ.get('GITHUB_EVENT_NAME', 'local'),
+            'runId': environ.get('GITHUB_RUN_ID'), 'runAttempt': environ.get('GITHUB_RUN_ATTEMPT'),
+            'workflowRef': environ.get('GITHUB_WORKFLOW_REF'), 'headSha': environ.get('GITHUB_SHA'),
+            'stateHash': digest({k: v for k, v in state.items() if k != 'executionReceipt'}),
+            'naturalRunAcceptance': 'PENDING_NATURAL_RUN'}
+
+
+def verify_natural_run(state, run, committed_state):
+    """Read-only acceptance using GitHub run facts AND saved main content.
+
+    workflow_dispatch/local execution never qualifies. The caller must fetch
+    committed_state from main, and the completed GitHub run separately.
+    """
+    receipt = state.get('executionReceipt') or {}
+    same = (receipt.get('event') == 'schedule' and run.get('event') == 'schedule'
+            and run.get('path') == '.github/workflows/ops-daily.yml'
+            and run.get('head_branch') == 'main' and run.get('status') == 'completed'
+            and run.get('conclusion') == 'success' and str(run.get('id')) == receipt.get('runId')
+            and str(run.get('run_attempt')) == receipt.get('runAttempt')
+            and run.get('head_sha') == receipt.get('headSha')
+            and bool(receipt.get('workflowRef', '').endswith('/ops-daily.yml@refs/heads/main'))
+            and receipt.get('stateHash') == digest({k: v for k, v in state.items() if k != 'executionReceipt'})
+            and state == committed_state)
+    return {'status': 'NATURAL_RUN_SUCCESS' if same else 'PENDING_NATURAL_RUN',
+            'runId': receipt.get('runId'), 'sameRunArtifactVerified': bool(same)}
 
 
 def save_state(root, state):
