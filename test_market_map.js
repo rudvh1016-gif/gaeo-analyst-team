@@ -59,6 +59,9 @@ for(const width of [390,1348,1680,1920]){
       Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y)<1e-8,'sector overlap');
   }
 }
+const cells=map.layout(rows.map(row=>({row,weight:1})),0,0,1600,1100,1.8);
+assert.equal(cells.length,600);
+assert.ok(cells.every(c=>Math.abs(c.w*c.h-1600*1100/600)<1e-8),'same stock weights have equal areas');
 assert.equal(JSON.stringify({tickers,live}),saved,'presentation must not modify its inputs');
 const html=fs.readFileSync('index.html','utf8'),app=fs.readFileSync('app.js','utf8');
 assert.ok(html.includes('data-nav-mode="marketmap"'));

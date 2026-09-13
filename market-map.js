@@ -41,7 +41,7 @@
     return {direction:n<0.05?'neutral':rate>0?'up':'down',level:n<0.05?0:n<1?1:n<2?2:n<3?3:n<5?4:5};
   }
   // Deterministic balanced treemap. Weights mean stock counts, not market caps.
-  function layout(items,x,y,w,h){
+  function layout(items,x,y,w,h,ratio=1){
     if(!items.length) return [];
     if(items.length===1) return [{item:items[0],x,y,w,h}];
     const total=items.reduce((n,item)=>n+item.weight,0);
@@ -51,9 +51,9 @@
       if(Math.abs(total/2-sum)<best){best=Math.abs(total/2-sum);split=i;}
     }
     const fraction=items.slice(0,split).reduce((n,item)=>n+item.weight,0)/total;
-    return w>=h
-      ?layout(items.slice(0,split),x,y,w*fraction,h).concat(layout(items.slice(split),x+w*fraction,y,w*(1-fraction),h))
-      :layout(items.slice(0,split),x,y,w,h*fraction).concat(layout(items.slice(split),x,y+h*fraction,w,h*(1-fraction)));
+    return w>=h*ratio
+      ?layout(items.slice(0,split),x,y,w*fraction,h,ratio).concat(layout(items.slice(split),x+w*fraction,y,w*(1-fraction),h,ratio))
+      :layout(items.slice(0,split),x,y,w,h*fraction,ratio).concat(layout(items.slice(split),x,y+h*fraction,w,h*(1-fraction),ratio));
   }
   function marketIndex(snapshot){
     if(snapshot?.source!=='naver_marketValue_bulk'||!Array.isArray(snapshot.items)||!snapshot.asOf) throw Error('시장 구분 자료 확인 필요');
@@ -199,25 +199,19 @@
       group.style.cssText=`left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;
       group.setAttribute('aria-label',b.item.name);
       const innerW=b.w-10,innerH=b.h-36;
-      const cols=Math.max(1,Math.round(Math.sqrt(b.item.stocks.length*innerW/Math.max(1,innerH)/1.7)));
-      const rowCount=Math.ceil(b.item.stocks.length/cols),cellH=innerH/rowCount;
       group.innerHTML=`<h2><span>${esc(b.item.name)}</span><em class="mm-${b.item.average>0?'up':b.item.average<0?'down':'neutral'}">${pct(b.item.average)}</em></h2>`;
-      // Balanced rows use all available space, with no fabricated size weights.
-      let offset=0;
-      for(let line=0;line<rowCount;line++){
-        const count=Math.ceil((b.item.stocks.length-offset)/(rowCount-line)),cellW=innerW/count;
-        for(let col=0;col<count;col++){
-          const row=b.item.stocks[offset++],t=tone(row.rate),tile=document.createElement('a');
+      const cells=layout(b.item.stocks.map(row=>({row,weight:1})),3,28,innerW,innerH,1.8);
+      for(const cell of cells){
+          const row=cell.item.row,t=tone(row.rate),tile=document.createElement('a');
           tile.className='mm-tile mm-'+t.direction;tile.dataset.level=t.level;tile.dataset.mmCode=row.code;
           tile.dataset.rate=row.rate===null?'':row.rate;
           tile.href='?m=single&code='+row.code;
           tile.setAttribute('aria-label',row.name+' '+(row.stale?'시세 지연':pct(row.rate)));
-          tile.style.cssText=`left:${3+col*cellW}px;top:${28+line*cellH}px;width:${cellW-1}px;height:${cellH-1}px`;
-          const small=cellW<60||cellH<39;
+          tile.style.cssText=`left:${cell.x}px;top:${cell.y}px;width:${cell.w-1}px;height:${cell.h-1}px`;
+          const small=cell.w<60||cell.h<39;
           tile.classList.toggle('mm-small',small);
           tile.innerHTML=`<span class="mm-name">${esc(row.name)}</span><span class="mm-rate">${row.stale?'지연':pct(row.rate)}</span>`;
           group.appendChild(tile);
-        }
       }
       fragment.appendChild(group);
     }
