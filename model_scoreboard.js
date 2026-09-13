@@ -43,6 +43,16 @@ const MODEL_SCOREBOARD = {
     "uniqueDecisionDays": 1
    }
   },
+  "comparison": {
+   "evidenceRef": "research_archive/decisions/comparisons/8ffbb6e2b9178a6a8c626a95.json.gz",
+   "policyVersion": "price-comparison-v1",
+   "states": {
+    "adjustment_required": 0,
+    "comparable": 0,
+    "review_required": 0,
+    "unknown": 600
+   }
+  },
   "currentModelVersion": "base-2026-08-15-parity-hotfix",
   "dailyRecordCount": 600,
   "disclosure": {
@@ -64,16 +74,16 @@ const MODEL_SCOREBOARD = {
     "000640": "needs_review",
     "000660": "needs_review",
     "000670": "needs_review",
-    "000720": "event_found",
-    "000810": "event_found",
+    "000720": "unavailable",
+    "000810": "unavailable",
     "000880": "needs_review",
-    "000990": "event_found",
-    "001040": "event_found",
+    "000990": "unavailable",
+    "001040": "unavailable",
     "001060": "needs_review",
     "001120": "unavailable",
     "001200": "unavailable",
     "001230": "needs_review",
-    "001270": "event_found",
+    "001270": "unavailable",
     "001390": "unavailable",
     "001430": "unavailable",
     "001440": "unavailable",
@@ -83,13 +93,13 @@ const MODEL_SCOREBOARD = {
     "001530": "unavailable",
     "001570": "unavailable",
     "001680": "unavailable",
-    "001720": "event_found",
+    "001720": "unavailable",
     "001740": "unavailable",
-    "001750": "event_found",
+    "001750": "unavailable",
     "001800": "unavailable",
     "001820": "unavailable",
     "001940": "unavailable",
-    "002020": "event_found",
+    "002020": "unavailable",
     "002030": "unavailable",
     "002240": "unavailable",
     "002310": "unavailable",
@@ -648,13 +658,13 @@ const MODEL_SCOREBOARD = {
     "499790": "unavailable",
     "950160": "unavailable"
    },
-   "observedAt": "2026-09-12T17:12:19+00:00",
+   "observedAt": "2026-09-13T03:34:04+00:00",
    "scope": "기업행사 및 거래소 시장조치. 뉴스 전체 확인이 아닙니다.",
    "statuses": {
     "checked_no_event": 0,
-    "event_found": 8,
+    "event_found": 0,
     "needs_review": 9,
-    "unavailable": 583
+    "unavailable": 591
    }
   },
   "examples": [
@@ -663,6 +673,9 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
+    "comparisonPath": "research_archive/decisions/comparisons/8ffbb6e2b9178a6a8c626a95.json.gz",
+    "comparisonReason": "corporate_action_unverified",
+    "comparisonState": "unknown",
     "decisionAt": "2026-09-11 16:14",
     "outcomePath": "research_archive/decisions/outcomes/2026-09.json",
     "reason": "future_session",
@@ -675,6 +688,9 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000080",
+    "comparisonPath": "research_archive/decisions/comparisons/8ffbb6e2b9178a6a8c626a95.json.gz",
+    "comparisonReason": "corporate_action_unverified",
+    "comparisonState": "unknown",
     "decisionAt": "2026-09-11 16:14",
     "outcomePath": "research_archive/decisions/outcomes/2026-09.json",
     "reason": "future_session",
@@ -687,6 +703,9 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000100",
+    "comparisonPath": "research_archive/decisions/comparisons/8ffbb6e2b9178a6a8c626a95.json.gz",
+    "comparisonReason": "corporate_action_unverified",
+    "comparisonState": "unknown",
     "decisionAt": "2026-09-11 16:14",
     "outcomePath": "research_archive/decisions/outcomes/2026-09.json",
     "reason": "future_session",
@@ -714,7 +733,7 @@ const MODEL_SCOREBOARD = {
     "withheld": 0
    }
   },
-  "lastVerifiedAt": "2026-09-12T17:12:19+00:00",
+  "lastVerifiedAt": "2026-09-13T03:34:04+00:00",
   "latestDecisionAt": "2026-09-11 16:14",
   "limitations": [
    "원본 보존을 시작한 실제 자동분석만 연결합니다. 과거 판단을 재구성하지 않습니다.",

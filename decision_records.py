@@ -221,6 +221,20 @@ def evaluate(row, price_history, as_of, comparison=None):
     if due >= as_of:  # final daily close must already be available, not an intraday candle
         out.update(status='pending', reason='future_session')
         return out
+    if comparison and comparison.get('policyVersion')=='price-comparison-v1':
+        if (comparison.get('recordId')!=row['recordId'] or comparison.get('originalRecordHash')!=_hash(row) or
+            comparison.get('from')!=day or comparison.get('to')!=due):
+            out['reason']='price_evidence_invalid';return out
+        out['comparisonState']=comparison['state']
+        if comparison['state']!='comparable':
+            out['reason']=comparison.get('reason') or 'corporate_action_unverified';return out
+        base,close=comparison.get('comparisonBase'),comparison.get('outcomeClose')
+        if not _number(base) or base<=0 or not _number(close) or close<=0:
+            out['reason']='price_evidence_invalid';return out
+        ret=(close-base)/base*100
+        out.update(status='evaluated',reason=None,ret=ret,verdict=score_call(row['call'],ret),
+                   comparisonBase=base,outcomeClose=close,priceProofId=comparison.get('priceProofId'))
+        return out
     prices = {r['date']: r.get('close') for p in price_history.get(row['code'], [])
               for r in p.get('days', []) if r.get('date')}
     cursor = dt.date.fromisoformat(day)
@@ -420,15 +434,28 @@ def refresh(root=ROOT, repo=HERE, now=None):
     if prices is None: raise IntegrityError('Price history unreadable')
     previous = load_outcomes(root)
     as_of = _moment(now).astimezone(KST).date().isoformat()
-    updated = [previous[r['recordId']] if previous.get(r['recordId'],{}).get('status') == 'evaluated'
-               else evaluate(r,prices,as_of) for r in daily_records(rows)]
-    save_outcomes(updated,root)
-    saved=load_outcomes(root)
     bundles=[]
     for name in ('corporate_action_evidence','kind_market_action_evidence'):
         path=repo/'gaeo_coverage'/(name+'.json')
         try: bundles.append(json.loads(path.read_text(encoding='utf-8')).get('evidence') or {})
         except (OSError,ValueError): bundles.append({})
+    import comparison_evidence as comparison
+    price_proofs=comparison.load_price_proofs(root)
+    comparisons=[comparison.assess(r,bundles[0].get(r['code']),bundles[1].get(r['code']),now,
+                                   price_proof=price_proofs.get(r['recordId'])) for r in daily_records(rows)]
+    comparison_path,verified=comparison.save_comparisons(comparisons,root)
+    compared={r['recordId']:r for r in verified}
+    comparison_ref=os.path.relpath(Path(root)/comparison_path,repo).replace(os.sep,'/')
+    updated=[]
+    for row in daily_records(rows):
+        old=previous.get(row['recordId'],{})
+        if old.get('status')=='evaluated':
+            updated.append(old);continue
+        outcome=evaluate(row,prices,as_of,comparison=compared[row['recordId']])
+        outcome.update(comparisonState=compared[row['recordId']]['state'],comparisonEvidenceRef=comparison_ref)
+        updated.append(outcome)
+    save_outcomes(updated,root)
+    saved=load_outcomes(root)
     observations={code:disclosure_state(code,bundles[0].get(code),bundles[1].get(code),now)
                   for code in sorted({r['code'] for r in rows})}
     # Content-addressed observations preserve previous receipt/first-seen facts on updates.
@@ -456,6 +483,9 @@ def refresh(root=ROOT, repo=HERE, now=None):
             raise IntegrityError('Disclosure observation readback mismatch')
         os.replace(tmp,path)
     result=summarize(rows,saved)
+    states={state:0 for state in ('comparable','adjustment_required','unknown','review_required')}
+    for item in verified: states[item['state']]+=1
+    result['comparison']={'policyVersion':comparison.SCOPE_VERSION,'states':states,'evidenceRef':comparison_ref}
     result['lastVerifiedAt']=now
     counts={key:0 for key in ('event_found','checked_no_event','unavailable','needs_review')}
     for observation in observations.values(): counts[observation['state']] += 1
@@ -468,6 +498,8 @@ def refresh(root=ROOT, repo=HERE, now=None):
         if path:
             example['sourcePath']=os.path.relpath(path,repo).replace(os.sep,'/')
         example['outcomePath']=os.path.relpath(Path(root)/'outcomes'/(original['date'][:7]+'.json'),repo).replace(os.sep,'/')
+        detail=compared[original['recordId']]
+        example.update(comparisonState=detail['state'],comparisonReason=detail['reason'],comparisonPath=comparison_ref)
     _atomic_json(Path(root)/'status.json',result)
     return result
 
@@ -487,7 +519,7 @@ def safe_merge(ref, repo=HERE):
         text=git('ls-tree','-r',revision,'--',prefix).stdout.decode()
         return {line.split('\t',1)[1]:line.split()[2] for line in text.splitlines()}
     left,right=tree(ours),tree(ref)
-    immutable=lambda path:any('/'+part+'/' in path for part in ('originals','events','disclosures'))
+    immutable=lambda path:any('/'+part+'/' in path for part in ('originals','events','disclosures','comparisons','price_proofs'))
     for path in set(left)&set(right):
         if immutable(path) and left[path] != right[path]:
             raise IntegrityError('Conflicting immutable evidence: '+path)
@@ -568,6 +600,7 @@ def main():
     parser.add_argument('--capture',action='store_true')
     parser.add_argument('--merge-ref')
     parser.add_argument('--recovery-bundle')
+    parser.add_argument('--price-proof',help='Preserve a separately obtained official price-basis proof; never edit a decision')
     args=parser.parse_args()
     if args.merge_ref:
         raise SystemExit(safe_merge(args.merge_ref))
@@ -576,6 +609,13 @@ def main():
         return
     if args.capture:
         capture(load_js_object(str(HERE/'auto_analysis.js'),'LIVE_AUTO'))
+    if args.price_proof:
+        from comparison_evidence import save_price_proof
+        proof=json.loads(Path(args.price_proof).read_text(encoding='utf-8'))
+        originals={r['recordId']:r for r in read_records()}
+        if proof.get('recordId') not in originals or proof.get('originalRecordHash')!=_hash(originals[proof['recordId']]):
+            raise IntegrityError('Price proof is not bound to a preserved decision')
+        save_price_proof(proof,ROOT)
     report=refresh()
     print(_json({k:report[k] for k in ('status','rawRecordCount','dailyRecordCount','uniqueDecisionDays')}))
 

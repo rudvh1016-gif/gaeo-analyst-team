@@ -34,6 +34,47 @@ assert.doesNotMatch(unknown,/>0<|적중률 0%|사건 발견 0건|원본 0건/);
 assert.match(ctx.decisionTraceHTML(null),/자료 확인 중/);
 rendered=ctx.decisionTraceHTML({...trace,horizons:{'5':{...horizon,accuracy:66.7}}});
 assert.match(rendered,/66\.7%/);
+// Corporate actions can change prices mechanically: the hold must be visible before
+// opening details, while the existing hit/miss denominator remains untouched.
+const comparisonTrace={...trace,comparison:{policyVersion:'price-comparison-v1',states:{comparable:5,adjustment_required:2,unknown:4,review_required:1}}};
+const comparisonHTML=ctx.decisionTraceHTML(comparisonTrace);
+const comparisonText=comparisonHTML.replace(/<[^>]*>/g,' ');
+for(const text of ['같은 기준으로 비교 가능 · 5건','기업행사 영향으로 계산 보류 · 2건','자료 부족으로 비교 확인 중 · 4건','자료가 달라 추가 확인 필요 · 1건']) assert.ok(comparisonText.includes(text),text);
+const holdNotice='기업행사 영향으로 아직 성적을 계산하지 않았어요.';
+assert.ok(comparisonHTML.indexOf(holdNotice)>=0&&comparisonHTML.indexOf(holdNotice)<comparisonHTML.indexOf('<details'),'Corporate-action hold must be visible without opening details');
+assert.match(comparisonText,/권리락[（(].*신주.*권리.*[）)]/);
+assert.match(comparisonText,/기계적인 가격 변화.*적중.*빗나감.*세지 않/);
+assert.match(comparisonText,/기업행사가 없다는 뜻은 아니/);
+assert.match(comparisonText,/4 ÷ \(4 \+ 2\)/);
+assert.doesNotMatch(comparisonText,/price-comparison-v1|adjustment_required|review_required/);
+
+// Pending is future waiting, independently of whether price comparison is known.
+const waitingHTML=ctx.decisionTraceHTML({...comparisonTrace,comparison:{policyVersion:'price-comparison-v1',states:{comparable:0,adjustment_required:0,unknown:1,review_required:0}},examples:[{...trace.examples[0],status:'pending',reason:'future_session',comparisonState:'unknown',comparisonReason:'comparison_window_incomplete'}]});
+const waitingExample=waitingHTML.match(/<ul class="decision-examples">([\s\S]*?)<\/ul>/)[1];
+assert.match(waitingExample,/결과 기다리는 중.*거래일 경과 대기/);
+assert.match(waitingExample,/가격 비교.*자료 부족으로 비교 확인 중.*평가 기간 전체를 아직 확인하지 못함/);
+assert.match(waitingHTML,/5거래일이 아직 지나지 않/);
+assert.match(waitingHTML,/가격 비교 상태는 별도/);
+assert.doesNotMatch(waitingHTML,new RegExp(holdNotice));
+const missingComparison=ctx.decisionTraceHTML({...trace,comparison:{policyVersion:'price-comparison-v1',states:{}}});
+assert.match(missingComparison,/같은 기준으로 비교 가능 · 자료 확인 중/);
+assert.doesNotMatch(missingComparison,/같은 기준으로 비교 가능 · 0건|기업행사 영향으로 계산 보류 · 0건/);
+
+// Only a content-addressed comparison file can become a public evidence link.
+const comparisonPath='research_archive/decisions/comparisons/abcdef1234567890abcdef12.json.gz';
+const linkedComparison=ctx.decisionTraceHTML({...comparisonTrace,examples:[{...trace.examples[0],comparisonState:'adjustment_required',comparisonReason:'corporate_action_adjustment_required',comparisonPath}]});
+assert.match(linkedComparison,/href="https:\/\/github.com\/rudvh1016-gif\/gaeo-analyst-team\/blob\/main\/research_archive\/decisions\/comparisons\/abcdef1234567890abcdef12.json.gz"[^>]*>가격 비교 근거<\/a>/);
+for(const invalidPath of ['javascript:alert(1)','https://example.com/evidence','research_archive/decisions/comparisons/../private.json','research_archive/decisions/comparisons/abcdef1234567890abcdef12.json.gz?download=1','research_archive/decisions/comparisons/abcdef1234567890abcdef12.json','research_archive/decisions/comparisons/not-a-hash.json.gz',comparisonPath+'\n']){
+  const unsafe=ctx.decisionTraceHTML({...comparisonTrace,examples:[{...trace.examples[0],comparisonPath:invalidPath}]});
+  assert.doesNotMatch(unsafe,/href=/,invalidPath);
+}
+const comparisonReasons=[['corporate_action_adjustment_required','기업행사 뒤 가격 조정 근거 확인 필요'],['corporate_action_conflict','기업행사 자료가 서로 달라 확인 필요'],['corporate_action_unverified','기업행사 확인 자료 부족'],['price_basis_unverified','두 가격을 같은 기준으로 비교할 근거 부족'],['trading_halt','거래정지 구간 확인 필요'],['price_evidence_invalid','가격 근거 검증 필요'],['effective_date_unverified','기업행사 적용일 확인 필요'],['comparison_window_incomplete','평가 기간 전체를 아직 확인하지 못함'],['<script>bad()</script>','자료 확인 필요'],['constructor','자료 확인 필요'],['__proto__','자료 확인 필요']];
+for(const [reason,label] of comparisonReasons){
+  const reasonHTML=ctx.decisionTraceHTML({...comparisonTrace,examples:[{...trace.examples[0],comparisonState:'review_required',comparisonReason:reason}]});
+  const example=reasonHTML.match(/<ul class="decision-examples">([\s\S]*?)<\/ul>/)[1];
+  assert.ok(example.includes('자료가 달라 추가 확인 필요')&&example.includes(label),reason);
+  assert.doesNotMatch(example,/<script>|native code|\[object Object\]/);
+}
 const evidence=ctx.gaeoBeginnerEvidenceHTML({code:'080220',per:0,pbr:1.2});
 for(const text of ['RSI','PER','PBR','변동성','수급','이동평균','2026-09-10','장중 실시간','자료 확인 중']) assert.ok(evidence.includes(text),text);
 assert.doesNotMatch(evidence,/undefined|NaN/);

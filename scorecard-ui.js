@@ -671,16 +671,18 @@ function computeWeeklyScorecard(offset){
 function decisionTraceHTML(trace){
   const n=(v,unit='')=>typeof v==='number'&&Number.isFinite(v)&&v>=0?v.toLocaleString('ko-KR')+unit:'자료 확인 중';
   const status={evaluated:'채점 완료',pending:'결과 기다리는 중',blocked:'자료 부족으로 평가 보류',withheld:'판단 보류',hit:'적중',miss:'빗나감',neutral:'중립'};
-  const reasons={future_session:'거래일 경과 대기',missing_price:'가격 자료 미확인',non_trading_day:'거래일 확인 필요',price_basis_unverified:'기준 가격 확인 필요',corporate_action_unverified:'분할·합병 등 확인 필요',corporate_action_event:'분할·합병 등 사건 확인',invalid_record:'판단 기록 확인 필요',judgment_withheld:'판단 보류',benchmark_unavailable:'비교 기준 미확인'};
+  const reasons={future_session:'거래일 경과 대기',missing_price:'가격 자료 미확인',non_trading_day:'거래일 확인 필요',price_basis_unverified:'두 가격을 같은 기준으로 비교할 근거 부족',corporate_action_unverified:'기업행사 확인 자료 부족',corporate_action_event:'분할·합병 등 사건 확인',corporate_action_adjustment_required:'기업행사 뒤 가격 조정 근거 확인 필요',corporate_action_conflict:'기업행사 자료가 서로 달라 확인 필요',trading_halt:'거래정지 구간 확인 필요',price_evidence_invalid:'가격 근거 검증 필요',effective_date_unverified:'기업행사 적용일 확인 필요',comparison_window_incomplete:'평가 기간 전체를 아직 확인하지 못함',invalid_record:'판단 기록 확인 필요',judgment_withheld:'판단 보류',benchmark_unavailable:'비교 기준 미확인'};
+  const label=(labels,key,fallback='자료 확인 필요')=>Object.prototype.hasOwnProperty.call(labels,key)?labels[key]:fallback;
+  const comparisonLabels={comparable:'같은 기준으로 비교 가능',adjustment_required:'기업행사 영향으로 계산 보류',unknown:'자료 부족으로 비교 확인 중',review_required:'자료가 달라 추가 확인 필요'};
   const date=v=>v?esc(v):'자료 확인 중';
   // The producer verifies these public archive paths; reject external/traversal links.
-  const archiveLink=(path,label)=>typeof path==='string'&&/^research_archive\/decisions\/(?:originals\/\d{4}\/\d{2}\/\d{2}\/[a-f0-9]{24}\.jsonl(?:\.gz)?|outcomes\/\d{4}-\d{2}\.json)$/.test(path)?`<a href="https://github.com/rudvh1016-gif/gaeo-analyst-team/blob/main/${path}" target="_blank" rel="noopener">${label}</a>`:'';
+  const archiveLink=(path,label)=>typeof path==='string'&&/^research_archive\/decisions\/(?:originals\/\d{4}\/\d{2}\/\d{2}\/[a-f0-9]{24}\.jsonl(?:\.gz)?|outcomes\/\d{4}-\d{2}\.json|comparisons\/[a-f0-9]{24}\.json\.gz)$/.test(path)?`<a href="https://github.com/rudvh1016-gif/gaeo-analyst-team/blob/main/${path}" target="_blank" rel="noopener">${label}</a>`:'';
   if(!trace||trace.schemaVersion!==1) return '<section class="sc-block decision-trace"><h3>판단 기록과 결과</h3><p>자료 확인 중 · 실제로 공개한 판단의 저장 기록과 이후 가격을 연결해 확인하고 있어요.</p>'+gaeoJudgmentLegendHTML()+'</section>';
   const horizon=h=>{
     h=h||{};
     const counts=Object.keys(status).map(key=>`<div><span>${status[key]}</span><b>${n(h[key])}</b></div>`).join('');
     const denominator=typeof h.hit==='number'&&typeof h.miss==='number'?`${n(h.hit)} ÷ (${n(h.hit)} + ${n(h.miss)})`:'자료 확인 중';
-    const reasonRows=Object.entries(h.reasons||{}).map(([key,value])=>`<li>${reasons[key]||'자료 확인 필요'} · ${n(value,'건')}</li>`).join('');
+    const reasonRows=Object.entries(h.reasons||{}).map(([key,value])=>`<li>${label(reasons,key)} · ${n(value,'건')}</li>`).join('');
     const accuracy=h.accuracy==null?(h.evidenceStatus==='RECORDS_ACCUMULATING'?'기록을 더 모으는 중':'자료 확인 중'):n(h.accuracy,'%');
     return `<div class="decision-counts">${counts}</div><p><b>적중률 · ${accuracy}</b> · 적중 ÷ (적중 + 빗나감) = ${denominator}</p>`+
       `<p>적중률 분모 ${n(h.accuracyDenominator,'건')} · 채점한 서로 다른 판단일 ${n(h.evaluatedDecisionDays,'일')}. 중립은 가격 움직임이 채점 경계 안쪽인 결과이며, 판단 보류와 함께 분모에서 제외해요. ${h.minUniqueDecisionDays==null?'기존 판단일 공개 기준을 채우기 전에는':n(h.minUniqueDecisionDays,'일')+'의 판단일을 채우기 전에는'} 적중률을 표시하지 않아요. 기록의 중간 집계이며, 투자 성과를 인증하는 숫자는 아니에요.</p>`+
@@ -689,9 +691,14 @@ function decisionTraceHTML(trace){
   const versions=Object.entries(trace.byModelVersion||{}).sort(([a],[b])=>(a===trace.currentModelVersion?-1:b===trace.currentModelVersion?1:0)).map(([version,row])=>
     `<details class="decision-version"><summary>${version===trace.currentModelVersion?'현재 모델':'과거 모델'} · 판단일 ${n(row.uniqueDecisionDays,'일')}</summary><p>모델 식별자 ${esc(version)} · 원본 ${n(row.rawRecordCount,'건')} / 일별 묶음 ${n(row.dailyRecordCount,'건')}</p>${horizon(row.horizons&&row.horizons['5'])}</details>`).join('');
   const disclosure=trace.disclosure&&trace.disclosure.statuses||{};
-  const examples=(trace.examples||[]).slice(0,3).map(row=>`<li><b>${esc(row.code||'종목 확인 중')} · ${gaeoJudgmentDisplay(row.call).label}</b><p>판단 생성 ${date(row.decisionAt)} · 분석 기준가 ${n(row.base,'원')} · 기준가 시점 ${date(row.baseAt)}</p><p>${status[row.status]||'자료 확인 필요'}${row.reason?' · '+(reasons[row.reason]||'자료 확인 필요'):''} · 기록 ID ${esc(row.recordId||'자료 확인 중')}</p><p>${[archiveLink(row.sourcePath,'당시 원본 기록'),archiveLink(row.outcomePath,'결과 확인 기록')].filter(Boolean).join(' · ')}</p></li>`).join('');
+  const comparison=trace.comparison&&trace.comparison.states||{};
+  const comparisonExplanation={comparable:'판단일과 평가일의 가격을 같은 기준으로 비교할 근거를 확인했어요.',adjustment_required:'주식 수나 권리가 바뀌어 가격을 맞춰 볼 근거가 필요해요.',unknown:'비교할 자료가 부족해요. 기업행사가 없다는 뜻은 아니에요.',review_required:'공시나 가격 근거가 서로 달라 다시 확인해야 해요.'};
+  const comparisonRows=Object.entries(comparisonLabels).map(([key,value])=>`<li><b>${value} · ${n(comparison[key],'건')}</b><br>${comparisonExplanation[key]}</li>`).join('');
+  const comparisonNotice=Number.isFinite(comparison.adjustment_required)&&comparison.adjustment_required>0?'기업행사 영향으로 아직 성적을 계산하지 않았어요.':'채점 전, 두 가격을 같은 기준으로 비교할 수 있는지 확인해요.';
+  const comparisonHTML=`<div class="decision-reasons"><p><b>${comparisonNotice}</b></p><p>주식분할(한 주를 여러 주로 나누는 일)이나 권리락(신주를 받을 권리가 빠지며 가격이 조정되는 일)으로 생긴 기계적인 가격 변화를 분석의 적중·빗나감으로 세지 않아요.</p><b>가격 비교 확인 상태</b><ul>${comparisonRows}</ul><p>결과 기다리는 중은 5거래일이 아직 지나지 않았다는 뜻이에요. 가격 비교 상태는 별도 확인이며, 기간이 지나도 근거가 부족하면 평가를 보류해요.</p></div>`;
+  const examples=(trace.examples||[]).slice(0,3).map(row=>`<li><b>${esc(row.code||'종목 확인 중')} · ${gaeoJudgmentDisplay(row.call).label}</b><p>판단 생성 ${date(row.decisionAt)} · 분석 기준가 ${n(row.base,'원')} · 기준가 시점 ${date(row.baseAt)}</p><p>${label(status,row.status)}${row.reason?' · '+label(reasons,row.reason):''} · 기록 ID ${esc(row.recordId||'자료 확인 중')}</p><p>가격 비교 · ${label(comparisonLabels,row.comparisonState,'가격 비교 자료 확인 중')}${row.comparisonReason?' · '+label(reasons,row.comparisonReason):''}</p><p>${[archiveLink(row.sourcePath,'당시 원본 기록'),archiveLink(row.outcomePath,'결과 확인 기록'),archiveLink(row.comparisonPath,'가격 비교 근거')].filter(Boolean).join(' · ')}</p></li>`).join('');
   const traceState={NO_RECORDS:'기록을 더 모으는 중',DATA_INSUFFICIENT:'자료 부족으로 평가 보류',WAITING:'결과 기다리는 중',PROCESSED:'저장 결과 확인 완료'}[trace.status]||'자료 확인 중';
-  return `<section class="sc-block decision-trace"><h3>판단 기록과 결과</h3><p><b>${traceState}</b> · 실제 공개 자동분석의 판단을 저장하고, 판단 이후 5거래일 가격과 연결한 기록이에요.</p>`+
+  return `<section class="sc-block decision-trace"><h3>판단 기록과 결과</h3><p><b>${traceState}</b> · 실제 공개 자동분석의 판단을 저장하고, 판단 이후 5거래일 가격과 연결한 기록이에요.</p>${comparisonHTML}`+
     `<div class="decision-counts"><div><span>원본 저장 기록</span><b>${n(trace.rawRecordCount)}</b></div><div><span>종목·판단일로 묶은 기록</span><b>${n(trace.dailyRecordCount)}</b></div><div><span>서로 다른 판단일</span><b>${n(trace.uniqueDecisionDays)}</b></div></div>`+
     '<p>원본은 같은 날 여러 번 저장한 기록을 포함해요. 일별 집계는 한 종목을 판단일마다 한 번 세며, 같은 날의 여러 종목을 서로 독립적인 시험으로 보지 않아요.</p>'+
     `<p>최근 판단 생성 ${date(trace.latestDecisionAt)}<br>결과 확인 ${date(trace.lastVerifiedAt)}</p>${horizon(trace.horizons&&trace.horizons['5'])}`+
