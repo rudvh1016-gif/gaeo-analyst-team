@@ -56,6 +56,12 @@ def build(operations, decisions, evolution, failures, manifest, constitution, pr
     previous = previous or {}
     now = operations['checkedAt']
     issues, verified_scopes = [], set()
+    verified_scopes.update('source:'+name for name, value in (
+        ('actual_decisions', decisions), ('evolution', evolution), ('failure_miner', failures),
+        ('manifest', manifest), ('constitution', constitution), ('previous_state', previous))
+        if value and name not in (source_errors or {}))
+    if failures.get('sourceEvidence') and 'evolution_binding' not in (source_errors or {}):
+        verified_scopes.add('source:evolution_binding')
     components = operations.get('components') or {}
     # PAPER is observed by its existing monitor, not made part of this public
     # analysis improvement loop or confused with the owner's holdings.
@@ -89,6 +95,8 @@ def build(operations, decisions, evolution, failures, manifest, constitution, pr
     cohort = (quality.get('cohorts') or {}).get(active_key) or {}
     outcome = cohort.get('outcomes') or {}
     decision_verified = (components.get('decisions') or {}).get('code') == 'DECISIONS_VERIFIED'
+    if quality and decision_verified:
+        verified_scopes.add('source:quality')
     integrity_fault = any(i['operationalFault'] and i['priorityClass'] <= 1 for i in issues)
     performance_scope = 'actual:' + str(active_key)
     if outcome.get('pending'):
@@ -143,10 +151,10 @@ def build(operations, decisions, evolution, failures, manifest, constitution, pr
                     evidenceObservations=old.get('evidenceObservations', 0)+int(changed_evidence),
                     resolvedAt=None, reopenCount=old.get('reopenCount', 0))
         if old.get('state') == 'RESOLVED':
-            if changed_evidence:
+            if changed_evidence or item['operationalFault']:
                 item['reopenCount'] += 1
             else:
-                item = dict(old)  # stale input cannot resurrect a fixed incident
+                item = dict(old)  # stale performance aggregates cannot reopen a fixed incident
         current[item['id']] = item
     for ident, old in prior.items():
         if ident in current:
