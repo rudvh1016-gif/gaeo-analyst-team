@@ -82,7 +82,9 @@ jobs:
         id: ops
         run: |
           code=0
-          python3 ops_status.py --deep --github --json "$RUNNER_TEMP/ops.json" \
+          args=""
+          [ "$APPLY" = "true" ] && args="--save-performance-state"
+          python3 ops_status.py --deep --github $args --json "$RUNNER_TEMP/ops.json" \
             --repair-request docs/operations/repair_requests \
             | tee "$RUNNER_TEMP/ops.txt" | tee -a "$GITHUB_STEP_SUMMARY" || code=$?
           echo "code=$code" >> "$GITHUB_OUTPUT"

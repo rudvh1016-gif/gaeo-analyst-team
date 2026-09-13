@@ -36,7 +36,9 @@ def fixture(tmp, *, price_at, auto_at, paper_at, paper_result="CYCLE_OK — NO_A
     os.makedirs(os.path.join(tmp, "config"))
     os.makedirs(os.path.join(tmp, "docs", "audits", "validation_runs"))
     os.makedirs(os.path.join(tmp, "research_archive", "decisions"))
+    os.makedirs(os.path.join(tmp, '.github', 'workflows'))
     w = lambda rel, body: open(os.path.join(tmp, rel), "w", encoding="utf-8").write(body)
+    w('.github/workflows/evolution-lab.yml', 'on:\n  schedule:\n    - cron: "0 23 * * 6"\n')
     w("data.js", f'const LIVE_DATA = {{\n "date": "{price_at} 장중",\n "stocks": {{}}\n}};\n')
     stocks = {c: {"chief": {"call": "HOLD"}} for c in ("000001", "000002", "000003")}
     w("auto_analysis.js", f'const LIVE_AUTO = {json.dumps({"generatedAt": auto_at, "stocks": stocks})};\n')
@@ -194,11 +196,11 @@ class Verdicts(unittest.TestCase):
     def test_파일이_없으면_확인_불가이지_정상이_아니다(self):
         rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 10, 11, 0, tzinfo=KST))
         self.assertTrue(rep["unknowns"])
-        self.assertEqual(rep["faults"], [])
+        self.assertEqual(rep["faults"], ['evolutionLiveness'])
         text = OS.summarize(rep)
-        self.assertIn("정상이라는 뜻이 아니다", text)
+        self.assertIn("주간 연구 예약 파일이 없다", text)
         self.assertNotIn("장애·확인 불가 없음", text)
-        self.assertEqual(rep["overall"], OS.UNKNOWN)
+        self.assertEqual(rep["overall"], OS.FAULT)
 
     def test_같은_종류의_장애는_분_숫자가_달라도_같은_서명이다(self):
         fixture(self.tmp, price_at="2026-09-10 09:50", auto_at="2026-09-10 10:40", paper_at="2026-09-10T10:35:00+09:00")
@@ -224,10 +226,10 @@ class CommandLine(unittest.TestCase):
         tmp = tempfile.mkdtemp(prefix="ops_")
         try:
             fixture(tmp, price_at="2026-09-10 10:50", auto_at="2026-09-10 10:40", paper_at="2026-09-10T10:35:00+09:00")
-            self.assertEqual(OS.main(["--root", tmp, "--now", "2026-09-10T11:00:00+09:00", "--quiet"]), 0)
+            self.assertEqual(OS.main(["--root", tmp, "--now", "2026-09-10T11:00:00+09:00", "--quiet"]), 2)
             sat = fixture(tempfile.mkdtemp(prefix="sat_", dir=tmp), price_at="2026-09-11 16:02", auto_at="2026-09-11 16:20",
                           paper_at="2026-09-11T15:05:00+09:00")
-            self.assertEqual(OS.main(["--root", sat, "--now", "2026-09-12T10:00:00+09:00", "--quiet"]), 0)
+            self.assertEqual(OS.main(["--root", sat, "--now", "2026-09-12T10:00:00+09:00", "--quiet"]), 2)
             fixture(tempfile.mkdtemp(prefix="ops2_", dir=tmp), price_at="2026-09-10 09:00", auto_at="2026-09-10 10:40",
                     paper_at="2026-09-10T10:35:00+09:00")
             sub = [d for d in glob.glob(os.path.join(tmp, "ops2_*"))][0]
@@ -235,7 +237,7 @@ class CommandLine(unittest.TestCase):
             self.assertEqual(OS.main(["--root", sub, "--now", "2026-09-10T11:00:00+09:00", "--quiet", "--repair-request", out]), 1)
             self.assertTrue(glob.glob(os.path.join(out, "INC-*.md")))
             empty = tempfile.mkdtemp(prefix="ops3_", dir=tmp)
-            self.assertEqual(OS.main(["--root", empty, "--now", "2026-09-10T11:00:00+09:00", "--quiet"]), 2)
+            self.assertEqual(OS.main(["--root", empty, "--now", "2026-09-10T11:00:00+09:00", "--quiet"]), 1)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
@@ -265,6 +267,10 @@ class ScheduledRunsReality(unittest.TestCase):
 
     def fake(self, states, runs, created=None):
         created = created or {}
+        if 'evolution-lab.yml' not in runs:
+            latest = max((OS._parse_iso(r['created_at']) for rr in runs.values() for r in rr), default=self.now)
+            fire = OS._expected_last_fire(OS.SCHEDULED_WORKFLOWS['evolution-lab.yml'], latest.astimezone(KST))
+            runs = dict(runs, **{'evolution-lab.yml': [self.run_at(0, now=fire)]})
         def _get(url, token):
             wf = url.split("/actions/workflows/")[1].split("/")[0].split("?")[0]
             if url.endswith("/runs?per_page=10"):
@@ -360,7 +366,8 @@ class ScheduledRunsReality(unittest.TestCase):
         mon = datetime.datetime(2026, 9, 14, 9, 10, tzinfo=KST)
         fri_1649 = datetime.datetime(2026, 9, 11, 16, 49, tzinfo=KST)
         runs = {"pipeline-watchdog.yml": [self.run_at(int((mon - fri_1649).total_seconds() // 60), now=mon)],
-                "ops-daily.yml": [self.run_at(int((mon - datetime.datetime(2026, 9, 11, 17, 20, tzinfo=KST)).total_seconds() // 60), now=mon)]}
+                "ops-daily.yml": [self.run_at(int((mon - datetime.datetime(2026, 9, 11, 17, 20, tzinfo=KST)).total_seconds() // 60), now=mon)],
+                "evolution-lab.yml": [self.run_at(25*60, now=mon)]}
         self.fake({}, runs)
         c = OS.check_scheduled_runs(mon)
         self.assertNotEqual(c["status"], OS.FAULT, c["detail"])

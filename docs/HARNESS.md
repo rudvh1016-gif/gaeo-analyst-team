@@ -3,6 +3,8 @@
 새 세션(Claude Code·Codex·사람)은 `AGENTS.md`의 「작업 지도」 → 이 문서 → `docs/operations/STATUS.md` 순으로 읽고 시작한다.
 검사 실행에 모델을 부르는 구조는 없다. 아래 명령은 전부 일반 프로그램이다. 새 프레임워크가 아니라 기존 검사를 목적별로 묶은 것이다.
 
+2026-09-13 추가: 기존 점검에 [AI-0 성능 운영 연결](PERFORMANCE_ORCHESTRATION.md)을 더했다. 실제 판단의 점수 신뢰도·판단 가능 비율, 반복 문제 우선순위, 연구 대기, Evolution 생존 증거를 함께 읽는다. `ops-daily`가 기존 허용 경로에 상태를 저장하고 복구 권한은 아래 허용목록 그대로다.
+
 ## 1. 시작 전 (변경 전 확인)
 ```
 python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA · ahead/behind · 인계장 위치 (fetch 실패는 실패로 표시)

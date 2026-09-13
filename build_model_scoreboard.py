@@ -583,6 +583,26 @@ def write_decision_trace(repo=HERE):
     return payload
 
 
+def write_quality_observation(repo=HERE):
+    """Add observations to the existing verified trace, without regrading it."""
+    import datetime
+    import decision_records
+    import decision_quality
+    import ops_status
+    checked = ops_status.check_decisions(repo, datetime.datetime.now(ops_status.KST))
+    if checked.get('code') != 'DECISIONS_VERIFIED':
+        raise decision_records.IntegrityError('Existing original/outcome/scoreboard connection must verify first')
+    path = os.path.join(repo, 'model_scoreboard.js')
+    payload = load_js_object(path, 'MODEL_SCOREBOARD')
+    trace = payload['decisionTrace']
+    root = os.path.join(repo, 'research_archive', 'decisions')
+    trace['quality'] = decision_quality.summarize(decision_records.read_records(root),
+                           decision_records.load_outcomes(root), trace['currentModelVersion'])
+    decision_records._atomic_json(os.path.join(root, 'status.json'), trace)
+    _write_payload(payload, path)
+    return payload
+
+
 def _write_payload(payload, path=OUT_JS):
     import decision_records
     body = json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True)
@@ -602,7 +622,9 @@ def _write_payload(payload, path=OUT_JS):
 
 
 def main():
-    if '--decision-trace-only' in sys.argv:
+    if '--quality-observation-only' in sys.argv:
+        payload = write_quality_observation()
+    elif '--decision-trace-only' in sys.argv:
         payload = write_decision_trace()
     else:
         import decision_records

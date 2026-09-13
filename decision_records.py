@@ -375,6 +375,7 @@ def disclosure_state(code, dart, kind, now):
 
 
 def summarize(records, outcomes, current_model=None):
+    import decision_quality
     from build_model_scoreboard import MIN_UNIQUE_DATES
     from compute_team_weights import BASE_MODEL_VERSION
     current_model = current_model or BASE_MODEL_VERSION
@@ -384,7 +385,8 @@ def summarize(records, outcomes, current_model=None):
         evaluated_days = set()
         distribution = {}
         for row in selected:
-            distribution[row['call']] = distribution.get(row['call'],0) + 1
+            kind = decision_quality.decision_kind(row)
+            distribution[kind] = distribution.get(kind,0) + 1
             outcome = outcomes.get(row['recordId']) or {'status':'blocked','reason':'outcome_not_saved'}
             counts[outcome['status']] += 1
             if outcome.get('reason'):
@@ -421,6 +423,7 @@ def summarize(records, outcomes, current_model=None):
         '기존 일별 이력 성적은 별도 참고 집계입니다. 아래 엄격한 원본 연결 건수와 같은 분모가 아닙니다.',
         '기본모델은 기존 5거래일 기준입니다. 연구모델의 5·20·60거래일 검증은 그대로 유지합니다.',
     ]
+    result['quality'] = decision_quality.summarize(records, outcomes, current_model)
     return result
 
 

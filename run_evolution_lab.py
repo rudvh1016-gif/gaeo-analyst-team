@@ -140,6 +140,9 @@ def main():
     versions["productionWeightsSource"] = production["source"]
 
     history, closes = evaluation.load_market_data(HERE)
+    from performance_orchestrator import digest, research_focus
+    # Exact input identity, not just the run start or the number of rows.
+    run['inputEvidence'] = {'historyFingerprint': digest(history), 'pricesFingerprint': digest(closes)}
     rows, selection = evaluation.build_rows(history, closes)   # 현재 버전·실전 기록만
     eval_meta = evaluation.evaluation_meta(rows, extra={"selection": selection})
     baseline = evaluation.report(rows, closes=closes)
@@ -161,6 +164,9 @@ def main():
     mining_rows = research_rows if split_note["sufficient"] else rows
     report = failure_miner.mine(mining_rows, closes)
     report["dataSplit"] = split_note
+    report['orchestrationFocus'] = research_focus(report, const)
+    report['sourceEvidence'] = {'runId': run['runId'],
+                                'evaluationFingerprint': eval_meta['dataFingerprint']}
     if not split_note["sufficient"]:
         report["note2"] = ("연구/평가 분리 불가(데이터 부족) — 이번 주 후보 생성은 쉬고 "
                           "mining은 참고용으로만 기록")
@@ -402,6 +408,8 @@ def main():
               + ([f"같은 날 재실행 충돌(원본 보존, 건너뜀): {len(registration_conflicts)}건"]
                  if registration_conflicts else []))
     doc["experimentTotals"] = registry.experiment_totals()
+    doc['orchestrationFocus'] = report['orchestrationFocus']
+    doc['sourceEvidence'] = report['sourceEvidence']
     doc["shadowSummaries"] = shadow_summaries
     doc["promotionCardsAvailable"] = bool(promotion_cards)
     # 알림(gaeo_evolution/notification.py) 보고용 — 이번 실행이 실제로 생성/생존/탈락

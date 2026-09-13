@@ -668,6 +668,46 @@ function computeWeeklyScorecard(offset){
     hasOlder, rows:scored};
 }
 
+function decisionQualityHTML(quality){
+  const n=(v,unit='')=>typeof v==='number'&&Number.isFinite(v)?esc(String(v))+unit:'자료 확인 중';
+  if(!quality||quality.schemaVersion!=='actual-decision-quality-v1') return '<p>점수 신뢰도와 판단 가능한 비율은 자료를 확인하는 중이에요.</p>';
+  const latest=quality.latestRound||{};
+  const current=(quality.cohorts||{})[quality.activeCohort];
+  const counts=latest.counts||{};
+  const ratio=latest.judgedPctOfUniverse==null?'전체 대상 범위를 확인하는 중':n(latest.judgedPctOfUniverse,'%');
+  const intro=quality.interpretation==='INSUFFICIENT_EVIDENCE'?'아직 기록 부족':'구간별 차이를 확인하는 중';
+  const actionName=Object.fromEntries(['BUY','HOLD','SELL'].map(call=>[call,gaeoJudgmentDisplay(call).label+'('+call+')']));
+  let html='<div class="decision-reasons decision-quality"><h4>얼마나 많은 종목을 판단했나요?</h4>'+
+    `<p><b>전체 종목 중 실제로 판단할 수 있었던 비율 · ${ratio}</b></p>`+
+    '<p class="sc-foot-note">자료가 부족한 종목을 억지로 판단하지 않았는지도 함께 확인합니다.</p>'+
+    `<p>최근 회차: ${n(latest.expectedRecords,'종목')} 중 실제 판단 ${n(latest.judgedRecords,'종목')} · 판단보류 ${n(counts.WITHHELD,'종목')} (${n(latest.withheldPctOfUniverse,'%')}) · 기록 누락 ${n(latest.missingRecords,'종목')} · 판단 종류 확인 필요 ${n(counts.UNKNOWN,'종목')}</p>`+
+    `<p>매수 검토 ${n(counts.BUY,'종목')} · 지켜보기 ${n(counts.HOLD,'종목')} · 매도 검토 ${n(counts.SELL,'종목')}</p>`+
+    '<p class="sc-foot-note">지켜보기(HOLD)는 실제로 내린 판단이고, 판단보류는 판단에 쓸 자료가 부족했다는 뜻이에요. 이후 가격 비교가 어려워 채점을 기다리는 것과도 달라요.</p>'+
+    `<h4>점수가 높은 판단이 실제로 더 잘 맞았나요?</h4><p><b>${intro}</b></p>`+
+    '<p class="sc-foot-note">종합점수는 매수·매도 방향, 확신도는 분석가 의견 일치도를 나타내요. 80점을 상승 확률 80%라고 읽으면 안 돼요. 매도 판단은 낮은 종합점수에서도 나올 수 있어요.</p>';
+  if(current){
+    for(const call of ['BUY','SELL']){
+      const a=current.actions[call];
+      const accuracy=a.accuracyPct==null?'아직 기록 부족':n(a.accuracyPct,'%');
+      html+=`<p>${actionName[call]} 적중률 · ${accuracy} · 채점 ${n(a.evaluated,'건')} / 서로 다른 판단일 ${n(a.evaluatedDecisionDays,'일')} · 결과 대기 ${n(a.pending,'건')} · 자료 부족 ${n(a.blocked,'건')}</p>`;
+    }
+    html+='<details class="decision-version"><summary>종합점수·확신도 구간별 기록 보기</summary><p>현재와 같은 모델·설정·채점 기준·종목 범위의 기록만 비교해요. 같은 날 여러 종목은 독립 시험이 아니며, 적중률은 날짜가 충분히 쌓인 구간만 표시해요.</p>';
+    for(const field of ['total','confidence']){
+      for(const call of ['BUY','SELL']){
+        html+=`<h4>${field==='total'?'종합점수':'확신도'} · ${actionName[call]}</h4><ul>`;
+        for(const b of current.bins[field][call]){
+          const rate=b.accuracyPct==null?'기록 부족':n(b.accuracyPct,'%');
+          const range=Array.isArray(b.accuracy95)?` · 참고 범위 ${n(b.accuracy95[0],'%')}~${n(b.accuracy95[1],'%')}`:'';
+          html+=`<li><b>${esc(b.label)}${b.lower==null?'':'점'} · ${rate}</b><br>채점 ${n(b.evaluated,'건')} · 판단일 ${n(b.evaluatedDecisionDays,'일')} · 결과 대기 ${n(b.pending,'건')} · 자료 부족 ${n(b.blocked,'건')}${range}</li>`;
+        }
+        html+='</ul>';
+      }
+    }
+    html+='<p class="sc-foot-note">적중률은 적중 ÷ (적중 + 빗나감)이며 중립·결과 대기·자료 부족·판단보류는 제외해요. 참고 범위는 겹치는 결과 기간을 고려해 날짜 묶음으로 계산했으며 실력을 인증하는 숫자는 아니에요.</p></details>';
+  }
+  return html+'</div>';
+}
+
 function decisionTraceHTML(trace){
   const n=(v,unit='')=>typeof v==='number'&&Number.isFinite(v)&&v>=0?v.toLocaleString('ko-KR')+unit:'자료 확인 중';
   const status={evaluated:'채점 완료',pending:'결과 기다리는 중',blocked:'자료 부족으로 평가 보류',withheld:'판단 보류',hit:'적중',miss:'빗나감',neutral:'중립'};
@@ -702,7 +742,7 @@ function decisionTraceHTML(trace){
     `<div class="decision-counts"><div><span>원본 저장 기록</span><b>${n(trace.rawRecordCount)}</b></div><div><span>종목·판단일로 묶은 기록</span><b>${n(trace.dailyRecordCount)}</b></div><div><span>서로 다른 판단일</span><b>${n(trace.uniqueDecisionDays)}</b></div></div>`+
     '<p>원본은 같은 날 여러 번 저장한 기록을 포함해요. 일별 집계는 한 종목을 판단일마다 한 번 세며, 같은 날의 여러 종목을 서로 독립적인 시험으로 보지 않아요.</p>'+
     `<p>최근 판단 생성 ${date(trace.latestDecisionAt)}<br>결과 확인 ${date(trace.lastVerifiedAt)}</p>${horizon(trace.horizons&&trace.horizons['5'])}`+
-    `${versions||'<p>현재·과거 모델 구분: 자료 확인 중</p>'}`+
+    decisionQualityHTML(trace.quality)+`${versions||'<p>현재·과거 모델 구분: 자료 확인 중</p>'}`+
     `<details class="decision-version"><summary>공시 확인 범위와 기록 예시</summary><p>사건 발견 ${n(disclosure.event_found,'건')} · 확인 범위 내 사건 없음 ${n(disclosure.checked_no_event,'건')} · 확인 불가 ${n(disclosure.unavailable,'건')} · 추가 검토 ${n(disclosure.needs_review,'건')}</p><p>공시 조회가 끝난 범위만 확인한 결과예요. 공시 0건이나 확인 불가를 안전하다는 뜻으로 읽지 마세요.</p>${examples?'<ul class="decision-examples">'+examples+'</ul>':'<p>연결 가능한 기록 예시: 자료 확인 중</p>'}</details>`+
     (trace.limitations&&trace.limitations.length?'<ul class="decision-limitations">'+trace.limitations.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'')+
     gaeoJudgmentLegendHTML()+'</section>';

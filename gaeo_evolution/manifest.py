@@ -37,6 +37,8 @@ def new_manifest(run_type, scoring_version, base_model_version=None,
     return {
         "runId": now.strftime("evo-%Y%m%d-%H%M%S"),
         "runType": run_type,
+        "githubRunId": os.environ.get('GITHUB_RUN_ID'),
+        "githubRunAttempt": os.environ.get('GITHUB_RUN_ATTEMPT'),
         "startedAt": now.isoformat(timespec="seconds"),
         "finishedAt": None,
         "gitSha": _git_sha(root),
