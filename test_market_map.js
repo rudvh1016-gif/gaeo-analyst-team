@@ -62,6 +62,16 @@ for(const width of [390,1348,1680,1920]){
 const cells=map.layout(rows.map(row=>({row,weight:1})),0,0,1600,1100,1.8);
 assert.equal(cells.length,600);
 assert.ok(cells.every(c=>Math.abs(c.w*c.h-1600*1100/600)<1e-8),'same stock weights have equal areas');
+for(const width of [1168,1550,1790]){
+  const height=600*3600/width+s.sectors.length*5;
+  const tiles=map.layout(s.sectors,0,0,width,height).flatMap(b=>map.stockCells(b.item.stocks,b.w-10,b.h-36));
+  assert.equal(tiles.length,600);
+  assert.ok(tiles.filter(c=>c.w>=60&&c.h>=39).length>500,'desktop names must remain readable');
+  for(const sector of s.sectors){
+    const equal=map.stockCells(sector.stocks,350,500);
+    assert.ok(equal.every(c=>Math.abs(c.w*c.h-350*500/sector.stocks.length)<1e-8));
+  }
+}
 assert.equal(JSON.stringify({tickers,live}),saved,'presentation must not modify its inputs');
 const html=fs.readFileSync('index.html','utf8'),app=fs.readFileSync('app.js','utf8');
 assert.ok(html.includes('data-nav-mode="marketmap"'));
@@ -70,6 +80,16 @@ assert.ok(html.includes('id="marketMapView"'));
 assert.ok(app.includes("m==='marketmap'"));
 assert.ok(app.includes("onStock:code=>jumpToStock(STOCKS[code].name,'marketmap')"));
 assert.ok(app.includes("if(mode!=='marketmap') window.GaeoMarketMap?.unmount()"));
+// The existing stock dictionary has no code field; the popup adapter must pass
+// the selected code to the existing analysis function without mutating quotes.
+const adapterSource=app.match(/getJudgment:(code=>\{[\s\S]*?\n      \})\n    \}\);/)[1];
+const quote={name:'삼성전자',price:259500};
+const getJudgment=vm.runInNewContext('('+adapterSource+')',{
+  STOCKS:{'005930':quote},analysisEntry:()=>({chief:{call:'HOLD'},updated:'2026-09-11 16:14'}),
+  runAnalysis:stock=>{assert.equal(stock.code,'005930');return {_live:true};},decide:()=>({call:'HOLD'})
+});
+assert.equal(getJudgment('005930').call,'HOLD');
+assert.equal(quote.code,undefined);
 const sw=fs.readFileSync('sw.js','utf8');
 const changesOften=sw.match(/const changesOften = ([^;]+);/)[1];
 assert.ok(vm.runInNewContext(changesOften,{url:{pathname:'/market_universe/full_market_latest.json.gz'}}),

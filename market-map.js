@@ -66,7 +66,18 @@
     }
     return index;
   }
-  const api={rows,filter,summary,tone,layout,marketIndex,pct};
+  // Keep equal areas while favoring rectangles that can hold two readable lines.
+  function stockCells(stocks,w,h){
+    const rowCount=Math.max(1,Math.min(stocks.length,Math.round(Math.sqrt(stocks.length*h*1.7/w))));
+    let offset=0,y=0;const cells=[];
+    for(let line=0;line<rowCount;line++){
+      const count=Math.ceil((stocks.length-offset)/(rowCount-line)),height=h*count/stocks.length;
+      for(let col=0;col<count;col++) cells.push({row:stocks[offset++],x:3+col*w/count,y:28+y,w:w/count,h:height});
+      y+=height;
+    }
+    return cells;
+  }
+  const api={rows,filter,summary,tone,layout,stockCells,marketIndex,pct};
   if(typeof module!=='undefined'&&module.exports) module.exports=api;
   if(typeof document==='undefined') return;
   root.GaeoMarketMap=api;
@@ -183,7 +194,7 @@
     if(!width) return;
     if(!visible.length){canvas.style.height='180px';canvas.innerHTML='<p class="mm-empty">일치하는 종목이 없습니다.</p>';return;}
     const mobile=width<600;
-    const height=mobile?0:Math.max(660,Math.min(1180,width*.72));
+    const height=mobile?0:Math.max(660,visible.length*3600/width+s.sectors.length*5);
     let blocks;
     if(mobile){
       let y=0;
@@ -200,9 +211,9 @@
       group.setAttribute('aria-label',b.item.name);
       const innerW=b.w-10,innerH=b.h-36;
       group.innerHTML=`<h2><span>${esc(b.item.name)}</span><em class="mm-${b.item.average>0?'up':b.item.average<0?'down':'neutral'}">${pct(b.item.average)}</em></h2>`;
-      const cells=layout(b.item.stocks.map(row=>({row,weight:1})),3,28,innerW,innerH,1.8);
+      const cells=stockCells(b.item.stocks,innerW,innerH);
       for(const cell of cells){
-          const row=cell.item.row,t=tone(row.rate),tile=document.createElement('a');
+          const row=cell.row,t=tone(row.rate),tile=document.createElement('a');
           tile.className='mm-tile mm-'+t.direction;tile.dataset.level=t.level;tile.dataset.mmCode=row.code;
           tile.dataset.rate=row.rate===null?'':row.rate;
           tile.href='?m=single&code='+row.code;

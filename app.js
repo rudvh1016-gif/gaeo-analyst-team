@@ -9177,7 +9177,7 @@ window.renderScreener=function(){
       getJudgment:code=>{
         const entry=analysisEntry(code);
         if(!entry?.chief) return null;
-        const data=runAnalysis(STOCKS[code]);
+        const data=runAnalysis({...STOCKS[code],code});
         return data._live?{call:decide(data,code).call,at:entry.updated||''}:null;
       }
     });

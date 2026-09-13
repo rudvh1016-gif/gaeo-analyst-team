@@ -1,6 +1,9 @@
 /* Market direction is the content here; colored tiles are requested explicitly. */
 .market-map-view{display:none;color:var(--ink);font:400 13px/1.45 var(--sans);overflow-wrap:anywhere;min-width:0}
 .market-map-view.on{display:block}
+.market-map-view{scroll-margin-top:calc(var(--gaeo-nav-h) + var(--gaeo-notice-h) + 64px)}
+body[data-mode="marketmap"] .layout{display:block}
+body[data-mode="marketmap"] .main{width:100%;max-width:none}
 body[data-mode="marketmap"] #contextTitle{font-size:20px;font-weight:600;margin-bottom:12px}
 body[data-mode="marketmap"] #modeSectionHead{display:none}
 body[data-mode="marketmap"] .wrap{max-width:1840px}
