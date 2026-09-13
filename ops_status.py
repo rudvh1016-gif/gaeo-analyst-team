@@ -740,6 +740,18 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog
     if watchdog_receipt:
         report['watchdogExecution'] = watchdog_receipt
     report['performanceOrchestration'] = performance_orchestrator.observe(root, report)
+    source_faults = [i for i in report['performanceOrchestration']['issues']
+                     if i['scope'].startswith('source:') and i['operationalFault'] and i['state'] != 'RESOLVED']
+    if source_faults:
+        # Required observation storage belongs to the existing exit-code/issue
+        # path too; an inner FAULT must not leave the outer ops report green.
+        comps['performanceEvidence'] = component(FAULT, 'PERFORMANCE_REQUIRED_EVIDENCE_FAULT',
+            ' / '.join(i['title'] for i in source_faults))
+        report['counts'][FAULT] += 1
+        report['faults'] = sorted([*report['faults'], 'performanceEvidence'])
+        report['overall'] = FAULT
+        signature = _signature_source(comps, report['faults'], report['unknowns'])
+        report['signature'] = hashlib.sha1(signature.encode('utf-8')).hexdigest()[:10]
     return report
 
 
@@ -759,7 +771,7 @@ def _git_sha(root):
         return None
 
 
-NAMES = {"decisions": "판단 원본·결과 연결", "prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
+NAMES = {"performanceEvidence": "성능 운영 필수 자료", "evolutionLiveness": "Evolution 예약·실행·저장", "decisions": "판단 원본·결과 연결", "prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
          "paper": "모의투자(PAPER)", "evolution": "Evolution", "schedule": "예정 시험", "prereg": "사전등록 기록",
          "workflows": "워크플로 유효성", "scheduled": "예약 실행 실측(워치독·일일 점검)", "pages": "사이트 전달"}
 

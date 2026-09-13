@@ -58,6 +58,10 @@ def fixture(tmp, *, price_at, auto_at, paper_at, paper_result="CYCLE_OK — NO_A
     w("gaeo_evolution/status/evolution_status.json", json.dumps({"generatedAt": evo_at, "mode": "BOOTSTRAP_SHADOW",
                                                                   "systemHealth": "OK", "safeModeReasons": [],
                                                                   "baselineSummary": {"uniqueDays": 10}}))
+    w('gaeo_evolution/status/failure_report.json', json.dumps({'clusters': [], 'dataSplit': {'sufficient': False}}))
+    w('gaeo_evolution/status/last_run_manifest.json', json.dumps({'status': 'OK', 'runId': 'fixture'}))
+    for name in ('evolution_constitution.json', 'evolution_constitution.sha256'):
+        shutil.copyfile(os.path.join(HERE, 'gaeo_evolution', name), os.path.join(tmp, 'gaeo_evolution', name))
     w("config/validation_schedule.json", json.dumps({
         "ledgerPath": "docs/audits/validation_runs/ledger.jsonl",
         "schedules": [{"scheduleId": "VS-TEST", "kind": "CONFIRMATION", "dueAt": schedule_due, "cutoffDate": schedule_due[:10]}]}))
@@ -196,7 +200,7 @@ class Verdicts(unittest.TestCase):
     def test_파일이_없으면_확인_불가이지_정상이_아니다(self):
         rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 10, 11, 0, tzinfo=KST))
         self.assertTrue(rep["unknowns"])
-        self.assertEqual(rep["faults"], ['evolutionLiveness'])
+        self.assertEqual(rep["faults"], ['evolutionLiveness', 'performanceEvidence'])
         text = OS.summarize(rep)
         self.assertIn("주간 연구 예약 파일이 없다", text)
         self.assertNotIn("장애·확인 불가 없음", text)

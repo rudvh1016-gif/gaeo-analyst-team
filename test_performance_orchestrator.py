@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import performance_orchestrator as P
 import ops_status as O
@@ -81,6 +82,28 @@ class Loop(unittest.TestCase):
         r=P.build(*inputs(),source_errors={'actual_decisions':'missing_or_invalid_json'})
         self.assertEqual(r['state'],'FAULT')
         self.assertEqual(r['issues'][0]['priorityClass'],0)
+
+    def test_source_repair_resolves_same_id_and_new_missing_file_reopens_it(self):
+        x=inputs();a=P.build(*x,source_errors={'actual_decisions':'missing'})
+        old=next(i for i in a['issues'] if i['scope']=='source:actual_decisions')
+        b=P.build(*x,previous=a)
+        fixed=next(i for i in b['issues'] if i['id']==old['id'])
+        self.assertEqual(fixed['state'],'RESOLVED')
+        c=P.build(*x,previous=b,source_errors={'actual_decisions':'missing'})
+        again=next(i for i in c['issues'] if i['id']==old['id'])
+        self.assertEqual(again['state'],'ACTIONABLE');self.assertEqual(again['reopenCount'],1)
+
+    def test_required_source_fault_reaches_existing_ops_exit_and_repair_path(self):
+        from test_ops_status import fixture
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture(tmp,price_at='2026-09-13 12:00',auto_at='2026-09-13 12:00',paper_at='2026-09-13T12:00:00+09:00')
+            (Path(tmp)/'gaeo_evolution/status/failure_report.json').unlink()
+            report=O.collect(tmp,now=dt.datetime(2026,9,13,12,tzinfo=O.KST))
+            self.assertIn('performanceEvidence',report['faults'])
+            self.assertEqual(report['overall'],O.FAULT)
+            self.assertIsNotNone(O.build_repair_request(report))
+            with patch.object(O,'collect',return_value=report):
+                self.assertEqual(O.main(['--root',tmp,'--quiet']),1)
 
     def test_corrupt_incident_history_is_preserved(self):
         with tempfile.TemporaryDirectory() as tmp:
