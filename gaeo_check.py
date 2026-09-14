@@ -34,6 +34,7 @@ GROUPS = {
     ],
     "pipeline": [
         "test_pipeline_watchdog.py", "test_workflow_health.py", "test_workflow_size.py", "test_workflow_branch_exec.py",
+        "test_verify_save_closure.py",
         "test_holiday_guard.py", "test_krx_calendar_sync.py", "test_ci_parity.py", "test_coverage_600.py",
         "test_gaeo_coverage.py", "test_market_history_close.py", "test_market_history_summary.py", "test_market_universe.py",
         "test_indicators_split.py", "test_indicator_provenance.py", "test_flow_history.py", "test_flow_period_consistency.py", "test_flow_summary.py",
