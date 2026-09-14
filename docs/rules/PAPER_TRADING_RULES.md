@@ -1,5 +1,10 @@
 # 모의투자(Paper Trading) 규칙
 
+> 🏁 **2026-09-15 은퇴.** 개오 애널리스트팀(Team)의 모의투자는 접었다 — 모의투자는 **PRIVATE 사이트에서만** 계속한다.
+> 아래 규칙은 **폐기된 것이 아니라 동결된 것**이다: 원장(`paper_trading/`)이 그대로 남아 있고, 되살릴 때 그대로 다시 쓴다.
+> 특히 "원장을 쓰는 러너는 한 곳뿐"·"과거 원장 재작성 금지"는 **은퇴 뒤에도 그대로 유효**하다.
+> 현재 `activeRunner` = `RETIRED`(모든 러너 거부). 결정·되살리는 법: `docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md` §7
+
 > 이 문서는 2026-09-10에 `AGENTS.md`에서 **그대로 옮긴 원문**이다(삭제가 아니라 이동).
 > 옮긴 이유: Codex가 자동으로 읽는 `AGENTS.md` 크기 한도(기본 32KiB) 안에 전역 안전규칙이 다 들어가게 하고,
 > 세부 규칙은 관련 작업에서만 읽게 하기 위해서다. 대응표는 `docs/agent/RULES_MAP.md`, 잠금은 `test_rules_map.py`.

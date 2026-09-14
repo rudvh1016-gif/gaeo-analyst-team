@@ -58,8 +58,11 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 무인 AI 호출(수리 요청서는 사람/개발 AI 세션이 읽는다) · 거래를 만들려고 UNKNOWN을 정상으로 바꾸기.
 
 ## 5. 상태 어휘 (`ops_status.py` · 이슈 · 보고서 공통)
-정상 / 정상 대기 / 자료 부족 / 장애 / 확인 불가 / 무료 한도 대기. 확인 전은 "확인 불가"다. 표본 부족은 "투자 검증 대기"이고,
+정상 / 정상 대기 / 자료 부족 / 장애 / 확인 불가 / 무료 한도 대기 / **은퇴(기록 보존)**. 확인 전은 "확인 불가"다. 표본 부족은 "투자 검증 대기"이고,
 수집기가 멈춰 표본이 안 쌓이는 것은 "운영 장애"다 — 둘을 섞지 않는다.
+**은퇴**는 사람이 일부러 접은 기능이다(2026-09-15 모의투자). 정상도 장애도 확인 불가도 아니며 종료코드에 장애로 세지 않는다 —
+셋 중 하나로 욱여넣으면 "잘 돌고 있다"나 "고쳐야 한다"로 잘못 읽힌다. **은퇴해도 감시는 끄지 않는다**: 은퇴 뒤에 그 기능이
+다시 기록을 남기면 그건 장애다(꺼두지 않은 러너 탐지).
 
 ## 5-1. 고의 고장 시험 지도 (fault injection · 2026-09-14)
 
@@ -84,6 +87,8 @@ happy path만 도는 검사는 사고를 못 막는다. 아래 16가지 고장�
 | 14 | Champion 버전이 중간에 바뀐 비교 | `test_gaeo_evolution.ContemporaryChampionGateTest` | 구간을 섞지 않음 |
 | 15 | 승격 기준 미달인데 승격 시도 | `test_gaeo_evolution.SubgroupGateTest` | `KEEP_SHADOW`/거부 |
 | 16 | Rollback 뒤 실제 Production 버전 불일치 | `test_gaeo_evolution.ProductionWiringTest` | 불일치 검출 · SAFE_MODE |
+| 17 | 은퇴한 기능이 몰래 다시 기록을 남김 | `test_ops_status.Verdicts` · `test_paper_single_writer` | `PAPER_WROTE_AFTER_RETIREMENT`(장애) · 게이트가 모든 러너 거부 |
+| 18 | 은퇴를 "정상"으로 적어 잘 돌고 있는 것처럼 보임 | `test_ops_status.Verdicts` | 별도 어휘 `RETIRED` — OK 도 FAULT 도 아님 |
 
 특히 **UNKNOWN → 정상**으로 새는 길은 별도로 막는다: 예약 실행 증거 없이 로컬 산출물만 말끔한 경우(11),
 조회 실패(7), 판단 원본 되읽기 실패(8·9)는 전부 "확인 불가"로 남고 종료코드 2로 이어진다.

@@ -14,12 +14,30 @@
 #     저장소 파일만 읽으므로 애초에 그런 값에 접근하지 않는다.
 #   - 토스 API를 호출하지 않는다(GitHub 러너 IP는 토스에서 막힌다).
 #   - 저장소에 아무것도 커밋·push 하지 않는다.
+# ⛔ 자동 schedule 비활성화 (2026-09-15 — 모의투자 은퇴)
+#
+#   왜: 소유자 결정으로 개오 애널리스트팀(Team)의 모의투자를 접었다. 토스증권 Open API는
+#   client 당 유효 토큰이 1개인데 Team 과 PRIVATE Gateway 가 같은 자격증명을 쓴다 —
+#   Team 이 토큰을 발급하면 Private 이 즉시 끊긴다(docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md
+#   2026-09-12 판정 C 에서 확인된 제약). 모의투자는 PRIVATE 사이트에서만 계속한다.
+#
+#   ⭐ 은퇴는 삭제가 아니다. paper_trading/ 원장(실제로 기록된 거래 이력)은 그대로 보존한다.
+#   이 워크플로 파일도 지우지 않는다 — 되살릴 때 참조할 원본이고, 판정 로직의 계약 테스트가
+#   아직 이 파일을 읽는다.
+#
+#   되살리려면: paper_runner_config.json 의 activeRunner 를 러너 이름으로 되돌리고,
+#   아래 schedule 주석을 푼다. 되살리기 전에 토스 토큰 충돌이 해소됐는지 먼저 확인할 것.
+#
+#   은퇴 뒤 감시: ops_status.check_paper() 가 계속 본다. 은퇴 날짜 뒤에 원장에 새 회차가
+#   생기면 PAPER_WROTE_AFTER_RETIREMENT 장애로 잡는다(꺼두지 않은 러너 탐지).
+#
 name: paper-evidence-report
 
 on:
-  schedule:
-    # 월요일 00:30 UTC = 09:30 KST. 주 1회면 충분하다(원장은 하루 단위로만 는다).
-    - cron: "30 0 * * 1"
+  # 은퇴로 중지 (2026-09-15). 되살릴 때 이 세 줄의 주석을 풀면 된다.
+  # schedule:
+  #   # 월요일 00:30 UTC = 09:30 KST. 주 1회면 충분하다(원장은 하루 단위로만 는다).
+  #   - cron: "30 0 * * 1"
   workflow_dispatch:
 
 permissions:

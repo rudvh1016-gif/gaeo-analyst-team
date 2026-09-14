@@ -120,6 +120,67 @@ class Verdicts(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
 
+    def _retire(self, at="2026-09-15", extra=None):
+        """저장소에 커밋된 은퇴 선언을 픽스처에 재현한다(원장은 건드리지 않는다)."""
+        block = {"at": at, "reason": "토스 토큰 1개 제약 — PRIVATE 보호"} if at is not None else {}
+        if extra:
+            block.update(extra)
+        open(os.path.join(self.tmp, "paper_runner_config.json"), "w", encoding="utf-8").write(
+            json.dumps({"activeRunner": "RETIRED", "retired": block}, ensure_ascii=False))
+
+    def test_은퇴는_장애도_확인불가도_아니다(self):
+        """사람이 일부러 접은 것을 '고쳐야 할 장애'로도 '잘 돌고 있음'으로도 적지 않는다."""
+        fixture(self.tmp, price_at="2026-09-16 10:50", auto_at="2026-09-16 10:40",
+                paper_at="2026-09-11T15:05:00+09:00")
+        self._retire()
+        rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 16, 11, 0, tzinfo=KST))
+        paper = rep["components"]["paper"]
+        self.assertEqual(paper["status"], OS.RETIRED)
+        self.assertEqual(paper["code"], "PAPER_RETIRED")
+        self.assertNotIn("paper", rep["faults"])
+        self.assertNotIn("paper", rep["unknowns"])
+        self.assertIn("원장 보존", paper["detail"])
+        # 원장이 언제까지 기록됐는지는 은퇴 뒤에도 그대로 읽힌다(기록을 지운 게 아니다).
+        self.assertEqual(paper["lastCycleAt"], "2026-09-11T15:05:00+09:00")
+        self.assertIn("2026-09-11", paper["detail"])
+
+    def test_은퇴_뒤에_새_회차가_기록되면_장애다(self):
+        """⭐ 감시를 끄지 않는 이유 — 꺼두지 않은 러너가 몰래 원장을 다시 쓰면 알아야 한다."""
+        fixture(self.tmp, price_at="2026-09-17 10:50", auto_at="2026-09-17 10:40",
+                paper_at="2026-09-17T09:05:00+09:00")
+        self._retire(at="2026-09-15")
+        rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 17, 11, 0, tzinfo=KST))
+        paper = rep["components"]["paper"]
+        self.assertEqual(paper["status"], OS.FAULT)
+        self.assertEqual(paper["code"], "PAPER_WROTE_AFTER_RETIREMENT")
+        self.assertIn("paper", rep["faults"])
+
+    def test_은퇴_날짜를_못_읽으면_감시_못_한다고_적는다(self):
+        """모른다를 괜찮다로 바꾸지 않는다 — 날짜가 없으면 신규 기록 감시가 불가능함을 밝힌다."""
+        fixture(self.tmp, price_at="2026-09-16 10:50", auto_at="2026-09-16 10:40",
+                paper_at="2026-09-11T15:05:00+09:00")
+        self._retire(at=None)
+        rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 16, 11, 0, tzinfo=KST))
+        paper = rep["components"]["paper"]
+        self.assertEqual(paper["status"], OS.RETIRED)
+        self.assertIn("감시는 못 한다", paper["detail"])
+        self._retire(at="말도 안 되는 날짜")
+        rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 16, 11, 0, tzinfo=KST))
+        self.assertIn("감시는 못 한다", rep["components"]["paper"]["detail"])
+
+    def test_은퇴를_되돌리면_예전_판정이_그대로_돌아온다(self):
+        """은퇴는 삭제가 아니라 스위치다 — 되돌리면 원래 감시가 그대로 살아난다."""
+        fixture(self.tmp, price_at="2026-09-16 10:50", auto_at="2026-09-16 10:40",
+                paper_at="2026-09-11T15:05:00+09:00")
+        self._retire()
+        self.assertEqual(OS.collect(self.tmp, now=datetime.datetime(2026, 9, 16, 11, 0, tzinfo=KST))
+                         ["components"]["paper"]["status"], OS.RETIRED)
+        open(os.path.join(self.tmp, "paper_runner_config.json"), "w", encoding="utf-8").write(
+            json.dumps({"activeRunner": "WINDOWS"}))
+        back = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 16, 11, 0, tzinfo=KST))["components"]["paper"]
+        self.assertEqual(back["code"], "PAPER_NO_CYCLE")
+        self.assertEqual(back["status"], OS.FAULT)
+
     def test_거래일_장중_신선하면_정상_어제_회차뿐인_PAPER는_장애(self):
         fixture(self.tmp, price_at="2026-09-10 10:50", auto_at="2026-09-10 10:40", paper_at="2026-09-09T15:05:00+09:00")
         rep = OS.collect(self.tmp, now=datetime.datetime(2026, 9, 10, 11, 0, tzinfo=KST))

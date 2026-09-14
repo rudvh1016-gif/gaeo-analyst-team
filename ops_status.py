@@ -46,7 +46,11 @@ LLM_CALLS = 0
 SCHEMA = "gaeo_ops_status_v1"
 
 OK, IDLE, INSUFF, FAULT, UNKNOWN, QUOTA = "OK", "IDLE_OK", "DATA_INSUFFICIENT", "FAULT", "UNKNOWN", "QUOTA_WAIT"
-LABELS = {OK: "정상", IDLE: "정상 대기", INSUFF: "자료 부족", FAULT: "장애", UNKNOWN: "확인 불가", QUOTA: "무료 한도 대기"}
+# RETIRED: 사람이 일부러 접은 기능. 정상도 장애도 확인 불가도 아니다 — 그 셋 중 하나로
+# 욱여넣으면 "고쳐야 할 것"이나 "잘 돌고 있는 것"으로 잘못 읽힌다. 종료코드에도 안 센다.
+RETIRED = "RETIRED"
+LABELS = {OK: "정상", IDLE: "정상 대기", INSUFF: "자료 부족", FAULT: "장애", UNKNOWN: "확인 불가",
+          QUOTA: "무료 한도 대기", RETIRED: "은퇴(기록 보존)"}
 
 # 시세·자동분석 수집 창(pipeline_watchdog 과 같은 값) · 모의투자 회차 창
 PAPER_FIRST_CYCLE = "09:05"
@@ -236,6 +240,30 @@ def check_paper(root, now):
     result = str(state.get("lastCycleResult") or "")
     extra = {"activeRunner": active, "lastCycleAt": state.get("lastCycleAt"), "lastCycleResult": result[:80],
              "openTrades": open_trades}
+    # 🏁 은퇴(2026-09-15) — 삭제가 아니라 "이제 새로 쓰지 않는다"이다. 원장은 그대로 보존한다.
+    #    ⭐ 감시는 끄지 않는다. 지워 버리면 꺼두지 않은 러너가 몰래 원장을 다시 써도 아무도
+    #    모른다. 은퇴 날짜 뒤에 새 회차가 생기면 그건 정상이 아니라 장애다.
+    #    은퇴를 OK 로 적으면 "잘 돌고 있다"로, FAULT 로 적으면 "고쳐야 한다"로 잘못 읽히므로
+    #    별도 어휘를 쓴다(이 저장소의 교훈 ③④와 같은 계열: 모른다를 괜찮다로도 고장으로도 바꾸지 마라).
+    retired = (cfg or {}).get("retired") if isinstance(cfg, dict) else None
+    if str(active or "").strip().upper() == "RETIRED":
+        stamp = str((retired or {}).get("at") or "")[:10]
+        try:
+            retired_day = datetime.date.fromisoformat(stamp) if stamp else None
+        except ValueError:
+            retired_day = None
+        extra["retiredAt"] = stamp or None
+        if retired_day and last_at and last_at.date() > retired_day:
+            return component(FAULT, "PAPER_WROTE_AFTER_RETIREMENT",
+                             f"은퇴({retired_day}) 뒤에 새 회차가 기록됐다 — 마지막 회차 "
+                             f"{last_at:%Y-%m-%d %H:%M}. 어딘가의 러너가 아직 원장을 쓰고 있다",
+                             **extra)
+        detail = "모의투자 은퇴 · 원장 보존"
+        if last_at:
+            detail += f" · 마지막 회차 {last_at:%Y-%m-%d %H:%M}"
+        if not retired_day:
+            detail += " · 은퇴 날짜(retired.at)를 읽지 못해 신규 기록 감시는 못 한다"
+        return component(RETIRED, "PAPER_RETIRED", detail, **extra)
     if last_at is None:
         return component(UNKNOWN, "PAPER_NO_CYCLE_RECORD", "마지막 회차 기록이 없다", **extra)
     today = now.date()
@@ -813,7 +841,7 @@ def summarize(report):
     for key, c in report["components"].items():
         lines.append(f"  · {NAMES.get(key, key)}: {c['label']} — {c['detail']}")
     counts = report["counts"]
-    tally = " · ".join(f"{LABELS[k]} {counts[k]}" for k in (OK, IDLE, INSUFF, FAULT, UNKNOWN, QUOTA) if counts[k])
+    tally = " · ".join(f"{LABELS[k]} {counts[k]}" for k in (OK, IDLE, INSUFF, FAULT, UNKNOWN, QUOTA, RETIRED) if counts[k])
     if report["faults"]:
         lines.append(f"결론: 장애 {len(report['faults'])}건 — 조치 필요 ({', '.join(NAMES.get(k, k) for k in report['faults'])}) · {tally}")
     elif report["unknowns"]:

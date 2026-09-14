@@ -40,11 +40,19 @@ CONFIG_PATH = os.path.join(HERE, CONFIG_FILENAME)
 #: 파일을 고쳐서 허용 범위를 넓히는 경로를 만들지 않기 위해서다.
 KNOWN_RUNNERS = ("WINDOWS", "ORACLE")
 
+#: 러너가 아니라 "이제 아무도 돌지 않는다"를 뜻하는 activeRunner 값(2026-09-15 은퇴).
+#: 은퇴는 삭제가 아니다 — 원장(paper_trading/)은 그대로 보존하고 새로 쓰는 것만 멈춘다.
+#: 이 값을 KNOWN_RUNNERS 밖에 두면 어떤 러너도 자기와 같을 수 없어 전원 비활성이 된다.
+#: 되돌리려면 이 파일이 아니라 paper_runner_config.json 의 activeRunner 를 러너 이름으로
+#: 되돌리면 된다(사람이 커밋해야만 일어난다 — 러너는 이 파일을 커밋할 수 없다).
+RETIRED_VALUE = "RETIRED"
+
 # 판정 코드(로그·테스트가 문자열로 고정해 쓴다)
 ACTIVE = "ACTIVE_RUNNER"
 UNDECLARED = "RUNNER_UNDECLARED"
 UNKNOWN_NAME = "RUNNER_UNKNOWN"
 NOT_ACTIVE = "RUNNER_NOT_ACTIVE"
+RETIRED = "PAPER_RETIRED"
 CONFIG_MISSING = "CONFIG_MISSING"
 CONFIG_UNREADABLE = "CONFIG_UNREADABLE"
 CONFIG_INVALID = "CONFIG_INVALID"
@@ -96,6 +104,10 @@ def read_active_runner(config_path=None):
     if not isinstance(cfg, dict):
         return "", CONFIG_INVALID
     active = _norm(cfg.get("activeRunner"))
+    if active == RETIRED_VALUE:
+        # 설정을 "못 읽은" 것이 아니라 "일부러 아무도 안 돈다"이다 — 둘을 같은 코드로
+        # 묶으면 은퇴가 설정 오류처럼 보고돼 사람이 고치려 든다. 코드를 따로 둔다.
+        return "", RETIRED
     if active not in KNOWN_RUNNERS:
         return "", CONFIG_INVALID
     return active, ""
@@ -103,6 +115,12 @@ def read_active_runner(config_path=None):
 
 def decide(declared, active, config_error=""):
     """순수 판정 함수(파일·환경변수를 읽지 않는다). 테스트가 이걸 직접 고정한다."""
+    if config_error == RETIRED:
+        return Decision(
+            False, RETIRED, declared, RETIRED_VALUE,
+            "single-writer: 모의투자는 은퇴했습니다(2026-09-15) — 어떤 러너도 돌지 않습니다. "
+            "원장(paper_trading/)은 그대로 보존되며 새로 기록되지 않습니다. "
+            "매매 계산·기록·push 없음 · 토스 토큰 요청 없음")
     if config_error:
         return Decision(
             False, config_error, declared, "",
