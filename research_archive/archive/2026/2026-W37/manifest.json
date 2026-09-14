@@ -1,0 +1,32 @@
+{
+ "archiveCreatedAt": "2026-09-14T23:06:28.018527+00:00",
+ "archiveVersion": "1.0",
+ "compression": "mixed",
+ "fileHashes": {
+  "live/2026/09/07.jsonl.gz.enc": "d3be4dd53b272652f3aeb2d7a1280350f20c8acee04d07436a0b94058b7e516c",
+  "live/2026/09/08.jsonl.gz.enc": "a6ade900fef4cfe2b935174aa8a9331d1dd7fd41724bb40c5187cade78f14060",
+  "live/2026/09/09.jsonl.gz.enc": "d8e071cf61ba552092cee608bdf653686eb929d67e60cff23d7832ac21c8c961",
+  "live/2026/09/10.jsonl.gz.enc": "6bc1cd36a4186f6184a464ed5cbbe1442d9ab690debe57c1787d0b3bf64f2387",
+  "live/2026/09/11.jsonl.gz.enc": "b6b4b7ce90f376a5dfbaad03f677edb6fb9b0f901927f5ada0e166ad69ea12c6"
+ },
+ "firstPredictionTimestamp": "2026-09-07T15:34:30+09:00",
+ "includedDays": [
+  "2026-09-07",
+  "2026-09-08",
+  "2026-09-09",
+  "2026-09-10",
+  "2026-09-11"
+ ],
+ "lastPredictionTimestamp": "2026-09-11T16:14:11+09:00",
+ "modelVersions": [
+  "research_v1.0",
+  "research_v1.1"
+ ],
+ "period": {
+  "id": "2026-W37",
+  "type": "week"
+ },
+ "recordCount": 3000,
+ "schemaVersion": "research_archive_v1",
+ "weekId": "2026-W37"
+}
