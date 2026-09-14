@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 71,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-14",
+  "title": "2026년 9월14일 종가, AI 속도조절론에 코스피 3.26%·코스닥 1.69% 급락",
+  "featured": false
+ },
+ {
   "id": 70,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-02",
   "title": "2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락",
   "featured": false
- },
- {
-  "id": 62,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-09-01",
-  "title": "2026년 9월1일 종가, 코스피만 버틴 날 코스닥은 왜 1.56% 빠졌나",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 70,
+ "news": 71,
  "study": 35,
  "lesson": 82,
  "estate": 19,
