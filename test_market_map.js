@@ -17,7 +17,7 @@ assert.equal(Object.values(s.counts).reduce((a,b)=>a+b),600);
 for(const r of rows){
   const quote=live.stocks[r.code];
   assert.equal(r.rate,quote?.stale?null:quote.rate);
-  if(r.rate!==null&&Math.abs(r.rate)>=.05) assert.equal(map.tone(r.rate).direction,r.rate>0?'up':'down');
+  if(r.rate!==null&&r.rate!==0) assert.equal(map.tone(r.rate).direction,r.rate>0?'up':'down');
 }
 for(const sector of s.sectors){
   assert.ok(sector.stocks.every(r=>r.sector===sector.name));
@@ -38,7 +38,9 @@ assert.equal(invalid[0].rate,null);
 assert.equal(map.summary(invalid).counts.flat,0);
 assert.equal(map.summary(invalid).counts.unavailable,1);
 assert.equal(map.tone(null).direction,'missing');
-assert.equal(map.tone(.01).direction,'neutral');
+assert.equal(map.tone(.01).direction,'up');
+assert.equal(map.tone(-.01).direction,'down');
+assert.equal(map.tone(0).direction,'neutral');
 assert.equal(map.tone(0).level,0);
 assert.ok(map.tone(6).level>map.tone(2).level);
 assert.deepEqual(map.tone(-6),{direction:'down',level:5});
@@ -74,6 +76,20 @@ for(const width of [1168,1550,1790]){
 }
 assert.equal(JSON.stringify({tickers,live}),saved,'presentation must not modify its inputs');
 const html=fs.readFileSync('index.html','utf8'),app=fs.readFileSync('app.js','utf8');
+const css=fs.readFileSync('market-map.css','utf8');
+// Color channels validate the requested green/red semantic direction, including
+// the strongest band. The exception must remain inside the market-map view.
+const palettes=[...css.matchAll(/([^{}]+)\{--mm-rgb:([\d,]+)\}/g)].filter(m=>m[1].includes('.mm-up')||m[1].includes('.mm-down'));
+assert.equal(palettes.length,4);
+for(const [,selectors,rgb] of palettes){
+  assert.ok(selectors.split(',').every(s=>s.includes('.market-map-view ')));
+  const [r,g,b]=rgb.split(',').map(Number);
+  assert.ok(selectors.includes('.mm-up')?g>r&&g>b:r>g&&r>b);
+}
+assert.ok(css.includes('.mm-up{color:var(--krup)}'),'home preview keeps its existing rise color');
+assert.ok(css.includes('.mm-down{color:var(--krdn)}'),'home preview keeps its existing fall color');
+assert.ok(css.includes('.mm-tile.mm-missing{background:var(--mm-missing-bg)'));
+assert.ok(css.includes('#contextTitle{max-width:none;margin:0 0 8px;text-align:left;'));
 assert.ok(html.includes('data-nav-mode="marketmap"'));
 assert.ok(html.includes('id="mode-marketmap"'));
 assert.ok(html.includes('id="marketMapView"'));
