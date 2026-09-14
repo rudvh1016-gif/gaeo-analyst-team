@@ -33,12 +33,12 @@
     const ranked=sectors.filter(s=>s.average!==null).sort((a,b)=>b.average-a.average||a.name.localeCompare(b.name,'ko'));
     return {counts,sectors,strong:ranked[0],weak:ranked[ranked.length-1]};
   }
-  // Fixed scale across markets/searches. Near zero is neutral; saturation alone
+  // Fixed scale across markets/searches. Exactly zero is neutral; saturation alone
   // changes with movement, never with rank in the currently selected subset.
   function tone(rate){
     if(!finite(rate)) return {direction:'missing',level:0};
     const n=Math.abs(rate);
-    return {direction:n<0.05?'neutral':rate>0?'up':'down',level:n<0.05?0:n<1?1:n<2?2:n<3?3:n<5?4:5};
+    return {direction:n===0?'neutral':rate>0?'up':'down',level:n===0?0:n<1?1:n<2?2:n<3?3:n<5?4:5};
   }
   // Deterministic balanced treemap. Weights mean stock counts, not market caps.
   function layout(items,x,y,w,h,ratio=1){

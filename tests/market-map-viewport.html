@@ -33,9 +33,19 @@
     const doc=frame.contentDocument,w=frame.contentWindow;
     const tiles=Array.from(doc.querySelectorAll('.mm-tile')),labels=Array.from(doc.querySelectorAll('.mm-tile:not(.mm-small) .mm-rate'));
     const nav=Array.from(doc.querySelectorAll('.global-link')).filter(e=>e.offsetWidth>0);
+    const title=doc.querySelector('#contextTitle')?.getBoundingClientRect(),canvas=doc.querySelector('#mmCanvas')?.getBoundingClientRect();
+    const note=doc.querySelector('[role="note"]')?.getBoundingClientRect();
+    const colorMismatches=tiles.filter(e=>{
+      const rate=e.dataset.rate===''?null:Number(e.dataset.rate);
+      if(rate===null) return !e.classList.contains('mm-missing');
+      const [r,g,b]=w.getComputedStyle(e).backgroundColor.match(/[\d.]+/g).map(Number);
+      return rate>0?!(g>r&&g>b):rate<0?!(r>g&&r>b):!(r===g&&g===b);
+    }).length;
     const result={width:w.innerWidth,pageWidth:doc.documentElement.scrollWidth,
       tiles:tiles.length,sectors:doc.querySelectorAll('.mm-sector').length,
       smallTiles:doc.querySelectorAll('.mm-small').length,
+      colorMismatches,titleLeftDifference:title&&canvas?Math.abs(title.left-canvas.left):null,
+      titleGapBelowNotice:title&&note?title.top-note.bottom:null,
       clippedRates:labels.filter(e=>e.scrollWidth>e.clientWidth||e.scrollHeight>e.clientHeight).length,
       smallTextVisible:Array.from(doc.querySelectorAll('.mm-small span')).some(e=>e.offsetWidth>0),
       minRateFont:labels.length?Math.min(...labels.map(e=>parseFloat(w.getComputedStyle(e).fontSize))):null,
