@@ -1,5 +1,17 @@
 # 모의투자(Paper Trading) Oracle Cloud Linux 러너 준비 문서
 
+> # 🏁 2026-09-15 은퇴 — 이 문서는 **기록·되살리기용 참조본**이다
+>
+> 개오 애널리스트팀(Team)의 모의투자는 **접었다.** 모의투자는 **PRIVATE 사이트에서만** 계속한다.
+> 사유: 토스는 client 당 유효 토큰이 1개인데 Team 과 Private Gateway 가 같은 자격증명을 쓴다 —
+> Team 이 토큰을 발급하면 Private 이 즉시 끊긴다.
+>
+> **은퇴는 삭제가 아니다.** `paper_trading/` 원장(실제로 기록된 거래 이력)은 그대로 보존한다.
+> 아래 절차는 **지금 따라 하는 순서가 아니라**, 나중에 되살릴 때 참조할 원본이다.
+>
+> 현재 상태: `paper_runner_config.json` 의 `activeRunner` = `RETIRED` → 모든 러너가 거부된다(fail closed).
+> 되살리는 법·감시 방식: `docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md` §7
+
 > 이 문서는 **비개발자가 읽어도 되는 준비·설치 설명서**다.
 > 집 Windows PC 러너 설명서는 `docs/PAPER_TRADING_LOCAL_RUNNER.md`에 있고, 이 문서는
 > 그 러너를 Oracle Cloud의 Linux VM으로 **옮길 수 있게 미리 만들어 둔 자료**다.

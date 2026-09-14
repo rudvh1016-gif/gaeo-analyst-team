@@ -105,6 +105,9 @@ Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙�
 
 ## 모의투자(Paper Trading) — 실행 주체는 언제나 한 곳뿐
 
+🏁 **2026-09-15 은퇴** — 개오 애널리스트팀(Team)의 모의투자는 접었다. 모의투자는 **PRIVATE 사이트에서만** 한다(토스는 client 당 유효 토큰 1개, Team 이 발급하면 Private 이 끊긴다). `paper_runner_config.json` 의 `activeRunner` = `RETIRED` → 모든 러너가 거부된다.
+**은퇴는 삭제가 아니다**: `paper_trading/` 원장은 그대로 보존하고, 은퇴 뒤에 새 기록이 생기면 `ops_status` 가 장애(`PAPER_WROTE_AFTER_RETIREMENT`)로 잡는다. 결정·되살리는 법: `docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md` §7.
+
 → `docs/rules/PAPER_TRADING_RULES.md` 로 옮겼다(2026-09-10, 원문 그대로). 절대규칙만 여기 남긴다: 원장을 쓰는 러너는 한 곳뿐(`paper_runner_config.json`) · 실주문 코드 금지 · 과거 원장 재작성 금지 · `paper-trading.yml`의 schedule을 되살리지 말 것. 러너 복구·이력 재작성 대응은 `docs/PAPER_TRADING_LOCAL_RUNNER.md` §9.
 
 ## index.html 구조

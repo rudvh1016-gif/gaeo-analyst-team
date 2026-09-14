@@ -111,8 +111,26 @@ check("2e. dict가 아니면 CONFIG_INVALID", sw.read_active_runner(empty)[1] ==
 
 # ═══ ③ 저장소에 실제로 커밋된 설정 ════════════════════════════════════════════
 real_active, real_err = sw.read_active_runner()
-check("3a. 저장소 설정이 유효하다", real_err == "" and real_active in sw.KNOWN_RUNNERS,
+# 2026-09-15 모의투자 은퇴 — 유효한 상태는 이제 둘이다: 러너 한 명이 활성이거나, 전원 은퇴이거나.
+# 그 둘 중 어느 쪽도 아니면 설정이 깨진 것이다(조용히 통과시키지 않는다).
+check("3a. 저장소 설정이 유효하다(러너 활성 또는 은퇴)",
+      (real_err == "" and real_active in sw.KNOWN_RUNNERS) or real_err == sw.RETIRED,
       f"{real_active}/{real_err}")
+_real_cfg = json.load(open(sw.CONFIG_PATH, encoding="utf-8"))
+if real_err == sw.RETIRED:
+    _blk = _real_cfg.get("retired") or {}
+    check("3a-1. 은퇴에는 날짜·사유가 적혀 있다(언제 왜 접었는지 모르면 되살릴 수도 없다)",
+          bool(_blk.get("at")) and bool(_blk.get("reason")), str(_blk)[:80])
+    check("3a-2. 은퇴는 삭제가 아니다 — 원장이 그대로 있다",
+          os.path.isdir(os.path.join(HERE, "paper_trading")))
+    check("3a-3. 은퇴 상태에서는 제대로 선언한 러너도 돌지 못한다",
+          not sw.decide("WINDOWS", "", sw.RETIRED).allowed
+          and not sw.decide("ORACLE", "", sw.RETIRED).allowed)
+    _msg = sw.decide("WINDOWS", "", sw.RETIRED).message
+    check("3a-4. 은퇴를 설정 오류처럼 보고하지 않는다",
+          "은퇴" in _msg and "읽지 못해" not in _msg, _msg[:60])
+    check("3a-5. 은퇴 러너는 토스 토큰을 요청하지 않는다고 사유에 명시한다",
+          "토스" in _msg and "토큰" in _msg, _msg[:80])
 check("3b. 활성 러너 설정은 러너 커밋 화이트리스트 밖에 있다(러너가 자기를 켤 수 없다)",
       not sw.CONFIG_PATH.replace("\\", "/").endswith("paper_trading/" + sw.CONFIG_FILENAME)
       and os.path.dirname(sw.CONFIG_PATH) == HERE)

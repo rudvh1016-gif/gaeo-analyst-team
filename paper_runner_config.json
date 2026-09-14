@@ -1,14 +1,26 @@
 {
  "schemaVersion": "gaeo_paper_runner_v1",
- "activeRunner": "WINDOWS",
+ "activeRunner": "RETIRED",
  "knownRunners": ["WINDOWS", "ORACLE"],
- "updatedAt": "2026-08-26",
+ "updatedAt": "2026-09-15",
  "why": "모의투자 원장을 쓰는 러너는 언제나 한 곳뿐이어야 한다. 여기 적힌 러너만 매매 계산·기록·push를 한다.",
+ "retired": {
+  "at": "2026-09-15",
+  "decidedBy": "owner",
+  "scope": "개오 애널리스트팀(Team)의 모의투자만. PRIVATE 사이트의 모의투자는 그대로 계속한다.",
+  "reason": "토스증권 Open API는 client 당 유효 토큰이 1개다. Team 과 Private Gateway 가 같은 자격증명을 쓰기 때문에 Team 이 토큰을 발급하면 Private 이 즉시 끊긴다. 이 제약은 docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md(2026-09-12, 판정 C)에서 이미 확인됐고, 소유자가 그 다음 수순으로 Team 쪽 모의투자를 접기로 결정했다.",
+  "isNotDeletion": "은퇴는 삭제가 아니다. paper_trading/ 원장(실제로 기록된 거래 이력)은 그대로 보존한다. 지우거나 재작성하지 않는다 — 기존 금지선에 'PAPER 원장'이 명시돼 있다.",
+  "lastCycleAt": "2026-09-11T15:05:09+09:00",
+  "whatStops": ["매매 계산", "원장 신규 기록", "러너 push", "토스 토큰 요청", "거래일 미실행 알림 이슈"],
+  "whatStays": ["paper_trading/ 원장 전체", "원장 보호 계약 테스트", "단일 기록자 게이트", "은퇴 뒤 신규 기록 감시(ops_status)"],
+  "howToRevive": "이 파일의 activeRunner 를 다시 'WINDOWS' 또는 'ORACLE' 로 바꿔 main 에 커밋한다. 되살리기 전에 토스 토큰 충돌(Private 끊김)이 해소됐는지 먼저 확인할 것.",
+  "docs": ["docs/operations/ORACLE_PAPER_MIGRATION_DECISION.md", "docs/operations/STATUS.md"]
+ },
  "howToSwitch": [
   "1) 새 러너에서 scripts/paper_doctor.sh(또는 .ps1)로 준비 상태를 먼저 확인한다.",
   "2) 이 파일의 activeRunner를 바꿔 main에 커밋한다(러너는 이 파일을 커밋할 수 없다).",
   "3) 두 러너 모두 다음 사이클에 이 파일을 읽는다. 이전 러너는 자동으로 비활성이 된다.",
   "4) 이전 러너의 예약 실행(작업 스케줄러·systemd timer)은 그 뒤에 꺼도 된다. 켜져 있어도 기록하지 않는다."
  ],
- "note": "러너 자신의 이름은 환경변수 GAEO_PAPER_RUNNER로 선언한다. 선언이 없으면 비활성으로 본다(fail closed). 판정 구현은 paper_single_writer.py."
+ "note": "러너 자신의 이름은 환경변수 GAEO_PAPER_RUNNER로 선언한다. 선언이 없으면 비활성으로 본다(fail closed). activeRunner 가 'RETIRED' 면 어떤 러너도 활성이 아니다. 판정 구현은 paper_single_writer.py."
 }
