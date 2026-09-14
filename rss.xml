@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Fri, 11 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 14 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월14일 종가, AI 속도조절론에 코스피 3.26%·코스닥 1.69% 급락</title>
+    <link>https://gaeoteam.com/snap/news/71.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/71.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 225.54포인트(3.26%) 내린 6,684.37로, 코스닥은 13.85포인트(1.69%) 내린 806.79로 마감했습니다. AI 회사들 사이에서 개발 속도를 늦추자는 목소리가 커지고 오픈AI가 상장 계획을 접으면서 반도체 중심 투자심리가 얼어붙었고, 유가 100달러·미 금리 5% 근접까지 겹쳐 외국인이 3조원대를 팔았습니다. 개인 매수와 내수주 강세에도 개오 600종목 중 387개가 내린 하루를 숫자로 정리합니다.</description>
+    <pubDate>Mon, 14 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월11일 종가, 유가·금리 겹악재에 코스피 1.76%·코스닥 1.95% 급락</title>
     <link>https://gaeoteam.com/snap/news/70.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/69.html</guid>
     <category>주식공부</category>
     <description>국내 상장주식을 사고팔고 배당받을 때 어떤 세금이 언제 생기는지, 소액주주와 대주주의 차이까지 정리했어요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DART 공시 보는 법: 10분 기업 점검 순서</title>
-    <link>https://gaeoteam.com/snap/lesson/68.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/68.html</guid>
-    <category>주식공부</category>
-    <description>전자공시에서 회사와 보고서를 찾고, 사업·재무·위험·주주 정보를 빠르게 읽는 순서를 초보자 눈높이로 설명해요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
