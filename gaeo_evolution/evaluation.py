@@ -208,6 +208,11 @@ def split_research_eval(rows, min_research_days=10, min_eval_days=20):
     eval_rows = [r for r in rows if r["day"] in eval_days]
     return research_rows, eval_rows, {
         "sufficient": True,
+        # uniqueDays/requiredDays는 부족한 쪽 note에만 있었다 — 그래서 데이터가
+        # 충분해진 뒤에도 performance_orchestrator.research_focus()가 0일로 읽어
+        # 영원히 WAITING_EVIDENCE에 머물렀다(연구 자격이 열리는 연결부가 끊긴 채였다).
+        # 임계값이 아니라 사실값이므로 양쪽 note에 똑같이 담는다.
+        "uniqueDays": len(days), "requiredDays": required,
         "researchWindow": [days[0], days[-min_eval_days - 1]],
         "evalWindow": [days[-min_eval_days], days[-1]],
         "researchDays": len(days) - min_eval_days, "evalDays": min_eval_days,

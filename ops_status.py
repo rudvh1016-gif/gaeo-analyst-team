@@ -708,8 +708,20 @@ def check_decisions(root, now):
         return component(FAULT, 'DECISIONS_NOT_EVALUATED', '예정된 판단 결과 저장·집계 갱신을 확인하지 못했다')
     detail = f"원본 {doc.get('rawRecordCount')}건 · 평가 {h['evaluated']} · 미래 대기 {h['pending']} · 자료 부족 {h['blocked']} · 판단 보류 {h['withheld']}"
     status = INSUFF if h['blocked'] else IDLE if h['pending'] or not doc.get('rawRecordCount') else OK
+    # 🔗 "정말 main에 들어갔는가"는 로컬 파일 존재와 다른 사실이라 따로 적는다(관찰만).
+    #    조회를 못 하면 UNVERIFIED로 남기고, 그걸 정상으로도 장애로도 바꾸지 않는다.
+    #    판정(status)에 반영하는 것은 실제 운영에서 이 값이 어떻게 움직이는지 본 뒤의 일이다.
+    try:
+        import decision_records as decisions
+        verification = decisions.verify_saved_to_main(
+            root=os.path.join(root, 'research_archive', 'decisions'), repo=root)
+    except Exception:
+        verification = {'verificationStatus': 'UNVERIFIED', 'reason': 'verifier_unavailable'}
     return component(status, 'DECISIONS_VERIFIED', detail, counts=h,
-                     latestDecisionAt=doc.get('latestDecisionAt'), lastVerifiedAt=doc.get('lastVerifiedAt'))
+                     latestDecisionAt=doc.get('latestDecisionAt'), lastVerifiedAt=doc.get('lastVerifiedAt'),
+                     execution=doc.get('execution'),
+                     mainVerification={k: verification.get(k) for k in
+                                       ('verificationStatus', 'verifiedCommitSha', 'ref', 'reason')})
 
 
 def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog_receipt=None):

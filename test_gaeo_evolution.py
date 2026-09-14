@@ -2420,5 +2420,134 @@ class Test19And20Placeholder(unittest.TestCase):
         self.assertFalse(hasattr(gt, "notification"))
 
 
+class ChallengerChainTest(unittest.TestCase):
+    """부품이 아니라 **연결부**를 시험한다 — 근거가 갖춰지면 사슬이 끝까지 뚫리는가.
+
+    이 파일의 다른 시험들은 각 부품을 따로 본다(FailureMinerTest·DeterministicCandidateTest·
+    ShadowTest·GateTest). 부품이 전부 통과해도 이어 붙이는 자리가 끊겨 있으면 Challenger는
+    영원히 안 생기고, 그 사실은 아무 테스트도 빨갛게 만들지 않는다. 실제로 이 시험을 쓰다가
+    그런 끊긴 자리를 하나 찾았다 — evaluation.split_research_eval()이 데이터가 **충분할 때**의
+    note 에만 uniqueDays 를 빠뜨려서, performance_orchestrator.research_focus()가 그걸 0일로
+    읽고 영원히 WAITING_EVIDENCE 로 남았다(자료가 쌓여도 연구 자격이 열리지 않는다).
+
+    잰 사슬: 성숙 판단일 → 연구/평가 분리 → Failure Mining(최소지지) → 연구 자격 →
+             결정론 후보 생성 → Cheap Filter → Registry 등록 → Shadow 원장 → Promotion Gate
+
+    ⚠️ Production 임계값·가중치는 한 개도 건드리지 않는다. 전부 합성 데이터다.
+    """
+
+    BASE = {"taro": .25, "diana": .25, "nova": .25, "flow": .25}
+    PROD = {"weights": BASE, "learned": True, "sectorOverrides": 0, "source": "chain_fixture"}
+
+    def chain_rows(self, n_days=35):
+        """diana 점수만 결과와 맞물리게 흩뿌린 행 — 가중치를 diana 쪽으로 옮기면
+        Baseline 이 틀리던 BUY 가 HOLD 로 빠져 행동 정밀도가 실제로 오른다.
+        하루치 구성: 둘 다 맞는 BUY 4 · Baseline 만 틀리는 BUY 2 · 둘 다 맞는 SELL 3."""
+        def one(code, day, call, scores, ret5, out):
+            total = round(sum(scores.values()) / 4)
+            row = {"code": code, "day": day, "call": call, "total": total,
+                   "confidence": 65, "base": 10000, "baseAt": day,
+                   "rawTotal": total, "riskPenalty": 0, "sellThreshold": 47,
+                   "ret5": ret5, "outcomeDate": out}
+            for analyst, score in scores.items():
+                row[analyst] = {"score": score, "stance": "bull" if score >= 55 else "bear"}
+            return row
+
+        rows = []
+        for d in range(n_days):
+            day = f"2026-{6 + d // 28:02d}-{d % 28 + 1:02d}"
+            out = f"2026-08-{min(28, d % 28 + 1):02d}"
+            for i in range(4):
+                rows.append(one(f"D{d:02d}{i}", day, "BUY",
+                                {"taro": 80, "diana": 80, "nova": 80, "flow": 80}, 4.0, out))
+            for i in range(2):     # diana 만 낮다 → Baseline BUY(64) / 후보 HOLD(62)
+                rows.append(one(f"C{d:02d}{i}", day, "BUY",
+                                {"taro": 70, "diana": 44, "nova": 70, "flow": 70}, -12.0, out))
+            for i in range(3):
+                rows.append(one(f"E{d:02d}{i}", day, "SELL",
+                                {"taro": 30, "diana": 30, "nova": 30, "flow": 30}, -5.0, out))
+        return rows
+
+    def mined(self, rows):
+        research, eval_rows, note = evaluation.split_research_eval(rows)
+        report = failure_miner.mine(research if research is not None else rows)
+        report["dataSplit"] = note
+        return research, eval_rows, note, report
+
+    def test_충분한_근거는_연구자격까지_실제로_도달한다(self):
+        import performance_orchestrator as po
+        _, _, note, report = self.mined(self.chain_rows())
+        self.assertTrue(note["sufficient"])
+        self.assertTrue(report["clusters"], "최소지지를 넘는 실패 군집이 나와야 한다")
+        for cluster in report["clusters"]:
+            self.assertGreaterEqual(cluster["rawN"], failure_miner.MIN_ROWS)
+            self.assertGreaterEqual(cluster["uniqueDays"], failure_miner.MIN_DAYS)
+        # 🐛 여기가 끊겨 있던 자리다 — 아래 두 줄이 이 사슬의 본론이고,
+        #    그 뒤 note 검사는 끊긴 원인(사실값 누락)을 바로 가리키기 위한 것이다.
+        focus = po.research_focus(report, CONST)
+        self.assertEqual(focus["status"], "ACTIONABLE")
+        self.assertTrue(focus["researchRecommended"])
+        self.assertEqual(focus["reason"], "supported_failures_and_separated_research_data")
+        self.assertEqual(focus["observedDecisionDays"], 35)
+        self.assertFalse(focus["productionChangesAllowed"])   # 연구 자격일 뿐, 개입 권한이 아니다
+        self.assertEqual(note.get("uniqueDays"), 35)
+        self.assertEqual(note.get("requiredDays"), 30)
+
+    def test_실패근거가_후보_가설까지_실제로_전달된다(self):
+        _, _, _, report = self.mined(self.chain_rows())
+        mined_keys = {c["key"] for c in report["clusters"]}
+        specs = candidates.generate_deterministic(self.BASE, CONST, report)
+        linked = [s for s in specs if s["failureClusters"]]
+        self.assertTrue(linked, "군집이 있는데 어떤 후보도 근거를 달지 못했다")
+        for spec in linked:
+            self.assertTrue(set(spec["failureClusters"]) <= mined_keys)
+
+    def test_사슬이_Registry_Shadow_Gate까지_끝까지_뚫린다(self):
+        _, eval_rows, _, report = self.mined(self.chain_rows())
+        specs = candidates.generate_deterministic(self.BASE, CONST, report)
+        survivors, rejected = candidates.cheap_filter(specs, eval_rows, CONST, self.PROD)
+        self.assertTrue(survivors, "근거가 충분한데 Cheap Filter 를 통과한 후보가 0개다")
+        self.assertTrue(rejected, "전원 생존은 필터가 일을 안 했다는 뜻이다")
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        path = os.path.join(tmp.name, "candidates.json")
+        sdir = os.path.join(tmp.name, "shadow")
+        spec = dict(survivors[0], status="BOOTSTRAP_SHADOW")
+        entry = registry.register_candidate(spec, CONST, path=path)
+        self.assertEqual(entry["status"], "BOOTSTRAP_SHADOW")
+        self.assertTrue(entry["experimentSerial"])
+        self.assertEqual(registry.load_candidates(path=path)["entries"][0]["candidateId"],
+                         entry["candidateId"])
+
+        ledger = shadow.load_or_create_ledger(entry, self.PROD, shadow_dir=sdir)
+        # 오늘 태어난 후보가 과거 행을 자기 증거로 쓰는 일은 없어야 한다.
+        self.assertEqual(shadow.append_rows(ledger, self.chain_rows()), 0)
+        prospective = shadow.prospective_metrics(ledger, None)
+        self.assertIsNone(prospective)
+
+        verdict, reasons = gate.promotion_decision(
+            entry, prospective, CONST, registry.prior_param_history(registry.load_candidates(path=path)))
+        # offline 성적이 아무리 좋아도 실전 Shadow 실측 없이는 승격 후보가 못 된다.
+        self.assertEqual(verdict, gate.VERDICT_BOOTSTRAP)
+        self.assertTrue(reasons)
+
+    def test_근거가_부족하면_Challenger를_지어내지_않는다(self):
+        import performance_orchestrator as po
+        rows = self.chain_rows(n_days=4)          # 4일 — 분리 요건(30일)에도, 최소지지에도 미달
+        _, _, note, report = self.mined(rows)
+        self.assertFalse(note["sufficient"])
+        self.assertEqual(report["clusters"], [])
+        focus = po.research_focus(report, CONST)
+        self.assertEqual(focus["status"], "WAITING_EVIDENCE")
+        self.assertFalse(focus["researchRecommended"])
+        survivors, rejected = candidates.cheap_filter(
+            candidates.generate_deterministic(self.BASE, CONST, report), rows, CONST, self.PROD)
+        self.assertEqual(survivors, [])
+        self.assertTrue(any(any("표본부족" in w for w in item["why"]) for item in rejected))
+        # 대기는 장애가 아니다 — 그저 아직 근거가 없는 것이고, 그렇게 적혀 있어야 한다.
+        self.assertEqual(focus["reason"], "waiting_for_separated_evidence")
+
+
 if __name__ == "__main__":
     unittest.main()

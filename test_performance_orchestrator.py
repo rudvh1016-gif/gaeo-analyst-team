@@ -183,5 +183,32 @@ class Liveness(unittest.TestCase):
             live['workflows']['evolution-lab.yml']['lastRunAt']='2026-09-06T00:00:00Z'
             self.assertEqual(O.check_evolution_liveness(tmp,dt.datetime.now(O.KST),live)['status'],O.OK)
 
+    def test_local_files_alone_never_become_ok_without_scheduled_evidence(self):
+        """로컬 산출물이 아무리 말끔해도 '예약 실행이 실제로 있었다'는 별개의 사실이다.
+
+        교훈 ③ "모른다를 괜찮다로 바꾸지 마라"의 이 경로만 시험이 없었다 — 토큰이 없거나
+        조회가 실패해 live 증거가 비면(또는 UNKNOWN이면) 판정은 UNKNOWN이어야 하고,
+        그 UNKNOWN 은 ops 종료코드 2(확인 불가)로 이어져야 한다.
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);p=root/'.github/workflows/evolution-lab.yml';p.parent.mkdir(parents=True)
+            p.write_text('on:\n  schedule:\n    - cron: "0 23 * * 6"\n')
+            state=root/'gaeo_evolution/status';state.mkdir(parents=True)
+            doc={'generatedAt':'2026-09-06T00:00:00Z','lastEvaluationAt':'2026-09-06T00:00:00Z'}
+            run={'status':'OK','startedAt':'2026-09-06T00:00:00Z','finishedAt':'2026-09-06T00:00:01Z',
+                 'evaluationMeta':{'dataFingerprint':'a','uniqueDays':30}}
+            (state/'evolution_status.json').write_text(json.dumps(doc))
+            (state/'last_run_manifest.json').write_text(json.dumps(run))
+            now=dt.datetime.now(O.KST)
+            for live in (None,{},{'workflows':{}},
+                         {'workflows':{'evolution-lab.yml':{'status':O.UNKNOWN,'code':'SCHEDULED_STATE_UNKNOWN'}}}):
+                result=O.check_evolution_liveness(tmp,now,live)
+                self.assertEqual(result['status'],O.UNKNOWN,live)
+                self.assertEqual(result['code'],'EVOLUTION_LOCAL_EVIDENCE_ONLY',live)
+                # 확인 못 한 것을 확인한 것처럼 적지 않는다.
+                self.assertTrue(result['evaluationPerformed'])
+                self.assertIn(result['scheduledEvidence'],({},None,
+                    {'status':O.UNKNOWN,'code':'SCHEDULED_STATE_UNKNOWN'}))
+
 
 if __name__=='__main__':unittest.main()

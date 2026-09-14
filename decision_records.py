@@ -503,8 +503,101 @@ def refresh(root=ROOT, repo=HERE, now=None):
         example['outcomePath']=os.path.relpath(Path(root)/'outcomes'/(original['date'][:7]+'.json'),repo).replace(os.sep,'/')
         detail=compared[original['recordId']]
         example.update(comparisonState=detail['state'],comparisonReason=detail['reason'],comparisonPath=comparison_ref)
+    # 🔗 실행 신원 각인(additive) — "이 1,200건을 만든 실행이 무엇인가"를 나중에 대조할 수 있게.
+    #    수동 실행에서는 None으로 남겨 예약 실행으로 둔갑시키지 않는다.
+    result['execution']=execution_identity(rows,root,repo)
     _atomic_json(Path(root)/'status.json',result)
     return result
+
+
+def execution_identity(rows, root=ROOT, repo=HERE):
+    """이번 회차를 만든 실행의 신원. 새 저장소를 만들지 않고 기존 status.json에 덧붙인다.
+
+    필드 이름은 이미 이 저장소가 쓰는 어휘를 그대로 쓴다(dart_research.build_report()
+    의 execution, performance_orchestrator.execution_receipt) — 같은 뜻에 두 번째
+    이름을 만들지 않기 위해서다.
+
+    GitHub Actions 밖(로컬·수동)에서는 값을 지어내지 않고 None으로 남긴다. 수동 실행이
+    예약 실행처럼 보이게 만들지 않는 것이 이 필드의 목적이다.
+    """
+    daily = daily_records(rows)
+    latest = max((row['decisionAt'] for row in daily), default=None)
+    round_id = _hash(['actual_auto', latest])[:24] if latest else None
+    original_hash = None
+    if round_id:
+        day = next((row['date'] for row in daily if row['decisionAt'] == latest), None)
+        store = DecisionStore(root, round_id)
+        segment = store.existing_segment(day) if day else None
+        if segment:
+            manifest = Path(store.manifest_path(day))
+            if manifest.exists():
+                digests = (json.loads(manifest.read_text(encoding='utf-8')).get('sha256') or {})
+                original_hash = digests.get(Path(segment).name)
+    return {'event': os.environ.get('GITHUB_EVENT_NAME') or None,
+            'runId': os.environ.get('GITHUB_RUN_ID') or None,
+            'runAttempt': os.environ.get('GITHUB_RUN_ATTEMPT') or None,
+            'headSha': os.environ.get('GITHUB_SHA') or None,
+            'analysisCount': len(daily),
+            'decisionOriginalId': round_id,
+            'decisionOriginalHash': original_hash}
+
+
+def verify_saved_to_main(root=ROOT, repo=HERE, ref='origin/main'):
+    """이번 회차의 판단 원본이 정말 ref(main)에 들어갔는지 **다시 읽어** 확인한다.
+
+    Actions job 성공도, 로컬에 파일이 있다는 것도 MAIN_VERIFIED가 아니다 — ref의 트리에서
+    같은 blob을 실제로 찾아야 한다. 조회 자체를 못 하면 정상도 장애도 아닌 UNVERIFIED다.
+
+    ⚠️ 이 판정은 본질적으로 사후(事後)다. 회차를 만든 그 run 안에서는 아직 커밋 전이라
+    NOT_IN_MAIN이 정상이고, 다음 점검(ops-daily·다음 사이클)에서 MAIN_VERIFIED로 바뀐다.
+    그래서 이 값은 관찰로만 싣고 component status를 올리거나 내리지 않는다 — 저장 직전의
+    정상 상태를 장애로 읽으면 교훈 ④("모른다를 고장으로 바꾸지도 마라")를 어기는 셈이다.
+    """
+    root, repo = Path(root), Path(repo)
+    out = {'verificationStatus': 'UNVERIFIED', 'verifiedCommitSha': None,
+           'ref': ref, 'checked': [], 'missing': []}
+    status = _read_status(root)
+    identity = (status or {}).get('execution') or {}
+    round_id, expected = identity.get('decisionOriginalId'), identity.get('decisionOriginalHash')
+    if not round_id:
+        out['reason'] = 'no_execution_identity'
+        return out
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=repo, capture_output=True, timeout=60)
+    head = git('rev-parse', ref)
+    if head.returncode:
+        out['reason'] = 'ref_unreadable'
+        return out
+    out['verifiedCommitSha'] = head.stdout.decode().strip()
+    listing = git('ls-tree', '-r', ref, '--', 'research_archive/decisions/originals/')
+    if listing.returncode:
+        out['reason'] = 'tree_unreadable'
+        return out
+    blobs = {line.split('\t', 1)[1]: line.split()[2]
+             for line in listing.stdout.decode().splitlines() if '\t' in line}
+    wanted = [path for path in blobs if round_id in path and path.endswith('.jsonl.gz')]
+    if not wanted:
+        out.update(verificationStatus='NOT_IN_MAIN', reason='original_not_in_ref')
+        return out
+    out['checked'] = sorted(wanted)
+    out['decisionOriginalHash'] = expected     # manifest의 평문 sha256(참고용, git blob id와 다른 값)
+    for path in wanted:
+        local = repo / path
+        if not local.exists():
+            out['missing'].append(path)
+            continue
+        blob = git('hash-object', path)
+        if blob.returncode or blob.stdout.decode().strip() != blobs[path]:
+            out['missing'].append(path)
+    out['verificationStatus'] = 'MAIN_VERIFIED' if not out['missing'] else 'NOT_IN_MAIN'
+    return out
+
+
+def _read_status(root=ROOT):
+    try:
+        return json.loads((Path(root) / 'status.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
 
 
 def safe_merge(ref, repo=HERE):
@@ -604,7 +697,12 @@ def main():
     parser.add_argument('--merge-ref')
     parser.add_argument('--recovery-bundle')
     parser.add_argument('--price-proof',help='Preserve a separately obtained official price-basis proof; never edit a decision')
+    parser.add_argument('--verify-main',nargs='?',const='origin/main',
+                        help='저장된 판단 원본이 정말 그 ref(기본 origin/main)에 들어갔는지 다시 읽어 확인만 한다')
     args=parser.parse_args()
+    if args.verify_main:
+        print(_json(verify_saved_to_main(ref=args.verify_main)))
+        return
     if args.merge_ref:
         raise SystemExit(safe_merge(args.merge_ref))
     if args.recovery_bundle:

@@ -61,6 +61,33 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 정상 / 정상 대기 / 자료 부족 / 장애 / 확인 불가 / 무료 한도 대기. 확인 전은 "확인 불가"다. 표본 부족은 "투자 검증 대기"이고,
 수집기가 멈춰 표본이 안 쌓이는 것은 "운영 장애"다 — 둘을 섞지 않는다.
 
+## 5-1. 고의 고장 시험 지도 (fault injection · 2026-09-14)
+
+happy path만 도는 검사는 사고를 못 막는다. 아래 16가지 고장을 **일부러 일으켰을 때** 조용히 "정상"으로
+지나가지 않는지, 각각 어느 검사가 지키는지의 대조표다. 새 고장 유형을 발견하면 이 표에 줄을 더한다.
+
+| # | 고의 고장 | 지키는 검사 | 나와야 하는 판정 |
+|---|---|---|---|
+| 1 | 생성 파일이 저장 목록에서 빠짐 | `test_verify_save_closure.py` | `SAVE_CLOSURE_FAILURE` + 이번 사이클 커밋 보류(체인은 유지) |
+| 2 | 더러운 작업 트리로 병합 | `test_decision_records.MergeEvidence` | `safe_merge` 거부 |
+| 3 | 예상 밖 코드 파일 변경 | `test_verify_save_closure.ClassifierUnit` | `unexpected` 분류 |
+| 4 | 600종목 중 일부 수집 누락 | `test_gaeo_coverage.py` 01·03·05 계열 | 대체 종목 0개 · UNKNOWN(폐지 아님) |
+| 5 | DART 조회 실패 | `test_dart_research.ExistingOperations` | `DART_RESEARCH_DATA_ERROR` = ACTIONABLE |
+| 6 | DART 조회창 일부 unknown | `test_dart_research` 노출/신호 시험 | `UNKNOWN` · 신호로 인정 안 함 |
+| 7 | GitHub 조회 실패 | `test_workflow_health.py` · `test_ops_status.py` | 종료코드 2(확인 불가), 판정 보류 |
+| 8 | 실행은 성공했는데 main 저장이 없음 | `test_performance_orchestrator.Liveness` · `test_decision_records.ExecutionEvidence` | `EVOLUTION_OUTPUT_NOT_UPDATED` · `NOT_IN_MAIN` |
+| 9 | main 커밋은 있는데 판단 원본이 없음 | `test_decision_records.ExecutionEvidence` | `NOT_IN_MAIN(original_not_in_ref)` |
+| 10 | 수동 dispatch를 예약 실행으로 분류 | `test_dart_research.test_only_completed_scheduled_same_main_state_qualifies` | `PENDING_NATURAL_RUN` |
+| 11 | 오래된 Evolution 상태 | `test_ops_status.py` · `test_performance_orchestrator.Liveness` | `EVOLUTION_STALE` · `EVOLUTION_LOCAL_EVIDENCE_ONLY`(UNKNOWN) |
+| 12 | 후보가 0개인데 장애로 오인 | `test_performance_orchestrator.Loop` | 장애 아님 · 정체 아님 |
+| 13 | 자료가 부족한데 후보 생성 | `test_gaeo_evolution.ChallengerChainTest` · `DeterministicCandidateTest` | 생존 0 · `WAITING_EVIDENCE` |
+| 14 | Champion 버전이 중간에 바뀐 비교 | `test_gaeo_evolution.ContemporaryChampionGateTest` | 구간을 섞지 않음 |
+| 15 | 승격 기준 미달인데 승격 시도 | `test_gaeo_evolution.SubgroupGateTest` | `KEEP_SHADOW`/거부 |
+| 16 | Rollback 뒤 실제 Production 버전 불일치 | `test_gaeo_evolution.ProductionWiringTest` | 불일치 검출 · SAFE_MODE |
+
+특히 **UNKNOWN → 정상**으로 새는 길은 별도로 막는다: 예약 실행 증거 없이 로컬 산출물만 말끔한 경우(11),
+조회 실패(7), 판단 원본 되읽기 실패(8·9)는 전부 "확인 불가"로 남고 종료코드 2로 이어진다.
+
 ## 6. 중단·재개
 - 사용량·세션 한도가 가까우면 `docs/operations/STATUS.md`(진도·커밋·다음 행동)부터 저장한다.
 - 같은 입력·같은 방법의 실패 재시도는 최대 2회. 권한·관찰기간에 막힌 구간은 "막힘"으로 두고 독립 작업을 계속한다.
