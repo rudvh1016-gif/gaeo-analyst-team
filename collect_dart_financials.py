@@ -120,7 +120,7 @@ def collect(client, corp_map, budget=None, max_companies=DEFAULT_MAX_COMPANIES,
         return {"status": SKIPPED_ALREADY_TODAY, "startedAt": started,
                 "financialCallsToday": budget.counts.get("financial"),
                 "reason": "오늘 이미 재무를 받았다. 연간 재무는 하루 한 번이면 충분하다."}
-    if not client.has_key():
+    if not client.has_key:
         return {"status": SKIPPED_NO_KEY, "startedAt": started,
                 "reason": "OPEN_DART_API_KEY가 없어 재무 수집을 건너뛴다."}
     if not ((corp_map or {}).get("mapped")):
@@ -149,6 +149,9 @@ def collect(client, corp_map, budget=None, max_companies=DEFAULT_MAX_COMPANIES,
                 break
             got = None
             for fs_div in ("CFS", "OFS"):
+                if calls >= max_calls or (budget is not None and not budget.allow("financial")):
+                    budget_stopped = True
+                    break
                 if budget is not None:
                     budget.spend("financial")
                 calls += 1
@@ -162,6 +165,8 @@ def collect(client, corp_map, budget=None, max_companies=DEFAULT_MAX_COMPANIES,
                 if res.get("status") != dart_client.OK:
                     errors.append({"ticker": ticker, "year": year, "fsDiv": fs_div,
                                    "status": res.get("status")})
+            if budget_stopped and not got:
+                break
             if not got:
                 # 그 해 자료가 아예 없다고 확정한다. 매번 다시 묻지 않기 위해 남긴다.
                 doc["years"][str(year)] = {"status": "NO_DATA",
@@ -241,7 +246,7 @@ def main():
         print(json.dumps(universe_readiness(), ensure_ascii=False, indent=1))
         return 0
     client = dart_client.DartClient()
-    budget = dart_budget.DailyBudget(os.path.join(HERE, "dart_store", "api_budget.json"))
+    budget = dart_budget.DailyBudget(os.path.join(P.DART_ROOT, "api_budget.json"))
     corp_map = P.load_corp_map()
     result = collect(client, corp_map, budget=budget,
                      max_companies=args.max_companies, max_calls=args.max_calls,

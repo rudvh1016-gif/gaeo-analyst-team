@@ -13,6 +13,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import collect_dart_financials as C
 import dart_client
@@ -46,6 +47,7 @@ class FakeClient:
         self.calls = []
         self.empty_for = set(empty_for)
 
+    @property
     def has_key(self):
         return self._has_key
 
@@ -116,6 +118,21 @@ class CollectorContract(unittest.TestCase):
     def test_skips_without_key(self):
         out = C.collect(FakeClient(has_key=False), corp_map(3), budget=FakeBudget())
         self.assertEqual(out["status"], C.SKIPPED_NO_KEY)
+
+    def test_real_client_key_property_without_network(self):
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(C.collect(dart_client.DartClient(), corp_map(1))["status"], C.SKIPPED_NO_KEY)
+        client = dart_client.DartClient(api_key="test-only-not-a-secret")
+        with patch.object(client, "financial_statement", return_value={"status": dart_client.OK, "data": fake_payload()}):
+            self.assertEqual(C.collect(client, corp_map(1), budget=FakeBudget())["yearsStored"], 3)
+
+    def test_fallback_request_cannot_exceed_call_budget(self):
+        client = FakeClient(empty_for=[("C000001", 2025)])
+        result = C.collect(client, corp_map(1), budget=FakeBudget(allow_n=1),
+                           max_calls=1, today="2026-09-14")
+        self.assertEqual(len(client.calls), 1)
+        self.assertTrue(result["budgetStopped"])
+        self.assertNotIn("2025", C.load_company("000001")["years"])
 
     def test_skips_without_mapping(self):
         out = C.collect(FakeClient(), {"mapped": {}}, budget=FakeBudget())
@@ -233,6 +250,10 @@ class WorkflowWiring(unittest.TestCase):
     def test_collected_data_is_committed(self):
         self.assertIn("git add dart_financials", self.text,
                       "받은 재무 자료가 커밋되지 않으면 다음 실행에서 또 받는다")
+
+    def test_financial_budget_uses_the_persisted_dart_store(self):
+        from pathlib import Path
+        self.assertIn('os.path.join(P.DART_ROOT, "api_budget.json")', Path(C.__file__).read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
