@@ -525,14 +525,20 @@ def execution_identity(rows, root=ROOT, repo=HERE):
     round_id = _hash(['actual_auto', latest])[:24] if latest else None
     original_hash = None
     if round_id:
-        day = next((row['date'] for row in daily if row['decisionAt'] == latest), None)
-        store = DecisionStore(root, round_id)
-        segment = store.existing_segment(day) if day else None
-        if segment:
-            manifest = Path(store.manifest_path(day))
-            if manifest.exists():
-                digests = (json.loads(manifest.read_text(encoding='utf-8')).get('sha256') or {})
-                original_hash = digests.get(Path(segment).name)
+        # 이 도장은 덧붙이는 정보다 — 여기서 예외가 나면 refresh() 전체가 죽고 그 순간
+        # 자동분석 사이클이 멈춘다. 망가진 manifest 는 원본 무결성 검사(ops_status
+        # check_decisions)가 이미 FAULT 로 잡으므로, 여기서는 해시를 비워 두기만 한다.
+        try:
+            day = next((row['date'] for row in daily if row['decisionAt'] == latest), None)
+            store = DecisionStore(root, round_id)
+            segment = store.existing_segment(day) if day else None
+            if segment:
+                manifest = Path(store.manifest_path(day))
+                if manifest.exists():
+                    digests = (json.loads(manifest.read_text(encoding='utf-8')).get('sha256') or {})
+                    original_hash = digests.get(Path(segment).name)
+        except (OSError, ValueError, KeyError, AttributeError):
+            original_hash = None
     return {'event': os.environ.get('GITHUB_EVENT_NAME') or None,
             'runId': os.environ.get('GITHUB_RUN_ID') or None,
             'runAttempt': os.environ.get('GITHUB_RUN_ATTEMPT') or None,

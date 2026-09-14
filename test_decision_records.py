@@ -413,6 +413,22 @@ class ExecutionEvidence(unittest.TestCase):
         self.assertEqual((identity['runId'], identity['runAttempt']), ('123', '2'))
         self.assertEqual(identity['headSha'], 'a' * 40)
 
+    def test_manifest가_망가져도_실행_신원_자체는_예외를_내지_않는다(self):
+        """이 도장은 덧붙이는 정보라 스스로 예외를 내면 안 된다 — 여기서 죽으면 refresh()가
+        통째로 멈추고 자동분석 사이클이 끊긴다.
+
+        ⚠️ 이 시험은 `execution_identity()`만의 계약이다. 망가진 원본에 대해 `read_records()`가
+        먼저 소리내어 죽는 것은 **이 변경 이전부터의 의도된 fail-loud 동작**이라 그대로 둔다
+        (판단 원본이 깨졌으면 조용히 집계를 내보내는 것보다 멈추는 편이 맞다).
+        """
+        repo, root, _ = self._repo()
+        rows = dr.read_records(root)                       # 아직 멀쩡할 때 읽어둔다
+        next(root.glob('originals/**/*.jsonl.manifest.json')).write_text('{깨진', encoding='utf-8')
+        identity = dr.execution_identity(rows, root, repo)  # 예외 없이 돌아와야 한다
+        self.assertIsNone(identity['decisionOriginalHash'])  # 해시만 비어 있다
+        self.assertTrue(identity['decisionOriginalId'])      # 회차 id 는 rows 에서 나오므로 그대로
+        self.assertEqual(identity['analysisCount'], 1)
+
     def test_refresh가_status에_실행_블록을_덧붙인다(self):
         repo, root, _ = self._repo()
         report = json.loads((root / 'status.json').read_text(encoding='utf-8'))
