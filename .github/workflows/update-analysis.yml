@@ -296,7 +296,9 @@ jobs:
             [ -d dart_financials ] && git add dart_financials
             git add analysis_archive.js deep_analysis_latest.js deep_analysis_manifest.json 2>/dev/null || true
             [ -d research/deep-analysis ] && git add research/deep-analysis
-            if git diff --cached --quiet; then
+            python3 verify_save_closure.py; closure_ok=$?
+            if [ "$closure_ok" -ne 0 ] || git diff --cached --quiet; then
+              [ "$closure_ok" -ne 0 ] && echo "::error::SAVE_CLOSURE_FAILURE 커밋 보류"
               echo "변경 없음 — 커밋 생략"
             else
               git commit -m "자동 분석데이터 갱신 (GitHub Actions) [skip ci]"
