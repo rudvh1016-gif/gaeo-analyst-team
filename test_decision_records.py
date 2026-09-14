@@ -4,6 +4,7 @@ import datetime as dt
 import json
 import gzip
 import os
+import re
 import tempfile
 import subprocess
 import tarfile
@@ -207,6 +208,39 @@ class Disclosure(unittest.TestCase):
 
 
 class MergeEvidence(unittest.TestCase):
+    def test_analysis_staging_keeps_rebound_output_before_price_merge(self):
+        # Reproduce the 2026-09-14 runner: generated rebound output remained dirty
+        # after the cycle commit, so the protected merge refused every price update.
+        workflow=(dr.HERE/'.github/workflows/update-analysis.yml').read_text(encoding='utf-8')
+        staging=re.search(r'for f in price_history\.js[\s\S]*?\n\s*done',workflow).group()
+        with tempfile.TemporaryDirectory() as tmp:
+            repo=dr.Path(tmp)
+            def git(*args):
+                return subprocess.run(['git',*args],cwd=repo,check=True,capture_output=True).stdout
+            git('init','-b','main');git('config','user.name','Fixture');git('config','user.email','fixture@example.test')
+            for name,text in {'data.js':'old prices','rebound_watch.js':'old watch',
+                              'auto_analysis.js':'old analysis','model_scoreboard.js':'const MODEL_SCOREBOARD = {"models":[]};',
+                              'price_history.js':'const PRICE_HISTORY = {};','llms.txt':'links'}.items():
+                (repo/name).write_text(text,encoding='utf-8')
+            git('add','.');git('commit','-m','base');git('branch','prices')
+            git('switch','prices');(repo/'data.js').write_text('new prices',encoding='utf-8')
+            git('add','data.js');git('commit','-m','price update');git('switch','main')
+            root=repo/'research_archive/decisions'
+            dr.capture(auto(),root)
+            (repo/'rebound_watch.js').write_text('new watch',encoding='utf-8')
+            (repo/'auto_analysis.js').write_text('new analysis',encoding='utf-8')
+            subprocess.run(['bash','-c',staging],cwd=repo,check=True)
+            git('add','research_archive');git('commit','-m','analysis cycle')
+            self.assertFalse(git('status','--porcelain').strip())
+            self.assertEqual(dr.safe_merge('prices',repo),0)
+            self.assertEqual((repo/'data.js').read_text(),'new prices')
+            self.assertEqual((repo/'rebound_watch.js').read_text(),'new watch')
+            self.assertEqual((repo/'auto_analysis.js').read_text(),'new analysis')
+            self.assertEqual(len(dr.read_records(root)),1)
+            # The guard still refuses an unrelated code edit.
+            (repo/'unrelated.py').write_text('do not discard',encoding='utf-8')
+            with self.assertRaises(dr.IntegrityError): dr.safe_merge('prices',repo)
+
     def test_post_merge_failure_keeps_original_head_and_clean_tree(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo=dr.Path(tmp)
