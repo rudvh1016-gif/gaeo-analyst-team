@@ -3,6 +3,30 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-15 AI-0 후속 — 자연 실행 실증 · 실행 신원/main 되읽기 · 끊긴 연구 자격 연결부
+
+바로 아래 2026-09-14 기록의 후속이다. 그날 "아직 실증 안 됨"으로 남긴 항목 중 **하나가 실제 증거로 바뀌었고**,
+나머지 하나는 그대로다. 오래된 문구를 그대로 두지 않기 위해 아래에 무엇이 바뀌고 무엇이 안 바뀌었는지 분리해 적는다.
+
+- ⭐ **`ops-daily` 자연 예약 실행이 실증됐다 (PENDING_NATURAL_RUN → NATURAL_RUN_SUCCESS).** 이 세션은 **아무것도 dispatch 하지 않았다.**
+  GitHub run 사실로 확인: run `34858114587`(event=`schedule`, head `76e5727e67`, 2026-09-14 23:49 KST, success) → run `34860513624`(event=`schedule`, head `c51f42e47a`, 2026-09-15 00:11 KST, success).
+  앞 run 이 `executionReceipt`(runId·runAttempt·headSha·workflowRef·stateHash)를 main 에 저장했고, **다음 자연 run 이 그걸 main 에서 다시 읽어 대조해** `docs/operations/repair_requests/performance_orchestrator.json` 의 `naturalRunAcceptance` 를 `NATURAL_RUN_SUCCESS`(runId `34858114587`, `sameRunArtifactVerified: true`)로 기록했다 — 사람이 끼어들지 않고 사슬이 스스로 닫혔다.
+  이 세션에서도 실제 run 사실을 넣어 `performance_orchestrator.verify_natural_run()` 을 독립적으로 다시 돌렸고 같은 결과였다(stateHash 재계산 일치).
+  ⚠️ 범위 한정: 이것은 **`ops-daily` 한 워크플로**의 실증이다. 아래 9/14 기록의 `update-analysis.yml` 콜드스타트 항목은 **여전히 PENDING_NATURAL_RUN(미실증, 장애 아님)** 이고 이번에도 인위 재현을 하지 않았다.
+- **판단 원본의 "실행 신원"과 "정말 main 에 들어갔나"를 따로 각인**(`decision_records.py`). 지금까지 status.json 은 "몇 건이 저장됐다"만 알았고, 그 회차를 만든 실행이 예약이었는지 수동이었는지, 그 원본이 main 트리에 실제로 들어갔는지는 어디에도 없었다.
+  - `execution_identity()` — `GITHUB_EVENT_NAME`/`RUN_ID`/`RUN_ATTEMPT`/`SHA` + 회차 id + manifest sha256 을 `status.json.execution` 에 덧붙인다. **Actions 밖에서는 값을 지어내지 않고 `None`** 으로 둔다(수동 실행이 예약 실행으로 둔갑하지 않게).
+  - `verify_saved_to_main()` (CLI `--verify-main`) — 회차 원본을 ref 트리에서 **다시 읽어** blob 대조한다. `MAIN_VERIFIED` / `NOT_IN_MAIN` / `UNVERIFIED` 세 값이고, 조회를 못 하면 정상도 장애도 아닌 `UNVERIFIED` 다. 판정은 본질적으로 사후라서(같은 run 안에서는 아직 커밋 전이 정상) `ops_status` 는 이 값을 **관찰로만** 싣고 component status 를 올리거나 내리지 않는다.
+  - 실측: 2026-09-14 회차 `e1bb71a2b16d3d9d00154752`(1,200건) 의 `.jsonl.gz`·`.manifest.json` 둘 다 `origin/main` 트리에 존재 → `MAIN_VERIFIED`.
+- 🐛 **끊겨 있던 연결부 하나를 찾아 닫았다 — 연구 자격이 영원히 열리지 않는 버그.** `evaluation.split_research_eval()` 이 데이터가 **충분할 때**의 note 에만 `uniqueDays`/`requiredDays` 를 빠뜨렸고, `performance_orchestrator.research_focus()` 는 그 값을 `0` 으로 읽어 `0 >= 30` 비교에서 항상 탈락시켰다. 즉 판단일이 30일을 넘겨도 상태는 영원히 `WAITING_EVIDENCE` 였다. 사실값(집계된 날 수)일 뿐 임계값이 아니므로 양쪽 note 에 똑같이 담는 것으로 고쳤다 — **문턱·가중치·산식은 한 글자도 바꾸지 않았다.**
+  오늘 시점의 `WAITING_EVIDENCE` 자체는 **옳다**(main 실측 `observedDecisionDays: 20` < `requiredDecisionDays: 30`). 이 버그는 아직 잘못 보고한 적이 없는 **잠복 결함**이었고, 30일에 도달하는 순간 드러날 예정이었다.
+- **사슬 전체를 한 번에 재는 시험**(`test_gaeo_evolution.ChallengerChainTest`, 신규 4건). 부품별 시험은 이미 있었지만 **이어 붙인 자리**를 재는 시험이 없었다(그래서 위 버그가 1,500여 건을 다 통과했다). 합성 데이터로 `성숙 판단일 → 연구/평가 분리 → Failure Mining(최소지지 8행·5일) → 연구 자격 → 결정론 후보 → Cheap Filter → Registry 등록 → Shadow 원장 → Promotion Gate` 를 끝까지 통과시키고, **근거가 부족하면 후보가 0개인 것**도 같이 고정했다. offline 성적이 아무리 좋아도 gate 는 `BOOTSTRAP_SHADOW` 를 내놓는다(실전 Shadow 실측 없이 승격 불가) — 이것도 시험에 박아뒀다.
+- **고의 고장 시험 지도**를 `docs/HARNESS.md` §5-1 에 표로 남겼다(16가지 고장 ↔ 지키는 검사 ↔ 나와야 하는 판정). 전수 대조 결과 **진짜로 비어 있던 칸은 1개**였고 그것만 채웠다: 예약 실행 증거 없이 로컬 산출물만 말끔할 때 `check_evolution_liveness()` 가 `UNKNOWN(EVOLUTION_LOCAL_EVIDENCE_ONLY)` 로 남는 경로에 시험이 없었다(`test_performance_orchestrator.Liveness` 에 추가). 나머지 15칸은 이미 있는 시험으로 덮여 있어 **중복 작성하지 않았다.**
+  새 시험 3건은 각각 **핵심 가드를 일부러 깨뜨려 실제로 FAIL 하는 것까지 확인한 뒤 원상복구**했다(`'WAITING_EVIDENCE' != 'ACTIONABLE'`, `'OK' != 'UNKNOWN'`).
+- **현재 실측 상태**(`ops_status.py`, 2026-09-15 09:00 KST 기준): 정상 4 · 정상 대기 4 · **장애 1** · 확인 불가 1.
+  - 장애 1건은 **모의투자(PAPER)** 다 — 2026-09-14 거래일 회차 0건, 마지막 회차 09-11 15:05, 활성 러너 `WINDOWS`(집 PC). 이번 작업 범위 밖이며 손대지 않았다. 조치는 `docs/operations/HOME_PC_CHECKLIST.md`.
+  - 확인 불가 1건은 위에 적은 `EVOLUTION_LOCAL_EVIDENCE_ONLY`(토큰 없이 돌면 예약 실행 여부를 못 읽는다) — 정상이라는 뜻이 아니고, 장애라는 뜻도 아니다.
+- **바꾸지 않은 것(명시)**: BUY/HOLD/SELL 공식 · Production 점수·가중치·임계값 · Promotion floor · Constitution 핵심 안전조건 · 실제 판단 원본 · PAPER 원장 · tickers.js · DART 과거 사실 · 사전등록 결과 — 전부 0건 변경. LLM 호출·유료 API 추가 0건. main Branch Protection 도 그대로(읽기 전용 검토만, 아래 9/14 항목의 제안 유지).
+
 ## 2026-09-14 AI-0 운영 사슬 증거 연결 (Champion/Challenger 조사 + SAVE_CLOSURE_FAILURE 일반화)
 
 - 시작 main `253d1198d2`(PR #566, 같은 날 시황 발행 직후). 지시는 "새 투자 엔진을 만들지 말고 기존 Harness·Evolution·Champion/Challenger 사이 끊긴 연결만 닫아라"였다. 읽기 전용 조사원 2명을 먼저 보내 관련 문서·코드를 전수 확인했고, 중복 구축 없이 확인된 사실만 아래에 남긴다. 같은 시각 `codex/ai0-evidence-lifecycle-20260913`·`codex/ai0-performance-orchestration-20260913`·`codex/dart-shadow-evidence-20260913`·`codex/analysis-save-recovery-20260914` 등 비슷한 주제의 다른 세션 브랜치도 존재한다 — 아직 main에 없어 이번 조사·구현과는 겹치지 않았다.

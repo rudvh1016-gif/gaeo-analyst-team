@@ -357,4 +357,163 @@ class Operations(unittest.TestCase):
             self.assertEqual(ops.check_decisions(root,now)['status'],ops.INSUFF)
 
 
+class ExecutionEvidence(unittest.TestCase):
+    """'누가 만들었나(실행 신원)'와 '정말 main에 들어갔나(되읽기)'를 각각 따로 잰다.
+
+    이 두 가지는 지금까지 어디에도 안 적혔다 — 판단 원본은 로컬에 있고 job 은 성공했지만,
+    그 회차를 만든 실행이 예약이었는지 수동이었는지, 그 원본이 정말 main 트리에 들어갔는지는
+    status.json 어디를 봐도 알 수 없었다. 사람이 매번 Actions 탭을 열어 맞춰보는 수밖에 없던
+    것을 기계가 읽을 수 있게 각인한다.
+
+    계약(이 저장소의 기존 교훈 ③④ 그대로):
+      - Actions 밖(로컬·수동)에서는 실행 필드를 **지어내지 않는다**. 수동 실행이 예약 실행으로
+        둔갑하면 '자연 실행 정상'이라는 거짓 기록이 남는다.
+      - ref 를 못 읽으면 MAIN_VERIFIED 도 NOT_IN_MAIN 도 아닌 UNVERIFIED 다. 모른다를
+        괜찮다로도, 고장으로도 바꾸지 않는다.
+      - 로컬에 파일이 있다는 것은 main 에 들어갔다는 뜻이 아니다 — ref 의 blob 과 실제로
+        같은 내용일 때만 MAIN_VERIFIED 다.
+    """
+
+    def _repo(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        repo = dr.Path(tmp.name)
+
+        def git(*args):
+            return subprocess.run(['git', *args], cwd=repo, check=True, capture_output=True, text=True).stdout
+
+        git('init', '-b', 'main')
+        git('config', 'user.name', 'Fixture')
+        git('config', 'user.email', 'fixture@example.test')
+        (repo / 'price_history.js').write_text('const PRICE_HISTORY = {};', encoding='utf-8')
+        git('add', '.')
+        git('commit', '-m', 'base')
+        root = repo / 'research_archive' / 'decisions'
+        dr.capture(auto(), root)
+        dr.refresh(root, repo, now='2026-09-08T00:00:00+00:00')
+        return repo, root, git
+
+    def test_actions_밖에서는_실행_필드를_지어내지_않는다(self):
+        repo, root, _ = self._repo()
+        clean = {k: '' for k in ('GITHUB_EVENT_NAME', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'GITHUB_SHA')}
+        with patch.dict(os.environ, clean):
+            identity = dr.execution_identity(dr.read_records(root), root, repo)
+        self.assertEqual([identity[k] for k in ('event', 'runId', 'runAttempt', 'headSha')], [None] * 4)
+        # 실행을 모르더라도 '무엇이 저장됐는가'는 여전히 사실로 남는다.
+        self.assertEqual(identity['analysisCount'], 1)
+        self.assertTrue(identity['decisionOriginalId'])
+        self.assertRegex(identity['decisionOriginalHash'], r'^[0-9a-f]{64}$')
+
+    def test_예약_실행이면_그_run_을_그대로_적는다(self):
+        repo, root, _ = self._repo()
+        with patch.dict(os.environ, {'GITHUB_EVENT_NAME': 'schedule', 'GITHUB_RUN_ID': '123',
+                                     'GITHUB_RUN_ATTEMPT': '2', 'GITHUB_SHA': 'a' * 40}):
+            identity = dr.execution_identity(dr.read_records(root), root, repo)
+        self.assertEqual(identity['event'], 'schedule')
+        self.assertEqual((identity['runId'], identity['runAttempt']), ('123', '2'))
+        self.assertEqual(identity['headSha'], 'a' * 40)
+
+    def test_manifest가_망가져도_실행_신원_자체는_예외를_내지_않는다(self):
+        """이 도장은 덧붙이는 정보라 스스로 예외를 내면 안 된다 — 여기서 죽으면 refresh()가
+        통째로 멈추고 자동분석 사이클이 끊긴다.
+
+        ⚠️ 이 시험은 `execution_identity()`만의 계약이다. 망가진 원본에 대해 `read_records()`가
+        먼저 소리내어 죽는 것은 **이 변경 이전부터의 의도된 fail-loud 동작**이라 그대로 둔다
+        (판단 원본이 깨졌으면 조용히 집계를 내보내는 것보다 멈추는 편이 맞다).
+        """
+        repo, root, _ = self._repo()
+        rows = dr.read_records(root)                       # 아직 멀쩡할 때 읽어둔다
+        next(root.glob('originals/**/*.jsonl.manifest.json')).write_text('{깨진', encoding='utf-8')
+        identity = dr.execution_identity(rows, root, repo)  # 예외 없이 돌아와야 한다
+        self.assertIsNone(identity['decisionOriginalHash'])  # 해시만 비어 있다
+        self.assertTrue(identity['decisionOriginalId'])      # 회차 id 는 rows 에서 나오므로 그대로
+        self.assertEqual(identity['analysisCount'], 1)
+
+    def test_refresh가_status에_실행_블록을_덧붙인다(self):
+        repo, root, _ = self._repo()
+        report = json.loads((root / 'status.json').read_text(encoding='utf-8'))
+        self.assertIn('execution', report)
+        self.assertEqual(report['execution']['analysisCount'], report['dailyRecordCount'])
+        # 기존 필드는 그대로 — 덧붙이기만 하고 기존 집계를 바꾸지 않는다.
+        self.assertEqual(report['rawRecordCount'], 1)
+
+    def test_원본이_ref에_들어가면_MAIN_VERIFIED(self):
+        repo, root, git = self._repo()
+        git('add', '.')
+        git('commit', '-m', 'published')
+        git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        out = dr.verify_saved_to_main(root, repo)
+        self.assertEqual(out['verificationStatus'], 'MAIN_VERIFIED')
+        self.assertEqual(out['verifiedCommitSha'], git('rev-parse', 'HEAD').strip())
+        self.assertTrue(out['checked'])
+        self.assertEqual(out['missing'], [])
+
+    def test_아직_커밋_안_한_원본은_NOT_IN_MAIN(self):
+        repo, root, git = self._repo()
+        git('update-ref', 'refs/remotes/origin/main', 'HEAD')   # 판단 원본을 담기 전의 main
+        out = dr.verify_saved_to_main(root, repo)
+        self.assertEqual(out['verificationStatus'], 'NOT_IN_MAIN')
+        self.assertEqual(out['reason'], 'original_not_in_ref')
+
+    def test_로컬_파일이_ref와_다르면_MAIN_VERIFIED가_아니다(self):
+        """'파일이 여기 있다'는 'main 에 그 내용이 들어갔다'와 다른 사실이다."""
+        repo, root, git = self._repo()
+        git('add', '.')
+        git('commit', '-m', 'published')
+        git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        next(root.glob('originals/**/*.jsonl.gz')).write_bytes(b'locally tampered')
+        out = dr.verify_saved_to_main(root, repo)
+        self.assertEqual(out['verificationStatus'], 'NOT_IN_MAIN')
+        self.assertTrue(out['missing'])
+
+    def test_ref를_못_읽으면_UNVERIFIED지_정상도_장애도_아니다(self):
+        repo, root, _ = self._repo()
+        out = dr.verify_saved_to_main(root, repo, ref='origin/없는브랜치')
+        self.assertEqual(out['verificationStatus'], 'UNVERIFIED')
+        self.assertEqual(out['reason'], 'ref_unreadable')
+        self.assertIsNone(out['verifiedCommitSha'])
+
+    def test_실행_신원이_없는_옛_status도_UNVERIFIED로만_남는다(self):
+        """이 기능 이전에 저장된 status.json 에는 execution 이 없다 — 그걸 장애로 읽지 않는다."""
+        repo, root, git = self._repo()
+        report = json.loads((root / 'status.json').read_text(encoding='utf-8'))
+        report.pop('execution')
+        dr._atomic_json(root / 'status.json', report)
+        git('add', '.')
+        git('commit', '-m', 'published')
+        git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        out = dr.verify_saved_to_main(root, repo)
+        self.assertEqual(out['verificationStatus'], 'UNVERIFIED')
+        self.assertEqual(out['reason'], 'no_execution_identity')
+
+    def test_되읽기는_판단_원본을_고치지_않는다(self):
+        repo, root, git = self._repo()
+        git('add', '.')
+        git('commit', '-m', 'published')
+        git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        before = sorted((p.name, p.read_bytes()) for p in root.glob('originals/**/*') if p.is_file())
+        dr.verify_saved_to_main(root, repo)
+        self.assertEqual(sorted((p.name, p.read_bytes()) for p in root.glob('originals/**/*') if p.is_file()), before)
+        self.assertFalse(git('status', '--porcelain').strip())
+
+    def test_ops_status는_확인_불가를_정상으로도_장애로도_바꾸지_않는다(self):
+        """되읽기 결과는 관찰로만 싣는다 — 판정(status)을 올리지도 내리지도 않는다."""
+        import ops_status as ops
+        repo, root, _ = self._repo()
+        report = json.loads((root / 'status.json').read_text(encoding='utf-8'))
+        (repo / 'model_scoreboard.js').write_text(
+            'const MODEL_SCOREBOARD = ' + json.dumps({'decisionTrace': report}) + ';', encoding='utf-8')
+        now = dt.datetime(2026, 9, 8, 12, tzinfo=dr.KST)
+        with patch.object(dr, 'verify_saved_to_main', return_value={'verificationStatus': 'UNVERIFIED',
+                                                                    'reason': 'ref_unreadable'}):
+            unverified = ops.check_decisions(str(repo), now)
+        with patch.object(dr, 'verify_saved_to_main', return_value={'verificationStatus': 'MAIN_VERIFIED',
+                                                                    'verifiedCommitSha': 'b' * 40}):
+            verified = ops.check_decisions(str(repo), now)
+        self.assertEqual(unverified['status'], verified['status'])
+        self.assertEqual(unverified['mainVerification']['verificationStatus'], 'UNVERIFIED')
+        self.assertEqual(verified['mainVerification']['verificationStatus'], 'MAIN_VERIFIED')
+        self.assertEqual(verified['execution']['analysisCount'], 1)
+
+
 if __name__ == '__main__': unittest.main()
