@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 14:03",
- "priceLabel": "2026-09-15 13:53 장중 · ⚠️ 1종목 지연",
- "count": 277,
+ "generatedAt": "2026-09-15 14:33",
+ "priceLabel": "2026-09-15 14:03 장중 · ⚠️ 1종목 지연",
+ "count": 282,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "069960",
+   "name": "현대백화점",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T05:31:59.281018+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800396"
+  },
+  {
+   "code": "003070",
+   "name": "코오롱글로벌",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T05:31:59.281018+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915800395"
+  },
+  {
+   "code": "030530",
+   "name": "원익홀딩스",
+   "title": "주요사항보고서(자기주식처분결정)(자회사의 주요경영사항)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T05:31:59.281018+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900400"
+  },
+  {
+   "code": "240810",
+   "name": "원익IPS",
+   "title": "주요사항보고서(자기주식처분결정)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T05:31:59.281018+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000194"
+  },
+  {
+   "code": "257720",
+   "name": "실리콘투",
+   "title": "증권발행결과(자율공시) (제3자배정-상환전환주식)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T05:31:59.281018+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900386"
+  },
   {
    "code": "001200",
    "name": "유진투자증권",
