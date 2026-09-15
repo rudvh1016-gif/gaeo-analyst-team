@@ -1,6 +1,6 @@
-// 자동 생성: update_prices.py · 2026-09-15 종가 (15:48 수집) · ⚠️ 1종목 지연
+// 자동 생성: update_prices.py · 2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연
 const LIVE_DATA = {
- "date": "2026-09-15 종가 (15:48 수집) · ⚠️ 1종목 지연",
+ "date": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
  "indices": {
   "KOSPI": {
    "value": 6627.26,
@@ -7816,12 +7816,12 @@ const LIVE_DATA = {
   }
  },
  "fx": {
-  "value": 1359.7,
+  "value": 1360.4,
   "change": null,
   "rate": null
  },
  "marketBrief": {
-  "sourceAsOf": "2026-09-15 종가 (15:48 수집) · ⚠️ 1종목 지연",
+  "sourceAsOf": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
   "breadth": {
    "total": 600,
    "up": 183,
