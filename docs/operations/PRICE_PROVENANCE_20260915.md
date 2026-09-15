@@ -58,9 +58,17 @@
 파일마다 따로 `checkout` 한다 — 한 번에 여러 경로를 주면 아직 원격에 없는 파일 하나가
 명령 전체를 실패시킨다.
 
-부수 효과로 `update-analysis.yml` 큰 `run:` 블록의 여유가 **204B → 689B** 로 늘었다
-(20,296B → 19,811B, 안전선 20,500B).
-`test_price_provenance.WorkflowWiring` 이 이 배선을 계약으로 고정한다.
+**그리고 읽은 뒤에는 돌려줘야 한다.** 분석 잡은 `git checkout HEAD -- data.js analysis.js`
+로 "남의 파이프라인 산출물"을 원래대로 되돌린 뒤 스테이징한다. 출처 파일을 그 목록에
+넣지 않으면, `sync_inputs` 가 받아온 새 파일이 **매 사이클 '더러운 파일'로 남아
+`verify_save_closure.py` 가 커밋 전체를 생략시킨다** — 이 스크립트가 막으려고 만들어진
+PR #564 계열 사고를, 이 스크립트가 일으키는 모양이 된다. 그래서 되돌림 목록과
+`RESTORED_BEFORE_STAGING` 양쪽에 함께 넣었다.
+
+부수 효과로 `update-analysis.yml` 큰 `run:` 블록의 여유가 **204B → 667B** 로 늘었다
+(20,296B → 19,833B, 안전선 20,500B).
+`test_price_provenance.WorkflowWiring` 이 이 배선을 계약으로 고정한다 — 동기화·커밋·되돌림
+세 곳 모두.
 
 ## 3. 가격 조회 성공과 상세지표 성공을 구분한다
 

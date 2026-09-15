@@ -541,6 +541,33 @@ class WorkflowWiring(unittest.TestCase):
         text = open(self.PRICES, encoding='utf-8').read()
         self.assertIn('git add price_provenance.json', text)
 
+    def test_분석잡은_출처_파일을_커밋하지_않고_HEAD로_돌려준다(self):
+        """출처 파일의 주인은 시세 수집기다. 분석 잡이 읽기만 하고 돌려주지 않으면
+        매 사이클 '더러운 파일'로 남아 **커밋이 통째로 생략된다**(PR #564 계열 사고)."""
+        import verify_save_closure as vsc
+        self.assertIn('price_provenance.json', vsc.RESTORED_BEFORE_STAGING)
+        text = open(self.ANALYSIS, encoding='utf-8').read()
+        self.assertIn('git checkout HEAD -- data.js analysis.js price_provenance.json', text)
+        for f in ('price_history.js', 'indicators.json', 'auto_analysis.js'):
+            self.assertNotIn(f"price_provenance.json {f}", text)   # add 목록에 끼어들지 않았다
+
+    def test_출처_파일이_더러워도_저장_마감검사를_막지_않는다(self):
+        import subprocess
+        import verify_save_closure as vsc
+        tmp = tempfile.mkdtemp()
+        def git(*args):
+            return subprocess.run(('git',) + args, cwd=tmp, capture_output=True, text=True)
+        git('init', '-q', '-b', 'main')
+        git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+        for name in ('data.js', 'price_provenance.json', 'auto_analysis.js'):
+            open(os.path.join(tmp, name), 'w', encoding='utf-8').write('old')
+        git('add', '-A'); git('commit', '-qm', 'base')
+        # 분석 잡이 원격 최신본으로 덮어 둔 상태를 흉내낸다
+        open(os.path.join(tmp, 'price_provenance.json'), 'w', encoding='utf-8').write('newer round')
+        other, unexpected = vsc.dirty_after_staging(cwd=tmp)
+        self.assertEqual(other, ['price_provenance.json'])
+        self.assertEqual(unexpected, [], '이게 비어야 커밋이 생략되지 않는다')
+
     def test_sync_inputs가_실제로_두_파일을_함께_되돌린다(self):
         import subprocess
         tmp = tempfile.mkdtemp()
