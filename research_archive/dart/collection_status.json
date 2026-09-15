@@ -3,7 +3,7 @@
   "byKind": {
    "detail": 0,
    "financial": 123,
-   "list": 58,
+   "list": 67,
    "mapping": 0,
    "other": 0
   },
@@ -11,35 +11,35 @@
   "hard_limit": 10000,
   "normal_target_per_day": 500,
   "note": "10,000건은 안전 상한이지 목표가 아니다. 평상시 수백 회 수준을 지향한다.",
-  "remaining": 9819,
-  "requests_today": 181,
-  "runs_today": 14,
+  "remaining": 9810,
+  "requests_today": 190,
+  "runs_today": 16,
   "soft_budget": 8000,
   "status": "BUDGET_OK",
-  "usage_pct_of_hard_limit": 1.81
+  "usage_pct_of_hard_limit": 1.9
  },
  "coverageNote": "NO_OFFICIAL_EVENT_DETECTED는 '뉴스 없음'이 아니다. 일반 언론뉴스 Coverage가 없어서 공식 공시만 본 결과다.",
  "coverageReasons": [],
  "efficiency": {
   "api_errors": 0,
-  "bytes_received": 194172,
+  "bytes_received": 215033,
   "detail_requests": 0,
-  "duplicate_skipped": 169,
-  "list_requests": 8,
-  "matched_gaeo_filings": 7,
-  "new_filings_detected": 786,
+  "duplicate_skipped": 177,
+  "list_requests": 9,
+  "matched_gaeo_filings": 4,
+  "new_filings_detected": 862,
   "no_data_responses": 0,
-  "pages_fetched": 8,
+  "pages_fetched": 9,
   "processing_duration_sec": null,
-  "requests_per_run": 8,
-  "unmatched_filings": 610
+  "requests_per_run": 9,
+  "unmatched_filings": 681
  },
  "errors": [],
  "eventState": "EVENT_DETECTED",
- "eventsAcknowledged": 7,
- "eventsFound": 7,
- "eventsStored": 7,
- "finishedAt": "2026-09-15T06:32:33.955950+00:00",
+ "eventsAcknowledged": 4,
+ "eventsFound": 4,
+ "eventsStored": 4,
+ "finishedAt": "2026-09-15T07:02:38.105919+00:00",
  "hasApiKey": true,
  "kstToday": "2026-09-15",
  "maintenance": [],
@@ -48,16 +48,16 @@
   "coverage_complete": true,
   "incomplete_reasons": [],
   "page_limit": 30,
-  "pages_fetched": 8,
-  "total_pages_reported": 8
+  "pages_fetched": 9,
+  "total_pages_reported": 9
  },
  "pendingRetryNext": 0,
  "queryWindow": {
   "end": "2026-09-15",
   "start": "2026-09-14"
  },
- "ranAt": "2026-09-15T06:32:17.487887+00:00",
- "seenTotal": 2248,
- "startedAt": "2026-09-15T06:32:17.492606+00:00",
+ "ranAt": "2026-09-15T07:02:19.706782+00:00",
+ "seenTotal": 2252,
+ "startedAt": "2026-09-15T07:02:19.711326+00:00",
  "status": "OK"
 }

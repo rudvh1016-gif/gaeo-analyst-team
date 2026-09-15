@@ -1,12 +1,48 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 15:33",
- "priceLabel": "2026-09-15 15:25 장중 · ⚠️ 1종목 지연",
- "count": 295,
+ "generatedAt": "2026-09-15 16:03",
+ "priceLabel": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
+ "count": 296,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:02:19.717337+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000303"
+  },
+  {
+   "code": "005810",
+   "name": "풍산홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:02:19.717337+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000267"
+  },
+  {
+   "code": "005810",
+   "name": "풍산홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:02:19.717337+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000277"
+  },
+  {
+   "code": "293490",
+   "name": "카카오게임즈",
+   "title": "타법인주식및출자증권취득결정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:02:19.717337+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900505"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -24,15 +60,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T06:32:17.498765+00:00",
    "isCorrection": true,
    "rceptNo": "20260915800444"
-  },
-  {
-   "code": "005810",
-   "name": "풍산홀딩스",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000256"
   },
   {
    "code": "005810",
@@ -1511,15 +1538,6 @@ const DART_TODAY = {
    "rceptNo": "20260911800327"
   },
   {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:43:11.917072+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000278"
-  },
-  {
    "code": "008930",
    "name": "한미사이언스",
    "title": "임원ㆍ주요주주특정증권등소유상황보고서",
@@ -1527,15 +1545,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T05:43:11.917072+00:00",
    "isCorrection": false,
    "rceptNo": "20260911000256"
-  },
-  {
-   "code": "005810",
-   "name": "풍산홀딩스",
-   "title": "자기주식취득결과보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:43:11.917072+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000248"
   },
   {
    "code": "348370",
