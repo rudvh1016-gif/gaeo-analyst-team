@@ -52,19 +52,19 @@ def _short_block(days=17):
                     'medianReturn': 9.9, 'marketRelativeMeanReturn': 9.9}}
 
 
-def _board(by_version, *, current=CURRENT, trace=True):
+def _board(by_version, *, current=CURRENT, trace=True, horizons=None, evaluated=0):
     payload = {
         'generatedAt': '2026-09-15T03:34:00+00:00', 'gradingPolicyVersion': 'grading_v1_2026-08-16',
         'models': [{'id': 'base_production', 'currentModelVersion': current,
                     'recordCount': 29645, 'maturedCount': 26625, 'pendingCount': 3020,
                     'withheldCount': 0, 'uniquePredictionDates': 50,
-                    'byModelVersion': by_version}],
+                    'horizons': horizons or {}, 'byModelVersion': by_version}],
     }
     if trace:
         payload['decisionTrace'] = {
             'dailyRecordCount': 1800, 'uniqueDecisionDays': 3,
             'comparison': {'states': {'unknown': 1800, 'comparable': 0}},
-            'byModelVersion': {current: {'horizons': {'5': {'evaluated': 0, 'pending': 1800}}}},
+            'byModelVersion': {current: {'horizons': {'5': {'evaluated': evaluated, 'pending': 1800}}}},
         }
     return payload
 
@@ -137,10 +137,14 @@ class ModelVersionsStaySeparate(Fixture):
         self.assertIn(CURRENT, got['headline'])
         self.assertIn('50%를 비켜 갔다', got['headline'])
 
-    def test_구간이_50을_걸치면_동전_던지기라고_말한다(self):
+    def test_구간이_50을_걸치면_그_사실만_말하고_실력_판정은_하지_않는다(self):
+        # 2026-09-15 정정: 예전에는 여기서 "동전 던지기와 구분되지 않는다"고 단정했다.
+        # 분모에 BUY·HOLD·SELL 이 섞여 있어 50%는 이 성적의 기준선이 아니다.
         self.write_board(_board({CURRENT: _ok_block(days=24, acc=51.0, ci=(45.4, 57.4))}))
         got = card.build(self.dir)
-        self.assertIn('동전 던지기와 구분되지 않는다', got['headline'])
+        self.assertIn('95% 구간이 50%를 품는다', got['headline'])
+        self.assertIn('50%는 이 성적의 기준선이 아니다', got['headline'])
+        self.assertNotIn('동전 던지기', got['headline'])
 
 
 class SellIsNeverShort(Fixture):
@@ -259,6 +263,106 @@ class TwoLedgers(Fixture):
     def test_생존편향_한계를_적어_둔다(self):
         self.write_board(_board({CURRENT: _short_block()}))
         self.assertTrue(any('생존편향' in line for line in card.build(self.dir)['limits']))
+
+
+class NoArbitraryExcellence(Fixture):
+    """공개 기준을 넘긴 것과 **투자 우수성이 입증된 것**을 섞지 않는다.
+
+    전체 적중률의 분모에는 BUY·HOLD·SELL 이 섞여 있고 셋의 적중 정의가 다르다.
+    특히 HOLD 는 "크게 안 움직이면 적중" 이라 기준선이 50% 가 아니다.
+    그래서 50% 초과를 실력으로 부르지 않는다(2026-09-15 정정).
+    """
+
+    def test_HOLD가_대부분인데_50퍼센트를_넘겨도_우수성이라_하지_않는다(self):
+        block = _ok_block(days=24, acc=58.0, ci=(53.0, 62.0))
+        block['hold']['count'] = 9000          # 분모를 HOLD 가 지배한다
+        block['actionDistribution'] = {'BUY': 100, 'HOLD': 9000, 'SELL': 200}
+        self.write_board(_board({CURRENT: block}))
+        got = card.build(self.dir)
+        blob = json.dumps(got, ensure_ascii=False) + card.render(got)
+        for banned in ('동전 던지기', '실력', '우수', '입증', '검증됐'):
+            self.assertNotIn(banned, blob, f'임의 기준으로 우수성을 주장했다({banned})')
+        self.assertIn('50%는 이 성적의 기준선이 아니다', blob)
+
+    def test_구간이_50을_비켜_가도_실력_판정을_하지_않는다(self):
+        self.write_board(_board({CURRENT: _ok_block(days=24, acc=58.0, ci=(53.0, 62.0))}))
+        text = card.render(card.build(self.dir))
+        self.assertIn('95% 구간이 50%를 비켜 갔다', text)
+        self.assertNotIn('동전 던지기', text)
+
+    def test_판단일이_기준을_넘어도_입증으로_승격하지_않는다(self):
+        # 19일(부족) → 20일(측정 가능). 바뀌는 것은 '보여줄 수 있다'뿐이다.
+        self.write_board(_board({CURRENT: _short_block(days=19)}))
+        before = card.build(self.dir)
+        self.assertEqual(before['verdict'], card.INSUFFICIENT_EVIDENCE)
+        self.write_board(_board({CURRENT: _ok_block(days=20, acc=58.0, ci=(53.0, 62.0))}))
+        after = card.build(self.dir)
+        self.assertEqual(after['verdict'], card.MEASURED)
+        blob = json.dumps(after, ensure_ascii=False) + card.render(after)
+        for banned in ('PROVEN', '입증', '우수'):
+            self.assertNotIn(banned, blob, f'판단일만 채우고 {banned} 으로 승격했다')
+
+    def test_등록된_비교_기준선이_없다는_어휘가_있다(self):
+        self.assertEqual(card.BASELINE_NOT_REGISTERED, 'BASELINE_NOT_REGISTERED')
+
+
+class SentencesFollowTheData(Fixture):
+    """오늘의 사실을 영원한 사실처럼 박아 두지 않는다."""
+
+    def test_봉인_원본이_채점되기_시작하면_설명이_바뀐다(self):
+        self.write_board(_board({CURRENT: _short_block()}, evaluated=0))
+        zero = card.build(self.dir)['ledgers']['sealedOriginals']
+        self.assertIn('아직 한 건도 채점되지 않았다', zero['what'])
+
+        self.write_board(_board({CURRENT: _short_block()}, evaluated=7))
+        some = card.build(self.dir)['ledgers']['sealedOriginals']
+        self.assertIn('7건이 채점됐다', some['what'])
+        self.assertNotIn('한 건도', some['what'], '채점이 시작됐는데 옛 문장이 남았다')
+
+    def test_채점_건수를_읽지_못하면_0건이라_하지_않는다(self):
+        payload = _board({CURRENT: _short_block()})
+        payload['decisionTrace']['byModelVersion'][CURRENT]['horizons']['5'] = {'pending': 1800}
+        self.write_board(payload)
+        what = card.build(self.dir)['ledgers']['sealedOriginals']['what']
+        self.assertIn('확인 불가', what)
+
+    def test_없는_horizon과_결과를_기다리는_horizon을_구분한다(self):
+        self.write_board(_board({CURRENT: _short_block()}, horizons={
+            '5': {'status': 'INSUFFICIENT_EVIDENCE', 'uniqueDates': 17, 'matured': 8500, 'pending': 3012},
+            '20': {'status': 'PENDING_NOT_MATURED', 'matured': 0, 'pending': 4200, 'uniqueDates': 0},
+            '60': {'status': 'NOT_APPLICABLE', 'matured': 0, 'pending': 0, 'uniqueDates': 0},
+        }))
+        limits = ' / '.join(card.build(self.dir)['limits'])
+        self.assertIn('20D 는 채점된 기록이 0건이고 4200건이 결과를 기다린다', limits)
+        self.assertIn('60D 는 이 구간에 해당하지 않는다', limits)
+        self.assertNotIn('60D 는 채점된 기록이', limits, '없는 것을 대기 중이라고 적었다')
+
+    def test_60D가_0건이라는_문장을_박아_두지_않는다(self):
+        # horizon 정보가 아예 없으면 60D 문장도 만들지 않는다.
+        self.write_board(_board({CURRENT: _short_block()}, horizons={}))
+        self.assertNotIn('60D', ' / '.join(card.build(self.dir)['limits']))
+
+
+class CostRegisteredIsNotCostApplied(Fixture):
+    """등록했다는 것과 실제로 비용을 빼고 계산했다는 것은 다른 일이다."""
+
+    def test_등록만_하고_적용_안_하면_여전히_gross다(self):
+        self.write_board(_board({CURRENT: _ok_block(days=24)}))
+        self.write_cost({'registered': True, 'model': {'roundTripPct': 0.23}, 'appliesFrom': '2026-10-01'})
+        got = card.build(self.dir)
+        self.assertTrue(got['costAssumption']['registered'])
+        self.assertFalse(got['costAssumption']['appliedInCalculation'],
+                         'registered 만으로 순수익 표시를 켰다')
+        self.assertTrue(any('반영 전(gross)' in l and '아직' in l for l in got['limits']),
+                        got['limits'])
+        self.assertEqual(got['segments'][0]['calls']['BUY']['returnBasis'], 'GROSS_BEFORE_COST')
+
+    def test_실제로_적용됐다고_표시된_경우에만_반영됐다고_말한다(self):
+        self.write_board(_board({CURRENT: _ok_block(days=24)}))
+        self.write_cost({'registered': True, 'appliedInCalculation': True,
+                         'model': {'roundTripPct': 0.23}, 'appliesFrom': '2026-10-01'})
+        limits = card.build(self.dir)['limits']
+        self.assertTrue(any('거래비용이 반영돼 있다' in l for l in limits), limits)
 
 
 if __name__ == '__main__':

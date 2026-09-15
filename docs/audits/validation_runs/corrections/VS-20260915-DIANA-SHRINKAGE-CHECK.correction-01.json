@@ -1,0 +1,66 @@
+{
+ "schemaVersion": "gaeo_validation_correction_v1",
+ "correctionOf": {
+  "scheduleId": "VS-20260915-DIANA-SHRINKAGE-CHECK",
+  "originalResultPath": "docs/audits/validation_runs/VS-20260915-DIANA-SHRINKAGE-CHECK/20260915T174153.json",
+  "originalRunAt": "2026-09-15T17:41:53.949986+09:00",
+  "originalStatus": "COMPLETED",
+  "originalGitSha": "be0caa9fc5871bcc5456649f4c1b6a1261b68b90",
+  "originalRunner": "github-actions",
+  "note": "원본 실행 기록은 그대로 보존한다. 이 파일은 덮어쓰기가 아니라 별도 감사 기록이다."
+ },
+ "problem": {
+  "what": "직전 판(비교 기준자료)으로 기준시각 이후의 당일 커밋을 받아들였다",
+  "cutoffShouldBe": "2026-09-15T00:00:00+09:00",
+  "acceptedPreviousSha": "deef3f11c8831279fb2ffa241b674cf5f4e2f5df",
+  "acceptedPreviousGeneratedAt": "2026-09-15 16:32",
+  "acceptedPreviousCommittedAt": "2026-09-15T16:34:39+09:00",
+  "currentGeneratedAt": "2026-09-15 16:32",
+  "effect": "오늘 파일을 오늘 파일과 비교해 movePct 전부 0.00% · status OK 로 보고했다. 숫자는 틀리지 않았지만 하루 이동폭을 전혀 재지 못했다.",
+  "reportedMovePct": {
+   "taro": 0.0,
+   "diana": 0.0,
+   "nova": 0.0,
+   "flow": 0.0
+  },
+  "reportedStatus": "OK"
+ },
+ "rootCause": [
+  "previous_version_api 가 until 을 '2026-09-15T00:00:00+09:00' 그대로 질의문자열에 붙였다. 질의문자열에서 '+' 는 공백으로 읽히므로 기준시각이 깨진다.",
+  "그리고 어느 경로로 받았든 반환된 자료의 시각을 다시 재지 않았다 — API 가 돌려줬다는 사실을 적격의 근거로 삼았다."
+ ],
+ "fix": [
+  "until 을 같은 순간의 UTC(Z)로 변환하고 urlencode 로 싣는다.",
+  "previous_eligibility() 를 추가해 커밋시각·파일 생성시각이 모두 기준시각 이전인지 다시 잰다(fail closed).",
+  "git·API 두 후보 중 적격한 것을 고르고, 거부한 후보와 사유를 rejectedCandidates 에 남긴다.",
+  "부적격이면 OK 나 0% 가 아니라 기존 UNKNOWN_PREVIOUS 와 구체적 사유로 보고한다."
+ ],
+ "recheck": {
+  "at": "2026-09-15T20:16:17.923119+09:00",
+  "runner": "claude-code-session (수동 재확인)",
+  "isOfficialScheduleRun": false,
+  "note": "예정 시험을 다시 실행한 것이 아니다. 수리된 도구로 같은 기준일을 다시 재어 본 결과다.",
+  "previous": {
+   "sha": "fb066e87982a7997f133a12641d11b8f0b15d90b",
+   "source": "git",
+   "generatedAt": "2026-09-14 13:10",
+   "commitAt": "2026-09-14T13:14:17+09:00",
+   "eligible": true,
+   "cutoff": "2026-09-15T00:00:00+09:00"
+  },
+  "movePct": {
+   "taro": 0.29,
+   "diana": 0.73,
+   "nova": 0.15,
+   "flow": -0.72
+  },
+  "status": "OK",
+  "note2": "DIANA 가중치 이동 +0.73% — 판단일 단위 축소 범위 안"
+ },
+ "conclusion": "원래 시험이 확인하려던 것(판단일 단위 축소가 DIANA 첫 채점일 절벽을 막았는가)은 수리된 비교에서도 통과한다. DIANA 하루 이동 +0.73% 로 정상 범위(±1.5%) 안이다. 즉 결과는 같았고, 잘못된 것은 그 결과에 이르는 비교 방법이었다.",
+ "unchanged": [
+  "산식·가중치·임계값(1.5%/5.0%)·사전비중 변경 0",
+  "원본 원장·결과 파일 변경 0",
+  "사전등록 효과평가 조기 실행 0"
+ ]
+}
