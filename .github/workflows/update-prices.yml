@@ -149,11 +149,10 @@ jobs:
             # 로컬 data.js가 낡을 수 있다. update_prices.py는 "수집 실패한 종목의 이전 값"을 기존
             # data.js에서 가져와 보존하므로(파일 상단 주석 참조), 낡은 로컬본을 쓰면 실패 종목이
             # 며칠 전 가격으로 되살아날 수 있다. 매 사이클 원격 최신본을 먼저 받아온다.
-            timeout 120 git fetch origin "${{ github.ref_name }}" --quiet \
-              || echo "[경고] fetch 실패 — 로컬 data.js 기준으로 진행"
-            git checkout "origin/${{ github.ref_name }}" -- data.js 2>/dev/null || true
+            sync_inputs data.js price_provenance.json   # 같은 회차의 짝 — gaeo-chain.sh
             timeout 600 python3 update_prices.py || echo "수집 실패/변동없음 — 이번 사이클 건너뜀"
             [ -f data.js ] && { git add data.js || true; }
+            [ -f price_provenance.json ] && { git add price_provenance.json || true; }
             if git diff --cached --quiet; then
               echo "변경 없음 — 커밋 생략"
             else

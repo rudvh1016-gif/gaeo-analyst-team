@@ -1095,7 +1095,14 @@ def main():
         coverage_stamp = {}
         print(f"[경고] Coverage 버전 각인 실패 — 계속 진행: {ex}")
 
-    out = {"generatedAt": now, "priceLabel": price_label, **coverage_stamp, "stocks": {}}
+    # 📑 이번 판단이 읽은 시세 스냅샷의 내용 식별자. 출처 기록(price_provenance.json)과
+    #    **같은 회차**인지 나중에 대조하는 유일한 열쇠다. 종목별 출처는 여기 싣지 않는다 —
+    #    이 파일은 브라우저가 실제로 내려받는 자료라 600종목 메타데이터를 얹으면 트래픽만 는다.
+    price_prov = ind.get("priceProvenance") or {}
+    out = {"generatedAt": now, "priceLabel": price_label,
+           "priceSnapshotId": price_prov.get("snapshotId"),
+           "priceProvenanceState": price_prov.get("state") or "UNAVAILABLE",
+           **coverage_stamp, "stocks": {}}
     # Research Shadow 전용 출력. 사이트(index.html)는 이 자료를 절대 읽지 않는다.
     research_out = {
         "generatedAt": now, "priceLabel": price_label,

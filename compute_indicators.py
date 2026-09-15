@@ -18,6 +18,7 @@ update_prices.py가 저장한 data.js(현재가·PER 등)를 읽어, 분석에 �
 """
 import json, re, os, datetime
 import indicator_math
+import price_provenance
 import statistics
 from zoneinfo import ZoneInfo
 
@@ -506,6 +507,11 @@ def main():
         # 지표 관측시각을 모르는 것으로 처리한다(2026-09-09: 600종목 전부 판단 불가였던 원인).
         "analysisDataFetchedAt": raw.get("fetchedAt") if isinstance(raw.get("fetchedAt"), str) else None,
         "priceLabel": live.get("date"),
+        # 📑 가격 출처 머리말 — update_prices.py가 같은 회차에 쓴 price_provenance.json이
+        #    **지금 읽은 data.js와 같은 입력**인지(snapshotId) 확인한 결과만 담는다.
+        #    어긋나거나 파일이 없으면 UNAVAILABLE + 사유로 남긴다(분석은 그대로 계속한다).
+        "priceProvenance": price_provenance.header(price_provenance.load_round(HERE),
+                                                   live.get("stocks") or {}),
         "indices": live.get("indices"),
         "stocks": {},
     }

@@ -17,6 +17,7 @@ import re
 import subprocess
 import tarfile
 
+import price_provenance
 import research_store
 from krx_calendar import is_krx_trading_day, future_trading_period
 
@@ -105,18 +106,30 @@ class DecisionStore(research_store.ResearchArchiveStore):
         return super().append_predictions(day, records, today=day)
 
 
-def make_record(code, stock, payload, captured_at, source_hash=None):
+def make_record(code, stock, payload, captured_at, source_hash=None, provenance=None):
     from build_model_scoreboard import GRADING_POLICY_VERSION
     chief = stock.get('chief') or {}
     at = stock.get('updated') or payload.get('generatedAt')
     if not re.fullmatch(r'\d{6}', str(code)) or not _moment(at):
         raise IntegrityError('Missing actual ticker or generation timestamp')
     # Preserve source values; never infer a price-observation minute from a label.
+    # 가격 출처는 이 판단이 **실제로 쓴 가격**(base)과 회차(snapshotId)가 모두 맞을 때만 붙는다.
+    # 어긋나면 사유와 함께 확인 불가로 남긴다 — 확인 못 한 것을 괜찮다고 바꾸지 않는다.
+    linked, gap = price_provenance.link(provenance, payload.get('priceSnapshotId'),
+                                        code, stock.get('base'))
+    if linked:
+        # 판단보다 **나중에** 받은 가격은 그 판단의 근거가 될 수 없다. 시각을 앞당겨
+        # 통과시키지 않고 연결을 거부한다(KST/UTC를 섞지 않도록 _moment로 맞춘다).
+        seen, decided = _moment(linked['receivedAt']), _moment(at)
+        if not seen or not decided or seen > decided:
+            linked, gap = None, 'price_observed_after_decision'
+    observed_at = linked['receivedAt'] if linked else stock.get('priceObservedAt')
     original = {
         'schemaVersion': 1, 'recordId': _hash(['actual_auto', code, at])[:32],
         'code': code, 'market': 'KRX', 'source': 'actual_auto', 'tier': 'auto',
         'decisionAt': at, 'date': _day(at), 'base': stock.get('base'),
-        'baseAt': stock.get('baseAt'), 'priceObservedAt': stock.get('priceObservedAt'),
+        'baseAt': stock.get('baseAt'), 'priceObservedAt': observed_at,
+        'priceProvenance': linked or {'linked': False, 'reason': gap},
         'call': chief.get('call'), 'total': chief.get('total'),
         'confidence': chief.get('confidence'), 'reason': chief.get('reason'),
         'rawTotal': chief.get('rawTotal'), 'riskPenalty': chief.get('riskPenalty'),
@@ -141,13 +154,21 @@ def make_record(code, stock, payload, captured_at, source_hash=None):
     return original
 
 
-def capture(payload, root=ROOT, captured_at=None):
-    """Preserve an already-generated actual snapshot, without running analysis."""
+def capture(payload, root=ROOT, captured_at=None, provenance_dir=None):
+    """Preserve an already-generated actual snapshot, without running analysis.
+
+    `provenance_dir` 는 price_provenance.json 이 있는 폴더다(기본: 저장소 폴더).
+    저장된 응답으로 만든 출처 기록을 임시 폴더에서 그대로 시험하기 위해 인자로 뺐다.
+    """
     captured_at = captured_at or _now()
     if not isinstance(payload, dict) or not isinstance(payload.get('stocks'), dict):
         raise IntegrityError('Actual analysis is unreadable')
     source_hash = _hash(payload)
-    records = [make_record(code, stock, payload, captured_at, source_hash)
+    # 출처 기록은 분석이 읽은 회차와 같을 때만 뜻이 있다. 판단이 회차 식별자를 갖고
+    # 있지 않으면 아예 읽지 않는다(연결을 지어내지 않는다).
+    provenance = (price_provenance.load_round(str(provenance_dir or HERE))
+                  if payload.get('priceSnapshotId') else None)
+    records = [make_record(code, stock, payload, captured_at, source_hash, provenance)
                for code, stock in sorted(payload['stocks'].items())
                if isinstance(stock, dict) and stock.get('tier') == 'auto'
                and not stock.get('recon') and isinstance(stock.get('chief'), dict)]

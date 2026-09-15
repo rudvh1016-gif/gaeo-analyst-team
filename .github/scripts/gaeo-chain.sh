@@ -42,3 +42,23 @@ chain() {  # 자기 재기동(체인) — main에서만. 실패해도 cron·Rout
   [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
   dispatch "$SELF_WORKFLOW" || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"
 }
+
+# 입력 파일 재동기화 — 수집 잡들이 **읽기만** 하는 파일은 매 사이클 원격 최신본으로 덮는다.
+#   data.js               = 짝꿍 update-prices가 쓰는 시세
+#   price_provenance.json = 그 시세의 가격 출처(같은 회차의 짝, snapshotId로 묶여 있다)
+#   analysis.js           = Claude가 쓰는 정밀분석
+# ⚠️ data.js와 price_provenance.json은 **반드시 함께** 받아와야 한다(2026-09-15). 하나만
+#    새것이면 회차가 어긋나 그 회차 출처가 통째로 '확인 불가'가 된다 — 기능이 조용히 죽는다.
+# ⚠️ 파일마다 따로 checkout 한다. 한 번에 여러 경로를 주면 아직 원격에 없는 파일 하나 때문에
+#    명령 전체가 실패해 나머지도 안 받아진다.
+# 실패해도 루프를 죽이지 않는다(로컬본으로 진행).
+sync_inputs() {   # $@ = 받아올 파일(생략하면 입력 3종)
+  local ref="${GITHUB_REF_NAME:-main}"
+  [ $# -eq 0 ] && set -- data.js price_provenance.json analysis.js
+  timeout 120 git fetch origin "$ref" --quiet \
+    || { echo "[경고] fetch 실패 — 로컬 입력 파일로 진행"; return 1; }
+  for inp in "$@"; do
+    git checkout "origin/$ref" -- "$inp" 2>/dev/null || true
+  done
+  return 0
+}
