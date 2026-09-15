@@ -1,18 +1,18 @@
 {
- "apiCalls": 126,
- "averageCoverage": 0.9748,
+ "apiCalls": 123,
+ "averageCoverage": 0.973,
  "budgetStopped": false,
  "companiesConsidered": 40,
  "errors": [],
- "finishedAt": "2026-09-14T04:12:50.286622+00:00",
+ "finishedAt": "2026-09-15T00:33:13.611715+00:00",
  "note": "연간 재무는 1년에 한 번만 바뀌므로 이미 받은 (회사, 연도)는 다시 받지 않는다. 유니버스 한 바퀴를 여러 날에 나눠 돈다.",
- "startedAt": "2026-09-14T04:10:07.083893+00:00",
+ "startedAt": "2026-09-15T00:17:31.810026+00:00",
  "status": "OK",
  "targetYears": [
   2025,
   2024,
   2023
  ],
- "yearsNoData": 1,
- "yearsStored": 119
+ "yearsNoData": 0,
+ "yearsStored": 120
 }
