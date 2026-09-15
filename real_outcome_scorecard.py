@@ -233,6 +233,54 @@ def _cost_limit(cost):
     return '수익률에 등록된 거래비용이 반영돼 있다(%s).' % (cost.get('appliesFrom') or '적용 시작일 미기재')
 
 
+#: 봉인 원장의 행이 "왜 아직 채점되지 않았는가" 를 §7 의 다섯 칸으로 가른다.
+#: ⚠️ 모르는 사유는 조용히 A(정상 대기)로 넘기지 않고 UNCLASSIFIED 로 남긴다 —
+#:    새 사유가 생겼을 때 그것이 "기다리는 중" 으로 둔갑하는 것을 막는다.
+READINESS_REASONS = {
+    'A_WAITING_RESULT': ('future_session',),
+    'B_PRICE_EVIDENCE_MISSING': ('price_basis_unverified', 'price_evidence_invalid',
+                                 'missing_price', 'comparison_window_not_final'),
+    'C_CORPORATE_ACTION_MISSING': ('corporate_action_unverified', 'corporate_action_conflict',
+                                   'effective_date_unverified', 'uninterpreted_filings',
+                                   'trading_halt'),
+}
+READINESS_LABELS = {
+    'A_WAITING_RESULT': '아직 결과시점이 오지 않아 정상 대기',
+    'B_PRICE_EVIDENCE_MISSING': '결과시점은 지났지만 공식 가격 근거가 부족',
+    'C_CORPORATE_ACTION_MISSING': '기업행사·시장조치 근거가 부족',
+    'D_READY_TO_GRADE': '근거가 모두 갖춰져 실제 채점 가능',
+    'E_GRADED_AND_VERIFIED': '채점되고 main 에 보존·되읽기까지 확인됨',
+    'UNCLASSIFIED': '분류되지 않은 사유 — 정상 대기로 세지 않는다',
+}
+
+
+def _readiness(trace, horizon5, main_verified):
+    """§7 의 다섯 칸. '기다리는 중' 과 '근거가 없어서 못 함' 을 섞지 않는다."""
+    counts = {k: 0 for k in READINESS_LABELS}
+    unmapped = {}
+    for reason, n in sorted((horizon5.get('reasons') or {}).items()):
+        for bucket, keys in READINESS_REASONS.items():
+            if reason in keys:
+                counts[bucket] += n
+                break
+        else:
+            counts['UNCLASSIFIED'] += n
+            unmapped[reason] = n
+    evaluated = horizon5.get('evaluated') or 0
+    if evaluated:
+        # 채점됐다고 끝이 아니다 — main 에 보존되고 되읽기까지 확인돼야 E 다.
+        if main_verified:
+            counts['E_GRADED_AND_VERIFIED'] += evaluated
+        else:
+            counts['D_READY_TO_GRADE'] += evaluated
+    states = (trace.get('comparison') or {}).get('states') or {}
+    return {'counts': counts, 'labels': dict(READINESS_LABELS), 'unmappedReasons': unmapped,
+            'comparisonStates': states,
+            'comparableNow': states.get('comparable'),
+            'note': ('채점이 시작되려면 comparable 이 1건 이상 나와야 한다. '
+                     '지금 comparable 은 %s 건이다.' % states.get('comparable'))}
+
+
 def build(repo=HERE, now=None):
     """성적표 한 장. 판정은 MEASURED / INSUFFICIENT_EVIDENCE / UNVERIFIED 셋뿐이다."""
     from build_model_scoreboard import MIN_UNIQUE_DATES
@@ -316,6 +364,7 @@ def build(repo=HERE, now=None):
     # ⚠️ 여기 문장들은 **오늘의 값에서 만든다.** 지금 사실을 영원한 사실처럼 박아 두면
     #    상황이 바뀐 날 성적표가 조용히 거짓말을 한다(2026-09-15 정정).
     out['horizons'] = _horizon_states(base)
+    out['readiness'] = _readiness(trace, horizon5, bool(out['sources'].get('mainVerified')))
     out['limits'] = [
         _cost_limit(out['costAssumption']),
         '결과 가격은 판단일 다음 N번째 거래일 종가다. 기간 중 최대 낙폭이 아니다.',
@@ -392,6 +441,16 @@ def render(card):
              % (ledg['sealedOriginals']['dailyRecords'], ledg['sealedOriginals']['evaluated'],
                 ledg['sealedOriginals']['pending'], ledg['sealedOriginals']['source']))
     L.append('')
+    rd = card.get('readiness') or {}
+    if rd:
+        L.append('[봉인 원장이 아직 채점되지 않는 이유] — 기다리는 것과 못 하는 것을 가른다')
+        for key, n in rd['counts'].items():
+            if n:
+                L.append('  %-28s %6s건  %s' % (key, n, rd['labels'][key]))
+        if rd.get('unmappedReasons'):
+            L.append('  ⚠️ 분류되지 않은 사유: %s' % rd['unmappedReasons'])
+        L.append('  ' + rd['note'])
+        L.append('')
     cost = card['costAssumption']
     L.append('[거래비용] %s' % cost['status'])
     if not cost['registered']:
