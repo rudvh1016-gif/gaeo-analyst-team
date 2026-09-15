@@ -1,12 +1,75 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 15:03",
- "priceLabel": "2026-09-15 14:50 장중 · ⚠️ 1종목 지연",
- "count": 289,
+ "generatedAt": "2026-09-15 15:33",
+ "priceLabel": "2026-09-15 15:25 장중 · ⚠️ 1종목 지연",
+ "count": 295,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000261"
+  },
+  {
+   "code": "130660",
+   "name": "한전산업",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915800444"
+  },
+  {
+   "code": "005810",
+   "name": "풍산홀딩스",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000256"
+  },
+  {
+   "code": "005810",
+   "name": "풍산홀딩스",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800471"
+  },
+  {
+   "code": "336570",
+   "name": "원텍",
+   "title": "타법인주식및출자증권취득결정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900482"
+  },
+  {
+   "code": "295310",
+   "name": "에이치브이엠",
+   "title": "신규시설투자등",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900443"
+  },
+  {
+   "code": "019170",
+   "name": "신풍제약",
+   "title": "투자판단관련주요경영사항 (급성 허혈성 뇌졸중 치료제 SP8203 임상 3상 시험변경계획 승인 신청)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:32:17.498765+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800457"
+  },
   {
    "code": "001750",
    "name": "한양증권",
@@ -1446,15 +1509,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T06:13:13.882762+00:00",
    "isCorrection": false,
    "rceptNo": "20260911800327"
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:43:11.917072+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000260"
   },
   {
    "code": "001500",
