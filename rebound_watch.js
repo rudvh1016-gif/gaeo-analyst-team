@@ -5,7 +5,7 @@
 window.REBOUND_WATCH = {
  "schemaVersion": 1,
  "ruleVersion": "REBOUND_WATCH_V1",
- "generatedAt": "2026-09-15 09:34",
+ "generatedAt": "2026-09-15 12:33",
  "rule": {
   "dropPct": -20.0,
   "volRatio": 1.5,
@@ -19,7 +19,7 @@ window.REBOUND_WATCH = {
   "sellTaxPct": 0.2
  },
  "today": "2026-09-15",
- "todayCount": 0,
+ "todayCount": 1,
  "summary": {
   "ruleVersion": "REBOUND_WATCH_V1",
   "scoredCount": 0,
@@ -27,7 +27,7 @@ window.REBOUND_WATCH = {
   "minScoredForEvidence": 20,
   "minDaysForEvidence": 20,
   "evidenceOk": false,
-  "pendingCount": 0,
+  "pendingCount": 1,
   "winRatePct": null,
   "avgReturnPct": null,
   "medianReturnPct": null,
@@ -35,5 +35,17 @@ window.REBOUND_WATCH = {
   "avgMaxGainPct": null,
   "gaeoBuyRatePct": null
  },
- "entries": []
+ "entries": [
+  {
+   "code": "298380",
+   "name": "에이비엘바이오",
+   "date": "2026-09-15",
+   "price": 62800,
+   "dropPct": -21.3,
+   "volRatio": 1.52,
+   "gaeoCall": "SELL",
+   "status": "PENDING",
+   "ruleVersion": "REBOUND_WATCH_V1"
+  }
+ ]
 };
