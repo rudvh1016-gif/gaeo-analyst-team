@@ -29,12 +29,20 @@ Exit 1: something the add-loop should have staged is still dirty. Prints one
 import subprocess
 import sys
 
-# update-analysis.yml runs `git checkout HEAD -- data.js analysis.js` right
-# before the add-loop specifically to hand these two back to update-prices.yml
-# untouched. If they still show dirty here, that restore step itself failed -
-# worth a distinct message, but still a failure (category B: another
-# pipeline's own output, never this job's to commit either way).
-RESTORED_BEFORE_STAGING = frozenset(('data.js', 'analysis.js'))
+# update-analysis.yml runs `git checkout HEAD -- data.js analysis.js
+# price_provenance.json` right before the add-loop specifically to hand these
+# back to update-prices.yml untouched. If they still show dirty here, that
+# restore step itself failed - worth a distinct message, but still a failure
+# (category B: another pipeline's own output, never this job's to commit
+# either way).
+#
+# price_provenance.json (2026-09-15) is data.js's price-provenance companion,
+# written by the same collector in the same round. The analysis job reads it
+# (sync_inputs pulls both from origin) but must never commit it, exactly like
+# data.js. Leaving it out here would mean the analysis cycle finds it dirty
+# every time and silently skips every commit - the PR #564 failure mode this
+# script exists to prevent, caused by this script.
+RESTORED_BEFORE_STAGING = frozenset(('data.js', 'analysis.js', 'price_provenance.json'))
 
 
 def dirty_after_staging(cwd=None):

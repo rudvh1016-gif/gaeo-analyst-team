@@ -10,9 +10,15 @@ index.html이 data.js를 읽어 화면의 모든 시세를 갱신한다.
   · 요청 실패 시 백오프 재시도(기본 3회)
   · 종목별 수집 실패 시 data.js의 이전 값을 유지하고 stale=True로 표시(화면에 '시세 지연' 배지)
   · 신규 수집이 0건이면 data.js를 건드리지 않는다(기존 타임스탬프/값 보존)
+
+가격 출처 보존(2026-09-15):
+  · 같은 회차에 price_provenance.json을 함께 쓴다 — "이 가격을 누구에게서 언제 받았나".
+  · 출처를 만들려고 시세 API를 한 번도 더 부르지 않는다. 이미 받은 응답만 쓴다.
+  · data.js의 공개 구조는 바꾸지 않는다(소유자 확정: 별도 출처 파일 방식).
 """
 import json, urllib.request, datetime, os, sys, time, re
 
+import price_provenance
 from krx_calendar import is_krx_trading_day
 
 # 종목 목록은 tickers.js(TICKERS)에서 읽는다. 아래는 그 파일을 못 읽을 때의 안전망.
@@ -205,17 +211,23 @@ def fetch_fx():
     return None
 
 
-def main():
-    here = os.path.dirname(os.path.abspath(__file__))
+def main(here=None):
+    # `here` 를 인자로 받는 이유: 실제 수집 흐름(파일 쓰기까지)을 임시 폴더에서
+    # 저장된 응답으로 그대로 시험하기 위해서다. 운영에서는 지금처럼 저장소 폴더를 쓴다.
+    here = here or os.path.dirname(os.path.abspath(__file__))
     trim_log(here)                      # 로그 로테이션(맨 먼저)
     path = os.path.join(here, 'data.js')
     codes = load_tickers(here)          # 종목 단일 소스(tickers.js)
     old = load_old_stocks(path)
     out, fresh, stale_names = {}, 0, []
+    # 이전 회차 출처 — 가격 요청이 실패해 이전 값을 그대로 쓸 때 **원래 관측시각**을 잇는다.
+    prev_prov = price_provenance.previous_observations(here)
+    observations, response_keys = {}, set()
+    collector_started_at = price_provenance.now_utc()
 
     def fetch_one(code, name):
         """한 종목의 현재가+상세지표 수집.
-        반환: (code, row_or_None, is_fresh, stale_name_or_None)"""
+        반환: (code, row_or_None, is_fresh, stale_name_or_None, observation_or_None)"""
         try:
             s = get(f'https://api.finance.naver.com/service/itemSummary.naver?itemcode={code}')
         except Exception as e:
@@ -223,13 +235,20 @@ def main():
             if code in old:                       # 이전 값 유지 + 지연 표시
                 row = dict(old[code]); row['stale'] = True
                 print(f'   → 이전 값 유지(지연 표시): {row.get("price")}')
-                return (code, row, False, name)
-            return (code, None, False, None)
-        info = {}
+                # ⚠️ 이전 가격에 **새 관측시각을 붙이지 않는다.** 원래 출처를 그대로 잇고
+                #    '이번에는 재사용한 값'으로만 표시한다(원래 출처가 없으면 확인 불가).
+                return (code, row, False, name,
+                        price_provenance.reuse(prev_prov.get(code), row.get('price')))
+            return (code, None, False, None, None)
+        # ⏱️ 가격 응답을 받은 **바로 그 순간**을 적는다. 아래 상세지표 요청이 나중에
+        #    끝났다고 이 시각을 그쪽으로 옮기면 안 된다(§3: 가격 성공과 상세 성공은 별개).
+        price_received_at = price_provenance.now_utc()
+        info, detail_ok = {}, False
         try:
             integ = get(f'https://m.stock.naver.com/api/stock/{code}/integration',
                         'https://m.stock.naver.com')
             info = {i['code']: i.get('value') for i in integ.get('totalInfos', [])}
+            detail_ok = True
         except Exception as e:
             print(f'[경고] {name}({code}) 상세지표 실패(현재가는 정상): {e}')
         bps, eps = num(info.get('bps')), s.get('eps')
@@ -250,7 +269,8 @@ def main():
             'stale': False,
         }
         print(f"[OK] {name}({code}) {s['now']:,}원 {s['rate']:+.2f}%")
-        return (code, row, True, None)
+        return (code, row, True, None,
+                price_provenance.observe(s['now'], s, price_received_at, detail_ok))
 
     # 종목 수집은 네트워크 I/O 대기가 대부분이라 순차 처리하면 119종목 × 2요청 =
     # ~11분이 걸린다. 스레드로 동시 수집해 ~1~2분으로 단축(10분 스케줄이 실제로
@@ -258,9 +278,12 @@ def main():
     from concurrent.futures import ThreadPoolExecutor
     results = {}
     with ThreadPoolExecutor(max_workers=8) as ex:
-        for code, row, is_fresh, stale_name in ex.map(
+        for code, row, is_fresh, stale_name, obs in ex.map(
                 lambda kv: fetch_one(*kv), list(codes.items())):
             results[code] = row
+            if obs is not None:
+                observations[code] = obs       # 병렬 완료 순서와 무관하게 code로 묶는다
+                response_keys.update(obs.pop('_responseKeys', ()) or ())
             if is_fresh:
                 fresh += 1
             if stale_name:
@@ -310,6 +333,21 @@ def main():
     print(f'\ndata.js 갱신 완료 ({date_label}) → {path}')
     if stale_names:
         print(f'⚠️ 지연(이전 값 유지): {", ".join(stale_names)}')
+
+    # 📑 가격 출처 기록 — data.js와 **같은 회차·같은 입력**임을 snapshotId로 묶는다.
+    #    저장에 실패해도 data.js(공개 산출물)는 그대로 둔다. 그러면 남아 있는 옛 출처
+    #    기록은 새 스냅샷과 snapshotId가 달라 소비자가 '확인 불가'로 처리한다(fail closed).
+    try:
+        doc = price_provenance.build_round(
+            out, observations, date_label, collector_started_at,
+            price_provenance.now_utc(), response_keys)
+        price_provenance.save_round(here, doc)
+        c = price_provenance.counts(doc)
+        print(f"가격 출처 기록 저장 — 회차 {doc['roundId']} · 스냅샷 {doc['snapshotId']} · "
+              f"{c['total']}종목(새로 받음 {c['fresh']} · 이전 값 재사용 {c['reusedPrevious']} · "
+              f"출처 확인 불가 {c['unverified']} · 상세지표만 실패 {c['detailMetricsFailed']})")
+    except Exception as e:
+        print(f'[경고] 가격 출처 기록 저장 실패 — data.js는 정상, 이번 회차 출처는 확인 불가: {e}')
 
 if __name__ == '__main__':
     main()
