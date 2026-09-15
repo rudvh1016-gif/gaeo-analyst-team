@@ -752,6 +752,79 @@ def check_decisions(root, now):
                                        ('verificationStatus', 'verifiedCommitSha', 'ref', 'reason')})
 
 
+# ------------------------------------------- 기업행사·시장조치 증거 (채점의 전제)
+
+#: 증거 번들 두 개. 이게 익지 않으면 판단을 채점할 수 없다 — 성적표의 분모가 비는 것이다.
+COMPARISON_SOURCES = (
+    ("corporate_action_evidence.json", "corporate-action-evidence.yml", "공시(DART)"),
+    ("kind_market_action_evidence.json", "kind-market-action.yml", "시장조치(KIND)"),
+)
+
+
+def _workflow_has_schedule(root, filename):
+    """수집 워크플로가 스스로 도는가. 없으면 사람이 눌러야만 증거가 갱신된다."""
+    path = os.path.join(root, ".github", "workflows", filename)
+    try:
+        head = open(path, encoding="utf-8").read()
+    except OSError:
+        return None
+    return bool(re.search(r"^\s{2}schedule:", head, re.M))
+
+
+def check_comparison_evidence(root, now):
+    """판단 채점의 전제인 기업행사·시장조치 증거가 **지금 쓸 수 있는 상태인가**.
+
+    ⚠️ 이 점검이 없던 동안 통합 상태는 계속 초록불이었다. 그런데 실제로는 증거가 전량
+    만료돼 1,800건이 모두 `comparisonState=unknown` 이었다 — 즉 채점의 전제가 비어 있는데
+    아무도 그 사실을 보고하지 않았다. 저장소 교훈 ③ "모른다를 괜찮다로 바꾸지 마라".
+
+    그렇다고 장애로 적지도 않는다(교훈 ④). 만료는 고장이 아니라 **자료 부족**이다.
+    수집기 자체는 성공했고, 갱신이 예약돼 있지 않을 뿐이다.
+    """
+    rows, manual = [], []
+    for filename, workflow, label in COMPARISON_SOURCES:
+        doc = _read_json(os.path.join(root, "gaeo_coverage", filename))
+        evidence = (doc or {}).get("evidence")
+        if not isinstance(evidence, dict):
+            rows.append({"source": label, "file": filename, "readable": False})
+            continue
+        fresh = expired = undated = 0
+        for item in evidence.values():
+            when = _parse_iso((item or {}).get("expiresAt")) if isinstance(item, dict) else None
+            if when is None:
+                undated += 1
+            elif when >= now:
+                fresh += 1
+            else:
+                expired += 1
+        rows.append({"source": label, "file": filename, "readable": True, "codes": len(evidence),
+                     "fresh": fresh, "expired": expired, "undated": undated,
+                     "generatedAt": (doc or {}).get("generatedAt")})
+        if _workflow_has_schedule(root, workflow) is False:
+            manual.append(workflow)
+
+    extra = {"sources": rows, "manualOnlyWorkflows": manual}
+    states = ((_read_json(os.path.join(root, "research_archive", "decisions", "status.json")) or {})
+              .get("comparison") or {}).get("states")
+    if isinstance(states, dict):
+        extra["comparisonStates"] = states
+
+    unreadable = [r["file"] for r in rows if not r.get("readable")]
+    if unreadable:
+        return component(UNKNOWN, "COMPARISON_EVIDENCE_MISSING",
+                         "기업행사 증거를 읽지 못했다(%s) — 채점 전제를 확인할 수 없다" % ", ".join(unreadable),
+                         **extra)
+    detail = " · ".join("%s 종목 %d개 중 유효 %d·만료 %d" % (r["source"], r["codes"], r["fresh"], r["expired"])
+                        for r in rows)
+    if isinstance(states, dict) and states.get("unknown"):
+        detail += " · 판단 %d건이 기업행사 미확인" % states["unknown"]
+    if manual:
+        detail += " · 수집 워크플로에 예약이 없어 사람이 눌러야만 갱신된다(%s)" % ", ".join(manual)
+    if any(r["fresh"] == 0 for r in rows):
+        return component(INSUFF, "COMPARISON_EVIDENCE_EXPIRED", detail, **extra)
+    return component(OK, "COMPARISON_EVIDENCE_USABLE", detail, **extra)
+
+
 def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog_receipt=None):
     now = now or datetime.datetime.now(KST)
     comps = {}
@@ -763,6 +836,7 @@ def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog
     comps["paper"] = check_paper(root, now)
     comps["evolution"] = check_evolution(root, now)
     comps["decisions"] = check_decisions(root, now)
+    comps["comparisonEvidence"] = check_comparison_evidence(root, now)
     comps["schedule"] = check_validation_schedule(root, now)
     if deep:
         comps["prereg"] = check_prereg_recording(root, now)
@@ -828,7 +902,7 @@ def _git_sha(root):
         return None
 
 
-NAMES = {"performanceEvidence": "성능 운영 필수 자료", "evolutionLiveness": "Evolution 예약·실행·저장", "decisions": "판단 원본·결과 연결", "prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
+NAMES = {"comparisonEvidence": "기업행사·시장조치 증거", "performanceEvidence": "성능 운영 필수 자료", "evolutionLiveness": "Evolution 예약·실행·저장", "decisions": "판단 원본·결과 연결", "prices": "시세", "analysis": "자동분석", "coverage": "관측 종목 수", "indicators": "지표 출처", "dart": "공시",
          "paper": "모의투자(PAPER)", "evolution": "Evolution", "schedule": "예정 시험", "prereg": "사전등록 기록",
          "workflows": "워크플로 유효성", "scheduled": "예약 실행 실측(워치독·일일 점검)", "pages": "사이트 전달"}
 
