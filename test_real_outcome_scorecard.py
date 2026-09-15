@@ -230,6 +230,15 @@ class UnknownIsNotFine(Fixture):
         self.write_board(payload)
         self.assertEqual(card.build(self.dir)['verdict'], card.UNVERIFIED)
 
+    def test_구간이_하나도_없으면_표본_부족이_아니라_확인_불가다(self):
+        payload = _board({})          # byModelVersion 이 비어 있다
+        self.write_board(payload)
+        got = card.build(self.dir)
+        self.assertEqual(got['verdict'], card.UNVERIFIED,
+                         '읽은 것이 비어 있는데 "기록이 모자라다"로 적었다')
+        self.assertIn('기록이 모자란 것과 다르다', got['headline'])
+        self.assertNotIn('None일', got['headline'])
+
     def test_확인_불가만_종료코드_2다(self):
         # 표본 부족은 장애가 아니다(교훈 ④ 모른다를 고장으로 바꾸지도 마라).
         with contextlib.redirect_stdout(io.StringIO()):

@@ -196,6 +196,15 @@ def build(repo=HERE, now=None):
         label = ('지금 쓰는 모델' if is_current else '지금 쓰는 모델이 아님(옛 구간)')
         out['segments'].append(_segment(label, key, block, is_current=is_current))
 
+    if not out['segments']:
+        # 산출물은 읽혔는데 구간이 하나도 없다. 이건 "기록이 모자라다"가 아니라
+        # **읽은 것이 비어 있다**는 뜻이다 — 둘을 같은 말로 적으면 없는 기록을
+        # 있는 것처럼 읽게 된다(교훈 ③).
+        out['verdict'] = UNVERIFIED
+        out['headline'] = ('성적을 확인하지 못했다 — %s 의 실제 운영 모델에 모델 버전 구간이 '
+                           '하나도 없다. 기록이 모자란 것과 다르다.' % SCOREBOARD_JS)
+        return out
+
     current = next((s for s in out['segments'] if s['isCurrentModel']), None)
     measured = [s for s in out['segments'] if s['status'] == 'OK']
     # ⚠️ 판정은 **지금 쓰는 모델** 기준이다. 옛 구간에 판단일이 충분해도 그것으로
