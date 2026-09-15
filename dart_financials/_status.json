@@ -1,6 +1,6 @@
 {
  "financialCallsToday": 123,
  "reason": "오늘 이미 재무를 받았다. 연간 재무는 하루 한 번이면 충분하다.",
- "startedAt": "2026-09-15T04:32:20.164819+00:00",
+ "startedAt": "2026-09-15T05:02:24.366267+00:00",
  "status": "SKIPPED_ALREADY_TODAY"
 }
