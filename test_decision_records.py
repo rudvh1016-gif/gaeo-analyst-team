@@ -322,6 +322,52 @@ class MergeEvidence(unittest.TestCase):
         with self.assertRaises(dr.IntegrityError):
             dr.merge_outcomes({'a':row},{'a':dict(row,status='blocked')})
 
+    # ── 2026-09-14~15 사고: 같은 판단인데 회차 증거 포인터가 달라 저장이 막혔다 ──────
+    #  러너가 600종목 분석을 다 해 놓고도 push 가 거부되면 merge 를 타는데, 그 merge 가
+    #  IntegrityError 로 죽어 이틀 동안 자동분석이 저장되지 않았다(9/14 13:14 이후 0건,
+    #  9/15 에는 연속 2회 실패로 러너가 자진 사퇴). 원인은 판단이 아니라 **비교증거 파일
+    #  경로**가 회차마다 새로 생기는 것이었다 — merge 가 행 전체를 글자 단위로 비교했다.
+    def test_회차_증거_포인터만_다르면_충돌이_아니다(self):
+        base={'recordId':'a','status':'pending','asOf':'2026-09-15','ret':None,'verdict':None}
+        old=dict(base,comparisonEvidenceRef='.../회차1.json.gz',comparisonState='unknown')
+        new=dict(base,comparisonEvidenceRef='.../회차2.json.gz',comparisonState='verified')
+        merged=dr.merge_outcomes({'a':old},{'a':new})
+        # 판단은 동일하므로 병합되고, 증거는 최신 회차를 가리킨다.
+        self.assertEqual(merged['a']['comparisonEvidenceRef'],'.../회차2.json.gz')
+        self.assertEqual(merged['a']['status'],'pending')
+
+    def test_증거_포인터를_빼도_진짜_충돌은_그대로_거부한다(self):
+        """이 완화가 안전장치를 무디게 만들지 않았는지 — 진짜 충돌 두 종류를 다시 고정한다."""
+        base={'recordId':'a','asOf':'2026-09-15','comparisonEvidenceRef':'.../1.gz'}
+        with self.assertRaises(dr.IntegrityError):      # 판단이 엇갈림
+            dr.merge_outcomes({'a':dict(base,status='pending')},
+                              {'a':dict(base,status='blocked',comparisonEvidenceRef='.../2.gz')})
+        graded=dict(base,status='evaluated',verdict='hit',ret=3.0)
+        with self.assertRaises(dr.IntegrityError):      # 확정된 성적이 서로 다름
+            dr.merge_outcomes({'a':graded},
+                              {'a':dict(graded,verdict='miss',ret=-2.0,comparisonEvidenceRef='.../2.gz')})
+
+    def test_결과_행에_새_필드가_생기면_분류를_강제한다(self):
+        """새 필드가 '회차마다 바뀌는 증거'인데 아무도 분류를 안 하면 같은 사고가 재발한다.
+
+        그래서 필드 목록을 여기 고정한다. 결과 행에 필드를 더한 사람은 이 목록을 고치면서
+        '판단인가 증거 메타인가'를 반드시 정하게 된다(모르면 기본은 판단 = fail closed).
+        """
+        판단 = {'recordId','status','verdict','ret','reason','asOf','dueOn','decisionOn',
+                'horizon','scoringVersion'}
+        증거메타 = set(dr.EVIDENCE_META)
+        self.assertEqual(증거메타, {'comparisonEvidenceRef','comparisonState'})
+        with tempfile.TemporaryDirectory() as tmp:
+            repo=dr.Path(tmp); root=repo/'research_archive'/'decisions'
+            (repo/'price_history.js').write_text('const PRICE_HISTORY = {};',encoding='utf-8')
+            dr.capture(auto(),root)
+            dr.refresh(root,repo,now='2026-09-08T00:00:00+00:00')
+            실제필드 = set().union(*(set(v) for v in dr.load_outcomes(root).values()))
+        미분류 = 실제필드 - 판단 - 증거메타
+        self.assertFalse(미분류, f"결과 행에 분류되지 않은 새 필드가 있다: {sorted(미분류)} — "
+                                 "판단이면 위 집합에, 회차마다 바뀌는 증거면 "
+                                 "decision_records.EVIDENCE_META 에 넣어라")
+
 
 class Operations(unittest.TestCase):
     def test_status_without_stored_originals_or_public_summary_is_fault(self):
