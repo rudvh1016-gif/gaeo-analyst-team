@@ -52,7 +52,9 @@ SCOREBOARD_JS = 'model_scoreboard.js'
 COST_CONFIG = os.path.join('config', 'scorecard_cost_assumption.json')
 
 #: 성적표 전체 판정. 이 셋 말고 다른 말을 만들지 않는다.
-MEASURED = 'MEASURED'                        # 공개 기준을 넘긴 구간이 있다
+MEASURED = 'MEASURED'                        # 공개 기준(판단일)을 넘겨 **측정값을 보여줄 수 있다**
+#: ⚠️ MEASURED 는 '돈을 벌게 하는 실력이 입증됐다'가 아니다. 공개 최소 판단일을 넘긴 것과
+#:    투자 우수성이 검증된 것은 다른 일이다. 우수성은 등록된 기준선과의 비교로만 말한다.
 INSUFFICIENT_EVIDENCE = 'INSUFFICIENT_EVIDENCE'   # 기록은 있는데 아직 말할 수 없다
 UNVERIFIED = 'UNVERIFIED'                    # 산출물을 못 읽었다 — 정상도 장애도 아니다
 
@@ -131,10 +133,35 @@ def _segment(label, key, block, *, is_current):
 
 
 def _ci_excludes_5050(ci):
-    """95% 구간이 50%를 비켜 갔는가. 걸치면 '동전 던지기와 구분되지 않는다'."""
+    """95% 구간이 50%를 비켜 갔는가.
+
+    ⚠️ 이 값은 **구간의 위치를 알려주는 사실**일 뿐, 실력 판정이 아니다.
+    전체 적중률의 분모는 BUY·HOLD·SELL 이 섞여 있고 셋의 적중 정의가 서로 다르다
+    (BUY 는 ret>+1, SELL 은 ret<-1, HOLD 는 |ret|<=5). 특히 HOLD 는 판단의 72% 를
+    차지하면서 "크게 안 움직이면 적중" 이라 기준선 자체가 50% 가 아니다.
+    그래서 50% 를 동전 던지기 기준선으로 삼아 우수성을 판정하지 않는다
+    (2026-09-15 정정 — 그 전에는 '동전 던지기와 구분되지 않는다'고 단정했다).
+    """
     if not ci or len(ci) != 2 or any(v is None for v in ci):
         return None
     return ci[0] > 50.0 or ci[1] < 50.0
+
+
+#: 전체 적중률에 붙일 수 있는 **등록된 비교 기준선**. 지금은 없다.
+#: 결과를 본 뒤 유리한 기준선을 고르는 것을 막기 위해, 기준선은 등록으로만 생긴다.
+BASELINE_NOT_REGISTERED = 'BASELINE_NOT_REGISTERED'
+
+
+def _accuracy_phrase(seg, short=False):
+    """적중률 구간을 **사실 그대로** 설명한다. 우수성 판정을 하지 않는다."""
+    ci = seg.get('accuracyCI95')
+    if not ci or any(v is None for v in ci):
+        return '구간을 낼 표본이 아니다'
+    where = ('95% 구간이 50%를 비켜 갔다' if _ci_excludes_5050(ci) else '95% 구간이 50%를 품는다')
+    if short:
+        return where + '(50%는 이 성적의 기준선이 아니다)'
+    return (where + ' — 다만 분모에 BUY·HOLD·SELL 이 섞여 있어 50%는 이 성적의 '
+            '기준선이 아니다(비교 기준선 미등록)')
 
 
 def cost_assumption(repo=HERE):
@@ -153,9 +180,57 @@ def cost_assumption(repo=HERE):
                 'reason': doc.get('why'), 'configPath': COST_CONFIG,
                 'ownerDecisionRequired': doc.get('ownerDecisionRequired') or [],
                 'referenceOnly': doc.get('referenceOnly')}
+    # ⚠️ 등록됐다는 것과 이 성적표가 실제로 비용을 빼고 계산했다는 것은 다른 일이다.
+    #    성적표는 아직 gross 숫자를 모델보드에서 그대로 옮기므로 기본은 False 다.
     return {'status': 'COST_ASSUMPTION_REGISTERED', 'registered': True,
             'configPath': COST_CONFIG, 'model': doc.get('model'),
-            'appliesFrom': doc.get('appliesFrom')}
+            'appliesFrom': doc.get('appliesFrom'),
+            'appliedInCalculation': bool(doc.get('appliedInCalculation'))}
+
+
+def _horizon_states(base):
+    """horizon 별로 **없는 것**과 **결과를 기다리는 것**을 구분해 둔다.
+
+    NOT_APPLICABLE(이 구간에 해당 없음)과 PENDING_NOT_MATURED(결과 미도래)와
+    INSUFFICIENT_EVIDENCE(표본 부족)는 서로 다른 말이다. 셋을 "0건" 한마디로 뭉치면
+    읽는 사람이 "없다"와 "아직이다"를 구분하지 못한다.
+    """
+    out = {}
+    for key, block in sorted((base.get('horizons') or {}).items()):
+        out[key] = {'status': block.get('status'), 'matured': block.get('matured'),
+                    'pending': block.get('pending'), 'decisionDays': block.get('uniqueDates')}
+    return out
+
+
+def _horizon_limits(horizons):
+    """horizon 상태에서 한계 문장을 만든다. 어느 것도 하드코딩하지 않는다."""
+    lines = []
+    for key, h in sorted(horizons.items(), key=lambda kv: int(kv[0]) if kv[0].isdigit() else 0):
+        status, matured, pending = h.get('status'), h.get('matured'), h.get('pending')
+        if status == 'NOT_APPLICABLE':
+            lines.append('%sD 는 이 구간에 해당하지 않는다(집계 대상이 아니다).' % key)
+        elif status == 'PENDING_NOT_MATURED':
+            lines.append('%sD 는 채점된 기록이 %s건이고 %s건이 결과를 기다린다 — '
+                         '표본이 부족한 것이 아니라 아직 결과가 오지 않았다.'
+                         % (key, matured or 0, pending or 0))
+        elif status == 'INSUFFICIENT_EVIDENCE':
+            lines.append('%sD 는 판단일 %s일로 공개 기준에 못 미쳐 숫자를 내지 않는다.'
+                         % (key, h.get('decisionDays')))
+    return lines
+
+
+def _cost_limit(cost):
+    """비용 한계 문장. **등록 여부와 실제 적용 여부를 구분한다.**
+
+    registered=true 만으로 순수익 표시를 켜지 않는다 — 등록해 놓고 계산에 반영하지
+    않았으면 숫자는 여전히 비용 반영 전(gross)이다.
+    """
+    if not cost.get('registered'):
+        return '수익률은 전부 거래비용 반영 전(gross)이다 — 비용 가정이 등록되지 않았다.'
+    if not cost.get('appliedInCalculation'):
+        return ('수익률은 전부 거래비용 반영 전(gross)이다 — 비용 가정은 등록됐지만 '
+                '아직 이 성적표의 계산에 반영되지 않았다.')
+    return '수익률에 등록된 거래비용이 반영돼 있다(%s).' % (cost.get('appliesFrom') or '적용 시작일 미기재')
 
 
 def build(repo=HERE, now=None):
@@ -216,33 +291,40 @@ def build(repo=HERE, now=None):
     # 원장이 둘이라는 사실을 숨기지 않는다 — 둘은 성숙 시점이 다르다.
     trace = (board.get('decisionTrace') or {})
     horizon5 = ((trace.get('byModelVersion') or {}).get(current_version) or {}).get('horizons', {}).get('5', {})
+    evaluated = horizon5.get('evaluated')
+    sealed_what = '봉인된 판단 원본.'
+    if evaluated is None:
+        sealed_what += ' 채점 건수를 읽지 못했다(확인 불가).'
+    elif evaluated == 0:
+        sealed_what += ' 아직 한 건도 채점되지 않았다.'
+    else:
+        sealed_what += ' %s건이 채점됐다.' % evaluated
     out['ledgers'] = {
         'gradedNow': {'source': 'history.js → build_model_scoreboard',
                       'what': '매일 쌓인 자동판단. 지금 성적을 내는 것은 이쪽이다.',
                       'maturedRecords': base.get('maturedCount'),
                       'decisionDays': base.get('uniquePredictionDates')},
         'sealedOriginals': {'source': 'research_archive/decisions/ → decision_records',
-                            'what': '봉인된 판단 원본. 결과가 익기 전이라 아직 한 건도 채점되지 않았다.',
+                            'what': sealed_what,
                             'dailyRecords': trace.get('dailyRecordCount'),
                             'decisionDays': trace.get('uniqueDecisionDays'),
-                            'evaluated': horizon5.get('evaluated'),
+                            'evaluated': evaluated,
                             'pending': horizon5.get('pending'),
                             'comparisonStates': (trace.get('comparison') or {}).get('states')},
     }
 
+    # ⚠️ 여기 문장들은 **오늘의 값에서 만든다.** 지금 사실을 영원한 사실처럼 박아 두면
+    #    상황이 바뀐 날 성적표가 조용히 거짓말을 한다(2026-09-15 정정).
+    out['horizons'] = _horizon_states(base)
     out['limits'] = [
-        '수익률은 전부 거래비용 반영 전(gross)이다 — 비용 가정이 등록되지 않았다.',
+        _cost_limit(out['costAssumption']),
         '결과 가격은 판단일 다음 N번째 거래일 종가다. 기간 중 최대 낙폭이 아니다.',
         '같은 날 600종목은 독립 시행이 아니다. 구간은 판단일 블록 부트스트랩으로만 낸다.',
         '기업행사 확인이 안 된 종목은 채점에서 빠진다 — 정지·상장 이슈 종목이 분모에서 '
         '빠지므로 남은 표본이 실제보다 순해 보일 수 있다(생존편향).',
-        '60D 는 표본이 부족한 것이 아니라 0건이다. 어떤 결론도 내지 않는다.',
-    ]
+    ] + _horizon_limits(out['horizons'])
 
-    def _verdict_phrase(seg):
-        skill = _ci_excludes_5050(seg.get('accuracyCI95'))
-        return ('동전 던지기와 구분되지 않는다' if skill is False
-                else '구간이 50%를 비켜 갔다' if skill else '구간을 낼 표본이 아니다')
+    _verdict_phrase = _accuracy_phrase
 
     if out['verdict'] == MEASURED:
         out['headline'] = ('지금 쓰는 모델(%s): 전체 적중률 %s%% · 판단일 %s일 · %s'
@@ -259,7 +341,7 @@ def build(repo=HERE, now=None):
             seg = old_ok[0]
             head += (' 옛 구간(%s)에는 판단일 %s일치가 있지만 전체 %s%% 이고(%s), 무엇보다 '
                      '지금 사이트에 나오는 판단이 아니다.'
-                     % (seg['key'], seg['decisionDays'], seg['accuracyPct'], _verdict_phrase(seg)))
+                     % (seg['key'], seg['decisionDays'], seg['accuracyPct'], _accuracy_phrase(seg, short=True)))
         out['headline'] = head
     return out
 
@@ -290,11 +372,9 @@ def render(card):
         if seg['status'] != 'OK':
             L.append('    → %s%s' % (seg['status'], ' · ' + seg['reason'] if seg.get('reason') else ''))
             continue
-        skill = _ci_excludes_5050(seg.get('accuracyCI95'))
-        L.append('    전체 적중률 %s%% (95%% 구간 %s) → %s'
-                 % (seg['accuracyPct'], _fmt_ci(seg.get('accuracyCI95')),
-                    '동전 던지기와 구분되지 않는다' if skill is False
-                    else '구간이 50%를 비켜 갔다' if skill else '구간을 낼 표본이 아니다'))
+        L.append('    전체 적중률 %s%% (95%% 구간 %s)'
+                 % (seg['accuracyPct'], _fmt_ci(seg.get('accuracyCI95'))))
+        L.append('      → %s' % _accuracy_phrase(seg))
         for name, call in sorted((seg.get('calls') or {}).items()):
             tail = ''
             if name == 'SELL':

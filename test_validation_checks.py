@@ -261,5 +261,176 @@ class FlowReadiness(unittest.TestCase):
             shutil.rmtree(root, ignore_errors=True)
 
 
+class PreviousVersionEligibility(unittest.TestCase):
+    """직전 판 **자료 선택**의 정확성 — 2026-09-15 실측 결함의 회귀 시험.
+
+    그날 GitHub API 가 기준시각(9/15 00:00 KST)을 16시간 넘긴 당일 커밋을 돌려줬는데
+    코드가 그대로 받아들여, 오늘 파일을 오늘 파일과 비교하고 "이동 0.00% · OK" 를 냈다.
+    숫자는 틀리지 않았지만 **아무것도 확인하지 못한 답**이었다.
+
+    ⚠️ 여기서 검사하지 **않는** 것: 직전 판과 오늘 판의 SHA 가 달라야 한다거나,
+    가중치 숫자가 달라야 한다는 조건. 진짜 전날 자료와 오늘 자료의 가중치가 같으면
+    0.00% 가 정당하다. 검사할 것은 "비교 기준이 기준일 이전 자료인가" 하나다.
+    """
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp(prefix="gaeo-elig-")
+        git(self.root, "init", "-q")
+
+    def tearDown(self):
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def commit(self, doc, when):
+        write_tw(self.root, doc)
+        git(self.root, "add", "team_weights.js")
+        git(self.root, "commit", "-q", "-m", when, date=when)
+
+    # ── 적격성 판정 자체 ──────────────────────────────────────────────
+    def test_기준일_당일_생성분은_직전_판이_아니다(self):
+        ok, why = T.previous_eligibility(tw_doc(generated="2026-09-15 16:32"),
+                                         "2026-09-15T16:34:39+09:00", "2026-09-15")
+        self.assertFalse(ok)
+        self.assertEqual(why, "previous_commit_after_cutoff")
+
+    def test_커밋시각을_몰라도_생성시각이_당일이면_거부한다(self):
+        ok, why = T.previous_eligibility(tw_doc(generated="2026-09-15 16:32"), None, "2026-09-15")
+        self.assertFalse(ok)
+        self.assertEqual(why, "previous_generated_after_cutoff")
+
+    def test_전날_자료는_적격이다(self):
+        ok, why = T.previous_eligibility(tw_doc(generated="2026-09-14 15:40"),
+                                         "2026-09-14T15:41:00+09:00", "2026-09-15")
+        self.assertTrue(ok); self.assertIsNone(why)
+
+    def test_자정_경계는_기준일_00시_KST다(self):
+        # 9/14 23:59 KST 는 적격, 9/15 00:00 KST 는 부적격(경계 포함)
+        self.assertTrue(T.previous_eligibility(tw_doc(generated="2026-09-14 23:59"),
+                                               "2026-09-14T23:59:59+09:00", "2026-09-15")[0])
+        self.assertFalse(T.previous_eligibility(tw_doc(generated="2026-09-15 00:00"),
+                                                "2026-09-15T00:00:00+09:00", "2026-09-15")[0])
+
+    def test_UTC로_적힌_커밋시각도_KST_기준으로_잰다(self):
+        # 2026-09-14T15:30:00Z = 2026-09-15 00:30 KST → 기준일 당일이라 부적격
+        ok, why = T.previous_eligibility(tw_doc(generated="2026-09-14 15:40"),
+                                         "2026-09-14T15:30:00Z", "2026-09-15")
+        self.assertFalse(ok); self.assertEqual(why, "previous_commit_after_cutoff")
+
+    def test_생성시각을_읽지_못하면_적격으로_보지_않는다(self):
+        ok, why = T.previous_eligibility(tw_doc(generated="어제쯤"), None, "2026-09-15")
+        self.assertFalse(ok); self.assertEqual(why, "previous_generated_at_unreadable")
+
+    # ── run() 통합 ────────────────────────────────────────────────────
+    def test_당일_자료만_있으면_OK가_아니라_확인_불가다(self):
+        # git 의 --before 는 스스로 걸러 주므로 후보 자체가 없다. 그래도 OK 가 아니다.
+        self.commit(tw_doc(0.25, generated="2026-09-15 09:00"), "2026-09-15T09:05:00+09:00")
+        self.commit(tw_doc(0.25, generated="2026-09-15 16:32"), "2026-09-15T16:34:00+09:00")
+        rep = T.run(self.root, "2026-09-15")
+        self.assertEqual(rep["status"], "UNKNOWN_PREVIOUS",
+                         "당일 자료를 직전 판으로 받아들여 OK 를 냈다")
+        self.assertIsNone(rep["movePct"]["diana"])
+        self.assertFalse(rep["previous"]["eligible"])
+        self.assertIn("정상이라는 뜻이 아니다", rep["note"])
+
+    def test_커밋은_전날인데_내용이_당일_생성분이면_거부한다(self):
+        # 커밋 시각만 보면 통과하지만 파일 안의 생성시각은 기준일 당일인 경우.
+        # git 의 --before 로는 못 거른다 — previous_eligibility 가 두 번째 그물이다.
+        self.commit(tw_doc(0.25, generated="2026-09-15 08:00"), "2026-09-14T23:50:00+09:00")
+        self.commit(tw_doc(0.26, generated="2026-09-15 16:32"), "2026-09-15T16:34:00+09:00")
+        rep = T.run(self.root, "2026-09-15")
+        self.assertEqual(rep["status"], "UNKNOWN_PREVIOUS", rep.get("note"))
+        self.assertEqual(rep["previous"]["ineligibleReason"], "previous_generated_after_cutoff")
+        self.assertEqual([r["source"] for r in rep["previous"]["rejectedCandidates"]], ["git"])
+
+    def test_진짜_전날과_숫자가_같으면_0퍼센트_OK가_정당하다(self):
+        same = tw_doc(0.25, generated="2026-09-14 15:40")
+        self.commit(same, "2026-09-14T15:41:00+09:00")
+        self.commit(tw_doc(0.25, generated="2026-09-15 16:32"), "2026-09-15T16:34:00+09:00")
+        rep = T.run(self.root, "2026-09-15")
+        self.assertEqual(rep["status"], "OK", rep.get("note"))
+        self.assertEqual(rep["movePct"]["diana"], 0.0)
+        self.assertTrue(rep["previous"]["eligible"])
+        self.assertNotEqual(rep["previous"]["sha"], None)
+
+    def test_git가_후보를_못_내면_API_후보로_넘어간다(self):
+        # 얕은 clone 인 Actions 러너가 실제로 이 경로를 탄다.
+        self.commit(tw_doc(0.25, generated="2026-09-15 09:00"), "2026-09-15T09:05:00+09:00")
+        good = tw_doc(0.25, generated="2026-09-14 15:40")
+        original = T.previous_version_api
+        T.previous_version_api = lambda repo, token, as_of: ("apisha", good, "2026-09-14T15:41:00+09:00")
+        try:
+            rep = T.run(self.root, "2026-09-15", repo="o/r", token="t")
+        finally:
+            T.previous_version_api = original
+        self.assertEqual(rep["status"], "OK", rep.get("note"))
+        self.assertEqual(rep["previous"]["source"], "github-api")
+        self.assertEqual(rep["previous"]["sha"], "apisha")
+
+    def test_git가_부적격_후보를_내면_API_적격_후보로_넘어간다(self):
+        self.commit(tw_doc(0.25, generated="2026-09-15 08:00"), "2026-09-14T23:50:00+09:00")
+        self.commit(tw_doc(0.26, generated="2026-09-15 16:32"), "2026-09-15T16:34:00+09:00")
+        good = tw_doc(0.26, generated="2026-09-14 15:40")
+        original = T.previous_version_api
+        T.previous_version_api = lambda repo, token, as_of: ("apisha", good, "2026-09-14T15:41:00+09:00")
+        try:
+            rep = T.run(self.root, "2026-09-15", repo="o/r", token="t")
+        finally:
+            T.previous_version_api = original
+        self.assertEqual(rep["status"], "OK", rep.get("note"))
+        self.assertEqual(rep["previous"]["source"], "github-api")
+        self.assertEqual([r["source"] for r in rep["previous"]["rejectedCandidates"]], ["git"])
+
+    def test_두_경로_모두_부적격이면_확인_불가다(self):
+        self.commit(tw_doc(0.25, generated="2026-09-15 09:00"), "2026-09-15T09:05:00+09:00")
+        original = T.previous_version_api
+        T.previous_version_api = lambda repo, token, as_of: (
+            "apisha", tw_doc(0.25, generated="2026-09-15 12:00"), "2026-09-15T12:00:00+09:00")
+        try:
+            rep = T.run(self.root, "2026-09-15", repo="o/r", token="t")
+        finally:
+            T.previous_version_api = original
+        self.assertEqual(rep["status"], "UNKNOWN_PREVIOUS")
+        self.assertEqual([r["source"] for r in rep["previous"]["rejectedCandidates"]], ["github-api"])
+        self.assertEqual(rep["previous"]["ineligibleReason"], "previous_commit_after_cutoff")
+
+    def test_직전_판이_아예_없어도_OK로_적지_않는다(self):
+        self.commit(tw_doc(0.25, generated="2026-09-15 16:32"), "2026-09-15T16:34:00+09:00")
+        rep = T.run(self.root, "2026-09-15")
+        self.assertEqual(rep["status"], "UNKNOWN_PREVIOUS")
+        self.assertIn("정상이라는 뜻이 아니다", rep["note"])
+
+    # ── 질의문자열 안전성 ─────────────────────────────────────────────
+    def test_until을_UTC로_보내고_더하기_기호를_날것으로_싣지_않는다(self):
+        seen = {}
+
+        class FakeRes:
+            def __init__(self, payload): self.payload = payload
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+            def read(self): return self.payload
+
+        def fake_urlopen(req, timeout=None):
+            url = req.full_url
+            if "api.github.com" in url:
+                seen["url"] = url
+                return FakeRes(json.dumps([{"sha": "s1", "commit": {
+                    "committer": {"date": "2026-09-14T06:41:00Z"}}}]).encode())
+            return FakeRes(("const TEAM_WEIGHTS = "
+                            + json.dumps(tw_doc(0.25, generated="2026-09-14 15:40")) + ";").encode())
+
+        original = T.urllib.request.urlopen
+        T.urllib.request.urlopen = fake_urlopen
+        try:
+            sha, doc, commit_iso = T.previous_version_api("o/r", "tok", "2026-09-15")
+        finally:
+            T.urllib.request.urlopen = original
+        query = seen["url"].split("?", 1)[1]
+        self.assertNotIn("+09:00", query, "'+' 가 날것으로 실려 서버가 공백으로 읽는다")
+        # 9/15 00:00 KST == 9/14 15:00 UTC
+        self.assertIn("until=2026-09-14T15%3A00%3A00Z", query)
+        self.assertEqual(sha, "s1")
+        self.assertEqual(commit_iso, "2026-09-14T06:41:00Z")
+        self.assertTrue(T.previous_eligibility(doc, commit_iso, "2026-09-15")[0])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
