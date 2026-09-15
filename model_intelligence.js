@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-09-15 15:02",
+ "generatedAt": "2026-09-15 15:32",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -371,9 +371,9 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.3283,
-    "diana": 0.1173,
-    "nova": 0.2163,
-    "flow": 0.3381
+    "diana": 0.1174,
+    "nova": 0.2161,
+    "flow": 0.3382
    },
    "acc": {
     "taro": {
@@ -399,8 +399,8 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.2828,
-    "diana": 0.121,
-    "nova": 0.2853,
+    "diana": 0.1212,
+    "nova": 0.2851,
     "flow": 0.3109
    },
    "acc": {
@@ -427,8 +427,8 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.2609,
-    "diana": 0.1418,
-    "nova": 0.3008,
+    "diana": 0.1419,
+    "nova": 0.3006,
     "flow": 0.2965
    },
    "acc": {
@@ -455,8 +455,8 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.3179,
-    "diana": 0.1158,
-    "nova": 0.2867,
+    "diana": 0.1159,
+    "nova": 0.2865,
     "flow": 0.2797
    },
    "acc": {
@@ -483,8 +483,8 @@ const MODEL_INTELLIGENCE = {
    "blend": 0.6,
    "weights": {
     "taro": 0.3083,
-    "diana": 0.1362,
-    "nova": 0.225,
+    "diana": 0.1364,
+    "nova": 0.2249,
     "flow": 0.3305
    },
    "acc": {
@@ -508,14 +508,14 @@ const MODEL_INTELLIGENCE = {
   }
  },
  "currentRegime": {
-  "key": "side_low",
-  "trend": "side",
+  "key": "down_low",
+  "trend": "down",
   "vol": "low",
-  "median5": -0.88,
-  "medianAbs1": 1.33,
-  "advanceRatio5": 40.4,
-  "medianRet1": -0.13,
-  "advanceRatio1": 44.9
+  "median5": -1.03,
+  "medianAbs1": 1.38,
+  "advanceRatio5": 39.1,
+  "medianRet1": -0.34,
+  "advanceRatio1": 41.4
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -526,15 +526,15 @@ const MODEL_INTELLIGENCE = {
   "days": 51,
   "guardedN": 295,
   "baseline": {
-   "hit": 14239,
-   "miss": 11474,
-   "mid": 1031,
+   "hit": 14233,
+   "miss": 11478,
+   "mid": 1033,
    "accuracy": 55.4
   },
   "guarded": {
-   "hit": 14235,
-   "miss": 11493,
-   "mid": 1016,
+   "hit": 14229,
+   "miss": 11497,
+   "mid": 1018,
    "accuracy": 55.3
   },
   "active": false,
@@ -546,15 +546,15 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 7182,
-  "errors": 2439,
+  "errors": 2443,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 2104
+    "count": 2108
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1428
+    "count": 1433
    },
    {
     "label": "고변동성 국면",
@@ -566,13 +566,13 @@ const MODEL_INTELLIGENCE = {
    }
   ],
   "analystErrors": {
-   "taro": 1421,
+   "taro": 1425,
    "diana": 0,
-   "nova": 160,
-   "flow": 317
+   "nova": 162,
+   "flow": 315
   },
   "regimeErrors": {
-   "down_low": 990,
+   "down_low": 994,
    "side_low": 624,
    "up_low": 557,
    "down_high": 268
@@ -580,8 +580,8 @@ const MODEL_INTELLIGENCE = {
  },
  "shadow": {
   "n": 7182,
-  "baselineActionN": 1792,
-  "baselineActionPrecision": 50.1,
+  "baselineActionN": 1790,
+  "baselineActionPrecision": 50.0,
   "candidateActionN": 0,
   "candidateActionPrecision": null,
   "candidateCoverage": 0.0,
@@ -596,7 +596,7 @@ const MODEL_INTELLIGENCE = {
   "candidateAllCallBasis": "BUY·SELL은 ±1%, HOLD는 ±5%로 채점한 값이라 BUY·SELL 정밀도와 같은 잣대가 아니다.",
   "candidateAllCallSuppressed": true,
   "candidateAllCallSuppressedReason": "후보가 실행 가능한 판단(BUY·SELL)을 한 건도 내지 않아, 이 값은 HOLD 판정폭(±5%)만 반영한다.",
-  "brier": 0.2477,
+  "brier": 0.2476,
   "rawBrier": 0.2626
  },
  "prospective": {
@@ -736,29 +736,29 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "evaluation": {
-   "n": 1792,
-   "buyN": 404,
-   "sellN": 1388,
+   "n": 1790,
+   "buyN": 406,
+   "sellN": 1384,
    "testDays": 12,
    "testRegimes": 4,
    "candidate": {
-    "n": 1792,
+    "n": 1790,
     "tierSpreadPp": -3.9,
-    "corr": 0.131,
+    "corr": 0.1325,
     "ci95": {
      "lowPp": -12.3,
-     "highPp": 32.5,
+     "highPp": 32.8,
      "includesZero": true,
      "decisionDays": 12,
      "draws": 1000
     }
    },
    "baseline": {
-    "n": 1792,
+    "n": 1790,
     "tierSpreadPp": 2.5,
-    "corr": 0.0214,
+    "corr": 0.0219,
     "ci95": {
-     "lowPp": -4.6,
+     "lowPp": -4.9,
      "highPp": 9.9,
      "includesZero": true,
      "decisionDays": 12,
@@ -776,19 +776,19 @@ const MODEL_INTELLIGENCE = {
     ],
     "rangesOverlap": false,
     "candidateWithinBuy": {
-     "n": 404,
-     "tierSpreadPp": 7.5
+     "n": 406,
+     "tierSpreadPp": 7.4
     },
     "candidateWithinSell": {
-     "n": 1388,
+     "n": 1384,
      "tierSpreadPp": -6.9
     },
     "baselineWithinBuy": {
-     "n": 404,
-     "tierSpreadPp": -14.2
+     "n": 406,
+     "tierSpreadPp": -14.8
     },
     "baselineWithinSell": {
-     "n": 1388,
+     "n": 1384,
      "tierSpreadPp": 1.1
     },
     "note": "합친 표의 스프레드는 BUY·SELL 자체의 적중률 차이만으로도 커질 수 있다. 같은 방향 안에서 다시 잰 값이 진짜 판별력이다."
@@ -808,15 +808,15 @@ const MODEL_INTELLIGENCE = {
   "prospective": {
    "type": "PROSPECTIVE_ARCHIVED",
    "note": "그날 미리 기록해 둔 확신도 후보값만으로 채점한다. 나중에 만든 교정표를 과거에 적용하지 않으므로 검증일이 실제로 하루씩 쌓인다.",
-   "n": 322,
+   "n": 320,
    "testDays": 2,
    "firstDay": "2026-09-07",
    "lastDay": "2026-09-08",
-   "buyN": 54,
-   "sellN": 268,
-   "tierSpreadPp": 15.9,
+   "buyN": 56,
+   "sellN": 264,
+   "tierSpreadPp": 17.0,
    "tierSpreadWithinBuyPp": 11.1,
-   "tierSpreadWithinSellPp": 10.1,
+   "tierSpreadWithinSellPp": 9.1,
    "clockStarted": true,
    "daysRemainingToGate": 38
   },
@@ -826,8 +826,8 @@ const MODEL_INTELLIGENCE = {
    "reasons": [
     "검증일 40거래일 미만",
     "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 -3.9pp vs 기존 2.5pp)",
-    "후보 판별력 95% 구간(-12.3~32.5pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
-    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 7.5pp · SELL -6.9pp)",
+    "후보 판별력 95% 구간(-12.3~32.8pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
+    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 7.4pp · SELL -6.9pp)",
     "사전 기록 기반 검증일 2일 / 40일 (누적 중)"
    ],
    "minimums": {
