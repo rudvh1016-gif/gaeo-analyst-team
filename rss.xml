@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Mon, 14 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 15 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월15일 종가, 코스닥은 올랐는데 3곳 중 2곳이 내린 이유</title>
+    <link>https://gaeoteam.com/snap/news/72.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/72.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 57.11포인트(0.85%) 내린 6,627.26, 코스닥은 5.62포인트(0.70%) 오른 812.41로 마감했습니다. 그런데 개오 600종목 중 오른 종목은 183개뿐이고 399개가 내렸습니다. 지수 하나로 장을 판단하면 안 되는 날이었습니다. 조선과 방산이 무너지고 로봇과 2차전지가 오른 하루를, 업종별 숫자로 정리합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월14일 종가, AI 속도조절론에 코스피 3.26%·코스닥 1.69% 급락</title>
     <link>https://gaeoteam.com/snap/news/71.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/70.html</guid>
     <category>주식공부</category>
     <description>관리종목 지정, 거래정지, 상장적격성 심사, 정리매매의 차이와 보유자가 단계별로 확인할 일을 정리했어요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>국내주식 세금: 매매·배당·대주주 과세 한 번에 정리</title>
-    <link>https://gaeoteam.com/snap/lesson/69.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/69.html</guid>
-    <category>주식공부</category>
-    <description>국내 상장주식을 사고팔고 배당받을 때 어떤 세금이 언제 생기는지, 소액주주와 대주주의 차이까지 정리했어요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>

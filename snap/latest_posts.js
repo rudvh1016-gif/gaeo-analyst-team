@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 72,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-15",
+  "title": "2026년 9월15일 종가, 코스닥은 올랐는데 3곳 중 2곳이 내린 이유",
+  "featured": false
+ },
+ {
   "id": 71,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-03",
   "title": "2026년 9월3일 종가, 자사주가 떠받친 코스피 0.26% 반등, 코스닥은 800 반납",
   "featured": false
- },
- {
-  "id": 63,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-09-02",
-  "title": "2026년 9월2일 종가, 유가발 확전 공포에 코스피 4%·코스닥 2% 급락",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 71,
+ "news": 72,
  "study": 35,
  "lesson": 82,
  "estate": 19,
