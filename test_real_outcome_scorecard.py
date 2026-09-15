@@ -52,7 +52,7 @@ def _short_block(days=17):
                     'medianReturn': 9.9, 'marketRelativeMeanReturn': 9.9}}
 
 
-def _board(by_version, *, current=CURRENT, trace=True, horizons=None, evaluated=0):
+def _board(by_version, *, current=CURRENT, trace=True, horizons=None, evaluated=0, reasons=None):
     payload = {
         'generatedAt': '2026-09-15T03:34:00+00:00', 'gradingPolicyVersion': 'grading_v1_2026-08-16',
         'models': [{'id': 'base_production', 'currentModelVersion': current,
@@ -64,7 +64,8 @@ def _board(by_version, *, current=CURRENT, trace=True, horizons=None, evaluated=
         payload['decisionTrace'] = {
             'dailyRecordCount': 1800, 'uniqueDecisionDays': 3,
             'comparison': {'states': {'unknown': 1800, 'comparable': 0}},
-            'byModelVersion': {current: {'horizons': {'5': {'evaluated': evaluated, 'pending': 1800}}}},
+            'byModelVersion': {current: {'horizons': {'5': dict(
+                {'evaluated': evaluated, 'pending': 1800}, **({'reasons': reasons} if reasons else {}))}}},
         }
     return payload
 
@@ -363,6 +364,44 @@ class CostRegisteredIsNotCostApplied(Fixture):
                          'model': {'roundTripPct': 0.23}, 'appliesFrom': '2026-10-01'})
         limits = card.build(self.dir)['limits']
         self.assertTrue(any('거래비용이 반영돼 있다' in l for l in limits), limits)
+
+
+class ReadinessSeparatesWaitingFromBlocked(Fixture):
+    """§7 — '아직 결과가 안 왔다' 와 '근거가 없어 못 한다' 를 섞지 않는다."""
+
+    def _card(self, reasons, evaluated=0):
+        self.write_board(_board({CURRENT: _short_block()}, reasons=reasons, evaluated=evaluated))
+        return card.build(self.dir)['readiness']
+
+    def test_결과_미도래는_A로_센다(self):
+        rd = self._card({'future_session': 1800})
+        self.assertEqual(rd['counts']['A_WAITING_RESULT'], 1800)
+        self.assertEqual(rd['counts']['B_PRICE_EVIDENCE_MISSING'], 0)
+
+    def test_가격_근거_부족과_기업행사_부족을_구분한다(self):
+        rd = self._card({'price_basis_unverified': 30, 'corporate_action_unverified': 1719,
+                         'trading_halt': 3, 'future_session': 48})
+        self.assertEqual(rd['counts']['B_PRICE_EVIDENCE_MISSING'], 30)
+        self.assertEqual(rd['counts']['C_CORPORATE_ACTION_MISSING'], 1722)
+        self.assertEqual(rd['counts']['A_WAITING_RESULT'], 48)
+
+    def test_모르는_사유를_정상_대기로_세지_않는다(self):
+        rd = self._card({'future_session': 10, '새로_생긴_사유': 7})
+        self.assertEqual(rd['counts']['A_WAITING_RESULT'], 10,
+                         '모르는 사유를 정상 대기에 합쳤다')
+        self.assertEqual(rd['counts']['UNCLASSIFIED'], 7)
+        self.assertEqual(rd['unmappedReasons'], {'새로_생긴_사유': 7})
+
+    def test_채점만_되고_main_되읽기가_없으면_E가_아니다(self):
+        rd = self._card({'future_session': 100}, evaluated=5)
+        self.assertEqual(rd['counts']['D_READY_TO_GRADE'], 5)
+        self.assertEqual(rd['counts']['E_GRADED_AND_VERIFIED'], 0,
+                         'main 되읽기 확인 없이 완료로 셌다')
+
+    def test_comparable이_0이면_그_사실을_말한다(self):
+        rd = self._card({'future_session': 1800})
+        self.assertEqual(rd['comparableNow'], 0)
+        self.assertIn('comparable 은 0 건', rd['note'])
 
 
 if __name__ == '__main__':
