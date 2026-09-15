@@ -206,7 +206,9 @@ def main(argv=None):
 
     evidence = dict(previous.get('evidence') or {})
     done = []
+    attempted = []
     for ticker in todo:
+        attempted.append(ticker)
         record = collect_one(client, ticker, mapped[ticker]['corp_code'], bgn_de, end_de, budget)
         evidence[ticker] = record
         if record['ok']:
@@ -229,7 +231,12 @@ def main(argv=None):
     summary['subsidiaryOnly'] = sum(1 for t in done if evidence[t]['findings']
                                     and not evidence[t]['unresolvedHistorical'])
     summary['clean'] = sum(1 for t in done if not evidence[t]['findings'])
-    summary['failed'] = len(todo) - len(done)
+    # 예산이 떨어져 손도 못 댄 종목을 실패로 세지 않는다(2026-09-15 수리).
+    # 실제로 시도한 것만 분모로 쓰고, 못 댄 것은 notProcessed 로 따로 남긴다.
+    summary['failed'] = len(attempted) - len(done)
+    summary['notProcessed'] = len(todo) - len(attempted)
+    summary['notProcessedReason'] = ('budget_exhausted_before_attempt'
+                                     if len(todo) > len(attempted) else None)
     print(json.dumps(summary, ensure_ascii=False))
     return 0
 
