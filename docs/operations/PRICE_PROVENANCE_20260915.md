@@ -138,7 +138,7 @@ PR #564 계열 사고를, 이 스크립트가 일으키는 모양이 된다. 그
 
 | 구분 | 상태 | 근거 |
 |---|---|---|
-| **A. 가격 관측 사실 보존** | 구현·시험 완료 (`IMPLEMENTED_AND_TESTED`) | 32개 시험 통과 + 가드 6개 고의 파괴 확인 |
+| **A. 가격 관측 사실 보존** | 구현·시험 완료 (`IMPLEMENTED_AND_TESTED`) | 41개 시험 통과 + 가드 9개 고의 파괴 확인 |
 | **B. 신규 판단 원장 연결** | 구현·시험 완료 (합성 자료) | `Ledger` 시험군 — 압축·되읽기 뒤에도 보존 |
 | **C. 현행 가격 비교 조건 충족** | **미충족** | 아래 표 |
 
@@ -177,7 +177,7 @@ PR #564 계열 사고를, 이 스크립트가 일으키는 모양이 된다. 그
 ## 10. 확인 명령
 
 ```bash
-python3 -m unittest test_price_provenance -q          # 32건
+python3 -m unittest test_price_provenance -q          # 41건
 python3 gaeo_check.py investment-contract             # 원장·비교 계약
 python3 -c "import json,price_provenance as p; d=p.load_round('.'); print(json.dumps(p.counts(d),ensure_ascii=False))"
 ```
