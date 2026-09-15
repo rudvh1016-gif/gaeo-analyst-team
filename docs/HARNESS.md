@@ -57,6 +57,9 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 하지 않는 것: 확인하지 못한 run 취소 · 최신 main 무조건 재배포 · 과거 기록·원장 자동 rollback · 기준 완화 · 러너 clone의 `reset --hard`/force push ·
 무인 AI 호출(수리 요청서는 사람/개발 AI 세션이 읽는다) · 거래를 만들려고 UNKNOWN을 정상으로 바꾸기.
 
+> 「지금 판단 성적이 어떤가」는 `python3 real_outcome_scorecard.py` 하나로 본다(읽기 전용·LLM 0).
+> 새로 채점하지 않고 기존 채점 결과를 모으기만 한다 — 목적·원천 표는 `docs/operations/GAEO_NORTH_STAR.md` §3.
+
 ## 5. 상태 어휘 (`ops_status.py` · 이슈 · 보고서 공통)
 정상 / 정상 대기 / 자료 부족 / 장애 / 확인 불가 / 무료 한도 대기 / **은퇴(기록 보존)**. 확인 전은 "확인 불가"다. 표본 부족은 "투자 검증 대기"이고,
 수집기가 멈춰 표본이 안 쌓이는 것은 "운영 장애"다 — 둘을 섞지 않는다.
@@ -64,9 +67,9 @@ python3 gaeo_check.py preflight     # 작업 트리 · origin/main 기준 SHA ·
 셋 중 하나로 욱여넣으면 "잘 돌고 있다"나 "고쳐야 한다"로 잘못 읽힌다. **은퇴해도 감시는 끄지 않는다**: 은퇴 뒤에 그 기능이
 다시 기록을 남기면 그건 장애다(꺼두지 않은 러너 탐지).
 
-## 5-1. 고의 고장 시험 지도 (fault injection · 2026-09-14)
+## 5-1. 고의 고장 시험 지도 (fault injection · 2026-09-14 · 2026-09-15 보강)
 
-happy path만 도는 검사는 사고를 못 막는다. 아래 16가지 고장을 **일부러 일으켰을 때** 조용히 "정상"으로
+happy path만 도는 검사는 사고를 못 막는다. 아래 스무 가지 고장을 **일부러 일으켰을 때** 조용히 "정상"으로
 지나가지 않는지, 각각 어느 검사가 지키는지의 대조표다. 새 고장 유형을 발견하면 이 표에 줄을 더한다.
 
 | # | 고의 고장 | 지키는 검사 | 나와야 하는 판정 |
@@ -89,6 +92,8 @@ happy path만 도는 검사는 사고를 못 막는다. 아래 16가지 고장�
 | 16 | Rollback 뒤 실제 Production 버전 불일치 | `test_gaeo_evolution.ProductionWiringTest` | 불일치 검출 · SAFE_MODE |
 | 17 | 은퇴한 기능이 몰래 다시 기록을 남김 | `test_ops_status.Verdicts` · `test_paper_single_writer` | `PAPER_WROTE_AFTER_RETIREMENT`(장애) · 게이트가 모든 러너 거부 |
 | 18 | 은퇴를 "정상"으로 적어 잘 돌고 있는 것처럼 보임 | `test_ops_status.Verdicts` | 별도 어휘 `RETIRED` — OK 도 FAULT 도 아님 |
+| 19 | 채점의 전제(기업행사 증거)가 전량 만료됐는데 통합 상태는 초록불 | `test_ops_status.ComparisonEvidenceFreshness` | `COMPARISON_EVIDENCE_EXPIRED`(자료 부족) — 만료를 장애로도, 정상으로도 적지 않는다 |
+| 20 | 표본이 모자란 구간의 적중률을 성적표가 퍼감 / 옛 모델 성적을 현재 성적으로 읽힘 | `test_real_outcome_scorecard.SampleFloor` · `ModelVersionsStaySeparate` | 숫자 칸 비움 · 판정은 **지금 쓰는 모델** 기준 |
 
 특히 **UNKNOWN → 정상**으로 새는 길은 별도로 막는다: 예약 실행 증거 없이 로컬 산출물만 말끔한 경우(11),
 조회 실패(7), 판단 원본 되읽기 실패(8·9)는 전부 "확인 불가"로 남고 종료코드 2로 이어진다.

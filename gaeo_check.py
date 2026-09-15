@@ -64,6 +64,7 @@ GROUPS = {
         "test_research_v11.py", "test_rotation.py", "test_rotation_picks.py", "test_rotation_workflow.py", "test_radar.py",
         "test_rebound_watch.py", "test_piotroski.py", "test_scorecard_report_publish.py", "test_product_semantics.py",
         "test_paper_evidence_guard.py", "test_gaeo_coverage.py", "test_validation_negative_control.py",
+        "test_real_outcome_scorecard.py",
     ],
     "schedule": ["test_validation_schedule.py", "test_validation_runner.py", "test_validation_checks.py"],
     "compatibility": ["test_rules_map.py", "test_ci_parity.py", "test_secret_hygiene.py", "test_design_contract.py",
