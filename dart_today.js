@@ -1,12 +1,111 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 14:33",
- "priceLabel": "2026-09-15 14:03 장중 · ⚠️ 1종목 지연",
- "count": 282,
+ "generatedAt": "2026-09-15 15:03",
+ "priceLabel": "2026-09-15 14:50 장중 · ⚠️ 1종목 지연",
+ "count": 289,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001750",
+   "name": "한양증권",
+   "title": "[기재정정]증권신고서(채무증권)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915000212"
+  },
+  {
+   "code": "001750",
+   "name": "한양증권",
+   "title": "[발행조건확정]증권신고서(채무증권)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000218"
+  },
+  {
+   "code": "002020",
+   "name": "코오롱",
+   "title": "[기재정정]단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915800412"
+  },
+  {
+   "code": "031330",
+   "name": "에스에이엠티",
+   "title": "[기재정정]타인에대한채무보증결정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915900458"
+  },
+  {
+   "code": "347700",
+   "name": "스피어",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915900405"
+  },
+  {
+   "code": "003920",
+   "name": "남양유업",
+   "title": "[기재정정]소송등의제기ㆍ신청(자율공시:일정금액미만의청구)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915800448"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000215"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000232"
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800452"
+  },
+  {
+   "code": "105560",
+   "name": "KB금융",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800456"
+  },
+  {
+   "code": "007070",
+   "name": "GS리테일",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800462"
+  },
   {
    "code": "069960",
    "name": "현대백화점",
@@ -766,24 +865,6 @@ const DART_TODAY = {
   {
    "code": "030610",
    "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000318"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000325"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
    "title": "투자설명서(일괄신고)",
    "receiptDate": "20260914",
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
@@ -1196,15 +1277,6 @@ const DART_TODAY = {
    "rceptNo": "20260911000397"
   },
   {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T07:13:14.748254+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000434"
-  },
-  {
    "code": "034950",
    "name": "한국기업평가",
    "title": "주주총회소집결의 (임시주주총회)",
@@ -1284,15 +1356,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T06:43:20.816900+00:00",
    "isCorrection": false,
    "rceptNo": "20260911000358"
-  },
-  {
-   "code": "105560",
-   "name": "KB금융",
-   "title": "일괄신고추가서류",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000385"
   },
   {
    "code": "000720",
