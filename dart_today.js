@@ -1,12 +1,93 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 16:03",
+ "generatedAt": "2026-09-15 16:33",
  "priceLabel": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
- "count": 296,
+ "count": 301,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000346"
+  },
+  {
+   "code": "009410",
+   "name": "태영건설",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915800576"
+  },
+  {
+   "code": "009410",
+   "name": "태영건설",
+   "title": "기타안내사항(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800578"
+  },
+  {
+   "code": "381970",
+   "name": "케이카",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800580"
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000344"
+  },
+  {
+   "code": "003850",
+   "name": "보령",
+   "title": "[기재정정]주요사항보고서(자기주식처분결정)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915000321"
+  },
+  {
+   "code": "011780",
+   "name": "금호석유화학",
+   "title": "주식소각결정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800586"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000343"
+  },
+  {
+   "code": "078930",
+   "name": "GS",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800598"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -357,15 +438,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
    "rceptNo": "20260915000051"
-  },
-  {
-   "code": "003850",
-   "name": "보령",
-   "title": "주요사항보고서(회사분할결정)",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000070"
   },
   {
    "code": "003850",
@@ -806,15 +878,6 @@ const DART_TODAY = {
    "receiptDate": "20260914",
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": false,
-   "rceptNo": "20260914000221"
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
    "rceptNo": "20260914000227"
   },
   {
@@ -1000,15 +1063,6 @@ const DART_TODAY = {
   {
    "code": "005940",
    "name": "NH투자증권",
-   "title": "투자설명서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000002"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
    "title": "[기재정정]일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260915",
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
@@ -1113,15 +1167,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": false,
    "rceptNo": "20260914000410"
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-14T04:10:05.256374+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000017"
   },
   {
    "code": "042700",

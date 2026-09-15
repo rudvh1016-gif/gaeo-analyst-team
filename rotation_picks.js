@@ -4,13 +4,13 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-15 16:03",
+ "generatedAt": "2026-09-15 16:33",
  "dataCutoff": "2026-09-15 종가",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 38.3,
+  "breadthPct": 38.0,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
@@ -33,7 +33,7 @@ window.ROTATION_PICKS = {
  "regime": {
   "direction": "하락",
   "leadership": "중립",
-  "topSector": "2차전지"
+  "topSector": "여행레저"
  },
  "record": {
   "hitRate": 52.6,
