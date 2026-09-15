@@ -64,6 +64,8 @@
 
 공식 자료를 실제 확보했을 때만 다음 생산 경로를 사용한다. 새 API나 자동 수집기를 추가하지 않았으며, 현재 600건의 빈 `priceObservedAt`을 고쳐 채점할 수 없다.
 
+**2026-09-16 (PHASE 4)** — 이제 생산자가 있다: `collect_price_proof.py` 가 `price_proof_planner.py` 로 「출처 있음 + 결과일 도달 + 미채점 + 증명 없음」인 판단만 고르고, KRX Open API 일별매매정보(`krx_openapi_client.py`, 기준일자별 전 종목, 날짜당 2요청) 원문을 `price_sources/`(내용주소)에 보존한 뒤 위 계약대로 증명을 조립해 `save_price_proof` 로 저장한다. 가격 기준은 응답의 전일대비 연속성으로 창 안에서 실측하고, 판단 당시 가격은 장 마감 뒤 관측이면서 공식 종가와 정확히 같을 때만 대응시킨다. 조정계수는 만들지 않는다. 인증키(`KRX_OPENAPI_AUTH_KEY`)가 없으면 계획·상태만 남긴다. 상세: `docs/operations/PRICE_PROOF_PRODUCER_20260916.md`.
+
 ```text
 python decision_records.py --price-proof /path/to/official-proof.json
 python build_model_scoreboard.py --decision-trace-only

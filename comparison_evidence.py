@@ -17,7 +17,9 @@ import decision_records as dr
 SCOPE_VERSION='price-comparison-v1'
 EXTRA_TERMS=('주식병합','주식분할','액면병합','권리락','배당락','기준가격','거래중단','재상장','변경상장','정리매매',
              '현금배당','현금·현물배당','현금및현물배당')
-OFFICIAL_HOSTS={'kind.krx.co.kr','data.krx.co.kr','openapi.krx.co.kr','dart.fss.or.kr','opendart.fss.or.kr'}
+# data-dbg.krx.co.kr = KRX Open API(openapi.krx.co.kr 포털)의 실제 서비스 호출 호스트(2026-09-16, krx_openapi_client 참조).
+# 호스트 허용은 '공식 자료일 수 있다'는 뜻일 뿐이다 — 원문 hash 바인딩·기간·기준 검사는 그대로 전부 통과해야 한다.
+OFFICIAL_HOSTS={'kind.krx.co.kr','data.krx.co.kr','data-dbg.krx.co.kr','openapi.krx.co.kr','dart.fss.or.kr','opendart.fss.or.kr'}
 
 
 def relevant(title):

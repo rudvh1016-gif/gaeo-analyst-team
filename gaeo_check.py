@@ -37,7 +37,7 @@ GROUPS = {
         "test_verify_save_closure.py",
         "test_holiday_guard.py", "test_krx_calendar_sync.py", "test_ci_parity.py", "test_coverage_600.py",
         "test_gaeo_coverage.py", "test_market_history_close.py", "test_market_history_summary.py", "test_market_universe.py",
-        "test_indicators_split.py", "test_indicator_provenance.py", "test_price_provenance.py", "test_flow_history.py", "test_flow_period_consistency.py", "test_flow_summary.py",
+        "test_indicators_split.py", "test_indicator_provenance.py", "test_price_provenance.py", "test_price_proof_producer.py", "test_flow_history.py", "test_flow_period_consistency.py", "test_flow_summary.py",
         "test_dart_pipeline.py", "test_dart_context_loader.py", "test_dart_financials_collect.py", "test_dart_live_hardening.py",
         "test_dart_research.py",
         "test_corporate_action_evidence.py", "test_corporate_action_classify.py",
@@ -57,7 +57,7 @@ GROUPS = {
     ],
     "investment-contract": [
         "test_decision_quality.py", "test_performance_orchestrator.py",
-        "test_decision_records.py", "test_comparison_evidence.py", "test_price_provenance.py",
+        "test_decision_records.py", "test_comparison_evidence.py", "test_price_provenance.py", "test_price_proof_producer.py",
         "test_prereg_buy_filters.py", "test_analyst_honesty.py", "test_team_weights_market_relative.py", "test_buy_overheat.py",
         "test_buy_warning_evidence.py", "test_gaeo_evolution.py", "test_model_intelligence.py", "test_model_scoreboard.py",
         "test_base_candidates.py", "test_base_model_fixes.py", "test_research_c_scoreboard.py", "test_research_engine.py",

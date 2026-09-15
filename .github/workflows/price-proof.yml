@@ -1,0 +1,125 @@
+# 개오 애널리스트팀 — 공식 결과가격 증명 생산 (PHASE 4)
+#
+# 결과일(5번째 거래일)이 지난 신규 판단에 KRX Open API 일별매매정보 원문을 받아 가격증명(price proof)을 붙인다.
+# 이 워크플로는 채점하지 않는다. 증명을 저장하면 다음 분석 사이클의 decision_records.refresh() 가
+# 기존 비교검사(comparison_evidence)·기존 채점식(score_call)으로 채점한다.
+#
+# 지키는 것
+#   - 인증키(KRX_OPENAPI_AUTH_KEY)는 헤더로만 보내고 어떤 로그·산출물에도 남기지 않는다(krx_openapi_client.redact).
+#   - 키가 없으면 가짜로 우회하지 않는다: 계획·상태 파일(OWNER_ACTION_REQUIRED)만 남기고 종료코드 2 로 경고한다.
+#   - 결과일 전 판단·출처 없는 과거 판단은 건드리지 않는다(planner). 조정계수를 계산하지 않는다.
+#   - 커밋 경로는 셋뿐: research_archive/decisions/price_proofs · research_archive/decisions/price_sources · gaeo_coverage/price_proof_status.json
+#   - push/schedule 트리거가 없다 — 사람이 dispatch 할 때만 돈다(브랜치에 이 파일을 올려도 기동하지 않는다). 루프·재기동 없음.
+
+name: price-proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      records:
+        description: "이번 회차에 증명할 판단 수 상한"
+        default: "700"
+      requests:
+        description: "KRX Open API 요청 수 상한(날짜당 2 · 인증키당 일 10,000)"
+        default: "40"
+      commit:
+        description: "증명·원문·상태를 main 에 커밋 (기본 true)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: price-proof
+  cancel-in-progress: false
+
+jobs:
+  produce:
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      KRX_OPENAPI_AUTH_KEY: ${{ secrets.KRX_OPENAPI_AUTH_KEY }}
+      TZ: Asia/Seoul
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Secret 존재 여부만 확인 (값·길이 출력 없음)
+        run: |
+          if [ -n "$KRX_OPENAPI_AUTH_KEY" ]; then echo "secretPresent: true"; else
+            echo "secretPresent: false"
+            echo "::warning::KRX_OPENAPI_AUTH_KEY 가 없다 — 계획·상태 기록만 남기고 실제 생산은 하지 않는다(OWNER_ACTION_REQUIRED)."
+          fi
+
+      - name: 오프라인 계약 시험 (증거 없이 통과하는 길이 없는지)
+        run: python3 -m unittest test_price_proof_producer test_comparison_evidence -q
+
+      # KRX 가 공개한 표본 엔드포인트(고정 날짜 20200414)로 응답 **구조**만 확인한다. 값은 증명에 쓰지 않는다.
+      # 러너에서 data-dbg.krx.co.kr 에 닿지 않으면 여기서 드러난다(그 자체가 보고할 사실이다).
+      - name: 공식 응답 구조 확인 (키 없는 표본 엔드포인트)
+        id: smoke
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 collect_price_proof.py --smoke | tee "$RUNNER_TEMP/smoke.txt"
+          { echo "### 공식 응답 구조 확인(표본)"; echo '```'; cat "$RUNNER_TEMP/smoke.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 계획 + 생산 (결과일 지난 신규 판단만 · 원문 재사용 우선)
+        id: produce
+        run: |
+          set -o pipefail      # 없으면 tee 의 종료코드(0)가 python 의 2(OWNER_ACTION_REQUIRED)를 덮는다
+          code=0
+          python3 collect_price_proof.py --records "${{ inputs.records }}" --requests "${{ inputs.requests }}" \
+            | tee "$RUNNER_TEMP/produce.txt" || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          { echo "### 계획·생산 결과 (종료코드 $code · 2 = 소유자 조치 필요)"; echo '```'; cat "$RUNNER_TEMP/produce.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$code" = "2" ]; then echo "::warning::OWNER_ACTION_REQUIRED — 위 요약을 보라"; elif [ "$code" != "0" ]; then exit "$code"; fi
+
+      - name: 증거 커밋 (허용 경로 3곳만 · 증명·원문은 내용주소라 덧붙이기만)
+        if: ${{ inputs.commit }}
+        run: |
+          # 경로마다 따로 add 한다 — 한 번에 주면 아직 없는 폴더 하나가 명령 전체를 실패시켜 아무것도 스테이지되지 않는다.
+          for p in research_archive/decisions/price_proofs research_archive/decisions/price_sources gaeo_coverage/price_proof_status.json; do
+            [ -e "$p" ] && git add "$p"
+          done
+          if git diff --cached --quiet; then echo "변경 없음 — 커밋 생략"; exit 0; fi
+          for p in $(git diff --cached --name-only); do
+            case "$p" in
+              research_archive/decisions/price_proofs/*|research_archive/decisions/price_sources/*|gaeo_coverage/price_proof_status.json) ;;
+              *) echo "::error::허용 밖 경로가 스테이지됐다: $p"; exit 1;;
+            esac
+          done
+          if [ -n "$(git diff --cached --diff-filter=DM --name-only -- research_archive/decisions/price_proofs research_archive/decisions/price_sources)" ]; then
+            echo "::error::기존 증명·원문이 수정·삭제됐다 — 증거는 새 파일로만"; exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "공식 결과가격 증명 생산 (GitHub Actions) [skip ci]"
+          for i in 1 2 3 4; do
+            timeout 60 git push origin HEAD:main && { echo "push 완료"; exit 0; }
+            echo "push 거부/지연 — 원격 반영 후 재시도 ($i/4)"; sleep $((2 ** i))
+            timeout 120 git fetch origin main || continue
+            git rebase origin/main || { git rebase --abort; echo "::error::rebase 충돌 — 이번 커밋 보류(다음 dispatch 가 다시 만든다)"; exit 1; }
+          done
+          echo "::error::push 4회 실패 — artifact 가 마지막 보존이다"; exit 1
+
+      - name: 상태·증명 아티팩트
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: price-proof-${{ github.run_id }}
+          path: |
+            gaeo_coverage/price_proof_status.json
+            gaeo_coverage/price_proof_source_verify.json
+            research_archive/decisions/price_proofs
+          if-no-files-found: warn
+          retention-days: 90
