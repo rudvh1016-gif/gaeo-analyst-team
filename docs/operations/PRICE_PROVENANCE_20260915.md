@@ -74,8 +74,11 @@
 |---|---|---|
 | 가격 응답을 새로 받음 | `FRESH` | 이번 응답 시각 |
 | 가격 성공 · 상세지표만 실패 | `FRESH` + `detailMetricsOk: false` | 이번 **가격** 응답 시각 |
-| 가격 실패 → 이전 값 유지, 이전 출처 있음 | `REUSED_PREVIOUS` | **원래 관측시각 그대로** + `reusedFromRoundId` |
+| 가격 실패 → 이전 값 유지, 이전 출처 있음 | `REUSED_PREVIOUS` + `detailMetricsOk: null` | **원래 관측시각 그대로** + `reusedFromRoundId` |
 | 가격 실패 → 이전 값 유지, 이전 출처 없음 | `REUSED_PREVIOUS_UNVERIFIED` | `null` (확인 불가) |
+
+`detailMetricsOk` 의 `false`(요청했는데 실패)와 `null`(이번 회차엔 아예 요청하지 않음)은
+다른 사실이다. 재사용 회차는 `null` 이다 — '실패'로 세지 않는다.
 | 신규 수집 0건 | — | `data.js` 도 출처도 **건드리지 않는다** |
 | 공급자가 기준시각 미제공 | `sourceAsOfState: NOT_PROVIDED_BY_SOURCE` | 수신시각으로 대체하지 않는다 |
 

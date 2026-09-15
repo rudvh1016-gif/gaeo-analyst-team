@@ -202,6 +202,10 @@ class Producer(unittest.TestCase):
         self.assertEqual(row['receivedAt'], 원래시각)          # ← 새 시각을 붙이지 않았다
         self.assertNotEqual(row['receivedAt'], '2026-09-15T04:40:00+00:00')
         self.assertEqual(second['stocks']['000660']['receivedAt'], '2026-09-15T04:40:00+00:00')
+        # 이번 회차에 상세지표를 '요청해서 실패'한 게 아니라 '아예 요청하지 않았다'.
+        self.assertIsNone(row['detailMetricsOk'])
+        self.assertIs(second['stocks']['000660']['detailMetricsOk'], True)
+        self.assertEqual(pp.counts(second)['detailMetricsFailed'], 0)
         self.assertEqual(row['reusedFromRoundId'], first['roundId'])
         self.assertTrue(read_data_js(self.dir)['stocks']['005930']['stale'])
         self.assertEqual(pp.counts(second)['reusedPrevious'], 1)

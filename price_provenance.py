@@ -147,7 +147,7 @@ def reuse(previous, price):
                 'sourceAsOfState': SOURCE_AS_OF_MISSING,
                 'sourceSessionDate': None,
                 'sourceSessionDateState': SOURCE_AS_OF_MISSING,
-                'excerptHash': None, 'detailMetricsOk': False,
+                'excerptHash': None, 'detailMetricsOk': None,
                 'reason': 'previous_price_provenance_missing'}
     if previous.get('price') != price:
         # 이전 회차의 출처인데 가격 숫자가 다르다 → 다른 회차의 출처를 끌어다 붙이지 않는다.
@@ -156,12 +156,13 @@ def reuse(previous, price):
                 'sourceAsOfState': SOURCE_AS_OF_MISSING,
                 'sourceSessionDate': None,
                 'sourceSessionDateState': SOURCE_AS_OF_MISSING,
-                'excerptHash': None, 'detailMetricsOk': False,
+                'excerptHash': None, 'detailMetricsOk': None,
                 'reason': 'previous_price_value_mismatch'}
     carried = {key: previous.get(key) for key in
                ('price', 'receivedAt', 'sourceAsOf', 'sourceAsOfState',
                 'sourceSessionDate', 'sourceSessionDateState', 'excerptHash')}
-    carried.update(state=REUSED_PREVIOUS, detailMetricsOk=False,
+    # 이번 회차에는 상세지표를 **요청하지 않았다.** '실패(False)'가 아니라 '시도 안 함(None)'이다.
+    carried.update(state=REUSED_PREVIOUS, detailMetricsOk=None,
                    reusedFromRoundId=previous.get('roundId') or previous.get('_roundId'),
                    reusedAtRound=True)
     return carried
