@@ -1,0 +1,165 @@
+{
+ "schemaVersion": "gaeo_validation_run_v1",
+ "scheduleId": "VS-20260915-DIANA-SHRINKAGE-CHECK",
+ "kind": "CONFIRMATION",
+ "title": "DIANA 20거래일 채점 시작(2026-09-14) 뒤 첫 확인 — 판단일 단위 가중치 축소가 실제로 적용됐는가",
+ "dueAt": "2026-09-15T17:00:00+09:00",
+ "scheduledAt": "2026-09-15T17:00:00+09:00",
+ "cutoffDate": "2026-09-15",
+ "evaluationDate": "2026-09-15",
+ "runAt": "2026-09-15T17:41:53.949986+09:00",
+ "runner": "github-actions",
+ "lateHours": 0.7,
+ "recheckNo": 0,
+ "recheckId": null,
+ "gitSha": "be0caa9fc5871bcc5456649f4c1b6a1261b68b90",
+ "inputs": {
+  "team_weights.js": "053bf895a8540f09660c004437eaab8225a3ad47d3b8d0ab0beae6a8a12b41cd",
+  "history.js": "1b14f890a254f526a677a8b41a788ff1a9027901b0fcda09d8a83063b8ba3636",
+  "analysis_data.json": "3810d194d43d655a37b0b7e5377b13ca94af172c1b557a1114a86cb4d32d365f",
+  "docs/gaeo_validation_policy.md": "52c9d30da86b7c01c16eda0a18cb96d7fdd41ee354f038fdba1ce99e113f0079",
+  "compute_team_weights.py": "9f216fce1961fcf9ac61410399d833bc7ac042b6db1fcb15a02c04ff157871b6"
+ },
+ "steps": {
+  "honesty_contract_tests": {
+   "argv": [
+    "-m",
+    "unittest",
+    "test_analyst_honesty",
+    "-q"
+   ],
+   "exit": 0,
+   "durationSec": 6.4,
+   "stdoutTail": "",
+   "stderrTail": "/home/runner/work/gaeo-analyst-team/gaeo-analyst-team/compute_team_weights.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpljjumiaz/history.js' mode='r' encoding='utf-8'>\n  txt = re.sub(r\"^\\s*//.*$\", \"\", open(path, encoding=\"utf-8\").read(), flags=re.M)\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/home/runner/work/gaeo-analyst-team/gaeo-analyst-team/compute_team_weights.py:258: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpljjumiaz/analysis_data.json' mode='r' encoding='utf-8'>\n  data = json.load(open(os.path.join(HERE, \"analysis_data.json\"), encoding=\"utf-8\"))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/home/runner/work/gaeo-analyst-team/gaeo-analyst-team/compute_team_weights.py:84: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpljjumiaz/tickers.js' mode='r' encoding='utf-8'>\n  t = re.sub(r\"^\\s*//.*$\", \"\", open(os.path.join(HERE, \"tickers.js\"), encoding=\"utf-8\").read(), flags=re.M)\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/home/runner/work/gaeo-analyst-team/gaeo-analyst-team/compute_team_weights.py:94: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpljjumiaz/tickers.js' mode='r' encoding='utf-8'>\n  t = re.sub(r\"^\\s*//.*$\", \"\", open(os.path.join(HERE, \"tickers.js\"), encoding=\"utf-8\").read(), flags=re.M)\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/home/runner/work/gaeo-analyst-team/gaeo-analyst-team/compute_team_weights.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpljjumiaz/team_weights.js' mode='r' encoding='utf-8'>\n  txt = re.sub(r\"^\\s*//.*$\", \"\", open(path, encoding=\"utf-8\").read(), flags=re.M)\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n----------------------------------------------------------------------\nRan 27 tests in 6.366s\n\nOK\n",
+   "json": null,
+   "schemaError": null
+  },
+  "team_weights_transition_check": {
+   "argv": [
+    "check_team_weights_transition.py",
+    "--json",
+    "--as-of",
+    "2026-09-15"
+   ],
+   "exit": 0,
+   "durationSec": 1.6,
+   "stdoutTail": "{\n \"schemaVersion\": \"gaeo_team_weights_transition_v1\",\n \"asOf\": \"2026-09-15\",\n \"generatedAt\": \"2026-09-15 16:32\",\n \"method\": \"role-prior-bayesian-shrinkage-v4-decision-day-market-relative\",\n \"globalVersion\": \"tw-2026-09-05-day-shrinkage-market-relative\",\n \"diana\": {\n  \"n\": 652,\n  \"uniqueDecisionDays\": 2,\n  \"acc\": 57.2,\n  \"adjustedAcc\": 50.7,\n  \"rowBasedAdjustedAcc\": 56.1,\n  \"shrinkageUnit\": \"decision_day\",\n  \"nEffectiveDays\": 2,\n  \"skillStatus\": \"NOT_PROVEN\"\n },\n \"weights\": {\n  \"taro\": 0.3073,\n  \"diana\": 0.1237,\n  \"nova\": 0.2654,\n  \"flow\": 0.3036\n },\n \"rowBasedLegacyWeights\": {\n  \"taro\": 0.3087,\n  \"diana\": 0.1441,\n  \"nova\": 0.2462,\n  \"flow\": 0.3009\n },\n \"previous\": {\n  \"sha\": \"deef3f11c8831279fb2ffa241b674cf5f4e2f5df\",\n  \"source\": \"github-api\",\n  \"weights\": {\n   \"taro\": 0.3073,\n   \"diana\": 0.1237,\n   \"nova\": 0.2654,\n   \"flow\": 0.3036\n  },\n  \"generatedAt\": \"2026-09-15 16:32\"\n },\n \"movePct\": {\n  \"taro\": 0.0,\n  \"diana\": 0.0,\n  \"nova\": 0.0,\n  \"flow\": 0.0\n },\n \"checks\": {\n  \"methodIsDecisionDay\": true,\n  \"dianaShrinkageUnit\": true,\n  \"dianaGradedRows\": 652,\n  \"dianaUniqueDecisionDays\": 2\n },\n \"thresholds\": {\n  \"normalMaxMovePct\": 1.5,\n  \"anomalyMovePct\": 5.0\n },\n \"status\": \"OK\",\n \"note\": \"DIANA 가중치 이동 +0.00% — 판단일 단위 축소 범위 안\",\n \"problems\": []\n}\n",
+   "stderrTail": "",
+   "json": {
+    "schemaVersion": "gaeo_team_weights_transition_v1",
+    "asOf": "2026-09-15",
+    "generatedAt": "2026-09-15 16:32",
+    "method": "role-prior-bayesian-shrinkage-v4-decision-day-market-relative",
+    "globalVersion": "tw-2026-09-05-day-shrinkage-market-relative",
+    "diana": {
+     "n": 652,
+     "uniqueDecisionDays": 2,
+     "acc": 57.2,
+     "adjustedAcc": 50.7,
+     "rowBasedAdjustedAcc": 56.1,
+     "shrinkageUnit": "decision_day",
+     "nEffectiveDays": 2,
+     "skillStatus": "NOT_PROVEN"
+    },
+    "weights": {
+     "taro": 0.3073,
+     "diana": 0.1237,
+     "nova": 0.2654,
+     "flow": 0.3036
+    },
+    "rowBasedLegacyWeights": {
+     "taro": 0.3087,
+     "diana": 0.1441,
+     "nova": 0.2462,
+     "flow": 0.3009
+    },
+    "previous": {
+     "sha": "deef3f11c8831279fb2ffa241b674cf5f4e2f5df",
+     "source": "github-api",
+     "weights": {
+      "taro": 0.3073,
+      "diana": 0.1237,
+      "nova": 0.2654,
+      "flow": 0.3036
+     },
+     "generatedAt": "2026-09-15 16:32"
+    },
+    "movePct": {
+     "taro": 0.0,
+     "diana": 0.0,
+     "nova": 0.0,
+     "flow": 0.0
+    },
+    "checks": {
+     "methodIsDecisionDay": true,
+     "dianaShrinkageUnit": true,
+     "dianaGradedRows": 652,
+     "dianaUniqueDecisionDays": 2
+    },
+    "thresholds": {
+     "normalMaxMovePct": 1.5,
+     "anomalyMovePct": 5.0
+    },
+    "status": "OK",
+    "note": "DIANA 가중치 이동 +0.00% — 판단일 단위 축소 범위 안",
+    "problems": []
+   },
+   "schemaError": null
+  },
+  "prereg_sample_count": {
+   "argv": [
+    "prereg_sample_count.py",
+    "--as-of",
+    "2026-09-15",
+    "--json"
+   ],
+   "exit": 0,
+   "durationSec": 0.8,
+   "stdoutTail": "{\n  \"schemaVersion\": \"gaeo_prereg_sample_count_v1\",\n  \"status\": \"COUNTED\",\n  \"evaluated\": false,\n  \"asOf\": \"2026-09-15\",\n  \"windowStart\": \"2026-09-07\",\n  \"minDecisionDays\": 20,\n  \"sample\": {\n    \"rows\": 1197,\n    \"buy\": 65,\n    \"decisionDays\": 2,\n    \"firstDecisionDate\": \"2026-09-07\",\n    \"lastDecisionDate\": \"2026-09-08\",\n    \"buyFeatureRecorded\": 65,\n    \"buyFeatureUnrecorded\": 0,\n    \"excluded\": {\n      \"beforeWindow\": 25556,\n      \"pendingOutcome\": 2815,\n      \"baseMismatchCandle\": 181,\n      \"noDecisionSessionCandle\": 7,\n      \"noPriceSeriesOutOfScope\": 15\n    },\n    \"retentionTruncatedCodes\": [],\n    \"nonTradingDecisionDates\": []\n  },\n  \"note\": \"표본 수만 셌다. 효과 크기·판정은 계산하지 않았다(확인 시험 전용). 확정 평가 최소 판단일 20일 — 지금 2일.\",\n  \"inputs\": {\n    \"history.js\": \"1b14f890a254f526a677a8b41a788ff1a9027901b0fcda09d8a83063b8ba3636\",\n    \"analysis_data.json\": \"3810d194d43d655a37b0b7e5377b13ca94af172c1b557a1114a86cb4d32d365f\",\n    \"analysisDataFetchedAt\": \"2026-09-15 16:20\"\n  }\n}\n",
+   "stderrTail": "",
+   "json": {
+    "schemaVersion": "gaeo_prereg_sample_count_v1",
+    "status": "COUNTED",
+    "evaluated": false,
+    "asOf": "2026-09-15",
+    "windowStart": "2026-09-07",
+    "minDecisionDays": 20,
+    "sample": {
+     "rows": 1197,
+     "buy": 65,
+     "decisionDays": 2,
+     "firstDecisionDate": "2026-09-07",
+     "lastDecisionDate": "2026-09-08",
+     "buyFeatureRecorded": 65,
+     "buyFeatureUnrecorded": 0,
+     "excluded": {
+      "beforeWindow": 25556,
+      "pendingOutcome": 2815,
+      "baseMismatchCandle": 181,
+      "noDecisionSessionCandle": 7,
+      "noPriceSeriesOutOfScope": 15
+     },
+     "retentionTruncatedCodes": [],
+     "nonTradingDecisionDates": []
+    },
+    "note": "표본 수만 셌다. 효과 크기·판정은 계산하지 않았다(확인 시험 전용). 확정 평가 최소 판단일 20일 — 지금 2일.",
+    "inputs": {
+     "history.js": "1b14f890a254f526a677a8b41a788ff1a9027901b0fcda09d8a83063b8ba3636",
+     "analysis_data.json": "3810d194d43d655a37b0b7e5377b13ca94af172c1b557a1114a86cb4d32d365f",
+     "analysisDataFetchedAt": "2026-09-15 16:20"
+    }
+   },
+   "schemaError": null
+  }
+ },
+ "status": "COMPLETED",
+ "note": "모든 단계 정상 종료",
+ "officialSource": null,
+ "official": null,
+ "inputsFreezeError": null,
+ "nextCheckAt": null,
+ "resultPath": "docs/audits/validation_runs/VS-20260915-DIANA-SHRINKAGE-CHECK/20260915T174153.json",
+ "inputsPath": null,
+ "followupPath": null
+}

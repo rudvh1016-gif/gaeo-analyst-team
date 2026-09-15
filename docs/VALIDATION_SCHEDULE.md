@@ -22,7 +22,7 @@
 | ID | 종류 | 예정(KST) | 기준일 | 실행 단계 | 최소 표본 | 자동 후속 | 마지막 기록 |
 |---|---|---|---|---|---|---|---|
 | `VS-20260907-MONDAY-RUNNER-HEALTH` | PAST_CHECK | 2026-09-07 17:00 | 2026-09-07 | (없음) | - | - | 과거 완료 |
-| `VS-20260915-DIANA-SHRINKAGE-CHECK` | CONFIRMATION | 2026-09-15 17:00 | 2026-09-15 | `honesty_contract_tests`, `team_weights_transition_check`, `prereg_sample_count` | - | RECORD_AND_REPAIR_REQUEST_ON_ANOMALY | 기록 없음(미도래 또는 미실행) |
+| `VS-20260915-DIANA-SHRINKAGE-CHECK` | CONFIRMATION | 2026-09-15 17:00 | 2026-09-15 | `honesty_contract_tests`, `team_weights_transition_check`, `prereg_sample_count` | - | RECORD_AND_REPAIR_REQUEST_ON_ANOMALY | COMPLETED (2026-09-15T17:41) |
 | `VS-20260923-FLOW-READINESS-PREREG-SAMPLE` | SAMPLE_CHECK | 2026-09-23 17:00 | 2026-09-23 | `flow_validation_readiness`, `prereg_sample_count`, `dart_financials_readiness`, `honesty_contract_tests` | uniqueAutoDecisionDays≥20, regimeKinds≥3, daysPerRegime≥4 | RECORD_ONLY | 기록 없음(미도래 또는 미실행) |
 | `VS-20261019-PREREG-BUY-EVAL` | EVALUATION | 2026-10-19 17:00 | 2026-10-19 | `prereg_contract_tests`, `prereg_evaluate` | decisionDays≥20 | RECORD_AND_WRITE_FOLLOWUP_SPEC | 기록 없음(미도래 또는 미실행) |
 | `VS-20261116-PREREG-H1-RECONFIRM` | RECONFIRMATION | 2026-11-16 17:00 | 2026-11-16 | `prereg_contract_tests`, `prereg_evaluate` | decisionDays≥40 | RECORD_AND_WRITE_FOLLOWUP_SPEC | 기록 없음(미도래 또는 미실행) |
@@ -120,4 +120,10 @@
 - `trig_019pCrEkMQwuqxdEWCnzxZfk` gaeo 매일 코스피·코스닥 시장분석 자동 발행 (평일 16:30 KST) (`30 7 * * 1-5`) — 콘텐츠 발행(LLM 필요). 이 일정표 범위 밖
 - `trig_01JiZ2PJFkB65o1XbELP1MeC` gaeo 월요 Strategy 제안 (`0 0 * * 1`) — 제안만. 이 일정표 범위 밖
 - `trig_01Af1D2fAUvWgaRamx6wbmKA` gaeo 금요 Health 제안 (`0 0 * * 5`) — 제안만. 구간 2 코드 점검이 대체 가능
+
+## 실행 기록 (최근 20건)
+
+| 일정 | 실행 시각 | 기준일 | 상태 | 결과 파일 |
+|---|---|---|---|---|
+| `VS-20260915-DIANA-SHRINKAGE-CHECK` | 2026-09-15T17:41:53.949986+09:00 | 2026-09-15 | COMPLETED | docs/audits/validation_runs/VS-20260915-DIANA-SHRINKAGE-CHECK/20260915T174153.json |
 
