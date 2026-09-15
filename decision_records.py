@@ -290,12 +290,34 @@ def save_outcomes(rows, root=ROOT):
         raise IntegrityError('Outcome readback mismatch')
 
 
+#: 회차마다 다시 생성되는 '증거 포인터' — 판단 자체가 아니다.
+#: comparisonEvidenceRef 는 그 회차가 만든 비교증거 파일 경로(내용주소)라 매 사이클 바뀌고,
+#: comparisonState 는 수정주가/기업행위 확인이 진행되면서 unknown→확인 으로 바뀔 수 있다.
+#: 둘 다 "이 판단이 무엇인가"가 아니라 "그 판단을 뒷받침한 증거가 어디 있고 얼마나 확인됐나"다.
+#: ⚠️ 여기에 무엇을 넣을지는 안전 판단이다. 새 필드가 생기면 기본은 '판단'으로 취급된다
+#:    (fail closed). test_decision_records 가 필드 목록을 고정해, 새 필드를 만든 사람이
+#:    '판단'인지 '증거 메타'인지 반드시 분류하게 만든다.
+EVIDENCE_META = ('comparisonEvidenceRef', 'comparisonState')
+
+
+def _judgment(row):
+    """판단 자체만 남긴다(회차 증거 메타데이터 제외)."""
+    return {k: v for k, v in row.items() if k not in EVIDENCE_META}
+
+
 def merge_outcomes(left, right):
     """Union identities; immutable grades never lose to a newer waiting row."""
     merged = dict(left)
     for key, row in right.items():
         old = merged.get(key)
         if not old or old == row:
+            merged[key] = row
+        elif _judgment(old) == _judgment(row):
+            # 판단은 글자 하나까지 같고 회차 증거 포인터만 다르다 — 충돌이 아니다.
+            # 이 줄이 없으면 2026-09-14~15 사고가 난다: 같은 관측일에 양쪽이 각자
+            # 비교증거 파일을 새로 만들었다는 이유만으로 merge 가 IntegrityError 를
+            # 던져, 러너가 600종목 분석을 다 해 놓고도 저장을 못 하고 자진 사퇴했다.
+            # 최신 회차의 증거를 가리키도록 새 행을 채택한다(판단은 어차피 동일).
             merged[key] = row
         elif old['status'] == 'evaluated' and row['status'] == 'evaluated':
             raise IntegrityError('Conflicting evaluated outcomes')
