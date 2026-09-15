@@ -203,6 +203,33 @@ def collect_one(ticker, bgn, end, budget, cookie=None, sleep=time.sleep):
     return record
 
 
+
+def round_summary(todo, attempted, done, evidence):
+    """이번 회차 집계. **예산이 떨어져 손도 못 댄 대상**을 실패로 세지 않는다.
+
+    ⚠️ 예전 코드의 결함 둘(2026-09-15 실측):
+      1. failures 루프가 `todo` 전체를 돌며 `evidence[ticker]` 를 읽었다. 예산이 떨어져
+         break 한 뒤의 종목은 이번 회차 항목이 없어 **KeyError** 로 죽거나, 지난 회차
+         기록이 남아 있으면 **남의 회차 실패를 이번 회차 실패로** 셌다.
+      2. `failed = len(todo) - len(done)` 이라 **아직 시도도 못 한 종목이 실패**가 됐다.
+
+    이번 회차에 실제로 시도한 것(`attempted`)만 센다. 못 댄 것은 `notProcessed` 로
+    따로 남긴다 — 0건·성공·단순 실패로 뭉개지 않는다.
+    """
+    seen = set(attempted)
+    failures = {}
+    for ticker in attempted:
+        error = (evidence.get(ticker) or {}).get('error')
+        if error:
+            key = str(error)[:40]
+            failures[key] = failures.get(key, 0) + 1
+    unprocessed = [t for t in todo if t not in seen]
+    return {'processed': len(attempted), 'succeeded': len(done),
+            'failed': len(attempted) - len(done),
+            'notProcessed': len(unprocessed),
+            'notProcessedReason': 'budget_exhausted_before_attempt' if unprocessed else None,
+            'failureReasons': failures}
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--tickers', type=int, default=40, help='이번 회차에 볼 종목 수 상한')
@@ -236,7 +263,9 @@ def main(argv=None):
     budget = {'left': args.requests}
     evidence = dict(previous.get('evidence') or {})
     done = []
+    attempted = []
     for ticker in todo:
+        attempted.append(ticker)
         record = collect_one(ticker, bgn, end, budget, cookie=cookie)
         evidence[ticker] = record
         if record['ok']:
@@ -251,7 +280,11 @@ def main(argv=None):
                'window': {'from': bgn, 'to': end, 'days': args.days},
                'cursor': done[-1] if done else cursor,
                'universe': len(universe), 'attempted': len(todo), 'succeeded': len(done),
-               'requestsUsed': args.requests - budget['left'], 'evidence': evidence}
+               'requestsUsed': args.requests - budget['left'],
+               # 기존 'attempted'(=계획 수)의 뜻은 그대로 두고, 실제로 손댄 수와
+               # 예산 소진으로 못 댄 수를 **덧붙인다**. 공용 소비자 계약을 바꾸지 않는다.
+               'processed': len(attempted), 'notProcessed': len(todo) - len(attempted),
+               'evidence': evidence}
     with open(OUT_FILE, 'w', encoding='utf-8') as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=1, sort_keys=True)
 
@@ -259,13 +292,7 @@ def main(argv=None):
     summary['withRows'] = sum(1 for t in done if evidence[t]['findings'])
     summary['zeroConfirmed'] = sum(1 for t in done if evidence[t]['totalCount'] == 0)
     summary['withOpenEvent'] = sum(1 for t in done if evidence[t]['unresolvedHistorical'])
-    failures = {}
-    for ticker in todo:
-        error = evidence[ticker].get('error')
-        if error:
-            failures[str(error)[:40]] = failures.get(str(error)[:40], 0) + 1
-    summary['failed'] = len(todo) - len(done)
-    summary['failureReasons'] = failures
+    summary.update(round_summary(todo, attempted, done, evidence))
     print(json.dumps(summary, ensure_ascii=False))
     return 0
 

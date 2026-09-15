@@ -3,6 +3,55 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-15 밤 — 수집기가 「손도 못 댄 것」을 실패로 세던 결함 (PHASE 2 / PR C)
+
+지시서 §6 이 짚은 곳을 실제로 확인했더니 **두 가지가 재현됐다.**
+
+### 결함 1 — KIND 수집기의 KeyError (`collect_kind_market_action.py`)
+
+```python
+for ticker in todo:              # ← 계획한 전체
+    error = evidence[ticker]...  # ← 예산이 떨어져 break 한 뒤의 종목은 항목이 없다
+```
+
+수집 루프는 `budget['left'] <= 0` 이면 `break` 한다. 그 뒤 집계 루프가 `todo` **전체**를
+돌며 `evidence[ticker]` 를 직접 인덱싱한다. 첫 회차처럼 이월 기록이 없으면 **KeyError 로
+죽고**, 이월 기록이 있으면 **지난 회차의 실패를 이번 회차 실패로** 센다.
+
+### 결함 2 — 두 수집기 모두 미처리를 실패로 셌다
+
+```python
+summary['failed'] = len(todo) - len(done)   # 시도도 못 한 종목이 실패가 된다
+```
+
+`collect_kind_market_action.py` · `collect_corporate_action_evidence.py` 둘 다 같았다.
+예산이 떨어져 **손도 못 댄** 종목이 전부 「실패」로 집계된다. 그러면 로그만 보고
+"수집기가 망가졌다" 고 오해하게 되고, 진짜 실패율을 알 수 없다.
+
+### 수리
+
+`round_summary(todo, attempted, done, evidence)` 를 만들어 **이번 회차에 실제로 시도한
+것만** 분모로 쓴다. 못 댄 것은 `notProcessed` + `notProcessedReason:
+budget_exhausted_before_attempt` 로 **따로** 남긴다 — 0건·성공·단순 실패로 뭉개지 않는다.
+
+실측 재현(예산이 2번째에서 소진, todo 5종목):
+| | 수리 전 | 수리 후 |
+|---|---|---|
+| failed | **4** (미처리 3건 포함) | **1** |
+| notProcessed | 없음 | **3** (`budget_exhausted_before_attempt`) |
+| failureReasons | 지난 회차 실패까지 포함 | 이번 회차 시도분만 |
+
+⚠️ **공용 계약 보존**: 저장되는 산출물(`kind_market_action_evidence.json`)의 기존 필드
+`attempted`(=계획 수)의 뜻은 **그대로 두고**, `processed`·`notProcessed` 를 **덧붙이기만**
+했다. Private 도 읽는 공용 출력이라 기존 필드의 의미를 바꾸지 않는다.
+
+검사 `test_kind_market_action_collect.BudgetExhaustionAccounting` 5건.
+
+### 이번에도 하지 않은 것
+
+**새 cron·schedule 추가 0.** 수집 주기 문제(TTL 20시간 대비 예약 0회)는 여전히 남아 있고,
+Actions 무료 한도 계산이 먼저다. 이번 수리는 **돌았을 때 정직하게 세는 것**까지다.
+
 ## 2026-09-15 밤 — 채점이 왜 한 건도 안 되는지 역추적 (PHASE 2 / PR B)
 
 ### 결론부터 — 막고 있는 것은 KRX 접근 권한이 아니다

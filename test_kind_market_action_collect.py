@@ -137,3 +137,62 @@ class SuccessTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class BudgetExhaustionAccounting(unittest.TestCase):
+    """예산이 떨어져 **손도 못 댄** 대상을 실패로 세거나 KeyError 로 죽지 않는다.
+
+    2026-09-15 실측 결함 둘:
+      1. failures 루프가 todo 전체를 돌며 evidence[ticker] 를 읽어, 예산 소진 뒤
+         항목이 없는 종목에서 KeyError 로 죽었다(첫 회차) 또는 지난 회차 기록이
+         남아 있으면 남의 회차 실패를 이번 회차 실패로 셌다.
+      2. failed = len(todo) - len(done) 이라 시도도 못 한 종목이 실패가 됐다.
+    """
+
+    def test_손도_못_댄_종목에서_KeyError로_죽지_않는다(self):
+        todo = ['000010', '000020', '000030']
+        attempted = ['000010']                       # 첫 종목에서 예산 소진
+        evidence = {'000010': {'ok': True}}          # 나머지는 항목 자체가 없다
+        got = collector.round_summary(todo, attempted, ['000010'], evidence)
+        self.assertEqual(got['processed'], 1)
+        self.assertEqual(got['notProcessed'], 2)
+
+    def test_시도도_못_한_종목을_실패로_세지_않는다(self):
+        todo = ['000010', '000020', '000030', '000040', '000050']
+        attempted = ['000010', '000020']
+        evidence = {'000010': {'ok': True}, '000020': {'ok': False, 'error': 'LOOKUP_FAILED'}}
+        got = collector.round_summary(todo, attempted, ['000010'], evidence)
+        self.assertEqual(got['failed'], 1, '미처리 3건까지 실패로 셌다')
+        self.assertEqual(got['notProcessed'], 3)
+        self.assertEqual(got['notProcessedReason'], 'budget_exhausted_before_attempt')
+
+    def test_지난_회차_실패를_이번_회차_실패로_세지_않는다(self):
+        todo = ['000010', '000020', '000030']
+        attempted = ['000010']
+        evidence = {'000010': {'ok': True},
+                    '000030': {'ok': False, 'error': '지난_회차_실패'}}   # 이월된 기록
+        got = collector.round_summary(todo, attempted, ['000010'], evidence)
+        self.assertEqual(got['failureReasons'], {},
+                         '이번 회차에 손대지 않은 종목의 옛 실패를 셌다')
+
+    def test_전부_처리했으면_미처리는_0이고_사유도_없다(self):
+        todo = ['000010', '000020']
+        got = collector.round_summary(todo, todo, ['000010', '000020'], 
+                                      {'000010': {'ok': True}, '000020': {'ok': True}})
+        self.assertEqual(got['notProcessed'], 0)
+        self.assertIsNone(got['notProcessedReason'])
+        self.assertEqual(got['failed'], 0)
+
+    def test_실패_사유는_실제로_시도한_것만_센다(self):
+        todo = ['000010', '000020', '000030']
+        attempted = ['000010', '000020']
+        evidence = {'000010': {'ok': False, 'error': 'LOOKUP_FAILED'},
+                    '000020': {'ok': False, 'error': 'COUNT_MISMATCH'},
+                    '000030': {'ok': False, 'error': 'LOOKUP_FAILED'}}
+        got = collector.round_summary(todo, attempted, [], evidence)
+        self.assertEqual(got['failureReasons'], {'LOOKUP_FAILED': 1, 'COUNT_MISMATCH': 1})
+        self.assertEqual(got['failed'], 2)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
