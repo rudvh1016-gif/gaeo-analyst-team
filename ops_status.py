@@ -808,6 +808,9 @@ def check_comparison_evidence(root, now):
               .get("comparison") or {}).get("states")
     if isinstance(states, dict):
         extra["comparisonStates"] = states
+    # 공식 가격증명 생산자(collect_price_proof.py)의 마지막 실행 상태. 판정(status)은 바꾸지 않고 **보이게만** 한다 —
+    # 인증키가 없어 한 건도 못 만든 것이 침묵 속에 '정상'으로 읽히지 않도록(교훈 ③).
+    extra["priceProof"] = _price_proof_status(root)
 
     unreadable = [r["file"] for r in rows if not r.get("readable")]
     if unreadable:
@@ -820,9 +823,39 @@ def check_comparison_evidence(root, now):
         detail += " · 판단 %d건이 기업행사 미확인" % states["unknown"]
     if manual:
         detail += " · 수집 워크플로에 예약이 없어 사람이 눌러야만 갱신된다(%s)" % ", ".join(manual)
+    detail += " · 공식 가격증명: " + extra["priceProof"]["summary"]
     if any(r["fresh"] == 0 for r in rows):
         return component(INSUFF, "COMPARISON_EVIDENCE_EXPIRED", detail, **extra)
     return component(OK, "COMPARISON_EVIDENCE_USABLE", detail, **extra)
+
+
+PRICE_PROOF_STATUS_FILE = os.path.join("gaeo_coverage", "price_proof_status.json")
+
+
+def _price_proof_status(root):
+    """가격증명 생산자 상태 파일을 읽어 요약한다. 없으면 NOT_RUN(아직 안 돌았다) — 정상도 장애도 아니다."""
+    doc = _read_json(os.path.join(root, PRICE_PROOF_STATUS_FILE))
+    if not isinstance(doc, dict):
+        return {"status": "NOT_RUN", "summary": "생산 기록 없음(생산자 미실행)", "produced": None, "blocked": {},
+                "ownerActionRequired": [], "generatedAt": None}
+    run, plan = doc.get("run") or {}, doc.get("plan") or {}
+    blocked = run.get("blocked") or {}
+    actions = [a.get("code") for a in (doc.get("ownerActionRequired") or []) if isinstance(a, dict)]
+    produced = run.get("produced")
+    ready = (plan.get("counts") or {}).get("READY_FOR_PRICE_PROOF")
+    if actions or (blocked and not produced):
+        status = "BLOCKED_PRICE_SOURCE"
+    elif produced:
+        status = "PRODUCED"
+    else:
+        status = "IDLE"
+    summary = "%s(대상 %s건 · 생산 %s건 · 막힘 %s)" % (
+        status, ready if ready is not None else "?", produced if produced is not None else "?",
+        ", ".join("%s %d" % kv for kv in sorted(blocked.items())) or "0")
+    if actions:
+        summary += " · OWNER_ACTION_REQUIRED " + ", ".join(actions)
+    return {"status": status, "summary": summary, "produced": produced, "blocked": blocked,
+            "ownerActionRequired": actions, "generatedAt": doc.get("generatedAt")}
 
 
 def collect(root=HERE, now=None, deep=False, github=False, pages=False, watchdog_receipt=None):

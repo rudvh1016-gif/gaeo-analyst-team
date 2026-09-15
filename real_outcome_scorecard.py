@@ -239,11 +239,50 @@ def _cost_limit(cost):
 READINESS_REASONS = {
     'A_WAITING_RESULT': ('future_session',),
     'B_PRICE_EVIDENCE_MISSING': ('price_basis_unverified', 'price_evidence_invalid',
+                                 'price_evidence_conflict',        # 같은 판단에 증명이 둘 이상(comparison_evidence)
                                  'missing_price', 'comparison_window_not_final'),
     'C_CORPORATE_ACTION_MISSING': ('corporate_action_unverified', 'corporate_action_conflict',
+                                   'corporate_action_adjustment_required',   # 행사는 있는데 조정 근거가 없다
                                    'effective_date_unverified', 'uninterpreted_filings',
                                    'trading_halt'),
 }
+#: 공식 가격증명 생산자(collect_price_proof.py)가 남기는 상태 파일. B 칸이 "왜" 비어 있는지를 생산자 관점에서 덧붙인다.
+PRICE_PROOF_STATUS = os.path.join('gaeo_coverage', 'price_proof_status.json')
+
+
+def _price_proof_producer(repo):
+    """생산자 상태를 **읽어 옮기기만** 한다. A~E 칸의 숫자는 여기서 바꾸지 않는다.
+
+    NOT_RUN(아직 한 번도 안 돌았다) · BLOCKED_PRICE_SOURCE(돌았지만 공식 자료를 못 받았다 — 사유와 OWNER_ACTION) ·
+    PRODUCED(증명을 만들었다) · IDLE(대상이 없었다) · UNREADABLE(파일이 깨졌다)를 구분한다. 없는 것을 정상으로 적지 않는다.
+    """
+    path = os.path.join(repo, PRICE_PROOF_STATUS)
+    out = {'statusFile': PRICE_PROOF_STATUS, 'status': 'NOT_RUN', 'generatedAt': None, 'planCounts': {},
+           'produced': None, 'blocked': {}, 'ownerActionRequired': [],
+           'note': '가격증명 생산자가 아직 한 번도 돌지 않았다. B 칸(가격 근거 부족)은 그대로다.'}
+    if not os.path.exists(path):
+        return out
+    try:
+        doc = json.loads(open(path, encoding='utf-8').read())
+        plan, run = doc.get('plan') or {}, doc.get('run') or {}
+        out.update(generatedAt=doc.get('generatedAt'), planCounts=plan.get('counts') or {},
+                   produced=run.get('produced'), blocked=run.get('blocked') or {},
+                   ownerActionRequired=[a.get('code') for a in (doc.get('ownerActionRequired') or [])])
+    except (OSError, ValueError, AttributeError, TypeError):
+        out.update(status='UNREADABLE', note='생산자 상태 파일을 읽지 못했다 — 정상도 장애도 아니다(확인 불가).')
+        return out
+    if out['ownerActionRequired'] or (out['blocked'] and not out['produced']):
+        out['status'] = 'BLOCKED_PRICE_SOURCE'
+        out['note'] = ('공식 결과가격을 받지 못했다(%s). 소유자 조치: %s' %
+                       (', '.join('%s %d건' % kv for kv in sorted(out['blocked'].items())) or '사유 없음',
+                        ', '.join(out['ownerActionRequired']) or '없음'))
+    elif out['produced']:
+        out['status'] = 'PRODUCED'
+        out['note'] = '공식 가격증명 %d건을 만들었다. 채점은 다음 refresh 가 기존 검사·채점식으로 한다.' % out['produced']
+    else:
+        out['status'] = 'IDLE'
+        out['note'] = '증명할 대상이 없었다(결과일 전이거나 출처 없는 과거 판단뿐).'
+    return out
 READINESS_LABELS = {
     'A_WAITING_RESULT': '아직 결과시점이 오지 않아 정상 대기',
     'B_PRICE_EVIDENCE_MISSING': '결과시점은 지났지만 공식 가격 근거가 부족',
@@ -254,7 +293,7 @@ READINESS_LABELS = {
 }
 
 
-def _readiness(trace, horizon5, main_verified):
+def _readiness(trace, horizon5, main_verified, repo=HERE):
     """§7 의 다섯 칸. '기다리는 중' 과 '근거가 없어서 못 함' 을 섞지 않는다."""
     counts = {k: 0 for k in READINESS_LABELS}
     unmapped = {}
@@ -277,6 +316,8 @@ def _readiness(trace, horizon5, main_verified):
     return {'counts': counts, 'labels': dict(READINESS_LABELS), 'unmappedReasons': unmapped,
             'comparisonStates': states,
             'comparableNow': states.get('comparable'),
+            # 생산자 관점은 덧붙이기만 한다 — 위 counts 를 D/E 로 옮기는 근거로 쓰지 않는다.
+            'priceProofProducer': _price_proof_producer(repo),
             'note': ('채점이 시작되려면 comparable 이 1건 이상 나와야 한다. '
                      '지금 comparable 은 %s 건이다.' % states.get('comparable'))}
 
@@ -364,7 +405,7 @@ def build(repo=HERE, now=None):
     # ⚠️ 여기 문장들은 **오늘의 값에서 만든다.** 지금 사실을 영원한 사실처럼 박아 두면
     #    상황이 바뀐 날 성적표가 조용히 거짓말을 한다(2026-09-15 정정).
     out['horizons'] = _horizon_states(base)
-    out['readiness'] = _readiness(trace, horizon5, bool(out['sources'].get('mainVerified')))
+    out['readiness'] = _readiness(trace, horizon5, bool(out['sources'].get('mainVerified')), repo=repo)
     out['limits'] = [
         _cost_limit(out['costAssumption']),
         '결과 가격은 판단일 다음 N번째 거래일 종가다. 기간 중 최대 낙폭이 아니다.',
@@ -450,6 +491,9 @@ def render(card):
         if rd.get('unmappedReasons'):
             L.append('  ⚠️ 분류되지 않은 사유: %s' % rd['unmappedReasons'])
         L.append('  ' + rd['note'])
+        pp = rd.get('priceProofProducer') or {}
+        if pp:
+            L.append('  공식 가격증명 생산자: %s — %s' % (pp.get('status'), pp.get('note')))
         L.append('')
     cost = card['costAssumption']
     L.append('[거래비용] %s' % cost['status'])

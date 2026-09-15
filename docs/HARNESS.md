@@ -94,6 +94,7 @@ happy path만 도는 검사는 사고를 못 막는다. 아래 스무 가지 고
 | 18 | 은퇴를 "정상"으로 적어 잘 돌고 있는 것처럼 보임 | `test_ops_status.Verdicts` | 별도 어휘 `RETIRED` — OK 도 FAULT 도 아님 |
 | 19 | 채점의 전제(기업행사 증거)가 전량 만료됐는데 통합 상태는 초록불 | `test_ops_status.ComparisonEvidenceFreshness` | `COMPARISON_EVIDENCE_EXPIRED`(자료 부족) — 만료를 장애로도, 정상으로도 적지 않는다 |
 | 20 | 표본이 모자란 구간의 적중률을 성적표가 퍼감 / 옛 모델 성적을 현재 성적으로 읽힘 | `test_real_outcome_scorecard.SampleFloor` · `ModelVersionsStaySeparate` | 숫자 칸 비움 · 판정은 **지금 쓰는 모델** 기준 |
+| 21 | 공식 가격증명 없이(또는 네이버·http·다른 판단의 문서로) `comparable` 을 만들려 함 / 창 안 기준가격 변경·장중 관측·미확정 종가·필드 누락 응답으로 증명 생성 | `test_price_proof_producer.ProofBindingGuards` · `OfficialDataGuards` · `ProducerBlockers` | `price_evidence_invalid` · `BLOCKED_PRICE_SOURCE(사유)` — 채점 0건, 원본·완료 outcome 불변 |
 
 특히 **UNKNOWN → 정상**으로 새는 길은 별도로 막는다: 예약 실행 증거 없이 로컬 산출물만 말끔한 경우(11),
 조회 실패(7), 판단 원본 되읽기 실패(8·9)는 전부 "확인 불가"로 남고 종료코드 2로 이어진다.

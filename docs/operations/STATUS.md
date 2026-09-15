@@ -3,6 +3,41 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-16 아침 — 공식 결과가격 증명 생산자: 판단 하나가 채점까지 가는 마지막 사슬 (PHASE 4)
+
+전체 내용: `docs/operations/PRICE_PROOF_PRODUCER_20260916.md`
+
+### 한 줄
+
+봉인 판단이 **당시 가격 근거 → 5거래일 뒤 공식 결과가격(KRX Open API 원문) → 기업행사 확인 → comparable →
+기존 evaluate/score_call → outcome 저장 → 되읽기**까지 가는 길을 코드로 열고 합성 자료로 한 번 통과시켰다.
+**실제 Production 은 Actions Secret `KRX_OPENAPI_AUTH_KEY` 하나가 있어야 열린다**(OWNER_ACTION_REQUIRED).
+
+### 만든 것
+
+`krx_openapi_client.py`(공식 API 호출·구조 검증·원문 보존) · `price_proof_planner.py`(due-record planner) ·
+`collect_price_proof.py`(생산자, 상태 파일 `gaeo_coverage/price_proof_status.json`) · `.github/workflows/price-proof.yml`
+(`workflow_dispatch` 전용) · `test_price_proof_producer.py`(35건). `comparison_evidence.OFFICIAL_HOSTS` 에 KRX Open API
+서비스 호스트 `data-dbg.krx.co.kr` 추가(검사 조건 변경 0). 성적표 readiness 에 생산자 관점 덧붙임. ops_status 상세 한 줄.
+
+### 상태 구분
+
+| 단계 | 상태 |
+|---|---|
+| 공식 응답 계약·파서·저장·hash 연결·증명 생성기·planner | `IMPLEMENTED_AND_TESTED` (합성) |
+| 정상 전체 사슬 1건(판단→증명→comparable→채점→저장→되읽기) | `PASSED_SYNTHETIC` |
+| 고의 파괴 12건 | 전부 FAIL 확인 후 복구 |
+| 실제 공식 결과가격 확보 | **`BLOCKED_PRICE_SOURCE`** — 인증키 없음(`KRX_OPENAPI_AUTH_KEY_MISSING`) |
+| 실제 판단 채점 | 0건 — 봉인 1,800건은 전부 `MISSING_PROVENANCE`(과거), 신규 판단은 결과일(5거래일) 전 |
+| PHASE 3 자연 실행 확인 | 아래 별도 절 |
+
+### 하지 않은 것
+
+새 cron 0 · 새 Claude Routine 0 · GPT/Codex 자동개발 연결 0 · 런타임 LLM 0 · 유료 API 0 · 채점 공식/임계값/가중치/사전등록 상수 변경 0 ·
+과거 원장 변경 0 · 완료 outcome 변경 0 · 조정계수 계산 0 · Team PAPER/Private/Gateway 변경 0.
+
+---
+
 ## 2026-09-15 밤 — 가격 출처 원장: 실제 수집 → 관측시각 보존 → 신규 판단 연결 (PHASE 3)
 
 소유자 확정 설계 **(b) 별도 출처 파일 방식**. 전체 내용: `docs/operations/PRICE_PROVENANCE_20260915.md`

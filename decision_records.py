@@ -664,7 +664,7 @@ def safe_merge(ref, repo=HERE):
         text=git('ls-tree','-r',revision,'--',prefix).stdout.decode()
         return {line.split('\t',1)[1]:line.split()[2] for line in text.splitlines()}
     left,right=tree(ours),tree(ref)
-    immutable=lambda path:any('/'+part+'/' in path for part in ('originals','events','disclosures','comparisons','price_proofs'))
+    immutable=lambda path:any('/'+part+'/' in path for part in ('originals','events','disclosures','comparisons','price_proofs','price_sources'))
     for path in set(left)&set(right):
         if immutable(path) and left[path] != right[path]:
             raise IntegrityError('Conflicting immutable evidence: '+path)
