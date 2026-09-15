@@ -504,5 +504,97 @@ class ScheduledRunsReality(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+class ComparisonEvidenceFreshness(unittest.TestCase):
+    """채점의 전제(기업행사·시장조치 증거)가 살아 있는지 — 없던 점검을 2026-09-15 에 추가.
+
+    이 점검이 없던 동안 통합 상태는 초록불이었는데 실제로는 증거가 전량 만료돼
+    판단 1,800건이 모두 `comparisonState=unknown` 이었다. 초록불이 "확인했고 괜찮다"가
+    아니라 "아무도 안 봤다"였던 것이다(교훈 ③). 동시에 만료를 장애로 적지도 않는다(교훈 ④).
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="ops_cmp_")
+        os.makedirs(os.path.join(self.tmp, "gaeo_coverage"), exist_ok=True)
+        os.makedirs(os.path.join(self.tmp, ".github", "workflows"), exist_ok=True)
+        self.now = datetime.datetime(2026, 9, 15, 13, 0, tzinfo=OS.KST)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _bundle(self, filename, expires, codes=2):
+        payload = {"generatedAt": "2026-09-12T04:08:00+00:00",
+                   "evidence": {"00000%d" % i: ({"expiresAt": expires} if expires else {})
+                                for i in range(codes)}}
+        with open(os.path.join(self.tmp, "gaeo_coverage", filename), "w", encoding="utf-8") as fh:
+            json.dump(payload, fh)
+
+    def _workflow(self, name, scheduled):
+        body = "name: x\non:\n  workflow_dispatch:\n"
+        if scheduled:
+            body += '  schedule:\n    - cron: "0 * * * *"\n'
+        with open(os.path.join(self.tmp, ".github", "workflows", name), "w", encoding="utf-8") as fh:
+            fh.write(body)
+
+    def _both(self, expires, scheduled=False):
+        for filename, workflow, _ in OS.COMPARISON_SOURCES:
+            self._bundle(filename, expires)
+            self._workflow(workflow, scheduled)
+
+    def test_전량_만료면_자료_부족이지_장애가_아니다(self):
+        self._both("2026-09-13T00:00:00+00:00")
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(c["status"], OS.INSUFF, "만료를 장애로 적었다(교훈 ④)")
+        self.assertEqual(c["code"], "COMPARISON_EVIDENCE_EXPIRED")
+        self.assertTrue(all(r["fresh"] == 0 and r["expired"] == 2 for r in c["sources"]))
+
+    def test_유효한_증거가_있으면_정상이다(self):
+        self._both("2026-09-20T00:00:00+00:00")
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(c["status"], OS.OK)
+        self.assertEqual(c["code"], "COMPARISON_EVIDENCE_USABLE")
+
+    def test_한쪽만_살아_있어도_부족으로_본다(self):
+        self._bundle("corporate_action_evidence.json", "2026-09-20T00:00:00+00:00")
+        self._bundle("kind_market_action_evidence.json", "2026-09-13T00:00:00+00:00")
+        for _, workflow, _ in OS.COMPARISON_SOURCES:
+            self._workflow(workflow, True)
+        self.assertEqual(OS.check_comparison_evidence(self.tmp, self.now)["status"], OS.INSUFF)
+
+    def test_번들이_없으면_확인_불가다(self):
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(c["status"], OS.UNKNOWN, "못 읽은 것을 정상으로 적었다(교훈 ③)")
+        self.assertEqual(c["code"], "COMPARISON_EVIDENCE_MISSING")
+
+    def test_만료일이_없는_항목을_유효로_세지_않는다(self):
+        self._both(None)
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(c["status"], OS.INSUFF)
+        self.assertTrue(all(r["undated"] == 2 and r["fresh"] == 0 for r in c["sources"]))
+
+    def test_예약_없는_수집_워크플로를_이름까지_말한다(self):
+        self._both("2026-09-20T00:00:00+00:00", scheduled=False)
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(sorted(c["manualOnlyWorkflows"]),
+                         sorted(w for _, w, _ in OS.COMPARISON_SOURCES))
+        self.assertIn("사람이 눌러야만", c["detail"])
+
+    def test_예약이_있으면_수동이라고_하지_않는다(self):
+        self._both("2026-09-20T00:00:00+00:00", scheduled=True)
+        self.assertEqual(OS.check_comparison_evidence(self.tmp, self.now)["manualOnlyWorkflows"], [])
+
+    def test_판단이_몇_건_막혀_있는지_같이_보고한다(self):
+        self._both("2026-09-13T00:00:00+00:00")
+        os.makedirs(os.path.join(self.tmp, "research_archive", "decisions"), exist_ok=True)
+        with open(os.path.join(self.tmp, "research_archive", "decisions", "status.json"),
+                  "w", encoding="utf-8") as fh:
+            json.dump({"comparison": {"states": {"unknown": 1800, "comparable": 0}}}, fh)
+        c = OS.check_comparison_evidence(self.tmp, self.now)
+        self.assertEqual(c["comparisonStates"]["unknown"], 1800)
+        self.assertIn("1800건이 기업행사 미확인", c["detail"])
+
+    def test_통합_보고에_이름을_달고_들어간다(self):
+        self.assertIn("comparisonEvidence", OS.NAMES, "구성요소에 사람이 읽을 이름이 없다")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

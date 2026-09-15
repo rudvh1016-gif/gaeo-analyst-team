@@ -55,6 +55,12 @@ TARO(기술)·DIANA(재무)·QUANT(확률통계)·FLOW(수급)가 각자의 축�
 이 문서는 **전역 안전규칙과 지도**다. 세부 규칙은 아래 표의 문서를 "그 일을 할 때" 읽는다.
 Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙의 끝이 잘리지 않게 이 문서를 그 안에 유지한다(`test_rules_map.py`가 잠근다).
 
+🧭 **왜 하는가 — [`docs/operations/GAEO_NORTH_STAR.md`](docs/operations/GAEO_NORTH_STAR.md)**
+GAEO의 목적은 **매일 내리는 600종목 판단이 실제로 도움이 됐는지를 증거로 말할 수 있는 상태**다.
+파이프라인 안정성·화면·콘텐츠·성장은 전부 그 목적을 위한 **수단**이다 — 초록불이 다 떠도
+성적표가 `INSUFFICIENT_EVIDENCE`면 목적은 아직 달성되지 않았다. 성적 하나로 묶어 보는 입구는
+`python3 real_outcome_scorecard.py`(새로 계산하지 않고 기존 채점기를 불러 모으기만 한다).
+
 **절대규칙 (요약 — 본문은 각 절)**
 1. 기존 기능·콘텐츠·데이터 연결을 보존한다. 사용자 명시 승인 없는 삭제·축소·대체 금지.
 2. 실제 주문·계좌 자금 이동 코드는 영구 금지. 모의투자 원장은 한 곳만 쓰고 과거 원장을 다시 쓰지 않는다.
@@ -68,6 +74,7 @@ Codex는 `AGENTS.md`를 기본 32KiB까지만 자동으로 읽으므로, 규칙�
 | 지금 하려는 일 | 먼저 읽을 것 | 검사 |
 |---|---|---|
 | 아무 작업이든 시작 | `docs/HARNESS.md` → `docs/operations/STATUS.md` | `python3 gaeo_check.py preflight` |
+| 지금 판단 성적이 궁금할 때 | `docs/operations/GAEO_NORTH_STAR.md` | `python3 real_outcome_scorecard.py` |
 | 자동 생성 파일이 무엇인지 | `docs/rules/FILE_MAP.md` | - |
 | 뉴스분석·공부·계산기 글 | `docs/rules/CONTENT_PUBLISHING_RULES.md` | `python3 seo_publish_gate.py` |
 | 화면·디자인 | `docs/rules/INDEX_HTML_STRUCTURE.md` · `docs/rules/DESIGN_RULES.md` · `docs/gaeo_design_system.md` | `python3 test_design_contract.py` · Playwright smoke |

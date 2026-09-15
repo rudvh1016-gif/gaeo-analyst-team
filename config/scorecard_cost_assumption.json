@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "scorecard-cost-assumption-v1",
+  "registered": false,
+  "status": "COST_ASSUMPTION_NOT_REGISTERED",
+  "why": "판단 성적표(real_outcome_scorecard.py)가 쓰는 수익률은 '판단일 종가 → N번째 거래일 종가' 다. 이 채점에 어떤 거래비용을 어떻게 적용할지는 아직 등록되지 않았다. 등록되지 않은 가정으로 순수익을 계산하면 성적을 좋아 보이게도 나빠 보이게도 만들 수 있으므로, 등록 전까지 성적표는 비용 반영 전(gross) 숫자만 낸다.",
+  "ownerDecisionRequired": [
+    "진입가 정의 — 판단일 종가인가, 다음 거래일 시가인가 (판단은 장중에 만들어지고 종가는 그날 끝나야 정해진다)",
+    "회전 정의 — BUY 1건당 왕복 1회인가, HOLD 유지는 비용 0인가",
+    "SELL 처리 — SELL 은 보유 청산·회피 신호이므로 '팔 물량이 있었는가' 를 가정해야 비용이 정의된다",
+    "슬리피지 — 종가 채점에는 실측 호가가 없다. 가정을 쓸지, 쓰지 않고 한계로만 밝힐지"
+  ],
+  "referenceOnly": {
+    "note": "아래는 은퇴한 모의투자 엔진에 등록돼 있던 실제 요율이다. 참고값일 뿐이며 성적표 숫자에 적용하지 않는다. 그 엔진은 실측 호가로 체결해서 스프레드가 체결가에 이미 들어 있었고, 종가 채점에는 그 전제가 없다.",
+    "source": "paper_engine.py COST_MODEL_V1_2026H2",
+    "verifiedAt": "2026-08-21",
+    "commissionPctEachSide": 0.015,
+    "sellTaxPct": 0.2,
+    "roundTripPct": 0.23,
+    "slippageModeled": false
+  },
+  "howToRegister": "이 파일의 registered 를 true 로 바꾸고 model 블록에 위 4개 결정을 적은 뒤, 적용 시작일(appliesFrom)을 함께 적는다. 이미 채점된 과거 성적에 소급 적용하지 않는다 — 새 가정은 새 구간부터다."
+}

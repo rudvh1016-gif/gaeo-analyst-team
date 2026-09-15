@@ -3,6 +3,66 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-15 성능 최우선 기반 — 북극성 · 실제 성적표 한 장 · 침묵하던 데이터 공백
+
+소유자 지시 「PERFORMANCE FIRST FOUNDATION」. **새 자동개발 체계를 만드는 작업이 아니다.**
+목적을 저장소에 고정하고, 성적을 공정하게 말할 근거를 한 곳에 모으고, 판단 품질을 깎는
+실제 공백을 찾아 **말하게** 만드는 것까지다.
+
+### 한 줄 결론
+
+**지금 GAEO 성적은 "아직 말할 수 없다"가 정답이다.** 지금 쓰는 모델
+(`base-2026-08-15-parity-hotfix`)의 판단일이 **17일**로 공개 기준 20일에 3일 모자란다.
+옛 모델(`PRE_HOTFIX_BASE`, 500종목)은 33일치가 있지만 전체 적중률 **51.0%**,
+95% 구간 **45.4~57.4%** 로 **동전 던지기와 구분되지 않는다**. `python3 real_outcome_scorecard.py`.
+
+### 무엇을 만들었나
+
+| 무엇 | 왜 | 새 계산기인가 |
+|---|---|---|
+| `docs/operations/GAEO_NORTH_STAR.md` | 목적(판단의 질)·제약(정직·원본불변·비용0·실주문0)·수단(운영·화면·성장)의 순서를 고정. "파이프라인 초록불 = 성적 좋음"이 아님을 못박음 | — |
+| `real_outcome_scorecard.py` + 계약 검사 21건 | 숫자는 이미 있었는데 **흩어져** 있어 아무도 한 문장으로 답하지 못했다. **기존 채점기를 불러 모으기만 한다 — 채점 공식 0줄** | **아니다(의도)** |
+| `config/scorecard_cost_assumption.json` | 판단 성적표용 거래비용 가정이 **등록돼 있지 않다**. 임의로 빼지 않고 `COST_ASSUMPTION_NOT_REGISTERED` 로 표시. 소유자 결정 4건 대기 | — |
+| `ops_status.check_comparison_evidence()` + 검사 9건 | **이번 작업에서 실제로 고친 결함** → 아래 | — |
+| `docs/operations/DATA_GAP_FINDINGS_20260915.md` | 실패 유형 7종 순위 + 기업행사 UNKNOWN 원인 A~G 실측 | — |
+| `docs/FLOW_6ARM_PREREGISTRATION_DRAFT.md` | 정의 4건 제안. **OWNER REVIEW REQUIRED — 등록 아님** | — |
+
+### 실제로 고친 결함 — 초록불이 "확인했다"가 아니라 "아무도 안 봤다"였다
+
+`ops_status.py` 에 기업행사·시장조치 증거를 보는 점검이 **아예 없었다.** 그래서 증거가
+전량 만료돼 판단 1,800건이 전부 채점 불가인데도 통합 상태는 계속 초록불이었다.
+
+실측(9/15): DART 120종목·KIND 80종목 **유효 0 / 만료 200**, 마지막 수집 2026-09-12,
+`comparisonState` **unknown 1,800 · comparable 0**. 원인은 두 수집 워크플로가
+`on: workflow_dispatch:` 단독이라는 것 — **소비자(`update-analysis.yml`)는 장중 30분마다
+돌고 생산자는 사람이 눌러야만 돈다.**
+
+이제 `DATA_INSUFFICIENT · COMPARISON_EVIDENCE_EXPIRED` 로 유효·만료 건수, 막힌 판단 수,
+예약 없는 워크플로 이름까지 말한다. **장애로는 적지 않는다** — 수집기는 성공했고 갱신이
+예약 안 됐을 뿐이다(교훈 ③ 모른다를 괜찮다로 바꾸지 마라 · ④ 모른다를 고장으로 바꾸지도 마라).
+
+### 고칠 수 있어 보였지만 고치지 않은 것
+
+조사에서 "`추가상장`·`상장안내` 를 KIND 분류표의 `LISTING` 에 넣으면 UNKNOWN 21건 중
+14건이 사라진다"는 제안이 나왔다. **코드를 끝까지 읽고 기각했다** — `LISTING` 은
+`DURATION_PERSISTENT`(해제 문구가 나올 때까지 연다)인데 `추가상장` 은 해제 문구가 원래
+나오지 않는 하루짜리 안내라, 옮기면 그 종목이 **영원히 막힌다**. 2026-09-11 에 이미 고친
+'배당락 안내가 1년 내내 열린 조치로 남던' 결함과 같은 모양이다. 기존 분류가 더 안전했다.
+경위는 `DATA_GAP_FINDINGS_20260915.md` §2-2.
+
+### 건드리지 않은 것
+
+산식·가중치·임계값·사전등록 상수 **0** · 새 cron·schedule·Routine **0** · 새 유료 API·서버 **0** ·
+과거 판단·원장 수정 **0** · 실주문·계좌 **0** · Team PAPER 는 `RETIRED` 유지.
+이번 작업이 바꾼 실행 동작은 `ops_status` 가 **한 줄 더 보고하는 것**뿐이다.
+
+### 남은 것 (소유자 결정 · 관찰 대기)
+
+1. **거래비용 가정 등록** — `config/scorecard_cost_assumption.json` 의 결정 4건(진입가·회전·SELL 처리·슬리피지)
+2. **FLOW 6-arm 정의 확정** — 표본 예상 충족일 **2026-09-30 전에** 정해야 사전등록이 된다
+3. **기업행사 증거 갱신 주기** — 예약 추가는 이번 범위 밖(§11). Actions 무료 한도 계산이 먼저
+4. **판단일 20일 도달** — 3일 남았다. 그때 성적표가 처음으로 숫자를 낸다
+
 ## 2026-09-15 모의투자(PAPER) 은퇴 — 삭제가 아니라 스위치
 
 소유자 결정: **개오 애널리스트팀(Team)의 모의투자를 접는다. 모의투자는 PRIVATE 사이트에서만 계속한다.**
@@ -301,4 +361,4 @@ gh issue view 481 --json state,updatedAt
 6. ~~구간 7·8~~ 완료(코드·문서). 소유자 결정: 용량 정책(`docs/HISTORY_PRESERVATION.md` §5).
 7. ~~구간 9~~ 완료: PR #530 병합(main `4cdba5a7d7`) · ops-daily 첫 실행 성공 · 사이트 전달 확인 · Routine 4건 재작성.
 8. ~~후속 실행 구간 A·C·E~~ 완료(PR #532·#533·#534 병합). 구간 D 와 구간 F(이 문서 정정)는 PR #535.
-9. **다음 담당자의 첫 행동(순서대로)**: (1) 집 PC 에서 `HOME_PC_CHECKLIST.md` §3 — `scripts\paper_recover.ps1` 검사 모드 → 결과가 COVERED 일 때만 `-Mode apply` (걸리는 시간은 약속하지 않는다) (2) 9/15(월) 17:05 뒤 `docs/audits/validation_runs/ledger.jsonl` 에 `VS-20260915-DIANA-SHRINKAGE-CHECK` 줄이 생겼는지 — 없으면 Actions 탭에서 `ops-daily` 를 `apply=true` 로 1회 (3) 용량 정책 결정(`docs/HISTORY_PRESERVATION.md` §5) (4) Codex 가 있는 환경에서 `docs/agent/CODEX_SCENARIOS.md` §5 표 채우기 (5) 9/15 이후 매일 시황 글은 사람 또는 다른 AI 세션이 발행.
+9. **다음 담당자의 첫 행동(순서대로)**: (1) ~~집 PC 러너 복구~~ **SUPERSEDED 2026-09-15** — 모의투자 은퇴. 집 PC 에서 할 일은 작업 스케줄러의 「GAEO Paper Trading」 해제 하나뿐이다(`HOME_PC_CHECKLIST.md` 상단) (2) 9/15(월) 17:05 뒤 `docs/audits/validation_runs/ledger.jsonl` 에 `VS-20260915-DIANA-SHRINKAGE-CHECK` 줄이 생겼는지 — 없으면 Actions 탭에서 `ops-daily` 를 `apply=true` 로 1회 (3) 용량 정책 결정(`docs/HISTORY_PRESERVATION.md` §5) (4) Codex 가 있는 환경에서 `docs/agent/CODEX_SCENARIOS.md` §5 표 채우기 (5) 9/15 이후 매일 시황 글은 사람 또는 다른 AI 세션이 발행.
