@@ -1,12 +1,174 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-15 09:34",
- "priceLabel": "2026-09-15 09:11 장중 · ⚠️ 1종목 지연",
- "count": 267,
+ "generatedAt": "2026-09-15 12:33",
+ "priceLabel": "2026-09-15 12:31 장중 · ⚠️ 1종목 지연",
+ "count": 277,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000020"
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000023"
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000029"
+  },
+  {
+   "code": "017960",
+   "name": "한국카본",
+   "title": "현금ㆍ현물배당을위한주주명부폐쇄(기준일)결정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800241"
+  },
+  {
+   "code": "000100",
+   "name": "유한양행",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800321"
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000051"
+  },
+  {
+   "code": "003850",
+   "name": "보령",
+   "title": "주요사항보고서(회사분할결정)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000070"
+  },
+  {
+   "code": "003850",
+   "name": "보령",
+   "title": "주주총회소집결의",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800292"
+  },
+  {
+   "code": "003850",
+   "name": "보령",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800304"
+  },
+  {
+   "code": "059090",
+   "name": "미코",
+   "title": "[기재정정]최대주주변경을수반하는주식담보제공계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260915900306"
+  },
+  {
+   "code": "336260",
+   "name": "두산퓨얼셀",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800271"
+  },
+  {
+   "code": "420770",
+   "name": "기가비스",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915900285"
+  },
+  {
+   "code": "011780",
+   "name": "금호석유화학",
+   "title": "주요사항보고서(자기주식취득신탁계약해지결정)",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000068"
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000040"
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000042"
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915800235"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000032"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260915",
+   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260915000037"
+  },
   {
    "code": "145020",
    "name": "휴젤",
@@ -105,33 +267,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": true,
    "rceptNo": "20260914800292"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000395"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000400"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000017"
   },
   {
    "code": "014680",
@@ -374,15 +509,6 @@ const DART_TODAY = {
    "receiptDate": "20260914",
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": false,
-   "rceptNo": "20260914000215"
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
    "rceptNo": "20260914000221"
   },
   {
@@ -593,15 +719,6 @@ const DART_TODAY = {
    "rceptNo": "20260914000336"
   },
   {
-   "code": "326030",
-   "name": "SK바이오팜",
-   "title": "단일판매ㆍ공급계약체결",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914800220"
-  },
-  {
    "code": "222080",
    "name": "SFA넥셀",
    "title": "[기재정정]단일판매ㆍ공급계약체결",
@@ -717,24 +834,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": true,
    "rceptNo": "20260914800650"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000195"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000270"
   },
   {
    "code": "016610",
@@ -1446,15 +1545,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T05:13:16.176649+00:00",
    "isCorrection": false,
    "rceptNo": "20260911800002"
-  },
-  {
-   "code": "003850",
-   "name": "보령",
-   "title": "자기주식취득결과보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000201"
   },
   {
    "code": "059090",

@@ -3,37 +3,60 @@
 // ⚠️ record의 성적 숫자는 rotation 모델이 스스로 채점한 값이며 여기서 만들지 않는다.
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
- "status": "hold",
- "generatedAt": "2026-09-15 09:34",
- "dataCutoff": "2026-09-15 09:34 장중",
+ "status": "ready",
+ "generatedAt": "2026-09-15 12:33",
+ "dataCutoff": "2026-09-15 12:33 장중",
  "horizonDays": 20,
- "picks": [],
+ "picks": [
+  {
+   "code": "000500",
+   "name": "가온전선",
+   "sector": "전력·에너지",
+   "sectorRank": 6,
+   "why": "20거래일 +51.4% · 20일선 위",
+   "overheat": false,
+   "gapPct": 18.9,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "000880",
+   "name": "한화",
+   "sector": "지주·상사",
+   "sectorRank": 4,
+   "why": "20거래일 +38.0% · 20일선 위",
+   "overheat": false,
+   "gapPct": 9.2,
+   "call": "BUY",
+   "callConflict": false
+  }
+ ],
  "gate": {
-  "indexAboveMa20": 0,
-  "breadthPct": 41.8,
-  "shown": 0,
-  "allowed": 0,
+  "indexAboveMa20": 1,
+  "breadthPct": 45.8,
+  "shown": 2,
+  "allowed": 2,
   "sectorCap": 1,
-  "sectorCount": 0,
+  "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6658.56,
-    "ma20": 6797.97,
+    "close": 6693.4,
+    "ma20": 6799.71,
     "above": false,
-    "gapPct": -2.05
+    "gapPct": -1.56
    },
    "KOSDAQ": {
-    "close": 809.08,
-    "ma20": 820.59,
-    "above": false,
-    "gapPct": -1.4
+    "close": 821.95,
+    "ma20": 821.23,
+    "above": true,
+    "gapPct": 0.09
    }
   }
  },
  "regime": {
   "direction": "하락",
   "leadership": "중립",
-  "topSector": "보험"
+  "topSector": "2차전지"
  },
  "record": {
   "hitRate": 52.6,
