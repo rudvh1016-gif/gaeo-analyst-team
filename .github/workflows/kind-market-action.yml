@@ -20,6 +20,10 @@ on:
         description: "증거를 main 에 커밋 (기본 true)"
         type: boolean
         default: true
+      due_only:
+        description: "채점 후보 종목만 수집(결과일 도달 + 출처 있음 + 미채점). 커서를 건드리지 않는다. 후보가 0이면 0종목 처리"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -46,8 +50,15 @@ jobs:
         run: |
           python3 -m unittest test_kind_result_reader test_kind_market_action_classify test_kind_market_action_collect
 
+      # 채점 대상 중심(2026-09-16): planner 가 고른 종목만 본다. 파일이 비어 있어도 전체 순회로 되돌아가지 않는다.
+      - name: 채점 후보 목록 (due_only 일 때만 · 네트워크 0)
+        if: ${{ inputs.due_only }}
+        run: |
+          python3 collect_price_proof.py --plan-only --due-tickers-out "$RUNNER_TEMP/due_tickers.txt" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "TARGET_ARGS=--tickers-file $RUNNER_TEMP/due_tickers.txt" >> "$GITHUB_ENV"
+
       - name: 실제 수집
-        run: python3 collect_kind_market_action.py --tickers "${{ inputs.tickers }}" --requests "${{ inputs.requests }}"
+        run: python3 collect_kind_market_action.py --tickers "${{ inputs.tickers }}" --requests "${{ inputs.requests }}" $TARGET_ARGS
 
       - name: 증거 커밋
         if: ${{ inputs.commit }}

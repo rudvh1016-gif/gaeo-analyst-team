@@ -141,3 +141,82 @@ class CollectorTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class DueTargetMode(unittest.TestCase):
+    """채점 대상 중심 모드(2026-09-16) — 파일의 종목만 보고, 커서는 건드리지 않고, 빈 파일은 0종목이다."""
+
+    def test_파일은_6자리_코드만_순서대로_중복없이_읽는다(self):
+        import os, tempfile
+        import due_targets
+        path = os.path.join(tempfile.mkdtemp(), 'due.txt')
+        with open(path, 'w', encoding='utf-8') as fh:
+            fh.write('# 머리말\n005930\n000660 # 주석\n\nabcdef\n005930\n12345\n035720\n')
+        self.assertEqual(due_targets.read_tickers_file(path), ['005930', '000660', '035720'])
+        self.assertEqual(due_targets.read_tickers_file(path + '.none'), [])
+
+    def test_기본_모드는_예전과_같이_커서부터_순회한다(self):
+        import due_targets
+        got = due_targets.select_targets(['000010', '000020', '000030'], '000010', 2)
+        self.assertEqual(got['todo'], ['000020', '000030'])
+        self.assertEqual(got['mode'], due_targets.MODE_ROTATION)
+        wrap = due_targets.select_targets(['000010', '000020', '000030'], '000030', 2)
+        self.assertEqual(wrap['todo'], ['000010', '000020'])
+
+    def test_파일_모드는_커서를_무시하고_유니버스에_있는_것만_상한까지_본다(self):
+        import due_targets
+        got = due_targets.select_targets(['000010', '000020', '000030'], '000020', 2,
+                                         ['000030', '999999', '000010', '000020'])
+        self.assertEqual(got['todo'], ['000030', '000010'])       # 파일 순서 · cap 2
+        self.assertEqual(got['mode'], due_targets.MODE_TICKERS_FILE)
+        self.assertEqual(got['notInUniverse'], ['999999'])
+        self.assertEqual(got['requested'], 4)
+
+    def test_빈_파일은_0종목이고_전체_순회로_되돌아가지_않는다(self):
+        import due_targets
+        got = due_targets.select_targets(['000010', '000020'], '', 50, [])
+        self.assertEqual(got['todo'], [])
+        self.assertEqual(got['mode'], due_targets.MODE_TICKERS_FILE)
+
+    def test_수집기_main이_파일_모드에서_커서를_보존하고_대상만_본다(self):
+        """실제 main() 을 임시 폴더에서 돈다 — 네트워크 0(클라이언트·수집 함수를 대역으로)."""
+        import json, os, tempfile
+        from unittest import mock
+        tmp = tempfile.mkdtemp()
+        with open(os.path.join(tmp, 'krx_list.json'), 'w', encoding='utf-8') as fh:
+            json.dump({'items': [{'c': c, 'n': c} for c in ('000010', '000020', '000030', '000040')]}, fh)
+        os.makedirs(os.path.join(tmp, collector.OUT_DIR))
+        with open(os.path.join(tmp, collector.OUT_FILE), 'w', encoding='utf-8') as fh:
+            json.dump({'cursor': '000020', 'evidence': {'000010': {'ok': True, 'findings': [],
+                                                                    'unresolvedHistorical': 0}}}, fh)
+        due = os.path.join(tmp, 'due.txt')
+        with open(due, 'w', encoding='utf-8') as fh:
+            fh.write('000040\n000010\n999999\n')
+
+        class Client:
+            def corp_code_zip(self): return {'status': dart_client.OK, 'data': b''}
+            def efficiency_report(self, extra=None): return {}
+        seen = []
+        def fake_collect(client, ticker, corp_code, bgn, end, budget):
+            seen.append(ticker); budget['left'] -= 1
+            return {'ok': True, 'findings': [], 'unresolvedHistorical': 0, 'error': None}
+        mapped = {c: {'corp_code': 'X' + c} for c in ('000010', '000020', '000030', '000040')}
+        cwd = os.getcwd(); os.chdir(tmp)
+        try:
+            with mock.patch.object(collector.dart_client, 'DartClient', Client), \
+                 mock.patch.object(collector.dart_pipeline, 'parse_corp_code_zip', lambda data: []), \
+                 mock.patch.object(collector.dart_pipeline, 'build_corp_map', lambda rows, uni: {'mapped': mapped}), \
+                 mock.patch.object(collector, 'collect_one', fake_collect), \
+                 mock.patch('sys.stdout', new=__import__('io').StringIO()):
+                code = collector.main(['--tickers-file', due, '--tickers', '50', '--requests', '10'])
+            self.assertEqual(code, 0)
+            saved = json.load(open(collector.OUT_FILE, encoding='utf-8'))
+        finally:
+            os.chdir(cwd)
+        self.assertEqual(seen, ['000040', '000010'])            # 파일 순서 · 유니버스 밖 999999 제외
+        self.assertEqual(saved['cursor'], '000020', '파일 모드가 전체 순회의 커서를 옮겼다')
+        self.assertEqual(saved['targetMode'], 'tickers_file')
+        self.assertEqual(saved['notInUniverse'], 1)
+        self.assertEqual(saved['attempted'], 2)
+        self.assertEqual(saved['succeeded'], 2)
+        self.assertIn('000010', saved['evidence'])               # 이전 회차 증거는 덮어써 갱신
