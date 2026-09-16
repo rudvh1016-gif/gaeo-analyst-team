@@ -38,6 +38,16 @@ alive() {  # $1=워크플로우 파일명 — main에 queued/in_progress 실행�
   return 1
 }
 
+revive_partner() {  # $1=짝꿍 워크플로 파일명 — main에서만, 죽어 있으면 dispatch
+  # 2026-09-16 실측: 시세 수집기 run 이 08:06 에 외부 취소된 뒤 09:36 까지 아무도 살리지 않아
+  # 첫 판단(09:35)이 전날 종가를 봤다. 그때까지 소생은 사이클 **끝**에서만 했다. 이제 두
+  # 워크플로가 이 함수 하나를 사이클 시작과 끝에서 부른다(같은 논리가 두 곳에 복사되지 않게).
+  [ -n "$IS_MAIN" ] || return 0
+  alive "$1" && return 0
+  echo "$1 미가동 감지 — 소생 dispatch"
+  dispatch "$1" || true
+}
+
 chain() {  # 자기 재기동(체인) — main에서만. 실패해도 cron·Routine 안전망이 남는다.
   [ -n "$IS_MAIN" ] || { echo "비 main 브랜치 — 체인 생략"; return 0; }
   dispatch "$SELF_WORKFLOW" || echo "[경고] 체인 재기동 실패 — cron/Routine 안전망에 위임"

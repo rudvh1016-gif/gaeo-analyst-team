@@ -128,3 +128,17 @@ def plan(daily, outcomes, proofs, dart_bundle, kind_bundle, now):
 
 def ready_rows(planned):
     return [r for r in planned['rows'] if r['state'] == READY_FOR_PRICE_PROOF]
+
+
+#: 결과일이 지났고 출처가 붙어 있어 **지금 채점 후보**인 상태. 기업행사 증거를 갱신할 가치가 있는 종목은
+#: 이들뿐이다(MISSING_PROVENANCE·WAITING_MATURITY 는 증거를 새로 받아도 채점으로 이어지지 않는다).
+DUE_TARGET_STATES = frozenset((READY_FOR_PRICE_PROOF, PROOF_SAVED_AWAITING_GRADING,
+                               BLOCKED_CORPORATE_EVIDENCE, BLOCKED_PRICE_EVIDENCE))
+
+
+def due_tickers(planned):
+    """채점 후보 종목코드(정렬·중복 제거). 기업행사 수집기의 --tickers-file 입력으로 쓴다.
+
+    비어 있으면 비어 있는 대로 돌려준다 — 전체 유니버스로 대체하지 않는다(그건 다른 모드다).
+    """
+    return sorted({r['code'] for r in planned['rows'] if r['state'] in DUE_TARGET_STATES})
