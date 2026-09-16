@@ -4,13 +4,13 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-16 15:47",
+ "generatedAt": "2026-09-16 16:17",
  "dataCutoff": "2026-09-16 종가",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 35.8,
+  "breadthPct": 36.2,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
@@ -33,7 +33,7 @@ window.ROTATION_PICKS = {
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "여행레저"
+  "topSector": "지주·상사"
  },
  "record": {
   "hitRate": 52.6,

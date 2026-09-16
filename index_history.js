@@ -5983,7 +5983,7 @@ const INDEX_HISTORY = {
      "open": 808.37,
      "high": 815.98,
      "low": 801.12,
-     "volume": 696186
+     "volume": 696188
     }
    ],
    "start": "2026-09-14",
