@@ -20,3 +20,8 @@ exclude:
   - "*.py"
   - "*.command"
   - .claude/
+  # ⚖️ 2026-09-16 LEGAL GATE: 네이버 응답 필드를 그대로 담은 파이프라인 중간 파일과, 사이트가 읽지 않는
+  #    공급자 파생 폴더는 사이트 주소로 내보내지 않는다(raw GitHub 로는 여전히 접근 가능 — 완전 차단 아님).
+  - analysis_data.json
+  - flow_history/
+  - dart_financials/

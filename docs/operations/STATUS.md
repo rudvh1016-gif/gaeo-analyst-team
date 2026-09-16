@@ -3,6 +3,43 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-16 저녁 — 데이터 출처 준법 감사 + 위험 경로 차단 (LEGAL / COPYRIGHT ZERO-RISK GATE)
+
+### 한 줄
+
+**허용 근거가 없는 출처는 `PERMISSION_NOT_VERIFIED` 로 두고 확대를 막았다.** 외부 데이터 경로 14개를 전수조사해 판정표
+(`docs/legal/SOURCE_COMPLIANCE_MATRIX.md` · `config/source_compliance.json`)를 만들고, KRX 원자료 공개 저장을 코드에서
+fail closed 로 닫았고(생산자 요청 0·원자료 0), KIND dispatch 워크플로 4개에 게이트를 달았고, 자동 준법 검사기
+`legal_source_gate.py`(12규칙, LLM 없음)를 premerge 에 넣었다. **가장 큰 미해소 위험은 네이버 금융** — 사이트 유일의 시세
+출처가 비공식 endpoint 자동수집이고 광고가 붙은 공개 저장소에 응답 필드 원문이 실려 있다. 즉시 중단은 사이트 정지라
+기존 기능 보호 원칙(§13)에 따라 유지하되 endpoint·호출빈도·UA·종목수 확대를 검사기로 동결했고, 계속 사용 여부는 소유자 결정 사항이다.
+
+### 판정 요약
+
+| 출처 | 판정 | 게이트(자동수집 / 공개저장 / 파생공개 / 상업) | 조치 |
+|---|---|---|---|
+| 네이버 금융(3 host · 8 endpoint) | PERMISSION_NOT_VERIFIED | 전부 NOT_VERIFIED | 확대 동결 · 공개 로그 시세 600줄 제거 · 표본값 제거 · analysis_data.json/flow_history/dart_financials Pages 제외 |
+| KRX Open API | OWNER_CONFIRMATION_REQUIRED | OWNER / **PROHIBITED** / OWNER / **PROHIBITED** | 생산자 fail closed(`KRX_LEGAL_USE_UNVERIFIED`) · save_source 거부 · artifact 에서 proofs 제거 |
+| KIND | PERMISSION_NOT_VERIFIED | 전부 NOT_VERIFIED | kind-* 4개 워크플로 첫 스텝 게이트(종료코드 2) · 업종 맵 schedule 은 레거시 보호 |
+| OpenDART | OWNER_CONFIRMATION_REQUIRED | CONDITIONS / OWNER / OWNER / OWNER | 변경 없음(기존 기능) · terms.do 원문 확인 요청 |
+| 토스증권 | OWNER_CONFIRMATION_REQUIRED | CONDITIONS / OWNER / OWNER / OWNER | 변경 없음(비가동) |
+| GitHub · IndexNow · 자기 사이트 | APPROVED | 전부 APPROVED | — |
+| AdSense · GA4 · AdFit · KVdb | APPROVED_WITH_CONDITIONS | — | disclaimer §7 에 AdFit 명시 |
+| 폰트·아이콘·벤더 스킬·pip | APPROVED / APPROVED_WITH_CONDITIONS | — | THIRD_PARTY_NOTICES.md · 루트 LICENSE · LICENSE 사본 9폴더 · changelog CDN 폰트 제거 |
+
+### 확인 환경의 한계
+
+감사 세션은 KRX·네이버·KIND·OpenDART 사이트로의 egress 가 차단되어 **약관 원문을 직접 열지 못했다.** KRX 조항은 공식 페이지
+스니펫(검색), 네이버 정책은 2차 자료 일치로 확인. 판정표의 URL 을 소유자가 직접 열어 재확인해야 한다.
+
+### 하지 않은 것
+
+투자 판단 공식·가중치·임계값·과거 원장 변경 0 · force push/이력 재작성 0 · 사이트 기능 중단 0 · 새 schedule 0 · 유료 API 0 · runtime LLM 0.
+
+### 소유자 조치
+
+`docs/legal/SOURCE_COMPLIANCE_MATRIX.md` §12 (네이버 결정 · KRX 서면 확인 · OpenDART/KIND/Toss 약관 원문 · OG 서체).
+
 ## 2026-09-16 장중 — 가격 출처 원장 실제 자연 실행 확정 + 채점 대상 중심 증거 수집 (PHASE 5)
 
 ### 한 줄

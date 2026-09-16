@@ -257,15 +257,16 @@ def observe_schema(rows):
     fields = {}
     for row in rows:
         for k, v in row.items():
-            slot = fields.setdefault(k, {"present": 0, "nonNull": 0, "sample": None})
+            slot = fields.setdefault(k, {"present": 0, "nonNull": 0, "type": None})
             slot["present"] += 1
             if v not in (None, ""):
                 slot["nonNull"] += 1
-                if slot["sample"] is None:
-                    # 스키마 확인용 샘플 1개만 — 전체 응답을 로그에 쏟지 않는다
-                    slot["sample"] = str(v)[:40]
+                if slot["type"] is None:
+                    # ⚖️ 2026-09-16 LEGAL GATE: 표본 **값**은 남기지 않는다(네이버 응답값의 공개 재배포 경로).
+                    #    스키마 확인에는 필드 이름·채워진 비율·값의 종류(type)만 있으면 된다.
+                    slot["type"] = type(v).__name__
     n = len(rows) or 1
-    return {k: {"nonNullRatio": round(s["nonNull"] / n, 3), "sample": s["sample"]}
+    return {k: {"nonNullRatio": round(s["nonNull"] / n, 3), "type": s["type"]}
             for k, s in sorted(fields.items())}
 
 

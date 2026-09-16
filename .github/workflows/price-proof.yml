@@ -120,6 +120,7 @@ jobs:
           path: |
             gaeo_coverage/price_proof_status.json
             gaeo_coverage/price_proof_source_verify.json
-            research_archive/decisions/price_proofs
+            # ⚖️ 2026-09-16 LEGAL GATE: price_proofs(KRX 원자료 발췌)는 artifact 로도 내보내지 않는다 — public 저장소의
+            #    artifact 는 누구나 내려받을 수 있어 제3자 제공이 된다. 공개 저장 허용이 기록되기 전까지 상태 파일만.
           if-no-files-found: warn
           retention-days: 90

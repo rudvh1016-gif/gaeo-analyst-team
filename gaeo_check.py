@@ -30,7 +30,7 @@ GROUPS = {
     "quick": [
         "test_ci_parity.py", "test_workflow_size.py", "test_workflow_branch_exec.py", "test_pipeline_watchdog.py",
         "test_holiday_guard.py", "test_paper_single_writer.py", "test_ops_status.py", "test_validation_schedule.py",
-        "test_rules_map.py", "test_gaeo_check.py", "test_secret_hygiene.py",
+        "test_rules_map.py", "test_gaeo_check.py", "test_secret_hygiene.py", "test_legal_source_gate.py",
     ],
     "pipeline": [
         "test_pipeline_watchdog.py", "test_workflow_health.py", "test_workflow_size.py", "test_workflow_branch_exec.py",
@@ -45,6 +45,7 @@ GROUPS = {
         "test_sector_source_promotion.py", "test_ops_status.py", "test_content_freshness.py", "test_seo_publishing.py",
         "test_deep_analysis_pipeline.py", "test_archive_security.py", "test_research_store.py", "test_shared_toss_token.py",
         "test_shared_token_hardening.py", "test_toss_guard.py", "test_toss_market_data_smoke.py",
+        "test_legal_source_gate.py",
     ],
     "paper": [
         "test_paper_accounting.py", "test_paper_accounting_v2.py", "test_paper_backfill.py", "test_paper_engine.py",
@@ -68,7 +69,8 @@ GROUPS = {
     ],
     "schedule": ["test_validation_schedule.py", "test_validation_runner.py", "test_validation_checks.py"],
     "compatibility": ["test_rules_map.py", "test_ci_parity.py", "test_secret_hygiene.py", "test_design_contract.py",
-                      "test_gaeo_check.py", "test_css_layering.py", "test_agent_compat.py", "test_history_preservation.py"],
+                      "test_gaeo_check.py", "test_css_layering.py", "test_agent_compat.py", "test_history_preservation.py",
+                      "test_legal_source_gate.py"],
 }
 # 묶음에 넣을 곳이 없는 검사도 "어디에도 없음"은 허용하지 않는다 — 이 목록에 명시적으로 적는다.
 UNGROUPED_BUT_KNOWN = []
