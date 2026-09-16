@@ -84,11 +84,17 @@ KRX Open API 조항은 검색 결과에 인용된 공식 페이지 스니펫으�
 
 ## 7. 안전한 대체 출처 후보 (승인이 아님 — 각자 약관 확인 필요)
 
+2026-09-16 PHASE 1 에서 상품별로 쪼개 조사했다. 전체 표·법적 근거·데이터 품질·판단 영향(shadow)은 **`docs/legal/SOURCE_REPLACEMENT_MATRIX.md`**, 의존성 지도는 `docs/legal/NAVER_DEPENDENCY_MAP.md`, 기계용 원본은 `config/data_supply_migration.json`. 요약:
+
 | 후보 | 상태 | 메모 |
 |---|---|---|
-| 공공데이터포털 금융위원회_주식시세정보 (data.go.kr/data/15094808) | OWNER_CONFIRMATION_REQUIRED | 공공누리 유형(출처표시·상업 이용)을 상세 페이지에서 확인. 전일 종가(실시간 아님) |
-| KRX Open API | COMMERCIAL_USE_NOT_CLEARED | 비상업 전용 · 원자료 재배포 금지 · 광고 사이트는 서면 허락 필요 |
-| 증권사 공식 Open API(토스증권 등) | OWNER_CONFIRMATION_REQUIRED | 시세 재배포·공개 조항 확인 |
+| 공공데이터포털 금융위원회_주식시세정보 (data.go.kr/data/15094808) | OWNER_CONFIRMATION_REQUIRED | 공식·무료·T+1(다음 영업일 13:00 이후) 일별 OHLCV·시총·상장주식수·전 종목. 공공누리 유형 원문 미확인(형제 데이터셋은 제2·4유형 상업 이용금지) → COMMERCIAL_USE_NOT_CLEARED. shadow 어댑터 `data_supply/fsc_stock_price.py`(합성 픽스처 · 게이트 닫힘 · 실호출 0) |
+| 금융위원회_지수시세정보 (15094807) · KRX상장종목정보 (15094775) | OWNER_CONFIRMATION_REQUIRED / PERMISSION_NOT_VERIFIED | 지수·목록 대체 후보. 후자는 2차 자료상 제4유형 |
+| OpenDART 재무제표(EPS·BPS → PER·PBR·ROE 재구성) | OWNER_CONFIRMATION_REQUIRED | 이미 수집 중. 정의 변경(네이버 추정 EPS ≠ DART 공시 EPS)은 OWNER 승인 |
+| KRX Open API | COMMERCIAL_USE_NOT_CLEARED | 비상업 전용 · 원자료 재배포 금지 · 투자자별 거래실적·PER/PBR API 미제공 |
+| 증권사 공식 Open API(토스증권 · 한국투자증권) | PERMISSION_NOT_VERIFIED | 2차 자료 요지: 시세 정보는 개인 업무 한정·제3자 제공 금지 → 공개 광고 사이트 공급원으로 부적합 신호 |
+| 한국은행 ECOS · 한국수출입은행 환율 API | OWNER_CONFIRMATION_REQUIRED | 환율(표시 전용) 대체 후보 — 가장 쉬운 교체 1순위 |
+| 수급(외국인·기관·개인) · 컨센서스 | NO_SAFE_REPLACEMENT_FOUND | 무료·공식·상업 이용 가능한 공급원을 찾지 못함 |
 | 네이버 사전 승낙 | OWNER_ACTION | 현재 경로를 계속 쓰려면 유일한 근거 |
 
 ## 8. 이미지·로고·폰트·아이콘·오픈소스 (전수 확인 결과)

@@ -1,0 +1,736 @@
+{
+ "shadowVersion": "data-supply-shadow-v1",
+ "generatedAt": "2026-09-16T13:39:55+00:00",
+ "inputs": {
+  "analysisDataFetchedAt": "2026-09-16 16:02",
+  "priceLabel": "2026-09-16 종가 (16:01 수집) · ⚠️ 1종목 지연",
+  "stocks": 600,
+  "teamWeightsLearned": true,
+  "marketRegime": {
+   "key": "down_low",
+   "trend": "down",
+   "vol": "low",
+   "medianRet5": -2.07,
+   "medianVol20": 2.75,
+   "advanceRatio5": 29.5,
+   "medianRet1": -0.69,
+   "advanceRatio1": 33.3
+  },
+  "indicatorsGeneratedAt": "2026-09-16 16:15"
+ },
+ "production": {
+  "BUY_HOLD_SELL_FORMULA_CHANGE": 0,
+  "WEIGHT_CHANGE": 0,
+  "THRESHOLD_CHANGE": 0,
+  "filesWritten": [],
+  "networkCalls": 0
+ },
+ "baseline": {
+  "evaluated": 600,
+  "calls": {
+   "BUY": 28,
+   "HOLD": 423,
+   "SELL": 149,
+   "JUDGMENT_WITHHELD": 0
+  }
+ },
+ "scenarios": {
+  "lag1_official_close": {
+   "description": "T+1 공식 자료만 있을 때(마지막 봉 제거 · 가격=직전 확정 종가 · PER/PBR/목표가 괴리 재계산)",
+   "codesCompared": 600,
+   "codesOnlyBaseline": 0,
+   "codesOnlyVariant": 0,
+   "callChanged": 72,
+   "callChangedPct": 12.0,
+   "callTransitions": {
+    "BUY→HOLD": 8,
+    "HOLD→BUY": 15,
+    "HOLD→SELL": 21,
+    "SELL→HOLD": 28
+   },
+   "callsBaseline": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "callsVariant": {
+    "BUY": 35,
+    "HOLD": 423,
+    "SELL": 142,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "withheldBaseline": 0,
+   "withheldVariant": 0,
+   "totalDelta": {
+    "n": 600,
+    "meanAbs": 1.83,
+    "p50Abs": 1,
+    "p90Abs": 5,
+    "maxAbs": 15
+   },
+   "totalUnchangedCount": 165,
+   "componentDelta": {
+    "taro": {
+     "n": 600,
+     "meanAbs": 5.82,
+     "p50Abs": 3,
+     "p90Abs": 16,
+     "maxAbs": 58
+    },
+    "diana": {
+     "n": 600,
+     "meanAbs": 0.47,
+     "p50Abs": 0,
+     "p90Abs": 1,
+     "maxAbs": 10
+    },
+    "nova": {
+     "n": 600,
+     "meanAbs": 2.08,
+     "p50Abs": 1,
+     "p90Abs": 6,
+     "maxAbs": 22
+    },
+    "flow": {
+     "n": 599,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    }
+   },
+   "componentUnavailableInVariant": {
+    "taro": 0,
+    "diana": 0,
+    "nova": 0,
+    "flow": 0
+   },
+   "examples": [
+    {
+     "code": "195870",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 57,
+     "totalAfter": 45
+    },
+    {
+     "code": "030210",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 53,
+     "totalAfter": 63
+    },
+    {
+     "code": "079160",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 57,
+     "totalAfter": 67
+    },
+    {
+     "code": "021240",
+     "from": "BUY",
+     "to": "HOLD",
+     "totalBefore": 66,
+     "totalAfter": 57
+    },
+    {
+     "code": "214430",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 52,
+     "totalAfter": 43
+    },
+    {
+     "code": "319660",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 49,
+     "totalAfter": 40
+    },
+    {
+     "code": "377300",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 41,
+     "totalAfter": 50
+    },
+    {
+     "code": "019170",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 41,
+     "totalAfter": 49
+    },
+    {
+     "code": "263750",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 57,
+     "totalAfter": 65
+    },
+    {
+     "code": "279570",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 46,
+     "totalAfter": 54
+    },
+    {
+     "code": "015760",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 40,
+     "totalAfter": 47
+    },
+    {
+     "code": "023160",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 58,
+     "totalAfter": 65
+    }
+   ]
+  },
+  "no_consensus": {
+   "description": "컨센서스(목표주가·추정EPS·투자의견) 없음",
+   "codesCompared": 600,
+   "codesOnlyBaseline": 0,
+   "codesOnlyVariant": 0,
+   "callChanged": 51,
+   "callChangedPct": 8.5,
+   "callTransitions": {
+    "BUY→HOLD": 9,
+    "HOLD→SELL": 42
+   },
+   "callsBaseline": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "callsVariant": {
+    "BUY": 19,
+    "HOLD": 390,
+    "SELL": 191,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "withheldBaseline": 0,
+   "withheldVariant": 0,
+   "totalDelta": {
+    "n": 600,
+    "meanAbs": 0.94,
+    "p50Abs": 1,
+    "p90Abs": 2,
+    "maxAbs": 3
+   },
+   "totalUnchangedCount": 234,
+   "componentDelta": {
+    "taro": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "diana": {
+     "n": 600,
+     "meanAbs": 7.59,
+     "p50Abs": 8,
+     "p90Abs": 18,
+     "maxAbs": 18
+    },
+    "nova": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "flow": {
+     "n": 599,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    }
+   },
+   "componentUnavailableInVariant": {
+    "taro": 0,
+    "diana": 0,
+    "nova": 0,
+    "flow": 0
+   },
+   "examples": [
+    {
+     "code": "000270",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 45
+    },
+    {
+     "code": "029780",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 49,
+     "totalAfter": 46
+    },
+    {
+     "code": "097950",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 47,
+     "totalAfter": 44
+    },
+    {
+     "code": "000080",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    },
+    {
+     "code": "000660",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 47,
+     "totalAfter": 45
+    },
+    {
+     "code": "001120",
+     "from": "BUY",
+     "to": "HOLD",
+     "totalBefore": 63,
+     "totalAfter": 61
+    },
+    {
+     "code": "001740",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    },
+    {
+     "code": "001940",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    },
+    {
+     "code": "005850",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    },
+    {
+     "code": "005880",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 47,
+     "totalAfter": 45
+    },
+    {
+     "code": "006280",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    },
+    {
+     "code": "006800",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 48,
+     "totalAfter": 46
+    }
+   ]
+  },
+  "no_flow": {
+   "description": "수급(외국인·기관·개인) 없음 → CHIEF 3축 재정규화",
+   "codesCompared": 600,
+   "codesOnlyBaseline": 0,
+   "codesOnlyVariant": 0,
+   "callChanged": 99,
+   "callChangedPct": 16.5,
+   "callTransitions": {
+    "HOLD→BUY": 49,
+    "HOLD→SELL": 41,
+    "SELL→HOLD": 9
+   },
+   "callsBaseline": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "callsVariant": {
+    "BUY": 77,
+    "HOLD": 342,
+    "SELL": 181,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "withheldBaseline": 0,
+   "withheldVariant": 0,
+   "totalDelta": {
+    "n": 600,
+    "meanAbs": 2.35,
+    "p50Abs": 2,
+    "p90Abs": 5,
+    "maxAbs": 10
+   },
+   "totalUnchangedCount": 86,
+   "componentDelta": {
+    "taro": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "diana": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "nova": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "flow": {
+     "n": 0,
+     "meanAbs": null,
+     "p50Abs": null,
+     "p90Abs": null,
+     "maxAbs": null
+    }
+   },
+   "componentUnavailableInVariant": {
+    "taro": 0,
+    "diana": 0,
+    "nova": 0,
+    "flow": 599
+   },
+   "examples": [
+    {
+     "code": "034020",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 44,
+     "totalAfter": 54
+    },
+    {
+     "code": "036540",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 55,
+     "totalAfter": 45
+    },
+    {
+     "code": "452260",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 58,
+     "totalAfter": 68
+    },
+    {
+     "code": "000670",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 62,
+     "totalAfter": 71
+    },
+    {
+     "code": "000990",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 57,
+     "totalAfter": 66
+    },
+    {
+     "code": "001440",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 44,
+     "totalAfter": 52
+    },
+    {
+     "code": "004020",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 61,
+     "totalAfter": 68
+    },
+    {
+     "code": "006650",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 59,
+     "totalAfter": 66
+    },
+    {
+     "code": "023160",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 58,
+     "totalAfter": 65
+    },
+    {
+     "code": "138930",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 60,
+     "totalAfter": 67
+    },
+    {
+     "code": "005440",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 61,
+     "totalAfter": 67
+    },
+    {
+     "code": "005690",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 62,
+     "totalAfter": 68
+    }
+   ]
+  },
+  "per_pbr_from_close_eps_bps": {
+   "description": "PER/PBR 을 종가÷EPS·BPS 로 재계산(DART 재구성 시 정의 차이)",
+   "codesCompared": 600,
+   "codesOnlyBaseline": 0,
+   "codesOnlyVariant": 0,
+   "callChanged": 0,
+   "callChangedPct": 0.0,
+   "callTransitions": {},
+   "callsBaseline": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "callsVariant": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "withheldBaseline": 0,
+   "withheldVariant": 0,
+   "totalDelta": {
+    "n": 600,
+    "meanAbs": 0.0,
+    "p50Abs": 0,
+    "p90Abs": 0,
+    "maxAbs": 2
+   },
+   "totalUnchangedCount": 599,
+   "componentDelta": {
+    "taro": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "diana": {
+     "n": 600,
+     "meanAbs": 0.01,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 8
+    },
+    "nova": {
+     "n": 600,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    },
+    "flow": {
+     "n": 599,
+     "meanAbs": 0.0,
+     "p50Abs": 0,
+     "p90Abs": 0,
+     "maxAbs": 0
+    }
+   },
+   "componentUnavailableInVariant": {
+    "taro": 0,
+    "diana": 0,
+    "nova": 0,
+    "flow": 0
+   },
+   "examples": []
+  },
+  "official_free_only": {
+   "description": "lag1 + no_consensus + no_flow + per_pbr 재계산(무료 공식 자료만 쓸 때의 근사)",
+   "codesCompared": 600,
+   "codesOnlyBaseline": 0,
+   "codesOnlyVariant": 0,
+   "callChanged": 133,
+   "callChangedPct": 22.2,
+   "callTransitions": {
+    "BUY→HOLD": 4,
+    "HOLD→BUY": 44,
+    "HOLD→SELL": 66,
+    "SELL→HOLD": 19
+   },
+   "callsBaseline": {
+    "BUY": 28,
+    "HOLD": 423,
+    "SELL": 149,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "callsVariant": {
+    "BUY": 68,
+    "HOLD": 336,
+    "SELL": 196,
+    "JUDGMENT_WITHHELD": 0
+   },
+   "withheldBaseline": 0,
+   "withheldVariant": 0,
+   "totalDelta": {
+    "n": 600,
+    "meanAbs": 3.53,
+    "p50Abs": 3,
+    "p90Abs": 8,
+    "maxAbs": 24
+   },
+   "totalUnchangedCount": 61,
+   "componentDelta": {
+    "taro": {
+     "n": 600,
+     "meanAbs": 5.82,
+     "p50Abs": 3,
+     "p90Abs": 16,
+     "maxAbs": 58
+    },
+    "diana": {
+     "n": 600,
+     "meanAbs": 7.62,
+     "p50Abs": 8,
+     "p90Abs": 18,
+     "maxAbs": 24
+    },
+    "nova": {
+     "n": 600,
+     "meanAbs": 2.08,
+     "p50Abs": 1,
+     "p90Abs": 6,
+     "maxAbs": 22
+    },
+    "flow": {
+     "n": 0,
+     "meanAbs": null,
+     "p50Abs": null,
+     "p90Abs": null,
+     "maxAbs": null
+    }
+   },
+   "componentUnavailableInVariant": {
+    "taro": 0,
+    "diana": 0,
+    "nova": 0,
+    "flow": 599
+   },
+   "examples": [
+    {
+     "code": "195870",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 57,
+     "totalAfter": 39
+    },
+    {
+     "code": "015760",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 40,
+     "totalAfter": 54
+    },
+    {
+     "code": "023160",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 58,
+     "totalAfter": 72
+    },
+    {
+     "code": "030210",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 53,
+     "totalAfter": 67
+    },
+    {
+     "code": "032820",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 49,
+     "totalAfter": 63
+    },
+    {
+     "code": "214430",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 52,
+     "totalAfter": 38
+    },
+    {
+     "code": "034020",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 44,
+     "totalAfter": 57
+    },
+    {
+     "code": "112040",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 52,
+     "totalAfter": 65
+    },
+    {
+     "code": "004360",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 51,
+     "totalAfter": 63
+    },
+    {
+     "code": "019170",
+     "from": "SELL",
+     "to": "HOLD",
+     "totalBefore": 41,
+     "totalAfter": 53
+    },
+    {
+     "code": "263750",
+     "from": "HOLD",
+     "to": "BUY",
+     "totalBefore": 57,
+     "totalAfter": 69
+    },
+    {
+     "code": "319660",
+     "from": "HOLD",
+     "to": "SELL",
+     "totalBefore": 49,
+     "totalAfter": 37
+    }
+   ]
+  }
+ }
+}

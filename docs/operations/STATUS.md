@@ -3,6 +3,48 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-16 밤 — 네이버 의존도 해체 준비 + 합법적 공식 데이터 공급망 조사 (LEGAL DATA SUPPLY MIGRATION PHASE 1)
+
+### 한 줄
+
+**완료 상태 = OWNER_CONFIRMATION_REQUIRED.** 네이버가 담당하는 데이터를 23개 상품으로 쪼개 코드 기준 의존성 지도를 만들고
+(`docs/legal/NAVER_DEPENDENCY_MAP.md` · `config/data_supply_migration.json`), 상품별 공식 대체 후보를 조사했다
+(`docs/legal/SOURCE_REPLACEMENT_MATRIX.md`). 가장 유력한 무료 공식 후보(공공데이터포털 금융위원회_주식시세정보, T+1)의
+**상업 이용 허용 여부(공공누리 유형)를 원문으로 확인하지 못했고**(egress 차단 · 형제 데이터셋은 제2·4유형 상업 이용금지),
+수급·컨센서스는 무료 공식 대체가 없다(NO_SAFE_REPLACEMENT_FOUND). 그래도 할 수 있는 건 다 했다: shadow 어댑터
+(`data_supply/fsc_stock_price.py`, 합성 픽스처 · 게이트 닫힘 · 실호출 0)와 오프라인 판단 영향 비교(실자료 600종목).
+
+### 판단 영향(shadow · 2026-09-16 16:02 회차 · Production 변경 0 · 네트워크 0)
+
+| 시나리오 | 판정 바뀜 | 종합점수 \|Δ\| 평균/p90/최대 |
+|---|---|---|
+| T+1 공식 자료만(하루 시차) | 72 (12.0%) | 1.83 / 5 / 15 |
+| 컨센서스 없음 | 51 (8.5%) | 0.94 / 2 / 3 |
+| 수급 없음(FLOW 축 소실 599) | 99 (16.5%) | 2.35 / 5 / 10 |
+| PER/PBR 종가÷EPS·BPS 재계산 | 0 | 0 / 0 / 2 |
+| 무료 공식 자료만(위 합산) | **133 (22.2%)** | 3.53 / 8 / 24 |
+
+판단 보류 0 — 네이버 없이도 판단은 *만들* 수 있으나 *같게* 유지되지 않는다. baseline 은 `auto_analysis.js` 를 600/600 재현(시험이 잠금).
+
+### 만든 것
+
+`data_supply/`(contracts · fsc_stock_price 어댑터 · shadow_compare · 합성 픽스처) · `config/data_supply_migration.json` ·
+`config/source_compliance.json` 에 `fsc_public_data` 등록(전 게이트 닫힘) + replacementOptions 갱신 · `test_data_supply_migration.py`(28건, pipeline·compatibility 묶음) ·
+`docs/legal/shadow/DECISION_SHADOW_20260916.*` · `_config.yml` 에 `data_supply/`·`config/` Pages 제외.
+
+### 확인 환경의 한계
+
+data.go.kr · fsc.go.kr · kogl.or.kr · opendart · KRX · 토스 · 한투 · ECOS · 수출입은행 전부 egress 차단. 근거는 검색 스니펫(2차)이며 소유자가 원문을 열어 재확인해야 한다.
+
+### 하지 않은 것
+
+네이버 Production OFF 0 · 새 공급자 Production ON 0 · 산식/가중치/임계값 변경 0 · 유료 API 0 · 런타임 LLM 0 · Private/Team PAPER 변경 0 ·
+새 endpoint/호출량/종목수/UA 변경 0 · 새 scraping 0 · 새 schedule/Routine/자동 PR 0 · Git history 삭제 0 · 수집 코드 변경 0.
+
+### 소유자 조치
+
+`docs/legal/SOURCE_REPLACEMENT_MATRIX.md` §8 — ① 15094808 이용허락범위(공공누리 유형)·정보이용계약 안내 확인 ② 허용이면 활용신청·serviceKey·게이트 열기 → 5~20종목 shadow 실호출 ③ 지수·상장종목정보 유형 ④ OpenDART 약관 ⑤ 환율 후보 라이선스(가장 쉬운 교체 1순위) ⑥ 수급·컨센서스 방향(축 제거/유료/네이버 승낙) ⑦ 네이버 유래 공개 파일 처리.
+
 ## 2026-09-16 저녁 — 데이터 출처 준법 감사 + 위험 경로 차단 (LEGAL / COPYRIGHT ZERO-RISK GATE)
 
 ### 한 줄

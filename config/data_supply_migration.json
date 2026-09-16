@@ -1,0 +1,850 @@
+{
+  "schemaVersion": "data_supply_migration_v1",
+  "title": "GAEO 네이버 의존성 지도 + 대체 공급원 상태(기계용) — 사람이 읽는 표는 docs/legal/NAVER_DEPENDENCY_MAP.md · SOURCE_REPLACEMENT_MATRIX.md",
+  "reviewedAt": "2026-09-16",
+  "method": "저장소 코드 grep + 실제 산출물(analysis_data.json · data.js · indicators.json · auto_analysis.js) 키 확인. 추측으로 분류하지 않았다. 판정 근거 URL 은 config/source_compliance.json · docs/legal/SOURCE_REPLACEMENT_MATRIX.md.",
+  "vocabulary": {
+    "importance": [
+      "CRITICAL",
+      "IMPORTANT",
+      "DISPLAY_ONLY",
+      "LEGACY_UNUSED"
+    ],
+    "replaceStatus": [
+      "READY_TO_REPLACE",
+      "READY_FOR_SHADOW",
+      "OWNER_APPROVAL_REQUIRED",
+      "NO_SAFE_REPLACEMENT_FOUND"
+    ]
+  },
+  "productionSwitches": {
+    "NAVER_PRODUCTION_DISABLED": 0,
+    "NEW_PROVIDER_PRODUCTION_ENABLED": 0,
+    "BUY_HOLD_SELL_FORMULA_CHANGE": 0,
+    "WEIGHT_CHANGE": 0,
+    "THRESHOLD_CHANGE": 0,
+    "PAID_API_ADDED": 0,
+    "RUNTIME_LLM_ADDED": 0,
+    "PRIVATE_CHANGED": 0,
+    "TEAM_PAPER_CHANGED": 0
+  },
+  "naverEndpointsCovered": [
+    "https://api.finance.naver.com/service/itemSummary.naver?itemcode=",
+    "https://api.finance.naver.com/siseJson.naver?symbol=",
+    "https://m.stock.naver.com/api/index/",
+    "https://m.stock.naver.com/api/stock/",
+    "https://m.stock.naver.com/api/stocks/marketValue/",
+    "https://finance.naver.com/marketindex/exchangeList.naver",
+    "https://finance.naver.com/marketindex/"
+  ],
+  "shadowAdapters": {
+    "fsc_public_data": "data_supply/fsc_stock_price.py (합성 픽스처 · 게이트 닫힘 · 실호출 0)"
+  },
+  "legacyUnusedFields": [
+    "siseJson 일봉[6] frgnRate",
+    "totalInfos.foreignRate",
+    "totalInfos.accumulatedTradingValue",
+    "totalInfos.accumulatedTradingVolume(종목별)",
+    "consensusInfo.recommMean",
+    "totalInfos.cnsPer",
+    "itemSummary.diff · risefall · quant · amount(응답에는 있으나 미사용)"
+  ],
+  "products": [
+    {
+      "id": "A_current_price",
+      "label": "현재가",
+      "naver": {
+        "endpoint": "api.finance.naver.com/service/itemSummary.naver",
+        "field": "now",
+        "cadence": "10분/장중 · 600요청"
+      },
+      "internal": [
+        "data.js stocks[].price",
+        "indicators.json stocks[].price",
+        "auto_analysis.js stocks[].base",
+        "history.js base",
+        "research_archive/decisions originals base",
+        "snap/stock/*.html"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "compute_indicators.py",
+        "analyze_auto.py",
+        "archive_analysis.py",
+        "decision_records.py",
+        "app.js",
+        "generate_snapshots.js"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: DIANA targetGap·fwdPer 산출 입력 · 모든 봉인 판단의 기준가(base) · 채점의 분모",
+      "screen": true,
+      "scorecard": true,
+      "validation": true,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "장중 현재가 → T+1 확정 종가로 바뀌면 '장중 판단'이 '전일 종가 판단'이 된다(판단 시각 정의 변경). 판단 자체는 유지 가능."
+    },
+    {
+      "id": "B_prev_close_change",
+      "label": "전일종가·전일대비·등락률",
+      "naver": {
+        "endpoint": "itemSummary.naver",
+        "field": "rate (diff·risefall 은 응답에 있으나 미사용)",
+        "cadence": "10분"
+      },
+      "internal": [
+        "data.js stocks[].rate",
+        "data.js marketBrief.breadth",
+        "indicators.json stocks[].rate"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "compute_indicators.py",
+        "app.js"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "INDIRECT: 점수 산식에 직접 들어가지 않음. 홈 숫자 브리핑(상승/하락 종목 수)·화면 등락 표시",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "FSC vs·fltRt 로 대체 가능(T+1)."
+    },
+    {
+      "id": "C_open",
+      "label": "시가",
+      "naver": {
+        "endpoint": "api.finance.naver.com/siseJson.naver",
+        "field": "일봉[1]",
+        "cadence": "30분 · 600요청"
+      },
+      "internal": [
+        "analysis_data.json stocks[].daily[].open",
+        "price_history.js days[].open"
+      ],
+      "consumers": [
+        "collect_analyst_data.py",
+        "update_price_history.py",
+        "app.js(캔들차트)"
+      ],
+      "importance": "DISPLAY_ONLY",
+      "decisionImpact": "NONE: 점수에 쓰이지 않음(캔들 표시)",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "D_high",
+      "label": "고가",
+      "naver": {
+        "endpoint": "siseJson.naver",
+        "field": "일봉[2]",
+        "cadence": "30분"
+      },
+      "internal": [
+        "analysis_data.json daily[].high",
+        "indicators.json tech.todayGiveback",
+        "price_history.js",
+        "rebound_watch.js"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "analyze_auto.py(taro_eval giveback 감점)",
+        "compute_rebound_watch.py",
+        "app.js"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "DIRECT(소폭): todayGiveback>6% 이면 TARO 최대 -15점",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "E_low",
+      "label": "저가",
+      "naver": {
+        "endpoint": "siseJson.naver",
+        "field": "일봉[3]",
+        "cadence": "30분"
+      },
+      "internal": [
+        "analysis_data.json daily[].low",
+        "price_history.js"
+      ],
+      "consumers": [
+        "update_price_history.py",
+        "app.js"
+      ],
+      "importance": "DISPLAY_ONLY",
+      "decisionImpact": "NONE",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "F_volume",
+      "label": "거래량",
+      "naver": {
+        "endpoint": "siseJson.naver (+ integration dealTrends.accumulatedTradingVolume)",
+        "field": "일봉[5] · accumulatedTradingVolume",
+        "cadence": "30분"
+      },
+      "internal": [
+        "analysis_data.json daily[].volume",
+        "indicators.json tech.volRatio",
+        "indicators.json flow.periodVolume(수급 분모)",
+        "radar.json",
+        "price_history.js"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "radar_signals.py",
+        "compute_radar.py",
+        "compute_rebound_watch.py",
+        "analyze_auto.py(TARO findings 문구)"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "INDIRECT: TARO 점수에는 안 들어가고 근거 문구·레이더 신호·수급 비율 분모에 쓰임",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "G_trading_value",
+      "label": "거래대금",
+      "naver": {
+        "endpoint": "integration totalInfos · marketValue(전체시장)",
+        "field": "accumulatedTradingValue · accumulatedTradingValueRaw",
+        "cadence": "30분"
+      },
+      "internal": [
+        "analysis_data.json info.totalInfos.accumulatedTradingValue(미사용)",
+        "market_universe/ tval(집중도)"
+      ],
+      "consumers": [
+        "collect_market_universe.py(전체시장 집중도)"
+      ],
+      "importance": "LEGACY_UNUSED",
+      "decisionImpact": "NONE (종목별 값은 아무도 안 읽음 · 전체시장 집중도 통계만 사용)",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "종목별 필드는 제거 후보. 전체시장 집중도는 FSC trPrc 로 대체 가능."
+    },
+    {
+      "id": "H_market_cap",
+      "label": "시가총액",
+      "naver": {
+        "endpoint": "itemSummary.naver · integration totalInfos · marketValue(전체시장)",
+        "field": "marketSum(백만원) · marketValue · marketValueRaw",
+        "cadence": "10분/30분"
+      },
+      "internal": [
+        "data.js stocks[].cap('N조')",
+        "flow_history/ mcapEok(시총 추정)",
+        "market_universe/ cap(시총가중 수익률·Guardian cap 순위)"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "update_flow_history.py",
+        "collect_market_universe.py",
+        "gaeo_coverage/guardian.py",
+        "app.js"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "NONE for BUY/HOLD/SELL · Guardian 상폐 판정 보조·연구 정규화용",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "FSC mrktTotAmt(원)·lstgStCnt 로 대체 가능. 단위 변환 필요."
+    },
+    {
+      "id": "I_per",
+      "label": "PER",
+      "naver": {
+        "endpoint": "itemSummary.naver",
+        "field": "per",
+        "cadence": "10분"
+      },
+      "internal": [
+        "data.js stocks[].per",
+        "indicators.json stocks[].per"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "compute_indicators.py",
+        "analyze_auto.py(diana_eval ±12)",
+        "app.js",
+        "generate_snapshots.js"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: DIANA 점수 최대 ±12점(가중치 12%)",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "derived",
+          "dataset": "종가(FSC) ÷ EPS(DART)",
+          "latency": "T+1 / 분기",
+          "legal": "두 원천의 OWNER 확인 필요",
+          "free": true,
+          "quality": "정의 변경(네이버 PER=최근 4분기 EPS 추정 기준). 실측: 현재 data.js per ≈ price/eps (중앙값 오차 0.01%)"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "shadow 시나리오 per_pbr_from_close_eps_bps 로 정의 차이 영향 측정."
+    },
+    {
+      "id": "J_pbr",
+      "label": "PBR",
+      "naver": {
+        "endpoint": "itemSummary.naver",
+        "field": "pbr",
+        "cadence": "10분"
+      },
+      "internal": [
+        "data.js stocks[].pbr"
+      ],
+      "consumers": [
+        "analyze_auto.py(diana_eval ±8)",
+        "app.js"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: DIANA 최대 ±8점",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "derived",
+          "dataset": "종가(FSC) ÷ BPS(DART 자본총계÷발행주식수)",
+          "latency": "T+1 / 분기",
+          "legal": "OWNER 확인 필요",
+          "free": true,
+          "quality": "정의 변경"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "K_eps_bps_roe",
+      "label": "EPS·BPS·ROE",
+      "naver": {
+        "endpoint": "itemSummary.naver (eps) · integration totalInfos (bps)",
+        "field": "eps · bps → roe=eps/bps",
+        "cadence": "10분"
+      },
+      "internal": [
+        "data.js stocks[].eps",
+        "data.js stocks[].roe"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "analyze_auto.py(diana_eval roe ±8 · eps 문구)",
+        "app.js"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: ROE 최대 ±8점",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "opendart",
+          "dataset": "fnlttSinglAcntAll(재무제표) → EPS·BPS 재구성",
+          "latency": "분기/연 1회 공시 기준",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (terms.do 원문 미확인)",
+          "free": true,
+          "quality": "공식 재무 원천. 네이버 PER(최근 4분기 추정 EPS)과 정의 다름 → 정의 변경 승인 필요"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "dart_financials/ 에 이미 재무제표가 쌓이고 있다(DIANA v2 준비용)."
+    },
+    {
+      "id": "L_flow_foreign",
+      "label": "외국인 순매수·보유율",
+      "naver": {
+        "endpoint": "m.stock.naver.com/api/stock/{code}/integration",
+        "field": "dealTrendInfos[].foreignerPureBuyQuant · foreignerHoldRatio · bizdate",
+        "cadence": "30분 · 600요청 · T+1 확정"
+      },
+      "internal": [
+        "analysis_data.json info.dealTrends",
+        "indicators.json stocks[].flow(frgnSum·holdNow·holdBefore·todayFrgn·qualityScore)",
+        "flow_history/",
+        "indicators.js flow"
+      ],
+      "consumers": [
+        "compute_indicators.py(flow_summary)",
+        "analyze_auto.py(flow_eval ±16·±6)",
+        "update_flow_history.py",
+        "check_flow_validation_readiness.py",
+        "app.js"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: FLOW 점수(가중치 약 30%) · 없으면 CHIEF 가 3축으로 재정규화",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [],
+      "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
+      "note": "무료·공식·상업 이용 가능한 공급원을 찾지 못함(KRX Open API 미제공 · Data Marketplace 별도 계약 · 증권사 API 제3자 제공 금지)."
+    },
+    {
+      "id": "M_flow_institution",
+      "label": "기관 순매수",
+      "naver": {
+        "endpoint": "integration",
+        "field": "dealTrendInfos[].organPureBuyQuant",
+        "cadence": "30분"
+      },
+      "internal": [
+        "indicators.json flow.orgSum·todayOrg",
+        "flow_history/"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "analyze_auto.py(flow_eval ±10)"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: FLOW 점수 최대 ±10점",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [],
+      "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
+      "note": ""
+    },
+    {
+      "id": "N_flow_individual",
+      "label": "개인 순매수",
+      "naver": {
+        "endpoint": "integration",
+        "field": "dealTrendInfos[].individualPureBuyQuant",
+        "cadence": "30분"
+      },
+      "internal": [
+        "indicators.json flow.indiSum·todayIndi",
+        "flow_history/"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "analyze_auto.py(문구만)"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "INDIRECT: 점수 아님 · FLOW 근거 문구",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [],
+      "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
+      "note": ""
+    },
+    {
+      "id": "O_program_broker",
+      "label": "프로그램·거래원",
+      "naver": {
+        "endpoint": "(없음)",
+        "field": "(코드에 없음)",
+        "cadence": ""
+      },
+      "internal": [],
+      "consumers": [],
+      "importance": "LEGACY_UNUSED",
+      "decisionImpact": "NONE — 수집하지 않는다",
+      "screen": false,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [],
+      "replaceStatus": "READY_TO_REPLACE",
+      "note": "억지로 추가하지 않는다. 표에 '없음'으로만 기록."
+    },
+    {
+      "id": "P_consensus",
+      "label": "컨센서스(목표주가·투자의견·추정EPS)",
+      "naver": {
+        "endpoint": "integration",
+        "field": "consensusInfo.priceTargetMean · recommMean · totalInfos.cnsEps · cnsPer",
+        "cadence": "30분 · 405/600 종목만 존재"
+      },
+      "internal": [
+        "indicators.json stocks[].targetMean·targetGap·fwdPer·cnsEps·recommMean",
+        "indicators.js",
+        "auto_analysis chief.target 문구"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "analyze_auto.py(diana_eval targetGap ±12/−16 · fwdPer ±6)",
+        "app.js"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "DIRECT: DIANA 최대 ±18점(있는 종목만) · recommMean 은 아무도 안 읽음",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [],
+      "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
+      "note": "증권사 리서치 집계는 유료(FnGuide 등). shadow 시나리오 no_consensus 로 영향 측정."
+    },
+    {
+      "id": "Q_financials_misc",
+      "label": "기타 재무(배당·52주 고저·외국인 소진율)",
+      "naver": {
+        "endpoint": "integration totalInfos · siseJson",
+        "field": "dividendYieldRatio · lowPriceOf52Weeks/highPriceOf52Weeks · foreignRate/frgnRate",
+        "cadence": "10분/30분"
+      },
+      "internal": [
+        "data.js stocks[].div·w52",
+        "indicators.json risk.pos52w(표시용)",
+        "analysis_data.json daily[].frgnRate(미사용)"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "compute_indicators.py(risk_for pos52w)",
+        "app.js"
+      ],
+      "importance": "DISPLAY_ONLY",
+      "decisionImpact": "NONE: pos52w 는 risk_overlay 감점 식에 안 들어감 · frgnRate/foreignRate 는 소비자 0(LEGACY_UNUSED)",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "derived",
+          "dataset": "52주 고저 = 1년치 FSC 일봉에서 파생 · 배당 = DART 배당 공시/금융위원회_주식배당정보(미확인)",
+          "latency": "T+1",
+          "legal": "OWNER_CONFIRMATION_REQUIRED",
+          "free": true,
+          "quality": "파생 가능"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "frgnRate·foreignRate·accumulatedTradingValue·recommMean·cnsPer 는 제거 후보(LEGACY_UNUSED)."
+    },
+    {
+      "id": "R_listing_universe",
+      "label": "종목 목록(전체 상장)",
+      "naver": {
+        "endpoint": "m.stock.naver.com/api/stocks/marketValue/{market}",
+        "field": "itemCode · stockName · closePriceRaw · marketValueRaw · tradableStatus · stockEndType",
+        "cadence": "30분 44요청 · 주 2회 smoke"
+      },
+      "internal": [
+        "krx_list.json(이름과 달리 네이버 목록)",
+        "market_universe/full_market_latest.json.gz",
+        "market_context.js",
+        "market_universe/history/"
+      ],
+      "consumers": [
+        "fetch_krx_list.py",
+        "collect_market_universe.py",
+        "gaeo_coverage/guardian.py",
+        "market-map.js",
+        "app.js(관리자 자동완성)",
+        "compute_rotation.py(이름)"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "NONE for BUY/HOLD/SELL · Guardian 상폐 판정 1차 증거 · 전체시장 Breadth·시장지도 기능",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        },
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094775 금융위원회_KRX상장종목정보",
+          "latency": "일 1회",
+          "legal": "검색 스니펫상 제4유형(상업 이용금지) → PERMISSION_NOT_VERIFIED",
+          "free": true,
+          "quality": "상장 목록·시장구분"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "FSC 주식시세정보를 기준일로 전 종목 받으면 목록·시장구분·시총이 한 번에 온다(T+1). 거래정지 상태(tradableStatus)는 대체 불가."
+    },
+    {
+      "id": "S_market_segment",
+      "label": "시장구분(KOSPI/KOSDAQ)",
+      "naver": {
+        "endpoint": "marketValue/{market} 경로",
+        "field": "요청 경로",
+        "cadence": "30분"
+      },
+      "internal": [
+        "krx_list.json m",
+        "market_universe/ market"
+      ],
+      "consumers": [
+        "collect_market_universe.py",
+        "gaeo_coverage/guardian.py"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "NONE",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "FSC mrktCtg."
+    },
+    {
+      "id": "T_daily_ohlcv_history",
+      "label": "과거 일봉(OHLCV 약 10개월)",
+      "naver": {
+        "endpoint": "siseJson.naver (종목 600 · 10개월 · timeframe=day)",
+        "field": "일봉 배열",
+        "cadence": "30분 · 600요청"
+      },
+      "internal": [
+        "analysis_data.json daily",
+        "price_history.js(189k행)",
+        "indicators.json tech(MA·RSI·MACD·BB·cross·ret5·ret20)",
+        "risk",
+        "radar",
+        "dow_stats.js",
+        "rotation_snapshot.js",
+        "rebound_watch.js",
+        "team_weights.js(채점)",
+        "model_intelligence.js",
+        "quant 통계표"
+      ],
+      "consumers": [
+        "compute_indicators.py",
+        "analyze_auto.py(taro_eval·quant_eval·risk_overlay·build_quant_stats·build_cross_stats)",
+        "compute_radar.py",
+        "compute_dow_stats.py",
+        "compute_rotation.py",
+        "compute_rebound_watch.py",
+        "compute_team_weights.py",
+        "compute_model_intelligence.py",
+        "decision_records.py(evaluate)",
+        "gaeo_evolution/"
+      ],
+      "importance": "CRITICAL",
+      "decisionImpact": "DIRECT: TARO(가중치 약 31%)·QUANT(약 26%)·RISK 감점 전부 이 자료에서 계산 · 채점(5거래일 뒤 종가)도 이 자료",
+      "screen": true,
+      "scorecard": true,
+      "validation": true,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094808 금융위원회_주식시세정보",
+          "latency": "T+1 (다음 영업일 13:00 이후)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED (공공누리 유형 미확인 · 상업 이용 미확인)",
+          "free": true,
+          "quality": "공식 확정 종가(KRX 원천) · 전 종목 · 조정주가 없음(가정) · 거래정지 표시 없음"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "FSC 로 매일 1건씩 쌓고, 백필은 종목별 beginBasDt/endBasDt 호출(600종목 × 페이지). 조정주가 여부는 양쪽 다 원문 확인 필요."
+    },
+    {
+      "id": "U_index",
+      "label": "코스피·코스닥 지수(현재·일별)",
+      "naver": {
+        "endpoint": "m.stock.naver.com/api/index/{idx}/basic · /price · siseJson symbol=KOSPI",
+        "field": "closePrice · compareToPreviousClosePrice · fluctuationsRatio · localTradedAt",
+        "cadence": "10분/30분"
+      },
+      "internal": [
+        "data.js indices",
+        "indicators.json indices·indicesTech",
+        "index_history.js",
+        "market_history.js",
+        "rotation_snapshot.js(시장 상대)"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "collect_analyst_data.py",
+        "update_index_history.py",
+        "compute_indicators.py",
+        "compute_rotation.py",
+        "app.js"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "NONE for BUY/HOLD/SELL (marketRegime 은 600종목 단면에서 계산) · 홈 지수 카드·순환매 시장 게이트",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "fsc_public_data",
+          "dataset": "15094807 금융위원회_지수시세정보",
+          "latency": "T+1",
+          "legal": "OWNER_CONFIRMATION_REQUIRED",
+          "free": true,
+          "quality": "지수 일별 OHLC(2차 확인) · 미구현"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": ""
+    },
+    {
+      "id": "V_fx",
+      "label": "원/달러 환율",
+      "naver": {
+        "endpoint": "finance.naver.com/marketindex/* (HTML 스크래핑)",
+        "field": "sale · value · change",
+        "cadence": "10분"
+      },
+      "internal": [
+        "data.js fx"
+      ],
+      "consumers": [
+        "update_prices.py",
+        "app.js"
+      ],
+      "importance": "DISPLAY_ONLY",
+      "decisionImpact": "NONE",
+      "screen": true,
+      "scorecard": false,
+      "validation": false,
+      "candidates": [
+        {
+          "provider": "ecos_or_koreaexim(미등록)",
+          "dataset": "한국은행 ECOS / 한국수출입은행 현재환율 API",
+          "latency": "일 1회(11:00 고시)",
+          "legal": "OWNER_CONFIRMATION_REQUIRED",
+          "free": true,
+          "quality": "고시 환율(장중 변동 없음)"
+        }
+      ],
+      "replaceStatus": "OWNER_APPROVAL_REQUIRED",
+      "note": "가장 쉽게 교체 가능한 항목(표시 전용·일 1회면 충분). 후보 라이선스만 확인하면 된다."
+    },
+    {
+      "id": "W_tradable_status",
+      "label": "거래정지·상품유형(ETF/ETN 구분)",
+      "naver": {
+        "endpoint": "marketValue/{market}",
+        "field": "tradableStatus · stockEndType",
+        "cadence": "30분"
+      },
+      "internal": [
+        "market_universe/ (ELIGIBLE 판정)",
+        "gaeo_coverage/ Guardian"
+      ],
+      "consumers": [
+        "collect_market_universe.py",
+        "gaeo_coverage/guardian.py"
+      ],
+      "importance": "IMPORTANT",
+      "decisionImpact": "NONE for BUY/HOLD/SELL · 전체시장 통계 적격 판정",
+      "screen": true,
+      "scorecard": false,
+      "validation": true,
+      "candidates": [],
+      "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
+      "note": "FSC 주식시세정보에는 거래정지 표시가 없다. 시장조치는 OpenDART/KIND 계열(별도 게이트)."
+    }
+  ]
+}
