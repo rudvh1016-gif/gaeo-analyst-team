@@ -4,36 +4,36 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-16 10:29",
- "dataCutoff": "2026-09-16 10:29 장중",
+ "generatedAt": "2026-09-16 10:59",
+ "dataCutoff": "2026-09-16 10:59 장중",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 33.3,
+  "breadthPct": 33.5,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
   "sectorCount": 0,
   "detail": {
    "KOSPI": {
-    "close": 6641.31,
-    "ma20": 6804.91,
+    "close": 6640.18,
+    "ma20": 6804.86,
     "above": false,
-    "gapPct": -2.4
+    "gapPct": -2.42
    },
    "KOSDAQ": {
-    "close": 801.88,
-    "ma20": 819.63,
+    "close": 803.22,
+    "ma20": 819.69,
     "above": false,
-    "gapPct": -2.17
+    "gapPct": -2.01
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "철강·금속"
+  "topSector": "2차전지"
  },
  "record": {
   "hitRate": 52.6,

@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-09-16 10:27",
+ "generatedAt": "2026-09-16 10:57",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -372,8 +372,8 @@ const MODEL_INTELLIGENCE = {
    "weights": {
     "taro": 0.3284,
     "diana": 0.1183,
-    "nova": 0.2159,
-    "flow": 0.3374
+    "nova": 0.2156,
+    "flow": 0.3377
    },
    "acc": {
     "taro": {
@@ -400,8 +400,8 @@ const MODEL_INTELLIGENCE = {
    "weights": {
     "taro": 0.2829,
     "diana": 0.1221,
-    "nova": 0.2848,
-    "flow": 0.3102
+    "nova": 0.2844,
+    "flow": 0.3105
    },
    "acc": {
     "taro": {
@@ -428,8 +428,8 @@ const MODEL_INTELLIGENCE = {
    "weights": {
     "taro": 0.261,
     "diana": 0.143,
-    "nova": 0.3002,
-    "flow": 0.2958
+    "nova": 0.2999,
+    "flow": 0.2961
    },
    "acc": {
     "taro": {
@@ -456,8 +456,8 @@ const MODEL_INTELLIGENCE = {
    "weights": {
     "taro": 0.318,
     "diana": 0.1168,
-    "nova": 0.2861,
-    "flow": 0.2791
+    "nova": 0.2858,
+    "flow": 0.2794
    },
    "acc": {
     "taro": {
@@ -484,8 +484,8 @@ const MODEL_INTELLIGENCE = {
    "weights": {
     "taro": 0.3083,
     "diana": 0.1374,
-    "nova": 0.2246,
-    "flow": 0.3297
+    "nova": 0.2243,
+    "flow": 0.33
    },
    "acc": {
     "taro": {
@@ -511,11 +511,11 @@ const MODEL_INTELLIGENCE = {
   "key": "down_low",
   "trend": "down",
   "vol": "low",
-  "median5": -2.34,
-  "medianAbs1": 1.3,
-  "advanceRatio5": 25.7,
-  "medianRet1": -1.06,
-  "advanceRatio1": 18.2
+  "median5": -2.28,
+  "medianAbs1": 1.34,
+  "advanceRatio5": 26.2,
+  "medianRet1": -1.04,
+  "advanceRatio1": 20.7
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -526,18 +526,18 @@ const MODEL_INTELLIGENCE = {
   "days": 52,
   "guardedN": 295,
   "baseline": {
-   "hit": 14645,
-   "miss": 11645,
-   "mid": 1053,
+   "hit": 14639,
+   "miss": 11652,
+   "mid": 1052,
    "accuracy": 55.7
   },
   "guarded": {
-   "hit": 14641,
-   "miss": 11664,
-   "mid": 1038,
-   "accuracy": 55.7
+   "hit": 14635,
+   "miss": 11671,
+   "mid": 1037,
+   "accuracy": 55.6
   },
-  "active": true,
+  "active": false,
   "policy": {
    "sellThreshold": 40,
    "minAffectedN": 30,
@@ -546,15 +546,15 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 7781,
-  "errors": 2610,
+  "errors": 2617,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 2267
+    "count": 2274
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1540
+    "count": 1547
    },
    {
     "label": "고변동성 국면",
@@ -562,26 +562,26 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 124
+    "count": 125
    }
   ],
   "analystErrors": {
-   "taro": 1528,
+   "taro": 1531,
    "diana": 0,
-   "nova": 169,
+   "nova": 171,
    "flow": 336
   },
   "regimeErrors": {
    "down_low": 995,
-   "up_low": 723,
+   "up_low": 730,
    "side_low": 624,
    "down_high": 268
   }
  },
  "shadow": {
   "n": 7781,
-  "baselineActionN": 1941,
-  "baselineActionPrecision": 51.5,
+  "baselineActionN": 1942,
+  "baselineActionPrecision": 51.4,
   "candidateActionN": 0,
   "candidateActionPrecision": null,
   "candidateCoverage": 0.0,
@@ -596,7 +596,7 @@ const MODEL_INTELLIGENCE = {
   "candidateAllCallBasis": "BUY·SELL은 ±1%, HOLD는 ±5%로 채점한 값이라 BUY·SELL 정밀도와 같은 잣대가 아니다.",
   "candidateAllCallSuppressed": true,
   "candidateAllCallSuppressedReason": "후보가 실행 가능한 판단(BUY·SELL)을 한 건도 내지 않아, 이 값은 HOLD 판정폭(±5%)만 반영한다.",
-  "brier": 0.2466,
+  "brier": 0.2467,
   "rawBrier": 0.2629
  },
  "prospective": {
@@ -736,15 +736,15 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "evaluation": {
-   "n": 1941,
+   "n": 1942,
    "buyN": 440,
-   "sellN": 1501,
+   "sellN": 1502,
    "testDays": 13,
    "testRegimes": 4,
    "candidate": {
-    "n": 1941,
-    "tierSpreadPp": 2.6,
-    "corr": 0.1543,
+    "n": 1942,
+    "tierSpreadPp": 2.8,
+    "corr": 0.1559,
     "ci95": {
      "lowPp": -9.7,
      "highPp": 34.8,
@@ -754,12 +754,12 @@ const MODEL_INTELLIGENCE = {
     }
    },
    "baseline": {
-    "n": 1941,
+    "n": 1942,
     "tierSpreadPp": 4.6,
-    "corr": 0.0434,
+    "corr": 0.0435,
     "ci95": {
      "lowPp": -3.2,
-     "highPp": 13.6,
+     "highPp": 13.5,
      "includesZero": true,
      "decisionDays": 13,
      "draws": 1000
@@ -777,18 +777,18 @@ const MODEL_INTELLIGENCE = {
     "rangesOverlap": false,
     "candidateWithinBuy": {
      "n": 440,
-     "tierSpreadPp": 6.2
+     "tierSpreadPp": 5.5
     },
     "candidateWithinSell": {
-     "n": 1501,
-     "tierSpreadPp": -0.8
+     "n": 1502,
+     "tierSpreadPp": -0.6
     },
     "baselineWithinBuy": {
      "n": 440,
-     "tierSpreadPp": -9.6
+     "tierSpreadPp": -10.3
     },
     "baselineWithinSell": {
-     "n": 1501,
+     "n": 1502,
      "tierSpreadPp": 2.2
     },
     "note": "합친 표의 스프레드는 BUY·SELL 자체의 적중률 차이만으로도 커질 수 있다. 같은 방향 안에서 다시 잰 값이 진짜 판별력이다."
@@ -808,13 +808,13 @@ const MODEL_INTELLIGENCE = {
   "prospective": {
    "type": "PROSPECTIVE_ARCHIVED",
    "note": "그날 미리 기록해 둔 확신도 후보값만으로 채점한다. 나중에 만든 교정표를 과거에 적용하지 않으므로 검증일이 실제로 하루씩 쌓인다.",
-   "n": 471,
+   "n": 472,
    "testDays": 3,
    "firstDay": "2026-09-07",
    "lastDay": "2026-09-09",
    "buyN": 90,
-   "sellN": 381,
-   "tierSpreadPp": 33.1,
+   "sellN": 382,
+   "tierSpreadPp": 33.8,
    "tierSpreadWithinBuyPp": 16.7,
    "tierSpreadWithinSellPp": 16.5,
    "clockStarted": true,
@@ -825,9 +825,9 @@ const MODEL_INTELLIGENCE = {
    "status": "shadow",
    "reasons": [
     "검증일 40거래일 미만",
-    "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 2.6pp vs 기존 4.6pp)",
+    "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 2.8pp vs 기존 4.6pp)",
     "후보 판별력 95% 구간(-9.7~34.8pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
-    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 6.2pp · SELL -0.8pp)",
+    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 5.5pp · SELL -0.6pp)",
     "사전 기록 기반 검증일 3일 / 40일 (누적 중)"
    ],
    "minimums": {
