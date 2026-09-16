@@ -1,20 +1,101 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 15:17",
- "priceLabel": "2026-09-16 15:04 장중 · ⚠️ 1종목 지연",
- "count": 283,
+ "generatedAt": "2026-09-16 15:47",
+ "priceLabel": "2026-09-16 15:17 장중 · ⚠️ 1종목 지연",
+ "count": 287,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
   {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000376"
+  },
+  {
+   "code": "009830",
+   "name": "한화솔루션",
+   "title": "[기재정정]타법인주식및출자증권처분결정(자율공시)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260916800377"
+  },
+  {
    "code": "039490",
    "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000384"
+  },
+  {
+   "code": "192820",
+   "name": "코스맥스",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916800379"
+  },
+  {
+   "code": "064290",
+   "name": "인텍플러스",
+   "title": "주식매수선택권부여에관한신고",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000387"
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
    "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
    "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
    "isCorrection": false,
-   "rceptNo": "20260916000342"
+   "rceptNo": "20260916000352"
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000374"
+  },
+  {
+   "code": "029780",
+   "name": "삼성카드",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000355"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000382"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000394"
   },
   {
    "code": "039490",
@@ -132,15 +213,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T05:45:47.641132+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000304"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000227"
   },
   {
    "code": "003470",
@@ -483,15 +555,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T00:17:43.434759+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000008"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-16T00:17:43.434759+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915800721"
   },
   {
    "code": "122900",
@@ -1013,15 +1076,6 @@ const DART_TODAY = {
    "receiptDate": "20260915",
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
-   "rceptNo": "20260915000023"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
    "rceptNo": "20260915000029"
   },
   {
@@ -1113,15 +1167,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800235"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000032"
   },
   {
    "code": "016610",
@@ -1671,15 +1716,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": true,
    "rceptNo": "20260914800650"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914800433"
   },
   {
    "code": "138930",
