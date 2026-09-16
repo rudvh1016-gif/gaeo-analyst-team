@@ -1,12 +1,111 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 14:47",
- "priceLabel": "2026-09-16 14:42 장중 · ⚠️ 1종목 지연",
- "count": 281,
+ "generatedAt": "2026-09-16 15:17",
+ "priceLabel": "2026-09-16 15:04 장중 · ⚠️ 1종목 지연",
+ "count": 283,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000342"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000343"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000346"
+  },
+  {
+   "code": "383310",
+   "name": "에코프로에이치엔",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916900321"
+  },
+  {
+   "code": "002790",
+   "name": "아모레퍼시픽홀딩스",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916800320"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000321"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916800330"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916800336"
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000333"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000317"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000330"
+  },
   {
    "code": "006220",
    "name": "제주은행",
@@ -71,33 +170,6 @@ const DART_TODAY = {
    "rceptNo": "20260916000262"
   },
   {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000294"
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000308"
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000310"
-  },
-  {
    "code": "365340",
    "name": "성일하이텍",
    "title": "주식등의대량보유상황보고서(일반)",
@@ -141,15 +213,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T05:45:47.641132+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000235"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000239"
   },
   {
    "code": "030610",
@@ -267,15 +330,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T03:27:15.883349+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000173"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T03:27:15.883349+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000176"
   },
   {
    "code": "268280",
@@ -926,15 +980,6 @@ const DART_TODAY = {
    "rceptNo": "20260915000174"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T04:32:04.934257+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000140"
-  },
-  {
    "code": "001200",
    "name": "유진투자증권",
    "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
@@ -1277,15 +1322,6 @@ const DART_TODAY = {
    "rceptNo": "20260914000251"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000269"
-  },
-  {
    "code": "060280",
    "name": "큐렉소",
    "title": "[기재정정]주주총회소집공고",
@@ -1490,15 +1526,6 @@ const DART_TODAY = {
    "receiptDate": "20260914",
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": false,
-   "rceptNo": "20260914000339"
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
    "rceptNo": "20260914000340"
   },
   {
@@ -1671,15 +1698,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-14T04:10:05.256374+00:00",
    "isCorrection": false,
    "rceptNo": "20260914800059"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-14T04:10:05.256374+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000030"
   },
   {
    "code": "052400",
