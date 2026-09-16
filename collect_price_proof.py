@@ -34,6 +34,7 @@ import sys
 import comparison_evidence as ce
 import decision_records as dr
 import krx_openapi_client as krx
+import source_compliance as compliance
 import price_proof_planner as planner
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -46,6 +47,11 @@ SESSION_CLOSE_KST = dt.time(15, 30)
 DEFAULT_RECORD_CAP = 700
 DEFAULT_REQUEST_CAP = 40
 
+
+def legal_gate():
+    """KRX 출처 게이트(사람이 기록한 판정). 시험은 이 함수를 cleared_gate 로 바꿔 끼운다 — 기본값은 닫힘."""
+    return compliance.gate('krx_openapi')
+
 OWNER_ACTION_AUTH = {
     'code': 'KRX_OPENAPI_AUTH_KEY_MISSING',
     'what': 'KRX Open API 인증키가 Actions Secret 에 없다. 실제 공식 결과가격 생산은 이 키 하나가 있어야 열린다.',
@@ -56,6 +62,19 @@ OWNER_ACTION_AUTH = {
         '4) Actions 탭에서 price-proof 워크플로를 dispatch (기본값 그대로). 첫 실행의 Step Summary 에서 응답 구조 확인·생산 건수를 본다',
     ],
     'limits': '무료 · 인증키당 일 10,000회. 이 생산자는 날짜당 2요청(유가증권·코스닥)만 쓴다.',
+}
+OWNER_ACTION_LEGAL = {
+    'code': 'KRX_LEGAL_USE_UNVERIFIED',
+    'what': 'KRX Open API 데이터의 공개 저장·상업적 이용 허용 근거가 기록되지 않았다(config/source_compliance.json). '
+            '약관상 비상업 목적만 허용되고 원자료 제3자 재배포가 제한되는데, 이 사이트는 광고가 붙은 공개 저장소다. '
+            '허용 근거가 기록될 때까지 생산자는 네트워크 요청 0·원자료 저장 0 으로 닫힌다(FAIL CLOSED).',
+    'how': [
+        '1) https://openapi.krx.co.kr/contents/OPP/INFO/OPPINFO002.jsp 약관 원문을 읽고 (a) 광고 게재 사이트에서의 이용이 비상업 범위인지 '
+        '(b) 파생 채점값(적중·수익률) 공개 가능 여부 (c) 원자료를 공개 저장소에 두지 않는 보관 방식 을 KRX 에 서면 확인한다',
+        '2) 확인 결과를 docs/legal/SOURCE_COMPLIANCE_MATRIX.md 에 날짜·URL 과 함께 기록한다',
+        '3) 그 뒤에만 config/source_compliance.json providers.krx_openapi.gates 를 사람이 바꾼다 — 코드가 스스로 열지 않는다',
+    ],
+    'limits': '허용을 추측하지 않는다. "파생값이니까 괜찮다"·"광고는 데이터 판매가 아니다"로 해석하지 않는다.',
 }
 OWNER_ACTION_SERVICE = {
     'code': 'KRX_OPENAPI_SERVICE_REJECTED',
@@ -223,7 +242,7 @@ def self_check(record, proof, dart, kind, now):
 
 
 def produce(root, repo, now, key, record_cap=DEFAULT_RECORD_CAP, request_cap=DEFAULT_REQUEST_CAP,
-            fetch=None):
+            fetch=None, legal=None):
     """계획 → 원문 확보(재사용 우선) → 증명 조립 → 자기검사 → 저장. 상태 dict 를 돌려준다."""
     fetch = fetch or krx.fetch_daily
     planned, by_id = make_plan(root, repo, now)
@@ -242,6 +261,19 @@ def produce(root, repo, now, key, record_cap=DEFAULT_RECORD_CAP, request_cap=DEF
               'producedProofs': [], 'blockedRecords': []}
     todo = ready[:record_cap]
     status['run']['notProcessed'] = len(ready) - len(todo)
+    # ⚖️ 준법 게이트가 먼저다(2026-09-16 LEGAL GATE). 인증키가 있어도 공개 저장·상업 이용 허용 근거가
+    #    기록되지 않았으면 KRX 에 요청하지 않고, 원자료를 쓰지 않고, 소유자 조치로 남긴다. 키 없음도 함께 알린다.
+    legal = legal or legal_gate()
+    status['legal'] = {'provider': legal['provider'], 'verdict': legal['verdict'], 'state': legal['state'],
+                       'commercialState': legal['commercialState'], 'gates': legal['gates'],
+                       'reviewedAt': legal.get('reviewedAt')}
+    if not (legal['publicRawStorageAllowed'] and legal['automatedCollectionAllowed']):
+        status['ownerActionRequired'].append(OWNER_ACTION_LEGAL)
+        if not key:
+            status['ownerActionRequired'].append(OWNER_ACTION_AUTH)
+        for item in todo:
+            _block(status, item, 'legal_use_unverified')
+        return status, planned
     if not key:
         # 오늘 증명할 판단이 없어도 키 없음은 그대로 알린다 — 키 발급·서비스 승인에는 시간이 걸리고,
         # 첫 결과일(판단 뒤 5거래일)에 키가 없으면 그날 채점이 통째로 밀린다(2026-09-16 실측:
@@ -270,7 +302,7 @@ def produce(root, repo, now, key, record_cap=DEFAULT_RECORD_CAP, request_cap=DEF
             status['run']['requestsUsed'] += 1
             record = fetch(dataset_id, bas_dd, key, observed_at=now)
             if record.get('structureVerified'):
-                krx.save_source(record, root)
+                krx.save_source(record, root, allow_public_raw=legal['publicRawStorageAllowed'])
                 sources[(dataset_id, bas_dd)] = record
                 status['run']['rawResponsesFetched'] += 1
                 continue
@@ -333,7 +365,8 @@ def summary_line(status):
                        'notProcessed': run['notProcessed'], 'requestsUsed': run['requestsUsed'],
                        'rawFetched': run['rawResponsesFetched'], 'rawReused': run['rawResponsesReused'],
                        'planCounts': status['plan']['counts'],
-                       'ownerActionRequired': [a['code'] for a in status['ownerActionRequired']]},
+                       'ownerActionRequired': [a['code'] for a in status['ownerActionRequired']],
+                       'legal': (status.get('legal') or {}).get('state')},
                       ensure_ascii=False)
 
 

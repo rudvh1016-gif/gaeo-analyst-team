@@ -63,6 +63,7 @@ var GaeoInsightRailCore=(function(){
   const desktop=window.matchMedia('(min-width: 1280px)');
   const tabs=['top30','changes','rotation','news','live','recent'];
   const titles={top30:'상위 30',changes:'오늘의 변화',rotation:'순환',news:'뉴스',live:'실시간',recent:'최근 본'};
+  // 아이콘 path 일부는 Lucide(ISC) · Feather(MIT) 아이콘 세트와 같다 — 저작권·라이선스 고지는 THIRD_PARTY_NOTICES.md 참조(2026-09-16).
   const icons={
     top30:'<path d="M5 19V9m7 10V5m7 14v-7M3 19h18"/>',
     changes:'<path d="M4 17 9 12l4 3 7-8M15 7h5v5"/>',

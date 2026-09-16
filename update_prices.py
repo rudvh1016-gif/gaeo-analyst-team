@@ -268,7 +268,8 @@ def main(here=None):
             'cap': cap_str(s['marketSum']), 'w52': w52 or prev.get('w52') or '—',
             'stale': False,
         }
-        print(f"[OK] {name}({code}) {s['now']:,}원 {s['rate']:+.2f}%")
+        # ⚖️ 2026-09-16: 종목별 시세를 공개 Actions 로그에 600줄씩 찍지 않는다(네이버 응답값의 공개 재배포 경로 축소).
+        #    실패·경고는 그대로 찍고, 성공은 사이클 끝에 건수로만 요약한다.
         return (code, row, True, None,
                 price_provenance.observe(s['now'], s, price_received_at, detail_ok))
 
@@ -288,6 +289,8 @@ def main(here=None):
                 fresh += 1
             if stale_name:
                 stale_names.append(stale_name)
+
+    print(f'[OK] 시세 수집 요약 — 신규 {fresh}건 · 이전 값 재사용 {len(stale_names)}건 · 전체 {len(codes)}종목')
 
     # tickers.js 원래 순서를 보존해 data.js diff를 안정적으로 유지
     for code, name in codes.items():

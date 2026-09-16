@@ -91,6 +91,8 @@ GAEO의 목적은 **매일 내리는 600종목 판단이 실제로 도움이 됐
 
 ## ⭐ 콘텐츠 발행 철칙 (카테고리 `cat` · 스냅샷 4종 실행 · 제목 길이)
 
+> ⚖️ **저작권·인용 규칙(2026-09-16 신설, 모든 공개 콘텐츠)**: 기사 본문 저장·복제 금지 · 제3자 인용은 2문장/100자 이내 + 화자 표기 · 기사 이미지·로고 금지 · 유료기사 우회 금지 · `sources` 는 매체명·URL·발행일만(제목·본문 대량 DB 금지) · "백 퍼센트 합법" 류 단정 문구 금지. 상세: `docs/rules/CONTENT_PUBLISHING_RULES.md` 「저작권·인용」. 외부 데이터 출처(네이버·KRX·KIND·DART·Toss)의 이용 허용 상태와 게이트는 `docs/legal/SOURCE_COMPLIANCE_MATRIX.md` + `config/source_compliance.json` — **새 hostname·새 네이버 endpoint·호출 빈도 증가·UA 위장 확대는 `legal_source_gate.py` 가 막는다.** 허용 근거 없는 출처는 `PERMISSION_NOT_VERIFIED` 로 두고 확대하지 않는다.
+
 → `docs/rules/CONTENT_PUBLISHING_RULES.md` 로 옮겼다(2026-09-10, 원문 그대로). 뉴스분석·종목공부·주식공부·부동산공부·계산기 글을 추가·수정할 때 **반드시** 읽는다.
 
 ## 데이터 파이프라인 (GitHub Actions 러너 2개) — 건드리지 말고 이해만 할 것

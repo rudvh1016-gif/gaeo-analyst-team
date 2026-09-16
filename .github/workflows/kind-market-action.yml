@@ -46,6 +46,8 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: 준법 게이트 — KIND 자동수집 허용 근거가 기록되기 전까지 닫힘 (2026-09-16 LEGAL GATE)
+        run: python3 legal_source_gate.py --require kind:automatedCollection
       - name: 오프라인 불변식 시험 (실패가 0건으로 바뀌지 않는지)
         run: |
           python3 -m unittest test_kind_result_reader test_kind_market_action_classify test_kind_market_action_collect

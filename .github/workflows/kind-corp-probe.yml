@@ -29,5 +29,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: 준법 게이트 — KIND 자동수집 허용 근거가 기록되기 전까지 닫힘 (2026-09-16 LEGAL GATE)
+        run: python3 legal_source_gate.py --require kind:automatedCollection
       - name: KIND 종목 식별값과 종목별 조회를 확인
         run: python3 kind_corp_probe.py

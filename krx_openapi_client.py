@@ -290,7 +290,7 @@ def _source_stem(dataset_id, bas_dd, body_hash):
     return DATASETS[dataset_id]['path'].replace('/', '-') + '_' + bas_dd + '_' + body_hash
 
 
-def save_source(record, root):
+def save_source(record, root, allow_public_raw=None):
     """구조가 확인된 원문 응답을 research_archive/decisions/price_sources/ 에 보존한다.
 
     같은 원문은 같은 파일이다(재시도 안전). 같은 (데이터셋, 기준일) 인데 원문이 다르면 둘 다 남는다 —
@@ -298,6 +298,14 @@ def save_source(record, root):
     """
     if not record.get('structureVerified') or record.get('sampleEndpoint'):
         raise ContractError('only structure-verified real responses are preserved')
+    # ⚖️ 2026-09-16 LEGAL GATE — 이 폴더는 public 저장소(main·Pages·raw URL)다. KRX 약관은 원자료의 제3자 제공을
+    #    제한하므로, config/source_compliance.json 에 공개 저장 허용이 기록되기 전에는 원문을 디스크에 쓰지 않는다.
+    if allow_public_raw is None:
+        import source_compliance
+        allow_public_raw = source_compliance.gate('krx_openapi')['publicRawStorageAllowed']
+    if not allow_public_raw:
+        raise ContractError('LEGAL_USE_UNVERIFIED: KRX raw response public storage is not cleared '
+                            '(config/source_compliance.json providers.krx_openapi.gates.publicRawStorage)')
     body_hash = _hash(record['body'])
     if record.get('responseRef') != 'sha256:' + body_hash:
         raise ContractError('response reference does not match body')

@@ -26,6 +26,7 @@ import collect_price_proof as producer
 import comparison_evidence as ce
 import decision_records as dr
 import krx_openapi_client as krx
+import source_compliance as compliance
 import price_proof_planner as planner
 import price_provenance as pp
 from test_comparison_evidence import add_event, event, sources
@@ -95,6 +96,11 @@ class Fixture(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.repo = self.tmp.name
+        # ⚖️ 2026-09-16 LEGAL GATE — 운영 기본값은 닫힘이다. 이 픽스처는 생산자 기계장치를 검사하므로
+        #    시험용 게이트를 **명시적으로** 열어 둔다. 닫힘 기본값 자체는 LegalGateFailClosed 가 검사한다.
+        gate_patch = patch.object(producer, 'legal_gate', lambda: compliance.cleared_gate('krx_openapi'))
+        gate_patch.start()
+        self.addCleanup(gate_patch.stop)
         self.root = os.path.join(self.repo, 'research_archive', 'decisions')
         os.makedirs(os.path.join(self.repo, 'gaeo_coverage'))
         with open(os.path.join(self.repo, 'price_history.js'), 'w', encoding='utf-8') as fh:
@@ -619,3 +625,72 @@ class KeyMissingIsAlwaysReported(Fixture):
         status, planned, fake = self.produce()
         self.assertEqual(status['ownerActionRequired'], [])
         self.assertEqual(len(fake.calls), 0)
+
+
+class LegalGateFailClosed(Fixture):
+    """2026-09-16 LEGAL / COPYRIGHT GATE — KRX 약관(비상업·원자료 제3자 제공 제한)과 광고가 붙은 공개 저장소.
+    허용 근거가 config/source_compliance.json 에 기록되기 전에는 인증키가 있어도 요청 0 · 원자료 0 · 소유자 조치."""
+
+    def real_gate(self):
+        return compliance.gate('krx_openapi')
+
+    def test_운영_설정의_KRX_게이트는_닫혀_있다(self):
+        gate = self.real_gate()
+        self.assertFalse(gate['publicRawStorageAllowed'])
+        self.assertFalse(gate['commercialCleared'])
+        self.assertEqual(gate['state'], compliance.STATE_UNVERIFIED)
+        self.assertEqual(gate['commercialState'], compliance.COMMERCIAL_NOT_CLEARED)
+        self.assertEqual(gate['gates']['publicRawStorage'], 'PROHIBITED')
+        self.assertEqual(gate['gates']['commercialUse'], 'PROHIBITED')
+
+    def test_키가_있어도_게이트가_닫혔으면_요청_0_원자료_0_소유자조치(self):
+        self.seal(); self.bundles()
+        status, planned, fake = self.produce(legal=self.real_gate())
+        self.assertEqual(planned['counts'][planner.READY_FOR_PRICE_PROOF], 1)
+        self.assertEqual(len(fake.calls), 0)                       # KRX 에 한 번도 묻지 않는다
+        self.assertEqual(status['run']['blocked'], {'legal_use_unverified': 1})
+        self.assertEqual([a['code'] for a in status['ownerActionRequired']], ['KRX_LEGAL_USE_UNVERIFIED'])
+        self.assertEqual(status['legal']['state'], 'LEGAL_USE_UNVERIFIED')
+        self.assertEqual(status['legal']['commercialState'], 'COMMERCIAL_USE_NOT_CLEARED')
+        self.assertEqual(self.proofs(), [])
+        self.assertFalse(os.path.exists(os.path.join(self.root, 'price_sources')))
+        self.assertIn('LEGAL_USE_UNVERIFIED', producer.summary_line(status))
+
+    def test_키도_없으면_법적_게이트와_키_없음을_둘_다_알린다(self):
+        self.seal(); self.bundles()
+        status, planned, fake = self.produce(key=None, legal=self.real_gate())
+        self.assertEqual([a['code'] for a in status['ownerActionRequired']],
+                         ['KRX_LEGAL_USE_UNVERIFIED', 'KRX_OPENAPI_AUTH_KEY_MISSING'])
+        self.assertEqual(len(fake.calls), 0)
+
+    def test_main_은_기본_게이트로_돌면_종료코드_2다(self):
+        self.seal(); self.bundles()
+        out = io.StringIO()
+        with patch.object(producer, 'legal_gate', self.real_gate), \
+                patch.dict(os.environ, {krx.KEY_ENV: 'not-a-real-key'}), \
+                patch.object(krx, 'http_get', FakeKrx(official_responses())), \
+                contextlib.redirect_stdout(out):
+            code = producer.main(['--repo', self.repo, '--now', NOW])
+        self.assertEqual(code, 2)
+        self.assertIn('KRX_LEGAL_USE_UNVERIFIED', out.getvalue())
+        status = json.load(open(os.path.join(self.repo, producer.STATUS_FILE), encoding='utf-8'))
+        self.assertEqual(status['legal']['state'], 'LEGAL_USE_UNVERIFIED')
+        self.assertEqual(status['producedProofs'], [])
+
+    def test_save_source_는_게이트_없이_원문을_디스크에_쓰지_않는다(self):
+        fake = FakeKrx(official_responses())
+        with patch.object(krx, 'http_get', fake):
+            rec = krx.fetch_daily(STK, '20260910', KEY, observed_at=NOW)
+        self.assertTrue(rec.get('structureVerified'))
+        with self.assertRaises(krx.ContractError) as ctx:
+            krx.save_source(rec, self.root)                       # allow_public_raw=None → 운영 설정을 읽는다 → 닫힘
+        self.assertIn('LEGAL_USE_UNVERIFIED', str(ctx.exception))
+        self.assertFalse(os.path.exists(os.path.join(self.root, 'price_sources')))
+        with self.assertRaises(krx.ContractError):
+            krx.save_source(rec, self.root, allow_public_raw=False)
+        path, created = krx.save_source(rec, self.root, allow_public_raw=True)   # 시험이 명시적으로 열 때만
+        self.assertTrue(created and os.path.exists(path))
+
+    def test_시험용_cleared_gate_는_testOnly_표시가_있다(self):
+        self.assertTrue(compliance.cleared_gate('krx_openapi')['testOnly'])
+        self.assertNotIn('testOnly', self.real_gate())
