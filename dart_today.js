@@ -1,12 +1,48 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 09:35",
- "priceLabel": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
+ "generatedAt": "2026-09-16 09:58",
+ "priceLabel": "2026-09-16 09:49 장중 · ⚠️ 1종목 지연",
  "count": 262,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T00:57:18.409591+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000073"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T00:57:18.409591+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000081"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T00:57:18.409591+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000071"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T00:57:18.409591+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000078"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -581,15 +617,6 @@ const DART_TODAY = {
    "receiptDate": "20260915",
    "detectedAt": "2026-09-15T06:02:01.206646+00:00",
    "isCorrection": false,
-   "rceptNo": "20260915000215"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T06:02:01.206646+00:00",
-   "isCorrection": false,
    "rceptNo": "20260915000232"
   },
   {
@@ -672,15 +699,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T05:02:08.316942+00:00",
    "isCorrection": false,
    "rceptNo": "20260915000174"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T05:02:08.316942+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000162"
   },
   {
    "code": "006800",
@@ -771,15 +789,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800321"
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000051"
   },
   {
    "code": "003850",
@@ -1329,15 +1338,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T00:17:17.244994+00:00",
    "isCorrection": false,
    "rceptNo": "20260914800202"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260914",
-   "detectedAt": "2026-09-15T00:17:17.244994+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260914000334"
   },
   {
    "code": "098460",
