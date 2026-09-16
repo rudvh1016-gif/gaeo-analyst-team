@@ -188,11 +188,7 @@ jobs:
                 fi
               fi
             fi
-            # 상호 감시: 짝꿍 분석 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
-            if [ -n "$IS_MAIN" ] && ! alive update-analysis.yml; then
-              echo "update-analysis 미가동 감지 — 소생 dispatch"
-              dispatch update-analysis.yml || true
-            fi
+            revive_partner update-analysis.yml   # 상호 감시(사이클 끝) — gaeo-chain.sh
             now=$(date +%s)
             if [ "$now" -ge "$limit" ]; then
               echo "마감/6시간 상한 도달 — 루프 종료 후 체인 재기동"

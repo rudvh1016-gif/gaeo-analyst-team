@@ -314,8 +314,12 @@ class Linking(unittest.TestCase):
     # 10) 수신시각이 판단시각보다 뒤인 부적격 연결
     def test_10_판단보다_나중에_받은_가격은_그_판단의_근거가_될_수_없다(self):
         늦은회차 = copy.deepcopy(self.doc)
-        늦은회차['stocks']['005930']['receivedAt'] = '2026-09-15T23:59:00+00:00'
         payload = auto_payload(늦은회차, {'005930': 71000})
+        # 수신시각을 **판단시각 기준으로** 1시간 뒤에 둔다. (2026-09-16 정정: 고정 문자열
+        # '2026-09-15T23:59Z' 를 썼다가 다음 날 아침엔 그 시각이 과거가 돼 시험이 스스로 깨졌다.)
+        decided = dr._moment(payload['generatedAt'])
+        늦은회차['stocks']['005930']['receivedAt'] = (decided + dt.timedelta(hours=1)) \
+            .astimezone(dt.timezone.utc).isoformat(timespec='seconds')
         record = dr.make_record('005930', payload['stocks']['005930'], payload,
                                 pp.now_utc(), provenance=늦은회차)
         self.assertIsNone(record['priceObservedAt'])

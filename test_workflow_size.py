@@ -29,6 +29,7 @@ GitHub은 `run:` 블록 하나를 **UTF-8 21,000바이트**로 제한한다. 한
 큰 블록에 뭔가를 더하려는 사람이 미리 알 수 있게 한다.
 """
 import os
+import subprocess
 import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -419,3 +420,68 @@ class CollectorsNeverRunOnFeatureBranches(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class PartnerRevival(unittest.TestCase):
+    """짝꿍 소생(2026-09-16) — 사이클 끝에서만 살리던 것을 시작에서도 살린다.
+
+    실측: 시세 수집기 run 이 08:06 에 외부 취소된 뒤 09:36 까지 아무도 살리지 않아 첫 판단(09:35)이
+    전날 종가를 봤다. 소생 논리는 gaeo-chain.sh 의 함수 하나로 두고 두 워크플로가 부른다.
+    """
+    CHAIN = os.path.join(HERE, ".github", "scripts", "gaeo-chain.sh")
+    ANALYSIS = os.path.join(HERE, ".github", "workflows", "update-analysis.yml")
+    PRICES = os.path.join(HERE, ".github", "workflows", "update-prices.yml")
+
+    def test_revive_partner가_공용_스크립트에_있다(self):
+        text = open(self.CHAIN, encoding="utf-8").read()
+        self.assertIn("revive_partner() {", text)
+
+    def test_분석_워크플로는_사이클_시작과_끝에서_시세를_살린다(self):
+        text = open(self.ANALYSIS, encoding="utf-8").read()
+        calls = [i for i, line in enumerate(text.splitlines()) if "revive_partner update-prices.yml" in line]
+        self.assertEqual(len(calls), 2, "시작·끝 두 곳에서 불러야 한다")
+        lines = text.splitlines()
+        first_sync = next(i for i, line in enumerate(lines) if line.strip().startswith("sync_inputs"))
+        self.assertLess(calls[0], first_sync, "첫 소생 호출이 입력 동기화보다 앞(사이클 시작)에 있어야 한다")
+        self.assertNotIn("! alive update-prices.yml", text, "옛 인라인 소생 블록이 남아 있다")
+
+    def test_시세_워크플로도_같은_함수로_분석을_살린다(self):
+        text = open(self.PRICES, encoding="utf-8").read()
+        self.assertIn("revive_partner update-analysis.yml", text)
+        self.assertNotIn("! alive update-analysis.yml", text)
+
+    def _run(self, is_main, alive_rc):
+        script = (f'. "{self.CHAIN}"\n'
+                  f'alive() {{ return {alive_rc}; }}\n'
+                  'dispatch() { echo "DISPATCH $1"; }\n'
+                  f'IS_MAIN="{is_main}"\n'
+                  'revive_partner x.yml; echo "rc=$?"\n')
+        return subprocess.run(["bash", "-c", script], capture_output=True, text=True, timeout=30).stdout
+
+    def test_죽어_있으면_dispatch하고_살아_있으면_하지_않는다(self):
+        self.assertIn("DISPATCH x.yml", self._run("1", 1))
+        self.assertNotIn("DISPATCH", self._run("1", 0))
+
+    def test_main_아니면_아무것도_하지_않는다(self):
+        out = self._run("", 1)
+        self.assertNotIn("DISPATCH", out)
+        self.assertIn("rc=0", out)
+
+
+class DueOnlyEvidenceCollection(unittest.TestCase):
+    """기업행사 수집 워크플로의 채점 대상 중심 모드 — planner 목록을 수집기 --tickers-file 로 넘긴다."""
+    FILES = ("corporate-action-evidence.yml", "kind-market-action.yml")
+
+    def test_두_워크플로에_due_only_입력과_배선이_있다(self):
+        for name in self.FILES:
+            text = open(os.path.join(HERE, ".github", "workflows", name), encoding="utf-8").read()
+            self.assertIn("due_only:", text, name)
+            self.assertIn("--plan-only --due-tickers-out", text, name)
+            self.assertIn("--tickers-file", text, name)
+            self.assertIn("$TARGET_ARGS", text, name)
+            self.assertNotIn("schedule:", text, name + " 에 새 예약이 생겼다 — 이번 범위 밖")
+
+    def test_기본값은_전체_순회_그대로다(self):
+        for name in self.FILES:
+            text = open(os.path.join(HERE, ".github", "workflows", name), encoding="utf-8").read()
+            self.assertRegex(text, r"due_only:\n\s+description:[^\n]*\n\s+type: boolean\n\s+default: false")

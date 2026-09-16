@@ -50,7 +50,9 @@
 - **자료**: KRX 정보데이터시스템 OPEN API(포털 `openapi.krx.co.kr`) 「주식」 카테고리 **유가증권 일별매매정보 `sto/stk_bydd_trd`** · **코스닥 일별매매정보 `sto/ksq_bydd_trd`**. 기준일자(`basDd`) 하나에 그 날 전 종목 매매기록 → 날짜당 2요청으로 600종목을 덮는다. 무료 · 인증키당 일 10,000회.
 - **호출 계약**(요청 `GET https://data-dbg.krx.co.kr/svc/apis/<경로>.json?basDd=YYYYMMDD` + 헤더 `AUTH_KEY` · 성공 200 `{"OutBlock_1":[…]}` · 실패 200 + `respCode/respMsg`(401 = 키 거부/서비스 미승인) · 429 = 한도 · 403 = 잘못된 키/주소 · 값은 쉼표 문자열 · 필드 `BAS_DD ISU_CD ISU_NM MKT_NM SECT_TP_NM TDD_CLSPRC CMPPREVDD_PRC FLUC_RT TDD_OPNPRC TDD_HGPRC TDD_LWPRC ACC_TRDVOL ACC_TRDVAL MKTCAP LIST_SHRS`)은 이 세션에서 포털에 닿지 않아(프록시 403) **실제 API 를 호출해 검증한 독립 오픈소스 두 개의 소스코드**(github.com/seokhoonj/krx-openapi `_endpoint.py`·`session.py`·`catalog.py`, github.com/kyo504/krx-cli `client.ts`·`response-fields.ts`·`krx-number.ts`)에서 교차 확인했다. 둘이 일치했다.
 - **그래서 코드는 응답이 올 때마다 구조를 다시 대조한다**(`verify_structure`: 필드 15개 전부, 행마다 `BAS_DD == basDd`). 하나라도 어긋나면 `RESPONSE_SHAPE_UNEXPECTED` 로 보존도 증명도 하지 않는다. 워크플로의 표본 스텝(`--smoke`, KRX 공개 표본 키·고정 날짜 20200414)이 러너에서 실제 구조를 Step Summary 에 남긴다 — 표본 값은 증명에 절대 쓰지 않는다(`save_source` 가 거부).
-- **확인 불가로 남긴 것**: 러너(GitHub Actions, 해외 IP)에서 `data-dbg.krx.co.kr` 에 닿는지. 첫 dispatch 의 smoke 스텝이 답한다.
+- ~~**확인 불가로 남긴 것**: 러너(GitHub Actions, 해외 IP)에서 `data-dbg.krx.co.kr` 에 닿는지. 첫 dispatch 의 smoke 스텝이 답한다.~~
+  → **2026-09-16 01:04Z 첫 dispatch(run `35042575105`)에서 확정**: 표본 엔드포인트 두 개 모두 HTTP 200 · 10행 · `missingFields: []` ·
+  `allVerified: true`. 러너는 KRX 에 닿고, 응답 구조는 §3 의 계약과 같다.
 - **쓰지 않은 것**: `data.krx.co.kr` 화면 스크래핑(로그인·이용조건·해외 IP 차단 이슈), 네이버 값에 KRX 이름 붙이기.
 
 ## 4. 가격 기준과 판단 당시 가격 — 근거 없이는 만들지 않는다
@@ -75,6 +77,14 @@
 
 ## 8. OWNER_ACTION_REQUIRED — 하나
 
+**2026-09-16 실측(PHASE 5)**: 첫 dispatch 의 상태 파일(`gaeo_coverage/price_proof_status.json`, 커밋 `d4642dea69`)에
+`auth.present: false` — Secret 이 **없다**. 계획은 MISSING_PROVENANCE 1,801 · WAITING_MATURITY 599 · READY 0
+(9/16 판단의 결과일은 9/23 종가 → **9/24 부터 READY**). 그날 키가 없으면 첫 채점이 통째로 밀린다.
+
+⚠️ 그 실측에서 결함 하나: READY 가 0 이라 생산자가 키를 확인하기 전에 돌아가 `ownerActionRequired` 가 **비어 있었다**
+(종료코드 0 · 아래 문단의 "종료코드 2" 와 어긋남). 키 발급·서비스 승인에는 시간이 걸리므로 **증명할 판단이 없어도
+키가 없으면 항상 `KRX_OPENAPI_AUTH_KEY_MISSING` 을 남기고 종료코드 2** 로 바꿨다(`test_price_proof_producer.KeyMissingIsAlwaysReported`).
+
 `KRX_OPENAPI_AUTH_KEY` (GitHub Actions Secret). 절차: ① openapi.krx.co.kr 회원가입 → 인증키 발급 신청(승인) ② 「주식」 유가증권·코스닥 일별매매정보 서비스 이용신청·승인 ③ Settings → Secrets → `KRX_OPENAPI_AUTH_KEY` ④ Actions → `price-proof` dispatch. 키 없이 dispatch 하면 상태 파일에 `KRX_OPENAPI_AUTH_KEY_MISSING` 이 남고 종료코드 2(경고)로 끝난다 — 가짜로 우회하지 않는다.
 
 ## 9. OWNER_REVIEW_REQUIRED — 정책 제안(이번에 바꾸지 않음)
@@ -83,10 +93,41 @@
 2. 증명 원장 크기: 하루 600건 × ~5KB. 월 분할/gzip 저장은 소비자(`load_price_proofs`·`ops_status`) 변경이 필요하다.
 3. 기업행사 증거 갱신 주기(TTL 20h vs 수동 dispatch)는 PHASE 2 에서 이미 지적된 그대로다. 가격증명이 있어도 이것이 막으면 `BLOCKED_CORPORATE_EVIDENCE` 다.
 
-## 10. 확인 명령
+## 10. 기업행사 증거를 「채점 대상 중심」으로 (PHASE 5, 2026-09-16)
+
+가격증명이 생겨도 `assess()` 는 DART·KIND 증거가 **유효(TTL 20h)** 해야 `comparable` 을 낸다. 실측: 두 증거 모두 9/12 04:08Z
+이후 갱신이 없어 **유효 0**(DART 120·KIND 80 종목 전부 만료). 기존 수집기는 커서 순회 40종목/회차라 600종목을 유지하려면
+하루 15회가 필요하고, 예약은 없다.
+
+채점에 필요한 것은 **지금 채점 후보인 종목**(결과일 도달 + 출처 있음 + 미채점)만이다. 그래서:
+
+| 구성 | 내용 |
+|---|---|
+| `price_proof_planner.due_tickers(planned)` | `READY_FOR_PRICE_PROOF · PROOF_SAVED_AWAITING_GRADING · BLOCKED_CORPORATE_EVIDENCE · BLOCKED_PRICE_EVIDENCE` 상태의 종목코드(정렬·중복 제거). 비어 있으면 비어 있는 대로 |
+| `collect_price_proof.py --plan-only --due-tickers-out <파일>` | 네트워크 0. 위 목록을 한 줄에 하나씩 쓴다(후보 0 이면 빈 파일) |
+| `due_targets.py` (신규) | 대상 선정 규칙 하나 — 기본 커서 순회(기존 그대로) / `--tickers-file`(파일 종목 ∩ 유니버스, **커서 보존**, 빈 파일 = 0종목 처리, 전체 순회로 되돌아가지 않음) |
+| `collect_corporate_action_evidence.py` · `collect_kind_market_action.py` | `--tickers-file` 인자. 산출물에 `targetMode · targetRequested · notInUniverse` 를 **덧붙인다**(기존 필드 뜻 불변 — Private 도 읽는 공용 출력) |
+| `corporate-action-evidence.yml` · `kind-market-action.yml` | 입력 `due_only`(기본 false). true 면 planner 목록을 `$RUNNER_TEMP` 에 쓰고 `--tickers-file` 로 넘긴다. **schedule 없음** |
+
+한 번 실행 흐름(수동 3 dispatch): ① `price-proof`(계획 → 증명) ② `corporate-action-evidence` `due_only=true` ③ `kind-market-action` `due_only=true`
+→ 다음 분석 사이클의 `decision_records.refresh()` 가 채점한다. 9/24 첫 결과일 기준 후보는 최대 599종목이라 첫날은 사실상 전체
+유니버스와 같다 — 이 모드의 이득은 **그 뒤**(판단 보류·비거래일·출처 없음으로 빠지는 종목 제외, 커서와 무관하게 필요한 것만) 와
+"어느 종목을 왜 긁었나"가 산출물에 남는 것이다.
+
+### 한 워크플로로 묶기 — 검토만 (구현 안 함)
+
+`price-proof.yml` 안에서 계획 → DART/KIND `due_only` 수집 → 증명까지 한 번에 도는 것은 가능해 보이지만 이번에는 넣지 않았다:
+(a) `OPEN_DART_API_KEY` 를 price-proof 잡에도 노출해야 한다(비밀 범위 확대) (b) KIND 는 0.4초 간격 스크래핑 · 40페이지 상한이라
+600종목이면 수 분~수십 분 — 20분 `timeout-minutes` 를 다시 재야 한다 (c) 요청 예산: DART 실측 1.2요청/종목(49/40) → 600종목 ≈ 720요청
+(일 한도 20,000 안) · KIND 1.1요청/종목(44/40) → ≈ 660요청 · KRX 날짜당 2 → 6거래일 12요청. 셋 다 한도 안이지만 **한 잡 20분**이 병목이다.
+새 schedule 도 만들지 않았다 — 필요 횟수는 결과일이 있는 날 하루 1회(3 dispatch)이고, Actions 무료 분(월 2,000분) 계산 뒤 소유자 결정.
+
+## 11. 확인 명령
 
 ```bash
 python3 -m unittest test_price_proof_producer -q            # 35건
 python3 collect_price_proof.py --plan-only                  # 네트워크 0 · 계획 집계
+python3 collect_price_proof.py --plan-only --due-tickers-out /tmp/due.txt   # 채점 후보 종목 목록(기업행사 수집기 입력)
+python3 collect_corporate_action_evidence.py --tickers-file /tmp/due.txt --tickers 600   # 채점 후보만(커서 보존)
 python3 gaeo_check.py investment-contract                   # 원장·비교·성적표 계약
 ```

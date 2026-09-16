@@ -559,3 +559,63 @@ class WorkflowAndWiring(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class DueTargets(Fixture):
+    """채점 후보 목록(2026-09-16) — 기업행사 수집기가 '지금 채점 후보'만 갱신할 수 있게 planner 가 종목을 고른다."""
+
+    def test_결과일이_지나고_출처가_있는_판단만_후보다(self):
+        self.seal(); self.bundles()
+        planned, _ = producer.make_plan(self.root, self.repo, NOW)
+        self.assertEqual(planned['counts'][planner.READY_FOR_PRICE_PROOF], 1)
+        self.assertEqual(planner.due_tickers(planned), [CODE])
+
+    def test_결과일_전이거나_출처가_없으면_후보가_아니다(self):
+        self.seal(with_provenance=False)                       # 출처 없음 → MISSING_PROVENANCE
+        planned, _ = producer.make_plan(self.root, self.repo, NOW)
+        self.assertEqual(planned['counts'][planner.MISSING_PROVENANCE], 1)
+        self.assertEqual(planner.due_tickers(planned), [])
+
+    def test_plan_only가_후보_파일을_쓴다(self):
+        self.seal(); self.bundles()
+        out = os.path.join(self.repo, 'due', 'due_tickers.txt')
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = producer.main(['--repo', self.repo, '--now', NOW, '--plan-only', '--due-tickers-out', out])
+        self.assertEqual(code, 0)
+        lines = [l for l in open(out, encoding='utf-8').read().splitlines() if l and not l.startswith('#')]
+        self.assertEqual(lines, [CODE])
+        self.assertEqual(json.loads(buf.getvalue().strip().splitlines()[-1])['dueTickers'], 1)
+        import due_targets
+        self.assertEqual(due_targets.read_tickers_file(out), [CODE])   # 수집기가 그대로 읽을 수 있다
+
+    def test_후보가_없어도_빈_파일을_쓴다(self):
+        out = os.path.join(self.repo, 'due_tickers.txt')
+        with contextlib.redirect_stdout(io.StringIO()):
+            producer.main(['--repo', self.repo, '--now', NOW, '--plan-only', '--due-tickers-out', out])
+        import due_targets
+        self.assertTrue(os.path.exists(out))
+        self.assertEqual(due_targets.read_tickers_file(out), [])
+
+
+class KeyMissingIsAlwaysReported(Fixture):
+    """2026-09-16 첫 dispatch 실측: READY 0 이라 ownerActionRequired 가 비어 있었다 — 문서(종료코드 2)와 어긋났다.
+    키 발급·승인은 시간이 걸리므로 결과일 전에 알아야 한다."""
+
+    def test_증명할_판단이_없어도_키_없음은_OWNER_ACTION으로_남고_종료코드는_2다(self):
+        status, planned, fake = self.produce(key=None)           # 판단 0건
+        self.assertEqual(planned['counts'][planner.READY_FOR_PRICE_PROOF], 0)
+        self.assertEqual([a['code'] for a in status['ownerActionRequired']], ['KRX_OPENAPI_AUTH_KEY_MISSING'])
+        self.assertEqual(status['run']['attempted'], 0)
+        self.assertEqual(status['blockedRecords'], [])           # 막힌 판단은 없다 — 키만 없다
+        self.assertEqual(len(fake.calls), 0)
+        out = io.StringIO()
+        with patch.dict(os.environ, {krx.KEY_ENV: ''}), contextlib.redirect_stdout(out):
+            code = producer.main(['--repo', self.repo, '--now', NOW])
+        self.assertEqual(code, 2)
+        self.assertIn('KRX_OPENAPI_AUTH_KEY_MISSING', out.getvalue())
+
+    def test_키가_있으면_판단이_없어도_OWNER_ACTION은_없다(self):
+        status, planned, fake = self.produce()
+        self.assertEqual(status['ownerActionRequired'], [])
+        self.assertEqual(len(fake.calls), 0)
