@@ -4,36 +4,36 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "hold",
- "generatedAt": "2026-09-16 13:29",
- "dataCutoff": "2026-09-16 13:28 장중",
+ "generatedAt": "2026-09-16 13:59",
+ "dataCutoff": "2026-09-16 13:58 장중",
  "horizonDays": 20,
  "picks": [],
  "gate": {
   "indexAboveMa20": 0,
-  "breadthPct": 35.8,
+  "breadthPct": 34.0,
   "shown": 0,
   "allowed": 0,
   "sectorCap": 1,
   "sectorCount": 0,
   "detail": {
    "KOSPI": {
-    "close": 6711.34,
-    "ma20": 6808.41,
+    "close": 6695.88,
+    "ma20": 6807.64,
     "above": false,
-    "gapPct": -1.43
+    "gapPct": -1.64
    },
    "KOSDAQ": {
-    "close": 812.03,
-    "ma20": 820.13,
+    "close": 811.46,
+    "ma20": 820.11,
     "above": false,
-    "gapPct": -0.99
+    "gapPct": -1.05
    }
   }
  },
  "regime": {
   "direction": "횡보",
   "leadership": "코스피",
-  "topSector": "2차전지"
+  "topSector": "여행레저"
  },
  "record": {
   "hitRate": 52.6,
