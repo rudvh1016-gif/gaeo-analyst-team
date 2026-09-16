@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 73,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-16",
+  "title": "2026년 9월16일 종가, 코스피 나흘 연속 하락 뒤 반등, 오른 종목은 3곳 중 1곳",
+  "featured": false
+ },
+ {
   "id": 72,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-04",
   "title": "2026년 9월4일 종가, 로봇·반도체가 이끈 코스피 1.64%·코스닥 2.95% 랠리",
   "featured": false
- },
- {
-  "id": 64,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-09-03",
-  "title": "2026년 9월3일 종가, 자사주가 떠받친 코스피 0.26% 반등, 코스닥은 800 반납",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 72,
+ "news": 73,
  "study": 35,
  "lesson": 82,
  "estate": 19,
