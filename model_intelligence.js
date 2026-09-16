@@ -1,7 +1,7 @@
 // 자동 생성: compute_model_intelligence.py · 확률교정·중복보정·국면·AUDIT·그림자 평가
 // promotion.qualified가 true일 때만 analyze_auto.py가 후보 공식을 실전 승격한다.
 const MODEL_INTELLIGENCE = {
- "generatedAt": "2026-09-16 11:57",
+ "generatedAt": "2026-09-16 12:27",
  "version": "calibrated-ensemble-v3",
  "calibration": {
   "taro": {
@@ -370,10 +370,10 @@ const MODEL_INTELLIGENCE = {
    "n": 5012,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3283,
-    "diana": 0.1185,
+    "taro": 0.3286,
+    "diana": 0.1183,
     "nova": 0.2155,
-    "flow": 0.3378
+    "flow": 0.3377
    },
    "acc": {
     "taro": {
@@ -398,10 +398,10 @@ const MODEL_INTELLIGENCE = {
    "n": 6615,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2828,
-    "diana": 0.1223,
+    "taro": 0.2831,
+    "diana": 0.1221,
     "nova": 0.2842,
-    "flow": 0.3106
+    "flow": 0.3105
    },
    "acc": {
     "taro": {
@@ -426,10 +426,10 @@ const MODEL_INTELLIGENCE = {
    "n": 12441,
    "blend": 0.6,
    "weights": {
-    "taro": 0.2609,
-    "diana": 0.1433,
+    "taro": 0.2612,
+    "diana": 0.143,
     "nova": 0.2997,
-    "flow": 0.2962
+    "flow": 0.2961
    },
    "acc": {
     "taro": {
@@ -454,10 +454,10 @@ const MODEL_INTELLIGENCE = {
    "n": 5233,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3179,
-    "diana": 0.117,
+    "taro": 0.3182,
+    "diana": 0.1168,
     "nova": 0.2856,
-    "flow": 0.2795
+    "flow": 0.2794
    },
    "acc": {
     "taro": {
@@ -482,8 +482,8 @@ const MODEL_INTELLIGENCE = {
    "n": 3473,
    "blend": 0.6,
    "weights": {
-    "taro": 0.3082,
-    "diana": 0.1376,
+    "taro": 0.3085,
+    "diana": 0.1374,
     "nova": 0.2241,
     "flow": 0.33
    },
@@ -511,11 +511,11 @@ const MODEL_INTELLIGENCE = {
   "key": "down_low",
   "trend": "down",
   "vol": "low",
-  "median5": -2.25,
-  "medianAbs1": 1.36,
-  "advanceRatio5": 26.7,
-  "medianRet1": -1.08,
-  "advanceRatio1": 21.9
+  "median5": -2.08,
+  "medianAbs1": 1.19,
+  "advanceRatio5": 27.4,
+  "medianRet1": -0.75,
+  "advanceRatio1": 26.5
  },
  "holdPolicy": {
   "buyProbability": 0.62,
@@ -526,15 +526,15 @@ const MODEL_INTELLIGENCE = {
   "days": 52,
   "guardedN": 295,
   "baseline": {
-   "hit": 14639,
-   "miss": 11652,
-   "mid": 1052,
+   "hit": 14635,
+   "miss": 11654,
+   "mid": 1054,
    "accuracy": 55.7
   },
   "guarded": {
-   "hit": 14635,
-   "miss": 11671,
-   "mid": 1037,
+   "hit": 14631,
+   "miss": 11673,
+   "mid": 1039,
    "accuracy": 55.6
   },
   "active": false,
@@ -546,15 +546,15 @@ const MODEL_INTELLIGENCE = {
  },
  "audit": {
   "matured": 7781,
-  "errors": 2617,
+  "errors": 2619,
   "patterns": [
    {
     "label": "경계점수 판단",
-    "count": 2273
+    "count": 2276
    },
    {
     "label": "분석가 의견충돌",
-    "count": 1543
+    "count": 1544
    },
    {
     "label": "고변동성 국면",
@@ -562,25 +562,25 @@ const MODEL_INTELLIGENCE = {
    },
    {
     "label": "3인 이상 같은 방향 오판",
-    "count": 127
+    "count": 126
    }
   ],
   "analystErrors": {
-   "taro": 1532,
+   "taro": 1530,
    "diana": 0,
    "nova": 171,
-   "flow": 339
+   "flow": 338
   },
   "regimeErrors": {
    "down_low": 995,
-   "up_low": 730,
+   "up_low": 732,
    "side_low": 624,
    "down_high": 268
   }
  },
  "shadow": {
   "n": 7781,
-  "baselineActionN": 1942,
+  "baselineActionN": 1940,
   "baselineActionPrecision": 51.4,
   "candidateActionN": 0,
   "candidateActionPrecision": null,
@@ -597,7 +597,7 @@ const MODEL_INTELLIGENCE = {
   "candidateAllCallSuppressed": true,
   "candidateAllCallSuppressedReason": "후보가 실행 가능한 판단(BUY·SELL)을 한 건도 내지 않아, 이 값은 HOLD 판정폭(±5%)만 반영한다.",
   "brier": 0.2467,
-  "rawBrier": 0.2628
+  "rawBrier": 0.2629
  },
  "prospective": {
   "n": 4500,
@@ -736,17 +736,17 @@ const MODEL_INTELLIGENCE = {
    }
   },
   "evaluation": {
-   "n": 1942,
+   "n": 1940,
    "buyN": 441,
-   "sellN": 1501,
+   "sellN": 1499,
    "testDays": 13,
    "testRegimes": 4,
    "candidate": {
-    "n": 1942,
-    "tierSpreadPp": 2.8,
-    "corr": 0.1566,
+    "n": 1940,
+    "tierSpreadPp": 2.3,
+    "corr": 0.1544,
     "ci95": {
-     "lowPp": -9.6,
+     "lowPp": -9.7,
      "highPp": 34.8,
      "includesZero": true,
      "decisionDays": 13,
@@ -754,9 +754,9 @@ const MODEL_INTELLIGENCE = {
     }
    },
    "baseline": {
-    "n": 1942,
+    "n": 1940,
     "tierSpreadPp": 4.3,
-    "corr": 0.0417,
+    "corr": 0.0415,
     "ci95": {
      "lowPp": -3.2,
      "highPp": 13.2,
@@ -777,19 +777,19 @@ const MODEL_INTELLIGENCE = {
     "rangesOverlap": false,
     "candidateWithinBuy": {
      "n": 441,
-     "tierSpreadPp": 5.4
+     "tierSpreadPp": 6.1
     },
     "candidateWithinSell": {
-     "n": 1501,
-     "tierSpreadPp": -0.6
+     "n": 1499,
+     "tierSpreadPp": -0.8
     },
     "baselineWithinBuy": {
      "n": 441,
      "tierSpreadPp": -10.2
     },
     "baselineWithinSell": {
-     "n": 1501,
-     "tierSpreadPp": 1.8
+     "n": 1499,
+     "tierSpreadPp": 2.0
     },
     "note": "합친 표의 스프레드는 BUY·SELL 자체의 적중률 차이만으로도 커질 수 있다. 같은 방향 안에서 다시 잰 값이 진짜 판별력이다."
    }
@@ -808,15 +808,15 @@ const MODEL_INTELLIGENCE = {
   "prospective": {
    "type": "PROSPECTIVE_ARCHIVED",
    "note": "그날 미리 기록해 둔 확신도 후보값만으로 채점한다. 나중에 만든 교정표를 과거에 적용하지 않으므로 검증일이 실제로 하루씩 쌓인다.",
-   "n": 472,
+   "n": 470,
    "testDays": 3,
    "firstDay": "2026-09-07",
    "lastDay": "2026-09-09",
    "buyN": 91,
-   "sellN": 381,
-   "tierSpreadPp": 33.8,
+   "sellN": 379,
+   "tierSpreadPp": 32.7,
    "tierSpreadWithinBuyPp": 16.7,
-   "tierSpreadWithinSellPp": 17.3,
+   "tierSpreadWithinSellPp": 16.7,
    "clockStarted": true,
    "daysRemainingToGate": 37
   },
@@ -825,9 +825,9 @@ const MODEL_INTELLIGENCE = {
    "status": "shadow",
    "reasons": [
     "검증일 40거래일 미만",
-    "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 2.8pp vs 기존 4.3pp)",
-    "후보 판별력 95% 구간(-9.6~34.8pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
-    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 5.4pp · SELL -0.6pp)",
+    "후보 확신도가 기존보다 실제 적중률을 더 잘 가른다는 근거 부족(후보 2.3pp vs 기존 4.3pp)",
+    "후보 판별력 95% 구간(-9.7~34.8pp)이 0을 포함해 우연일 가능성을 배제하지 못함",
+    "같은 방향 안에서 다시 재면 판별력이 약함(BUY 6.1pp · SELL -0.8pp)",
     "사전 기록 기반 검증일 3일 / 40일 (누적 중)"
    ],
    "minimums": {

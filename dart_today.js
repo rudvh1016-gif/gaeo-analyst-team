@@ -1,12 +1,30 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 11:58",
- "priceLabel": "2026-09-16 11:53 장중 · ⚠️ 1종목 지연",
- "count": 266,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-16 12:28",
+ "priceLabel": "2026-09-16 12:15 장중 · ⚠️ 1종목 지연",
+ "count": 267,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "257720",
+   "name": "실리콘투",
+   "title": "주주총회소집공고",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T03:27:15.883349+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000173"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T03:27:15.883349+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000176"
+  },
   {
    "code": "268280",
    "name": "미원에스씨",
@@ -69,15 +87,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T01:27:26.625165+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000118"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T01:27:26.625165+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000114"
   },
   {
    "code": "030610",
