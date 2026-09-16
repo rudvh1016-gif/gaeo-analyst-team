@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 12:58",
- "priceLabel": "2026-09-16 12:49 장중 · ⚠️ 1종목 지연",
+ "generatedAt": "2026-09-16 13:28",
+ "priceLabel": "2026-09-16 13:23 장중 · ⚠️ 1종목 지연",
  "count": 267,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:27:22.498021+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000189"
+  },
   {
    "code": "257720",
    "name": "실리콘투",
@@ -303,15 +312,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T00:17:43.434759+00:00",
    "isCorrection": true,
    "rceptNo": "20260915000354"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T00:17:43.434759+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000041"
   },
   {
    "code": "023530",
