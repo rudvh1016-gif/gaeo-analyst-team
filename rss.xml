@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Tue, 15 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 16 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월16일 종가, 코스피 나흘 연속 하락 뒤 반등, 오른 종목은 3곳 중 1곳</title>
+    <link>https://gaeoteam.com/snap/news/73.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/73.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피는 90.71포인트(1.37%) 오른 6,717.97, 코스닥은 3.57포인트(0.44%) 오른 815.98로 마감했습니다. 나흘 연속 하락 뒤 첫 반등이지만 개오 600종목 중 오른 종목은 211개뿐이고 368개가 내렸습니다. 반도체와 통신장비가 지수를 들어 올린 하루를, 내일 새벽 3시 FOMC 금리 결정을 앞두고 업종별 숫자로 정리합니다.</description>
+    <pubDate>Wed, 16 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월15일 종가, 코스닥은 올랐는데 3곳 중 2곳이 내린 이유</title>
     <link>https://gaeoteam.com/snap/news/72.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/71.html</guid>
     <category>주식공부</category>
     <description>목표와 투자기간을 정하고 주식·채권·현금을 배분해, 흔들려도 유지할 수 있는 나만의 포트폴리오를 만드는 순서예요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>상장폐지 완전정복: 거래정지부터 정리매매까지</title>
-    <link>https://gaeoteam.com/snap/lesson/70.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/70.html</guid>
-    <category>주식공부</category>
-    <description>관리종목 지정, 거래정지, 상장적격성 심사, 정리매매의 차이와 보유자가 단계별로 확인할 일을 정리했어요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
