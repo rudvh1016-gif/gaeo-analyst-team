@@ -1,0 +1,26 @@
+{
+  "fixtureNote": "합성 표본(SYNTHETIC). 공공데이터포털 금융위원회_주식시세정보(15094808) getStockPriceInfo 응답의 '모양'만 흉내 낸다. 종목코드 9999xx·값은 전부 지어낸 숫자이며 실제 시세가 아니다. 실제 공급자 값은 이 저장소에 커밋하지 않는다.",
+  "response": {
+    "header": {"resultCode": "00", "resultMsg": "NORMAL SERVICE."},
+    "body": {
+      "numOfRows": 15, "pageNo": 1, "totalCount": 15,
+      "items": {"item": [
+        {"basDt": "20260910", "srtnCd": "999901", "isinCd": "KR7999901000", "itmsNm": "합성종목A", "mrktCtg": "KOSPI",  "clpr": "10000", "vs": "100",  "fltRt": "1.01",  "mkp": "9950",  "hipr": "10200", "lopr": "9900",  "trqu": "120000", "trPrc": "1200000000", "lstgStCnt": "10000000", "mrktTotAmt": "100000000000"},
+        {"basDt": "20260911", "srtnCd": "999901", "isinCd": "KR7999901000", "itmsNm": "합성종목A", "mrktCtg": "KOSPI",  "clpr": "10300", "vs": "300",  "fltRt": "3.00",  "mkp": "10050", "hipr": "10400", "lopr": "10000", "trqu": "150000", "trPrc": "1545000000", "lstgStCnt": "10000000", "mrktTotAmt": "103000000000"},
+        {"basDt": "20260914", "srtnCd": "999901", "isinCd": "KR7999901000", "itmsNm": "합성종목A", "mrktCtg": "KOSPI",  "clpr": "10100", "vs": "-200", "fltRt": "-1.94", "mkp": "10300", "hipr": "10350", "lopr": "10050", "trqu": "90000",  "trPrc": "909000000",  "lstgStCnt": "10000000", "mrktTotAmt": "101000000000"},
+        {"basDt": "20260910", "srtnCd": "999902", "isinCd": "KR7999902000", "itmsNm": "합성종목B", "mrktCtg": "KOSDAQ", "clpr": "5000",  "vs": "0",    "fltRt": "0.00",  "mkp": "5000",  "hipr": "5100",  "lopr": "4950",  "trqu": "300000", "trPrc": "1500000000", "lstgStCnt": "20000000", "mrktTotAmt": "100000000000"},
+        {"basDt": "20260911", "srtnCd": "999902", "isinCd": "KR7999902000", "itmsNm": "합성종목B", "mrktCtg": "KOSDAQ", "clpr": "4800",  "vs": "-200", "fltRt": "-4.00", "mkp": "5000",  "hipr": "5020",  "lopr": "4750",  "trqu": "420000", "trPrc": "2016000000", "lstgStCnt": "20000000", "mrktTotAmt": "96000000000"},
+        {"basDt": "20260914", "srtnCd": "999902", "isinCd": "KR7999902000", "itmsNm": "합성종목B", "mrktCtg": "KOSDAQ", "clpr": "4900",  "vs": "100",  "fltRt": "2.08",  "mkp": "4800",  "hipr": "4950",  "lopr": "4780",  "trqu": "200000", "trPrc": "980000000",  "lstgStCnt": "20000000", "mrktTotAmt": "98000000000"},
+        {"basDt": "20260910", "srtnCd": "999903", "isinCd": "KR7999903000", "itmsNm": "합성종목C", "mrktCtg": "KOSPI",  "clpr": "250000", "vs": "5000", "fltRt": "2.04", "mkp": "246000", "hipr": "251000", "lopr": "245000", "trqu": "8000", "trPrc": "2000000000", "lstgStCnt": "4000000", "mrktTotAmt": "1000000000000"},
+        {"basDt": "20260911", "srtnCd": "999903", "isinCd": "KR7999903000", "itmsNm": "합성종목C", "mrktCtg": "KOSPI",  "clpr": "248000", "vs": "-2000", "fltRt": "-0.80", "mkp": "250000", "hipr": "252000", "lopr": "247000", "trqu": "6000", "trPrc": "1488000000", "lstgStCnt": "4000000", "mrktTotAmt": "992000000000"},
+        {"basDt": "20260914", "srtnCd": "999903", "isinCd": "KR7999903000", "itmsNm": "합성종목C", "mrktCtg": "KOSPI",  "clpr": "255000", "vs": "7000", "fltRt": "2.82", "mkp": "249000", "hipr": "256000", "lopr": "248500", "trqu": "9000", "trPrc": "2295000000", "lstgStCnt": "4000000", "mrktTotAmt": "1020000000000"},
+        {"basDt": "20260910", "srtnCd": "999904", "isinCd": "KR7999904000", "itmsNm": "합성종목D", "mrktCtg": "KOSDAQ", "clpr": "1500",  "vs": "50",   "fltRt": "3.45",  "mkp": "1460",  "hipr": "1520",  "lopr": "1450",  "trqu": "2000000", "trPrc": "3000000000", "lstgStCnt": "50000000", "mrktTotAmt": "75000000000"},
+        {"basDt": "20260911", "srtnCd": "999904", "isinCd": "KR7999904000", "itmsNm": "합성종목D", "mrktCtg": "KOSDAQ", "clpr": "1450",  "vs": "-50",  "fltRt": "-3.33", "mkp": "1500",  "hipr": "1510",  "lopr": "1440",  "trqu": "1800000", "trPrc": "2610000000", "lstgStCnt": "50000000", "mrktTotAmt": "72500000000"},
+        {"basDt": "20260914", "srtnCd": "999904", "isinCd": "KR7999904000", "itmsNm": "합성종목D", "mrktCtg": "KOSDAQ", "clpr": "1450",  "vs": "0",    "fltRt": "0.00",  "mkp": "1450",  "hipr": "1480",  "lopr": "1420",  "trqu": "900000",  "trPrc": "1305000000", "lstgStCnt": "50000000", "mrktTotAmt": "72500000000"},
+        {"basDt": "20260910", "srtnCd": "A999905", "isinCd": "KR7999905000", "itmsNm": "합성종목E", "mrktCtg": "KOSPI", "clpr": "70000", "vs": "-1000", "fltRt": "-1.41", "mkp": "71000", "hipr": "71500", "lopr": "69800", "trqu": "500000", "trPrc": "35000000000", "lstgStCnt": "100000000", "mrktTotAmt": "7000000000000"},
+        {"basDt": "20260911", "srtnCd": "A999905", "isinCd": "KR7999905000", "itmsNm": "합성종목E", "mrktCtg": "KOSPI", "clpr": "71000", "vs": "1000",  "fltRt": "1.43",  "mkp": "70000", "hipr": "71200", "lopr": "69900", "trqu": "450000", "trPrc": "31950000000", "lstgStCnt": "100000000", "mrktTotAmt": "7100000000000"},
+        {"basDt": "20260914", "srtnCd": "A999905", "isinCd": "KR7999905000", "itmsNm": "합성종목E", "mrktCtg": "KOSPI", "clpr": "72500", "vs": "1500",  "fltRt": "2.11",  "mkp": "71000", "hipr": "72800", "lopr": "70900", "trqu": "600000", "trPrc": "43500000000", "lstgStCnt": "100000000", "mrktTotAmt": "7250000000000"}
+      ]}
+    }
+  }
+}

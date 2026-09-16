@@ -25,3 +25,6 @@ exclude:
   - analysis_data.json
   - flow_history/
   - dart_financials/
+  # ⚖️ 2026-09-16 PHASE 1: 공급자 어댑터·그림자 비교 코드와 합성 픽스처. 사이트가 읽지 않는다.
+  - data_supply/
+  - config/
