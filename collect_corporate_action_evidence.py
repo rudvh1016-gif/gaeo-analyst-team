@@ -21,6 +21,7 @@
 
 쓰는 법
   python3 collect_corporate_action_evidence.py [--tickers 50] [--requests 400] [--days 365]
+  python3 collect_corporate_action_evidence.py --tickers-file due.txt --tickers 600   # 채점 후보만(커서 보존)
 """
 import argparse
 import datetime
@@ -32,6 +33,7 @@ import sys
 import corporate_action_classify as classify
 import comparison_evidence as comparison
 import dart_client
+import due_targets
 import dart_pipeline
 
 #: 이 수집기가 만드는 증거의 계약 버전. Private 이 이 이름으로 계약을 확인한다.
@@ -172,6 +174,9 @@ def main(argv=None):
     parser.add_argument('--tickers', type=int, default=50, help='이번 회차에 볼 종목 수 상한')
     parser.add_argument('--requests', type=int, default=400, help='이번 회차 API 요청 수 상한')
     parser.add_argument('--days', type=int, default=BACKFILL_DAYS, help='과거 확인 범위(일)')
+    parser.add_argument('--tickers-file', default=None,
+                        help='채점 대상 중심 모드: 이 파일의 종목(한 줄 하나)만 본다. 커서를 건드리지 않는다. '
+                             '파일이 비어 있으면 0종목을 처리한 것으로 적는다(전체 순회로 되돌아가지 않는다).')
     args = parser.parse_args(argv)
 
     client = dart_client.DartClient()
@@ -201,8 +206,10 @@ def main(argv=None):
             previous = json.load(handle)
     cursor = str((previous.get('cursor') or ''))
     order = sorted(mapped)
-    start = next((i for i, t in enumerate(order) if t > cursor), 0) if cursor else 0
-    todo = (order[start:] + order[:start])[:args.tickers]
+    # 대상 선정 — 기본은 커서 순회(기존 그대로), --tickers-file 이면 채점 후보만(커서 보존).
+    file_codes = due_targets.read_tickers_file(args.tickers_file) if args.tickers_file else None
+    target = due_targets.select_targets(order, cursor, args.tickers, file_codes)
+    todo = target['todo']
 
     evidence = dict(previous.get('evidence') or {})
     done = []
@@ -217,15 +224,21 @@ def main(argv=None):
             break
 
     os.makedirs(OUT_DIR, exist_ok=True)
+    # 파일 모드에서는 커서를 옮기지 않는다 — 전체 순회의 진행 위치는 그 모드의 것이다.
+    rotation = target['mode'] == due_targets.MODE_ROTATION
     payload = {'contractVersion': CONTRACT_VERSION, 'generatedAt': now.isoformat(),
                'window': {'from': bgn_de, 'to': end_de, 'days': args.days},
-               'cursor': done[-1] if done else cursor,
+               'cursor': (done[-1] if done else cursor) if rotation else cursor,
                'universeMapped': len(mapped), 'attempted': len(todo), 'succeeded': len(done),
                'requestsUsed': args.requests - budget['left'],
+               'targetMode': target['mode'],
+               'targetRequested': target['requested'],
+               'notInUniverse': len(target['notInUniverse']),
                'efficiency': client.efficiency_report(), 'evidence': evidence}
     with open(OUT_FILE, 'w', encoding='utf-8') as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=1, sort_keys=True)
-    summary = {k: payload[k] for k in ('attempted', 'succeeded', 'requestsUsed', 'universeMapped')}
+    summary = {k: payload[k] for k in ('attempted', 'succeeded', 'requestsUsed', 'universeMapped',
+                                       'targetMode', 'targetRequested', 'notInUniverse')}
     summary['withDocuments'] = sum(1 for t in done if evidence[t]['findings'])
     summary['withOpenEvent'] = sum(1 for t in done if evidence[t]['unresolvedHistorical'])
     summary['subsidiaryOnly'] = sum(1 for t in done if evidence[t]['findings']

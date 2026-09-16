@@ -242,12 +242,15 @@ def produce(root, repo, now, key, record_cap=DEFAULT_RECORD_CAP, request_cap=DEF
               'producedProofs': [], 'blockedRecords': []}
     todo = ready[:record_cap]
     status['run']['notProcessed'] = len(ready) - len(todo)
-    if not todo:
-        return status, planned
     if not key:
+        # 오늘 증명할 판단이 없어도 키 없음은 그대로 알린다 — 키 발급·서비스 승인에는 시간이 걸리고,
+        # 첫 결과일(판단 뒤 5거래일)에 키가 없으면 그날 채점이 통째로 밀린다(2026-09-16 실측:
+        # 첫 dispatch 가 READY 0 이라 ownerActionRequired 가 비어 있었다 — 문서와 어긋났다).
         status['ownerActionRequired'].append(OWNER_ACTION_AUTH)
         for item in todo:
             _block(status, item, 'auth_key_missing')
+        return status, planned
+    if not todo:
         return status, planned
     needed = sorted({day for item in todo for day in period_days(by_id[item['recordId']])[2]})
     status['run']['datesNeeded'] = needed
@@ -344,6 +347,9 @@ def main(argv=None):
     ap.add_argument('--root', default=None, help='봉인 원장 폴더(기본 <repo>/research_archive/decisions)')
     ap.add_argument('--now', default=None, help='시험용 현재 시각(ISO)')
     ap.add_argument('--status-out', default=None, help='상태 파일 경로(기본 gaeo_coverage/price_proof_status.json)')
+    ap.add_argument('--due-tickers-out', default=None,
+                    help='--plan-only 와 함께: 채점 후보 종목코드를 한 줄에 하나씩 이 파일에 쓴다 '
+                         '(기업행사 수집기 --tickers-file 입력용). 후보가 없으면 빈 파일을 쓴다.')
     args = ap.parse_args(argv)
     repo = args.repo
     root = args.root or os.path.join(repo, 'research_archive', 'decisions')
@@ -360,8 +366,16 @@ def main(argv=None):
         return 0 if result['allVerified'] else 3
     if args.plan_only:
         planned, _ = make_plan(root, repo, now)
+        due = planner.due_tickers(planned)
+        if args.due_tickers_out:
+            os.makedirs(os.path.dirname(os.path.abspath(args.due_tickers_out)), exist_ok=True)
+            with open(args.due_tickers_out, 'w', encoding='utf-8') as handle:
+                handle.write('# 채점 후보 종목(price_proof_planner.due_tickers) · asOf %s · %d종목\n'
+                             % (planned['asOf'], len(due)))
+                handle.write(''.join(code + '\n' for code in due))
         print(json.dumps({'asOf': planned['asOf'], 'counts': planned['counts'],
-                          'corporateEvidence': planned['corporateEvidence']}, ensure_ascii=False))
+                          'corporateEvidence': planned['corporateEvidence'],
+                          'dueTickers': len(due)}, ensure_ascii=False))
         return 0
     key = krx.get_auth_key()
     status, _ = produce(root, repo, now, key, record_cap=args.records, request_cap=args.requests)

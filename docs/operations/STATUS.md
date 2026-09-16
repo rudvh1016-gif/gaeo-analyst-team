@@ -3,6 +3,103 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-16 장중 — 가격 출처 원장 실제 자연 실행 확정 + 채점 대상 중심 증거 수집 (PHASE 5)
+
+### 한 줄
+
+**PHASE 3 가 실제 운영에서 작동했다.** 오늘 09:58 자연 회차의 신규 판단 600건 중 **599건에 가격 출처가 실제로
+붙었다**(1건은 이전 값 재사용·출처 없음으로 정직하게 확인 불가). main 저장·되읽기 확인. 공식 채점(KRX)은 여전히
+인증키 하나가 막고 있고(`auth.present: false` 실측), 그 다음 병목인 기업행사 증거는 **채점 후보만 갱신하는 모드**를
+만들어 두었다(새 예약 0).
+
+### 실측 — 09:35 회차 (출처 파일이 아직 없던 회차)
+
+| 항목 | 값 |
+|---|---|
+| 봉인 파일 | `originals/2026/09/16/a87a26aeac80b3e81ac9a4b1.jsonl.gz` · 600건 |
+| `priceProvenance` | 600건 전부 `linked: false · reason: analysis_snapshot_id_missing` |
+| `priceObservedAt` | 600건 null |
+| 당시 origin/main 에 `price_provenance.json` | **없었다** — 첫 생성 커밋 `947e9ae4a9` 09:37:52 |
+| 사용한 시세 라벨(`baseAt`) | `2026-09-15 종가 (16:00 수집)` — **전날 종가** |
+| 처리 | 수정 0. 설계대로 "확인 불가"로 남았다 |
+
+### 실측 — 09:58 회차 (09:37 이후 첫 자연 분석) → NATURAL_RUN_VERIFIED
+
+| 항목 | 값 |
+|---|---|
+| 실행 신원 | update-analysis run `35036388002` · `workflow_dispatch` by `github-actions[bot]`(체인 재기동) · 08:36 KST 시작 · head `de7b22bb62` |
+| 사용한 시세 | `data.js` 09:49 회차 = `price_provenance.json` roundId `34999baebb212bf1a3c74c95` · snapshotId `679f3a79…` **일치** |
+| 판단 산출물 | `auto_analysis.js` generatedAt 09:58 · `priceSnapshotId 679f3a79…` · `priceProvenanceState OK` |
+| 봉인 파일 | `originals/2026/09/16/d87211dcb6c3c7455ca27b36.jsonl.gz` · **600건** |
+| `priceObservedAt` 있음 | **599** |
+| `priceProvenance.linked` | **599** (전부 `priceState: FRESH`, `detailMetricsOk: true`, `officialPriceProof: false`) |
+| 연결 안 됨 | **1** — `082640` `previous_price_provenance_missing`(첫 회차 시세 실패 → 이전 값 재사용 → 이전 출처 없음) |
+| `provenance_round_superseded` / `price_value_mismatch` / `price_observed_after_decision` / `provenance_file_missing` | **0 / 0 / 0 / 0** |
+| main 저장 | `130eb68626`(09:59:37) · `53d4eb1a7a`(09:59:41, 원장 보존) |
+| origin/main 되읽기 | PASS — 위 숫자는 전부 `git cat-file origin/main:…` 로 다시 읽은 값 |
+
+### 실측 — 출처 파일(시세 수집기, run `35040701020` · `github-actions[bot]` 체인)
+
+회차 3개(09:37:52 · 09:49:07 · 10:00:20) 모두 600종목 · fresh 599 · unverified 1(`082640`) · `sourceAsOfMissing` 600.
+`responseKeysSeen = [amount, diff, eps, high, low, marketSum, now, pbr, per, quant, rate, risefall]` —
+**기준시각·거래일 필드가 하나도 없다.** 어제 "확인 불가"로 적은 것이 오늘 실측으로 확정됐다.
+
+### 오늘 「분석 → 시세」 순서가 뒤바뀐 이유 — 구조적 race 가 아니다
+
+* 시세 run `35033757755`: 08:01:25 기동 → `개장 전 기동 — 3376s 대기` → **08:06:38 외부 취소**(`The operation was canceled`).
+  `concurrency.cancel-in-progress` 는 false 고 push 트리거 run 도 없었다 → API/UI 취소. 취소 주체는 run 메타데이터에
+  남지 않아 **확인 불가**(#580 병합 08:05:28 의 70초 뒤). 
+* 그 뒤 09:36:23 까지 시세 run 이 없었다. `pipeline-watchdog.yml` schedule 은 오늘 **0회** 발화(마지막 9/15 18:38).
+  09:36 에 분석 잡이 **사이클 끝**의 상호 감시(`alive update-prices.yml`)로 살렸다 → 첫 시세 09:37:52.
+* 최근 거래일(9/10 · 9/11 · 9/15)은 모두 08:59 시세 → 09:1x~09:35 분석, **시세가 먼저**였다. 설계는 맞다.
+* 그래서 스케줄을 바꾸지 않았다. 대신 소생 논리를 `gaeo-chain.sh` 의 `revive_partner()` 하나로 모아
+  **사이클 시작에도** 부른다(개장 전 대기가 끝나는 08:58 첫 사이클 시작에 살렸으면 09:00 전후부터 수집됐다). `update-analysis.yml` 큰 블록
+  19,833B → 19,758B(여유 742B).
+
+### PHASE 4 실제 준비도 — 첫 dispatch 실측 (MANUAL)
+
+price-proof run `35042575105`(이 세션이 소유자 토큰으로 dispatch → actor `rudvh1016-gif` = **수동**).
+`gaeo_coverage/price_proof_status.json` 커밋 `d4642dea69`: **`auth.present: false`** — Secret `KRX_OPENAPI_AUTH_KEY` 없음 확정.
+계획: MISSING_PROVENANCE 1,801 · WAITING_MATURITY 599 · READY 0(첫 결과일 = 9/23 종가 → 9/24 부터 READY).
+⚠️ 발견: READY 0 이라 `ownerActionRequired` 가 **비어 있었다**(종료코드 0) — 문서(종료코드 2)와 어긋났다.
+키 발급·승인은 시간이 걸리므로 **판단이 없어도 키 없음은 항상 OWNER_ACTION 으로 남기게** 고쳤다.
+
+**OWNER_ACTION_REQUIRED(유지): `KRX_OPENAPI_AUTH_KEY`** — 절차는 `docs/operations/PRICE_PROOF_PRODUCER_20260916.md` §8.
+
+### 다음 병목 — 기업행사 증거 → 채점 대상 중심 모드
+
+DART·KIND 증거 둘 다 9/12 04:08Z 이후 갱신 없음 → 유효 **0**(120·80 종목 전부 만료, TTL 20h). 수집기는 커서 순회
+40종목/회차라 600종목 유지에 하루 15회가 필요했다. 채점에 필요한 것은 **지금 채점 후보인 종목**만이다.
+
+| 파일 | 변경 |
+|---|---|
+| `due_targets.py` (신규) | 대상 선정 규칙 하나 — 커서 순회(기존) / `--tickers-file`(신규, 커서 보존, 빈 파일=0종목) |
+| `price_proof_planner.py` | `due_tickers(planned)` — 결과일 도달 + 출처 있음 + 미채점 종목 |
+| `collect_price_proof.py` | `--plan-only --due-tickers-out <파일>` · 키 없음 상시 OWNER_ACTION |
+| `collect_corporate_action_evidence.py` · `collect_kind_market_action.py` | `--tickers-file` · 산출물에 `targetMode/targetRequested/notInUniverse` 덧붙임(기존 필드 뜻 불변) |
+| `corporate-action-evidence.yml` · `kind-market-action.yml` | 입력 `due_only`(기본 false) — planner 목록을 수집기에 넘김. **schedule 없음** |
+
+한 번 실행 흐름(수동 3 dispatch): `price-proof`(계획·증명) → `corporate-action-evidence due_only=true` → `kind-market-action due_only=true`.
+한 워크플로로 묶는 것은 검토만 했다(§9, `PRICE_PROOF_PRODUCER` 문서) — OPEN_DART 키를 price-proof 에도 넘겨야 하고 KIND 는 0.4초 간격 스크래핑이라 20분 상한을 다시 재야 한다.
+
+### 연구 준비도 재판정 (최신 자료)
+
+봉인 판단일 4(9/11 · 9/14 · 9/15 · 9/16) · 출처가 붙은 판단일 **1**(9/16) · 사전등록 최소 조건 **익은 판단일 20일**.
+→ 경계 점수 오답 · 높은 확신 오답 · HOLD 큰 움직임 · SELL 뒤 급등 · FLOW 추가 가치 **전부 「아직 대기」**.
+FLOW 6-arm 정의는 소유자 검토 대기(`NOT_READY`). Production 공식 변경 0.
+
+### 검증
+
+`test_corporate_action_evidence`(+5) · `test_kind_market_action_collect`(+2) · `test_price_proof_producer`(+6) · `test_workflow_size`(+7) ·
+`test_price_provenance`(시각 의존 시험 1건 정정). `gaeo_check.py premerge` 전부 통과. 과거 원장·09:35 원본 수정 0.
+
+### 하지 않은 것
+
+새 cron·schedule 0 · 새 Claude Routine 0 · GPT/Codex 자동개발 0 · 런타임 LLM 0 · 유료 API 0 · Team PAPER 0 ·
+BUY/HOLD/SELL 공식·가중치·임계값·Promotion Floor·사전등록 변경 0 · 과거 7,200건·09:35 600건 수정 0 · force push 0.
+
+---
+
 ## 2026-09-16 아침 — 공식 결과가격 증명 생산자: 판단 하나가 채점까지 가는 마지막 사슬 (PHASE 4)
 
 전체 내용: `docs/operations/PRICE_PROOF_PRODUCER_20260916.md`

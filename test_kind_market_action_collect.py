@@ -194,5 +194,54 @@ class BudgetExhaustionAccounting(unittest.TestCase):
         self.assertEqual(got['failed'], 2)
 
 
+class DueTargetMode(unittest.TestCase):
+    """채점 대상 중심 모드(2026-09-16) — 파일의 종목만 보고, 커서는 건드리지 않는다. 네트워크 0."""
+
+    def _run(self, due_lines, previous_cursor='000020', cap='50'):
+        import json, os, io, tempfile
+        tmp = tempfile.mkdtemp()
+        with open(os.path.join(tmp, 'krx_list.json'), 'w', encoding='utf-8') as fh:
+            json.dump({'items': [{'c': c, 'n': c} for c in ('000010', '000020', '000030', '000040')]}, fh)
+        os.makedirs(os.path.join(tmp, collector.OUT_DIR))
+        with open(os.path.join(tmp, collector.OUT_FILE), 'w', encoding='utf-8') as fh:
+            json.dump({'cursor': previous_cursor, 'evidence': {}}, fh)
+        due = os.path.join(tmp, 'due.txt')
+        with open(due, 'w', encoding='utf-8') as fh:
+            fh.write(''.join(line + '\n' for line in due_lines))
+        seen = []
+        def fake_collect(ticker, bgn, end, budget, cookie=None, sleep=None):
+            seen.append(ticker); budget['left'] -= 1
+            return {'ok': True, 'findings': [], 'totalCount': 0, 'unresolvedHistorical': 0, 'error': None}
+        cwd = os.getcwd(); os.chdir(tmp)
+        try:
+            with mock.patch.object(collector, 'fetch', lambda *a, **k: {'setCookie': None, 'httpStatus': 200,
+                                                                         'error': None, 'text': ''}), \
+                 mock.patch.object(collector, 'collect_one', fake_collect), \
+                 mock.patch.object(collector.time, 'sleep', lambda s: None), \
+                 mock.patch('sys.stdout', new=io.StringIO()):
+                code = collector.main(['--tickers-file', due, '--tickers', cap, '--requests', '10'])
+            saved = json.load(open(collector.OUT_FILE, encoding='utf-8'))
+        finally:
+            os.chdir(cwd)
+        return code, seen, saved
+
+    def test_파일의_종목만_보고_커서는_그대로다(self):
+        code, seen, saved = self._run(['000040', '000010', '999999'])
+        self.assertEqual(code, 0)
+        self.assertEqual(seen, ['000040', '000010'])
+        self.assertEqual(saved['cursor'], '000020', '파일 모드가 전체 순회의 커서를 옮겼다')
+        self.assertEqual(saved['targetMode'], 'tickers_file')
+        self.assertEqual(saved['notInUniverse'], 1)
+        self.assertEqual(saved['processed'], 2)
+
+    def test_빈_파일이면_0종목을_처리한_것으로_적고_전체를_긁지_않는다(self):
+        code, seen, saved = self._run([])
+        self.assertEqual(code, 0)
+        self.assertEqual(seen, [])
+        self.assertEqual(saved['attempted'], 0)
+        self.assertEqual(saved['targetRequested'], 0)
+        self.assertEqual(saved['cursor'], '000020')
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

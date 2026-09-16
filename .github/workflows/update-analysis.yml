@@ -138,6 +138,7 @@ jobs:
             # 남기고, 나중에 "이 판단이 실제로 무엇을 보고 내려졌는지" 재구성할 수 있게 한다.
             export GAEO_CYCLE_STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             export GAEO_CRON_NOMINAL="${{ github.event.schedule }}"
+            revive_partner update-prices.yml   # 사이클 시작에도(2026-09-16: 08:06 취소→09:36 시세 공백)
             # ⚠️ 2026-07-31 사고 원인 + 영구 수정: 이 잡은 시작할 때 checkout을 "딱 한 번"만 하고,
             # 위 "개장 전 기동" 분기에서 최대 330분을 잔 뒤 30분 주기로 루프를 돈다. 그래서 루프
             # 안에서 읽는 data.js가 checkout 시점(= 전날 밤 체인이 떴던 시각)에 얼어붙어 있었다.
@@ -341,11 +342,7 @@ jobs:
                 fi
               fi
             fi
-            # 상호 감시: 짝꿍 시세 워크플로우가 완전히 죽어 있으면 살려준다(main에서만)
-            if [ -n "$IS_MAIN" ] && ! alive update-prices.yml; then
-              echo "update-prices 미가동 감지 — 소생 dispatch"
-              dispatch update-prices.yml || true
-            fi
+            revive_partner update-prices.yml   # 상호 감시(사이클 끝) — gaeo-chain.sh
             now=$(date +%s)
             if [ "$now" -ge "$end" ]; then
               echo "수집 창 종료(16:05 KST)/상한 도달 — 루프 종료 후 체인 재기동"

@@ -163,7 +163,23 @@ PR #564 계열 사고를, 이 스크립트가 일으키는 모양이 된다. 그
 * ⚠️ "내부 기록 누락을 발견했으므로 외부 자료 문제는 없다"고 단정하지 않는다. 내부 누락은
   **필요조건 하나**였을 뿐이고, 위 8줄은 그것과 별개로 남아 있다.
 
-## 9. 아직 확인하지 못한 것
+## 9. 실제 자연 실행 확인 (2026-09-16 추가) — WAITING_NATURAL_RUN → NATURAL_RUN_VERIFIED
+
+| 확인 항목 | 실측 |
+|---|---|
+| 실행 신원 | 시세 run `35040701020` · 분석 run `35036388002` — 둘 다 `workflow_dispatch` by `github-actions[bot]`(체인 재기동). 사람 dispatch 아님 |
+| 출처 파일 생성 | 09:37:52 첫 커밋 `947e9ae4a9` → 09:49:07 `875cfc62c2` → 10:00:20 `db931525d8`. 회차마다 600종목 · fresh 599 · unverified 1 |
+| 시세 스냅샷과 같은 입력인가 | `snapshot_id(data.js.stocks) == price_provenance.snapshotId` **True**(3회차 모두) |
+| 종목별 수신시각이 진짜인가 | 09:49 회차 receivedAt 범위 00:47:56Z~00:49:02Z · 서로 다른 시각 67개 — 회차 종료시각 일괄 부여가 아니다 |
+| 공급자 기준시각 | `responseKeysSeen` 12개 중 시각·날짜 키 **0개** → `sourceAsOfMissing 600/600`. §2 의 "확인 불가"가 실측으로 확정됐다 |
+| 첫 판단 회차(09:35) | 600건 `analysis_snapshot_id_missing` — 출처 파일이 아직 없었다(09:37:52 생성). 전날 종가 라벨. **수정하지 않았다** |
+| 09:37 이후 첫 분석(09:58) | **599/600 연결**. 1건(`082640`) `previous_price_provenance_missing`. superseded 0 · mismatch 0 · after-decision 0 |
+| main 저장 · 되읽기 | 봉인 `d87211dcb6c3c7455ca27b36.jsonl.gz` · 커밋 `130eb68626`/`53d4eb1a7a` · `git cat-file origin/main:` 되읽기 일치 |
+
+09:35→09:37 순서 역전의 원인과 처치(`revive_partner`)는 `docs/operations/STATUS.md` 2026-09-16 항목에 있다 — 구조적 race 가 아니라
+시세 run 의 외부 취소(08:06) 뒤 소생이 사이클 끝에서만 이뤄진 안전망 공백이었다.
+
+## 9-1. 아직 확인하지 못한 것 (2026-09-15 작성 당시)
 
 * **실제 자동 실행 확인: `WAITING_NATURAL_RUN`.** 이 작업은 장 마감 뒤(KST 23:3x)에 했다.
   수집기(`update-prices.yml`)·분석기(`update-analysis.yml`)는 평일 09:00~16:00 KST 에만 돈다.
