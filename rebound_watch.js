@@ -5,7 +5,7 @@
 window.REBOUND_WATCH = {
  "schemaVersion": 1,
  "ruleVersion": "REBOUND_WATCH_V1",
- "generatedAt": "2026-09-16 13:29",
+ "generatedAt": "2026-09-16 13:59",
  "rule": {
   "dropPct": -20.0,
   "volRatio": 1.5,
@@ -19,7 +19,7 @@ window.REBOUND_WATCH = {
   "sellTaxPct": 0.2
  },
  "today": "2026-09-16",
- "todayCount": 1,
+ "todayCount": 2,
  "summary": {
   "ruleVersion": "REBOUND_WATCH_V1",
   "scoredCount": 0,
@@ -27,7 +27,7 @@ window.REBOUND_WATCH = {
   "minScoredForEvidence": 20,
   "minDaysForEvidence": 20,
   "evidenceOk": false,
-  "pendingCount": 2,
+  "pendingCount": 3,
   "winRatePct": null,
   "avgReturnPct": null,
   "medianReturnPct": null,
@@ -54,6 +54,17 @@ window.REBOUND_WATCH = {
    "price": 54900,
    "dropPct": -31.12,
    "volRatio": 1.56,
+   "gaeoCall": "SELL",
+   "status": "PENDING",
+   "ruleVersion": "REBOUND_WATCH_V1"
+  },
+  {
+   "code": "491000",
+   "name": "리브스메드",
+   "date": "2026-09-16",
+   "price": 28100,
+   "dropPct": -26.54,
+   "volRatio": 1.65,
    "gaeoCall": "SELL",
    "status": "PENDING",
    "ruleVersion": "REBOUND_WATCH_V1"

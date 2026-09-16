@@ -1,12 +1,102 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-16 13:28",
- "priceLabel": "2026-09-16 13:23 장중 · ⚠️ 1종목 지연",
- "count": 267,
+ "generatedAt": "2026-09-16 13:58",
+ "priceLabel": "2026-09-16 13:46 장중 · ⚠️ 1종목 지연",
+ "count": 273,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "450080",
+   "name": "에코프로머티",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000200"
+  },
+  {
+   "code": "450080",
+   "name": "에코프로머티",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000210"
+  },
+  {
+   "code": "450080",
+   "name": "에코프로머티",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916800207"
+  },
+  {
+   "code": "161000",
+   "name": "애경케미칼",
+   "title": "[기재정정]유상증자결정(종속회사의주요경영사항)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260916800188"
+  },
+  {
+   "code": "161000",
+   "name": "애경케미칼",
+   "title": "[기재정정]타법인주식및출자증권취득결정",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260916800210"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000212"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000214"
+  },
+  {
+   "code": "090430",
+   "name": "아모레퍼시픽",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000217"
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "[기재정정]일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260916000213"
+  },
+  {
+   "code": "001720",
+   "name": "신영증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260916",
+   "detectedAt": "2026-09-16T04:57:22.999966+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260916000216"
+  },
   {
    "code": "006800",
    "name": "미래에셋증권",
@@ -251,15 +341,6 @@ const DART_TODAY = {
    "rceptNo": "20260915800666"
   },
   {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-16T00:17:43.434759+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000397"
-  },
-  {
    "code": "068270",
    "name": "셀트리온",
    "title": "자기주식취득결과보고서",
@@ -501,15 +582,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T07:32:25.616088+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800580"
-  },
-  {
-   "code": "001720",
-   "name": "신영증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000344"
   },
   {
    "code": "003850",
@@ -2004,24 +2076,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T05:13:16.176649+00:00",
    "isCorrection": false,
    "rceptNo": "20260911800240"
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "연결재무제표기준영업실적등에대한전망(공정공시)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911800223"
-  },
-  {
-   "code": "090430",
-   "name": "아모레퍼시픽",
-   "title": "공정거래자율준수프로그램운영현황(안내공시)",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T05:13:16.176649+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911800229"
   },
   {
    "code": "403550",
