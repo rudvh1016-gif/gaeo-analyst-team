@@ -23,11 +23,11 @@
 | F 거래량 | siseJson [5] · dealTrends 누적거래량 | volRatio 문구·레이더·수급 비율 분모 | IMPORTANT | `trqu` | 위와 같음 | T+1 확정치 | ○ | 위와 같음 | OWNER_APPROVAL_REQUIRED |
 | G 거래대금 | totalInfos(미사용) · 전체시장 | 전체시장 집중도 | LEGACY_UNUSED(종목별) | `trPrc` | 위와 같음 | T+1 | ○ | 위와 같음 | OWNER_APPROVAL_REQUIRED(전체시장) · 종목별은 제거 |
 | H 시가총액 | `marketSum`(백만원) · `marketValueRaw` | cap 표시·Guardian·연구 정규화 | IMPORTANT | `mrktTotAmt`(원) · `lstgStCnt` | 위와 같음 | T+1 · 단위 변환 | ○ | 위와 같음 | OWNER_APPROVAL_REQUIRED |
-| I/J PER·PBR | itemSummary `per` `pbr` | DIANA ±12/±8 | CRITICAL | 종가(공공데이터) ÷ EPS·BPS(OpenDART 재무제표) | 두 원천 모두 OWNER_CONFIRMATION_REQUIRED | 정의 변경(네이버=최근 4분기 추정 EPS 기준 · DART=공시 재무 기준). 실측: 오늘 자료로 재계산해도 판정 변화 0(정의가 같을 때의 하한) | ○ | 정의 변경 승인 + DART 약관 | OWNER_APPROVAL_REQUIRED |
-| K EPS·BPS·ROE | `eps` · totalInfos `bps` | DIANA ROE ±8 | CRITICAL | OpenDART 재무제표(이미 `dart_financials/` 수집 중) | OWNER_CONFIRMATION_REQUIRED(terms.do 원문) | 분기/연 단위(장중 갱신 없음) | ○ | DART 약관 재배포·출처표시 확인 | OWNER_APPROVAL_REQUIRED |
+| I/J PER·PBR | itemSummary `per` `pbr` | DIANA PER +12/−10 · PBR +8/−6 | CRITICAL | 종가(공공데이터) ÷ EPS·BPS(OpenDART 재무제표) | 두 원천 모두 OWNER_CONFIRMATION_REQUIRED | 정의 변경(네이버=최근 4분기 추정 EPS 기준 · DART=공시 재무 기준). 실측: 오늘 자료로 재계산해도 판정 변화 0(정의가 같을 때의 하한) | ○ | 정의 변경 승인 + DART 약관 | OWNER_APPROVAL_REQUIRED |
+| K EPS·BPS·ROE | `eps` · totalInfos `bps` | DIANA ROE +8/−6 | CRITICAL | OpenDART 재무제표(이미 `dart_financials/` 수집 중) | OWNER_CONFIRMATION_REQUIRED(terms.do 원문) | 분기/연 단위(장중 갱신 없음) | ○ | DART 약관 재배포·출처표시 확인 | OWNER_APPROVAL_REQUIRED |
 | L/M 외국인·기관 수급 | dealTrendInfos | FLOW(가중치 약 30%) · flow_history | CRITICAL | **없음** — KRX Open API 미제공 · KRX Data Marketplace 별도 계약 · 증권사 API 제3자 제공 금지 | — | — | — | — | **NO_SAFE_REPLACEMENT_FOUND** |
 | N 개인 수급 | dealTrendInfos | FLOW 문구 | IMPORTANT | 없음 | — | — | — | — | NO_SAFE_REPLACEMENT_FOUND |
-| P 컨센서스 | consensusInfo · cnsEps | DIANA 목표가 괴리·선행PER(±18) | IMPORTANT | **없음** — 증권사 리서치 집계는 유료(FnGuide 등) | — | — | — | — | **NO_SAFE_REPLACEMENT_FOUND** |
+| P 컨센서스 | consensusInfo · cnsEps | DIANA 목표가 괴리 +12/−16 · 선행PER +6/−5(합계 최대 +18/−21) | IMPORTANT | **없음** — 증권사 리서치 집계는 유료(FnGuide 등) | — | — | — | — | **NO_SAFE_REPLACEMENT_FOUND** |
 | Q 배당·52주 고저 | totalInfos | 화면·risk.pos52w(표시) | DISPLAY_ONLY | 52주=1년 공식 일봉 파생 · 배당=DART 배당 공시/금융위원회_주식배당정보 | OWNER_CONFIRMATION_REQUIRED | 파생 가능 | ○ | 위와 같음 | OWNER_APPROVAL_REQUIRED |
 | R/S 종목 목록·시장구분 | marketValue bulk | Guardian·시장지도·관리자 자동완성 | IMPORTANT | 주식시세정보 전 종목(basDt) · KRX상장종목정보(15094775) | 후자는 2차 자료상 **제4유형(상업 이용금지)** | T+1 | ○ | 유형 확인 | OWNER_APPROVAL_REQUIRED |
 | T 과거 일봉 10개월 | siseJson | TARO·QUANT·RISK·레이더·채점 | CRITICAL | 주식시세정보 `beginBasDt/endBasDt`(종목별 백필) + 매일 1건 적재 | OWNER_CONFIRMATION_REQUIRED | T+1 · 조정주가 미확인 · 기업행사는 별도(주식권리일정정보 제2유형) | ○ | 위와 같음 | OWNER_APPROVAL_REQUIRED |
@@ -35,7 +35,7 @@
 | V 환율 | marketindex HTML | 화면 | DISPLAY_ONLY | 한국은행 ECOS · 한국수출입은행 현재환율 API | OWNER_CONFIRMATION_REQUIRED(작성기관·유형) | 일 1회 고시(장중 변동 없음) | ○ | 유형 확인 | OWNER_APPROVAL_REQUIRED · **가장 쉬운 교체 1순위 후보** |
 | W 거래정지·상품유형 | marketValue `tradableStatus` `stockEndType` | 전체시장 적격 판정·Guardian | IMPORTANT | 없음(시세 데이터셋에 거래정지 표시 없음 · 시장조치는 OpenDART/KIND 계열 별도 게이트) | — | — | — | — | NO_SAFE_REPLACEMENT_FOUND |
 
-READY_TO_REPLACE 는 0건, READY_FOR_SHADOW 도 0건이다 — **어느 후보도 "광고가 붙은 공개 사이트에서 자동수집·저장·파생 공개·상업 이용" 네 게이트가 전부 열린 상태로 확인되지 않았다.** 어댑터는 그래서 합성 픽스처까지만 갔다.
+집계(`config/data_supply_migration.json` 23건 · 시험이 어휘를 잠금): OWNER_APPROVAL_REQUIRED **17** · NO_SAFE_REPLACEMENT_FOUND **5**(L·M·N·P·W) · READY_TO_REPLACE **1**(O 프로그램·거래원 — 애초에 수집하지 않아 교체할 대상이 없는 형식상 1건, 실질 0) · READY_FOR_SHADOW **0**. **어느 후보도 "광고가 붙은 공개 사이트에서 자동수집·저장·파생 공개·상업 이용" 네 게이트가 전부 열린 상태로 확인되지 않았다.** 어댑터는 그래서 합성 픽스처까지만 갔다.
 
 ## 2. LEGAL EVIDENCE (확인일 2026-09-16 · 확인 방법: 검색 결과 스니펫 · **원문 미열람**)
 
@@ -138,3 +138,86 @@ baseline 은 실제 `auto_analysis.js` 판정을 600/600 재현했다(시험 `De
 
 `NAVER_PRODUCTION_DISABLED = 0` · `NEW_PROVIDER_PRODUCTION_ENABLED = 0` · `BUY_HOLD_SELL_FORMULA_CHANGE = 0` · `WEIGHT_CHANGE = 0` · `THRESHOLD_CHANGE = 0` · `PAID_API_ADDED = 0` · `RUNTIME_LLM_ADDED = 0` · `PRIVATE_CHANGED = 0` · `TEAM_PAPER_CHANGED = 0`.
 네이버 신규 endpoint·호출량·종목수·UA 변경 0 · 새 scraping 0 · 새 schedule/Routine/자동 PR 0 · 과거 Git history 삭제 0 · 수집 코드 변경 0.
+
+## 10. FINAL CLOSURE — 2026-09-17 (최신 main 위 재검증 · Production 변경 0)
+
+**검증 경로.** PHASE 1 커밋 7d43e4109a 를 `origin/main` 6234c693e0(PR #584 까지 반영)과 **merge 커밋 21a28001dc** 로 합쳤다(rebase 0 · force push 0 — 공유 브랜치의 다른 세션 작업을 잃지 않기 위해 fast-forward push 만 썼다).
+합친 트리에서 `python3 gaeo_check.py premerge` **143 PASS / 0 FAIL** · `python3 legal_source_gate.py` **0 findings** · `python3 -m unittest test_data_supply_migration` **28 OK**.
+독립 코드 대조(read-only 검증 에이전트 · `analyze_auto.py` `compute_indicators.py` `research_engine.py` `update_flow_history.py` `app.js` `market-map.js` grep)에서 나온 정정 5건은 §10.5 에 적고 이 문서·의존성 지도에 반영했다. 판정·JSON·코드는 바꾸지 않았다.
+
+### 10.1 열 가지 감사 질문 — 답이 있는 자리
+
+| # | 질문 | 답이 있는 자리 | 요약 |
+|---|---|---|---|
+| 1 | 네이버 실제 데이터 | 지도 §1(endpoint 8개 · ≈80,000 요청/거래일) · §2(필드 A~W) | 시세·일봉·재무·수급·컨센서스·목록·지수·환율 전부 |
+| 2 | 분석가 사용 | 지도 §2 '읽는 곳' | TARO·QUANT·RISK ← 일봉 · DIANA ← PER·PBR·ROE·컨센서스 · FLOW ← 수급 · CHIEF ← 현재가(base) |
+| 3 | BUY·HOLD·SELL 직접 영향 | 지도 §2 'DIRECT' 표시 + §4 shadow | A·D·I·J·K·L·M·P·T 가 DIRECT |
+| 4 | 화면 전용 | 중요도 DISPLAY_ONLY | C·E·Q·V |
+| 5 | 미사용 | 지도 §3 · JSON `legacyUnusedFields` | frgnRate·foreignRate·recommMean·cnsPer 등 7항목 |
+| 6 | 공식 대체 후보 | §1 '공식 대체 후보' | 공공데이터포털 15094808/15094807/15094775 · OpenDART · ECOS/수출입은행 |
+| 7 | 상업적 공개 사용 가능 여부 | §2 LEGAL EVIDENCE | **확정 0건** — 전부 원문 미열람 |
+| 8 | 무료 | §1 '무료' 열 | 후보 전부 무료 API. 단 무료 ≠ 광고 사이트 상업 이용 허용 |
+| 9 | 품질 | §3 | T+1 확정치 · 조정주가 미확인 · 수급 없음 |
+| 10 | 미확인 | §2 '미확인(원문 필요)' 열 | 공공누리 유형 · 재배포 · 출처표시 · 정보이용계약 안내 |
+
+### 10.2 상품별 6열 판정
+
+| 데이터 | CURRENT_SOURCE | REPLACEMENT_SOURCE | LEGAL_STATUS | DATA_QUALITY | COST | MIGRATION_STATUS |
+|---|---|---|---|---|---|---|
+| A 현재가 · B 등락 | 네이버 itemSummary(10분) | 공공데이터포털 15094808 `clpr` `vs` `fltRt` | PERMISSION_NOT_VERIFIED(상업·재배포 원문 미열람) | T+1 13:00 확정 종가 — 장중가 아님 | 무료(포털 한도 내) | OWNER_APPROVAL_REQUIRED |
+| C/D/E/F 시·고·저·거래량 · T 일봉 | 네이버 siseJson(30분) | 15094808 `mkp` `hipr` `lopr` `trqu`(basDt 범위 백필) | 위와 같음 | T+1 · 조정주가 미확인 | 무료 | OWNER_APPROVAL_REQUIRED |
+| G 거래대금(전체시장) · H 시총 · R/S 목록·시장구분 | 네이버 marketValue bulk | 15094808 전 종목 1호출 · 15094775 | 15094775 는 2차 자료상 제4유형(상업 금지) | T+1 | 무료 | OWNER_APPROVAL_REQUIRED |
+| I/J/K PER·PBR·EPS·BPS·ROE | 네이버 itemSummary·totalInfos | 종가(15094808) ÷ EPS·BPS(OpenDART) | 두 원천 모두 OWNER_CONFIRMATION_REQUIRED | 정의 변경(추정 EPS→공시 EPS · 분기 갱신) | 무료 | OWNER_APPROVAL_REQUIRED |
+| L/M/N 외국인·기관·개인 수급 | 네이버 dealTrendInfos | **없음** | — | — | 유료 계약만 존재(추가 안 함) | NO_SAFE_REPLACEMENT_FOUND |
+| P 컨센서스 | 네이버 consensusInfo | **없음**(유료 집계만) | — | — | — | NO_SAFE_REPLACEMENT_FOUND |
+| Q 배당·52주 | 네이버 totalInfos | 1년 일봉 파생 · DART 배당 공시 | OWNER_CONFIRMATION_REQUIRED | 파생 가능(1년 축적 필요) | 무료 | OWNER_APPROVAL_REQUIRED |
+| U 지수 | 네이버 index API | 15094807 | OWNER_CONFIRMATION_REQUIRED | T+1 | 무료 | OWNER_APPROVAL_REQUIRED |
+| V 환율 | 네이버 marketindex HTML | ECOS(한국은행 작성분) · 수출입은행 API | ECOS 작성기관·수출입은행 유형 미확인 | 일 1회 고시 | 무료 | OWNER_APPROVAL_REQUIRED · **가장 쉬운 교체 1순위** |
+| W 거래정지·상품유형 | 네이버 marketValue | **없음** | — | — | — | NO_SAFE_REPLACEMENT_FOUND |
+| O 프로그램·거래원 | (수집하지 않음) | 해당 없음 | — | — | — | READY_TO_REPLACE(형식상 · 교체 대상 없음) |
+
+READY_FOR_SHADOW 는 0 — SHADOW 실호출의 전제인 `fsc_public_data:automatedCollection` 게이트가 닫혀 있고 사람이 열어야 한다. SHADOW 는 Production 변경이 아니다(합성 픽스처·임시 폴더·네트워크 0).
+
+### 10.3 A–H
+
+- **A. 네이버 완전 제거 가능?** 지금은 아니다. 수급(L·M·N)·컨센서스(P)·거래정지(W)는 무료 공식 대체가 없고, 나머지 후보도 광고 사이트 상업 이용 허용이 원문으로 확인된 것이 0건이다.
+- **B. 당장 대체 가능(라이선스 확인만 남은 것).** V 환율 → U 지수 → R/S/H 목록·시장구분·시총 → 일봉·현재가(T+1 정의 변경 승인 필요) → PER·PBR·ROE(DART EPS 정의 승인). "당장" 이라도 원문 확인 전에는 착수하지 않는다.
+- **C. 아직 필요.** 수급·컨센서스·거래정지 상태 + 장중 10분 시세(홈 실시간 브리핑·장중 판단).
+- **D. 품질 영향.** 무료 공식 자료만 쓰면 2026-09-16 실자료 기준 판정 22.2%(133/600) 변화 · FLOW 축 소실 · 기준가가 장중가→전일 확정 종가(§4).
+- **E. 무료+공식 허용 범위.** 후보 전부 무료 API. 그러나 허용 범위(공공누리 유형·재배포·상업)가 확인된 것은 0건 → 무료 범위를 확정하지 않는다.
+- **F. 광고 유지 시.** 상업 이용 게이트(commercialUse)가 열려야 한다. KRX Open API 는 이미 PROHIBITED, 공공데이터 형제 데이터셋은 제2·4유형 → 광고 유지는 "제1유형 확인 또는 원천기관 계약" 이 조건이다.
+- **G. 광고 제거 시.** KRX `commercialUse` 판정만 재검토 대상이 된다. 네이버(자동수집 사전 승낙)·KIND·공공데이터 재배포 조건은 광고와 무관하게 남는다. **광고 제거는 해결책이 아니며 이번 작업에서 광고를 제거하지 않았다.**
+- **H. 가장 안전한 조합(조건부).** 가격·일봉·시총·목록·지수 = 공공데이터포털(15094808·15094807) / 재무 = OpenDART / 환율 = ECOS·수출입은행 / 수급·컨센서스 = 축 제거(CHIEF 3축 재정규화) 또는 소유자 결정. 전부 "원문 확인 뒤" 조건이 붙는다.
+
+### 10.4 공개 저장소의 네이버 유래 파일 4분류 (과거 Git history 삭제 0 · 검증 없는 제거 0)
+
+분류 어휘: `CURRENTLY_REQUIRED` / `DERIVED_ONLY_REPLACEMENT_POSSIBLE` / `SAFE_TO_STOP_FUTURE_WRITES` / `OWNER_REVIEW_REQUIRED`. "사이트가 읽나" 는 `index.html`·`app.js`·`market-map.js` 의 script/fetch 를 grep 으로 확인했다.
+
+| 파일 | 사이트가 읽나 | 분류 | 근거 |
+|---|---|---|---|
+| `data.js` | ○ (`app.js` fetch) | CURRENTLY_REQUIRED | 홈·종목 카드·스냅샷 전부 |
+| `price_history.js` | ○ (`index.html` script · 캔들·5일 뒤 종가) | CURRENTLY_REQUIRED · 네이버 유래 과거분 처리는 OWNER_REVIEW_REQUIRED | 채점 근거라 단순 삭제 불가 |
+| `index_history.js` | ○ (`index.html` script) | CURRENTLY_REQUIRED | 지수 패널·순환매 |
+| `krx_list.json` | ○ (`app.js` 관리자 자동완성) · Guardian | CURRENTLY_REQUIRED | 이름만 KRX, 내용은 네이버 marketValue |
+| `market_universe/full_market_latest.json.gz` | ○ (`market-map.js` fetch) | CURRENTLY_REQUIRED | 시장지도 |
+| `market_universe/source_verify.json` | ✕ (수집기 `collect_market_universe.py` 가 필드 집합을 읽음) | CURRENTLY_REQUIRED(수집기) | 표본값 없음 · 필드명·비율만 |
+| `price_provenance.json` | ✕ (파이프라인 · 봉인 원본) | CURRENTLY_REQUIRED(채점 증거) | 값 해시·관측시각 |
+| `analysis_data.json` | ✕ (파이프라인만 · Pages 제외) | DERIVED_ONLY_REPLACEMENT_POSSIBLE · 재구성 시점은 OWNER_REVIEW_REQUIRED | 사이트 미사용 · 네이버 필드명 원문 구조 |
+| `flow_history/` | ✕ (검증·연구 · Pages 제외) | OWNER_REVIEW_REQUIRED | 대체 불가 자료 · 비공개 보존 후보 |
+| `research_archive/decisions/originals` | ✕ (채점·검증) | CURRENTLY_REQUIRED(불변 원본) | 이력 삭제 없음 |
+| `snap/stock/*.html` | ○ (검색엔진·사이트) | CURRENTLY_REQUIRED | 값의 출처만 바뀐다 |
+
+`SAFE_TO_STOP_FUTURE_WRITES` 로 확정한 **파일은 0개** — 후보는 `analysis_data.json` 안의 LEGACY_UNUSED **필드**(frgnRate·foreignRate·recommMean·cnsPer 등)뿐이고, 그 필드를 안 쓰게 바꾸는 것은 수집 코드 변경이라 이번 범위 밖이다.
+
+### 10.5 독립 검증에서 정정한 것 (2026-09-17 · 문서만)
+
+1. 집계 문구: "READY_TO_REPLACE 0" → **1(O · 형식상)** — JSON 집계와 일치시켰다.
+2. DIANA 한계값은 대칭이 아니다: PER **+12/−10** · PBR **+8/−6** · ROE **+8/−6** · 선행PER **+6/−5** · 목표가 괴리 +12/−16 → 컨센서스 항 합계 최대 **+18/−21**(`analyze_auto.py diana_eval`).
+3. `pos52w`: RISK 감점 식(vol20·mdd3m)에 없음은 맞으나 `research_engine.py`(그림자 연구 지표 20/60 일 창)가 읽는다 → DISPLAY_ONLY 유지하되 연구 소비자를 명기.
+4. `lastClosePrice`·`marketValue` 는 미사용이 아니다(`update_flow_history.py:108` 시총·주식수 추정) · `cnsPer` 는 `indicators.json` 에 없다(analysis_data 원문에만).
+5. 지도 §0 의 축 가중치는 `team_weights.js` 전역값이며 업종 오버라이드가 있으면 종목별로 다르다(`analyze_auto.py load_team_weights`).
+
+### 10.6 Production 스위치 — 변경 없음
+
+`NAVER_PRODUCTION_DISABLED = 0` · `NEW_PROVIDER_PRODUCTION_ENABLED = 0` · `BUY_HOLD_SELL_FORMULA_CHANGE = 0` · `WEIGHT_CHANGE = 0` · `THRESHOLD_CHANGE = 0` · `PAID_API_ADDED = 0` · `RUNTIME_LLM_ADDED = 0` · `PRIVATE_CHANGED = 0` · `TEAM_PAPER_CHANGED = 0` (`config/data_supply_migration.json` `productionSwitches` · 시험이 전부 0 임을 잠근다).
+이번 PR 에서 Production 공급자 전환·네이버 중단·광고 제거·새 schedule/Routine·유료 API·runtime LLM·Private/Gateway·Team PAPER 변경은 하지 않았다.

@@ -18,6 +18,8 @@
 | 화면·SEO | 현재가·등락·PER·PBR·ROE·EPS·배당·시총·52주·지수·환율·캔들·시장지도 | 홈·종목 카드·스냅샷 페이지 대부분 |
 | 채점·검증 | base(현재가) · 5거래일 뒤 종가(price_history) · 수급 원본(flow_history) | 성적표·team_weights·Evolution 입력 |
 
+축 가중치(약 31/26/30/12%)는 `team_weights.js` **전역값**(2026-09-16 기준)이다. 업종 오버라이드가 있으면 종목별로 달라진다(`analyze_auto.py load_team_weights` · 승인된 Evolution override 가 있으면 전역 단일 적용). 한계값은 §2 의 실제 코드 값(비대칭)을 따른다.
+
 ## 1. endpoint 별 요청량 (실제 워크플로 기준 · 거래일 1일 추정)
 
 | endpoint | 호출 파일 | 주기 | 1회차 요청 | 하루 추정 | 읽는 필드 |
@@ -42,20 +44,20 @@
 | A | 현재가 | itemSummary `now` | `data.js price` → `indicators price` → `auto_analysis base` → `history.js base` → 봉인 원본 | update_prices → compute_indicators → analyze_auto → archive/decision_records | **DIRECT** DIANA 목표가 괴리·선행PER 의 분모 · 모든 판단의 기준가 · 채점 분모 | ○ | ○ | ○ | CRITICAL |
 | B | 전일대비·등락률 | itemSummary `rate` | `data.js rate` · `marketBrief.breadth` | app.js · 홈 브리핑 | 없음(산식 미포함) | ○ | | | IMPORTANT |
 | C | 시가 | siseJson [1] | `analysis_data daily.open` · `price_history` | 캔들차트 | 없음 | ○ | | | DISPLAY_ONLY |
-| D | 고가 | siseJson [2] | `daily.high` → `tech.todayGiveback` · `rebound_watch` | compute_indicators · analyze_auto(taro_eval) | **DIRECT(소폭)** 고가 대비 종가 반납 6% 초과 시 TARO 최대 −15 | ○ | | | IMPORTANT |
+| D | 고가 | siseJson [2] | `daily.high` → `tech.todayGiveback` · `rebound_watch` | compute_indicators · analyze_auto(taro_eval) | **DIRECT(소폭)** 고가 대비 종가 반납이 6% 를 넘으면 초과분만큼 TARO 감점 −min(15, 반납%−6) | ○ | | | IMPORTANT |
 | E | 저가 | siseJson [3] | `daily.low` · `price_history` | 캔들차트 | 없음 | ○ | | | DISPLAY_ONLY |
 | F | 거래량 | siseJson [5] · dealTrends `accumulatedTradingVolume` | `daily.volume` → `tech.volRatio` · `flow.periodVolume`(수급 비율 분모) · `radar` | compute_indicators · radar_signals · rebound_watch | INDIRECT: TARO 점수 아님(근거 문구) · 레이더 신호 · 수급 품질점수 분모 | ○ | | | IMPORTANT |
 | G | 거래대금 | totalInfos `accumulatedTradingValue` · 전체시장 `accumulatedTradingValueRaw` | 종목별: 아무도 안 읽음 · 전체시장: 집중도 통계 | collect_market_universe | 없음 | ○(시장지도) | | | LEGACY_UNUSED(종목별) |
 | H | 시가총액 | itemSummary `marketSum`(백만원) · totalInfos `marketValue` · 전체시장 `marketValueRaw` | `data.js cap('N조')` · `flow_history mcapEok` · 전체시장 시총가중 수익률 · Guardian cap 순위 | update_prices · update_flow_history · guardian | 없음(판단) · Guardian 상폐 판정 보조 | ○ | | ○ | IMPORTANT |
-| I | PER | itemSummary `per` | `data.js per` → `indicators per` | analyze_auto(diana_eval) | **DIRECT** DIANA 최대 ±12 | ○ | | | CRITICAL |
-| J | PBR | itemSummary `pbr` | `data.js pbr` | diana_eval | **DIRECT** DIANA 최대 ±8 | ○ | | | CRITICAL |
-| K | EPS·BPS·ROE | itemSummary `eps` · totalInfos `bps` → `roe = eps/bps` | `data.js eps` `roe` | diana_eval | **DIRECT** ROE 최대 ±8 · EPS 는 문구 | ○ | | | CRITICAL |
+| I | PER | itemSummary `per` | `data.js per` → `indicators per` | analyze_auto(diana_eval) | **DIRECT** DIANA +12(PER<10) ~ −10(PER≥40) · 적자 −6 | ○ | | | CRITICAL |
+| J | PBR | itemSummary `pbr` | `data.js pbr` | diana_eval | **DIRECT** DIANA +8(PBR<1) ~ −6(PBR≥5) | ○ | | | CRITICAL |
+| K | EPS·BPS·ROE | itemSummary `eps` · totalInfos `bps` → `roe = eps/bps` | `data.js eps` `roe` | diana_eval | **DIRECT** ROE +8(≥15%) ~ −6(<0) · EPS 는 문구 | ○ | | | CRITICAL |
 | L | 외국인 순매수·보유율 | dealTrendInfos `foreignerPureBuyQuant` `foreignerHoldRatio` `bizdate` | `indicators flow.frgnSum/holdNow/holdBefore/todayFrgn/qualityScore` · `flow_history/` | compute_indicators(flow_summary) · analyze_auto(flow_eval) · update_flow_history | **DIRECT** FLOW 최대 ±16(순매수) ±6(보유율) · 가중치 약 30% | ○ | | ○ | CRITICAL |
 | M | 기관 순매수 | dealTrendInfos `organPureBuyQuant` | `flow.orgSum/todayOrg` | flow_eval | **DIRECT** FLOW 최대 ±10 | ○ | | ○ | CRITICAL |
 | N | 개인 순매수 | dealTrendInfos `individualPureBuyQuant` | `flow.indiSum/todayIndi` | flow_eval(문구) | 없음(문구) | ○ | | ○ | IMPORTANT |
 | O | 프로그램·거래원 | (수집하지 않음) | | | | | | | 해당 없음 |
-| P | 컨센서스 | consensusInfo `priceTargetMean` `recommMean` · totalInfos `cnsEps` `cnsPer` | `indicators targetMean/targetGap/fwdPer/cnsEps` · `chief.target` 문구 | diana_eval · chief_eval | **DIRECT** DIANA 목표가 괴리 +12/−16 · 선행PER ±6 (405/600 종목만 보유) · `recommMean` `cnsPer` 는 미사용 | ○ | | | IMPORTANT |
-| Q | 기타 재무 | totalInfos `dividendYieldRatio` `low/highPriceOf52Weeks` · siseJson [6] `frgnRate` · totalInfos `foreignRate` | `data.js div` `w52` · `risk.pos52w`(표시용) · `daily.frgnRate`(미사용) | app.js · risk_for | 없음(pos52w 는 감점 식에 안 들어감) | ○ | | | DISPLAY_ONLY / LEGACY_UNUSED(frgnRate·foreignRate) |
+| P | 컨센서스 | consensusInfo `priceTargetMean` `recommMean` · totalInfos `cnsEps` `cnsPer` | `indicators targetMean/targetGap/fwdPer/cnsEps` · `chief.target` 문구 | diana_eval · chief_eval | **DIRECT** DIANA 목표가 괴리 +12/−16 · 선행PER +6/−5 (컨센서스 항 합계 최대 +18/−21 · 405/600 종목만 보유) · `recommMean` 은 indicators 에 옮겨지나 소비자 0 · `cnsPer` 는 indicators.json 에 없음(analysis_data 원문에만) | ○ | | | IMPORTANT |
+| Q | 기타 재무 | totalInfos `dividendYieldRatio` `low/highPriceOf52Weeks` · siseJson [6] `frgnRate` · totalInfos `foreignRate` | `data.js div` `w52` · `risk.pos52w`(표시용) · `daily.frgnRate`(미사용) | app.js · risk_for | 없음(pos52w 는 RISK 감점 식(vol20·mdd3m)에 안 들어감 · `research_engine.py` 그림자 연구 지표 20/60 일 창만 읽음) | ○ | | | DISPLAY_ONLY / LEGACY_UNUSED(frgnRate·foreignRate) |
 | R | 종목 목록(전체 상장) | marketValue `itemCode` `stockName` … | `krx_list.json`(이름과 달리 네이버) · `market_universe/full_market_latest.json.gz` · `market_context.js` | fetch_krx_list · collect_market_universe · guardian · market-map.js · 관리자 자동완성 | 없음(판단) · Guardian 상폐 1차 증거 · 전체시장 Breadth·시장지도 | ○ | | ○ | IMPORTANT |
 | S | 시장구분 | marketValue 경로 `{market}` | `krx_list m` · `market_universe market` | guardian · market_universe | 없음 | ○ | | ○ | IMPORTANT |
 | T | 과거 일봉(≈10개월) | siseJson 배열 | `analysis_data daily` · `price_history.js`(189k행) · `indicators tech/risk` · `radar` · `dow_stats` · `rotation` · `rebound_watch` · `team_weights`(채점) · `model_intelligence` · QUANT 통계표 | compute_indicators · analyze_auto · compute_radar · compute_dow_stats · compute_rotation · compute_rebound_watch · compute_team_weights · compute_model_intelligence · decision_records(evaluate) · gaeo_evolution | **DIRECT** TARO·QUANT·RISK 전부 · 5거래일 뒤 채점 | ○ | ○ | ○ | CRITICAL |
@@ -73,8 +75,8 @@
 | 필드 | 어디에 저장 | 확인 방법 |
 |---|---|---|
 | siseJson 일봉 [6] `frgnRate` | `analysis_data.json daily` | `grep -rn frgnRate` → collect_analyst_data.py 의 저장 줄 하나뿐 |
-| totalInfos `foreignRate` `accumulatedTradingValue` `accumulatedTradingVolume` `openPrice` `highPrice` `lowPrice` `lastClosePrice`(*) | `analysis_data.json info.totalInfos` | 소비자 0 (*`lastClosePrice`·`marketValue` 는 update_flow_history 의 시총 추정에만 쓰임) |
-| consensusInfo `recommMean` · totalInfos `cnsPer` | `indicators.json recommMean` | compute_indicators 가 옮기기만 하고 아무도 안 읽음 |
+| totalInfos `foreignRate` `accumulatedTradingValue` `accumulatedTradingVolume` `openPrice` `highPrice` `lowPrice` | `analysis_data.json info.totalInfos` | 소비자 0 — `lastClosePrice`·`marketValue` 는 **미사용이 아니다**(`update_flow_history.py:108` 시총·주식수 추정에 읽음 → 새 계약에도 종가·시총 필요) |
+| consensusInfo `recommMean` · totalInfos `cnsPer` | `recommMean` → `indicators.json`(옮기기만 함) · `cnsPer` → `analysis_data.json` 원문에만(indicators 에 없음) | 둘 다 소비자 0(2026-09-17 grep 재확인) |
 | itemSummary `diff` `risefall` `quant` `amount` | 저장 안 함(응답에만 있음) | price_provenance `excludedKeys` |
 
 제거는 이번 작업 범위 밖이다(수집 코드를 건드리지 않는다). 전환 시 새 계약에는 넣지 않는다.
