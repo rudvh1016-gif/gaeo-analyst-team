@@ -25,6 +25,7 @@
 | `dart_research.py` / `research_archive/decisions/dart_research/` | 당시 공시 확인 증거·보호된 판단 연결·분리된 비교표 | 기존 수집·원본 보존·성적표 갱신 경로의 연구 부속 기능. 내용 해시 증거는 덮어쓰지 않는다. `docs/DART_RESEARCH.md` |
 | `market_history.js` | 날짜별 시장분석 누적 | `archive_analysis.py` |
 | `price_history.js` | 일별 종가(5거래일=1페이지) | `update_price_history.py` |
+| `official_prices/fsc_15094808/` · `official_price_history.js` | ⚖️ 공식 일별 시세(금융위원회_주식시세정보 15094808 · T+1) 원문·해시·정정 이력 저장소(append-only · Pages 제외) / 종목 화면 '최근 가격 흐름' 캔들차트 전용 파생 파일(`meta.enabled` 스위치 · 네이버 채움 0). 채점·판단 입력은 여전히 `price_history.js` | `data_supply/fsc_daily_collect.py`(ops-daily `--if-due` · `fsc-daily-price-verify` dispatch) / `build_official_price_history.py` |
 | `flow_history/YYYY-MM.json` · `flow_history/index.json` | 종목별 일별 수급(외국인·기관·개인 순매수·거래량·종가·시총추정) 영구 기록. 네이버가 최근 5거래일치만 주므로 지금부터 쌓는 원본이고, **APPEND-ONLY**(기록된 날짜·종목은 덮어쓰기·삭제 금지) | `update_flow_history.py` (update-analysis.yml이 매 사이클 실행) |
 | `analysis_data.json` | 분석용 원천 데이터(일봉·수급·컨센서스) | `collect_analyst_data.py` |
 | `indicators.json` / `indicators.js` | 사전계산 지표(RSI·MACD·이동평균·볼린저밴드 등, 분석 시 토큰 절약용) / 브라우저용 축약본 | `compute_indicators.py` |

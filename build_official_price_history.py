@@ -19,6 +19,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -70,16 +71,34 @@ def build(root=HERE, out_path=None, enabled=None):
         'note': '기준일 다음 영업일 13:00 KST 이후 제공되는 지연 자료. 장중 현재가가 아니다. 없는 날짜·종목은 비워 둔다.',
     }
     payload = {'meta': meta, 'stocks': {code: series[code] for code in covered} if enabled else {}}
+    path = out_path or os.path.join(root, OUT_NAME)
+    # 내용이 같으면(생성 시각만 다르면) 다시 쓰지 않는다 — 스위치가 꺼진 채 매일 도는 ops-daily 가 빈 커밋을 만들지 않게.
+    if os.path.exists(path) and _same_payload(path, payload):
+        meta['unchanged'] = True
+        return meta
     header = ('// 자동 생성: build_official_price_history.py · 공식 일별 시세(금융위원회_주식시세정보 15094808) 차트용\n'
               '// ' + fsc.ATTRIBUTION + ' · T+1 지연 자료 · 공급자 제공값 그대로(조정 여부 UNCONFIRMED)\n'
               '// meta.enabled=false 면 화면은 이 파일을 쓰지 않는다(기존 경로 유지). 네이버 자료로 채우지 않는다.\n')
     body = header + 'const OFFICIAL_PRICE_HISTORY = ' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';\n'
-    path = out_path or os.path.join(root, OUT_NAME)
     tmp = path + '.tmp'
     with open(tmp, 'w', encoding='utf-8') as handle:
         handle.write(body)
     os.replace(tmp, path)
     return meta
+
+
+def _same_payload(path, payload):
+    try:
+        with open(path, encoding='utf-8') as handle:
+            txt = handle.read()
+        match = re.search(r'const OFFICIAL_PRICE_HISTORY = (\{.*\});', txt, re.S)
+        existing = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError, AttributeError):
+        return False
+    if not isinstance(existing, dict):
+        return False
+    strip = lambda obj: {'meta': {k: v for k, v in (obj.get('meta') or {}).items() if k != 'generatedAt'}, 'stocks': obj.get('stocks')}
+    return strip(existing) == strip(payload)
 
 
 def main(argv=None):

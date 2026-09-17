@@ -3,6 +3,39 @@
 > 계획·경계·합격 기준은 `MASTER_PLAN.md`. 이 문서는 **최신 진도·확인된 근거·막힘·다음 행동**만 적는다.
 > 민감정보(토큰·계좌·IP)와 거대한 원시 로그는 넣지 않는다.
 
+## 2026-09-17 낮 — 공식 일별 주가(금융위원회_주식시세정보 15094808) 실제 전환 준비 (PR-1: 구현·시험·워크플로 · 스위치 OFF)
+
+### 한 줄
+
+**가격 차트 하나를 네이버 일봉에서 공식 공공데이터로 바꿀 준비를 끝까지 만들었고, 실제 전환 스위치는 실응답 검증 뒤에 켠다.**
+기존 어댑터(`data_supply/fsc_stock_price.py`)를 운영 수준으로 고치고(수신시각·완전성·중복/상충·범위 밖 행·NaN/음수·인코딩키 이중 인코딩·
+리다이렉트 사전 차단·요청 상한), 공식 자료를 별도 저장소(`official_prices/fsc_15094808/`, 원문 행+해시+출처+정정 이력)에 보존하며,
+종목 화면 '최근 가격 흐름' 캔들차트만 읽는 파생 파일(`official_price_history.js`)과 읽기 경로(app.js)를 분리했다.
+`config/source_compliance.json` 의 `fsc_public_data` 는 **15094808 한정 APPROVED_WITH_CONDITIONS** 로 정정했다(소유자 2026-09-17 직접 확인:
+이용허락범위 제한 없음·무료·자동승인·T+1 · 이 세션의 직접 열람은 EGRESS_BLOCKED 라 "소유자 확인 기록"이지 "직접 열람 완료"가 아니다).
+상태 **IMPLEMENTED_WAITING_CREDENTIALS** — 이 세션은 data.go.kr 에 나갈 수 없고 Actions Secret `DATA_GO_KR_SERVICE_KEY` 존재 여부도
+워크플로가 돌아야 불리언으로 알 수 있다. 새 워크플로(`fsc-daily-price-verify.yml`, dispatch 전용)는 main 에 있어야 dispatch 되므로
+PR-1 병합 뒤 1회 돌려 결과에 따라 PR-2(스위치 ON + 검증 기록)를 낸다.
+
+### 교체 범위 (이번 PR 에서 실제로 바뀌는 것 / 안 바뀌는 것)
+
+- 바뀜(준비): 일별 시가·고가·저가·종가·거래량의 **공식 보존**(기준일·수신시각·해시·완전성) · 차트 전용 읽기 경로 · ops-daily 기존 발화에 하루 1회 `--if-due`(요청 상한 6) 수집
+- 안 바뀜: 장중 현재가(data.js) · 수급 · 컨센서스 · PER/PBR 재계산 · BUY/HOLD/SELL 입력 · `price_history.js`(채점·순환매·반등이 읽는 공용 파일) ·
+  `update_price_history.py` 의 네이버 siseJson 요청(≈9,030/거래일 — 다른 소비자 때문에 유지 → 차트가 켜져도 "PARTIAL_CONSUMER_MIGRATED")
+- 채점: 공식 가격자료를 **확보·보존**하는 단계다. `comparison_evidence`(source == KRX · 가격 기준 증거 · 기업행사)에는 인정하지 않는다(위장 0 · 허용 공급자 추가 0).
+
+### 검증
+
+`test_fsc_daily_price.py` 58건(§13 목록: 키 없음/인증 실패/승인 안 됨 · 키 유출 0 · receivedAt 순서 · 기준일≠수신일 · totalCount 누락/불일치/중간 실패 ·
+범위 밖 행 · 중복/상충 · 빈 값≠0 · 음수/NaN · 미발행 미채움 · 조정 여부 미승격 · 정정 이력 · 네이버 복귀 0 · data.js 불변 · 판단 입력 불변 · 채점 게이트 자동 통과 금지 ·
+워크플로/Pages/준법 범위) · `test_data_supply_migration.py` 28건 · `test_validation_runner.py` 59건(허용 경로 5곳) · `legal_source_gate` 0 findings ·
+premerge: `test_radar.py` 1건은 main 에서도 같은 자료(장중 radar.json 에 지연 종목 1건이 전날 기준일)로 실패하는 기존 건 — 이번 변경과 무관.
+
+### 소유자 조치 한 가지
+
+공공데이터포털 활용신청(15094808)이 승인된 serviceKey 를 Actions Secret `DATA_GO_KR_SERVICE_KEY` 로 저장한다(값은 아무 데도 적지 않는다).
+그 뒤는 이 세션이 `fsc-daily-price-verify`(mode=verify · 요청 상한 50 · 10거래일 · 표본 20종목)를 돌려 결과로 PR-2 를 낸다.
+
 ## 2026-09-17 새벽 — LEGAL DATA SUPPLY MIGRATION PHASE 1 FINAL CLOSURE (최신 main 위 재검증 · PR)
 
 ### 한 줄
