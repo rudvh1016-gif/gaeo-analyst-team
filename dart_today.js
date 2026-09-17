@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 12:26",
- "priceLabel": "2026-09-17 12:17 장중 · ⚠️ 2종목 지연",
- "count": 310,
+ "generatedAt": "2026-09-17 12:56",
+ "priceLabel": "2026-09-17 12:51 장중 · ⚠️ 2종목 지연",
+ "count": 311,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "240810",
+   "name": "원익IPS",
+   "title": "자기주식처분결과보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T03:55:04.314787+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000122"
+  },
   {
    "code": "000150",
    "name": "두산",

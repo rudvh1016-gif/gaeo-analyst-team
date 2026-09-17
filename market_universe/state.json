@@ -1,6 +1,6 @@
 {
  "status": "READY",
- "asOf": "2026-09-17T03:26:37+00:00",
+ "asOf": "2026-09-17T03:56:27+00:00",
  "kstDay": "2026-09-17",
  "rawCount": 3910,
  "eligibleCount": 2417,
@@ -19,8 +19,8 @@
   "excludedCounts": {
    "CLASS_SHARE": 90,
    "ETF": 863,
-   "ETN": 369,
    "REIT": 21,
+   "ETN": 369,
    "SPAC": 38
   },
   "classificationUnknownCount": 0,
