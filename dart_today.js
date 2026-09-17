@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 10:26",
- "priceLabel": "2026-09-17 10:20 장중 · ⚠️ 2종목 지연",
- "count": 299,
+ "generatedAt": "2026-09-17 10:56",
+ "priceLabel": "2026-09-17 10:44 장중 · ⚠️ 2종목 지연",
+ "count": 301,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000067"
+  },
+  {
+   "code": "038500",
+   "name": "삼표시멘트",
+   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000075"
+  },
+  {
+   "code": "310210",
+   "name": "보로노이",
+   "title": "기업설명회(IR)개최",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917900148"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000059"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000061"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000064"
+  },
   {
    "code": "039490",
    "name": "키움증권",
@@ -24,33 +78,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T01:25:13.476784+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000054"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000046"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000048"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000052"
   },
   {
    "code": "001060",
@@ -195,15 +222,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": false,
    "rceptNo": "20260916800424"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000450"
   },
   {
    "code": "039490",

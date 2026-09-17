@@ -4,18 +4,18 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-17 10:26",
- "dataCutoff": "2026-09-17 10:26 장중",
+ "generatedAt": "2026-09-17 10:56",
+ "dataCutoff": "2026-09-17 10:56 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 5,
-   "why": "20거래일 +56.8% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +59.2% · 20일선 위",
    "overheat": false,
-   "gapPct": 19.7,
+   "gapPct": 21.4,
    "call": "HOLD",
    "callConflict": false
   },
@@ -33,23 +33,23 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 39.3,
+  "breadthPct": 42.0,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6764.55,
-    "ma20": 6804.34,
+    "close": 6763.55,
+    "ma20": 6804.29,
     "above": false,
-    "gapPct": -0.58
+    "gapPct": -0.6
    },
    "KOSDAQ": {
-    "close": 821.08,
-    "ma20": 819.34,
+    "close": 822.05,
+    "ma20": 819.39,
     "above": true,
-    "gapPct": 0.21
+    "gapPct": 0.32
    }
   }
  },
