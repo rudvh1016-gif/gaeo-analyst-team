@@ -6,7 +6,8 @@
     · 네이버 의존성 지도(config/data_supply_migration.json)의 어휘·완전성: 모든 상품이 4개 교체상태 중 하나이고,
       네이버 endpoint 동결 목록(config/source_compliance.json)의 endpoint 가 빠짐없이 어느 상품엔가 연결돼 있으며,
       소비자 파일이 실제로 존재한다. 추측 분류를 막기 위해 CRITICAL 상품은 결정영향 근거 문장을 가진다.
-    · 공식 대체 후보(fsc_public_data) 게이트의 운영 기본값은 닫혀 있고, 어댑터는 닫힌 게이트에서 네트워크에 나가지 않는다.
+    · 공식 대체 후보(fsc_public_data) 게이트는 2026-09-17 부터 15094808 한정 APPROVED_WITH_CONDITIONS 다(소유자 확인 기록 ·
+      세션 직접 열람 EGRESS_BLOCKED). 어댑터는 닫힌 게이트를 주입하면 네트워크에 나가지 않고, 키가 없으면 열린 게이트여도 호출하지 않는다.
     · 어댑터는 값을 지어내지 않는다(필수 필드 누락·계약 위반 행은 사유와 함께 거른다), 단위·코드·날짜를 계약대로 바꾼다,
       serviceKey 를 어디에도 남기지 않는다.
     · 오프라인 그림자 비교는 Production 을 재현한다(rebuild_indicators == indicators.json · evaluate == auto_analysis.js),
@@ -101,15 +102,25 @@ class RegistryContract(unittest.TestCase):
         self.assertIn('T_daily_ohlcv_history', fsc_products)
 
 
-class GateStaysClosed(unittest.TestCase):
-    def test_공식_대체_후보_게이트의_운영_기본값은_닫혀_있다(self):
+def _closed_gate():
+    g = copy.deepcopy(compliance.cleared_gate(fsc.PROVIDER_ID))
+    g['gates']['automatedCollection'] = 'OWNER_CONFIRMATION_REQUIRED'
+    g['automatedCollectionAllowed'] = False
+    g['state'] = compliance.STATE_UNVERIFIED
+    return g
+
+
+class GateScope(unittest.TestCase):
+    def test_공식_대체_후보_게이트는_15094808_한정_조건부_열림이다(self):
         g = compliance.gate(fsc.PROVIDER_ID)
-        self.assertEqual(g['state'], compliance.STATE_UNVERIFIED)
-        self.assertEqual(g['commercialState'], compliance.COMMERCIAL_NOT_CLEARED)
-        self.assertFalse(g['automatedCollectionAllowed'])
+        self.assertEqual(g['verdict'], 'APPROVED_WITH_CONDITIONS')
+        self.assertEqual(g['state'], compliance.STATE_CLEARED)
         prov = compliance.provider(fsc.PROVIDER_ID)
         self.assertIn('apis.data.go.kr', prov['hostnames'])
-        self.assertTrue(prov['checkedAt'])
+        self.assertEqual(prov['checkedAt'], '2026-09-17')
+        self.assertEqual(prov['scope']['datasetIds'], ['15094808'])
+        self.assertIn('EGRESS_BLOCKED', prov['checkMethod'])          # '직접 열람 완료'라고 적지 않는다
+        self.assertTrue(prov['conditions'])
 
     def test_닫힌_게이트에서는_네트워크에_나가지_않는다(self):
         calls = []
@@ -118,7 +129,7 @@ class GateStaysClosed(unittest.TestCase):
             calls.append(url)
             return b'{}'
         with self.assertRaises(compliance.LegalGateError):
-            fsc.fetch_page(bas_dt='20260915', service_key='dummy', opener=opener)
+            fsc.fetch_page(bas_dt='20260915', service_key='dummy', gate=_closed_gate(), opener=opener)
         self.assertEqual(calls, [])
 
     def test_키가_없으면_열린_게이트여도_호출하지_않는다(self):
@@ -133,11 +144,13 @@ class GateStaysClosed(unittest.TestCase):
                 os.environ[fsc.KEY_ENV] = old
         self.assertEqual(calls, [])
 
-    def test_라이브_CLI_는_닫힌_게이트에서_종료코드_2(self):
+    def test_라이브_CLI_는_키가_없으면_종료코드_3_호출_0(self):
+        env = {k: v for k, v in os.environ.items() if k != fsc.KEY_ENV}
+        env['PYTHONUTF8'] = '1'
         r = subprocess.run([sys.executable, '-m', 'data_supply.fsc_stock_price', '--live', '--bas-dt', '20260915'],
-                           cwd=HERE, capture_output=True, text=True, env=dict(os.environ, PYTHONUTF8='1'))
-        self.assertEqual(r.returncode, 2, r.stdout + r.stderr)
-        self.assertIn('LEGAL_GATE CLOSED', r.stdout)
+                           cwd=HERE, capture_output=True, text=True, env=env)
+        self.assertEqual(r.returncode, 3, r.stdout + r.stderr)
+        self.assertIn('CREDENTIALS_MISSING', r.stdout)
 
 
 class AdapterNormalization(unittest.TestCase):
@@ -220,7 +233,7 @@ class AdapterNormalization(unittest.TestCase):
             seen['url'] = url
             return json.dumps(_fixture_payload()).encode('utf-8')
         key = 'SECRET-KEY-VALUE-1234567890+/=='
-        rows, rejected, meta, structure = fsc.fetch_page(bas_dt='20260910', service_key=key,
+        rows, rejected, meta, structure = fsc.fetch_page(begin='20260910', end='20260914', service_key=key,
                                                           gate=compliance.cleared_gate(fsc.PROVIDER_ID), opener=opener)
         self.assertIn('apis.data.go.kr', seen['url'])
         self.assertIn('serviceKey=', seen['url'])
@@ -229,6 +242,8 @@ class AdapterNormalization(unittest.TestCase):
         self.assertNotIn(key, json.dumps(meta))
         self.assertNotIn(key.replace('+', '%2B'), json.dumps(meta))
         self.assertIn(fsc.REDACTED, meta['requestPath'])
+        self.assertEqual(meta['outOfRange'], 0)
+        self.assertLessEqual(meta['requestedAt'], meta['receivedAt'])
         prov = fsc.provenance_for(rows[0], meta['receivedAt'])
         self.assertEqual(prov['provider'], 'FSC_PUBLIC_DATA_PORTAL')
         self.assertFalse(prov['scoringProofAccepted'])

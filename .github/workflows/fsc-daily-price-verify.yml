@@ -1,0 +1,126 @@
+# 공식 일별 시세(금융위원회_주식시세정보 · 공공데이터포털 15094808) 실응답 검증 · 수동 백필 (2026-09-17 신설)
+#
+# 왜 있나
+#   가격 차트를 네이버 일봉에서 공식 공공데이터로 바꾸려면 "실제 응답이 계약대로 오는가"를 작고 제한된 범위에서 먼저 확인해야 한다.
+#   이 세션(원격)은 data.go.kr 로 나갈 수 없어서, 검증은 이 워크플로가 대신한다.
+#
+# 안전 규칙 (바꾸지 말 것)
+#   - workflow_dispatch 전용. push·schedule 없음 → 브랜치에 올려도 스스로 기동하지 않는다(2026-09-07 두 번째 사고의 교훈).
+#     일일 수집은 새 schedule 을 만들지 않고 ops-daily.yml 의 기존 발화(평일 17:05 KST)에 --if-due 로 얹었다.
+#   - 첫 스텝이 legal_source_gate.py --require fsc_public_data:automatedCollection 을 통과해야 네트워크에 나간다(닫히면 종료코드 2).
+#   - 키(DATA_GO_KR_SERVICE_KEY)는 값이 아니라 존재 여부(SECRET_PRESENT=true/false)만 로그에 남는다. URL·예외·아티팩트·리다이렉트에 키를 남기지 않는다.
+#   - 요청 상한(max_requests)은 이번 실행의 상한이지 공식 허용량이 아니다. 기본 50. 대규모 백필은 자동으로 시작하지 않는다.
+#   - 결과(official_prices/ · official_price_history.js)는 commit=true 이고 ref 가 main 이 아닐 때만 그 브랜치에 커밋한다. main 은 PR 경로로만.
+#   - 네이버·토스·DART 호출 0. 실패해도 네이버로 복귀하지 않는다(마지막 정상 자료는 저장소에 기준일과 함께 남는다).
+name: fsc-daily-price-verify
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "verify(작은 실응답 검증 + 저장) · backfill(N 거래일 백필) · plan(네트워크 0 · 계획만)"
+        type: choice
+        options: [verify, backfill, plan]
+        default: verify
+      days:
+        description: "거래일 수(verify 기본 10 · backfill 은 명시)"
+        type: number
+        default: 10
+      codes_limit:
+        description: "표본 종목 수(verify)"
+        type: number
+        default: 20
+      max_requests:
+        description: "요청 상한 — 이번 실행의 보수적 상한(공식 한도 아님)"
+        type: number
+        default: 50
+      commit:
+        description: "결과를 이 run 의 브랜치에 커밋한다(main 금지 · 허용 경로 official_prices/ · official_price_history.js 만)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fsc-daily-price
+  cancel-in-progress: false
+
+jobs:
+  fsc:
+    if: github.repository == 'rudvh1016-gif/gaeo-analyst-team'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Seoul
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 준법 게이트 (열려 있지 않으면 네트워크에 나가지 않고 종료코드 2)
+        run: python3 legal_source_gate.py --require fsc_public_data:automatedCollection
+
+      - name: 실행 (키 값은 절대 출력하지 않는다 — 존재 여부만)
+        id: run
+        env:
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          MODE: ${{ inputs.mode }}
+          DAYS: ${{ inputs.days }}
+          CODES_LIMIT: ${{ inputs.codes_limit }}
+          MAX_REQUESTS: ${{ inputs.max_requests }}
+        run: |
+          set +e
+          case "$MODE" in
+            plan)     python3 -m data_supply.fsc_daily_collect --plan --days "$DAYS" | tee -a "$GITHUB_STEP_SUMMARY"; code=$? ;;
+            backfill) python3 -m data_supply.fsc_daily_collect --backfill --days "$DAYS" --max-requests "$MAX_REQUESTS" --summary "$GITHUB_STEP_SUMMARY"; code=$? ;;
+            *)        python3 -m data_supply.fsc_daily_collect --verify --days "$DAYS" --codes-limit "$CODES_LIMIT" --max-requests "$MAX_REQUESTS" --summary "$GITHUB_STEP_SUMMARY"; code=$? ;;
+          esac
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # 차트용 파일은 스위치(consumerMigrations.priceChart.enabled)에 따라 비어 있거나 채워진다. 스위치는 이 워크플로가 바꾸지 않는다.
+          python3 build_official_price_history.py || echo "::warning::official_price_history.js 생성 실패"
+          exit 0
+
+      - name: 결과 커밋 (commit=true · main 금지 · 허용 경로만)
+        if: inputs.commit == true && github.ref != 'refs/heads/main'
+        run: |
+          git add -A -- official_prices official_price_history.js
+          if git diff --cached --quiet; then echo "변경 없음 — 커밋하지 않는다"; exit 0; fi
+          for p in $(git diff --cached --name-only); do
+            case "$p" in official_prices/*|official_price_history.js) ;; *) echo "::error::허용 밖 경로가 스테이지됐다: $p"; exit 1;; esac
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "fsc-daily-price: ${{ inputs.mode }} 결과 기록 $(date '+%Y-%m-%d %H:%M') KST"
+          for i in 1 2 3; do
+            git push origin "HEAD:${GITHUB_REF_NAME}" && { echo "push 완료"; exit 0; }
+            sleep $((2 ** i)); git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          done
+          echo "::error::push 3회 실패 — artifact 가 마지막 보존이다"; exit 1
+
+      - name: 보고서 artifact (값 아닌 집계 · 키 없음)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fsc-daily-price-${{ github.run_id }}
+          path: official_prices/fsc_15094808/verification
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: 판정 (0 정상 · 2 게이트 닫힘 · 3 키 없음 · 4 확보 0 · 1 실패)
+        if: always()
+        env:
+          CODE: ${{ steps.run.outputs.code }}
+        run: |
+          case "${CODE:-1}" in
+            0) echo "정상 종료" ;;
+            2) echo "::error::준법 게이트 닫힘 — 네트워크 0"; exit 2 ;;
+            3) echo "::warning::CREDENTIALS_MISSING — Actions Secret DATA_GO_KR_SERVICE_KEY 가 없다(값이 아니라 존재 여부). 활용신청 승인 뒤 같은 이름으로 저장"; exit 3 ;;
+            4) echo "::error::실응답을 하나도 확보하지 못했다 — 보고서 problems 확인"; exit 4 ;;
+            *) echo "::error::수집/검증 실패 (code ${CODE:-없음})"; exit 1 ;;
+          esac

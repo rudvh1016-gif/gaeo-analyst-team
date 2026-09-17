@@ -10,7 +10,8 @@
 #   - 예정 시각 전에는 실행하지 않는다(실행기가 거부). 같은 일정은 하루 1회. 원장은 덧붙이기만(지우면 커밋 실패).
 #   - 실행 명령은 config 의 allowlist 만. 이 파일·이슈 본문·JSON 의 임의 문자열을 실행하지 않는다.
 #   - 산식·Constitution·테스트를 고치지 않는다. 결과의 후속 조치는 followup 명세 파일로만 남긴다(코드 변경은 사람/개발 AI).
-#   - 커밋 경로는 셋뿐: docs/audits/validation_runs/ · docs/VALIDATION_SCHEDULE.md · docs/operations/repair_requests/.
+#   - 커밋 경로는 다섯뿐: docs/audits/validation_runs/ · docs/VALIDATION_SCHEDULE.md · docs/operations/repair_requests/ ·
+#     official_prices/(공식 일별 시세 저장소 · 2026-09-17) · official_price_history.js(가격 차트용 파생 파일).
 #     그 밖의 파일이 스테이지되면 커밋하지 않고 실패한다. 커밋은 main 에서만(schedule, 또는 apply=true 로 dispatch).
 #   - 저장 실패(push 4회 실패·rebase 충돌)여도 공식 결과를 버리지 않는다(2026-09-10 구간 C): 같은 커밋을
 #     validation-inbox-<run_id> 브랜치에 보존하고, 결과 폴더를 artifact 로도 올린다. 다음 run 이 시작할 때 inbox 를 회수해
@@ -96,6 +97,26 @@ jobs:
         continue-on-error: true
         run: python3 check_history_evidence.py --report | tee -a "$GITHUB_STEP_SUMMARY"
 
+      # ⚖️ 2026-09-17 공식 일별 시세(금융위원회_주식시세정보 15094808) — 이 워크플로의 기존 발화(평일 17:05 KST)에 얹어 하루 1회,
+      #    비어 있는 최근 기준일만 받는다(요청 상한 6 · 새 schedule 아님). 게이트가 닫혀 있거나 키가 없으면 아무것도 받지 않고 상태만
+      #    남긴다(키 값은 출력하지 않는다). 실패해도 네이버로 복귀하지 않는다 — 저장소의 마지막 정상 자료가 기준일과 함께 남는다.
+      #    차트용 파생 파일(official_price_history.js)은 스위치(consumerMigrations.priceChart.enabled)에 따라 비어 있거나 채워진다.
+      - name: 공식 일별 시세 수집 (FSC 15094808 · 하루 1회 · 요청 상한 6 · 네이버 복귀 없음)
+        id: fsc
+        if: env.APPLY == 'true'
+        continue-on-error: true
+        env:
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+        run: |
+          code=0
+          if python3 legal_source_gate.py --require fsc_public_data:automatedCollection; then
+            python3 -m data_supply.fsc_daily_collect --if-due --max-requests 6 --summary "$GITHUB_STEP_SUMMARY" || code=$?
+          else
+            echo "FSC 게이트 닫힘 — 수집 생략(네트워크 0)"; code=2
+          fi
+          python3 build_official_price_history.py || echo "::warning::official_price_history.js 생성 실패"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
       # 지난 run 이 push 에 실패해 inbox 브랜치에 남긴 결과가 있으면 먼저 회수한다(같은 결과 재발행 · 재채점 0).
       # 회수한 파일은 아래 기록 커밋 스텝이 함께 커밋한다. 브랜치 삭제는 main 저장이 확인된 뒤에만.
       - name: 저장 실패로 남은 결과 회수 (validation-inbox-* → 작업트리)
@@ -122,17 +143,17 @@ jobs:
           echo "notify=$notify" >> "$GITHUB_OUTPUT"
           if [ "$APPLY" = "true" ]; then python3 render_validation_schedule.py; fi
 
-      - name: 기록 커밋 (main · 허용 경로 3곳만 · 원장은 덧붙이기만)
+      - name: 기록 커밋 (main · 허용 경로 5곳만 · 원장은 덧붙이기만)
         id: commit
         if: env.APPLY == 'true'
         continue-on-error: true
         run: |
           echo "committed=" >> "$GITHUB_OUTPUT"
-          git add -A -- docs/audits/validation_runs docs/VALIDATION_SCHEDULE.md docs/operations/repair_requests
+          git add -A -- docs/audits/validation_runs docs/VALIDATION_SCHEDULE.md docs/operations/repair_requests official_prices official_price_history.js
           if git diff --cached --quiet; then echo "변경 없음 — 커밋하지 않는다"; echo "nothing=true" >> "$GITHUB_OUTPUT"; exit 0; fi
           for p in $(git diff --cached --name-only); do
             case "$p" in
-              docs/audits/validation_runs/*|docs/VALIDATION_SCHEDULE.md|docs/operations/repair_requests/*) ;;
+              docs/audits/validation_runs/*|docs/VALIDATION_SCHEDULE.md|docs/operations/repair_requests/*|official_prices/*|official_price_history.js) ;;
               *) echo "::error::허용 밖 경로가 스테이지됐다: $p"; exit 1;;
             esac
           done

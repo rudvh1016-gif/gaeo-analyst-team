@@ -1254,6 +1254,9 @@ window.GaeoFeatures=(()=>{
     //    history.js(13.6MB)까지 같이 받아 합계 42.5MB가 되는데, 상관계수는
     //    PRICE_HISTORY만 쓴다. 필요 없는 13.6MB를 받게 하지 않으려고 따로 뒀다.
     priceHistory:['price_history.js'],
+    // ⚖️ 공식 일별 시세(금융위원회_주식시세정보 15094808 · T+1) — 종목 화면의 '최근 가격 흐름' 캔들차트 전용 읽기 경로(2026-09-17).
+    //    meta.enabled 가 false 면 몇 백 바이트뿐이고 화면은 기존 경로(price_history.js)를 그대로 쓴다. 켜지면 이 파일만 쓴다.
+    officialPrices:['official_price_history.js'],
     auto:['auto_analysis.js'],
     // 📊 전체 기술지표(1,056KB) — 홈은 indicators_home.js(79KB)만 받고, 종목 상세·
     //    포트폴리오처럼 tech 전체·flow·risk가 필요한 화면에서만 이걸 받는다.
