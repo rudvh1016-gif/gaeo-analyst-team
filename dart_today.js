@@ -1,12 +1,75 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 13:26",
- "priceLabel": "2026-09-17 13:15 장중 · ⚠️ 2종목 지연",
+ "generatedAt": "2026-09-17 13:56",
+ "priceLabel": "2026-09-17 13:54 장중 · ⚠️ 2종목 지연",
  "count": 315,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000143"
+  },
+  {
+   "code": "003470",
+   "name": "유안타증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000152"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000140"
+  },
+  {
+   "code": "000150",
+   "name": "두산",
+   "title": "투자판단관련주요경영사항 (증설 투자의 건)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800240"
+  },
+  {
+   "code": "326030",
+   "name": "SK바이오팜",
+   "title": "투자판단관련주요경영사항",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800227"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000155"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000162"
+  },
   {
    "code": "020000",
    "name": "한섬",
@@ -181,15 +244,6 @@ const DART_TODAY = {
   {
    "code": "000150",
    "name": "두산",
-   "title": "주식소각결정",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917800163"
-  },
-  {
-   "code": "000150",
-   "name": "두산",
    "title": "매매거래정지및정지해제(중요내용공시)",
    "receiptDate": "20260917",
    "detectedAt": "2026-09-17T02:25:11.850942+00:00",
@@ -222,15 +276,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T01:55:17.460577+00:00",
    "isCorrection": false,
    "rceptNo": "20260917900148"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000049"
   },
   {
    "code": "039200",
@@ -267,15 +312,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T01:25:13.476784+00:00",
    "isCorrection": false,
    "rceptNo": "20260917800091"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000051"
   },
   {
    "code": "056080",
@@ -782,15 +818,6 @@ const DART_TODAY = {
    "rceptNo": "20260916000355"
   },
   {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T06:45:57.866653+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000394"
-  },
-  {
    "code": "383310",
    "name": "에코프로에이치엔",
    "title": "기업설명회(IR)개최",
@@ -861,15 +888,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T05:45:47.641132+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000304"
-  },
-  {
-   "code": "003470",
-   "name": "유안타증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000255"
   },
   {
    "code": "336570",
@@ -1023,15 +1041,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T04:57:22.999966+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000216"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T04:27:22.498021+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000189"
   },
   {
    "code": "257720",
@@ -1698,15 +1707,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
    "rceptNo": "20260915000068"
-  },
-  {
-   "code": "326030",
-   "name": "SK바이오팜",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000040"
   },
   {
    "code": "326030",
