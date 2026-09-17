@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 10:56",
- "priceLabel": "2026-09-17 10:44 장중 · ⚠️ 2종목 지연",
- "count": 301,
+ "generatedAt": "2026-09-17 11:26",
+ "priceLabel": "2026-09-17 11:18 장중 · ⚠️ 2종목 지연",
+ "count": 306,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000095"
+  },
+  {
+   "code": "039200",
+   "name": "오스코텍",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000088"
+  },
+  {
+   "code": "005930",
+   "name": "삼성전자",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000097"
+  },
+  {
+   "code": "000150",
+   "name": "두산",
+   "title": "주식소각결정",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800163"
+  },
+  {
+   "code": "000150",
+   "name": "두산",
+   "title": "매매거래정지및정지해제(중요내용공시)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800165"
+  },
   {
    "code": "039490",
    "name": "키움증권",
