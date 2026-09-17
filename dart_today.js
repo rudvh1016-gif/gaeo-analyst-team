@@ -1,12 +1,30 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 11:56",
- "priceLabel": "2026-09-17 11:53 장중 · ⚠️ 2종목 지연",
- "count": 308,
+ "generatedAt": "2026-09-17 12:26",
+ "priceLabel": "2026-09-17 12:17 장중 · ⚠️ 2종목 지연",
+ "count": 310,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "000150",
+   "name": "두산",
+   "title": "특수관계인에대한담보제공",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T03:25:14.531565+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000118"
+  },
+  {
+   "code": "483650",
+   "name": "달바글로벌",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T03:25:14.531565+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000116"
+  },
   {
    "code": "272210",
    "name": "한화시스템",
