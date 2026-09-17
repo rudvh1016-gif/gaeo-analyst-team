@@ -5,7 +5,7 @@
 window.REBOUND_WATCH = {
  "schemaVersion": 1,
  "ruleVersion": "REBOUND_WATCH_V1",
- "generatedAt": "2026-09-17 14:30",
+ "generatedAt": "2026-09-17 14:59",
  "rule": {
   "dropPct": -20.0,
   "volRatio": 1.5,
@@ -19,7 +19,7 @@ window.REBOUND_WATCH = {
   "sellTaxPct": 0.2
  },
  "today": "2026-09-17",
- "todayCount": 0,
+ "todayCount": 1,
  "summary": {
   "ruleVersion": "REBOUND_WATCH_V1",
   "scoredCount": 0,
@@ -27,7 +27,7 @@ window.REBOUND_WATCH = {
   "minScoredForEvidence": 20,
   "minDaysForEvidence": 20,
   "evidenceOk": false,
-  "pendingCount": 3,
+  "pendingCount": 4,
   "winRatePct": null,
   "avgReturnPct": null,
   "medianReturnPct": null,
@@ -65,6 +65,17 @@ window.REBOUND_WATCH = {
    "price": 28100,
    "dropPct": -26.54,
    "volRatio": 1.65,
+   "gaeoCall": "SELL",
+   "status": "PENDING",
+   "ruleVersion": "REBOUND_WATCH_V1"
+  },
+  {
+   "code": "483650",
+   "name": "달바글로벌",
+   "date": "2026-09-17",
+   "price": 171900,
+   "dropPct": -23.6,
+   "volRatio": 1.51,
    "gaeoCall": "SELL",
    "status": "PENDING",
    "ruleVersion": "REBOUND_WATCH_V1"
