@@ -5,7 +5,7 @@
 window.REBOUND_WATCH = {
  "schemaVersion": 1,
  "ruleVersion": "REBOUND_WATCH_V1",
- "generatedAt": "2026-09-16 16:17",
+ "generatedAt": "2026-09-17 09:33",
  "rule": {
   "dropPct": -20.0,
   "volRatio": 1.5,
@@ -18,8 +18,8 @@ window.REBOUND_WATCH = {
   "commissionPct": 0.015,
   "sellTaxPct": 0.2
  },
- "today": "2026-09-16",
- "todayCount": 2,
+ "today": "2026-09-17",
+ "todayCount": 0,
  "summary": {
   "ruleVersion": "REBOUND_WATCH_V1",
   "scoredCount": 0,
