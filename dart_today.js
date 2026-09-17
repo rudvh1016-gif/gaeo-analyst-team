@@ -1,12 +1,93 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 09:56",
- "priceLabel": "2026-09-17 09:45 장중 · ⚠️ 2종목 지연",
- "count": 295,
+ "generatedAt": "2026-09-17 10:26",
+ "priceLabel": "2026-09-17 10:20 장중 · ⚠️ 2종목 지연",
+ "count": 299,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000049"
+  },
+  {
+   "code": "039200",
+   "name": "오스코텍",
+   "title": "주식등의대량보유상황보고서(약식)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000054"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000046"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000048"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000052"
+  },
+  {
+   "code": "001060",
+   "name": "JW중외제약",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000035"
+  },
+  {
+   "code": "001060",
+   "name": "JW중외제약",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000055"
+  },
+  {
+   "code": "001060",
+   "name": "JW중외제약",
+   "title": "최대주주등소유주식변동신고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800091"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T01:25:13.476784+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000051"
+  },
   {
    "code": "056080",
    "name": "유진로봇",
@@ -404,15 +485,6 @@ const DART_TODAY = {
    "rceptNo": "20260916000400"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T07:15:54.839530+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000417"
-  },
-  {
    "code": "241710",
    "name": "코스메카코리아",
    "title": "주식등의대량보유상황보고서(일반)",
@@ -602,24 +674,6 @@ const DART_TODAY = {
    "rceptNo": "20260916800336"
   },
   {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000317"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T06:15:41.048415+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000330"
-  },
-  {
    "code": "006220",
    "name": "제주은행",
    "title": "[기재정정]주요사항보고서(상각형조건부자본증권발행결정)",
@@ -717,15 +771,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T05:45:47.641132+00:00",
    "isCorrection": false,
    "rceptNo": "20260916000235"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T05:45:47.641132+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000283"
   },
   {
    "code": "005940",
@@ -1536,15 +1581,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T03:32:01.201463+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800235"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T03:32:01.201463+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000037"
   },
   {
    "code": "145020",
