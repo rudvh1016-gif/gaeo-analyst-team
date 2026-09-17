@@ -1,12 +1,138 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 15:29",
- "priceLabel": "2026-09-17 15:21 장중 · ⚠️ 2종목 지연",
- "count": 322,
+ "generatedAt": "2026-09-17 16:00",
+ "priceLabel": "2026-09-17 종가 (15:56 수집) · ⚠️ 2종목 지연",
+ "count": 331,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "120110",
+   "name": "코오롱인더",
+   "title": "주요사항보고서(자본으로인정되는채무증권발행결정)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000235"
+  },
+  {
+   "code": "008730",
+   "name": "율촌화학",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000259"
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "[기재정정]일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260917000240"
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "[기재정정]투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260917000245"
+  },
+  {
+   "code": "383310",
+   "name": "에코프로에이치엔",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000255"
+  },
+  {
+   "code": "397030",
+   "name": "에이프릴바이오",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000261"
+  },
+  {
+   "code": "023530",
+   "name": "롯데쇼핑",
+   "title": "주주총회소집결의",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800386"
+  },
+  {
+   "code": "023530",
+   "name": "롯데쇼핑",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800397"
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000246"
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000236"
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000239"
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000248"
+  },
+  {
+   "code": "009540",
+   "name": "HD한국조선해양",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800398"
+  },
+  {
+   "code": "079160",
+   "name": "CJ CGV",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:58:30.809978+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800408"
+  },
   {
    "code": "051600",
    "name": "한전KPS",
@@ -33,15 +159,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T06:28:27.850253+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000218"
-  },
-  {
-   "code": "035420",
-   "name": "NAVER",
-   "title": "풍문또는보도에대한해명",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T06:28:27.850253+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917800315"
   },
   {
    "code": "001500",
@@ -348,15 +465,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T02:55:15.501224+00:00",
    "isCorrection": false,
    "rceptNo": "20260917800184"
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:55:15.501224+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000113"
   },
   {
    "code": "033640",
@@ -726,15 +834,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": false,
    "rceptNo": "20260917800057"
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000500"
   },
   {
    "code": "010130",
@@ -1275,15 +1374,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-16T00:17:43.434759+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800678"
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-16T00:17:43.434759+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000008"
   },
   {
    "code": "122900",
@@ -2607,15 +2697,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T06:43:20.816900+00:00",
    "isCorrection": false,
    "rceptNo": "20260911000389"
-  },
-  {
-   "code": "035420",
-   "name": "NAVER",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000383"
   },
   {
    "code": "030200",
