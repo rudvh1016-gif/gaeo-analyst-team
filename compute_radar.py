@@ -40,6 +40,25 @@ def price_status(price_label):
     return "provisional" if "장중" in label else "confirmed"
 
 
+def last_bar_date(daily):
+    """종목의 마지막 봉 날짜(없으면 '')."""
+    if daily and isinstance(daily[-1], dict) and daily[-1].get("date"):
+        return str(daily[-1]["date"])
+    return ""
+
+
+def latest_bar_date(stocks_raw):
+    """전체 종목 중 가장 최신 봉 날짜 — 이 회차의 '기준일'."""
+    return max((last_bar_date(s.get("daily") or []) for s in (stocks_raw or {}).values() if isinstance(s, dict)), default="")
+
+
+def is_stale(daily, latest_bar):
+    """지연 종목인가 — 마지막 봉이 전체 최신 봉(기준일)보다 오래됐다(거래정지·수집 지연).
+    ⚠️ 2026-09-17 실측: 카프로(006380 · data.js stale · 마지막 봉 09-16)의 '전날 봉' 거래량 급증이 09-17 회차 이벤트에 섞여
+       기준일이 둘이 됐다(test_radar '모든 이벤트가 같은 기준일' 실패). 지연 종목의 예전 신호는 오늘 신호가 아니므로 검사에서 뺀다."""
+    return bool(latest_bar) and last_bar_date(daily) != latest_bar
+
+
 def build_series(daily):
     """상세 화면용 최근 60거래일 압축 데이터.
     앞부분(볼린저 20일·RSI 14일이 아직 안 잡히는 구간)은 null로 두고 브라우저가 건너뛴다."""
@@ -93,13 +112,20 @@ def main():
 
     stocks_raw = raw.get("stocks") or {}
     events, series = [], {}
-    insufficient, failed, latest_bar = [], [], ""
+    insufficient, failed, stale = [], [], []
+    # 기준일은 전체 종목의 최신 봉 날짜다. 그보다 오래된 봉만 가진 종목(지연·거래정지)은 이번 회차 검사에서 빼고
+    # '데이터부족'으로 센다 — '검사 + 데이터부족 + 실패 = 전체' 항등식은 그대로다(staleBar 는 진단용 개수).
+    latest_bar = latest_bar_date(stocks_raw)
 
     for code, s in stocks_raw.items():
         # 종목 하나가 이상 데이터로 죽어도 나머지 499종목이 멈추지 않게 개별 보호
         try:
             name = (live.get("stocks", {}).get(code) or {}).get("name") or s.get("name") or code
             daily = s.get("daily") or []
+            if is_stale(daily, latest_bar):
+                stale.append(code)
+                insufficient.append(code)
+                continue
             evs, note = R.detect_events(code, name, daily,
                                         detected_at=detected_at,
                                         price_base_at=price_label,
@@ -107,8 +133,6 @@ def main():
             if note == "insufficient":
                 insufficient.append(code)
                 continue
-            if daily and daily[-1].get("date"):
-                latest_bar = max(latest_bar, str(daily[-1]["date"]))
             if evs:
                 events.extend(evs)
                 series[code] = build_series(daily)
@@ -146,6 +170,7 @@ def main():
         "scanned": len(stocks_raw) - len(insufficient) - len(failed),
         "insufficient": len(insufficient),
         "failed": len(failed),
+        "staleBar": len(stale),
         "total": len(events),
         "stockCount": len(by_code),
         "counts": counts,
@@ -183,7 +208,7 @@ def main():
     #    (그러면 파일이 1바이트도 안 바뀌어 git이 변경으로 잡지 않는다).
     #    장중에는 시세 라벨(priceLabel)이 매번 바뀌므로 실제 갱신은 그대로 반영된다.
     full = {**meta, "events": events, "stocks": stocks_summary,
-            "insufficientCodes": insufficient[:50], "failedCodes": failed[:20]}
+            "insufficientCodes": insufficient[:50], "failedCodes": failed[:20], "staleCodes": stale[:50]}
 
     def without_times(doc):
         """생성 시각(generatedAt·detectedAt)만 빼고 비교용으로 정규화."""
@@ -228,7 +253,7 @@ def main():
         f.write(f"const GAEO_RADAR_SERIES = {json.dumps(series, ensure_ascii=False)};\n")
 
     print(f"radar 생성 완료 ({detected_at}, 시세기준 {price_label or '-'} / {status})")
-    print(f"  검사 {meta['scanned']}종목 (전체 {meta['universe']} · 데이터부족 {meta['insufficient']} · 실패 {meta['failed']})")
+    print(f"  검사 {meta['scanned']}종목 (전체 {meta['universe']} · 데이터부족 {meta['insufficient']}(지연 봉 {meta['staleBar']}) · 실패 {meta['failed']})")
     print(f"  신호 {meta['total']}건 / {meta['stockCount']}종목 · 차트데이터 {len(series)}종목")
     for t in R.MAIN_ORDER + R.EXTRA_ORDER:
         if counts.get(t):
