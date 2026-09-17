@@ -846,5 +846,28 @@
       "replaceStatus": "NO_SAFE_REPLACEMENT_FOUND",
       "note": "FSC 주식시세정보에는 거래정지 표시가 없다. 시장조치는 OpenDART/KIND 계열(별도 게이트)."
     }
-  ]
+  ],
+  "consumerMigrations": {
+    "_note": "실제 사용처 전환 상태(2026-09-17). productionSwitches(금지 항목 스위치)와 별개로, 검증된 사용처 하나씩만 켠다. 코드가 임의로 켜지 않는다 — official_prices/fsc_15094808/verification/ 의 보고서 conclusion=LIVE_DATA_VERIFIED 를 evidence 에 적고 사람이 enabled=1 로 바꾼다. 어휘: IMPLEMENTED_WAITING_CREDENTIALS · LIVE_DATA_VERIFIED · PARTIAL_CONSUMER_MIGRATED · SCOPED_MIGRATION_VERIFIED.",
+    "priceChart": {
+      "consumer": "app.js showQuote → renderPriceChart → stockOhlcSectionHTML (종목 화면 '최근 가격 흐름' 캔들차트)",
+      "officialFile": "official_price_history.js",
+      "builder": "build_official_price_history.py",
+      "store": "official_prices/fsc_15094808/",
+      "provider": "fsc_public_data",
+      "datasetId": "15094808",
+      "enabled": 0,
+      "minTradingDays": 20,
+      "status": "IMPLEMENTED_WAITING_CREDENTIALS",
+      "evidence": null,
+      "naverFallback": 0,
+      "notMigrated": [
+        "price_history.js — 채점(decision_records·scoreboard)·순환매·반등·모의투자·최근 종가 표가 읽는 공용 파일 · 그대로 네이버",
+        "data.js 현재가·등락률 — 장중 시세 · 그대로 네이버(T+1 종가를 넣지 않는다)",
+        "TARO 터미널 flatCloses(MA·RSI·MACD 계산 인접) · 그대로"
+      ],
+      "naverRequestsRemoved": 0,
+      "naverRequestsRemaining": "update_price_history.py siseJson 602종목 × 30분(≈9,030/거래일)은 price_history.js 의 다른 소비자(채점·순환매·반등) 때문에 이번 작업에서 제거하지 않는다 — 소비 파일만 바뀌었으므로 \"전환 미완료(PARTIAL)\"로 보고한다"
+    }
+  }
 }

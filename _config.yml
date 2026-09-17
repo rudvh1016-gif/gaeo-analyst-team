@@ -28,3 +28,5 @@ exclude:
   # ⚖️ 2026-09-16 PHASE 1: 공급자 어댑터·그림자 비교 코드와 합성 픽스처. 사이트가 읽지 않는다.
   - data_supply/
   - config/
+  # ⚖️ 2026-09-17 공식 일별 시세 저장소(원문 행·해시·정정 이력). 사이트는 파생 파일 official_price_history.js 만 읽는다.
+  - official_prices/

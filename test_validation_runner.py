@@ -43,7 +43,9 @@ import run_validation_schedule as R                        # noqa: E402
 from krx_calendar import is_krx_trading_day                # noqa: E402
 
 WORKFLOW = os.path.join(HERE, ".github", "workflows", "ops-daily.yml")
-ALLOWED_COMMIT_PATHS = ("docs/audits/validation_runs", "docs/VALIDATION_SCHEDULE.md", "docs/operations/repair_requests")
+# 2026-09-17: 공식 일별 시세 저장소(official_prices/)와 차트용 파생 파일(official_price_history.js)이 추가됐다 — ops-daily 가
+ALLOWED_COMMIT_PATHS = ("docs/audits/validation_runs", "docs/VALIDATION_SCHEDULE.md", "docs/operations/repair_requests",
+                        "official_prices", "official_price_history.js")
 
 # 임시 저장소 안에서 allowlist 단계 역할을 하는 가짜 명령. knobs.json 으로 결과를 조종한다.
 FAKE_STEP = r'''
@@ -918,7 +920,7 @@ class WorkflowContract(unittest.TestCase):
         self.assertIn("github.ref == 'refs/heads/main'", self.body)
         self.assertIn("if: env.APPLY == 'true'", self.body)
 
-    def test_커밋은_허용_경로_3곳만_원장은_덧붙이기만(self):
+    def test_커밋은_허용_경로만_원장은_덧붙이기만(self):
         add_lines = [l for l in self.body.splitlines() if "git add" in l]
         self.assertEqual(len(add_lines), 1)
         for tok in add_lines[0].split("--", 1)[1].split():

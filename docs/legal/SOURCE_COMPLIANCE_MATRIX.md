@@ -88,7 +88,7 @@ KRX Open API 조항은 검색 결과에 인용된 공식 페이지 스니펫으�
 
 | 후보 | 상태 | 메모 |
 |---|---|---|
-| 공공데이터포털 금융위원회_주식시세정보 (data.go.kr/data/15094808) | OWNER_CONFIRMATION_REQUIRED | 공식·무료·T+1(다음 영업일 13:00 이후) 일별 OHLCV·시총·상장주식수·전 종목. 공공누리 유형 원문 미확인(형제 데이터셋은 제2·4유형 상업 이용금지) → COMMERCIAL_USE_NOT_CLEARED. shadow 어댑터 `data_supply/fsc_stock_price.py`(합성 픽스처 · 게이트 닫힘 · 실호출 0) |
+| 공공데이터포털 금융위원회_주식시세정보 (data.go.kr/data/15094808) | **APPROVED_WITH_CONDITIONS (15094808 한정 · 2026-09-17)** | 공식·무료·T+1(다음 영업일 13:00 이후) 일별 OHLCV·시총·상장주식수·전 종목. 소유자 2026-09-17 직접 확인: 상세페이지·메타데이터 license '이용허락범위 제한 없음' · 무료 · 자동승인(세션 직접 열람은 EGRESS_BLOCKED — 소유자 확인 기록). 조건: 출처표시 · 키 보호 · T+1 표시 · 조정 여부 UNCONFIRMED · 요청 상한 명시. 다른 데이터셋·KRX 직접 API 로 확대하지 않는다. 어댑터 운영 수리 + 저장소(`official_prices/fsc_15094808/`) + 차트 소비자 준비 |
 | 금융위원회_지수시세정보 (15094807) · KRX상장종목정보 (15094775) | OWNER_CONFIRMATION_REQUIRED / PERMISSION_NOT_VERIFIED | 지수·목록 대체 후보. 후자는 2차 자료상 제4유형 |
 | OpenDART 재무제표(EPS·BPS → PER·PBR·ROE 재구성) | OWNER_CONFIRMATION_REQUIRED | 이미 수집 중. 정의 변경(네이버 추정 EPS ≠ DART 공시 EPS)은 OWNER 승인 |
 | KRX Open API | COMMERCIAL_USE_NOT_CLEARED | 비상업 전용 · 원자료 재배포 금지 · 투자자별 거래실적·PER/PBR API 미제공 |

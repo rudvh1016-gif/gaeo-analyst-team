@@ -291,6 +291,23 @@ function sparklineSVG(rows){
 }
 /* ---- 최근 종가 페이지 (price_history.js · PRICE_HISTORY, 5거래일=1페이지) ---- */
 let LIVE_PH=(typeof PRICE_HISTORY!=='undefined')?PRICE_HISTORY:null;
+/* ---- 공식 일별 시세(official_price_history.js · OFFICIAL_PRICE_HISTORY) — 가격 차트 전용 읽기 경로 (2026-09-17) ----
+   금융위원회_주식시세정보(공공데이터포털 15094808 · T+1). meta.enabled 가 true 일 때만 캔들차트가 이 자료를 쓴다.
+   없는 종목·기간은 네이버 자료로 채우지 않는다(자료 없음으로 표시). 판단 계산·채점·'최근 종가' 표·TARO 터미널은
+   그대로 price_history.js 를 읽는다 — 이 경로는 차트만 바꾼다. */
+let LIVE_OPH=(typeof OFFICIAL_PRICE_HISTORY!=='undefined')?OFFICIAL_PRICE_HISTORY:null;
+function officialChartSeries(code){
+  const oph=LIVE_OPH;
+  if(!oph||!oph.meta||oph.meta.enabled!==true) return {enabled:false,days:[],meta:(oph&&oph.meta)||null};
+  const days=((oph.stocks||{})[code]||[]).filter(d=>d&&d.date&&Number.isFinite(d.close))
+    .slice().sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
+  return {enabled:true,days,meta:oph.meta};
+}
+function officialChartUnavailableHTML(meta){
+  const last=meta&&meta.lastTradingDate?meta.lastTradingDate:'—';
+  return `<div class="qchart-head"><div class="qchart-heading"><span class="qchart-eyebrow">PRICE TREND</span><span class="qchart-t">최근 가격 흐름</span></div></div>`+
+    `<div class="qchart-cap">공식 일별 시세(금융위원회 주식시세정보 · 공공데이터포털)에 이 종목의 자료가 아직 없어요. 다른 출처로 대신 채우지 않아요. 마지막 확보 기준일 ${esc(last)}.</div>`;
+}
 const PH_PAGE={};        // code -> 현재 보고 있는 페이지 번호(1-indexed)
 const HIST_PAGE={};      // code -> 판단 히스토리 페이지(10건=1페이지, 최신 페이지가 기본)
 const HIST_PAGE_SIZE=10; // 정밀분석 과거기록: 10개씩 묶어 페이지로 (과거 계속 누적)
@@ -3159,6 +3176,18 @@ function showQuote(st){
   const cw=document.getElementById('qchartWrap');
   cw.style.display='block';
   const renderPriceChart=(full=false)=>{
+    // ⚖️ 2026-09-17: 공식 일별 시세가 켜져 있으면(official_price_history.js meta.enabled) 차트는 그 자료만 쓴다.
+    //    자료가 없는 종목은 비워 두고 안내한다 — 네이버 자료로 대신 채우지 않는다(FSC 실패 시 네이버 복귀 0).
+    const official=(typeof officialChartSeries==='function')?officialChartSeries(st.code):{enabled:false,days:[],meta:null};
+    if(official.enabled){
+      if(official.days.length>=2){
+        cw.innerHTML=stockOhlcSectionHTML(st.code,official.days,official.meta);
+        wireOhlcChart('q-'+st.code,official.days,stockWon);
+      } else {
+        cw.innerHTML=officialChartUnavailableHTML(official.meta);
+      }
+      return;
+    }
     const ohlcDays=(typeof flatOHLC==='function')?flatOHLC(st.code):[];
     if(ohlcDays.length>=2){
       cw.innerHTML=stockOhlcSectionHTML(st.code,ohlcDays);
@@ -3178,7 +3207,21 @@ function showQuote(st){
       }
     } else cw.style.display='none';
   };
-  renderPriceChart(GaeoFeatures.ready('history'));
+  // 공식 시세 파일(official_price_history.js)은 종목 화면에서만 지연 로드한다. 아직 안 받았으면 받은 뒤에 그린다 —
+  // 받기 전에 기존 경로로 먼저 그리면 두 출처의 차트가 번갈아 보이므로 그러지 않는다. 받기 실패면 기존 경로로 돌아가지 않고 안내만 한다.
+  if(typeof GaeoFeatures!=='undefined'&&typeof GaeoFeatures.ready==='function'&&!GaeoFeatures.ready('officialPrices')){
+    cw.innerHTML='<div class="qchart-cap">가격 흐름 차트를 준비하는 중…</div>';
+    GaeoFeatures.load('officialPrices').then(()=>{
+      if(document.getElementById('qcode').textContent!==st.code) return;
+      LIVE_OPH=(typeof OFFICIAL_PRICE_HISTORY!=='undefined')?OFFICIAL_PRICE_HISTORY:null;
+      renderPriceChart(GaeoFeatures.ready('history'));
+    }).catch(()=>{
+      if(document.getElementById('qcode').textContent!==st.code) return;
+      cw.innerHTML='<div class="qchart-cap">공식 시세 파일을 불러오지 못했어요. 새로고침하면 다시 시도해요.</div>';
+    });
+  } else {
+    renderPriceChart(GaeoFeatures.ready('history'));
+  }
   if(typeof window.renderStockJudge==='function') window.renderStockJudge(st.code);
 }
 // 개별 종목 캔들차트용 원화 표기(지수는 idxWon으로 소수점 포인트, 종목은 정수+'원')
@@ -3197,29 +3240,37 @@ function flatOHLC(code){
 /* ── 시세 카드 가격 흐름(2026-08-07 개편): 코스피·코스닥 상세와 같은 캔들+이동평균+거래량
    차트(ohlcChartHTML/wireOhlcChart)를 그대로 재사용해 "전문 차트" 수준으로 올렸다.
    위아래 요약 바(시작종가→현재종가, 기간 최고·최저)는 기존 문구를 그대로 유지한다. */
-function stockOhlcSectionHTML(code,days){
+function stockOhlcSectionHTML(code,days,official){
   const closes=days.map(d=>d.close);
   const n=closes.length, first=closes[0], last=closes[n-1], chg=(last-first)/first*100;
   const flat=Math.abs(chg)<0.05, up=last>=first;
   const trend=flat?'flat':(up?'up':'down');
   const fmtD=s=>String(s).split('-').slice(-2).join('/');
   const period=`${fmtD(days[0].date)} ~ ${fmtD(days[n-1].date)}`;
+  // ⚖️ 2026-09-17: 공식 일별 시세(T+1)로 그릴 때는 출처·기준일·지연·자료 부족을 그대로 보여준다. 디자인은 그대로, 문구만 더한다.
+  const isOfficial=!!(official&&official.enabled===true);
+  const lastDate=String(days[n-1].date||'');
+  const subTail=isOfficial?` · 기준일 <b>${esc(lastDate)}</b>`:'';
+  const currentLabel=isOfficial?'마지막 확정 종가':'현재 종가';
+  const shortNote=(isOfficial&&official.minTradingDays&&n<official.minTradingDays)?` 공식 자료는 ${esc(String(official.firstTradingDate||days[0].date))}부터 쌓기 시작해 아직 ${n}거래일치예요 — 매일 하루씩 늘어나요.`:'';
+  const srcNote=isOfficial?`<div class="qchart-cap qchart-src">출처: 금융위원회 주식시세정보 · 공공데이터포털(15094808). 기준일 다음 영업일 오후 1시 이후 제공되는 <b>지연 자료</b>라 오늘 캔들은 없어요(마지막 기준일 ${esc(lastDate)}). 공급자가 준 값 그대로이고, 수정주가 반영 여부는 아직 확인되지 않았어요.${shortNote}</div>`:'';
   const delta=Math.abs(last-first), direction=flat?'보합':(up?'상승':'하락');
   const action=flat?'같아요':(up?'올랐어요':'내렸어요');
   const arrow=flat?'→':(up?'↗':'↘');
   const hi=Math.max(...closes), lo=Math.min(...closes);
   return `<div class="qchart-head">`+
       `<div class="qchart-heading"><span class="qchart-eyebrow">PRICE TREND</span><span class="qchart-t">최근 가격 흐름</span></div>`+
-      `<span class="qchart-sub">${n}거래일 · <b>${period}</b></span>`+
+      `<span class="qchart-sub">${n}거래일 · <b>${period}</b>${subTail}</span>`+
     `</div>`+
     `<div class="qchart-summary" data-trend="${trend}">`+
       `<div class="qchart-price"><small>시작 종가</small><b>${stockWon(first)}</b></div>`+
       `<div class="qchart-route"><strong>${arrow} ${Math.abs(chg).toFixed(1)}% ${direction}</strong><span> · ${n}거래일 동안 ${stockWon(delta)} ${action}</span></div>`+
-      `<div class="qchart-price is-current"><small>현재 종가</small><b>${stockWon(last)}</b></div>`+
+      `<div class="qchart-price is-current"><small>${currentLabel}</small><b>${stockWon(last)}</b></div>`+
     `</div>`+
     ohlcChartHTML('q-'+code,days,stockWon)+
     `<div class="qchart-foot">`+
       `<div class="qchart-extremes"><span>기간 최고 <b>${stockWon(hi)}</b></span><span>기간 최저 <b>${stockWon(lo)}</b></span></div>`+
+      srcNote+
       `<div class="qchart-cap">캔들 <b>몸통</b>은 시가·종가 차이예요(길수록 그날 변동이 컸다는 뜻). 위아래 <b>꼬리</b>는 그날의 고가·저가고요(길수록 장중에 크게 오르내렸다는 뜻). 이동평균 버튼을 눌러 선을 켜고 끌 수 있고, 아래 막대는 거래량이에요.</div>`+
     `</div>`;
 }

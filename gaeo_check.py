@@ -45,7 +45,7 @@ GROUPS = {
         "test_sector_source_promotion.py", "test_ops_status.py", "test_content_freshness.py", "test_seo_publishing.py",
         "test_deep_analysis_pipeline.py", "test_archive_security.py", "test_research_store.py", "test_shared_toss_token.py",
         "test_shared_token_hardening.py", "test_toss_guard.py", "test_toss_market_data_smoke.py",
-        "test_legal_source_gate.py", "test_data_supply_migration.py",
+        "test_legal_source_gate.py", "test_data_supply_migration.py", "test_fsc_daily_price.py",
     ],
     "paper": [
         "test_paper_accounting.py", "test_paper_accounting_v2.py", "test_paper_backfill.py", "test_paper_engine.py",
