@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-17 14:59",
- "dataCutoff": "2026-09-17 14:59 장중",
+ "generatedAt": "2026-09-17 15:30",
+ "dataCutoff": "2026-09-17 15:29 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,50 +13,50 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 5,
-   "why": "20거래일 +58.3% · 20일선 위",
+   "why": "20거래일 +57.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 20.7,
+   "gapPct": 20.3,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "000880",
-   "name": "한화",
-   "sector": "지주·상사",
-   "sectorRank": 1,
-   "why": "20거래일 +37.3% · 20일선 위",
+   "code": "192650",
+   "name": "드림텍",
+   "sector": "전자·부품",
+   "sectorRank": 9,
+   "why": "20거래일 +56.2% · 20일선 위 · 거래량 평소의 6.2배",
    "overheat": false,
-   "gapPct": 5.6,
+   "gapPct": 25.6,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 1,
-  "breadthPct": 40.0,
+  "breadthPct": 40.7,
   "shown": 2,
   "allowed": 2,
   "sectorCap": 1,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6709.39,
-    "ma20": 6801.59,
+    "close": 6712.39,
+    "ma20": 6801.74,
     "above": false,
-    "gapPct": -1.36
+    "gapPct": -1.31
    },
    "KOSDAQ": {
-    "close": 820.93,
-    "ma20": 819.33,
+    "close": 821.48,
+    "ma20": 819.36,
     "above": true,
-    "gapPct": 0.19
+    "gapPct": 0.26
    }
   }
  },
  "regime": {
   "direction": "하락",
   "leadership": "중립",
-  "topSector": "지주·상사"
+  "topSector": "통신"
  },
  "record": {
   "hitRate": 52.6,

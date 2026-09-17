@@ -1,12 +1,48 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 14:59",
- "priceLabel": "2026-09-17 14:46 장중 · ⚠️ 2종목 지연",
- "count": 320,
+ "generatedAt": "2026-09-17 15:29",
+ "priceLabel": "2026-09-17 15:21 장중 · ⚠️ 2종목 지연",
+ "count": 322,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "051600",
+   "name": "한전KPS",
+   "title": "주주총회소집공고",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:28:27.850253+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000219"
+  },
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:28:27.850253+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000223"
+  },
+  {
+   "code": "003540",
+   "name": "대신증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:28:27.850253+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000218"
+  },
+  {
+   "code": "035420",
+   "name": "NAVER",
+   "title": "풍문또는보도에대한해명",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T06:28:27.850253+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800315"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -114,15 +150,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T05:28:44.324170+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000191"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T05:28:44.324170+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000192"
   },
   {
    "code": "000150",
@@ -699,15 +726,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": false,
    "rceptNo": "20260917800057"
-  },
-  {
-   "code": "003540",
-   "name": "대신증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000458"
   },
   {
    "code": "003540",
