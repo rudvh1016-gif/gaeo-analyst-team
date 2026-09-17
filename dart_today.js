@@ -1,12 +1,84 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 12:56",
- "priceLabel": "2026-09-17 12:51 장중 · ⚠️ 2종목 지연",
- "count": 311,
+ "generatedAt": "2026-09-17 13:26",
+ "priceLabel": "2026-09-17 13:15 장중 · ⚠️ 2종목 지연",
+ "count": 315,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "020000",
+   "name": "한섬",
+   "title": "기업설명회(IR)개최(안내공시)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800215"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000138"
+  },
+  {
+   "code": "001200",
+   "name": "유진투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000134"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000133"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000135"
+  },
+  {
+   "code": "002380",
+   "name": "KCC",
+   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000129"
+  },
+  {
+   "code": "002380",
+   "name": "KCC",
+   "title": "특수관계인에대한자산양도",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000136"
+  },
+  {
+   "code": "006360",
+   "name": "GS건설",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260917800210"
+  },
   {
    "code": "240810",
    "name": "원익IPS",
@@ -60,15 +132,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T02:55:15.501224+00:00",
    "isCorrection": false,
    "rceptNo": "20260917900190"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:55:15.501224+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000111"
   },
   {
    "code": "030610",
@@ -159,15 +222,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T01:55:17.460577+00:00",
    "isCorrection": false,
    "rceptNo": "20260917900148"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T01:55:17.460577+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000064"
   },
   {
    "code": "039490",
@@ -330,15 +384,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": false,
    "rceptNo": "20260916800424"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000471"
   },
   {
    "code": "950160",
@@ -1581,15 +1626,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T05:31:59.281018+00:00",
    "isCorrection": false,
    "rceptNo": "20260915900386"
-  },
-  {
-   "code": "001200",
-   "name": "유진투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T05:02:08.316942+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915000174"
   },
   {
    "code": "016360",
