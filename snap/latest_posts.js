@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 74,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-17",
+  "title": "2026년 9월17일 종가, 3년 만의 미국 금리 인상에도 코스피가 버틴 이유",
+  "featured": false
+ },
+ {
   "id": 73,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-07",
   "title": "2026년 9월7일 종가, 코스피 4.61% 급등했는데 왜 내 종목은 조용했나",
   "featured": false
- },
- {
-  "id": 65,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-09-04",
-  "title": "2026년 9월4일 종가, 로봇·반도체가 이끈 코스피 1.64%·코스닥 2.95% 랠리",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 73,
+ "news": 74,
  "study": 35,
  "lesson": 82,
  "estate": 19,

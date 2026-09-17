@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Wed, 16 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 17 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월17일 종가, 3년 만의 미국 금리 인상에도 코스피가 버틴 이유</title>
+    <link>https://gaeoteam.com/snap/news/74.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/74.html</guid>
+    <category>뉴스분석</category>
+    <description>미국 연준이 3년 2개월 만에 기준금리를 0.25%포인트 올렸는데도 코스피는 2.56포인트(0.04%) 내리는 데 그쳤고, 코스닥은 0.76% 올랐어요. 외국인이 코스피에서 2조 2,770억 원을 팔았지만 개인과 기관이 받아냈고 방산과 조선이 시장을 끌었어요. 지수는 멈춰 있었지만 개오 600종목 중 337개가 올라 어제와 정반대 모습이었어요.</description>
+    <pubDate>Thu, 17 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월16일 종가, 코스피 나흘 연속 하락 뒤 반등, 오른 종목은 3곳 중 1곳</title>
     <link>https://gaeoteam.com/snap/news/73.html</link>
@@ -397,14 +405,6 @@
     <guid isPermaLink="true">https://gaeoteam.com/snap/news/36.html</guid>
     <category>뉴스분석</category>
     <description>8월 첫 거래일 코스피는 5.12% 내렸지만 코스닥은 2.44% 오르며 지수가 정반대로 갈렸어요. 500종목 기준으로는 오른 종목이 더 많았던, 삼성전자·SK하이닉스 두 종목이 지수를 끌어내린 하루였어요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>포트폴리오 만드는 법: 초보자 자산배분 실전 가이드</title>
-    <link>https://gaeoteam.com/snap/lesson/71.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/lesson/71.html</guid>
-    <category>주식공부</category>
-    <description>목표와 투자기간을 정하고 주식·채권·현금을 배분해, 흔들려도 유지할 수 있는 나만의 포트폴리오를 만드는 순서예요.</description>
     <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
