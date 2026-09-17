@@ -7,7 +7,7 @@
 // 함께 싣는다. 적중률 하나만으로는 실력인지 그 구간의 방향인지 구분할 수 없다.
 // analyze_auto.py(CHIEF)와 index.html(리더보드 가중치 표시)이 읽는다.
 const TEAM_WEIGHTS = {
- "generatedAt": "2026-09-17 11:55",
+ "generatedAt": "2026-09-17 12:25",
  "evalDays": 5,
  "horizons": {
   "taro": {
@@ -39,14 +39,14 @@ const TEAM_WEIGHTS = {
  "global": {
   "version": "tw-2026-09-05-day-shrinkage-market-relative",
   "weights": {
-   "taro": 0.3075,
-   "diana": 0.1254,
-   "nova": 0.2657,
+   "taro": 0.3076,
+   "diana": 0.1253,
+   "nova": 0.2658,
    "flow": 0.3014
   },
   "acc": {
    "taro": {
-    "n": 7298,
+    "n": 7296,
     "acc": 50.8,
     "adjustedAcc": 50.4,
     "adjustedAccUsedInWeights": 50.4,
@@ -58,7 +58,7 @@ const TEAM_WEIGHTS = {
     "days": 5,
     "deadband": 1.0,
     "absoluteAcc": 47.5,
-    "absoluteN": 7555,
+    "absoluteN": 7556,
     "uniqueDecisionDays": 19,
     "minDaysForConclusion": 20,
     "alwaysBullAcc": 49.1,
@@ -79,7 +79,7 @@ const TEAM_WEIGHTS = {
     "voice": {
      "records": 14380,
      "neutralPct": 21.0,
-     "bullPct": 48.2,
+     "bullPct": 48.3,
      "bearPct": 30.8,
      "meanAbsDeviation": 18.74,
      "medianAbsDeviation": 17.0,
@@ -88,24 +88,24 @@ const TEAM_WEIGHTS = {
     }
    },
    "diana": {
-    "n": 1288,
-    "acc": 56.1,
+    "n": 1283,
+    "acc": 56.0,
     "adjustedAcc": 51.0,
     "adjustedAccUsedInWeights": 51.0,
-    "rowBasedAdjustedAcc": 55.6,
+    "rowBasedAdjustedAcc": 55.5,
     "shrinkageUnit": "decision_day",
     "shrinkagePriorDays": 20,
     "nEffectiveDays": 4,
     "gatedToPrior": false,
     "days": 20,
     "deadband": 3.0,
-    "absoluteAcc": 50.2,
-    "absoluteN": 1298,
+    "absoluteAcc": 50.0,
+    "absoluteN": 1294,
     "uniqueDecisionDays": 4,
     "minDaysForConclusion": 20,
-    "alwaysBullAcc": 50.2,
-    "alwaysBearAcc": 49.8,
-    "bestFixedDirectionAcc": 50.2,
+    "alwaysBullAcc": 50.0,
+    "alwaysBearAcc": 50.0,
+    "bestFixedDirectionAcc": 50.0,
     "liftVsFixedPp": 5.9,
     "acc95": null,
     "lift95": null,
@@ -114,35 +114,35 @@ const TEAM_WEIGHTS = {
     "skillStatus": "NOT_PROVEN",
     "voice": {
      "records": 14380,
-     "neutralPct": 24.9,
+     "neutralPct": 24.8,
      "bullPct": 61.0,
      "bearPct": 14.1,
      "meanAbsDeviation": 17.74,
      "medianAbsDeviation": 16.0,
      "meanPushPoints": 2.22,
-     "medianPushPoints": 2.01
+     "medianPushPoints": 2.0
     }
    },
    "nova": {
-    "n": 1575,
+    "n": 1570,
     "acc": 45.5,
     "adjustedAcc": 47.8,
     "adjustedAccUsedInWeights": 47.8,
-    "rowBasedAdjustedAcc": 45.8,
+    "rowBasedAdjustedAcc": 45.9,
     "shrinkageUnit": "decision_day",
     "shrinkagePriorDays": 20,
     "nEffectiveDays": 19,
     "gatedToPrior": false,
     "days": 5,
     "deadband": 1.0,
-    "absoluteAcc": 47.3,
-    "absoluteN": 1652,
+    "absoluteAcc": 47.4,
+    "absoluteN": 1655,
     "uniqueDecisionDays": 19,
     "minDaysForConclusion": 20,
-    "alwaysBullAcc": 46.7,
-    "alwaysBearAcc": 53.3,
-    "bestFixedDirectionAcc": 53.3,
-    "liftVsFixedPp": -7.8,
+    "alwaysBullAcc": 46.6,
+    "alwaysBearAcc": 53.4,
+    "bestFixedDirectionAcc": 53.4,
+    "liftVsFixedPp": -7.9,
     "acc95": [
      44.2,
      47.5
@@ -157,8 +157,8 @@ const TEAM_WEIGHTS = {
     "voice": {
      "records": 14380,
      "neutralPct": 81.8,
-     "bullPct": 9.6,
-     "bearPct": 8.6,
+     "bullPct": 9.5,
+     "bearPct": 8.7,
      "meanAbsDeviation": 4.44,
      "medianAbsDeviation": 4.0,
      "meanPushPoints": 1.18,
@@ -178,7 +178,7 @@ const TEAM_WEIGHTS = {
     "days": 5,
     "deadband": 1.0,
     "absoluteAcc": 44.9,
-    "absoluteN": 1252,
+    "absoluteN": 1253,
     "uniqueDecisionDays": 19,
     "minDaysForConclusion": 20,
     "alwaysBullAcc": 47.3,
@@ -208,7 +208,7 @@ const TEAM_WEIGHTS = {
     }
    }
   },
-  "graded": 11375,
+  "graded": 11363,
   "dayBasedShadow": {
    "applied": true,
    "appliedNote": "2026-09-05부터 실제 global.weights가 판단일 단위 축소(priorDays20와 같은 식)로 계산된다. 옛 건수 단위 값은 rowBasedLegacy에 비교용으로만 남긴다. 소유자가 2026-09-05 결정을 위임했고, DIANA 채점 시작(2026-09-14) 전에 정했다.",
@@ -228,9 +228,9 @@ const TEAM_WEIGHTS = {
      "flow": 49.7
     },
     "weights": {
-     "taro": 0.3075,
-     "diana": 0.1254,
-     "nova": 0.2657,
+     "taro": 0.3076,
+     "diana": 0.1253,
+     "nova": 0.2658,
      "flow": 0.3014
     }
    },
@@ -244,22 +244,22 @@ const TEAM_WEIGHTS = {
     "weights": {
      "taro": 0.3022,
      "diana": 0.1212,
-     "nova": 0.276,
+     "nova": 0.2761,
      "flow": 0.3005
     }
    },
    "rowBasedLegacy": {
     "adjustedAcc": {
      "taro": 50.8,
-     "diana": 55.6,
-     "nova": 45.8,
+     "diana": 55.5,
+     "nova": 45.9,
      "flow": 49.5
     },
     "weights": {
-     "taro": 0.3097,
-     "diana": 0.1432,
-     "nova": 0.2493,
-     "flow": 0.2978
+     "taro": 0.31,
+     "diana": 0.1426,
+     "nova": 0.2495,
+     "flow": 0.2979
     },
     "note": "2026-09-05 이전 실제 산식(채점 건수 단위, 가상표본 120건). 비교용 기록이다."
    },
@@ -276,15 +276,15 @@ const TEAM_WEIGHTS = {
   },
   "team": {
    "basis": "absolute_return",
-   "hit": 6946,
-   "miss": 3968,
+   "hit": 6948,
+   "miss": 3966,
    "n": 10914,
    "uniqueDecisionDays": 19,
    "minDaysForConclusion": 20,
-   "acc": 63.6,
+   "acc": 63.7,
    "holdBaselineAcc": 64.3,
    "holdBaselineN": 10914,
-   "liftVsHoldPp": -0.7,
+   "liftVsHoldPp": -0.6,
    "byCall": {
     "BUY": {
      "n": 630,
@@ -302,7 +302,7 @@ const TEAM_WEIGHTS = {
     },
     "SELL": {
      "n": 1954,
-     "acc": 54.9,
+     "acc": 55.0,
      "band": "±1%",
      "excludedMid": 329,
      "excludedPct": 14.4
@@ -342,7 +342,7 @@ const TEAM_WEIGHTS = {
      "acc": 39.0,
      "positivePct": 40.0,
      "crashPct": 20.9,
-     "meanRet": -0.53,
+     "meanRet": -0.54,
      "uniqueDecisionDays": 19,
      "firstDecisionDate": "2026-08-17",
      "lastDecisionDate": "2026-09-10"
@@ -393,7 +393,7 @@ const TEAM_WEIGHTS = {
      "n": 21862,
      "weightedDecisionN": 1437,
      "uniqueDecisionDays": 40,
-     "acc": 43.4,
+     "acc": 43.3,
      "positivePct": 43.2,
      "crashPct": 23.9,
      "meanRet": 0.09,
@@ -406,7 +406,7 @@ const TEAM_WEIGHTS = {
      "uniqueDecisionDays": 19,
      "acc": 39.4,
      "positivePct": 39.9,
-     "crashPct": 20.4,
+     "crashPct": 20.5,
      "meanRet": -0.58,
      "selection": "observed_auto_unique_code_date_buy_date_weighted",
      "note": "실제 자동판단 기록이 있는 종목을 날짜별 동일 비중으로 비교하고 BUY 발생일 비중을 맞춘 참고 기준선입니다. 전체 상장 종목이나 실제 무작위 매매 성과가 아닙니다."
@@ -421,7 +421,7 @@ const TEAM_WEIGHTS = {
       "acc": 42.8,
       "positivePct": 43.3,
       "crashPct": 17.9,
-      "meanRet": -0.06,
+      "meanRet": -0.07,
       "uniqueDecisionDays": 40,
       "firstDecisionDate": "2026-07-17",
       "lastDecisionDate": "2026-09-10"
@@ -471,7 +471,7 @@ const TEAM_WEIGHTS = {
       "acc": 42.8,
       "positivePct": 43.3,
       "crashPct": 17.9,
-      "meanRet": -0.06,
+      "meanRet": -0.07,
       "uniqueDecisionDays": 40,
       "firstDecisionDate": "2026-07-17",
       "lastDecisionDate": "2026-09-10"
@@ -576,17 +576,17 @@ const TEAM_WEIGHTS = {
  "sectors": {
   "반도체": {
    "weights": {
-    "taro": 0.2914,
-    "diana": 0.1238,
-    "nova": 0.2965,
+    "taro": 0.2916,
+    "diana": 0.1235,
+    "nova": 0.2966,
     "flow": 0.2883
    },
    "acc": {
     "taro": {
-     "n": 742,
-     "acc": 44.7,
-     "adjustedAcc": 47.4,
-     "adjustedAccUsedInWeights": 47.4,
+     "n": 743,
+     "acc": 44.8,
+     "adjustedAcc": 47.5,
+     "adjustedAccUsedInWeights": 47.5,
      "rowBasedAdjustedAcc": 45.5,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
@@ -596,11 +596,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 119,
-     "acc": 52.9,
-     "adjustedAcc": 50.5,
-     "adjustedAccUsedInWeights": 50.5,
-     "rowBasedAdjustedAcc": 51.5,
+     "n": 117,
+     "acc": 52.1,
+     "adjustedAcc": 50.4,
+     "adjustedAccUsedInWeights": 50.4,
+     "rowBasedAdjustedAcc": 51.1,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -635,14 +635,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1118,
+   "graded": 1117,
    "globalBlend": 0.417
   },
   "전자·부품": {
    "weights": {
-    "taro": 0.3136,
-    "diana": 0.1213,
-    "nova": 0.2594,
+    "taro": 0.3137,
+    "diana": 0.1212,
+    "nova": 0.2595,
     "flow": 0.3057
    },
    "acc": {
@@ -705,7 +705,7 @@ const TEAM_WEIGHTS = {
   "전력·에너지": {
    "weights": {
     "taro": 0.3054,
-    "diana": 0.1272,
+    "diana": 0.1271,
     "nova": 0.2724,
     "flow": 0.2951
    },
@@ -768,9 +768,9 @@ const TEAM_WEIGHTS = {
   },
   "자동차·부품": {
    "weights": {
-    "taro": 0.2928,
-    "diana": 0.1107,
-    "nova": 0.2859,
+    "taro": 0.2929,
+    "diana": 0.1106,
+    "nova": 0.286,
     "flow": 0.3106
    },
    "acc": {
@@ -832,9 +832,9 @@ const TEAM_WEIGHTS = {
   },
   "인터넷·IT": {
    "weights": {
-    "taro": 0.3018,
-    "diana": 0.1211,
-    "nova": 0.265,
+    "taro": 0.302,
+    "diana": 0.1209,
+    "nova": 0.2651,
     "flow": 0.312
    },
    "acc": {
@@ -852,11 +852,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 55,
-     "acc": 60.0,
-     "adjustedAcc": 51.7,
-     "adjustedAccUsedInWeights": 51.7,
-     "rowBasedAdjustedAcc": 53.1,
+     "n": 54,
+     "acc": 59.3,
+     "adjustedAcc": 51.5,
+     "adjustedAccUsedInWeights": 51.5,
+     "rowBasedAdjustedAcc": 52.9,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -891,23 +891,23 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 392,
-   "globalBlend": 0.671
+   "graded": 391,
+   "globalBlend": 0.672
   },
   "금융·증권": {
    "weights": {
-    "taro": 0.3187,
+    "taro": 0.3184,
     "diana": 0.1299,
-    "nova": 0.2561,
-    "flow": 0.2953
+    "nova": 0.2563,
+    "flow": 0.2954
    },
    "acc": {
     "taro": {
      "n": 383,
-     "acc": 57.2,
-     "adjustedAcc": 53.5,
-     "adjustedAccUsedInWeights": 53.5,
-     "rowBasedAdjustedAcc": 55.5,
+     "acc": 56.9,
+     "adjustedAcc": 53.4,
+     "adjustedAccUsedInWeights": 53.4,
+     "rowBasedAdjustedAcc": 55.3,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -960,14 +960,14 @@ const TEAM_WEIGHTS = {
   },
   "2차전지": {
    "weights": {
-    "taro": 0.2991,
-    "diana": 0.1289,
-    "nova": 0.293,
-    "flow": 0.279
+    "taro": 0.2997,
+    "diana": 0.1287,
+    "nova": 0.2921,
+    "flow": 0.2795
    },
    "acc": {
     "taro": {
-     "n": 359,
+     "n": 357,
      "acc": 45.1,
      "adjustedAcc": 47.6,
      "adjustedAccUsedInWeights": 47.6,
@@ -980,11 +980,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 50,
-     "acc": 68.0,
-     "adjustedAcc": 53.0,
-     "adjustedAccUsedInWeights": 53.0,
-     "rowBasedAdjustedAcc": 55.3,
+     "n": 51,
+     "acc": 66.7,
+     "adjustedAcc": 52.8,
+     "adjustedAccUsedInWeights": 52.8,
+     "rowBasedAdjustedAcc": 55.0,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -993,11 +993,11 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 49,
-     "acc": 61.2,
-     "adjustedAcc": 55.3,
-     "adjustedAccUsedInWeights": 55.3,
-     "rowBasedAdjustedAcc": 53.3,
+     "n": 48,
+     "acc": 60.4,
+     "adjustedAcc": 54.9,
+     "adjustedAccUsedInWeights": 54.9,
+     "rowBasedAdjustedAcc": 53.0,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 18,
@@ -1019,14 +1019,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 506,
+   "graded": 504,
    "globalBlend": 0.613
   },
   "보험": {
    "weights": {
-    "taro": 0.3013,
-    "diana": 0.127,
-    "nova": 0.2539,
+    "taro": 0.3014,
+    "diana": 0.1269,
+    "nova": 0.254,
     "flow": 0.3178
    },
    "acc": {
@@ -1088,18 +1088,18 @@ const TEAM_WEIGHTS = {
   },
   "바이오·제약": {
    "weights": {
-    "taro": 0.3091,
-    "diana": 0.1217,
+    "taro": 0.3089,
+    "diana": 0.1218,
     "nova": 0.2316,
-    "flow": 0.3376
+    "flow": 0.3377
    },
    "acc": {
     "taro": {
-     "n": 912,
+     "n": 911,
      "acc": 54.8,
-     "adjustedAcc": 52.4,
-     "adjustedAccUsedInWeights": 52.4,
-     "rowBasedAdjustedAcc": 54.3,
+     "adjustedAcc": 52.3,
+     "adjustedAccUsedInWeights": 52.3,
+     "rowBasedAdjustedAcc": 54.2,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1108,11 +1108,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 172,
-     "acc": 57.6,
+     "n": 171,
+     "acc": 57.9,
      "adjustedAcc": 51.3,
      "adjustedAccUsedInWeights": 51.3,
-     "rowBasedAdjustedAcc": 54.5,
+     "rowBasedAdjustedAcc": 54.6,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1121,7 +1121,7 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 439,
+     "n": 437,
      "acc": 34.6,
      "adjustedAcc": 42.5,
      "adjustedAccUsedInWeights": 42.5,
@@ -1147,15 +1147,15 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 1657,
+   "graded": 1653,
    "globalBlend": 0.326
   },
   "지주·상사": {
    "weights": {
-    "taro": 0.3241,
-    "diana": 0.1275,
-    "nova": 0.257,
-    "flow": 0.2915
+    "taro": 0.3239,
+    "diana": 0.1272,
+    "nova": 0.2575,
+    "flow": 0.2914
    },
    "acc": {
     "taro": {
@@ -1172,11 +1172,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 100,
-     "acc": 60.0,
-     "adjustedAcc": 51.7,
-     "adjustedAccUsedInWeights": 51.7,
-     "rowBasedAdjustedAcc": 54.5,
+     "n": 99,
+     "acc": 59.6,
+     "adjustedAcc": 51.6,
+     "adjustedAccUsedInWeights": 51.6,
+     "rowBasedAdjustedAcc": 54.3,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1185,11 +1185,11 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 126,
-     "acc": 39.7,
-     "adjustedAcc": 45.0,
-     "adjustedAccUsedInWeights": 45.0,
-     "rowBasedAdjustedAcc": 44.7,
+     "n": 125,
+     "acc": 40.0,
+     "adjustedAcc": 45.1,
+     "adjustedAccUsedInWeights": 45.1,
+     "rowBasedAdjustedAcc": 44.9,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1211,14 +1211,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 747,
-   "globalBlend": 0.517
+   "graded": 745,
+   "globalBlend": 0.518
   },
   "조선": {
    "weights": {
-    "taro": 0.3067,
-    "diana": 0.1244,
-    "nova": 0.2667,
+    "taro": 0.3068,
+    "diana": 0.1242,
+    "nova": 0.2668,
     "flow": 0.3022
    },
    "acc": {
@@ -1236,11 +1236,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 51,
-     "acc": 33.3,
-     "adjustedAcc": 47.2,
-     "adjustedAccUsedInWeights": 47.2,
-     "rowBasedAdjustedAcc": 45.0,
+     "n": 52,
+     "acc": 32.7,
+     "adjustedAcc": 47.1,
+     "adjustedAccUsedInWeights": 47.1,
+     "rowBasedAdjustedAcc": 44.8,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1275,23 +1275,23 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 299,
-   "globalBlend": 0.728
+   "graded": 300,
+   "globalBlend": 0.727
   },
   "철강·금속": {
    "weights": {
-    "taro": 0.3089,
-    "diana": 0.1296,
+    "taro": 0.3092,
+    "diana": 0.1295,
     "nova": 0.2641,
-    "flow": 0.2974
+    "flow": 0.2973
    },
    "acc": {
     "taro": {
-     "n": 190,
-     "acc": 53.7,
-     "adjustedAcc": 51.8,
-     "adjustedAccUsedInWeights": 51.8,
-     "rowBasedAdjustedAcc": 52.3,
+     "n": 189,
+     "acc": 54.0,
+     "adjustedAcc": 51.9,
+     "adjustedAccUsedInWeights": 51.9,
+     "rowBasedAdjustedAcc": 52.4,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1339,12 +1339,12 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 224,
-   "globalBlend": 0.781
+   "graded": 223,
+   "globalBlend": 0.782
   },
   "화학·소재": {
    "weights": {
-    "taro": 0.2984,
+    "taro": 0.2985,
     "diana": 0.127,
     "nova": 0.2931,
     "flow": 0.2815
@@ -1408,18 +1408,18 @@ const TEAM_WEIGHTS = {
   },
   "물류·운송": {
    "weights": {
-    "taro": 0.3118,
-    "diana": 0.1259,
+    "taro": 0.3122,
+    "diana": 0.1257,
     "nova": 0.2664,
-    "flow": 0.2958
+    "flow": 0.2957
    },
    "acc": {
     "taro": {
-     "n": 130,
-     "acc": 53.8,
-     "adjustedAcc": 51.9,
-     "adjustedAccUsedInWeights": 51.9,
-     "rowBasedAdjustedAcc": 52.0,
+     "n": 129,
+     "acc": 54.3,
+     "adjustedAcc": 52.1,
+     "adjustedAccUsedInWeights": 52.1,
+     "rowBasedAdjustedAcc": 52.2,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1467,14 +1467,14 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 218,
-   "globalBlend": 0.786
+   "graded": 217,
+   "globalBlend": 0.787
   },
   "유통·소비재": {
    "weights": {
-    "taro": 0.3145,
-    "diana": 0.1312,
-    "nova": 0.2852,
+    "taro": 0.3146,
+    "diana": 0.1311,
+    "nova": 0.2853,
     "flow": 0.2691
    },
    "acc": {
@@ -1537,9 +1537,9 @@ const TEAM_WEIGHTS = {
   "화장품·미용": {
    "weights": {
     "taro": 0.3043,
-    "diana": 0.1252,
-    "nova": 0.2688,
-    "flow": 0.3017
+    "diana": 0.1253,
+    "nova": 0.2689,
+    "flow": 0.3016
    },
    "acc": {
     "taro": {
@@ -1556,11 +1556,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 27,
-     "acc": 63.0,
-     "adjustedAcc": 52.2,
-     "adjustedAccUsedInWeights": 52.2,
-     "rowBasedAdjustedAcc": 52.4,
+     "n": 28,
+     "acc": 64.3,
+     "adjustedAcc": 52.4,
+     "adjustedAccUsedInWeights": 52.4,
+     "rowBasedAdjustedAcc": 52.7,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1595,23 +1595,23 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 268,
-   "globalBlend": 0.749
+   "graded": 269,
+   "globalBlend": 0.748
   },
   "건설·건자재": {
    "weights": {
-    "taro": 0.3195,
-    "diana": 0.1349,
-    "nova": 0.2667,
-    "flow": 0.2789
+    "taro": 0.3193,
+    "diana": 0.1351,
+    "nova": 0.2671,
+    "flow": 0.2786
    },
    "acc": {
     "taro": {
-     "n": 244,
-     "acc": 57.0,
-     "adjustedAcc": 53.4,
-     "adjustedAccUsedInWeights": 53.4,
-     "rowBasedAdjustedAcc": 54.7,
+     "n": 243,
+     "acc": 57.2,
+     "adjustedAcc": 53.5,
+     "adjustedAccUsedInWeights": 53.5,
+     "rowBasedAdjustedAcc": 54.8,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1620,11 +1620,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 40,
-     "acc": 92.5,
-     "adjustedAcc": 57.1,
-     "adjustedAccUsedInWeights": 57.1,
-     "rowBasedAdjustedAcc": 60.6,
+     "n": 38,
+     "acc": 94.7,
+     "adjustedAcc": 57.5,
+     "adjustedAccUsedInWeights": 57.5,
+     "rowBasedAdjustedAcc": 60.8,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1633,11 +1633,11 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 80,
-     "acc": 45.0,
-     "adjustedAcc": 47.6,
-     "adjustedAccUsedInWeights": 47.6,
-     "rowBasedAdjustedAcc": 48.0,
+     "n": 79,
+     "acc": 45.6,
+     "adjustedAcc": 47.9,
+     "adjustedAccUsedInWeights": 47.9,
+     "rowBasedAdjustedAcc": 48.2,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 18,
@@ -1659,15 +1659,15 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 421,
-   "globalBlend": 0.655
+   "graded": 417,
+   "globalBlend": 0.657
   },
   "게임·엔터": {
    "weights": {
-    "taro": 0.307,
+    "taro": 0.3072,
     "diana": 0.1159,
-    "nova": 0.2603,
-    "flow": 0.3168
+    "nova": 0.2601,
+    "flow": 0.3169
    },
    "acc": {
     "taro": {
@@ -1697,11 +1697,11 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 185,
-     "acc": 52.4,
-     "adjustedAcc": 51.2,
-     "adjustedAccUsedInWeights": 51.2,
-     "rowBasedAdjustedAcc": 51.5,
+     "n": 184,
+     "acc": 52.2,
+     "adjustedAcc": 51.1,
+     "adjustedAccUsedInWeights": 51.1,
+     "rowBasedAdjustedAcc": 51.3,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1723,23 +1723,23 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 473,
-   "globalBlend": 0.628
+   "graded": 472,
+   "globalBlend": 0.629
   },
   "로봇": {
    "weights": {
-    "taro": 0.2883,
-    "diana": 0.1276,
-    "nova": 0.2595,
-    "flow": 0.3245
+    "taro": 0.2886,
+    "diana": 0.1273,
+    "nova": 0.2599,
+    "flow": 0.3242
    },
    "acc": {
     "taro": {
-     "n": 147,
-     "acc": 40.1,
-     "adjustedAcc": 45.2,
-     "adjustedAccUsedInWeights": 45.2,
-     "rowBasedAdjustedAcc": 44.6,
+     "n": 148,
+     "acc": 40.5,
+     "adjustedAcc": 45.4,
+     "adjustedAccUsedInWeights": 45.4,
+     "rowBasedAdjustedAcc": 44.8,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1748,11 +1748,11 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     },
     "diana": {
-     "n": 37,
-     "acc": 86.5,
-     "adjustedAcc": 56.1,
-     "adjustedAccUsedInWeights": 56.1,
-     "rowBasedAdjustedAcc": 58.6,
+     "n": 36,
+     "acc": 86.1,
+     "adjustedAcc": 56.0,
+     "adjustedAccUsedInWeights": 56.0,
+     "rowBasedAdjustedAcc": 58.3,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 4,
@@ -1761,11 +1761,11 @@ const TEAM_WEIGHTS = {
      "deadband": 3.0
     },
     "nova": {
-     "n": 100,
-     "acc": 46.0,
-     "adjustedAcc": 48.1,
-     "adjustedAccUsedInWeights": 48.1,
-     "rowBasedAdjustedAcc": 48.2,
+     "n": 101,
+     "acc": 46.5,
+     "adjustedAcc": 48.3,
+     "adjustedAccUsedInWeights": 48.3,
+     "rowBasedAdjustedAcc": 48.4,
      "shrinkageUnit": "decision_day",
      "shrinkagePriorDays": 20,
      "nEffectiveDays": 19,
@@ -1787,7 +1787,7 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 317,
+   "graded": 318,
    "globalBlend": 0.716
   },
   "식음료": {
@@ -1799,7 +1799,7 @@ const TEAM_WEIGHTS = {
    },
    "acc": {
     "taro": {
-     "n": 231,
+     "n": 233,
      "acc": 51.5,
      "adjustedAcc": 50.7,
      "adjustedAccUsedInWeights": 50.7,
@@ -1851,8 +1851,8 @@ const TEAM_WEIGHTS = {
      "deadband": 1.0
     }
    },
-   "graded": 278,
-   "globalBlend": 0.742
+   "graded": 280,
+   "globalBlend": 0.741
   }
  }
 };
