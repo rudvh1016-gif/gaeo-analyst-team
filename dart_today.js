@@ -1,12 +1,93 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-17 16:00",
- "priceLabel": "2026-09-17 종가 (15:56 수집) · ⚠️ 2종목 지연",
- "count": 331,
+ "generatedAt": "2026-09-17 16:30",
+ "priceLabel": "2026-09-17 종가 (16:07 수집) · ⚠️ 2종목 지연",
+ "count": 337,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "272210",
+   "name": "한화시스템",
+   "title": "조회공시요구(풍문또는보도)에대한답변(미확정)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800428"
+  },
+  {
+   "code": "381970",
+   "name": "케이카",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000290"
+  },
+  {
+   "code": "085660",
+   "name": "차바이오텍",
+   "title": "전환주식의전환가액조정 (상환전환우선주)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917900433"
+  },
+  {
+   "code": "010130",
+   "name": "고려아연",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000266"
+  },
+  {
+   "code": "001510",
+   "name": "SK증권",
+   "title": "일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000289"
+  },
+  {
+   "code": "056190",
+   "name": "SFA",
+   "title": "주식등의대량보유상황보고서(일반)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917000268"
+  },
+  {
+   "code": "079160",
+   "name": "CJ CGV",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800420"
+  },
+  {
+   "code": "001040",
+   "name": "CJ",
+   "title": "타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800409"
+  },
+  {
+   "code": "001040",
+   "name": "CJ",
+   "title": "타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260917",
+   "detectedAt": "2026-09-17T07:28:34.912715+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260917800421"
+  },
   {
    "code": "120110",
    "name": "코오롱인더",
@@ -887,15 +968,6 @@ const DART_TODAY = {
    "receiptDate": "20260916",
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": false,
-   "rceptNo": "20260916000435"
-  },
-  {
-   "code": "079160",
-   "name": "CJ CGV",
-   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
    "rceptNo": "20260916000436"
   },
   {
@@ -1590,15 +1662,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-15T07:32:25.616088+00:00",
    "isCorrection": false,
    "rceptNo": "20260915800578"
-  },
-  {
-   "code": "381970",
-   "name": "케이카",
-   "title": "최대주주등소유주식변동신고서",
-   "receiptDate": "20260915",
-   "detectedAt": "2026-09-15T07:32:25.616088+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260915800580"
   },
   {
    "code": "003850",
@@ -2670,15 +2733,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-11T06:43:20.816900+00:00",
    "isCorrection": false,
    "rceptNo": "20260911900310"
-  },
-  {
-   "code": "001510",
-   "name": "SK증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260911",
-   "detectedAt": "2026-09-11T06:43:20.816900+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260911000348"
   },
   {
    "code": "001510",

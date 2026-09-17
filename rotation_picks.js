@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-17 16:00",
+ "generatedAt": "2026-09-17 16:30",
  "dataCutoff": "2026-09-17 종가",
  "horizonDays": 20,
  "picks": [
@@ -12,10 +12,10 @@ window.ROTATION_PICKS = {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 4,
-   "why": "20거래일 +58.0% · 20일선 위",
+   "sectorRank": 5,
+   "why": "20거래일 +57.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 20.5,
+   "gapPct": 20.3,
    "call": "HOLD",
    "callConflict": false
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "한화",
    "sector": "지주·상사",
    "sectorRank": 3,
-   "why": "20거래일 +37.2% · 20일선 위",
+   "why": "20거래일 +37.7% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.5,
+   "gapPct": 5.9,
    "call": "HOLD",
    "callConflict": false
   }

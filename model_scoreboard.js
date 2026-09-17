@@ -8,16 +8,16 @@ const MODEL_SCOREBOARD = {
  },
  "decisionTrace": {
   "actionDistribution": {
-   "BUY": 172,
-   "HOLD": 2148,
-   "SELL": 680
+   "BUY": 173,
+   "HOLD": 2149,
+   "SELL": 678
   },
   "byModelVersion": {
    "base-2026-08-15-parity-hotfix": {
     "actionDistribution": {
-     "BUY": 172,
-     "HOLD": 2148,
-     "SELL": 680
+     "BUY": 173,
+     "HOLD": 2149,
+     "SELL": 678
     },
     "dailyRecordCount": 3000,
     "horizons": {
@@ -39,12 +39,12 @@ const MODEL_SCOREBOARD = {
       "withheld": 0
      }
     },
-    "rawRecordCount": 24000,
+    "rawRecordCount": 24600,
     "uniqueDecisionDays": 5
    }
   },
   "comparison": {
-   "evidenceRef": "research_archive/decisions/comparisons/e2ac020490b0497e968cca69.json.gz",
+   "evidenceRef": "research_archive/decisions/comparisons/82f44f05cabb3102e51015b5.json.gz",
    "policyVersion": "price-comparison-v1",
    "states": {
     "adjustment_required": 0,
@@ -658,7 +658,7 @@ const MODEL_SCOREBOARD = {
     "499790": "unavailable",
     "950160": "unavailable"
    },
-   "observedAt": "2026-09-17T07:00:57+00:00",
+   "observedAt": "2026-09-17T07:30:47+00:00",
    "scope": "기업행사 및 거래소 시장조치. 뉴스 전체 확인이 아닙니다.",
    "statuses": {
     "checked_no_event": 0,
@@ -673,7 +673,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/e2ac020490b0497e968cca69.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/82f44f05cabb3102e51015b5.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-11 16:14",
@@ -688,7 +688,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-14 13:06 장중 · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/e2ac020490b0497e968cca69.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/82f44f05cabb3102e51015b5.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-14 13:13",
@@ -703,7 +703,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/e2ac020490b0497e968cca69.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/82f44f05cabb3102e51015b5.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-15 16:33",
@@ -716,8 +716,8 @@ const MODEL_SCOREBOARD = {
   ],
   "execution": {
    "analysisCount": 3000,
-   "decisionOriginalHash": "6b4da8364bc5bb23e59c1a9344dce13fbf8e9d348357a55c68b41df9d815b3f1",
-   "decisionOriginalId": "db785e6c78a85a91a1d76b97",
+   "decisionOriginalHash": "5c3afd293d6d3cbfdc344ce78007424d7d93fb958cf5c9f0347ef25668067c35",
+   "decisionOriginalId": "fa891c2b7b5d3f023888ac72",
    "event": "schedule",
    "headSha": "dd060041a1039d91561e52d51479c8feecc27e3d",
    "runAttempt": "1",
@@ -742,8 +742,8 @@ const MODEL_SCOREBOARD = {
     "withheld": 0
    }
   },
-  "lastVerifiedAt": "2026-09-17T07:00:57+00:00",
-  "latestDecisionAt": "2026-09-17 16:00",
+  "lastVerifiedAt": "2026-09-17T07:30:47+00:00",
+  "latestDecisionAt": "2026-09-17 16:30",
   "limitations": [
    "원본 보존을 시작한 실제 자동분석만 연결합니다. 과거 판단을 재구성하지 않습니다.",
    "하루 여러 판단을 보존하지만 성적은 종목·판단일당 마지막 자동판단 1건입니다.",
@@ -769,8 +769,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 172,
-       "recordCount": 172,
+       "pending": 173,
+       "recordCount": 173,
        "uniqueDecisionDays": 5,
        "withheld": 0
       },
@@ -787,8 +787,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 2148,
-       "recordCount": 2148,
+       "pending": 2149,
+       "recordCount": 2149,
        "uniqueDecisionDays": 5,
        "withheld": 0
       },
@@ -805,8 +805,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 680,
-       "recordCount": 680,
+       "pending": 678,
+       "recordCount": 678,
        "uniqueDecisionDays": 5,
        "withheld": 0
       }
@@ -829,8 +829,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 39,
-         "recordCount": 39,
+         "pending": 40,
+         "recordCount": 40,
          "uniqueDecisionDays": 5,
          "upperExclusive": 40,
          "withheld": 0
@@ -850,8 +850,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 102,
-         "recordCount": 102,
+         "pending": 103,
+         "recordCount": 103,
          "uniqueDecisionDays": 5,
          "upperExclusive": 50,
          "withheld": 0
@@ -871,8 +871,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 29,
-         "recordCount": 29,
+         "pending": 28,
+         "recordCount": 28,
          "uniqueDecisionDays": 5,
          "upperExclusive": 60,
          "withheld": 0
@@ -1041,8 +1041,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 163,
-         "recordCount": 163,
+         "pending": 162,
+         "recordCount": 162,
          "uniqueDecisionDays": 5,
          "upperExclusive": 60,
          "withheld": 0
@@ -1062,8 +1062,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 122,
-         "recordCount": 122,
+         "pending": 118,
+         "recordCount": 118,
          "uniqueDecisionDays": 5,
          "upperExclusive": 70,
          "withheld": 0
@@ -1083,8 +1083,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 36,
-         "recordCount": 36,
+         "pending": 40,
+         "recordCount": 40,
          "uniqueDecisionDays": 5,
          "upperExclusive": 80,
          "withheld": 0
@@ -1104,9 +1104,9 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 1,
-         "recordCount": 1,
-         "uniqueDecisionDays": 1,
+         "pending": 0,
+         "recordCount": 0,
+         "uniqueDecisionDays": 0,
          "upperExclusive": 90,
          "withheld": 0
         },
@@ -1234,8 +1234,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 169,
-         "recordCount": 169,
+         "pending": 170,
+         "recordCount": 170,
          "uniqueDecisionDays": 5,
          "upperExclusive": 70,
          "withheld": 0
@@ -1341,8 +1341,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 128,
-         "recordCount": 128,
+         "pending": 127,
+         "recordCount": 127,
          "uniqueDecisionDays": 5,
          "upperExclusive": 40,
          "withheld": 0
@@ -1362,8 +1362,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 552,
-         "recordCount": 552,
+         "pending": 551,
+         "recordCount": 551,
          "uniqueDecisionDays": 5,
          "upperExclusive": 50,
          "withheld": 0
@@ -1499,9 +1499,9 @@ const MODEL_SCOREBOARD = {
      },
      "distribution": {
       "counts": {
-       "BUY": 172,
-       "HOLD": 2148,
-       "SELL": 680,
+       "BUY": 173,
+       "HOLD": 2149,
+       "SELL": 678,
        "UNKNOWN": 0,
        "WITHHELD": 0
       },
@@ -1509,9 +1509,9 @@ const MODEL_SCOREBOARD = {
       "judgedRecords": 3000,
       "observedRecords": 3000,
       "ratiosPct": {
-       "BUY": 5.7,
+       "BUY": 5.8,
        "HOLD": 71.6,
-       "SELL": 22.7,
+       "SELL": 22.6,
        "UNKNOWN": 0.0,
        "WITHHELD": 0.0
       },
@@ -1553,13 +1553,13 @@ const MODEL_SCOREBOARD = {
    "interpretation": "INSUFFICIENT_EVIDENCE",
    "latestRound": {
     "counts": {
-     "BUY": 19,
-     "HOLD": 438,
-     "SELL": 143,
+     "BUY": 20,
+     "HOLD": 439,
+     "SELL": 141,
      "UNKNOWN": 0,
      "WITHHELD": 0
     },
-    "decisionAt": "2026-09-17 16:00",
+    "decisionAt": "2026-09-17 16:30",
     "expectedRecords": 600,
     "judgedPctOfRecorded": 100.0,
     "judgedPctOfUniverse": 100.0,
@@ -1567,9 +1567,9 @@ const MODEL_SCOREBOARD = {
     "missingRecords": 0,
     "observedRecords": 600,
     "ratiosPct": {
-     "BUY": 3.2,
-     "HOLD": 73.0,
-     "SELL": 23.8,
+     "BUY": 3.3,
+     "HOLD": 73.2,
+     "SELL": 23.5,
      "UNKNOWN": 0.0,
      "WITHHELD": 0.0
     },
@@ -1595,13 +1595,13 @@ const MODEL_SCOREBOARD = {
    "scoreIsProbability": false,
    "source": "actual_auto_protected_outcomes"
   },
-  "rawRecordCount": 24000,
+  "rawRecordCount": 24600,
   "schemaVersion": 1,
   "source": "actual_auto",
   "status": "WAITING",
   "uniqueDecisionDays": 5
  },
- "generatedAt": "2026-09-17T07:00:43.242649+00:00",
+ "generatedAt": "2026-09-17T07:30:47.635603+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
