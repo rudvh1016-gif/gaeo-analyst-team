@@ -1,12 +1,120 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 13:56",
- "priceLabel": "2026-09-18 13:49 장중 · ⚠️ 2종목 지연",
- "count": 332,
+ "generatedAt": "2026-09-18 14:40",
+ "priceLabel": "2026-09-18 14:34 장중 · ⚠️ 2종목 지연",
+ "count": 341,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "001500",
+   "name": "현대차증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000169"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000168"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000173"
+  },
+  {
+   "code": "237690",
+   "name": "에스티팜",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918900224"
+  },
+  {
+   "code": "000810",
+   "name": "삼성화재",
+   "title": "특수관계인과의수익증권거래",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000177"
+  },
+  {
+   "code": "000810",
+   "name": "삼성화재",
+   "title": "특수관계인에대한출자",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000179"
+  },
+  {
+   "code": "000810",
+   "name": "삼성화재",
+   "title": "특수관계인에대한출자",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000180"
+  },
+  {
+   "code": "005930",
+   "name": "삼성전자",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000191"
+  },
+  {
+   "code": "000640",
+   "name": "동아쏘시오홀딩스",
+   "title": "단일판매ㆍ공급계약체결(자회사의 주요경영사항)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800252"
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "풍문또는보도에대한해명(미확정)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800250"
+  },
+  {
+   "code": "329180",
+   "name": "HD현대중공업",
+   "title": "조회공시요구(풍문또는보도)에대한답변(미확정)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800259"
+  },
+  {
+   "code": "071970",
+   "name": "HD현대마린엔진",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T05:39:19.866516+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260918800219"
+  },
   {
    "code": "006800",
    "name": "미래에셋증권",
@@ -195,24 +303,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T01:24:54.062395+00:00",
    "isCorrection": false,
    "rceptNo": "20260918000044"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T01:24:54.062395+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000048"
-  },
-  {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T01:24:54.062395+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000051"
   },
   {
    "code": "047040",
@@ -1149,15 +1239,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T00:17:20.487973+00:00",
    "isCorrection": true,
    "rceptNo": "20260916800646"
-  },
-  {
-   "code": "001500",
-   "name": "현대차증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260916",
-   "detectedAt": "2026-09-17T00:17:20.487973+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260916000478"
   },
   {
    "code": "064350",
