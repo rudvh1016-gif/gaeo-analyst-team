@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 13:26",
- "priceLabel": "2026-09-18 13:14 장중 · ⚠️ 2종목 지연",
- "count": 328,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "generatedAt": "2026-09-18 13:56",
+ "priceLabel": "2026-09-18 13:49 장중 · ⚠️ 2종목 지연",
+ "count": 332,
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "006800",
+   "name": "미래에셋증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T04:54:41.989348+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000157"
+  },
+  {
+   "code": "079550",
+   "name": "LIG디펜스앤에어로스페이스",
+   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T04:54:41.989348+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000163"
+  },
+  {
+   "code": "079550",
+   "name": "LIG디펜스앤에어로스페이스",
+   "title": "동일인등출자계열회사와의상품ㆍ용역거래",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T04:54:41.989348+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000164"
+  },
+  {
+   "code": "294870",
+   "name": "IPARK현대산업개발",
+   "title": "타인에대한채무보증결정",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T04:54:41.989348+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800184"
+  },
+  {
+   "code": "012630",
+   "name": "HDC",
+   "title": "타인에대한채무보증결정(자회사의 주요경영사항)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T04:54:41.989348+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800197"
+  },
   {
    "code": "005940",
    "name": "NH투자증권",
@@ -816,15 +861,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T05:58:26.465624+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000208"
-  },
-  {
-   "code": "006800",
-   "name": "미래에셋증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T05:58:26.465624+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000215"
   },
   {
    "code": "001500",
