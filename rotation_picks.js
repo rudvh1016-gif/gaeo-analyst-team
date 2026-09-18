@@ -4,58 +4,69 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-17 16:30",
- "dataCutoff": "2026-09-17 종가",
+ "generatedAt": "2026-09-18 09:33",
+ "dataCutoff": "2026-09-18 09:33 장중",
  "horizonDays": 20,
  "picks": [
   {
    "code": "000500",
    "name": "가온전선",
    "sector": "전력·에너지",
-   "sectorRank": 5,
-   "why": "20거래일 +57.7% · 20일선 위",
+   "sectorRank": 2,
+   "why": "20거래일 +60.1% · 20일선 위",
    "overheat": false,
-   "gapPct": 20.3,
+   "gapPct": 22.0,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "000880",
-   "name": "한화",
-   "sector": "지주·상사",
-   "sectorRank": 3,
-   "why": "20거래일 +37.7% · 20일선 위",
+   "code": "036540",
+   "name": "SFA반도체",
+   "sector": "반도체",
+   "sectorRank": 4,
+   "why": "20거래일 +60.1% · 20일선 위",
+   "overheat": true,
+   "gapPct": 34.5,
+   "call": "HOLD",
+   "callConflict": false
+  },
+  {
+   "code": "031980",
+   "name": "피에스케이홀딩스",
+   "sector": "반도체",
+   "sectorRank": 4,
+   "why": "20거래일 +59.6% · 20일선 위",
    "overheat": false,
-   "gapPct": 5.9,
+   "gapPct": 21.2,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
-  "indexAboveMa20": 1,
-  "breadthPct": 41.7,
-  "shown": 2,
-  "allowed": 2,
-  "sectorCap": 1,
+  "indexAboveMa20": 2,
+  "breadthPct": 45.7,
+  "shown": 3,
+  "allowed": 3,
+  "sectorCap": 2,
   "sectorCount": 2,
   "detail": {
    "KOSPI": {
-    "close": 6715.41,
-    "ma20": 6801.89,
-    "above": false,
-    "gapPct": -1.27
+    "close": 6872.47,
+    "ma20": 6799.86,
+    "above": true,
+    "gapPct": 1.07
    },
    "KOSDAQ": {
-    "close": 822.18,
-    "ma20": 819.4,
+    "close": 831.98,
+    "ma20": 820.9,
     "above": true,
-    "gapPct": 0.34
+    "gapPct": 1.35
    }
   }
  },
  "regime": {
-  "direction": "하락",
-  "leadership": "중립",
+  "direction": "횡보",
+  "leadership": "코스닥",
   "topSector": "통신"
  },
  "record": {
