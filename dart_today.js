@@ -1,12 +1,66 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 10:56",
- "priceLabel": "2026-09-18 10:43 장중 · ⚠️ 2종목 지연",
- "count": 326,
+ "generatedAt": "2026-09-18 11:26",
+ "priceLabel": "2026-09-18 11:18 장중 · ⚠️ 2종목 지연",
+ "count": 328,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000087"
+  },
+  {
+   "code": "020000",
+   "name": "한섬",
+   "title": "주식소각결정",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800133"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000092"
+  },
+  {
+   "code": "253450",
+   "name": "스튜디오드래곤",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918900139"
+  },
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000076"
+  },
+  {
+   "code": "006360",
+   "name": "GS건설",
+   "title": "[기재정정]단일판매ㆍ공급계약체결",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260918800131"
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -60,15 +114,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T01:54:55.080069+00:00",
    "isCorrection": false,
    "rceptNo": "20260918000069"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T01:54:55.080069+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000058"
   },
   {
    "code": "005940",
@@ -195,15 +240,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T00:17:06.414342+00:00",
    "isCorrection": false,
    "rceptNo": "20260918800063"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-18T00:17:06.414342+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000337"
   },
   {
    "code": "003530",
@@ -845,15 +881,6 @@ const DART_TODAY = {
    "rceptNo": "20260917000184"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000143"
-  },
-  {
    "code": "003470",
    "name": "유안타증권",
    "title": "증권발행실적보고서",
@@ -888,15 +915,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T04:55:04.003351+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000162"
-  },
-  {
-   "code": "020000",
-   "name": "한섬",
-   "title": "기업설명회(IR)개최(안내공시)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917800215"
   },
   {
    "code": "001200",
