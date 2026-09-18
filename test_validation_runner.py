@@ -870,19 +870,8 @@ class FreezeAndReplay(unittest.TestCase):
 
 
 def _commit_step_body():
-    """ops-daily.yml 의 「기록 커밋」 스텝 run 블록을 그대로 꺼낸다(PyYAML 없이 · test_ci_parity)."""
-    lines = open(WORKFLOW, encoding="utf-8").read().splitlines()
-    start = next(i for i, l in enumerate(lines) if l.strip().startswith("- name: 기록 커밋"))
-    ridx = next(i for i in range(start, len(lines)) if lines[i].strip() == "run: |")
-    indent = len(lines[ridx + 1]) - len(lines[ridx + 1].lstrip())
-    out = []
-    for l in lines[ridx + 1:]:
-        if l.strip() and (len(l) - len(l.lstrip())) < indent:
-            break
-        out.append(l[indent:] if len(l) >= indent else l)
-    body = "\n".join(out).rstrip()
-    assert "git add" in body, "커밋 스텝을 못 꺼냈다"
-    return body + "\n"
+    """ops-daily.yml 의 「기록 커밋」 스텝 run 블록을 그대로 꺼낸다(아래 _step_body 와 같은 방식)."""
+    return _step_body("기록 커밋", "git add")
 
 
 class CommitStepRealGit(unittest.TestCase):
@@ -1159,6 +1148,472 @@ class WorkflowContract(unittest.TestCase):
         for bad in ("anthropic", "openai", "claude", "gpt", "api.openai", "messages.create"):
             self.assertNotIn(bad, self.code.lower(), bad)
 
+
+# ------------------------------------------------------- 결과 전달 (2026-09-19 · tee 가 판정을 삼킨 사고)
+
+
+def _step_body(name_prefix, must_contain):
+    """ops-daily.yml 의 스텝 run 블록을 그대로 꺼낸다(PyYAML 없이 · test_ci_parity)."""
+    lines = open(WORKFLOW, encoding="utf-8").read().splitlines()
+    start = next(i for i, l in enumerate(lines) if l.strip().startswith(f"- name: {name_prefix}"))
+    ridx = next(i for i in range(start, len(lines)) if lines[i].strip() == "run: |")
+    indent = len(lines[ridx + 1]) - len(lines[ridx + 1].lstrip())
+    out = []
+    for l in lines[ridx + 1:]:
+        if l.strip() and (len(l) - len(l.lstrip())) < indent:
+            break
+        out.append(l[indent:] if len(l) >= indent else l)
+    body = "\n".join(out).rstrip()
+    assert must_contain in body, f"{name_prefix} 스텝을 못 꺼냈다"
+    return body + "\n"
+
+
+def _run_blocks():
+    """(스텝 이름, run 블록) 목록. `run: |` 블록만 — 한 줄 run 은 파이프라인을 안 쓴다."""
+    lines = open(WORKFLOW, encoding="utf-8").read().splitlines()
+    out, name = [], None
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        if s.startswith("- name: "):
+            name = s[len("- name: "):]
+        if s == "run: |" and name:
+            indent = len(lines[i + 1]) - len(lines[i + 1].lstrip())
+            body = []
+            j = i + 1
+            while j < len(lines) and (not lines[j].strip() or (len(lines[j]) - len(lines[j].lstrip())) >= indent):
+                body.append(lines[j][indent:] if len(lines[j]) >= indent else lines[j])
+                j += 1
+            out.append((name, "\n".join(body)))
+            i = j
+            continue
+        i += 1
+    return out
+
+
+def _logical_lines(body):
+    """줄 끝 `\\` 이어짐을 한 줄로 합쳐, 파이프라인 하나를 한 줄로 본다."""
+    out, buf = [], ""
+    for l in body.splitlines():
+        stripped = l.strip()
+        if stripped.startswith("#"):
+            continue
+        if stripped.endswith("\\"):
+            buf += stripped[:-1].rstrip() + " "
+            continue
+        out.append((buf + stripped).strip())
+        buf = ""
+    if buf:
+        out.append(buf.strip())
+    return out
+
+
+class TeeNeverSwallowsVerdict(unittest.TestCase):
+    """2026-09-19 run 35363327604 — 점검 본문은 "결론: 장애 1건"(서명 214b8601d4)인데 알림 단계는 CODE: 0 을
+    받아 "정상"으로 처리했다. 원인은 `python3 … | tee A | tee -a B || code=$?` 한 줄이다: bash 에서 파이프라인의
+    종료코드는 **마지막 명령(tee)** 것이라, 점검이 1·2 로 끝나도 tee 가 성공하면 `||` 가 발동하지 않는다.
+    같은 구조가 다시 들어오지 못하게 잠근다."""
+
+    def test_프로그램_판정이_tee_뒤에서_사라지는_구조가_없다(self):
+        for name, body in _run_blocks():
+            for line in _logical_lines(body):
+                if not re.match(r"^python3\b", line) or "| tee" not in line:
+                    continue
+                self.assertNotRegex(line, r"\|\|\s*\w+=\$\?",
+                                    f"[{name}] 파이프라인의 `|| x=$?` 는 마지막 tee 의 코드를 받는다 — "
+                                    f"PIPESTATUS 로 바꿔라:\n  {line}")
+                self.assertIn('PIPESTATUS[@]', body,
+                              f"[{name}] python3 판정이 tee 를 거치는데 PIPESTATUS 보존이 없다")
+
+    def test_PIPESTATUS는_파이프라인_바로_다음_줄에서_통째로_보존한다(self):
+        # 다른 명령이 하나라도 끼면 PIPESTATUS 는 그 명령 것으로 덮인다.
+        for name, body in _run_blocks():
+            lines = _logical_lines(body)
+            for idx, line in enumerate(lines):
+                if 'PIPESTATUS[@]' not in line:
+                    continue
+                self.assertRegex(line, r'^PS=\("\$\{PIPESTATUS\[@\]\}"\)$',
+                                 f"[{name}] 배열을 통째로 보존해야 한다: {line}")
+                prev = lines[idx - 1]
+                self.assertIn("|", prev, f"[{name}] PIPESTATUS 보존 직전 줄이 파이프라인이 아니다: {prev}")
+
+    def test_점검_계약과_실행기_계약을_같은_뜻으로_쓰지_않는다(self):
+        body = open(WORKFLOW, encoding="utf-8").read()
+        self.assertIn("ops_status.py 계약: 0 정상 · 1 장애 · 2 확인 불가", body)
+        self.assertIn("run_validation_schedule.py 계약: 0 정상 · 1 실패·이상·사람 확인 필요 · 2 BLOCKED", body)
+        self.assertIn("0 OK/NOTICE · 1 PROTECT", body, "용량 보고의 2 는 UNKNOWN — 다른 프로그램과 뜻이 다르다")
+
+    def test_확인_불가와_미확인은_장애_이슈를_닫지_않는다(self):
+        body = open(WORKFLOW, encoding="utf-8").read()
+        self.assertIn("steps.ops.outputs.code != '2'", body, "확인 불가(2)면 이슈 스텝 자체가 돌지 않는다")
+        self.assertIn("steps.ops.outputs.code != ''", body, "판정이 없으면(스텝이 못 돌았으면) 이슈를 건드리지 않는다")
+
+    def test_전역_shell_설정을_모든_워크플로에_퍼뜨리지_않았다(self):
+        for name in sorted(os.listdir(os.path.dirname(WORKFLOW))):
+            if not name.endswith((".yml", ".yaml")):
+                continue
+            text = open(os.path.join(os.path.dirname(WORKFLOW), name), encoding="utf-8").read()
+            # `defaults:` 아래 `shell:` 을 두면 그 워크플로의 모든 스텝 해석이 한꺼번에 바뀐다 —
+            # 종료코드는 문제가 난 스텝에서만 고친다(2026-09-19 수리 범위).
+            self.assertIsNone(re.search(r"^\s*defaults:\s*$(?:\n\s+.*)*?\n\s+shell:", text, re.M),
+                              f"{name}: 전역 shell 설정은 두지 않는다")
+
+
+class _StepHarness(unittest.TestCase):
+    """실제 workflow 의 run 블록을 임시 디렉터리에서 그대로 실행한다. 진짜 수집·네트워크·서비스키 0 —
+    점검·실행기 프로그램 자리에는 정해진 본문·보고서·종료코드를 내는 대역 스크립트를 둔다."""
+
+    STEP_NAME = ""
+    STEP_NEEDLE = ""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.step = _step_body(cls.STEP_NAME, cls.STEP_NEEDLE)
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp(prefix="gaeo-step-")
+        self.tmp = os.path.join(self.root, "runner_temp")
+        self.bin = os.path.join(self.root, "bin")
+        os.makedirs(self.tmp)
+        os.makedirs(self.bin)
+
+    def tearDown(self):
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def fake(self, name, source):
+        with open(os.path.join(self.root, name), "w", encoding="utf-8") as fh:
+            fh.write(source)
+
+    def shim(self, name, source):
+        path = os.path.join(self.bin, name)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(source)
+        os.chmod(path, 0o755)
+
+    def run_step(self, summary=None, apply="true", **extra):
+        out = os.path.join(self.root, "_gh_output")
+        open(out, "w", encoding="utf-8").close()
+        env = dict(os.environ)
+        env.pop("DATA_GO_KR_SERVICE_KEY", None)
+        env["GITHUB_OUTPUT"] = out
+        env["GITHUB_STEP_SUMMARY"] = summary if summary is not None else os.path.join(self.root, "summary.md")
+        env["RUNNER_TEMP"] = self.tmp
+        env["APPLY"] = apply
+        env["GITHUB_RUN_ID"] = "999"
+        env["PATH"] = self.bin + os.pathsep + env.get("PATH", "")
+        env.update({k: str(v) for k, v in extra.items()})
+        r = subprocess.run(["bash", "-e", "-c", self.step], cwd=self.root,
+                           capture_output=True, text=True, env=env)
+        kv = {}
+        for line in open(out, encoding="utf-8").read().splitlines():
+            if "=" in line:
+                k, v = line.split("=", 1)
+                kv[k] = v
+        return r, kv
+
+
+_FAKE_OPS = '''import json, sys
+argv = sys.argv[1:]
+path = argv[argv.index("--json") + 1]
+report, code, body = {report!r}, {code}, {body!r}
+if report == "fault":
+    json.dump({{"faults": ["scheduled"], "unknowns": [], "signature": "214b8601d4"}}, open(path, "w", encoding="utf-8"))
+elif report == "clean":
+    json.dump({{"faults": [], "unknowns": [], "signature": "clean"}}, open(path, "w", encoding="utf-8"))
+elif report == "unknown":
+    json.dump({{"faults": [], "unknowns": ["scheduled"], "signature": "abc1234567"}}, open(path, "w", encoding="utf-8"))
+elif report == "corrupt":
+    open(path, "w", encoding="utf-8").write("{{ this is not json")
+elif report == "noKeys":
+    json.dump({{"signature": "abc1234567"}}, open(path, "w", encoding="utf-8"))
+print(body)
+sys.exit(code)
+'''
+
+
+class OpsVerdictReachesNotification(_StepHarness):
+    """A~E. 점검 프로그램이 낸 0·1·2 가 알림 단계까지 그대로 가는가. 보고서가 없거나 깨졌는데 정상으로 위장하지 않는가.
+    로그 복사(tee) 실패를 점검 판정과 구분하는가."""
+
+    STEP_NAME = "통합 상태 점검"
+    STEP_NEEDLE = "ops_status.py"
+
+    def checker(self, code, report, body="결론: 장애 1건 — 조치 필요"):
+        self.fake("ops_status.py", _FAKE_OPS.format(report=report, code=code, body=body))
+
+    # ---- A. 정상 ----
+    def test_A_점검_exit0은_정상으로_전달된다(self):
+        self.checker(0, "clean", "결론: 정상")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(kv["code"], "0")
+        self.assertEqual(kv["report"], "ok")
+        self.assertEqual(kv["log"], "ok")
+        self.assertEqual(kv["signature"], "clean")
+
+    # ---- B. 장애 (이번 사고의 재현) ----
+    def test_B_점검_exit1은_장애로_전달된다(self):
+        self.checker(1, "fault")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)               # 스텝은 죽지 않는다(기록·알림이 이어져야 한다)
+        self.assertEqual(kv["code"], "1", "장애가 정상(0)으로 전달되면 이번 사고 그대로다")
+        self.assertEqual(kv["signature"], "214b8601d4")
+        self.assertEqual(kv["report"], "ok")
+        self.assertIn("결론: 장애 1건", open(os.path.join(self.tmp, "ops.txt"), encoding="utf-8").read())
+
+    # ---- C. 확인 불가 ----
+    def test_C_점검_exit2는_확인_불가로_전달된다(self):
+        self.checker(2, "unknown", "결론: 확인 불가 1건")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(kv["code"], "2", "확인 불가가 0 으로 전달되면 기존 장애 이슈가 닫힌다")
+        self.assertEqual(kv["report"], "ok")
+
+    # ---- D. 보고서 누락·손상·예외 ----
+    def test_D1_보고서가_없으면_정상으로_적지_않는다(self):
+        self.checker(0, "missing", "결론: 정상")
+        r, kv = self.run_step()
+        self.assertEqual(kv["report"], "broken")
+        self.assertEqual(kv["code"], "2", "보고서를 못 읽었으면 정상(0)이 아니라 확인 불가(2)")
+        self.assertEqual(kv["signature"], "unknown")
+
+    def test_D2_보고서가_깨졌어도_정상으로_적지_않는다(self):
+        self.checker(0, "corrupt", "결론: 정상")
+        _, kv = self.run_step()
+        self.assertEqual((kv["code"], kv["report"]), ("2", "broken"))
+
+    def test_D3_보고서에_필수_필드가_없으면_확인_불가다(self):
+        self.checker(0, "noKeys", "결론: 정상")
+        _, kv = self.run_step()
+        self.assertEqual((kv["code"], kv["report"]), ("2", "broken"))
+
+    def test_D4_점검이_예외로_죽어도_장애_판정은_지워지지_않는다(self):
+        self.checker(1, "missing")
+        _, kv = self.run_step()
+        self.assertEqual(kv["code"], "1", "점검이 이미 장애라고 했으면 확인 불가로 낮추지 않는다")
+        self.assertEqual(kv["report"], "broken")
+
+    # ---- E. 로그 기록(tee) 실패 ----
+    def test_E_요약_기록_실패는_점검_판정과_따로_적힌다(self):
+        self.checker(1, "fault")
+        r, kv = self.run_step(summary="/nonexistent-dir-gaeo/summary.md")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(kv["code"], "1", "tee 가 실패해도 점검 판정은 그대로다")
+        self.assertEqual(kv["log"], "fail", "로그 기록 실패를 성공으로 숨기지 않는다")
+        self.assertIn("::error::", r.stdout + r.stderr)
+        # 첫 tee 는 살아 있으므로 이슈 본문 원본은 남는다
+        self.assertTrue(os.path.exists(os.path.join(self.tmp, "ops.txt")))
+
+    def test_E2_정상인데_기록만_실패하면_정상_판정은_유지된다(self):
+        self.checker(0, "clean", "결론: 정상")
+        _, kv = self.run_step(summary="/nonexistent-dir-gaeo/summary.md")
+        self.assertEqual((kv["code"], kv["log"]), ("0", "fail"))
+
+
+_FAKE_VS = '''import json, sys
+argv = sys.argv[1:]
+json.dump({{"notify": {notify}}}, open(argv[argv.index("--json") + 1], "w", encoding="utf-8"))
+open(argv[argv.index("--issue-body") + 1], "w", encoding="utf-8").write("# 실행기 요약\\n")
+print("[예정 시험 실행기] 요약")
+sys.exit({code})
+'''
+
+
+class ValidationRunnerVerdictReachesJudgement(_StepHarness):
+    """F. 예정 시험 실행기가 실패했는데 마지막 tee 성공 때문에 정상으로 처리되지 않아야 한다.
+    실패해도 기록·보관 스텝이 이어지도록 스텝 자체는 0 으로 끝난다(마지막 판정 스텝이 run 을 빨갛게 만든다)."""
+
+    STEP_NAME = "예정 시험 실행기"
+    STEP_NEEDLE = "run_validation_schedule.py"
+
+    def runner(self, code, notify="False"):
+        self.fake("run_validation_schedule.py", _FAKE_VS.format(code=code, notify=notify))
+        self.fake("render_validation_schedule.py", 'open("rendered.txt", "w").write("ok")\n')
+
+    def test_F1_실행기_exit0은_정상으로_전달된다(self):
+        self.runner(0)
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual((kv["code"], kv["log"]), ("0", "ok"))
+
+    def test_F2_실행기_exit1이_그대로_전달되고_보관은_계속된다(self):
+        self.runner(1, notify="True")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, "스텝이 죽으면 기록 커밋·보관 스텝이 건너뛰어진다")
+        self.assertEqual(kv["code"], "1", "실행기 실패가 0 으로 전달되면 run 이 초록으로 끝난다")
+        self.assertEqual(kv["notify"], "true")
+        self.assertTrue(os.path.exists(os.path.join(self.root, "rendered.txt")), "표 재생성은 계속 수행한다")
+        self.assertTrue(os.path.exists(os.path.join(self.tmp, "vs_issue.md")), "이슈 본문은 그대로 남는다")
+
+    def test_F3_실행기_exit2도_섞이지_않고_그대로_전달된다(self):
+        self.runner(2)
+        _, kv = self.run_step()
+        self.assertEqual(kv["code"], "2", "이 프로그램의 2 는 BLOCKED·구조 가드 — 0 으로 바꾸지 않는다")
+
+    def test_F4_요약_기록_실패는_실행기_판정과_따로_적힌다(self):
+        self.runner(0)
+        r, kv = self.run_step(summary="/nonexistent-dir-gaeo/summary.md")
+        self.assertEqual((kv["code"], kv["log"]), ("0", "fail"))
+        self.assertIn("::error::", r.stdout + r.stderr)
+
+    def test_F5_표_재생성이_실패해도_기록_알림은_계속되고_판정에_남는다(self):
+        self.runner(0)
+        self.fake("render_validation_schedule.py", 'import sys; sys.exit(1)\n')
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(kv["code"], "0")
+        self.assertEqual(kv["log"], "fail", "재생성 실패를 성공으로 숨기지 않는다")
+
+    def test_F6_계획_모드는_apply_없이_돌고_표를_다시_쓰지_않는다(self):
+        self.runner(0)
+        r, kv = self.run_step(apply="false")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertFalse(os.path.exists(os.path.join(self.root, "rendered.txt")))
+
+
+class InboxAndCapacityStepsDoNotHideFailure(_StepHarness):
+    """같은 tee 결함이 있던 나머지 두 곳(회수·용량 보고). 각 프로그램의 계약을 따로 읽는다."""
+
+    STEP_NAME = "저장 실패로 남은 결과 회수"
+    STEP_NEEDLE = "--reconcile-inbox"
+
+    def test_회수_성공은_0으로_끝나고_회수_목록을_남긴다(self):
+        self.fake("run_validation_schedule.py",
+                  'print("RECONCILED validation-inbox-111")\n')
+        r, _ = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(open(os.path.join(self.tmp, "inbox_branches.txt"), encoding="utf-8").read().strip(),
+                         "validation-inbox-111")
+
+    def test_회수_실패가_초록으로_숨지_않고_목록은_그대로_남는다(self):
+        self.fake("run_validation_schedule.py",
+                  'import sys; print("RECONCILED validation-inbox-222"); sys.exit(1)\n')
+        r, _ = self.run_step()
+        self.assertEqual(r.returncode, 1, "회수 실패가 0 으로 끝나면 결과가 사라진 것을 아무도 모른다")
+        self.assertIn("::error::", r.stdout + r.stderr)
+        self.assertEqual(open(os.path.join(self.tmp, "inbox_branches.txt"), encoding="utf-8").read().strip(),
+                         "validation-inbox-222", "일부라도 회수됐으면 그 브랜치는 기록에 남아야 한다")
+
+    def test_용량_보고의_계약은_따로_읽는다(self):
+        step = _step_body("저장소 용량 보고", "check_history_evidence.py")
+        for code, expect in ((0, 0), (1, 1), (2, 2)):
+            self.fake("check_history_evidence.py", f'import sys; print("[저장소 용량] 단계"); sys.exit({code})\n')
+            r, _ = self.run_step_with(step)
+            self.assertEqual(r.returncode, expect,
+                             f"용량 보고 exit {code} 가 {expect} 로 전달돼야 한다(0 OK/NOTICE · 1 PROTECT · 2 UNKNOWN)")
+            if code:
+                self.assertIn("::warning::", r.stdout + r.stderr)
+
+    def run_step_with(self, step):
+        saved, type(self).step = type(self).step, step
+        try:
+            return self.run_step()
+        finally:
+            type(self).step = saved
+
+
+class FinalJudgementSeparatesVerdictFromExecution(_StepHarness):
+    """마지막 판정: 예정 시험 실패·저장 실패는 계속 빨갛게. 점검이 찾은 장애는 이슈로만 알리고 run 색을 바꾸지 않는다
+    (기존 설계 유지). 로그 기록 실패·보고서 누락은 점검 판정과 별개의 실행 문제로 빨갛게."""
+
+    STEP_NAME = "결과 판정"
+    STEP_NEEDLE = "예정 시험 실행기 종료코드"
+
+    def judge(self, **env):
+        base = dict(CODE="0", COMMIT_OUTCOME="success", VS_LOG="ok", OPS_CODE="0", OPS_LOG="ok", OPS_REPORT="ok")
+        base.update(env)
+        return self.run_step(**base)
+
+    def test_모두_정상이면_초록(self):
+        r, _ = self.judge()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("정상 종료", r.stdout)
+
+    def test_실행기_실패는_계속_빨갛다(self):
+        for code in ("1", "2", ""):
+            r, _ = self.judge(CODE=code)
+            self.assertEqual(r.returncode, 1, f"실행기 코드 {code!r}")
+
+    def test_저장_실패는_계속_빨갛다(self):
+        r, _ = self.judge(COMMIT_OUTCOME="failure")
+        self.assertEqual(r.returncode, 1)
+
+    def test_점검이_찾은_장애는_run_을_빨갛게_만들지_않는다(self):
+        # 기존 설계: 점검 대상의 장애는 제목 고정 이슈로 알린다. 여기서 run 을 실패시키라는 뜻이 아니다.
+        for code in ("1", "2"):
+            r, _ = self.judge(OPS_CODE=code)
+            self.assertEqual(r.returncode, 0, f"점검 판정 {code} 로 run 을 실패시키면 기존 설계가 바뀐다")
+            self.assertIn(f"통합 점검 전달 판정: {code}", r.stdout)
+
+    def test_로그_기록_실패는_별개의_실행_문제로_빨갛다(self):
+        for key in ("OPS_LOG", "VS_LOG"):
+            r, _ = self.judge(**{key: "fail"})
+            self.assertEqual(r.returncode, 1, key)
+            self.assertIn("요약 로그 기록 실패", r.stdout)
+
+    def test_보고서_누락은_정상으로_위장되지_않는다(self):
+        r, _ = self.judge(OPS_REPORT="broken")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("정상으로 적지 않고", r.stdout)
+
+    def test_이유가_여러_개면_전부_적는다(self):
+        r, _ = self.judge(CODE="1", COMMIT_OUTCOME="failure", OPS_LOG="fail", OPS_REPORT="broken")
+        self.assertEqual(r.returncode, 1)
+        for needle in ("예정 시험 실행기 종료코드", "기록 저장(main push) 실패", "요약 로그 기록 실패", "깨졌다"):
+            self.assertIn(needle, r.stdout, needle)
+
+
+class FaultIssueIsNeverClosedOnFaultOrUnknown(_StepHarness):
+    """5. 확인 불가·장애를 정상 처리해서 기존 장애 이슈를 닫지 않는다. 진짜 `gh` 대신 호출을 적는 대역을 둔다."""
+
+    STEP_NAME = "장애 이슈"
+    STEP_NEEDLE = "gh issue list"
+
+    def setUp(self):
+        super().setUp()
+        self.calls = os.path.join(self.root, "gh_calls.txt")
+        self.shim("gh", f'''#!/bin/sh
+echo "$@" >> "{self.calls}"
+case "$1 $2" in
+  "issue list") echo 77 ;;
+  "issue view") echo "(본문에 서명 없음)" ;;
+esac
+exit 0
+''')
+        with open(os.path.join(self.tmp, "ops.txt"), "w", encoding="utf-8") as fh:
+            fh.write("결론: 장애 1건\n")
+
+    def gh_calls(self):
+        if not os.path.exists(self.calls):
+            return []
+        return open(self.calls, encoding="utf-8").read().splitlines()
+
+    def test_장애면_이슈를_닫지_않고_기록한다(self):
+        r, _ = self.run_step(CODE="1", SIG="214b8601d4", OPS_TITLE="🩺 [GAEO Ops] 일일 통합 점검 장애")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        calls = self.gh_calls()
+        self.assertFalse([c for c in calls if c.startswith("issue close")], f"장애인데 이슈를 닫았다: {calls}")
+        self.assertTrue([c for c in calls if c.startswith("issue comment")], calls)
+
+    def test_정상이면_기존_장애_이슈를_닫는다(self):
+        r, _ = self.run_step(CODE="0", SIG="clean", OPS_TITLE="🩺 [GAEO Ops] 일일 통합 점검 장애")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertTrue([c for c in self.gh_calls() if c.startswith("issue close 77")], self.gh_calls())
+
+    def test_같은_서명은_다시_쓰지_않는다(self):
+        self.shim("gh", f'''#!/bin/sh
+echo "$@" >> "{self.calls}"
+case "$1 $2" in
+  "issue list") echo 77 ;;
+  "issue view") echo "<!-- gaeo-ops-signature:214b8601d4 -->" ;;
+esac
+exit 0
+''')
+        r, _ = self.run_step(CODE="1", SIG="214b8601d4", OPS_TITLE="🩺 [GAEO Ops] 일일 통합 점검 장애")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        calls = self.gh_calls()
+        self.assertFalse([c for c in calls if c.startswith("issue comment")], f"중복 기록: {calls}")
+        self.assertFalse([c for c in calls if c.startswith("issue create")], calls)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
