@@ -1,12 +1,21 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 11:56",
- "priceLabel": "2026-09-18 11:53 장중 · ⚠️ 2종목 지연",
+ "generatedAt": "2026-09-18 12:26",
+ "priceLabel": "2026-09-18 12:16 장중 · ⚠️ 2종목 지연",
  "count": 328,
- "coverageState": "NO_OFFICIAL_EVENT_DETECTED",
+ "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "005940",
+   "name": "NH투자증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T03:24:58.946474+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000113"
+  },
   {
    "code": "003530",
    "name": "한화투자증권",
@@ -114,15 +123,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T01:54:55.080069+00:00",
    "isCorrection": false,
    "rceptNo": "20260918000069"
-  },
-  {
-   "code": "005940",
-   "name": "NH투자증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T01:54:55.080069+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000066"
   },
   {
    "code": "005940",
