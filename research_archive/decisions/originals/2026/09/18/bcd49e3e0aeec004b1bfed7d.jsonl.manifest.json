@@ -1,0 +1,29 @@
+{
+ "archiveVersion": "1.0",
+ "compressedBytes": 82842,
+ "compression": "gzip",
+ "compressionRatio": 0.0484,
+ "createdAt": "2026-09-18T07:10:54.570601+00:00",
+ "encryption": "none",
+ "featureVersions": [],
+ "firstPredictionTimestamp": "2026-09-18 16:10",
+ "labelVersions": [],
+ "lastPredictionTimestamp": "2026-09-18 16:10",
+ "modelVersions": [],
+ "period": {
+  "id": "2026-09-18",
+  "type": "day"
+ },
+ "plaintextSha256": "744abb5ea1690a8265223fed3929d40bffe04894ae703d23c3bc86a6c8c7a851",
+ "rawBytes": 1712774,
+ "recordCount": 600,
+ "recordType": "production_decision",
+ "schemaVersion": "research_archive_v1",
+ "sha256": {
+  "bcd49e3e0aeec004b1bfed7d.jsonl.gz": "3648ed226325262fa6f72c2ead6220bc992fa7ef886369636c61243944904f46"
+ },
+ "sourceFiles": [
+  "originals/2026/09/18/bcd49e3e0aeec004b1bfed7d.jsonl.gz"
+ ],
+ "status": "CLOSED_COMPRESSED"
+}

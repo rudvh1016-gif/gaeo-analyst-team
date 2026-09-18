@@ -4,7 +4,7 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-18 15:40",
+ "generatedAt": "2026-09-18 16:10",
  "dataCutoff": "2026-09-18 종가",
  "horizonDays": 20,
  "picks": [
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 2,
-   "why": "20거래일 +104.8% · 20일선 위 · 거래량 평소의 4.2배",
+   "why": "20거래일 +106.7% · 20일선 위 · 거래량 평소의 5.0배",
    "overheat": true,
-   "gapPct": 44.3,
+   "gapPct": 45.5,
    "call": "SELL",
    "callConflict": true
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "SFA반도체",
    "sector": "반도체",
    "sectorRank": 5,
-   "why": "20거래일 +62.4% · 20일선 위",
+   "why": "20거래일 +62.2% · 20일선 위",
    "overheat": true,
-   "gapPct": 36.3,
+   "gapPct": 36.2,
    "call": "HOLD",
    "callConflict": false
   },
@@ -44,23 +44,23 @@ window.ROTATION_PICKS = {
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 41.0,
+  "breadthPct": 40.0,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6875.72,
-    "ma20": 6800.02,
+    "close": 6894.23,
+    "ma20": 6800.95,
     "above": true,
-    "gapPct": 1.11
+    "gapPct": 1.37
    },
    "KOSDAQ": {
-    "close": 826.95,
-    "ma20": 820.65,
+    "close": 827.12,
+    "ma20": 820.66,
     "above": true,
-    "gapPct": 0.77
+    "gapPct": 0.79
    }
   }
  },
