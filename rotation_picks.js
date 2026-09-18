@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-18 13:56",
- "dataCutoff": "2026-09-18 13:56 장중",
+ "generatedAt": "2026-09-18 14:40",
+ "dataCutoff": "2026-09-18 14:40 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 2,
-   "why": "20거래일 +100.1% · 20일선 위 · 거래량 평소의 3.2배",
+   "why": "20거래일 +100.4% · 20일선 위 · 거래량 평소의 3.3배",
    "overheat": true,
-   "gapPct": 41.1,
+   "gapPct": 41.4,
    "call": "SELL",
    "callConflict": true
   },
@@ -24,43 +24,43 @@ window.ROTATION_PICKS = {
    "name": "SFA반도체",
    "sector": "반도체",
    "sectorRank": 3,
-   "why": "20거래일 +61.0% · 20일선 위",
+   "why": "20거래일 +61.9% · 20일선 위",
    "overheat": true,
-   "gapPct": 35.2,
+   "gapPct": 35.9,
    "call": "HOLD",
    "callConflict": false
   },
   {
-   "code": "010170",
-   "name": "대한광통신",
-   "sector": "통신",
-   "sectorRank": 1,
-   "why": "20거래일 +53.9% · 20일선 위 · 거래량 평소의 3.6배",
-   "overheat": true,
-   "gapPct": 30.0,
+   "code": "192650",
+   "name": "드림텍",
+   "sector": "전자·부품",
+   "sectorRank": 8,
+   "why": "20거래일 +65.3% · 20일선 위",
+   "overheat": false,
+   "gapPct": 23.0,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 41.3,
+  "breadthPct": 41.8,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6885.13,
-    "ma20": 6800.5,
+    "close": 6893.03,
+    "ma20": 6800.89,
     "above": true,
-    "gapPct": 1.24
+    "gapPct": 1.35
    },
    "KOSDAQ": {
-    "close": 827.85,
-    "ma20": 820.69,
+    "close": 826.67,
+    "ma20": 820.63,
     "above": true,
-    "gapPct": 0.87
+    "gapPct": 0.74
    }
   }
  },
