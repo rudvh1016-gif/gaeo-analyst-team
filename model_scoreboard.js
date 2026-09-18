@@ -8,16 +8,16 @@ const MODEL_SCOREBOARD = {
  },
  "decisionTrace": {
   "actionDistribution": {
-   "BUY": 194,
-   "HOLD": 2602,
-   "SELL": 804
+   "BUY": 191,
+   "HOLD": 2607,
+   "SELL": 802
   },
   "byModelVersion": {
    "base-2026-08-15-parity-hotfix": {
     "actionDistribution": {
-     "BUY": 194,
-     "HOLD": 2602,
-     "SELL": 804
+     "BUY": 191,
+     "HOLD": 2607,
+     "SELL": 802
     },
     "dailyRecordCount": 3600,
     "horizons": {
@@ -39,12 +39,12 @@ const MODEL_SCOREBOARD = {
       "withheld": 0
      }
     },
-    "rawRecordCount": 25800,
+    "rawRecordCount": 26400,
     "uniqueDecisionDays": 6
    }
   },
   "comparison": {
-   "evidenceRef": "research_archive/decisions/comparisons/68d5d16d587278f73c7839c9.json.gz",
+   "evidenceRef": "research_archive/decisions/comparisons/17b01d81b1884f839fbcf6c0.json.gz",
    "policyVersion": "price-comparison-v1",
    "states": {
     "adjustment_required": 0,
@@ -658,7 +658,7 @@ const MODEL_SCOREBOARD = {
     "499790": "unavailable",
     "950160": "unavailable"
    },
-   "observedAt": "2026-09-18T00:57:36+00:00",
+   "observedAt": "2026-09-18T01:27:26+00:00",
    "scope": "기업행사 및 거래소 시장조치. 뉴스 전체 확인이 아닙니다.",
    "statuses": {
     "checked_no_event": 0,
@@ -673,7 +673,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-11 종가 (16:04 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/68d5d16d587278f73c7839c9.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/17b01d81b1884f839fbcf6c0.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-11 16:14",
@@ -688,7 +688,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-14 13:06 장중 · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/68d5d16d587278f73c7839c9.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/17b01d81b1884f839fbcf6c0.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-14 13:13",
@@ -703,7 +703,7 @@ const MODEL_SCOREBOARD = {
     "baseAt": "2026-09-15 종가 (16:00 수집) · ⚠️ 1종목 지연",
     "call": "HOLD",
     "code": "000070",
-    "comparisonPath": "research_archive/decisions/comparisons/68d5d16d587278f73c7839c9.json.gz",
+    "comparisonPath": "research_archive/decisions/comparisons/17b01d81b1884f839fbcf6c0.json.gz",
     "comparisonReason": "corporate_action_unverified",
     "comparisonState": "unknown",
     "decisionAt": "2026-09-15 16:33",
@@ -716,8 +716,8 @@ const MODEL_SCOREBOARD = {
   ],
   "execution": {
    "analysisCount": 3600,
-   "decisionOriginalHash": "7bcc568208893d02fcc1624f82c87a3f3718026ee77b5c1ab0d260c0541a8e67",
-   "decisionOriginalId": "fac916440b36a1da9bed0e29",
+   "decisionOriginalHash": "db191af01a6d6227b833e95b17ad5d3a2d0e4d6c8ba1d884fd39682388fe26e2",
+   "decisionOriginalId": "11d4e1f5dc634ec05c42b91a",
    "event": "workflow_dispatch",
    "headSha": "e19bda991b2405b1ea04d8dbefda2532b03a8c8d",
    "runAttempt": "1",
@@ -742,8 +742,8 @@ const MODEL_SCOREBOARD = {
     "withheld": 0
    }
   },
-  "lastVerifiedAt": "2026-09-18T00:57:36+00:00",
-  "latestDecisionAt": "2026-09-18 09:56",
+  "lastVerifiedAt": "2026-09-18T01:27:26+00:00",
+  "latestDecisionAt": "2026-09-18 10:26",
   "limitations": [
    "원본 보존을 시작한 실제 자동분석만 연결합니다. 과거 판단을 재구성하지 않습니다.",
    "하루 여러 판단을 보존하지만 성적은 종목·판단일당 마지막 자동판단 1건입니다.",
@@ -769,8 +769,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 194,
-       "recordCount": 194,
+       "pending": 191,
+       "recordCount": 191,
        "uniqueDecisionDays": 6,
        "withheld": 0
       },
@@ -787,8 +787,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 2602,
-       "recordCount": 2602,
+       "pending": 2607,
+       "recordCount": 2607,
        "uniqueDecisionDays": 6,
        "withheld": 0
       },
@@ -805,8 +805,8 @@ const MODEL_SCOREBOARD = {
        "minUniqueDecisionDays": 20,
        "miss": 0,
        "neutral": 0,
-       "pending": 804,
-       "recordCount": 804,
+       "pending": 802,
+       "recordCount": 802,
        "uniqueDecisionDays": 6,
        "withheld": 0
       }
@@ -829,8 +829,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 46,
-         "recordCount": 46,
+         "pending": 45,
+         "recordCount": 45,
          "uniqueDecisionDays": 6,
          "upperExclusive": 40,
          "withheld": 0
@@ -850,8 +850,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 114,
-         "recordCount": 114,
+         "pending": 110,
+         "recordCount": 110,
          "uniqueDecisionDays": 6,
          "upperExclusive": 50,
          "withheld": 0
@@ -871,8 +871,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 32,
-         "recordCount": 32,
+         "pending": 34,
+         "recordCount": 34,
          "uniqueDecisionDays": 6,
          "upperExclusive": 60,
          "withheld": 0
@@ -1020,8 +1020,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 193,
-         "recordCount": 193,
+         "pending": 198,
+         "recordCount": 198,
          "uniqueDecisionDays": 6,
          "upperExclusive": 50,
          "withheld": 0
@@ -1041,8 +1041,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 197,
-         "recordCount": 197,
+         "pending": 193,
+         "recordCount": 193,
          "uniqueDecisionDays": 6,
          "upperExclusive": 60,
          "withheld": 0
@@ -1062,8 +1062,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 145,
-         "recordCount": 145,
+         "pending": 146,
+         "recordCount": 146,
          "uniqueDecisionDays": 6,
          "upperExclusive": 70,
          "withheld": 0
@@ -1083,8 +1083,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 49,
-         "recordCount": 49,
+         "pending": 45,
+         "recordCount": 45,
          "uniqueDecisionDays": 6,
          "upperExclusive": 80,
          "withheld": 0
@@ -1234,8 +1234,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 190,
-         "recordCount": 190,
+         "pending": 187,
+         "recordCount": 187,
          "uniqueDecisionDays": 6,
          "upperExclusive": 70,
          "withheld": 0
@@ -1341,8 +1341,8 @@ const MODEL_SCOREBOARD = {
          "minUniqueDecisionDays": 20,
          "miss": 0,
          "neutral": 0,
-         "pending": 146,
-         "recordCount": 146,
+         "pending": 144,
+         "recordCount": 144,
          "uniqueDecisionDays": 6,
          "upperExclusive": 40,
          "withheld": 0
@@ -1499,9 +1499,9 @@ const MODEL_SCOREBOARD = {
      },
      "distribution": {
       "counts": {
-       "BUY": 194,
-       "HOLD": 2602,
-       "SELL": 804,
+       "BUY": 191,
+       "HOLD": 2607,
+       "SELL": 802,
        "UNKNOWN": 0,
        "WITHHELD": 0
       },
@@ -1509,8 +1509,8 @@ const MODEL_SCOREBOARD = {
       "judgedRecords": 3600,
       "observedRecords": 3600,
       "ratiosPct": {
-       "BUY": 5.4,
-       "HOLD": 72.3,
+       "BUY": 5.3,
+       "HOLD": 72.4,
        "SELL": 22.3,
        "UNKNOWN": 0.0,
        "WITHHELD": 0.0
@@ -1553,13 +1553,13 @@ const MODEL_SCOREBOARD = {
    "interpretation": "INSUFFICIENT_EVIDENCE",
    "latestRound": {
     "counts": {
-     "BUY": 21,
-     "HOLD": 453,
-     "SELL": 126,
+     "BUY": 18,
+     "HOLD": 458,
+     "SELL": 124,
      "UNKNOWN": 0,
      "WITHHELD": 0
     },
-    "decisionAt": "2026-09-18 09:56",
+    "decisionAt": "2026-09-18 10:26",
     "expectedRecords": 600,
     "judgedPctOfRecorded": 100.0,
     "judgedPctOfUniverse": 100.0,
@@ -1567,9 +1567,9 @@ const MODEL_SCOREBOARD = {
     "missingRecords": 0,
     "observedRecords": 600,
     "ratiosPct": {
-     "BUY": 3.5,
-     "HOLD": 75.5,
-     "SELL": 21.0,
+     "BUY": 3.0,
+     "HOLD": 76.3,
+     "SELL": 20.7,
      "UNKNOWN": 0.0,
      "WITHHELD": 0.0
     },
@@ -1595,13 +1595,13 @@ const MODEL_SCOREBOARD = {
    "scoreIsProbability": false,
    "source": "actual_auto_protected_outcomes"
   },
-  "rawRecordCount": 25800,
+  "rawRecordCount": 26400,
   "schemaVersion": 1,
   "source": "actual_auto",
   "status": "WAITING",
   "uniqueDecisionDays": 6
  },
- "generatedAt": "2026-09-18T00:57:12.667041+00:00",
+ "generatedAt": "2026-09-18T01:27:11.699542+00:00",
  "gradingNote": "채점: 판단일 다음 N번째 거래일 종가 기준, 적중 정의는 기존 성적표(scoreCall)와 동일. 시장 대비 = 같은 날 분석 종목 전체 수익률 중앙값 차감.",
  "gradingPolicyVersion": "grading_v1_2026-08-16",
  "independenceNote": "같은 날 여러 종목 판단은 서로 독립이 아닙니다. 행 수와 함께 판단일 수를 같이 봐야 합니다.",
@@ -1654,10 +1654,10 @@ const MODEL_SCOREBOARD = {
      "uniqueDates": 33
     },
     "GAEO_COVERAGE_V2_600": {
-     "accuracy": 64.2,
+     "accuracy": 64.1,
      "accuracyCI95": [
-      60.1,
-      67.8
+      60.0,
+      67.7
      ],
      "actionDistribution": {
       "BUY": 793,
@@ -1666,33 +1666,33 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 793,
-      "marketRelativeMeanReturn": 0.26,
+      "marketRelativeMeanReturn": 0.27,
       "meanReturn": -0.51,
-      "medianReturn": -1.2,
-      "precision": 38.4
+      "medianReturn": -1.18,
+      "precision": 38.6
      },
-     "directionalAccuracy": 50.8,
+     "directionalAccuracy": 50.9,
      "directionalCI95": [
-      42.4,
-      59.1
+      42.5,
+      59.2
      ],
      "directionalCount": 3187,
      "hold": {
       "count": 8776,
       "marketRelativeMeanReturn": 0.66,
-      "meanReturn": 0.14,
-      "medianReturn": -0.41,
-      "precision": 68.3
+      "meanReturn": 0.13,
+      "medianReturn": -0.42,
+      "precision": 68.2
      },
      "matured": 11963,
-     "overallAccuracy": 64.2,
+     "overallAccuracy": 64.1,
      "pending": 0,
      "sell": {
       "count": 2394,
-      "marketRelativeMeanReturn": 0.21,
-      "meanReturn": 0.08,
-      "medianReturn": -0.52,
-      "precision": 54.8
+      "marketRelativeMeanReturn": 0.22,
+      "meanReturn": 0.07,
+      "medianReturn": -0.55,
+      "precision": 54.9
      },
      "status": "OK",
      "uniqueDates": 20
@@ -1744,10 +1744,10 @@ const MODEL_SCOREBOARD = {
      "uniqueDates": 33
     },
     "base-2026-08-15-parity-hotfix": {
-     "accuracy": 64.2,
+     "accuracy": 64.1,
      "accuracyCI95": [
-      60.1,
-      67.8
+      60.0,
+      67.7
      ],
      "actionDistribution": {
       "BUY": 793,
@@ -1756,33 +1756,33 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 793,
-      "marketRelativeMeanReturn": 0.26,
+      "marketRelativeMeanReturn": 0.27,
       "meanReturn": -0.51,
-      "medianReturn": -1.2,
-      "precision": 38.4
+      "medianReturn": -1.18,
+      "precision": 38.6
      },
-     "directionalAccuracy": 50.8,
+     "directionalAccuracy": 50.9,
      "directionalCI95": [
-      42.4,
-      59.1
+      42.5,
+      59.2
      ],
      "directionalCount": 3187,
      "hold": {
       "count": 8776,
       "marketRelativeMeanReturn": 0.66,
-      "meanReturn": 0.14,
-      "medianReturn": -0.41,
-      "precision": 68.3
+      "meanReturn": 0.13,
+      "medianReturn": -0.42,
+      "precision": 68.2
      },
      "matured": 11963,
-     "overallAccuracy": 64.2,
+     "overallAccuracy": 64.1,
      "pending": 3017,
      "sell": {
       "count": 2394,
-      "marketRelativeMeanReturn": 0.21,
-      "meanReturn": 0.08,
-      "medianReturn": -0.52,
-      "precision": 54.8
+      "marketRelativeMeanReturn": 0.22,
+      "meanReturn": 0.07,
+      "medianReturn": -0.55,
+      "precision": 54.9
      },
      "status": "OK",
      "uniqueDates": 20
@@ -1803,10 +1803,10 @@ const MODEL_SCOREBOARD = {
      "uniqueDates": 0
     },
     "5": {
-     "accuracy": 64.2,
+     "accuracy": 64.1,
      "accuracyCI95": [
-      60.1,
-      67.8
+      60.0,
+      67.7
      ],
      "actionDistribution": {
       "BUY": 793,
@@ -1815,33 +1815,33 @@ const MODEL_SCOREBOARD = {
      },
      "buy": {
       "count": 793,
-      "marketRelativeMeanReturn": 0.26,
+      "marketRelativeMeanReturn": 0.27,
       "meanReturn": -0.51,
-      "medianReturn": -1.2,
-      "precision": 38.4
+      "medianReturn": -1.18,
+      "precision": 38.6
      },
-     "directionalAccuracy": 50.8,
+     "directionalAccuracy": 50.9,
      "directionalCI95": [
-      42.4,
-      59.1
+      42.5,
+      59.2
      ],
      "directionalCount": 3187,
      "hold": {
       "count": 8776,
       "marketRelativeMeanReturn": 0.66,
-      "meanReturn": 0.14,
-      "medianReturn": -0.41,
-      "precision": 68.3
+      "meanReturn": 0.13,
+      "medianReturn": -0.42,
+      "precision": 68.2
      },
      "matured": 11963,
-     "overallAccuracy": 64.2,
+     "overallAccuracy": 64.1,
      "pending": 3017,
      "sell": {
       "count": 2394,
-      "marketRelativeMeanReturn": 0.21,
-      "meanReturn": 0.08,
-      "medianReturn": -0.52,
-      "precision": 54.8
+      "marketRelativeMeanReturn": 0.22,
+      "meanReturn": 0.07,
+      "medianReturn": -0.55,
+      "precision": 54.9
      },
      "status": "OK",
      "uniqueDates": 20
@@ -1894,10 +1894,10 @@ const MODEL_SCOREBOARD = {
      "withheld": 17
     },
     "5": {
-     "accuracy": 66.4,
+     "accuracy": 66.3,
      "accuracyCI95": [
-      62.9,
-      69.8
+      62.8,
+      69.6
      ],
      "actionDistribution": {
       "BUY_CONSIDER": 363,
@@ -1915,7 +1915,7 @@ const MODEL_SCOREBOARD = {
       "count": 0
      },
      "matured": 11963,
-     "overallAccuracy": 66.4,
+     "overallAccuracy": 66.3,
      "pending": 3000,
      "sell": {
       "count": 0
@@ -1970,10 +1970,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 891,
@@ -1991,7 +1991,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2028,10 +2028,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 674,
@@ -2049,7 +2049,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2086,10 +2086,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 799,
@@ -2107,7 +2107,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2144,10 +2144,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 363,
@@ -2165,7 +2165,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2249,10 +2249,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 891,
@@ -2270,7 +2270,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2307,10 +2307,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 674,
@@ -2328,7 +2328,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2365,10 +2365,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 799,
@@ -2386,7 +2386,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2423,10 +2423,10 @@ const MODEL_SCOREBOARD = {
        "withheld": 17
       },
       "5": {
-       "accuracy": 66.4,
+       "accuracy": 66.3,
        "accuracyCI95": [
-        62.9,
-        69.8
+        62.8,
+        69.6
        ],
        "actionDistribution": {
         "BUY_CONSIDER": 363,
@@ -2444,7 +2444,7 @@ const MODEL_SCOREBOARD = {
         "count": 0
        },
        "matured": 11963,
-       "overallAccuracy": 66.4,
+       "overallAccuracy": 66.3,
        "pending": 3000,
        "sell": {
         "count": 0
@@ -2560,12 +2560,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_a"
   },
@@ -2573,12 +2573,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2586,12 +2586,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -2599,12 +2599,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2612,12 +2612,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   },
@@ -2625,12 +2625,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2638,12 +2638,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -2651,12 +2651,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2664,12 +2664,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 2.3,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 64.2,
+   "leftAccuracy": 64.1,
    "leftMarketRelative": 0.54,
    "leftModel": "base_production",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   },
@@ -2677,12 +2677,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 0.0,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 66.4,
+   "leftAccuracy": 66.3,
    "leftMarketRelative": 0.54,
    "leftModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2690,12 +2690,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 0.0,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 66.4,
+   "leftAccuracy": 66.3,
    "leftMarketRelative": 0.54,
    "leftModel": "research_b:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:MODEL_B_EQUAL_WEIGHT__SHORT_REVERSAL_CANDIDATE"
   },
@@ -2703,12 +2703,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 0.0,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 66.4,
+   "leftAccuracy": 66.3,
    "leftMarketRelative": 0.54,
    "leftModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_MOMENTUM_CANDIDATE"
   },
@@ -2716,12 +2716,12 @@ const MODEL_SCOREBOARD = {
    "differencePp": 0.0,
    "evidenceStatus": "OK",
    "horizon": "5D",
-   "leftAccuracy": 66.4,
+   "leftAccuracy": 66.3,
    "leftMarketRelative": 0.54,
    "leftModel": "research_b:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE",
    "matchedRows": 11963,
    "matchedUniqueDates": 20,
-   "rightAccuracy": 66.4,
+   "rightAccuracy": 66.3,
    "rightMarketRelative": 0.54,
    "rightModel": "research_c:PREDECLARED_CANDIDATE_45_35_20__SHORT_REVERSAL_CANDIDATE"
   }
