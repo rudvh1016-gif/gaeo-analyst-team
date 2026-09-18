@@ -1,12 +1,93 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 15:10",
- "priceLabel": "2026-09-18 15:08 장중 · ⚠️ 2종목 지연",
- "count": 344,
+ "generatedAt": "2026-09-18 15:40",
+ "priceLabel": "2026-09-18 종가 (15:31 수집) · ⚠️ 2종목 지연",
+ "count": 347,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "일괄신고추가서류(파생결합증권-주가연계증권)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000250"
+  },
+  {
+   "code": "003530",
+   "name": "한화투자증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000280"
+  },
+  {
+   "code": "030520",
+   "name": "한글과컴퓨터",
+   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000272"
+  },
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "투자판단관련주요경영사항",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918800290"
+  },
+  {
+   "code": "036460",
+   "name": "한국가스공사",
+   "title": "[기재정정]투자판단관련주요경영사항",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260918800345"
+  },
+  {
+   "code": "039490",
+   "name": "키움증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000279"
+  },
+  {
+   "code": "112040",
+   "name": "위메이드",
+   "title": "주주명부폐쇄기간또는기준일설정",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918900331"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000247"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "증권발행실적보고서",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T06:39:37.504003+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000270"
+  },
   {
    "code": "001500",
    "name": "현대차증권",
@@ -69,24 +150,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T06:09:29.810607+00:00",
    "isCorrection": false,
    "rceptNo": "20260918000234"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T06:09:29.810607+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000236"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "증권발행실적보고서",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T06:09:29.810607+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000241"
   },
   {
    "code": "030610",
@@ -278,15 +341,6 @@ const DART_TODAY = {
    "rceptNo": "20260918800133"
   },
   {
-   "code": "039490",
-   "name": "키움증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T02:25:02.970228+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000092"
-  },
-  {
    "code": "253450",
    "name": "스튜디오드래곤",
    "title": "단일판매ㆍ공급계약체결",
@@ -312,15 +366,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T02:25:02.970228+00:00",
    "isCorrection": true,
    "rceptNo": "20260918800131"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260918",
-   "detectedAt": "2026-09-18T01:54:55.080069+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260918000063"
   },
   {
    "code": "020000",
@@ -438,15 +483,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-18T00:17:06.414342+00:00",
    "isCorrection": false,
    "rceptNo": "20260918800063"
-  },
-  {
-   "code": "003530",
-   "name": "한화투자증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-18T00:17:06.414342+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000341"
   },
   {
    "code": "452260",
@@ -1158,15 +1194,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T02:55:15.501224+00:00",
    "isCorrection": false,
    "rceptNo": "20260917900190"
-  },
-  {
-   "code": "036460",
-   "name": "한국가스공사",
-   "title": "임원ㆍ주요주주특정증권등소유상황보고서",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:25:11.850942+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000095"
   },
   {
    "code": "039200",
