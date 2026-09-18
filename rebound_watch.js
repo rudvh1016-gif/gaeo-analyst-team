@@ -5,7 +5,7 @@
 window.REBOUND_WATCH = {
  "schemaVersion": 1,
  "ruleVersion": "REBOUND_WATCH_V1",
- "generatedAt": "2026-09-18 12:26",
+ "generatedAt": "2026-09-18 12:56",
  "rule": {
   "dropPct": -20.0,
   "volRatio": 1.5,
