@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-18 14:40",
- "dataCutoff": "2026-09-18 14:40 장중",
+ "generatedAt": "2026-09-18 15:10",
+ "dataCutoff": "2026-09-18 15:10 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 2,
-   "why": "20거래일 +100.4% · 20일선 위 · 거래량 평소의 3.3배",
+   "why": "20거래일 +106.7% · 20일선 위 · 거래량 평소의 4.0배",
    "overheat": true,
-   "gapPct": 41.4,
+   "gapPct": 45.5,
    "call": "SELL",
    "callConflict": true
   },
@@ -23,10 +23,10 @@ window.ROTATION_PICKS = {
    "code": "036540",
    "name": "SFA반도체",
    "sector": "반도체",
-   "sectorRank": 3,
-   "why": "20거래일 +61.9% · 20일선 위",
+   "sectorRank": 4,
+   "why": "20거래일 +61.7% · 20일선 위",
    "overheat": true,
-   "gapPct": 35.9,
+   "gapPct": 35.8,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,32 +35,32 @@ window.ROTATION_PICKS = {
    "name": "드림텍",
    "sector": "전자·부품",
    "sectorRank": 8,
-   "why": "20거래일 +65.3% · 20일선 위",
+   "why": "20거래일 +64.4% · 20일선 위",
    "overheat": false,
-   "gapPct": 23.0,
+   "gapPct": 22.4,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 41.8,
+  "breadthPct": 41.2,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6893.03,
-    "ma20": 6800.89,
+    "close": 6875.7,
+    "ma20": 6800.02,
     "above": true,
-    "gapPct": 1.35
+    "gapPct": 1.11
    },
    "KOSDAQ": {
-    "close": 826.67,
-    "ma20": 820.63,
+    "close": 826.34,
+    "ma20": 820.62,
     "above": true,
-    "gapPct": 0.74
+    "gapPct": 0.7
    }
   }
  },
