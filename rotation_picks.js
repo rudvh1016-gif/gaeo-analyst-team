@@ -4,8 +4,8 @@
 window.ROTATION_PICKS = {
  "schemaVersion": 1,
  "status": "ready",
- "generatedAt": "2026-09-18 11:56",
- "dataCutoff": "2026-09-18 11:56 장중",
+ "generatedAt": "2026-09-18 12:26",
+ "dataCutoff": "2026-09-18 12:26 장중",
  "horizonDays": 20,
  "picks": [
   {
@@ -13,9 +13,9 @@ window.ROTATION_PICKS = {
    "name": "가온전선",
    "sector": "전력·에너지",
    "sectorRank": 3,
-   "why": "20거래일 +97.2% · 20일선 위 · 거래량 평소의 2.7배",
+   "why": "20거래일 +100.4% · 20일선 위 · 거래량 평소의 2.9배",
    "overheat": true,
-   "gapPct": 39.3,
+   "gapPct": 41.4,
    "call": "SELL",
    "callConflict": true
   },
@@ -24,9 +24,9 @@ window.ROTATION_PICKS = {
    "name": "SFA반도체",
    "sector": "반도체",
    "sectorRank": 4,
-   "why": "20거래일 +61.3% · 20일선 위",
+   "why": "20거래일 +60.8% · 20일선 위",
    "overheat": true,
-   "gapPct": 35.5,
+   "gapPct": 35.1,
    "call": "HOLD",
    "callConflict": false
   },
@@ -35,32 +35,32 @@ window.ROTATION_PICKS = {
    "name": "대한광통신",
    "sector": "통신",
    "sectorRank": 1,
-   "why": "20거래일 +51.7% · 20일선 위 · 거래량 평소의 2.6배",
-   "overheat": false,
-   "gapPct": 28.3,
+   "why": "20거래일 +55.0% · 20일선 위 · 거래량 평소의 3.0배",
+   "overheat": true,
+   "gapPct": 30.9,
    "call": "HOLD",
    "callConflict": false
   }
  ],
  "gate": {
   "indexAboveMa20": 2,
-  "breadthPct": 43.0,
+  "breadthPct": 42.2,
   "shown": 3,
   "allowed": 3,
   "sectorCap": 2,
   "sectorCount": 3,
   "detail": {
    "KOSPI": {
-    "close": 6856.97,
-    "ma20": 6799.09,
+    "close": 6871.71,
+    "ma20": 6799.82,
     "above": true,
-    "gapPct": 0.85
+    "gapPct": 1.06
    },
    "KOSDAQ": {
-    "close": 827.32,
+    "close": 827.36,
     "ma20": 820.67,
     "above": true,
-    "gapPct": 0.81
+    "gapPct": 0.82
    }
   }
  },
