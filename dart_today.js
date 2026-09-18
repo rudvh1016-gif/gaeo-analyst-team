@@ -1,12 +1,57 @@
 // 자동 생성: analyze_auto.py · 홈 '오늘의 공시' 위젯 전용 소형 스냅샷
 // auto_analysis.js(3MB)를 홈에서 받지 않으려고 공시 목록만 따로 뽑은 파일이다.
 const DART_TODAY = {
- "generatedAt": "2026-09-18 09:33",
- "priceLabel": "2026-09-18 09:11 장중 · ⚠️ 2종목 지연",
- "count": 317,
+ "generatedAt": "2026-09-18 09:56",
+ "priceLabel": "2026-09-18 09:45 장중 · ⚠️ 2종목 지연",
+ "count": 318,
  "coverageState": "EVENT_DETECTED",
  "note": "금융감독원 전자공시(DART) 자동 수집. 참고 정보이며 점수·판단에는 쓰지 않는다.",
  "items": [
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T00:54:55.689432+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000037"
+  },
+  {
+   "code": "030610",
+   "name": "교보증권",
+   "title": "투자설명서(일괄신고)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T00:54:55.689432+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918000039"
+  },
+  {
+   "code": "060370",
+   "name": "LS마린솔루션",
+   "title": "단일판매ㆍ공급계약체결",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T00:54:55.689432+00:00",
+   "isCorrection": false,
+   "rceptNo": "20260918900068"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "[기재정정]일괄신고추가서류(기타파생결합사채)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T00:54:55.689432+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260918000035"
+  },
+  {
+   "code": "016610",
+   "name": "DB증권",
+   "title": "[기재정정]투자설명서(일괄신고)",
+   "receiptDate": "20260918",
+   "detectedAt": "2026-09-18T00:54:55.689432+00:00",
+   "isCorrection": true,
+   "rceptNo": "20260918000036"
+  },
   {
    "code": "005380",
    "name": "현대차",
@@ -707,15 +752,6 @@ const DART_TODAY = {
    "receiptDate": "20260917",
    "detectedAt": "2026-09-17T04:55:04.003351+00:00",
    "isCorrection": false,
-   "rceptNo": "20260917000155"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T04:55:04.003351+00:00",
-   "isCorrection": false,
    "rceptNo": "20260917000162"
   },
   {
@@ -744,15 +780,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T04:25:02.587836+00:00",
    "isCorrection": false,
    "rceptNo": "20260917000134"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "투자설명서(일괄신고)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T04:25:02.587836+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000133"
   },
   {
    "code": "030610",
@@ -834,24 +861,6 @@ const DART_TODAY = {
    "detectedAt": "2026-09-17T02:55:15.501224+00:00",
    "isCorrection": false,
    "rceptNo": "20260917900190"
-  },
-  {
-   "code": "030610",
-   "name": "교보증권",
-   "title": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:55:15.501224+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000112"
-  },
-  {
-   "code": "016610",
-   "name": "DB증권",
-   "title": "일괄신고추가서류(기타파생결합사채)",
-   "receiptDate": "20260917",
-   "detectedAt": "2026-09-17T02:55:15.501224+00:00",
-   "isCorrection": false,
-   "rceptNo": "20260917000114"
   },
   {
    "code": "036460",
