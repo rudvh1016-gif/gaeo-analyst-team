@@ -11,6 +11,14 @@ const LATEST_POSTS = [
   "featured": true
  },
  {
+  "id": 75,
+  "mode": "news",
+  "label": "뉴스분석",
+  "date": "2026-09-18",
+  "title": "2026년 9월18일 종가, 코스피 2.66% 급등했는데 내린 종목이 더 많은 이유",
+  "featured": false
+ },
+ {
   "id": 74,
   "mode": "news",
   "label": "뉴스분석",
@@ -73,18 +81,10 @@ const LATEST_POSTS = [
   "date": "2026-09-08",
   "title": "2026년 9월8일 종가, 장중 7171까지 갔다가 반납, 4곳 중 3곳이 내렸다",
   "featured": false
- },
- {
-  "id": 66,
-  "mode": "news",
-  "label": "뉴스분석",
-  "date": "2026-09-07",
-  "title": "2026년 9월7일 종가, 코스피 4.61% 급등했는데 왜 내 종목은 조용했나",
-  "featured": false
  }
 ];
 const CONTENT_STATS = {
- "news": 74,
+ "news": 75,
  "study": 35,
  "lesson": 82,
  "estate": 19,

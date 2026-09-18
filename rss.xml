@@ -5,8 +5,16 @@
   <link>https://gaeoteam.com/</link>
   <description>한국 주식 600종목의 규칙 기반 자동분석과 달라진 이유, 그리고 주식·부동산 기초를 초보자 눈높이로 풀어주는 리서치입니다.</description>
   <language>ko</language>
-  <lastBuildDate>Thu, 17 Sep 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 18 Sep 2026 00:00:00 GMT</lastBuildDate>
   <atom:link href="https://gaeoteam.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>2026년 9월18일 종가, 코스피 2.66% 급등했는데 내린 종목이 더 많은 이유</title>
+    <link>https://gaeoteam.com/snap/news/75.html</link>
+    <guid isPermaLink="true">https://gaeoteam.com/snap/news/75.html</guid>
+    <category>뉴스분석</category>
+    <description>코스피가 178.82포인트(2.66%) 오른 6,894.23으로 마감했어요. 간밤 필라델피아 반도체지수가 3.1% 급등한 힘으로 SK하이닉스가 6.13%, 삼성전자가 3.17% 뛰었고 AI 전력망 기대에 전선주도 함께 달렸어요. 그런데 개오 600종목 중 오른 종목은 287개, 내린 종목은 298개였어요. 지수는 축제인데 종목 수로는 절반 넘게 손해였던 쏠림 장세를 숫자로 풀어 볼게요.</description>
+    <pubDate>Fri, 18 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>2026년 9월17일 종가, 3년 만의 미국 금리 인상에도 코스피가 버틴 이유</title>
     <link>https://gaeoteam.com/snap/news/74.html</link>
@@ -398,14 +406,6 @@
     <category>주식공부</category>
     <description>정부가 국내 주식·펀드에 투자하면 이자·배당소득을 전액 비과세해주는 &apos;생산적금융 ISA&apos;를 새로 만들기로 했어요. 34세 이하는 소득공제까지 더 받고, 기존 ISA는 가입기간이 3년에서 5년으로 늘어나요.</description>
     <pubDate>Tue, 04 Aug 2026 00:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>2026년 8월3일 종가, 코스피 5% 빠졌는데 코스닥은 나홀로 강세인 이유</title>
-    <link>https://gaeoteam.com/snap/news/36.html</link>
-    <guid isPermaLink="true">https://gaeoteam.com/snap/news/36.html</guid>
-    <category>뉴스분석</category>
-    <description>8월 첫 거래일 코스피는 5.12% 내렸지만 코스닥은 2.44% 오르며 지수가 정반대로 갈렸어요. 500종목 기준으로는 오른 종목이 더 많았던, 삼성전자·SK하이닉스 두 종목이 지수를 끌어내린 하루였어요.</description>
-    <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
