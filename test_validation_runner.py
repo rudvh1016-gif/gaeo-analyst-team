@@ -868,6 +868,179 @@ class FreezeAndReplay(unittest.TestCase):
 
 # ------------------------------------------------------------------ 워크플로 (정적)
 
+
+def _commit_step_body():
+    """ops-daily.yml 의 「기록 커밋」 스텝 run 블록을 그대로 꺼낸다(PyYAML 없이 · test_ci_parity)."""
+    lines = open(WORKFLOW, encoding="utf-8").read().splitlines()
+    start = next(i for i, l in enumerate(lines) if l.strip().startswith("- name: 기록 커밋"))
+    ridx = next(i for i in range(start, len(lines)) if lines[i].strip() == "run: |")
+    indent = len(lines[ridx + 1]) - len(lines[ridx + 1].lstrip())
+    out = []
+    for l in lines[ridx + 1:]:
+        if l.strip() and (len(l) - len(l.lstrip())) < indent:
+            break
+        out.append(l[indent:] if len(l) >= indent else l)
+    body = "\n".join(out).rstrip()
+    assert "git add" in body, "커밋 스텝을 못 꺼냈다"
+    return body + "\n"
+
+
+class CommitStepRealGit(unittest.TestCase):
+    """2026-09-18 run 35350908284 재현 — official_prices/ 가 아직 없다는 이유로
+    `git add -A -- ... official_prices ...` 가 exit 128 로 죽어, 멀쩡한 점검 기록까지 저장되지 못했다.
+    워크플로의 진짜 스텝 본문을 임시 Git 저장소에서 그대로 실행해 확인한다(외부 요청 0 · 서비스키 0)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.step = _commit_step_body()
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp(prefix="gaeo-commit-")
+        self.origin = self.root + "-origin.git"
+        self.bin = tempfile.mkdtemp(prefix="gaeo-bin-")
+        # 재시도 대기(sleep)를 없애 시험을 빠르게 한다 — 로직은 손대지 않는다.
+        shim = os.path.join(self.bin, "sleep")
+        with open(shim, "w", encoding="utf-8") as fh:
+            fh.write("#!/bin/sh\nexit 0\n")
+        os.chmod(shim, 0o755)
+        _git(self.root, "init", "-q")
+        _git(self.root, "checkout", "-q", "-b", "main")
+        _git(self.root, "config", "user.name", "t")
+        _git(self.root, "config", "user.email", "t@example.com")
+        _git(self.root, "init", "-q", "--bare", self.origin)
+        _git(self.root, "remote", "add", "origin", self.origin)
+        # 필수 3곳 + 선택 1곳(official_price_history.js)은 있고, official_prices/ 는 아직 없다 = 사고 당시 상태
+        self.write("docs/audits/validation_runs/ledger.jsonl", '{"scheduleId": "OLD"}\n')
+        self.write("docs/VALIDATION_SCHEDULE.md", "# 예정 시험\n")
+        self.write("docs/operations/repair_requests/INC-old.md", "# 옛 수리 요청\n")
+        self.write("official_price_history.js", "// 아직 비어 있는 파생 파일\n")
+        _git(self.root, "add", "-A")
+        _git(self.root, "commit", "-q", "-m", "base")
+        _git(self.root, "push", "-q", "origin", "main")
+
+    def tearDown(self):
+        for d in (self.root, self.origin, self.bin):
+            shutil.rmtree(d, ignore_errors=True)
+
+    def write(self, rel, text):
+        full = os.path.join(self.root, rel)
+        os.makedirs(os.path.dirname(full), exist_ok=True)
+        with open(full, "w", encoding="utf-8") as fh:
+            fh.write(text)
+
+    def run_step(self):
+        out = os.path.join(self.root, "_gh_output")
+        open(out, "w", encoding="utf-8").close()
+        env = dict(os.environ)
+        env.pop("DATA_GO_KR_SERVICE_KEY", None)          # 서비스키 없이도 저장 경로를 시험할 수 있어야 한다
+        env["GITHUB_OUTPUT"] = out
+        env["PATH"] = self.bin + os.pathsep + env.get("PATH", "")
+        r = subprocess.run(["bash", "-e", "-c", self.step], cwd=self.root,
+                           capture_output=True, text=True, env=env)
+        kv = {}
+        with open(out, encoding="utf-8") as fh:
+            for line in fh.read().splitlines():
+                if "=" in line:
+                    k, v = line.split("=", 1)
+                    kv[k] = v
+        return r, kv
+
+    def committed_files(self):
+        return _git(self.root, "show", "--name-only", "--format=", "HEAD").split()
+
+    def remote_main(self):
+        return _git(self.root, "ls-remote", "origin", "refs/heads/main").split()[0]
+
+    # ---- A. 선택 경로가 없어도 점검 기록은 저장된다 (이번 사고의 재현) ----
+    def test_A_official_prices가_없어도_점검기록이_커밋된다(self):
+        self.assertFalse(os.path.exists(os.path.join(self.root, "official_prices")))
+        self.write("docs/audits/validation_runs/VS-T/20260918T170500.json", '{"status": "COMPLETED"}')
+        with open(os.path.join(self.root, "docs/audits/validation_runs/ledger.jsonl"), "a", encoding="utf-8") as fh:
+            fh.write('{"scheduleId": "VS-T"}\n')
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("선택 경로가 아직 없다", r.stdout)
+        self.assertEqual(kv.get("pushed"), "true", r.stdout + r.stderr)
+        self.assertIn("docs/audits/validation_runs/VS-T/20260918T170500.json", self.committed_files())
+        self.assertEqual(self.remote_main(), _git(self.root, "rev-parse", "HEAD"))
+
+    # ---- B. 공식자료와 점검 기록이 모두 있으면 허용 경로만 담긴다 ----
+    def test_B_공식자료가_생기면_함께_허용경로만_커밋된다(self):
+        self.write("official_prices/fsc_15094808/manifest.json", '{"days": 1}')
+        self.write("docs/audits/validation_runs/VS-T/20260918T170500.json", '{"status": "COMPLETED"}')
+        self.write("news_analysis.js", "// 허용 경로 밖 변경")
+        self.write("config/source_compliance.json", "{}")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        files = self.committed_files()
+        self.assertIn("official_prices/fsc_15094808/manifest.json", files)
+        self.assertIn("docs/audits/validation_runs/VS-T/20260918T170500.json", files)
+        for f in files:
+            self.assertTrue(any(f == a or f.startswith(a + "/") for a in ALLOWED_COMMIT_PATHS), f)
+        self.assertNotIn("news_analysis.js", files)
+        self.assertNotIn("config/source_compliance.json", files)
+
+    # ---- C. 변경이 전혀 없으면 새 커밋이 없다 ----
+    def test_C_변경이_없으면_새_커밋도_없다(self):
+        before = _git(self.root, "rev-parse", "HEAD")
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(kv.get("nothing"), "true")
+        self.assertEqual(kv.get("committed"), "")
+        self.assertEqual(_git(self.root, "rev-parse", "HEAD"), before)
+
+    # ---- D. 허용되지 않은 삭제·필수 누락은 계속 막힌다 ----
+    def test_D1_원장에서_줄이_지워지면_막힌다(self):
+        self.write("docs/audits/validation_runs/ledger.jsonl", "")
+        r, kv = self.run_step()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("덧붙이기만", r.stdout + r.stderr)
+
+    def test_D2_추적중인_결과파일_삭제는_파일없음으로_숨겨지지_않는다(self):
+        self.write("docs/audits/validation_runs/VS-OLD/20260901T170500.json", '{"status": "COMPLETED"}')
+        _git(self.root, "add", "-A"); _git(self.root, "commit", "-q", "-m", "old")
+        _git(self.root, "push", "-q", "origin", "main")
+        os.remove(os.path.join(self.root, "docs/audits/validation_runs/VS-OLD/20260901T170500.json"))
+        r, kv = self.run_step()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("결과는 새 파일로만", r.stdout + r.stderr)
+
+    def test_D3_선택경로도_추적중이면_삭제가_스테이지된다(self):
+        # official_price_history.js 는 선택 경로지만 이미 Git 이 추적 중이다. 지우면 "없으니 건너뛴다"가 아니라
+        # 삭제로 스테이지돼 커밋에 그대로 드러나야 한다(숨기지 않는다).
+        os.remove(os.path.join(self.root, "official_price_history.js"))
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn("선택 경로가 아직 없다 — 이 경로만 건너뛴다: official_price_history.js", r.stdout)
+        self.assertIn("official_price_history.js", self.committed_files())
+        self.assertIn("D", _git(self.root, "show", "--name-status", "--format=", "HEAD").split()[0])
+
+    def test_D4_필수_경로가_통째로_없으면_실패한다(self):
+        _git(self.root, "rm", "-r", "-q", "--cached", "docs/operations/repair_requests")
+        shutil.rmtree(os.path.join(self.root, "docs/operations/repair_requests"))
+        r, kv = self.run_step()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("필수 기록 경로가 없다", r.stdout + r.stderr)
+
+    # ---- E. 실제 push 실패는 성공으로 위장하지 않는다 ----
+    def test_E_push가_실패하면_정직하게_실패한다(self):
+        self.write("docs/audits/validation_runs/VS-T/20260918T170500.json", '{"status": "COMPLETED"}')
+        shutil.rmtree(self.origin)
+        r, kv = self.run_step()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertNotEqual(kv.get("committed", ""), "", "커밋은 만들어졌다")
+        self.assertNotEqual(kv.get("pushed"), "true", "성공으로 위장하지 않는다")
+        self.assertIn("push 4회 실패", r.stdout + r.stderr)
+
+    # ---- F. 서비스키 없이도 저장 경로를 시험할 수 있다 ----
+    def test_F_서비스키와_외부요청_없이_돈다(self):
+        for bad in ("DATA_GO_KR_SERVICE_KEY", "curl", "wget", "apis.data.go.kr", "fsc_daily_collect"):
+            self.assertNotIn(bad, self.step, bad)
+        self.write("docs/audits/validation_runs/VS-T/20260918T170500.json", '{"status": "COMPLETED"}')
+        r, kv = self.run_step()          # run_step 이 키를 지운 환경으로 돌린다
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(kv.get("pushed"), "true")
+
 class WorkflowContract(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -921,14 +1094,34 @@ class WorkflowContract(unittest.TestCase):
         self.assertIn("if: env.APPLY == 'true'", self.body)
 
     def test_커밋은_허용_경로만_원장은_덧붙이기만(self):
-        add_lines = [l for l in self.body.splitlines() if "git add" in l]
-        self.assertEqual(len(add_lines), 1)
-        for tok in add_lines[0].split("--", 1)[1].split():
-            self.assertIn(tok, ALLOWED_COMMIT_PATHS, tok)
+        # 2026-09-18 수리: 경로를 REQUIRED(필수) / OPTIONAL(아직 없을 수 있음) 두 변수로 나눴다.
+        # git add 는 여전히 한 줄이고, 그 두 변수만 받는다(git add . 금지).
+        add_lines = [l for l in self.code.splitlines() if "git add" in l]
+        self.assertEqual(len(add_lines), 1, add_lines)
+        self.assertIn("git add -A -- $ADD", add_lines[0])
+        req = re.search(r'REQUIRED="([^"]+)"', self.code).group(1).split()
+        opt = re.search(r'OPTIONAL="([^"]+)"', self.code).group(1).split()
+        self.assertEqual(sorted(req + opt), sorted(ALLOWED_COMMIT_PATHS), (req, opt))
+        self.assertEqual(sorted(req), sorted(["docs/audits/validation_runs", "docs/VALIDATION_SCHEDULE.md",
+                                              "docs/operations/repair_requests"]))
+        self.assertEqual(sorted(opt), sorted(["official_prices", "official_price_history.js"]))
+        # 필수가 통째로 없으면 조용히 넘어가지 않고 실패한다
+        self.assertIn("필수 기록 경로가 없다", self.code)
+        # 선택 경로는 Git 이 추적 중이면 반드시 포함한다(삭제를 "파일 없음"으로 숨기지 않는다)
+        self.assertIn('git ls-files -- "$p"', self.code)
         self.assertIn("허용 밖 경로가 스테이지됐다", self.body)
         self.assertIn("grep -q '^-[^-]'", self.body, "원장에서 지워진 줄을 잡는 검사")
         self.assertIn("--diff-filter=DM", self.body, "기존 결과 파일 수정·삭제를 잡는 검사")
         self.assertIn("[skip ci]", self.body)
+
+    def test_저장_오류를_숨기지_않는다(self):
+        # 2026-09-18 수리 금지 조건: 저장 명령 전체에 || true 를 붙이거나 git add . 로 넓히지 않는다.
+        step = _commit_step_body()
+        for bad in ("git add .", "git add -A\n", "|| true"):
+            self.assertNotIn(bad, step, bad)
+        # 보존 안내는 실제 위치로만 적는다(inbox 가 없으면 "다음 run 이 회수"라고 하지 않는다)
+        self.assertIn("자동 회수 경로가 없다", self.body)
+        self.assertIn("--reconcile-inbox 로 회수", self.body)
 
     def test_파괴적_명령이_없다(self):
         for bad in ("--force", "reset --hard", "filter-branch", "push -f", "git clean", "replace --graft"):

@@ -17,7 +17,7 @@
     "계획 모드(--apply 없음)는 아무 명령도 실행하지 않는다(외부 호출 0·파일 쓰기 0). 미래 시각 리허설은 합성 입력을 둔 임시 루트에서만.",
     "확인 시험(CONFIRMATION·SAMPLE_CHECK)은 표본 수만 센다(prereg_sample_count). 확정 평가 명령이 들어 있으면 실행기 구조 가드가 실행 자체를 막는다.",
     "결과 JSON 이 없거나 필수 필드가 빠지면 exit 0 이어도 FAILED. 확정 평가는 입력 동결이 필수이고 공식 판정은 동결 입력에서 계산한다(CLI 결과와 핵심 통계 대조).",
-    "저장(push)에 실패해도 공식 결과는 버리지 않는다: 같은 커밋을 validation-inbox-<run> 브랜치에 보존하고 다음 실행이 회수한다(재채점 0). 실행기 크래시도 FAILED 로 기록한다."
+    "저장 실패는 세 가지를 구분해 적는다(2026-09-18): ① main 저장 성공 ② 커밋은 됐으나 push 실패 → 같은 커밋을 validation-inbox-<run> 브랜치에 보존하고 다음 실행이 --reconcile-inbox 로 회수한다(재채점 0) ③ 커밋 전에 멈춤 → inbox 브랜치가 없어 artifact 만 남고 자동 회수 경로가 없다(사람이 내려받아 넣는다). 실행기 크래시도 FAILED 로 기록한다."
   ],
   "commands": {
     "prereg_contract_tests": {

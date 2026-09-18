@@ -748,7 +748,13 @@ class WorkflowsAndCompliance(unittest.TestCase):
         self.assertIn('fsc_daily_collect --if-due --max-requests 6', wf)
         self.assertIn('legal_source_gate.py --require fsc_public_data:automatedCollection', wf)
         self.assertIn('official_prices/*|official_price_history.js', wf)
-        self.assertIn('git add -A -- docs/audits/validation_runs docs/VALIDATION_SCHEDULE.md docs/operations/repair_requests official_prices official_price_history.js', wf)
+        # 2026-09-18 수리: official_prices/ 는 서비스키 승인 전까지 없을 수 있다. 그 이유로 git add 가 죽어
+        # 기존 점검 기록까지 저장되지 못했다(run 35350908284). 이제 선택 경로로 분리돼 있어야 한다.
+        self.assertIn('OPTIONAL="official_prices official_price_history.js"', wf)
+        self.assertIn('REQUIRED="docs/audits/validation_runs docs/VALIDATION_SCHEDULE.md docs/operations/repair_requests"', wf)
+        self.assertIn('git add -A -- $ADD', wf)
+        self.assertNotIn('git add -A -- docs/audits/validation_runs docs/VALIDATION_SCHEDULE.md '
+                         'docs/operations/repair_requests official_prices official_price_history.js', wf)
 
     def test_Pages_제외와_준법_범위(self):
         self.assertIn('- official_prices/', self._read('_config.yml'))
