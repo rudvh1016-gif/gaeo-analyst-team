@@ -36,8 +36,10 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import time
 import traceback
+import zlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KST = datetime.timezone(datetime.timedelta(hours=9))
@@ -553,82 +555,254 @@ def _git_out(root, *args, timeout=120):
     return r.returncode, r.stdout, r.stderr
 
 
+def _recovery_path(root, rel, prefix):
+    """복구 파일은 정해진 폴더 안의 일반 파일 경로만 쓴다(심볼릭 링크도 거부)."""
+    if not isinstance(rel, str) or not rel.startswith(prefix.rstrip('/') + '/'):
+        raise ValueError(f"복구 허용 경로 밖: {rel!r}")
+    if '\\' in rel or any(p in ('', '.', '..') for p in rel.split('/')):
+        raise ValueError(f"복구 경로 형식 오류: {rel!r}")
+    dest = os.path.join(root, rel)
+    cursor = os.path.abspath(root)
+    for part in rel.split('/'):
+        cursor = os.path.join(cursor, part)
+        if os.path.islink(cursor):
+            raise ValueError(f"복구 경로의 심볼릭 링크는 허용하지 않는다: {rel}")
+    return dest
+
+
+def _result_paths(cfg, root, result):
+    if not isinstance(result, dict) or result.get('schemaVersion') != 'gaeo_validation_run_v1':
+        raise ValueError('gaeo_validation_run_v1 결과 파일이 아니다')
+    sid = result.get('scheduleId')
+    if sid not in {s['scheduleId'] for s in cfg['schedules']}:
+        raise ValueError(f'등록되지 않은 시험 결과: {sid!r}')
+    rel = result.get('resultPath')
+    _recovery_path(root, rel, cfg['resultsDir'] + '/' + sid)
+    if not rel.endswith('.json') or '/' in rel[len(cfg['resultsDir'] + '/' + sid + '/'):]:
+        raise ValueError(f'결과 파일 경로 오류: {rel}')
+    for key in ('runAt', 'cutoffDate', 'status'):
+        if not isinstance(result.get(key), str) or not result[key]:
+            raise ValueError(f'결과 필수 필드 누락: {key}')
+    paths = [rel]
+    for key, suffix in (('inputsPath', '.inputs.json.gz'), ('followupPath', '.followup.md')):
+        other = result.get(key)
+        if other:
+            if other != rel[:-5] + suffix:
+                raise ValueError(f'다른 회차 파일을 참조한다: {key}')
+            _recovery_path(root, other, cfg['resultsDir'] + '/' + sid)
+            paths.append(other)
+    return paths
+
+
+def _same_recovery_file(rel, left, right):
+    if left == right:
+        return True
+    # 과거 수동 복원기가 JSON 들여쓰기를 바꿨다. 내용이 같으면 원래 바이트를 그대로 보존한다.
+    if rel.endswith('.json'):
+        try:
+            return json.loads(left) == json.loads(right)
+        except (ValueError, UnicodeError):
+            pass
+    return False
+
+
+def _check_result_bundle(cfg, root, result, blobs):
+    paths = _result_paths(cfg, root, result)
+    for rel in paths:
+        if rel not in blobs:
+            raise ValueError(f'결과에 연결된 파일이 없다: {rel}')
+        dest = _recovery_path(root, rel, cfg['resultsDir'])
+        if os.path.exists(dest):
+            with open(dest, 'rb') as fh:
+                if not _same_recovery_file(rel, fh.read(), blobs[rel]):
+                    raise ValueError(f'기존 결과와 복구본이 다르다(덮어쓰기 금지): {rel}')
+    ipath = result.get('inputsPath')
+    if ipath:
+        try:
+            frozen = json.loads(gzip.decompress(blobs[ipath]))
+        except (OSError, EOFError, ValueError, zlib.error) as exc:
+            raise ValueError(f'동결 입력을 읽을 수 없다: {ipath}') from exc
+        if not isinstance(frozen, dict) or frozen.get('schemaVersion') != 'gaeo_validation_inputs_v1' \
+                or any(frozen.get(k) != result[k] for k in ('scheduleId', 'cutoffDate')):
+            raise ValueError(f'동결 입력이 다른 시험/기준일의 자료다: {ipath}')
+    return paths
+
+
+def _install_recovery_file(root, rel, blob, prefix):
+    dest = _recovery_path(root, rel, prefix)
+    if os.path.exists(dest):
+        return False
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    # 부분 파일이 결과 이름으로 보이지 않게, 완전히 쓴 임시 파일을 원자적으로 연결한다.
+    # os.replace 와 달리 기존 파일을 덮지 않는다.
+    fd, tmp = tempfile.mkstemp(prefix='.restore-', dir=os.path.dirname(dest))
+    try:
+        with os.fdopen(fd, 'wb') as fh:
+            fh.write(blob)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.link(tmp, dest)
+    finally:
+        os.unlink(tmp)
+    return True
+
+
+def _ledger_matches(row, result):
+    return all(row.get(k) == result.get(k) for k in
+               ('scheduleId', 'resultPath', 'runAt', 'cutoffDate', 'status', 'nextCheckAt'))
+
+
+def _check_inbox_price_preservation(root, sha):
+    # inbox 는 ops 의 마지막 기록 커밋이다. 공식시세도 함께 들어갈 수 있지만 이 실행기는
+    # 최신 수집본을 덮어쓸 권한이 없다. 미회수 공식자료가 있으면 브랜치를 보존한다.
+    code, _, _ = _git_out(root, 'merge-base', '--is-ancestor', sha, 'HEAD')
+    if code == 0:
+        return  # main 이력에 이미 저장된 커밋
+    code, changed, err = _git_out(root, 'diff-tree', '--root', '--no-commit-id', '-r', '--name-only', '-z',
+                                sha, '--', 'official_prices', 'official_price_history.js')
+    if code:
+        raise ValueError(f'공식시세 보존 확인 실패: {err.strip()}')
+    for rel in filter(None, changed.split('\0')):
+        dest = os.path.join(root, rel) if rel == 'official_price_history.js' else _recovery_path(root, rel, 'official_prices')
+        code, listing, _ = _git_out(root, 'ls-tree', '-z', sha, '--', rel)
+        if code or os.path.islink(dest):
+            raise ValueError(f'공식시세 경로 확인 실패: {rel}')
+        if not listing:  # 삭제도 현재 작업트리와 같아야 한다.
+            preserved = not os.path.lexists(dest)
+        else:
+            header, path = listing.rstrip('\0').split('\t', 1)
+            mode, kind, oid = header.split()
+            if path != rel or kind != 'blob' or mode not in ('100644', '100755'):
+                raise ValueError(f'공식시세 일반 파일이 아니다: {rel}')
+            rb = subprocess.run(['git', '-C', root, 'cat-file', 'blob', oid], capture_output=True, timeout=120)
+            if rb.returncode:
+                raise ValueError(f'공식시세 읽기 실패: {rel}')
+            preserved = False
+            if os.path.isfile(dest):
+                with open(dest, 'rb') as fh:
+                    preserved = fh.read() == rb.stdout
+        if not preserved:
+            raise ValueError(f'미회수 공식시세가 있어 inbox를 보존한다(덮어쓰기 없음): {rel}')
+
+
 def reconcile_inbox(cfg, root, remote="origin"):
-    """validation-inbox-* 브랜치(저장 실패 때 워크플로가 남긴 같은 결과 커밋)에서 결과 파일·원장 줄을 회수한다.
-    새 파일만 가져오고, 원장은 resultPath 기준으로 없는 줄만 덧붙인다. 다시 채점하지 않는다. 회수한 브랜치 이름을 돌려준다."""
-    code, out, err = _git_out(root, "ls-remote", "--heads", remote, f"refs/heads/{INBOX_PREFIX}*")
-    if code != 0:
-        return {"ok": False, "error": f"ls-remote 실패: {err.strip()}", "branches": [], "files": [], "ledgerRows": 0}
-    branches = []
-    for line in out.splitlines():
-        parts = line.split()
-        if len(parts) == 2 and parts[1].startswith("refs/heads/" + INBOX_PREFIX):
-            branches.append((parts[0], parts[1][len("refs/heads/"):]))
-    ledger_rel = cfg["ledgerPath"]
-    local_ledger = load_ledger(cfg, root)
-    known = {r.get("resultPath") for r in local_ledger}
-    files_added, rows_added, done = [], 0, []
+    """전체 묶음을 먼저 검증하고 파일→원장 순서로 회수한다. 실패한 브랜치는 삭제 목록에 넣지 않는다."""
+    done, files_added, errors, rows_added = [], [], [], 0
+    try:
+        code, out, err = _git_out(root, 'ls-remote', '--heads', remote, f'refs/heads/{INBOX_PREFIX}*')
+        if code:
+            raise ValueError(f'ls-remote 실패: {err.strip()}')
+        branches = [(p[0], p[1][len('refs/heads/'):]) for line in out.splitlines()
+                    if len(p := line.split()) == 2 and p[1].startswith('refs/heads/' + INBOX_PREFIX)]
+        known = {r.get('resultPath'): r for r in load_ledger(cfg, root)}
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        return {'ok': False, 'error': str(exc), 'branches': [], 'files': [], 'ledgerRows': 0}
     for sha, branch in branches:
-        code, _, err = _git_out(root, "fetch", "-q", remote, branch, timeout=300)
-        if code != 0:
-            continue
-        code, listing, _ = _git_out(root, "ls-tree", "-r", "--name-only", sha, "--", cfg["resultsDir"], "docs/operations/repair_requests")
-        if code != 0:
-            continue
-        for rel in listing.splitlines():
-            rel = rel.strip()
-            if not rel:
-                continue
-            code, blob, _ = _git_out(root, "show", f"{sha}:{rel}")
-            if code != 0:
-                continue
-            if rel == ledger_rel:
-                for line in blob.splitlines():
-                    if not line.strip():
-                        continue
-                    try:
-                        row = json.loads(line)
-                    except ValueError:
-                        continue
-                    if row.get("resultPath") and row["resultPath"] not in known:
-                        _append_ledger(cfg, root, row)
-                        known.add(row["resultPath"]); rows_added += 1
-                continue
-            dest = os.path.join(root, rel)
-            if os.path.exists(dest):
-                continue
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-            # 결과 파일은 바이너리(gz)일 수 있어 다시 바이트로 꺼낸다
-            rb = subprocess.run(["git", "-C", root, "show", f"{sha}:{rel}"], capture_output=True, timeout=120)
-            if rb.returncode != 0:
-                continue
-            with open(dest, "wb") as fh:
-                fh.write(rb.stdout)
-            files_added.append(rel)
-        done.append(branch)
-    return {"ok": True, "branches": done, "files": files_added, "ledgerRows": rows_added}
+        try:
+            code, _, err = _git_out(root, 'fetch', '-q', remote, branch, timeout=300)
+            if code:
+                raise ValueError(f'fetch 실패: {err.strip()}')
+            code, fetched, _ = _git_out(root, 'rev-parse', 'FETCH_HEAD')
+            if code or fetched.strip() != sha:
+                raise ValueError('조회 뒤 inbox가 변경됐다 — 다음 실행에서 다시 확인')
+            _check_inbox_price_preservation(root, sha)
+            code, listing, err = _git_out(root, 'ls-tree', '-rz', sha, '--', cfg['resultsDir'],
+                                         'docs/operations/repair_requests')
+            if code:
+                raise ValueError(f'파일 목록 조회 실패: {err.strip()}')
+            blobs = {}
+            for entry in listing.split('\0'):
+                if not entry:
+                    continue
+                header, rel = entry.split('\t', 1)
+                mode, kind, oid = header.split()
+                if mode not in ('100644', '100755') or kind != 'blob':
+                    raise ValueError(f'일반 파일이 아닌 복구 항목: {rel}')
+                prefix = cfg['resultsDir'] if rel.startswith(cfg['resultsDir'] + '/') else 'docs/operations/repair_requests'
+                _recovery_path(root, rel, prefix)
+                # gzip 을 text=True 로 읽으면 UnicodeDecodeError. 모든 blob 을 처음부터 바이트로 읽는다.
+                rb = subprocess.run(['git', '-C', root, 'cat-file', 'blob', oid], capture_output=True, timeout=120)
+                if rb.returncode:
+                    raise ValueError(f'파일 읽기 실패: {rel}')
+                blobs[rel] = rb.stdout
+            ledger_rel = cfg['ledgerPath']
+            if ledger_rel not in blobs:
+                raise ValueError('복구 원장이 없다 — 완료 여부를 확인할 수 없다')
+            incoming = [json.loads(line) for line in blobs[ledger_rel].splitlines() if line.strip()]
+            checked = dict(known)
+            for row in incoming:
+                if not isinstance(row, dict) or not row.get('resultPath'):
+                    raise ValueError('복구 원장 행의 resultPath 누락')
+                rel = row['resultPath']
+                if rel not in blobs:
+                    raise ValueError(f'원장이 가리키는 결과가 없다: {rel}')
+                result = json.loads(blobs[rel])
+                if not isinstance(result, dict) or result.get('resultPath') != rel or not _ledger_matches(row, result):
+                    raise ValueError(f'원장과 결과가 다르다: {rel}')
+                _check_result_bundle(cfg, root, result, blobs)
+                if rel in checked and checked[rel] != row:
+                    raise ValueError(f'기존 원장과 복구 원장이 다르다: {rel}')
+                checked[rel] = row
+            # 원장 줄이 없는 파일도 기존 결과를 덮거나 다른 시험 파일로 바꿀 수 없다.
+            for rel, blob in blobs.items():
+                if rel.startswith(cfg['resultsDir'] + '/') and rel != ledger_rel:
+                    if rel.endswith('.json'):
+                        result = json.loads(blob)
+                        if isinstance(result, dict) and result.get('schemaVersion') == 'gaeo_validation_run_v1':
+                            if result.get('resultPath') != rel or rel not in checked or not _ledger_matches(checked[rel], result):
+                                raise ValueError(f'결과에 대응하는 원장 행이 없다: {rel}')
+                            _check_result_bundle(cfg, root, result, blobs)
+                    dest = _recovery_path(root, rel, cfg['resultsDir'])
+                    if os.path.exists(dest):
+                        with open(dest, 'rb') as fh:
+                            if not _same_recovery_file(rel, fh.read(), blob):
+                                raise ValueError(f'기존 결과와 복구본이 다르다: {rel}')
+            # 모든 확인이 끝난 뒤에만 쓰기. 파일 저장에 실패하면 원장에 완료 줄을 추가하지 않는다.
+            for rel, blob in blobs.items():
+                if rel == ledger_rel:
+                    continue
+                prefix = cfg['resultsDir'] if rel.startswith(cfg['resultsDir'] + '/') else 'docs/operations/repair_requests'
+                if _install_recovery_file(root, rel, blob, prefix):
+                    files_added.append(rel)
+            for row in incoming:
+                if row['resultPath'] not in known:
+                    _append_ledger(cfg, root, row)
+                    known[row['resultPath']] = row
+                    rows_added += 1
+            done.append(branch)
+        except (OSError, ValueError, EOFError, subprocess.SubprocessError) as exc:
+            errors.append(f'{branch}: {exc}')
+    return {'ok': not errors, 'error': '; '.join(errors), 'branches': done, 'files': files_added, 'ledgerRows': rows_added}
 
 
 def restore_result(cfg, root, result_json):
-    """보관본(artifact 등)의 결과 JSON 을 같은 경로로 복원하고 원장 줄이 없으면 덧붙인다. 재채점 0."""
-    with open(result_json, encoding="utf-8") as fh:
-        result = json.load(fh)
-    if result.get("schemaVersion") != "gaeo_validation_run_v1" or not result.get("resultPath") or not result.get("scheduleId"):
-        raise ValueError("gaeo_validation_run_v1 결과 파일이 아니거나 resultPath/scheduleId 가 없다")
-    dest = os.path.join(root, result["resultPath"])
-    created = False
-    if not os.path.exists(dest):
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
-        with open(dest, "w", encoding="utf-8") as fh:
-            json.dump(result, fh, ensure_ascii=False, indent=1)
-        created = True
-    known = {r.get("resultPath") for r in load_ledger(cfg, root)}
-    appended = False
-    if result["resultPath"] not in known:
-        s = next((x for x in cfg["schedules"] if x["scheduleId"] == result["scheduleId"]), {"scheduleId": result["scheduleId"]})
-        _append_ledger(cfg, root, _ledger_row(s, result, result.get("runner") or "restored"))
-        appended = True
-    return {"resultPath": result["resultPath"], "fileCreated": created, "ledgerAppended": appended, "status": result.get("status")}
+    """artifact의 결과·동결 입력·후속 명세를 함께 검증·복원한다. 재채점과 기존 기록 덮어쓰기 없음."""
+    with open(result_json, 'rb') as fh:
+        raw = fh.read()
+    result = json.loads(raw)
+    paths = _result_paths(cfg, root, result)
+    blobs = {result['resultPath']: raw}
+    for rel in paths[1:]:
+        source = os.path.join(os.path.dirname(result_json), os.path.basename(rel))
+        if not os.path.isfile(source) or os.path.islink(source):
+            raise ValueError(f'보관본의 연결 파일이 없다: {rel}')
+        with open(source, 'rb') as fh:
+            blobs[rel] = fh.read()
+    _check_result_bundle(cfg, root, result, blobs)
+    known = {r.get('resultPath'): r for r in load_ledger(cfg, root)}
+    rel = result['resultPath']
+    if rel in known and not _ledger_matches(known[rel], result):
+        raise ValueError(f'기존 원장과 보관본이 다르다: {rel}')
+    created = []
+    for path in paths:
+        if _install_recovery_file(root, path, blobs[path], cfg['resultsDir']):
+            created.append(path)
+    appended = rel not in known
+    if appended:
+        s = next(x for x in cfg['schedules'] if x['scheduleId'] == result['scheduleId'])
+        _append_ledger(cfg, root, _ledger_row(s, result, result.get('runner') or 'restored'))
+    return {'resultPath': rel, 'fileCreated': rel in created, 'ledgerAppended': appended,
+            'status': result['status'], 'files': created}
 
 
 # ---------------------------------------------------------------- 요약 · 진입점

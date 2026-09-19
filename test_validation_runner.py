@@ -32,6 +32,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -713,6 +714,196 @@ class InboxAndRestore(TempRoot):
                      "gitSha": None, "inputs": {}, "steps": {}, "status": status, "note": "ok", "nextCheckAt": None,
                      "resultPath": rel, "inputsPath": None, "followupPath": None}
 
+    def publish_bundle(self, result, extras=None, missing_result=False, ledger_text=None):
+        branch = "validation-inbox-222"
+        _git(self.root, "checkout", "-q", "-b", branch)
+        payloads = dict(extras or {})
+        if not missing_result:
+            payloads[result["resultPath"]] = json.dumps(result).encode()
+        payloads[self.cfg["ledgerPath"]] = (ledger_text if ledger_text is not None else
+            json.dumps(R._ledger_row(schedule(), result, "github-actions")) + "\n").encode()
+        for rel, blob in payloads.items():
+            path = os.path.join(self.root, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as fh:
+                fh.write(blob)
+        _git(self.root, "add", "-A")
+        _git(self.root, "commit", "-q", "-m", "saved bundle")
+        _git(self.root, "push", "-q", "origin", branch)
+        _git(self.root, "checkout", "-q", "main")
+        return branch
+
+    def test_압축_입력과_결과를_바이트그대로_회수한다(self):
+        rel, result = self._result()
+        result["inputsPath"] = rel[:-5] + ".inputs.json.gz"
+        frozen = gzip.compress(json.dumps({"schemaVersion": "gaeo_validation_inputs_v1",
+            "scheduleId": "VS-TEST", "cutoffDate": result["cutoffDate"], "hist": {}, "closes": {}}).encode())
+        branch = self.publish_bundle(result, {result["inputsPath"]: frozen})
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertTrue(rec["ok"], rec)
+        self.assertEqual(rec["branches"], [branch])
+        with open(os.path.join(self.root, result["inputsPath"]), "rb") as fh:
+            self.assertEqual(fh.read(), frozen)
+        self.assertEqual(len(self.ledger()), 1)
+        again = R.reconcile_inbox(self.cfg, self.root)
+        self.assertEqual((again["files"], again["ledgerRows"]), ([], 0))
+
+    def test_결과파일_누락이면_원장도_완료도_추가하지_않는다(self):
+        _, result = self._result()
+        self.publish_bundle(result, missing_result=True)
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual((rec["branches"], self.ledger()), ([], []))
+
+    def test_압축입력_손상이면_완료처리하지_않는다(self):
+        rel, result = self._result()
+        result["inputsPath"] = rel[:-5] + ".inputs.json.gz"
+        self.publish_bundle(result, {result["inputsPath"]: gzip.compress(b'{}')[:12]})
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual((rec["branches"], self.ledger()), ([], []))
+        self.assertFalse(os.path.exists(os.path.join(self.root, rel)))
+
+    def test_파일_저장실패시_완료원장과_브랜치삭제를_보류한다(self):
+        _, result = self._result()
+        self.publish_bundle(result)
+        with mock.patch.object(R, "_install_recovery_file", side_effect=OSError("disk full")):
+            rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual((rec["branches"], self.ledger()), ([], []))
+
+    def test_회수한_전체묶음으로_같은판정을_재현하고_중복실행하지_않는다(self):
+        rel, result = self._result()
+        hist, closes, cutoff = synthetic()
+        frozen_doc = {"schemaVersion": "gaeo_validation_inputs_v1", "scheduleId": "VS-TEST",
+                      "cutoffDate": cutoff, "hist": hist, "closes": closes}
+        result.update(cutoffDate=cutoff, evaluationDate=cutoff, inputsPath=rel[:-5] + ".inputs.json.gz",
+                      followupPath=rel[:-5] + ".followup.md", official=R.evaluate_from_inputs(frozen_doc, cutoff))
+        frozen = gzip.compress(json.dumps(frozen_doc).encode())
+        self.publish_bundle(result, {result["inputsPath"]: frozen, result["followupPath"]: b'fixed followup\n'})
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertTrue(rec["ok"], rec)
+        replay = R.replay(os.path.join(self.root, result["inputsPath"]), os.path.join(self.root, rel))
+        self.assertTrue(replay["reproduced"], replay)
+        self.assertEqual(R.plan(self.cfg, self.ledger(), kst("2026-11-20T17:05:00+09:00"))[0]["action"], "DONE")
+        with open(os.path.join(self.root, result["followupPath"]), "rb") as fh:
+            self.assertEqual(fh.read(), b'fixed followup\n')
+
+    def test_같은_경로의_다른_결과는_조용히_넘기지_않는다(self):
+        rel, result = self._result()
+        self.publish_bundle(result)
+        local = dict(result, status="FAILED")
+        dest = os.path.join(self.root, rel)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(dest, "w") as fh:
+            json.dump(local, fh)
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual(rec["branches"], [])
+        self.assertEqual(self.ledger(), [])
+        with open(dest) as fh:
+            self.assertEqual(json.load(fh), local)
+
+    def test_원장_손상도_건너뛰지_않고_보존한다(self):
+        _, result = self._result()
+        self.publish_bundle(result, ledger_text='{broken json\n')
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual(rec["branches"], [])
+        self.assertEqual(self.ledger(), [])
+
+    def test_결과의_원장행이_없으면_재실행위험으로_복구를_보류한다(self):
+        rel, result = self._result()
+        self.publish_bundle(result, ledger_text="")
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertIn("원장 행이 없다", rec["error"])
+        self.assertEqual((rec["branches"], self.ledger()), ([], []))
+        self.assertFalse(os.path.exists(os.path.join(self.root, rel)))
+
+    def test_fetch_실패를_회수성공으로_표시하지_않는다(self):
+        _, result = self._result()
+        self.publish_bundle(result)
+        original = R._git_out
+        def fail_fetch(root, *args, **kwargs):
+            return (1, "", "offline") if args[0] == "fetch" else original(root, *args, **kwargs)
+        with mock.patch.object(R, "_git_out", side_effect=fail_fetch):
+            rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertEqual(rec["branches"], [])
+
+    def test_미회수_공식시세가_있으면_inbox를_삭제하지_않는다(self):
+        _, result = self._result()
+        prices = "official_prices/20260915.json"
+        self.publish_bundle(result, {prices: b'{"official": true}'})
+        rec = R.reconcile_inbox(self.cfg, self.root)
+        self.assertFalse(rec["ok"], rec)
+        self.assertIn("미회수 공식시세", rec["error"])
+        self.assertEqual((rec["branches"], self.ledger()), ([], []))
+        self.assertFalse(os.path.exists(os.path.join(self.root, prices)))
+        # 별도로 같은 자료를 확보한 경우만 회수 완료로 인정한다.
+        dest = os.path.join(self.root, prices)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(dest, "wb") as fh:
+            fh.write(b'{"official": true}')
+        self.assertTrue(R.reconcile_inbox(self.cfg, self.root)["ok"])
+
+    def test_inbox가_바꾸지_않은_과거시세는_현재시세와_비교하지_않는다(self):
+        price = os.path.join(self.root, "official_price_history.js")
+        with open(price, "w") as fh:
+            fh.write("old")
+        _git(self.root, "add", "official_price_history.js")
+        _git(self.root, "commit", "-q", "-m", "old prices")
+        _, result = self._result()
+        self.publish_bundle(result)
+        with open(price, "w") as fh:
+            fh.write("new")
+        _git(self.root, "add", "official_price_history.js")
+        _git(self.root, "commit", "-q", "-m", "new prices")
+        self.assertTrue(R.reconcile_inbox(self.cfg, self.root)["ok"])
+        with open(price) as fh:
+            self.assertEqual(fh.read(), "new")
+
+    def test_보관본_복원은_압축원본도_함께_복원한다(self):
+        rel, result = self._result()
+        result["inputsPath"] = rel[:-5] + ".inputs.json.gz"
+        with tempfile.TemporaryDirectory() as saved_dir:
+            saved = os.path.join(saved_dir, os.path.basename(rel))
+            frozen = gzip.compress(json.dumps({"schemaVersion": "gaeo_validation_inputs_v1",
+                "scheduleId": "VS-TEST", "cutoffDate": result["cutoffDate"], "hist": {}, "closes": {}}).encode())
+            with open(saved, "w") as fh:
+                json.dump(result, fh)
+            with open(os.path.join(saved_dir, os.path.basename(result["inputsPath"])), "wb") as fh:
+                fh.write(frozen)
+            R.restore_result(self.cfg, self.root, saved)
+            with open(os.path.join(self.root, result["inputsPath"]), "rb") as fh:
+                self.assertEqual(fh.read(), frozen)
+            self.assertEqual(len(self.ledger()), 1)
+
+    def test_보관본_입력이_없으면_완료원장을_추가하지_않는다(self):
+        rel, result = self._result()
+        result["inputsPath"] = rel[:-5] + ".inputs.json.gz"
+        with tempfile.TemporaryDirectory() as saved_dir:
+            saved = os.path.join(saved_dir, "result.json")
+            with open(saved, "w") as fh:
+                json.dump(result, fh)
+            with self.assertRaises(ValueError):
+                R.restore_result(self.cfg, self.root, saved)
+            self.assertEqual(self.ledger(), [])
+            self.assertFalse(os.path.exists(os.path.join(self.root, rel)))
+
+    def test_복원대상이_결과폴더_밖이면_거부한다(self):
+        _, result = self._result()
+        result["resultPath"] = "config/restored-unexpected.json"
+        with tempfile.TemporaryDirectory() as saved_dir:
+            saved = os.path.join(saved_dir, "result.json")
+            with open(saved, "w") as fh:
+                json.dump(result, fh)
+            with self.assertRaises(ValueError):
+                R.restore_result(self.cfg, self.root, saved)
+            self.assertEqual(self.ledger(), [])
+            self.assertFalse(os.path.exists(os.path.join(self.root, result["resultPath"])))
+
     def test_inbox_브랜치의_같은_결과를_회수하고_두_번_회수해도_원장은_한_줄(self):
         # 지난 run 이 push 에 실패해 inbox 브랜치에만 남긴 결과를 흉내낸다(같은 커밋을 다른 브랜치로 올린 것)
         rel, result = self._result()
@@ -1165,6 +1356,10 @@ class WorkflowContract(unittest.TestCase):
                        "--repair-request docs/operations/repair_requests"):
             self.assertIn(needle, self.body, needle)
 
+    def test_회수_실패시_새자료로_중복_시험하지_않는다(self):
+        trial = self.body.split("id: vs\n", 1)[1].split("run: |", 1)[0]
+        self.assertIn("if: env.APPLY != 'true' || steps.inbox.outcome == 'success'", trial)
+
     def test_push_트리거가_없고_기록은_main에서만(self):
         on_block = self.body.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
         self.assertNotIn("push:", on_block, "push 트리거가 있으면 브랜치에 올리는 순간 기동한다(2026-09-07 사고)")
@@ -1615,7 +1810,8 @@ class FinalJudgementSeparatesVerdictFromExecution(_StepHarness):
     STEP_NEEDLE = "예정 시험 실행기 종료코드"
 
     def judge(self, **env):
-        base = dict(CODE="0", COMMIT_OUTCOME="success", SAVE_OUTCOME="success", VS_LOG="ok", OPS_CODE="0", OPS_LOG="ok", OPS_REPORT="ok")
+        base = dict(CODE="0", COMMIT_OUTCOME="success", SAVE_OUTCOME="success", INBOX_OUTCOME="success",
+                    VS_LOG="ok", OPS_CODE="0", OPS_LOG="ok", OPS_REPORT="ok")
         base.update(env)
         return self.run_step(**base)
 
@@ -1637,6 +1833,11 @@ class FinalJudgementSeparatesVerdictFromExecution(_StepHarness):
         r, _ = self.judge(SAVE_OUTCOME="failure")
         self.assertEqual(r.returncode, 1)
         self.assertIn("main 저장 되읽기", r.stdout)
+
+    def test_저장성공이라도_이전기록_회수실패면_빨갛다(self):
+        r, _ = self.judge(INBOX_OUTCOME="failure")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("이전 검증 기록 회수 실패", r.stdout)
 
     def test_점검이_찾은_장애는_run_을_빨갛게_만들지_않는다(self):
         # 기존 설계: 점검 대상의 장애는 제목 고정 이슈로 알린다. 여기서 run 을 실패시키라는 뜻이 아니다.
