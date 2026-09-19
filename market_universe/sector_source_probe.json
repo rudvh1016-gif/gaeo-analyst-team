@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-09-16T03:10:13+00:00",
+ "ranAt": "2026-09-19T01:51:45+00:00",
  "purpose": "full-market sector source verification (no guessing)",
  "sources": {
   "krx_corplist_KOSPI": {
@@ -17,9 +17,9 @@
     "홈페이지",
     "지역"
    ],
-   "rowCount": 847,
-   "validCodeCount": 843,
-   "industryFilled": 843,
+   "rowCount": 846,
+   "validCodeCount": 842,
+   "industryFilled": 842,
    "industryFillRatio": 1.0,
    "distinctIndustries": 125,
    "industryHistogram": {
@@ -28,7 +28,7 @@
     "의약품 제조업": 43,
     "1차 철강 제조업": 40,
     "기타 화학제품 제조업": 33,
-    "기초 화학물질 제조업": 28,
+    "기초 화학물질 제조업": 27,
     "전자부품 제조업": 24,
     "부동산 임대 및 공급업": 24,
     "특수 목적용 기계 제조업": 20,

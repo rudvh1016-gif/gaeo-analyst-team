@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-09-16T01:55:20+00:00",
+ "ranAt": "2026-09-19T01:51:42+00:00",
  "mode": "smoke",
  "markets": {
   "KOSPI": {
@@ -55,7 +55,7 @@
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     },
     "endUrl": {
      "nonNullRatio": 1.0,
@@ -106,8 +106,8 @@
      "type": "str"
     },
     "overMarketPriceInfo": {
-     "nonNullRatio": 0.83,
-     "type": "str"
+     "nonNullRatio": 0.82,
+     "type": "dict"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -123,7 +123,7 @@
     },
     "stockExchangeType": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     },
     "stockMiniImageChart": {
      "nonNullRatio": 1.0,
@@ -155,7 +155,7 @@
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     }
    }
   },
@@ -212,7 +212,7 @@
     },
     "compareToPreviousPrice": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     },
     "endUrl": {
      "nonNullRatio": 1.0,
@@ -263,8 +263,8 @@
      "type": "str"
     },
     "overMarketPriceInfo": {
-     "nonNullRatio": 0.73,
-     "type": "str"
+     "nonNullRatio": 0.7,
+     "type": "dict"
     },
     "reutersCode": {
      "nonNullRatio": 1.0,
@@ -280,7 +280,7 @@
     },
     "stockExchangeType": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     },
     "stockMiniImageChart": {
      "nonNullRatio": 1.0,
@@ -312,12 +312,11 @@
     },
     "tradeStopType": {
      "nonNullRatio": 1.0,
-     "type": "str"
+     "type": "dict"
     }
    }
   }
  },
  "requestCount": 2,
- "verified": true,
- "sampleValuesStripped": "2026-09-16 LEGAL GATE — 표본값 제거, 필드 이름·비율·type 만 유지"
+ "verified": true
 }
